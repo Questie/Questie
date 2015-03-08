@@ -1,0 +1,191 @@
+<!--
+	MapNotes: Adds a note system to the WorldMap
+
+	See the README file for more information.
+-->
+
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/">
+	<Script file="MapNotes.lua"/>
+
+	<Frame name="MapNotesSendFrame" inherits="MapNotes_FrameTemplate">
+		<Size>
+			<AbsDimension x="450" y="180"/>
+		</Size>
+		<Anchors>
+			<Anchor point="CENTER"/>
+		</Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<Texture name="MapNotesSendHeader" file="Interface\DialogFrame\UI-DialogBox-Header">
+					<Size>
+						<AbsDimension x="256" y="64"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOP">
+							<Offset><AbsDimension x="0" y="12"/></Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+				<FontString inherits="GameFontNormal" text="MAPNOTES_SEND_MENU">
+					<Anchors>
+						<Anchor point="TOP" relativeTo="MapNotesSendHeader">
+							<Offset><AbsDimension x="0" y="-14"/></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button name="MapNotesChangeSendFrame" inherits="MapNotes_ButtonTemplate" text="MAPNOTES_SLASHCOMMAND">
+				<Anchors>
+					<Anchor point="CENTER" relativePoint="Bottom">
+						<Offset><AbsDimension x="-102.5" y="30"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						PlaySound("igMainMenuOption");
+						MapNotes_ShowSendFrame(MapNotes_ToggleSendValue);
+					</OnClick>
+				</Scripts>
+			</Button>
+
+			<Button name="$parentCancel" inherits="MapNotes_CancelButtonTemplate">
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="MapNotesChangeSendFrame">
+						<Offset><AbsDimension x="20" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+			</Button>
+
+			<Button name="MapNotesSendPlayer" inherits="MapNotes_ButtonTemplate" text="MAPNOTES_SENDTOPLAYER">
+				<Anchors>
+					<Anchor point="CENTER" relativePoint="BOTTOM" relativeTo="MapNotesChangeSendFrame">
+						<Offset><AbsDimension x="0" y="37"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						if ( SendWideEditBox:GetText() ~= "" ) then
+							PlaySound("igMainMenuOption");
+							MapNotes_SendNote(1);
+						end
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="MapNotesSendParty" inherits="MapNotes_ButtonTemplate" text="MAPNOTES_SENDTOPARTY">
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="MapNotesSendPlayer">
+						<Offset><AbsDimension x="20" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						PlaySound("igMainMenuOption");
+						MapNotes_SendNote(2);
+					</OnClick>
+				</Scripts>
+			</Button>
+			<EditBox name="SendWideEditBox" historyLines="0" letters="255">
+				<Size>
+					<AbsDimension x="400" y="64"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset><AbsDimension x="24" y="-63"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="TitleLeft" file="Interface\ChatFrame\UI-ChatInputBorder-Left">
+							<Size>
+								<AbsDimension x="256" y="32"/>
+							</Size>
+							<Anchors>
+								<Anchor point="LEFT">
+									<Offset><AbsDimension x="-10" y="0"/></Offset>
+								</Anchor>
+							</Anchors>
+							<TexCoords left="0" right="1.0" top="0" bottom="1.0"/>
+						</Texture>
+						<Texture name="TitleRight" file="Interface\ChatFrame\UI-ChatInputBorder-Right">
+							<Size>
+								<AbsDimension x="75" y="32"/>
+							</Size>
+							<Anchors>
+								<Anchor point="RIGHT">
+									<Offset><AbsDimension x="10" y="0"/></Offset>
+								</Anchor>
+							</Anchors>
+							<TexCoords left="0.70703125" right="1.0" top="0" bottom="1.0"/>
+						</Texture>
+						<Texture file="Interface\ChatFrame\UI-ChatInputBorder-Left">
+							<Size>
+								<AbsDimension x="5" y="32"/>
+							</Size>
+							<Anchors>
+								<Anchor point="LEFT" relativeTo="TitleLeft" relativePoint="RIGHT">
+									<Offset><AbsDimension x="0" y="0"/></Offset>
+								</Anchor>
+								<Anchor point="RIGHT" relativeTo="TitleRight" relativePoint="LEFT">
+									<Offset><AbsDimension x="0" y="0"/></Offset>
+								</Anchor>
+							</Anchors>
+							<TexCoords left="0.29296875" right="1.0" top="0" bottom="1.0"/>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						SendWideEditBox:SetText("");
+					</OnLoad>
+					<OnEscapePressed>
+						ToggleWorldMap();
+					</OnEscapePressed>
+				</Scripts>
+				<FontString inherits="ChatFontNormal"/>
+			</EditBox>
+		</Frames>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MapNotes_SendFrame_Title" inherits="GameFontNormal" text="MAPNOTES_SEND_TITLE" justifyH="LEFT">
+					<Size>
+						<AbsDimension x="222" y="20"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset><AbsDimension x="22" y="-22"/></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MapNotes_SendFrame_Tip" inherits="GameFontNormalSmall" text="MAPNOTES_SEND_TIP" justifyH="LEFT">
+					<Size>
+						<AbsDimension x="400" y="32"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset><AbsDimension x="22" y="-36"/></Offset>
+						</Anchor>
+					</Anchors>
+					<Color r="0.59" g="0.49" b="0.1"/>
+				</FontString>
+				<FontString name="MapNotes_SendFrame_Player" inherits="GameFontNormalSmall" text="MAPNOTES_SEND_PLAYER" justifyH="LEFT">
+					<Size>
+						<AbsDimension x="222" y="16"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset><AbsDimension x="22" y="-65"/></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				MapNotes_OnLoad();
+				this:SetBackdropColor(0,0,0,1);
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>

@@ -1,0 +1,9 @@
+<Bindings>
+	<!-- User interface key bindings -->
+	<Binding name="MN_TARGET_NEW" description="QuickNote/TargetNote" runOnUp="false" header="MAPNOTES">
+		MapNotes_TargetNote();
+	</Binding>
+	<Binding name="MN_TARGET_MERGE" description="Merge Target Note" runOnUp="false">
+		MapNotes_MergeNote();
+	</Binding>
+</Bindings>

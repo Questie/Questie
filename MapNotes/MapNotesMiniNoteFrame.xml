@@ -1,0 +1,240 @@
+<!--
+	MapNotes: Adds a note system to the WorldMap and other AddOns that use the Plugins facility provided
+
+	See the README file for more information.
+-->
+
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/">
+
+	<Button name="MapNotesPOIButtonTemplate" enableMouse="true" movable="true" virtual="true">
+		<Size>
+			<AbsDimension x="16" y="16"/>
+		</Size>
+		<Anchors>
+			<Anchor point="CENTER"/>
+		</Anchors>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentTexture" file="Interface\AddOns\MapNotes\POIIcons\Icon1">
+					<Size>
+						<AbsDimension x="16" y="16"/>
+					</Size>
+					<Anchors>
+						<Anchor point="CENTER"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentHighlight" file="Interface\AddOns\MapNotes\MiscGFX\Highlight" hidden="true">
+					<Size>
+						<AbsDimension x="36" y="36"/>
+					</Size>
+					<Anchors>
+						<Anchor point="CENTER">
+							<Offset>
+								<AbsDimension x="0" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				this:SetFrameLevel(this:GetFrameLevel() + 3);
+				this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+			</OnLoad>
+			<OnMouseDown>
+				if ( ( IsControlKeyDown() ) and ( IsAltKeyDown() ) ) then
+					this.isMoving = true;
+					MapNotes_RememberPosition(this:GetID());
+					this:StartMoving();
+				end
+			</OnMouseDown>
+			<OnMouseUp>
+				if ( this.isMoving ) then
+					this:StopMovingOrSizing();
+					this.isMoving = false;
+					MapNotes_RepositionNote(this:GetID());
+				end
+			</OnMouseUp>
+			<OnEnter>
+				if ( this.Plugin ) then								<!-- Telic_2 -->
+					MapNotes_PlugInsNoteOnEnter(this.Plugin, this:GetID(), this);		<!-- Telic_2 -->
+				else										<!-- Telic_2 -->
+					MapNotes_OnEnter(this:GetID());
+				end										<!-- Telic_2 -->
+			</OnEnter>
+			<OnLeave>
+				MapNotes_OnLeave(this:GetID());
+			</OnLeave>
+			<OnClick>
+				if ( this.Plugin ) then								<!-- Telic_2 -->
+					MAPNOTES_ACTIVE_PLUGIN = this.Plugin;					<!-- Telic_2 -->
+				else										<!-- Telic_2 -->
+					MAPNOTES_ACTIVE_PLUGIN = nil;						<!-- Telic_2 -->
+				end										<!-- Telic_2 -->
+				MapNotes_Note_OnClick(arg1, this:GetID());
+			</OnClick>
+		</Scripts>
+	</Button>
+
+	<Button name="WorldMapMapNotesMiscTemplate" hidden="true" virtual="true">
+		<Size>
+			<AbsDimension x="16" y="16"/>
+		</Size>
+		<Anchors>
+			<Anchor point="CENTER"/>
+		</Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<Texture name="$parentTexture" file="Interface\AddOns\MapNotes\POIIcons\Icontloc" setAllPoints="true"/>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				this:SetFrameLevel(this:GetFrameLevel() + 3);
+				this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+				if this:GetID() == 1 then
+					MapNotesPOIpartyTexture:SetTexture("Interface\\AddOns\\MapNotes\\POIIcons\\Iconparty");
+				end
+			</OnLoad>
+			<OnEnter>
+				local x, y = this:GetCenter();
+				local parentX, parentY = this:GetParent():GetCenter();
+				if x > parentX then
+					WorldMapTooltip:SetOwner(this, "ANCHOR_LEFT");
+				else
+					WorldMapTooltip:SetOwner(this, "ANCHOR_RIGHT");
+				end
+				if this:GetID() == 0 then
+					WorldMapTooltip:SetText(MAPNOTES_THOTTBOTLOC);
+				elseif this:GetID() == 1 then
+					WorldMapTooltip:SetText(MAPNOTES_PARTYNOTE);
+				end
+				WorldMapTooltip:Show();
+			</OnEnter>
+			<OnLeave>
+				WorldMapTooltip:Hide();
+			</OnLeave>
+			<OnClick>
+				MapNotes_Misc_OnClick(arg1);
+			</OnClick>
+		</Scripts>
+	</Button>
+
+	<!-- enable clicking through hidden player frame that triggers tooltip-->
+	<Button name="MapNotes_WorldMapPlayerButton" parent="WorldMapPlayer">
+		<Size>
+			<AbsDimension x="16" y="16"/>
+		</Size>
+		<Anchors>
+			<Anchor point="CENTER"/>
+		</Anchors>
+		<Scripts>
+			<OnLoad>
+				this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+			</OnLoad>
+			<OnEnter>
+				WorldMapPlayer:GetScript("OnEnter")();
+			</OnEnter>
+			<OnLeave>
+				WorldMapPlayer:GetScript("OnLeave")();
+			</OnLeave>
+			<OnClick>
+				MapNotes_WorldMapButton_OnClick(arg1, WorldMapButton);
+			</OnClick>
+		</Scripts>
+	</Button>
+
+<!-- for tloc function -->
+	<Button name="MapNotesPOItloc" inherits="WorldMapMapNotesMiscTemplate" id="0" parent="WorldMapButton"/>
+	<Button name="MapNotesPOIparty" inherits="WorldMapMapNotesMiscTemplate" id="1" parent="WorldMapButton"/>
+
+<!-- Adds the MiniNote POI to MiniMapFrame -->
+	<Button name="MiniNotePOI" parent="Minimap" toplevel="true">
+		<Size>
+			<AbsDimension x="16" y="16"/>
+		</Size>
+		<Anchors>
+			<Anchor point="CENTER" relativeTo="MinimapBackdrop" relativePoint="TOPLEFT">
+				<Offset><AbsDimension x="-51" y="60"/></Offset>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnLoad>
+				this:SetFrameLevel(5);
+<!--				this:RegisterForClicks("LeftButtonUp", "RightButtonUp");		-->
+			</OnLoad>
+			<OnUpdate>
+				MapNotes_MiniNote_OnUpdate(arg1);
+			</OnUpdate>
+			<OnEnter>
+				GameTooltip:SetOwner(this, "ANCHOR_CURSOR");
+				GameTooltip:SetText(MapNotes_MiniNote_Data.name,
+				MapNotes_Colors[MapNotes_MiniNote_Data.color].r,
+				MapNotes_Colors[MapNotes_MiniNote_Data.color].g,
+				MapNotes_Colors[MapNotes_MiniNote_Data.color].b);
+			</OnEnter>
+			<OnLeave>
+				GameTooltip:Hide();
+			</OnLeave>
+			<OnMouseUp>
+				Minimap_OnClick();
+			</OnMouseUp>
+			<OnClick>
+				MapNotes_MiniNote_OnClick();
+			</OnClick>
+		</Scripts>
+		<NormalTexture name="MiniNotePOITexture" file="Interface\AddOns\MapNotes\POIIcons\Icon3"/>
+	</Button>
+
+	<Frame name="MN_MinimapCoordsFrame" frameStrata="LOW" hidden="true" enableMouse="true" parent="MinimapCluster">
+		<Size>
+			<AbsDimension x="80" y="32"/>
+		</Size>
+		<Anchors>
+			<Anchor point="TOP" relativeTo="MinimapCluster" relativePoint="BOTTOM">
+				<Offset>
+					<AbsDimension x="8" y="16"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+		<Frames>
+			<Button name="MN_MinimapCoordsFrameTextButton">
+				<Size>
+					<AbsDimension x="80" y="32"/>
+				</Size>
+				<Anchors>
+					<Anchor point="CENTER">
+						<Offset>
+							<AbsDimension x="0" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<FontString name="MN_MinimapCoordsFrameText" inherits="GameFontNormal" wraponspaces="true">
+							<Size>
+								<AbsDimension x="80" y="32"/>
+							</Size>
+							<Anchors>
+								<Anchor point="TOP"/>
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+					</OnLoad>
+					<OnUpdate>
+						MN_MinimapCoords_OnUpdate();
+					</OnUpdate>
+					<OnClick>
+						MN_MinimapCoords_OnClick(arg1);
+					</OnClick>
+				</Scripts>
+			</Button>
+		</Frames>
+	</Frame>
+
+</Ui>

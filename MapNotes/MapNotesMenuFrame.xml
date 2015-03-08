@@ -1,0 +1,376 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
+	<Frame name="MapNotesNewMenuFrame" hidden="true" parent="WorldMapFrame" movable="true" enableMouse="true">
+		<Size>
+			<AbsDimension x="195" y="150"/>
+		</Size>
+		<Anchors>
+			<Anchor point="TOPLEFT"/>
+		</Anchors>
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+			<BackgroundInsets>
+				<AbsInset left="11" right="12" top="12" bottom="11"/>
+			</BackgroundInsets>
+			<TileSize>
+				<AbsValue val="32"/>
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32"/>
+			</EdgeSize>
+		</Backdrop>
+		<Layers>
+			<Layer level="ARTWORK">
+				<Texture name="MapNotesNewMenuHeader" file="Interface\DialogFrame\UI-DialogBox-Header">
+					<Size>
+						<AbsDimension x="256" y="64"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOP">
+							<Offset>
+								<AbsDimension x="0" y="12"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+				<FontString inherits="GameFontNormal" text="MAPNOTES_NEW_MENU">
+					<Anchors>
+						<Anchor point="TOP" relativeTo="MapNotesNewMenuHeader">
+							<Offset>
+								<AbsDimension x="0" y="-14"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button name="MapNotesButtonNewNote" inherits="MapNotesButtonTemplate" text="MAPNOTES_NEW_NOTE">
+				<Anchors>
+					<Anchor point="CENTER" relativePoint="TOP">
+						<Offset>
+							<AbsDimension x="0" y="-37"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						this:SetFrameLevel(10);
+					</OnLoad>
+					<OnClick>
+						PlaySound("igMainMenuOption");
+						MapNotes_OpenEditForNewNote();
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="MapNotesButtonMiniNoteOff" inherits="MapNotesButtonTemplate" text="MAPNOTES_MININOTE_OFF">
+				<Anchors>
+					<Anchor point="CENTER" relativePoint="TOP" relativeTo="MapNotesButtonNewNote">
+						<Offset>
+							<AbsDimension x="0" y="-37"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						this:SetFrameLevel(10);
+					</OnLoad>
+					<OnClick>
+						PlaySound("igMainMenuOption");
+						MapNotes_ClearMiniNote();
+						MapNotes_HideFrames();
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="MapNotesButtonOptions" inherits="MapNotesButtonTemplate" text="MAPNOTES_OPTIONS">
+				<Anchors>
+					<Anchor point="CENTER" relativePoint="TOP" relativeTo="MapNotesButtonMiniNoteOff">
+						<Offset>
+							<AbsDimension x="0" y="-37"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						this:SetFrameLevel(10);
+					</OnLoad>
+					<OnClick>
+						PlaySound("igMainMenuOption");
+						MapNotes_OpenOptionsMenuFrame();
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="MapNotesButtonCancel" inherits="MapNotesButtonTemplate" text="MAPNOTES_CANCEL">
+				<Anchors>
+					<Anchor point="CENTER" relativePoint="TOP" relativeTo="MapNotesButtonOptions">
+						<Offset>
+							<AbsDimension x="0" y="-43"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						this:SetFrameLevel(10);
+					</OnLoad>
+					<OnClick>
+						PlaySound("igMainMenuOption");
+						MapNotes_HideFrames();
+					</OnClick>
+				</Scripts>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				this:SetFrameLevel(9);
+			</OnLoad>
+		</Scripts>
+	</Frame>
+	<Frame name="MapNotesSpecialActionMenuFrame" hidden="true" parent="WorldMapFrame" movable="true" enableMouse="true">
+		<Size>
+			<AbsDimension x="195" y="124"/>
+		</Size>
+		<Anchors>
+			<Anchor point="TOPLEFT"/>
+		</Anchors>
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+			<BackgroundInsets>
+				<AbsInset left="11" right="12" top="12" bottom="11"/>
+			</BackgroundInsets>
+			<TileSize>
+				<AbsValue val="32"/>
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32"/>
+			</EdgeSize>
+		</Backdrop>
+		<Layers>
+			<Layer level="ARTWORK">
+				<Texture name="MapNotesSpecialActionMenuHeader" file="Interface\DialogFrame\UI-DialogBox-Header">
+					<Size>
+						<AbsDimension x="256" y="64"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOP">
+							<Offset>
+								<AbsDimension x="0" y="12"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+				<FontString inherits="GameFontNormal" text="MAPNOTES_SPECIALACTION_MENU">
+					<Anchors>
+						<Anchor point="TOP" relativeTo="MapNotesSpecialActionMenuHeader">
+							<Offset>
+								<AbsDimension x="0" y="-14"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button name="MapNotesButtonToggleLine" inherits="MapNotesButtonTemplate" text="MAPNOTES_TOGGLELINE">
+				<Anchors>
+					<Anchor point="CENTER" relativePoint="TOP">
+						<Offset>
+							<AbsDimension x="0" y="-37"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						this:SetFrameLevel(10);
+					</OnLoad>
+					<OnClick>
+						PlaySound("igMainMenuOption");
+						MapNotes_StartGUIToggleLine();
+						MapNotesSpecialActionMenuFrame:Hide();
+						--[[MapNotes_OpenEditForExistingNote(MapNotes_TempData_Id);]]
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="MapNotesButtonDeleteNote" inherits="MapNotesButtonTemplate" text="MAPNOTES_DELETE_NOTE">
+				<Anchors>
+					<Anchor point="CENTER" relativePoint="TOP" relativeTo="MapNotesButtonToggleLine">
+						<Offset>
+							<AbsDimension x="0" y="-37"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						this:SetFrameLevel(10);
+					</OnLoad>
+					<OnClick>
+						PlaySound("igMainMenuOption");
+						MapNotes_DeleteNote(MapNotes_TempData_Id);
+						MapNotes_HideFrames();
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="MapNotesButtonCancel10" inherits="MapNotesButtonTemplate" text="MAPNOTES_CANCEL">
+				<Anchors>
+					<Anchor point="CENTER" relativePoint="TOP" relativeTo="MapNotesButtonDeleteNote">
+						<Offset>
+							<AbsDimension x="0" y="-43"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						this:SetFrameLevel(10);
+					</OnLoad>
+					<OnClick>
+						PlaySound("igMainMenuOption");
+						MapNotes_HideFrames();
+					</OnClick>
+				</Scripts>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				this:SetFrameLevel(9);
+			</OnLoad>
+		</Scripts>
+	</Frame>
+	<Frame name="MapNotesPOIMenuFrame" hidden="true" parent="WorldMapFrame" movable="true" enableMouse="true">
+		<Size>
+			<AbsDimension x="195" y="176"/>
+		</Size>
+		<Anchors>
+			<Anchor point="TOPLEFT"/>
+		</Anchors>
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+			<BackgroundInsets>
+				<AbsInset left="11" right="12" top="12" bottom="11"/>
+			</BackgroundInsets>
+			<TileSize>
+				<AbsValue val="32"/>
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32"/>
+			</EdgeSize>
+		</Backdrop>
+		<Layers>
+			<Layer level="ARTWORK">
+				<Texture name="MapNotesPOIMenuHeader" file="Interface\DialogFrame\UI-DialogBox-Header">
+					<Size>
+						<AbsDimension x="256" y="64"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOP">
+							<Offset>
+								<AbsDimension x="0" y="12"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+				<FontString inherits="GameFontNormal" text="MAPNOTES_POI_MENU">
+					<Anchors>
+						<Anchor point="TOP" relativeTo="MapNotesPOIMenuHeader">
+							<Offset>
+								<AbsDimension x="0" y="-14"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button name="MapNotesButtonEditNote" inherits="MapNotesButtonTemplate" text="MAPNOTES_EDIT_NOTE">
+				<Anchors>
+					<Anchor point="CENTER" relativePoint="TOP">
+						<Offset>
+							<AbsDimension x="0" y="-37"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						this:SetFrameLevel(10);
+					</OnLoad>
+					<OnClick>
+						PlaySound("igMainMenuOption");
+						MapNotes_OpenEditForExistingNote(MapNotes_TempData_Id);
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="MapNotesButtonMiniNoteOn" inherits="MapNotesButtonTemplate" text="MAPNOTES_MININOTE_ON">
+				<Anchors>
+					<Anchor point="CENTER" relativePoint="TOP" relativeTo="MapNotesButtonEditNote">
+						<Offset>
+							<AbsDimension x="0" y="-37"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						this:SetFrameLevel(10);
+					</OnLoad>
+					<OnClick>
+						PlaySound("igMainMenuOption");
+						MapNotes_SetAsMiniNote(MapNotes_TempData_Id);
+						MapNotes_HideFrames();
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="MapNotesButtonSendNote" inherits="MapNotesButtonTemplate" text="MAPNOTES_SEND_NOTE">
+				<Anchors>
+					<Anchor point="CENTER" relativePoint="TOP" relativeTo="MapNotesButtonMiniNoteOn">
+						<Offset>
+							<AbsDimension x="0" y="-37"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						this:SetFrameLevel(10);
+					</OnLoad>
+					<OnClick>
+						PlaySound("igMainMenuOption");
+						MapNotes_ShowSendFrame(1);
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="MapNotesButtonSpecialActions" inherits="MapNotesButtonTemplate" text="MAPNOTES_SPECIAL_ACTIONS">
+				<Anchors>
+					<Anchor point="CENTER" relativePoint="TOP" relativeTo="MapNotesButtonSendNote">
+						<Offset>
+							<AbsDimension x="0" y="-37"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						this:SetFrameLevel(10);
+					</OnLoad>
+					<OnClick>
+						PlaySound("igMainMenuOption");
+						MapNotes_ShowSpecialActionsFrame();
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="MapNotesButtonCancel2" inherits="MapNotesButtonTemplate" text="MAPNOTES_CANCEL">
+				<Anchors>
+					<Anchor point="CENTER" relativePoint="TOP" relativeTo="MapNotesButtonSpecialActions">
+						<Offset>
+							<AbsDimension x="0" y="-43"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						this:SetFrameLevel(10);
+					</OnLoad>
+					<OnClick>
+						PlaySound("igMainMenuOption");
+						MapNotes_HideFrames();
+					</OnClick>
+				</Scripts>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				this:SetFrameLevel(9);
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>

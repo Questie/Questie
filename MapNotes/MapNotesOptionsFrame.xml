@@ -1,0 +1,1046 @@
+<!--
+	MapNotes: Adds a note system to the WorldMap and other AddOns that use the Plugins facility provided
+
+	See the README file for more information.
+-->
+
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/">
+
+	<Frame name="MapNotesOptionsFrame" inherits="MapNotes_FrameTemplate" parent="UIParent">
+		<Size>
+			<AbsDimension x="450" y="287"/>
+		</Size>
+		<Anchors>
+			<Anchor point="CENTER"/>
+		</Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<Texture name="MapNotesOptionsFrameHeader" file="Interface\DialogFrame\UI-DialogBox-Header">
+					<Size>
+						<AbsDimension x="256" y="64"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOP">
+							<Offset><AbsDimension x="0" y="12"/></Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+				<FontString inherits="GameFontNormal" text="MAPNOTES_OPTIONS_MENU">
+					<Anchors>
+						<Anchor point="TOP" relativeTo="MapNotesOptionsFrameHeader">
+							<Offset><AbsDimension x="0" y="-14"/></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button name="MapNotesButtonDeleteLandMarks" inherits="MapNotes_ButtonTemplate" text="MAPNOTES_DELETELANDMARKS">
+				<Anchors>
+					<Anchor point="CENTER" relativePoint="Bottom">
+						<Offset>
+							<AbsDimension x="-102.5" y="30"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						PlaySound("igMainMenuOption");
+						MapNotes_DeleteLandMarks();
+						MapNotes_GhostTextBox:SetFocus(true);
+					</OnClick>
+				</Scripts>
+			</Button>
+
+			<Button name="$parentCancel" inherits="MapNotes_ButtonTemplate" text="CLOSE">
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="MapNotesButtonDeleteLandMarks">
+						<Offset>
+							<AbsDimension x="20" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						PlaySound("igMainMenuOption");
+						MapNotesOptionsFrame:Hide();
+						MAPNOTES_ACTIVE_PLUGIN = nil;
+					</OnClick>
+				</Scripts>
+			</Button>
+
+			<EditBox name="MapNotes_GhostTextBox" autoFocus="true" historyLines="0" letters="0" hidden="false">
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset>
+							<AbsDimension x="0" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnEscapePressed>
+						MapNotesOptionsFrame:Hide();
+					</OnEscapePressed>
+				</Scripts>
+			</EditBox>
+
+			<CheckButton name="MapNotesOptionsCheckbox0" id="0">
+				<Size>
+					<AbsDimension x="20" y="20"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset><AbsDimension x="50" y="-30"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<Texture name="MapNotesOptionsIcon0Texture" file="Interface\AddOns\MapNotes\POIIcons\Icon0">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="LEFT" relativePoint="RIGHT">
+									<Offset><AbsDimension x="0" y="-1"/></Offset>
+								</Anchor>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+				<OnClick>
+					if this:GetChecked() then
+						PlaySound("igMainMenuOptionCheckBoxOff");
+					else
+						PlaySound("igMainMenuOptionCheckBoxOn");
+					end
+					MapNotes_WriteOptions();
+					MapNotes_GhostTextBox:SetFocus(true);
+				</OnClick>
+				</Scripts>
+				<NormalTexture file="Interface\Buttons\UI-CheckBox-Up"/>
+				<PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>
+				<HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
+				<CheckedTexture file="Interface\Buttons\UI-CheckBox-Check"/>
+				<DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
+			</CheckButton>
+			<CheckButton name="MapNotesOptionsCheckbox1" id="1">
+				<Size>
+					<AbsDimension x="20" y="20"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="MapNotesOptionsCheckbox0">
+						<Offset><AbsDimension x="60" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<Texture name="MapNotesOptionsIcon1Texture" file="Interface\AddOns\MapNotes\POIIcons\Icon1">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="LEFT" relativePoint="RIGHT">
+									<Offset><AbsDimension x="0" y="-1"/></Offset>
+								</Anchor>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+				<OnClick>
+					if this:GetChecked() then
+						PlaySound("igMainMenuOptionCheckBoxOff");
+					else
+						PlaySound("igMainMenuOptionCheckBoxOn");
+					end
+					MapNotes_WriteOptions();
+					MapNotes_GhostTextBox:SetFocus(true);
+				</OnClick>
+				</Scripts>
+				<NormalTexture file="Interface\Buttons\UI-CheckBox-Up"/>
+				<PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>
+				<HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
+				<CheckedTexture file="Interface\Buttons\UI-CheckBox-Check"/>
+				<DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
+			</CheckButton>
+			<CheckButton name="MapNotesOptionsCheckbox2" id="2">
+				<Size>
+					<AbsDimension x="20" y="20"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="MapNotesOptionsCheckbox1">
+						<Offset><AbsDimension x="60" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<Texture name="MapNotesOptionsIcon2Texture" file="Interface\AddOns\MapNotes\POIIcons\Icon2">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="LEFT" relativePoint="RIGHT">
+									<Offset><AbsDimension x="0" y="-1"/></Offset>
+								</Anchor>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+				<OnClick>
+					if this:GetChecked() then
+						PlaySound("igMainMenuOptionCheckBoxOff");
+					else
+						PlaySound("igMainMenuOptionCheckBoxOn");
+					end
+					MapNotes_WriteOptions();
+					MapNotes_GhostTextBox:SetFocus(true);
+				</OnClick>
+				</Scripts>
+				<NormalTexture file="Interface\Buttons\UI-CheckBox-Up"/>
+				<PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>
+				<HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
+				<CheckedTexture file="Interface\Buttons\UI-CheckBox-Check"/>
+				<DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
+			</CheckButton>
+			<CheckButton name="MapNotesOptionsCheckbox3" id="3">
+				<Size>
+					<AbsDimension x="20" y="20"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="MapNotesOptionsCheckbox2">
+						<Offset><AbsDimension x="60" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<Texture name="MapNotesOptionsIcon3Texture" file="Interface\AddOns\MapNotes\POIIcons\Icon3">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="LEFT" relativePoint="RIGHT">
+									<Offset><AbsDimension x="0" y="-1"/></Offset>
+								</Anchor>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+				<OnClick>
+					if this:GetChecked() then
+						PlaySound("igMainMenuOptionCheckBoxOff");
+					else
+						PlaySound("igMainMenuOptionCheckBoxOn");
+					end
+					MapNotes_WriteOptions();
+					MapNotes_GhostTextBox:SetFocus(true);
+				</OnClick>
+				</Scripts>
+				<NormalTexture file="Interface\Buttons\UI-CheckBox-Up"/>
+				<PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>
+				<HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
+				<CheckedTexture file="Interface\Buttons\UI-CheckBox-Check"/>
+				<DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
+			</CheckButton>
+			<CheckButton name="MapNotesOptionsCheckbox4" id="4">
+				<Size>
+					<AbsDimension x="20" y="20"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="MapNotesOptionsCheckbox3">
+						<Offset><AbsDimension x="60" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<Texture name="MapNotesOptionsIcon4Texture" file="Interface\AddOns\MapNotes\POIIcons\Icon4">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="LEFT" relativePoint="RIGHT">
+									<Offset><AbsDimension x="0" y="-1"/></Offset>
+								</Anchor>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+				<OnClick>
+					if this:GetChecked() then
+						PlaySound("igMainMenuOptionCheckBoxOff");
+					else
+						PlaySound("igMainMenuOptionCheckBoxOn");
+					end
+					MapNotes_WriteOptions();
+					MapNotes_GhostTextBox:SetFocus(true);
+				</OnClick>
+				</Scripts>
+				<NormalTexture file="Interface\Buttons\UI-CheckBox-Up"/>
+				<PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>
+				<HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
+				<CheckedTexture file="Interface\Buttons\UI-CheckBox-Check"/>
+				<DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
+			</CheckButton>
+			<CheckButton name="MapNotesOptionsCheckbox5" id="5">
+				<Size>
+					<AbsDimension x="20" y="20"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOP" relativePoint="BOTTOM" relativeTo="MapNotesOptionsCheckbox0">
+						<Offset><AbsDimension x="0" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<Texture name="MapNotesOptionsIcon5Texture" file="Interface\AddOns\MapNotes\POIIcons\Icon5">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="LEFT" relativePoint="RIGHT">
+									<Offset><AbsDimension x="0" y="-1"/></Offset>
+								</Anchor>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+				<OnClick>
+					if this:GetChecked() then
+						PlaySound("igMainMenuOptionCheckBoxOff");
+					else
+						PlaySound("igMainMenuOptionCheckBoxOn");
+					end
+					MapNotes_WriteOptions();
+					MapNotes_GhostTextBox:SetFocus(true);
+				</OnClick>
+				</Scripts>
+				<NormalTexture file="Interface\Buttons\UI-CheckBox-Up"/>
+				<PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>
+				<HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
+				<CheckedTexture file="Interface\Buttons\UI-CheckBox-Check"/>
+				<DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
+			</CheckButton>
+			<CheckButton name="MapNotesOptionsCheckbox6" id="6">
+				<Size>
+					<AbsDimension x="20" y="20"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="MapNotesOptionsCheckbox5">
+						<Offset><AbsDimension x="60" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<Texture name="MapNotesOptionsIcon6Texture" file="Interface\AddOns\MapNotes\POIIcons\Icon6">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="LEFT" relativePoint="RIGHT">
+									<Offset><AbsDimension x="0" y="-1"/></Offset>
+								</Anchor>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+				<OnClick>
+					if this:GetChecked() then
+						PlaySound("igMainMenuOptionCheckBoxOff");
+					else
+						PlaySound("igMainMenuOptionCheckBoxOn");
+					end
+					MapNotes_WriteOptions();
+					MapNotes_GhostTextBox:SetFocus(true);
+				</OnClick>
+				</Scripts>
+				<NormalTexture file="Interface\Buttons\UI-CheckBox-Up"/>
+				<PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>
+				<HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
+				<CheckedTexture file="Interface\Buttons\UI-CheckBox-Check"/>
+				<DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
+			</CheckButton>
+			<CheckButton name="MapNotesOptionsCheckbox7" id="7">
+				<Size>
+					<AbsDimension x="20" y="20"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="MapNotesOptionsCheckbox6">
+						<Offset><AbsDimension x="60" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<Texture name="MapNotesOptionsIcon7Texture" file="Interface\AddOns\MapNotes\POIIcons\Icon7">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="LEFT" relativePoint="RIGHT">
+									<Offset><AbsDimension x="0" y="-1"/></Offset>
+								</Anchor>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+				<OnClick>
+					if this:GetChecked() then
+						PlaySound("igMainMenuOptionCheckBoxOff");
+					else
+						PlaySound("igMainMenuOptionCheckBoxOn");
+					end
+					MapNotes_WriteOptions();
+					MapNotes_GhostTextBox:SetFocus(true);
+				</OnClick>
+				</Scripts>
+				<NormalTexture file="Interface\Buttons\UI-CheckBox-Up"/>
+				<PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>
+				<HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
+				<CheckedTexture file="Interface\Buttons\UI-CheckBox-Check"/>
+				<DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
+			</CheckButton>
+			<CheckButton name="MapNotesOptionsCheckbox8" id="8">
+				<Size>
+					<AbsDimension x="20" y="20"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="MapNotesOptionsCheckbox7">
+						<Offset><AbsDimension x="60" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<Texture name="MapNotesOptionsIcon8Texture" file="Interface\AddOns\MapNotes\POIIcons\Icon8">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="LEFT" relativePoint="RIGHT">
+									<Offset><AbsDimension x="0" y="-1"/></Offset>
+								</Anchor>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+				<OnClick>
+					if this:GetChecked() then
+						PlaySound("igMainMenuOptionCheckBoxOff");
+					else
+						PlaySound("igMainMenuOptionCheckBoxOn");
+					end
+					MapNotes_WriteOptions();
+					MapNotes_GhostTextBox:SetFocus(true);
+				</OnClick>
+				</Scripts>
+				<NormalTexture file="Interface\Buttons\UI-CheckBox-Up"/>
+				<PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>
+				<HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
+				<CheckedTexture file="Interface\Buttons\UI-CheckBox-Check"/>
+				<DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
+			</CheckButton>
+			<CheckButton name="MapNotesOptionsCheckbox9" id="9">
+				<Size>
+					<AbsDimension x="20" y="20"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="MapNotesOptionsCheckbox8">
+						<Offset><AbsDimension x="60" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<Texture name="MapNotesOptionsIcon9Texture" file="Interface\AddOns\MapNotes\POIIcons\Icon9">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="LEFT" relativePoint="RIGHT">
+									<Offset><AbsDimension x="0" y="-1"/></Offset>
+								</Anchor>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+				<OnClick>
+					if this:GetChecked() then
+						PlaySound("igMainMenuOptionCheckBoxOff");
+					else
+						PlaySound("igMainMenuOptionCheckBoxOn");
+					end
+					MapNotes_WriteOptions();
+					MapNotes_GhostTextBox:SetFocus(true);
+				</OnClick>
+				</Scripts>
+				<NormalTexture file="Interface\Buttons\UI-CheckBox-Up"/>
+				<PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>
+				<HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
+				<CheckedTexture file="Interface\Buttons\UI-CheckBox-Check"/>
+				<DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
+			</CheckButton>
+			<CheckButton name="MapNotesOptionsCheckbox10" id="10">
+				<Size>
+					<AbsDimension x="20" y="20"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset><AbsDimension x="50" y="-78"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<FontString name="MapNotesOptionsCheckbox10Text" inherits="GameFontNormalSmall" text="MAPNOTES_OWNNOTES">
+							<Anchors>
+								<Anchor point="LEFT" relativePoint="RIGHT">
+									<Offset><AbsDimension x="1" y="1"/></Offset>
+								</Anchor>
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Scripts>
+				<OnClick>
+					if this:GetChecked() then
+						PlaySound("igMainMenuOptionCheckBoxOff");
+					else
+						PlaySound("igMainMenuOptionCheckBoxOn");
+					end
+					MapNotes_WriteOptions();
+					MapNotes_GhostTextBox:SetFocus(true);
+				</OnClick>
+				</Scripts>
+				<NormalTexture file="Interface\Buttons\UI-CheckBox-Up"/>
+				<PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>
+				<HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
+				<CheckedTexture file="Interface\Buttons\UI-CheckBox-Check"/>
+				<DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
+			</CheckButton>
+			<CheckButton name="MapNotesOptionsCheckbox11" id="11">
+				<Size>
+					<AbsDimension x="20" y="20"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOP" relativePoint="BOTTOM" relativeTo="MapNotesOptionsCheckbox10">
+						<Offset><AbsDimension x="0" y="3"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<FontString name="MapNotesOptionsCheckbox11Text" inherits="GameFontNormalSmall" text="MAPNOTES_OTHERNOTES">
+							<Anchors>
+								<Anchor point="LEFT" relativePoint="RIGHT">
+									<Offset><AbsDimension x="1" y="1"/></Offset>
+								</Anchor>
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Scripts>
+				<OnClick>
+					if this:GetChecked() then
+						PlaySound("igMainMenuOptionCheckBoxOff");
+					else
+						PlaySound("igMainMenuOptionCheckBoxOn");
+					end
+					MapNotes_WriteOptions();
+					MapNotes_GhostTextBox:SetFocus(true);
+				</OnClick>
+				</Scripts>
+				<NormalTexture file="Interface\Buttons\UI-CheckBox-Up"/>
+				<PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>
+				<HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
+				<CheckedTexture file="Interface\Buttons\UI-CheckBox-Check"/>
+				<DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
+			</CheckButton>
+			<CheckButton name="MapNotesOptionsCheckbox12" id="12">
+				<Size>
+					<AbsDimension x="20" y="20"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOP" relativePoint="BOTTOM" relativeTo="MapNotesOptionsCheckbox11">
+						<Offset><AbsDimension x="0" y="-1"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<FontString name="MapNotesOptionsCheckbox12Text" inherits="GameFontNormalSmall" text="MAPNOTES_HIGHLIGHT_LASTCREATED">
+							<Anchors>
+								<Anchor point="LEFT" relativePoint="RIGHT">
+									<Offset><AbsDimension x="1" y="1"/></Offset>
+								</Anchor>
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Scripts>
+				<OnClick>
+					if this:GetChecked() then
+						PlaySound("igMainMenuOptionCheckBoxOff");
+					else
+						PlaySound("igMainMenuOptionCheckBoxOn");
+					end
+					MapNotes_WriteOptions();
+					MapNotes_GhostTextBox:SetFocus(true);
+				</OnClick>
+				</Scripts>
+				<NormalTexture file="Interface\Buttons\UI-CheckBox-Up"/>
+				<PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>
+				<HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
+				<CheckedTexture file="Interface\Buttons\UI-CheckBox-Check"/>
+				<DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
+			</CheckButton>
+			<CheckButton name="MapNotesOptionsCheckbox13" id="13">
+				<Size>
+					<AbsDimension x="20" y="20"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOP" relativePoint="BOTTOM" relativeTo="MapNotesOptionsCheckbox12">
+						<Offset><AbsDimension x="0" y="3"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<FontString name="MapNotesOptionsCheckbox13Text" inherits="GameFontNormalSmall" text="MAPNOTES_HIGHLIGHT_MININOTE">
+							<Anchors>
+								<Anchor point="LEFT" relativePoint="RIGHT">
+									<Offset><AbsDimension x="1" y="1"/></Offset>
+								</Anchor>
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Scripts>
+				<OnClick>
+					if this:GetChecked() then
+						PlaySound("igMainMenuOptionCheckBoxOff");
+					else
+						PlaySound("igMainMenuOptionCheckBoxOn");
+					end
+					MapNotes_WriteOptions();
+					MapNotes_GhostTextBox:SetFocus(true);
+				</OnClick>
+				</Scripts>
+				<NormalTexture file="Interface\Buttons\UI-CheckBox-Up"/>
+				<PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>
+				<HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
+				<CheckedTexture file="Interface\Buttons\UI-CheckBox-Check"/>
+				<DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
+			</CheckButton>
+			<CheckButton name="MapNotesOptionsCheckbox14" id="14">
+				<Size>
+					<AbsDimension x="20" y="20"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOP" relativePoint="BOTTOM" relativeTo="MapNotesOptionsCheckbox13">
+						<Offset><AbsDimension x="0" y="-1"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<FontString name="MapNotesOptionsCheckbox14Text" inherits="GameFontNormalSmall" text="MAPNOTES_ACCEPTINCOMING">
+							<Anchors>
+								<Anchor point="LEFT" relativePoint="RIGHT">
+									<Offset><AbsDimension x="1" y="1"/></Offset>
+								</Anchor>
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Scripts>
+				<OnClick>
+					if this:GetChecked() then
+						PlaySound("igMainMenuOptionCheckBoxOff");
+						MapNotesOptionsCheckbox15:Enable();
+						MapNotesOptionsCheckbox15Text:SetTextColor(NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b);
+					else
+						PlaySound("igMainMenuOptionCheckBoxOn");
+						MapNotesOptionsCheckbox15:Disable();
+						MapNotesOptionsCheckbox15Text:SetTextColor(GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b);
+					end
+					MapNotes_WriteOptions();
+					MapNotes_GhostTextBox:SetFocus(true);
+				</OnClick>
+				</Scripts>
+				<NormalTexture file="Interface\Buttons\UI-CheckBox-Up"/>
+				<PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>
+				<HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
+				<CheckedTexture file="Interface\Buttons\UI-CheckBox-Check"/>
+				<DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
+			</CheckButton>
+			<CheckButton name="MapNotesOptionsCheckbox15" hidden="true" id="15">
+				<Size>
+					<AbsDimension x="20" y="20"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOP" relativePoint="BOTTOM" relativeTo="MapNotesOptionsCheckbox14">
+						<Offset><AbsDimension x="20" y="3"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<FontString name="MapNotesOptionsCheckbox15Text" inherits="GameFontNormalSmall" text="MAPNOTES_INCOMING_CAP">
+							<Anchors>
+								<Anchor point="LEFT" relativePoint="RIGHT">
+									<Offset><AbsDimension x="1" y="1"/></Offset>
+								</Anchor>
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Scripts>
+				<OnClick>
+					if this:GetChecked() then
+						PlaySound("igMainMenuOptionCheckBoxOff");
+					else
+						PlaySound("igMainMenuOptionCheckBoxOn");
+					end
+					MapNotes_WriteOptions();
+					MapNotes_GhostTextBox:SetFocus(true);
+				</OnClick>
+				</Scripts>
+				<NormalTexture file="Interface\Buttons\UI-CheckBox-Up"/>
+				<PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>
+				<HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
+				<CheckedTexture file="Interface\Buttons\UI-CheckBox-Check"/>
+				<DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
+			</CheckButton>
+			<CheckButton name="MapNotesOptionsCheckbox16" id="16">
+				<Size>
+					<AbsDimension x="20" y="20"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOP" relativePoint="BOTTOM" relativeTo="MapNotesOptionsCheckbox14">
+						<Offset><AbsDimension x="0" y="-1"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<FontString name="MapNotesOptionsCheckbox16Text" inherits="GameFontNormalSmall" text="MAPNOTES_AUTOPARTYASMININOTE">
+							<Anchors>
+								<Anchor point="LEFT" relativePoint="RIGHT">
+									<Offset><AbsDimension x="1" y="1"/></Offset>
+								</Anchor>
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Scripts>
+				<OnClick>
+					if this:GetChecked() then
+						PlaySound("igMainMenuOptionCheckBoxOff");
+					else
+						PlaySound("igMainMenuOptionCheckBoxOn");
+					end
+					MapNotes_WriteOptions();
+					MapNotes_GhostTextBox:SetFocus(true);
+				</OnClick>
+				</Scripts>
+				<NormalTexture file="Interface\Buttons\UI-CheckBox-Up"/>
+				<PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>
+				<HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
+				<CheckedTexture file="Interface\Buttons\UI-CheckBox-Check"/>
+				<DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
+			</CheckButton>
+			<CheckButton name="MapNotesOptionsCheckboxMapC">
+				<Size>
+					<AbsDimension x="20" y="20"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOP" relativePoint="BOTTOM" relativeTo="MapNotesOptionsCheckbox16">
+						<Offset><AbsDimension x="0" y="-1"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<FontString name="MapNotesOptionsCheckboxMapCText" inherits="GameFontNormalSmall" text="MAPNOTES_MAP_COORDS">
+							<Anchors>
+								<Anchor point="LEFT" relativePoint="RIGHT">
+									<Offset>
+										<AbsDimension x="1" y="1"/>
+									</Offset>
+								</Anchor>
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnClick>
+						if this:GetChecked() then
+							PlaySound("igMainMenuOptionCheckBoxOff");
+							MapNotes_Options.mapC = true;
+							MN_SetCoordsPos();
+						else
+							PlaySound("igMainMenuOptionCheckBoxOn");
+							MapNotes_Options.mapC = nil;
+							MN_SetCoordsPos();
+						end
+						MapNotes_GhostTextBox:SetFocus(true);
+					</OnClick>
+				</Scripts>
+				<NormalTexture file="Interface\Buttons\UI-CheckBox-Up"/>
+				<PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>
+				<HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
+				<CheckedTexture file="Interface\Buttons\UI-CheckBox-Check"/>
+				<DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
+			</CheckButton>
+			<CheckButton name="MapNotesOptionsCheckboxMiniC">
+				<Size>
+					<AbsDimension x="20" y="20"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="MapNotesOptionsCheckboxMapC">
+						<Offset>
+							<AbsDimension x="150" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<FontString name="MapNotesOptionsCheckboxMiniCText" inherits="GameFontNormalSmall" text="MAPNOTES_MINIMAP_COORDS">
+							<Anchors>
+								<Anchor point="LEFT" relativePoint="RIGHT">
+									<Offset>
+										<AbsDimension x="1" y="1"/>
+									</Offset>
+								</Anchor>
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnClick>
+						if this:GetChecked() then
+							PlaySound("igMainMenuOptionCheckBoxOff");
+							MN_MinimapCoordsFrame:Show();
+							MapNotes_Options.miniC = true;
+						else
+							PlaySound("igMainMenuOptionCheckBoxOn");
+							MN_MinimapCoordsFrame:Hide();
+							MapNotes_Options.miniC = nil;
+						end
+						MapNotes_GhostTextBox:SetFocus(true);
+					</OnClick>
+				</Scripts>
+				<NormalTexture file="Interface\Buttons\UI-CheckBox-Up"/>
+				<PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>
+				<HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
+				<CheckedTexture file="Interface\Buttons\UI-CheckBox-Check"/>
+				<DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
+			</CheckButton>
+			<CheckButton name="MapNotesOptionsCheckboxLM">
+				<Size>
+					<AbsDimension x="20" y="20"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOP" relativePoint="BOTTOM" relativeTo="MapNotesOptionsCheckboxMapC">
+						<Offset><AbsDimension x="0" y="-1"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<FontString name="MapNotesOptionsCheckboxLMText" inherits="GameFontNormalSmall" text="MAPNOTES_LANDMARKS_CHECK">
+							<Anchors>
+								<Anchor point="LEFT" relativePoint="RIGHT">
+									<Offset>
+										<AbsDimension x="1" y="1"/>
+									</Offset>
+								</Anchor>
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnClick>
+						if this:GetChecked() then
+							PlaySound("igMainMenuOptionCheckBoxOff");
+							MapNotes_Options.landMarks = true;
+<!--							MapNotes_CreateLandMarks();		-->
+							MapNotes_IterateLandMarks(true);
+						else
+							PlaySound("igMainMenuOptionCheckBoxOn");
+							MapNotes_Options.landMarks = nil;
+						end
+						MapNotes_GhostTextBox:SetFocus(true);
+					</OnClick>
+					<OnEnter>
+						GameTooltip:SetOwner(this, "ANCHOR_CURSOR");
+						GameTooltip:SetText(MAPNOTES_MAGELLAN);
+						GameTooltip:Show();
+						GameTooltip:SetFrameLevel( this:GetFrameLevel() + 1 );
+					</OnEnter>
+					<OnLeave>
+						GameTooltip:Hide();
+					</OnLeave>
+				</Scripts>
+				<NormalTexture file="Interface\Buttons\UI-CheckBox-Up"/>
+				<PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>
+				<HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
+				<CheckedTexture file="Interface\Buttons\UI-CheckBox-Check"/>
+				<DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
+			</CheckButton>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				this:SetBackdropColor(0,0,0);
+			</OnLoad>
+			<OnShow>
+				MapNotes_OpenOptionsFrame();
+			</OnShow>
+			<OnHide>
+				this:SetParent("UIParent");
+			</OnHide>
+		</Scripts>
+	</Frame>
+
+	<CheckButton name="MapNotesDropDownSubmenuIconTemplate" virtual="true">
+		<Size>
+			<AbsDimension x="20" y="20"/>
+		</Size>
+		<Layers>
+			<Layer level="ARTWORK">
+				<Texture name="$parentTexture">
+					<Size>
+						<AbsDimension x="16" y="16"/>
+					</Size>
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT">
+							<Offset><AbsDimension x="0" y="-1"/></Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Scripts>
+		<OnLoad>
+			id = tonumber(this:GetID());
+			getglobal(this:GetName().."Texture"):SetTexture("Interface\\AddOns\\MapNotes\\POIIcons\\Icon"..id);
+			if id == 0 then
+				this:SetPoint("TOPLEFT", "MapNotesDropDownSubMenu", "TOPLEFT", 15, -12);
+			elseif id == 5 then
+				this:SetPoint("TOP", "MapNotesDropDownSubMenuIcon0", "BOTTOM", 0, -5);
+			else
+				id = id - 1;
+				this:SetPoint("LEFT", "MapNotesDropDownSubMenuIcon"..id, "RIGHT", 20, 0);
+			end
+		</OnLoad>
+		<OnClick>
+			if this:GetChecked() then
+				PlaySound("igMainMenuOptionCheckBoxOff");
+				id = tonumber(this:GetID());
+				MapNotes_Options[id] = nil;
+			else
+				PlaySound("igMainMenuOptionCheckBoxOn");
+				id = tonumber(this:GetID());
+				MapNotes_Options[id] = "off";
+			end
+			MapNotes_PlugInsRefresh();					<!-- Telic_2-->
+			MapNotes_MapUpdate();
+		</OnClick>
+		</Scripts>
+		<NormalTexture file="Interface\Buttons\UI-CheckBox-Up"/>
+		<PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>
+		<HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD"/>
+		<CheckedTexture file="Interface\Buttons\UI-CheckBox-Check"/>
+		<DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled"/>
+	</CheckButton>
+
+
+	<Frame name="MapNotesDropDownSubMenu" hidden="true" parent="WorldMapFrame" frameStrata="FULLSCREEN_DIALOG">
+		<Size>
+			<AbsDimension x="225" y="69"/>
+		</Size>
+		<Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+			<BackgroundInsets>
+				<AbsInset left="11" right="12" top="12" bottom="11"/>
+			</BackgroundInsets>
+			<TileSize>
+				<AbsValue val="32"/>
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32"/>
+			</EdgeSize>
+		</Backdrop>
+		<Frames>
+			<CheckButton name="MapNotesDropDownSubMenuIcon0" inherits="MapNotesDropDownSubmenuIconTemplate" hidden="false" id="0"/>
+			<CheckButton name="MapNotesDropDownSubMenuIcon1" inherits="MapNotesDropDownSubmenuIconTemplate" hidden="false" id="1"/>
+			<CheckButton name="MapNotesDropDownSubMenuIcon2" inherits="MapNotesDropDownSubmenuIconTemplate" hidden="false" id="2"/>
+			<CheckButton name="MapNotesDropDownSubMenuIcon3" inherits="MapNotesDropDownSubmenuIconTemplate" hidden="false" id="3"/>
+			<CheckButton name="MapNotesDropDownSubMenuIcon4" inherits="MapNotesDropDownSubmenuIconTemplate" hidden="false" id="4"/>
+			<CheckButton name="MapNotesDropDownSubMenuIcon5" inherits="MapNotesDropDownSubmenuIconTemplate" hidden="false" id="5"/>
+			<CheckButton name="MapNotesDropDownSubMenuIcon6" inherits="MapNotesDropDownSubmenuIconTemplate" hidden="false" id="6"/>
+			<CheckButton name="MapNotesDropDownSubMenuIcon7" inherits="MapNotesDropDownSubmenuIconTemplate" hidden="false" id="7"/>
+			<CheckButton name="MapNotesDropDownSubMenuIcon8" inherits="MapNotesDropDownSubmenuIconTemplate" hidden="false" id="8"/>
+			<CheckButton name="MapNotesDropDownSubMenuIcon9" inherits="MapNotesDropDownSubmenuIconTemplate" hidden="false" id="9"/>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				this:SetBackdropColor(0,0,0);
+			</OnLoad>
+			<OnShow>
+				for i=0, 9, 1 do
+					if MapNotes_Options[i] ~= "off" then
+						getglobal("MapNotesDropDownSubMenuIcon"..i):SetChecked(1);
+					else
+						getglobal("MapNotesDropDownSubMenuIcon"..i):SetChecked(0);
+					end
+				end
+			</OnShow>
+		</Scripts>
+	</Frame>
+
+	<Frame name="MN_MapCoords" movable="true" frameStrata="TOOLTIP" hidden="true" parent="WorldMapButton">
+		<Size>
+			<AbsDimension x="90" y="32"/>
+		</Size>
+		<Anchors>
+			<Anchor point="CENTER" relativeTo="WorldMapButton" relativePoint="BOTTOMLEFT" >
+				<Offset>
+					<AbsDimension x="16" y="532"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MN_MapCoordsText" inherits="GameFontNormalLarge" text="Player" hidden="false" justifyH="CENTER" justifyV="BOTTOM" >
+					<Color r="1.0" g="1.0" b="1.0"/>
+					<Anchors>
+						<Anchor point="LEFT"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Frame name="MN_MapCoordsMovementFrame" hidden="true" setAllPoints="true" enableMouse="true" movable="true">
+				<Scripts>
+					<OnShow>
+						this:SetFrameLevel(MN_MapCoords:GetFrameLevel() + 1);
+					</OnShow>
+					<OnMouseDown>
+						MN_MapCoords.isMoving = true;
+						MN_RememberCoordsPos();
+						MN_MapCoords:StartMoving();
+					</OnMouseDown>
+					<OnMouseUp>
+						if ( MN_MapCoords.isMoving ) then
+							MN_MapCoords:StopMovingOrSizing();
+							MN_MapCoords.isMoving = false;
+							MN_RememberCoordsPos();
+						end
+					</OnMouseUp>
+				</Scripts>
+			</Frame>
+		</Frames>
+		<Scripts>
+			<OnUpdate>
+				MN_MapCoords_OnUpdate(arg1);
+			</OnUpdate>
+		</Scripts>
+	</Frame>
+
+</Ui>

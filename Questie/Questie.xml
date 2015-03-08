@@ -1,0 +1,23 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
+<script file="Questie.lua"/>
+<script file="items.lua"/>
+<script file="monsters.lua"/>
+<script file="events.lua"/>
+<script file="zone.lua"/>
+<script file="hash.lua"/>
+<script file="finishers.lua"/>
+<Frame name="QuestieFrame" parent="UIParent" hidden="false">
+	<Scripts>
+		<OnLoad>
+			questieinit();
+		</OnLoad>
+		<OnEvent>
+			questieevt(event);
+		</OnEvent>
+		<OnUpdate>
+			questiepoll();
+		</OnUpdate>
+	</Scripts>
+</Frame>
+</Ui>

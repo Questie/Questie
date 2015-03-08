@@ -1,0 +1,336 @@
+<!--
+    MapNotes: Adds a note system to the WorldMap
+
+    See the README file for more information.
+-->
+
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/">
+    <Script file="MapNotesDropDownMenu.lua"/>
+
+    <Button name="MapNotesDropDownButtonTemplate" virtual="true">
+        <Size>
+            <AbsDimension x="145" y="16"/>
+        </Size>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentHighlight" file="Interface\QuestFrame\UI-QuestTitleHighlight" alphaMode="ADD" setAllPoints="true" hidden="true"/>
+            </Layer>
+            <Layer level="ARTWORK">
+                <Texture name="$parentCheck" file="Interface\Buttons\UI-CheckBox-Check">
+                    <Size>
+                        <AbsDimension x="24" y="24"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="LEFT">
+                            <Offset><AbsDimension x="0" y="0"/></Offset>
+                        </Anchor>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        <Frames>
+            <Button name="$parentColorSwatch" hidden="true">
+                <Size>
+                    <AbsDimension x="16" y="16"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="RIGHT">
+                        <Offset><AbsDimension x="-6" y="0"/></Offset>
+                    </Anchor>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentSwatchBg">
+                            <Size>
+                                <AbsDimension x="14" y="14"/>
+                            </Size>
+                            <Anchors>
+                                <Anchor point="CENTER">
+                                    <Offset><AbsDimension x="0" y="0"/></Offset>
+                                </Anchor>
+                            </Anchors>
+                            <Color r="1.0" g="1.0" b="1.0"/>
+                        </Texture>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnEnter>
+                        getglobal(this:GetName().."SwatchBg"):SetVertexColor(NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b)
+                    </OnEnter>
+                    <OnLeave>
+                        getglobal(this:GetName().."SwatchBg"):SetVertexColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b)
+                    </OnLeave>
+                </Scripts>
+                <NormalTexture name="$parentNormalTexture" file="Interface\ChatFrame\ChatFrameColorSwatch"/>
+            </Button>
+            <Button name="$parentExpandArrow" hidden="false">
+                <Size>
+                    <AbsDimension x="16" y="16"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="RIGHT">
+                        <Offset><AbsDimension x="-6" y="0"/></Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnLoad>
+                        this:SetFrameLevel(11)
+                    </OnLoad>
+                    <OnClick>
+                        MapNotes_DropDownToggleSubMenu(this:GetParent():GetID())
+                    </OnClick>
+                    <OnEnter>
+                        getglobal(this:GetParent():GetName().."Highlight"):Show()
+                        MapNotes_DropDownExpandArrowOnEnter(this:GetParent():GetID())
+                    </OnEnter>
+                    <OnLeave>
+                        getglobal(this:GetParent():GetName().."Highlight"):Hide()
+                    </OnLeave>
+                </Scripts>
+                <NormalTexture file="Interface\ChatFrame\ChatFrameExpandArrow"/>
+            </Button>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                this:SetFrameLevel(10)
+            </OnLoad>
+            <OnClick>
+                MapNotes_DropDownOnClick(this:GetID())
+                MapNotes_MapUpdate()
+            </OnClick>
+            <OnEnter>
+                MapNotes_DropDownCloseSubMenuExcept(this:GetID())
+                getglobal(this:GetName().."Highlight"):Show()
+            </OnEnter>
+            <OnLeave>
+                getglobal(this:GetName().."Highlight"):Hide()
+            </OnLeave>
+        </Scripts>
+        <ButtonText name="$parentNormalText" text="MAPNOTES_SHOWNOTES">
+            <Anchors>
+                <Anchor point="LEFT">
+                    <Offset x="27" y="0"/>
+                </Anchor>
+            </Anchors>
+        </ButtonText>
+        <NormalFont inherits="GameFontHighlightSmall" justifyH="LEFT"/>
+        <HighlightFont inherits="GameFontHighlightSmall" justifyH="LEFT"/>
+        <DisabledFont inherits="GameFontDisableSmall" justifyH="LEFT"/>
+    </Button>
+
+    <Frame name="MapNotesDropDownMenu" parent="WorldMapFrame">
+        <Size>
+            <AbsDimension x="40" y="32"/>
+        </Size>
+        <Anchors>
+            <Anchor point="RIGHT" relativeTo="WorldMapContinentDropDown" relativePoint="LEFT">
+                <Offset><AbsDimension x="-92" y="0"/></Offset>
+            </Anchor>
+        </Anchors>
+        <Layers>
+            <Layer level="ARTWORK">
+                <Texture name="MapNotesDropDownMenuLeft" file="Interface\Glues\CharacterCreate\CharacterCreate-LabelFrame">
+                    <Size>
+                        <AbsDimension x="25" y="64"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="TOPLEFT">
+                            <Offset><AbsDimension x="0" y="17"/></Offset>
+                        </Anchor>
+                    </Anchors>
+                    <TexCoords left="0" right="0.1953125" top="0" bottom="1"/>
+                </Texture>
+                <Texture name="MapNotesDropDownMenuMiddle" file="Interface\Glues\CharacterCreate\CharacterCreate-LabelFrame">
+                    <Size>
+                        <AbsDimension x="115" y="64"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="LEFT" relativeTo="MapNotesDropDownMenuLeft" relativePoint="RIGHT"/>
+                    </Anchors>
+                    <TexCoords left="0.1953125" right="0.8046875" top="0" bottom="1"/>
+                </Texture>
+                <Texture name="MapNotesDropDownMenuRight" file="Interface\Glues\CharacterCreate\CharacterCreate-LabelFrame">
+                    <Size>
+                        <AbsDimension x="25" y="64"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="LEFT" relativeTo="MapNotesDropDownMenuMiddle" relativePoint="RIGHT"/>
+                    </Anchors>
+                    <TexCoords left="0.8046875" right="1" top="0" bottom="1"/>
+                </Texture>
+                <FontString name="MapNotesDropDownMenuText" inherits="GameFontHighlightSmall" justifyH="RIGHT" text="MAPNOTES_DROPDOWNMENUTEXT">
+                    <Size>
+                        <AbsDimension x="0" y="10"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="RIGHT" relativeTo="MapNotesDropDownMenuRight">
+                            <Offset><AbsDimension x="-43" y="2"/></Offset>
+                        </Anchor>
+                    </Anchors>
+                </FontString>
+            </Layer>
+            <Layer level="OVERLAY">
+                <FontString inherits="GameFontNormalSmall" text="MAPNOTES_DROPDOWNTITLE">
+                    <Anchors>
+                        <Anchor point="TOPLEFT">
+                            <Offset><AbsDimension x="20" y="10"/></Offset>
+                        </Anchor>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        <Frames>
+            <Button name="MapNotesDropDownMenuButton">
+                <Size>
+                    <AbsDimension x="24" y="24"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPRIGHT" relativeTo="MapNotesDropDownMenuRight">
+                        <Offset><AbsDimension x="-16" y="-18"/></Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        MapNotes_ToggleDropDownMenu()
+                        PlaySound("igMainMenuOptionCheckBoxOn")
+                    </OnClick>
+                </Scripts>
+                <NormalTexture name="MapNotesDropDownMenuNormalTexture" file="Interface\ChatFrame\UI-ChatIcon-ScrollDown-Up">
+                    <Size>
+                        <AbsDimension x="24" y="24"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="RIGHT"/>
+                    </Anchors>
+                </NormalTexture>
+                <PushedTexture name="MapNotesDropDownMenuPushedTexture" file="Interface\ChatFrame\UI-ChatIcon-ScrollDown-Down">
+                    <Size>
+                        <AbsDimension x="24" y="24"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="RIGHT"/>
+                    </Anchors>
+                </PushedTexture>
+                <DisabledTexture name="MapNotesDropDownMenuDisabledTexture" file="Interface\ChatFrame\UI-ChatIcon-ScrollDown-Disabled">
+                    <Size>
+                        <AbsDimension x="24" y="24"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="RIGHT"/>
+                    </Anchors>
+                </DisabledTexture>
+                <HighlightTexture name="MapNotesDropDownMenuHighlightTexture" file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD">
+                    <Size>
+                        <AbsDimension x="24" y="24"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="RIGHT"/>
+                    </Anchors>
+                </HighlightTexture>
+            </Button>
+        </Frames>
+    </Frame>
+
+    <Frame name="MapNotesDropDownList" hidden="true" parent="WorldMapFrame" frameStrata="FULLSCREEN_DIALOG">
+        <Size>
+            <AbsDimension x="169" y="44"/>
+        </Size>
+        <Anchors>
+            <Anchor point="TOPLEFT" relativeTo="MapNotesDropDownMenu" relativePoint="BOTTOMLEFT">
+                <Offset><AbsDimension x="8" y="7"/></Offset>
+            </Anchor>
+        </Anchors>
+        <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+            <BackgroundInsets>
+                <AbsInset left="11" right="12" top="12" bottom="11"/>
+            </BackgroundInsets>
+            <TileSize>
+                <AbsValue val="32"/>
+            </TileSize>
+            <EdgeSize>
+                <AbsValue val="32"/>
+            </EdgeSize>
+        </Backdrop>
+        <Frames>
+        <Button name="MapNotesDropDown1" inherits="MapNotesDropDownButtonTemplate" hidden="true" id="1">
+            <Anchors>
+                <Anchor point="TOPLEFT">
+                    <Offset><AbsDimension x="12" y="-14"/></Offset>
+                </Anchor>
+            </Anchors>
+        </Button>
+        <Button name="MapNotesDropDown2" inherits="MapNotesDropDownButtonTemplate" hidden="true" id="2">
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="MapNotesDropDown1" relativePoint="BOTTOMLEFT">
+                    <Offset><AbsDimension x="0" y="0"/></Offset>
+                </Anchor>
+            </Anchors>
+        </Button>
+        <Button name="MapNotesDropDown3" inherits="MapNotesDropDownButtonTemplate" hidden="true" id="3">
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="MapNotesDropDown2" relativePoint="BOTTOMLEFT">
+                    <Offset><AbsDimension x="0" y="0"/></Offset>
+                </Anchor>
+            </Anchors>
+        </Button>
+        <Button name="MapNotesDropDown4" inherits="MapNotesDropDownButtonTemplate" hidden="true" id="4">
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="MapNotesDropDown3" relativePoint="BOTTOMLEFT">
+                    <Offset><AbsDimension x="0" y="0"/></Offset>
+                </Anchor>
+            </Anchors>
+        </Button>
+        <Button name="MapNotesDropDown5" inherits="MapNotesDropDownButtonTemplate" hidden="true" id="5">
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="MapNotesDropDown4" relativePoint="BOTTOMLEFT">
+                    <Offset><AbsDimension x="0" y="0"/></Offset>
+                </Anchor>
+            </Anchors>
+        </Button>
+        <Button name="MapNotesDropDown6" inherits="MapNotesDropDownButtonTemplate" hidden="true" id="6">
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="MapNotesDropDown5" relativePoint="BOTTOMLEFT">
+                    <Offset><AbsDimension x="0" y="0"/></Offset>
+                </Anchor>
+            </Anchors>
+        </Button>
+        <Button name="MapNotesDropDown7" inherits="MapNotesDropDownButtonTemplate" hidden="true" id="7">
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="MapNotesDropDown6" relativePoint="BOTTOMLEFT">
+                    <Offset><AbsDimension x="0" y="0"/></Offset>
+                </Anchor>
+            </Anchors>
+        </Button>
+        <Button name="MapNotesDropDown8" inherits="MapNotesDropDownButtonTemplate" hidden="true" id="8">
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="MapNotesDropDown7" relativePoint="BOTTOMLEFT">
+                    <Offset><AbsDimension x="0" y="0"/></Offset>
+                </Anchor>
+            </Anchors>
+        </Button>
+        <Button name="MapNotesDropDown9" inherits="MapNotesDropDownButtonTemplate" hidden="true" id="9">
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="MapNotesDropDown8" relativePoint="BOTTOMLEFT">
+                    <Offset><AbsDimension x="0" y="0"/></Offset>
+                </Anchor>
+            </Anchors>
+        </Button>
+        <Button name="MapNotesDropDown10" inherits="MapNotesDropDownButtonTemplate" hidden="true" id="10">
+            <Anchors>
+                <Anchor point="TOPLEFT" relativeTo="MapNotesDropDown9" relativePoint="BOTTOMLEFT">
+                    <Offset><AbsDimension x="0" y="0"/></Offset>
+                </Anchor>
+            </Anchors>
+        </Button>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+                this:SetFrameLevel(9)
+                this:RegisterEvent("VARIABLES_LOADED")
+            </OnLoad>
+            <OnEvent>
+                MapNotes_DropDownOnEvent()
+            </OnEvent>
+        </Scripts>
+    </Frame>
+</Ui>

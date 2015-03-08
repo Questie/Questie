@@ -1,0 +1,1720 @@
+<!--
+	MapNotes: Adds a note system to the WorldMap and other AddOns that use the Plugins facility provided
+
+	See the README file for more information.
+-->
+
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/">
+
+	<Frame name="MapNotesEditFrame" inherits="MapNotes_FrameTemplate">
+		<Size>
+			<AbsDimension x="450" y="350"/>
+		</Size>
+		<Anchors>
+			<Anchor point="CENTER"/>
+		</Anchors>
+		<Layers>
+			<Layer level="ARTWORK">
+				<Texture name="MapNotesEditFrameHeader" file="Interface\DialogFrame\UI-DialogBox-Header">
+					<Size>
+						<AbsDimension x="300" y="64"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOP">
+							<Offset><AbsDimension x="0" y="12"/></Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+				<FontString inherits="GameFontNormal" text="MAPNOTES_EDIT_MENU">
+					<Anchors>
+						<Anchor point="TOP" relativeTo="MapNotesEditFrameHeader">
+							<Offset><AbsDimension x="0" y="-14"/></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button name="MapNotesButtonSaveNote" inherits="MapNotes_ButtonTemplate" text="MAPNOTES_SAVE_NOTE">
+				<Anchors>
+					<Anchor point="CENTER" relativePoint="Bottom">
+						<Offset><AbsDimension x="-102.5" y="30"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						PlaySound("igMainMenuOption");
+						MapNotes_WriteNote();
+					</OnClick>
+					<OnShow>									<!--Telic_2 -->
+							this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );	<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+			</Button>
+
+			<Button name="$parentCancel" inherits="MapNotes_CancelButtonTemplate">
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="MapNotesButtonSaveNote">
+						<Offset><AbsDimension x="20" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+			</Button>
+
+			<Button name="EditIcon0">
+				<Size>
+					<AbsDimension x="16" y="16"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset><AbsDimension x="50" y="-41"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="EditIcon0Texture" file="Interface\AddOns\MapNotes\POIIcons\Icon0">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+					</OnLoad>
+					<OnClick>
+						MapNotes_Edit_SetIcon(0);
+					</OnClick>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+			</Button>
+			<Button name="EditIcon1">
+				<Size>
+					<AbsDimension x="16" y="16"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="EditIcon0">
+						<Offset><AbsDimension x="21" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="EditIcon1Texture" file="Interface\AddOns\MapNotes\POIIcons\Icon1">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+					</OnLoad>
+					<OnClick>
+						MapNotes_Edit_SetIcon(1);
+					</OnClick>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+			</Button>
+			<Button name="EditIcon2">
+				<Size>
+					<AbsDimension x="16" y="16"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="EditIcon1">
+						<Offset><AbsDimension x="21" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="EditIcon2Texture" file="Interface\AddOns\MapNotes\POIIcons\Icon2">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+					</OnLoad>
+					<OnClick>
+						MapNotes_Edit_SetIcon(2);
+					</OnClick>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+			</Button>
+			<Button name="EditIcon3">
+				<Size>
+					<AbsDimension x="16" y="16"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="EditIcon2">
+						<Offset><AbsDimension x="21" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="EditIcon3Texture" file="Interface\AddOns\MapNotes\POIIcons\Icon3">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+					</OnLoad>
+					<OnClick>
+						MapNotes_Edit_SetIcon(3);
+					</OnClick>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+			</Button>
+			<Button name="EditIcon4">
+				<Size>
+					<AbsDimension x="16" y="16"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="EditIcon3">
+						<Offset><AbsDimension x="21" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="EditIcon4Texture" file="Interface\AddOns\MapNotes\POIIcons\Icon4">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+					</OnLoad>
+					<OnClick>
+						MapNotes_Edit_SetIcon(4);
+					</OnClick>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+			</Button>
+			<Button name="EditIcon5">
+				<Size>
+					<AbsDimension x="16" y="16"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="EditIcon4">
+						<Offset><AbsDimension x="21" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="EditIcon5Texture" file="Interface\AddOns\MapNotes\POIIcons\Icon5">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+					</OnLoad>
+					<OnClick>
+						MapNotes_Edit_SetIcon(5);
+					</OnClick>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+			</Button>
+			<Button name="EditIcon6">
+				<Size>
+					<AbsDimension x="16" y="16"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="EditIcon5">
+						<Offset><AbsDimension x="21" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="EditIcon6Texture" file="Interface\AddOns\MapNotes\POIIcons\Icon6">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+					</OnLoad>
+					<OnClick>
+						MapNotes_Edit_SetIcon(6);
+					</OnClick>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+			</Button>
+			<Button name="EditIcon7">
+				<Size>
+					<AbsDimension x="16" y="16"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="EditIcon6">
+						<Offset><AbsDimension x="21" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="EditIcon7Texture" file="Interface\AddOns\MapNotes\POIIcons\Icon7">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+					</OnLoad>
+					<OnClick>
+						MapNotes_Edit_SetIcon(7);
+					</OnClick>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+			</Button>
+			<Button name="EditIcon8">
+				<Size>
+					<AbsDimension x="16" y="16"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="EditIcon7">
+						<Offset><AbsDimension x="21" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="EditIcon8Texture" file="Interface\AddOns\MapNotes\POIIcons\Icon8">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+					</OnLoad>
+					<OnClick>
+						MapNotes_Edit_SetIcon(8);
+					</OnClick>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+			</Button>
+			<Button name="EditIcon9">
+				<Size>
+					<AbsDimension x="16" y="16"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="EditIcon8">
+						<Offset><AbsDimension x="21" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="EditIcon9Texture" file="Interface\AddOns\MapNotes\POIIcons\Icon9">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+					</OnLoad>
+					<OnClick>
+						MapNotes_Edit_SetIcon(9);
+					</OnClick>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+			</Button>
+			<Button name="IconOverlay">
+				<Size>
+					<AbsDimension x="32" y="32"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="EditIcon0">
+						<Offset><AbsDimension x="-3" y="3"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="IconOverlayTexture" file="Interface\AddOns\MapNotes\POIIcons\Overlay">
+							<Size>
+								<AbsDimension x="32" y="32"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+			</Button>
+			<EditBox name="TitleWideEditBox" historyLines="0" letters="100">
+				<Size>
+					<AbsDimension x="400" y="32"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="EditIcon0">
+						<Offset><AbsDimension x="-26" y="-36"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="TitleBoxLeft" file="Interface\ChatFrame\UI-ChatInputBorder-Left">
+							<Size>
+								<AbsDimension x="256" y="32"/>
+							</Size>
+							<Anchors>
+								<Anchor point="LEFT">
+									<Offset><AbsDimension x="-10" y="0"/></Offset>
+								</Anchor>
+							</Anchors>
+						</Texture>
+						<Texture name="TitleBoxRight" file="Interface\ChatFrame\UI-ChatInputBorder-Right">
+							<Size>
+								<AbsDimension x="256" y="32"/>
+							</Size>
+							<Anchors>
+								<Anchor point="RIGHT">
+									<Offset><AbsDimension x="10" y="0"/></Offset>
+								</Anchor>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						TitleWideEditBox:SetText("");
+					</OnLoad>
+					<OnTextChanged>
+						if (TitleWideEditBox:GetText() == "" or TitleWideEditBox:GetText() == nil) then
+							MapNotesButtonSaveNote:Disable();
+						else
+							MapNotesButtonSaveNote:Enable();
+						end
+					</OnTextChanged>
+					<OnEnterPressed>
+						PlaySound("igMainMenuOption");
+						MapNotes_WriteNote();
+					</OnEnterPressed>
+					<OnEscapePressed>
+						ToggleWorldMap();
+					</OnEscapePressed>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+				<FontString inherits="ChatFontNormal"/>
+			</EditBox>
+			<EditBox name="Info1WideEditBox" historyLines="0" letters="100">
+				<Size>
+					<AbsDimension x="400" y="32"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="TitleWideEditBox">
+						<Offset><AbsDimension x="0" y="-65"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="Info1Left" file="Interface\ChatFrame\UI-ChatInputBorder-Left">
+							<Size>
+								<AbsDimension x="256" y="32"/>
+							</Size>
+							<Anchors>
+								<Anchor point="LEFT">
+									<Offset><AbsDimension x="-10" y="0"/></Offset>
+								</Anchor>
+							</Anchors>
+						</Texture>
+						<Texture name="Info1Right" file="Interface\ChatFrame\UI-ChatInputBorder-Right">
+							<Size>
+								<AbsDimension x="256" y="32"/>
+							</Size>
+							<Anchors>
+								<Anchor point="RIGHT">
+									<Offset><AbsDimension x="10" y="0"/></Offset>
+								</Anchor>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnEnterPressed>
+						PlaySound("igMainMenuOption");
+						MapNotes_WriteNote();
+					</OnEnterPressed>
+					<OnEscapePressed>
+						ToggleWorldMap();
+					</OnEscapePressed>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+				<FontString inherits="ChatFontNormal"/>
+			</EditBox>
+			<EditBox name="Info2WideEditBox" historyLines="0" letters="100">
+				<Size>
+					<AbsDimension x="400" y="32"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="Info1WideEditBox">
+						<Offset><AbsDimension x="0" y="-65"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="Info2Left" file="Interface\ChatFrame\UI-ChatInputBorder-Left">
+							<Size>
+								<AbsDimension x="256" y="32"/>
+							</Size>
+							<Anchors>
+								<Anchor point="LEFT">
+									<Offset><AbsDimension x="-10" y="0"/></Offset>
+								</Anchor>
+							</Anchors>
+						</Texture>
+						<Texture name="Info2Right" file="Interface\ChatFrame\UI-ChatInputBorder-Right">
+							<Size>
+								<AbsDimension x="256" y="32"/>
+							</Size>
+							<Anchors>
+								<Anchor point="RIGHT">
+									<Offset><AbsDimension x="10" y="0"/></Offset>
+								</Anchor>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnEnterPressed>
+						PlaySound("igMainMenuOption");
+						MapNotes_WriteNote();
+					</OnEnterPressed>
+					<OnEscapePressed>
+						ToggleWorldMap();
+					</OnEscapePressed>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+				<FontString inherits="ChatFontNormal"/>
+			</EditBox>
+			<EditBox name="CreatorWideEditBox" historyLines="0" letters="100">
+				<Size>
+					<AbsDimension x="400" y="32"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="Info2WideEditBox">
+						<Offset><AbsDimension x="0" y="-65"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="CreatorLeft" file="Interface\ChatFrame\UI-ChatInputBorder-Left">
+							<Size>
+								<AbsDimension x="256" y="32"/>
+							</Size>
+							<Anchors>
+								<Anchor point="LEFT">
+									<Offset><AbsDimension x="-10" y="0"/></Offset>
+								</Anchor>
+							</Anchors>
+						</Texture>
+						<Texture name="CreatorRight" file="Interface\ChatFrame\UI-ChatInputBorder-Right">
+							<Size>
+								<AbsDimension x="256" y="32"/>
+							</Size>
+							<Anchors>
+								<Anchor point="RIGHT">
+									<Offset><AbsDimension x="10" y="0"/></Offset>
+								</Anchor>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnEnterPressed>
+						PlaySound("igMainMenuOption");
+						MapNotes_WriteNote();
+					</OnEnterPressed>
+					<OnEscapePressed>
+						ToggleWorldMap();
+					</OnEscapePressed>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+				<FontString inherits="ChatFontNormal"/>
+			</EditBox>
+			<Button name="TextColor0">
+				<Size>
+					<AbsDimension x="16" y="16"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset><AbsDimension x="50" y="-111"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="TextColor0Texture" file="Interface\AddOns\MapNotes\POIIcons\Color0">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+					</OnLoad>
+					<OnClick>
+						MapNotes_Edit_SetTextColor(0);
+					</OnClick>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+			</Button>
+			<Button name="TextColor1">
+				<Size>
+					<AbsDimension x="16" y="16"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TextColor0">
+						<Offset><AbsDimension x="21" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="TextColor1Texture" file="Interface\AddOns\MapNotes\POIIcons\Color1">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+					</OnLoad>
+					<OnClick>
+						MapNotes_Edit_SetTextColor(1);
+					</OnClick>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+			</Button>
+			<Button name="TextColor2">
+				<Size>
+					<AbsDimension x="16" y="16"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TextColor1">
+						<Offset><AbsDimension x="21" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="TextColor2Texture" file="Interface\AddOns\MapNotes\POIIcons\Color2">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+					</OnLoad>
+					<OnClick>
+						MapNotes_Edit_SetTextColor(2);
+					</OnClick>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+			</Button>
+			<Button name="TextColor3">
+				<Size>
+					<AbsDimension x="16" y="16"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TextColor2">
+						<Offset><AbsDimension x="21" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="TextColor3Texture" file="Interface\AddOns\MapNotes\POIIcons\Color3">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+					</OnLoad>
+					<OnClick>
+						MapNotes_Edit_SetTextColor(3);
+					</OnClick>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+			</Button>
+			<Button name="TextColor4">
+				<Size>
+					<AbsDimension x="16" y="16"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TextColor3">
+						<Offset><AbsDimension x="21" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="TextColor4Texture" file="Interface\AddOns\MapNotes\POIIcons\Color4">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+					</OnLoad>
+					<OnClick>
+						MapNotes_Edit_SetTextColor(4);
+					</OnClick>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+			</Button>
+			<Button name="TextColor5">
+				<Size>
+					<AbsDimension x="16" y="16"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TextColor4">
+						<Offset><AbsDimension x="21" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="TextColor5Texture" file="Interface\AddOns\MapNotes\POIIcons\Color5">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+					</OnLoad>
+					<OnClick>
+						MapNotes_Edit_SetTextColor(5);
+					</OnClick>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+			</Button>
+			<Button name="TextColor6">
+				<Size>
+					<AbsDimension x="16" y="16"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TextColor5">
+						<Offset><AbsDimension x="21" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="TextColor6Texture" file="Interface\AddOns\MapNotes\POIIcons\Color6">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+					</OnLoad>
+					<OnClick>
+						MapNotes_Edit_SetTextColor(6);
+					</OnClick>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+			</Button>
+			<Button name="TextColor7">
+				<Size>
+					<AbsDimension x="16" y="16"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TextColor6">
+						<Offset><AbsDimension x="21" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="TextColor7Texture" file="Interface\AddOns\MapNotes\POIIcons\Color7">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+					</OnLoad>
+					<OnClick>
+						MapNotes_Edit_SetTextColor(7);
+					</OnClick>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+			</Button>
+			<Button name="TextColor8">
+				<Size>
+					<AbsDimension x="16" y="16"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TextColor7">
+						<Offset><AbsDimension x="21" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="TextColor8Texture" file="Interface\AddOns\MapNotes\POIIcons\Color8">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+					</OnLoad>
+					<OnClick>
+						MapNotes_Edit_SetTextColor(8);
+					</OnClick>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+			</Button>
+			<Button name="TextColor9">
+				<Size>
+					<AbsDimension x="16" y="16"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="TextColor8">
+						<Offset><AbsDimension x="21" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="TextColor9Texture" file="Interface\AddOns\MapNotes\POIIcons\Color9">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+					</OnLoad>
+					<OnClick>
+						MapNotes_Edit_SetTextColor(9);
+					</OnClick>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+			</Button>
+			<Button name="TextColorOverlay">
+				<Size>
+					<AbsDimension x="32" y="32"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="TextColor0">
+						<Offset><AbsDimension x="-3" y="3"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="TextColorOverlayTexture" file="Interface\AddOns\MapNotes\POIIcons\Overlay">
+							<Size>
+								<AbsDimension x="32" y="32"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+			</Button>
+			<Button name="Info1Color0">
+				<Size>
+					<AbsDimension x="16" y="16"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset><AbsDimension x="50" y="-175"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="Info1Color0Texture" file="Interface\AddOns\MapNotes\POIIcons\Color0">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+					</OnLoad>
+					<OnClick>
+						MapNotes_Edit_SetInfo1Color(0);
+					</OnClick>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+			</Button>
+			<Button name="Info1Color1">
+				<Size>
+					<AbsDimension x="16" y="16"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="Info1Color0">
+						<Offset><AbsDimension x="21" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="Info1Color1Texture" file="Interface\AddOns\MapNotes\POIIcons\Color1">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+					</OnLoad>
+					<OnClick>
+						MapNotes_Edit_SetInfo1Color(1);
+					</OnClick>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+			</Button>
+			<Button name="Info1Color2">
+				<Size>
+					<AbsDimension x="16" y="16"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="Info1Color1">
+						<Offset><AbsDimension x="21" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="Info1Color2Texture" file="Interface\AddOns\MapNotes\POIIcons\Color2">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+					</OnLoad>
+					<OnClick>
+						MapNotes_Edit_SetInfo1Color(2);
+					</OnClick>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+			</Button>
+			<Button name="Info1Color3">
+				<Size>
+					<AbsDimension x="16" y="16"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="Info1Color2">
+						<Offset><AbsDimension x="21" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="Info1Color3Texture" file="Interface\AddOns\MapNotes\POIIcons\Color3">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+					</OnLoad>
+					<OnClick>
+						MapNotes_Edit_SetInfo1Color(3);
+					</OnClick>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+			</Button>
+			<Button name="Info1Color4">
+				<Size>
+					<AbsDimension x="16" y="16"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="Info1Color3">
+						<Offset><AbsDimension x="21" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="Info1Color4Texture" file="Interface\AddOns\MapNotes\POIIcons\Color4">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+					</OnLoad>
+					<OnClick>
+						MapNotes_Edit_SetInfo1Color(4);
+					</OnClick>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+			</Button>
+			<Button name="Info1Color5">
+				<Size>
+					<AbsDimension x="16" y="16"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="Info1Color4">
+						<Offset><AbsDimension x="21" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="Info1Color5Texture" file="Interface\AddOns\MapNotes\POIIcons\Color5">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+					</OnLoad>
+					<OnClick>
+						MapNotes_Edit_SetInfo1Color(5);
+					</OnClick>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+			</Button>
+			<Button name="Info1Color6">
+				<Size>
+					<AbsDimension x="16" y="16"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="Info1Color5">
+						<Offset><AbsDimension x="21" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="Info1Color6Texture" file="Interface\AddOns\MapNotes\POIIcons\Color6">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+					</OnLoad>
+					<OnClick>
+						MapNotes_Edit_SetInfo1Color(6);
+					</OnClick>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+			</Button>
+			<Button name="Info1Color7">
+				<Size>
+					<AbsDimension x="16" y="16"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="Info1Color6">
+						<Offset><AbsDimension x="21" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="Info1Color7Texture" file="Interface\AddOns\MapNotes\POIIcons\Color7">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+					</OnLoad>
+					<OnClick>
+						MapNotes_Edit_SetInfo1Color(7);
+					</OnClick>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+			</Button>
+			<Button name="Info1Color8">
+				<Size>
+					<AbsDimension x="16" y="16"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="Info1Color7">
+						<Offset><AbsDimension x="21" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="Info1Color8Texture" file="Interface\AddOns\MapNotes\POIIcons\Color8">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+					</OnLoad>
+					<OnClick>
+						MapNotes_Edit_SetInfo1Color(8);
+					</OnClick>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+			</Button>
+			<Button name="Info1Color9">
+				<Size>
+					<AbsDimension x="16" y="16"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="Info1Color8">
+						<Offset><AbsDimension x="21" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="Info1Color9Texture" file="Interface\AddOns\MapNotes\POIIcons\Color9">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+					</OnLoad>
+					<OnClick>
+						MapNotes_Edit_SetInfo1Color(9);
+					</OnClick>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+			</Button>
+			<Button name="Info1ColorOverlay">
+				<Size>
+					<AbsDimension x="32" y="32"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="Info1Color0">
+						<Offset><AbsDimension x="-3" y="3"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="Info1ColorOverlayTexture" file="Interface\AddOns\MapNotes\POIIcons\Overlay">
+							<Size>
+								<AbsDimension x="32" y="32"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+			</Button>
+			<Button name="Info2Color0">
+				<Size>
+					<AbsDimension x="16" y="16"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset><AbsDimension x="50" y="-241"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="Info2Color0Texture" file="Interface\AddOns\MapNotes\POIIcons\Color0">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+					</OnLoad>
+					<OnClick>
+						MapNotes_Edit_SetInfo2Color(0);
+					</OnClick>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+			</Button>
+			<Button name="Info2Color1">
+				<Size>
+					<AbsDimension x="16" y="16"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="Info2Color0">
+						<Offset><AbsDimension x="21" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="Info2Color1Texture" file="Interface\AddOns\MapNotes\POIIcons\Color1">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+					</OnLoad>
+					<OnClick>
+						MapNotes_Edit_SetInfo2Color(1);
+					</OnClick>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+			</Button>
+			<Button name="Info2Color2">
+				<Size>
+					<AbsDimension x="16" y="16"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="Info2Color1">
+						<Offset><AbsDimension x="21" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="Info2Color2Texture" file="Interface\AddOns\MapNotes\POIIcons\Color2">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+					</OnLoad>
+					<OnClick>
+						MapNotes_Edit_SetInfo2Color(2);
+					</OnClick>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+			</Button>
+			<Button name="Info2Color3">
+				<Size>
+					<AbsDimension x="16" y="16"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="Info2Color2">
+						<Offset><AbsDimension x="21" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="Info2Color3Texture" file="Interface\AddOns\MapNotes\POIIcons\Color3">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+					</OnLoad>
+					<OnClick>
+						MapNotes_Edit_SetInfo2Color(3);
+					</OnClick>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+			</Button>
+			<Button name="Info2Color4">
+				<Size>
+					<AbsDimension x="16" y="16"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="Info2Color3">
+						<Offset><AbsDimension x="21" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="Info2Color4Texture" file="Interface\AddOns\MapNotes\POIIcons\Color4">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+					</OnLoad>
+					<OnClick>
+						MapNotes_Edit_SetInfo2Color(4);
+					</OnClick>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+			</Button>
+			<Button name="Info2Color5">
+				<Size>
+					<AbsDimension x="16" y="16"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="Info2Color4">
+						<Offset><AbsDimension x="21" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="Info2Color5Texture" file="Interface\AddOns\MapNotes\POIIcons\Color5">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+					</OnLoad>
+					<OnClick>
+						MapNotes_Edit_SetInfo2Color(5);
+					</OnClick>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+			</Button>
+			<Button name="Info2Color6">
+				<Size>
+					<AbsDimension x="16" y="16"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="Info2Color5">
+						<Offset><AbsDimension x="21" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="Info2Color6Texture" file="Interface\AddOns\MapNotes\POIIcons\Color6">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+					</OnLoad>
+					<OnClick>
+						MapNotes_Edit_SetInfo2Color(6);
+					</OnClick>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+			</Button>
+			<Button name="Info2Color7">
+				<Size>
+					<AbsDimension x="16" y="16"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="Info2Color6">
+						<Offset><AbsDimension x="21" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="Info2Color7Texture" file="Interface\AddOns\MapNotes\POIIcons\Color7">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+					</OnLoad>
+					<OnClick>
+						MapNotes_Edit_SetInfo2Color(7);
+					</OnClick>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+			</Button>
+			<Button name="Info2Color8">
+				<Size>
+					<AbsDimension x="16" y="16"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="Info2Color7">
+						<Offset><AbsDimension x="21" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="Info2Color8Texture" file="Interface\AddOns\MapNotes\POIIcons\Color8">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+					</OnLoad>
+					<OnClick>
+						MapNotes_Edit_SetInfo2Color(8);
+					</OnClick>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+			</Button>
+			<Button name="Info2Color9">
+				<Size>
+					<AbsDimension x="16" y="16"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="Info2Color8">
+						<Offset><AbsDimension x="21" y="0"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="Info2Color9Texture" file="Interface\AddOns\MapNotes\POIIcons\Color9">
+							<Size>
+								<AbsDimension x="16" y="16"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						this:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+					</OnLoad>
+					<OnClick>
+						MapNotes_Edit_SetInfo2Color(9);
+					</OnClick>
+					<OnShow>									<!--Telic_2 -->
+						this:SetFrameLevel( this:GetParent():GetFrameLevel() + 1 );		<!--Telic_2 -->
+					</OnShow>									<!--Telic_2 -->
+				</Scripts>
+			</Button>
+			<Button name="Info2ColorOverlay">
+				<Size>
+					<AbsDimension x="32" y="32"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="Info2Color0">
+						<Offset><AbsDimension x="-3" y="3"/></Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="Info2ColorOverlayTexture" file="Interface\AddOns\MapNotes\POIIcons\Overlay">
+							<Size>
+								<AbsDimension x="32" y="32"/>
+							</Size>
+							<Anchors>
+								<Anchor point="CENTER"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+			</Button>
+		</Frames>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="MapNotes_EditFrame_Title" inherits="GameFontNormalSmall" text="MAPNOTES_EDIT_TITLE" justifyH="LEFT">
+					<Size>
+						<AbsDimension x="222" y="16"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset><AbsDimension x="22" y="-65"/></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MapNotes_EditFrame_Info1" inherits="GameFontNormalSmall" text="MAPNOTES_EDIT_INFO1" justifyH="LEFT">
+					<Size>
+						<AbsDimension x="222" y="16"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset><AbsDimension x="22" y="-130"/></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MapNotes_EditFrame_Info2" inherits="GameFontNormalSmall" text="MAPNOTES_EDIT_INFO2" justifyH="LEFT">
+					<Size>
+						<AbsDimension x="222" y="16"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset><AbsDimension x="22" y="-195"/></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MapNotes_EditFrame_Creator" inherits="GameFontNormalSmall" text="MAPNOTES_EDIT_CREATOR" justifyH="LEFT">
+					<Size>
+						<AbsDimension x="222" y="16"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset><AbsDimension x="22" y="-260"/></Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				this:SetBackdropColor(0,0,0,1);
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>
