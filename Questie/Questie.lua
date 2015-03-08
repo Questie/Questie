@@ -30,23 +30,30 @@ objectiveProcessors = {
 		--DEFAULT_CHAT_FRAME:AddMessage("derp", 0.95, 0.95, 0.5);
 		local itemdata = QuestieItems[name];
 		if itemdata == nil then
-			DEFAULT_CHAT_FRAME:AddMessage("ERROR PROCESSING " .. name, 0.95, 0.2, 0.2);
+			--DEFAULT_CHAT_FRAME:AddMessage("ERROR PROCESSING " .. name, 0.95, 0.2, 0.2);
 		else
 			for k,v in pairs(itemdata) do
 				--DEFAULT_CHAT_FRAME:AddMessage(k, 0.95, 0.95, 0.5);
 				--DEFAULT_CHAT_FRAME:AddMessage(v, 0.95, 0.95, 0.5);
-				if k == "drop" then
+				if k == "locationCount" then
+					for b=1,itemdata['locationCount'] do
+						local loc = itemdata['locations'][b];
+						if loc[1] == mid then
+							MapNotes_CreateQuestNote(name, quest, "", loc[2], loc[3], 3, selected);
+						end
+					end
+				elseif k == "drop" then
 					for e,r in pairs(v) do
 						--DEFAULT_CHAT_FRAME:AddMessage(e .. " drops " .. name .. " for " .. quest, 0.95, 0.95, 0.5);
 						--local monsterdata = QuestRoot['QuestHelper_StaticData']['enUS']['objective']['monster'][e];
 						local monsterdata = QuestieMonsters[e];
 						if monsterdata == nil then
-							DEFAULT_CHAT_FRAME:AddMessage("   ERROR PROCESSING " .. e, 0.95, 0.2, 0.2);
+							--DEFAULT_CHAT_FRAME:AddMessage("   ERROR PROCESSING " .. e, 0.95, 0.2, 0.2);
 						else
 							--DEFAULT_CHAT_FRAME:AddMessage("   LOOTED: " .. monsterdata['looted'], 0.2, 0.9, 0.2);
 							--DEFAULT_CHAT_FRAME:AddMessage("   KNOWNLOCS: " .. monsterdata['locationCount'], 0.2, 0.9, 0.2);
 							for b=1,monsterdata['locationCount'] do
-								local loc = monsterdata['locations']['1'];
+								local loc = monsterdata['locations'][b];
 								if loc[1] == mid then
 									MapNotes_CreateQuestNote(e, name .. " (" .. amount .. ")", quest, loc[2], loc[3], 0, selected);
 								end
@@ -63,11 +70,11 @@ objectiveProcessors = {
 	['event'] = function(quest, name, amount, selected, mid)
 		local evtdata = QuestieEvents[name]
 		if evtdata == nil then
-			DEFAULT_CHAT_FRAME:AddMessage("ERROR: UNKNOWN EVENT: " .. name, 0.95, 0.2, 0.2);
+			--DEFAULT_CHAT_FRAME:AddMessage("ERROR: UNKNOWN EVENT: " .. name, 0.95, 0.2, 0.2);
 		else
 			--DEFAULT_CHAT_FRAME:AddMessage("VALIDEVT: " .. name, 0.2, 0.95, 0.2);
 			for b=1,evtdata['locationCount'] do
-				local loc = evtdata['locations']['1'];
+				local loc = evtdata['locations'][b];
 				if loc[1] == mid then
 					MapNotes_CreateQuestNote(name, quest, "", loc[2], loc[3], 8, selected);
 				end
@@ -78,14 +85,27 @@ objectiveProcessors = {
 		--DEFAULT_CHAT_FRAME:AddMessage("   MONMON: " .. quest .. ", " .. name .. ", " .. amount, 0.95, 0.2, 0.2);
 		local monsterdata = QuestieMonsters[name];
 		if monsterdata == nil then
-			DEFAULT_CHAT_FRAME:AddMessage("   ERROR PROCESSINGMON " .. name, 0.95, 0.2, 0.2);
+			--DEFAULT_CHAT_FRAME:AddMessage("   ERROR PROCESSINGMON " .. name, 0.95, 0.2, 0.2);
 		else
 			--DEFAULT_CHAT_FRAME:AddMessage("   LOOTED: " .. monsterdata['looted'], 0.2, 0.9, 0.2);
 			--DEFAULT_CHAT_FRAME:AddMessage("   KNOWNLOCS: " .. monsterdata['locationCount'], 0.2, 0.9, 0.2);
 			for b=1,monsterdata['locationCount'] do
-				local loc = monsterdata['locations']['1'];
+				local loc = monsterdata['locations'][b];
 				if loc[1] == mid then
 					MapNotes_CreateQuestNote(name, amount, quest, loc[2], loc[3], 5, selected);
+				end
+			end
+		end
+	end,
+	['object'] = function(quest, name, amount, selected, mid)
+		local objdata = QuestObjects[name];
+		if objdata == nil then
+			-- error message 
+		else
+			for b=1,objdata['locationCount'] do
+				local loc = objdata['locations'][b];
+				if loc[1] == mid then
+					MapNotes_CreateQuestNote(name, quest, "", loc[2], loc[3], 9, selected);
 				end
 			end
 		end
@@ -191,7 +211,7 @@ function questieevt(event)
 							--DEFAULT_CHAT_FRAME:AddMessage("   LOOTED: " .. monsterdata['looted'], 0.2, 0.9, 0.2);
 							--DEFAULT_CHAT_FRAME:AddMessage("   KNOWNLOCS: " .. monsterdata['locationCount'], 0.2, 0.9, 0.2);
 							for b=1,monsterdata['locationCount'] do
-								local loc = monsterdata['locations']['1'];
+								local loc = monsterdata['locations'][b];
 								if loc[1] == mid then
 									MapNotes_CreateQuestNote(finisher, "Quest Finisher", q, loc[2], loc[3], 4, selected);
 								end

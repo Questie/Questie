@@ -7,6 +7,8 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 <script file="zone.lua"/>
 <script file="hash.lua"/>
 <script file="finishers.lua"/>
+<script file="objects.lua"/>
+
 <Frame name="QuestieFrame" parent="UIParent" hidden="false">
 	<Scripts>
 		<OnLoad>
