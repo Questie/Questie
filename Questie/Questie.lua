@@ -236,6 +236,27 @@ function questieevt(event)
 
 				SelectQuestLogEntry(v);
 				local count =  GetNumQuestLeaderBoards();
+				
+				local selected = v == sind;
+				
+				local finisher = QuestieFinishers[q]
+
+					
+				if not (finisher == nil) and selected then
+					local monsterdata = QuestieMonsters[finisher];
+					if monsterdata == nil then
+						--DEFAULT_CHAT_FRAME:AddMessage("   ERROR PROCESSINGMON " .. name, 0.95, 0.2, 0.2);
+					else
+						--DEFAULT_CHAT_FRAME:AddMessage("   LOOTED: " .. monsterdata['looted'], 0.2, 0.9, 0.2);
+						--DEFAULT_CHAT_FRAME:AddMessage("   KNOWNLOCS: " .. monsterdata['locationCount'], 0.2, 0.9, 0.2);
+						for b=1,monsterdata['locationCount'] do
+							local loc = monsterdata['locations'][b];
+							if loc[1] == mid then
+								createQuestNote(finisher, "Quest Finisher", q, loc[2], loc[3], 4, selected);
+							end
+						end
+					end
+				end
 				--DEFAULT_CHAT_FRAME:AddMessage(q);
 				--if q == "Bashal'Aran" then
 				--	DEFAULT_CHAT_FRAME:AddMessage("KNOWN QUEST: " .. q .. " " .. count, 0.2, 0.85, 0.2);
@@ -243,24 +264,7 @@ function questieevt(event)
 				for r=1,count do
 					local desc, typ, done = GetQuestLogLeaderBoard(r);
 					--DEFAULT_CHAT_FRAME:AddMessage(desc, 0.95, 0.95, 0.5);
-					local finisher = QuestieFinishers[q]
-					local selected = v == sind;
 					
-					if not (finisher == nil) and selected then
-						local monsterdata = QuestieMonsters[finisher];
-						if monsterdata == nil then
-							--DEFAULT_CHAT_FRAME:AddMessage("   ERROR PROCESSINGMON " .. name, 0.95, 0.2, 0.2);
-						else
-							--DEFAULT_CHAT_FRAME:AddMessage("   LOOTED: " .. monsterdata['looted'], 0.2, 0.9, 0.2);
-							--DEFAULT_CHAT_FRAME:AddMessage("   KNOWNLOCS: " .. monsterdata['locationCount'], 0.2, 0.9, 0.2);
-							for b=1,monsterdata['locationCount'] do
-								local loc = monsterdata['locations'][b];
-								if loc[1] == mid then
-									createQuestNote(finisher, "Quest Finisher", q, loc[2], loc[3], 4, selected);
-								end
-							end
-						end
-					end
 					
 					if not done then
 						
@@ -318,13 +322,13 @@ function nql()
 end
 
 function questieinit()
-	DEFAULT_CHAT_FRAME:AddMessage("init", 0.95, 0.95, 0.5);
+	--DEFAULT_CHAT_FRAME:AddMessage("init", 0.95, 0.95, 0.5);
 	this:RegisterEvent("QUEST_LOG_UPDATE");
 	this:RegisterEvent("ZONE_CHANGED");
-	DEFAULT_CHAT_FRAME:AddMessage("lololpairs", 0.95, 0.95, 0.5);
-	for k,v in pairs(QuestLogFrame) do
-		DEFAULT_CHAT_FRAME:AddMessage(k, 0.95, 0.95, 0.98);
-	end
+	--DEFAULT_CHAT_FRAME:AddMessage("lololpairs", 0.95, 0.95, 0.5);
+	--for k,v in pairs(QuestLogFrame) do
+		--DEFAULT_CHAT_FRAME:AddMessage(k, 0.95, 0.95, 0.98);
+	--end
 	oql = GetQuestLogQuestText;
 	GetQuestLogQuestText = nql;
 	clearAllNotes();
