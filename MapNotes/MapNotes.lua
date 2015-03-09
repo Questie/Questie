@@ -520,6 +520,18 @@ function MapNotes_Quicknote(msg)
 	MapNotes_CreateQuickNote(msg);
 end
 
+function MapNotes_setMiniPoint(id, x, y, key, name, icon)
+	MapNotes_MiniNote_Data.xPos = x;
+	MapNotes_MiniNote_Data.yPos = y;
+	MapNotes_MiniNote_Data.key = key;
+	MapNotes_MiniNote_Data.id = id; -- only shown if the note was written...
+	MapNotes_MiniNote_Data.name = name;
+	MapNotes_MiniNote_Data.color = 0;
+	MapNotes_MiniNote_Data.icon = icon;
+	MiniNotePOITexture:SetTexture(MN_POI_ICONS_PATH.."\\Icon"..icon);
+	MiniNotePOI:Show();
+end
+
 function MapNotes_CreateQuestNote(name, lin, olin, x, y, icon, selected)
 	local fx, fy = GetPlayerMapPosition("player");
 	--if selected then
@@ -597,6 +609,8 @@ function MapNotes_CreateQuestNote(name, lin, olin, x, y, icon, selected)
 			--MapNotes_StatusPrint(MAPNOTES_SETMININOTE);
 		end
 	--end
+	
+	return id, key;
 end
 
 function MapNotes_CreateQuickNote(msg, msg2, shouldMerge)
@@ -2429,6 +2443,8 @@ function MapNotes_DeleteLandMarks()
 	local key = MapNotes_GetMapKey();
 	local currentZone = MapNotes_Data_Notes[key];
 
+	MapNotes_ClearMiniNote(true);
+	
 	for i=MapNotes_GetZoneTableSize(currentZone), 1, -1 do
 		--if ( currentZone[i].creator == "MapNotesLandMark" ) then
 			MapNotes_DeleteNote(i, nil);

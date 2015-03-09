@@ -1,5 +1,48 @@
 DEFAULT_CHAT_FRAME:AddMessage("load", 0.95, 0.95, 0.5);
 
+selectedNotes = {};
+
+function createQuestNote(name, lin, olin, x, y, icon, selected)
+	local id, key = MapNotes_CreateQuestNote(name, lin, olin, x, y, icon, selected)
+	if selected and not (icon == 4) then
+		table.insert(selectedNotes, {
+			['name'] = name,
+			['x'] = x,
+			['y'] = y,
+			['id'] = id,
+			['icon'] = icon,
+			['key'] = key
+		});
+	end
+end
+
+function distance(x, y, px, py)
+	return math.abs(x-px) + math.abs(y-py);
+end
+
+function pickNearestPOI()
+	local fx, fy = GetPlayerMapPosition("player");
+	local least = 8; -- biggest distance possible is 2.0 but oh well
+	local best;
+	for k,v in pairs(selectedNotes) do 
+		local dist = distance(fx, fy, v['x'], v['y']);
+		if dist < least then
+			least = dist;
+			best = v;
+		end
+		--DEFAULT_CHAT_FRAME:AddMessage("pickNearestPOI" .. v['name'], 0.95, 0.95, 0.5);
+	end
+	if not (best == nil) then
+		MapNotes_setMiniPoint(best['id'], best['x'], best['y'], best['key'], best['name'], best['icon']);
+	end
+	--DEFAULT_CHAT_FRAME:AddMessage("pickNearestPOI", 0.95, 0.95, 0.5);
+end
+
+function clearAllNotes()
+	selectedNotes = {}
+	MapNotes_DeleteLandMarks();
+end
+
 function getCurrentMapID()
 
 	-- thanks to mapnotes for this "bug fix"
@@ -39,7 +82,7 @@ objectiveProcessors = {
 					for b=1,itemdata['locationCount'] do
 						local loc = itemdata['locations'][b];
 						if loc[1] == mid then
-							MapNotes_CreateQuestNote(name, quest, "", loc[2], loc[3], 3, selected);
+							createQuestNote(name, quest, "", loc[2], loc[3], 3, selected);
 						end
 					end
 				elseif k == "drop" then
@@ -55,7 +98,7 @@ objectiveProcessors = {
 							for b=1,monsterdata['locationCount'] do
 								local loc = monsterdata['locations'][b];
 								if loc[1] == mid then
-									MapNotes_CreateQuestNote(e, name .. " (" .. amount .. ")", quest, loc[2], loc[3], 0, selected);
+									createQuestNote(e, name .. " (" .. amount .. ")", quest, loc[2], loc[3], 0, selected);
 								end
 							end
 						end
@@ -76,7 +119,7 @@ objectiveProcessors = {
 			for b=1,evtdata['locationCount'] do
 				local loc = evtdata['locations'][b];
 				if loc[1] == mid then
-					MapNotes_CreateQuestNote(name, quest, "", loc[2], loc[3], 8, selected);
+					createQuestNote(name, quest, "", loc[2], loc[3], 8, selected);
 				end
 			end
 		end
@@ -92,7 +135,7 @@ objectiveProcessors = {
 			for b=1,monsterdata['locationCount'] do
 				local loc = monsterdata['locations'][b];
 				if loc[1] == mid then
-					MapNotes_CreateQuestNote(name, amount, quest, loc[2], loc[3], 5, selected);
+					createQuestNote(name, amount, quest, loc[2], loc[3], 5, selected);
 				end
 			end
 		end
@@ -105,7 +148,7 @@ objectiveProcessors = {
 			for b=1,objdata['locationCount'] do
 				local loc = objdata['locations'][b];
 				if loc[1] == mid then
-					MapNotes_CreateQuestNote(name, quest, "", loc[2], loc[3], 9, selected);
+					createQuestNote(name, quest, "", loc[2], loc[3], 9, selected);
 				end
 			end
 		end
@@ -180,7 +223,7 @@ function questieevt(event)
 			throttleOverride = false;
 		end
 		--DEFAULT_CHAT_FRAME:AddMessage(throttle, 0.95, 0.95, 0.5);
-		MapNotes_DeleteLandMarks();
+		clearAllNotes();
 		--DEFAULT_CHAT_FRAME:AddMessage(QuestHelper_StaticData['deDE']['flight_instructors'][1]["Allerias Feste, Wälder von Terokkar"], 0.95, 0.95, 0.5);
 		--DEFAULT_CHAT_FRAME:AddMessage(QuestHelper_StaticData['enUS']['flight_instructors'][1]["Allerian Stronghold, Terokkar Forest"], 0.95, 0.95, 0.5);
 		--DEFAULT_CHAT_FRAME:AddMessage("durp", 0.95, 0.95, 0.5);
@@ -213,7 +256,7 @@ function questieevt(event)
 							for b=1,monsterdata['locationCount'] do
 								local loc = monsterdata['locations'][b];
 								if loc[1] == mid then
-									MapNotes_CreateQuestNote(finisher, "Quest Finisher", q, loc[2], loc[3], 4, selected);
+									createQuestNote(finisher, "Quest Finisher", q, loc[2], loc[3], 4, selected);
 								end
 							end
 						end
@@ -251,11 +294,18 @@ local oql;
 
 local needsUpdate = false;
 
+local lastMinimapUpdate = 0;
+
 function questiepoll()
 	if needsUpdate then
 		needsUpdate = false;
 		throttleOverride = true;
 		questieevt("QUEST_LOG_UPDATE");
+	end
+	local ttl = GetTime() - lastMinimapUpdate;
+	if ttl > 3 then -- 3 seconds
+		pickNearestPOI();
+		lastMinimapUpdate = GetTime();
 	end
 	--DEFAULT_CHAT_FRAME:AddMessage("QUESTTEXT", 0.95, 0.95, 0.5);
 end
@@ -277,7 +327,7 @@ function questieinit()
 	end
 	oql = GetQuestLogQuestText;
 	GetQuestLogQuestText = nql;
-	MapNotes_DeleteLandMarks();
+	clearAllNotes();
 end
 
 
