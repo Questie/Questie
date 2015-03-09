@@ -1,8 +1,8 @@
 ## Interface: 11200
-## Title: MapNotes |c0000FF00(v3.00.20000)|r
+## Title: MapNotes |c0000FF00(Questie Edit)|r
 ## Author: Telic (originally ciphersimian)
 ## eMail: telic@hotmail.co.uk
-## Version: 3.00.20000
+## Version: 3.00.20001
 ## URL: See README for download sites
 ## Notes: Adds a note system to the WorldMap - Other AddOns can also now 'Plug In' and allow notes to be made on their frames eg AlphaMap
 ## Notes-deDE: Ermöglicht es Notizen auf der Karte zu platzieren.
