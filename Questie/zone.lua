@@ -1,4 +1,6 @@
 QuestieZones = {
+  ["Azeroth"] = {-1, -1, -1},
+  ["Kalimdor"] = {-1, -1, -1},
   ["Hinterlands"] = {42, 2, 24}, -- I found the code questhelper used, didnt do enough searching D:
   ["Moonglade"] = {20, 1, 12},
   ["ThousandNeedles"] = {14, 1, 21},
