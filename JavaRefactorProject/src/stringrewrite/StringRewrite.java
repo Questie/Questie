@@ -202,7 +202,12 @@ class LuaObject {
         String tr = "";
         for(int i = 0; i < tier*2; i++)tr += "_";
         if(value != null)System.out.println("Parsed " + tr + name.trim() + " as " + type + data);
-        if(name.equals("event") && type == Type.TABLE){
+        if(name.equals("object") && type == Type.TABLE){
+            ConcurrentHashMap<String, LuaObject> contents = (ConcurrentHashMap<String, LuaObject>) value;
+            for(String s : contents.keySet()){
+                StringRewrite.objects.put(s, contents.get(s));
+            }
+        }else if(name.equals("event") && type == Type.TABLE){
 //            System.out.println(name);
 //            System.exit(-1);
             ConcurrentHashMap<String, LuaObject> contents = (ConcurrentHashMap<String, LuaObject>) value;
@@ -841,8 +846,8 @@ public class StringRewrite {
 //        idbhax.value = itemdb;
 //        idbhax.write(new FileOutputStream("D:\\sitems.lua"), 0, false);
         
-        for(String s : events.keySet()){
-            LuaObject obj = events.get(s);
+        for(String s : objects.keySet()){
+            LuaObject obj = objects.get(s);
             ConcurrentHashMap<String, LuaObject> pardat = (ConcurrentHashMap<String, LuaObject>)obj.value;
             LuaObject refactor = new LuaObject(obj.name, "", 1);
             refactor.type = Type.TABLE;
@@ -911,8 +916,8 @@ public class StringRewrite {
 //        System.exit(0);
         LuaObject mdbhax = new LuaObject("root", "", 0);
         mdbhax.type = Type.TABLE;
-        mdbhax.value = finishers;
-        mdbhax.write(new FileOutputStream("D:\\finishers.lua"), 0, false);
+        mdbhax.value = refactordb;
+        mdbhax.write(new FileOutputStream("D:\\objects.lua"), 0, false);
 //        System.out.println(full);
 //        while((line=r.readLine()) != null){
 //            full += line;
@@ -930,5 +935,7 @@ public class StringRewrite {
     
     static ConcurrentHashMap<String, LuaObject> hashers = new ConcurrentHashMap<String, LuaObject>();
     static ConcurrentHashMap<String, LuaObject> finishers = new ConcurrentHashMap<String, LuaObject>();
+    
+    static ConcurrentHashMap<String, LuaObject> objects = new ConcurrentHashMap<String, LuaObject>();
     
 }
