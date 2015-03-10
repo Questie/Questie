@@ -64,7 +64,7 @@ function getCurrentMapID()
 		DEFAULT_CHAT_FRAME:AddMessage("ERROR: We are in unknown zone " .. file, 0.95, 0.2, 0.2);
 		return -1
 	else
-		return zid
+		return zid[1];
 	end
 end
 
@@ -333,5 +333,3 @@ function questieinit()
 	GetQuestLogQuestText = nql;
 	clearAllNotes();
 end
-
-
