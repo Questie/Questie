@@ -3029,6 +3029,18 @@ QuestieMonsters = {
     ['locationCount'] = 1,
     ['faction'] = 2
   },
+  ['Heal Sentinel Shaya'] = {
+    ['locations'] = {
+      [1] = {24.0, 0.5718, 0.6339, 100.0}
+    },
+    ['locationCount'] = 1
+  },
+  ['Fortify Sentinel Shaya'] = {
+    ['locations'] = {
+      [1] = {24.0, 0.5718, 0.6339, 100.0}
+    },
+    ['locationCount'] = 1
+  },
   ['Heal and fortify Sentinel Shaya'] = {
     ['locations'] = {
       [1] = {24.0, 0.5718, 0.6339, 100.0}
@@ -25904,6 +25916,18 @@ QuestieMonsters = {
     },
     ['looted'] = 1586,
     ['locationCount'] = 4
+  },
+  ['Fortify Mountaineer Dolf'] = {
+    ['locations'] = {
+      [1] = {28.0, 0.4589, 0.5449, 100.0}
+    },
+    ['locationCount'] = 1
+  },
+  ['Heal Mountaineer Dolf'] = {
+    ['locations'] = {
+      [1] = {28.0, 0.4589, 0.5449, 100.0}
+    },
+    ['locationCount'] = 1
   },
   ['Heal and fortify Mountaineer Dolf'] = {
     ['locations'] = {
@@ -51198,6 +51222,18 @@ QuestieMonsters = {
     },
     ['locationCount'] = 1
   },
+  ['Fortify Guard Roberts'] = {
+    ['locations'] = {
+      [1] = {37.0, 0.4806, 0.6799, 100.0}
+    },
+    ['locationCount'] = 1
+  },
+  ['Heal Guard Roberts'] = {
+    ['locations'] = {
+      [1] = {37.0, 0.4806, 0.6799, 100.0}
+    },
+    ['locationCount'] = 1
+  },
   ['Magistrix Fyalenn'] = {
     ['locations'] = {
       [1] = {60.0, 0.4535, 0.8138, 100.0}
@@ -63300,6 +63336,18 @@ QuestieMonsters = {
     },
     ['locationCount'] = 1
   },
+  ['Fortify Grunt Kor\'ja'] = {
+    ['locations'] = {
+      [1] = {7.0, 0.5308, 0.4641, 100.0}
+    },
+    ['locationCount'] = 1
+  },
+  ['Heal Grunt Kor\'ja'] = {
+    ['locations'] = {
+      [1] = {7.0, 0.5308, 0.4641, 100.0}
+    },
+    ['locationCount'] = 1
+  },
   ['Greater Windroc'] = {
     ['locations'] = {
       [1] = {58.0, 0.3078, 0.3337, 100.0},
@@ -67106,6 +67154,18 @@ QuestieMonsters = {
       [1] = {56.0, 0.3377, 0.6208, 100.0}
     },
     ['looted'] = 5372,
+    ['locationCount'] = 1
+  },
+  ['Heal Deathguard Kel'] = {
+    ['locations'] = {
+      [1] = {43.0, 0.5922, 0.4653, 100.0}
+    },
+    ['locationCount'] = 1
+  },
+  ['Fortify Deathguard Kel'] = {
+    ['locations'] = {
+      [1] = {43.0, 0.5922, 0.4653, 100.0}
+    },
     ['locationCount'] = 1
   },
   ['Heal and fortify Deathguard Kel'] = {

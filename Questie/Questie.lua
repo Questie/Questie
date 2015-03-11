@@ -107,9 +107,6 @@ objectiveProcessors = {
 			end
 		end
 	end,
-	['fish'] = function(quest, name, amount, selected, mid)
-		--DEFAULT_CHAT_FRAME:AddMessage("herp", 0.95, 0.95, 0.5);
-	end,
 	['event'] = function(quest, name, amount, selected, mid)
 		local evtdata = QuestieEvents[name]
 		if evtdata == nil then
@@ -171,7 +168,6 @@ function processObjective(quest, desc, typ, selected, mid)
 	
 	if not (ref == nil) then
 		--DEFAULT_CHAT_FRAME:AddMessage("HANDLED TYPE: " .. typ .. " for quest " .. quest, 0.2, 0.95, 0.95);
-		--- super ugly code time
 		if typ == "item" or typ == "monster" then
 			local indx = findLast(desc, ":");
 			--DEFAULT_CHAT_FRAME:AddMessage(indx, 0.95, 0.95, 0.5);
@@ -181,17 +177,6 @@ function processObjective(quest, desc, typ, selected, mid)
 		else
 			ref(quest, desc, "", selected, mid);
 		end
-		--DEFAULT_CHAT_FRAME:AddMessage(countstr, 0.95, 0.95, 0.5);
-		--DEFAULT_CHAT_FRAME:AddMessage(namestr, 0.95, 0.95, 0.5);
-		--for v=string:len(desc),1 do
-		--	DEFAULT_CHAT_FRAME:AddMessage(v, 0.95, 0.95, 0.5);
-		--end
-		--for k,v in pairs(desc) do
-		--	DEFAULT_CHAT_FRAME:AddMessage(k, 0.95, 0.95, 0.5);
-		--	DEFAULT_CHAT_FRAME:AddMessage(v, 0.95, 0.95, 0.5);
-		--end
-		--DEFAULT_CHAT_FRAME:AddMessage(indx, 0.95, 0.95, 0.5);
-		
 	else
 		DEFAULT_CHAT_FRAME:AddMessage("ERROR: UNHALDNED TYPE: " .. typ .. " \"" .. desc .. "\" for quest " .. quest, 0.95, 0.2, 0.2);
 	end
@@ -224,12 +209,8 @@ function questieevt(event)
 		end
 		--DEFAULT_CHAT_FRAME:AddMessage(throttle, 0.95, 0.95, 0.5);
 		clearAllNotes();
-		--DEFAULT_CHAT_FRAME:AddMessage(QuestHelper_StaticData['deDE']['flight_instructors'][1]["Allerias Feste, Wälder von Terokkar"], 0.95, 0.95, 0.5);
-		--DEFAULT_CHAT_FRAME:AddMessage(QuestHelper_StaticData['enUS']['flight_instructors'][1]["Allerian Stronghold, Terokkar Forest"], 0.95, 0.95, 0.5);
-		--DEFAULT_CHAT_FRAME:AddMessage("durp", 0.95, 0.95, 0.5);
 		local numEntries, numQuests = GetNumQuestLogEntries()
 		--DEFAULT_CHAT_FRAME:AddMessage(numEntries .. " entries containing " .. numQuests .. " quests in your quest log.");
-		--GetQuestLogTitle
 		for v=1,numEntries do
 			local q = GetQuestLogTitle(v);
 			if not (getQuestHashByName(q) == nil) then
@@ -258,9 +239,6 @@ function questieevt(event)
 					end
 				end
 				--DEFAULT_CHAT_FRAME:AddMessage(q);
-				--if q == "Bashal'Aran" then
-				--	DEFAULT_CHAT_FRAME:AddMessage("KNOWN QUEST: " .. q .. " " .. count, 0.2, 0.85, 0.2);
-				--end 
 				for r=1,count do
 					local desc, typ, done = GetQuestLogLeaderBoard(r);
 					--DEFAULT_CHAT_FRAME:AddMessage(desc, 0.95, 0.95, 0.5);
@@ -286,8 +264,6 @@ function questieevt(event)
 		end
 		SelectQuestLogEntry(sind);
 	end
-	
-	--objectiveProcessors['item']();
 end
 
 function fank()
@@ -325,10 +301,6 @@ function questieinit()
 	--DEFAULT_CHAT_FRAME:AddMessage("init", 0.95, 0.95, 0.5);
 	this:RegisterEvent("QUEST_LOG_UPDATE");
 	this:RegisterEvent("ZONE_CHANGED");
-	--DEFAULT_CHAT_FRAME:AddMessage("lololpairs", 0.95, 0.95, 0.5);
-	--for k,v in pairs(QuestLogFrame) do
-		--DEFAULT_CHAT_FRAME:AddMessage(k, 0.95, 0.95, 0.98);
-	--end
 	oql = GetQuestLogQuestText;
 	GetQuestLogQuestText = nql;
 	clearAllNotes();

@@ -545,70 +545,53 @@ function MapNotes_CreateQuestNote(name, lin, olin, x, y, icon, selected)
 	local currentZone = MapNotes_Data_Notes[key];
 	local checknote = MapNotes_CheckNearNotes(key, x, y);
 
-	--if ( ( checknote ) and ( shouldMerge ) ) then
-	--	MapNotes_Merge(key, checknote, msg, msg2);
-	--	return;
-	--end
+	local id = 0;
+	if msg ~= "" and msg ~= nil then
+		local icheck = strsub(msg, 1, 2);
+		if icheck == "0 " or icheck == "1 " or icheck == "2 " or icheck == "3 " or icheck == "4 " or icheck == "5 " or icheck == "6 " or icheck == "7 " or icheck == "8 " or icheck == "9 " then
+			icon = strsub(msg, 1, 1)+0;
+			msg = strsub(msg, 3);
+		end
 
-	--if ( checknote ) then
-	--	MapNotes_StatusPrint(format(MAPNOTES_QUICKNOTE_NOTETONEAR,
-	--				   MapNotes_Data_Notes[key][checknote].name ) );
-
-	--elseif ( ( x == 0 ) and ( y == 0 ) ) then
-	--	MapNotes_StatusPrint(MAPNOTES_QUICKNOTE_NOPOSITION);
-
-	--else
-		local id = 0;
-		--local icon = 0;
 		if msg ~= "" and msg ~= nil then
-			local icheck = strsub(msg, 1, 2);
-			if icheck == "0 " or icheck == "1 " or icheck == "2 " or icheck == "3 " or
-					icheck == "4 " or icheck == "5 " or icheck == "6 " or icheck == "7 " or
-					icheck == "8 " or icheck == "9 " then
-				icon = strsub(msg, 1, 1)+0;
-				msg = strsub(msg, 3);
-			end
+			name = strsub(msg, 1, 80);
+		end
+	end
 
-			if msg ~= "" and msg ~= nil then
-				name = strsub(msg, 1, 80);
-			end
-		end
+	if ( not msg2 ) then
+		msg2 = "";
+	end
 
-		if ( not msg2 ) then
-			msg2 = "";
-		end
-
-		if MapNotes_SetNextAsMiniNote ~= 2 then
-			local i = MapNotes_GetZoneTableSize(currentZone);
-			MapNotes_TempData_Id = i + 1;
-			currentZone[MapNotes_TempData_Id] = {};
-			currentZone[MapNotes_TempData_Id].name = name;
-			currentZone[MapNotes_TempData_Id].ncol = 8;
-			currentZone[MapNotes_TempData_Id].inf1 = lin;
-			currentZone[MapNotes_TempData_Id].in1c = 4;
-			currentZone[MapNotes_TempData_Id].inf2 = olin;
-			currentZone[MapNotes_TempData_Id].in2c = 0;
-			currentZone[MapNotes_TempData_Id].creator = "Questie";
-			currentZone[MapNotes_TempData_Id].icon = icon;
-			currentZone[MapNotes_TempData_Id].xPos = x;
-			currentZone[MapNotes_TempData_Id].yPos = y;
-			id = MapNotes_TempData_Id;
-			--MapNotes_StatusPrint(format(MAPNOTES_QUICKNOTE_OK, GetRealZoneText()));
-		end
-		if (MapNotes_SetNextAsMiniNote ~= 0) or selected then
-			MapNotes_MiniNote_Data.xPos = x;
-			MapNotes_MiniNote_Data.yPos = y;
-			MapNotes_MiniNote_Data.key = key;
-			MapNotes_MiniNote_Data.id = id; -- only shown if the note was written...
-			MapNotes_MiniNote_Data.name = name;
-			MapNotes_MiniNote_Data.color = 0;
-			MapNotes_MiniNote_Data.icon = icon;
-			MiniNotePOITexture:SetTexture(MN_POI_ICONS_PATH.."\\Icon"..icon);
-			MiniNotePOI:Show();
-			MapNotes_SetNextAsMiniNote = 0;
-			--MapNotes_StatusPrint(MAPNOTES_SETMININOTE);
-		end
-	--end
+	if MapNotes_SetNextAsMiniNote ~= 2 then
+		local i = MapNotes_GetZoneTableSize(currentZone);
+		MapNotes_TempData_Id = i + 1;
+		currentZone[MapNotes_TempData_Id] = {};
+		currentZone[MapNotes_TempData_Id].name = name;
+		currentZone[MapNotes_TempData_Id].ncol = 8;
+		currentZone[MapNotes_TempData_Id].inf1 = lin;
+		currentZone[MapNotes_TempData_Id].in1c = 4;
+		currentZone[MapNotes_TempData_Id].inf2 = olin;
+		currentZone[MapNotes_TempData_Id].in2c = 0;
+		currentZone[MapNotes_TempData_Id].creator = "Questie";
+		currentZone[MapNotes_TempData_Id].icon = icon;
+		currentZone[MapNotes_TempData_Id].xPos = x;
+		currentZone[MapNotes_TempData_Id].yPos = y;
+		id = MapNotes_TempData_Id;
+		--MapNotes_StatusPrint(format(MAPNOTES_QUICKNOTE_OK, GetRealZoneText()));
+	end
+	if (MapNotes_SetNextAsMiniNote ~= 0) or selected then
+		MapNotes_MiniNote_Data.xPos = x;
+		MapNotes_MiniNote_Data.yPos = y;
+		MapNotes_MiniNote_Data.key = key;
+		MapNotes_MiniNote_Data.id = id; -- only shown if the note was written...
+		MapNotes_MiniNote_Data.name = name;
+		MapNotes_MiniNote_Data.color = 0;
+		MapNotes_MiniNote_Data.icon = icon;
+		MiniNotePOITexture:SetTexture(MN_POI_ICONS_PATH.."\\Icon"..icon);
+		MiniNotePOI:Show();
+		MapNotes_SetNextAsMiniNote = 0;
+		--MapNotes_StatusPrint(MAPNOTES_SETMININOTE);
+	end
 	
 	return id, key;
 end
