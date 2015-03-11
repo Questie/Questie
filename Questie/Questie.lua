@@ -138,7 +138,7 @@ objectiveProcessors = {
 		end
 	end,
 	['object'] = function(quest, name, amount, selected, mid)
-		local objdata = QuestObjects[name];
+		local objdata = QuestieObjects[name];
 		if objdata == nil then
 			-- error message 
 		else
