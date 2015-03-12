@@ -3,7 +3,9 @@ DEFAULT_CHAT_FRAME:AddMessage("load", 0.95, 0.95, 0.5);
 selectedNotes = {};
 
 function createQuestNote(name, lin, olin, x, y, icon, selected)
-	local id, key = MapNotes_CreateQuestNote(name, lin, olin, x, y, icon, selected)
+	--local id, key = MapNotes_CreateQuestNote(name, lin, olin, x, y, icon, selected)
+	--DEFAULT_CHAT_FRAME:AddMessage(icon)
+	local id, key = Cartographer_Notes:SetNote(Cartographer:GetCurrentEnglishZoneName(), x, y, "Star", "Questie", "info", lin, "info2", olin, "title", name)
 	if selected and not (icon == 4) then
 		table.insert(selectedNotes, {
 			['name'] = name,
@@ -33,14 +35,14 @@ function pickNearestPOI()
 		--DEFAULT_CHAT_FRAME:AddMessage("pickNearestPOI" .. v['name'], 0.95, 0.95, 0.5);
 	end
 	if not (best == nil) then
-		MapNotes_setMiniPoint(best['id'], best['x'], best['y'], best['key'], best['name'], best['icon']);
+		--MapNotes_setMiniPoint(best['id'], best['x'], best['y'], best['key'], best['name'], best['icon']);
 	end
 	--DEFAULT_CHAT_FRAME:AddMessage("pickNearestPOI", 0.95, 0.95, 0.5);
 end
 
 function clearAllNotes()
 	selectedNotes = {}
-	MapNotes_DeleteLandMarks();
+	Cartographer_Notes:ClearMap();
 end
 
 function getCurrentMapID()
