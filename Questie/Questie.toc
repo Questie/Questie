@@ -1,8 +1,8 @@
 ## Interface: 11200
-## Title: Questie v0.8
+## Title: Questie v0.9
 ## Author: Aero/Scamp/everyone else
 ## Notes: An attempt to import the QuestHelper database into vanilla
-## Version: 0.8
+## Version: 0.9
 ## RequiredDeps:
 ## OptionalDeps: 
 ## SavedVariables: QuestieDAT
