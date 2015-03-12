@@ -1,0 +1,884 @@
+------------------------------------------------------------------------
+r19124 | ckknight | 2006-12-05 04:20:10 -0500 (Tue, 05 Dec 2006) | 1 line
+
+Cartographer-Battlegrounds - now can properly switch from an instance to a battleground.
+------------------------------------------------------------------------
+r19040 | kergoth | 2006-12-04 22:10:18 -0500 (Mon, 04 Dec 2006) | 1 line
+
+Cartographer: Fix invalid syntax... there was a '+' at the beginning of line one of InstanceNotes/module.lua.  Please at least check syntax with luac before checking in :P
+------------------------------------------------------------------------
+r19029 | ckknight | 2006-12-04 21:14:08 -0500 (Mon, 04 Dec 2006) | 1 line
+
+Cartographer-InstanceNotes - changed up IsAddOnEnabled
+------------------------------------------------------------------------
+r19012 | ckknight | 2006-12-04 17:53:17 -0500 (Mon, 04 Dec 2006) | 1 line
+
+Cartographer-InstanceNotes - disables the addon Cartographer_InstanceNotes when logging on now.
+------------------------------------------------------------------------
+r18730 | ckknight | 2006-12-03 12:16:55 -0500 (Sun, 03 Dec 2006) | 1 line
+
+Cartographer - no longer does lua51 checks, changes to use ...
+------------------------------------------------------------------------
+r18701 | ckknight | 2006-12-03 04:55:33 -0500 (Sun, 03 Dec 2006) | 3 lines
+
+Cartographer-Notes -
+:IterateNearbyNotes(zone, x, y, radius, creator [, max_notes]) => :IterateNearbyNotes(zone, x, y [, radius] [, creator] [, max_notes])
+:GetNearbyNote(zone, x, y, radius, creator) => :GetNearbyNote(zone, x, y [, radius] [, creator])
+------------------------------------------------------------------------
+r18700 | ckknight | 2006-12-03 04:48:46 -0500 (Sun, 03 Dec 2006) | 2 lines
+
+Cartographer-Notes - :IterateNearbyNotes now iterates in order, from closest to furthest away.
+Added argument `max_notes` to :IterateNearbyNotes
+------------------------------------------------------------------------
+r18649 | ckknight | 2006-12-02 20:07:36 -0500 (Sat, 02 Dec 2006) | 1 line
+
+Cartographer-Notes - added warning about whispering.
+------------------------------------------------------------------------
+r18647 | ckknight | 2006-12-02 20:01:06 -0500 (Sat, 02 Dec 2006) | 1 line
+
+Cartographer-Notes - now says "from Party" instead of "from Raid".
+------------------------------------------------------------------------
+r18640 | ckknight | 2006-12-02 17:55:35 -0500 (Sat, 02 Dec 2006) | 1 line
+
+Cartographer-Notes - bugfixing in :GetNearbyNote
+------------------------------------------------------------------------
+r18625 | ckknight | 2006-12-02 08:13:35 -0500 (Sat, 02 Dec 2006) | 2 lines
+
+Cartographer - now the value in Cartographer.date is the greatest value of all its modules.
+
+------------------------------------------------------------------------
+r18624 | ckknight | 2006-12-02 08:07:22 -0500 (Sat, 02 Dec 2006) | 1 line
+
+Cartographer - now the value in Cartographer.version is the greatest value of all its modules.
+------------------------------------------------------------------------
+r18619 | ckknight | 2006-12-02 07:39:01 -0500 (Sat, 02 Dec 2006) | 1 line
+
+Cartographer-Notes - changed comm scheme. Now sends the note table, which makes it essentially future-proof.
+------------------------------------------------------------------------
+r18589 | ckknight | 2006-12-02 00:24:35 -0500 (Sat, 02 Dec 2006) | 1 line
+
+Cartographer-LookNFeel - pressing alt when locked makes the map temporarily unlocked.
+------------------------------------------------------------------------
+r18544 | ckknight | 2006-12-01 09:28:59 -0500 (Fri, 01 Dec 2006) | 1 line
+
+Cartographer-Notes - fixed `do' error.
+------------------------------------------------------------------------
+r18540 | ckknight | 2006-12-01 09:09:29 -0500 (Fri, 01 Dec 2006) | 1 line
+
+Cartographer-Notes - added :GetNearbyNote(zone, x, y, radius, creator)
+------------------------------------------------------------------------
+r18537 | ckknight | 2006-12-01 08:57:14 -0500 (Fri, 01 Dec 2006) | 1 line
+
+Cartographer-Notes - removed debug line
+------------------------------------------------------------------------
+r18536 | ckknight | 2006-12-01 08:35:53 -0500 (Fri, 01 Dec 2006) | 1 line
+
+Cartographer-Notes - fixed infinite loop
+------------------------------------------------------------------------
+r18534 | ckknight | 2006-12-01 07:39:39 -0500 (Fri, 01 Dec 2006) | 1 line
+
+Cartographer-Notes - should fix :IterateNearbyNotes
+------------------------------------------------------------------------
+r18525 | ckknight | 2006-12-01 05:21:42 -0500 (Fri, 01 Dec 2006) | 1 line
+
+Cartographer-Notes - added :IterateNearbyNotes(zone, x, y, radius, creator)
+------------------------------------------------------------------------
+r18517 | sayclub | 2006-12-01 04:43:18 -0500 (Fri, 01 Dec 2006) | 1 line
+
+Cartographer - Update locals koKR
+------------------------------------------------------------------------
+r18512 | ckknight | 2006-12-01 03:23:38 -0500 (Fri, 01 Dec 2006) | 1 line
+
+Cartographer-Notes - fixed Notes:1708 bad arg to pairs, got nil or string
+------------------------------------------------------------------------
+r18488 | ckknight | 2006-12-01 00:02:33 -0500 (Fri, 01 Dec 2006) | 1 line
+
+Cartographer-Notes - os.date => date
+------------------------------------------------------------------------
+r18454 | ckknight | 2006-11-30 19:17:59 -0500 (Thu, 30 Nov 2006) | 4 lines
+
+Cartographer-Notes -
+removed :SetNote
+renamed :SetCustomNote to :SetNote
+
+------------------------------------------------------------------------
+r18415 | ckknight | 2006-11-30 05:33:18 -0500 (Thu, 30 Nov 2006) | 1 line
+
+Cartographer-Notes - added options "Show note creator" and "Icon size"
+------------------------------------------------------------------------
+r18400 | ckknight | 2006-11-29 19:34:36 -0500 (Wed, 29 Nov 2006) | 1 line
+
+Cartographer-LookNFeel - renamed "Large player POI" to "Large player arrow"
+------------------------------------------------------------------------
+r18265 | sayclub | 2006-11-28 10:21:00 -0500 (Tue, 28 Nov 2006) | 1 line
+
+Cartographer - Update locals koKR
+------------------------------------------------------------------------
+r18255 | sayclub | 2006-11-28 06:49:58 -0500 (Tue, 28 Nov 2006) | 1 line
+
+Cartographer - Update locals koKR
+------------------------------------------------------------------------
+r18254 | ckknight | 2006-11-28 06:39:49 -0500 (Tue, 28 Nov 2006) | 1 line
+
+Cartographer-LookNFeel - added option to make the player POI 1.5x larger (on by default)
+------------------------------------------------------------------------
+r18253 | ckknight | 2006-11-28 06:39:24 -0500 (Tue, 28 Nov 2006) | 1 line
+
+Cartographer-Battlegrounds - bugfix from last commit
+------------------------------------------------------------------------
+r18251 | ckknight | 2006-11-28 06:15:16 -0500 (Tue, 28 Nov 2006) | 1 line
+
+Cartographer-Battlegrounds - should fix bug when switching between zones
+------------------------------------------------------------------------
+r18249 | ckknight | 2006-11-28 06:04:22 -0500 (Tue, 28 Nov 2006) | 1 line
+
+Cartographer-LookNFeel - For battlegrounds, outer parts of the map are not seen as overlay, but the inner parts are.
+------------------------------------------------------------------------
+r18245 | ckknight | 2006-11-28 04:51:11 -0500 (Tue, 28 Nov 2006) | 1 line
+
+Cartographer-Foglight - added Alterac Valley - Frostwolf Keep
+------------------------------------------------------------------------
+r18240 | sayclub | 2006-11-28 03:01:33 -0500 (Tue, 28 Nov 2006) | 1 line
+
+Cartographer - Update locals koKR
+------------------------------------------------------------------------
+r18237 | ckknight | 2006-11-28 00:36:58 -0500 (Tue, 28 Nov 2006) | 1 line
+
+Cartographer - added support for Eye of the Storm
+------------------------------------------------------------------------
+r18234 | ckknight | 2006-11-28 00:17:46 -0500 (Tue, 28 Nov 2006) | 1 line
+
+Cartographer-Notes - minor bugfixes
+------------------------------------------------------------------------
+r18227 | ckknight | 2006-11-27 23:04:52 -0500 (Mon, 27 Nov 2006) | 1 line
+
+Cartographer-Notes - now accepts localized zones in :SetNote and :SetCustomNote, to make things easier for modules.
+------------------------------------------------------------------------
+r18226 | ckknight | 2006-11-27 22:55:10 -0500 (Mon, 27 Nov 2006) | 1 line
+
+Cartographer-Notes - added alpha setting to registered icons.
+------------------------------------------------------------------------
+r18225 | ckknight | 2006-11-27 22:45:52 -0500 (Mon, 27 Nov 2006) | 3 lines
+
+Cartographer - added Battlegrounds module, which lets you view Battlegrounds outside of the zone.
+Cartographer-Notes - now allows notes for Battlegrounds.
+
+------------------------------------------------------------------------
+r18174 | ckknight | 2006-11-27 08:15:29 -0500 (Mon, 27 Nov 2006) | 6 lines
+
+Cartographer-Notes - Comm messages are now more streamlined and don't send default values.
+Added :SendNoteToGroup("zone", x, y)
+Added :SendNoteToParty("zone", x, y)
+Added :SendNoteToRaid("zone", x, y)
+Added :SendNoteToGuild("zone", x, y)
+Added :SendNoteToPlayer("zone", x, y, "player")
+------------------------------------------------------------------------
+r18164 | ckknight | 2006-11-27 04:39:15 -0500 (Mon, 27 Nov 2006) | 1 line
+
+Cartographer-Notes - Custom Icon => Custom icon
+------------------------------------------------------------------------
+r18157 | ckknight | 2006-11-27 01:38:17 -0500 (Mon, 27 Nov 2006) | 2 lines
+
+Cartographer-Notes - databases now don't save default values in external dbs and it transparently converts between data-as-icon and data-as-table.
+Added method :EnableDeveloping("database"), which allows the user to edit database pois, move database pois, and create new database pois.
+------------------------------------------------------------------------
+r18093 | kemayo | 2006-11-26 06:33:58 -0500 (Sun, 26 Nov 2006) | 1 line
+
+Cartographer (Notes): Fix 1205 compare number to boolean.
+------------------------------------------------------------------------
+r18069 | ckknight | 2006-11-25 19:40:48 -0500 (Sat, 25 Nov 2006) | 1 line
+
+Cartographer-Notes - now uses banker's rounding instead of asymmetric rounding.
+------------------------------------------------------------------------
+r18052 | nymbia | 2006-11-25 07:07:03 -0500 (Sat, 25 Nov 2006) | 2 lines
+
+Cartographer:
+- Stripped '["x"] = ...' and '["y"] = ...' from InstanceNotes -- redundant data, since the location is stored in the index.
+------------------------------------------------------------------------
+r18044 | sayclub | 2006-11-25 03:27:55 -0500 (Sat, 25 Nov 2006) | 1 line
+
+Cartographer - Update locals koKR
+------------------------------------------------------------------------
+r18043 | ckknight | 2006-11-25 03:11:02 -0500 (Sat, 25 Nov 2006) | 1 line
+
+Cartographer-LookNFeel - better handling of label hiding.
+------------------------------------------------------------------------
+r18042 | ckknight | 2006-11-25 03:01:53 -0500 (Sat, 25 Nov 2006) | 1 line
+
+Cartographer-LookNFeel - now properly shows the World Map Label on game-made POIs.
+------------------------------------------------------------------------
+r18041 | ckknight | 2006-11-25 02:56:38 -0500 (Sat, 25 Nov 2006) | 1 line
+
+Cartographer-Foglight - now shows the color picker even when the map is open
+------------------------------------------------------------------------
+r18040 | ckknight | 2006-11-25 02:55:38 -0500 (Sat, 25 Nov 2006) | 1 line
+
+Cartographer-InstanceNotes - fixed "Toggle" => "Active"
+------------------------------------------------------------------------
+r18037 | ckknight | 2006-11-25 02:42:42 -0500 (Sat, 25 Nov 2006) | 2 lines
+
+Cartographer - changed "Toggle" to "Active" in menu.
+All modules now have a proper description.
+------------------------------------------------------------------------
+r18025 | ckknight | 2006-11-24 23:51:43 -0500 (Fri, 24 Nov 2006) | 4 lines
+
+Cartographer-Notes - renamed events:
+CartographerNotes_DeleteNote => CartographerNotes_NoteDeleted
+CartographerNotes_SetNote - CartographerNotes_NoteSet
+
+------------------------------------------------------------------------
+r18024 | ckknight | 2006-11-24 23:48:43 -0500 (Fri, 24 Nov 2006) | 3 lines
+
+Cartographer-Notes - added events:
+CartographerNotes_DeleteNote - "zone", x, y, "icon" [, "db"]
+CartographerNotes_SetNote - "zone", x, y, "icon" [, "db"]
+------------------------------------------------------------------------
+r18020 | ckknight | 2006-11-24 23:23:58 -0500 (Fri, 24 Nov 2006) | 1 line
+
+Cartographer-Notes - fix bug at line 291
+------------------------------------------------------------------------
+r18018 | ckknight | 2006-11-24 23:17:07 -0500 (Fri, 24 Nov 2006) | 1 line
+
+Cartographer-Notes - refreshing while disabled clears the map.
+------------------------------------------------------------------------
+r18005 | ckknight | 2006-11-24 21:36:48 -0500 (Fri, 24 Nov 2006) | 1 line
+
+Cartographer - renamed RaidColorsArtwork to GroupColorsArtwork
+------------------------------------------------------------------------
+r17999 | ckknight | 2006-11-24 20:51:41 -0500 (Fri, 24 Nov 2006) | 1 line
+
+Cartographer-LookNFeel - now called Look 'n' Feel instead of Look n' Feel
+------------------------------------------------------------------------
+r17983 | kergoth | 2006-11-24 16:29:15 -0500 (Fri, 24 Nov 2006) | 1 line
+
+Cartographer: Add Babble-Spell to the .toc.
+------------------------------------------------------------------------
+r17982 | kergoth | 2006-11-24 16:21:45 -0500 (Fri, 24 Nov 2006) | 1 line
+
+Cartographer: update externals.. Professions module uses Babble-Spell to obtain the reverse translation of the names of the skills you have, to load the LoD addons.
+------------------------------------------------------------------------
+r17947 | ckknight | 2006-11-24 07:34:26 -0500 (Fri, 24 Nov 2006) | 1 line
+
+Cartographer-Notes - icons that start with Interface\Icons\ now have the edges chopped off.
+------------------------------------------------------------------------
+r17945 | ckknight | 2006-11-24 07:24:29 -0500 (Fri, 24 Nov 2006) | 1 line
+
+Cartographer-Notes - :RefreshMap() now forces a refresh whereas :RefreshMap(false) doesn't.
+------------------------------------------------------------------------
+r17933 | ckknight | 2006-11-24 06:47:34 -0500 (Fri, 24 Nov 2006) | 2 lines
+
+Cartographer-Notes - optimizations, bugfix
+Added handler `:IsNoteHidden(zone, id)`
+------------------------------------------------------------------------
+r17926 | ckknight | 2006-11-24 06:31:11 -0500 (Fri, 24 Nov 2006) | 1 line
+
+Cartographer-Notes - added ability for icons to be the data in and of itself in the DB. (all nice and transparent)
+------------------------------------------------------------------------
+r17923 | kergoth | 2006-11-24 06:24:28 -0500 (Fri, 24 Nov 2006) | 1 line
+
+Cartographer: Profs module: fix the acelocale version.
+------------------------------------------------------------------------
+r17922 | sayclub | 2006-11-24 06:08:43 -0500 (Fri, 24 Nov 2006) | 1 line
+
+Cartographer - Update locals koKR
+------------------------------------------------------------------------
+r17920 | kergoth | 2006-11-24 05:55:20 -0500 (Fri, 24 Nov 2006) | 1 line
+
+Cartographer: Professions module: ensure than the contents of the X-Cartographer-Prof field is always the base translation (english), so that there are not issues with the LoD loading in other locales.  Please test.
+------------------------------------------------------------------------
+r17917 | kergoth | 2006-11-24 05:28:12 -0500 (Fri, 24 Nov 2006) | 1 line
+
+Cartographer: Just switch professions.lua's indentation to hard tabs, since recent commits resulted in an ungodly combination of tab/space indentation, and the rest of the cart codebase uses hard tabs anyway.
+------------------------------------------------------------------------
+r17916 | ckknight | 2006-11-24 05:10:41 -0500 (Fri, 24 Nov 2006) | 1 line
+
+Cartographer-Professions - bugfixing
+------------------------------------------------------------------------
+r17914 | ckknight | 2006-11-24 05:02:00 -0500 (Fri, 24 Nov 2006) | 1 line
+
+Cartographer-Notes - no longer uses .x and .y in the db, instead calculates from the ID.
+------------------------------------------------------------------------
+r17913 | ckknight | 2006-11-24 04:48:15 -0500 (Fri, 24 Nov 2006) | 1 line
+
+Cartographer-GroupColors - typo
+------------------------------------------------------------------------
+r17912 | ckknight | 2006-11-24 04:32:21 -0500 (Fri, 24 Nov 2006) | 1 line
+
+Cartographer - renamed RaidColors to GroupColors
+------------------------------------------------------------------------
+r17911 | ckknight | 2006-11-24 04:24:23 -0500 (Fri, 24 Nov 2006) | 1 line
+
+Cartographer - renamed MapUnhider to Foglight
+------------------------------------------------------------------------
+r17910 | ckknight | 2006-11-24 04:18:34 -0500 (Fri, 24 Nov 2006) | 1 line
+
+Cartographer-LookNFeel - fixed the lua51-ism CloseSpecialWindows
+------------------------------------------------------------------------
+r17908 | sayclub | 2006-11-24 03:28:22 -0500 (Fri, 24 Nov 2006) | 1 line
+
+Cartographer - Update locals koKR
+------------------------------------------------------------------------
+r17902 | kergoth | 2006-11-24 02:36:05 -0500 (Fri, 24 Nov 2006) | 1 line
+
+Cartographer: rename the professions LoD loader module.
+------------------------------------------------------------------------
+r17901 | ckknight | 2006-11-24 02:26:59 -0500 (Fri, 24 Nov 2006) | 1 line
+
+Cartographer - tweaked some strings so ZoneInfo => Zone Info and such.
+------------------------------------------------------------------------
+r17900 | ckknight | 2006-11-24 02:19:54 -0500 (Fri, 24 Nov 2006) | 1 line
+
+Cartographer - renamed AlphaScale to Look n' Feel
+------------------------------------------------------------------------
+r17899 | ckknight | 2006-11-24 02:01:09 -0500 (Fri, 24 Nov 2006) | 1 line
+
+Cartographer-AlphaScale - bugfix
+------------------------------------------------------------------------
+r17898 | ckknight | 2006-11-24 01:58:08 -0500 (Fri, 24 Nov 2006) | 1 line
+
+Cartographer-AlphaScale - added a "Close with escape" option, on by default.
+------------------------------------------------------------------------
+r17897 | kergoth | 2006-11-24 01:56:58 -0500 (Fri, 24 Nov 2006) | 1 line
+
+Cartographer: PinPoint module: localize the only 2 strings that might need it.
+------------------------------------------------------------------------
+r17894 | kergoth | 2006-11-24 01:42:58 -0500 (Fri, 24 Nov 2006) | 1 line
+
+Cartographer: add PinPoint module, which loads LoD cart modules for the professions you have.
+------------------------------------------------------------------------
+r17888 | ckknight | 2006-11-24 01:11:55 -0500 (Fri, 24 Nov 2006) | 1 line
+
+Cartographer-Notes - for icon registrations, renamed hidden to showToUser (and reversed the effect)
+------------------------------------------------------------------------
+r17886 | ckknight | 2006-11-24 01:05:22 -0500 (Fri, 24 Nov 2006) | 2 lines
+
+Cartographer-Notes - added :RegisterIcon("name", data) and :UnregisterIcon("name")
+icons now can have a width or height assigned to them.
+------------------------------------------------------------------------
+r17865 | ckknight | 2006-11-23 22:03:02 -0500 (Thu, 23 Nov 2006) | 1 line
+
+Cartographer-RaidColors - bugfix at line 89
+------------------------------------------------------------------------
+r17840 | ckknight | 2006-11-23 05:55:06 -0500 (Thu, 23 Nov 2006) | 1 line
+
+Cartographer-InstanceNotes - changed a whole bunch of L["Lvl XX Elite YYY"] into format strings, so now there's L["Lvl %s Elite %s"] and whatnot.
+------------------------------------------------------------------------
+r17839 | ckknight | 2006-11-23 05:42:26 -0500 (Thu, 23 Nov 2006) | 1 line
+
+Cartographer-InstanceNotes - removed all the creator lines, as they are now unnecessary.
+------------------------------------------------------------------------
+r17837 | ckknight | 2006-11-23 05:10:38 -0500 (Thu, 23 Nov 2006) | 1 line
+
+Cartographer-ZoneInfo - random fixes
+------------------------------------------------------------------------
+r17836 | ckknight | 2006-11-23 04:44:02 -0500 (Thu, 23 Nov 2006) | 3 lines
+
+Cartographer-AlphaScale - moved to HIGH instead of MEDIUM
+Cartographer-Notes - .creator is no longer needed for external databases.
+added :SetCustomNote(zone, x, y, "icon", "creator", ...) - ... is key-value pairs a la Dewdrop, "creator" must be an external database that overrides OnNoteMenuRequest and OnNoteTooltipRequest
+------------------------------------------------------------------------
+r17832 | sayclub | 2006-11-23 03:41:54 -0500 (Thu, 23 Nov 2006) | 1 line
+
+Cartographer -  fix locals koKR
+------------------------------------------------------------------------
+r17813 | ckknight | 2006-11-22 22:33:37 -0500 (Wed, 22 Nov 2006) | 2 lines
+
+Cartographer - added events Cartographer_MapClosed and Cartographer_MapOpened.
+Dewdrop menu now properly closes when map is closed.
+------------------------------------------------------------------------
+r17807 | ckknight | 2006-11-22 21:26:53 -0500 (Wed, 22 Nov 2006) | 1 line
+
+Cartographer - make sure not to overwrite the key binding if already exists.
+------------------------------------------------------------------------
+r17806 | ckknight | 2006-11-22 21:24:18 -0500 (Wed, 22 Nov 2006) | 1 line
+
+Cartographer - ALT-M will now open the map and switch between the Default and Alternate profiles.
+------------------------------------------------------------------------
+r17789 | ckknight | 2006-11-22 19:05:32 -0500 (Wed, 22 Nov 2006) | 2 lines
+
+Cartographer-AlphaScale - made sure lock only does something when active.
+Also note: frame strata is now MEDIUM instead of DIALOG
+------------------------------------------------------------------------
+r17788 | ckknight | 2006-11-22 18:58:13 -0500 (Wed, 22 Nov 2006) | 1 line
+
+Cartographer-AlphaScale - no longer uses escape to close the map, but now you can have other things open while it's open as well.
+------------------------------------------------------------------------
+r17785 | ckknight | 2006-11-22 18:20:27 -0500 (Wed, 22 Nov 2006) | 1 line
+
+Cartographer-AlphaScale - magnifying glass now gets locked
+------------------------------------------------------------------------
+r17784 | ckknight | 2006-11-22 18:16:15 -0500 (Wed, 22 Nov 2006) | 1 line
+
+Cartographer-AlphaScale - added in a locked option.
+------------------------------------------------------------------------
+r17739 | ckknight | 2006-11-22 07:27:13 -0500 (Wed, 22 Nov 2006) | 1 line
+
+Cartographer-RaidColors - added artwork.
+------------------------------------------------------------------------
+r17730 | sayclub | 2006-11-22 02:59:45 -0500 (Wed, 22 Nov 2006) | 1 line
+
+Cartographer - Update locals koKR
+------------------------------------------------------------------------
+r17729 | ckknight | 2006-11-22 02:27:06 -0500 (Wed, 22 Nov 2006) | 1 line
+
+Cartographer - added RaidColors - note: needs textures (basically 8 textures black on white circle with a number in the middle, plus a single white circle, should go in RaidColorsArtwork\\Group1-8 and RaidColorsArtwork\\Normal)
+------------------------------------------------------------------------
+r17728 | ckknight | 2006-11-22 00:57:10 -0500 (Wed, 22 Nov 2006) | 2 lines
+
+Cartographer - added a "Go to GetRealZoneText()" deal to the go to menu.
+Cartographer-InstanceMaps - hooks SetMapToCurrentZone to go to an instance if it's available.
+------------------------------------------------------------------------
+r17726 | ckknight | 2006-11-22 00:39:55 -0500 (Wed, 22 Nov 2006) | 1 line
+
+Cartographer-InstanceMaps - hide go to submenu if inactive.
+------------------------------------------------------------------------
+r17725 | ckknight | 2006-11-22 00:36:58 -0500 (Wed, 22 Nov 2006) | 1 line
+
+Cartographer - fix button positions when AlphaMap isn't available
+------------------------------------------------------------------------
+r17646 | nymbia | 2006-11-21 09:11:16 -0500 (Tue, 21 Nov 2006) | 2 lines
+
+Cartographer:
+- Implemented BabbleBoss in instance notes.
+------------------------------------------------------------------------
+r17634 | sayclub | 2006-11-21 08:31:40 -0500 (Tue, 21 Nov 2006) | 1 line
+
+Cartographer - Update locals koKR
+------------------------------------------------------------------------
+r17633 | ckknight | 2006-11-21 08:31:10 -0500 (Tue, 21 Nov 2006) | 1 line
+
+Cartographer - added Tablet to the toc.
+------------------------------------------------------------------------
+r17628 | ckknight | 2006-11-21 08:14:10 -0500 (Tue, 21 Nov 2006) | 1 line
+
+Cartographer-InstanceMaps/InstanceNotes - Temple of Ahn'Qiraj properly changed to Ahn'Qiraj
+------------------------------------------------------------------------
+r17627 | ckknight | 2006-11-21 08:11:38 -0500 (Tue, 21 Nov 2006) | 3 lines
+
+Cartographer - Go to button now says "Azeroth" or "Cosmic map", depending.
+Blizzard's dropdowns no longer show.
+Go to and Cartographer buttons moved around
+------------------------------------------------------------------------
+r17623 | ckknight | 2006-11-21 07:50:31 -0500 (Tue, 21 Nov 2006) | 1 line
+
+Cartographer - added event "Cartographer_ChangeZone" - ("zone", "localizedZone")
+------------------------------------------------------------------------
+r17620 | ckknight | 2006-11-21 07:07:39 -0500 (Tue, 21 Nov 2006) | 1 line
+
+Cartographer - split the "Go to" menu from the standard Cartographer menu.
+------------------------------------------------------------------------
+r17618 | ckknight | 2006-11-21 06:36:15 -0500 (Tue, 21 Nov 2006) | 1 line
+
+Cartographer-InstanceMaps - properly handle instance nilling when map closes
+------------------------------------------------------------------------
+r17616 | ckknight | 2006-11-21 06:25:57 -0500 (Tue, 21 Nov 2006) | 1 line
+
+Cartographer-Notes - now can override the click, menu, and tooltip of a note, if you register a database with it. Just provide a handler table with zero or more of the methods: :OnNoteClick(zone, id), :OnNoteMenuRequest(zone, id, level [, value, level2, level3, level4]), and :OnNoteTooltipRequest(zone, id)
+------------------------------------------------------------------------
+r17615 | ckknight | 2006-11-21 06:00:27 -0500 (Tue, 21 Nov 2006) | 1 line
+
+Cartographer-Notes - close Tablet when opening Dewdrop
+------------------------------------------------------------------------
+r17614 | ckknight | 2006-11-21 05:57:04 -0500 (Tue, 21 Nov 2006) | 1 line
+
+Cartographer - added Tablet-2.0 external
+------------------------------------------------------------------------
+r17613 | ckknight | 2006-11-21 05:48:03 -0500 (Tue, 21 Nov 2006) | 1 line
+
+Cartographer-Notes - now uses Tablet instead of WorldMapTooltip.
+------------------------------------------------------------------------
+r17609 | ckknight | 2006-11-21 04:36:43 -0500 (Tue, 21 Nov 2006) | 1 line
+
+Cartographer-AlphaScale - made WorldMapTooltip a higher framelevel
+------------------------------------------------------------------------
+r17604 | damjau | 2006-11-21 04:08:03 -0500 (Tue, 21 Nov 2006) | 2 lines
+
+Cartographer - 
+update koKR local
+------------------------------------------------------------------------
+r17599 | nymbia | 2006-11-21 03:11:35 -0500 (Tue, 21 Nov 2006) | 2 lines
+
+Cartographer:
+- Added BabbleBoss external and to toc. (it's only used in the koKR InstanceNotes, and it's questionable if we want to load it instead of just putting the direct translations in the koKR.lua file.  still -- added for now to fix errors.)
+------------------------------------------------------------------------
+r17598 | fenlis | 2006-11-21 02:25:32 -0500 (Tue, 21 Nov 2006) | 4 lines
+
+Cartographer : 
+ - Fixed locals typo (wander->Wander)
+ - Update locals koKR
+
+------------------------------------------------------------------------
+r17597 | fenlis | 2006-11-21 01:01:19 -0500 (Tue, 21 Nov 2006) | 1 line
+
+Cartographer : Fixed locals (WIng->Wing)
+------------------------------------------------------------------------
+r17596 | fenlis | 2006-11-21 00:53:41 -0500 (Tue, 21 Nov 2006) | 1 line
+
+Cartographer : Update locals koKR (sort)
+------------------------------------------------------------------------
+r17576 | kergoth | 2006-11-20 20:07:32 -0500 (Mon, 20 Nov 2006) | 1 line
+
+Cartographer: InstanceNotes module: kill the duplicates in the localization file, and sort them.
+------------------------------------------------------------------------
+r17570 | fenlis | 2006-11-20 17:24:17 -0500 (Mon, 20 Nov 2006) | 1 line
+
+Cartographer : Update locals koKR
+------------------------------------------------------------------------
+r17553 | fenlis | 2006-11-20 12:16:46 -0500 (Mon, 20 Nov 2006) | 1 line
+
+Cartographer : Update locals koKR
+------------------------------------------------------------------------
+r17546 | fenlis | 2006-11-20 07:35:57 -0500 (Mon, 20 Nov 2006) | 1 line
+
+Cartographer : Update locals koKR
+------------------------------------------------------------------------
+r17529 | sayclub | 2006-11-20 02:58:01 -0500 (Mon, 20 Nov 2006) | 1 line
+
+Cartographer - Update koKR
+------------------------------------------------------------------------
+r17503 | kergoth | 2006-11-19 21:29:54 -0500 (Sun, 19 Nov 2006) | 1 line
+
+Cartographer: InstanceNotes: use the square quest npc icon for the roughshod pike and the mosh'aru tablets in LBRS.
+------------------------------------------------------------------------
+r17499 | kergoth | 2006-11-19 21:12:11 -0500 (Sun, 19 Nov 2006) | 1 line
+
+Cartographer: In RegisterNotesDatabase, don't try to ShowNote() each of the notes unless the world map frame is visible.  This should fix the errors people have been seeing on login, as ShowNote() expects GetCurrentEnglishZoneName() to return a valid zone name, which it will not until the map has been refreshed at least once.
+------------------------------------------------------------------------
+r17495 | kergoth | 2006-11-19 19:50:45 -0500 (Sun, 19 Nov 2006) | 1 line
+
+Cartographer: Just in case module creation affects initialization order, load instancenotes after notes.
+------------------------------------------------------------------------
+r17493 | kergoth | 2006-11-19 19:33:41 -0500 (Sun, 19 Nov 2006) | 1 line
+
+Cartographer: Add InstanceNotes, no longer need the seperate addon.  Fixed the random errors people have been seeing (Cart changed some instance names and we needed to update our supplied db).  Adjusted the symbols used in the LBRS map per nymbia's conventions.
+------------------------------------------------------------------------
+r17389 | sayclub | 2006-11-18 13:28:36 -0500 (Sat, 18 Nov 2006) | 1 line
+
+Cartographer - update locals for koKR
+------------------------------------------------------------------------
+r17230 | sayclub | 2006-11-17 03:41:00 -0500 (Fri, 17 Nov 2006) | 1 line
+
+Cartographer - Update koKR
+------------------------------------------------------------------------
+r17227 | ckknight | 2006-11-17 01:59:46 -0500 (Fri, 17 Nov 2006) | 1 line
+
+Cartographer - added Go to menu, much cleaner imho than Blizzard's. Blizzard's may be hidden later due to this.
+------------------------------------------------------------------------
+r17222 | ckknight | 2006-11-17 01:21:01 -0500 (Fri, 17 Nov 2006) | 1 line
+
+Cartographer-Notes - fixed a bug in communication.
+------------------------------------------------------------------------
+r17220 | ckknight | 2006-11-17 01:08:32 -0500 (Fri, 17 Nov 2006) | 1 line
+
+Cartographer-Notes - fixed issue with notes not showing up.
+------------------------------------------------------------------------
+r17215 | ckknight | 2006-11-17 00:41:43 -0500 (Fri, 17 Nov 2006) | 1 line
+
+Cartographer - hides the zoom out button and replaces it with the Cartographer button now.
+------------------------------------------------------------------------
+r17214 | ckknight | 2006-11-17 00:32:56 -0500 (Fri, 17 Nov 2006) | 1 line
+
+Cartographer-InstanceMaps - fixed weird scaling bug with instances.
+------------------------------------------------------------------------
+r17156 | ckknight | 2006-11-16 05:17:55 -0500 (Thu, 16 Nov 2006) | 1 line
+
+Cartographer-Notes - added more available colors, tweaked current colors to look better.
+------------------------------------------------------------------------
+r17145 | ckknight | 2006-11-16 01:16:51 -0500 (Thu, 16 Nov 2006) | 1 line
+
+Cartographer-Notes - now accepts full paths as icons.
+------------------------------------------------------------------------
+r17144 | ckknight | 2006-11-16 00:52:15 -0500 (Thu, 16 Nov 2006) | 4 lines
+
+Cartographer-Notes - now supports external notes databases. 
+Added :RegisterNotesDatabase("name", db)
+Added :UnregisterNotesDatabase("name")
+When adding a note, if the creator is the same as the assigned database's name, it will be attached to that database.
+------------------------------------------------------------------------
+r17124 | ckknight | 2006-11-15 20:04:25 -0500 (Wed, 15 Nov 2006) | 1 line
+
+Cartographer-InstanceMaps - makes the instance texture not resize oddly, which also fixes the notes bug.
+------------------------------------------------------------------------
+r16951 | ckknight | 2006-11-14 05:47:12 -0500 (Tue, 14 Nov 2006) | 1 line
+
+Cartographer-AlphaScale - fixed many issues with overlay transparency.
+------------------------------------------------------------------------
+r16949 | fenlis | 2006-11-14 03:49:55 -0500 (Tue, 14 Nov 2006) | 1 line
+
+Cartographer : Fix locals koKR
+------------------------------------------------------------------------
+r16947 | sayclub | 2006-11-14 03:22:50 -0500 (Tue, 14 Nov 2006) | 1 line
+
+Cartographer - Update koKR
+------------------------------------------------------------------------
+r16942 | sayclub | 2006-11-14 02:01:40 -0500 (Tue, 14 Nov 2006) | 1 line
+
+Cartographer - Update koKR
+------------------------------------------------------------------------
+r16938 | ckknight | 2006-11-14 01:20:30 -0500 (Tue, 14 Nov 2006) | 1 line
+
+Cartographer-AlphaScale - added Overlay transparency
+------------------------------------------------------------------------
+r16934 | ckknight | 2006-11-14 00:33:24 -0500 (Tue, 14 Nov 2006) | 1 line
+
+Cartographer-Notes - changed ID algorithm. My previous one accounted for every single integer, making the domain twice as large as it needed to be with a known range.
+------------------------------------------------------------------------
+r16928 | ckknight | 2006-11-13 23:52:07 -0500 (Mon, 13 Nov 2006) | 1 line
+
+Cartographer-Notes - make sure not to show notes when disabled
+------------------------------------------------------------------------
+r16924 | ckknight | 2006-11-13 22:51:21 -0500 (Mon, 13 Nov 2006) | 1 line
+
+Cartographer-InstanceMaps - fixed possible bug in :ShowInstance
+------------------------------------------------------------------------
+r16914 | ckknight | 2006-11-13 19:20:00 -0500 (Mon, 13 Nov 2006) | 1 line
+
+Cartographer-InstanceMaps - fixed `this` bug.
+------------------------------------------------------------------------
+r16913 | ckknight | 2006-11-13 19:17:10 -0500 (Mon, 13 Nov 2006) | 1 line
+
+Cartographer-Notes - fixed bug at line 183
+------------------------------------------------------------------------
+r16847 | ckknight | 2006-11-13 10:06:22 -0500 (Mon, 13 Nov 2006) | 1 line
+
+Cartographer-InstanceMaps - fixed WoW 1.12 issues.
+------------------------------------------------------------------------
+r16845 | ckknight | 2006-11-13 09:40:10 -0500 (Mon, 13 Nov 2006) | 1 line
+
+Cartographer-InstanceMaps - typo
+------------------------------------------------------------------------
+r16843 | ckknight | 2006-11-13 09:36:42 -0500 (Mon, 13 Nov 2006) | 1 line
+
+Cartographer-InstanceMaps - fixed a WoW-2.0-ism
+------------------------------------------------------------------------
+r16842 | ckknight | 2006-11-13 09:32:20 -0500 (Mon, 13 Nov 2006) | 1 line
+
+Cartographer-Notes - only manual POIs can now be moved by alt-clicking.
+------------------------------------------------------------------------
+r16840 | ckknight | 2006-11-13 09:13:43 -0500 (Mon, 13 Nov 2006) | 4 lines
+
+Cartographer-Instances - initial import.
+API methods added to Cartographer base to streamline things and keep things modular.
+Notes made to work with the new instance stuff.
+ZoneInfo made to work with the new instance stuff.
+------------------------------------------------------------------------
+r16832 | ckknight | 2006-11-13 05:12:20 -0500 (Mon, 13 Nov 2006) | 1 line
+
+Cartographer-Notes - added manual boolean to nodes, that if not set, prevents the user from editing (still can delete it, though).
+------------------------------------------------------------------------
+r16831 | ckknight | 2006-11-13 05:01:30 -0500 (Mon, 13 Nov 2006) | 1 line
+
+Cartographer-Notes - changed some internal methods around, added a whole bunch of argChecks, in anticipation that others will use its API.
+------------------------------------------------------------------------
+r16827 | ckknight | 2006-11-13 03:44:44 -0500 (Mon, 13 Nov 2006) | 1 line
+
+Cartographer-Notes - messages now say where the note comes from (Guild, Raid, Party, Whisper)
+------------------------------------------------------------------------
+r16826 | ckknight | 2006-11-13 02:55:16 -0500 (Mon, 13 Nov 2006) | 5 lines
+
+Cartographer-Notes -
+Now has non-random ids, but generates ids based on x/y position.
+Now tells the user if someone sends a note. Notes are accepted if there is not a note in the same position or if the creator of the note is the same, otherwise, it warns the user.
+Zones are now stored as the proper English zone name (determined by Babble-Zone-2.2) instead of the return from GetMapInfo().
+Unknown icons now show as the question mark on the map.
+------------------------------------------------------------------------
+r16816 | sayclub | 2006-11-13 00:42:16 -0500 (Mon, 13 Nov 2006) | 1 line
+
+Cartographer - AlphaScale, Notes Update koKR
+------------------------------------------------------------------------
+r16815 | ckknight | 2006-11-13 00:39:01 -0500 (Mon, 13 Nov 2006) | 1 line
+
+Cartographer-Notes - now handles coordinates from [0,1] instead of [0, 100]. Also, sends them as integers [0, 1000] across the comm stream, for efficiency's sake.
+------------------------------------------------------------------------
+r16812 | ckknight | 2006-11-12 23:48:19 -0500 (Sun, 12 Nov 2006) | 1 line
+
+Cartographer-AlphaScale - Shift-MouseWheel now changes transparency. Ctrl-MouseWheel now changes scale.
+------------------------------------------------------------------------
+r16811 | ckknight | 2006-11-12 23:43:28 -0500 (Sun, 12 Nov 2006) | 1 line
+
+Cartographer - added Cartographer:AddToMagnifyingGlass("text") and Cartographer:RemoveFromMagnifyingGlass("text"), which adds and removes lines from the top-left box of the world map, that says Right-click to zoom out and such.
+------------------------------------------------------------------------
+r16809 | ckknight | 2006-11-12 23:18:27 -0500 (Sun, 12 Nov 2006) | 1 line
+
+Cartographer - updated Notes and Coordinates to use a more optimized algorithm for positions.
+------------------------------------------------------------------------
+r16807 | ckknight | 2006-11-12 22:51:51 -0500 (Sun, 12 Nov 2006) | 1 line
+
+Cartographer-Notes - fixed bug at line 1082
+------------------------------------------------------------------------
+r16430 | ckknight | 2006-11-09 01:08:38 -0500 (Thu, 09 Nov 2006) | 1 line
+
+Cartographer-Notes - icons can now have a hidden setting, which would not let the user declare new icons manually. This will be handy for ores, herbs, etc. or other icons made by addons.
+------------------------------------------------------------------------
+r16428 | ckknight | 2006-11-09 00:53:02 -0500 (Thu, 09 Nov 2006) | 1 line
+
+Cartographer-Notes - now can send notes to other players using AceComm. Icons are now handled by strings. All zones and icon names are memoized by AceComm.
+------------------------------------------------------------------------
+r16386 | ckknight | 2006-11-08 18:23:19 -0500 (Wed, 08 Nov 2006) | 1 line
+
+Cartographer-Notes - fixed issue with vanilla WoWers. Editing notes is now fixed.
+------------------------------------------------------------------------
+r16310 | ckknight | 2006-11-08 02:25:58 -0500 (Wed, 08 Nov 2006) | 1 line
+
+Cartographer-Notes - now you can place notes on party/raid members. Bet no other mapnotes addon can do that. shazzam!
+------------------------------------------------------------------------
+r16308 | ckknight | 2006-11-08 02:14:19 -0500 (Wed, 08 Nov 2006) | 1 line
+
+Cartographer-Notes - getting rid of the fake player button, knowing that it was wholly unnecessary.
+------------------------------------------------------------------------
+r16307 | ckknight | 2006-11-08 02:07:45 -0500 (Wed, 08 Nov 2006) | 1 line
+
+Cartographer-MapUnhider - added errata data for all the new expansion zones.
+------------------------------------------------------------------------
+r16304 | sayclub | 2006-11-08 01:47:14 -0500 (Wed, 08 Nov 2006) | 1 line
+
+Cartographer - Update koKR
+------------------------------------------------------------------------
+r16303 | ckknight | 2006-11-08 01:40:38 -0500 (Wed, 08 Nov 2006) | 1 line
+
+Cartographer-AlphaScale - added :GetRealTooltipScale()
+------------------------------------------------------------------------
+r16302 | ckknight | 2006-11-08 01:35:13 -0500 (Wed, 08 Nov 2006) | 1 line
+
+Cartographer-Notes - added a fake player button, which allows notes to be created on the player POI.
+------------------------------------------------------------------------
+r16301 | ckknight | 2006-11-08 01:24:53 -0500 (Wed, 08 Nov 2006) | 1 line
+
+Cartographer-AlphaScale - added in tooltip scale, which is independent of the world map scale.
+------------------------------------------------------------------------
+r16299 | sayclub | 2006-11-08 01:07:26 -0500 (Wed, 08 Nov 2006) | 1 line
+
+Cartographer - Update koKR
+------------------------------------------------------------------------
+r16275 | ckknight | 2006-11-07 20:33:34 -0500 (Tue, 07 Nov 2006) | 1 line
+
+Cartographer - MapUnhider: added ThalassiaPass to Ghostlands
+------------------------------------------------------------------------
+r16190 | ckknight | 2006-11-06 22:25:02 -0500 (Mon, 06 Nov 2006) | 1 line
+
+Cartographer - Notes: removing old `self[id] = frame` line
+------------------------------------------------------------------------
+r16189 | ckknight | 2006-11-06 22:18:50 -0500 (Mon, 06 Nov 2006) | 1 line
+
+Cartographer - Notes: fixed `self` issues
+------------------------------------------------------------------------
+r16123 | ckknight | 2006-11-06 06:43:43 -0500 (Mon, 06 Nov 2006) | 2 lines
+
+Cartographer - added more errata data to MapUnhider.
+Added better defaults to Notes.
+------------------------------------------------------------------------
+r16109 | ckknight | 2006-11-06 04:22:56 -0500 (Mon, 06 Nov 2006) | 1 line
+
+Cartographer - modules now react properly to profile changes and enabling/disabling.
+------------------------------------------------------------------------
+r16098 | nymbia | 2006-11-06 03:34:48 -0500 (Mon, 06 Nov 2006) | 2 lines
+
+Cartographer:
+- Sneaky.  Fixed Externals, for real this time.
+------------------------------------------------------------------------
+r16097 | nymbia | 2006-11-06 03:13:01 -0500 (Mon, 06 Nov 2006) | 2 lines
+
+Cartographer:
+- Fixed toc references to BabbleZone.
+------------------------------------------------------------------------
+r16096 | nymbia | 2006-11-06 03:06:33 -0500 (Mon, 06 Nov 2006) | 2 lines
+
+Cartographer:
+- Fixed BabbleZone external
+------------------------------------------------------------------------
+r16095 | ckknight | 2006-11-06 02:48:38 -0500 (Mon, 06 Nov 2006) | 1 line
+
+Cartographer - added ZoneInfo module, fixed externals
+------------------------------------------------------------------------
+r16093 | sayclub | 2006-11-06 02:21:27 -0500 (Mon, 06 Nov 2006) | 1 line
+
+Cartographer - Update koKR (UTF-8)
+------------------------------------------------------------------------
+r16092 | sayclub | 2006-11-06 02:10:02 -0500 (Mon, 06 Nov 2006) | 1 line
+
+Cartographer - Update koKR
+------------------------------------------------------------------------
+r16091 | ckknight | 2006-11-06 02:03:49 -0500 (Mon, 06 Nov 2006) | 3 lines
+
+Cartographer - changed localizations around a bit.
+MapUnhider: changed default dark color to pure white.
+Coordinates: initial import, adds coordinates to the bottom of your world map.
+------------------------------------------------------------------------
+r16090 | sayclub | 2006-11-06 02:01:26 -0500 (Mon, 06 Nov 2006) | 1 line
+
+Cartographer - AceModuleCore-2.0, Dewdrop-2.0 add
+------------------------------------------------------------------------
+r16088 | ckknight | 2006-11-06 01:28:28 -0500 (Mon, 06 Nov 2006) | 1 line
+
+Cartographer - Notes - change the message in the topleft
+------------------------------------------------------------------------
+r16086 | ckknight | 2006-11-06 01:16:21 -0500 (Mon, 06 Nov 2006) | 1 line
+
+Cartographer - Notes - fixed missing " in koKR
+------------------------------------------------------------------------
+r16085 | ckknight | 2006-11-06 01:13:15 -0500 (Mon, 06 Nov 2006) | 1 line
+
+Cartographer - Notes - added ability to edit/delete POIs.
+------------------------------------------------------------------------
+r16079 | sayclub | 2006-11-06 00:45:27 -0500 (Mon, 06 Nov 2006) | 1 line
+
+Cartographer - Update koKR
+------------------------------------------------------------------------
+r16075 | ckknight | 2006-11-06 00:22:36 -0500 (Mon, 06 Nov 2006) | 2 lines
+
+Cartographer - Notes - tabbing now works in new POI dialog.
+now no longer lets you drag a POI past the edge of the world map.
+------------------------------------------------------------------------
+r16074 | ckknight | 2006-11-06 00:07:33 -0500 (Mon, 06 Nov 2006) | 1 line
+
+Cartographer - added Notes module.
+------------------------------------------------------------------------
+r15892 | ckknight | 2006-11-04 00:37:34 -0500 (Sat, 04 Nov 2006) | 1 line
+
+Cartographer - made MapUnhider's default dark color less pukish.
+------------------------------------------------------------------------
+r15880 | ckknight | 2006-11-03 23:35:38 -0500 (Fri, 03 Nov 2006) | 1 line
+
+Cartographer - removed debug line in AlphaScale
+------------------------------------------------------------------------
+r15837 | sayclub | 2006-11-03 15:55:21 -0500 (Fri, 03 Nov 2006) | 2 lines
+
+Cartographer - correct my miss typing
+
+------------------------------------------------------------------------
+r15834 | sayclub | 2006-11-03 14:58:24 -0500 (Fri, 03 Nov 2006) | 1 line
+
+Cartographer - Update koKR
+------------------------------------------------------------------------
+r15821 | ckknight | 2006-11-03 10:47:49 -0500 (Fri, 03 Nov 2006) | 1 line
+
+Cartographer - removed needless AceConsole-2.0 dependency from AlphaScale
+------------------------------------------------------------------------
+r15818 | ckknight | 2006-11-03 10:29:00 -0500 (Fri, 03 Nov 2006) | 2 lines
+
+Cartographer - added MapUnhider
+- ripped off of Unexplorer and MozzFullWorldMap, but with many CPU and memory optimizations.
+------------------------------------------------------------------------
+r15808 | ckknight | 2006-11-03 07:28:40 -0500 (Fri, 03 Nov 2006) | 1 line
+
+Cartographer - makes sure toggling of AlphaScale doesn't make things all screwy.
+------------------------------------------------------------------------
+r15807 | ckknight | 2006-11-03 07:22:54 -0500 (Fri, 03 Nov 2006) | 3 lines
+
+Cartographer - modularized!
+Also, fixed issues with the AlphaScale module.
+Removed slash command, just use the button in the worldmap.
+------------------------------------------------------------------------
+r15601 | sayclub | 2006-10-31 02:11:39 -0500 (Tue, 31 Oct 2006) | 2 lines
+
+Cartographer - Update koKR
+
+------------------------------------------------------------------------
+r15535 | ckknight | 2006-10-30 09:02:14 -0500 (Mon, 30 Oct 2006) | 1 line
+
+Cartographer - added externals, keywords
+------------------------------------------------------------------------
+r15534 | ckknight | 2006-10-30 08:56:33 -0500 (Mon, 30 Oct 2006) | 1 line
+
+Cartographer - initial import
+------------------------------------------------------------------------

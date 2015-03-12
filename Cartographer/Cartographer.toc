@@ -1,0 +1,46 @@
+## Interface: 11200
+## Notes: Addon to manipulate the map
+## Title: Cartographer |cff7fff7f -Ace2-|r
+## Title-koKR: |CFFFF0000C|CFFFFFFFFartographer |cff7fff7f -Ace2-|r
+## Author: ckknight
+## DefaultState: enabled
+## LoadOnDemand: 0
+## SavedVariables: CartographerDB
+## OptionalDeps: Ace2, Babble-2.2, DewdropLib, TabletLib, TouristLib
+## X-Category: Map
+## X-eMail: ckknight@gmail.com
+## X-Website: http://ckknight.wowinterface.com/
+## Version: 2.0
+
+Libs\AceLibrary\AceLibrary.lua
+Libs\AceOO-2.0\AceOO-2.0.lua
+Libs\AceEvent-2.0\AceEvent-2.0.lua
+Libs\AceAddon-2.0\AceAddon-2.0.lua
+Libs\AceDB-2.0\AceDB-2.0.lua
+Libs\AceHook-2.1\AceHook-2.1.lua
+Libs\AceLocale-2.2\AceLocale-2.2.lua
+Libs\AceComm-2.0\AceComm-2.0.lua
+Libs\AceConsole-2.0\AceConsole-2.0.lua
+Libs\AceModuleCore-2.0\AceModuleCore-2.0.lua
+Libs\Dewdrop-2.0\Dewdrop-2.0.lua
+Libs\Babble-Zone-2.2\Babble-Zone-2.2.lua
+Libs\Babble-Boss-2.2\Babble-Boss-2.2.lua
+Libs\Babble-Spell-2.2\Babble-Spell-2.2.lua
+Libs\Tablet-2.0\Tablet-2.0.lua
+Libs\Tourist-2.0\Tourist-2.0.lua
+
+Cartographer.lua
+
+Modules\Battlegrounds.lua
+Modules\Coordinates.lua
+Modules\Foglight.lua
+Modules\GroupColors.lua
+Modules\InstanceMaps.lua
+Modules\LookNFeel.lua
+Modules\Notes.lua
+Modules\Professions.lua
+Modules\ZoneInfo.lua
+Modules\InstanceNotes\enUS.lua
+Modules\InstanceNotes\koKR.lua
+Modules\InstanceNotes\module.lua
+Modules\InstanceNotes\notes.lua
