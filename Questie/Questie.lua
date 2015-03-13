@@ -22,6 +22,18 @@ function distance(x, y, px, py)
 	return math.abs(x-px) + math.abs(y-py);
 end
 
+function addMonsterToMap(monsterName, info, quest, icon, mapid, selected)
+	local monsterdata = QuestieMonsters[monsterName];
+	if not (monsterdata == nil) then
+		for b=1,monsterdata['locationCount'] do -- this should be made more efficient (monsterdata[mapid][locations] etc
+			local loc = monsterdata['locations'][b];
+			if loc[1] == mapid then
+				createQuestNote(monsterName, info, quest, loc[2], loc[3], icon, selected);
+			end
+		end
+	end
+end
+
 function pickNearestPOI()
 	local fx, fy = GetPlayerMapPosition("player");
 	local least = 8; -- biggest distance possible is 2.0 but oh well
@@ -91,19 +103,8 @@ objectiveProcessors = {
 					for e,r in pairs(v) do
 						--DEFAULT_CHAT_FRAME:AddMessage(e .. " drops " .. name .. " for " .. quest, 0.95, 0.95, 0.5);
 						--local monsterdata = QuestRoot['QuestHelper_StaticData']['enUS']['objective']['monster'][e];
-						local monsterdata = QuestieMonsters[e];
-						if monsterdata == nil then
-							--DEFAULT_CHAT_FRAME:AddMessage("   ERROR PROCESSING " .. e, 0.95, 0.2, 0.2);
-						else
-							--DEFAULT_CHAT_FRAME:AddMessage("   LOOTED: " .. monsterdata['looted'], 0.2, 0.9, 0.2);
-							--DEFAULT_CHAT_FRAME:AddMessage("   KNOWNLOCS: " .. monsterdata['locationCount'], 0.2, 0.9, 0.2);
-							for b=1,monsterdata['locationCount'] do
-								local loc = monsterdata['locations'][b];
-								if loc[1] == mid then
-									createQuestNote(e, name .. " (" .. amount .. ")", quest, loc[2], loc[3], 0, selected);
-								end
-							end
-						end
+						--addMonsterToMap(monsterName, info, quest, selected)
+						addMonsterToMap(e, name .. " (" .. amount .. ")", quest, 0, mid, selected);
 					end
 				end
 			end
@@ -125,19 +126,7 @@ objectiveProcessors = {
 	end,
 	['monster'] = function(quest, name, amount, selected, mid)
 		--DEFAULT_CHAT_FRAME:AddMessage("   MONMON: " .. quest .. ", " .. name .. ", " .. amount, 0.95, 0.2, 0.2);
-		local monsterdata = QuestieMonsters[name];
-		if monsterdata == nil then
-			--DEFAULT_CHAT_FRAME:AddMessage("   ERROR PROCESSINGMON " .. name, 0.95, 0.2, 0.2);
-		else
-			--DEFAULT_CHAT_FRAME:AddMessage("   LOOTED: " .. monsterdata['looted'], 0.2, 0.9, 0.2);
-			--DEFAULT_CHAT_FRAME:AddMessage("   KNOWNLOCS: " .. monsterdata['locationCount'], 0.2, 0.9, 0.2);
-			for b=1,monsterdata['locationCount'] do
-				local loc = monsterdata['locations'][b];
-				if loc[1] == mid then
-					createQuestNote(name, amount, quest, loc[2], loc[3], 5, selected);
-				end
-			end
-		end
+		addMonsterToMap(name, amount, quest, 5, mid, selected);
 	end,
 	['object'] = function(quest, name, amount, selected, mid)
 		local objdata = QuestieObjects[name];
@@ -222,23 +211,14 @@ function questieevt(event)
 				
 				local selected = v == sind;
 				
-				local finisher = QuestieFinishers[q]
+				local finisher = QuestieFinishers[q];
+				
+				local questComplete = true; -- there might be something in the api for this
 
 					
-				if not (finisher == nil) and selected then
-					local monsterdata = QuestieMonsters[finisher];
-					if monsterdata == nil then
-						--DEFAULT_CHAT_FRAME:AddMessage("   ERROR PROCESSINGMON " .. name, 0.95, 0.2, 0.2);
-					else
-						--DEFAULT_CHAT_FRAME:AddMessage("   LOOTED: " .. monsterdata['looted'], 0.2, 0.9, 0.2);
-						--DEFAULT_CHAT_FRAME:AddMessage("   KNOWNLOCS: " .. monsterdata['locationCount'], 0.2, 0.9, 0.2);
-						for b=1,monsterdata['locationCount'] do
-							local loc = monsterdata['locations'][b];
-							if loc[1] == mid then
-								createQuestNote(finisher, "Quest Finisher", q, loc[2], loc[3], 4, selected);
-							end
-						end
-					end
+				if not (finisher == nil) and (count == 0) then
+					addMonsterToMap(finisher, "Quest Finisher", q, 4, mid, selected);
+					questComplete = false; -- questComplete is used to add the finisher, this avoids adding it twice
 				end
 				--DEFAULT_CHAT_FRAME:AddMessage(q);
 				for r=1,count do
@@ -247,7 +227,7 @@ function questieevt(event)
 					
 					
 					if not done then
-						
+						questComplete = false;
 						if selected then
 							--DEFAULT_CHAT_FRAME:AddMessage("SELECTED " .. q, 0.95, 0.1, 0.95);
 						else
@@ -258,6 +238,9 @@ function questieevt(event)
 					---DEFAULT_CHAT_FRAME:AddMessage(typ, 0.95, 0.95, 0.5);
 					---DEFAULT_CHAT_FRAME:AddMessage(done, 0.95, 0.95, 0.5);
 					
+				end
+				if not (finisher == nil) and questComplete then
+					addMonsterToMap(finisher, "Quest Finisher", q, 4, mid, selected);
 				end
 				--DEFAULT_CHAT_FRAME:AddMessage(hash);
 			else
