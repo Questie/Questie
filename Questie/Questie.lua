@@ -220,10 +220,12 @@ function questieevt(event)
 				
 				local selected = v == sind;
 				
-				local finisher = QuestieFinishers[q]
+				local finisher = QuestieFinishers[q];
+				
+				local questComplete = true; -- there might be something in the api for this
 
 					
-				if not (finisher == nil) and selected then
+				if not (finisher == nil) and (selected or (count == 0)) then
 					local monsterdata = QuestieMonsters[finisher];
 					if monsterdata == nil then
 						--DEFAULT_CHAT_FRAME:AddMessage("   ERROR PROCESSINGMON " .. name, 0.95, 0.2, 0.2);
@@ -237,6 +239,7 @@ function questieevt(event)
 							end
 						end
 					end
+					questComplete = false; -- questComplete is used to add the finisher, this avoids adding it twice
 				end
 				--DEFAULT_CHAT_FRAME:AddMessage(q);
 				for r=1,count do
@@ -245,7 +248,7 @@ function questieevt(event)
 					
 					
 					if not done then
-						
+						questComplete = false;
 						if selected then
 							--DEFAULT_CHAT_FRAME:AddMessage("SELECTED " .. q, 0.95, 0.1, 0.95);
 						else
@@ -256,6 +259,17 @@ function questieevt(event)
 					---DEFAULT_CHAT_FRAME:AddMessage(typ, 0.95, 0.95, 0.5);
 					---DEFAULT_CHAT_FRAME:AddMessage(done, 0.95, 0.95, 0.5);
 					
+				end
+				if not (finisher == nil) and questComplete then
+					local monsterdata = QuestieMonsters[finisher];
+					if not (monsterdata == nil) then
+						for b=1,monsterdata['locationCount'] do
+							local loc = monsterdata['locations'][b];
+							if loc[1] == mid then
+								createQuestNote(finisher, "Quest Finisher", q, loc[2], loc[3], 4, selected);
+							end
+						end
+					end
 				end
 				--DEFAULT_CHAT_FRAME:AddMessage(hash);
 			else
