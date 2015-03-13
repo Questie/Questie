@@ -21,7 +21,6 @@ function distance(x, y, px, py)
 end
 
 function addMonsterToMap(monsterName, info, quest, icon, mapid, selected)
-	DEFAULT_CHAT_FRAME:AddMessage("pickNearestPOI" .. monsterName .. ", " .. info .. ", " .. quest .. ", " .. icon, 0.95, 0.95, 0.5);
 	local monsterdata = QuestieMonsters[monsterName];
 	if not (monsterdata == nil) then
 		for b=1,monsterdata['locationCount'] do -- this should be made more efficient (monsterdata[mapid][locations] etc
