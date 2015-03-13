@@ -12,7 +12,7 @@
 ## RequiredDeps:
 ## OptionalDeps: Thottbot, myAddOns, SilverTrack
 ## DefaultState: enabled
-## SavedVariables: MapNotes_Data_Notes, MapNotes_Data_Lines, MapNotes_Data, MapNotes_Lines, MapNotes_Options, MapNotes_MiniNote_Data
+## SavedVariables: MapNotes_Data, MapNotes_Options
 MapNotesTemplates.xml
 MapNotesDropDownMenu.xml
 MapNotesEditFrame.xml
