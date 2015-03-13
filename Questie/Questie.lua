@@ -214,7 +214,7 @@ function questieevt(event)
 				local questComplete = true; -- there might be something in the api for this
 
 					
-				if not (finisher == nil) and (selected or (count == 0)) then
+				if not (finisher == nil) and (count == 0) then
 					addMonsterToMap(finisher, "Quest Finisher", q, 4, mid, selected);
 					questComplete = false; -- questComplete is used to add the finisher, this avoids adding it twice
 				end
