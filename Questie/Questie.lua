@@ -1,11 +1,15 @@
 DEFAULT_CHAT_FRAME:AddMessage("load", 0.95, 0.95, 0.5);
+local function log(msg) DEFAULT_CHAT_FRAME:AddMessage(msg) end -- alias for convenience
 
 selectedNotes = {};
+currentQuests = {};
 
-function createQuestNote(name, lin, olin, x, y, icon, selected)
+
+function createQuestNote(name, progress, questName, x, y, icon, selected)
 	--local id, key = MapNotes_CreateQuestNote(name, lin, olin, x, y, icon, selected)
 	--DEFAULT_CHAT_FRAME:AddMessage(icon)
-	local _, id, key = Cartographer_Notes:SetNote(Cartographer:GetCurrentEnglishZoneName(), x, y, icon, "Questie", "info", lin, "info2", olin, "title", name)
+	local zone = Cartographer:GetCurrentEnglishZoneName();
+	local _, id, key = Cartographer_Notes:SetNote(zone, x, y, icon, "Questie", "info", progress, "info2", questName, "title", name)
 	if selected and not (icon == 4) then
 		table.insert(selectedNotes, {
 			['name'] = name,
@@ -15,6 +19,24 @@ function createQuestNote(name, lin, olin, x, y, icon, selected)
 			['icon'] = icon,
 			['key'] = key
 		});
+	end
+	if (questName == "") then 
+		questName = progress; 
+	end
+	if(currentQuests[questName] ~= nil) then
+		if(type(currentQuests[questName]["notes"]) ~= "table") then
+			currentQuests[questName]["notes"] = {}
+		end
+		--log("adding notes to quest list for quest "..questName)
+		currentQuests[questName]["notes"][id] = {
+			['name'] = name,
+			['x'] = x,
+			['y'] = y,
+			['id'] = id,
+			['icon'] = icon,
+			['key'] = key,
+			['zone'] = zone
+		};
 	end
 end
 
@@ -187,6 +209,8 @@ function questieevt(event)
 	--DEFAULT_CHAT_FRAME:AddMessage("evt " .. event .. " " .. GetQuestLogSelection(), 0.95, 0.95, 0.5);
 	--DEFAULT_CHAT_FRAME:AddMessage(event, 0.95, 0.95, 0.5);-
 	if (event == "QUEST_LOG_UPDATE") or (event == "ZONE_CHANGED") then
+		deleteNoteAfterQuestRemoved();
+		
 		local sind = GetQuestLogSelection();
 		local mid = getCurrentMapID();
 		if not throttleOverride then
@@ -282,11 +306,58 @@ function nql()
 	return oql();
 end
 
+function deleteNoteAfterQuestRemoved()
+	local finishedQuest = getFinishedQuest();
+	if (finishedQuest ~= nil) then
+		--log("finished or abandoned quest " .. finishedQuest)
+		for k,v in pairs(currentQuests[finishedQuest]["notes"]) do
+			--log(v["zone"] .. "  " .. v["x"] .. "  " .. v["y"])
+			Cartographer_Notes:DeleteNote(v["zone"], v["x"], v["y"]);
+		end
+		--log("Deleting notes for quest:" .. finishedQuest);
+		currentQuests[finishedQuest] = nil;
+	end
+end
+
+function getFinishedQuest()
+	validateQuestList();
+	for k,v in pairs(currentQuests) do
+		if (v['status'] == false) then
+			return k;
+		end
+	end
+end
+
+function fillQuestList()
+	for i=1, GetNumQuestLogEntries() do
+		local questLogTitleText, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(i);
+		if not (isHeader) then
+			if(type(currentQuests[questLogTitleText]) ~= "table") then
+				currentQuests[questLogTitleText] = {}
+			end
+			currentQuests[questLogTitleText]['status'] = true;
+			--log("setting " .. GetQuestLogTitle(i) .. " true");
+		end
+	end
+end
+
+function validateQuestList()
+	for k,v in pairs(currentQuests) do
+		v['status'] = false;
+		--log("setting "..k.." to false");
+	end
+	
+	fillQuestList();
+end
+
 function questieinit()
 	--DEFAULT_CHAT_FRAME:AddMessage("init", 0.95, 0.95, 0.5);
+	fillQuestList();
 	this:RegisterEvent("QUEST_LOG_UPDATE");
 	this:RegisterEvent("ZONE_CHANGED");
 	oql = GetQuestLogQuestText;
 	GetQuestLogQuestText = nql;
 	clearAllNotes();
 end
+
+
