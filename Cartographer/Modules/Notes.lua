@@ -1618,14 +1618,14 @@ function Cartographer_Notes:SetNote(zone, x, y, icon, creator, k1, v1, k2, v2, k
 		cache[k] = nil
 	end
 	if not different then
-		return false
+		return false, id
 	end
 	self:TriggerEvent("CartographerNotes_NoteSet", zone, x, y, icon, creator)
 	if zone ~= Cartographer:GetCurrentEnglishZoneName() then
-		return true
+		return true, id
 	end
 	self:ShowNote(zone, id, creator)
-	return true
+	return true, id
 end
 local d = tonumber(date("%Y%m%d"))
 if d < 20061204 then
