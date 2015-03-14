@@ -1,5 +1,5 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
-C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
+..\FrameXML\UI.xsd">
 <script file="Questie.lua"/>
 <script file="items.lua"/>
 <script file="monsters.lua"/>
@@ -9,17 +9,22 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 <script file="finishers.lua"/>
 <script file="objects.lua"/>
 
-<Frame name="QuestieFrame" parent="UIParent" hidden="false">
+<Frame name="Questie" parent="UIParent" hidden="false" inherits="ActionButtonTemplate">
 	<Scripts>
-		<OnLoad>
-			questieinit();
-		</OnLoad>
-		<OnEvent>
-			questieevt(event);
-		</OnEvent>
 		<OnUpdate>
-			questiepoll();
+			Questie:OnUpdate(arg1)
 		</OnUpdate>
+		<OnLoad>
+			Questie:RegisterEvent("PLAYER_ENTERING_WORLD")
+			Questie:RegisterEvent("PLAYER_LOGIN")
+		</OnLoad>
 	</Scripts>
 </Frame>
+<GameTooltip name="QuestieTooltip" frameStrata="TOOLTIP" hidden="true" inherits="GameTooltipTemplate">
+		<Scripts>
+			<OnLoad>
+				this:SetOwner(UIParent,"ANCHOR_NONE")
+			</OnLoad>
+		</Scripts> 
+</GameTooltip>
 </Ui>
