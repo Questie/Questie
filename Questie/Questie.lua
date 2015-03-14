@@ -75,6 +75,14 @@ function Questie:createQuestNote(name, progress, questName, x, y, icon, selected
 	if (questName == "") then 
 		questName = progress; 
 	end
+	this:addNoteToCurrentQuests(questName, id, name, x, y, key, zone)
+end
+
+function distance(x, y, px, py)
+	return math.abs(x-px) + math.abs(y-py);
+end
+
+function Questie:addNoteToCurrentQuests(questName, id, name, x, y, key, zone)
 	if(currentQuests[questName] ~= nil) then
 		if(type(currentQuests[questName]["notes"]) ~= "table") then
 			currentQuests[questName]["notes"] = {}
@@ -90,10 +98,6 @@ function Questie:createQuestNote(name, progress, questName, x, y, icon, selected
 			['zone'] = zone
 		};
 	end
-end
-
-function distance(x, y, px, py)
-	return math.abs(x-px) + math.abs(y-py);
 end
 
 function Questie:addMonsterToMap(monsterName, info, quest, icon, mapid, selected)
@@ -227,8 +231,9 @@ function findLast(haystack, needle)
     if i==nil then return nil else return i-1 end
 end
 
-function processObjective(quest, desc, typ, selected, mid)
+function Questie:processObjective(quest, desc, typ, selected, mid)
 	--DEFAULT_CHAT_FRAME:AddMessage(desc, 0.95, 0.95, 0.5);
+	currentQuests[quest].
 	local ref = objectiveProcessors[typ];
 	
 	if not (ref == nil) then
@@ -303,7 +308,7 @@ function Questie:QUEST_LOG_UPDATE()
 					else
 						--DEFAULT_CHAT_FRAME:AddMessage("NOTSELECTEd " .. q .. " " .. in, 0.95, 0.1, 0.95);
 					end
-					processObjective(q, desc, typ, selected, mid)
+					this:processObjective(q, desc, typ, selected, mid)
 				end
 				---DEFAULT_CHAT_FRAME:AddMessage(typ, 0.95, 0.95, 0.5);
 				---DEFAULT_CHAT_FRAME:AddMessage(done, 0.95, 0.95, 0.5);
