@@ -324,9 +324,12 @@ function Questie:deleteNoteAfterQuestRemoved()
 	local finishedQuest = this:getFinishedQuest();
 	if (finishedQuest ~= nil) then
 		--log("finished or abandoned quest " .. finishedQuest)
-		for k,v in pairs(currentQuests[finishedQuest]["notes"]) do
-			--log(v["zone"] .. "  " .. v["x"] .. "  " .. v["y"])
-			Cartographer_Notes:DeleteNote(v["zone"], v["x"], v["y"]);
+		local notes = currentQuests[finishedQuest]["notes"]
+		if (notes ~= nil) then
+			for k,v in pairs(notes) do
+				--log(v["zone"] .. "  " .. v["x"] .. "  " .. v["y"])
+				Cartographer_Notes:DeleteNote(v["zone"], v["x"], v["y"]);
+			end
 		end
 		--log("Deleting notes for quest:" .. finishedQuest);
 		currentQuests[finishedQuest] = nil;
