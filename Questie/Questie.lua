@@ -287,7 +287,7 @@ function Questie:QUEST_LOG_UPDATE()
 			local questComplete = true; -- there might be something in the api for this
 					
 			if not (finisher == nil) and (count == 0) then
-				addMonsterToMap(finisher, "Quest Finisher", q, "Skull", mid, selected);
+				Questie:addMonsterToMap(finisher, "Quest Finisher", q, "Skull", mid, selected);
 				questComplete = false; -- questComplete is used to add the finisher, this avoids adding it twice
 			end
 			--DEFAULT_CHAT_FRAME:AddMessage(q);
@@ -310,7 +310,7 @@ function Questie:QUEST_LOG_UPDATE()
 				
 			end
 			if not (finisher == nil) and questComplete then
-				addMonsterToMap(finisher, "Quest Finisher", q, "Skull", mid, selected);
+				Questie:addMonsterToMap(finisher, "Quest Finisher", q, "Skull", mid, selected);
 			end
 			--DEFAULT_CHAT_FRAME:AddMessage(hash);
 		else
