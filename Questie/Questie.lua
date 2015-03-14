@@ -233,7 +233,6 @@ end
 
 function Questie:processObjective(quest, desc, typ, selected, mid)
 	--DEFAULT_CHAT_FRAME:AddMessage(desc, 0.95, 0.95, 0.5);
-	currentQuests[quest].
 	local ref = objectiveProcessors[typ];
 	
 	if not (ref == nil) then
