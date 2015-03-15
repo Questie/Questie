@@ -18,6 +18,33 @@ local objectives = {};
 local throttle = 0;
 local throttleOverride = false;
 
+function Questie:modulo(val, by) -- lua5 doesnt support mod math via the % operator :(
+	return val - math.floor(val/by)*by
+end
+function Questie:HashString(text) -- Computes an Adler-32 checksum. (Thanks QuestHelper)
+  local a, b = 1, 0
+  for i=1,string.len(text) do
+    a = Questie:modulo((a+string.byte(text,i)), 65521)
+    b = Questie:modulo((b+a), 65521)
+  end
+  return b*65536+a
+end
+
+function Questie:mixString(mix, str)
+	return Questie:mixInt(mix, Questie:HashString(str));
+end
+
+function Questie:mixInt(hash, addval)
+	return bit.lshift(hash, 6) + addval;
+end
+
+function Questie:getQuestHash(name, level, objectiveText)
+	local hash = Questie:mixString(0, name);
+	hash = Questie:mixInt(hash, level);
+	hash = Questie:mixString(hash, objectiveText);
+	return hash;
+end
+
 function Questie:RegisterCartographerIcons()
 	Cartographer_Notes:RegisterIcon("Complete", {
 		text = "Complete",
@@ -194,6 +221,33 @@ function getCurrentMapID()
 	end
 end
 
+function Questie:addAvailableQuests()
+	local mapid = getCurrentMapID();
+	local level = UnitLevel("Player");
+	for l=level-3,level+2 do
+		local content = QuestieZoneLevelMap[mapid][l];
+		if not (content == nil) then
+			for k,v in pairs(content) do
+				local qdata = QuestieHashMap[v];
+				if not (qdata == nil) then
+					local requires = qdata['requires'];
+					if requires == nil then
+						local stype = qdata['startedType'];
+						local sby = qdata['startedBy'];
+						local name = qdata['name'];
+						if stype == "monster" then
+							local mob = QuestieMonsters[sby];
+							local loc = mob['locations'][1];
+							this:createQuestNote("Pick up: " .. name, sby, name, loc[2], loc[3], "Available", selected);
+							--createQuestNote("Pick up: " .. name, sby, stype, loc[2], loc[3], 9, false);
+						end
+					end
+				end
+			end
+		end
+	end
+end
+
 objectiveProcessors = {
 	['item'] = function(quest, name, amount, selected, mid)
 		--DEFAULT_CHAT_FRAME:AddMessage("derp", 0.95, 0.95, 0.5);
@@ -310,20 +364,21 @@ function Questie:QUEST_LOG_UPDATE()
 	
 	--DEFAULT_CHAT_FRAME:AddMessage(throttle, 0.95, 0.95, 0.5);
 	this:clearAllNotes();
+	Questie:addAvailableQuests();
 	local numEntries, numQuests = GetNumQuestLogEntries()
 	--DEFAULT_CHAT_FRAME:AddMessage(numEntries .. " entries containing " .. numQuests .. " quests in your quest log.");
 	for v=1,numEntries do
-		local q = GetQuestLogTitle(v);
-		if not (getQuestHashByName(q) == nil) then
-				SelectQuestLogEntry(v);
+		local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(v);
+		if not (getQuestHashByName(q) == nil) then -- this should be removed eventually
+			SelectQuestLogEntry(v);
 			local count =  GetNumQuestLeaderBoards();
-			
 			local selected = v == sind;
+			local questComplete = true; -- there might be something in the api for this	
+			local questText, objectiveText = _GetQuestLogQuestText();
+			local hash = Questie:getQuestHash(q, level, objectiveText);
 			
 			local finisher = QuestieFinishers[q];
 			
-			local questComplete = true; -- there might be something in the api for this
-					
 			if not (finisher == nil) and (count == 0) then
 				Questie:addMonsterToMap(finisher, "Quest Finisher", q, "Complete", mid, selected);
 				questComplete = false; -- questComplete is used to add the finisher, this avoids adding it twice
