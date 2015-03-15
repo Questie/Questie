@@ -88,11 +88,6 @@ function Questie:OnUpdate(elapsed)
 		Questie:QUEST_LOG_UPDATE();
 	end
 	
-	if needsRegisterHack and not (Cartographer_Notes == nil) then -- temporary, not sure how else to run something after cartographer has been initialized
-		needsRegisterHack = false;
-		Questie:RegisterCartographerIcons();
-	end
-	
 	local ttl = GetTime() - Questie.lastMinimapUpdate;
 	if ttl > 3 then -- 3 seconds
 		Questie:pickNearestPOI();
@@ -104,6 +99,7 @@ function Questie:PLAYER_LOGIN()
 	--log(this:GetName())
 	this:RegisterEvent("QUEST_LOG_UPDATE");
 	this:RegisterEvent("UNIT_AURA")
+	this:RegisterCartographerIcons();
 end
 
 function Questie:UNIT_AURA(unitId)
@@ -116,6 +112,7 @@ function Questie:PLAYER_ENTERING_WORLD()
 	_GetQuestLogQuestText = GetQuestLogQuestText;
 	GetQuestLogQuestText = nql;
 	this:clearAllNotes();
+	this:addAvailableQuests();
 end
 
 function Questie:createQuestNote(name, progress, questName, x, y, icon, selected)
