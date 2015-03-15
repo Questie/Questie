@@ -8,6 +8,7 @@
 <script file="hash.lua"/>
 <script file="finishers.lua"/>
 <script file="objects.lua"/>
+<script file="addendum.lua"/>
 
 <Frame name="Questie" parent="UIParent" hidden="false" inherits="ActionButtonTemplate">
 	<Scripts>

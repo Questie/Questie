@@ -221,6 +221,33 @@ function getCurrentMapID()
 	end
 end
 
+function Questie:addAvailableQuests()
+	local mapid = getCurrentMapID();
+	local level = UnitLevel("Player");
+	for l=level-3,level+2 do
+		local content = QuestieZoneLevelMap[mapid][l];
+		if not (content == nil) then
+			for k,v in pairs(content) do
+				local qdata = QuestieHashMap[v];
+				if not (qdata == nil) then
+					local requires = qdata['requires'];
+					if requires == nil then
+						local stype = qdata['startedType'];
+						local sby = qdata['startedBy'];
+						local name = qdata['name'];
+						if stype == "monster" then
+							local mob = QuestieMonsters[sby];
+							local loc = mob['locations'][1];
+							this:createQuestNote("Pick up: " .. name, sby, name, loc[2], loc[3], "Available", selected);
+							--createQuestNote("Pick up: " .. name, sby, stype, loc[2], loc[3], 9, false);
+						end
+					end
+				end
+			end
+		end
+	end
+end
+
 objectiveProcessors = {
 	['item'] = function(quest, name, amount, selected, mid)
 		--DEFAULT_CHAT_FRAME:AddMessage("derp", 0.95, 0.95, 0.5);
@@ -337,6 +364,7 @@ function Questie:QUEST_LOG_UPDATE()
 	
 	--DEFAULT_CHAT_FRAME:AddMessage(throttle, 0.95, 0.95, 0.5);
 	this:clearAllNotes();
+	Questie:addAvailableQuests();
 	local numEntries, numQuests = GetNumQuestLogEntries()
 	--DEFAULT_CHAT_FRAME:AddMessage(numEntries .. " entries containing " .. numQuests .. " quests in your quest log.");
 	for v=1,numEntries do
