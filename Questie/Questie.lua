@@ -18,12 +18,40 @@ local objectives = {};
 local throttle = 0;
 local throttleOverride = false;
 
+function Questie:RegisterCartographerIcons()
+	Cartographer_Notes:RegisterIcon("Complete", {
+		text = "Complete",
+		path = "Interface\\AddOns\\Questie\\Icons\\complete",
+	})
+	Cartographer_Notes:RegisterIcon("Available", {
+		text = "Available",
+		path = "Interface\\AddOns\\Questie\\Icons\\available",
+	})
+	Cartographer_Notes:RegisterIcon("Loot", {
+		text = "Loot",
+		path = "Interface\\AddOns\\Questie\\Icons\\loot",
+	})
+	Cartographer_Notes:RegisterIcon("Event", {
+		text = "Event",
+		path = "Interface\\AddOns\\Questie\\Icons\\event",
+	})
+	Cartographer_Notes:RegisterIcon("Object", {
+		text = "Object",
+		path = "Interface\\AddOns\\Questie\\Icons\\object",
+	})
+	Cartographer_Notes:RegisterIcon("Slay", {
+		text = "Slay",
+		path = "Interface\\AddOns\\Questie\\Icons\\slay",
+	})
+end
+
 function nql()
 	--DEFAULT_CHAT_FRAME:AddMessage("QUESTTEXT", 0.95, 0.95, 0.5);
 	Questie.needsUpdate = true;
 	return _GetQuestLogQuestText();
 end
 
+local needsRegisterHack = true;
 
 function Questie:OnUpdate(elapsed)
 	this = Questie
@@ -32,6 +60,12 @@ function Questie:OnUpdate(elapsed)
 		Questie.throttleOverride = true;
 		Questie:QUEST_LOG_UPDATE();
 	end
+	
+	if needsRegisterHack and not (Cartographer_Notes == nil) then -- temporary, not sure how else to run something after cartographer has been initialized
+		needsRegisterHack = false;
+		Questie:RegisterCartographerIcons();
+	end
+	
 	local ttl = GetTime() - Questie.lastMinimapUpdate;
 	if ttl > 3 then -- 3 seconds
 		Questie:pickNearestPOI();
