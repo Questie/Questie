@@ -18,6 +18,33 @@ local objectives = {};
 local throttle = 0;
 local throttleOverride = false;
 
+function Questie:modulo(val, by) -- lua5 doesnt support mod math via the % operator :(
+	return val - math.floor(val/by)*by
+end
+function Questie:HashString(text) -- Computes an Adler-32 checksum. (Thanks QuestHelper)
+  local a, b = 1, 0
+  for i=1,string.len(text) do
+    a = Questie:modulo((a+string.byte(text,i)), 65521)
+    b = Questie:modulo((b+a), 65521)
+  end
+  return b*65536+a
+end
+
+function Questie:mixString(mix, str)
+	return Questie:mixInt(mix, Questie:HashString(str));
+end
+
+function Questie:mixInt(hash, addval)
+	return bit.lshift(hash, 6) + addval;
+end
+
+function Questie:getQuestHash(name, level, objectiveText)
+	local hash = Questie:mixString(0, name);
+	hash = Questie:mixInt(hash, level);
+	hash = Questie:mixString(hash, objectiveText);
+	return hash;
+end
+
 function Questie:RegisterCartographerIcons()
 	Cartographer_Notes:RegisterIcon("Complete", {
 		text = "Complete",
@@ -313,17 +340,17 @@ function Questie:QUEST_LOG_UPDATE()
 	local numEntries, numQuests = GetNumQuestLogEntries()
 	--DEFAULT_CHAT_FRAME:AddMessage(numEntries .. " entries containing " .. numQuests .. " quests in your quest log.");
 	for v=1,numEntries do
-		local q = GetQuestLogTitle(v);
-		if not (getQuestHashByName(q) == nil) then
-				SelectQuestLogEntry(v);
+		local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(v);
+		if not (getQuestHashByName(q) == nil) then -- this should be removed eventually
+			SelectQuestLogEntry(v);
 			local count =  GetNumQuestLeaderBoards();
-			
 			local selected = v == sind;
+			local questComplete = true; -- there might be something in the api for this	
+			local questText, objectiveText = _GetQuestLogQuestText();
+			local hash = Questie:getQuestHash(q, level, objectiveText);
 			
 			local finisher = QuestieFinishers[q];
 			
-			local questComplete = true; -- there might be something in the api for this
-					
 			if not (finisher == nil) and (count == 0) then
 				Questie:addMonsterToMap(finisher, "Quest Finisher", q, "Complete", mid, selected);
 				questComplete = false; -- questComplete is used to add the finisher, this avoids adding it twice
