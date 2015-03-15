@@ -7,20 +7,6 @@ function QuestieTracker:OnEvent() -- functions created in "object:method"-style 
 end
 QuestieTracker:SetScript("OnEvent", QuestieTracker.OnEvent)
 
-function QuestieTracker:addQuestToTracker(questName, desc, typ, done)
-	if(type(currentQuests[questName]) ~= "table") then
-		currentQuests[questName] = {};
-	end
-	if(type(currentQuests[questName].tracked) ~= "table") then
-		currentQuests[questName]["tracked"] = {};
-	end
-	currentQuests[questName]["tracked"][desc] = true
-end 
-
-function QuestieTracker:removeQuestFromTracker(questName)
-	currentQuests[questName]["tracked"] = nil
-end
-
 local _QuestWatch_Update = QuestWatch_Update;
 local _RemoveQuestWatch = RemoveQuestWatch;
 local _IsQuestWatched = IsQuestWatched;
@@ -37,6 +23,23 @@ function QuestieTracker:test()
 			end
 		end
 	end
+end
+
+
+function QuestieTracker:addQuestToTracker(questName, desc, typ, done, level, isComplete)
+	if(type(currentQuests[questName]) ~= "table") then
+		currentQuests[questName] = {};
+	end
+	if(type(currentQuests[questName].tracked) ~= "table") then
+		currentQuests[questName]["tracked"] = {};
+	end
+	currentQuests[questName]["tracked"][desc] = true
+	currentQuests[questName]["tracked"]["level"] = level
+	currentQuests[questName]["tracked"]["isComplete"] = isComplete
+end 
+
+function QuestieTracker:removeQuestFromTracker(questName)
+	currentQuests[questName]["tracked"] = nil
 end
 
 function QuestLogTitleButton_OnClick(button)
@@ -81,7 +84,7 @@ function QuestieTracker:setQuestInfo(id)
 	
 	for i=1, GetNumQuestLeaderBoards() do
 		local desc, typ, done = GetQuestLogLeaderBoard(i);
-		QuestieTracker:addQuestToTracker(questName, desc, typ, done)
+		QuestieTracker:addQuestToTracker(questName, desc, typ, done, level, isComplete)
 	end
 end
 
