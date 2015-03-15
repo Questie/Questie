@@ -208,7 +208,7 @@ objectiveProcessors = {
 					for b=1,itemdata['locationCount'] do
 						local loc = itemdata['locations'][b];
 						if loc[1] == mid then
-							Questie:createQuestNote(name, quest, "", loc[2], loc[3], "Star", selected);
+							Questie:createQuestNote(name, quest, "", loc[2], loc[3], "Loot", selected);
 						end
 					end
 				elseif k == "drop" then
@@ -216,7 +216,7 @@ objectiveProcessors = {
 						--DEFAULT_CHAT_FRAME:AddMessage(e .. " drops " .. name .. " for " .. quest, 0.95, 0.95, 0.5);
 						--local monsterdata = QuestRoot['QuestHelper_StaticData']['enUS']['objective']['monster'][e];
 						--addMonsterToMap(monsterName, info, quest, selected)
-						Questie:addMonsterToMap(e, name .. " (" .. amount .. ")", quest, "Skull", mid, selected);
+						Questie:addMonsterToMap(e, name .. " (" .. amount .. ")", quest, "Loot", mid, selected);
 					end
 				end
 			end
@@ -231,14 +231,14 @@ objectiveProcessors = {
 			for b=1,evtdata['locationCount'] do
 				local loc = evtdata['locations'][b];
 				if loc[1] == mid then
-					Questie:createQuestNote(name, quest, "", loc[2], loc[3], "Star", selected);
+					Questie:createQuestNote(name, quest, "", loc[2], loc[3], "Event", selected);
 				end
 			end
 		end
 	end,
 	['monster'] = function(quest, name, amount, selected, mid)
 		--DEFAULT_CHAT_FRAME:AddMessage("   MONMON: " .. quest .. ", " .. name .. ", " .. amount, 0.95, 0.2, 0.2);
-		Questie:addMonsterToMap(name, amount, quest, "Skull", mid, selected);
+		Questie:addMonsterToMap(name, amount, quest, "Slay", mid, selected);
 	end,
 	['object'] = function(quest, name, amount, selected, mid)
 		local objdata = QuestieObjects[name];
@@ -248,7 +248,7 @@ objectiveProcessors = {
 			for b=1,objdata['locationCount'] do
 				local loc = objdata['locations'][b];
 				if loc[1] == mid then
-					Questie:createQuestNote(name, quest, "", loc[2], loc[3], "Star", selected);
+					Questie:createQuestNote(name, quest, "", loc[2], loc[3], "Object", selected);
 				end
 			end
 		end
@@ -325,7 +325,7 @@ function Questie:QUEST_LOG_UPDATE()
 			local questComplete = true; -- there might be something in the api for this
 					
 			if not (finisher == nil) and (count == 0) then
-				Questie:addMonsterToMap(finisher, "Quest Finisher", q, "Skull", mid, selected);
+				Questie:addMonsterToMap(finisher, "Quest Finisher", q, "Complete", mid, selected);
 				questComplete = false; -- questComplete is used to add the finisher, this avoids adding it twice
 			end
 			--DEFAULT_CHAT_FRAME:AddMessage(q);
@@ -348,7 +348,7 @@ function Questie:QUEST_LOG_UPDATE()
 				
 			end
 			if not (finisher == nil) and questComplete then
-				Questie:addMonsterToMap(finisher, "Quest Finisher", q, "Skull", mid, selected);
+				Questie:addMonsterToMap(finisher, "Quest Finisher", q, "Complete", mid, selected);
 			end
 			--DEFAULT_CHAT_FRAME:AddMessage(hash);
 		else
