@@ -227,18 +227,20 @@ function Questie:addAvailableQuests()
 		local content = QuestieZoneLevelMap[mapid][l];
 		if not (content == nil) then
 			for k,v in pairs(content) do
-				local qdata = QuestieHashMap[v];
-				if not (qdata == nil) then
-					local requires = qdata['requires'];
-					if requires == nil then
-						local stype = qdata['startedType'];
-						local sby = qdata['startedBy'];
-						local name = qdata['name'];
-						if stype == "monster" then
-							local mob = QuestieMonsters[sby];
-							local loc = mob['locations'][1];
-							this:createQuestNote("Pick up: " .. name, sby, name, loc[2], loc[3], "Available", selected);
-							--createQuestNote("Pick up: " .. name, sby, stype, loc[2], loc[3], 9, false);
+				if not QuestieSeenQuests[v] then
+					local qdata = QuestieHashMap[v];
+					if not (qdata == nil) then
+						local requires = qdata['requires'];
+						if requires == nil then
+							local stype = qdata['startedType'];
+							local sby = qdata['startedBy'];
+							local name = qdata['name'];
+							if stype == "monster" then
+								local mob = QuestieMonsters[sby];
+								local loc = mob['locations'][1];
+								this:createQuestNote("Pick up: " .. name, sby, name, loc[2], loc[3], "Available", selected);
+								--createQuestNote("Pick up: " .. name, sby, stype, loc[2], loc[3], 9, false);
+							end
 						end
 					end
 				end
@@ -377,7 +379,10 @@ function Questie:QUEST_LOG_UPDATE()
 			local hash = Questie:getQuestHash(q, level, objectiveText);
 			
 			local seen = QuestieSeenQuests[hash];
-			currentQuests[questName]['hash'] = hash; -- needs to store the hash (probably not best to set it every time)
+			if currentQuests[q] == nil then
+				currentQuests[q] = {};
+			end
+			currentQuests[q]['hash'] = hash; -- needs to store the hash (probably not best to set it every time)
 			
 			if seen == nil or not seen then -- not seen would update it if the user had abandoned then re-picked up
 											-- someone should tell me if LUA is like C where I could do only "if not seen then" here.
