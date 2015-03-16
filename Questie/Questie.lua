@@ -134,6 +134,7 @@ end
 function Questie:PLAYER_LOGIN()
 	--log(this:GetName())
 	this:RegisterEvent("QUEST_LOG_UPDATE");
+	this:RegisterEvent("ZONE_CHANGED"); -- this actually is needed
 	this:RegisterEvent("UNIT_AURA")
 	this:RegisterCartographerIcons();
 	this:hookTooltip();
@@ -475,6 +476,11 @@ function Questie:QUEST_LOG_UPDATE()
 	end
 	SelectQuestLogEntry(sind);
 end
+
+function Questie:ZONE_CHANGED() -- this is needed
+	this:QUEST_LOG_UPDATE();
+end
+
 
 function Questie:deleteNoteAfterQuestRemoved()
 	local finishedQuest = this:getFinishedQuest();
