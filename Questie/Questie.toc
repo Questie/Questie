@@ -5,6 +5,6 @@
 ## Version: 0.9
 ## RequiredDeps:
 ## OptionalDeps: 
-## SavedVariables: QuestieDAT
+## SavedVariables: QuestieSeenQuests
 
 Questie.xml
