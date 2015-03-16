@@ -19,7 +19,7 @@ function Questie:hookTooltip()
 				if not (obj == nil) then --- bad habit I know...
 					for l,m in pairs(obj) do
 						if m['type'] == "monster" then
-							if (monster .. " slain") == m['name'] then
+							if (monster .. " slain") == m['name'] or monster == m['name'] then
 								GameTooltip:AddLine(k, 0.2, 1, 0.3)
 								GameTooltip:AddLine("   " .. monster .. ": " .. m['count'], 1, 1, 0.2)
 							end
