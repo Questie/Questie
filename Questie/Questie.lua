@@ -477,8 +477,14 @@ function Questie:QUEST_LOG_UPDATE()
 	SelectQuestLogEntry(sind);
 end
 
+local lastZoneID = 0;
+
 function Questie:ZONE_CHANGED() -- this is needed
-	this:QUEST_LOG_UPDATE();
+	local map = getCurrentMapID();
+	if not (map == lastZoneID) then -- I cant seem to get over this weird LUA not operator...
+		this:QUEST_LOG_UPDATE();
+		lastZoneID = map
+	end
 end
 
 
