@@ -259,22 +259,24 @@ function Questie:addAvailableQuests()
 	local mapid = getCurrentMapID();
 	local level = UnitLevel("Player");
 	for l=level-3,level+2 do
-		local content = QuestieZoneLevelMap[mapid][l];
-		if not (content == nil) then
-			for k,v in pairs(content) do
-				if not QuestieSeenQuests[v] then
-					local qdata = QuestieHashMap[v];
-					if not (qdata == nil) then
-						local requires = qdata['requires'];
-						if requires == nil then
-							local stype = qdata['startedType'];
-							local sby = qdata['startedBy'];
-							local name = qdata['name'];
-							if stype == "monster" then
-								local mob = QuestieMonsters[sby];
-								local loc = mob['locations'][1];
-								this:createQuestNote("Pick up: " .. name, sby, name, loc[2], loc[3], "Available", selected);
-								--createQuestNote("Pick up: " .. name, sby, stype, loc[2], loc[3], 9, false);
+		if QuestieZoneLevelMap[mapid] then
+			local content = QuestieZoneLevelMap[mapid][l];
+			if not (content == nil) then
+				for k,v in pairs(content) do
+					if not QuestieSeenQuests[v] then
+						local qdata = QuestieHashMap[v];
+						if not (qdata == nil) then
+							local requires = qdata['requires'];
+							if requires == nil then
+								local stype = qdata['startedType'];
+								local sby = qdata['startedBy'];
+								local name = qdata['name'];
+								if stype == "monster" then
+									local mob = QuestieMonsters[sby];
+									local loc = mob['locations'][1];
+									this:createQuestNote("Pick up: " .. name, sby, name, loc[2], loc[3], "Available", selected);
+									--createQuestNote("Pick up: " .. name, sby, stype, loc[2], loc[3], 9, false);
+								end
 							end
 						end
 					end
