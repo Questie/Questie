@@ -70935,3 +70935,23 @@ QuestieMonsters = {
     ['locationCount'] = 2
   }
 }
+
+-- Add drop table to monsters for faster searching
+local start = GetTime()
+for k,v in pairs(QuestieItems) do
+	local drop = v['drop']
+	if drop then
+		for m,n in pairs(drop) do
+			if QuestieMonsters[m] then
+				if not QuestieMonsters[m]['drops'] then
+					QuestieMonsters[m]['drops'] = {};
+				end
+				QuestieMonsters[m]['drops'][k] = n;
+			end
+		end
+	end
+end
+
+local ttl = GetTime() - start;
+DEFAULT_CHAT_FRAME:AddMessage("Questie initialized MonsterDB in " .. math.floor(ttl*1000) .. "ms"); -- log function may not be created yet
+

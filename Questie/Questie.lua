@@ -9,6 +9,40 @@ currentQuests = {};
 selectedNotes = {};
 QuestieSeenQuests = {};
 
+function Questie:hookTooltip()
+	local _GameTooltipOnShow = GameTooltip:GetScript("OnShow") -- APPARENTLY this is always null, and doesnt need to be called for things to function correctly...?
+	GameTooltip:SetScript("OnShow", function(self, arg)
+		local monster = UnitName("mouseover")
+		if monster then
+			for k,v in pairs(currentQuests) do
+				local obj = v['objectives'];
+				if not (obj == nil) then --- bad habit I know...
+					for l,m in pairs(obj) do
+						if m['type'] == "monster" then
+							if (monster .. " slain") == m['name'] then
+								GameTooltip:AddLine(k, 0.2, 1, 0.3)
+								GameTooltip:AddLine("   " .. monster .. ": " .. m['count'], 1, 1, 0.2)
+							end
+						elseif m['type'] == "item" then
+							local monroot = QuestieMonsters[monster];
+							if monroot then
+								local mondat = monroot['drops'];
+								if not (mondat == nil) then
+									if mondat[m['name']] then
+										GameTooltip:AddLine(k, 0.2, 1, 0.3)
+										GameTooltip:AddLine("   " .. m['name'] .. ": " .. m['count'], 1, 1, 0.2)
+									end
+								end
+							end
+						end
+					end
+				end
+			end
+		end
+		GameTooltip:Show() -- recalculates size/position
+	end)
+
+end
 
 function Questie:OnEvent() -- functions created in "object:method"-style have an implicit first parameter of "this", which points to object || in 1.12 parsing arguments as ... doesn't work
 	Questie[event](Questie, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10) -- route event parameters to Questie:event methods
@@ -102,6 +136,7 @@ function Questie:PLAYER_LOGIN()
 	this:RegisterEvent("QUEST_LOG_UPDATE");
 	this:RegisterEvent("UNIT_AURA")
 	this:RegisterCartographerIcons();
+	this:hookTooltip();
 end
 
 function Questie:UNIT_AURA(unitId)
@@ -320,7 +355,7 @@ function findLast(haystack, needle)
     if i==nil then return nil else return i-1 end
 end
 
-function Questie:processObjective(quest, desc, typ, selected, mid)
+function Questie:processObjective(quest, desc, typ, selected, mid, objectiveid)
 	--DEFAULT_CHAT_FRAME:AddMessage(desc, 0.95, 0.95, 0.5);
 	local ref = objectiveProcessors[typ];
 	
@@ -331,9 +366,19 @@ function Questie:processObjective(quest, desc, typ, selected, mid)
 			--DEFAULT_CHAT_FRAME:AddMessage(indx, 0.95, 0.95, 0.5);
 			local countstr = string.sub(desc, indx+2);
 			local namestr = string.sub(desc, 1, indx-1);
+			currentQuests[quest]['objectives'][objectiveid] = {
+				['name'] = namestr,
+				['count'] = countstr,
+				['type'] = typ
+			};
 			ref(quest, namestr, countstr, selected, mid);
 		else
 			ref(quest, desc, "", selected, mid);
+			currentQuests[quest]['objectives'][objectiveid] = {
+				['name'] = desc,
+				['count'] = -1,
+				['type'] = typ
+			};
 		end
 	else
 		DEFAULT_CHAT_FRAME:AddMessage("ERROR: UNHALDNED TYPE: " .. typ .. " \"" .. desc .. "\" for quest " .. quest, 0.95, 0.2, 0.2);
@@ -396,6 +441,10 @@ function Questie:QUEST_LOG_UPDATE()
 				questComplete = false; -- questComplete is used to add the finisher, this avoids adding it twice
 			end
 			--DEFAULT_CHAT_FRAME:AddMessage(q);
+			
+			-- we're re-evaluating objectives now anyway
+			currentQuests[q]['objectives'] = {};
+			
 			for r=1,count do
 				local desc, typ, done = GetQuestLogLeaderBoard(r);
 				--DEFAULT_CHAT_FRAME:AddMessage(desc, 0.95, 0.95, 0.5);
@@ -408,7 +457,7 @@ function Questie:QUEST_LOG_UPDATE()
 					else
 						--DEFAULT_CHAT_FRAME:AddMessage("NOTSELECTEd " .. q .. " " .. in, 0.95, 0.1, 0.95);
 					end
-					this:processObjective(q, desc, typ, selected, mid)
+					this:processObjective(q, desc, typ, selected, mid, r)
 				end
 				---DEFAULT_CHAT_FRAME:AddMessage(typ, 0.95, 0.95, 0.5);
 				---DEFAULT_CHAT_FRAME:AddMessage(done, 0.95, 0.95, 0.5);
