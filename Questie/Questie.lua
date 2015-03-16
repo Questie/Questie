@@ -7,6 +7,8 @@ Questie.lastMinimapUpdate = 0
 Questie.needsUpdate = false;
 currentQuests = {};
 selectedNotes = {};
+QuestieSeenQuests = {};
+
 
 function Questie:OnEvent() -- functions created in "object:method"-style have an implicit first parameter of "this", which points to object || in 1.12 parsing arguments as ... doesn't work
 	Questie[event](Questie, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10) -- route event parameters to Questie:event methods
@@ -374,6 +376,14 @@ function Questie:QUEST_LOG_UPDATE()
 			local questText, objectiveText = _GetQuestLogQuestText();
 			local hash = Questie:getQuestHash(q, level, objectiveText);
 			
+			local seen = QuestieSeenQuests[hash];
+			currentQuests[questName]['hash'] = hash; -- needs to store the hash (probably not best to set it every time)
+			
+			if seen == nil or not seen then -- not seen would update it if the user had abandoned then re-picked up
+											-- someone should tell me if LUA is like C where I could do only "if not seen then" here.
+				QuestieSeenQuests[hash] = true; -- true = in the quest log
+			end
+			
 			local finisher = QuestieFinishers[q];
 			
 			if not (finisher == nil) and (count == 0) then
@@ -413,6 +423,7 @@ end
 function Questie:deleteNoteAfterQuestRemoved()
 	local finishedQuest = this:getFinishedQuest();
 	if (finishedQuest ~= nil) then
+		QuestieSeenQuests[finishedQuest['hash']] = false; -- no longer in the list
 		--log("finished or abandoned quest " .. finishedQuest)
 		local notes = currentQuests[finishedQuest]["notes"]
 		if (notes ~= nil) then
