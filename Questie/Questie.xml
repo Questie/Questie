@@ -11,6 +11,8 @@
 <script file="addendum.lua"/>
 <script file="extern/GatherRegionData.lua"/>
 <script file="regionscale.lua"/>
+<script file="extern/GatherMinimapCalcs.lua"/>
+<script file="minimapcalcs.lua"/>
 
 <Frame name="Questie" parent="UIParent" hidden="false" inherits="ActionButtonTemplate">
 	<Scripts>

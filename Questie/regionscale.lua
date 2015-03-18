@@ -9,7 +9,6 @@ for x=0,3 do
 			local dat = sec[y];
 			if not (dat == nil) and not (dat['scale'] == nil) then
 				local qzoneid = QuestieZones[dat['name']][1];
-				DEFAULT_CHAT_FRAME:AddMessage(qzoneid);
 				QuestieRegionScale[qzoneid] = {
 					['scale'] = dat['scale'],
 					['xoffset'] = dat['xoffset'],
