@@ -6,8 +6,48 @@ Questie.TimeSinceLastUpdate = 0
 Questie.lastMinimapUpdate = 0
 Questie.needsUpdate = false;
 currentQuests = {};
+questsByDistance = {};
 selectedNotes = {};
 QuestieSeenQuests = {};
+
+QuestieNotesDB = {};
+
+local QUESTIE_MAX_MINIMAP_POINTS = 511;
+
+local minimap_poiframes = {};
+local minimap_poiframe_textures = {};
+local minimap_poiframe_data = {};
+
+function Questie:createMinimapFrames()
+	for i=1,QUESTIE_MAX_MINIMAP_POINTS do
+		local fram = CreateFrame("Frame", "QUESTIE_MINIPOI" .. i, UIParent);
+		local tex = fram:CreateTexture("ARTWORK"); -- not sure why this needs "ARTWORK"
+		tex:SetAllPoints();
+		tex:SetTexture("Interface\\AddOns\\Questie\\Icons\\object"); --placeholder
+		fram:SetWidth(20);
+		fram:SetHeight(20);
+		fram:EnableMouse(true);
+		local pass = i; -- Apparently you cant just pass i 
+		fram:SetScript("OnEnter", function()
+			--log("onEnter");
+			tex:SetAlpha(1.0);
+			GameTooltip:SetOwner(this, "ANCHOR_BOTTOMLEFT")
+			GameTooltip:SetText(minimap_poiframe_data[pass]['progress'], 1, 1, 1);
+			GameTooltip:AddLine(minimap_poiframe_data[pass]['name'], 1, 1, 0.1);
+			GameTooltip:AddLine(minimap_poiframe_data[pass]['questName'], 0.2, 1, 0.4)
+			--GameTooltip:SetPoint(fram:GetPoint());
+			GameTooltip:Show();
+		end)
+		fram:SetScript("OnLeave", function()
+			--log("onLeave");
+			tex:SetAlpha(0.7);
+			GameTooltip:Hide();
+		end)
+		tex:SetAlpha(0.7);
+		minimap_poiframes[i] = fram;
+		minimap_poiframe_textures[i] = tex;
+	end
+end
 
 function Questie:hookTooltip()
 	local _GameTooltipOnShow = GameTooltip:GetScript("OnShow") -- APPARENTLY this is always null, and doesnt need to be called for things to function correctly...?
@@ -129,6 +169,7 @@ function Questie:OnUpdate(elapsed)
 		Questie:pickNearestPOI();
 		Questie.lastMinimapUpdate = GetTime();
 	end	
+	Questie:updateMinimap() -- DONT DO THIS BAD
 end
 
 function Questie:PLAYER_LOGIN()
@@ -138,6 +179,7 @@ function Questie:PLAYER_LOGIN()
 	this:RegisterEvent("UNIT_AURA")
 	this:RegisterCartographerIcons();
 	this:hookTooltip();
+	this:createMinimapFrames();
 end
 
 function Questie:UNIT_AURA(unitId)
@@ -153,11 +195,23 @@ function Questie:PLAYER_ENTERING_WORLD()
 	this:addAvailableQuests();
 end
 
+currentNotes = {} -- needed for minimap and possibly for Cartographer->external database thing
+
 function Questie:createQuestNote(name, progress, questName, x, y, icon, selected)
 	--local id, key = MapNotes_CreateQuestNote(name, lin, olin, x, y, icon, selected)
 	--DEFAULT_CHAT_FRAME:AddMessage(icon)
 	local zone = Cartographer:GetCurrentEnglishZoneName();
 	local _, id, key = Cartographer_Notes:SetNote(zone, x, y, icon, "Questie", "info", progress, "info2", questName, "title", name)
+	currentNotes[id] = {
+		['x'] = x, 
+		['y'] = y,
+		['icon'] = icon,
+		['questName'] = questName,
+		['name'] = name,
+		['progress'] = progress,
+		['lastFarthest'] = 0,
+		['lastFarthestIndex'] = 0
+	}
 	if selected and not (icon == 4) then
 		table.insert(selectedNotes, {
 			['name'] = name,
@@ -171,19 +225,128 @@ function Questie:createQuestNote(name, progress, questName, x, y, icon, selected
 	if (questName == "") then 
 		questName = progress; 
 	end
-	this:addNoteToCurrentQuests(questName, id, name, x, y, key, zone)
+	this:addNoteToCurrentQuests(questName, id, name, x, y, key, zone, icon)
 end
 
 function distance(x, y, px, py)
 	return math.abs(x-px) + math.abs(y-py);
 end
 
-function Questie:addNoteToCurrentQuests(questName, id, name, x, y, key, zone)
+function euclid(x, y, px, py)
+	return math.sqrt(x*x + px*px) + math.sqrt(y*y + py*py);
+end
+
+function sortie(token1, token2)
+	DEFAULT_CHAT_FRAME:AddMessage("SORTING")
+	local distA = distance(a['x'], a['y'], px, py);
+	local distB = distance(b['x'], b['y'], px, py);
+	DEFAULT_CHAT_FRAME:AddMessage(" sort: " .. distA .. " < " .. distB);
+	return distA < distB;
+end
+
+function Questie:getNearestNotes(count) -- ugly fast sort function (RETURNS IN NO SPECIFIC ORDER)
+	local ret = {};
+	local farthest = 0;
+	local farthestIndex = 0;
+	local px, py = Questie:getPlayerPos();
+	
+	local index = 1;
+	
+	for k,v in pairs(currentNotes) do
+		local dist = euclid(v['x'], v['y'], px, py);
+		v['dist'] = dist;
+		if index < count then
+			ret[index] = v;
+			index = index + 1;
+			if dist > farthest then
+				v['lastFarthest'] = farthest;
+				v['lastFarthestIndex'] = farthestIndex;
+				--log("replacing " .. farthestIndex .. " with " .. index)
+				farthest = dist;
+				farthestIndex = index;
+			end
+		else
+			if dist < farthest then
+				-- replace farthest with current
+				local last = ret[farthestIndex]['lastFarthest'];
+				local lastIndex = ret[farthestIndex]['lastFarthestIndex'];
+				while last > dist do
+					last = ret[lastIndex]['lastFarthest'];
+					lastIndex = ret[lastIndex]['lastFarthestIndex'];
+					-- set the previous to the current moving the line backward emitting the farthest
+				end
+				
+				--ret[farthestIndex] = v;
+				-- swap lastFarthest(s) until dist > lastFarthest
+			end
+			--if dist < farthest then
+			--	local fdist = ret[farthestIndex]['lastFarthest'];
+			--	local putIndex = farthestIndex;
+			--	v['lastFarthest'] = farthest;
+			--	v['lastFarthestIndex'] = farthestIndex;
+			--	if dist > fdist then
+			--		farthest = dist;
+			--	else
+			--		farthest = ret[farthestIndex]['lastFarthest'];
+			--		farthestIndex = ret[farthestIndex]['lastFarthestIndex'];
+			--	end
+--
+			--	--log(">replacing " .. fdist .. " with " .. dist)
+			--	ret[putIndex] = v;
+			--end
+		end
+	end
+	
+	return ret, index, farthest;
+end
+
+function Questie:updateMinimap()
+	local near, _, farthest = Questie:getNearestNotes(QUESTIE_MAX_MINIMAP_POINTS);
+	local index = 1;
+	for k,v in pairs(near) do-- tex:SetAlpha(0.4)
+		--minimap_poiframes[i] = fram;
+		--minimap_poiframe_textures[i] = tex;
+		local alpha = (v['dist']/(farthest));
+		local offsX, offsY = getMinimapPosFromCoord(v['x'],v['y'],getCurrentMapID());
+		--local offsX, offsY = getMinimapPosFromCoord(0.6,0.6,getCurrentMapID());
+		minimap_poiframe_textures[index]:SetTexture("Interface\\AddOns\\Questie\\Icons\\" .. string.lower(v['icon']));
+		--minimap_poiframe_textures[index]:SetAlpha(0.1);
+		--minimap_poiframe_textures[index]:SetAlpha(alpha);
+		minimap_poiframe_data[index] = v;
+		minimap_poiframes[index]:SetPoint("CENTER", Minimap, "CENTER", offsX, -offsY);
+		minimap_poiframes[index]:Show();
+		index = index + 1;
+	end
+	--log(index)
+end
+
+--function Questie:resortNotesByDistance() -- should be improved\
+	--local near = Questie:getNearestNotes(QUESTIE_MAX_MINIMAP_POINTS);
+	--log("Sorting...")
+	--sort(currentNotes, sortie) -- WHY DONT YOU WORK :'(
+	--log("Sorted by distance:")
+	--for k,v in pairs(near) do
+		--log("   " .. k .. ": " .. v['name'] .. " at " .. v['x'] .. "|" .. v['y'])
+	--end
+	--questsByDistance = {};
+	--local px, py = Questie:getPlayerPos();
+	--for k,v in pairs(currentNotes) do
+	--	local dist = euclid(v['x'], v['y'], px, py);
+	--	questsByDistance[dist] = v;
+	--end
+	-- AS FAR AS I KNOW for k,v in pairs(questsByDistance) should auto-sort because the index is dist
+--end
+
+function Questie:addNoteToCurrentQuests(questName, id, name, x, y, key, zone, icon)
 	if(currentQuests[questName] ~= nil) then
 		if(type(currentQuests[questName]["notes"]) ~= "table") then
 			currentQuests[questName]["notes"] = {}
 		end
 		--log("adding notes to quest list for quest "..questName)
+		--log(name)
+		--log(key)
+		--log(zone)
+		--log(id)
 		currentQuests[questName]["notes"][id] = {
 			['name'] = name,
 			['x'] = x,
@@ -191,7 +354,8 @@ function Questie:addNoteToCurrentQuests(questName, id, name, x, y, key, zone)
 			['id'] = id,
 			['icon'] = icon,
 			['key'] = key,
-			['zone'] = zone
+			['zone'] = zone,
+			['icon'] = icon
 		};
 	end
 end
@@ -231,15 +395,21 @@ function Questie:clearAllNotes()
 	Cartographer_Notes:ClearMap();
 end
 
-function getCurrentMapID()
+function Questie:getPlayerPos()
 
-	-- thanks to mapnotes for this "bug fix"
+-- thanks to mapnotes for this "bug fix"
 	local fx, fy = GetPlayerMapPosition("player");
 	if ( ( ( fx ) and ( fx == 0 ) ) and ( ( fy ) and ( fy == 0 ) ) ) then
 		SetMapToCurrentZone();
 	end
 	-- thanks mapnotes
+	return fx, fy;
+end
 
+function getCurrentMapID()
+
+	
+	local fx, fy = Questie:getPlayerPos(); -- this: does not work here??
 
 	local file = GetMapInfo()
 	
@@ -390,10 +560,6 @@ end
 
 function getQuestHashByName(name)
 	return QuestieHashes[name];
-end
-
-function fank()
-	DEFAULT_CHAT_FRAME:AddMessage("fank", 0.95, 0.55, 0.2);
 end
 
 function Questie:QUEST_LOG_UPDATE()
