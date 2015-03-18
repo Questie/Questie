@@ -30,6 +30,7 @@ function Questie:createMinimapFrames()
 		local pass = i; -- Apparently you cant just pass i 
 		fram:SetScript("OnEnter", function()
 			--log("onEnter");
+			tex.previousAlpha = tex:GetAlpha();
 			tex:SetAlpha(1.0);
 			GameTooltip:SetOwner(this, "ANCHOR_BOTTOMLEFT")
 			GameTooltip:SetText(minimap_poiframe_data[pass]['progress'], 1, 1, 1);
@@ -40,7 +41,7 @@ function Questie:createMinimapFrames()
 		end)
 		fram:SetScript("OnLeave", function()
 			--log("onLeave");
-			tex:SetAlpha(0.7);
+			tex:SetAlpha(tex.previousAlpha);
 			GameTooltip:Hide();
 		end)
 		tex:SetAlpha(0.7);
