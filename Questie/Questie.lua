@@ -24,8 +24,8 @@ function Questie:createMinimapFrames()
 		local tex = fram:CreateTexture("ARTWORK"); -- not sure why this needs "ARTWORK"
 		tex:SetAllPoints();
 		tex:SetTexture("Interface\\AddOns\\Questie\\Icons\\object"); --placeholder
-		fram:SetWidth(20);
-		fram:SetHeight(20);
+		fram:SetWidth(16);
+		fram:SetHeight(16);
 		fram:EnableMouse(true);
 		local pass = i; -- Apparently you cant just pass i 
 		fram:SetScript("OnEnter", function()
