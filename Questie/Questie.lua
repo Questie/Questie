@@ -167,7 +167,6 @@ function Questie:OnUpdate(elapsed)
 	
 	local ttl = GetTime() - Questie.lastMinimapUpdate;
 	if ttl > 3 then -- 3 seconds
-		Questie:pickNearestPOI();
 		Questie:updateMinimap() -- DONT DO THIS BAD
 		Questie.lastMinimapUpdate = GetTime();
 	end	
@@ -308,24 +307,6 @@ function Questie:addMonsterToMap(monsterName, info, quest, icon, mapid, selected
 			end
 		end
 	end
-end
-
-function Questie:pickNearestPOI()
-	local fx, fy = GetPlayerMapPosition("player");
-	local least = 8; -- biggest distance possible is 2.0 but oh well
-	local best;
-	for k,v in pairs(selectedNotes) do 
-		local dist = distance(fx, fy, v['x'], v['y']);
-		if dist < least then
-			least = dist;
-			best = v;
-		end
-		--DEFAULT_CHAT_FRAME:AddMessage("pickNearestPOI" .. v['name'], 0.95, 0.95, 0.5);
-	end
-	if not (best == nil) then
-		--MapNotes_setMiniPoint(best['id'], best['x'], best['y'], best['key'], best['name'], best['icon']);
-	end
-	--DEFAULT_CHAT_FRAME:AddMessage("pickNearestPOI", 0.95, 0.95, 0.5);
 end
 
 function Questie:clearAllNotes()
