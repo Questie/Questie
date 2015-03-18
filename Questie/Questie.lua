@@ -247,7 +247,7 @@ function sortie(a, b)
 	return distA < distB;
 end
 
-function Questie:getNearestNotes() -- ugly fast sort function (RETURNS IN NO SPECIFIC ORDER)
+function Questie:getNearestNotes() 
 	local px, py = Questie:getPlayerPos();
 	
 	sort(currentNotes, sortie)
@@ -257,26 +257,20 @@ function Questie:getNearestNotes() -- ugly fast sort function (RETURNS IN NO SPE
 	return currentNotes[1]['distance'], currentNotes[table.getn(currentNotes)]['distance'];
 end
 
+-- for some reason this only shows 3 notes at MAX_NOTES = 5 - 6 at 10 etc
 function Questie:updateMinimap()
 	local nearest, farthest = Questie:getNearestNotes();
 	local index = 1;
-	for k,v in pairs(currentNotes) do-- tex:SetAlpha(0.4)
-		--minimap_poiframes[i] = fram;
-		--minimap_poiframe_textures[i] = tex;
+	for k,v in pairs(currentNotes) do
+		if not (minimap_poiframes[index]) then break; end
 		local alpha = (v['distance']/(farthest));
 		local offsX, offsY = getMinimapPosFromCoord(v['x'],v['y'],getCurrentMapID());
-		--local offsX, offsY = getMinimapPosFromCoord(0.6,0.6,getCurrentMapID());
 		minimap_poiframe_textures[index]:SetTexture("Interface\\AddOns\\Questie\\Icons\\" .. string.lower(v['icon']));
-		--minimap_poiframe_textures[index]:SetAlpha(0.1);
-		--minimap_poiframe_textures[index]:SetAlpha(alpha);
+		minimap_poiframe_textures[index]:SetAlpha(alpha);
 		minimap_poiframe_data[index] = v;
 		minimap_poiframes[index]:SetPoint("CENTER", Minimap, "CENTER", offsX, -offsY);
 		minimap_poiframes[index]:Show();
-		index = index + 1;
-		if(index > QUESTIE_MAX_MINIMAP_POINTS) then
-			break;
-		end	
-		
+		index = index + 1;	
 	end
 end
 
