@@ -10,6 +10,8 @@
 <script file="finishers.lua"/>
 <script file="objects.lua"/>
 <script file="addendum.lua"/>
+<script file="extern/GatherRegionData.lua"/>
+<script file="regionscale.lua"/>
 
 
 <Frame name="Questie" parent="UIParent" hidden="false" inherits="ActionButtonTemplate">

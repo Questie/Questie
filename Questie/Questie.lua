@@ -7,6 +7,42 @@ Questie.lastMinimapUpdate = 0
 Questie.needsUpdate = false;
 currentQuests = {};
 selectedNotes = {};
+QuestieSeenQuests = {};
+
+function Questie:hookTooltip()
+	local _GameTooltipOnShow = GameTooltip:GetScript("OnShow") -- APPARENTLY this is always null, and doesnt need to be called for things to function correctly...?
+	GameTooltip:SetScript("OnShow", function(self, arg)
+		local monster = UnitName("mouseover")
+		if monster then
+			for k,v in pairs(currentQuests) do
+				local obj = v['objectives'];
+				if not (obj == nil) then --- bad habit I know...
+					for l,m in pairs(obj) do
+						if m['type'] == "monster" then
+							if (monster .. " slain") == m['name'] or monster == m['name'] then
+								GameTooltip:AddLine(k, 0.2, 1, 0.3)
+								GameTooltip:AddLine("   " .. monster .. ": " .. m['count'], 1, 1, 0.2)
+							end
+						elseif m['type'] == "item" then
+							local monroot = QuestieMonsters[monster];
+							if monroot then
+								local mondat = monroot['drops'];
+								if not (mondat == nil) then
+									if mondat[m['name']] then
+										GameTooltip:AddLine(k, 0.2, 1, 0.3)
+										GameTooltip:AddLine("   " .. m['name'] .. ": " .. m['count'], 1, 1, 0.2)
+									end
+								end
+							end
+						end
+					end
+				end
+			end
+		end
+		GameTooltip:Show() -- recalculates size/position
+	end)
+
+end
 
 function Questie:OnEvent() -- functions created in "object:method"-style have an implicit first parameter of "this", which points to object || in 1.12 parsing arguments as ... doesn't work
 	Questie[event](Questie, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10) -- route event parameters to Questie:event methods
@@ -98,8 +134,10 @@ end
 function Questie:PLAYER_LOGIN()
 	--log(this:GetName())
 	this:RegisterEvent("QUEST_LOG_UPDATE");
+	this:RegisterEvent("ZONE_CHANGED"); -- this actually is needed
 	this:RegisterEvent("UNIT_AURA")
 	this:RegisterCartographerIcons();
+	this:hookTooltip();
 end
 
 function Questie:UNIT_AURA(unitId)
@@ -222,21 +260,25 @@ function Questie:addAvailableQuests()
 	local mapid = getCurrentMapID();
 	local level = UnitLevel("Player");
 	for l=level-3,level+2 do
-		local content = QuestieZoneLevelMap[mapid][l];
-		if not (content == nil) then
-			for k,v in pairs(content) do
-				local qdata = QuestieHashMap[v];
-				if not (qdata == nil) then
-					local requires = qdata['requires'];
-					if requires == nil then
-						local stype = qdata['startedType'];
-						local sby = qdata['startedBy'];
-						local name = qdata['name'];
-						if stype == "monster" then
-							local mob = QuestieMonsters[sby];
-							local loc = mob['locations'][1];
-							this:createQuestNote("Pick up: " .. name, sby, name, loc[2], loc[3], "Available", selected);
-							--createQuestNote("Pick up: " .. name, sby, stype, loc[2], loc[3], 9, false);
+		if QuestieZoneLevelMap[mapid] then
+			local content = QuestieZoneLevelMap[mapid][l];
+			if not (content == nil) then
+				for k,v in pairs(content) do
+					if not QuestieSeenQuests[v] then
+						local qdata = QuestieHashMap[v];
+						if not (qdata == nil) then
+							local requires = qdata['requires'];
+							if requires == nil then
+								local stype = qdata['startedType'];
+								local sby = qdata['startedBy'];
+								local name = qdata['name'];
+								if stype == "monster" then
+									local mob = QuestieMonsters[sby];
+									local loc = mob['locations'][1];
+									this:createQuestNote("Pick up: " .. name, sby, name, loc[2], loc[3], "Available", selected);
+									--createQuestNote("Pick up: " .. name, sby, stype, loc[2], loc[3], 9, false);
+								end
+							end
 						end
 					end
 				end
@@ -316,7 +358,7 @@ function findLast(haystack, needle)
     if i==nil then return nil else return i-1 end
 end
 
-function Questie:processObjective(quest, desc, typ, selected, mid)
+function Questie:processObjective(quest, desc, typ, selected, mid, objectiveid)
 	--DEFAULT_CHAT_FRAME:AddMessage(desc, 0.95, 0.95, 0.5);
 	local ref = objectiveProcessors[typ];
 	
@@ -327,9 +369,19 @@ function Questie:processObjective(quest, desc, typ, selected, mid)
 			--DEFAULT_CHAT_FRAME:AddMessage(indx, 0.95, 0.95, 0.5);
 			local countstr = string.sub(desc, indx+2);
 			local namestr = string.sub(desc, 1, indx-1);
+			currentQuests[quest]['objectives'][objectiveid] = {
+				['name'] = namestr,
+				['count'] = countstr,
+				['type'] = typ
+			};
 			ref(quest, namestr, countstr, selected, mid);
 		else
 			ref(quest, desc, "", selected, mid);
+			currentQuests[quest]['objectives'][objectiveid] = {
+				['name'] = desc,
+				['count'] = -1,
+				['type'] = typ
+			};
 		end
 	else
 		DEFAULT_CHAT_FRAME:AddMessage("ERROR: UNHALDNED TYPE: " .. typ .. " \"" .. desc .. "\" for quest " .. quest, 0.95, 0.2, 0.2);
@@ -374,6 +426,17 @@ function Questie:QUEST_LOG_UPDATE()
 			local questText, objectiveText = _GetQuestLogQuestText();
 			local hash = Questie:getQuestHash(q, level, objectiveText);
 			
+			local seen = QuestieSeenQuests[hash];
+			if currentQuests[q] == nil then
+				currentQuests[q] = {};
+			end
+			currentQuests[q]['hash'] = hash; -- needs to store the hash (probably not best to set it every time)
+			
+			if seen == nil or not seen then -- not seen would update it if the user had abandoned then re-picked up
+											-- someone should tell me if LUA is like C where I could do only "if not seen then" here.
+				QuestieSeenQuests[hash] = true; -- true = in the quest log
+			end
+			
 			local finisher = QuestieFinishers[q];
 			
 			if not (finisher == nil) and (count == 0) then
@@ -381,6 +444,10 @@ function Questie:QUEST_LOG_UPDATE()
 				questComplete = false; -- questComplete is used to add the finisher, this avoids adding it twice
 			end
 			--DEFAULT_CHAT_FRAME:AddMessage(q);
+			
+			-- we're re-evaluating objectives now anyway
+			currentQuests[q]['objectives'] = {};
+			
 			for r=1,count do
 				local desc, typ, done = GetQuestLogLeaderBoard(r);
 				--DEFAULT_CHAT_FRAME:AddMessage(desc, 0.95, 0.95, 0.5);
@@ -393,7 +460,7 @@ function Questie:QUEST_LOG_UPDATE()
 					else
 						--DEFAULT_CHAT_FRAME:AddMessage("NOTSELECTEd " .. q .. " " .. in, 0.95, 0.1, 0.95);
 					end
-					this:processObjective(q, desc, typ, selected, mid)
+					this:processObjective(q, desc, typ, selected, mid, r)
 				end
 				---DEFAULT_CHAT_FRAME:AddMessage(typ, 0.95, 0.95, 0.5);
 				---DEFAULT_CHAT_FRAME:AddMessage(done, 0.95, 0.95, 0.5);
@@ -410,9 +477,21 @@ function Questie:QUEST_LOG_UPDATE()
 	SelectQuestLogEntry(sind);
 end
 
+local lastZoneID = 0;
+
+function Questie:ZONE_CHANGED() -- this is needed
+	local map = getCurrentMapID();
+	if not (map == lastZoneID) then -- I cant seem to get over this weird LUA not operator...
+		this:QUEST_LOG_UPDATE();
+		lastZoneID = map
+	end
+end
+
+
 function Questie:deleteNoteAfterQuestRemoved()
 	local finishedQuest = this:getFinishedQuest();
 	if (finishedQuest ~= nil) then
+		QuestieSeenQuests[currentQuests[finishedQuest]['hash']] = false; -- no longer in the list
 		--log("finished or abandoned quest " .. finishedQuest)
 		local notes = currentQuests[finishedQuest]["notes"]
 		if (notes ~= nil) then
