@@ -12,7 +12,7 @@ QuestieSeenQuests = {};
 
 QuestieNotesDB = {};
 
-local QUESTIE_MAX_MINIMAP_POINTS = 511;
+local QUESTIE_MAX_MINIMAP_POINTS = 32;
 
 local minimap_poiframes = {};
 local minimap_poiframe_textures = {};
@@ -167,9 +167,9 @@ function Questie:OnUpdate(elapsed)
 	local ttl = GetTime() - Questie.lastMinimapUpdate;
 	if ttl > 3 then -- 3 seconds
 		Questie:pickNearestPOI();
+		Questie:updateMinimap() -- DONT DO THIS BAD
 		Questie.lastMinimapUpdate = GetTime();
 	end	
-	Questie:updateMinimap() -- DONT DO THIS BAD
 end
 
 function Questie:PLAYER_LOGIN()
@@ -202,16 +202,16 @@ function Questie:createQuestNote(name, progress, questName, x, y, icon, selected
 	--DEFAULT_CHAT_FRAME:AddMessage(icon)
 	local zone = Cartographer:GetCurrentEnglishZoneName();
 	local _, id, key = Cartographer_Notes:SetNote(zone, x, y, icon, "Questie", "info", progress, "info2", questName, "title", name)
-	currentNotes[id] = {
+	table.insert(currentNotes,
+		{
+		['id'] = id,
 		['x'] = x, 
 		['y'] = y,
 		['icon'] = icon,
 		['questName'] = questName,
 		['name'] = name,
 		['progress'] = progress,
-		['lastFarthest'] = 0,
-		['lastFarthestIndex'] = 0
-	}
+	});
 	if selected and not (icon == 4) then
 		table.insert(selectedNotes, {
 			['name'] = name,
@@ -228,85 +228,42 @@ function Questie:createQuestNote(name, progress, questName, x, y, icon, selected
 	this:addNoteToCurrentQuests(questName, id, name, x, y, key, zone, icon)
 end
 
-function distance(x, y, px, py)
+function distance(x, y)
+	local px, py = Questie:getPlayerPos();
 	return math.abs(x-px) + math.abs(y-py);
 end
 
-function euclid(x, y, px, py)
+function euclid(x, y)
+	local px, py = Questie:getPlayerPos();
 	return math.sqrt(x*x + px*px) + math.sqrt(y*y + py*py);
 end
 
-function sortie(token1, token2)
-	DEFAULT_CHAT_FRAME:AddMessage("SORTING")
-	local distA = distance(a['x'], a['y'], px, py);
-	local distB = distance(b['x'], b['y'], px, py);
-	DEFAULT_CHAT_FRAME:AddMessage(" sort: " .. distA .. " < " .. distB);
+function sortie(a, b)
+	local distA = tonumber(euclid(a['x'], a['y']));
+	local distB = tonumber(euclid(b['x'], b['y']));
+	a['distance'] = distA;
+	b['distance'] = distB;
+	
 	return distA < distB;
 end
 
-function Questie:getNearestNotes(count) -- ugly fast sort function (RETURNS IN NO SPECIFIC ORDER)
-	local ret = {};
-	local farthest = 0;
-	local farthestIndex = 0;
+function Questie:getNearestNotes() -- ugly fast sort function (RETURNS IN NO SPECIFIC ORDER)
 	local px, py = Questie:getPlayerPos();
 	
-	local index = 1;
-	
-	for k,v in pairs(currentNotes) do
-		local dist = euclid(v['x'], v['y'], px, py);
-		v['dist'] = dist;
-		if index < count then
-			ret[index] = v;
-			index = index + 1;
-			if dist > farthest then
-				v['lastFarthest'] = farthest;
-				v['lastFarthestIndex'] = farthestIndex;
-				--log("replacing " .. farthestIndex .. " with " .. index)
-				farthest = dist;
-				farthestIndex = index;
-			end
-		else
-			if dist < farthest then
-				-- replace farthest with current
-				local last = ret[farthestIndex]['lastFarthest'];
-				local lastIndex = ret[farthestIndex]['lastFarthestIndex'];
-				while last > dist do
-					last = ret[lastIndex]['lastFarthest'];
-					lastIndex = ret[lastIndex]['lastFarthestIndex'];
-					-- set the previous to the current moving the line backward emitting the farthest
-				end
-				
-				--ret[farthestIndex] = v;
-				-- swap lastFarthest(s) until dist > lastFarthest
-			end
-			--if dist < farthest then
-			--	local fdist = ret[farthestIndex]['lastFarthest'];
-			--	local putIndex = farthestIndex;
-			--	v['lastFarthest'] = farthest;
-			--	v['lastFarthestIndex'] = farthestIndex;
-			--	if dist > fdist then
-			--		farthest = dist;
-			--	else
-			--		farthest = ret[farthestIndex]['lastFarthest'];
-			--		farthestIndex = ret[farthestIndex]['lastFarthestIndex'];
-			--	end
---
-			--	--log(">replacing " .. fdist .. " with " .. dist)
-			--	ret[putIndex] = v;
-			--end
-		end
-	end
-	
-	return ret, index, farthest;
+	sort(currentNotes, sortie)
+	--[[for k,v in pairs(currentNotes) do
+		log(v['distance'])
+	end]]
+	return currentNotes[1]['distance'], currentNotes[table.getn(currentNotes)]['distance'];
 end
 
 function Questie:updateMinimap()
-	local near, _, farthest = Questie:getNearestNotes(QUESTIE_MAX_MINIMAP_POINTS);
+	local nearest, farthest = Questie:getNearestNotes();
 	local index = 1;
-	for k,v in pairs(near) do-- tex:SetAlpha(0.4)
+	for k,v in pairs(currentNotes) do-- tex:SetAlpha(0.4)
 		--minimap_poiframes[i] = fram;
 		--minimap_poiframe_textures[i] = tex;
-		local alpha = (v['dist']/(farthest));
+		local alpha = (v['distance']/(farthest));
 		local offsX, offsY = getMinimapPosFromCoord(v['x'],v['y'],getCurrentMapID());
 		--local offsX, offsY = getMinimapPosFromCoord(0.6,0.6,getCurrentMapID());
 		minimap_poiframe_textures[index]:SetTexture("Interface\\AddOns\\Questie\\Icons\\" .. string.lower(v['icon']));
@@ -316,26 +273,12 @@ function Questie:updateMinimap()
 		minimap_poiframes[index]:SetPoint("CENTER", Minimap, "CENTER", offsX, -offsY);
 		minimap_poiframes[index]:Show();
 		index = index + 1;
+		if(index > QUESTIE_MAX_MINIMAP_POINTS) then
+			break;
+		end	
+		
 	end
-	--log(index)
 end
-
---function Questie:resortNotesByDistance() -- should be improved\
-	--local near = Questie:getNearestNotes(QUESTIE_MAX_MINIMAP_POINTS);
-	--log("Sorting...")
-	--sort(currentNotes, sortie) -- WHY DONT YOU WORK :'(
-	--log("Sorted by distance:")
-	--for k,v in pairs(near) do
-		--log("   " .. k .. ": " .. v['name'] .. " at " .. v['x'] .. "|" .. v['y'])
-	--end
-	--questsByDistance = {};
-	--local px, py = Questie:getPlayerPos();
-	--for k,v in pairs(currentNotes) do
-	--	local dist = euclid(v['x'], v['y'], px, py);
-	--	questsByDistance[dist] = v;
-	--end
-	-- AS FAR AS I KNOW for k,v in pairs(questsByDistance) should auto-sort because the index is dist
---end
 
 function Questie:addNoteToCurrentQuests(questName, id, name, x, y, key, zone, icon)
 	if(currentQuests[questName] ~= nil) then
