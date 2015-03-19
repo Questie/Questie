@@ -8,11 +8,13 @@ Questie.needsUpdate = false;
 currentQuests = {};
 questsByDistance = {};
 selectedNotes = {};
+currentNotes = {}; -- needed for minimap and possibly for Cartographer->external database thing
+currentNotesControl = {};
 QuestieSeenQuests = {};
 
 QuestieNotesDB = {};
 
-local QUESTIE_MAX_MINIMAP_POINTS = 32;
+local QUESTIE_MAX_MINIMAP_POINTS = 20;
 
 local minimap_poiframes = {};
 local minimap_poiframe_textures = {};
@@ -195,23 +197,11 @@ function Questie:PLAYER_ENTERING_WORLD()
 	this:addAvailableQuests();
 end
 
-currentNotes = {} -- needed for minimap and possibly for Cartographer->external database thing
-
 function Questie:createQuestNote(name, progress, questName, x, y, icon, selected)
 	--local id, key = MapNotes_CreateQuestNote(name, lin, olin, x, y, icon, selected)
 	--DEFAULT_CHAT_FRAME:AddMessage(icon)
 	local zone = Cartographer:GetCurrentEnglishZoneName();
 	local _, id, key = Cartographer_Notes:SetNote(zone, x, y, icon, "Questie", "info", progress, "info2", questName, "title", name)
-	table.insert(currentNotes,
-		{
-		['id'] = id,
-		['x'] = x, 
-		['y'] = y,
-		['icon'] = icon,
-		['questName'] = questName,
-		['name'] = name,
-		['progress'] = progress,
-	});
 	if selected and not (icon == 4) then
 		table.insert(selectedNotes, {
 			['name'] = name,
@@ -225,7 +215,16 @@ function Questie:createQuestNote(name, progress, questName, x, y, icon, selected
 	if (questName == "") then 
 		questName = progress; 
 	end
-	this:addNoteToCurrentQuests(questName, id, name, x, y, key, zone, icon)
+	this:addNoteToCurrentNotes({
+		['id'] = id,
+		['x'] = x, 
+		['y'] = y,
+		['icon'] = icon,
+		['questName'] = questName,
+		['name'] = name,
+		['progress'] = progress,
+	});
+	this:addNoteToCurrentQuests(questName, id, name, x, y, key, zone, icon);
 end
 
 function distance(x, y)
@@ -254,6 +253,9 @@ function Questie:getNearestNotes()
 	--[[for k,v in pairs(currentNotes) do
 		log(v['distance'])
 	end]]
+	if ( table.getn(currentNotes) < 1) then
+		return;
+	end
 	return currentNotes[1]['distance'], currentNotes[table.getn(currentNotes)]['distance'];
 end
 
@@ -272,6 +274,20 @@ function Questie:updateMinimap()
 		minimap_poiframes[index]:Show();
 		index = index + 1;	
 	end
+end
+
+function Questie:addNoteToCurrentNotes(note)
+	if not ( currentNotesControl[note['id']] ) then
+		currentNotesControl[note['id']] = true;
+		table.insert(currentNotes, note);
+	end
+end
+
+-- needs to be called on clearAllNotes, deleteNoteAfterQuestRemoved, etc
+function Questie:removeNoteFromCurrentNotes(note)
+	currentNotesControl[note['id']] = nil;
+	-- find in currentNotes and delete too
+	-- probably no way around iterating the table to remove it UNLESS we store its key in currentNotesControl (table.getn()+1, before inserting)
 end
 
 function Questie:addNoteToCurrentQuests(questName, id, name, x, y, key, zone, icon)
