@@ -71744,7 +71744,7 @@ QuestieItems = {
       [1] = {45.0, 0.8535, 0.1021, 100.0},
 	  [2] = {36.0, 0.386, 0.789, 100.0}
     },
-    ['locationCount'] = 1
+    ['locationCount'] = 2
   },
   ['Deeprock Salt'] = {
     ['drop'] = {
