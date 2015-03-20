@@ -205,6 +205,9 @@ function getMinimapPosFromCoord(coord_x, coord_y, zone)
 	local xscale,yscale;
 	local x, y = Questie:getPlayerPos();
 	local currentConst = QuestieRegionScale[zone];
+	if currentConst = nil then
+		return 0, 0, 0;
+	end
 	if cont > 0 then
 		xscale = MapNotes_MiniConst[cont][currentZoom].xscale;
 		yscale = MapNotes_MiniConst[cont][currentZoom].yscale;
