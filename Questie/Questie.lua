@@ -5,6 +5,8 @@ Questie = CreateFrame("Frame", "QuestieLua", UIParent, "ActionButtonTemplate")
 Questie.TimeSinceLastUpdate = 0
 Questie.lastMinimapUpdate = 0
 Questie.needsUpdate = false;
+Questie.player_x = 0;
+Questie.player_y = 0;
 currentQuests = {};
 questsByDistance = {};
 selectedNotes = {};
@@ -152,7 +154,6 @@ function Questie:RegisterCartographerIcons()
 end
 
 function nql()
-	--DEFAULT_CHAT_FRAME:AddMessage("QUESTTEXT", 0.95, 0.95, 0.5);
 	Questie.needsUpdate = true;
 	return _GetQuestLogQuestText();
 end
@@ -167,21 +168,24 @@ function Questie:OnUpdate(elapsed)
 		Questie:QUEST_LOG_UPDATE();
 	end
 	
-	local ttl = GetTime() - Questie.lastMinimapUpdate;
-	if modulo(ttl, 1) == 1 then -- 1 second
-		Questie:updateMinimap() -- DONT DO THIS BAD
-	end
-	if ttl > 3 then -- 3 seconds
-		Questie.lastMinimapUpdate = GetTime();
-	end
+	local now = GetTime()
+	local ttl = math.abs((now - Questie.lastMinimapUpdate)*1000); -- convert to miliseconds
 	
+	if ttl > 250 then -- seems about right
+		Questie.player_x, Questie.player_y = Questie:getPlayerPos();
+		Questie:updateMinimap()
+		Questie.lastMinimapUpdate = now;
+		--log("UMI: " .. Questie.player_x .. ", " .. Questie.player_y);
+		--log(now);
+	end
 end
 
 function Questie:PLAYER_LOGIN()
 	--log(this:GetName())
 	this:RegisterEvent("QUEST_LOG_UPDATE");
 	this:RegisterEvent("ZONE_CHANGED"); -- this actually is needed
-	this:RegisterEvent("UNIT_AURA")
+	this:RegisterEvent("UNIT_AURA");
+	this:RegisterEvent("UI_INFO_MESSAGE");
 	this:RegisterCartographerIcons();
 	this:hookTooltip();
 	this:createMinimapFrames();
@@ -231,13 +235,11 @@ function Questie:createQuestNote(name, progress, questName, x, y, icon, selected
 end
 
 function distance(x, y)
-	local px, py = Questie:getPlayerPos();
-	return math.abs(x-px) + math.abs(y-py);
+	return math.abs(x-Questie.player_x) + math.abs(y-Questie.player_y);
 end
 
 function euclid(x, y)
-	local px, py = Questie:getPlayerPos();
-	return math.sqrt(x*x + px*px) + math.sqrt(y*y + py*py);
+	return math.sqrt(x*x + Questie.player_x*Questie.player_x) + math.sqrt(y*y + Questie.player_y*Questie.player_y);
 end
 
 function sortie(a, b)
@@ -249,9 +251,7 @@ function sortie(a, b)
 	return distA < distB;
 end
 
-function Questie:getNearestNotes() 
-	local px, py = Questie:getPlayerPos();
-	
+function Questie:getNearestNotes()
 	sort(currentNotes, sortie)
 	--[[for k,v in pairs(currentNotes) do
 		log(v['distance'])
@@ -590,6 +590,10 @@ function Questie:ZONE_CHANGED() -- this is needed
 		this:QUEST_LOG_UPDATE();
 		lastZoneID = map
 	end
+end
+
+function Questie:UI_INFO_MESSAGE(message)
+	log(message)
 end
 
 
