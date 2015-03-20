@@ -168,10 +168,13 @@ function Questie:OnUpdate(elapsed)
 	end
 	
 	local ttl = GetTime() - Questie.lastMinimapUpdate;
-	if ttl > 3 then -- 3 seconds
+	if modulo(ttl, 1) == 1 then -- 1 second
 		Questie:updateMinimap() -- DONT DO THIS BAD
+	end
+	if ttl > 3 then -- 3 seconds
 		Questie.lastMinimapUpdate = GetTime();
-	end	
+	end
+	
 end
 
 function Questie:PLAYER_LOGIN()
@@ -327,6 +330,7 @@ end
 
 function Questie:clearAllNotes()
 	selectedNotes = {}
+	currentNotes = {} -- temp fix
 	Cartographer_Notes:ClearMap();
 end
 
