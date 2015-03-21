@@ -3849,5 +3849,6 @@ QuestieFinishers = {
   ['Ribbly Screwspigot'] = "Yuka Screwspigot",
   ['Return to Quinn'] = "Quinn Yorick",
   ['True Masters of the Light'] = "Lord Solanar Bloodwrath",
-  ['Glowcap Mushrooms'] = "Msshi'fn"
+  ['Glowcap Mushrooms'] = "Msshi'fn",
+  ['Report to Jennea'] = "Jennea Cannon"
 }

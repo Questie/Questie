@@ -10,9 +10,9 @@
 <script file="finishers.lua"/>
 <script file="objects.lua"/>
 <script file="addendum.lua"/>
-<script file="extern/GatherRegionData.lua"/>
+<script file="Interface\AddOns\Questie\extern\GatherRegionData.lua"/>
 <script file="regionscale.lua"/>
-<script file="extern/GatherMinimapCalcs.lua"/>
+<script file="Interface\AddOns\Questie\extern\GatherMinimapCalcs.lua"/>
 <script file="minimapcalcs.lua"/>
 
 
