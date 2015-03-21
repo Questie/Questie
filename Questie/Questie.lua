@@ -230,6 +230,7 @@ function Questie:createQuestNote(name, progress, questName, x, y, icon, selected
 		['questName'] = questName,
 		['name'] = name,
 		['progress'] = progress,
+		['distance'] = 1 -- avoid null error
 	});
 	this:addNoteToCurrentQuests(questName, id, name, x, y, key, zone, icon);
 end
@@ -270,6 +271,8 @@ function Questie:updateMinimap()
 		if not (minimap_poiframes[index]) then break; end
 		local alpha = (v['distance']/(farthest));
 		local offsX, offsY = getMinimapPosFromCoord(v['x'],v['y'],getCurrentMapID());
+		--log(offsX);
+		--log(offsY);
 		minimap_poiframe_textures[index]:SetTexture("Interface\\AddOns\\Questie\\Icons\\" .. string.lower(v['icon']));
 		minimap_poiframe_textures[index]:SetAlpha(alpha);
 		minimap_poiframe_data[index] = v;
