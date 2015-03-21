@@ -124,7 +124,7 @@ end
 local function DevTools_InitFunctionCache(context)
     local ret = {};
 
-    for _,k in ipairs(DevTools.functionSymbols) do
+    for _,k in ipairs(DT.functionSymbols) do
         local v = getglobal(k);
         if (type(v) == 'function') then
             ret[v] = '[' .. k .. ']';
@@ -145,7 +145,7 @@ end
 local function DevTools_InitUserdataCache(context)
     local ret = {};
 
-    for _,k in ipairs(DevTools.userdataSymbols) do
+    for _,k in ipairs(DT.userdataSymbols) do
         local v = getglobal(k);
         if (type(v) == 'table') then
             local u = rawget(v,0);
