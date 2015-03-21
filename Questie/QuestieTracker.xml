@@ -1,0 +1,110 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+	<FontString name="HeadlineFont" inherits="GameFontNormal" font="Fonts\FRIZQT__.TTF" virtual="true">
+		<FontHeight>
+			<AbsValue val="15"/>
+		</FontHeight>
+		<Color r="1.0" g="1.0" b="0.0"/>
+	</FontString>
+	<FontString name="QuestWatch_FontTemplate" inherits="GameFontHighlight" virtual="true" justifyH="LEFT">
+		<Size>
+			<AbsDimension x="0" y="12"/>
+		</Size>
+	</FontString>
+	
+	<Button name="QuestieTrackerButtonTemplate" virtual="true" alpha="1" hidden ="true">
+		<Size>
+			<AbsDimension x="240" y="20"/>
+		</Size>
+		<Layers>
+			<Layer level="ARTWORK">
+				<Frame name="$parentHeader" hidden="true">
+					<Texture file = "" />
+					<Size>
+						<AbsDimension x="240" y="10"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<AbsDimension x="0" y="0"/>
+						</Anchor>
+					</Anchors>
+				</Frame>
+				<FontString name="$parentHeaderText" inherits="HeadlineFont" justifyH="LEFT">
+					<Size>
+						<AbsDimension x="240" y="10"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset>
+								<AbsDimension x="5" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentQuestWatchLine1" inherits="QuestWatch_FontTemplate" hidden="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentHeaderText" relativePoint="BOTTOMLEFT">
+							<Offset>
+								<AbsDimension x="5" y="-5"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentQuestWatchLine2" inherits="QuestWatch_FontTemplate" hidden="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentQuestWatchLine1" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentQuestWatchLine3" inherits="QuestWatch_FontTemplate" hidden="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentQuestWatchLine2" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentQuestWatchLine4" inherits="QuestWatch_FontTemplate" hidden="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentQuestWatchLine3" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentQuestWatchLine5" inherits="QuestWatch_FontTemplate" hidden="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentQuestWatchLine4" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentQuestWatchLine6" inherits="QuestWatch_FontTemplate" hidden="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentQuestWatchLine5" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentQuestWatchLine7" inherits="QuestWatch_FontTemplate" hidden="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentQuestWatchLine6" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentQuestWatchLine8" inherits="QuestWatch_FontTemplate" hidden="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentQuestWatchLine7" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+			<Layer level="OVERLAY">
+				<FontString name="$parentName" inherits="GameFontHighlightSmallOutline">
+					<Size>
+						<AbsDimension x="36" y="10"/>
+					</Size>
+					<Anchors>
+						<Anchor point="BOTTOM">
+							<Offset>
+								<AbsDimension x="0" y="2"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<NormalTexture name="$parentNormalTexture" file="Interface\Tooltips\UI-Tooltip-Background" setAllPoints="true">
+		</NormalTexture>
+		<PushedTexture file="Interface\Buttons\UI-Quickslot-Depress"/>
+		<HighlightTexture alphaMode="ADD" file="Interface\FriendsFrame\UI-FriendsFrame-HighlightBar"/>
+	</Button>
+</Ui>
+

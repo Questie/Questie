@@ -25,6 +25,7 @@
 		<OnLoad>
 			Questie:RegisterEvent("PLAYER_ENTERING_WORLD")
 			Questie:RegisterEvent("PLAYER_LOGIN")
+			Questie:RegisterEvent("ADDON_LOADED")
 		</OnLoad>
 	</Scripts>
 </Frame>

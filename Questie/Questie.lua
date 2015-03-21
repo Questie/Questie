@@ -7,7 +7,6 @@ Questie.lastMinimapUpdate = 0
 Questie.needsUpdate = false;
 Questie.player_x = 0;
 Questie.player_y = 0;
-currentQuests = {};
 questsByDistance = {};
 selectedNotes = {};
 currentNotes = {}; -- needed for minimap and possibly for Cartographer->external database thing
@@ -21,6 +20,12 @@ local QUESTIE_MAX_MINIMAP_POINTS = 20;
 local minimap_poiframes = {};
 local minimap_poiframe_textures = {};
 local minimap_poiframe_data = {};
+
+function Questie:ADDON_LOADED()
+	if not (QuestieCurrentQuests) then
+		QuestieCurrentQuests = {};
+	end
+end
 
 function Questie:createMinimapFrames()
 	for i=1,QUESTIE_MAX_MINIMAP_POINTS do
@@ -59,7 +64,7 @@ function Questie:hookTooltip()
 	GameTooltip:SetScript("OnShow", function(self, arg)
 		local monster = UnitName("mouseover")
 		if monster then
-			for k,v in pairs(currentQuests) do
+			for k,v in pairs(QuestieCurrentQuests) do
 				local obj = v['objectives'];
 				if not (obj == nil) then --- bad habit I know...
 					for l,m in pairs(obj) do
@@ -196,7 +201,6 @@ function Questie:UNIT_AURA(unitId)
 end
 
 function Questie:PLAYER_ENTERING_WORLD()
-	currentQuests = {};
 	this:fillQuestList();
 	_GetQuestLogQuestText = GetQuestLogQuestText;
 	GetQuestLogQuestText = nql;
@@ -297,16 +301,16 @@ function Questie:removeNoteFromCurrentNotes(note)
 end
 
 function Questie:addNoteToCurrentQuests(questName, id, name, x, y, key, zone, icon)
-	if(currentQuests[questName] ~= nil) then
-		if(type(currentQuests[questName]["notes"]) ~= "table") then
-			currentQuests[questName]["notes"] = {}
+	if(QuestieCurrentQuests[questName] ~= nil) then
+		if(type(QuestieCurrentQuests[questName]["notes"]) ~= "table") then
+			QuestieCurrentQuests[questName]["notes"] = {}
 		end
 		--log("adding notes to quest list for quest "..questName)
 		--log(name)
 		--log(key)
 		--log(zone)
 		--log(id)
-		currentQuests[questName]["notes"][id] = {
+		QuestieCurrentQuests[questName]["notes"][id] = {
 			['name'] = name,
 			['x'] = x,
 			['y'] = y,
@@ -481,7 +485,7 @@ function Questie:processObjective(quest, desc, typ, selected, mid, objectiveid)
 			--DEFAULT_CHAT_FRAME:AddMessage(indx, 0.95, 0.95, 0.5);
 			local countstr = string.sub(desc, indx+2);
 			local namestr = string.sub(desc, 1, indx-1);
-			currentQuests[quest]['objectives'][objectiveid] = {
+			QuestieCurrentQuests[quest]['objectives'][objectiveid] = {
 				['name'] = namestr,
 				['count'] = countstr,
 				['type'] = typ
@@ -489,7 +493,7 @@ function Questie:processObjective(quest, desc, typ, selected, mid, objectiveid)
 			ref(quest, namestr, countstr, selected, mid);
 		else
 			ref(quest, desc, "", selected, mid);
-			currentQuests[quest]['objectives'][objectiveid] = {
+			QuestieCurrentQuests[quest]['objectives'][objectiveid] = {
 				['name'] = desc,
 				['count'] = -1,
 				['type'] = typ
@@ -535,10 +539,10 @@ function Questie:QUEST_LOG_UPDATE()
 			local hash = Questie:getQuestHash(q, level, objectiveText);
 			
 			local seen = QuestieSeenQuests[hash];
-			if currentQuests[q] == nil then
-				currentQuests[q] = {};
+			if QuestieCurrentQuests[q] == nil then
+				QuestieCurrentQuests[q] = {};
 			end
-			currentQuests[q]['hash'] = hash; -- needs to store the hash (probably not best to set it every time)
+			QuestieCurrentQuests[q]['hash'] = hash; -- needs to store the hash (probably not best to set it every time)
 			
 			if seen == nil or not seen then -- not seen would update it if the user had abandoned then re-picked up
 											-- someone should tell me if LUA is like C where I could do only "if not seen then" here.
@@ -554,7 +558,7 @@ function Questie:QUEST_LOG_UPDATE()
 			--DEFAULT_CHAT_FRAME:AddMessage(q);
 			
 			-- we're re-evaluating objectives now anyway
-			currentQuests[q]['objectives'] = {};
+			QuestieCurrentQuests[q]['objectives'] = {};
 			
 			for r=1,count do
 				local desc, typ, done = GetQuestLogLeaderBoard(r);
@@ -603,9 +607,9 @@ end
 function Questie:deleteNoteAfterQuestRemoved()
 	local finishedQuest = this:getFinishedQuest();
 	if (finishedQuest ~= nil) then
-		QuestieSeenQuests[currentQuests[finishedQuest]['hash']] = false; -- no longer in the list
+		QuestieSeenQuests[QuestieCurrentQuests[finishedQuest]['hash']] = false; -- no longer in the list
 		--log("finished or abandoned quest " .. finishedQuest)
-		local notes = currentQuests[finishedQuest]["notes"]
+		local notes = QuestieCurrentQuests[finishedQuest]["notes"]
 		if (notes ~= nil) then
 			for k,v in pairs(notes) do
 				--log(v["zone"] .. "  " .. v["x"] .. "  " .. v["y"])
@@ -613,13 +617,13 @@ function Questie:deleteNoteAfterQuestRemoved()
 			end
 		end
 		--log("Deleting notes for quest:" .. finishedQuest);
-		currentQuests[finishedQuest] = nil;
+		QuestieCurrentQuests[finishedQuest] = nil;
 	end
 end
 
 function Questie:getFinishedQuest()
 	this:validateQuestList();
-	for k,v in pairs(currentQuests) do
+	for k,v in pairs(QuestieCurrentQuests) do
 		if (v['status'] == false) then
 			return k;
 		end
@@ -630,17 +634,17 @@ function Questie:fillQuestList()
 	for i=1, GetNumQuestLogEntries() do
 		local questLogTitleText, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(i);
 		if not (isHeader) then
-			if(type(currentQuests[questLogTitleText]) ~= "table") then
-				currentQuests[questLogTitleText] = {}
+			if(type(QuestieCurrentQuests[questLogTitleText]) ~= "table") then
+				QuestieCurrentQuests[questLogTitleText] = {}
 			end
-			currentQuests[questLogTitleText]['status'] = true;
+			QuestieCurrentQuests[questLogTitleText]['status'] = true;
 			--log("setting " .. GetQuestLogTitle(i) .. " true");
 		end
 	end
 end
 
 function Questie:validateQuestList()
-	for k,v in pairs(currentQuests) do
+	for k,v in pairs(QuestieCurrentQuests) do
 		v['status'] = false;
 		--log("setting "..k.." to false");
 	end
