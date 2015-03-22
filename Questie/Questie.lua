@@ -186,6 +186,8 @@ function Questie:OnUpdate(elapsed)
 		--log("UMI: " .. Questie.player_x .. ", " .. Questie.player_y);
 		--log(now);
 	end
+	-- Blizzard quest tracker needs to be hidden
+	QuestWatchFrame:Hide()
 end
 
 function Questie:PLAYER_LOGIN()
@@ -253,11 +255,14 @@ function euclid(x, y)
 end
 
 function sortie(a, b)
-	local distA = tonumber(euclid(a['x'], a['y']));
-	local distB = tonumber(euclid(b['x'], b['y']));
+	--[[local distA = tonumber(euclid(a['x'], a['y']));
+	local distB = tonumber(euclid(b['x'], b['y']));]]
+	local distA = Questie:getPlayerDistTo(a['x'], a['y']);
+	local distB = Questie:getPlayerDistTo(b['x'], b['y']);
 	a['distance'] = distA;
 	b['distance'] = distB;
 	
+	-- while sorted by distance, might as well add formatedDistnace
 	local formatDistance, units  = BWP_FormatDist(Questie.player_x, Questie.player_y, a['x'], a['y']);
 	a['formatDistance'] = formatDistance;
 	a['formatUnits'] = units;
@@ -693,6 +698,6 @@ function Questie:ConvertToYards(x1, y1, x2, y2)
    return math.sqrt(dx * dx + dy * dy)
 end
 
-function Questie:getPlayDistTo(x, y)
+function Questie:getPlayerDistTo(x, y)
 	return BWP_GetDist(Questie.player_x, Questie.player_y, x, y);
 end
