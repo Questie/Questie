@@ -21,14 +21,15 @@ local function trim(s)
 	return string.gsub(s, "^%s*(.-)%s*$", "%1");
 end
 
-function QuestieTracker:addQuestToTracker(questName, desc, typ, done, level, isComplete) -- should probably get a table of parameters
+function QuestieTracker:addQuestToTracker(questName, desc, typ, done, line, level, isComplete) -- should probably get a table of parameters
 	if(type(QuestieCurrentQuests[questName]) ~= "table") then
 		QuestieCurrentQuests[questName] = {};
 	end
 	if(type(QuestieCurrentQuests[questName].tracked) ~= "table") then
 		QuestieCurrentQuests[questName]["tracked"] = {};
 	end
-	QuestieCurrentQuests[questName]["tracked"][desc] = true
+	
+	QuestieCurrentQuests[questName]["tracked"]["line"..line] = desc
 	QuestieCurrentQuests[questName]["tracked"]["level"] = level
 	QuestieCurrentQuests[questName]["tracked"]["isComplete"] = isComplete
 end 
@@ -90,7 +91,7 @@ function QuestieTracker:setQuestInfo(id)
 	
 	for i=1, GetNumQuestLeaderBoards() do
 		local desc, typ, done = GetQuestLogLeaderBoard(i);
-		QuestieTracker:addQuestToTracker(questName, desc, typ, done, level, isComplete)
+		QuestieTracker:addQuestToTracker(questName, desc, typ, done, i, level, isComplete)
 	end
 end
 
@@ -110,7 +111,7 @@ function QuestieTracker:QUEST_LOG_UPDATE()
 			SelectQuestLogEntry(id);
 			for i=1, GetNumQuestLeaderBoards() do
 				local desc, typ, done = GetQuestLogLeaderBoard(i);
-				this:addQuestToTracker(questName, desc, typ, done, level, isComplete)
+				this:addQuestToTracker(questName, desc, typ, done, i, level, isComplete)
 			end
 		end
 	end
@@ -213,7 +214,7 @@ function QuestieTracker:fillTrackingFrame()
 					elseif (key == "isComplete") then
 					
 					else
-						getglobal("QuestieTrackerButton"..i.."QuestWatchLine"..j):SetText(key);
+						getglobal("QuestieTrackerButton"..i.."QuestWatchLine"..j):SetText(val);
 						getglobal("QuestieTrackerButton"..i.."QuestWatchLine"..j):Show();
 						j = j + 1;
 					end
