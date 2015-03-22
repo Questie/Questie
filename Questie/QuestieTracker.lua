@@ -170,6 +170,9 @@ end
 
 function QuestieTracker:fillTrackingFrame()
 
+	-- currently if there aren't any notes, it doesn't add the quest to the tracker
+	-- eventually, that should be changed, but since we are lacking distance and such, there needs to be some kind of workaround!
+	-- like creating dummy notes on SetQuestInfo() probably?
 	this:clearTrackingFrame();
 	local sortedByDistance = {};
 	local distanceControlTable = {};
