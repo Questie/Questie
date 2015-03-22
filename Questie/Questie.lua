@@ -258,6 +258,13 @@ function sortie(a, b)
 	a['distance'] = distA;
 	b['distance'] = distB;
 	
+	local formatDistance, units  = BWP_FormatDist(Questie.player_x, Questie.player_y, a['x'], a['y']);
+	a['formatDistance'] = formatDistance;
+	a['formatUnits'] = units;
+	formatDistance, units  = BWP_FormatDist(Questie.player_x, Questie.player_y, b['x'], b['y']);
+	b['formatDistance'] = formatDistance
+	b['formatUnits'] = units;
+	
 	return distA < distB;
 end
 
@@ -652,4 +659,40 @@ function Questie:validateQuestList()
 	end
 	
 	this:fillQuestList();
+end
+
+--taken from MetaMapBWP
+
+function BWP_GetDist(x1, y1, x2, y2)
+	if(not x1) or (not x2) then return nil 
+	else return math.sqrt((x1 - x2)^2 + (y1 - y2)^2)
+	end
+end
+
+--formats to yards or meters or clicks
+function BWP_FormatDist(x1, y1, x2, y2)
+	local thisDistance = BWP_GetDist(x1, y1, x2, y2)
+	thisDistance = Questie:ConvertToYards(x1, y1, x2, y2) / 10;
+	if(true) then
+		theseUnits = " Yds"
+	else
+		thisDistance = thisDistance * 0.9144	
+		theseUnits = " Mtrs"
+	end
+	thisDistance = tonumber(string.format("%.0f" , thisDistance)) -- we dont really need decimal places with this small of units
+	return thisDistance, theseUnits
+end
+
+function Questie:ConvertToYards(x1, y1, x2, y2)
+	if(x1 == nil) then
+		x1, y1, x2, y2 = 0, 0, 0, 0;
+	end
+   -- I think the 40482 thing should be taken from some map scale table? Can't find anything I understand though
+   local dx = (x1 - x2) * 40482.686754239;
+   local dy = (y1 - y2) * (40482.686754239 / 1.5);
+   return math.sqrt(dx * dx + dy * dy)
+end
+
+function Questie:getPlayDistTo(x, y)
+	return BWP_GetDist(Questie.player_x, Questie.player_y, x, y);
 end

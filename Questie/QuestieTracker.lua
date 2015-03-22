@@ -98,6 +98,7 @@ function QuestieTracker:PLAYER_LOGIN()
 	this:createTrackingFrame();
 	this:createTrackingButtons();
 	this:RegisterEvent("QUEST_LOG_UPDATE");
+	this:RegisterEvent("PLAYER_LOGOUT");
 end
 
 -- OBVIOUSLY NEEDS A MORE EFFECTIVE SYSTEM! In general, adding/removing notes and updating the visible elements needs to be handled better
@@ -116,9 +117,9 @@ function QuestieTracker:QUEST_LOG_UPDATE()
 end
 
 function QuestieTracker:ADDON_LOADED()
-	if not ( QuestieTrackerFrameVariables ) then
-		QuestieTrackerFrameVariables = {};
-		QuestieTrackerFrameVariables["position"] = {
+	if not ( QuestieTrackerVariables ) then
+		QuestieTrackerVariables = {};
+		QuestieTrackerVariables["position"] = {
 			point = "CENTER",
 			relativeTo = "UIParent",
 			relativePoint = "CENTER",
@@ -179,6 +180,8 @@ function QuestieTracker:fillTrackingFrame()
 			if not (distanceControlTable[v["questName"]]) then
 			distanceControlTable[v["questName"]] = true; 
 			QuestieCurrentQuests[v["questName"]]["questName"] = v["questName"];
+			QuestieCurrentQuests[v["questName"]]["formatDistance"] = v["formatDistance"];
+			QuestieCurrentQuests[v["questName"]]["formatUnits"] = v["formatUnits"];
 			table.insert(sortedByDistance, QuestieCurrentQuests[v["questName"]]);
 			end
 		end
@@ -192,7 +195,7 @@ function QuestieTracker:fillTrackingFrame()
 				local j = 1;
 				for key,val in pairs(v) do
 					if (key == "level") then
-						getglobal("QuestieTrackerButton"..i.."HeaderText"):SetText("[" .. val .. "] " .. quest["questName"]);
+						getglobal("QuestieTrackerButton"..i.."HeaderText"):SetText("[" .. val .. "] " .. quest["questName"] .. " (" .. quest["formatDistance"] .. " " .. quest["formatUnits"] .. ")");
 					elseif (key == "isComplete") then
 					
 					else
@@ -215,23 +218,23 @@ function QuestieTracker:createTrackingButtons()
 		local button = CreateFrame("Button", "QuestieTrackerButton"..i, this.frame, "QuestieTrackerButtonTemplate");
 		button:SetParent(this.frame);
 		button:SetWidth(240);
-		button:SetHeight(20);
+		button:SetHeight(8);
 	
 		if(i == 1) then
 			button:SetPoint("TOPLEFT", this.frame, "TOPLEFT", 5, -15);
-			local height = 20;
+			local height = 8;
 			for j=1,8 do
 				if( getglobal("QuestieTrackerButton"..i.."QuestWatchLine"..j):IsShown() ) then
-					height = height + 12;
+					height = height + 8;
 				end
 			end
 			button:SetHeight(height);
 		else
 			button:SetPoint("TOPLEFT", "QuestieTrackerButton"..i-1, "BOTTOMLEFT", 0, -5);
-			local height = 20;
+			local height = 8;
 			for j=1,8 do
 				if( getglobal("QuestieTrackerButton"..i.."QuestWatchLine"..j):IsShown() ) then
-					height = height + 12;
+					height = height + 8;
 				end
 			end
 			button:SetHeight(height);
@@ -246,26 +249,25 @@ function QuestieTracker:createTrackingButtons()
 end
 
 function QuestieTracker:saveFramePosition()
-	local point, relativeTo, relativePoint, xOfs, yOfs = getglobal("QuestieTrackerFrame"):GetPoint();
-	getglobal("QuestieTrackerFrame"):ClearAllPoints();
-	if(type(relativeTo) == "function") then return; end
-	QuestieTrackerFrameVariables["position"].point = point;
-	if relativeTo then
-		QuestieTrackerFrameVariables["position"].relativeTo = relativeTo:GetName()
-	else
-		QuestieTrackerFrameVariables["position"].relativeTo = "UIParent"
-	end
-	QuestieTrackerFrameVariables["position"].relativePoint = relativePoint;
-	QuestieTrackerFrameVariables["position"].xOfs= xOfs;
-	QuestieTrackerFrameVariables["position"].yOfs = yOfs;
+	local frame = getglobal("QuestieTrackerFrame");
+	local point, _, relativePoint, xOfs, yOfs = frame:GetPoint();
+	-- receiving relativeTo causes wow to crash sometimes
+	-- but the values are ALWAYS TOPLEFT, UIParent, TOPLEFT anyway
+	QuestieTrackerVariables["position"] = {
+		["point"] = point,
+		["relativePoint"] = relativePoint,
+		["relativeTo"] = "UIParent",
+		["yOfs"] = yOfs,
+		["xOfs"] = xOfs,
+	};
 end
 
 function QuestieTracker:createTrackingFrame()
-	this.frame = CreateFrame("Frame", "QuestieTrackerFrame", UIParent);
+	this.frame = CreateFrame("Frame", "QuestieTrackerFrame", nil);
 	this.frame:SetWidth(250);
 	this.frame:SetHeight(400);
-	this.frame:SetPoint(QuestieTrackerFrameVariables["position"]["point"], QuestieTrackerFrameVariables["position"]["relativeTo"],
-		QuestieTrackerFrameVariables["position"]["relativePoint"], QuestieTrackerFrameVariables["position"]["xOfs"], QuestieTrackerFrameVariables["position"]["yOfs"]);
+	this.frame:SetPoint(QuestieTrackerVariables["position"]["point"], QuestieTrackerVariables["position"]["relativeTo"], QuestieTrackerVariables["position"]["relativePoint"],
+		QuestieTrackerVariables["position"]["xOfs"], QuestieTrackerVariables["position"]["yOfs"]);
 	this.frame:SetAlpha(0.5)
 	this.frame.texture = this.frame:CreateTexture(nil, "BACKGROUND");
 	this.frame.texture:SetTexture("Interface\\Tooltips\\UI-Tooltip-Background");
@@ -276,18 +278,48 @@ function QuestieTracker:createTrackingFrame()
 	this.frame:EnableMouse(true);
 	this.frame:SetMovable(true);
 	this.frame:SetScript("OnMouseDown", function()
-		if not(this.isMoving) then
-			this:StartMoving();
-			this.isMoving = true;
-			this:ClearAllPoints();
-		end
+		this:StartMoving();
 	end);
 	this.frame:SetScript("OnMouseUp", function()
 		this:StopMovingOrSizing();
-		this.isMoving = false;
-		-- can't call saveFramePosition because it RANDOMLY THROWS WOW ERRORS (WTF?)
-		--QuestieTracker:saveFramePosition()
+		this:SetUserPlaced(false);
+		--can't call saveFramePosition because it RANDOMLY THROWS WOW ERRORS (WTF?)
+		QuestieTracker:saveFramePosition()
 	end);
 end
 
+--[[
+Astrolabe/TomTom
+local function getContPosition( zoneData, z, x, y )
+	if ( z ~= 0 ) then
+		zoneData = zoneData[z];
+		x = x * zoneData.width + zoneData.xOffset;
+		y = y * zoneData.height + zoneData.yOffset;
+	else
+		x = x * zoneData.width;
+		y = y * zoneData.height;
+	end
+	return x, y;
+end
+
+local square_half = math.sqrt(0.5)
+local rad_135 = math.rad(135)
+
+local function rotateArrow(self)
+	if self.disabled then return end
+
+	local angle = Astrolabe:GetDirectionToIcon(self)
+	if not angle then return self:Hide() end
+	angle = angle + rad_135
+
+	if GetCVar("rotateMinimap") == "1" then
+		--local cring = MiniMapCompassRing:GetFacing()
+        local cring = GetPlayerFacing()
+		angle = angle - cring
+	end
+
+	local sin,cos = math.sin(angle) * square_half, math.cos(angle) * square_half
+	self.arrow:SetTexCoord(0.5-sin, 0.5+cos, 0.5+cos, 0.5+sin, 0.5-cos, 0.5-sin, 0.5+sin, 0.5-cos)
+end
+]]
 
