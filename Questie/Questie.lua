@@ -179,6 +179,9 @@ function Questie:OnUpdate(elapsed)
 	if ttl > 250 then -- seems about right
 		Questie.player_x, Questie.player_y = Questie:getPlayerPos();
 		Questie:updateMinimap()
+		this = QuestieTracker
+		QuestieTracker:fillTrackingFrame()
+		this = Questie
 		Questie.lastMinimapUpdate = now;
 		--log("UMI: " .. Questie.player_x .. ", " .. Questie.player_y);
 		--log(now);
@@ -244,7 +247,9 @@ function distance(x, y)
 end
 
 function euclid(x, y)
-	return math.sqrt(x*x + Questie.player_x*Questie.player_x) + math.sqrt(y*y + Questie.player_y*Questie.player_y);
+	local resultX = math.abs(Questie.player_x-x);
+	local resultY = math.abs(Questie.player_y-y);
+	return math.sqrt(resultX*resultX + resultY*resultY);
 end
 
 function sortie(a, b)
@@ -258,9 +263,6 @@ end
 
 function Questie:getNearestNotes()
 	sort(currentNotes, sortie)
-	--[[for k,v in pairs(currentNotes) do
-		log(v['distance'])
-	end]]
 	if ( table.getn(currentNotes) < 1) then
 		return;
 	end
@@ -273,10 +275,8 @@ function Questie:updateMinimap()
 	local index = 1;
 	for k,v in pairs(currentNotes) do
 		if not (minimap_poiframes[index]) then break; end
-		local alpha = (v['distance']/(farthest));
+		local alpha = (1-(v['distance']/(farthest)));
 		local offsX, offsY = getMinimapPosFromCoord(v['x'],v['y'],getCurrentMapID());
-		--log(offsX);
-		--log(offsY);
 		minimap_poiframe_textures[index]:SetTexture("Interface\\AddOns\\Questie\\Icons\\" .. string.lower(v['icon']));
 		minimap_poiframe_textures[index]:SetAlpha(alpha);
 		minimap_poiframe_data[index] = v;
@@ -524,7 +524,7 @@ function Questie:QUEST_LOG_UPDATE()
 	end
 	
 	--DEFAULT_CHAT_FRAME:AddMessage(throttle, 0.95, 0.95, 0.5);
-	this:clearAllNotes();
+	--this:clearAllNotes();
 	Questie:addAvailableQuests();
 	local numEntries, numQuests = GetNumQuestLogEntries()
 	--DEFAULT_CHAT_FRAME:AddMessage(numEntries .. " entries containing " .. numQuests .. " quests in your quest log.");
@@ -607,7 +607,9 @@ end
 function Questie:deleteNoteAfterQuestRemoved()
 	local finishedQuest = this:getFinishedQuest();
 	if (finishedQuest ~= nil) then
-		QuestieSeenQuests[QuestieCurrentQuests[finishedQuest]['hash']] = false; -- no longer in the list
+		if( QuestieCurrentQuests[finishedQuest]['hash'] ) then
+			QuestieSeenQuests[QuestieCurrentQuests[finishedQuest]['hash']] = false; -- no longer in the list
+		end
 		--log("finished or abandoned quest " .. finishedQuest)
 		local notes = QuestieCurrentQuests[finishedQuest]["notes"]
 		if (notes ~= nil) then

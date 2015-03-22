@@ -21,7 +21,6 @@ local function trim(s)
 	return string.gsub(s, "^%s*(.-)%s*$", "%1");
 end
 
-
 function QuestieTracker:addQuestToTracker(questName, desc, typ, done, level, isComplete) -- should probably get a table of parameters
 	if(type(QuestieCurrentQuests[questName]) ~= "table") then
 		QuestieCurrentQuests[questName] = {};
@@ -67,7 +66,7 @@ end
 
 function QuestieTracker:isTracked(quest)
 	if(type(quest) == "string") then
-		if(QuestieCurrentQuests[quest]["tracked"] ~= nil) then
+		if(QuestieCurrentQuests[quest] and QuestieCurrentQuests[quest]["tracked"] ~= nil) then
 			return true;
 		end	
 	else
@@ -98,11 +97,34 @@ end
 function QuestieTracker:PLAYER_LOGIN()
 	this:createTrackingFrame();
 	this:createTrackingButtons();
+	this:RegisterEvent("QUEST_LOG_UPDATE");
+end
+
+-- OBVIOUSLY NEEDS A MORE EFFECTIVE SYSTEM! In general, adding/removing notes and updating the visible elements needs to be handled better
+-- it takes no strain on performance, but is still done terribly
+function QuestieTracker:QUEST_LOG_UPDATE()
+	for id=1, GetNumQuestLogEntries() do
+		local questName, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(id);
+		if( this:isTracked(questName) ) then
+			SelectQuestLogEntry(id);
+			for i=1, GetNumQuestLeaderBoards() do
+				local desc, typ, done = GetQuestLogLeaderBoard(i);
+				this:addQuestToTracker(questName, desc, typ, done, level, isComplete)
+			end
+		end
+	end
 end
 
 function QuestieTracker:ADDON_LOADED()
 	if not ( QuestieTrackerFrameVariables ) then
 		QuestieTrackerFrameVariables = {};
+		QuestieTrackerFrameVariables["position"] = {
+			point = "CENTER",
+			relativeTo = "UIParent",
+			relativePoint = "CENTER",
+			xOfs = 300,
+			yOfs = 300,
+		};
 	end
 end
 
@@ -148,15 +170,29 @@ end
 function QuestieTracker:fillTrackingFrame()
 
 	this:clearTrackingFrame();
+	local sortedByDistance = {};
+	local distanceControlTable = {};
+	-- sort notes by distance before using this
+	for k,v in (currentNotes) do
+		--log(v["questName"] .. "  " .. v["distance"])
+		if(QuestieCurrentQuests[v["questName"]] and QuestieCurrentQuests[v["questName"]]["tracked"] and v["icon"] ~= "Available") then
+			if not (distanceControlTable[v["questName"]]) then
+			distanceControlTable[v["questName"]] = true; 
+			QuestieCurrentQuests[v["questName"]]["questName"] = v["questName"];
+			table.insert(sortedByDistance, QuestieCurrentQuests[v["questName"]]);
+			end
+		end
+	end
+	
 	local i = 1;
-	for ke,va in pairs(QuestieCurrentQuests) do
-		for k,v in pairs(va) do
+	for index,quest in pairs(sortedByDistance) do
+		for k,v in pairs(quest) do
 			if(k == "tracked") then
 				getglobal("QuestieTrackerButton"..i):Show();
 				local j = 1;
 				for key,val in pairs(v) do
 					if (key == "level") then
-						getglobal("QuestieTrackerButton"..i.."HeaderText"):SetText("[" .. val .. "] " .. ke);
+						getglobal("QuestieTrackerButton"..i.."HeaderText"):SetText("[" .. val .. "] " .. quest["questName"]);
 					elseif (key == "isComplete") then
 					
 					else
@@ -209,38 +245,48 @@ function QuestieTracker:createTrackingButtons()
 	this:fillTrackingFrame();
 end
 
+function QuestieTracker:saveFramePosition()
+	local point, relativeTo, relativePoint, xOfs, yOfs = getglobal("QuestieTrackerFrame"):GetPoint();
+	getglobal("QuestieTrackerFrame"):ClearAllPoints();
+	if(type(relativeTo) == "function") then return; end
+	QuestieTrackerFrameVariables["position"].point = point;
+	if relativeTo then
+		QuestieTrackerFrameVariables["position"].relativeTo = relativeTo:GetName()
+	else
+		QuestieTrackerFrameVariables["position"].relativeTo = "UIParent"
+	end
+	QuestieTrackerFrameVariables["position"].relativePoint = relativePoint;
+	QuestieTrackerFrameVariables["position"].xOfs= xOfs;
+	QuestieTrackerFrameVariables["position"].yOfs = yOfs;
+end
+
 function QuestieTracker:createTrackingFrame()
 	this.frame = CreateFrame("Frame", "QuestieTrackerFrame", UIParent);
 	this.frame:SetWidth(250);
 	this.frame:SetHeight(400);
-	if ( QuestieTrackerFrameVariables["position"] ) then
-		this.frame:SetPoint(QuestieTrackerFrameVariables["position"]["point"], QuestieTrackerFrameVariables["position"]["relativeTo"],
+	this.frame:SetPoint(QuestieTrackerFrameVariables["position"]["point"], QuestieTrackerFrameVariables["position"]["relativeTo"],
 		QuestieTrackerFrameVariables["position"]["relativePoint"], QuestieTrackerFrameVariables["position"]["xOfs"], QuestieTrackerFrameVariables["position"]["yOfs"]);
-	else
-		this.frame:SetPoint("CENTER", 300, 300);
-	end
 	this.frame:SetAlpha(0.5)
 	this.frame.texture = this.frame:CreateTexture(nil, "BACKGROUND");
 	this.frame.texture:SetTexture("Interface\\Tooltips\\UI-Tooltip-Background");
 	this.frame.texture:SetAllPoints(this.frame);
 	this.frame:Show();
 	
-	this.frame:RegisterForDrag("LeftButton");
+	--this.frame:RegisterForDrag("LeftButton");
 	this.frame:EnableMouse(true);
 	this.frame:SetMovable(true);
-	this.frame:SetScript("OnDragStart", function()
-		this:StartMoving();
+	this.frame:SetScript("OnMouseDown", function()
+		if not(this.isMoving) then
+			this:StartMoving();
+			this.isMoving = true;
+			this:ClearAllPoints();
+		end
 	end);
-	this.frame:SetScript("OnDragStop", function()
+	this.frame:SetScript("OnMouseUp", function()
 		this:StopMovingOrSizing();
-		QuestieTracker.frame:SetUserPlaced(false);
-		QuestieTrackerFrameVariables["position"] = {};
-		local point, relativeTo, relativePoint, xOfs, yOfs = QuestieTracker.frame:GetPoint();
-		QuestieTrackerFrameVariables["position"]["point"] = point;
-		QuestieTrackerFrameVariables["position"]["relativeTo"] = relativeTo;
-		QuestieTrackerFrameVariables["position"]["relativePoint"] = relativePoint;
-		QuestieTrackerFrameVariables["position"]["xOfs"] = xOfs;
-		QuestieTrackerFrameVariables["position"]["yOfs"] = yOfs;
+		this.isMoving = false;
+		-- can't call saveFramePosition because it RANDOMLY THROWS WOW ERRORS (WTF?)
+		--QuestieTracker:saveFramePosition()
 	end);
 end
 
