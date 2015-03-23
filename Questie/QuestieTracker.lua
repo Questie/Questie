@@ -79,7 +79,7 @@ function QuestieTracker:isTracked(quest)
 	return false;
 end
 
-function QuestieTracker:setQuestInfo(id)
+function QuestieTracker:setQuestInfo(id) -- test to see if I fixed git shinanigans 
 	local questInfo = {};
 	local questName, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(id);
 	SelectQuestLogEntry(id);
