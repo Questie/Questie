@@ -29,7 +29,7 @@ end
 
 function Questie:createMinimapFrames()
 	for i=1,QUESTIE_MAX_MINIMAP_POINTS do
-		local fram = CreateFrame("Frame", "QUESTIE_MINIPOI" .. i, UIParent);
+		local fram = CreateFrame("Frame", "QUESTIE_MINIPOI" .. i, Minimap);
 		local tex = fram:CreateTexture("ARTWORK"); -- not sure why this needs "ARTWORK"
 		tex:SetAllPoints();
 		tex:SetTexture("Interface\\AddOns\\Questie\\Icons\\object"); --placeholder
