@@ -166,6 +166,27 @@ function QuestieTracker:clearTrackingFrame()
 	end
 end
 
+function QuestieTracker:getRGBForObjective(objective)
+	if not (type(objective) == "function") then -- seriously wtf
+		local lastIndex = findLast(objective, ":");
+		if not (lastIndex == nil) then -- I seriously CANT shake this habit
+			local progress = string.sub(objective, lastIndex+2);
+			
+			-- There HAS to be a better way of doing this
+			local slash = findLast(progress, "/");
+			local have = tonumber(string.sub(progress, 0, slash-1))
+			local need = tonumber(string.sub(progress, slash+1))
+			
+			local float = have / need;
+			local part = float-0.5;
+			if part < 0 then part = 0; end -- derp
+			part = part * 2;
+			return 1.0-part, float*2, 0;
+		end
+	end
+	return 0.2, 1, 0.2;
+end
+
 function QuestieTracker:fillTrackingFrame()
 
 	-- currently if there aren't any notes, it doesn't add the quest to the tracker
@@ -212,6 +233,7 @@ function QuestieTracker:fillTrackingFrame()
 					
 					else
 						getglobal("QuestieTrackerButton"..i.."QuestWatchLine"..j):SetText(val);
+						getglobal("QuestieTrackerButton"..i.."QuestWatchLine"..j):SetTextColor(QuestieTracker:getRGBForObjective(val));
 						getglobal("QuestieTrackerButton"..i.."QuestWatchLine"..j):Show();
 						j = j + 1;
 					end
