@@ -238,6 +238,9 @@ function QuestieTracker:fillTrackingFrame()
 						j = j + 1;
 					end
 				end
+				for uglyfix=j,8 do
+					getglobal("QuestieTrackerButton"..i.."QuestWatchLine"..j):Hide();
+				end
 				i = i + 1;
 			end
 		end
