@@ -79,7 +79,7 @@ function QuestieTracker:isTracked(quest)
 	return false;
 end
 
-function QuestieTracker:setQuestInfo(id) -- test to see if I fixed git shinanigans 
+function QuestieTracker:setQuestInfo(id)
 	local questInfo = {};
 	local questName, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(id);
 	SelectQuestLogEntry(id);
@@ -131,36 +131,33 @@ function QuestieTracker:ADDON_LOADED()
 end
 
 function QuestieTracker:updateTrackingFrameSize()
-	local frameHeight = 20;
+	local frameHeight = 0;
+	local shown = 0;
 	for i=1,8 do
 		local button = getglobal("QuestieTrackerButton"..i);
-		button:SetParent(this.frame);
-		button:SetWidth(240);
-		button:SetHeight(20);
-		
-		if(i == 1) then
-			button:SetPoint("TOPLEFT", this.frame, "TOPLEFT", 5, -15);
+		if button:IsShown() then 
+			button:SetParent(this.frame);
+			button:SetWidth(240);
 			local height = 20;
+			button:SetHeight(20);
+			shown = shown + 1;
+			if(i == 1) then
+				button:SetPoint("TOPLEFT", this.frame, "TOPLEFT", 5, -5);
+			else
+				button:SetPoint("TOPLEFT", "QuestieTrackerButton"..i-1, "BOTTOMLEFT", 0, -5);
+			end
 			for j=1,8 do
 				if( getglobal("QuestieTrackerButton"..i.."QuestWatchLine"..j):IsShown() ) then
 					height = height + 12;
 				end
 			end
 			button:SetHeight(height);
-		else
-			button:SetPoint("TOPLEFT", "QuestieTrackerButton"..i-1, "BOTTOMLEFT", 0, -5);
-			local height = 20;
-			for j=1,8 do
-				if( getglobal("QuestieTrackerButton"..i.."QuestWatchLine"..j):IsShown() ) then
-					height = height + 12;
-				end
-			end
-			button:SetHeight(height);
+			frameHeight = frameHeight + height;
 		end
-		frameHeight = frameHeight + button:GetHeight();
 		this.frame.buttons[i] = button;
 	end
-	this.frame:SetHeight(frameHeight+40);
+	this.frame:SetHeight(frameHeight+shown*5 + 5);
+	this.frame:Show();
 end
 
 function QuestieTracker:clearTrackingFrame()
