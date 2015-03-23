@@ -280,9 +280,10 @@ function QuestieTracker:createTrackingFrame()
 	this.frame:SetHeight(400);
 	this.frame:SetPoint(QuestieTrackerVariables["position"]["point"], QuestieTrackerVariables["position"]["relativeTo"], QuestieTrackerVariables["position"]["relativePoint"],
 		QuestieTrackerVariables["position"]["xOfs"], QuestieTrackerVariables["position"]["yOfs"]);
-	this.frame:SetAlpha(0.5)
+	this.frame:SetAlpha(0.2)
 	this.frame.texture = this.frame:CreateTexture(nil, "BACKGROUND");
-	this.frame.texture:SetTexture("Interface\\Tooltips\\UI-Tooltip-Background");
+	--this.frame.texture:SetTexture("Interface\\Tooltips\\UI-Tooltip-Background");
+	this.frame.texture:SetTexture(0,0,0); -- black
 	this.frame.texture:SetAllPoints(this.frame);
 	this.frame:Show();
 	

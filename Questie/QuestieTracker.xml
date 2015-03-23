@@ -105,9 +105,10 @@
 				</FontString>
 			</Layer>
 		</Layers>
-		<NormalTexture name="$parentNormalTexture" file="Interface\Tooltips\UI-Tooltip-Background" setAllPoints="true">
+		<NormalTexture name="$parentNormalTexture" setAllPoints="true">
+			<Color a="0.2" r="0" g="0" b="0" />
 		</NormalTexture>
-		<PushedTexture file="Interface\Buttons\UI-Quickslot-Depress"/>
+		<PushedTexture file="Interface\FriendsFrame\UI-FriendsFrame-HighlightBar"/>
 		<HighlightTexture alphaMode="ADD" file="Interface\FriendsFrame\UI-FriendsFrame-HighlightBar"/>
 	</Button>
 </Ui>
