@@ -57,7 +57,7 @@ function QuestLogTitleButton_OnClick(button)
 end
 
 function Questie:findIdByName(name)
-	for i=1,20 do
+	for i=1,GetNumQuestLogEntries() do
 		local questName, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(i);
 		if(name == questName) then
 			return i;
