@@ -4296,7 +4296,9 @@ QuestieItems = {
   ['Tough Wolf Meat'] = {
     ['drop'] = {
       ['Young Wolf'] = 4121,
-      ['Timber Wolf'] = 1533
+      ['Timber Wolf'] = 1533,
+	  ['Ragged Timber Wolf'] = 4121,
+	  ['Ragged Young Wolf'] = 4121,
     }
   },
   ['Embossed Plate Gauntlets of the Eagle'] = {
@@ -36770,7 +36772,9 @@ QuestieItems = {
   ['Tough Wolf Meat'] = {
     ['drop'] = {
       ['Timber Wolf'] = 1,
-      ['Young Wolf'] = 7
+      ['Young Wolf'] = 7,
+      ['Ragged Young Wolf'] = 7,
+      ['Ragged Timber Wolf'] = 7,
     }
   },
   ['Hauyne Ring of Strength'] = {

@@ -8,7 +8,7 @@ end
 local function debug(msg, category)
 	if not (category) then category = true; end
 	QuestieDebug[msg] = category;
-	DEFAULT_CHAT_FRAME:AddMessage("Questie has recorded a bugged quest. Please report this to https://github.com/AeroScripts/QuestieDev");
+	--DEFAULT_CHAT_FRAME:AddMessage("Questie has recorded a bugged quest. Please report this to https://github.com/AeroScripts/QuestieDev");
 end
 
 Questie = CreateFrame("Frame", "QuestieLua", UIParent, "ActionButtonTemplate")
@@ -232,19 +232,10 @@ function Questie:createQuestNote(name, progress, questName, x, y, icon, selected
 	--DEFAULT_CHAT_FRAME:AddMessage(icon)
 	local zone = Cartographer:GetCurrentEnglishZoneName();
 	local _, id, key = Cartographer_Notes:SetNote(zone, x, y, icon, "Questie", "info", progress, "info2", questName, "title", name)
-	if selected and not (icon == 4) then
-		table.insert(selectedNotes, {
-			['name'] = name,
-			['x'] = x,
-			['y'] = y,
-			['id'] = id,
-			['icon'] = icon,
-			['key'] = key
-		});
-	end
 	if (questName == "") then 
 		questName = progress; 
 	end
+	
 	this:addNoteToCurrentNotes({
 		['id'] = id,
 		['x'] = x, 
@@ -255,6 +246,7 @@ function Questie:createQuestNote(name, progress, questName, x, y, icon, selected
 		['progress'] = progress,
 		['distance'] = 1 -- avoid null error
 	});
+	
 	this:addNoteToCurrentQuests(questName, id, name, x, y, key, zone, icon);
 end
 
@@ -352,14 +344,19 @@ end
 function Questie:addMonsterToMap(monsterName, info, quest, icon, mapid, selected)
 	local monsterdata = QuestieMonsters[monsterName];
 	if not (monsterdata == nil) then
+		local foundNotes = false;
 		for b=1,monsterdata['locationCount'] do -- this should be made more efficient (monsterdata[mapid][locations] etc
 			local loc = monsterdata['locations'][b];
 			if loc[1] == mapid then
 				this:createQuestNote(monsterName, info, quest, loc[2], loc[3], icon, selected);
+				foundNotes = true;
 			end
 		end
+		if (foundNotes == false) then
+			debug("ERROR NO NOTES  " .. quest .. "  monster:  " .. monsterName .."  on map  ".. mapid);
+		end
 	else
-		debug("ERROR UNKNOWN MONSTER " .. quest .. "  objective:" .. monsterName);
+		debug("ERROR UNKNOWN MONSTER " .. quest .. "  monster:" .. monsterName);
 	end
 end
 
@@ -432,34 +429,33 @@ function Questie:addAvailableQuests()
 end
 
 objectiveProcessors = {
-	['item'] = function(quest, name, amount, selected, mid)
+	['item'] = function(quest, name, amount, selected, mapid)
 		--DEFAULT_CHAT_FRAME:AddMessage("derp", 0.95, 0.95, 0.5);
 		local itemdata = QuestieItems[name];
 		if itemdata == nil then
 			debug("ERROR PROCESSING " .. quest .. "  objective:" .. name);
 		else
 			for k,v in pairs(itemdata) do
-				--DEFAULT_CHAT_FRAME:AddMessage(k, 0.95, 0.95, 0.5);
-				--DEFAULT_CHAT_FRAME:AddMessage(v, 0.95, 0.95, 0.5);
 				if k == "locationCount" then
 					for b=1,itemdata['locationCount'] do
 						local loc = itemdata['locations'][b];
-						if loc[1] == mid then
+						if loc[1] == mapid then
 							Questie:createQuestNote(name, quest, "", loc[2], loc[3], "Loot", selected);
 						end
 					end
 				elseif k == "drop" then
 					for e,r in pairs(v) do
-						--DEFAULT_CHAT_FRAME:AddMessage(e .. " drops " .. name .. " for " .. quest, 0.95, 0.95, 0.5);
 						--local monsterdata = QuestRoot['QuestHelper_StaticData']['enUS']['objective']['monster'][e];
 						--addMonsterToMap(monsterName, info, quest, selected)
-						Questie:addMonsterToMap(e, name .. " (" .. amount .. ")", quest, "Loot", mid, selected);
+						Questie:addMonsterToMap(e, name .. " (" .. amount .. ")", quest, "Loot", mapid, selected);
 					end
+				else
+					debug("ERROR PROCESSING " .. quest .. "  objective:" .. name);
 				end
 			end
 		end
 	end,
-	['event'] = function(quest, name, amount, selected, mid)
+	['event'] = function(quest, name, amount, selected, mapid)
 		local evtdata = QuestieEvents[name]
 		if evtdata == nil then
 			debug("ERROR UNKNOWN EVENT " .. quest .. "  objective:" .. name);
@@ -467,24 +463,24 @@ objectiveProcessors = {
 			--DEFAULT_CHAT_FRAME:AddMessage("VALIDEVT: " .. name, 0.2, 0.95, 0.2);
 			for b=1,evtdata['locationCount'] do
 				local loc = evtdata['locations'][b];
-				if loc[1] == mid then
+				if loc[1] == mapid then
 					Questie:createQuestNote(name, quest, "", loc[2], loc[3], "Event", selected);
 				end
 			end
 		end
 	end,
-	['monster'] = function(quest, name, amount, selected, mid)
+	['monster'] = function(quest, name, amount, selected, mapid)
 		--DEFAULT_CHAT_FRAME:AddMessage("   MONMON: " .. quest .. ", " .. name .. ", " .. amount, 0.95, 0.2, 0.2);
-		Questie:addMonsterToMap(name, amount, quest, "Slay", mid, selected);
+		Questie:addMonsterToMap(name, amount, quest, "Slay", mapid, selected);
 	end,
-	['object'] = function(quest, name, amount, selected, mid)
+	['object'] = function(quest, name, amount, selected, mapid)
 		local objdata = QuestieObjects[name];
 		if objdata == nil then
 			debug("ERROR UNKNOWN OBJECT " .. quest .. "  objective:" .. name);
 		else
 			for b=1,objdata['locationCount'] do
 				local loc = objdata['locations'][b];
-				if loc[1] == mid then
+				if loc[1] == mapid then
 					Questie:createQuestNote(name, quest, "", loc[2], loc[3], "Object", selected);
 				end
 			end
@@ -502,7 +498,7 @@ function findLast(haystack, needle)
     if i==nil then return nil else return i-1 end
 end
 
-function Questie:processObjective(quest, desc, typ, selected, mid, objectiveid)
+function Questie:processObjective(quest, desc, typ, selected, mapid, objectiveid)
 	--DEFAULT_CHAT_FRAME:AddMessage(desc, 0.95, 0.95, 0.5);
 	local ref = objectiveProcessors[typ];
 	
@@ -518,9 +514,9 @@ function Questie:processObjective(quest, desc, typ, selected, mid, objectiveid)
 				['count'] = countstr,
 				['type'] = typ
 			};
-			ref(quest, namestr, countstr, selected, mid);
+			ref(quest, namestr, countstr, selected, mapid);
 		else
-			ref(quest, desc, "", selected, mid);
+			ref(quest, desc, "", selected, mapid);
 			QuestieCurrentQuests[quest]['objectives'][objectiveid] = {
 				['name'] = desc,
 				['count'] = -1,
@@ -540,7 +536,7 @@ function Questie:QUEST_LOG_UPDATE()
 	this:deleteNoteAfterQuestRemoved()
 		
 	local sind = GetQuestLogSelection();
-	local mid = getCurrentMapID();
+	local mapid = getCurrentMapID();
 	if not throttleOverride then
 		if throttle == math.floor(GetTime()) then
 			return
@@ -558,17 +554,14 @@ function Questie:QUEST_LOG_UPDATE()
 	--DEFAULT_CHAT_FRAME:AddMessage(numEntries .. " entries containing " .. numQuests .. " quests in your quest log.");
 	for v=1,numEntries do
 		local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(v);
-			SelectQuestLogEntry(v);
-			local count =  GetNumQuestLeaderBoards();
-			local selected = v == sind;
-			local questComplete = true; -- there might be something in the api for this	
-			local questText, objectiveText = _GetQuestLogQuestText();
-			local hash = Questie:getQuestHash(q, level, objectiveText);
+		SelectQuestLogEntry(v);
+		local count =  GetNumQuestLeaderBoards();
+		local selected = v == sind;
+		local questComplete = true; -- there might be something in the api for this	
+		local questText, objectiveText = _GetQuestLogQuestText();
+		local hash = Questie:getQuestHash(q, level, objectiveText);
 			
-			if not hash and not isHeader then
-				debug("ERROR: UNKNOWN QUEST: " .. q);
-			end
-			
+		if hash and not isHeader then
 			local seen = QuestieSeenQuests[hash];
 			if QuestieCurrentQuests[q] == nil then
 				QuestieCurrentQuests[q] = {};
@@ -583,7 +576,7 @@ function Questie:QUEST_LOG_UPDATE()
 			local finisher = QuestieFinishers[q];
 			
 			if not (finisher == nil) and (count == 0) then
-				Questie:addMonsterToMap(finisher, "Quest Finisher", q, "Complete", mid, selected);
+				Questie:addMonsterToMap(finisher, "Quest Finisher", q, "Complete", mapid, selected);
 				questComplete = false; -- questComplete is used to add the finisher, this avoids adding it twice
 			end
 			--DEFAULT_CHAT_FRAME:AddMessage(q);
@@ -603,18 +596,20 @@ function Questie:QUEST_LOG_UPDATE()
 					else
 						--DEFAULT_CHAT_FRAME:AddMessage("NOTSELECTEd " .. q .. " " .. in, 0.95, 0.1, 0.95);
 					end
-					this:processObjective(q, desc, typ, selected, mid, r)
+					this:processObjective(q, desc, typ, selected, mapid, r)
 				end
 				---DEFAULT_CHAT_FRAME:AddMessage(typ, 0.95, 0.95, 0.5);
 				---DEFAULT_CHAT_FRAME:AddMessage(done, 0.95, 0.95, 0.5);
 				
 			end
 			if not (finisher == nil) and questComplete then
-				Questie:addMonsterToMap(finisher, "Quest Finisher", q, "Complete", mid, selected);
+				Questie:addMonsterToMap(finisher, "Quest Finisher", q, "Complete", mapid, selected);
 			end
 			--DEFAULT_CHAT_FRAME:AddMessage(hash);
+		elseif not hash and not isHeader then
+			debug("ERROR: UNKNOWN QUEST: " .. q);
 		end
-	SelectQuestLogEntry(sind);
+	end	
 end
 
 local lastZoneID = 0;
