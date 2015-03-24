@@ -1,5 +1,15 @@
 DEFAULT_CHAT_FRAME:AddMessage("load", 0.95, 0.95, 0.5);
-local function log(msg) DEFAULT_CHAT_FRAME:AddMessage(msg) end -- alias for convenience
+local function log(msg, level)
+	if (level ~= nil and level <= Questie.debugLevel) then
+		DEFAULT_CHAT_FRAME:AddMessage(msg)
+	end
+end
+
+local function debug(msg, category)
+	if not (category) then category = true; end
+	QuestieDebug[msg] = category;
+	DEFAULT_CHAT_FRAME:AddMessage("Questie has recorded a bugged quest. Please report this to https://github.com/AeroScripts/QuestieDev");
+end
 
 Questie = CreateFrame("Frame", "QuestieLua", UIParent, "ActionButtonTemplate")
 Questie.TimeSinceLastUpdate = 0
@@ -7,6 +17,7 @@ Questie.lastMinimapUpdate = 0
 Questie.needsUpdate = false;
 Questie.player_x = 0;
 Questie.player_y = 0;
+Questie.debugLevel = 1;
 questsByDistance = {};
 selectedNotes = {};
 currentNotes = {}; -- needed for minimap and possibly for Cartographer->external database thing
@@ -25,6 +36,9 @@ function Questie:ADDON_LOADED()
 	if not (QuestieCurrentQuests) then
 		QuestieCurrentQuests = {};
 	end
+	if not (QuestieDebug) then
+		QuestieDebug = {};
+	end	
 end
 
 function Questie:createMinimapFrames()
@@ -344,6 +358,8 @@ function Questie:addMonsterToMap(monsterName, info, quest, icon, mapid, selected
 				this:createQuestNote(monsterName, info, quest, loc[2], loc[3], icon, selected);
 			end
 		end
+	else
+		debug("ERROR UNKNOWN MONSTER " .. quest .. "  objective:" .. monsterName);
 	end
 end
 
@@ -420,7 +436,7 @@ objectiveProcessors = {
 		--DEFAULT_CHAT_FRAME:AddMessage("derp", 0.95, 0.95, 0.5);
 		local itemdata = QuestieItems[name];
 		if itemdata == nil then
-			--DEFAULT_CHAT_FRAME:AddMessage("ERROR PROCESSING " .. name, 0.95, 0.2, 0.2);
+			debug("ERROR PROCESSING " .. quest .. "  objective:" .. name);
 		else
 			for k,v in pairs(itemdata) do
 				--DEFAULT_CHAT_FRAME:AddMessage(k, 0.95, 0.95, 0.5);
@@ -446,7 +462,7 @@ objectiveProcessors = {
 	['event'] = function(quest, name, amount, selected, mid)
 		local evtdata = QuestieEvents[name]
 		if evtdata == nil then
-			--DEFAULT_CHAT_FRAME:AddMessage("ERROR: UNKNOWN EVENT: " .. name, 0.95, 0.2, 0.2);
+			debug("ERROR UNKNOWN EVENT " .. quest .. "  objective:" .. name);
 		else
 			--DEFAULT_CHAT_FRAME:AddMessage("VALIDEVT: " .. name, 0.2, 0.95, 0.2);
 			for b=1,evtdata['locationCount'] do
@@ -464,7 +480,7 @@ objectiveProcessors = {
 	['object'] = function(quest, name, amount, selected, mid)
 		local objdata = QuestieObjects[name];
 		if objdata == nil then
-			-- error message 
+			debug("ERROR UNKNOWN OBJECT " .. quest .. "  objective:" .. name);
 		else
 			for b=1,objdata['locationCount'] do
 				local loc = objdata['locations'][b];
@@ -512,7 +528,7 @@ function Questie:processObjective(quest, desc, typ, selected, mid, objectiveid)
 			};
 		end
 	else
-		DEFAULT_CHAT_FRAME:AddMessage("ERROR: UNHALDNED TYPE: " .. typ .. " \"" .. desc .. "\" for quest " .. quest, 0.95, 0.2, 0.2);
+		debug("ERROR: UNHANDLED TYPE: " .. typ .. " \"" .. desc .. "\" for quest " .. quest);
 	end
 end
 
@@ -542,13 +558,16 @@ function Questie:QUEST_LOG_UPDATE()
 	--DEFAULT_CHAT_FRAME:AddMessage(numEntries .. " entries containing " .. numQuests .. " quests in your quest log.");
 	for v=1,numEntries do
 		local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(v);
-		if not (getQuestHashByName(q) == nil) then -- this should be removed eventually
 			SelectQuestLogEntry(v);
 			local count =  GetNumQuestLeaderBoards();
 			local selected = v == sind;
 			local questComplete = true; -- there might be something in the api for this	
 			local questText, objectiveText = _GetQuestLogQuestText();
 			local hash = Questie:getQuestHash(q, level, objectiveText);
+			
+			if not hash and not isHeader then
+				debug("ERROR: UNKNOWN QUEST: " .. q);
+			end
 			
 			local seen = QuestieSeenQuests[hash];
 			if QuestieCurrentQuests[q] == nil then
@@ -594,10 +613,7 @@ function Questie:QUEST_LOG_UPDATE()
 				Questie:addMonsterToMap(finisher, "Quest Finisher", q, "Complete", mid, selected);
 			end
 			--DEFAULT_CHAT_FRAME:AddMessage(hash);
-		else
-			--DEFAULT_CHAT_FRAME:AddMessage("ERROR: UNKNOWN QUEST: " .. q, 0.95, 0.55, 0.2);
 		end
-	end
 	SelectQuestLogEntry(sind);
 end
 
