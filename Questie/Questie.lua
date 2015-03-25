@@ -325,6 +325,20 @@ function Questie:updateMinimap()
 	end
 end
 
+function Questie:deleteCurrentNotesforQuest(questName)
+
+	local i = 1;
+	while i <= table.getn(currentNotes) do
+		local v = currentNotes[i];
+		if(v["questName"] == questName) then
+			table.remove(currentNotes, i);
+			this:removeNoteFromCurrentNotes(v);
+		else
+			i = i + 1;
+		end
+	end
+end
+
 function Questie:addNoteToCurrentNotes(note)
 	if not ( currentNotesControl[note['id']] ) then
 		currentNotesControl[note['id']] = true;
@@ -663,6 +677,7 @@ function Questie:deleteNoteAfterQuestRemoved()
 			end
 		end
 		--log("Deleting notes for quest:" .. finishedQuest);
+		this:deleteCurrentNotesforQuest(finishedQuest);
 		QuestieCurrentQuests[finishedQuest] = nil;
 	end
 end
