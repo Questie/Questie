@@ -231,6 +231,7 @@ function Questie:PLAYER_LOGIN()
 	this:RegisterEvent("ZONE_CHANGED"); -- this actually is needed
 	this:RegisterEvent("UNIT_AURA");
 	this:RegisterEvent("UI_INFO_MESSAGE");
+	this:RegisterEvent("CHAT_MSG_SYSTEM");
 	this:RegisterCartographerIcons();
 	this:hookTooltip();
 	this:createMinimapFrames();
@@ -595,6 +596,7 @@ function Questie:QUEST_LOG_UPDATE()
 		local questComplete = true; -- there might be something in the api for this	
 		local questText, objectiveText = _GetQuestLogQuestText();
 		local hash = Questie:getQuestHash(q, level, objectiveText);
+		local hashData = QuestieHashMap[hash];
 			
 		if hash and not isHeader then
 			local seen = QuestieSeenQuests[hash];
@@ -608,11 +610,18 @@ function Questie:QUEST_LOG_UPDATE()
 				QuestieSeenQuests[hash] = true; -- true = in the quest log
 			end
 			
-			local finisher = QuestieFinishers[q];
+			if not (hashData == nil) then
+				if (count == 0) then
+					Questie:addMonsterToMap(hashData['finishedBy'], "Quest Finisher", q, "Complete", mapid, selected);
+					questComplete = false; -- questComplete is used to add the finisher, this avoids adding it twice
+				end
+			else
+				local finisher = QuestieFinishers[q];
 			
-			if not (finisher == nil) and (count == 0) then
-				Questie:addMonsterToMap(finisher, "Quest Finisher", q, "Complete", mapid, selected);
-				questComplete = false; -- questComplete is used to add the finisher, this avoids adding it twice
+				if not (finisher == nil) and (count == 0) then
+					Questie:addMonsterToMap(finisher, "Quest Finisher", q, "Complete", mapid, selected);
+					questComplete = false; -- questComplete is used to add the finisher, this avoids adding it twice
+				end
 			end
 			--DEFAULT_CHAT_FRAME:AddMessage(q);
 			
@@ -637,8 +646,18 @@ function Questie:QUEST_LOG_UPDATE()
 				---DEFAULT_CHAT_FRAME:AddMessage(done, 0.95, 0.95, 0.5);
 				
 			end
-			if not (finisher == nil) and questComplete then
-				Questie:addMonsterToMap(finisher, "Quest Finisher", q, "Complete", mapid, selected);
+			if not (hashData == nil) then
+				if isComplete then
+					Questie:addMonsterToMap(hashData['finishedBy'], "Quest Finisher", q, "Complete", mapid, selected);
+					questComplete = false; -- questComplete is used to add the finisher, this avoids adding it twice
+				end
+			else
+				local finisher = QuestieFinishers[q];
+			
+				if not (finisher == nil) and isComplete then
+					Questie:addMonsterToMap(finisher, "Quest Finisher", q, "Complete", mapid, selected);
+					questComplete = false; -- questComplete is used to add the finisher, this avoids adding it twice
+				end
 			end
 			--DEFAULT_CHAT_FRAME:AddMessage(hash);
 		elseif not hash and not isHeader then
@@ -659,6 +678,10 @@ function Questie:ZONE_CHANGED() -- this is needed
 end
 
 function Questie:UI_INFO_MESSAGE(message)
+	log(message)
+end
+
+function Questie:CHAT_MSG_SYSTEM(message)
 	log(message)
 end
 
