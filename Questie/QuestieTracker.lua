@@ -107,6 +107,9 @@ end
 function QuestieTracker:QUEST_LOG_UPDATE()
 	for id=1, GetNumQuestLogEntries() do
 		local questName, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(id);
+		if ( AUTO_QUEST_WATCH == "1" and not QuestieCurrentQuests[questName] and not isHeader) then
+			this:setQuestInfo(id);
+		end
 		if( this:isTracked(questName) ) then
 			SelectQuestLogEntry(id);
 			for i=1, GetNumQuestLeaderBoards() do
