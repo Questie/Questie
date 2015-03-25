@@ -77,6 +77,7 @@ function Questie:hookTooltip()
 	local _GameTooltipOnShow = GameTooltip:GetScript("OnShow") -- APPARENTLY this is always null, and doesnt need to be called for things to function correctly...?
 	GameTooltip:SetScript("OnShow", function(self, arg)
 		local monster = UnitName("mouseover")
+		local objective = GameTooltipTextLeft1:GetText();
 		if monster then
 			for k,v in pairs(QuestieCurrentQuests) do
 				local obj = v['objectives'];
@@ -97,6 +98,26 @@ function Questie:hookTooltip()
 										GameTooltip:AddLine("   " .. m['name'] .. ": " .. m['count'], 1, 1, 0.2)
 									end
 								end
+							end
+						end
+					end
+				end
+			end
+		elseif objective then
+			for k,v in pairs(QuestieCurrentQuests) do
+				local obj = v['objectives'];
+				if ( obj ) then
+					for l,m in pairs(obj) do
+						if (m["type"] == "object") then
+							local i, j = string.gfind(m["name"], objective);
+							if(i and j and QuestieObjects[m["name"]]) then
+								GameTooltip:AddLine(k, 0.2, 1, 0.3)
+								GameTooltip:AddLine("   " .. m['name'], 1, 1, 0.2)
+							end
+						elseif (m['type'] == "item" and m['name'] == objective) then
+							if(QuestieItems[objective]) then
+								GameTooltip:AddLine(k, 0.2, 1, 0.3)
+								GameTooltip:AddLine("   " .. m['name'] .. ": " .. m['count'], 1, 1, 0.2)
 							end
 						end
 					end
