@@ -82,6 +82,7 @@ end
 function QuestieTracker:setQuestInfo(id)
 	local questInfo = {};
 	local questName, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(id);
+	local startid = GetQuestLogSelection();
 	SelectQuestLogEntry(id);
 	
 	if(QuestieTracker:isTracked(questName)) then
@@ -93,6 +94,7 @@ function QuestieTracker:setQuestInfo(id)
 		local desc, typ, done = GetQuestLogLeaderBoard(i);
 		QuestieTracker:addQuestToTracker(questName, desc, typ, done, i, level, isComplete)
 	end
+	SelectQuestLogEntry(startid);
 end
 
 function QuestieTracker:PLAYER_LOGIN()
@@ -105,6 +107,7 @@ end
 -- OBVIOUSLY NEEDS A MORE EFFECTIVE SYSTEM! In general, adding/removing notes and updating the visible elements needs to be handled better
 -- it takes no strain on performance, but is still done terribly
 function QuestieTracker:QUEST_LOG_UPDATE()
+	local startid = GetQuestLogSelection();
 	for id=1, GetNumQuestLogEntries() do
 		local questName, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(id);
 		if ( AUTO_QUEST_WATCH == "1" and not QuestieCurrentQuests[questName] and not this:isTracked(questName) and not isHeader) then
@@ -118,6 +121,7 @@ function QuestieTracker:QUEST_LOG_UPDATE()
 			end
 		end
 	end
+	SelectQuestLogEntry(startid);
 end
 
 function QuestieTracker:ADDON_LOADED()

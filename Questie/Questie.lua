@@ -645,6 +645,7 @@ function Questie:QUEST_LOG_UPDATE()
 			debug("ERROR: UNKNOWN QUEST: " .. q);
 		end
 	end	
+	SelectQuestLogEntry(sind);
 end
 
 local lastZoneID = 0;
