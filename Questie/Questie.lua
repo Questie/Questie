@@ -160,10 +160,74 @@ function Questie:mixInt(hash, addval)
 end
 
 function Questie:getQuestHash(name, level, objectiveText)
+
+	
+	local questLookup = QuestieLevLookup[name];
+	if not (questLookup == nil) then -- cant... stop... doingthis....
+		--log("QN " .. name .. " is NULL", 1);
+		local count = 0;
+		local retval = 0;
+		local bestDistance = 4294967295; -- some high number (0xFFFFFFFF)
+		for k,v in pairs(questLookup) do
+			if k == objectiveText then
+				return v; -- exact match
+			end
+			local dist = this:levenshtein(objectiveText, k);
+			if dist < bestDistance then
+				bestDistance = dist;
+				retval = v;
+			end
+			count = count + 1;
+		end
+		if not (retval == 0) then
+			return retval; -- nearest match
+		end
+	end
+	
+	-- hash lookup did not contain qust name!! LOG THIS!!!
 	local hash = Questie:mixString(0, name);
 	hash = Questie:mixInt(hash, level);
 	hash = Questie:mixString(hash, objectiveText);
 	return hash;
+end
+
+
+-- Returns the Levenshtein distance between the two given strings
+-- credit to https://gist.github.com/Badgerati/3261142
+function Questie:levenshtein(str1, str2)
+	local len1 = string.len(str1)
+	local len2 = string.len(str2)
+	local matrix = {}
+	local cost = 0
+        -- quick cut-offs to save time
+	if (len1 == 0) then
+		return len2
+	elseif (len2 == 0) then
+		return len1
+	elseif (str1 == str2) then
+		return 0
+	end
+        -- initialise the base matrix values
+	for i = 0, len1, 1 do
+		matrix[i] = {}
+		matrix[i][0] = i
+	end
+	for j = 0, len2, 1 do
+		matrix[0][j] = j
+	end
+        -- actual Levenshtein algorithm
+	for i = 1, len1, 1 do
+		for j = 1, len2, 1 do
+			if (string.byte(str1,i) == string.byte(str2,j)) then
+				cost = 0
+			else
+				cost = 1
+			end
+			matrix[i][j] = math.min(matrix[i-1][j] + 1, matrix[i][j-1] + 1, matrix[i-1][j-1] + cost)
+		end
+	end
+        -- return the last value - this is the Levenshtein distance
+	return matrix[len1][len2]
 end
 
 function Questie:RegisterCartographerIcons()
@@ -266,7 +330,8 @@ function Questie:createQuestNote(name, progress, questName, x, y, icon, selected
 		['questName'] = questName,
 		['name'] = name,
 		['progress'] = progress,
-		['distance'] = 1 -- avoid null error
+		['distance'] = 1, -- avoid null error
+		['zone'] = zone
 	});
 	
 	this:addNoteToCurrentQuests(questName, id, name, x, y, key, zone, icon);
@@ -443,6 +508,7 @@ function Questie:addAvailableQuests()
 				for k,v in pairs(content) do
 					if not QuestieSeenQuests[v] then
 						local qdata = QuestieHashMap[v];
+						--log(" value [" .. v .. "] !!!= " .. qdata['name'],1);
 						if not (qdata == nil) then
 							local requires = qdata['requires'];
 							if requires == nil then
@@ -590,80 +656,85 @@ function Questie:QUEST_LOG_UPDATE()
 	--DEFAULT_CHAT_FRAME:AddMessage(numEntries .. " entries containing " .. numQuests .. " quests in your quest log.");
 	for v=1,numEntries do
 		local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(v);
-		SelectQuestLogEntry(v);
-		local count =  GetNumQuestLeaderBoards();
-		local selected = v == sind;
-		local questComplete = true; -- there might be something in the api for this	
-		local questText, objectiveText = _GetQuestLogQuestText();
-		local hash = Questie:getQuestHash(q, level, objectiveText);
-		local hashData = QuestieHashMap[hash];
-			
-		if hash and not isHeader then
-			local seen = QuestieSeenQuests[hash];
-			if QuestieCurrentQuests[q] == nil then
-				QuestieCurrentQuests[q] = {};
-			end
-			QuestieCurrentQuests[q]['hash'] = hash; -- needs to store the hash (probably not best to set it every time)
-			
-			if seen == nil or not seen then -- not seen would update it if the user had abandoned then re-picked up
-											-- someone should tell me if LUA is like C where I could do only "if not seen then" here.
-				QuestieSeenQuests[hash] = true; -- true = in the quest log
-			end
-			
-			if not (hashData == nil) then
-				if (count == 0) then
-					Questie:addMonsterToMap(hashData['finishedBy'], "Quest Finisher", q, "Complete", mapid, selected);
-					questComplete = false; -- questComplete is used to add the finisher, this avoids adding it twice
-				end
-			else
-				local finisher = QuestieFinishers[q];
-			
-				if not (finisher == nil) and (count == 0) then
-					Questie:addMonsterToMap(finisher, "Quest Finisher", q, "Complete", mapid, selected);
-					questComplete = false; -- questComplete is used to add the finisher, this avoids adding it twice
-				end
-			end
-			--DEFAULT_CHAT_FRAME:AddMessage(q);
-			
-			-- we're re-evaluating objectives now anyway
-			QuestieCurrentQuests[q]['objectives'] = {};
-			
-			for r=1,count do
-				local desc, typ, done = GetQuestLogLeaderBoard(r);
-				--DEFAULT_CHAT_FRAME:AddMessage(desc, 0.95, 0.95, 0.5);
-				
-				
-				if not done then
-					questComplete = false;
-					if selected then
-						--DEFAULT_CHAT_FRAME:AddMessage("SELECTED " .. q, 0.95, 0.1, 0.95);
-					else
-						--DEFAULT_CHAT_FRAME:AddMessage("NOTSELECTEd " .. q .. " " .. in, 0.95, 0.1, 0.95);
-					end
-					this:processObjective(q, desc, typ, selected, mapid, r)
-				end
-				---DEFAULT_CHAT_FRAME:AddMessage(typ, 0.95, 0.95, 0.5);
-				---DEFAULT_CHAT_FRAME:AddMessage(done, 0.95, 0.95, 0.5);
-				
-			end
-			if not (hashData == nil) then
-				if isComplete then
-					Questie:addMonsterToMap(hashData['finishedBy'], "Quest Finisher", q, "Complete", mapid, selected);
-					questComplete = false; -- questComplete is used to add the finisher, this avoids adding it twice
-				end
-			else
-				local finisher = QuestieFinishers[q];
-			
-				if not (finisher == nil) and isComplete then
-					Questie:addMonsterToMap(finisher, "Quest Finisher", q, "Complete", mapid, selected);
-					questComplete = false; -- questComplete is used to add the finisher, this avoids adding it twice
-				end
-			end
-			--DEFAULT_CHAT_FRAME:AddMessage(hash);
-		elseif not hash and not isHeader then
-			debug("ERROR: UNKNOWN QUEST: " .. q);
-		end
-	end	
+		if not isHeader then
+            SelectQuestLogEntry(v);
+            local count =  GetNumQuestLeaderBoards();
+            local selected = v == sind;
+            local questComplete = true; -- there might be something in the api for this	
+            local questText, objectiveText = _GetQuestLogQuestText();
+            local hash = Questie:getQuestHash(q, level, objectiveText);
+			--log("QH:"..q..","..level..","..objectiveText.."="..hash,1);
+            local hashData = QuestieHashMap[hash];
+                
+            if hash and not isHeader then
+                local seen = QuestieSeenQuests[hash];
+                if QuestieCurrentQuests[q] == nil then
+                    QuestieCurrentQuests[q] = {};
+                end
+                QuestieCurrentQuests[q]['hash'] = hash; -- needs to store the hash (probably not best to set it every time)
+                --log("SEEN " .. q .. " as hash " .. hash, 1)
+                if seen == nil or not seen then -- not seen would update it if the user had abandoned then re-picked up
+                                                -- someone should tell me if LUA is like C where I could do only "if not seen then" here.
+                    QuestieSeenQuests[hash] = true; -- true = in the quest log
+                end
+                
+                if not (hashData == nil) then
+                    --log(hashData['finishedBy'], 1);
+                    if (count == 0) then
+                        Questie:addMonsterToMap(hashData['finishedBy'], "Quest Finisher", q, "Complete", mapid, selected);
+                        questComplete = false; -- questComplete is used to add the finisher, this avoids adding it twice
+                    end
+                else
+                    local finisher = QuestieFinishers[q];
+                
+                    if not (finisher == nil) and (count == 0) then
+                        Questie:addMonsterToMap(finisher, "Quest Finisher", q, "Complete", mapid, selected);
+                        questComplete = false; -- questComplete is used to add the finisher, this avoids adding it twice
+                    end
+                end
+                --DEFAULT_CHAT_FRAME:AddMessage(q);
+                
+                -- we're re-evaluating objectives now anyway
+                QuestieCurrentQuests[q]['objectives'] = {};
+                
+                for r=1,count do
+                    local desc, typ, done = GetQuestLogLeaderBoard(r);
+                    --DEFAULT_CHAT_FRAME:AddMessage(desc, 0.95, 0.95, 0.5);
+                    
+                    
+                    if not done then
+                        questComplete = false;
+                        if selected then
+                            --DEFAULT_CHAT_FRAME:AddMessage("SELECTED " .. q, 0.95, 0.1, 0.95);
+                        else
+                            --DEFAULT_CHAT_FRAME:AddMessage("NOTSELECTEd " .. q .. " " .. in, 0.95, 0.1, 0.95);
+                        end
+                        this:processObjective(q, desc, typ, selected, mapid, r)
+                    end
+                    ---DEFAULT_CHAT_FRAME:AddMessage(typ, 0.95, 0.95, 0.5);
+                    ---DEFAULT_CHAT_FRAME:AddMessage(done, 0.95, 0.95, 0.5);
+                    
+                end
+                if not (hashData == nil) then
+                    --log(hashData['finishedBy'], 1);
+                    if isComplete then
+                        Questie:addMonsterToMap(hashData['finishedBy'], "Quest Finisher", q, "Complete", mapid, selected);
+                        questComplete = false; -- questComplete is used to add the finisher, this avoids adding it twice
+                    end
+                else
+                    local finisher = QuestieFinishers[q];
+                
+                    if not (finisher == nil) and isComplete then
+                        Questie:addMonsterToMap(finisher, "Quest Finisher", q, "Complete", mapid, selected);
+                        questComplete = false; -- questComplete is used to add the finisher, this avoids adding it twice
+                    end
+                end
+                --DEFAULT_CHAT_FRAME:AddMessage(hash);
+            elseif not hash and not isHeader then
+                debug("ERROR: UNKNOWN QUEST: " .. q);
+            end
+        end
+	end
 	SelectQuestLogEntry(sind);
 end
 
@@ -678,11 +749,32 @@ function Questie:ZONE_CHANGED() -- this is needed
 end
 
 function Questie:UI_INFO_MESSAGE(message)
-	log(message)
+	--log(message, 1)
+end
+
+function Questie:removeAvailableMarker(name) -- this needs to be handled differently anyway
+	for id, note in pairs(currentNotes) do	
+		--log(id, 1)
+		if note['icon'] == "Available" then
+			--log(, 1)
+			if note['questName'] == name then
+				table.remove(currentNotes, id);
+				this:removeNoteFromCurrentNotes(note);
+				Cartographer_Notes:DeleteNote(note["zone"], note["x"], note["y"]);
+			end
+		end--else log(note['icon'], 1); end
+	end
+	--removeNoteFromCurrentNotes
 end
 
 function Questie:CHAT_MSG_SYSTEM(message)
-	log(message)
+	--log(message, 1)
+	local index = findLast(message, ":");
+	if tonumber(index) == 15 then -- quest accepted
+		local questName = string.sub(message, index+2);
+		--log("Accepted " .. questName, 1)
+		Questie:removeAvailableMarker(questName)
+	end
 end
 
 
