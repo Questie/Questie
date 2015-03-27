@@ -276,7 +276,16 @@ function Questie:OnUpdate(elapsed)
 	local ttl = math.abs((now - Questie.lastMinimapUpdate)*1000); -- convert to miliseconds
 	
 	if ttl > 250 then -- seems about right
-		Questie.player_x, Questie.player_y = Questie:getPlayerPos();
+		--Fix not to reset map, Using old sane values when a player has another map open rather than forcing back the map //Logon
+		local fx, fy = Questie:getPlayerPos();
+		if ( ( ( fx ) and ( fx == 0 ) ) and ( ( fy ) and ( fy == 0 ) ) ) then
+			--DEFAULT_CHAT_FRAME:AddMessage("Questie: Cords equal to 0 using old until data is sane ", 0.95, 0.95, 0.5);
+			--DEFAULT_CHAT_FRAME:AddMessage(fx.." "..fy, 0.95, 0.95, 0.5);
+			--DEFAULT_CHAT_FRAME:AddMessage(Questie.player_x.." "..Questie.player_y, 0.95, 0.95, 0.5);
+		else
+			Questie.player_x = fx;
+			Questie.player_y = fy;
+		end
 		Questie:updateMinimap()
 		this = QuestieTracker
 		QuestieTracker:fillTrackingFrame()
@@ -471,8 +480,13 @@ function Questie:getPlayerPos()
 
 -- thanks to mapnotes for this "bug fix"
 	local fx, fy = GetPlayerMapPosition("player");
+	local map = getCurrentMapID(); --Added to get the current Map ID to see if a force reset of the map is needed //Logon
 	if ( ( ( fx ) and ( fx == 0 ) ) and ( ( fy ) and ( fy == 0 ) ) ) then
-		SetMapToCurrentZone();
+		--Force reset the map because MapID == -1 //Logon
+		if	(map == -1) then
+			SetMapToCurrentZone();
+			DEFAULT_CHAT_FRAME:AddMessage("Questie: Found strange zone MapID: "..map.." reset to currentZone", 0.95, 0.95, 0.5);
+		end
 	end
 	-- thanks mapnotes
 	return fx, fy;
@@ -480,8 +494,8 @@ end
 
 function getCurrentMapID()
 
-	
-	local fx, fy = Questie:getPlayerPos(); -- this: does not work here??
+	--Commented this out to prevent stack overflow (because if an endless loop) it's not even used here //Logon
+	--local fx, fy = Questie:getPlayerPos(); -- this: does not work here??
 
 	local file = GetMapInfo()
 	
