@@ -505,7 +505,7 @@ function getCurrentMapID()
 	
 	local zid = QuestieZones[file];
 	if zid == nil then
-		DEFAULT_CHAT_FRAME:AddMessage("ERROR: We are in unknown zone " .. file, 0.95, 0.2, 0.2);
+		--DEFAULT_CHAT_FRAME:AddMessage("ERROR: We are in unknown zone " .. file, 0.95, 0.2, 0.2);
 		return -1
 	else
 		return zid[1];
