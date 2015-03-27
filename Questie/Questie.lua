@@ -517,8 +517,12 @@ function Questie:addAvailableQuests()
 								local name = qdata['name'];
 								if stype == "monster" then
 									local mob = QuestieMonsters[sby];
-									local loc = mob['locations'][1];
-									this:createQuestNote("Pick up: " .. name, sby, name, loc[2], loc[3], "Available", selected);
+									if mob == nil then
+										debug("ERROR MISSING QUESTGIVER " .. sby .. " quest:" .. name);
+									else 
+										local loc = mob['locations'][1];
+										this:createQuestNote("Pick up: " .. name, sby, name, loc[2], loc[3], "Available", selected);
+									end
 									--createQuestNote("Pick up: " .. name, sby, stype, loc[2], loc[3], 9, false);
 								end
 							end
