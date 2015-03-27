@@ -302,9 +302,12 @@ function Questie:PLAYER_LOGIN()
 	--log(this:GetName())
 	this:RegisterEvent("QUEST_LOG_UPDATE");
 	this:RegisterEvent("ZONE_CHANGED"); -- this actually is needed
-	this:RegisterEvent("UNIT_AURA");
 	this:RegisterEvent("UI_INFO_MESSAGE");
 	this:RegisterEvent("CHAT_MSG_SYSTEM");
+	
+	_GetQuestLogQuestText = GetQuestLogQuestText;
+	GetQuestLogQuestText = nql;
+	
 	this:RegisterCartographerIcons();
 	this:hookTooltip();
 	this:createMinimapFrames();
@@ -315,10 +318,8 @@ function Questie:UNIT_AURA(unitId)
 end
 
 function Questie:PLAYER_ENTERING_WORLD()
-	this:fillQuestList();
-	_GetQuestLogQuestText = GetQuestLogQuestText;
-	GetQuestLogQuestText = nql;
 	this:clearAllNotes();
+	this:fillQuestList();
 	this:addAvailableQuests();
 end
 
