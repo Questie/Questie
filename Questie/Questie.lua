@@ -313,10 +313,6 @@ function Questie:PLAYER_LOGIN()
 	this:createMinimapFrames();
 end
 
-function Questie:UNIT_AURA(unitId)
-	--log("UnitID: "..unitId)
-end
-
 function Questie:PLAYER_ENTERING_WORLD()
 	this:clearAllNotes();
 	this:fillQuestList();
@@ -472,8 +468,11 @@ function Questie:addMonsterToMap(monsterName, info, quest, icon, mapid, selected
 end
 
 function Questie:clearAllNotes()
-	selectedNotes = {}
-	currentNotes = {} -- temp fix
+	for k,v in pairs(minimap_poiframes) do
+		v:Hide();
+	end
+	currentNotesControl = {};
+	currentNotes = {}; -- temp fix
 	Cartographer_Notes:ClearMap();
 end
 
@@ -757,14 +756,9 @@ function Questie:QUEST_LOG_UPDATE()
 	SelectQuestLogEntry(sind);
 end
 
-local lastZoneID = 0;
-
 function Questie:ZONE_CHANGED() -- this is needed
-	local map = getCurrentMapID();
-	if not (map == lastZoneID) then -- I cant seem to get over this weird LUA not operator...
-		this:QUEST_LOG_UPDATE();
-		lastZoneID = map
-	end
+	SetMapToCurrentZone();
+	this:QUEST_LOG_UPDATE();
 end
 
 function Questie:UI_INFO_MESSAGE(message)
