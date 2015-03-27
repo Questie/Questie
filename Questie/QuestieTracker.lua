@@ -35,22 +35,33 @@ function QuestieTracker:addQuestToTracker(questName, desc, typ, done, line, leve
 end 
 
 function QuestieTracker:removeQuestFromTracker(questName)
+	if(type(QuestieCurrentQuests[questName].tracked) ~= "table") then
+		QuestieCurrentQuests[questName]["tracked"] = {};
+	end
 	QuestieCurrentQuests[questName]["tracked"] = nil
 end
 
 function QuestLogTitleButton_OnClick(button)
-	if ( button == "LeftButton" ) then
+	if(EQL3_Player) then -- could also hook EQL3_AddQuestWatch(index) I guess
 		if ( IsShiftKeyDown() ) then
-			if(ChatFrameEditBox:IsVisible()) then
-				ChatFrameEditBox:Insert(this:GetText());
-			end
-			-- add/remove quest to/from tracking
-			QuestieTracker:setQuestInfo(Questie:findIdByName(trim(this:GetText())));
+			QuestieTracker:setQuestInfo(this:GetID());
 		end
-		QuestLog_SetSelection(this:GetID() + FauxScrollFrame_GetOffset(QuestLogListScrollFrame))
-		QuestLog_Update();
+		_QuestLogTitleButton_OnClick(button);
+		EQL3_QuestWatchFrame:Hide();
+	else
+		if ( button == "LeftButton" ) then
+			if ( IsShiftKeyDown() ) then
+				if(ChatFrameEditBox:IsVisible()) then
+					ChatFrameEditBox:Insert(this:GetText());
+				end
+				-- add/remove quest to/from tracking
+				QuestieTracker:setQuestInfo(Questie:findIdByName(trim(this:GetText())));
+			end
+			QuestLog_SetSelection(this:GetID() + FauxScrollFrame_GetOffset(QuestLogListScrollFrame))
+			QuestLog_Update();
+		end	
 	end
-	--_QuestLogTitleButton_OnClick(button)
+	
 	QuestWatchFrame:Hide()
 	this = QuestieTracker;
 	this:fillTrackingFrame();
@@ -102,6 +113,24 @@ function QuestieTracker:PLAYER_LOGIN()
 	this:createTrackingButtons();
 	this:RegisterEvent("QUEST_LOG_UPDATE");
 	this:RegisterEvent("PLAYER_LOGOUT");
+	
+	this:syncEQL3();
+end
+
+function QuestieTracker:syncEQL3()
+	if(EQL3_Player) then
+		for id=1, GetNumQuestLogEntries() do
+			local questName, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(id);
+			if ( not isHeader and EQL3_IsQuestWatched(id) and not this:isTracked(questName) ) then
+				for i=1, GetNumQuestLeaderBoards() do
+					local desc, typ, done = GetQuestLogLeaderBoard(i);
+					this:addQuestToTracker(questName, desc, typ, done, i, level, isComplete);
+				end
+			elseif( not isHeader and not EQL3_IsQuestWatched(id) and this:isTracked(questName) ) then
+				this:removeQuestFromTracker(questName);
+			end
+		end
+	end
 end
 
 -- OBVIOUSLY NEEDS A MORE EFFECTIVE SYSTEM! In general, adding/removing notes and updating the visible elements needs to be handled better
@@ -109,10 +138,12 @@ end
 function QuestieTracker:QUEST_LOG_UPDATE()
 	local startid = GetQuestLogSelection();
 	for id=1, GetNumQuestLogEntries() do
+	
 		local questName, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(id);
 		if ( AUTO_QUEST_WATCH == "1" and not QuestieCurrentQuests[questName] and not this:isTracked(questName) and not isHeader) then
 			this:setQuestInfo(id);
 		end
+		
 		if( this:isTracked(questName) ) then
 			SelectQuestLogEntry(id);
 			for i=1, GetNumQuestLeaderBoards() do

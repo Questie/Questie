@@ -295,6 +295,7 @@ function Questie:OnUpdate(elapsed)
 		--log(now);
 	end
 	-- Blizzard quest tracker needs to be hidden
+	if(EQL3_Player) then EQL3_QuestWatchFrame:Hide(); end
 	QuestWatchFrame:Hide()
 end
 
