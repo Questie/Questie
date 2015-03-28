@@ -399,7 +399,9 @@ function Questie:updateMinimap()
 end
 
 function Questie:deleteCurrentNotesforQuest(questName)
-
+	
+	local antiLeak = GetTime();
+	
 	local i = 1;
 	while i <= table.getn(currentNotes) do
 		local v = currentNotes[i];
@@ -409,6 +411,7 @@ function Questie:deleteCurrentNotesforQuest(questName)
 		else
 			i = i + 1;
 		end
+		if( GetTime() - antiLeak > 0.2 ) then break; end
 	end
 end
 
