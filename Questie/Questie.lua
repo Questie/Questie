@@ -794,6 +794,33 @@ function Questie:CHAT_MSG_SYSTEM(message)
 	end
 end
 
+local math_mod = math.fmod or math.mod
+
+local function _CartographerRound(num, digits) 
+    -- banker's rounding
+	local mantissa = 10^digits
+	local norm = num*mantissa
+	norm = norm + 0.5
+	local norm_f = math.floor(norm)
+	if norm == norm_f and math_mod(norm_f, 2) ~= 0 then
+		return (norm_f-1)/mantissa
+	end
+	return norm_f/mantissa
+end
+
+local function _GetCartographerID(x, y)
+    return _CartographerRound(x*1000, 0) + _CartographerRound(y*1000, 0)*1001
+end
+
+local function _CartographerHasNote(zone, x, y) -- underscore because its a method for interacting with another mod, why not
+	local id = _GetCartographerID(x, y)
+	if rawget(Cartographer_Notes.db.account.pois, zone) then
+		if rawget(Cartographer_Notes.db.account.pois[zone], id) then
+			return true
+		end
+	end
+	return false
+end
 
 function Questie:deleteNoteAfterQuestRemoved()
 	local finishedQuest = this:getFinishedQuest();
@@ -806,7 +833,9 @@ function Questie:deleteNoteAfterQuestRemoved()
 		if (notes ~= nil) then
 			for k,v in pairs(notes) do
 				--log(v["zone"] .. "  " .. v["x"] .. "  " .. v["y"])
-				Cartographer_Notes:DeleteNote(v["zone"], v["x"], v["y"]);
+				if _CartographerHasNote(v["zone"], v["x"], v["y"]) then
+					Cartographer_Notes:DeleteNote(v["zone"], v["x"], v["y"]);
+				end
 			end
 		end
 		--log("Deleting notes for quest:" .. finishedQuest);
