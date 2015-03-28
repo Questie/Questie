@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,12 +40,17 @@ class LuaObject {
         for(int i = 0; i < tur*2; i++) out.write(' ');
         if(name.contains("\"")) name = inQuotes(name);
         if(name.startsWith("[") && name.endsWith("]")) name=name.substring(1, name.length()-1);
-        
-        out.write("['".getBytes());
         name = name.replaceAll("\'", "\\\\\'");
         name = name.replace("\\\\", "\\");
+        boolean numeric = false;
+        try{
+            Integer.parseInt(name);
+            numeric = true;
+        }catch(Throwable t){}
+        
+        if(numeric) out.write('['); else out.write("['".getBytes());
         out.write(name.getBytes());
-        out.write("'] = ".getBytes());
+        if(numeric) out.write("] = ".getBytes()); else out.write("'] = ".getBytes());
         String q = "";
         switch(type){
             case INTARRAY:
@@ -104,10 +111,10 @@ class LuaObject {
                         System.exit(11);
                     }
                     if(type == Type.STRING)
-                        out.write('"');
+                        out.write('\'');
                     out.write(q.getBytes());
                     if(type == Type.STRING)
-                        out.write('"');
+                        out.write('\'');
                 }
                 break;
             case TABLE:
@@ -236,12 +243,14 @@ class LuaObject {
         }else
         if(type == Type.TABLE){
             try{
-                Integer.parseInt(name.split("\\[")[1].split("\\]")[0]);
+//                Integer.parseInt(name.split("\\[")[1].split("\\]")[0]);
                 ConcurrentHashMap<String, LuaObject> contents = (ConcurrentHashMap<String, LuaObject>) value;
                 for(String s : contents.keySet()){
                     StringRewrite.questdb.put(s, contents.get(s));
                 }
-            }catch(Exception e){}
+            }catch(Exception e){
+                e.printStackTrace();System.exit(0);
+            }
         }
     }
     static int haaax = 0;
@@ -825,7 +834,7 @@ public class StringRewrite {
 //        }
 //        BufferedReader r = new BufferedReader(new InputStreamReader(new FileInputStream("D:\\strp.lua")));
         InputStream in = new FileInputStream("D:\\eng.lua");
-        ByteArrayOutputStream out = new ByteArrayOutputStream(20464386);
+        ByteArrayOutputStream out = new ByteArrayOutputStream(5642360);
         String full = "";
         String line = "";
         int chart=0;
@@ -840,14 +849,106 @@ public class StringRewrite {
         LuaObject root = new LuaObject("root", full, 0);
 //        root.write(new FileOutputStream("D:\\presto.lua"), 0, false);
         System.out.println("DONE");
-        
-//        LuaObject idbhax = new LuaObject("root", "", 0);
-//        idbhax.type = Type.TABLE;
-//        idbhax.value = itemdb;
-//        idbhax.write(new FileOutputStream("D:\\sitems.lua"), 0, false);
-        
+//        
+////        LuaObject idbhax = new LuaObject("root", "", 0);
+////        idbhax.type = Type.TABLE;
+////        idbhax.value = itemdb;
+////        idbhax.write(new FileOutputStream("D:\\sitems.lua"), 0, false);
+//        
+//        for(String s : objects.keySet()){
+//            LuaObject obj = objects.get(s);
+//            ConcurrentHashMap<String, LuaObject> pardat = (ConcurrentHashMap<String, LuaObject>)obj.value;
+//            LuaObject refactor = new LuaObject(obj.name, "", 1);
+//            refactor.type = Type.TABLE;
+//            ConcurrentHashMap<String, LuaObject> dat = new ConcurrentHashMap<String, LuaObject>();
+//            for(String sa : pardat.keySet()){
+//                LuaObject hoho = pardat.get(sa);
+//                if(hoho.name.equals("pos")){
+//                    LuaObject pos = pardat.get(sa);
+//                    LuaObject locations = new LuaObject("locations", "", 2);
+//                    locations.type = Type.TABLE;
+//                    ConcurrentHashMap<String, LuaObject> locs = new ConcurrentHashMap<String, LuaObject>();
+//                    switch(pos.type){
+//                        case INTARRAY: case FLOATARRAY:
+//                            LuaObject neu = new LuaObject("1", "", 3);
+//                            neu.type = Type.FLOATARRAY;
+//                            neu.value = pos.value;
+//                            locs.put("1", neu);
+//                            dat.put("locationCount", new LuaObject("locationCount", "1", 2));
+//                            break;
+//                        case DOUBLEINTARRAY: case DOUBLEFLOATARRAY:
+//                            double[][] vel = (double[][]) pos.value;
+//                            for(int i = 0; i < vel.length; i++){
+//                                LuaObject nuu = new LuaObject(String.valueOf(i+1), "", 3);
+//                                nuu.type = Type.FLOATARRAY;
+//                                nuu.value = vel[i];
+//                                locs.put(String.valueOf(i+1), nuu);
+//                            }
+//                            dat.put("locationCount", new LuaObject("locationCount", String.valueOf(vel.length), 2));
+//                            break;
+//                    }
+//                    locations.value = locs;
+//                    dat.put("locations", locations);
+//                }else dat.put(sa, hoho);
+//            }
+//            
+//            
+//            refactor.value = dat;
+//            refactordb.put(s, refactor);
+//        }
+//        
+//        for(String s : questdb.keySet()){
+//            LuaObject qst = questdb.get(s);
+//            if(qst.type == Type.TABLE){
+//                ConcurrentHashMap<String, LuaObject> ref = (ConcurrentHashMap<String, LuaObject>) qst.value;
+//                for(String k : ref.keySet()){
+//                    LuaObject o = ref.get(k);
+//                    if(o.name.equals("finish")){
+//                        o.name = qst.name;
+//                        String t = (String) o.value;
+//                        t = t.replaceAll("'", "`");
+//                        t = t.replaceAll("\'", "`");
+//                        o.value = t;
+//                        finishers.put(qst.name, o);
+//                    }
+//                }
+//            }
+////            ConcurrentHashMap<String, LuaObject> ref = (ConcurrentHashMap<String, LuaObject>) qst.value;
+////            for(String sa : ref.keySet()){
+////                System.out.println(sa);
+////            }
+////            System.exit(0);
+////            hashers.put(qst.name, ref.get("hash"));
+//            hashers.put(qst.name, new LuaObject(qst.name, String.valueOf(qst.hashCode()), 1));
+//            
+//        }
+//        System.exit(0);
+
+//        System.out.println(full);
+//        while((line=r.readLine()) != null){
+//            full += line;
+//            linee++;
+
+//        }
+        ArrayList<String> nams = new ArrayList<String>();
+        ConcurrentHashMap<String, LuaObject> remap = new ConcurrentHashMap<String, LuaObject>();
         for(String s : objects.keySet()){
-            LuaObject obj = objects.get(s);
+            System.out.println(s);
+            LuaObject item = objects.get(s);
+            if(item.name.charAt(0) != '[') item.name = "[\"" + item.name + "\"]";
+            if(nams.contains(item.name)){
+                System.out.println("--->>>" + item.name);
+                item.value = mergeTable((ConcurrentHashMap<String, LuaObject>)item.value, (ConcurrentHashMap<String, LuaObject>)remap.get(item.name).value);
+            }
+            remap.put(item.name, item);
+            nams.add(item.name);
+        }
+        System.exit(0);
+        for(String s : remap.keySet()){
+            System.err.println(s);
+        }
+        for(String s : remap.keySet()){
+            LuaObject obj = remap.get(s);
             ConcurrentHashMap<String, LuaObject> pardat = (ConcurrentHashMap<String, LuaObject>)obj.value;
             LuaObject refactor = new LuaObject(obj.name, "", 1);
             refactor.type = Type.TABLE;
@@ -888,42 +989,51 @@ public class StringRewrite {
             refactordb.put(s, refactor);
         }
         
-        for(String s : questdb.keySet()){
-            LuaObject qst = questdb.get(s);
-            if(qst.type == Type.TABLE){
-                ConcurrentHashMap<String, LuaObject> ref = (ConcurrentHashMap<String, LuaObject>) qst.value;
-                for(String k : ref.keySet()){
-                    LuaObject o = ref.get(k);
-                    if(o.name.equals("finish")){
-                        o.name = qst.name;
-                        String t = (String) o.value;
-                        t = t.replaceAll("'", "`");
-                        t = t.replaceAll("\'", "`");
-                        o.value = t;
-                        finishers.put(qst.name, o);
-                    }
-                }
-            }
-//            ConcurrentHashMap<String, LuaObject> ref = (ConcurrentHashMap<String, LuaObject>) qst.value;
-//            for(String sa : ref.keySet()){
-//                System.out.println(sa);
-//            }
-//            System.exit(0);
-//            hashers.put(qst.name, ref.get("hash"));
-            hashers.put(qst.name, new LuaObject(qst.name, String.valueOf(qst.hashCode()), 1));
-            
-        }
-//        System.exit(0);
+        
         LuaObject mdbhax = new LuaObject("root", "", 0);
         mdbhax.type = Type.TABLE;
         mdbhax.value = refactordb;
-        mdbhax.write(new FileOutputStream("D:\\objects.lua"), 0, false);
-//        System.out.println(full);
-//        while((line=r.readLine()) != null){
-//            full += line;
-//            linee++;
-
-//        }
+        mdbhax.write(new FileOutputStream("D:\\newitems.lua"), 0, false);
+    }
+    
+    static ConcurrentHashMap<String, LuaObject> mergeTable(ConcurrentHashMap<String, LuaObject> one, ConcurrentHashMap<String, LuaObject> two){
+        ConcurrentHashMap<String, LuaObject> ret = new ConcurrentHashMap<String, LuaObject>();
+        for(String s : one.keySet()){
+            LuaObject obj = one.get(s);
+            String name = obj.name; // more reliable
+            if(ret.containsKey(name)){
+                LuaObject merge = ret.get(name);
+                if(merge.type == obj.type){
+                    switch(obj.type){
+                        case TABLE: obj.value = mergeTable((ConcurrentHashMap<String, LuaObject>)obj.value, (ConcurrentHashMap<String, LuaObject>)merge.value); break;
+                        case DOUBLEINTARRAY: 
+                            long[][] neu = (long[][])obj.value;
+                            long[][] old = (long[][])merge.value;
+                            long[][] dfa = new long[neu.length+old.length][];
+                            int index = 0;
+                            for(long[] l : old)dfa[index++] = l;
+                            for(long[] l : neu)dfa[index++] = l;
+                            obj.value = dfa;
+                            break;
+                        case DOUBLEFLOATARRAY: 
+                            double[][] dneu = (double[][])obj.value;
+                            double[][] dold = (double[][])merge.value;
+                            double[][] ddfa = new double[dneu.length+dold.length][];
+                            int dindex = 0;
+                            for(double[] l : dold)ddfa[dindex++] = l;
+                            for(double[] l : dneu)ddfa[dindex++] = l;
+                            obj.value = ddfa;
+                            break;
+                        default: break;
+                    }
+                    ret.put(name, obj);
+                }// else theres nothing we can do :C
+            }else{
+                ret.put(name, obj);
+            }
+        }
+        
+        return ret;
     }
     
     static ConcurrentHashMap<String, LuaObject> monsterdb = new ConcurrentHashMap<String, LuaObject>();
