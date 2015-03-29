@@ -26,6 +26,8 @@ QuestieSeenQuests = {};
 
 QuestieNotesDB = {};
 
+_GetQuestLogQuestText = GetQuestLogQuestText;
+
 local QUESTIE_MAX_MINIMAP_POINTS = 20;
 
 local minimap_poiframes = {};
@@ -134,7 +136,6 @@ function Questie:OnEvent() -- functions created in "object:method"-style have an
 end
 Questie:SetScript("OnEvent", Questie.OnEvent)
 
-local _GetQuestLogQuestText;
 local objectives = {};
 local throttle = 0;
 local throttleOverride = false;
@@ -257,9 +258,9 @@ function Questie:RegisterCartographerIcons()
 	})
 end
 
-function nql()
+function GetQuestLogQuestText()
 	Questie.needsUpdate = true;
-	return _GetQuestLogQuestText();
+	_GetQuestLogQuestText();
 end
 
 local needsRegisterHack = true;
@@ -305,9 +306,6 @@ function Questie:PLAYER_LOGIN()
 	this:RegisterEvent("ZONE_CHANGED"); -- this actually is needed
 	this:RegisterEvent("UI_INFO_MESSAGE");
 	this:RegisterEvent("CHAT_MSG_SYSTEM");
-	
-	_GetQuestLogQuestText = GetQuestLogQuestText;
-	GetQuestLogQuestText = nql;
 	
 	this:RegisterCartographerIcons();
 	this:hookTooltip();
