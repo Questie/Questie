@@ -260,7 +260,7 @@ end
 
 function GetQuestLogQuestText()
 	Questie.needsUpdate = true;
-	_GetQuestLogQuestText();
+	return _GetQuestLogQuestText(); -- why was this return removed?
 end
 
 local needsRegisterHack = true;
