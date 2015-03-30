@@ -89,6 +89,71 @@
 						<Anchor point="TOPLEFT" relativeTo="$parentQuestWatchLine7" relativePoint="BOTTOMLEFT"/>
 					</Anchors>
 				</FontString>
+				<FontString name="$parentQuestWatchLine8" inherits="QuestWatch_FontTemplate" hidden="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentQuestWatchLine7" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentQuestWatchLine9" inherits="QuestWatch_FontTemplate" hidden="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentQuestWatchLine8" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentQuestWatchLine10" inherits="QuestWatch_FontTemplate" hidden="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentQuestWatchLine9" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentQuestWatchLine11" inherits="QuestWatch_FontTemplate" hidden="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentQuestWatchLine10" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentQuestWatchLine12" inherits="QuestWatch_FontTemplate" hidden="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentQuestWatchLine11" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentQuestWatchLine13" inherits="QuestWatch_FontTemplate" hidden="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentQuestWatchLine12" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentQuestWatchLine14" inherits="QuestWatch_FontTemplate" hidden="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentQuestWatchLine13" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentQuestWatchLine15" inherits="QuestWatch_FontTemplate" hidden="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentQuestWatchLine14" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentQuestWatchLine16" inherits="QuestWatch_FontTemplate" hidden="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentQuestWatchLine15" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentQuestWatchLine17" inherits="QuestWatch_FontTemplate" hidden="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentQuestWatchLine16" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentQuestWatchLine18" inherits="QuestWatch_FontTemplate" hidden="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentQuestWatchLine17" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentQuestWatchLine19" inherits="QuestWatch_FontTemplate" hidden="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentQuestWatchLine18" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
+				<FontString name="$parentQuestWatchLine20" inherits="QuestWatch_FontTemplate" hidden="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentQuestWatchLine19" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</FontString>
 			</Layer>
 			<Layer level="OVERLAY">
 				<FontString name="$parentName" inherits="GameFontHighlightSmallOutline">

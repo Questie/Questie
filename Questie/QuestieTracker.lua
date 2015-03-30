@@ -105,6 +105,9 @@ function QuestieTracker:setQuestInfo(id)
 		local desc, typ, done = GetQuestLogLeaderBoard(i);
 		QuestieTracker:addQuestToTracker(questName, desc, typ, done, i, level, isComplete)
 	end
+	if(GetNumQuestLeaderBoards() == 0) then
+		QuestieTracker:addQuestToTracker(questName, "Run to the end", "", true, 1, level, isComplete)
+	end
 	SelectQuestLogEntry(startid);
 end
 
@@ -245,7 +248,7 @@ function QuestieTracker:fillTrackingFrame()
 		-- maybe the distance in QuestieCurrentQuests[questName] isn't always the closest non available one?
 		-- that would mean it's only a visual bug
 		-- dumping sortedByDistance at the end of this could help
-		if(QuestieCurrentQuests[questName] and QuestieCurrentQuests[questName]["tracked"] and v["icon"] ~= "Available" and v["icon"] ~= "Complete") then
+		if( QuestieCurrentQuests[questName] and QuestieCurrentQuests[questName]["tracked"] and v["icon"] ~= "Available" ) then
 			if not (distanceControlTable[questName]) then
 			distanceControlTable[questName] = true; 
 			QuestieCurrentQuests[questName]["questName"] = v["questName"];
@@ -261,7 +264,9 @@ function QuestieTracker:fillTrackingFrame()
 	for index,quest in pairs(sortedByDistance) do
 		for k,v in pairs(quest) do
 			if(k == "tracked") then
-				getglobal("QuestieTrackerButton"..i):Show();
+				local frame = getglobal("QuestieTrackerButton"..i);
+				if not frame then break; end
+				frame:Show();
 				local j = 1;
 				for key,val in pairs(v) do
 					if (key == "level") then
@@ -276,7 +281,7 @@ function QuestieTracker:fillTrackingFrame()
 						j = j + 1;
 					end
 				end
-				for uglyfix=j,8 do
+				for uglyfix=j,20 do
 					getglobal("QuestieTrackerButton"..i.."QuestWatchLine"..j):Hide();
 				end
 				i = i + 1;
