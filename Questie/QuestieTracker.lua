@@ -204,6 +204,9 @@ end
 function QuestieTracker:clearTrackingFrame()
 	for i=1, 8 do
 		getglobal("QuestieTrackerButton"..i):Hide();
+		for j=1,20 do
+			getglobal("QuestieTrackerButton"..i.."QuestWatchLine"..j):Hide();
+		end
 	end
 end
 
@@ -280,9 +283,6 @@ function QuestieTracker:fillTrackingFrame()
 						getglobal("QuestieTrackerButton"..i.."QuestWatchLine"..j):Show();
 						j = j + 1;
 					end
-				end
-				for uglyfix=j,20 do
-					getglobal("QuestieTrackerButton"..i.."QuestWatchLine"..j):Hide();
 				end
 				i = i + 1;
 			end
