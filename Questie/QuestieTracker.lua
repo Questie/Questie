@@ -165,8 +165,8 @@ function QuestieTracker:ADDON_LOADED()
 			point = "CENTER",
 			relativeTo = "UIParent",
 			relativePoint = "CENTER",
-			xOfs = 300,
-			yOfs = 300,
+			xOfs = 0,
+			yOfs = 0,
 		};
 	end
 end
