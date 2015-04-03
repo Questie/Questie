@@ -240,7 +240,7 @@ function QuestieTracker:fillTrackingFrame()
 	local sortedByDistance = {};
 	local distanceControlTable = {};
 	-- sort notes by distance before using this
-	for k,v in (currentNotes) do
+	for k,v in (QuestieCurrentNotes) do
 		--log(v["questName"] .. "  " .. v["distance"])
 		local questName = v["questName"]
 		-- needs to somehow include a better way to only include complete waypoints once the quest is completed
@@ -252,13 +252,25 @@ function QuestieTracker:fillTrackingFrame()
 		-- that would mean it's only a visual bug
 		-- dumping sortedByDistance at the end of this could help
 		if( QuestieCurrentQuests[questName] and QuestieCurrentQuests[questName]["tracked"] and v["icon"] ~= "Available" ) then
-			if not (distanceControlTable[questName]) then
-			distanceControlTable[questName] = true; 
-			QuestieCurrentQuests[questName]["questName"] = v["questName"];
-			QuestieCurrentQuests[questName]["distance"] = v["distance"];
-			QuestieCurrentQuests[questName]["formatDistance"] = v["formatDistance"];
-			QuestieCurrentQuests[questName]["formatUnits"] = v["formatUnits"];
-			table.insert(sortedByDistance, QuestieCurrentQuests[questName]);
+			if (not distanceControlTable[questName] and v["icon"] ~= "Complete") then
+				distanceControlTable[questName] = true; 
+				QuestieCurrentQuests[questName]["questName"] = v["questName"];
+				QuestieCurrentQuests[questName]["distance"] = v["distance"];
+				QuestieCurrentQuests[questName]["formatDistance"] = v["formatDistance"];
+				QuestieCurrentQuests[questName]["formatUnits"] = v["formatUnits"];
+				table.insert(sortedByDistance, QuestieCurrentQuests[questName]);
+			elseif (v["icon"] == "Complete") then
+				for ke,va in pairs(sortedByDistance) do
+					if(va["questName"] == questName) then
+						table.remove(sortedByDistance, ke);
+					end
+				end
+				distanceControlTable[questName] = true; 
+				QuestieCurrentQuests[questName]["questName"] = v["questName"];
+				QuestieCurrentQuests[questName]["distance"] = v["distance"];
+				QuestieCurrentQuests[questName]["formatDistance"] = v["formatDistance"];
+				QuestieCurrentQuests[questName]["formatUnits"] = v["formatUnits"];
+				table.insert(sortedByDistance, QuestieCurrentQuests[questName]);
 			end
 		end
 	end
@@ -276,7 +288,7 @@ function QuestieTracker:fillTrackingFrame()
 						getglobal("QuestieTrackerButton"..i.."HeaderText"):SetText("[" .. val .. "] " .. quest["questName"] .. " (" .. quest["formatDistance"] .. " " .. quest["formatUnits"] .. ")");
 						--getglobal("QuestieTrackerButton"..i.."HeaderText"):SetText("[" .. val .. "] " .. quest["questName"] .. " (" .. quest["distance"] .. ")");
 					elseif (key == "isComplete") then
-					
+						
 					else
 						getglobal("QuestieTrackerButton"..i.."QuestWatchLine"..j):SetText(val);
 						getglobal("QuestieTrackerButton"..i.."QuestWatchLine"..j):SetTextColor(QuestieTracker:getRGBForObjective(val));

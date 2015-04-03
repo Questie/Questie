@@ -6,6 +6,6 @@
 ## RequiredDeps:
 ## OptionalDeps: 
 ## SavedVariables: QuestieSeenQuests, QuestieTrackerVariables, QuestieDebug
-## SavedVariablesPerCharacter: QuestieCurrentQuests
+## SavedVariablesPerCharacter: QuestieCurrentQuests, QuestieCurrentNotes
 Questie.xml
 QuestieTracker.xml

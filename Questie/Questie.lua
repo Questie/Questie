@@ -19,9 +19,6 @@ Questie.player_x = 0;
 Questie.player_y = 0;
 Questie.debugLevel = 1;
 questsByDistance = {};
-selectedNotes = {};
-currentNotes = {}; -- needed for minimap and possibly for Cartographer->external database thing
-currentNotesControl = {};
 QuestieSeenQuests = {};
 
 QuestieNotesDB = {};
@@ -41,6 +38,9 @@ function Questie:ADDON_LOADED()
 	if not (QuestieDebug) then
 		QuestieDebug = {};
 	end	
+	if not (QuestieCurrentNotes) then
+		QuestieCurrentNotes = {};
+	end
 end
 
 function Questie:createMinimapFrames()
@@ -372,18 +372,18 @@ function sortie(a, b)
 end
 
 function Questie:getNearestNotes()
-	sort(currentNotes, sortie)
-	if ( table.getn(currentNotes) < 1) then
+	sort(QuestieCurrentNotes, sortie)
+	if ( table.getn(QuestieCurrentNotes) < 1) then
 		return;
 	end
-	return currentNotes[1]['distance'], currentNotes[table.getn(currentNotes)]['distance'];
+	return QuestieCurrentNotes[1]['distance'], QuestieCurrentNotes[table.getn(QuestieCurrentNotes)]['distance'];
 end
 
 -- for some reason this only shows 3 notes at MAX_NOTES = 5 - 6 at 10 etc
 function Questie:updateMinimap()
 	local nearest, farthest = Questie:getNearestNotes();
 	local index = 1;
-	for k,v in pairs(currentNotes) do
+	for k,v in pairs(QuestieCurrentNotes) do
 		if not (minimap_poiframes[index]) then break; end
 		local alpha = (1-(v['distance']/(farthest)));
 		local offsX, offsY = getMinimapPosFromCoord(v['x'],v['y'],getCurrentMapID());
@@ -401,10 +401,10 @@ function Questie:deleteCurrentNotesforQuest(questName)
 	local antiLeak = GetTime();
 	
 	local i = 1;
-	while i <= table.getn(currentNotes) do
-		local v = currentNotes[i];
+	while i <= table.getn(QuestieCurrentNotes) do
+		local v = QuestieCurrentNotes[i];
 		if(v["questName"] == questName) then
-			table.remove(currentNotes, i);
+			table.remove(QuestieCurrentNotes, i);
 			this:removeNoteFromCurrentNotes(v);
 		else
 			i = i + 1;
@@ -414,17 +414,26 @@ function Questie:deleteCurrentNotesforQuest(questName)
 end
 
 function Questie:addNoteToCurrentNotes(note)
-	if not ( currentNotesControl[note['id']] ) then
-		currentNotesControl[note['id']] = true;
-		table.insert(currentNotes, note);
+	local isInNotes = false;
+	for k,v in pairs(QuestieCurrentNotes) do
+		if (note["id"] == v["id"]) then
+			isInNotes = true;
+		end
+	end
+	if(isInNotes == false) then
+		table.insert(QuestieCurrentNotes, note);
 	end
 end
 
 -- needs to be called on clearAllNotes, deleteNoteAfterQuestRemoved, etc
 function Questie:removeNoteFromCurrentNotes(note)
-	currentNotesControl[note['id']] = nil;
-	-- find in currentNotes and delete too
-	-- probably no way around iterating the table to remove it UNLESS we store its key in currentNotesControl (table.getn()+1, before inserting)
+	for k,v in pairs(QuestieCurrentNotes) do
+		if( v["id"] == note["id"] ) then
+			table.remove(QuestieCurrentNotes, k);
+			break;
+		end
+	end
+	-- find in QuestieCurrentNotes and delete too
 end
 
 function Questie:addNoteToCurrentQuests(questName, id, name, x, y, key, zone, icon)
@@ -473,8 +482,6 @@ function Questie:clearAllNotes()
 	for k,v in pairs(minimap_poiframes) do
 		v:Hide();
 	end
-	currentNotesControl = {};
-	currentNotes = {}; -- temp fix
 	Cartographer_Notes:ClearMap();
 end
 
@@ -768,12 +775,11 @@ function Questie:UI_INFO_MESSAGE(message)
 end
 
 function Questie:removeAvailableMarker(name) -- this needs to be handled differently anyway
-	for id, note in pairs(currentNotes) do	
+	for id, note in pairs(QuestieCurrentNotes) do	
 		--log(id, 1)
 		if note['icon'] == "Available" then
 			--log(, 1)
 			if note['questName'] == name then
-				table.remove(currentNotes, id);
 				this:removeNoteFromCurrentNotes(note);
 				Cartographer_Notes:DeleteNote(note["zone"], note["x"], note["y"]);
 			end
