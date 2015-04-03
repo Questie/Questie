@@ -310,23 +310,23 @@ function QuestieTracker:createTrackingButtons()
 		local button = CreateFrame("Button", "QuestieTrackerButton"..i, this.frame, "QuestieTrackerButtonTemplate");
 		button:SetParent(this.frame);
 		button:SetWidth(240);
-		button:SetHeight(8);
+		button:SetHeight(12);
 	
 		if(i == 1) then
 			button:SetPoint("TOPLEFT", this.frame, "TOPLEFT", 5, -15);
-			local height = 8;
+			local height = 12;
 			for j=1,8 do
 				if( getglobal("QuestieTrackerButton"..i.."QuestWatchLine"..j):IsShown() ) then
-					height = height + 8;
+					height = height + 12;
 				end
 			end
 			button:SetHeight(height);
 		else
 			button:SetPoint("TOPLEFT", "QuestieTrackerButton"..i-1, "BOTTOMLEFT", 0, -5);
-			local height = 8;
+			local height = 12;
 			for j=1,8 do
 				if( getglobal("QuestieTrackerButton"..i.."QuestWatchLine"..j):IsShown() ) then
-					height = height + 8;
+					height = height + 12;
 				end
 			end
 			button:SetHeight(height);

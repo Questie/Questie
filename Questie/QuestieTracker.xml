@@ -2,16 +2,16 @@
 ..\FrameXML\UI.xsd">
 	<FontString name="HeadlineFont" inherits="GameFontNormal" font="Fonts\FRIZQT__.TTF" virtual="true">
 		<FontHeight>
-			<AbsValue val="12"/>
+			<AbsValue val="14"/>
 		</FontHeight>
 		<Color r="1.0" g="1.0" b="0.0"/>
 	</FontString>
 	<FontString name="QuestWatch_FontTemplate" inherits="GameFontNormal" font="Fonts\FRIZQT__.TTF" virtual="true" justifyH="LEFT">
 		<FontHeight>
-			<AbsValue val="10"/>
+			<AbsValue val="12"/>
 		</FontHeight>
 		<Size>
-			<AbsDimension x="0" y="10"/>
+			<AbsDimension x="0" y="12"/>
 		</Size>
 		<Color r="1.0" g="1.0" b="1.0"/>
 	</FontString>
@@ -25,7 +25,7 @@
 				<Frame name="$parentHeader" hidden="true">
 					<Texture file = "" />
 					<Size>
-						<AbsDimension x="240" y="12"/>
+						<AbsDimension x="240" y="14"/>
 					</Size>
 					<Anchors>
 						<Anchor point="TOPLEFT">
@@ -35,7 +35,7 @@
 				</Frame>
 				<FontString name="$parentHeaderText" inherits="HeadlineFont" justifyH="LEFT">
 					<Size>
-						<AbsDimension x="240" y="12"/>
+						<AbsDimension x="280" y="14"/>
 					</Size>
 					<Anchors>
 						<Anchor point="TOPLEFT">
@@ -49,7 +49,7 @@
 					<Anchors>
 						<Anchor point="TOPLEFT" relativeTo="$parentHeaderText" relativePoint="BOTTOMLEFT">
 							<Offset>
-								<AbsDimension x="5" y="-4"/>
+								<AbsDimension x="5" y="-2"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
