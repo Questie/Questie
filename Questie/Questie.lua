@@ -287,10 +287,11 @@ function Questie:OnUpdate(elapsed)
 			Questie.player_x = fx;
 			Questie.player_y = fy;
 		end
-		Questie:updateMinimap()
-		this = QuestieTracker
-		QuestieTracker:fillTrackingFrame()
-		this = Questie
+		sort(QuestieCurrentNotes, sortie);
+		Questie:updateMinimap();
+		this = QuestieTracker;
+		QuestieTracker:fillTrackingFrame();
+		this = Questie;
 		Questie.lastMinimapUpdate = now;
 		--log("UMI: " .. Questie.player_x .. ", " .. Questie.player_y);
 		--log(now);
