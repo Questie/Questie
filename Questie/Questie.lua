@@ -503,7 +503,7 @@ function Questie:getPlayerPos()
 		--Force reset the map because MapID == -1 //Logon
 		if	(map == -1) then
 			SetMapToCurrentZone();
-			DEFAULT_CHAT_FRAME:AddMessage("Questie: Found strange zone MapID: "..map.." reset to currentZone", 0.95, 0.95, 0.5);
+			--DEFAULT_CHAT_FRAME:AddMessage("Questie: Found strange zone MapID: "..map.." reset to currentZone", 0.95, 0.95, 0.5);
 		end
 	end
 	-- thanks mapnotes
