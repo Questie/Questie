@@ -381,18 +381,26 @@ end
 
 -- for some reason this only shows 3 notes at MAX_NOTES = 5 - 6 at 10 etc
 function Questie:updateMinimap()
+
+	-- clean up all frames
+	for k,v in pairs(minimap_poiframes) do
+		v:Hide();
+	end
+
 	local nearest, farthest = Questie:getNearestNotes();
 	local index = 1;
 	for k,v in pairs(QuestieCurrentNotes) do
 		if not (minimap_poiframes[index]) then break; end
-		local alpha = (1-(v['distance']/(farthest)));
-		local offsX, offsY = getMinimapPosFromCoord(v['x'],v['y'],getCurrentMapID());
-		minimap_poiframe_textures[index]:SetTexture("Interface\\AddOns\\Questie\\Icons\\" .. string.lower(v['icon']));
-		minimap_poiframe_textures[index]:SetAlpha(alpha);
-		minimap_poiframe_data[index] = v;
-		minimap_poiframes[index]:SetPoint("CENTER", Minimap, "CENTER", offsX, -offsY);
-		minimap_poiframes[index]:Show();
-		index = index + 1;	
+		if( v["zone"] == GetRealZoneText() ) then
+			local alpha = (1-(v['distance']/(farthest)));
+			local offsX, offsY = getMinimapPosFromCoord(v['x'],v['y'],getCurrentMapID());
+			minimap_poiframe_textures[index]:SetTexture("Interface\\AddOns\\Questie\\Icons\\" .. string.lower(v['icon']));
+			minimap_poiframe_textures[index]:SetAlpha(alpha);
+			minimap_poiframe_data[index] = v;
+			minimap_poiframes[index]:SetPoint("CENTER", Minimap, "CENTER", offsX, -offsY);
+			minimap_poiframes[index]:Show();
+			index = index + 1;
+		end
 	end
 end
 
