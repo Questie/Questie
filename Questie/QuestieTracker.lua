@@ -355,7 +355,7 @@ function QuestieTracker:saveFramePosition()
 end
 
 function QuestieTracker:createTrackingFrame()
-	this.frame = CreateFrame("Frame", "QuestieTrackerFrame", nil);
+	this.frame = CreateFrame("Frame", "QuestieTrackerFrame", UIParent);
 	this.frame:SetWidth(250);
 	this.frame:SetHeight(400);
 	this.frame:SetPoint(QuestieTrackerVariables["position"]["point"], QuestieTrackerVariables["position"]["relativeTo"], QuestieTrackerVariables["position"]["relativePoint"],
