@@ -15,6 +15,7 @@
 <script file="Interface\AddOns\Questie\extern\GatherMinimapCalcs.lua"/>
 <script file="minimapcalcs.lua"/>
 <script file="Interface\AddOns\Questie\extern\DevToolsDump.lua"/>
+<script file="Interface\AddOns\Questie\arrow.lua"/>
 
 
 <Frame name="Questie" parent="UIParent" hidden="false" inherits="ActionButtonTemplate">
