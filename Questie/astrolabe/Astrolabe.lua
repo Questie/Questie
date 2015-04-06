@@ -38,7 +38,7 @@ local LIBRARY_VERSION_MINOR = "$Revision: 17 $"
 if not AceLibrary then error(LIBRARY_VERSION_MAJOR .. " requires AceLibrary.") end
 if not AceLibrary:IsNewVersion(LIBRARY_VERSION_MAJOR, LIBRARY_VERSION_MINOR) then return end
 
-local Astrolabe = {};
+Astrolabe = {};
 
 -- define local variables for Data Tables (defined at the end of this file)
 local WorldMapSize, MinimapSize;
@@ -367,6 +367,17 @@ function Astrolabe:GetDistanceToIcon( icon )
 	end
 end
 
+function Astrolabe:GetDirectionToIcon( icon )
+	local data = self.MinimapIcons[icon];
+	if ( data ) then
+		local dir = atan2(data.xDist, -(data.yDist))
+		if ( dir > 0 ) then
+			return twoPi - dir;
+		else
+			return -dir;
+		end
+	end
+end
 
 --------------------------------------------------------------------------------------------------------------
 -- World Map Icon Placement
@@ -469,13 +480,14 @@ local function activate( self, oldLib, oldDeactivate )
 	frame:RegisterEvent("PLAYER_ENTERING_WORLD");
 	frame:RegisterEvent("ZONE_CHANGED_NEW_AREA");
 	frame:SetScript("OnEvent",
-		function( frame, event, ... )
-			self:OnEvent(frame, event, ...);
+		function( frame, event)
+			self:OnEvent(frame, event);
 		end
 	);
 	frame:SetScript("OnUpdate",
 		function( frame, elapsed )
-			self:OnUpdate(frame, elapsed);
+			-- elapsed doesn't work in Lua created frames, however it is equal to the time passed between each frame. So calulcate from FPS ;)
+			self:OnUpdate(frame, 1/GetFramerate());
 		end
 	);
 	frame:SetScript("OnShow",

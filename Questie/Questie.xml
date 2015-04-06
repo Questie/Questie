@@ -16,6 +16,7 @@
 <script file="minimapcalcs.lua"/>
 <script file="Interface\AddOns\Questie\extern\DevToolsDump.lua"/>
 <script file="Interface\AddOns\Questie\arrow.lua"/>
+<script file="Interface\AddOns\Questie\astrolabe\Astrolabe.lua"/>
 
 
 <Frame name="Questie" parent="UIParent" hidden="false" inherits="ActionButtonTemplate">

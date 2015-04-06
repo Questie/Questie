@@ -65,17 +65,15 @@ wayframe.status:SetPoint("TOP", wayframe.title, "BOTTOM", 0, 0)
 wayframe.tta:SetPoint("TOP", wayframe.status, "BOTTOM", 0, 0)
 
 local function OnDragStart(self, button)
-	if not TomTom.db.profile.arrow.lock then
-		self:StartMoving()
-	end
+	this:StartMoving()
 end
 
 local function OnDragStop(self, button)
-	self:StopMovingOrSizing()
+	this:StopMovingOrSizing()
 end
 
 local function OnEvent(self, event, ...)
-	if event == "ZONE_CHANGED_NEW_AREA" and TomTom.profile.arrow.enable then
+	if event == "ZONE_CHANGED_NEW_AREA" then
 		self:Show()
 	end
 end
@@ -92,13 +90,13 @@ wayframe.arrow:SetAllPoints()
 
 local active_point, arrive_distance, showDownArrow, point_title
 
-function SetCrazyArrow(uid, dist, title)
-	active_point = uid
+function SetCrazyArrow(point, dist, title)
+	active_point = point
 	arrive_distance = dist
-	point_title = title 
+	point_title = title
 
-	if self.profile.arrow.enable then
-		wayframe.title:SetText(title or "Unknown waypoint")
+	if active_point then
+		wayframe.title:SetText(point_title or "Unknown waypoint")
 		wayframe:Show()
 	end
 end
@@ -113,30 +111,26 @@ local speed = 0
 local speed_count = 0
 
 local function OnUpdate(self, elapsed)
+	self = this
+	elapsed = 1/GetFramerate()
 	if not active_point then
 		self:Hide()
 		return
 	end
 
 	local dist,x,y = GetDistanceToIcon(active_point)
-
 	-- The only time we cannot calculate the distance is when the waypoint
 	-- is on another continent, or we are in an instance
 	if not dist or IsInInstance() then
-		if not TomTom:IsValidWaypoint(active_point) then
+		if not active_point.x and not active_point.y then
 			active_point = nil
-			-- Change the crazy arrow to point at the closest waypoint
-			if TomTom.profile.arrow.setclosest then
-				TomTom:SetClosestWaypoint()
-				return
-			end
 		end
 
 		self:Hide()
 		return
 	end
 
-	status:SetText(sformat(L["%d yards"], dist))
+	status:SetText(sformat("%d yards", dist))
 
 	local cell
 
@@ -146,7 +140,7 @@ local function OnUpdate(self, elapsed)
 			arrow:SetHeight(70)
 			arrow:SetWidth(53)
 			arrow:SetTexture("Interface\\AddOns\\Questie\\Images\\Arrow-UP")
-			arrow:SetVertexColor(unpack(TomTom.db.profile.arrow.goodcolor))
+			arrow:SetVertexColor(1, 1, 1)
 			showDownArrow = true
 		end
 
@@ -179,10 +173,21 @@ local function OnUpdate(self, elapsed)
 
 		local perc = math.abs((math.pi - math.abs(angle)) / math.pi)
 
-		local gr,gg,gb = unpack(TomTom.db.profile.arrow.goodcolor)
-		local mr,mg,mb = unpack(TomTom.db.profile.arrow.middlecolor)
-		local br,bg,bb = unpack(TomTom.db.profile.arrow.badcolor)
-		local r,g,b = ColorGradient(perc, br, bg, bb, mr, mg, mb, gr, gg, gb)		
+		local gr,gg,gb = 1, 1, 1
+		local mr,mg,mb = 0.75, 0.75, 0.75
+		local br,bg,bb = 0.5, 0.5, 0.5
+		local tablee = {};
+		table.insert(tablee, gr)
+		table.insert(tablee, gg)
+		table.insert(tablee, gb)
+		table.insert(tablee, mr)
+		table.insert(tablee, mg)
+		table.insert(tablee, mb)
+		table.insert(tablee, br)
+		table.insert(tablee, bg)
+		table.insert(tablee, bb)
+				
+		local r,g,b = ColorGradient(perc,tablee)		
 		arrow:SetVertexColor(r,g,b)
 
 		cell = Questie:modulo(floor(angle / twopi * 108 + 0.5), 108);
@@ -218,7 +223,8 @@ local function OnUpdate(self, elapsed)
 
 		if speed > 0 then
 			local eta = math.abs(dist / speed)
-			tta:SetFormattedText("%01d:%02d", eta / 60, Questie:modulo(eta, 60)) 
+			local text = string.format("%01d:%02d", eta / 60, Questie:modulo(eta, 60))
+			tta:SetText(text) 
 		else
 			tta:SetText("***")
 		end
@@ -273,11 +279,15 @@ local function getCoords(column, row)
 	return xstart, xend, ystart, yend
 end
 
+--this is where texcoords are extracted incorrectly (I think), leading the arrow to not point in the correct direction
 local texcoords = setmetatable({}, {__index = function(t, k)
-	--[[ this was k:match - so we need string.match, but that's not in Lua 5.0?
-	local fIndex, lIndex = string.find(k, "(%d+):(%d+)")
-	local col,row = string.sub(k, fIndex, lIndex)]]
-	local col,row = string.find(k, "(%d+):(%d+)")
+	-- this was k:match("(%d+):(%d+)") - so we need string.match, but that's not in Lua 5.0
+	
+	local fIndex, lIndex = string.find(k, "(%d+)")
+	local col = string.sub(k, fIndex, lIndex)
+	fIndex2, lIndex2 = string.find(k, ":(%d+)")
+	local row = string.sub(k, fIndex2+1, lIndex2)
+	
 	col,row = tonumber(col), tonumber(row)
 	local obj = {getCoords(col, row)}
 	rawset(t, k, obj)
@@ -289,35 +299,12 @@ wayframe:SetScript("OnEvent", function(self, event, arg1, ...)
 	if true then
 		if true then
 			local feed_crazy = CreateFrame("Frame")
-			--[[ Create a data feed for coordinates
-			local feed_crazy = ldb:NewDataObject("TomTom_CrazyArrow", {
-				type = "data source",
-				icon = "Interface\\Addons\\TomTom\\Images\\Arrow",
-				text = "Crazy",
-				iconR = 1,
-				iconG = 1,
-				iconB = 1,
-				iconCoords = {0, 1, 0, 1},
-				OnTooltipShow = function(tooltip)
-					local dist = TomTom:GetDistanceToWaypoint(active_point)
-					if dist then
-						tooltip:AddLine(point_title or L["Unknown waypoint"])
-						tooltip:AddLine(sformat(L["%d yards"], dist), 1, 1, 1)
-					end
-				end,
-				OnClick = WayFrame_OnClick,
-			})]]
-
 			local crazyFeedFrame = CreateFrame("Frame")
 			local throttle = 1
 			local counter = 0
 
-			--[[function TomTom:UpdateArrowFeedThrottle()
-				throttle = TomTom.db.profile.feeds.arrow_throttle
-			end]]
-
 			crazyFeedFrame:SetScript("OnUpdate", function(self, elapsed)
-				elapsed = 0.01666667
+				elapsed = 1/GetFramerate()
 				counter = counter + elapsed
 				if counter < throttle then
 					return
@@ -372,22 +359,27 @@ wayframe:SetScript("OnEvent", function(self, event, arg1, ...)
 	end
 end)
 
-function GetDirectionToIcon( icon )
-	--[[local data = self.MinimapIcons[icon];
-	if ( data ) then
-		local dir = atan2(data.xDist, -(data.yDist))
-		if ( dir > 0 ) then
-			return twoPi - dir;
-		else
-			return -dir;
-		end
-	end]]
-	return 50
+-- this is a function used by Astrolabe (which we should ONLY be using in the future)
+-- it doesn't work for our current coords system
+-- so move everything over to Astrolabe, which is FAR superior to our own system anyway!
+-- the problem could also be with GetPlayerFacing()
+function GetDirectionToIcon( point )
+	if not point then return end
+	GetCurrentMapContinent()
+	Astrolabe:ComputeDistance( c1, z1, x1, y1, c2, z2, x2, y2 )
+	local xDist = point.x - Questie.player_x;
+	local yDist = point.y - Questie.player_y;
+	
+	DEFAULT_CHAT_FRAME:AddMessage(xDist)
+	
+	local dir = atan2(xDist, -(yDist))
+	if ( dir > 0 ) then
+		return twopi - dir;
+	else
+		return -dir;
+	end
 end
 
-function GetDistanceToIcon( icon )
-	local data = self.MinimapIcons[icon];
-	if ( data ) then
-		return data.dist, data.xDist, data.yDist;
-	end
+function GetDistanceToIcon( point )
+	return Questie:getPlayerFormatDistTo(point.x, point.y)
 end
