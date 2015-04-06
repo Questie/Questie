@@ -287,7 +287,7 @@ local texcoords = setmetatable({}, {__index = function(t, k)
 	local col = string.sub(k, fIndex, lIndex)
 	fIndex2, lIndex2 = string.find(k, ":(%d+)")
 	local row = string.sub(k, fIndex2+1, lIndex2)
-	
+	DEFAULT_CHAT_FRAME:AddMessage(k)
 	col,row = tonumber(col), tonumber(row)
 	local obj = {getCoords(col, row)}
 	rawset(t, k, obj)
@@ -365,12 +365,12 @@ end)
 -- the problem could also be with GetPlayerFacing()
 function GetDirectionToIcon( point )
 	if not point then return end
-	GetCurrentMapContinent()
-	Astrolabe:ComputeDistance( c1, z1, x1, y1, c2, z2, x2, y2 )
+	--GetCurrentMapContinent()
+	--Astrolabe:ComputeDistance( c1, z1, x1, y1, c2, z2, x2, y2 )
 	local xDist = point.x - Questie.player_x;
 	local yDist = point.y - Questie.player_y;
 	
-	DEFAULT_CHAT_FRAME:AddMessage(xDist)
+	-- atan(y2-y1/x2-x1) = radiant between 2 
 	
 	local dir = atan2(xDist, -(yDist))
 	if ( dir > 0 ) then
@@ -379,6 +379,32 @@ function GetDirectionToIcon( point )
 		return -dir;
 	end
 end
+
+
+--[[
+
+-- there are more functions in TomTom affecting the arrow that need to be somehow implemented, I think
+-- maybe a switch to Astrolabe entirely, first, would sort out a lot of issues (with distance calculation and such too)
+
+local square_half = math.sqrt(0.5)
+local rad_135 = math.rad(135)
+
+local function rotateArrow(self)
+	if self.disabled then return end
+
+	local angle = Astrolabe:GetDirectionToIcon(self)
+	if not angle then return self:Hide() end
+	angle = angle + rad_135
+
+	if GetCVar("rotateMinimap") == "1" then
+		--local cring = MiniMapCompassRing:GetFacing()
+        local cring = GetPlayerFacing()
+		angle = angle - cring
+	end
+
+	local sin,cos = math.sin(angle) * square_half, math.cos(angle) * square_half
+	self.arrow:SetTexCoord(0.5-sin, 0.5+cos, 0.5+cos, 0.5+sin, 0.5-cos, 0.5-sin, 0.5+sin, 0.5-cos)
+end]]
 
 function GetDistanceToIcon( point )
 	return Questie:getPlayerFormatDistTo(point.x, point.y)
