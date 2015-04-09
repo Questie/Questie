@@ -192,7 +192,10 @@ local function OnUpdate(self, elapsed)
 		table.insert(tablee, bg)
 		table.insert(tablee, bb)
 				
-		local r,g,b = ColorGradient(perc,tablee)		
+		local r,g,b = ColorGradient(perc,tablee)	
+		if not g then 
+			g = 0;
+		end	
 		arrow:SetVertexColor(1-g,-1+g*2,0)
 
 		cell = Questie:modulo(floor(angle / twopi * 108 + 0.5), 108);
