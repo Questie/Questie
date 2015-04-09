@@ -236,6 +236,7 @@ function QuestieTracker:fillTrackingFrame()
 	-- currently if there aren't any notes, it doesn't add the quest to the tracker
 	-- eventually, that should be changed, but since we are lacking distance and such, there needs to be some kind of workaround!
 	-- like creating dummy notes on SetQuestInfo() probably?
+	local BADCODE_ZONEID = getCurrentMapID() -- bad bad bad
 	this:clearTrackingFrame();
 	local sortedByDistance = {};
 	local distanceControlTable = {};
@@ -258,6 +259,9 @@ function QuestieTracker:fillTrackingFrame()
 				QuestieCurrentQuests[questName]["distance"] = v["distance"];
 				QuestieCurrentQuests[questName]["formatDistance"] = v["formatDistance"];
 				QuestieCurrentQuests[questName]["formatUnits"] = v["formatUnits"];
+				QuestieCurrentQuests[questName]["x"] = v["x"];
+				QuestieCurrentQuests[questName]["y"] = v["y"];
+				--QuestieCurrentQuests[questName]['zoneID'] = v['zoneID'];
 				table.insert(sortedByDistance, QuestieCurrentQuests[questName]);
 			elseif (v["icon"] == "Complete") then
 				for ke,va in pairs(sortedByDistance) do
@@ -270,6 +274,9 @@ function QuestieTracker:fillTrackingFrame()
 				QuestieCurrentQuests[questName]["distance"] = v["distance"];
 				QuestieCurrentQuests[questName]["formatDistance"] = v["formatDistance"];
 				QuestieCurrentQuests[questName]["formatUnits"] = v["formatUnits"];
+				QuestieCurrentQuests[questName]["x"] = v["x"];
+				QuestieCurrentQuests[questName]["y"] = v["y"];
+				--QuestieCurrentQuests[questName]['zoneID'] = v['zoneID'];
 				table.insert(sortedByDistance, QuestieCurrentQuests[questName]);
 			end
 		end
@@ -286,7 +293,14 @@ function QuestieTracker:fillTrackingFrame()
 				for key,val in pairs(v) do
 					if (key == "level") then
 						getglobal("QuestieTrackerButton"..i.."HeaderText"):SetText("[" .. val .. "] " .. quest["questName"] .. " (" .. quest["formatDistance"] .. " " .. quest["formatUnits"] .. ")");
-						--getglobal("QuestieTrackerButton"..i.."HeaderText"):SetText("[" .. val .. "] " .. quest["questName"] .. " (" .. quest["distance"] .. ")");
+						frame.dist = quest["distance"]
+						frame.title = quest["questName"]
+						frame.point = { 
+							x = quest["x"],
+							y = quest["y"],
+							zoneID = BADCODE_ZONEID
+						}
+						
 					elseif (key == "isComplete") then
 						
 					else
@@ -380,39 +394,3 @@ function QuestieTracker:createTrackingFrame()
 		QuestieTracker:saveFramePosition()
 	end);
 end
-
---[[
-Astrolabe/TomTom
-local function getContPosition( zoneData, z, x, y )
-	if ( z ~= 0 ) then
-		zoneData = zoneData[z];
-		x = x * zoneData.width + zoneData.xOffset;
-		y = y * zoneData.height + zoneData.yOffset;
-	else
-		x = x * zoneData.width;
-		y = y * zoneData.height;
-	end
-	return x, y;
-end
-
-local square_half = math.sqrt(0.5)
-local rad_135 = math.rad(135)
-
-local function rotateArrow(self)
-	if self.disabled then return end
-
-	local angle = Astrolabe:GetDirectionToIcon(self)
-	if not angle then return self:Hide() end
-	angle = angle + rad_135
-
-	if GetCVar("rotateMinimap") == "1" then
-		--local cring = MiniMapCompassRing:GetFacing()
-        local cring = GetPlayerFacing()
-		angle = angle - cring
-	end
-
-	local sin,cos = math.sin(angle) * square_half, math.cos(angle) * square_half
-	self.arrow:SetTexCoord(0.5-sin, 0.5+cos, 0.5+cos, 0.5+sin, 0.5-cos, 0.5-sin, 0.5+sin, 0.5-cos)
-end
-]]
-
