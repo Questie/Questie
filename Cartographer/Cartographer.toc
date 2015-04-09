@@ -5,7 +5,7 @@
 ## Author: ckknight
 ## DefaultState: enabled
 ## LoadOnDemand: 0
-## SavedVariables: CartographerDB
+## SavedVariablesPerCharacter: CartographerDB
 ## OptionalDeps: Ace2, Babble-2.2, DewdropLib, TabletLib, TouristLib
 ## X-Category: Map
 ## X-eMail: ckknight@gmail.com

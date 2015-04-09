@@ -5,7 +5,7 @@
 ## Version: 1.0b (BETA)
 ## RequiredDeps:
 ## OptionalDeps: 
-## SavedVariables: QuestieSeenQuests, QuestieTrackerVariables, QuestieDebug
-## SavedVariablesPerCharacter: QuestieCurrentQuests, QuestieCurrentNotes
+## SavedVariables: QuestieTrackerVariables, QuestieDebug
+## SavedVariablesPerCharacter: QuestieCurrentQuests, QuestieCurrentNotes, QuestieSeenQuests
 Questie.xml
 QuestieTracker.xml
