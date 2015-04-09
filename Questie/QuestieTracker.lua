@@ -236,6 +236,7 @@ function QuestieTracker:fillTrackingFrame()
 	-- currently if there aren't any notes, it doesn't add the quest to the tracker
 	-- eventually, that should be changed, but since we are lacking distance and such, there needs to be some kind of workaround!
 	-- like creating dummy notes on SetQuestInfo() probably?
+	local BADCODE_ZONEID = getCurrentMapID() -- bad bad bad
 	this:clearTrackingFrame();
 	local sortedByDistance = {};
 	local distanceControlTable = {};
@@ -260,6 +261,7 @@ function QuestieTracker:fillTrackingFrame()
 				QuestieCurrentQuests[questName]["formatUnits"] = v["formatUnits"];
 				QuestieCurrentQuests[questName]["x"] = v["x"];
 				QuestieCurrentQuests[questName]["y"] = v["y"];
+				--QuestieCurrentQuests[questName]['zoneID'] = v['zoneID'];
 				table.insert(sortedByDistance, QuestieCurrentQuests[questName]);
 			elseif (v["icon"] == "Complete") then
 				for ke,va in pairs(sortedByDistance) do
@@ -274,6 +276,7 @@ function QuestieTracker:fillTrackingFrame()
 				QuestieCurrentQuests[questName]["formatUnits"] = v["formatUnits"];
 				QuestieCurrentQuests[questName]["x"] = v["x"];
 				QuestieCurrentQuests[questName]["y"] = v["y"];
+				--QuestieCurrentQuests[questName]['zoneID'] = v['zoneID'];
 				table.insert(sortedByDistance, QuestieCurrentQuests[questName]);
 			end
 		end
@@ -292,7 +295,12 @@ function QuestieTracker:fillTrackingFrame()
 						getglobal("QuestieTrackerButton"..i.."HeaderText"):SetText("[" .. val .. "] " .. quest["questName"] .. " (" .. quest["formatDistance"] .. " " .. quest["formatUnits"] .. ")");
 						frame.dist = quest["distance"]
 						frame.title = quest["questName"]
-						frame.point = { x = quest["x"], y = quest["y"] }
+						frame.point = { 
+							x = quest["x"],
+							y = quest["y"],
+							zoneID = BADCODE_ZONEID
+						}
+						
 					elseif (key == "isComplete") then
 						
 					else

@@ -322,7 +322,7 @@ end
 function Questie:createQuestNote(name, progress, questName, x, y, icon, selected)
 	--local id, key = MapNotes_CreateQuestNote(name, lin, olin, x, y, icon, selected)
 	--DEFAULT_CHAT_FRAME:AddMessage(icon)
-	local zone = Cartographer:GetCurrentEnglishZoneName();
+	local zone = Cartographer:GetCurrentEnglishZoneName(); -- wrong
 	local _, id, key = Cartographer_Notes:SetNote(zone, x, y, icon, "Questie", "info", progress, "info2", questName, "title", name)
 	if (questName == "") then 
 		questName = progress; 
@@ -337,7 +337,8 @@ function Questie:createQuestNote(name, progress, questName, x, y, icon, selected
 		['name'] = name,
 		['progress'] = progress,
 		['distance'] = 1, -- avoid null error
-		['zone'] = zone
+		['zone'] = zone,
+		['zoneID'] = getCurrentMapID() -- bad bad bad
 	});
 	
 	this:addNoteToCurrentQuests(questName, id, name, x, y, key, zone, icon);

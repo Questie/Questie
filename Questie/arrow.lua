@@ -110,6 +110,8 @@ local tta_throttle = 0
 local speed = 0
 local speed_count = 0
 
+HACK_DUMP = 0;
+
 local function OnUpdate(self, elapsed)
 	self = this
 	elapsed = 1/GetFramerate()
@@ -167,11 +169,14 @@ local function OnUpdate(self, elapsed)
 		end
 
 		local angle = GetDirectionToIcon(active_point)
+		angle = math.rad(angle);
 		local player = GetPlayerFacing()
 
-		angle = angle - player
+		angle = player - angle
 
 		local perc = math.abs((math.pi - math.abs(angle)) / math.pi)
+		
+		angle = math.rad(-math.deg(angle)-180);
 
 		local gr,gg,gb = 1, 1, 1
 		local mr,mg,mb = 0.75, 0.75, 0.75
@@ -188,7 +193,7 @@ local function OnUpdate(self, elapsed)
 		table.insert(tablee, bb)
 				
 		local r,g,b = ColorGradient(perc,tablee)		
-		arrow:SetVertexColor(r,g,b)
+		arrow:SetVertexColor(1-g,-1+g*2,0)
 
 		cell = Questie:modulo(floor(angle / twopi * 108 + 0.5), 108);
 		local column = Questie:modulo(cell, 9)
@@ -359,6 +364,26 @@ wayframe:SetScript("OnEvent", function(self, event, arg1, ...)
 	end
 end)
 
+
+--- more astrolabe code
+function ComputeDistance( qzid, x1, y1, x2, y2 )
+	z1 = z1 or 0;
+	z2 = z2 or 0;
+	
+	local dist, xDelta, yDelta;
+	
+	local zscale = QuestieRegionScale[qzid];
+	
+
+	xDelta = (x2 - x1) * zscale.width;
+	yDelta = (y2 - y1) * zscale.height;
+	
+	if ( xDelta and yDelta ) then
+		dist = sqrt(xDelta*xDelta + yDelta*yDelta);
+	end
+	return dist, xDelta, yDelta;
+end
+
 -- this is a function used by Astrolabe (which we should ONLY be using in the future)
 -- it doesn't work for our current coords system
 -- so move everything over to Astrolabe, which is FAR superior to our own system anyway!
@@ -367,12 +392,15 @@ function GetDirectionToIcon( point )
 	if not point then return end
 	--GetCurrentMapContinent()
 	--Astrolabe:ComputeDistance( c1, z1, x1, y1, c2, z2, x2, y2 )
-	local xDist = point.x - Questie.player_x;
-	local yDist = point.y - Questie.player_y;
+	
+	local dist, xDelta, yDelta = ComputeDistance(point.zoneID, point.x, point.y, Questie.player_x,  Questie.player_y);
+	
+	--local xDist = point.x - Questie.player_x;
+	--local yDist = point.y - Questie.player_y;
 	
 	-- atan(y2-y1/x2-x1) = radiant between 2 
 	
-	local dir = atan2(xDist, -(yDist))
+	local dir = atan2(xDelta, -(yDelta))
 	if ( dir > 0 ) then
 		return twopi - dir;
 	else
