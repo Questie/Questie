@@ -840,7 +840,8 @@ function Questie:deleteNoteAfterQuestRemoved()
 	local finishedQuest = this:getFinishedQuest();
 	if (finishedQuest ~= nil) then
 		if( QuestieCurrentQuests[finishedQuest]['hash'] ) then
-			QuestieSeenQuests[QuestieCurrentQuests[finishedQuest]['hash']] = false; -- no longer in the list
+			-- temporarily commented because it causes issues with available quests
+			--QuestieSeenQuests[QuestieCurrentQuests[finishedQuest]['hash']] = false; -- no longer in the list
 		end
 		--log("finished or abandoned quest " .. finishedQuest)
 		local notes = QuestieCurrentQuests[finishedQuest]["notes"]
