@@ -295,7 +295,7 @@ local texcoords = setmetatable({}, {__index = function(t, k)
 	local col = string.sub(k, fIndex, lIndex)
 	fIndex2, lIndex2 = string.find(k, ":(%d+)")
 	local row = string.sub(k, fIndex2+1, lIndex2)
-	DEFAULT_CHAT_FRAME:AddMessage(k)
+--	DEFAULT_CHAT_FRAME:AddMessage(k)
 	col,row = tonumber(col), tonumber(row)
 	local obj = {getCoords(col, row)}
 	rawset(t, k, obj)
