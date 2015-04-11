@@ -197,8 +197,12 @@ function QuestieTracker:updateTrackingFrameSize()
 		end
 		this.frame.buttons[i] = button;
 	end
-	this.frame:SetHeight(frameHeight+shown*5 + 5);
-	this.frame:Show();
+	if shown == 0 then
+		this.frame:Hide();
+	else
+		this.frame:SetHeight(frameHeight+shown*5 + 5);
+		this.frame:Show();
+	end
 end
 
 function QuestieTracker:clearTrackingFrame()
