@@ -531,10 +531,17 @@ function getCurrentMapID()
 	end
 end
 
+local QUESTIE_PFACTION_ID = UnitFactionGroup("Player");
+if QUESTIE_PFACTION_ID == "Alliance" then
+	QUESTIE_PFACTION_ID = 77;
+else
+	QUESTIE_PFACTION_ID = 178;
+end
+
 function Questie:addAvailableQuests()
 	local mapid = getCurrentMapID();
 	local level = UnitLevel("Player");
-	for l=level-3,level+2 do
+	for l=level,level+6 do
 		if QuestieZoneLevelMap[mapid] then
 			local content = QuestieZoneLevelMap[mapid][l];
 			if not (content == nil) then
@@ -544,19 +551,26 @@ function Questie:addAvailableQuests()
 						--log(" value [" .. v .. "] !!!= " .. qdata['name'],1);
 						if not (qdata == nil) then
 							local requires = qdata['rq'];
-							if requires == nil then -- LOL I FORGOT TO IMPLEMENT THE ELSE
+							if requires == nil or not (QuestieSeenQuests[requires] == nil) then -- ugly logic...
 								local stype = qdata['startedType'];
 								local sby = qdata['startedBy'];
 								local name = qdata['name'];
-								if stype == "monster" then
-									local mob = QuestieMonsters[sby];
-									if mob == nil then
-										debug("ERROR MISSING QUESTGIVER " .. sby .. " quest:" .. name);
-									else 
-										local loc = mob['locations'][1];
-										this:createQuestNote("Pick up: " .. name, sby, name, loc[2], loc[3], "Available", selected);
+								local races = qdata['rr'];
+								local classes = qdata['rc'];
+								local skill = qdata['rs'];
+								if races == nil or races == QUESTIE_PFACTION_ID then -- finsih coding races too
+									if skill == nil and classes == nil then -- TEMPORARY CODE THIS
+										if stype == "monster" then
+											local mob = QuestieMonsters[sby];
+											if mob == nil then
+												debug("ERROR MISSING QUESTGIVER " .. sby .. " quest:" .. name);
+											else 
+												local loc = mob['locations'][1];
+												this:createQuestNote("Pick up: " .. name, sby, name, loc[2], loc[3], "Available", selected);
+											end
+											--createQuestNote("Pick up: " .. name, sby, stype, loc[2], loc[3], 9, false);
+										end
 									end
-									--createQuestNote("Pick up: " .. name, sby, stype, loc[2], loc[3], 9, false);
 								end
 							end
 						end
