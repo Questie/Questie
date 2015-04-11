@@ -543,8 +543,8 @@ function Questie:addAvailableQuests()
 						local qdata = QuestieHashMap[v];
 						--log(" value [" .. v .. "] !!!= " .. qdata['name'],1);
 						if not (qdata == nil) then
-							local requires = qdata['requires'];
-							if requires == nil then
+							local requires = qdata['rq'];
+							if requires == nil then -- LOL I FORGOT TO IMPLEMENT THE ELSE
 								local stype = qdata['startedType'];
 								local sby = qdata['startedBy'];
 								local name = qdata['name'];
