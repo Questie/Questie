@@ -118,7 +118,9 @@ function Cartographer_GroupColors:Update()
 			local _,fileName = UnitClass("party" .. i)
 			local tex = _G["WorldMapParty" .. i .. "Icon"]
 			local t = RAID_CLASS_COLORS[fileName]
-			tex:SetVertexColor(t.r, t.g, t.b)
+			if not (t == nil) then -- uggo fix
+				tex:SetVertexColor(t.r, t.g, t.b)
+			end
 		end
 	end
 end
