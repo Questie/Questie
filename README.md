@@ -21,3 +21,9 @@ Here are some example images of what Questie can do:
 <img src="http://i.imgur.com/QYsK4ix.png"/>
 
 <img src="http://i.imgur.com/tpjeodc.png"/>
+
+
+
+If you'd like to support the development of Questie by donating, you can do so here:
+
+<a href='https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=aero1861%40gmail%2ecom&lc=CA&item_name=Questie%20Devs&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted'><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif"/></a>
