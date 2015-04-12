@@ -83,12 +83,18 @@ function Astrolabe:ComputeDistance( c1, z1, x1, y1, c2, z2, x2, y2 )
 		if ( z1 ~= 0 ) then
 			zoneData = zoneData[z1];
 		end
+		if zoneData == nil then
+			return 0, 0, 0; -- temporary fix, todo: log this
+		end
 		xDelta = (x2 - x1) * zoneData.width;
 		yDelta = (y2 - y1) * zoneData.height;
 	
 	elseif ( c1 == c2 ) then
 		-- points on the same continent
 		local zoneData = WorldMapSize[c1];
+		if zoneData == nil then
+			return 0, 0, 0; -- temporary fix, todo: log this
+		end
 		x1, y1 = getContPosition(zoneData, z1, x1, y1);
 		x2, y2 = getContPosition(zoneData, z2, x2, y2);
 		xDelta = (x2 - x1);
@@ -97,6 +103,9 @@ function Astrolabe:ComputeDistance( c1, z1, x1, y1, c2, z2, x2, y2 )
 	elseif ( c1 and c2 ) then
 		local cont1 = WorldMapSize[c1];
 		local cont2 = WorldMapSize[c2];
+		if cont1 == nil or cont2 == nil then
+			return 0, 0, 0; -- temporary fix, todo: log this
+		end
 		if ( cont1.parentContinent == cont2.parentContinent ) then
 			if ( c1 ~= cont1.parentContinent ) then
 				x1, y1 = getContPosition(cont1, z1, x1, y1);

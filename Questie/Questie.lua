@@ -23,6 +23,55 @@ QuestieSeenQuests = {};
 
 QuestieNotesDB = {};
 
+
+QuestieGlobalConfig = { -- TODO SAVEDVARIABLE THIS THING
+	['Minimap'] = {
+		['Maximum minimap icons'] = 10,
+		['Icon scale percentage'] = 100,
+		['Enabled'] = true
+	},
+	['World Map'] = {
+		['Maximum world map icons'] = 0,
+		['Enabled'] = true
+	},
+	['Tracker'] = {
+		['Maximum tracked quests (NYI)'] = 0,
+		['Distance Units'] = "Yds",
+		['Enable arrow on click'] = true,
+		['Enable Distance display'] = true,
+		['Enabled'] = true
+	},
+	['Misc'] = {
+	},
+	['Developer'] = {
+		['Logging'] = {
+			['Verbosity (NYI)'] = 0
+		}
+	}
+};
+
+function Questie:PrintConfigCategory(category, level)
+	header = "";
+	for q=0,level do -- bad code
+		header = header .. "   ";
+	end
+	for k,v in pairs(category) do
+		if type(v) == "table" then
+			DEFAULT_CHAT_FRAME:AddMessage(header .. k .. ":");
+			local WTF_LUA_WHY_WOULD_YOU_DO_THIS_TO_ME = level + 1;
+			Questie:PrintConfigCategory(v, WTF_LUA_WHY_WOULD_YOU_DO_THIS_TO_ME);
+		else
+			-- because this is for config I didn't want to use the log function
+
+			DEFAULT_CHAT_FRAME:AddMessage(header .. k .. " (Default " .. tostring(v) .. ")");
+		end
+	end
+end
+
+function Questie:PrintSlashHelp()
+	Questie:PrintConfigCategory(QuestieGlobalConfig, 0);
+end
+
 _GetQuestLogQuestText = GetQuestLogQuestText;
 
 local QUESTIE_MAX_MINIMAP_POINTS = 20;
