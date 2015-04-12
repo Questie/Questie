@@ -91,13 +91,23 @@ wayframe.arrow:SetAllPoints()
 local active_point, arrive_distance, showDownArrow, point_title
 
 function SetCrazyArrow(point, dist, title)
+	local isHide = false;
+	if not (active_point == nil) then -- bad logic is bad
+		if active_point.x == point.x and active_point.y == point.y then
+			isHide = true;
+		end
+	end --srsly
+	
 	active_point = point
 	arrive_distance = dist
 	point_title = title
 
-	if active_point then
+	if active_point and not isHide then
 		wayframe.title:SetText(point_title or "Unknown waypoint")
 		wayframe:Show()
+	else
+		active_point = nil; -- important
+		wayframe:Hide()
 	end
 end
 
