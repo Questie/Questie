@@ -760,7 +760,7 @@ function Questie:QUEST_LOG_UPDATE()
             SelectQuestLogEntry(v);
             local count =  GetNumQuestLeaderBoards();
             local selected = v == sind;
-            local questComplete = true; -- there might be something in the api for this
+            local questComplete = true; -- there might be something in the api for this	
             local questText, objectiveText = _GetQuestLogQuestText();
             local hash = Questie:getQuestHash(q, level, objectiveText);
 			--log("QH:"..q..","..level..","..objectiveText.."="..hash,1);
@@ -797,6 +797,8 @@ function Questie:QUEST_LOG_UPDATE()
                 -- we're re-evaluating objectives now anyway
                 QuestieCurrentQuests[q]['objectives'] = {};
                 
+                --Changes done by Logon
+
                 --This checks if all the objectives are done.
                 AllDone = true;
                 for r=1,count do
@@ -805,7 +807,7 @@ function Questie:QUEST_LOG_UPDATE()
                     	AllDone = false;
                     end
                 end
-                --If not the objectives are done run Questie old code... don't think it even does anything... otherwise update the objective.
+                --Logon: If not the objectives are done run Questie old code... don't think it even does anything... otherwise update the objective.
                 if(AllDone == false) then
 	                for r=1, count do
                     	local desc, typ, done = GetQuestLogLeaderBoard(r);
@@ -817,12 +819,13 @@ function Questie:QUEST_LOG_UPDATE()
 	                            --DEFAULT_CHAT_FRAME:AddMessage("NOTSELECTEd " .. q .. " " .. in, 0.95, 0.1, 0.95);
 	                        end
 	                    end
-	                    --This will process on all if not all objectives are acually done
+
+	                    --Logon: This will process on all if not all objectives are acually done
 	                    this:processObjective(q, desc, typ, selected, mapid, r)
 	                end
 	            else
                     --DEFAULT_CHAT_FRAME:AddMessage("Deleting Notes", 0.95, 0.95, 0.5);
-                    --This is just a fucking copy of the deletequestafterremove function but it works in a really strange way... could not figure that shit out ...
+                    --Logon: This is just a fucking copy of the deletequestafterremove function but that works in a really strange way... could not figure that shit out ...
 	            	local notes = QuestieCurrentQuests[q]["notes"]
 					if (notes ~= nil) then
 						for k,v in pairs(notes) do
@@ -833,7 +836,7 @@ function Questie:QUEST_LOG_UPDATE()
 						end
 					end
 	            end
-
+	            --End Changes done by Logon
                 if not (hashData == nil) then
                     --log(hashData['finishedBy'], 1);
                     --Swapped to isComplete 1 as nil = not complete and -1 = failed.
