@@ -797,21 +797,18 @@ function Questie:QUEST_LOG_UPDATE()
                 -- we're re-evaluating objectives now anyway
                 QuestieCurrentQuests[q]['objectives'] = {};
                 
-                QuestObjectives = {};
-                AllDone = true;
                 --This checks if all the objectives are done.
+                AllDone = true;
                 for r=1,count do
                     local desc, typ, done = GetQuestLogLeaderBoard(r);
-                    QuestObjectives.desc = desc;
-                    QuestObjectives.type = typ;
-                    QuestObjectives.done = done;
                     if not done then
                     	AllDone = false;
                     end
                 end
                 --If not the objectives are done run Questie old code... don't think it even does anything... otherwise update the objective.
                 if(AllDone == false) then
-	                for r=1, table.getn(QuestObjectives) do
+	                for r=1, count do
+                    	local desc, typ, done = GetQuestLogLeaderBoard(r);
 	                    if not done then
 	                        questComplete = false;
 	                        if selected then
