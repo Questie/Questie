@@ -760,7 +760,7 @@ function Questie:QUEST_LOG_UPDATE()
             SelectQuestLogEntry(v);
             local count =  GetNumQuestLeaderBoards();
             local selected = v == sind;
-            local questComplete = true; -- there might be something in the api for this	
+            local questComplete = true; -- there might be something in the api for this
             local questText, objectiveText = _GetQuestLogQuestText();
             local hash = Questie:getQuestHash(q, level, objectiveText);
 			--log("QH:"..q..","..level..","..objectiveText.."="..hash,1);
@@ -797,34 +797,61 @@ function Questie:QUEST_LOG_UPDATE()
                 -- we're re-evaluating objectives now anyway
                 QuestieCurrentQuests[q]['objectives'] = {};
                 
+                QuestObjectives = {};
+                AllDone = true;
+                --This checks if all the objectives are done.
                 for r=1,count do
                     local desc, typ, done = GetQuestLogLeaderBoard(r);
-                    --DEFAULT_CHAT_FRAME:AddMessage(desc, 0.95, 0.95, 0.5);
-                    
-                    
+                    QuestObjectives.desc = desc;
+                    QuestObjectives.type = typ;
+                    QuestObjectives.done = done;
                     if not done then
-                        questComplete = false;
-                        if selected then
-                            --DEFAULT_CHAT_FRAME:AddMessage("SELECTED " .. q, 0.95, 0.1, 0.95);
-                        else
-                            --DEFAULT_CHAT_FRAME:AddMessage("NOTSELECTEd " .. q .. " " .. in, 0.95, 0.1, 0.95);
-                        end
-                        this:processObjective(q, desc, typ, selected, mapid, r)
+                    	AllDone = false;
                     end
-                    ---DEFAULT_CHAT_FRAME:AddMessage(typ, 0.95, 0.95, 0.5);
-                    ---DEFAULT_CHAT_FRAME:AddMessage(done, 0.95, 0.95, 0.5);
-                    
                 end
+                --If not the objectives are done run Questie old code... don't think it even does anything... otherwise update the objective.
+                if(AllDone == false) then
+	                for r=1, table.getn(QuestObjectives) do
+	                    if not done then
+	                        questComplete = false;
+	                        if selected then
+	                            --DEFAULT_CHAT_FRAME:AddMessage("SELECTED " .. q, 0.95, 0.1, 0.95);
+	                        else
+	                            --DEFAULT_CHAT_FRAME:AddMessage("NOTSELECTEd " .. q .. " " .. in, 0.95, 0.1, 0.95);
+	                        end
+	                    end
+	                    --This will process on all if not all objectives are acually done
+	                    this:processObjective(q, desc, typ, selected, mapid, r)
+	                end
+	            else
+                    --DEFAULT_CHAT_FRAME:AddMessage("Deleting Notes", 0.95, 0.95, 0.5);
+                    --This is just a fucking copy of the deletequestafterremove function but it works in a really strange way... could not figure that shit out ...
+	            	local notes = QuestieCurrentQuests[q]["notes"]
+					if (notes ~= nil) then
+						for k,v in pairs(notes) do
+							--log(v["zone"] .. "  " .. v["x"] .. "  " .. v["y"])
+							if _CartographerHasNote(v["zone"], v["x"], v["y"]) then
+								Cartographer_Notes:DeleteNote(v["zone"], v["x"], v["y"]);
+							end
+						end
+					end
+	            end
+
                 if not (hashData == nil) then
                     --log(hashData['finishedBy'], 1);
-                    if isComplete then
+                    --Swapped to isComplete 1 as nil = not complete and -1 = failed.
+                    if isComplete == 1 then
+                    	--DEFAULT_CHAT_FRAME:AddMessage(q.." : 1", 0.95, 0.95, 0.5);
                         Questie:addMonsterToMap(hashData['finishedBy'], "Quest Finisher", q, "Complete", mapid, selected);
                         questComplete = false; -- questComplete is used to add the finisher, this avoids adding it twice
                     end
                 else
+                    --DEFAULT_CHAT_FRAME:AddMessage("done", 0.95, 0.95, 0.5);
                     local finisher = QuestieFinishers[q];
                 
-                    if not (finisher == nil) and isComplete then
+                    --Swapped to isComplete 1 as nil = not complete and -1 = failed.
+                    if not (finisher == nil) and isComplete == 1 then
+                   		--DEFAULT_CHAT_FRAME:AddMessage(q.." : 2", 0.95, 0.95, 0.5);
                         Questie:addMonsterToMap(finisher, "Quest Finisher", q, "Complete", mapid, selected);
                         questComplete = false; -- questComplete is used to add the finisher, this avoids adding it twice
                     end
@@ -889,7 +916,8 @@ local function _GetCartographerID(x, y)
     return _CartographerRound(x*1000, 0) + _CartographerRound(y*1000, 0)*1001
 end
 
-local function _CartographerHasNote(zone, x, y) -- underscore because its a method for interacting with another mod, why not
+--Remove local to be able to use it everywhere...
+function _CartographerHasNote(zone, x, y) -- underscore because its a method for interacting with another mod, why not
 	local id = _GetCartographerID(x, y)
 	if rawget(Cartographer_Notes.db.account.pois, zone) then
 		if rawget(Cartographer_Notes.db.account.pois[zone], id) then
