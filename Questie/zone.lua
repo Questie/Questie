@@ -66,3 +66,8 @@ QuestieZones = {
   ["Expansion01"] = {63, 3, 0},
   ["Sunwell"] = {64, 2, 15} -- code copied from questhelper (this is actually the only code that was directly copied, the database was put through JavaRefactorProject
 }
+QuestieZoneIDLookup = {};
+for k,v in pairs(QuestieZones) do
+  -- must be non-linear array
+  QuestieZoneIDLookup[v[1]] = v;
+end
