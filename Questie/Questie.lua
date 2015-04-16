@@ -81,6 +81,7 @@ local minimap_poiframe_textures = {};
 local minimap_poiframe_data = {};
 
 function Questie:ADDON_LOADED()
+
 	if not (QuestieCurrentQuests) then
 		QuestieCurrentQuests = {};
 	end
@@ -89,6 +90,70 @@ function Questie:ADDON_LOADED()
 	end	
 	if not (QuestieCurrentNotes) then
 		QuestieCurrentNotes = {};
+	end
+	--Initializes the FramePool;
+	Questie:NOTES_LOADED();
+	--Added Slashcommand for the Addon
+	SlashCmdList["QUESTIE"] = Questie_SlashHandler;
+	SLASH_QUESTIE1 = "/questie";
+end
+
+function Questie_SlashHandler(msg)
+
+	-- HERE DO STRING ARGUMENTS TO SPLINT SPACE INTO ARG1 ARG2 //msg is used meanwhile
+
+	if (msg=="show" or msg=="hide") then msg = ""; end
+	if (not msg or msg=="") then
+		--Base command
+		DEFAULT_CHAT_FRAME:AddMessage("SlashCommand Used - No help implemented yet\n Goto: http://github.com/AeroScripts/QuestieDev/ for help");--Use internal print instead.
+	end
+
+	if(msg == "test") then --Tests the questie notes part
+		DEFAULT_CHAT_FRAME:AddMessage("Adding icons zones");
+		Questie:AddNoteToMap(2, 23, 0.5, 0.5,"Complete", "1");
+		Questie:AddNoteToMap(2, 23, 0.8, 0.8,"Loot", "2");
+		Questie:AddNoteToMap(2, 23, 0.9, 0.9,"Object", "3");
+		Questie:AddNoteToMap(2, 23, 0.4, 0.9,"Slay", "4");
+		FORCE_REDRAW = true;--Use other method but w/e
+	end
+
+	if(msg =="ast") then -- Don't want to remove this... good for reference
+		--/script Astrolabe:PlaceIconOnWorldMap(WorldMapFrame,,1,"Ashenvale",100,100);
+
+		local f = CreateFrame("Button",nil,WorldMapFrame)
+		f.YoMamma = "Hashisbest";
+		f:SetFrameStrata("DIALOG")
+		f:SetWidth(16)  -- Set These to whatever height/width is needed 
+		f:SetHeight(16) -- for your Texture
+
+		local t = f:CreateTexture(nil,"BACKGROUND")
+		t:SetTexture("Interface\\AddOns\\Questie\\Icons\\complete")
+		t:SetAllPoints(f)
+		f.texture = t
+		f:SetScript("OnEnter", function()
+				GameTooltip:SetOwner(this, "ANCHOR_CURSOR");
+				GameTooltip:AddLine("ICON! "..this.YoMamma);
+				GameTooltip:Show();
+		end ); --Script Toolip
+		f:SetScript("OnLeave", function() if(GameTooltip) then GameTooltip:Hide() end end) --Script Exit Tooltip
+
+		f:SetPoint("CENTER",0,0)
+		f:Show()
+
+		at = 1;
+		for k, v in pairs(WorldMapSize[2].zoneData) do
+			if(tostring(k) == "WesternPlaguelands") then
+				DEFAULT_CHAT_FRAME:AddMessage("found "..at);
+				break;
+			end
+			at = at +1;
+		end
+		x, y = Astrolabe:PlaceIconOnWorldMap(WorldMapFrame,f,2,at,0.7156, 0.1854);
+		if(x and y) then
+			DEFAULT_CHAT_FRAME:AddMessage("Added note to Ashenvale "..x.." : "..y);
+		else
+			DEFAULT_CHAT_FRAME:AddMessage("Failed");
+		end
 	end
 end
 
@@ -321,7 +386,7 @@ function Questie:OnUpdate(elapsed)
 		Questie.throttleOverride = true;
 		Questie:QUEST_LOG_UPDATE();
 	end
-	
+	Questie:NOTES_ON_UPDATE();
 	local now = GetTime()
 	local ttl = math.abs((now - Questie.lastMinimapUpdate)*1000); -- convert to miliseconds
 	
@@ -748,7 +813,6 @@ function Questie:QUEST_LOG_UPDATE()
 	else
 		throttleOverride = false;
 	end
-	
 	--DEFAULT_CHAT_FRAME:AddMessage(throttle, 0.95, 0.95, 0.5);
 	--this:clearAllNotes();
 	Questie:addAvailableQuests();
@@ -828,7 +892,7 @@ function Questie:QUEST_LOG_UPDATE()
 					if (notes ~= nil) then
 						for k,v in pairs(notes) do
 							--log(v["zone"] .. "  " .. v["x"] .. "  " .. v["y"])
-							DEFAULT_CHAT_FRAME:AddMessage(v["progress"]);
+							--DEFAULT_CHAT_FRAME:AddMessage(v["progress"]);
 							if _CartographerHasNote(v["zone"], v["x"], v["y"]) then
 								Cartographer_Notes:DeleteNote(v["zone"], v["x"], v["y"]);
 								this:removeNoteFromCurrentNotes(v);
