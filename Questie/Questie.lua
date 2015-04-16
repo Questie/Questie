@@ -110,11 +110,11 @@ function Questie_SlashHandler(msg)
 
 	if(msg == "test") then --Tests the questie notes part
 		DEFAULT_CHAT_FRAME:AddMessage("Adding icons zones");
-		Questie:AddNoteToMap(2, 23, 0.5, 0.5,"Complete", "1");
-		Questie:AddNoteToMap(2, 23, 0.8, 0.8,"Loot", "2");
-		Questie:AddNoteToMap(2, 23, 0.9, 0.9,"Object", "3");
-		Questie:AddNoteToMap(2, 23, 0.4, 0.9,"Slay", "4");
-		FORCE_REDRAW = true;--Use other method but w/e
+		Questie:AddNoteToMap(2, 12, 0.5, 0.5,"Complete", "1");
+		Questie:AddNoteToMap(2, 12, 0.8, 0.8,"Loot", "2");
+		Questie:AddNoteToMap(2, 12, 0.9, 0.9,"Object", "3");
+		Questie:AddNoteToMap(2, 12, 0.4, 0.9,"Slay", "4");
+		Questie:RedrawNotes();
 	end
 
 	if(msg =="ast") then -- Don't want to remove this... good for reference
@@ -386,6 +386,7 @@ function Questie:OnUpdate(elapsed)
 		Questie.throttleOverride = true;
 		Questie:QUEST_LOG_UPDATE();
 	end
+	Astrolabe:OnUpdate(nil, elapsed);
 	Questie:NOTES_ON_UPDATE();
 	local now = GetTime()
 	local ttl = math.abs((now - Questie.lastMinimapUpdate)*1000); -- convert to miliseconds
