@@ -9,6 +9,7 @@ local FramePool = {};
 QuestieUsedNoteFrames = {};
 
 MapNotes = {};--Usage Questie[Continent][Zone][index]
+MinimapNotes = {};
 function Questie:AddNoteToMap(continent, zoneid, posx, posy, type, questHash)
 	--This is to set up the variables
 	if(MapNotes[continent] == nil) then
@@ -61,7 +62,6 @@ end
 
 TICK_DELAY = 0.1;--0.1 Atm not to get spam while debugging should probably be a lot faster...
 LAST_TICK = GetTime();
-FORCE_REDRAW = false;--Use another method
 
 local LastContinent = nil;
 local LastZone = nil;
@@ -71,15 +71,12 @@ function Questie:NOTES_ON_UPDATE()
 	if(GetTime() - LAST_TICK > TICK_DELAY) then
 		--Gets current map to see if we need to redraw or not.
 		local c, z = GetCurrentMapContinent(), GetCurrentMapZone();
-		if(c ~= LastContinent or LastZone ~= z or FORCE_REDRAW == true) then
+		if(c ~= LastContinent or LastZone ~= z) then
 			--Clears before redrawing
-			Questie:CLEAR_NOTES();
-			Questie:DRAW_NOTES();
-
+			Questie:RedrawNotes();
 			--Sets the last continent and zone to hinder spam.
 			LastContinent = c;
 			LastZone = z;
-			FORCE_REDRAW = false;
 		end
 		LAST_TICK = GetTime();
 	end
@@ -89,12 +86,19 @@ end
 INIT_POOL_SIZE = 11;
 function Questie:NOTES_LOADED()
 	Questie:debug_Print("Loading QuestieNotes");
-	for i = 1, INIT_POOL_SIZE do
-		Questie:CreateBlankFrameNote();
+	if(table.getn(FramePool) < 10) then--For some reason loading gets done several times... added this in as saftey
+		for i = 1, INIT_POOL_SIZE do
+			Questie:CreateBlankFrameNote();
+		end
 	end
 	Questie:debug_Print("Done Loading QuestieNotes");
 end
 
+--Reason this exists is to be able to call both clearnotes and drawnotes without doing 2 function calls, and to be able to force a redraw
+function Questie:RedrawNotes()
+	Questie:CLEAR_NOTES();
+	Questie:DRAW_NOTES();
+end
 
 --Clears the notes, goes through the usednoteframes and clears them. Then sets the QuestieUsedNotesFrame to new table;
 function Questie:CLEAR_NOTES()
@@ -118,6 +122,7 @@ function Questie:DRAW_NOTES()
 			Icon = Questie:GetBlankNoteFrame();
 			--Here more info should be set but i CBA at the time of writing
 			Icon.questHash = v.questHash;
+			Icon:SetParent(WorldMapFrame);
 			Icon:SetPoint("CENTER",0,0)
 
 			--Set the texture to the right type
@@ -126,6 +131,24 @@ function Questie:DRAW_NOTES()
 
 			--Shows and then calls Astrolabe to place it on the map.
 			Icon:Show();
+
+			local x, y = GetPlayerMapPosition("player");
+			if(x ~= 0 and y ~= 0) then--Don't draw the minimap icons if the player isn't within the zone.
+				MMIcon = Questie:GetBlankNoteFrame();
+				--Here more info should be set but i CBA at the time of writing
+				MMIcon.questHash = v.questHash;
+				MMIcon:SetParent(Minimap);
+				MMIcon:SetPoint("CENTER",0,0)
+
+				--Set the texture to the right type
+				MMIcon.texture:SetTexture(QuestieIcons[v.type].path);
+				MMIcon.texture:SetAllPoints(f)
+
+				--Shows and then calls Astrolabe to place it on the map.
+				MMIcon:Show();
+
+				Astrolabe:PlaceIconOnMinimap(MMIcon, c, z, v.x, v.y);
+			end
 			x, y = Astrolabe:PlaceIconOnWorldMap(WorldMapFrame,Icon,c,z,v.x, v.y); --WorldMapFrame is global
 			table.insert(QuestieUsedNoteFrames, Icon);
 		end
