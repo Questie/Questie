@@ -760,7 +760,7 @@ function Questie:QUEST_LOG_UPDATE()
             SelectQuestLogEntry(v);
             local count =  GetNumQuestLeaderBoards();
             local selected = v == sind;
-            local questComplete = true; -- there might be something in the api for this	
+            local questComplete = true; -- there might be something in the api for this
             local questText, objectiveText = _GetQuestLogQuestText();
             local hash = Questie:getQuestHash(q, level, objectiveText);
 			--log("QH:"..q..","..level..","..objectiveText.."="..hash,1);
@@ -797,8 +797,7 @@ function Questie:QUEST_LOG_UPDATE()
                 -- we're re-evaluating objectives now anyway
                 QuestieCurrentQuests[q]['objectives'] = {};
                 
-                --Changes done by Logon
-
+                --Start changes done by Logon
                 --This checks if all the objectives are done.
                 AllDone = true;
                 for r=1,count do
@@ -819,29 +818,31 @@ function Questie:QUEST_LOG_UPDATE()
 	                            --DEFAULT_CHAT_FRAME:AddMessage("NOTSELECTEd " .. q .. " " .. in, 0.95, 0.1, 0.95);
 	                        end
 	                    end
-
 	                    --Logon: This will process on all if not all objectives are acually done
 	                    this:processObjective(q, desc, typ, selected, mapid, r)
 	                end
 	            else
                     --DEFAULT_CHAT_FRAME:AddMessage("Deleting Notes", 0.95, 0.95, 0.5);
-                    --Logon: This is just a fucking copy of the deletequestafterremove function but that works in a really strange way... could not figure that shit out ...
+                    --Logon: This is just a fucking copy of the deletequestafterremove function but it works in a really strange way... could not figure that shit out ...
 	            	local notes = QuestieCurrentQuests[q]["notes"]
 					if (notes ~= nil) then
 						for k,v in pairs(notes) do
 							--log(v["zone"] .. "  " .. v["x"] .. "  " .. v["y"])
+							DEFAULT_CHAT_FRAME:AddMessage(v["progress"]);
 							if _CartographerHasNote(v["zone"], v["x"], v["y"]) then
 								Cartographer_Notes:DeleteNote(v["zone"], v["x"], v["y"]);
+								this:removeNoteFromCurrentNotes(v);
 							end
 						end
 					end
 	            end
 	            --End Changes done by Logon
+
                 if not (hashData == nil) then
                     --log(hashData['finishedBy'], 1);
                     --Swapped to isComplete 1 as nil = not complete and -1 = failed.
                     if isComplete == 1 then
-                    	--DEFAULT_CHAT_FRAME:AddMessage(q.." : 1", 0.95, 0.95, 0.5);
+                    	--DEFAULT_CHAT_FRAME:AddMessage(q.." : 1"..hashData['finishedBy'], 0.95, 0.95, 0.5);
                         Questie:addMonsterToMap(hashData['finishedBy'], "Quest Finisher", q, "Complete", mapid, selected);
                         questComplete = false; -- questComplete is used to add the finisher, this avoids adding it twice
                     end
@@ -851,7 +852,7 @@ function Questie:QUEST_LOG_UPDATE()
                 
                     --Swapped to isComplete 1 as nil = not complete and -1 = failed.
                     if not (finisher == nil) and isComplete == 1 then
-                   		--DEFAULT_CHAT_FRAME:AddMessage(q.." : 2", 0.95, 0.95, 0.5);
+                   		--DEFAULT_CHAT_FRAME:AddMessage(q.." : 2"..finisher, 0.95, 0.95, 0.5);
                         Questie:addMonsterToMap(finisher, "Quest Finisher", q, "Complete", mapid, selected);
                         questComplete = false; -- questComplete is used to add the finisher, this avoids adding it twice
                     end
