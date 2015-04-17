@@ -119,6 +119,16 @@ function Questie_SlashHandler(msg)
 		Questie:RedrawNotes();
 	end
 
+	if(msg == "h") then
+		if not (QuestieUsedNoteFrames) then
+			return;
+		end
+		Questie:debug_Print(table.getn(QuestieUsedNoteFrames));
+		for k, v in pairs(QuestieUsedNoteFrames) do
+			v:Hide();
+		end
+	end
+
 	if(msg =="ast") then -- Don't want to remove this... good for reference
 		--/script Astrolabe:PlaceIconOnWorldMap(WorldMapFrame,,1,"Ashenvale",100,100);
 
@@ -142,14 +152,6 @@ function Questie_SlashHandler(msg)
 		f:SetPoint("TOPLEFT",0,0)
 		f:Show()
 
-		at = 1;
-		for k, v in pairs(WorldMapSize[2].zoneData) do
-			if(tostring(k) == "WesternPlaguelands") then
-				DEFAULT_CHAT_FRAME:AddMessage("found "..at);
-				break;
-			end
-			at = at +1;
-		end
 		local C, Z = GetCurrentMapContinent(), GetCurrentMapZone();
 		x, y = Astrolabe:TranslateWorldMapPosition(2,12,0.8, 0.8, 2, 0);
 		x, y = Astrolabe:PlaceIconOnWorldMap(WorldMapFrame,f,2,nil,x, y);
