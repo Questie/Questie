@@ -39,6 +39,27 @@ function Questie:GetBlankNoteFrame()
 	return f;
 end
 
+
+function Questie_Tooltip_OnEnter()
+	if(this.questHash) then--If this is not set we have nothing to show...
+		local Tooltip = GameTooltip;
+		if(this.type == "WorldMapNote") then
+			Tooltip = WorldMapTooltip;
+		else
+			Tooltip = GameTooltip;
+		end
+
+		Tooltip:SetOwner(this, this); --"ANCHOR_CURSOR"
+		Tooltip:AddLine("ThisIsATestHeader ",1,1,1);
+		Tooltip:AddLine("LowerText");
+		if(NOTES_DEBUG) then
+			Tooltip:AddLine("questHash: "..this.questHash);
+		end
+		Tooltip:SetFrameLevel(10);
+		Tooltip:Show();
+	end
+end
+
 --Creates a blank frame for use within the map system
 function Questie:CreateBlankFrameNote()
 	local f = CreateFrame("Button",nil,WorldMapFrame)
@@ -49,18 +70,14 @@ function Questie:CreateBlankFrameNote()
 	t:SetTexture("Interface\\AddOns\\Questie\\Icons\\complete")
 	t:SetAllPoints(f)
 	f.texture = t
-	f:SetScript("OnEnter", function()
-			GameTooltip:SetOwner(this, "ANCHOR_CURSOR");
-			GameTooltip:AddLine("ICON! ");
-			GameTooltip:Show();
-	end ); --Script Toolip
-	f:SetScript("OnLeave", function() if(GameTooltip) then GameTooltip:Hide() end end) --Script Exit Tooltip
+	f:SetScript("OnEnter", Questie_Tooltip_OnEnter); --Script Toolip
+	f:SetScript("OnLeave", function() if(WorldMapTooltip) then WorldMapTooltip:Hide() end if(GameTooltip) then GameTooltip:Hide() end end) --Script Exit Tooltip
 
 	table.insert(FramePool, f);
 	table.insert(AllFrames, f);
 end
 
-TICK_DELAY = 0.1;--0.1 Atm not to get spam while debugging should probably be a lot faster...
+TICK_DELAY = 0.05;--0.1 Atm not to get spam while debugging should probably be a lot faster...
 LAST_TICK = GetTime();
 
 local LastContinent = nil;
@@ -124,6 +141,7 @@ function Questie:DRAW_NOTES()
 			Icon.questHash = v.questHash;
 			Icon:SetParent(WorldMapFrame);
 			Icon:SetPoint("CENTER",0,0)
+			Icon.type = "WorldMapNote";
 
 			--Set the texture to the right type
 			Icon.texture:SetTexture(QuestieIcons[v.type].path);
@@ -139,6 +157,8 @@ function Questie:DRAW_NOTES()
 				MMIcon.questHash = v.questHash;
 				MMIcon:SetParent(Minimap);
 				MMIcon:SetPoint("CENTER",0,0)
+				MMIcon.type = "MiniMapNote";
+				MMIcon:SetHighlightTexture(QuestieIcons[v.type].path, "ADD");
 
 				--Set the texture to the right type
 				MMIcon.texture:SetTexture(QuestieIcons[v.type].path);
