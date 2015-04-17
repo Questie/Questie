@@ -62,9 +62,11 @@ function Questie_Tooltip_OnEnter()
 	end
 end
 
+
+CREATED_NOTE_FRAMES = 1;
 --Creates a blank frame for use within the map system
 function Questie:CreateBlankFrameNote()
-	local f = CreateFrame("Button",nil,WorldMapFrame)
+	local f = CreateFrame("Button","QuestieNoteFrame"..CREATED_NOTE_FRAMES,WorldMapFrame)
 	f:SetFrameLevel(9);
 	f:SetWidth(16)  -- Set These to whatever height/width is needed 
 	f:SetHeight(16) -- for your Texture
@@ -74,7 +76,7 @@ function Questie:CreateBlankFrameNote()
 	f.texture = t
 	f:SetScript("OnEnter", Questie_Tooltip_OnEnter); --Script Toolip
 	f:SetScript("OnLeave", function() if(WorldMapTooltip) then WorldMapTooltip:Hide() end if(GameTooltip) then GameTooltip:Hide() end end) --Script Exit Tooltip
-
+	CREATED_NOTE_FRAMES = CREATED_NOTE_FRAMES+1;
 	table.insert(FramePool, f);
 	table.insert(AllFrames, f);
 end
@@ -128,23 +130,27 @@ end
 
 --Reason this exists is to be able to call both clearnotes and drawnotes without doing 2 function calls, and to be able to force a redraw
 function Questie:RedrawNotes()
-	Questie:CLEAR_NOTES();
+	Questie:CLEAR_ALL_NOTES();
 	Questie:DRAW_NOTES();
 end
 
+function Questie:Clear_Note(v)
+	v:SetParent(nil);
+	v:Hide();
+	v:SetFrameLevel(9);
+	v:SetHighlightTexture(nil, "ADD");
+	v.questHash = nil;
+	table.insert(FramePool, v);
+end
+
 --Clears the notes, goes through the usednoteframes and clears them. Then sets the QuestieUsedNotesFrame to new table;
-function Questie:CLEAR_NOTES()
+function Questie:CLEAR_ALL_NOTES()
 	Questie:debug_Print("CLEAR_NOTES");
+	Astrolabe:RemoveAllMinimapIcons();
 	for k, v in pairs(QuestieUsedNoteFrames) do
 		Questie:debug_Print("Hash:"..v.questHash);
-		v:SetParent(nil);
-		v:Hide();
-		v:SetFrameLevel(9);
-		v:SetHighlightTexture(nil, "ADD");
-		v.questHash = nil;
-		table.insert(FramePool, v);
+		Questie:Clear_Note(v);
 	end
-	Astrolabe:RemoveAllMinimapIcons();
 	QuestieUsedNoteFrames = {};
 end
 
@@ -154,7 +160,7 @@ function Questie:DRAW_NOTES()
 	Questie:debug_Print("DRAW_NOTES");
 	if(MapNotes[c] and MapNotes[c][z]) then
 		for k, v in pairs(MapNotes[c][z]) do
-			if(MMLastX ~= 0 and MMLastY ~= 0) then--Don't draw the minimap icons if the player isn't within the zone.
+			if(MMLastX ~= 0 and MMLastY ~= 0 and true == false) then--Don't draw the minimap icons if the player isn't within the zone.
 				MMIcon = Questie:GetBlankNoteFrame();
 				--Here more info should be set but i CBA at the time of writing
 				MMIcon.questHash = v.questHash;
@@ -204,10 +210,8 @@ function Questie:DRAW_NOTES()
 					Questie:debug_Print(Icon:GetFrameLevel());
 					table.insert(QuestieUsedNoteFrames, Icon);			
 				else
-					Icon:SetParent(nil);
-					Icon:SetFrameLevel(9);
 					Questie:debug_Print("Outside map, reseting icon to pool");
-					table.insert(FramePool, Icon);
+					Questie:Clear_Note(Icon);
 				end
 			end
 		end
