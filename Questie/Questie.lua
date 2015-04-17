@@ -110,10 +110,12 @@ function Questie_SlashHandler(msg)
 
 	if(msg == "test") then --Tests the questie notes part
 		DEFAULT_CHAT_FRAME:AddMessage("Adding icons zones");
-		Questie:AddNoteToMap(2, 12, 0.5, 0.5,"Complete", "1");
-		Questie:AddNoteToMap(2, 12, 0.8, 0.8,"Loot", "2");
-		Questie:AddNoteToMap(2, 12, 0.9, 0.9,"Object", "3");
-		Questie:AddNoteToMap(2, 12, 0.4, 0.9,"Slay", "4");
+		for i = 1, 5 do
+			Questie:AddNoteToMap(2, 12, random(), random(),"Complete", tostring(i));
+			--Questie:AddNoteToMap(2, 12, 0.8, 0.8,"Loot", "2");
+			--Questie:AddNoteToMap(2, 12, 0.9, 0.9,"Object", "3");
+			--Questie:AddNoteToMap(2, 12, 0.4, 0.9,"Slay", "4");
+		end
 		Questie:RedrawNotes();
 	end
 
@@ -137,7 +139,7 @@ function Questie_SlashHandler(msg)
 		end ); --Script Toolip
 		f:SetScript("OnLeave", function() if(GameTooltip) then GameTooltip:Hide() end end) --Script Exit Tooltip
 
-		f:SetPoint("CENTER",0,0)
+		f:SetPoint("TOPLEFT",0,0)
 		f:Show()
 
 		at = 1;
@@ -148,7 +150,9 @@ function Questie_SlashHandler(msg)
 			end
 			at = at +1;
 		end
-		x, y = Astrolabe:PlaceIconOnWorldMap(WorldMapFrame,f,2,at,0.7156, 0.1854);
+		local C, Z = GetCurrentMapContinent(), GetCurrentMapZone();
+		x, y = Astrolabe:TranslateWorldMapPosition(2,12,0.8, 0.8, 2, 0);
+		x, y = Astrolabe:PlaceIconOnWorldMap(WorldMapFrame,f,2,nil,x, y);
 		if(x and y) then
 			DEFAULT_CHAT_FRAME:AddMessage("Added note to Ashenvale "..x.." : "..y);
 		else
