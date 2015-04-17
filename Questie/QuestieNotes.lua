@@ -1,4 +1,4 @@
-NOTES_DEBUG = nil;--Set to nil to not get debug shit
+NOTES_DEBUG = true;--Set to nil to not get debug shit
 
 --Contains all the frames ever created, this is not to orphan any frames by mistake...
 local AllFrames = {};
@@ -85,8 +85,21 @@ LAST_TICK = GetTime();
 local LastContinent = nil;
 local LastZone = nil;
 
+UIOpen = false;
 
 function Questie:NOTES_ON_UPDATE()
+	--IS THIS NEEDED? DUNNO!
+	if(WorldMapFrame:IsVisible() and UIOpen == false) then
+		Questie:debug_Print("UI Opened redrawing");
+		Questie:RedrawNotes();
+		UIOpen = true;
+	elseif(WorldMapFrame:IsVisible() == nil and UIOpen == true) then
+		Questie:debug_Print("UI Closed redrawing");
+		Questie:RedrawNotes();
+		UIOpen = false;
+	end
+
+
 	if(GetTime() - LAST_TICK > TICK_DELAY) then
 		--Gets current map to see if we need to redraw or not.
 		local c, z = GetCurrentMapContinent(), GetCurrentMapZone();
@@ -126,6 +139,7 @@ function Questie:CLEAR_NOTES()
 		Questie:debug_Print("Hash:"..v.questHash);
 		v:SetParent(nil);
 		v:Hide();
+		v:SetFrameLevel(9);
 		v:SetHighlightTexture(nil, "ADD");
 		v.questHash = nil;
 		table.insert(FramePool, v);
@@ -140,46 +154,61 @@ function Questie:DRAW_NOTES()
 	Questie:debug_Print("DRAW_NOTES");
 	if(MapNotes[c] and MapNotes[c][z]) then
 		for k, v in pairs(MapNotes[c][z]) do
-
-			Icon = Questie:GetBlankNoteFrame();
-			--Here more info should be set but i CBA at the time of writing
-			Icon.questHash = v.questHash;
-			Icon:SetParent(WorldMapFrame);
-			Icon:SetFrameLevel(9);
-			Icon:SetPoint("CENTER",0,0)
-			Icon.type = "WorldMapNote";
-
-			--Set the texture to the right type
-			Icon.texture:SetTexture(QuestieIcons[v.type].path);
-			Icon.texture:SetAllPoints(f)
-
-			--Shows and then calls Astrolabe to place it on the map.
-			Icon:Show();
-
-			x, y = Astrolabe:PlaceIconOnWorldMap(WorldMapFrame,Icon,c,z,v.x, v.y); --WorldMapFrame is global
-			table.insert(QuestieUsedNoteFrames, Icon);
-
-			local x, y = GetPlayerMapPosition("player");
-			if(x ~= 0 and y ~= 0) then--Don't draw the minimap icons if the player isn't within the zone.
+			if(MMLastX ~= 0 and MMLastY ~= 0) then--Don't draw the minimap icons if the player isn't within the zone.
 				MMIcon = Questie:GetBlankNoteFrame();
 				--Here more info should be set but i CBA at the time of writing
 				MMIcon.questHash = v.questHash;
-				MMIcon:SetFrameLevel(9);
 				MMIcon:SetParent(Minimap);
+				MMIcon:SetFrameLevel(9);
 				MMIcon:SetPoint("CENTER",0,0)
 				MMIcon.type = "MiniMapNote";
 				--Sets highlight texture (Nothing stops us from doing this on the worldmap aswell)
 				MMIcon:SetHighlightTexture(QuestieIcons[v.type].path, "ADD");
-
 				--Set the texture to the right type
 				MMIcon.texture:SetTexture(QuestieIcons[v.type].path);
 				MMIcon.texture:SetAllPoints(f)
-
 				--Shows and then calls Astrolabe to place it on the map.
-				MMIcon:Show();
-
+				--MMIcon:Show();
+				Questie:debug_Print(v.x.." : "..v.y);
 				Astrolabe:PlaceIconOnMinimap(MMIcon, c, z, v.x, v.y);
 				table.insert(QuestieUsedNoteFrames, MMIcon);
+			end
+		end
+	end
+
+	for k, Continent in pairs(MapNotes) do
+		for zone, noteHeap in pairs(Continent) do
+			for k, v in pairs(noteHeap) do
+				local c, z = GetCurrentMapContinent(), GetCurrentMapZone();
+				Icon = Questie:GetBlankNoteFrame();
+				--Here more info should be set but i CBA at the time of writing
+				Icon.questHash = v.questHash;
+				Icon:SetParent(WorldMapFrame);
+				Icon:SetFrameLevel(9);
+				Icon:SetPoint("CENTER",0,0)
+				Icon.type = "WorldMapNote";
+				Icon:SetScript("OnEnter", Questie_Tooltip_OnEnter); --Script Toolip
+				Icon:SetScript("OnLeave", function() if(WorldMapTooltip) then WorldMapTooltip:Hide() end if(GameTooltip) then GameTooltip:Hide() end end) --Script Exit Tooltip
+
+
+				--Set the texture to the right type
+				Icon.texture:SetTexture(QuestieIcons[v.type].path);
+				Icon.texture:SetAllPoints(f)
+
+				--Shows and then calls Astrolabe to place it on the map.
+				Icon:Show();
+				x, y = Astrolabe:TranslateWorldMapPosition(v.continent,v.zoneid,v.x, v.y, c, z);
+				Questie:debug_Print(x.." : "..y);
+				xx, yy = Astrolabe:PlaceIconOnWorldMap(WorldMapFrame,Icon,c ,z ,x, y); --WorldMapFrame is global
+				if(xx > 0 and xx < 1 and yy > 0 and yy < 1) then
+					Questie:debug_Print(Icon:GetFrameLevel());
+					table.insert(QuestieUsedNoteFrames, Icon);			
+				else
+					Icon:SetParent(nil);
+					Icon:SetFrameLevel(9);
+					Questie:debug_Print("Outside map, reseting icon to pool");
+					table.insert(FramePool, Icon);
+				end
 			end
 		end
 	end
@@ -236,3 +265,32 @@ QuestieIcons = {
 		path = "Interface\\AddOns\\Questie\\Icons\\slay"
 	}
 }
+
+--	if(MapNotes[c] and MapNotes[c][z] and true == false) then
+--		for k, v in pairs(MapNotes[c][z]) do
+--
+--			Icon = Questie:GetBlankNoteFrame();
+--			--Here more info should be set but i CBA at the time of writing
+--			Icon.questHash = v.questHash;
+--			Icon:SetParent(WorldMapFrame);
+--			Icon:SetFrameLevel(9);
+--			Icon:SetPoint("CENTER",0,0)
+--			Icon.type = "WorldMapNote";
+--
+--			--Set the texture to the right type
+--			Icon.texture:SetTexture(QuestieIcons[v.type].path);
+--			Icon.texture:SetAllPoints(f)
+--
+--			--Shows and then calls Astrolabe to place it on the map.
+--			Icon:Show();
+--
+--			x, y = Astrolabe:PlaceIconOnWorldMap(WorldMapFrame,Icon,c,z,v.x, v.y); --WorldMapFrame is global
+--			if(x > 0 and x < 1 and y > 0 and y < 1) then
+--				table.insert(QuestieUsedNoteFrames, Icon);
+--			else
+--				Questie:debug_Print("Outside map, reseting icon to pool");
+--				table.insert(FramePool, Icon);
+--			end
+--
+--		end
+--	end
