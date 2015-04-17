@@ -186,12 +186,29 @@ function Questie:DRAW_NOTES()
 end
 
 --Debug print function
-function Questie:debug_Print(msg)
-	if(NOTES_DEBUG) then
-		DEFAULT_CHAT_FRAME:AddMessage("[QN]:"..tostring(msg));
+function Questie:debug_Print(...)
+	local debugWin = 0;
+	local name, shown;
+	for i=1, NUM_CHAT_WINDOWS do
+		name,_,_,_,_,_,shown = GetChatWindowInfo(i);
+		if (string.lower(name) == "questiedebug") then debugWin = i; break; end
 	end
-end
+	if (debugWin == 0) then return end
 
+	local out = "";
+	for i = 1, arg.n, 1 do
+		if (i > 1) then out = out .. ", "; end
+		local t = type(arg[i]);
+		if (t == "string") then
+			out = out .. '"'..arg[i]..'"';
+		elseif (t == "number") then
+			out = out .. arg[i];
+		else
+			out = out .. dump(arg[i]);
+		end
+	end
+	getglobal("ChatFrame"..debugWin):AddMessage(out, 1.0, 1.0, 0.3);
+end
 --Sets the icons
 QuestieIcons = {
 	["Complete"] = {
