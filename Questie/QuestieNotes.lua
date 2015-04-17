@@ -23,6 +23,8 @@ function Questie:AddNoteToMap(continent, zoneid, posx, posy, type, questHash)
 	Note = {};
 	Note.x = posx;
 	Note.y = posy;
+	Note.zoneid = zoneid;
+	Note.continent = continent;
 	Note.type = type;
 	Note.questHash = questHash;
 	--Inserts it into the right zone and continent for later use.
@@ -103,7 +105,7 @@ end
 INIT_POOL_SIZE = 11;
 function Questie:NOTES_LOADED()
 	Questie:debug_Print("Loading QuestieNotes");
-	if(table.getn(FramePool) < 10) then--For some reason loading gets done several times... added this in as saftey
+	if(table.getn(FramePool) < 10) then--For some reason loading gets done several times... added this in as safety
 		for i = 1, INIT_POOL_SIZE do
 			Questie:CreateBlankFrameNote();
 		end
@@ -122,10 +124,13 @@ function Questie:CLEAR_NOTES()
 	Questie:debug_Print("CLEAR_NOTES");
 	for k, v in pairs(QuestieUsedNoteFrames) do
 		Questie:debug_Print("Hash:"..v.questHash);
+		v:SetParent(nil);
 		v:Hide();
+		v:SetHighlightTexture(nil, "ADD");
 		v.questHash = nil;
 		table.insert(FramePool, v);
 	end
+	Astrolabe:RemoveAllMinimapIcons();
 	QuestieUsedNoteFrames = {};
 end
 
@@ -140,6 +145,7 @@ function Questie:DRAW_NOTES()
 			--Here more info should be set but i CBA at the time of writing
 			Icon.questHash = v.questHash;
 			Icon:SetParent(WorldMapFrame);
+			Icon:SetFrameLevel(9);
 			Icon:SetPoint("CENTER",0,0)
 			Icon.type = "WorldMapNote";
 
@@ -150,14 +156,19 @@ function Questie:DRAW_NOTES()
 			--Shows and then calls Astrolabe to place it on the map.
 			Icon:Show();
 
+			x, y = Astrolabe:PlaceIconOnWorldMap(WorldMapFrame,Icon,c,z,v.x, v.y); --WorldMapFrame is global
+			table.insert(QuestieUsedNoteFrames, Icon);
+
 			local x, y = GetPlayerMapPosition("player");
 			if(x ~= 0 and y ~= 0) then--Don't draw the minimap icons if the player isn't within the zone.
 				MMIcon = Questie:GetBlankNoteFrame();
 				--Here more info should be set but i CBA at the time of writing
 				MMIcon.questHash = v.questHash;
+				MMIcon:SetFrameLevel(9);
 				MMIcon:SetParent(Minimap);
 				MMIcon:SetPoint("CENTER",0,0)
 				MMIcon.type = "MiniMapNote";
+				--Sets highlight texture (Nothing stops us from doing this on the worldmap aswell)
 				MMIcon:SetHighlightTexture(QuestieIcons[v.type].path, "ADD");
 
 				--Set the texture to the right type
@@ -168,9 +179,8 @@ function Questie:DRAW_NOTES()
 				MMIcon:Show();
 
 				Astrolabe:PlaceIconOnMinimap(MMIcon, c, z, v.x, v.y);
+				table.insert(QuestieUsedNoteFrames, MMIcon);
 			end
-			x, y = Astrolabe:PlaceIconOnWorldMap(WorldMapFrame,Icon,c,z,v.x, v.y); --WorldMapFrame is global
-			table.insert(QuestieUsedNoteFrames, Icon);
 		end
 	end
 end
