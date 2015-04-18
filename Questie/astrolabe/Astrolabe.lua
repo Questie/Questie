@@ -180,30 +180,32 @@ function Astrolabe:TranslateWorldMapPosition( C, Z, xPos, yPos, nC, nZ )
 	return (xPos / zoneData.width), (yPos / zoneData.height);
 end
 
-local Astrolabe_LastX = 0;
-local Astrolabe_LastY = 0;
-local Astrolabe_LastZ = 0;
-local Astrolabe_LastC = 0;
+Astrolabe_LastX = 0;
+Astrolabe_LastY = 0;
+Astrolabe_LastZ = 0;
+Astrolabe_LastC = 0;
 function Astrolabe:GetCurrentPlayerPosition()
 	local x, y = GetPlayerMapPosition("player");
-	if(worldMapFrame:IsVisible() == nil) then
+	if(WorldMapFrame:IsVisible() == nil) then
 		if ( x <= 0 and y <= 0 ) then
 			SetMapToCurrentZone();
 			x, y = GetPlayerMapPosition("player");
+			Astrolabe_LastX = x;
+			Astrolabe_LastY = y;
 			if ( x <= 0 and y <= 0 ) then
 				SetMapZoom(GetCurrentMapContinent());
 				x, y = GetPlayerMapPosition("player");
+				Astrolabe_LastX = x;
+				Astrolabe_LastY = y;
 				if ( x <= 0 and y <= 0 ) then
 					-- we are in an instance or otherwise off the continent map
 					return;
 				end
 			end
 		end
-		Astrolabe_LastX = x;
-		Astrolabe_LastY = y;
 		Astrolabe_LastZ = GetCurrentMapZone();
 		Astrolabe_LastC = GetCurrentMapContinent();
-		return GetCurrentMapContinent(), GetCurrentMapZone(), x, y;
+		return Astrolabe_LastC, Astrolabe_LastZ, x, y;
 	else
 		return Astrolabe_LastC, Astrolabe_LastZ, Astrolabe_LastX, Astrolabe_LastY;
 	end
