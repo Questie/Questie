@@ -2,6 +2,64 @@
 
 
 
+--Astrolabe functions DO NOT USE UNLESS YOU KNOW WHAT YOU ARE DOING!!
+function Questie:AstroGetFinishedQuests()
+  	numEntries, numQuests = GetNumQuestLogEntries();
+
+  	for i = 1, numEntries do
+		local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(i);
+		if not isHeader then
+		  	SelectQuestLogEntry(i);
+		    local count =  GetNumQuestLeaderBoards();
+		    local questText, objectiveText = _GetQuestLogQuestText();
+		    Done = true;
+		    for obj = 1, count do
+		   		local desc, typ, done = GetQuestLogLeaderBoard(obj);
+		   		if not done then
+		   			Done = nil;
+		   		end
+			end
+			if(Done) then
+				Questie:debug_Print("Finished returned:", Questie:getQuestHash(q, level, questText))
+				return Questie:getQuestHash(q, level, questText);
+			end
+		end
+	end
+end
+--Questie:AstroGetQuestObjectives(1607748502)
+function Questie:AstroGetQuestObjectives(questHash)
+	local hashData = QuestieHashMap[questHash];
+	local QuestLogID = nil;
+  	local numEntries, numQuests = GetNumQuestLogEntries();
+	for i = 1, numEntries do
+		local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(i);
+		if not isHeader then
+		  	SelectQuestLogEntry(i);
+		    local count =  GetNumQuestLeaderBoards();
+		    local questText, objectiveText = _GetQuestLogQuestText();
+
+		    if(Questie:getQuestHash(q, level, objectiveText) == questHash) then
+		   	 	QuestLogID = i;
+		    	break;
+		    end
+		end
+	end
+	if not QuestLogID then
+		return;
+	end
+	Questie:debug_Print("ID:", QuestLogID);
+	--SelectQuestLogEntry(QuestLogID);
+	--local count =  GetNumQuestLeaderBoards();
+	--local questText, objectiveText = _GetQuestLogQuestText();
+	--for i = 1, count do
+	--	local desc, typ, done = GetQuestLogLeaderBoard(i);
+	--	Questie:debug_Print(desc,typ,done);
+	--end
+
+end
+--End of Astrolabe functions
+
+
 
 
 
