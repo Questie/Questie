@@ -90,14 +90,14 @@ local LastZone = nil;
 UIOpen = false;
 
 function Questie:NOTES_ON_UPDATE()
-	--IS THIS NEEDED? DUNNO!
+	--NOT NEEDED BUT KEEPING FOR AWHILE
 	if(WorldMapFrame:IsVisible() and UIOpen == false) then
 		Questie:debug_Print("UI Opened redrawing");
-		Questie:RedrawNotes();
+		--Questie:RedrawNotes();
 		UIOpen = true;
 	elseif(WorldMapFrame:IsVisible() == nil and UIOpen == true) then
 		Questie:debug_Print("UI Closed redrawing");
-		Questie:RedrawNotes();
+		--Questie:RedrawNotes();
 		UIOpen = false;
 	end
 
@@ -148,7 +148,7 @@ function Questie:CLEAR_ALL_NOTES()
 	Questie:debug_Print("CLEAR_NOTES");
 	Astrolabe:RemoveAllMinimapIcons();
 	for k, v in pairs(QuestieUsedNoteFrames) do
-		Questie:debug_Print("Hash:"..v.questHash);
+		Questie:debug_Print("Hash:"..v.questHash,"Type:"..v.type);
 		Questie:Clear_Note(v);
 	end
 	QuestieUsedNoteFrames = {};
@@ -160,7 +160,7 @@ function Questie:DRAW_NOTES()
 	Questie:debug_Print("DRAW_NOTES");
 	if(MapNotes[c] and MapNotes[c][z]) then
 		for k, v in pairs(MapNotes[c][z]) do
-			if(MMLastX ~= 0 and MMLastY ~= 0 and true == false) then--Don't draw the minimap icons if the player isn't within the zone.
+			if(MMLastX ~= 0 and MMLastY ~= 0) then--Don't draw the minimap icons if the player isn't within the zone.
 				MMIcon = Questie:GetBlankNoteFrame();
 				--Here more info should be set but i CBA at the time of writing
 				MMIcon.questHash = v.questHash;
@@ -172,11 +172,12 @@ function Questie:DRAW_NOTES()
 				MMIcon:SetHighlightTexture(QuestieIcons[v.type].path, "ADD");
 				--Set the texture to the right type
 				MMIcon.texture:SetTexture(QuestieIcons[v.type].path);
-				MMIcon.texture:SetAllPoints(f)
+				MMIcon.texture:SetAllPoints(MMIcon)
 				--Shows and then calls Astrolabe to place it on the map.
 				--MMIcon:Show();
-				Questie:debug_Print(v.x.." : "..v.y);
-				Astrolabe:PlaceIconOnMinimap(MMIcon, c, z, v.x, v.y);
+				Questie:debug_Print(v.continent,v.zoneid,v.x,v.y);
+				Astrolabe:PlaceIconOnMinimap(MMIcon, v.continent, v.zoneid, v.x, v.y);
+				--Questie:debug_Print(MMIcon:GetFrameLevel());
 				table.insert(QuestieUsedNoteFrames, MMIcon);
 			end
 		end
@@ -199,15 +200,15 @@ function Questie:DRAW_NOTES()
 
 				--Set the texture to the right type
 				Icon.texture:SetTexture(QuestieIcons[v.type].path);
-				Icon.texture:SetAllPoints(f)
+				Icon.texture:SetAllPoints(Icon)
 
 				--Shows and then calls Astrolabe to place it on the map.
 				Icon:Show();
 				x, y = Astrolabe:TranslateWorldMapPosition(v.continent,v.zoneid,v.x, v.y, c, z);
-				Questie:debug_Print(x.." : "..y);
+				--Questie:debug_Print(x.." : "..y);
 				xx, yy = Astrolabe:PlaceIconOnWorldMap(WorldMapFrame,Icon,c ,z ,x, y); --WorldMapFrame is global
 				if(xx > 0 and xx < 1 and yy > 0 and yy < 1) then
-					Questie:debug_Print(Icon:GetFrameLevel());
+					--Questie:debug_Print(Icon:GetFrameLevel());
 					table.insert(QuestieUsedNoteFrames, Icon);			
 				else
 					Questie:debug_Print("Outside map, reseting icon to pool");
