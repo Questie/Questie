@@ -110,7 +110,7 @@ function Questie_SlashHandler(msg)
 
 	if(msg == "test") then --Tests the questie notes part
 		DEFAULT_CHAT_FRAME:AddMessage("Adding icons zones");
-		for i = 1, 5 do
+		for i = 1, 1 do
 			Questie:AddNoteToMap(2, 12, random(), random(),"Complete", tostring(i));
 			--Questie:AddNoteToMap(2, 12, 0.8, 0.8,"Loot", "2");
 			--Questie:AddNoteToMap(2, 12, 0.9, 0.9,"Object", "3");
@@ -293,7 +293,7 @@ function Questie:getQuestHash(name, level, objectiveText)
 			if k == objectiveText then
 				return v; -- exact match
 			end
-			local dist = this:levenshtein(objectiveText, k);
+			local dist = Questie:levenshtein(objectiveText, k);
 			if dist < bestDistance then
 				bestDistance = dist;
 				retval = v;
@@ -998,6 +998,63 @@ function _CartographerHasNote(zone, x, y) -- underscore because its a method for
 	end
 	return false
 end
+
+--Astrolabe functions DO NOT USE UNLESS YOU KNOW WHAT YOU ARE DOING!!
+function Questie:AstroGetFinishedQuests()
+  	numEntries, numQuests = GetNumQuestLogEntries();
+
+  	for i = 1, numEntries do
+		local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(i);
+		if not isHeader then
+		  	SelectQuestLogEntry(i);
+		    local count =  GetNumQuestLeaderBoards();
+		    local questText, objectiveText = _GetQuestLogQuestText();
+		    Done = true;
+		    for obj = 1, count do
+		   		local desc, typ, done = GetQuestLogLeaderBoard(obj);
+		   		if not done then
+		   			Done = nil;
+		   		end
+			end
+			if(Done) then
+				Questie:debug_Print("Finished returned:", Questie:getQuestHash(q, level, questText))
+				return Questie:getQuestHash(q, level, questText);
+			end
+		end
+	end
+end
+--Questie:AstroGetQuestObjectives(1607748502)
+function Questie:AstroGetQuestObjectives(questHash)
+	local hashData = QuestieHashMap[questHash];
+	local QuestLogID = nil;
+  	local numEntries, numQuests = GetNumQuestLogEntries();
+	for i = 1, numEntries do
+		local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(i);
+		if not isHeader then
+		  	SelectQuestLogEntry(i);
+		    local count =  GetNumQuestLeaderBoards();
+		    local questText, objectiveText = _GetQuestLogQuestText();
+
+		    if(Questie:getQuestHash(q, level, objectiveText) == questHash) then
+		   	 	QuestLogID = i;
+		    	break;
+		    end
+		end
+	end
+	if not QuestLogID then
+		return;
+	end
+	Questie:debug_Print("ID:", QuestLogID);
+	--SelectQuestLogEntry(QuestLogID);
+	--local count =  GetNumQuestLeaderBoards();
+	--local questText, objectiveText = _GetQuestLogQuestText();
+	--for i = 1, count do
+	--	local desc, typ, done = GetQuestLogLeaderBoard(i);
+	--	Questie:debug_Print(desc,typ,done);
+	--end
+
+end
+--End of Astrolabe functions
 
 function Questie:deleteNoteAfterQuestRemoved()
 	local finishedQuest = this:getFinishedQuest();
