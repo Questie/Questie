@@ -2,6 +2,7 @@
 ..\FrameXML\UI.xsd">
 <script file="Questie.lua"/>
 <script file="QuestieNotes.lua" />
+<script file="QuestieQuest.lua" />
 <script file="QuestieTracker.lua"/>
 <script file="items.lua"/>
 <script file="monsters.lua"/>
