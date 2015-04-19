@@ -1,6 +1,36 @@
 
 
+function Questie:AstroGetAllCurrentQuestHashes()
+	local hashes = {};
+  	local numEntries, numQuests = GetNumQuestLogEntries();
+	Questie:debug_Print("--Listing all current quests--");
+	for i = 1, numEntries do
+		local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(i);
+		if not isHeader then
+		  	SelectQuestLogEntry(i);
+		    local count =  GetNumQuestLeaderBoards();
+		    local questText, objectiveText = _GetQuestLogQuestText();
+		    local quest = {};
+		    quest["name"] = q;
+		    quest["level"] = level;
+		    quest["hash"] = Questie:getQuestHash(q, level, objectiveText);
 
+		    --This uses the addon URLCopy to easily be able to copy the questHashes from the debuglog.
+		  	if(IsAddOnLoaded("URLCopy"))then
+		  		Questie:debug_Print("        "..q,URLCopy_Link(quest["hash"]));
+			else
+		  		Questie:debug_Print("        "..q,quest["hash"]);
+			end
+
+
+		    table.insert(hashes, quest);
+		else
+		  	Questie:debug_Print("    Zone:", q);
+		end
+	end
+	Questie:debug_Print("--End of all current quests--");
+	return hashes;
+end
 
 --Astrolabe functions DO NOT USE UNLESS YOU KNOW WHAT YOU ARE DOING!!
 function Questie:AstroGetFinishedQuests()
@@ -26,7 +56,7 @@ function Questie:AstroGetFinishedQuests()
 		end
 	end
 end
---Questie:AstroGetQuestObjectives(1607748502)
+--Questie:AstroGetQuestObjectives(1431546316)
 function Questie:AstroGetQuestObjectives(questHash)
 	local hashData = QuestieHashMap[questHash];
 	local QuestLogID = nil;
@@ -48,15 +78,113 @@ function Questie:AstroGetQuestObjectives(questHash)
 		return;
 	end
 	Questie:debug_Print("ID:", QuestLogID);
-	--SelectQuestLogEntry(QuestLogID);
-	--local count =  GetNumQuestLeaderBoards();
-	--local questText, objectiveText = _GetQuestLogQuestText();
-	--for i = 1, count do
-	--	local desc, typ, done = GetQuestLogLeaderBoard(i);
-	--	Questie:debug_Print(desc,typ,done);
-	--end
+	local mapid = getCurrentMapID();
+	--Gets Quest information
+	local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(QuestLogID);
+	SelectQuestLogEntry(QuestLogID);
+	local count =  GetNumQuestLeaderBoards();
+	local questText, objectiveText = _GetQuestLogQuestText();
+	for i = 1, count do
+		--This returns a quests objectives.
+		local desc, typ, done = GetQuestLogLeaderBoard(i);
+		--Gets the type
+		local typeFunction = AstroobjectiveProcessors[typ];
+
+		if typ == "item" or typ == "monster" then
+			Questie:debug_Print(typ);
+			local indx = findLast(desc, ":");
+			--DEFAULT_CHAT_FRAME:AddMessage(indx, 0.95, 0.95, 0.5);
+			local countstr = string.sub(desc, indx+2);
+			local namestr = string.sub(desc, 1, indx-1);
+			Questie:debug_Print(tostring(q), tostring(namestr), tostring(countstr), tostring(selected), tostring(mapid))
+			local objectives = typeFunction(q, namestr, countstr, selected, mapid);
+			Questie:debug_Print("Objectives:", table.getn(objectives));
+			for k, v in pairs(objectives) do
+				for monster, pos in pairs(v['locations']) do
+					Questie:debug_Print("Monster Pos:",v["name"], pos[2],pos[3]);
+				end
+			end
+		else
+			Questie:debug_Print(typ);
+			typeFunction(quest, desc, "", selected, mapid);
+		end
+	end
 
 end
+
+--Take fron questie! Selected seems not to be used
+AstroobjectiveProcessors = {
+	['item'] = function(quest, name, amount, selected, mapid)
+		--DEFAULT_CHAT_FRAME:AddMessage("derp", 0.95, 0.95, 0.5);
+		local list = {};
+		local itemdata = QuestieItems[name];
+		if itemdata == nil then
+			debug("ERROR PROCESSING " .. quest .. "  objective:" .. name);
+		else
+			for k,v in pairs(itemdata) do
+				if k == "locationCount" then
+					for b=1,itemdata['locationCount'] do
+						local loc = itemdata['locations'][b];
+						if loc[1] == mapid then
+							--Questie:createQuestNote(name, quest, "", loc[2], loc[3], "Loot", selected);
+						end
+					end
+				elseif k == "drop" then
+					for e,r in pairs(v) do
+						local monster = {};
+						monster["name"] = e;
+						monster["locations"] = {};
+						for k, pos in pairs(QuestieMonsters[e]['locations']) do
+							table.insert(monster["locations"], pos);
+						end
+						--local monsterdata = QuestRoot['QuestHelper_StaticData']['enUS']['objective']['monster'][e];
+						--addMonsterToMap(monsterName, info, quest, selected)
+
+						table.insert(list, monster)
+						--Questie:addMonsterToMap(e, name .. " (" .. amount .. ")", quest, "Loot", mapid, selected);
+					end
+				else
+					debug("ERROR PROCESSING " .. quest .. "  objective:" .. name);
+				end
+			end
+		end
+		return list;
+	end,
+	['event'] = function(quest, name, amount, selected, mapid)
+		local evtdata = QuestieEvents[name]
+		if evtdata == nil then
+			debug("ERROR UNKNOWN EVENT " .. quest .. "  objective:" .. name);
+		else
+			--DEFAULT_CHAT_FRAME:AddMessage("VALIDEVT: " .. name, 0.2, 0.95, 0.2);
+			for b=1,evtdata['locationCount'] do
+				local loc = evtdata['locations'][b];
+				if loc[1] == mapid then
+					--Questie:createQuestNote(name, quest, "", loc[2], loc[3], "Event", selected);
+				end
+			end
+		end
+	end,
+	['monster'] = function(quest, name, amount, selected, mapid)
+		--DEFAULT_CHAT_FRAME:AddMessage("   MONMON: " .. quest .. ", " .. name .. ", " .. amount, 0.95, 0.2, 0.2);
+		--Questie:addMonsterToMap(name, amount, quest, "Slay", mapid, selected);
+	end,
+	['object'] = function(quest, name, amount, selected, mapid)
+		local objdata = QuestieObjects[name];
+		if objdata == nil then
+			debug("ERROR UNKNOWN OBJECT " .. quest .. "  objective:" .. name);
+		else
+			for b=1,objdata['locationCount'] do
+				local loc = objdata['locations'][b];
+				if loc[1] == mapid then
+					--Questie:createQuestNote(name, quest, "", loc[2], loc[3], "Object", selected);
+				end
+			end
+		end
+	end
+
+}
+
+
 --End of Astrolabe functions
 
 
