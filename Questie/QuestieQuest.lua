@@ -84,12 +84,49 @@ function Questie:AstroGetQuestObjectives(questHash)
 	SelectQuestLogEntry(QuestLogID);
 	local count =  GetNumQuestLeaderBoards();
 	local questText, objectiveText = _GetQuestLogQuestText();
+	local AllObjectives = {};
+	AllObjectives["objectives"] = {};
 	for i = 1, count do
 		--This returns a quests objectives.
 		local desc, typ, done = GetQuestLogLeaderBoard(i);
 		--Gets the type
 		local typeFunction = AstroobjectiveProcessors[typ];
+		if typ == "item" or typ == "monster" then
+			local indx = findLast(desc, ":");
+			--DEFAULT_CHAT_FRAME:AddMessage(indx, 0.95, 0.95, 0.5);
+			local countstr = string.sub(desc, indx+2);
+			local namestr = string.sub(desc, 1, indx-1);
+			AllObjectives["type"] = typ;
+			local objectives = typeFunction(q, namestr, countstr, selected, mapid);
+			
+			Objective = {};
+			for k, v in pairs(objectives) do
+				if (AllObjectives["objectives"][v["name"]] == nil) then
+					AllObjectives["objectives"][v["name"]] = {};
+				end
+				for monster, info in pairs(v['locations']) do
+					local obj = {};
+					obj["mapid"] = info[1];
+					obj["x"] = info[2];
+					obj["y"] = info[3];
+					table.insert(AllObjectives["objectives"][v["name"]], obj);
+				end
+			end
+		else
 
+		end
+	end
+	TEMPDUMP =AllObjectives;
+	for name, locations in pairs(AllObjectives['objectives']) do
+		for k, location in pairs(locations) do
+			Questie:debug_Print(name,location.mapid, location.x, location.y);
+		end
+	end
+	--Questie:debug_Print(AllObjectives['type'], AllObjectives['objectives'][1].name)
+	return AllObjectives;
+end
+TEMPDUMP = nil;
+--[[
 		if typ == "item" or typ == "monster" then
 			Questie:debug_Print(typ);
 			local indx = findLast(desc, ":");
@@ -106,20 +143,22 @@ function Questie:AstroGetQuestObjectives(questHash)
 			end
 		else
 			Questie:debug_Print(typ);
-			typeFunction(quest, desc, "", selected, mapid);
+			local objectives = typeFunction(quest, desc, "", selected, mapid);
+			Questie:debug_Print(quest, desc);
+			Questie:debug_Print(tostring(objectives));
 		end
-	end
+]]--
 
-end
+
 
 --Take fron questie! Selected seems not to be used
 AstroobjectiveProcessors = {
 	['item'] = function(quest, name, amount, selected, mapid)
-		--DEFAULT_CHAT_FRAME:AddMessage("derp", 0.95, 0.95, 0.5);
+				--DEFAULT_CHAT_FRAME:AddMessage("derp", 0.95, 0.95, 0.5);
 		local list = {};
 		local itemdata = QuestieItems[name];
 		if itemdata == nil then
-			debug("ERROR PROCESSING " .. quest .. "  objective:" .. name);
+			Questie:debug_Print("ERROR PROCESSING " .. quest .. "  objective:" .. name);
 		else
 			for k,v in pairs(itemdata) do
 				if k == "locationCount" then
@@ -144,7 +183,7 @@ AstroobjectiveProcessors = {
 						--Questie:addMonsterToMap(e, name .. " (" .. amount .. ")", quest, "Loot", mapid, selected);
 					end
 				else
-					debug("ERROR PROCESSING " .. quest .. "  objective:" .. name);
+					Questie:debug_Print("ERROR PROCESSING " .. quest .. "  objective:" .. name);
 				end
 			end
 		end
@@ -167,6 +206,21 @@ AstroobjectiveProcessors = {
 	['monster'] = function(quest, name, amount, selected, mapid)
 		--DEFAULT_CHAT_FRAME:AddMessage("   MONMON: " .. quest .. ", " .. name .. ", " .. amount, 0.95, 0.2, 0.2);
 		--Questie:addMonsterToMap(name, amount, quest, "Slay", mapid, selected);
+		--Todo check if both " slain" and without slain works
+		local list = {};
+		local monster = {};
+		if(string.find(name, " slain")) then
+			monster["name"] = name;
+		else
+			monster["name"] = string.sub(name, string.len(name)-6);
+		end
+
+		monster["locations"] = {};
+		for k, pos in pairs(QuestieMonsters[name]['locations']) do
+			table.insert(monster["locations"], pos);
+		end
+		table.insert(list, monster);
+		return list;
 	end,
 	['object'] = function(quest, name, amount, selected, mapid)
 		local objdata = QuestieObjects[name];
