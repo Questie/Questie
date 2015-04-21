@@ -8,6 +8,45 @@ local FramePool = {};
 
 QuestieUsedNoteFrames = {};
 
+function Questie:AddQuestToMap(questHash)
+	--Questie:RemoveQuestFromMap(questHash);
+	Objectives = Questie:AstroGetQuestObjectives(questHash);
+	Questie:debug_Print("Adding quest", questHash);
+	for name, locations in pairs(Objectives['objectives']) do
+		for k, location in pairs(locations) do
+			local MapInfo = Questie:GetMapInfoFromID(location.mapid);
+			Questie:debug_Print("Adding note to map",tostring(name), tostring(location.mapid),
+				tostring(location.x), tostring(location.y),tostring(MapInfo[4]), tostring(MapInfo[5]), tostring(location.type));
+			--getCurrentMapID()
+			Questie:AddNoteToMap(MapInfo[4], MapInfo[5], location.x, location.y, location.type, questHash);
+		end
+	end
+	Questie:RedrawNotes();
+end
+
+function Questie:RemoveQuestFromMap(questHash)
+	if(MapNotes == nil) then
+		Questie:debug_Print("No MapNotes");
+		return;
+	end
+	local removed = false;
+	for continent, zone in pairs(MapNotes) do
+		for index, note in pairs(zone) do
+			--Questie:debug_Print("Removing note", questHash);
+			zone[index] = nil;
+			removed = true;
+		end
+	end
+	if(removed == true) then
+		Questie:RedrawNotes();
+	end
+end
+
+
+function Questie:GetMapInfoFromID(id)
+	return QuestieZoneIDLookup[id];
+end
+
 MapNotes = {};--Usage Questie[Continent][Zone][index]
 MinimapNotes = {};
 function Questie:AddNoteToMap(continent, zoneid, posx, posy, type, questHash)
@@ -25,7 +64,8 @@ function Questie:AddNoteToMap(continent, zoneid, posx, posy, type, questHash)
 	Note.y = posy;
 	Note.zoneid = zoneid;
 	Note.continent = continent;
-	Note.type = type;
+	Questie:debug_Print(type);
+	Note.icontype = type;
 	Note.questHash = questHash;
 	--Inserts it into the right zone and continent for later use.
 	table.insert(MapNotes[continent][zoneid], Note);
@@ -89,14 +129,16 @@ local LastZone = nil;
 
 UIOpen = false;
 
-function Questie:NOTES_ON_UPDATE()
+function Questie:NOTES_ON_UPDATE(elapsed)
 	--NOT NEEDED BUT KEEPING FOR AWHILE
 	if(WorldMapFrame:IsVisible() and UIOpen == false) then
 		Questie:debug_Print("UI Opened redrawing");
+		Questie:debug_Print(CREATED_NOTE_FRAMES);
 		--Questie:RedrawNotes();
 		UIOpen = true;
 	elseif(WorldMapFrame:IsVisible() == nil and UIOpen == true) then
 		Questie:debug_Print("UI Closed redrawing");
+		Questie:debug_Print(CREATED_NOTE_FRAMES);
 		--Questie:RedrawNotes();
 		UIOpen = false;
 	end
@@ -148,7 +190,7 @@ function Questie:CLEAR_ALL_NOTES()
 	Questie:debug_Print("CLEAR_NOTES");
 	Astrolabe:RemoveAllMinimapIcons();
 	for k, v in pairs(QuestieUsedNoteFrames) do
-		Questie:debug_Print("Hash:"..v.questHash,"Type:"..v.type);
+		--Questie:debug_Print("Hash:"..v.questHash,"Type:"..v.type);
 		Questie:Clear_Note(v);
 	end
 	QuestieUsedNoteFrames = {};
@@ -169,13 +211,13 @@ function Questie:DRAW_NOTES()
 				MMIcon:SetPoint("CENTER",0,0)
 				MMIcon.type = "MiniMapNote";
 				--Sets highlight texture (Nothing stops us from doing this on the worldmap aswell)
-				MMIcon:SetHighlightTexture(QuestieIcons[v.type].path, "ADD");
+				MMIcon:SetHighlightTexture(QuestieIcons[v.icontype].path, "ADD");
 				--Set the texture to the right type
-				MMIcon.texture:SetTexture(QuestieIcons[v.type].path);
+				MMIcon.texture:SetTexture(QuestieIcons[v.icontype].path);
 				MMIcon.texture:SetAllPoints(MMIcon)
 				--Shows and then calls Astrolabe to place it on the map.
 				--MMIcon:Show();
-				Questie:debug_Print(v.continent,v.zoneid,v.x,v.y);
+				--Questie:debug_Print(v.continent,v.zoneid,v.x,v.y);
 				Astrolabe:PlaceIconOnMinimap(MMIcon, v.continent, v.zoneid, v.x, v.y);
 				--Questie:debug_Print(MMIcon:GetFrameLevel());
 				table.insert(QuestieUsedNoteFrames, MMIcon);
@@ -199,19 +241,19 @@ function Questie:DRAW_NOTES()
 
 
 				--Set the texture to the right type
-				Icon.texture:SetTexture(QuestieIcons[v.type].path);
+				Icon.texture:SetTexture(QuestieIcons[v.icontype].path);
 				Icon.texture:SetAllPoints(Icon)
 
 				--Shows and then calls Astrolabe to place it on the map.
 				Icon:Show();
-				x, y = Astrolabe:TranslateWorldMapPosition(v.continent,v.zoneid,v.x, v.y, c, z);
+				
 				--Questie:debug_Print(x.." : "..y);
-				xx, yy = Astrolabe:PlaceIconOnWorldMap(WorldMapFrame,Icon,c ,z ,x, y); --WorldMapFrame is global
+				xx, yy = Astrolabe:PlaceIconOnWorldMap(WorldMapButton,Icon,v.continent ,v.zoneid ,v.x, v.y); --WorldMapFrame is global
 				if(xx > 0 and xx < 1 and yy > 0 and yy < 1) then
 					--Questie:debug_Print(Icon:GetFrameLevel());
 					table.insert(QuestieUsedNoteFrames, Icon);			
 				else
-					Questie:debug_Print("Outside map, reseting icon to pool");
+					--Questie:debug_Print("Outside map, reseting icon to pool");
 					Questie:Clear_Note(Icon);
 				end
 			end
@@ -243,33 +285,51 @@ function Questie:debug_Print(...)
 	end
 	getglobal("ChatFrame"..debugWin):AddMessage(out, 1.0, 1.0, 0.3);
 end
+
+
+
+
+
+
+
+
+
+
+
 --Sets the icons
 QuestieIcons = {
-	["Complete"] = {
+	["complete"] = {
 		text = "Complete",
 		path = "Interface\\AddOns\\Questie\\Icons\\complete"
 	},
-	["Available"] = {
+	["available"] = {
 		text = "Complete",
 		path = "Interface\\AddOns\\Questie\\Icons\\available"
 	},
-	["Loot"] = {
+	["loot"] = {
 		text = "Complete",
 		path = "Interface\\AddOns\\Questie\\Icons\\loot"
 	},
-	["Event"] = {
+	["item"] = {
+		text = "Complete",
+		path = "Interface\\AddOns\\Questie\\Icons\\loot"
+	},
+	["event"] = {
 		text = "Complete",
 		path = "Interface\\AddOns\\Questie\\Icons\\event"
 	},
-	["Object"] = {
+	["object"] = {
 		text = "Complete",
 		path = "Interface\\AddOns\\Questie\\Icons\\object"
 	},
-	["Slay"] = {
+	["slay"] = {
 		text = "Complete",
 		path = "Interface\\AddOns\\Questie\\Icons\\slay"
 	}
 }
+
+
+
 
 --	if(MapNotes[c] and MapNotes[c][z] and true == false) then
 --		for k, v in pairs(MapNotes[c][z]) do
