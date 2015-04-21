@@ -1,5 +1,6 @@
 
 
+
 function Questie:AstroGetAllCurrentQuestHashes()
 	local hashes = {};
   	local numEntries, numQuests = GetNumQuestLogEntries();
@@ -96,7 +97,7 @@ function Questie:AstroGetQuestObjectives(questHash)
 			--DEFAULT_CHAT_FRAME:AddMessage(indx, 0.95, 0.95, 0.5);
 			local countstr = string.sub(desc, indx+2);
 			local namestr = string.sub(desc, 1, indx-1);
-			AllObjectives["type"] = typ;
+			--AllObjectives["type"] = typ;
 			local objectives = typeFunction(q, namestr, countstr, selected, mapid);
 			
 			Objective = {};
@@ -109,6 +110,7 @@ function Questie:AstroGetQuestObjectives(questHash)
 					obj["mapid"] = info[1];
 					obj["x"] = info[2];
 					obj["y"] = info[3];
+					obj["type"] = v["type"];
 					table.insert(AllObjectives["objectives"][v["name"]], obj);
 				end
 			end
@@ -119,7 +121,7 @@ function Questie:AstroGetQuestObjectives(questHash)
 	TEMPDUMP =AllObjectives;
 	for name, locations in pairs(AllObjectives['objectives']) do
 		for k, location in pairs(locations) do
-			Questie:debug_Print(name,location.mapid, location.x, location.y);
+			--Questie:debug_Print(name,location.mapid, location.x, location.y);
 		end
 	end
 	--Questie:debug_Print(AllObjectives['type'], AllObjectives['objectives'][1].name)
@@ -162,17 +164,24 @@ AstroobjectiveProcessors = {
 		else
 			for k,v in pairs(itemdata) do
 				if k == "locationCount" then
+					--WARNING; THIS IS ALL TESTING QUEST TESTED (HANDFUL OF OATS)
+					local monster = {};
+					monster["name"] = name;
+					monster["locations"] = {};
+					monster["type"] = "loot";
 					for b=1,itemdata['locationCount'] do
 						local loc = itemdata['locations'][b];
 						if loc[1] == mapid then
-							--Questie:createQuestNote(name, quest, "", loc[2], loc[3], "Loot", selected);
+							table.insert(monster["locations"], loc);
 						end
 					end
+					table.insert(list, monster);
 				elseif k == "drop" then
 					for e,r in pairs(v) do
 						local monster = {};
 						monster["name"] = e;
 						monster["locations"] = {};
+						monster["type"] = "loot";
 						for k, pos in pairs(QuestieMonsters[e]['locations']) do
 							table.insert(monster["locations"], pos);
 						end
@@ -214,7 +223,7 @@ AstroobjectiveProcessors = {
 		else
 			monster["name"] = string.sub(name, string.len(name)-6);
 		end
-
+		monster["type"] = "slay";
 		monster["locations"] = {};
 		for k, pos in pairs(QuestieMonsters[name]['locations']) do
 			table.insert(monster["locations"], pos);
