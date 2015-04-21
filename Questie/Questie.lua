@@ -102,6 +102,26 @@ function Questie:ADDON_LOADED()
 	SLASH_QUESTIE1 = "/questie";
 end
 
+--[[
+These two functions are DropDown example functions these should be removed!
+]]--
+function Onclickerino()
+	DEFAULT_CHAT_FRAME:AddMessage("CLICKED");
+end
+
+
+function DropDown_OnLoad()
+	level = level or 1 --drop down menues can have sub menues. The value of level determines the drop down sub menu tier
+	local info = UIDropDownMenu_CreateInfo();
+	info.text = "TEST"; --the text of the menu item
+	info.value = 1; -- the value of the menu item. This can be a string also.
+	info.func = Onclickerino; --sets the function to execute when this item is clicked
+	info.owner = this:GetParent(); --binds the drop down menu as the parent of the menu item. This is very important for dynamic drop down menues.
+	info.checked = nil; --initially set the menu item to being unchecked with a yellow tick
+	info.icon = nil; --we can use this to set an icon for the drop down menu item to accompany the text
+	UIDropDownMenu_AddButton(info, level); --Adds the new button to the drop down menu specified in the UIDropDownMenu_Initialise function. In this case, it's MyDropDownMenu
+end
+
 function Questie_SlashHandler(msg)
 
 	-- HERE DO STRING ARGUMENTS TO SPLINT SPACE INTO ARG1 ARG2 //msg is used meanwhile
@@ -124,13 +144,21 @@ function Questie_SlashHandler(msg)
 	end
 
 	if(msg == "h") then
-		if not (QuestieUsedNoteFrames) then
-			return;
-		end
-		Questie:debug_Print(table.getn(QuestieUsedNoteFrames));
-		for k, v in pairs(QuestieUsedNoteFrames) do
-			v:Hide();
-		end
+		testbutton = CreateFrame("Button", "testets", UIParent,"UIPanelButtonTemplate");
+		testbutton:SetWidth(80);
+		testbutton:SetHeight(50);
+		testbutton:SetText("asdf");
+		testbutton:SetPoint("CENTER",0,0);
+		testbutton:Show();
+		DropDownTest = CreateFrame("Frame", "QuestieDropDown", UIParent, "UIDropDownMenuTemplate");
+		DropDownTest:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
+		UIDropDownMenu_SetWidth(130, DropDownTest);
+		UIDropDownMenu_Initialize(DropDownTest, DropDown_OnLoad, "MENU");
+		DropDownTest:Show();
+		testbutton:SetScript("OnClick", function()
+			DEFAULT_CHAT_FRAME:AddMessage("Click");
+			ToggleDropDownMenu(nil,nil,DropDownTest,"testets",3,-3);	
+		end)
 	end
 
 	if(msg =="ast") then -- Don't want to remove this... good for reference
