@@ -143,6 +143,14 @@ function Questie_SlashHandler(msg)
 		Questie:RedrawNotes();
 	end
 
+	if(msg == "q") then
+		for k, v in pairs(Questie:AstroGetAllCurrentQuestHashes()) do
+			Questie:AddQuestToMap(v["hash"]);
+		end
+		--Questie:AddQuestToMap(2743610414);
+		--Questie:AddQuestToMap(3270662498);
+	end
+
 	if(msg == "h") then
 		testbutton = CreateFrame("Button", "testets", UIParent,"UIPanelButtonTemplate");
 		testbutton:SetWidth(80);
