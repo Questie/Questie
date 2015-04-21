@@ -177,7 +177,9 @@
 		<HighlightTexture alphaMode="ADD" file="Interface\FriendsFrame\UI-FriendsFrame-HighlightBar"/>
 		<Scripts>
 			<OnClick>
-				SetCrazyArrow(this.point, this.dist, this.title)
+				if arg1 == "LeftButton" then
+					SetCrazyArrow(this.point, this.dist, this.title)
+				end
 			</OnClick>
 		</Scripts>
 	</Button>

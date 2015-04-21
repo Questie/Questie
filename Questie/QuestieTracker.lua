@@ -329,6 +329,42 @@ function QuestieTracker:createTrackingButtons()
 		button:SetParent(this.frame);
 		button:SetWidth(240);
 		button:SetHeight(12);
+		
+		button:RegisterForClicks("RightButtonDown","LeftButtonUp", "LeftClick");
+		
+		button.arrowshown = false;
+		
+		button:SetScript("OnClick", function() if arg1 == "RightButton" then
+			local x, y = GetCursorPosition();
+			local at = "Open Arrow";
+			if button.arrowshown then
+				at = "Close Arrow";
+			end
+			createPrettyMenu({
+				["Untrack"] = {
+					['click'] = function() QuestieCurrentQuests[button.title]["tracked"] = false; end
+				},
+				[at] = {
+					['click'] = function() button.arrowshown = not button.arrowshown;SetCrazyArrow(button.point, button.dist, button.title) end
+				},
+				["< Developer"] = {
+					['clock'] = nil,
+					['submenu'] = {
+						['Print Metadata'] = {
+							['click'] = function() end
+						},
+						['Print Objectives'] = {
+							['click'] = function() end
+						}
+					}
+				},
+				["Close"]=
+				{
+					['click'] = function() end
+				}
+			}, button:GetLeft()-160, y - button:GetHeight() / 2, this.frame);
+				
+		end end);
 	
 		if(i == 1) then
 			button:SetPoint("TOPLEFT", this.frame, "TOPLEFT", 5, -15);
