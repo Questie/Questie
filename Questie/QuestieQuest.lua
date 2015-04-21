@@ -33,6 +33,10 @@ function Questie:AstroGetAllCurrentQuestHashes()
 	return hashes;
 end
 
+function Questie:GetQuestInfoFromHash()
+	
+end
+
 --Astrolabe functions DO NOT USE UNLESS YOU KNOW WHAT YOU ARE DOING!!
 function Questie:AstroGetFinishedQuests()
   	numEntries, numQuests = GetNumQuestLogEntries();
@@ -78,7 +82,6 @@ function Questie:AstroGetQuestObjectives(questHash)
 	if not QuestLogID then
 		return;
 	end
-	Questie:debug_Print("ID:", QuestLogID);
 	local mapid = getCurrentMapID();
 	--Gets Quest information
 	local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(QuestLogID);
@@ -119,11 +122,11 @@ function Questie:AstroGetQuestObjectives(questHash)
 		end
 	end
 	TEMPDUMP =AllObjectives;
-	for name, locations in pairs(AllObjectives['objectives']) do
-		for k, location in pairs(locations) do
+	--for name, locations in pairs(AllObjectives['objectives']) do
+	--	for k, location in pairs(locations) do
 			--Questie:debug_Print(name,location.mapid, location.x, location.y);
-		end
-	end
+	--	end
+	--end
 	--Questie:debug_Print(AllObjectives['type'], AllObjectives['objectives'][1].name)
 	return AllObjectives;
 end
