@@ -9,14 +9,14 @@ local FramePool = {};
 QuestieUsedNoteFrames = {};
 
 function Questie:AddQuestToMap(questHash)
-	--Questie:RemoveQuestFromMap(questHash);
+	Questie:RemoveQuestFromMap(questHash);
 	Objectives = Questie:AstroGetQuestObjectives(questHash);
 	Questie:debug_Print("Adding quest", questHash);
 	for name, locations in pairs(Objectives['objectives']) do
 		for k, location in pairs(locations) do
 			local MapInfo = Questie:GetMapInfoFromID(location.mapid);
-			Questie:debug_Print("Adding note to map",tostring(name), tostring(location.mapid),
-				tostring(location.x), tostring(location.y),tostring(MapInfo[4]), tostring(MapInfo[5]), tostring(location.type));
+			--Questie:debug_Print("Adding note to map",tostring(name), tostring(location.mapid),
+			--	tostring(location.x), tostring(location.y),tostring(MapInfo[4]), tostring(MapInfo[5]), tostring(location.type));
 			--getCurrentMapID()
 			Questie:AddNoteToMap(MapInfo[4], MapInfo[5], location.x, location.y, location.type, questHash);
 		end
@@ -24,20 +24,19 @@ function Questie:AddQuestToMap(questHash)
 	Questie:RedrawNotes();
 end
 
-function Questie:RemoveQuestFromMap(questHash)
-	if(MapNotes == nil) then
-		Questie:debug_Print("No MapNotes");
-		return;
-	end
+function Questie:RemoveQuestFromMap(questHash, redraw)
 	local removed = false;
-	for continent, zone in pairs(MapNotes) do
-		for index, note in pairs(zone) do
-			--Questie:debug_Print("Removing note", questHash);
-			zone[index] = nil;
-			removed = true;
+	for continent, zoneTable in pairs(MapNotes) do
+		for index, zone in pairs(zoneTable) do
+			for i, note in pairs(zone) do
+				if(note.questHash == questHash) then
+					MapNotes[continent][index][i] = nil;
+					removed = true;
+				end
+			end
 		end
 	end
-	if(removed == true) then
+	if(redraw) then
 		Questie:RedrawNotes();
 	end
 end
@@ -64,7 +63,6 @@ function Questie:AddNoteToMap(continent, zoneid, posx, posy, type, questHash)
 	Note.y = posy;
 	Note.zoneid = zoneid;
 	Note.continent = continent;
-	Questie:debug_Print(type);
 	Note.icontype = type;
 	Note.questHash = questHash;
 	--Inserts it into the right zone and continent for later use.
@@ -133,12 +131,12 @@ function Questie:NOTES_ON_UPDATE(elapsed)
 	--NOT NEEDED BUT KEEPING FOR AWHILE
 	if(WorldMapFrame:IsVisible() and UIOpen == false) then
 		Questie:debug_Print("UI Opened redrawing");
-		Questie:debug_Print(CREATED_NOTE_FRAMES);
+		Questie:debug_Print(CREATED_NOTE_FRAMES, table.getn(QuestieUsedNoteFrames), table.getn(FramePool));
 		--Questie:RedrawNotes();
 		UIOpen = true;
 	elseif(WorldMapFrame:IsVisible() == nil and UIOpen == true) then
 		Questie:debug_Print("UI Closed redrawing");
-		Questie:debug_Print(CREATED_NOTE_FRAMES);
+		Questie:debug_Print(CREATED_NOTE_FRAMES, table.getn(QuestieUsedNoteFrames), table.getn(FramePool));
 		--Questie:RedrawNotes();
 		UIOpen = false;
 	end
