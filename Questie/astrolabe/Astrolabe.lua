@@ -353,7 +353,7 @@ function Astrolabe:UpdateMinimapIconPositions()
 		lastPosition[2] = Z;
 		lastPosition[3] = x;
 		lastPosition[4] = y;
-		self.LastPlayerPosition = lastPosition;--It did not set before? Wonder why...
+		--self.LastPlayerPosition = lastPosition;--It did not set before? Wonder why...
 	end
 end
 
@@ -382,7 +382,7 @@ function Astrolabe:CalculateMinimapIconPositions()
 	lastPosition[2] = Z;
 	lastPosition[3] = x;
 	lastPosition[4] = y;
-	self.LastPlayerPosition = lastPosition;--It did not set before? Wonder why...
+	--self.LastPlayerPosition = lastPosition;--It did not set before? Wonder why...
 end
 
 function Astrolabe:GetDistanceToIcon( icon )
@@ -421,7 +421,6 @@ function Astrolabe:PlaceIconOnWorldMap( worldMapFrame, icon, continent, zone, xP
 	
 	local C, Z = GetCurrentMapContinent(), GetCurrentMapZone();
 	local nX, nY = self:TranslateWorldMapPosition(continent, zone, xPos, yPos, C, Z);
-	
 	if ( nX and nY and (0 < nX and nX <= 1) and (0 < nY and nY <= 1) ) then
 		icon:ClearAllPoints();
 		icon:SetPoint("CENTER", worldMapFrame, "TOPLEFT", nX * worldMapFrame:GetWidth(), -nY * worldMapFrame:GetHeight());
@@ -729,7 +728,7 @@ WorldMapSize = {
 	-- Eastern Kingdoms
 	[2] = {
 		parentContinent = 0,
-		height = 25098.84390074281,
+		height = 25598.84390074281,-- added 500 (seems about right total guess) to "remove" the blood elf start zones You need to logout each time you change these values
 		width = 37649.15159852673,
 		xOffset = 15525.32200715066,
 		yOffset = 672.3934326738229,
