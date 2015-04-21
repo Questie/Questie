@@ -185,8 +185,10 @@ Astrolabe_LastY = 0;
 Astrolabe_LastZ = 0;
 Astrolabe_LastC = 0;
 function Astrolabe:GetCurrentPlayerPosition()
+	Z = GetCurrentMapZone();
+	C = GetCurrentMapContinent();
 	local x, y = GetPlayerMapPosition("player");
-	if(WorldMapFrame:IsVisible() == nil) then
+	if(WorldMapFrame:IsVisible() == nil or (Astrolabe_LastZ == Z and Astrolabe_LastC == C)) then
 		if ( x <= 0 and y <= 0 ) then
 			SetMapToCurrentZone();
 			x, y = GetPlayerMapPosition("player");
@@ -342,6 +344,7 @@ function Astrolabe:UpdateMinimapIconPositions()
 			local xDist = data.xDist - xDelta;
 			local yDist = data.yDist - yDelta;
 			local dist = sqrt(xDist*xDist + yDist*yDist);
+
 			placeIconOnMinimap(Minimap, currentZoom, mapWidth, mapHeight, icon, dist, xDist, yDist);
 			
 			data.dist = dist;

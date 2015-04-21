@@ -135,7 +135,7 @@ function Questie_SlashHandler(msg)
 	if(msg == "test") then --Tests the questie notes part
 		DEFAULT_CHAT_FRAME:AddMessage("Adding icons zones");
 		for i = 1, 1 do
-			Questie:AddNoteToMap(2, 12, random(), random(),"Complete", tostring(i));
+			Questie:AddNoteToMap(1, 15, 0.5, 0.5,"complete", tostring(i));
 			--Questie:AddNoteToMap(2, 12, 0.8, 0.8,"Loot", "2");
 			--Questie:AddNoteToMap(2, 12, 0.9, 0.9,"Object", "3");
 			--Questie:AddNoteToMap(2, 12, 0.4, 0.9,"Slay", "4");
@@ -143,10 +143,18 @@ function Questie_SlashHandler(msg)
 		Questie:RedrawNotes();
 	end
 
+
+	if(msg == "c") then
+		local t = Questie:AstroGetFinishedQuests();
+	end
+
 	if(msg == "q") then
+		local t = GetTime();
 		for k, v in pairs(Questie:AstroGetAllCurrentQuestHashes()) do
 			Questie:AddQuestToMap(v["hash"]);
 		end
+		Questie:RedrawNotes();
+		Questie:debug_Print("Added quests: Time:", GetTime()- t);
 		--Questie:AddQuestToMap(2743610414);
 		--Questie:AddQuestToMap(3270662498);
 	end

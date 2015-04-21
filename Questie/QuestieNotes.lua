@@ -12,18 +12,37 @@ function Questie:AddQuestToMap(questHash)
 	Questie:RemoveQuestFromMap(questHash);
 	Objectives = Questie:AstroGetQuestObjectives(questHash);
 	Questie:debug_Print("Adding quest", questHash);
-	for name, locations in pairs(Objectives['objectives']) do
-		for k, location in pairs(locations) do
-			local MapInfo = Questie:GetMapInfoFromID(location.mapid);
-			--Questie:debug_Print("Adding note to map",tostring(name), tostring(location.mapid),
-			--	tostring(location.x), tostring(location.y),tostring(MapInfo[4]), tostring(MapInfo[5]), tostring(location.type));
-			--getCurrentMapID()
-			Questie:AddNoteToMap(MapInfo[4], MapInfo[5], location.x, location.y, location.type, questHash);
+	
+	local Quest = Questie:IsQuestFinished(questHash);
+	if not (Quest) then
+		for name, locations in pairs(Objectives['objectives']) do
+				--Quest not finished add notes
+			for k, location in pairs(locations) do
+				--This checks if just THIS objective is done (Data is not super efficient but it's nil unless set so...)
+				if not location.done then
+					local MapInfo = Questie:GetMapInfoFromID(location.mapid);
+					--Questie:debug_Print("Adding note to map",tostring(name), tostring(location.mapid),
+					--	tostring(location.x), tostring(location.y),tostring(MapInfo[4]), tostring(MapInfo[5]), tostring(location.type));
+					Questie:AddNoteToMap(MapInfo[4], MapInfo[5], location.x, location.y, location.type, questHash, location.objectiveid);
+				end
+			end
 		end
+	else
+		--Quest Finished add finisher
+		--QuestieFinishers var
+		--QuestieMonsters var
+		local finisher = QuestieMonsters[QuestieFinishers[Quest["name"]]];
+		local MapInfo = Questie:GetMapInfoFromID(finisher['locations'][1][1]);--Map id is at ID 1, i then convert this to a useful continent and zone
+		local c, z, x, y = MapInfo[4], MapInfo[5], finisher['locations'][1][2],finisher['locations'][1][3]-- You just have to know about this, 2 is x 3 is y
+		--The 1 is just the first locations as finisher only have one location
+		Questie:debug_Print("Quest finished",MapInfo[4], MapInfo[5]);
+		Questie:AddNoteToMap(c,z, x, y, "complete", questHash, 1);
+
+		--local MapInfo = Questie:GetMapInfoFromID(location.mapid);
 	end
 	Questie:RedrawNotes();
 end
-
+GLOBALJAO = nil
 function Questie:RemoveQuestFromMap(questHash, redraw)
 	local removed = false;
 	for continent, zoneTable in pairs(MapNotes) do
@@ -48,7 +67,7 @@ end
 
 MapNotes = {};--Usage Questie[Continent][Zone][index]
 MinimapNotes = {};
-function Questie:AddNoteToMap(continent, zoneid, posx, posy, type, questHash)
+function Questie:AddNoteToMap(continent, zoneid, posx, posy, type, questHash, objectiveid)
 	--This is to set up the variables
 	if(MapNotes[continent] == nil) then
 		MapNotes[continent] = {};
@@ -65,10 +84,10 @@ function Questie:AddNoteToMap(continent, zoneid, posx, posy, type, questHash)
 	Note.continent = continent;
 	Note.icontype = type;
 	Note.questHash = questHash;
+	Note.objectiveid = objectiveid;
 	--Inserts it into the right zone and continent for later use.
 	table.insert(MapNotes[continent][zoneid], Note);
 end
-
 --Gets a blank frame either from Pool or creates a new one!
 function Questie:GetBlankNoteFrame()
 	if(table.getn(FramePool)==0) then
@@ -81,20 +100,41 @@ end
 
 
 function Questie_Tooltip_OnEnter()
-	if(this.questHash) then--If this is not set we have nothing to show...
+	if(this.data.questHash) then--If this is not set we have nothing to show...
 		local Tooltip = GameTooltip;
 		if(this.type == "WorldMapNote") then
 			Tooltip = WorldMapTooltip;
 		else
 			Tooltip = GameTooltip;
 		end
-
+		--Tooltip code! NO DONE!
 		Tooltip:SetOwner(this, this); --"ANCHOR_CURSOR"
-		Tooltip:AddLine("ThisIsATestHeader ",1,1,1);
-		Tooltip:AddLine("LowerText");
-		if(NOTES_DEBUG) then
-			Tooltip:AddLine("questHash: "..this.questHash);
+		local Quest = Questie:IsQuestFinished(this.data.questHash);
+		if not Quest then
+			local QuestLogID = Questie:GetQuestInfoFromHash(this.data.questHash);
+			SelectQuestLogEntry(QuestLogID);
+			local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(QuestLogID);
+			local count =  GetNumQuestLeaderBoards();
+			local questText, objectiveText = _GetQuestLogQuestText();
+			local desc, typ, done = GetQuestLogLeaderBoard(this.data.objectiveid);
+
+
+			Tooltip:AddLine(q ,1,1,1);
+			Tooltip:AddLine(desc);
+		else
+			Tooltip:AddLine(Quest["name"], 1, 1, 1);
+			Tooltip:AddLine("Complete!");
 		end
+
+		if(NOTES_DEBUG) then
+			Tooltip:AddLine("questHash: "..this.data.questHash);
+			Tooltip:AddLine("objectiveid: "..tostring(this.data.objectiveid));
+		end
+
+
+
+
+
 		Tooltip:SetFrameLevel(10);
 		Tooltip:Show();
 	end
@@ -131,12 +171,12 @@ function Questie:NOTES_ON_UPDATE(elapsed)
 	--NOT NEEDED BUT KEEPING FOR AWHILE
 	if(WorldMapFrame:IsVisible() and UIOpen == false) then
 		Questie:debug_Print("UI Opened redrawing");
-		Questie:debug_Print(CREATED_NOTE_FRAMES, table.getn(QuestieUsedNoteFrames), table.getn(FramePool));
+		Questie:debug_Print("Created Frames: "..CREATED_NOTE_FRAMES, "Used Frames: "..table.getn(QuestieUsedNoteFrames), "Free Frames: "..table.getn(FramePool));
 		--Questie:RedrawNotes();
 		UIOpen = true;
 	elseif(WorldMapFrame:IsVisible() == nil and UIOpen == true) then
 		Questie:debug_Print("UI Closed redrawing");
-		Questie:debug_Print(CREATED_NOTE_FRAMES, table.getn(QuestieUsedNoteFrames), table.getn(FramePool));
+		Questie:debug_Print("Created Frames: "..CREATED_NOTE_FRAMES, "Used Frames: "..table.getn(QuestieUsedNoteFrames), "Free Frames: "..table.getn(FramePool));
 		--Questie:RedrawNotes();
 		UIOpen = false;
 	end
@@ -180,6 +220,7 @@ function Questie:Clear_Note(v)
 	v:SetFrameLevel(9);
 	v:SetHighlightTexture(nil, "ADD");
 	v.questHash = nil;
+	v.objId = nil;
 	table.insert(FramePool, v);
 end
 
@@ -203,7 +244,7 @@ function Questie:DRAW_NOTES()
 			if(MMLastX ~= 0 and MMLastY ~= 0) then--Don't draw the minimap icons if the player isn't within the zone.
 				MMIcon = Questie:GetBlankNoteFrame();
 				--Here more info should be set but i CBA at the time of writing
-				MMIcon.questHash = v.questHash;
+				MMIcon.data = v;
 				MMIcon:SetParent(Minimap);
 				MMIcon:SetFrameLevel(9);
 				MMIcon:SetPoint("CENTER",0,0)
@@ -229,7 +270,7 @@ function Questie:DRAW_NOTES()
 				local c, z = GetCurrentMapContinent(), GetCurrentMapZone();
 				Icon = Questie:GetBlankNoteFrame();
 				--Here more info should be set but i CBA at the time of writing
-				Icon.questHash = v.questHash;
+				Icon.data = v;
 				Icon:SetParent(WorldMapFrame);
 				Icon:SetFrameLevel(9);
 				Icon:SetPoint("CENTER",0,0)

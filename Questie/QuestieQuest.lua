@@ -33,14 +33,64 @@ function Questie:AstroGetAllCurrentQuestHashes()
 	return hashes;
 end
 
-function Questie:GetQuestInfoFromHash()
-	
+function Questie:GetQuestInfoFromHash(questHash)
+	  	local numEntries, numQuests = GetNumQuestLogEntries();
+	for i = 1, numEntries do
+		local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(i);
+		if not isHeader then
+		  	SelectQuestLogEntry(i);
+		    local count =  GetNumQuestLeaderBoards();
+		    local questText, objectiveText = _GetQuestLogQuestText();
+
+		    if(Questie:getQuestHash(q, level, objectiveText) == questHash) then
+		   	 	QuestLogID = i;
+		    	break;
+		    end
+		end
+	end
+	if not QuestLogID then
+		return;
+	else
+		return QuestLogID;
+	end
+end
+
+--Astrolabe functions DO NOT USE UNLESS YOU KNOW WHAT YOU ARE DOING!!
+function Questie:IsQuestFinished(questHash)
+  	numEntries, numQuests = GetNumQuestLogEntries();
+  	local FinishedQuests = {};
+  	for i = 1, numEntries do
+		local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(i);
+		if not isHeader then
+		  	SelectQuestLogEntry(i);
+		    local count =  GetNumQuestLeaderBoards();
+		    local questText, objectiveText = _GetQuestLogQuestText();
+		    Done = true;
+		    for obj = 1, count do
+		   		local desc, typ, done = GetQuestLogLeaderBoard(obj);
+		   		if not done then
+		   			Done = nil;
+		   		end
+			end
+			if(Done and Questie:getQuestHash(q, level, objectiveText) == questHash) then
+				local ret = {};
+				ret["questHash"] = questHash;
+				ret["name"] = q;
+				ret["level"] = level;
+				return ret;
+			end
+		end
+	end
+
+	--TODO: Check SavedVariables!
+
+	return nil;
 end
 
 --Astrolabe functions DO NOT USE UNLESS YOU KNOW WHAT YOU ARE DOING!!
 function Questie:AstroGetFinishedQuests()
   	numEntries, numQuests = GetNumQuestLogEntries();
-
+  	local FinishedQuests = {};
   	for i = 1, numEntries do
 		local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(i);
 		if not isHeader then
@@ -55,11 +105,12 @@ function Questie:AstroGetFinishedQuests()
 		   		end
 			end
 			if(Done) then
-				Questie:debug_Print("Finished returned:", Questie:getQuestHash(q, level, questText))
-				return Questie:getQuestHash(q, level, questText);
+				Questie:debug_Print("Finished returned:", Questie:getQuestHash(q, level, objectiveText),q,level)
+				table.insert(FinishedQuests, Questie:getQuestHash(q, level, objectiveText));
 			end
 		end
 	end
+	return FinishedQuests;
 end
 --Questie:AstroGetQuestObjectives(1431546316)
 function Questie:AstroGetQuestObjectives(questHash)
@@ -114,6 +165,8 @@ function Questie:AstroGetQuestObjectives(questHash)
 					obj["x"] = info[2];
 					obj["y"] = info[3];
 					obj["type"] = v["type"];
+					obj["done"] = done;
+					obj['objectiveid'] = i;
 					table.insert(AllObjectives["objectives"][v["name"]], obj);
 				end
 			end
