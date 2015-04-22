@@ -731,7 +731,7 @@ WorldMapSize = {
 	-- Eastern Kingdoms
 	[2] = {
 		parentContinent = 0,
-		height = 25598.84390074281,-- added 500 (seems about right total guess) to "remove" the blood elf start zones You need to logout each time you change these values
+		height = 25098.84390074281,-- added 500 (seems about right total guess) to "remove" the blood elf start zones You need to logout each time you change these values
 		width = 37649.15159852673,
 		xOffset = 15525.32200715066,
 		yOffset = 672.3934326738229,
@@ -963,6 +963,10 @@ WorldMapSize = {
 		},
 	},
 }
+
+for c, v in pairs(WorldMapSize[2]["zoneData"]) do
+	v.yOffset = v.yOffset-500;
+end
 
 local zeroData = { xOffset = 0, height = 0, yOffset = 0, width = 0 };
 for continent, zones in pairs(Astrolabe.ContinentList) do

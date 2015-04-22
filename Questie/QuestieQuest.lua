@@ -259,17 +259,30 @@ AstroobjectiveProcessors = {
 	end,
 	['event'] = function(quest, name, amount, selected, mapid)
 		local evtdata = QuestieEvents[name]
+		local list = {};
 		if evtdata == nil then
 			debug("ERROR UNKNOWN EVENT " .. quest .. "  objective:" .. name);
 		else
 			--DEFAULT_CHAT_FRAME:AddMessage("VALIDEVT: " .. name, 0.2, 0.95, 0.2);
 			for b=1,evtdata['locationCount'] do
-				local loc = evtdata['locations'][b];
-				if loc[1] == mapid then
+				--Old Code
+				--local loc = evtdata['locations'][b];
+				--if loc[1] == mapid then
 					--Questie:createQuestNote(name, quest, "", loc[2], loc[3], "Event", selected);
+				--end
+				local monster = {};
+				monster["name"] = name;
+				monster["locations"] = {};
+				monster["type"] = "event";
+				for b=1,evtdata['locationCount'] do
+					local loc = itemdata['locations'][b];
+					table.insert(monster["locations"], loc);
 				end
+				table.insert(list, monster);
 			end
 		end
+		Questie:debug_Print("HEJ");
+		return list;
 	end,
 	['monster'] = function(quest, name, amount, selected, mapid)
 		--DEFAULT_CHAT_FRAME:AddMessage("   MONMON: " .. quest .. ", " .. name .. ", " .. amount, 0.95, 0.2, 0.2);
