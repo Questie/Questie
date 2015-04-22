@@ -39,7 +39,7 @@ function Questie:AddQuestToMap(questHash, redraw)
 			local MapInfo = Questie:GetMapInfoFromID(finisher['locations'][1][1]);--Map id is at ID 1, i then convert this to a useful continent and zone
 			local c, z, x, y = MapInfo[4], MapInfo[5], finisher['locations'][1][2],finisher['locations'][1][3]-- You just have to know about this, 2 is x 3 is y
 			--The 1 is just the first locations as finisher only have one location
-			Questie:debug_Print("Quest finished",MapInfo[4], MapInfo[5]);
+			--Questie:debug_Print("Quest finished",MapInfo[4], MapInfo[5]);
 			Questie:AddNoteToMap(c,z, x, y, "complete", questHash, 1);
 		else
 			Questie:debug_Print("ERROR Quest broken! ", Quest["name"], questHash, "report on github!");
@@ -220,8 +220,11 @@ end
 
 --Reason this exists is to be able to call both clearnotes and drawnotes without doing 2 function calls, and to be able to force a redraw
 function Questie:RedrawNotes()
+	local time = GetTime();
 	Questie:CLEAR_ALL_NOTES();
 	Questie:DRAW_NOTES();
+	Questie:debug_Print("Notes redrawn time:", GetTime()- time);
+	time = nil;
 end
 
 function Questie:Clear_Note(v)

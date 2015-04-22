@@ -154,6 +154,9 @@ function Questie_SlashHandler(msg)
 
 	if(msg == "c") then
 		local t = Questie:AstroGetFinishedQuests();
+		for k, v in pairs(t) do
+			Questie:debug_Print(k,v);
+		end
 	end
 
 	if(msg == "q") then
@@ -161,8 +164,8 @@ function Questie_SlashHandler(msg)
 		for k, v in pairs(Questie:AstroGetAllCurrentQuestHashes()) do
 			Questie:AddQuestToMap(v["hash"]);
 		end
-		Questie:RedrawNotes();
 		Questie:debug_Print("Added quests: Time:", GetTime()- t);
+		Questie:RedrawNotes();
 		--Questie:AddQuestToMap(2743610414);
 		--Questie:AddQuestToMap(3270662498);
 	end

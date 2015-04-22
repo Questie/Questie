@@ -55,6 +55,8 @@ function Questie:GetQuestInfoFromHash(questHash)
 	end
 end
 
+
+--The reason IsQuestFinished and getFinished quest basiclly have the same code is because they return different things... i need both!
 --Astrolabe functions DO NOT USE UNLESS YOU KNOW WHAT YOU ARE DOING!!
 function Questie:IsQuestFinished(questHash)
   	numEntries, numQuests = GetNumQuestLogEntries();
@@ -87,6 +89,7 @@ function Questie:IsQuestFinished(questHash)
 	return nil;
 end
 
+--The reason IsQuestFinished and getFinished quest basiclly have the same code is because they return different things... i need both!
 --Astrolabe functions DO NOT USE UNLESS YOU KNOW WHAT YOU ARE DOING!!
 function Questie:AstroGetFinishedQuests()
   	numEntries, numQuests = GetNumQuestLogEntries();
