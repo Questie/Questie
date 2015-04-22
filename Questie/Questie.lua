@@ -900,7 +900,7 @@ end
 function Questie:addAvailableQuests()
 	local mapid = getCurrentMapID();
 	local level = UnitLevel("Player");
-	for l=level,level+6 do
+	for l=level-6,level do
 		if QuestieZoneLevelMap[mapid] then
 			local content = QuestieZoneLevelMap[mapid][l];
 			if not (content == nil) then
