@@ -1,10 +1,81 @@
 
 
+--THIS IS THE FUNCTION TO USE!
+local LastQuestLogHashes = nil;
+function Questie:CheckQuestLog()
+	local t = GetTime();
+	if(not LastQuestLogHashes) then
+		LastQuestLogHashes = Questie:AstroGetAllCurrentQuestHashes();
+		Questie:debug_Print("First check run, adding all quests");
+		for k, v in pairs(LastQuestLogHashes) do
+				Questie:AddQuestToMap(v["hash"]);
+		end
+		Questie:RedrawNotes();
+		return;
+	end
+	Questie:debug_Print("Checking the questlog");
+	local Quests = Questie:AstroGetAllCurrentQuestHashes();
+	MapChanged = false;
 
-function Questie:AstroGetAllCurrentQuestHashes()
+	local checkArray = {};
+	for i = 1, table.getn(LastQuestLogHashes) do
+		checkArray[LastQuestLogHashes[i].hash] = LastQuestLogHashes[i];
+	end
+
+	local newcheckArray = {};
+	for i = 1, table.getn(Quests) do
+		newcheckArray[Quests[i].hash] = Quests[i];
+	end
+	local BiggestTable = nil;
+	delta = {};
+	if(table.getn(Quests) > table.getn(LastQuestLogHashes)) then
+		BiggestTable = newcheckArray;
+	else
+		BiggestTable = checkArray;
+	end
+
+	for k, v in pairs(BiggestTable) do
+		if(newcheckArray[v["hash"]] and checkArray[v["hash"]]) then
+
+		else
+			if(newcheckArray[v["hash"]]) then
+				v["deltaType"] = "add";
+				table.insert(delta, v);
+			else
+				v["deltaType"] = "remove";
+				table.insert(delta, v);
+			end
+		end
+	end
+
+	for k, v in pairs(delta) do
+		Questie:debug_Print(v["name"],v["hash"], v["deltaType"]);
+		if(v["deltaType"] == "add") then
+			Questie:debug_Print("Check discovered a new quest,", v["name"]);
+			Questie:AddQuestToMap(v["hash"]);
+			MapChanged = true;
+		else				
+			Questie:debug_Print("Check discovered a missing quest, removing!", v["hash"], v["name"])
+			Questie:RemoveQuestFromMap(v["hash"]);
+			MapChanged = true;
+		end
+	end
+	--Questie:debug_Print(table.getn(delta));
+
+
+	if(MapChanged == true) then
+		Questie:RedrawNotes();
+	end
+	LastQuestLogHashes = Quests;
+	Questie:debug_Print("Checklog done: Time:",tostring((GetTime()-t)*1000).."ms");
+end
+ASDF = nil;
+function Questie:AstroGetAllCurrentQuestHashes(print)
 	local hashes = {};
   	local numEntries, numQuests = GetNumQuestLogEntries();
-	Questie:debug_Print("--Listing all current quests--");
+	if(print) then
+		Questie:debug_Print("--Listing all current quests--");
+	end
 	for i = 1, numEntries do
 		local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(i);
 		if not isHeader then
@@ -14,27 +85,32 @@ function Questie:AstroGetAllCurrentQuestHashes()
 		    local quest = {};
 		    quest["name"] = q;
 		    quest["level"] = level;
-		    quest["hash"] = Questie:getQuestHash(q, level, objectiveText);
+		    local hash = Questie:getQuestHash(q, level, objectiveText)
+		    quest["hash"] = hash;
 
 		    --This uses the addon URLCopy to easily be able to copy the questHashes from the debuglog.
-		  	if(IsAddOnLoaded("URLCopy"))then
+		  	if(IsAddOnLoaded("URLCopy") and print)then
 		  		Questie:debug_Print("        "..q,URLCopy_Link(quest["hash"]));
-			else
+			elseif(print) then
 		  		Questie:debug_Print("        "..q,quest["hash"]);
 			end
 
 
 		    table.insert(hashes, quest);
 		else
-		  	Questie:debug_Print("    Zone:", q);
+			if(print) then
+				Questie:debug_Print("    Zone:", q);
+			end
 		end
 	end
-	Questie:debug_Print("--End of all current quests--");
+	if(print) then
+		Questie:debug_Print("--End of all current quests--");
+	end
 	return hashes;
 end
 
-function Questie:GetQuestInfoFromHash(questHash)
-	  	local numEntries, numQuests = GetNumQuestLogEntries();
+function Questie:GetQuestIdFromHash(questHash)
+	local numEntries, numQuests = GetNumQuestLogEntries();
 	for i = 1, numEntries do
 		local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(i);
 		if not isHeader then
