@@ -61,6 +61,10 @@ Astrolabe.ForceNextUpdate = false;
 --------------------------------------------------------------------------------------------------------------
 
 local function getContPosition( zoneData, z, x, y )
+	--Fixes nil error
+	if z < 0 then
+		z = 1;
+	end
 	if ( z ~= 0 ) then
 		zoneData = zoneData[z];
 		x = x * zoneData.width + zoneData.xOffset;
@@ -136,6 +140,14 @@ function Astrolabe:TranslateWorldMapPosition( C, Z, xPos, yPos, nC, nZ )
 		return;
 	end
 	
+	--Fixes nil error.
+	if(C < 0) then
+		C=2;
+	end
+	if(nC < 0) then
+		nC = 2;
+	end
+
 	local zoneData;
 	if ( C == nC and Z == nZ ) then
 		return xPos, yPos;
