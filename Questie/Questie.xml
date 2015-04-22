@@ -21,6 +21,13 @@
 <script file="Interface\AddOns\Questie\Database\arrow.lua"/>
 <script file="Interface\AddOns\Questie\astrolabe\Astrolabe.lua"/>
 
+<Frame name="QuestieUpdate" parent="WorldMapFrame" hidden="false">
+	<Scripts>
+		<OnUpdate>
+			Questie:OnUpdate(arg1)
+		</OnUpdate>
+	</Scripts>
+</Frame>
 
 <Frame name="Questie" parent="UIParent" hidden="false" inherits="ActionButtonTemplate">
 	<Scripts>

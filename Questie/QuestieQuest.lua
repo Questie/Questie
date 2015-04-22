@@ -281,7 +281,6 @@ AstroobjectiveProcessors = {
 				table.insert(list, monster);
 			end
 		end
-		Questie:debug_Print("HEJ");
 		return list;
 	end,
 	['monster'] = function(quest, name, amount, selected, mapid)
