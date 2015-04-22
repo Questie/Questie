@@ -304,7 +304,7 @@ end
 local function placeIconOnMinimap( minimap, minimapZoom, mapWidth, mapHeight, icon, dist, xDist, yDist )
 	--TODO: add support for non-circular minimaps
 	local mapDiameter;
-	if ( Astrolabe.minimapOutside ) then
+	if ( Astrolabe.minimapOutside or true) then -- cheeky bastard
 		mapDiameter = MinimapSize.outdoor[minimapZoom];
 	else
 		mapDiameter = MinimapSize.indoor[minimapZoom];
