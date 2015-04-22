@@ -143,6 +143,14 @@ function Questie_SlashHandler(msg)
 		Questie:RedrawNotes();
 	end
 
+	if(msg == "getpos") then
+		local c,z,x,y = Astrolabe:GetCurrentPlayerPosition();
+		if(IsAddOnLoaded("URLCopy"))then
+			Questie:debug_Print(URLCopy_Link(x..","..y));
+		else
+			Questie:debug_Print(x..","..y);
+		end
+	end
 
 	if(msg == "c") then
 		local t = Questie:AstroGetFinishedQuests();
@@ -209,7 +217,189 @@ function Questie_SlashHandler(msg)
 			DEFAULT_CHAT_FRAME:AddMessage("Failed");
 		end
 	end
+
+
+	if(msg == "glowtest") then
+		Questie:debug_Print("GlowTest");
+		local w, h = WorldMapFrame:GetWidth(), WorldMapFrame:GetHeight()
+		--Setup variables in WorldMapFrame
+		--local map_overlay = CreateFrame("Frame","Map_Overlay",UIParent);
+		--map_overlay:SetPoint("TOPLEFT",0,0);
+		--map_overlay:SetFrameLevel(9);
+		--map_overlay:SetWidth(w);
+		--map_overlay:SetHeight(h);
+		--map_overlay:Show();
+		
+		--This calulates a good glow size
+		x, y =  GetPlayerMapPosition("player");
+		c, z = GetCurrentMapContinent(), GetCurrentMapZone();
+
+
+		local _, x_size, y_size = Astrolabe:ComputeDistance(c, z, 0.25, 0.25, c, z, 0.75, 0.75)
+		--f:SetFrameLevel(8);
+		x_size = 200 / x_size * w;
+		y_size = 200 / y_size * h;
+
+		local c = Icon("abc");
+		local d = Icon("cba");
+		d:SetPoint("CENTER",16,0);
+		d:Show();
+
+		--We Create a new frame and add the glowtexture to it.
+		--local glow = CreateFrame("Button",nil,WorldMapFrame);
+		--local tex = Questie:CreateGlowTexture(glow);
+		--glow:SetFrameLevel(9);
+		--glow:SetWidth(x_size);
+		--glow:SetHeight(y_size);
+		--glow:SetPoint("CENTER",0,0);
+		--glow:Show();
+
+		--local g = Questie:CreateGlowFrame()
+		--g:SetPoint("CENTER",0,0);
+		--g:Show();
+
+		--local ra = Questie:CreateGlowNote("abc");
+		--ra:SetPoint("CENTER",0,0)
+		--ra:Show()
+		--xx, yy = Astrolabe:PlaceIconOnWorldMap(WorldMapFrame,ra,c ,z ,0.5, 0.5);
+		--ra = Questie:CreateGlowNote("abc");
+		--ra:SetPoint("CENTER",0,0)
+		--ra:Show()
+		--xx, yy = Astrolabe:PlaceIconOnWorldMap(WorldMapFrame,ra,c ,z ,0.54, 0.5);
+		--ra = Questie:CreateGlowNote("abc");
+		--ra:SetPoint("CENTER",0,0)
+		--ra:Show()
+		--xx, yy = Astrolabe:PlaceIconOnWorldMap(WorldMapFrame,ra,c ,z ,0.5, 0.54);
+		--Questie:debug_Print(xx,yy);
+
+	end
+
 end
+
+WorldMapFrame.free_icons_frames = {};
+WorldMapFrame.free_glow_frames = {};
+
+function Icon(questHash)
+	local iconFrame = nil
+	if(table.getn(WorldMapFrame.free_icons_frames) == 0) then
+		iconFrame = CreateFrame("Button","QuestieNoteFrame",WorldMapFrame)
+		local t = iconFrame:CreateTexture(nil,"BACKGROUND")
+		t:SetTexture("Interface\\AddOns\\Questie\\Icons\\complete")
+		t:SetAllPoints(iconFrame)
+		iconFrame.texture = t
+	else
+		--Use free pool items
+	end
+
+	iconFrame:SetParent(WorldMapFrame)--Just a saftey mechanic
+	iconFrame:SetFrameLevel(9);
+	iconFrame:SetWidth(16)  -- Set These to whatever height/width is needed 
+	iconFrame:SetHeight(16) -- for your Texture
+	iconFrame:SetScript("OnEnter", Questie_Tooltip_OnEnter); --Script Toolip
+	iconFrame:SetScript("OnLeave", function() if(WorldMapTooltip) then WorldMapTooltip:Hide() end if(GameTooltip) then GameTooltip:Hide() end end) --Script Exit Tooltip
+	iconFrame.questHash = questHash;
+
+	--Do calculation with questHash objectivelist to see where the icon needs to fall
+	--Logic should be, go through all objectives, left to right do (right - left)/2 by both X and Y
+
+	--TempCode
+	iconFrame:SetPoint("CENTER",0,0);
+	iconFrame:Show();
+	--EndTempCode
+
+	function iconFrame:SetTooltip()
+		--Do stuff here use f.questHash to get info
+
+
+		--Just a temporary tooltip
+		WorldMapTooltip:SetOwner(this, this); --"ANCHOR_CURSOR"
+		WorldMapTooltip:AddLine("ThisIsATestHeader ",1,1,1);
+		WorldMapTooltip:AddLine("LowerText");
+		if(NOTES_DEBUG) then
+			WorldMapTooltip:AddLine("questHash: "..iconFrame.questHash);
+		end
+		WorldMapTooltip:SetFrameLevel(10);
+		WorldMapTooltip:Show();
+
+		Questie:debug_Print("Inside SetTooltip");--Debug remove
+	end
+
+	function iconFrame:OnEnter()
+		--local list = QuestHelper:GetOverlapObjectives(self.objective) old questhelper code
+		--['locations'] = {
+	    --  [1] = {30.0, 0.4902, 0.7084, 100.0},
+	    --  [2] = {30.0, 0.5847, 0.6143, 2.0}
+	    --}
+	    this:SetTooltip(list)
+	    --self.old_count = #list ???
+	    
+	    iconFrame.show_glow = true
+	    
+	    --this:SetGlow(list)
+	    
+	    --this:SetScript("OnUpdate", self.OnUpdate)
+	end
+
+	function iconFrame:OnLeave()
+		WorldMapTooltip:Hide();
+		this.show_glow = false
+		--this.old_count = 0 ???
+	end
+
+
+	iconFrame:SetScript("OnEnter", iconFrame.OnEnter);
+	iconFrame:SetScript("OnLeave", iconFrame.OnLeave);
+
+	return iconFrame;
+end
+
+
+function Questie:CreateGlowFrame(questHash)
+	local w, h = WorldMapFrame:GetWidth(), WorldMapFrame:GetHeight()
+	local c, z = GetCurrentMapContinent(), GetCurrentMapZone()
+	local _, x_size, y_size = Astrolabe:ComputeDistance(c, z, 0.25, 0.25, c, z, 0.75, 0.75)
+	local f = CreateFrame("Button",nil,WorldMapFrame)
+	f:SetFrameLevel(8);
+	x_size = 200 / x_size * w;
+	y_size = 200 / y_size * h;
+	f:SetWidth(x_size)  -- Set These to whatever height/width is needed 
+	f:SetHeight(y_size) -- for your Texture
+
+	local t = Questie:CreateGlowTexture(f);
+
+	--t:SetPoint("CENTER", f, "TOPLEFT", 0, 0)
+    -- Randomly rotate the texture, so they don't all look the same.
+    t:SetVertexColor(1,1,1,0.5)
+    t:SetAllPoints(f)
+    f.texture = t;
+
+	return f;
+end
+
+
+
+function Questie:CreateGlowTexture(frame)
+	local tex = frame:CreateTexture(nil,"BACKGROUND")
+	tex:SetTexture("Interface\\AddOns\\Questie\\Icons\\glow")
+
+	local angle = math.random()*6.28318530717958647692528676655900576839433879875021164
+	local x, y = math.cos(angle)*0.707106781186547524400844362104849039284835937688474036588339869,
+				 math.sin(angle)*0.707106781186547524400844362104849039284835937688474036588339869
+
+	-- Randomly rotate the texture, so they don't all look the same.
+	tex:SetTexCoord(x+0.5, y+0.5, y+0.5, 0.5-x, 0.5-y, x+0.5, 0.5-x, 0.5-y)
+	tex:ClearAllPoints()
+	tex:SetVertexColor(1,1,1,0)
+	tex:SetAllPoints(frame)
+  
+  return tex
+end
+
+
+
+
+
+
 
 function Questie:createMinimapFrames()
 	for i=1,QUESTIE_MAX_MINIMAP_POINTS do
@@ -441,7 +631,7 @@ function Questie:OnUpdate(elapsed)
 		Questie:QUEST_LOG_UPDATE();
 	end
 	Astrolabe:OnUpdate(nil, elapsed);
-	Questie:NOTES_ON_UPDATE();
+	Questie:NOTES_ON_UPDATE(elapsed);
 	local now = GetTime()
 	local ttl = math.abs((now - Questie.lastMinimapUpdate)*1000); -- convert to miliseconds
 	
