@@ -322,7 +322,7 @@ function Astrolabe:UpdateMinimapIconPositions()
 	local lastPosition = self.LastPlayerPosition;
 	local lC, lZ, lx, ly = unpack(lastPosition);
 	
-	if ( (lC == C and lZ == Z and lx == x and ly == y) or WorldMapFrame:IsVisible()) then--Added or WorldMapFrame:IsVisible() to fix the jumping around minimap icons when the map is opened
+	if ( (lC == C and lZ == Z and lx == x and ly == y)) then--Added or WorldMapFrame:IsVisible() to fix the jumping around minimap icons when the map is opened -- Removed it not needed?
 		-- player has not moved since the last update
 		if ( lastZoom ~= Minimap:GetZoom() or self.ForceNextUpdate ) then
 			local currentZoom = Minimap:GetZoom();

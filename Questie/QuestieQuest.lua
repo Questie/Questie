@@ -216,7 +216,7 @@ AstroobjectiveProcessors = {
 		local list = {};
 		local itemdata = QuestieItems[name];
 		if itemdata == nil then
-			Questie:debug_Print("ERROR PROCESSING " .. quest .. "  objective:" .. name);
+			Questie:debug_Print("ERROR PROCESSING " .. quest .. "  objective:" .. name .. " no itemdata");
 		else
 			for k,v in pairs(itemdata) do
 				if k == "locationCount" then
@@ -227,9 +227,7 @@ AstroobjectiveProcessors = {
 					monster["type"] = "loot";
 					for b=1,itemdata['locationCount'] do
 						local loc = itemdata['locations'][b];
-						if loc[1] == mapid then
-							table.insert(monster["locations"], loc);
-						end
+						table.insert(monster["locations"], loc);
 					end
 					table.insert(list, monster);
 				elseif k == "drop" then
@@ -247,8 +245,13 @@ AstroobjectiveProcessors = {
 						table.insert(list, monster)
 						--Questie:addMonsterToMap(e, name .. " (" .. amount .. ")", quest, "Loot", mapid, selected);
 					end
+				elseif k =="locations" then
+
 				else
 					Questie:debug_Print("ERROR PROCESSING " .. quest .. "  objective:" .. name);
+					for s, r in pairs(itemdata) do
+						Questie:debug_Print(s,tostring(r));
+					end
 				end
 			end
 		end

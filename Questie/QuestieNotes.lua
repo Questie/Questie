@@ -6,9 +6,12 @@ local AllFrames = {};
 --Contains frames that are created but currently not used (Frames can't be deleted so we pool them to save space);
 local FramePool = {};
 
+QUESTIE_NOTES_MAP_ICON_SCALE = 1.1;
+QUESTIE_NOTES_MINIMAP_ICON_SCALE = 1.0;
+
 QuestieUsedNoteFrames = {};
 
-function Questie:AddQuestToMap(questHash)
+function Questie:AddQuestToMap(questHash, redraw)
 	Questie:RemoveQuestFromMap(questHash);
 	Objectives = Questie:AstroGetQuestObjectives(questHash);
 	Questie:debug_Print("Adding quest", questHash);
@@ -32,15 +35,21 @@ function Questie:AddQuestToMap(questHash)
 		--QuestieFinishers var
 		--QuestieMonsters var
 		local finisher = QuestieMonsters[QuestieFinishers[Quest["name"]]];
-		local MapInfo = Questie:GetMapInfoFromID(finisher['locations'][1][1]);--Map id is at ID 1, i then convert this to a useful continent and zone
-		local c, z, x, y = MapInfo[4], MapInfo[5], finisher['locations'][1][2],finisher['locations'][1][3]-- You just have to know about this, 2 is x 3 is y
-		--The 1 is just the first locations as finisher only have one location
-		Questie:debug_Print("Quest finished",MapInfo[4], MapInfo[5]);
-		Questie:AddNoteToMap(c,z, x, y, "complete", questHash, 1);
+		if(finisher) then
+			local MapInfo = Questie:GetMapInfoFromID(finisher['locations'][1][1]);--Map id is at ID 1, i then convert this to a useful continent and zone
+			local c, z, x, y = MapInfo[4], MapInfo[5], finisher['locations'][1][2],finisher['locations'][1][3]-- You just have to know about this, 2 is x 3 is y
+			--The 1 is just the first locations as finisher only have one location
+			Questie:debug_Print("Quest finished",MapInfo[4], MapInfo[5]);
+			Questie:AddNoteToMap(c,z, x, y, "complete", questHash, 1);
+		else
+			Questie:debug_Print("ERROR Quest broken! ", Quest["name"], questHash, "report on github!");
+		end
 
 		--local MapInfo = Questie:GetMapInfoFromID(location.mapid);
 	end
-	Questie:RedrawNotes();
+	if(redraw) then
+		Questie:RedrawNotes();
+	end
 end
 GLOBALJAO = nil
 function Questie:RemoveQuestFromMap(questHash, redraw)
@@ -127,8 +136,9 @@ function Questie_Tooltip_OnEnter()
 		end
 
 		if(NOTES_DEBUG) then
-			Tooltip:AddLine("questHash: "..this.data.questHash);
-			Tooltip:AddLine("objectiveid: "..tostring(this.data.objectiveid));
+			Tooltip:AddLine("!DEBUG!", 1, 0, 0);
+			Tooltip:AddLine("questHash: "..this.data.questHash, 1, 0, 0);
+			Tooltip:AddLine("objectiveid: "..tostring(this.data.objectiveid), 1, 0, 0);
 		end
 
 
@@ -146,8 +156,8 @@ CREATED_NOTE_FRAMES = 1;
 function Questie:CreateBlankFrameNote()
 	local f = CreateFrame("Button","QuestieNoteFrame"..CREATED_NOTE_FRAMES,WorldMapFrame)
 	f:SetFrameLevel(9);
-	f:SetWidth(16)  -- Set These to whatever height/width is needed 
-	f:SetHeight(16) -- for your Texture
+	f:SetWidth(16*QUESTIE_NOTES_MAP_ICON_SCALE)  -- Set These to whatever height/width is needed 
+	f:SetHeight(16*QUESTIE_NOTES_MAP_ICON_SCALE) -- for your Texture
 	local t = f:CreateTexture(nil,"BACKGROUND")
 	t:SetTexture("Interface\\AddOns\\Questie\\Icons\\complete")
 	t:SetAllPoints(f)
@@ -248,6 +258,8 @@ function Questie:DRAW_NOTES()
 				MMIcon:SetParent(Minimap);
 				MMIcon:SetFrameLevel(9);
 				MMIcon:SetPoint("CENTER",0,0)
+				MMIcon:SetWidth(16*QUESTIE_NOTES_MINIMAP_ICON_SCALE)  -- Set These to whatever height/width is needed 
+				MMIcon:SetHeight(16*QUESTIE_NOTES_MINIMAP_ICON_SCALE) -- for your Texture
 				MMIcon.type = "MiniMapNote";
 				--Sets highlight texture (Nothing stops us from doing this on the worldmap aswell)
 				MMIcon:SetHighlightTexture(QuestieIcons[v.icontype].path, "ADD");
@@ -277,7 +289,8 @@ function Questie:DRAW_NOTES()
 				Icon.type = "WorldMapNote";
 				Icon:SetScript("OnEnter", Questie_Tooltip_OnEnter); --Script Toolip
 				Icon:SetScript("OnLeave", function() if(WorldMapTooltip) then WorldMapTooltip:Hide() end if(GameTooltip) then GameTooltip:Hide() end end) --Script Exit Tooltip
-
+				Icon:SetWidth(16*QUESTIE_NOTES_MAP_ICON_SCALE)  -- Set These to whatever height/width is needed 
+				Icon:SetHeight(16*QUESTIE_NOTES_MAP_ICON_SCALE) -- for your Texture
 
 				--Set the texture to the right type
 				Icon.texture:SetTexture(QuestieIcons[v.icontype].path);
