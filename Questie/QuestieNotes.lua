@@ -284,7 +284,12 @@ function Questie:DRAW_NOTES()
 				--Here more info should be set but i CBA at the time of writing
 				Icon.data = v;
 				Icon:SetParent(WorldMapFrame);
-				Icon:SetFrameLevel(9);
+				--This is so that Complete quests are over everything else
+				if(v.icontype == "complete") then
+					Icon:SetFrameLevel(10);
+				else
+					Icon:SetFrameLevel(9);
+				end
 				Icon:SetPoint("CENTER",0,0)
 				Icon.type = "WorldMapNote";
 				Icon:SetScript("OnEnter", Questie_Tooltip_OnEnter); --Script Toolip

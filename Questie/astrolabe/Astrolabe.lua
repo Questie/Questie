@@ -739,14 +739,14 @@ WorldMapSize = {
 			Alterac = {
 				height = 1866.508741236576,
 				width = 2799.820894040741,
-				xOffset = 16267.51182664554,
-				yOffset = 7693.598754637632,
+				xOffset = 16267.51182664554,--old 16267
+				yOffset = 7000.598754637632,--old 7693
 			},
 			Arathi = {
 				height = 2399.784956908336,
 				width = 3599.78645678886,
-				xOffset = 17917.40598190062,
-				yOffset = 9326.804744097401,
+				xOffset = 18317.40598190062,--17917.40598190062, Switched to more sane values!18317
+				yOffset = 8826.804744097401,--9326.804744097401, 8826
 			},
 			Badlands = {
 				height = 1658.195027852759,
@@ -787,8 +787,8 @@ WorldMapSize = {
 			EasternPlaguelands = {
 				height = 2581.024511737268,
 				width = 3870.596078314358,
-				xOffset = 19236.07699848783,
-				yOffset = 5393.799386328108,
+				xOffset = 19836.07699848783,--old 19636
+				yOffset = 4593.799386328108,--Old 5393
 			},
 			Elwynn = {
 				height = 2314.38613060264,
@@ -818,7 +818,7 @@ WorldMapSize = {
 				height = 2566.448674847725,
 				width = 3849.77134323942,
 				xOffset = 18625.69536724846,
-				yOffset = 7726.929725104341,
+				yOffset = 7226.929725104341, --Old 7726
 			},
 			Ironforge = {
 				height = 527.5626661642974,
@@ -854,7 +854,7 @@ WorldMapSize = {
 				height = 2799.763349841058,
 				width = 4199.739879721531,
 				xOffset = 13601.00798540562,
-				yOffset = 7526.945768538925,
+				yOffset = 6800.945768538925,--old 7526
 			},
 			Stormwind = {
 				height = 896.2784132739149,
@@ -877,20 +877,20 @@ WorldMapSize = {
 			Tirisfal = {
 				height = 3012.244783356771,
 				width = 4518.469744413802,
-				xOffset = 14017.64852522109,
-				yOffset = 5356.296558943325,
+				xOffset = 14017.64852522109,--old
+				yOffset = 4556.296558943325,--old
 			},
 			Undercity = {
 				height = 640.0492683780853,
 				width = 959.3140238076666,
-				xOffset = 16177.65630384973,
-				yOffset = 7315.685533181013,
+				xOffset = 16177.65630384973,--16177
+				yOffset = 6415.685533181013,--7315
 			},
 			WesternPlaguelands = {
 				height = 2866.410476553068,
 				width = 4299.7374000546,
-				xOffset = 16634.14908983872,
-				yOffset = 5827.092974820261,
+				xOffset = 16950.14908983872,--old 16634
+				yOffset = 5000.092974820261,--old 5827
 			},
 			Westfall = {
 				height = 2333.132106534445,
@@ -901,8 +901,8 @@ WorldMapSize = {
 			Wetlands = {
 				height = 2756.004767589141,
 				width = 4135.166184805389,
-				xOffset = 17440.35277057554,
-				yOffset = 11341.20698670613,
+				xOffset = 17680.35277057554,--17440
+				yOffset = 11100.20698670613,--11341
 			},
 		},
 	},
