@@ -19,6 +19,7 @@ QuestieFinishers = {
   ['Uncovering the Past'] = "Prospector Whelgar",
   ['Fish in a Bucket'] = "Jinar'Zillen",
   ['Ogre Head On A Stick'] = "Oralius",
+  ['Watcher Callahan'] = 'Watcher Callahan',
   ['Commander Hobb'] = "Commander Hobb",
   ['Wait for Sirra to Finish'] = "Sirra Von'Indi",
   ['Prowlers of the Barrens'] = "Sergra Darkthorn",

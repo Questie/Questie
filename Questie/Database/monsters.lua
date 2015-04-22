@@ -24872,6 +24872,13 @@ QuestieMonsters = {
     ['locationCount'] = 1,
     ['faction'] = 1
   },
+  ['Watcher Callahan'] = {
+    ['locations'] = {
+      [1] = {31.0, 0.8192,0.1970, 100.0}
+    },
+    ['locationCount'] = 1,
+    ['faction'] = 1
+  },
   ['Osrok the Immovable'] = {
     ['locations'] = {
       [1] = {58.0, 0.5606, 0.3735, 100.0}
