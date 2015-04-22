@@ -153,10 +153,19 @@ function Questie_SlashHandler(msg)
 	end
 
 	if(msg == "c") then
-		local t = Questie:AstroGetFinishedQuests();
-		for k, v in pairs(t) do
-			Questie:debug_Print(k,v);
+		Questie:AddQuestToMap(2743610414);
+	end
+
+	if(msg == "u") then
+		local t = GetTime();
+		for k, v in pairs(Questie:AstroGetAllCurrentQuestHashes()) do
+			Questie:debug_Print("Updating", v["hash"])
+			Questie:UpdateQuestNotes(v["hash"]);
 		end
+		Questie:debug_Print("Updated all quests: Time:", GetTime()- t);
+		Questie:RedrawNotes();
+		--Questie:AddQuestToMap(2743610414);
+		--Questie:AddQuestToMap(3270662498);
 	end
 
 	if(msg == "q") then
