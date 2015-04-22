@@ -11,10 +11,17 @@ QUESTIE_NOTES_MINIMAP_ICON_SCALE = 1.0;
 
 QuestieUsedNoteFrames = {};
 
+QuestieHandledQuests = {};
+
 function Questie:AddQuestToMap(questHash, redraw)
 	Questie:RemoveQuestFromMap(questHash);
 	Objectives = Questie:AstroGetQuestObjectives(questHash);
 	Questie:debug_Print("Adding quest", questHash);
+	--Cache code
+	local ques = {};
+	ques["noteHandles"] = {};
+	UsedContinents = {};
+	UsedZones = {};
 	
 	local Quest = Questie:IsQuestFinished(questHash);
 	if not (Quest) then
@@ -26,7 +33,15 @@ function Questie:AddQuestToMap(questHash, redraw)
 					local MapInfo = Questie:GetMapInfoFromID(location.mapid);
 					--Questie:debug_Print("Adding note to map",tostring(name), tostring(location.mapid),
 					--	tostring(location.x), tostring(location.y),tostring(MapInfo[4]), tostring(MapInfo[5]), tostring(location.type));
+					local notehandle = {};
+					notehandle.c = MapInfo[4];
+					notehandle.z = MapInfo[5];
 					Questie:AddNoteToMap(MapInfo[4], MapInfo[5], location.x, location.y, location.type, questHash, location.objectiveid);
+					if not UsedContinents[MapInfo[4]] and not UsedZones[MapInfo[5]] then
+						UsedContinents[MapInfo[4]] = true;
+						UsedZones[MapInfo[5]] = true;
+						table.insert(ques["noteHandles"], notehandle);
+					end
 				end
 			end
 		end
@@ -40,17 +55,52 @@ function Questie:AddQuestToMap(questHash, redraw)
 			local c, z, x, y = MapInfo[4], MapInfo[5], finisher['locations'][1][2],finisher['locations'][1][3]-- You just have to know about this, 2 is x 3 is y
 			--The 1 is just the first locations as finisher only have one location
 			--Questie:debug_Print("Quest finished",MapInfo[4], MapInfo[5]);
-			Questie:AddNoteToMap(c,z, x, y, "complete", questHash, 1);
+			Questie:AddNoteToMap(c,z, x, y, "complete", questHash, 0);
+			local notehandle = {};
+			notehandle.c = MapInfo[4];
+			notehandle.z = MapInfo[5];
+			table.insert(ques["noteHandles"], notehandle);
+
 		else
 			Questie:debug_Print("ERROR Quest broken! ", Quest["name"], questHash, "report on github!");
 		end
 
 		--local MapInfo = Questie:GetMapInfoFromID(location.mapid);
 	end
+
+	--Cache code
+	ques["objectives"] = Objectives;
+	QuestieHandledQuests[questHash] = ques;
+
 	if(redraw) then
 		Questie:RedrawNotes();
 	end
 end
+
+--THIS IS NOT USEFUL PERFORMACE ABOUT AS BAD AS ADDQUESTTOMAP... USE THAT INSTEAD
+function Questie:UpdateQuestNotes(questHash, redraw)
+	if not QuestieHandledQuests[questHash] then
+		Questie:debug_Print("ERROR: Tried updating a quest not handled. ", questHash);
+		return;
+	end
+	local QuestLogID = Questie:GetQuestIdFromHash(questHash);
+	SelectQuestLogEntry(QuestLogID);
+	local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(QuestLogID);
+	local count =  GetNumQuestLeaderBoards();
+	local questText, objectiveText = _GetQuestLogQuestText();
+	for k, noteInfo in pairs(QuestieHandledQuests[questHash]["noteHandles"]) do
+		for id, note in pairs(MapNotes[noteInfo.c][noteInfo.z]) do
+			if(note.questHash == questHash) then
+				local desc, typ, done = GetQuestLogLeaderBoard(note.objectiveid);
+				Questie:debug_Print(tostring(desc),tostring(typ),tostring(done));
+			end
+		end
+	end
+	if(redraw) then
+		Questie:RedrawNotes();
+	end
+end
+
 GLOBALJAO = nil
 function Questie:RemoveQuestFromMap(questHash, redraw)
 	local removed = false;
@@ -66,6 +116,9 @@ function Questie:RemoveQuestFromMap(questHash, redraw)
 	end
 	if(redraw) then
 		Questie:RedrawNotes();
+	end
+	if(QuestieHandledQuests[questHash]) then
+		QuestieHandledQuests[questHash] = nil;
 	end
 end
 
@@ -120,7 +173,7 @@ function Questie_Tooltip_OnEnter()
 		Tooltip:SetOwner(this, this); --"ANCHOR_CURSOR"
 		local Quest = Questie:IsQuestFinished(this.data.questHash);
 		if not Quest then
-			local QuestLogID = Questie:GetQuestInfoFromHash(this.data.questHash);
+			local QuestLogID = Questie:GetQuestIdFromHash(this.data.questHash);
 			SelectQuestLogEntry(QuestLogID);
 			local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(QuestLogID);
 			local count =  GetNumQuestLeaderBoards();
@@ -176,6 +229,9 @@ local LastContinent = nil;
 local LastZone = nil;
 
 UIOpen = false;
+
+NATURAL_REFRESH = 60;
+NATRUAL_REFRESH_SPACING = 2;
 
 function Questie:NOTES_ON_UPDATE(elapsed)
 	--NOT NEEDED BUT KEEPING FOR AWHILE
@@ -309,7 +365,7 @@ function Questie:DRAW_NOTES()
 				
 				--Questie:debug_Print(x.." : "..y);
 				xx, yy = Astrolabe:PlaceIconOnWorldMap(WorldMapButton,Icon,v.continent ,v.zoneid ,v.x, v.y); --WorldMapFrame is global
-				if(xx > 0 and xx < 1 and yy > 0 and yy < 1) then
+				if(xx and yy and xx > 0 and xx < 1 and yy > 0 and yy < 1) then
 					--Questie:debug_Print(Icon:GetFrameLevel());
 					table.insert(QuestieUsedNoteFrames, Icon);			
 				else
