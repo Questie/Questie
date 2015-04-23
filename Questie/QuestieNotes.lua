@@ -279,7 +279,7 @@ function Questie:RedrawNotes()
 	local time = GetTime();
 	Questie:CLEAR_ALL_NOTES();
 	Questie:DRAW_NOTES();
-	Questie:debug_Print("Notes redrawn time:", GetTime()- time);
+	Questie:debug_Print("Notes redrawn time:", tostring((GetTime()- time)*1000).."ms");
 	time = nil;
 end
 

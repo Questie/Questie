@@ -39,10 +39,10 @@ function Questie:CheckQuestLog()
 
 		else
 			if(newcheckArray[v["hash"]]) then
-				v["deltaType"] = "add";
+				v["deltaType"] = 1;
 				table.insert(delta, v);
 			else
-				v["deltaType"] = "remove";
+				v["deltaType"] = 0;
 				table.insert(delta, v);
 			end
 		end
@@ -50,7 +50,7 @@ function Questie:CheckQuestLog()
 
 	for k, v in pairs(delta) do
 		Questie:debug_Print(v["name"],v["hash"], v["deltaType"]);
-		if(v["deltaType"] == "add") then
+		if(v["deltaType"] == 1) then
 			Questie:debug_Print("Check discovered a new quest,", v["name"]);
 			Questie:AddQuestToMap(v["hash"]);
 			MapChanged = true;
@@ -60,8 +60,12 @@ function Questie:CheckQuestLog()
 			MapChanged = true;
 		end
 	end
-	--Questie:debug_Print(table.getn(delta));
 
+	--Questie:debug_Print(table.getn(delta));
+	newcheckArray = nil;
+	checkArray = nil;
+	BiggestTable = nil;
+	delta = nil;
 
 	if(MapChanged == true) then
 		Questie:RedrawNotes();
@@ -69,7 +73,7 @@ function Questie:CheckQuestLog()
 	LastQuestLogHashes = Quests;
 	Questie:debug_Print("Checklog done: Time:",tostring((GetTime()-t)*1000).."ms");
 end
-ASDF = nil;
+
 function Questie:AstroGetAllCurrentQuestHashes(print)
 	local hashes = {};
   	local numEntries, numQuests = GetNumQuestLogEntries();
