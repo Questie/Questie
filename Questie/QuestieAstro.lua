@@ -64,8 +64,10 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 		Questie:debug_Print("VARIABLES_LOADED");
 	elseif(event == "PLAYER_LOGIN") then
 		Questie:CheckQuestLog();
-		for i=0, 20 do
-			Questie:UpdateQuests();
+
+		--This is an ugly fix... Don't know why the list isn't populated correctly...
+		for i=1, 20 do
+			Questie:UpdateQuests(true);
 		end
 
 		local f = GameTooltip:GetScript("OnShow");
@@ -305,16 +307,33 @@ function Questie:Tooltip(this)
 						local monroot = QuestieMonsters[monster];
 						if monroot then
 							local mondat = monroot['drops'];
-							if not (mondat == nil) then
+							if mondat and mondat[name] then
 								if mondat[name] then
 									local logid = Questie:GetQuestIdFromHash(k);
 				  					SelectQuestLogEntry(logid);
 				  					local desc, typ, done = GetQuestLogLeaderBoard(m[1]['objectiveid']);
 				  					local indx = findLast(desc, ":");
 									local countstr = string.sub(desc, indx+2);
-									GameTooltip:AddLine(k, 0.2, 1, 0.3)
+									GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
 									GameTooltip:AddLine("   " .. name .. ": " .. countstr, 1, 1, 0.2)
 								end
+							else
+								--UNTESTED CODE, SEEMS TO WORK (FIX MADE FOR Grell / Fel Moss quest)
+								local logid = Questie:GetQuestIdFromHash(k);
+		  						SelectQuestLogEntry(logid);
+		   						local count =  GetNumQuestLeaderBoards();
+		   						for obj = 1, count do
+		   							local desc, typ, done = GetQuestLogLeaderBoard(obj);		  					
+		   							local indx = findLast(desc, ":");
+									local countstr = string.sub(desc, indx+2);
+									local namestr = string.sub(desc, 1, indx-1);
+									if(QuestieItems[namestr]['drop']) then
+										for index, dropper in pairs(QuestieItems[namestr]['drop']) do
+											GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
+											GameTooltip:AddLine("   " .. name .. ": " .. countstr, 1, 1, 0.2)
+										end
+									end
+		    					end
 							end
 						end
 					end
