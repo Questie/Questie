@@ -21011,7 +21011,7 @@ QuestieHashMap = {
     ['rq'] = 4284832399,
     ['id'] = 933,
     ['level'] = 4,
-    ['startedBy'] = "Corithras Moonrage"
+    ['startedBy'] = "Tenaron Stormgrip"
   },
   [2514131981] = {
     ['coin'] = 600,
@@ -25705,12 +25705,12 @@ QuestieHashMap = {
     ['startedType'] = "monster",
     ['finishedType'] = "monster",
     ['xp'] = 325,
-    ['finishedBy'] = "Corithras Moonrage",
+    ['finishedBy'] = "Tenaron Stormgrip",
     ['name'] = "Crown of the Earth",
     ['rq'] = 3261750843,
     ['id'] = 7383,
     ['level'] = 1,
-    ['startedBy'] = "Corithras Moonrage"
+    ['startedBy'] = "Tenaron Stormgrip"
   },
   [136050411] = {
     ['coin'] = 0,

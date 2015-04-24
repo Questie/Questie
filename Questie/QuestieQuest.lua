@@ -467,9 +467,11 @@ AstroobjectiveProcessors = {
 				--DEFAULT_CHAT_FRAME:AddMessage("derp", 0.95, 0.95, 0.5);
 		local list = {};
 		local itemdata = QuestieItems[name];
+		Questie:debug_Print(name);
 		if itemdata == nil then
-			Questie:debug_Print("ERROR PROCESSING " .. quest .. "  objective:" .. name .. " no itemdata");
-		else
+			Questie:debug_Print("ERROR PROCESSING '" .. quest .. "''  objective:'" .. name .. "'' no itemdata");
+		end
+		if itemdata then
 			for k,v in pairs(itemdata) do
 				if k == "locationCount" then
 					--WARNING; THIS IS ALL TESTING QUEST TESTED (HANDFUL OF OATS)
