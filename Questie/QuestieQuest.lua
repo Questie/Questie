@@ -368,10 +368,18 @@ function Questie:AstroGetQuestObjectives(questHash)
 			local objectives = typeFunction(q, namestr, countstr, selected, mapid);
 			
 			Objective = {};
+		    local hash = Questie:getQuestHash(q, level, objectiveText);
 			for k, v in pairs(objectives) do
 				if (AllObjectives["objectives"][v["name"]] == nil) then
 					AllObjectives["objectives"][v["name"]] = {};
 				end
+				if(not QuestieCachedMonstersAndObjects[hash]) then
+					QuestieCachedMonstersAndObjects[hash] = {};
+				end
+				if(not QuestieCachedMonstersAndObjects[hash][v["name"]]) then
+					QuestieCachedMonstersAndObjects[hash][v["name"]] = {};
+				end
+				QuestieCachedMonstersAndObjects[hash][v["name"]].name = v["name"];
 				for monster, info in pairs(v['locations']) do
 					local obj = {};
 					obj["mapid"] = info[1];

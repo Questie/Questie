@@ -13,6 +13,8 @@ QuestieUsedNoteFrames = {};
 
 QuestieHandledQuests = {};
 
+QuestieCachedMonstersAndObjects = {};
+
 function Questie:AddQuestToMap(questHash, redraw)
 	if(Active == false) then
 		return;
