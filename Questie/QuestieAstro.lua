@@ -31,7 +31,7 @@ Active = true;
 function Questie:Toggle()
 	if(Active == true) then
 		Active = false;
-		MapNotes = {};
+		QuestieMapNotes = {};
 		Questie:RedrawNotes();
 		LastQuestLogHashes = nil;
 		LastCount = 0;

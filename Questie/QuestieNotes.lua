@@ -92,7 +92,7 @@ function Questie:UpdateQuestNotes(questHash, redraw)
 	local count =  GetNumQuestLeaderBoards();
 	local questText, objectiveText = _GetQuestLogQuestText();
 	for k, noteInfo in pairs(QuestieHandledQuests[questHash]["noteHandles"]) do
-		for id, note in pairs(MapNotes[noteInfo.c][noteInfo.z]) do
+		for id, note in pairs(QuestieMapNotes[noteInfo.c][noteInfo.z]) do
 			if(note.questHash == questHash) then
 				local desc, typ, done = GetQuestLogLeaderBoard(note.objectiveid);
 				Questie:debug_Print(tostring(desc),tostring(typ),tostring(done));
@@ -107,11 +107,11 @@ end
 GLOBALJAO = nil
 function Questie:RemoveQuestFromMap(questHash, redraw)
 	local removed = false;
-	for continent, zoneTable in pairs(MapNotes) do
+	for continent, zoneTable in pairs(QuestieMapNotes) do
 		for index, zone in pairs(zoneTable) do
 			for i, note in pairs(zone) do
 				if(note.questHash == questHash) then
-					MapNotes[continent][index][i] = nil;
+					QuestieMapNotes[continent][index][i] = nil;
 					removed = true;
 				end
 			end
@@ -130,15 +130,15 @@ function Questie:GetMapInfoFromID(id)
 	return QuestieZoneIDLookup[id];
 end
 
-MapNotes = {};--Usage Questie[Continent][Zone][index]
-MinimapNotes = {};
+QuestieMapNotes = {};--Usage Questie[Continent][Zone][index]
+MiniQuestieMapNotes = {};
 function Questie:AddNoteToMap(continent, zoneid, posx, posy, type, questHash, objectiveid)
 	--This is to set up the variables
-	if(MapNotes[continent] == nil) then
-		MapNotes[continent] = {};
+	if(QuestieMapNotes[continent] == nil) then
+		QuestieMapNotes[continent] = {};
 	end
-	if(MapNotes[continent][zoneid] == nil) then
-		MapNotes[continent][zoneid] = {};
+	if(QuestieMapNotes[continent][zoneid] == nil) then
+		QuestieMapNotes[continent][zoneid] = {};
 	end
 
 	--Sets values that i want to use for the notes THIS IS WIP MORE INFO MAY BE NEDED BOTH IN PARAMETERS AND NOTES!!!
@@ -151,7 +151,7 @@ function Questie:AddNoteToMap(continent, zoneid, posx, posy, type, questHash, ob
 	Note.questHash = questHash;
 	Note.objectiveid = objectiveid;
 	--Inserts it into the right zone and continent for later use.
-	table.insert(MapNotes[continent][zoneid], Note);
+	table.insert(QuestieMapNotes[continent][zoneid], Note);
 end
 --Gets a blank frame either from Pool or creates a new one!
 function Questie:GetBlankNoteFrame()
@@ -311,8 +311,8 @@ end
 function Questie:DRAW_NOTES()
 	local c, z = GetCurrentMapContinent(), GetCurrentMapZone();
 	Questie:debug_Print("DRAW_NOTES");
-	if(MapNotes[c] and MapNotes[c][z]) then
-		for k, v in pairs(MapNotes[c][z]) do
+	if(QuestieMapNotes[c] and QuestieMapNotes[c][z]) then
+		for k, v in pairs(QuestieMapNotes[c][z]) do
 			if(MMLastX ~= 0 and MMLastY ~= 0) then--Don't draw the minimap icons if the player isn't within the zone.
 				MMIcon = Questie:GetBlankNoteFrame();
 				--Here more info should be set but i CBA at the time of writing
@@ -338,7 +338,7 @@ function Questie:DRAW_NOTES()
 		end
 	end
 
-	for k, Continent in pairs(MapNotes) do
+	for k, Continent in pairs(QuestieMapNotes) do
 		for zone, noteHeap in pairs(Continent) do
 			for k, v in pairs(noteHeap) do
 				local c, z = GetCurrentMapContinent(), GetCurrentMapZone();
@@ -446,35 +446,3 @@ QuestieIcons = {
 		path = "Interface\\AddOns\\Questie\\Icons\\slay"
 	}
 }
-
-
-
-
---	if(MapNotes[c] and MapNotes[c][z] and true == false) then
---		for k, v in pairs(MapNotes[c][z]) do
---
---			Icon = Questie:GetBlankNoteFrame();
---			--Here more info should be set but i CBA at the time of writing
---			Icon.questHash = v.questHash;
---			Icon:SetParent(WorldMapFrame);
---			Icon:SetFrameLevel(9);
---			Icon:SetPoint("CENTER",0,0)
---			Icon.type = "WorldMapNote";
---
---			--Set the texture to the right type
---			Icon.texture:SetTexture(QuestieIcons[v.type].path);
---			Icon.texture:SetAllPoints(f)
---
---			--Shows and then calls Astrolabe to place it on the map.
---			Icon:Show();
---
---			x, y = Astrolabe:PlaceIconOnWorldMap(WorldMapFrame,Icon,c,z,v.x, v.y); --WorldMapFrame is global
---			if(x > 0 and x < 1 and y > 0 and y < 1) then
---				table.insert(QuestieUsedNoteFrames, Icon);
---			else
---				Questie:debug_Print("Outside map, reseting icon to pool");
---				table.insert(FramePool, Icon);
---			end
---
---		end
---	end
