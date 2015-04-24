@@ -295,7 +295,7 @@ function Questie:hookTooltip()
 
 end
 
-QUESTIE_DEBUG_TOOLTIP = true; --Set to nil to disable.
+QUESTIE_DEBUG_TOOLTIP = nil; --Set to nil to disable.
 function Questie:Tooltip(this)
 	--DEFAULT_CHAT_FRAME:AddMessage("HEJ");
 	local monster = UnitName("mouseover")
@@ -316,7 +316,7 @@ function Questie:Tooltip(this)
 							GameTooltip:AddLine("   " .. monster .. ": " .. countstr, 1, 1, 0.2)
 						end
 				--NOT DONE
-					elseif m[1]['type'] == "item" or m[1]['type'] == "loot" then --Added Loot here? should it be here?
+					elseif m[1] and (m[1]['type'] == "item" or m[1]['type'] == "loot") then --Added Loot here? should it be here?
 						local monroot = QuestieMonsters[monster];
 						if monroot then
 							local mondat = monroot['drops'];
