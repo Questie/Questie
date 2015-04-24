@@ -295,12 +295,12 @@ function Questie:hookTooltip()
 
 end
 
+Questie_LastTooltip = GetTime(); --Ugly fix to stop tooltip spam....
 QUESTIE_DEBUG_TOOLTIP = nil; --Set to nil to disable.
 function Questie:Tooltip(this)
-	--DEFAULT_CHAT_FRAME:AddMessage("HEJ");
 	local monster = UnitName("mouseover")
 	local objective = GameTooltipTextLeft1:GetText();
-	if monster then
+	if monster and GetTime() - Questie_LastTooltip > 0.01 then
 		for k,v in pairs(QuestieHandledQuests) do
 			local obj = v['objectives']['objectives'];
 			if (obj) then --- bad habit I know...
@@ -366,7 +366,7 @@ function Questie:Tooltip(this)
 				end
 			end
 		end
-	elseif objective then
+	elseif objective and GetTime() - Questie_LastTooltip > 0.01 then
 		for k,v in pairs(QuestieHandledQuests) do
 			local obj = v['objectives']['objectives'];
 			if ( obj ) then
@@ -380,7 +380,8 @@ function Questie:Tooltip(this)
 						end
 					--NOT DONE
 					elseif (m[1] and (m[1]['type'] == "item" or m[1]['type'] == "loot") and name == objective) then
-						if(QuestieItems[objective]) then
+						local p = nil;
+						if(QuestieItems[objective] and not p) then
 							GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
 							local logid = Questie:GetQuestIdFromHash(k);
 		  					SelectQuestLogEntry(logid);
@@ -388,6 +389,10 @@ function Questie:Tooltip(this)
 		  					local indx = findLast(desc, ":");
 							local countstr = string.sub(desc, indx+2);
 							GameTooltip:AddLine("   " .. name .. ": " .. countstr, 1, 1, 0.2)
+							p = true;
+						end
+						if(p) then
+							break;
 						end
 					end
 				end
@@ -397,6 +402,7 @@ function Questie:Tooltip(this)
 	if(QUESTIE_DEBUG_TOOLTIP) then
 		GameTooltip:AddLine("--Questie hook--")
 	end
+	Questie_LastTooltip = GetTime();
 end
 lastShow = GetTime();
 QWERT = nil;
