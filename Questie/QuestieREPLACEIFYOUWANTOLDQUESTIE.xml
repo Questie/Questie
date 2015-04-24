@@ -1,0 +1,51 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+<script file="PrettyFrames.lua"/>
+<script file="Questie.lua"/>
+<script file="QuestieNotes.lua" />
+<script file="QuestieQuest.lua" />
+<script file="QuestieTracker.lua"/>
+<script file="Interface\AddOns\Questie\Database\items.lua"/>
+<script file="Interface\AddOns\Questie\Database\monsters.lua"/>
+<script file="Interface\AddOns\Questie\Database\events.lua"/>
+<script file="Interface\AddOns\Questie\Database\zone.lua"/>
+<script file="Interface\AddOns\Questie\Database\hash.lua"/>
+<script file="Interface\AddOns\Questie\Database\finishers.lua"/>
+<script file="Interface\AddOns\Questie\Database\objects.lua"/>
+<script file="Interface\AddOns\Questie\Database\addendum.lua"/>
+<script file="Interface\AddOns\Questie\extern\GatherRegionData.lua"/>
+<script file="Interface\AddOns\Questie\Database\regionscale.lua"/>
+<script file="Interface\AddOns\Questie\extern\GatherMinimapCalcs.lua"/>
+<script file="Interface\AddOns\Questie\Database\minimapcalcs.lua"/>
+<script file="Interface\AddOns\Questie\extern\DevToolsDump.lua"/>
+<script file="Interface\AddOns\Questie\Database\arrow.lua"/>
+<script file="Interface\AddOns\Questie\astrolabe\Astrolabe.lua"/>
+
+<Frame name="QuestieUpdate" parent="WorldMapFrame" hidden="false">
+	<Scripts>
+		<OnUpdate>
+			Questie:OnUpdate(arg1)
+		</OnUpdate>
+	</Scripts>
+</Frame>
+
+<Frame name="Questie" parent="UIParent" hidden="false" inherits="ActionButtonTemplate">
+	<Scripts>
+		<OnUpdate>
+			Questie:OnUpdate(arg1)
+		</OnUpdate>
+		<OnLoad>
+			Questie:RegisterEvent("PLAYER_ENTERING_WORLD")
+			Questie:RegisterEvent("PLAYER_LOGIN")
+			Questie:RegisterEvent("ADDON_LOADED")
+		</OnLoad>
+	</Scripts>
+</Frame>
+<GameTooltip name="QuestieTooltip" frameStrata="TOOLTIP" hidden="true" inherits="GameTooltipTemplate">
+		<Scripts>
+			<OnLoad>
+				this:SetOwner(UIParent,"ANCHOR_NONE")
+			</OnLoad>
+		</Scripts> 
+</GameTooltip>
+</Ui>
