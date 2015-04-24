@@ -6,7 +6,7 @@ local AllFrames = {};
 --Contains frames that are created but currently not used (Frames can't be deleted so we pool them to save space);
 local FramePool = {};
 
-QUESTIE_NOTES_MAP_ICON_SCALE = 1.1;
+QUESTIE_NOTES_MAP_ICON_SCALE = 1.2;
 QUESTIE_NOTES_MINIMAP_ICON_SCALE = 1.0;
 
 QuestieUsedNoteFrames = {};
@@ -203,7 +203,7 @@ function Questie_Tooltip_OnEnter()
 
 
 
-		Tooltip:SetFrameLevel(10);
+		Tooltip:SetFrameLevel(11);
 		Tooltip:Show();
 	end
 end
