@@ -79,6 +79,13 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 			Questie:UpdateQuests(true);
 		end
 
+		--for k, v in pairs(QuestieSeenQuests) do
+		--	if(v == true or v == false) then
+		--		v = 0;
+		--		Questie:debug_Print("Old quest format found, set to 0");
+		--	end
+		--end
+
 		local f = GameTooltip:GetScript("OnShow");
 
 		if(f ~= nil) then
@@ -298,7 +305,7 @@ function Questie:Tooltip(this)
 			local obj = v['objectives']['objectives'];
 			if (obj) then --- bad habit I know...
 				for name,m in pairs(obj) do
-					if m[1]['type'] == "monster" or m[1]['type'] == "slay" then
+					if m[1] and (m[1]['type'] == "monster" or m[1]['type'] == "slay") then
 						if (monster .. " slain") == name or monster == name or monster == string.find(monster, string.len(monster)-6) then
 							local logid = Questie:GetQuestIdFromHash(k);
 		  					SelectQuestLogEntry(logid);
