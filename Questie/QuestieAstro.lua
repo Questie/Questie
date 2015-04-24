@@ -305,9 +305,14 @@ function Questie:Tooltip(this)
 						if monroot then
 							local mondat = monroot['drops'];
 							if not (mondat == nil) then
-								if mondat[m['name']] then
+								if mondat[name] then
+									local logid = Questie:GetQuestIdFromHash(k);
+				  					SelectQuestLogEntry(logid);
+				  					local desc, typ, done = GetQuestLogLeaderBoard(m[1]['objectiveid']);
+				  					local indx = findLast(desc, ":");
+									local countstr = string.sub(desc, indx+2);
 									GameTooltip:AddLine(k, 0.2, 1, 0.3)
-									GameTooltip:AddLine("   " .. m['name'] .. ": " .. m['count'], 1, 1, 0.2)
+									GameTooltip:AddLine("   " .. name .. ": " .. countstr, 1, 1, 0.2)
 								end
 							end
 						end
@@ -324,7 +329,7 @@ function Questie:Tooltip(this)
 					Questie:debug_Print(name, objective);
 					--NOT DONE
 					if (m[1]['type'] == "object") then
-						local i, j = string.gfind(m["name"], objective);
+						local i, j = string.gfind(name, objective);
 						if(i and j and QuestieObjects[m["name"]]) then
 							GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
 							GameTooltip:AddLine("   " .. name, 1, 1, 0.2)
