@@ -68,6 +68,9 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 		end
 	elseif(event == "VARIABLES_LOADED") then
 		Questie:debug_Print("VARIABLES_LOADED");
+		if(not QuestieSeenQuests) then
+			QuestieSeenQuests = {};
+		end
 	elseif(event == "PLAYER_LOGIN") then
 		Questie:CheckQuestLog();
 
@@ -90,10 +93,15 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 		end
 	elseif(event == "CHAT_MSG_SYSTEM") then
 		if(string.find(arg1, " completed.")) then
-			local qName = string.sub(arg1, 0, -string.len(" completed."));
-			DEFAULT_CHAT_FRAME:AddMessage("Quest Completed: "..qName);
+			local qName = string.sub(arg1, 0, -string.len("  completed."));
+			DEFAULT_CHAT_FRAME:AddMessage("Quest Completed: '"..qName.."'");
 			Questie:debug_Print("Quest Completed:", qName);
+			local hash = Questie:GetHashFromName(qName);
 			QuestieCompletedQuestMessages[qName] = 1;
+			if(not QuestieSeenQuests[hash]) then
+				Questie:debug_Print("Adding quest to seen quests:", qName, hash," setting as 1 = complete");
+				QuestieSeenQuests[hash] = 1;
+			end
 		end
 	end
 end
@@ -127,22 +135,7 @@ function Questie_SlashHandler(msg)
 	end
 
 	if(msg == "c") then
-		if(GameTooltip.Show) then
-			Questie:debug_Print("Something has hooked the tooltip, we hook show!");
-			--Questie:hookTooltip();
-			--local _GameTooltipOnShow = GameTooltip.Show -- APPARENTLY this is always null, and doesnt need to be called for things to function correctly...?
-			GameTooltip.OldShow = GameTooltip.Show
-			Questie:debug_Print(tostring(GameTooltip.Show));
-			GameTooltip:SetScript("OnShow", function()
-				
-				this:OldShow();
-				Questie:Tooltip();
-				GameTooltip:Show();
-			end)
-		else
-			Questie:debug_Print("Nothing seems to have hooked show we set it to our own.");
-			Questie:hookTooltip();
-		end
+		GetAvailableQuests(1,60);
 	end
 
 	if(msg == "u") then
@@ -372,14 +365,14 @@ function Questie:Tooltip(this)
 			if ( obj ) then
 				for name,m in pairs(obj) do
 					--NOT DONE
-					if (m[1]['type'] == "object") then
+					if (m[1] and m[1]['type'] == "object") then
 						local i, j = string.gfind(name, objective);
 						if(i and j and QuestieObjects[m["name"]]) then
 							GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
 							GameTooltip:AddLine("   " .. name, 1, 1, 0.2)
 						end
 					--NOT DONE
-					elseif ((m[1]['type'] == "item" or m[1]['type'] == "loot") and name == objective) then
+					elseif (m[1] and (m[1]['type'] == "item" or m[1]['type'] == "loot") and name == objective) then
 						if(QuestieItems[objective]) then
 							GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
 							local logid = Questie:GetQuestIdFromHash(k);

@@ -15,7 +15,11 @@ function Questie:CheckQuestLog()
 		LastQuestLogHashes = Questie:AstroGetAllCurrentQuestHashes();
 		Questie:debug_Print("First check run, adding all quests");
 		for k, v in pairs(LastQuestLogHashes) do
-				Questie:AddQuestToMap(v["hash"]);
+			Questie:AddQuestToMap(v["hash"]);
+			if(not QuestieSeenQuests[v["hash"]]) then
+				Questie:debug_Print("Adding quest to seen quests:", v["name"],v["hash"]," setting as 0");
+				QuestieSeenQuests[v["hash"]] = 0
+			end
 		end
 		Questie:RedrawNotes();
 		return;
@@ -60,12 +64,19 @@ function Questie:CheckQuestLog()
 		if(v["deltaType"] == 1) then
 			Questie:debug_Print("Check discovered a new quest,", v["name"]);
 			Questie:AddQuestToMap(v["hash"]);
+			if(not QuestieSeenQuests[v["hash"]]) then
+				QuestieSeenQuests[v["hash"]] = 0
+			end
 			MapChanged = true;
 		else				
 			Questie:debug_Print("Check discovered a missing quest, removing!", v["hash"], v["name"])
 			Questie:RemoveQuestFromMap(v["hash"]);
 			if(not QuestieCompletedQuestMessages[v["name"]]) then
 				QuestieCompletedQuestMessages[v["name"]] = 0;
+			end
+			if(not QuestieSeenQuests[v["hash"]]) then
+				Questie:debug_Print("Adding quest to seen quests:", v["name"],v["hash"]," setting as 0");
+				QuestieSeenQuests[v["hash"]] = 0
 			end
 			if lastObjectives[v["hash"]] then
 				lastObjectives = nil;
@@ -265,6 +276,23 @@ function Questie:GetQuestIdFromHash(questHash)
 	else
 		return QuestLogID;
 	end
+end
+
+function Questie:GetHashFromName(name)
+	local numEntries, numQuests = GetNumQuestLogEntries();
+	for i = 1, numEntries do
+		local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(i);
+		if not isHeader then
+		  	SelectQuestLogEntry(i);
+		    local count =  GetNumQuestLeaderBoards();
+		    local questText, objectiveText = _GetQuestLogQuestText();
+
+		    if(q == name) then
+		   	 	return Questie:getQuestHash(q, level, objectiveText);
+		    end
+		end
+	end
+return nil;
 end
 
 
@@ -520,7 +548,7 @@ AstroobjectiveProcessors = {
 		end
 		monster["type"] = "slay";
 		monster["locations"] = {};
-		if(QuestieMonsters[name]['locations']) then
+		if(QuestieMonsters[name] and QuestieMonsters[name]['locations']) then
 			for k, pos in pairs(QuestieMonsters[name]['locations']) do
 				table.insert(monster["locations"], pos);
 			end
@@ -544,6 +572,31 @@ AstroobjectiveProcessors = {
 
 }
 
+function GetAvailableQuests(levelFrom, levelTo)
+	Questie:debug_Print("GetAvailableQuests")
+	--QuestieZoneLevelMap
+	local mapid = getCurrentMapID();
+	local level = UnitLevel("player");
+	Questie:debug_Print(mapid, level);
+	for l=levelFrom,levelTo do
+		if QuestieZoneLevelMap[mapid] then
+			local content = QuestieZoneLevelMap[mapid][l];
+			if content then
+				for k,v in pairs(content) do
+					--Questie:debug_Print("content", tostring(k),tostring(v));
+					local qdata = QuestieHashMap[v];
+					if(qdata) then
+						if(qdata['rq'] and QuestieSeenQuests[qdata['rq']]) then
+							Questie:debug_Print("level", k, "Name", qdata['name'], "rq:", tostring(QuestieSeenQuests[qdata['rq']]));
+						else
+							Questie:debug_Print("level", k, "Name", qdata['name']);
+						end
+					end
+				end
+			end
+		end
+	end
+end
 
 --End of Astrolabe functions
 
