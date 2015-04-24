@@ -259,7 +259,7 @@ function Questie:hookTooltip()
 end
 
 function Questie:Tooltip()
-	DEFAULT_CHAT_FRAME:AddMessage("HEJ");
+	--DEFAULT_CHAT_FRAME:AddMessage("HEJ");
 end
 
 --[[
