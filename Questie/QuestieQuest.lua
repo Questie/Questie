@@ -509,8 +509,10 @@ AstroobjectiveProcessors = {
 		end
 		monster["type"] = "slay";
 		monster["locations"] = {};
-		for k, pos in pairs(QuestieMonsters[name]['locations']) do
-			table.insert(monster["locations"], pos);
+		if(QuestieMonsters[name]['locations']) then
+			for k, pos in pairs(QuestieMonsters[name]['locations']) do
+				table.insert(monster["locations"], pos);
+			end
 		end
 		table.insert(list, monster);
 		return list;

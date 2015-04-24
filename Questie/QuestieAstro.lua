@@ -326,7 +326,6 @@ function Questie:Tooltip(this)
 			local obj = v['objectives']['objectives'];
 			if ( obj ) then
 				for name,m in pairs(obj) do
-					Questie:debug_Print(name, objective);
 					--NOT DONE
 					if (m[1]['type'] == "object") then
 						local i, j = string.gfind(name, objective);
