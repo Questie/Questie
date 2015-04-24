@@ -14,6 +14,9 @@ QuestieUsedNoteFrames = {};
 QuestieHandledQuests = {};
 
 function Questie:AddQuestToMap(questHash, redraw)
+	if(Active == false) then
+		return;
+	end
 	Questie:RemoveQuestFromMap(questHash);
 	Objectives = Questie:AstroGetQuestObjectives(questHash);
 	Questie:debug_Print("Adding quest", questHash);

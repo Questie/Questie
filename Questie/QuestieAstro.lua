@@ -27,6 +27,24 @@ function Questie:OnLoad()
 	SLASH_QUESTIE1 = "/questie";
 end
 
+Active = true;
+function Questie:Toggle()
+	if(Active == true) then
+		Active = false;
+		MapNotes = {};
+		Questie:RedrawNotes();
+		LastQuestLogHashes = nil;
+		LastCount = 0;
+		DEFAULT_CHAT_FRAME:AddMessage("Questie notes removed!");
+	else
+		Active = true;
+		LastQuestLogHashes = nil;
+		LastCount = 0;		
+		Questie:CheckQuestLog();
+		Questie:RedrawNotes();
+		DEFAULT_CHAT_FRAME:AddMessage("Questie notes Active!");
+	end
+end
 
 function Questie:OnUpdate(elapsed)
 	Astrolabe:OnUpdate(nil, elapsed);
@@ -35,10 +53,13 @@ end
 
 function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10)
 	if(event =="ADDON_LOADED" and arg1 == "Questie") then
+
 	elseif(event == "QUEST_LOG_UPDATE") then
-		Questie:debug_Print("QUEST_LOG_UPDATE");
-		Questie:CheckQuestLog();
-		Questie:UpdateQuests();
+		if(Active == true) then
+			Questie:debug_Print("QUEST_LOG_UPDATE");
+			Questie:CheckQuestLog();
+			Questie:UpdateQuests();
+		end
 	elseif(event == "VARIABLES_LOADED") then
 		Questie:debug_Print("VARIABLES_LOADED");
 	elseif(event == "PLAYER_LOGIN") then

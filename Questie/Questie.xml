@@ -21,6 +21,29 @@
 <script file="Interface\AddOns\Questie\Database\arrow.lua"/>
 <script file="Interface\AddOns\Questie\astrolabe\Astrolabe.lua"/>
 
+
+<Button name="Questie_Toggle" parent="WorldMapFrame" inherits="UIPanelButtonTemplate" text="Toggle Questie">
+	<Size>
+		<AbsDimension x="120" y="20"/>
+	</Size>
+	<Anchors>
+		<Anchor relativePoint="TOP" point="CENTER">
+			<Offset>
+				<AbsDimension x="120" y="-12"/>
+			</Offset>
+		</Anchor>
+	</Anchors>
+	<Scripts>
+		<OnLoad>
+			this:SetFrameLevel(10);
+		</OnLoad>
+		<OnClick>
+			Questie:Toggle();
+		</OnClick>
+	</Scripts>
+</Button>
+   
+
 <Frame name="QuestieUpdate" parent="WorldMapFrame" hidden="false">
 	<Scripts>
 		<OnUpdate>
