@@ -337,9 +337,9 @@ function Questie:Tooltip(this)
 				   							local indx = findLast(desc, ":");
 											local countstr = string.sub(desc, indx+2);
 											local namestr = string.sub(desc, 1, indx-1);
-											if(QuestieItems[namestr]['drop']) then
+											if(string.find(name, monster) and QuestieItems[namestr]['drop']) then -- Added Find to fix zapped giants (THIS IS NOT TESTED IF YOU FIND ERRORS REPORT!)
 												for dropperr, id in pairs(QuestieItems[namestr]['drop']) do
-													if(name == monster and not p) then
+													if((name == monster or string.find(name, monster)) and not p) then-- Added Find to fix zapped giants (THIS IS NOT TESTED IF YOU FIND ERRORS REPORT!)
 														GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
 														GameTooltip:AddLine("   " .. namestr .. ": " .. countstr, 1, 1, 0.2)
 														p = true;
