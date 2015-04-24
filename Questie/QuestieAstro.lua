@@ -299,7 +299,6 @@ function Questie:Tooltip(this)
 							GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
 							GameTooltip:AddLine("   " .. monster .. ": " .. countstr, 1, 1, 0.2)
 						end
-						GameTooltip:AddLine("DEBUG TOOLTIP IS WORKING");
 				--NOT DONE
 					elseif m[1]['type'] == "item" or m[1]['type'] == "loot" then --Added Loot here? should it be here?
 						local monroot = QuestieMonsters[monster];
@@ -316,7 +315,6 @@ function Questie:Tooltip(this)
 									GameTooltip:AddLine("   " .. name .. ": " .. countstr, 1, 1, 0.2)
 								end
 							end
-							GameTooltip:AddLine("DEBUG TOOLTIP IS WORKING");
 						end
 					end
 				--NOT DONE
@@ -335,7 +333,6 @@ function Questie:Tooltip(this)
 							GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
 							GameTooltip:AddLine("   " .. name, 1, 1, 0.2)
 						end
-						GameTooltip:AddLine("DEBUG TOOLTIP IS WORKING");
 					--NOT DONE
 					elseif ((m[1]['type'] == "item" or m[1]['type'] == "loot") and name == objective) then
 						if(QuestieItems[objective]) then
@@ -347,7 +344,6 @@ function Questie:Tooltip(this)
 							local countstr = string.sub(desc, indx+2);
 							GameTooltip:AddLine("   " .. name .. ": " .. countstr, 1, 1, 0.2)
 						end
-						GameTooltip:AddLine("DEBUG TOOLTIP IS WORKING");
 					end
 				end
 			end
