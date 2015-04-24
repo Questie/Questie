@@ -42,9 +42,8 @@
 		</OnClick>
 	</Scripts>
 </Button>
-   
 
-<Frame name="QuestieUpdate" parent="WorldMapFrame" hidden="false">
+<Frame name="QuestieUpdates" parent="WorldMapFrame" hidden="false">
 	<Scripts>
 		<OnUpdate>
 			Questie:OnUpdate(arg1)

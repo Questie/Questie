@@ -5,7 +5,6 @@ LastQuestLogHashes = nil;
 LastCount = 0;
 function Questie:CheckQuestLog()
   	local numEntries, numQuests = GetNumQuestLogEntries();
-  	Questie:debug_Print(tostring(LastCount), tostring(numEntries));
 	if(LastCount == numEntries) then
 		Questie:debug_Print("Checking questlog: Nothing changed");
 		return;

@@ -67,6 +67,12 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 		for i=0, 20 do
 			Questie:UpdateQuests();
 		end
+		if(GameTooltip.Show) then
+			Questie:debug_Print("Something has hooked the tooltip, we hook show!");
+			Questie:hookTooltip();
+		else
+			Questie:debug_Print("Someone already hooked the tooltip, we hook the hook!");
+		end
 	end
 end
 
@@ -233,6 +239,29 @@ function Questie_SlashHandler(msg)
 end
 
 
+--[[  Function Hooks ]]--
+
+--Propper hook!
+local Blizz_GameTooltip_Show = GameTooltip.Show
+GameTooltip.Show = function(self)
+	Blizz_GameTooltip_Show(self)
+
+	Questie:Tooltip();
+end
+
+
+function Questie:hookTooltip()
+	local _GameTooltipOnShow = GameTooltip:GetScript("OnShow") -- APPARENTLY this is always null, and doesnt need to be called for things to function correctly...?
+	GameTooltip:SetScript("OnShow", function(self, arg)
+		Questie:Tooltip();
+	end)
+
+end
+
+function Questie:Tooltip()
+	DEFAULT_CHAT_FRAME:AddMessage("HEJ");
+end
+
 --[[
 
 
@@ -242,6 +271,8 @@ end
 
 
 ]]--
+
+
 
 
 
