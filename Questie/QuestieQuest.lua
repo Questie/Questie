@@ -102,7 +102,7 @@ function Questie:UpdateQuests(force)
   		change = Questie:UpdateQuestInZone(GetMinimapZoneText());
   	end
 	if(not change or force) then
-		Questie:debug_Print("No change in current zone, checking all other zones!");
+		--Questie:debug_Print("No change in current zone, checking all other zones!");
 		for i = 1, numEntries do
 			local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(i);
 			if(isHeader and q ~= CurrentZone) then
@@ -113,7 +113,7 @@ function Questie:UpdateQuests(force)
 			end
 		end
 	else
-		Questie:debug_Print("Found change in current zone, good!");
+		--Questie:debug_Print("Found change in current zone, good!");
 	end
 	Questie:debug_Print("Updated quests: Time:", tostring(GetTime()-t).."ms")
 end
@@ -126,11 +126,11 @@ function Questie:UpdateQuestInZone(Zone, force)
 	for i = 1, numEntries do
 		local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(i);
 		if(ZoneFound and isHeader) then
-			Questie:debug_Print("Update: End: ", Zone,"Quests checked", QuestsChecked);
+			--Questie:debug_Print("Update: End: ", Zone,"Quests checked", QuestsChecked);
 			break;
 		end
 		if(isHeader and q == Zone) then
-			Questie:debug_Print("Update: Start: ", Zone, "index:", i);
+			--Questie:debug_Print("Update: Start: ", Zone, "index:", i);
 			ZoneFound = true;
 		end 
 		if not isHeader and ZoneFound then
@@ -157,7 +157,7 @@ function Questie:UpdateQuestInZone(Zone, force)
 		   			foundChange = true;
 		   		else
 		   			--Something has changed.
-		   			Questie:debug_Print("Type or desc changed");
+		   			--Questie:debug_Print("Type or desc changed");
 		   			foundChange = true;
 		   		end
 		   		lastObjectives[hash][obj].desc = desc;
@@ -175,7 +175,7 @@ function Questie:UpdateQuestInZone(Zone, force)
 			break;
 		end
 	end
-	Questie:debug_Print("Checked zone", Zone);
+	--Questie:debug_Print("Checked zone", Zone);
 	return foundChange;
 end
 
