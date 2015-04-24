@@ -86,7 +86,7 @@ end
 
 --QuestieHandledQuests is set inside questienotes (not set) This currently will "leak" quests are never removed.
 lastObjectives = nil
-function Questie:UpdateQuests()
+function Questie:UpdateQuests(force)
 	if(lastObjectives == nil) then
 		lastObjectives = {};
 		Questie:UpdateQuestsInit();
@@ -101,13 +101,13 @@ function Questie:UpdateQuests()
   	if(not change) then
   		change = Questie:UpdateQuestInZone(GetMinimapZoneText());
   	end
-	if(not change) then
+	if(not change or force) then
 		Questie:debug_Print("No change in current zone, checking all other zones!");
 		for i = 1, numEntries do
 			local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(i);
 			if(isHeader and q ~= CurrentZone) then
-				local c = Questie:UpdateQuestInZone(q);
-				if(c)then
+				local c = Questie:UpdateQuestInZone(q, force);
+				if(c and not force)then
 					break;
 				end
 			end
@@ -118,7 +118,7 @@ function Questie:UpdateQuests()
 	Questie:debug_Print("Updated quests: Time:", tostring(GetTime()-t).."ms")
 end
 
-function Questie:UpdateQuestInZone(Zone)
+function Questie:UpdateQuestInZone(Zone, force)
  	local numEntries, numQuests = GetNumQuestLogEntries();
   	local foundChange = nil;
   	local ZoneFound = nil;
@@ -170,7 +170,7 @@ function Questie:UpdateQuestInZone(Zone)
 				Questie:AddQuestToMap(hash, true);
 			end
 		end
-		if(foundChange) then
+		if(foundChange and not force) then
 			Questie:debug_Print("Found a change!")
 			break;
 		end
