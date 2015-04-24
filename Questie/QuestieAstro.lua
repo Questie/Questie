@@ -67,11 +67,18 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 		for i=0, 20 do
 			Questie:UpdateQuests();
 		end
-		if(GameTooltip.Show) then
-			Questie:debug_Print("Something has hooked the tooltip, we hook show!");
-			Questie:hookTooltip();
+
+		local f = GameTooltip:GetScript("OnShow");
+
+		if(f ~= nil) then
+			--Proper tooltip hook!
+			local Blizz_GameTooltip_Show = GameTooltip.Show
+			GameTooltip.Show = function(self)
+				Questie:Tooltip(self);
+				Blizz_GameTooltip_Show(self)
+			end
 		else
-			Questie:debug_Print("Someone already hooked the tooltip, we hook the hook!");
+			Questie:hookTooltip();
 		end
 	end
 end
@@ -105,7 +112,22 @@ function Questie_SlashHandler(msg)
 	end
 
 	if(msg == "c") then
-		Questie:AddQuestToMap(2743610414);
+		if(GameTooltip.Show) then
+			Questie:debug_Print("Something has hooked the tooltip, we hook show!");
+			--Questie:hookTooltip();
+			--local _GameTooltipOnShow = GameTooltip.Show -- APPARENTLY this is always null, and doesnt need to be called for things to function correctly...?
+			GameTooltip.OldShow = GameTooltip.Show
+			Questie:debug_Print(tostring(GameTooltip.Show));
+			GameTooltip:SetScript("OnShow", function()
+				
+				this:OldShow();
+				Questie:Tooltip();
+				GameTooltip:Show();
+			end)
+		else
+			Questie:debug_Print("Nothing seems to have hooked show we set it to our own.");
+			Questie:hookTooltip();
+		end
 	end
 
 	if(msg == "u") then
@@ -240,28 +262,93 @@ end
 
 
 --[[  Function Hooks ]]--
+--Proper tooltip hook!
+--local Blizz_GameTooltip_Show = GameTooltip.Show
+--GameTooltip.Show = function(self)
+--	Questie:Tooltip(self);
+--	Blizz_GameTooltip_Show(self)
+--end
 
---Propper hook!
-local Blizz_GameTooltip_Show = GameTooltip.Show
-GameTooltip.Show = function(self)
-	Blizz_GameTooltip_Show(self)
-
-	Questie:Tooltip();
-end
 
 
 function Questie:hookTooltip()
 	local _GameTooltipOnShow = GameTooltip:GetScript("OnShow") -- APPARENTLY this is always null, and doesnt need to be called for things to function correctly...?
 	GameTooltip:SetScript("OnShow", function(self, arg)
-		Questie:Tooltip();
+		Questie:Tooltip(self);
+		this:Show();
 	end)
 
 end
 
-function Questie:Tooltip()
+function Questie:Tooltip(this)
 	--DEFAULT_CHAT_FRAME:AddMessage("HEJ");
+	local monster = UnitName("mouseover")
+	local objective = GameTooltipTextLeft1:GetText();
+	if monster then
+		for k,v in pairs(QuestieHandledQuests) do
+			local obj = v['objectives']['objectives'];
+			if (obj) then --- bad habit I know...
+				for name,m in pairs(obj) do
+					if m[1]['type'] == "monster" or m[1]['type'] == "slay" then
+						if (monster .. " slain") == name or monster == name or monster == string.find(monster, string.len(monster)-6) then
+							local logid = Questie:GetQuestIdFromHash(k);
+		  					SelectQuestLogEntry(logid);
+		  					local desc, typ, done = GetQuestLogLeaderBoard(m[1]['objectiveid']);
+		  					local indx = findLast(desc, ":");
+							local countstr = string.sub(desc, indx+2);
+							GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
+							GameTooltip:AddLine("   " .. monster .. ": " .. countstr, 1, 1, 0.2)
+						end
+				--NOT DONE
+					elseif m[1]['type'] == "item" or m[1]['type'] == "loot" then --Added Loot here? should it be here?
+						local monroot = QuestieMonsters[monster];
+						if monroot then
+							local mondat = monroot['drops'];
+							if not (mondat == nil) then
+								if mondat[m['name']] then
+									GameTooltip:AddLine(k, 0.2, 1, 0.3)
+									GameTooltip:AddLine("   " .. m['name'] .. ": " .. m['count'], 1, 1, 0.2)
+								end
+							end
+						end
+					end
+				--NOT DONE
+				end
+			end
+		end
+	elseif objective then
+		for k,v in pairs(QuestieHandledQuests) do
+			local obj = v['objectives']['objectives'];
+			if ( obj ) then
+				for name,m in pairs(obj) do
+					Questie:debug_Print(name, objective);
+					--NOT DONE
+					if (m[1]['type'] == "object") then
+						local i, j = string.gfind(m["name"], objective);
+						if(i and j and QuestieObjects[m["name"]]) then
+							GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
+							GameTooltip:AddLine("   " .. name, 1, 1, 0.2)
+						end
+					--NOT DONE
+					elseif ((m[1]['type'] == "item" or m[1]['type'] == "loot") and name == objective) then
+						if(QuestieItems[objective]) then
+							GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
+							local logid = Questie:GetQuestIdFromHash(k);
+		  					SelectQuestLogEntry(logid);
+		  					local desc, typ, done = GetQuestLogLeaderBoard(m[1]['objectiveid']);
+		  					local indx = findLast(desc, ":");
+							local countstr = string.sub(desc, indx+2);
+							GameTooltip:AddLine("   " .. name .. ": " .. countstr, 1, 1, 0.2)
+						end
+					end
+				end
+			end
+		end
+	end
+	GameTooltip:AddLine("DEBUG TOOLTIP IS WORKING");
 end
-
+lastShow = GetTime();
+QWERT = nil;
 --[[
 
 
