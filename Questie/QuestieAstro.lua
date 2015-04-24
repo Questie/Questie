@@ -186,6 +186,10 @@ function Questie_SlashHandler(msg)
 		end)
 	end
 
+	if(msg == "getzoneid") then
+		Questie:debug_Print(GetCurrentMapContinent(), GetCurrentMapZone());
+	end
+
 	if(msg =="ast") then -- Don't want to remove this... good for reference
 		--/script Astrolabe:PlaceIconOnWorldMap(WorldMapFrame,,1,"Ashenvale",100,100);
 
