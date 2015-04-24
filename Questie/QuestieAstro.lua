@@ -328,9 +328,11 @@ function Questie:Tooltip(this)
 									local countstr = string.sub(desc, indx+2);
 									local namestr = string.sub(desc, 1, indx-1);
 									if(QuestieItems[namestr]['drop']) then
-										for index, dropper in pairs(QuestieItems[namestr]['drop']) do
-											GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
-											GameTooltip:AddLine("   " .. name .. ": " .. countstr, 1, 1, 0.2)
+										for dropper, id in pairs(QuestieItems[namestr]['drop']) do
+											if(dropper == monster) then
+												GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
+												GameTooltip:AddLine("   " .. name .. ": " .. countstr, 1, 1, 0.2)
+											end
 										end
 									end
 		    					end
