@@ -1,8 +1,8 @@
 ## Interface: 11200
-## Title: Questie v1.0b (BETA)
+## Title: Questie v1.1 (ALPHA)
 ## Author: Aero/Schaka/everyone else
 ## Notes: An attempt to import the QuestHelper database into vanilla
-## Version: 1.0b (BETA)
+## Version: 1.1 (ALPHA)
 ## RequiredDeps:
 ## OptionalDeps: 
 ## SavedVariables: QuestieTrackerVariables, QuestieDebug
