@@ -280,6 +280,7 @@ function Questie:hookTooltip()
 
 end
 
+QUESTIE_DEBUG_TOOLTIP = true; --Set to nil to disable.
 function Questie:Tooltip(this)
 	--DEFAULT_CHAT_FRAME:AddMessage("HEJ");
 	local monster = UnitName("mouseover")
@@ -348,6 +349,9 @@ function Questie:Tooltip(this)
 				end
 			end
 		end
+	end
+	if(QUESTIE_DEBUG_TOOLTIP) then
+		GameTooltip:AddLine("--Questie hook--")
 	end
 end
 lastShow = GetTime();
