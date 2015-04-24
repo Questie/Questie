@@ -384,8 +384,7 @@ function Questie:Tooltip(this)
 						end
 					--NOT DONE
 					elseif (m[1] and (m[1]['type'] == "item" or m[1]['type'] == "loot") and name == objective) then
-						local p = nil;
-						if(QuestieItems[objective] and not p) then
+						if(QuestieItems[objective]) then
 							GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
 							local logid = Questie:GetQuestIdFromHash(k);
 		  					SelectQuestLogEntry(logid);
@@ -393,10 +392,6 @@ function Questie:Tooltip(this)
 		  					local indx = findLast(desc, ":");
 							local countstr = string.sub(desc, indx+2);
 							GameTooltip:AddLine("   " .. name .. ": " .. countstr, 1, 1, 0.2)
-							p = true;
-						end
-						if(p) then
-							break;
 						end
 					end
 				end
