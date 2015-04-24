@@ -1,10 +1,10 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\FrameXML\UI.xsd">
 <script file="PrettyFrames.lua"/>
-<script file="Questie.lua"/>
+<script file="QuestieAstro.lua"/>
 <script file="QuestieNotes.lua" />
 <script file="QuestieQuest.lua" />
-<script file="QuestieTracker.lua"/>
+<!--<script file="QuestieTracker.lua"/> TRACKER REMOVED FOR NOW-->
 <script file="Interface\AddOns\Questie\Database\items.lua"/>
 <script file="Interface\AddOns\Questie\Database\monsters.lua"/>
 <script file="Interface\AddOns\Questie\Database\events.lua"/>
@@ -34,10 +34,11 @@
 		<OnUpdate>
 			Questie:OnUpdate(arg1)
 		</OnUpdate>
+		<OnEvent>
+			Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
+		</OnEvent>
 		<OnLoad>
-			Questie:RegisterEvent("PLAYER_ENTERING_WORLD")
-			Questie:RegisterEvent("PLAYER_LOGIN")
-			Questie:RegisterEvent("ADDON_LOADED")
+			Questie:OnLoad()
 		</OnLoad>
 	</Scripts>
 </Frame>

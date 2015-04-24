@@ -2,7 +2,14 @@
 
 --THIS IS THE FUNCTION TO USE!
 local LastQuestLogHashes = nil;
+local LastCount = 0;
 function Questie:CheckQuestLog()
+  	local numEntries, numQuests = GetNumQuestLogEntries();
+	if(LastCount == numEntries) then
+		Questie:debug_Print("Checking questlog: Nothing changed");
+		return;
+	end
+	LastCount = numEntries;
 	local t = GetTime();
 	if(not LastQuestLogHashes) then
 		LastQuestLogHashes = Questie:AstroGetAllCurrentQuestHashes();
@@ -57,6 +64,9 @@ function Questie:CheckQuestLog()
 		else				
 			Questie:debug_Print("Check discovered a missing quest, removing!", v["hash"], v["name"])
 			Questie:RemoveQuestFromMap(v["hash"]);
+			if lastObjectives[v["hash"]] then
+				lastObjectives = nil;
+			end
 			MapChanged = true;
 		end
 	end
@@ -72,6 +82,125 @@ function Questie:CheckQuestLog()
 	end
 	LastQuestLogHashes = Quests;
 	Questie:debug_Print("Checklog done: Time:",tostring((GetTime()-t)*1000).."ms");
+end
+
+--QuestieHandledQuests is set inside questienotes (not set) This currently will "leak" quests are never removed.
+lastObjectives = nil
+function Questie:UpdateQuests()
+	if(lastObjectives == nil) then
+		lastObjectives = {};
+		Questie:UpdateQuestsInit();
+		return;
+	end
+	local t = GetTime();
+	local CurrentZone = GetZoneText();
+  	local numEntries, numQuests = GetNumQuestLogEntries();
+  	local foundChange = false;
+  	local ZonesWithQuests = {};
+  	local change = Questie:UpdateQuestInZone(CurrentZone);
+  	if(not change) then
+  		change = Questie:UpdateQuestInZone(GetMinimapZoneText());
+  	end
+	if(not change) then
+		Questie:debug_Print("No change in current zone, checking all other zones!");
+		for i = 1, numEntries do
+			local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(i);
+			if(isHeader and q ~= CurrentZone) then
+				local c = Questie:UpdateQuestInZone(q);
+				if(c)then
+					break;
+				end
+			end
+		end
+	else
+		Questie:debug_Print("Found change in current zone, good!");
+	end
+	Questie:debug_Print("Updated quests: Time:", tostring(GetTime()-t).."ms")
+end
+
+function Questie:UpdateQuestInZone(Zone)
+ 	local numEntries, numQuests = GetNumQuestLogEntries();
+  	local foundChange = nil;
+  	local ZoneFound = nil;
+  	local QuestsChecked = 0;
+	for i = 1, numEntries do
+		local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(i);
+		if(ZoneFound and isHeader) then
+			Questie:debug_Print("Update: End: ", Zone,"Quests checked", QuestsChecked);
+			break;
+		end
+		if(isHeader and q == Zone) then
+			Questie:debug_Print("Update: Start: ", Zone, "index:", i);
+			ZoneFound = true;
+		end 
+		if not isHeader and ZoneFound then
+			--Questie:debug_Print(q);
+			QuestsChecked = QuestsChecked+1;
+		  	SelectQuestLogEntry(i);
+		    local count =  GetNumQuestLeaderBoards();
+		    local questText, objectiveText = _GetQuestLogQuestText();
+		    local hash = Questie:getQuestHash(q, level, objectiveText);
+		    if not lastObjectives[hash] then
+		    	lastObjectives[hash] = {};
+		    end
+		    local Refresh = nil;
+		    for obj = 1, count do
+		    	if (not lastObjectives[hash][obj]) then
+		    		lastObjectives[hash][obj] = {};
+		    	end
+		   		local desc, typ, done = GetQuestLogLeaderBoard(obj);
+		   		if(lastObjectives[hash][obj].desc == desc and lastObjectives[hash][obj].typ == typ and lastObjectives[hash][obj].done == done) then
+		   			--All objectives are the same, Dont really do anything (But have this here for future)
+		   		elseif(lastObjectives[hash][obj].done ~= done) then
+		   			--This objective has flipped from, not done to done
+		   			Refresh = true;
+		   			foundChange = true;
+		   		else
+		   			--Something has changed.
+		   			Questie:debug_Print("Type or desc changed");
+		   			foundChange = true;
+		   		end
+		   		lastObjectives[hash][obj].desc = desc;
+		   		lastObjectives[hash][obj].typ = typ;
+		   		lastObjectives[hash][obj].done = done;
+			end
+
+			if(Refresh) then --If it's the same it means everything is done
+				Questie:debug_Print("Update: Something has changed, need to refresh:", hash);
+				Questie:AddQuestToMap(hash, true);
+			end
+		end
+		if(foundChange) then
+			Questie:debug_Print("Found a change!")
+			break;
+		end
+	end
+	Questie:debug_Print("Checked zone", Zone);
+	return foundChange;
+end
+
+function Questie:UpdateQuestsInit()
+ 	local numEntries, numQuests = GetNumQuestLogEntries();
+	for i = 1, numEntries do
+		local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(i);
+		if not isHeader then
+		  	SelectQuestLogEntry(i);
+		    local count =  GetNumQuestLeaderBoards();
+		    local questText, objectiveText = _GetQuestLogQuestText();
+		    local hash = Questie:getQuestHash(q, level, objectiveText);
+		    if not lastObjectives[hash] then
+		    	lastObjectives[hash] = {};
+		    end
+		    for obj = 1, count do
+		    	if (not lastObjectives[hash][obj]) then
+		    		lastObjectives[hash][obj] = {};
+		    	end
+		   		lastObjectives[hash][obj].desc = desc;
+		   		lastObjectives[hash][obj].typ = typ;
+		   		lastObjectives[hash][obj].done = done;
+			end
+		end
+	end
 end
 
 function Questie:AstroGetAllCurrentQuestHashes(print)

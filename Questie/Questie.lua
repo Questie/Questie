@@ -1344,3 +1344,6 @@ function Questie:getPlayerFormatDistTo(x, y)
 	local dist, units = BWP_FormatDist(Questie.player_x, Questie.player_y, x, y)
 	return dist
 end
+
+
+
