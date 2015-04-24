@@ -352,6 +352,7 @@ function Questie:AstroGetQuestObjectives(questHash)
 	local count =  GetNumQuestLeaderBoards();
 	local questText, objectiveText = _GetQuestLogQuestText();
 	local AllObjectives = {};
+	AllObjectives["QuestName"] = q;
 	AllObjectives["objectives"] = {};
 	for i = 1, count do
 		--This returns a quests objectives.
