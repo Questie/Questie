@@ -17,6 +17,7 @@ function Questie:OnLoad()
 	this:RegisterEvent("PLAYER_LOGIN")
 	this:RegisterEvent("ADDON_LOADED")
 	this:RegisterEvent("VARIABLES_LOADED")
+	this:RegisterEvent("CHAT_MSG_SYSTEM");
 
 	if( DEFAULT_CHAT_FRAME ) then
 		DEFAULT_CHAT_FRAME:AddMessage("Questie v1.1BETA loaded");
@@ -51,6 +52,8 @@ function Questie:OnUpdate(elapsed)
 	Questie:NOTES_ON_UPDATE(elapsed);
 end
 
+QuestieCompletedQuestMessages = {};
+
 function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10)
 	if(event =="ADDON_LOADED" and arg1 == "Questie") then
 
@@ -81,6 +84,10 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 			end
 		else
 			Questie:hookTooltip();
+		end
+	elseif(event == "CHAT_MSG_SYSTEM") then
+		if(string.find(arg1, " completed.")) then
+			DEFAULT_CHAT_FRAME:AddMessage("Quest Completed: "..string.sub(arg1, 0, -string.len(" completed.")));
 		end
 	end
 end
@@ -319,6 +326,7 @@ function Questie:Tooltip(this)
 								end
 							else
 								--Use the cache not to run unessecary objectives
+								local p = nil;
 								for dropper, value in pairs(QuestieCachedMonstersAndObjects[k]) do
 									if(string.find(dropper, monster)) then
 										local logid = Questie:GetQuestIdFromHash(k);
@@ -330,14 +338,19 @@ function Questie:Tooltip(this)
 											local countstr = string.sub(desc, indx+2);
 											local namestr = string.sub(desc, 1, indx-1);
 											if(QuestieItems[namestr]['drop']) then
-												for dropper, id in pairs(QuestieItems[namestr]['drop']) do
-													if(dropper == monster) then
+												for dropperr, id in pairs(QuestieItems[namestr]['drop']) do
+													if(name == monster and not p) then
 														GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
-														GameTooltip:AddLine("   " .. name .. ": " .. countstr, 1, 1, 0.2)
+														GameTooltip:AddLine("   " .. namestr .. ": " .. countstr, 1, 1, 0.2)
+														p = true;
+														break;
 													end
 												end
 											end
 				    					end
+									end
+									if(p)then
+										break;
 									end
 								end
 							end
