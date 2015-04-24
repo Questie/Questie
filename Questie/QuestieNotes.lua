@@ -54,8 +54,14 @@ function Questie:AddQuestToMap(questHash, redraw)
 		--Quest Finished add finisher
 		--QuestieFinishers var
 		--QuestieMonsters var
-		local finishMonster = QuestieHashMap[Quest["questHash"]]['finishedBy'];
-		local finisher = QuestieMonsters[finishMonster];
+		local finisher = nil;
+		if( QuestieHashMap[Quest["questHash"]] and QuestieHashMap[Quest["questHash"]]['finishedBy']) then
+			local finishMonster = QuestieHashMap[Quest["questHash"]]['finishedBy'];
+			finisher = QuestieMonsters[finishMonster];
+		end
+		if(not finisher) then
+			finisher = QuestieMonsters[QuestieFinishers[Quest["name"]]];
+		end
 		if(finisher) then
 			local MapInfo = Questie:GetMapInfoFromID(finisher['locations'][1][1]);--Map id is at ID 1, i then convert this to a useful continent and zone
 			local c, z, x, y = MapInfo[4], MapInfo[5], finisher['locations'][1][2],finisher['locations'][1][3]-- You just have to know about this, 2 is x 3 is y
