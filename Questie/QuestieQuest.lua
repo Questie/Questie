@@ -6,7 +6,7 @@ LastCount = 0;
 function Questie:CheckQuestLog()
   	local numEntries, numQuests = GetNumQuestLogEntries();
 	if(LastCount == numEntries) then
-		Questie:debug_Print("Checking questlog: Nothing changed");
+		--Questie:debug_Print("Checking questlog: Nothing changed");
 		return;
 	end
 	LastCount = numEntries;
@@ -64,6 +64,9 @@ function Questie:CheckQuestLog()
 		else				
 			Questie:debug_Print("Check discovered a missing quest, removing!", v["hash"], v["name"])
 			Questie:RemoveQuestFromMap(v["hash"]);
+			if(not QuestieCompletedQuestMessages[v["name"]]) then
+				QuestieCompletedQuestMessages[v["name"]] = 0;
+			end
 			if lastObjectives[v["hash"]] then
 				lastObjectives = nil;
 			end

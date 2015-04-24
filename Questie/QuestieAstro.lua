@@ -53,13 +53,16 @@ function Questie:OnUpdate(elapsed)
 end
 
 QuestieCompletedQuestMessages = {};
+--1 means WE KNOW it's complete
+--0 means We've seen it and it's probably in the questlog
+---1 means we know its abandonnd
 
 function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10)
 	if(event =="ADDON_LOADED" and arg1 == "Questie") then
 
 	elseif(event == "QUEST_LOG_UPDATE") then
 		if(Active == true) then
-			Questie:debug_Print("QUEST_LOG_UPDATE");
+			--Questie:debug_Print("QUEST_LOG_UPDATE");
 			Questie:CheckQuestLog();
 			Questie:UpdateQuests();
 		end
@@ -87,7 +90,10 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 		end
 	elseif(event == "CHAT_MSG_SYSTEM") then
 		if(string.find(arg1, " completed.")) then
-			DEFAULT_CHAT_FRAME:AddMessage("Quest Completed: "..string.sub(arg1, 0, -string.len(" completed.")));
+			local qName = string.sub(arg1, 0, -string.len(" completed."));
+			DEFAULT_CHAT_FRAME:AddMessage("Quest Completed: "..qName);
+			Questie:debug_Print("Quest Completed:", qName);
+			QuestieCompletedQuestMessages[qName] = 1;
 		end
 	end
 end
