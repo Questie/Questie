@@ -278,13 +278,26 @@ function QuestieTracker:clearTrackingFrame()
 end
 
 function QuestieTracker:fillTrackingFrame()
-
+	local t = GetTime();
 	-- currently if there aren't any notes, it doesn't add the quest to the tracker
 	-- eventually, that should be changed, but since we are lacking distance and such, there needs to be some kind of workaround!
 	-- like creating dummy notes on SetQuestInfo() probably?
 	QuestieTracker:clearTrackingFrame();
 	local sortedByDistance = {};
 	local distanceControlTable = {};
+
+	--Start of sorting, got sidetracked.
+	--[[local C,Z,X,Y = Astrolabe:GetCurrentPlayerPosition();
+	for hash, quest in pairs(QuestieTrackedQuests) do
+		local info = QuestieHandledQuests[hash];
+		local closestIndex = -1;
+		local closestDistance = 100000000;
+		for k, v in pairs(info['objectives']['objectives']) do
+			Astrolabe:ComputeDistance()
+		end
+		info.questHash = hash;
+		table.insert(sortedByDistance, info);
+	end]]--
 	
 	local i = 1;
 	-- sort notes by distance before using this
@@ -342,9 +355,11 @@ function QuestieTracker:fillTrackingFrame()
 		end
 	end]]
 	QuestieTracker:updateTrackingFrameSize();
+	Questie:debug_Print("Tracker updated: Time:", tostring((GetTime()-t)*1000).."ms");
 end
 
 function QuestieTracker:createTrackingButtons()
+	local t = GetTime();
 	QuestieTracker.frame.buttons = {};
 	local frameHeight = 20;
 	for i=1,8 do
@@ -414,6 +429,7 @@ function QuestieTracker:createTrackingButtons()
 	end
 	QuestieTracker.frame:SetHeight(frameHeight+40);
 
+	Questie:debug_Print("Created Tracker frames: Time:", tostring((GetTime()-t)*1000).."ms")
 	QuestieTracker:fillTrackingFrame();
 end
 
