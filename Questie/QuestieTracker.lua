@@ -59,7 +59,7 @@ end
 
 function QuestieTracker:updateFrameOnTracker(hash)
 	if(type(QuestieTrackedQuests[hash]) ~= "table") then
-		this:addQuestToTracker(hash)
+		QuestieTracker:addQuestToTracker(hash)
 		return
 	end
 	
@@ -82,6 +82,7 @@ function QuestieTracker:removeQuestFromTracker(hash)
 	if QuestieTrackedQuests[hash] then
 		QuestieTrackedQuests[hash] = nil
 	end
+	QuestieTracker:fillTrackingFrame()
 end
 
 function QuestLogTitleButton_OnClick(button)
@@ -111,8 +112,7 @@ function QuestLogTitleButton_OnClick(button)
 	end
 
 	QuestWatchFrame:Hide()
-	this = QuestieTracker;
-	this:fillTrackingFrame();
+	QuestieTracker:fillTrackingFrame();
 end
 
 function QuestieTracker:findLogIdByName(name)
@@ -153,25 +153,25 @@ function QuestieTracker:setQuestInfo(id)
 end
 
 function QuestieTracker:PLAYER_LOGIN()
-	this:createTrackingFrame();
-	this:createTrackingButtons();
-	this:RegisterEvent("QUEST_LOG_UPDATE");
-	this:RegisterEvent("PLAYER_LOGOUT");
+	QuestieTracker:createTrackingFrame();
+	QuestieTracker:createTrackingButtons();
+	QuestieTracker:RegisterEvent("QUEST_LOG_UPDATE");
+	QuestieTracker:RegisterEvent("PLAYER_LOGOUT");
 
-	this:syncEQL3();
+	QuestieTracker:syncEQL3();
 end
 
 function QuestieTracker:syncEQL3()
 	if(EQL3_Player) then
 		for id=1, GetNumQuestLogEntries() do
 			local questName, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(id);
-			if ( not isHeader and EQL3_IsQuestWatched(id) and not this:isTracked(questName) ) then
+			if ( not isHeader and EQL3_IsQuestWatched(id) and not QuestieTracker:isTracked(questName) ) then
 				for i=1, GetNumQuestLeaderBoards() do
 					local desc, typ, done = GetQuestLogLeaderBoard(i);
-					this:addQuestToTracker(Questie:GetHashFromName(questName));
+					QuestieTracker:addQuestToTracker(Questie:GetHashFromName(questName));
 				end
-			elseif( not isHeader and not EQL3_IsQuestWatched(id) and this:isTracked(questName) ) then
-				this:removeQuestFromTracker(Questie:GetHashFromName(questName));
+			elseif( not isHeader and not EQL3_IsQuestWatched(id) and QuestieTracker:isTracked(questName) ) then
+				QuestieTracker:removeQuestFromTracker(Questie:GetHashFromName(questName));
 			end
 		end
 	end
@@ -183,12 +183,12 @@ function QuestieTracker:QUEST_LOG_UPDATE()
 		local questName, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(id);
 		local hash = Questie:GetHashFromName(questName)
 		
-		if ( AUTO_QUEST_WATCH == "1" and not QuestieTrackedQuests[hash] and not this:isTracked(questName) and not isHeader) then
-			this:setQuestInfo(id);
+		if ( AUTO_QUEST_WATCH == "1" and not QuestieTrackedQuests[hash] and not QuestieTracker:isTracked(questName) and not isHeader) then
+			QuestieTracker:setQuestInfo(id);
 		end
 
-		if( this:isTracked(questName) ) then
-			this:updateFrameOnTracker(hash)
+		if( QuestieTracker:isTracked(questName) ) then
+			QuestieTracker:updateFrameOnTracker(hash)
 		end
 	end
 	SelectQuestLogEntry(startid);
@@ -218,13 +218,13 @@ function QuestieTracker:updateTrackingFrameSize()
 	for i=1,8 do
 		local button = getglobal("QuestieTrackerButton"..i);
 		if button:IsShown() then
-			button:SetParent(this.frame);
+			button:SetParent(QuestieTracker.frame);
 			button:SetWidth(240);
 			local height = 20;
 			button:SetHeight(20);
 			shown = shown + 1;
 			if(i == 1) then
-				button:SetPoint("TOPLEFT", this.frame, "TOPLEFT", 5, -5);
+				button:SetPoint("TOPLEFT", QuestieTracker.frame, "TOPLEFT", 5, -5);
 			else
 				button:SetPoint("TOPLEFT", "QuestieTrackerButton"..i-1, "BOTTOMLEFT", 0, -5);
 			end
@@ -236,13 +236,13 @@ function QuestieTracker:updateTrackingFrameSize()
 			button:SetHeight(height);
 			frameHeight = frameHeight + height;
 		end
-		this.frame.buttons[i] = button;
+		QuestieTracker.frame.buttons[i] = button;
 	end
 	if shown == 0 then
-		this.frame:Hide();
+		QuestieTracker.frame:Hide();
 	else
-		this.frame:SetHeight(frameHeight+shown*5 + 5);
-		this.frame:Show();
+		QuestieTracker.frame:SetHeight(frameHeight+shown*5 + 5);
+		QuestieTracker.frame:Show();
 	end
 end
 
@@ -282,8 +282,7 @@ function QuestieTracker:fillTrackingFrame()
 	-- currently if there aren't any notes, it doesn't add the quest to the tracker
 	-- eventually, that should be changed, but since we are lacking distance and such, there needs to be some kind of workaround!
 	-- like creating dummy notes on SetQuestInfo() probably?
-	local BADCODE_ZONEID = getCurrentMapID() -- bad bad bad
-	this:clearTrackingFrame();
+	QuestieTracker:clearTrackingFrame();
 	local sortedByDistance = {};
 	local distanceControlTable = {};
 	
@@ -342,15 +341,15 @@ function QuestieTracker:fillTrackingFrame()
 			end
 		end
 	end]]
-	this:updateTrackingFrameSize();
+	QuestieTracker:updateTrackingFrameSize();
 end
 
 function QuestieTracker:createTrackingButtons()
-	this.frame.buttons = {};
+	QuestieTracker.frame.buttons = {};
 	local frameHeight = 20;
 	for i=1,8 do
-		local button = CreateFrame("Button", "QuestieTrackerButton"..i, this.frame, "QuestieTrackerButtonTemplate");
-		button:SetParent(this.frame);
+		local button = CreateFrame("Button", "QuestieTrackerButton"..i, QuestieTracker.frame, "QuestieTrackerButtonTemplate");
+		button:SetParent(QuestieTracker.frame);
 		button:SetWidth(240);
 		button:SetHeight(12);
 
@@ -386,12 +385,12 @@ function QuestieTracker:createTrackingButtons()
 				{
 					['click'] = function() end
 				}
-			}, button:GetLeft()-160, y - button:GetHeight() / 2, this.frame);
+			}, button:GetLeft()-160, y - button:GetHeight() / 2, QuestieTracker.frame);
 
 		end end);
 
 		if(i == 1) then
-			button:SetPoint("TOPLEFT", this.frame, "TOPLEFT", 5, -15);
+			button:SetPoint("TOPLEFT", QuestieTracker.frame, "TOPLEFT", 5, -15);
 			local height = 12;
 			for j=1,8 do
 				if( getglobal("QuestieTrackerButton"..i.."QuestWatchLine"..j):IsShown() ) then
@@ -411,11 +410,11 @@ function QuestieTracker:createTrackingButtons()
 		end
 		getglobal("QuestieTrackerButton"..i.."HeaderText"):SetText("QuestName");
 		frameHeight = frameHeight + button:GetHeight();
-		this.frame.buttons[i] = button;
+		QuestieTracker.frame.buttons[i] = button;
 	end
-	this.frame:SetHeight(frameHeight+40);
+	QuestieTracker.frame:SetHeight(frameHeight+40);
 
-	this:fillTrackingFrame();
+	QuestieTracker:fillTrackingFrame();
 end
 
 function QuestieTracker:saveFramePosition()
@@ -433,26 +432,26 @@ function QuestieTracker:saveFramePosition()
 end
 
 function QuestieTracker:createTrackingFrame()
-	this.frame = CreateFrame("Frame", "QuestieTrackerFrame", UIParent);
-	this.frame:SetWidth(250);
-	this.frame:SetHeight(400);
-	this.frame:SetPoint(QuestieTrackerVariables["position"]["point"], QuestieTrackerVariables["position"]["relativeTo"], QuestieTrackerVariables["position"]["relativePoint"],
+	QuestieTracker.frame = CreateFrame("Frame", "QuestieTrackerFrame", UIParent);
+	QuestieTracker.frame:SetWidth(250);
+	QuestieTracker.frame:SetHeight(400);
+	QuestieTracker.frame:SetPoint(QuestieTrackerVariables["position"]["point"], QuestieTrackerVariables["position"]["relativeTo"], QuestieTrackerVariables["position"]["relativePoint"],
 		QuestieTrackerVariables["position"]["xOfs"], QuestieTrackerVariables["position"]["yOfs"]);
-	this.frame:SetAlpha(0.2)
-	this.frame.texture = this.frame:CreateTexture(nil, "BACKGROUND");
+	QuestieTracker.frame:SetAlpha(0.2)
+	QuestieTracker.frame.texture = QuestieTracker.frame:CreateTexture(nil, "BACKGROUND");
 	--this.frame.texture:SetTexture("Interface\\Tooltips\\UI-Tooltip-Background");
-	this.frame.texture:SetTexture(0,0,0); -- black
-	this.frame.texture:SetAllPoints(this.frame);
-	this.frame:Show();
+	QuestieTracker.frame.texture:SetTexture(0,0,0); -- black
+	QuestieTracker.frame.texture:SetAllPoints(QuestieTracker.frame);
+	QuestieTracker.frame:Show();
 
 	--this.frame:RegisterForDrag("LeftButton");
-	this.frame:EnableMouse(true);
-	this.frame:SetMovable(true);
-	this.frame:SetScript("OnMouseDown", function()
+	QuestieTracker.frame:EnableMouse(true);
+	QuestieTracker.frame:SetMovable(true);
+	QuestieTracker.frame:SetScript("OnMouseDown", function()
 		this:StartMoving();
 	end);
-	this.frame:SetScript("OnMouseUp", function()
-		this:StopMovingOrSizing();
+	QuestieTracker.frame:SetScript("OnMouseUp", function()
+		QuestieTracker:StopMovingOrSizing();
 		this:SetUserPlaced(false);
 		--can't call saveFramePosition because it RANDOMLY THROWS WOW ERRORS (WTF?)
 		QuestieTracker:saveFramePosition()
