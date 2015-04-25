@@ -2,6 +2,7 @@
 
 --THIS IS THE FUNCTION TO USE!
 LastQuestLogHashes = nil;
+LastQuestLogCount = 0;
 LastCount = 0;
 function Questie:CheckQuestLog()
   	local numEntries, numQuests = GetNumQuestLogEntries();
@@ -24,11 +25,10 @@ function Questie:CheckQuestLog()
 		Questie:RedrawNotes();
 		return;
 	end
-	local Quests = Questie:AstroGetAllCurrentQuestHashesAsMeta();
+	local Quests, QuestsCount = Questie:AstroGetAllCurrentQuestHashesAsMeta();
 	MapChanged = false;
-
 	delta = {};
-	if (table.getn(Quests) > table.getn(LastQuestLogHashes)) then
+	if (QuestsCount > LastQuestLogCount) then
 		for k, v in pairs(Quests) do
 			if(Quests[k] and LastQuestLogHashes[k]) then
 
@@ -94,6 +94,7 @@ function Questie:CheckQuestLog()
 		Questie:RedrawNotes();
 	end
 	LastQuestLogHashes = Quests;
+	LastQuestLogCount = QuestsCount;
 	Questie:debug_Print("Checklog done: Time:",tostring((GetTime()-t)*1000).."ms");
 end
 
@@ -263,6 +264,7 @@ end
 
 function Questie:AstroGetAllCurrentQuestHashesAsMeta(print)
 	local hashes = {};
+	local Count = 0;
   	local numEntries, numQuests = GetNumQuestLogEntries();
 	for i = 1, numEntries do
 		local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(i);
@@ -291,7 +293,7 @@ function Questie:AstroGetAllCurrentQuestHashesAsMeta(print)
 	if(print) then
 		Questie:debug_Print("--End of all current quests--");
 	end
-	return hashes;
+	return hashes, numQuests;
 end
 
 
@@ -508,7 +510,7 @@ AstroobjectiveProcessors = {
 		local itemdata = QuestieItems[name];
 		Questie:debug_Print(name);
 		if itemdata == nil then
-			Questie:debug_Print("ERROR PROCESSING '" .. quest .. "''  objective:'" .. name .. "'' no itemdata");
+			Questie:debug_Print("ERROR PROCESSING '" .. quest .. "''  objective:'" .. name .. "'' no itemdata".. " ID:0");
 			itemdata = QuestieItems[name];
 		end
 		if itemdata then
@@ -542,7 +544,7 @@ AstroobjectiveProcessors = {
 				elseif k =="locations" then
 
 				else
-					Questie:debug_Print("ERROR PROCESSING " .. quest .. "  objective:" .. name);
+					Questie:debug_Print("ERROR PROCESSING " .. quest .. "  objective:" .. name.. " ID:1");
 					for s, r in pairs(itemdata) do
 						Questie:debug_Print(s,tostring(r));
 						
@@ -556,7 +558,7 @@ AstroobjectiveProcessors = {
 		local evtdata = QuestieEvents[name]
 		local list = {};
 		if evtdata == nil then
-			debug("ERROR UNKNOWN EVENT " .. quest .. "  objective:" .. name);
+			debug("ERROR UNKNOWN EVENT " .. quest .. "  objective:" .. name.. " ID:2");
 		else
 			--DEFAULT_CHAT_FRAME:AddMessage("VALIDEVT: " .. name, 0.2, 0.95, 0.2);
 			for b=1,evtdata['locationCount'] do
