@@ -53,9 +53,9 @@ function Questie:OnUpdate(elapsed)
 end
 
 QuestieCompletedQuestMessages = {};
---1 means WE KNOW it's complete
---0 means We've seen it and it's probably in the questlog
----1 means we know its abandonnd
+-- 1 means WE KNOW it's complete
+-- 0 means We've seen it and it's probably in the questlog
+-- -1 means we know its abandonnd
 
 function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10)
 	if(event =="ADDON_LOADED" and arg1 == "Questie") then

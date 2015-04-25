@@ -4,6 +4,7 @@
 <script file="QuestieAstro.lua"/>
 <script file="QuestieNotes.lua" />
 <script file="QuestieQuest.lua" />
+<script file="QuestieTracker.lua" />
 <!--<script file="QuestieTracker.lua"/> TRACKER REMOVED FOR NOW-->
 <script file="Interface\AddOns\Questie\Database\items.lua"/>
 <script file="Interface\AddOns\Questie\Database\monsters.lua"/>
