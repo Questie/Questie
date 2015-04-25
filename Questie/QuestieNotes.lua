@@ -200,7 +200,7 @@ function Questie_Tooltip_OnEnter()
 			Tooltip:AddLine("Complete!");
 		end
 
-		if(NOTES_DEBUG) then
+		if(NOTES_DEBUG and IsAltKeyDown()) then
 			Tooltip:AddLine("!DEBUG!", 1, 0, 0);
 			Tooltip:AddLine("questHash: "..this.data.questHash, 1, 0, 0);
 			Tooltip:AddLine("objectiveid: "..tostring(this.data.objectiveid), 1, 0, 0);
@@ -234,7 +234,7 @@ function Questie:CreateBlankFrameNote()
 	table.insert(AllFrames, f);
 end
 
-TICK_DELAY = 0.05;--0.1 Atm not to get spam while debugging should probably be a lot faster...
+TICK_DELAY = 0.01;--0.1 Atm not to get spam while debugging should probably be a lot faster...
 LAST_TICK = GetTime();
 
 local LastContinent = nil;
@@ -259,18 +259,15 @@ function Questie:NOTES_ON_UPDATE(elapsed)
 		UIOpen = false;
 	end
 
-
-	if(GetTime() - LAST_TICK > TICK_DELAY) then
-		--Gets current map to see if we need to redraw or not.
-		local c, z = GetCurrentMapContinent(), GetCurrentMapZone();
-		if(c ~= LastContinent or LastZone ~= z) then
-			--Clears before redrawing
-			Questie:RedrawNotes();
-			--Sets the last continent and zone to hinder spam.
-			LastContinent = c;
-			LastZone = z;
-		end
-		LAST_TICK = GetTime();
+	--Test to remove the delay
+	--Gets current map to see if we need to redraw or not.
+	local c, z = GetCurrentMapContinent(), GetCurrentMapZone();
+	if(c ~= LastContinent or LastZone ~= z) then
+		--Clears before redrawing
+		Questie:RedrawNotes();
+		--Sets the last continent and zone to hinder spam.
+		LastContinent = c;
+		LastZone = z;
 	end
 end
 
