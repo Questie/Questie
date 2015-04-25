@@ -470,6 +470,7 @@ AstroobjectiveProcessors = {
 		Questie:debug_Print(name);
 		if itemdata == nil then
 			Questie:debug_Print("ERROR PROCESSING '" .. quest .. "''  objective:'" .. name .. "'' no itemdata");
+			itemdata = QuestieItems[name];
 		end
 		if itemdata then
 			for k,v in pairs(itemdata) do
@@ -505,6 +506,7 @@ AstroobjectiveProcessors = {
 					Questie:debug_Print("ERROR PROCESSING " .. quest .. "  objective:" .. name);
 					for s, r in pairs(itemdata) do
 						Questie:debug_Print(s,tostring(r));
+						
 					end
 				end
 			end
