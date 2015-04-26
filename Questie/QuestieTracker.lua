@@ -5,8 +5,16 @@ QuestieTracker = CreateFrame("Frame", "QuestieTracker", UIParent, "ActionButtonT
 function QuestieTracker:OnEvent() -- functions created in "object:method"-style have an implicit first parameter of "this", which points to object || in 1.12 parsing arguments as ... doesn't work
 	QuestieTracker[event](QuestieTracker, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10) -- route event parameters to Questie:event methods
 end
+
+function QuestieTracker_OnUpdate()
+	if(EQL3_QuestWatchFrame) then
+		EQL3_QuestWatchFrame:Hide();
+	end
+	QuestWatchFrame:Hide()
+end
+
 QuestieTracker:SetScript("OnEvent", QuestieTracker.OnEvent)
-QuestieTracker:SetScript("OnUpdate", QuestieTracker.OnUpdate)
+QuestieTracker:SetScript("OnUpdate", QuestieTracker_OnUpdate)
 QuestieTracker:RegisterEvent("PLAYER_LOGIN")
 QuestieTracker:RegisterEvent("ADDON_LOADED")
 
@@ -22,10 +30,7 @@ local function trim(s)
 	return string.gsub(s, "^%s*(.-)%s*$", "%1");
 end
 
-function QuestieTracker:OnUpdate()
-	EQL3_QuestWatchFrame:Hide();
-	QuestWatchFrame:Hide()
-end
+
 
 function QuestieTracker:addQuestToTracker(hash, logId)
 	local startTime = GetTime()
