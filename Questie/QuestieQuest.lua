@@ -70,6 +70,7 @@ function Questie:CheckQuestLog()
 		else				
 			Questie:debug_Print("Check discovered a missing quest, removing!", v["hash"], v["name"])
 			Questie:RemoveQuestFromMap(v["hash"]);
+			QuestieTracker:removeQuestFromTracker(v["hash"]);
 			if(not QuestieCompletedQuestMessages[v["name"]]) then
 				QuestieCompletedQuestMessages[v["name"]] = 0;
 			end
@@ -303,6 +304,7 @@ end
 
 
 function Questie:GetQuestIdFromHash(questHash)
+	local startTime = GetTime()
 	local numEntries, numQuests = GetNumQuestLogEntries();
 	for i = 1, numEntries do
 		local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(i);
@@ -317,6 +319,8 @@ function Questie:GetQuestIdFromHash(questHash)
 		    end
 		end
 	end
+	
+	--Questie:debug_Print("Got QuestID from Hash - Time: " .. (GetTime()-startTime)*1000 .. "ms");
 	if not QuestLogID then
 		return;
 	else
@@ -329,13 +333,14 @@ function Questie:GetHashFromName(name)
 	for i = 1, numEntries do
 		local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(i);
 		if not isHeader then
-		  	SelectQuestLogEntry(i);
-		    local count =  GetNumQuestLeaderBoards();
-		    local questText, objectiveText = _GetQuestLogQuestText();
-
-		    if(q == name) then
-		   	 	return Questie:getQuestHash(q, level, objectiveText);
-		    end
+		   if(q == name) then
+		   	local startSelect = GetQuestLogSelection();
+		   	SelectQuestLogEntry(i);
+		   	local count =  GetNumQuestLeaderBoards();
+		   	local questText, objectiveText = _GetQuestLogQuestText();
+		   	SelectQuestLogEntry(startSelect);
+		   	return Questie:getQuestHash(q, level, objectiveText);
+		   end
 		end
 	end
 return nil;

@@ -6,6 +6,7 @@ function QuestieTracker:OnEvent() -- functions created in "object:method"-style 
 	QuestieTracker[event](QuestieTracker, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10) -- route event parameters to Questie:event methods
 end
 QuestieTracker:SetScript("OnEvent", QuestieTracker.OnEvent)
+QuestieTracker:SetScript("OnUpdate", QuestieTracker.OnUpdate)
 QuestieTracker:RegisterEvent("PLAYER_LOGIN")
 QuestieTracker:RegisterEvent("ADDON_LOADED")
 
@@ -21,17 +22,23 @@ local function trim(s)
 	return string.gsub(s, "^%s*(.-)%s*$", "%1");
 end
 
-function QuestieTracker:addQuestToTracker(hash)
-	if not hash then
-		log("tried to add nil hash to tracker")
-		return
-	end
+function QuestieTracker:OnUpdate()
+	EQL3_QuestWatchFrame:Hide();
+	QuestWatchFrame:Hide()
+end
+
+function QuestieTracker:addQuestToTracker(hash, logId)
+	local startTime = GetTime()
+	
 	if(type(QuestieTrackedQuests[hash]) ~= "table") then
 		QuestieTrackedQuests[hash] = {};
 	end
+	
+	if not logId then
+		logId = Questie:GetQuestIdFromHash(hash)
+	end	
 
-	local startid = GetQuestLogSelection();
-	local logId = Questie:GetQuestIdFromHash(hash)
+	local startId = GetQuestLogSelection();	
 	SelectQuestLogEntry(logId);
 	local questName, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(logId);
 	QuestieTrackedQuests[hash]["questName"] = questName
@@ -54,17 +61,23 @@ function QuestieTracker:addQuestToTracker(hash)
 			["done"] = true,
 			["notes"] = {},
 		}
-	end	
+	end
+	SelectQuestLogEntry(startId);
+	Questie:debug_Print("Added QuestInfo to Tracker - Time: " .. (GetTime()-startTime)*1000 .. "ms");
 end
 
-function QuestieTracker:updateFrameOnTracker(hash)
+function QuestieTracker:updateFrameOnTracker(hash, logId)
+	local startTime = GetTime()	
 	if(type(QuestieTrackedQuests[hash]) ~= "table") then
-		QuestieTracker:addQuestToTracker(hash)
+		QuestieTracker:addQuestToTracker(hash, logId)
 		return
 	end
 	
+	if not logId then
+		logId = Questie:GetQuestIdFromHash(hash)
+	end
+	
 	local startid = GetQuestLogSelection();
-	local logId = Questie:GetQuestIdFromHash(hash)
 	SelectQuestLogEntry(logId);
 	local questName, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(logId);
 	QuestieTrackedQuests[hash]["isComplete"] = isComplete
@@ -75,12 +88,14 @@ function QuestieTracker:updateFrameOnTracker(hash)
 	end
 	
 	SelectQuestLogEntry(startid);
+	Questie:debug_Print("TrackerInfo collected - Time: " .. (GetTime()-startTime)*1000 .. "ms");
 	
 end
 
 function QuestieTracker:removeQuestFromTracker(hash)
 	if QuestieTrackedQuests[hash] then
 		QuestieTrackedQuests[hash] = nil
+		QuestieTrackedQuests[hash] = false
 	end
 	QuestieTracker:fillTrackingFrame()
 end
@@ -127,13 +142,13 @@ end
 function QuestieTracker:isTracked(quest)
 	if(type(quest) == "string") then
 		local hash = Questie:GetHashFromName(quest)
-		if(QuestieTrackedQuests[hash]) then
+		if(QuestieTrackedQuests[hash] and QuestieTrackedQuests[hash] ~= false) then
 			return true;
 		end
 	else
 		local questName, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(quest);
 		local hash = Questie:GetHashFromName(questName)
-		if(QuestieTrackedQuests[hash]) then
+		if(QuestieTrackedQuests[hash] and QuestieTrackedQuests[hash] ~= false) then
 			return true;
 		end
 	end
@@ -168,7 +183,7 @@ function QuestieTracker:syncEQL3()
 			if ( not isHeader and EQL3_IsQuestWatched(id) and not QuestieTracker:isTracked(questName) ) then
 				for i=1, GetNumQuestLeaderBoards() do
 					local desc, typ, done = GetQuestLogLeaderBoard(i);
-					QuestieTracker:addQuestToTracker(Questie:GetHashFromName(questName));
+					QuestieTracker:addQuestToTracker(Questie:GetHashFromName(questName), id);
 				end
 			elseif( not isHeader and not EQL3_IsQuestWatched(id) and QuestieTracker:isTracked(questName) ) then
 				QuestieTracker:removeQuestFromTracker(Questie:GetHashFromName(questName));
@@ -178,20 +193,20 @@ function QuestieTracker:syncEQL3()
 end
 
 function QuestieTracker:QUEST_LOG_UPDATE()
-	local startid = GetQuestLogSelection();
+	--local startid = GetQuestLogSelection();
 	for id=1, GetNumQuestLogEntries() do
 		local questName, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(id);
 		local hash = Questie:GetHashFromName(questName)
 		
-		if ( AUTO_QUEST_WATCH == "1" and not QuestieTrackedQuests[hash] and not QuestieTracker:isTracked(questName) and not isHeader) then
+		if ( AUTO_QUEST_WATCH == "1" and QuestieTrackedQuests[hash] == nil and not isHeader) then
 			QuestieTracker:setQuestInfo(id);
 		end
 
 		if( QuestieTracker:isTracked(questName) ) then
-			QuestieTracker:updateFrameOnTracker(hash)
+			QuestieTracker:updateFrameOnTracker(hash, id)
 		end
 	end
-	SelectQuestLogEntry(startid);
+	--SelectQuestLogEntry(startid);
 	this:fillTrackingFrame()
 end
 
@@ -305,21 +320,23 @@ function QuestieTracker:fillTrackingFrame()
 		local handledQuests = QuestieHandledQuests[hash]
 		local frame = getglobal("QuestieTrackerButton"..i);
 		if not frame then break end
-		frame:Show();
-		
-		quest["formatDistance"] = "0"
-		quest["formatUnits"] = "m"
-		getglobal("QuestieTrackerButton"..i.."HeaderText"):SetText("[" .. quest["level"] .. "] " .. quest["questName"] .. " (" .. quest["formatDistance"] .. " " .. quest["formatUnits"] .. ")");
-		for j=1,20 do
-			local objectiveLine = getglobal("QuestieTrackerButton"..i.."QuestWatchLine"..j)
-			local objectiveTable = quest["objective"..j]
-			if not objectiveLine or not objectiveTable then break end
+		if quest ~= false then
+			frame:Show();
 			
-			objectiveLine:SetText(objectiveTable["desc"]);
-			objectiveLine:SetTextColor(QuestieTracker:getRGBForObjective(objectiveTable["desc"]));
-			objectiveLine:Show();
+			quest["formatDistance"] = "0"
+			quest["formatUnits"] = "m"
+			getglobal("QuestieTrackerButton"..i.."HeaderText"):SetText("[" .. quest["level"] .. "] " .. quest["questName"] .. " (" .. quest["formatDistance"] .. " " .. quest["formatUnits"] .. ")");
+			for j=1,20 do
+				local objectiveLine = getglobal("QuestieTrackerButton"..i.."QuestWatchLine"..j)
+				local objectiveTable = quest["objective"..j]
+				if not objectiveLine or not objectiveTable then break end
+				
+				objectiveLine:SetText(objectiveTable["desc"]);
+				objectiveLine:SetTextColor(QuestieTracker:getRGBForObjective(objectiveTable["desc"]));
+				objectiveLine:Show();
+			end
+			i = i + 1
 		end
-		i = i + 1
 	end
 
 	--[[local i = 1;
@@ -355,7 +372,7 @@ function QuestieTracker:fillTrackingFrame()
 		end
 	end]]
 	QuestieTracker:updateTrackingFrameSize();
-	Questie:debug_Print("Tracker updated: Time:", tostring((GetTime()-t)*1000).."ms");
+	--Questie:debug_Print("TrackerFrame filled: Time:", tostring((GetTime()-t)*1000).."ms");
 end
 
 function QuestieTracker:createTrackingButtons()
