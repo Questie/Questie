@@ -111,7 +111,7 @@ function QuestLogTitleButton_OnClick(button)
 			if(ChatFrameEditBox:IsVisible()) then
 				ChatFrameEditBox:Insert(this:GetText());
 			else
-				QuestieTracker:setQuestInfo(this:GetID());
+				QuestieTracker:setQuestInfo(this:GetID() + FauxScrollFrame_GetOffset(EQL3_QuestLogListScrollFrame));
 			end
 	end
 	_QuestLogTitleButton_OnClick(button);
