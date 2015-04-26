@@ -11,14 +11,6 @@ function QuestieTracker_OnUpdate()
 		EQL3_QuestWatchFrame:Hide();
 	end
 	QuestWatchFrame:Hide()
-	
-	if not QuestieTracker.questLogTimer then
-		QuestieTracker.questLogTimer = GetTime()
-	end
-	if GetTime() - QuestieTracker.questLogTimer > 10 then
-		QuestieTracker:QUEST_LOG_UPDATE()
-	end	
-	
 end
 
 QuestieTracker:SetScript("OnEvent", QuestieTracker.OnEvent)
@@ -77,6 +69,7 @@ function QuestieTracker:addQuestToTracker(hash, logId)
 	end
 	SelectQuestLogEntry(startId);
 	Questie:debug_Print("Added QuestInfo to Tracker - Time: " .. (GetTime()-startTime)*1000 .. "ms");
+	QuestieTracker:fillTrackingFrame()
 end
 
 function QuestieTracker:updateFrameOnTracker(hash, logId)
@@ -101,8 +94,8 @@ function QuestieTracker:updateFrameOnTracker(hash, logId)
 	end
 	
 	SelectQuestLogEntry(startid);
-	Questie:debug_Print("TrackerInfo collected - Time: " .. (GetTime()-startTime)*1000 .. "ms");
-	
+	--Questie:debug_Print("TrackerInfo collected - Time: " .. (GetTime()-startTime)*1000 .. "ms");
+	--QuestieTracker:fillTrackingFrame()
 end
 
 function QuestieTracker:removeQuestFromTracker(hash)
@@ -219,8 +212,6 @@ function QuestieTracker:syncEQL3()
 end
 
 function QuestieTracker:QUEST_LOG_UPDATE()
-	--local startid = GetQuestLogSelection();
-	QuestieTracker.questLogTimer = GetTime()
 	for id=1, GetNumQuestLogEntries() do
 		local questName, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(id);
 		local hash = Questie:GetHashFromName(questName)
@@ -233,8 +224,7 @@ function QuestieTracker:QUEST_LOG_UPDATE()
 			QuestieTracker:updateFrameOnTracker(hash, id)
 		end
 	end
-	--SelectQuestLogEntry(startid);
-	this:fillTrackingFrame()
+	QuestieTracker:fillTrackingFrame()
 end
 
 function QuestieTracker:ADDON_LOADED()

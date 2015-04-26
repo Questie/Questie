@@ -196,6 +196,9 @@ function Questie:UpdateQuestInZone(Zone, force)
 			if(Refresh) then --If it's the same it means everything is done
 				Questie:debug_Print("Update: Something has changed, need to refresh:", hash);
 				Questie:AddQuestToMap(hash, true);
+				
+				QuestieTracker:updateFrameOnTracker(hash, i)
+				QuestieTracker:fillTrackingFrame()
 			end
 		end
 		if(foundChange and not force) then
