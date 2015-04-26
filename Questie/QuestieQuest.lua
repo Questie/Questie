@@ -96,6 +96,11 @@ function Questie:CheckQuestLog()
 	LastQuestLogHashes = Quests;
 	LastQuestLogCount = QuestsCount;
 	Questie:debug_Print("Checklog done: Time:",tostring((GetTime()-t)*1000).."ms");
+	if(MapChanged == true) then
+		return true;
+	else
+		return nil;
+	end
 end
 
 ASDFF = nil;

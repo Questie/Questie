@@ -63,8 +63,9 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 	elseif(event == "QUEST_LOG_UPDATE") then
 		if(Active == true) then
 			--Questie:debug_Print("QUEST_LOG_UPDATE");
-			Questie:CheckQuestLog();
-			Questie:UpdateQuests();
+			if(not Questie:CheckQuestLog()) then
+				Questie:UpdateQuests();
+			end
 		end
 	elseif(event == "VARIABLES_LOADED") then
 		Questie:debug_Print("VARIABLES_LOADED");
