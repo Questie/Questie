@@ -89,7 +89,7 @@ end
 function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10)
 	if(event =="ADDON_LOADED" and arg1 == "Questie") then
 
-	elseif(event == "QUEST_LOG_UPDATE" or event == "UNIT_QUEST_LOG_CHANGED" or event == "QUEST_ITEM_UPDATE") then
+	elseif(event == "QUEST_LOG_UPDATE" or event == "QUEST_ITEM_UPDATE") then
 		if(Active == true) then
 			Questie:debug_Print(event);
 			Questie:AddEvent("CHECKLOG", 0.06);
