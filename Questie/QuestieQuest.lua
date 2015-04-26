@@ -133,6 +133,7 @@ function Questie:UpdateQuests(force)
 			if(isHeader and q ~= CurrentZone) then
 				local c = Questie:UpdateQuestInZone(q, force);
 				ZonesChecked = ZonesChecked +1;
+				change = c;
 				if(c and not force)then
 					break;
 				end
@@ -142,6 +143,7 @@ function Questie:UpdateQuests(force)
 		--Questie:debug_Print("Found change in current zone, good!");
 	end
 	Questie:debug_Print("Updated quests: Time:", tostring((GetTime()-t)*1000).."ms","Zones:"..ZonesChecked)
+	return change;
 end
 
 function Questie:UpdateQuestInZone(Zone, force)
