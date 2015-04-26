@@ -70,6 +70,7 @@ function Questie:CheckQuestLog()
 		else				
 			Questie:debug_Print("Check discovered a missing quest, removing!", v["hash"], v["name"])
 			Questie:RemoveQuestFromMap(v["hash"]);
+			QuestieTracker:removeQuestFromTracker(v["hash"]);
 			if(not QuestieCompletedQuestMessages[v["name"]]) then
 				QuestieCompletedQuestMessages[v["name"]] = 0;
 			end
