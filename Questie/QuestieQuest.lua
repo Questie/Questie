@@ -298,6 +298,7 @@ end
 
 
 function Questie:GetQuestIdFromHash(questHash)
+	local startTime = GetTime()
 	local numEntries, numQuests = GetNumQuestLogEntries();
 	for i = 1, numEntries do
 		local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(i);
@@ -312,6 +313,8 @@ function Questie:GetQuestIdFromHash(questHash)
 		    end
 		end
 	end
+	
+	--Questie:debug_Print("Got QuestID from Hash - Time: " .. (GetTime()-startTime)*1000 .. "ms");
 	if not QuestLogID then
 		return;
 	else
