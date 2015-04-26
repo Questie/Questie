@@ -95,6 +95,7 @@ end
 function QuestieTracker:removeQuestFromTracker(hash)
 	if QuestieTrackedQuests[hash] then
 		QuestieTrackedQuests[hash] = nil
+		QuestieTrackedQuests[hash] = false
 	end
 	QuestieTracker:fillTrackingFrame()
 end
@@ -141,13 +142,13 @@ end
 function QuestieTracker:isTracked(quest)
 	if(type(quest) == "string") then
 		local hash = Questie:GetHashFromName(quest)
-		if(QuestieTrackedQuests[hash]) then
+		if(QuestieTrackedQuests[hash] and QuestieTrackedQuests[hash] ~= false) then
 			return true;
 		end
 	else
 		local questName, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(quest);
 		local hash = Questie:GetHashFromName(questName)
-		if(QuestieTrackedQuests[hash]) then
+		if(QuestieTrackedQuests[hash] and QuestieTrackedQuests[hash] ~= false) then
 			return true;
 		end
 	end
@@ -197,7 +198,7 @@ function QuestieTracker:QUEST_LOG_UPDATE()
 		local questName, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(id);
 		local hash = Questie:GetHashFromName(questName)
 		
-		if ( AUTO_QUEST_WATCH == "1" and not QuestieTrackedQuests[hash] and not QuestieTracker:isTracked(questName) and not isHeader) then
+		if ( AUTO_QUEST_WATCH == "1" and QuestieTrackedQuests[hash] == nil and not isHeader) then
 			QuestieTracker:setQuestInfo(id);
 		end
 
@@ -319,21 +320,23 @@ function QuestieTracker:fillTrackingFrame()
 		local handledQuests = QuestieHandledQuests[hash]
 		local frame = getglobal("QuestieTrackerButton"..i);
 		if not frame then break end
-		frame:Show();
-		
-		quest["formatDistance"] = "0"
-		quest["formatUnits"] = "m"
-		getglobal("QuestieTrackerButton"..i.."HeaderText"):SetText("[" .. quest["level"] .. "] " .. quest["questName"] .. " (" .. quest["formatDistance"] .. " " .. quest["formatUnits"] .. ")");
-		for j=1,20 do
-			local objectiveLine = getglobal("QuestieTrackerButton"..i.."QuestWatchLine"..j)
-			local objectiveTable = quest["objective"..j]
-			if not objectiveLine or not objectiveTable then break end
+		if quest ~= false then
+			frame:Show();
 			
-			objectiveLine:SetText(objectiveTable["desc"]);
-			objectiveLine:SetTextColor(QuestieTracker:getRGBForObjective(objectiveTable["desc"]));
-			objectiveLine:Show();
+			quest["formatDistance"] = "0"
+			quest["formatUnits"] = "m"
+			getglobal("QuestieTrackerButton"..i.."HeaderText"):SetText("[" .. quest["level"] .. "] " .. quest["questName"] .. " (" .. quest["formatDistance"] .. " " .. quest["formatUnits"] .. ")");
+			for j=1,20 do
+				local objectiveLine = getglobal("QuestieTrackerButton"..i.."QuestWatchLine"..j)
+				local objectiveTable = quest["objective"..j]
+				if not objectiveLine or not objectiveTable then break end
+				
+				objectiveLine:SetText(objectiveTable["desc"]);
+				objectiveLine:SetTextColor(QuestieTracker:getRGBForObjective(objectiveTable["desc"]));
+				objectiveLine:Show();
+			end
+			i = i + 1
 		end
-		i = i + 1
 	end
 
 	--[[local i = 1;
@@ -369,7 +372,7 @@ function QuestieTracker:fillTrackingFrame()
 		end
 	end]]
 	QuestieTracker:updateTrackingFrameSize();
-	Questie:debug_Print("TrackerFrame filled: Time:", tostring((GetTime()-t)*1000).."ms");
+	--Questie:debug_Print("TrackerFrame filled: Time:", tostring((GetTime()-t)*1000).."ms");
 end
 
 function QuestieTracker:createTrackingButtons()

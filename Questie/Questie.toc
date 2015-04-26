@@ -6,7 +6,7 @@
 ## RequiredDeps:
 ## OptionalDeps: 
 ## SavedVariables: QuestieTrackerVariables, QuestieDebug
-## SavedVariablesPerCharacter: QuestieCurrentQuests, QuestieCurrentNotes, QuestieSeenQuests
+## SavedVariablesPerCharacter: QuestieCurrentQuests, QuestieCurrentNotes, QuestieSeenQuests, QuestieTrackedQuests
 Libs\AceLibrary\AceLibrary.lua
 Libs\AceOO-2.0\AceOO-2.0.lua
 Libs\AceEvent-2.0\AceEvent-2.0.lua
