@@ -173,6 +173,7 @@ function QuestieTracker:setQuestInfo(id)
 end
 
 function QuestieTracker:PLAYER_LOGIN()
+	QuestieTracker:clearTrackingDB();
 	QuestieTracker:createTrackingFrame();
 	QuestieTracker:createTrackingButtons();
 	QuestieTracker:RegisterEvent("QUEST_LOG_UPDATE");
@@ -181,15 +182,27 @@ function QuestieTracker:PLAYER_LOGIN()
 	QuestieTracker:syncEQL3();
 end
 
+function QuestieTracker:clearTrackingDB()
+	for k,v in pairs(QuestieTrackedQuests) do
+		local isInLog = false
+		for id=1, GetNumQuestLogEntries() do
+			local questName, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(id);
+			if Questie:GetHashFromName(questName) == k then
+				isInLog = true
+			end
+		end
+		if isInLog == false then
+			QuestieTrackedQuests[k] = nil
+		end	
+	end
+end
+
 function QuestieTracker:syncEQL3()
 	if(EQL3_Player) then
 		for id=1, GetNumQuestLogEntries() do
 			local questName, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(id);
 			if ( not isHeader and EQL3_IsQuestWatched(id) and not QuestieTracker:isTracked(questName) ) then
-				for i=1, GetNumQuestLeaderBoards() do
-					local desc, typ, done = GetQuestLogLeaderBoard(i);
-					QuestieTracker:addQuestToTracker(Questie:GetHashFromName(questName), id);
-				end
+				QuestieTracker:addQuestToTracker(Questie:GetHashFromName(questName), id);
 			elseif( not isHeader and not EQL3_IsQuestWatched(id) and QuestieTracker:isTracked(questName) ) then
 				QuestieTracker:removeQuestFromTracker(Questie:GetHashFromName(questName));
 			end
