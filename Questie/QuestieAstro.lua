@@ -55,7 +55,7 @@ function Questie:OnUpdate(elapsed)
 	if(table.getn(QUESTIE_EVENTQUEUE) > 0) then
 		for k, v in pairs(QUESTIE_EVENTQUEUE) do
 
-			
+
 			if(v.EVENT == "UPDATE" and GetTime()- v.TIME > v.DELAY) then
 				while(true) do
 					local d = Questie:UpdateQuests();
@@ -92,7 +92,7 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 	elseif(event == "QUEST_LOG_UPDATE" or event == "UNIT_QUEST_LOG_CHANGED" or event == "QUEST_ITEM_UPDATE") then
 		if(Active == true) then
 			Questie:debug_Print(event);
-			Questie:AddEvent("CHECKLOG", 0.01);
+			Questie:AddEvent("CHECKLOG", 0.03);
 			Questie:AddEvent("UPDATE", 0.05);
 		end
 	elseif(event == "VARIABLES_LOADED") then
@@ -132,7 +132,7 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 			Questie:debug_Print("Quest Completed:", qName);
 			local hash = Questie:GetHashFromName(qName);
 			QuestieCompletedQuestMessages[qName] = 1;
-			Questie:AddEvent("CHECKLOG", 0.01);
+			Questie:AddEvent("CHECKLOG", 0.03);
 			if(not QuestieSeenQuests[hash]) then
 				Questie:debug_Print("Adding quest to seen quests:", qName, hash," setting as 1 = complete");
 				QuestieSeenQuests[hash] = 1;
