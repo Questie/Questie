@@ -327,13 +327,14 @@ function Questie:GetHashFromName(name)
 	for i = 1, numEntries do
 		local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(i);
 		if not isHeader then
-		  	SelectQuestLogEntry(i);
-		    local count =  GetNumQuestLeaderBoards();
-		    local questText, objectiveText = _GetQuestLogQuestText();
-
-		    if(q == name) then
-		   	 	return Questie:getQuestHash(q, level, objectiveText);
-		    end
+		   if(q == name) then
+		   	local startSelect = GetQuestLogSelection();
+		   	SelectQuestLogEntry(i);
+		   	local count =  GetNumQuestLeaderBoards();
+		   	local questText, objectiveText = _GetQuestLogQuestText();
+		   	SelectQuestLogEntry(startSelect);
+		   	return Questie:getQuestHash(q, level, objectiveText);
+		   end
 		end
 	end
 return nil;
