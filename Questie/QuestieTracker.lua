@@ -11,6 +11,14 @@ function QuestieTracker_OnUpdate()
 		EQL3_QuestWatchFrame:Hide();
 	end
 	QuestWatchFrame:Hide()
+	
+	if not QuestieTracker.questLogTimer then
+		QuestieTracker.questLogTimer = GetTime()
+	end
+	if GetTime() - QuestieTracker.questLogTimer > 10 then
+		QuestieTracker:QUEST_LOG_UPDATE()
+	end	
+	
 end
 
 QuestieTracker:SetScript("OnEvent", QuestieTracker.OnEvent)
@@ -212,6 +220,7 @@ end
 
 function QuestieTracker:QUEST_LOG_UPDATE()
 	--local startid = GetQuestLogSelection();
+	QuestieTracker.questLogTimer = GetTime()
 	for id=1, GetNumQuestLogEntries() do
 		local questName, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(id);
 		local hash = Questie:GetHashFromName(questName)
