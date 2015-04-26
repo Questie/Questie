@@ -92,8 +92,8 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 	elseif(event == "QUEST_LOG_UPDATE" or event == "QUEST_ITEM_UPDATE") then
 		if(Active == true) then
 			Questie:debug_Print(event);
-			Questie:AddEvent("CHECKLOG", 0.06);
-			Questie:AddEvent("UPDATE", 0.07);--On my fast PC this seems like a good number
+			Questie:AddEvent("CHECKLOG", 0.09);
+			Questie:AddEvent("UPDATE", 0.1);--On my fast PC this seems like a good number
 		end
 	elseif(event == "VARIABLES_LOADED") then
 		Questie:debug_Print("VARIABLES_LOADED");
@@ -132,7 +132,7 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 			Questie:debug_Print("Quest Completed:", qName);
 			local hash = Questie:GetHashFromName(qName);
 			QuestieCompletedQuestMessages[qName] = 1;
-			Questie:AddEvent("CHECKLOG", 0.06);
+			Questie:AddEvent("CHECKLOG", 0.09);
 			if(not QuestieSeenQuests[hash]) then
 				Questie:debug_Print("Adding quest to seen quests:", qName, hash," setting as 1 = complete");
 				QuestieSeenQuests[hash] = 1;
