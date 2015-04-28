@@ -501,7 +501,7 @@ function QuestieTracker:createTrackingFrame()
 		this:StartMoving();
 	end);
 	QuestieTracker.frame:SetScript("OnMouseUp", function()
-		QuestieTracker:StopMovingOrSizing();
+		this:StopMovingOrSizing();
 		this:SetUserPlaced(false);
 		--can't call saveFramePosition because it RANDOMLY THROWS WOW ERRORS (WTF?)
 		QuestieTracker:saveFramePosition()
