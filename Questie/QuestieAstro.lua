@@ -92,8 +92,8 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 	elseif(event == "QUEST_LOG_UPDATE" or event == "QUEST_ITEM_UPDATE") then
 		if(Active == true) then
 			Questie:debug_Print(event);
-			Questie:AddEvent("CHECKLOG", 0.09);
-			Questie:AddEvent("UPDATE", 0.1);--On my fast PC this seems like a good number
+			Questie:AddEvent("CHECKLOG", 0.135);
+			Questie:AddEvent("UPDATE", 0.15);--On my fast PC this seems like a good number
 		end
 	elseif(event == "VARIABLES_LOADED") then
 		Questie:debug_Print("VARIABLES_LOADED");
@@ -104,7 +104,7 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 		Questie:CheckQuestLog();
 
 		--This is an ugly fix... Don't know why the list isn't populated correctly...
-		Questie:AddEvent("UPDATE", 0.05);
+		Questie:AddEvent("UPDATE", 0.15);
 
 		--for k, v in pairs(QuestieSeenQuests) do
 		--	if(v == true or v == false) then
@@ -132,7 +132,7 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 			Questie:debug_Print("Quest Completed:", qName);
 			local hash = Questie:GetHashFromName(qName);
 			QuestieCompletedQuestMessages[qName] = 1;
-			Questie:AddEvent("CHECKLOG", 0.09);
+			Questie:AddEvent("CHECKLOG", 0.135);
 			if(not QuestieSeenQuests[hash]) then
 				Questie:debug_Print("Adding quest to seen quests:", qName, hash," setting as 1 = complete");
 				QuestieSeenQuests[hash] = 1;
@@ -330,12 +330,14 @@ function Questie:hookTooltip()
 
 end
 
+
+
 Questie_LastTooltip = GetTime(); --Ugly fix to stop tooltip spam....
 QUESTIE_DEBUG_TOOLTIP = nil; --Set to nil to disable.
 function Questie:Tooltip(this)
 	local monster = UnitName("mouseover")
 	local objective = GameTooltipTextLeft1:GetText();
-	if monster and GetTime() - Questie_LastTooltip > 0.01 then
+	if monster and GetTime() - Questie_LastTooltip > 0.05 then
 		for k,v in pairs(QuestieHandledQuests) do
 			local obj = v['objectives']['objectives'];
 			if (obj) then --- bad habit I know...
@@ -380,7 +382,7 @@ function Questie:Tooltip(this)
 											local namestr = string.sub(desc, 1, indx-1);
 											if(string.find(name, monster) and QuestieItems[namestr]['drop']) then -- Added Find to fix zapped giants (THIS IS NOT TESTED IF YOU FIND ERRORS REPORT!)
 												for dropperr, id in pairs(QuestieItems[namestr]['drop']) do
-													if((name == monster or string.find(name, monster)) and not p) then-- Added Find to fix zapped giants (THIS IS NOT TESTED IF YOU FIND ERRORS REPORT!)
+													if(name == monster or (string.find(name, monster) and name == monster) and not p) then-- Added Find to fix zapped giants (THIS IS NOT TESTED IF YOU FIND ERRORS REPORT!)
 														GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
 														GameTooltip:AddLine("   " .. namestr .. ": " .. countstr, 1, 1, 0.2)
 														p = true;
@@ -401,7 +403,7 @@ function Questie:Tooltip(this)
 				end
 			end
 		end
-	elseif objective and GetTime() - Questie_LastTooltip > 0.01 then
+	elseif objective and GetTime() - Questie_LastTooltip > 0.05 then
 		for k,v in pairs(QuestieHandledQuests) do
 			local obj = v['objectives']['objectives'];
 			if ( obj ) then
