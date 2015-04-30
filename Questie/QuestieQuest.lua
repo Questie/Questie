@@ -651,31 +651,6 @@ AstroobjectiveProcessors = {
 
 }
 
-function GetAvailableQuests(levelFrom, levelTo)
-	Questie:debug_Print("GetAvailableQuests")
-	--QuestieZoneLevelMap
-	local mapid = getCurrentMapID();
-	local level = UnitLevel("player");
-	Questie:debug_Print(mapid, level);
-	for l=levelFrom,levelTo do
-		if QuestieZoneLevelMap[mapid] then
-			local content = QuestieZoneLevelMap[mapid][l];
-			if content then
-				for k,v in pairs(content) do
-					--Questie:debug_Print("content", tostring(k),tostring(v));
-					local qdata = QuestieHashMap[v];
-					if(qdata) then
-						if(qdata['rq'] and QuestieSeenQuests[qdata['rq']]) then
-							Questie:debug_Print("level", k, "Name", qdata['name'], "rq:", tostring(QuestieSeenQuests[qdata['rq']]));
-						else
-							Questie:debug_Print("level", k, "Name", qdata['name']);
-						end
-					end
-				end
-			end
-		end
-	end
-end
 
 --End of Astrolabe functions
 
@@ -687,7 +662,6 @@ end
 
 
 
--- TODO move this into a utils.lua?
 RaceBitIndexTable = { -- addressing the indexes directly to make it more clear
 	['human'] = 1,
 	['orc'] = 2,
@@ -714,7 +688,7 @@ ClassBitIndexTable = {
 }
 
 function unpackBinary(val)
-	-- assume 32 bit
+	-- assume 16 bit
 	ret = {};
 	for q=0,16 do
 		if bit.band(bit.rshift(val,q), 1) == 1 then
@@ -726,17 +700,59 @@ function unpackBinary(val)
 	return ret;
 end
 
-function checkQuestRequirements(class, dbClass, race, dbRace)
-	local valid = nil;
-	if class and dbClass then
+function checkRequirements(class, race, dbClass, dbRace)
+	local valid = true;
+	DEFAULT_CHAT_FRAME:AddMessage("CHCK" .. race .. class);
+	if dbClass then DEFAULT_CHAT_FRAME:AddMessage("CHCKR" .. dbClass); end
+	if dbRace then DEFAULT_CHAT_FRAME:AddMessage("CHCKR" .. dbRace); end
+	if race and dbRace then
+		DEFAULT_CHAT_FRAME:AddMessage("CHCKR");
 		local racemap = unpackBinary(dbRace);
-		valid = racemap[RaceBitIndexTable[tolower(race)]];
+		valid = racemap[RaceBitIndexTable[strlower(race)]];
 	end
 	
-	if race and dbRace and (valid == nil or valid == true) then
+	if class and dbClass and valid then
+		DEFAULT_CHAT_FRAME:AddMessage("CHCKC");
 		local classmap = unpackBinary(dbClass);
-		valid = classmap[ClassBitIndexTable[tolower(class)]];
+		valid = classmap[ClassBitIndexTable[strlower(class)]];
 	end
 	
 	return valid;
+end
+
+function Questie:GetAvailableQuestHashes(cont, zone, levelFrom, levelTo)
+	--Questie:debug_Print("GetAvailableQuests")
+	local mapid =  QuestieCZLookup[cont * 100 +zone];
+	DEFAULT_CHAT_FRAME:AddMessage(mapid);
+	--QuestieZoneLevelMap
+	local class = UnitClass("Player"); -- should be set globally
+	local race = UnitRace("Player"); -- should be set globally
+	--Questie:debug_Print(mapid, level);
+	local hashes = {};
+	for l=levelFrom,levelTo do
+		if QuestieZoneLevelMap[mapid] then
+			local content = QuestieZoneLevelMap[mapid][l];
+			if content then
+				for k,v in pairs(content) do
+					--Questie:debug_Print("content", tostring(k),tostring(v));
+					local qdata = QuestieHashMap[v];
+					table.insert(hashes, v);
+					if(qdata) then
+						local requiredQuest = qdata['rq'];
+						local requiredRaces = qdata['rr'];
+						local requiredClasses = qdata['rc'];
+						local valid = not QuestieSeenQuests[requiredQuest];-- THIS IS LIKELY INCORRECT NOT SURE HOW QUESTIESEENQUESTS WORKS NOW
+						if(requiredQuest) then valid = QuestieSeenQuests[requiredQuest]; end-- THIS IS LIKELY INCORRECT NOT SURE HOW QUESTIESEENQUESTS WORKS NOW
+						
+						valid = valid and checkRequirements(race, class, requiredRaces,requiredClasses);
+						
+						if valid then
+							table.insert(hashes, v);
+						end
+					end
+				end
+			end
+		end
+	end
+	return hashes;
 end
