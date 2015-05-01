@@ -18,6 +18,8 @@ QuestieTracker:SetScript("OnUpdate", QuestieTracker_OnUpdate)
 QuestieTracker:RegisterEvent("PLAYER_LOGIN")
 QuestieTracker:RegisterEvent("ADDON_LOADED")
 
+QuestieTracker.hasCleared = false
+
 local _QuestWatch_Update = QuestWatch_Update;
 local _RemoveQuestWatch = RemoveQuestWatch;
 local _IsQuestWatched = IsQuestWatched;
@@ -74,13 +76,13 @@ end
 
 function QuestieTracker:updateFrameOnTracker(hash, logId)
 	local startTime = GetTime()	
-	if(type(QuestieTrackedQuests[hash]) ~= "table") then
-		QuestieTracker:addQuestToTracker(hash, logId)
-		return
-	end
-	
+		
 	if not logId then
 		logId = Questie:GetQuestIdFromHash(hash)
+	end
+	
+	if not QuestieTracker:isTracked(logId) then
+		return
 	end
 	
 	local startid = GetQuestLogSelection();
@@ -174,7 +176,6 @@ function QuestieTracker:setQuestInfo(id)
 end
 
 function QuestieTracker:PLAYER_LOGIN()
-	QuestieTracker:clearTrackingDB();
 	QuestieTracker:createTrackingFrame();
 	QuestieTracker:createTrackingButtons();
 	QuestieTracker:RegisterEvent("QUEST_LOG_UPDATE");
@@ -184,6 +185,10 @@ function QuestieTracker:PLAYER_LOGIN()
 end
 
 function QuestieTracker:clearTrackingDB()
+	if QuestieTracker.hasCleared == true then return end
+	
+	local startTime = GetTime()
+	
 	for k,v in pairs(QuestieTrackedQuests) do
 		local isInLog = false
 		for id=1, GetNumQuestLogEntries() do
@@ -196,6 +201,9 @@ function QuestieTracker:clearTrackingDB()
 			QuestieTrackedQuests[k] = nil
 		end	
 	end
+	QuestieTracker.hasCleared = true
+	
+	Questie:debug_Print("Clearing TrackerDB - Time:", tostring((GetTime()-startTime)*1000).."ms")
 end
 
 function QuestieTracker:syncEQL3()
@@ -212,12 +220,15 @@ function QuestieTracker:syncEQL3()
 end
 
 function QuestieTracker:QUEST_LOG_UPDATE()
+	QuestieTracker:clearTrackingDB();
+	
 	for id=1, GetNumQuestLogEntries() do
 		local questName, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(id);
 		local hash = Questie:GetHashFromName(questName)
 		
 		if ( AUTO_QUEST_WATCH == "1" and QuestieTrackedQuests[hash] == nil and not isHeader) then
 			QuestieTracker:setQuestInfo(id);
+			Questie:debug_Print("Added Quest through AUTOWATCH " .. questName);
 		end
 
 		if( QuestieTracker:isTracked(questName) ) then
