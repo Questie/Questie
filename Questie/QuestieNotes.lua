@@ -21,17 +21,19 @@ function Questie:AddQuestToMap(questHash, redraw)
 	end
 	Questie:RemoveQuestFromMap(questHash);
 	Objectives = Questie:AstroGetQuestObjectives(questHash);
-	Questie:debug_Print("Adding quest", questHash);
+	Questie:debug_Print("[AddQuestToMap] Adding quest", questHash);
 	--Cache code
 	local ques = {};
 	ques["noteHandles"] = {};
 	UsedContinents = {};
 	UsedZones = {};
-	
+
 	local Quest = Questie:IsQuestFinished(questHash);
 	if not (Quest) then
+		--DEFAULT_CHAT_FRAME:AddMessage("Inside quest "); --NotWORKING debug
 		for name, locations in pairs(Objectives['objectives']) do
 				--Quest not finished add notes
+				--DEFAULT_CHAT_FRAME:AddMessage("asdf:"..tostring(name).." "..tostring(locations).." "..table.getn(locations)); --NotWORKING debug
 			for k, location in pairs(locations) do
 				--This checks if just THIS objective is done (Data is not super efficient but it's nil unless set so...)
 				if not location.done then
@@ -74,7 +76,7 @@ function Questie:AddQuestToMap(questHash, redraw)
 			table.insert(ques["noteHandles"], notehandle);
 
 		else
-			Questie:debug_Print("ERROR Quest broken! ", Quest["name"], questHash, "report on github!");
+			Questie:debug_Print("[AddQuestToMap] ERROR Quest broken! ", Quest["name"], questHash, "report on github!");
 		end
 
 		--local MapInfo = Questie:GetMapInfoFromID(location.mapid);
@@ -92,7 +94,7 @@ end
 --THIS IS NOT USEFUL PERFORMACE ABOUT AS BAD AS ADDQUESTTOMAP... USE THAT INSTEAD
 function Questie:UpdateQuestNotes(questHash, redraw)
 	if not QuestieHandledQuests[questHash] then
-		Questie:debug_Print("ERROR: Tried updating a quest not handled. ", questHash);
+		Questie:debug_Print("[UpdateQuestNotes] ERROR: Tried updating a quest not handled. ", questHash);
 		return;
 	end
 	local QuestLogID = Questie:GetQuestIdFromHash(questHash);
@@ -104,7 +106,7 @@ function Questie:UpdateQuestNotes(questHash, redraw)
 		for id, note in pairs(QuestieMapNotes[noteInfo.c][noteInfo.z]) do
 			if(note.questHash == questHash) then
 				local desc, typ, done = GetQuestLogLeaderBoard(note.objectiveid);
-				Questie:debug_Print(tostring(desc),tostring(typ),tostring(done));
+				Questie:debug_Print("[UpdateQuestNotes] ", tostring(desc),tostring(typ),tostring(done));
 			end
 		end
 	end
@@ -246,19 +248,6 @@ NATURAL_REFRESH = 60;
 NATRUAL_REFRESH_SPACING = 2;
 
 function Questie:NOTES_ON_UPDATE(elapsed)
-	--NOT NEEDED BUT KEEPING FOR AWHILE
-	if(WorldMapFrame:IsVisible() and UIOpen == false) then
-		Questie:debug_Print("UI Opened redrawing");
-		Questie:debug_Print("Created Frames: "..CREATED_NOTE_FRAMES, "Used Frames: "..table.getn(QuestieUsedNoteFrames), "Free Frames: "..table.getn(FramePool));
-		--Questie:RedrawNotes();
-		UIOpen = true;
-	elseif(WorldMapFrame:IsVisible() == nil and UIOpen == true) then
-		Questie:debug_Print("UI Closed redrawing");
-		Questie:debug_Print("Created Frames: "..CREATED_NOTE_FRAMES, "Used Frames: "..table.getn(QuestieUsedNoteFrames), "Free Frames: "..table.getn(FramePool));
-		--Questie:RedrawNotes();
-		UIOpen = false;
-	end
-
 	--Test to remove the delay
 	--Gets current map to see if we need to redraw or not.
 	local c, z = GetCurrentMapContinent(), GetCurrentMapZone();
@@ -268,6 +257,19 @@ function Questie:NOTES_ON_UPDATE(elapsed)
 		--Sets the last continent and zone to hinder spam.
 		LastContinent = c;
 		LastZone = z;
+	end
+
+	--NOT NEEDED BUT KEEPING FOR AWHILE
+	if(WorldMapFrame:IsVisible() and UIOpen == false) then
+		--Questie:debug_Print("UI Opened redrawing");
+		Questie:debug_Print("Created Frames: "..CREATED_NOTE_FRAMES, "Used Frames: "..table.getn(QuestieUsedNoteFrames), "Free Frames: "..table.getn(FramePool));
+		--Questie:RedrawNotes();
+		UIOpen = true;
+	elseif(WorldMapFrame:IsVisible() == nil and UIOpen == true) then
+		--Questie:debug_Print("UI Closed redrawing");
+		--Questie:debug_Print("Created Frames: "..CREATED_NOTE_FRAMES, "Used Frames: "..table.getn(QuestieUsedNoteFrames), "Free Frames: "..table.getn(FramePool));
+		--Questie:RedrawNotes();
+		UIOpen = false;
 	end
 end
 

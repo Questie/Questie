@@ -7,18 +7,18 @@ LastCount = 0;
 function Questie:CheckQuestLog()
   	local numEntries, numQuests = GetNumQuestLogEntries();
 	if(LastCount == numEntries) then
-		--Questie:debug_Print("Checking questlog: Nothing changed");
-		return;
+		Questie:debug_Print("[CheckLog] Checking questlog: Nothing changed");
+		--return;
 	end
 	LastCount = numEntries;
 	local t = GetTime();
 	if(not LastQuestLogHashes) then
 		LastQuestLogHashes = Questie:AstroGetAllCurrentQuestHashesAsMeta();
-		Questie:debug_Print("First check run, adding all quests");
+		Questie:debug_Print("[CheckLog] First check run, adding all quests");
 		for k, v in pairs(LastQuestLogHashes) do
 			Questie:AddQuestToMap(v["hash"]);
 			if(not QuestieSeenQuests[v["hash"]]) then
-				Questie:debug_Print("Adding quest to seen quests:", v["name"],v["hash"]," setting as 0");
+				Questie:debug_Print("[CheckLog] Adding quest to seen quests:", v["name"],v["hash"]," setting as 0");
 				QuestieSeenQuests[v["hash"]] = 0
 			end
 		end
@@ -61,21 +61,21 @@ function Questie:CheckQuestLog()
 	for k, v in pairs(delta) do
 		Questie:debug_Print(v["name"],v["hash"], v["deltaType"]);
 		if(v["deltaType"] == 1) then
-			Questie:debug_Print("Check discovered a new quest,", v["name"]);
+			Questie:debug_Print("[CheckLog] Check discovered a new quest,", v["name"]);
 			Questie:AddQuestToMap(v["hash"]);
 			if(not QuestieSeenQuests[v["hash"]]) then
 				QuestieSeenQuests[v["hash"]] = 0
 			end
 			MapChanged = true;
 		else				
-			Questie:debug_Print("Check discovered a missing quest, removing!", v["hash"], v["name"])
+			Questie:debug_Print("[CheckLog] Check discovered a missing quest, removing!", v["hash"], v["name"])
 			Questie:RemoveQuestFromMap(v["hash"]);
 			QuestieTracker:removeQuestFromTracker(v["hash"]);
 			if(not QuestieCompletedQuestMessages[v["name"]]) then
 				QuestieCompletedQuestMessages[v["name"]] = 0;
 			end
 			if(not QuestieSeenQuests[v["hash"]]) then
-				Questie:debug_Print("Adding quest to seen quests:", v["name"],v["hash"]," setting as 0");
+				Questie:debug_Print("[CheckLog] Adding quest to seen quests:", v["name"],v["hash"]," setting as 0");
 				QuestieSeenQuests[v["hash"]] = 0
 			end
 			if lastObjectives[v["hash"]] then
@@ -96,7 +96,7 @@ function Questie:CheckQuestLog()
 	end
 	LastQuestLogHashes = Quests;
 	LastQuestLogCount = QuestsCount;
-	Questie:debug_Print("Checklog done: Time:",tostring((GetTime()-t)*1000).."ms");
+	Questie:debug_Print("[CheckLog] Checklog done: Time:",tostring((GetTime()-t)*1000).."ms");
 	if(MapChanged == true) then
 		return true;
 	else
@@ -142,7 +142,7 @@ function Questie:UpdateQuests(force)
 	else
 		--Questie:debug_Print("Found change in current zone, good!");
 	end
-	Questie:debug_Print("Updated quests: Time:", tostring((GetTime()-t)*1000).."ms","Zones:"..ZonesChecked)
+	Questie:debug_Print("[UpdateQuests] Updated quests: Time:", tostring((GetTime()-t)*1000).."ms","Zones:"..ZonesChecked)
 	return change;
 end
 
@@ -194,7 +194,7 @@ function Questie:UpdateQuestInZone(Zone, force)
 			end
 
 			if(Refresh) then --If it's the same it means everything is done
-				Questie:debug_Print("Update: Something has changed, need to refresh:", hash);
+				Questie:debug_Print("[UpdateQuestInZone] Update: Something has changed, need to refresh:", hash);
 				Questie:AddQuestToMap(hash, true);
 				
 				QuestieTracker:updateFrameOnTracker(hash, i)
@@ -202,7 +202,7 @@ function Questie:UpdateQuestInZone(Zone, force)
 			end
 		end
 		if(foundChange and not force) then
-			Questie:debug_Print("Found a change!")
+			Questie:debug_Print("[UpdateQuestInZone] Found a change!")
 			break;
 		end
 	end
@@ -331,9 +331,11 @@ function Questie:GetQuestIdFromHash(questHash)
 		if(q and level and objectiveText) then
 			if(Questie:getQuestHash(q, level, objectiveText) == questHash) then
 				return CachedIds[questHash];
+			else
+				Questie:debug_Print("[GetQuestIdFromHash] Something went wrong Error1");
 			end
 		else
-			Questie:debug_Print("Something went wrong, ", tostring(CachedIds[questHash]), tostring(q), tostring(level));
+			Questie:debug_Print("[GetQuestIdFromHash] Something went wrong, Error2", tostring(CachedIds[questHash]), tostring(q), tostring(level));
 		end
 	end
 end
@@ -346,14 +348,14 @@ function Questie:UpdateQuestIds()
 		if not isHeader then
 		  	SelectQuestLogEntry(i);
 		    local questText, objectiveText = _GetQuestLogQuestText();
-		    if(not q or not level or not objective) then
-		   		 Questie:debug_Print("Inside UpdateQuestID ERROR!!!!  ",tostring(name), tostring(level), tostring(objectiveText), tostring(i), tostring(hash))
-		    end
 		    local hash = Questie:getQuestHash(q, level, objectiveText);
+		    if(not q or not level or not objective) then
+		   		 Questie:debug_Print("[UpdateQuestID] ERROR!!!!  Error1",tostring(name), tostring(level), tostring(i), tostring(hash))
+		    end
 		   	CachedIds[hash] = i;
 		end
 	end
-	Questie:debug_Print("Had to update UpdateQuestIds",(GetTime() - startTime)*1000,"ms")
+	Questie:debug_Print("[UpdateQuestID] Had to update UpdateQuestIds",(GetTime() - startTime)*1000,"ms")
 end
 
 function Questie:GetHashFromName(name)
@@ -426,7 +428,7 @@ function Questie:AstroGetFinishedQuests()
 		   		end
 			end
 			if(Done) then
-				Questie:debug_Print("Finished returned:", Questie:getQuestHash(q, level, objectiveText),q,level)
+				Questie:debug_Print("[AstroGetFinishedQuests] Finished returned:", Questie:getQuestHash(q, level, objectiveText),q,level)
 				table.insert(FinishedQuests, Questie:getQuestHash(q, level, objectiveText));
 			end
 		end
@@ -435,7 +437,7 @@ function Questie:AstroGetFinishedQuests()
 end
 --Questie:AstroGetQuestObjectives(1431546316)
 function Questie:AstroGetQuestObjectives(questHash)
-	local hashData = QuestieHashMap[questHash];
+	--[[local hashData = QuestieHashMap[questHash];
 	local QuestLogID = nil;
   	local numEntries, numQuests = GetNumQuestLogEntries();
 	for i = 1, numEntries do
@@ -453,7 +455,9 @@ function Questie:AstroGetQuestObjectives(questHash)
 	end
 	if not QuestLogID then
 		return;
-	end
+	end]]--
+
+	QuestLogID = Questie:GetQuestIdFromHash(questHash);
 	local mapid = getCurrentMapID();
 	--Gets Quest information
 	local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(QuestLogID);
@@ -463,18 +467,22 @@ function Questie:AstroGetQuestObjectives(questHash)
 	local AllObjectives = {};
 	AllObjectives["QuestName"] = q;
 	AllObjectives["objectives"] = {};
+	--DEFAULT_CHAT_FRAME:AddMessage("C:"..count.." Q:"..q.." L:"..level);  --NotWORKING debug
 	for i = 1, count do
-		--This returns a quests objectives.
+		--This returns a quests objectives.	
 		local desc, typ, done = GetQuestLogLeaderBoard(i);
 		--Gets the type
 		local typeFunction = AstroobjectiveProcessors[typ];
+		--DEFAULT_CHAT_FRAME:AddMessage("Func:"..tostring(typeFunction)); --NotWORKING debug
 		if typ == "item" or typ == "monster" then
 			local indx = findLast(desc, ":");
 			--DEFAULT_CHAT_FRAME:AddMessage(indx, 0.95, 0.95, 0.5);
 			local countstr = string.sub(desc, indx+2);
 			local namestr = string.sub(desc, 1, indx-1);
 			--AllObjectives["type"] = typ;
+			Questie:debug_Print(tostring(q), tostring(namestr), tostring(countstr), tostring(selected), tostring(mapid))
 			local objectives = typeFunction(q, namestr, countstr, selected, mapid);
+			--DEFAULT_CHAT_FRAME:AddMessage("Count:"..table.getn(objectives)); --NotWORKING debug
 			
 			Objective = {};
 		    local hash = Questie:getQuestHash(q, level, objectiveText);
@@ -497,6 +505,7 @@ function Questie:AstroGetQuestObjectives(questHash)
 					obj["type"] = v["type"];
 					obj["done"] = done;
 					obj['objectiveid'] = i;
+					--DEFAULT_CHAT_FRAME:AddMessage("Adding Objective!"); --NotWORKING debug
 					table.insert(AllObjectives["objectives"][v["name"]], obj);
 				end
 			end
@@ -504,13 +513,13 @@ function Questie:AstroGetQuestObjectives(questHash)
 
 		end
 	end
-	TEMPDUMP =AllObjectives;
 	--for name, locations in pairs(AllObjectives['objectives']) do
 	--	for k, location in pairs(locations) do
 			--Questie:debug_Print(name,location.mapid, location.x, location.y);
 	--	end
 	--end
 	--Questie:debug_Print(AllObjectives['type'], AllObjectives['objectives'][1].name)
+	--DEFAULT_CHAT_FRAME:AddMessage("Size: "..table.getn(AllObjectives)); --NotWORKING debug
 	return AllObjectives;
 end
 TEMPDUMP = nil;
@@ -547,7 +556,7 @@ AstroobjectiveProcessors = {
 		local itemdata = QuestieItems[name];
 		Questie:debug_Print(name);
 		if itemdata == nil then
-			Questie:debug_Print("ERROR PROCESSING '" .. quest .. "''  objective:'" .. name .. "'' no itemdata".. " ID:0");
+			Questie:debug_Print("[AstroobjectiveProcessors] ERROR1 PROCESSING '" .. quest .. "''  objective:'" .. name .. "'' no itemdata".. " ID:0");
 			itemdata = QuestieItems[name];
 		end
 		if itemdata then
@@ -581,7 +590,7 @@ AstroobjectiveProcessors = {
 				elseif k =="locations" then
 
 				else
-					Questie:debug_Print("ERROR PROCESSING " .. quest .. "  objective:" .. name.. " ID:1");
+					Questie:debug_Print("[AstroobjectiveProcessors] ERROR2 " .. quest .. "  objective:" .. name.. " ID:1");
 					for s, r in pairs(itemdata) do
 						Questie:debug_Print(s,tostring(r));
 						
@@ -595,7 +604,7 @@ AstroobjectiveProcessors = {
 		local evtdata = QuestieEvents[name]
 		local list = {};
 		if evtdata == nil then
-			debug("ERROR UNKNOWN EVENT " .. quest .. "  objective:" .. name.. " ID:2");
+			debug("[AstroobjectiveProcessors] ERROR3 UNKNOWN EVENT " .. quest .. "  objective:" .. name.. " ID:2");
 		else
 			--DEFAULT_CHAT_FRAME:AddMessage("VALIDEVT: " .. name, 0.2, 0.95, 0.2);
 			for b=1,evtdata['locationCount'] do
@@ -641,7 +650,7 @@ AstroobjectiveProcessors = {
 	['object'] = function(quest, name, amount, selected, mapid)
 		local objdata = QuestieObjects[name];
 		if objdata == nil then
-			debug("ERROR UNKNOWN OBJECT " .. quest .. "  objective:" .. name);
+			debug("[AstroobjectiveProcessors] ERROR4 UNKNOWN OBJECT " .. quest .. "  objective:" .. name);
 		else
 			for b=1,objdata['locationCount'] do
 				local loc = objdata['locations'][b];

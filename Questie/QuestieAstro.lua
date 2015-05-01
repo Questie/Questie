@@ -91,7 +91,7 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 
 	elseif(event == "QUEST_LOG_UPDATE" or event == "QUEST_ITEM_UPDATE") then
 		if(Active == true) then
-			Questie:debug_Print(event);
+			Questie:debug_Print("[OnEvent] ",event);
 			Questie:AddEvent("CHECKLOG", 0.135);
 			Questie:AddEvent("UPDATE", 0.15);--On my fast PC this seems like a good number
 		end
@@ -121,6 +121,20 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 			GameTooltip.Show = function(self)
 				Questie:Tooltip(self);
 				Blizz_GameTooltip_Show(self)
+			end
+
+			local Blizz_GameTooltip_SetBagItem = GameTooltip.SetBagItem
+			GameTooltip.SetBagItem = function(self, bag, slot)
+				Blizz_GameTooltip_SetBagItem(self, bag, slot)
+
+				Questie:Tooltip(self, true, bag, slot);
+			end
+
+			local Bliz_GameTooltip_SetLootItem = GameTooltip.SetLootItem
+			GameTooltip.SetLootItem = function(self, slot)
+				Bliz_GameTooltip_SetLootItem(self, slot)
+
+				Questie:Tooltip(self, true);
 			end
 		else
 			Questie:hookTooltip();
@@ -334,10 +348,12 @@ end
 
 Questie_LastTooltip = GetTime(); --Ugly fix to stop tooltip spam....
 QUESTIE_DEBUG_TOOLTIP = nil; --Set to nil to disable.
-function Questie:Tooltip(this)
+function Questie:Tooltip(this, forceShow, bag, slot)
+
 	local monster = UnitName("mouseover")
 	local objective = GameTooltipTextLeft1:GetText();
-	if monster and GetTime() - Questie_LastTooltip > 0.05 then
+	--Questie:debug_Print(tostring(forceShow), tostring(monster), tostring(objective));
+	if monster and GetTime() - Questie_LastTooltip > 0.1 then
 		for k,v in pairs(QuestieHandledQuests) do
 			local obj = v['objectives']['objectives'];
 			if (obj) then --- bad habit I know...
@@ -434,8 +450,19 @@ function Questie:Tooltip(this)
 	if(QUESTIE_DEBUG_TOOLTIP) then
 		GameTooltip:AddLine("--Questie hook--")
 	end
+	if(forceShow) then
+		GameTooltip:Show();
+	end
 	Questie_LastTooltip = GetTime();
 end
+
+function Questie:LinkToID(link)
+	if link then
+		local _, _, id = string.find(link, "(%d+):")
+		return tonumber(id)
+	end
+end
+
 lastShow = GetTime();
 QWERT = nil;
 --[[
@@ -503,7 +530,7 @@ function Questie:getQuestHash(name, level, objectiveText)
 			return retval; -- nearest match
 		end
 	end
-	
+
 	-- hash lookup did not contain qust name!! LOG THIS!!!
 	local hash = Questie:mixString(0, name);
 	hash = Questie:mixInt(hash, level);
