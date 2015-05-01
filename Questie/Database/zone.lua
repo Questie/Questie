@@ -1,3 +1,4 @@
+-- mapID, BCContinent, BCZone, VanillaC, VanillaZ
 QuestieZones = {
   ["WorldMap"] = {1337, 1337, 0, 0}, --
   ["Azeroth"] = {-1, -1, -1, 2, 0}, --

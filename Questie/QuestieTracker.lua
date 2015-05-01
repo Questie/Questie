@@ -322,30 +322,71 @@ end
 
 function QuestieTracker:fillTrackingFrame()
 	local t = GetTime();
-	-- currently if there aren't any notes, it doesn't add the quest to the tracker
-	-- eventually, that should be changed, but since we are lacking distance and such, there needs to be some kind of workaround!
-	-- like creating dummy notes on SetQuestInfo() probably?
 	QuestieTracker:clearTrackingFrame();
 	local sortedByDistance = {};
 	local distanceControlTable = {};
-
-	--Start of sorting, got sidetracked.
-	--[[local C,Z,X,Y = Astrolabe:GetCurrentPlayerPosition();
-	for hash, quest in pairs(QuestieTrackedQuests) do
-		local info = QuestieHandledQuests[hash];
-		local closestIndex = -1;
-		local closestDistance = 100000000;
-		for k, v in pairs(info['objectives']['objectives']) do
-			Astrolabe:ComputeDistance()
-		end
-		info.questHash = hash;
-		table.insert(sortedByDistance, info);
-	end]]--
+	local C,Z,X,Y = Astrolabe:GetCurrentPlayerPosition() -- continent, zone, x, y
 	
-	local i = 1;
+	local distanceNotes = {};
+	
+	-- iterate 3 times
+	-- first go by through notes in the current zone 
+	-- if quest tracker frame isn't fully filled (index 8), go through other zones
+	-- as a backup, add quests that don't have any notes by going through QuestieTrackedQuests+Questlog
+	
+	for hash,quest in pairs(QuestieHandledQuests) do
+		if QuestieTrackedQuests[hash] then
+			for name,notes in pairs(quest.objectives.objectives) do
+				for k,v in pairs(notes) do
+					local continent, zone, xNote, yNote = QuestieZoneIDLookup[v.mapid][4], QuestieZoneIDLookup[v.mapid][5], v.x, v.y
+						local dist, xDelta, yDelta = Astrolabe:ComputeDistance( C, Z, X, Y, continent, zone, xNote, yNote )
+						local info = {
+							["dist"] = dist,
+							["hash"] = hash,
+							["xDelta"] = xDelta,
+							["yDelta"] = yDelta,
+						}
+						table.insert(distanceNotes, info);
+				end
+			end
+		end
+	end
+	sort(distanceNotes, function (a, b)
+		return a["dist"] < b["dist"]
+	end)
+	
+	for k,v in pairs(distanceNotes) do
+		if not distanceControlTable[v["hash"]] then
+			distanceControlTable[v["hash"]] = true
+			table.insert(sortedByDistance, v);
+		end
+	end
+	
+	for i,v in pairs(sortedByDistance) do
+		local quest = QuestieTrackedQuests[v["hash"]]
+		local frame = getglobal("QuestieTrackerButton"..i);
+		if not frame then break end
+		
+		frame:Show();
+			
+		quest["formatUnits"] = "yds"
+		local dist = tonumber(string.format("%.0f" , v["dist"]))
+		
+		getglobal("QuestieTrackerButton"..i.."HeaderText"):SetText("[" .. quest["level"] .. "] " .. quest["questName"] .. " (" .. dist .. " " .. quest["formatUnits"] .. ")");
+		for j=1,20 do
+			local objectiveLine = getglobal("QuestieTrackerButton"..i.."QuestWatchLine"..j)
+			local objectiveTable = quest["objective"..j]
+			if not objectiveLine or not objectiveTable then break end
+			
+			objectiveLine:SetText(objectiveTable["desc"]);
+			objectiveLine:SetTextColor(QuestieTracker:getRGBForObjective(objectiveTable["desc"]));
+			objectiveLine:Show();
+		end
+	end
+	
+	--[[local i = 1;
 	-- sort notes by distance before using this
 	for hash,quest in pairs(QuestieTrackedQuests) do
-		local handledQuests = QuestieHandledQuests[hash]
 		local frame = getglobal("QuestieTrackerButton"..i);
 		if not frame then break end
 		if quest ~= false then
@@ -365,40 +406,9 @@ function QuestieTracker:fillTrackingFrame()
 			end
 			i = i + 1
 		end
-	end
-
-	--[[local i = 1;
-	for index,quest in pairs(sortedByDistance) do
-		for k,v in pairs(quest) do
-			if(k == "tracked") then
-				local frame = getglobal("QuestieTrackerButton"..i);
-				if not frame then break; end
-				frame:Show();
-				local j = 1;
-				for key,val in pairs(v) do
-					if (key == "level") then
-						getglobal("QuestieTrackerButton"..i.."HeaderText"):SetText("[" .. val .. "] " .. quest["questName"] .. " (" .. quest["formatDistance"] .. " " .. quest["formatUnits"] .. ")");
-						frame.dist = quest["distance"]
-						frame.title = quest["questName"]
-						frame.point = {
-							x = quest["x"],
-							y = quest["y"],
-							zoneID = BADCODE_ZONEID
-						}
-
-					elseif (key == "isComplete") then
-
-					else
-						getglobal("QuestieTrackerButton"..i.."QuestWatchLine"..j):SetText(val);
-						getglobal("QuestieTrackerButton"..i.."QuestWatchLine"..j):SetTextColor(QuestieTracker:getRGBForObjective(val));
-						getglobal("QuestieTrackerButton"..i.."QuestWatchLine"..j):Show();
-						j = j + 1;
-					end
-				end
-				i = i + 1;
-			end
-		end
 	end]]
+
+	
 	QuestieTracker:updateTrackingFrameSize();
 	--Questie:debug_Print("TrackerFrame filled: Time:", tostring((GetTime()-t)*1000).."ms");
 end
