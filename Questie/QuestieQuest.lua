@@ -313,7 +313,7 @@ LastNrOfEntries = 0;
 CachedIds = {};
 function Questie:GetQuestIdFromHash(questHash)
 	local numEntries, numQuests = GetNumQuestLogEntries();
-	if(numEntries ~= LastNrOfEntries) then
+	if(numEntries ~= LastNrOfEntries or not CachedIds[questHash]) then
 		CachedIds = {};
 		LastNrOfEntries = numEntries;
 
@@ -321,19 +321,19 @@ function Questie:GetQuestIdFromHash(questHash)
 		Questie:UpdateQuestIds();
 		
 		--Questie:debug_Print("Got QuestID from Hash - Time: " .. (GetTime()-startTime)*1000 .. "ms");
-		if not CachedIds[questHash] then
-			return;
-		else
+		if CachedIds[questHash] then
 			return CachedIds[questHash];
 		end
 	else
 		local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(CachedIds[questHash]);
 		SelectQuestLogEntry(CachedIds[questHash]);
 		local questText, objectiveText = _GetQuestLogQuestText();
-		if(Questie:getQuestHash(q, level, objectiveText) == questHash) then
-			return CachedIds[questHash];
+		if(q and level and objectiveText) then
+			if(Questie:getQuestHash(q, level, objectiveText) == questHash) then
+				return CachedIds[questHash];
+			end
 		else
-			return;
+			Questie:debug_Print("Something went wrong, ", tostring(CachedIds[questHash]), tostring(q), tostring(level));
 		end
 	end
 end
@@ -345,9 +345,12 @@ function Questie:UpdateQuestIds()
 		local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(i);
 		if not isHeader then
 		  	SelectQuestLogEntry(i);
-		    local count =  GetNumQuestLeaderBoards();
 		    local questText, objectiveText = _GetQuestLogQuestText();
-		   	CachedIds[Questie:getQuestHash(q, level, objectiveText)] = i;
+		    if(not q or not level or not objective) then
+		   		 Questie:debug_Print("Inside UpdateQuestID ERROR!!!!  ",tostring(name), tostring(level), tostring(objectiveText), tostring(i), tostring(hash))
+		    end
+		    local hash = Questie:getQuestHash(q, level, objectiveText);
+		   	CachedIds[hash] = i;
 		end
 	end
 	Questie:debug_Print("Had to update UpdateQuestIds",(GetTime() - startTime)*1000,"ms")
