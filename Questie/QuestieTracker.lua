@@ -425,10 +425,19 @@ function QuestieTracker:createTrackingButtons()
 			end
 			createPrettyMenu({
 				["Untrack"] = {
-					['click'] = function() QuestieTrackedQuests[button.title]["tracked"] = false; end
+					['click'] = function() 
+						--
+					end
 				},
 				[at] = {
-					['click'] = function() button.arrowshown = not button.arrowshown;SetArrowObjective(button.hash) end
+					['click'] = function()
+						if button.arrowshown then
+					 		HideArrow()
+					 	else
+					 		SetArrowObjective(button.hash)	
+					 	end	
+					 	button.arrowshown = not button.arrowshown;
+					 end
 				},
 				["< Developer"] = {
 					['clock'] = nil,

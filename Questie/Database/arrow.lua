@@ -96,10 +96,9 @@ wayframe.arrow = wayframe:CreateTexture("OVERLAY")
 wayframe.arrow:SetTexture("Interface\\AddOns\\Questie\\Images\\Arrow")
 wayframe.arrow:SetAllPoints()
 
-local active_point, arrive_distance, showDownArrow, point_title, arrow_objective
+local active_point, arrive_distance, showDownArrow, point_title, arrow_objective, isHide
 
 function SetCrazyArrow(point, dist, title)
-	local isHide = false;
 	--[[if not (active_point == nil) then -- bad logic is bad
 		if active_point.x == point.x and active_point.y == point.y then
 			isHide = true;
@@ -139,10 +138,6 @@ HACK_DUMP = 0;
 local function OnUpdate(self, elapsed)
 	self = this
 	elapsed = 1/GetFramerate()
-	if not active_point then
-		self:Hide()
-		return
-	end
 	
 	local dist,x,y
 	
@@ -151,6 +146,11 @@ local function OnUpdate(self, elapsed)
 		if objective then
 			SetCrazyArrow(objective, objective.dist, objective.title)
 		end
+	end
+	
+	if not active_point then
+		self:Hide()
+		return
 	end
 	
 	local dist,x,y = GetDistanceToIcon(active_point)
@@ -271,7 +271,7 @@ local function OnUpdate(self, elapsed)
 end
 
 function ShowHideCrazyArrow()
-	if true then
+	if wayframe:IsShown() then
 		wayframe:Show()
 
 		if true then
@@ -300,6 +300,10 @@ function ShowHideCrazyArrow()
 	else
 		wayframe:Hide()
 	end
+end
+
+function HideArrow()
+	isHide = true
 end
 
 wayframe:SetScript("OnUpdate", OnUpdate)
