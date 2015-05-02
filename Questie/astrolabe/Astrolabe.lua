@@ -55,6 +55,8 @@ Astrolabe.MinimapUpdateTime = 0.2;
 Astrolabe.UpdateTimer = 0;
 Astrolabe.ForceNextUpdate = false;
 
+local twoPi = math.pi * 2;
+
 
 --------------------------------------------------------------------------------------------------------------
 -- General Uility Functions
@@ -408,7 +410,7 @@ function Astrolabe:GetDistanceToIcon( icon )
 end
 
 function Astrolabe:GetDirectionToIcon( icon )
-	local data = self.MinimapIcons[icon];
+	local data = Astrolabe.MinimapIcons[icon];
 	if ( data ) then
 		local dir = atan2(data.xDist, -(data.yDist))
 		if ( dir > 0 ) then

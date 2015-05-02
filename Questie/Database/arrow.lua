@@ -1,9 +1,15 @@
 --[[--------------------------------------------------------------------------
+
 --  TomTom - A navigational assistant for World of Warcraft
+
 -- 
+
 --  CrazyTaxi: A crazy-taxi style arrow used for waypoint navigation.
+
 --    concept taken from MapNotes2 (Thanks to Mery for the idea, along
+
 --    with the artwork.)
+
 ----------------------------------------------------------------------------]]
 
 math.modf = function(number)
@@ -13,9 +19,9 @@ math.modf = function(number)
 end
 
 function GetPlayerFacing()
-        local p = Minimap
-        local m = ({p:GetChildren()})[9]
-        return m:GetFacing()
+	local p = Minimap
+	local m = ({p:GetChildren()})[9]
+	return m:GetFacing()
 end
 
 local sformat = string.format
@@ -39,8 +45,8 @@ local function ColorGradient(perc, tablee)
 		return r1, g1, b1
 	else
 		return r1 + (r2-r1)*relperc,
-		g1 + (g2-g1)*relperc,
-		b1 + (b2-b1)*relperc
+			g1 + (g2-g1)*relperc,
+			b1 + (b2-b1)*relperc
 	end
 end
 
@@ -96,8 +102,8 @@ function SetCrazyArrow(point, dist, title)
 		if active_point.x == point.x and active_point.y == point.y then
 			isHide = true;
 		end
-	end --srsly
-	
+	end
+
 	active_point = point
 	arrive_distance = dist
 	point_title = title
@@ -147,12 +153,12 @@ local function OnUpdate(self, elapsed)
 	local cell
 
 	-- Showing the arrival arrow?
-	if dist <= arrive_distance then
+	if dist <= 5 then
 		if not showDownArrow then
 			arrow:SetHeight(70)
 			arrow:SetWidth(53)
 			arrow:SetTexture("Interface\\AddOns\\Questie\\Images\\Arrow-UP")
-			arrow:SetVertexColor(1, 1, 1)
+			arrow:SetVertexColor(0, 1, 0)
 			showDownArrow = true
 		end
 
@@ -174,19 +180,14 @@ local function OnUpdate(self, elapsed)
 		if showDownArrow then
 			arrow:SetHeight(56)
 			arrow:SetWidth(42)
-			arrow:SetTexture("Interface\\AddOns\\TomTom\\Images\\Arrow")
+			arrow:SetTexture("Interface\\AddOns\\Questie\\Images\\Arrow")
 			showDownArrow = false
 		end
 
-		local angle = GetDirectionToIcon(active_point)
-		angle = math.rad(angle);
+		local angle = math.rad(GetDirectionToIcon(active_point))
 		local player = GetPlayerFacing()
-
-		angle = player - angle
-
-		local perc = math.abs((math.pi - math.abs(angle)) / math.pi)
-		
-		angle = math.rad(-math.deg(angle)-180);
+		angle = angle - player
+		local perc = 1 - ((math.pi - math.abs(angle)) / math.pi)
 
 		local gr,gg,gb = 1, 1, 1
 		local mr,mg,mb = 0.75, 0.75, 0.75
@@ -201,11 +202,11 @@ local function OnUpdate(self, elapsed)
 		table.insert(tablee, br)
 		table.insert(tablee, bg)
 		table.insert(tablee, bb)
-				
-		local r,g,b = ColorGradient(perc,tablee)	
-		if not g then 
+
+		local r,g,b = ColorGradient(perc,tablee)
+		if not g then
 			g = 0;
-		end	
+		end
 		arrow:SetVertexColor(1-g,-1+g*2,0)
 
 		cell = Questie:modulo(floor(angle / twopi * 108 + 0.5), 108);
@@ -242,11 +243,11 @@ local function OnUpdate(self, elapsed)
 		if speed > 0 then
 			local eta = math.abs(dist / speed)
 			local text = string.format("%01d:%02d", eta / 60, Questie:modulo(eta, 60))
-			tta:SetText(text) 
+			tta:SetText(text)
 		else
 			tta:SetText("***")
 		end
-		
+
 		last_distance = dist
 		tta_throttle = 0
 	end
@@ -300,12 +301,12 @@ end
 --this is where texcoords are extracted incorrectly (I think), leading the arrow to not point in the correct direction
 local texcoords = setmetatable({}, {__index = function(t, k)
 	-- this was k:match("(%d+):(%d+)") - so we need string.match, but that's not in Lua 5.0
-	
+
 	local fIndex, lIndex = string.find(k, "(%d+)")
 	local col = string.sub(k, fIndex, lIndex)
 	fIndex2, lIndex2 = string.find(k, ":(%d+)")
 	local row = string.sub(k, fIndex2+1, lIndex2)
---	DEFAULT_CHAT_FRAME:AddMessage(k)
+	--	DEFAULT_CHAT_FRAME:AddMessage(k)
 	col,row = tonumber(col), tonumber(row)
 	local obj = {getCoords(col, row)}
 	rawset(t, k, obj)
@@ -358,9 +359,9 @@ wayframe:SetScript("OnEvent", function(self, event, arg1, ...)
 				table.insert(tablee, br)
 				table.insert(tablee, bg)
 				table.insert(tablee, bb)
-				
-				
-				local r,g,b = ColorGradient(perc, tablee)		
+
+
+				local r,g,b = ColorGradient(perc, tablee)
 				feed_crazy.iconR = r
 				feed_crazy.iconG = g
 				feed_crazy.iconB = b
@@ -377,42 +378,13 @@ wayframe:SetScript("OnEvent", function(self, event, arg1, ...)
 	end
 end)
 
-
---- more astrolabe code
-function ComputeDistance( qzid, x1, y1, x2, y2 )
-	z1 = z1 or 0;
-	z2 = z2 or 0;
-	
-	local dist, xDelta, yDelta;
-	
-	local zscale = QuestieRegionScale[qzid];
-	
-
-	xDelta = (x2 - x1) * zscale.width;
-	yDelta = (y2 - y1) * zscale.height;
-	
-	if ( xDelta and yDelta ) then
-		dist = sqrt(xDelta*xDelta + yDelta*yDelta);
-	end
-	return dist, xDelta, yDelta;
-end
-
--- this is a function used by Astrolabe (which we should ONLY be using in the future)
--- it doesn't work for our current coords system
--- so move everything over to Astrolabe, which is FAR superior to our own system anyway!
--- the problem could also be with GetPlayerFacing()
+-- calculations have to be redone - we are NOT actually working with Astrolabe "icons" here as TomTom did and want the arrow API
+-- to be accessible to everyone
 function GetDirectionToIcon( point )
 	if not point then return end
-	--GetCurrentMapContinent()
-	--Astrolabe:ComputeDistance( c1, z1, x1, y1, c2, z2, x2, y2 )
-	
-	local dist, xDelta, yDelta = ComputeDistance(point.zoneID, point.x, point.y, Questie.player_x,  Questie.player_y);
-	
-	--local xDist = point.x - Questie.player_x;
-	--local yDist = point.y - Questie.player_y;
-	
-	-- atan(y2-y1/x2-x1) = radiant between 2 
-	
+	local C,Z,X,Y = Astrolabe:GetCurrentPlayerPosition() -- continent, zone, x, y
+	local dist, xDelta, yDelta = Astrolabe:ComputeDistance( C, Z, X, Y, point.c, point.z, point.x, point.y )
+
 	local dir = atan2(xDelta, -(yDelta))
 	if ( dir > 0 ) then
 		return twopi - dir;
@@ -421,32 +393,8 @@ function GetDirectionToIcon( point )
 	end
 end
 
-
---[[
-
--- there are more functions in TomTom affecting the arrow that need to be somehow implemented, I think
--- maybe a switch to Astrolabe entirely, first, would sort out a lot of issues (with distance calculation and such too)
-
-local square_half = math.sqrt(0.5)
-local rad_135 = math.rad(135)
-
-local function rotateArrow(self)
-	if self.disabled then return end
-
-	local angle = Astrolabe:GetDirectionToIcon(self)
-	if not angle then return self:Hide() end
-	angle = angle + rad_135
-
-	if GetCVar("rotateMinimap") == "1" then
-		--local cring = MiniMapCompassRing:GetFacing()
-        local cring = GetPlayerFacing()
-		angle = angle - cring
-	end
-
-	local sin,cos = math.sin(angle) * square_half, math.cos(angle) * square_half
-	self.arrow:SetTexCoord(0.5-sin, 0.5+cos, 0.5+cos, 0.5+sin, 0.5-cos, 0.5-sin, 0.5+sin, 0.5-cos)
-end]]
-
 function GetDistanceToIcon( point )
-	return Questie:getPlayerFormatDistTo(point.x, point.y)
+	local C,Z,X,Y = Astrolabe:GetCurrentPlayerPosition() -- continent, zone, x, y
+	local dist, xDelta, yDelta = Astrolabe:ComputeDistance( C, Z, X, Y, point.c, point.z, point.x, point.y )
+	return dist, xDelta, yDelta
 end

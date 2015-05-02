@@ -351,6 +351,10 @@ function QuestieTracker:fillTrackingFrame()
 							["hash"] = hash,
 							["xDelta"] = xDelta,
 							["yDelta"] = yDelta,
+							["c"] = continent,
+							["z"] = zone,
+							["x"] = xNote,
+							["y"] = yNote,
 						}
 						table.insert(distanceNotes, info);
 				end
@@ -377,6 +381,12 @@ function QuestieTracker:fillTrackingFrame()
 			
 		quest["formatUnits"] = "yds"
 		local dist = tonumber(string.format("%.0f" , v["dist"]))
+		
+		-- ARROW DATA
+			frame["dist"] = dist
+			frame["title"] = "[" .. quest["level"] .. "] " .. quest["questName"]
+			frame["point"] = v
+		-- ARROW DATA
 		
 		getglobal("QuestieTrackerButton"..i.."HeaderText"):SetText("[" .. quest["level"] .. "] " .. quest["questName"] .. " (" .. dist .. " " .. quest["formatUnits"] .. ")");
 		for j=1,20 do
