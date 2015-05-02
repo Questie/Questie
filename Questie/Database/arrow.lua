@@ -12,6 +12,8 @@
 
 ----------------------------------------------------------------------------]]
 
+local function log(msg) DEFAULT_CHAT_FRAME:AddMessage(msg) end -- alias for convenience
+
 math.modf = function(number)
 	local fractional = Questie:modulo(number, 1)
 	local integral = number - fractional
@@ -40,7 +42,7 @@ local function ColorGradient(perc, tablee)
 	local r1, g1, b1, r2, g2, b2
 	r1, g1, b1 = tablee[(segment*3)+1], tablee[(segment*3)+2], tablee[(segment*3)+3]
 	r2, g2, b2 = tablee[(segment*3)+4], tablee[(segment*3)+5], tablee[(segment*3)+6]
-
+	if not r1 then return end
 	if not r2 or not g2 or not b2 then
 		return r1, g1, b1
 	else
@@ -94,16 +96,16 @@ wayframe.arrow = wayframe:CreateTexture("OVERLAY")
 wayframe.arrow:SetTexture("Interface\\AddOns\\Questie\\Images\\Arrow")
 wayframe.arrow:SetAllPoints()
 
-local active_point, arrive_distance, showDownArrow, point_title
+local active_point, arrive_distance, showDownArrow, point_title, arrow_objective
 
 function SetCrazyArrow(point, dist, title)
 	local isHide = false;
-	if not (active_point == nil) then -- bad logic is bad
+	--[[if not (active_point == nil) then -- bad logic is bad
 		if active_point.x == point.x and active_point.y == point.y then
 			isHide = true;
 		end
-	end
-
+	end]]
+	
 	active_point = point
 	arrive_distance = dist
 	point_title = title
@@ -115,6 +117,12 @@ function SetCrazyArrow(point, dist, title)
 		active_point = nil; -- important
 		wayframe:Hide()
 	end
+end
+
+function SetArrowObjective(hash)
+	arrow_objective = hash
+	local objective = QuestieTrackedQuests[arrow_objective]["arrowPoint"]
+	SetCrazyArrow(objective, objective.dist, objective.title)
 end
 
 local status = wayframe.status
@@ -135,7 +143,16 @@ local function OnUpdate(self, elapsed)
 		self:Hide()
 		return
 	end
-
+	
+	local dist,x,y
+	
+	if arrow_objective then
+		local objective = QuestieTrackedQuests[arrow_objective]["arrowPoint"]
+		if objective then
+			SetCrazyArrow(objective, objective.dist, objective.title)
+		end
+	end
+	
 	local dist,x,y = GetDistanceToIcon(active_point)
 	-- The only time we cannot calculate the distance is when the waypoint
 	-- is on another continent, or we are in an instance
@@ -187,7 +204,7 @@ local function OnUpdate(self, elapsed)
 		local angle = math.rad(GetDirectionToIcon(active_point))
 		local player = GetPlayerFacing()
 		angle = angle - player
-		local perc = 1 - ((math.pi - math.abs(angle)) / math.pi)
+		local perc = 1-  math.abs(((math.pi - math.abs(angle)) / math.pi))
 
 		local gr,gg,gb = 1, 1, 1
 		local mr,mg,mb = 0.75, 0.75, 0.75

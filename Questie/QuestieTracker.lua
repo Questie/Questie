@@ -379,16 +379,15 @@ function QuestieTracker:fillTrackingFrame()
 		
 		frame:Show();
 			
-		quest["formatUnits"] = "yds"
+		local formatUnits = "yds"
 		local dist = tonumber(string.format("%.0f" , v["dist"]))
 		
-		-- ARROW DATA
-			frame["dist"] = dist
-			frame["title"] = "[" .. quest["level"] .. "] " .. quest["questName"]
-			frame["point"] = v
-		-- ARROW DATA
+		-- Arrow data
+		v["title"] = "[" .. quest["level"] .. "] " .. quest["questName"]
+		quest["arrowPoint"] = v
+		frame["hash"] = v["hash"]
 		
-		getglobal("QuestieTrackerButton"..i.."HeaderText"):SetText("[" .. quest["level"] .. "] " .. quest["questName"] .. " (" .. dist .. " " .. quest["formatUnits"] .. ")");
+		getglobal("QuestieTrackerButton"..i.."HeaderText"):SetText("[" .. quest["level"] .. "] " .. quest["questName"] .. " (" .. dist .. " " .. formatUnits .. ")");
 		for j=1,20 do
 			local objectiveLine = getglobal("QuestieTrackerButton"..i.."QuestWatchLine"..j)
 			local objectiveTable = quest["objective"..j]
@@ -429,7 +428,7 @@ function QuestieTracker:createTrackingButtons()
 					['click'] = function() QuestieTrackedQuests[button.title]["tracked"] = false; end
 				},
 				[at] = {
-					['click'] = function() button.arrowshown = not button.arrowshown;SetCrazyArrow(button.point, button.dist, button.title) end
+					['click'] = function() button.arrowshown = not button.arrowshown;SetArrowObjective(button.hash) end
 				},
 				["< Developer"] = {
 					['clock'] = nil,
