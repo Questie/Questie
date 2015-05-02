@@ -432,9 +432,10 @@ function QuestieTracker:createTrackingButtons()
 				[at] = {
 					['click'] = function()
 						if button.arrowshown then
-					 		HideArrow()
+					 		ArrowHidden()
 					 	else
-					 		SetArrowObjective(button.hash)	
+					 		ArrowShown()
+					 		SetArrowObjective(button.hash)
 					 	end	
 					 	button.arrowshown = not button.arrowshown;
 					 end

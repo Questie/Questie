@@ -113,7 +113,6 @@ function SetCrazyArrow(point, dist, title)
 		wayframe.title:SetText(point_title or "Unknown waypoint")
 		wayframe:Show()
 	else
-		active_point = nil; -- important
 		wayframe:Hide()
 	end
 end
@@ -302,8 +301,12 @@ function ShowHideCrazyArrow()
 	end
 end
 
-function HideArrow()
+function ArrowHidden()
 	isHide = true
+end
+
+function ArrowShown()
+	isHide = false
 end
 
 wayframe:SetScript("OnUpdate", OnUpdate)
