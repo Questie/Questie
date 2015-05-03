@@ -48,44 +48,23 @@ function Questie:Toggle()
 end
 
 QUESTIE_EVENTQUEUE = {};
-QUESTIE_LAST_UPDATE = GetTime();
-QUESTIE_LAST_CHECKLOG = GetTime();
-
 function Questie:OnUpdate(elapsed)
 	Astrolabe:OnUpdate(nil, elapsed);
 	Questie:NOTES_ON_UPDATE(elapsed);
 	if(table.getn(QUESTIE_EVENTQUEUE) > 0) then
 		for k, v in pairs(QUESTIE_EVENTQUEUE) do
-
-
 			if(v.EVENT == "UPDATE" and GetTime()- v.TIME > v.DELAY) then
-				if(GetTime() - QUESTIE_LAST_UPDATE > 0.05) then
-					while(true) do
-						local d = Questie:UpdateQuests();
-						if(not d) then
-							table.remove(QUESTIE_EVENTQUEUE, 1);
-							QUESTIE_LAST_UPDATE = GetTime();
-							break;
-						end
+				while(true) do
+					local d = Questie:UpdateQuests();
+					if(not d) then
+						table.remove(QUESTIE_EVENTQUEUE, 1);
+						break;
 					end
-				else
-					table.remove(QUESTIE_EVENTQUEUE, 1);
-					Questie:debug_Print("[QuestieEvent] ", "Spam Protection: Last update was:",GetTime() - QUESTIE_LAST_UPDATE, "ago skipping!");
-					QUESTIE_LAST_UPDATE = GetTime();
-					break;
 				end
 			elseif(v.EVENT == "CHECKLOG" and GetTime() - v.TIME > v.DELAY) then
-				if(GetTime() - QUESTIE_LAST_CHECKLOG > 0.05) then
-					Questie:CheckQuestLog();
-					table.remove(QUESTIE_EVENTQUEUE, 1);
-					QUESTIE_LAST_CHECKLOG = GetTime();
-					break;
-				else
-					table.remove(QUESTIE_EVENTQUEUE, 1);
-					Questie:debug_Print("[QuestieEvent] ", "Spam Protection: Last update was:",GetTime() - QUESTIE_LAST_CHECKLOG, "ago skipping!");
-					QUESTIE_LAST_CHECKLOG = GetTime();
-					break;
-				end
+				Questie:CheckQuestLog();
+				table.remove(QUESTIE_EVENTQUEUE, 1);
+				break;
 			end
 		end
 	end
@@ -105,14 +84,30 @@ function Questie:AddEvent(EVENT, DELAY)
 	table.insert(QUESTIE_EVENTQUEUE, evnt);
 end
 
+QUESTIE_LAST_UPDATE = GetTime();
+QUESTIE_LAST_CHECKLOG = GetTime();
+
 function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10)
 	if(event =="ADDON_LOADED" and arg1 == "Questie") then
 
 	elseif(event == "QUEST_LOG_UPDATE" or event == "QUEST_ITEM_UPDATE") then
 		if(Active == true) then
-			Questie:debug_Print("[OnEvent] "..event);
-			Questie:AddEvent("CHECKLOG", 0.135);
-			Questie:AddEvent("UPDATE", 0.15);--On my fast PC this seems like a good number
+			--Questie:debug_Print("[OnEvent] "..event);
+			if(GetTime() - QUESTIE_LAST_CHECKLOG > 0.1) then
+				Questie:AddEvent("CHECKLOG", 0.135);
+				QUESTIE_LAST_CHECKLOG = GetTime();
+			else
+				Questie:debug_Print("[QuestieEvent] ",event, "Spam Protection: Last checklog was:",GetTime() - QUESTIE_LAST_CHECKLOG, "ago skipping!");
+				QUESTIE_LAST_CHECKLOG = GetTime();
+			end
+
+			if(GetTime() - QUESTIE_LAST_UPDATE > 0.1) then
+				Questie:AddEvent("UPDATE", 0.15);--On my fast PC this seems like a good number
+				QUESTIE_LAST_UPDATE = GetTime();
+			else
+				Questie:debug_Print("[QuestieEvent] ",event, "Spam Protection: Last update was:",GetTime() - QUESTIE_LAST_UPDATE, "ago skipping!");
+				QUESTIE_LAST_UPDATE = GetTime();
+			end
 		end
 	elseif(event == "VARIABLES_LOADED") then
 		Questie:debug_Print("VARIABLES_LOADED");
@@ -158,7 +153,7 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 		else
 			Questie:hookTooltip();
 		end
-	elseif(event == "CHAT_MSG_SYSTEM") then
+	elseif(event == "CHAT_MSG_SYSTEM" and true == false) then
 		if(string.find(arg1, " completed.")) then
 			local qName = string.sub(arg1, 0, -string.len("  completed."));
 			DEFAULT_CHAT_FRAME:AddMessage("Quest Completed: '"..qName.."'");
