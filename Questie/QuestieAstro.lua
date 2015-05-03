@@ -521,19 +521,24 @@ function getCurrentMapID()
 end
 
 function Questie:getQuestHash(name, level, objectiveText)
-
-	
 	local questLookup = QuestieLevLookup[name];
+	local hasOthers = false;
 	if not (questLookup == nil) then -- cant... stop... doingthis....
 		--log("QN " .. name .. " is NULL", 1);
 		local count = 0;
 		local retval = 0;
 		local bestDistance = 4294967295; -- some high number (0xFFFFFFFF)
 		for k,v in pairs(questLookup) do
-			if k == objectiveText then
-				return v; -- exact match
+			if count == 1 then
+				hasOthers = true;	
 			end
-			local dist = Questie:levenshtein(objectiveText, k);
+			if k == objectiveText then
+				return v,hasOthers; -- exact match
+			end
+			local dist = 4294967294;
+			if not (objectiveText == nil) then
+				dist = Questie:levenshtein(objectiveText, k);
+			end
 			if dist < bestDistance then
 				bestDistance = dist;
 				retval = v;
@@ -541,15 +546,17 @@ function Questie:getQuestHash(name, level, objectiveText)
 			count = count + 1;
 		end
 		if not (retval == 0) then
-			return retval; -- nearest match
+			return retval, hasOthers; -- nearest match
 		end
 	end
 
 	-- hash lookup did not contain qust name!! LOG THIS!!!
 	local hash = Questie:mixString(0, name);
-	hash = Questie:mixInt(hash, level);
-	hash = Questie:mixString(hash, objectiveText);
-	return hash;
+	if not (level == nil then 
+	hash = Questie:mixInt(hash, level); end
+	if not (objectiveText == nil) then
+	hash = Questie:mixString(hash, objectiveText); end
+	return hash, false;
 end
 
 function Questie:mixString(mix, str)
