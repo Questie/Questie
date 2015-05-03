@@ -359,20 +359,7 @@ function Questie:UpdateQuestIds()
 end
 
 function Questie:GetHashFromName(name)
-	local numEntries, numQuests = GetNumQuestLogEntries();
-	local startSelect = GetQuestLogSelection();
-	for i = 1, numEntries do
-		local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(i);
-		if not isHeader then
-		   if(q == name) then
-		   	SelectQuestLogEntry(i);
-		   	local questText, objectiveText = _GetQuestLogQuestText();
-		   	SelectQuestLogEntry(startSelect);
-		   	return Questie:getQuestHash(q, level, objectiveText);
-		   end
-		end
-	end
-return nil;
+	return Questie:getQuestHash(q, nil, nil);
 end
 
 
