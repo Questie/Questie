@@ -358,6 +358,7 @@ function Questie:UpdateQuestIds()
 	Questie:debug_Print("[UpdateQuestID] Had to update UpdateQuestIds",(GetTime() - startTime)*1000,"ms")
 end
 
+
 function Questie:GetHashFromName(name)
 	local numEntries, numQuests = GetNumQuestLogEntries();
 	local startSelect = GetQuestLogSelection();
@@ -379,29 +380,25 @@ end
 --The reason IsQuestFinished and getFinished quest basiclly have the same code is because they return different things... i need both!
 --Astrolabe functions DO NOT USE UNLESS YOU KNOW WHAT YOU ARE DOING!!
 function Questie:IsQuestFinished(questHash)
-  	numEntries, numQuests = GetNumQuestLogEntries();
+	local i = Questie:GetQuestIdFromHash(questHash);
   	local FinishedQuests = {};
-  	for i = 1, numEntries do
-		local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(i);
-		if not isHeader then
-		  	SelectQuestLogEntry(i);
-		    local count =  GetNumQuestLeaderBoards();
-		    local questText, objectiveText = _GetQuestLogQuestText();
-		    Done = true;
-		    for obj = 1, count do
-		   		local desc, typ, done = GetQuestLogLeaderBoard(obj);
-		   		if not done then
-		   			Done = nil;
-		   		end
-			end
-			if(Done and Questie:getQuestHash(q, level, objectiveText) == questHash) then
-				local ret = {};
-				ret["questHash"] = questHash;
-				ret["name"] = q;
-				ret["level"] = level;
-				return ret;
-			end
+	local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(i);
+	SelectQuestLogEntry(i);
+	local count =  GetNumQuestLeaderBoards();
+	local questText, objectiveText = _GetQuestLogQuestText();
+	Done = true;
+	for obj = 1, count do
+		local desc, typ, done = GetQuestLogLeaderBoard(obj);
+		if not done then
+			Done = nil;
 		end
+	end
+	if(Done and Questie:getQuestHash(q, level, objectiveText) == questHash) then
+		local ret = {};
+		ret["questHash"] = questHash;
+		ret["name"] = q;
+		ret["level"] = level;
+		return ret;
 	end
 
 	--TODO: Check SavedVariables!
@@ -480,7 +477,7 @@ function Questie:AstroGetQuestObjectives(questHash)
 			local countstr = string.sub(desc, indx+2);
 			local namestr = string.sub(desc, 1, indx-1);
 			--AllObjectives["type"] = typ;
-			Questie:debug_Print("[AstroGetQuestObjectives]", tostring(q), tostring(namestr), tostring(countstr), tostring(selected), tostring(mapid))
+			--Questie:debug_Print("[AstroGetQuestObjectives]", tostring(q), tostring(namestr), tostring(countstr), tostring(selected), tostring(mapid))
 			local objectives = typeFunction(q, namestr, countstr, selected, mapid);
 			--DEFAULT_CHAT_FRAME:AddMessage("Count:"..table.getn(objectives)); --NotWORKING debug
 			
