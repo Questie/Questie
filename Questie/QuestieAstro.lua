@@ -153,7 +153,7 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 		else
 			Questie:hookTooltip();
 		end
-	elseif(event == "CHAT_MSG_SYSTEM" and true == false) then
+	elseif(event == "CHAT_MSG_SYSTEM") then
 		if(string.find(arg1, " completed.")) then
 			local qName = string.sub(arg1, 0, -string.len("  completed."));
 			DEFAULT_CHAT_FRAME:AddMessage("Quest Completed: '"..qName.."'");
