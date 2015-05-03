@@ -48,6 +48,8 @@ function Questie:Toggle()
 end
 
 QUESTIE_EVENTQUEUE = {};
+QUESTIE_LAST_UPDATE = GetTime();
+QUESTIE_LAST_CHECKLOG = GetTime();
 
 function Questie:OnUpdate(elapsed)
 	Astrolabe:OnUpdate(nil, elapsed);
@@ -57,16 +59,33 @@ function Questie:OnUpdate(elapsed)
 
 
 			if(v.EVENT == "UPDATE" and GetTime()- v.TIME > v.DELAY) then
-				while(true) do
-					local d = Questie:UpdateQuests();
-					if(not d) then
-						table.remove(QUESTIE_EVENTQUEUE, 1);
-						break;
+				if(GetTime() - QUESTIE_LAST_UPDATE > 0.05) then
+					while(true) do
+						local d = Questie:UpdateQuests();
+						if(not d) then
+							table.remove(QUESTIE_EVENTQUEUE, 1);
+							QUESTIE_LAST_UPDATE = GetTime();
+							break;
+						end
 					end
+				else
+					table.remove(QUESTIE_EVENTQUEUE, 1);
+					Questie:debug_Print("[QuestieEvent] ", "Spam Protection: Last update was:",GetTime() - QUESTIE_LAST_UPDATE, "ago skipping!");
+					QUESTIE_LAST_UPDATE = GetTime();
+					break;
 				end
 			elseif(v.EVENT == "CHECKLOG" and GetTime() - v.TIME > v.DELAY) then
-				Questie:CheckQuestLog();
-				table.remove(QUESTIE_EVENTQUEUE, 1);
+				if(GetTime() - QUESTIE_LAST_CHECKLOG > 0.05) then
+					Questie:CheckQuestLog();
+					table.remove(QUESTIE_EVENTQUEUE, 1);
+					QUESTIE_LAST_CHECKLOG = GetTime();
+					break;
+				else
+					table.remove(QUESTIE_EVENTQUEUE, 1);
+					Questie:debug_Print("[QuestieEvent] ", "Spam Protection: Last update was:",GetTime() - QUESTIE_LAST_CHECKLOG, "ago skipping!");
+					QUESTIE_LAST_CHECKLOG = GetTime();
+					break;
+				end
 			end
 		end
 	end
@@ -91,7 +110,7 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 
 	elseif(event == "QUEST_LOG_UPDATE" or event == "QUEST_ITEM_UPDATE") then
 		if(Active == true) then
-			Questie:debug_Print("[OnEvent] ",event);
+			Questie:debug_Print("[OnEvent] "..event);
 			Questie:AddEvent("CHECKLOG", 0.135);
 			Questie:AddEvent("UPDATE", 0.15);--On my fast PC this seems like a good number
 		end

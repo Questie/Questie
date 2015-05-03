@@ -480,7 +480,7 @@ function Questie:AstroGetQuestObjectives(questHash)
 			local countstr = string.sub(desc, indx+2);
 			local namestr = string.sub(desc, 1, indx-1);
 			--AllObjectives["type"] = typ;
-			Questie:debug_Print(tostring(q), tostring(namestr), tostring(countstr), tostring(selected), tostring(mapid))
+			Questie:debug_Print("[AstroGetQuestObjectives]", tostring(q), tostring(namestr), tostring(countstr), tostring(selected), tostring(mapid))
 			local objectives = typeFunction(q, namestr, countstr, selected, mapid);
 			--DEFAULT_CHAT_FRAME:AddMessage("Count:"..table.getn(objectives)); --NotWORKING debug
 			
