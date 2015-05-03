@@ -6,11 +6,18 @@ function QuestieTracker:OnEvent() -- functions created in "object:method"-style 
 	QuestieTracker[event](QuestieTracker, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10) -- route event parameters to Questie:event methods
 end
 
+QuestieTracker.hasCleared = false
+QuestieTracker.lastUpdate = GetTime()
+
 function QuestieTracker_OnUpdate()
 	if(EQL3_QuestWatchFrame) then
 		EQL3_QuestWatchFrame:Hide();
 	end
 	QuestWatchFrame:Hide()
+	if GetTime() - QuestieTracker.lastUpdate >= 1 then
+		QuestieTracker:fillTrackingFrame()
+		QuestieTracker.lastUpdate = GetTime()
+	end
 end
 
 QuestieTracker:SetScript("OnEvent", QuestieTracker.OnEvent)
@@ -18,7 +25,6 @@ QuestieTracker:SetScript("OnUpdate", QuestieTracker_OnUpdate)
 QuestieTracker:RegisterEvent("PLAYER_LOGIN")
 QuestieTracker:RegisterEvent("ADDON_LOADED")
 
-QuestieTracker.hasCleared = false
 
 local _QuestWatch_Update = QuestWatch_Update;
 local _RemoveQuestWatch = RemoveQuestWatch;
@@ -345,6 +351,10 @@ function QuestieTracker:fillTrackingFrame()
 							["hash"] = hash,
 							["xDelta"] = xDelta,
 							["yDelta"] = yDelta,
+							["c"] = continent,
+							["z"] = zone,
+							["x"] = xNote,
+							["y"] = yNote,
 						}
 						table.insert(distanceNotes, info);
 				end
@@ -369,10 +379,15 @@ function QuestieTracker:fillTrackingFrame()
 		
 		frame:Show();
 			
-		quest["formatUnits"] = "yds"
+		local formatUnits = "yds"
 		local dist = tonumber(string.format("%.0f" , v["dist"]))
 		
-		getglobal("QuestieTrackerButton"..i.."HeaderText"):SetText("[" .. quest["level"] .. "] " .. quest["questName"] .. " (" .. dist .. " " .. quest["formatUnits"] .. ")");
+		-- Arrow data
+		v["title"] = "[" .. quest["level"] .. "] " .. quest["questName"]
+		quest["arrowPoint"] = v
+		frame["hash"] = v["hash"]
+		
+		getglobal("QuestieTrackerButton"..i.."HeaderText"):SetText("[" .. quest["level"] .. "] " .. quest["questName"] .. " (" .. dist .. " " .. formatUnits .. ")");
 		for j=1,20 do
 			local objectiveLine = getglobal("QuestieTrackerButton"..i.."QuestWatchLine"..j)
 			local objectiveTable = quest["objective"..j]
@@ -383,31 +398,6 @@ function QuestieTracker:fillTrackingFrame()
 			objectiveLine:Show();
 		end
 	end
-	
-	--[[local i = 1;
-	-- sort notes by distance before using this
-	for hash,quest in pairs(QuestieTrackedQuests) do
-		local frame = getglobal("QuestieTrackerButton"..i);
-		if not frame then break end
-		if quest ~= false then
-			frame:Show();
-			
-			quest["formatDistance"] = "0"
-			quest["formatUnits"] = "m"
-			getglobal("QuestieTrackerButton"..i.."HeaderText"):SetText("[" .. quest["level"] .. "] " .. quest["questName"] .. " (" .. quest["formatDistance"] .. " " .. quest["formatUnits"] .. ")");
-			for j=1,20 do
-				local objectiveLine = getglobal("QuestieTrackerButton"..i.."QuestWatchLine"..j)
-				local objectiveTable = quest["objective"..j]
-				if not objectiveLine or not objectiveTable then break end
-				
-				objectiveLine:SetText(objectiveTable["desc"]);
-				objectiveLine:SetTextColor(QuestieTracker:getRGBForObjective(objectiveTable["desc"]));
-				objectiveLine:Show();
-			end
-			i = i + 1
-		end
-	end]]
-
 	
 	QuestieTracker:updateTrackingFrameSize();
 	--Questie:debug_Print("TrackerFrame filled: Time:", tostring((GetTime()-t)*1000).."ms");
@@ -435,10 +425,20 @@ function QuestieTracker:createTrackingButtons()
 			end
 			createPrettyMenu({
 				["Untrack"] = {
-					['click'] = function() QuestieTrackedQuests[button.title]["tracked"] = false; end
+					['click'] = function() 
+						--
+					end
 				},
 				[at] = {
-					['click'] = function() button.arrowshown = not button.arrowshown;SetCrazyArrow(button.point, button.dist, button.title) end
+					['click'] = function()
+						if button.arrowshown then
+					 		ArrowHidden()
+					 	else
+					 		ArrowShown()
+					 		SetArrowObjective(button.hash)
+					 	end	
+					 	button.arrowshown = not button.arrowshown;
+					 end
 				},
 				["< Developer"] = {
 					['clock'] = nil,
