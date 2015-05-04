@@ -552,7 +552,7 @@ function Questie:getQuestHash(name, level, objectiveText)
 
 	-- hash lookup did not contain qust name!! LOG THIS!!!
 	local hash = Questie:mixString(0, name);
-	if not (level == nil then 
+	if not (level == nil) then 
 	hash = Questie:mixInt(hash, level); end
 	if not (objectiveText == nil) then
 	hash = Questie:mixString(hash, objectiveText); end
