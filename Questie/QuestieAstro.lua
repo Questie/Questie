@@ -521,6 +521,7 @@ function getCurrentMapID()
 end
 
 function Questie:getQuestHash(name, level, objectiveText)
+	
 	local questLookup = QuestieLevLookup[name];
 	local hasOthers = false;
 	if not (questLookup == nil) then -- cant... stop... doingthis....
@@ -551,6 +552,10 @@ function Questie:getQuestHash(name, level, objectiveText)
 	end
 
 	-- hash lookup did not contain qust name!! LOG THIS!!!
+	if name == nil then
+		DEFAULT_CHAT_FRAME:AddMessage("QuestieError: Attempt to hash a nill quest?"); -- too lazy to look up proper log function. yeah. super lazy.
+		return -1;
+	end
 	local hash = Questie:mixString(0, name);
 	if not (level == nil) then 
 	hash = Questie:mixInt(hash, level); end

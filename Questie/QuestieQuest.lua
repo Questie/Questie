@@ -197,7 +197,7 @@ function Questie:UpdateQuestInZone(Zone, force)
 				Questie:debug_Print("[UpdateQuestInZone] Update: Something has changed, need to refresh:", hash);
 				Questie:AddQuestToMap(hash, true);
 				
-				QuestieTracker:updateFrameOnTracker(hash, i)
+				QuestieTracker:updateFrameOnTracker(hash, i, level)
 				QuestieTracker:fillTrackingFrame()
 			end
 		end
@@ -360,7 +360,7 @@ end
 
 
 function Questie:GetHashFromName(name)
-	return Questie:getQuestHash(q, nil, nil);
+	return Questie:getQuestHash(name, nil, nil);
 end
 
 
