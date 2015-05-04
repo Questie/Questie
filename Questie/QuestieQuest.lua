@@ -78,7 +78,7 @@ function Questie:CheckQuestLog()
 				Questie:debug_Print("[CheckLog] Adding quest to seen quests:", v["name"],v["hash"]," setting as 0");
 				QuestieSeenQuests[v["hash"]] = 0
 			end
-			if lastObjectives[v["hash"]] then
+			if lastObjectives and lastObjectives[v["hash"]] then --- this throws nil error attempting to index "nil global lastObjectives"
 				lastObjectives = nil;
 			end
 			MapChanged = true;

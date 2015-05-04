@@ -228,7 +228,7 @@ function QuestieTracker:fillTrackingFrame()
 			local ld = "|c" .. QuestieTracker:GetDifficultyColor(QuestieTrackedQuests[hash]["level"]);
 			
 			button.quest:SetText(ld .. qd['name'] .. "|r");
-			button.level:SetText(ld .. "[".. qd['level'] .."]|r");
+			button.level:SetText(ld .. "[".. QuestieTrackedQuests[hash]["level"] .."]|r");
 			--button.text:SetText("[".. qd['level'] .."]" .. qd['name']);
 			
 			local obj = 1;
