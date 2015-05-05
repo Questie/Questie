@@ -119,7 +119,7 @@ end
 
 function SetArrowObjective(hash)
 	arrow_objective = hash
-	local objective = QuestieTrackedQuests[arrow_objective]["arrowPoint"]
+	local objective = QuestieTrackedQuests[hash]["arrowPoint"]
 	SetCrazyArrow(objective, objective.dist, objective.title)
 end
 

@@ -19,7 +19,7 @@
 <script file="Interface\AddOns\Questie\Database\minimapcalcs.lua"/>
 <script file="Interface\AddOns\Questie\extern\DevToolsDump.lua"/>
 <script file="Interface\AddOns\Questie\astrolabe\Astrolabe.lua"/>
-<script file="Interface\AddOns\Questie\Database\arrow.lua"/>
+<script file="QuestieArrow.lua"/>
 
 
 <Button name="Questie_Toggle" parent="WorldMapFrame" inherits="UIPanelButtonTemplate" text="Toggle Questie">

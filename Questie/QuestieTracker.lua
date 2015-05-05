@@ -134,7 +134,8 @@ function QuestieTracker:createOrGetTrackingButton(index)
 		end);
 		btn:RegisterForClicks("RightButtonDown","LeftButtonUp", "LeftClick");
 		btn.click = function()
-			DEFAULT_CHAT_FRAME:AddMessage("Clicked " .. btn.quest:GetText());
+			SetArrowObjective(btn.hash);
+			--DEFAULT_CHAT_FRAME:AddMessage("Clicked " .. btn.quest:GetText());
 		end
 		btn:SetScript("OnClick", function() 
 			if arg1 == "LeftButton" then 
@@ -220,30 +221,77 @@ end
 
 function QuestieTracker:fillTrackingFrame()
 	local index = 1;
+	local sortedByDistance = {};
+	local distanceControlTable = {};
+	local C,Z,X,Y = Astrolabe:GetCurrentPlayerPosition() -- continent, zone, x, y
+	
+	local distanceNotes = {};
 	for hash,quest in pairs(QuestieHandledQuests) do
-		
 		if QuestieTrackedQuests[hash] then
-			local button = QuestieTracker:createOrGetTrackingButton(index);
-			local qd = QuestieHashMap[hash];
-			local ld = "|c" .. QuestieTracker:GetDifficultyColor(QuestieTrackedQuests[hash]["level"]);
-			
-			button.quest:SetText(ld .. qd['name'] .. "|r");
-			button.level:SetText(ld .. "[".. QuestieTrackedQuests[hash]["level"] .."]|r");
-			--button.text:SetText("[".. qd['level'] .."]" .. qd['name']);
-			
-			local obj = 1;
-			
-			while true do
-				local beefcake = QuestieTrackedQuests[hash]["objective" .. obj];
-				if beefcake == nil then break; end
-				QuestieTracker:AddObjectiveToButton(button, beefcake, obj);
-				obj = obj + 1;
+			for name,notes in pairs(quest.objectives.objectives) do
+				for k,v in pairs(notes) do
+					local continent, zone, xNote, yNote = QuestieZoneIDLookup[v.mapid][4], QuestieZoneIDLookup[v.mapid][5], v.x, v.y
+						local dist, xDelta, yDelta = Astrolabe:ComputeDistance( C, Z, X, Y, continent, zone, xNote, yNote )
+						local info = {
+							["dist"] = dist,
+							["hash"] = hash,
+							["xDelta"] = xDelta,
+							["yDelta"] = yDelta,
+							["c"] = continent,
+							["z"] = zone,
+							["x"] = xNote,
+							["y"] = yNote,
+						}
+						table.insert(distanceNotes, info);
+				end
 			end
-			
-			button:Show();
-			
-			index = index + 1;
 		end
+	end
+	
+	
+	sort(distanceNotes, function (a, b)
+		return a["dist"] < b["dist"]
+	end)
+	
+	
+	-- not sure what this bit is for
+	for k,v in pairs(distanceNotes) do
+		if not distanceControlTable[v["hash"]] then
+			distanceControlTable[v["hash"]] = true
+			table.insert(sortedByDistance, v);
+		end
+	end
+	-- but it exists so...
+	
+	
+	
+	for i,v in pairs(sortedByDistance) do
+		local hash = v["hash"];
+		local quest = QuestieTrackedQuests[hash];
+		local button = QuestieTracker:createOrGetTrackingButton(index);
+		button.hash = hash;
+		local qd = QuestieHashMap[hash];
+		local ld = "|c" .. QuestieTracker:GetDifficultyColor(quest["level"]);
+			
+		button.quest:SetText(ld .. qd['name'] .. "|r");
+		button.level:SetText(ld .. "[".. quest["level"] .."]|r");
+		--button.text:SetText("[".. qd['level'] .."]" .. qd['name']);
+			
+		local obj = 1;
+		
+		v["title"] = ld .. "[" .. quest["level"] .. "] " .. quest["questName"] .. "|r";
+		quest["arrowPoint"] = v
+			
+		while true do
+			local beefcake = quest["objective" .. obj];
+			if beefcake == nil then break; end
+			QuestieTracker:AddObjectiveToButton(button, beefcake, obj);
+			obj = obj + 1;
+		end
+			
+		button:Show();
+			
+		index = index + 1;
 	end
 	
 	QuestieTracker.highestIndex = index - 1;
