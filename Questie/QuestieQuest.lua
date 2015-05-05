@@ -67,7 +67,7 @@ function Questie:CheckQuestLog()
 				QuestieSeenQuests[v["hash"]] = 0
 			end
 			MapChanged = true;
-		else				
+		elseif not Questie.collapsedThisRun then
 			Questie:debug_Print("[CheckLog] Check discovered a missing quest, removing!", v["hash"], v["name"])
 			Questie:RemoveQuestFromMap(v["hash"]);
 			QuestieTracker:removeQuestFromTracker(v["hash"]);
@@ -273,12 +273,18 @@ function Questie:AstroGetAllCurrentQuestHashes(print)
 	return hashes;
 end
 
+Questie.lastCollapsedCount = 0;
+Questie.collapsedThisRun = false;
+
 function Questie:AstroGetAllCurrentQuestHashesAsMeta(print)
 	local hashes = {};
 	local Count = 0;
   	local numEntries, numQuests = GetNumQuestLogEntries();
+	local collapsedCount = 0;
+	Questie.collapsedThisRun = false;
 	for i = 1, numEntries do
 		local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(i);
+		if isCollapsed then collapsedCount = collapsedCount + 1; end
 		if not isHeader then
 		  	SelectQuestLogEntry(i);
 		    local count =  GetNumQuestLeaderBoards();
@@ -303,6 +309,10 @@ function Questie:AstroGetAllCurrentQuestHashesAsMeta(print)
 	end
 	if(print) then
 		Questie:debug_Print("--End of all current quests--");
+	end
+	if not (collapsedCount == Questie.lastCollapsedCount) then
+		Questie.lastCollapsedCount = collapsedCount;
+		Questie.collapsedThisRun = true;
 	end
 	return hashes, numQuests;
 end

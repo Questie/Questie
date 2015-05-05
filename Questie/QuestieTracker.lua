@@ -90,14 +90,12 @@ QuestieTracker.buttonOffsets = {}; -- THIS IS FUCKED
 
 function QuestieTracker:createOrGetTrackingButton(index)
 	if QuestieTracker.questButtons[index] == nil then
-		DEFAULT_CHAT_FRAME:AddMessage("creating frame " .. index);
 		local parent;
 		local parentString; -- fucking wow api
 		if index == 1 then
 			parent = QuestieTracker.frame;
 		else
 			parent = QuestieTracker.questButtons[index-1]; -- this allows easy dynamic positioning
-			DEFAULT_CHAT_FRAME:AddMessage(parent.prevoffset);
 		end
 
 		--parent = UIParent;
@@ -223,6 +221,7 @@ end
 function QuestieTracker:fillTrackingFrame()
 	local index = 1;
 	for hash,quest in pairs(QuestieHandledQuests) do
+		
 		if QuestieTrackedQuests[hash] then
 			local button = QuestieTracker:createOrGetTrackingButton(index);
 			local qd = QuestieHashMap[hash];
@@ -451,7 +450,12 @@ function QuestieTracker:addQuestToTracker(hash, logId) -- never used???
 	
 	if not logId then
 		logId = Questie:GetQuestIdFromHash(hash)
-	end	
+	end
+	
+	if logId == nil then
+		Questie:debug_Print("TrackerError! LogId still nil after GetQuestIdFromHash ", hash);
+		return;
+	end
 
 	local startId = GetQuestLogSelection();	
 	SelectQuestLogEntry(logId);
@@ -483,7 +487,6 @@ function QuestieTracker:addQuestToTracker(hash, logId) -- never used???
 end
 
 function QuestieTracker:updateFrameOnTracker(hash, logId, level) -- never used???
-	DEFAULT_CHAT_FRAME:AddMessage("UPDATEFRAMEONTRACKEr");
 	local startTime = GetTime()	
 		
 	if not logId then
