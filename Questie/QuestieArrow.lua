@@ -118,6 +118,11 @@ function SetCrazyArrow(point, dist, title)
 end
 
 function SetArrowObjective(hash)
+	if arrow_objective == hash then
+		wayframe:Hide();
+		arrow_objective = 0;
+		return;
+	end
 	arrow_objective = hash
 	local objective = QuestieTrackedQuests[hash]["arrowPoint"]
 	SetCrazyArrow(objective, objective.dist, objective.title)
@@ -200,7 +205,10 @@ local function OnUpdate(self, elapsed)
 			showDownArrow = false
 		end
 
-		local angle = math.rad(GetDirectionToIcon(active_point))
+		local degtemp = GetDirectionToIcon(active_point);
+		if degtemp < 0 then degtemp = degtemp + 360; end
+		
+		local angle = math.rad(degtemp)
 		local player = GetPlayerFacing()
 		angle = angle - player
 		local perc = 1-  math.abs(((math.pi - math.abs(angle)) / math.pi))
