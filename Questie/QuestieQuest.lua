@@ -148,6 +148,7 @@ end
 
 function Questie:UpdateQuestInZone(Zone, force)
  	local numEntries, numQuests = GetNumQuestLogEntries();
+	DEFAULT_CHAT_FRAME:AddMessage("UpdateQuestInZone");
   	local foundChange = nil;
   	local ZoneFound = nil;
   	local QuestsChecked = 0;
@@ -197,6 +198,9 @@ function Questie:UpdateQuestInZone(Zone, force)
 				Questie:debug_Print("[UpdateQuestInZone] Update: Something has changed, need to refresh:", hash);
 				Questie:AddQuestToMap(hash, true);
 				
+				QuestieTracker:updateFrameOnTracker(hash, i, level)
+				QuestieTracker:fillTrackingFrame()
+			elseif foundChange then
 				QuestieTracker:updateFrameOnTracker(hash, i, level)
 				QuestieTracker:fillTrackingFrame()
 			end

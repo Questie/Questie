@@ -187,6 +187,7 @@ end
 QuestieTracker.highestIndex = 0;
 
 function QuestieTracker:GetDifficultyColor(level)
+	if level == nil then return "FFFFFFFF"; end
 	local levelDiff = level - UnitLevel("player");
 	if ( levelDiff >= 5 ) then
 		return "FFFF1A1A";
@@ -218,7 +219,7 @@ end
 function QuestieTracker:AddObjectiveToButton(button, objective, index)
 	local objt;
 	if button.objectives[index] == nil then
-		button:SetHeight(button:GetHeight() + 11);
+		--button:SetHeight(button:GetHeight() + 11);
 		objt = button:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 	else
 		objt = button.objectives[index];
@@ -307,6 +308,20 @@ function QuestieTracker:fillTrackingFrame()
 			QuestieTracker:AddObjectiveToButton(button, beefcake, obj);
 			obj = obj + 1;
 		end
+		
+		button.currentObjectiveCount = obj - 1;
+		
+		local heightLoss = 0;
+
+		while true do
+			if button.objectives[obj] == nil then break; end
+			button.objectives[obj]:SetText(""); --hecks
+			heightLoss = heightLoss + 11;
+			obj = obj + 1;
+		end
+		
+		--button:SetHeight(button:GetHeight() - heightLoss);
+		button:SetHeight(14 + (button.currentObjectiveCount * 11));
 			
 		button:Show();
 			
@@ -508,7 +523,7 @@ local function trim(s)
 	return string.gsub(s, "^%s*(.-)%s*$", "%1");
 end
 
-function QuestieTracker:addQuestToTracker(hash, logId) -- never used???
+function QuestieTracker:addQuestToTracker(hash, logId, level) -- never used???
 	local startTime = GetTime()
 	
 	if(type(QuestieTrackedQuests[hash]) ~= "table") then
@@ -554,25 +569,51 @@ function QuestieTracker:addQuestToTracker(hash, logId) -- never used???
 end
 
 function QuestieTracker:updateFrameOnTracker(hash, logId, level) -- never used???
+	DEFAULT_CHAT_FRAME:AddMessage("UPDATEFRAMEONTRACKER");
 	local startTime = GetTime()	
-		
+	
+	
 	if not logId then
 		logId = Questie:GetQuestIdFromHash(hash)
 	end
 	
-	if not QuestieTracker:isTracked(logId) then
+	if not logId then
+		DEFAULT_CHAT_FRAME:AddMessage("STILL NULL AFTER CHECK FOR " .. hash);
+	end
+	
+	if QuestieTracker:isTracked(logId) then
 		return
 	end
+	if not QuestieTrackedQuests[hash] then
+		QuestieTrackedQuests[hash] = {};
+	end
+	DEFAULT_CHAT_FRAME:AddMessage(logId);
+	DEFAULT_CHAT_FRAME:AddMessage(level);
 	
 	local startid = GetQuestLogSelection();
 	SelectQuestLogEntry(logId);
 	local questName, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(logId);
-	QuestieTrackedQuests[hash]["isComplete"] = isComplete
+	DEFAULT_CHAT_FRAME:AddMessage(level);
+	QuestieTrackedQuests[hash]["questName"] = questName;
+	QuestieTrackedQuests[hash]["isComplete"] = isComplete;
 	QuestieTrackedQuests[hash]["level"] = level;
+	local uggo = 0;
 	for i=1, GetNumQuestLeaderBoards() do
 		local desc, type, done = GetQuestLogLeaderBoard(i);
+		if not QuestieTrackedQuests[hash]["objective"..i] then
+			QuestieTrackedQuests[hash]["objective"..i] = {};
+		end
 		QuestieTrackedQuests[hash]["objective"..i]["desc"] = desc
 		QuestieTrackedQuests[hash]["objective"..i]["done"] = done
+		uggo = i;
+	end
+	
+	uggo = uggo - 1;
+	
+	while true do
+		if QuestieTrackedQuests[hash]["objective"..uggo] == nil then break; end;
+		QuestieTrackedQuests[hash]["objective"..uggo] = nil;
+		uggo = uggo + 1;
 	end
 	
 	SelectQuestLogEntry(startid);
@@ -626,7 +667,7 @@ function QuestieTracker:setQuestInfo(id) -- never used???
 			QuestieTracker:removeQuestFromTracker(hash);
 			return;
 		end
-		QuestieTracker:addQuestToTracker(hash)
+		QuestieTracker:addQuestToTracker(hash, id, level);
 	end
 end
 
@@ -643,7 +684,7 @@ function QuestieTracker:syncEQL3()
 		for id=1, GetNumQuestLogEntries() do
 			local questName, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(id);
 			if ( not isHeader and EQL3_IsQuestWatched(id) and not QuestieTracker:isTracked(questName) ) then
-				QuestieTracker:addQuestToTracker(Questie:GetHashFromName(questName), id);
+				QuestieTracker:addQuestToTracker(Questie:GetHashFromName(questName), id, level);
 			elseif( not isHeader and not EQL3_IsQuestWatched(id) and QuestieTracker:isTracked(questName) ) then
 				QuestieTracker:removeQuestFromTracker(Questie:GetHashFromName(questName));
 			end
@@ -666,6 +707,10 @@ function QuestieTracker:ADDON_LOADED()
 	if not QuestieTrackedQuests then 
 		QuestieTrackedQuests = {}
 	end
+	
+	-- bye vanilla tracker
+	QuestWatchFrame:Hide()
+	QuestWatchFrame.Show = function () end;
 	
 end
 
