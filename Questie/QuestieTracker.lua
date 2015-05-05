@@ -40,6 +40,7 @@ function QuestieTracker:updateTrackingFrameSize()
 	local lastButton = QuestieTracker.questButtons[QuestieTracker.highestIndex];
 	--/script DEFAULT_CHAT_FRAME:AddMessage(QuestieTracker.frame:GetTop());
 	--/script DEFAULT_CHAT_FRAME:AddMessage(QuestieTracker.questButtons[QuestieTracker.highestIndex]:GetTop());
+	if lastButton == nil then return; end
 	
 	local lbt = lastButton:GetBottom();
 	local tt = QuestieTracker.frame:GetTop();
@@ -355,7 +356,7 @@ function QuestieTracker:createTrackingFrame()
 	
 	--this.frame.texture:SetTexture("Interface\\Tooltips\\UI-Tooltip-Background");
 	QuestieTracker.frame.texture:SetTexture(0,0,0); -- black
-	QuestieTracker.frame.texture:SetAlpha(0.2);
+	QuestieTracker.frame.texture:SetAlpha(0.0);
 	QuestieTracker.frame.texture:SetAllPoints(QuestieTracker.frame);
 	QuestieTracker.frame:Show();
 
