@@ -54,7 +54,7 @@ function QuestieTracker:updateTrackingFrameSize()
 	QuestieTracker.frame:SetHeight(totalSize);
 end
 
-function QuestieTracker:getRGBForObjective(objective)
+function QuestieTracker:getRGBForObjective_old(objective)
 	if not (type(objective) == "function") then -- seriously wtf
 		local lastIndex = findLast(objective, ":");
 		if not (lastIndex == nil) then -- I seriously CANT shake this habit
@@ -75,6 +75,23 @@ function QuestieTracker:getRGBForObjective(objective)
 	return 0.2, 1, 0.2;
 end
 
+function QuestieTracker:getRGBForObjective(objective)
+	if not (type(objective) == "function") then -- seriously wtf
+		local lastIndex = findLast(objective, ":");
+		if not (lastIndex == nil) then -- I seriously CANT shake this habit
+			local progress = string.sub(objective, lastIndex+2);
+
+			-- There HAS to be a better way of doing this
+			local slash = findLast(progress, "/");
+			local have = tonumber(string.sub(progress, 0, slash-1))
+			local need = tonumber(string.sub(progress, slash+1))
+
+			local float = have / need;
+			return 0.8-float/2, 0.8+float/3, 0.8-float/2;
+		end
+	end
+	return 0.3, 1, 0.3;
+end
 
 function QuestieTracker:clearTrackingFrame()
 	--[[for i=1, 8 do
@@ -86,7 +103,6 @@ function QuestieTracker:clearTrackingFrame()
 end
 
 QuestieTracker.questButtons = {};
-QuestieTracker.buttonOffsets = {}; -- THIS IS FUCKED
 
 function QuestieTracker:createOrGetTrackingButton(index)
 	if QuestieTracker.questButtons[index] == nil then
@@ -153,11 +169,11 @@ function QuestieTracker:createOrGetTrackingButton(index)
 		
 		--button.prevoffset = parent.prevoffset + button:GetHeight(); -- there is a way to do this automatically but WOW IS BEING RETARDED AND I'M NOT GIVING UP RAGE RAGE RAGE
 		local quest = btn:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-		quest:SetPoint("TOPLEFT", btn, "TOPLEFT", 40, 0)
+		quest:SetPoint("TOPLEFT", btn, "TOPLEFT", 30, 0)
 		btn.quest = quest;
 		
 		local level = btn:CreateFontString(nil, "OVERLAY", "GameFontNormal") --/script QuestieTracker.questButtons[3]:SetHeight(20);
-		level:SetPoint("TOPLEFT", btn, "TOPLEFT", 10, 0)
+		level:SetPoint("TOPLEFT", btn, "TOPLEFT", 0, 0)
 		btn.level = level;
 		
 		QuestieTracker.questButtons[index] = btn;
@@ -186,9 +202,12 @@ function QuestieTracker:GetDifficultyColor(level)
 end
 
 local function RGBToHex(r, g, b)
-	r = r <= 255 and r >= 0 and r or 0
-	g = g <= 255 and g >= 0 and g or 0
-	b = b <= 255 and b >= 0 and b or 0
+	--r = r <= 255 and r >= 0 and r or 0
+	--g = g <= 255 and g >= 0 and g or 0
+	--b = b <= 255 and b >= 0 and b or 0
+	if r > 255 then r = 255; end
+	if g > 255 then g = 255; end
+	if b > 255 then b = 255; end;
 	return string.format("%02x%02x%02x", r, g, b)
 end
 
@@ -205,11 +224,11 @@ function QuestieTracker:AddObjectiveToButton(button, objective, index)
 		objt = button.objectives[index];
 	end
 	 --/script QuestieTracker.questButtons[3]:SetHeight(20);
-	objt:SetPoint("TOPLEFT", button, "TOPLEFT", 30, -(index * 11+1))
+	objt:SetPoint("TOPLEFT", button, "TOPLEFT", 20, -(index * 11+1))
 	
-	--local r, g, b = QuestieTracker:getRGBForObjective(objective["desc"]);
-	--local clr = fRGBToHex(r, g, b);
-	local clr = "AAAAAA";
+	local r, g, b = QuestieTracker:getRGBForObjective(objective["desc"]);
+	local clr = fRGBToHex(r, g, b);
+	--local clr = "DDDDDD";
 	
 	objt:SetText("|cFF"..clr..objective["desc"].."|r");
 
