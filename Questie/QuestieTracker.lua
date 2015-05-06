@@ -584,13 +584,13 @@ function QuestieTracker:updateFrameOnTracker(hash, logId, level)
 	SelectQuestLogEntry(logId);
 	local questName, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(logId);
 	
-	if not AUTO_QUEST_WATCH == "1" then
-		if not QuestieTrackedQuests[hash] or isHeader then return; end -- skipp isTracked because the hash is already known
-	end
+	--if not AUTO_QUEST_WATCH == "1" then
+	--	if not QuestieTrackedQuests[hash] or isHeader then return; end -- skipp isTracked because the hash is already known
+	--end
 
-	if not QuestieTracker:isTracked(logId) then
-		return
-	end
+	--if not QuestieTracker:isTracked(logId) then
+	--	return
+	--end
 	if not QuestieTrackedQuests[hash] then
 		QuestieTrackedQuests[hash] = {};
 	end
