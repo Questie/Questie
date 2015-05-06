@@ -290,13 +290,10 @@ function QuestieTracker:fillTrackingFrame()
 		local quest = QuestieTrackedQuests[hash];
 		local button = QuestieTracker:createOrGetTrackingButton(index);
 		button.hash = hash;
-		local qd = QuestieHashMap[hash];
 		local ld = "|c" .. QuestieTracker:GetDifficultyColor(quest["level"]);
-		if(qd) then
-			button.quest:SetText(ld .. tostring(qd['name']) .. "|r");
-		end
+		
+		button.quest:SetText(ld .. quest["questName"] .. "|r");
 		button.level:SetText(ld .. "[".. quest["level"] .."]|r");
-		--button.text:SetText("[".. qd['level'] .."]" .. qd['name']);
 			
 		local obj = 1;
 		
