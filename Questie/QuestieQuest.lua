@@ -92,6 +92,7 @@ function Questie:CheckQuestLog()
 	delta = nil;
 
 	if(MapChanged == true) then
+		Questie:SetAvailableQuests();
 		Questie:RedrawNotes();
 	end
 	LastQuestLogHashes = Quests;
@@ -747,19 +748,21 @@ function Questie:GetAvailableQuestHashes(mapFileName, levelFrom, levelTo)
 			if content then
 				for k,v in pairs(content) do
 					--Questie:debug_Print("content", tostring(k),tostring(v));
-					local qdata = QuestieHashMap[v];
-					table.insert(hashes, v);
-					if(qdata) then
-						local requiredQuest = qdata['rq'];
-						local requiredRaces = qdata['rr'];
-						local requiredClasses = qdata['rc'];
-						local valid = not QuestieSeenQuests[requiredQuest];-- THIS IS LIKELY INCORRECT NOT SURE HOW QUESTIESEENQUESTS WORKS NOW
-						if(requiredQuest) then valid = QuestieSeenQuests[requiredQuest]; end-- THIS IS LIKELY INCORRECT NOT SURE HOW QUESTIESEENQUESTS WORKS NOW
-						
-						valid = valid and checkRequirements(race, class, requiredRaces,requiredClasses);
-						
-						if valid then
-							table.insert(hashes, v);
+					if(not QuestieSeenQuests[v]) then
+						local qdata = QuestieHashMap[v];
+						table.insert(hashes, v);
+						if(qdata) then
+							local requiredQuest = qdata['rq'];
+							local requiredRaces = qdata['rr'];
+							local requiredClasses = qdata['rc'];
+							local valid = not QuestieSeenQuests[requiredQuest];-- THIS IS LIKELY INCORRECT NOT SURE HOW QUESTIESEENQUESTS WORKS NOW
+							if(requiredQuest) then valid = QuestieSeenQuests[requiredQuest]; end-- THIS IS LIKELY INCORRECT NOT SURE HOW QUESTIESEENQUESTS WORKS NOW
+							
+							valid = valid and checkRequirements(race, class, requiredRaces,requiredClasses);
+							
+							if valid then
+								table.insert(hashes, v);
+							end
 						end
 					end
 				end

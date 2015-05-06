@@ -472,6 +472,29 @@ function Questie:DRAW_NOTES()
 				--Questie:debug_Print("Outside map, reseting icon to pool");
 				Questie:Clear_Note(Icon);
 			end
+
+
+
+				MMIcon = Questie:GetBlankNoteFrame();
+				--Here more info should be set but i CBA at the time of writing
+				MMIcon.data = v;
+				MMIcon:SetParent(Minimap);
+				MMIcon:SetFrameLevel(9);
+				MMIcon:SetPoint("CENTER",0,0)
+				MMIcon:SetWidth(16*QUESTIE_NOTES_MINIMAP_ICON_SCALE)  -- Set These to whatever height/width is needed 
+				MMIcon:SetHeight(16*QUESTIE_NOTES_MINIMAP_ICON_SCALE) -- for your Texture
+				MMIcon.type = "MiniMapNote";
+				--Sets highlight texture (Nothing stops us from doing this on the worldmap aswell)
+				MMIcon:SetHighlightTexture(QuestieIcons[v.icontype].path, "ADD");
+				--Set the texture to the right type
+				MMIcon.texture:SetTexture(QuestieIcons[v.icontype].path);
+				MMIcon.texture:SetAllPoints(MMIcon)
+				--Shows and then calls Astrolabe to place it on the map.
+				--MMIcon:Show();
+				--Questie:debug_Print(v.continent,v.zoneid,v.x,v.y);
+				Astrolabe:PlaceIconOnMinimap(MMIcon, v.continent, v.zoneid, v.x, v.y);
+				--Questie:debug_Print(MMIcon:GetFrameLevel());
+				table.insert(QuestieUsedNoteFrames, MMIcon);
 		end
 	end
 
