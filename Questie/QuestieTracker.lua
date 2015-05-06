@@ -567,8 +567,7 @@ function QuestieTracker:addQuestToTracker(hash, logId, level) -- never used???
 	Questie:RedrawNotes();
 end
 
-function QuestieTracker:updateFrameOnTracker(hash, logId, level) -- never used???
-	--DEFAULT_CHAT_FRAME:AddMessage("UPDATEFRAMEONTRACKER");
+function QuestieTracker:updateFrameOnTracker(hash, logId, level)
 	local startTime = GetTime()	
 	
 	
@@ -577,22 +576,25 @@ function QuestieTracker:updateFrameOnTracker(hash, logId, level) -- never used??
 	end
 	
 	if not logId then
-		DEFAULT_CHAT_FRAME:AddMessage("STILL NULL AFTER CHECK FOR " .. hash);
+		Questie:debug_Print("LogId STILL NULL after GetQuestIdFromHash ", hash);
+		return;
 	end
 	
-	if QuestieTracker:isTracked(logId) then
+	local startid = GetQuestLogSelection();
+	SelectQuestLogEntry(logId);
+	local questName, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(logId);
+	
+	if not AUTO_QUEST_WATCH == "1" then
+		if not QuestieTrackedQuests[hash] or isHeader then return; end -- skipp isTracked because the hash is already known
+	end
+
+	if not QuestieTracker:isTracked(logId) then
 		return
 	end
 	if not QuestieTrackedQuests[hash] then
 		QuestieTrackedQuests[hash] = {};
 	end
-	--DEFAULT_CHAT_FRAME:AddMessage(logId);
-	--DEFAULT_CHAT_FRAME:AddMessage(level);
 	
-	local startid = GetQuestLogSelection();
-	SelectQuestLogEntry(logId);
-	local questName, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(logId);
-	--DEFAULT_CHAT_FRAME:AddMessage(level);
 	QuestieTrackedQuests[hash]["questName"] = questName;
 	QuestieTrackedQuests[hash]["isComplete"] = isComplete;
 	QuestieTrackedQuests[hash]["level"] = level;
@@ -616,8 +618,8 @@ function QuestieTracker:updateFrameOnTracker(hash, logId, level) -- never used??
 	end
 	
 	SelectQuestLogEntry(startid);
+	QuestieTracker:fillTrackingFrame()
 	--Questie:debug_Print("TrackerInfo collected - Time: " .. (GetTime()-startTime)*1000 .. "ms");
-	--QuestieTracker:fillTrackingFrame()
 end
 
 function QuestieTracker:removeQuestFromTracker(hash)
