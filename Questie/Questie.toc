@@ -1,6 +1,6 @@
 ## Interface: 11200
 ## Title: Questie v1.1 (ALPHA)
-## Author: Aero/Schaka/everyone else
+## Author: Aero/Schaka/Logonz/everyone else
 ## Notes: An attempt to import the QuestHelper database into vanilla
 ## Version: 1.1 (ALPHA)
 ## RequiredDeps:
