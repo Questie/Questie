@@ -201,7 +201,7 @@ function Questie_SlashHandler(msg)
 	end
 
 	if(msg == "c") then
-		GetAvailableQuests(1,60);
+		Questie:SetAvailableQuests();
 	end
 
 	if(msg == "u") then
