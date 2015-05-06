@@ -567,6 +567,7 @@ function QuestieTracker:addQuestToTracker(hash, logId, level) -- never used???
 	SelectQuestLogEntry(startId);
 	Questie:debug_Print("Added QuestInfo to Tracker - Time: " .. (GetTime()-startTime)*1000 .. "ms");
 	QuestieTracker:fillTrackingFrame()
+	Questie:RedrawNotes();
 end
 
 function QuestieTracker:updateFrameOnTracker(hash, logId, level) -- never used???
@@ -628,6 +629,7 @@ function QuestieTracker:removeQuestFromTracker(hash)
 		QuestieTrackedQuests[hash] = false
 	end
 	QuestieTracker:fillTrackingFrame()
+	Questie:RedrawNotes();
 end
 
 
