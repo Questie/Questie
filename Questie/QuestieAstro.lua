@@ -33,6 +33,7 @@ function Questie:Toggle()
 	if(Active == true) then
 		Active = false;
 		QuestieMapNotes = {};
+		QuestieAvailableMapNotes = {};
 		Questie:RedrawNotes();
 		LastQuestLogHashes = nil;
 		LastCount = 0;
@@ -42,6 +43,7 @@ function Questie:Toggle()
 		LastQuestLogHashes = nil;
 		LastCount = 0;		
 		Questie:CheckQuestLog();
+		Questie:SetAvailableQuests()
 		Questie:RedrawNotes();
 		DEFAULT_CHAT_FRAME:AddMessage("Questie notes Active!");
 	end
