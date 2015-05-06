@@ -148,7 +148,7 @@ end
 
 function Questie:UpdateQuestInZone(Zone, force)
  	local numEntries, numQuests = GetNumQuestLogEntries();
-	DEFAULT_CHAT_FRAME:AddMessage("UpdateQuestInZone");
+	--DEFAULT_CHAT_FRAME:AddMessage("UpdateQuestInZone");
   	local foundChange = nil;
   	local ZoneFound = nil;
   	local QuestsChecked = 0;
@@ -712,17 +712,17 @@ end
 
 function checkRequirements(class, race, dbClass, dbRace)
 	local valid = true;
-	DEFAULT_CHAT_FRAME:AddMessage("CHCK" .. race .. class);
-	if dbClass then DEFAULT_CHAT_FRAME:AddMessage("CHCKR" .. dbClass); end
-	if dbRace then DEFAULT_CHAT_FRAME:AddMessage("CHCKR" .. dbRace); end
+	--DEFAULT_CHAT_FRAME:AddMessage("CHCK" .. race .. class);
+	--if dbClass then DEFAULT_CHAT_FRAME:AddMessage("CHCKR" .. dbClass); end
+	--if dbRace then DEFAULT_CHAT_FRAME:AddMessage("CHCKR" .. dbRace); end
 	if race and dbRace then
-		DEFAULT_CHAT_FRAME:AddMessage("CHCKR");
+		--DEFAULT_CHAT_FRAME:AddMessage("CHCKR");
 		local racemap = unpackBinary(dbRace);
 		valid = racemap[RaceBitIndexTable[strlower(race)]];
 	end
 	
 	if class and dbClass and valid then
-		DEFAULT_CHAT_FRAME:AddMessage("CHCKC");
+		--DEFAULT_CHAT_FRAME:AddMessage("CHCKC");
 		local classmap = unpackBinary(dbClass);
 		valid = classmap[ClassBitIndexTable[strlower(class)]];
 	end
@@ -730,10 +730,12 @@ function checkRequirements(class, race, dbClass, dbRace)
 	return valid;
 end
 
-function Questie:GetAvailableQuestHashes(cont, zone, levelFrom, levelTo)
+function Questie:GetAvailableQuestHashes(mapFileName, levelFrom, levelTo)
 	--Questie:debug_Print("GetAvailableQuests")
-	local mapid =  QuestieCZLookup[cont * 100 +zone];
-	DEFAULT_CHAT_FRAME:AddMessage(mapid);
+	local mapid =  -1
+	if(QuestieZones[mapFileName]) then
+		mapid = QuestieZones[mapFileName][1];
+	end
 	--QuestieZoneLevelMap
 	local class = UnitClass("Player"); -- should be set globally
 	local race = UnitRace("Player"); -- should be set globally

@@ -292,8 +292,9 @@ function QuestieTracker:fillTrackingFrame()
 		button.hash = hash;
 		local qd = QuestieHashMap[hash];
 		local ld = "|c" .. QuestieTracker:GetDifficultyColor(quest["level"]);
-			
-		button.quest:SetText(ld .. qd['name'] .. "|r");
+		if(qd) then
+			button.quest:SetText(ld .. tostring(qd['name']) .. "|r");
+		end
 		button.level:SetText(ld .. "[".. quest["level"] .."]|r");
 		--button.text:SetText("[".. qd['level'] .."]" .. qd['name']);
 			
@@ -569,7 +570,7 @@ function QuestieTracker:addQuestToTracker(hash, logId, level) -- never used???
 end
 
 function QuestieTracker:updateFrameOnTracker(hash, logId, level) -- never used???
-	DEFAULT_CHAT_FRAME:AddMessage("UPDATEFRAMEONTRACKER");
+	--DEFAULT_CHAT_FRAME:AddMessage("UPDATEFRAMEONTRACKER");
 	local startTime = GetTime()	
 	
 	
@@ -587,13 +588,13 @@ function QuestieTracker:updateFrameOnTracker(hash, logId, level) -- never used??
 	if not QuestieTrackedQuests[hash] then
 		QuestieTrackedQuests[hash] = {};
 	end
-	DEFAULT_CHAT_FRAME:AddMessage(logId);
-	DEFAULT_CHAT_FRAME:AddMessage(level);
+	--DEFAULT_CHAT_FRAME:AddMessage(logId);
+	--DEFAULT_CHAT_FRAME:AddMessage(level);
 	
 	local startid = GetQuestLogSelection();
 	SelectQuestLogEntry(logId);
 	local questName, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(logId);
-	DEFAULT_CHAT_FRAME:AddMessage(level);
+	--DEFAULT_CHAT_FRAME:AddMessage(level);
 	QuestieTrackedQuests[hash]["questName"] = questName;
 	QuestieTrackedQuests[hash]["isComplete"] = isComplete;
 	QuestieTrackedQuests[hash]["level"] = level;

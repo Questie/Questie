@@ -164,6 +164,31 @@ function Questie:AddNoteToMap(continent, zoneid, posx, posy, type, questHash, ob
 	--Inserts it into the right zone and continent for later use.
 	table.insert(QuestieMapNotes[continent][zoneid], Note);
 end
+
+
+--Available Quest Code
+QuestieAvailableMapNotes = {};
+function Questie:AddAvailableNoteToMap(continent, zoneid, posx, posy, type, questHash, objectiveid)
+	--This is to set up the variables
+	if(QuestieAvailableMapNotes[continent] == nil) then
+		QuestieAvailableMapNotes[continent] = {};
+	end
+	if(QuestieAvailableMapNotes[continent][zoneid] == nil) then
+		QuestieAvailableMapNotes[continent][zoneid] = {};
+	end
+	--Sets values that i want to use for the notes THIS IS WIP MORE INFO MAY BE NEDED BOTH IN PARAMETERS AND NOTES!!!
+	Note = {};
+	Note.x = posx;
+	Note.y = posy;
+	Note.zoneid = zoneid;
+	Note.continent = continent;
+	Note.icontype = type;
+	Note.questHash = questHash;
+	Note.objectiveid = objectiveid;
+	--Inserts it into the right zone and continent for later use.
+	table.insert(QuestieAvailableMapNotes[continent][zoneid], Note);
+end
+
 --Gets a blank frame either from Pool or creates a new one!
 function Questie:GetBlankNoteFrame()
 	if(table.getn(FramePool)==0) then
@@ -185,21 +210,27 @@ function Questie_Tooltip_OnEnter()
 		end
 		--Tooltip code! NO DONE!
 		Tooltip:SetOwner(this, this); --"ANCHOR_CURSOR"
-		local Quest = Questie:IsQuestFinished(this.data.questHash);
-		if not Quest then
-			local QuestLogID = Questie:GetQuestIdFromHash(this.data.questHash);
-			SelectQuestLogEntry(QuestLogID);
-			local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(QuestLogID);
-			local count =  GetNumQuestLeaderBoards();
-			local questText, objectiveText = _GetQuestLogQuestText();
-			local desc, typ, done = GetQuestLogLeaderBoard(this.data.objectiveid);
+		if(this.data.icontype ~= "available") then
+			local Quest = Questie:IsQuestFinished(this.data.questHash);
+			if not Quest then
+				local QuestLogID = Questie:GetQuestIdFromHash(this.data.questHash);
+				SelectQuestLogEntry(QuestLogID);
+				local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(QuestLogID);
+				local count =  GetNumQuestLeaderBoards();
+				local questText, objectiveText = _GetQuestLogQuestText();
+				local desc, typ, done = GetQuestLogLeaderBoard(this.data.objectiveid);
 
 
-			Tooltip:AddLine(q ,1,1,1);
-			Tooltip:AddLine(desc);
+				Tooltip:AddLine(q ,1,1,1);
+				Tooltip:AddLine(desc);
+			else
+				Tooltip:AddLine(Quest["name"], 1, 1, 1);
+				Tooltip:AddLine("Complete!");
+			end
 		else
-			Tooltip:AddLine(Quest["name"], 1, 1, 1);
-			Tooltip:AddLine("Complete!");
+			Tooltip:AddLine(QuestieHashMap[this.data.questHash].name);
+			Tooltip:AddLine(QuestieHashMap[this.data.questHash].startedBy,1,1,1);
+			Tooltip:AddLine("Available Quest",1,1,1);
 		end
 
 		if(NOTES_DEBUG and IsAltKeyDown()) then
@@ -253,6 +284,7 @@ function Questie:NOTES_ON_UPDATE(elapsed)
 	local c, z = GetCurrentMapContinent(), GetCurrentMapZone();
 	if(c ~= LastContinent or LastZone ~= z) then
 		--Clears before redrawing
+		Questie:SetAvailableQuests();
 		Questie:RedrawNotes();
 		--Sets the last continent and zone to hinder spam.
 		LastContinent = c;
@@ -283,6 +315,26 @@ function Questie:NOTES_LOADED()
 		end
 	end
 	Questie:debug_Print("Done Loading QuestieNotes");
+end
+
+
+--function Questie:AddAvailableNoteToMap(continent, zoneid, posx, posy, type, questHash, objectiveid)
+function Questie:SetAvailableQuests()
+	QuestieAvailableMapNotes = {};
+	local t = GetTime();
+	local level = UnitLevel("player");
+	local c, z = GetCurrentMapContinent(), GetCurrentMapZone();
+	local mapFileName = GetMapInfo();
+	local quests = Questie:GetAvailableQuestHashes(mapFileName,level-6,level+3);
+	for k, v in pairs(quests) do
+		if(QuestieHashMap[v] and QuestieHashMap[v]['startedBy'] and QuestieMonsters[QuestieHashMap[v]['startedBy']]) then
+			Monster = QuestieMonsters[QuestieHashMap[v]['startedBy']]['locations'][1]
+			local MapInfo = Questie:GetMapInfoFromID(Monster[1]);
+			--DEFAULT_CHAT_FRAME:AddMessage(MapInfo[4].." "..MapInfo[5].." "..Monster[2].." "..Monster[3].." - "..v);
+			Questie:AddAvailableNoteToMap(c,z,Monster[2],Monster[3],"available",v,-1);
+		end
+	end
+	Questie:debug_Print("Added Available quests: Time:",tostring((GetTime()- t)*1000).."ms", "Count:"..table.getn(quests) )
 end
 
 --Reason this exists is to be able to call both clearnotes and drawnotes without doing 2 function calls, and to be able to force a redraw
@@ -386,6 +438,43 @@ function Questie:DRAW_NOTES()
 			end
 		end
 	end
+
+	if(QuestieAvailableMapNotes[c] and QuestieAvailableMapNotes[c][z]) then
+		for k, v in pairs(QuestieAvailableMapNotes[c][z]) do
+			local c, z = GetCurrentMapContinent(), GetCurrentMapZone();
+			Icon = Questie:GetBlankNoteFrame();
+			--Here more info should be set but i CBA at the time of writing
+			Icon.data = v;
+			Icon:SetParent(WorldMapFrame);
+			--This is so that Complete quests are over everything else
+			Icon:SetFrameLevel(9);
+
+			Icon:SetPoint("CENTER",0,0)
+			Icon.type = "WorldMapNote";
+			Icon:SetScript("OnEnter", Questie_Tooltip_OnEnter); --Script Toolip
+			Icon:SetScript("OnLeave", function() if(WorldMapTooltip) then WorldMapTooltip:Hide() end if(GameTooltip) then GameTooltip:Hide() end end) --Script Exit Tooltip
+			Icon:SetWidth(16*QUESTIE_NOTES_MAP_ICON_SCALE)  -- Set These to whatever height/width is needed 
+			Icon:SetHeight(16*QUESTIE_NOTES_MAP_ICON_SCALE) -- for your Texture
+
+			--Set the texture to the right type
+			Icon.texture:SetTexture(QuestieIcons[v.icontype].path);
+			Icon.texture:SetAllPoints(Icon)
+
+			--Shows and then calls Astrolabe to place it on the map.
+			Icon:Show();
+			
+			--Questie:debug_Print(x.." : "..y);
+			xx, yy = Astrolabe:PlaceIconOnWorldMap(WorldMapButton,Icon,v.continent ,v.zoneid ,v.x, v.y); --WorldMapFrame is global
+			if(xx and yy and xx > 0 and xx < 1 and yy > 0 and yy < 1) then
+				--Questie:debug_Print(Icon:GetFrameLevel());
+				table.insert(QuestieUsedNoteFrames, Icon);			
+			else
+				--Questie:debug_Print("Outside map, reseting icon to pool");
+				Questie:Clear_Note(Icon);
+			end
+		end
+	end
+
 end
 
 --Debug print function
