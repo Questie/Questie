@@ -6,7 +6,9 @@ local AllFrames = {};
 --Contains frames that are created but currently not used (Frames can't be deleted so we pool them to save space);
 local FramePool = {};
 
-QUESTIE_NOTES_MAP_ICON_SCALE = 1.2;
+QUESTIE_NOTES_MAP_ICON_SCALE = 1.2;-- Zone
+QUESTIE_NOTES_WORLD_MAP_ICON_SCALE = 0.75;--Full world shown
+QUESTIE_NOTES_CONTINENT_ICON_SCALE = 1;--Continent Shown
 QUESTIE_NOTES_MINIMAP_ICON_SCALE = 1.0;
 
 QuestieUsedNoteFrames = {};
@@ -418,8 +420,17 @@ function Questie:DRAW_NOTES()
 					Icon.type = "WorldMapNote";
 					Icon:SetScript("OnEnter", Questie_Tooltip_OnEnter); --Script Toolip
 					Icon:SetScript("OnLeave", function() if(WorldMapTooltip) then WorldMapTooltip:Hide() end if(GameTooltip) then GameTooltip:Hide() end end) --Script Exit Tooltip
-					Icon:SetWidth(16*QUESTIE_NOTES_MAP_ICON_SCALE)  -- Set These to whatever height/width is needed 
-					Icon:SetHeight(16*QUESTIE_NOTES_MAP_ICON_SCALE) -- for your Texture
+					
+					if(z == 0 and c == 0) then--Both continents
+						Icon:SetWidth(16*QUESTIE_NOTES_WORLD_MAP_ICON_SCALE)  -- Set These to whatever height/width is needed 
+						Icon:SetHeight(16*QUESTIE_NOTES_WORLD_MAP_ICON_SCALE) -- for your Texture
+					elseif(z == 0) then--Single continent
+						Icon:SetWidth(16*QUESTIE_NOTES_CONTINENT_ICON_SCALE)  -- Set These to whatever height/width is needed 
+						Icon:SetHeight(16*QUESTIE_NOTES_CONTINENT_ICON_SCALE) -- for your Texture
+					else
+						Icon:SetWidth(16*QUESTIE_NOTES_MAP_ICON_SCALE)  -- Set These to whatever height/width is needed 
+						Icon:SetHeight(16*QUESTIE_NOTES_MAP_ICON_SCALE) -- for your Texture
+					end
 
 					--Set the texture to the right type
 					Icon.texture:SetTexture(QuestieIcons[v.icontype].path);
