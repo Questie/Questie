@@ -753,10 +753,11 @@ function Questie:GetAvailableQuestHashes(mapFileName, levelFrom, levelTo)
 						local requiredQuest = qdata['rq'];
 						local requiredRaces = qdata['rr'];
 						local requiredClasses = qdata['rc'];
+						local requiredSkill = qdata['rs'];
 						local valid = not QuestieSeenQuests[requiredQuest];-- THIS IS LIKELY INCORRECT NOT SURE HOW QUESTIESEENQUESTS WORKS NOW
 						if(requiredQuest) then valid = QuestieSeenQuests[requiredQuest]; end-- THIS IS LIKELY INCORRECT NOT SURE HOW QUESTIESEENQUESTS WORKS NOW
-							
-						valid = valid and checkRequirements(race, class, requiredRaces,requiredClasses);
+						valid = valid and requiredSkill == nil;
+						if valid then valid = valid and checkRequirements(race, class, requiredRaces,requiredClasses); end
 						
 						if valid and not QuestieHandledQuests[requiredQuest] and not QuestieSeenQuests[v] then
 							table.insert(hashes, v);
