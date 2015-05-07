@@ -528,7 +528,6 @@ function getCurrentMapID()
 end
 
 function Questie:getQuestHash(name, level, objectiveText)
-	
 	local questLookup = QuestieLevLookup[name];
 	local hasOthers = false;
 	if not (questLookup == nil) then -- cant... stop... doingthis....
@@ -536,20 +535,26 @@ function Questie:getQuestHash(name, level, objectiveText)
 		local count = 0;
 		local retval = 0;
 		local bestDistance = 4294967295; -- some high number (0xFFFFFFFF)
+		local race = UnitRace("Player"); 
 		for k,v in pairs(questLookup) do
-			if count == 1 then
-				hasOthers = true;	
-			end
-			if k == objectiveText then
-				return v,hasOthers; -- exact match
-			end
-			local dist = 4294967294;
-			if not (objectiveText == nil) then
-				dist = Questie:levenshtein(objectiveText, k);
-			end
-			if dist < bestDistance then
-				bestDistance = dist;
-				retval = v;
+			local rr = v[1];
+			if checkRequirements(null, race, null, rr) or true then
+				if count == 1 then
+					hasOthers = true;	
+				end
+				if k == objectiveText then
+					return v[2],hasOthers; -- exact match
+				end
+				local dist = 4294967294;
+				if not (objectiveText == nil) then
+					dist = Questie:levenshtein(objectiveText, k);
+				end
+				if dist < bestDistance then
+					bestDistance = dist;
+					retval = v[2];
+				end
+			else
+			
 			end
 			count = count + 1;
 		end

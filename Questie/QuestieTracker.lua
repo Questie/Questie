@@ -169,7 +169,7 @@ function QuestieTracker:createOrGetTrackingButton(index)
 		
 		--button.prevoffset = parent.prevoffset + button:GetHeight(); -- there is a way to do this automatically but WOW IS BEING RETARDED AND I'M NOT GIVING UP RAGE RAGE RAGE
 		local quest = btn:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-		quest:SetPoint("TOPLEFT", btn, "TOPLEFT", 30, 0)
+		quest:SetPoint("TOPLEFT", btn, "TOPLEFT", 10, 0)
 		btn.quest = quest;
 		
 		local level = btn:CreateFontString(nil, "OVERLAY", "GameFontNormal") --/script QuestieTracker.questButtons[3]:SetHeight(20);
@@ -290,14 +290,27 @@ function QuestieTracker:fillTrackingFrame()
 		local quest = QuestieTrackedQuests[hash];
 		local button = QuestieTracker:createOrGetTrackingButton(index);
 		button.hash = hash;
-		local ld = "|c" .. QuestieTracker:GetDifficultyColor(quest["level"]);
+		local colorString = "|c" .. QuestieTracker:GetDifficultyColor(quest["level"]);
+				
+		local titleData = colorString;
 		
-		button.quest:SetText(ld .. quest["questName"] .. "|r");
-		button.level:SetText(ld .. "[".. quest["level"] .."]|r");
+
+		if QuestieConfig['AlwaysShowLevel'] then
+			titleData = titleData .. "[" .. quest["level"] .. "] " ;
+		end
+		titleData = titleData .. quest["questName"];
+		if QuestieConfig['AlwaysShowDistance'] then
+			titleData = titleData .. " ("..math.floor(v["dist"]).." Yd)";
+		end
+		
+		titleData = titleData  .. "|r";
+		
+		button.quest:SetText(titleData);
+		--button.level:SetText(colorString .. "[".. quest["level"] .."]|r");
 			
 		local obj = 1;
 		
-		v["title"] = ld .. "[" .. quest["level"] .. "] " .. quest["questName"] .. "|r";
+		v["title"] = colorString .. "[" .. quest["level"] .. "] " .. quest["questName"] .. "|r";
 		quest["arrowPoint"] = v
 			
 		while true do
@@ -522,6 +535,7 @@ local function trim(s)
 end
 
 function QuestieTracker:addQuestToTracker(hash, logId, level) -- never used???
+	DEFAULT_CHAT_FRAME:AddMessage("ADDQUESTTOTRACKer");
 	local startTime = GetTime()
 	
 	if(type(QuestieTrackedQuests[hash]) ~= "table") then
@@ -568,6 +582,12 @@ function QuestieTracker:addQuestToTracker(hash, logId, level) -- never used???
 end
 
 function QuestieTracker:updateFrameOnTracker(hash, logId, level)
+	
+	if true then
+		QuestieTracker:addQuestToTracker(hash, logId, level);
+		return;
+	end
+	
 	local startTime = GetTime()	
 	
 	
@@ -623,6 +643,7 @@ function QuestieTracker:updateFrameOnTracker(hash, logId, level)
 end
 
 function QuestieTracker:removeQuestFromTracker(hash)
+	DEFAULT_CHAT_FRAME:AddMessage("REMOVEQUESTFROMTRACKER");
 	if QuestieTrackedQuests[hash] then
 		QuestieTrackedQuests[hash] = nil
 		QuestieTrackedQuests[hash] = false

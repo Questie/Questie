@@ -1,11 +1,11 @@
 ## Interface: 11200
 ## Title: Questie v1.1 (ALPHA)
-## Author: Aero/Schaka/everyone else
+## Author: Aero/Schaka/Logonz/everyone else
 ## Notes: An attempt to import the QuestHelper database into vanilla
 ## Version: 1.1 (ALPHA)
 ## RequiredDeps:
 ## OptionalDeps: 
-## SavedVariables: QuestieTrackerVariables, QuestieDebug
+## SavedVariables: QuestieTrackerVariables, QuestieDebug, QuestieConfig
 ## SavedVariablesPerCharacter: QuestieCurrentQuests, QuestieCurrentNotes, QuestieSeenQuests, QuestieTrackedQuests
 Libs\AceLibrary\AceLibrary.lua
 Libs\AceOO-2.0\AceOO-2.0.lua
