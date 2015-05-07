@@ -677,6 +677,7 @@ RaceBitIndexTable = { -- addressing the indexes directly to make it more clear
 	['orc'] = 2,
 	['dwarf'] = 3,
 	['nightelf'] = 4,
+	['night elf'] = 4,
 	['scourge'] = 5,
 	['undead'] = 5,
 	['tauren'] = 6,
@@ -709,19 +710,20 @@ function unpackBinary(val)
 	end
 	return ret;
 end
-
 function checkRequirements(class, race, dbClass, dbRace)
 	local valid = true;
 	--DEFAULT_CHAT_FRAME:AddMessage("CHCK" .. race .. class);
 	--if dbClass then DEFAULT_CHAT_FRAME:AddMessage("CHCKR" .. dbClass); end
 	--if dbRace then DEFAULT_CHAT_FRAME:AddMessage("CHCKR" .. dbRace); end
-	if race and dbRace then
+	if race and dbRace and not (dbRace == 0) then
 		--DEFAULT_CHAT_FRAME:AddMessage("CHCKR");
 		local racemap = unpackBinary(dbRace);
+
 		valid = racemap[RaceBitIndexTable[strlower(race)]];
+		
 	end
 	
-	if class and dbClass and valid then
+	if class and dbClass and valid and not (dbRace == 0)then
 		--DEFAULT_CHAT_FRAME:AddMessage("CHCKC");
 		local classmap = unpackBinary(dbClass);
 		valid = classmap[ClassBitIndexTable[strlower(class)]];
@@ -750,15 +752,20 @@ function Questie:GetAvailableQuestHashes(mapFileName, levelFrom, levelTo)
 					local qdata = QuestieHashMap[v];
 					--table.insert(hashes, v);
 					if(qdata) then
+
 						local requiredQuest = qdata['rq'];
 						local requiredRaces = qdata['rr'];
 						local requiredClasses = qdata['rc'];
 						local requiredSkill = qdata['rs'];
 						local valid = not QuestieSeenQuests[requiredQuest];-- THIS IS LIKELY INCORRECT NOT SURE HOW QUESTIESEENQUESTS WORKS NOW
+
 						if(requiredQuest) then valid = QuestieSeenQuests[requiredQuest]; end-- THIS IS LIKELY INCORRECT NOT SURE HOW QUESTIESEENQUESTS WORKS NOW
+
 						valid = valid and requiredSkill == nil;
-						if valid then valid = valid and checkRequirements(race, class, requiredRaces,requiredClasses); end
-						
+
+						--(class, race, dbClass, dbRace)
+						if valid then valid = valid and checkRequirements(class, race, requiredClasses,requiredRaces); end
+
 						if valid and not QuestieHandledQuests[requiredQuest] and not QuestieSeenQuests[v] then
 							table.insert(hashes, v);
 						end

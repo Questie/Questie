@@ -51637,6 +51637,7 @@ local start = GetTime();
 
 for k,v in pairs(QuestieHashMap) do
 	if v['startedType'] == "monster" then
+
 		local qhdb = QuestieMonsters[v['startedBy']];
 		local mapid = -1;
 		if qhdb == nil then
@@ -51663,6 +51664,8 @@ for k,v in pairs(QuestieHashMap) do
 				QuestieZoneLevelMap[mapid][v['level']] = {};
 			end
 			table.insert(QuestieZoneLevelMap[mapid][v['level']], k);
+		else
+			--DEFAULT_CHAT_FRAME:AddMessage("Could not find starter for ".. v['name']);
 		end
 	end
 end
