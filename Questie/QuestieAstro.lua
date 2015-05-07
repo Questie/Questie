@@ -110,6 +110,11 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 				Questie:debug_Print("[QuestieEvent] ",event, "Spam Protection: Last update was:",GetTime() - QUESTIE_LAST_UPDATE, "ago skipping!");
 				QUESTIE_LAST_UPDATE = GetTime();
 			end
+
+			local numEntries, numQuests = GetNumQuestLogEntries();
+			for i = 1, numEntries do
+				  	SelectQuestLogEntry(i);
+			end
 		end
 	elseif(event == "VARIABLES_LOADED") then
 		Questie:debug_Print("VARIABLES_LOADED");
