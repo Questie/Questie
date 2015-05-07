@@ -327,7 +327,7 @@ function Questie:SetAvailableQuests()
 	local level = UnitLevel("player");
 	local c, z = GetCurrentMapContinent(), GetCurrentMapZone();
 	local mapFileName = GetMapInfo();
-	local quests = Questie:GetAvailableQuestHashes(mapFileName,level-6,level+3);
+	local quests = Questie:GetAvailableQuestHashes(mapFileName,level-6,level);
 	for k, v in pairs(quests) do
 		if(QuestieHashMap[v] and QuestieHashMap[v]['startedBy'] and QuestieMonsters[QuestieHashMap[v]['startedBy']]) then
 			Monster = QuestieMonsters[QuestieHashMap[v]['startedBy']]['locations'][1]
