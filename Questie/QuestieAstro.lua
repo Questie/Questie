@@ -4,6 +4,7 @@ Questie = CreateFrame("Frame", "QuestieLua", UIParent, "ActionButtonTemplate")
 
 
 __QuestRewardCompleteButton_OnClick=nil;
+__QuestAbandonOnAccept=nil;
 
 function Questie:OnLoad()
 
@@ -22,6 +23,14 @@ function Questie:OnLoad()
 	this:RegisterEvent("CHAT_MSG_SYSTEM");
 	
 	__QuestRewardCompleteButton_OnClick = QuestRewardCompleteButton_OnClick;
+	__QuestAbandonOnAccept = StaticPopupDialogs["ABANDON_QUEST"].OnAccept;
+	
+	StaticPopupDialogs["ABANDON_QUEST"].OnAccept = function()
+		local hash = Questie:GetHashFromName(GetAbandonQuestName());
+		QuestieSeenQuests[hash] = nil;
+		Questie:AddEvent("CHECKLOG", 0.135);
+		__QuestAbandonOnAccept();
+	end
 	QuestRewardCompleteButton_OnClick = function()
 		if not ( QuestFrameRewardPanel.itemChoice == 0 and GetNumQuestChoices() > 0 ) then
 			local qName = GetTitleText(); -- lol
