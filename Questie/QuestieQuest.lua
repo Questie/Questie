@@ -491,11 +491,17 @@ function Questie:AstroGetQuestObjectives(questHash)
 		--Gets the type
 		local typeFunction = AstroobjectiveProcessors[typ];
 		--DEFAULT_CHAT_FRAME:AddMessage("Func:"..tostring(typeFunction)); --NotWORKING debug
-		if typ == "item" or typ == "monster" then
+		if typ == "item" or typ == "monster" or true then
 			local indx = findLast(desc, ":");
+			local countless = indx == nil;
 			--DEFAULT_CHAT_FRAME:AddMessage(indx, 0.95, 0.95, 0.5);
-			local countstr = string.sub(desc, indx+2);
-			local namestr = string.sub(desc, 1, indx-1);
+			local countstr = "";
+			local namestr = desc;
+			--if countless then DEFAULT_CHAT_FRAME:AddMessage("lol" .. namestr); else DEFAULT_CHAT_FRAME:AddMessage("olo" .. namestr); end
+			if not countless then
+				countstr = string.sub(desc, indx+2);
+				namestr = string.sub(desc, 1, indx-1);
+			end
 			--AllObjectives["type"] = typ;
 			--Questie:debug_Print("[AstroGetQuestObjectives]", tostring(q), tostring(namestr), tostring(countstr), tostring(selected), tostring(mapid))
 			local objectives = typeFunction(q, namestr, countstr, selected, mapid);
@@ -634,7 +640,7 @@ AstroobjectiveProcessors = {
 				monster["locations"] = {};
 				monster["type"] = "event";
 				for b=1,evtdata['locationCount'] do
-					local loc = itemdata['locations'][b];
+					local loc = evtdata['locations'][b];
 					table.insert(monster["locations"], loc);
 				end
 				table.insert(list, monster);
@@ -664,17 +670,33 @@ AstroobjectiveProcessors = {
 		return list;
 	end,
 	['object'] = function(quest, name, amount, selected, mapid)
+
+		
+		local list = {};
 		local objdata = QuestieObjects[name];
 		if objdata == nil then
-			debug("[AstroobjectiveProcessors] ERROR4 UNKNOWN OBJECT " .. quest .. "  objective:" .. name);
+			Questie:debug_Print("[AstroobjectiveProcessors] ERROR4 UNKNOWN OBJECT " .. quest .. "  objective:" .. name);
+			
 		else
+--DEFAULT_CHAT_FRAME:AddMessage("VALIDEVT: " .. name, 0.2, 0.95, 0.2);
 			for b=1,objdata['locationCount'] do
-				local loc = objdata['locations'][b];
-				if loc[1] == mapid then
-					--Questie:createQuestNote(name, quest, "", loc[2], loc[3], "Object", selected);
+				--Old Code
+				--local loc = evtdata['locations'][b];
+				--if loc[1] == mapid then
+					--Questie:createQuestNote(name, quest, "", loc[2], loc[3], "Event", selected);
+				--end
+				local monster = {};
+				monster["name"] = name;
+				monster["locations"] = {};
+				monster["type"] = "object";
+				for b=1,objdata['locationCount'] do
+					local loc = objdata['locations'][b];
+					table.insert(monster["locations"], loc);
 				end
+				table.insert(list, monster);
 			end
 		end
+		return list;
 	end
 
 }
