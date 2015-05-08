@@ -170,6 +170,8 @@ function Questie:UpdateQuestInZone(Zone, force)
 		    local count =  GetNumQuestLeaderBoards();
 		    local questText, objectiveText = _GetQuestLogQuestText();
 		    local hash = Questie:getQuestHash(q, level, objectiveText);
+			if QuestieHashCache[q] == nil then QuestieHashCache[q] = {}; end
+			QuestieHashCache[q][hash] = GetTime();
 		    if not lastObjectives[hash] then
 		    	lastObjectives[hash] = {};
 		    end
@@ -373,8 +375,24 @@ function Questie:UpdateQuestIds()
 	Questie:debug_Print("[UpdateQuestID] Had to update UpdateQuestIds",(GetTime() - startTime)*1000,"ms")
 end
 
+QuestieHashCache = {};
 
 function Questie:GetHashFromName(name)
+	if QuestieHashCache[name] then
+		local hashtable = QuestieHashCache[name];
+		local bestValue = 0;
+		local bestHash = -1;
+		for k,v in pairs(hashtable) do
+			if v > bestValue then
+				bestValue = v;
+				bestHash = k;
+			end
+		end
+		if not (bestHash == -1) then return bestHash; end
+	end
+
+	--- I don't like the idea of it falling back to this but I dont think theres any option
+	Questie:debug_Print("NO KNOWN HASH FOR ", name, " FALLING BACK TO LEGACY (DANGEROUS)");
 	return Questie:getQuestHash(name, nil, nil);
 end
 

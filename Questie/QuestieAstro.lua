@@ -110,11 +110,6 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 				Questie:debug_Print("[QuestieEvent] ",event, "Spam Protection: Last update was:",GetTime() - QUESTIE_LAST_UPDATE, "ago skipping!");
 				QUESTIE_LAST_UPDATE = GetTime();
 			end
-
-			local numEntries, numQuests = GetNumQuestLogEntries();
-			for i = 1, numEntries do
-				  	SelectQuestLogEntry(i);
-			end
 		end
 	elseif(event == "VARIABLES_LOADED") then
 		Questie:debug_Print("VARIABLES_LOADED");
@@ -165,7 +160,7 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 			local qName = string.sub(arg1, 0, -string.len("  completed."));
 			DEFAULT_CHAT_FRAME:AddMessage("Quest Completed: '"..qName.."'");
 			Questie:debug_Print("Quest Completed:", qName);
-			local hash = Questie:GetHashFromName(qName);
+			local hash = Questie:GetHashFromName(qName); -- this is a bad idea. A VERY bad idea.
 			QuestieCompletedQuestMessages[qName] = 1;
 			Questie:AddEvent("CHECKLOG", 0.135);
 			if(not QuestieSeenQuests[hash]) then
@@ -554,7 +549,6 @@ function Questie:getQuestHash(name, level, objectiveText)
 					retval = v[2];
 				end
 			else
-			
 			end
 			count = count + 1;
 		end
@@ -568,6 +562,7 @@ function Questie:getQuestHash(name, level, objectiveText)
 		DEFAULT_CHAT_FRAME:AddMessage("QuestieError: Attempt to hash a nill quest?"); -- too lazy to look up proper log function. yeah. super lazy.
 		return -1;
 	end
+	DEFAULT_CHAT_FRAME:AddMessage("FALLING BACK TO LEGACY");
 	local hash = Questie:mixString(0, name);
 	if not (level == nil) then 
 	hash = Questie:mixInt(hash, level); end
