@@ -4,6 +4,7 @@ After weeks of additional development, Questie v2.0 is finally out. We are stead
 We have since moved away from Cartographer and now support all mapping addons, making us a standalone QuestHelper. We just draw frames on the world map ourselves. In addition to that, all notes now work across zones and display on any zoomlevel of the map. 
 
 Available quests are now drawn on the map in a much more reliable fashion. In addition, our quest helper should now be more reliable in knowing whether you have already picked up a quest and thus not clutter the map in notes.
+The database has also been updated so that data for over 1000 more quests is now available. 
 
 The quest tracker has been reworked to look a lot more like the Blizzard default quest tracker. It can now hold any amount of quests and can be moved at will by the user. 
 Clicking on a quest in the tracker opens an interactive arrow that always points to the closest, unfinished objective of the quest. 
