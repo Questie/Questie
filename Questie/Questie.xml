@@ -14,10 +14,6 @@
 <script file="Interface\AddOns\Questie\Database\finishers.lua"/>
 <script file="Interface\AddOns\Questie\Database\objects.lua"/>
 <script file="Interface\AddOns\Questie\Database\addendum.lua"/>
-<script file="Interface\AddOns\Questie\extern\GatherRegionData.lua"/>
-<script file="Interface\AddOns\Questie\Database\regionscale.lua"/>
-<script file="Interface\AddOns\Questie\extern\GatherMinimapCalcs.lua"/>
-<script file="Interface\AddOns\Questie\Database\minimapcalcs.lua"/>
 <script file="Interface\AddOns\Questie\extern\DevToolsDump.lua"/>
 <script file="Interface\AddOns\Questie\astrolabe\Astrolabe.lua"/>
 <script file="QuestieArrow.lua"/>
