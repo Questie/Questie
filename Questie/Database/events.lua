@@ -684,7 +684,7 @@ QuestieEvents = {
     },
     ["locationCount"] = 1
   },
-  ["Murg "Oldie" Muckjaw Defeated"] = {
+  ["Murg \"Oldie\" Muckjaw Defeated"] = {
     ["locations"] = {
       [1] = {53.0, 0.6476, 0.8505, 100.0}
     },
@@ -1119,7 +1119,7 @@ QuestieEvents = {
     },
     ["locationCount"] = 1
   },
-  ["Beat Down "Dirty" Larry and Get Information"] = {
+  ["Beat Down \"Dirty\" Larry and Get Information"] = {
     ["locations"] = {
       [1] = {60.0, 0.4386, 0.2797, 100.0}
     },

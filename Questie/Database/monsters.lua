@@ -45217,7 +45217,7 @@ QuestieMonsters = {
     ["looted"] = 5710,
     ["locationCount"] = 5
   },
-  [""Sea Wolf" MacKinley"] = {
+  ["\"Sea Wolf\" MacKinley"] = {
     ["locations"] = {
       [1] = {38.0, 0.2776, 0.7711, 100.0}
     },
@@ -56888,7 +56888,7 @@ QuestieMonsters = {
     ["locationCount"] = 1,
     ["faction"] = 1
   },
-  ["Remy "Two Times""] = {
+  ["Remy \"Two Times\""] = {
     ["locations"] = {
       [1] = {37.0, 0.4214, 0.6719, 100.0}
     },
@@ -65882,7 +65882,7 @@ QuestieMonsters = {
     },
     ["locationCount"] = 1
   },
-  [""Swamp Eye" Jarl"] = {
+  ["\"Swamp Eye\" Jarl"] = {
     ["locations"] = {
       [1] = {10.0, 0.5542, 0.2629, 100.0}
     },
@@ -79300,7 +79300,7 @@ QuestieMonsters = {
     ["looted"] = 153,
     ["locationCount"] = 1
   },
-  ["Chucky "Ten Thumbs""] = {
+  ["Chucky \"Ten Thumbs\""] = {
     ["locations"] = {
       [1] = {38.0, 0.4013, 0.5824, 100.0}
     },
@@ -81368,7 +81368,7 @@ QuestieMonsters = {
     ["looted"] = 1534,
     ["locationCount"] = 1
   },
-  [""Pretty Boy" Duncan"] = {
+  ["\"Pretty Boy\" Duncan"] = {
     ["locations"] = {
       [1] = {38.0, 0.2752, 0.6942, 100.0}
     },
@@ -86967,7 +86967,7 @@ QuestieMonsters = {
     ["looted"] = 4719,
     ["locationCount"] = 1
   },
-  ["Renzik "The Shiv""] = {
+  ["Renzik \"The Shiv\""] = {
     ["locations"] = {
       [1] = {36.0, 0.7596, 0.6014, 100.0}
     },
@@ -88520,7 +88520,7 @@ QuestieMonsters = {
     ["locationCount"] = 1,
     ["faction"] = 1
   },
-  ["Engineer "Spark" Overgrind"] = {
+  ["Engineer \"Spark\" Overgrind"] = {
     ["locations"] = {
       [1] = {3.0, 0.4874, 0.7142, 100.0}
     },
@@ -91696,7 +91696,7 @@ QuestieMonsters = {
     ["looted"] = 1685,
     ["locationCount"] = 5
   },
-  ["Tapoke "Slim" Jahn"] = {
+  ["Tapoke \"Slim\" Jahn"] = {
     ["locations"] = {
       [1] = {51.0, 0.1067, 0.6001, 100.0}
     },
@@ -94503,7 +94503,7 @@ QuestieMonsters = {
     },
     ["locationCount"] = 1
   },
-  [""Fizit Doc" Clocktock"] = {
+  ["\"Fizit Doc\" Clocktock"] = {
     ["locations"] = {
       [1] = {54.0, 0.6093, 0.6815, 100.0}
     },
@@ -94978,7 +94978,7 @@ QuestieMonsters = {
     ["locationCount"] = 1,
     ["faction"] = 2
   },
-  ["Maury "Club Foot" Wilkins"] = {
+  ["Maury \"Club Foot\" Wilkins"] = {
     ["locations"] = {
       [1] = {38.0, 0.3501, 0.5099, 100.0}
     },
@@ -106010,7 +106010,7 @@ QuestieMonsters = {
     ["looted"] = 3539,
     ["locationCount"] = 1
   },
-  ["Fizit "Doc" Clocktock"] = {
+  ["Fizit \"Doc\" Clocktock"] = {
     ["locations"] = {
       [1] = {54.0, 0.6094, 0.6815, 100.0}
     },
@@ -115364,5 +115364,3 @@ end
 
 local ttl = GetTime() - start;
 DEFAULT_CHAT_FRAME:AddMessage("Questie initialized MonsterDB in " .. math.floor(ttl*1000) .. "ms"); -- log function may not be created yet
-
-'
