@@ -10,6 +10,24 @@ QuestieTracker.hasCleared = false
 QuestieTracker.lastUpdate = 0;
 
 function QuestieTracker_OnUpdate()
+	--ChatFrame3:Clear();
+	--for k,v in pairs(QuestieTrackedQuests) do
+	--	if type(v) == "table"  then
+	--		local nam = "NILLWTF";
+	--		local extr = " [N]";
+	--		if v['rend'] then
+	--			extr = " [Y]";
+	--		end
+	--		if QuestieHashMap[k] then
+	--			nam = QuestieHashMap[k]['name'];
+	--		end
+	--		ChatFrame3:AddMessage(k .. ": " .. nam .. extr);
+	--	end
+	--end
+	--ChatFrame4:Clear();
+	--for k,v in pairs(QuestieHandledQuests) do
+	--	ChatFrame4:AddMessage(k .. ": " .. QuestieHashMap[k]['name']);
+	--end
 	if(EQL3_QuestWatchFrame) then
 		EQL3_QuestWatchFrame:Hide();
 	end
@@ -249,8 +267,35 @@ function QuestieTracker:fillTrackingFrame()
 	for hash,quest in pairs(QuestieHandledQuests) do
 		if QuestieTrackedQuests[hash] then
 			for name,notes in pairs(quest.objectives.objectives) do
-				for k,v in pairs(notes) do
-					local continent, zone, xNote, yNote = QuestieZoneIDLookup[v.mapid][4], QuestieZoneIDLookup[v.mapid][5], v.x, v.y
+				if QuestieTrackedQuests[hash]["isComplete"] then
+					local finisher = QuestieMonsters[QuestieHashMap[hash]['finishedBy']];
+					local mapid = 0;
+					local x = 0;
+					local y = 0;
+					if finisher == nil then
+						finisher = QuestieAdditionalStartFinishLookup[QuestieHashMap[hash]['finishedBy']];
+						if not (finisher == nil) then
+							local continent, zone, xNote, yNote = finisher[1], finisher[2], finisher[3], finisher[4];
+							local dist, xDelta, yDelta = Astrolabe:ComputeDistance( C, Z, X, Y, continent, zone, xNote, yNote )
+							local info = {
+								["dist"] = dist,
+								["hash"] = hash,
+								["xDelta"] = xDelta,
+								["yDelta"] = yDelta,
+								["c"] = continent,
+								["z"] = zone,
+								["x"] = xNote,
+								["y"] = yNote,
+							}
+							table.insert(distanceNotes, info);
+						end
+					else
+						local loc = finisher['locations'][1];
+						mapid = loc[1];
+						x = loc[2];
+						y = loc[3];
+
+						local continent, zone, xNote, yNote = QuestieZoneIDLookup[mapid][4], QuestieZoneIDLookup[mapid][5], x, y
 						local dist, xDelta, yDelta = Astrolabe:ComputeDistance( C, Z, X, Y, continent, zone, xNote, yNote )
 						local info = {
 							["dist"] = dist,
@@ -263,6 +308,26 @@ function QuestieTracker:fillTrackingFrame()
 							["y"] = yNote,
 						}
 						table.insert(distanceNotes, info);
+					end
+
+				else
+				for k,v in pairs(notes) do
+					if not v.done then 
+						local continent, zone, xNote, yNote = QuestieZoneIDLookup[v.mapid][4], QuestieZoneIDLookup[v.mapid][5], v.x, v.y
+						local dist, xDelta, yDelta = Astrolabe:ComputeDistance( C, Z, X, Y, continent, zone, xNote, yNote )
+						local info = {
+							["dist"] = dist,
+							["hash"] = hash,
+							["xDelta"] = xDelta,
+							["yDelta"] = yDelta,
+							["c"] = continent,
+							["z"] = zone,
+							["x"] = xNote,
+							["y"] = yNote,
+						}
+						table.insert(distanceNotes, info);
+					end
+				end
 				end
 			end
 		end
@@ -283,11 +348,15 @@ function QuestieTracker:fillTrackingFrame()
 	end
 	-- but it exists so...
 	
+	for k,v in pairs(QuestieTrackedQuests) do
+		if type(v) == "table" then v['rend'] = false; end
+	end
 	
 	
 	for i,v in pairs(sortedByDistance) do
 		local hash = v["hash"];
 		local quest = QuestieTrackedQuests[hash];
+		quest['rend'] = true;
 		local button = QuestieTracker:createOrGetTrackingButton(index);
 		button.hash = hash;
 		local colorString = "|c" .. QuestieTracker:GetDifficultyColor(quest["level"]);
@@ -312,12 +381,17 @@ function QuestieTracker:fillTrackingFrame()
 		
 		v["title"] = colorString .. "[" .. quest["level"] .. "] " .. quest["questName"] .. "|r";
 		quest["arrowPoint"] = v
-			
-		while true do
-			local beefcake = quest["objective" .. obj];
-			if beefcake == nil then break; end
-			QuestieTracker:AddObjectiveToButton(button, beefcake, obj);
-			obj = obj + 1;
+		
+		if quest["isComplete"] then
+			QuestieTracker:AddObjectiveToButton(button, {['desc']="Run to the end"}, obj);
+			obj = 2;
+		else
+			while true do
+				local beefcake = quest["objective" .. obj];
+				if beefcake == nil then break; end
+				QuestieTracker:AddObjectiveToButton(button, beefcake, obj);
+				obj = obj + 1;
+			end
 		end
 		
 		button.currentObjectiveCount = obj - 1;
@@ -535,7 +609,7 @@ local function trim(s)
 end
 
 function QuestieTracker:addQuestToTracker(hash, logId, level) -- never used???
-	DEFAULT_CHAT_FRAME:AddMessage("ADDQUESTTOTRACKer");
+	--DEFAULT_CHAT_FRAME:AddMessage("ADDQUESTTOTRACKer");
 	local startTime = GetTime()
 	
 	if(type(QuestieTrackedQuests[hash]) ~= "table") then
@@ -643,7 +717,7 @@ function QuestieTracker:updateFrameOnTracker(hash, logId, level)
 end
 
 function QuestieTracker:removeQuestFromTracker(hash)
-	DEFAULT_CHAT_FRAME:AddMessage("REMOVEQUESTFROMTRACKER");
+	--DEFAULT_CHAT_FRAME:AddMessage("REMOVEQUESTFROMTRACKER");
 	if QuestieTrackedQuests[hash] then
 		QuestieTrackedQuests[hash] = nil
 		QuestieTrackedQuests[hash] = false
@@ -662,7 +736,7 @@ function QuestieTracker:findLogIdByName(name)
 	end
 end
 
-function QuestieTracker:isTracked(quest)
+function QuestieTracker:isTracked(quest) -- everything about this function is bad because of GetHashFromName
 	if quest == nil then return false; end
 	if(type(quest) == "string") then
 		local hash = Questie:GetHashFromName(quest)
