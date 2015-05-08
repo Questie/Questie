@@ -268,10 +268,8 @@ function QuestieTracker:GetFinisherLocation(typ, name)
 			if not (npc == nil) then
 				C, Z, X, Y = npc[1], npc[2], npc[3], npc[4];
 			else
-				DEFAULT_CHAT_FRAME:AddMessage("COULD NOT FIND "..name..typ);
 			end
 		else
-			DEFAULT_CHAT_FRAME:AddMessage("FOUND "..name..typ);
 			local loc = npc['locations'][1];
 			mapid = loc[1];
 			x = loc[2];
@@ -281,7 +279,6 @@ function QuestieTracker:GetFinisherLocation(typ, name)
 	elseif typ == "object" then
 		local obj = QuestieObjects[name];
 		if not (obj == nil) then
-			DEFAULT_CHAT_FRAME:AddMessage("FOUND "..name..typ);
 			local loc = obj['locations'][1];
 			mapid = loc[1];
 			x = loc[2];
@@ -294,10 +291,8 @@ function QuestieTracker:GetFinisherLocation(typ, name)
 				if not (npc == nil) then
 					C, Z, X, Y = npc[1], npc[2], npc[3], npc[4];
 				else
-					DEFAULT_CHAT_FRAME:AddMessage("COULD NOT FIND "..name..typ);
 				end
 			else
-				DEFAULT_CHAT_FRAME:AddMessage("FOUND "..name..typ);
 				local loc = npc['locations'][1];
 				mapid = loc[1];
 				x = loc[2];
@@ -641,7 +636,6 @@ local function trim(s)
 end
 
 function QuestieTracker:addQuestToTracker(hash, logId, level) -- never used???
-	DEFAULT_CHAT_FRAME:AddMessage("ADDQUESTTOTRACKer");
 	local startTime = GetTime()
 	
 	if(type(QuestieTrackedQuests[hash]) ~= "table") then

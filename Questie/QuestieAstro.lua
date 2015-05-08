@@ -49,7 +49,7 @@ function Questie:OnLoad()
 	end
 
 	if( DEFAULT_CHAT_FRAME ) then
-		DEFAULT_CHAT_FRAME:AddMessage("Questie v1.1BETA loaded");
+		DEFAULT_CHAT_FRAME:AddMessage("Questie v2.0.0 BETA loaded");
 	end
 	Questie:NOTES_LOADED();
 
@@ -66,7 +66,7 @@ function Questie:Toggle()
 		Questie:RedrawNotes();
 		LastQuestLogHashes = nil;
 		LastCount = 0;
-		DEFAULT_CHAT_FRAME:AddMessage("Questie notes removed!");
+		--DEFAULT_CHAT_FRAME:AddMessage("Questie notes removed!");
 	else
 		Active = true;
 		LastQuestLogHashes = nil;
@@ -74,7 +74,7 @@ function Questie:Toggle()
 		Questie:CheckQuestLog();
 		Questie:SetAvailableQuests()
 		Questie:RedrawNotes();
-		DEFAULT_CHAT_FRAME:AddMessage("Questie notes Active!");
+		--DEFAULT_CHAT_FRAME:AddMessage("Questie notes Active!");
 	end
 end
 
@@ -579,10 +579,10 @@ function Questie:getQuestHash(name, level, objectiveText)
 
 	-- hash lookup did not contain qust name!! LOG THIS!!!
 	if name == nil then
-		DEFAULT_CHAT_FRAME:AddMessage("QuestieError: Attempt to hash a nill quest?"); -- too lazy to look up proper log function. yeah. super lazy.
+		--DEFAULT_CHAT_FRAME:AddMessage("QuestieError: Attempt to hash a nill quest?"); -- too lazy to look up proper log function. yeah. super lazy.
 		return -1;
 	end
-	DEFAULT_CHAT_FRAME:AddMessage("FALLING BACK TO LEGACY");
+	--DEFAULT_CHAT_FRAME:AddMessage("FALLING BACK TO LEGACY");
 	local hash = Questie:mixString(0, name);
 	if not (level == nil) then 
 	hash = Questie:mixInt(hash, level); end
