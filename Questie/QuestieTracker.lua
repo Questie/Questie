@@ -257,6 +257,38 @@ function QuestieTracker:AddObjectiveToButton(button, objective, index)
 
 end
 
+-- TODO move this into Questie: namespace
+function QuestieTracker:GetFinisherLocation(typ, name)
+	local C, Z, X, Y;
+	
+	if typ == "monster" then
+		local npc = QuestieMonsters[name];
+		if npc == nil then
+			npc = QuestieAdditionalStartFinishLookup[name];
+			if not (npc == nil) then
+				C, Z, X, Y = npc[1], npc[2], npc[3], npc[4];
+			end
+		else
+			local loc = npc['locations'][1];
+			mapid = loc[1];
+			x = loc[2];
+			y = loc[3];
+			C, Z, X, Y = QuestieZoneIDLookup[mapid][4], QuestieZoneIDLookup[mapid][5], x, y
+		end
+	elseif typ == "object" then
+		local obj = QuestieObjects[name];
+		if not (obj == nil) then
+			local loc = obj['locations'][1];
+			mapid = loc[1];
+			x = loc[2];
+			y = loc[3];
+			C, Z, X, Y = QuestieZoneIDLookup[mapid][4], QuestieZoneIDLookup[mapid][5], x, y
+		end
+	end
+	
+	return C, Z, X, Y;
+end
+
 function QuestieTracker:fillTrackingFrame()
 	local index = 1;
 	local sortedByDistance = {};
@@ -267,34 +299,8 @@ function QuestieTracker:fillTrackingFrame()
 	for hash,quest in pairs(QuestieHandledQuests) do
 		if QuestieTrackedQuests[hash] then
 			if QuestieTrackedQuests[hash]["isComplete"] then
-				local finisher = QuestieMonsters[QuestieHashMap[hash]['finishedBy']];
-				local mapid = 0;
-				local x = 0;
-				local y = 0;
-				if finisher == nil then
-					finisher = QuestieAdditionalStartFinishLookup[QuestieHashMap[hash]['finishedBy']];
-					if not (finisher == nil) then
-						local continent, zone, xNote, yNote = finisher[1], finisher[2], finisher[3], finisher[4];
-						local dist, xDelta, yDelta = Astrolabe:ComputeDistance( C, Z, X, Y, continent, zone, xNote, yNote )
-						local info = {
-							["dist"] = dist,
-							["hash"] = hash,
-							["xDelta"] = xDelta,
-							["yDelta"] = yDelta,
-							["c"] = continent,
-							["z"] = zone,
-							["x"] = xNote,
-							["y"] = yNote,
-						}
-						table.insert(distanceNotes, info);
-					end
-				else
-					local loc = finisher['locations'][1];
-					mapid = loc[1];
-					x = loc[2];
-					y = loc[3];
-
-					local continent, zone, xNote, yNote = QuestieZoneIDLookup[mapid][4], QuestieZoneIDLookup[mapid][5], x, y
+				local continent, zone, xNote, yNote = QuestieTracker:GetFinisherLocation(QuestieHashMap[hash]['finishedBy']['finishedType'], QuestieHashMap[hash]['finishedBy']);
+				if continent and zone and xNote and yNote then
 					local dist, xDelta, yDelta = Astrolabe:ComputeDistance( C, Z, X, Y, continent, zone, xNote, yNote )
 					local info = {
 						["dist"] = dist,
