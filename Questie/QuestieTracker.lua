@@ -267,8 +267,11 @@ function QuestieTracker:GetFinisherLocation(typ, name)
 			npc = QuestieAdditionalStartFinishLookup[name];
 			if not (npc == nil) then
 				C, Z, X, Y = npc[1], npc[2], npc[3], npc[4];
+			else
+				DEFAULT_CHAT_FRAME:AddMessage("COULD NOT FIND "..name..typ);
 			end
 		else
+			DEFAULT_CHAT_FRAME:AddMessage("FOUND "..name..typ);
 			local loc = npc['locations'][1];
 			mapid = loc[1];
 			x = loc[2];
@@ -278,11 +281,29 @@ function QuestieTracker:GetFinisherLocation(typ, name)
 	elseif typ == "object" then
 		local obj = QuestieObjects[name];
 		if not (obj == nil) then
+			DEFAULT_CHAT_FRAME:AddMessage("FOUND "..name..typ);
 			local loc = obj['locations'][1];
 			mapid = loc[1];
 			x = loc[2];
 			y = loc[3];
 			C, Z, X, Y = QuestieZoneIDLookup[mapid][4], QuestieZoneIDLookup[mapid][5], x, y
+		else
+			local npc = QuestieMonsters[name];
+			if npc == nil then
+				npc = QuestieAdditionalStartFinishLookup[name];
+				if not (npc == nil) then
+					C, Z, X, Y = npc[1], npc[2], npc[3], npc[4];
+				else
+					DEFAULT_CHAT_FRAME:AddMessage("COULD NOT FIND "..name..typ);
+				end
+			else
+				DEFAULT_CHAT_FRAME:AddMessage("FOUND "..name..typ);
+				local loc = npc['locations'][1];
+				mapid = loc[1];
+				x = loc[2];
+				y = loc[3];
+				C, Z, X, Y = QuestieZoneIDLookup[mapid][4], QuestieZoneIDLookup[mapid][5], x, y
+			end
 		end
 	end
 	
@@ -296,24 +317,12 @@ function QuestieTracker:fillTrackingFrame()
 	local C,Z,X,Y = Astrolabe:GetCurrentPlayerPosition() -- continent, zone, x, y
 	
 	local distanceNotes = {};
+	local objc = 0;
 	for hash,quest in pairs(QuestieHandledQuests) do
 		if QuestieTrackedQuests[hash] then
+			objc = 0;
 			if QuestieTrackedQuests[hash]["isComplete"] then
-				local continent, zone, xNote, yNote = QuestieTracker:GetFinisherLocation(QuestieHashMap[hash]['finishedBy']['finishedType'], QuestieHashMap[hash]['finishedBy']);
-				if continent and zone and xNote and yNote then
-					local dist, xDelta, yDelta = Astrolabe:ComputeDistance( C, Z, X, Y, continent, zone, xNote, yNote )
-					local info = {
-						["dist"] = dist,
-						["hash"] = hash,
-						["xDelta"] = xDelta,
-						["yDelta"] = yDelta,
-						["c"] = continent,
-						["z"] = zone,
-						["x"] = xNote,
-						["y"] = yNote,
-					}
-					table.insert(distanceNotes, info);
-				end
+				
 			else
 				for name,notes in pairs(quest.objectives.objectives) do
 					for k,v in pairs(notes) do
@@ -330,9 +339,27 @@ function QuestieTracker:fillTrackingFrame()
 								["x"] = xNote,
 								["y"] = yNote,
 							}
+							objc = objc + 1;
 							table.insert(distanceNotes, info);
 						end
 					end
+				end
+			end
+			if objc == 0 then
+				local continent, zone, xNote, yNote = QuestieTracker:GetFinisherLocation(QuestieHashMap[hash]['finishedType'], QuestieHashMap[hash]['finishedBy']);
+				if continent and zone and xNote and yNote then
+					local dist, xDelta, yDelta = Astrolabe:ComputeDistance( C, Z, X, Y, continent, zone, xNote, yNote )
+					local info = {
+						["dist"] = dist,
+						["hash"] = hash,
+						["xDelta"] = xDelta,
+						["yDelta"] = yDelta,
+						["c"] = continent,
+						["z"] = zone,
+						["x"] = xNote,
+						["y"] = yNote,
+					}
+					table.insert(distanceNotes, info);
 				end
 			end
 		end
@@ -614,7 +641,7 @@ local function trim(s)
 end
 
 function QuestieTracker:addQuestToTracker(hash, logId, level) -- never used???
-	--DEFAULT_CHAT_FRAME:AddMessage("ADDQUESTTOTRACKer");
+	DEFAULT_CHAT_FRAME:AddMessage("ADDQUESTTOTRACKer");
 	local startTime = GetTime()
 	
 	if(type(QuestieTrackedQuests[hash]) ~= "table") then
@@ -662,10 +689,11 @@ end
 
 function QuestieTracker:updateFrameOnTracker(hash, logId, level)
 	
-	if true then
+	if AUTO_QUEST_WATCH == "1" or type(QuestieTrackedQuests[hash]) == "table" then
 		QuestieTracker:addQuestToTracker(hash, logId, level);
-		return;
+		
 	end
+	if true then return; end
 	
 	local startTime = GetTime()	
 	
