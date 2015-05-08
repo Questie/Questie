@@ -11,7 +11,7 @@ QuestieLevLookup = {
   ["Speak with Anastasia Hartwell."]={144,2627402504},
  },
  ["Order Must Be Restored"]={
-  ["Assemble an army and travel to the Eastern Plaguelands. Launch a full assault on Nathanos Blightcaller and any Horde filth that may attempt to protect him.\n\nKeep your wits about you, '"..N..". The Horde will defend the ranger lord with their very lives."]={77,2813496221},
+  ["Assemble an army and travel to the Eastern Plaguelands. Launch a full assault on Nathanos Blightcaller and any Horde filth that may attempt to protect him.\n\nKeep your wits about you, "..N..". The Horde will defend the ranger lord with their very lives."]={77,949127781},
  },
  ["Wild Hearts"]={
   ["Gather 6 discolored worg hearts and bring them to Apothecary Renferrel at the Sepulcher."]={178,1016979010},
@@ -2939,7 +2939,7 @@ QuestieLevLookup = {
   ["Find Sentinel Shaya and heal her wounds using Lesser Heal (Rank 2). Afterwards, grant her Power Word: Fortitude and then return to Laurna Morninglight in Dolanaar."]={8,2806172208},
  },
  ["The Ancient Leaf"]={
-  ["Find the owner of the Ancient Petrified Leaf. Good luck, '"..N.."; It's a big world."]={0,1592412096},
+  ["Find the owner of the Ancient Petrified Leaf. Good luck, "..N.."; It's a big world."]={0,2694989448},
  },
  ["The Haunted Mills"]={
   ["Slay Devlin Agamand, and bring Devlin's Remains to Coleman Farthing in Brill."]={178,551448498},
@@ -3787,7 +3787,7 @@ QuestieLevLookup = {
   ["Speak to Aelthalyste in the Undercity."]={16,634015800},
  },
  ["Into The Maw of Madness"]={
-  ["Commander Mar'alith at Cenarion Hold in Silithus wants you to find his beloved Natalia. The information that you gathered points to Hive'Regal in the south as being the area in which you may find Mistress Natalia Mar'alith.\n\nDo not forget to visit the dwarves at Bronzebeard's camp before venturing into the hive. They might have some additional work and advice for you.\n\nAnd '"..N..", remember the Commander's words: \"Do what you must...\""]={0,3982357880},
+  ["Commander Mar'alith at Cenarion Hold in Silithus wants you to find his beloved Natalia. The information that you gathered points to Hive'Regal in the south as being the area in which you may find Mistress Natalia Mar'alith.\n\nDo not forget to visit the dwarves at Bronzebeard's camp before venturing into the hive. They might have some additional work and advice for you.\n\nAnd "..N..", remember the Commander's words: \"Do what you must...\""]={0,1383461952},
  },
  ["Luck Be With You"]={
   ["Collect 4 Frostmaul Shards for Witch Doctor Mau'ari in Everlook."]={255,797923327},
@@ -10480,7 +10480,7 @@ QuestieLevLookup = {
   [""]={0,1362926344},
  },
  ["The Calling"]={
-  ["Geologist Larksbane at Cenarion Hold in Silithus wants you to recover the Crystal Unlocking Mechanism from the Qiraji Emissary.\n\nYou have been instructed to take the Glyphs of Calling to the Bones of Grakkarond, south of Cenarion Hold, and draw them in the sand. Should the Qiraji Emissary appear, slay it and recover the Crystal Unlocking Mechanism. Return to Geologist Larksbane if you succeed.\n\nAssemble an army for this task, '"..N.."!"]={0,1680193976},
+  ["Geologist Larksbane at Cenarion Hold in Silithus wants you to recover the Crystal Unlocking Mechanism from the Qiraji Emissary.\n\nYou have been instructed to take the Glyphs of Calling to the Bones of Grakkarond, south of Cenarion Hold, and draw them in the sand. Should the Qiraji Emissary appear, slay it and recover the Crystal Unlocking Mechanism. Return to Geologist Larksbane if you succeed.\n\nAssemble an army for this task, "..N.."!"]={0,1888336000},
  },
  ["Elixirs for the Bladeleafs"]={
   ["Bring 6 Elixirs of Lion's Strength and 2 Elixirs of Minor Defense to Syral Bladeleaf in Dolanaar."]={0,507521464},
