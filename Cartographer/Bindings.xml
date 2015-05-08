@@ -1,5 +1,0 @@
-<Bindings>
-  <Binding name="CARTOGRAPHER_OPENALTERNATEMAP" description="Open map with alternate settings" header="CARTOGRAPHER">
-    Cartographer:OpenAlternateMap()
-  </Binding>
-</Bindings>
