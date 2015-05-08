@@ -266,16 +266,53 @@ function QuestieTracker:fillTrackingFrame()
 	local distanceNotes = {};
 	for hash,quest in pairs(QuestieHandledQuests) do
 		if QuestieTrackedQuests[hash] then
-			for name,notes in pairs(quest.objectives.objectives) do
-				if QuestieTrackedQuests[hash]["isComplete"] then
-					local finisher = QuestieMonsters[QuestieHashMap[hash]['finishedBy']];
-					local mapid = 0;
-					local x = 0;
-					local y = 0;
-					if finisher == nil then
-						finisher = QuestieAdditionalStartFinishLookup[QuestieHashMap[hash]['finishedBy']];
-						if not (finisher == nil) then
-							local continent, zone, xNote, yNote = finisher[1], finisher[2], finisher[3], finisher[4];
+			if QuestieTrackedQuests[hash]["isComplete"] then
+				local finisher = QuestieMonsters[QuestieHashMap[hash]['finishedBy']];
+				local mapid = 0;
+				local x = 0;
+				local y = 0;
+				if finisher == nil then
+					finisher = QuestieAdditionalStartFinishLookup[QuestieHashMap[hash]['finishedBy']];
+					if not (finisher == nil) then
+						local continent, zone, xNote, yNote = finisher[1], finisher[2], finisher[3], finisher[4];
+						local dist, xDelta, yDelta = Astrolabe:ComputeDistance( C, Z, X, Y, continent, zone, xNote, yNote )
+						local info = {
+							["dist"] = dist,
+							["hash"] = hash,
+							["xDelta"] = xDelta,
+							["yDelta"] = yDelta,
+							["c"] = continent,
+							["z"] = zone,
+							["x"] = xNote,
+							["y"] = yNote,
+						}
+						table.insert(distanceNotes, info);
+					end
+				else
+					local loc = finisher['locations'][1];
+					mapid = loc[1];
+					x = loc[2];
+					y = loc[3];
+
+					local continent, zone, xNote, yNote = QuestieZoneIDLookup[mapid][4], QuestieZoneIDLookup[mapid][5], x, y
+					local dist, xDelta, yDelta = Astrolabe:ComputeDistance( C, Z, X, Y, continent, zone, xNote, yNote )
+					local info = {
+						["dist"] = dist,
+						["hash"] = hash,
+						["xDelta"] = xDelta,
+						["yDelta"] = yDelta,
+						["c"] = continent,
+						["z"] = zone,
+						["x"] = xNote,
+						["y"] = yNote,
+					}
+					table.insert(distanceNotes, info);
+				end
+			else
+				for name,notes in pairs(quest.objectives.objectives) do
+					for k,v in pairs(notes) do
+						if not v.done then 
+							local continent, zone, xNote, yNote = QuestieZoneIDLookup[v.mapid][4], QuestieZoneIDLookup[v.mapid][5], v.x, v.y
 							local dist, xDelta, yDelta = Astrolabe:ComputeDistance( C, Z, X, Y, continent, zone, xNote, yNote )
 							local info = {
 								["dist"] = dist,
@@ -289,45 +326,7 @@ function QuestieTracker:fillTrackingFrame()
 							}
 							table.insert(distanceNotes, info);
 						end
-					else
-						local loc = finisher['locations'][1];
-						mapid = loc[1];
-						x = loc[2];
-						y = loc[3];
-
-						local continent, zone, xNote, yNote = QuestieZoneIDLookup[mapid][4], QuestieZoneIDLookup[mapid][5], x, y
-						local dist, xDelta, yDelta = Astrolabe:ComputeDistance( C, Z, X, Y, continent, zone, xNote, yNote )
-						local info = {
-							["dist"] = dist,
-							["hash"] = hash,
-							["xDelta"] = xDelta,
-							["yDelta"] = yDelta,
-							["c"] = continent,
-							["z"] = zone,
-							["x"] = xNote,
-							["y"] = yNote,
-						}
-						table.insert(distanceNotes, info);
 					end
-
-				else
-				for k,v in pairs(notes) do
-					if not v.done then 
-						local continent, zone, xNote, yNote = QuestieZoneIDLookup[v.mapid][4], QuestieZoneIDLookup[v.mapid][5], v.x, v.y
-						local dist, xDelta, yDelta = Astrolabe:ComputeDistance( C, Z, X, Y, continent, zone, xNote, yNote )
-						local info = {
-							["dist"] = dist,
-							["hash"] = hash,
-							["xDelta"] = xDelta,
-							["yDelta"] = yDelta,
-							["c"] = continent,
-							["z"] = zone,
-							["x"] = xNote,
-							["y"] = yNote,
-						}
-						table.insert(distanceNotes, info);
-					end
-				end
 				end
 			end
 		end
