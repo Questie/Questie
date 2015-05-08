@@ -3,6 +3,8 @@ DEBUG_LEVEL = 1;--0 Low info --1 Medium info --2 very spammy
 Questie = CreateFrame("Frame", "QuestieLua", UIParent, "ActionButtonTemplate")
 
 
+__QuestRewardCompleteButton_OnClick=nil;
+
 function Questie:OnLoad()
 
 	this:RegisterEvent("QUEST_LOG_UPDATE");
@@ -18,6 +20,24 @@ function Questie:OnLoad()
 	this:RegisterEvent("ADDON_LOADED")
 	this:RegisterEvent("VARIABLES_LOADED")
 	this:RegisterEvent("CHAT_MSG_SYSTEM");
+	
+	__QuestRewardCompleteButton_OnClick = QuestRewardCompleteButton_OnClick;
+	QuestRewardCompleteButton_OnClick = function()
+		if not ( QuestFrameRewardPanel.itemChoice == 0 and GetNumQuestChoices() > 0 ) then
+			local qName = GetTitleText(); -- lol
+			local hash = Questie:GetHashFromName(qName); -- this is a bad idea. A VERY bad idea.
+			QuestieCompletedQuestMessages[qName] = 1;
+			Questie:AddEvent("CHECKLOG", 0.135);
+			if(not QuestieSeenQuests[hash]) then
+				Questie:debug_Print("Adding quest to seen quests:", qName, hash," setting as 1 = complete");
+				QuestieSeenQuests[hash] = 1;
+			else
+				Questie:debug_Print("Adding quest to seen quests:", qName, hash," setting as 1 = complete");
+				QuestieSeenQuests[hash] = 1;
+			end
+		end
+		__QuestRewardCompleteButton_OnClick();
+	end
 
 	if( DEFAULT_CHAT_FRAME ) then
 		DEFAULT_CHAT_FRAME:AddMessage("Questie v1.1BETA loaded");
@@ -156,21 +176,12 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 			Questie:hookTooltip();
 		end
 	elseif(event == "CHAT_MSG_SYSTEM") then
-		if(string.find(arg1, " completed.")) then
-			local qName = string.sub(arg1, 0, -string.len("  completed."));
-			DEFAULT_CHAT_FRAME:AddMessage("Quest Completed: '"..qName.."'");
-			Questie:debug_Print("Quest Completed:", qName);
-			local hash = Questie:GetHashFromName(qName); -- this is a bad idea. A VERY bad idea.
-			QuestieCompletedQuestMessages[qName] = 1;
-			Questie:AddEvent("CHECKLOG", 0.135);
-			if(not QuestieSeenQuests[hash]) then
-				Questie:debug_Print("Adding quest to seen quests:", qName, hash," setting as 1 = complete");
-				QuestieSeenQuests[hash] = 1;
-			else
-				Questie:debug_Print("Adding quest to seen quests:", qName, hash," setting as 1 = complete");
-				QuestieSeenQuests[hash] = 1;
-			end
-		end
+		--if(string.find(arg1, " completed.")) then
+		--	local qName = string.sub(arg1, 0, -string.len("  completed."));
+		--	DEFAULT_CHAT_FRAME:AddMessage("Quest Completed: '"..qName.."'");
+		--	--Questie:debug_Print("Quest Completed:", qName);
+		--	
+		--end
 	end
 end
 

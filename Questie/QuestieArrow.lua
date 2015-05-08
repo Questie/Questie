@@ -146,9 +146,13 @@ local function OnUpdate(self, elapsed)
 	local dist,x,y
 	
 	if arrow_objective then
-		local objective = QuestieTrackedQuests[arrow_objective]["arrowPoint"]
-		if objective then
-			SetCrazyArrow(objective, objective.dist, objective.title)
+		if QuestieTrackedQuests[arrow_objective] then
+			local objective = QuestieTrackedQuests[arrow_objective]["arrowPoint"]
+			if objective then
+				SetCrazyArrow(objective, objective.dist, objective.title)
+			end
+		else
+			self:Hide()
 		end
 	end
 	
