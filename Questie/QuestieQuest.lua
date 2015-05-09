@@ -491,7 +491,7 @@ function Questie:AstroGetQuestObjectives(questHash)
 		--Gets the type
 		local typeFunction = AstroobjectiveProcessors[typ];
 		--DEFAULT_CHAT_FRAME:AddMessage("Func:"..tostring(typeFunction)); --NotWORKING debug
-		if typ == "item" or typ == "monster" or true then
+		if typ == "item" or typ == "monster" or not (typeFunction == nil) then
 			local indx = findLast(desc, ":");
 			local countless = indx == nil;
 			--DEFAULT_CHAT_FRAME:AddMessage(indx, 0.95, 0.95, 0.5);
