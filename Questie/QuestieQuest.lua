@@ -61,14 +61,14 @@ function Questie:CheckQuestLog()
 	for k, v in pairs(delta) do
 		Questie:debug_Print(v["name"],v["hash"], v["deltaType"]);
 		if(v["deltaType"] == 1) then
-			DEFAULT_CHAT_FRAME:AddMessage("[CheckLog] Check discovered a new quest,".. v["name"]);
+			--DEFAULT_CHAT_FRAME:AddMessage("[CheckLog] Check discovered a new quest,".. v["name"]);
 			Questie:AddQuestToMap(v["hash"]);
 			if(not QuestieSeenQuests[v["hash"]]) then
 				QuestieSeenQuests[v["hash"]] = 0
 			end
 			MapChanged = true;
 		elseif not Questie.collapsedThisRun then
-			DEFAULT_CHAT_FRAME:AddMessage("[CheckLog] Check discovered a missing quest, removing! ".. v["hash"].." "..v["name"])
+			--DEFAULT_CHAT_FRAME:AddMessage("[CheckLog] Check discovered a missing quest, removing! ".. v["hash"].." "..v["name"])
 			Questie:RemoveQuestFromMap(v["hash"]);
 			QuestieTracker:removeQuestFromTracker(v["hash"]);
 			if(not QuestieCompletedQuestMessages[v["name"]]) then
@@ -491,7 +491,7 @@ function Questie:AstroGetQuestObjectives(questHash)
 		--Gets the type
 		local typeFunction = AstroobjectiveProcessors[typ];
 		--DEFAULT_CHAT_FRAME:AddMessage("Func:"..tostring(typeFunction)); --NotWORKING debug
-		if typ == "item" or typ == "monster" or true then
+		if typ == "item" or typ == "monster" or not (typeFunction == nil) then
 			local indx = findLast(desc, ":");
 			local countless = indx == nil;
 			--DEFAULT_CHAT_FRAME:AddMessage(indx, 0.95, 0.95, 0.5);

@@ -1,8 +1,8 @@
 ## Interface: 11200
-## Title: Questie v1.1 (ALPHA)
+## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v2.0.0|r|cFFFF0000 BETA|r
 ## Author: Aero/Schaka/Logonz/everyone else
 ## Notes: A standalone Vanilla QuestHelper
-## Version: 1.1 (ALPHA)
+## Version: 2.0.0 BETA
 ## RequiredDeps:
 ## OptionalDeps: 
 ## SavedVariables: QuestieTrackerVariables, QuestieDebug, QuestieConfig
