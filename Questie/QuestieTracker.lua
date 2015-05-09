@@ -571,14 +571,12 @@ end
 function QuestLogTitleButton_OnClick(button)
 	if(EQL3_Player) then -- could also hook EQL3_AddQuestWatch(index) I guess
 		if ( IsShiftKeyDown() ) then
-			if(ChatFrameEditBox:IsVisible()) then
-				ChatFrameEditBox:Insert(this:GetText());
-			else
+			if not ChatFrameEditBox:IsVisible() then
 				QuestieTracker:setQuestInfo(this:GetID() + FauxScrollFrame_GetOffset(EQL3_QuestLogListScrollFrame));
 			end
-	end
-	_QuestLogTitleButton_OnClick(button);
-	EQL3_QuestWatchFrame:Hide();
+		end
+		_QuestLogTitleButton_OnClick(button);
+		EQL3_QuestWatchFrame:Hide();
 	else
 		if ( button == "LeftButton" ) then
 			if ( IsShiftKeyDown() ) then
