@@ -49,7 +49,7 @@ function Questie:OnLoad()
 	end
 
 	if( DEFAULT_CHAT_FRAME ) then
-		DEFAULT_CHAT_FRAME:AddMessage("Questie v2.0.0 BETA loaded");
+		DEFAULT_CHAT_FRAME:AddMessage("Questie v2.0.4 BETA loaded");
 	end
 	Questie:NOTES_LOADED();
 
