@@ -314,7 +314,7 @@ function QuestieTracker:fillTrackingFrame()
 	local distanceNotes = {};
 	local objc = 0;
 	for hash,quest in pairs(QuestieHandledQuests) do
-		if QuestieTrackedQuests[hash] then
+		if QuestieTrackedQuests[hash] and QuestieHashMap[hash] then
 			objc = 0;
 			if QuestieTrackedQuests[hash]["isComplete"] then
 				
