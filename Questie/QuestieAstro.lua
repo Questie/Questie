@@ -432,7 +432,7 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 				   							local indx = findLast(desc, ":");
 											local countstr = string.sub(desc, indx+2);
 											local namestr = string.sub(desc, 1, indx-1);
-											if(string.find(name, monster) and QuestieItems[namestr]['drop']) then -- Added Find to fix zapped giants (THIS IS NOT TESTED IF YOU FIND ERRORS REPORT!)
+											if(string.find(name, monster) and QuestieItems[namestr] and QuestieItems[namestr]['drop']) then -- Added Find to fix zapped giants (THIS IS NOT TESTED IF YOU FIND ERRORS REPORT!)
 												for dropperr, id in pairs(QuestieItems[namestr]['drop']) do
 													if(name == dropperr or (string.find(name, dropperr) and name == dropperr) and not p) then-- Added Find to fix zapped giants (THIS IS NOT TESTED IF YOU FIND ERRORS REPORT!)
 														GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
@@ -545,7 +545,7 @@ end
 function Questie:getQuestHash(name, level, objectiveText)
 	local questLookup = QuestieLevLookup[name];
 	local hasOthers = false;
-	if not (questLookup == nil) then -- cant... stop... doingthis....
+	if questLookup then -- cant... stop... doingthis....
 		--log("QN " .. name .. " is NULL", 1);
 		local count = 0;
 		local retval = 0;
