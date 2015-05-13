@@ -103,6 +103,10 @@ function QuestieTracker:getRGBForObjective(objective)
 			local slash = findLast(progress, "/");
 			local have = tonumber(string.sub(progress, 0, slash-1))
 			local need = tonumber(string.sub(progress, slash+1))
+			
+			if not have or not need then
+				return 0.8, 0.8, 0.8;
+			end
 
 			local float = have / need;
 			return 0.8-float/2, 0.8+float/3, 0.8-float/2;
