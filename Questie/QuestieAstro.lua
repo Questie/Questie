@@ -6,6 +6,8 @@ Questie = CreateFrame("Frame", "QuestieLua", UIParent, "ActionButtonTemplate")
 __QuestRewardCompleteButton_OnClick=nil;
 __QuestAbandonOnAccept=nil;
 
+local QuestieQuestHashCache = {}
+
 function Questie:OnLoad()
 
 	this:RegisterEvent("QUEST_LOG_UPDATE");
@@ -21,10 +23,10 @@ function Questie:OnLoad()
 	this:RegisterEvent("ADDON_LOADED")
 	this:RegisterEvent("VARIABLES_LOADED")
 	this:RegisterEvent("CHAT_MSG_SYSTEM");
-	
+
 	__QuestRewardCompleteButton_OnClick = QuestRewardCompleteButton_OnClick;
 	__QuestAbandonOnAccept = StaticPopupDialogs["ABANDON_QUEST"].OnAccept;
-	
+
 	StaticPopupDialogs["ABANDON_QUEST"].OnAccept = function()
 		local hash = Questie:GetHashFromName(GetAbandonQuestName());
 		QuestieSeenQuests[hash] = nil;
@@ -66,15 +68,15 @@ function Questie:Toggle()
 		Questie:RedrawNotes();
 		LastQuestLogHashes = nil;
 		LastCount = 0;
-		--DEFAULT_CHAT_FRAME:AddMessage("Questie notes removed!");
+	--DEFAULT_CHAT_FRAME:AddMessage("Questie notes removed!");
 	else
 		Active = true;
 		LastQuestLogHashes = nil;
-		LastCount = 0;		
+		LastCount = 0;
 		Questie:CheckQuestLog();
 		Questie:SetAvailableQuests()
 		Questie:RedrawNotes();
-		--DEFAULT_CHAT_FRAME:AddMessage("Questie notes Active!");
+	--DEFAULT_CHAT_FRAME:AddMessage("Questie notes Active!");
 	end
 end
 
@@ -185,12 +187,12 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 			Questie:hookTooltip();
 		end
 	elseif(event == "CHAT_MSG_SYSTEM") then
-		--if(string.find(arg1, " completed.")) then
-		--	local qName = string.sub(arg1, 0, -string.len("  completed."));
-		--	DEFAULT_CHAT_FRAME:AddMessage("Quest Completed: '"..qName.."'");
-		--	--Questie:debug_Print("Quest Completed:", qName);
-		--	
-		--end
+	--if(string.find(arg1, " completed.")) then
+	--	local qName = string.sub(arg1, 0, -string.len("  completed."));
+	--	DEFAULT_CHAT_FRAME:AddMessage("Quest Completed: '"..qName.."'");
+	--	--Questie:debug_Print("Quest Completed:", qName);
+	--
+	--end
 	end
 end
 
@@ -206,9 +208,9 @@ function Questie_SlashHandler(msg)
 		DEFAULT_CHAT_FRAME:AddMessage("Adding icons zones");
 		for i = 1, 1 do
 			Questie:AddNoteToMap(1, 15, 0.5, 0.5,"complete", tostring(i));
-			--Questie:AddNoteToMap(2, 12, 0.8, 0.8,"Loot", "2");
-			--Questie:AddNoteToMap(2, 12, 0.9, 0.9,"Object", "3");
-			--Questie:AddNoteToMap(2, 12, 0.4, 0.9,"Slay", "4");
+		--Questie:AddNoteToMap(2, 12, 0.8, 0.8,"Loot", "2");
+		--Questie:AddNoteToMap(2, 12, 0.9, 0.9,"Object", "3");
+		--Questie:AddNoteToMap(2, 12, 0.4, 0.9,"Slay", "4");
 		end
 		Questie:RedrawNotes();
 	end
@@ -234,8 +236,8 @@ function Questie_SlashHandler(msg)
 		end
 		Questie:debug_Print("Updated all quests: Time:", GetTime()- t);
 		Questie:RedrawNotes();
-		--Questie:AddQuestToMap(2743610414);
-		--Questie:AddQuestToMap(3270662498);
+	--Questie:AddQuestToMap(2743610414);
+	--Questie:AddQuestToMap(3270662498);
 	end
 
 	if(msg == "q") then
@@ -245,8 +247,8 @@ function Questie_SlashHandler(msg)
 		end
 		Questie:debug_Print("Added quests: Time:", GetTime()- t);
 		Questie:RedrawNotes();
-		--Questie:AddQuestToMap(2743610414);
-		--Questie:AddQuestToMap(3270662498);
+	--Questie:AddQuestToMap(2743610414);
+	--Questie:AddQuestToMap(3270662498);
 	end
 
 	if(msg == "h") then
@@ -263,7 +265,7 @@ function Questie_SlashHandler(msg)
 		DropDownTest:Show();
 		testbutton:SetScript("OnClick", function()
 			DEFAULT_CHAT_FRAME:AddMessage("Click");
-			ToggleDropDownMenu(nil,nil,DropDownTest,"testets",3,-3);	
+			ToggleDropDownMenu(nil,nil,DropDownTest,"testets",3,-3);
 		end)
 	end
 
@@ -277,7 +279,7 @@ function Questie_SlashHandler(msg)
 		local f = CreateFrame("Button",nil,WorldMapFrame)
 		f.YoMamma = "Hashisbest";
 		f:SetFrameStrata("DIALOG")
-		f:SetWidth(16)  -- Set These to whatever height/width is needed 
+		f:SetWidth(16)  -- Set These to whatever height/width is needed
 		f:SetHeight(16) -- for your Texture
 
 		local t = f:CreateTexture(nil,"BACKGROUND")
@@ -285,9 +287,9 @@ function Questie_SlashHandler(msg)
 		t:SetAllPoints(f)
 		f.texture = t
 		f:SetScript("OnEnter", function()
-				GameTooltip:SetOwner(this, "ANCHOR_CURSOR");
-				GameTooltip:AddLine("ICON! "..this.YoMamma);
-				GameTooltip:Show();
+			GameTooltip:SetOwner(this, "ANCHOR_CURSOR");
+			GameTooltip:AddLine("ICON! "..this.YoMamma);
+			GameTooltip:Show();
 		end ); --Script Toolip
 		f:SetScript("OnLeave", function() if(GameTooltip) then GameTooltip:Hide() end end) --Script Exit Tooltip
 
@@ -315,7 +317,7 @@ function Questie_SlashHandler(msg)
 		--map_overlay:SetWidth(w);
 		--map_overlay:SetHeight(h);
 		--map_overlay:Show();
-		
+
 		--This calulates a good glow size
 		x, y =  GetPlayerMapPosition("player");
 		c, z = GetCurrentMapContinent(), GetCurrentMapZone();
@@ -331,32 +333,32 @@ function Questie_SlashHandler(msg)
 		d:SetPoint("CENTER",16,0);
 		d:Show();
 
-		--We Create a new frame and add the glowtexture to it.
-		--local glow = CreateFrame("Button",nil,WorldMapFrame);
-		--local tex = Questie:CreateGlowTexture(glow);
-		--glow:SetFrameLevel(9);
-		--glow:SetWidth(x_size);
-		--glow:SetHeight(y_size);
-		--glow:SetPoint("CENTER",0,0);
-		--glow:Show();
+	--We Create a new frame and add the glowtexture to it.
+	--local glow = CreateFrame("Button",nil,WorldMapFrame);
+	--local tex = Questie:CreateGlowTexture(glow);
+	--glow:SetFrameLevel(9);
+	--glow:SetWidth(x_size);
+	--glow:SetHeight(y_size);
+	--glow:SetPoint("CENTER",0,0);
+	--glow:Show();
 
-		--local g = Questie:CreateGlowFrame()
-		--g:SetPoint("CENTER",0,0);
-		--g:Show();
+	--local g = Questie:CreateGlowFrame()
+	--g:SetPoint("CENTER",0,0);
+	--g:Show();
 
-		--local ra = Questie:CreateGlowNote("abc");
-		--ra:SetPoint("CENTER",0,0)
-		--ra:Show()
-		--xx, yy = Astrolabe:PlaceIconOnWorldMap(WorldMapFrame,ra,c ,z ,0.5, 0.5);
-		--ra = Questie:CreateGlowNote("abc");
-		--ra:SetPoint("CENTER",0,0)
-		--ra:Show()
-		--xx, yy = Astrolabe:PlaceIconOnWorldMap(WorldMapFrame,ra,c ,z ,0.54, 0.5);
-		--ra = Questie:CreateGlowNote("abc");
-		--ra:SetPoint("CENTER",0,0)
-		--ra:Show()
-		--xx, yy = Astrolabe:PlaceIconOnWorldMap(WorldMapFrame,ra,c ,z ,0.5, 0.54);
-		--Questie:debug_Print(xx,yy);
+	--local ra = Questie:CreateGlowNote("abc");
+	--ra:SetPoint("CENTER",0,0)
+	--ra:Show()
+	--xx, yy = Astrolabe:PlaceIconOnWorldMap(WorldMapFrame,ra,c ,z ,0.5, 0.5);
+	--ra = Questie:CreateGlowNote("abc");
+	--ra:SetPoint("CENTER",0,0)
+	--ra:Show()
+	--xx, yy = Astrolabe:PlaceIconOnWorldMap(WorldMapFrame,ra,c ,z ,0.54, 0.5);
+	--ra = Questie:CreateGlowNote("abc");
+	--ra:SetPoint("CENTER",0,0)
+	--ra:Show()
+	--xx, yy = Astrolabe:PlaceIconOnWorldMap(WorldMapFrame,ra,c ,z ,0.5, 0.54);
+	--Questie:debug_Print(xx,yy);
 	end
 end
 
@@ -397,14 +399,14 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 					if m[1] and (m[1]['type'] == "monster" or m[1]['type'] == "slay") then
 						if (monster .. " slain") == name or monster == name or monster == string.find(monster, string.len(monster)-6) then
 							local logid = Questie:GetQuestIdFromHash(k);
-		  					SelectQuestLogEntry(logid);
-		  					local desc, typ, done = GetQuestLogLeaderBoard(m[1]['objectiveid']);
-		  					local indx = findLast(desc, ":");
+							SelectQuestLogEntry(logid);
+							local desc, typ, done = GetQuestLogLeaderBoard(m[1]['objectiveid']);
+							local indx = findLast(desc, ":");
 							local countstr = string.sub(desc, indx+2);
 							GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
 							GameTooltip:AddLine("   " .. monster .. ": " .. countstr, 1, 1, 0.2)
 						end
-				--NOT DONE
+						--NOT DONE
 					elseif m[1] and (m[1]['type'] == "item" or m[1]['type'] == "loot") then --Added Loot here? should it be here?
 						local monroot = QuestieMonsters[monster];
 						if monroot then
@@ -412,9 +414,9 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 							if mondat and mondat[name] then
 								if mondat[name] then
 									local logid = Questie:GetQuestIdFromHash(k);
-				  					SelectQuestLogEntry(logid);
-				  					local desc, typ, done = GetQuestLogLeaderBoard(m[1]['objectiveid']);
-				  					local indx = findLast(desc, ":");
+									SelectQuestLogEntry(logid);
+									local desc, typ, done = GetQuestLogLeaderBoard(m[1]['objectiveid']);
+									local indx = findLast(desc, ":");
 									local countstr = string.sub(desc, indx+2);
 									GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
 									GameTooltip:AddLine("   " .. name .. ": " .. countstr, 1, 1, 0.2)
@@ -425,11 +427,11 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 								for dropper, value in pairs(QuestieCachedMonstersAndObjects[k]) do
 									if(string.find(dropper, monster)) then
 										local logid = Questie:GetQuestIdFromHash(k);
-				  						SelectQuestLogEntry(logid);
-				   						local count =  GetNumQuestLeaderBoards();
-				   						for obj = 1, count do
-				   							local desc, typ, done = GetQuestLogLeaderBoard(obj);		  					
-				   							local indx = findLast(desc, ":");
+										SelectQuestLogEntry(logid);
+										local count =  GetNumQuestLeaderBoards();
+										for obj = 1, count do
+											local desc, typ, done = GetQuestLogLeaderBoard(obj);
+											local indx = findLast(desc, ":");
 											local countstr = string.sub(desc, indx+2);
 											local namestr = string.sub(desc, 1, indx-1);
 											if(string.find(name, monster) and QuestieItems[namestr] and QuestieItems[namestr]['drop']) then -- Added Find to fix zapped giants (THIS IS NOT TESTED IF YOU FIND ERRORS REPORT!)
@@ -440,9 +442,9 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 														p = true;
 														break;
 													end
-												end
 											end
-				    					end
+											end
+										end
 									end
 									if(p)then
 										break;
@@ -451,8 +453,8 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 							end
 						end
 					end
-				--NOT DONE
-				end
+					--NOT DONE
+			end
 			end
 		end
 	elseif objective and GetTime() - Questie_LastTooltip > 0.05 then
@@ -467,14 +469,14 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 							GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
 							GameTooltip:AddLine("   " .. name, 1, 1, 0.2)
 						end
-					--NOT DONE
+						--NOT DONE
 					elseif (m[1] and (m[1]['type'] == "item" or m[1]['type'] == "loot") and name == objective) then
 						if(QuestieItems[objective]) then
 							GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
 							local logid = Questie:GetQuestIdFromHash(k);
-		  					SelectQuestLogEntry(logid);
-		  					local desc, typ, done = GetQuestLogLeaderBoard(m[1]['objectiveid']);
-		  					local indx = findLast(desc, ":");
+							SelectQuestLogEntry(logid);
+							local desc, typ, done = GetQuestLogLeaderBoard(m[1]['objectiveid']);
+							local indx = findLast(desc, ":");
 							local countstr = string.sub(desc, indx+2);
 							GameTooltip:AddLine("   " .. name .. ": " .. countstr, 1, 1, 0.2)
 						end
@@ -505,7 +507,15 @@ QWERT = nil;
 
 
 
+
+
+
+
 			OLD CODE BELOW!
+
+
+
+
 
 
 
@@ -528,11 +538,11 @@ function getCurrentMapID()
 	--local fx, fy = Questie:getPlayerPos(); -- this: does not work here??
 
 	local file = GetMapInfo()
-	
+
 	if file == nil then -- thanks optim for finding a null bug here
 		return -1
 	end
-	
+
 	local zid = QuestieZones[file];
 	if zid == nil then
 		--DEFAULT_CHAT_FRAME:AddMessage("ERROR: We are in unknown zone " .. file, 0.95, 0.2, 0.2);
@@ -543,6 +553,13 @@ function getCurrentMapID()
 end
 
 function Questie:getQuestHash(name, level, objectiveText)
+	local hashLevel = level or "hashLevel"
+	local hashText = objectiveText or "hashText"
+	
+	if QuestieQuestHashCache[name..hashLevel..hashText] then
+		return QuestieQuestHashCache[name..hashLevel..hashText]
+	end
+
 	local questLookup = QuestieLevLookup[name];
 	local hasOthers = false;
 	if questLookup then -- cant... stop... doingthis....
@@ -550,14 +567,15 @@ function Questie:getQuestHash(name, level, objectiveText)
 		local count = 0;
 		local retval = 0;
 		local bestDistance = 4294967295; -- some high number (0xFFFFFFFF)
-		local race = UnitRace("Player"); 
+		local race = UnitRace("Player");
 		for k,v in pairs(questLookup) do
 			local rr = v[1];
 			if checkRequirements(null, race, null, rr) or true then
 				if count == 1 then
-					hasOthers = true;	
+					hasOthers = true;
 				end
 				if k == objectiveText then
+					QuestieQuestHashCache[name..hashLevel..hashText] = v[2];
 					return v[2],hasOthers; -- exact match
 				end
 				local dist = 4294967294;
@@ -573,6 +591,7 @@ function Questie:getQuestHash(name, level, objectiveText)
 			count = count + 1;
 		end
 		if not (retval == 0) then
+			QuestieQuestHashCache[name..hashLevel..hashText] = retval;
 			return retval, hasOthers; -- nearest match
 		end
 	end
@@ -584,10 +603,15 @@ function Questie:getQuestHash(name, level, objectiveText)
 	end
 	--DEFAULT_CHAT_FRAME:AddMessage("FALLING BACK TO LEGACY");
 	local hash = Questie:mixString(0, name);
-	if not (level == nil) then 
-	hash = Questie:mixInt(hash, level); end
+	if not (level == nil) then
+		hash = Questie:mixInt(hash, level); 
+		QuestieQuestHashCache[name..hashLevel..hashText] = hash;
+	end
 	if not (objectiveText == nil) then
-	hash = Questie:mixString(hash, objectiveText); end
+		hash = Questie:mixString(hash, objectiveText); 
+		QuestieQuestHashCache[name..hashLevel..hashText] = hash;
+	end
+	QuestieQuestHashCache[name..hashLevel..hashText] = hash;
 	return hash, false;
 end
 
@@ -596,12 +620,12 @@ function Questie:mixString(mix, str)
 end
 
 function Questie:HashString(text) -- Computes an Adler-32 checksum. (Thanks QuestHelper)
-  local a, b = 1, 0
-  for i=1,string.len(text) do
-    a = Questie:modulo((a+string.byte(text,i)), 65521)
-    b = Questie:modulo((b+a), 65521)
-  end
-  return b*65536+a
+	local a, b = 1, 0
+	for i=1,string.len(text) do
+		a = Questie:modulo((a+string.byte(text,i)), 65521)
+		b = Questie:modulo((b+a), 65521)
+	end
+	return b*65536+a
 end
 
 function Questie:modulo(val, by) -- lua5 doesnt support mod math via the % operator :(
@@ -619,7 +643,7 @@ function Questie:levenshtein(str1, str2)
 	local len2 = string.len(str2)
 	local matrix = {}
 	local cost = 0
-        -- quick cut-offs to save time
+	-- quick cut-offs to save time
 	if (len1 == 0) then
 		return len2
 	elseif (len2 == 0) then
@@ -627,7 +651,7 @@ function Questie:levenshtein(str1, str2)
 	elseif (str1 == str2) then
 		return 0
 	end
-        -- initialise the base matrix values
+	-- initialise the base matrix values
 	for i = 0, len1, 1 do
 		matrix[i] = {}
 		matrix[i][0] = i
@@ -635,7 +659,7 @@ function Questie:levenshtein(str1, str2)
 	for j = 0, len2, 1 do
 		matrix[0][j] = j
 	end
-        -- actual Levenshtein algorithm
+	-- actual Levenshtein algorithm
 	for i = 1, len1, 1 do
 		for j = 1, len2, 1 do
 			if (string.byte(str1,i) == string.byte(str2,j)) then
@@ -646,11 +670,11 @@ function Questie:levenshtein(str1, str2)
 			matrix[i][j] = math.min(matrix[i-1][j] + 1, matrix[i][j-1] + 1, matrix[i-1][j-1] + cost)
 		end
 	end
-        -- return the last value - this is the Levenshtein distance
+	-- return the last value - this is the Levenshtein distance
 	return matrix[len1][len2]
 end
 
 function findLast(haystack, needle)
-    local i=string.gfind(haystack, ".*"..needle.."()")()
-    if i==nil then return nil else return i-1 end
+	local i=string.gfind(haystack, ".*"..needle.."()")()
+	if i==nil then return nil else return i-1 end
 end
