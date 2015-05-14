@@ -420,6 +420,7 @@ function GetDirectionToIcon( point )
 	if not point then return end
 	local C,Z,X,Y = Astrolabe:GetCurrentPlayerPosition() -- continent, zone, x, y
 	local dist, xDelta, yDelta = Astrolabe:ComputeDistance( C, Z, X, Y, point.c, point.z, point.x, point.y )
+	if not xDelta or not yDelta then return end
 
 	local dir = atan2(xDelta, -(yDelta))
 	if ( dir > 0 ) then
