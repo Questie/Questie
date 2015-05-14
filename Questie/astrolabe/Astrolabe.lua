@@ -350,6 +350,7 @@ function Astrolabe:UpdateMinimapIconPositions()
 		end
 	else
 		local dist, xDelta, yDelta = self:ComputeDistance(lC, lZ, lx, ly, C, Z, x, y);
+		if not dist or not xDelta or not yDelta then return; end
 		local currentZoom = Minimap:GetZoom();
 		lastZoom = currentZoom;
 		local mapWidth = Minimap:GetWidth();
