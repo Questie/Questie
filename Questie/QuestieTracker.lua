@@ -659,14 +659,12 @@ function QuestieTracker:addQuestToTracker(hash, logId, level) -- never used???
 		return;
 	end
 
-	local startId = GetQuestLogSelection();	
-	SelectQuestLogEntry(logId);
 	local questName, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(logId);
 	QuestieTrackedQuests[hash]["questName"] = questName
 	QuestieTrackedQuests[hash]["level"] = level
 	QuestieTrackedQuests[hash]["isComplete"] = isComplete
-	for i=1, GetNumQuestLeaderBoards() do
-		local desc, type, done = GetQuestLogLeaderBoard(i);
+	for i=1, GetNumQuestLeaderBoards(logId) do
+		local desc, type, done = GetQuestLogLeaderBoard(i, logId);
 		QuestieTrackedQuests[hash]["objective"..i] = {
 			["desc"] = desc,
 			["type"] = type,
@@ -683,7 +681,7 @@ function QuestieTracker:addQuestToTracker(hash, logId, level) -- never used???
 			["notes"] = {},
 		}
 	end
-	SelectQuestLogEntry(startId);
+
 	Questie:debug_Print("Added QuestInfo to Tracker - Time: " .. (GetTime()-startTime)*1000 .. "ms");
 	QuestieTracker:fillTrackingFrame()
 	Questie:RedrawNotes();
@@ -691,11 +689,9 @@ end
 
 function QuestieTracker:updateFrameOnTracker(hash, logId, level)
 	
-	if AUTO_QUEST_WATCH == "1" or type(QuestieTrackedQuests[hash]) == "table" then
+	if AUTO_QUEST_WATCH == "1" and QuestieTrackedQuests[hash] == nil then
 		QuestieTracker:addQuestToTracker(hash, logId, level);
-		
 	end
-	if true then return; end
 	
 	local startTime = GetTime()	
 	
@@ -704,22 +700,12 @@ function QuestieTracker:updateFrameOnTracker(hash, logId, level)
 		logId = Questie:GetQuestIdFromHash(hash)
 	end
 	
-	if not logId then
-		Questie:debug_Print("LogId STILL NULL after GetQuestIdFromHash ", hash);
-		return;
+	if QuestieTrackedQuests[hash] == false then
+		return
 	end
 	
-	local startid = GetQuestLogSelection();
-	SelectQuestLogEntry(logId);
 	local questName, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(logId);
-	
-	--if not AUTO_QUEST_WATCH == "1" then
-	--	if not QuestieTrackedQuests[hash] or isHeader then return; end -- skipp isTracked because the hash is already known
-	--end
 
-	--if not QuestieTracker:isTracked(logId) then
-	--	return
-	--end
 	if not QuestieTrackedQuests[hash] then
 		QuestieTrackedQuests[hash] = {};
 	end
@@ -728,8 +714,8 @@ function QuestieTracker:updateFrameOnTracker(hash, logId, level)
 	QuestieTrackedQuests[hash]["isComplete"] = isComplete;
 	QuestieTrackedQuests[hash]["level"] = level;
 	local uggo = 0;
-	for i=1, GetNumQuestLeaderBoards() do
-		local desc, type, done = GetQuestLogLeaderBoard(i);
+	for i=1, GetNumQuestLeaderBoards(logId) do
+		local desc, type, done = GetQuestLogLeaderBoard(i, logId);
 		if not QuestieTrackedQuests[hash]["objective"..i] then
 			QuestieTrackedQuests[hash]["objective"..i] = {};
 		end
@@ -740,13 +726,14 @@ function QuestieTracker:updateFrameOnTracker(hash, logId, level)
 	
 	uggo = uggo - 1;
 	
+	--[[ what the fuck was this shit even good for except deleting objectives we need?
 	while true do
 		if QuestieTrackedQuests[hash]["objective"..uggo] == nil then break; end;
+		DEFAULT_CHAT_FRAME:AddMessage("deleting objective "..QuestieTrackedQuests[hash]["objective"..uggo]["desc"])
 		QuestieTrackedQuests[hash]["objective"..uggo] = nil;
 		uggo = uggo + 1;
-	end
+	end]]
 	
-	SelectQuestLogEntry(startid);
 	QuestieTracker:fillTrackingFrame()
 	--Questie:debug_Print("TrackerInfo collected - Time: " .. (GetTime()-startTime)*1000 .. "ms");
 end
@@ -788,7 +775,7 @@ function QuestieTracker:isTracked(quest) -- everything about this function is ba
 	return false;
 end
 
-function QuestieTracker:setQuestInfo(id) -- never used???
+function QuestieTracker:setQuestInfo(id)
 	local questInfo = {};
 	local questName, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(id);
 	
