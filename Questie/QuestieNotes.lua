@@ -101,7 +101,7 @@ function Questie:UpdateQuestNotes(questHash, redraw)
 	end
 	local QuestLogID = Questie:GetQuestIdFromHash(questHash);
 	SelectQuestLogEntry(QuestLogID);
-	local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(QuestLogID);
+	local q, level, questTag, isHeader, isCollapsed, isComplete = QuestieCompat_GetQuestLogTitle(QuestLogID);
 	local count =  GetNumQuestLeaderBoards();
 	local questText, objectiveText = _GetQuestLogQuestText();
 	for k, noteInfo in pairs(QuestieHandledQuests[questHash]["noteHandles"]) do
@@ -217,7 +217,7 @@ function Questie_Tooltip_OnEnter()
 			if not Quest then
 				local QuestLogID = Questie:GetQuestIdFromHash(this.data.questHash);
 				SelectQuestLogEntry(QuestLogID);
-				local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(QuestLogID);
+				local q, level, questTag, isHeader, isCollapsed, isComplete = QuestieCompat_GetQuestLogTitle(QuestLogID);
 				local count =  GetNumQuestLeaderBoards();
 				local questText, objectiveText = _GetQuestLogQuestText();
 				local desc, typ, done = GetQuestLogLeaderBoard(this.data.objectiveid);

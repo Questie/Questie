@@ -1,0 +1,10 @@
+## Interface: 11200
+## Title: |cFFFFFFFFQuestie Compatibility|r|cFFFF0000 BETA|r
+## Author: Aero/Schaka/Logonz/everyone else
+## Notes: This addon fixes compatibility issues with various mods. (REQUIRED)
+## Version: 0.0.1-test
+## RequiredDeps:
+## OptionalDeps: 
+## SavedVariables:
+## SavedVariablesPerCharacter:
+compat.xml

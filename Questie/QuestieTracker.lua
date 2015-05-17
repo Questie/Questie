@@ -10,6 +10,18 @@ QuestieTracker.hasCleared = false
 QuestieTracker.lastUpdate = 0;
 
 function QuestieTracker_OnUpdate()
+	
+	if QuestieTracker.frame:GetTop() > GetScreenHeight() or QuestieTracker.frame:GetLeft() > GetScreenWidth() then
+		if QuestieTracker.frame:GetTop() > GetScreenHeight() then
+			QuestieTrackerVariables["position"]["yOfs"] = GetScreenHeight() - QuestieTracker.frame:GetHeight();
+		end
+		if QuestieTracker.frame:GetLeft() > GetScreenWidth() then
+			QuestieTrackerVariables["position"]["xOfs"] = GetScreenWidth() - QuestieTracker.frame:GetWidth();
+		end
+		
+		QuestieTracker.frame:SetPoint(QuestieTrackerVariables["position"]["point"], QuestieTrackerVariables["position"]["relativeTo"], QuestieTrackerVariables["position"]["relativePoint"],
+			QuestieTrackerVariables["position"]["xOfs"], QuestieTrackerVariables["position"]["yOfs"]);
+	end
 	--ChatFrame3:Clear();
 	--for k,v in pairs(QuestieTrackedQuests) do
 	--	if type(v) == "table"  then
@@ -659,7 +671,7 @@ function QuestieTracker:addQuestToTracker(hash, logId, level) -- never used???
 		return;
 	end
 
-	local questName, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(logId);
+	local questName, level, questTag, isHeader, isCollapsed, isComplete = QuestieCompat_GetQuestLogTitle(logId);
 	QuestieTrackedQuests[hash]["questName"] = questName
 	QuestieTrackedQuests[hash]["level"] = level
 	QuestieTrackedQuests[hash]["isComplete"] = isComplete
@@ -704,7 +716,7 @@ function QuestieTracker:updateFrameOnTracker(hash, logId, level)
 		return
 	end
 	
-	local questName, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(logId);
+	local questName, level, questTag, isHeader, isCollapsed, isComplete = QuestieCompat_GetQuestLogTitle(logId);
 
 	if not QuestieTrackedQuests[hash] then
 		QuestieTrackedQuests[hash] = {};
@@ -751,7 +763,7 @@ end
 
 function QuestieTracker:findLogIdByName(name)
 	for i=1,GetNumQuestLogEntries() do
-		local questName, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(i);
+		local questName, level, questTag, isHeader, isCollapsed, isComplete = QuestieCompat_GetQuestLogTitle(i);
 		if(name == questName) then
 			return i;
 		end
@@ -766,7 +778,7 @@ function QuestieTracker:isTracked(quest) -- everything about this function is ba
 			return true;
 		end
 	else
-		local questName, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(quest);
+		local questName, level, questTag, isHeader, isCollapsed, isComplete = QuestieCompat_GetQuestLogTitle(quest);
 		local hash = Questie:GetHashFromName(questName)
 		if(QuestieTrackedQuests[hash] and QuestieTrackedQuests[hash] ~= false) then
 			return true;
@@ -777,7 +789,7 @@ end
 
 function QuestieTracker:setQuestInfo(id)
 	local questInfo = {};
-	local questName, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(id);
+	local questName, level, questTag, isHeader, isCollapsed, isComplete = QuestieCompat_GetQuestLogTitle(id);
 	
 	if not isHeader and not isCollapsed then
 		local hash = Questie:GetHashFromName(questName)
@@ -801,7 +813,7 @@ end
 function QuestieTracker:syncEQL3()
 	if(EQL3_Player) then
 		for id=1, GetNumQuestLogEntries() do
-			local questName, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(id);
+			local questName, level, questTag, isHeader, isCollapsed, isComplete = QuestieCompat_GetQuestLogTitle(id);
 			if ( not isHeader and EQL3_IsQuestWatched(id) and not QuestieTracker:isTracked(questName) ) then
 				QuestieTracker:addQuestToTracker(Questie:GetHashFromName(questName), id, level);
 			elseif( not isHeader and not EQL3_IsQuestWatched(id) and QuestieTracker:isTracked(questName) ) then

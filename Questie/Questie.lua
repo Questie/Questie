@@ -1076,7 +1076,7 @@ function Questie:QUEST_LOG_UPDATE()
 	local numEntries, numQuests = GetNumQuestLogEntries()
 	--DEFAULT_CHAT_FRAME:AddMessage(numEntries .. " entries containing " .. numQuests .. " quests in your quest log.");
 	for v=1,numEntries do
-		local q, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(v);
+		local q, level, questTag, isHeader, isCollapsed, isComplete = QuestieCompat_GetQuestLogTitle(v);
 		if not isHeader then
             SelectQuestLogEntry(v);
             local count =  GetNumQuestLeaderBoards();
@@ -1284,13 +1284,13 @@ end
 
 function Questie:fillQuestList()
 	for i=1, GetNumQuestLogEntries() do
-		local questLogTitleText, level, questTag, isHeader, isCollapsed, isComplete = GetQuestLogTitle(i);
+		local questLogTitleText, level, questTag, isHeader, isCollapsed, isComplete = QuestieCompat_GetQuestLogTitle(i);
 		if not (isHeader) then
 			if(type(QuestieCurrentQuests[questLogTitleText]) ~= "table") then
 				QuestieCurrentQuests[questLogTitleText] = {}
 			end
 			QuestieCurrentQuests[questLogTitleText]['status'] = true;
-			--log("setting " .. GetQuestLogTitle(i) .. " true");
+			--log("setting " .. QuestieCompat_GetQuestLogTitle(i) .. " true");
 		end
 	end
 end
