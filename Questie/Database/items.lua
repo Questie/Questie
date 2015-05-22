@@ -14614,7 +14614,8 @@ QuestieItems = {
   },
   ["Cats Eye Emerald"] = {
     ["drop"] = {
-      ["Venture Co. Overseer"] = 1
+      ["Venture Co. Overseer"] = 1,
+      ["Venture Co. Enforcer"] = 1
     }
   },
   ["Медальон Некруса"] = {
