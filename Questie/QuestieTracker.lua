@@ -431,7 +431,7 @@ function QuestieTracker:fillTrackingFrame()
 		v["title"] = colorString .. "[" .. quest["level"] .. "] " .. quest["questName"] .. "|r";
 		quest["arrowPoint"] = v
 		
-		if quest["isComplete"] then
+		if quest["isComplete"] or quest["leaderboards"] == 0 then
 			QuestieTracker:AddObjectiveToButton(button, {['desc']="Run to the end"}, obj);
 			obj = 2;
 		else
@@ -675,6 +675,7 @@ function QuestieTracker:addQuestToTracker(hash, logId, level) -- never used???
 	QuestieTrackedQuests[hash]["questName"] = questName
 	QuestieTrackedQuests[hash]["level"] = level
 	QuestieTrackedQuests[hash]["isComplete"] = isComplete
+	QuestieTrackedQuests[hash]["leaderboards"] = GetNumQuestLeaderBoards(logId);
 	for i=1, GetNumQuestLeaderBoards(logId) do
 		local desc, type, done = GetQuestLogLeaderBoard(i, logId);
 		QuestieTrackedQuests[hash]["objective"..i] = {
@@ -685,7 +686,7 @@ function QuestieTracker:addQuestToTracker(hash, logId, level) -- never used???
 		}
 	end
 	-- fallback for running quests
-	if GetNumQuestLeaderBoards() == 0 then
+	if GetNumQuestLeaderBoards() == 0 or isComplete then
 		QuestieTrackedQuests[hash]["objective1"] = {
 			["desc"] = "Run to the end",
 			["type"] = type,
