@@ -726,6 +726,7 @@ function QuestieTracker:updateFrameOnTracker(hash, logId, level)
 	QuestieTrackedQuests[hash]["questName"] = questName;
 	QuestieTrackedQuests[hash]["isComplete"] = isComplete;
 	QuestieTrackedQuests[hash]["level"] = level;
+	QuestieTrackedQuests[hash]["leaderboards"] = GetNumQuestLeaderBoards(logId);
 	local uggo = 0;
 	for i=1, GetNumQuestLeaderBoards(logId) do
 		local desc, type, done = GetQuestLogLeaderBoard(i, logId);
