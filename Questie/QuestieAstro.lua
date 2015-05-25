@@ -94,6 +94,7 @@ function Questie:OnUpdate(elapsed)
 						break;
 					end
 				end
+				Astrolabe.ForceNextUpdate = true;
 			elseif(v.EVENT == "CHECKLOG" and GetTime() - v.TIME > v.DELAY) then
 				Questie:CheckQuestLog();
 				table.remove(QUESTIE_EVENTQUEUE, 1);
@@ -151,7 +152,7 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 		Questie:CheckQuestLog();
 
 		--This is an ugly fix... Don't know why the list isn't populated correctly...
-		Questie:AddEvent("UPDATE", 0.15);
+		Questie:AddEvent("UPDATE", 1.15); 
 
 		--for k, v in pairs(QuestieSeenQuests) do
 		--	if(v == true or v == false) then
@@ -386,7 +387,7 @@ end
 
 Questie_LastTooltip = GetTime(); --Ugly fix to stop tooltip spam....
 QUESTIE_DEBUG_TOOLTIP = nil; --Set to nil to disable.
-function Questie:Tooltip(this, forceShow, bag, slot)
+function Questie:Tooltip(this, forceShow, bag, slot) -- this function is making me cry
 
 	local monster = UnitName("mouseover")
 	local objective = GameTooltipTextLeft1:GetText();

@@ -376,7 +376,9 @@ function Questie:DRAW_NOTES()
 	Questie:debug_Print("DRAW_NOTES");
 	if(QuestieMapNotes[c] and QuestieMapNotes[c][z]) then
 		for k, v in pairs(QuestieMapNotes[c][z]) do
-			if(MMLastX ~= 0 and MMLastY ~= 0 and QuestieTrackedQuests[v.questHash] or v.icontype == "complete") then--Don't draw the minimap icons if the player isn't within the zone.
+			-- temp disable
+			if((MMLastX ~= 0 and MMLastY ~= 0) or v.icontype == "complete" or Astrolabe.ForceNextUpdate) then
+			--if(MMLastX ~= 0 and MMLastY ~= 0 and QuestieTrackedQuests[v.questHash] or v.icontype == "complete") then--Don't draw the minimap icons if the player isn't within the zone.
 				MMIcon = Questie:GetBlankNoteFrame();
 				--Here more info should be set but i CBA at the time of writing
 				MMIcon.data = v;
@@ -404,7 +406,9 @@ function Questie:DRAW_NOTES()
 	for k, Continent in pairs(QuestieMapNotes) do
 		for zone, noteHeap in pairs(Continent) do
 			for k, v in pairs(noteHeap) do
-				if(QuestieTrackedQuests[v.questHash] or v.icontype == "complete") then
+				-- temp disable
+				if true then
+				--if(QuestieTrackedQuests[v.questHash] or v.icontype == "complete") then
 					local c, z = GetCurrentMapContinent(), GetCurrentMapZone();
 					Icon = Questie:GetBlankNoteFrame();
 					--Here more info should be set but i CBA at the time of writing

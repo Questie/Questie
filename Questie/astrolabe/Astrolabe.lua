@@ -252,16 +252,25 @@ end
 
 function Astrolabe:PlaceIconOnMinimap( icon, continent, zone, xPos, yPos )
 	-- check argument types
+	--DEFAULT_CHAT_FRAME:AddMessage("PlaceIcon" .. continent .. " " .. zone .. " " .. xPos .. " " .. yPos);
 	self:argCheck(icon, 2, "table");
 	self:assert(icon.SetPoint and icon.ClearAllPoints, "Usage Message");
 	self:argCheck(continent, 3, "number");
 	self:argCheck(zone, 4, "number", "nil");
 	self:argCheck(xPos, 5, "number");
 	self:argCheck(yPos, 6, "number");
+	--DEFAULT_CHAT_FRAME:AddMessage("ARGCHECK passed");
 	
 	local lC, lZ, lx, ly = unpack(self.LastPlayerPosition);
+	--DEFAULT_CHAT_FRAME:AddMessage("lC " .. lC .. " " .. lZ .. " " .. lx .. " " .. ly);
+	if (not lC) or (not lZ) or (not lx) or (not ly) then
+	  self.LastPlayerPosition = {};
+	  self.LastPlayerPosition[1], self.LastPlayerPosition[2], self.LastPlayerPosition[3], self.LastPlayerPosition[4] = Astrolabe:GetCurrentPlayerPosition();
+	  lC, lZ, lx, ly = unpack(self.LastPlayerPosition);
+	end
 	local dist, xDist, yDist = self:ComputeDistance(lC, lZ, lx, ly, continent, zone, xPos, yPos);
 	if not ( dist ) then
+	 --DEFAULT_CHAT_FRAME:AddMessage("BADDIST");
 		--icon's position has no meaningful position relative to the player's current location
 		return -1;
 	end
@@ -323,13 +332,16 @@ local function placeIconOnMinimap( minimap, minimapZoom, mapWidth, mapHeight, ic
 		xDist = xDist * factor;
 		yDist = yDist * factor;
 	end
+	--DEFAULT_CHAT_FRAME:AddMessage("MINIMAP " .. xDist .. " " .. xScale .. " " .. yDist .. " " .. yScale);
 	icon:SetPoint("CENTER", minimap, "CENTER", xDist/xScale, -yDist/yScale);
 end
 
 local lastZoom;
 function Astrolabe:UpdateMinimapIconPositions()
+  --DEFAULT_CHAT_FRAME:AddMessage("UPDATEMINI");
 	local C, Z, x, y = self:GetCurrentPlayerPosition();
 	if not ( C and Z and x and y ) then
+	 -- DEFAULT_CHAT_FRAME:AddMessagE("NotCNotZNotxNoty");
 		self.processingFrame:Hide();
 	end
 	local Minimap = Minimap;
@@ -338,6 +350,7 @@ function Astrolabe:UpdateMinimapIconPositions()
 	
 	if ( (lC == C and lZ == Z and lx == x and ly == y)) then--Added or WorldMapFrame:IsVisible() to fix the jumping around minimap icons when the map is opened -- Removed it not needed?
 		-- player has not moved since the last update
+		--DEFAULT_CHAT_FRAME:AddMessage("NoMove");
 		if ( lastZoom ~= Minimap:GetZoom() or self.ForceNextUpdate ) then
 			local currentZoom = Minimap:GetZoom();
 			lastZoom = currentZoom;
@@ -348,14 +361,16 @@ function Astrolabe:UpdateMinimapIconPositions()
 			end
 			self.ForceNextUpdate = false;
 		end
+		--DEFAULT_CHAT_FRAME:AddMessage("IF");
 	else
+	 --DEFAULT_CHAT_FRAME:AddMessage("Move");
 		local dist, xDelta, yDelta = self:ComputeDistance(lC, lZ, lx, ly, C, Z, x, y);
 		if not dist or not xDelta or not yDelta then return; end
 		local currentZoom = Minimap:GetZoom();
 		lastZoom = currentZoom;
 		local mapWidth = Minimap:GetWidth();
 		local mapHeight = Minimap:GetHeight();
-		for icon, data in pairs(self.MinimapIcons) do
+		for icon, data in pairs(self.MinimapIcons) do-- DEFAULT_CHAT_FRAME:AddMessage("MMI");
 			local xDist = data.xDist - xDelta;
 			local yDist = data.yDist - yDelta;
 			local dist = sqrt(xDist*xDist + yDist*yDist);
@@ -366,6 +381,8 @@ function Astrolabe:UpdateMinimapIconPositions()
 			data.xDist = xDist;
 			data.yDist = yDist;
 		end
+		
+		--DEFAULT_CHAT_FRAME:AddMessage("ELSE");
 		
 		lastPosition[1] = C;
 		lastPosition[2] = Z;
