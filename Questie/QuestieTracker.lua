@@ -807,8 +807,6 @@ end
 function QuestieTracker:PLAYER_LOGIN()
 	QuestieTracker:createTrackingFrame();
 	--QuestieTracker:createTrackingButtons();
-	QuestieTracker:RegisterEvent("PLAYER_LOGOUT");
-
 	QuestieTracker:syncEQL3();
 end
 
