@@ -202,7 +202,79 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 	end
 end
 
+function findFirst(haystack, needle)
+    local i=string.find(haystack, " ")
+    if i==nil then return nil else return i-1 end
+end
+
+function Questie:finishAndRecurse(questhash)
+	DEFAULT_CHAT_FRAME:AddMessage("Completing quest |cFF00FF00\"" .. QuestieHashMap[questhash]['name'] .. "\"|r and parent quests");
+	local req = QuestieHashMap[questhash]['rq'];
+	if req then
+		Questie:finishAndRecurse(req);
+	end
+	QuestieSeenQuests[questhash] = 1;
+end
+
+_QuestieCompleteQuestSelectingOption = false;
+_QuestieCompleteQuestSelectingOption_QuestName = nil;
+
 QuestieFastSlash = {
+	["complete"] = function(args)
+		--DEFAULT_CHAT_FRAME:AddMessage("   " .. findFirst("This is how it works", " "));
+		--DEFAULT_CHAT_FRAME:AddMessage("   " .. args);
+		
+		if _QuestieCompleteQuestSelectingOption then
+			for k,v in pairs(QuestieLevLookup) do
+				if strlower(k) == strlower(_QuestieCompleteQuestSelectingOption_QuestName) then
+					if table.getn(v) == 1 then
+						for kk,vv in pairs(v) do
+							Questie:finishAndRecurse(vv[2]);
+						end
+					else
+						local index = 0;
+						for kk,vv in pairs(v) do
+						
+							if index == tonumber(args) then
+								Questie:finishAndRecurse(vv[2]);
+							end
+							index = index + 1;
+						end
+						_QuestieCompleteQuestSelectingOption = false;
+					end
+					return;
+				end
+			end
+		else
+			for k,v in pairs(QuestieLevLookup) do
+				if strlower(k) == strlower(args) then
+					DEFAULT_CHAT_FRAME:AddMessage(" " .. table.getn(v));
+					local FUCKLUACOUNTWTF = 0;
+					for kk,vv in pairs(v) do
+						FUCKLUACOUNTWTF = FUCKLUACOUNTWTF + 1;
+					end
+					
+					if FUCKLUACOUNTWTF == 1 then
+						for kk,vv in pairs(v) do
+							Questie:finishAndRecurse(vv[2]);
+						end
+					else
+						local index = 0;
+						DEFAULT_CHAT_FRAME:AddMessage(" |cFFFF2222There are multiple quests matching the name \"" .. args .. "\"|r");
+						DEFAULT_CHAT_FRAME:AddMessage("   |cFFFFFF00Run /questie complete |cFF00FF00<number>|r|cFFFFFF00 to finish the process|r");
+						for kk,vv in pairs(v) do
+							DEFAULT_CHAT_FRAME:AddMessage("      |cFF00FF00" .. index .. "|r: " .. kk);
+							index = index + 1;
+						end
+						_QuestieCompleteQuestSelectingOption_QuestName = args;
+						_QuestieCompleteQuestSelectingOption = true;
+					end
+					return;
+				end
+			end
+			DEFAULT_CHAT_FRAME:AddMessage(" |cFFFF2222No quest matches the name \"" .. args .. "\"!|r");
+		end
+	end,
 	["lowlevel"] = function()
 		QuestieConfig.showLowLevel = not QuestieConfig.showLowLevel;
 		if QuestieConfig.showLowLevel then
@@ -217,7 +289,8 @@ QuestieFastSlash = {
 	end,
 	["help"] = function()
 		DEFAULT_CHAT_FRAME:AddMessage("Questie SlashCommand Help Menu");
-		DEFAULT_CHAT_FRAME:AddMessage("  /questie lowlevel   (Toggles low level quest display)");
+		DEFAULT_CHAT_FRAME:AddMessage("  /questie lowlevel -- Toggles low level quest display");
+		DEFAULT_CHAT_FRAME:AddMessage("  /questie getpos -- Prints the player's map coordinates");
 	end,
 	["test"] = function()
 		DEFAULT_CHAT_FRAME:AddMessage("Adding icons zones");
@@ -369,10 +442,21 @@ QuestieFastSlash = {
 	end
 };
 
-function Questie_SlashHandler(msg)
+function Questie_SlashHandler(msgbase)
+
+	local space = findFirst(msgbase, " ");
+	
+	local msg, args;
+	
+	if not space or space == 1 then
+		msg = msgbase;
+	else
+		msg = string.sub(msgbase, 1, space);
+		args = string.sub(msgbase, space+2);
+	end
 
 	if QuestieFastSlash[msg] ~= nil then
-		QuestieFastSlash[msg]();
+		QuestieFastSlash[msg](args);
 	
 	else
 		if (not msg or msg=="") then
