@@ -909,37 +909,33 @@ else
 	QUESTIE_PFACTION_ID = 178;
 end
 
-function Questie:addAvailableQuests()
-	local mapid = getCurrentMapID();
-	local level = UnitLevel("Player");
-	for l=level-6,level do
-		if QuestieZoneLevelMap[mapid] then
-			local content = QuestieZoneLevelMap[mapid][l];
-			if not (content == nil) then
-				for k,v in pairs(content) do
-					if not QuestieSeenQuests[v] then
-						local qdata = QuestieHashMap[v];
-						--log(" value [" .. v .. "] !!!= " .. qdata['name'],1);
-						if not (qdata == nil) then
-							local requires = qdata['rq'];
-							if requires == nil or not (QuestieSeenQuests[requires] == nil) then -- ugly logic...
-								local stype = qdata['startedType'];
-								local sby = qdata['startedBy'];
-								local name = qdata['name'];
-								local races = qdata['rr'];
-								local classes = qdata['rc'];
-								local skill = qdata['rs'];
-								if races == nil or races == QUESTIE_PFACTION_ID then -- finsih coding races too
-									if skill == nil and classes == nil then -- TEMPORARY CODE THIS
-										if stype == "monster" then
-											local mob = QuestieMonsters[sby];
-											if mob == nil then
-												debug("ERROR MISSING QUESTGIVER " .. sby .. " quest:" .. name);
-											else 
-												local loc = mob['locations'][1];
-												this:createQuestNote("Pick up: " .. name, sby, name, loc[2], loc[3], "Available", selected);
+function Questie:procZLMContent(content)
+				if not (content == nil) then
+					for k,v in pairs(content) do
+						if not QuestieSeenQuests[v] then
+							local qdata = QuestieHashMap[v];
+							--log(" value [" .. v .. "] !!!= " .. qdata['name'],1);
+							if not (qdata == nil) then
+								local requires = qdata['rq'];
+								if requires == nil or not (QuestieSeenQuests[requires] == nil) then -- ugly logic...
+									local stype = qdata['startedType'];
+									local sby = qdata['startedBy'];
+									local name = qdata['name'];
+									local races = qdata['rr'];
+									local classes = qdata['rc'];
+									local skill = qdata['rs'];
+									if races == nil or races == QUESTIE_PFACTION_ID then -- finsih coding races too
+										if skill == nil and classes == nil then -- TEMPORARY CODE THIS
+											if stype == "monster" then
+												local mob = QuestieMonsters[sby];
+												if mob == nil then
+													debug("ERROR MISSING QUESTGIVER " .. sby .. " quest:" .. name);
+												else 
+													local loc = mob['locations'][1];
+													this:createQuestNote("Pick up: " .. name, sby, name, loc[2], loc[3], "Available", selected);
+												end
+												--createQuestNote("Pick up: " .. name, sby, stype, loc[2], loc[3], 9, false);
 											end
-											--createQuestNote("Pick up: " .. name, sby, stype, loc[2], loc[3], 9, false);
 										end
 									end
 								end
@@ -947,6 +943,23 @@ function Questie:addAvailableQuests()
 						end
 					end
 				end
+end
+
+function Questie:addAvailableQuests()
+	local mapid = getCurrentMapID();
+	if QuestieConfig.showLowLevel then
+		if QuestieZoneLevelMap[mapid] then
+			for k,v in pairs(QuestieZoneLevelMap[mapid]) do
+				Questie:procZLMContent(v);
+			end
+		end
+
+	else
+		local level = UnitLevel("Player");
+		for l=level-6,level do
+			if QuestieZoneLevelMap[mapid] then
+				local content = QuestieZoneLevelMap[mapid][l];
+				Questie:procZLMContent(content);
 			end
 		end
 	end

@@ -327,7 +327,16 @@ function Questie:SetAvailableQuests()
 	local level = UnitLevel("player");
 	local c, z = GetCurrentMapContinent(), GetCurrentMapZone();
 	local mapFileName = GetMapInfo();
-	local quests = Questie:GetAvailableQuestHashes(mapFileName,level-6,level);
+	local quests = nil;
+	
+	if QuestieConfig.showLowLevel then
+		quests = Questie:GetAvailableQuestHashes(mapFileName,0,level);
+	else
+		quests = Questie:GetAvailableQuestHashes(mapFileName,level-6,level);
+	end
+	
+	
+	if quests then
 	for k, v in pairs(quests) do
 		if(QuestieHashMap[v] and QuestieHashMap[v]['startedBy'] and QuestieMonsters[QuestieHashMap[v]['startedBy']]) then
 			Monster = QuestieMonsters[QuestieHashMap[v]['startedBy']]['locations'][1]
@@ -336,7 +345,9 @@ function Questie:SetAvailableQuests()
 			Questie:AddAvailableNoteToMap(c,z,Monster[2],Monster[3],"available",v,-1);
 		end
 	end
-	Questie:debug_Print("Added Available quests: Time:",tostring((GetTime()- t)*1000).."ms", "Count:"..table.getn(quests) )
+	
+	Questie:debug_Print("Added Available quests: Time:",tostring((GetTime()- t)*1000).."ms", "Count:"..table.getn(quests))
+	end
 end
 
 --Reason this exists is to be able to call both clearnotes and drawnotes without doing 2 function calls, and to be able to force a redraw

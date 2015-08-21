@@ -8,6 +8,11 @@ __QuestAbandonOnAccept=nil;
 
 local QuestieQuestHashCache = {}
 
+
+if not QuestieConfig.showLowLevel then
+	QuestieConfig.showLowLevel = false;
+end
+
 function Questie:OnLoad()
 
 	this:RegisterEvent("QUEST_LOG_UPDATE");
@@ -197,15 +202,24 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 	end
 end
 
-function Questie_SlashHandler(msg)
-
-	if (msg=="show" or msg=="hide") then msg = ""; end
-	if (not msg or msg=="") then
-		--Base command
-		DEFAULT_CHAT_FRAME:AddMessage("SlashCommand Used - No help implemented yet\n Goto: http://github.com/AeroScripts/QuestieDev/ for help");--Use internal print instead.
-	end
-
-	if(msg == "test") then --Tests the questie notes part
+QuestieFastSlash = {
+	["lowlevel"] = function()
+		QuestieConfig.showLowLevel = not QuestieConfig.showLowLevel;
+		if QuestieConfig.showLowLevel then
+			DEFAULT_CHAT_FRAME:AddMessage("Low level quests will now be shown");
+			Questie:Toggle();
+			Questie:Toggle();
+		else
+			DEFAULT_CHAT_FRAME:AddMessage("Low level quests will now be hidden");
+			Questie:Toggle();
+			Questie:Toggle();
+		end
+	end,
+	["help"] = function()
+		DEFAULT_CHAT_FRAME:AddMessage("Questie SlashCommand Help Menu");
+		DEFAULT_CHAT_FRAME:AddMessage("  /questie lowlevel   (Toggles low level quest display)");
+	end,
+	["test"] = function()
 		DEFAULT_CHAT_FRAME:AddMessage("Adding icons zones");
 		for i = 1, 1 do
 			Questie:AddNoteToMap(1, 15, 0.5, 0.5,"complete", tostring(i));
@@ -214,22 +228,24 @@ function Questie_SlashHandler(msg)
 		--Questie:AddNoteToMap(2, 12, 0.4, 0.9,"Slay", "4");
 		end
 		Questie:RedrawNotes();
-	end
-
-	if(msg == "getpos") then
+	end,
+	["getpos"] = function()
 		local c,z,x,y = Astrolabe:GetCurrentPlayerPosition();
+		x = math.floor(x * 1000);
+		y = math.floor(y * 1000);
+		x = x / 10;
+		y = y / 10;
+		
 		if(IsAddOnLoaded("URLCopy"))then
-			Questie:debug_Print(URLCopy_Link(x..","..y));
+			DEFAULT_CHAT_FRAME:AddMessage("Player position: " .. URLCopy_Link(x..","..y));
 		else
-			Questie:debug_Print(x..","..y);
+			DEFAULT_CHAT_FRAME:AddMessage("Player position: " .. x..","..y);
 		end
-	end
-
-	if(msg == "c") then
+	end,
+	["c"] = function()
 		Questie:SetAvailableQuests();
-	end
-
-	if(msg == "u") then
+	end,
+	["u"] = function()
 		local t = GetTime();
 		for k, v in pairs(Questie:AstroGetAllCurrentQuestHashes()) do
 			Questie:debug_Print("Updating", v["hash"])
@@ -237,22 +253,16 @@ function Questie_SlashHandler(msg)
 		end
 		Questie:debug_Print("Updated all quests: Time:", GetTime()- t);
 		Questie:RedrawNotes();
-	--Questie:AddQuestToMap(2743610414);
-	--Questie:AddQuestToMap(3270662498);
-	end
-
-	if(msg == "q") then
+	end,
+	["q"] = function()
 		local t = GetTime();
 		for k, v in pairs(Questie:AstroGetAllCurrentQuestHashes()) do
 			Questie:AddQuestToMap(v["hash"]);
 		end
 		Questie:debug_Print("Added quests: Time:", GetTime()- t);
 		Questie:RedrawNotes();
-	--Questie:AddQuestToMap(2743610414);
-	--Questie:AddQuestToMap(3270662498);
-	end
-
-	if(msg == "h") then
+	end,
+	["h"] = function()
 		testbutton = CreateFrame("Button", "testets", UIParent,"UIPanelButtonTemplate");
 		testbutton:SetWidth(80);
 		testbutton:SetHeight(50);
@@ -268,14 +278,11 @@ function Questie_SlashHandler(msg)
 			DEFAULT_CHAT_FRAME:AddMessage("Click");
 			ToggleDropDownMenu(nil,nil,DropDownTest,"testets",3,-3);
 		end)
-	end
-
-	if(msg == "getzoneid") then
+	end,
+	["getzoneid"] = function()
 		Questie:debug_Print(GetCurrentMapContinent(), GetCurrentMapZone());
-	end
-
-	if(msg =="ast") then -- Don't want to remove this... good for reference
-		--/script Astrolabe:PlaceIconOnWorldMap(WorldMapFrame,,1,"Ashenvale",100,100);
+	end,
+	["ast"] = function()
 
 		local f = CreateFrame("Button",nil,WorldMapFrame)
 		f.YoMamma = "Hashisbest";
@@ -305,10 +312,9 @@ function Questie_SlashHandler(msg)
 		else
 			DEFAULT_CHAT_FRAME:AddMessage("Failed");
 		end
-	end
-
-
-	if(msg == "glowtest") then
+	
+	end,
+	["glowtest"] = function()
 		Questie:debug_Print("GlowTest");
 		local w, h = WorldMapFrame:GetWidth(), WorldMapFrame:GetHeight()
 		--Setup variables in WorldMapFrame
@@ -361,6 +367,21 @@ function Questie_SlashHandler(msg)
 	--xx, yy = Astrolabe:PlaceIconOnWorldMap(WorldMapFrame,ra,c ,z ,0.5, 0.54);
 	--Questie:debug_Print(xx,yy);
 	end
+};
+
+function Questie_SlashHandler(msg)
+
+	if QuestieFastSlash[msg] ~= nil then
+		QuestieFastSlash[msg]();
+	
+	else
+		if (not msg or msg=="") then
+			QuestieFastSlash["help"]();
+		else
+			DEFAULT_CHAT_FRAME:AddMessage("Unknown operation: " .. msg .. " try /questie help");
+		end
+	end
+
 end
 
 
