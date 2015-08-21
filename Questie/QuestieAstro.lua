@@ -421,12 +421,14 @@ function Questie:Tooltip(this, forceShow, bag, slot) -- this function is making 
 					if m[1] and (m[1]['type'] == "monster" or m[1]['type'] == "slay") then
 						if (monster .. " slain") == name or monster == name or monster == string.find(monster, string.len(monster)-6) then
 							local logid = Questie:GetQuestIdFromHash(k);
-							SelectQuestLogEntry(logid);
-							local desc, typ, done = GetQuestLogLeaderBoard(m[1]['objectiveid']);
-							local indx = findLast(desc, ":");
-							local countstr = string.sub(desc, indx+2);
-							GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
-							GameTooltip:AddLine("   " .. monster .. ": " .. countstr, 1, 1, 0.2)
+							if logid then
+								SelectQuestLogEntry(logid);
+								local desc, typ, done = GetQuestLogLeaderBoard(m[1]['objectiveid']);
+								local indx = findLast(desc, ":");
+								local countstr = string.sub(desc, indx+2);
+								GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
+								GameTooltip:AddLine("   " .. monster .. ": " .. countstr, 1, 1, 0.2)
+							end
 						end
 						--NOT DONE
 					elseif m[1] and (m[1]['type'] == "item" or m[1]['type'] == "loot") then --Added Loot here? should it be here?
@@ -436,12 +438,14 @@ function Questie:Tooltip(this, forceShow, bag, slot) -- this function is making 
 							if mondat and mondat[name] then
 								if mondat[name] then
 									local logid = Questie:GetQuestIdFromHash(k);
-									SelectQuestLogEntry(logid);
-									local desc, typ, done = GetQuestLogLeaderBoard(m[1]['objectiveid']);
-									local indx = findLast(desc, ":");
-									local countstr = string.sub(desc, indx+2);
-									GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
-									GameTooltip:AddLine("   " .. name .. ": " .. countstr, 1, 1, 0.2)
+									if logid then
+										SelectQuestLogEntry(logid);
+										local desc, typ, done = GetQuestLogLeaderBoard(m[1]['objectiveid']);
+										local indx = findLast(desc, ":");
+										local countstr = string.sub(desc, indx+2);
+										GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
+										GameTooltip:AddLine("   " .. name .. ": " .. countstr, 1, 1, 0.2)
+									end
 								end
 							else
 								--Use the cache not to run unessecary objectives
@@ -449,22 +453,24 @@ function Questie:Tooltip(this, forceShow, bag, slot) -- this function is making 
 								for dropper, value in pairs(QuestieCachedMonstersAndObjects[k]) do
 									if(string.find(dropper, monster)) then
 										local logid = Questie:GetQuestIdFromHash(k);
-										SelectQuestLogEntry(logid);
-										local count =  GetNumQuestLeaderBoards();
-										for obj = 1, count do
-											local desc, typ, done = GetQuestLogLeaderBoard(obj);
-											local indx = findLast(desc, ":");
-											local countstr = string.sub(desc, indx+2);
-											local namestr = string.sub(desc, 1, indx-1);
-											if(string.find(name, monster) and QuestieItems[namestr] and QuestieItems[namestr]['drop']) then -- Added Find to fix zapped giants (THIS IS NOT TESTED IF YOU FIND ERRORS REPORT!)
-												for dropperr, id in pairs(QuestieItems[namestr]['drop']) do
-													if(name == dropperr or (string.find(name, dropperr) and name == dropperr) and not p) then-- Added Find to fix zapped giants (THIS IS NOT TESTED IF YOU FIND ERRORS REPORT!)
-														GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
-														GameTooltip:AddLine("   " .. namestr .. ": " .. countstr, 1, 1, 0.2)
-														p = true;
-														break;
+										if logid then 
+											SelectQuestLogEntry(logid);
+											local count =  GetNumQuestLeaderBoards();
+											for obj = 1, count do
+												local desc, typ, done = GetQuestLogLeaderBoard(obj);
+												local indx = findLast(desc, ":");
+												local countstr = string.sub(desc, indx+2);
+												local namestr = string.sub(desc, 1, indx-1);
+												if(string.find(name, monster) and QuestieItems[namestr] and QuestieItems[namestr]['drop']) then -- Added Find to fix zapped giants (THIS IS NOT TESTED IF YOU FIND ERRORS REPORT!)
+													for dropperr, id in pairs(QuestieItems[namestr]['drop']) do
+														if(name == dropperr or (string.find(name, dropperr) and name == dropperr) and not p) then-- Added Find to fix zapped giants (THIS IS NOT TESTED IF YOU FIND ERRORS REPORT!)
+															GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
+															GameTooltip:AddLine("   " .. namestr .. ": " .. countstr, 1, 1, 0.2)
+															p = true;
+															break;
+														end
 													end
-											end
+												end
 											end
 										end
 									end

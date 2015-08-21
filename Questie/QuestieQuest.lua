@@ -403,6 +403,9 @@ end
 --Astrolabe functions DO NOT USE UNLESS YOU KNOW WHAT YOU ARE DOING!!
 function Questie:IsQuestFinished(questHash)
 	local i = Questie:GetQuestIdFromHash(questHash);
+	if (not i) then
+		return false;
+	end
 	local FinishedQuests = {};
 	local q, level, questTag, isHeader, isCollapsed, isComplete = QuestieCompat_GetQuestLogTitle(i);
 	SelectQuestLogEntry(i);
