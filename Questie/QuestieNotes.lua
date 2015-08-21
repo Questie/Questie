@@ -210,7 +210,7 @@ function Questie_Tooltip_OnEnter()
 		else
 			Tooltip = GameTooltip;
 		end
-		--Tooltip code! NO DONE!
+		--Tooltip code! NOT DONE!
 		Tooltip:SetOwner(this, this); --"ANCHOR_CURSOR"
 		if(this.data.icontype ~= "available") then
 			local Quest = Questie:IsQuestFinished(this.data.questHash);

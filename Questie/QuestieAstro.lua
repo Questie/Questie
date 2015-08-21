@@ -171,12 +171,12 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 				Blizz_GameTooltip_Show(self)
 			end
 
-			local Blizz_GameTooltip_SetBagItem = GameTooltip.SetBagItem
-			GameTooltip.SetBagItem = function(self, bag, slot)
-				Blizz_GameTooltip_SetBagItem(self, bag, slot)
+			--local Blizz_GameTooltip_SetBagItem = GameTooltip.SetBagItem
+			--GameTooltip.SetBagItem = function(self, bag, slot)
+			--	Blizz_GameTooltip_SetBagItem(self, bag, slot)
 
-				Questie:Tooltip(self, true, bag, slot);
-			end
+			--	Questie:Tooltip(self, true, bag, slot);
+			--end
 
 			local Bliz_GameTooltip_SetLootItem = GameTooltip.SetLootItem
 			GameTooltip.SetLootItem = function(self, slot)
