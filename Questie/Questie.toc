@@ -1,8 +1,8 @@
 ## Interface: 11200
-## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v2.0.10|r|cFFFF0000 BETA|r
+## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v2.0.11|r|cFFFF0000 BETA|r
 ## Author: Aero/Schaka/Logonz/everyone else
 ## Notes: A standalone Vanilla QuestHelper
-## Version: 2.0.10 BETA
+## Version: 2.0.11 BETA
 ## RequiredDeps:
 ## OptionalDeps: 
 ## SavedVariables: QuestieTrackerVariables, QuestieDebug, QuestieConfig
