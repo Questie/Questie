@@ -216,15 +216,17 @@ function Questie_Tooltip_OnEnter()
 			local Quest = Questie:IsQuestFinished(this.data.questHash);
 			if not Quest then
 				local QuestLogID = Questie:GetQuestIdFromHash(this.data.questHash);
-				SelectQuestLogEntry(QuestLogID);
-				local q, level, questTag, isHeader, isCollapsed, isComplete = QuestieCompat_GetQuestLogTitle(QuestLogID);
-				local count =  GetNumQuestLeaderBoards();
-				local questText, objectiveText = _GetQuestLogQuestText();
-				local desc, typ, done = GetQuestLogLeaderBoard(this.data.objectiveid);
+				if QuestLogID then
+					SelectQuestLogEntry(QuestLogID);
+					local q, level, questTag, isHeader, isCollapsed, isComplete = QuestieCompat_GetQuestLogTitle(QuestLogID);
+					local count =  GetNumQuestLeaderBoards();
+					local questText, objectiveText = _GetQuestLogQuestText();
+					local desc, typ, done = GetQuestLogLeaderBoard(this.data.objectiveid);
 
 
-				Tooltip:AddLine(q ,1,1,1);
-				Tooltip:AddLine(desc);
+					Tooltip:AddLine(q ,1,1,1);
+					Tooltip:AddLine(desc);
+				end
 			else
 				Tooltip:AddLine(Quest["name"], 1, 1, 1);
 				Tooltip:AddLine("Complete!");
