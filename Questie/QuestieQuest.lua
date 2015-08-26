@@ -846,7 +846,7 @@ function Questie:GetAvailableQuestHashes(mapFileName, levelFrom, levelTo)
 
 						if(requiredQuest) then valid = QuestieSeenQuests[requiredQuest]; end-- THIS IS LIKELY INCORRECT NOT SURE HOW QUESTIESEENQUESTS WORKS NOW
 
-						valid = valid and requiredSkill == nil;
+						valid = valid and (requiredSkill == nil or QuestieConfig.showProfessionQuests);
 
 						--(class, race, dbClass, dbRace)
 						if valid then valid = valid and checkRequirements(class, race, requiredClasses,requiredRaces); end

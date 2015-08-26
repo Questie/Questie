@@ -13,6 +13,10 @@ if not QuestieConfig.showLowLevel then
 	QuestieConfig.showLowLevel = false;
 end
 
+if not QuestieConfig.showProfessionQuests then
+	QuestieConfig.showProfessionQuests = false;
+end
+
 function Questie:OnLoad()
 
 	this:RegisterEvent("QUEST_LOG_UPDATE");
@@ -287,10 +291,24 @@ QuestieFastSlash = {
 			Questie:Toggle();
 		end
 	end,
+	["professions"] = function()
+		QuestieConfig.showProfessionQuests = not QuestieConfig.showProfessionQuests;
+		if QuestieConfig.showProfessionQuests then
+			DEFAULT_CHAT_FRAME:AddMessage("Profession quests will now be shown");
+			Questie:Toggle();
+			Questie:Toggle();
+		else
+			DEFAULT_CHAT_FRAME:AddMessage("Profession quests will now be hidden");
+			Questie:Toggle();
+			Questie:Toggle();
+		end
+	end,
 	["help"] = function()
 		DEFAULT_CHAT_FRAME:AddMessage("Questie SlashCommand Help Menu");
 		DEFAULT_CHAT_FRAME:AddMessage("  /questie lowlevel -- Toggles low level quest display");
+		DEFAULT_CHAT_FRAME:AddMessage("  /questie professions -- Toggles profession quests display");
 		DEFAULT_CHAT_FRAME:AddMessage("  /questie getpos -- Prints the player's map coordinates");
+		DEFAULT_CHAT_FRAME:AddMessage("  /questie complete -- Manually complete quests");
 	end,
 	["test"] = function()
 		DEFAULT_CHAT_FRAME:AddMessage("Adding icons zones");
