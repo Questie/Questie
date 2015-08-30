@@ -1,17 +1,18 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\FrameXML\UI.xsd">
+<script file="compat.lua" />
 <script file="Config.lua" />
 <script file="PrettyFrames.lua"/>
-<script file="Interface\AddOns\Questie\extern\DevToolsDump.lua"/>
-<script file="Interface\AddOns\Questie\Database\items.lua"/>
-<script file="Interface\AddOns\Questie\Database\monsters.lua"/>
-<script file="Interface\AddOns\Questie\Database\events.lua"/>
-<script file="Interface\AddOns\Questie\Database\zone.lua"/>
-<script file="Interface\AddOns\Questie\Database\hash.lua"/>
-<script file="Interface\AddOns\Questie\Database\finishers.lua"/>
-<script file="Interface\AddOns\Questie\Database\objects.lua"/>
-<script file="Interface\AddOns\Questie\Database\addendum.lua"/>
-<script file="Interface\AddOns\Questie\astrolabe\Astrolabe.lua"/>
+<script file="Interface\AddOns\!Questie\extern\DevToolsDump.lua"/>
+<script file="Interface\AddOns\!Questie\Database\items.lua"/>
+<script file="Interface\AddOns\!Questie\Database\monsters.lua"/>
+<script file="Interface\AddOns\!Questie\Database\events.lua"/>
+<script file="Interface\AddOns\!Questie\Database\zone.lua"/>
+<script file="Interface\AddOns\!Questie\Database\hash.lua"/>
+<script file="Interface\AddOns\!Questie\Database\finishers.lua"/>
+<script file="Interface\AddOns\!Questie\Database\objects.lua"/>
+<script file="Interface\AddOns\!Questie\Database\addendum.lua"/>
+<script file="Interface\AddOns\!Questie\astrolabe\Astrolabe.lua"/>
 <script file="QuestieAstro.lua"/>
 <script file="QuestieNotes.lua" />
 <script file="QuestieQuest.lua" />
