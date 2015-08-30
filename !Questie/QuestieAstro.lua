@@ -382,7 +382,7 @@ QuestieFastSlash = {
 		f:SetHeight(16) -- for your Texture
 
 		local t = f:CreateTexture(nil,"BACKGROUND")
-		t:SetTexture("Interface\\AddOns\\Questie\\Icons\\complete")
+		t:SetTexture("Interface\\AddOns\\!Questie\\Icons\\complete")
 		t:SetAllPoints(f)
 		f.texture = t
 		f:SetScript("OnEnter", function()

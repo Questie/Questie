@@ -93,7 +93,7 @@ wayframe:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 wayframe:SetScript("OnEvent", OnEvent)
 
 wayframe.arrow = wayframe:CreateTexture("OVERLAY")
-wayframe.arrow:SetTexture("Interface\\AddOns\\Questie\\Images\\Arrow")
+wayframe.arrow:SetTexture("Interface\\AddOns\\!Questie\\Images\\Arrow")
 wayframe.arrow:SetAllPoints()
 
 local active_point, arrive_distance, showDownArrow, point_title, arrow_objective, isHide
@@ -182,7 +182,7 @@ local function OnUpdate(self, elapsed)
 		if not showDownArrow then
 			arrow:SetHeight(70)
 			arrow:SetWidth(53)
-			arrow:SetTexture("Interface\\AddOns\\Questie\\Images\\Arrow-UP")
+			arrow:SetTexture("Interface\\AddOns\\!Questie\\Images\\Arrow-UP")
 			arrow:SetVertexColor(0, 1, 0)
 			showDownArrow = true
 		end
@@ -205,7 +205,7 @@ local function OnUpdate(self, elapsed)
 		if showDownArrow then
 			arrow:SetHeight(56)
 			arrow:SetWidth(42)
-			arrow:SetTexture("Interface\\AddOns\\Questie\\Images\\Arrow")
+			arrow:SetTexture("Interface\\AddOns\\!Questie\\Images\\Arrow")
 			showDownArrow = false
 		end
 

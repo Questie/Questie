@@ -207,7 +207,7 @@ function Questie_SlashHandler(msg)
 		f:SetHeight(16) -- for your Texture
 
 		local t = f:CreateTexture(nil,"BACKGROUND")
-		t:SetTexture("Interface\\AddOns\\Questie\\Icons\\complete")
+		t:SetTexture("Interface\\AddOns\\!Questie\\Icons\\complete")
 		t:SetAllPoints(f)
 		f.texture = t
 		f:SetScript("OnEnter", function()
@@ -296,7 +296,7 @@ function Icon(questHash)
 	if(table.getn(WorldMapFrame.free_icons_frames) == 0) then
 		iconFrame = CreateFrame("Button","QuestieNoteFrame",WorldMapFrame)
 		local t = iconFrame:CreateTexture(nil,"BACKGROUND")
-		t:SetTexture("Interface\\AddOns\\Questie\\Icons\\complete")
+		t:SetTexture("Interface\\AddOns\\!Questie\\Icons\\complete")
 		t:SetAllPoints(iconFrame)
 		iconFrame.texture = t
 	else
@@ -392,7 +392,7 @@ end
 
 function Questie:CreateGlowTexture(frame)
 	local tex = frame:CreateTexture(nil,"BACKGROUND")
-	tex:SetTexture("Interface\\AddOns\\Questie\\Icons\\glow")
+	tex:SetTexture("Interface\\AddOns\\!Questie\\Icons\\glow")
 
 	local angle = math.random()*6.28318530717958647692528676655900576839433879875021164
 	local x, y = math.cos(angle)*0.707106781186547524400844362104849039284835937688474036588339869,
@@ -418,7 +418,7 @@ function Questie:createMinimapFrames()
 		local fram = CreateFrame("Frame", "QUESTIE_MINIPOI" .. i, Minimap);
 		local tex = fram:CreateTexture("ARTWORK"); -- not sure why this needs "ARTWORK"
 		tex:SetAllPoints();
-		tex:SetTexture("Interface\\AddOns\\Questie\\Icons\\object"); --placeholder
+		tex:SetTexture("Interface\\AddOns\\!Questie\\Icons\\object"); --placeholder
 		fram:SetWidth(16);
 		fram:SetHeight(16);
 		fram:EnableMouse(true);
@@ -604,27 +604,27 @@ end
 function Questie:RegisterCartographerIcons()
 	Cartographer_Notes:RegisterIcon("Complete", {
 		text = "Complete",
-		path = "Interface\\AddOns\\Questie\\Icons\\complete",
+		path = "Interface\\AddOns\\!Questie\\Icons\\complete",
 	})
 	Cartographer_Notes:RegisterIcon("Available", {
 		text = "Available",
-		path = "Interface\\AddOns\\Questie\\Icons\\available",
+		path = "Interface\\AddOns\\!Questie\\Icons\\available",
 	})
 	Cartographer_Notes:RegisterIcon("Loot", {
 		text = "Loot",
-		path = "Interface\\AddOns\\Questie\\Icons\\loot",
+		path = "Interface\\AddOns\\!Questie\\Icons\\loot",
 	})
 	Cartographer_Notes:RegisterIcon("Event", {
 		text = "Event",
-		path = "Interface\\AddOns\\Questie\\Icons\\event",
+		path = "Interface\\AddOns\\!Questie\\Icons\\event",
 	})
 	Cartographer_Notes:RegisterIcon("Object", {
 		text = "Object",
-		path = "Interface\\AddOns\\Questie\\Icons\\object",
+		path = "Interface\\AddOns\\!Questie\\Icons\\object",
 	})
 	Cartographer_Notes:RegisterIcon("Slay", {
 		text = "Slay",
-		path = "Interface\\AddOns\\Questie\\Icons\\slay",
+		path = "Interface\\AddOns\\!Questie\\Icons\\slay",
 	})
 end
 
@@ -767,7 +767,7 @@ function Questie:updateMinimap()
 		if( v["zone"] == GetRealZoneText() ) then
 			local alpha = (1-(v['distance']/(farthest)));
 			local offsX, offsY = getMinimapPosFromCoord(v['x'],v['y'],getCurrentMapID());
-			minimap_poiframe_textures[index]:SetTexture("Interface\\AddOns\\Questie\\Icons\\" .. string.lower(v['icon']));
+			minimap_poiframe_textures[index]:SetTexture("Interface\\AddOns\\!Questie\\Icons\\" .. string.lower(v['icon']));
 			minimap_poiframe_textures[index]:SetAlpha(alpha);
 			minimap_poiframe_data[index] = v;
 			minimap_poiframes[index]:SetPoint("CENTER", Minimap, "CENTER", offsX, -offsY);

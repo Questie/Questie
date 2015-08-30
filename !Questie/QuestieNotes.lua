@@ -261,7 +261,7 @@ function Questie:CreateBlankFrameNote()
 	f:SetWidth(16*QUESTIE_NOTES_MAP_ICON_SCALE)  -- Set These to whatever height/width is needed 
 	f:SetHeight(16*QUESTIE_NOTES_MAP_ICON_SCALE) -- for your Texture
 	local t = f:CreateTexture(nil,"BACKGROUND")
-	t:SetTexture("Interface\\AddOns\\Questie\\Icons\\complete")
+	t:SetTexture("Interface\\AddOns\\!Questie\\Icons\\complete")
 	t:SetAllPoints(f)
 	f.texture = t
 	f:SetScript("OnEnter", Questie_Tooltip_OnEnter); --Script Toolip
@@ -570,30 +570,30 @@ end
 QuestieIcons = {
 	["complete"] = {
 		text = "Complete",
-		path = "Interface\\AddOns\\Questie\\Icons\\complete"
+		path = "Interface\\AddOns\\!Questie\\Icons\\complete"
 	},
 	["available"] = {
 		text = "Complete",
-		path = "Interface\\AddOns\\Questie\\Icons\\available"
+		path = "Interface\\AddOns\\!Questie\\Icons\\available"
 	},
 	["loot"] = {
 		text = "Complete",
-		path = "Interface\\AddOns\\Questie\\Icons\\loot"
+		path = "Interface\\AddOns\\!Questie\\Icons\\loot"
 	},
 	["item"] = {
 		text = "Complete",
-		path = "Interface\\AddOns\\Questie\\Icons\\loot"
+		path = "Interface\\AddOns\\!Questie\\Icons\\loot"
 	},
 	["event"] = {
 		text = "Complete",
-		path = "Interface\\AddOns\\Questie\\Icons\\event"
+		path = "Interface\\AddOns\\!Questie\\Icons\\event"
 	},
 	["object"] = {
 		text = "Complete",
-		path = "Interface\\AddOns\\Questie\\Icons\\object"
+		path = "Interface\\AddOns\\!Questie\\Icons\\object"
 	},
 	["slay"] = {
 		text = "Complete",
-		path = "Interface\\AddOns\\Questie\\Icons\\slay"
+		path = "Interface\\AddOns\\!Questie\\Icons\\slay"
 	}
 }
