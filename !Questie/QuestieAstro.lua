@@ -59,9 +59,7 @@ function Questie:OnLoad()
 		__QuestRewardCompleteButton_OnClick();
 	end
 
-	if( DEFAULT_CHAT_FRAME ) then
-		DEFAULT_CHAT_FRAME:AddMessage("Questie v2.0.10 BETA loaded");
-	end
+	
 	Questie:NOTES_LOADED();
 
 	SlashCmdList["QUESTIE"] = Questie_SlashHandler;
