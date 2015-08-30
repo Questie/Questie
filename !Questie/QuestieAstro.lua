@@ -291,6 +291,17 @@ QuestieFastSlash = {
 			Questie:Toggle();
 		end
 	end,
+	["minlevel"] = function(args)
+		if args then
+			local val = tonumber(args);
+			QuestieConfig.minShowLevel = val;
+			Questie:Toggle();
+			Questie:Toggle();
+		else
+			DEFAULT_CHAT_FRAME:AddMessage("|cFFFF2222Error: invalid number supplied!");
+		end
+	
+	end,
 	["professions"] = function()
 		QuestieConfig.showProfessionQuests = not QuestieConfig.showProfessionQuests;
 		if QuestieConfig.showProfessionQuests then
@@ -308,7 +319,8 @@ QuestieFastSlash = {
 		DEFAULT_CHAT_FRAME:AddMessage("  /questie lowlevel -- Toggles low level quest display");
 		DEFAULT_CHAT_FRAME:AddMessage("  /questie professions -- Toggles profession quests display");
 		DEFAULT_CHAT_FRAME:AddMessage("  /questie getpos -- Prints the player's map coordinates");
-		DEFAULT_CHAT_FRAME:AddMessage("  /questie complete -- Manually complete quests");
+		DEFAULT_CHAT_FRAME:AddMessage("  /questie complete <quest name> -- Manually complete quests");
+		DEFAULT_CHAT_FRAME:AddMessage("  /questie minlevel <number> -- change available quest minimum calculation number (level - <number>). default is 12 as of 2.0.13, 6 in 2.0.12 or earlier");
 	end,
 	["test"] = function()
 		DEFAULT_CHAT_FRAME:AddMessage("Adding icons zones");

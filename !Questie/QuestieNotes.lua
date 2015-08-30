@@ -324,6 +324,9 @@ end
 
 --function Questie:AddAvailableNoteToMap(continent, zoneid, posx, posy, type, questHash, objectiveid)
 function Questie:SetAvailableQuests()
+	if not QuestieConfig.minShowLevel then
+		QuestieConfig.minShowLevel = 12;
+	end
 	QuestieAvailableMapNotes = {};
 	local t = GetTime();
 	local level = UnitLevel("player");
@@ -334,7 +337,7 @@ function Questie:SetAvailableQuests()
 	if QuestieConfig.showLowLevel then
 		quests = Questie:GetAvailableQuestHashes(mapFileName,0,level);
 	else
-		quests = Questie:GetAvailableQuestHashes(mapFileName,level-6,level);
+		quests = Questie:GetAvailableQuestHashes(mapFileName,level-QuestieConfig.minShowLevel,level);
 	end
 	
 	
