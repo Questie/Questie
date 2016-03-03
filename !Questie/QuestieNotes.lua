@@ -222,19 +222,25 @@ function Questie_Tooltip_OnEnter()
 					local count =  GetNumQuestLeaderBoards();
 					local questText, objectiveText = _GetQuestLogQuestText();
 					local desc, typ, done = GetQuestLogLeaderBoard(this.data.objectiveid);
-
-
 					Tooltip:AddLine(q ,1,1,1);
 					Tooltip:AddLine(desc);
 				end
 			else
-				Tooltip:AddLine(Quest["name"], 1, 1, 1);
-				Tooltip:AddLine("Complete!");
+				-- Dyaxler: Improved Tooltip Code (Added quest level, identified Quest starter/finisher, and added a click use note)
+				Tooltip:AddLine(Quest["name"],1,1,1);
+				Tooltip:AddLine("Quest Level: "..QuestieHashMap[this.data.questHash].level);
+				Tooltip:AddLine("Quest Started by: "..QuestieHashMap[this.data.questHash].startedBy);
+				Tooltip:AddLine("Quest Finished by: "..QuestieHashMap[this.data.questHash].finishedBy);
+				Tooltip:AddLine("Quest in progress");
+				Tooltip:AddLine("Shift+CTRL+Click to manually complete quest!",1,1,1);
 			end
 		else
 			Tooltip:AddLine(QuestieHashMap[this.data.questHash].name);
-			Tooltip:AddLine(QuestieHashMap[this.data.questHash].startedBy,1,1,1);
-			Tooltip:AddLine("Available Quest",1,1,1);
+			Tooltip:AddLine("Quest Level: "..QuestieHashMap[this.data.questHash].level,1,1,1);
+			Tooltip:AddLine("Quest Started by: "..QuestieHashMap[this.data.questHash].startedBy,1,1,1);
+			Tooltip:AddLine("Quest Finished by: "..QuestieHashMap[this.data.questHash].finishedBy,1,1,1);
+			Tooltip:AddLine("Quest available",1,1,1);
+			Tooltip:AddLine("Shift+CTRL+Click to manually complete quest!",1,1,1);
 		end
 
 		if(NOTES_DEBUG and IsAltKeyDown()) then
@@ -242,23 +248,98 @@ function Questie_Tooltip_OnEnter()
 			Tooltip:AddLine("questHash: "..this.data.questHash, 1, 0, 0);
 			Tooltip:AddLine("objectiveid: "..tostring(this.data.objectiveid), 1, 0, 0);
 		end
-
-
-
-
-
 		Tooltip:SetFrameLevel(11);
 		Tooltip:Show();
 	end
 end
 
+-- Dyaxler: This function idea was snagged from the 3.0 branch and modified to mimic the cmd line function.
+-- It basically pulls the quest name directly from the tooltip and feeds the name into the cmd line function.
+function Questie_AvailableQuestClick()
+	local Tooltip = GameTooltip;
+	if(this.type == "WorldMapNote") then
+		Tooltip = WorldMapTooltip;
+	else
+		Tooltip = GameTooltip;
+	end
+	if ( IsShiftKeyDown() and IsControlKeyDown() and Tooltip ) then
+		local QuestName = tostring(QuestieHashMap[this.data.questHash].name)
+		if QuestName then
+			for k,v in pairs(QuestieLevLookup) do
+				if strlower(k) == strlower(QuestName) then
+					local index = 0;
+					for kk,vv in pairs(v) do
+						index = index + 1;
+					end
+					if index == 1 then
+						for kk,vv in pairs(v) do
+							Questie:finishAndRecurse(vv[2]);
+						end
+						-- Dyaxler: This refreshes the Worldmap without haveing to toggle questie (the second toggle is at the bottom of the function).
+						Questie:Toggle()
+					else
+						local index = 0;
+						for kk,vv in pairs(v) do
+							DEFAULT_CHAT_FRAME:AddMessage("      |cFF00FF00" .. index .. "|r: " .. kk);
+							index = index + 1;
+						end
+						-- Dyaxler: Added a PopupDialog to accept user input from quest chains to allow the user to finish a step in the chain
+						StaticPopupDialogs["QUESTIE_COMPLETE"] = {
+							text = "|cFFFFFF00There are multiple quests matching the name \"" .. QuestName .. "\". Please enter the number listed in the chat window for the step that you want marked as complete:|r",
+							hasEditBox = 1,
+							maxLetters = 15,
+							OnShow = function()
+								getglobal(this:GetName().."EditBox"):SetFocus();
+							end,
+							EditBoxOnEnterPressed = function()
+								local text = getglobal(this:GetParent():GetName().."EditBox"):GetText();
+								for k,v in pairs(QuestieLevLookup) do
+									if strlower(k) == strlower(QuestName) then
+										local index = 0;
+										for kk,vv in pairs(v) do
+											if index == tonumber(text) then
+												Questie:finishAndRecurse(vv[2]);
+											end
+											index = index +1;
+										end
+									end
+								end
+								-- Dyaxler: This refreshes the Worldmap without haveing to toggle questie (this is the first toggle for this loop and the second is at the bottom of the function).
+								Questie:Toggle()
+								this:GetParent():Hide()
+							end,
+							OnHide = function()
+								if ( ChatFrameEditBox:IsVisible() ) then
+									ChatFrameEditBox:SetFocus();
+								end
+								getglobal(this:GetName().."EditBox"):SetText("");
+							end,
+							EditBoxOnEscapePressed = function()
+								this:GetParent():Hide();
+							end,
+							timeout = 0,
+							whileDead = 1,
+							hideOnEscape = 1
+						}
+						StaticPopup_Show ("QUESTIE_COMPLETE")
+						local frame = StaticPopup_FindVisible("QUESTIE_COMPLETE");
+						frame:SetParent(WorldMapFrame);
+						frame:Show();
+					end
+				end
+			end
+		end
+		-- Dyaxler: This refreshes the Worldmap without haveing to toggle questie (this basically turns Questie back on - fake refresh but it works great.)
+		Questie:Toggle()
+	end
+end
 
 CREATED_NOTE_FRAMES = 1;
 --Creates a blank frame for use within the map system
 function Questie:CreateBlankFrameNote()
 	local f = CreateFrame("Button","QuestieNoteFrame"..CREATED_NOTE_FRAMES,WorldMapFrame)
 	f:SetFrameLevel(9);
-	f:SetWidth(16*QUESTIE_NOTES_MAP_ICON_SCALE)  -- Set These to whatever height/width is needed 
+	f:SetWidth(16*QUESTIE_NOTES_MAP_ICON_SCALE)  -- Set These to whatever height/width is needed
 	f:SetHeight(16*QUESTIE_NOTES_MAP_ICON_SCALE) -- for your Texture
 	local t = f:CreateTexture(nil,"BACKGROUND")
 	t:SetTexture("Interface\\AddOns\\!Questie\\Icons\\complete")
@@ -266,6 +347,7 @@ function Questie:CreateBlankFrameNote()
 	f.texture = t
 	f:SetScript("OnEnter", Questie_Tooltip_OnEnter); --Script Toolip
 	f:SetScript("OnLeave", function() if(WorldMapTooltip) then WorldMapTooltip:Hide() end if(GameTooltip) then GameTooltip:Hide() end end) --Script Exit Tooltip
+	f:SetScript("OnClick", Questie_AvailableQuestClick) -- Dyaxler: Script OnClick
 	CREATED_NOTE_FRAMES = CREATED_NOTE_FRAMES+1;
 	table.insert(FramePool, f);
 	table.insert(AllFrames, f);
@@ -333,14 +415,14 @@ function Questie:SetAvailableQuests()
 	local c, z = GetCurrentMapContinent(), GetCurrentMapZone();
 	local mapFileName = GetMapInfo();
 	local quests = nil;
-	
+
 	if QuestieConfig.showLowLevel then
 		quests = Questie:GetAvailableQuestHashes(mapFileName,0,level);
 	else
 		quests = Questie:GetAvailableQuestHashes(mapFileName,level-QuestieConfig.minShowLevel,level);
 	end
-	
-	
+
+
 	if quests then
 	for k, v in pairs(quests) do
 		if(QuestieHashMap[v] and QuestieHashMap[v]['startedBy'] and QuestieMonsters[QuestieHashMap[v]['startedBy']]) then
@@ -350,7 +432,7 @@ function Questie:SetAvailableQuests()
 			Questie:AddAvailableNoteToMap(c,z,Monster[2],Monster[3],"available",v,-1);
 		end
 	end
-	
+
 	Questie:debug_Print("Added Available quests: Time:",tostring((GetTime()- t)*1000).."ms", "Count:"..table.getn(quests))
 	end
 end
@@ -401,7 +483,7 @@ function Questie:DRAW_NOTES()
 				MMIcon:SetParent(Minimap);
 				MMIcon:SetFrameLevel(9);
 				MMIcon:SetPoint("CENTER",0,0)
-				MMIcon:SetWidth(16*QUESTIE_NOTES_MINIMAP_ICON_SCALE)  -- Set These to whatever height/width is needed 
+				MMIcon:SetWidth(16*QUESTIE_NOTES_MINIMAP_ICON_SCALE)  -- Set These to whatever height/width is needed
 				MMIcon:SetHeight(16*QUESTIE_NOTES_MINIMAP_ICON_SCALE) -- for your Texture
 				MMIcon.type = "MiniMapNote";
 				--Sets highlight texture (Nothing stops us from doing this on the worldmap aswell)
@@ -440,15 +522,16 @@ function Questie:DRAW_NOTES()
 					Icon.type = "WorldMapNote";
 					Icon:SetScript("OnEnter", Questie_Tooltip_OnEnter); --Script Toolip
 					Icon:SetScript("OnLeave", function() if(WorldMapTooltip) then WorldMapTooltip:Hide() end if(GameTooltip) then GameTooltip:Hide() end end) --Script Exit Tooltip
-					
+					Icon:SetScript("OnClick", Questie_AvailableQuestClick) -- Dyaxler: Script OnClick
+
 					if(z == 0 and c == 0) then--Both continents
-						Icon:SetWidth(16*QUESTIE_NOTES_WORLD_MAP_ICON_SCALE)  -- Set These to whatever height/width is needed 
+						Icon:SetWidth(16*QUESTIE_NOTES_WORLD_MAP_ICON_SCALE)  -- Set These to whatever height/width is needed
 						Icon:SetHeight(16*QUESTIE_NOTES_WORLD_MAP_ICON_SCALE) -- for your Texture
 					elseif(z == 0) then--Single continent
-						Icon:SetWidth(16*QUESTIE_NOTES_CONTINENT_ICON_SCALE)  -- Set These to whatever height/width is needed 
+						Icon:SetWidth(16*QUESTIE_NOTES_CONTINENT_ICON_SCALE)  -- Set These to whatever height/width is needed
 						Icon:SetHeight(16*QUESTIE_NOTES_CONTINENT_ICON_SCALE) -- for your Texture
 					else
-						Icon:SetWidth(16*QUESTIE_NOTES_MAP_ICON_SCALE)  -- Set These to whatever height/width is needed 
+						Icon:SetWidth(16*QUESTIE_NOTES_MAP_ICON_SCALE)  -- Set These to whatever height/width is needed
 						Icon:SetHeight(16*QUESTIE_NOTES_MAP_ICON_SCALE) -- for your Texture
 					end
 
@@ -458,12 +541,12 @@ function Questie:DRAW_NOTES()
 
 					--Shows and then calls Astrolabe to place it on the map.
 					Icon:Show();
-					
+
 					--Questie:debug_Print(x.." : "..y);
 					xx, yy = Astrolabe:PlaceIconOnWorldMap(WorldMapButton,Icon,v.continent ,v.zoneid ,v.x, v.y); --WorldMapFrame is global
 					if(xx and yy and xx > 0 and xx < 1 and yy > 0 and yy < 1) then
 						--Questie:debug_Print(Icon:GetFrameLevel());
-						table.insert(QuestieUsedNoteFrames, Icon);			
+						table.insert(QuestieUsedNoteFrames, Icon);
 					else
 						--Questie:debug_Print("Outside map, reseting icon to pool");
 						Questie:Clear_Note(Icon);
@@ -488,7 +571,7 @@ function Questie:DRAW_NOTES()
 			Icon.type = "WorldMapNote";
 			Icon:SetScript("OnEnter", Questie_Tooltip_OnEnter); --Script Toolip
 			Icon:SetScript("OnLeave", function() if(WorldMapTooltip) then WorldMapTooltip:Hide() end if(GameTooltip) then GameTooltip:Hide() end end) --Script Exit Tooltip
-			Icon:SetWidth(16*QUESTIE_NOTES_MAP_ICON_SCALE)  -- Set These to whatever height/width is needed 
+			Icon:SetWidth(16*QUESTIE_NOTES_MAP_ICON_SCALE)  -- Set These to whatever height/width is needed
 			Icon:SetHeight(16*QUESTIE_NOTES_MAP_ICON_SCALE) -- for your Texture
 
 			--Set the texture to the right type
@@ -497,12 +580,12 @@ function Questie:DRAW_NOTES()
 
 			--Shows and then calls Astrolabe to place it on the map.
 			Icon:Show();
-			
+
 			--Questie:debug_Print(x.." : "..y);
 			xx, yy = Astrolabe:PlaceIconOnWorldMap(WorldMapButton,Icon,v.continent ,v.zoneid ,v.x, v.y); --WorldMapFrame is global
 			if(xx and yy and xx > 0 and xx < 1 and yy > 0 and yy < 1) then
 				--Questie:debug_Print(Icon:GetFrameLevel());
-				table.insert(QuestieUsedNoteFrames, Icon);			
+				table.insert(QuestieUsedNoteFrames, Icon);
 			else
 				--Questie:debug_Print("Outside map, reseting icon to pool");
 				Questie:Clear_Note(Icon);
@@ -515,7 +598,7 @@ function Questie:DRAW_NOTES()
 			MMIcon:SetParent(Minimap);
 			MMIcon:SetFrameLevel(7);
 			MMIcon:SetPoint("CENTER",0,0)
-			MMIcon:SetWidth(16*QUESTIE_NOTES_MINIMAP_ICON_SCALE)  -- Set These to whatever height/width is needed 
+			MMIcon:SetWidth(16*QUESTIE_NOTES_MINIMAP_ICON_SCALE)  -- Set These to whatever height/width is needed
 			MMIcon:SetHeight(16*QUESTIE_NOTES_MINIMAP_ICON_SCALE) -- for your Texture
 			MMIcon.type = "MiniMapNote";
 			--Sets highlight texture (Nothing stops us from doing this on the worldmap aswell)
