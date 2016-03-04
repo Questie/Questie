@@ -91,7 +91,7 @@ function Questie:ADDON_LOADED()
 	end
 	if not (QuestieDebug) then
 		QuestieDebug = {};
-	end	
+	end
 	if not (QuestieCurrentNotes) then
 		QuestieCurrentNotes = {};
 	end
@@ -193,7 +193,7 @@ function Questie_SlashHandler(msg)
 		DropDownTest:Show();
 		testbutton:SetScript("OnClick", function()
 			DEFAULT_CHAT_FRAME:AddMessage("Click");
-			ToggleDropDownMenu(nil,nil,DropDownTest,"testets",3,-3);	
+			ToggleDropDownMenu(nil,nil,DropDownTest,"testets",3,-3);
 		end)
 	end
 
@@ -203,7 +203,7 @@ function Questie_SlashHandler(msg)
 		local f = CreateFrame("Button",nil,WorldMapFrame)
 		f.YoMamma = "Hashisbest";
 		f:SetFrameStrata("DIALOG")
-		f:SetWidth(16)  -- Set These to whatever height/width is needed 
+		f:SetWidth(16)  -- Set These to whatever height/width is needed
 		f:SetHeight(16) -- for your Texture
 
 		local t = f:CreateTexture(nil,"BACKGROUND")
@@ -241,7 +241,7 @@ function Questie_SlashHandler(msg)
 		--map_overlay:SetWidth(w);
 		--map_overlay:SetHeight(h);
 		--map_overlay:Show();
-		
+
 		--This calulates a good glow size
 		x, y =  GetPlayerMapPosition("player");
 		c, z = GetCurrentMapContinent(), GetCurrentMapZone();
@@ -305,10 +305,11 @@ function Icon(questHash)
 
 	iconFrame:SetParent(WorldMapFrame)--Just a saftey mechanic
 	iconFrame:SetFrameLevel(9);
-	iconFrame:SetWidth(16)  -- Set These to whatever height/width is needed 
+	iconFrame:SetWidth(16)  -- Set These to whatever height/width is needed
 	iconFrame:SetHeight(16) -- for your Texture
 	iconFrame:SetScript("OnEnter", Questie_Tooltip_OnEnter); --Script Toolip
 	iconFrame:SetScript("OnLeave", function() if(WorldMapTooltip) then WorldMapTooltip:Hide() end if(GameTooltip) then GameTooltip:Hide() end end) --Script Exit Tooltip
+	iconFrame:SetScript("OnClick", Questie:AvailableQuestClick)
 	iconFrame.questHash = questHash;
 
 	--Do calculation with questHash objectivelist to see where the icon needs to fall
@@ -344,11 +345,11 @@ function Icon(questHash)
 	    --}
 	    this:SetTooltip(list)
 	    --self.old_count = #list ???
-	    
+
 	    iconFrame.show_glow = true
-	    
+
 	    --this:SetGlow(list)
-	    
+
 	    --this:SetScript("OnUpdate", self.OnUpdate)
 	end
 
@@ -374,7 +375,7 @@ function Questie:CreateGlowFrame(questHash)
 	f:SetFrameLevel(8);
 	x_size = 200 / x_size * w;
 	y_size = 200 / y_size * h;
-	f:SetWidth(x_size)  -- Set These to whatever height/width is needed 
+	f:SetWidth(x_size)  -- Set These to whatever height/width is needed
 	f:SetHeight(y_size) -- for your Texture
 
 	local t = Questie:CreateGlowTexture(f);
@@ -403,7 +404,7 @@ function Questie:CreateGlowTexture(frame)
 	tex:ClearAllPoints()
 	tex:SetVertexColor(1,1,1,0)
 	tex:SetAllPoints(frame)
-  
+
   return tex
 end
 
@@ -422,7 +423,7 @@ function Questie:createMinimapFrames()
 		fram:SetWidth(16);
 		fram:SetHeight(16);
 		fram:EnableMouse(true);
-		local pass = i; -- Apparently you cant just pass i 
+		local pass = i; -- Apparently you cant just pass i
 		fram:SetScript("OnEnter", function()
 			--log("onEnter");
 			tex.previousAlpha = tex:GetAlpha();
@@ -532,7 +533,7 @@ end
 
 function Questie:getQuestHash(name, level, objectiveText)
 
-	
+
 	local questLookup = QuestieLevLookup[name];
 	if not (questLookup == nil) then -- cant... stop... doingthis....
 		--log("QN " .. name .. " is NULL", 1);
@@ -554,7 +555,7 @@ function Questie:getQuestHash(name, level, objectiveText)
 			return retval; -- nearest match
 		end
 	end
-	
+
 	-- hash lookup did not contain qust name!! LOG THIS!!!
 	local hash = Questie:mixString(0, name);
 	hash = Questie:mixInt(hash, level);
@@ -646,7 +647,7 @@ function Questie:OnUpdate(elapsed)
 	Questie:NOTES_ON_UPDATE(elapsed);
 	local now = GetTime()
 	local ttl = math.abs((now - Questie.lastMinimapUpdate)*1000); -- convert to miliseconds
-	
+
 	if ttl > 250 then -- seems about right
 		--Fix not to reset map, Using old sane values when a player has another map open rather than forcing back the map //Logon
 		local fx, fy = Questie:getPlayerPos();
@@ -678,7 +679,7 @@ function Questie:PLAYER_LOGIN()
 	this:RegisterEvent("ZONE_CHANGED"); -- this actually is needed
 	this:RegisterEvent("UI_INFO_MESSAGE");
 	this:RegisterEvent("CHAT_MSG_SYSTEM");
-	
+
 	this:RegisterCartographerIcons();
 	this:hookTooltip();
 	this:createMinimapFrames();
@@ -695,13 +696,13 @@ function Questie:createQuestNote(name, progress, questName, x, y, icon, selected
 	--DEFAULT_CHAT_FRAME:AddMessage(icon)
 	local zone = Cartographer:GetCurrentEnglishZoneName(); -- wrong
 	local _, id, key = Cartographer_Notes:SetNote(zone, x, y, icon, "Questie", "info", progress, "info2", questName, "title", name)
-	if (questName == "") then 
-		questName = progress; 
+	if (questName == "") then
+		questName = progress;
 	end
-	
+
 	this:addNoteToCurrentNotes({
 		['id'] = id,
-		['x'] = x, 
+		['x'] = x,
 		['y'] = y,
 		['icon'] = icon,
 		['questName'] = questName,
@@ -711,7 +712,7 @@ function Questie:createQuestNote(name, progress, questName, x, y, icon, selected
 		['zone'] = zone,
 		['zoneID'] = getCurrentMapID() -- bad bad bad
 	});
-	
+
 	this:addNoteToCurrentQuests(questName, id, name, x, y, key, zone, icon);
 end
 
@@ -732,7 +733,7 @@ function sortie(a, b)
 	local distB = Questie:getPlayerDistTo(b['x'], b['y']);
 	a['distance'] = distA;
 	b['distance'] = distB;
-	
+
 	-- while sorted by distance, might as well add formatedDistnace
 	local formatDistance, units  = BWP_FormatDist(Questie.player_x, Questie.player_y, a['x'], a['y']);
 	a['formatDistance'] = formatDistance;
@@ -740,7 +741,7 @@ function sortie(a, b)
 	formatDistance, units  = BWP_FormatDist(Questie.player_x, Questie.player_y, b['x'], b['y']);
 	b['formatDistance'] = formatDistance
 	b['formatUnits'] = units;
-	
+
 	return distA < distB;
 end
 
@@ -778,9 +779,9 @@ function Questie:updateMinimap()
 end
 
 function Questie:deleteCurrentNotesforQuest(questName)
-	
+
 	local antiLeak = GetTime();
-	
+
 	local i = 1;
 	while i <= table.getn(QuestieCurrentNotes) do
 		local v = QuestieCurrentNotes[i];
@@ -888,11 +889,11 @@ function getCurrentMapID()
 	--local fx, fy = Questie:getPlayerPos(); -- this: does not work here??
 
 	local file = GetMapInfo()
-	
+
 	if file == nil then -- thanks optim for finding a null bug here
 		return -1
 	end
-	
+
 	local zid = QuestieZones[file];
 	if zid == nil then
 		--DEFAULT_CHAT_FRAME:AddMessage("ERROR: We are in unknown zone " .. file, 0.95, 0.2, 0.2);
@@ -935,7 +936,7 @@ function Questie:addAvailableQuests()
 											local mob = QuestieMonsters[sby];
 											if mob == nil then
 												debug("ERROR MISSING QUESTGIVER " .. sby .. " quest:" .. name);
-											else 
+											else
 												local loc = mob['locations'][1];
 												this:createQuestNote("Pick up: " .. name, sby, name, loc[2], loc[3], "Available", selected);
 											end
@@ -1025,7 +1026,7 @@ end
 function Questie:processObjective(quest, desc, typ, selected, mapid, objectiveid)
 	--DEFAULT_CHAT_FRAME:AddMessage(desc, 0.95, 0.95, 0.5);
 	local ref = objectiveProcessors[typ];
-	
+
 	if not (ref == nil) then
 		--DEFAULT_CHAT_FRAME:AddMessage("HANDLED TYPE: " .. typ .. " for quest " .. quest, 0.2, 0.95, 0.95);
 		if typ == "item" or typ == "monster" then
@@ -1058,7 +1059,7 @@ end
 
 function Questie:QUEST_LOG_UPDATE()
 	this:deleteNoteAfterQuestRemoved()
-		
+
 	local sind = GetQuestLogSelection();
 	local mapid = getCurrentMapID();
 	if not throttleOverride then
@@ -1086,7 +1087,7 @@ function Questie:QUEST_LOG_UPDATE()
             local hash = Questie:getQuestHash(q, level, objectiveText);
 			--log("QH:"..q..","..level..","..objectiveText.."="..hash,1);
             local hashData = QuestieHashMap[hash];
-                
+
             if hash and not isHeader then
                 local seen = QuestieSeenQuests[hash];
                 if QuestieCurrentQuests[q] == nil then
@@ -1098,7 +1099,7 @@ function Questie:QUEST_LOG_UPDATE()
                                                 -- someone should tell me if LUA is like C where I could do only "if not seen then" here.
                     QuestieSeenQuests[hash] = true; -- true = in the quest log
                 end
-                
+
                 if not (hashData == nil) then
                     --log(hashData['finishedBy'], 1);
                     if (count == 0) then
@@ -1107,17 +1108,17 @@ function Questie:QUEST_LOG_UPDATE()
                     end
                 else
                     local finisher = QuestieFinishers[q];
-                
+
                     if not (finisher == nil) and (count == 0) then
                         Questie:addMonsterToMap(finisher, "Quest Finisher", q, "Complete", mapid, selected);
                         questComplete = false; -- questComplete is used to add the finisher, this avoids adding it twice
                     end
                 end
                 --DEFAULT_CHAT_FRAME:AddMessage(q);
-                
+
                 -- we're re-evaluating objectives now anyway
                 QuestieCurrentQuests[q]['objectives'] = {};
-                
+
                 --Start changes done by Logon
                 --This checks if all the objectives are done.
                 AllDone = true;
@@ -1170,7 +1171,7 @@ function Questie:QUEST_LOG_UPDATE()
                 else
                     --DEFAULT_CHAT_FRAME:AddMessage("done", 0.95, 0.95, 0.5);
                     local finisher = QuestieFinishers[q];
-                
+
                     --Swapped to isComplete 1 as nil = not complete and -1 = failed.
                     if not (finisher == nil) and isComplete == 1 then
                    		--DEFAULT_CHAT_FRAME:AddMessage(q.." : 2"..finisher, 0.95, 0.95, 0.5);
@@ -1197,7 +1198,7 @@ function Questie:UI_INFO_MESSAGE(message)
 end
 
 function Questie:removeAvailableMarker(name) -- this needs to be handled differently anyway
-	for id, note in pairs(QuestieCurrentNotes) do	
+	for id, note in pairs(QuestieCurrentNotes) do
 		--log(id, 1)
 		if note['icon'] == "Available" then
 			--log(, 1)
@@ -1222,7 +1223,7 @@ end
 
 local math_mod = math.fmod or math.mod
 
-local function _CartographerRound(num, digits) 
+local function _CartographerRound(num, digits)
     -- banker's rounding
 	local mantissa = 10^digits
 	local norm = num*mantissa
@@ -1300,14 +1301,14 @@ function Questie:validateQuestList()
 		v['status'] = false;
 		--log("setting "..k.." to false");
 	end
-	
+
 	this:fillQuestList();
 end
 
 --taken from MetaMapBWP
 
 function BWP_GetDist(x1, y1, x2, y2)
-	if(not x1) or (not x2) then return nil 
+	if(not x1) or (not x2) then return nil
 	else return math.sqrt((x1 - x2)^2 + (y1 - y2)^2)
 	end
 end
@@ -1319,7 +1320,7 @@ function BWP_FormatDist(x1, y1, x2, y2)
 	if(true) then
 		theseUnits = " Yds"
 	else
-		thisDistance = thisDistance * 0.9144	
+		thisDistance = thisDistance * 0.9144
 		theseUnits = " Mtrs"
 	end
 	thisDistance = tonumber(string.format("%.0f" , thisDistance)) -- we dont really need decimal places with this small of units
