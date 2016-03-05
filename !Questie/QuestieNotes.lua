@@ -256,80 +256,79 @@ end
 -- Dyaxler: This function idea was snagged from the 3.0 branch and modified to mimic the cmd line function.
 -- It basically pulls the quest name directly from the tooltip and feeds the name into the cmd line function.
 function Questie_AvailableQuestClick()
-	local Tooltip = GameTooltip;
+	local Tooltip = GameTooltip
 	if(this.type == "WorldMapNote") then
-		Tooltip = WorldMapTooltip;
+		Tooltip = WorldMapTooltip
 	else
-		Tooltip = GameTooltip;
+		Tooltip = GameTooltip
 	end
 	if ( IsShiftKeyDown() and IsControlKeyDown() and Tooltip ) then
 		local QuestName = tostring(QuestieHashMap[this.data.questHash].name)
 		if QuestName then
 			for k,v in pairs(QuestieLevLookup) do
 				if strlower(k) == strlower(QuestName) then
-					local index = 0;
+					local index = 0
 					for kk,vv in pairs(v) do
-						index = index + 1;
+						index = index + 1
 					end
 					if index == 1 then
-						for kk,vv in pairs(v) do
-							Questie:finishAndRecurse(vv[2]);
-						end
-						-- Dyaxler: This refreshes the Worldmap without haveing to toggle questie (the second toggle is at the bottom of the function).
+						-- Dyaxler: This refreshes the Worldmap for this part of the function without haveing to toggle questie (the second toggle is at the bottom of the function).
 						Questie:Toggle()
-					else
-						local index = 0;
 						for kk,vv in pairs(v) do
-							DEFAULT_CHAT_FRAME:AddMessage("      |cFF00FF00" .. index .. "|r: " .. kk);
-							index = index + 1;
+							Questie:finishAndRecurse(vv[2])
+						end
+					else
+						local index = 0
+						for kk,vv in pairs(v) do
+							DEFAULT_CHAT_FRAME:AddMessage("      |cFF00FF00" .. index .. "|r: " .. kk)
+							index = index + 1
 						end
 						-- Dyaxler: Added a PopupDialog to accept user input from quest chains to allow the user to finish a step in the chain
 						StaticPopupDialogs["QUESTIE_COMPLETE"] = {
 							text = "|cFFFFFF00There are multiple quests matching the name \"" .. QuestName .. "\". Please enter the number listed in the chat window for the step that you want marked as complete:|r",
 							hasEditBox = 1,
-							maxLetters = 15,
+							maxLetters = 2,
 							OnShow = function()
-								getglobal(this:GetName().."EditBox"):SetFocus();
+								getglobal(this:GetName().."EditBox"):SetFocus()
 							end,
 							EditBoxOnEnterPressed = function()
-								local text = getglobal(this:GetParent():GetName().."EditBox"):GetText();
+								local text = getglobal(this:GetParent():GetName().."EditBox"):GetText()
 								for k,v in pairs(QuestieLevLookup) do
 									if strlower(k) == strlower(QuestName) then
-										local index = 0;
+										local index = 0
 										for kk,vv in pairs(v) do
 											if index == tonumber(text) then
-												Questie:finishAndRecurse(vv[2]);
+												Questie:finishAndRecurse(vv[2])
 											end
-											index = index +1;
+											--index = index +1
 										end
 									end
 								end
 								-- Dyaxler: This refreshes the Worldmap without haveing to toggle questie (this is the first toggle for this loop and the second is at the bottom of the function).
-								Questie:Toggle()
 								this:GetParent():Hide()
 							end,
 							OnHide = function()
-								if ( ChatFrameEditBox:IsVisible() ) then
-									ChatFrameEditBox:SetFocus();
-								end
-								getglobal(this:GetName().."EditBox"):SetText("");
+								getglobal(this:GetName().."EditBox"):SetText("")
 							end,
 							EditBoxOnEscapePressed = function()
-								this:GetParent():Hide();
+								this:GetParent():Hide()
 							end,
-							timeout = 0,
+							timeout = 10,
 							whileDead = 1,
 							hideOnEscape = 1
 						}
 						StaticPopup_Show ("QUESTIE_COMPLETE")
-						local frame = StaticPopup_FindVisible("QUESTIE_COMPLETE");
-						frame:SetParent(WorldMapFrame);
-						frame:Show();
+						-- So apparently these were causing some frame lockups that were preventing further popups from appearing. Such as group invites, resurrecting after a death etc.
+						--local frame = StaticPopup_FindVisible("QUESTIE_COMPLETE")
+						--frame:SetParent(WorldMapFrame)
+						--frame:Show()
+						-- Dyaxler: This refreshes the Worldmap for this part of the function without haveing to toggle questie (the second toggle is at the bottom of the function).
+						Questie:Toggle()
 					end
 				end
 			end
 		end
-		-- Dyaxler: This refreshes the Worldmap without haveing to toggle questie (this basically turns Questie back on - fake refresh but it works great.)
+		-- Dyaxler: This toggles questie back on as it exit's the function (fake refresh but it works great.)
 		Questie:Toggle()
 	end
 end
