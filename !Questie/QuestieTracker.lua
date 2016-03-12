@@ -11,7 +11,7 @@ QuestieTracker.lastUpdate = 0;
 
 function QuestieTracker_OnUpdate()
 	
-	if QuestieTracker.frame:GetTop() > GetScreenHeight() or QuestieTracker.frame:GetLeft() > GetScreenWidth() then
+	--[[if QuestieTracker.frame:GetTop() > GetScreenHeight() or QuestieTracker.frame:GetLeft() > GetScreenWidth() then
 		if QuestieTracker.frame:GetTop() > GetScreenHeight() then
 			QuestieTrackerVariables["position"]["yOfs"] = GetScreenHeight() - QuestieTracker.frame:GetHeight();
 		end
@@ -21,7 +21,7 @@ function QuestieTracker_OnUpdate()
 		
 		QuestieTracker.frame:SetPoint(QuestieTrackerVariables["position"]["point"], QuestieTrackerVariables["position"]["relativeTo"], QuestieTrackerVariables["position"]["relativePoint"],
 			QuestieTrackerVariables["position"]["xOfs"], QuestieTrackerVariables["position"]["yOfs"]);
-	end
+	end]]
 	--ChatFrame3:Clear();
 	--for k,v in pairs(QuestieTrackedQuests) do
 	--	if type(v) == "table"  then
@@ -578,6 +578,7 @@ function QuestieTracker:createTrackingFrame()
 	--this.frame:RegisterForDrag("LeftButton");
 	QuestieTracker.frame:EnableMouse(true);
 	QuestieTracker.frame:SetMovable(true);
+	QuestieTracker.frame:SetClampedToScreen(true);
 	QuestieTracker.frame.prevoffset = 0;
 	QuestieTracker.frame:SetScript("OnMouseDown", function()
 		this:StartMoving();
