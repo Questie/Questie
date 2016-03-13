@@ -1,33 +1,59 @@
 -------------------------------------------------------------------------------------------------------------------------------
 
-v0.9.4:
-* Fixed an issue with users not able to individually select party members. This also affected the RightClick menu and cast macros.
-* Added a /sui menu toggle to disable AutoUI Resize for those users who are running in a resolution lower than 1920 x 1080 (Wide).
-* Modified Adapt to ONLY animate the Self, Target and Party frames unless specifically toggled by the user via the /adapt menu.
-	(Note: I'd advise against this since Adapt doesn't seem to properly crop portraits embedded in other frames.)
+v2.3:
+* Added a SHIFT key modifier to the QuestTracker and QuestArrow - unless 
+the shift key is down, you can't drag it.
+
+* Wardz's commit fixing/preventing the QuestTracker from being dragged
+off screen was also applied to the QuestArrow.
+
+* Added Enable/Disable toggles for
+    - Worldmap/Minimap icons (/questie mapaids)
+    - QuestArrow (/questie arrow)
+
+* Added Bronze Feather to the Winfury Matriarch drop table for the quest 
+Preparation for Ceremony reported by PierrickGT.
+
+* Added a small Worldmap modifier for those not running a Mapmod like
+Cartographer or MetaMap. This allows the user to see the chat output
+and allows the Popup dialog to appear so they can select a quest step
+to manually complete.
+
+* I discovered a typo in the code pertaining to EQL3. This fix now allows
+the user to untrack a quest from their QuestTracker with or without EQL3.
 
 -------------------------------------------------------------------------------------------------------------------------------
-v0.9.3:
-* Fixed an issue with Zone/Instance/Boat/Taxi causing action bars to disappear
+
+v2.2:
+* A bug was reported on the Nostalrius forums - there was some frame code
+that was creating double popups preventing new one's from appearing
+properly. Fixed.
+
+* During my debug I found another bug in the "refresh code" that caused
+Questie to disable itself in certain situations. Fixed.
+
+* I added a 10 sec timeout to the popup dialog in case it doesn't appear
+on a users screen to handle poorly coded evil add-on's that might
+prevent it from being displayed properly. Grrrrrr.... - A fail safe of
+sorts.
+
+* Updated TOC to reflect new version
 
 -------------------------------------------------------------------------------------------------------------------------------
 
-v0.9.2:
-* Fixed an issue with the cast bar. Interrupted channeled spells would continue to animate the cast bar. 
+v2.1:
+* Improved the WorldMap Quest tool tips by adding Quest Level, Quest
+Started by, Quest Finished by and an OnClick usage note for manually
+finishing quests.
 
--------------------------------------------------------------------------------------------------------------------------------
+* Added an OnClick function to manually finish quests via the WorldMap
+along with an Auto-Toggle routine that refreshes the map and makes the
+icon instantly disappear upon manual completion.
 
-v0.9.1:
-* Fixed party frames Rage, Energy and Focus bars. They were assigned the wrong anchor points in the XML resulting in them appearing over the health bar.
-
-* Adjusted Party1, 2, 3, 4 frames and spaced them further apart - they were previously too close and appeared squished. 
-
-* Reduced the portrait sizes to make them appear more centered in the unit frames
-
--------------------------------------------------------------------------------------------------------------------------------
-
-v0.9:
-* Initial release
+* For quest chains with more than one step I added a Popup Dialog that
+accepts user input so they can select which step to complete. Quest
+chain steps are still reported via the chat window since the popup only
+accepts two button inputs or an edit box.
 
 -------------------------------------------------------------------------------------------------------------------------------
 
