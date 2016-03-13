@@ -35671,6 +35671,7 @@ QuestieDropTable = {
 		["Linen Cloth"] = 1449,
 		["Worn Leather Bracers"] = 9,
 		["Azure Feather"] = 1586,
+		["Bronze Feather"] = 1587,
 		["Loose Chain Gloves"] = 15,
 	},
 	["Hayoc"] = {

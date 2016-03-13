@@ -306,6 +306,8 @@ function Questie_AvailableQuestClick()
 								end
 								-- Dyaxler: This refreshes the Worldmap without haveing to toggle questie (this is the first toggle for this loop and the second is at the bottom of the function).
 								this:GetParent():Hide()
+								Questie:Toggle()
+								Questie:Toggle()
 							end,
 							OnHide = function()
 								getglobal(this:GetName().."EditBox"):SetText("")

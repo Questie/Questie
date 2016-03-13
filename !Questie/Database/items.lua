@@ -65486,6 +65486,11 @@ QuestieItems = {
       ["Windfury Sorceress"] = 1586
     }
   },
+	["Bronze Feather"] = {
+    ["drop"] = {
+      ["Windfury Sorceress"] = 1587
+    }
+  },
   ["Warlord's Iron-Helm of Healing"] = {
     ["drop"] = {
       ["High King Maulgar"] = 1

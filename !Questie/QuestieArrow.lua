@@ -2,7 +2,7 @@
 
 --  TomTom - A navigational assistant for World of Warcraft
 
--- 
+--
 
 --  CrazyTaxi: A crazy-taxi style arrow used for waypoint navigation.
 
@@ -73,7 +73,10 @@ wayframe.status:SetPoint("TOP", wayframe.title, "BOTTOM", 0, 0)
 wayframe.tta:SetPoint("TOP", wayframe.status, "BOTTOM", 0, 0)
 
 local function OnDragStart(self, button)
-	this:StartMoving()
+	if IsShiftKeyDown() then
+		this:StartMoving()
+		wayframe:SetClampedToScreen(true);
+	end
 end
 
 local function OnDragStop(self, button)
@@ -104,7 +107,7 @@ function SetCrazyArrow(point, dist, title)
 			isHide = true;
 		end
 	end]]
-	
+
 	active_point = point
 	arrive_distance = dist
 	point_title = title
@@ -142,9 +145,9 @@ HACK_DUMP = 0;
 local function OnUpdate(self, elapsed)
 	self = this
 	elapsed = 1/GetFramerate()
-	
+
 	local dist,x,y
-	
+
 	if arrow_objective then
 		if QuestieTrackedQuests[arrow_objective] then
 			local objective = QuestieTrackedQuests[arrow_objective]["arrowPoint"]
@@ -155,12 +158,12 @@ local function OnUpdate(self, elapsed)
 			self:Hide()
 		end
 	end
-	
+
 	if not active_point then
 		self:Hide()
 		return
 	end
-	
+
 	local dist,x,y = GetDistanceToIcon(active_point)
 	-- The only time we cannot calculate the distance is when the waypoint
 	-- is on another continent, or we are in an instance
@@ -211,7 +214,7 @@ local function OnUpdate(self, elapsed)
 
 		local degtemp = GetDirectionToIcon(active_point);
 		if degtemp < 0 then degtemp = degtemp + 360; end
-		
+
 		local angle = math.rad(degtemp)
 		local player = GetPlayerFacing()
 		angle = angle - player

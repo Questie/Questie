@@ -1,0 +1,34 @@
+-------------------------------------------------------------------------------------------------------------------------------
+
+v0.9.4:
+* Fixed an issue with users not able to individually select party members. This also affected the RightClick menu and cast macros.
+* Added a /sui menu toggle to disable AutoUI Resize for those users who are running in a resolution lower than 1920 x 1080 (Wide).
+* Modified Adapt to ONLY animate the Self, Target and Party frames unless specifically toggled by the user via the /adapt menu.
+	(Note: I'd advise against this since Adapt doesn't seem to properly crop portraits embedded in other frames.)
+
+-------------------------------------------------------------------------------------------------------------------------------
+v0.9.3:
+* Fixed an issue with Zone/Instance/Boat/Taxi causing action bars to disappear
+
+-------------------------------------------------------------------------------------------------------------------------------
+
+v0.9.2:
+* Fixed an issue with the cast bar. Interrupted channeled spells would continue to animate the cast bar. 
+
+-------------------------------------------------------------------------------------------------------------------------------
+
+v0.9.1:
+* Fixed party frames Rage, Energy and Focus bars. They were assigned the wrong anchor points in the XML resulting in them appearing over the health bar.
+
+* Adjusted Party1, 2, 3, 4 frames and spaced them further apart - they were previously too close and appeared squished. 
+
+* Reduced the portrait sizes to make them appear more centered in the unit frames
+
+-------------------------------------------------------------------------------------------------------------------------------
+
+v0.9:
+* Initial release
+
+-------------------------------------------------------------------------------------------------------------------------------
+
+eof

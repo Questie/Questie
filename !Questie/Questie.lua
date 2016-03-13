@@ -50,10 +50,6 @@ QuestieGlobalConfig = { -- TODO SAVEDVARIABLE THIS THING
 	}
 };
 
-
-
-
-
 function Questie:PrintConfigCategory(category, level)
 	header = "";
 	for q=0,level do -- bad code

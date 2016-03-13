@@ -36377,7 +36377,7 @@ QuestieHashMap = {
   ['finishedType']="monster",
   ['startedBy']="Master Sergeant Moonshadow",
   ['finishedBy']="Field Marshal Snowfall",
-  ['level']=1
+  ['level']=49
  },
  [2150321344]={
   ['name']="Securing the Lines",
@@ -38966,7 +38966,7 @@ QuestieHashMap = {
   ['finishedType']="monster",
   ['startedBy']="Master Sergeant Maclure",
   ['finishedBy']="Field Marshal Snowfall",
-  ['level']=1
+  ['level']=49
  },
  [1485943173]={
   ['name']="Fight for Warsong Gulch",
@@ -51652,7 +51652,7 @@ for k,v in pairs(QuestieHashMap) do
 					end
 				end
 			end
-			
+
 		else
 			mapid = qhdb['locations'][1][1];
 		end

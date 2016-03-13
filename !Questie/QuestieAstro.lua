@@ -13,6 +13,10 @@ if not QuestieConfig.showLowLevel then
 	QuestieConfig.showLowLevel = false;
 end
 
+if not QuestieConfig.showMapAids then
+	QuestieConfig.showMapAids = true;
+end
+
 if not QuestieConfig.showProfessionQuests then
 	QuestieConfig.showProfessionQuests = false;
 end
@@ -59,7 +63,44 @@ function Questie:OnLoad()
 		__QuestRewardCompleteButton_OnClick();
 	end
 
-	
+-- Dyaxler: Modify Worldmap in case user doesn't have Cartographer or MetaMap loaded otherwise the Worldmap will be full screen and user can't finish quests or see chat output.
+	if(not IsAddOnLoaded("Cartographer")) or (not IsAddOnLoaded("MetaMap")) then
+		UIPanelWindows["WorldMapFrame"] = nil
+		WorldMapFrame:SetFrameStrata("HIGH")
+		WorldMapFrame:EnableMouse(true)
+		WorldMapFrame:SetMovable(true)
+		WorldMapFrame:RegisterForDrag("LeftButton")
+		WorldMapFrame:SetScript("OnDragStart", function()
+			this:SetWidth(1024)
+			this:SetHeight(768)
+			this:StartMoving()
+		end)
+		WorldMapFrame:SetScript("OnDragStop", function()
+			this:StopMovingOrSizing()
+			this:SetWidth(1024)
+			this:SetHeight(768)
+			local x,y = this:GetCenter()
+			local z = UIParent:GetEffectiveScale() / 2 / this:GetScale()
+			x = x - GetScreenWidth() * z
+			y = y - GetScreenHeight() * z
+			this:ClearAllPoints()
+			this:SetPoint("CENTER", UIParent, "CENTER", x, y)
+		end)
+		WorldMapFrame:SetResizable(true)
+		WorldMapFrame:SetAlpha(1)
+		WorldMapFrame:SetScale(1)
+		WorldMapFrame:SetWidth(1024)
+		WorldMapFrame:SetHeight(768)
+		WorldMapFrame:SetScript("OnKeyDown", nil)
+		WorldMapFrame:StartMoving()
+		WorldMapFrame:StopMovingOrSizing()
+		WorldMapFrame:ClearAllPoints()
+		WorldMapFrame:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
+		BlackoutWorld:Hide()
+	else
+		return
+	end
+
 	Questie:NOTES_LOADED();
 
 	SlashCmdList["QUESTIE"] = Questie_SlashHandler;
@@ -68,22 +109,30 @@ end
 
 Active = true;
 function Questie:Toggle()
-	if(Active == true) then
-		Active = false;
+	if (QuestieConfig.showMapAids == true) then
+		if(Active == true) then
+			Active = false;
+			QuestieMapNotes = {};
+			QuestieAvailableMapNotes = {};
+			Questie:RedrawNotes();
+			LastQuestLogHashes = nil;
+			LastCount = 0;
+			--DEFAULT_CHAT_FRAME:AddMessage("Questie notes removed!");
+		else
+			Active = true;
+			LastQuestLogHashes = nil;
+			LastCount = 0;
+			Questie:CheckQuestLog();
+			Questie:SetAvailableQuests()
+			Questie:RedrawNotes();
+			--DEFAULT_CHAT_FRAME:AddMessage("Questie notes Active!");
+		end
+	else
 		QuestieMapNotes = {};
 		QuestieAvailableMapNotes = {};
 		Questie:RedrawNotes();
 		LastQuestLogHashes = nil;
 		LastCount = 0;
-	--DEFAULT_CHAT_FRAME:AddMessage("Questie notes removed!");
-	else
-		Active = true;
-		LastQuestLogHashes = nil;
-		LastCount = 0;
-		Questie:CheckQuestLog();
-		Questie:SetAvailableQuests()
-		Questie:RedrawNotes();
-	--DEFAULT_CHAT_FRAME:AddMessage("Questie notes Active!");
 	end
 end
 
@@ -159,7 +208,7 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 		Questie:CheckQuestLog();
 
 		--This is an ugly fix... Don't know why the list isn't populated correctly...
-		Questie:AddEvent("UPDATE", 1.15); 
+		Questie:AddEvent("UPDATE", 1.15);
 
 		--for k, v in pairs(QuestieSeenQuests) do
 		--	if(v == true or v == false) then
@@ -225,7 +274,7 @@ QuestieFastSlash = {
 	["complete"] = function(args)
 		--DEFAULT_CHAT_FRAME:AddMessage("   " .. findFirst("This is how it works", " "));
 		--DEFAULT_CHAT_FRAME:AddMessage("   " .. args);
-		
+
 		if _QuestieCompleteQuestSelectingOption then
 			for k,v in pairs(QuestieLevLookup) do
 				if strlower(k) == strlower(_QuestieCompleteQuestSelectingOption_QuestName) then
@@ -236,7 +285,7 @@ QuestieFastSlash = {
 					else
 						local index = 0;
 						for kk,vv in pairs(v) do
-						
+
 							if index == tonumber(args) then
 								Questie:finishAndRecurse(vv[2]);
 							end
@@ -255,7 +304,7 @@ QuestieFastSlash = {
 					for kk,vv in pairs(v) do
 						FUCKLUACOUNTWTF = FUCKLUACOUNTWTF + 1;
 					end
-					
+
 					if FUCKLUACOUNTWTF == 1 then
 						for kk,vv in pairs(v) do
 							Questie:finishAndRecurse(vv[2]);
@@ -275,6 +324,30 @@ QuestieFastSlash = {
 				end
 			end
 			DEFAULT_CHAT_FRAME:AddMessage(" |cFFFF2222No quest matches the name \"" .. args .. "\"!|r");
+		end
+	end,
+	["mapaids"] = function()
+		QuestieConfig.showMapAids = not QuestieConfig.showMapAids;
+		if QuestieConfig.showMapAids then
+			DEFAULT_CHAT_FRAME:AddMessage("World/Minimap icons will now be shown");
+			Questie:Toggle();
+			Questie:Toggle();
+		else
+			DEFAULT_CHAT_FRAME:AddMessage("World/Minimap icons will now be hidden");
+			Questie:Toggle();
+			Questie:Toggle();
+		end
+	end,
+	["arrow"] = function()
+		QuestieConfig.ArrowEnabled = not QuestieConfig.ArrowEnabled;
+		if QuestieConfig.ArrowEnabled then
+			DEFAULT_CHAT_FRAME:AddMessage("Quest Arrow will now be shown");
+			Questie:Toggle();
+			Questie:Toggle();
+		else
+			DEFAULT_CHAT_FRAME:AddMessage("Quest Arrow will now be hidden");
+			Questie:Toggle();
+			Questie:Toggle();
 		end
 	end,
 	["lowlevel"] = function()
@@ -298,7 +371,6 @@ QuestieFastSlash = {
 		else
 			DEFAULT_CHAT_FRAME:AddMessage("|cFFFF2222Error: invalid number supplied!");
 		end
-	
 	end,
 	["professions"] = function()
 		QuestieConfig.showProfessionQuests = not QuestieConfig.showProfessionQuests;
@@ -314,6 +386,8 @@ QuestieFastSlash = {
 	end,
 	["help"] = function()
 		DEFAULT_CHAT_FRAME:AddMessage("Questie SlashCommand Help Menu");
+		DEFAULT_CHAT_FRAME:AddMessage("  /questie mapaids -- Toggles World/Minimap icons");
+		DEFAULT_CHAT_FRAME:AddMessage("  /questie arrow -- Toggles Quest Arrow");
 		DEFAULT_CHAT_FRAME:AddMessage("  /questie lowlevel -- Toggles low level quest display");
 		DEFAULT_CHAT_FRAME:AddMessage("  /questie professions -- Toggles profession quests display");
 		DEFAULT_CHAT_FRAME:AddMessage("  /questie getpos -- Prints the player's map coordinates");
@@ -336,7 +410,7 @@ QuestieFastSlash = {
 		y = math.floor(y * 1000);
 		x = x / 10;
 		y = y / 10;
-		
+
 		if(IsAddOnLoaded("URLCopy"))then
 			DEFAULT_CHAT_FRAME:AddMessage("Player position: " .. URLCopy_Link(x..","..y));
 		else
@@ -413,7 +487,7 @@ QuestieFastSlash = {
 		else
 			DEFAULT_CHAT_FRAME:AddMessage("Failed");
 		end
-	
+
 	end,
 	["glowtest"] = function()
 		Questie:debug_Print("GlowTest");
@@ -473,9 +547,9 @@ QuestieFastSlash = {
 function Questie_SlashHandler(msgbase)
 
 	local space = findFirst(msgbase, " ");
-	
+
 	local msg, args;
-	
+
 	if not space or space == 1 then
 		msg = msgbase;
 	else
@@ -485,7 +559,7 @@ function Questie_SlashHandler(msgbase)
 
 	if QuestieFastSlash[msg] ~= nil then
 		QuestieFastSlash[msg](args);
-	
+
 	else
 		if (not msg or msg=="") then
 			QuestieFastSlash["help"]();
@@ -565,7 +639,7 @@ function Questie:Tooltip(this, forceShow, bag, slot) -- this function is making 
 								for dropper, value in pairs(QuestieCachedMonstersAndObjects[k]) do
 									if(string.find(dropper, monster)) then
 										local logid = Questie:GetQuestIdFromHash(k);
-										if logid then 
+										if logid then
 											SelectQuestLogEntry(logid);
 											local count =  GetNumQuestLeaderBoards();
 											for obj = 1, count do
@@ -695,7 +769,7 @@ end
 function Questie:getQuestHash(name, level, objectiveText)
 	local hashLevel = level or "hashLevel"
 	local hashText = objectiveText or "hashText"
-	
+
 	if QuestieQuestHashCache[name..hashLevel..hashText] then
 		return QuestieQuestHashCache[name..hashLevel..hashText]
 	end
@@ -744,11 +818,11 @@ function Questie:getQuestHash(name, level, objectiveText)
 	--DEFAULT_CHAT_FRAME:AddMessage("FALLING BACK TO LEGACY");
 	local hash = Questie:mixString(0, name);
 	if not (level == nil) then
-		hash = Questie:mixInt(hash, level); 
+		hash = Questie:mixInt(hash, level);
 		QuestieQuestHashCache[name..hashLevel..hashText] = hash;
 	end
 	if not (objectiveText == nil) then
-		hash = Questie:mixString(hash, objectiveText); 
+		hash = Questie:mixString(hash, objectiveText);
 		QuestieQuestHashCache[name..hashLevel..hashText] = hash;
 	end
 	QuestieQuestHashCache[name..hashLevel..hashText] = hash;
