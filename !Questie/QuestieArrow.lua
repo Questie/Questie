@@ -73,7 +73,7 @@ wayframe.status:SetPoint("TOP", wayframe.title, "BOTTOM", 0, 0)
 wayframe.tta:SetPoint("TOP", wayframe.status, "BOTTOM", 0, 0)
 
 local function OnDragStart(self, button)
-	if IsShiftKeyDown() then
+	if IsControlKeyDown() and IsShiftKeyDown() then
 		this:StartMoving()
 		wayframe:SetClampedToScreen(true);
 	end

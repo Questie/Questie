@@ -1,5 +1,3 @@
-
-
 --THIS IS THE FUNCTION TO USE!
 LastQuestLogHashes = nil;
 LastQuestLogCount = 0;
@@ -84,13 +82,11 @@ function Questie:CheckQuestLog()
 			MapChanged = true;
 		end
 	end
-
 	--Questie:debug_Print(table.getn(delta));
 	newcheckArray = nil;
 	checkArray = nil;
 	BiggestTable = nil;
 	delta = nil;
-
 	if(MapChanged == true) then
 		Questie:SetAvailableQuests();
 		Questie:RedrawNotes();
@@ -196,11 +192,9 @@ function Questie:UpdateQuestInZone(Zone, force)
 				lastObjectives[hash][obj].typ = typ;
 				lastObjectives[hash][obj].done = done;
 			end
-
 			if(Refresh) then --If it's the same it means everything is done
 				Questie:debug_Print("[UpdateQuestInZone] Update: Something has changed, need to refresh:", hash);
 				Questie:AddQuestToMap(hash, true);
-
 				QuestieTracker:updateFrameOnTracker(hash, i, level)
 				QuestieTracker:fillTrackingFrame()
 			elseif foundChange then
@@ -258,15 +252,12 @@ function Questie:AstroGetAllCurrentQuestHashes(print)
 			quest["level"] = level;
 			local hash = Questie:getQuestHash(q, level, objectiveText)
 			quest["hash"] = hash;
-
 			--This uses the addon URLCopy to easily be able to copy the questHashes from the debuglog.
 			if(IsAddOnLoaded("URLCopy") and print)then
 				Questie:debug_Print("        "..q,URLCopy_Link(quest["hash"]));
 			elseif(print) then
 				Questie:debug_Print("        "..q,quest["hash"]);
 			end
-
-
 			table.insert(hashes, quest);
 		else
 			if(print) then
@@ -302,7 +293,6 @@ function Questie:AstroGetAllCurrentQuestHashesAsMeta(print)
 			hashes[hash]["hash"] = hash;
 			hashes[hash]["name"] = q;
 			hashes[hash]["level"] = level;
-
 			--This uses the addon URLCopy to easily be able to copy the questHashes from the debuglog.
 			if(IsAddOnLoaded("URLCopy") and print)then
 				Questie:debug_Print("        "..q,URLCopy_Link(quest["hash"]));
@@ -326,7 +316,6 @@ function Questie:AstroGetAllCurrentQuestHashesAsMeta(print)
 	return hashes, numQuests;
 end
 
-
 --Cache information for the function below
 LastNrOfEntries = 0;
 CachedIds = {};
@@ -335,10 +324,7 @@ function Questie:GetQuestIdFromHash(questHash)
 	if(numEntries ~= LastNrOfEntries or not CachedIds[questHash]) then
 		CachedIds = {};
 		LastNrOfEntries = numEntries;
-
-
 		Questie:UpdateQuestIds();
-
 		--Questie:debug_Print("Got QuestID from Hash - Time: " .. (GetTime()-startTime)*1000 .. "ms");
 		if CachedIds[questHash] then
 			return CachedIds[questHash];
@@ -376,7 +362,6 @@ function Questie:UpdateQuestIds()
 	end
 	Questie:debug_Print("[UpdateQuestID] Had to update UpdateQuestIds",(GetTime() - startTime)*1000,"ms")
 end
-
 QuestieHashCache = {};
 
 function Questie:GetHashFromName(name)
@@ -392,7 +377,6 @@ function Questie:GetHashFromName(name)
 		end
 		if not (bestHash == -1) then return bestHash; end
 	end
-
 	--- I don't like the idea of it falling back to this but I dont think theres any option
 	Questie:debug_Print("NO KNOWN HASH FOR ", name, " FALLING BACK TO LEGACY (DANGEROUS)");
 	return Questie:getQuestHash(name, nil, nil);
@@ -425,9 +409,7 @@ function Questie:IsQuestFinished(questHash)
 		ret["level"] = level;
 		return ret;
 	end
-
 	--TODO: Check SavedVariables!
-
 	return nil;
 end
 
@@ -458,44 +440,26 @@ function Questie:AstroGetFinishedQuests()
 	end
 	return FinishedQuests;
 end
+
 --Questie:AstroGetQuestObjectives(1431546316)
 function Questie:AstroGetQuestObjectives(questHash)
 	--[[local hashData = QuestieHashMap[questHash];
-
 	local QuestLogID = nil;
-
   	local numEntries, numQuests = GetNumQuestLogEntries();
-
 	for i = 1, numEntries do
-
 		local q, level, questTag, isHeader, isCollapsed, isComplete = QuestieCompat_GetQuestLogTitle(i);
-
 		if not isHeader then
-
 		  	SelectQuestLogEntry(i);
-
 		    local count =  GetNumQuestLeaderBoards();
-
 		    local questText, objectiveText = _GetQuestLogQuestText();
-
-
-
 		    if(Questie:getQuestHash(q, level, objectiveText) == questHash) then
-
 		   	 	QuestLogID = i;
-
 		    	break;
-
 		    end
-
 		end
-
 	end
-
 	if not QuestLogID then
-
 		return;
-
 	end]]--
 
 	QuestLogID = Questie:GetQuestIdFromHash(questHash);
@@ -530,7 +494,6 @@ function Questie:AstroGetQuestObjectives(questHash)
 			--Questie:debug_Print("[AstroGetQuestObjectives]", tostring(q), tostring(namestr), tostring(countstr), tostring(selected), tostring(mapid))
 			local objectives = typeFunction(q, namestr, countstr, selected, mapid);
 			--DEFAULT_CHAT_FRAME:AddMessage("Count:"..table.getn(objectives)); --NotWORKING debug
-
 			Objective = {};
 			local hash = Questie:getQuestHash(q, level, objectiveText);
 			for k, v in pairs(objectives) do
@@ -557,7 +520,6 @@ function Questie:AstroGetQuestObjectives(questHash)
 				end
 			end
 		else
-
 		end
 	end
 	--for name, locations in pairs(AllObjectives['objectives']) do
@@ -569,53 +531,31 @@ function Questie:AstroGetQuestObjectives(questHash)
 	--DEFAULT_CHAT_FRAME:AddMessage("Size: "..table.getn(AllObjectives)); --NotWORKING debug
 	return AllObjectives;
 end
+
 --[[
-
 		if typ == "item" or typ == "monster" then
-
 			Questie:debug_Print(typ);
-
 			local indx = findLast(desc, ":");
-
 			--DEFAULT_CHAT_FRAME:AddMessage(indx, 0.95, 0.95, 0.5);
-
 			local countstr = string.sub(desc, indx+2);
-
 			local namestr = string.sub(desc, 1, indx-1);
-
 			Questie:debug_Print(tostring(q), tostring(namestr), tostring(countstr), tostring(selected), tostring(mapid))
-
 			local objectives = typeFunction(q, namestr, countstr, selected, mapid);
-
 			Questie:debug_Print("Objectives:", table.getn(objectives));
-
 			for k, v in pairs(objectives) do
-
 				for monster, pos in pairs(v['locations']) do
-
 					Questie:debug_Print("Monster Pos:",v["name"], pos[2],pos[3]);
-
 				end
-
 			end
-
 		else
-
 			Questie:debug_Print(typ);
-
 			local objectives = typeFunction(quest, desc, "", selected, mapid);
-
 			Questie:debug_Print(quest, desc);
-
 			Questie:debug_Print(tostring(objectives));
-
 		end
-
 ]]--
 
-
-
---Take fron questie! Selected seems not to be used
+--Take from questie! Selected seems not to be used
 AstroobjectiveProcessors = {
 	['item'] = function(quest, name, amount, selected, mapid)
 		--DEFAULT_CHAT_FRAME:AddMessage("derp", 0.95, 0.95, 0.5);
@@ -650,17 +590,14 @@ AstroobjectiveProcessors = {
 						end
 						--local monsterdata = QuestRoot['QuestHelper_StaticData']['enUS']['objective']['monster'][e];
 						--addMonsterToMap(monsterName, info, quest, selected)
-
 						table.insert(list, monster)
 						--Questie:addMonsterToMap(e, name .. " (" .. amount .. ")", quest, "Loot", mapid, selected);
 					end
 				elseif k =="locations" then
-
 				else
 					Questie:debug_Print("[AstroobjectiveProcessors] ERROR2 " .. quest .. "  objective:" .. name.. " ID:1");
 					for s, r in pairs(itemdata) do
 						Questie:debug_Print(s,tostring(r));
-
 					end
 				end
 			end
@@ -715,13 +652,10 @@ AstroobjectiveProcessors = {
 		return list;
 	end,
 	['object'] = function(quest, name, amount, selected, mapid)
-
-
 		local list = {};
 		local objdata = QuestieObjects[name];
 		if objdata == nil then
 			Questie:debug_Print("[AstroobjectiveProcessors] ERROR4 UNKNOWN OBJECT " .. quest .. "  objective:" .. name);
-
 		else
 			--DEFAULT_CHAT_FRAME:AddMessage("VALIDEVT: " .. name, 0.2, 0.95, 0.2);
 			for b=1,objdata['locationCount'] do
@@ -743,19 +677,9 @@ AstroobjectiveProcessors = {
 		end
 		return list;
 	end
-
 }
 
-
 --End of Astrolabe functions
-
-
-
-
-
-
-
-
 
 RaceBitIndexTable = { -- addressing the indexes directly to make it more clear
 	['human'] = 1,
@@ -770,7 +694,6 @@ RaceBitIndexTable = { -- addressing the indexes directly to make it more clear
 	['troll'] = 8,
 	['goblin'] = 9
 };
-
 ClassBitIndexTable = {
 	['warrior'] = 1,
 	['paladin'] = 2,
@@ -803,17 +726,13 @@ function checkRequirements(class, race, dbClass, dbRace)
 	if race and dbRace and not (dbRace == 0) then
 		--DEFAULT_CHAT_FRAME:AddMessage("CHCKR");
 		local racemap = unpackBinary(dbRace);
-
 		valid = racemap[RaceBitIndexTable[strlower(race)]];
-
 	end
-
 	if class and dbClass and valid and not (dbRace == 0)then
 		--DEFAULT_CHAT_FRAME:AddMessage("CHCKC");
 		local classmap = unpackBinary(dbClass);
 		valid = classmap[ClassBitIndexTable[strlower(class)]];
 	end
-
 	return valid;
 end
 
@@ -837,21 +756,16 @@ function Questie:GetAvailableQuestHashes(mapFileName, levelFrom, levelTo)
 					local qdata = QuestieHashMap[v];
 					--table.insert(hashes, v);
 					if(qdata) then
-
 						local requiredQuest = qdata['rq'];
 						local requiredRaces = qdata['rr'];
 						local requiredClasses = qdata['rc'];
 						local requiredSkill = qdata['rs'];
 						local valid = not QuestieSeenQuests[requiredQuest];-- THIS IS LIKELY INCORRECT NOT SURE HOW QUESTIESEENQUESTS WORKS NOW
-
 						if(requiredQuest) then valid = QuestieSeenQuests[requiredQuest]; end-- THIS IS LIKELY INCORRECT NOT SURE HOW QUESTIESEENQUESTS WORKS NOW
-
 						valid = valid and (requiredSkill == nil or QuestieConfig.showProfessionQuests);
-
 						--(class, race, dbClass, dbRace)
 						if valid then valid = valid and checkRequirements(class, race, requiredClasses,requiredRaces); end
-
-						if valid and not QuestieHandledQuests[requiredQuest] and not QuestieSeenQuests[v] then
+						if valid and not QuestieHandledQuests[requiredQuest] and not QuestieSeenQuests[v] or ((QuestieSeenQuests[v] == -1) and (QuestieTrackedQuests[v] == false)) then
 							table.insert(hashes, v);
 						end
 					end

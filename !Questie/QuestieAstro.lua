@@ -8,9 +8,14 @@ __QuestAbandonOnAccept=nil;
 
 local QuestieQuestHashCache = {}
 
+if not QuestieConfig.minShowLevel then
+	QuestieConfig.minLevelfilter = false;
+	QuestieConfig.minShowLevel = 6;
+end
 
-if not QuestieConfig.showLowLevel then
-	QuestieConfig.showLowLevel = false;
+if not QuestieConfig.showMaxLevel then
+	QuestieConfig.maxLevelfilter = false;
+	QuestieConfig.maxShowLevel = 3;
 end
 
 if not QuestieConfig.showMapAids then
@@ -42,7 +47,7 @@ function Questie:OnLoad()
 
 	StaticPopupDialogs["ABANDON_QUEST"].OnAccept = function()
 		local hash = Questie:GetHashFromName(GetAbandonQuestName());
-		QuestieSeenQuests[hash] = nil;
+		QuestieSeenQuests[hash] = -1;
 		Questie:AddEvent("CHECKLOG", 0.135);
 		__QuestAbandonOnAccept();
 	end
@@ -350,22 +355,44 @@ QuestieFastSlash = {
 			Questie:Toggle();
 		end
 	end,
-	["lowlevel"] = function()
-		QuestieConfig.showLowLevel = not QuestieConfig.showLowLevel;
-		if QuestieConfig.showLowLevel then
-			DEFAULT_CHAT_FRAME:AddMessage("Low level quests will now be shown");
+	["minlevel"] = function()
+		QuestieConfig.minLevelfilter = not QuestieConfig.minLevelfilter;
+		if QuestieConfig.minLevelfilter then
+			DEFAULT_CHAT_FRAME:AddMessage("Min-level filter on");
 			Questie:Toggle();
 			Questie:Toggle();
 		else
-			DEFAULT_CHAT_FRAME:AddMessage("Low level quests will now be hidden");
+			DEFAULT_CHAT_FRAME:AddMessage("Min-level filter off");
 			Questie:Toggle();
 			Questie:Toggle();
 		end
 	end,
-	["minlevel"] = function(args)
+	["maxlevel"] = function()
+		QuestieConfig.maxLevelfilter = not QuestieConfig.maxLevelfilter;
+		if QuestieConfig.maxLevelfilter then
+			DEFAULT_CHAT_FRAME:AddMessage("Max-level filter on");
+			Questie:Toggle();
+			Questie:Toggle();
+		else
+			DEFAULT_CHAT_FRAME:AddMessage("Max-level filter off");
+			Questie:Toggle();
+			Questie:Toggle();
+		end
+	end,
+	["setminlevel"] = function(args)
 		if args then
 			local val = tonumber(args);
 			QuestieConfig.minShowLevel = val;
+			Questie:Toggle();
+			Questie:Toggle();
+		else
+			DEFAULT_CHAT_FRAME:AddMessage("|cFFFF2222Error: invalid number supplied!");
+		end
+	end,
+	["setmaxlevel"] = function(args)
+		if args then
+			local val = tonumber(args);
+			QuestieConfig.maxShowLevel = val;
 			Questie:Toggle();
 			Questie:Toggle();
 		else
@@ -386,13 +413,15 @@ QuestieFastSlash = {
 	end,
 	["help"] = function()
 		DEFAULT_CHAT_FRAME:AddMessage("Questie SlashCommand Help Menu");
-		DEFAULT_CHAT_FRAME:AddMessage("  /questie mapaids -- Toggles World/Minimap icons");
-		DEFAULT_CHAT_FRAME:AddMessage("  /questie arrow -- Toggles Quest Arrow");
-		DEFAULT_CHAT_FRAME:AddMessage("  /questie lowlevel -- Toggles low level quest display");
-		DEFAULT_CHAT_FRAME:AddMessage("  /questie professions -- Toggles profession quests display");
+		DEFAULT_CHAT_FRAME:AddMessage("  /questie mapaids -- Toggles (on/off) World/Minimap icons");
+		DEFAULT_CHAT_FRAME:AddMessage("  /questie arrow -- Toggles on/off Quest Arrow");
+		DEFAULT_CHAT_FRAME:AddMessage("  /questie professions -- Toggles (on/off) profession quests");
 		DEFAULT_CHAT_FRAME:AddMessage("  /questie getpos -- Prints the player's map coordinates");
 		DEFAULT_CHAT_FRAME:AddMessage("  /questie complete <quest name> -- Manually complete quests");
-		DEFAULT_CHAT_FRAME:AddMessage("  /questie minlevel <number> -- change available quest minimum calculation number (level - <number>). default is 12 as of 2.0.13, 6 in 2.0.12 or earlier");
+		DEFAULT_CHAT_FRAME:AddMessage("  /questie minlevel -- Toggles (on/off) the Min-Level Filter");
+		DEFAULT_CHAT_FRAME:AddMessage("  /questie setminlevel <number> -- Hides quests <X> levels below players level (default=6)");
+		DEFAULT_CHAT_FRAME:AddMessage("  /questie maxlevel -- Toggles (on/off) the Max-Level Filter");
+		DEFAULT_CHAT_FRAME:AddMessage("  /questie setmaxlevel <number> -- Hides quests until <X> levels above players level (default=3)");
 	end,
 	["test"] = function()
 		DEFAULT_CHAT_FRAME:AddMessage("Adding icons zones");

@@ -10,11 +10,8 @@ QUESTIE_NOTES_MAP_ICON_SCALE = 1.2;-- Zone
 QUESTIE_NOTES_WORLD_MAP_ICON_SCALE = 0.75;--Full world shown
 QUESTIE_NOTES_CONTINENT_ICON_SCALE = 1;--Continent Shown
 QUESTIE_NOTES_MINIMAP_ICON_SCALE = 1.0;
-
 QuestieUsedNoteFrames = {};
-
 QuestieHandledQuests = {};
-
 QuestieCachedMonstersAndObjects = {};
 
 function Questie:AddQuestToMap(questHash, redraw)
@@ -29,7 +26,6 @@ function Questie:AddQuestToMap(questHash, redraw)
 	ques["noteHandles"] = {};
 	UsedContinents = {};
 	UsedZones = {};
-
 	local Quest = Questie:IsQuestFinished(questHash);
 	if not (Quest) then
 		--DEFAULT_CHAT_FRAME:AddMessage("Inside quest "); --NotWORKING debug
@@ -76,18 +72,14 @@ function Questie:AddQuestToMap(questHash, redraw)
 			notehandle.c = MapInfo[4];
 			notehandle.z = MapInfo[5];
 			table.insert(ques["noteHandles"], notehandle);
-
 		else
 			Questie:debug_Print("[AddQuestToMap] ERROR Quest broken! ", Quest["name"], questHash, "report on github!");
 		end
-
 		--local MapInfo = Questie:GetMapInfoFromID(location.mapid);
 	end
-
 	--Cache code
 	ques["objectives"] = Objectives;
 	QuestieHandledQuests[questHash] = ques;
-
 	if(redraw) then
 		Questie:RedrawNotes();
 	end
@@ -118,6 +110,7 @@ function Questie:UpdateQuestNotes(questHash, redraw)
 end
 
 GLOBALJAO = nil
+
 function Questie:RemoveQuestFromMap(questHash, redraw)
 	local removed = false;
 	for continent, zoneTable in pairs(QuestieMapNotes) do
@@ -138,7 +131,6 @@ function Questie:RemoveQuestFromMap(questHash, redraw)
 	end
 end
 
-
 function Questie:GetMapInfoFromID(id)
 	return QuestieZoneIDLookup[id];
 end
@@ -153,7 +145,6 @@ function Questie:AddNoteToMap(continent, zoneid, posx, posy, type, questHash, ob
 	if(QuestieMapNotes[continent][zoneid] == nil) then
 		QuestieMapNotes[continent][zoneid] = {};
 	end
-
 	--Sets values that i want to use for the notes THIS IS WIP MORE INFO MAY BE NEDED BOTH IN PARAMETERS AND NOTES!!!
 	Note = {};
 	Note.x = posx;
@@ -166,7 +157,6 @@ function Questie:AddNoteToMap(continent, zoneid, posx, posy, type, questHash, ob
 	--Inserts it into the right zone and continent for later use.
 	table.insert(QuestieMapNotes[continent][zoneid], Note);
 end
-
 
 --Available Quest Code
 QuestieAvailableMapNotes = {};
@@ -242,7 +232,6 @@ function Questie_Tooltip_OnEnter()
 			Tooltip:AddLine("Quest available",1,1,1);
 			Tooltip:AddLine("Shift+CTRL+Click to manually complete quest!",1,1,1);
 		end
-
 		if(NOTES_DEBUG and IsAltKeyDown()) then
 			Tooltip:AddLine("!DEBUG!", 1, 0, 0);
 			Tooltip:AddLine("questHash: "..this.data.questHash, 1, 0, 0);
@@ -356,12 +345,9 @@ end
 
 TICK_DELAY = 0.01;--0.1 Atm not to get spam while debugging should probably be a lot faster...
 LAST_TICK = GetTime();
-
 local LastContinent = nil;
 local LastZone = nil;
-
 UIOpen = false;
-
 NATURAL_REFRESH = 60;
 NATRUAL_REFRESH_SPACING = 2;
 
@@ -377,7 +363,6 @@ function Questie:NOTES_ON_UPDATE(elapsed)
 		LastContinent = c;
 		LastZone = z;
 	end
-
 	--NOT NEEDED BUT KEEPING FOR AWHILE
 	if(WorldMapFrame:IsVisible() and UIOpen == false) then
 		--Questie:debug_Print("UI Opened redrawing");
@@ -404,26 +389,21 @@ function Questie:NOTES_LOADED()
 	Questie:debug_Print("Done Loading QuestieNotes");
 end
 
-
 --function Questie:AddAvailableNoteToMap(continent, zoneid, posx, posy, type, questHash, objectiveid)
 function Questie:SetAvailableQuests()
-	if not QuestieConfig.minShowLevel then
-		QuestieConfig.minShowLevel = 12;
-	end
 	QuestieAvailableMapNotes = {};
 	local t = GetTime();
 	local level = UnitLevel("player");
 	local c, z = GetCurrentMapContinent(), GetCurrentMapZone();
 	local mapFileName = GetMapInfo();
 	local quests = nil;
-
-	if QuestieConfig.showLowLevel then
+	if QuestieConfig.minLevelfilter and not QuestieConfig.maxLevelfilter then
+		quests = Questie:GetAvailableQuestHashes(mapFileName,level-(QuestieConfig.minShowLevel),level);
+	elseif QuestieConfig.minLevelfilter and QuestieConfig.maxLevelfilter then
+		quests = Questie:GetAvailableQuestHashes(mapFileName,level-(QuestieConfig.minShowLevel),level-(QuestieConfig.maxShowLevel));
+	elseif not QuestieConfig.minLevelfilter and not QuestieConfig.maxLevelfilter then
 		quests = Questie:GetAvailableQuestHashes(mapFileName,0,level);
-	else
-		quests = Questie:GetAvailableQuestHashes(mapFileName,level-QuestieConfig.minShowLevel,level);
 	end
-
-
 	if quests then
 	for k, v in pairs(quests) do
 		if(QuestieHashMap[v] and QuestieHashMap[v]['startedBy'] and QuestieMonsters[QuestieHashMap[v]['startedBy']]) then
@@ -433,7 +413,6 @@ function Questie:SetAvailableQuests()
 			Questie:AddAvailableNoteToMap(c,z,Monster[2],Monster[3],"available",v,-1);
 		end
 	end
-
 	Questie:debug_Print("Added Available quests: Time:",tostring((GetTime()- t)*1000).."ms", "Count:"..table.getn(quests))
 	end
 end
@@ -501,7 +480,6 @@ function Questie:DRAW_NOTES()
 			end
 		end
 	end
-
 	for k, Continent in pairs(QuestieMapNotes) do
 		for zone, noteHeap in pairs(Continent) do
 			for k, v in pairs(noteHeap) do
@@ -524,7 +502,6 @@ function Questie:DRAW_NOTES()
 					Icon:SetScript("OnEnter", Questie_Tooltip_OnEnter); --Script Toolip
 					Icon:SetScript("OnLeave", function() if(WorldMapTooltip) then WorldMapTooltip:Hide() end if(GameTooltip) then GameTooltip:Hide() end end) --Script Exit Tooltip
 					Icon:SetScript("OnClick", Questie_AvailableQuestClick) -- Dyaxler: Script OnClick
-
 					if(z == 0 and c == 0) then--Both continents
 						Icon:SetWidth(16*QUESTIE_NOTES_WORLD_MAP_ICON_SCALE)  -- Set These to whatever height/width is needed
 						Icon:SetHeight(16*QUESTIE_NOTES_WORLD_MAP_ICON_SCALE) -- for your Texture
@@ -535,14 +512,11 @@ function Questie:DRAW_NOTES()
 						Icon:SetWidth(16*QUESTIE_NOTES_MAP_ICON_SCALE)  -- Set These to whatever height/width is needed
 						Icon:SetHeight(16*QUESTIE_NOTES_MAP_ICON_SCALE) -- for your Texture
 					end
-
 					--Set the texture to the right type
 					Icon.texture:SetTexture(QuestieIcons[v.icontype].path);
 					Icon.texture:SetAllPoints(Icon)
-
 					--Shows and then calls Astrolabe to place it on the map.
 					Icon:Show();
-
 					--Questie:debug_Print(x.." : "..y);
 					xx, yy = Astrolabe:PlaceIconOnWorldMap(WorldMapButton,Icon,v.continent ,v.zoneid ,v.x, v.y); --WorldMapFrame is global
 					if(xx and yy and xx > 0 and xx < 1 and yy > 0 and yy < 1) then
@@ -556,7 +530,6 @@ function Questie:DRAW_NOTES()
 			end
 		end
 	end
-
 	if(QuestieAvailableMapNotes[c] and QuestieAvailableMapNotes[c][z]) then
 		local con,zon,x,y = Astrolabe:GetCurrentPlayerPosition();
 		for k, v in pairs(QuestieAvailableMapNotes[c][z]) do
@@ -567,21 +540,17 @@ function Questie:DRAW_NOTES()
 			Icon:SetParent(WorldMapFrame);
 			--This is so that Complete quests are over everything else
 			Icon:SetFrameLevel(9);
-
 			Icon:SetPoint("CENTER",0,0)
 			Icon.type = "WorldMapNote";
 			Icon:SetScript("OnEnter", Questie_Tooltip_OnEnter); --Script Toolip
 			Icon:SetScript("OnLeave", function() if(WorldMapTooltip) then WorldMapTooltip:Hide() end if(GameTooltip) then GameTooltip:Hide() end end) --Script Exit Tooltip
 			Icon:SetWidth(16*QUESTIE_NOTES_MAP_ICON_SCALE)  -- Set These to whatever height/width is needed
 			Icon:SetHeight(16*QUESTIE_NOTES_MAP_ICON_SCALE) -- for your Texture
-
 			--Set the texture to the right type
 			Icon.texture:SetTexture(QuestieIcons[v.icontype].path);
 			Icon.texture:SetAllPoints(Icon)
-
 			--Shows and then calls Astrolabe to place it on the map.
 			Icon:Show();
-
 			--Questie:debug_Print(x.." : "..y);
 			xx, yy = Astrolabe:PlaceIconOnWorldMap(WorldMapButton,Icon,v.continent ,v.zoneid ,v.x, v.y); --WorldMapFrame is global
 			if(xx and yy and xx > 0 and xx < 1 and yy > 0 and yy < 1) then
@@ -591,8 +560,6 @@ function Questie:DRAW_NOTES()
 				--Questie:debug_Print("Outside map, reseting icon to pool");
 				Questie:Clear_Note(Icon);
 			end
-
-
 			MMIcon = Questie:GetBlankNoteFrame();
 			--Here more info should be set but i CBA at the time of writing
 			MMIcon.data = v;
@@ -615,7 +582,6 @@ function Questie:DRAW_NOTES()
 			table.insert(QuestieUsedNoteFrames, MMIcon);
 		end
 	end
-
 end
 
 --Debug print function
@@ -627,7 +593,6 @@ function Questie:debug_Print(...)
 		if (string.lower(name) == "questiedebug") then debugWin = i; break; end
 	end
 	if (debugWin == 0) then return end
-
 	local out = "";
 	for i = 1, arg.n, 1 do
 		if (i > 1) then out = out .. ", "; end
@@ -642,16 +607,6 @@ function Questie:debug_Print(...)
 	end
 	getglobal("ChatFrame"..debugWin):AddMessage(out, 1.0, 1.0, 0.3);
 end
-
-
-
-
-
-
-
-
-
-
 
 --Sets the icons
 QuestieIcons = {

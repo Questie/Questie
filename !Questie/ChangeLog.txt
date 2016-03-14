@@ -1,5 +1,40 @@
 -------------------------------------------------------------------------------------------------------------------------------
 
+v2.4:
+* Added an "Elite" tag to the QuestTracker - Elite quests will now 
+  properly carry the [+] along with the quest level tag.
+
+* Added a minlevel/maxlevel filter along with an on/off toggle
+    - /questie minlevel - toggles the filter on or off
+    - /questie maxlevel - toggles the filter on or off
+
+    - /questie setminlevel <%number%> - accepts a number argument 
+      this will filter/notshow quests <x> levels BELOW your current 
+      level. - Default=6
+    - /questie setmaxlevel <%number%> - accepts a number argument this
+      will filter/notshow quests until <x> levels ABOVE your current 
+      level. - Default=3
+
+    - These toggles/filters are independent of each other. Either one 
+      can be enabled or disabled in any combination.
+
+* Modified the QuestTracker/QuestArrow dragging Key Modifiers from 
+  Shift+MouseButtonDown to CTRL+Shift+MouseButtonDown - there are too 
+  many key combos in WoW that use the Shift key so I thought it safer to
+  include an additional key combo. Might resovle a crashing issue 
+  someone reported.
+
+* I fixed the abandon quest bug where the icon was not showing back up 
+  on the world/minimaps.
+
+* Due to the number of improvements that Questie has undergone these past
+  several weeks, the Toggle Questie button on the Worldmap is no longer 
+  needed. If you need to toggle the icons use /questie mapaids.
+
+* Code clean up
+
+-------------------------------------------------------------------------------------------------------------------------------
+
 v2.3:
 * Added a SHIFT key modifier to the QuestTracker and QuestArrow - unless 
 the shift key is down, you can't drag it.

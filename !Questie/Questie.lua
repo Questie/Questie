@@ -1095,7 +1095,6 @@ function Questie:QUEST_LOG_UPDATE()
                                                 -- someone should tell me if LUA is like C where I could do only "if not seen then" here.
                     QuestieSeenQuests[hash] = true; -- true = in the quest log
                 end
-
                 if not (hashData == nil) then
                     --log(hashData['finishedBy'], 1);
                     if (count == 0) then
