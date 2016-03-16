@@ -20,7 +20,7 @@ function QuestieTracker_OnUpdate()
 		end
 		QuestieTracker.frame:SetPoint(QuestieTrackerVariables["position"]["point"], QuestieTrackerVariables["position"]["relativeTo"], QuestieTrackerVariables["position"]["relativePoint"],
 			QuestieTrackerVariables["position"]["xOfs"], QuestieTrackerVariables["position"]["yOfs"]);
-	end]]
+	end]]--
 	--ChatFrame3:Clear();
 	--for k,v in pairs(QuestieTrackedQuests) do
 	--	if type(v) == "table"  then
@@ -83,23 +83,30 @@ function QuestieTracker:updateTrackingFrameSize()
 	QuestieTracker.frame:SetHeight(totalSize);
 end
 
-function QuestieTracker:getRGBForObjective_old(objective)
-	if not (type(objective) == "function") then -- seriously wtf
+function QuestieTracker:getRGBForObjectiveBold(objective)
+	if not (type(objective) == "function") then
 		local lastIndex = findLast(objective, ":");
-		if not (lastIndex == nil) then -- I seriously CANT shake this habit
+		if not (lastIndex == nil) then
 			local progress = string.sub(objective, lastIndex+2);
-			-- There HAS to be a better way of doing this
 			local slash = findLast(progress, "/");
 			local have = tonumber(string.sub(progress, 0, slash-1))
 			local need = tonumber(string.sub(progress, slash+1))
+			if not have or not need then
+				return 1, 0, 0;
+			end
 			local float = have / need;
-			local part = float-0.5;
-			if part < 0 then part = 0; end
-			part = part * 2;
-			return 1.0-part, float*2, 0;
+			if float < .49 then
+				return 1, 0+float/.5, 0;
+			end
+			if float == .50 then
+				return 1, 1, 0;
+			end
+			if float > .50 then
+				return 1-float/2, 1, 0;
+			end
 		end
 	end
-	return 0.2, 1, 0.2;
+	return 0, 1, 0;
 end
 
 function QuestieTracker:getRGBForObjective(objective)
@@ -249,19 +256,43 @@ end
 function QuestieTracker:AddObjectiveToButton(button, objective, index)
 	local objt;
 	if button.objectives[index] == nil then
-		--button:SetHeight(button:GetHeight() + 11);
 		objt = button:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 	else
 		objt = button.objectives[index];
 	end
-	 --/script QuestieTracker.questButtons[3]:SetHeight(20);
 	objt:SetPoint("TOPLEFT", button, "TOPLEFT", 20, -(index * 11+1))
-	local r, g, b = QuestieTracker:getRGBForObjective(objective["desc"]);
-	local clr = fRGBToHex(r, g, b);
-	--local clr = "DDDDDD";
-	objt:SetText("|cFF"..clr..objective["desc"].."|r");
-	button.objectives[index] = objt;
-	--btn.objectives
+	if QuestieConfig.BoldColors == true then
+		local r, g, b = QuestieTracker:getRGBForObjectiveBold(objective["desc"]);
+		local clr = fRGBToHex(r, g, b);
+		objt:SetText("|cFF"..clr..objective["desc"].."|r");
+		button.objectives[index] = objt;
+	else
+		local r, g, b = QuestieTracker:getRGBForObjective(objective["desc"]);
+		local clr = fRGBToHex(r, g, b);
+		objt:SetText("|cFF"..clr..objective["desc"].."|r");
+		button.objectives[index] = objt;
+	end
+end
+
+function QuestieTracker:AddEventToButton(button, objective, index)
+	local objt;
+	if button.objectives[index] == nil then
+		objt = button:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+	else
+		objt = button.objectives[index];
+	end
+	objt:SetPoint("TOPLEFT", button, "TOPLEFT", 20, -(index * 11+1))
+	if QuestieConfig.BoldColors == true then
+		local r, g, b = QuestieTracker:getRGBForObjectiveBold(objective["desc"]);
+		local clr = fRGBToHex(r, g, b);
+		objt:SetText("|cFFFF0000"..objective["desc"].."|r");
+		button.objectives[index] = objt;
+	else
+		local r, g, b = QuestieTracker:getRGBForObjective(objective["desc"]);
+		local clr = fRGBToHex(r, g, b);
+		objt:SetText("|cFFCCCCCC"..objective["desc"].."|r");
+		button.objectives[index] = objt;
+	end
 end
 
 -- TODO move this into Questie: namespace
@@ -382,68 +413,142 @@ function QuestieTracker:fillTrackingFrame()
 	for k,v in pairs(QuestieTrackedQuests) do
 		if type(v) == "table" then v['rend'] = false; end
 	end
-	for i,v in pairs(sortedByDistance) do
-		local hash = v["hash"];
-		local quest = QuestieTrackedQuests[hash];
-		quest['rend'] = true;
-		local button = QuestieTracker:createOrGetTrackingButton(index);
-		button.hash = hash;
-		local colorString = "|c" .. QuestieTracker:GetDifficultyColor(quest["level"]);
-		local titleData = colorString;
-		if QuestieConfig['AlwaysShowLevel'] then
+	if QuestieConfig.BoldColors == true then
+		for i,v in pairs(sortedByDistance) do
+			local hash = v["hash"];
+			local quest = QuestieTrackedQuests[hash];
+			quest['rend'] = true;
+			local button = QuestieTracker:createOrGetTrackingButton(index);
+			button.hash = hash;
+			local colorString = "|c" .. QuestieTracker:GetDifficultyColor(quest["level"]);
+			local titleData = colorString;
+				if QuestieConfig['AlwaysShowLevel'] then
+					if quest["questTag"] then
+						titleData = titleData .. "[" .. quest["level"] .. "+" .. "] " ;
+					else
+						titleData = titleData .. "[" .. quest["level"] .. "] " ;
+					end
+				end
+				titleData = titleData .. "|r|cFFFFFFFF" .. quest["questName"] .. "|r";
+				if QuestieConfig['AlwaysShowDistance'] then
+					titleData = titleData .. " ("..math.floor(v["dist"]).." Yd)";
+				end
+			button.quest:SetText(titleData);
+			--button.level:SetText(colorString .. "[".. quest["level"] .."]|r");
+			local obj = 1;
 			if quest["questTag"] then
-				titleData = titleData .. "[" .. quest["level"] .. "+" .. "] " ;
+				v["title"] = colorString .. "[" .. quest["level"] .. "+" .. "] |r" .. quest["questName"];
 			else
-				titleData = titleData .. "[" .. quest["level"] .. "] " ;
+				v["title"] = colorString .. "[" .. quest["level"] .. "] |r" .. quest["questName"];
 			end
-		end
-		titleData = titleData .. quest["questName"];
-		if QuestieConfig['AlwaysShowDistance'] then
-			titleData = titleData .. " ("..math.floor(v["dist"]).." Yd)";
-		end
-		titleData = titleData  .. "|r";
-		button.quest:SetText(titleData);
-		--button.level:SetText(colorString .. "[".. quest["level"] .."]|r");
-		local obj = 1;
-		if quest["questTag"] then
-			v["title"] = colorString .. "[" .. quest["level"] .. "+" .. "] " .. quest["questName"] .. "|r";
-		else
-			v["title"] = colorString .. "[" .. quest["level"] .. "] " .. quest["questName"] .. "|r";
-		end
-		quest["arrowPoint"] = v
-		if quest["isComplete"] or quest["leaderboards"] == 0 then
-			QuestieTracker:AddObjectiveToButton(button, {['desc']="Quest Complete!"}, obj);
-			obj = 2;
-		else
+			quest["arrowPoint"] = v
+			if quest["isComplete"] or quest["leaderboards"] == 0 then
+				QuestieTracker:AddObjectiveToButton(button, {['desc']="Quest Complete!"}, obj);
+				obj = 2;
+			else
+				while true do
+					local beefcake = quest["objective" .. obj];
+					if beefcake == nil then break; end
+					if beefcake["type"] == "event" then
+						QuestieTracker:AddEventToButton(button, beefcake, obj);
+						obj = obj + 1;
+					else
+						QuestieTracker:AddObjectiveToButton(button, beefcake, obj);
+						obj = obj + 1;
+					end
+				end
+			end
+			button.currentObjectiveCount = obj - 1;
+			local heightLoss = 0;
 			while true do
-				local beefcake = quest["objective" .. obj];
-				if beefcake == nil then break; end
-				QuestieTracker:AddObjectiveToButton(button, beefcake, obj);
+				if button.objectives[obj] == nil then break; end
+				button.objectives[obj]:SetText(""); --hecks
+				heightLoss = heightLoss + 11;
 				obj = obj + 1;
 			end
+			--button:SetHeight(button:GetHeight() - heightLoss);
+			button:SetHeight(14 + (button.currentObjectiveCount * 11));
+			button:Show();
+			index = index + 1;
 		end
-		button.currentObjectiveCount = obj - 1;
-		local heightLoss = 0;
+		QuestieTracker.highestIndex = index - 1;
 		while true do
-			if button.objectives[obj] == nil then break; end
-			button.objectives[obj]:SetText(""); --hecks
-			heightLoss = heightLoss + 11;
-			obj = obj + 1;
+			local d = QuestieTracker.questButtons[index];
+			if d == nil then break end;
+			d:Hide();
+			index = index + 1;
 		end
-		--button:SetHeight(button:GetHeight() - heightLoss);
-		button:SetHeight(14 + (button.currentObjectiveCount * 11));
-		button:Show();
-		index = index + 1;
+		QuestieTracker:updateTrackingFrameSize();
+		QuestieTracker.frame:Show();
+	else
+	 	for i,v in pairs(sortedByDistance) do
+			local hash = v["hash"];
+			local quest = QuestieTrackedQuests[hash];
+			quest['rend'] = true;
+			local button = QuestieTracker:createOrGetTrackingButton(index);
+			button.hash = hash;
+			local colorString = "|c" .. QuestieTracker:GetDifficultyColor(quest["level"]);
+			local titleData = colorString;
+				if QuestieConfig['AlwaysShowLevel'] then
+					if quest["questTag"] then
+						titleData = titleData .. "[" .. quest["level"] .. "+" .. "] " ;
+					else
+						titleData = titleData .. "[" .. quest["level"] .. "] " ;
+					end
+				end
+				titleData = titleData .. quest["questName"];
+				if QuestieConfig['AlwaysShowDistance'] then
+					titleData = titleData .. " ("..math.floor(v["dist"]).." Yd)";
+				end
+			titleData = titleData  .. "|r";
+			button.quest:SetText(titleData);
+			--button.level:SetText(colorString .. "[".. quest["level"] .."]|r");
+			local obj = 1;
+			if quest["questTag"] then
+				v["title"] = colorString .. "[" .. quest["level"] .. "+" .. "] " .. quest["questName"] .. "|r";
+			else
+				v["title"] = colorString .. "[" .. quest["level"] .. "] " .. quest["questName"] .. "|r";
+			end
+			quest["arrowPoint"] = v
+			if quest["isComplete"] or quest["leaderboards"] == 0 then
+				QuestieTracker:AddObjectiveToButton(button, {['desc']="Quest Complete!"}, obj);
+				obj = 2;
+			else
+				while true do
+					local beefcake = quest["objective" .. obj];
+					if beefcake == nil then break; end
+					if beefcake["type"] == "event" then
+						QuestieTracker:AddEventToButton(button, beefcake, obj);
+						obj = obj + 1;
+					else
+						QuestieTracker:AddObjectiveToButton(button, beefcake, obj);
+						obj = obj + 1;
+					end
+				end
+			end
+			button.currentObjectiveCount = obj - 1;
+			local heightLoss = 0;
+			while true do
+				if button.objectives[obj] == nil then break; end
+				button.objectives[obj]:SetText(""); --hecks
+				heightLoss = heightLoss + 11;
+				obj = obj + 1;
+			end
+			--button:SetHeight(button:GetHeight() - heightLoss);
+			button:SetHeight(14 + (button.currentObjectiveCount * 11));
+			button:Show();
+			index = index + 1;
+		end
+		QuestieTracker.highestIndex = index - 1;
+		while true do
+			local d = QuestieTracker.questButtons[index];
+			if d == nil then break end;
+			d:Hide();
+			index = index + 1;
+		end
+		QuestieTracker:updateTrackingFrameSize();
+		QuestieTracker.frame:Show();
 	end
-	QuestieTracker.highestIndex = index - 1;
-	while true do
-		local d = QuestieTracker.questButtons[index];
-		if d == nil then break end;
-		d:Hide();
-		index = index + 1;
-	end
-	QuestieTracker:updateTrackingFrameSize();
-	QuestieTracker.frame:Show();
 end
 
 function QuestieTracker:fillTrackingFrame_Old()
@@ -458,7 +563,7 @@ function QuestieTracker:fillTrackingFrame_Old()
 	-- if quest tracker frame isn't fully filled (index 8), go through other zones
 	-- as a backup, add quests that don't have any notes by going through QuestieTrackedQuests+Questlog
 	for hash,quest in pairs(QuestieHandledQuests) do
-		if QuestieTrackedQuests[hash] then
+		if not (QuestieTrackedQuests[hash] == false) then
 			for name,notes in pairs(quest.objectives.objectives) do
 				for k,v in pairs(notes) do
 					local continent, zone, xNote, yNote = QuestieZoneIDLookup[v.mapid][4], QuestieZoneIDLookup[v.mapid][5], v.x, v.y

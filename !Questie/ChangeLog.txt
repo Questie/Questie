@@ -1,5 +1,66 @@
 -------------------------------------------------------------------------------------------------------------------------------
 
+v2.5:
+* Moved all Questie settings to a "per-character" setup so each character
+  will have their own settings. This was necessary since most of the new
+  options are more or less a Per-Character preference rather than a global
+  one. This also allows Questie to hook and save QuestTracker data between
+  characters and sessions. This also reduces installation/reinstallation
+  issues since you'll only have to clear character saved data rather than
+  remembering to clear both character and global data.
+
+* Fixed a crashing issue while dragging the QuestTracker with new installs,
+  reinstalls and new characters. Upon first login there is no SavedVariables
+  file. I've inserted a temporary config that will be loaded into memory to
+  hold all the initial settings so Questie will have someplace to store the
+  screen coordinates when a user moves the QuestTracker to their preferred
+  position. Once you logout or reload your UI these settings and your Saved
+  Variables file is created in your characters SavedVariables folder. This
+  should also resolve some issues with folks not able to move the Quest
+  Tracker. Please remember that you must move your mouse pointer over the
+  QuestTracker before you hold down the Ctrl+Shift keys, then push and hold
+  down your left mouse button while you drag the QuestTracker to the desired
+  location on your screen.
+
+* Fixed an issue with the Worldmap for those not running Cartographer or
+  Metamap. The Worldmap was assigned a FrameStrata that was too low so 
+  some of the Default UI elements were appearing on top of the Worldmap.
+  I've moved the FrameStrata to a higher level and it now appears above all
+  elements. Please let me know if you're still seeing issues in v2.5 and
+  I'll bump it another layer.
+
+* Fixed an issue with the QuestTracker disappearing in an instance. I
+  tracked down the root cause in Astrolabe and added an additional map
+  check. Basically it wasn't finding map coordinates while the map frame
+  was closed. Everything appeared normal as long as the map was open.
+  Well, that's not very practical when running an instance! So I forced
+  the check to assume it's always in an instance unless it can get a set
+  of coordinates other than 0,0. This bug was exposed while working on
+  a new feature/improvement for Questie - below.
+
+* Quests that are untracked from the QuestTracker will also remove the
+  objective notes from the Minimap and Worldmaps! I'm not entirely sure 
+  if this was an issue before but at one point while working on this new
+  feature, every available quest your character could get appeared on the
+  Minimap. Unless, you're in the zone it won't show on your Minimap
+  anymore. This is also true for objectives. However, available quests
+  and objectives will continue to show on your Worldmap no matter which
+  zone you’re in. This should help reduce the clutter in the Minimap that
+  was driving me nuts!
+
+* Last but not least... COLORS! Yes, there is a new set of QuestTracker
+  colors you can choose from. Use /questie boldcolor to flip the color
+  scheme. The idea was requested by a user on GitHub. They wanted to make
+  the QuestTracker resemble MonkeyQuest's color scheme. Well now it does.
+  Quest levels are based on your level - as always and quest titles are now
+  White. Objectives begin Red then fade to Yellow then finally to Green. The
+  QuestArrow has also been changed to match. By default, the old color scheme
+  is enabled.
+ 
+ * More code clean up.
+
+-------------------------------------------------------------------------------------------------------------------------------
+
 v2.4:
 * Added an "Elite" tag to the QuestTracker - Elite quests will now 
   properly carry the [+] along with the quest level tag.

@@ -26,6 +26,10 @@ if not QuestieConfig.showProfessionQuests then
 	QuestieConfig.showProfessionQuests = false;
 end
 
+if not QuestieConfig.BoldColors then
+	QuestieConfig.BoldColors = false;
+end
+
 function Questie:OnLoad()
 
 	this:RegisterEvent("QUEST_LOG_UPDATE");
@@ -71,7 +75,7 @@ function Questie:OnLoad()
 -- Dyaxler: Modify Worldmap in case user doesn't have Cartographer or MetaMap loaded otherwise the Worldmap will be full screen and user can't finish quests or see chat output.
 	if(not IsAddOnLoaded("Cartographer")) or (not IsAddOnLoaded("MetaMap")) then
 		UIPanelWindows["WorldMapFrame"] = nil
-		WorldMapFrame:SetFrameStrata("HIGH")
+		WorldMapFrame:SetFrameStrata("FULLSCREEN")
 		WorldMapFrame:EnableMouse(true)
 		WorldMapFrame:SetMovable(true)
 		WorldMapFrame:RegisterForDrag("LeftButton")
@@ -305,12 +309,12 @@ QuestieFastSlash = {
 			for k,v in pairs(QuestieLevLookup) do
 				if strlower(k) == strlower(args) then
 					DEFAULT_CHAT_FRAME:AddMessage(" " .. table.getn(v));
-					local FUCKLUACOUNTWTF = 0;
+					local questchain = 0;
 					for kk,vv in pairs(v) do
-						FUCKLUACOUNTWTF = FUCKLUACOUNTWTF + 1;
+						questchain = questchain + 1;
 					end
 
-					if FUCKLUACOUNTWTF == 1 then
+					if questchain == 1 then
 						for kk,vv in pairs(v) do
 							Questie:finishAndRecurse(vv[2]);
 						end
@@ -329,6 +333,18 @@ QuestieFastSlash = {
 				end
 			end
 			DEFAULT_CHAT_FRAME:AddMessage(" |cFFFF2222No quest matches the name \"" .. args .. "\"!|r");
+		end
+	end,
+	["boldcolor"] = function()
+		QuestieConfig.BoldColors = not QuestieConfig.BoldColors;
+		if QuestieConfig.BoldColors then
+			DEFAULT_CHAT_FRAME:AddMessage("QuestTracker Bold Colors enabled");
+			Questie:Toggle();
+			Questie:Toggle();
+		else
+			DEFAULT_CHAT_FRAME:AddMessage("QuestTracker Bold Colors disabled");
+			Questie:Toggle();
+			Questie:Toggle();
 		end
 	end,
 	["mapaids"] = function()
@@ -413,6 +429,7 @@ QuestieFastSlash = {
 	end,
 	["help"] = function()
 		DEFAULT_CHAT_FRAME:AddMessage("Questie SlashCommand Help Menu");
+		DEFAULT_CHAT_FRAME:AddMessage("  /questie boldcolor -- Toggles two different color schemes");
 		DEFAULT_CHAT_FRAME:AddMessage("  /questie mapaids -- Toggles (on/off) World/Minimap icons");
 		DEFAULT_CHAT_FRAME:AddMessage("  /questie arrow -- Toggles on/off Quest Arrow");
 		DEFAULT_CHAT_FRAME:AddMessage("  /questie professions -- Toggles (on/off) profession quests");

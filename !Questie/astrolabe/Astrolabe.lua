@@ -6,12 +6,12 @@ Author(s): Esamynn (jcarrothers@gmail.com)
 Inspired By: Gatherer by Norganna
              MapLibrary by Kristofer Karlsson (krka@kth.se)
 Website: http://esamynn.wowinterface.com/
-Documentation: 
-SVN: 
+Documentation:
+SVN:
 Description:
 	This is a library for the World of Warcraft UI system to place
 	icons accurately on both the Minimap and the Worldmaps accurately
-	and maintain the accuracy of those positions.  
+	and maintain the accuracy of those positions.
 
 License:
 
@@ -81,7 +81,7 @@ end
 function Astrolabe:ComputeDistance( c1, z1, x1, y1, c2, z2, x2, y2 )
 	z1 = z1 or 0;
 	z2 = z2 or 0;
-	
+
 	local dist, xDelta, yDelta;
 	if ( c1 == c2 and z1 == z2 ) then
 		-- points in the same zone
@@ -94,7 +94,7 @@ function Astrolabe:ComputeDistance( c1, z1, x1, y1, c2, z2, x2, y2 )
 		end
 		xDelta = (x2 - x1) * zoneData.width;
 		yDelta = (y2 - y1) * zoneData.height;
-	
+
 	elseif ( c1 == c2 ) then
 		-- points on the same continent
 		local zoneData = WorldMapSize[c1];
@@ -105,7 +105,7 @@ function Astrolabe:ComputeDistance( c1, z1, x1, y1, c2, z2, x2, y2 )
 		x2, y2 = getContPosition(zoneData, z2, x2, y2);
 		xDelta = (x2 - x1);
 		yDelta = (y2 - y1);
-	
+
 	elseif ( c1 and c2 ) then
 		local cont1 = WorldMapSize[c1];
 		local cont2 = WorldMapSize[c2];
@@ -123,11 +123,11 @@ function Astrolabe:ComputeDistance( c1, z1, x1, y1, c2, z2, x2, y2 )
 				x2 = x2 + cont2.xOffset;
 				y2 = y2 + cont2.yOffset;
 			end
-			
+
 			xDelta = x2 - x1;
 			yDelta = y2 - y1;
 		end
-	
+
 	end
 	if ( xDelta and yDelta ) then
 		dist = sqrt(xDelta*xDelta + yDelta*yDelta);
@@ -141,7 +141,7 @@ function Astrolabe:TranslateWorldMapPosition( C, Z, xPos, yPos, nC, nZ )
 	if ( nC < 0 ) then
 		return;
 	end
-	
+
 	--Fixes nil error.
 	if(C < 0) then
 		C=2;
@@ -153,7 +153,7 @@ function Astrolabe:TranslateWorldMapPosition( C, Z, xPos, yPos, nC, nZ )
 	local zoneData;
 	if ( C == nC and Z == nZ ) then
 		return xPos, yPos;
-	
+
 	elseif ( C == nC ) then
 		-- points on the same continent
 		zoneData = WorldMapSize[C];
@@ -163,7 +163,7 @@ function Astrolabe:TranslateWorldMapPosition( C, Z, xPos, yPos, nC, nZ )
 			xPos = xPos - zoneData.xOffset;
 			yPos = yPos - zoneData.yOffset;
 		end
-	
+
 	elseif ( C and nC ) and ( WorldMapSize[C].parentContinent == WorldMapSize[nC].parentContinent ) then
 		-- different continents, same world
 		zoneData = WorldMapSize[C];
@@ -186,11 +186,11 @@ function Astrolabe:TranslateWorldMapPosition( C, Z, xPos, yPos, nC, nZ )
 				yPos = yPos - zoneData.yOffset;
 			end
 		end
-	
+
 	else
 		return;
 	end
-	
+
 	return (xPos / zoneData.width), (yPos / zoneData.height);
 end
 
@@ -202,6 +202,15 @@ function Astrolabe:GetCurrentPlayerPosition()
 	Z = GetCurrentMapZone();
 	C = GetCurrentMapContinent();
 	local x, y = GetPlayerMapPosition("player");
+	if ( x <= 0 and y <= 0 ) then
+		if(not WorldMapFrame:IsVisible() == nil or (Astrolabe_LastZ == Z and Astrolabe_LastC == C)) then
+			Astrolabe_LastZ = GetCurrentMapZone();
+			Astrolabe_LastC = GetCurrentMapContinent();
+			return Astrolabe_LastC, Astrolabe_LastZ, x, y;
+		else
+			return Astrolabe_LastC, Astrolabe_LastZ, Astrolabe_LastX, Astrolabe_LastY;
+		end
+	end
 	if(WorldMapFrame:IsVisible() == nil or (Astrolabe_LastZ == Z and Astrolabe_LastC == C)) then
 		if ( x <= 0 and y <= 0 ) then
 			SetMapToCurrentZone();
@@ -260,7 +269,7 @@ function Astrolabe:PlaceIconOnMinimap( icon, continent, zone, xPos, yPos )
 	self:argCheck(xPos, 5, "number");
 	self:argCheck(yPos, 6, "number");
 	--DEFAULT_CHAT_FRAME:AddMessage("ARGCHECK passed");
-	
+
 	local lC, lZ, lx, ly = unpack(self.LastPlayerPosition);
 	--DEFAULT_CHAT_FRAME:AddMessage("lC " .. lC .. " " .. lZ .. " " .. lx .. " " .. ly);
 	if (not lC) or (not lZ) or (not lx) or (not ly) then
@@ -286,12 +295,12 @@ function Astrolabe:PlaceIconOnMinimap( icon, continent, zone, xPos, yPos )
 	iconData.dist = dist;
 	iconData.xDist = xDist;
 	iconData.yDist = yDist;
-	
+
 	--show the new icon and force a placement update on the next screen draw
 	icon:Show()
 	self.UpdateTimer = 0;
 	Astrolabe.ForceNextUpdate = true;
-	
+
 	return 0;
 end
 
@@ -324,7 +333,7 @@ local function placeIconOnMinimap( minimap, minimapZoom, mapWidth, mapHeight, ic
 	local xScale = mapDiameter / mapWidth;
 	local yScale = mapDiameter / mapHeight;
 	local iconDiameter = ((icon:GetWidth() / 2) + 3) * xScale;
-	
+
 	icon:ClearAllPoints();
 	if ( (dist + iconDiameter) > mapRadius ) then
 		-- position along the outside of the Minimap
@@ -347,7 +356,7 @@ function Astrolabe:UpdateMinimapIconPositions()
 	local Minimap = Minimap;
 	local lastPosition = self.LastPlayerPosition;
 	local lC, lZ, lx, ly = unpack(lastPosition);
-	
+
 	if ( (lC == C and lZ == Z and lx == x and ly == y)) then--Added or WorldMapFrame:IsVisible() to fix the jumping around minimap icons when the map is opened -- Removed it not needed?
 		-- player has not moved since the last update
 		--DEFAULT_CHAT_FRAME:AddMessage("NoMove");
@@ -376,14 +385,14 @@ function Astrolabe:UpdateMinimapIconPositions()
 			local dist = sqrt(xDist*xDist + yDist*yDist);
 
 			placeIconOnMinimap(Minimap, currentZoom, mapWidth, mapHeight, icon, dist, xDist, yDist);
-			
+
 			data.dist = dist;
 			data.xDist = xDist;
 			data.yDist = yDist;
 		end
-		
+
 		--DEFAULT_CHAT_FRAME:AddMessage("ELSE");
-		
+
 		lastPosition[1] = C;
 		lastPosition[2] = Z;
 		lastPosition[3] = x;
@@ -397,7 +406,7 @@ function Astrolabe:CalculateMinimapIconPositions()
 	if not ( C and Z and x and y ) then
 		self.processingFrame:Hide();
 	end
-	
+
 	local currentZoom = Minimap:GetZoom();
 	lastZoom = currentZoom;
 	local Minimap = Minimap;
@@ -406,12 +415,12 @@ function Astrolabe:CalculateMinimapIconPositions()
 	for icon, data in pairs(self.MinimapIcons) do
 		local dist, xDist, yDist = self:ComputeDistance(C, Z, x, y, data.continent, data.zone, data.xPos, data.yPos);
 		placeIconOnMinimap(Minimap, currentZoom, mapWidth, mapHeight, icon, dist, xDist, yDist);
-		
+
 		data.dist = dist;
 		data.xDist = xDist;
 		data.yDist = yDist;
 	end
-	
+
 	local lastPosition = self.LastPlayerPosition;
 	lastPosition[1] = C;
 	lastPosition[2] = Z;
@@ -453,7 +462,7 @@ function Astrolabe:PlaceIconOnWorldMap( worldMapFrame, icon, continent, zone, xP
 	self:argCheck(zone, 5, "number", "nil");
 	self:argCheck(xPos, 6, "number");
 	self:argCheck(yPos, 7, "number");
-	
+
 	local C, Z = GetCurrentMapContinent(), GetCurrentMapZone();
 	local nX, nY = self:TranslateWorldMapPosition(continent, zone, xPos, yPos, C, Z);
 	if ( nX and nY and (0 < nX and nX <= 1) and (0 < nY and nY <= 1) ) then
@@ -486,22 +495,22 @@ function Astrolabe:OnEvent( frame, event )
 			self.minimapOutside = false;
 		end
 		Minimap:SetZoom(curZoom);
-		
+
 		-- re-calculate all Minimap Icon positions
 		if ( frame:IsVisible() ) then
 			self:CalculateMinimapIconPositions();
 		end
-	
+
 	elseif ( event == "PLAYER_LEAVING_WORLD" ) then
 		frame:Hide();
 		self:RemoveAllMinimapIcons(); --dump all minimap icons
-	
+
 	elseif ( event == "PLAYER_ENTERING_WORLD" ) then
 		frame:Show();
-	
+
 	elseif ( event == "ZONE_CHANGED_NEW_AREA" ) then
 		frame:Show();
-	
+
 	end
 end
 
@@ -555,7 +564,7 @@ local function activate( self, oldLib, oldDeactivate )
 		end
 	);
 	frame:Show();
-	
+
 	if not ( self.ContinentList ) then
 		self.ContinentList = { GetMapContinents() };
 		for C in pairs(self.ContinentList) do
@@ -766,7 +775,7 @@ WorldMapSize = {
 		height = 25098.84390074281,-- added 500 (seems about right total guess) to "remove" the blood elf start zones You need to logout each time you change these values
 		width = 37649.15159852673,
 		xOffset = 15425.32200715066,--old 15525
-		yOffset = 1272.3934326738229,--Old 670 
+		yOffset = 1272.3934326738229,--Old 670
 		zoneData = {
 			Alterac = {
 				height = 1866.508741236576,

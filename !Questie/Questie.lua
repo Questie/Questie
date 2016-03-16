@@ -20,9 +20,7 @@ Questie.player_y = 0;
 Questie.debugLevel = 1;
 questsByDistance = {};
 QuestieSeenQuests = {};
-
 QuestieNotesDB = {};
-
 
 QuestieGlobalConfig = { -- TODO SAVEDVARIABLE THIS THING
 	['Minimap'] = {
@@ -62,7 +60,6 @@ function Questie:PrintConfigCategory(category, level)
 			Questie:PrintConfigCategory(v, WTF_LUA_WHY_WOULD_YOU_DO_THIS_TO_ME);
 		else
 			-- because this is for config I didn't want to use the log function
-
 			DEFAULT_CHAT_FRAME:AddMessage(header .. k .. " (Default " .. tostring(v) .. ")");
 		end
 	end
@@ -73,15 +70,12 @@ function Questie:PrintSlashHelp()
 end
 
 _GetQuestLogQuestText = GetQuestLogQuestText;
-
 local QUESTIE_MAX_MINIMAP_POINTS = 20;
-
 local minimap_poiframes = {};
 local minimap_poiframe_textures = {};
 local minimap_poiframe_data = {};
 
 function Questie:ADDON_LOADED()
-
 	if not (QuestieCurrentQuests) then
 		QuestieCurrentQuests = {};
 	end
@@ -105,7 +99,6 @@ function Onclickerino()
 	DEFAULT_CHAT_FRAME:AddMessage("CLICKED");
 end
 
-
 function DropDown_OnLoad()
 	level = level or 1 --drop down menues can have sub menues. The value of level determines the drop down sub menu tier
 	local info = UIDropDownMenu_CreateInfo();
@@ -119,15 +112,12 @@ function DropDown_OnLoad()
 end
 
 function Questie_SlashHandler(msg)
-
 	-- HERE DO STRING ARGUMENTS TO SPLINT SPACE INTO ARG1 ARG2 //msg is used meanwhile
-
 	if (msg=="show" or msg=="hide") then msg = ""; end
 	if (not msg or msg=="") then
 		--Base command
 		DEFAULT_CHAT_FRAME:AddMessage("SlashCommand Used - No help implemented yet\n Goto: http://github.com/AeroScripts/QuestieDev/ for help");--Use internal print instead.
 	end
-
 	if(msg == "test") then --Tests the questie notes part
 		DEFAULT_CHAT_FRAME:AddMessage("Adding icons zones");
 		for i = 1, 1 do
@@ -138,7 +128,6 @@ function Questie_SlashHandler(msg)
 		end
 		Questie:RedrawNotes();
 	end
-
 	if(msg == "getpos") then
 		local c,z,x,y = Astrolabe:GetCurrentPlayerPosition();
 		if(IsAddOnLoaded("URLCopy"))then
@@ -147,11 +136,9 @@ function Questie_SlashHandler(msg)
 			Questie:debug_Print(x..","..y);
 		end
 	end
-
 	if(msg == "c") then
 		Questie:AddQuestToMap(2743610414);
 	end
-
 	if(msg == "u") then
 		local t = GetTime();
 		for k, v in pairs(Questie:AstroGetAllCurrentQuestHashes()) do
@@ -163,7 +150,6 @@ function Questie_SlashHandler(msg)
 		--Questie:AddQuestToMap(2743610414);
 		--Questie:AddQuestToMap(3270662498);
 	end
-
 	if(msg == "q") then
 		local t = GetTime();
 		for k, v in pairs(Questie:AstroGetAllCurrentQuestHashes()) do
@@ -174,7 +160,6 @@ function Questie_SlashHandler(msg)
 		--Questie:AddQuestToMap(2743610414);
 		--Questie:AddQuestToMap(3270662498);
 	end
-
 	if(msg == "h") then
 		testbutton = CreateFrame("Button", "testets", UIParent,"UIPanelButtonTemplate");
 		testbutton:SetWidth(80);
@@ -192,16 +177,13 @@ function Questie_SlashHandler(msg)
 			ToggleDropDownMenu(nil,nil,DropDownTest,"testets",3,-3);
 		end)
 	end
-
 	if(msg =="ast") then -- Don't want to remove this... good for reference
 		--/script Astrolabe:PlaceIconOnWorldMap(WorldMapFrame,,1,"Ashenvale",100,100);
-
 		local f = CreateFrame("Button",nil,WorldMapFrame)
 		f.YoMamma = "Hashisbest";
 		f:SetFrameStrata("DIALOG")
 		f:SetWidth(16)  -- Set These to whatever height/width is needed
 		f:SetHeight(16) -- for your Texture
-
 		local t = f:CreateTexture(nil,"BACKGROUND")
 		t:SetTexture("Interface\\AddOns\\!Questie\\Icons\\complete")
 		t:SetAllPoints(f)
@@ -212,10 +194,8 @@ function Questie_SlashHandler(msg)
 				GameTooltip:Show();
 		end ); --Script Toolip
 		f:SetScript("OnLeave", function() if(GameTooltip) then GameTooltip:Hide() end end) --Script Exit Tooltip
-
 		f:SetPoint("TOPLEFT",0,0)
 		f:Show()
-
 		local C, Z = GetCurrentMapContinent(), GetCurrentMapZone();
 		x, y = Astrolabe:TranslateWorldMapPosition(2,12,0.8, 0.8, 2, 0);
 		x, y = Astrolabe:PlaceIconOnWorldMap(WorldMapFrame,f,2,nil,x, y);
@@ -225,8 +205,6 @@ function Questie_SlashHandler(msg)
 			DEFAULT_CHAT_FRAME:AddMessage("Failed");
 		end
 	end
-
-
 	if(msg == "glowtest") then
 		Questie:debug_Print("GlowTest");
 		local w, h = WorldMapFrame:GetWidth(), WorldMapFrame:GetHeight()
@@ -237,22 +215,17 @@ function Questie_SlashHandler(msg)
 		--map_overlay:SetWidth(w);
 		--map_overlay:SetHeight(h);
 		--map_overlay:Show();
-
 		--This calulates a good glow size
 		x, y =  GetPlayerMapPosition("player");
 		c, z = GetCurrentMapContinent(), GetCurrentMapZone();
-
-
 		local _, x_size, y_size = Astrolabe:ComputeDistance(c, z, 0.25, 0.25, c, z, 0.75, 0.75)
 		--f:SetFrameLevel(8);
 		x_size = 200 / x_size * w;
 		y_size = 200 / y_size * h;
-
 		local c = Icon("abc");
 		local d = Icon("cba");
 		d:SetPoint("CENTER",16,0);
 		d:Show();
-
 		--We Create a new frame and add the glowtexture to it.
 		--local glow = CreateFrame("Button",nil,WorldMapFrame);
 		--local tex = Questie:CreateGlowTexture(glow);
@@ -261,11 +234,9 @@ function Questie_SlashHandler(msg)
 		--glow:SetHeight(y_size);
 		--glow:SetPoint("CENTER",0,0);
 		--glow:Show();
-
 		--local g = Questie:CreateGlowFrame()
 		--g:SetPoint("CENTER",0,0);
 		--g:Show();
-
 		--local ra = Questie:CreateGlowNote("abc");
 		--ra:SetPoint("CENTER",0,0)
 		--ra:Show()
@@ -279,9 +250,7 @@ function Questie_SlashHandler(msg)
 		--ra:Show()
 		--xx, yy = Astrolabe:PlaceIconOnWorldMap(WorldMapFrame,ra,c ,z ,0.5, 0.54);
 		--Questie:debug_Print(xx,yy);
-
 	end
-
 end
 
 WorldMapFrame.free_icons_frames = {};
@@ -298,7 +267,6 @@ function Icon(questHash)
 	else
 		--Use free pool items
 	end
-
 	iconFrame:SetParent(WorldMapFrame)--Just a saftey mechanic
 	iconFrame:SetFrameLevel(9);
 	iconFrame:SetWidth(16)  -- Set These to whatever height/width is needed
@@ -307,19 +275,14 @@ function Icon(questHash)
 	iconFrame:SetScript("OnLeave", function() if(WorldMapTooltip) then WorldMapTooltip:Hide() end if(GameTooltip) then GameTooltip:Hide() end end) --Script Exit Tooltip
 	iconFrame:SetScript("OnClick", Questie:AvailableQuestClick)
 	iconFrame.questHash = questHash;
-
 	--Do calculation with questHash objectivelist to see where the icon needs to fall
 	--Logic should be, go through all objectives, left to right do (right - left)/2 by both X and Y
-
 	--TempCode
 	iconFrame:SetPoint("CENTER",0,0);
 	iconFrame:Show();
 	--EndTempCode
-
 	function iconFrame:SetTooltip()
 		--Do stuff here use f.questHash to get info
-
-
 		--Just a temporary tooltip
 		WorldMapTooltip:SetOwner(this, this); --"ANCHOR_CURSOR"
 		WorldMapTooltip:AddLine("ThisIsATestHeader ",1,1,1);
@@ -329,10 +292,8 @@ function Icon(questHash)
 		end
 		WorldMapTooltip:SetFrameLevel(10);
 		WorldMapTooltip:Show();
-
 		Questie:debug_Print("Inside SetTooltip");--Debug remove
 	end
-
 	function iconFrame:OnEnter()
 		--local list = QuestHelper:GetOverlapObjectives(self.objective) old questhelper code
 		--['locations'] = {
@@ -341,11 +302,8 @@ function Icon(questHash)
 	    --}
 	    this:SetTooltip(list)
 	    --self.old_count = #list ???
-
 	    iconFrame.show_glow = true
-
 	    --this:SetGlow(list)
-
 	    --this:SetScript("OnUpdate", self.OnUpdate)
 	end
 
@@ -354,11 +312,8 @@ function Icon(questHash)
 		this.show_glow = false
 		--this.old_count = 0 ???
 	end
-
-
 	iconFrame:SetScript("OnEnter", iconFrame.OnEnter);
 	iconFrame:SetScript("OnLeave", iconFrame.OnLeave);
-
 	return iconFrame;
 end
 
@@ -373,42 +328,28 @@ function Questie:CreateGlowFrame(questHash)
 	y_size = 200 / y_size * h;
 	f:SetWidth(x_size)  -- Set These to whatever height/width is needed
 	f:SetHeight(y_size) -- for your Texture
-
 	local t = Questie:CreateGlowTexture(f);
-
 	--t:SetPoint("CENTER", f, "TOPLEFT", 0, 0)
     -- Randomly rotate the texture, so they don't all look the same.
     t:SetVertexColor(1,1,1,0.5)
     t:SetAllPoints(f)
     f.texture = t;
-
 	return f;
 end
-
-
 
 function Questie:CreateGlowTexture(frame)
 	local tex = frame:CreateTexture(nil,"BACKGROUND")
 	tex:SetTexture("Interface\\AddOns\\!Questie\\Icons\\glow")
-
 	local angle = math.random()*6.28318530717958647692528676655900576839433879875021164
 	local x, y = math.cos(angle)*0.707106781186547524400844362104849039284835937688474036588339869,
 				 math.sin(angle)*0.707106781186547524400844362104849039284835937688474036588339869
-
 	-- Randomly rotate the texture, so they don't all look the same.
 	tex:SetTexCoord(x+0.5, y+0.5, y+0.5, 0.5-x, 0.5-y, x+0.5, 0.5-x, 0.5-y)
 	tex:ClearAllPoints()
 	tex:SetVertexColor(1,1,1,0)
 	tex:SetAllPoints(frame)
-
   return tex
 end
-
-
-
-
-
-
 
 function Questie:createMinimapFrames()
 	for i=1,QUESTIE_MAX_MINIMAP_POINTS do
@@ -495,14 +436,13 @@ function Questie:hookTooltip()
 		end
 		GameTooltip:Show() -- recalculates size/position
 	end)
-
 end
 
 function Questie:OnEvent() -- functions created in "object:method"-style have an implicit first parameter of "this", which points to object || in 1.12 parsing arguments as ... doesn't work
 	Questie[event](Questie, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10) -- route event parameters to Questie:event methods
 end
-Questie:SetScript("OnEvent", Questie.OnEvent)
 
+Questie:SetScript("OnEvent", Questie.OnEvent)
 local objectives = {};
 local throttle = 0;
 local throttleOverride = false;
@@ -510,6 +450,7 @@ local throttleOverride = false;
 function Questie:modulo(val, by) -- lua5 doesnt support mod math via the % operator :(
 	return val - math.floor(val/by)*by
 end
+
 function Questie:HashString(text) -- Computes an Adler-32 checksum. (Thanks QuestHelper)
   local a, b = 1, 0
   for i=1,string.len(text) do
@@ -528,8 +469,6 @@ function Questie:mixInt(hash, addval)
 end
 
 function Questie:getQuestHash(name, level, objectiveText)
-
-
 	local questLookup = QuestieLevLookup[name];
 	if not (questLookup == nil) then -- cant... stop... doingthis....
 		--log("QN " .. name .. " is NULL", 1);
@@ -551,7 +490,6 @@ function Questie:getQuestHash(name, level, objectiveText)
 			return retval; -- nearest match
 		end
 	end
-
 	-- hash lookup did not contain qust name!! LOG THIS!!!
 	local hash = Questie:mixString(0, name);
 	hash = Questie:mixInt(hash, level);
@@ -643,7 +581,6 @@ function Questie:OnUpdate(elapsed)
 	Questie:NOTES_ON_UPDATE(elapsed);
 	local now = GetTime()
 	local ttl = math.abs((now - Questie.lastMinimapUpdate)*1000); -- convert to miliseconds
-
 	if ttl > 250 then -- seems about right
 		--Fix not to reset map, Using old sane values when a player has another map open rather than forcing back the map //Logon
 		local fx, fy = Questie:getPlayerPos();
@@ -675,7 +612,6 @@ function Questie:PLAYER_LOGIN()
 	this:RegisterEvent("ZONE_CHANGED"); -- this actually is needed
 	this:RegisterEvent("UI_INFO_MESSAGE");
 	this:RegisterEvent("CHAT_MSG_SYSTEM");
-
 	this:RegisterCartographerIcons();
 	this:hookTooltip();
 	this:createMinimapFrames();
@@ -695,7 +631,6 @@ function Questie:createQuestNote(name, progress, questName, x, y, icon, selected
 	if (questName == "") then
 		questName = progress;
 	end
-
 	this:addNoteToCurrentNotes({
 		['id'] = id,
 		['x'] = x,
@@ -708,7 +643,6 @@ function Questie:createQuestNote(name, progress, questName, x, y, icon, selected
 		['zone'] = zone,
 		['zoneID'] = getCurrentMapID() -- bad bad bad
 	});
-
 	this:addNoteToCurrentQuests(questName, id, name, x, y, key, zone, icon);
 end
 
@@ -729,7 +663,6 @@ function sortie(a, b)
 	local distB = Questie:getPlayerDistTo(b['x'], b['y']);
 	a['distance'] = distA;
 	b['distance'] = distB;
-
 	-- while sorted by distance, might as well add formatedDistnace
 	local formatDistance, units  = BWP_FormatDist(Questie.player_x, Questie.player_y, a['x'], a['y']);
 	a['formatDistance'] = formatDistance;
@@ -737,7 +670,6 @@ function sortie(a, b)
 	formatDistance, units  = BWP_FormatDist(Questie.player_x, Questie.player_y, b['x'], b['y']);
 	b['formatDistance'] = formatDistance
 	b['formatUnits'] = units;
-
 	return distA < distB;
 end
 
@@ -751,12 +683,10 @@ end
 
 -- for some reason this only shows 3 notes at MAX_NOTES = 5 - 6 at 10 etc
 function Questie:updateMinimap()
-
 	-- clean up all frames
 	for k,v in pairs(minimap_poiframes) do
 		v:Hide();
 	end
-
 	local nearest, farthest = Questie:getNearestNotes();
 	local index = 1;
 	for k,v in pairs(QuestieCurrentNotes) do
@@ -775,9 +705,7 @@ function Questie:updateMinimap()
 end
 
 function Questie:deleteCurrentNotesforQuest(questName)
-
 	local antiLeak = GetTime();
-
 	local i = 1;
 	while i <= table.getn(QuestieCurrentNotes) do
 		local v = QuestieCurrentNotes[i];
@@ -864,7 +792,6 @@ function Questie:clearAllNotes()
 end
 
 function Questie:getPlayerPos()
-
 -- thanks to mapnotes for this "bug fix"
 	local fx, fy = GetPlayerMapPosition("player");
 	local map = getCurrentMapID(); --Added to get the current Map ID to see if a force reset of the map is needed //Logon
@@ -880,16 +807,12 @@ function Questie:getPlayerPos()
 end
 
 function getCurrentMapID()
-
 	--Commented this out to prevent stack overflow (because if an endless loop) it's not even used here //Logon
 	--local fx, fy = Questie:getPlayerPos(); -- this: does not work here??
-
 	local file = GetMapInfo()
-
 	if file == nil then -- thanks optim for finding a null bug here
 		return -1
 	end
-
 	local zid = QuestieZones[file];
 	if zid == nil then
 		--DEFAULT_CHAT_FRAME:AddMessage("ERROR: We are in unknown zone " .. file, 0.95, 0.2, 0.2);
@@ -1007,11 +930,9 @@ objectiveProcessors = {
 			end
 		end
 	end
-
 }
 
 function Questie:getQuestFinisherByName(name)
-
 end
 
 function findLast(haystack, needle)
@@ -1022,7 +943,6 @@ end
 function Questie:processObjective(quest, desc, typ, selected, mapid, objectiveid)
 	--DEFAULT_CHAT_FRAME:AddMessage(desc, 0.95, 0.95, 0.5);
 	local ref = objectiveProcessors[typ];
-
 	if not (ref == nil) then
 		--DEFAULT_CHAT_FRAME:AddMessage("HANDLED TYPE: " .. typ .. " for quest " .. quest, 0.2, 0.95, 0.95);
 		if typ == "item" or typ == "monster" then
@@ -1055,7 +975,6 @@ end
 
 function Questie:QUEST_LOG_UPDATE()
 	this:deleteNoteAfterQuestRemoved()
-
 	local sind = GetQuestLogSelection();
 	local mapid = getCurrentMapID();
 	if not throttleOverride then
@@ -1083,7 +1002,6 @@ function Questie:QUEST_LOG_UPDATE()
             local hash = Questie:getQuestHash(q, level, objectiveText);
 			--log("QH:"..q..","..level..","..objectiveText.."="..hash,1);
             local hashData = QuestieHashMap[hash];
-
             if hash and not isHeader then
                 local seen = QuestieSeenQuests[hash];
                 if QuestieCurrentQuests[q] == nil then
@@ -1110,10 +1028,8 @@ function Questie:QUEST_LOG_UPDATE()
                     end
                 end
                 --DEFAULT_CHAT_FRAME:AddMessage(q);
-
                 -- we're re-evaluating objectives now anyway
                 QuestieCurrentQuests[q]['objectives'] = {};
-
                 --Start changes done by Logon
                 --This checks if all the objectives are done.
                 AllDone = true;
@@ -1139,9 +1055,9 @@ function Questie:QUEST_LOG_UPDATE()
 	                    this:processObjective(q, desc, typ, selected, mapid, r)
 	                end
 	            else
-                    --DEFAULT_CHAT_FRAME:AddMessage("Deleting Notes", 0.95, 0.95, 0.5);
-                    --Logon: This is just a fucking copy of the deletequestafterremove function but it works in a really strange way... could not figure that shit out ...
-	            	local notes = QuestieCurrentQuests[q]["notes"]
+          --DEFAULT_CHAT_FRAME:AddMessage("Deleting Notes", 0.95, 0.95, 0.5);
+          --Logon: This is just a fucking copy of the deletequestafterremove function but it works in a really strange way... could not figure that shit out ...
+	        local notes = QuestieCurrentQuests[q]["notes"]
 					if (notes ~= nil) then
 						for k,v in pairs(notes) do
 							--log(v["zone"] .. "  " .. v["x"] .. "  " .. v["y"])
@@ -1154,7 +1070,6 @@ function Questie:QUEST_LOG_UPDATE()
 					end
 	            end
 	            --End Changes done by Logon
-
                 if not (hashData == nil) then
                     --log(hashData['finishedBy'], 1);
                     --Swapped to isComplete 1 as nil = not complete and -1 = failed.
@@ -1244,7 +1159,6 @@ function _CartographerHasNote(zone, x, y) -- underscore because its a method for
 	end
 	return false
 end
-
 
 function Questie:deleteNoteAfterQuestRemoved()
 	local finishedQuest = this:getFinishedQuest();
@@ -1340,6 +1254,3 @@ function Questie:getPlayerFormatDistTo(x, y)
 	local dist, units = BWP_FormatDist(Questie.player_x, Questie.player_y, x, y)
 	return dist
 end
-
-
-

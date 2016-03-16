@@ -20381,7 +20381,11 @@ QuestieItems = {
   ["Surena's Choker"] = {
     ["drop"] = {
       ["Surena Caledon"] = 1
-    }
+    },
+		["locations"] = {
+      [1] = {37.0, 0.7085, 0.8027, 100.0}
+    },
+		["locationCount"] = 1
   },
   ["Dervish Boots of Power"] = {
     ["drop"] = {

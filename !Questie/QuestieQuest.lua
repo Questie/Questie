@@ -29,7 +29,6 @@ function Questie:CheckQuestLog()
 	if (QuestsCount > LastQuestLogCount) then
 		for k, v in pairs(Quests) do
 			if(Quests[k] and LastQuestLogHashes[k]) then
-
 			else
 				if(Quests[k]) then
 					v["deltaType"] = 1;
@@ -43,7 +42,6 @@ function Questie:CheckQuestLog()
 	else
 		for k, v in pairs(LastQuestLogHashes) do
 			if(Quests[k] and LastQuestLogHashes[k]) then
-
 			else
 				if(Quests[k]) then
 					v["deltaType"] = 1;
@@ -55,7 +53,6 @@ function Questie:CheckQuestLog()
 			end
 		end
 	end
-
 	for k, v in pairs(delta) do
 		Questie:debug_Print(v["name"],v["hash"], v["deltaType"]);
 		if(v["deltaType"] == 1) then
