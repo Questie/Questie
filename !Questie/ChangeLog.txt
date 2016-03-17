@@ -1,5 +1,39 @@
 -------------------------------------------------------------------------------------------------------------------------------
 
+v2.6:
+* Fixed a bug with the QuestTracker - in certain situations upon getting
+  a new quest, the quest would show up as complete when there was still
+  objectives to accomplish. Untracking and Re-adding the quest to the
+  QuestTracker foced the quest to display properly. This has been fixed
+  and quests are now properly displaying upon accepting a new quest.
+
+* Fixed a bug with quests that were previously abandoned. If obtained
+  again and if they are untracked from the QuestTracker, the NPC would
+  show an available quest even though it's already been accepted and in
+  your QuestLog. This was also flagging new quests improperly causing
+  some really strange behavior with quest objectives.
+
+* I apologize for all the recent fixes and bugs. This project has code
+  all over the place and some of it is necessary and some of it is
+  spider webbed throughout various features. While most of it is
+  redundant in nature, it's been causing some headaches tracking down
+  root causes and implementing new features. Seems when I fix one issue,
+  another crops up someplace else. I spent most of the day unraveling how
+  quests are added to the QuestTracker database, how they are assigned 
+  flags and how they are handled when certain events occur. I believe I've
+  reached a point where I have almost every situation accounted for and
+  properly handled. This code review uncovered a small bug with the data
+  base. When a quest is completed the old code left behind a disabled
+  database entry in the QuestieTrackedQuests array. Over time when a player
+  levels, completes quests, and if the database has never been cleared then
+  eventually their SavedVariables would be unnecessarily bloated with
+  useless data. I've built in a routine to clean this entry as quests are
+  completed.
+
+* More code clean up work. 
+
+-------------------------------------------------------------------------------------------------------------------------------
+
 v2.5:
 * Moved all Questie settings to a "per-character" setup so each character
   will have their own settings. This was necessary since most of the new

@@ -443,7 +443,7 @@ function QuestieTracker:fillTrackingFrame()
 			end
 			quest["arrowPoint"] = v
 			if quest["isComplete"] or quest["leaderboards"] == 0 then
-				QuestieTracker:AddObjectiveToButton(button, {['desc']="Quest Complete!"}, obj);
+			QuestieTracker:AddObjectiveToButton(button, {['desc']="Quest Complete!"}, obj);
 				obj = 2;
 			else
 				while true do
@@ -738,6 +738,9 @@ function QuestieTracker:addQuestToTracker(hash, logId, level) -- never used???
 	Questie:debug_Print("Added QuestInfo to Tracker - Time: " .. (GetTime()-startTime)*1000 .. "ms");
 	QuestieTracker:fillTrackingFrame()
 	Questie:RedrawNotes();
+	if QuestieTrackedQuests[hash]["objective1"]["type"] == nil then
+		QuestieTracker:updateFrameOnTracker(hash, logId, level)
+	end
 end
 
 function QuestieTracker:updateFrameOnTracker(hash, logId, level)
@@ -785,8 +788,17 @@ end
 function QuestieTracker:removeQuestFromTracker(hash)
 	--DEFAULT_CHAT_FRAME:AddMessage("REMOVEQUESTFROMTRACKER");
 	if QuestieTrackedQuests[hash] then
-		QuestieTrackedQuests[hash] = nil
-		QuestieTrackedQuests[hash] = false
+		if (QuestieSeenQuests[hash] == 0) then
+			QuestieTrackedQuests[hash] = nil
+			QuestieTrackedQuests[hash] = false
+		end
+		if (QuestieSeenQuests[hash] == 1) then
+			QuestieTrackedQuests[hash] = nil
+		end
+		if (QuestieSeenQuests[hash] == -1) then
+			QuestieSeenQuests[hash] = nil
+			QuestieTrackedQuests[hash] = nil
+		end
 	end
 	QuestieTracker:fillTrackingFrame()
 	Questie:RedrawNotes();
@@ -833,7 +845,6 @@ end
 
 function QuestieTracker:PLAYER_LOGIN()
 	QuestieTracker:createTrackingFrame();
-	--QuestieTracker:createTrackingButtons();
 	QuestieTracker:syncEQL3();
 end
 

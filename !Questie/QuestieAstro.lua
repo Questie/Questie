@@ -1,7 +1,5 @@
-
 DEBUG_LEVEL = 1;--0 Low info --1 Medium info --2 very spammy
 Questie = CreateFrame("Frame", "QuestieLua", UIParent, "ActionButtonTemplate")
-
 
 __QuestRewardCompleteButton_OnClick=nil;
 __QuestAbandonOnAccept=nil;
@@ -31,24 +29,19 @@ if not QuestieConfig.BoldColors then
 end
 
 function Questie:OnLoad()
-
 	this:RegisterEvent("QUEST_LOG_UPDATE");
 	this:RegisterEvent("ZONE_CHANGED"); -- this actually is needed
 	this:RegisterEvent("UI_INFO_MESSAGE");
 	this:RegisterEvent("CHAT_MSG_SYSTEM");
-
 	this:RegisterEvent("QUEST_ITEM_UPDATE");
 	this:RegisterEvent("UNIT_QUEST_LOG_CHANGED");
-
 	this:RegisterEvent("PLAYER_ENTERING_WORLD")
 	this:RegisterEvent("PLAYER_LOGIN")
 	this:RegisterEvent("ADDON_LOADED")
 	this:RegisterEvent("VARIABLES_LOADED")
 	this:RegisterEvent("CHAT_MSG_SYSTEM");
-
 	__QuestRewardCompleteButton_OnClick = QuestRewardCompleteButton_OnClick;
 	__QuestAbandonOnAccept = StaticPopupDialogs["ABANDON_QUEST"].OnAccept;
-
 	StaticPopupDialogs["ABANDON_QUEST"].OnAccept = function()
 		local hash = Questie:GetHashFromName(GetAbandonQuestName());
 		QuestieSeenQuests[hash] = -1;
@@ -71,7 +64,6 @@ function Questie:OnLoad()
 		end
 		__QuestRewardCompleteButton_OnClick();
 	end
-
 -- Dyaxler: Modify Worldmap in case user doesn't have Cartographer or MetaMap loaded otherwise the Worldmap will be full screen and user can't finish quests or see chat output.
 	if(not IsAddOnLoaded("Cartographer")) or (not IsAddOnLoaded("MetaMap")) then
 		UIPanelWindows["WorldMapFrame"] = nil
@@ -109,9 +101,7 @@ function Questie:OnLoad()
 	else
 		return
 	end
-
 	Questie:NOTES_LOADED();
-
 	SlashCmdList["QUESTIE"] = Questie_SlashHandler;
 	SLASH_QUESTIE1 = "/questie";
 end
@@ -173,7 +163,6 @@ QuestieCompletedQuestMessages = {};
 -- 1 means WE KNOW it's complete
 -- 0 means We've seen it and it's probably in the questlog
 -- -1 means we know its abandonnd
-
 --Had to add a delay(Even if it's small)
 function Questie:AddEvent(EVENT, DELAY)
 	local evnt = {};
@@ -188,7 +177,6 @@ QUESTIE_LAST_CHECKLOG = GetTime();
 
 function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10)
 	if(event =="ADDON_LOADED" and arg1 == "Questie") then
-
 	elseif(event == "QUEST_LOG_UPDATE" or event == "QUEST_ITEM_UPDATE") then
 		if(Active == true) then
 			--Questie:debug_Print("[OnEvent] "..event);
@@ -199,7 +187,6 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 				Questie:debug_Print("[QuestieEvent] ",event, "Spam Protection: Last checklog was:",GetTime() - QUESTIE_LAST_CHECKLOG, "ago skipping!");
 				QUESTIE_LAST_CHECKLOG = GetTime();
 			end
-
 			if(GetTime() - QUESTIE_LAST_UPDATE > 0.1) then
 				Questie:AddEvent("UPDATE", 0.15);--On my fast PC this seems like a good number
 				QUESTIE_LAST_UPDATE = GetTime();
@@ -215,19 +202,15 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 		end
 	elseif(event == "PLAYER_LOGIN") then
 		Questie:CheckQuestLog();
-
 		--This is an ugly fix... Don't know why the list isn't populated correctly...
 		Questie:AddEvent("UPDATE", 1.15);
-
 		--for k, v in pairs(QuestieSeenQuests) do
 		--	if(v == true or v == false) then
 		--		v = 0;
 		--		Questie:debug_Print("Old quest format found, set to 0");
 		--	end
 		--end
-
 		local f = GameTooltip:GetScript("OnShow");
-
 		if(f ~= nil) then
 			--Proper tooltip hook!
 			local Blizz_GameTooltip_Show = GameTooltip.Show
@@ -235,18 +218,14 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 				Questie:Tooltip(self);
 				Blizz_GameTooltip_Show(self)
 			end
-
 			--local Blizz_GameTooltip_SetBagItem = GameTooltip.SetBagItem
 			--GameTooltip.SetBagItem = function(self, bag, slot)
 			--	Blizz_GameTooltip_SetBagItem(self, bag, slot)
-
 			--	Questie:Tooltip(self, true, bag, slot);
 			--end
-
 			local Bliz_GameTooltip_SetLootItem = GameTooltip.SetLootItem
 			GameTooltip.SetLootItem = function(self, slot)
 				Bliz_GameTooltip_SetLootItem(self, slot)
-
 				Questie:Tooltip(self, true);
 			end
 		else
@@ -283,7 +262,6 @@ QuestieFastSlash = {
 	["complete"] = function(args)
 		--DEFAULT_CHAT_FRAME:AddMessage("   " .. findFirst("This is how it works", " "));
 		--DEFAULT_CHAT_FRAME:AddMessage("   " .. args);
-
 		if _QuestieCompleteQuestSelectingOption then
 			for k,v in pairs(QuestieLevLookup) do
 				if strlower(k) == strlower(_QuestieCompleteQuestSelectingOption_QuestName) then
@@ -294,7 +272,6 @@ QuestieFastSlash = {
 					else
 						local index = 0;
 						for kk,vv in pairs(v) do
-
 							if index == tonumber(args) then
 								Questie:finishAndRecurse(vv[2]);
 							end
@@ -313,7 +290,6 @@ QuestieFastSlash = {
 					for kk,vv in pairs(v) do
 						questchain = questchain + 1;
 					end
-
 					if questchain == 1 then
 						for kk,vv in pairs(v) do
 							Questie:finishAndRecurse(vv[2]);
@@ -456,7 +432,6 @@ QuestieFastSlash = {
 		y = math.floor(y * 1000);
 		x = x / 10;
 		y = y / 10;
-
 		if(IsAddOnLoaded("URLCopy"))then
 			DEFAULT_CHAT_FRAME:AddMessage("Player position: " .. URLCopy_Link(x..","..y));
 		else
@@ -504,13 +479,11 @@ QuestieFastSlash = {
 		Questie:debug_Print(GetCurrentMapContinent(), GetCurrentMapZone());
 	end,
 	["ast"] = function()
-
 		local f = CreateFrame("Button",nil,WorldMapFrame)
 		f.YoMamma = "Hashisbest";
 		f:SetFrameStrata("DIALOG")
 		f:SetWidth(16)  -- Set These to whatever height/width is needed
 		f:SetHeight(16) -- for your Texture
-
 		local t = f:CreateTexture(nil,"BACKGROUND")
 		t:SetTexture("Interface\\AddOns\\!Questie\\Icons\\complete")
 		t:SetAllPoints(f)
@@ -521,10 +494,8 @@ QuestieFastSlash = {
 			GameTooltip:Show();
 		end ); --Script Toolip
 		f:SetScript("OnLeave", function() if(GameTooltip) then GameTooltip:Hide() end end) --Script Exit Tooltip
-
 		f:SetPoint("TOPLEFT",0,0)
 		f:Show()
-
 		local C, Z = GetCurrentMapContinent(), GetCurrentMapZone();
 		x, y = Astrolabe:TranslateWorldMapPosition(2,12,0.8, 0.8, 2, 0);
 		x, y = Astrolabe:PlaceIconOnWorldMap(WorldMapFrame,f,2,nil,x, y);
@@ -533,7 +504,6 @@ QuestieFastSlash = {
 		else
 			DEFAULT_CHAT_FRAME:AddMessage("Failed");
 		end
-
 	end,
 	["glowtest"] = function()
 		Questie:debug_Print("GlowTest");
@@ -545,22 +515,17 @@ QuestieFastSlash = {
 		--map_overlay:SetWidth(w);
 		--map_overlay:SetHeight(h);
 		--map_overlay:Show();
-
 		--This calulates a good glow size
 		x, y =  GetPlayerMapPosition("player");
 		c, z = GetCurrentMapContinent(), GetCurrentMapZone();
-
-
 		local _, x_size, y_size = Astrolabe:ComputeDistance(c, z, 0.25, 0.25, c, z, 0.75, 0.75)
 		--f:SetFrameLevel(8);
 		x_size = 200 / x_size * w;
 		y_size = 200 / y_size * h;
-
 		local c = Icon("abc");
 		local d = Icon("cba");
 		d:SetPoint("CENTER",16,0);
 		d:Show();
-
 	--We Create a new frame and add the glowtexture to it.
 	--local glow = CreateFrame("Button",nil,WorldMapFrame);
 	--local tex = Questie:CreateGlowTexture(glow);
@@ -569,11 +534,9 @@ QuestieFastSlash = {
 	--glow:SetHeight(y_size);
 	--glow:SetPoint("CENTER",0,0);
 	--glow:Show();
-
 	--local g = Questie:CreateGlowFrame()
 	--g:SetPoint("CENTER",0,0);
 	--g:Show();
-
 	--local ra = Questie:CreateGlowNote("abc");
 	--ra:SetPoint("CENTER",0,0)
 	--ra:Show()
@@ -591,21 +554,16 @@ QuestieFastSlash = {
 };
 
 function Questie_SlashHandler(msgbase)
-
 	local space = findFirst(msgbase, " ");
-
 	local msg, args;
-
 	if not space or space == 1 then
 		msg = msgbase;
 	else
 		msg = string.sub(msgbase, 1, space);
 		args = string.sub(msgbase, space+2);
 	end
-
 	if QuestieFastSlash[msg] ~= nil then
 		QuestieFastSlash[msg](args);
-
 	else
 		if (not msg or msg=="") then
 			QuestieFastSlash["help"]();
@@ -613,9 +571,7 @@ function Questie_SlashHandler(msgbase)
 			DEFAULT_CHAT_FRAME:AddMessage("Unknown operation: " .. msg .. " try /questie help");
 		end
 	end
-
 end
-
 
 --[[  Function Hooks ]]--
 --Proper tooltip hook!
@@ -625,23 +581,17 @@ end
 --	Blizz_GameTooltip_Show(self)
 --end
 
-
-
 function Questie:hookTooltip()
 	local _GameTooltipOnShow = GameTooltip:GetScript("OnShow") -- APPARENTLY this is always null, and doesnt need to be called for things to function correctly...?
 	GameTooltip:SetScript("OnShow", function(self, arg)
 		Questie:Tooltip(self);
 		this:Show();
 	end)
-
 end
-
-
 
 Questie_LastTooltip = GetTime(); --Ugly fix to stop tooltip spam....
 QUESTIE_DEBUG_TOOLTIP = nil; --Set to nil to disable.
 function Questie:Tooltip(this, forceShow, bag, slot) -- this function is making me cry
-
 	local monster = UnitName("mouseover")
 	local objective = GameTooltipTextLeft1:GetText();
 	--Questie:debug_Print(tostring(forceShow), tostring(monster), tostring(objective));
@@ -763,28 +713,8 @@ end
 
 lastShow = GetTime();
 QWERT = nil;
---[[
 
-
-
-
-
-
-
-			OLD CODE BELOW!
-
-
-
-
-
-
-
-]]--
-
-
-
-
-
+--[[ OLD CODE BELOW! ]]--
 
 _GetQuestLogQuestText = GetQuestLogQuestText;
 function GetQuestLogQuestText()
@@ -793,16 +723,12 @@ function GetQuestLogQuestText()
 end
 
 function getCurrentMapID()
-
 	--Commented this out to prevent stack overflow (because if an endless loop) it's not even used here //Logon
 	--local fx, fy = Questie:getPlayerPos(); -- this: does not work here??
-
 	local file = GetMapInfo()
-
 	if file == nil then -- thanks optim for finding a null bug here
 		return -1
 	end
-
 	local zid = QuestieZones[file];
 	if zid == nil then
 		--DEFAULT_CHAT_FRAME:AddMessage("ERROR: We are in unknown zone " .. file, 0.95, 0.2, 0.2);
@@ -815,11 +741,9 @@ end
 function Questie:getQuestHash(name, level, objectiveText)
 	local hashLevel = level or "hashLevel"
 	local hashText = objectiveText or "hashText"
-
 	if QuestieQuestHashCache[name..hashLevel..hashText] then
 		return QuestieQuestHashCache[name..hashLevel..hashText]
 	end
-
 	local questLookup = QuestieLevLookup[name];
 	local hasOthers = false;
 	if questLookup then -- cant... stop... doingthis....
@@ -855,7 +779,6 @@ function Questie:getQuestHash(name, level, objectiveText)
 			return retval, hasOthers; -- nearest match
 		end
 	end
-
 	-- hash lookup did not contain qust name!! LOG THIS!!!
 	if name == nil then
 		--DEFAULT_CHAT_FRAME:AddMessage("QuestieError: Attempt to hash a nill quest?"); -- too lazy to look up proper log function. yeah. super lazy.

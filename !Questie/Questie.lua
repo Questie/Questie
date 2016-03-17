@@ -1009,8 +1009,7 @@ function Questie:QUEST_LOG_UPDATE()
                 end
                 QuestieCurrentQuests[q]['hash'] = hash; -- needs to store the hash (probably not best to set it every time)
                 --log("SEEN " .. q .. " as hash " .. hash, 1)
-                if seen == nil or not seen then -- not seen would update it if the user had abandoned then re-picked up
-                                                -- someone should tell me if LUA is like C where I could do only "if not seen then" here.
+                if seen == nil or not seen or seen == -1 then -- not seen would update it if the user had abandoned then re-picked up
                     QuestieSeenQuests[hash] = true; -- true = in the quest log
                 end
                 if not (hashData == nil) then

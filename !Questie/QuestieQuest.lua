@@ -379,7 +379,6 @@ function Questie:GetHashFromName(name)
 	return Questie:getQuestHash(name, nil, nil);
 end
 
-
 --The reason IsQuestFinished and getFinished quest basiclly have the same code is because they return different things... i need both!
 --Astrolabe functions DO NOT USE UNLESS YOU KNOW WHAT YOU ARE DOING!!
 function Questie:IsQuestFinished(questHash)
@@ -762,7 +761,7 @@ function Questie:GetAvailableQuestHashes(mapFileName, levelFrom, levelTo)
 						valid = valid and (requiredSkill == nil or QuestieConfig.showProfessionQuests);
 						--(class, race, dbClass, dbRace)
 						if valid then valid = valid and checkRequirements(class, race, requiredClasses,requiredRaces); end
-						if valid and not QuestieHandledQuests[requiredQuest] and not QuestieSeenQuests[v] or ((QuestieSeenQuests[v] == -1) and (QuestieTrackedQuests[v] == false)) then
+						if valid and not QuestieHandledQuests[requiredQuest] and not QuestieSeenQuests[v] or ((QuestieSeenQuests[v] == 0) and (QuestieTrackedQuests[v] == nil)) then
 							table.insert(hashes, v);
 						end
 					end
