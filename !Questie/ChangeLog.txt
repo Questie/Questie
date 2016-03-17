@@ -1,5 +1,17 @@
 -------------------------------------------------------------------------------------------------------------------------------
 
+v2.61:
+* Found a nil error at the last minute while getting a quest. At first
+  I thought I had forgotten to remove some debug code but it was a line
+  I inserted to keep from flagging event type quests as Complete until
+  after the event was complete such as: "Go to this cave and explore it."
+  I ran into a quest that isn't an event and has no objectives and it was
+  causing a nil error - fixed. Inserted one more check to make sure the
+  table entry exsists before going on to check a second entry within the
+  first. Haha...
+
+-------------------------------------------------------------------------------------------------------------------------------
+
 v2.6:
 * Fixed a bug with the QuestTracker - in certain situations upon getting
   a new quest, the quest would show up as complete when there was still

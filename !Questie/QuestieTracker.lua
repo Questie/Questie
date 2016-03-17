@@ -738,8 +738,10 @@ function QuestieTracker:addQuestToTracker(hash, logId, level) -- never used???
 	Questie:debug_Print("Added QuestInfo to Tracker - Time: " .. (GetTime()-startTime)*1000 .. "ms");
 	QuestieTracker:fillTrackingFrame()
 	Questie:RedrawNotes();
-	if QuestieTrackedQuests[hash]["objective1"]["type"] == nil then
-		QuestieTracker:updateFrameOnTracker(hash, logId, level)
+	if QuestieTrackedQuests[hash]["objective1"] then
+		if QuestieTrackedQuests[hash]["objective1"]["type"] == nil then
+			QuestieTracker:updateFrameOnTracker(hash, logId, level)
+		end
 	end
 end
 
