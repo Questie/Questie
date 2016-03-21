@@ -305,6 +305,7 @@ function Questie_AvailableQuestClick()
 							end,
 							timeout = 10,
 							whileDead = 1,
+							exclusive = 1,
 							hideOnEscape = 1
 						}
 						StaticPopup_Show ("QUESTIE_COMPLETE")
@@ -396,11 +397,11 @@ function Questie:SetAvailableQuests()
 	local c, z = GetCurrentMapContinent(), GetCurrentMapZone();
 	local mapFileName = GetMapInfo();
 	local quests = nil;
-	if QuestieConfig.minLevelfilter and not QuestieConfig.maxLevelfilter then
+	if QuestieConfig.minLevelFilter and not QuestieConfig.maxLevelFilter then
 		quests = Questie:GetAvailableQuestHashes(mapFileName,level-(QuestieConfig.minShowLevel),level);
-	elseif QuestieConfig.minLevelfilter and QuestieConfig.maxLevelfilter then
+	elseif QuestieConfig.minLevelFilter and QuestieConfig.maxLevelFilter then
 		quests = Questie:GetAvailableQuestHashes(mapFileName,level-(QuestieConfig.minShowLevel),level-(QuestieConfig.maxShowLevel));
-	elseif not QuestieConfig.minLevelfilter and not QuestieConfig.maxLevelfilter then
+	elseif not QuestieConfig.minLevelFilter and not QuestieConfig.maxLevelFilter then
 		quests = Questie:GetAvailableQuestHashes(mapFileName,0,level);
 	end
 	if quests then
@@ -454,7 +455,28 @@ function Questie:DRAW_NOTES()
 	if(QuestieMapNotes[c] and QuestieMapNotes[c][z]) then
 		for k, v in pairs(QuestieMapNotes[c][z]) do
 			--If an available quest isn't in the zone or we aren't tracking a quest on the QuestTracker then hide the objectives from the minimap
-			if((MMLastX ~= 0 and MMLastY ~= 0) and (not QuestieTrackedQuests[v.questHash] == false) or v.icontype == "complete") then
+			if (QuestieConfig.alwaysShowQuests == false) and (MMLastX ~= 0 and MMLastY ~= 0) and ((not QuestieTrackedQuests[v.questHash] == false) or (v.icontype == "complete")) then
+				MMIcon = Questie:GetBlankNoteFrame();
+				--Here more info should be set but i CBA at the time of writing
+				MMIcon.data = v;
+				MMIcon:SetParent(Minimap);
+				MMIcon:SetFrameLevel(9);
+				MMIcon:SetPoint("CENTER",0,0)
+				MMIcon:SetWidth(16*QUESTIE_NOTES_MINIMAP_ICON_SCALE)  -- Set These to whatever height/width is needed
+				MMIcon:SetHeight(16*QUESTIE_NOTES_MINIMAP_ICON_SCALE) -- for your Texture
+				MMIcon.type = "MiniMapNote";
+				--Sets highlight texture (Nothing stops us from doing this on the worldmap aswell)
+				MMIcon:SetHighlightTexture(QuestieIcons[v.icontype].path, "ADD");
+				--Set the texture to the right type
+				MMIcon.texture:SetTexture(QuestieIcons[v.icontype].path);
+				MMIcon.texture:SetAllPoints(MMIcon)
+				--Shows and then calls Astrolabe to place it on the map.
+				--MMIcon:Show();
+				--Questie:debug_Print(v.continent,v.zoneid,v.x,v.y);
+				Astrolabe:PlaceIconOnMinimap(MMIcon, v.continent, v.zoneid, v.x, v.y);
+				--Questie:debug_Print(MMIcon:GetFrameLevel());
+				table.insert(QuestieUsedNoteFrames, MMIcon);
+			elseif (QuestieConfig.alwaysShowQuests == true) then
 				MMIcon = Questie:GetBlankNoteFrame();
 				--Here more info should be set but i CBA at the time of writing
 				MMIcon.data = v;
@@ -483,7 +505,48 @@ function Questie:DRAW_NOTES()
 			for k, v in pairs(noteHeap) do
 				if true then
 					--If we aren't tracking a quest on the QuestTracker then hide the objectives from the worldmap
-					if (not QuestieTrackedQuests[v.questHash] == false) or (v.icontype == "complete") then
+					if ((not QuestieTrackedQuests[v.questHash] == false) or (v.icontype == "complete")) and (QuestieConfig.alwaysShowQuests == false) then
+						local c, z = GetCurrentMapContinent(), GetCurrentMapZone();
+						Icon = Questie:GetBlankNoteFrame();
+						--Here more info should be set but i CBA at the time of writing
+						Icon.data = v;
+						Icon:SetParent(WorldMapFrame);
+						--This is so that Complete quests are over everything else
+						if(v.icontype == "complete") then
+							Icon:SetFrameLevel(10);
+						else
+							Icon:SetFrameLevel(9);
+						end
+						Icon:SetPoint("CENTER",0,0)
+						Icon.type = "WorldMapNote";
+						Icon:SetScript("OnEnter", Questie_Tooltip_OnEnter); --Script Toolip
+						Icon:SetScript("OnLeave", function() if(WorldMapTooltip) then WorldMapTooltip:Hide() end if(GameTooltip) then GameTooltip:Hide() end end) --Script Exit Tooltip
+						Icon:SetScript("OnClick", Questie_AvailableQuestClick) -- Dyaxler: Script OnClick
+						if(z == 0 and c == 0) then--Both continents
+							Icon:SetWidth(16*QUESTIE_NOTES_WORLD_MAP_ICON_SCALE)  -- Set These to whatever height/width is needed
+							Icon:SetHeight(16*QUESTIE_NOTES_WORLD_MAP_ICON_SCALE) -- for your Texture
+						elseif(z == 0) then--Single continent
+							Icon:SetWidth(16*QUESTIE_NOTES_CONTINENT_ICON_SCALE)  -- Set These to whatever height/width is needed
+							Icon:SetHeight(16*QUESTIE_NOTES_CONTINENT_ICON_SCALE) -- for your Texture
+						else
+							Icon:SetWidth(16*QUESTIE_NOTES_MAP_ICON_SCALE)  -- Set These to whatever height/width is needed
+							Icon:SetHeight(16*QUESTIE_NOTES_MAP_ICON_SCALE) -- for your Texture
+						end
+						--Set the texture to the right type
+						Icon.texture:SetTexture(QuestieIcons[v.icontype].path);
+						Icon.texture:SetAllPoints(Icon)
+						--Shows and then calls Astrolabe to place it on the map.
+						Icon:Show();
+						--Questie:debug_Print(x.." : "..y);
+						xx, yy = Astrolabe:PlaceIconOnWorldMap(WorldMapButton,Icon,v.continent ,v.zoneid ,v.x, v.y); --WorldMapFrame is global
+						if(xx and yy and xx > 0 and xx < 1 and yy > 0 and yy < 1) then
+							--Questie:debug_Print(Icon:GetFrameLevel());
+							table.insert(QuestieUsedNoteFrames, Icon);
+						else
+							--Questie:debug_Print("Outside map, reseting icon to pool");
+							Questie:Clear_Note(Icon);
+						end
+					elseif (QuestieConfig.alwaysShowQuests == true) then
 						local c, z = GetCurrentMapContinent(), GetCurrentMapZone();
 						Icon = Questie:GetBlankNoteFrame();
 						--Here more info should be set but i CBA at the time of writing

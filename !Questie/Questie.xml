@@ -2,8 +2,6 @@
 ..\FrameXML\UI.xsd">
 <script file="compat.lua" />
 <script file="Config.lua" />
-<script file="PrettyFrames.lua"/>
-<script file="Interface\AddOns\!Questie\extern\DevToolsDump.lua"/>
 <script file="Interface\AddOns\!Questie\Database\items.lua"/>
 <script file="Interface\AddOns\!Questie\Database\monsters.lua"/>
 <script file="Interface\AddOns\!Questie\Database\events.lua"/>
@@ -19,9 +17,7 @@
 <script file="QuestieTracker.lua"/>
 <script file="QuestieArrow.lua"/>
 
-
-<!-- This toggle button is no longer needed - use /questie mapaids to turn off map icons -->
-<!-- <Button name="Questie_Toggle" parent="WorldMapFrame" inherits="UIPanelButtonTemplate" text="Toggle Questie">
+<Button name="Questie_Toggle" parent="WorldMapFrame" inherits="UIPanelButtonTemplate" text="Toggle Questie">
 	<Size>
 		<AbsDimension x="120" y="20"/>
 	</Size>
@@ -40,10 +36,17 @@
 			Questie:Toggle();
 		</OnClick>
 	</Scripts>
-</Button> -->
+</Button>
 
 <Frame name="QuestieUpdates" parent="WorldMapFrame" hidden="false">
 	<Scripts>
+		<OnLoad>
+			if (WorldMapFrame:IsVisible()) and (arg1 == "ESCAPE") or (arg1 == "M") then
+				ToggleWorldMap();
+			else
+				return
+			end
+		</OnLoad>
 		<OnUpdate>
 			Questie:OnUpdate(arg1)
 		</OnUpdate>
@@ -63,6 +66,7 @@
 		</OnLoad>
 	</Scripts>
 </Frame>
+
 <GameTooltip name="QuestieTooltip" frameStrata="TOOLTIP" hidden="true" inherits="GameTooltipTemplate">
 		<Scripts>
 			<OnLoad>
@@ -70,4 +74,5 @@
 			</OnLoad>
 		</Scripts> 
 </GameTooltip>
+
 </Ui>

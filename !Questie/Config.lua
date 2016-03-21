@@ -1,15 +1,19 @@
 
 if not QuestieConfig then QuestieConfig = {
-	["showMapAids"] = true,
+	["alwaysShowDistance"] = false,
+	["alwaysShowLevel"] = true,
+	["alwaysShowQuests"] = true,
+	["arrowEnabled"] = true,
+	["boldColors"] = false,
+	["maxLevelFilter"] = false,
 	["maxShowLevel"] = 3,
-	["showProfessionQuests"] = false,
-	["minLevelfilter"] = false,
-	["AlwaysShowDistance"] = false,
+	["minLevelFilter"] = false,
 	["minShowLevel"] = 10,
-	["AlwaysShowLevel"] = true,
-	["maxLevelfilter"] = false,
-	["BoldColors"] = false,
-	["ArrowEnabled"] = true,
+	["showMapAids"] = true,
+	["showProfessionQuests"] = false,
+	["showTrackerHeader"] = false,
+	["trackerEnabled"] = true,
+	["trackerList"] = false,
 } end
 
 if not QuestieTrackerVariables then QuestieTrackerVariables = {

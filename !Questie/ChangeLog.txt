@@ -1,5 +1,112 @@
 -------------------------------------------------------------------------------------------------------------------------------
 
+v2.62:
+* The Questie Toggle Button has been returned - added bonus: if you turn
+  off Questie using the Toggle then all Questie related objects will be
+  hidden accept the quest tracker. You'll have to untrack all your quests
+  to make the tracker disappear or use the command line option to disable
+  your tracker. However, the bonus is that Quests that are available will
+  re-appear after the next OnUpdate allowing you to see them whereas
+  previously they might have been covered up by an ? icon or a quest
+  objective. Don't let this misslead you - Questie is still disabled so
+  don't forget to hit the Toggle button again to turn it back on.
+  
+* Added a toggle to "always show quest objectives" regardless of tracked
+  status (default) - I.E. quest objectives will always show up on the
+  Minimap (for the current zone only) and Worldmap no matter which zone
+  you're in unless you use the toggle to turn it off. In the 'off' state,
+  Questie will only display the quest objective if you're tracking it in
+  the QuestTracker.
+ 
+* Added a toggle to turn on/off the QuestTracker. In the off state you'll
+  be able to use whatever tracker is enabled. If you're running EQL3 then
+  you'll use its tracker. If you don't have another MOD then it'll revert
+  to the Blizzard default tracker.
+ 
+* Improved the QuestTracker to auto resize itself based on the number of
+  quests listed as well as it's width. If no quests are being tracked, it's
+  size will shrink to 1x1 pixels and should resolve some reported issues
+  where players weren't able to click on objects located around or near
+  where the tracker was previously placed. The old size was 200x200 pixels
+  so it's understandable that players were having some issues.
+
+* I also added a header that will show you your QuestLog status. I.E. how
+  many quests you have in your log out of the max number you can have (20).
+  This option is disabled by default and can be enabled via the command
+  line using /questie trackerheader.
+ 
+* Added a 'Clear Config' option to the /Questie menu - this will clear ALL
+  settings for the currently logged in character. This will NOT reset your
+  Quest Database but it will clean up stale entries. The purpose of this is
+  to help users resolve issues upon upgrading to a newer version of Questie.
+  NOTE: This will automatically reload your UI. This should also help
+  resolve issues with the QuestTracker in case you somehow move it
+  somewhere off screen.
+   
+* I've fixed the Worldmap for users that aren't using Cartographer or
+  Metamap. It's been scaled down from 100% to 80% and I've fixed the Esc
+  button issue. The WoW client has a built in feature that if no key is
+  bound to the System/Game Menu then you can still close the Worldmap with
+  your Esc key. I've added this bit of code into Questie even if you're
+  using Metamap or Chartographer. This should resolve issues for players
+  that have reported not being able to close the Worldmap with their Esc key
+  no matter what Map mod you're running or no matter what you have your Key
+  binds set to.
+
+* Fixed a bug with the Manual Complete functions. If you manually complete
+  a Quest with more than one step using either the command line or by map
+  click then it will flag ALL quests in that Chain as complete even if you
+  have one of the steps in your Quest log. This can cause the quest to be
+  permanently tracked until it's completed and leave entries in the database
+  that aren't needed. This bug has been present since before I started
+  making changes and wasn't noticed until now. *ducks* Sorry! This might be
+  contributing to some reported issues players have been having with quests
+  not properly being flagged or showing up or disappearing after accepting
+  a quest.
+
+* Discovered a memory leak that caused some in game 'stutter' when tracking
+  quests in the QuestTracker. Turns out that the new code I added to resize
+  the QuestTracker was the cause. Too many sensless iterations over custom
+  tables due to Questies ineffecient way of building the Tracker buttons
+  that go into the QuestTracker list. I've streamlined the code and added
+  some cleanup routines to keep the tables MUCH smaller. I left it running
+  with 20 quests tracked for over an hour with no stuttering. Previously,
+  if I had half of those tracked and standing still the issue would show up
+  after a few minutes. My test case was overkill but I wanted to make sure
+  the issue was gone! I've also slowed down the build QuestTracker List so
+  it's function runs only once per second rather than at FULL SPEED which
+  has reduced some memory usage.
+
+* This next freature was extreamly complicated to implament. You can now
+  choose which direction to have your quests listed in the QuestTracker!
+  Top --> Bottom (Default) or Bottom --> Top. It doesn't change the sort
+  order which is by default: closest quest at the top --> to the furthest
+  quest away from your current position. By swapping the grow order it
+  also changes the anchor point. By default, the anchor point is in the upper
+  left hand corner thus your quests are listed Top --> Bottom. If you flip
+  the order then, your anchor point changes to the lower left hand corner thus
+  growing your list Bottom --> Top. I hope that is explained clearly enough.
+  You can access this setting by the command menu /questie trackerlist. When
+  Using this command please pay attention to the messages that popup. It will
+  automatically reload your UI but depending on which direction you're going
+  there is an extra step. This is critical because the anchor points are
+  flipped. Otherwise your QuestTracker will crawl all over the screen.
+
+* I have added a new command menu option /questie settings. This will display
+  the current status of all your flags and settings. In case you forget what
+  is toggled or what isn't. It's also helpful for me to know which state
+  you're in when reporting a bug. So please, provide the appropiate setting
+  and Questie version when you're reporting an issue.
+
+* I've reordered the Questie command menu alphabetically as well as the
+  settings output. Should make it easier to find the command and or the
+  setting you're looking for.
+
+* TONS of code clean up!
+
+
+-------------------------------------------------------------------------------------------------------------------------------
+
 v2.61:
 * Found a nil error at the last minute while getting a quest. At first
   I thought I had forgotten to remove some debug code but it was a line

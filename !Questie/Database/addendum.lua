@@ -3956,8 +3956,7 @@ QuestieLevLookup = {
   ["Nalpak in the Wailing Caverns wants 20 Deviate Hides."]={178,1812542650},
  },
  ["The Darkmoon Faire"]={
-  ["Deliver the Free Ticket Voucher to Gelvas Grimgate, located inside the Darkmoon Faire carnival."]={77,1289167765},
-  ["Deliver the Free Ticket Voucher to Gelvas Grimgate, located inside the Darkmoon Faire carnival."]={0,1289178440},
+  ["Deliver the Free Ticket Voucher to Gelvas Grimgate, located inside the Darkmoon Faire carnival."]={78,1289178440},
  },
  ["Returning the Lost Satchel"]={
   ["Take the Grimtotem Satchel to Rahauro in Thunder Bluff."]={178,137476834},
@@ -5718,12 +5717,6 @@ QuestieLevLookup = {
  },
  ["A Donation of Wool"]={
   [""]={77,3500286805},
-  [""]={77,3500292437},
-  [""]={77,3500294997},
-  [""]={178,3500298170},
-  [""]={178,3500301754},
-  [""]={178,3500304826},
-  [""]={178,3500308410},
  },
  ["Lifting the Curse"]={
   ["Get the Intrepid Strongbox Key from Captain Halyndor.\n\nUse the key to open the Intrepid's Locked Strongbox."]={0,1040226328},
@@ -5881,10 +5874,10 @@ QuestieLevLookup = {
   ["Speak to Bengor."]={178,1133995594},
  },
  ["In Defense of the King's Lands"]={
-  ["Kill the Trogg leader, Grawmug, and his two guards, Gnasher and Brawler then report back to Captain Rugelfuss in the southern guard tower."]={77,3513193597},
-  ["Mountaineer Cobbleflint of the southern guard tower wants you to kill 10 Stonesplinter Troggs and 10 Stonesplinter Scouts."]={77,3545168757},
-  ["Mountaineer Gravelgaw in the southern guard tower wants you to kill 10 Stonesplinter Skullthumpers and 10 Stonesplinter Seers and report back to him."]={77,3550438813},
-  ["Mountaineer Wallbang in the southern guard tower wants you to kill 10 Stonesplinter Shaman and 10 Stonesplinter Bonesnappers."]={77,2546422509},
+	["Kill the Trogg leader, Grawmug, and his two guards, Gnasher and Brawler then report back to Captain Rugelfuss in the southern guard tower."]={74,3513193597},
+  ["Mountaineer Cobbleflint of the southern guard tower wants you to kill 10 Stonesplinter Troggs and 10 Stonesplinter Scouts."]={71,3545168757},
+  ["Mountaineer Gravelgaw in the southern guard tower wants you to kill 10 Stonesplinter Skullthumpers and 10 Stonesplinter Seers and report back to him."]={72,3550438813},
+  ["Mountaineer Wallbang in the southern guard tower wants you to kill 10 Stonesplinter Shaman and 10 Stonesplinter Bonesnappers."]={73,2546422509},
  },
  ["Piercing the Veil"]={
   ["Bring Venya Marthand 3 Rattlecage Skulls."]={178,4037026418},
@@ -7592,7 +7585,6 @@ QuestieLevLookup = {
  },
  ["Five Signets for War Supplies"]={
   [""]={0,2968518856},
-  [""]={178,2968521594},
  },
  ["Savage Fronds"]={
   ["Rayne at Light's Hope Chapel in the Eastern Plaguelands wants 30 Savage Fronds."]={0,2457766872},
@@ -14005,15 +13997,6 @@ QuestieHashMap = {
   ['rr']=32,
   ['rc']=1024
  },
- [3500298170]={
-  ['name']="A Donation of Wool",
-  ['startedType']="monster",
-  ['finishedType']="monster",
-  ['startedBy']="Ralston Farnsley",
-  ['finishedBy']="Ralston Farnsley",
-  ['level']=12,
-  ['rr']=178
- },
  [1875780800]={
   ['name']="Superior Armaments of Battle - Exalted Amongst the Dawn",
   ['startedType']="monster",
@@ -19209,15 +19192,6 @@ QuestieHashMap = {
   ['rr']=178,
   ['rq']=530454074
  },
- [3500304826]={
-  ['name']="A Donation of Wool",
-  ['startedType']="monster",
-  ['finishedType']="monster",
-  ['startedBy']="Rashona Straglash",
-  ['finishedBy']="Rashona Straglash",
-  ['level']=15,
-  ['rr']=178
- },
  [671223272]={
   ['name']="WANTED: Andre Firebeard",
   ['startedType']="object",
@@ -22773,15 +22747,6 @@ QuestieHashMap = {
   ['level']=24,
   ['rr']=77,
   ['rq']=3359396221
- },
- [2968521594]={
-  ['name']="Five Signets for War Supplies",
-  ['startedType']="item",
-  ['finishedType']="unknown",
-  ['startedBy']="unknown",
-  ['finishedBy']="unknown",
-  ['level']=10,
-  ['rr']=178
  },
  [4083622250]={
   ['name']="The Mindless Ones",
@@ -28996,15 +28961,6 @@ QuestieHashMap = {
   ['rr']=77,
   ['rq']=2023984741
  },
- [3500294997]={
-  ['name']="A Donation of Wool",
-  ['startedType']="monster",
-  ['finishedType']="monster",
-  ['startedBy']="Mistina Steelshield",
-  ['finishedBy']="Mistina Steelshield",
-  ['level']=15,
-  ['rr']=77
- },
  [2303965162]={
   ['name']="The Hunter's Path",
   ['startedType']="monster",
@@ -31562,7 +31518,7 @@ QuestieHashMap = {
   ['startedBy']="Mountaineer Gravelgaw",
   ['finishedBy']="Mountaineer Gravelgaw",
   ['level']=10,
-  ['rr']=77,
+  ['rr']=72,
   ['rq']=3545168757
  },
  [783748320]={
@@ -32385,15 +32341,6 @@ QuestieHashMap = {
   ['level']=30,
   ['rr']=77,
   ['rq']=1450752197
- },
- [3500301754]={
-  ['name']="A Donation of Wool",
-  ['startedType']="monster",
-  ['finishedType']="monster",
-  ['startedBy']="Rumstag Proudstrider",
-  ['finishedBy']="Rumstag Proudstrider",
-  ['level']=15,
-  ['rr']=178
  },
  [4029543965]={
   ['name']="Stromgarde Badges",
@@ -34827,15 +34774,6 @@ QuestieHashMap = {
   ['level']=51,
   ['rr']=178
  },
- [1289167765]={
-  ['name']="The Darkmoon Faire",
-  ['startedType']="monster",
-  ['finishedType']="monster",
-  ['startedBy']="Melnan Darkstone",
-  ['finishedBy']="Gelvas Grimegate",
-  ['level']=6,
-  ['rr']=77
- },
  [3748678136]={
   ['name']="A Bijou for Zanza",
   ['startedType']="monster",
@@ -35567,15 +35505,6 @@ QuestieHashMap = {
   ['finishedBy']="Craftsman Wilhelm",
   ['level']=60,
   ['rq']=2178197000
- },
- [3500292437]={
-  ['name']="A Donation of Wool",
-  ['startedType']="monster",
-  ['finishedType']="monster",
-  ['startedBy']="Bubulo Acerbus",
-  ['finishedBy']="Bubulo Acerbus",
-  ['level']=15,
-  ['rr']=77
  },
  [3497023125]={
   ['name']="Stormwind Library",
@@ -41689,7 +41618,7 @@ QuestieHashMap = {
   ['startedBy']="Mountaineer Cobbleflint",
   ['finishedBy']="Mountaineer Cobbleflint",
   ['level']=10,
-  ['rr']=77
+  ['rr']=71
  },
  [1496417960]={
   ['name']="The Truth Comes Crashing Down",
@@ -42404,15 +42333,6 @@ QuestieHashMap = {
   ['rs']=185,
   ['rsc']=225
  },
- [3500308410]={
-  ['name']="A Donation of Wool",
-  ['startedType']="monster",
-  ['finishedType']="monster",
-  ['startedBy']="Vehena",
-  ['finishedBy']="Vehena",
-  ['level']=15,
-  ['rr']=178
- },
  [1461435474]={
   ['name']="Hunting in Stranglethorn",
   ['startedType']="monster",
@@ -42914,7 +42834,7 @@ QuestieHashMap = {
   ['startedBy']="Mountaineer Wallbang",
   ['finishedBy']="Mountaineer Wallbang",
   ['level']=10,
-  ['rr']=77,
+  ['rr']=73,
   ['rq']=3550438813
  },
  [1973401820]={
@@ -45248,7 +45168,8 @@ QuestieHashMap = {
   ['finishedType']="monster",
   ['startedBy']="Kruban Darkblade",
   ['finishedBy']="Gelvas Grimegate",
-  ['level']=10
+  ['level']=10,
+	['rr']=78
  },
  [808808456]={
   ['name']="Paragons of Power: The Freethinker's Breastplate",
@@ -45592,7 +45513,7 @@ QuestieHashMap = {
   ['startedBy']="Captain Rugelfuss",
   ['finishedBy']="Captain Rugelfuss",
   ['level']=10,
-  ['rr']=77,
+  ['rr']=74,
   ['rq']=2546422509
  },
  [4036393096]={
