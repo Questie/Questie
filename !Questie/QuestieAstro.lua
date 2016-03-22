@@ -88,17 +88,6 @@ function Questie:OnLoad()
 	end
 -- Dyaxler: Modify Worldmap in case user doesn't have Cartographer or MetaMap loaded otherwise the Worldmap will be full screen and user can't finish quests or see chat output.
 	if(not IsAddOnLoaded("Cartographer")) or (not IsAddOnLoaded("MetaMap")) then
-		WorldMapFrame:SetScript("OnShow", function()
-			local continent = GetCurrentMapContinent();
-			local zone = GetCurrentMapZone();
-			WorldMapFrame:SetScale(.8)
-			WorldMapTooltip:SetScale(1)
-			this:SetWidth(1024)
-			this:SetHeight(768)
-			this:SetPoint("CENTER", "UIParent", "CENTER", 0, 0)
-			BlackoutWorld:Hide()
-			SetMapZoom(continent, zone);
-		end)
 		UIPanelWindows["WorldMapFrame"] =	{ area = "center",	pushable = 0 }
 		WorldMapFrame:SetFrameStrata("FULLSCREEN")
 		WorldMapFrame:EnableMouse(true)
@@ -120,16 +109,20 @@ function Questie:OnLoad()
 			this:ClearAllPoints()
 			this:SetPoint("CENTER", "UIParent", "CENTER", x, y)
 		end)
-		WorldMapFrame:SetResizable(true)
-		WorldMapFrame:SetAlpha(1)
-		WorldMapFrame:SetScale(.8)
-		WorldMapFrame:SetWidth(1024)
-		WorldMapFrame:SetHeight(768)
-		WorldMapFrame:StartMoving()
-		WorldMapFrame:StopMovingOrSizing()
-		WorldMapFrame:ClearAllPoints()
-		WorldMapFrame:SetPoint("CENTER", "UIParent", "CENTER", 0, 0)
-		BlackoutWorld:Hide()
+		WorldMapFrame:SetScript("OnShow", function()
+			local continent = GetCurrentMapContinent();
+			local zone = GetCurrentMapZone();
+			SetMapZoom(continent, zone);
+			WorldMapFrame:SetScale(.8)
+			WorldMapTooltip:SetScale(1)
+			this:SetWidth(1024)
+			this:SetHeight(768)
+			this:StartMoving()
+			this:StopMovingOrSizing()
+			this:ClearAllPoints()
+			this:SetPoint("CENTER", "UIParent", "CENTER", 0, 0)
+			BlackoutWorld:Hide()
+		end)
 	else
 		return
 	end
