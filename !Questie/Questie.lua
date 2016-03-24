@@ -139,6 +139,9 @@ function Questie:OnLoad()
 		end
 		__QuestRewardCompleteButton_OnClick();
 	end
+	Questie:NOTES_LOADED();
+	SlashCmdList["QUESTIE"] = Questie_SlashHandler;
+	SLASH_QUESTIE1 = "/questie";
 -- Dyaxler: Modify Worldmap in case user doesn't have Cartographer or MetaMap loaded otherwise the Worldmap will be full screen and user can't finish quests or see chat output.
 	if (IsAddOnLoaded("Cartographer")) or (IsAddOnLoaded("MetaMap")) then
 		return
@@ -179,9 +182,6 @@ function Questie:OnLoad()
 			SetMapToCurrentZone();
 		end)
 	end
-	Questie:NOTES_LOADED();
-	SlashCmdList["QUESTIE"] = Questie_SlashHandler;
-	SLASH_QUESTIE1 = "/questie";
 end
 
 Active = true;

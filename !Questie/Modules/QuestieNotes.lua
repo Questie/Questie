@@ -239,7 +239,7 @@ function Questie_AvailableQuestClick()
 	else
 		Tooltip = GameTooltip
 	end
-	if (QuestieConfig.arrowEnabled == true) and (arg1 == "LeftButton") and (QuestieSeenQuests[this.data.questHash] == 0) and (not IsControlKeyDown()) and (not IsShiftKeyDown()) then
+	if (QuestieConfig.arrowEnabled == true) and (arg1 == "LeftButton") and (QuestieSeenQuests[this.data.questHash] == 0) and (QuestieTrackedQuests[this.data.questHash] ~= false) and (not IsControlKeyDown()) and (not IsShiftKeyDown()) then
 		SetArrowObjective(this.data.questHash)
 	end
 	if ( IsShiftKeyDown() and IsControlKeyDown() and Tooltip ) then
