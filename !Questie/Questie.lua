@@ -37,6 +37,53 @@ function Questie:SetupDefaults()
 	end
 end
 
+function Questie:CheckDefaults()
+	if not QuestieConfig.alwaysShowDistance then
+		QuestieConfig.alwaysShowDistance = false;
+	end
+	if not QuestieConfig.alwaysShowLevel then
+		QuestieConfig.alwaysShowLevel = true;
+	end
+	if not QuestieConfig.alwaysShowQuests then
+		QuestieConfig.alwaysShowQuests = true;
+	end
+	if not QuestieConfig.arrowEnabled then
+		QuestieConfig.arrowEnabled = true;
+	end
+	if not QuestieConfig.boldColors then
+		QuestieConfig.boldColors = false;
+	end
+	if not QuestieConfig.maxLevelFilter then
+		QuestieConfig.maxLevelFilter = false;
+	end
+	if not QuestieConfig.maxShowLevel then
+		QuestieConfig.maxShowLevel = false;
+		QuestieConfig.maxShowLevel = 3;
+	end
+	if not QuestieConfig.minLevelFilter then
+		QuestieConfig.minLevelFilter = false;
+	end
+	if not QuestieConfig.minShowLevel then
+		QuestieConfig.minShowLevel = false;
+		QuestieConfig.minShowLevel = 10;
+	end
+	if not QuestieConfig.showMapAids then
+		QuestieConfig.showMapAids = true;
+	end
+	if not QuestieConfig.showProfessionQuests then
+		QuestieConfig.showProfessionQuests = false;
+	end
+	if not QuestieConfig.showTrackerHeader then
+		QuestieConfig.showTrackerHeader = false;
+	end
+	if not QuestieConfig.trackerEnabled then
+		QuestieConfig.trackerEnabled = true;
+	end
+	if not QuestieConfig.trackerList then
+		QuestieConfig.trackerList = false;
+	end
+end
+
 QuestieCompat_GetQuestLogTitle = GetQuestLogTitle;
 function GetQuestLogTitle(index)
 	return QuestieCompat_GetQuestLogTitle(index);
@@ -55,6 +102,7 @@ function Questie:OnLoad()
 	this:RegisterEvent("VARIABLES_LOADED");
 	this:RegisterEvent("CHAT_MSG_SYSTEM");
 	Questie:SetupDefaults();
+	Questie:CheckDefaults();
 	__QuestRewardCompleteButton_OnClick = QuestRewardCompleteButton_OnClick;
 	__QuestAbandonOnAccept = StaticPopupDialogs["ABANDON_QUEST"].OnAccept;
 	StaticPopupDialogs["ABANDON_QUEST"].OnAccept = function()
