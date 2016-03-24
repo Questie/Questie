@@ -1,6 +1,10 @@
 -------------------------------------------------------------------------------------------------------------------------------
 
 v2.63:
+* Added a new command line option - "/questie NUKE". This wipes out all
+  your settings and the quest database. USE WITH CAUTION. There is a
+  confirmation popup.
+
 * Fixed an issue with the MapMod for users using Cartographer or nothing.
   Cleaned up the code and added an additional check to cover all of
   Cartographers sub-modules. Zooming in and out on the Worldmap now works
