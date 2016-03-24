@@ -1,5 +1,5 @@
 ## Interface: 11200
-## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v2.62|r|cFFFF0000 BETA|r
+## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v2.63|r|cFFFF0000 BETA|r
 ## Author: Aero/Schaka/Logonz/everyone else
 ## Notes: A standalone Vanilla QuestHelper
 ## Version: 2.5 BETA
@@ -7,6 +7,8 @@
 ## OptionalDeps: 
 ## SavedVariables:
 ## SavedVariablesPerCharacter: QuestieSeenQuests, QuestieTrackedQuests, QuestieConfig, QuestieTrackerVariables, QuestieDebug
+
+# Astrolabe
 Libs\AceLibrary\AceLibrary.lua
 Libs\AceOO-2.0\AceOO-2.0.lua
 Libs\AceEvent-2.0\AceEvent-2.0.lua
@@ -23,4 +25,22 @@ Libs\Babble-Boss-2.2\Babble-Boss-2.2.lua
 Libs\Babble-Spell-2.2\Babble-Spell-2.2.lua
 Libs\Tablet-2.0\Tablet-2.0.lua
 Libs\Tourist-2.0\Tourist-2.0.lua
+
+# Questie Database
+Database\items.lua
+Database\monsters.lua
+Database\events.lua
+Database\zone.lua
+Database\hash.lua
+Database\finishers.lua
+Database\objects.lua
+Database\addendum.lua
+Astrolabe\Astrolabe.lua
+
+# Questie
+Questie.lua
+Modules\QuestieNotes.lua
+Modules\QuestieQuest.lua
+Modules\QuestieTracker.lua
+Modules\QuestieArrow.lua
 Questie.xml

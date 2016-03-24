@@ -1,5 +1,67 @@
 -------------------------------------------------------------------------------------------------------------------------------
 
+v2.63:
+* Fixed an issue with the MapMod for users using Cartographer or nothing.
+  Cleaned up the code and added an additional check to cover all of
+  Cartographers sub-modules. Zooming in and out on the Worldmap now works
+  as it should. It opens for the player’s current zone. Full-screen mode
+  in Cartographer no longer error's out.
+
+* Tweaked some QuestTracker code in the hopes to resolve some FPS issues
+  that some players have reported. I added another "Table Dump" on the end
+  of a function to keep the tables smaller and not allow the entries to
+  build over time. I also had to remove the QuestTracker back ground. The
+  auto resize feature was nice in theory but too expensive and contributed
+  immensely to the lag that some players reported. I guess I never noticed
+  it on my computer.
+
+* Added the ability to Left Mouse Click on an objective and flip on the
+  QuestArrow without having to go through the QuestTracker. If a clicked
+  item is able to be tracked via the QuestArrow, it will appear but it
+  doesn't track distance to the actual object selected. It only tracks what
+  ever the quest is tracking which is usually the closest objective for that
+  quest. If it's not trackable, for example, an available quest, then it
+  will silently fail and the arrow will not appear. This works for items
+  on both the Worldmap or the Minimap. This only works in areas where you
+  can get Map Coordinates. Outdoors only since instances / dungeons, Map
+  Coordinates weren't available until Burning Crusade (WoW 2.0+).
+
+* Added the ability to remove the QuestArrow off your screen without having
+  to open your QuestTracker or the Worldmap. Simply Right Mouse Click on
+  the arrow frame and the QuestArrow will disappear.
+
+* I'm still working on "Quest Caching" - it's development has been a HUGE
+  headache and it's taking FAR longer than I anticipated. So I've boxed up
+  the current changes and bug fixes and am releasing this version now so
+  you guys don't have to wait so long for the next release.
+
+* I've also done some exhaustive testing with the "hover over this NPC or
+  object and am getting lag or an FPS drop" issue. This is not related to
+  Questie in anyway. Due to the way that Questie WAS auto resizing the
+  QuestTracker, it only exasperated the underlying root cause of the issue.
+  The issue is in the WoW client and has popped up from time to time for
+  the past 15 years. Occasionally Blizzard would implement some new feature
+  that taxes the tooltip system too much and people complain about it. You
+  can check out all the posts over the years. The issue also happens in
+  Diablo. I personally disabled Questie and if you stand some place with
+  tons of people and move your mouse pointer over different people, your FPS
+  will drop. I continued to disable mods one at a time and repeated this
+  process. TinyTip was an even bigger impact than Questie. I used a Dev tool
+  to monitor CPU Time and Memory consumption while profiling/troubleshooting
+  this issue. TitanPanel was the second biggest offender. Questie actually
+  came in 3rd. :) I even went through each video setting and couldn't get the
+  issue to go away entirely. Even with the default interface on a clean
+  install the issue was present. My FPS at one point dropped from 120FPS
+  to 20FPS... with all my mods turned on I got as low as 16FPS.
+
+* More code clean up. I tweaked several iteration loops and slowed them
+  down to lessen the impact of the tooltip issue without compromising
+  function. I believe I was fairly successful in reducing lag. I flew around
+  between several flight points with 20 quests all in the tracker to test
+  distance sorting and overall performance.
+
+-------------------------------------------------------------------------------------------------------------------------------
+
 v2.62:
 * The Questie Toggle Button has been returned - added bonus: if you turn
   off Questie using the Toggle then all Questie related objects will be

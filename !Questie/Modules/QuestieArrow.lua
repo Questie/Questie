@@ -54,6 +54,12 @@ end
 
 local twopi = math.pi * 2
 
+function WayFrame_OnClick()
+	if (MouseIsOver(TomTomCrazyArrow) ~= nil) and (arg1 == "RightButton") then
+		TomTomCrazyArrow:Hide()
+	end
+end
+
 local wayframe = CreateFrame("Button", "TomTomCrazyArrow", UIParent)
 wayframe:SetHeight(42)
 wayframe:SetWidth(56)
