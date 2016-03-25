@@ -319,7 +319,7 @@ function Questie:CreateBlankFrameNote()
 	f.texture = t
 	f:SetScript("OnEnter", Questie_Tooltip_OnEnter); --Script Toolip
 	f:SetScript("OnLeave", function() if(WorldMapTooltip) then WorldMapTooltip:Hide() end if(GameTooltip) then GameTooltip:Hide() end end) --Script Exit Tooltip
-	f:SetScript("OnClick", Questie_AvailableQuestClick) -- Dyaxler: Script OnClick
+	f:SetScript("OnClick", Questie_AvailableQuestClick);
 	f:RegisterForClicks("LeftButtonDown", "RightButtonDown");
 	CREATED_NOTE_FRAMES = CREATED_NOTE_FRAMES+1;
 	table.insert(FramePool, f);
@@ -486,7 +486,7 @@ function Questie:DRAW_NOTES()
 						Icon.type = "WorldMapNote";
 						Icon:SetScript("OnEnter", Questie_Tooltip_OnEnter); --Script Toolip
 						Icon:SetScript("OnLeave", function() if(WorldMapTooltip) then WorldMapTooltip:Hide() end if(GameTooltip) then GameTooltip:Hide() end end) --Script Exit Tooltip
-						Icon:SetScript("OnClick", Questie_AvailableQuestClick)
+						Icon:SetScript("OnClick", Questie_AvailableQuestClick);
 						Icon:RegisterForClicks("LeftButtonDown", "RightButtonDown");
 						if(z == 0 and c == 0) then--Both continents
 							Icon:SetWidth(16*QUESTIE_NOTES_WORLD_MAP_ICON_SCALE)  -- Set These to whatever height/width is needed

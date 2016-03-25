@@ -445,7 +445,6 @@ function QuestieTracker:fillTrackingFrame()
 			index = index + 1;
 		end
 		QuestieTracker.frame:Show();
-		QuestieTracker.MaxButtonWidths = {};
 	else
 	 	for i,v in pairs(sortedByDistance) do
 			local hash = v["hash"];
@@ -500,7 +499,7 @@ function QuestieTracker:fillTrackingFrame()
 				obj = obj + 1;
 			end
 			button:SetHeight(14 + (button.currentObjectiveCount * 11));
-			button:SetWidth(1);
+			button:SetWidth(250);
 			button:Show();
 			if (QuestieConfig.showTrackerHeader == true) then
 				QuestieTrackerHeader:Show();
@@ -515,7 +514,6 @@ function QuestieTracker:fillTrackingFrame()
 			index = index + 1;
 		end
 		QuestieTracker.frame:Show();
-		QuestieTracker.MaxButtonWidths = {};
 	end
 	sortedByDistance = {}
 end
