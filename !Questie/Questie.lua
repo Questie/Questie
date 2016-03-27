@@ -698,6 +698,15 @@ QuestieFastSlash = {
 				QuestieConfig = {}
 				-- Clears tracker settings
 				QuestieTrackerVariables = {}
+				QuestieTrackerVariables = {
+					["position"] = {
+						["relativeTo"] = "UIParent",
+						["point"] = "CENTER",
+						["relativePoint"] = "CENTER",
+						["yOfs"] = 0,
+						["xOfs"] = 0,
+					},
+				}
 				ReloadUI()
 			end,
 			timeout = 60,
@@ -706,6 +715,33 @@ QuestieFastSlash = {
 		}
 		StaticPopup_Show ("NUKE_CONFIG")
 	end,
+	["cleartracker"] = function()
+	-- Default: None - Popup confirmation of Yes or No - Popup has a 60 second timeout.
+		StaticPopupDialogs["CLEAR_TRACKER"] = {
+			text = "|cFFFFFF00You are about to reset your QuestTracker. This will only reset it's saved location and place it in the center of your screen. Your UI will be reloaded automatically.|n|nAre you sure you want to continue?|r",
+			button1 = TEXT(YES),
+			button2 = TEXT(NO),
+			OnAccept = function()
+				-- Clears tracker settings
+				QuestieTrackerVariables = {}
+				-- Setup default settings and repositions the QuestTracker against the left side of the screen.
+				QuestieTrackerVariables = {
+					["position"] = {
+						["relativeTo"] = "UIParent",
+						["point"] = "CENTER",
+						["relativePoint"] = "CENTER",
+						["yOfs"] = 0,
+						["xOfs"] = 0,
+					},
+				}
+				ReloadUI()
+			end,
+			timeout = 60,
+			exclusive = 1,
+			hideOnEscape = 1
+		}
+		StaticPopup_Show ("CLEAR_TRACKER")
+	end,
 	["settings"] = function()
 		QuestieTracker:CurrentUserToggles()
 	end,
@@ -713,12 +749,13 @@ QuestieFastSlash = {
 		DEFAULT_CHAT_FRAME:AddMessage("Questie SlashCommand Help Menu:");
 		DEFAULT_CHAT_FRAME:AddMessage("  /questie arrow -- (on/off) Quest Arrow");
 		DEFAULT_CHAT_FRAME:AddMessage("  /questie clearconfig -- Resets your characters settings. It does NOT delete your quest data.");
+		DEFAULT_CHAT_FRAME:AddMessage("  /questie cleartracker -- Resets your QuestTrackers location to the center of your screen.");
 		DEFAULT_CHAT_FRAME:AddMessage("  /questie color -- Select from two different color schemes");
 		DEFAULT_CHAT_FRAME:AddMessage("  /questie complete <quest name> -- Manually complete quests");
 		DEFAULT_CHAT_FRAME:AddMessage("  /questie header -- (on/off) Quest Tracker Header");
 		DEFAULT_CHAT_FRAME:AddMessage("  /questie getpos -- Prints the player's map coordinates");
 		DEFAULT_CHAT_FRAME:AddMessage("  /questie listdirection -- Lists quests Top-->Down or Bottom-->Up");
-		DEFAULT_CHAT_FRAME:AddMessage("  /questie mapaids -- (on/off) World/Minimap icons");
+		DEFAULT_CHAT_FRAME:AddMessage("  /questie mapnotes -- (on/off) World/Minimap icons");
 		DEFAULT_CHAT_FRAME:AddMessage("  /questie maxlevel -- (on/off) the Max-Level Filter");
 		DEFAULT_CHAT_FRAME:AddMessage("  /questie minlevel -- (on/off) the Min-Level Filter");
 		DEFAULT_CHAT_FRAME:AddMessage("  /questie NUKE -- Deletes ALL your settings and quests");
