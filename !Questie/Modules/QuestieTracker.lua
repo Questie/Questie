@@ -444,9 +444,14 @@ function QuestieTracker:fillTrackingFrame()
 			d:Hide();
 			index = index + 1;
 		end
-		QuestieTracker.frame:Show();
+		if (QuestieConfig.trackerEnabled == true) then
+			QuestieTracker.frame:Show();
+		else
+			QuestieTracker:Hide()
+			QuestieTracker.frame:Hide()
+		end
 	else
-	 	for i,v in pairs(sortedByDistance) do
+		for i,v in pairs(sortedByDistance) do
 			local hash = v["hash"];
 			local quest = QuestieTrackedQuests[hash];
 			quest['rend'] = true;
@@ -515,7 +520,12 @@ function QuestieTracker:fillTrackingFrame()
 			d:Hide();
 			index = index + 1;
 		end
-		QuestieTracker.frame:Show();
+		if (QuestieConfig.trackerEnabled == true) then
+			QuestieTracker.frame:Show();
+		else
+			QuestieTracker:Hide()
+			QuestieTracker.frame:Hide()
+		end
 	end
 	sortedByDistance = {}
 end

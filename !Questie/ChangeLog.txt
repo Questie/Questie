@@ -1,5 +1,38 @@
 -------------------------------------------------------------------------------------------------------------------------------
 
+v2.64:
+* Since there are some new options in the SavedVariables - there needed to
+  be better error checking for missing entries.
+
+* Cartographer's settings weren't being applied after a ReloadUI or a
+  Re-Log - Questie was overriding the settings because it was no longer
+  detecting the component. I can only assume that MetaMap users would run
+  into the same issue so I made both Cartographer and MetaMap optional
+  dependencies.
+ 
+* QuestArrow was trying to hook quests that weren't being tracked in the
+  QuestTracker. Added an additional check to make sure it only fires for
+  quests that are being tracked. This is by design.
+
+* Fixed an issue with the QuestTracker. In one of the options I forgot to
+  apply the new button (Quest objectives in the list) width settings. It's
+  width was (1) causing some players some issues with dragging the
+  QuestTracker.
+
+* I forgot to include some header code in the QuestTracker to allow it
+  to be toggled "on" while using the default color set.
+
+* Inserted a "block" function to prevent RuWoW and ruRU from translating
+  quest objectives into Russian. This caused the "Sword" icons from
+  appearing on the Minimap and Worldmaps.
+
+* Fixed an issue with QuestTracker re-appearing after a quest update,
+  zone change, obtaining or turning in quests etc. I've reviewed all the
+  areas that triggers update functions in the QuestTracker module.
+  Hopefully I caught them all and added a QuestTracker toggle check.
+
+-------------------------------------------------------------------------------------------------------------------------------
+
 v2.63:
 * Added a new command line option - "/questie NUKE". This wipes out all
   your settings and the quest database. USE WITH CAUTION. There is a

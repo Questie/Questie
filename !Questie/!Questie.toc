@@ -1,5 +1,5 @@
 ## Interface: 11200
-## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v2.63|r|cFFFF0000 BETA|r
+## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v2.64|r|cFFFF0000 BETA|r
 ## Author: Aero/Schaka/Logonz/everyone else
 ## Notes: A standalone Vanilla QuestHelper
 ## Version: 2.5 BETA
