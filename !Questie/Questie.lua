@@ -89,6 +89,13 @@ function GetQuestLogTitle(index)
 	return QuestieCompat_GetQuestLogTitle(index);
 end
 
+function Questie:BlockTranslations()
+	if (IsAddOnLoaded("RuWoW") or IsAddOnLoaded("ProffBot")) or (IsAddOnLoaded("ruRU")) then
+		QUEST_MONSTERS_KILLED = "%s slain: %d/%d"; -- Lists the monsters killed for the selected quest
+		ERR_QUEST_ADD_KILL_SII = "%s slain: %d/%d"; -- %s is the monster name
+	end
+end
+
 function Questie:OnLoad()
 	this:RegisterEvent("QUEST_LOG_UPDATE");
 	this:RegisterEvent("ZONE_CHANGED"); -- this actually is needed
@@ -270,11 +277,13 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 				QUESTIE_LAST_UPDATE = GetTime();
 			end
 		end
+		Questie:BlockTranslations();
 	elseif(event == "VARIABLES_LOADED") then
 		Questie:debug_Print("VARIABLES_LOADED");
 		if(not QuestieSeenQuests) then
 			QuestieSeenQuests = {};
 		end
+		Questie:BlockTranslations();
 	elseif(event == "PLAYER_LOGIN") then
 		Questie:CheckQuestLog();
 		Questie:AddEvent("UPDATE", 1.15);

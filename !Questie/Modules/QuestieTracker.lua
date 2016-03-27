@@ -502,6 +502,8 @@ function QuestieTracker:fillTrackingFrame()
 			button:SetWidth(250);
 			button:Show();
 			if (QuestieConfig.showTrackerHeader == true) then
+				local numEntries, numQuests = GetNumQuestLogEntries();
+				watcher:SetText("QuestLog Status: ("..numQuests.."/20)");
 				QuestieTrackerHeader:Show();
 			end
 			index = index + 1;
