@@ -1,3 +1,16 @@
+HotFix:
+
+* Fixed an issue with the /questie mapaids command. I changed it to
+  mapnotes this release and forgot to update the Help Menu.
+
+* Fixed an issue with /questie NUKE. The nuke command was wiping the
+  QuestTracker screen position data without injecting default values
+  causing Questie to not find certain table keys and throwing nil
+  errors.
+
+* Added a new command to reset the QuestTracker position location
+  without clearing anything else. New command is /questie cleartracker.
+
 -------------------------------------------------------------------------------------------------------------------------------
 
 v2.64:
