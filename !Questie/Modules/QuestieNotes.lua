@@ -1,4 +1,4 @@
-NOTES_DEBUG = nil; --Set to nil to not get debug shit
+NOTES_DEBUG = true; --Set to nil to not get debug shit
 
 --Contains all the frames ever created, this is not to orphan any frames by mistake...
 local AllFrames = {};
@@ -20,7 +20,7 @@ function Questie:AddQuestToMap(questHash, redraw)
 	end
 	Questie:RemoveQuestFromMap(questHash);
 	Objectives = Questie:AstroGetQuestObjectives(questHash);
-	Questie:debug_Print("[AddQuestToMap] Adding quest", questHash);
+	--DEFAULT_CHAT_FRAME:AddMessage("[AddQuestToMap] Adding quest", questHash);
 	--Cache code
 	local ques = {};
 	ques["noteHandles"] = {};
@@ -207,25 +207,35 @@ function Questie_Tooltip_OnEnter()
 					Tooltip:AddLine(desc);
 				end
 			else
-				Tooltip:AddLine(Quest["name"],1,1,1);
-				Tooltip:AddLine("Quest Level: "..QuestieHashMap[this.data.questHash].level);
-				Tooltip:AddLine("Quest Started by: "..QuestieHashMap[this.data.questHash].startedBy);
-				Tooltip:AddLine("Quest Finished by: "..QuestieHashMap[this.data.questHash].finishedBy);
-				Tooltip:AddLine("Quest in progress");
-				Tooltip:AddLine("Shift+CTRL+Click to manually complete quest!",1,1,1);
+				Tooltip:AddLine("["..QuestieHashMap[this.data.questHash].level.."] "..Quest["name"].." |cFF33FF00(complete)|r");
+				Tooltip:AddLine("Finished by: |cFFa6a6a6"..QuestieHashMap[this.data.questHash].finishedBy.."|r",1,1,1);
 			end
 		else
-			Tooltip:AddLine(QuestieHashMap[this.data.questHash].name);
-			Tooltip:AddLine("Quest Level: "..QuestieHashMap[this.data.questHash].level,1,1,1);
-			Tooltip:AddLine("Quest Started by: "..QuestieHashMap[this.data.questHash].startedBy,1,1,1);
-			Tooltip:AddLine("Quest Finished by: "..QuestieHashMap[this.data.questHash].finishedBy,1,1,1);
-			Tooltip:AddLine("Quest available",1,1,1);
-			Tooltip:AddLine("Shift+CTRL+Click to manually complete quest!",1,1,1);
+			questOb = nil
+			local QuestName = tostring(QuestieHashMap[this.data.questHash].name)
+			if QuestName then
+				local index = 0
+				for k,v in pairs(QuestieLevLookup[QuestName]) do
+					index = index + 1
+					if (index == 1) and (v[2] == this.data.questHash) and (k ~= "") then
+						questOb = k
+					elseif (index > 0) and(v[2] == this.data.questHash) and (k ~= "") then
+						questOb = k
+					elseif (index == 1) and (v[2] ~= this.data.questHash) and (k ~= "") then
+						questOb = k
+					end
+				end
+			end
+			Tooltip:AddLine("["..QuestieHashMap[this.data.questHash].level.."] "..QuestieHashMap[this.data.questHash].name.." |cFF33FF00(available)|r");
+			Tooltip:AddLine("Started by: |cFFa6a6a6"..QuestieHashMap[this.data.questHash].startedBy.."|r",1,1,1);
+			if questOb ~= nil then
+				Tooltip:AddLine("Description: |cFFa6a6a6"..questOb.."|r",1,1,1,true);
+			end
+			Tooltip:AddLine("Shift+Click: |cFFa6a6a6Manually complete quest!|r",1,1,1);
 		end
 		if(NOTES_DEBUG and IsAltKeyDown()) then
 			Tooltip:AddLine("!DEBUG!", 1, 0, 0);
-			Tooltip:AddLine("questHash: "..this.data.questHash, 1, 0, 0);
-			Tooltip:AddLine("objectiveid: "..tostring(this.data.objectiveid), 1, 0, 0);
+			Tooltip:AddLine("QuestID: "..this.data.questHash, 1, 0, 0);
 		end
 		Tooltip:SetFrameLevel(11);
 		Tooltip:Show();
@@ -242,63 +252,14 @@ function Questie_AvailableQuestClick()
 	if (QuestieConfig.arrowEnabled == true) and (arg1 == "LeftButton") and (QuestieSeenQuests[this.data.questHash] == 0) and (QuestieTrackedQuests[this.data.questHash] ~= false) and (not IsControlKeyDown()) and (not IsShiftKeyDown()) then
 		SetArrowObjective(this.data.questHash)
 	end
-	if ( IsShiftKeyDown() and IsControlKeyDown() and Tooltip ) then
+	if ( IsShiftKeyDown() and Tooltip ) then
 		local QuestName = tostring(QuestieHashMap[this.data.questHash].name)
 		if QuestName then
 			for k,v in pairs(QuestieLevLookup) do
 				if strlower(k) == strlower(QuestName) then
-					local index = 0
-					for kk,vv in pairs(v) do
-						index = index + 1
-					end
-					if index == 1 then
-						Questie:Toggle()
-						for kk,vv in pairs(v) do
-							Questie:finishAndRecurse(vv[2])
-						end
-					else
-						local index = 0
-						for kk,vv in pairs(v) do
-							index = index + 1
-						end
-						StaticPopupDialogs["QUESTIE_COMPLETE"] = {
-							text = "|cFFFFFF00There are multiple quests matching the name \"" .. QuestName .. "\". Please enter the number listed in the chat window for the step that you want marked as complete:|r",
-							hasEditBox = 1,
-							maxLetters = 2,
-							OnShow = function()
-								getglobal(this:GetName().."EditBox"):SetFocus()
-							end,
-							EditBoxOnEnterPressed = function()
-								local text = getglobal(this:GetParent():GetName().."EditBox"):GetText()
-								for k,v in pairs(QuestieLevLookup) do
-									if strlower(k) == strlower(QuestName) then
-										local index = 0
-										for kk,vv in pairs(v) do
-											if index == tonumber(text) then
-												Questie:finishAndRecurse(vv[2])
-												index = index + 1
-											end
-										end
-									end
-								end
-								this:GetParent():Hide()
-								Questie:Toggle()
-								Questie:Toggle()
-							end,
-							OnHide = function()
-								getglobal(this:GetName().."EditBox"):SetText("")
-							end,
-							EditBoxOnEscapePressed = function()
-								this:GetParent():Hide()
-							end,
-							timeout = 10,
-							whileDead = 1,
-							exclusive = 1,
-							hideOnEscape = 1
-						}
-						StaticPopup_Show ("QUESTIE_COMPLETE")
-						Questie:Toggle()
-					end
+					Questie:Toggle()
+					local hash = (this.data.questHash)
+					Questie:finishAndRecurse(hash)
 				end
 			end
 		end

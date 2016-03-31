@@ -4,6 +4,7 @@ Questie = CreateFrame("Frame", "QuestieLua", UIParent, "ActionButtonTemplate")
 
 __QuestRewardCompleteButton_OnClick=nil;
 __QuestAbandonOnAccept=nil;
+__QuestAbandonWithItemsOnAccept=nil;
 local QuestieQuestHashCache = {}
 
 -- Setup Characters Default Profile
@@ -17,12 +18,13 @@ function Questie:SetupDefaults()
 		["maxLevelFilter"] = false,
 		["maxShowLevel"] = 3,
 		["minLevelFilter"] = false,
-		["minShowLevel"] = 10,
+		["minShowLevel"] = 5,
 		["showMapAids"] = true,
 		["showProfessionQuests"] = false,
 		["showTrackerHeader"] = false,
 		["trackerEnabled"] = true,
 		["trackerList"] = false,
+		["resizeWorldmap"] = false,
 	}
 	end
 	if not QuestieTrackerVariables then QuestieTrackerVariables = {
@@ -65,7 +67,7 @@ function Questie:CheckDefaults()
 	end
 	if not QuestieConfig.minShowLevel then
 		QuestieConfig.minShowLevel = false;
-		QuestieConfig.minShowLevel = 10;
+		QuestieConfig.minShowLevel = 5;
 	end
 	if not QuestieConfig.showMapAids then
 		QuestieConfig.showMapAids = true;
@@ -81,6 +83,9 @@ function Questie:CheckDefaults()
 	end
 	if not QuestieConfig.trackerList then
 		QuestieConfig.trackerList = false;
+	end
+	if not QuestieConfig.resizeWorldmap then
+		QuestieConfig.resizeWorldmap = false;
 	end
 end
 
@@ -98,6 +103,7 @@ end
 
 function Questie:OnLoad()
 	this:RegisterEvent("QUEST_LOG_UPDATE");
+	this:RegisterEvent("QUEST_PROGRESS");
 	this:RegisterEvent("ZONE_CHANGED"); -- this actually is needed
 	this:RegisterEvent("UI_INFO_MESSAGE");
 	this:RegisterEvent("CHAT_MSG_SYSTEM");
@@ -107,13 +113,13 @@ function Questie:OnLoad()
 	this:RegisterEvent("PLAYER_LOGIN");
 	this:RegisterEvent("ADDON_LOADED");
 	this:RegisterEvent("VARIABLES_LOADED");
-	this:RegisterEvent("CHAT_MSG_SYSTEM");
+	this:RegisterEvent("CHAT_MSG_LOOT");
 	Questie:SetupDefaults();
 	Questie:CheckDefaults();
-	__QuestRewardCompleteButton_OnClick = QuestRewardCompleteButton_OnClick;
 	__QuestAbandonOnAccept = StaticPopupDialogs["ABANDON_QUEST"].OnAccept;
 	StaticPopupDialogs["ABANDON_QUEST"].OnAccept = function()
 		local hash = Questie:GetHashFromName(GetAbandonQuestName());
+		--DEFAULT_CHAT_FRAME:AddMessage("[QuestAbandonOnAccept] Hash number: "..hash);
 		QuestieSeenQuests[hash] = -1;
 		QuestieTrackedQuests[hash] = nil;
 		Questie:AddEvent("CHECKLOG", 0.135);
@@ -122,25 +128,54 @@ function Questie:OnLoad()
 			TomTomCrazyArrow:Hide()
 		end
 	end
+	__QuestAbandonWithItemsOnAccept = StaticPopupDialogs["ABANDON_QUEST_WITH_ITEMS"].OnAccept;
+	StaticPopupDialogs["ABANDON_QUEST_WITH_ITEMS"].OnAccept = function()
+		local hash = Questie:GetHashFromName(GetAbandonQuestName());
+		--DEFAULT_CHAT_FRAME:AddMessage("[QuestAbandonWithItemsOnAccept] Hash number: "..hash);
+		QuestieSeenQuests[hash] = -1;
+		QuestieTrackedQuests[hash] = nil;
+		Questie:AddEvent("CHECKLOG", 0.135);
+		__QuestAbandonWithItemsOnAccept();
+		if (TomTomCrazyArrow:IsVisible() ~= nil) and (arrow_objective == hash) then
+			TomTomCrazyArrow:Hide()
+		end
+	end
+	__QuestRewardCompleteButton_OnClick = QuestRewardCompleteButton_OnClick;
 	QuestRewardCompleteButton_OnClick = function()
 		if not ( QuestFrameRewardPanel.itemChoice == 0 and GetNumQuestChoices() > 0 ) then
-			local qName = GetTitleText(); -- lol
-			-- TODO: Investigte getting quest by hash rather than by name for more accurate look up for
-			-- quests with more than one step to help with database issues.
-			local hash = Questie:GetHashFromName(qName); -- this is a bad idea. A VERY bad idea.
-			QuestieCompletedQuestMessages[qName] = 1;
-			Questie:AddEvent("CHECKLOG", 0.135);
-			if(not QuestieSeenQuests[hash]) or (QuestieSeenQuests[hash] == -1)then
-				Questie:debug_Print("Adding quest to seen quests:", qName, hash," setting as 1 = complete");
-				QuestieSeenQuests[hash] = 1;
-				if (TomTomCrazyArrow:IsVisible() ~= nil) and (arrow_objective == hash) then
-					TomTomCrazyArrow:Hide()
+			if IsAddOnLoaded("EQL3") then
+				local questTitle = GetTitleText();
+				local _, _, level, qName = string.find(questTitle, "%[(.+)%] (.+)")
+				--DEFAULT_CHAT_FRAME:AddMessage("[QuestRewardCompleteButton_OnClick] Level: "..level.." | Title: "..questTitle.." | String.Find: "..qName);
+				local hash = Questie:GetHashFromName(qName);
+				QuestieCompletedQuestMessages[qName] = 1;
+				if(not QuestieSeenQuests[hash]) or (QuestieSeenQuests[hash] == 0) or (QuestieSeenQuests[hash] == -1) then
+					--DEFAULT_CHAT_FRAME:AddMessage("[QuestRewardCompleteButton_OnClick]Adding quest to seen quests:"..qName.." , "..hash.." setting as 1 = complete");
+					QuestieSeenQuests[hash] = nil;
+					QuestieSeenQuests[hash] = 1;
+					QuestieTrackedQuests[hash] = nil;
+					Questie:AddEvent("CHECKLOG", 0.135);
+					if (TomTomCrazyArrow:IsVisible() ~= nil) and (arrow_objective == hash) then
+						TomTomCrazyArrow:Hide()
+					end
+				else
+					DEFAULT_CHAT_FRAME:AddMessage("WARNING: No quest could be found to complete! Please submit a bug for this questname/hash: "..qName.."/"..hash);
 				end
-			else
-				Questie:debug_Print("Adding quest to seen quests:", qName, hash," setting as 1 = complete");
-				QuestieSeenQuests[hash] = 1;
-				if (TomTomCrazyArrow:IsVisible() ~= nil) and (arrow_objective == hash) then
-					TomTomCrazyArrow:Hide()
+			elseif (not IsAddOnLoaded("EQL3")) then
+				local qName = GetTitleText();
+				local hash = Questie:GetHashFromName(qName);
+				QuestieCompletedQuestMessages[qName] = 1;
+				if(not QuestieSeenQuests[hash]) or (QuestieSeenQuests[hash] == 0) or (QuestieSeenQuests[hash] == -1) then
+					--DEFAULT_CHAT_FRAME:AddMessage("[QuestRewardCompleteButton_OnClick]Adding quest to seen quests:"..qName.." , "..hash.." setting as 1 = complete");
+					QuestieSeenQuests[hash] = nil;
+					QuestieSeenQuests[hash] = 1;
+					QuestieTrackedQuests[hash] = nil;
+					Questie:AddEvent("CHECKLOG", 0.135);
+					if (TomTomCrazyArrow:IsVisible() ~= nil) and (arrow_objective == hash) then
+						TomTomCrazyArrow:Hide()
+					end
+				else
+					DEFAULT_CHAT_FRAME:AddMessage("WARNING: No quest could be found to complete! Please submit a bug for this questname/hash: "..qName.."/"..hash);
 				end
 			end
 		end
@@ -149,46 +184,6 @@ function Questie:OnLoad()
 	Questie:NOTES_LOADED();
 	SlashCmdList["QUESTIE"] = Questie_SlashHandler;
 	SLASH_QUESTIE1 = "/questie";
--- Dyaxler: Modify Worldmap in case user doesn't have Cartographer or MetaMap loaded otherwise the Worldmap will be full screen and user can't finish quests or see chat output.
-	if (IsAddOnLoaded("Cartographer")) or (IsAddOnLoaded("MetaMap")) then
-		return
-	elseif (not IsAddOnLoaded("Cartographer")) or (not IsAddOnLoaded("MetaMap")) then
-		UIPanelWindows["WorldMapFrame"] =	{ area = "center",	pushable = 0 }
-		WorldMapFrame:SetFrameStrata("FULLSCREEN")
-		WorldMapFrame:SetScript("OnKeyDown", nil)
-		WorldMapFrame:RegisterForDrag("LeftButton")
-		WorldMapFrame:EnableMouse(true)
-		WorldMapFrame:SetMovable(true)
-		WorldMapFrame:SetScale(.8)
-		WorldMapTooltip:SetScale(1)
-		WorldMapFrame:SetWidth(1024)
-		WorldMapFrame:SetHeight(768)
-		WorldMapFrame:ClearAllPoints()
-		WorldMapFrame:SetPoint("CENTER", "UIParent", "CENTER", 0, 0)
-		BlackoutWorld:Hide()
-		WorldMapFrame:SetScript("OnDragStart", function()
-			this:SetWidth(1024)
-			this:SetHeight(768)
-			this:StartMoving()
-		end)
-		WorldMapFrame:SetScript("OnDragStop", function()
-			this:StopMovingOrSizing()
-			this:SetWidth(1024)
-			this:SetHeight(768)
-			local x,y = this:GetCenter()
-			local z = UIParent:GetEffectiveScale() / 2 / this:GetScale()
-			x = x - GetScreenWidth() * z
-			y = y - GetScreenHeight() * z
-			this:ClearAllPoints()
-			this:SetPoint("CENTER", "UIParent", "CENTER", x, y)
-		end)
-		WorldMapFrame:SetScript("OnShow", function()
-			local continent = GetCurrentMapContinent();
-			local zone = GetCurrentMapZone();
-			SetMapZoom(continent, zone);
-			SetMapToCurrentZone();
-		end)
-	end
 end
 
 Active = true;
@@ -234,6 +229,7 @@ function Questie:OnUpdate(elapsed)
 				end
 				Astrolabe.ForceNextUpdate = true;
 			elseif(v.EVENT == "CHECKLOG" and GetTime() - v.TIME > v.DELAY) then
+				--DEFAULT_CHAT_FRAME:AddMessage("[OnUpdate] Event = CHECKLOG");
 				Questie:CheckQuestLog();
 				table.remove(QUESTIE_EVENTQUEUE, 1);
 				break;
@@ -278,6 +274,29 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 			end
 		end
 		Questie:BlockTranslations();
+	elseif(event == "QUEST_PROGRESS") then
+		if (IsAddOnLoaded("EQL3") and (QuestlogOptions[EQL3_Player].AutoCompleteQuests == 1) and (GetNumQuestChoices() == 0)) then
+			if (IsQuestCompletable()) then
+				local questTitle = GetTitleText();
+				local _, _, level, qName = string.find(questTitle, "%[(.+)%] (.+)")
+				--DEFAULT_CHAT_FRAME:AddMessage("[QuestRewardCompleteButton_OnClick] Level: "..level.." | Title: "..questTitle.." | String.Find: "..qName);
+				local hash = Questie:GetHashFromName(qName);
+				QuestieCompletedQuestMessages[qName] = 1;
+				if(not QuestieSeenQuests[hash]) or (QuestieSeenQuests[hash] == 0) or (QuestieSeenQuests[hash] == -1) then
+					--DEFAULT_CHAT_FRAME:AddMessage("[QuestRewardCompleteButton_OnClick]Adding quest to seen quests:"..qName.." , "..hash.." setting as 1 = complete");
+					QuestieSeenQuests[hash] = nil;
+					QuestieSeenQuests[hash] = 1;
+					QuestieTrackedQuests[hash] = nil;
+					Questie:AddEvent("CHECKLOG", 0.135);
+					if (TomTomCrazyArrow:IsVisible() ~= nil) and (arrow_objective == hash) then
+						TomTomCrazyArrow:Hide()
+					end
+				else
+					DEFAULT_CHAT_FRAME:AddMessage("WARNING: No quest could be found to complete! Please submit a bug for this questname/hash: "..qName.."/"..hash);
+				end
+				CompleteQuest();
+			end
+		end
 	elseif(event == "VARIABLES_LOADED") then
 		Questie:debug_Print("VARIABLES_LOADED");
 		if(not QuestieSeenQuests) then
@@ -303,7 +322,11 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 		else
 			Questie:hookTooltip();
 		end
-	elseif(event == "CHAT_MSG_SYSTEM") then
+	elseif(event == "CHAT_MSG_LOOT") then
+		local _, _, msg, item = string.find(arg1, "(You receive loot%:) (.+)");
+		if msg then
+			Questie:CheckQuestLog();
+		end
 	end
 end
 
@@ -313,19 +336,20 @@ function findFirst(haystack, needle)
 end
 
 function Questie:finishAndRecurse(questhash)
-	DEFAULT_CHAT_FRAME:AddMessage("Completing quest |cFF00FF00\"" .. QuestieHashMap[questhash]['name'] .. "\"|r and parent quests");
+	DEFAULT_CHAT_FRAME:AddMessage("Completing quest |cFF00FF00\"" .. QuestieHashMap[questhash]['name'] .. "\"|r and parent quest: "..questhash);
 	local req = QuestieHashMap[questhash]['rq'];
 	if req then
 		Questie:finishAndRecurse(req);
+		--DEFAULT_CHAT_FRAME:AddMessage("Requirement: "..req);
 	end
-	if (QuestieTrackedQuests[questhash] == nil) then
-		QuestieSeenQuests[questhash] = 1;
 	-- I discovered a nasty little 'silent' bug where the Manual Complete functions would set
 	-- a quest as complete when it's actually in the players quest log. This check resets the
 	-- players quest back to tracked status (== 0) and prevents quests in a chain from being
 	-- marked complete when a player is on a certain step.
-	elseif ((QuestieTrackedQuests[questhash] == false) or (QuestieTrackedQuests[questhash] == table)) then
+	if ((QuestieTrackedQuests[questhash] == false) or (QuestieTrackedQuests[questhash] == table)) then
 		QuestieSeenQuests[questhash] = 0;
+	elseif (QuestieTrackedQuests[questhash] == nil) then
+		QuestieSeenQuests[questhash] = 1;
 	end
 end
 
@@ -333,7 +357,9 @@ _QuestieCompleteQuestSelectingOption = false;
 _QuestieCompleteQuestSelectingOption_QuestName = nil;
 
 QuestieFastSlash = {
-	["complete"] = function(args)
+	-- The "complete" command is no longer needed since the Shift+Click via the Worldmap is now
+	-- working 100%. Keeping this around just in case...
+	--[[["complete"] = function(args)
 		--DEFAULT_CHAT_FRAME:AddMessage("   " .. findFirst("This is how it works", " "));
 		--DEFAULT_CHAT_FRAME:AddMessage("   " .. args);
 		if _QuestieCompleteQuestSelectingOption then
@@ -384,7 +410,7 @@ QuestieFastSlash = {
 			end
 			DEFAULT_CHAT_FRAME:AddMessage(" |cFFFF2222No quest matches the name \"" .. args .. "\"!|r");
 		end
-	end,
+	end,]]--
 	["color"] = function()
 	-- Default: False
 		QuestieConfig.boldColors = not QuestieConfig.boldColors;
@@ -567,7 +593,7 @@ QuestieFastSlash = {
 		end
 	end,
 	["setminlevel"] = function(args)
-	-- Default: 10 levels below current level
+	-- Default: 5 levels below current level - which is the Blizzard default
 		if args then
 			local val = tonumber(args);
 			QuestieConfig.minShowLevel = val;
@@ -578,7 +604,7 @@ QuestieFastSlash = {
 		end
 	end,
 	["setmaxlevel"] = function(args)
-	-- Default: Quest will not appear until current level is 3 levels above suggested level
+	-- Default: Quest will not appear until current level is 3 levels above Blizzards suggested level
 		if args then
 			local val = tonumber(args);
 			QuestieConfig.maxShowLevel = val;
@@ -601,6 +627,15 @@ QuestieFastSlash = {
 			Questie:Toggle();
 		end
 	end,
+	["resizemap"] = function()
+	-- Default: False
+		QuestieConfig.resizeWorldmap = not QuestieConfig.resizeWorldmap;
+		if QuestieConfig.resizeWorldmap then
+			ReloadUI()
+		else
+			ReloadUI()
+		end
+	end,
 	["clearconfig"] = function()
 	-- Default: None - Popup confirmation of Yes or No - Popup has a 60 second timeout.
 		StaticPopupDialogs["CLEAR_CONFIG"] = {
@@ -620,12 +655,13 @@ QuestieFastSlash = {
 					["maxLevelFilter"] = false,
 					["maxShowLevel"] = 3,
 					["minLevelFilter"] = false,
-					["minShowLevel"] = 10,
+					["minShowLevel"] = 5,
 					["showMapAids"] = true,
 					["showProfessionQuests"] = false,
 					["showTrackerHeader"] = false,
 					["trackerEnabled"] = true,
 					["trackerList"] = false,
+					["resizeWorldmap"] = false,
 				}
 				-- Clears tracker settings
 				QuestieTrackerVariables = {}
@@ -633,50 +669,26 @@ QuestieFastSlash = {
 				QuestieTrackerVariables = {
 					["position"] = {
 						["relativeTo"] = "UIParent",
-						["point"] = "LEFT",
-						["relativePoint"] = "LEFT",
+						["point"] = "CENTER",
+						["relativePoint"] = "CENTER",
 						["yOfs"] = 0,
 						["xOfs"] = 0,
 					},
 				}
-				-- If quests are being tracked then they are usually in the
-				-- players quest log.
-				if QuestieTrackedQuests[hash] then
-					-- This flag means a quest has been picked up (== 0)
-					if (QuestieSeenQuests[hash] == 0) then
-						-- Removes quest entry from the QuestTracker database
-						QuestieTrackedQuests[hash] = nil
-						-- This re-adds and sets a flag to untrack quest for all
-						-- active quests in the quest log.
-						QuestieTrackedQuests[hash] = false
+				-- The following will clean up the Quest Database removing stale/invalid entries.
+				-- The (== 0 in QuestieSeenQuests) flag usually means a quest has been picked up and the (== -1
+				-- in QuestieSeenQuests) flag means the quest has been abandonded. Once we remove these flags
+				-- Questie will readd the quests based on what is in your log. A refresh of sorts without
+				-- touching or resetting your finished quests.
+				local index = 0
+				for i,v in pairs(QuestieSeenQuests) do
+					if (v == 0) or (v == -1) then
+						QuestieSeenQuests[i] = nil
 					end
+					index = index + 1
 				end
-				-- This flag means a quest has been abandonded (== -1) and are currently being tracked
-				-- then they don't need to be cleared from the database.
-				if (QuestieSeenQuests[hash] == -1) and (QuestieTrackedQuests[hash]) then
-					-- If it's in the players quest log (I.E. has been picked back up)
-					-- then lets reset the '-1' flag by deleting the entry. Questie will
-					-- see the quest in the log, if applicable, and reset it to '0'.
-					QuestieSeenQuests[hash] = nil
-					-- Removes quest entry from the QuestTracker database - Questie will
-					-- see the quest in the log, if applicable, and set the flag to
-					-- 'false' (untracked).
-					QuestieTrackedQuests[hash] = false
-				end
-				-- If a quest is marked as complete(== 1)
-				if (QuestieSeenQuests[hash] == 1) then
-					-- Then it doesn't need to be in the QuestTracker database.
-					-- Removes quest entry from the QuestTracker database.
-					QuestieTrackedQuests[hash] = nil
-				end
-				-- This is for pure redundancy - If a quest is being tracked or not tracked
-				-- then chances are it's in the players quest log. Reset the
-				-- 'QuestieSeenQuests' flag to '0'. In case the database was previously in a
-				-- bad state and the quest was somehow marked as 'complete' (== 1), this routine
-				-- will reset it's status to what it's supposed to be set to.
-				if ((QuestieTrackedQuests[hash] == false) or (QuestieTrackedQuests[hash] == table)) then
-					QuestieSeenQuests[hash] = 0;
-				end
+				-- This wipes the QuestTracker database and forces a refresh of all tracked data.
+				QuestieTrackedQuests = {}
 				ReloadUI()
 			end,
 			timeout = 60,
@@ -694,8 +706,28 @@ QuestieFastSlash = {
 			OnAccept = function()
 				-- Clears all quests
 				QuestieSeenQuests = {}
+				-- Clears all tracked quests
+				QuestieTrackedQuests = {}
 				-- Clears config
 				QuestieConfig = {}
+				-- Setup default settings
+				QuestieConfig = {
+					["alwaysShowDistance"] = false,
+					["alwaysShowLevel"] = true,
+					["alwaysShowQuests"] = true,
+					["arrowEnabled"] = true,
+					["boldColors"] = false,
+					["maxLevelFilter"] = false,
+					["maxShowLevel"] = 3,
+					["minLevelFilter"] = false,
+					["minShowLevel"] = 5,
+					["showMapAids"] = true,
+					["showProfessionQuests"] = false,
+					["showTrackerHeader"] = false,
+					["trackerEnabled"] = true,
+					["trackerList"] = false,
+					["resizeWorldmap"] = false,
+				}
 				-- Clears tracker settings
 				QuestieTrackerVariables = {}
 				QuestieTrackerVariables = {
@@ -746,25 +778,30 @@ QuestieFastSlash = {
 		QuestieTracker:CurrentUserToggles()
 	end,
 	["help"] = function()
-		DEFAULT_CHAT_FRAME:AddMessage("Questie SlashCommand Help Menu:");
-		DEFAULT_CHAT_FRAME:AddMessage("  /questie arrow -- (on/off) Quest Arrow");
-		DEFAULT_CHAT_FRAME:AddMessage("  /questie clearconfig -- Resets your characters settings. It does NOT delete your quest data.");
-		DEFAULT_CHAT_FRAME:AddMessage("  /questie cleartracker -- Resets your QuestTrackers location to the center of your screen.");
-		DEFAULT_CHAT_FRAME:AddMessage("  /questie color -- Select from two different color schemes");
-		DEFAULT_CHAT_FRAME:AddMessage("  /questie complete <quest name> -- Manually complete quests");
-		DEFAULT_CHAT_FRAME:AddMessage("  /questie header -- (on/off) Quest Tracker Header");
-		DEFAULT_CHAT_FRAME:AddMessage("  /questie getpos -- Prints the player's map coordinates");
-		DEFAULT_CHAT_FRAME:AddMessage("  /questie listdirection -- Lists quests Top-->Down or Bottom-->Up");
-		DEFAULT_CHAT_FRAME:AddMessage("  /questie mapnotes -- (on/off) World/Minimap icons");
-		DEFAULT_CHAT_FRAME:AddMessage("  /questie maxlevel -- (on/off) the Max-Level Filter");
-		DEFAULT_CHAT_FRAME:AddMessage("  /questie minlevel -- (on/off) the Min-Level Filter");
-		DEFAULT_CHAT_FRAME:AddMessage("  /questie NUKE -- Deletes ALL your settings and quests");
-		DEFAULT_CHAT_FRAME:AddMessage("  /questie professions -- (on/off) profession quests");
-		DEFAULT_CHAT_FRAME:AddMessage("  /questie setmaxlevel <number> -- Hides quests until <X> levels above players level (default=3)");
-		DEFAULT_CHAT_FRAME:AddMessage("  /questie setminlevel <number> -- Hides quests <X> levels below players level (default=10)");
-		DEFAULT_CHAT_FRAME:AddMessage("  /questie settings -- Displays your current toggles and settings.");
-		DEFAULT_CHAT_FRAME:AddMessage("  /questie showquests -- (on/off) Always show quests and objectives");
-		DEFAULT_CHAT_FRAME:AddMessage("  /questie tracker -- (on/off) Quest Tracker");
+		DEFAULT_CHAT_FRAME:AddMessage("Questie SlashCommand Help Menu:", 1, 0.75, 0);
+		DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie arrow |r-- |c0000ffc0(toggle)|r QuestArrow", 0.75, 0.75, 0.75);
+		DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie clearconfig |r-- Resets Questie settings. It does NOT delete your quest data.", 0.75, 0.75, 0.75);
+		DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie cleartracker |r-- Relocates the QuestTracker to the center of your screen.", 0.75, 0.75, 0.75);
+		DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie color |r-- Select from two different color schemes", 0.75, 0.75, 0.75);
+		--DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie complete|r |c0000ffc0<quest name>|r -- Manually complete quests", 0.75, 0.75, 0.75);
+		DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie header |r-- |c0000ffc0(toggle)|r QuestTracker log counter", 0.75, 0.75, 0.75);
+		--DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie getpos |r-- Prints the player's map coordinates", 0.75, 0.75, 0.75);
+		DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie listdirection |r-- Lists quests Top-->Down or Bottom-->Up", 0.75, 0.75, 0.75);
+		DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie mapnotes |r-- |c0000ffc0(toggle)|r World/Minimap icons", 0.75, 0.75, 0.75);
+		DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie maxlevel |r-- |c0000ffc0(toggle)|r Max-Level Filter", 0.75, 0.75, 0.75);
+		DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie minlevel |r-- |c0000ffc0(toggle)|r Min-Level Filter", 0.75, 0.75, 0.75);
+		DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie NUKE |r-- Resets ALL Questie data and settings", 0.75, 0.75, 0.75);
+		DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie professions |r-- |c0000ffc0(toggle)|r Profession quests", 0.75, 0.75, 0.75);
+		DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie setmaxlevel |r|c0000ffc0<number>|r -- Hides quests until <X> levels above players level (default=3)", 0.75, 0.75, 0.75);
+		DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie setminlevel |r|c0000ffc0<number>|r -- Hides quests <X> levels below players level (default=5)", 0.75, 0.75, 0.75);
+		DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie settings |r-- Displays your current toggles and settings.", 0.75, 0.75, 0.75);
+		DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie showquests |r-- |c0000ffc0(toggle)|r Always show quests and objectives", 0.75, 0.75, 0.75);
+		DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie tracker |r-- |c0000ffc0(toggle)|r QuestTracker", 0.75, 0.75, 0.75);
+		if (IsAddOnLoaded("Cartographer")) or (IsAddOnLoaded("MetaMap")) then
+			return
+		elseif (not IsAddOnLoaded("Cartographer")) or (not IsAddOnLoaded("MetaMap")) then
+			DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie resizemap |r-- |c0000ffc0(toggle)|r Resize Worldmap", 0.75, 0.75, 0.75);
+		end
 	end,
 };
 

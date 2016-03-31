@@ -1,15 +1,77 @@
-HotFix:
+-------------------------------------------------------------------------------------------------------------------------------
 
-* Fixed an issue with the /questie mapaids command. I changed it to
-  mapnotes this release and forgot to update the Help Menu.
+v2.65:
+* I have thoroughly reviewed all the functions that handle obtaining,
+  abandoning, and tracking quests. Many of the functions have been tweaked
+  or redesigned. During this long review I found several new bugs and
+  discovered many new and more efficient ways to manage quests with a lower
+  memory footprint. There were several bugs specific to using Enhanced
+  Questlog that have been resolved. Too many little bugs and tweaks to list.
+  The overall look and feel of Questie hasn't changed nor have I added any
+  new features. All the improvements in this release are "under the hood."
 
-* Fixed an issue with /questie NUKE. The nuke command was wiping the
-  QuestTracker screen position data without injecting default values
-  causing Questie to not find certain table keys and throwing nil
-  errors.
+* In order to do proper testing I created three new characters in each of
+  the three Alliance starting areas (Dwarf, Human, Elf) and leveled them
+  to level 10. I discovered a few quests that had erroneous entries which
+  were corrected.
 
-* Added a new command to reset the QuestTracker position location
-  without clearing anything else. New command is /questie cleartracker.
+* During the repeated process of NUKEING my quest database to test certain
+  functions I realized that the Shift+CTRL+Click to manually complete was
+  annoying as F***. I ran into several quests that just wouldn't disappear.
+  I finally grew tired of it and rewrote the whole feature. You no longer
+  have to rely on selecting a step in a quest chain. Just click it. If
+  it's in your quest log, the cleanup loop will re-add it to your database.
+  If you're on the quest, it won't show you on the map the later quests in
+  the chain so there is no risk of you accidently clicking on a quest that
+  you still need to complete. I've also dropped one of the key modifiers.
+  You only need Shift+Click. Here is the best part... I figured out a way
+  to handle the duplicate quest entries in the database. It will complete
+  it no matter what. Just click the icon until it's gone.
+
+* In the process of fixing the manual complete feature, I also changed the
+  tooltips. They are cleaner, easier to read and they all contain just the
+  right amount of information - including the Quest Description! If for some
+  reason you encounter a quest you need to file a bug about, hold down your
+  ALT key while hovering over a quest or an objective and it will show you
+  the Quest Hash Number that I will need to troubleshoot with.
+
+* I also fixed the 'NUKE' command (yes it's intentionally in all CAPS
+  which you have to type in order to get the command to work). I also
+  improved the 'clearconfig' command. For those that weren't paying
+  attention to a hotfix I recently released, I added a 'cleartracker'
+  command. The 'clearconfig' command will clear your Questie settings and
+  clean up your database without clearing your completed quests. The
+  'cleartracker' command just simply resets the location of your tracker
+  to the center of the screen in case it gets stuck behind some UI element.
+  The NUKE command is what it is... it nukes everything back to default.
+
+* I also improved the look of the command menu. Type '/questie' in game to
+  check it out! I colored some of the text to make it a LOT easier to read
+  and understand. I hope. :)
+
+* Just a small change to the WorldMap feature I added a few releases back.
+  If you don't run Cartographer, MetaMap or some other map mod then you have
+  a couple of options. First option which is the default, is the Blizzard
+  Fullscreen Worldmap with no customizations done by Questie. There is a new
+  special command only visible to those not running a map mod. It's called
+  'resizemap' and you can find it in the '/questie' command menu. If you run
+  the command it will resize the Worldmap down to 80% and make it movable.
+  For those running a map mod like Cartographer or MetaMap the code doesn't
+  even execute and the '/questie' command doesn't appear in the list. The
+  CVAR does appear in the '/questie settings' menu and should be 'false'
+  unless you're actively using it. As long as it's 'false' then the map
+  code doesn't execute and won't interfere with your map mod.
+
+* I also rewrote some of the descriptions for some of the commands in the
+  '/questie' menu. Hopefully they are easier to understand.
+
+* I added a few new EVENT handlers to enhance the quest updates. There is
+  one minor annoyance I can't seem to resolve. If you have a quest that
+  needs X number of items, it sometimes won't register the first item but
+  will update properly once you pick up the second item. *scratches head*
+  Yeah, I'm still thinking about that one...
+
+* Tons of code cleanup
 
 -------------------------------------------------------------------------------------------------------------------------------
 

@@ -6749,7 +6749,6 @@ QuestieLevLookup = {
   ["Fill the Tourmaline Phial and bring it back to Corithras Moonrage in Dolanaar."]={0,8875032},
   ["Fill the Amethyst Phial and bring it back to Corithras Moonrage in Dolanaar."]={0,172976144},
   ["Bring the Filled Vessel to Arch Druid Fandral Staghelm in Darnassus."]={0,1161253480},
-  ["Fill the Amethyst Phial and bring it back to Corithras Moonrage in Dolanaar."]={0,176278032},
  },
  ["Souvenirs of Death"]={
   ["Deathguard Samsa of Tarren Mill wants 30 Hillsbrad Human Skulls."]={178,3405881394},
@@ -31631,7 +31630,6 @@ QuestieHashMap = {
   ['finishedBy']="Talin Keeneye",
   ['level']=1,
   ['rr']=77,
-  ['rq']=3557100717
  },
  [816991797]={
   ['name']="Assisting Arch Druid Staghelm",
@@ -34336,7 +34334,7 @@ QuestieHashMap = {
   ['startedBy']="Corithras Moonrage",
   ['finishedBy']="Arch Druid Fandral Staghelm",
   ['level']=6,
-  ['rq']=176278032
+  ['rq']=172976144
  },
  [3269431154]={
   ['name']="Ishamuhale",
@@ -38377,15 +38375,6 @@ QuestieHashMap = {
   ['finishedBy']="Captain Grayson",
   ['level']=10,
   ['rr']=77
- },
- [176278032]={
-  ['name']="Crown of the Earth",
-  ['startedType']="monster",
-  ['finishedType']="monster",
-  ['startedBy']="Corithras Moonrage",
-  ['finishedBy']="Corithras Moonrage",
-  ['level']=1,
-  ['rq']=8875032
  },
  [762802901]={
   ['name']="Avenger's Breastplate",

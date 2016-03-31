@@ -715,12 +715,16 @@ function QuestieTracker:removeQuestFromTracker(hash)
 			QuestieTrackedQuests[hash] = nil
 			QuestieTrackedQuests[hash] = false
 	end
-	if (QuestieSeenQuests[hash] == -1) and (QuestieTrackedQuests[hash]) then
+	if (QuestieSeenQuests[hash] == -1) then
 			QuestieTrackedQuests[hash] = nil
 			QuestieTrackedQuests[hash] = false
 	end
 	if (QuestieSeenQuests[hash] == 1) then
 		QuestieTrackedQuests[hash] = nil
+	end
+	if (QuestieSeenQuests[hash] == 1) then
+			QuestieSeenQuests[hash] = nil
+			QuestieSeenQuests[hash] = 0
 	end
 	QuestieTracker.questNames = {};
 	QuestieTracker.questObjects = {};
@@ -789,6 +793,7 @@ function QuestieTracker:CurrentUserToggles()
 		[11] = { "showTrackerHeader" },
 		[12] = { "trackerEnabled" },
 		[13] = { "trackerList" },
+		[14] = { "resizeWorldmap" },
 	}
 	if QuestieConfig then
 		i = 1
@@ -835,6 +840,48 @@ function QuestieTracker:ADDON_LOADED()
 	end
 	-- bye vanilla tracker
 	QuestWatchFrame:Hide()
-	QuestWatchFrame.Show = function () end;
+	QuestWatchFrame.Show = function ()
+	end;
+	-- This adds the ability to scale the Worldmap from FULLSCREEN or to a WINDOW if a player isn't using Cargographer or MetaMap.
+	if (QuestieConfig.resizeWorldmap == false) then return end
+	if (IsAddOnLoaded("Cartographer")) or (IsAddOnLoaded("MetaMap")) then
+		return
+	elseif (not IsAddOnLoaded("Cartographer")) or (not IsAddOnLoaded("MetaMap")) then
+		UIPanelWindows["WorldMapFrame"] =	{ area = "center",	pushable = 0 }
+		WorldMapFrame:SetFrameStrata("FULLSCREEN")
+		WorldMapFrame:SetScript("OnKeyDown", nil)
+		WorldMapFrame:RegisterForDrag("LeftButton")
+		WorldMapFrame:EnableMouse(true)
+		WorldMapFrame:SetMovable(true)
+		WorldMapFrame:SetScale(.8)
+		WorldMapTooltip:SetScale(1)
+		WorldMapFrame:SetWidth(1024)
+		WorldMapFrame:SetHeight(768)
+		WorldMapFrame:ClearAllPoints()
+		WorldMapFrame:SetPoint("CENTER", "UIParent", "CENTER", 0, 0)
+		BlackoutWorld:Hide()
+		WorldMapFrame:SetScript("OnDragStart", function()
+			this:SetWidth(1024)
+			this:SetHeight(768)
+			this:StartMoving()
+		end)
+		WorldMapFrame:SetScript("OnDragStop", function()
+			this:StopMovingOrSizing()
+			this:SetWidth(1024)
+			this:SetHeight(768)
+			local x,y = this:GetCenter()
+			local z = UIParent:GetEffectiveScale() / 2 / this:GetScale()
+			x = x - GetScreenWidth() * z
+			y = y - GetScreenHeight() * z
+			this:ClearAllPoints()
+			this:SetPoint("CENTER", "UIParent", "CENTER", x, y)
+		end)
+		WorldMapFrame:SetScript("OnShow", function()
+			local continent = GetCurrentMapContinent();
+			local zone = GetCurrentMapZone();
+			SetMapZoom(continent, zone);
+			SetMapToCurrentZone();
+		end)
+	end
 end
 -- end logic code

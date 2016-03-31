@@ -76649,7 +76649,7 @@ QuestieMonsters = {
   },
   ["Fiora Longears"] = {
     ["locations"] = {
-      [1] = {16.0, 0.3375, 0.4241, 100.0}
+      [1] = {10, 0.6645, 0.4514, 100.0}
     },
     ["locationCount"] = 1,
     ["faction"] = 1

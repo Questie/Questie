@@ -4,14 +4,17 @@ LastCount = 0;
 function Questie:CheckQuestLog()
 	local numEntries, numQuests = GetNumQuestLogEntries();
 	if(LastCount == numEntries) then
+	--DEFAULT_CHAT_FRAME:AddMessage("[CheckLog] Checking questlog: Nothing changed");
 	end
 	LastCount = numEntries;
 	local t = GetTime();
 	if(not LastQuestLogHashes) then
 		LastQuestLogHashes = Questie:AstroGetAllCurrentQuestHashesAsMeta();
+		--DEFAULT_CHAT_FRAME:AddMessage("[CheckLog] First check run, adding all quests");
 		for k, v in pairs(LastQuestLogHashes) do
 			Questie:AddQuestToMap(v["hash"]);
 			if(not QuestieSeenQuests[v["hash"]]) then
+				--DEFAULT_CHAT_FRAME:AddMessage("[CheckLog] Adding quest to seen quests:", v["name"],v["hash"]," setting as 0");
 				QuestieSeenQuests[v["hash"]] = 0
 			end
 		end
@@ -49,19 +52,23 @@ function Questie:CheckQuestLog()
 		end
 	end
 	for k, v in pairs(delta) do
+		--DEFAULT_CHAT_FRAME:AddMessage(v["name"],v["hash"], v["deltaType"]);
 		if(v["deltaType"] == 1) then
+			--DEFAULT_CHAT_FRAME:AddMessage("[CheckLog] Check discovered a new quest,".. v["name"]);
 			Questie:AddQuestToMap(v["hash"]);
-			if(not QuestieSeenQuests[v["hash"]] or QuestieSeenQuests[v["hash"]] == -1) then
+			if(not QuestieSeenQuests[v["hash"]]) or (QuestieSeenQuests[v["hash"]] == -1) then
 				QuestieSeenQuests[v["hash"]] = 0
 			end
 			MapChanged = true;
 		elseif not Questie.collapsedThisRun then
+			--DEFAULT_CHAT_FRAME:AddMessage("[CheckLog] Check discovered a missing quest, removing! ".. v["hash"].." "..v["name"])
 			Questie:RemoveQuestFromMap(v["hash"]);
 			QuestieTracker:removeQuestFromTracker(v["hash"]);
 			if(not QuestieCompletedQuestMessages[v["name"]]) then
 				QuestieCompletedQuestMessages[v["name"]] = 0;
 			end
 			if(not QuestieSeenQuests[v["hash"]]) then
+				--DEFAULT_CHAT_FRAME:AddMessage("[CheckLog] Adding quest to seen quests:", v["name"],v["hash"]," setting as 0");
 				QuestieSeenQuests[v["hash"]] = 0
 			end
 			if(QuestieSeenQuests[v["hash"]] == -1) then
@@ -347,8 +354,9 @@ function Questie:GetHashFromName(name)
 			end
 		end
 		if not (bestHash == -1) then return bestHash; end
+		--DEFAULT_CHAT_FRAME:AddMessage("[GetHashFromName] Returned: "..bestHash);
 	end
-	Questie:debug_Print("NO KNOWN HASH FOR ", name, " FALLING BACK TO LEGACY (DANGEROUS)");
+	--DEFAULT_CHAT_FRAME:AddMessage("[GetHashFromName] NO KNOWN HASH FOR "..name.." FALLING BACK TO LEGACY (DANGEROUS)");
 	return Questie:getQuestHash(name, nil, nil);
 end
 

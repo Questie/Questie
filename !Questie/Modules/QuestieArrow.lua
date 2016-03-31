@@ -133,6 +133,7 @@ function SetArrowObjective(hash)
 		return;
 	end
 	arrow_objective = hash
+	if not QuestieTrackedQuests[hash]["arrowPoint"] then return end
 	local objective = QuestieTrackedQuests[hash]["arrowPoint"]
 	SetCrazyArrow(objective, objective.dist, objective.title)
 end
