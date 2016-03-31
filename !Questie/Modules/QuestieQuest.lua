@@ -14,6 +14,11 @@ function Questie:CheckQuestLog()
 		for k, v in pairs(LastQuestLogHashes) do
 			Questie:AddQuestToMap(v["hash"]);
 			if(not QuestieSeenQuests[v["hash"]]) then
+				local req = QuestieHashMap[v["hash"]]['rq'];
+				if req then
+					Questie:finishAndRecurse(req)
+					QuestieTrackedQuests[req] = nil
+				end
 				--DEFAULT_CHAT_FRAME:AddMessage("[CheckLog] Adding quest to seen quests:", v["name"],v["hash"]," setting as 0");
 				QuestieSeenQuests[v["hash"]] = 0
 			end
@@ -57,6 +62,11 @@ function Questie:CheckQuestLog()
 			--DEFAULT_CHAT_FRAME:AddMessage("[CheckLog] Check discovered a new quest,".. v["name"]);
 			Questie:AddQuestToMap(v["hash"]);
 			if(not QuestieSeenQuests[v["hash"]]) or (QuestieSeenQuests[v["hash"]] == -1) then
+				local req = QuestieHashMap[v["hash"]]['rq'];
+				if req then
+					Questie:finishAndRecurse(req)
+					QuestieTrackedQuests[req] = nil
+				end
 				QuestieSeenQuests[v["hash"]] = 0
 			end
 			MapChanged = true;
@@ -68,6 +78,11 @@ function Questie:CheckQuestLog()
 				QuestieCompletedQuestMessages[v["name"]] = 0;
 			end
 			if(not QuestieSeenQuests[v["hash"]]) then
+				local req = QuestieHashMap[v["hash"]]['rq'];
+				if req then
+					Questie:finishAndRecurse(req)
+					QuestieTrackedQuests[req] = nil
+				end
 				--DEFAULT_CHAT_FRAME:AddMessage("[CheckLog] Adding quest to seen quests:", v["name"],v["hash"]," setting as 0");
 				QuestieSeenQuests[v["hash"]] = 0
 			end

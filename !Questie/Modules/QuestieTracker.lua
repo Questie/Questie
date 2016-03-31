@@ -629,6 +629,9 @@ local function trim(s)
 end
 
 function QuestieTracker:addQuestToTracker(hash, logId, level) -- never used???
+	if (QuestieSeenQuests[hash] == 1) then
+		return
+	end
 	local startTime = GetTime()
 	if(type(QuestieTrackedQuests[hash]) ~= "table") then
 		QuestieTrackedQuests[hash] = {};
@@ -684,7 +687,7 @@ function QuestieTracker:updateFrameOnTracker(hash, logId, level)
 	if not logId then
 		logId = Questie:GetQuestIdFromHash(hash)
 	end
-	if QuestieTrackedQuests[hash] == false then
+	if (QuestieTrackedQuests[hash] == false) or (QuestieSeenQuests[hash] == 1) then
 		return
 	end
 	local questName, level, questTag, isHeader, isCollapsed, isComplete = QuestieCompat_GetQuestLogTitle(logId);

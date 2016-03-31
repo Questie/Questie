@@ -151,8 +151,7 @@ function Questie:OnLoad()
 				QuestieCompletedQuestMessages[qName] = 1;
 				if(not QuestieSeenQuests[hash]) or (QuestieSeenQuests[hash] == 0) or (QuestieSeenQuests[hash] == -1) then
 					--DEFAULT_CHAT_FRAME:AddMessage("[QuestRewardCompleteButton_OnClick]Adding quest to seen quests:"..qName.." , "..hash.." setting as 1 = complete");
-					QuestieSeenQuests[hash] = nil;
-					QuestieSeenQuests[hash] = 1;
+					Questie:finishAndRecurse(hash)
 					QuestieTrackedQuests[hash] = nil;
 					Questie:AddEvent("CHECKLOG", 0.135);
 					if (TomTomCrazyArrow:IsVisible() ~= nil) and (arrow_objective == hash) then
@@ -167,8 +166,7 @@ function Questie:OnLoad()
 				QuestieCompletedQuestMessages[qName] = 1;
 				if(not QuestieSeenQuests[hash]) or (QuestieSeenQuests[hash] == 0) or (QuestieSeenQuests[hash] == -1) then
 					--DEFAULT_CHAT_FRAME:AddMessage("[QuestRewardCompleteButton_OnClick]Adding quest to seen quests:"..qName.." , "..hash.." setting as 1 = complete");
-					QuestieSeenQuests[hash] = nil;
-					QuestieSeenQuests[hash] = 1;
+					Questie:finishAndRecurse(hash)
 					QuestieTrackedQuests[hash] = nil;
 					Questie:AddEvent("CHECKLOG", 0.135);
 					if (TomTomCrazyArrow:IsVisible() ~= nil) and (arrow_objective == hash) then
@@ -284,8 +282,7 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 				QuestieCompletedQuestMessages[qName] = 1;
 				if(not QuestieSeenQuests[hash]) or (QuestieSeenQuests[hash] == 0) or (QuestieSeenQuests[hash] == -1) then
 					--DEFAULT_CHAT_FRAME:AddMessage("[QuestRewardCompleteButton_OnClick]Adding quest to seen quests:"..qName.." , "..hash.." setting as 1 = complete");
-					QuestieSeenQuests[hash] = nil;
-					QuestieSeenQuests[hash] = 1;
+					Questie:finishAndRecurse(hash)
 					QuestieTrackedQuests[hash] = nil;
 					Questie:AddEvent("CHECKLOG", 0.135);
 					if (TomTomCrazyArrow:IsVisible() ~= nil) and (arrow_objective == hash) then
@@ -336,10 +333,10 @@ function findFirst(haystack, needle)
 end
 
 function Questie:finishAndRecurse(questhash)
-	DEFAULT_CHAT_FRAME:AddMessage("Completing quest |cFF00FF00\"" .. QuestieHashMap[questhash]['name'] .. "\"|r and parent quest: "..questhash);
 	local req = QuestieHashMap[questhash]['rq'];
 	if req then
 		Questie:finishAndRecurse(req);
+		QuestieTrackedQuests[req] = nil;
 		--DEFAULT_CHAT_FRAME:AddMessage("Requirement: "..req);
 	end
 	-- I discovered a nasty little 'silent' bug where the Manual Complete functions would set
@@ -348,7 +345,7 @@ function Questie:finishAndRecurse(questhash)
 	-- marked complete when a player is on a certain step.
 	if ((QuestieTrackedQuests[questhash] == false) or (QuestieTrackedQuests[questhash] == table)) then
 		QuestieSeenQuests[questhash] = 0;
-	elseif (QuestieTrackedQuests[questhash] == nil) then
+	elseif (QuestieSeenQuests[questhash] == nil) then
 		QuestieSeenQuests[questhash] = 1;
 	end
 end
@@ -679,7 +676,9 @@ QuestieFastSlash = {
 				-- The (== 0 in QuestieSeenQuests) flag usually means a quest has been picked up and the (== -1
 				-- in QuestieSeenQuests) flag means the quest has been abandonded. Once we remove these flags
 				-- Questie will readd the quests based on what is in your log. A refresh of sorts without
-				-- touching or resetting your finished quests.
+				-- touching or resetting your finished quests. When the quest log is crawled, Questie will
+				-- check any prerequired quests and flag all those as complete upto the quest in your chain
+				-- that you're currently on.
 				local index = 0
 				for i,v in pairs(QuestieSeenQuests) do
 					if (v == 0) or (v == -1) then

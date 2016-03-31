@@ -229,6 +229,7 @@ function Questie_Tooltip_OnEnter()
 			Tooltip:AddLine("["..QuestieHashMap[this.data.questHash].level.."] "..QuestieHashMap[this.data.questHash].name.." |cFF33FF00(available)|r");
 			Tooltip:AddLine("Started by: |cFFa6a6a6"..QuestieHashMap[this.data.questHash].startedBy.."|r",1,1,1);
 			if questOb ~= nil then
+				--DEFAULT_CHAT_FRAME:AddMessage("Questie_AvailableQuestClick: QuestName: "..questOb.." | Hash: "..this.data.questHash, 0.5, 0.5, 1)
 				Tooltip:AddLine("Description: |cFFa6a6a6"..questOb.."|r",1,1,1,true);
 			end
 			Tooltip:AddLine("Shift+Click: |cFFa6a6a6Manually complete quest!|r",1,1,1);
@@ -259,7 +260,8 @@ function Questie_AvailableQuestClick()
 				if strlower(k) == strlower(QuestName) then
 					Questie:Toggle()
 					local hash = (this.data.questHash)
-					Questie:finishAndRecurse(hash)
+					Questie:finishAndRecurse(this.data.questHash)
+					DEFAULT_CHAT_FRAME:AddMessage("Completing quest |cFF00FF00\"" .. QuestieHashMap[this.data.questHash]['name'] .. "\"|r and parent quest: "..this.data.questHash);
 				end
 			end
 		end
