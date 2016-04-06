@@ -676,9 +676,12 @@ function QuestieTracker:addQuestToTracker(hash, logId, level) -- never used???
 			}
 		end
 	end
-	QuestieTracker:fillTrackingFrame()
+	LastQuestLogHashes = nil
+	LastCount = 0
+	Questie:CheckQuestLog()
 	Questie:SetAvailableQuests()
 	Questie:RedrawNotes()
+	QuestieTracker:fillTrackingFrame()
 	if QuestieTrackedQuests[hash]["objective1"] then
 		if (QuestieTrackedQuests[hash]["objective1"]["done"] ~= true) or (QuestieTrackedQuests[hash]["objective1"]["done"] ~= 1) or (QuestieTrackedQuests[hash]["objective1"]["type"] == nil) or (not QuestieTrackedQuests[hash]["arrowPoint"])then
 			QuestieTracker:updateFrameOnTracker(hash, logId, level)
