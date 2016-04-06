@@ -4,13 +4,11 @@ LastCount = 0;
 function Questie:CheckQuestLog()
 	local numEntries, numQuests = GetNumQuestLogEntries();
 	if(LastCount == numEntries) then
-	--DEFAULT_CHAT_FRAME:AddMessage("[CheckLog] Checking questlog: Nothing changed");
 	end
 	LastCount = numEntries;
 	local t = GetTime();
 	if(not LastQuestLogHashes) then
 		LastQuestLogHashes = Questie:AstroGetAllCurrentQuestHashesAsMeta();
-		--DEFAULT_CHAT_FRAME:AddMessage("[CheckLog] First check run, adding all quests");
 		for k, v in pairs(LastQuestLogHashes) do
 			Questie:AddQuestToMap(v["hash"]);
 			if(not QuestieSeenQuests[v["hash"]]) then
@@ -19,11 +17,10 @@ function Questie:CheckQuestLog()
 					Questie:finishAndRecurse(req)
 					QuestieTrackedQuests[req] = nil
 				end
-				--DEFAULT_CHAT_FRAME:AddMessage("[CheckLog] Adding quest to seen quests:", v["name"],v["hash"]," setting as 0");
 				QuestieSeenQuests[v["hash"]] = 0
+				QuestieTracker:addQuestToTracker(v["hash"])
 			end
 		end
-		Questie:RedrawNotes();
 		return;
 	end
 	local Quests, QuestsCount = Questie:AstroGetAllCurrentQuestHashesAsMeta();
@@ -57,21 +54,19 @@ function Questie:CheckQuestLog()
 		end
 	end
 	for k, v in pairs(delta) do
-		--DEFAULT_CHAT_FRAME:AddMessage(v["name"],v["hash"], v["deltaType"]);
 		if(v["deltaType"] == 1) then
-			--DEFAULT_CHAT_FRAME:AddMessage("[CheckLog] Check discovered a new quest,".. v["name"]);
 			Questie:AddQuestToMap(v["hash"]);
-			if(not QuestieSeenQuests[v["hash"]]) or (QuestieSeenQuests[v["hash"]] == -1) then
+			if(not QuestieSeenQuests[v["hash"]]) then
 				local req = QuestieHashMap[v["hash"]]['rq'];
 				if req then
 					Questie:finishAndRecurse(req)
 					QuestieTrackedQuests[req] = nil
 				end
 				QuestieSeenQuests[v["hash"]] = 0
+				QuestieTracker:addQuestToTracker(v["hash"])
 			end
 			MapChanged = true;
 		elseif not Questie.collapsedThisRun then
-			--DEFAULT_CHAT_FRAME:AddMessage("[CheckLog] Check discovered a missing quest, removing! ".. v["hash"].." "..v["name"])
 			Questie:RemoveQuestFromMap(v["hash"]);
 			QuestieTracker:removeQuestFromTracker(v["hash"]);
 			if(not QuestieCompletedQuestMessages[v["name"]]) then
@@ -80,12 +75,13 @@ function Questie:CheckQuestLog()
 			if(not QuestieSeenQuests[v["hash"]]) then
 				local req = QuestieHashMap[v["hash"]]['rq'];
 				if req then
-					Questie:finishAndRecurse(req)
 					QuestieTrackedQuests[req] = nil
+					Questie:finishAndRecurse(req)
 				end
-				--DEFAULT_CHAT_FRAME:AddMessage("[CheckLog] Adding quest to seen quests:", v["name"],v["hash"]," setting as 0");
 				QuestieSeenQuests[v["hash"]] = 0
+				QuestieTracker:addQuestToTracker(v["hash"])
 			end
+			-- This wipes an abandonded quest from both databases
 			if(QuestieSeenQuests[v["hash"]] == -1) then
 				QuestieTrackedQuests[v["hash"]] = nil
 				QuestieSeenQuests[v["hash"]] = nil
@@ -107,6 +103,11 @@ function Questie:CheckQuestLog()
 	LastQuestLogHashes = Quests;
 	LastQuestLogCount = QuestsCount;
 	if(MapChanged == true) then
+		LastQuestLogHashes = nil;
+		LastCount = 0;
+		Questie:CheckQuestLog();
+		Questie:SetAvailableQuests()
+		Questie:RedrawNotes();
 		return true;
 	else
 		return nil;
@@ -192,17 +193,19 @@ function Questie:UpdateQuestInZone(Zone, force)
 				lastObjectives[hash][obj].done = done;
 			end
 			if(Refresh) then
-				Questie:debug_Print("[UpdateQuestInZone] Update: Something has changed, need to refresh:", hash);
 				Questie:AddQuestToMap(hash, true);
-				QuestieTracker:updateFrameOnTracker(hash, i, level)
+				if (QuestieTrackedQuests[hash]) then
+					QuestieTracker:updateFrameOnTracker(hash, i, level)
+				end
 				QuestieTracker:fillTrackingFrame()
 			elseif foundChange then
-				QuestieTracker:updateFrameOnTracker(hash, i, level)
+				if (QuestieTrackedQuests[hash]) then
+					QuestieTracker:updateFrameOnTracker(hash, i, level)
+				end
 				QuestieTracker:fillTrackingFrame()
 			end
 		end
 		if(foundChange and not force) then
-			Questie:debug_Print("[UpdateQuestInZone] Found a change!")
 			break;
 		end
 	end
@@ -369,9 +372,7 @@ function Questie:GetHashFromName(name)
 			end
 		end
 		if not (bestHash == -1) then return bestHash; end
-		--DEFAULT_CHAT_FRAME:AddMessage("[GetHashFromName] Returned: "..bestHash);
 	end
-	--DEFAULT_CHAT_FRAME:AddMessage("[GetHashFromName] NO KNOWN HASH FOR "..name.." FALLING BACK TO LEGACY (DANGEROUS)");
 	return Questie:getQuestHash(name, nil, nil);
 end
 
@@ -658,7 +659,7 @@ function Questie:GetAvailableQuestHashes(mapFileName, levelFrom, levelTo)
 						if(requiredQuest) then valid = QuestieSeenQuests[requiredQuest]; end
 						valid = valid and (requiredSkill == nil or QuestieConfig.showProfessionQuests);
 						if valid then valid = valid and checkRequirements(class, race, requiredClasses,requiredRaces); end
-						if valid and not QuestieHandledQuests[requiredQuest] and not QuestieSeenQuests[v] or ((QuestieSeenQuests[v] == -1) and (QuestieTrackedQuests[v] == nil)) then
+						if valid and not QuestieHandledQuests[requiredQuest] and not QuestieSeenQuests[v] then
 							table.insert(hashes, v);
 						end
 					end

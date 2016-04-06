@@ -119,26 +119,24 @@ function Questie:OnLoad()
 	__QuestAbandonOnAccept = StaticPopupDialogs["ABANDON_QUEST"].OnAccept;
 	StaticPopupDialogs["ABANDON_QUEST"].OnAccept = function()
 		local hash = Questie:GetHashFromName(GetAbandonQuestName());
-		--DEFAULT_CHAT_FRAME:AddMessage("[QuestAbandonOnAccept] Hash number: "..hash);
-		QuestieSeenQuests[hash] = -1;
 		QuestieTrackedQuests[hash] = nil;
-		Questie:AddEvent("CHECKLOG", 0.135);
-		__QuestAbandonOnAccept();
+		QuestieSeenQuests[hash] = -1;
 		if (TomTomCrazyArrow:IsVisible() ~= nil) and (arrow_objective == hash) then
 			TomTomCrazyArrow:Hide()
 		end
+		Questie:AddEvent("CHECKLOG", 0.135);
+		__QuestAbandonOnAccept();
 	end
 	__QuestAbandonWithItemsOnAccept = StaticPopupDialogs["ABANDON_QUEST_WITH_ITEMS"].OnAccept;
 	StaticPopupDialogs["ABANDON_QUEST_WITH_ITEMS"].OnAccept = function()
 		local hash = Questie:GetHashFromName(GetAbandonQuestName());
-		--DEFAULT_CHAT_FRAME:AddMessage("[QuestAbandonWithItemsOnAccept] Hash number: "..hash);
-		QuestieSeenQuests[hash] = -1;
 		QuestieTrackedQuests[hash] = nil;
-		Questie:AddEvent("CHECKLOG", 0.135);
-		__QuestAbandonWithItemsOnAccept();
+		QuestieSeenQuests[hash] = -1;
 		if (TomTomCrazyArrow:IsVisible() ~= nil) and (arrow_objective == hash) then
 			TomTomCrazyArrow:Hide()
 		end
+		Questie:AddEvent("CHECKLOG", 0.135);
+		__QuestAbandonWithItemsOnAccept();
 	end
 	__QuestRewardCompleteButton_OnClick = QuestRewardCompleteButton_OnClick;
 	QuestRewardCompleteButton_OnClick = function()
@@ -146,34 +144,27 @@ function Questie:OnLoad()
 			if IsAddOnLoaded("EQL3") then
 				local questTitle = GetTitleText();
 				local _, _, level, qName = string.find(questTitle, "%[(.+)%] (.+)")
-				--DEFAULT_CHAT_FRAME:AddMessage("[QuestRewardCompleteButton_OnClick] Level: "..level.." | Title: "..questTitle.." | String.Find: "..qName);
 				local hash = Questie:GetHashFromName(qName);
 				QuestieCompletedQuestMessages[qName] = 1;
 				if(not QuestieSeenQuests[hash]) or (QuestieSeenQuests[hash] == 0) or (QuestieSeenQuests[hash] == -1) then
-					--DEFAULT_CHAT_FRAME:AddMessage("[QuestRewardCompleteButton_OnClick]Adding quest to seen quests:"..qName.." , "..hash.." setting as 1 = complete");
 					Questie:finishAndRecurse(hash)
-					QuestieTrackedQuests[hash] = nil;
-					Questie:AddEvent("CHECKLOG", 0.135);
 					if (TomTomCrazyArrow:IsVisible() ~= nil) and (arrow_objective == hash) then
 						TomTomCrazyArrow:Hide()
 					end
-				else
-					DEFAULT_CHAT_FRAME:AddMessage("WARNING: No quest could be found to complete! Please submit a bug for this questname/hash: "..qName.."/"..hash);
+					QuestieTrackedQuests[hash] = nil;
+					Questie:AddEvent("CHECKLOG", 0.135);
 				end
 			elseif (not IsAddOnLoaded("EQL3")) then
 				local qName = GetTitleText();
 				local hash = Questie:GetHashFromName(qName);
 				QuestieCompletedQuestMessages[qName] = 1;
 				if(not QuestieSeenQuests[hash]) or (QuestieSeenQuests[hash] == 0) or (QuestieSeenQuests[hash] == -1) then
-					--DEFAULT_CHAT_FRAME:AddMessage("[QuestRewardCompleteButton_OnClick]Adding quest to seen quests:"..qName.." , "..hash.." setting as 1 = complete");
 					Questie:finishAndRecurse(hash)
-					QuestieTrackedQuests[hash] = nil;
-					Questie:AddEvent("CHECKLOG", 0.135);
 					if (TomTomCrazyArrow:IsVisible() ~= nil) and (arrow_objective == hash) then
 						TomTomCrazyArrow:Hide()
 					end
-				else
-					DEFAULT_CHAT_FRAME:AddMessage("WARNING: No quest could be found to complete! Please submit a bug for this questname/hash: "..qName.."/"..hash);
+					QuestieTrackedQuests[hash] = nil;
+					Questie:AddEvent("CHECKLOG", 0.135);
 				end
 			end
 		end
@@ -227,7 +218,6 @@ function Questie:OnUpdate(elapsed)
 				end
 				Astrolabe.ForceNextUpdate = true;
 			elseif(v.EVENT == "CHECKLOG" and GetTime() - v.TIME > v.DELAY) then
-				--DEFAULT_CHAT_FRAME:AddMessage("[OnUpdate] Event = CHECKLOG");
 				Questie:CheckQuestLog();
 				table.remove(QUESTIE_EVENTQUEUE, 1);
 				break;
@@ -255,43 +245,37 @@ QUESTIE_LAST_CHECKLOG = GetTime();
 function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10)
 	if(event =="ADDON_LOADED" and arg1 == "Questie") then
 	elseif(event == "QUEST_LOG_UPDATE" or event == "QUEST_ITEM_UPDATE") then
-		if(Active == true) then
-			if(GetTime() - QUESTIE_LAST_CHECKLOG > 0.1) then
-				Questie:AddEvent("CHECKLOG", 0.135);
-				QUESTIE_LAST_CHECKLOG = GetTime();
-			else
-				Questie:debug_Print("[QuestieEvent] ",event, "Spam Protection: Last checklog was:",GetTime() - QUESTIE_LAST_CHECKLOG, "ago skipping!");
-				QUESTIE_LAST_CHECKLOG = GetTime();
-			end
-			if(GetTime() - QUESTIE_LAST_UPDATE > 0.1) then
-				Questie:AddEvent("UPDATE", 0.15);--On my fast PC this seems like a good number
-				QUESTIE_LAST_UPDATE = GetTime();
-			else
-				Questie:debug_Print("[QuestieEvent] ",event, "Spam Protection: Last update was:",GetTime() - QUESTIE_LAST_UPDATE, "ago skipping!");
-				QUESTIE_LAST_UPDATE = GetTime();
-			end
+		if(GetTime() - QUESTIE_LAST_CHECKLOG > 0.1) then
+			Questie:AddEvent("CHECKLOG", 0.135);
+			QUESTIE_LAST_CHECKLOG = GetTime();
+		else
+			Questie:debug_Print("[QuestieEvent] ",event, "Spam Protection: Last checklog was:",GetTime() - QUESTIE_LAST_CHECKLOG, "ago skipping!");
+			QUESTIE_LAST_CHECKLOG = GetTime();
+		end
+		if(GetTime() - QUESTIE_LAST_UPDATE > 0.1) then
+			Questie:AddEvent("UPDATE", 0.15);--On my fast PC this seems like a good number
+			QUESTIE_LAST_UPDATE = GetTime();
+		else
+			Questie:debug_Print("[QuestieEvent] ",event, "Spam Protection: Last update was:",GetTime() - QUESTIE_LAST_UPDATE, "ago skipping!");
+			QUESTIE_LAST_UPDATE = GetTime();
 		end
 		Questie:BlockTranslations();
 	elseif(event == "QUEST_PROGRESS") then
-		if (IsAddOnLoaded("EQL3") and (QuestlogOptions[EQL3_Player].AutoCompleteQuests == 1) and (GetNumQuestChoices() == 0)) then
-			if (IsQuestCompletable()) then
+		if IsAddOnLoaded("EQL3") then
+			if IsQuestCompletable() then
 				local questTitle = GetTitleText();
 				local _, _, level, qName = string.find(questTitle, "%[(.+)%] (.+)")
-				--DEFAULT_CHAT_FRAME:AddMessage("[QuestRewardCompleteButton_OnClick] Level: "..level.." | Title: "..questTitle.." | String.Find: "..qName);
 				local hash = Questie:GetHashFromName(qName);
 				QuestieCompletedQuestMessages[qName] = 1;
 				if(not QuestieSeenQuests[hash]) or (QuestieSeenQuests[hash] == 0) or (QuestieSeenQuests[hash] == -1) then
-					--DEFAULT_CHAT_FRAME:AddMessage("[QuestRewardCompleteButton_OnClick]Adding quest to seen quests:"..qName.." , "..hash.." setting as 1 = complete");
 					Questie:finishAndRecurse(hash)
-					QuestieTrackedQuests[hash] = nil;
-					Questie:AddEvent("CHECKLOG", 0.135);
 					if (TomTomCrazyArrow:IsVisible() ~= nil) and (arrow_objective == hash) then
 						TomTomCrazyArrow:Hide()
 					end
-				else
-					DEFAULT_CHAT_FRAME:AddMessage("WARNING: No quest could be found to complete! Please submit a bug for this questname/hash: "..qName.."/"..hash);
+					QuestieTrackedQuests[hash] = nil;
 				end
 				CompleteQuest();
+				Questie:AddEvent("CHECKLOG", 0.135);
 			end
 		end
 	elseif(event == "VARIABLES_LOADED") then
@@ -333,20 +317,24 @@ function findFirst(haystack, needle)
 end
 
 function Questie:finishAndRecurse(questhash)
-	local req = QuestieHashMap[questhash]['rq'];
-	if req then
-		Questie:finishAndRecurse(req);
-		QuestieTrackedQuests[req] = nil;
-		--DEFAULT_CHAT_FRAME:AddMessage("Requirement: "..req);
-	end
 	-- I discovered a nasty little 'silent' bug where the Manual Complete functions would set
 	-- a quest as complete when it's actually in the players quest log. This check resets the
 	-- players quest back to tracked status (== 0) and prevents quests in a chain from being
 	-- marked complete when a player is on a certain step.
-	if ((QuestieTrackedQuests[questhash] == false) or (QuestieTrackedQuests[questhash] == table)) then
-		QuestieSeenQuests[questhash] = 0;
-	elseif (QuestieSeenQuests[questhash] == nil) then
+	if (QuestieSeenQuests[questhash] == 1) then
+		return
+	end
+	if (QuestieSeenQuests[questhash] == 0) and (QuestieTrackedQuests[questhash]) then
+		if ((QuestieTrackedQuests[questhash]["leaderboards"] == 0) or (QuestieTrackedQuests[questhash]["isComplete"] == 1)) then
+			QuestieSeenQuests[questhash] = 1;
+		end
+	elseif ((QuestieSeenQuests[questhash] == nil) or (QuestieTrackedQuests[questhash] == nil)) then
 		QuestieSeenQuests[questhash] = 1;
+		local req = QuestieHashMap[questhash]['rq'];
+		if req then
+			Questie:finishAndRecurse(req);
+			QuestieTrackedQuests[req] = nil;
+		end
 	end
 end
 

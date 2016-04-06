@@ -1,5 +1,37 @@
 -------------------------------------------------------------------------------------------------------------------------------
 
+v2.66:
+* I have fully converted Questie to cache all quest data for active quests.
+  This means that Questie will no longer run as many function calls as it
+  used to each time you track and untrack a quest. In order to properly
+  cache quest data, it has to be tracked at least once I.E. appear in the
+  tracker list before untracking it. Once the quest data is cached, it will
+  update its data while you're doing the quest. You can toggle Questie on
+  and off using the Worldmap button to hide all the icons and objectives,
+  hunt for herbs with ease and still continue to track quests on your
+  QuestTracker or you can untrack everything and it will still update it's
+  local cache and will be correct when you add it back to your QuestTracker.
+  This should also significantly reduce the memory usage when you have
+  a large number of active quests on the QuestTracker.
+
+* Fixed a number of nil errors while trying to turn in quests.
+
+* Relocated the Questie Toggle button to a more noticeable location.
+
+* Added some more nil error checks to all quest management functions as
+  well as more logic to handle new and existing user databases to help
+  users in upgrade scenarios and to resolve database issues for certain
+  types of quests. I've run into several quests that aren't quite right or
+  contain wrong or missing entries. This can lead to stale cached quest
+  data for long quest chains that use the same name.
+
+* I've added a "cleanup" routine each time a user turns in a quest. If a
+  Pre-requisite quest exists, the function responsible for marking the
+  quest as complete in the database will crawl back through all the quests
+  before it and make sure they are also marked as complete.
+
+-------------------------------------------------------------------------------------------------------------------------------
+
 v2.65:
 * I have thoroughly reviewed all the functions that handle obtaining,
   abandoning, and tracking quests. Many of the functions have been tweaked

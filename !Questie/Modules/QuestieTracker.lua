@@ -298,7 +298,7 @@ function QuestieTracker:GetFinisherLocation(typ, name)
 end
 
 function QuestieTracker:fillTrackingFrame()
-	local index = 1;
+  local index = 1;
 	local sortedByDistance = {};
 	local distanceControlTable = {};
 	local C,Z,X,Y = Astrolabe:GetCurrentPlayerPosition() -- continent, zone, x, y
@@ -308,7 +308,7 @@ function QuestieTracker:fillTrackingFrame()
 	if (QuestieTracker.GeneralInterval > (QuestieTracker.btnUpdate*0.99)) then
 		QuestieTracker.GeneralInterval = 0
 		for hash,quest in pairs(QuestieHandledQuests) do
-			if QuestieTrackedQuests[hash] and QuestieHashMap[hash] then
+			if (QuestieTrackedQuests[hash] ~= nil) and (QuestieTrackedQuests[hash]["tracked"] == true) and (QuestieHashMap[hash]) then
 				objc = 0;
 				if QuestieTrackedQuests[hash]["isComplete"] then
 				else
@@ -379,7 +379,6 @@ function QuestieTracker:fillTrackingFrame()
 		for i,v in pairs(sortedByDistance) do
 			local hash = v["hash"];
 			local quest = QuestieTrackedQuests[hash];
-			quest['rend'] = true;
 			local button = QuestieTracker:createOrGetTrackingButton(index);
 			button.hash = hash;
 			local colorString = "|c" .. QuestieTracker:GetDifficultyColor(quest["level"]);
@@ -454,7 +453,6 @@ function QuestieTracker:fillTrackingFrame()
 		for i,v in pairs(sortedByDistance) do
 			local hash = v["hash"];
 			local quest = QuestieTrackedQuests[hash];
-			quest['rend'] = true;
 			local button = QuestieTracker:createOrGetTrackingButton(index);
 			button.hash = hash;
 			local colorString = "|c" .. QuestieTracker:GetDifficultyColor(quest["level"]);
@@ -625,25 +623,27 @@ end
 -- begin logic code
 
 local function trim(s)
-	return string.gsub(s, "^%s*(.-)%s*$", "%1");
+	return string.gsub(s, "^%s*(.-)%s*$", "%1")
 end
 
 function QuestieTracker:addQuestToTracker(hash, logId, level) -- never used???
 	if (QuestieSeenQuests[hash] == 1) then
 		return
 	end
-	local startTime = GetTime()
-	if(type(QuestieTrackedQuests[hash]) ~= "table") then
-		QuestieTrackedQuests[hash] = {};
+	if not QuestieTrackedQuests[hash] then
+		QuestieTrackedQuests[hash] = {}
 	end
 	if not logId then
 		logId = Questie:GetQuestIdFromHash(hash)
 	end
 	if logId == nil then
-		Questie:debug_Print("TrackerError! LogId still nil after GetQuestIdFromHash ", hash);
-		return;
+		DEFAULT_CHAT_FRAME:AddMessage("TrackerError! LogId still nil after GetQuestIdFromHash ", hash)
+		return
 	end
-	local questName, level, questTag, isHeader, isCollapsed, isComplete = QuestieCompat_GetQuestLogTitle(logId);
+	local questName, level, questTag, isHeader, isCollapsed, isComplete = QuestieCompat_GetQuestLogTitle(logId)
+	if (not QuestieTrackedQuests[hash]["tracked"] == true) then
+		QuestieTrackedQuests[hash]["tracked"] = false
+	end
 	QuestieTrackedQuests[hash]["questName"] = questName
 	QuestieTrackedQuests[hash]["level"] = level
 	QuestieTrackedQuests[hash]["questTag"] = questTag
@@ -651,93 +651,89 @@ function QuestieTracker:addQuestToTracker(hash, logId, level) -- never used???
 	QuestieTrackedQuests[hash]["leaderboards"] = GetNumQuestLeaderBoards(logId);
 	for i=1, GetNumQuestLeaderBoards(logId) do
 		local desc, type, done = GetQuestLogLeaderBoard(i, logId);
-		QuestieTrackedQuests[hash]["objective"..i] = {
-			["desc"] = desc,
-			["type"] = type,
-			["done"] = done,
-			["notes"] = {},
-		}
+		if QuestieTrackedQuests[hash]["objective"..i] then
+			if isComplete or (GetNumQuestLeaderBoards() == 0) or (QuestieTrackedQuests[hash]["objective"..i]["done"] == 1) then
+				QuestieTrackedQuests[hash]["objective"..i] = {
+					["desc"] = "Quest Complete!",
+					["type"] = type,
+					["done"] = true,
+					["notes"] = {},
+				}
+			else
+				QuestieTrackedQuests[hash]["objective"..i] = {
+					["desc"] = desc,
+					["type"] = type,
+					["done"] = done,
+					["notes"] = {},
+				}
+			end
+		else
+			QuestieTrackedQuests[hash]["objective"..i] = {
+				["desc"] = desc,
+				["type"] = type,
+				["done"] = done,
+				["notes"] = {},
+			}
+		end
 	end
-	-- fallback for running quests
-	if GetNumQuestLeaderBoards() == 0 or isComplete then
-		QuestieTrackedQuests[hash]["objective1"] = {
-			["desc"] = "Quest Complete!",
-			["type"] = type,
-			["done"] = true,
-			["notes"] = {},
-		}
-	end
-	Questie:debug_Print("Added QuestInfo to Tracker - Time: " .. (GetTime()-startTime)*1000 .. "ms");
 	QuestieTracker:fillTrackingFrame()
 	Questie:SetAvailableQuests()
-	Questie:RedrawNotes();
+	Questie:RedrawNotes()
 	if QuestieTrackedQuests[hash]["objective1"] then
-		if QuestieTrackedQuests[hash]["objective1"]["type"] == nil then
+		if (QuestieTrackedQuests[hash]["objective1"]["done"] ~= true) or (QuestieTrackedQuests[hash]["objective1"]["done"] ~= 1) or (QuestieTrackedQuests[hash]["objective1"]["type"] == nil) or (not QuestieTrackedQuests[hash]["arrowPoint"])then
 			QuestieTracker:updateFrameOnTracker(hash, logId, level)
 		end
 	end
-
 end
 
 function QuestieTracker:updateFrameOnTracker(hash, logId, level)
-	if AUTO_QUEST_WATCH == "1" and QuestieTrackedQuests[hash] == nil then
+	if (AUTO_QUEST_WATCH == "1") and (not QuestieTrackedQuests[hash]) then
 		QuestieTracker:addQuestToTracker(hash, logId, level);
 	end
-	local startTime = GetTime()
+	if (QuestieSeenQuests[hash] == 1) then
+		return
+	end
+	if not QuestieTrackedQuests[hash] then
+		QuestieTrackedQuests[hash] = {}
+	end
 	if not logId then
 		logId = Questie:GetQuestIdFromHash(hash)
 	end
-	if (QuestieTrackedQuests[hash] == false) or (QuestieSeenQuests[hash] == 1) then
+	if logId == nil then
+		DEFAULT_CHAT_FRAME:AddMessage("TrackerError! LogId still nil after GetQuestIdFromHash ", hash)
 		return
 	end
-	local questName, level, questTag, isHeader, isCollapsed, isComplete = QuestieCompat_GetQuestLogTitle(logId);
-	if not QuestieTrackedQuests[hash] then
-		QuestieTrackedQuests[hash] = {};
-	end
-	QuestieTrackedQuests[hash]["questName"] = questName;
-	QuestieTrackedQuests[hash]["isComplete"] = isComplete;
-	QuestieTrackedQuests[hash]["questTag"] = questTag;
-	QuestieTrackedQuests[hash]["level"] = level;
-	QuestieTrackedQuests[hash]["leaderboards"] = GetNumQuestLeaderBoards(logId);
-	local uggo = 0;
+	local questName, level, questTag, isHeader, isCollapsed, isComplete = QuestieCompat_GetQuestLogTitle(logId)
+	QuestieTrackedQuests[hash]["questName"] = questName
+	QuestieTrackedQuests[hash]["isComplete"] = isComplete
+	QuestieTrackedQuests[hash]["questTag"] = questTag
+	QuestieTrackedQuests[hash]["level"] = level
+	QuestieTrackedQuests[hash]["leaderboards"] = GetNumQuestLeaderBoards(logId)
+	local uggo = 0
 	for i=1, GetNumQuestLeaderBoards(logId) do
-		local desc, type, done = GetQuestLogLeaderBoard(i, logId);
+		local desc, type, done = GetQuestLogLeaderBoard(i, logId)
 		if not QuestieTrackedQuests[hash]["objective"..i] then
-			QuestieTrackedQuests[hash]["objective"..i] = {};
+			QuestieTrackedQuests[hash]["objective"..i] = {}
 		end
 		QuestieTrackedQuests[hash]["objective"..i]["desc"] = desc
 		QuestieTrackedQuests[hash]["objective"..i]["done"] = done
-		uggo = i;
+		uggo = i
 	end
-	uggo = uggo - 1;
+	uggo = uggo - 1
 	QuestieTracker:fillTrackingFrame()
 end
 
 function QuestieTracker:removeQuestFromTracker(hash)
-	if (QuestieSeenQuests[hash] == 0) then
-			QuestieTrackedQuests[hash] = nil
-			QuestieTrackedQuests[hash] = false
+	if (QuestieSeenQuests[hash] == 0) and (QuestieTrackedQuests[hash] ~= nil) then
+			QuestieTrackedQuests[hash]["tracked"] = false
 	end
-	if (QuestieSeenQuests[hash] == -1) then
-			QuestieTrackedQuests[hash] = nil
-			QuestieTrackedQuests[hash] = false
-	end
-	if (QuestieSeenQuests[hash] == 1) then
-		QuestieTrackedQuests[hash] = nil
-	end
-	if (QuestieSeenQuests[hash] == 1) then
-			QuestieSeenQuests[hash] = nil
-			QuestieSeenQuests[hash] = 0
-	end
-	QuestieTracker.questNames = {};
-	QuestieTracker.questObjects = {};
-	QuestieTracker.MaxButtonWidths = {};
-	QuestieTracker:fillTrackingFrame();
-	Questie:RedrawNotes();
+	QuestieTracker:fillTrackingFrame()
+	Questie:SetAvailableQuests()
+	Questie:RedrawNotes()
 	if (QuestieTracker.highestIndex) == 0 then
-		QuestieTrackerHeader:Hide();
-		QuestieTracker.frame:SetHeight(1);
-		QuestieTracker.frame:SetWidth(1);
+		QuestieTrackerHeader:Hide()
+		QuestieTracker.frame:SetHeight(1)
+		QuestieTracker.frame:SetWidth(1)
 	end
 end
 
@@ -750,33 +746,40 @@ function QuestieTracker:findLogIdByName(name)
 	end
 end
 
+-- False: Quest is being tracked.
+-- True: Quest is not being tracked.
 function QuestieTracker:isTracked(quest)
 	if quest == nil then return false; end
 	if(type(quest) == "string") then
 		local hash = Questie:GetHashFromName(quest)
-		if(QuestieTrackedQuests[hash] and QuestieTrackedQuests[hash] ~= false) then
-			return true;
+		if(QuestieTrackedQuests[hash] and QuestieTrackedQuests[hash]["tracked"] ~= false) then
+			return true
 		end
 	else
-		local questName, level, questTag, isHeader, isCollapsed, isComplete = QuestieCompat_GetQuestLogTitle(quest);
+		local questName, level, questTag, isHeader, isCollapsed, isComplete = QuestieCompat_GetQuestLogTitle(quest)
 		local hash = Questie:GetHashFromName(questName)
-		if(QuestieTrackedQuests[hash] and QuestieTrackedQuests[hash] ~= false) then
-			return true;
+		if(QuestieTrackedQuests[hash] and QuestieTrackedQuests[hash]["tracked"] ~= false) then
+			return true
 		end
 	end
-	return false;
+	return false
 end
 
 function QuestieTracker:setQuestInfo(id)
-	local questInfo = {};
-	local questName, level, questTag, isHeader, isCollapsed, isComplete = QuestieCompat_GetQuestLogTitle(id);
+	local questInfo = {}
+	local questName, level, questTag, isHeader, isCollapsed, isComplete = QuestieCompat_GetQuestLogTitle(id)
 	if not isHeader and not isCollapsed then
 		local hash = Questie:GetHashFromName(questName)
 		if(QuestieTracker:isTracked(questName)) then
-			QuestieTracker:removeQuestFromTracker(hash);
-			return;
+			QuestieTracker:removeQuestFromTracker(hash)
+			return
 		end
-		QuestieTracker:addQuestToTracker(hash, id, level);
+		if QuestieTrackedQuests[hash] then
+			QuestieTrackedQuests[hash]["tracked"] = true
+			QuestieTracker:addQuestToTracker(hash, id, level)
+		else
+			QuestieTracker:addQuestToTracker(hash, id, level)
+		end
 	end
 end
 
@@ -810,18 +813,26 @@ function QuestieTracker:CurrentUserToggles()
 end
 
 function QuestieTracker:PLAYER_LOGIN()
-	QuestieTracker:createTrackingFrame();
-	QuestieTracker:syncEQL3();
+	QuestieTracker:createTrackingFrame()
+	QuestieTracker:syncEQL3()
 end
 
 function QuestieTracker:syncEQL3()
 	if(EQL3_Player) then
 		for id=1, GetNumQuestLogEntries() do
-			local questName, level, questTag, isHeader, isCollapsed, isComplete = QuestieCompat_GetQuestLogTitle(id);
-			if ( not isHeader and EQL3_IsQuestWatched(id) and not QuestieTracker:isTracked(questName) ) then
-				QuestieTracker:addQuestToTracker(Questie:GetHashFromName(questName), id, level);
-			elseif( not isHeader and not EQL3_IsQuestWatched(id) and QuestieTracker:isTracked(questName) ) then
-				QuestieTracker:removeQuestFromTracker(Questie:GetHashFromName(questName));
+			local questName, level, questTag, isHeader, isCollapsed, isComplete = QuestieCompat_GetQuestLogTitle(id)
+			if not isHeader and not isCollapsed then
+				local hash = Questie:GetHashFromName(questName)
+				if ( not isHeader and EQL3_IsQuestWatched(id) and not QuestieTracker:isTracked(questName) ) then
+					if QuestieTrackedQuests[hash] then
+						QuestieTrackedQuests[hash]["tracked"] = true
+						QuestieTracker:addQuestToTracker(hash, id, level)
+					else
+						QuestieTracker:addQuestToTracker(hash, id, level)
+					end
+				elseif( not isHeader and not EQL3_IsQuestWatched(id) and QuestieTracker:isTracked(questName) ) then
+					QuestieTracker:removeQuestFromTracker(hash)
+				end
 			end
 		end
 	end
@@ -829,7 +840,7 @@ end
 
 function QuestieTracker:ADDON_LOADED()
 	if not ( QuestieTrackerVariables ) then
-		QuestieTrackerVariables = {};
+		QuestieTrackerVariables = {}
 		QuestieTrackerVariables["position"] = {
 			point = "LEFT",
 			relativeTo = "UIParent",
@@ -880,10 +891,10 @@ function QuestieTracker:ADDON_LOADED()
 			this:SetPoint("CENTER", "UIParent", "CENTER", x, y)
 		end)
 		WorldMapFrame:SetScript("OnShow", function()
-			local continent = GetCurrentMapContinent();
-			local zone = GetCurrentMapZone();
-			SetMapZoom(continent, zone);
-			SetMapToCurrentZone();
+			local continent = GetCurrentMapContinent()
+			local zone = GetCurrentMapZone()
+			SetMapZoom(continent, zone)
+			SetMapToCurrentZone()
 		end)
 	end
 end

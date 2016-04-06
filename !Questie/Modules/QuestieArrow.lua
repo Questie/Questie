@@ -1,16 +1,10 @@
---[[--------------------------------------------------------------------------
-
+----------------------------------------------------------------------------
 --  TomTom - A navigational assistant for World of Warcraft
-
 --
-
 --  CrazyTaxi: A crazy-taxi style arrow used for waypoint navigation.
-
 --    concept taken from MapNotes2 (Thanks to Mery for the idea, along
-
 --    with the artwork.)
-
-----------------------------------------------------------------------------]]
+----------------------------------------------------------------------------
 
 local function log(msg) DEFAULT_CHAT_FRAME:AddMessage(msg) end -- alias for convenience
 
@@ -27,17 +21,13 @@ function GetPlayerFacing()
 end
 
 local sformat = string.format
-
 local function ColorGradient(perc, tablee)
 	local num = table.getn(tablee)
 	local hexes = tablee[1] == "string"
-
 	if perc == 1 then
 		return tablee[num-2], tablee[num-1], tablee[num]
 	end
-
 	num = num / 3
-
 	local segment, relperc = math.modf(perc*(num-1))
 	local r1, g1, b1, r2, g2, b2
 	r1, g1, b1 = tablee[(segment*3)+1], tablee[(segment*3)+2], tablee[(segment*3)+3]
@@ -67,10 +57,8 @@ wayframe:SetPoint("CENTER", 0, 0)
 wayframe:EnableMouse(true)
 wayframe:SetMovable(true)
 wayframe:Hide()
-
 -- Frame used to control the scaling of the title and friends
 local titleframe = CreateFrame("Frame", nil, wayframe)
-
 wayframe.title = titleframe:CreateFontString("OVERLAY", nil, "GameFontHighlightSmall")
 wayframe.status = titleframe:CreateFontString("OVERLAY", nil, "GameFontNormalSmall")
 wayframe.tta = titleframe:CreateFontString("OVERLAY", nil, "GameFontNormalSmall")
@@ -100,24 +88,15 @@ wayframe:SetScript("OnDragStop", OnDragStop)
 wayframe:RegisterForDrag("LeftButton")
 wayframe:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 wayframe:SetScript("OnEvent", OnEvent)
-
 wayframe.arrow = wayframe:CreateTexture("OVERLAY")
 wayframe.arrow:SetTexture("Interface\\AddOns\\!Questie\\Images\\Arrow")
 wayframe.arrow:SetAllPoints()
 
 local active_point, arrive_distance, showDownArrow, point_title, arrow_objective, isHide
-
 function SetCrazyArrow(point, dist, title)
-	--[[if not (active_point == nil) then -- bad logic is bad
-		if active_point.x == point.x and active_point.y == point.y then
-			isHide = true;
-		end
-	end]]
-
 	active_point = point
 	arrive_distance = dist
 	point_title = title
-
 	if active_point and not isHide then
 		wayframe.title:SetText(point_title or "Unknown waypoint")
 		wayframe:Show()
@@ -137,7 +116,6 @@ function SetArrowObjective(hash)
 	local objective = QuestieTrackedQuests[hash]["arrowPoint"]
 	SetCrazyArrow(objective, objective.dist, objective.title)
 end
-
 local status = wayframe.status
 local tta = wayframe.tta
 local arrow = wayframe.arrow
@@ -146,15 +124,11 @@ local last_distance = 0
 local tta_throttle = 0
 local speed = 0
 local speed_count = 0
-
 HACK_DUMP = 0;
-
 local function OnUpdate(self, elapsed)
 	self = this
 	elapsed = 1/GetFramerate()
-
 	local dist,x,y
-
 	if arrow_objective then
 		if QuestieTrackedQuests[arrow_objective] then
 			local objective = QuestieTrackedQuests[arrow_objective]["arrowPoint"]
@@ -165,12 +139,10 @@ local function OnUpdate(self, elapsed)
 			self:Hide()
 		end
 	end
-
 	if not active_point then
 		self:Hide()
 		return
 	end
-
 	local dist,x,y = GetDistanceToIcon(active_point)
 	-- The only time we cannot calculate the distance is when the waypoint
 	-- is on another continent, or we are in an instance
@@ -178,15 +150,11 @@ local function OnUpdate(self, elapsed)
 		if not active_point.x and not active_point.y then
 			active_point = nil
 		end
-
 		self:Hide()
 		return
 	end
-
 	status:SetText(sformat("%d yards", dist))
-
 	local cell
-
 	-- Showing the arrival arrow?
 	if dist <= 5 then
 		if not showDownArrow then
@@ -196,16 +164,13 @@ local function OnUpdate(self, elapsed)
 			arrow:SetVertexColor(0, 1, 0)
 			showDownArrow = true
 		end
-
 		count = count + 1
 		if count >= 55 then
 			count = 0
 		end
-
 		cell = count
 		local column = Questie:modulo(cell, 9)
 		local row = floor(cell / 9)
-
 		local xstart = (column * 53) / 512
 		local ystart = (row * 70) / 512
 		local xend = ((column + 1) * 53) / 512
@@ -218,15 +183,12 @@ local function OnUpdate(self, elapsed)
 			arrow:SetTexture("Interface\\AddOns\\!Questie\\Images\\Arrow")
 			showDownArrow = false
 		end
-
 		local degtemp = GetDirectionToIcon(active_point);
 		if degtemp < 0 then degtemp = degtemp + 360; end
-
 		local angle = math.rad(degtemp)
 		local player = GetPlayerFacing()
 		angle = angle - player
 		local perc = 1-  math.abs(((math.pi - math.abs(angle)) / math.pi))
-
 		local gr,gg,gb = 1, 1, 1
 		local mr,mg,mb = 0.75, 0.75, 0.75
 		local br,bg,bb = 0.5, 0.5, 0.5
@@ -240,36 +202,28 @@ local function OnUpdate(self, elapsed)
 		table.insert(tablee, br)
 		table.insert(tablee, bg)
 		table.insert(tablee, bb)
-
 		local r,g,b = ColorGradient(perc,tablee)
 		if not g then
 			g = 0;
 		end
 		arrow:SetVertexColor(1-g,-1+g*2,0)
-
 		cell = Questie:modulo(floor(angle / twopi * 108 + 0.5), 108);
 		local column = Questie:modulo(cell, 9)
 		local row = floor(cell / 9)
-
 		local xstart = (column * 56) / 512
 		local ystart = (row * 42) / 512
 		local xend = ((column + 1) * 56) / 512
 		local yend = ((row + 1) * 42) / 512
 		arrow:SetTexCoord(xstart,xend,ystart,yend)
 	end
-
 	-- Calculate the TTA every second  (%01d:%02d)
-
 	tta_throttle = tta_throttle + elapsed
-
 	if tta_throttle >= 1.0 then
 		-- Calculate the speed in yards per sec at which we're moving
 		local current_speed = (last_distance - dist) / tta_throttle
-
 		if last_distance == 0 then
 			current_speed = 0
 		end
-
 		if speed_count < 2 then
 			speed = (speed + current_speed) / 2
 			speed_count = speed_count + 1
@@ -277,7 +231,6 @@ local function OnUpdate(self, elapsed)
 			speed_count = 0
 			speed = current_speed
 		end
-
 		if speed > 0 then
 			local eta = math.abs(dist / speed)
 			local text = string.format("%01d:%02d", eta / 60, Questie:modulo(eta, 60))
@@ -285,7 +238,6 @@ local function OnUpdate(self, elapsed)
 		else
 			tta:SetText("***")
 		end
-
 		last_distance = dist
 		tta_throttle = 0
 	end
@@ -294,25 +246,21 @@ end
 function ShowHideCrazyArrow()
 	if wayframe:IsShown() then
 		wayframe:Show()
-
 		if true then
 			wayframe:EnableMouse(false)
 		else
 			wayframe:EnableMouse(true)
 		end
-
 		-- Set the scale and alpha
 		wayframe:SetScale(1)
 		wayframe:SetAlpha(1)
 		local width = 80
 		local height = 80
 		local scale = 1
-
 		wayframe.title:SetWidth(width)
 		wayframe.title:SetHeight(height)
 		titleframe:SetScale(scale)
 		titleframe:SetAlpha(1)
-
 		if true then
 			tta:Show()
 		else
@@ -332,7 +280,6 @@ function ArrowShown()
 end
 
 wayframe:SetScript("OnUpdate", OnUpdate)
-
 wayframe:RegisterForClicks("RightButtonUp")
 wayframe:SetScript("OnClick", WayFrame_OnClick)
 
@@ -347,12 +294,10 @@ end
 --this is where texcoords are extracted incorrectly (I think), leading the arrow to not point in the correct direction
 local texcoords = setmetatable({}, {__index = function(t, k)
 	-- this was k:match("(%d+):(%d+)") - so we need string.match, but that's not in Lua 5.0
-
 	local fIndex, lIndex = string.find(k, "(%d+)")
 	local col = string.sub(k, fIndex, lIndex)
 	fIndex2, lIndex2 = string.find(k, ":(%d+)")
 	local row = string.sub(k, fIndex2+1, lIndex2)
-	--	DEFAULT_CHAT_FRAME:AddMessage(k)
 	col,row = tonumber(col), tonumber(row)
 	local obj = {getCoords(col, row)}
 	rawset(t, k, obj)
@@ -367,16 +312,13 @@ wayframe:SetScript("OnEvent", function(self, event, arg1, ...)
 			local crazyFeedFrame = CreateFrame("Frame")
 			local throttle = 1
 			local counter = 0
-
 			crazyFeedFrame:SetScript("OnUpdate", function(self, elapsed)
 				elapsed = 1/GetFramerate()
 				counter = counter + elapsed
 				if counter < throttle then
 					return
 				end
-
 				counter = 0
-
 				local angle = GetDirectionToIcon(active_point)
 				local player = GetPlayerFacing()
 				if not angle or not player then
@@ -387,11 +329,8 @@ wayframe:SetScript("OnEvent", function(self, event, arg1, ...)
 					feed_crazy.text = "No waypoint"
 					return
 				end
-
 				angle = angle - player
-
 				local perc = math.abs((math.pi - math.abs(angle)) / math.pi)
-
 				local gr,gg,gb = 1, 1, 1
 				local mr,mg,mb = 0.75, 0.75, 0.75
 				local br,bg,bb = 0.5, 0.5, 0.5
@@ -405,17 +344,13 @@ wayframe:SetScript("OnEvent", function(self, event, arg1, ...)
 				table.insert(tablee, br)
 				table.insert(tablee, bg)
 				table.insert(tablee, bb)
-
-
 				local r,g,b = ColorGradient(perc, tablee)
 				feed_crazy.iconR = r
 				feed_crazy.iconG = g
 				feed_crazy.iconB = b
-
 				cell = Questie:modulo(floor(angle / twopi * 108 + 0.5) ,108)
 				local column = Questie:modulo(cell, 9)
 				local row = floor(cell / 9)
-
 				local key = column .. ":" .. row
 				feed_crazy.iconCoords = texcoords[key]
 				feed_crazy.text = point_title or "Unknown waypoint"
@@ -431,7 +366,6 @@ function GetDirectionToIcon( point )
 	local C,Z,X,Y = Astrolabe:GetCurrentPlayerPosition() -- continent, zone, x, y
 	local dist, xDelta, yDelta = Astrolabe:ComputeDistance( C, Z, X, Y, point.c, point.z, point.x, point.y )
 	if not xDelta or not yDelta then return end
-
 	local dir = atan2(xDelta, -(yDelta))
 	if ( dir > 0 ) then
 		return twopi - dir;
