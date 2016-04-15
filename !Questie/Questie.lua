@@ -144,6 +144,11 @@ function Questie:OnLoad()
 			if IsAddOnLoaded("EQL3") then
 				local questTitle = GetTitleText();
 				local _, _, level, qName = string.find(questTitle, "%[(.+)%] (.+)")
+				if qName == nil then
+					qName = GetTitleText();
+				else
+					qName = qName
+				end
 				local hash = Questie:GetHashFromName(qName);
 				QuestieCompletedQuestMessages[qName] = 1;
 				if(not QuestieSeenQuests[hash]) or (QuestieSeenQuests[hash] == 0) or (QuestieSeenQuests[hash] == -1) then
@@ -265,6 +270,11 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 			if IsQuestCompletable() then
 				local questTitle = GetTitleText();
 				local _, _, level, qName = string.find(questTitle, "%[(.+)%] (.+)")
+				if qName == nil then
+					qName = GetTitleText();
+				else
+					qName = qName
+				end
 				local hash = Questie:GetHashFromName(qName);
 				QuestieCompletedQuestMessages[qName] = 1;
 				if(not QuestieSeenQuests[hash]) or (QuestieSeenQuests[hash] == 0) or (QuestieSeenQuests[hash] == -1) then
