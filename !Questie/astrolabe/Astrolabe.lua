@@ -608,406 +608,311 @@ MinimapSize = {
 
 -- distances across and offsets of the world maps
 -- in game yards
+-- from classic client data, except for values commented on
 WorldMapSize = {
 	-- World Map of Azeroth
 	[0] = {
 		parentContinent = 0,
-		height = 29687.90575403711,
-		width = 44531.82907938571,
+		height = 29687.90575403711, -- as in Questie
+		width = 44531.82907938571, -- as in Questie
 	},
 	-- Kalimdor
 	[1] = {
 		parentContinent = 0,
-		height = 24532.39670836129,
-		width = 36798.56388065484,
-		xOffset = -8310.762035321373,
-		yOffset = 1815.149000954498,
+		height = 24533.2001953125,
+		width = 36799.810546875,
+		xOffset = -8310.0, -- as in Questie
+		yOffset = 1815.0, -- as in Questie
 		zoneData = {
 			Ashenvale = {
-				height = 3843.627450950699,
-				width = 5766.471113365881,
-				xOffset = 15366.08027406009,
-				yOffset = 8126.716152815561,
+				height = 3843.749877929687,
+				width = 5766.66638183594,
+				xOffset = 15366.59973144531,
+				yOffset = 8126.98388671875,
 			},
-			Aszhara = {
-				height = 3381.153764845262,
-				width = 5070.669448432522,
-				xOffset = 20342.99178351035,
-				yOffset = 7457.974565554941,
-			},
-			AzuremystIsle = {
-				height = 2714.490705490833,
-				width = 4070.691916244019,
-				xOffset = 9966.264785353642,
-				yOffset = 5460.139378090237,
+			Azshara = {
+				height = 3381.2498779296902,
+				width = 5070.8327636718695,
+				xOffset = 20343.68286132813,
+				yOffset = 7458.23388671875,
 			},
 			Barrens = {
-				height = 6756.028094350823,
-				width = 10132.98626357964,
-				xOffset = 14443.19633043607,
-				yOffset = 11187.03406016663,
-			},
-			BloodmystIsle = {
-				height = 2174.923922716305,
-				width = 3262.385067990556,
-				xOffset = 9541.280691875327,
-				yOffset = 3424.790637352245,
+				height = 6756.24987792969,
+				width = 10133.3330078125,
+				xOffset = 14443.68310546875,
+				yOffset = 11187.40051269531,
 			},
 			Darkshore = {
-				height = 4366.52571734943,
-				width = 6549.780280774227,
-				xOffset = 14124.4534386827,
-				yOffset = 4466.419105960455,
+				height = 4366.66650390625,
+				width = 6549.9997558593805,
+				xOffset = 14124.93310546875,
+				yOffset = 4466.5673828125,
 			},
-			Darnassis = {
-				height = 705.7102838625474,
-				width = 1058.300884213672,
-				xOffset = 14127.75729935019,
-				yOffset = 2561.497770365213,
+			Darnassus = {
+				height = 705.7294921875,
+				width = 1058.33325195312,
+				xOffset = 14128.23681640625,
+				yOffset = 2561.583984375,
 			},
 			Desolace = {
-				height = 2997.808472061639,
-				width = 4495.726850591814,
-				xOffset = 12832.80723200791,
-				yOffset = 12347.420176847,
+				height = 2997.916564941411,
+				width = 4495.8330078125,
+				xOffset = 12833.2666015625,
+				yOffset = 12347.817077636719,
 			},
 			Durotar = {
-				height = 3524.884894927208,
-				width = 5287.285801274457,
-				xOffset = 19028.47465485265,
-				yOffset = 10991.20642822035,
+				height = 3524.9998779296902,
+				width = 5287.49963378906,
+				xOffset = 19029.09948730469,
+				yOffset = 10991.56713867187,
 			},
 			Dustwallow = {
-				height = 3499.922239823486,
-				width = 5249.824712249077,
-				xOffset = 18040.98829886713,
-				yOffset = 14832.74650226312,
+				height = 3499.99975585937,
+				width = 5250.000061035156,
+				xOffset = 18041.599548339844,
+				yOffset = 14833.23364257813,
 			},
 			Felwood = {
-				height = 3833.206376333298,
-				width = 5749.8046476606,
-				xOffset = 15424.4116748014,
-				yOffset = 5666.381311442202,
+				height = 3833.33325195312,
+				width = 5749.99963378906,
+				xOffset = 15424.93298339844,
+				yOffset = 5666.5673828125,
 			},
 			Feralas = {
-				height = 4633.182754891688,
-				width = 6949.760203962193,
-				xOffset = 11624.54217828119,
-				yOffset = 15166.06954533647,
+				height = 4633.3330078125,
+				width = 6949.9997558593805,
+				xOffset = 11624.93310546875,
+				yOffset = 15166.56689453125,
 			},
 			Moonglade = {
-				height = 1539.548478194226,
-				width = 2308.253559286662,
-				xOffset = 18447.22668103606,
-				yOffset = 4308.084192710569,
+				height = 1539.5830078125,
+				width = 2308.33325195313,
+				xOffset = 18447.849609375,
+				yOffset = 4308.234375,
 			},
 			Mulgore = {
-				height = 3424.88834791471,
-				width = 5137.32138887616,
-				xOffset = 15018.17633401988,
-				yOffset = 13072.38917227894,
+				height = 3424.999847412109,
+				width = 5137.49987792969,
+				xOffset = 15018.68298339844,
+				yOffset = 13072.81704711914,
 			},
-			Ogrimmar = {
-				height = 935.3750279485016,
-				width = 1402.563051365538,
-				xOffset = 20746.49533101771,
-				yOffset = 10525.68532631853,
+			Orgrimmar = {
+				height = 935.41662597657,
+				width = 1402.6044921875,
+				xOffset = 20747.20068359375,
+				yOffset = 10526.02319335937,
 			},
 			Silithus = {
-				height = 2322.839629859208,
-				width = 3483.224287356748,
-				xOffset = 14528.60591761034,
-				yOffset = 18757.61998086822,
+				height = 2322.916015625,
+				width = 3483.333984375,
+				xOffset = 14529.099609375,
+				yOffset = 18758.234375,
 			},
 			StonetalonMountains = {
-				height = 3256.141917023559,
-				width = 4883.173287670144,
-				xOffset = 13820.29750397374,
-				yOffset = 9882.909063258192,
+				height = 3256.2498168945312,
+				width = 4883.33312988282,
+				xOffset = 13820.76635742187,
+				yOffset = 9883.23388671875,
 			},
 			Tanaris = {
-				height = 4599.847335452488,
-				width = 6899.765399158026,
-				xOffset = 17284.7655865671,
-				yOffset = 18674.28905369955,
+				height = 4600.0,
+				width = 6899.999526977539,
+				xOffset = 17285.34959411621,
+				yOffset = 18674.900390625,
 			},
 			Teldrassil = {
-				height = 3393.632169760774,
-				width = 5091.467863261982,
-				xOffset = 13251.58449896318,
-				yOffset = 968.6223632831094,
-			},
-			TheExodar = {
-				height = 704.6641703983866,
-				width = 1056.732317707213,
-				xOffset = 10532.61275516805,
-				yOffset = 6276.045028807911,
+				height = 3393.75,
+				width = 5091.66650390626,
+				xOffset = 13252.01635742187,
+				yOffset = 968.650390625,
 			},
 			ThousandNeedles = {
-				height = 2933.241274801781,
-				width = 4399.86408093722,
-				xOffset = 17499.32929341832,
-				yOffset = 16766.0151133423,
+				height = 2933.3330078125,
+				width = 4399.999694824219,
+				xOffset = 17499.93292236328,
+				yOffset = 16766.56689453125,
 			},
 			ThunderBluff = {
-				height = 695.8116150081206,
-				width = 1043.762849319158,
-				xOffset = 16549.32009877855,
-				yOffset = 13649.45129927044,
+				height = 695.833312988286,
+				width = 1043.749938964844,
+				xOffset = 16549.932983398438,
+				yOffset = 13649.900329589844,
 			},
 			UngoroCrater = {
-				height = 2466.588521980952,
-				width = 3699.872808671186,
-				xOffset = 16532.70803775362,
-				yOffset = 18765.95157787033,
+				height = 2466.66650390625,
+				width = 3699.9998168945312,
+				xOffset = 16533.26629638672,
+				yOffset = 18766.56689453125,
 			},
 			Winterspring = {
-				height = 4733.190938744951,
-				width = 7099.756078049357,
-				xOffset = 17382.67868933954,
-				yOffset = 4266.421320915686,
+				height = 4733.3332519531195,
+				width = 7099.999847412109,
+				xOffset = 17383.26626586914,
+				yOffset = 4266.5673828125,
 			},
 		},
 	},
 	-- Eastern Kingdoms
 	[2] = {
 		parentContinent = 0,
-		height = 25098.84390074281,-- added 500 (seems about right total guess) to "remove" the blood elf start zones You need to logout each time you change these values
-		width = 37649.15159852673,
-		xOffset = 15425.32200715066,--old 15525
-		yOffset = 1272.3934326738229,--Old 670
+		height = 23466.60009765625,
+		width = 35199.900390625,
+		xOffset = 16625.0, -- guessed
+		yOffset = 2470.0, -- guessed
 		zoneData = {
 			Alterac = {
-				height = 1866.508741236576,
-				width = 2799.820894040741,
-				xOffset = 16267.51182664554,--old 16267
-				yOffset = 7000.598754637632,--old 7693
+				height = 1866.666656494141,
+				width = 2799.999938964841,
+				xOffset = 15216.666687011719,
+				yOffset = 5966.60009765625,
 			},
 			Arathi = {
-				height = 2399.784956908336,
-				width = 3599.78645678886,
-				xOffset = 18317.40598190062,--17917.40598190062, Switched to more sane values!18317
-				yOffset = 8826.804744097401,--9326.804744097401, 8826
+				height = 2399.99992370606,
+				width = 3599.999877929687,
+				xOffset = 16866.666625976562,
+				yOffset = 7599.93342590332,
 			},
 			Badlands = {
-				height = 1658.195027852759,
-				width = 2487.343589680943,
-				xOffset = 19129.83542887301,
-				yOffset = 15082.55526717644,
+				height = 1658.33349609375,
+				width = 2487.5,
+				xOffset = 18079.16650390625,
+				yOffset = 13356.18310546875,
 			},
 			BlastedLands = {
-				height = 2233.146573433955,
-				width = 3349.808966078055,
-				xOffset = 18292.37876312771,
-				yOffset = 19759.24272564734,
+				height = 2233.333984375,
+				width = 3349.9998779296902,
+				xOffset = 17241.66662597656,
+				yOffset = 18033.26611328125,
 			},
 			BurningSteppes = {
-				height = 1951.911155356982,
-				width = 2928.988452241535,
-				xOffset = 17317.44291506163,
-				yOffset = 16224.12640057407,
+				height = 1952.08349609375,
+				width = 2929.166595458989,
+				xOffset = 16266.66665649414,
+				yOffset = 14497.849609375,
 			},
 			DeadwindPass = {
-				height = 1666.528298197048,
-				width = 2499.848163715574,
-				xOffset = 17884.07519016362,
-				yOffset = 19059.30117481421,
+				height = 1666.6669921875,
+				width = 2499.999938964849,
+				xOffset = 16833.33331298828,
+				yOffset = 17333.26611328125,
 			},
 			DunMorogh = {
-				height = 3283.064682642022,
-				width = 4924.664537147015,
-				xOffset = 15248.84370721237,
-				yOffset = 13070.22369811241,
+				height = 3283.33325195312,
+				width = 4924.9997558593805,
+				xOffset = 14197.91674804687,
+				yOffset = 11343.68334960938,
 			},
 			Duskwood = {
-				height = 1799.84874595001,
-				width = 2699.837284973949,
-				xOffset = 16217.51007473156,
-				yOffset = 18909.31475362112,
+				height = 1800.0,
+				width = 2699.999938964841,
+				xOffset = 15166.666687011719,
+				yOffset = 17183.26611328125,
 			},
 			EasternPlaguelands = {
-				height = 2581.024511737268,
-				width = 3870.596078314358,
-				xOffset = 19836.07699848783,--old 19636
-				yOffset = 4593.799386328108,--Old 5393
+				height = 2581.24975585938,
+				width = 3870.83349609375,
+				xOffset = 18185.41650390625,
+				yOffset = 3666.60034179687,
 			},
 			Elwynn = {
-				height = 2314.38613060264,
-				width = 3470.62593362794,
-				xOffset = 15515.46777926721,
-				yOffset = 17132.38313881497,
-			},
-			EversongWoods = {
-				height = 3283.057803444214,
-				width = 4924.70470173181,
-				xOffset = 19138.16325760612,
-				yOffset = 552.5351270080572,
-			},
-			Ghostlands = {
-				height = 2199.788221727843,
-				width = 3299.755735439147,
-				xOffset = 19933.969945598,
-				yOffset = 3327.317139912411,
+				height = 2314.5830078125,
+				width = 3470.83325195312,
+				xOffset = 14464.58337402344,
+				yOffset = 15406.18310546875,
 			},
 			Hilsbrad = {
-				height = 2133.153088717906,
-				width = 3199.802496078764,
-				xOffset = 15984.19170342619,
-				yOffset = 8793.505832296016,
+				height = 2133.33325195313,
+				width = 3199.9998779296902,
+				xOffset = 14933.33337402344,
+				yOffset = 7066.60009765625,
 			},
 			Hinterlands = {
-				height = 2566.448674847725,
-				width = 3849.77134323942,
-				xOffset = 18625.69536724846,
-				yOffset = 7226.929725104341, --Old 7726
+				height = 2566.6666259765598,
+				width = 3850.0,
+				xOffset = 17575.0,
+				yOffset = 5999.93347167969,
 			},
 			Ironforge = {
-				height = 527.5626661642974,
-				width = 790.5745810546713,
-				xOffset = 17764.34206355846,
-				yOffset = 13762.32403658607,
+				height = 527.6044921875,
+				width = 790.625061035154,
+				xOffset = 16713.591369628906,
+				yOffset = 12035.84130859375,
 			},
 			LochModan = {
-				height = 1839.436067817912,
-				width = 2758.158752877019,
-				xOffset = 19400.42466174755,--19044
-				yOffset = 13500.58746225864,--13680
+				height = 1839.5830078125,
+				width = 2758.3331298828098,
+				xOffset = 17993.74987792969,
+				yOffset = 11954.10009765625,
 			},
 			Redridge = {
-				height = 1447.811817383856,
-				width = 2170.704876735185,
-				xOffset = 18621.52904187992,
-				yOffset = 17767.73128664901,
+				height = 1447.916015625,
+				width = 2170.83325195312,
+				xOffset = 17570.83325195313,
+				yOffset = 16041.60009765625,
 			},
 			SearingGorge = {
-				height = 1487.371558351205,
-				width = 2231.119799153945,
-				xOffset = 17373.68649889545,
-				yOffset = 15292.9566475719,
-			},
-			SilvermoonCity = {
-				height = 806.6680775210333,
-				width = 1211.384457945605,
-				xOffset = 21051.29911245071,
-				yOffset = 1440.439646345552,
+				height = 1487.49951171875,
+				width = 2231.249847412109,
+				xOffset = 16322.91665649414,
+				yOffset = 13566.60009765625,
 			},
 			Silverpine = {
-				height = 2799.763349841058,
-				width = 4199.739879721531,
-				xOffset = 13601.00798540562,
-				yOffset = 6800.945768538925,--old 7526
+				height = 2799.9998779296902,
+				width = 4199.9997558593805,
+				xOffset = 12550.00024414062,
+				yOffset = 5799.93347167969,
 			},
 			Stormwind = {
-				height = 896.2784132739149,
-				width = 1344.138055148283,
-				xOffset = 15669.93346231942,
-				yOffset = 17471.62163820253,
+				height = 896.3544921875,
+				width = 1344.2708053588917,
+				xOffset = 14619.02856445312,
+				yOffset = 15745.45068359375,
 			},
 			Stranglethorn = {
-				height = 4253.796738213571,
-				width = 6380.866711475876,
-				xOffset = 14830.09122763351,
-				yOffset = 20361.27611706414,
+				height = 4254.166015625,
+				width = 6381.2497558593805,
+				xOffset = 13779.16674804687,
+				yOffset = 18635.35009765625,
 			},
 			SwampOfSorrows = {
-				height = 1529.04028583782,
-				width = 2293.606089974149,
-				xOffset = 19273.57577346738,
-				yOffset = 18813.48829580375,
+				height = 1529.1669921875,
+				width = 2293.75,
+				xOffset = 18222.91650390625,
+				yOffset = 17087.43310546875,
 			},
 			Tirisfal = {
-				height = 3012.244783356771,
-				width = 4518.469744413802,
-				xOffset = 14017.64852522109,--old
-				yOffset = 4556.296558943325,--old
+				height = 3012.499816894536,
+				width = 4518.74987792969,
+				xOffset = 12966.66674804687,
+				yOffset = 3629.10034179687,
 			},
 			Undercity = {
-				height = 640.0492683780853,
-				width = 959.3140238076666,
-				xOffset = 16177.65630384973,--16177
-				yOffset = 6415.685533181013,--7315
+				height = 640.10412597656,
+				width = 959.3750305175781,
+				xOffset = 15126.807373046875,
+				yOffset = 5588.65478515625,
 			},
 			WesternPlaguelands = {
-				height = 2866.410476553068,
-				width = 4299.7374000546,
-				xOffset = 16950.14908983872,--old 16634
-				yOffset = 5000.092974820261,--old 5827
+				height = 2866.666534423828,
+				width = 4299.999908447271,
+				xOffset = 15583.33334350586,
+				yOffset = 4099.93359375,
 			},
 			Westfall = {
-				height = 2333.132106534445,
-				width = 3499.786489780177,
-				xOffset = 14034.31142029944,
-				yOffset = 18592.67765947875,
+				height = 2333.3330078125,
+				width = 3499.9998168945312,
+				xOffset = 12983.33349609375,
+				yOffset = 16866.60009765625,
 			},
 			Wetlands = {
-				height = 2756.004767589141,
-				width = 4135.166184805389,
-				xOffset = 17680.35277057554,--17440
-				yOffset = 11100.20698670613,--11341
-			},
-		},
-	},
-	-- Outland
-	[3] = {
-		parentContinent = 3,
-		height = 11642.3552270912,
-		width = 17463.5328406368,
-		zoneData = {
-			BladesEdgeMountains = {
-				height = 3616.553353533977,
-				width = 5424.84803598309,
-				xOffset = 4150.068157139826,
-				yOffset = 1412.982266241851,
-			},
-			Hellfire = {
-				height = 3443.642890402687,
-				width = 5164.421615455519,
-				xOffset = 7456.223236253186,
-				yOffset = 4339.973528794677,
-			},
-			Nagrand = {
-				height = 3683.218386203915,
-				width = 5524.827295176373,
-				xOffset = 2700.121400200201,
-				yOffset = 5779.512212073806,
-			},
-			Netherstorm = {
-				height = 3716.547708910237,
-				width = 5574.82788866266,
-				xOffset = 7512.470386633603,
-				yOffset = 365.0992858464317,
-			},
-			ShadowmoonValley = {
-				height = 3666.547917042888,
-				width = 5499.827432644566,
-				xOffset = 8770.765422136874,
-				yOffset = 7769.034259125071,
-			},
-			ShattrathCity = {
-				height = 870.8063021892297,
-				width = 1306.210386847456,
-				xOffset = 6860.565394341991,
-				yOffset = 7295.086145447915,
-			},
-			TerokkarForest = {
-				height = 3599.889712038368,
-				width = 5399.832305361811,
-				xOffset = 5912.521284664757,
-				yOffset = 6821.146112637057,
-			},
-			Zangarmarsh = {
-				height = 3351.978685113859,
-				width = 5026.925554043871,
-				xOffset = 3520.930685571132,
-				yOffset = 3885.821388791224,
+				height = 2756.25,
+				width = 4135.416687011719,
+				xOffset = 16389.58331298828,
+				yOffset = 9614.5166015625,
 			},
 		},
 	},
 }
-
-for c, v in pairs(WorldMapSize[2]["zoneData"]) do
-	v.yOffset = v.yOffset-500;
-end
 
 local zeroData = { xOffset = 0, height = 0, yOffset = 0, width = 0 };
 for continent, zones in pairs(Astrolabe.ContinentList) do
@@ -1015,7 +920,8 @@ for continent, zones in pairs(Astrolabe.ContinentList) do
 	for index, mapName in pairs(zones) do
 		if not ( mapData.zoneData[mapName] ) then
 			--WE HAVE A PROBLEM!!!
-			ChatFrame1:AddMessage("Astrolabe is missing data for "..select(index, GetMapZones(continent))..".");
+			-- Disabled because TBC zones were removed
+			--ChatFrame1:AddMessage("Astrolabe is missing data for "..select(index, GetMapZones(continent))..".");
 			mapData.zoneData[mapName] = zeroData;
 		end
 		mapData[index] = mapData.zoneData[mapName];
