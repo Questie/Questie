@@ -1,4 +1,22 @@
 -------------------------------------------------------------------------------------------------------------------------------
+v2.67
+* On certain servers EQL3 would inject the quest [%level%] tag into the
+  Quest Title. When a player hands in a quest they get a nil error on
+  servers that block this behavior or if the player is using a version
+  that doesn't add the quest level. Or possibly the player has this
+  feature turned off. This check handles all scenarios.
+
+* Muehe has contributed the following changes. Thank you Muehe!
+  - This fixes a small deviation in note display on the continent and
+    world maps due to the old data being for TBC.
+  - Removed offset related hack fix loop.
+  - Disabled the error output when mapData gets zeroed. After the removal
+    of the TBC zones the line was throwing an error instead of posting a
+    chat message.
+  - Continent offsets and worldmap size are still everyones best guess but
+    zone data is correct.
+
+-------------------------------------------------------------------------------------------------------------------------------
 
 v2.66:
 * I have fully converted Questie to cache all quest data for active quests.
