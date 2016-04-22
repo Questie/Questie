@@ -599,7 +599,7 @@ end
 -- Adds or removes quests to be tracked from the quest tracker. Also handles 'chat linking'.
 ---------------------------------------------------------------------------------------------------
 function QuestLogTitleButton_OnClick(button)
-	if(EQL3_Player) then -- could also hook EQL3_AddQuestWatch(index) I guess
+	if IsAddOnLoaded("EQL3") then
 		if ( IsShiftKeyDown() ) then
 			if not ChatFrameEditBox:IsVisible() then
 				QuestieTracker:setQuestInfo(this:GetID() + FauxScrollFrame_GetOffset(EQL3_QuestLogListScrollFrame));
@@ -837,7 +837,7 @@ end
 -- EQL3 sync'ing function
 ---------------------------------------------------------------------------------------------------
 function QuestieTracker:syncEQL3()
-	if(EQL3_Player) then
+	if IsAddOnLoaded("EQL3") then
 		for id=1, GetNumQuestLogEntries() do
 			local questName, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(id)
 			if not isHeader and not isCollapsed then

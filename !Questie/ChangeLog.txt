@@ -1,5 +1,12 @@
 -------------------------------------------------------------------------------------------------------------------------------
 v3.0
+
+* Hotfix: after rewriting Questie and moving everything from global to
+  local, I neglected to realize that some of the EQL3 calls were checking
+  for the presence of EQL3 SavedVariable keys and of course were failing.
+  I've since replaced them with Blizzard API calls and it's now detecting
+  the presence of EQL3 correctly again.
+
 * Code clean up and finalized code rewrite.
 
 * Fixed a tooltip issue where some quest objectives were appearing twice.

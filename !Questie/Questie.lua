@@ -128,6 +128,7 @@ function Questie:CheckDefaults()
 	-- Sets some EQL3 settings to keep it from conflicting with Questie fetures
 	EQL3_Player = UnitName("player").."-"..GetRealmName();
 	if IsAddOnLoaded("EQL3") then
+		if(not QuestlogOptions) then return end
 		QuestlogOptions[EQL3_Player].MobTooltip = 0;
 		QuestlogOptions[EQL3_Player].ItemTooltip = 0;
 		QuestlogOptions[EQL3_Player].RemoveCompletedObjectives = 0;
