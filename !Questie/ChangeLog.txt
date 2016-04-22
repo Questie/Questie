@@ -1,4 +1,20 @@
 -------------------------------------------------------------------------------------------------------------------------------
+v3.0
+* Code clean up and finalized code rewrite.
+
+* Fixed a tooltip issue where some quest objectives were appearing twice.
+
+* Added a version check VAR in players SavedVariables file. If a version
+  check fails it will perform a "QuestieClearConfig" automatically. This
+  should help significantly reduce the number of complaints due to nil
+  errors because certain QuestConfig keys aren't yet present. Blame it on
+  players not reading the release notes! :)
+
+* Added some custom VARS for EQL3 to turn off a couple of features that
+  was conflicting with Questie. For exampele, the quest objective Tooltips.
+  Having both addons showing quest objectives in the tooltips is redundant.
+
+-------------------------------------------------------------------------------------------------------------------------------
 v2.67
 * On certain servers EQL3 would inject the quest [%level%] tag into the
   Quest Title. When a player hands in a quest they get a nil error on

@@ -1,17 +1,27 @@
+---------------------------------------------------------------------------------------------------
+-- Name: QuestieQuest
+-- Description: Handles all the quest related functions
+---------------------------------------------------------------------------------------------------
+--///////////////////////////////////////////////////////////////////////////////////////////////--
+---------------------------------------------------------------------------------------------------
+-- Setup tracker frame and event handler
+---------------------------------------------------------------------------------------------------
 local function log(msg) DEFAULT_CHAT_FRAME:AddMessage(msg) end -- alias for convenience
-
 QuestieTracker = CreateFrame("Frame", "QuestieTracker", UIParent, "ActionButtonTemplate")
-
 function QuestieTracker:OnEvent() -- functions created in "object:method"-style have an implicit first parameter of "this", which points to object || in 1.12 parsing arguments as ... doesn't work
 	QuestieTracker[event](QuestieTracker, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10) -- route event parameters to Questie:event methods
 end
-
+---------------------------------------------------------------------------------------------------
+-- Global vars
+---------------------------------------------------------------------------------------------------
 QuestieTracker.hasCleared = false
 QuestieTracker.lastUpdate = 0;
 QuestieTracker.questButtons = {};
 QuestieTracker.GeneralInterval = 0;
 QuestieTracker.btnUpdate = 1;
-
+---------------------------------------------------------------------------------------------------
+-- OnUpdate
+---------------------------------------------------------------------------------------------------
 function QuestieTracker_OnUpdate()
 	if(EQL3_QuestWatchFrame) then
 		EQL3_QuestWatchFrame:Hide();
@@ -26,21 +36,22 @@ function QuestieTracker_OnUpdate()
 		end
 	end
 end
-
+---------------------------------------------------------------------------------------------------
+-- Register events
+---------------------------------------------------------------------------------------------------
 QuestieTracker:SetScript("OnEvent", QuestieTracker.OnEvent)
 QuestieTracker:SetScript("OnUpdate", QuestieTracker_OnUpdate)
 QuestieTracker:RegisterEvent("PLAYER_LOGIN")
 QuestieTracker:RegisterEvent("ADDON_LOADED")
-local _QuestWatch_Update = QuestWatch_Update;
-local _RemoveQuestWatch = RemoveQuestWatch;
-local _IsQuestWatched = IsQuestWatched;
-local _GetNumQuestWatches = GetNumQuestWatches;
-local _AddQuestWatch = AddQuestWatch;
-local _GetQuestIndexForWatch = GetQuestIndexForWatch;
-local _QuestLogTitleButton_OnClick = QuestLogTitleButton_OnClick;
-
--- begin ui code
-
+---------------------------------------------------------------------------------------------------
+-- WoW Functions --PERFORMANCE CHANGE--
+---------------------------------------------------------------------------------------------------
+local QGet_QuestLogTitle = GetQuestLogTitle;
+local QGet_NumQuestLeaderBoards = GetNumQuestLeaderBoards;
+local QGet_QuestLogLeaderBoard = GetQuestLogLeaderBoard;
+---------------------------------------------------------------------------------------------------
+-- Color quest objective scheme for quest tracker color option 2
+---------------------------------------------------------------------------------------------------
 function QuestieTracker:getRGBForObjectiveBold(objective)
 	if not (type(objective) == "function") then
 		local lastIndex = findLast(objective, ":");
@@ -66,7 +77,9 @@ function QuestieTracker:getRGBForObjectiveBold(objective)
 	end
 	return 0, 1, 0;
 end
-
+---------------------------------------------------------------------------------------------------
+-- Color quest objective scheme for quest tracker color option 1 (default)
+---------------------------------------------------------------------------------------------------
 function QuestieTracker:getRGBForObjective(objective)
 	if not (type(objective) == "function") then
 		local lastIndex = findLast(objective, ":");
@@ -84,7 +97,9 @@ function QuestieTracker:getRGBForObjective(objective)
 	end
 	return 0.3, 1, 0.3;
 end
-
+---------------------------------------------------------------------------------------------------
+-- Clears tracking frame
+---------------------------------------------------------------------------------------------------
 function QuestieTracker:clearTrackingFrame()
 	for i=1, 8 do
 		getglobal("QuestieTrackerButton"..i):Hide();
@@ -93,7 +108,9 @@ function QuestieTracker:clearTrackingFrame()
 		end
 	end
 end
-
+---------------------------------------------------------------------------------------------------
+-- Makes or retrieves one of the quest objective buttons
+---------------------------------------------------------------------------------------------------
 function QuestieTracker:createOrGetTrackingButton(index)
 	if QuestieTracker.questButtons[index] == nil then
 		local parent;
@@ -182,7 +199,9 @@ function QuestieTracker:createOrGetTrackingButton(index)
 	return QuestieTracker.questButtons[index];
 end
 QuestieTracker.highestIndex = 0;
-
+---------------------------------------------------------------------------------------------------
+-- Determines quest difficulty color based on payers level
+---------------------------------------------------------------------------------------------------
 function QuestieTracker:GetDifficultyColor(level)
 	if level == nil then return "FFFFFFFF"; end
 	local levelDiff = level - UnitLevel("player");
@@ -198,18 +217,20 @@ function QuestieTracker:GetDifficultyColor(level)
 		return "FFC0C0C0";
 	end
 end
-
+---------------------------------------------------------------------------------------------------
 local function RGBToHex(r, g, b)
 	if r > 255 then r = 255; end
 	if g > 255 then g = 255; end
 	if b > 255 then b = 255; end;
 	return string.format("%02x%02x%02x", r, g, b)
 end
-
+---------------------------------------------------------------------------------------------------
 local function fRGBToHex(r, g, b)
 	return RGBToHex(r*254, g*254, b*254);
 end
-
+---------------------------------------------------------------------------------------------------
+-- Adds quest type 'objective' text to quest objective button
+---------------------------------------------------------------------------------------------------
 function QuestieTracker:AddObjectiveToButton(button, objective, index)
 	local objt;
 	if button.objectives[index] == nil then
@@ -230,7 +251,9 @@ function QuestieTracker:AddObjectiveToButton(button, objective, index)
 		button.objectives[index] = objt;
 	end
 end
-
+---------------------------------------------------------------------------------------------------
+-- Adds quest tyep 'event' text to quest objective button
+---------------------------------------------------------------------------------------------------
 function QuestieTracker:AddEventToButton(button, objective, index)
 	local objt;
 	if button.objectives[index] == nil then
@@ -251,7 +274,9 @@ function QuestieTracker:AddEventToButton(button, objective, index)
 		button.objectives[index] = objt;
 	end
 end
-
+---------------------------------------------------------------------------------------------------
+-- Finds quest finisher location by type and name
+---------------------------------------------------------------------------------------------------
 function QuestieTracker:GetFinisherLocation(typ, name)
 	local C, Z, X, Y;
 	if typ == "monster" then
@@ -296,7 +321,9 @@ function QuestieTracker:GetFinisherLocation(typ, name)
 	end
 	return C, Z, X, Y;
 end
-
+---------------------------------------------------------------------------------------------------
+-- Populates the quest tracker frame with objective buttons
+---------------------------------------------------------------------------------------------------
 function QuestieTracker:fillTrackingFrame()
   local index = 1;
 	local sortedByDistance = {};
@@ -527,7 +554,9 @@ function QuestieTracker:fillTrackingFrame()
 	end
 	sortedByDistance = {}
 end
-
+---------------------------------------------------------------------------------------------------
+-- Creates a blank quest tracking frame and sets up the optional 'header'
+---------------------------------------------------------------------------------------------------
 function QuestieTracker:createTrackingFrame()
 	QuestieTracker.frame = CreateFrame("Frame", "QuestieTrackerFrame", UIParent);
 	QuestieTracker.frame:SetWidth(1);
@@ -566,7 +595,9 @@ function QuestieTracker:createTrackingFrame()
 		QuestieTrackerHeader:Hide();
 	end
 end
-
+---------------------------------------------------------------------------------------------------
+-- Adds or removes quests to be tracked from the quest tracker. Also handles 'chat linking'.
+---------------------------------------------------------------------------------------------------
 function QuestLogTitleButton_OnClick(button)
 	if(EQL3_Player) then -- could also hook EQL3_AddQuestWatch(index) I guess
 		if ( IsShiftKeyDown() ) then
@@ -593,7 +624,9 @@ function QuestLogTitleButton_OnClick(button)
 	QuestWatchFrame:Hide()
 	QuestieTracker:fillTrackingFrame();
 end
-
+---------------------------------------------------------------------------------------------------
+-- Saves the position of the tracker after the user moves it
+---------------------------------------------------------------------------------------------------
 function QuestieTracker:saveFramePosition()
 	local frame = getglobal("QuestieTrackerFrame");
 	local point, _, relativePoint, xOfs, yOfs = frame:GetPoint();
@@ -617,15 +650,13 @@ function QuestieTracker:saveFramePosition()
 		};
 	end
 end
-
--- end ui code
-
--- begin logic code
-
+---------------------------------------------------------------------------------------------------
+-- If a quest is tracked, add quest to tracker and retrieve cached quest data
+---------------------------------------------------------------------------------------------------
 local function trim(s)
 	return string.gsub(s, "^%s*(.-)%s*$", "%1")
 end
-
+---------------------------------------------------------------------------------------------------
 function QuestieTracker:addQuestToTracker(hash, logId, level) -- never used???
 	if (QuestieSeenQuests[hash] == 1) then
 		return
@@ -640,7 +671,7 @@ function QuestieTracker:addQuestToTracker(hash, logId, level) -- never used???
 		DEFAULT_CHAT_FRAME:AddMessage("TrackerError! LogId still nil after GetQuestIdFromHash ", hash)
 		return
 	end
-	local questName, level, questTag, isHeader, isCollapsed, isComplete = QuestieCompat_GetQuestLogTitle(logId)
+	local questName, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(logId)
 	if (not QuestieTrackedQuests[hash]["tracked"] == true) then
 		QuestieTrackedQuests[hash]["tracked"] = false
 	end
@@ -648,11 +679,11 @@ function QuestieTracker:addQuestToTracker(hash, logId, level) -- never used???
 	QuestieTrackedQuests[hash]["level"] = level
 	QuestieTrackedQuests[hash]["questTag"] = questTag
 	QuestieTrackedQuests[hash]["isComplete"] = isComplete
-	QuestieTrackedQuests[hash]["leaderboards"] = GetNumQuestLeaderBoards(logId);
-	for i=1, GetNumQuestLeaderBoards(logId) do
-		local desc, type, done = GetQuestLogLeaderBoard(i, logId);
+	QuestieTrackedQuests[hash]["leaderboards"] = QGet_NumQuestLeaderBoards(logId);
+	for i=1, QGet_NumQuestLeaderBoards(logId) do
+		local desc, type, done = QGet_QuestLogLeaderBoard(i, logId);
 		if QuestieTrackedQuests[hash]["objective"..i] then
-			if isComplete or (GetNumQuestLeaderBoards() == 0) or (QuestieTrackedQuests[hash]["objective"..i]["done"] == 1) then
+			if isComplete or (QGet_NumQuestLeaderBoards() == 0) or (QuestieTrackedQuests[hash]["objective"..i]["done"] == 1) then
 				QuestieTrackedQuests[hash]["objective"..i] = {
 					["desc"] = "Quest Complete!",
 					["type"] = type,
@@ -688,7 +719,9 @@ function QuestieTracker:addQuestToTracker(hash, logId, level) -- never used???
 		end
 	end
 end
-
+---------------------------------------------------------------------------------------------------
+-- If a quest is tracked, update quest on tracker and also update quest data cache
+---------------------------------------------------------------------------------------------------
 function QuestieTracker:updateFrameOnTracker(hash, logId, level)
 	if (AUTO_QUEST_WATCH == "1") and (not QuestieTrackedQuests[hash]) then
 		QuestieTracker:addQuestToTracker(hash, logId, level);
@@ -706,15 +739,15 @@ function QuestieTracker:updateFrameOnTracker(hash, logId, level)
 		DEFAULT_CHAT_FRAME:AddMessage("TrackerError! LogId still nil after GetQuestIdFromHash ", hash)
 		return
 	end
-	local questName, level, questTag, isHeader, isCollapsed, isComplete = QuestieCompat_GetQuestLogTitle(logId)
+	local questName, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(logId)
 	QuestieTrackedQuests[hash]["questName"] = questName
 	QuestieTrackedQuests[hash]["isComplete"] = isComplete
 	QuestieTrackedQuests[hash]["questTag"] = questTag
 	QuestieTrackedQuests[hash]["level"] = level
-	QuestieTrackedQuests[hash]["leaderboards"] = GetNumQuestLeaderBoards(logId)
+	QuestieTrackedQuests[hash]["leaderboards"] = QGet_NumQuestLeaderBoards(logId)
 	local uggo = 0
-	for i=1, GetNumQuestLeaderBoards(logId) do
-		local desc, type, done = GetQuestLogLeaderBoard(i, logId)
+	for i=1, QGet_NumQuestLeaderBoards(logId) do
+		local desc, type, done = QGet_QuestLogLeaderBoard(i, logId)
 		if not QuestieTrackedQuests[hash]["objective"..i] then
 			QuestieTrackedQuests[hash]["objective"..i] = {}
 		end
@@ -725,7 +758,9 @@ function QuestieTracker:updateFrameOnTracker(hash, logId, level)
 	uggo = uggo - 1
 	QuestieTracker:fillTrackingFrame()
 end
-
+---------------------------------------------------------------------------------------------------
+-- Removes quest from tracker when it's untracked - will not clear cached quest data
+---------------------------------------------------------------------------------------------------
 function QuestieTracker:removeQuestFromTracker(hash)
 	if (QuestieSeenQuests[hash] == 0) and (QuestieTrackedQuests[hash] ~= nil) then
 			QuestieTrackedQuests[hash]["tracked"] = false
@@ -739,16 +774,20 @@ function QuestieTracker:removeQuestFromTracker(hash)
 		QuestieTracker.frame:SetWidth(1)
 	end
 end
-
+---------------------------------------------------------------------------------------------------
+-- Determines quest log ID by quest name
+---------------------------------------------------------------------------------------------------
 function QuestieTracker:findLogIdByName(name)
 	for i=1,GetNumQuestLogEntries() do
-		local questName, level, questTag, isHeader, isCollapsed, isComplete = QuestieCompat_GetQuestLogTitle(i);
+		local questName, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(i);
 		if(name == questName) then
 			return i;
 		end
 	end
 end
-
+---------------------------------------------------------------------------------------------------
+-- Determines if a quest is currently being tracked
+---------------------------------------------------------------------------------------------------
 -- False: Quest is being tracked.
 -- True: Quest is not being tracked.
 function QuestieTracker:isTracked(quest)
@@ -759,7 +798,7 @@ function QuestieTracker:isTracked(quest)
 			return true
 		end
 	else
-		local questName, level, questTag, isHeader, isCollapsed, isComplete = QuestieCompat_GetQuestLogTitle(quest)
+		local questName, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(quest)
 		local hash = Questie:GetHashFromName(questName)
 		if(QuestieTrackedQuests[hash] and QuestieTrackedQuests[hash]["tracked"] ~= false) then
 			return true
@@ -767,10 +806,12 @@ function QuestieTracker:isTracked(quest)
 	end
 	return false
 end
-
+---------------------------------------------------------------------------------------------------
+-- Adds quest to tracker based on quest ID
+---------------------------------------------------------------------------------------------------
 function QuestieTracker:setQuestInfo(id)
 	local questInfo = {}
-	local questName, level, questTag, isHeader, isCollapsed, isComplete = QuestieCompat_GetQuestLogTitle(id)
+	local questName, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(id)
 	if not isHeader and not isCollapsed then
 		local hash = Questie:GetHashFromName(questName)
 		if(QuestieTracker:isTracked(questName)) then
@@ -785,45 +826,20 @@ function QuestieTracker:setQuestInfo(id)
 		end
 	end
 end
-
-function QuestieTracker:CurrentUserToggles()
-	DEFAULT_CHAT_FRAME:AddMessage("Questie Settings:", 0.5, 0.5, 1)
-	local Vars = {
-		[1] = { "alwaysShowLevel" },
-		[2] = { "alwaysShowQuests" },
-		[3] = { "arrowEnabled" },
-		[4] = { "boldColors" },
-		[5] = { "maxLevelFilter" },
-		[6] = { "maxShowLevel" },
-		[7] = { "minLevelFilter" },
-		[8] = { "minShowLevel" },
-		[9] = { "showMapAids" },
-		[10] = { "showProfessionQuests" },
-		[11] = { "showTrackerHeader" },
-		[12] = { "trackerEnabled" },
-		[13] = { "trackerList" },
-		[14] = { "resizeWorldmap" },
-	}
-	if QuestieConfig then
-		i = 1
-		v = 1
-		while Vars[i] and Vars[i][v]do
-			curVar = Vars[i][v]
-			DEFAULT_CHAT_FRAME:AddMessage("  "..curVar.." = "..(tostring(QuestieConfig[curVar])), 0.5, 0.5, 1)
-			i = i + 1
-		end
-	end
-end
-
+---------------------------------------------------------------------------------------------------
+-- Sets up quest tracker frame and sync's with EQL3 if present after player logs in
+---------------------------------------------------------------------------------------------------
 function QuestieTracker:PLAYER_LOGIN()
 	QuestieTracker:createTrackingFrame()
 	QuestieTracker:syncEQL3()
 end
-
+---------------------------------------------------------------------------------------------------
+-- EQL3 sync'ing function
+---------------------------------------------------------------------------------------------------
 function QuestieTracker:syncEQL3()
 	if(EQL3_Player) then
 		for id=1, GetNumQuestLogEntries() do
-			local questName, level, questTag, isHeader, isCollapsed, isComplete = QuestieCompat_GetQuestLogTitle(id)
+			local questName, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(id)
 			if not isHeader and not isCollapsed then
 				local hash = Questie:GetHashFromName(questName)
 				if ( not isHeader and EQL3_IsQuestWatched(id) and not QuestieTracker:isTracked(questName) ) then
@@ -840,7 +856,12 @@ function QuestieTracker:syncEQL3()
 		end
 	end
 end
-
+---------------------------------------------------------------------------------------------------
+-- If no quest tracker frame position is present in the users SavedVariables then this sets a
+-- default location in memory so when the user desicdes to move it, it won't throw a nil error.
+-- This function will also resize the world map from fullscreen to 80% via a slash toggle when
+-- map mods such as Cartographer or MetaMap aren't being used.
+---------------------------------------------------------------------------------------------------
 function QuestieTracker:ADDON_LOADED()
 	if not ( QuestieTrackerVariables ) then
 		QuestieTrackerVariables = {}
@@ -901,4 +922,3 @@ function QuestieTracker:ADDON_LOADED()
 		end)
 	end
 end
--- end logic code

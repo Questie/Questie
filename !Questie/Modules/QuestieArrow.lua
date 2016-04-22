@@ -1,15 +1,13 @@
 ----------------------------------------------------------------------------
---  TomTom - A navigational assistant for World of Warcraft
---
+--  TomTom: A navigational assistant for World of Warcraft
 --  CrazyTaxi: A crazy-taxi style arrow used for waypoint navigation.
---    concept taken from MapNotes2 (Thanks to Mery for the idea, along
---    with the artwork.)
+--  concept taken from MapNotes2 (Thanks to Mery for the idea, along
+--  with the artwork.)
 ----------------------------------------------------------------------------
-
 local function log(msg) DEFAULT_CHAT_FRAME:AddMessage(msg) end -- alias for convenience
 
 math.modf = function(number)
-	local fractional = Questie:modulo(number, 1)
+	local fractional = Questie:Modulo(number, 1)
 	local integral = number - fractional
 	return integral, fractional
 end
@@ -169,7 +167,7 @@ local function OnUpdate(self, elapsed)
 			count = 0
 		end
 		cell = count
-		local column = Questie:modulo(cell, 9)
+		local column = Questie:Modulo(cell, 9)
 		local row = floor(cell / 9)
 		local xstart = (column * 53) / 512
 		local ystart = (row * 70) / 512
@@ -207,8 +205,8 @@ local function OnUpdate(self, elapsed)
 			g = 0;
 		end
 		arrow:SetVertexColor(1-g,-1+g*2,0)
-		cell = Questie:modulo(floor(angle / twopi * 108 + 0.5), 108);
-		local column = Questie:modulo(cell, 9)
+		cell = Questie:Modulo(floor(angle / twopi * 108 + 0.5), 108);
+		local column = Questie:Modulo(cell, 9)
 		local row = floor(cell / 9)
 		local xstart = (column * 56) / 512
 		local ystart = (row * 42) / 512
@@ -233,7 +231,7 @@ local function OnUpdate(self, elapsed)
 		end
 		if speed > 0 then
 			local eta = math.abs(dist / speed)
-			local text = string.format("%01d:%02d", eta / 60, Questie:modulo(eta, 60))
+			local text = string.format("%01d:%02d", eta / 60, Questie:Modulo(eta, 60))
 			tta:SetText(text)
 		else
 			tta:SetText("***")
@@ -348,8 +346,8 @@ wayframe:SetScript("OnEvent", function(self, event, arg1, ...)
 				feed_crazy.iconR = r
 				feed_crazy.iconG = g
 				feed_crazy.iconB = b
-				cell = Questie:modulo(floor(angle / twopi * 108 + 0.5) ,108)
-				local column = Questie:modulo(cell, 9)
+				cell = Questie:Modulo(floor(angle / twopi * 108 + 0.5) ,108)
+				local column = Questie:Modulo(cell, 9)
 				local row = floor(cell / 9)
 				local key = column .. ":" .. row
 				feed_crazy.iconCoords = texcoords[key]

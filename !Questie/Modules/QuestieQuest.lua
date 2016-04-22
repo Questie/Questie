@@ -1,6 +1,50 @@
+---------------------------------------------------------------------------------------------------
+-- Name: QuestieQuest
+-- Description: Handles all the quest related functions
+---------------------------------------------------------------------------------------------------
+--///////////////////////////////////////////////////////////////////////////////////////////////--
+---------------------------------------------------------------------------------------------------
+-- Global Vars
+---------------------------------------------------------------------------------------------------
+local QuestieQuestHashCache = {}
 LastQuestLogHashes = nil;
 LastQuestLogCount = 0;
 LastCount = 0;
+---------------------------------------------------------------------------------------------------
+-- WoW Functions --PERFORMANCE CHANGE--
+---------------------------------------------------------------------------------------------------
+local QGet_QuestLogTitle = GetQuestLogTitle;
+local QGet_NumQuestLeaderBoards = GetNumQuestLeaderBoards;
+local QSelect_QuestLogEntry = SelectQuestLogEntry;
+local QGet_QuestLogLeaderBoard = GetQuestLogLeaderBoard;
+local QGet_QuestLogQuestText = GetQuestLogQuestText;
+---------------------------------------------------------------------------------------------------
+-- Finishes a quest and performs a recrusive check to make sure all the required quests that come
+-- before it are also finsihed and recorded in the players QuestieSeenQuests. It will also clear
+-- any redundant quest tracking data and make sure a quest that is in a players log isn't
+-- accidently marked finished.
+---------------------------------------------------------------------------------------------------
+function Questie:finishAndRecurse(questhash)
+	if (QuestieSeenQuests[questhash] == 1) then
+		return
+	end
+	if (QuestieSeenQuests[questhash] == 0) and (QuestieTrackedQuests[questhash]) then
+		if ((QuestieTrackedQuests[questhash]["leaderboards"] == 0) or (QuestieTrackedQuests[questhash]["isComplete"] == 1)) then
+			QuestieSeenQuests[questhash] = 1;
+		end
+	elseif ((QuestieSeenQuests[questhash] == nil) or (QuestieTrackedQuests[questhash] == nil)) then
+		QuestieSeenQuests[questhash] = 1;
+		local req = QuestieHashMap[questhash]['rq'];
+		if req then
+			Questie:finishAndRecurse(req);
+			QuestieTrackedQuests[req] = nil;
+		end
+	end
+end
+---------------------------------------------------------------------------------------------------
+-- Checks the players quest log to make sure the QuestieSeenQuests is accurate and adds or removes
+-- any quests from the appropiate caches. This also updates quest tracking data.
+---------------------------------------------------------------------------------------------------
 function Questie:CheckQuestLog()
 	local numEntries, numQuests = GetNumQuestLogEntries();
 	if(LastCount == numEntries) then
@@ -113,9 +157,10 @@ function Questie:CheckQuestLog()
 		return nil;
 	end
 end
-
-ASDFF = nil;
-lastObjectives = nil
+---------------------------------------------------------------------------------------------------
+-- Forces an update on a quest
+---------------------------------------------------------------------------------------------------
+lastObjectives = nil;
 function Questie:UpdateQuests(force)
 	if(lastObjectives == nil) then
 		lastObjectives = {};
@@ -136,7 +181,7 @@ function Questie:UpdateQuests(force)
 	end
 	if(not change or force) then
 		for i = 1, numEntries do
-			local q, level, questTag, isHeader, isCollapsed, isComplete = QuestieCompat_GetQuestLogTitle(i);
+			local q, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(i);
 			if(isHeader and q ~= CurrentZone) then
 				local c = Questie:UpdateQuestInZone(q, force);
 				ZonesChecked = ZonesChecked +1;
@@ -150,14 +195,16 @@ function Questie:UpdateQuests(force)
 	end
 	return change;
 end
-
+---------------------------------------------------------------------------------------------------
+-- Forces an update on a quest in a specific zone
+---------------------------------------------------------------------------------------------------
 function Questie:UpdateQuestInZone(Zone, force)
 	local numEntries, numQuests = GetNumQuestLogEntries();
 	local foundChange = nil;
 	local ZoneFound = nil;
 	local QuestsChecked = 0;
 	for i = 1, numEntries do
-		local q, level, questTag, isHeader, isCollapsed, isComplete = QuestieCompat_GetQuestLogTitle(i);
+		local q, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(i);
 		if(ZoneFound and isHeader) then
 			break;
 		end
@@ -166,9 +213,9 @@ function Questie:UpdateQuestInZone(Zone, force)
 		end
 		if not isHeader and ZoneFound then
 			QuestsChecked = QuestsChecked+1;
-			SelectQuestLogEntry(i);
-			local count =  GetNumQuestLeaderBoards();
-			local questText, objectiveText = _GetQuestLogQuestText();
+			QSelect_QuestLogEntry(i);
+			local count =  QGet_NumQuestLeaderBoards();
+			local questText, objectiveText = QGet_QuestLogQuestText();
 			local hash = Questie:getQuestHash(q, level, objectiveText);
 			if QuestieHashCache[q] == nil then QuestieHashCache[q] = {}; end
 			QuestieHashCache[q][hash] = GetTime();
@@ -180,7 +227,7 @@ function Questie:UpdateQuestInZone(Zone, force)
 				if (not lastObjectives[hash][obj]) then
 					lastObjectives[hash][obj] = {};
 				end
-				local desc, typ, done = GetQuestLogLeaderBoard(obj);
+				local desc, typ, done = QGet_QuestLogLeaderBoard(obj);
 				if(lastObjectives[hash][obj].desc == desc and lastObjectives[hash][obj].typ == typ and lastObjectives[hash][obj].done == done) then
 				elseif(lastObjectives[hash][obj].done ~= done) then
 					Refresh = true;
@@ -211,15 +258,17 @@ function Questie:UpdateQuestInZone(Zone, force)
 	end
 	return foundChange;
 end
-
+---------------------------------------------------------------------------------------------------
+-- Updates all quest objectives upon login or UI reload
+---------------------------------------------------------------------------------------------------
 function Questie:UpdateQuestsInit()
 	local numEntries, numQuests = GetNumQuestLogEntries();
 	for i = 1, numEntries do
-		local q, level, questTag, isHeader, isCollapsed, isComplete = QuestieCompat_GetQuestLogTitle(i);
+		local q, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(i);
 		if not isHeader then
-			SelectQuestLogEntry(i);
-			local count =  GetNumQuestLeaderBoards();
-			local questText, objectiveText = _GetQuestLogQuestText();
+			QSelect_QuestLogEntry(i);
+			local count =  QGet_NumQuestLeaderBoards();
+			local questText, objectiveText = QGet_QuestLogQuestText();
 			local hash = Questie:getQuestHash(q, level, objectiveText);
 			if not lastObjectives[hash] then
 				lastObjectives[hash] = {};
@@ -235,7 +284,9 @@ function Questie:UpdateQuestsInit()
 		end
 	end
 end
-
+---------------------------------------------------------------------------------------------------
+-- Astrolabe functions
+---------------------------------------------------------------------------------------------------
 function Questie:AstroGetAllCurrentQuestHashes(print)
 	local hashes = {};
 	local numEntries, numQuests = GetNumQuestLogEntries();
@@ -243,11 +294,11 @@ function Questie:AstroGetAllCurrentQuestHashes(print)
 		Questie:debug_Print("--Listing all current quests--");
 	end
 	for i = 1, numEntries do
-		local q, level, questTag, isHeader, isCollapsed, isComplete = QuestieCompat_GetQuestLogTitle(i);
+		local q, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(i);
 		if not isHeader then
-			SelectQuestLogEntry(i);
-			local count =  GetNumQuestLeaderBoards();
-			local questText, objectiveText = _GetQuestLogQuestText();
+			QSelect_QuestLogEntry(i);
+			local count =  QGet_NumQuestLeaderBoards();
+			local questText, objectiveText = QGet_QuestLogQuestText();
 			local quest = {};
 			quest["name"] = q;
 			quest["level"] = level;
@@ -270,7 +321,7 @@ function Questie:AstroGetAllCurrentQuestHashes(print)
 	end
 	return hashes;
 end
-
+---------------------------------------------------------------------------------------------------
 Questie.lastCollapsedCount = 0;
 Questie.collapsedThisRun = false;
 function Questie:AstroGetAllCurrentQuestHashesAsMeta(print)
@@ -281,12 +332,12 @@ function Questie:AstroGetAllCurrentQuestHashesAsMeta(print)
 	local collapsedCount = 0;
 	Questie.collapsedThisRun = false;
 	for i = 1, numEntries do
-		local q, level, questTag, isHeader, isCollapsed, isComplete = QuestieCompat_GetQuestLogTitle(i);
+		local q, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(i);
 		if isCollapsed then collapsedCount = collapsedCount + 1; end
 		if not isHeader then
-			SelectQuestLogEntry(i);
-			local count =  GetNumQuestLeaderBoards();
-			local questText, objectiveText = _GetQuestLogQuestText();
+			QSelect_QuestLogEntry(i);
+			local count =  QGet_NumQuestLeaderBoards();
+			local questText, objectiveText = QGet_QuestLogQuestText();
 			local hash = Questie:getQuestHash(q, level, objectiveText)
 			hashes[hash] = {};
 			hashes[hash]["hash"] = hash;
@@ -313,108 +364,19 @@ function Questie:AstroGetAllCurrentQuestHashesAsMeta(print)
 	Questie:debug_Print("[AllCurrentHashes] Getting all hashes took: ",(GetTime()-startTime)*1000, "ms");
 	return hashes, numQuests;
 end
-
-LastNrOfEntries = 0;
-CachedIds = {};
-function Questie:GetQuestIdFromHash(questHash)
-	local numEntries, numQuests = GetNumQuestLogEntries();
-	if(numEntries ~= LastNrOfEntries or not CachedIds[questHash]) then
-		CachedIds = {};
-		LastNrOfEntries = numEntries;
-		Questie:UpdateQuestIds();
-		if CachedIds[questHash] then
-			return CachedIds[questHash];
-		end
-	else
-		local q, level, questTag, isHeader, isCollapsed, isComplete = QuestieCompat_GetQuestLogTitle(CachedIds[questHash]);
-		SelectQuestLogEntry(CachedIds[questHash]);
-		local questText, objectiveText = _GetQuestLogQuestText();
-		if(q and level and objectiveText) then
-			if(Questie:getQuestHash(q, level, objectiveText) == questHash) then
-				return CachedIds[questHash];
-			else
-				Questie:debug_Print("[GetQuestIdFromHash] Something went wrong Error1");
-			end
-		else
-			Questie:debug_Print("[GetQuestIdFromHash] Something went wrong, Error2", tostring(CachedIds[questHash]), tostring(q), tostring(level));
-		end
-	end
-end
-
-function Questie:UpdateQuestIds()
-	local startTime = GetTime()
-	local numEntries, numQuests = GetNumQuestLogEntries();
-	for i = 1, numEntries do
-		local q, level, questTag, isHeader, isCollapsed, isComplete = QuestieCompat_GetQuestLogTitle(i);
-		if not isHeader then
-			SelectQuestLogEntry(i);
-			local questText, objectiveText = _GetQuestLogQuestText();
-			local hash = Questie:getQuestHash(q, level, objectiveText);
-			if(not q or not level or not objective) then
-				Questie:debug_Print("[UpdateQuestID] ERROR!!!!  Error1",tostring(name), tostring(level), tostring(i), tostring(hash))
-			end
-			CachedIds[hash] = i;
-		end
-	end
-	Questie:debug_Print("[UpdateQuestID] Had to update UpdateQuestIds",(GetTime() - startTime)*1000,"ms")
-end
-QuestieHashCache = {};
-
-function Questie:GetHashFromName(name)
-	if QuestieHashCache[name] then
-		local hashtable = QuestieHashCache[name];
-		local bestValue = 0;
-		local bestHash = -1;
-		for k,v in pairs(hashtable) do
-			if v > bestValue then
-				bestValue = v;
-				bestHash = k;
-			end
-		end
-		if not (bestHash == -1) then return bestHash; end
-	end
-	return Questie:getQuestHash(name, nil, nil);
-end
-
-function Questie:IsQuestFinished(questHash)
-	local i = Questie:GetQuestIdFromHash(questHash);
-	if (not i) then
-		return false;
-	end
-	local FinishedQuests = {};
-	local q, level, questTag, isHeader, isCollapsed, isComplete = QuestieCompat_GetQuestLogTitle(i);
-	SelectQuestLogEntry(i);
-	local count =  GetNumQuestLeaderBoards();
-	local questText, objectiveText = _GetQuestLogQuestText();
-	Done = true;
-	for obj = 1, count do
-		local desc, typ, done = GetQuestLogLeaderBoard(obj);
-		if not done then
-			Done = nil;
-		end
-	end
-	if(Done and Questie:getQuestHash(q, level, objectiveText) == questHash) then
-		local ret = {};
-		ret["questHash"] = questHash;
-		ret["name"] = q;
-		ret["level"] = level;
-		return ret;
-	end
-	return nil;
-end
-
+---------------------------------------------------------------------------------------------------
 function Questie:AstroGetFinishedQuests()
 	numEntries, numQuests = GetNumQuestLogEntries();
 	local FinishedQuests = {};
 	for i = 1, numEntries do
-		local q, level, questTag, isHeader, isCollapsed, isComplete = QuestieCompat_GetQuestLogTitle(i);
+		local q, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(i);
 		if not isHeader then
-			SelectQuestLogEntry(i);
-			local count =  GetNumQuestLeaderBoards();
-			local questText, objectiveText = _GetQuestLogQuestText();
+			QSelect_QuestLogEntry(i);
+			local count =  QGet_NumQuestLeaderBoards();
+			local questText, objectiveText = QGet_QuestLogQuestText();
 			Done = true;
 			for obj = 1, count do
-				local desc, typ, done = GetQuestLogLeaderBoard(obj);
+				local desc, typ, done = QGet_QuestLogLeaderBoard(obj);
 				if not done then
 					Done = nil;
 				end
@@ -428,19 +390,19 @@ function Questie:AstroGetFinishedQuests()
 	end
 	return FinishedQuests;
 end
-
+---------------------------------------------------------------------------------------------------
 function Questie:AstroGetQuestObjectives(questHash)
 	QuestLogID = Questie:GetQuestIdFromHash(questHash);
-	local mapid = getCurrentMapID();
-	local q, level, questTag, isHeader, isCollapsed, isComplete = QuestieCompat_GetQuestLogTitle(QuestLogID);
-	SelectQuestLogEntry(QuestLogID);
-	local count =  GetNumQuestLeaderBoards();
-	local questText, objectiveText = _GetQuestLogQuestText();
+	local mapid = GetCurrentMapID();
+	local q, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(QuestLogID);
+	QSelect_QuestLogEntry(QuestLogID);
+	local count =  QGet_NumQuestLeaderBoards();
+	local questText, objectiveText = QGet_QuestLogQuestText();
 	local AllObjectives = {};
 	AllObjectives["QuestName"] = q;
 	AllObjectives["objectives"] = {};
 	for i = 1, count do
-		local desc, typ, done = GetQuestLogLeaderBoard(i);
+		local desc, typ, done = QGet_QuestLogLeaderBoard(i);
 		local typeFunction = AstroobjectiveProcessors[typ];
 		if typ == "item" or typ == "monster" or not (typeFunction == nil) then
 			local indx = findLast(desc, ":");
@@ -481,7 +443,7 @@ function Questie:AstroGetQuestObjectives(questHash)
 	end
 	return AllObjectives;
 end
-
+---------------------------------------------------------------------------------------------------
 AstroobjectiveProcessors = {
 	['item'] = function(quest, name, amount, selected, mapid)
 		local list = {};
@@ -584,9 +546,168 @@ AstroobjectiveProcessors = {
 		return list;
 	end
 }
+---------------------------------------------------------------------------------------------------
+-- End of Astrolabe functions
+---------------------------------------------------------------------------------------------------
 
---End of Astrolabe functions
-
+---------------------------------------------------------------------------------------------------
+-- Get quest ID from quest hash
+---------------------------------------------------------------------------------------------------
+LastNrOfEntries = 0;
+CachedIds = {};
+function Questie:GetQuestIdFromHash(questHash)
+	local numEntries, numQuests = GetNumQuestLogEntries();
+	if(numEntries ~= LastNrOfEntries or not CachedIds[questHash]) then
+		CachedIds = {};
+		LastNrOfEntries = numEntries;
+		Questie:UpdateQuestIds();
+		if CachedIds[questHash] then
+			return CachedIds[questHash];
+		end
+	else
+		local q, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(CachedIds[questHash]);
+		QSelect_QuestLogEntry(CachedIds[questHash]);
+		local questText, objectiveText = QGet_QuestLogQuestText();
+		if(q and level and objectiveText) then
+			if(Questie:getQuestHash(q, level, objectiveText) == questHash) then
+				return CachedIds[questHash];
+			else
+				Questie:debug_Print("[GetQuestIdFromHash] Something went wrong Error1");
+			end
+		else
+			Questie:debug_Print("[GetQuestIdFromHash] Something went wrong, Error2", tostring(CachedIds[questHash]), tostring(q), tostring(level));
+		end
+	end
+end
+---------------------------------------------------------------------------------------------------
+-- Update quest ID's
+---------------------------------------------------------------------------------------------------
+function Questie:UpdateQuestIds()
+	local startTime = GetTime()
+	local numEntries, numQuests = GetNumQuestLogEntries();
+	for i = 1, numEntries do
+		local q, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(i);
+		if not isHeader then
+			QSelect_QuestLogEntry(i);
+			local questText, objectiveText = QGet_QuestLogQuestText();
+			local hash = Questie:getQuestHash(q, level, objectiveText);
+			if(not q or not level or not objective) then
+				Questie:debug_Print("[UpdateQuestID] ERROR!!!!  Error1",tostring(name), tostring(level), tostring(i), tostring(hash))
+			end
+			CachedIds[hash] = i;
+		end
+	end
+	Questie:debug_Print("[UpdateQuestID] Had to update UpdateQuestIds",(GetTime() - startTime)*1000,"ms")
+end
+QuestieHashCache = {};
+---------------------------------------------------------------------------------------------------
+-- Get quest hash from quest name
+---------------------------------------------------------------------------------------------------
+function Questie:GetHashFromName(name)
+	if QuestieHashCache[name] then
+		local hashtable = QuestieHashCache[name];
+		local bestValue = 0;
+		local bestHash = -1;
+		for k,v in pairs(hashtable) do
+			if v > bestValue then
+				bestValue = v;
+				bestHash = k;
+			end
+		end
+		if not (bestHash == -1) then return bestHash; end
+	end
+	return Questie:getQuestHash(name, nil, nil);
+end
+---------------------------------------------------------------------------------------------------
+-- Lookup quest hash from name, level or objective text
+---------------------------------------------------------------------------------------------------
+function Questie:getQuestHash(name, level, objectiveText)
+	local hashLevel = level or "hashLevel"
+	local hashText = objectiveText or "hashText"
+	if QuestieQuestHashCache[name..hashLevel..hashText] then
+		return QuestieQuestHashCache[name..hashLevel..hashText]
+	end
+	local questLookup = QuestieLevLookup[name];
+	local hasOthers = false;
+	if questLookup then
+		local count = 0;
+		local retval = 0;
+		local bestDistance = 4294967295; -- some high number (0xFFFFFFFF)
+		local race = UnitRace("Player");
+		for k,v in pairs(questLookup) do
+			local rr = v[1];
+			if checkRequirements(null, race, null, rr) or true then
+				if count == 1 then
+					hasOthers = true;
+				end
+				if k == objectiveText then
+					QuestieQuestHashCache[name..hashLevel..hashText] = v[2];
+					return v[2],hasOthers; -- exact match
+				end
+				local dist = 4294967294;
+				if not (objectiveText == nil) then
+					dist = Questie:Levenshtein(objectiveText, k);
+				end
+				if dist < bestDistance then
+					bestDistance = dist;
+					retval = v[2];
+				end
+			else
+			end
+			count = count + 1;
+		end
+		if not (retval == 0) then
+			QuestieQuestHashCache[name..hashLevel..hashText] = retval;
+			return retval, hasOthers; -- nearest match
+		end
+	end
+	if name == nil then
+		return -1;
+	end
+	local hash = Questie:MixString(0, name);
+	if not (level == nil) then
+		hash = Questie:MixInt(hash, level);
+		QuestieQuestHashCache[name..hashLevel..hashText] = hash;
+	end
+	if not (objectiveText == nil) then
+		hash = Questie:MixString(hash, objectiveText);
+		QuestieQuestHashCache[name..hashLevel..hashText] = hash;
+	end
+	QuestieQuestHashCache[name..hashLevel..hashText] = hash;
+	return hash, false;
+end
+---------------------------------------------------------------------------------------------------
+-- Checks to see if a quest is finished by quest hash
+---------------------------------------------------------------------------------------------------
+function Questie:IsQuestFinished(questHash)
+	local i = Questie:GetQuestIdFromHash(questHash);
+	if (not i) then
+		return false;
+	end
+	local FinishedQuests = {};
+	local q, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(i);
+	QSelect_QuestLogEntry(i);
+	local count =  QGet_NumQuestLeaderBoards();
+	local questText, objectiveText = QGet_QuestLogQuestText();
+	Done = true;
+	for obj = 1, count do
+		local desc, typ, done = QGet_QuestLogLeaderBoard(obj);
+		if not done then
+			Done = nil;
+		end
+	end
+	if(Done and Questie:getQuestHash(q, level, objectiveText) == questHash) then
+		local ret = {};
+		ret["questHash"] = questHash;
+		ret["name"] = q;
+		ret["level"] = level;
+		return ret;
+	end
+	return nil;
+end
+---------------------------------------------------------------------------------------------------
+-- Race, Class and Profession filter functions
+---------------------------------------------------------------------------------------------------
 RaceBitIndexTable = {
 	['human'] = 1,
 	['orc'] = 2,
@@ -611,7 +732,7 @@ ClassBitIndexTable = {
 	['warlock'] = 9,
 	['druid'] = 11
 }
-
+---------------------------------------------------------------------------------------------------
 function unpackBinary(val)
 	ret = {};
 	for q=0,16 do
@@ -623,6 +744,7 @@ function unpackBinary(val)
 	end
 	return ret;
 end
+---------------------------------------------------------------------------------------------------
 function checkRequirements(class, race, dbClass, dbRace)
 	local valid = true;
 	if race and dbRace and not (dbRace == 0) then
@@ -635,7 +757,7 @@ function checkRequirements(class, race, dbClass, dbRace)
 	end
 	return valid;
 end
-
+---------------------------------------------------------------------------------------------------
 function Questie:GetAvailableQuestHashes(mapFileName, levelFrom, levelTo)
 	local mapid =  -1
 	if(QuestieZones[mapFileName]) then
@@ -669,3 +791,6 @@ function Questie:GetAvailableQuestHashes(mapFileName, levelFrom, levelTo)
 	end
 	return hashes;
 end
+---------------------------------------------------------------------------------------------------
+-- End of filter functions
+---------------------------------------------------------------------------------------------------

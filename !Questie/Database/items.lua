@@ -9076,8 +9076,8 @@ QuestieItems = {
     ["drop"] = {
       ["Timber Wolf"] = 7,
       ["Young Wolf"] = 7,
-	  ["Ragged Timber Wolf"] = 7,
-	  ["Ragged Young Wolf"] = 7,
+	    ["Ragged Timber Wolf"] = 7,
+	    ["Ragged Young Wolf"] = 7,
     }
   },
   ["Livre des noms gangrenés"] = {

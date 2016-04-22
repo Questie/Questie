@@ -51539,15 +51539,11 @@ QuestieAdditionalStartFinishLookup = { -- {C,Z,X,Y}
 }
 
 QuestieZoneLevelMap = {
-
 }
 
-DEFAULT_CHAT_FRAME:AddMessage("Questie is building AvailableQuests DB...");
 local start = GetTime();
-
 for k,v in pairs(QuestieHashMap) do
 	if v['startedType'] == "monster" then
-
 		local qhdb = QuestieMonsters[v['startedBy']];
 		local mapid = -1;
 		if qhdb == nil then
@@ -51562,7 +51558,6 @@ for k,v in pairs(QuestieHashMap) do
 					end
 				end
 			end
-
 		else
 			mapid = qhdb['locations'][1][1];
 		end
@@ -51580,6 +51575,5 @@ for k,v in pairs(QuestieHashMap) do
 	end
 end
 
-
-
-DEFAULT_CHAT_FRAME:AddMessage("Compiled AvailableQuests in " .. (math.floor((GetTime()-start)*1000)) .. "ms");
+local ttl = GetTime() - start;
+DEFAULT_CHAT_FRAME:AddMessage("Compiled AvailableQuests in " .. math.floor(ttl*1000) .. "ms");

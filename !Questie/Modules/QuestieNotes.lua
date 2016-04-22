@@ -1,11 +1,16 @@
-NOTES_DEBUG = true; --Set to nil to not get debug shit
-
+---------------------------------------------------------------------------------------------------
+-- Name: QuestieNotes
+-- Description: Handles all the quest map notes
+---------------------------------------------------------------------------------------------------
+--///////////////////////////////////////////////////////////////////////////////////////////////--
+---------------------------------------------------------------------------------------------------
+-- Global Vars
+---------------------------------------------------------------------------------------------------
+NOTES_DEBUG = nil; --Set to nil to not get debug shit
 --Contains all the frames ever created, this is not to orphan any frames by mistake...
 local AllFrames = {};
-
 --Contains frames that are created but currently not used (Frames can't be deleted so we pool them to save space);
 local FramePool = {};
-
 QUESTIE_NOTES_MAP_ICON_SCALE = 1.2;-- Zone
 QUESTIE_NOTES_WORLD_MAP_ICON_SCALE = 0.75;--Full world shown
 QUESTIE_NOTES_CONTINENT_ICON_SCALE = 1;--Continent Shown
@@ -13,7 +18,18 @@ QUESTIE_NOTES_MINIMAP_ICON_SCALE = 1.0;
 QuestieUsedNoteFrames = {};
 QuestieHandledQuests = {};
 QuestieCachedMonstersAndObjects = {};
-
+---------------------------------------------------------------------------------------------------
+-- WoW Functions --PERFORMANCE CHANGE--
+---------------------------------------------------------------------------------------------------
+local QGet_QuestLogTitle = GetQuestLogTitle;
+local QGet_NumQuestLeaderBoards = GetNumQuestLeaderBoards;
+local QSelect_QuestLogEntry = SelectQuestLogEntry;
+local QGet_QuestLogLeaderBoard = GetQuestLogLeaderBoard;
+local QGet_QuestLogQuestText = GetQuestLogQuestText;
+local QGet_TitleText = GetTitleText;
+---------------------------------------------------------------------------------------------------
+-- Adds quest notes to map
+---------------------------------------------------------------------------------------------------
 function Questie:AddQuestToMap(questHash, redraw)
 	if(Active == false) then
 		return;
@@ -74,21 +90,23 @@ function Questie:AddQuestToMap(questHash, redraw)
 		Questie:RedrawNotes();
 	end
 end
-
+---------------------------------------------------------------------------------------------------
+-- Updates quest notes on map
+---------------------------------------------------------------------------------------------------
 function Questie:UpdateQuestNotes(questHash, redraw)
 	if not QuestieHandledQuests[questHash] then
 		Questie:debug_Print("[UpdateQuestNotes] ERROR: Tried updating a quest not handled. ", questHash);
 		return;
 	end
 	local QuestLogID = Questie:GetQuestIdFromHash(questHash);
-	SelectQuestLogEntry(QuestLogID);
-	local q, level, questTag, isHeader, isCollapsed, isComplete = QuestieCompat_GetQuestLogTitle(QuestLogID);
-	local count =  GetNumQuestLeaderBoards();
-	local questText, objectiveText = _GetQuestLogQuestText();
+	QSelect_QuestLogEntry(QuestLogID);
+	local q, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(QuestLogID);
+	local count =  QGet_NumQuestLeaderBoards();
+	local questText, objectiveText = QGet_QuestLogQuestText();
 	for k, noteInfo in pairs(QuestieHandledQuests[questHash]["noteHandles"]) do
 		for id, note in pairs(QuestieMapNotes[noteInfo.c][noteInfo.z]) do
 			if(note.questHash == questHash) then
-				local desc, typ, done = GetQuestLogLeaderBoard(note.objectiveid);
+				local desc, typ, done = QGet_QuestLogLeaderBoard(note.objectiveid);
 				Questie:debug_Print("[UpdateQuestNotes] ", tostring(desc),tostring(typ),tostring(done));
 			end
 		end
@@ -97,9 +115,9 @@ function Questie:UpdateQuestNotes(questHash, redraw)
 		Questie:RedrawNotes();
 	end
 end
-
-GLOBALJAO = nil
-
+---------------------------------------------------------------------------------------------------
+-- Remove quest note from map
+---------------------------------------------------------------------------------------------------
 function Questie:RemoveQuestFromMap(questHash, redraw)
 	local removed = false;
 	for continent, zoneTable in pairs(QuestieMapNotes) do
@@ -123,7 +141,9 @@ end
 function Questie:GetMapInfoFromID(id)
 	return QuestieZoneIDLookup[id];
 end
-
+---------------------------------------------------------------------------------------------------
+-- Add quest note to map
+---------------------------------------------------------------------------------------------------
 QuestieMapNotes = {};--Usage Questie[Continent][Zone][index]
 MiniQuestieMapNotes = {};
 function Questie:AddNoteToMap(continent, zoneid, posx, posy, type, questHash, objectiveid)
@@ -146,8 +166,9 @@ function Questie:AddNoteToMap(continent, zoneid, posx, posy, type, questHash, ob
 	--Inserts it into the right zone and continent for later use.
 	table.insert(QuestieMapNotes[continent][zoneid], Note);
 end
-
---Available Quest Code
+---------------------------------------------------------------------------------------------------
+-- Add available quest note to map
+---------------------------------------------------------------------------------------------------
 QuestieAvailableMapNotes = {};
 function Questie:AddAvailableNoteToMap(continent, zoneid, posx, posy, type, questHash, objectiveid)
 	--This is to set up the variables
@@ -169,8 +190,9 @@ function Questie:AddAvailableNoteToMap(continent, zoneid, posx, posy, type, ques
 	--Inserts it into the right zone and continent for later use.
 	table.insert(QuestieAvailableMapNotes[continent][zoneid], Note);
 end
-
---Gets a blank frame either from Pool or creates a new one!
+---------------------------------------------------------------------------------------------------
+-- Gets a blank frame either from Pool or creates a new one!
+---------------------------------------------------------------------------------------------------
 function Questie:GetBlankNoteFrame()
 	if(table.getn(FramePool)==0) then
 		Questie:CreateBlankFrameNote();
@@ -179,7 +201,129 @@ function Questie:GetBlankNoteFrame()
 	table.remove(FramePool, 1);
 	return f;
 end
-
+---------------------------------------------------------------------------------------------------
+-- Tooltip code for quest objects
+---------------------------------------------------------------------------------------------------
+function Questie:hookTooltip()
+	local _GameTooltipOnShow = GameTooltip:GetScript("OnShow") -- APPARENTLY this is always null, and doesnt need to be called for things to function correctly...?
+	GameTooltip:SetScript("OnShow", function(self, arg)
+		Questie:Tooltip(self);
+		this:Show();
+	end)
+end
+---------------------------------------------------------------------------------------------------
+Questie_LastTooltip = GetTime();
+QUESTIE_DEBUG_TOOLTIP = nil;
+function Questie:Tooltip(this, forceShow, bag, slot)
+	local monster = UnitName("mouseover")
+	local objective = GameTooltipTextLeft1:GetText();
+	if monster and GetTime() - Questie_LastTooltip > 0.1 then
+		for k,v in pairs(QuestieHandledQuests) do
+			local obj = v['objectives']['objectives'];
+			if (obj) then
+				for name,m in pairs(obj) do
+					if m[1] and (m[1]['type'] == "monster" or m[1]['type'] == "slay") then
+						if (monster .. " slain") == name or monster == name or monster == string.find(monster, string.len(monster)-6) then
+							local logid = Questie:GetQuestIdFromHash(k);
+							if logid then
+								QSelect_QuestLogEntry(logid);
+								local desc, typ, done = QGet_QuestLogLeaderBoard(m[1]['objectiveid']);
+								local indx = findLast(desc, ":");
+								local countstr = string.sub(desc, indx+2);
+								GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3);
+								GameTooltip:AddLine("   " .. monster .. ": " .. countstr, 1, 1, 0.2);
+							end
+						end
+					elseif m[1] and (m[1]['type'] == "item" or m[1]['type'] == "loot") then
+						local monroot = QuestieMonsters[monster];
+						if monroot then
+							local mondat = monroot['drops'];
+							if mondat and mondat[name] then
+								if mondat[name] then
+									local logid = Questie:GetQuestIdFromHash(k);
+									if logid then
+										QSelect_QuestLogEntry(logid);
+										local desc, typ, done = QGet_QuestLogLeaderBoard(m[1]['objectiveid']);
+										local indx = findLast(desc, ":");
+										local countstr = string.sub(desc, indx+2);
+										GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3);
+										GameTooltip:AddLine("   " .. name .. ": " .. countstr, 1, 1, 0.2);
+									end
+								end
+							else
+								--Use the cache not to run unessecary objectives
+								local p = nil;
+								for dropper, value in pairs(QuestieCachedMonstersAndObjects[k]) do
+									if(string.find(dropper, monster)) then
+										local logid = Questie:GetQuestIdFromHash(k);
+										if logid then
+											QSelect_QuestLogEntry(logid);
+											local count =  QGet_NumQuestLeaderBoards();
+											for obj = 1, count do
+												local desc, typ, done = QGet_QuestLogLeaderBoard(obj);
+												local indx = findLast(desc, ":");
+												local countstr = string.sub(desc, indx+2);
+												local namestr = string.sub(desc, 1, indx-1);
+												if(string.find(name, monster) and QuestieItems[namestr] and QuestieItems[namestr]['drop']) then -- Added Find to fix zapped giants (THIS IS NOT TESTED IF YOU FIND ERRORS REPORT!)
+													for dropperr, id in pairs(QuestieItems[namestr]['drop']) do
+														if(name == dropperr or (string.find(name, dropperr) and name == dropperr) and not p) then-- Added Find to fix zapped giants (THIS IS NOT TESTED IF YOU FIND ERRORS REPORT!)
+															GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
+															GameTooltip:AddLine("   " .. namestr .. ": " .. countstr, 1, 1, 0.2)
+															p = true;
+															return;
+														end
+													end
+												end
+											end
+										end
+									end
+									if(p)then
+										break;
+									end
+								end
+							end
+						end
+					end
+				end
+			end
+		end
+	elseif objective and GetTime() - Questie_LastTooltip > 0.05 then
+		for k,v in pairs(QuestieHandledQuests) do
+			local obj = v['objectives']['objectives'];
+			if ( obj ) then
+				for name,m in pairs(obj) do
+					if (m[1] and m[1]['type'] == "object") then
+						local i, j = string.gfind(name, objective);
+						if(i and j and QuestieObjects[m["name"]]) then
+							GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
+							GameTooltip:AddLine("   " .. name, 1, 1, 0.2)
+						end
+					elseif (m[1] and (m[1]['type'] == "item" or m[1]['type'] == "loot") and name == objective) then
+						if(QuestieItems[objective]) then
+							GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
+							local logid = Questie:GetQuestIdFromHash(k);
+							QSelect_QuestLogEntry(logid);
+							local desc, typ, done = QGet_QuestLogLeaderBoard(m[1]['objectiveid']);
+							local indx = findLast(desc, ":");
+							local countstr = string.sub(desc, indx+2);
+							GameTooltip:AddLine("   " .. name .. ": " .. countstr, 1, 1, 0.2)
+						end
+					end
+				end
+			end
+		end
+	end
+	if(QUESTIE_DEBUG_TOOLTIP) then
+		GameTooltip:AddLine("--Questie hook--")
+	end
+	if(forceShow) then
+		GameTooltip:Show();
+	end
+	Questie_LastTooltip = GetTime();
+end
+---------------------------------------------------------------------------------------------------
+-- Tooltip code for quest starters and finishers
+---------------------------------------------------------------------------------------------------
 function Questie_Tooltip_OnEnter()
 	if(this.data.questHash) then
 		local Tooltip = GameTooltip;
@@ -194,11 +338,11 @@ function Questie_Tooltip_OnEnter()
 			if not Quest then
 				local QuestLogID = Questie:GetQuestIdFromHash(this.data.questHash);
 				if QuestLogID then
-					SelectQuestLogEntry(QuestLogID);
-					local q, level, questTag, isHeader, isCollapsed, isComplete = QuestieCompat_GetQuestLogTitle(QuestLogID);
-					local count =  GetNumQuestLeaderBoards();
-					local questText, objectiveText = _GetQuestLogQuestText();
-					local desc, typ, done = GetQuestLogLeaderBoard(this.data.objectiveid);
+					QSelect_QuestLogEntry(QuestLogID);
+					local q, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(QuestLogID);
+					local count =  QGet_NumQuestLeaderBoards();
+					local questText, objectiveText = QGet_QuestLogQuestText();
+					local desc, typ, done = QGet_QuestLogLeaderBoard(this.data.objectiveid);
 					Tooltip:AddLine(q ,1,1,1);
 					Tooltip:AddLine(desc);
 				end
@@ -237,7 +381,9 @@ function Questie_Tooltip_OnEnter()
 		Tooltip:Show();
 	end
 end
-
+---------------------------------------------------------------------------------------------------
+-- Force a quest to be finished via the Minimap or Worldmap (Shift-Click icon - NO confirmation)
+---------------------------------------------------------------------------------------------------
 function Questie_AvailableQuestClick()
 	local Tooltip = GameTooltip
 	if(this.type == "WorldMapNote") then
@@ -263,9 +409,10 @@ function Questie_AvailableQuestClick()
 		Questie:Toggle()
 	end
 end
-
+---------------------------------------------------------------------------------------------------
+-- Creates a blank frame for use within the map system
+---------------------------------------------------------------------------------------------------
 CREATED_NOTE_FRAMES = 1;
---Creates a blank frame for use within the map system
 function Questie:CreateBlankFrameNote()
 	local f = CreateFrame("Button","QuestieNoteFrame"..CREATED_NOTE_FRAMES,WorldMapFrame)
 	f:SetFrameLevel(9);
@@ -291,7 +438,9 @@ local LastZone = nil;
 UIOpen = false;
 NATURAL_REFRESH = 60;
 NATRUAL_REFRESH_SPACING = 2;
-
+---------------------------------------------------------------------------------------------------
+-- Updates notes for current zone only
+---------------------------------------------------------------------------------------------------
 function Questie:NOTES_ON_UPDATE(elapsed)
 	--Test to remove the delay
 	--Gets current map to see if we need to redraw or not.
@@ -312,8 +461,10 @@ function Questie:NOTES_ON_UPDATE(elapsed)
 		UIOpen = false;
 	end
 end
-
---Inital pool size (Not tested how much you can do before it lags like shit, from experiance 11 is good)
+---------------------------------------------------------------------------------------------------
+-- Inital pool size (Not tested how much you can do before it lags like shit, from experiance 11
+-- is good)
+---------------------------------------------------------------------------------------------------
 INIT_POOL_SIZE = 11;
 function Questie:NOTES_LOADED()
 	Questie:debug_Print("Loading QuestieNotes");
@@ -324,7 +475,9 @@ function Questie:NOTES_LOADED()
 	end
 	Questie:debug_Print("Done Loading QuestieNotes");
 end
-
+---------------------------------------------------------------------------------------------------
+-- Sets up all available quests
+---------------------------------------------------------------------------------------------------
 function Questie:SetAvailableQuests()
 	QuestieAvailableMapNotes = {};
 	local t = GetTime();
@@ -350,8 +503,10 @@ function Questie:SetAvailableQuests()
 	Questie:debug_Print("Added Available quests: Time:",tostring((GetTime()- t)*1000).."ms", "Count:"..table.getn(quests))
 	end
 end
-
---Reason this exists is to be able to call both clearnotes and drawnotes without doing 2 function calls, and to be able to force a redraw
+---------------------------------------------------------------------------------------------------
+-- Reason this exists is to be able to call both clearnotes and drawnotes without doing 2 function
+-- calls, and to be able to force a redraw
+---------------------------------------------------------------------------------------------------
 function Questie:RedrawNotes()
 	local time = GetTime();
 	Questie:CLEAR_ALL_NOTES();
@@ -370,8 +525,10 @@ function Questie:Clear_Note(v)
 	v.objId = nil;
 	table.insert(FramePool, v);
 end
-
---Clears the notes, goes through the usednoteframes and clears them. Then sets the QuestieUsedNotesFrame to new table;
+---------------------------------------------------------------------------------------------------
+-- Clears the notes, goes through the usednoteframes and clears them. Then sets the
+-- QuestieUsedNotesFrame to new table;
+---------------------------------------------------------------------------------------------------
 function Questie:CLEAR_ALL_NOTES()
 	Questie:debug_Print("CLEAR_NOTES");
 	Astrolabe:RemoveAllMinimapIcons();
@@ -381,8 +538,9 @@ function Questie:CLEAR_ALL_NOTES()
 	end
 	QuestieUsedNoteFrames = {};
 end
-
---Checks first if there are any notes for the current zone, then draws the desired icon
+---------------------------------------------------------------------------------------------------
+-- Checks first if there are any notes for the current zone, then draws the desired icon
+---------------------------------------------------------------------------------------------------
 function Questie:DRAW_NOTES()
 	local c, z = GetCurrentMapContinent(), GetCurrentMapZone();
 	Questie:debug_Print("DRAW_NOTES");
@@ -558,8 +716,9 @@ function Questie:DRAW_NOTES()
 		end
 	end
 end
-
---Debug print function
+---------------------------------------------------------------------------------------------------
+-- Debug print function
+---------------------------------------------------------------------------------------------------
 function Questie:debug_Print(...)
 	local debugWin = 0;
 	local name, shown;
@@ -582,8 +741,9 @@ function Questie:debug_Print(...)
 	end
 	getglobal("ChatFrame"..debugWin):AddMessage(out, 1.0, 1.0, 0.3);
 end
-
---Sets the icons
+---------------------------------------------------------------------------------------------------
+-- Sets the icon type
+---------------------------------------------------------------------------------------------------
 QuestieIcons = {
 	["complete"] = {
 		text = "Complete",

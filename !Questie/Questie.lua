@@ -1,13 +1,44 @@
-DEBUG_LEVEL = 0;--0 Low info --1 Medium info --2 very spammy
-
-Questie = CreateFrame("Frame", "QuestieLua", UIParent, "ActionButtonTemplate")
-
-__QuestRewardCompleteButton_OnClick=nil;
-__QuestAbandonOnAccept=nil;
-__QuestAbandonWithItemsOnAccept=nil;
-local QuestieQuestHashCache = {}
-
--- Setup Characters Default Profile
+---------------------------------------------------------------------------------------------------
+-- Name: Questie for Vanilla WoW
+-- Revision: 3.0
+-- Authors: Aero/Schaka/Logon/Dyaxler/everyone else
+-- Website: https://github.com/AeroScripts/QuestieDev
+-- Description: Questie started out being a simple backport of QuestHelper but it has grown beyond
+-- it's original design into something better. Questie will show you where quests are available and
+-- only display the quests you're eligible for based on level, profession, class, race etc. Questie
+-- will also assist you in where or what is needed to complete a quest. Map notes, an arrow, custom
+-- tooltips, quest tracker are also some of the tools included with Questie to assist you.
+---------------------------------------------------------------------------------------------------
+--///////////////////////////////////////////////////////////////////////////////////////////////--
+---------------------------------------------------------------------------------------------------
+DEBUG_LEVEL = nil; --0 Low info --1 Medium info --2 very spammy
+Questie = CreateFrame("Frame", "QuestieLua", UIParent, "ActionButtonTemplate");
+QuestRewardCompleteButton = nil;
+QuestAbandonOnAccept = nil;
+QuestAbandonWithItemsOnAccept = nil;
+QuestieVersion = 3.0;
+---------------------------------------------------------------------------------------------------
+-- WoW Functions --PERFORMANCE CHANGE--
+---------------------------------------------------------------------------------------------------
+local QGet_QuestLogTitle = GetQuestLogTitle;
+local QGet_NumQuestLeaderBoards = GetNumQuestLeaderBoards;
+local QSelect_QuestLogEntry = SelectQuestLogEntry;
+local QGet_QuestLogLeaderBoard = GetQuestLogLeaderBoard;
+local QGet_AbandonQuestName = GetAbandonQuestName;
+local QGet_QuestLogQuestText = GetQuestLogQuestText;
+local QGet_TitleText = GetTitleText;
+---------------------------------------------------------------------------------------------------
+function GetQuestLogTitle(index)
+	return QGet_QuestLogTitle(index);
+end
+---------------------------------------------------------------------------------------------------
+function GetQuestLogQuestText()
+	Questie.needsUpdate = true;
+	return QGet_QuestLogQuestText();
+end
+---------------------------------------------------------------------------------------------------
+-- Setup Default Profile
+---------------------------------------------------------------------------------------------------
 function Questie:SetupDefaults()
 	if not QuestieConfig then QuestieConfig = {
 		["alwaysShowDistance"] = false,
@@ -25,6 +56,7 @@ function Questie:SetupDefaults()
 		["trackerEnabled"] = true,
 		["trackerList"] = false,
 		["resizeWorldmap"] = false,
+		["getVersion"] = QuestieVersion,
 	}
 	end
 	if not QuestieTrackerVariables then QuestieTrackerVariables = {
@@ -38,7 +70,9 @@ function Questie:SetupDefaults()
 	}
 	end
 end
-
+---------------------------------------------------------------------------------------------------
+-- Setup Default Vars
+---------------------------------------------------------------------------------------------------
 function Questie:CheckDefaults()
 	if not QuestieConfig.alwaysShowDistance then
 		QuestieConfig.alwaysShowDistance = false;
@@ -87,24 +121,114 @@ function Questie:CheckDefaults()
 	if not QuestieConfig.resizeWorldmap then
 		QuestieConfig.resizeWorldmap = false;
 	end
+	-- Version check
+	if (not QuestieConfig.getVersion) or (QuestieConfig.getVersion < QuestieVersion) then
+		Questie:ClearConfig("version");
+	end
+	-- Sets some EQL3 settings to keep it from conflicting with Questie fetures
+	EQL3_Player = UnitName("player").."-"..GetRealmName();
+	if IsAddOnLoaded("EQL3") then
+		QuestlogOptions[EQL3_Player].MobTooltip = 0;
+		QuestlogOptions[EQL3_Player].ItemTooltip = 0;
+		QuestlogOptions[EQL3_Player].RemoveCompletedObjectives = 0;
+		QuestlogOptions[EQL3_Player].RemoveFinished = 0;
+		QuestlogOptions[EQL3_Player].MinimizeFinished = 0;
+		QuestlogOptions[EQL3_Player].AddUntracked = 1;
+		QuestlogOptions[EQL3_Player].AddNew = 1;
+	end
 end
-
-QuestieCompat_GetQuestLogTitle = GetQuestLogTitle;
-function GetQuestLogTitle(index)
-	return QuestieCompat_GetQuestLogTitle(index);
-end
-
+---------------------------------------------------------------------------------------------------
+-- In Vanilla WoW there is no official Russian client so an addon was made to translate some of the
+-- global strings. Two of the translated strings conflicted with Questie, displying the wrong info
+-- on the World Map. This function simply over-rides those stings to force them back to english so
+-- Questie can understand the returned sting in order to disply the correct locations and icons.
+---------------------------------------------------------------------------------------------------
 function Questie:BlockTranslations()
 	if (IsAddOnLoaded("RuWoW") or IsAddOnLoaded("ProffBot")) or (IsAddOnLoaded("ruRU")) then
 		QUEST_MONSTERS_KILLED = "%s slain: %d/%d"; -- Lists the monsters killed for the selected quest
 		ERR_QUEST_ADD_KILL_SII = "%s slain: %d/%d"; -- %s is the monster name
 	end
 end
-
+---------------------------------------------------------------------------------------------------
+-- Cleans and resets the users Questie SavedVariables. Will also perform some quest and quest
+-- tracker database clean up to purge stale/invalid entries. More notes below. Popup confirmation
+-- of Yes or No - Popup has a 60 second timeout.
+---------------------------------------------------------------------------------------------------
+function Questie:ClearConfig(arg)
+	if arg == "slash" then
+		msg = "|cFFFFFF00You are about to clear your characters settings. This will NOT delete your quest database but it will clean it up a little. This will reset abandonded quests, and remove any finished or stale quest entries in the QuestTracker database. Your UI will be reloaded automatically to finalize the new settings.|n|nAre you sure you want to continue?|r";
+	elseif arg == "version" then
+		msg = "|cFFFFFF00VERSION CHECK!|n|nIt appears you have installed Questie for the very first time or you have recently upgraded to a new version. Your UI will automatically be reloaded and your QuestieConfig will be updated and cleaned of any stale entries. This will NOT clear your quest history.|n|nPlease click Yes to begin the update.|r";
+	end
+	StaticPopupDialogs["CLEAR_CONFIG"] = {
+		text = TEXT(msg),
+		button1 = TEXT(YES),
+		button2 = TEXT(NO),
+		OnAccept = function()
+			-- Clears config
+			QuestieConfig = {}
+			-- Setup default settings
+			QuestieConfig = {
+				["alwaysShowDistance"] = false,
+				["alwaysShowLevel"] = true,
+				["alwaysShowQuests"] = true,
+				["arrowEnabled"] = true,
+				["boldColors"] = false,
+				["maxLevelFilter"] = false,
+				["maxShowLevel"] = 3,
+				["minLevelFilter"] = false,
+				["minShowLevel"] = 5,
+				["showMapAids"] = true,
+				["showProfessionQuests"] = false,
+				["showTrackerHeader"] = false,
+				["trackerEnabled"] = true,
+				["trackerList"] = false,
+				["resizeWorldmap"] = false,
+				["getVersion"] = QuestieVersion,
+			}
+			-- Clears tracker settings
+			QuestieTrackerVariables = {}
+			-- Setup default settings and repositions the QuestTracker against the left side of the screen.
+			QuestieTrackerVariables = {
+				["position"] = {
+					["relativeTo"] = "UIParent",
+					["point"] = "CENTER",
+					["relativePoint"] = "CENTER",
+					["yOfs"] = 0,
+					["xOfs"] = 0,
+				},
+			}
+			-- The following will clean up the Quest Database removing stale/invalid entries.
+			-- The (== 0 in QuestieSeenQuests) flag usually means a quest has been picked up and the (== -1
+			-- in QuestieSeenQuests) flag means the quest has been abandonded. Once we remove these flags
+			-- Questie will readd the quests based on what is in your log. A refresh of sorts without
+			-- touching or resetting your finished quests. When the quest log is crawled, Questie will
+			-- check any prerequired quests and flag all those as complete upto the quest in your chain
+			-- that you're currently on.
+			local index = 0
+			for i,v in pairs(QuestieSeenQuests) do
+				if (v == 0) or (v == -1) then
+					QuestieSeenQuests[i] = nil
+				end
+				index = index + 1
+			end
+			-- This wipes the QuestTracker database and forces a refresh of all tracked data.
+			QuestieTrackedQuests = {}
+			ReloadUI()
+		end,
+		timeout = 60,
+		exclusive = 1,
+		hideOnEscape = 1
+	}
+	StaticPopup_Show ("CLEAR_CONFIG")
+end
+---------------------------------------------------------------------------------------------------
+-- OnLoad Handler
+---------------------------------------------------------------------------------------------------
 function Questie:OnLoad()
 	this:RegisterEvent("QUEST_LOG_UPDATE");
 	this:RegisterEvent("QUEST_PROGRESS");
-	this:RegisterEvent("ZONE_CHANGED"); -- this actually is needed
+	this:RegisterEvent("ZONE_CHANGED");
 	this:RegisterEvent("UI_INFO_MESSAGE");
 	this:RegisterEvent("CHAT_MSG_SYSTEM");
 	this:RegisterEvent("QUEST_ITEM_UPDATE");
@@ -114,72 +238,76 @@ function Questie:OnLoad()
 	this:RegisterEvent("ADDON_LOADED");
 	this:RegisterEvent("VARIABLES_LOADED");
 	this:RegisterEvent("CHAT_MSG_LOOT");
-	Questie:SetupDefaults();
-	Questie:CheckDefaults();
-	__QuestAbandonOnAccept = StaticPopupDialogs["ABANDON_QUEST"].OnAccept;
+	QuestAbandonOnAccept = StaticPopupDialogs["ABANDON_QUEST"].OnAccept;
 	StaticPopupDialogs["ABANDON_QUEST"].OnAccept = function()
-		local hash = Questie:GetHashFromName(GetAbandonQuestName());
+		local hash = Questie:GetHashFromName(QGet_AbandonQuestName());
 		QuestieTrackedQuests[hash] = nil;
 		QuestieSeenQuests[hash] = -1;
 		if (TomTomCrazyArrow:IsVisible() ~= nil) and (arrow_objective == hash) then
 			TomTomCrazyArrow:Hide()
 		end
 		Questie:AddEvent("CHECKLOG", 0.135);
-		__QuestAbandonOnAccept();
+		QuestAbandonOnAccept();
 	end
-	__QuestAbandonWithItemsOnAccept = StaticPopupDialogs["ABANDON_QUEST_WITH_ITEMS"].OnAccept;
+	QuestAbandonWithItemsOnAccept = StaticPopupDialogs["ABANDON_QUEST_WITH_ITEMS"].OnAccept;
 	StaticPopupDialogs["ABANDON_QUEST_WITH_ITEMS"].OnAccept = function()
-		local hash = Questie:GetHashFromName(GetAbandonQuestName());
+		local hash = Questie:GetHashFromName(QGet_AbandonQuestName());
 		QuestieTrackedQuests[hash] = nil;
 		QuestieSeenQuests[hash] = -1;
 		if (TomTomCrazyArrow:IsVisible() ~= nil) and (arrow_objective == hash) then
 			TomTomCrazyArrow:Hide()
 		end
 		Questie:AddEvent("CHECKLOG", 0.135);
-		__QuestAbandonWithItemsOnAccept();
+		QuestAbandonWithItemsOnAccept();
 	end
-	__QuestRewardCompleteButton_OnClick = QuestRewardCompleteButton_OnClick;
+	QuestRewardCompleteButton = QuestRewardCompleteButton_OnClick;
 	QuestRewardCompleteButton_OnClick = function()
-		if not ( QuestFrameRewardPanel.itemChoice == 0 and GetNumQuestChoices() > 0 ) then
-			if IsAddOnLoaded("EQL3") then
-				local questTitle = GetTitleText();
-				local _, _, level, qName = string.find(questTitle, "%[(.+)%] (.+)")
-				if qName == nil then
-					qName = GetTitleText();
-				else
-					qName = qName
+		if IsAddOnLoaded("EQL3") then
+			local questTitle = QGet_TitleText();
+			local _, _, level, qName = string.find(questTitle, "%[(.+)%] (.+)")
+			if qName == nil then
+				qName = QGet_TitleText();
+			else
+				qName = qName
+			end
+			local hash = Questie:GetHashFromName(qName);
+			QuestieCompletedQuestMessages[qName] = 1;
+			if(not QuestieSeenQuests[hash]) or (QuestieSeenQuests[hash] == 0) or (QuestieSeenQuests[hash] == -1) then
+				Questie:finishAndRecurse(hash)
+				if (TomTomCrazyArrow:IsVisible() ~= nil) and (arrow_objective == hash) then
+					TomTomCrazyArrow:Hide()
 				end
-				local hash = Questie:GetHashFromName(qName);
-				QuestieCompletedQuestMessages[qName] = 1;
-				if(not QuestieSeenQuests[hash]) or (QuestieSeenQuests[hash] == 0) or (QuestieSeenQuests[hash] == -1) then
-					Questie:finishAndRecurse(hash)
-					if (TomTomCrazyArrow:IsVisible() ~= nil) and (arrow_objective == hash) then
-						TomTomCrazyArrow:Hide()
-					end
-					QuestieTrackedQuests[hash] = nil;
-					Questie:AddEvent("CHECKLOG", 0.135);
+				QuestieTrackedQuests[hash] = nil;
+				Questie:AddEvent("CHECKLOG", 0.135);
+			end
+		elseif (not IsAddOnLoaded("EQL3")) then
+			local questTitle = QGet_TitleText();
+			local _, _, level, qName = string.find(questTitle, "%[(.+)%] (.+)")
+			if qName == nil then
+				qName = QGet_TitleText();
+			else
+				qName = qName
+			end
+			local hash = Questie:GetHashFromName(qName);
+			QuestieCompletedQuestMessages[qName] = 1;
+			if(not QuestieSeenQuests[hash]) or (QuestieSeenQuests[hash] == 0) or (QuestieSeenQuests[hash] == -1) then
+				Questie:finishAndRecurse(hash)
+				if (TomTomCrazyArrow:IsVisible() ~= nil) and (arrow_objective == hash) then
+					TomTomCrazyArrow:Hide()
 				end
-			elseif (not IsAddOnLoaded("EQL3")) then
-				local qName = GetTitleText();
-				local hash = Questie:GetHashFromName(qName);
-				QuestieCompletedQuestMessages[qName] = 1;
-				if(not QuestieSeenQuests[hash]) or (QuestieSeenQuests[hash] == 0) or (QuestieSeenQuests[hash] == -1) then
-					Questie:finishAndRecurse(hash)
-					if (TomTomCrazyArrow:IsVisible() ~= nil) and (arrow_objective == hash) then
-						TomTomCrazyArrow:Hide()
-					end
-					QuestieTrackedQuests[hash] = nil;
-					Questie:AddEvent("CHECKLOG", 0.135);
-				end
+				QuestieTrackedQuests[hash] = nil;
+				Questie:AddEvent("CHECKLOG", 0.135);
 			end
 		end
-		__QuestRewardCompleteButton_OnClick();
+		QuestRewardCompleteButton();
 	end
 	Questie:NOTES_LOADED();
 	SlashCmdList["QUESTIE"] = Questie_SlashHandler;
 	SLASH_QUESTIE1 = "/questie";
 end
-
+---------------------------------------------------------------------------------------------------
+-- Questie Worldmap Toggle Button
+---------------------------------------------------------------------------------------------------
 Active = true;
 function Questie:Toggle()
 	if (QuestieConfig.showMapAids == true) or (QuestieConfig.alwaysShowQuests == true) or ((QuestieConfig.showMapAids == true) and (QuestieConfig.alwaysShowQuests == false)) then
@@ -206,7 +334,9 @@ function Questie:Toggle()
 		LastCount = 0;
 	end
 end
-
+---------------------------------------------------------------------------------------------------
+-- Questie OnUpdate Handler
+---------------------------------------------------------------------------------------------------
 QUESTIE_EVENTQUEUE = {};
 function Questie:OnUpdate(elapsed)
 	Astrolabe:OnUpdate(nil, elapsed);
@@ -230,7 +360,9 @@ function Questie:OnUpdate(elapsed)
 		end
 	end
 end
-
+---------------------------------------------------------------------------------------------------
+-- Questie Event Handlers
+---------------------------------------------------------------------------------------------------
 QuestieCompletedQuestMessages = {};
 -- 1 means WE KNOW it's complete
 -- 0 means We've seen it and it's probably in the questlog
@@ -243,10 +375,10 @@ function Questie:AddEvent(EVENT, DELAY)
 	evnt.DELAY = DELAY;
 	table.insert(QUESTIE_EVENTQUEUE, evnt);
 end
-
+---------------------------------------------------------------------------------------------------
 QUESTIE_LAST_UPDATE = GetTime();
 QUESTIE_LAST_CHECKLOG = GetTime();
-
+---------------------------------------------------------------------------------------------------
 function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10)
 	if(event =="ADDON_LOADED" and arg1 == "Questie") then
 	elseif(event == "QUEST_LOG_UPDATE" or event == "QUEST_ITEM_UPDATE") then
@@ -268,19 +400,19 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 	elseif(event == "QUEST_PROGRESS") then
 		if IsAddOnLoaded("EQL3") then
 			if IsQuestCompletable() then
-				local questTitle = GetTitleText();
-				local _, _, level, qName = string.find(questTitle, "%[(.+)%] (.+)")
+				local questTitle = QGet_TitleText();
+				local _, _, level, qName = string.find(questTitle, "%[(.+)%] (.+)");
 				if qName == nil then
-					qName = GetTitleText();
+					qName = QGet_TitleText();
 				else
-					qName = qName
+					qName = qName;
 				end
 				local hash = Questie:GetHashFromName(qName);
 				QuestieCompletedQuestMessages[qName] = 1;
 				if(not QuestieSeenQuests[hash]) or (QuestieSeenQuests[hash] == 0) or (QuestieSeenQuests[hash] == -1) then
-					Questie:finishAndRecurse(hash)
+					Questie:finishAndRecurse(hash);
 					if (TomTomCrazyArrow:IsVisible() ~= nil) and (arrow_objective == hash) then
-						TomTomCrazyArrow:Hide()
+						TomTomCrazyArrow:Hide();
 					end
 					QuestieTrackedQuests[hash] = nil;
 				end
@@ -294,6 +426,8 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 			QuestieSeenQuests = {};
 		end
 		Questie:BlockTranslations();
+		Questie:SetupDefaults();
+		Questie:CheckDefaults();
 	elseif(event == "PLAYER_LOGIN") then
 		Questie:CheckQuestLog();
 		Questie:AddEvent("UPDATE", 1.15);
@@ -303,11 +437,11 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 			local Blizz_GameTooltip_Show = GameTooltip.Show
 			GameTooltip.Show = function(self)
 				Questie:Tooltip(self);
-				Blizz_GameTooltip_Show(self)
+				Blizz_GameTooltip_Show(self);
 			end
 			local Bliz_GameTooltip_SetLootItem = GameTooltip.SetLootItem
 			GameTooltip.SetLootItem = function(self, slot)
-				Bliz_GameTooltip_SetLootItem(self, slot)
+				Bliz_GameTooltip_SetLootItem(self, slot);
 				Questie:Tooltip(self, true);
 			end
 		else
@@ -320,92 +454,22 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 		end
 	end
 end
-
+---------------------------------------------------------------------------------------------------
+-- Questie Parsing Shortcuts
+---------------------------------------------------------------------------------------------------
 function findFirst(haystack, needle)
-    local i=string.find(haystack, " ")
-    if i==nil then return nil else return i-1 end
+    local i=string.find(haystack, " ");
+    if i==nil then return nil; else return i-1; end
 end
-
-function Questie:finishAndRecurse(questhash)
-	-- I discovered a nasty little 'silent' bug where the Manual Complete functions would set
-	-- a quest as complete when it's actually in the players quest log. This check resets the
-	-- players quest back to tracked status (== 0) and prevents quests in a chain from being
-	-- marked complete when a player is on a certain step.
-	if (QuestieSeenQuests[questhash] == 1) then
-		return
-	end
-	if (QuestieSeenQuests[questhash] == 0) and (QuestieTrackedQuests[questhash]) then
-		if ((QuestieTrackedQuests[questhash]["leaderboards"] == 0) or (QuestieTrackedQuests[questhash]["isComplete"] == 1)) then
-			QuestieSeenQuests[questhash] = 1;
-		end
-	elseif ((QuestieSeenQuests[questhash] == nil) or (QuestieTrackedQuests[questhash] == nil)) then
-		QuestieSeenQuests[questhash] = 1;
-		local req = QuestieHashMap[questhash]['rq'];
-		if req then
-			Questie:finishAndRecurse(req);
-			QuestieTrackedQuests[req] = nil;
-		end
-	end
+---------------------------------------------------------------------------------------------------
+function findLast(haystack, needle)
+	local i=string.gfind(haystack, ".*"..needle.."()")()
+	if i==nil then return nil; else return i-1; end
 end
-
-_QuestieCompleteQuestSelectingOption = false;
-_QuestieCompleteQuestSelectingOption_QuestName = nil;
-
+---------------------------------------------------------------------------------------------------
+-- Questie Slash Handler and Help Menu
+---------------------------------------------------------------------------------------------------
 QuestieFastSlash = {
-	-- The "complete" command is no longer needed since the Shift+Click via the Worldmap is now
-	-- working 100%. Keeping this around just in case...
-	--[[["complete"] = function(args)
-		--DEFAULT_CHAT_FRAME:AddMessage("   " .. findFirst("This is how it works", " "));
-		--DEFAULT_CHAT_FRAME:AddMessage("   " .. args);
-		if _QuestieCompleteQuestSelectingOption then
-			for k,v in pairs(QuestieLevLookup) do
-				if strlower(k) == strlower(_QuestieCompleteQuestSelectingOption_QuestName) then
-					if table.getn(v) == 1 then
-						for kk,vv in pairs(v) do
-							Questie:finishAndRecurse(vv[2]);
-						end
-					else
-						local index = 0;
-						for kk,vv in pairs(v) do
-							if index == tonumber(args) then
-								Questie:finishAndRecurse(vv[2]);
-							end
-							index = index + 1;
-						end
-						_QuestieCompleteQuestSelectingOption = false;
-					end
-					return;
-				end
-			end
-		else
-			for k,v in pairs(QuestieLevLookup) do
-				if strlower(k) == strlower(args) then
-					DEFAULT_CHAT_FRAME:AddMessage(" " .. table.getn(v));
-					local questchain = 0;
-					for kk,vv in pairs(v) do
-						questchain = questchain + 1;
-					end
-					if questchain == 1 then
-						for kk,vv in pairs(v) do
-							Questie:finishAndRecurse(vv[2]);
-						end
-					else
-						local index = 0;
-						DEFAULT_CHAT_FRAME:AddMessage(" |cFFFF2222There are multiple quests matching the name \"" .. args .. "\"|r");
-						DEFAULT_CHAT_FRAME:AddMessage("   |cFFFFFF00Run /questie complete |cFF00FF00<number>|r|cFFFFFF00 to finish the process|r");
-						for kk,vv in pairs(v) do
-							DEFAULT_CHAT_FRAME:AddMessage("      |cFF00FF00" .. index .. "|r: " .. kk);
-							index = index + 1;
-						end
-						_QuestieCompleteQuestSelectingOption_QuestName = args;
-						_QuestieCompleteQuestSelectingOption = true;
-					end
-					return;
-				end
-			end
-			DEFAULT_CHAT_FRAME:AddMessage(" |cFFFF2222No quest matches the name \"" .. args .. "\"!|r");
-		end
-	end,]]--
 	["color"] = function()
 	-- Default: False
 		QuestieConfig.boldColors = not QuestieConfig.boldColors;
@@ -626,73 +690,13 @@ QuestieFastSlash = {
 	-- Default: False
 		QuestieConfig.resizeWorldmap = not QuestieConfig.resizeWorldmap;
 		if QuestieConfig.resizeWorldmap then
-			ReloadUI()
+			ReloadUI();
 		else
-			ReloadUI()
+			ReloadUI();
 		end
 	end,
 	["clearconfig"] = function()
-	-- Default: None - Popup confirmation of Yes or No - Popup has a 60 second timeout.
-		StaticPopupDialogs["CLEAR_CONFIG"] = {
-			text = "|cFFFFFF00You are about to clear your characters settings. This will NOT delete your quest database but it will clean it up a little. This will reset abandonded quests, and remove any finished or stale quest entries in the QuestTracker database. Your UI will be reloaded automatically to finalize the new settings.|n|nAre you sure you want to continue?|r",
-			button1 = TEXT(YES),
-			button2 = TEXT(NO),
-			OnAccept = function()
-				-- Clears config
-				QuestieConfig = {}
-				-- Setup default settings
-				QuestieConfig = {
-					["alwaysShowDistance"] = false,
-					["alwaysShowLevel"] = true,
-					["alwaysShowQuests"] = true,
-					["arrowEnabled"] = true,
-					["boldColors"] = false,
-					["maxLevelFilter"] = false,
-					["maxShowLevel"] = 3,
-					["minLevelFilter"] = false,
-					["minShowLevel"] = 5,
-					["showMapAids"] = true,
-					["showProfessionQuests"] = false,
-					["showTrackerHeader"] = false,
-					["trackerEnabled"] = true,
-					["trackerList"] = false,
-					["resizeWorldmap"] = false,
-				}
-				-- Clears tracker settings
-				QuestieTrackerVariables = {}
-				-- Setup default settings and repositions the QuestTracker against the left side of the screen.
-				QuestieTrackerVariables = {
-					["position"] = {
-						["relativeTo"] = "UIParent",
-						["point"] = "CENTER",
-						["relativePoint"] = "CENTER",
-						["yOfs"] = 0,
-						["xOfs"] = 0,
-					},
-				}
-				-- The following will clean up the Quest Database removing stale/invalid entries.
-				-- The (== 0 in QuestieSeenQuests) flag usually means a quest has been picked up and the (== -1
-				-- in QuestieSeenQuests) flag means the quest has been abandonded. Once we remove these flags
-				-- Questie will readd the quests based on what is in your log. A refresh of sorts without
-				-- touching or resetting your finished quests. When the quest log is crawled, Questie will
-				-- check any prerequired quests and flag all those as complete upto the quest in your chain
-				-- that you're currently on.
-				local index = 0
-				for i,v in pairs(QuestieSeenQuests) do
-					if (v == 0) or (v == -1) then
-						QuestieSeenQuests[i] = nil
-					end
-					index = index + 1
-				end
-				-- This wipes the QuestTracker database and forces a refresh of all tracked data.
-				QuestieTrackedQuests = {}
-				ReloadUI()
-			end,
-			timeout = 60,
-			exclusive = 1,
-			hideOnEscape = 1
-		}
-		StaticPopup_Show ("CLEAR_CONFIG")
+		Questie:ClearConfig("slash")
 	end,
 	["NUKE"] = function()
 	-- Default: None - Popup confirmation of Yes or No - Popup has a 60 second timeout.
@@ -724,6 +728,7 @@ QuestieFastSlash = {
 					["trackerEnabled"] = true,
 					["trackerList"] = false,
 					["resizeWorldmap"] = false,
+					["getVersion"] = QuestieVersion,
 				}
 				-- Clears tracker settings
 				QuestieTrackerVariables = {}
@@ -772,7 +777,7 @@ QuestieFastSlash = {
 		StaticPopup_Show ("CLEAR_TRACKER")
 	end,
 	["settings"] = function()
-		QuestieTracker:CurrentUserToggles()
+		Questie:CurrentUserToggles()
 	end,
 	["help"] = function()
 		DEFAULT_CHAT_FRAME:AddMessage("Questie SlashCommand Help Menu:", 1, 0.75, 0);
@@ -780,9 +785,7 @@ QuestieFastSlash = {
 		DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie clearconfig |r-- Resets Questie settings. It does NOT delete your quest data.", 0.75, 0.75, 0.75);
 		DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie cleartracker |r-- Relocates the QuestTracker to the center of your screen.", 0.75, 0.75, 0.75);
 		DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie color |r-- Select from two different color schemes", 0.75, 0.75, 0.75);
-		--DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie complete|r |c0000ffc0<quest name>|r -- Manually complete quests", 0.75, 0.75, 0.75);
 		DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie header |r-- |c0000ffc0(toggle)|r QuestTracker log counter", 0.75, 0.75, 0.75);
-		--DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie getpos |r-- Prints the player's map coordinates", 0.75, 0.75, 0.75);
 		DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie listdirection |r-- Lists quests Top-->Down or Bottom-->Up", 0.75, 0.75, 0.75);
 		DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie mapnotes |r-- |c0000ffc0(toggle)|r World/Minimap icons", 0.75, 0.75, 0.75);
 		DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie maxlevel |r-- |c0000ffc0(toggle)|r Max-Level Filter", 0.75, 0.75, 0.75);
@@ -801,7 +804,7 @@ QuestieFastSlash = {
 		end
 	end,
 };
-
+---------------------------------------------------------------------------------------------------
 function Questie_SlashHandler(msgbase)
 	local space = findFirst(msgbase, " ");
 	local msg, args;
@@ -821,146 +824,51 @@ function Questie_SlashHandler(msgbase)
 		end
 	end
 end
-
-function Questie:hookTooltip()
-	local _GameTooltipOnShow = GameTooltip:GetScript("OnShow") -- APPARENTLY this is always null, and doesnt need to be called for things to function correctly...?
-	GameTooltip:SetScript("OnShow", function(self, arg)
-		Questie:Tooltip(self);
-		this:Show();
-	end)
-end
-
-Questie_LastTooltip = GetTime();
-QUESTIE_DEBUG_TOOLTIP = nil;
-function Questie:Tooltip(this, forceShow, bag, slot)
-	local monster = UnitName("mouseover")
-	local objective = GameTooltipTextLeft1:GetText();
-	if monster and GetTime() - Questie_LastTooltip > 0.1 then
-		for k,v in pairs(QuestieHandledQuests) do
-			local obj = v['objectives']['objectives'];
-			if (obj) then --- bad habit I know...
-				for name,m in pairs(obj) do
-					if m[1] and (m[1]['type'] == "monster" or m[1]['type'] == "slay") then
-						if (monster .. " slain") == name or monster == name or monster == string.find(monster, string.len(monster)-6) then
-							local logid = Questie:GetQuestIdFromHash(k);
-							if logid then
-								SelectQuestLogEntry(logid);
-								local desc, typ, done = GetQuestLogLeaderBoard(m[1]['objectiveid']);
-								local indx = findLast(desc, ":");
-								local countstr = string.sub(desc, indx+2);
-								GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
-								GameTooltip:AddLine("   " .. monster .. ": " .. countstr, 1, 1, 0.2)
-							end
-						end
-					elseif m[1] and (m[1]['type'] == "item" or m[1]['type'] == "loot") then --Added Loot here? should it be here?
-						local monroot = QuestieMonsters[monster];
-						if monroot then
-							local mondat = monroot['drops'];
-							if mondat and mondat[name] then
-								if mondat[name] then
-									local logid = Questie:GetQuestIdFromHash(k);
-									if logid then
-										SelectQuestLogEntry(logid);
-										local desc, typ, done = GetQuestLogLeaderBoard(m[1]['objectiveid']);
-										local indx = findLast(desc, ":");
-										local countstr = string.sub(desc, indx+2);
-										GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
-										GameTooltip:AddLine("   " .. name .. ": " .. countstr, 1, 1, 0.2)
-									end
-								end
-							else
-								--Use the cache not to run unessecary objectives
-								local p = nil;
-								for dropper, value in pairs(QuestieCachedMonstersAndObjects[k]) do
-									if(string.find(dropper, monster)) then
-										local logid = Questie:GetQuestIdFromHash(k);
-										if logid then
-											SelectQuestLogEntry(logid);
-											local count =  GetNumQuestLeaderBoards();
-											for obj = 1, count do
-												local desc, typ, done = GetQuestLogLeaderBoard(obj);
-												local indx = findLast(desc, ":");
-												local countstr = string.sub(desc, indx+2);
-												local namestr = string.sub(desc, 1, indx-1);
-												if(string.find(name, monster) and QuestieItems[namestr] and QuestieItems[namestr]['drop']) then -- Added Find to fix zapped giants (THIS IS NOT TESTED IF YOU FIND ERRORS REPORT!)
-													for dropperr, id in pairs(QuestieItems[namestr]['drop']) do
-														if(name == dropperr or (string.find(name, dropperr) and name == dropperr) and not p) then-- Added Find to fix zapped giants (THIS IS NOT TESTED IF YOU FIND ERRORS REPORT!)
-															GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
-															GameTooltip:AddLine("   " .. namestr .. ": " .. countstr, 1, 1, 0.2)
-															p = true;
-															break;
-														end
-													end
-												end
-											end
-										end
-									end
-									if(p)then
-										break;
-									end
-								end
-							end
-						end
-					end
-			end
-			end
-		end
-	elseif objective and GetTime() - Questie_LastTooltip > 0.05 then
-		for k,v in pairs(QuestieHandledQuests) do
-			local obj = v['objectives']['objectives'];
-			if ( obj ) then
-				for name,m in pairs(obj) do
-					if (m[1] and m[1]['type'] == "object") then
-						local i, j = string.gfind(name, objective);
-						if(i and j and QuestieObjects[m["name"]]) then
-							GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
-							GameTooltip:AddLine("   " .. name, 1, 1, 0.2)
-						end
-					elseif (m[1] and (m[1]['type'] == "item" or m[1]['type'] == "loot") and name == objective) then
-						if(QuestieItems[objective]) then
-							GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
-							local logid = Questie:GetQuestIdFromHash(k);
-							SelectQuestLogEntry(logid);
-							local desc, typ, done = GetQuestLogLeaderBoard(m[1]['objectiveid']);
-							local indx = findLast(desc, ":");
-							local countstr = string.sub(desc, indx+2);
-							GameTooltip:AddLine("   " .. name .. ": " .. countstr, 1, 1, 0.2)
-						end
-					end
-				end
-			end
+---------------------------------------------------------------------------------------------------
+-- Displays to the player all Questie vars
+---------------------------------------------------------------------------------------------------
+function Questie:CurrentUserToggles()
+	DEFAULT_CHAT_FRAME:AddMessage("Questie Settings:", 0.5, 0.5, 1)
+	local Vars = {
+		[1] = { "alwaysShowLevel" },
+		[2] = { "alwaysShowQuests" },
+		[3] = { "arrowEnabled" },
+		[4] = { "boldColors" },
+		[5] = { "maxLevelFilter" },
+		[6] = { "maxShowLevel" },
+		[7] = { "minLevelFilter" },
+		[8] = { "minShowLevel" },
+		[9] = { "showMapAids" },
+		[10] = { "showProfessionQuests" },
+		[11] = { "showTrackerHeader" },
+		[12] = { "trackerEnabled" },
+		[13] = { "trackerList" },
+		[14] = { "resizeWorldmap" },
+		[15] = { "getVersion" },
+	}
+	if QuestieConfig then
+		i = 1
+		v = 1
+		while Vars[i] and Vars[i][v]do
+			curVar = Vars[i][v]
+			DEFAULT_CHAT_FRAME:AddMessage("  "..curVar.." = "..(tostring(QuestieConfig[curVar])), 0.5, 0.5, 1)
+			i = i + 1
 		end
 	end
-	if(QUESTIE_DEBUG_TOOLTIP) then
-		GameTooltip:AddLine("--Questie hook--")
-	end
-	if(forceShow) then
-		GameTooltip:Show();
-	end
-	Questie_LastTooltip = GetTime();
 end
-
+---------------------------------------------------------------------------------------------------
+-- Misc helper functions and short cuts
+---------------------------------------------------------------------------------------------------
 function Questie:LinkToID(link)
 	if link then
 		local _, _, id = string.find(link, "(%d+):")
 		return tonumber(id)
 	end
 end
-
-lastShow = GetTime();
-QWERT = nil;
-
---[[ OLD CODE BELOW! ]]--
-
-_GetQuestLogQuestText = GetQuestLogQuestText;
-function GetQuestLogQuestText()
-	Questie.needsUpdate = true;
-	return _GetQuestLogQuestText(); -- why was this return removed?
-end
-
-function getCurrentMapID()
+---------------------------------------------------------------------------------------------------
+function GetCurrentMapID()
 	local file = GetMapInfo()
-	if file == nil then -- thanks optim for finding a null bug here
+	if file == nil then
 		return -1
 	end
 	local zid = QuestieZones[file];
@@ -970,87 +878,33 @@ function getCurrentMapID()
 		return zid[1];
 	end
 end
-
-function Questie:getQuestHash(name, level, objectiveText)
-	local hashLevel = level or "hashLevel"
-	local hashText = objectiveText or "hashText"
-	if QuestieQuestHashCache[name..hashLevel..hashText] then
-		return QuestieQuestHashCache[name..hashLevel..hashText]
-	end
-	local questLookup = QuestieLevLookup[name];
-	local hasOthers = false;
-	if questLookup then
-		local count = 0;
-		local retval = 0;
-		local bestDistance = 4294967295; -- some high number (0xFFFFFFFF)
-		local race = UnitRace("Player");
-		for k,v in pairs(questLookup) do
-			local rr = v[1];
-			if checkRequirements(null, race, null, rr) or true then
-				if count == 1 then
-					hasOthers = true;
-				end
-				if k == objectiveText then
-					QuestieQuestHashCache[name..hashLevel..hashText] = v[2];
-					return v[2],hasOthers; -- exact match
-				end
-				local dist = 4294967294;
-				if not (objectiveText == nil) then
-					dist = Questie:levenshtein(objectiveText, k);
-				end
-				if dist < bestDistance then
-					bestDistance = dist;
-					retval = v[2];
-				end
-			else
-			end
-			count = count + 1;
-		end
-		if not (retval == 0) then
-			QuestieQuestHashCache[name..hashLevel..hashText] = retval;
-			return retval, hasOthers; -- nearest match
-		end
-	end
-	if name == nil then
-		return -1;
-	end
-	local hash = Questie:mixString(0, name);
-	if not (level == nil) then
-		hash = Questie:mixInt(hash, level);
-		QuestieQuestHashCache[name..hashLevel..hashText] = hash;
-	end
-	if not (objectiveText == nil) then
-		hash = Questie:mixString(hash, objectiveText);
-		QuestieQuestHashCache[name..hashLevel..hashText] = hash;
-	end
-	QuestieQuestHashCache[name..hashLevel..hashText] = hash;
-	return hash, false;
+---------------------------------------------------------------------------------------------------
+function Questie:MixString(mix, str)
+	return Questie:MixInt(mix, Questie:HashString(str));
 end
-
-function Questie:mixString(mix, str)
-	return Questie:mixInt(mix, Questie:HashString(str));
-end
-
-function Questie:HashString(text) -- Computes an Adler-32 checksum. (Thanks QuestHelper)
+---------------------------------------------------------------------------------------------------
+-- Computes an Adler-32 checksum.
+function Questie:HashString(text)
 	local a, b = 1, 0
 	for i=1,string.len(text) do
-		a = Questie:modulo((a+string.byte(text,i)), 65521)
-		b = Questie:modulo((b+a), 65521)
+		a = Questie:Modulo((a+string.byte(text,i)), 65521)
+		b = Questie:Modulo((b+a), 65521)
 	end
 	return b*65536+a
 end
-
-function Questie:modulo(val, by) -- lua5 doesnt support mod math via the % operator :(
+---------------------------------------------------------------------------------------------------
+-- Lua5 doesnt support mod math via the % operator
+function Questie:Modulo(val, by)
 	return val - math.floor(val/by)*by
 end
-
-function Questie:mixInt(hash, addval)
+---------------------------------------------------------------------------------------------------
+function Questie:MixInt(hash, addval)
 	return bit.lshift(hash, 6) + addval;
 end
-
+---------------------------------------------------------------------------------------------------
 -- Returns the Levenshtein distance between the two given strings
 -- credit to https://gist.github.com/Badgerati/3261142
-function Questie:levenshtein(str1, str2)
+function Questie:Levenshtein(str1, str2)
 	local len1 = string.len(str1)
 	local len2 = string.len(str2)
 	local matrix = {}
@@ -1085,8 +939,6 @@ function Questie:levenshtein(str1, str2)
 	-- return the last value - this is the Levenshtein distance
 	return matrix[len1][len2]
 end
-
-function findLast(haystack, needle)
-	local i=string.gfind(haystack, ".*"..needle.."()")()
-	if i==nil then return nil else return i-1 end
-end
+---------------------------------------------------------------------------------------------------
+-- End of misc helper functions and short cuts
+---------------------------------------------------------------------------------------------------
