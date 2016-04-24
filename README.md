@@ -1,6 +1,7 @@
-# Questie - A Vanilla World of Warcraft 1.12.1 QuestHelper
+# Questie
+**A quest helper for World of Warcraft (1.12.1) - Vanilla**
 
-#<a href="https://github.com/AeroScripts/QuestieDev/releases">Download HERE</a>
+#<a href="https://github.com/AeroScripts/QuestieDev/releases/latest">Download HERE</a>
 After weeks of additional development, Questie v2.0 is finally out. We are steadily approaching 400 commits and gained a third developer since then.
 
 We have since moved away from Cartographer and now support all mapping addons, making us a standalone QuestHelper. We just draw frames on the world map ourselves. In addition to that, all notes now work across zones and display on any zoomlevel of the map. 
