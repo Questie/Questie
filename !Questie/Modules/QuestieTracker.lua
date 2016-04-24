@@ -386,15 +386,9 @@ function QuestieTracker:fillTrackingFrame()
 			end
 		end
 	end
-	if (QuestieConfig.trackerList == true) then
-		sort(distanceNotes, function (a, b)
-			return a["dist"] > b["dist"]
-		end)
-	elseif (QuestieConfig.trackerList == false) then
-			sort(distanceNotes, function (a, b)
-			return a["dist"] < b["dist"]
-		end)
-	end
+	sort(distanceNotes, function (a, b)
+		return a["dist"] < b["dist"]
+	end)
 	for k,v in pairs(distanceNotes) do
 		if not distanceControlTable[v["hash"]] then
 			distanceControlTable[v["hash"]] = true
@@ -881,6 +875,8 @@ function QuestieTracker:ADDON_LOADED()
 	QuestWatchFrame.Show = function ()
 	end;
 	-- This adds the ability to scale the Worldmap from FULLSCREEN or to a WINDOW if a player isn't using Cargographer or MetaMap.
+	if (QuestieConfig == nil) then return end
+	if (QuestieConfig.resizeWorldmap == nil) then return end
 	if (QuestieConfig.resizeWorldmap == false) then return end
 	if (IsAddOnLoaded("Cartographer")) or (IsAddOnLoaded("MetaMap")) then
 		return

@@ -55,6 +55,7 @@ function Questie:CheckQuestLog()
 		LastQuestLogHashes = Questie:AstroGetAllCurrentQuestHashesAsMeta();
 		for k, v in pairs(LastQuestLogHashes) do
 			Questie:AddQuestToMap(v["hash"]);
+			if (not QuestieHashMap[v["hash"]]) then return end
 			if(not QuestieSeenQuests[v["hash"]]) then
 				local req = QuestieHashMap[v["hash"]]['rq'];
 				if req then
@@ -100,6 +101,7 @@ function Questie:CheckQuestLog()
 	for k, v in pairs(delta) do
 		if(v["deltaType"] == 1) then
 			Questie:AddQuestToMap(v["hash"]);
+			if (not QuestieHashMap[v["hash"]]) then return end
 			if(not QuestieSeenQuests[v["hash"]]) then
 				local req = QuestieHashMap[v["hash"]]['rq'];
 				if req then
@@ -116,6 +118,7 @@ function Questie:CheckQuestLog()
 			if(not QuestieCompletedQuestMessages[v["name"]]) then
 				QuestieCompletedQuestMessages[v["name"]] = 0;
 			end
+			if (not QuestieHashMap[v["hash"]]) then return end
 			if(not QuestieSeenQuests[v["hash"]]) then
 				local req = QuestieHashMap[v["hash"]]['rq'];
 				if req then
