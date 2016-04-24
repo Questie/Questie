@@ -1,23 +1,25 @@
-## Interface: 11200
-## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v3.0|r
+## Interface: 20400
+## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v1.0|r
 ## Author: Aero/Schaka/Logonz/Dyaxler/everyone else
-## Notes: A standalone Vanilla QuestHelper
-## Version: 3.0
+## Notes: A standalone quest helper for WoW 2.4.3 (TBC)
+## Version: 1.0
 ## RequiredDeps:
 ## OptionalDeps: Cartographer, MetaMap
 ## SavedVariables:
 ## SavedVariablesPerCharacter: QuestieSeenQuests, QuestieTrackedQuests, QuestieConfig, QuestieTrackerVariables
 
-# Astrolabe
+# Ace Libs
 Libs\AceLibrary\AceLibrary.lua
 Libs\AceOO-2.0\AceOO-2.0.lua
 Libs\AceEvent-2.0\AceEvent-2.0.lua
-Libs\AceAddon-2.0\AceAddon-2.0.lua
-Libs\AceDB-2.0\AceDB-2.0.lua
 Libs\AceHook-2.1\AceHook-2.1.lua
+Libs\AceDB-2.0\AceDB-2.0.lua
+Libs\AceDebug-2.0\AceDebug-2.0.lua
 Libs\AceLocale-2.2\AceLocale-2.2.lua
-Libs\AceComm-2.0\AceComm-2.0.lua
+Libs\AceTab-2.0\AceTab-2.0.lua
 Libs\AceConsole-2.0\AceConsole-2.0.lua
+Libs\AceComm-2.0\AceComm-2.0.lua
+Libs\AceAddon-2.0\AceAddon-2.0.lua
 Libs\AceModuleCore-2.0\AceModuleCore-2.0.lua
 Libs\Dewdrop-2.0\Dewdrop-2.0.lua
 Libs\Babble-Zone-2.2\Babble-Zone-2.2.lua
@@ -25,6 +27,9 @@ Libs\Babble-Boss-2.2\Babble-Boss-2.2.lua
 Libs\Babble-Spell-2.2\Babble-Spell-2.2.lua
 Libs\Tablet-2.0\Tablet-2.0.lua
 Libs\Tourist-2.0\Tourist-2.0.lua
+
+# Astrolabe
+Astrolabe\Load.xml
 
 # Questie Database
 Database\items.lua
@@ -35,7 +40,6 @@ Database\hash.lua
 Database\finishers.lua
 Database\objects.lua
 Database\addendum.lua
-Astrolabe\Astrolabe.lua
 
 # Questie
 Questie.lua

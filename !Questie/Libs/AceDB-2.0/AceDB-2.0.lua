@@ -1,27 +1,42 @@
---[[
+﻿--[[
 Name: AceDB-2.0
-Revision: $Rev: 15896 $
+Revision: $Rev: 1091 $
 Developed by: The Ace Development Team (http://www.wowace.com/index.php/The_Ace_Development_Team)
 Inspired By: Ace 1.x by Turan (turan@gryphon.com)
 Website: http://www.wowace.com/
 Documentation: http://www.wowace.com/index.php/AceDB-2.0
-SVN: http://svn.wowace.com/root/trunk/Ace2/AceDB-2.0
+SVN: http://svn.wowace.com/wowace/trunk/Ace2/AceDB-2.0
 Description: Mixin to allow for fast, clean, and featureful saved variable
              access.
 Dependencies: AceLibrary, AceOO-2.0, AceEvent-2.0
+License: LGPL v2.1
 ]]
 
 local MAJOR_VERSION = "AceDB-2.0"
-local MINOR_VERSION = "$Revision: 15896 $"
+local MINOR_VERSION = 90000 + tonumber(("$Revision: 1091 $"):match("(%d+)"))
 
 if not AceLibrary then error(MAJOR_VERSION .. " requires AceLibrary") end
 if not AceLibrary:IsNewVersion(MAJOR_VERSION, MINOR_VERSION) then return end
 
 if not AceLibrary:HasInstance("AceOO-2.0") then error(MAJOR_VERSION .. " requires AceOO-2.0") end
 
-local ACTIVE, ENABLED, STATE, TOGGLE_ACTIVE, MAP_ACTIVESUSPENDED, SET_PROFILE, SET_PROFILE_USAGE, PROFILE, PLAYER_OF_REALM, CHOOSE_PROFILE_DESC, CHOOSE_PROFILE_GUI, COPY_PROFILE_DESC, COPY_PROFILE_GUI, OTHER_PROFILE_DESC, OTHER_PROFILE_GUI, OTHER_PROFILE_USAGE, CHARACTER, REALM, CLASS
+local function safecall(func,...)
+	local success, err = pcall(func,...)
+	if not success then geterrorhandler()(err) end
+end
+
+local ACTIVE, ENABLED, STATE, TOGGLE_ACTIVE, MAP_ACTIVESUSPENDED, SET_PROFILE, SET_PROFILE_USAGE, PROFILE, PLAYER_OF_REALM, CHOOSE_PROFILE_DESC, CHOOSE_PROFILE_GUI, COPY_PROFILE_DESC, COPY_PROFILE_GUI, OTHER_PROFILE_DESC, OTHER_PROFILE_GUI, OTHER_PROFILE_USAGE, RESET_PROFILE, RESET_PROFILE_DESC, CHARACTER_COLON, REALM_COLON, CLASS_COLON, DEFAULT, ALTERNATIVE
+
+-- Move these into "enUS" when they've been translated in all other locales
+local DELETE_PROFILE = "Delete"
+local DELETE_PROFILE_DESC = "Deletes a profile. Note that no check is made whether this profile is in use by other characters or not."
+local DELETE_PROFILE_USAGE = "<profile name>"
 
 if GetLocale() == "deDE" then
+	DELETE_PROFILE = "L\195\182schen"
+	DELETE_PROFILE_DESC = "L\195\182scht ein Profil. Beachte das nicht \195\188berpr\195\188ft wird ob das zu l\195\182schende Profil von anderen Charakteren genutzt wird oder nicht."
+	DELETE_PROFILE_USAGE = "<profil name>"
+
 	ACTIVE = "Aktiv"
 	ENABLED = "Aktiviert"
 	STATE = "Status"
@@ -38,10 +53,15 @@ if GetLocale() == "deDE" then
 	OTHER_PROFILE_DESC = "W\195\164hle ein anderes Profil."
 	OTHER_PROFILE_GUI = "Anderes"
 	OTHER_PROFILE_USAGE = "<Profilname>"
+	RESET_PROFILE = "Resette das Profil"
+	RESET_PROFILE_DESC = "Entfernt alle Einstellungen des gegenw\195\164rtigen Profils."
 
-	CHARACTER = "Charakter: "
-	REALM = "Realm: "
-	CLASS = "Klasse: "
+	CHARACTER_COLON = "Charakter: "
+	REALM_COLON = "Realm: "
+	CLASS_COLON = "Klasse: "
+
+	DEFAULT = "Vorgabe"
+	ALTERNATIVE = "Alternativ"
 elseif GetLocale() == "frFR" then
 	ACTIVE = "Actif"
 	ENABLED = "Activ\195\169"
@@ -59,52 +79,75 @@ elseif GetLocale() == "frFR" then
 	OTHER_PROFILE_DESC = "Choisissez un autre profil."
 	OTHER_PROFILE_GUI = "Autre"
 	OTHER_PROFILE_USAGE = "<nom de profil>"
+	RESET_PROFILE = "Reset profile" -- fix
+	RESET_PROFILE_DESC = "Clear all settings of the current profile." -- fix
 
-	CHARACTER = "Personnage: "
-	REALM = "Royaume: "
-	CLASS = "Classe: "
+	CHARACTER_COLON = "Personnage: "
+	REALM_COLON = "Royaume: "
+	CLASS_COLON = "Classe: "
+
+	DEFAULT = "Default" -- fix
+	ALTERNATIVE = "Alternative" -- fix
 elseif GetLocale() == "koKR" then
-	ACTIVE = "활성화"
-	ENABLED = "활성화"
+	DELETE_PROFILE = "삭제"
+	DELETE_PROFILE_DESC = "프로필을 삭제합니다."
+	DELETE_PROFILE_USAGE = "<프로필명>"
+
+	ACTIVE = "사용"
+	ENABLED = "사용"
 	STATE = "상태"
-	TOGGLE_ACTIVE = "이 애드온 중지/계속 실행"
-	MAP_ACTIVESUSPENDED = { [true] = "|cff00ff00활성화|r", [false] = "|cffff0000중지됨|r" }
+	TOGGLE_ACTIVE = "이 애드온 중지/다시 시작"
+	MAP_ACTIVESUSPENDED = { [true] = "|cff00ff00사용|r", [false] = "|cffff0000중지|r" }
 	SET_PROFILE = "이 애드온에 프로필 설정"
 	SET_PROFILE_USAGE = "{캐릭터명 || 직업 || 서버명 || <프로필명>}"
 	PROFILE = "프로필"
 	PLAYER_OF_REALM = "%s (%s 서버)"
-	CHOOSE_PROFILE_DESC = "프로파일을 선택합니다."
+	CHOOSE_PROFILE_DESC = "프로필을 선택합니다."
 	CHOOSE_PROFILE_GUI = "선택"
-	COPY_PROFILE_DESC = "다른 프로파일에서 설정을 복사합니다."
+	COPY_PROFILE_DESC = "다른 프로필 설정을 복사합니다."
 	COPY_PROFILE_GUI = "복사"
-	OTHER_PROFILE_DESC = "다른 프로파일을 선택합니다."
+	OTHER_PROFILE_DESC = "다른 프로필을 선택합니다."
 	OTHER_PROFILE_GUI = "기타"
-	OTHER_PROFILE_USAGE = "<프로파일명>"
+	OTHER_PROFILE_USAGE = "<프로필명>"
+	RESET_PROFILE = "프로필 초기화"
+	RESET_PROFILE_DESC = "모든 세팅에서 현재 프로필을 초기화 합니다."
 
-	CHARACTER = "캐릭터: "
-	REALM = "서버: "
-	CLASS = "직업: "
+	CHARACTER_COLON = "캐릭터: "
+	REALM_COLON = "서버: "
+	CLASS_COLON = "직업: "
+
+	DEFAULT = "기본값"
+	ALTERNATIVE = "대체"
 elseif GetLocale() == "zhTW" then
+	DELETE_PROFILE = "刪除"
+	DELETE_PROFILE_DESC = "刪除記錄檔。注意，有可能別的角色也使用這個記錄檔。"
+	DELETE_PROFILE_USAGE = "<記錄檔名稱>"
+
 	ACTIVE = "啟動"
 	ENABLED = "啟用"
 	STATE = "狀態"
-	TOGGLE_ACTIVE = "暫停/重啟這個插件。"
+	TOGGLE_ACTIVE = "暫停/繼續使用這個插件。"
 	MAP_ACTIVESUSPENDED = { [true] = "|cff00ff00啟動|r", [false] = "|cffff0000已暫停|r" }
 	SET_PROFILE = "設定這插件的記錄檔。"
-	SET_PROFILE_USAGE = "{角色 || 聯業 || 伺服器 || <記錄檔名稱>}"
+	SET_PROFILE_USAGE = "{角色 || 職業 || 伺服器 || <記錄檔名稱>}"
 	PROFILE = "記錄檔"
-	PLAYER_OF_REALM = "%s 於 %s"
-	CHOOSE_PROFILE_DESC = "選擇一個記錄檔"
+	PLAYER_OF_REALM = "%s - %s"
+	CHOOSE_PROFILE_DESC = "選擇一個記錄檔。"
 	CHOOSE_PROFILE_GUI = "選擇"
 	COPY_PROFILE_DESC = "由其他記錄檔複製設定。"
-	COPY_PROFILE_GUI = "複製由"
+	COPY_PROFILE_GUI = "複製自"
 	OTHER_PROFILE_DESC = "選擇其他記錄檔。"
 	OTHER_PROFILE_GUI = "其他"
 	OTHER_PROFILE_USAGE = "<記錄檔名稱>"
+	RESET_PROFILE = "重設記錄檔"
+	RESET_PROFILE_DESC = "清除目前的記錄檔上的所有設定。"
 
-	CHARACTER = "角色："
-	REALM = "伺服器："
-	CLASS = "聯業："
+	CHARACTER_COLON = "角色: "
+	REALM_COLON = "伺服器: "
+	CLASS_COLON = "職業: "
+
+	DEFAULT = "預設"
+	ALTERNATIVE = "替代"
 elseif GetLocale() == "zhCN" then
 	ACTIVE = "\230\156\137\230\149\136"
 	ENABLED = "\229\144\175\231\148\168"
@@ -122,10 +165,71 @@ elseif GetLocale() == "zhCN" then
 	OTHER_PROFILE_DESC = "\233\128\137\230\139\169\229\143\166\228\184\128\228\184\170\233\133\141\231\189\174\230\150\135\228\187\182."
 	OTHER_PROFILE_GUI = "\229\133\182\228\187\150"
 	OTHER_PROFILE_USAGE = "<\233\133\141\231\189\174\230\150\135\228\187\182\229\144\141\229\173\151>"
+	RESET_PROFILE = "Reset profile" -- fix
+	RESET_PROFILE_DESC = "Clear all settings of the current profile." -- fix
 
-	CHARACTER = "\229\173\151\231\172\166: "
-	REALM = "\229\159\159: "
-	CLASS = "\233\128\137\228\187\182\231\177\187: "
+	CHARACTER_COLON = "\229\173\151\231\172\166: "
+	REALM_COLON = "\229\159\159: "
+	CLASS_COLON = "\233\128\137\228\187\182\231\177\187: "
+
+	DEFAULT = "Default" -- fix
+	ALTERNATIVE = "Alternative" -- fix
+elseif GetLocale() == "esES" then
+	ACTIVE = "Activo"
+	ENABLED = "Activado"
+	STATE = "Estado"
+	TOGGLE_ACTIVE = "Parar/Continuar este accesorio"
+	MAP_ACTIVESUSPENDED = { [true] = "|cff00ff00Activo|r", [false] = "|cffff0000Parado|r" }
+	SET_PROFILE = "Selecciona el perfil para este accesorio."
+	SET_PROFILE_USAGE = "{perso || clase || reino || <nombre del perfil>}"
+	PROFILE = "Perfil"
+	PLAYER_OF_REALM = "%s de %s"
+	CHOOSE_PROFILE_DESC = "Elige un perfil."
+	CHOOSE_PROFILE_GUI = "Elige"
+	COPY_PROFILE_DESC = "Copiar de un perfil a otro"
+	COPY_PROFILE_GUI = "Copiar desde"
+	OTHER_PROFILE_DESC = "Elige otro perfil."
+	OTHER_PROFILE_GUI = "Otro"
+	OTHER_PROFILE_USAGE = "<nombre del perfil>"
+	RESET_PROFILE = "Reset profile" -- fix
+	RESET_PROFILE_DESC = "Clear all settings of the current profile." -- fix
+
+	CHARACTER_COLON = "Personaje: "
+	REALM_COLON = "Reino: "
+	CLASS_COLON = "Clase: "
+
+	DEFAULT = "Por defecto"
+	ALTERNATIVE = "Alternativo"
+elseif GetLocale() == "ruRU" then
+	DELETE_PROFILE = "Удалить"
+	DELETE_PROFILE_DESC = "Удалить профиль. Изначально проверьте не используется ли этот профиль другими персонажами, чтобы не натворить себе неудобств."
+	DELETE_PROFILE_USAGE = "<название профиляe>"
+
+	ACTIVE = "Активный"
+	ENABLED = "Включён"
+	STATE = "Состояние"
+	TOGGLE_ACTIVE = "Отключить/Запустить аддон."
+	MAP_ACTIVESUSPENDED = { [true] = "|cff00ff00Активный|r", [false] = "|cffff0000Suspended|r" }
+	SET_PROFILE = "Установить профиль для этого аддона."
+	SET_PROFILE_USAGE = "{чар || класс || сервер || <название профиля>}"
+	PROFILE = "Профиль"
+	PLAYER_OF_REALM = "%s из %s"
+	CHOOSE_PROFILE_DESC = "Выберите профиль."
+	CHOOSE_PROFILE_GUI = "Выбор"
+	COPY_PROFILE_DESC = "Скопировать настройки с другого профиля."
+	COPY_PROFILE_GUI = "Скопировать с"
+	OTHER_PROFILE_DESC = "Выбрать другой профиль."
+	OTHER_PROFILE_GUI = "Другое"
+	OTHER_PROFILE_USAGE = "<название профиля>"
+	RESET_PROFILE = "Сброс профиля"
+	RESET_PROFILE_DESC = "Очистить все настройки для текущего профиля."
+
+	CHARACTER_COLON = "Персонаж: "
+	REALM_COLON = "Сервер: "
+	CLASS_COLON = "Класс: "
+
+	DEFAULT = "По умолчанию"
+	ALTERNATIVE = "Альтернатива"
 else -- enUS
 	ACTIVE = "Active"
 	ENABLED = "Enabled"
@@ -143,10 +247,26 @@ else -- enUS
 	OTHER_PROFILE_DESC = "Choose another profile."
 	OTHER_PROFILE_GUI = "Other"
 	OTHER_PROFILE_USAGE = "<profile name>"
+	RESET_PROFILE = "Reset profile"
+	RESET_PROFILE_DESC = "Clear all settings of the current profile."
 
-	CHARACTER = "Character: "
-	REALM = "Realm: "
-	CLASS = "Class: "
+	CHARACTER_COLON = "Character: "
+	REALM_COLON = "Realm: "
+	CLASS_COLON = "Class: "
+
+	DEFAULT = "Default"
+	ALTERNATIVE = "Alternative"
+end
+local convertFromOldCharID
+do
+	local matchStr = "^" .. PLAYER_OF_REALM:gsub("([%(%)%.%*%+%-%[%]%?%^%$%%])", "%%%1"):gsub("%%s", "(.+)") .. "$"
+	function convertFromOldCharID(str)
+		local player, realm = str:match(matchStr)
+		if not player then
+			return str
+		end
+		return player .. " - " .. realm
+	end
 end
 
 local AceOO = AceLibrary("AceOO-2.0")
@@ -158,6 +278,8 @@ local AceDB = Mixin {
 						"ResetDB",
 						"SetProfile",
 						"GetProfile",
+						"CopyProfileFrom",
+						"DeleteProfile",
 						"ToggleActive",
 						"IsActive",
 						"AcquireDBNamespace",
@@ -166,23 +288,12 @@ local Dewdrop = AceLibrary:HasInstance("Dewdrop-2.0") and AceLibrary("Dewdrop-2.
 
 local _G = getfenv(0)
 
-local table_setn
-do
-	local version = GetBuildInfo()
-	if string.find(version, "^2%.") then
-		-- 2.0.0
-		table_setn = function() end
-	else
-		table_setn = table.setn
-	end
-end
-
 local function inheritDefaults(t, defaults)
 	if not defaults then
 		return t
 	end
 	for k,v in pairs(defaults) do
-		if k == "*" then
+		if k == "*" or k == "**" then
 			local v = v
 			if type(v) == "table" then
 				setmetatable(t, {
@@ -207,17 +318,20 @@ local function inheritDefaults(t, defaults)
 				} )
 			end
 			for key in pairs(t) do
-				if (defaults[key] == nil or key == "*") and type(t[key]) == "table" then
+				if (defaults[key] == nil or key == k) and type(t[key]) == "table" then
 					inheritDefaults(t[key], v)
 				end
 			end
 		else
 			if type(v) == "table" then
-				if type(t[k]) ~= "table" then
+				if type(rawget(t, k)) ~= "table" then
 					t[k] = {}
 				end
 				inheritDefaults(t[k], v)
-			elseif t[k] == nil then
+				if defaults["**"] then
+					inheritDefaults(t[k], defaults["**"])
+				end
+			elseif rawget(t, k) == nil then
 				t[k] = v
 			end
 		end
@@ -227,14 +341,14 @@ end
 
 local _,race = UnitRace("player")
 local faction
-if race == "Orc" or race == "Scourge" or race == "Troll" or race == "Tauren" then
+if race == "Orc" or race == "Scourge" or race == "Troll" or race == "Tauren" or race == "BloodElf" then
 	faction = FACTION_HORDE
 else
 	faction = FACTION_ALLIANCE
 end
-local charID = string.format(PLAYER_OF_REALM, UnitName("player"), (string.gsub(GetRealmName(), "^%s*(.-)%s*$", "%1")))
-local realm = string.gsub(GetRealmName(), "^%s*(.-)%s*$", "%1")
-local realmID = realm .. " - " .. faction
+local server = GetRealmName():trim()
+local charID = UnitName("player") .. " - " .. server
+local realmID = server .. " - " .. faction
 local classID = UnitClass("player")
 
 AceDB.CHAR_ID = charID
@@ -242,7 +356,7 @@ AceDB.REALM_ID = realmID
 AceDB.CLASS_ID = classID
 
 AceDB.FACTION = faction
-AceDB.REALM = realm
+AceDB.REALM = server
 AceDB.NAME = UnitName("player")
 
 local new, del
@@ -263,7 +377,6 @@ do
 		for k in pairs(t) do
 			t[k] = nil
 		end
-		table_setn(t, 0)
 		list[t] = true
 	end
 end
@@ -273,9 +386,9 @@ local caseInsensitive_mt = {
 		if type(key) ~= "string" then
 			return nil
 		end
-		local lowerKey = string.lower(key)
+		local lowerKey = key:lower()
 		for k,v in pairs(self) do
-			if string.lower(k) == lowerKey then
+			if k:lower() == lowerKey then
 				return self[k]
 			end
 		end
@@ -284,9 +397,9 @@ local caseInsensitive_mt = {
 		if type(key) ~= "string" then
 			return error("table index is nil", 2)
 		end
-		local lowerKey = string.lower(key)
+		local lowerKey = key:lower()
 		for k in pairs(self) do
-			if string.lower(k) == lowerKey then
+			if k:lower() == lowerKey then
 				rawset(self, k, nil)
 				rawset(self, key, value)
 				return
@@ -333,6 +446,19 @@ local db_mt = { __index = function(db, key)
 			inheritDefaults(db.realm, db.defaults.realm)
 		end
 		return db.realm
+	elseif key == "server" then
+		if type(db.raw.servers) ~= "table" then
+			db.raw.servers = {}
+		end
+		local id = server
+		if type(db.raw.servers[id]) ~= "table" then
+			db.raw.servers[id] = {}
+		end
+		rawset(db, 'server', db.raw.servers[id])
+		if db.defaults and db.defaults.server then
+			inheritDefaults(db.server, db.defaults.server)
+		end
+		return db.server
 	elseif key == "account" then
 		if type(db.raw.account) ~= "table" then
 			db.raw.account = {}
@@ -342,6 +468,19 @@ local db_mt = { __index = function(db, key)
 			inheritDefaults(db.account, db.defaults.account)
 		end
 		return db.account
+	elseif key == "faction" then
+		if type(db.raw.factions) ~= "table" then
+			db.raw.factions = {}
+		end
+		local id = faction
+		if type(db.raw.factions[id]) ~= "table" then
+			db.raw.factions[id] = {}
+		end
+		rawset(db, 'faction', db.raw.factions[id])
+		if db.defaults and db.defaults.faction then
+			inheritDefaults(db.faction, db.defaults.faction)
+		end
+		return db.faction
 	elseif key == "class" then
 		if type(db.raw.classes) ~= "table" then
 			db.raw.classes = {}
@@ -380,33 +519,130 @@ local db_mt = { __index = function(db, key)
 	elseif key == "raw" or key == "defaults" or key == "name" or key == "charName" or key == "namespaces" then
 		return nil
 	end
-	error(string.format('Cannot access key %q in db table. You may want to use db.profile[%q]', tostring(key), tostring(key)), 2)
+	error(("Cannot access key %q in db table. You may want to use db.profile[%q]"):format(tostring(key), tostring(key)), 2)
 end, __newindex = function(db, key, value)
-	error(string.format('Cannot access key %q in db table. You may want to use db.profile[%q]', tostring(key), tostring(key)), 2)
+	error(("Cannot access key %q in db table. You may want to use db.profile[%q]"):format(tostring(key), tostring(key)), 2)
 end }
+
+local function RecalculateAceDBCopyFromList(target)
+	local db = target.db
+	local t = target['acedb-profile-copylist']
+	for k,v in pairs(t) do
+		t[k] = nil
+	end
+	local _,currentProfile = AceDB.GetProfile(target)
+	if db and db.raw then
+		if db.raw.profiles then
+			for k in pairs(db.raw.profiles) do
+				if currentProfile ~= k then
+					if k:find("^char/") then
+						local name = k:sub(6)
+						local player, realm = name:match("^(.*) %- (.*)$")
+						if player then
+							name = PLAYER_OF_REALM:format(player, realm)
+						end
+						t[k] = CHARACTER_COLON .. name
+					elseif k:find("^realm/") then
+						local name = k:sub(7)
+						t[k] = REALM_COLON .. name
+					elseif k:find("^class/") then
+						local name = k:sub(7)
+						t[k] = CLASS_COLON .. name
+					else
+						t[k] = k
+					end
+				end
+			end
+		end
+		if db.raw.namespaces then
+			for _,n in pairs(db.raw.namespaces) do
+				if n.profiles then
+					for k in pairs(n.profiles) do
+						if currentProfile ~= k then
+							if k:find('^char/') then
+								local name = k:sub(6)
+								local player, realm = name:match("^(.*) %- (.*)$")
+								if player then
+									name = PLAYER_OF_REALM:format(player, realm)
+								end
+								t[k] = CHARACTER_COLON .. name
+							elseif k:find('^realm/') then
+								local name = k:sub(7)
+								t[k] = REALM_COLON .. name
+							elseif k:find('^class/') then
+								local name = k:sub(7)
+								t[k] = CLASS_COLON .. name
+							else
+								t[k] = k
+							end
+						end
+					end
+				end
+			end
+		end
+	end
+	if t.Default then
+		t.Default = DEFAULT
+	end
+	if t.Alternative then
+		t.Alternative = ALTERNATIVE
+	end
+end
+
+local function RecalculateAceDBProfileList(target)
+	local t = target['acedb-profile-list']
+	for k,v in pairs(t) do
+		t[k] = nil
+	end
+	t.char = CHARACTER_COLON .. PLAYER_OF_REALM:format(UnitName("player"), server)
+	t.realm = REALM_COLON .. realmID
+	t.class = CLASS_COLON .. classID
+	t.Default = DEFAULT
+	local db = target.db
+	if db and db.raw then
+		if db.raw.profiles then
+			for k in pairs(db.raw.profiles) do
+				if not k:find("^char/") and not k:find("^realm/") and not k:find("^class/") then
+					t[k] = k
+				end
+			end
+		end
+		if db.raw.namespaces then
+			for _,n in pairs(db.raw.namespaces) do
+				if n.profiles then
+					for k in pairs(n.profiles) do
+						if not k:find("^char/") and not k:find("^realm/") and not k:find("^class/") then
+							t[k] = k
+						end
+					end
+				end
+			end
+		end
+		local curr = db.raw.currentProfile and db.raw.currentProfile[charID]
+		if curr and not t[curr] then
+			t[curr] = curr
+		end
+	end
+	if t.Alternative then
+		t.Alternative = ALTERNATIVE
+	end
+end
 
 local CrawlForSerialization
 local CrawlForDeserialization
 
 local function SerializeObject(o)
 	local t = { o:Serialize() }
-	t[0] = o.class:GetLibraryVersion()
 	CrawlForSerialization(t)
+	t[0] = o.class:GetLibraryVersion()
 	return t
 end
 
 local function DeserializeObject(t)
 	CrawlForDeserialization(t)
 	local className = t[0]
-	for i = 20, 1, -1 do
-		if t[i] then
-			table_setn(t, i)
-			break
-		end
-	end
-	local o = AceLibrary(className):Deserialize(unpack(t))
-	table_setn(t, 0)
-	return o
+	t[0] = nil
+	return AceLibrary(className):Deserialize(unpack(t))
 end
 
 local function IsSerializable(t)
@@ -419,7 +655,7 @@ function CrawlForSerialization(t)
 		tmp[k] = v
 	end
 	for k,v in pairs(tmp) do
-		if type(v) == "table" and type(v[0]) ~= "userdata" then
+		if type(v) == "table" and type(rawget(v, 0)) ~= "userdata" then
 			if IsSerializable(v) then
 				v = SerializeObject(v)
 				t[k] = v
@@ -427,7 +663,7 @@ function CrawlForSerialization(t)
 				CrawlForSerialization(v)
 			end
 		end
-		if type(k) == "table" and type(k[0]) ~= "userdata" then
+		if type(k) == "table" and type(rawget(k, 0)) ~= "userdata" then
 			if IsSerializable(k) then
 				t[k] = nil
 				t[SerializeObject(k)] = v
@@ -442,7 +678,7 @@ function CrawlForSerialization(t)
 end
 
 local function IsDeserializable(t)
-	return type(t[0]) == "string" and AceLibrary:HasInstance(t[0])
+	return type(rawget(t, 0)) == "string" and AceLibrary:HasInstance(rawget(t, 0))
 end
 
 function CrawlForDeserialization(t)
@@ -456,7 +692,7 @@ function CrawlForDeserialization(t)
 				t[k] = DeserializeObject(v)
 				del(v)
 				v = t[k]
-			elseif type(v[0]) ~= "userdata" then
+			elseif type(rawget(v, 0)) ~= "userdata" then
 				CrawlForDeserialization(v)
 			end
 		end
@@ -465,7 +701,7 @@ function CrawlForDeserialization(t)
 				t[k] = nil
 				t[DeserializeObject(k)] = v
 				del(k)
-			elseif type(k[0]) ~= "userdata" then
+			elseif type(rawget(k, 0)) ~= "userdata" then
 				CrawlForDeserialization(k)
 			end
 		end
@@ -529,6 +765,25 @@ local namespace_mt = { __index = function(namespace, key)
 			inheritDefaults(namespace.realm, namespace.defaults.realm)
 		end
 		return namespace.realm
+	elseif key == "server" then
+		if type(db.raw.namespaces) ~= "table" then
+			db.raw.namespaces = {}
+		end
+		if type(db.raw.namespaces[name]) ~= "table" then
+			db.raw.namespaces[name] = {}
+		end
+		if type(db.raw.namespaces[name].servers) ~= "table" then
+			db.raw.namespaces[name].servers = {}
+		end
+		local id = server
+		if type(db.raw.namespaces[name].servers[id]) ~= "table" then
+			db.raw.namespaces[name].servers[id] = {}
+		end
+		rawset(namespace, 'server', db.raw.namespaces[name].servers[id])
+		if namespace.defaults and namespace.defaults.server then
+			inheritDefaults(namespace.server, namespace.defaults.server)
+		end
+		return namespace.server
 	elseif key == "account" then
 		if type(db.raw.namespaces) ~= "table" then
 			db.raw.namespaces = {}
@@ -544,6 +799,25 @@ local namespace_mt = { __index = function(namespace, key)
 			inheritDefaults(namespace.account, namespace.defaults.account)
 		end
 		return namespace.account
+	elseif key == "faction" then
+		if type(db.raw.namespaces) ~= "table" then
+			db.raw.namespaces = {}
+		end
+		if type(db.raw.namespaces[name]) ~= "table" then
+			db.raw.namespaces[name] = {}
+		end
+		if type(db.raw.namespaces[name].factions) ~= "table" then
+			db.raw.namespaces[name].factions = {}
+		end
+		local id = faction
+		if type(db.raw.namespaces[name].factions[id]) ~= "table" then
+			db.raw.namespaces[name].factions[id] = {}
+		end
+		rawset(namespace, 'faction', db.raw.namespaces[name].factions[id])
+		if namespace.defaults and namespace.defaults.faction then
+			inheritDefaults(namespace.faction, namespace.defaults.faction)
+		end
+		return namespace.faction
 	elseif key == "class" then
 		if type(db.raw.namespaces) ~= "table" then
 			db.raw.namespaces = {}
@@ -594,11 +868,12 @@ local namespace_mt = { __index = function(namespace, key)
 	elseif key == "defaults" or key == "name" or key == "db" then
 		return nil
 	end
-	error(string.format('Cannot access key %q in db table. You may want to use db.profile[%q]', tostring(key), tostring(key)), 2)
+	error(("Cannot access key %q in db table. You may want to use db.profile[%q]"):format(tostring(key), tostring(key)), 2)
 end, __newindex = function(db, key, value)
-	error(string.format('Cannot access key %q in db table. You may want to use db.profile[%q]', tostring(key), tostring(key)), 2)
+	error(("Cannot access key %q in db table. You may want to use db.profile[%q]"):format(tostring(key), tostring(key)), 2)
 end }
 
+local tmp = {}
 function AceDB:InitializeDB(addonName)
 	local db = self.db
 
@@ -619,61 +894,89 @@ function AceDB:InitializeDB(addonName)
 	else
 		CrawlForDeserialization(_G[db.name])
 	end
-	if type(_G[db.charName]) == "table" then
-		CrawlForDeserialization(_G[db.charName])
+	if db.charName then
+		if type(_G[db.charName]) ~= "table" then
+			_G[db.charName] = {}
+		else
+			CrawlForDeserialization(_G[db.charName])
+		end
 	end
 	rawset(db, 'raw', _G[db.name])
 	if not db.raw.currentProfile then
 		db.raw.currentProfile = {}
+	else
+		for k,v in pairs(db.raw.currentProfile) do
+			tmp[convertFromOldCharID(k)] = v
+			db.raw.currentProfile[k] = nil
+		end
+		for k,v in pairs(tmp) do
+			db.raw.currentProfile[k] = v
+			tmp[k] = nil
+		end
 	end
 	if not db.raw.currentProfile[charID] then
-		db.raw.currentProfile[charID] = "Default"
+		db.raw.currentProfile[charID] = AceDB.registry[self] or "Default"
+	end
+	if db.raw.profiles then
+		for k,v in pairs(db.raw.profiles) do
+			local new_k = k
+			if k:find("^char/") then
+				new_k = "char/" .. convertFromOldCharID(k:sub(6))
+			end
+			tmp[new_k] = v
+			db.raw.profiles[k] = nil
+		end
+		for k,v in pairs(tmp) do
+			db.raw.profiles[k] = v
+			tmp[k] = nil
+		end
+	end
+	if db.raw.disabledModules then -- AceModuleCore-2.0
+		for k,v in pairs(db.raw.disabledModules) do
+			local new_k = k
+			if k:find("^char/") then
+				new_k = "char/" .. convertFromOldCharID(k:sub(6))
+			end
+			tmp[new_k] = v
+			db.raw.disabledModules[k] = nil
+		end
+		for k,v in pairs(tmp) do
+			db.raw.disabledModules[k] = v
+			tmp[k] = nil
+		end
+	end
+	if db.raw.chars then
+		for k,v in pairs(db.raw.chars) do
+			tmp[convertFromOldCharID(k)] = v
+			db.raw.chars[k] = nil
+		end
+		for k,v in pairs(tmp) do
+			db.raw.chars[k] = v
+			tmp[k] = nil
+		end
+	end
+	if db.raw.namespaces then
+		for l,u in pairs(db.raw.namespaces) do
+			if u.chars then
+				for k,v in pairs(u.chars) do
+					tmp[convertFromOldCharID(k)] = v
+					u.chars[k] = nil
+				end
+				for k,v in pairs(tmp) do
+					u.chars[k] = v
+					tmp[k] = nil
+				end
+			end
+		end
 	end
 	if db.raw.disabled then
 		setmetatable(db.raw.disabled, caseInsensitive_mt)
 	end
 	if self['acedb-profile-copylist'] then
-		local t = self['acedb-profile-copylist']
-		for k,v in pairs(t) do
-			t[k] = nil
-		end
-		if db.raw.profiles then
-			for k in pairs(db.raw.profiles) do
-				if string.find(k, '^char/') then
-					local name = string.sub(k, 6)
-					if name ~= charID then
-						t[k] =  CHARACTER .. name
-					end
-				elseif string.find(k, '^realm/') then
-					local name = string.sub(k, 7)
-					if name ~= realmID then
-						t[k] =  REALM .. name
-					end
-				elseif string.find(k, '^class/') then
-					local name = string.sub(k, 7)
-					if name ~= classID then
-						t[k] =  CLASS .. name
-					end
-				end
-			end
-		end
+		RecalculateAceDBCopyFromList(self)
 	end
 	if self['acedb-profile-list'] then
-		local t = self['acedb-profile-list']
-		for k,v in pairs(t) do
-			t[k] = nil
-		end
-		t.char = CHARACTER .. charID
-		t.realm = REALM .. realmID
-		t.class = CLASS .. classID
-		t.Default = "Default"
-		if db.raw.profiles then
-			for k in pairs(db.raw.profiles) do
-				if not string.find(k, '^char/') and not string.find(k, '^realm/') and not string.find(k, '^class/') then
-					t[k] = k
-				end
-			end
-		end
+		RecalculateAceDBProfileList(self)
 	end
 	setmetatable(db, db_mt)
 end
@@ -685,24 +988,25 @@ function AceDB:OnEmbedInitialize(target, name)
 	self.InitializeDB(target, name)
 end
 
-function AceDB:RegisterDB(name, charName)
+function AceDB:RegisterDB(name, charName, defaultProfile)
 	AceDB:argCheck(name, 2, "string")
 	AceDB:argCheck(charName, 3, "string", "nil")
+	AceDB:argCheck(defaultProfile, 4, "string", "nil")
 	if self.db then
 		AceDB:error("Cannot call \"RegisterDB\" if self.db is set.")
 	end
 	local stack = debugstack()
-	local addonName = string.gsub(stack, ".-\n.-\\AddOns\\(.-)\\.*", "%1")
+	local addonName = stack:gsub(".-\n.-\\AddOns\\(.-)\\.*", "%1")
 	self.db = {
 		name = name,
 		charName = charName
 	}
+	AceDB.registry[self] = defaultProfile or "Default"
 	if AceDB.addonsLoaded[addonName] then
 		AceDB.InitializeDB(self, addonName)
 	else
 		AceDB.addonsToBeInitialized[self] = addonName
 	end
-	AceDB.registry[self] = true
 end
 
 function AceDB:RegisterDefaults(kind, defaults, a3)
@@ -712,15 +1016,12 @@ function AceDB:RegisterDefaults(kind, defaults, a3)
 		AceDB:argCheck(name, 2, "string")
 		AceDB:argCheck(kind, 3, "string")
 		AceDB:argCheck(defaults, 4, "table")
-		if kind ~= "char" and kind ~= "class" and kind ~= "profile" and kind ~= "account" and kind ~= "realm" then
-			AceDB:error("Bad argument #3 to `RegisterDefaults' (\"char\", \"class\", \"profile\", \"account\", or \"realm\" expected, got %q)", kind)
-		end
 	else
 		AceDB:argCheck(kind, 2, "string")
 		AceDB:argCheck(defaults, 3, "table")
-		if kind ~= "char" and kind ~= "class" and kind ~= "profile" and kind ~= "account" and kind ~= "realm" then
-			AceDB:error("Bad argument #2 to `RegisterDefaults' (\"char\", \"class\", \"profile\", \"account\", or \"realm\" expected, got %q)", kind)
-		end
+	end
+	if kind ~= "char" and kind ~= "class" and kind ~= "profile" and kind ~= "account" and kind ~= "realm" and kind ~= "faction" and kind ~= "server" then
+		AceDB:error("Bad argument #%d to `RegisterDefaults' (\"char\", \"class\", \"profile\", \"account\", \"realm\", \"server\", or \"faction\" expected, got %q)", a3 and 3 or 2, kind)
 	end
 	if type(self.db) ~= "table" or type(self.db.name) ~= "string" then
 		AceDB:error("Cannot call \"RegisterDefaults\" unless \"RegisterDB\" has been previously called.")
@@ -747,93 +1048,256 @@ function AceDB:RegisterDefaults(kind, defaults, a3)
 	end
 end
 
-function AceDB:ResetDB(kind)
-	AceDB:argCheck(kind, 2, "nil", "string")
+function AceDB:ResetDB(kind, a2)
+	local name
+	if a2 then
+		name, kind = kind, a2
+		AceDB:argCheck(name, 2, "nil", "string")
+		AceDB:argCheck(kind, 3, "nil", "string")
+	else
+		AceDB:argCheck(kind, 2, "nil", "string")
+		if kind ~= "char" and kind ~= "class" and kind ~= "profile" and kind ~= "account" and kind ~= "realm" and kind ~= "faction" and kind ~= "server" then
+			name, kind = kind, nil
+		end
+	end
 	if not self.db or not self.db.raw then
 		AceDB:error("Cannot call \"ResetDB\" before \"RegisterDB\" has been called and before \"ADDON_LOADED\" has been fired.")
 	end
 	local db = self.db
-	if kind == nil then
-		if db.charName then
-			_G[db.charName] = nil
-		end
-		_G[db.name] = nil
-		rawset(db, 'raw', nil)
-		AceDB.InitializeDB(self)
-		if db.namespaces then
-			for name,v in pairs(db.namespaces) do
-				rawset(v, 'account', nil)
-				rawset(v, 'char', nil)
-				rawset(v, 'class', nil)
-				rawset(v, 'profile', nil)
-				rawset(v, 'realm', nil)
+	if not kind then
+		if not name then
+			if db.charName then
+				_G[db.charName] = nil
+			end
+			_G[db.name] = nil
+			rawset(db, 'raw', nil)
+			AceDB.InitializeDB(self)
+			if db.namespaces then
+				for name,v in pairs(db.namespaces) do
+					rawset(v, 'account', nil)
+					rawset(v, 'char', nil)
+					rawset(v, 'class', nil)
+					rawset(v, 'profile', nil)
+					rawset(v, 'realm', nil)
+					rawset(v, 'server', nil)
+					rawset(v, 'faction', nil)
+				end
+			end
+		else
+			if db.raw.namespaces then
+				db.raw.namespaces[name] = nil
+			end
+			if db.namespaces then
+				local v = db.namespaces[name]
+				if v then
+					rawset(v, 'account', nil)
+					rawset(v, 'char', nil)
+					rawset(v, 'class', nil)
+					rawset(v, 'profile', nil)
+					rawset(v, 'realm', nil)
+					rawset(v, 'server', nil)
+					rawset(v, 'faction', nil)
+				end
 			end
 		end
 	elseif kind == "account" then
-		db.raw.account = nil
-		rawset(db, 'account', nil)
-		if db.namespaces then
-			for name,v in pairs(db.namespaces) do
-				rawset(v, 'account', nil)
+		if name then
+			db.raw.account = nil
+			rawset(db, 'account', nil)
+			if db.raw.namespaces then
+				for name,v in pairs(db.raw.namespaces) do
+					v.account = nil
+				end
+			end
+			if db.namespaces then
+				for name,v in pairs(db.namespaces) do
+					rawset(v, 'account', nil)
+				end
+			end
+		else
+			if db.raw.namespaces and db.raw.namespaces[name] then
+				db.raw.namespaces[name].account = nil
+			end
+			if db.namespaces then
+				local v = db.namespaces[name]
+				if v then
+					rawset(v, 'account', nil)
+				end
 			end
 		end
 	elseif kind == "char" then
-		if db.charName then
-			_G[db.charName] = nil
-		else
-			if db.raw.chars then
-				db.raw.chars[charID] = nil
+		if name then
+			if db.charName then
+				_G[db.charName] = nil
+			else
+				if db.raw.chars then
+					db.raw.chars[charID] = nil
+				end
+				if db.raw.namespaces then
+					for name,v in pairs(db.raw.namespaces) do
+						if v.chars then
+							v.chars[charID] = nil
+						end
+					end
+				end
 			end
-			if db.raw.namespaces then
-				for name,v in pairs(db.raw.namespaces) do
-					if v.chars then
+			rawset(db, 'char', nil)
+			if db.namespaces then
+				for name,v in pairs(db.namespaces) do
+					rawset(v, 'char', nil)
+				end
+			end
+		else
+			if db.charName then
+				local x = _G[db.charName]
+				if x.namespaces then
+					x.namespaces[name] = nil
+				end
+			else
+				if db.raw.namespaces then
+					local v = db.namespaces[name]
+					if v and v.chars then
 						v.chars[charID] = nil
 					end
 				end
 			end
-		end
-		rawset(db, 'char', nil)
-		if db.namespaces then
-			for name,v in pairs(db.namespaces) do
-				rawset(v, 'char', nil)
+			if db.namespaces then
+				local v = db.namespaces[name]
+				if v then
+					rawset(v, 'char', nil)
+				end
 			end
 		end
 	elseif kind == "realm" then
-		if db.raw.realms then
-			db.raw.realms[realmID] = nil
-		end
-		rawset(db, 'realm', nil)
-		if db.raw.namespaces then
-			for name,v in pairs(db.raw.namespaces) do
-				if v.realms then
+		if not name then
+			if db.raw.realms then
+				db.raw.realms[realmID] = nil
+			end
+			rawset(db, 'realm', nil)
+			if db.raw.namespaces then
+				for name,v in pairs(db.raw.namespaces) do
+					if v.realms then
+						v.realms[realmID] = nil
+					end
+				end
+			end
+			if db.namespaces then
+				for name,v in pairs(db.namespaces) do
+					rawset(v, 'realm', nil)
+				end
+			end
+		else
+			if db.raw.namespaces then
+				local v = db.raw.namespaces[name]
+				if v and v.realms then
 					v.realms[realmID] = nil
 				end
 			end
-		end
-		if db.namespaces then
-			for name,v in pairs(db.namespaces) do
-				rawset(v, 'realm', nil)
-			end
-		end
-	elseif kind == "class" then
-		if db.raw.realms then
-			db.raw.realms[classID] = nil
-		end
-		rawset(db, 'class', nil)
-		if db.raw.namespaces then
-			for name,v in pairs(db.raw.namespaces) do
-				if v.classes then
-					v.classes[classID] = nil
+			if db.namespaces then
+				local v = db.namespaces[name]
+				if v then
+					rawset(v, 'realm', nil)
 				end
 			end
 		end
-		if db.namespaces then
-			for name,v in pairs(db.namespaces) do
-				rawset(v, 'class', nil)
+	elseif kind == "server" then
+		if not name then
+			if db.raw.servers then
+				db.raw.servers[server] = nil
+			end
+			rawset(db, 'server', nil)
+			if db.raw.namespaces then
+				for name,v in pairs(db.raw.namespaces) do
+					if v.servers then
+						v.servers[server] = nil
+					end
+				end
+			end
+			if db.namespaces then
+				for name,v in pairs(db.namespaces) do
+					rawset(v, 'server', nil)
+				end
+			end
+		else
+			if db.raw.namespaces then
+				local v = db.raw.namespaces[name]
+				if v and v.servers then
+					v.servers[server] = nil
+				end
+			end
+			if db.namespaces then
+				local v = db.namespaces[name]
+				if v then
+					rawset(v, 'server', nil)
+				end
+			end
+		end
+	elseif kind == "faction" then
+		if not name then
+			if db.raw.factions then
+				db.raw.factions[faction] = nil
+			end
+			rawset(db, 'faction', nil)
+			if db.raw.namespaces then
+				for name,v in pairs(db.raw.namespaces) do
+					if v.factions then
+						v.factions[faction] = nil
+					end
+				end
+			end
+			if db.namespaces then
+				for name,v in pairs(db.namespaces) do
+					rawset(v, 'faction', nil)
+				end
+			end
+		else
+			if db.raw.namespaces then
+				local v = db.raw.namespaces[name]
+				if v and v.factions then
+					v.factions[faction] = nil
+				end
+			end
+			if db.namespaces then
+				local v = db.namespaces[name]
+				if v then
+					rawset(v, 'faction', nil)
+				end
+			end
+		end
+	elseif kind == "class" then
+		if not name then
+			if db.raw.realms then
+				db.raw.realms[classID] = nil
+			end
+			rawset(db, 'class', nil)
+			if db.raw.namespaces then
+				for name,v in pairs(db.raw.namespaces) do
+					if v.classes then
+						v.classes[classID] = nil
+					end
+				end
+			end
+			if db.namespaces then
+				for name,v in pairs(db.namespaces) do
+					rawset(v, 'class', nil)
+				end
+			end
+		else
+			if db.raw.namespaces then
+				local v = db.raw.namespaces[name]
+				if v and v.classes then
+					v.classes[classID] = nil
+				end
+			end
+			if db.namespaces then
+				local v = db.namespaces[name]
+				if v then
+					rawset(v, 'class', nil)
+				end
 			end
 		end
 	elseif kind == "profile" then
-		local id = db.raw.currentProfile and db.raw.currentProfile[charID] or "Default"
+		local id = db.raw.currentProfile and db.raw.currentProfile[charID] or AceDB.registry[self] or "Default"
 		if id == "char" then
 			id = "char/" .. charID
 		elseif id == "class" then
@@ -841,58 +1305,157 @@ function AceDB:ResetDB(kind)
 		elseif id == "realm" then
 			id = "realm/" .. realmID
 		end
-		if db.raw.profiles then
-			db.raw.profiles[id] = nil
+
+		local current = self.class
+		while current and current ~= AceOO.Class do
+			if current.mixins then
+				for mixin in pairs(current.mixins) do
+					if type(mixin.OnEmbedProfileDisable) == "function" then
+						safecall(mixin.OnEmbedProfileDisable, mixin, self, id)
+					end
+				end
+			end
+			current = current.super
 		end
-		rawset(db, 'profile', nil)
-		if db.raw.namespaces then
-			for name,v in pairs(db.raw.namespaces) do
-				if v.profiles then
+		if type(self.OnProfileDisable) == "function" then
+			safecall(self.OnProfileDisable, self, id)
+		end
+		local active = self:IsActive()
+
+		if not name then
+			if db.raw.profiles then
+				db.raw.profiles[id] = nil
+			end
+			rawset(db, 'profile', nil)
+			if db.raw.namespaces then
+				for name,v in pairs(db.raw.namespaces) do
+					if v.profiles then
+						v.profiles[id] = nil
+					end
+				end
+			end
+			if db.namespaces then
+				for name,v in pairs(db.namespaces) do
+					rawset(v, 'profile', nil)
+				end
+			end
+		else
+			if db.raw.namespaces then
+				local v = db.raw.namespaces[name]
+				if v and v.profiles then
 					v.profiles[id] = nil
 				end
 			end
-		end
-		if db.namespaces then
-			for name,v in pairs(db.namespaces) do
-				rawset(v, 'profile', nil)
+			if db.namespaces then
+				local v = db.namespaces[name]
+				if v then
+					rawset(v, 'profile', nil)
+				end
 			end
 		end
+
+		local current = self.class
+		while current and current ~= AceOO.Class do
+			if current.mixins then
+				for mixin in pairs(current.mixins) do
+					if type(mixin.OnEmbedProfileEnable) == "function" then
+						safecall(mixin.OnEmbedProfileEnable, mixin, self, id)
+					end
+				end
+			end
+			current = current.super
+		end
+		if type(self.OnProfileEnable) == "function" then
+			safecall(self.OnProfileEnable, self, id)
+		end
+		local newactive = self:IsActive()
+		if active ~= newactive then
+			if newactive then
+				local first = nil
+				if AceOO.inherits(self, "AceAddon-2.0") then
+					local AceAddon = AceLibrary("AceAddon-2.0")
+					if not AceAddon.addonsStarted[self] then
+						return
+					end
+					if AceAddon.addonsEnabled and not AceAddon.addonsEnabled[self] then
+						AceAddon.addonsEnabled[self] = true
+						first = true
+					end
+				end
+				local current = self.class
+				while current and current ~= AceOO.Class do
+					if current.mixins then
+						for mixin in pairs(current.mixins) do
+							if type(mixin.OnEmbedEnable) == "function" then
+								safecall(mixin.OnEmbedEnable, mixin, self, first)
+							end
+						end
+					end
+					current = current.super
+				end
+				if type(self.OnEnable) == "function" then
+					safecall(self.OnEnable, self, first)
+				end
+				if AceEvent then
+					AceEvent:TriggerEvent("Ace2_AddonEnabled", self, first)
+				end
+			else
+				local current = self.class
+				while current and current ~= AceOO.Class do
+					if current.mixins then
+						for mixin in pairs(current.mixins) do
+							if type(mixin.OnEmbedDisable) == "function" then
+								safecall(mixin.OnEmbedDisable, mixin, self)
+							end
+						end
+					end
+					current = current.super
+				end
+				if type(self.OnDisable) == "function" then
+					safecall(self.OnDisable, self)
+				end
+				if AceEvent then
+					AceEvent:TriggerEvent("Ace2_AddonDisabled", self)
+				end
+			end
+		end
+	else
+		return -- skip event
+	end
+	if AceEvent then
+		AceEvent:TriggerEvent("AceDB20_ResetDB", self, self.db.name, kind)
 	end
 end
 
-local function cleanDefaults(t, defaults)
+local function cleanDefaults(t, defaults, blocker)
 	if defaults then
-		for k,v in pairs(defaults) do
-			if k == "*" then
-				if type(v) == "table" then
-					for k in pairs(t) do
-						if (defaults[k] == nil or k == "*") and type(t[k]) == "table" then
-							if cleanDefaults(t[k], v) then
+		for k,v in pairs(t) do
+			if (not blocker or (blocker[k] == nil and blocker['*'] == nil and blocker['**'] == nil)) and (defaults[k] ~= nil or defaults['*'] ~= nil or defaults['**'] ~= nil) then
+				local u = defaults[k]
+				if u == nil then
+					u = defaults['*']
+					if u == nil then
+						u = defaults['**']
+					end
+				end
+				if v == u then
+					t[k] = nil
+				elseif type(v) == "table" and type(u) == "table" then
+					if cleanDefaults(v, u) then
+						t[k] = nil
+					else
+						local w = defaults['**']
+						if w ~= u then
+							if cleanDefaults(v, w, u) then
 								t[k] = nil
 							end
 						end
 					end
-				else
-					for k in pairs(t) do
-						if (defaults[k] == nil or k == "*") and t[k] == v then
-							t[k] = nil
-						end
-					end
-				end
-			else
-				if type(v) == "table" then
-					if type(t[k]) == "table" then
-						if cleanDefaults(t[k], v) then
-							t[k] = nil
-						end
-					end
-				elseif t[k] == v then
-					t[k] = nil
 				end
 			end
 		end
 	end
-	return t and not next(t)
+	return t and next(t) == nil
 end
 
 function AceDB:GetProfile()
@@ -903,7 +1466,7 @@ function AceDB:GetProfile()
 		self.db.raw.currentProfile = {}
 	end
 	if not self.db.raw.currentProfile[charID] then
-		self.db.raw.currentProfile[charID] = "Default"
+		self.db.raw.currentProfile[charID] = AceDB.registry[self] or "Default"
 	end
 	local profile = self.db.raw.currentProfile[charID]
 	if profile == "char" then
@@ -927,72 +1490,51 @@ local function copyTable(to, from)
 		end
 		to[k] = v
 	end
-	table_setn(to, table.getn(from))
 	setmetatable(to, from)
 	return to
 end
 
-function AceDB:SetProfile(name, copyFrom)
+function AceDB:SetProfile(name)
 	AceDB:argCheck(name, 2, "string")
-	AceDB:argCheck(copyFrom, 3, "string", "nil")
 	if not self.db or not self.db.raw then
 		AceDB:error("Cannot call \"SetProfile\" before \"RegisterDB\" has been called and before \"ADDON_LOADED\" has been fired.")
 	end
 	local db = self.db
-	local copy = false
-	local lowerName = string.lower(name)
-	local lowerCopyFrom = copyFrom and string.lower(copyFrom)
-	if string.sub(lowerName, 1, 5) == "char/" or string.sub(lowerName, 1, 6) == "realm/" or string.sub(lowerName, 1, 6) == "class/" then
-		if string.sub(lowerName, 1, 5) == "char/" then
-			name, copyFrom = "char", name
+	local lowerName = name:lower()
+	if lowerName:find("^char/") or lowerName:find("^realm/") or lowerName:find("^class/") then
+		if lowerName:find("^char/") then
+			name = "char"
 		else
-			name, copyFrom = string.sub(lowerName, 1, 5), name
+			name = lowerName:sub(1, 5)
 		end
-		lowerName = string.lower(name)
-		lowerCopyFrom = string.lower(copyFrom)
-	end
-	if copyFrom then
-		if string.sub(lowerCopyFrom, 1, 5) == "char/" then
-			AceDB:assert(lowerName == "char", "If argument #3 starts with `char/', argument #2 must be `char'")
-		elseif string.sub(lowerCopyFrom, 1, 6) == "realm/" then
-			AceDB:assert(lowerName == "realm", "If argument #3 starts with `realm/', argument #2 must be `realm'")
-		elseif string.sub(lowerCopyFrom, 1, 6) == "class/" then
-			AceDB:assert(lowerName == "class", "If argument #3 starts with `class/', argument #2 must be `class'")
-		else
-			AceDB:assert(lowerName ~= "char" and lowerName ~= "realm" and lowerName ~= "class", "If argument #3 does not start with a special prefix, that prefix cannot be copied to.")
-		end
-		if not db.raw.profiles or not db.raw.profiles[copyFrom] then
-			AceDB:error("Cannot copy profile %q, it does not exist.", copyFrom)
-		elseif (string.sub(lowerName, 1, 5) == "char/" and string.sub(lowerName, 6) == string.lower(charID)) or (string.sub(lowerName, 1, 6) == "realm/" and string.sub(lowerName, 7) == string.lower(realmID)) or (string.sub(lowerName, 1, 6) == "class/" and string.sub(lowerName, 7) == string.lower(classID)) then
-			AceDB:error("Cannot copy profile %q, it is currently in use.", name)
-		end
+		lowerName = name:lower()
 	end
 	local oldName = db.raw.currentProfile[charID]
-	if string.lower(oldName) == string.lower(name) then
+	if oldName:lower() == name:lower() then
 		return
+	end
+	local oldProfileData = db.profile
+	local realName = name
+	if lowerName == "char" then
+		realName = name .. "/" .. charID
+	elseif lowerName == "realm" then
+		realName = name .. "/" .. realmID
+	elseif lowerName == "class" then
+		realName = name .. "/" .. classID
 	end
 	local current = self.class
 	while current and current ~= AceOO.Class do
 		if current.mixins then
 			for mixin in pairs(current.mixins) do
 				if type(mixin.OnEmbedProfileDisable) == "function" then
-					mixin:OnEmbedProfileDisable(self)
+					safecall(mixin.OnEmbedProfileDisable, mixin, self, realName)
 				end
 			end
 		end
 		current = current.super
 	end
 	if type(self.OnProfileDisable) == "function" then
-		self:OnProfileDisable()
-	end
-	local oldProfileData = db.profile
-	local realName = name
-	if lowerName == "char" then
-		realName = name .. "/" .. charID
-	elseif lowerName == "realm/" then
-		realName = name .. "/" .. realmID
-	elseif lowerName == "class/" then
-		realName = name .. "/" .. classID
+		safecall(self.OnProfileDisable, self, realName)
 	end
 	local active = self:IsActive()
 	db.raw.currentProfile[charID] = name
@@ -1002,20 +1544,144 @@ function AceDB:SetProfile(name, copyFrom)
 			rawset(v, 'profile', nil)
 		end
 	end
-	if copyFrom then
-		for k,v in pairs(db.profile) do
-			db.profile[k] = nil
-		end
-		copyTable(db.profile, db.raw.profiles[copyFrom])
-		inheritDefaults(db.profile, db.defaults and db.defaults.profile)
-		if db.namespaces then
-			for l,u in pairs(db.namespaces) do
-				for k,v in pairs(u.profile) do
-					u.profile[k] = nil
+	local current = self.class
+	while current and current ~= AceOO.Class do
+		if current.mixins then
+			for mixin in pairs(current.mixins) do
+				if type(mixin.OnEmbedProfileEnable) == "function" then
+					safecall(mixin.OnEmbedProfileEnable, mixin, self, oldName, oldProfileData)
 				end
-				copyTable(u.profile, db.raw.namespaces[l].profiles[copyFrom])
-				inheritDefaults(u.profile, u.defaults and u.defaults.profile)
 			end
+		end
+		current = current.super
+	end
+	if type(self.OnProfileEnable) == "function" then
+		safecall(self.OnProfileEnable, self, oldName, oldProfileData)
+	end
+	if cleanDefaults(oldProfileData, db.defaults and db.defaults.profile) then
+		db.raw.profiles[oldName] = nil
+		if not next(db.raw.profiles) then
+			db.raw.profiles = nil
+		end
+	end
+	local newactive = self:IsActive()
+	if active ~= newactive then
+		local first = nil
+		if AceOO.inherits(self, "AceAddon-2.0") then
+			local AceAddon = AceLibrary("AceAddon-2.0")
+			if not AceAddon.addonsStarted[self] then
+				return
+			end
+			if AceAddon.addonsEnabled and not AceAddon.addonsEnabled[self] then
+				first = true
+			end
+		end
+		if newactive then
+			local current = self.class
+			while current and current ~= AceOO.Class do
+				if current.mixins then
+					for mixin in pairs(current.mixins) do
+						if type(mixin.OnEmbedEnable) == "function" then
+							safecall(mixin.OnEmbedEnable, mixin, self, first)
+						end
+					end
+				end
+				current = current.super
+			end
+			if type(self.OnEnable) == "function" then
+				safecall(self.OnEnable, self, first)
+			end
+			if AceEvent then
+				AceEvent:TriggerEvent("Ace2_AddonEnabled", self, first)
+			end
+		else
+			local current = self.class
+			while current and current ~= AceOO.Class do
+				if current.mixins then
+					for mixin in pairs(current.mixins) do
+						if type(mixin.OnEmbedDisable) == "function" then
+							safecall(mixin.OnEmbedDisable, mixin, self)
+						end
+					end
+				end
+				current = current.super
+			end
+			if type(self.OnDisable) == "function" then
+				safecall(self.OnDisable, self)
+			end
+			if AceEvent then
+				AceEvent:TriggerEvent("Ace2_AddonDisabled", self)
+			end
+		end
+	end
+	if self['acedb-profile-list'] then
+		RecalculateAceDBProfileList(self)
+	end
+	if self['acedb-profile-copylist'] then
+		RecalculateAceDBCopyFromList(self)
+	end
+	if Dewdrop then
+		Dewdrop:Refresh()
+	end
+end
+
+function AceDB:CopyProfileFrom(copyFrom)
+	AceDB:argCheck(copyFrom, 2, "string")
+	if not self.db or not self.db.raw then
+		AceDB:error("Cannot call \"CopyProfileFrom\" before \"RegisterDB\" has been called and before \"ADDON_LOADED\" has been fired.")
+	end
+	local db = self.db
+	local lowerCopyFrom = copyFrom:lower()
+	if not db.raw.profiles or not db.raw.profiles[copyFrom] then
+		local good = false
+		if db.raw.namespaces then
+			for _,n in pairs(db.raw.namespaces) do
+				if n.profiles and n.profiles[copyFrom] then
+					good = true
+					break
+				end
+			end
+		end
+		if not good then
+			AceDB:error("Cannot copy from profile %q, it does not exist.", copyFrom)
+		end
+	end
+	local currentProfile = db.raw.currentProfile[charID]
+	if currentProfile:lower() == lowerCopyFrom then
+		AceDB:error("Cannot copy from profile %q, it is currently in use.", copyFrom)
+	end
+	local oldProfileData = db.profile
+	local current = self.class
+	while current and current ~= AceOO.Class do
+		if current.mixins then
+			for mixin in pairs(current.mixins) do
+				if type(mixin.OnEmbedProfileDisable) == "function" then
+					safecall(mixin.OnEmbedProfileDisable, mixin, self, currentProfile)
+				end
+			end
+		end
+		current = current.super
+	end
+	if type(self.OnProfileDisable) == "function" then
+		safecall(self.OnProfileDisable, self, realName)
+	end
+	local active = self:IsActive()
+	for k,v in pairs(db.profile) do
+		db.profile[k] = nil
+	end
+	if db.raw.profiles[copyFrom] then
+		copyTable(db.profile, db.raw.profiles[copyFrom])
+	end
+	inheritDefaults(db.profile, db.defaults and db.defaults.profile)
+	if db.namespaces then
+		for l,u in pairs(db.namespaces) do
+			for k,v in pairs(u.profile) do
+				u.profile[k] = nil
+			end
+			if db.raw.namespaces[l].profiles[copyFrom] then
+				copyTable(u.profile, db.raw.namespaces[l].profiles[copyFrom])
+			end
+			inheritDefaults(u.profile, u.defaults and u.defaults.profile)
 		end
 	end
 	local current = self.class
@@ -1023,20 +1689,14 @@ function AceDB:SetProfile(name, copyFrom)
 		if current.mixins then
 			for mixin in pairs(current.mixins) do
 				if type(mixin.OnEmbedProfileEnable) == "function" then
-					mixin:OnEmbedProfileEnable(self, oldName, oldProfileData, copyFrom)
+					safecall(mixin.OnEmbedProfileEnable, mixin, self, copyFrom, oldProfileData, copyFrom)
 				end
 			end
 		end
 		current = current.super
 	end
 	if type(self.OnProfileEnable) == "function" then
-		self:OnProfileEnable(oldName, oldProfileData, copyFrom)
-	end
-	if cleanDefaults(oldProfileData, db.defaults and db.defaults.profile) then
-		db.raw.profiles[oldName] = nil
-		if not next(db.raw.profiles) then
-			db.raw.profiles = nil
-		end
+		safecall(self.OnProfileEnable, self, copyFrom, oldProfileData, copyFrom)
 	end
 	local newactive = self:IsActive()
 	if active ~= newactive then
@@ -1052,14 +1712,17 @@ function AceDB:SetProfile(name, copyFrom)
 				if current.mixins then
 					for mixin in pairs(current.mixins) do
 						if type(mixin.OnEmbedEnable) == "function" then
-							mixin:OnEmbedEnable(self)
+							safecall(mixin.OnEmbedEnable, mixin, self)
 						end
 					end
 				end
 				current = current.super
 			end
 			if type(self.OnEnable) == "function" then
-				self:OnEnable()
+				safecall(self.OnEnable, self)
+			end
+			if AceEvent then
+				AceEvent:TriggerEvent("Ace2_AddonEnabled", self)
 			end
 		else
 			local current = self.class
@@ -1067,28 +1730,90 @@ function AceDB:SetProfile(name, copyFrom)
 				if current.mixins then
 					for mixin in pairs(current.mixins) do
 						if type(mixin.OnEmbedDisable) == "function" then
-							mixin:OnEmbedDisable(self)
+							safecall(mixin.OnEmbedDisable, mixin, self)
 						end
 					end
 				end
 				current = current.super
 			end
 			if type(self.OnDisable) == "function" then
-				self:OnDisable()
+				safecall(self.OnDisable, self)
+			end
+			if AceEvent then
+				AceEvent:TriggerEvent("Ace2_AddonDisabled", self)
 			end
 		end
 	end
 	if self['acedb-profile-list'] then
-		if not self['acedb-profile-list'][name] then
-			self['acedb-profile-list'][name] = name
-		end
+		RecalculateAceDBProfileList(self)
+	end
+	if self['acedb-profile-copylist'] then
+		RecalculateAceDBCopyFromList(self)
 	end
 	if Dewdrop then
-		Dewdrop:Refresh(1)
-		Dewdrop:Refresh(2)
-		Dewdrop:Refresh(3)
-		Dewdrop:Refresh(4)
-		Dewdrop:Refresh(5)
+		Dewdrop:Refresh()
+	end
+end
+
+function AceDB:DeleteProfile(profile, noconfirm)
+	AceDB:argCheck(profile , 2, "string")
+	if not self.db or not self.db.raw then
+		AceDB:error("Cannot call \"DeleteProfile\" before \"RegisterDB\" has been called and before \"ADDON_LOADED\" has been fired.")
+	end
+	local db = self.db
+
+	local currentProfile = db.raw.currentProfile[charID]
+	if currentProfile:lower() == profile:lower() then
+		AceDB:error("Cannot delete profile %q, it is currently in use.", profile)
+	end
+
+	if not (noconfirm or IsShiftKeyDown()) then
+		if not StaticPopupDialogs["ACEDB20_CONFIRM_DELETE_DIALOG"] then
+			StaticPopupDialogs["ACEDB20_CONFIRM_DELETE_DIALOG"] = {}
+		end
+		local t = StaticPopupDialogs["ACEDB20_CONFIRM_DELETE_DIALOG"]
+		t.text = format("%s: %s?", DELETE_PROFILE, profile)
+		t.button1 = DELETE_PROFILE
+		t.button2 = CANCEL or "Cancel"
+		t.OnAccept = function()
+			self:DeleteProfile(profile, true)
+		end
+		t.timeout = 0
+		t.whileDead = 1
+		t.hideOnEscape = 1
+
+		StaticPopup_Show("ACEDB20_CONFIRM_DELETE_DIALOG")
+		return;
+	end
+
+	local good = false
+	if db.raw.profiles and db.raw.profiles[profile] then
+		good = true;
+		db.raw.profiles[profile] = nil;
+	end
+
+	if db.raw.namespaces then
+		for _,n in pairs(db.raw.namespaces) do
+			if n.profiles and n.profiles[profile] then
+				n.profiles[profile] = nil;
+				good = true
+			end
+		end
+	end
+
+	if not good then
+		AceDB:error("Cannot delete profile %q, it does not exist.", profile)
+	end
+
+	if self['acedb-profile-list'] then
+		RecalculateAceDBProfileList(self)
+	end
+	if self['acedb-profile-copylist'] then
+		RecalculateAceDBCopyFromList(self)
+	end
+
+	if Dewdrop then
+		Dewdrop:Refresh()
 	end
 end
 
@@ -1128,14 +1853,17 @@ function AceDB:ToggleActive(state)
 			if current.mixins then
 				for mixin in pairs(current.mixins) do
 					if type(mixin.OnEmbedEnable) == "function" then
-						mixin:OnEmbedEnable(self)
+						safecall(mixin.OnEmbedEnable, mixin, self)
 					end
 				end
 			end
 			current = current.super
 		end
 		if type(self.OnEnable) == "function" then
-			self:OnEnable()
+			safecall(self.OnEnable, self)
+		end
+		if AceEvent then
+			AceEvent:TriggerEvent("Ace2_AddonEnabled", self)
 		end
 	else
 		local current = self.class
@@ -1143,14 +1871,17 @@ function AceDB:ToggleActive(state)
 			if current.mixins then
 				for mixin in pairs(current.mixins) do
 					if type(mixin.OnEmbedDisable) == "function" then
-						mixin:OnEmbedDisable(self)
+						safecall(mixin.OnEmbedDisable, mixin, self)
 					end
 				end
 			end
 			current = current.super
 		end
 		if type(self.OnDisable) == "function" then
-			self:OnDisable()
+			safecall(self.OnDisable, self)
+		end
+		if AceEvent then
+			AceEvent:TriggerEvent("Ace2_AddonDisabled", self)
 		end
 	end
 	return not disable
@@ -1174,9 +1905,12 @@ function AceDB:ADDON_LOADED(name)
 end
 
 function AceDB:PLAYER_LOGOUT()
-	for addon in pairs(AceDB.registry) do
+	for addon, defaultProfile in pairs(AceDB.registry) do
 		local db = addon.db
 		if db then
+			if type(addon.OnDatabaseCleanup) == "function" then
+				safecall(addon.OnDatabaseCleanup, addon)
+			end
 			setmetatable(db, nil)
 			CrawlForSerialization(db.raw)
 			if type(_G[db.charName]) == "table" then
@@ -1205,6 +1939,22 @@ function AceDB:PLAYER_LOGOUT()
 					end
 				end
 			end
+			if db.server and cleanDefaults(db.server, db.defaults and db.defaults.server) then
+				if db.raw.servers then
+					db.raw.servers[server] = nil
+					if not next(db.raw.servers) then
+						db.raw.servers = nil
+					end
+				end
+			end
+			if db.faction and cleanDefaults(db.faction, db.defaults and db.defaults.faction) then
+				if db.raw.factions then
+					db.raw.factions[faction] = nil
+					if not next(db.raw.factions) then
+						db.raw.factions = nil
+					end
+				end
+			end
 			if db.class and cleanDefaults(db.class, db.defaults and db.defaults.class) then
 				if db.raw.classes then
 					db.raw.classes[classID] = nil
@@ -1218,7 +1968,7 @@ function AceDB:PLAYER_LOGOUT()
 			end
 			if db.profile and cleanDefaults(db.profile, db.defaults and db.defaults.profile) then
 				if db.raw.profiles then
-					db.raw.profiles[db.raw.currentProfile and db.raw.currentProfile[charID] or "Default"] = nil
+					db.raw.profiles[db.raw.currentProfile and db.raw.currentProfile[charID] or defaultProfile or "Default"] = nil
 					if not next(db.raw.profiles) then
 						db.raw.profiles = nil
 					end
@@ -1254,6 +2004,22 @@ function AceDB:PLAYER_LOGOUT()
 								end
 							end
 						end
+						if v.server and cleanDefaults(v.server, v.defaults and v.defaults.server) then
+							if db.raw.namespaces[name].servers then
+								db.raw.namespaces[name].servers[server] = nil
+								if not next(db.raw.namespaces[name].servers) then
+									db.raw.namespaces[name].servers = nil
+								end
+							end
+						end
+						if v.faction and cleanDefaults(v.faction, v.defaults and v.defaults.faction) then
+							if db.raw.namespaces[name].factions then
+								db.raw.namespaces[name].factions[faction] = nil
+								if not next(db.raw.namespaces[name].factions) then
+									db.raw.namespaces[name].factions = nil
+								end
+							end
+						end
 						if v.class and cleanDefaults(v.class, v.defaults and v.defaults.class) then
 							if db.raw.namespaces[name].classes then
 								db.raw.namespaces[name].classes[classID] = nil
@@ -1267,7 +2033,7 @@ function AceDB:PLAYER_LOGOUT()
 						end
 						if v.profile and cleanDefaults(v.profile, v.defaults and v.defaults.profile) then
 							if db.raw.namespaces[name].profiles then
-								db.raw.namespaces[name].profiles[db.raw.currentProfile and db.raw.currentProfile[charID] or "Default"] = nil
+								db.raw.namespaces[name].profiles[db.raw.currentProfile and db.raw.currentProfile[charID] or defaultProfile or "Default"] = nil
 								if not next(db.raw.namespaces[name].profiles) then
 									db.raw.namespaces[name].profiles = nil
 								end
@@ -1287,7 +2053,7 @@ function AceDB:PLAYER_LOGOUT()
 			end
 			if db.raw.currentProfile then
 				for k,v in pairs(db.raw.currentProfile) do
-					if string.lower(v) == "default" then
+					if v:lower() == (defaultProfile or "Default"):lower() then
 						db.raw.currentProfile[k] = nil
 					end
 				end
@@ -1324,52 +2090,11 @@ end
 function AceDB:GetAceOptionsDataTable(target)
 	if not target['acedb-profile-list'] then
 		target['acedb-profile-list'] = setmetatable({}, caseInsensitive_mt)
-		local t = target['acedb-profile-list']
-		for k,v in pairs(t) do
-			t[k] = nil
-		end
-		t.char = CHARACTER .. charID
-		t.realm = REALM .. realmID
-		t.class = CLASS .. classID
-		t.Default = "Default"
-		if target.db and target.db.raw then
-			local db = target.db
-			if db.raw.profiles then
-				for k in pairs(db.raw.profiles) do
-					if not string.find(k, '^char/') and not string.find(k, '^realm/') and not string.find(k, '^class/') then
-						t[k] = k
-					end
-				end
-			end
-		end
+		RecalculateAceDBProfileList(target)
 	end
 	if not target['acedb-profile-copylist'] then
 		target['acedb-profile-copylist'] = setmetatable({}, caseInsensitive_mt)
-		if target.db and target.db.raw then
-			local t = target['acedb-profile-copylist']
-			local db = target.db
-
-			if db.raw.profiles then
-				for k in pairs(db.raw.profiles) do
-					if string.find(k, '^char/') then
-						local name = string.sub(k, 6)
-						if name ~= charID then
-							t[k] =  CHARACTER .. name
-						end
-					elseif string.find(k, '^realm/') then
-						local name = string.sub(k, 7)
-						if name ~= realmID then
-							t[k] =  REALM .. name
-						end
-					elseif string.find(k, '^class/') then
-						local name = string.sub(k, 7)
-						if name ~= classID then
-							t[k] =  CLASS .. name
-						end
-					end
-				end
-			end
-		end
+		RecalculateAceDBCopyFromList(target)
 	end
 	return {
 		standby = {
@@ -1404,8 +2129,8 @@ function AceDB:GetAceOptionsDataTable(target)
 					cmdName = PROFILE,
 					desc = COPY_PROFILE_DESC,
 					type = 'text',
-					get = "GetProfile",
-					set = "SetProfile",
+					get = false,
+					set = "CopyProfileFrom",
 					validate = target['acedb-profile-copylist'],
 					disabled = function()
 						return not next(target['acedb-profile-copylist'])
@@ -1419,6 +2144,27 @@ function AceDB:GetAceOptionsDataTable(target)
 					type = 'text',
 					get = "GetProfile",
 					set = "SetProfile",
+				},
+				delete = {
+					name = DELETE_PROFILE,
+					desc = DELETE_PROFILE_DESC,
+					usage = DELETE_PROFILE_USAGE,
+					type = 'text',
+					set = "DeleteProfile",
+					get = false,
+					validate = target['acedb-profile-copylist'],
+					disabled = function()
+						return not next(target['acedb-profile-copylist'])
+					end,
+				},
+				reset = {
+					name = RESET_PROFILE,
+					desc = RESET_PROFILE_DESC,
+					type = 'execute',
+					func = function()
+						target:ResetDB('profile')
+					end,
+					confirm = true,
 				}
 			}
 		},
@@ -1429,7 +2175,16 @@ local function activate(self, oldLib, oldDeactivate)
 	AceDB = self
 	AceEvent = AceLibrary:HasInstance("AceEvent-2.0") and AceLibrary("AceEvent-2.0")
 
-	self.super.activate(self, oldLib, oldDeactivate)
+	self.addonsToBeInitialized = oldLib and oldLib.addonsToBeInitialized or {}
+	self.addonsLoaded = oldLib and oldLib.addonsLoaded or {}
+	self.registry = oldLib and oldLib.registry or {}
+	for k, v in pairs(self.registry) do
+		if v == true then
+			self.registry[k] = "Default"
+		end
+	end
+
+	self:activate(oldLib, oldDeactivate)
 
 	for t in pairs(self.embedList) do
 		if t.db then
@@ -1437,24 +2192,11 @@ local function activate(self, oldLib, oldDeactivate)
 			rawset(t.db, 'realm', nil)
 			rawset(t.db, 'class', nil)
 			rawset(t.db, 'account', nil)
+			rawset(t.db, 'server', nil)
+			rawset(t.db, 'faction', nil)
 			rawset(t.db, 'profile', nil)
 			setmetatable(t.db, db_mt)
 		end
-	end
-
-	if oldLib then
-		self.addonsToBeInitialized = oldLib.addonsToBeInitialized
-		self.addonsLoaded = oldLib.addonsLoaded
-		self.registry = oldLib.registry
-	end
-	if not self.addonsToBeInitialized then
-		self.addonsToBeInitialized = {}
-	end
-	if not self.addonsLoaded then
-		self.addonsLoaded = {}
-	end
-	if not self.registry then
-		self.registry = {}
 	end
 
 	if oldLib then

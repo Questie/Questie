@@ -4,18 +4,35 @@
 --  concept taken from MapNotes2 (Thanks to Mery for the idea, along
 --  with the artwork.)
 ----------------------------------------------------------------------------
-local function log(msg) DEFAULT_CHAT_FRAME:AddMessage(msg) end -- alias for convenience
+local Astrolabe = DongleStub("Astrolabe-0.4")
+local sformat = string.format
+local L = TomTomLocals
 
-math.modf = function(number)
-	local fractional = Questie:Modulo(number, 1)
-	local integral = number - fractional
-	return integral, fractional
-end
+local GetPlayerBearing
+function GetPlayerBearing()
+	local obj; -- Remains an upvalue
+	do
+		local t = {Minimap:GetChildren()}; -- Becomes garbage
+		for k, v in pairs(t) do
+			if v:IsObjectType("Model") and not v:GetName() then
+				local model = v:GetModel():lower()
+				if model:match("interface\\minimap\\minimaparrow") then
+					obj = v; break;
+				end
+			end
+		end
+	end
+	if not obj then return; end
 
-function GetPlayerFacing()
-	local p = Minimap
-	local m = ({p:GetChildren()})[9]
-	return m:GetFacing()
+	-- If we've found what we were looking for, rewrite function to skip the search next time.
+	GetPlayerBearing = function()
+		if GetCVar("rotateMinimap") ~= "0" then
+			return (MiniMapCompassRing:GetFacing() * -1)
+		else
+			return obj:GetFacing();
+		end
+	end
+	return GetPlayerBearing();
 end
 
 local sformat = string.format
@@ -55,24 +72,22 @@ wayframe:SetPoint("CENTER", 0, 0)
 wayframe:EnableMouse(true)
 wayframe:SetMovable(true)
 wayframe:Hide()
--- Frame used to control the scaling of the title and friends
-local titleframe = CreateFrame("Frame", nil, wayframe)
-wayframe.title = titleframe:CreateFontString("OVERLAY", nil, "GameFontHighlightSmall")
-wayframe.status = titleframe:CreateFontString("OVERLAY", nil, "GameFontNormalSmall")
-wayframe.tta = titleframe:CreateFontString("OVERLAY", nil, "GameFontNormalSmall")
+wayframe.title = wayframe:CreateFontString("OVERLAY", nil, "GameFontHighlightSmall")
+wayframe.status = wayframe:CreateFontString("OVERLAY", nil, "GameFontNormalSmall")
+wayframe.tta	= wayframe:CreateFontString("OVERLAY", nil, "GameFontNormalSmall")
 wayframe.title:SetPoint("TOP", wayframe, "BOTTOM", 0, 0)
 wayframe.status:SetPoint("TOP", wayframe.title, "BOTTOM", 0, 0)
 wayframe.tta:SetPoint("TOP", wayframe.status, "BOTTOM", 0, 0)
 
 local function OnDragStart(self, button)
 	if IsControlKeyDown() and IsShiftKeyDown() then
-		this:StartMoving()
+		self:StartMoving()
 		wayframe:SetClampedToScreen(true);
 	end
 end
 
 local function OnDragStop(self, button)
-	this:StopMovingOrSizing()
+	self:StopMovingOrSizing()
 end
 
 local function OnEvent(self, event, ...)
@@ -90,9 +105,9 @@ wayframe.arrow = wayframe:CreateTexture("OVERLAY")
 wayframe.arrow:SetTexture("Interface\\AddOns\\!Questie\\Images\\Arrow")
 wayframe.arrow:SetAllPoints()
 
-local active_point, arrive_distance, showDownArrow, point_title, arrow_objective, isHide
-function SetCrazyArrow(point, dist, title)
-	active_point = point
+local active_point, arrive_distance, showDownArrow, point_title
+function SetCrazyArrow(uid, dist, title)
+	active_point = uid
 	arrive_distance = dist
 	point_title = title
 	if active_point and not isHide then
@@ -114,6 +129,7 @@ function SetArrowObjective(hash)
 	local objective = QuestieTrackedQuests[hash]["arrowPoint"]
 	SetCrazyArrow(objective, objective.dist, objective.title)
 end
+
 local status = wayframe.status
 local tta = wayframe.tta
 local arrow = wayframe.arrow
@@ -122,10 +138,11 @@ local last_distance = 0
 local tta_throttle = 0
 local speed = 0
 local speed_count = 0
-HACK_DUMP = 0;
 local function OnUpdate(self, elapsed)
-	self = this
-	elapsed = 1/GetFramerate()
+	if not active_point then
+		self:Hide()
+		return
+	end
 	local dist,x,y
 	if arrow_objective then
 		if QuestieTrackedQuests[arrow_objective] then
@@ -167,7 +184,7 @@ local function OnUpdate(self, elapsed)
 			count = 0
 		end
 		cell = count
-		local column = Questie:Modulo(cell, 9)
+		local column = cell % 9
 		local row = floor(cell / 9)
 		local xstart = (column * 53) / 512
 		local ystart = (row * 70) / 512
@@ -181,12 +198,12 @@ local function OnUpdate(self, elapsed)
 			arrow:SetTexture("Interface\\AddOns\\!Questie\\Images\\Arrow")
 			showDownArrow = false
 		end
-		local degtemp = GetDirectionToIcon(active_point);
+		local degtemp = GetDirectionToIcon(active_point)
 		if degtemp < 0 then degtemp = degtemp + 360; end
 		local angle = math.rad(degtemp)
-		local player = GetPlayerFacing()
+		local player = GetPlayerBearing()
 		angle = angle - player
-		local perc = 1-  math.abs(((math.pi - math.abs(angle)) / math.pi))
+		local perc = 1- math.abs((math.pi - math.abs(angle)) / math.pi)
 		local gr,gg,gb = 1, 1, 1
 		local mr,mg,mb = 0.75, 0.75, 0.75
 		local br,bg,bb = 0.5, 0.5, 0.5
@@ -205,8 +222,8 @@ local function OnUpdate(self, elapsed)
 			g = 0;
 		end
 		arrow:SetVertexColor(1-g,-1+g*2,0)
-		cell = Questie:Modulo(floor(angle / twopi * 108 + 0.5), 108);
-		local column = Questie:Modulo(cell, 9)
+		cell = floor(angle / twopi * 108 + 0.5) % 108
+		local column = cell % 9
 		local row = floor(cell / 9)
 		local xstart = (column * 56) / 512
 		local ystart = (row * 42) / 512
@@ -214,14 +231,19 @@ local function OnUpdate(self, elapsed)
 		local yend = ((row + 1) * 42) / 512
 		arrow:SetTexCoord(xstart,xend,ystart,yend)
 	end
+
 	-- Calculate the TTA every second  (%01d:%02d)
+
 	tta_throttle = tta_throttle + elapsed
+
 	if tta_throttle >= 1.0 then
 		-- Calculate the speed in yards per sec at which we're moving
 		local current_speed = (last_distance - dist) / tta_throttle
+
 		if last_distance == 0 then
 			current_speed = 0
 		end
+
 		if speed_count < 2 then
 			speed = (speed + current_speed) / 2
 			speed_count = speed_count + 1
@@ -229,13 +251,14 @@ local function OnUpdate(self, elapsed)
 			speed_count = 0
 			speed = current_speed
 		end
+
 		if speed > 0 then
 			local eta = math.abs(dist / speed)
-			local text = string.format("%01d:%02d", eta / 60, Questie:Modulo(eta, 60))
-			tta:SetText(text)
+			tta:SetFormattedText("%01d:%02d", eta / 60, eta % 60)
 		else
 			tta:SetText("***")
 		end
+
 		last_distance = dist
 		tta_throttle = 0
 	end
@@ -254,11 +277,8 @@ function ShowHideCrazyArrow()
 		wayframe:SetAlpha(1)
 		local width = 80
 		local height = 80
-		local scale = 1
 		wayframe.title:SetWidth(width)
 		wayframe.title:SetHeight(height)
-		titleframe:SetScale(scale)
-		titleframe:SetAlpha(1)
 		if true then
 			tta:Show()
 		else
@@ -267,14 +287,6 @@ function ShowHideCrazyArrow()
 	else
 		wayframe:Hide()
 	end
-end
-
-function ArrowHidden()
-	isHide = true
-end
-
-function ArrowShown()
-	isHide = false
 end
 
 wayframe:SetScript("OnUpdate", OnUpdate)
@@ -318,7 +330,7 @@ wayframe:SetScript("OnEvent", function(self, event, arg1, ...)
 				end
 				counter = 0
 				local angle = GetDirectionToIcon(active_point)
-				local player = GetPlayerFacing()
+				local player = GetPlayerBearing()
 				if not angle or not player then
 					feed_crazy.iconCoords = texcoords["1:1"]
 					feed_crazy.iconR = 0.2

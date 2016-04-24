@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
--- Name: Questie for Vanilla WoW
--- Revision: 3.0
+-- Name: Questie for The Burning Crusade
+-- Revision: 1.0
 -- Authors: Aero/Schaka/Logon/Dyaxler/everyone else
 -- Website: https://github.com/AeroScripts/QuestieDev
 -- Description: Questie started out being a simple backport of QuestHelper but it has grown beyond
@@ -11,12 +11,13 @@
 ---------------------------------------------------------------------------------------------------
 --///////////////////////////////////////////////////////////////////////////////////////////////--
 ---------------------------------------------------------------------------------------------------
+local Astrolabe = DongleStub("Astrolabe-0.4")
 DEBUG_LEVEL = nil; --0 Low info --1 Medium info --2 very spammy
 Questie = CreateFrame("Frame", "QuestieLua", UIParent, "ActionButtonTemplate");
 QuestRewardCompleteButton = nil;
 QuestAbandonOnAccept = nil;
 QuestAbandonWithItemsOnAccept = nil;
-QuestieVersion = 3.0;
+QuestieVersion = 1.0;
 ---------------------------------------------------------------------------------------------------
 -- WoW Functions --PERFORMANCE CHANGE--
 ---------------------------------------------------------------------------------------------------
@@ -74,51 +75,51 @@ end
 -- Setup Default Vars
 ---------------------------------------------------------------------------------------------------
 function Questie:CheckDefaults()
-	if not QuestieConfig.alwaysShowDistance then
+	if QuestieConfig.alwaysShowDistance == nil then
 		QuestieConfig.alwaysShowDistance = false;
 	end
-	if not QuestieConfig.alwaysShowLevel then
+	if QuestieConfig.alwaysShowLevel == nil then
 		QuestieConfig.alwaysShowLevel = true;
 	end
-	if not QuestieConfig.alwaysShowQuests then
+	if QuestieConfig.alwaysShowQuests == nil then
 		QuestieConfig.alwaysShowQuests = true;
 	end
-	if not QuestieConfig.arrowEnabled then
+	if QuestieConfig.arrowEnabled == nil then
 		QuestieConfig.arrowEnabled = true;
 	end
-	if not QuestieConfig.boldColors then
+	if QuestieConfig.boldColors == nil then
 		QuestieConfig.boldColors = false;
 	end
-	if not QuestieConfig.maxLevelFilter then
+	if QuestieConfig.maxLevelFilter == nil then
 		QuestieConfig.maxLevelFilter = false;
 	end
-	if not QuestieConfig.maxShowLevel then
+	if QuestieConfig.maxShowLevel == nil then
 		QuestieConfig.maxShowLevel = false;
 		QuestieConfig.maxShowLevel = 3;
 	end
-	if not QuestieConfig.minLevelFilter then
+	if QuestieConfig.minLevelFilter == nil then
 		QuestieConfig.minLevelFilter = false;
 	end
-	if not QuestieConfig.minShowLevel then
+	if QuestieConfig.minShowLevel == nil then
 		QuestieConfig.minShowLevel = false;
 		QuestieConfig.minShowLevel = 5;
 	end
-	if not QuestieConfig.showMapAids then
+	if QuestieConfig.showMapAids == nil then
 		QuestieConfig.showMapAids = true;
 	end
-	if not QuestieConfig.showProfessionQuests then
+	if QuestieConfig.showProfessionQuests == nil then
 		QuestieConfig.showProfessionQuests = false;
 	end
-	if not QuestieConfig.showTrackerHeader then
+	if QuestieConfig.showTrackerHeader == nil then
 		QuestieConfig.showTrackerHeader = false;
 	end
-	if not QuestieConfig.trackerEnabled then
+	if QuestieConfig.trackerEnabled == nil then
 		QuestieConfig.trackerEnabled = true;
 	end
-	if not QuestieConfig.trackerList then
+	if QuestieConfig.trackerList == nil then
 		QuestieConfig.trackerList = false;
 	end
-	if not QuestieConfig.resizeWorldmap then
+	if QuestieConfig.resizeWorldmap == nil then
 		QuestieConfig.resizeWorldmap = false;
 	end
 	-- Version check
@@ -464,7 +465,7 @@ function findFirst(haystack, needle)
 end
 ---------------------------------------------------------------------------------------------------
 function findLast(haystack, needle)
-	local i=string.gfind(haystack, ".*"..needle.."()")()
+	local i=string.gmatch(haystack, ".*"..needle.."()")()
 	if i==nil then return nil; else return i-1; end
 end
 ---------------------------------------------------------------------------------------------------

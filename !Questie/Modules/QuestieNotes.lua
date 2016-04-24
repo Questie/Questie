@@ -6,7 +6,8 @@
 ---------------------------------------------------------------------------------------------------
 -- Global Vars
 ---------------------------------------------------------------------------------------------------
-NOTES_DEBUG = nil; --Set to nil to not get debug shit
+local Astrolabe = DongleStub("Astrolabe-0.4")
+NOTES_DEBUG = true; --Set to nil to not get debug shit
 --Contains all the frames ever created, this is not to orphan any frames by mistake...
 local AllFrames = {};
 --Contains frames that are created but currently not used (Frames can't be deleted so we pool them to save space);
@@ -100,7 +101,7 @@ function Questie:UpdateQuestNotes(questHash, redraw)
 	end
 	local QuestLogID = Questie:GetQuestIdFromHash(questHash);
 	QSelect_QuestLogEntry(QuestLogID);
-	local q, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(QuestLogID);
+	local questName, level, questTag, suggestedGroup, isHeader, isCollapsed, isComplete, isDaily, questID = QGet_QuestLogTitle(QuestLogID);
 	local count =  QGet_NumQuestLeaderBoards();
 	local questText, objectiveText = QGet_QuestLogQuestText();
 	for k, noteInfo in pairs(QuestieHandledQuests[questHash]["noteHandles"]) do
@@ -339,11 +340,11 @@ function Questie_Tooltip_OnEnter()
 				local QuestLogID = Questie:GetQuestIdFromHash(this.data.questHash);
 				if QuestLogID then
 					QSelect_QuestLogEntry(QuestLogID);
-					local q, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(QuestLogID);
+					local questName, level, questTag, suggestedGroup, isHeader, isCollapsed, isComplete, isDaily, questID = QGet_QuestLogTitle(QuestLogID);
 					local count =  QGet_NumQuestLeaderBoards();
 					local questText, objectiveText = QGet_QuestLogQuestText();
 					local desc, typ, done = QGet_QuestLogLeaderBoard(this.data.objectiveid);
-					Tooltip:AddLine(q ,1,1,1);
+					Tooltip:AddLine(questName ,1,1,1);
 					Tooltip:AddLine(desc);
 				end
 			else
@@ -460,6 +461,22 @@ function Questie:NOTES_ON_UPDATE(elapsed)
 	elseif(WorldMapFrame:IsVisible() == nil and UIOpen == true) then
 		UIOpen = false;
 	end
+	local MBB_ExcludeTemp = {}
+	local count = CREATED_NOTE_FRAMES
+	local tbsize = table.getn(MBB_Exclude)
+	if tbsize == 0 then
+		MBB_Exclude[1] = "QuestiePlaceHolderFrame";
+	end
+	if IsAddOnLoaded("MBB") then
+		if tbsize >= count + 1 then return end
+		for i = 1, count do
+			MBB_ExcludeTemp[i] = "QuestieNoteFrame"..i;
+		end
+		for i = 1, #MBB_ExcludeTemp do
+		 MBB_Exclude[#MBB_Exclude+1] = MBB_ExcludeTemp[i]
+		end
+		MBB_ExcludeTemp = {}
+	end
 end
 ---------------------------------------------------------------------------------------------------
 -- Inital pool size (Not tested how much you can do before it lags like shit, from experiance 11
@@ -546,39 +563,53 @@ function Questie:DRAW_NOTES()
 	Questie:debug_Print("DRAW_NOTES");
 	if(QuestieMapNotes[c] and QuestieMapNotes[c][z]) then
 		for k, v in pairs(QuestieMapNotes[c][z]) do
-			--If an available quest isn't in the zone or we aren't tracking a quest on the QuestTracker then hide the objectives from the minimap
-			if (QuestieConfig.alwaysShowQuests == false) and (MMLastX ~= 0 and MMLastY ~= 0) and (((QuestieTrackedQuests[v.questHash] ~= nil) and (QuestieTrackedQuests[v.questHash]["tracked"] ~= false)) or (v.icontype == "complete")) then
-				MMIcon = Questie:GetBlankNoteFrame();
-				MMIcon.data = v;
-				MMIcon:SetParent(Minimap);
-				MMIcon:SetFrameLevel(9);
-				MMIcon:SetPoint("CENTER",0,0)
-				MMIcon:SetWidth(16*QUESTIE_NOTES_MINIMAP_ICON_SCALE)  -- Set These to whatever height/width is needed
-				MMIcon:SetHeight(16*QUESTIE_NOTES_MINIMAP_ICON_SCALE) -- for your Texture
-				MMIcon.type = "MiniMapNote";
-				--Sets highlight texture (Nothing stops us from doing this on the worldmap aswell)
-				MMIcon:SetHighlightTexture(QuestieIcons[v.icontype].path, "ADD");
-				--Set the texture to the right type
-				MMIcon.texture:SetTexture(QuestieIcons[v.icontype].path);
-				MMIcon.texture:SetAllPoints(MMIcon)
-				Astrolabe:PlaceIconOnMinimap(MMIcon, v.continent, v.zoneid, v.x, v.y);
-				table.insert(QuestieUsedNoteFrames, MMIcon);
-			elseif (QuestieConfig.alwaysShowQuests == true) then
-				MMIcon = Questie:GetBlankNoteFrame();
-				MMIcon.data = v;
-				MMIcon:SetParent(Minimap);
-				MMIcon:SetFrameLevel(9);
-				MMIcon:SetPoint("CENTER",0,0)
-				MMIcon:SetWidth(16*QUESTIE_NOTES_MINIMAP_ICON_SCALE)  -- Set These to whatever height/width is needed
-				MMIcon:SetHeight(16*QUESTIE_NOTES_MINIMAP_ICON_SCALE) -- for your Texture
-				MMIcon.type = "MiniMapNote";
-				--Sets highlight texture (Nothing stops us from doing this on the worldmap aswell)
-				MMIcon:SetHighlightTexture(QuestieIcons[v.icontype].path, "ADD");
-				--Set the texture to the right type
-				MMIcon.texture:SetTexture(QuestieIcons[v.icontype].path);
-				MMIcon.texture:SetAllPoints(MMIcon)
-				Astrolabe:PlaceIconOnMinimap(MMIcon, v.continent, v.zoneid, v.x, v.y);
-				table.insert(QuestieUsedNoteFrames, MMIcon);
+			local C,Z,X,Y = Astrolabe:GetCurrentPlayerPosition() -- continent, zone, x, y
+			local dist, xDelta, yDelta = Astrolabe:ComputeDistance( C, Z, X, Y, v.continent, v.zoneid, v.x, v.y )
+			if (dist == nil) or (dist <= 200) then
+				--If an available quest isn't in the zone or we aren't tracking a quest on the QuestTracker then hide the objectives from the minimap
+				if (QuestieConfig.alwaysShowQuests == false) and (MMLastX ~= 0 and MMLastY ~= 0) and (((QuestieTrackedQuests[v.questHash] ~= nil) and (QuestieTrackedQuests[v.questHash]["tracked"] ~= false)) or (v.icontype == "complete")) then
+					MMIcon = Questie:GetBlankNoteFrame();
+					MMIcon.data = v;
+					MMIcon:SetParent(Minimap);
+					MMIcon:SetFrameLevel(9);
+					MMIcon:SetPoint("CENTER", 0, 0)
+					if (v.icontype == "complete") then
+						MMIcon:SetWidth(20*QUESTIE_NOTES_MINIMAP_ICON_SCALE)  -- Set These to whatever height/width is needed
+						MMIcon:SetHeight(20*QUESTIE_NOTES_MINIMAP_ICON_SCALE) -- for your Texture
+					else
+						MMIcon:SetWidth(14*QUESTIE_NOTES_MINIMAP_ICON_SCALE)  -- Set These to whatever height/width is needed
+						MMIcon:SetHeight(14*QUESTIE_NOTES_MINIMAP_ICON_SCALE) -- for your Texture
+					end
+					MMIcon.type = "MiniMapNote";
+					--Sets highlight texture (Nothing stops us from doing this on the worldmap aswell)
+					MMIcon:SetHighlightTexture(QuestieIcons[v.icontype].path, "ADD");
+					--Set the texture to the right type
+					MMIcon.texture:SetTexture(QuestieIcons[v.icontype].path);
+					MMIcon.texture:SetAllPoints(MMIcon)
+					Astrolabe:PlaceIconOnMinimap(MMIcon, v.continent, v.zoneid, v.x, v.y);
+					table.insert(QuestieUsedNoteFrames, MMIcon);
+				elseif (QuestieConfig.alwaysShowQuests == true) then
+					MMIcon = Questie:GetBlankNoteFrame();
+					MMIcon.data = v;
+					MMIcon:SetParent(Minimap);
+					MMIcon:SetFrameLevel(9);
+					MMIcon:SetPoint("CENTER", 0, 0)
+					if (v.icontype == "complete") then
+						MMIcon:SetWidth(20*QUESTIE_NOTES_MINIMAP_ICON_SCALE)  -- Set These to whatever height/width is needed
+						MMIcon:SetHeight(20*QUESTIE_NOTES_MINIMAP_ICON_SCALE) -- for your Texture
+					else
+						MMIcon:SetWidth(14*QUESTIE_NOTES_MINIMAP_ICON_SCALE)  -- Set These to whatever height/width is needed
+						MMIcon:SetHeight(14*QUESTIE_NOTES_MINIMAP_ICON_SCALE) -- for your Texture
+					end
+					MMIcon.type = "MiniMapNote";
+					--Sets highlight texture (Nothing stops us from doing this on the worldmap aswell)
+					MMIcon:SetHighlightTexture(QuestieIcons[v.icontype].path, "ADD");
+					--Set the texture to the right type
+					MMIcon.texture:SetTexture(QuestieIcons[v.icontype].path);
+					MMIcon.texture:SetAllPoints(MMIcon)
+					Astrolabe:PlaceIconOnMinimap(MMIcon, v.continent, v.zoneid, v.x, v.y);
+					table.insert(QuestieUsedNoteFrames, MMIcon);
+				end
 			end
 		end
 	end
@@ -598,21 +629,21 @@ function Questie:DRAW_NOTES()
 						else
 							Icon:SetFrameLevel(9);
 						end
-						Icon:SetPoint("CENTER",0,0)
+						Icon:SetPoint("CENTER", 0, 0)
 						Icon.type = "WorldMapNote";
 						Icon:SetScript("OnEnter", Questie_Tooltip_OnEnter); --Script Toolip
 						Icon:SetScript("OnLeave", function() if(WorldMapTooltip) then WorldMapTooltip:Hide() end if(GameTooltip) then GameTooltip:Hide() end end) --Script Exit Tooltip
 						Icon:SetScript("OnClick", Questie_AvailableQuestClick);
 						Icon:RegisterForClicks("LeftButtonDown", "RightButtonDown");
 						if(z == 0 and c == 0) then--Both continents
-							Icon:SetWidth(16*QUESTIE_NOTES_WORLD_MAP_ICON_SCALE)  -- Set These to whatever height/width is needed
-							Icon:SetHeight(16*QUESTIE_NOTES_WORLD_MAP_ICON_SCALE) -- for your Texture
+							Icon:SetWidth(14*QUESTIE_NOTES_WORLD_MAP_ICON_SCALE)  -- Set These to whatever height/width is needed
+							Icon:SetHeight(14*QUESTIE_NOTES_WORLD_MAP_ICON_SCALE) -- for your Texture
 						elseif(z == 0) then--Single continent
-							Icon:SetWidth(16*QUESTIE_NOTES_CONTINENT_ICON_SCALE)  -- Set These to whatever height/width is needed
-							Icon:SetHeight(16*QUESTIE_NOTES_CONTINENT_ICON_SCALE) -- for your Texture
+							Icon:SetWidth(14*QUESTIE_NOTES_CONTINENT_ICON_SCALE)  -- Set These to whatever height/width is needed
+							Icon:SetHeight(14*QUESTIE_NOTES_CONTINENT_ICON_SCALE) -- for your Texture
 						else
-							Icon:SetWidth(16*QUESTIE_NOTES_MAP_ICON_SCALE)  -- Set These to whatever height/width is needed
-							Icon:SetHeight(16*QUESTIE_NOTES_MAP_ICON_SCALE) -- for your Texture
+							Icon:SetWidth(14*QUESTIE_NOTES_MAP_ICON_SCALE)  -- Set These to whatever height/width is needed
+							Icon:SetHeight(14*QUESTIE_NOTES_MAP_ICON_SCALE) -- for your Texture
 						end
 						--Set the texture to the right type
 						Icon.texture:SetTexture(QuestieIcons[v.icontype].path);
@@ -643,14 +674,14 @@ function Questie:DRAW_NOTES()
 						Icon:SetScript("OnClick", Questie_AvailableQuestClick);
 						Icon:RegisterForClicks("LeftButtonDown", "RightButtonDown");
 						if(z == 0 and c == 0) then--Both continents
-							Icon:SetWidth(16*QUESTIE_NOTES_WORLD_MAP_ICON_SCALE)  -- Set These to whatever height/width is needed
-							Icon:SetHeight(16*QUESTIE_NOTES_WORLD_MAP_ICON_SCALE) -- for your Texture
+							Icon:SetWidth(14*QUESTIE_NOTES_WORLD_MAP_ICON_SCALE)  -- Set These to whatever height/width is needed
+							Icon:SetHeight(14*QUESTIE_NOTES_WORLD_MAP_ICON_SCALE) -- for your Texture
 						elseif(z == 0) then--Single continent
-							Icon:SetWidth(16*QUESTIE_NOTES_CONTINENT_ICON_SCALE)  -- Set These to whatever height/width is needed
-							Icon:SetHeight(16*QUESTIE_NOTES_CONTINENT_ICON_SCALE) -- for your Texture
+							Icon:SetWidth(14*QUESTIE_NOTES_CONTINENT_ICON_SCALE)  -- Set These to whatever height/width is needed
+							Icon:SetHeight(14*QUESTIE_NOTES_CONTINENT_ICON_SCALE) -- for your Texture
 						else
-							Icon:SetWidth(16*QUESTIE_NOTES_MAP_ICON_SCALE)  -- Set These to whatever height/width is needed
-							Icon:SetHeight(16*QUESTIE_NOTES_MAP_ICON_SCALE) -- for your Texture
+							Icon:SetWidth(14*QUESTIE_NOTES_MAP_ICON_SCALE)  -- Set These to whatever height/width is needed
+							Icon:SetHeight(14*QUESTIE_NOTES_MAP_ICON_SCALE) -- for your Texture
 						end
 						--Set the texture to the right type
 						Icon.texture:SetTexture(QuestieIcons[v.icontype].path);
@@ -678,12 +709,12 @@ function Questie:DRAW_NOTES()
 				Icon:SetParent(WorldMapFrame);
 				--This is so that Complete quests are over everything else
 				Icon:SetFrameLevel(9);
-				Icon:SetPoint("CENTER",0,0)
+				Icon:SetPoint("CENTER", 0, 0)
 				Icon.type = "WorldMapNote";
 				Icon:SetScript("OnEnter", Questie_Tooltip_OnEnter); --Script Toolip
 				Icon:SetScript("OnLeave", function() if(WorldMapTooltip) then WorldMapTooltip:Hide() end if(GameTooltip) then GameTooltip:Hide() end end) --Script Exit Tooltip
-				Icon:SetWidth(16*QUESTIE_NOTES_MAP_ICON_SCALE)  -- Set These to whatever height/width is needed
-				Icon:SetHeight(16*QUESTIE_NOTES_MAP_ICON_SCALE) -- for your Texture
+				Icon:SetWidth(14*QUESTIE_NOTES_MAP_ICON_SCALE)  -- Set These to whatever height/width is needed
+				Icon:SetHeight(14*QUESTIE_NOTES_MAP_ICON_SCALE) -- for your Texture
 				Icon:SetScript("OnClick", Questie_AvailableQuestClick);
 				Icon:RegisterForClicks("LeftButtonDown", "RightButtonDown");
 				--Set the texture to the right type
@@ -697,21 +728,29 @@ function Questie:DRAW_NOTES()
 				else
 					Questie:Clear_Note(Icon);
 				end
-				MMIcon = Questie:GetBlankNoteFrame();
-				MMIcon.data = v;
-				MMIcon:SetParent(Minimap);
-				MMIcon:SetFrameLevel(7);
-				MMIcon:SetPoint("CENTER",0,0)
-				MMIcon:SetWidth(16*QUESTIE_NOTES_MINIMAP_ICON_SCALE)  -- Set These to whatever height/width is needed
-				MMIcon:SetHeight(16*QUESTIE_NOTES_MINIMAP_ICON_SCALE) -- for your Texture
-				MMIcon.type = "MiniMapNote";
-				--Sets highlight texture (Nothing stops us from doing this on the worldmap aswell)
-				MMIcon:SetHighlightTexture(QuestieIcons[v.icontype].path, "ADD");
-				--Set the texture to the right type
-				MMIcon.texture:SetTexture(QuestieIcons[v.icontype].path);
-				MMIcon.texture:SetAllPoints(MMIcon)
-				Astrolabe:PlaceIconOnMinimap(MMIcon, v.continent, v.zoneid, v.x, v.y);
-				table.insert(QuestieUsedNoteFrames, MMIcon);
+				local dist, xDelta, yDelta = Astrolabe:ComputeDistance( con, zon, x, y, v.continent, v.zoneid, v.x, v.y )
+				if (dist == nil) or (dist <= 200) then
+					MMIcon = Questie:GetBlankNoteFrame();
+					MMIcon.data = v;
+					MMIcon:SetParent(Minimap);
+					MMIcon:SetFrameLevel(7);
+					MMIcon:SetPoint("CENTER", 0, 0)
+					if (v.icontype == "available") then
+						MMIcon:SetWidth(20*QUESTIE_NOTES_MINIMAP_ICON_SCALE)  -- Set These to whatever height/width is needed
+						MMIcon:SetHeight(20*QUESTIE_NOTES_MINIMAP_ICON_SCALE) -- for your Texture
+					else
+						MMIcon:SetWidth(14*QUESTIE_NOTES_MINIMAP_ICON_SCALE)  -- Set These to whatever height/width is needed
+						MMIcon:SetHeight(14*QUESTIE_NOTES_MINIMAP_ICON_SCALE) -- for your Texture
+					end
+					MMIcon.type = "MiniMapNote";
+					--Sets highlight texture (Nothing stops us from doing this on the worldmap aswell)
+					MMIcon:SetHighlightTexture(QuestieIcons[v.icontype].path, "ADD");
+					--Set the texture to the right type
+					MMIcon.texture:SetTexture(QuestieIcons[v.icontype].path);
+					MMIcon.texture:SetAllPoints(MMIcon)
+					Astrolabe:PlaceIconOnMinimap(MMIcon, v.continent, v.zoneid, v.x, v.y);
+					table.insert(QuestieUsedNoteFrames, MMIcon);
+				end
 			end
 		end
 	end

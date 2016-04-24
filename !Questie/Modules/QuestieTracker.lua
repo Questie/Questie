@@ -6,6 +6,7 @@
 ---------------------------------------------------------------------------------------------------
 -- Setup tracker frame and event handler
 ---------------------------------------------------------------------------------------------------
+local Astrolabe = DongleStub("Astrolabe-0.4")
 local function log(msg) DEFAULT_CHAT_FRAME:AddMessage(msg) end -- alias for convenience
 QuestieTracker = CreateFrame("Frame", "QuestieTracker", UIParent, "ActionButtonTemplate")
 function QuestieTracker:OnEvent() -- functions created in "object:method"-style have an implicit first parameter of "this", which points to object || in 1.12 parsing arguments as ... doesn't work
@@ -386,15 +387,9 @@ function QuestieTracker:fillTrackingFrame()
 			end
 		end
 	end
-	if (QuestieConfig.trackerList == true) then
-		sort(distanceNotes, function (a, b)
-			return a["dist"] > b["dist"]
-		end)
-	elseif (QuestieConfig.trackerList == false) then
-			sort(distanceNotes, function (a, b)
-			return a["dist"] < b["dist"]
-		end)
-	end
+	sort(distanceNotes, function (a, b)
+		return a["dist"] < b["dist"]
+	end)
 	for k,v in pairs(distanceNotes) do
 		if not distanceControlTable[v["hash"]] then
 			distanceControlTable[v["hash"]] = true
@@ -671,7 +666,7 @@ function QuestieTracker:addQuestToTracker(hash, logId, level) -- never used???
 		DEFAULT_CHAT_FRAME:AddMessage("TrackerError! LogId still nil after GetQuestIdFromHash ", hash)
 		return
 	end
-	local questName, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(logId)
+	local questName, level, questTag, suggestedGroup, isHeader, isCollapsed, isComplete, isDaily, questID = QGet_QuestLogTitle(logId)
 	if (not QuestieTrackedQuests[hash]["tracked"] == true) then
 		QuestieTrackedQuests[hash]["tracked"] = false
 	end
@@ -739,7 +734,7 @@ function QuestieTracker:updateFrameOnTracker(hash, logId, level)
 		DEFAULT_CHAT_FRAME:AddMessage("TrackerError! LogId still nil after GetQuestIdFromHash ", hash)
 		return
 	end
-	local questName, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(logId)
+	local questName, level, questTag, suggestedGroup, isHeader, isCollapsed, isComplete, isDaily, questID = QGet_QuestLogTitle(logId)
 	QuestieTrackedQuests[hash]["questName"] = questName
 	QuestieTrackedQuests[hash]["isComplete"] = isComplete
 	QuestieTrackedQuests[hash]["questTag"] = questTag
@@ -779,7 +774,7 @@ end
 ---------------------------------------------------------------------------------------------------
 function QuestieTracker:findLogIdByName(name)
 	for i=1,GetNumQuestLogEntries() do
-		local questName, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(i);
+		local questName, level, questTag, suggestedGroup, isHeader, isCollapsed, isComplete, isDaily, questID = QGet_QuestLogTitle(i);
 		if(name == questName) then
 			return i;
 		end
@@ -798,7 +793,7 @@ function QuestieTracker:isTracked(quest)
 			return true
 		end
 	else
-		local questName, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(quest)
+		local questName, level, questTag, suggestedGroup, isHeader, isCollapsed, isComplete, isDaily, questID = QGet_QuestLogTitle(quest)
 		local hash = Questie:GetHashFromName(questName)
 		if(QuestieTrackedQuests[hash] and QuestieTrackedQuests[hash]["tracked"] ~= false) then
 			return true
@@ -811,7 +806,7 @@ end
 ---------------------------------------------------------------------------------------------------
 function QuestieTracker:setQuestInfo(id)
 	local questInfo = {}
-	local questName, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(id)
+	local questName, level, questTag, suggestedGroup, isHeader, isCollapsed, isComplete, isDaily, questID = QGet_QuestLogTitle(id)
 	if not isHeader and not isCollapsed then
 		local hash = Questie:GetHashFromName(questName)
 		if(QuestieTracker:isTracked(questName)) then
@@ -839,7 +834,7 @@ end
 function QuestieTracker:syncEQL3()
 	if IsAddOnLoaded("EQL3") then
 		for id=1, GetNumQuestLogEntries() do
-			local questName, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(id)
+			local questName, level, questTag, suggestedGroup, isHeader, isCollapsed, isComplete, isDaily, questID = QGet_QuestLogTitle(id)
 			if not isHeader and not isCollapsed then
 				local hash = Questie:GetHashFromName(questName)
 				if ( not isHeader and EQL3_IsQuestWatched(id) and not QuestieTracker:isTracked(questName) ) then
@@ -881,6 +876,8 @@ function QuestieTracker:ADDON_LOADED()
 	QuestWatchFrame.Show = function ()
 	end;
 	-- This adds the ability to scale the Worldmap from FULLSCREEN or to a WINDOW if a player isn't using Cargographer or MetaMap.
+	if (QuestieConfig == nil) then return end
+	if (QuestieConfig.resizeWorldmap == nil) then return end
 	if (QuestieConfig.resizeWorldmap == false) then return end
 	if (IsAddOnLoaded("Cartographer")) or (IsAddOnLoaded("MetaMap")) then
 		return

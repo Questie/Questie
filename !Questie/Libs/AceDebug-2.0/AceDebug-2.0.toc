@@ -1,0 +1,12 @@
+## Interface: 20400
+
+## Title: Lib: AceDebug-2.0
+## Notes: AddOn development framework
+## Author: Ace Development Team
+## LoadOnDemand: 1
+## X-Website: http://www.wowace.com
+## X-Category: Library
+## X-License: LGPL v2.1 + MIT for AceOO-2.0
+## Dependencies: AceLibrary, AceOO-2.0
+ 
+AceDebug-2.0.lua
