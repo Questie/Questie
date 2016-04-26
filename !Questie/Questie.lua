@@ -127,8 +127,8 @@ function Questie:CheckDefaults()
 	end
 	-- Sets some EQL3 settings to keep it from conflicting with Questie fetures
 	EQL3_Player = UnitName("player").."-"..GetRealmName();
-	if IsAddOnLoaded("EQL3") then
-		if(not QuestlogOptions) then return end
+	if IsAddOnLoaded("EQL3") or IsAddOnLoaded("ShaguQuest") then
+		if(not QuestlogOptions[EQL3_Player]) then return end
 		QuestlogOptions[EQL3_Player].MobTooltip = 0;
 		QuestlogOptions[EQL3_Player].ItemTooltip = 0;
 		QuestlogOptions[EQL3_Player].RemoveCompletedObjectives = 0;
@@ -263,7 +263,7 @@ function Questie:OnLoad()
 	end
 	QuestRewardCompleteButton = QuestRewardCompleteButton_OnClick;
 	QuestRewardCompleteButton_OnClick = function()
-		if IsAddOnLoaded("EQL3") then
+		if IsAddOnLoaded("EQL3") or IsAddOnLoaded("ShaguQuest") then
 			local questTitle = QGet_TitleText();
 			local _, _, level, qName = string.find(questTitle, "%[(.+)%] (.+)")
 			if qName == nil then
@@ -399,7 +399,7 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 		end
 		Questie:BlockTranslations();
 	elseif(event == "QUEST_PROGRESS") then
-		if IsAddOnLoaded("EQL3") then
+		if IsAddOnLoaded("EQL3") or IsAddOnLoaded("ShaguQuest") then
 			if IsQuestCompletable() then
 				local questTitle = QGet_TitleText();
 				local _, _, level, qName = string.find(questTitle, "%[(.+)%] (.+)");
