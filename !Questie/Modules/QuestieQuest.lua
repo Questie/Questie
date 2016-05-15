@@ -34,7 +34,10 @@ function Questie:finishAndRecurse(questhash)
 		end
 	elseif ((QuestieSeenQuests[questhash] == nil) or (QuestieTrackedQuests[questhash] == nil)) then
 		QuestieSeenQuests[questhash] = 1;
-		local req = QuestieHashMap[questhash]['rq'];
+		local req = nil;
+		if QuestieHashMap[questhash] then
+			req = QuestieHashMap[questhash]['rq'];
+		end
 		if req then
 			Questie:finishAndRecurse(req);
 			QuestieTrackedQuests[req] = nil;
@@ -248,7 +251,7 @@ function Questie:UpdateQuestInZone(Zone, force)
 					QuestieTracker:updateFrameOnTracker(hash, i, level)
 				end
 				QuestieTracker:fillTrackingFrame()
-			elseif foundChange then
+			elseif foundChange and QuestieConfig.trackerEnabled == true then
 				if (QuestieTrackedQuests[hash]) then
 					QuestieTracker:updateFrameOnTracker(hash, i, level)
 				end

@@ -1,33 +1,74 @@
 -------------------------------------------------------------------------------------------------------------------------------
-* Hotfix: added ShaguQuest mod support to handle their custom EQL3 version.
-  When I moved Questie from the global to the local space, the EQL3 function
-  calls in ShaguQuest quit working. This has been corrected in this hotfix.
+v3.1
 
-* Hotfix: after rewriting Questie and moving everything from global to
+* All previous hotfixes have been merged with this version.
+
+* For those not running EQL3 or some other QuestLog mod. If you prefer the
+  default wow QuestLog and Tracker that's fine but it's very limited. For
+  example, if a quest doesn't have any objectives to "track" then it won't
+  appear in the quest tracker and no Quest Arrow will be available for it.
+  Additionally, quests will not automatically be tracked by the default WoW
+  quest tracker. The way that it works is that if you have the option enabled
+  in the games Interface Options --> "Automatic Quest Tracking" then yes,
+  it will auto track a quest with an objective once you OBTAIN the first
+  item. Then it will appear automatically in the list unless you manually
+  Shift+Click the quest in the QuestLog but again, only if there is a
+  "trackable" objective. Unlike EQL3 or other QuestLog/QuestTracker mods
+  where pretty much anything is trackable, these quests will appear in the
+  Questie QuestTracker. If the quest appears then map coordinates are
+  cached and this allows the QuestieArrow to hook into the position and
+  give you an arrow.
+
+* Tons of nil error checks added which were exposed by the global to local
+  code rewrite. Thank you everyone for reporting them!
+
+* All "double" tooltip issues have been fixed. :) Unless you have EQL3's
+  "Show Relevant Quest in Item Tooltip" and "Show Relevant Quest in Mob
+  Tooltip" options enabled. I've added code in Questie to disable these
+  options automatically but I'm willing to bet someone's mod setup will
+  cause it to not work so please check those options before reporting
+  issues.
+
+* Added additional support for EQL3, ShaguQuest, and the default WoW client.
+  They all work with and without the QuestieTracker enabled. You can now
+  choose which tracker you want to use however, there is a small caveat.
+  You can only use the quest tracker that is currently enabled unless that
+  quest tracker is capable of being disabled as well. For example, you
+  can't use Questie's arrow features if you have the tracker disabled.
+  Also, if you're running EQL3 and want to use the default wow tracker you
+  can't. In order to use the default wow tracker with Questie you can't
+  run EQL3 or ShaguQuest because their trackers can't be disabled like
+  Questie's can. Their quest trackers override the wow default quest tracker.
+
+* Added ShaguQuest mod support to handle their custom EQL3 version.
+  When I moved Questie from the global to the local space, the EQL3 function
+  calls in ShaguQuest quit working. This has been corrected.
+
+* After rewriting Questie and moving everything from global to
   local, I neglected to realize that some of the EQL3 calls were checking
   for the presence of EQL3 SavedVariable keys and of course were failing.
   I've since replaced them with Blizzard API calls and it's now detecting
   the presence of EQL3 correctly again.
 
-* Hotfix: fixed an issue with Worldmap code for users that aren't using
+* Fixed an issue with Worldmap code for users that aren't using
   a map mod. Added a couple of new nil checks that were popping up for
   some users who recently installed Questie and don't have any Saved
-  Variables file at all. I thought I had throughly checked this code but
+  Variables file at all. I thought I had thoroughly checked this code but
   that was before the global to local conversion and code rewrite. Sorry
   guys!
 
-* Hotfix: fixed an issue with one of the quest management functions. I had
+* Fixed an issue with one of the quest management functions. I had
   to add some additional nil checks to make sure a quest is actually present
   in the database before setting the saved variables data keys in the db.
-  If a quest isn't present then it will now silently ignore the nil error
+  If a quest isn't present, then it will now silently ignore the nil error
   but the quest can't be tracked. Questie's quest database was parsed from
-  a well known and trusted source based on quest data obtained from the live
+  a well-known and trusted source based on quest data obtained from the live
   retail realms in the very early days of BC. Some of the Vanilla quest data
-  might be missing or slightly inaccruate. We're in the process of creating
+  might be missing or slightly inaccurate. We're in the process of creating
   a new database for both the Vanilla and TBC clients of Questie and all
-  sources will be scrapped and checked for duplicate entries from both the
+  sources will be scraped and checked for duplicate entries from both the
   current database and either the most recent mangos distro or some other
-  well respected project.  
+  well respected project.
 
 -------------------------------------------------------------------------------------------------------------------------------
 v3.0

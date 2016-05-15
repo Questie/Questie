@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 -- Name: Questie for Vanilla WoW
--- Revision: 3.0
+-- Revision: 3.1
 -- Authors: Aero/Schaka/Logon/Dyaxler/everyone else
 -- Website: https://github.com/AeroScripts/QuestieDev
 -- Description: Questie started out being a simple backport of QuestHelper but it has grown beyond
@@ -16,7 +16,7 @@ Questie = CreateFrame("Frame", "QuestieLua", UIParent, "ActionButtonTemplate");
 QuestRewardCompleteButton = nil;
 QuestAbandonOnAccept = nil;
 QuestAbandonWithItemsOnAccept = nil;
-QuestieVersion = 3.0;
+QuestieVersion = 3.1;
 ---------------------------------------------------------------------------------------------------
 -- WoW Functions --PERFORMANCE CHANGE--
 ---------------------------------------------------------------------------------------------------
@@ -74,51 +74,51 @@ end
 -- Setup Default Vars
 ---------------------------------------------------------------------------------------------------
 function Questie:CheckDefaults()
-	if not QuestieConfig.alwaysShowDistance then
+	if QuestieConfig.alwaysShowDistance == nil then
 		QuestieConfig.alwaysShowDistance = false;
 	end
-	if not QuestieConfig.alwaysShowLevel then
+	if QuestieConfig.alwaysShowLevel == nil then
 		QuestieConfig.alwaysShowLevel = true;
 	end
-	if not QuestieConfig.alwaysShowQuests then
+	if QuestieConfig.alwaysShowQuests == nil then
 		QuestieConfig.alwaysShowQuests = true;
 	end
-	if not QuestieConfig.arrowEnabled then
+	if QuestieConfig.arrowEnabled == nil then
 		QuestieConfig.arrowEnabled = true;
 	end
-	if not QuestieConfig.boldColors then
+	if QuestieConfig.boldColors == nil then
 		QuestieConfig.boldColors = false;
 	end
-	if not QuestieConfig.maxLevelFilter then
+	if QuestieConfig.maxLevelFilter == nil then
 		QuestieConfig.maxLevelFilter = false;
 	end
-	if not QuestieConfig.maxShowLevel then
+	if QuestieConfig.maxShowLevel == nil then
 		QuestieConfig.maxShowLevel = false;
 		QuestieConfig.maxShowLevel = 3;
 	end
-	if not QuestieConfig.minLevelFilter then
+	if QuestieConfig.minLevelFilter == nil then
 		QuestieConfig.minLevelFilter = false;
 	end
-	if not QuestieConfig.minShowLevel then
+	if QuestieConfig.minShowLevel == nil then
 		QuestieConfig.minShowLevel = false;
 		QuestieConfig.minShowLevel = 5;
 	end
-	if not QuestieConfig.showMapAids then
+	if QuestieConfig.showMapAids == nil then
 		QuestieConfig.showMapAids = true;
 	end
-	if not QuestieConfig.showProfessionQuests then
+	if QuestieConfig.showProfessionQuests == nil then
 		QuestieConfig.showProfessionQuests = false;
 	end
-	if not QuestieConfig.showTrackerHeader then
+	if QuestieConfig.showTrackerHeader == nil then
 		QuestieConfig.showTrackerHeader = false;
 	end
-	if not QuestieConfig.trackerEnabled then
+	if QuestieConfig.trackerEnabled == nil then
 		QuestieConfig.trackerEnabled = true;
 	end
-	if not QuestieConfig.trackerList then
+	if QuestieConfig.trackerList == nil then
 		QuestieConfig.trackerList = false;
 	end
-	if not QuestieConfig.resizeWorldmap then
+	if QuestieConfig.resizeWorldmap == nil then
 		QuestieConfig.resizeWorldmap = false;
 	end
 	-- Version check
@@ -134,8 +134,6 @@ function Questie:CheckDefaults()
 		QuestlogOptions[EQL3_Player].RemoveCompletedObjectives = 0;
 		QuestlogOptions[EQL3_Player].RemoveFinished = 0;
 		QuestlogOptions[EQL3_Player].MinimizeFinished = 0;
-		QuestlogOptions[EQL3_Player].AddUntracked = 1;
-		QuestlogOptions[EQL3_Player].AddNew = 1;
 	end
 end
 ---------------------------------------------------------------------------------------------------
@@ -573,14 +571,37 @@ QuestieFastSlash = {
 	end,
 	["tracker"] = function()
 	-- Default: True
-		QuestieConfig.trackerEnabled = not QuestieConfig.trackerEnabled;
-		if QuestieConfig.trackerEnabled then
-			DEFAULT_CHAT_FRAME:AddMessage("Quest Tracker will now be shown");
-			QuestieTracker:Show();
-		else
-			DEFAULT_CHAT_FRAME:AddMessage("Quest Tracker will now be hidden");
-			QuestieTracker:Hide()
-			QuestieTracker.frame:Hide()
+		if (QuestieConfig.trackerEnabled == true) then
+			StaticPopupDialogs["HIDE_TRACKER"] = {
+				text = "|cFFFFFF00You are about to disable the QuestieTracker. If you're using a QuestLog mod with a built in tracker then after your UI reloads you will be using that mods default tracker. Otherwise you'll use WoW's default tracker.|n|nYour UI will be automatically reloaded to apply the new settings.|n|nAre you sure you want to continue?|r",
+				button1 = TEXT(YES),
+				button2 = TEXT(NO),
+				OnAccept = function()
+					QuestieConfig.trackerEnabled = false
+					QuestieTracker:Hide();
+					QuestieTracker.frame:Hide();
+					ReloadUI()
+				end,
+				timeout = 120,
+				exclusive = 1,
+				hideOnEscape = 1
+			}
+			StaticPopup_Show ("HIDE_TRACKER")
+		elseif (QuestieConfig.trackerEnabled == false) then
+			StaticPopupDialogs["SHOW_TRACKER"] = {
+				text = "|cFFFFFF00You are about to enabled the QuestieTracker. The previous quest tracker will be disabled.|n|nYour UI will be reloaded to apply the new settings.|n|nAre you sure you want to continue?|r",
+				button1 = TEXT(YES),
+				button2 = TEXT(NO),
+				OnAccept = function()
+					QuestieConfig.trackerEnabled = true
+					QuestieTracker:Show();
+					ReloadUI()
+				end,
+				timeout = 60,
+				exclusive = 1,
+				hideOnEscape = 1
+			}
+			StaticPopup_Show ("SHOW_TRACKER")
 		end
 	end,
 	["header"] = function()

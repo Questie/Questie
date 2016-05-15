@@ -23,13 +23,28 @@ QuestieTracker.btnUpdate = 1;
 -- OnUpdate
 ---------------------------------------------------------------------------------------------------
 function QuestieTracker_OnUpdate()
-	if(EQL3_QuestWatchFrame) then
-		EQL3_QuestWatchFrame:Hide();
+	if (IsAddOnLoaded("EQL3") or IsAddOnLoaded("ShaguQuest")) then
+		if (QuestieConfig.trackerEnabled == true) then
+			QuestWatchFrame:Hide();
+			EQL3_QuestWatchFrame:Hide();
+		elseif (QuestieConfig.trackerEnabled == false) then
+			QuestWatchFrame:Hide();
+			QuestieTracker:Hide();
+			QuestieTracker.frame:Hide();
+		end
+	elseif (not IsAddOnLoaded("EQL3") or not IsAddOnLoaded("ShaguQuest")) then
+		if (QuestieConfig.trackerEnabled == true) then
+			QuestWatchFrame:Hide();
+		elseif (QuestieConfig.trackerEnabled == false) then
+			QuestieTracker:Hide();
+			QuestieTracker.frame:Hide();
+		end
 	end
 	if GetTime() - QuestieTracker.lastUpdate >= 1 then
 		QuestieTracker:fillTrackingFrame()
 		QuestieTracker.lastUpdate = GetTime()
 		QuestieTracker:syncEQL3()
+		QuestieTracker:syncQuestWatch()
 		if (QuestieConfig.showMapAids == true) or (QuestieConfig.alwaysShowQuests == true) or ((QuestieConfig.showMapAids == true) and (QuestieConfig.alwaysShowQuests == false)) then
 			Questie:SetAvailableQuests()
 			Questie:RedrawNotes()
@@ -252,7 +267,7 @@ function QuestieTracker:AddObjectiveToButton(button, objective, index)
 	end
 end
 ---------------------------------------------------------------------------------------------------
--- Adds quest tyep 'event' text to quest objective button
+-- Adds quest type 'event' text to quest objective button
 ---------------------------------------------------------------------------------------------------
 function QuestieTracker:AddEventToButton(button, objective, index)
 	local objt;
@@ -566,7 +581,12 @@ function QuestieTracker:createTrackingFrame()
 	QuestieTracker.frame.texture:SetTexture(0,0,0); -- black
 	QuestieTracker.frame.texture:SetAlpha(0.0);
 	QuestieTracker.frame.texture:SetAllPoints(QuestieTracker.frame);
-	QuestieTracker.frame:Show();
+	if (QuestieConfig.trackerEnabled == true) then
+		QuestieTracker.frame:Show();
+	else
+		QuestieTracker:Hide()
+		QuestieTracker.frame:Hide()
+	end
 	QuestieTracker.frame:EnableMouse(true);
 	QuestieTracker.frame:SetMovable(true);
 	--Fix submitted by wardz - thank you!
@@ -593,30 +613,156 @@ end
 -- Adds or removes quests to be tracked from the quest tracker. Also handles 'chat linking'.
 ---------------------------------------------------------------------------------------------------
 function QuestLogTitleButton_OnClick(button)
-	if IsAddOnLoaded("EQL3") or IsAddOnLoaded("ShaguQuest") then
-		if ( IsShiftKeyDown() ) then
-			if not ChatFrameEditBox:IsVisible() then
-				QuestieTracker:setQuestInfo(this:GetID() + FauxScrollFrame_GetOffset(EQL3_QuestLogListScrollFrame));
-			end
-		end
-		QuestLogTitleButton_OnClick(button);
-		EQL3_QuestWatchFrame:Hide();
-	else
-		if ( button == "LeftButton" ) then
+	if (IsAddOnLoaded("EQL3") or IsAddOnLoaded("ShaguQuest")) then
+		local questName = this:GetText();
+		local questIndex = this:GetID() + FauxScrollFrame_GetOffset(EQL3_QuestLogListScrollFrame);
+		if(button == "LeftButton") then
 			if ( IsShiftKeyDown() ) then
-				if(ChatFrameEditBox:IsVisible()) then
-					ChatFrameEditBox:Insert(this:GetText());
+				if( IsControlKeyDown() ) then
+					if ( this.isHeader ) then
+						return;
+					end
+					if ( not ChatFrameEditBox:IsVisible() ) then
+						EQL3_ClearTracker();
+						AddQuestWatch(questIndex);
+						QuestieTracker:syncEQL3();
+						QuestWatch_Update();
+					end
 				else
-					-- add/remove quest to/from tracking
-					QuestieTracker:setQuestInfo(this:GetID() + FauxScrollFrame_GetOffset(QuestLogListScrollFrame));
+					local questLogTitleText, isHeader, isCollapsed, firstTrackable, lastTrackable, numTracked, numUntracked;
+					lastTrackable = -1;
+					numTracked = 0;
+					numUntracked = 0;
+					local track = false;
+					if ( this.isHeader ) then
+						for i=1, GetNumQuestLogEntries(), 1 do
+							questLogTitleText, _, _, isHeader, isCollapsed, _ = GetQuestLogTitle(i);
+							if ( questLogTitleText == questName ) then
+								track = true;
+								firstTrackable = i+1;
+							elseif ( track ) then
+								if ( not isHeader ) then
+									if( IsQuestWatched(i) ) then
+										numTracked = numTracked+1;
+										RemoveQuestWatch(i);
+										QuestieTracker:setQuestInfo(i);
+									else
+										numUntracked = numUntracked+1;
+										RemoveQuestWatch(i);
+										QuestieTracker:syncEQL3();
+									end;
+								end
+								if ( isHeader and questLogTitleText ~= questName ) then
+									lastTrackable = i-1;
+									break;
+								end
+							end
+						end
+						if ( lastTrackable == -1 ) then
+							lastTrackable = GetNumQuestLogEntries();
+						end
+						if ( numUntracked == 0 ) then
+							for i=firstTrackable, lastTrackable, 1 do
+								RemoveQuestWatch(i);
+								QuestieTracker:syncEQL3();
+							end
+							QuestWatch_Update();
+						else
+							for i=firstTrackable, lastTrackable, 1 do
+								AddQuestWatch(i);
+								QuestieTracker:syncEQL3();
+							end
+							QuestWatch_Update();
+						end
+						QuestLog_Update();
+						return;
+					end
+					if ( ChatFrameEditBox:IsVisible() ) then
+						ChatFrameEditBox:Insert(gsub(this:GetText(), " *(.*)", "%1"));
+					else
+						if ( IsQuestWatched(questIndex) ) then
+							RemoveQuestWatch(questIndex);
+							QuestieTracker:syncEQL3();
+							QuestWatch_Update();
+						else
+							if ( GetNumQuestWatches() >= MAX_WATCHABLE_QUESTS ) then
+								UIErrorsFrame:AddMessage(format(QUEST_WATCH_TOO_MANY, MAX_WATCHABLE_QUESTS), 1.0, 0.1, 0.1, 1.0, UIERRORS_HOLD_TIME);
+								return;
+							end
+							AddQuestWatch(questIndex);
+							QuestieTracker:syncEQL3();
+							QuestWatch_Update();
+						end
+					end
 				end
 			end
-			QuestLog_SetSelection(this:GetID() + FauxScrollFrame_GetOffset(QuestLogListScrollFrame))
-			QuestLog_Update();
+			if(this.isHeader) then
+				if ( EQL3_OrganizeFrame:IsVisible() ) then
+					EQL3_OrganizeFrame_Text:SetText(questName);
+					EQL3_OrganizeFrame_Text:ClearFocus();
+					EQL3_OrganizeFunctions(questName);
+					EQL3_OrganizeFrame:Hide();
+				end
+			end
 		end
+		if(QuestLog_SetSelection(questIndex) == 1) then
+			if(not EQL3_QuestLogFrame_Description:IsVisible() and not IsShiftKeyDown() and not IsControlKeyDown() and QuestlogOptions[EQL3_Player].RestoreUponSelect == 1) then
+				EQL3_Maximize();
+			end
+		end
+		if(button == "LeftButton") then
+			if( not IsShiftKeyDown() and IsControlKeyDown() ) then
+				if ( ChatFrameEditBox:IsVisible() ) then
+					AddQuestStatusToChatFrame(questIndex, questName);
+				end
+			end
+		else
+			if ( not this.isHeader ) then
+				if ( EQL3_IsQuestWatched(questIndex) ) then
+					EQL3_Organize_Popup_Track_Text:SetText(EQL3_POPUP_UNTRACK);
+				else
+					EQL3_Organize_Popup_Track_Text:SetText(EQL3_POPUP_TRACK);
+				end
+				EQL3_Organize_Popup:ClearAllPoints();
+				EQL3_Organize_Popup:SetPoint("TOPLEFT", this, "TOPLEFT", 24, 0);
+				EQL3_Organize_Popup:Raise();
+				EQL3_Organize_Popup:Show();
+			end
+		end
+		QuestLog_Update();
+	elseif (not IsAddOnLoaded("EQL3") or not IsAddOnLoaded("ShaguQuest")) then
+		local questName = this:GetText();
+		local questIndex = this:GetID() + FauxScrollFrame_GetOffset(QuestLogListScrollFrame);
+		if ( IsShiftKeyDown() ) then
+			if ( this.isHeader ) then
+				return;
+			end
+			if ( ChatFrameEditBox:IsVisible() ) then
+				ChatFrameEditBox:Insert(gsub(this:GetText(), " *(.*)", "%1"));
+			else
+				if ( IsQuestWatched(questIndex) ) then
+					QuestieTracker:setQuestInfo(questIndex);
+					tremove(QUEST_WATCH_LIST, questIndex);
+					RemoveQuestWatch(questIndex);
+					QuestWatch_Update();
+				else
+					if ( GetNumQuestLeaderBoards(questIndex) == 0 ) then
+						UIErrorsFrame:AddMessage(QUEST_WATCH_NO_OBJECTIVES, 1.0, 0.1, 0.1, 1.0);
+						return;
+					end
+					if ( GetNumQuestWatches() >= MAX_WATCHABLE_QUESTS ) then
+						UIErrorsFrame:AddMessage(format(QUEST_WATCH_TOO_MANY, MAX_WATCHABLE_QUESTS), 1.0, 0.1, 0.1, 1.0);
+						return;
+					end
+					QuestieTracker:setQuestInfo(questIndex);
+					AutoQuestWatch_Insert(questIndex, QUEST_WATCH_NO_EXPIRE);
+					QuestWatch_Update();
+				end
+			end
+		end
+		QuestLog_SetSelection(questIndex)
+		QuestLog_Update();
 	end
-	QuestWatchFrame:Hide()
-	QuestieTracker:fillTrackingFrame();
 end
 ---------------------------------------------------------------------------------------------------
 -- Saves the position of the tracker after the user moves it
@@ -826,6 +972,7 @@ end
 function QuestieTracker:PLAYER_LOGIN()
 	QuestieTracker:createTrackingFrame()
 	QuestieTracker:syncEQL3()
+	QuestieTracker:syncQuestWatch()
 end
 ---------------------------------------------------------------------------------------------------
 -- EQL3 sync'ing function
@@ -844,6 +991,29 @@ function QuestieTracker:syncEQL3()
 						QuestieTracker:addQuestToTracker(hash, id, level)
 					end
 				elseif( not isHeader and not EQL3_IsQuestWatched(id) and QuestieTracker:isTracked(questName) ) then
+					QuestieTracker:removeQuestFromTracker(hash)
+				end
+			end
+		end
+	end
+end
+---------------------------------------------------------------------------------------------------
+-- WoW QuestWatch sync'ing function
+---------------------------------------------------------------------------------------------------
+function QuestieTracker:syncQuestWatch()
+	if (not IsAddOnLoaded("EQL3")) or (not IsAddOnLoaded("ShaguQuest")) then
+		for id=1, GetNumQuestLogEntries() do
+			local questName, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(id)
+			if not isHeader and not isCollapsed then
+				local hash = Questie:GetHashFromName(questName)
+				if ( not isHeader and IsQuestWatched(id) and not QuestieTracker:isTracked(questName) ) then
+					if QuestieTrackedQuests[hash] then
+						QuestieTrackedQuests[hash]["tracked"] = true
+						QuestieTracker:addQuestToTracker(hash, id, level)
+					else
+						QuestieTracker:addQuestToTracker(hash, id, level)
+					end
+				elseif( not isHeader and not IsQuestWatched(id) and QuestieTracker:isTracked(questName) ) then
 					QuestieTracker:removeQuestFromTracker(hash)
 				end
 			end
@@ -870,10 +1040,6 @@ function QuestieTracker:ADDON_LOADED()
 	if not QuestieTrackedQuests then
 		QuestieTrackedQuests = {}
 	end
-	-- bye vanilla tracker
-	QuestWatchFrame:Hide()
-	QuestWatchFrame.Show = function ()
-	end;
 	-- This adds the ability to scale the Worldmap from FULLSCREEN or to a WINDOW if a player isn't using Cargographer or MetaMap.
 	if (QuestieConfig == nil) then return end
 	if (QuestieConfig.resizeWorldmap == nil) then return end
