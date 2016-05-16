@@ -648,11 +648,11 @@ WorldMapSize = {
 				xOffset = 14124.93310546875,
 				yOffset = 4466.5673828125,
 			},
-			Darnassus = {
-				height = 705.7294921875,
-				width = 1058.33325195312,
-				xOffset = 14128.23681640625,
-				yOffset = 2561.583984375,
+			Darnassis = {
+				height = 705.7102838625474,
+				width = 1058.300884213672,
+				xOffset = 14127.75729935019,
+				yOffset = 2561.497770365213,
 			},
 			Desolace = {
 				height = 2997.916564941411,
