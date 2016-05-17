@@ -1,6 +1,9 @@
 # Questie
 **A quest helper for World of Warcraft (1.12.1) - Vanilla**
 
+
+**---------- Please read the Readme & FAQ before submitting issues ----------**
+
 #<a href="https://github.com/AeroScripts/QuestieDev/releases/latest">Download HERE</a>
 After weeks of additional development, Questie v2.0 is finally out. We are steadily approaching 400 commits and gained a third developer since then.
 
