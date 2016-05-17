@@ -630,7 +630,7 @@ WorldMapSize = {
 				xOffset = 15366.59973144531,
 				yOffset = 8126.98388671875,
 			},
-			Azshara = {
+			Aszhara = {
 				height = 3381.2498779296902,
 				width = 5070.8327636718695,
 				xOffset = 20343.68286132813,
@@ -649,10 +649,10 @@ WorldMapSize = {
 				yOffset = 4466.5673828125,
 			},
 			Darnassis = {
-				height = 705.7102838625474,
-				width = 1058.300884213672,
-				xOffset = 14127.75729935019,
-				yOffset = 2561.497770365213,
+				height = 705.7294921875,
+				width = 1058.33325195312,
+				xOffset = 14128.23681640625,
+				yOffset = 2561.583984375,
 			},
 			Desolace = {
 				height = 2997.916564941411,
@@ -696,7 +696,7 @@ WorldMapSize = {
 				xOffset = 15018.68298339844,
 				yOffset = 13072.81704711914,
 			},
-			Orgrimmar = {
+			Ogrimmar = {
 				height = 935.41662597657,
 				width = 1402.6044921875,
 				xOffset = 20747.20068359375,

@@ -1,6 +1,21 @@
 -------------------------------------------------------------------------------------------------------------------------------
 v3.1
 
+* Hotfix: The previous hotfix was incorrect in the assumption that the
+  updated data was incorrect. The city of Darnassis was spelled incorrectly.
+  Someone reported issues with Ogrimmar today and I found that it too was
+  miss-spelled. I've gone through and checked the reset of the cities to make
+  sure they were all correct. I've also reverted the city of Darnassis
+  dimensions back to the submitted values from a month ago.
+
+* Hotfix: About a month ago someone submitted more accurate zone size data
+  for Astrolabe. The fix was merged with Questie but unfortunately it broke
+  the city of Darnassus and caused all the Minimap icons to appear over the
+  player arrow indicator on the Minimap. The quest NPC's and objectives were
+  no longer stationary in relation to where they were supposed to be
+  positioned. This also broke the QuestieArrow. The old values were imported
+  from the old Astrolabe file and the issue has been resolved.
+
 * All previous hotfixes have been merged with this version.
 
 * For those not running EQL3 or some other QuestLog mod. If you prefer the
