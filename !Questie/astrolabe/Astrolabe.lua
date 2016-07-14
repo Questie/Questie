@@ -339,8 +339,8 @@ local function placeIconOnMinimap( minimap, minimapZoom, mapWidth, mapHeight, ic
 	
 	icon:ClearAllPoints();
 	local signx,signy =1,1;
-
-	if (Squeenix) then -- Adding square map support by LaYt
+	-- Adding square map support by LaYt
+	if (Squeenix or (simpleMinimap_Skins and simpleMinimap_Skins:GetShape() == "square")) then 
 		if (xDist<0) then signx=-1; end
 		if (yDist<0) then signy=-1; end
 		if (math.abs(xDist) > (mapWidth/2*xScale)) then 
