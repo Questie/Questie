@@ -324,6 +324,9 @@ end
 local function placeIconOnMinimap( minimap, minimapZoom, mapWidth, mapHeight, icon, dist, xDist, yDist )
 	--TODO: add support for non-circular minimaps
 	local mapDiameter;
+	
+	
+	
 	if ( Astrolabe.minimapOutside or true) then -- cheeky bastard
 		mapDiameter = MinimapSize.outdoor[minimapZoom];
 	else
@@ -332,10 +335,23 @@ local function placeIconOnMinimap( minimap, minimapZoom, mapWidth, mapHeight, ic
 	local mapRadius = mapDiameter / 2;
 	local xScale = mapDiameter / mapWidth;
 	local yScale = mapDiameter / mapHeight;
-	local iconDiameter = ((icon:GetWidth() / 2) + 3) * xScale;
-
+	local iconDiameter = ((icon:GetWidth() / 2) -3) * xScale; -- LaYt +3
+	
 	icon:ClearAllPoints();
-	if ( (dist + iconDiameter) > mapRadius ) then
+	local signx,signy =1,1;
+
+	if (Squeenix) then -- Adding square map support by LaYt
+		if (xDist<0) then signx=-1; end
+		if (yDist<0) then signy=-1; end
+		if (math.abs(xDist) > (mapWidth/2*xScale)) then 
+			xDist = (mapWidth/2*xScale - iconDiameter/2)*signx; 
+		end
+		if (math.abs(yDist) > (mapHeight/2*yScale)) then 
+			yDist = (mapHeight/2*yScale - iconDiameter/2)*signy; 
+		end
+		
+		
+	elseif ( (dist + iconDiameter) > mapRadius ) then  
 		-- position along the outside of the Minimap
 		local factor = (mapRadius - iconDiameter) / dist;
 		xDist = xDist * factor;
