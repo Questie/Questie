@@ -235,7 +235,6 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 								local countstr = string.sub(desc, indx+2);
 								GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3);
 								GameTooltip:AddLine("   " .. monster .. ": " .. countstr, 1, 1, 0.2);
-								
 							end
 						end
 					elseif m[1] and (m[1]['type'] == "item" or m[1]['type'] == "loot") then
@@ -252,7 +251,6 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 										local countstr = string.sub(desc, indx+2);
 										GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3);
 										GameTooltip:AddLine("   " .. name .. ": " .. countstr, 1, 1, 0.2);
-										
 									end
 								end
 							else
@@ -282,7 +280,6 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 												else
 													GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
 													p = true;
-													
 												end
 											end
 										end
@@ -299,7 +296,6 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 		end
 	elseif objective and GetTime() - Questie_LastTooltip > 0.05 then
 		for k,v in pairs(QuestieHandledQuests) do
-			
 			local obj = v['objectives']['objectives'];
 			if ( obj ) then
 				for name,m in pairs(obj) do
@@ -309,8 +305,7 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 							GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
 							GameTooltip:AddLine("   " .. name, 1, 1, 0.2)
 						end
-						elseif (m[1] and (m[1]['type'] == "item" or m[1]['type'] == "loot") and name == objective) then
-						
+					elseif (m[1] and (m[1]['type'] == "item" or m[1]['type'] == "loot") and name == objective) then
 						if(QuestieItems[objective]) then
 							GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
 							local logid = Questie:GetQuestIdFromHash(k);
@@ -335,7 +330,6 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 	if(forceShow) then
 		GameTooltip:Show();
 	end
-	
 	GameTooltip.QuestieDone = true;
 	Questie_LastTooltip = GetTime();
 	p = nil;
