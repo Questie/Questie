@@ -438,10 +438,10 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 				Questie:Tooltip(self);
 				Blizz_GameTooltip_Show(self);
 			end
-			local Blizz_GameTooltip_Hide = GameTooltip_OnHide
-			GameTooltip_OnHide = function(self)
+			local Blizz_GameTooltip_Hide = GameTooltip.Hide
+			GameTooltip.Hide = function(frame)
 				GameTooltip.QuestieDone=nil;
-				Blizz_GameTooltip_Hide(self);
+				Blizz_GameTooltip_Hide(frame);
 			end
 			local Bliz_GameTooltip_SetLootItem = GameTooltip.SetLootItem
 			GameTooltip.SetLootItem = function(self, slot)
