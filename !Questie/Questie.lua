@@ -338,6 +338,7 @@ end
 ---------------------------------------------------------------------------------------------------
 QUESTIE_EVENTQUEUE = {};
 function Questie:OnUpdate(elapsed)
+	if(not GameTooltip.IsVisible(GameTooltip) ) then GameTooltip.QuestieDone = nil; end
 	Astrolabe:OnUpdate(nil, elapsed);
 	Questie:NOTES_ON_UPDATE(elapsed);
 	if(table.getn(QUESTIE_EVENTQUEUE) > 0) then
@@ -437,11 +438,6 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 			GameTooltip.Show = function(self)
 				Questie:Tooltip(self);
 				Blizz_GameTooltip_Show(self);
-			end
-			local Blizz_GameTooltip_Hide = GameTooltip.Hide
-			GameTooltip.Hide = function(frame)
-				GameTooltip.QuestieDone=nil;
-				Blizz_GameTooltip_Hide(frame);
 			end
 			local Bliz_GameTooltip_SetLootItem = GameTooltip.SetLootItem
 			GameTooltip.SetLootItem = function(self, slot)
