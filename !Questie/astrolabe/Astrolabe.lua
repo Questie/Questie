@@ -54,7 +54,7 @@ Astrolabe.MinimapIcons = {};
 Astrolabe.MinimapUpdateTime = 0.2;
 Astrolabe.UpdateTimer = 0;
 Astrolabe.ForceNextUpdate = false;
-
+Astrolabe.minimapOutside = false;
 local twoPi = math.pi * 2;
 
 
@@ -321,10 +321,26 @@ function Astrolabe:RemoveAllMinimapIcons()
 	end
 end
 
+function Astrolabe:isMinimapInCity()
+	local tempzoom = 0;
+	self.minimapOutside = true;
+	if (GetCVar("minimapZoom") == GetCVar("minimapInsideZoom")) then
+		if (GetCVar("minimapInsideZoom")+0 >= 3) then 
+			Minimap:SetZoom(Minimap:GetZoom() - 1);
+			tempzoom = 1;
+		else
+			Minimap:SetZoom(Minimap:GetZoom() + 1);
+			tempzoom = -1;
+		end
+	end
+	if (GetCVar("minimapInsideZoom")+0 == Minimap:GetZoom()) then self.minimapOutside = false; end
+	Minimap:SetZoom(Minimap:GetZoom() + tempzoom);
+end
+
+
 local function placeIconOnMinimap( minimap, minimapZoom, mapWidth, mapHeight, icon, dist, xDist, yDist )
-	--TODO: add support for non-circular minimaps
 	local mapDiameter;
-	if ( Astrolabe.minimapOutside or true) then -- cheeky bastard
+	if ( Astrolabe.minimapOutside ) then 
 		mapDiameter = MinimapSize.outdoor[minimapZoom];
 	else
 		mapDiameter = MinimapSize.indoor[minimapZoom];
@@ -489,38 +505,17 @@ end
 
 function Astrolabe:OnEvent( frame, event )
 	if ( event == "MINIMAP_UPDATE_ZOOM" ) then
-		-- update minimap zoom scale
-		local Minimap = Minimap;
-		local curZoom = Minimap:GetZoom();
-		if ( GetCVar("minimapZoom") == GetCVar("minimapInsideZoom") ) then
-			if ( curZoom < 2 ) then
-				Minimap:SetZoom(curZoom + 1);
-			else
-				Minimap:SetZoom(curZoom - 1);
-			end
-		end
-		if ( GetCVar("minimapZoom")+0 == Minimap:GetZoom() ) then
-			self.minimapOutside = true;
-		else
-			self.minimapOutside = false;
-		end
-		Minimap:SetZoom(curZoom);
-
+		Astrolabe:isMinimapInCity()
 		-- re-calculate all Minimap Icon positions
 		if ( frame:IsVisible() ) then
 			self:CalculateMinimapIconPositions();
 		end
-
 	elseif ( event == "PLAYER_LEAVING_WORLD" ) then
 		frame:Hide();
 		self:RemoveAllMinimapIcons(); --dump all minimap icons
-
-	elseif ( event == "PLAYER_ENTERING_WORLD" ) then
+	elseif ( event == "PLAYER_ENTERING_WORLD" 
+		  or event == "ZONE_CHANGED_NEW_AREA" ) then
 		frame:Show();
-
-	elseif ( event == "ZONE_CHANGED_NEW_AREA" ) then
-		frame:Show();
-
 	end
 end
 

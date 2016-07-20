@@ -227,7 +227,7 @@ end
 function Questie:OnLoad()
 	this:RegisterEvent("QUEST_LOG_UPDATE");
 	this:RegisterEvent("QUEST_PROGRESS");
-	this:RegisterEvent("ZONE_CHANGED");
+	this:RegisterEvent("MINIMAP_UPDATE_ZOOM");
 	this:RegisterEvent("UI_INFO_MESSAGE");
 	this:RegisterEvent("CHAT_MSG_SYSTEM");
 	this:RegisterEvent("QUEST_ITEM_UPDATE");
@@ -381,6 +381,8 @@ QUESTIE_LAST_CHECKLOG = GetTime();
 ---------------------------------------------------------------------------------------------------
 function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10)
 	if(event =="ADDON_LOADED" and arg1 == "Questie") then
+	elseif( event == "MINIMAP_UPDATE_ZOOM" ) then
+		Astrolabe:isMinimapInCity()
 	elseif(event == "QUEST_LOG_UPDATE" or event == "QUEST_ITEM_UPDATE") then
 		if(GetTime() - QUESTIE_LAST_CHECKLOG > 0.1) then
 			Questie:AddEvent("CHECKLOG", 0.135);
@@ -428,6 +430,7 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 		Questie:BlockTranslations();
 		Questie:SetupDefaults();
 		Questie:CheckDefaults();
+		Astrolabe:isMinimapInCity()
 	elseif(event == "PLAYER_LOGIN") then
 		Questie:CheckQuestLog();
 		Questie:AddEvent("UPDATE", 1.15);
