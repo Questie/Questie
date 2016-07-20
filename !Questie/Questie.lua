@@ -383,7 +383,6 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 	if(event =="ADDON_LOADED" and arg1 == "Questie") then
 	elseif( event == "MINIMAP_UPDATE_ZOOM" ) then
 		Astrolabe:isMinimapInCity()
-		
 	elseif(event == "QUEST_LOG_UPDATE" or event == "QUEST_ITEM_UPDATE") then
 		if(GetTime() - QUESTIE_LAST_CHECKLOG > 0.1) then
 			Questie:AddEvent("CHECKLOG", 0.135);
