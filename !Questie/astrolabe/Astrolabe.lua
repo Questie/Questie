@@ -54,7 +54,7 @@ Astrolabe.MinimapIcons = {};
 Astrolabe.MinimapUpdateTime = 0.2;
 Astrolabe.UpdateTimer = 0;
 Astrolabe.ForceNextUpdate = false;
-
+Astrolabe.minimapOutside = false;
 local twoPi = math.pi * 2;
 
 
@@ -321,10 +321,27 @@ function Astrolabe:RemoveAllMinimapIcons()
 	end
 end
 
+function Astrolabe:isMinimapInCity()
+	local tempzoom = 0;
+	self.minimapOutside = true;
+	if (GetCVar("minimapZoom") == GetCVar("minimapInsideZoom")) then
+		if (GetCVar("minimapInsideZoom")+0 >= 3) then 
+			Minimap:SetZoom(Minimap:GetZoom() - 1);
+			tempzoom = 1;
+		else
+			Minimap:SetZoom(Minimap:GetZoom() + 1);
+			tempzoom = -1;
+		end
+	end
+	if (GetCVar("minimapInsideZoom")+0 == Minimap:GetZoom()) then self.minimapOutside = false; end
+	Minimap:SetZoom(Minimap:GetZoom() + tempzoom);
+end
+
+
 local function placeIconOnMinimap( minimap, minimapZoom, mapWidth, mapHeight, icon, dist, xDist, yDist )
-	--TODO: add support for non-circular minimaps
+	
 	local mapDiameter;
-	if ( Astrolabe.minimapOutside or true) then -- cheeky bastard
+	if ( Astrolabe.minimapOutside ) then 
 		mapDiameter = MinimapSize.outdoor[minimapZoom];
 	else
 		mapDiameter = MinimapSize.indoor[minimapZoom];
@@ -332,10 +349,20 @@ local function placeIconOnMinimap( minimap, minimapZoom, mapWidth, mapHeight, ic
 	local mapRadius = mapDiameter / 2;
 	local xScale = mapDiameter / mapWidth;
 	local yScale = mapDiameter / mapHeight;
-	local iconDiameter = ((icon:GetWidth() / 2) + 3) * xScale;
-
+	local iconDiameter = ((icon:GetWidth() / 2) -3) * xScale; -- LaYt +3
 	icon:ClearAllPoints();
-	if ( (dist + iconDiameter) > mapRadius ) then
+	local signx,signy =1,1;
+	-- Adding square map support by LaYt
+	if (Squeenix or (simpleMinimap_Skins and simpleMinimap_Skins:GetShape() == "square")) then 
+		if (xDist<0) then signx=-1; end
+		if (yDist<0) then signy=-1; end
+		if (math.abs(xDist) > (mapWidth/2*xScale)) then 
+			xDist = (mapWidth/2*xScale - iconDiameter/2)*signx; 
+		end
+		if (math.abs(yDist) > (mapHeight/2*yScale)) then 
+			yDist = (mapHeight/2*yScale - iconDiameter/2)*signy; 
+		end
+	elseif ( (dist + iconDiameter) > mapRadius ) then  
 		-- position along the outside of the Minimap
 		local factor = (mapRadius - iconDiameter) / dist;
 		xDist = xDist * factor;
@@ -361,6 +388,7 @@ function Astrolabe:UpdateMinimapIconPositions()
 		-- player has not moved since the last update
 		--DEFAULT_CHAT_FRAME:AddMessage("NoMove");
 		if ( lastZoom ~= Minimap:GetZoom() or self.ForceNextUpdate ) then
+			
 			local currentZoom = Minimap:GetZoom();
 			lastZoom = currentZoom;
 			local mapWidth = Minimap:GetWidth();
@@ -479,23 +507,7 @@ end
 
 function Astrolabe:OnEvent( frame, event )
 	if ( event == "MINIMAP_UPDATE_ZOOM" ) then
-		-- update minimap zoom scale
-		local Minimap = Minimap;
-		local curZoom = Minimap:GetZoom();
-		if ( GetCVar("minimapZoom") == GetCVar("minimapInsideZoom") ) then
-			if ( curZoom < 2 ) then
-				Minimap:SetZoom(curZoom + 1);
-			else
-				Minimap:SetZoom(curZoom - 1);
-			end
-		end
-		if ( GetCVar("minimapZoom")+0 == Minimap:GetZoom() ) then
-			self.minimapOutside = true;
-		else
-			self.minimapOutside = false;
-		end
-		Minimap:SetZoom(curZoom);
-
+		Astrolabe:isMinimapInCity()
 		-- re-calculate all Minimap Icon positions
 		if ( frame:IsVisible() ) then
 			self:CalculateMinimapIconPositions();
@@ -505,10 +517,9 @@ function Astrolabe:OnEvent( frame, event )
 		frame:Hide();
 		self:RemoveAllMinimapIcons(); --dump all minimap icons
 
-	elseif ( event == "PLAYER_ENTERING_WORLD" ) then
-		frame:Show();
-
-	elseif ( event == "ZONE_CHANGED_NEW_AREA" ) then
+	elseif ( event == "PLAYER_ENTERING_WORLD" 
+		  or event == "ZONE_CHANGED_NEW_AREA" ) then
+		
 		frame:Show();
 
 	end
@@ -545,6 +556,7 @@ local function activate( self, oldLib, oldDeactivate )
 	frame:UnregisterAllEvents();
 	frame:RegisterEvent("MINIMAP_UPDATE_ZOOM");
 	frame:RegisterEvent("PLAYER_LEAVING_WORLD");
+	frame:RegisterEvent("ZONE_CHANGED");
 	frame:RegisterEvent("PLAYER_ENTERING_WORLD");
 	frame:RegisterEvent("ZONE_CHANGED_NEW_AREA");
 	frame:SetScript("OnEvent",
