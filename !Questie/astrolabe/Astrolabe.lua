@@ -339,7 +339,6 @@ end
 
 
 local function placeIconOnMinimap( minimap, minimapZoom, mapWidth, mapHeight, icon, dist, xDist, yDist )
-	
 	local mapDiameter;
 	if ( Astrolabe.minimapOutside ) then 
 		mapDiameter = MinimapSize.outdoor[minimapZoom];
@@ -512,16 +511,12 @@ function Astrolabe:OnEvent( frame, event )
 		if ( frame:IsVisible() ) then
 			self:CalculateMinimapIconPositions();
 		end
-
 	elseif ( event == "PLAYER_LEAVING_WORLD" ) then
 		frame:Hide();
 		self:RemoveAllMinimapIcons(); --dump all minimap icons
-
 	elseif ( event == "PLAYER_ENTERING_WORLD" 
 		  or event == "ZONE_CHANGED_NEW_AREA" ) then
-		
 		frame:Show();
-
 	end
 end
 
