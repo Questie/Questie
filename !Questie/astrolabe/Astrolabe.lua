@@ -551,7 +551,6 @@ local function activate( self, oldLib, oldDeactivate )
 	frame:UnregisterAllEvents();
 	frame:RegisterEvent("MINIMAP_UPDATE_ZOOM");
 	frame:RegisterEvent("PLAYER_LEAVING_WORLD");
-	frame:RegisterEvent("ZONE_CHANGED");
 	frame:RegisterEvent("PLAYER_ENTERING_WORLD");
 	frame:RegisterEvent("ZONE_CHANGED_NEW_AREA");
 	frame:SetScript("OnEvent",
