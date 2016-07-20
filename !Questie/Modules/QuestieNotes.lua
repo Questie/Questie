@@ -215,9 +215,12 @@ end
 Questie_LastTooltip = GetTime();
 QUESTIE_DEBUG_TOOLTIP = nil;
 function Questie:Tooltip(this, forceShow, bag, slot)
+	if GameTooltip.QuestieDone then 
+		return nil;
+	end
 	local monster = UnitName("mouseover")
 	local objective = GameTooltipTextLeft1:GetText();
-	if monster and GetTime() - Questie_LastTooltip > 0.1 then
+	if monster then --and GetTime() - Questie_LastTooltip > 0.1 then
 		for k,v in pairs(QuestieHandledQuests) do
 			local obj = v['objectives']['objectives'];
 			if (obj) then
@@ -262,7 +265,7 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 											for obj = 1, count do
 												local desc, typ, done = QGet_QuestLogLeaderBoard(obj);
 												local indx = findLast(desc, ":");
-                        if indx~=nil then
+												if indx~=nil then
 													local countstr = string.sub(desc, indx+2);
 													local namestr = string.sub(desc, 1, indx-1);
 													if(string.find(name, monster) and QuestieItems[namestr] and QuestieItems[namestr]['drop']) then -- Added Find to fix zapped giants (THIS IS NOT TESTED IF YOU FIND ERRORS REPORT!)
@@ -271,14 +274,12 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 																GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
 																GameTooltip:AddLine("   " .. namestr .. ": " .. countstr, 1, 1, 0.2)
 																p = true;
-																return;
 															end
 														end
 													end
-                         else
+												else
 													GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
-                          p = true;
-                          return;
+													p = true;
 												end
 											end
 										end
@@ -300,7 +301,7 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 				for name,m in pairs(obj) do
 					if (m[1] and m[1]['type'] == "object") then
 						local i, j = string.gfind(name, objective);
-						if(i and j and QuestieObjects[m["name"]]) then
+						if(i and j and QuestieObjects[name]) then
 							GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
 							GameTooltip:AddLine("   " .. name, 1, 1, 0.2)
 						end
@@ -314,7 +315,6 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 							local countstr = string.sub(desc, indx+2);
 							GameTooltip:AddLine("   " .. name .. ": " .. countstr, 1, 1, 0.2)
 							p = true;
-							return;
 						end
 					end
 				end
@@ -330,6 +330,7 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 	if(forceShow) then
 		GameTooltip:Show();
 	end
+	GameTooltip.QuestieDone = true;
 	Questie_LastTooltip = GetTime();
 	p = nil;
 end

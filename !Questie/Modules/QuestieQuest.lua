@@ -438,6 +438,7 @@ function Questie:AstroGetQuestObjectives(questHash)
 					obj["mapid"] = info[1];
 					obj["x"] = info[2];
 					obj["y"] = info[3];
+					obj["lootname"] = v["lootname"];
 					obj["type"] = v["type"];
 					obj["done"] = done;
 					obj['objectiveid'] = i;
@@ -474,7 +475,8 @@ AstroobjectiveProcessors = {
 				elseif k == "drop" then
 					for e,r in pairs(v) do
 						local monster = {};
-						monster["name"] = e;
+						monster["name"] = name;
+						monster["lootname"] = e;
 						monster["locations"] = {};
 						monster["type"] = "loot";
 						for k, pos in pairs(QuestieMonsters[e]['locations']) do
