@@ -387,7 +387,6 @@ function Astrolabe:UpdateMinimapIconPositions()
 		-- player has not moved since the last update
 		--DEFAULT_CHAT_FRAME:AddMessage("NoMove");
 		if ( lastZoom ~= Minimap:GetZoom() or self.ForceNextUpdate ) then
-			
 			local currentZoom = Minimap:GetZoom();
 			lastZoom = currentZoom;
 			local mapWidth = Minimap:GetWidth();
