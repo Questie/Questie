@@ -360,7 +360,7 @@ function Questie_Tooltip_OnEnter()
 					Tooltip:AddLine(desc);
 				end
 			else
-				Tooltip:AddLine("["..QuestieHashMap[this.data.questHash].level.."] "..Quest["name"].." |cFF33FF00(complete)|r");
+				Tooltip:AddLine("["..QuestieHashMap[this.data.questHash].questLevel.."] "..Quest["name"].." |cFF33FF00(complete)|r");
 				Tooltip:AddLine("Finished by: |cFFa6a6a6"..QuestieHashMap[this.data.questHash].finishedBy.."|r",1,1,1);
 			end
 		else
@@ -379,7 +379,7 @@ function Questie_Tooltip_OnEnter()
 					end
 				end
 			end
-			Tooltip:AddLine("["..QuestieHashMap[this.data.questHash].level.."] "..QuestieHashMap[this.data.questHash].name.." |cFF33FF00(available)|r");
+			Tooltip:AddLine("["..QuestieHashMap[this.data.questHash].questLevel.."] "..QuestieHashMap[this.data.questHash].name.." |cFF33FF00(available)|r");
 			Tooltip:AddLine("Started by: |cFFa6a6a6"..QuestieHashMap[this.data.questHash].startedBy.."|r",1,1,1);
 			if questOb ~= nil then
 				Tooltip:AddLine("Description: |cFFa6a6a6"..questOb.."|r",1,1,1,true);
