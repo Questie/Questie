@@ -418,7 +418,6 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 					end
 					QuestieTrackedQuests[hash] = nil;
 				end
-				CompleteQuest();
 				Questie:AddEvent("CHECKLOG", 0.135);
 			end
 		end
