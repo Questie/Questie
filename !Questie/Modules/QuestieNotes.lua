@@ -11,6 +11,7 @@ NOTES_DEBUG = nil; --Set to nil to not get debug shit
 local AllFrames = {};
 --Contains frames that are created but currently not used (Frames can't be deleted so we pool them to save space);
 local FramePool = {};
+local Dewdrop = AceLibrary("Dewdrop-2.0")
 QUESTIE_NOTES_MAP_ICON_SCALE = 1.2;-- Zone
 QUESTIE_NOTES_WORLD_MAP_ICON_SCALE = 0.75;--Full world shown
 QUESTIE_NOTES_CONTINENT_ICON_SCALE = 1;--Continent Shown
@@ -346,45 +347,50 @@ function Questie_Tooltip_OnEnter()
 			Tooltip = GameTooltip;
 		end
 		Tooltip:SetOwner(this, this); --"ANCHOR_CURSOR"
-		if(this.data.icontype ~= "available") then
-			local Quest = Questie:IsQuestFinished(this.data.questHash);
-			if not Quest then
-				local QuestLogID = Questie:GetQuestIdFromHash(this.data.questHash);
-				if QuestLogID then
-					QSelect_QuestLogEntry(QuestLogID);
-					local q, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(QuestLogID);
-					local count =  QGet_NumQuestLeaderBoards();
-					local questText, objectiveText = QGet_QuestLogQuestText();
-					local desc, typ, done = QGet_QuestLogLeaderBoard(this.data.objectiveid);
-					Tooltip:AddLine(q ,1,1,1);
-					Tooltip:AddLine(desc);
-				end
-			else
-				Tooltip:AddLine("["..QuestieHashMap[this.data.questHash].questLevel.."] "..Quest["name"].." |cFF33FF00(complete)|r");
-				Tooltip:AddLine("Finished by: |cFFa6a6a6"..QuestieHashMap[this.data.questHash].finishedBy.."|r",1,1,1);
-			end
-		else
-			questOb = nil
-			local QuestName = tostring(QuestieHashMap[this.data.questHash].name)
-			if QuestName then
-				local index = 0
-				for k,v in pairs(QuestieLevLookup[QuestName]) do
-					index = index + 1
-					if (index == 1) and (v[2] == this.data.questHash) and (k ~= "") then
-						questOb = k
-					elseif (index > 0) and(v[2] == this.data.questHash) and (k ~= "") then
-						questOb = k
-					elseif (index == 1) and (v[2] ~= this.data.questHash) and (k ~= "") then
-						questOb = k
-					end
-				end
-			end
-			Tooltip:AddLine("["..QuestieHashMap[this.data.questHash].questLevel.."] "..QuestieHashMap[this.data.questHash].name.." |cFF33FF00(available)|r");
-			Tooltip:AddLine("Started by: |cFFa6a6a6"..QuestieHashMap[this.data.questHash].startedBy.."|r",1,1,1);
-			if questOb ~= nil then
-				Tooltip:AddLine("Description: |cFFa6a6a6"..questOb.."|r",1,1,1,true);
-			end
-			Tooltip:AddLine("Shift+Click: |cFFa6a6a6Manually complete quest!|r",1,1,1);
+		for i, data in pairs(this.quests) do
+		    if (i > 1) then
+                Tooltip:AddLine(" ");
+		    end
+            if(data.icontype ~= "available") then
+                local Quest = Questie:IsQuestFinished(data.questHash);
+                if not Quest then
+                    local QuestLogID = Questie:GetQuestIdFromHash(data.questHash);
+                    if QuestLogID then
+                        QSelect_QuestLogEntry(QuestLogID);
+                        local q, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(QuestLogID);
+                        local count =  QGet_NumQuestLeaderBoards();
+                        local questText, objectiveText = QGet_QuestLogQuestText();
+                        local desc, typ, done = QGet_QuestLogLeaderBoard(data.objectiveid);
+                        Tooltip:AddLine(q ,1,1,1);
+                        Tooltip:AddLine(desc);
+                    end
+                else
+                    Tooltip:AddLine("["..QuestieHashMap[data.questHash].questLevel.."] "..Quest["name"].." |cFF33FF00(complete)|r");
+                    Tooltip:AddLine("Finished by: |cFFa6a6a6"..QuestieHashMap[data.questHash].finishedBy.."|r",1,1,1);
+                end
+            else
+                questOb = nil
+                local QuestName = tostring(QuestieHashMap[data.questHash].name)
+                if QuestName then
+                    local index = 0
+                    for k,v in pairs(QuestieLevLookup[QuestName]) do
+                        index = index + 1
+                        if (index == 1) and (v[2] == data.questHash) and (k ~= "") then
+                            questOb = k
+                        elseif (index > 0) and(v[2] == data.questHash) and (k ~= "") then
+                            questOb = k
+                        elseif (index == 1) and (v[2] ~= data.questHash) and (k ~= "") then
+                            questOb = k
+                        end
+                    end
+                end
+                Tooltip:AddLine("["..QuestieHashMap[data.questHash].questLevel.."] "..QuestieHashMap[data.questHash].name.." |cFF33FF00(available)|r");
+                Tooltip:AddLine("Started by: |cFFa6a6a6"..QuestieHashMap[data.questHash].startedBy.."|r",1,1,1);
+                if questOb ~= nil then
+                    Tooltip:AddLine("Description: |cFFa6a6a6"..questOb.."|r",1,1,1,true);
+                end
+                Tooltip:AddLine("Shift+Click: |cFFa6a6a6Manually complete quest!|r",1,1,1);
+            end
 		end
 		if(NOTES_DEBUG and IsAltKeyDown()) then
 			Tooltip:AddLine("!DEBUG!", 1, 0, 0);
@@ -408,18 +414,56 @@ function Questie_AvailableQuestClick()
 		SetArrowObjective(this.data.questHash)
 	end
 	if ( IsShiftKeyDown() and Tooltip ) then
-		local QuestName = tostring(QuestieHashMap[this.data.questHash].name)
-		if QuestName then
-			for k,v in pairs(QuestieLevLookup) do
-				if strlower(k) == strlower(QuestName) then
-					Questie:Toggle()
-					local hash = (this.data.questHash)
-					Questie:finishAndRecurse(this.data.questHash)
-					DEFAULT_CHAT_FRAME:AddMessage("Completing quest |cFF00FF00\"" .. QuestieHashMap[this.data.questHash]['name'] .. "\"|r and parent quest: "..this.data.questHash);
-				end
-			end
-		end
-		Questie:Toggle()
+	    local finishQuest = function(quest)
+	        Questie:Toggle()
+	        local hash = quest.questHash
+	        local questName = "["..QuestieHashMap[hash].questLevel.."] "..QuestieHashMap[hash]['name']
+            Questie:finishAndRecurse(hash)
+            DEFAULT_CHAT_FRAME:AddMessage("Completing quest |cFF00FF00\"" .. questName .. "\"|r and parent quest: "..hash)
+            Questie:Toggle()
+	    end
+	    if (table.getn(this.quests) < 2) then
+	        -- Finish first quest in list
+	        local quest = this.quests[1]
+	        finishQuest(quest)
+	    else
+	        -- Open Dewdrop to select which quest to finish
+            local closeFunc = function()
+                Dewdrop:Close()
+            end
+            Dewdrop:Register(WorldMapFrame,
+                'children', function()
+                    for i, quest in pairs(this.quests) do
+                        local hash = quest.questHash
+                        local questName = "["..QuestieHashMap[hash].questLevel.."] "..QuestieHashMap[hash]['name']
+                        local finishFunc = function(quest)
+                            finishQuest(quest)
+                            Dewdrop:Close()
+                        end
+                        Dewdrop:AddLine(
+                            'text', questName,
+                            'notCheckable', true,
+                            'func', finishFunc,
+                            'arg1', quest
+                        )
+                    end
+                    Dewdrop:AddLine(
+                        'text', "",
+                        'notClickable', true
+                    )
+                    Dewdrop:AddLine(
+                        'text', "Cancel",
+                        'func', closeFunc,
+                        'notCheckable', true
+                    )
+                end,
+                'dontHook', true,
+                'cursorX', true,
+                'cursorY', true
+            )
+            Dewdrop:Open(WorldMapFrame)
+            Dewdrop:Unregister(WorldMapFrame)
+	    end
 	end
 end
 ---------------------------------------------------------------------------------------------------
@@ -428,12 +472,7 @@ end
 CREATED_NOTE_FRAMES = 1;
 function Questie:CreateBlankFrameNote()
 	local f = CreateFrame("Button","QuestieNoteFrame"..CREATED_NOTE_FRAMES,WorldMapFrame)
-	f:SetFrameLevel(9);
-	f:SetWidth(16*QUESTIE_NOTES_MAP_ICON_SCALE)  -- Set These to whatever height/width is needed
-	f:SetHeight(16*QUESTIE_NOTES_MAP_ICON_SCALE) -- for your Texture
 	local t = f:CreateTexture(nil,"BACKGROUND")
-	t:SetTexture("Interface\\AddOns\\!Questie\\Icons\\complete")
-	t:SetAllPoints(f)
 	f.texture = t
 	f:SetScript("OnEnter", Questie_Tooltip_OnEnter); --Script Toolip
 	f:SetScript("OnLeave", function() if(WorldMapTooltip) then WorldMapTooltip:Hide() end if(GameTooltip) then GameTooltip:Hide() end end) --Script Exit Tooltip
@@ -442,6 +481,33 @@ function Questie:CreateBlankFrameNote()
 	CREATED_NOTE_FRAMES = CREATED_NOTE_FRAMES+1;
 	table.insert(FramePool, f);
 	table.insert(AllFrames, f);
+end
+
+function Questie:GetFrameNote(data, parentFrame, frameLevel, type, scale)
+	if(table.getn(FramePool)==0) then
+		Questie:CreateFrameNote(data, parentFrame, frameLevel, type, scale);
+	end
+	f = FramePool[1];
+	table.remove(FramePool, 1);
+	return f;
+end
+
+function Questie:SetFrameNoteData(f, data, parentFrame, frameLevel, type, scale)
+	f.data = data;
+	f.quests = {}
+	Questie:AddFrameNoteData(f, data)
+	f:SetParent(parentFrame);
+	f:SetFrameLevel(frameLevel);
+	f:SetPoint("CENTER",0,0);
+	f.type = type;
+	f:SetWidth(16*scale)  -- Set These to whatever height/width is needed
+	f:SetHeight(16*scale) -- for your Texture
+	f.texture:SetTexture(QuestieIcons[data.icontype].path)
+	f.texture:SetAllPoints(f)
+end
+
+function Questie:AddFrameNoteData(icon, data)
+    table.insert(icon.quests, data)
 end
 
 TICK_DELAY = 0.01;--0.1 Atm not to get spam while debugging should probably be a lot faster...
@@ -562,34 +628,18 @@ function Questie:DRAW_NOTES()
 			--If an available quest isn't in the zone or we aren't tracking a quest on the QuestTracker then hide the objectives from the minimap
 			if (QuestieConfig.alwaysShowQuests == false) and (MMLastX ~= 0 and MMLastY ~= 0) and (((QuestieTrackedQuests[v.questHash] ~= nil) and (QuestieTrackedQuests[v.questHash]["tracked"] ~= false)) or (v.icontype == "complete")) then
 				MMIcon = Questie:GetBlankNoteFrame();
-				MMIcon.data = v;
-				MMIcon:SetParent(Minimap);
-				MMIcon:SetFrameLevel(9);
-				MMIcon:SetPoint("CENTER",0,0)
-				MMIcon:SetWidth(16*QUESTIE_NOTES_MINIMAP_ICON_SCALE)  -- Set These to whatever height/width is needed
-				MMIcon:SetHeight(16*QUESTIE_NOTES_MINIMAP_ICON_SCALE) -- for your Texture
-				MMIcon.type = "MiniMapNote";
+				Questie:SetFrameNoteData(MMIcon, v, Minimap, 9, "MiniMapNote", QUESTIE_NOTES_MINIMAP_ICON_SCALE)
 				--Sets highlight texture (Nothing stops us from doing this on the worldmap aswell)
 				MMIcon:SetHighlightTexture(QuestieIcons[v.icontype].path, "ADD");
 				--Set the texture to the right type
-				MMIcon.texture:SetTexture(QuestieIcons[v.icontype].path);
-				MMIcon.texture:SetAllPoints(MMIcon)
 				Astrolabe:PlaceIconOnMinimap(MMIcon, v.continent, v.zoneid, v.x, v.y);
 				table.insert(QuestieUsedNoteFrames, MMIcon);
 			elseif (QuestieConfig.alwaysShowQuests == true) then
 				MMIcon = Questie:GetBlankNoteFrame();
-				MMIcon.data = v;
-				MMIcon:SetParent(Minimap);
-				MMIcon:SetFrameLevel(9);
-				MMIcon:SetPoint("CENTER",0,0)
-				MMIcon:SetWidth(16*QUESTIE_NOTES_MINIMAP_ICON_SCALE)  -- Set These to whatever height/width is needed
-				MMIcon:SetHeight(16*QUESTIE_NOTES_MINIMAP_ICON_SCALE) -- for your Texture
-				MMIcon.type = "MiniMapNote";
+				Questie:SetFrameNoteData(MMIcon, v, Minimap, 9, "MiniMapNote", QUESTIE_NOTES_MINIMAP_ICON_SCALE)
 				--Sets highlight texture (Nothing stops us from doing this on the worldmap aswell)
 				MMIcon:SetHighlightTexture(QuestieIcons[v.icontype].path, "ADD");
 				--Set the texture to the right type
-				MMIcon.texture:SetTexture(QuestieIcons[v.icontype].path);
-				MMIcon.texture:SetAllPoints(MMIcon)
 				Astrolabe:PlaceIconOnMinimap(MMIcon, v.continent, v.zoneid, v.x, v.y);
 				table.insert(QuestieUsedNoteFrames, MMIcon);
 			end
@@ -603,33 +653,21 @@ function Questie:DRAW_NOTES()
 					if ( ( (QuestieTrackedQuests[v.questHash] ~= nil) and (QuestieTrackedQuests[v.questHash]["tracked"] ~= false) ) or (v.icontype == "complete") ) and (QuestieConfig.alwaysShowQuests == false) then
 						local c, z = GetCurrentMapContinent(), GetCurrentMapZone();
 						Icon = Questie:GetBlankNoteFrame();
-						Icon.data = v;
-						Icon:SetParent(WorldMapFrame);
-						--This is so that Complete quests are over everything else
-						if(v.icontype == "complete") then
-							Icon:SetFrameLevel(10);
-						else
-							Icon:SetFrameLevel(9);
+
+						local frameLevel = 9;
+						if (v.icontype == "complete") then
+						    frameLevel = 10;
 						end
-						Icon:SetPoint("CENTER",0,0)
-						Icon.type = "WorldMapNote";
-						Icon:SetScript("OnEnter", Questie_Tooltip_OnEnter); --Script Toolip
-						Icon:SetScript("OnLeave", function() if(WorldMapTooltip) then WorldMapTooltip:Hide() end if(GameTooltip) then GameTooltip:Hide() end end) --Script Exit Tooltip
-						Icon:SetScript("OnClick", Questie_AvailableQuestClick);
-						Icon:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+
+						local scale = QUESTIE_NOTES_MAP_ICON_SCALE;
 						if(z == 0 and c == 0) then--Both continents
-							Icon:SetWidth(16*QUESTIE_NOTES_WORLD_MAP_ICON_SCALE)  -- Set These to whatever height/width is needed
-							Icon:SetHeight(16*QUESTIE_NOTES_WORLD_MAP_ICON_SCALE) -- for your Texture
+							scale = QUESTIE_NOTES_WORLD_MAP_ICON_SCALE;
 						elseif(z == 0) then--Single continent
-							Icon:SetWidth(16*QUESTIE_NOTES_CONTINENT_ICON_SCALE)  -- Set These to whatever height/width is needed
-							Icon:SetHeight(16*QUESTIE_NOTES_CONTINENT_ICON_SCALE) -- for your Texture
-						else
-							Icon:SetWidth(16*QUESTIE_NOTES_MAP_ICON_SCALE)  -- Set These to whatever height/width is needed
-							Icon:SetHeight(16*QUESTIE_NOTES_MAP_ICON_SCALE) -- for your Texture
+							scale = QUESTIE_NOTES_CONTINENT_ICON_SCALE;
 						end
-						--Set the texture to the right type
-						Icon.texture:SetTexture(QuestieIcons[v.icontype].path);
-						Icon.texture:SetAllPoints(Icon)
+
+						Questie:SetFrameNoteData(Icon, v, WorldMapFrame, frameLevel, "WorldMapNote", scale)
+
 						--Shows and then calls Astrolabe to place it on the map.
 						Icon:Show();
 						xx, yy = Astrolabe:PlaceIconOnWorldMap(WorldMapButton,Icon,v.continent ,v.zoneid ,v.x, v.y); --WorldMapFrame is global
@@ -641,33 +679,21 @@ function Questie:DRAW_NOTES()
 					elseif (QuestieConfig.alwaysShowQuests == true) then
 						local c, z = GetCurrentMapContinent(), GetCurrentMapZone();
 						Icon = Questie:GetBlankNoteFrame();
-						Icon.data = v;
-						Icon:SetParent(WorldMapFrame);
-						--This is so that Complete quests are over everything else
-						if(v.icontype == "complete") then
-							Icon:SetFrameLevel(10);
-						else
-							Icon:SetFrameLevel(9);
+
+						local frameLevel = 9;
+						if (v.icontype == "complete") then
+						    frameLevel = 10;
 						end
-						Icon:SetPoint("CENTER",0,0)
-						Icon.type = "WorldMapNote";
-						Icon:SetScript("OnEnter", Questie_Tooltip_OnEnter); --Script Toolip
-						Icon:SetScript("OnLeave", function() if(WorldMapTooltip) then WorldMapTooltip:Hide() end if(GameTooltip) then GameTooltip:Hide() end end) --Script Exit Tooltip
-						Icon:SetScript("OnClick", Questie_AvailableQuestClick);
-						Icon:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+
+						local scale = QUESTIE_NOTES_MAP_ICON_SCALE;
 						if(z == 0 and c == 0) then--Both continents
-							Icon:SetWidth(16*QUESTIE_NOTES_WORLD_MAP_ICON_SCALE)  -- Set These to whatever height/width is needed
-							Icon:SetHeight(16*QUESTIE_NOTES_WORLD_MAP_ICON_SCALE) -- for your Texture
+							scale = QUESTIE_NOTES_WORLD_MAP_ICON_SCALE;
 						elseif(z == 0) then--Single continent
-							Icon:SetWidth(16*QUESTIE_NOTES_CONTINENT_ICON_SCALE)  -- Set These to whatever height/width is needed
-							Icon:SetHeight(16*QUESTIE_NOTES_CONTINENT_ICON_SCALE) -- for your Texture
-						else
-							Icon:SetWidth(16*QUESTIE_NOTES_MAP_ICON_SCALE)  -- Set These to whatever height/width is needed
-							Icon:SetHeight(16*QUESTIE_NOTES_MAP_ICON_SCALE) -- for your Texture
+							scale = QUESTIE_NOTES_CONTINENT_ICON_SCALE;
 						end
-						--Set the texture to the right type
-						Icon.texture:SetTexture(QuestieIcons[v.icontype].path);
-						Icon.texture:SetAllPoints(Icon)
+
+						Questie:SetFrameNoteData(Icon, v, WorldMapFrame, frameLevel, "WorldMapNote", scale)
+
 						--Shows and then calls Astrolabe to place it on the map.
 						Icon:Show();
 						xx, yy = Astrolabe:PlaceIconOnWorldMap(WorldMapButton,Icon,v.continent ,v.zoneid ,v.x, v.y); --WorldMapFrame is global
@@ -684,47 +710,51 @@ function Questie:DRAW_NOTES()
 	if(QuestieAvailableMapNotes[c] and QuestieAvailableMapNotes[c][z]) then
 		if Active == true then
 			local con,zon,x,y = Astrolabe:GetCurrentPlayerPosition();
+			local questsByFrameAndPosition = {};
+			questsByFrameAndPosition["WorldMapNote"] = {}
+			questsByFrameAndPosition["MiniMapNote"] = {}
 			for k, v in pairs(QuestieAvailableMapNotes[c][z]) do
-				local c, z = GetCurrentMapContinent(), GetCurrentMapZone();
-				Icon = Questie:GetBlankNoteFrame();
-				Icon.data = v;
-				Icon:SetParent(WorldMapFrame);
-				--This is so that Complete quests are over everything else
-				Icon:SetFrameLevel(9);
-				Icon:SetPoint("CENTER",0,0)
-				Icon.type = "WorldMapNote";
-				Icon:SetScript("OnEnter", Questie_Tooltip_OnEnter); --Script Toolip
-				Icon:SetScript("OnLeave", function() if(WorldMapTooltip) then WorldMapTooltip:Hide() end if(GameTooltip) then GameTooltip:Hide() end end) --Script Exit Tooltip
-				Icon:SetWidth(16*QUESTIE_NOTES_MAP_ICON_SCALE)  -- Set These to whatever height/width is needed
-				Icon:SetHeight(16*QUESTIE_NOTES_MAP_ICON_SCALE) -- for your Texture
-				Icon:SetScript("OnClick", Questie_AvailableQuestClick);
-				Icon:RegisterForClicks("LeftButtonDown", "RightButtonDown");
-				--Set the texture to the right type
-				Icon.texture:SetTexture(QuestieIcons[v.icontype].path);
-				Icon.texture:SetAllPoints(Icon)
-				--Shows and then calls Astrolabe to place it on the map.
-				Icon:Show();
-				xx, yy = Astrolabe:PlaceIconOnWorldMap(WorldMapButton,Icon,v.continent ,v.zoneid ,v.x, v.y); --WorldMapFrame is global
-				if(xx and yy and xx > 0 and xx < 1 and yy > 0 and yy < 1) then
-					table.insert(QuestieUsedNoteFrames, Icon);
-				else
-					Questie:Clear_Note(Icon);
-				end
-				MMIcon = Questie:GetBlankNoteFrame();
-				MMIcon.data = v;
-				MMIcon:SetParent(Minimap);
-				MMIcon:SetFrameLevel(7);
-				MMIcon:SetPoint("CENTER",0,0)
-				MMIcon:SetWidth(16*QUESTIE_NOTES_MINIMAP_ICON_SCALE)  -- Set These to whatever height/width is needed
-				MMIcon:SetHeight(16*QUESTIE_NOTES_MINIMAP_ICON_SCALE) -- for your Texture
-				MMIcon.type = "MiniMapNote";
-				--Sets highlight texture (Nothing stops us from doing this on the worldmap aswell)
-				MMIcon:SetHighlightTexture(QuestieIcons[v.icontype].path, "ADD");
-				--Set the texture to the right type
-				MMIcon.texture:SetTexture(QuestieIcons[v.icontype].path);
-				MMIcon.texture:SetAllPoints(MMIcon)
-				Astrolabe:PlaceIconOnMinimap(MMIcon, v.continent, v.zoneid, v.x, v.y);
-				table.insert(QuestieUsedNoteFrames, MMIcon);
+			    if (questsByFrameAndPosition["WorldMapNote"][v.x] == nil) then
+			        questsByFrameAndPosition["WorldMapNote"][v.x] = {}
+			    end
+
+			    local existingQuest = questsByFrameAndPosition["WorldMapNote"][v.x][v.y]
+
+			    if (existingQuest == nil) then
+                    Icon = Questie:GetBlankNoteFrame();
+                    Questie:SetFrameNoteData(Icon, v, WorldMapFrame, 9, "WorldMapNote", QUESTIE_NOTES_MAP_ICON_SCALE)
+
+                    Icon:Show();
+                    xx, yy = Astrolabe:PlaceIconOnWorldMap(WorldMapButton,Icon,v.continent ,v.zoneid ,v.x, v.y); --WorldMapFrame is global
+                    if(xx and yy and xx > 0 and xx < 1 and yy > 0 and yy < 1) then
+                        table.insert(QuestieUsedNoteFrames, Icon);
+                    else
+                        Questie:Clear_Note(Icon);
+                    end
+                    questsByFrameAndPosition["WorldMapNote"][v.x][v.y] = Icon
+			    else
+			        Questie:AddFrameNoteData(existingQuest, v)
+			    end
+
+
+			    if (questsByFrameAndPosition["MiniMapNote"][v.x] == nil) then
+			        questsByFrameAndPosition["MiniMapNote"][v.x] = {}
+			    end
+
+			    existingQuest = questsByFrameAndPosition["MiniMapNote"][v.x][v.y]
+
+			    if (existingQuest == nil) then
+                    MMIcon = Questie:GetBlankNoteFrame();
+                    Questie:SetFrameNoteData(MMIcon, v, Minimap, 7, "MiniMapNote", QUESTIE_NOTES_MINIMAP_ICON_SCALE)
+                    --Sets highlight texture (Nothing stops us from doing this on the worldmap aswell)
+                    MMIcon:SetHighlightTexture(QuestieIcons[v.icontype].path, "ADD");
+                    --Set the texture to the right type
+                    Astrolabe:PlaceIconOnMinimap(MMIcon, v.continent, v.zoneid, v.x, v.y);
+                    table.insert(QuestieUsedNoteFrames, MMIcon);
+                    questsByFrameAndPosition["MiniMapNote"][v.x][v.y] = MMIcon
+			    else
+			        Questie:AddFrameNoteData(existingQuest, v)
+			    end
 			end
 		end
 	end
