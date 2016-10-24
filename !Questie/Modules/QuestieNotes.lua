@@ -348,8 +348,8 @@ function Questie_Tooltip_OnEnter()
 		end
 		Tooltip:SetOwner(this, this); --"ANCHOR_CURSOR"
 		for i, data in pairs(this.quests) do
-		    if (i > 1) then
-                Tooltip:AddLine(" ");
+			if (i > 1) then
+				Tooltip:AddLine(" ");
 			end
 			if(data.icontype ~= "available") then
 				local Quest = Questie:IsQuestFinished(data.questHash);
