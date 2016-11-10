@@ -7,7 +7,7 @@
 #<a href="https://github.com/AeroScripts/QuestieDev/releases/latest">Download HERE</a>
 
 *Notes:*
-- Please use the <a href="https://github.com/AeroScripts/QuestieDev/issues">GitHub issue tracker</a> to report bugs (link at the bottom)
+- Please use the <a href="https://github.com/AeroScripts/QuestieDev/issues">issue tracker</a> to report bugs!
 - A tutorial on how to submit buglogs (for bugged quests) to us will be on wiki (GitHub) soon
 
 Here are some example images of what Questie can do:
