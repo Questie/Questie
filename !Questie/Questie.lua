@@ -338,7 +338,11 @@ end
 ---------------------------------------------------------------------------------------------------
 QUESTIE_EVENTQUEUE = {};
 function Questie:OnUpdate(elapsed)
-	if(not GameTooltip.IsVisible(GameTooltip) ) then GameTooltip.QuestieDone = nil; end
+	if(not GameTooltip.IsVisible(GameTooltip) ) then 
+		GameTooltip.QuestieDone = nil; 
+		GameTooltip.lastmonster = nil;
+		GameTooltip.lastobjective = nil;
+	end
 	Astrolabe:OnUpdate(nil, elapsed);
 	Questie:NOTES_ON_UPDATE(elapsed);
 	if(table.getn(QUESTIE_EVENTQUEUE) > 0) then
