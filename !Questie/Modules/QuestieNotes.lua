@@ -216,11 +216,13 @@ end
 Questie_LastTooltip = GetTime();
 QUESTIE_DEBUG_TOOLTIP = nil;
 function Questie:Tooltip(this, forceShow, bag, slot)
-	if GameTooltip.QuestieDone then 
-		return nil;
-	end
 	local monster = UnitName("mouseover")
 	local objective = GameTooltipTextLeft1:GetText();
+	if GameTooltip.QuestieDone and ((GameTooltip.lastmonster ~= nil and GameTooltip.lastmonster == monster) 
+									or (GameTooltip.lastobjective ~= nil and GameTooltip.lastobjective == objective)) then
+			return nil;
+	end
+	local mi = nil;
 	if monster then --and GetTime() - Questie_LastTooltip > 0.1 then
 		for k,v in pairs(QuestieHandledQuests) do
 			local obj = v['objectives']['objectives'];
@@ -236,6 +238,7 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 								local countstr = string.sub(desc, indx+2);
 								GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3);
 								GameTooltip:AddLine("   " .. monster .. ": " .. countstr, 1, 1, 0.2);
+								mi = true;
 							end
 						end
 					elseif m[1] and (m[1]['type'] == "item" or m[1]['type'] == "loot") then
@@ -252,6 +255,7 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 										local countstr = string.sub(desc, indx+2);
 										GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3);
 										GameTooltip:AddLine("   " .. name .. ": " .. countstr, 1, 1, 0.2);
+										mi = true;
 									end
 								end
 							else
@@ -275,12 +279,14 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 																GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
 																GameTooltip:AddLine("   " .. namestr .. ": " .. countstr, 1, 1, 0.2)
 																p = true;
+																mi = true;
 															end
 														end
 													end
 												else
 													GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
 													p = true;
+													mi = true;
 												end
 											end
 										end
@@ -295,7 +301,12 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 				end
 			end
 		end
+		if mi then
+			GameTooltip.lastmonster = monster;
+			GameTooltip.lastobjective = nil;
+		end
 	elseif objective and GetTime() - Questie_LastTooltip > 0.05 then
+		mi = nil;
 		for k,v in pairs(QuestieHandledQuests) do
 			local obj = v['objectives']['objectives'];
 			if ( obj ) then
@@ -305,6 +316,7 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 						if(i and j and QuestieObjects[name]) then
 							GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
 							GameTooltip:AddLine("   " .. name, 1, 1, 0.2)
+							mi = true;
 						end
 					elseif (m[1] and (m[1]['type'] == "item" or m[1]['type'] == "loot") and name == objective) then
 						if(QuestieItems[objective]) then
@@ -316,6 +328,7 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 							local countstr = string.sub(desc, indx+2);
 							GameTooltip:AddLine("   " .. name .. ": " .. countstr, 1, 1, 0.2)
 							p = true;
+							mi = true;
 						end
 					end
 				end
@@ -323,6 +336,10 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 			if (p) then
 				break;
 			end
+		end
+		if (mi) then
+				GameTooltip.lastmonster = nil;
+				GameTooltip.lastobjective = objective;
 		end
 	end
 	if(QUESTIE_DEBUG_TOOLTIP) then
