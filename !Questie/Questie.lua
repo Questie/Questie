@@ -304,6 +304,8 @@ function Questie:OnLoad()
 	SlashCmdList["QUESTIE"] = Questie_SlashHandler;
 	SLASH_QUESTIE1 = "/questie";
 end
+
+QUESTIE_LAST_UPDATE_FINISHED = GetTime();
 ---------------------------------------------------------------------------------------------------
 -- Questie Worldmap Toggle Button
 ---------------------------------------------------------------------------------------------------

@@ -69,6 +69,7 @@ function Questie:CheckQuestLog()
 				QuestieTracker:addQuestToTracker(v["hash"])
 			end
 		end
+		QUESTIE_LAST_UPDATE_FINISHED = GetTime();
 		return;
 	end
 	local Quests, QuestsCount = Questie:AstroGetAllCurrentQuestHashesAsMeta();
@@ -158,8 +159,10 @@ function Questie:CheckQuestLog()
 		Questie:CheckQuestLog();
 		Questie:SetAvailableQuests()
 		Questie:RedrawNotes();
+		QUESTIE_LAST_UPDATE_FINISHED = GetTime();
 		return true;
 	else
+		QUESTIE_LAST_UPDATE_FINISHED = GetTime();
 		return nil;
 	end
 end

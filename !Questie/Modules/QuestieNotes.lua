@@ -215,133 +215,217 @@ end
 ---------------------------------------------------------------------------------------------------
 Questie_LastTooltip = GetTime();
 QUESTIE_DEBUG_TOOLTIP = nil;
+Questie_TooltipCache = {}; -- todo reset this on map change
+
 function Questie:Tooltip(this, forceShow, bag, slot)
 	local monster = UnitName("mouseover")
 	local objective = GameTooltipTextLeft1:GetText();
-	if GameTooltip.QuestieDone and ((GameTooltip.lastmonster ~= nil and GameTooltip.lastmonster == monster) 
-									or (GameTooltip.lastobjective ~= nil and GameTooltip.lastobjective == objective)) then
-			return nil;
+	local cacheKey = ""-- .. monster .. objective; 
+	local validKey = false;
+	if(monster) then
+		cacheKey = cacheKey .. monster;
+		validKey = true;
 	end
-	local mi = nil;
-	if monster then --and GetTime() - Questie_LastTooltip > 0.1 then
-		for k,v in pairs(QuestieHandledQuests) do
-			local obj = v['objectives']['objectives'];
-			if (obj) then
-				for name,m in pairs(obj) do
-					if m[1] and (m[1]['type'] == "monster" or m[1]['type'] == "slay") then
-						if (monster .. " slain") == name or monster == name or monster == string.find(monster, string.len(monster)-6) then
-							local logid = Questie:GetQuestIdFromHash(k);
-							if logid then
+	if(objective) then
+		cacheKey = cacheKey .. objective;
+		validKey = true;
+	end
+	if not validKey then
+		return;
+	end
+	if(Questie_TooltipCache[cacheKey] == nil) or (QUESTIE_LAST_UPDATE_FINISHED - Questie_TooltipCache[cacheKey]['updateTime']) > 0 then -- TODO: Update this array during quest log update instead of here
+		
+		local mi = nil;
+		
+		Questie_TooltipCache[cacheKey] = {};
+		Questie_TooltipCache[cacheKey]['lines'] = {};
+		Questie_TooltipCache[cacheKey]['lineCount'] = 1;
+		Questie_TooltipCache[cacheKey]['updateTime'] = GetTime();
+		if monster then --and GetTime() - Questie_LastTooltip > 0.1 then
+			for k,v in pairs(QuestieHandledQuests) do
+				local obj = v['objectives']['objectives'];
+				if (obj) then
+					for name,m in pairs(obj) do
+						if m[1] and (m[1]['type'] == "monster" or m[1]['type'] == "slay") then
+							if (monster .. " slain") == name or monster == name or monster == string.find(monster, string.len(monster)-6) then
+								local logid = Questie:GetQuestIdFromHash(k);
+								if logid then
+									QSelect_QuestLogEntry(logid);
+									local desc, typ, done = QGet_QuestLogLeaderBoard(m[1]['objectiveid']);
+									local indx = findLast(desc, ":");
+									local countstr = string.sub(desc, indx+2);
+									--GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3);
+									--GameTooltip:AddLine("   " .. monster .. ": " .. countstr, 1, 1, 0.2);
+									local lineIndex = Questie_TooltipCache[cacheKey]['lineCount'];
+									Questie_TooltipCache[cacheKey]['lines'][lineIndex] = {
+										['color'] = {0.2, 1, 0.3},
+										['data'] = v['objectives']['QuestName']
+									};
+									Questie_TooltipCache[cacheKey]['lines'][lineIndex+1] = {
+										['color'] = {1, 1, 0.2},
+										['data'] = "   " .. monster .. ": " .. countstr
+									};
+									Questie_TooltipCache[cacheKey]['lineCount'] = lineIndex + 2; -- I miss increment operator
+									mi = true;
+								end
+							end
+						elseif m[1] and (m[1]['type'] == "item" or m[1]['type'] == "loot") then
+							local monroot = QuestieMonsters[monster];
+							if monroot then
+								local mondat = monroot['drops'];
+								if mondat and mondat[name] then
+									if mondat[name] then
+										local logid = Questie:GetQuestIdFromHash(k);
+										if logid then
+											QSelect_QuestLogEntry(logid);
+											local desc, typ, done = QGet_QuestLogLeaderBoard(m[1]['objectiveid']);
+											local indx = findLast(desc, ":");
+											local countstr = string.sub(desc, indx+2);
+											--GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3);
+											--GameTooltip:AddLine("   " .. name .. ": " .. countstr, 1, 1, 0.2);
+											local lineIndex = Questie_TooltipCache[cacheKey]['lineCount'];
+											Questie_TooltipCache[cacheKey]['lines'][lineIndex] = {
+												['color'] = {0.2, 1, 0.3},
+												['data'] = v['objectives']['QuestName']
+											};
+											Questie_TooltipCache[cacheKey]['lines'][lineIndex+1] = {
+												['color'] = {1, 1, 0.2},
+												['data'] = "   " .. name .. ": " .. countstr
+											};
+											Questie_TooltipCache[cacheKey]['lineCount'] = lineIndex + 2;
+											mi = true;
+										end
+									end
+								else
+									--Use the cache not to run unessecary objectives
+									local p = nil;
+									for dropper, value in pairs(QuestieCachedMonstersAndObjects[k]) do
+										if(string.find(dropper, monster)) then
+											local logid = Questie:GetQuestIdFromHash(k);
+											if logid then
+												QSelect_QuestLogEntry(logid);
+												local count =  QGet_NumQuestLeaderBoards();
+												for obj = 1, count do
+													local desc, typ, done = QGet_QuestLogLeaderBoard(obj);
+													local indx = findLast(desc, ":");
+													if indx~=nil then
+														local countstr = string.sub(desc, indx+2);
+														local namestr = string.sub(desc, 1, indx-1);
+														if(string.find(name, monster) and QuestieItems[namestr] and QuestieItems[namestr]['drop']) then -- Added Find to fix zapped giants (THIS IS NOT TESTED IF YOU FIND ERRORS REPORT!)
+															for dropperr, id in pairs(QuestieItems[namestr]['drop']) do
+																if(name == dropperr or (string.find(name, dropperr) and name == dropperr) and not p) then-- Added Find to fix zapped giants (THIS IS NOT TESTED IF YOU FIND ERRORS REPORT!)
+																	--GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
+																	--GameTooltip:AddLine("   " .. namestr .. ": " .. countstr, 1, 1, 0.2)
+																	local lineIndex = Questie_TooltipCache[cacheKey]['lineCount'];
+																	Questie_TooltipCache[cacheKey]['lines'][lineIndex] = {
+																		['color'] = {0.2, 1, 0.3},
+																		['data'] = v['objectives']['QuestName']
+																	};
+																	Questie_TooltipCache[cacheKey]['lines'][lineIndex+1] = {
+																		['color'] = {1, 1, 0.2},
+																		['data'] = "   " .. namestr .. ": " .. countstr
+																	};
+																	Questie_TooltipCache[cacheKey]['lineCount'] = lineIndex + 2;
+																	p = true;
+																	mi = true;
+																end
+															end
+														end
+													else
+														--GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
+														local lineIndex = Questie_TooltipCache[cacheKey]['lineCount'];
+														Questie_TooltipCache[cacheKey]['lines'][lineIndex] = {
+															['color'] = {0.2, 1, 0.3},
+															['data'] = v['objectives']['QuestName']
+														};
+														Questie_TooltipCache[cacheKey]['lineCount'] = lineIndex + 1;
+														p = true;
+														mi = true;
+													end
+												end
+											end
+										end
+										if (p) then
+											break;
+										end
+									end
+								end
+							end
+						end
+					end
+				end
+			end
+			if mi then
+				GameTooltip.lastmonster = monster;
+				GameTooltip.lastobjective = nil;
+			end
+		elseif objective then --[and GetTime() - Questie_LastTooltip > 0.05]--
+			mi = nil;
+			for k,v in pairs(QuestieHandledQuests) do
+				local obj = v['objectives']['objectives'];
+				if ( obj ) then
+					for name,m in pairs(obj) do
+						if (m[1] and m[1]['type'] == "object") then
+							local i, j = string.gfind(name, objective);
+							if(i and j and QuestieObjects[name]) then
+								--GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
+								--GameTooltip:AddLine("   " .. name, 1, 1, 0.2)
+								local lineIndex = Questie_TooltipCache[cacheKey]['lineCount'];
+								Questie_TooltipCache[cacheKey]['lines'][lineIndex] = {
+									['color'] = {0.2, 1, 0.3},
+									['data'] = v['objectives']['QuestName']
+								};
+								Questie_TooltipCache[cacheKey]['lines'][lineIndex+1] = {
+									['color'] = {1, 1, 0.2},
+									['data'] = "   " .. name
+								};
+								Questie_TooltipCache[cacheKey]['lineCount'] = lineIndex + 2;
+								mi = true;
+							end
+						elseif (m[1] and (m[1]['type'] == "item" or m[1]['type'] == "loot") and name == objective) then
+							if(QuestieItems[objective]) then
+							
+								local lineIndex = Questie_TooltipCache[cacheKey]['lineCount'];
+								Questie_TooltipCache[cacheKey]['lines'][lineIndex] = {
+									['color'] = {0.2, 1, 0.3},
+									['data'] = v['objectives']['QuestName']
+								};
+								
+								--GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
+								local logid = Questie:GetQuestIdFromHash(k);
 								QSelect_QuestLogEntry(logid);
 								local desc, typ, done = QGet_QuestLogLeaderBoard(m[1]['objectiveid']);
 								local indx = findLast(desc, ":");
 								local countstr = string.sub(desc, indx+2);
-								GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3);
-								GameTooltip:AddLine("   " .. monster .. ": " .. countstr, 1, 1, 0.2);
+								--GameTooltip:AddLine("   " .. name .. ": " .. countstr, 1, 1, 0.2)
+								Questie_TooltipCache[cacheKey]['lines'][lineIndex+1] = {
+									['color'] = {1, 1, 0.2},
+									['data'] = "   " .. name .. ": " .. countstr
+								};
+								Questie_TooltipCache[cacheKey]['lineCount'] = lineIndex + 2;
+								p = true;
 								mi = true;
 							end
 						end
-					elseif m[1] and (m[1]['type'] == "item" or m[1]['type'] == "loot") then
-						local monroot = QuestieMonsters[monster];
-						if monroot then
-							local mondat = monroot['drops'];
-							if mondat and mondat[name] then
-								if mondat[name] then
-									local logid = Questie:GetQuestIdFromHash(k);
-									if logid then
-										QSelect_QuestLogEntry(logid);
-										local desc, typ, done = QGet_QuestLogLeaderBoard(m[1]['objectiveid']);
-										local indx = findLast(desc, ":");
-										local countstr = string.sub(desc, indx+2);
-										GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3);
-										GameTooltip:AddLine("   " .. name .. ": " .. countstr, 1, 1, 0.2);
-										mi = true;
-									end
-								end
-							else
-								--Use the cache not to run unessecary objectives
-								local p = nil;
-								for dropper, value in pairs(QuestieCachedMonstersAndObjects[k]) do
-									if(string.find(dropper, monster)) then
-										local logid = Questie:GetQuestIdFromHash(k);
-										if logid then
-											QSelect_QuestLogEntry(logid);
-											local count =  QGet_NumQuestLeaderBoards();
-											for obj = 1, count do
-												local desc, typ, done = QGet_QuestLogLeaderBoard(obj);
-												local indx = findLast(desc, ":");
-												if indx~=nil then
-													local countstr = string.sub(desc, indx+2);
-													local namestr = string.sub(desc, 1, indx-1);
-													if(string.find(name, monster) and QuestieItems[namestr] and QuestieItems[namestr]['drop']) then -- Added Find to fix zapped giants (THIS IS NOT TESTED IF YOU FIND ERRORS REPORT!)
-														for dropperr, id in pairs(QuestieItems[namestr]['drop']) do
-															if(name == dropperr or (string.find(name, dropperr) and name == dropperr) and not p) then-- Added Find to fix zapped giants (THIS IS NOT TESTED IF YOU FIND ERRORS REPORT!)
-																GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
-																GameTooltip:AddLine("   " .. namestr .. ": " .. countstr, 1, 1, 0.2)
-																p = true;
-																mi = true;
-															end
-														end
-													end
-												else
-													GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
-													p = true;
-													mi = true;
-												end
-											end
-										end
-									end
-									if (p) then
-										break;
-									end
-								end
-							end
-						end
 					end
 				end
-			end
-		end
-		if mi then
-			GameTooltip.lastmonster = monster;
-			GameTooltip.lastobjective = nil;
-		end
-	elseif objective and GetTime() - Questie_LastTooltip > 0.05 then
-		mi = nil;
-		for k,v in pairs(QuestieHandledQuests) do
-			local obj = v['objectives']['objectives'];
-			if ( obj ) then
-				for name,m in pairs(obj) do
-					if (m[1] and m[1]['type'] == "object") then
-						local i, j = string.gfind(name, objective);
-						if(i and j and QuestieObjects[name]) then
-							GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
-							GameTooltip:AddLine("   " .. name, 1, 1, 0.2)
-							mi = true;
-						end
-					elseif (m[1] and (m[1]['type'] == "item" or m[1]['type'] == "loot") and name == objective) then
-						if(QuestieItems[objective]) then
-							GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
-							local logid = Questie:GetQuestIdFromHash(k);
-							QSelect_QuestLogEntry(logid);
-							local desc, typ, done = QGet_QuestLogLeaderBoard(m[1]['objectiveid']);
-							local indx = findLast(desc, ":");
-							local countstr = string.sub(desc, indx+2);
-							GameTooltip:AddLine("   " .. name .. ": " .. countstr, 1, 1, 0.2)
-							p = true;
-							mi = true;
-						end
-					end
+				if (p) then
+					break;
 				end
 			end
-			if (p) then
-				break;
+			if (mi) then
+					GameTooltip.lastmonster = nil;
+					GameTooltip.lastobjective = objective;
 			end
-		end
-		if (mi) then
-				GameTooltip.lastmonster = nil;
-				GameTooltip.lastobjective = objective;
 		end
 	end
+	
+	
+	
+	for k, v in pairs(Questie_TooltipCache[cacheKey]['lines']) do
+		GameTooltip:AddLine(v['data'], v['color'][1], v['color'][2], v['color'][3]);
+	end
+	
 	if(QUESTIE_DEBUG_TOOLTIP) then
 		GameTooltip:AddLine("--Questie hook--")
 	end
