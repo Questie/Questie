@@ -14,16 +14,7 @@ FAQ:
 	time before a SavedVariables can be properly created. Please use '/questie clearconfig' while in
 	game to clear/reset your config file.
   - I play on a non-English server and Questie isn't working. How come?
-	* Currently, Questie only supports English servers/clients. We might have localized versions in the
-	future but we can't make any promises at this time.
-  - My client "stutters" or causes severe video lag when I hover over Players/NPC's
-	* This is a WoW Client bug that has been around from the very beginning. I remember this bug in 
-	Closed Beta before the original retail release. You can search for the same issue in the old
-	Blizzard Forums. It's been reported in other Blizzard games too. The issue is more noticable when
-	you use	mods that modify the games tooltip. It's more apparent on computers that aren't has fast as
-	todays gaming rigs. I've reproduced this behavior on my own computer without any mods running and
-	brought my FPS down to 8 before it cleared up but it required that I stand in a city with tons of
-	players around for me to hover over.
+	* Currently, Questie only supports English servers/clients. Language support is currently being worked on but is not yet available.
   - I can't seem to get my quests to appear in the tracker automatically.
 	* For those not running EQL3 or some other QuestLog mod. If you prefer the default wow QuestLog and
 	Tracker that's fine but it's very limited. For example, if a quest doesn't have any objectives to
