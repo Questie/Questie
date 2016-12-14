@@ -695,7 +695,7 @@ function Questie:SetAvailableQuests()
 	if QuestieConfig.minLevelFilter and not QuestieConfig.maxLevelFilter then
 		quests = Questie:GetAvailableQuestHashes(mapFileName,level-(QuestieConfig.minShowLevel),level);
 	elseif QuestieConfig.minLevelFilter and QuestieConfig.maxLevelFilter then
-		quests = Questie:GetAvailableQuestHashes(mapFileName,level-(QuestieConfig.minShowLevel),level-(QuestieConfig.maxShowLevel));
+		quests = Questie:GetAvailableQuestHashes(mapFileName,level-(QuestieConfig.minShowLevel),level+(QuestieConfig.maxShowLevel));
 	elseif not QuestieConfig.minLevelFilter and not QuestieConfig.maxLevelFilter then
 		quests = Questie:GetAvailableQuestHashes(mapFileName,0,level);
 	end
