@@ -205,13 +205,32 @@ end
 ---------------------------------------------------------------------------------------------------
 -- Tooltip code for quest objects
 ---------------------------------------------------------------------------------------------------
+__TT_LineCache = {};
 function Questie:hookTooltip()
 	local _GameTooltipOnShow = GameTooltip:GetScript("OnShow") -- APPARENTLY this is always null, and doesnt need to be called for things to function correctly...?
 	GameTooltip:SetScript("OnShow", function(self, arg)
 		Questie:Tooltip(self);
 		this:Show();
 	end)
+
 end
+function Questie:hookTooltipLineCheck()
+    GameTooltip:SetScript("OnHide", function(self, arg)
+        --DEFAULT_CHAT_FRAME:AddMessage("ClearLinesHook " .. GetTime());
+        __TT_LineCache = {};
+    end);
+    GameTooltip.AddLine_orig = GameTooltip.AddLine;
+    GameTooltip.AddLine = function(self, line, r, g, b, wrap)
+        GameTooltip:AddLine_orig(line, r, g, b, wrap);
+        --DEFAULT_CHAT_FRAME:AddMessage("AddLineHook " .. line);
+        if (line) then
+            __TT_LineCache[line] = true;
+        end
+    end;
+    DEFAULT_CHAT_FRAME:AddMessage("Hookerino!");
+end
+-- its fine to excute this now
+Questie:hookTooltipLineCheck();
 ---------------------------------------------------------------------------------------------------
 Questie_LastTooltip = GetTime();
 QUESTIE_DEBUG_TOOLTIP = nil;
@@ -220,7 +239,7 @@ Questie_TooltipCache = {}; -- todo reset this on map change
 function Questie:Tooltip(this, forceShow, bag, slot)
 	local monster = UnitName("mouseover")
 	local objective = GameTooltipTextLeft1:GetText();
-	local cacheKey = ""-- .. monster .. objective; 
+	local cacheKey = ""-- .. monster .. objective;
 	local validKey = false;
 	if(monster) then
 		cacheKey = cacheKey .. monster;
@@ -234,9 +253,9 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 		return;
 	end
 	if(Questie_TooltipCache[cacheKey] == nil) or (QUESTIE_LAST_UPDATE_FINISHED - Questie_TooltipCache[cacheKey]['updateTime']) > 0 then -- TODO: Update this array during quest log update instead of here
-		
+
 		local mi = nil;
-		
+
 		Questie_TooltipCache[cacheKey] = {};
 		Questie_TooltipCache[cacheKey]['lines'] = {};
 		Questie_TooltipCache[cacheKey]['lineCount'] = 1;
@@ -384,13 +403,13 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 							end
 						elseif (m[1] and (m[1]['type'] == "item" or m[1]['type'] == "loot") and name == objective) then
 							if(QuestieItems[objective]) then
-							
+
 								local lineIndex = Questie_TooltipCache[cacheKey]['lineCount'];
 								Questie_TooltipCache[cacheKey]['lines'][lineIndex] = {
 									['color'] = {0.2, 1, 0.3},
 									['data'] = v['objectives']['QuestName']
 								};
-								
+
 								--GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
 								local logid = Questie:GetQuestIdFromHash(k);
 								QSelect_QuestLogEntry(logid);
@@ -419,13 +438,15 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 			end
 		end
 	end
-	
-	
-	
+
+
+
 	for k, v in pairs(Questie_TooltipCache[cacheKey]['lines']) do
-		GameTooltip:AddLine(v['data'], v['color'][1], v['color'][2], v['color'][3]);
+        if not __TT_LineCache[v['data']] then
+		    GameTooltip:AddLine(v['data'], v['color'][1], v['color'][2], v['color'][3]);
+        end
 	end
-	
+
 	if(QUESTIE_DEBUG_TOOLTIP) then
 		GameTooltip:AddLine("--Questie hook--")
 	end
