@@ -227,7 +227,7 @@ function Questie:hookTooltipLineCheck()
             __TT_LineCache[line] = true;
         end
     end;
-    DEFAULT_CHAT_FRAME:AddMessage("Hookerino!");
+    --DEFAULT_CHAT_FRAME:AddMessage("Hookerino!");
 end
 -- its fine to excute this now
 Questie:hookTooltipLineCheck();
