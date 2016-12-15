@@ -56,6 +56,8 @@ function Questie:SetupDefaults()
 		["trackerEnabled"] = true,
 		["trackerList"] = false,
 		["resizeWorldmap"] = false,
+        ["hideMinimapIcons"] = false,
+        ["hideObjectives"] = false,
 		["getVersion"] = QuestieVersion,
 	}
 	end
@@ -121,6 +123,12 @@ function Questie:CheckDefaults()
 	if QuestieConfig.resizeWorldmap == nil then
 		QuestieConfig.resizeWorldmap = false;
 	end
+    if QuestieConfig.hideMinimapIcons == nil then
+        QuestieConfig.hideMinimapIcons = false;
+    end
+    if QuestieConfig.hideObjectives == nil then
+        QuestieConfig.hideObjectives = false;
+    end
 	-- Version check
 	if (not QuestieConfig.getVersion) or (QuestieConfig.getVersion < QuestieVersion) then
 		Questie:ClearConfig("version");
@@ -183,6 +191,8 @@ function Questie:ClearConfig(arg)
 				["trackerEnabled"] = true,
 				["trackerList"] = false,
 				["resizeWorldmap"] = false,
+                ["hideMinimapIcons"] = false,
+                ["hideObjectives"] = false,
 				["getVersion"] = QuestieVersion,
 			}
 			-- Clears tracker settings
@@ -340,8 +350,8 @@ end
 ---------------------------------------------------------------------------------------------------
 QUESTIE_EVENTQUEUE = {};
 function Questie:OnUpdate(elapsed)
-	if(not GameTooltip.IsVisible(GameTooltip) ) then 
-		GameTooltip.QuestieDone = nil; 
+	if(not GameTooltip.IsVisible(GameTooltip) ) then
+		GameTooltip.QuestieDone = nil;
 		GameTooltip.lastmonster = nil;
 		GameTooltip.lastobjective = nil;
 	end
@@ -759,6 +769,8 @@ QuestieFastSlash = {
 					["trackerEnabled"] = true,
 					["trackerList"] = false,
 					["resizeWorldmap"] = false,
+                    ["hideMinimapIcons"] = false,
+                    ["hideObjectives"] = false,
 					["getVersion"] = QuestieVersion,
 				}
 				-- Clears tracker settings
@@ -810,6 +822,26 @@ QuestieFastSlash = {
 	["settings"] = function()
 		Questie:CurrentUserToggles()
 	end,
+    ["hideminimap"] = function()
+        QuestieConfig.hideMinimapIcons = not QuestieConfig.hideMinimapIcons;
+        if QuestieConfig.hideMinimapIcons then
+            DEFAULT_CHAT_FRAME:AddMessage("  Questie: MiniMap icons will now be hidden!");
+        else
+            DEFAULT_CHAT_FRAME:AddMessage("  Questie: MiniMap icons will now be shown!");
+        end
+        Questie:Toggle();
+        Questie:Toggle();
+    end,
+    ["hideobjectives"] = function()
+        QuestieConfig.hideobjectives = not QuestieConfig.hideobjectives;
+        if QuestieConfig.hideobjectives then
+            DEFAULT_CHAT_FRAME:AddMessage("  Questie: Objective icons will now be hidden!");
+        else
+            DEFAULT_CHAT_FRAME:AddMessage("  Questie: Objective icons will now be shown!");
+        end
+        Questie:Toggle();
+        Questie:Toggle();
+    end,
 	["help"] = function()
 		DEFAULT_CHAT_FRAME:AddMessage("Questie SlashCommand Help Menu:", 1, 0.75, 0);
 		DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie arrow |r-- |c0000ffc0(toggle)|r QuestArrow", 0.75, 0.75, 0.75);
@@ -828,6 +860,8 @@ QuestieFastSlash = {
 		DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie settings |r-- Displays your current toggles and settings.", 0.75, 0.75, 0.75);
 		DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie showquests |r-- |c0000ffc0(toggle)|r Always show quests and objectives", 0.75, 0.75, 0.75);
 		DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie tracker |r-- |c0000ffc0(toggle)|r QuestTracker", 0.75, 0.75, 0.75);
+        DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie hideminimap |r-- |c0000ffc0(toggle)|r MiniMap Icons", 0.75, 0.75, 0.75);
+        DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie hideobjectives |r-- |c0000ffc0(toggle)|r Objective Icons", 0.75, 0.75, 0.75);
 		if (IsAddOnLoaded("Cartographer")) or (IsAddOnLoaded("MetaMap")) then
 			return
 		elseif (not IsAddOnLoaded("Cartographer")) or (not IsAddOnLoaded("MetaMap")) then
@@ -876,6 +910,8 @@ function Questie:CurrentUserToggles()
 		[13] = { "trackerList" },
 		[14] = { "resizeWorldmap" },
 		[15] = { "getVersion" },
+        [16] = { "hideMinimapIcons" },
+        [17] = { "hideObjectives" }
 	}
 	if QuestieConfig then
 		i = 1
@@ -973,3 +1009,4 @@ end
 ---------------------------------------------------------------------------------------------------
 -- End of misc helper functions and short cuts
 ---------------------------------------------------------------------------------------------------
+SetMapToCurrentZone();
