@@ -16,7 +16,7 @@ Questie = CreateFrame("Frame", "QuestieLua", UIParent, "ActionButtonTemplate");
 QuestRewardCompleteButton = nil;
 QuestAbandonOnAccept = nil;
 QuestAbandonWithItemsOnAccept = nil;
-QuestieVersion = 3.3;
+QuestieVersion = 3.4;
 ---------------------------------------------------------------------------------------------------
 -- WoW Functions --PERFORMANCE CHANGE--
 ---------------------------------------------------------------------------------------------------
