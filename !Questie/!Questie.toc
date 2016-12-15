@@ -1,8 +1,8 @@
 ## Interface: 11200
-## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v3.3|r
+## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v3.4|r
 ## Author: Aero/Schaka/Logonz/Dyaxler/everyone else
 ## Notes: A standalone Vanilla QuestHelper
-## Version: 3.3
+## Version: 3.4
 ## RequiredDeps:
 ## OptionalDeps: Cartographer, MetaMap, EQL3, ShaguQuest
 ## SavedVariables:
