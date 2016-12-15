@@ -149,12 +149,16 @@ QuestieMapNotes = {};--Usage Questie[Continent][Zone][index]
 MiniQuestieMapNotes = {};
 function Questie:AddNoteToMap(continent, zoneid, posx, posy, type, questHash, objectiveid)
 	--This is to set up the variables
+    if QuestieConfig.hideobjectives and not (type == "complete") then
+        return;
+    end
 	if(QuestieMapNotes[continent] == nil) then
 		QuestieMapNotes[continent] = {};
 	end
 	if(QuestieMapNotes[continent][zoneid] == nil) then
 		QuestieMapNotes[continent][zoneid] = {};
 	end
+
 	--Sets values that i want to use for the notes THIS IS WIP MORE INFO MAY BE NEDED BOTH IN PARAMETERS AND NOTES!!!
 	Note = {};
 	Note.x = posx;
@@ -227,7 +231,6 @@ function Questie:hookTooltipLineCheck()
             __TT_LineCache[line] = true;
         end
     end;
-    --DEFAULT_CHAT_FRAME:AddMessage("Hookerino!");
 end
 -- its fine to excute this now
 Questie:hookTooltipLineCheck();
@@ -635,7 +638,9 @@ function Questie:SetFrameNoteData(f, data, parentFrame, frameLevel, type, scale)
 end
 
 function Questie:AddFrameNoteData(icon, data)
-	table.insert(icon.quests, data)
+    if icon then
+        table.insert(icon.quests, data)
+    end
 end
 
 TICK_DELAY = 0.01;--0.1 Atm not to get spam while debugging should probably be a lot faster...
@@ -757,7 +762,7 @@ function Questie:DRAW_NOTES()
 	if(QuestieMapNotes[c] and QuestieMapNotes[c][z]) then
 		for k, v in pairs(QuestieMapNotes[c][z]) do
 			--If an available quest isn't in the zone or we aren't tracking a quest on the QuestTracker then hide the objectives from the minimap
-			if (QuestieConfig.alwaysShowQuests == false) and (MMLastX ~= 0 and MMLastY ~= 0) and (((QuestieTrackedQuests[v.questHash] ~= nil) and (QuestieTrackedQuests[v.questHash]["tracked"] ~= false)) or (v.icontype == "complete")) then
+			if not QuestieConfig.hideMinimapIcons and (QuestieConfig.alwaysShowQuests == false) and (MMLastX ~= 0 and MMLastY ~= 0) and (((QuestieTrackedQuests[v.questHash] ~= nil) and (QuestieTrackedQuests[v.questHash]["tracked"] ~= false)) or (v.icontype == "complete")) then
 				MMIcon = Questie:GetBlankNoteFrame();
 				Questie:SetFrameNoteData(MMIcon, v, Minimap, 9, "MiniMapNote", QUESTIE_NOTES_MINIMAP_ICON_SCALE)
 				--Sets highlight texture (Nothing stops us from doing this on the worldmap aswell)
@@ -772,13 +777,13 @@ function Questie:DRAW_NOTES()
 
 				local existingQuest = questsByFrameAndPosition["MiniMapNote"][v.x][v.y]
 
-				if (existingQuest == nil) then
+				if (existingQuest == nil) and not QuestieConfig.hideMinimapIcons then
 					MMIcon = Questie:GetBlankNoteFrame();
 					Questie:SetFrameNoteData(MMIcon, v, Minimap, 9, "MiniMapNote", QUESTIE_NOTES_MINIMAP_ICON_SCALE)
 					--Sets highlight texture (Nothing stops us from doing this on the worldmap aswell)
 					MMIcon:SetHighlightTexture(QuestieIcons[v.icontype].path, "ADD");
 					--Set the texture to the right type
-					Astrolabe:PlaceIconOnMinimap(MMIcon, v.continent, v.zoneid, v.x, v.y);
+				    Astrolabe:PlaceIconOnMinimap(MMIcon, v.continent, v.zoneid, v.x, v.y);
 					table.insert(QuestieUsedNoteFrames, MMIcon);
 					questsByFrameAndPosition["MiniMapNote"][v.x][v.y] = MMIcon
 				else
@@ -902,7 +907,7 @@ function Questie:DRAW_NOTES()
 
 				existingQuest = questsByFrameAndPosition["MiniMapNote"][v.x][v.y]
 
-				if (existingQuest == nil) then
+				if (existingQuest == nil) and not QuestieConfig.hideMinimapIcons then
 					MMIcon = Questie:GetBlankNoteFrame();
 					Questie:SetFrameNoteData(MMIcon, v, Minimap, 7, "MiniMapNote", QUESTIE_NOTES_MINIMAP_ICON_SCALE)
 					--Sets highlight texture (Nothing stops us from doing this on the worldmap aswell)
