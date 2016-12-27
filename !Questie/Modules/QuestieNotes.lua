@@ -216,7 +216,6 @@ function Questie:hookTooltip()
 		Questie:Tooltip(self);
 		this:Show();
 	end)
-
 end
 function Questie:hookTooltipLineCheck()
     GameTooltip:SetScript("OnHide", function(self, arg)
@@ -232,13 +231,10 @@ function Questie:hookTooltipLineCheck()
         end
     end;
 end
--- its fine to excute this now
-Questie:hookTooltipLineCheck();
 ---------------------------------------------------------------------------------------------------
 Questie_LastTooltip = GetTime();
 QUESTIE_DEBUG_TOOLTIP = nil;
 Questie_TooltipCache = {}; -- todo reset this on map change
-
 function Questie:Tooltip(this, forceShow, bag, slot)
 	local monster = UnitName("mouseover")
 	local objective = GameTooltipTextLeft1:GetText();
@@ -256,14 +252,11 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 		return;
 	end
 	if(Questie_TooltipCache[cacheKey] == nil) or (QUESTIE_LAST_UPDATE_FINISHED - Questie_TooltipCache[cacheKey]['updateTime']) > 0 then -- TODO: Update this array during quest log update instead of here
-
-		local mi = nil;
-
 		Questie_TooltipCache[cacheKey] = {};
 		Questie_TooltipCache[cacheKey]['lines'] = {};
 		Questie_TooltipCache[cacheKey]['lineCount'] = 1;
 		Questie_TooltipCache[cacheKey]['updateTime'] = GetTime();
-		if monster then --and GetTime() - Questie_LastTooltip > 0.1 then
+		if monster and GetTime() - Questie_LastTooltip > 0.1 then
 			for k,v in pairs(QuestieHandledQuests) do
 				local obj = v['objectives']['objectives'];
 				if (obj) then
@@ -283,12 +276,11 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 										['color'] = {0.2, 1, 0.3},
 										['data'] = v['objectives']['QuestName']
 									};
-									Questie_TooltipCache[cacheKey]['lines'][lineIndex+1] = {
+									Questie_TooltipCache[cacheKey]['lines'][lineIndex + 1] = {
 										['color'] = {1, 1, 0.2},
 										['data'] = "   " .. monster .. ": " .. countstr
 									};
 									Questie_TooltipCache[cacheKey]['lineCount'] = lineIndex + 2; -- I miss increment operator
-									mi = true;
 								end
 							end
 						elseif m[1] and (m[1]['type'] == "item" or m[1]['type'] == "loot") then
@@ -310,17 +302,16 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 												['color'] = {0.2, 1, 0.3},
 												['data'] = v['objectives']['QuestName']
 											};
-											Questie_TooltipCache[cacheKey]['lines'][lineIndex+1] = {
+											Questie_TooltipCache[cacheKey]['lines'][lineIndex + 1] = {
 												['color'] = {1, 1, 0.2},
 												['data'] = "   " .. name .. ": " .. countstr
 											};
 											Questie_TooltipCache[cacheKey]['lineCount'] = lineIndex + 2;
-											mi = true;
 										end
 									end
 								else
 									--Use the cache not to run unessecary objectives
-									local p = nil;
+									local mi = nil;
 									for dropper, value in pairs(QuestieCachedMonstersAndObjects[k]) do
 										if(string.find(dropper, monster)) then
 											local logid = Questie:GetQuestIdFromHash(k);
@@ -348,8 +339,8 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 																		['data'] = "   " .. namestr .. ": " .. countstr
 																	};
 																	Questie_TooltipCache[cacheKey]['lineCount'] = lineIndex + 2;
-																	p = true;
 																	mi = true;
+																	return;
 																end
 															end
 														end
@@ -361,13 +352,13 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 															['data'] = v['objectives']['QuestName']
 														};
 														Questie_TooltipCache[cacheKey]['lineCount'] = lineIndex + 1;
-														p = true;
 														mi = true;
+														return;
 													end
 												end
 											end
 										end
-										if (p) then
+										if (mi) then
 											break;
 										end
 									end
@@ -381,15 +372,14 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 				GameTooltip.lastmonster = monster;
 				GameTooltip.lastobjective = nil;
 			end
-		elseif objective then --[and GetTime() - Questie_LastTooltip > 0.05]--
-			mi = nil;
+		elseif objective and GetTime() - Questie_LastTooltip > 0.05 then
 			for k,v in pairs(QuestieHandledQuests) do
 				local obj = v['objectives']['objectives'];
 				if ( obj ) then
 					for name,m in pairs(obj) do
 						if (m[1] and m[1]['type'] == "object") then
 							local i, j = string.gfind(name, objective);
-							if(i and j and QuestieObjects[name]) then
+							if(i and j and QuestieObjects[m["name"]]) then
 								--GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
 								--GameTooltip:AddLine("   " .. name, 1, 1, 0.2)
 								local lineIndex = Questie_TooltipCache[cacheKey]['lineCount'];
@@ -402,17 +392,14 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 									['data'] = "   " .. name
 								};
 								Questie_TooltipCache[cacheKey]['lineCount'] = lineIndex + 2;
-								mi = true;
 							end
 						elseif (m[1] and (m[1]['type'] == "item" or m[1]['type'] == "loot") and name == objective) then
 							if(QuestieItems[objective]) then
-
 								local lineIndex = Questie_TooltipCache[cacheKey]['lineCount'];
 								Questie_TooltipCache[cacheKey]['lines'][lineIndex] = {
 									['color'] = {0.2, 1, 0.3},
 									['data'] = v['objectives']['QuestName']
 								};
-
 								--GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
 								local logid = Questie:GetQuestIdFromHash(k);
 								QSelect_QuestLogEntry(logid);
@@ -425,31 +412,27 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 									['data'] = "   " .. name .. ": " .. countstr
 								};
 								Questie_TooltipCache[cacheKey]['lineCount'] = lineIndex + 2;
-								p = true;
 								mi = true;
+								return;
 							end
 						end
 					end
 				end
-				if (p) then
+				if (mi) then
 					break;
 				end
 			end
 			if (mi) then
-					GameTooltip.lastmonster = nil;
-					GameTooltip.lastobjective = objective;
+				GameTooltip.lastmonster = nil;
+				GameTooltip.lastobjective = objective;
 			end
 		end
 	end
-
-
-
 	for k, v in pairs(Questie_TooltipCache[cacheKey]['lines']) do
-        if not __TT_LineCache[v['data']] then
+		if not __TT_LineCache[v['data']] then
 		    GameTooltip:AddLine(v['data'], v['color'][1], v['color'][2], v['color'][3]);
-        end
+		end
 	end
-
 	if(QUESTIE_DEBUG_TOOLTIP) then
 		GameTooltip:AddLine("--Questie hook--")
 	end
@@ -458,7 +441,8 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 	end
 	GameTooltip.QuestieDone = true;
 	Questie_LastTooltip = GetTime();
-	p = nil;
+	Questie_TooltipCache = {};
+	mi = nil;
 end
 ---------------------------------------------------------------------------------------------------
 -- Tooltip code for quest starters and finishers
