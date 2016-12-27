@@ -218,7 +218,11 @@ function Questie:hookTooltip()
 	end)
 end
 function Questie:hookTooltipLineCheck()
+    local oh = GameTooltip:GetScript("OnHide");
     GameTooltip:SetScript("OnHide", function(self, arg)
+        if oh then
+	    oh(self, arg);
+	end
         --DEFAULT_CHAT_FRAME:AddMessage("ClearLinesHook " .. GetTime());
         __TT_LineCache = {};
     end);
