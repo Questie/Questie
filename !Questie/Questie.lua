@@ -247,6 +247,7 @@ function Questie:OnLoad()
 	this:RegisterEvent("ADDON_LOADED");
 	this:RegisterEvent("VARIABLES_LOADED");
 	this:RegisterEvent("CHAT_MSG_LOOT");
+	this:RegisterEvent("UPDATE_MOUSEOVER_UNIT");
 	QuestAbandonOnAccept = StaticPopupDialogs["ABANDON_QUEST"].OnAccept;
 	StaticPopupDialogs["ABANDON_QUEST"].OnAccept = function()
 		local hash = Questie:GetHashFromName(QGet_AbandonQuestName());
@@ -471,6 +472,8 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 		if msg then
 			Questie:CheckQuestLog();
 		end
+	elseif(event == "UPDATE_MOUSEOVER_UNIT") then
+		GameTooltip.QuestieDone = nil
 	end
 end
 ---------------------------------------------------------------------------------------------------
