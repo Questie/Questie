@@ -6,9 +6,9 @@
 		<AbsDimension x="120" y="20"/>
 	</Size>
 	<Anchors>
-		<Anchor relativePoint="TOP" point="CENTER">
+		<Anchor point="RIGHT" relativePoint="LEFT" relativeTo="WorldMapContinentDropDown">
 			<Offset>
-				<AbsDimension x="-218" y="-49"/>
+				<AbsDimension x="10" y="2"/>
 			</Offset>
 		</Anchor>
 	</Anchors>
