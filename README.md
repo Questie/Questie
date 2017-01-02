@@ -9,6 +9,7 @@
 *Notes:*
 - Please use the <a href="https://github.com/AeroScripts/QuestieDev/issues">issue tracker</a> to report bugs!
 - A tutorial on how to submit buglogs (for bugged quests) to us will be on wiki (GitHub) soon
+- If you wish to submit a pull request, please read the <a href="https://github.com/AeroScripts/QuestieDev/wiki/Pull-Request-Rules">rules</a> first
 
 Here are some example images of what Questie can do:
 
