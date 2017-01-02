@@ -9076,8 +9076,8 @@ QuestieItems = {
     ["drop"] = {
       ["Timber Wolf"] = 7,
       ["Young Wolf"] = 7,
-	    ["Ragged Timber Wolf"] = 7,
-	    ["Ragged Young Wolf"] = 7,
+        ["Ragged Timber Wolf"] = 7,
+        ["Ragged Young Wolf"] = 7,
     }
   },
   ["Livre des noms gangrenés"] = {
@@ -20382,10 +20382,10 @@ QuestieItems = {
     ["drop"] = {
       ["Surena Caledon"] = 1
     },
-		["locations"] = {
+        ["locations"] = {
       [1] = {37.0, 0.7085, 0.8027, 100.0}
     },
-		["locationCount"] = 1
+        ["locationCount"] = 1
   },
   ["Dervish Boots of Power"] = {
     ["drop"] = {
@@ -65490,7 +65490,7 @@ QuestieItems = {
       ["Windfury Sorceress"] = 1586
     }
   },
-	["Bronze Feather"] = {
+    ["Bronze Feather"] = {
     ["drop"] = {
       ["Windfury Sorceress"] = 1587
     }
