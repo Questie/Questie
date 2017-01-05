@@ -394,12 +394,14 @@ end
 ---------------------------------------------------------------------------------------------------
 QUESTIE_LAST_UPDATE = GetTime();
 QUESTIE_LAST_CHECKLOG = GetTime();
+QUESTIE_UPDATE_EVENT = 0;
 ---------------------------------------------------------------------------------------------------
 function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10)
     if(event =="ADDON_LOADED" and arg1 == "Questie") then
     elseif( event == "MINIMAP_UPDATE_ZOOM" ) then
-        Astrolabe:isMinimapInCity()
+        --Astrolabe:isMinimapInCity()
     elseif(event == "QUEST_LOG_UPDATE" or event == "QUEST_ITEM_UPDATE") then
+        QUESTIE_UPDATE_EVENT = 1;
         if(GetTime() - QUESTIE_LAST_CHECKLOG > 0.1) then
             Questie:AddEvent("CHECKLOG", 0.135);
             QUESTIE_LAST_CHECKLOG = GetTime();
@@ -445,7 +447,7 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
         Questie:BlockTranslations();
         Questie:SetupDefaults();
         Questie:CheckDefaults();
-        Astrolabe:isMinimapInCity()
+        --Astrolabe:isMinimapInCity()
     elseif(event == "PLAYER_LOGIN") then
         Questie:CheckQuestLog();
         Questie:AddEvent("UPDATE", 1.15);

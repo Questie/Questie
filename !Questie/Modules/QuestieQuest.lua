@@ -184,13 +184,15 @@ function Questie:UpdateQuests(force)
     local foundChange = false;
     local ZonesWithQuests = {};
     local change = Questie:UpdateQuestInZone(CurrentZone);
+    local i=1;
+    local qc=0;
     ZonesChecked = ZonesChecked+1;
     if(not change) then
         change = Questie:UpdateQuestInZone(GetMinimapZoneText());
         ZonesChecked = ZonesChecked+1;
     end
     if(not change or force) then
-        for i = 1, numEntries do
+        while qc<numQuests do
             local q, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(i);
             if(isHeader and q ~= CurrentZone) then
                 local c = Questie:UpdateQuestInZone(q, force);
@@ -200,6 +202,10 @@ function Questie:UpdateQuests(force)
                     break;
                 end
             end
+            if not isHeader then
+                qc=qc+1
+            end
+            i=i+1
         end
     else
     end
@@ -213,7 +219,9 @@ function Questie:UpdateQuestInZone(Zone, force)
     local foundChange = nil;
     local ZoneFound = nil;
     local QuestsChecked = 0;
-    for i = 1, numEntries do
+    local i=1;
+    local qc=0;
+    while qc<numQuests do
         local q, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(i);
         if(ZoneFound and isHeader) then
             break;
@@ -265,6 +273,10 @@ function Questie:UpdateQuestInZone(Zone, force)
         if(foundChange and not force) then
             break;
         end
+        if not isHeader then
+            qc=qc+1
+        end
+        i=i+1
     end
     return foundChange;
 end
@@ -273,7 +285,9 @@ end
 ---------------------------------------------------------------------------------------------------
 function Questie:UpdateQuestsInit()
     local numEntries, numQuests = GetNumQuestLogEntries();
-    for i = 1, numEntries do
+    local i=1;
+    local qc=0;
+    while qc<numQuests do
         local q, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(i);
         if not isHeader then
             QSelect_QuestLogEntry(i);
@@ -291,7 +305,9 @@ function Questie:UpdateQuestsInit()
                 lastObjectives[hash][obj].typ = typ;
                 lastObjectives[hash][obj].done = done;
             end
+            qc=qc+1
         end
+        i=i+1
     end
 end
 ---------------------------------------------------------------------------------------------------
@@ -300,10 +316,12 @@ end
 function Questie:AstroGetAllCurrentQuestHashes(print)
     local hashes = {};
     local numEntries, numQuests = GetNumQuestLogEntries();
-    if(print) then
-        Questie:debug_Print("--Listing all current quests--");
-    end
-    for i = 1, numEntries do
+    local i=1;
+    local qc=0;
+        if(print) then
+            Questie:debug_Print("--Listing all current quests--");
+        end
+    while qc<numQuests do
         local q, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(i);
         if not isHeader then
             QSelect_QuestLogEntry(i);
@@ -320,11 +338,13 @@ function Questie:AstroGetAllCurrentQuestHashes(print)
                 Questie:debug_Print("        "..q,quest["hash"]);
             end
             table.insert(hashes, quest);
+            qc=qc+1
         else
             if(print) then
                 Questie:debug_Print("    Zone:", q);
             end
         end
+        i=i+1
     end
     if(print) then
         Questie:debug_Print("--End of all current quests--");
@@ -340,8 +360,10 @@ function Questie:AstroGetAllCurrentQuestHashesAsMeta(print)
     local Count = 0;
     local numEntries, numQuests = GetNumQuestLogEntries();
     local collapsedCount = 0;
+    local i=1;
+    local qc=0;
     Questie.collapsedThisRun = false;
-    for i = 1, numEntries do
+    while qc<numQuests do
         local q, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(i);
         if isCollapsed then collapsedCount = collapsedCount + 1; end
         if not isHeader then
@@ -358,11 +380,13 @@ function Questie:AstroGetAllCurrentQuestHashesAsMeta(print)
             elseif(print) then
                 Questie:debug_Print("        "..q,quest["hash"]);
             end
+            qc=qc+1
         else
             if(print) then
                 Questie:debug_Print("    Zone:", q);
             end
         end
+        i=i+1
     end
     if(print) then
         Questie:debug_Print("--End of all current quests--");
@@ -378,7 +402,9 @@ end
 function Questie:AstroGetFinishedQuests()
     numEntries, numQuests = GetNumQuestLogEntries();
     local FinishedQuests = {};
-    for i = 1, numEntries do
+    local i=1;
+    local qc=0;
+    while qc<numQuests do
         local q, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(i);
         if not isHeader then
             QSelect_QuestLogEntry(i);
@@ -396,7 +422,9 @@ function Questie:AstroGetFinishedQuests()
                 Questie:debug_Print("[AstroGetFinishedQuests] Finished returned:", hash, q ,level);
                 table.insert(FinishedQuests, hash);
             end
+            qc=qc+1
         end
+        i=i+1
     end
     return FinishedQuests;
 end
@@ -569,8 +597,9 @@ LastNrOfEntries = 0;
 CachedIds = {};
 function Questie:GetQuestIdFromHash(questHash)
     local numEntries, numQuests = GetNumQuestLogEntries();
-    if(numEntries ~= LastNrOfEntries or not CachedIds[questHash]) then
+    if(QUESTIE_UPDATE_EVENT or numEntries ~= LastNrOfEntries or not CachedIds[questHash]) then
         CachedIds = {};
+        QUESTIE_UPDATE_EVENT=0;
         LastNrOfEntries = numEntries;
         Questie:UpdateQuestIds();
         if CachedIds[questHash] then
@@ -596,9 +625,10 @@ end
 ---------------------------------------------------------------------------------------------------
 function Questie:UpdateQuestIds()
     local startTime = GetTime()
-    QExpand_QuestHeader(0)
     local numEntries, numQuests = GetNumQuestLogEntries();
-    for i = 1, numEntries do
+    local i=1;
+    local qc=0;
+    while qc<numQuests do
         local q, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(i);
         if not isHeader then
             QSelect_QuestLogEntry(i);
@@ -608,7 +638,9 @@ function Questie:UpdateQuestIds()
                 Questie:debug_Print("[UpdateQuestID] ERROR!!!!  Error1",tostring(name), tostring(level), tostring(i), tostring(hash))
             end
             CachedIds[hash] = i;
+            qc=qc+1
         end
+        i=i+1
     end
     Questie:debug_Print("[UpdateQuestID] Had to update UpdateQuestIds",(GetTime() - startTime)*1000,"ms")
 end

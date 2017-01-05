@@ -636,7 +636,11 @@ function QuestLogTitleButton_OnClick(button)
                     numUntracked = 0;
                     local track = false;
                     if ( this.isHeader ) then
-                        for i=1, GetNumQuestLogEntries(), 1 do
+                        local i=1;
+                        local qc=0;
+                        local nEntry, nQuests = GetNumQuestLogEntries()
+                        local tEntry = nQuests;
+                        while qc<nQuests do
                             questLogTitleText, _, _, isHeader, isCollapsed, _ = GetQuestLogTitle(i);
                             if ( questLogTitleText == questName ) then
                                 track = true;
@@ -658,9 +662,15 @@ function QuestLogTitleButton_OnClick(button)
                                     break;
                                 end
                             end
+                            if not isHeader then
+                                qc=qc+1
+                            else
+                                tEntry=tEntry+1
+                            end
+                            i=i+1
                         end
                         if ( lastTrackable == -1 ) then
-                            lastTrackable = GetNumQuestLogEntries();
+                            lastTrackable = tEntry
                         end
                         if ( numUntracked == 0 ) then
                             for i=firstTrackable, lastTrackable, 1 do
@@ -919,11 +929,18 @@ end
 -- Determines quest log ID by quest name
 ---------------------------------------------------------------------------------------------------
 function QuestieTracker:findLogIdByName(name)
-    for i=1,GetNumQuestLogEntries() do
+    local i=1;
+    local qc=0;
+    local nEntry, nQuests = GetNumQuestLogEntries()
+    while qc<nQuests do
         local questName, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(i);
         if(name == questName) then
             return i;
         end
+        if not isHeader then
+            qc=qc+1
+        end
+        i=i+1
     end
 end
 ---------------------------------------------------------------------------------------------------
@@ -980,7 +997,10 @@ end
 ---------------------------------------------------------------------------------------------------
 function QuestieTracker:syncEQL3()
     if IsAddOnLoaded("EQL3") or IsAddOnLoaded("ShaguQuest") then
-        for id=1, GetNumQuestLogEntries() do
+        local id=1;
+        local qc=0;
+        local nEntry, nQuests = GetNumQuestLogEntries()
+        while qc<nQuests do
             local questName, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(id)
             if not isHeader and not isCollapsed then
                 local hash = Questie:GetHashFromName(questName)
@@ -995,6 +1015,10 @@ function QuestieTracker:syncEQL3()
                     QuestieTracker:removeQuestFromTracker(hash)
                 end
             end
+            if not isHeader then
+                qc=qc+1
+            end
+            id=id+1
         end
     end
 end
@@ -1003,7 +1027,10 @@ end
 ---------------------------------------------------------------------------------------------------
 function QuestieTracker:syncQuestWatch()
     if (not IsAddOnLoaded("EQL3")) or (not IsAddOnLoaded("ShaguQuest")) then
-        for id=1, GetNumQuestLogEntries() do
+        local id=1;
+        local qc=0;
+        local nEntry, nQuests = GetNumQuestLogEntries()
+        while qc<nQuests do
             local questName, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(id)
             if not isHeader and not isCollapsed then
                 local hash = Questie:GetHashFromName(questName)
@@ -1018,6 +1045,10 @@ function QuestieTracker:syncQuestWatch()
                     QuestieTracker:removeQuestFromTracker(hash)
                 end
             end
+            if not isHeader then
+                qc=qc+1
+            end
+            id=id+1
         end
     end
 end
