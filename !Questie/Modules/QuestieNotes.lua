@@ -208,7 +208,6 @@ end
 ---------------------------------------------------------------------------------------------------
 -- Tooltip code for quest objects
 ---------------------------------------------------------------------------------------------------
-__TT_LineCache = {};
 function Questie:hookTooltip()
     local _GameTooltipOnShow = GameTooltip:GetScript("OnShow") -- APPARENTLY this is always null, and doesnt need to be called for things to function correctly...?
     GameTooltip:SetScript("OnShow", function(self, arg)
@@ -239,6 +238,7 @@ end
 Questie_LastTooltip = GetTime();
 QUESTIE_DEBUG_TOOLTIP = nil;
 Questie_TooltipCache = {};
+__TT_LineCache = {};
 function Questie:Tooltip(this, forceShow, bag, slot)
     local monster = UnitName("mouseover")
     local objective = GameTooltipTextLeft1:GetText();
@@ -289,7 +289,7 @@ function Questie:Tooltip(this, forceShow, bag, slot)
                                     break;
                                 end
                             end
-                        elseif m[1] and (m[1]['type'] == "item" or m[1]['type'] == "loot") then
+                        elseif m[1] and (m[1]['type'] == "monster" or m[1]['type'] == "loot") then
                             local monroot = QuestieMonsters[monster];
                             if monroot then
                                 local mondat = monroot['drops'];
@@ -378,7 +378,7 @@ function Questie:Tooltip(this, forceShow, bag, slot)
                 GameTooltip.lastmonster = monster;
                 GameTooltip.lastobjective = nil;
             end
-        elseif objective and GetTime() - Questie_LastTooltip > 0.01 then
+        elseif objective and GetTime() - Questie_LastTooltip < 0.05 then
             for k,v in pairs(QuestieHandledQuests) do
                 local obj = v['objectives']['objectives'];
                 if ( obj ) then
