@@ -16,7 +16,7 @@ Questie = CreateFrame("Frame", "QuestieLua", UIParent, "ActionButtonTemplate");
 QuestRewardCompleteButton = nil;
 QuestAbandonOnAccept = nil;
 QuestAbandonWithItemsOnAccept = nil;
-QuestieVersion = 3.5;
+QuestieVersion = 3.6;
 ---------------------------------------------------------------------------------------------------
 -- WoW Functions --PERFORMANCE CHANGE--
 ---------------------------------------------------------------------------------------------------
@@ -55,6 +55,7 @@ function Questie:SetupDefaults()
         ["showTrackerHeader"] = false,
         ["trackerEnabled"] = true,
         ["trackerList"] = false,
+        ["trackerScale"] = 1.0,
         ["resizeWorldmap"] = false,
         ["hideMinimapIcons"] = false,
         ["hideObjectives"] = false,
@@ -119,6 +120,9 @@ function Questie:CheckDefaults()
     end
     if QuestieConfig.trackerList == nil then
         QuestieConfig.trackerList = false;
+    end
+    if QuestieConfig.trackerScale == nil then
+        QuestieConfig.trackerScale = 1.0;
     end
     if QuestieConfig.resizeWorldmap == nil then
         QuestieConfig.resizeWorldmap = false;
@@ -190,6 +194,7 @@ function Questie:ClearConfig(arg)
                 ["showTrackerHeader"] = false,
                 ["trackerEnabled"] = true,
                 ["trackerList"] = false,
+                ["trackerScale"] = 1.0,
                 ["resizeWorldmap"] = false,
                 ["hideMinimapIcons"] = false,
                 ["hideObjectives"] = false,
@@ -669,6 +674,21 @@ QuestieFastSlash = {
             end
         end
     end,
+    ["qtscale"] = function(arg)
+    -- Default: Small
+        if arg == "large" then
+            QuestieConfig.trackerScale = 1.4;
+            ReloadUI();
+        elseif arg == "medium" then
+            QuestieConfig.trackerScale = 1.2;
+            ReloadUI();
+        elseif arg == "small" then
+            QuestieConfig.trackerScale = 1.0;
+            ReloadUI();
+        else
+            DEFAULT_CHAT_FRAME:AddMessage("|cFFFF2222Error: invalid option supplied!");
+        end
+    end,
     ["minlevel"] = function()
     -- Default: False
         QuestieConfig.minLevelFilter = not QuestieConfig.minLevelFilter;
@@ -771,6 +791,7 @@ QuestieFastSlash = {
                     ["showTrackerHeader"] = false,
                     ["trackerEnabled"] = true,
                     ["trackerList"] = false,
+                    ["trackerScale"] = 1.0,
                     ["resizeWorldmap"] = false,
                     ["hideMinimapIcons"] = false,
                     ["hideObjectives"] = false,
@@ -863,6 +884,7 @@ QuestieFastSlash = {
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie settings |r-- Displays your current toggles and settings.", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie showquests |r-- |c0000ffc0(toggle)|r Always show quests and objectives", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie tracker |r-- |c0000ffc0(toggle)|r QuestTracker", 0.75, 0.75, 0.75);
+        DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie qtscale |r-- |c0000ffc0(small|medium|large)|r QuestTracker Size", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie hideminimap |r-- |c0000ffc0(toggle)|r MiniMap Icons", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie hideobjectives |r-- |c0000ffc0(toggle)|r Objective Icons", 0.75, 0.75, 0.75);
         if (IsAddOnLoaded("Cartographer")) or (IsAddOnLoaded("MetaMap")) then
@@ -911,10 +933,11 @@ function Questie:CurrentUserToggles()
         [11] = { "showTrackerHeader" },
         [12] = { "trackerEnabled" },
         [13] = { "trackerList" },
-        [14] = { "resizeWorldmap" },
-        [15] = { "getVersion" },
-        [16] = { "hideMinimapIcons" },
-        [17] = { "hideObjectives" }
+        [14] = { "trackerScale" },
+        [15] = { "resizeWorldmap" },
+        [16] = { "getVersion" },
+        [17] = { "hideMinimapIcons" },
+        [18] = { "hideObjectives" }
     }
     if QuestieConfig then
         i = 1

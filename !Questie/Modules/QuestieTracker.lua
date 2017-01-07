@@ -578,6 +578,7 @@ function QuestieTracker:createTrackingFrame()
         QuestieTrackerVariables["position"]["xOfs"],
         QuestieTrackerVariables["position"]["yOfs"]
     );
+    QuestieTracker.frame:SetScale(QuestieConfig.trackerScale)
     QuestieTracker.frame.texture = QuestieTracker.frame:CreateTexture(nil, "BACKGROUND");
     QuestieTracker.frame.texture:SetTexture(0,0,0); -- black
     QuestieTracker.frame.texture:SetAlpha(0.0);

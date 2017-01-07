@@ -1,50 +1,81 @@
 -------------------------------------------------------------------------------------------------------------------------------
+v3.6
+
+* Fixed an issue with Tooltips - flickering/refresh rate was sometimes visible
+  while hovering over quest items.
+* Quest items tool tip info wouldn't show up if the Zone/Section in the QuestLog
+  was collapsed/minimized.
+* Quest update code has been updated. Some of the previous refresh issues with
+  quests updating drop counts has been fixed.
+* Added the ability to resize the Quest Tracker. There are now three size
+  options avaialable. Small (default) | Medium | Large. Slash command usage:
+  (/questie qtscale small|medium|large) - upon hitting enter to set the size,
+  a ReloadUI will occure to redraw the QuestTracker. NOTE: This option only
+  works on the Questie QuestTracker, NOT the Default WoW QuestTracker.
+
+-------------------------------------------------------------------------------------------------------------------------------
 v3.5
 
-* Hotfix: Corrected issues with ToolTip mods causing certain ToolTip elements to become stuck in a visible state.
-* Hotfix: Corrected issues with new ToolTip cache system doubling up on displayed info.
+* Hotfix: Corrected issues with ToolTip mods causing certain ToolTip elements
+  to become stuck in a visible state.
+* Hotfix: Corrected issues with new ToolTip cache system doubling up on
+  displayed info.
 
-Re-enabled new features and fixes that were disabled in the previous (v3.4 --> v3.3) rollback:
-* Moved "Toggle Questie" button to a proper location (not on top of the zone dropdowns)
+Re-enabled new features and fixes that were disabled in the previous
+  (v3.4 --> v3.3) rollback:
+* Moved "Toggle Questie" button to a proper location (not on top of the zone
+  dropdowns)
 * Fixed available quest maxlevel filter bug
 * Fixed "icons not showing until map has been opened" bug
-* Added an option to hide all objectives and only show available quests (/questie hideobjectives)
-* Added an option to hide minimap icons (/questie hideminimap)
+* Added an option to hide all objectives and only show available quests
+  (/questie hideobjectives)
+* Added an option to hide minimap icons
+  (/questie hideminimap)
 
 -------------------------------------------------------------------------------------------------------------------------------
 v3.4
 
-**WARNING TO TINYTIP/ENHTOOLTIP USERS: There may be a new bug with some tooltip addons in this version, so for now you may want to still use v3.3. A hotfix is in the works
-**EDIT: I have temporarily disabled this release since there are a few big bugs. Sit tight, a fix is on the way!
+**WARNING TO TINYTIP/ENHTOOLTIP USERS: There may be a new bug with some tooltip
+  addons in this version, so for now you may want to still use v3.3. A hotfix
+  is in the works
+**EDIT: I have temporarily disabled this release since there are a few big bugs.
+  Sit tight, a fix is on the way!
 
-Hey guys, quick bugfix release to prep for launch, get it while its hot! (More to come soon)
+Hey guys, quick bugfix release to prep for launch, get it while its hot! (More
+to come soon)
 
 Bugs:
-* Fixed conflict with tinytip that caused questie to add objective text to tooltips multiple times
-* Moved "Toggle Questie" button to a proper location (not on top of the zone dropdowns)
+* Fixed conflict with tinytip that caused questie to add objective text to
+  tooltips multiple times
+* Moved "Toggle Questie" button to a proper location (not on top of the zone
+  dropdowns)
 * Fixed available quest maxlevel filter bug
 * Fixed "icons not showing until map has been opened" bug
 
 New stuff:
-* Added an option to hide all objectives and only show available quests (/questie hideobjectives)
-* Added an option to hide minimap icons (/questie hideminimap)
+* Added an option to hide all objectives and only show available quests
+  (/questie hideobjectives)
+* Added an option to hide minimap icons
+  (/questie hideminimap)
 
-Good luck and don't forget to report bugs!
+  Good luck and don't forget to report bugs!
 
 -------------------------------------------------------------------------------------------------------------------------------
 v3.3
 
-* Improved mouseover tooltip performance by using caching (this can be improved more in the future)
+* Improved mouseover tooltip performance by using caching (this can be improved
+  more in the future)
 * Fixed "tooltip only showing once" bug
-More updates coming soon, this is mainly a hotfix for the tooltip bug.
-EDIT: Fixed version number in-game
+  More updates coming soon, this is mainly a hotfix for the tooltip bug.
+  EDIT: Fixed version number in-game
 
 -------------------------------------------------------------------------------------------------------------------------------
 v3.2
 
 * Fixes to minimap and world coordinates
 * EQL3 fixes
-* Before, quests in the same location would overwrite each other on the map. Now you can see all the available quests.
+* Before, quests in the same location would overwrite each other on the map.
+  Now you can see all the available quests.
 
 -------------------------------------------------------------------------------------------------------------------------------
 v3.1
