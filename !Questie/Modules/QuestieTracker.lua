@@ -66,6 +66,61 @@ local QGet_QuestLogTitle = GetQuestLogTitle;
 local QGet_NumQuestLeaderBoards = GetNumQuestLeaderBoards;
 local QGet_QuestLogLeaderBoard = GetQuestLogLeaderBoard;
 ---------------------------------------------------------------------------------------------------
+-- Calculates QuestieTracker Height
+---------------------------------------------------------------------------------------------------
+function QuestieTracker:updateTrackingFrameSize()
+    if (QuestieConfig.trackerBackground == true) then
+        if (QuestieTracker.highestIndex) == 0 then
+            QuestieTracker.frame:SetHeight(0.1)
+            QuestieTracker.frame:SetWidth(0.1)
+            QuestieTracker.frame.texture:SetAlpha(0.0);
+            QuestieTracker.frame:Hide()
+            return
+        end
+        if (QuestieConfig.trackerList == true) then
+            local lastButton = QuestieTracker.questButtons[QuestieTracker.highestIndex];
+            if lastButton == nil then return; end
+            local lastbuttonTop = lastButton:GetTop();
+            local trackerBottom = QuestieTracker.frame:GetBottom();
+
+            -- what if nothing is tracked?
+            if trackerBottom == nil then trackerBottom = 0; end
+            if lastbuttonTop == nil then lastbuttonTop = 0; end
+
+            -- dynamically set the size of the tracker
+            local totalHeight = lastbuttonTop - trackerBottom;
+
+            if (QuestieConfig.showTrackerHeader == true) then
+                QuestieTracker.frame:SetHeight(totalHeight + 10);
+            elseif (QuestieConfig.showTrackerHeader == false) then
+                QuestieTracker.frame:SetHeight(totalHeight + 10);
+            end
+            QuestieTracker.frame:SetWidth(200);
+            QuestieTracker.frame.texture:SetAlpha(QuestieConfig.trackerAlpha);
+        elseif (QuestieConfig.trackerList == false) then
+            local lastButton = QuestieTracker.questButtons[QuestieTracker.highestIndex];
+            if lastButton == nil then return; end
+            local lastbuttonBottom = lastButton:GetBottom();
+            local trackerTop = QuestieTracker.frame:GetTop();
+
+            -- what if nothing is tracked?
+            if trackerTop == nil then trackerTop = 0; end
+            if lastbuttonBottom == nil then lastbuttonBottom = 0; end
+
+            -- dynamically set the size of the tracker
+            local totalHeight = trackerTop - lastbuttonBottom;
+
+            if (QuestieConfig.showTrackerHeader == true) then
+                QuestieTracker.frame:SetHeight(totalHeight + 10);
+            elseif (QuestieConfig.showTrackerHeader == false) then
+                QuestieTracker.frame:SetHeight(totalHeight + 10);
+            end
+            QuestieTracker.frame:SetWidth(200);
+            QuestieTracker.frame.texture:SetAlpha(QuestieConfig.trackerAlpha);
+        end
+    end
+end
+---------------------------------------------------------------------------------------------------
 -- Color quest objective scheme for quest tracker color option 2
 ---------------------------------------------------------------------------------------------------
 function QuestieTracker:getRGBForObjectiveBold(objective)
@@ -161,12 +216,6 @@ function QuestieTracker:createOrGetTrackingButton(index)
         end);
         btn.dragstartx = 0;
         btn.dragstarty = 0;
-        btn:SetScript("OnEnter", function()
-            QuestieTracker.frame.texture:SetAlpha(0.3);
-        end);
-        btn:SetScript("OnLeave", function()
-            QuestieTracker.frame.texture:SetAlpha(0.0);
-        end);
         btn:RegisterForClicks("RightButtonDown","LeftButtonUp", "LeftClick");
         btn.click = function()
             if (QuestieConfig.arrowEnabled == true) then
@@ -480,6 +529,7 @@ function QuestieTracker:fillTrackingFrame()
             d:Hide();
             index = index + 1;
         end
+        QuestieTracker:updateTrackingFrameSize()
         if (QuestieConfig.trackerEnabled == true) then
             QuestieTracker.frame:Show();
         else
@@ -555,6 +605,7 @@ function QuestieTracker:fillTrackingFrame()
             d:Hide();
             index = index + 1;
         end
+        QuestieTracker:updateTrackingFrameSize()
         if (QuestieConfig.trackerEnabled == true) then
             QuestieTracker.frame:Show();
         else
@@ -583,12 +634,6 @@ function QuestieTracker:createTrackingFrame()
     QuestieTracker.frame.texture:SetTexture(0,0,0); -- black
     QuestieTracker.frame.texture:SetAlpha(0.0);
     QuestieTracker.frame.texture:SetAllPoints(QuestieTracker.frame);
-    if (QuestieConfig.trackerEnabled == true) then
-        QuestieTracker.frame:Show();
-    else
-        QuestieTracker:Hide()
-        QuestieTracker.frame:Hide()
-    end
     QuestieTracker.frame:EnableMouse(true);
     QuestieTracker.frame:SetMovable(true);
     --Fix submitted by wardz - thank you!
@@ -922,8 +967,7 @@ function QuestieTracker:removeQuestFromTracker(hash)
     Questie:RedrawNotes()
     if (QuestieTracker.highestIndex) == 0 then
         QuestieTrackerHeader:Hide()
-        QuestieTracker.frame:SetHeight(1)
-        QuestieTracker.frame:SetWidth(1)
+        QuestieTracker.frame:Hide()
     end
 end
 ---------------------------------------------------------------------------------------------------

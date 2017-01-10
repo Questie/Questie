@@ -549,42 +549,119 @@ function Questie_AvailableQuestClick()
             local closeFunc = function()
                 Dewdrop:Close()
             end
-            Dewdrop:Register(WorldMapFrame,
-                'children', function()
-                    for i, quest in pairs(this.quests) do
-                        local hash = quest.questHash
-                        local questName = "["..QuestieHashMap[hash].questLevel.."] "..QuestieHashMap[hash]['name']
-                        local finishFunc = function(quest)
-                            finishQuest(quest)
-                            Dewdrop:Close()
+            if (IsAddOnLoaded("Cartographer")) or (IsAddOnLoaded("MetaMap")) or (QuestieConfig.resizeWorldmap == true) then
+                Dewdrop:Register(WorldMapFrame,
+                    'children', function()
+                        for i, quest in pairs(this.quests) do
+                            local hash = quest.questHash
+                            local questName = "["..QuestieHashMap[hash].questLevel.."] "..QuestieHashMap[hash]['name']
+                            local finishFunc = function(quest)
+                                finishQuest(quest)
+                                Dewdrop:Close()
+                            end
+                            Dewdrop:AddLine(
+                                'text', questName,
+                                'notClickable', quest.icontype ~= "available",
+                                'icon', QuestieIcons[quest.icontype].path,
+                                'iconCoordLeft', 0,
+                                'iconCoordRight', 1,
+                                'iconCoordTop', 0,
+                                'iconCoordBottom', 1,
+                                'func', finishFunc,
+                                'arg1', quest
+                            )
                         end
                         Dewdrop:AddLine(
-                            'text', questName,
-                            'notClickable', quest.icontype ~= "available",
-                            'icon', QuestieIcons[quest.icontype].path,
-                            'iconCoordLeft', 0,
-                            'iconCoordRight', 1,
-                            'iconCoordTop', 0,
-                            'iconCoordBottom', 1,
-                            'func', finishFunc,
-                            'arg1', quest
+                            'text', "",
+                            'notClickable', true
                         )
-                    end
-                    Dewdrop:AddLine(
-                        'text', "",
-                        'notClickable', true
-                    )
-                    Dewdrop:AddLine(
-                        'text', "Cancel",
-                        'func', closeFunc
-                    )
-                end,
-                'dontHook', true,
-                'cursorX', true,
-                'cursorY', true
-            )
-            Dewdrop:Open(WorldMapFrame)
-            Dewdrop:Unregister(WorldMapFrame)
+                        Dewdrop:AddLine(
+                            'text', "Cancel",
+                            'func', closeFunc
+                        )
+                    end,
+                    'dontHook', true,
+                    'cursorX', true,
+                    'cursorY', true
+                )
+                Dewdrop:Open(WorldMapFrame)
+                Dewdrop:Unregister(WorldMapFrame)
+            elseif (not IsAddOnLoaded("Cartographer")) or (not IsAddOnLoaded("MetaMap")) and (QuestieConfig.resizeWorldmap == false) then
+                Dewdrop:Register(this,
+                    'children', function()
+                        for i, quest in pairs(this.quests) do
+                            local hash = quest.questHash
+                            local questName = "["..QuestieHashMap[hash].questLevel.."] "..QuestieHashMap[hash]['name']
+                            local finishFunc = function(quest)
+                                finishQuest(quest)
+                                Dewdrop:Close()
+                            end
+                            Dewdrop:AddLine(
+                                'text', questName,
+                                'notClickable', quest.icontype ~= "available",
+                                'icon', QuestieIcons[quest.icontype].path,
+                                'iconCoordLeft', 0,
+                                'iconCoordRight', 1,
+                                'iconCoordTop', 0,
+                                'iconCoordBottom', 1,
+                                'func', finishFunc,
+                                'arg1', quest
+                            )
+                        end
+                        Dewdrop:AddLine(
+                            'text', "",
+                            'notClickable', true
+                        )
+                        Dewdrop:AddLine(
+                            'text', "Cancel",
+                            'func', closeFunc
+                        )
+                    end,
+                    'dontHook', true,
+                    'point', "TOPLEFT",
+                    'relativePoint', "BOTTOMRIGHT"
+                )
+                Dewdrop:Open(this)
+                Dewdrop:Unregister(this)
+            end
+            if (IsAddOnLoaded("Cartographer")) and (CartographerDB["disabledModules"]["Default"]["Look 'n' Feel"] == true) then
+                Dewdrop:Register(this,
+                    'children', function()
+                        for i, quest in pairs(this.quests) do
+                            local hash = quest.questHash
+                            local questName = "["..QuestieHashMap[hash].questLevel.."] "..QuestieHashMap[hash]['name']
+                            local finishFunc = function(quest)
+                                finishQuest(quest)
+                                Dewdrop:Close()
+                            end
+                            Dewdrop:AddLine(
+                                'text', questName,
+                                'notClickable', quest.icontype ~= "available",
+                                'icon', QuestieIcons[quest.icontype].path,
+                                'iconCoordLeft', 0,
+                                'iconCoordRight', 1,
+                                'iconCoordTop', 0,
+                                'iconCoordBottom', 1,
+                                'func', finishFunc,
+                                'arg1', quest
+                            )
+                        end
+                        Dewdrop:AddLine(
+                            'text', "",
+                            'notClickable', true
+                        )
+                        Dewdrop:AddLine(
+                            'text', "Cancel",
+                            'func', closeFunc
+                        )
+                    end,
+                    'dontHook', true,
+                    'point', "TOPLEFT",
+                    'relativePoint', "BOTTOMRIGHT"
+                )
+                Dewdrop:Open(this)
+                Dewdrop:Unregister(this)
+            end
         end
     end
 end

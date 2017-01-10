@@ -1,4 +1,25 @@
 -------------------------------------------------------------------------------------------------------------------------------
+v3.61
+
+* Fixed an issue with the Shift+Click manual quest complete Dewdrop menu popup
+  appearing off screen when a players Worldmap is in "Full Screen" mode.
+* Re-added the Questie QuestTracker background and added the ability to set
+  it's alpha level. This is NOT enabled by default. Pay attention! :)
+    Step 1: Enable the back ground by running '/questie background' - default
+      level is 4. If you're happy with that then you're done. If you want it
+      lighter or darker then proceed to step 2.
+    Step 2: Run the set alpha command '/questie backgroundalpha #' Enter a
+      number between 1 and 9. 1 is super light almost non-exsistant and 9 is
+      the darkest you can go. So for example: '/questie backgroundalpha 9'
+      Your UI will automatically reload after step 1 or when you change the
+      setting in step 2. Can't get around the ReloadUI().
+* The Questie QuestTrackers background is a fixed width. I did not re-enable the
+  code to auto resize the width. It's set to 200px wide which can accomodate
+  some fairly wide quest descriptions and objectives without it looking too ugly.
+* Minor improvement in completed quest markers not dissappearing right away after
+  completing a quest.
+
+-------------------------------------------------------------------------------------------------------------------------------
 v3.6
 
 * Fixed an issue with Tooltips - flickering/refresh rate was sometimes visible

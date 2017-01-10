@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 -- Name: Questie for Vanilla WoW
--- Revision: 3.5
+-- Revision: 3.61
 -- Authors: Aero/Schaka/Logon/Dyaxler/everyone else
 -- Website: https://github.com/AeroScripts/QuestieDev
 -- Description: Questie started out being a simple backport of QuestHelper but it has grown beyond
@@ -16,7 +16,7 @@ Questie = CreateFrame("Frame", "QuestieLua", UIParent, "ActionButtonTemplate");
 QuestRewardCompleteButton = nil;
 QuestAbandonOnAccept = nil;
 QuestAbandonWithItemsOnAccept = nil;
-QuestieVersion = 3.6;
+QuestieVersion = 3.61;
 ---------------------------------------------------------------------------------------------------
 -- WoW Functions --PERFORMANCE CHANGE--
 ---------------------------------------------------------------------------------------------------
@@ -56,6 +56,8 @@ function Questie:SetupDefaults()
         ["trackerEnabled"] = true,
         ["trackerList"] = false,
         ["trackerScale"] = 1.0,
+        ["trackerBackground"] = false,
+        ["trackerAlpha"] = 0.4,
         ["resizeWorldmap"] = false,
         ["hideMinimapIcons"] = false,
         ["hideObjectives"] = false,
@@ -123,6 +125,12 @@ function Questie:CheckDefaults()
     end
     if QuestieConfig.trackerScale == nil then
         QuestieConfig.trackerScale = 1.0;
+    end
+    if QuestieConfig.trackerBackground == nil then
+        QuestieConfig.trackerBackground = false;
+    end
+    if QuestieConfig.trackerAlpha == nil then
+        QuestieConfig.trackerAlpha = 0.4;
     end
     if QuestieConfig.resizeWorldmap == nil then
         QuestieConfig.resizeWorldmap = false;
@@ -195,6 +203,8 @@ function Questie:ClearConfig(arg)
                 ["trackerEnabled"] = true,
                 ["trackerList"] = false,
                 ["trackerScale"] = 1.0,
+                ["trackerBackground"] = false,
+                ["trackerAlpha"] = 0.4,
                 ["resizeWorldmap"] = false,
                 ["hideMinimapIcons"] = false,
                 ["hideObjectives"] = false,
@@ -252,6 +262,7 @@ function Questie:OnLoad()
     this:RegisterEvent("ADDON_LOADED");
     this:RegisterEvent("VARIABLES_LOADED");
     this:RegisterEvent("CHAT_MSG_LOOT");
+    this:RegisterEvent("QUEST_FINISHED");
     QuestAbandonOnAccept = StaticPopupDialogs["ABANDON_QUEST"].OnAccept;
     StaticPopupDialogs["ABANDON_QUEST"].OnAccept = function()
         local hash = Questie:GetHashFromName(QGet_AbandonQuestName());
@@ -422,6 +433,12 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
             QUESTIE_LAST_UPDATE = GetTime();
         end
         Questie:BlockTranslations();
+    elseif(event == "QUEST_FINISHED") then
+        QUESTIE_UPDATE_EVENT = 1;
+        Questie:AddEvent("CHECKLOG", 0.135);
+        QUESTIE_LAST_CHECKLOG = GetTime();
+        Questie:AddEvent("UPDATE", 0.15);
+        QUESTIE_LAST_UPDATE = GetTime();
     elseif(event == "QUEST_PROGRESS") then
         if IsAddOnLoaded("EQL3") or IsAddOnLoaded("ShaguQuest") then
             if IsQuestCompletable() then
@@ -689,6 +706,25 @@ QuestieFastSlash = {
             DEFAULT_CHAT_FRAME:AddMessage("|cFFFF2222Error: invalid option supplied!");
         end
     end,
+    ["background"] = function()
+    -- Default: false
+        QuestieConfig.trackerBackground = not QuestieConfig.trackerBackground;
+        if QuestieConfig.trackerBackground then
+            ReloadUI();
+        else
+            ReloadUI();
+        end
+    end,
+    ["backgroundalpha"] = function(args)
+    -- Default: 4
+        if args then
+            local val = tonumber(args)/10;
+            QuestieConfig.trackerAlpha = val;
+            ReloadUI();
+        else
+            DEFAULT_CHAT_FRAME:AddMessage("|cFFFF2222Error: invalid number supplied!");
+        end
+    end,
     ["minlevel"] = function()
     -- Default: False
         QuestieConfig.minLevelFilter = not QuestieConfig.minLevelFilter;
@@ -792,6 +828,8 @@ QuestieFastSlash = {
                     ["trackerEnabled"] = true,
                     ["trackerList"] = false,
                     ["trackerScale"] = 1.0,
+                    ["trackerBackground"] = false,
+                    ["trackerAlpha"] = 0.4,
                     ["resizeWorldmap"] = false,
                     ["hideMinimapIcons"] = false,
                     ["hideObjectives"] = false,
@@ -884,7 +922,9 @@ QuestieFastSlash = {
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie settings |r-- Displays your current toggles and settings.", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie showquests |r-- |c0000ffc0(toggle)|r Always show quests and objectives", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie tracker |r-- |c0000ffc0(toggle)|r QuestTracker", 0.75, 0.75, 0.75);
-        DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie qtscale |r-- |c0000ffc0(small|medium|large)|r QuestTracker Size", 0.75, 0.75, 0.75);
+        DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie background |r-- |c0000ffc0(toggle)|r QuestTracker background will always remain on", 0.75, 0.75, 0.75);
+        DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie backgroundalpha |r-- |c0000ffc0(1-9)|r QuestTracker background alpha level (default=4)", 0.75, 0.75, 0.75);
+        DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie qtscale |r-- |c0000ffc0(small|medium|large)|r QuestTracker Size (default=small)", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie hideminimap |r-- |c0000ffc0(toggle)|r MiniMap Icons", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie hideobjectives |r-- |c0000ffc0(toggle)|r Objective Icons", 0.75, 0.75, 0.75);
         if (IsAddOnLoaded("Cartographer")) or (IsAddOnLoaded("MetaMap")) then
@@ -934,10 +974,12 @@ function Questie:CurrentUserToggles()
         [12] = { "trackerEnabled" },
         [13] = { "trackerList" },
         [14] = { "trackerScale" },
-        [15] = { "resizeWorldmap" },
-        [16] = { "getVersion" },
-        [17] = { "hideMinimapIcons" },
-        [18] = { "hideObjectives" }
+        [15] = { "trackerBackground" },
+        [16] = { "trackerAlpha" },
+        [17] = { "resizeWorldmap" },
+        [18] = { "getVersion" },
+        [19] = { "hideMinimapIcons" },
+        [20] = { "hideObjectives" }
     }
     if QuestieConfig then
         i = 1

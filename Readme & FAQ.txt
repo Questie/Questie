@@ -57,3 +57,5 @@ Questie Slash Commands - use "/questie" to show the help menu in game.
     not tracked.
   - tracker: Toggles on and off the QuestTracker.
   - qtscale: Resizes the Questie QuestTracker using one of 3 pre-programed sizes. Small(default), Medium and Large
+  - background: Turns on the QuestTracker background
+  - backgroundalpha: Sets the QuestTracker background alpha level. Takes a number input from 1 to 9.
