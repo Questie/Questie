@@ -38055,7 +38055,7 @@ QuestieHashMap = {
   ['finishedType']="monster",
   ['startedBy']="Donyal Tovald",
   ['finishedBy']="Donyal Tovald",
-  ['level']=1,
+  ['level']=5,
   ['questLevel']='16',
   ['rr']=77
  },
