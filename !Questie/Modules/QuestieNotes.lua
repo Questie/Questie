@@ -385,7 +385,7 @@ function Questie:Tooltip(this, forceShow, bag, slot)
                     for name,m in pairs(obj) do
                         if (m[1] and m[1]['type'] == "object") then
                             local i, j = string.gfind(name, objective);
-                            if(i and j and QuestieObjects[m["name"]]) then
+                            if(i and j and QuestieObjects[name]) then
                                 local lineIndex = Questie_TooltipCache[cacheKey]['lineCount'];
                                 Questie_TooltipCache[cacheKey]['lines'][lineIndex] = {
                                     ['color'] = {0.2, 1, 0.3},
@@ -812,6 +812,9 @@ end
 function Questie:CLEAR_ALL_NOTES()
     Questie:debug_Print("CLEAR_NOTES");
     Astrolabe:RemoveAllMinimapIcons();
+    questsByFrameAndPosition = {};
+    questsByFrameAndPosition["WorldMapNote"] = {};
+    questsByFrameAndPosition["MiniMapNote"] = {};
     for k, v in pairs(QuestieUsedNoteFrames) do
         --Questie:debug_Print("Hash:"..v.questHash,"Type:"..v.type);
         Questie:Clear_Note(v);
@@ -822,28 +825,13 @@ end
 -- Checks first if there are any notes for the current zone, then draws the desired icon
 ---------------------------------------------------------------------------------------------------
 function Questie:DRAW_NOTES()
-    local c, z = GetCurrentMapContinent(), GetCurrentMapZone();
-    local questsByFrameAndPosition = {};
-    questsByFrameAndPosition["WorldMapNote"] = {}
-    questsByFrameAndPosition["MiniMapNote"] = {}
-    Questie:debug_Print("DRAW_NOTES");
-    if(QuestieMapNotes[c] and QuestieMapNotes[c][z]) then
-        for k, v in pairs(QuestieMapNotes[c][z]) do
-            --If an available quest isn't in the zone or we aren't tracking a quest on the QuestTracker then hide the objectives from the minimap
-            if not QuestieConfig.hideMinimapIcons and (QuestieConfig.alwaysShowQuests == false) and (MMLastX ~= 0 and MMLastY ~= 0) and (((QuestieTrackedQuests[v.questHash] ~= nil) and (QuestieTrackedQuests[v.questHash]["tracked"] ~= false)) or (v.icontype == "complete")) then
-                MMIcon = Questie:GetBlankNoteFrame();
-                Questie:SetFrameNoteData(MMIcon, v, Minimap, 9, "MiniMapNote", QUESTIE_NOTES_MINIMAP_ICON_SCALE)
-                --Sets highlight texture (Nothing stops us from doing this on the worldmap aswell)
-                MMIcon:SetHighlightTexture(QuestieIcons[v.icontype].path, "ADD");
-                --Set the texture to the right type
-                Astrolabe:PlaceIconOnMinimap(MMIcon, v.continent, v.zoneid, v.x, v.y);
-                table.insert(QuestieUsedNoteFrames, MMIcon);
-            elseif (QuestieConfig.alwaysShowQuests == true) then
-                if (questsByFrameAndPosition["MiniMapNote"][v.x] == nil) then
-                    questsByFrameAndPosition["MiniMapNote"][v.x] = {}
-                end
-                local existingQuest = questsByFrameAndPosition["MiniMapNote"][v.x][v.y]
-                if (existingQuest == nil) and not QuestieConfig.hideMinimapIcons then
+    --if (WorldMapFrame:IsVisible() == nil) then
+        local c, z = GetCurrentMapContinent(), GetCurrentMapZone();
+        Questie:debug_Print("DRAW_NOTES");
+        if(QuestieMapNotes[c] and QuestieMapNotes[c][z]) then
+            for k, v in pairs(QuestieMapNotes[c][z]) do
+                --If an available quest isn't in the zone or we aren't tracking a quest on the QuestTracker then hide the objectives from the minimap
+                if not QuestieConfig.hideMinimapIcons and (QuestieConfig.alwaysShowQuests == false) and (MMLastX ~= 0 and MMLastY ~= 0) and (((QuestieTrackedQuests[v.questHash] ~= nil) and (QuestieTrackedQuests[v.questHash]["tracked"] ~= false)) or (v.icontype == "complete")) then
                     MMIcon = Questie:GetBlankNoteFrame();
                     Questie:SetFrameNoteData(MMIcon, v, Minimap, 9, "MiniMapNote", QUESTIE_NOTES_MINIMAP_ICON_SCALE)
                     --Sets highlight texture (Nothing stops us from doing this on the worldmap aswell)
@@ -851,13 +839,27 @@ function Questie:DRAW_NOTES()
                     --Set the texture to the right type
                     Astrolabe:PlaceIconOnMinimap(MMIcon, v.continent, v.zoneid, v.x, v.y);
                     table.insert(QuestieUsedNoteFrames, MMIcon);
-                    questsByFrameAndPosition["MiniMapNote"][v.x][v.y] = MMIcon
-                else
-                    Questie:AddFrameNoteData(existingQuest, v)
+                elseif (QuestieConfig.alwaysShowQuests == true) then
+                    if (questsByFrameAndPosition["MiniMapNote"][v.x] == nil) then
+                        questsByFrameAndPosition["MiniMapNote"][v.x] = {}
+                    end
+                    local existingQuest = questsByFrameAndPosition["MiniMapNote"][v.x][v.y]
+                    if (existingQuest == nil) and not QuestieConfig.hideMinimapIcons then
+                        MMIcon = Questie:GetBlankNoteFrame();
+                        Questie:SetFrameNoteData(MMIcon, v, Minimap, 9, "MiniMapNote", QUESTIE_NOTES_MINIMAP_ICON_SCALE)
+                        --Sets highlight texture (Nothing stops us from doing this on the worldmap aswell)
+                        MMIcon:SetHighlightTexture(QuestieIcons[v.icontype].path, "ADD");
+                        --Set the texture to the right type
+                        Astrolabe:PlaceIconOnMinimap(MMIcon, v.continent, v.zoneid, v.x, v.y);
+                        table.insert(QuestieUsedNoteFrames, MMIcon);
+                        questsByFrameAndPosition["MiniMapNote"][v.x][v.y] = MMIcon
+                    else
+                        Questie:AddFrameNoteData(existingQuest, v)
+                    end
                 end
             end
         end
-    end
+    --end
     for k, Continent in pairs(QuestieMapNotes) do
         for zone, noteHeap in pairs(Continent) do
             for k, v in pairs(noteHeap) do
@@ -928,47 +930,49 @@ function Questie:DRAW_NOTES()
             end
         end
     end
-    if(QuestieAvailableMapNotes[c] and QuestieAvailableMapNotes[c][z]) then
-        if Active == true then
-            local con,zon,x,y = Astrolabe:GetCurrentPlayerPosition();
-            for k, v in pairs(QuestieAvailableMapNotes[c][z]) do
-                if (questsByFrameAndPosition["WorldMapNote"][v.x] == nil) then
-                    questsByFrameAndPosition["WorldMapNote"][v.x] = {}
-                end
-                local existingQuest = questsByFrameAndPosition["WorldMapNote"][v.x][v.y]
-                if (existingQuest == nil) then
-                    Icon = Questie:GetBlankNoteFrame();
-                    Questie:SetFrameNoteData(Icon, v, WorldMapFrame, 9, "WorldMapNote", QUESTIE_NOTES_MAP_ICON_SCALE)
-                    Icon:Show();
-                    xx, yy = Astrolabe:PlaceIconOnWorldMap(WorldMapButton,Icon,v.continent ,v.zoneid ,v.x, v.y); --WorldMapFrame is global
-                    if(xx and yy and xx > 0 and xx < 1 and yy > 0 and yy < 1) then
-                        table.insert(QuestieUsedNoteFrames, Icon);
-                    else
-                        Questie:Clear_Note(Icon);
+    --if (WorldMapFrame:IsVisible() == nil) then
+        if(QuestieAvailableMapNotes[c] and QuestieAvailableMapNotes[c][z]) then
+            if Active == true then
+                local con,zon,x,y = Astrolabe:GetCurrentPlayerPosition();
+                for k, v in pairs(QuestieAvailableMapNotes[c][z]) do
+                    if (questsByFrameAndPosition["WorldMapNote"][v.x] == nil) then
+                        questsByFrameAndPosition["WorldMapNote"][v.x] = {}
                     end
-                    questsByFrameAndPosition["WorldMapNote"][v.x][v.y] = Icon
-                else
-                    Questie:AddFrameNoteData(existingQuest, v)
-                end
-                if (questsByFrameAndPosition["MiniMapNote"][v.x] == nil) then
-                    questsByFrameAndPosition["MiniMapNote"][v.x] = {}
-                end
-                existingQuest = questsByFrameAndPosition["MiniMapNote"][v.x][v.y]
-                if (existingQuest == nil) and not QuestieConfig.hideMinimapIcons then
-                    MMIcon = Questie:GetBlankNoteFrame();
-                    Questie:SetFrameNoteData(MMIcon, v, Minimap, 7, "MiniMapNote", QUESTIE_NOTES_MINIMAP_ICON_SCALE)
-                    --Sets highlight texture (Nothing stops us from doing this on the worldmap aswell)
-                    MMIcon:SetHighlightTexture(QuestieIcons[v.icontype].path, "ADD");
-                    --Set the texture to the right type
-                    Astrolabe:PlaceIconOnMinimap(MMIcon, v.continent, v.zoneid, v.x, v.y);
-                    table.insert(QuestieUsedNoteFrames, MMIcon);
-                    questsByFrameAndPosition["MiniMapNote"][v.x][v.y] = MMIcon
-                else
-                    Questie:AddFrameNoteData(existingQuest, v)
+                    local existingQuest = questsByFrameAndPosition["WorldMapNote"][v.x][v.y]
+                    if (existingQuest == nil) then
+                        Icon = Questie:GetBlankNoteFrame();
+                        Questie:SetFrameNoteData(Icon, v, WorldMapFrame, 9, "WorldMapNote", QUESTIE_NOTES_MAP_ICON_SCALE)
+                        Icon:Show();
+                        xx, yy = Astrolabe:PlaceIconOnWorldMap(WorldMapButton,Icon,v.continent ,v.zoneid ,v.x, v.y); --WorldMapFrame is global
+                        if(xx and yy and xx > 0 and xx < 1 and yy > 0 and yy < 1) then
+                            table.insert(QuestieUsedNoteFrames, Icon);
+                        else
+                            Questie:Clear_Note(Icon);
+                        end
+                        questsByFrameAndPosition["WorldMapNote"][v.x][v.y] = Icon
+                    else
+                        Questie:AddFrameNoteData(existingQuest, v)
+                    end
+                    if (questsByFrameAndPosition["MiniMapNote"][v.x] == nil) then
+                        questsByFrameAndPosition["MiniMapNote"][v.x] = {}
+                    end
+                    existingQuest = questsByFrameAndPosition["MiniMapNote"][v.x][v.y]
+                    if (existingQuest == nil) and not QuestieConfig.hideMinimapIcons then
+                        MMIcon = Questie:GetBlankNoteFrame();
+                        Questie:SetFrameNoteData(MMIcon, v, Minimap, 7, "MiniMapNote", QUESTIE_NOTES_MINIMAP_ICON_SCALE)
+                        --Sets highlight texture (Nothing stops us from doing this on the worldmap aswell)
+                        MMIcon:SetHighlightTexture(QuestieIcons[v.icontype].path, "ADD");
+                        --Set the texture to the right type
+                        Astrolabe:PlaceIconOnMinimap(MMIcon, v.continent, v.zoneid, v.x, v.y);
+                        table.insert(QuestieUsedNoteFrames, MMIcon);
+                        questsByFrameAndPosition["MiniMapNote"][v.x][v.y] = MMIcon
+                    else
+                        Questie:AddFrameNoteData(existingQuest, v)
+                    end
                 end
             end
         end
-    end
+    --end
 end
 ---------------------------------------------------------------------------------------------------
 -- Debug print function

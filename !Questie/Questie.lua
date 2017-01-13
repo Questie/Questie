@@ -391,6 +391,16 @@ function Questie:OnUpdate(elapsed)
             end
         end
     end
+    if UnitIsDeadOrGhost("player") then
+        local deadx, deady = GetCorpseMapPosition();
+		      if deadx and deady and deadx ~= 0 and deady ~= 0 then
+			         local cont,zoneid,_,_ = Astrolabe:GetCurrentPlayerPosition()
+            local dist,_,_ = Astrolabe:ComputeDistance(cont, zoneid, X, Y, continent, zone, xNote, yNote)
+            SetCrazyArrow({c = cont, z = zoneid, x = deadx, y = deady}, dist, "My Dead Corpse")
+        end
+	   elseif not UnitIsDeadOrGhost("player") then
+        TomTomCrazyArrow:Hide()
+	   end
 end
 ---------------------------------------------------------------------------------------------------
 -- Questie Event Handlers
