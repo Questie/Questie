@@ -263,6 +263,7 @@ function Questie:OnLoad()
     this:RegisterEvent("VARIABLES_LOADED");
     this:RegisterEvent("CHAT_MSG_LOOT");
     this:RegisterEvent("QUEST_FINISHED");
+    this:RegisterEvent("PLAYER_UNGHOST");
     QuestAbandonOnAccept = StaticPopupDialogs["ABANDON_QUEST"].OnAccept;
     StaticPopupDialogs["ABANDON_QUEST"].OnAccept = function()
         local hash = Questie:GetHashFromName(QGet_AbandonQuestName());
@@ -398,8 +399,6 @@ function Questie:OnUpdate(elapsed)
             local dist,_,_ = Astrolabe:ComputeDistance(cont, zoneid, X, Y, continent, zone, xNote, yNote)
             SetCrazyArrow({c = cont, z = zoneid, x = deadx, y = deady}, dist, "My Dead Corpse")
         end
-	   elseif not UnitIsDeadOrGhost("player") then
-        TomTomCrazyArrow:Hide()
 	   end
 end
 ---------------------------------------------------------------------------------------------------
@@ -505,6 +504,8 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
         if msg then
             Questie:CheckQuestLog();
         end
+    elseif(event == "PLAYER_UNGHOST") then
+        TomTomCrazyArrow:Hide()
     end
 end
 ---------------------------------------------------------------------------------------------------
