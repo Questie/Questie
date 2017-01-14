@@ -141,6 +141,16 @@ local function OnUpdate(self, elapsed)
         self:Hide()
         return
     end
+    if UnitIsDeadOrGhost("player") then
+        local deadmyx, deadmyy = GetCorpseMapPosition();
+        if deadmyx and deadmyy and deadmyx ~= 0 and deadmyy ~= 0 then
+            local mycon, myzone, x, y = Astrolabe:GetCurrentPlayerPosition()
+            local ddist, xDelta, yDelta = Astrolabe:ComputeDistance(mycont, myzone, X, Y, continent, zone, xNote, yNote)
+            local dtitle = "My Dead Corpse"
+            local dpoint = {c = mycon, z = myzone, x = deadmyx, y = deadmyy}
+            SetCrazyArrow(dpoint, ddist, dtitle);
+        end
+    end
     local dist,x,y = GetDistanceToIcon(active_point)
     -- The only time we cannot calculate the distance is when the waypoint
     -- is on another continent, or we are in an instance

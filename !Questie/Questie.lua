@@ -264,6 +264,8 @@ function Questie:OnLoad()
     this:RegisterEvent("CHAT_MSG_LOOT");
     this:RegisterEvent("QUEST_FINISHED");
     this:RegisterEvent("PLAYER_UNGHOST");
+    this:RegisterEvent("PLAYER_ALIVE");
+    this:RegisterEvent("PLAYER_DEAD");
     QuestAbandonOnAccept = StaticPopupDialogs["ABANDON_QUEST"].OnAccept;
     StaticPopupDialogs["ABANDON_QUEST"].OnAccept = function()
         local hash = Questie:GetHashFromName(QGet_AbandonQuestName());
@@ -393,13 +395,15 @@ function Questie:OnUpdate(elapsed)
         end
     end
     if UnitIsDeadOrGhost("player") then
-        local deadx, deady = GetCorpseMapPosition();
-		      if deadx and deady and deadx ~= 0 and deady ~= 0 then
-			         local cont,zoneid,_,_ = Astrolabe:GetCurrentPlayerPosition()
-            local dist,_,_ = Astrolabe:ComputeDistance(cont, zoneid, X, Y, continent, zone, xNote, yNote)
-            SetCrazyArrow({c = cont, z = zoneid, x = deadx, y = deady}, dist, "My Dead Corpse")
+        local deadmyx, deadmyy = GetCorpseMapPosition();
+        if deadmyx and deadmyy and deadmyx ~= 0 and deadmyy ~= 0 then
+            local mycon, myzone, x, y = Astrolabe:GetCurrentPlayerPosition()
+            local ddist, xDelta, yDelta = Astrolabe:ComputeDistance(mycont, myzone, X, Y, continent, zone, xNote, yNote)
+            local dtitle = "My Dead Corpse"
+            local dpoint = {c = mycon, z = myzone, x = deadmyx, y = deadmyy}
+            SetCrazyArrow(dpoint, ddist, dtitle);
         end
-	   end
+    end
 end
 ---------------------------------------------------------------------------------------------------
 -- Questie Event Handlers
