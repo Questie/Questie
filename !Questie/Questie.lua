@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 -- Name: Questie for Vanilla WoW
--- Revision: 3.61
+-- Revision: 3.65
 -- Authors: Aero/Schaka/Logon/Dyaxler/everyone else
 -- Website: https://github.com/AeroScripts/QuestieDev
 -- Description: Questie started out being a simple backport of QuestHelper but it has grown beyond
@@ -16,7 +16,7 @@ Questie = CreateFrame("Frame", "QuestieLua", UIParent, "ActionButtonTemplate");
 QuestRewardCompleteButton = nil;
 QuestAbandonOnAccept = nil;
 QuestAbandonWithItemsOnAccept = nil;
-QuestieVersion = 3.61;
+QuestieVersion = 3.65;
 ---------------------------------------------------------------------------------------------------
 -- WoW Functions --PERFORMANCE CHANGE--
 ---------------------------------------------------------------------------------------------------
@@ -53,6 +53,7 @@ function Questie:SetupDefaults()
         ["showMapAids"] = true,
         ["showProfessionQuests"] = false,
         ["showTrackerHeader"] = false,
+        ["showToolTips"] = true,
         ["trackerEnabled"] = true,
         ["trackerList"] = false,
         ["trackerScale"] = 1.0,
@@ -117,6 +118,9 @@ function Questie:CheckDefaults()
     if QuestieConfig.showTrackerHeader == nil then
         QuestieConfig.showTrackerHeader = false;
     end
+    if QuestieConfig.showToolTips == nil then
+        QuestieConfig.showToolTips = true;
+    end
     if QuestieConfig.trackerEnabled == nil then
         QuestieConfig.trackerEnabled = true;
     end
@@ -149,8 +153,13 @@ function Questie:CheckDefaults()
     EQL3_Player = UnitName("player").."-"..GetRealmName();
     if IsAddOnLoaded("EQL3") or IsAddOnLoaded("ShaguQuest") then
         if(not QuestlogOptions[EQL3_Player]) then return end
-        QuestlogOptions[EQL3_Player].MobTooltip = 0;
-        QuestlogOptions[EQL3_Player].ItemTooltip = 0;
+        if (QuestieConfig.showToolTips == true) then
+            QuestlogOptions[EQL3_Player].MobTooltip = 0;
+            QuestlogOptions[EQL3_Player].ItemTooltip = 0;
+        else
+            QuestlogOptions[EQL3_Player].MobTooltip = 1;
+            QuestlogOptions[EQL3_Player].ItemTooltip = 1;
+        end
         QuestlogOptions[EQL3_Player].RemoveCompletedObjectives = 0;
         QuestlogOptions[EQL3_Player].RemoveFinished = 0;
         QuestlogOptions[EQL3_Player].MinimizeFinished = 0;
@@ -200,6 +209,7 @@ function Questie:ClearConfig(arg)
                 ["showMapAids"] = true,
                 ["showProfessionQuests"] = false,
                 ["showTrackerHeader"] = false,
+                ["showToolTips"] = true,
                 ["trackerEnabled"] = true,
                 ["trackerList"] = false,
                 ["trackerScale"] = 1.0,
@@ -239,6 +249,7 @@ function Questie:ClearConfig(arg)
             -- This wipes the QuestTracker database and forces a refresh of all tracked data.
             QuestieTrackedQuests = {}
             ReloadUI()
+            Questie:CheckDefaults()
         end,
         timeout = 60,
         exclusive = 1,
@@ -333,7 +344,6 @@ function Questie:OnLoad()
     SlashCmdList["QUESTIE"] = Questie_SlashHandler;
     SLASH_QUESTIE1 = "/questie";
 end
-
 QUESTIE_LAST_UPDATE_FINISHED = GetTime();
 ---------------------------------------------------------------------------------------------------
 -- Questie Worldmap Toggle Button
@@ -487,7 +497,7 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
         Questie:CheckQuestLog();
         Questie:AddEvent("UPDATE", 1.15);
         local f = GameTooltip:GetScript("OnShow");
-        if(f ~= nil) then
+        if (f ~= nil) then
             --Proper tooltip hook!
             local Blizz_GameTooltip_Show = GameTooltip.Show
             GameTooltip.Show = function(self)
@@ -499,10 +509,16 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
                 Bliz_GameTooltip_SetLootItem(self, slot);
                 Questie:Tooltip(self, true);
             end
-        else
-            Questie:hookTooltip();
-            Questie:hookTooltipLineCheck();
+            local index = self:GetID()
+            local Bliz_GameTooltip_SetQuestLogItem = GameTooltip.SetQuestLogItem
+            GameTooltip.SetQuestLogItem = function(self, type, index)
+                local link = GetQuestLogItemLink(type, index)
+                if link then
+                    Bliz_GameTooltip_SetQuestLogItem(self, type, index);
+                end
+            end
         end
+        Questie:hookTooltipLineCheck();
     elseif(event == "CHAT_MSG_LOOT") then
         local _, _, msg, item = string.find(arg1, "(You receive loot%:) (.+)");
         if msg then
@@ -600,6 +616,19 @@ QuestieFastSlash = {
             DEFAULT_CHAT_FRAME:AddMessage("Quests and Objectives: Show only when tracking.");
             Questie:Toggle();
             Questie:Toggle();
+        end
+    end,
+    ["tooltips"] = function()
+    -- Default: True
+        QuestieConfig.showToolTips = not QuestieConfig.showToolTips;
+        if QuestieConfig.showToolTips then
+            ReloadUI()
+            Questie:CheckDefaults()
+            DEFAULT_CHAT_FRAME:AddMessage("Quest and Objective Tool Tips: On.");
+        else
+            ReloadUI()
+            Questie:CheckDefaults()
+            DEFAULT_CHAT_FRAME:AddMessage("Quest and Objective Tool Tips: Off.");
         end
     end,
     ["mapnotes"] = function()
@@ -840,6 +869,7 @@ QuestieFastSlash = {
                     ["showMapAids"] = true,
                     ["showProfessionQuests"] = false,
                     ["showTrackerHeader"] = false,
+                    ["showToolTips"] = true,
                     ["trackerEnabled"] = true,
                     ["trackerList"] = false,
                     ["trackerScale"] = 1.0,
@@ -862,6 +892,7 @@ QuestieFastSlash = {
                     },
                 }
                 ReloadUI()
+                Questie:CheckDefaults()
             end,
             timeout = 60,
             exclusive = 1,
@@ -936,6 +967,7 @@ QuestieFastSlash = {
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie setminlevel |r|c0000ffc0<number>|r -- Hides quests <X> levels below players level (default=5)", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie settings |r-- Displays your current toggles and settings.", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie showquests |r-- |c0000ffc0(toggle)|r Always show quests and objectives", 0.75, 0.75, 0.75);
+        DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie tooltips |r-- |c0000ffc0(toggle)|r Always show quest and objective tool tips", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie tracker |r-- |c0000ffc0(toggle)|r QuestTracker", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie background |r-- |c0000ffc0(toggle)|r QuestTracker background will always remain on", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie backgroundalpha |r-- |c0000ffc0(1-9)|r QuestTracker background alpha level (default=4)", 0.75, 0.75, 0.75);
@@ -986,15 +1018,16 @@ function Questie:CurrentUserToggles()
         [9] = { "showMapAids" },
         [10] = { "showProfessionQuests" },
         [11] = { "showTrackerHeader" },
-        [12] = { "trackerEnabled" },
-        [13] = { "trackerList" },
-        [14] = { "trackerScale" },
-        [15] = { "trackerBackground" },
-        [16] = { "trackerAlpha" },
-        [17] = { "resizeWorldmap" },
-        [18] = { "getVersion" },
-        [19] = { "hideMinimapIcons" },
-        [20] = { "hideObjectives" }
+        [12] = { "showToolTips" },
+        [13] = { "trackerEnabled" },
+        [14] = { "trackerList" },
+        [15] = { "trackerScale" },
+        [16] = { "trackerBackground" },
+        [17] = { "trackerAlpha" },
+        [18] = { "resizeWorldmap" },
+        [19] = { "getVersion" },
+        [20] = { "hideMinimapIcons" },
+        [21] = { "hideObjectives" }
     }
     if QuestieConfig then
         i = 1

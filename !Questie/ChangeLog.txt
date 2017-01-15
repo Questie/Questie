@@ -1,4 +1,67 @@
 -------------------------------------------------------------------------------------------------------------------------------
+v3.65
+
+* Added a new feature that allows you to turn off the Questie tool tips.
+  Use '/questie tooltips' to toggle them on and off. They are on by default.
+* Fixed some issues with tool tips causing all kinds of weird issues,
+  everything from duplicate tool tips to nil errors.
+* Fixed the minlevel and maxlevel functions. One of the new variables
+  wasn't set correctly when the new Required Level field was added to the
+  quest database. These filters are now keyed off of the Required Level
+  instead of Quest Level so don't be surprised if you see a level 60 quest
+  appearing on your map. Chances are it's one of those quests that can be
+  done at level 5. Like some of the holiday quests.
+* I've also added a new line to the Questie MapNotes tooltips. In addition
+  to [QuestLevel][QuestTitle] followed by [QuestStarter} etc. I've inserted
+  [Min Level] info, or what was once referred to as Suggested Level in Vanilla.
+  By default, the minlevel filters hides quests 3 levels BELOW your current
+  level based on the Minimum Level of the Quest. For example, if a quests
+  Level is 40 and its Min Level is 35 and your character’s level is 39
+  then this quest will be hidden if minlevel is on. You can change the
+  number of levels it filters higher or lower. Default is 3. Same example,
+  with maxlevel this quest WON'T show until your character reaches a level
+  of 30. Default maxlevel filter is 5 which means quests won't show until
+  you are within 5 levels of the quests Min Level.
+
+-------------------------------------------------------------------------------------------------------------------------------
+v3.64
+
+* If you were actively tracking a quest on the QuestArrow then died, the
+  CorpseArrow wouldn't always appear and display the distance and direction
+  to your corpse.
+
+-------------------------------------------------------------------------------------------------------------------------------
+v3.63
+
+* I introduced a bug where I was clearing the QuestieArrow whenever the
+  player was NOT a Ghost causing the QuestieArrow to never appear for Quest
+  Objectives. Clearing the QuestieArrow is now an event based clear after
+  you resurrect. Sorry guys!
+
+-------------------------------------------------------------------------------------------------------------------------------
+v3.62
+
+* I think I may have traced the issue. In Vanilla WoW the only way to
+  obtain a player’s true position is via the Worldmap. When you open the
+  map, and start browsing other zones, your Avatars position coordinates
+  change accordingly. Questie relies heavily on Astrolabe to determine
+  players position and distances to quest objectives. This can cause weird
+  issues with the QuestArrow, QuestTracker, and the MapNotes that are drawn
+  on the Minimap and Worldmap. I've added some basic logic code to determine
+  which zone the player is physically in and if the world map is open, all
+  distance calculations are halted under certain circumstances.
+* The code that draws the map icons has also been streamlined, sped up and
+  tweaked in such a way that they now refresh much quicker and ONLY when
+  absolutely needed. This should solve the "flickering" issue that some
+  users have reported.
+* Since I was in Astrolabe and updating it anyway, I've added a small
+  feature. This feature not being present has been bugging me for quite a
+  while and when someone mentioned TomTom the other day, it reminded me
+  that it's a feature that I've always wanted. If you die, Questie will
+  paint an arrow to your Corpse automatically. When you resurrect, it'll
+  disappear.
+
+-------------------------------------------------------------------------------------------------------------------------------
 v3.61
 
 * Fixed an issue with the Shift+Click manual quest complete Dewdrop menu popup
