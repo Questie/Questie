@@ -497,25 +497,28 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
         Questie:CheckQuestLog();
         Questie:AddEvent("UPDATE", 1.15);
         local f = GameTooltip:GetScript("OnShow");
-        if (f ~= nil) then
-            --Proper tooltip hook!
-            local Blizz_GameTooltip_Show = GameTooltip.Show
-            GameTooltip.Show = function(self)
-                Questie:Tooltip(self);
-                Blizz_GameTooltip_Show(self);
-            end
-            local Bliz_GameTooltip_SetLootItem = GameTooltip.SetLootItem
-            GameTooltip.SetLootItem = function(self, slot)
-                Bliz_GameTooltip_SetLootItem(self, slot);
+        -- Proper tooltip hooking!
+        if not f then
+            GameTooltip:SetScript("OnShow", function(self)
                 Questie:Tooltip(self, true);
-            end
-            local index = self:GetID()
-            local Bliz_GameTooltip_SetQuestLogItem = GameTooltip.SetQuestLogItem
-            GameTooltip.SetQuestLogItem = function(self, type, index)
-                local link = GetQuestLogItemLink(type, index)
-                if link then
-                    Bliz_GameTooltip_SetQuestLogItem(self, type, index);
-                end
+            end);
+        end
+        local Blizz_GameTooltip_Show = GameTooltip.Show
+        GameTooltip.Show = function(self)
+            Questie:Tooltip(self);
+            Blizz_GameTooltip_Show(self);
+        end
+        local Bliz_GameTooltip_SetLootItem = GameTooltip.SetLootItem
+        GameTooltip.SetLootItem = function(self, slot)
+            Bliz_GameTooltip_SetLootItem(self, slot);
+            Questie:Tooltip(self, true);
+        end
+        local index = self:GetID()
+        local Bliz_GameTooltip_SetQuestLogItem = GameTooltip.SetQuestLogItem
+        GameTooltip.SetQuestLogItem = function(self, type, index)
+            local link = GetQuestLogItemLink(type, index)
+            if link then
+                Bliz_GameTooltip_SetQuestLogItem(self, type, index);
             end
         end
         Questie:hookTooltipLineCheck();

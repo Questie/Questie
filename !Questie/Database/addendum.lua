@@ -22277,9 +22277,9 @@ QuestieHashMap = {
  },
  [2213851037]={
   ['name']="WANTED: Chok'sul",
-  ['startedType']="object",
+  ['startedType']="monster",
   ['finishedType']="monster",
-  ['startedBy']="WANTED",
+  ['startedBy']="WANTED: Chok'sul",
   ['finishedBy']="Magistrate Bluntnose",
   ['level']=17,
   ['questLevel']='22+',

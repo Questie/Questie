@@ -82732,6 +82732,12 @@ QuestieMonsters = {
     ["looted"] = 265,
     ["locationCount"] = 1
   },
+  ["WANTED: Chok'sul"] = {
+    ["locations"] = {
+      [1] = {29.0, 0.3729, 0.4649, 100.0}
+    },
+    ["locationCount"] = 1
+  },
   ["Apprentice Mirveda"] = {
     ["locations"] = {
       [1] = {41.0, 0.5428, 0.7099, 100.0}

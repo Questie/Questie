@@ -181,6 +181,11 @@ Astrolabe_LastC = 0;
 function Astrolabe:GetCurrentPlayerPosition()
     local x, y = GetPlayerMapPosition("player")
     if (x <= 0 and y <= 0) then
+        if (not WorldMapFrame:IsVisible() == nil) then
+            return
+        else
+            return Astrolabe_LastC, Astrolabe_LastZ, Astrolabe_LastX, Astrolabe_LastY
+        end
 		      if (WorldMapFrame:IsVisible() == nil) then
             SetMapToCurrentZone()
 			         x, y = GetPlayerMapPosition("player")
