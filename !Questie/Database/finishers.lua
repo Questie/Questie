@@ -1015,7 +1015,6 @@ QuestieFinishers = {
   ["The Dreghood Elders"] = "Naladu",
   ["Tear of the Earthmother"] = "David Wayne",
   ["As the Crow Flies"] = "Ysiel Windsinger",
-  ["Wanted:  \"Hogger\""] = "Marshal Dughan",
   ["Costly Menace"] = "Darren Malvew",
   ["2258053551"] = "Gan'rul Bloodeye",
   ["The Lost Fragments"] = "Theldurin the Lost",

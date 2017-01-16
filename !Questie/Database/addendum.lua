@@ -12298,7 +12298,7 @@ QuestieHashMap = {
   ['finishedType']="monster",
   ['startedBy']="Darcy",
   ['finishedBy']="Guard Parker",
-  ['level']=12,
+  ['level']=14,
   ['questLevel']='15',
   ['rr']=77
  },
@@ -12819,7 +12819,6 @@ QuestieHashMap = {
   ['level']=15,
   ['questLevel']='20',
   ['rr']=77,
-  ['rq']=294872749
  },
  [3202779360]={
   ['name']="Blackhand's Command",
@@ -23090,9 +23089,9 @@ QuestieHashMap = {
  },
  [2250606541]={
   ['name']="Wanted:  \"Hogger\"",
-  ['startedType']="object",
+  ['startedType']="monster",
   ['finishedType']="monster",
-  ['startedBy']="Wanted Poster",
+  ['startedBy']="Wanted Poster:  \"Hogger\"",
   ['finishedBy']="Marshal Dughan",
   ['level']=5,
   ['questLevel']='11+',
@@ -24649,7 +24648,7 @@ QuestieHashMap = {
  },
  [88971736]={
   ['name']="The Princess Trapped",
-  ['startedType']="object",
+  ['startedType']="monster",
   ['finishedType']="object",
   ['startedBy']="Shards of Myzrael",
   ['finishedBy']="Iridescent Shards",
@@ -27160,7 +27159,7 @@ QuestieHashMap = {
   ['finishedType']="monster",
   ['startedBy']="Shawn",
   ['finishedBy']="Hilary",
-  ['level']=12,
+  ['level']=14,
   ['questLevel']='15'
  },
  [3411052840]={
@@ -43233,7 +43232,7 @@ QuestieHashMap = {
  },
  [686682789]={
   ['name']="Wanted: Lieutenant Fangore",
-  ['startedType']="object",
+  ['startedType']="monster",
   ['finishedType']="monster",
   ['startedBy']="Wanted: Lieutenant Fangore",
   ['finishedBy']="Magistrate Solomon",
@@ -45152,7 +45151,7 @@ QuestieHashMap = {
   ['finishedType']="monster",
   ['startedBy']="Barkeep Daniels",
   ['finishedBy']="Barkeep Daniels",
-  ['level']=12,
+  ['level']=14,
   ['questLevel']='15',
   ['rr']=77
  },
@@ -49996,7 +49995,7 @@ QuestieHashMap = {
  },
  [4020215789]={
   ['name']="Wanted: Gath'Ilzogg",
-  ['startedType']="object",
+  ['startedType']="monster",
   ['finishedType']="monster",
   ['startedBy']="Wanted: Gath'Ilzogg",
   ['finishedBy']="Magistrate Solomon",
