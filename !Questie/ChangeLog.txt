@@ -1,4 +1,22 @@
 -------------------------------------------------------------------------------------------------------------------------------
+v3.66
+
+* Merged a user suggested change to tooltip hooking that seeems to
+  work better after some testing. Thank you rasberryrabbit!
+* Fixed an issue with quests dissappearing from the QuestTracker upon
+  entering a dungeon. In Vanilla WoW there is no way to get player
+  coordinates and thus Questie can't run it's checks without knowing
+  where Quest Objectives are located so they are automatically removed.
+  While in an instance coordinates returned are always 0,0 so I readded
+  a check that was inadvertantly removed when I rewrote some of
+  Astrolabes functions. Sorry about that guys. Thank you for reporting
+  it!
+* I submitted some Quest Database fixes for several Quests obtained via
+  wanted posters and fixed a quest that a couple users reported. This
+  Hotfix contains last nights commit and a fix for another one that I
+  found today.
+
+-------------------------------------------------------------------------------------------------------------------------------
 v3.65
 
 * Added a new feature that allows you to turn off the Questie tool tips.
