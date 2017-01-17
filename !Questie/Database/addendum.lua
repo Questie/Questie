@@ -21466,7 +21466,7 @@ QuestieHashMap = {
  },
  [2710612557]={
   ['name']="Encrypted Letter",
-  ['startedType']="object",
+  ['startedType']="monster",
   ['finishedType']="monster",
   ['startedBy']="Syndicate Documents",
   ['finishedBy']="Loremaster Dibbs",
@@ -22588,7 +22588,7 @@ QuestieHashMap = {
  },
  [3681982149]={
   ['name']="Foreboding Plans",
-  ['startedType']="object",
+  ['startedType']="monster",
   ['finishedType']="monster",
   ['startedBy']="Syndicate Documents",
   ['finishedBy']="Magistrate Henry Maleb",
@@ -28908,7 +28908,7 @@ QuestieHashMap = {
  },
  [2985035760]={
   ['name']="The Glowing Fruit",
-  ['startedType']="object",
+  ['startedType']="monster",
   ['finishedType']="monster",
   ['startedBy']="Strange Fruited Plant",
   ['finishedBy']="Denalan",

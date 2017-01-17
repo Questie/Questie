@@ -52276,6 +52276,13 @@ QuestieMonsters = {
     ["locationCount"] = 1,
     ["faction"] = 1
   },
+  ["Strange Fruited Plant"] = {
+    ["locations"] = {
+      [1] = {24.0, 0.4260, 0.7620, 100.0}
+    },
+    ["locationCount"] = 1,
+    ["faction"] = 1
+  },
   ["Gava'xi slain"] = {
     ["locations"] = {
       [1] = {58.0, 0.4318, 0.7459, 100.0},
@@ -65937,6 +65944,14 @@ QuestieMonsters = {
       [1] = {48.0, 0.5142, 0.5849, 100.0}
     },
     ["locationCount"] = 1,
+    ["faction"] = 1
+  },
+  ["Syndicate Documents"] = {
+    ["locations"] = {
+      [1] = {48.0, 0.5080, 0.2030, 100.0},
+      [2] = {48.0, 0.5990, 0.7900, 100.0}
+    },
+    ["locationCount"] = 2,
     ["faction"] = 1
   },
   ["Ancient Stone Keeper"] = {
