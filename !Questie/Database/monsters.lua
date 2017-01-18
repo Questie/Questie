@@ -92862,6 +92862,36 @@ QuestieMonsters = {
     },
     ["locationCount"] = 5
   },
+  ["Suspicious Hoofprint"] = {
+    ["locations"] = {
+      [1] = {11.0, 0.509, 0.786, 100.0}
+    },
+    ["locationCount"] = 1,
+  },
+  ["Black Shield"] = {
+    ["locations"] = {
+      [1] = {11.0, 0.509, 0.792, 100.0}
+    },
+    ["locationCount"] = 1,
+  },
+  ["Theramore Guard Badge"] = {
+    ["locations"] = {
+      [1] = {11.0, 0.510, 0.790, 100.0}
+    },
+    ["locationCount"] = 1,
+  },
+  ["Wanted Poster: Andre Firebeard"] = {
+    ["locations"] = {
+      [1] = {8.0, 0.518, 0.270, 100.0}
+    },
+    ["locationCount"] = 1
+  },
+  ["Wanted Poster: Caliph Scorpidsting"] = {
+    ["locations"] = {
+      [1] = {8.0, 0.518, 0.270, 100.0}
+    },
+    ["locationCount"] = 1
+  },
   ["The Light and How to Swing It"] = {
     ["locations"] = {
       [1] = {8.0, 0.5219, 0.2853, 100.0},

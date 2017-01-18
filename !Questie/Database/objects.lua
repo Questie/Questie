@@ -35,12 +35,6 @@ QuestieObjects = {
     },
     ["locationCount"] = 1
   },
-  ["Wooden Outhouse"] = {
-    ["locations"] = {
-      [1] = {32.0, 0.6552, 0.6226, 100.0}
-    },
-    ["locationCount"] = 1
-  },
   ["Burn the Highvale Notes"] = {
     ["locations"] = {
       [1] = {42.0, 0.2961, 0.4864, 100.0}
