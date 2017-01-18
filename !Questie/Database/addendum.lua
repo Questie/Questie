@@ -44169,7 +44169,7 @@ QuestieHashMap = {
   ['finishedType']="monster",
   ['startedBy']="Innkeeper Shyria",
   ['finishedBy']="Quintis Jonespyre",
-  ['level']=47,
+  ['level']=45,
   ['questLevel']='50',
   ['rr']=77,
   ['rq']=461774661
@@ -47024,7 +47024,7 @@ QuestieHashMap = {
   ['finishedType']="monster",
   ['startedBy']="Tannysa",
   ['finishedBy']="Quintis Jonespyre",
-  ['level']=47,
+  ['level']=45,
   ['questLevel']='50',
   ['rq']=461774661
  },

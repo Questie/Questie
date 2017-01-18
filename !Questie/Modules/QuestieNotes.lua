@@ -62,14 +62,26 @@ function Questie:AddQuestToMap(questHash, redraw)
             end
         end
     else
-        local finisher = nil;
+        local Monfin = nil;
+        local Objfin = nil;
+        -- Monsters
         if( QuestieHashMap[Quest["questHash"]] and QuestieHashMap[Quest["questHash"]]['finishedBy']) then
             local finishMonster = QuestieHashMap[Quest["questHash"]]['finishedBy'];
-            finisher = QuestieMonsters[finishMonster];
+            Monfin = QuestieMonsters[finishMonster];
         end
-        if(not finisher) then
-            finisher = QuestieMonsters[QuestieFinishers[Quest["name"]]];
+        if(not Monfin) then
+            Monfin = QuestieMonsters[QuestieFinishers[Quest["name"]]];
         end
+        -- Objects
+        if( QuestieHashMap[Quest["questHash"]] and QuestieHashMap[Quest["questHash"]]['finishedBy']) then
+            local finishObject = QuestieHashMap[Quest["questHash"]]['finishedBy'];
+            Objfin = QuestieObjects[finishObject];
+        end
+        if(not Objfin) then
+            Objfin = QuestieObjects[QuestieFinishers[Quest["name"]]];
+        end
+        local finisher = nil;
+        if Monfin then finisher=Monfin elseif Objfin then finisher=Objfin end
         if(finisher) then
             local MapInfo = Questie:GetMapInfoFromID(finisher['locations'][1][1]);--Map id is at ID 1, i then convert this to a useful continent and zone
             local c, z, x, y = MapInfo[4], MapInfo[5], finisher['locations'][1][2],finisher['locations'][1][3]-- You just have to know about this, 2 is x 3 is y
@@ -802,11 +814,20 @@ function Questie:SetAvailableQuests()
         quests = Questie:GetAvailableQuestHashes(mapFileName,0,level);
     end
     if quests then
+    -- Monsters
     for k, v in pairs(quests) do
         if(QuestieHashMap[v] and QuestieHashMap[v]['startedBy'] and QuestieMonsters[QuestieHashMap[v]['startedBy']]) then
             Monster = QuestieMonsters[QuestieHashMap[v]['startedBy']]['locations'][1]
             local MapInfo = Questie:GetMapInfoFromID(Monster[1]);
             Questie:AddAvailableNoteToMap(c,z,Monster[2],Monster[3],"available",v,-1);
+        end
+    end
+    -- Objects
+    for k, v in pairs(quests) do
+        if(QuestieHashMap[v] and QuestieHashMap[v]['startedBy'] and QuestieObjects[QuestieHashMap[v]['startedBy']]) then
+            Objects = QuestieObjects[QuestieHashMap[v]['startedBy']]['locations'][1]
+            local MapInfo = Questie:GetMapInfoFromID(Objects[1]);
+            Questie:AddAvailableNoteToMap(c,z,Objects[2],Objects[3],"available",v,-1);
         end
     end
     Questie:debug_Print("Added Available quests: Time:",tostring((GetTime()- t)*1000).."ms", "Count:"..table.getn(quests))
