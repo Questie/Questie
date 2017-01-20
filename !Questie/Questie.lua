@@ -153,6 +153,16 @@ function Questie:CheckDefaults()
     if (not QuestieConfig.getVersion) or (QuestieConfig.getVersion < QuestieVersion) then
         Questie:ClearConfig("version");
     end
+    -- If the user deletes a character and makes a new one by the same name then it will continue to use
+    -- the same Saved Varibles file. This check will delete the Questie Saved Varibles file to prevent
+    -- any quest issues for the new character.
+    if UnitLevel("player") == 1 then
+        for i,v in pairs(QuestieSeenQuests) do
+            if (v == 0) or (v == -1) or (v == 1) then
+                Questie:NUKE("newcharacter");
+            end
+        end
+    end
     -- Sets some EQL3 settings to keep it from conflicting with Questie fetures
     EQL3_Player = UnitName("player").."-"..GetRealmName();
     if IsAddOnLoaded("EQL3") or IsAddOnLoaded("ShaguQuest") then
@@ -261,6 +271,74 @@ function Questie:ClearConfig(arg)
         hideOnEscape = 1
     }
     StaticPopup_Show ("CLEAR_CONFIG")
+end
+---------------------------------------------------------------------------------------------------
+-- Clears and deletes the users Questie SavedVariables. One option is for a user initiated NUKE and
+-- the other option will execute when Questie senses a new level 1 character using a Saved Variables
+-- file from a deleted character. Popup confirmation of Yes or No - Popup has a 60 second timeout.
+---------------------------------------------------------------------------------------------------
+function Questie:NUKE(arg)
+    if arg == "slash" then
+        msg = "|cFFFFFF00You are about to clear your characters settings. This will NOT delete your quest database but it will clean it up a little. This will reset abandonded quests, and remove any finished or stale quest entries in the QuestTracker database. Your UI will be reloaded automatically to finalize the new settings.|n|nAre you sure you want to continue?|r";
+    elseif arg == "newcharacter" then
+        msg = "|cFFFFFF00ERROR! Database Detected!|n|nIt appears that you've used this name for a previous character. There are entries in the QuestDatabase that need to be cleared in order for Questie to work properly with this character. Your UI will be reloaded automatically to clear your config.|n|nAre you sure you want to continue?|r";
+    end
+    StaticPopupDialogs["NUKE_CONFIG"] = {
+        text = TEXT(msg),
+        button1 = TEXT(YES),
+        button2 = TEXT(NO),
+        OnAccept = function()
+            -- Clears all quests
+            QuestieSeenQuests = {}
+            -- Clears all tracked quests
+            QuestieTrackedQuests = {}
+            -- Clears config
+            QuestieConfig = {}
+            -- Setup default settings
+            QuestieConfig = {
+                ["alwaysShowDistance"] = false,
+                ["alwaysShowLevel"] = true,
+                ["alwaysShowQuests"] = true,
+                ["arrowEnabled"] = true,
+                ["corpseArrow"] = true,
+                ["boldColors"] = false,
+                ["maxLevelFilter"] = false,
+                ["maxShowLevel"] = 3,
+                ["minLevelFilter"] = false,
+                ["minShowLevel"] = 5,
+                ["showMapAids"] = true,
+                ["showProfessionQuests"] = false,
+                ["showTrackerHeader"] = false,
+                ["showToolTips"] = true,
+                ["trackerEnabled"] = true,
+                ["trackerList"] = false,
+                ["trackerScale"] = 1.0,
+                ["trackerBackground"] = false,
+                ["trackerAlpha"] = 0.4,
+                ["resizeWorldmap"] = false,
+                ["hideMinimapIcons"] = false,
+                ["hideObjectives"] = false,
+                ["getVersion"] = QuestieVersion,
+            }
+            -- Clears tracker settings
+            QuestieTrackerVariables = {}
+            QuestieTrackerVariables = {
+                ["position"] = {
+                    ["relativeTo"] = "UIParent",
+                    ["point"] = "CENTER",
+                    ["relativePoint"] = "CENTER",
+                    ["yOfs"] = 0,
+                    ["xOfs"] = 0,
+                },
+            }
+            ReloadUI()
+            Questie:CheckDefaults()
+        end,
+        timeout = 60,
+        exclusive = 1,
+        hideOnEscape = 1
+    }
+    StaticPopup_Show ("NUKE_CONFIG")
 end
 ---------------------------------------------------------------------------------------------------
 -- OnLoad Handler
@@ -548,6 +626,7 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
             end
         end
         Questie:hookTooltipLineCheck();
+        Questie:CheckDefaults();
     elseif(event == "CHAT_MSG_LOOT") then
         local _, _, msg, item = string.find(arg1, "(You receive loot%:) (.+)");
         if msg then
@@ -892,62 +971,7 @@ QuestieFastSlash = {
     end,
     ["NUKE"] = function()
     -- Default: None - Popup confirmation of Yes or No - Popup has a 60 second timeout.
-        StaticPopupDialogs["NUKE_CONFIG"] = {
-            text = "|cFFFFFF00You are about to compleatly wipe your characters saved variables. This includes all quests you've completed, settings and preferences, and QuestTracker location.|n|nAre you sure you want to continue?|r",
-            button1 = TEXT(YES),
-            button2 = TEXT(NO),
-            OnAccept = function()
-                -- Clears all quests
-                QuestieSeenQuests = {}
-                -- Clears all tracked quests
-                QuestieTrackedQuests = {}
-                -- Clears config
-                QuestieConfig = {}
-                -- Setup default settings
-                QuestieConfig = {
-                    ["alwaysShowDistance"] = false,
-                    ["alwaysShowLevel"] = true,
-                    ["alwaysShowQuests"] = true,
-                    ["arrowEnabled"] = true,
-                    ["corpseArrow"] = true,
-                    ["boldColors"] = false,
-                    ["maxLevelFilter"] = false,
-                    ["maxShowLevel"] = 3,
-                    ["minLevelFilter"] = false,
-                    ["minShowLevel"] = 5,
-                    ["showMapAids"] = true,
-                    ["showProfessionQuests"] = false,
-                    ["showTrackerHeader"] = false,
-                    ["showToolTips"] = true,
-                    ["trackerEnabled"] = true,
-                    ["trackerList"] = false,
-                    ["trackerScale"] = 1.0,
-                    ["trackerBackground"] = false,
-                    ["trackerAlpha"] = 0.4,
-                    ["resizeWorldmap"] = false,
-                    ["hideMinimapIcons"] = false,
-                    ["hideObjectives"] = false,
-                    ["getVersion"] = QuestieVersion,
-                }
-                -- Clears tracker settings
-                QuestieTrackerVariables = {}
-                QuestieTrackerVariables = {
-                    ["position"] = {
-                        ["relativeTo"] = "UIParent",
-                        ["point"] = "CENTER",
-                        ["relativePoint"] = "CENTER",
-                        ["yOfs"] = 0,
-                        ["xOfs"] = 0,
-                    },
-                }
-                ReloadUI()
-                Questie:CheckDefaults()
-            end,
-            timeout = 60,
-            exclusive = 1,
-            hideOnEscape = 1
-        }
-        StaticPopup_Show ("NUKE_CONFIG")
+        Questie:NUKE("slash")
     end,
     ["cleartracker"] = function()
     -- Default: None - Popup confirmation of Yes or No - Popup has a 60 second timeout.

@@ -19267,7 +19267,7 @@ QuestieHashMap = {
   ['finishedType']="monster",
   ['startedBy']="Wharfmaster Dizzywig",
   ['finishedBy']="Gazlowe",
-  ['level']=10,
+  ['level']=12,
   ['questLevel']='14',
   ['rq']=4060594680
  },
@@ -34636,7 +34636,7 @@ QuestieHashMap = {
   ['finishedType']="monster",
   ['startedBy']="Gazlowe",
   ['finishedBy']="Wharfmaster Dizzywig",
-  ['level']=10,
+  ['level']=12,
   ['questLevel']='14',
   ['rq']=3517355320
  },
