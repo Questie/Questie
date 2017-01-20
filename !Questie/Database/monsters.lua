@@ -93040,6 +93040,12 @@ QuestieMonsters = {
     },
     ["locationCount"] = 1
   },
+  ["A Wrecked Raft"] = {
+    ["locations"] = {
+      [1] = {18.0, 0.630, 0.686, 100.0}
+    },
+    ["locationCount"] = 1
+  },
   ["Thor"] = {
     ["locations"] = {
       [1] = {49.0, 0.5652, 0.5264, 100.0}

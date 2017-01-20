@@ -35467,7 +35467,7 @@ QuestieHashMap = {
  },
  [443711632]={
   ['name']="It's a Secret to Everybody",
-  ['startedType']="object",
+  ['startedType']="monster",
   ['finishedType']="monster",
   ['startedBy']="A Small Pack",
   ['finishedBy']="Linken",
@@ -48634,8 +48634,8 @@ QuestieHashMap = {
  },
  [387621336]={
   ['name']="It's a Secret to Everybody",
-  ['startedType']="object",
-  ['finishedType']="object",
+  ['startedType']="monster",
+  ['finishedType']="monster",
   ['startedBy']="A Wrecked Raft",
   ['finishedBy']="A Small Pack",
   ['level']=48,

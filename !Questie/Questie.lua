@@ -407,14 +407,37 @@ function Questie:OnUpdate(elapsed)
             end
         end
     end
-    if UnitIsDeadOrGhost("player") then
-        local deadmyx, deadmyy = GetCorpseMapPosition();
-        if deadmyx and deadmyy and deadmyx ~= 0 and deadmyy ~= 0 then
-            local mycon, myzone, x, y = Astrolabe:GetCurrentPlayerPosition()
-            local ddist, xDelta, yDelta = Astrolabe:ComputeDistance(mycont, myzone, X, Y, continent, zone, xNote, yNote)
-            local dtitle = "My Dead Corpse"
-            local dpoint = {c = mycon, z = myzone, x = deadmyx, y = deadmyy}
-            SetCrazyArrow(dpoint, ddist, dtitle);
+    for i=1, MAX_BATTLEFIELD_QUEUES do
+        bgstatus = GetBattlefieldStatus(i);
+        if (bgstatus == active) then
+            bgactive = true
+        else
+            bgactive = false
+        end
+    end
+    if UnitIsDeadOrGhost("player") and (bgactive == false) then
+        if (QuestieConfig.corpseArrow == true) and (QuestieConfig.arrowEnabled == true) then
+            local deadmyx, deadmyy = GetCorpseMapPosition();
+            if deadmyx and deadmyy and deadmyx ~= 0 and deadmyy ~= 0 then
+                local mycon, myzone, x, y = Astrolabe:GetCurrentPlayerPosition()
+                local ddist, xDelta, yDelta = Astrolabe:ComputeDistance(mycont, myzone, X, Y, continent, zone, xNote, yNote)
+                local dtitle = "My Dead Corpse"
+                local dpoint = {c = mycon, z = myzone, x = deadmyx, y = deadmyy}
+                SetCrazyArrow(dpoint, ddist, dtitle);
+            end
+        end
+        if (QuestieConfig.corpseArrow == true) and (QuestieConfig.arrowEnabled == false) then
+            local deadmyx, deadmyy = GetCorpseMapPosition();
+            if deadmyx and deadmyy and deadmyx ~= 0 and deadmyy ~= 0 then
+                local mycon, myzone, x, y = Astrolabe:GetCurrentPlayerPosition()
+                local ddist, xDelta, yDelta = Astrolabe:ComputeDistance(mycont, myzone, X, Y, continent, zone, xNote, yNote)
+                local dtitle = "My Dead Corpse"
+                local dpoint = {c = mycon, z = myzone, x = deadmyx, y = deadmyy}
+                SetCrazyArrow(dpoint, ddist, dtitle);
+            end
+        end
+        if (QuestieConfig.arrowEnabled == false) and (QuestieConfig.corpseArrow == false) then
+            TomTomCrazyArrow:Hide()
         end
     end
 end
@@ -531,12 +554,12 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
             Questie:CheckQuestLog();
         end
     elseif(event == "PLAYER_UNGHOST") then
-        if (QuestieConfig.corpseArrow == true) and (QuestieConfig.arrowEnabled == true) then
+        if (QuestieConfig.corpseArrow == false) and (QuestieConfig.arrowEnabled == true) then
+            return
+        elseif (QuestieConfig.corpseArrow == true) and (QuestieConfig.arrowEnabled == true) then
             TomTomCrazyArrow:Hide()
         elseif (QuestieConfig.corpseArrow == true) and (QuestieConfig.arrowEnabled == false) then
             TomTomCrazyArrow:Hide()
-        elseif (QuestieConfig.corpseArrow == false) and (QuestieConfig.arrowEnabled == true) then
-            return
         end
     end
 end
