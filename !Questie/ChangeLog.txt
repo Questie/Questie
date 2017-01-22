@@ -1,4 +1,22 @@
 -------------------------------------------------------------------------------------------------------------------------------
+v3.68
+
+* Fixed an issue with CorpseArrow. Thank you for the help Muehe! Occationally
+  your CorpseArrow would not show correct distence or direction after dying in
+  an instance and appearing at a grave yard.
+* Fixed an issue with CorpseArrow not being hidden correctly in BattleGrounds.
+  I missed a logic check that in some cases would cause the arrow to appear.
+* The QuestTracker now has a "Minimize" feature. You can either use the slash
+  command "/questie mintracker" **OR** you can click on the "QuestLog Status..."
+  header I.E. 'QuestieTracker Header' AKA:the "/questie header" slash toggle to
+  Minimize or Maximize the Tracker. This ONLY works when the optional Questie
+  Tracker Header is enabled.
+* While questing on some of my toons I still noticed some stale entries in both
+  QuestieTrackedQuests and QuestieSeenQuests DB's. I spent some time going back
+  thorugh the Quest pick up and finisher functions and made some tweaks that I'm
+  hoping will keep things trimmed and organized.
+
+-------------------------------------------------------------------------------------------------------------------------------
 v3.67
 
 * Fixed the following quests:

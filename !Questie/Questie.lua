@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 -- Name: Questie for Vanilla WoW
--- Revision: 3.67
+-- Revision: 3.68
 -- Authors: Aero/Schaka/Logon/Dyaxler/everyone else
 -- Website: https://github.com/AeroScripts/QuestieDev
 -- Description: Questie started out being a simple backport of QuestHelper but it has grown beyond
@@ -16,7 +16,7 @@ Questie = CreateFrame("Frame", "QuestieLua", UIParent, "ActionButtonTemplate");
 QuestRewardCompleteButton = nil;
 QuestAbandonOnAccept = nil;
 QuestAbandonWithItemsOnAccept = nil;
-QuestieVersion = 3.67;
+QuestieVersion = 3.68;
 ---------------------------------------------------------------------------------------------------
 -- WoW Functions --PERFORMANCE CHANGE--
 ---------------------------------------------------------------------------------------------------
@@ -51,6 +51,7 @@ function Questie:SetupDefaults()
         ["maxShowLevel"] = 3,
         ["minLevelFilter"] = false,
         ["minShowLevel"] = 5,
+        ["trackerMinimize"] = false,
         ["showMapAids"] = true,
         ["showProfessionQuests"] = false,
         ["showTrackerHeader"] = false,
@@ -112,6 +113,9 @@ function Questie:CheckDefaults()
     if QuestieConfig.minShowLevel == nil then
         QuestieConfig.minShowLevel = false;
         QuestieConfig.minShowLevel = 5;
+    end
+    if QuestieConfig.trackerMinimize == nil then
+        QuestieConfig.trackerMinimize = false;
     end
     if QuestieConfig.showMapAids == nil then
         QuestieConfig.showMapAids = true;
@@ -221,6 +225,7 @@ function Questie:ClearConfig(arg)
                 ["maxShowLevel"] = 3,
                 ["minLevelFilter"] = false,
                 ["minShowLevel"] = 5,
+                ["trackerMinimize"] = false,
                 ["showMapAids"] = true,
                 ["showProfessionQuests"] = false,
                 ["showTrackerHeader"] = false,
@@ -306,6 +311,7 @@ function Questie:NUKE(arg)
                 ["maxShowLevel"] = 3,
                 ["minLevelFilter"] = false,
                 ["minShowLevel"] = 5,
+                ["trackerMinimize"] = false,
                 ["showMapAids"] = true,
                 ["showProfessionQuests"] = false,
                 ["showTrackerHeader"] = false,
@@ -358,6 +364,7 @@ function Questie:OnLoad()
     this:RegisterEvent("CHAT_MSG_LOOT");
     this:RegisterEvent("QUEST_FINISHED");
     this:RegisterEvent("PLAYER_UNGHOST");
+    this:RegisterEvent("PLAYER_DEAD");
     QuestAbandonOnAccept = StaticPopupDialogs["ABANDON_QUEST"].OnAccept;
     StaticPopupDialogs["ABANDON_QUEST"].OnAccept = function()
         local hash = Questie:GetHashFromName(QGet_AbandonQuestName());
@@ -382,42 +389,21 @@ function Questie:OnLoad()
     end
     QuestRewardCompleteButton = QuestRewardCompleteButton_OnClick;
     QuestRewardCompleteButton_OnClick = function()
-        if IsAddOnLoaded("EQL3") or IsAddOnLoaded("ShaguQuest") then
-            local questTitle = QGet_TitleText();
-            local _, _, level, qName = string.find(questTitle, "%[(.+)%] (.+)")
-            if qName == nil then
-                qName = QGet_TitleText();
-            else
-                qName = qName
+        local questTitle = QGet_TitleText();
+        local _, _, level, qName = string.find(questTitle, "%[(.+)%] (.+)")
+        if qName == nil then
+            qName = QGet_TitleText();
+        else
+            qName = qName
+        end
+        local hash = Questie:GetHashFromName(qName);
+        QuestieCompletedQuestMessages[qName] = 1;
+        if(not QuestieSeenQuests[hash]) or (QuestieSeenQuests[hash] == 0) or (QuestieSeenQuests[hash] == -1) then
+            Questie:finishAndRecurse(hash)
+            if (TomTomCrazyArrow:IsVisible() ~= nil) and (arrow_objective == hash) then
+                TomTomCrazyArrow:Hide()
             end
-            local hash = Questie:GetHashFromName(qName);
-            QuestieCompletedQuestMessages[qName] = 1;
-            if(not QuestieSeenQuests[hash]) or (QuestieSeenQuests[hash] == 0) or (QuestieSeenQuests[hash] == -1) then
-                Questie:finishAndRecurse(hash)
-                if (TomTomCrazyArrow:IsVisible() ~= nil) and (arrow_objective == hash) then
-                    TomTomCrazyArrow:Hide()
-                end
-                QuestieTrackedQuests[hash] = nil;
-                Questie:AddEvent("CHECKLOG", 0.135);
-            end
-        elseif (not IsAddOnLoaded("EQL3")) then
-            local questTitle = QGet_TitleText();
-            local _, _, level, qName = string.find(questTitle, "%[(.+)%] (.+)")
-            if qName == nil then
-                qName = QGet_TitleText();
-            else
-                qName = qName
-            end
-            local hash = Questie:GetHashFromName(qName);
-            QuestieCompletedQuestMessages[qName] = 1;
-            if(not QuestieSeenQuests[hash]) or (QuestieSeenQuests[hash] == 0) or (QuestieSeenQuests[hash] == -1) then
-                Questie:finishAndRecurse(hash)
-                if (TomTomCrazyArrow:IsVisible() ~= nil) and (arrow_objective == hash) then
-                    TomTomCrazyArrow:Hide()
-                end
-                QuestieTrackedQuests[hash] = nil;
-                Questie:AddEvent("CHECKLOG", 0.135);
-            end
+            Questie:AddEvent("CHECKLOG", 0.135);
         end
         QuestRewardCompleteButton();
     end
@@ -485,38 +471,34 @@ function Questie:OnUpdate(elapsed)
             end
         end
     end
+    local bgactive = false
     for i=1, MAX_BATTLEFIELD_QUEUES do
         bgstatus = GetBattlefieldStatus(i);
-        if (bgstatus == active) then
+        if (bgstatus and bgstatus == "active") then
             bgactive = true
-        else
-            bgactive = false
         end
     end
-    if UnitIsDeadOrGhost("player") and (bgactive == false) then
-        if (QuestieConfig.corpseArrow == true) and (QuestieConfig.arrowEnabled == true) then
-            local deadmyx, deadmyy = GetCorpseMapPosition();
-            if deadmyx and deadmyy and deadmyx ~= 0 and deadmyy ~= 0 then
-                local mycon, myzone, x, y = Astrolabe:GetCurrentPlayerPosition()
-                local ddist, xDelta, yDelta = Astrolabe:ComputeDistance(mycont, myzone, X, Y, continent, zone, xNote, yNote)
+    if UnitIsDeadOrGhost("player") and (UnitIsDead("player") ~= 1) and (bgactive == false) then
+        if (QuestieConfig.corpseArrow == true) then
+            if DiedAtX and DiedAtY and DiedAtX ~= 0 and DiedAtY ~= 0 then
+                local ddist, xDelta, yDelta = Astrolabe:ComputeDistance(DiedInCont, DiedInZone, DiedAtX, DiedAtY, continent, zone, xNote, yNote)
                 local dtitle = "My Dead Corpse"
-                local dpoint = {c = mycon, z = myzone, x = deadmyx, y = deadmyy}
+                local dpoint = {c = DiedInCont, z = DiedInZone, x = DiedAtX, y = DiedAtY}
                 SetCrazyArrow(dpoint, ddist, dtitle);
-            end
-        end
-        if (QuestieConfig.corpseArrow == true) and (QuestieConfig.arrowEnabled == false) then
-            local deadmyx, deadmyy = GetCorpseMapPosition();
-            if deadmyx and deadmyy and deadmyx ~= 0 and deadmyy ~= 0 then
-                local mycon, myzone, x, y = Astrolabe:GetCurrentPlayerPosition()
-                local ddist, xDelta, yDelta = Astrolabe:ComputeDistance(mycont, myzone, X, Y, continent, zone, xNote, yNote)
-                local dtitle = "My Dead Corpse"
-                local dpoint = {c = mycon, z = myzone, x = deadmyx, y = deadmyy}
-                SetCrazyArrow(dpoint, ddist, dtitle);
+                if (not WorldMapFrame:IsVisible() == nil) then
+                    return
+                end
+                if (WorldMapFrame:IsVisible() == nil) and (WorldMapUpdateSpamOff == nil) then
+                    SetMapToCurrentZone()
+                    WorldMapUpdateSpamOff = true
+                end
             end
         end
         if (QuestieConfig.arrowEnabled == false) and (QuestieConfig.corpseArrow == false) then
             TomTomCrazyArrow:Hide()
         end
+    elseif UnitIsDeadOrGhost("player") and (bgactive == true) then
+        TomTomCrazyArrow:Hide()
     end
 end
 ---------------------------------------------------------------------------------------------------
@@ -583,7 +565,6 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
                     if (TomTomCrazyArrow:IsVisible() ~= nil) and (arrow_objective == hash) then
                         TomTomCrazyArrow:Hide();
                     end
-                    QuestieTrackedQuests[hash] = nil;
                 end
                 Questie:AddEvent("CHECKLOG", 0.135);
             end
@@ -632,6 +613,8 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
         if msg then
             Questie:CheckQuestLog();
         end
+    elseif(event == "PLAYER_DEAD") then
+        DiedInCont, DiedInZone, DiedAtX, DiedAtY = Astrolabe:GetCurrentPlayerPosition();
     elseif(event == "PLAYER_UNGHOST") then
         if (QuestieConfig.corpseArrow == false) and (QuestieConfig.arrowEnabled == true) then
             return
@@ -640,6 +623,7 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
         elseif (QuestieConfig.corpseArrow == true) and (QuestieConfig.arrowEnabled == false) then
             TomTomCrazyArrow:Hide()
         end
+        WorldMapUpdateSpamOff = nil
     end
 end
 ---------------------------------------------------------------------------------------------------
@@ -782,6 +766,7 @@ QuestieFastSlash = {
             DEFAULT_CHAT_FRAME:AddMessage("Corpse Arrow will now be hidden");
             Questie:Toggle();
             Questie:Toggle();
+            TomTomCrazyArrow:Hide()
         end
     end,
     ["tracker"] = function()
@@ -817,6 +802,18 @@ QuestieFastSlash = {
                 hideOnEscape = 1
             }
             StaticPopup_Show ("SHOW_TRACKER")
+        end
+    end,
+    ["mintracker"] = function()
+    -- Default: False
+        if QuestieConfig.trackerMinimize then
+            DEFAULT_CHAT_FRAME:AddMessage("QuestTracker Maximized");
+            QuestieConfig.trackerMinimize = false
+            QuestieTracker.frame:Show();
+        else
+            DEFAULT_CHAT_FRAME:AddMessage("QuestTracker Minimized");
+            QuestieConfig.trackerMinimize = true
+            QuestieTracker.frame:Hide();
         end
     end,
     ["header"] = function()
@@ -1035,6 +1032,7 @@ QuestieFastSlash = {
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie mapnotes |r-- |c0000ffc0(toggle)|r World/Minimap icons", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie maxlevel |r-- |c0000ffc0(toggle)|r Max-Level Filter", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie minlevel |r-- |c0000ffc0(toggle)|r Min-Level Filter", 0.75, 0.75, 0.75);
+        DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie mintracker |r-- |c0000ffc0(toggle)|r Minimize or Maximize QuestieTracker", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie NUKE |r-- Resets ALL Questie data and settings", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie professions |r-- |c0000ffc0(toggle)|r Profession quests", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie setmaxlevel |r|c0000ffc0<number>|r -- Hides quests until <X> levels above players level (default=3)", 0.75, 0.75, 0.75);
@@ -1090,19 +1088,20 @@ function Questie:CurrentUserToggles()
         [7] = { "maxShowLevel" },
         [8] = { "minLevelFilter" },
         [9] = { "minShowLevel" },
-        [10] = { "showMapAids" },
-        [11] = { "showProfessionQuests" },
-        [12] = { "showTrackerHeader" },
-        [13] = { "showToolTips" },
-        [14] = { "trackerEnabled" },
-        [15] = { "trackerList" },
-        [16] = { "trackerScale" },
-        [17] = { "trackerBackground" },
-        [18] = { "trackerAlpha" },
-        [19] = { "resizeWorldmap" },
-        [20] = { "getVersion" },
-        [21] = { "hideMinimapIcons" },
-        [22] = { "hideObjectives" }
+        [10] = { "trackerMinimize" },
+        [11] = { "showMapAids" },
+        [12] = { "showProfessionQuests" },
+        [13] = { "showTrackerHeader" },
+        [14] = { "showToolTips" },
+        [15] = { "trackerEnabled" },
+        [16] = { "trackerList" },
+        [17] = { "trackerScale" },
+        [18] = { "trackerBackground" },
+        [19] = { "trackerAlpha" },
+        [20] = { "resizeWorldmap" },
+        [21] = { "getVersion" },
+        [22] = { "hideMinimapIcons" },
+        [23] = { "hideObjectives" }
     }
     if QuestieConfig then
         i = 1

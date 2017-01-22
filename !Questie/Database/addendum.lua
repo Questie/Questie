@@ -3464,8 +3464,6 @@ QuestieLevLookup = {
   ["Find Daphne Stilwell in Westfall."]={5,1400785165},
   ["Defend Daphne Stilwell from the Defias attack.\n\nNeither of your spirits must be released from their mortal coils if you wish to succeed.\n\nAfter you are successful, speak to Daphne Stilwell again."]={5,1355822029},
   ["Speak to Duthorian Rall in Stormwind."]={5,133585453},
-  [""]={5,275711757},
-  [""]={5,275712269},
  },
  ["Buzzbox 411"]={
   ["Collect 3 Thresher Eyes from Darkshore Threshers in the deep sea near Buzzbox 411."]={0,3671288712},
@@ -15556,7 +15554,7 @@ QuestieHashMap = {
   ['name']="The Tome of Valor",
   ['startedType']="item",
   ['finishedType']="monster",
-  ['startedBy']="unknown",
+  ['startedBy']="Tome of Valor",
   ['finishedBy']="Duthorian Rall",
   ['level']=20,
   ['questLevel']='20',
@@ -35258,17 +35256,6 @@ QuestieHashMap = {
   ['questLevel']='45PVP',
   ['rr']=77
  },
- [275712269]={
-  ['name']="The Tome of Valor",
-  ['startedType']="monster",
-  ['finishedType']="monster",
-  ['startedBy']="Brandur Ironhammer",
-  ['finishedBy']="Brandur Ironhammer",
-  ['level']=20,
-  ['questLevel']='20',
-  ['rr']=5,
-  ['rc']=2
- },
  [531798064]={
   ['name']="Tiger Mastery",
   ['startedType']="monster",
@@ -50353,17 +50340,6 @@ QuestieHashMap = {
   ['finishedBy']="Corrupted Songflower",
   ['level']=50,
   ['questLevel']='55'
- },
- [275711757]={
-  ['name']="The Tome of Valor",
-  ['startedType']="monster",
-  ['finishedType']="monster",
-  ['startedBy']="Duthorian Rall",
-  ['finishedBy']="Duthorian Rall",
-  ['level']=20,
-  ['questLevel']='20',
-  ['rr']=5,
-  ['rc']=2
  },
  [973529498]={
   ['name']="Great-father Winter is Here!",

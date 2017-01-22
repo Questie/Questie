@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
--- Name: QuestieQuest
--- Description: Handles all the quest related functions
+-- Name: QuestieTracker
+-- Description: Handles all the quest tracker related functions
 ---------------------------------------------------------------------------------------------------
 --///////////////////////////////////////////////////////////////////////////////////////////////--
 ---------------------------------------------------------------------------------------------------
@@ -95,7 +95,7 @@ function QuestieTracker:updateTrackingFrameSize()
             elseif (QuestieConfig.showTrackerHeader == false) then
                 QuestieTracker.frame:SetHeight(totalHeight + 10);
             end
-            QuestieTracker.frame:SetWidth(200);
+            QuestieTracker.frame:SetWidth(220);
             QuestieTracker.frame.texture:SetAlpha(QuestieConfig.trackerAlpha);
         elseif (QuestieConfig.trackerList == false) then
             local lastButton = QuestieTracker.questButtons[QuestieTracker.highestIndex];
@@ -115,7 +115,7 @@ function QuestieTracker:updateTrackingFrameSize()
             elseif (QuestieConfig.showTrackerHeader == false) then
                 QuestieTracker.frame:SetHeight(totalHeight + 10);
             end
-            QuestieTracker.frame:SetWidth(200);
+            QuestieTracker.frame:SetWidth(220);
             QuestieTracker.frame.texture:SetAlpha(QuestieConfig.trackerAlpha);
         end
     end
@@ -531,7 +531,9 @@ function QuestieTracker:fillTrackingFrame()
         end
         QuestieTracker:updateTrackingFrameSize()
         if (QuestieConfig.trackerEnabled == true) then
-            QuestieTracker.frame:Show();
+            if (QuestieConfig.trackerMinimize == false) then
+                QuestieTracker.frame:Show();
+            end
         else
             QuestieTracker:Hide()
             QuestieTracker.frame:Hide()
@@ -607,7 +609,9 @@ function QuestieTracker:fillTrackingFrame()
         end
         QuestieTracker:updateTrackingFrameSize()
         if (QuestieConfig.trackerEnabled == true) then
-            QuestieTracker.frame:Show();
+            if (QuestieConfig.trackerMinimize == false) then
+                QuestieTracker.frame:Show();
+            end
         else
             QuestieTracker:Hide()
             QuestieTracker.frame:Hide()
@@ -616,7 +620,7 @@ function QuestieTracker:fillTrackingFrame()
     sortedByDistance = {}
 end
 ---------------------------------------------------------------------------------------------------
--- Creates a blank quest tracking frame and sets up the optional 'header'
+-- Creates a blank quest tracking frame and sets up the optional haeder
 ---------------------------------------------------------------------------------------------------
 function QuestieTracker:createTrackingFrame()
     QuestieTracker.frame = CreateFrame("Frame", "QuestieTrackerFrame", UIParent);
@@ -644,15 +648,56 @@ function QuestieTracker:createTrackingFrame()
         this:SetUserPlaced(false);
         QuestieTracker:saveFramePosition();
     end);
+    -- QuestTracker Header Button
     if (QuestieConfig.trackerList == true) then
-        local header = CreateFrame("Button", "QuestieTrackerHeader", QuestieTracker.frame);
+        local header = CreateFrame("Button", "QuestieTrackerHeader", UIParent);
         watcher = header:CreateFontString(nil, "OVERLAY", "GameFontNormal")
         watcher:SetPoint("BOTTOMLEFT", QuestieTracker.frame, "BOTTOMLEFT", 10, 8)
+        -- QuestTracker Minimize Button
+        qmenu = CreateFrame("Button", "QuestieTrackerMenu", watcher.frame);
+        qmenu:SetFrameStrata("HIGH");
+        qmenu:SetWidth(100);
+        qmenu:SetHeight(10);
+        qmenu:SetPoint("BOTTOMLEFT", QuestieTracker.frame, "BOTTOMLEFT", 6, 5)
+        qmenu.texture = qmenu:CreateTexture(nil, "BACKGROUND");
+        qmenu.texture:SetTexture(0,0,0);
+        qmenu.texture:SetAlpha(0.0);
+        qmenu.texture:SetAllPoints(qmenu);
+        qmenu:EnableMouse(true);
+        qmenu:SetScript("OnClick", function()
+            if (QuestieConfig.trackerMinimize == false) then
+                QuestieConfig.trackerMinimize = true
+                QuestieTracker.frame:Hide();
+            else
+               QuestieConfig.trackerMinimize = false
+               QuestieTracker.frame:Show();
+            end
+        end);
         QuestieTrackerHeader:Hide();
     elseif (QuestieConfig.trackerList == false) then
-        local header = CreateFrame("Button", "QuestieTrackerHeader", QuestieTracker.frame);
+        local header = CreateFrame("Button", "QuestieTrackerHeader", UIParent);
         watcher = header:CreateFontString(nil, "OVERLAY", "GameFontNormal")
         watcher:SetPoint("TOPLEFT", QuestieTracker.frame, "TOPLEFT", 10, -8)
+        -- QuestTracker Minimize Button
+        qmenu = CreateFrame("Button", "QuestieTrackerMenu", watcher.frame);
+        qmenu:SetFrameStrata("HIGH");
+        qmenu:SetWidth(100);
+        qmenu:SetHeight(10);
+        qmenu:SetPoint("TOPLEFT", QuestieTracker.frame, "TOPLEFT", 6, -6)
+        qmenu.texture = qmenu:CreateTexture(nil, "BACKGROUND");
+        qmenu.texture:SetTexture(0,0,0);
+        qmenu.texture:SetAlpha(0.0);
+        qmenu.texture:SetAllPoints(qmenu);
+        qmenu:EnableMouse(true);
+        qmenu:SetScript("OnClick", function()
+            if (QuestieConfig.trackerMinimize == false) then
+                QuestieConfig.trackerMinimize = true
+                QuestieTracker.frame:Hide();
+            else
+               QuestieConfig.trackerMinimize = false
+               QuestieTracker.frame:Show();
+            end
+        end);
         QuestieTrackerHeader:Hide();
     end
 end

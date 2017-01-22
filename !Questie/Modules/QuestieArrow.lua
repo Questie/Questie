@@ -127,52 +127,23 @@ local function OnUpdate(self, elapsed)
     self = this
     elapsed = 1/GetFramerate()
     local dist,x,y
-    if arrow_objective then
-        if QuestieTrackedQuests[arrow_objective] then
-            local objective = QuestieTrackedQuests[arrow_objective]["arrowPoint"]
-            if objective then
-                SetCrazyArrow(objective, objective.dist, objective.title)
+    if not UnitIsDeadOrGhost("player") and (bgactive == true) then
+        if arrow_objective then
+            if QuestieTrackedQuests[arrow_objective] then
+                local objective = QuestieTrackedQuests[arrow_objective]["arrowPoint"]
+                if objective then
+                    SetCrazyArrow(objective, objective.dist, objective.title)
+                end
+            else
+                self:Hide()
             end
-        else
+        end
+        if not active_point then
             self:Hide()
+            return
         end
-    end
-    if not active_point then
-        self:Hide()
-        return
-    end
-    for i=1, MAX_BATTLEFIELD_QUEUES do
-        bgstatus = GetBattlefieldStatus(i);
-        if (bgstatus == active) then
-            bgactive = true
-        else
-            bgactive = false
-        end
-    end
-    if UnitIsDeadOrGhost("player") and (bgactive == false) then
-        if (QuestieConfig.corpseArrow == true) and (QuestieConfig.arrowEnabled == true) then
-            local deadmyx, deadmyy = GetCorpseMapPosition();
-            if deadmyx and deadmyy and deadmyx ~= 0 and deadmyy ~= 0 then
-                local mycon, myzone, x, y = Astrolabe:GetCurrentPlayerPosition()
-                local ddist, xDelta, yDelta = Astrolabe:ComputeDistance(mycont, myzone, X, Y, continent, zone, xNote, yNote)
-                local dtitle = "My Dead Corpse"
-                local dpoint = {c = mycon, z = myzone, x = deadmyx, y = deadmyy}
-                SetCrazyArrow(dpoint, ddist, dtitle);
-            end
-        end
-        if (QuestieConfig.corpseArrow == true) and (QuestieConfig.arrowEnabled == false) then
-            local deadmyx, deadmyy = GetCorpseMapPosition();
-            if deadmyx and deadmyy and deadmyx ~= 0 and deadmyy ~= 0 then
-                local mycon, myzone, x, y = Astrolabe:GetCurrentPlayerPosition()
-                local ddist, xDelta, yDelta = Astrolabe:ComputeDistance(mycont, myzone, X, Y, continent, zone, xNote, yNote)
-                local dtitle = "My Dead Corpse"
-                local dpoint = {c = mycon, z = myzone, x = deadmyx, y = deadmyy}
-                SetCrazyArrow(dpoint, ddist, dtitle);
-            end
-        end
-        if (QuestieConfig.arrowEnabled == false) and (QuestieConfig.corpseArrow == false) then
-            TomTomCrazyArrow:Hide()
-        end
+    elseif UnitIsDeadOrGhost("player") and (UnitIsDead("player") ~= 1) and (bgactive == false) then
+        Questie:OnUpdate(elapsed)
     end
     local dist,x,y = GetDistanceToIcon(active_point)
     -- The only time we cannot calculate the distance is when the waypoint
