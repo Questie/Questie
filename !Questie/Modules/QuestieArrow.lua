@@ -120,7 +120,7 @@ local function OnUpdate(self, elapsed)
     self = this
     elapsed = 1/GetFramerate()
     local dist,x,y
-    if not UnitIsDeadOrGhost("player") and (bgactive == true) then
+    if not UnitIsDeadOrGhost("player") then
         if arrow_objective then
             if QuestieTrackedQuests[arrow_objective] then
                 local objective = QuestieTrackedQuests[arrow_objective]["arrowPoint"]
@@ -135,7 +135,8 @@ local function OnUpdate(self, elapsed)
             self:Hide()
             return
         end
-    elseif UnitIsDeadOrGhost("player") and (UnitIsDead("player") ~= 1) and (bgactive == false) then
+    end
+    if UnitIsDeadOrGhost("player") and (UnitIsDead("player") ~= 1) and (bgactive == false) then
         Questie:OnUpdate(elapsed)
     end
     local dist,x,y = GetDistanceToIcon(active_point)
@@ -151,7 +152,7 @@ local function OnUpdate(self, elapsed)
     status:SetText(sformat("%d yards", dist))
     local cell
     -- Showing the arrival arrow?
-    if dist <= 2 then
+    if dist <= 5 then
         if not showDownArrow then
             arrow:SetHeight(70)
             arrow:SetWidth(53)
@@ -231,11 +232,6 @@ function ShowHideCrazyArrow()
         wayframe.title:SetHeight(height)
         titleframe:SetScale(scale)
         titleframe:SetAlpha(1)
-        if true then
-            tta:Show()
-        else
-            tta:Hide()
-        end
     else
         wayframe:Hide()
     end
@@ -276,53 +272,55 @@ end})
 wayframe:RegisterEvent("ADDON_LOADED")
 wayframe:SetScript("OnEvent", function(self, event, arg1, ...)
     if true then
-        local feed_crazy = CreateFrame("Frame")
-        local crazyFeedFrame = CreateFrame("Frame")
-        local throttle = 1
-        local counter = 0
-        crazyFeedFrame:SetScript("OnUpdate", function(self, elapsed)
-            elapsed = 1/GetFramerate()
-            counter = counter + elapsed
-            if counter < throttle then
-                return
-            end
-            counter = 0
-            local angle = GetDirectionToIcon(active_point)
-            local player = GetPlayerFacing()
-            if not angle or not player then
-                feed_crazy.iconCoords = texcoords["1:1"]
-                feed_crazy.iconR = 0.2
-                feed_crazy.iconG = 1.0
-                feed_crazy.iconB = 0.2
-                feed_crazy.text = "No waypoint"
-                return
-            end
-            angle = angle - player
-            local perc = math.abs((math.pi - math.abs(angle)) / math.pi)
-            local gr,gg,gb = 1, 1, 1
-            local mr,mg,mb = 0.75, 0.75, 0.75
-            local br,bg,bb = 0.5, 0.5, 0.5
-            local tablee = {};
-            table.insert(tablee, gr)
-            table.insert(tablee, gg)
-            table.insert(tablee, gb)
-            table.insert(tablee, mr)
-            table.insert(tablee, mg)
-            table.insert(tablee, mb)
-            table.insert(tablee, br)
-            table.insert(tablee, bg)
-            table.insert(tablee, bb)
-            local r,g,b = ColorGradient(perc, tablee)
-            feed_crazy.iconR = r
-            feed_crazy.iconG = g
-            feed_crazy.iconB = b
-            cell = Questie:Modulo(floor(angle / twopi * 108 + 0.5) ,108)
-            local column = Questie:Modulo(cell, 9)
-            local row = floor(cell / 9)
-            local key = column .. ":" .. row
-            feed_crazy.iconCoords = texcoords[key]
-            feed_crazy.text = point_title or "Unknown waypoint"
-        end)
+        if true then
+            local feed_crazy = CreateFrame("Frame")
+            local crazyFeedFrame = CreateFrame("Frame")
+            local throttle = 1
+            local counter = 0
+            crazyFeedFrame:SetScript("OnUpdate", function(self, elapsed)
+                elapsed = 1/GetFramerate()
+                counter = counter + elapsed
+                if counter < throttle then
+                    return
+                end
+                counter = 0
+                local angle = GetDirectionToIcon(active_point)
+                local player = GetPlayerFacing()
+                if not angle or not player then
+                    feed_crazy.iconCoords = texcoords["1:1"]
+                    feed_crazy.iconR = 0.2
+                    feed_crazy.iconG = 1.0
+                    feed_crazy.iconB = 0.2
+                    feed_crazy.text = "No waypoint"
+                    return
+                end
+                angle = angle - player
+                local perc = math.abs((math.pi - math.abs(angle)) / math.pi)
+                local gr,gg,gb = 1, 1, 1
+                local mr,mg,mb = 0.75, 0.75, 0.75
+                local br,bg,bb = 0.5, 0.5, 0.5
+                local tablee = {};
+                table.insert(tablee, gr)
+                table.insert(tablee, gg)
+                table.insert(tablee, gb)
+                table.insert(tablee, mr)
+                table.insert(tablee, mg)
+                table.insert(tablee, mb)
+                table.insert(tablee, br)
+                table.insert(tablee, bg)
+                table.insert(tablee, bb)
+                local r,g,b = ColorGradient(perc, tablee)
+                feed_crazy.iconR = r
+                feed_crazy.iconG = g
+                feed_crazy.iconB = b
+                cell = Questie:Modulo(floor(angle / twopi * 108 + 0.5) ,108)
+                local column = Questie:Modulo(cell, 9)
+                local row = floor(cell / 9)
+                local key = column .. ":" .. row
+                feed_crazy.iconCoords = texcoords[key]
+                feed_crazy.text = point_title or "Unknown waypoint"
+            end)
+        end
     end
 end)
 

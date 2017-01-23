@@ -16,14 +16,15 @@ end
 -- Global vars
 ---------------------------------------------------------------------------------------------------
 QuestieTracker.hasCleared = false
-QuestieTracker.lastUpdate = 0;
+QuestieTracker.lastUpdate1 = 0;
+QuestieTracker.lastUpdate5 = 0;
 QuestieTracker.questButtons = {};
 QuestieTracker.GeneralInterval = 0;
 QuestieTracker.btnUpdate = 1;
 ---------------------------------------------------------------------------------------------------
 -- OnUpdate
 ---------------------------------------------------------------------------------------------------
-function QuestieTracker_OnUpdate(elapsed)
+function QuestieTracker_OnUpdate()
     if (IsAddOnLoaded("EQL3") or IsAddOnLoaded("ShaguQuest")) then
         if (QuestieConfig.trackerEnabled == true) then
             QuestWatchFrame:Hide();
@@ -41,17 +42,18 @@ function QuestieTracker_OnUpdate(elapsed)
             QuestieTracker.frame:Hide();
         end
     end
-    if GetTime() - QuestieTracker.lastUpdate >= 5 then
-        QuestieTracker:fillTrackingFrame()
-        QuestieTracker.lastUpdate = GetTime()
---[[
+    if GetTime() - QuestieTracker.lastUpdate1 >= 1 then
         QuestieTracker:syncEQL3()
         QuestieTracker:syncQuestWatch()
+        QuestieTracker.lastUpdate1 = GetTime()
+    end
+    if GetTime() - QuestieTracker.lastUpdate5 >= 5 then
         if (QuestieConfig.showMapAids == true) or (QuestieConfig.alwaysShowQuests == true) or ((QuestieConfig.showMapAids == true) and (QuestieConfig.alwaysShowQuests == false)) then
+            QuestieTracker:fillTrackingFrame()
             Questie:SetAvailableQuests()
             Questie:RedrawNotes()
+            QuestieTracker.lastUpdate5 = GetTime()
         end
-]]
     end
 end
 ---------------------------------------------------------------------------------------------------
@@ -262,7 +264,6 @@ function QuestieTracker:createOrGetTrackingButton(index)
         level:SetPoint("TOPLEFT", btn, "TOPLEFT", 10, 0)
         btn.level = level;
         QuestieTracker.questButtons[index] = btn;
-        btn.objectives = {};
     end
     return QuestieTracker.questButtons[index];
 end
@@ -462,7 +463,6 @@ function QuestieTracker:fillTrackingFrame()
             distanceControlTable[v["hash"]] = true
             table.insert(sortedByDistance, v);
         end
-        distanceNotes = {}
     end
     if QuestieConfig.boldColors == true then
         for i,v in pairs(sortedByDistance) do
@@ -492,6 +492,9 @@ function QuestieTracker:fillTrackingFrame()
             end
             quest["arrowPoint"] = v
             if quest["isComplete"] or quest["leaderboards"] == 0 then
+                if (TomTomCrazyArrow:IsVisible() ~= nil) and (arrow_objective == QuestieTrackedQuests[hash]) then
+                    TomTomCrazyArrow:Hide()
+                end
             QuestieTracker:AddObjectiveToButton(button, {['desc']="Quest Complete!"}, obj);
                 obj = 2;
             else
@@ -570,6 +573,9 @@ function QuestieTracker:fillTrackingFrame()
             end
             quest["arrowPoint"] = v
             if quest["isComplete"] or quest["leaderboards"] == 0 then
+                if (TomTomCrazyArrow:IsVisible() ~= nil) and (arrow_objective == QuestieTrackedQuests[hash]) then
+                    TomTomCrazyArrow:Hide()
+                end
                 QuestieTracker:AddObjectiveToButton(button, {['desc']="Quest Complete!"}, obj);
                 obj = 2;
             else
@@ -620,11 +626,7 @@ function QuestieTracker:fillTrackingFrame()
             QuestieTracker.frame:Hide()
         end
     end
-    sortedByDistance = {};
-    distanceControlTable = {};
-    distanceNotes = {};
 end
-QuestieTracker.questButtons = {};
 ---------------------------------------------------------------------------------------------------
 -- Creates a blank quest tracking frame and sets up the optional haeder
 ---------------------------------------------------------------------------------------------------
@@ -712,7 +714,7 @@ end
 ---------------------------------------------------------------------------------------------------
 function QuestLogTitleButton_OnClick(button)
     if (IsAddOnLoaded("EQL3") or IsAddOnLoaded("ShaguQuest")) then
-        questName = this:GetText();
+        local questName = this:GetText();
         local questIndex = this:GetID() + FauxScrollFrame_GetOffset(EQL3_QuestLogListScrollFrame);
         if(button == "LeftButton") then
             if ( IsShiftKeyDown() ) then
@@ -932,6 +934,9 @@ function QuestieTracker:addQuestToTracker(hash, logId, level) -- never used???
         local desc, type, done = QGet_QuestLogLeaderBoard(i, logId);
         if QuestieTrackedQuests[hash]["objective"..i] then
             if isComplete or (QGet_NumQuestLeaderBoards() == 0) or (QuestieTrackedQuests[hash]["objective"..i]["done"] == 1) then
+                if (TomTomCrazyArrow:IsVisible() ~= nil) and (arrow_objective == hash) then
+                    TomTomCrazyArrow:Hide()
+                end
                 QuestieTrackedQuests[hash]["objective"..i] = {
                     ["desc"] = "Quest Complete!",
                     ["type"] = type,
@@ -1011,7 +1016,10 @@ end
 ---------------------------------------------------------------------------------------------------
 function QuestieTracker:removeQuestFromTracker(hash)
     if (QuestieSeenQuests[hash] == 0) and (QuestieTrackedQuests[hash] ~= nil) then
-            QuestieTrackedQuests[hash]["tracked"] = false
+        QuestieTrackedQuests[hash]["tracked"] = false
+        if (TomTomCrazyArrow:IsVisible() ~= nil) and (arrow_objective == hash) then
+            TomTomCrazyArrow:Hide()
+        end
     end
     QuestieTracker:fillTrackingFrame()
     Questie:SetAvailableQuests()
@@ -1064,12 +1072,15 @@ end
 -- Adds quest to tracker based on quest ID
 ---------------------------------------------------------------------------------------------------
 function QuestieTracker:setQuestInfo(id)
-    --local questInfo = {}
+    local questInfo = {}
     local questName, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(id)
     if not isHeader and not isCollapsed then
         local hash = Questie:GetHashFromName(questName)
         if(QuestieTracker:isTracked(questName)) then
             QuestieTracker:removeQuestFromTracker(hash)
+            if (TomTomCrazyArrow:IsVisible() ~= nil) and (arrow_objective == hash) then
+                TomTomCrazyArrow:Hide()
+            end
             return
         end
         if QuestieTrackedQuests[hash] then
@@ -1108,6 +1119,9 @@ function QuestieTracker:syncEQL3()
                         QuestieTracker:addQuestToTracker(hash, id, level)
                     end
                 elseif( not isHeader and not EQL3_IsQuestWatched(id) and QuestieTracker:isTracked(questName) ) then
+                    if (TomTomCrazyArrow:IsVisible() ~= nil) and (arrow_objective == hash) then
+                        TomTomCrazyArrow:Hide()
+                    end
                     QuestieTracker:removeQuestFromTracker(hash)
                 end
             end
@@ -1138,6 +1152,9 @@ function QuestieTracker:syncQuestWatch()
                         QuestieTracker:addQuestToTracker(hash, id, level)
                     end
                 elseif( not isHeader and not IsQuestWatched(id) and QuestieTracker:isTracked(questName) ) then
+                    if (TomTomCrazyArrow:IsVisible() ~= nil) and (arrow_objective == hash) then
+                        TomTomCrazyArrow:Hide()
+                    end
                     QuestieTracker:removeQuestFromTracker(hash)
                 end
             end
@@ -1165,11 +1182,6 @@ function QuestieTracker:ADDON_LOADED()
             yOfs = 0,
         };
     end
---[[
-    if not QuestieTrackedQuests then
-        QuestieTrackedQuests = {}
-    end
-]]
     -- This adds the ability to scale the Worldmap from FULLSCREEN or to a WINDOW if a player isn't using Cargographer or MetaMap.
     if (QuestieConfig == nil) then return end
     if (QuestieConfig.resizeWorldmap == nil) then return end

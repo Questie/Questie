@@ -36,6 +36,9 @@ function Questie:finishAndRecurse(questhash)
         if ((QuestieTrackedQuests[questhash]["leaderboards"] == 0) or (QuestieTrackedQuests[questhash]["isComplete"] == 1)) then
             QuestieSeenQuests[questhash] = 1;
             QuestieTrackedQuests[questhash] = nil;
+            if (TomTomCrazyArrow:IsVisible() ~= nil) and (arrow_objective == hash) then
+                TomTomCrazyArrow:Hide()
+            end
         end
     elseif ((QuestieSeenQuests[questhash] == nil) or (QuestieTrackedQuests[questhash] == nil)) then
         QuestieSeenQuests[questhash] = 1;
@@ -598,7 +601,7 @@ CachedIds = {};
 function Questie:GetQuestIdFromHash(questHash)
     local numEntries, numQuests = GetNumQuestLogEntries();
     if(QUESTIE_UPDATE_EVENT or numEntries ~= LastNrOfEntries or not CachedIds[questHash]) then
-        CachedIds = {};
+        CachedIds[questHash] = {};
         QUESTIE_UPDATE_EVENT=0;
         LastNrOfEntries = numEntries;
         Questie:UpdateQuestIds();

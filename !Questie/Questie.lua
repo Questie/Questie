@@ -456,12 +456,6 @@ function Questie:OnUpdate(elapsed)
     if(table.getn(QUESTIE_EVENTQUEUE) > 0) then
         for k, v in pairs(QUESTIE_EVENTQUEUE) do
             if(v.EVENT == "UPDATE" and GetTime()- v.TIME > v.DELAY) then
-                QuestieTracker:syncEQL3()
-                QuestieTracker:syncQuestWatch()
-                if (QuestieConfig.showMapAids == true) or (QuestieConfig.alwaysShowQuests == true) or ((QuestieConfig.showMapAids == true) and (QuestieConfig.alwaysShowQuests == false)) then
-                    Questie:SetAvailableQuests()
-                    Questie:RedrawNotes()
-                end
                 while(true) do
                     local d = Questie:UpdateQuests();
                     if(not d) then
@@ -472,12 +466,6 @@ function Questie:OnUpdate(elapsed)
                 Astrolabe.ForceNextUpdate = true;
             elseif(v.EVENT == "CHECKLOG" and GetTime() - v.TIME > v.DELAY) then
                 Questie:CheckQuestLog();
-                QuestieTracker:syncEQL3()
-                QuestieTracker:syncQuestWatch()
-                if (QuestieConfig.showMapAids == true) or (QuestieConfig.alwaysShowQuests == true) or ((QuestieConfig.showMapAids == true) and (QuestieConfig.alwaysShowQuests == false)) then
-                    Questie:SetAvailableQuests()
-                    Questie:RedrawNotes()
-                end
                 table.remove(QUESTIE_EVENTQUEUE, 1);
                 break;
             end
