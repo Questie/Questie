@@ -456,6 +456,12 @@ function Questie:OnUpdate(elapsed)
     if(table.getn(QUESTIE_EVENTQUEUE) > 0) then
         for k, v in pairs(QUESTIE_EVENTQUEUE) do
             if(v.EVENT == "UPDATE" and GetTime()- v.TIME > v.DELAY) then
+                QuestieTracker:syncEQL3()
+                QuestieTracker:syncQuestWatch()
+                if (QuestieConfig.showMapAids == true) or (QuestieConfig.alwaysShowQuests == true) or ((QuestieConfig.showMapAids == true) and (QuestieConfig.alwaysShowQuests == false)) then
+                    Questie:SetAvailableQuests()
+                    Questie:RedrawNotes()
+                end
                 while(true) do
                     local d = Questie:UpdateQuests();
                     if(not d) then
@@ -466,19 +472,25 @@ function Questie:OnUpdate(elapsed)
                 Astrolabe.ForceNextUpdate = true;
             elseif(v.EVENT == "CHECKLOG" and GetTime() - v.TIME > v.DELAY) then
                 Questie:CheckQuestLog();
+                QuestieTracker:syncEQL3()
+                QuestieTracker:syncQuestWatch()
+                if (QuestieConfig.showMapAids == true) or (QuestieConfig.alwaysShowQuests == true) or ((QuestieConfig.showMapAids == true) and (QuestieConfig.alwaysShowQuests == false)) then
+                    Questie:SetAvailableQuests()
+                    Questie:RedrawNotes()
+                end
                 table.remove(QUESTIE_EVENTQUEUE, 1);
                 break;
             end
         end
     end
-    local bgactive = false
-    for i=1, MAX_BATTLEFIELD_QUEUES do
-        bgstatus = GetBattlefieldStatus(i);
-        if (bgstatus and bgstatus == "active") then
-            bgactive = true
-        end
-    end
     if UnitIsDeadOrGhost("player") and (UnitIsDead("player") ~= 1) and (bgactive == false) then
+        local bgactive = false
+        for i=1, MAX_BATTLEFIELD_QUEUES do
+            bgstatus = GetBattlefieldStatus(i);
+            if (bgstatus and bgstatus == "active") then
+                bgactive = true
+            end
+        end
         if (QuestieConfig.corpseArrow == true) then
             if DiedAtX and DiedAtY and DiedAtX ~= 0 and DiedAtY ~= 0 then
                 local ddist, xDelta, yDelta = Astrolabe:ComputeDistance(DiedInCont, DiedInZone, DiedAtX, DiedAtY, continent, zone, xNote, yNote)
@@ -524,7 +536,7 @@ QUESTIE_UPDATE_EVENT = 0;
 function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10)
     if(event =="ADDON_LOADED" and arg1 == "Questie") then
     elseif( event == "MINIMAP_UPDATE_ZOOM" ) then
-        --Astrolabe:isMinimapInCity()
+        Astrolabe:isMinimapInCity()
     elseif(event == "QUEST_LOG_UPDATE" or event == "QUEST_ITEM_UPDATE") then
         QUESTIE_UPDATE_EVENT = 1;
         if(GetTime() - QUESTIE_LAST_CHECKLOG > 0.1) then

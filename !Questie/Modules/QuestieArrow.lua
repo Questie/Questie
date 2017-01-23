@@ -59,10 +59,8 @@ wayframe:Hide()
 local titleframe = CreateFrame("Frame", nil, wayframe)
 wayframe.title = titleframe:CreateFontString("OVERLAY", nil, "GameFontHighlightSmall")
 wayframe.status = titleframe:CreateFontString("OVERLAY", nil, "GameFontNormalSmall")
-wayframe.tta = titleframe:CreateFontString("OVERLAY", nil, "GameFontNormalSmall")
 wayframe.title:SetPoint("TOP", wayframe, "BOTTOM", 0, 0)
 wayframe.status:SetPoint("TOP", wayframe.title, "BOTTOM", 0, 0)
-wayframe.tta:SetPoint("TOP", wayframe.status, "BOTTOM", 0, 0)
 
 local function OnDragStart(self, button)
     if IsControlKeyDown() and IsShiftKeyDown() then
@@ -114,19 +112,11 @@ function SetArrowObjective(hash)
     local objective = QuestieTrackedQuests[hash]["arrowPoint"]
     SetCrazyArrow(objective, objective.dist, objective.title)
 end
+
 local status = wayframe.status
-local tta = wayframe.tta
 local arrow = wayframe.arrow
 local count = 0
-local last_distance = 0
-local tta_throttle = 0
-local speed = 0
-local speed_count = 0
-HACK_DUMP = 0;
 local function OnUpdate(self, elapsed)
-    self = this
-    elapsed = 1/GetFramerate()
-    local dist,x,y
     if not UnitIsDeadOrGhost("player") and (bgactive == true) then
         if arrow_objective then
             if QuestieTrackedQuests[arrow_objective] then
@@ -145,6 +135,9 @@ local function OnUpdate(self, elapsed)
     elseif UnitIsDeadOrGhost("player") and (UnitIsDead("player") ~= 1) and (bgactive == false) then
         Questie:OnUpdate(elapsed)
     end
+    self = this
+    elapsed = 1/GetFramerate()
+    local dist,x,y
     local dist,x,y = GetDistanceToIcon(active_point)
     -- The only time we cannot calculate the distance is when the waypoint
     -- is on another continent, or we are in an instance
@@ -218,31 +211,6 @@ local function OnUpdate(self, elapsed)
         local yend = ((row + 1) * 42) / 512
         arrow:SetTexCoord(xstart,xend,ystart,yend)
     end
-    -- Calculate the TTA every second  (%01d:%02d)
-    tta_throttle = tta_throttle + elapsed
-    if tta_throttle >= 1.0 then
-        -- Calculate the speed in yards per sec at which we're moving
-        local current_speed = (last_distance - dist) / tta_throttle
-        if last_distance == 0 then
-            current_speed = 0
-        end
-        if speed_count < 2 then
-            speed = (speed + current_speed) / 2
-            speed_count = speed_count + 1
-        else
-            speed_count = 0
-            speed = current_speed
-        end
-        if speed > 0 then
-            local eta = math.abs(dist / speed)
-            local text = string.format("%01d:%02d", eta / 60, Questie:Modulo(eta, 60))
-            tta:SetText(text)
-        else
-            tta:SetText("***")
-        end
-        last_distance = dist
-        tta_throttle = 0
-    end
 end
 
 function ShowHideCrazyArrow()
@@ -308,55 +276,53 @@ end})
 wayframe:RegisterEvent("ADDON_LOADED")
 wayframe:SetScript("OnEvent", function(self, event, arg1, ...)
     if true then
-        if true then
-            local feed_crazy = CreateFrame("Frame")
-            local crazyFeedFrame = CreateFrame("Frame")
-            local throttle = 1
-            local counter = 0
-            crazyFeedFrame:SetScript("OnUpdate", function(self, elapsed)
-                elapsed = 1/GetFramerate()
-                counter = counter + elapsed
-                if counter < throttle then
-                    return
-                end
-                counter = 0
-                local angle = GetDirectionToIcon(active_point)
-                local player = GetPlayerFacing()
-                if not angle or not player then
-                    feed_crazy.iconCoords = texcoords["1:1"]
-                    feed_crazy.iconR = 0.2
-                    feed_crazy.iconG = 1.0
-                    feed_crazy.iconB = 0.2
-                    feed_crazy.text = "No waypoint"
-                    return
-                end
-                angle = angle - player
-                local perc = math.abs((math.pi - math.abs(angle)) / math.pi)
-                local gr,gg,gb = 1, 1, 1
-                local mr,mg,mb = 0.75, 0.75, 0.75
-                local br,bg,bb = 0.5, 0.5, 0.5
-                local tablee = {};
-                table.insert(tablee, gr)
-                table.insert(tablee, gg)
-                table.insert(tablee, gb)
-                table.insert(tablee, mr)
-                table.insert(tablee, mg)
-                table.insert(tablee, mb)
-                table.insert(tablee, br)
-                table.insert(tablee, bg)
-                table.insert(tablee, bb)
-                local r,g,b = ColorGradient(perc, tablee)
-                feed_crazy.iconR = r
-                feed_crazy.iconG = g
-                feed_crazy.iconB = b
-                cell = Questie:Modulo(floor(angle / twopi * 108 + 0.5) ,108)
-                local column = Questie:Modulo(cell, 9)
-                local row = floor(cell / 9)
-                local key = column .. ":" .. row
-                feed_crazy.iconCoords = texcoords[key]
-                feed_crazy.text = point_title or "Unknown waypoint"
-            end)
-        end
+        local feed_crazy = CreateFrame("Frame")
+        local crazyFeedFrame = CreateFrame("Frame")
+        local throttle = 1
+        local counter = 0
+        crazyFeedFrame:SetScript("OnUpdate", function(self, elapsed)
+            elapsed = 1/GetFramerate()
+            counter = counter + elapsed
+            if counter < throttle then
+                return
+            end
+            counter = 0
+            local angle = GetDirectionToIcon(active_point)
+            local player = GetPlayerFacing()
+            if not angle or not player then
+                feed_crazy.iconCoords = texcoords["1:1"]
+                feed_crazy.iconR = 0.2
+                feed_crazy.iconG = 1.0
+                feed_crazy.iconB = 0.2
+                feed_crazy.text = "No waypoint"
+                return
+            end
+            angle = angle - player
+            local perc = math.abs((math.pi - math.abs(angle)) / math.pi)
+            local gr,gg,gb = 1, 1, 1
+            local mr,mg,mb = 0.75, 0.75, 0.75
+            local br,bg,bb = 0.5, 0.5, 0.5
+            local tablee = {};
+            table.insert(tablee, gr)
+            table.insert(tablee, gg)
+            table.insert(tablee, gb)
+            table.insert(tablee, mr)
+            table.insert(tablee, mg)
+            table.insert(tablee, mb)
+            table.insert(tablee, br)
+            table.insert(tablee, bg)
+            table.insert(tablee, bb)
+            local r,g,b = ColorGradient(perc, tablee)
+            feed_crazy.iconR = r
+            feed_crazy.iconG = g
+            feed_crazy.iconB = b
+            cell = Questie:Modulo(floor(angle / twopi * 108 + 0.5) ,108)
+            local column = Questie:Modulo(cell, 9)
+            local row = floor(cell / 9)
+            local key = column .. ":" .. row
+            feed_crazy.iconCoords = texcoords[key]
+            feed_crazy.text = point_title or "Unknown waypoint"
+        end)
     end
 end)
 
