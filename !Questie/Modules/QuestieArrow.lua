@@ -117,6 +117,9 @@ local status = wayframe.status
 local arrow = wayframe.arrow
 local count = 0
 local function OnUpdate(self, elapsed)
+    self = this
+    elapsed = 1/GetFramerate()
+    local dist,x,y
     if not UnitIsDeadOrGhost("player") and (bgactive == true) then
         if arrow_objective then
             if QuestieTrackedQuests[arrow_objective] then
@@ -135,9 +138,6 @@ local function OnUpdate(self, elapsed)
     elseif UnitIsDeadOrGhost("player") and (UnitIsDead("player") ~= 1) and (bgactive == false) then
         Questie:OnUpdate(elapsed)
     end
-    self = this
-    elapsed = 1/GetFramerate()
-    local dist,x,y
     local dist,x,y = GetDistanceToIcon(active_point)
     -- The only time we cannot calculate the distance is when the waypoint
     -- is on another continent, or we are in an instance
@@ -151,7 +151,7 @@ local function OnUpdate(self, elapsed)
     status:SetText(sformat("%d yards", dist))
     local cell
     -- Showing the arrival arrow?
-    if dist <= 5 then
+    if dist <= 2 then
         if not showDownArrow then
             arrow:SetHeight(70)
             arrow:SetWidth(53)

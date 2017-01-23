@@ -483,14 +483,14 @@ function Questie:OnUpdate(elapsed)
             end
         end
     end
-    if UnitIsDeadOrGhost("player") and (UnitIsDead("player") ~= 1) and (bgactive == false) then
-        local bgactive = false
-        for i=1, MAX_BATTLEFIELD_QUEUES do
-            bgstatus = GetBattlefieldStatus(i);
-            if (bgstatus and bgstatus == "active") then
-                bgactive = true
-            end
+    local bgactive = false
+    for i=1, MAX_BATTLEFIELD_QUEUES do
+        bgstatus = GetBattlefieldStatus(i);
+        if (bgstatus and bgstatus == "active") then
+            bgactive = true
         end
+    end
+    if UnitIsDeadOrGhost("player") and (UnitIsDead("player") ~= 1) and (bgactive == false) then
         if (QuestieConfig.corpseArrow == true) then
             if DiedAtX and DiedAtY and DiedAtX ~= 0 and DiedAtY ~= 0 then
                 local ddist, xDelta, yDelta = Astrolabe:ComputeDistance(DiedInCont, DiedInZone, DiedAtX, DiedAtY, continent, zone, xNote, yNote)
