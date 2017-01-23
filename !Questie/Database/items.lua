@@ -20830,10 +20830,9 @@ QuestieItems = {
   },
   ["Neru Fragment"] = {
     ["locations"] = {
-      [1] = {51.0, 0.3474, 0.4596, 100.0},
-      [2] = {51.0, 0.3423, 0.4995, 8.0}
+      [1] = {51.0, 0.365, 0.421, 100.0}
     },
-    ["locationCount"] = 2
+    ["locationCount"] = 1
   },
   ["Martillo de Otembe"] = {
     ["drop"] = {
@@ -31688,10 +31687,9 @@ QuestieItems = {
   },
   ["Golm Fragment"] = {
     ["locations"] = {
-      [1] = {51.0, 0.3451, 0.4727, 100.0},
-      [2] = {51.0, 0.3404, 0.5132, 2.0}
+      [1] = {51.0, 0.352, 0.444, 100.0}
     },
-    ["locationCount"] = 2
+    ["locationCount"] = 1
   },
   ["Diopside Beads of the Physician"] = {
     ["drop"] = {
@@ -51060,10 +51058,9 @@ QuestieItems = {
   },
   ["Modr Fragment"] = {
     ["locations"] = {
-      [1] = {51.0, 0.3385, 0.4631, 100.0},
-      [2] = {51.0, 0.3235, 0.5082, 8.0}
+      [1] = {51.0, 0.344, 0.445, 100.0}
     },
-    ["locationCount"] = 2
+    ["locationCount"] = 1
   },
   ["Some Rune"] = {
     ["locations"] = {
@@ -64470,10 +64467,9 @@ QuestieItems = {
   },
   ["Ados Fragment"] = {
     ["locations"] = {
-      [1] = {51.0, 0.3419, 0.4939, 100.0},
-      [2] = {51.0, 0.3462, 0.4601, 9.0}
+      [1] = {51.0, 0.349, 0.470, 9.0}
     },
-    ["locationCount"] = 2
+    ["locationCount"] = 1
   },
   ["Verzauberte Koralle"] = {
     ["drop"] = {
