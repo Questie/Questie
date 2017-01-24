@@ -1217,8 +1217,12 @@ QuestieLevLookup = {
   ["Bring Ilkrud Magthrull's Tome to Delgren the Purifier at Maestra's Post."]={0,3181993408},
   ["Talk to Delgren the Purifier at Maestra's Post."]={0,3103336192},
   ["Free the trapped Highborne souls in Night Run and Satyrnaar, then return to Delgren the Purifier at Maestra's Post."]={0,2661493280},
-  ["Kill Athrikus Narassin and bring his head to Balthule Shadowstrike near the Tower of Althalaxx."]={0,432732864},
+ },
+ ["The Tower of Althalaxx part 7"]={
   ["Speak with Balthule Shadowstrike near the Tower of Althalaxx."]={0,351455456},
+ },
+ ["The Tower of Althalaxx part 8"]={
+  ["Kill Athrikus Narassin and bring his head to Balthule Shadowstrike near the Tower of Althalaxx."]={0,432732864},
  },
  ["To Ironforge for Yagyin's Digest"]={
   ["Give the Sigil of the Hammer to Gerrig Bonegrip in the Forlorn Cavern of Ironforge."]={77,4210602997},
@@ -20877,7 +20881,7 @@ QuestieHashMap = {
   ['rq']=2153855240
  },
  [432732864]={
-  ['name']="The Tower of Althalaxx",
+  ['name']="The Tower of Althalaxx part 8",
   ['startedType']="monster",
   ['finishedType']="monster",
   ['startedBy']="Balthule Shadowstrike",
@@ -46177,7 +46181,7 @@ QuestieHashMap = {
   ['rq']=3632844778
  },
  [351455456]={
-  ['name']="The Tower of Althalaxx",
+  ['name']="The Tower of Althalaxx part 7",
   ['startedType']="monster",
   ['finishedType']="monster",
   ['startedBy']="Delgren the Purifier",
