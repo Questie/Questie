@@ -108,7 +108,7 @@ function SetArrowObjective(hash)
         return;
     end
     arrow_objective = hash
-    if not QuestieTrackedQuests[hash]["arrowPoint"] then return end
+    if not QuestieTrackedQuests[hash]["arrowPoint"] or not QuestieTrackedQuests[hash] then return end
     local objective = QuestieTrackedQuests[hash]["arrowPoint"]
     SetCrazyArrow(objective, objective.dist, objective.title)
 end
@@ -139,78 +139,80 @@ local function OnUpdate(self, elapsed)
     if UnitIsDeadOrGhost("player") and (UnitIsDead("player") ~= 1) and (bgactive == false) then
         Questie:OnUpdate(elapsed)
     end
-    local dist,x,y = GetDistanceToIcon(active_point)
-    -- The only time we cannot calculate the distance is when the waypoint
-    -- is on another continent, or we are in an instance
-    if not dist or IsInInstance() then
-        if not active_point.x and not active_point.y then
-            active_point = nil
+    if (TomTomCrazyArrow:IsVisible() ~= nil) then
+        local dist,x,y = GetDistanceToIcon(active_point)
+        -- The only time we cannot calculate the distance is when the waypoint
+        -- is on another continent, or we are in an instance
+        if not dist or IsInInstance() then
+            if not active_point.x and not active_point.y then
+                active_point = nil
+            end
+            self:Hide()
+            return
         end
-        self:Hide()
-        return
-    end
-    status:SetText(sformat("%d yards", dist))
-    local cell
-    -- Showing the arrival arrow?
-    if dist <= 5 then
-        if not showDownArrow then
-            arrow:SetHeight(70)
-            arrow:SetWidth(53)
-            arrow:SetTexture("Interface\\AddOns\\!Questie\\Images\\Arrow-UP")
-            arrow:SetVertexColor(0, 1, 0)
-            showDownArrow = true
+        status:SetText(sformat("%d yards", dist))
+        local cell
+        -- Showing the arrival arrow?
+        if dist <= 5 then
+            if not showDownArrow then
+                arrow:SetHeight(70)
+                arrow:SetWidth(53)
+                arrow:SetTexture("Interface\\AddOns\\!Questie\\Images\\Arrow-UP")
+                arrow:SetVertexColor(0, 1, 0)
+                showDownArrow = true
+            end
+            count = count + 1
+            if count >= 55 then
+                count = 0
+            end
+            cell = count
+            local column = Questie:Modulo(cell, 9)
+            local row = floor(cell / 9)
+            local xstart = (column * 53) / 512
+            local ystart = (row * 70) / 512
+            local xend = ((column + 1) * 53) / 512
+            local yend = ((row + 1) * 70) / 512
+            arrow:SetTexCoord(xstart,xend,ystart,yend)
+        else
+            if showDownArrow then
+                arrow:SetHeight(56)
+                arrow:SetWidth(42)
+                arrow:SetTexture("Interface\\AddOns\\!Questie\\Images\\Arrow")
+                showDownArrow = false
+            end
+            local degtemp = GetDirectionToIcon(active_point);
+            if degtemp < 0 then degtemp = degtemp + 360; end
+            local angle = math.rad(degtemp)
+            local player = GetPlayerFacing()
+            angle = angle - player
+            local perc = 1-  math.abs(((math.pi - math.abs(angle)) / math.pi))
+            local gr,gg,gb = 1, 1, 1
+            local mr,mg,mb = 0.75, 0.75, 0.75
+            local br,bg,bb = 0.5, 0.5, 0.5
+            local tablee = {};
+            table.insert(tablee, gr)
+            table.insert(tablee, gg)
+            table.insert(tablee, gb)
+            table.insert(tablee, mr)
+            table.insert(tablee, mg)
+            table.insert(tablee, mb)
+            table.insert(tablee, br)
+            table.insert(tablee, bg)
+            table.insert(tablee, bb)
+            local r,g,b = ColorGradient(perc,tablee)
+            if not g then
+                g = 0;
+            end
+            arrow:SetVertexColor(1-g,-1+g*2,0)
+            cell = Questie:Modulo(floor(angle / twopi * 108 + 0.5), 108);
+            local column = Questie:Modulo(cell, 9)
+            local row = floor(cell / 9)
+            local xstart = (column * 56) / 512
+            local ystart = (row * 42) / 512
+            local xend = ((column + 1) * 56) / 512
+            local yend = ((row + 1) * 42) / 512
+            arrow:SetTexCoord(xstart,xend,ystart,yend)
         end
-        count = count + 1
-        if count >= 55 then
-            count = 0
-        end
-        cell = count
-        local column = Questie:Modulo(cell, 9)
-        local row = floor(cell / 9)
-        local xstart = (column * 53) / 512
-        local ystart = (row * 70) / 512
-        local xend = ((column + 1) * 53) / 512
-        local yend = ((row + 1) * 70) / 512
-        arrow:SetTexCoord(xstart,xend,ystart,yend)
-    else
-        if showDownArrow then
-            arrow:SetHeight(56)
-            arrow:SetWidth(42)
-            arrow:SetTexture("Interface\\AddOns\\!Questie\\Images\\Arrow")
-            showDownArrow = false
-        end
-        local degtemp = GetDirectionToIcon(active_point);
-        if degtemp < 0 then degtemp = degtemp + 360; end
-        local angle = math.rad(degtemp)
-        local player = GetPlayerFacing()
-        angle = angle - player
-        local perc = 1-  math.abs(((math.pi - math.abs(angle)) / math.pi))
-        local gr,gg,gb = 1, 1, 1
-        local mr,mg,mb = 0.75, 0.75, 0.75
-        local br,bg,bb = 0.5, 0.5, 0.5
-        local tablee = {};
-        table.insert(tablee, gr)
-        table.insert(tablee, gg)
-        table.insert(tablee, gb)
-        table.insert(tablee, mr)
-        table.insert(tablee, mg)
-        table.insert(tablee, mb)
-        table.insert(tablee, br)
-        table.insert(tablee, bg)
-        table.insert(tablee, bb)
-        local r,g,b = ColorGradient(perc,tablee)
-        if not g then
-            g = 0;
-        end
-        arrow:SetVertexColor(1-g,-1+g*2,0)
-        cell = Questie:Modulo(floor(angle / twopi * 108 + 0.5), 108);
-        local column = Questie:Modulo(cell, 9)
-        local row = floor(cell / 9)
-        local xstart = (column * 56) / 512
-        local ystart = (row * 42) / 512
-        local xend = ((column + 1) * 56) / 512
-        local yend = ((row + 1) * 42) / 512
-        arrow:SetTexCoord(xstart,xend,ystart,yend)
     end
 end
 
@@ -270,58 +272,58 @@ local texcoords = setmetatable({}, {__index = function(t, k)
 end})
 
 wayframe:RegisterEvent("ADDON_LOADED")
+local runonce = true
 wayframe:SetScript("OnEvent", function(self, event, arg1, ...)
-    if true then
-        if true then
-            local feed_crazy = CreateFrame("Frame")
-            local crazyFeedFrame = CreateFrame("Frame")
-            local throttle = 1
-            local counter = 0
-            crazyFeedFrame:SetScript("OnUpdate", function(self, elapsed)
-                elapsed = 1/GetFramerate()
-                counter = counter + elapsed
-                if counter < throttle then
-                    return
-                end
-                counter = 0
-                local angle = GetDirectionToIcon(active_point)
-                local player = GetPlayerFacing()
-                if not angle or not player then
-                    feed_crazy.iconCoords = texcoords["1:1"]
-                    feed_crazy.iconR = 0.2
-                    feed_crazy.iconG = 1.0
-                    feed_crazy.iconB = 0.2
-                    feed_crazy.text = "No waypoint"
-                    return
-                end
-                angle = angle - player
-                local perc = math.abs((math.pi - math.abs(angle)) / math.pi)
-                local gr,gg,gb = 1, 1, 1
-                local mr,mg,mb = 0.75, 0.75, 0.75
-                local br,bg,bb = 0.5, 0.5, 0.5
-                local tablee = {};
-                table.insert(tablee, gr)
-                table.insert(tablee, gg)
-                table.insert(tablee, gb)
-                table.insert(tablee, mr)
-                table.insert(tablee, mg)
-                table.insert(tablee, mb)
-                table.insert(tablee, br)
-                table.insert(tablee, bg)
-                table.insert(tablee, bb)
-                local r,g,b = ColorGradient(perc, tablee)
-                feed_crazy.iconR = r
-                feed_crazy.iconG = g
-                feed_crazy.iconB = b
-                cell = Questie:Modulo(floor(angle / twopi * 108 + 0.5) ,108)
-                local column = Questie:Modulo(cell, 9)
-                local row = floor(cell / 9)
-                local key = column .. ":" .. row
-                feed_crazy.iconCoords = texcoords[key]
-                feed_crazy.text = point_title or "Unknown waypoint"
-            end)
-        end
+    if runonce == true then
+        local feed_crazy = CreateFrame("Frame")
+        local crazyFeedFrame = CreateFrame("Frame")
+        local throttle = 1
+        local counter = 0
+        crazyFeedFrame:SetScript("OnUpdate", function(self, elapsed)
+            elapsed = 1/GetFramerate()
+            counter = counter + elapsed
+            if counter < throttle then
+                return
+            end
+            counter = 0
+            local angle = GetDirectionToIcon(active_point)
+            local player = GetPlayerFacing()
+            if not angle or not player then
+                feed_crazy.iconCoords = texcoords["1:1"]
+                feed_crazy.iconR = 0.2
+                feed_crazy.iconG = 1.0
+                feed_crazy.iconB = 0.2
+                feed_crazy.text = "No waypoint"
+                return
+            end
+            angle = angle - player
+            local perc = math.abs((math.pi - math.abs(angle)) / math.pi)
+            local gr,gg,gb = 1, 1, 1
+            local mr,mg,mb = 0.75, 0.75, 0.75
+            local br,bg,bb = 0.5, 0.5, 0.5
+            local tablee = {};
+            table.insert(tablee, gr)
+            table.insert(tablee, gg)
+            table.insert(tablee, gb)
+            table.insert(tablee, mr)
+            table.insert(tablee, mg)
+            table.insert(tablee, mb)
+            table.insert(tablee, br)
+            table.insert(tablee, bg)
+            table.insert(tablee, bb)
+            local r,g,b = ColorGradient(perc, tablee)
+            feed_crazy.iconR = r
+            feed_crazy.iconG = g
+            feed_crazy.iconB = b
+            cell = Questie:Modulo(floor(angle / twopi * 108 + 0.5) ,108)
+            local column = Questie:Modulo(cell, 9)
+            local row = floor(cell / 9)
+            local key = column .. ":" .. row
+            feed_crazy.iconCoords = texcoords[key]
+            feed_crazy.text = point_title or "Unknown waypoint"
+        end)
     end
+    runonce = false
 end)
 
 -- calculations have to be redone - we are NOT actually working with Astrolabe "icons" here as TomTom did and want the arrow API

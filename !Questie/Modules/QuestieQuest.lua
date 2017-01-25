@@ -23,7 +23,9 @@ local QExpand_QuestHeader = ExpandQuestHeader;
 -- Finishes a quest and performs a recrusive check to make sure all the required quests that come
 -- before it are also finsihed and recorded in the players QuestieSeenQuests. It will also clear
 -- any redundant quest tracking data and make sure a quest that is in a players log isn't
--- accidently marked finished.
+-- accidently marked finished. When ever this function is run it will also remove invalid tracker
+-- data when it doesn't find a matching hash in the QuestieSeenQuests table. This sometimes
+-- happens when a player starts a quest chain.
 ---------------------------------------------------------------------------------------------------
 function Questie:finishAndRecurse(questhash)
     if (QuestieSeenQuests[questhash] == 1) then
@@ -49,6 +51,13 @@ function Questie:finishAndRecurse(questhash)
         if req then
             Questie:finishAndRecurse(req);
         end
+    end
+    local index = 0
+    for i,v in pairs(QuestieTrackedQuests) do
+        if QuestieSeenQuests[i] ~= QuestieTrackedQuests[i] then
+            QuestieTrackedQuests[i] = nil
+        end
+        index = index + 1
     end
 end
 ---------------------------------------------------------------------------------------------------
@@ -151,10 +160,12 @@ function Questie:CheckQuestLog()
     checkArray = nil;
     BiggestTable = nil;
     delta = nil;
+--[[
     if(MapChanged == true) then
         Questie:SetAvailableQuests();
         Questie:RedrawNotes();
     end
+]]
     LastQuestLogHashes = Quests;
     LastQuestLogCount = QuestsCount;
     if(MapChanged == true) then
@@ -266,11 +277,13 @@ function Questie:UpdateQuestInZone(Zone, force)
                     QuestieTracker:updateFrameOnTracker(hash, i, level)
                 end
                 QuestieTracker:fillTrackingFrame()
+                --DEFAULT_CHAT_FRAME:AddMessage("1: UpdateQuestInZone --> fillTrackingFrame")
             elseif foundChange and QuestieConfig.trackerEnabled == true then
                 if (QuestieTrackedQuests[hash]) then
                     QuestieTracker:updateFrameOnTracker(hash, i, level)
                 end
                 QuestieTracker:fillTrackingFrame()
+                --DEFAULT_CHAT_FRAME:AddMessage("2: UpdateQuestInZone --> fillTrackingFrame")
             end
         end
         if(foundChange and not force) then

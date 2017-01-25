@@ -55544,7 +55544,6 @@ for k,v in pairs(QuestieHashMap) do
             end
             table.insert(QuestieZoneLevelMap[mapid][v['level']], k);
         else
-            --DEFAULT_CHAT_FRAME:AddMessage("Could not find starter for ".. v['name']);
         end
     end
 end

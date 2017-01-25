@@ -1,20 +1,48 @@
 -------------------------------------------------------------------------------------------------------------------------------
+v3.69
+
+* I found a small bug with the QuestieTrackedQuests functions. Some
+  of the DB entries were being left behind. Added an additional logic
+  check to make sure both DB's stay clean and trim.
+* More performance tweaks! I think I tracked down two of the biggest
+  performance offenders and trottled them to make sure they only fire
+  when absolutly needed. Tons of other functions were traced and
+  duplicate, unnessary calls to the same functions have been removed
+  or significantly reduced in frequency. I'm hoping you performance
+  nuts will be impressed. :)
+* With the performance tweaks came an idea on how to re-impliment an
+  old feature that everyone seemed to love. As you know I readded the
+  QuestieTracker background and gave you all the ability to adjust is
+  transparency level. It came back with the "fixed width". Now this
+  width is dynamically adjusted based on the widest quest that is
+  being tracked. The update is tied into QuestLog updates so it only
+  fires when it's absolutly needed. So memory impact is extreamly low.
+* A few minor bug fixes here and there. I discovered a few nil errors
+  after moving some of the functions around. Mostly triggered by a
+  fresh character or a fresh install of Questie. Hopefully I got them
+  all. Please report any bugs you find. My evening test run was cut
+  short by the server maintenance. I didn't want to wait until
+  tomorrow to push out this release.
+
+-------------------------------------------------------------------------------------------------------------------------------
 v3.68
 
-* Fixed an issue with CorpseArrow. Thank you for the help Muehe! Occationally
-  your CorpseArrow would not show correct distence or direction after dying in
-  an instance and appearing at a grave yard.
-* Fixed an issue with CorpseArrow not being hidden correctly in BattleGrounds.
-  I missed a logic check that in some cases would cause the arrow to appear.
-* The QuestTracker now has a "Minimize" feature. You can either use the slash
-  command "/questie mintracker" **OR** you can click on the "QuestLog Status..."
-  header I.E. 'QuestieTracker Header' AKA:the "/questie header" slash toggle to
-  Minimize or Maximize the Tracker. This ONLY works when the optional Questie
-  Tracker Header is enabled.
-* While questing on some of my toons I still noticed some stale entries in both
-  QuestieTrackedQuests and QuestieSeenQuests DB's. I spent some time going back
-  thorugh the Quest pick up and finisher functions and made some tweaks that I'm
-  hoping will keep things trimmed and organized.
+* Fixed an issue with CorpseArrow. Thank you for the help Muehe!
+  Occationally your CorpseArrow would not show correct distence or
+  direction after dying in an instance and appearing at a grave yard.
+* Fixed an issue with CorpseArrow not being hidden correctly in
+  BattleGrounds. I missed a logic check that in some cases would cause
+  the arrow to appear.
+* The QuestTracker now has a "Minimize" feature. You can either use
+  the slash command "/questie mintracker" **OR** you can click on the
+  "QuestLog Status..." header I.E. 'QuestieTracker Header' AKA:the
+  "/questie header" slash toggle to Minimize or Maximize the Tracker.
+  This ONLY works when the optional QuestieTracker Header is enabled.
+* While questing on some of my toons I still noticed some stale
+  entries in both QuestieTrackedQuests and QuestieSeenQuests DB's. I
+  spent some time going back thorugh the Quest pick up and finisher
+  functions and made some tweaks that I'm hoping will keep things
+  trimmed and organized.
 
 -------------------------------------------------------------------------------------------------------------------------------
 v3.67

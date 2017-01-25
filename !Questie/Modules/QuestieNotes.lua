@@ -226,13 +226,11 @@ function Questie:hookTooltipLineCheck()
         if oh then
             oh(self, arg);
     end
-        --DEFAULT_CHAT_FRAME:AddMessage("ClearLinesHook " .. GetTime());
         __TT_LineCache = {};
     end);
     GameTooltip.AddLine_orig = GameTooltip.AddLine;
     GameTooltip.AddLine = function(self, line, r, g, b, wrap)
         GameTooltip:AddLine_orig(line, r, g, b, wrap);
-        --DEFAULT_CHAT_FRAME:AddMessage("AddLineHook " .. line);
         if (line) then
             __TT_LineCache[line] = true;
         end
@@ -814,23 +812,23 @@ function Questie:SetAvailableQuests()
         quests = Questie:GetAvailableQuestHashes(mapFileName,0,level);
     end
     if quests then
-    -- Monsters
-    for k, v in pairs(quests) do
-        if(QuestieHashMap[v] and QuestieHashMap[v]['startedBy'] and QuestieMonsters[QuestieHashMap[v]['startedBy']]) then
-            Monster = QuestieMonsters[QuestieHashMap[v]['startedBy']]['locations'][1]
-            local MapInfo = Questie:GetMapInfoFromID(Monster[1]);
-            Questie:AddAvailableNoteToMap(c,z,Monster[2],Monster[3],"available",v,-1);
+        -- Monsters
+        for k, v in pairs(quests) do
+            if(QuestieHashMap[v] and QuestieHashMap[v]['startedBy'] and QuestieMonsters[QuestieHashMap[v]['startedBy']]) then
+                Monster = QuestieMonsters[QuestieHashMap[v]['startedBy']]['locations'][1]
+                local MapInfo = Questie:GetMapInfoFromID(Monster[1]);
+                Questie:AddAvailableNoteToMap(c,z,Monster[2],Monster[3],"available",v,-1);
+            end
         end
-    end
-    -- Objects
-    for k, v in pairs(quests) do
-        if(QuestieHashMap[v] and QuestieHashMap[v]['startedBy'] and QuestieObjects[QuestieHashMap[v]['startedBy']]) then
-            Objects = QuestieObjects[QuestieHashMap[v]['startedBy']]['locations'][1]
-            local MapInfo = Questie:GetMapInfoFromID(Objects[1]);
-            Questie:AddAvailableNoteToMap(c,z,Objects[2],Objects[3],"available",v,-1);
+        -- Objects
+        for k, v in pairs(quests) do
+            if(QuestieHashMap[v] and QuestieHashMap[v]['startedBy'] and QuestieObjects[QuestieHashMap[v]['startedBy']]) then
+                Objects = QuestieObjects[QuestieHashMap[v]['startedBy']]['locations'][1]
+                local MapInfo = Questie:GetMapInfoFromID(Objects[1]);
+                Questie:AddAvailableNoteToMap(c,z,Objects[2],Objects[3],"available",v,-1);
+            end
         end
-    end
-    Questie:debug_Print("Added Available quests: Time:",tostring((GetTime()- t)*1000).."ms", "Count:"..table.getn(quests))
+        Questie:debug_Print("Added Available quests: Time:",tostring((GetTime()- t)*1000).."ms", "Count:"..table.getn(quests))
     end
 end
 ---------------------------------------------------------------------------------------------------
@@ -860,6 +858,7 @@ end
 -- QuestieUsedNotesFrame to new table;
 ---------------------------------------------------------------------------------------------------
 function Questie:CLEAR_ALL_NOTES()
+    --DEFAULT_CHAT_FRAME:AddMessage("Clearing map notes!")
     Questie:debug_Print("CLEAR_NOTES");
     Astrolabe:RemoveAllMinimapIcons();
     questsByFrameAndPosition = {};
@@ -875,12 +874,13 @@ end
 -- Checks first if there are any notes for the current zone, then draws the desired icon
 ---------------------------------------------------------------------------------------------------
 function Questie:DRAW_NOTES()
+    --DEFAULT_CHAT_FRAME:AddMessage("Drawing map notes!")
     local c, z = GetCurrentMapContinent(), GetCurrentMapZone();
     Questie:debug_Print("DRAW_NOTES");
     if(QuestieMapNotes[c] and QuestieMapNotes[c][z]) then
         for k, v in pairs(QuestieMapNotes[c][z]) do
             --If an available quest isn't in the zone or we aren't tracking a quest on the QuestTracker then hide the objectives from the minimap
-            if not QuestieConfig.hideMinimapIcons and (QuestieConfig.alwaysShowQuests == false) and (MMLastX ~= 0 and MMLastY ~= 0) and (((QuestieTrackedQuests[v.questHash] ~= nil) and (QuestieTrackedQuests[v.questHash]["tracked"] ~= false)) or (v.icontype == "complete")) then
+            if ( (not QuestieConfig.hideMinimapIcons) or (QuestieConfig.alwaysShowQuests == false) ) and ((MMLastX ~= 0) and (MMLastY ~= 0)) and (QuestieTrackedQuests[v.questHash] ~= nil) and (QuestieTrackedQuests[v.questHash]["tracked"] ~= false) or (v.icontype == "complete") or (v.icontype == "available") then
                 MMIcon = Questie:GetBlankNoteFrame();
                 Questie:SetFrameNoteData(MMIcon, v, Minimap, 9, "MiniMapNote", QUESTIE_NOTES_MINIMAP_ICON_SCALE)
                 --Sets highlight texture (Nothing stops us from doing this on the worldmap aswell)
