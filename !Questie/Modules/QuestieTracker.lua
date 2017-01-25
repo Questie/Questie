@@ -124,6 +124,7 @@ function QuestieTracker:updateTrackingFrameSize()
             QuestieTracker.frame.texture:SetAlpha(QuestieConfig.trackerAlpha);
         end
     end
+    --DEFAULT_CHAT_FRAME:AddMessage("updateTrackingFrameSize --> finished")
 end
 ---------------------------------------------------------------------------------------------------
 -- Color quest objective scheme for quest tracker color option 2
@@ -689,6 +690,7 @@ function QuestieTracker:fillTrackingFrame()
             QuestieTracker.frame:Hide()
         end
     end
+    Questie:AddEvent("TRACKING", .01);
 end
 ---------------------------------------------------------------------------------------------------
 -- Creates a blank quest tracking frame and sets up the optional haeder

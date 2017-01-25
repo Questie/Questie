@@ -475,6 +475,10 @@ function Questie:OnUpdate(elapsed)
                 Questie:CheckQuestLog();
                 table.remove(QUESTIE_EVENTQUEUE, 1);
                 break;
+            elseif(v.EVENT == "TRACKING" and GetTime() - v.TIME > v.DELAY) then
+                QuestieTracker:updateTrackingFrameSize()
+                table.remove(QUESTIE_EVENTQUEUE, 1);
+                break;
             end
         end
     end
