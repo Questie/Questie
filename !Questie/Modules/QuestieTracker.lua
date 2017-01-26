@@ -71,7 +71,7 @@ local QGet_QuestLogTitle = GetQuestLogTitle;
 local QGet_NumQuestLeaderBoards = GetNumQuestLeaderBoards;
 local QGet_QuestLogLeaderBoard = GetQuestLogLeaderBoard;
 ---------------------------------------------------------------------------------------------------
--- Calculates QuestieTracker Height
+-- Automatically Calculates QuestieTracker Height and Width
 ---------------------------------------------------------------------------------------------------
 function QuestieTracker:updateTrackingFrameSize()
     if (QuestieConfig.trackerBackground == true) then
@@ -596,14 +596,13 @@ function QuestieTracker:fillTrackingFrame()
             d:Hide();
             index = index + 1;
         end
-        QuestieTracker:updateTrackingFrameSize()
         if (QuestieConfig.trackerEnabled == true) then
             if (QuestieConfig.trackerMinimize == false) then
                 QuestieTracker.frame:Show();
             end
         else
-            QuestieTracker:Hide()
-            QuestieTracker.frame:Hide()
+            QuestieTracker:Hide();
+            QuestieTracker.frame:Hide();
         end
     else
         for i,v in pairs(sortedByDistance) do
@@ -680,7 +679,6 @@ function QuestieTracker:fillTrackingFrame()
             d:Hide();
             index = index + 1;
         end
-        QuestieTracker:updateTrackingFrameSize()
         if (QuestieConfig.trackerEnabled == true) then
             if (QuestieConfig.trackerMinimize == false) then
                 QuestieTracker.frame:Show();
@@ -690,7 +688,10 @@ function QuestieTracker:fillTrackingFrame()
             QuestieTracker.frame:Hide()
         end
     end
-    Questie:AddEvent("TRACKING", .01);
+    if (QuestieConfig.trackerEnabled == true) and (QuestieConfig.trackerMinimize == false) then
+        QuestieTracker.MaxButtonWidths = {};
+        Questie:AddEvent("TRACKER", 0.02);
+    end
 end
 ---------------------------------------------------------------------------------------------------
 -- Creates a blank quest tracking frame and sets up the optional haeder
@@ -722,7 +723,7 @@ function QuestieTracker:createTrackingFrame()
         QuestieTracker:saveFramePosition();
     end);
     -- QuestTracker Header Button
-    if (QuestieConfig.trackerList == true) then
+    if (QuestieConfig.trackerList == true) and (QuestieConfig.showTrackerHeader == true) then
         local header = CreateFrame("Button", "QuestieTrackerHeader", UIParent);
         watcher = header:CreateFontString(nil, "OVERLAY", "GameFontNormal")
         watcher:SetPoint("BOTTOMLEFT", QuestieTracker.frame, "BOTTOMLEFT", 10, 8)
@@ -747,7 +748,7 @@ function QuestieTracker:createTrackingFrame()
             end
         end);
         QuestieTrackerHeader:Hide();
-    elseif (QuestieConfig.trackerList == false) then
+    elseif (QuestieConfig.trackerList == false) and (QuestieConfig.showTrackerHeader == true) then
         local header = CreateFrame("Button", "QuestieTrackerHeader", UIParent);
         watcher = header:CreateFontString(nil, "OVERLAY", "GameFontNormal")
         watcher:SetPoint("TOPLEFT", QuestieTracker.frame, "TOPLEFT", 6, -8)
@@ -983,7 +984,7 @@ function QuestieTracker:addQuestToTracker(hash, logId, level)
         logId = Questie:GetQuestIdFromHash(hash)
     end
     if logId == nil then
-        DEFAULT_CHAT_FRAME:AddMessage("TrackerError! LogId still nil after GetQuestIdFromHash ", hash)
+        --DEFAULT_CHAT_FRAME:AddMessage("TrackerError! LogId still nil after GetQuestIdFromHash ", hash)
         return
     end
     local questName, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(logId)
@@ -1032,6 +1033,7 @@ function QuestieTracker:addQuestToTracker(hash, logId, level)
     Questie:RedrawNotes()
     QuestieTracker:fillTrackingFrame()
     --DEFAULT_CHAT_FRAME:AddMessage("addQuestToTracker --> fillTrackingFrame")
+    if QuestieTrackedQuests[hash] == nil then return end
     if QuestieTrackedQuests[hash]["objective1"] then
         if (QuestieTrackedQuests[hash]["objective1"]["done"] ~= true) or (QuestieTrackedQuests[hash]["objective1"]["done"] ~= 1) or (QuestieTrackedQuests[hash]["objective1"]["type"] == nil) or (not QuestieTrackedQuests[hash]["arrowPoint"])then
             QuestieTracker:updateFrameOnTracker(hash, logId, level)
@@ -1055,7 +1057,7 @@ function QuestieTracker:updateFrameOnTracker(hash, logId, level)
         logId = Questie:GetQuestIdFromHash(hash)
     end
     if logId == nil then
-        DEFAULT_CHAT_FRAME:AddMessage("TrackerError! LogId still nil after GetQuestIdFromHash ", hash)
+        --DEFAULT_CHAT_FRAME:AddMessage("TrackerError! LogId still nil after GetQuestIdFromHash ", hash)
         return
     end
     local questName, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(logId)
@@ -1088,14 +1090,15 @@ function QuestieTracker:removeQuestFromTracker(hash)
             TomTomCrazyArrow:Hide()
         end
     end
-    local index = 0
     QuestieTracker:fillTrackingFrame()
     --DEFAULT_CHAT_FRAME:AddMessage("removeQuestFromTracker --> fillTrackingFrame")
     Questie:SetAvailableQuests()
     Questie:RedrawNotes()
     if (QuestieTracker.highestIndex) == 0 then
-        QuestieTrackerHeader:Hide()
         QuestieTracker.frame:Hide()
+        if (QuestieConfig.showTrackerHeader == true) then
+            QuestieTrackerHeader:Hide()
+        end
     end
 end
 ---------------------------------------------------------------------------------------------------

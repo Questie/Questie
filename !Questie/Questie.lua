@@ -158,10 +158,16 @@ function Questie:CheckDefaults()
     -- the same Saved Varibles file. This check will delete the Questie Saved Varibles file to prevent
     -- any quest issues for the new character.
     if UnitLevel("player") == 1 then
+        local i = 0;
         for i,v in pairs(QuestieSeenQuests) do
-            if (v == 0) or (v == -1) or (v == 1) then
-                Questie:NUKE("newcharacter");
+            if (i < 3) then
+                i = i + 1;
+            else
+                break;
             end
+        end
+        if i > 2 then
+            Questie:NUKE("newcharacter");
         end
     end
     -- Sets some EQL3 settings to keep it from conflicting with Questie fetures
@@ -373,7 +379,7 @@ function Questie:OnLoad()
         if (TomTomCrazyArrow:IsVisible() ~= nil) and (arrow_objective == hash) then
             TomTomCrazyArrow:Hide()
         end
-        Questie:AddEvent("CHECKLOG", 0.135);
+        --Questie:AddEvent("CHECKLOG", 0.135);
         QuestAbandonOnAccept();
     end
     QuestAbandonWithItemsOnAccept = StaticPopupDialogs["ABANDON_QUEST_WITH_ITEMS"].OnAccept;
@@ -391,7 +397,7 @@ function Questie:OnLoad()
         if (TomTomCrazyArrow:IsVisible() ~= nil) and (arrow_objective == hash) then
             TomTomCrazyArrow:Hide()
         end
-        Questie:AddEvent("CHECKLOG", 0.135);
+        --Questie:AddEvent("CHECKLOG", 0.135);
         QuestAbandonWithItemsOnAccept();
     end
     QuestRewardCompleteButton = QuestRewardCompleteButton_OnClick;
@@ -475,7 +481,7 @@ function Questie:OnUpdate(elapsed)
                 Questie:CheckQuestLog();
                 table.remove(QUESTIE_EVENTQUEUE, 1);
                 break;
-            elseif(v.EVENT == "TRACKING" and GetTime() - v.TIME > v.DELAY) then
+            elseif(v.EVENT == "TRACKER" and GetTime() - v.TIME > v.DELAY) then
                 QuestieTracker:updateTrackingFrameSize()
                 table.remove(QUESTIE_EVENTQUEUE, 1);
                 break;
@@ -830,7 +836,7 @@ QuestieFastSlash = {
     end,
     ["header"] = function()
     -- Default: False
-        if (QuestieConfig.trackerList == false) and (QuestieConfig.showTrackerHeader == false) then
+        if (QuestieConfig.showTrackerHeader == false) then
             StaticPopupDialogs["TRACKER_HEADER_F"] = {
                 text = "|cFFFFFF00Due to the way the QuestTracker frame is rendered, your UI will automatically be reloaded.|n|nAre you sure you want to continue?|r",
                 button1 = TEXT(YES),
@@ -845,7 +851,7 @@ QuestieFastSlash = {
             }
             StaticPopup_Show ("TRACKER_HEADER_F")
         end
-        if (QuestieConfig.trackerList == false) and (QuestieConfig.showTrackerHeader == true) then
+        if (QuestieConfig.showTrackerHeader == true) then
             StaticPopupDialogs["TRACKER_HEADER_T"] = {
                 text = "|cFFFFFF00Due to the way the QuestTracker frame is rendered, your UI will automatically be reloaded.|n|nAre you sure you want to continue?|r",
                 button1 = TEXT(YES),
@@ -859,16 +865,6 @@ QuestieFastSlash = {
                 hideOnEscape = 1
             }
             StaticPopup_Show ("TRACKER_HEADER_T")
-        end
-        if (QuestieConfig.trackerList == true) then
-            QuestieConfig.showTrackerHeader = not QuestieConfig.showTrackerHeader;
-            if QuestieConfig.showTrackerHeader then
-                DEFAULT_CHAT_FRAME:AddMessage("Quest Tracker Header will now be shown");
-                QuestieTrackerHeader:Show();
-            else
-                DEFAULT_CHAT_FRAME:AddMessage("Quest Tracker Header will now be hidden");
-                QuestieTrackerHeader:Hide();
-            end
         end
     end,
     ["qtscale"] = function(arg)

@@ -542,7 +542,7 @@ function Questie_Tooltip_OnEnter()
             Tooltip:AddLine("!DEBUG!", 1, 0, 0);
             Tooltip:AddLine("QuestID: "..this.data.questHash, 1, 0, 0);
         end
-        Tooltip:SetFrameLevel(11);
+        Tooltip:SetFrameStrata("TOOLTIP");
         Tooltip:Show();
     end
 end

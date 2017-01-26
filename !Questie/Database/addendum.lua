@@ -13697,7 +13697,7 @@ QuestieHashMap = {
   ['finishedType']="monster",
   ['startedBy']="Felix Whindlebolt",
   ['finishedBy']="Felix Whindlebolt",
-  ['level']=3,
+  ['level']=2,
   ['questLevel']='3',
   ['rr']=77
  },
