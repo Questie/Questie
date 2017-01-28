@@ -905,6 +905,39 @@ function Cluster.CalculateLinkageDistance(cluster1, cluster2)
     return total / (table.getn(cluster1) * table.getn(cluster2))
 end
 
+function Cluster:CalculateClusters(clusters, distanceThreshold, maxClusterSize)
+    while table.getn(clusters) > 1 do
+        local nearest1
+        local nearest2
+        local nearestDistance
+        for i, cluster in pairs(clusters) do
+            for j, otherCluster in pairs(clusters) do
+                if cluster ~= otherCluster then
+                    local distance = Cluster.CalculateLinkageDistance(cluster.points, otherCluster.points)
+                    if ((nearestDistance == nil) or (distance < nearestDistance)) and (table.getn(cluster.points) + table.getn(otherCluster.points) <= maxClusterSize or distance == 0) then
+                        nearestDistance = distance
+                        nearest1 = cluster
+                        nearest2 = otherCluster
+                    end
+                end
+            end
+        end
+
+        if nearestDistance == nil or nearestDistance > distanceThreshold then break end
+        local index1 = indexOf(clusters, nearest1)
+        table.remove(clusters, index1)
+        local index2 = indexOf(clusters, nearest2)
+        table.remove(clusters, index2)
+
+        local points = nearest1.points
+        for i, point in pairs(nearest2.points) do
+            table.insert(points, point)
+        end
+        local newCluster = Cluster.new(points)
+        table.insert(clusters, newCluster)
+    end
+end
+
 function Questie:AddClusterFromNote(frame, v)
     if clustersByFrame == nil then
         clustersByFrame = {}
@@ -1038,45 +1071,13 @@ function Questie:DRAW_NOTES()
         end
     end
 
-    Questie:CalculateClusters("WorldMapNote", 0.025, 5)
-    Questie:CalculateClusters("MiniMapNote", 0, 5) -- maxClusterSize is irrelevant if distanceThreshold is set to 0, because items with a distance of 0 are always clustered.
+    local worldMapClusters = Questie:GetClustersByFrame("WorldMapNote")
+    Cluster:CalculateClusters(worldMapClusters, 0.025, 5)
+    local minimapClusters = Questie:GetClustersByFrame("WorldMapNote")
+    Cluster:CalculateClusters(minimapClusters, 0, 5) -- maxClusterSize is irrelevant if distanceThreshold is set to 0, because items with a distance of 0 are always clustered.
 
     Questie:DrawClusters("WorldMapNote", WorldMapFrame, WorldMapButton)
     Questie:DrawClusters("MiniMapNote", Minimap)
-end
-
-function Questie:CalculateClusters(frame, distanceThreshold, maxClusterSize)
-    local clusters = Questie:GetClustersByFrame(frame)
-    while table.getn(clusters) > 1 do
-        local nearest1
-        local nearest2
-        local nearestDistance
-        for i, cluster in pairs(clusters) do
-            for j, otherCluster in pairs(clusters) do
-                if cluster ~= otherCluster then
-                    local distance = Cluster.CalculateLinkageDistance(cluster.points, otherCluster.points)
-                    if ((nearestDistance == nil) or (distance < nearestDistance)) and (table.getn(cluster.points) + table.getn(otherCluster.points) <= maxClusterSize or distance == 0) then
-                        nearestDistance = distance
-                        nearest1 = cluster
-                        nearest2 = otherCluster
-                    end
-                end
-            end
-        end
-
-        if nearestDistance == nil or nearestDistance > distanceThreshold then break end
-        local index1 = indexOf(clusters, nearest1)
-        table.remove(clusters, index1)
-        local index2 = indexOf(clusters, nearest2)
-        table.remove(clusters, index2)
-
-        local points = nearest1.points
-        for i, point in pairs(nearest2.points) do
-            table.insert(points, point)
-        end
-        local newCluster = Cluster.new(points)
-        table.insert(clusters, newCluster)
-    end
 end
 
 function Questie:DrawClusters(frameName, frame, button)
@@ -1086,7 +1087,8 @@ function Questie:DrawClusters(frameName, frame, button)
         frameLevel = 7
         scale = QUESTIE_NOTES_MINIMAP_ICON_SCALE
     end
-    for i, cluster in pairs(clustersByFrame[frameName]) do
+    local clusters = Questie:GetClustersByFrame(frameName)
+    for i, cluster in pairs(clusters) do
         Icon = Questie:GetBlankNoteFrame()
         local mainV = cluster.points[1]
         for j, v in pairs(cluster.points) do
