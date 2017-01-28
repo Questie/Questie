@@ -741,12 +741,13 @@ function Questie:AddFrameNoteData(icon, data)
             icon.averageX = 0
             icon.averageY = 0
         end
-        local numQuests = table.getn(icon.quests)
-        local newAverageX = (icon.averageX * numQuests + data.x) / (numQuests + 1)
-        local newAverageY = (icon.averageY * numQuests + data.y) / (numQuests + 1)
-        icon.averageX = newAverageX
-        icon.averageY = newAverageY
+		local numQuests = table.getn(icon.quests)
+		local newAverageX = (icon.averageX * numQuests + data.x) / (numQuests + 1)
+		local newAverageY = (icon.averageY * numQuests + data.y) / (numQuests + 1)
+		icon.averageX = newAverageX
+		icon.averageY = newAverageY
         table.insert(icon.quests, data)
+        Astrolabe:PlaceIconOnWorldMap(WorldMapButton,icon,data.continent ,data.zoneid ,icon.averageX, icon.averageY)
     end
 end
 
@@ -877,123 +878,42 @@ function Questie:CLEAR_ALL_NOTES()
     QuestieUsedNoteFrames = {};
 end
 ---------------------------------------------------------------------------------------------------
--- Logic for clusters
+-- Rounds numbers. don't know where to put this function
 ---------------------------------------------------------------------------------------------------
-local Cluster = {}
-Cluster.__index = Cluster
-
-function Cluster.new(points)
-    local self = setmetatable({}, Cluster)
-    self.points = points
-    return self
-end
-
-function Cluster.CalculateDistance(x1, y1, x2, y2)
-    local deltaX = x1 - x2
-    local deltaY = y1 - y2
-    return sqrt(deltaX*deltaX + deltaY*deltaY)
-end
-
-function Cluster.CalculateLinkageDistance(cluster1, cluster2)
-    local total = 0
-    for i, pi in cluster1 do
-        for j, pj in cluster2 do
-            local distance = Cluster.CalculateDistance(pi.x, pi.y, pj.x, pj.y)
-            total = total + distance;
-        end
-    end
-    return total / (table.getn(cluster1) * table.getn(cluster2))
-end
-
-function Cluster:CalculateClusters(clusters, distanceThreshold, maxClusterSize)
-    while table.getn(clusters) > 1 do
-        local nearest1
-        local nearest2
-        local nearestDistance
-        for i, cluster in pairs(clusters) do
-            for j, otherCluster in pairs(clusters) do
-                if cluster ~= otherCluster then
-                    local distance = Cluster.CalculateLinkageDistance(cluster.points, otherCluster.points)
-                    if distance == 0 or ((nearestDistance == nil or distance < nearestDistance) and (table.getn(cluster.points) + table.getn(otherCluster.points) <= maxClusterSize)) then
-                        nearestDistance = distance
-                        nearest1 = cluster
-                        nearest2 = otherCluster
-                    end
-                end
-                if nearestDistance == 0 then break end
-            end
-            if nearestDistance == 0 then break end
-        end
-
-        if nearestDistance == nil or nearestDistance > distanceThreshold then break end
-        local index1 = indexOf(clusters, nearest1)
-        table.remove(clusters, index1)
-        local index2 = indexOf(clusters, nearest2)
-        table.remove(clusters, index2)
-
-        local points = nearest1.points
-        for i, point in pairs(nearest2.points) do
-            table.insert(points, point)
-        end
-        local newCluster = Cluster.new(points)
-        table.insert(clusters, newCluster)
-    end
-end
-
-function Questie:AddClusterFromNote(frame, identifier, v)
-    if clustersByFrame == nil then
-        clustersByFrame = {}
-    end
-    if clustersByFrame[frame] == nil then
-        clustersByFrame[frame] = {}
-    end
-    if clustersByFrame[frame][identifier] == nil then
-        clustersByFrame[frame][identifier] = {}
-    end
-    if clustersByFrame[frame][identifier][v.x] == nil then
-        clustersByFrame[frame][identifier][v.x] = {}
-    end
-    if clustersByFrame[frame][identifier][v.x][v.y] == nil then
-        local points = { v }
-        local cluster = Cluster.new(points)
-        clustersByFrame[frame][identifier][v.x][v.y] = cluster
-    else
-        table.insert(clustersByFrame[frame][identifier][v.x][v.y].points, v)
-    end
-    --[[
-    local points = { v }
-    local cluster = Cluster.new(points)
-    table.insert(clustersByFrame[frame][identifier], cluster);
-    --]]
-end
-
-function Questie:GetClustersByFrame(frame, identifier)
-    if clustersByFrame == nil then
-        clustersByFrame = {}
-    end
-    if clustersByFrame[frame] == nil then
-        clustersByFrame[frame] = {}
-    end
-    if clustersByFrame[frame][identifier] == nil then
-        clustersByFrame[frame][identifier] = {}
-    end
-    local clusters = {}
-    for x, v in pairs(clustersByFrame[frame][identifier]) do
-        for y, v in pairs(clustersByFrame[frame][identifier][x]) do
-            table.insert(clusters, clustersByFrame[frame][identifier][x][y])
-        end
-    end
-    return clusters
-    --return clustersByFrame[frame][identifier]
+function round(x)
+    return tonumber(string.format("%.1f", x))
 end
 ---------------------------------------------------------------------------------------------------
--- Finds the index of an item in a table. Not sure if a function already exists somewhere.
+-- Gets/Sets grouped quests
 ---------------------------------------------------------------------------------------------------
-function indexOf(table, item)
-    for k, v in pairs(table) do
-        if v == item then return k end
+function Questie:GetGroupedQuests(frame, v)
+    local roundedX = v.x
+    local roundedY = v.y
+    if (v.icontype == "complete" or v.icontype == "available") then
+	    roundedX = round(v.x)
+	    roundedY = round(v.y)
+	end
+    if (questsByFrameAndPosition[frame][v.continent] == nil) then
+        questsByFrameAndPosition[frame][v.continent] = {}
     end
-    return nil
+    if (questsByFrameAndPosition[frame][v.continent][v.zoneid] == nil) then
+        questsByFrameAndPosition[frame][v.continent][v.zoneid] = {}
+    end
+	if (questsByFrameAndPosition[frame][v.continent][v.zoneid][roundedX] == nil) then
+		questsByFrameAndPosition[frame][v.continent][v.zoneid][roundedX] = {}
+	end
+	local existingQuest = questsByFrameAndPosition[frame][v.continent][v.zoneid][roundedX][roundedY]
+	return existingQuest
+end
+
+function Questie:SetGroupedQuests(frame, v, icon)
+    local roundedX = v.x
+    local roundedY = v.y
+    if (v.icontype == "complete" or v.icontype == "available") then
+	    roundedX = round(v.x)
+	    roundedY = round(v.y)
+	end
+	questsByFrameAndPosition[frame][v.continent][v.zoneid][roundedX][roundedY] = icon
 end
 ---------------------------------------------------------------------------------------------------
 -- Checks first if there are any notes for the current zone, then draws the desired icon
@@ -1006,15 +926,25 @@ function Questie:DRAW_NOTES()
     if(QuestieMapNotes[c] and QuestieMapNotes[c][z]) then
         for k, v in pairs(QuestieMapNotes[c][z]) do
             --If an available quest isn't in the zone or we aren't tracking a quest on the QuestTracker then hide the objectives from the minimap
-            if ( (not QuestieConfig.hideMinimapIcons) or (QuestieConfig.alwaysShowQuests == false) ) and ((MMLastX ~= 0) and (MMLastY ~= 0)) and (QuestieTrackedQuests[v.questHash] ~= nil) and (QuestieTrackedQuests[v.questHash]["tracked"] ~= false) or (v.icontype == "complete") or (v.icontype == "available") then
-                if v.icontype == "complete" then
-                    Questie:AddClusterFromNote("MiniMapNote", "Quests", v)
-                else
-                    Questie:AddClusterFromNote("MiniMapNote", "Objectives", v)
-                end
-            elseif (QuestieConfig.alwaysShowQuests == true) and not QuestieConfig.hideMinimapIcons then
-                if v.icontype == "complete" or v.icontype == "available" then
-                    Questie:AddClusterFromNote("MiniMapNote", "Quests", v)
+            if not QuestieConfig.hideMinimapIcons and (QuestieConfig.alwaysShowQuests == false) and (MMLastX ~= 0 and MMLastY ~= 0) and (((QuestieTrackedQuests[v.questHash] ~= nil) and (QuestieTrackedQuests[v.questHash]["tracked"] ~= false)) or (v.icontype == "complete")) then
+                MMIcon = Questie:GetBlankNoteFrame();
+                Questie:SetFrameNoteData(MMIcon, v, Minimap, 9, "MiniMapNote", QUESTIE_NOTES_MINIMAP_ICON_SCALE)
+                --Sets highlight texture (Nothing stops us from doing this on the worldmap aswell)
+                MMIcon:SetHighlightTexture(QuestieIcons[v.icontype].path, "ADD");
+                --Set the texture to the right type
+                Astrolabe:PlaceIconOnMinimap(MMIcon, v.continent, v.zoneid, v.x, v.y);
+                table.insert(QuestieUsedNoteFrames, MMIcon);
+            elseif (QuestieConfig.alwaysShowQuests == true) then
+                local existingQuest = Questie:GetGroupedQuests("MiniMapNote", v)
+                if (existingQuest == nil) and not QuestieConfig.hideMinimapIcons then
+                    MMIcon = Questie:GetBlankNoteFrame();
+                    Questie:SetFrameNoteData(MMIcon, v, Minimap, 9, "MiniMapNote", QUESTIE_NOTES_MINIMAP_ICON_SCALE)
+                    --Sets highlight texture (Nothing stops us from doing this on the worldmap aswell)
+                    MMIcon:SetHighlightTexture(QuestieIcons[v.icontype].path, "ADD");
+                    --Set the texture to the right type
+                    Astrolabe:PlaceIconOnMinimap(MMIcon, v.continent, v.zoneid, v.x, v.y);
+                    table.insert(QuestieUsedNoteFrames, MMIcon);
+                    Questie:SetGroupedQuests("MiniMapNote", v, MMIcon)
                 else
                     Questie:AddClusterFromNote("MiniMapNote", "Objectives", v)
                 end
@@ -1028,14 +958,56 @@ function Questie:DRAW_NOTES()
                 if true then
                     --If we aren't tracking a quest on the QuestTracker then hide the objectives from the worldmap
                     if ( ( (QuestieTrackedQuests[v.questHash] ~= nil) and (QuestieTrackedQuests[v.questHash]["tracked"] ~= false) ) or (v.icontype == "complete") ) and (QuestieConfig.alwaysShowQuests == false) then
-                        if v.icontype == "complete" then
-                            Questie:AddClusterFromNote("WorldMapNote", "Quests", v)
+                        local existingQuest = Questie:GetGroupedQuests("WorldMapNote", v)
+                        if (existingQuest == nil) then
+                            Icon = Questie:GetBlankNoteFrame();
+                            local frameLevel = 9;
+                            if (v.icontype == "complete") then
+                                frameLevel = 10;
+                            end
+                            local scale = QUESTIE_NOTES_MAP_ICON_SCALE;
+                            if(z == 0 and c == 0) then--Both continents
+                                scale = QUESTIE_NOTES_WORLD_MAP_ICON_SCALE;
+                            elseif(z == 0) then--Single continent
+                                scale = QUESTIE_NOTES_CONTINENT_ICON_SCALE;
+                            end
+                            Questie:SetFrameNoteData(Icon, v, WorldMapFrame, frameLevel, "WorldMapNote", scale)
+                            --Shows and then calls Astrolabe to place it on the map.
+                            Icon:Show();
+                            xx, yy = Astrolabe:PlaceIconOnWorldMap(WorldMapButton,Icon,v.continent ,v.zoneid ,v.x, v.y); --WorldMapFrame is global
+                            if(xx and yy and xx > 0 and xx < 1 and yy > 0 and yy < 1) then
+                                table.insert(QuestieUsedNoteFrames, Icon);
+                            else
+                                Questie:Clear_Note(Icon);
+                            end
+                            Questie:SetGroupedQuests("WorldMapNote", v, Icon)
                         else
                             Questie:AddClusterFromNote("WorldMapNote", "Objectives", v)
                         end
                     elseif (QuestieConfig.alwaysShowQuests == true) then
-                        if v.icontype == "complete" then
-                            Questie:AddClusterFromNote("WorldMapNote", "Quests", v)
+                        local existingQuest = Questie:GetGroupedQuests("WorldMapNote", v)
+                        if (existingQuest == nil) then
+                            Icon = Questie:GetBlankNoteFrame();
+                            local frameLevel = 9;
+                            if (v.icontype == "complete") then
+                                frameLevel = 10;
+                            end
+                            local scale = QUESTIE_NOTES_MAP_ICON_SCALE;
+                            if(z == 0 and c == 0) then--Both continents
+                                scale = QUESTIE_NOTES_WORLD_MAP_ICON_SCALE;
+                            elseif(z == 0) then--Single continent
+                                scale = QUESTIE_NOTES_CONTINENT_ICON_SCALE;
+                            end
+                            Questie:SetFrameNoteData(Icon, v, WorldMapFrame, frameLevel, "WorldMapNote", scale)
+                            --Shows and then calls Astrolabe to place it on the map.
+                            Icon:Show();
+                            xx, yy = Astrolabe:PlaceIconOnWorldMap(WorldMapButton,Icon,v.continent ,v.zoneid ,v.x, v.y); --WorldMapFrame is global
+                            if(xx and yy and xx > 0 and xx < 1 and yy > 0 and yy < 1) then
+                                table.insert(QuestieUsedNoteFrames, Icon);
+                            else
+                                Questie:Clear_Note(Icon);
+                            end
+                            Questie:SetGroupedQuests("WorldMapNote", v, Icon)
                         else
                             Questie:AddClusterFromNote("WorldMapNote", "Objectives", v)
                         end
@@ -1050,67 +1022,34 @@ function Questie:DRAW_NOTES()
         if Active == true then
             local con,zon,x,y = Astrolabe:GetCurrentPlayerPosition();
             for k, v in pairs(QuestieAvailableMapNotes[c][z]) do
-                Questie:AddClusterFromNote("WorldMapNote", "Quests", v)
-                Questie:AddClusterFromNote("MiniMapNote", "Quests", v)
-            end
-        end
-    end
-
-    local minimapObjectiveClusters = Questie:GetClustersByFrame("MiniMapNote", "Objectives")
-    local worldMapObjectiveClusters = Questie:GetClustersByFrame("WorldMapNote", "Objectives")
-
-    local minimapClusters = Questie:GetClustersByFrame("MiniMapNote", "Quests")
-    local worldMapClusters = Questie:GetClustersByFrame("WorldMapNote", "Quests")
-    if QuestieConfig.clusterQuests then
-        Cluster:CalculateClusters(worldMapClusters, 0.025, 5)
-    end
-
-
-    local scale = QUESTIE_NOTES_MAP_ICON_SCALE;
-    if(z == 0 and c == 0) then--Both continents
-        scale = QUESTIE_NOTES_WORLD_MAP_ICON_SCALE;
-    elseif(z == 0) then--Single continent
-        scale = QUESTIE_NOTES_CONTINENT_ICON_SCALE;
-    end
-    Questie:DrawClusters(worldMapObjectiveClusters, "WorldMapNote", scale, WorldMapFrame, WorldMapButton)
-    Questie:DrawClusters(worldMapClusters, "WorldMapNote", scale, WorldMapFrame, WorldMapButton)
-    Questie:DrawClusters(minimapObjectiveClusters, "MiniMapNote", QUESTIE_NOTES_MINIMAP_ICON_SCALE, Minimap)
-    Questie:DrawClusters(minimapClusters, "MiniMapNote", QUESTIE_NOTES_MINIMAP_ICON_SCALE, Minimap)
-end
-
-function Questie:DrawClusters(clusters, frameName, scale, frame, button)
-    local frameLevel = 9
-    if frameName == "MiniMapNote" then
-        frameLevel = 7
-    end
-    for i, cluster in pairs(clusters) do
-        table.sort(cluster.points, function(a, b)
-            local questA = QuestieHashMap[a.questHash]
-            local questB = QuestieHashMap[b.questHash]
-            return
-                (a.icontype == "complete" and b.icontype ~= "complete") or
-                (a.icontype == b.icontype and questA.level < questB.level) or
-                (a.icontype == b.icontype and questA.level == questB.level and questA.questLevel < questB.questLevel)
-        end)
-        Icon = Questie:GetBlankNoteFrame()
-        local mainV = cluster.points[1]
-        for j, v in pairs(cluster.points) do
-            if j == 1 then
-                Questie:SetFrameNoteData(Icon, v, frame, frameLevel, frameName, scale)
-            else
-                Questie:AddFrameNoteData(Icon, v)
-            end
-        end
-        Icon:Show()
-        if frameName == "MiniMapNote" then
-            Icon:SetHighlightTexture(QuestieIcons[mainV.icontype].path, "ADD");
-            Astrolabe:PlaceIconOnMinimap(Icon, mainV.continent, mainV.zoneid, Icon.averageX, Icon.averageY);
-        else
-            xx, yy = Astrolabe:PlaceIconOnWorldMap(button, Icon, mainV.continent, mainV.zoneid, Icon.averageX, Icon.averageY)
-            if(xx and yy and xx > 0 and xx < 1 and yy > 0 and yy < 1) then
-                table.insert(QuestieUsedNoteFrames, Icon);
-            else
-                Questie:Clear_Note(Icon);
+                local existingQuest = Questie:GetGroupedQuests("WorldMapNote", v)
+                if (existingQuest == nil) then
+                    Icon = Questie:GetBlankNoteFrame();
+                    Questie:SetFrameNoteData(Icon, v, WorldMapFrame, 9, "WorldMapNote", QUESTIE_NOTES_MAP_ICON_SCALE)
+                    Icon:Show();
+                    xx, yy = Astrolabe:PlaceIconOnWorldMap(WorldMapButton,Icon,v.continent ,v.zoneid ,v.x, v.y); --WorldMapFrame is global
+                    if(xx and yy and xx > 0 and xx < 1 and yy > 0 and yy < 1) then
+                        table.insert(QuestieUsedNoteFrames, Icon);
+                    else
+                        Questie:Clear_Note(Icon);
+                    end
+                    Questie:SetGroupedQuests("WorldMapNote", v, Icon)
+                else
+                    Questie:AddFrameNoteData(existingQuest, v)
+                end
+                existingQuest = Questie:GetGroupedQuests("MiniMapNote", v)
+                if (existingQuest == nil) and not QuestieConfig.hideMinimapIcons then
+                    MMIcon = Questie:GetBlankNoteFrame();
+                    Questie:SetFrameNoteData(MMIcon, v, Minimap, 7, "MiniMapNote", QUESTIE_NOTES_MINIMAP_ICON_SCALE)
+                    --Sets highlight texture (Nothing stops us from doing this on the worldmap aswell)
+                    MMIcon:SetHighlightTexture(QuestieIcons[v.icontype].path, "ADD");
+                    --Set the texture to the right type
+                    Astrolabe:PlaceIconOnMinimap(MMIcon, v.continent, v.zoneid, v.x, v.y);
+                    table.insert(QuestieUsedNoteFrames, MMIcon);
+                    Questie:SetGroupedQuests("MiniMapNote", v, MMIcon)
+                else
+                    Questie:AddFrameNoteData(existingQuest, v)
+                end
             end
         end
     end
