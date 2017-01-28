@@ -741,11 +741,11 @@ function Questie:AddFrameNoteData(icon, data)
             icon.averageX = 0
             icon.averageY = 0
         end
-		local numQuests = table.getn(icon.quests)
-		local newAverageX = (icon.averageX * numQuests + data.x) / (numQuests + 1)
-		local newAverageY = (icon.averageY * numQuests + data.y) / (numQuests + 1)
-		icon.averageX = newAverageX
-		icon.averageY = newAverageY
+        local numQuests = table.getn(icon.quests)
+        local newAverageX = (icon.averageX * numQuests + data.x) / (numQuests + 1)
+        local newAverageY = (icon.averageY * numQuests + data.y) / (numQuests + 1)
+        icon.averageX = newAverageX
+        icon.averageY = newAverageY
         table.insert(icon.quests, data)
         Astrolabe:PlaceIconOnWorldMap(WorldMapButton,icon,data.continent ,data.zoneid ,icon.averageX, icon.averageY)
     end
