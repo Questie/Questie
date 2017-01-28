@@ -52276,6 +52276,13 @@ QuestieMonsters = {
     ["locationCount"] = 1,
     ["faction"] = 1
   },
+  ["Strange Fruited Plant"] = {
+    ["locations"] = {
+      [1] = {24.0, 0.4260, 0.7620, 100.0}
+    },
+    ["locationCount"] = 1,
+    ["faction"] = 1
+  },
   ["Gava'xi slain"] = {
     ["locations"] = {
       [1] = {58.0, 0.4318, 0.7459, 100.0},
@@ -65937,6 +65944,14 @@ QuestieMonsters = {
       [1] = {48.0, 0.5142, 0.5849, 100.0}
     },
     ["locationCount"] = 1,
+    ["faction"] = 1
+  },
+  ["Syndicate Documents"] = {
+    ["locations"] = {
+      [1] = {48.0, 0.5080, 0.2030, 100.0},
+      [2] = {48.0, 0.5990, 0.7900, 100.0}
+    },
+    ["locationCount"] = 2,
     ["faction"] = 1
   },
   ["Ancient Stone Keeper"] = {
@@ -82732,6 +82747,12 @@ QuestieMonsters = {
     ["looted"] = 265,
     ["locationCount"] = 1
   },
+  ["WANTED: Chok'sul"] = {
+    ["locations"] = {
+      [1] = {29.0, 0.3729, 0.4649, 100.0}
+    },
+    ["locationCount"] = 1
+  },
   ["Apprentice Mirveda"] = {
     ["locations"] = {
       [1] = {41.0, 0.5428, 0.7099, 100.0}
@@ -92841,6 +92862,36 @@ QuestieMonsters = {
     },
     ["locationCount"] = 5
   },
+  ["Suspicious Hoofprint"] = {
+    ["locations"] = {
+      [1] = {11.0, 0.509, 0.786, 100.0}
+    },
+    ["locationCount"] = 1,
+  },
+  ["Black Shield"] = {
+    ["locations"] = {
+      [1] = {11.0, 0.509, 0.792, 100.0}
+    },
+    ["locationCount"] = 1,
+  },
+  ["Theramore Guard Badge"] = {
+    ["locations"] = {
+      [1] = {11.0, 0.510, 0.790, 100.0}
+    },
+    ["locationCount"] = 1,
+  },
+  ["Wanted Poster: Andre Firebeard"] = {
+    ["locations"] = {
+      [1] = {8.0, 0.518, 0.270, 100.0}
+    },
+    ["locationCount"] = 1
+  },
+  ["Wanted Poster: Caliph Scorpidsting"] = {
+    ["locations"] = {
+      [1] = {8.0, 0.518, 0.270, 100.0}
+    },
+    ["locationCount"] = 1
+  },
   ["The Light and How to Swing It"] = {
     ["locations"] = {
       [1] = {8.0, 0.5219, 0.2853, 100.0},
@@ -92986,6 +93037,12 @@ QuestieMonsters = {
   ["A Small Pack"] = {
     ["locations"] = {
       [1] = {18.0, 0.631, 0.6901, 100.0}
+    },
+    ["locationCount"] = 1
+  },
+  ["A Wrecked Raft"] = {
+    ["locations"] = {
+      [1] = {18.0, 0.630, 0.686, 100.0}
     },
     ["locationCount"] = 1
   },

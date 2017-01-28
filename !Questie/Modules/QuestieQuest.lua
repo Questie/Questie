@@ -23,15 +23,24 @@ local QExpand_QuestHeader = ExpandQuestHeader;
 -- Finishes a quest and performs a recrusive check to make sure all the required quests that come
 -- before it are also finsihed and recorded in the players QuestieSeenQuests. It will also clear
 -- any redundant quest tracking data and make sure a quest that is in a players log isn't
--- accidently marked finished.
+-- accidently marked finished. When ever this function is run it will also remove invalid tracker
+-- data when it doesn't find a matching hash in the QuestieSeenQuests table. This sometimes
+-- happens when a player starts a quest chain.
 ---------------------------------------------------------------------------------------------------
 function Questie:finishAndRecurse(questhash)
     if (QuestieSeenQuests[questhash] == 1) then
+        if (QuestieTrackedQuests[questhash]) then
+            QuestieTrackedQuests[questhash] = nil;
+        end
         return
     end
     if (QuestieSeenQuests[questhash] == 0) and (QuestieTrackedQuests[questhash]) then
         if ((QuestieTrackedQuests[questhash]["leaderboards"] == 0) or (QuestieTrackedQuests[questhash]["isComplete"] == 1)) then
             QuestieSeenQuests[questhash] = 1;
+            QuestieTrackedQuests[questhash] = nil;
+            if (TomTomCrazyArrow:IsVisible() ~= nil) and (arrow_objective == hash) then
+                TomTomCrazyArrow:Hide()
+            end
         end
     elseif ((QuestieSeenQuests[questhash] == nil) or (QuestieTrackedQuests[questhash] == nil)) then
         QuestieSeenQuests[questhash] = 1;
@@ -41,8 +50,14 @@ function Questie:finishAndRecurse(questhash)
         end
         if req then
             Questie:finishAndRecurse(req);
-            QuestieTrackedQuests[req] = nil;
         end
+    end
+    local index = 0
+    for i,v in pairs(QuestieTrackedQuests) do
+        if QuestieSeenQuests[i] ~= QuestieTrackedQuests[i] then
+            QuestieTrackedQuests[i] = nil
+        end
+        index = index + 1
     end
 end
 ---------------------------------------------------------------------------------------------------
@@ -64,7 +79,6 @@ function Questie:CheckQuestLog()
                 local req = QuestieHashMap[v["hash"]]['rq'];
                 if req then
                     Questie:finishAndRecurse(req)
-                    QuestieTrackedQuests[req] = nil
                 end
                 QuestieSeenQuests[v["hash"]] = 0
                 QuestieTracker:addQuestToTracker(v["hash"])
@@ -111,7 +125,6 @@ function Questie:CheckQuestLog()
                 local req = QuestieHashMap[v["hash"]]['rq'];
                 if req then
                     Questie:finishAndRecurse(req)
-                    QuestieTrackedQuests[req] = nil
                 end
                 QuestieSeenQuests[v["hash"]] = 0
                 QuestieTracker:addQuestToTracker(v["hash"])
@@ -127,7 +140,6 @@ function Questie:CheckQuestLog()
             if(not QuestieSeenQuests[v["hash"]]) then
                 local req = QuestieHashMap[v["hash"]]['rq'];
                 if req then
-                    QuestieTrackedQuests[req] = nil
                     Questie:finishAndRecurse(req)
                 end
                 QuestieSeenQuests[v["hash"]] = 0
@@ -148,10 +160,12 @@ function Questie:CheckQuestLog()
     checkArray = nil;
     BiggestTable = nil;
     delta = nil;
+--[[
     if(MapChanged == true) then
         Questie:SetAvailableQuests();
         Questie:RedrawNotes();
     end
+]]
     LastQuestLogHashes = Quests;
     LastQuestLogCount = QuestsCount;
     if(MapChanged == true) then
@@ -263,11 +277,13 @@ function Questie:UpdateQuestInZone(Zone, force)
                     QuestieTracker:updateFrameOnTracker(hash, i, level)
                 end
                 QuestieTracker:fillTrackingFrame()
+                --DEFAULT_CHAT_FRAME:AddMessage("1: UpdateQuestInZone --> fillTrackingFrame")
             elseif foundChange and QuestieConfig.trackerEnabled == true then
                 if (QuestieTrackedQuests[hash]) then
                     QuestieTracker:updateFrameOnTracker(hash, i, level)
                 end
                 QuestieTracker:fillTrackingFrame()
+                --DEFAULT_CHAT_FRAME:AddMessage("2: UpdateQuestInZone --> fillTrackingFrame")
             end
         end
         if(foundChange and not force) then
@@ -598,7 +614,7 @@ CachedIds = {};
 function Questie:GetQuestIdFromHash(questHash)
     local numEntries, numQuests = GetNumQuestLogEntries();
     if(QUESTIE_UPDATE_EVENT or numEntries ~= LastNrOfEntries or not CachedIds[questHash]) then
-        CachedIds = {};
+        CachedIds[questHash] = {};
         QUESTIE_UPDATE_EVENT=0;
         LastNrOfEntries = numEntries;
         Questie:UpdateQuestIds();

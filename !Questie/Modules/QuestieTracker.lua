@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
--- Name: QuestieQuest
--- Description: Handles all the quest related functions
+-- Name: QuestieTracker
+-- Description: Handles all the quest tracker related functions
 ---------------------------------------------------------------------------------------------------
 --///////////////////////////////////////////////////////////////////////////////////////////////--
 ---------------------------------------------------------------------------------------------------
@@ -16,8 +16,12 @@ end
 -- Global vars
 ---------------------------------------------------------------------------------------------------
 QuestieTracker.hasCleared = false
-QuestieTracker.lastUpdate = 0;
+QuestieTracker.lastUpdate1 = 0;
+QuestieTracker.lastUpdate5 = 0;
 QuestieTracker.questButtons = {};
+QuestieTracker.questNames = {};
+QuestieTracker.questObjects = {};
+QuestieTracker.MaxButtonWidths = {};
 QuestieTracker.GeneralInterval = 0;
 QuestieTracker.btnUpdate = 1;
 ---------------------------------------------------------------------------------------------------
@@ -41,14 +45,15 @@ function QuestieTracker_OnUpdate()
             QuestieTracker.frame:Hide();
         end
     end
-    if GetTime() - QuestieTracker.lastUpdate >= 1 then
-        QuestieTracker:fillTrackingFrame()
-        QuestieTracker.lastUpdate = GetTime()
+    if GetTime() - QuestieTracker.lastUpdate1 >= 1 then
         QuestieTracker:syncEQL3()
         QuestieTracker:syncQuestWatch()
+        QuestieTracker.lastUpdate1 = GetTime()
+    end
+    if GetTime() - QuestieTracker.lastUpdate5 >= 5 then
         if (QuestieConfig.showMapAids == true) or (QuestieConfig.alwaysShowQuests == true) or ((QuestieConfig.showMapAids == true) and (QuestieConfig.alwaysShowQuests == false)) then
-            Questie:SetAvailableQuests()
-            Questie:RedrawNotes()
+            QuestieTracker:updateTrackingFrame()
+            QuestieTracker.lastUpdate5 = GetTime()
         end
     end
 end
@@ -66,7 +71,7 @@ local QGet_QuestLogTitle = GetQuestLogTitle;
 local QGet_NumQuestLeaderBoards = GetNumQuestLeaderBoards;
 local QGet_QuestLogLeaderBoard = GetQuestLogLeaderBoard;
 ---------------------------------------------------------------------------------------------------
--- Calculates QuestieTracker Height
+-- Automatically Calculates QuestieTracker Height and Width
 ---------------------------------------------------------------------------------------------------
 function QuestieTracker:updateTrackingFrameSize()
     if (QuestieConfig.trackerBackground == true) then
@@ -82,43 +87,44 @@ function QuestieTracker:updateTrackingFrameSize()
             if lastButton == nil then return; end
             local lastbuttonTop = lastButton:GetTop();
             local trackerBottom = QuestieTracker.frame:GetBottom();
-
+            local maxWidth = QuestieTracker.questButtons.maxWidth
             -- what if nothing is tracked?
             if trackerBottom == nil then trackerBottom = 0; end
             if lastbuttonTop == nil then lastbuttonTop = 0; end
-
+            if maxWidth == nil then maxWidth = 0; end
             -- dynamically set the size of the tracker
             local totalHeight = lastbuttonTop - trackerBottom;
-
+            local totalWidth = maxWidth;
+            QuestieTracker.frame:SetWidth(totalWidth);
             if (QuestieConfig.showTrackerHeader == true) then
-                QuestieTracker.frame:SetHeight(totalHeight + 10);
+                QuestieTracker.frame:SetHeight(totalHeight + 7);
             elseif (QuestieConfig.showTrackerHeader == false) then
-                QuestieTracker.frame:SetHeight(totalHeight + 10);
+                QuestieTracker.frame:SetHeight(totalHeight + 11);
             end
-            QuestieTracker.frame:SetWidth(200);
             QuestieTracker.frame.texture:SetAlpha(QuestieConfig.trackerAlpha);
         elseif (QuestieConfig.trackerList == false) then
             local lastButton = QuestieTracker.questButtons[QuestieTracker.highestIndex];
             if lastButton == nil then return; end
             local lastbuttonBottom = lastButton:GetBottom();
             local trackerTop = QuestieTracker.frame:GetTop();
-
+            local maxWidth = QuestieTracker.questButtons.maxWidth
             -- what if nothing is tracked?
             if trackerTop == nil then trackerTop = 0; end
             if lastbuttonBottom == nil then lastbuttonBottom = 0; end
-
+            if maxWidth == nil then maxWidth = 0; end
             -- dynamically set the size of the tracker
             local totalHeight = trackerTop - lastbuttonBottom;
-
+            local totalWidth = maxWidth;
+		          QuestieTracker.frame:SetWidth(totalWidth);
             if (QuestieConfig.showTrackerHeader == true) then
-                QuestieTracker.frame:SetHeight(totalHeight + 10);
+                QuestieTracker.frame:SetHeight(totalHeight + 11);
             elseif (QuestieConfig.showTrackerHeader == false) then
-                QuestieTracker.frame:SetHeight(totalHeight + 10);
+                QuestieTracker.frame:SetHeight(totalHeight + 11);
             end
-            QuestieTracker.frame:SetWidth(200);
             QuestieTracker.frame.texture:SetAlpha(QuestieConfig.trackerAlpha);
         end
     end
+    --DEFAULT_CHAT_FRAME:AddMessage("updateTrackingFrameSize --> finished")
 end
 ---------------------------------------------------------------------------------------------------
 -- Color quest objective scheme for quest tracker color option 2
@@ -173,9 +179,9 @@ end
 ---------------------------------------------------------------------------------------------------
 function QuestieTracker:clearTrackingFrame()
     for i=1, 8 do
-        getglobal("QuestieTrackerButton"..i):Hide();
+        getglobal("QuestieTrackerButtonNew"..i):Hide();
         for j=1,20 do
-            getglobal("QuestieTrackerButton"..i.."QuestWatchLine"..j):Hide();
+            getglobal("QuestieTrackerButtonNew"..i.."QuestWatchLine"..j):Hide();
         end
     end
 end
@@ -241,7 +247,7 @@ function QuestieTracker:createOrGetTrackingButton(index)
         elseif (QuestieConfig.showTrackerHeader == false) then
             if (QuestieConfig.trackerList == true) then
                 if index == 1 then
-                    btn:SetPoint("BOTTOMLEFT", parent, "BOTTOMLEFT", 0, 0);
+                    btn:SetPoint("BOTTOMLEFT", parent, "BOTTOMLEFT", 0, 10);
                 else
                     btn:SetPoint("BOTTOMLEFT", parent, "TOPLEFT",  0, 0);
                 end
@@ -315,6 +321,18 @@ function QuestieTracker:AddObjectiveToButton(button, objective, index)
         objt:SetText("|cFF"..clr..objective["desc"].."|r");
         button.objectives[index] = objt;
     end
+    for i, v in (button.objectives) do
+        local otextWidth = button.objectives[i]:GetStringWidth() + 32
+        table.insert(QuestieTracker.questObjects, otextWidth);
+    end
+    local omaxWidth = 0
+    for i, v in ipairs(QuestieTracker.questObjects) do
+        if (QuestieTracker.questObjects) then
+            omaxWidth = math.max(omaxWidth, v)
+            table.insert(QuestieTracker.MaxButtonWidths, omaxWidth);
+            QuestieTracker.questObjects = {};
+        end
+    end
 end
 ---------------------------------------------------------------------------------------------------
 -- Adds quest type 'event' text to quest objective button
@@ -338,6 +356,18 @@ function QuestieTracker:AddEventToButton(button, objective, index)
         objt:SetText("|cFFCCCCCC"..objective["desc"].."|r");
         button.objectives[index] = objt;
     end
+    for i, v in (button.objectives) do
+		      local otextWidth = button.objectives[i]:GetStringWidth() + 32
+		      table.insert(QuestieTracker.questObjects, otextWidth);
+	   end
+	   local omaxWidth = 0
+	   for i, v in ipairs(QuestieTracker.questObjects) do
+		      if (QuestieTracker.questObjects) then
+			         omaxWidth = math.max(omaxWidth, v)
+			         table.insert(QuestieTracker.MaxButtonWidths, omaxWidth);
+			         QuestieTracker.questObjects = {};
+		      end
+	   end
 end
 ---------------------------------------------------------------------------------------------------
 -- Finds quest finisher location by type and name
@@ -387,10 +417,9 @@ function QuestieTracker:GetFinisherLocation(typ, name)
     return C, Z, X, Y;
 end
 ---------------------------------------------------------------------------------------------------
--- Populates the quest tracker frame with objective buttons
+-- Updates the QuestieTracker frames distance sorting feature
 ---------------------------------------------------------------------------------------------------
-function QuestieTracker:fillTrackingFrame()
-  local index = 1;
+function QuestieTracker:updateTrackingFrame()
     local sortedByDistance = {};
     local distanceControlTable = {};
     local C,Z,X,Y = Astrolabe:GetCurrentPlayerPosition() -- continent, zone, x, y
@@ -459,8 +488,40 @@ function QuestieTracker:fillTrackingFrame()
             distanceControlTable[v["hash"]] = true
             table.insert(sortedByDistance, v);
         end
-        distanceNotes = {}
     end
+    if QuestieConfig.boldColors == true then
+        for i,v in pairs(sortedByDistance) do
+            local hash = v["hash"];
+            local quest = QuestieTrackedQuests[hash];
+            local colorString = "|c" .. QuestieTracker:GetDifficultyColor(quest["level"]);
+            if quest["questTag"] then
+                v["title"] = colorString .. "[" .. quest["level"] .. "+" .. "] |r" .. quest["questName"];
+            else
+                v["title"] = colorString .. "[" .. quest["level"] .. "] |r" .. quest["questName"];
+            end
+            quest["arrowPoint"] = v
+        end
+    else
+        for i,v in pairs(sortedByDistance) do
+            local hash = v["hash"];
+            local quest = QuestieTrackedQuests[hash];
+            local colorString = "|c" .. QuestieTracker:GetDifficultyColor(quest["level"]);
+            if quest["questTag"] then
+                v["title"] = colorString .. "[" .. quest["level"] .. "+" .. "] " .. quest["questName"] .. "|r";
+            else
+                v["title"] = colorString .. "[" .. quest["level"] .. "] " .. quest["questName"] .. "|r";
+            end
+            quest["arrowPoint"] = v
+        end
+    end
+    return sortedByDistance
+end
+---------------------------------------------------------------------------------------------------
+-- Populates the quest tracker frame with objective buttons
+---------------------------------------------------------------------------------------------------
+function QuestieTracker:fillTrackingFrame()
+    local index = 1;
+    local sortedByDistance = QuestieTracker:updateTrackingFrame()
     if QuestieConfig.boldColors == true then
         for i,v in pairs(sortedByDistance) do
             local hash = v["hash"];
@@ -469,101 +530,14 @@ function QuestieTracker:fillTrackingFrame()
             button.hash = hash;
             local colorString = "|c" .. QuestieTracker:GetDifficultyColor(quest["level"]);
             local titleData = colorString;
-                if QuestieConfig['alwaysShowLevel'] then
-                    if quest["questTag"] then
-                        titleData = titleData .. "[" .. quest["level"] .. "+" .. "] " ;
-                    else
-                        titleData = titleData .. "[" .. quest["level"] .. "] " ;
-                    end
-                end
-                titleData = titleData .. "|r|cFFFFFFFF" .. quest["questName"] .. "|r";
-                if QuestieConfig['AlwaysShowDistance'] then
-                    titleData = titleData .. " ("..math.floor(v["dist"]).." Yd)";
-                end
+            if quest["questTag"] then
+                titleData = titleData .. "[" .. quest["level"] .. "+" .. "] " ;
+            else
+                titleData = titleData .. "[" .. quest["level"] .. "] " ;
+            end
+            titleData = titleData .. "|r|cFFFFFFFF" .. quest["questName"] .. "|r";
             button.quest:SetText(titleData);
             local obj = 1;
-            if quest["questTag"] then
-                v["title"] = colorString .. "[" .. quest["level"] .. "+" .. "] |r" .. quest["questName"];
-            else
-                v["title"] = colorString .. "[" .. quest["level"] .. "] |r" .. quest["questName"];
-            end
-            quest["arrowPoint"] = v
-            if quest["isComplete"] or quest["leaderboards"] == 0 then
-            QuestieTracker:AddObjectiveToButton(button, {['desc']="Quest Complete!"}, obj);
-                obj = 2;
-            else
-                while true do
-                    local beefcake = quest["objective" .. obj];
-                    if beefcake == nil then break; end
-                    if beefcake["type"] == "event" then
-                        QuestieTracker:AddEventToButton(button, beefcake, obj);
-                        obj = obj + 1;
-                    else
-                        QuestieTracker:AddObjectiveToButton(button, beefcake, obj);
-                        obj = obj + 1;
-                    end
-                end
-            end
-            button.currentObjectiveCount = obj - 1;
-            local heightLoss = 0;
-            while true do
-                if button.objectives[obj] == nil then break; end
-                button.objectives[obj]:SetText(""); --hecks
-                heightLoss = heightLoss + 11;
-                obj = obj + 1;
-            end
-            button:SetHeight(14 + (button.currentObjectiveCount * 11));
-            button:SetWidth(250);
-            button:Show();
-            if (QuestieConfig.showTrackerHeader == true) then
-                local numEntries, numQuests = GetNumQuestLogEntries();
-                watcher:SetText("QuestLog Status: ("..numQuests.."/20)");
-                QuestieTrackerHeader:Show();
-            end
-            index = index + 1;
-        end
-        QuestieTracker.highestIndex = index - 1;
-        while true do
-            local d = QuestieTracker.questButtons[index];
-            if d == nil then break end;
-            d:Hide();
-            index = index + 1;
-        end
-        QuestieTracker:updateTrackingFrameSize()
-        if (QuestieConfig.trackerEnabled == true) then
-            QuestieTracker.frame:Show();
-        else
-            QuestieTracker:Hide()
-            QuestieTracker.frame:Hide()
-        end
-    else
-        for i,v in pairs(sortedByDistance) do
-            local hash = v["hash"];
-            local quest = QuestieTrackedQuests[hash];
-            local button = QuestieTracker:createOrGetTrackingButton(index);
-            button.hash = hash;
-            local colorString = "|c" .. QuestieTracker:GetDifficultyColor(quest["level"]);
-            local titleData = colorString;
-                if QuestieConfig['alwaysShowLevel'] then
-                    if quest["questTag"] then
-                        titleData = titleData .. "[" .. quest["level"] .. "+" .. "] " ;
-                    else
-                        titleData = titleData .. "[" .. quest["level"] .. "] " ;
-                    end
-                end
-                titleData = titleData .. quest["questName"];
-                if QuestieConfig['AlwaysShowDistance'] then
-                    titleData = titleData .. " ("..math.floor(v["dist"]).." Yd)";
-                end
-            titleData = titleData  .. "|r";
-            button.quest:SetText(titleData);
-            local obj = 1;
-            if quest["questTag"] then
-                v["title"] = colorString .. "[" .. quest["level"] .. "+" .. "] " .. quest["questName"] .. "|r";
-            else
-                v["title"] = colorString .. "[" .. quest["level"] .. "] " .. quest["questName"] .. "|r";
-            end
-            quest["arrowPoint"] = v
             if quest["isComplete"] or quest["leaderboards"] == 0 then
                 QuestieTracker:AddObjectiveToButton(button, {['desc']="Quest Complete!"}, obj);
                 obj = 2;
@@ -589,7 +563,24 @@ function QuestieTracker:fillTrackingFrame()
                 obj = obj + 1;
             end
             button:SetHeight(14 + (button.currentObjectiveCount * 11));
-            button:SetWidth(250);
+            for i, v in (button.quest) do
+                local qtextWidth = button.quest:GetStringWidth() + 20
+                table.insert(QuestieTracker.questNames, qtextWidth);
+            end
+            local qmaxWidth = 0
+            for i, v in ipairs(QuestieTracker.questNames) do
+                if (QuestieTracker.questObjects) then
+                    qmaxWidth = math.max(qmaxWidth, v)
+                    table.insert(QuestieTracker.MaxButtonWidths, qmaxWidth);
+                     QuestieTracker.questNames = {};
+                end
+            end
+            local maxWidth = 0
+            for i, v in ipairs(QuestieTracker.MaxButtonWidths) do
+                maxWidth = math.max(maxWidth, v)
+                QuestieTracker.questButtons.maxWidth = maxWidth
+            end
+            button:SetWidth(maxWidth);
             button:Show();
             if (QuestieConfig.showTrackerHeader == true) then
                 local numEntries, numQuests = GetNumQuestLogEntries();
@@ -605,18 +596,105 @@ function QuestieTracker:fillTrackingFrame()
             d:Hide();
             index = index + 1;
         end
-        QuestieTracker:updateTrackingFrameSize()
         if (QuestieConfig.trackerEnabled == true) then
-            QuestieTracker.frame:Show();
+            if (QuestieConfig.trackerMinimize == false) then
+                QuestieTracker.frame:Show();
+            end
+        else
+            QuestieTracker:Hide();
+            QuestieTracker.frame:Hide();
+        end
+    else
+        for i,v in pairs(sortedByDistance) do
+            local hash = v["hash"];
+            local quest = QuestieTrackedQuests[hash];
+            local button = QuestieTracker:createOrGetTrackingButton(index);
+            button.hash = hash;
+            local colorString = "|c" .. QuestieTracker:GetDifficultyColor(quest["level"]);
+            local titleData = colorString;
+            if quest["questTag"] then
+                titleData = titleData .. "[" .. quest["level"] .. "+" .. "] " ;
+            else
+                titleData = titleData .. "[" .. quest["level"] .. "] " ;
+            end
+            titleData = titleData .. quest["questName"];
+            titleData = titleData  .. "|r";
+            button.quest:SetText(titleData);
+            local obj = 1;
+            if quest["isComplete"] or quest["leaderboards"] == 0 then
+                QuestieTracker:AddObjectiveToButton(button, {['desc']="Quest Complete!"}, obj);
+                obj = 2;
+            else
+                while true do
+                    local beefcake = quest["objective" .. obj];
+                    if beefcake == nil then break; end
+                    if beefcake["type"] == "event" then
+                        QuestieTracker:AddEventToButton(button, beefcake, obj);
+                        obj = obj + 1;
+                    else
+                        QuestieTracker:AddObjectiveToButton(button, beefcake, obj);
+                        obj = obj + 1;
+                    end
+                end
+            end
+            button.currentObjectiveCount = obj - 1;
+            local heightLoss = 0;
+            while true do
+                if button.objectives[obj] == nil then break; end
+                button.objectives[obj]:SetText(""); --hecks
+                heightLoss = heightLoss + 11;
+                obj = obj + 1;
+            end
+            button:SetHeight(14 + (button.currentObjectiveCount * 11));
+            for i, v in (button.quest) do
+                local qtextWidth = button.quest:GetStringWidth() + 20
+                table.insert(QuestieTracker.questNames, qtextWidth);
+            end
+            local qmaxWidth = 0
+            for i, v in ipairs(QuestieTracker.questNames) do
+                if (QuestieTracker.questObjects) then
+                    qmaxWidth = math.max(qmaxWidth, v)
+                    table.insert(QuestieTracker.MaxButtonWidths, qmaxWidth);
+                    QuestieTracker.questNames = {};
+                end
+            end
+            local maxWidth = 0
+            for i, v in ipairs(QuestieTracker.MaxButtonWidths) do
+                maxWidth = math.max(maxWidth, v)
+                QuestieTracker.questButtons.maxWidth = maxWidth
+            end
+            button:SetWidth(maxWidth);
+            button:Show();
+            if (QuestieConfig.showTrackerHeader == true) then
+                local numEntries, numQuests = GetNumQuestLogEntries();
+                watcher:SetText("QuestLog Status: ("..numQuests.."/20)");
+                QuestieTrackerHeader:Show();
+            end
+            index = index + 1;
+        end
+        QuestieTracker.highestIndex = index - 1;
+        while true do
+            local d = QuestieTracker.questButtons[index];
+            if d == nil then break end;
+            d:Hide();
+            index = index + 1;
+        end
+        if (QuestieConfig.trackerEnabled == true) then
+            if (QuestieConfig.trackerMinimize == false) then
+                QuestieTracker.frame:Show();
+            end
         else
             QuestieTracker:Hide()
             QuestieTracker.frame:Hide()
         end
     end
-    sortedByDistance = {}
+    if (QuestieConfig.trackerEnabled == true) and (QuestieConfig.trackerMinimize == false) then
+        QuestieTracker.MaxButtonWidths = {};
+        Questie:AddEvent("TRACKER", 0.02);
+    end
 end
 ---------------------------------------------------------------------------------------------------
--- Creates a blank quest tracking frame and sets up the optional 'header'
+-- Creates a blank quest tracking frame and sets up the optional haeder
 ---------------------------------------------------------------------------------------------------
 function QuestieTracker:createTrackingFrame()
     QuestieTracker.frame = CreateFrame("Frame", "QuestieTrackerFrame", UIParent);
@@ -644,15 +722,56 @@ function QuestieTracker:createTrackingFrame()
         this:SetUserPlaced(false);
         QuestieTracker:saveFramePosition();
     end);
-    if (QuestieConfig.trackerList == true) then
-        local header = CreateFrame("Button", "QuestieTrackerHeader", QuestieTracker.frame);
+    -- QuestTracker Header Button
+    if (QuestieConfig.trackerList == true) and (QuestieConfig.showTrackerHeader == true) then
+        local header = CreateFrame("Button", "QuestieTrackerHeader", UIParent);
         watcher = header:CreateFontString(nil, "OVERLAY", "GameFontNormal")
         watcher:SetPoint("BOTTOMLEFT", QuestieTracker.frame, "BOTTOMLEFT", 10, 8)
+        -- QuestTracker Minimize Button
+        qmenu = CreateFrame("Button", "QuestieTrackerMenu", watcher.frame);
+        qmenu:SetFrameStrata("HIGH");
+        qmenu:SetHeight(10);
+        qmenu:SetWidth(100);
+        qmenu:SetPoint("BOTTOMLEFT", QuestieTracker.frame, "BOTTOMLEFT", 6, 5)
+        qmenu.texture = qmenu:CreateTexture(nil, "BACKGROUND");
+        qmenu.texture:SetTexture(0,0,0);
+        qmenu.texture:SetAlpha(0.0);
+        qmenu.texture:SetAllPoints(qmenu);
+        qmenu:EnableMouse(true);
+        qmenu:SetScript("OnClick", function()
+            if (QuestieConfig.trackerMinimize == false) then
+                QuestieConfig.trackerMinimize = true
+                QuestieTracker.frame:Hide();
+            else
+               QuestieConfig.trackerMinimize = false
+               QuestieTracker.frame:Show();
+            end
+        end);
         QuestieTrackerHeader:Hide();
-    elseif (QuestieConfig.trackerList == false) then
-        local header = CreateFrame("Button", "QuestieTrackerHeader", QuestieTracker.frame);
+    elseif (QuestieConfig.trackerList == false) and (QuestieConfig.showTrackerHeader == true) then
+        local header = CreateFrame("Button", "QuestieTrackerHeader", UIParent);
         watcher = header:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-        watcher:SetPoint("TOPLEFT", QuestieTracker.frame, "TOPLEFT", 10, -8)
+        watcher:SetPoint("TOPLEFT", QuestieTracker.frame, "TOPLEFT", 6, -8)
+        -- QuestTracker Minimize Button
+        qmenu = CreateFrame("Button", "QuestieTrackerMenu", watcher.frame);
+        qmenu:SetFrameStrata("HIGH");
+        qmenu:SetWidth(100);
+        qmenu:SetHeight(10);
+        qmenu:SetPoint("TOPLEFT", QuestieTracker.frame, "TOPLEFT", 0, -6)
+        qmenu.texture = qmenu:CreateTexture(nil, "BACKGROUND");
+        qmenu.texture:SetTexture(0,0,0);
+        qmenu.texture:SetAlpha(0.0);
+        qmenu.texture:SetAllPoints(qmenu);
+        qmenu:EnableMouse(true);
+        qmenu:SetScript("OnClick", function()
+            if (QuestieConfig.trackerMinimize == false) then
+                QuestieConfig.trackerMinimize = true
+                QuestieTracker.frame:Hide();
+            else
+               QuestieConfig.trackerMinimize = false
+               QuestieTracker.frame:Show();
+            end
+        end);
         QuestieTrackerHeader:Hide();
     end
 end
@@ -735,7 +854,7 @@ function QuestLogTitleButton_OnClick(button)
                         return;
                     end
                     if ( ChatFrameEditBox:IsVisible() ) then
-                        ChatFrameEditBox:Insert(gsub(this:GetText(), " *(.*)", "%1"));
+                        ChatFrameEditBox:Insert("["..gsub(this:GetText(), ".*%]%s(.*)", "%1").."]");
                     else
                         if ( IsQuestWatched(questIndex) ) then
                             RemoveQuestWatch(questIndex);
@@ -770,7 +889,7 @@ function QuestLogTitleButton_OnClick(button)
         if(button == "LeftButton") then
             if( not IsShiftKeyDown() and IsControlKeyDown() ) then
                 if ( ChatFrameEditBox:IsVisible() ) then
-                    AddQuestStatusToChatFrame(questIndex, questName);
+                    ChatFrameEditBox:Insert("["..gsub(this:GetText(), ".*%]%s(.*)", "%1").."]");
                 end
             end
         else
@@ -795,7 +914,7 @@ function QuestLogTitleButton_OnClick(button)
                 return;
             end
             if ( ChatFrameEditBox:IsVisible() ) then
-                ChatFrameEditBox:Insert(gsub(this:GetText(), " *(.*)", "%1"));
+                ChatFrameEditBox:Insert("["..gsub(this:GetText(), ".*%]%s(.*)", "%1").."]");
             else
                 if ( IsQuestWatched(questIndex) ) then
                     QuestieTracker:setQuestInfo(questIndex);
@@ -854,7 +973,7 @@ local function trim(s)
     return string.gsub(s, "^%s*(.-)%s*$", "%1")
 end
 ---------------------------------------------------------------------------------------------------
-function QuestieTracker:addQuestToTracker(hash, logId, level) -- never used???
+function QuestieTracker:addQuestToTracker(hash, logId, level)
     if (QuestieSeenQuests[hash] == 1) then
         return
     end
@@ -865,7 +984,7 @@ function QuestieTracker:addQuestToTracker(hash, logId, level) -- never used???
         logId = Questie:GetQuestIdFromHash(hash)
     end
     if logId == nil then
-        DEFAULT_CHAT_FRAME:AddMessage("TrackerError! LogId still nil after GetQuestIdFromHash ", hash)
+        --DEFAULT_CHAT_FRAME:AddMessage("TrackerError! LogId still nil after GetQuestIdFromHash ", hash)
         return
     end
     local questName, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(logId)
@@ -881,6 +1000,9 @@ function QuestieTracker:addQuestToTracker(hash, logId, level) -- never used???
         local desc, type, done = QGet_QuestLogLeaderBoard(i, logId);
         if QuestieTrackedQuests[hash]["objective"..i] then
             if isComplete or (QGet_NumQuestLeaderBoards() == 0) or (QuestieTrackedQuests[hash]["objective"..i]["done"] == 1) then
+                if (TomTomCrazyArrow:IsVisible() ~= nil) and (arrow_objective == hash) then
+                    TomTomCrazyArrow:Hide()
+                end
                 QuestieTrackedQuests[hash]["objective"..i] = {
                     ["desc"] = "Quest Complete!",
                     ["type"] = type,
@@ -910,6 +1032,8 @@ function QuestieTracker:addQuestToTracker(hash, logId, level) -- never used???
     Questie:SetAvailableQuests()
     Questie:RedrawNotes()
     QuestieTracker:fillTrackingFrame()
+    --DEFAULT_CHAT_FRAME:AddMessage("addQuestToTracker --> fillTrackingFrame")
+    if QuestieTrackedQuests[hash] == nil then return end
     if QuestieTrackedQuests[hash]["objective1"] then
         if (QuestieTrackedQuests[hash]["objective1"]["done"] ~= true) or (QuestieTrackedQuests[hash]["objective1"]["done"] ~= 1) or (QuestieTrackedQuests[hash]["objective1"]["type"] == nil) or (not QuestieTrackedQuests[hash]["arrowPoint"])then
             QuestieTracker:updateFrameOnTracker(hash, logId, level)
@@ -933,7 +1057,7 @@ function QuestieTracker:updateFrameOnTracker(hash, logId, level)
         logId = Questie:GetQuestIdFromHash(hash)
     end
     if logId == nil then
-        DEFAULT_CHAT_FRAME:AddMessage("TrackerError! LogId still nil after GetQuestIdFromHash ", hash)
+        --DEFAULT_CHAT_FRAME:AddMessage("TrackerError! LogId still nil after GetQuestIdFromHash ", hash)
         return
     end
     local questName, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(logId)
@@ -954,20 +1078,27 @@ function QuestieTracker:updateFrameOnTracker(hash, logId, level)
     end
     uggo = uggo - 1
     QuestieTracker:fillTrackingFrame()
+    --DEFAULT_CHAT_FRAME:AddMessage("updateFrameOnTracker --> fillTrackingFrame")
 end
 ---------------------------------------------------------------------------------------------------
 -- Removes quest from tracker when it's untracked - will not clear cached quest data
 ---------------------------------------------------------------------------------------------------
 function QuestieTracker:removeQuestFromTracker(hash)
     if (QuestieSeenQuests[hash] == 0) and (QuestieTrackedQuests[hash] ~= nil) then
-            QuestieTrackedQuests[hash]["tracked"] = false
+        QuestieTrackedQuests[hash]["tracked"] = false
+        if (TomTomCrazyArrow:IsVisible() ~= nil) and (arrow_objective == hash) then
+            TomTomCrazyArrow:Hide()
+        end
     end
     QuestieTracker:fillTrackingFrame()
+    --DEFAULT_CHAT_FRAME:AddMessage("removeQuestFromTracker --> fillTrackingFrame")
     Questie:SetAvailableQuests()
     Questie:RedrawNotes()
     if (QuestieTracker.highestIndex) == 0 then
-        QuestieTrackerHeader:Hide()
         QuestieTracker.frame:Hide()
+        if (QuestieConfig.showTrackerHeader == true) then
+            QuestieTrackerHeader:Hide()
+        end
     end
 end
 ---------------------------------------------------------------------------------------------------
@@ -1113,9 +1244,6 @@ function QuestieTracker:ADDON_LOADED()
             xOfs = 0,
             yOfs = 0,
         };
-    end
-    if not QuestieTrackedQuests then
-        QuestieTrackedQuests = {}
     end
     -- This adds the ability to scale the Worldmap from FULLSCREEN or to a WINDOW if a player isn't using Cargographer or MetaMap.
     if (QuestieConfig == nil) then return end

@@ -34,6 +34,7 @@ FAQ:
 
 Questie Slash Commands - use "/questie" to show the help menu in game.
   - arrow: Toggles the QuestArrow on and off.
+  - corpsearrow: Toggles the CorpseArrow on and off.
   - clearconfig: Resets all Questie settings and removes stale quest database entries (will not delete
     completed quests).
   - cleartracker: Resets the position of the QuestTracker and places it in the center of your screen.
@@ -55,6 +56,7 @@ Questie Slash Commands - use "/questie" to show the help menu in game.
   - settings: Displayes your current toggles and settings in your default chat window.
   - showquests: Toggles on and off the ability to always show quests on the Worldmap / Minimap - tracked or
     not tracked.
+  - tooltips: Toggles on and off the Quest Objective tool tips.
   - tracker: Toggles on and off the QuestTracker.
   - qtscale: Resizes the Questie QuestTracker using one of 3 pre-programed sizes. Small(default), Medium and Large
   - background: Turns on the QuestTracker background

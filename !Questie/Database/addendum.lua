@@ -1217,8 +1217,12 @@ QuestieLevLookup = {
   ["Bring Ilkrud Magthrull's Tome to Delgren the Purifier at Maestra's Post."]={0,3181993408},
   ["Talk to Delgren the Purifier at Maestra's Post."]={0,3103336192},
   ["Free the trapped Highborne souls in Night Run and Satyrnaar, then return to Delgren the Purifier at Maestra's Post."]={0,2661493280},
-  ["Kill Athrikus Narassin and bring his head to Balthule Shadowstrike near the Tower of Althalaxx."]={0,432732864},
+ },
+ ["The Tower of Althalaxx part 7"]={
   ["Speak with Balthule Shadowstrike near the Tower of Althalaxx."]={0,351455456},
+ },
+ ["The Tower of Althalaxx part 8"]={
+  ["Kill Athrikus Narassin and bring his head to Balthule Shadowstrike near the Tower of Althalaxx."]={0,432732864},
  },
  ["To Ironforge for Yagyin's Digest"]={
   ["Give the Sigil of the Hammer to Gerrig Bonegrip in the Forlorn Cavern of Ironforge."]={77,4210602997},
@@ -3464,8 +3468,6 @@ QuestieLevLookup = {
   ["Find Daphne Stilwell in Westfall."]={5,1400785165},
   ["Defend Daphne Stilwell from the Defias attack.\n\nNeither of your spirits must be released from their mortal coils if you wish to succeed.\n\nAfter you are successful, speak to Daphne Stilwell again."]={5,1355822029},
   ["Speak to Duthorian Rall in Stormwind."]={5,133585453},
-  [""]={5,275711757},
-  [""]={5,275712269},
  },
  ["Buzzbox 411"]={
   ["Collect 3 Thresher Eyes from Darkshore Threshers in the deep sea near Buzzbox 411."]={0,3671288712},
@@ -10774,7 +10776,7 @@ QuestieHashMap = {
  },
  [3129743213]={
   ['name']="The Black Shield",
-  ['startedType']="object",
+  ['startedType']="monster",
   ['finishedType']="monster",
   ['startedBy']="Black Shield",
   ['finishedBy']="Captain Garran Vimes",
@@ -13695,7 +13697,7 @@ QuestieHashMap = {
   ['finishedType']="monster",
   ['startedBy']="Felix Whindlebolt",
   ['finishedBy']="Felix Whindlebolt",
-  ['level']=3,
+  ['level']=2,
   ['questLevel']='3',
   ['rr']=77
  },
@@ -15389,8 +15391,8 @@ QuestieHashMap = {
  },
  [2945708672]={
   ['name']="Caught!",
-  ['startedType']="object",
-  ['finishedType']="object",
+  ['startedType']="monster",
+  ['finishedType']="monster",
   ['startedBy']="Wooden Outhouse",
   ['finishedBy']="Wooden Outhouse",
   ['level']=43,
@@ -15556,7 +15558,7 @@ QuestieHashMap = {
   ['name']="The Tome of Valor",
   ['startedType']="item",
   ['finishedType']="monster",
-  ['startedBy']="unknown",
+  ['startedBy']="Tome of Valor",
   ['finishedBy']="Duthorian Rall",
   ['level']=20,
   ['questLevel']='20',
@@ -19267,7 +19269,7 @@ QuestieHashMap = {
   ['finishedType']="monster",
   ['startedBy']="Wharfmaster Dizzywig",
   ['finishedBy']="Gazlowe",
-  ['level']=10,
+  ['level']=12,
   ['questLevel']='14',
   ['rq']=4060594680
  },
@@ -19611,9 +19613,9 @@ QuestieHashMap = {
  },
  [1931948912]={
   ['name']="WANTED: Caliph Scorpidsting",
-  ['startedType']="object",
+  ['startedType']="monster",
   ['finishedType']="monster",
-  ['startedBy']="Wanted Poster",
+  ['startedBy']="Wanted Poster: Caliph Scorpidsting",
   ['finishedBy']="Chief Engineer Bilgewhizzle",
   ['level']=39,
   ['questLevel']='46'
@@ -20039,9 +20041,9 @@ QuestieHashMap = {
  },
  [671223272]={
   ['name']="WANTED: Andre Firebeard",
-  ['startedType']="object",
+  ['startedType']="monster",
   ['finishedType']="monster",
-  ['startedBy']="Wanted Poster",
+  ['startedBy']="Wanted Poster: Andre Firebeard",
   ['finishedBy']="Security Chief Bilgewhizzle",
   ['level']=38,
   ['questLevel']='45'
@@ -20879,7 +20881,7 @@ QuestieHashMap = {
   ['rq']=2153855240
  },
  [432732864]={
-  ['name']="The Tower of Althalaxx",
+  ['name']="The Tower of Althalaxx part 8",
   ['startedType']="monster",
   ['finishedType']="monster",
   ['startedBy']="Balthule Shadowstrike",
@@ -21466,7 +21468,7 @@ QuestieHashMap = {
  },
  [2710612557]={
   ['name']="Encrypted Letter",
-  ['startedType']="object",
+  ['startedType']="monster",
   ['finishedType']="monster",
   ['startedBy']="Syndicate Documents",
   ['finishedBy']="Loremaster Dibbs",
@@ -21540,7 +21542,7 @@ QuestieHashMap = {
  },
  [3453706893]={
   ['name']="Suspicious Hoofprints",
-  ['startedType']="object",
+  ['startedType']="monster",
   ['finishedType']="monster",
   ['startedBy']="Suspicious Hoofprint",
   ['finishedBy']="Captain Garran Vimes",
@@ -21659,7 +21661,7 @@ QuestieHashMap = {
  },
  [11347365]={
   ['name']="Lieutenant Paval Reethe",
-  ['startedType']="object",
+  ['startedType']="monster",
   ['finishedType']="monster",
   ['startedBy']="Theramore Guard Badge",
   ['finishedBy']="Captain Garran Vimes",
@@ -22277,9 +22279,9 @@ QuestieHashMap = {
  },
  [2213851037]={
   ['name']="WANTED: Chok'sul",
-  ['startedType']="object",
+  ['startedType']="monster",
   ['finishedType']="monster",
-  ['startedBy']="WANTED",
+  ['startedBy']="WANTED: Chok'sul",
   ['finishedBy']="Magistrate Bluntnose",
   ['level']=17,
   ['questLevel']='22+',
@@ -22588,7 +22590,7 @@ QuestieHashMap = {
  },
  [3681982149]={
   ['name']="Foreboding Plans",
-  ['startedType']="object",
+  ['startedType']="monster",
   ['finishedType']="monster",
   ['startedBy']="Syndicate Documents",
   ['finishedBy']="Magistrate Henry Maleb",
@@ -28908,7 +28910,7 @@ QuestieHashMap = {
  },
  [2985035760]={
   ['name']="The Glowing Fruit",
-  ['startedType']="object",
+  ['startedType']="monster",
   ['finishedType']="monster",
   ['startedBy']="Strange Fruited Plant",
   ['finishedBy']="Denalan",
@@ -33051,7 +33053,7 @@ QuestieHashMap = {
  },
  [1413821954]={
   ['name']="Lieutenant Paval Reethe",
-  ['startedType']="object",
+  ['startedType']="monster",
   ['finishedType']="monster",
   ['startedBy']="Theramore Guard Badge",
   ['finishedBy']="Krog",
@@ -34636,7 +34638,7 @@ QuestieHashMap = {
   ['finishedType']="monster",
   ['startedBy']="Gazlowe",
   ['finishedBy']="Wharfmaster Dizzywig",
-  ['level']=10,
+  ['level']=12,
   ['questLevel']='14',
   ['rq']=3517355320
  },
@@ -35258,17 +35260,6 @@ QuestieHashMap = {
   ['questLevel']='45PVP',
   ['rr']=77
  },
- [275712269]={
-  ['name']="The Tome of Valor",
-  ['startedType']="monster",
-  ['finishedType']="monster",
-  ['startedBy']="Brandur Ironhammer",
-  ['finishedBy']="Brandur Ironhammer",
-  ['level']=20,
-  ['questLevel']='20',
-  ['rr']=5,
-  ['rc']=2
- },
  [531798064]={
   ['name']="Tiger Mastery",
   ['startedType']="monster",
@@ -35467,7 +35458,7 @@ QuestieHashMap = {
  },
  [443711632]={
   ['name']="It's a Secret to Everybody",
-  ['startedType']="object",
+  ['startedType']="monster",
   ['finishedType']="monster",
   ['startedBy']="A Small Pack",
   ['finishedBy']="Linken",
@@ -44169,7 +44160,7 @@ QuestieHashMap = {
   ['finishedType']="monster",
   ['startedBy']="Innkeeper Shyria",
   ['finishedBy']="Quintis Jonespyre",
-  ['level']=47,
+  ['level']=45,
   ['questLevel']='50',
   ['rr']=77,
   ['rq']=461774661
@@ -45803,7 +45794,7 @@ QuestieHashMap = {
  },
  [2357408170]={
   ['name']="Suspicious Hoofprints",
-  ['startedType']="object",
+  ['startedType']="monster",
   ['finishedType']="monster",
   ['startedBy']="Suspicious Hoofprint",
   ['finishedBy']="Krog",
@@ -46190,7 +46181,7 @@ QuestieHashMap = {
   ['rq']=3632844778
  },
  [351455456]={
-  ['name']="The Tower of Althalaxx",
+  ['name']="The Tower of Althalaxx part 7",
   ['startedType']="monster",
   ['finishedType']="monster",
   ['startedBy']="Delgren the Purifier",
@@ -47024,7 +47015,7 @@ QuestieHashMap = {
   ['finishedType']="monster",
   ['startedBy']="Tannysa",
   ['finishedBy']="Quintis Jonespyre",
-  ['level']=47,
+  ['level']=45,
   ['questLevel']='50',
   ['rq']=461774661
  },
@@ -48634,8 +48625,8 @@ QuestieHashMap = {
  },
  [387621336]={
   ['name']="It's a Secret to Everybody",
-  ['startedType']="object",
-  ['finishedType']="object",
+  ['startedType']="monster",
+  ['finishedType']="monster",
   ['startedBy']="A Wrecked Raft",
   ['finishedBy']="A Small Pack",
   ['level']=48,
@@ -48983,7 +48974,7 @@ QuestieHashMap = {
  },
  [3212165112]={
   ['name']="Ledger from Tanaris",
-  ['startedType']="object",
+  ['startedType']="monster",
   ['finishedType']="monster",
   ['startedBy']="Wooden Outhouse",
   ['finishedBy']="Krinkle Goodsteel",
@@ -50212,8 +50203,8 @@ QuestieHashMap = {
  [4181245104]={
   ['name']="The Key to Freedom",
   ['startedType']="item",
-  ['finishedType']="object",
-  ['startedBy']="unknown",
+  ['finishedType']="monster",
+  ['startedBy']="Grimesilt Outhouse Key",
   ['finishedBy']="Wooden Outhouse",
   ['level']=43,
   ['questLevel']='47'
@@ -50353,17 +50344,6 @@ QuestieHashMap = {
   ['finishedBy']="Corrupted Songflower",
   ['level']=50,
   ['questLevel']='55'
- },
- [275711757]={
-  ['name']="The Tome of Valor",
-  ['startedType']="monster",
-  ['finishedType']="monster",
-  ['startedBy']="Duthorian Rall",
-  ['finishedBy']="Duthorian Rall",
-  ['level']=20,
-  ['questLevel']='20',
-  ['rr']=5,
-  ['rc']=2
  },
  [973529498]={
   ['name']="Great-father Winter is Here!",
@@ -52795,7 +52775,7 @@ QuestieHashMap = {
  },
  [1207173770]={
   ['name']="The Black Shield",
-  ['startedType']="object",
+  ['startedType']="monster",
   ['finishedType']="monster",
   ['startedBy']="Black Shield",
   ['finishedBy']="Krog",
@@ -55508,7 +55488,6 @@ QuestieAdditionalStartFinishLookup = { -- {C,Z,X,Y}
     ["First Mate Crazz"] = {2, 18, 0.28095853328705, 0.76215869188309},
     ["Marshal Haggard"] = {2, 10, 0.84605520963669, 0.69375222921371},
     ["Krakle"] = {1, 20, 0.30927684903145, 0.5043825507164},
-    ["Tooga"] = {1, 15, 0.31799566745758, 0.74145656824112},
     ["Maur Grimtotem"] = {0, 0, 0, 0},
     ["Gorn"] = {2, 0, 0.51567387580872, 0.6013845205307},
     ["Kali Remik"] = {1, 6, 0.5612558722496, 0.74238252639771},
@@ -55565,7 +55544,6 @@ for k,v in pairs(QuestieHashMap) do
             end
             table.insert(QuestieZoneLevelMap[mapid][v['level']], k);
         else
-            --DEFAULT_CHAT_FRAME:AddMessage("Could not find starter for ".. v['name']);
         end
     end
 end

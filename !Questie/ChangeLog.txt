@@ -1,4 +1,120 @@
 -------------------------------------------------------------------------------------------------------------------------------
+v3.69 
+
+[Hotfix]
+* The auto resize code was adding extra height to the QuestTracker
+  when adding more than one quest at the same time or at odd times.
+  Added a new refresh kicker to force it back into the correct width.
+* The hidden place holder button for the Minimize Tracker feature was
+  still present while the QuestieTracker header was disabled. You
+  could still minimize the tracker by accident. Added a check to only
+  enabled the hidden place holder button when the header is enabled.
+* Aero and I added a check for level one characters that was causing
+  some confusion. This check was intended to resolve a potential
+  issue with players wanting to recycle an old character name they had
+  previously deleted. A level one character with a level 30ish data
+  base filled with completed quests could lead to some frustration.
+  This has been corrected. If you're level one and have more than 3
+  quests in your DB, it will execute the check. Most level one
+  characters get to level two during or shortly after completing their
+  first quest. Once you get to level 2, you'll never see this check.
+* Fixed an issue with "faded tooltips". When visiting a vendor to
+  sell off items, occasionally you'd notice that your Money Tool Tip
+  containing the items sell value was "ghosted". This was caused
+  from a Tooltip being set in too low of a FrameStrata. A reset was
+  added a long time ago to fix this but apparently, it wasn't working
+  in certain edge cases. Changed the reset to a higher FrameLevel and
+  I'm not able to reproduce this issue anymore.
+
+---------------------------------------------------------------------
+
+* I found a small bug with the QuestieTrackedQuests functions. Some
+  of the DB entries were being left behind. Added an additional logic
+  check to make sure both DB's stay clean and trim.
+* More performance tweaks! I think I tracked down two of the biggest
+  performance offenders and throttled them to make sure they only fire
+  when absolutely needed. Tons of other functions were traced and
+  duplicate, unnecessary calls to the same functions have been removed
+  or significantly reduced in frequency. I'm hoping you performance
+  nuts will be impressed. :)
+* With the performance tweaks came an idea on how to re-implement an
+  old feature that everyone seemed to love. As you know I re-added the
+  QuestieTracker background and gave you all the ability to adjust is
+  transparency level. It came back with the "fixed width". Now this
+  width is dynamically adjusted based on the widest quest that is
+  being tracked. The update is tied into QuestLog updates so it only
+  fires when it's absolutely needed. So, memory impact is extremely low.
+* A few minor bug fixes here and there. I discovered a few nil errors
+  after moving some of the functions around. Mostly triggered by a
+  fresh character or a fresh install of Questie. Hopefully I got them
+  all. Please report any bugs you find. My evening test run was cut
+  short by the server maintenance. I didn't want to wait until
+  tomorrow to push out this release.
+
+-------------------------------------------------------------------------------------------------------------------------------
+v3.68
+
+* Fixed an issue with CorpseArrow. Thank you for the help Muehe!
+  Occasionally your CorpseArrow would not show correct distance or
+  direction after dying in an instance and appearing at a grave yard.
+* Fixed an issue with CorpseArrow not being hidden correctly in
+  BattleGrounds. I missed a logic check that in some cases would cause
+  the arrow to appear.
+* The QuestTracker now has a "Minimize" feature. You can either use
+  the slash command "/questie mintracker" **OR** you can click on the
+  "QuestLog Status..." header I.E. 'QuestieTracker Header' AKA:the
+  "/questie header" slash toggle to Minimize or Maximize the Tracker.
+  This ONLY works when the optional QuestieTracker Header is enabled.
+* While questing on some of my toons I still noticed some stale
+  entries in both QuestieTrackedQuests and QuestieSeenQuests DB's. I
+  spent some time going back through the Quest pick up and finisher
+  functions and made some tweaks that I'm hoping will keep things
+  trimmed and organized.
+
+-------------------------------------------------------------------------------------------------------------------------------
+v3.67
+
+* Fixed the following quests:
+  - Syndicate Documents
+  - Strange Fruited Plant
+  - Tooga's Quest
+  - Suspicious Hoofprints
+  - The Black Shield
+  - Lieutenant Paval Reethe
+  - WANTED: Andre Firebeard
+  - WANTED: Caliph Scorpidsting
+  - Caught!
+  - Jonespyre's Request
+  - Jonespyre's Request
+  - Caught!
+  - It's a Secret to Everybody
+  - The Missing Shipment
+
+* Added a check to NUKE Questie user settings if a user deletes a character
+  and uses the same name for a new character to avoid issues with Quests
+  being displayed.
+* Added a BG check: If a player is in a BG then CorpseArrow won't appear
+* You can now toggle the Corpse Arrow on and off. Use '/questie corpsearrow'
+
+-------------------------------------------------------------------------------------------------------------------------------
+v3.66
+
+* Merged a user suggested change to tooltip hooking that seems to
+  work better after some testing. Thank you rasberryrabbit!
+* Fixed an issue with quests disappearing from the QuestTracker upon
+  entering a dungeon. In Vanilla WoW there is no way to get player
+  coordinates and thus Questie can't run it's checks without knowing
+  where Quest Objectives are located so they are automatically removed.
+  While in an instance coordinates returned are always 0,0 so I re-added
+  a check that was inadvertently removed when I rewrote some of
+  Astrolabes functions. Sorry about that guys. Thank you for reporting
+  it!
+* I submitted some Quest Database fixes for several Quests obtained via
+  wanted posters and fixed a quest that a couple users reported. This
+  Hotfix contains last night’s commit and a fix for another one that I
+  found today.
+
+-------------------------------------------------------------------------------------------------------------------------------
 v3.65
 
 * Added a new feature that allows you to turn off the Questie tool tips.
@@ -65,7 +181,7 @@ v3.62
 v3.61
 
 * Fixed an issue with the Shift+Click manual quest complete Dewdrop menu popup
-  appearing off screen when a players Worldmap is in "Full Screen" mode.
+  appearing off screen when a player’s Worldmap is in "Full Screen" mode.
 * Re-added the Questie QuestTracker background and added the ability to set
   it's alpha level. This is NOT enabled by default. Pay attention! :)
     Step 1: Enable the back ground by running '/questie background' - default
@@ -79,7 +195,7 @@ v3.61
 * The Questie QuestTrackers background is a fixed width. I did not re-enable the
   code to auto resize the width. It's set to 200px wide which can accomodate
   some fairly wide quest descriptions and objectives without it looking too ugly.
-* Minor improvement in completed quest markers not dissappearing right away after
+* Minor improvement in completed quest markers not disappearing right away after
   completing a quest.
 
 -------------------------------------------------------------------------------------------------------------------------------
@@ -92,7 +208,7 @@ v3.6
 * Quest update code has been updated. Some of the previous refresh issues with
   quests updating drop counts has been fixed.
 * Added the ability to resize the Quest Tracker. There are now three size
-  options avaialable. Small (default) | Medium | Large. Slash command usage:
+  options available. Small (default) | Medium | Large. Slash command usage:
   (/questie qtscale small|medium|large) - upon hitting enter to set the size,
   a ReloadUI will occure to redraw the QuestTracker. NOTE: This option only
   works on the Questie QuestTracker, NOT the Default WoW QuestTracker.
