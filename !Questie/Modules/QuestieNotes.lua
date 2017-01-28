@@ -728,7 +728,17 @@ end
 
 function Questie:AddFrameNoteData(icon, data)
     if icon then
+        if (icon.averageX == nil or icon.averageY == nil) then
+            icon.averageX = 0
+            icon.averageY = 0
+        end
+		local numQuests = table.getn(icon.quests)
+		local newAverageX = (icon.averageX * numQuests + data.x) / (numQuests + 1)
+		local newAverageY = (icon.averageY * numQuests + data.y) / (numQuests + 1)
+		icon.averageX = newAverageX
+		icon.averageY = newAverageY
         table.insert(icon.quests, data)
+        Astrolabe:PlaceIconOnWorldMap(WorldMapButton,icon,data.continent ,data.zoneid ,icon.averageX, icon.averageY)
     end
 end
 
@@ -851,6 +861,44 @@ function Questie:CLEAR_ALL_NOTES()
     QuestieUsedNoteFrames = {};
 end
 ---------------------------------------------------------------------------------------------------
+-- Rounds numbers. don't know where to put this function
+---------------------------------------------------------------------------------------------------
+function round(x)
+    return tonumber(string.format("%.1f", x))
+end
+---------------------------------------------------------------------------------------------------
+-- Gets/Sets grouped quests
+---------------------------------------------------------------------------------------------------
+function Questie:GetGroupedQuests(frame, v)
+    local roundedX = v.x
+    local roundedY = v.y
+    if (v.icontype == "complete" or v.icontype == "available") then
+	    roundedX = round(v.x)
+	    roundedY = round(v.y)
+	end
+    if (questsByFrameAndPosition[frame][v.continent] == nil) then
+        questsByFrameAndPosition[frame][v.continent] = {}
+    end
+    if (questsByFrameAndPosition[frame][v.continent][v.zoneid] == nil) then
+        questsByFrameAndPosition[frame][v.continent][v.zoneid] = {}
+    end
+	if (questsByFrameAndPosition[frame][v.continent][v.zoneid][roundedX] == nil) then
+		questsByFrameAndPosition[frame][v.continent][v.zoneid][roundedX] = {}
+	end
+	local existingQuest = questsByFrameAndPosition[frame][v.continent][v.zoneid][roundedX][roundedY]
+	return existingQuest
+end
+
+function Questie:SetGroupedQuests(frame, v, icon)
+    local roundedX = v.x
+    local roundedY = v.y
+    if (v.icontype == "complete" or v.icontype == "available") then
+	    roundedX = round(v.x)
+	    roundedY = round(v.y)
+	end
+	questsByFrameAndPosition[frame][v.continent][v.zoneid][roundedX][roundedY] = icon
+end
+---------------------------------------------------------------------------------------------------
 -- Checks first if there are any notes for the current zone, then draws the desired icon
 ---------------------------------------------------------------------------------------------------
 function Questie:DRAW_NOTES()
@@ -868,10 +916,7 @@ function Questie:DRAW_NOTES()
                 Astrolabe:PlaceIconOnMinimap(MMIcon, v.continent, v.zoneid, v.x, v.y);
                 table.insert(QuestieUsedNoteFrames, MMIcon);
             elseif (QuestieConfig.alwaysShowQuests == true) then
-                if (questsByFrameAndPosition["MiniMapNote"][v.x] == nil) then
-                    questsByFrameAndPosition["MiniMapNote"][v.x] = {}
-                end
-                local existingQuest = questsByFrameAndPosition["MiniMapNote"][v.x][v.y]
+                local existingQuest = Questie:GetGroupedQuests("MiniMapNote", v)
                 if (existingQuest == nil) and not QuestieConfig.hideMinimapIcons then
                     MMIcon = Questie:GetBlankNoteFrame();
                     Questie:SetFrameNoteData(MMIcon, v, Minimap, 9, "MiniMapNote", QUESTIE_NOTES_MINIMAP_ICON_SCALE)
@@ -880,7 +925,7 @@ function Questie:DRAW_NOTES()
                     --Set the texture to the right type
                     Astrolabe:PlaceIconOnMinimap(MMIcon, v.continent, v.zoneid, v.x, v.y);
                     table.insert(QuestieUsedNoteFrames, MMIcon);
-                    questsByFrameAndPosition["MiniMapNote"][v.x][v.y] = MMIcon
+                    Questie:SetGroupedQuests("MiniMapNote", v, MMIcon)
                 else
                     Questie:AddFrameNoteData(existingQuest, v)
                 end
@@ -893,10 +938,7 @@ function Questie:DRAW_NOTES()
                 if true then
                     --If we aren't tracking a quest on the QuestTracker then hide the objectives from the worldmap
                     if ( ( (QuestieTrackedQuests[v.questHash] ~= nil) and (QuestieTrackedQuests[v.questHash]["tracked"] ~= false) ) or (v.icontype == "complete") ) and (QuestieConfig.alwaysShowQuests == false) then
-                        if (questsByFrameAndPosition["WorldMapNote"][v.x] == nil) then
-                            questsByFrameAndPosition["WorldMapNote"][v.x] = {}
-                        end
-                        local existingQuest = questsByFrameAndPosition["WorldMapNote"][v.x][v.y]
+                        local existingQuest = Questie:GetGroupedQuests("WorldMapNote", v)
                         if (existingQuest == nil) then
                             Icon = Questie:GetBlankNoteFrame();
                             local frameLevel = 9;
@@ -918,15 +960,12 @@ function Questie:DRAW_NOTES()
                             else
                                 Questie:Clear_Note(Icon);
                             end
-                            questsByFrameAndPosition["WorldMapNote"][v.x][v.y] = Icon
+                            Questie:SetGroupedQuests("WorldMapNote", v, Icon)
                         else
                             Questie:AddFrameNoteData(existingQuest, v)
                         end
                     elseif (QuestieConfig.alwaysShowQuests == true) then
-                        if (questsByFrameAndPosition["WorldMapNote"][v.x] == nil) then
-                            questsByFrameAndPosition["WorldMapNote"][v.x] = {}
-                        end
-                        local existingQuest = questsByFrameAndPosition["WorldMapNote"][v.x][v.y]
+                        local existingQuest = Questie:GetGroupedQuests("WorldMapNote", v)
                         if (existingQuest == nil) then
                             Icon = Questie:GetBlankNoteFrame();
                             local frameLevel = 9;
@@ -948,7 +987,7 @@ function Questie:DRAW_NOTES()
                             else
                                 Questie:Clear_Note(Icon);
                             end
-                            questsByFrameAndPosition["WorldMapNote"][v.x][v.y] = Icon
+                            Questie:SetGroupedQuests("WorldMapNote", v, Icon)
                         else
                             Questie:AddFrameNoteData(existingQuest, v)
                         end
@@ -961,10 +1000,7 @@ function Questie:DRAW_NOTES()
         if Active == true then
             local con,zon,x,y = Astrolabe:GetCurrentPlayerPosition();
             for k, v in pairs(QuestieAvailableMapNotes[c][z]) do
-                if (questsByFrameAndPosition["WorldMapNote"][v.x] == nil) then
-                    questsByFrameAndPosition["WorldMapNote"][v.x] = {}
-                end
-                local existingQuest = questsByFrameAndPosition["WorldMapNote"][v.x][v.y]
+                local existingQuest = Questie:GetGroupedQuests("WorldMapNote", v)
                 if (existingQuest == nil) then
                     Icon = Questie:GetBlankNoteFrame();
                     Questie:SetFrameNoteData(Icon, v, WorldMapFrame, 9, "WorldMapNote", QUESTIE_NOTES_MAP_ICON_SCALE)
@@ -975,14 +1011,11 @@ function Questie:DRAW_NOTES()
                     else
                         Questie:Clear_Note(Icon);
                     end
-                    questsByFrameAndPosition["WorldMapNote"][v.x][v.y] = Icon
+                    Questie:SetGroupedQuests("WorldMapNote", v, Icon)
                 else
                     Questie:AddFrameNoteData(existingQuest, v)
                 end
-                if (questsByFrameAndPosition["MiniMapNote"][v.x] == nil) then
-                    questsByFrameAndPosition["MiniMapNote"][v.x] = {}
-                end
-                existingQuest = questsByFrameAndPosition["MiniMapNote"][v.x][v.y]
+                existingQuest = Questie:GetGroupedQuests("MiniMapNote", v)
                 if (existingQuest == nil) and not QuestieConfig.hideMinimapIcons then
                     MMIcon = Questie:GetBlankNoteFrame();
                     Questie:SetFrameNoteData(MMIcon, v, Minimap, 7, "MiniMapNote", QUESTIE_NOTES_MINIMAP_ICON_SCALE)
@@ -991,7 +1024,7 @@ function Questie:DRAW_NOTES()
                     --Set the texture to the right type
                     Astrolabe:PlaceIconOnMinimap(MMIcon, v.continent, v.zoneid, v.x, v.y);
                     table.insert(QuestieUsedNoteFrames, MMIcon);
-                    questsByFrameAndPosition["MiniMapNote"][v.x][v.y] = MMIcon
+                    Questie:SetGroupedQuests("MiniMapNote", v, MMIcon)
                 else
                     Questie:AddFrameNoteData(existingQuest, v)
                 end
