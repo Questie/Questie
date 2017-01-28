@@ -747,7 +747,6 @@ function Questie:AddFrameNoteData(icon, data)
         icon.averageX = newAverageX
         icon.averageY = newAverageY
         table.insert(icon.quests, data)
-        Astrolabe:PlaceIconOnWorldMap(WorldMapButton,icon,data.continent ,data.zoneid ,icon.averageX, icon.averageY)
     end
 end
 
