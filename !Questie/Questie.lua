@@ -63,6 +63,7 @@ function Questie:SetupDefaults()
         ["hideMinimapIcons"] = false,
         ["hideObjectives"] = false,
         ["getVersion"] = QuestieVersion,
+        ["clusterQuests"] = true,
     }
     end
     if not QuestieTrackerVariables then QuestieTrackerVariables = {
@@ -145,6 +146,9 @@ function Questie:CheckDefaults()
     end
     if QuestieConfig.hideObjectives == nil then
         QuestieConfig.hideObjectives = false;
+    end
+    if QuestieConfig.clusterQuests == nil then
+        QuestieConfig.clusterQuests = true;
     end
     -- Setups default QuestDB's for fresh characters
     if QuestieTrackedQuests == nil then
@@ -239,6 +243,7 @@ function Questie:ClearConfig(arg)
                 ["resizeWorldmap"] = false,
                 ["hideMinimapIcons"] = false,
                 ["hideObjectives"] = false,
+                ["clusterQuests"] = true,
                 ["getVersion"] = QuestieVersion,
             }
             -- Clears tracker settings
@@ -323,6 +328,7 @@ function Questie:NUKE(arg)
                 ["resizeWorldmap"] = false,
                 ["hideMinimapIcons"] = false,
                 ["hideObjectives"] = false,
+                ["clusterQuests"] = true,
                 ["getVersion"] = QuestieVersion,
             }
             -- Clears tracker settings
@@ -1028,6 +1034,16 @@ QuestieFastSlash = {
         Questie:Toggle();
         Questie:Toggle();
     end,
+    ["cluster"] = function()
+        QuestieConfig.clusterQuests = not QuestieConfig.clusterQuests;
+        if QuestieConfig.clusterQuests then
+            DEFAULT_CHAT_FRAME:AddMessage("  Questie: Quest icons will now be clustered!");
+        else
+            DEFAULT_CHAT_FRAME:AddMessage("  Questie: Quest icons will now be separate!");
+        end
+        Questie:Toggle();
+        Questie:Toggle();
+    end,
     ["help"] = function()
         DEFAULT_CHAT_FRAME:AddMessage("Questie SlashCommand Help Menu:", 1, 0.75, 0);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie arrow |r-- |c0000ffc0(toggle)|r QuestArrow", 0.75, 0.75, 0.75);
@@ -1036,6 +1052,7 @@ QuestieFastSlash = {
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie corpsearrow |r-- |c0000ffc0(toggle)|r CorpseArrow", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie clearconfig |r-- Resets Questie settings. It does NOT delete your quest data.", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie cleartracker |r-- Relocates the QuestTracker to the center of your screen.", 0.75, 0.75, 0.75);
+        DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie cluster |r-- |c0000ffc0(toggle)|r Cluster nearby quests together.", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie color |r-- Select from two different color schemes", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie header |r-- |c0000ffc0(toggle)|r QuestTracker log counter", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie hideminimap |r-- |c0000ffc0(toggle)|r Hides quest starter icons on mini map only", 0.75, 0.75, 0.75);
