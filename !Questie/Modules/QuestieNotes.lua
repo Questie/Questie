@@ -914,13 +914,15 @@ function Cluster:CalculateClusters(clusters, distanceThreshold, maxClusterSize)
             for j, otherCluster in pairs(clusters) do
                 if cluster ~= otherCluster then
                     local distance = Cluster.CalculateLinkageDistance(cluster.points, otherCluster.points)
-                    if ((nearestDistance == nil) or (distance < nearestDistance)) and (table.getn(cluster.points) + table.getn(otherCluster.points) <= maxClusterSize or distance == 0) then
+                    if distance == 0 or ((nearestDistance == nil or distance < nearestDistance) and (table.getn(cluster.points) + table.getn(otherCluster.points) <= maxClusterSize)) then
                         nearestDistance = distance
                         nearest1 = cluster
                         nearest2 = otherCluster
                     end
                 end
+                if nearestDistance == 0 then break end
             end
+            if nearestDistance == 0 then break end
         end
 
         if nearestDistance == nil or nearestDistance > distanceThreshold then break end
