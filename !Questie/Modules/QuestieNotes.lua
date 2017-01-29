@@ -1072,7 +1072,7 @@ function Questie:DrawClusters(frameName, identifier, scale, frame, button)
             return
                 (a.icontype == "complete" and b.icontype ~= "complete") or
                 (a.icontype == b.icontype and questA.level < questB.level) or
-                (questA.level == questB.level and questA.questLevel < questB.questLevel)
+                (a.icontype == b.icontype and questA.level == questB.level and questA.questLevel < questB.questLevel)
         end)
         Icon = Questie:GetBlankNoteFrame()
         local mainV = cluster.points[1]
