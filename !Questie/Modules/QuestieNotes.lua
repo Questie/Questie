@@ -1061,7 +1061,9 @@ function Questie:DRAW_NOTES()
 
     local minimapClusters = Questie:GetClustersByFrame("MiniMapNote", "Quests")
     local worldMapClusters = Questie:GetClustersByFrame("WorldMapNote", "Quests")
-    Cluster:CalculateClusters(worldMapClusters, 0.025, 5)
+    if QuestieConfig.clusterQuests then
+        Cluster:CalculateClusters(worldMapClusters, 0.025, 5)
+    end
 
 
     local scale = QUESTIE_NOTES_MAP_ICON_SCALE;
