@@ -950,9 +950,21 @@ function Questie:AddClusterFromNote(frame, identifier, v)
     if clustersByFrame[frame][identifier] == nil then
         clustersByFrame[frame][identifier] = {}
     end
+    if clustersByFrame[frame][identifier][v.x] == nil then
+        clustersByFrame[frame][identifier][v.x] = {}
+    end
+    if clustersByFrame[frame][identifier][v.x][v.y] == nil then
+        local points = { v }
+        local cluster = Cluster.new(points)
+        clustersByFrame[frame][identifier][v.x][v.y] = cluster
+    else
+        table.insert(clustersByFrame[frame][identifier][v.x][v.y].points, v)
+    end
+    --[[
     local points = { v }
     local cluster = Cluster.new(points)
     table.insert(clustersByFrame[frame][identifier], cluster);
+    --]]
 end
 
 function Questie:GetClustersByFrame(frame, identifier)
@@ -965,7 +977,14 @@ function Questie:GetClustersByFrame(frame, identifier)
     if clustersByFrame[frame][identifier] == nil then
         clustersByFrame[frame][identifier] = {}
     end
-    return clustersByFrame[frame][identifier]
+    local clusters = {}
+    for x, v in pairs(clustersByFrame[frame][identifier]) do
+        for y, v in pairs(clustersByFrame[frame][identifier][x]) do
+            table.insert(clusters, clustersByFrame[frame][identifier][x][y])
+        end
+    end
+    return clusters
+    --return clustersByFrame[frame][identifier]
 end
 ---------------------------------------------------------------------------------------------------
 -- Finds the index of an item in a table. Not sure if a function already exists somewhere.
@@ -1037,16 +1056,12 @@ function Questie:DRAW_NOTES()
         end
     end
 
-    -- maxClusterSize is irrelevant if distanceThreshold is set to 0, because items with a distance of 0 are always clustered.
     local minimapObjectiveClusters = Questie:GetClustersByFrame("MiniMapNote", "Objectives")
-    Cluster:CalculateClusters(minimapObjectiveClusters, 0, 5)
     local worldMapObjectiveClusters = Questie:GetClustersByFrame("WorldMapNote", "Objectives")
-    Cluster:CalculateClusters(worldMapObjectiveClusters, 0, 5)
 
+    local minimapClusters = Questie:GetClustersByFrame("MiniMapNote", "Quests")
     local worldMapClusters = Questie:GetClustersByFrame("WorldMapNote", "Quests")
     Cluster:CalculateClusters(worldMapClusters, 0.025, 5)
-    local minimapClusters = Questie:GetClustersByFrame("MiniMapNote", "Quests")
-    Cluster:CalculateClusters(minimapClusters, 0, 5)
 
 
     local scale = QUESTIE_NOTES_MAP_ICON_SCALE;
@@ -1055,18 +1070,17 @@ function Questie:DRAW_NOTES()
     elseif(z == 0) then--Single continent
         scale = QUESTIE_NOTES_CONTINENT_ICON_SCALE;
     end
-    Questie:DrawClusters("WorldMapNote", "Objectives", scale, WorldMapFrame, WorldMapButton)
-    Questie:DrawClusters("WorldMapNote", "Quests", scale, WorldMapFrame, WorldMapButton)
-    Questie:DrawClusters("MiniMapNote", "Objectives", QUESTIE_NOTES_MINIMAP_ICON_SCALE, Minimap)
-    Questie:DrawClusters("MiniMapNote", "Quests", QUESTIE_NOTES_MINIMAP_ICON_SCALE, Minimap)
+    Questie:DrawClusters(worldMapObjectiveClusters, "WorldMapNote", scale, WorldMapFrame, WorldMapButton)
+    Questie:DrawClusters(worldMapClusters, "WorldMapNote", scale, WorldMapFrame, WorldMapButton)
+    Questie:DrawClusters(minimapObjectiveClusters, "MiniMapNote", QUESTIE_NOTES_MINIMAP_ICON_SCALE, Minimap)
+    Questie:DrawClusters(minimapClusters, "MiniMapNote", QUESTIE_NOTES_MINIMAP_ICON_SCALE, Minimap)
 end
 
-function Questie:DrawClusters(frameName, identifier, scale, frame, button)
+function Questie:DrawClusters(clusters, frameName, scale, frame, button)
     local frameLevel = 9
     if frameName == "MiniMapNote" then
         frameLevel = 7
     end
-    local clusters = Questie:GetClustersByFrame(frameName, identifier)
     for i, cluster in pairs(clusters) do
         table.sort(cluster.points, function(a, b)
             local questA = QuestieHashMap[a.questHash]
