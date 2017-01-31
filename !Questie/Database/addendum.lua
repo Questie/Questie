@@ -22365,7 +22365,7 @@ QuestieHashMap = {
   ['name']="The Unsent Letter",
   ['startedType']="item",
   ['finishedType']="monster",
-  ['startedBy']="unknown",
+  ['startedBy']="An Unsent Letter",
   ['finishedBy']="Baros Alexston",
   ['level']=16,
   ['questLevel']='22',
@@ -55515,35 +55515,57 @@ QuestieAdditionalStartFinishLookup = { -- {C,Z,X,Y}
 QuestieZoneLevelMap = {
 }
 
+function addQuestToZoneLevelMap(mapid, level, questId)
+    if mapid ~= nil then
+        if QuestieZoneLevelMap[mapid] == nil then
+            QuestieZoneLevelMap[mapid] = {};
+        end
+        if QuestieZoneLevelMap[mapid][level] == nil then
+            QuestieZoneLevelMap[mapid][level] = {};
+        end
+        QuestieZoneLevelMap[mapid][level][questId] = true
+    end
+end
+
+function getMonsterMapId(monsterName)
+    local mapid
+    local monster = QuestieMonsters[monsterName]
+    if monster ~= nil then
+        mapid = monster['locations'][1][1]
+    else
+        local additionalCheck = QuestieAdditionalStartFinishLookup[monsterName]
+        if additionalCheck ~= nil then
+            local czLookupKey = additionalCheck[2]*100 + additionalCheck[3]
+            mapid = QuestieCZLookup[czLookupKey]
+        end
+    end
+    return mapid
+end
+
 local start = GetTime();
 for k,v in pairs(QuestieHashMap) do
+    local mapid
     if v['startedType'] == "monster" then
-        local qhdb = QuestieMonsters[v['startedBy']];
-        local mapid = -1;
-        if qhdb == nil then
-            local derp = QuestieAdditionalStartFinishLookup[v['startedBy']];
-            if not (derp == nil) then
-                local c = derp[1];
-                local v = derp[2];
-                -- MAKE THIS CODE FASTER
-                for k,va in pairs(QuestieZones) do
-                    if va[2] == c and va[3] == v then
-                        mapid = va[1];
-                    end
+        local mapid = getMonsterMapId(v['startedBy'])
+        if mapid ~= nil then addQuestToZoneLevelMap(mapid, v['level'], k) end
+    end
+    if v['startedType'] == "item" then
+        local item = QuestieItems[v['startedBy']]
+        if item ~= nil then
+            local drops = item['drop']
+            if drops ~= nil then
+                for monsterName, someId in pairs(drops) do
+                    local mapid = getMonsterMapId(monsterName)
+                    addQuestToZoneLevelMap(mapid, v['level'], k)
                 end
             end
-        else
-            mapid = qhdb['locations'][1][1];
-        end
-        if not (mapid == -1) then
-            if QuestieZoneLevelMap[mapid] == nil then
-                QuestieZoneLevelMap[mapid] = {};
+            local locations = item['locations']
+            if locations ~= nil then
+                for i, location in pairs(locations) do
+                    local mapid = location[1]
+                    addQuestToZoneLevelMap(mapid, v['level'], k)
+                end
             end
-            if QuestieZoneLevelMap[mapid][v['level']] == nil then
-                QuestieZoneLevelMap[mapid][v['level']] = {};
-            end
-            table.insert(QuestieZoneLevelMap[mapid][v['level']], k);
-        else
         end
     end
 end

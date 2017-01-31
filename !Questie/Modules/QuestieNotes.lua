@@ -836,6 +836,31 @@ function Questie:SetAvailableQuests()
                 Questie:AddAvailableNoteToMap(c,z,Objects[2],Objects[3],"available",v,-1);
             end
         end
+        -- Items
+        for k, v in pairs(quests) do
+            Questie:debug_Print(v)
+            if(QuestieHashMap[v] and QuestieHashMap[v]['startedBy'] and QuestieItems[QuestieHashMap[v]['startedBy']]) then
+                local item = QuestieItems[QuestieHashMap[v]['startedBy']]
+                if item['drop'] then
+                    local monsters = item['drop']
+                    for monsterName, someId in pairs(monsters) do
+                        local monster = QuestieMonsters[monsterName]
+                        local locations = monster['locations']
+                        for i, location in pairs(locations) do
+                            local MapInfo = Questie:GetMapInfoFromID(location[1])
+                            Questie:AddAvailableNoteToMap(c,z,location[2],location[3],"available",v,-1)
+                        end
+                    end
+                end
+                if item['locations'] then
+                    local locations = item['locations']
+                    for i, location in pairs(locations) do
+                        local MapInfo = Questie:GetMapInfoFromID(location[1])
+                        Questie:AddAvailableNoteToMap(c,z,location[2],location[3],"available",v,-1)
+                    end
+                end
+            end
+        end
         Questie:debug_Print("Added Available quests: Time:",tostring((GetTime()- t)*1000).."ms", "Count:"..table.getn(quests))
     end
 end

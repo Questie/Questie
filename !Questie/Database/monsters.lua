@@ -51699,16 +51699,6 @@ QuestieMonsters = {
     ["looted"] = 7833,
     ["locationCount"] = 4
   },
-  ["Captain Sander's Treasure Map"] = {
-    ["locations"] = {
-      [1] = {49.0, 0.5458, 0.1057, 100.0},
-      [5] = {49.0, 0.2731, 0.7109, 2.0},
-      [3] = {49.0, 0.3574, 0.1995, 30.0},
-      [4] = {49.0, 0.272, 0.5573, 26.0},
-      [2] = {49.0, 0.334, 0.832, 30.0}
-    },
-    ["locationCount"] = 5
-  },
   ["Unstable Voidwalker"] = {
     ["locations"] = {
       [1] = {56.0, 0.498, 0.8218, 100.0},
@@ -96567,12 +96557,6 @@ QuestieMonsters = {
       [2] = {48.0, 0.355, 0.3903, 51.0}
     },
     ["locationCount"] = 3
-  },
-  ["An Unsent Letter"] = {
-    ["locations"] = {
-      [1] = {49.0, 0.3817, 0.7747, 100.0}
-    },
-    ["locationCount"] = 1
   },
   ["Buru the Gorger"] = {
     ["locations"] = {

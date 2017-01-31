@@ -831,7 +831,7 @@ function Questie:GetAvailableQuestHashes(mapFileName, levelFrom, levelTo)
         if QuestieZoneLevelMap[mapid] then
             local content = QuestieZoneLevelMap[mapid][l];
             if content then
-                for k,v in pairs(content) do
+                for v,b in pairs(content) do
                     local qdata = QuestieHashMap[v];
                     if(qdata) then
                         local requiredQuest = qdata['rq'];
