@@ -186,7 +186,7 @@ end
 -- Add available quest note to map
 ---------------------------------------------------------------------------------------------------
 QuestieAvailableMapNotes = {};
-function Questie:AddAvailableNoteToMap(continent, zoneid, posx, posy, type, questHash, objectiveid)
+function Questie:AddAvailableNoteToMap(continent, zoneid, posx, posy, type, questHash, objectiveid, monsterName)
     --This is to set up the variables
     if(QuestieAvailableMapNotes[continent] == nil) then
         QuestieAvailableMapNotes[continent] = {};
@@ -203,6 +203,7 @@ function Questie:AddAvailableNoteToMap(continent, zoneid, posx, posy, type, ques
     Note.icontype = type;
     Note.questHash = questHash;
     Note.objectiveid = objectiveid;
+    Note.monsterName = monsterName
     --Inserts it into the right zone and continent for later use.
     table.insert(QuestieAvailableMapNotes[continent][zoneid], Note);
 end
@@ -532,6 +533,9 @@ function Questie_Tooltip_OnEnter()
                 Tooltip:AddLine("["..QuestieHashMap[data.questHash].questLevel.."] "..QuestieHashMap[data.questHash].name.." |cFF33FF00(available)|r");
                 Tooltip:AddLine("Min Level: |cFFa6a6a6"..QuestieHashMap[data.questHash].level.."|r",1,1,1);
                 Tooltip:AddLine("Started by: |cFFa6a6a6"..QuestieHashMap[data.questHash].startedBy.."|r",1,1,1);
+                if QuestieHashMap[data.questHash].startedType == "item" then
+                    Tooltip:AddLine("Dropped by: |cFFa6a6a6"..data.monsterName.."|r",1,1,1)
+                end
                 if questOb ~= nil then
                     Tooltip:AddLine("Description: |cFFa6a6a6"..questOb.."|r",1,1,1,true);
                 end
@@ -848,10 +852,11 @@ function Questie:SetAvailableQuests()
                         local locations = monster['locations']
                         for i, location in pairs(locations) do
                             local MapInfo = Questie:GetMapInfoFromID(location[1])
-                            Questie:AddAvailableNoteToMap(c,z,location[2],location[3],"available",v,-1)
+                            Questie:AddAvailableNoteToMap(c,z,location[2],location[3],"available",v,-1, monsterName)
                         end
                     end
                 end
+                -- todo items shouldn't really have locations i dont think. - ZoeyZolotova
                 if item['locations'] then
                     local locations = item['locations']
                     for i, location in pairs(locations) do
