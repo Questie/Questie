@@ -622,5 +622,72 @@ QuestieObjects = {
       [1] = {11.0, 0.5203, 0.4648, 100.0}
     },
     ["locationCount"] = 1
-  }
+  },
+  ["Buzzbox 323"] = {
+    ["locations"] = {
+      [1] = {16.0, 0.5127, 0.246, 100.0}
+    },
+    ["locationCount"] = 1
+  },
+  ["Buzzbox 411"] = {
+    ["locations"] = {
+      [1] = {16.0, 0.4197, 0.2866, 100.0}
+    },
+    ["locationCount"] = 1
+  },
+  ["Buzzbox 827"] = {
+    ["locations"] = {
+      [1] = {16.0, 0.3664, 0.4628, 100.0}
+    },
+    ["locationCount"] = 1
+  },
+  ["Buzzbox 525"] = {
+    ["locations"] = {
+      [1] = {16.0, 0.4141, 0.8059, 100.0}
+    },
+    ["locationCount"] = 1
+  },
+  ["WANTED: Murkdeep!"] = {
+    ["locations"] = {
+      [1] = {16.0, 0.3720, 0.4420, 100.0}
+    },
+    ["locationCount"] = 1
+  },
+  ["Wanted: Gath'Ilzogg"] = {
+    ["locations"] = {
+      [1] = {30.0, 0.2962, 0.4618, 100.0}
+    },
+    ["locationCount"] = 1
+  },
+  ["WANTED: Chok'sul"] = {
+    ["locations"] = {
+      [1] = {29.0, 0.3729, 0.4649, 100.0}
+    },
+    ["locationCount"] = 1
+  },
+  ["Wanted Poster: Andre Firebeard"] = {
+    ["locations"] = {
+      [1] = {8.0, 0.518, 0.270, 100.0}
+    },
+    ["locationCount"] = 1
+  },
+  ["Wanted Poster: Caliph Scorpidsting"] = {
+    ["locations"] = {
+      [1] = {8.0, 0.518, 0.270, 100.0}
+    },
+    ["locationCount"] = 1
+  },
+  ["Wanted: Lieutenant Fangore"] = {
+    ["locations"] = {
+      [1] = {30.0, 0.2676, 0.4647, 100.0}
+    },
+    ["locationCount"] = 1
+  },
+  ["Wanted Poster:  \"Hogger\""] = {
+    ["locations"] = {
+      [1] = {37.0, 0.2455, 0.7470, 100.0}
+    },
+    ["locationCount"] = 1,
+    ["faction"] = 1
+  },
 }

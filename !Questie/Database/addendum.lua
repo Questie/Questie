@@ -19613,7 +19613,7 @@ QuestieHashMap = {
  },
  [1931948912]={
   ['name']="WANTED: Caliph Scorpidsting",
-  ['startedType']="monster",
+  ['startedType']="object",
   ['finishedType']="monster",
   ['startedBy']="Wanted Poster: Caliph Scorpidsting",
   ['finishedBy']="Chief Engineer Bilgewhizzle",
@@ -20041,7 +20041,7 @@ QuestieHashMap = {
  },
  [671223272]={
   ['name']="WANTED: Andre Firebeard",
-  ['startedType']="monster",
+  ['startedType']="object",
   ['finishedType']="monster",
   ['startedBy']="Wanted Poster: Andre Firebeard",
   ['finishedBy']="Security Chief Bilgewhizzle",
@@ -22279,7 +22279,7 @@ QuestieHashMap = {
  },
  [2213851037]={
   ['name']="WANTED: Chok'sul",
-  ['startedType']="monster",
+  ['startedType']="object",
   ['finishedType']="monster",
   ['startedBy']="WANTED: Chok'sul",
   ['finishedBy']="Magistrate Bluntnose",
@@ -23091,7 +23091,7 @@ QuestieHashMap = {
  },
  [2250606541]={
   ['name']="Wanted:  \"Hogger\"",
-  ['startedType']="monster",
+  ['startedType']="object",
   ['finishedType']="monster",
   ['startedBy']="Wanted Poster:  \"Hogger\"",
   ['finishedBy']="Marshal Dughan",
@@ -43223,7 +43223,7 @@ QuestieHashMap = {
  },
  [686682789]={
   ['name']="Wanted: Lieutenant Fangore",
-  ['startedType']="monster",
+  ['startedType']="object",
   ['finishedType']="monster",
   ['startedBy']="Wanted: Lieutenant Fangore",
   ['finishedBy']="Magistrate Solomon",
@@ -49986,7 +49986,7 @@ QuestieHashMap = {
  },
  [4020215789]={
   ['name']="Wanted: Gath'Ilzogg",
-  ['startedType']="monster",
+  ['startedType']="object",
   ['finishedType']="monster",
   ['startedBy']="Wanted: Gath'Ilzogg",
   ['finishedBy']="Magistrate Solomon",
@@ -55542,12 +55542,25 @@ function getMonsterMapId(monsterName)
     return mapid
 end
 
+function getObjectMapId(name)
+    local mapid
+    local object = QuestieObjects[name]
+    if object ~= nil then
+        mapid = object['locations'][1][1]
+    else
+        -- todo shouldn't really check monsters, but someone moved some objects and items to the monsters list
+        mapid = getMonsterMapId(name)
+    end
+    return mapid
+end
+
 local start = GetTime();
 for k,v in pairs(QuestieHashMap) do
-    local mapid
     if v['startedType'] == "monster" then
         local mapid = getMonsterMapId(v['startedBy'])
-        if mapid ~= nil then addQuestToZoneLevelMap(mapid, v['level'], k) end
+        if mapid ~= nil then
+            addQuestToZoneLevelMap(mapid, v['level'], k)
+        end
     end
     if v['startedType'] == "item" then
         local item = QuestieItems[v['startedBy']]
@@ -55566,6 +55579,12 @@ for k,v in pairs(QuestieHashMap) do
                     addQuestToZoneLevelMap(mapid, v['level'], k)
                 end
             end
+        end
+    end
+    if v['startedType'] == "object" then
+        local mapid = getObjectMapId(v['startedBy'])
+        if mapid ~= nil then
+            addQuestToZoneLevelMap(mapid, v['level'], k)
         end
     end
 end

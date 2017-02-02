@@ -51545,12 +51545,6 @@ QuestieMonsters = {
     ["looted"] = 16094,
     ["locationCount"] = 5
   },
-  ["Buzzbox 323"] = {
-    ["locations"] = {
-      [1] = {16.0, 0.5127, 0.246, 100.0}
-    },
-    ["locationCount"] = 1
-  },
   ["Rot Hide Gnoll"] = {
     ["locations"] = {
       [1] = {43.0, 0.582, 0.3785, 100.0},
@@ -63858,12 +63852,6 @@ QuestieMonsters = {
     },
     ["looted"] = 3860,
     ["locationCount"] = 3
-  },
-  ["Buzzbox 411"] = {
-    ["locations"] = {
-      [1] = {16.0, 0.4197, 0.2866, 100.0}
-    },
-    ["locationCount"] = 1
   },
   ["Ghost Saber"] = {
     ["locations"] = {
@@ -77106,12 +77094,6 @@ QuestieMonsters = {
     ["looted"] = 538,
     ["locationCount"] = 1
   },
-  ["Wanted: Gath'Ilzogg"] = {
-    ["locations"] = {
-      [1] = {30.0, 0.2962, 0.4618, 100.0}
-    },
-    ["locationCount"] = 1
-  },
   ["Cloud Serpent"] = {
     ["locations"] = {
       [1] = {14.0, 0.5195, 0.5544, 100.0},
@@ -82735,12 +82717,6 @@ QuestieMonsters = {
       [1] = {29.0, 0.7921, 0.1548, 100.0}
     },
     ["looted"] = 265,
-    ["locationCount"] = 1
-  },
-  ["WANTED: Chok'sul"] = {
-    ["locations"] = {
-      [1] = {29.0, 0.3729, 0.4649, 100.0}
-    },
     ["locationCount"] = 1
   },
   ["Apprentice Mirveda"] = {
@@ -92870,18 +92846,6 @@ QuestieMonsters = {
     },
     ["locationCount"] = 1,
   },
-  ["Wanted Poster: Andre Firebeard"] = {
-    ["locations"] = {
-      [1] = {8.0, 0.518, 0.270, 100.0}
-    },
-    ["locationCount"] = 1
-  },
-  ["Wanted Poster: Caliph Scorpidsting"] = {
-    ["locations"] = {
-      [1] = {8.0, 0.518, 0.270, 100.0}
-    },
-    ["locationCount"] = 1
-  },
   ["The Light and How to Swing It"] = {
     ["locations"] = {
       [1] = {8.0, 0.5219, 0.2853, 100.0},
@@ -97896,12 +97860,6 @@ QuestieMonsters = {
     ["locationCount"] = 1,
     ["faction"] = 2
   },
-  ["Buzzbox 827"] = {
-    ["locations"] = {
-      [1] = {16.0, 0.3664, 0.4628, 100.0}
-    },
-    ["locationCount"] = 1
-  },
   ["Bile Retcher"] = {
     ["locations"] = {
       [1] = {34.0, 0.3996, 0.2586, 100.0},
@@ -101460,12 +101418,6 @@ QuestieMonsters = {
       [1] = {30.0, 0.7993, 0.3808, 100.0}
     },
     ["looted"] = 649,
-    ["locationCount"] = 1
-  },
-  ["Wanted: Lieutenant Fangore"] = {
-    ["locations"] = {
-      [1] = {30.0, 0.2676, 0.4647, 100.0}
-    },
     ["locationCount"] = 1
   },
   ["Hive'Ashi Defender"] = {
@@ -111571,13 +111523,6 @@ QuestieMonsters = {
     ["locationCount"] = 1,
     ["faction"] = 1
   },
-  ["Wanted Poster:  \"Hogger\""] = {
-    ["locations"] = {
-      [1] = {37.0, 0.2455, 0.7470, 100.0}
-    },
-    ["locationCount"] = 1,
-    ["faction"] = 1
-  },
   ["Matron Tikkit"] = {
     ["locations"] = {
       [1] = {58.0, 0.567, 0.346, 100.0}
@@ -112877,12 +112822,6 @@ QuestieMonsters = {
     },
     ["locationCount"] = 1,
     ["faction"] = 1
-  },
-  ["Buzzbox 525"] = {
-    ["locations"] = {
-      [1] = {16.0, 0.4141, 0.8059, 100.0}
-    },
-    ["locationCount"] = 1
   },
   ["Hakkar"] = {
     ["locations"] = {
