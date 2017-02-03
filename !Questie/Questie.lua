@@ -568,6 +568,12 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
         QUESTIE_LAST_CHECKLOG = GetTime();
         Questie:AddEvent("UPDATE", 0.15);
         QUESTIE_LAST_UPDATE = GetTime();
+    elseif(event == "QUEST_ACCEPTED") then
+        QUESTIE_UPDATE_EVENT = 1;
+        Questie:AddEvent("CHECKLOG", 0.135);
+        QUESTIE_LAST_CHECKLOG = GetTime();
+        Questie:AddEvent("UPDATE", 0.15);
+        QUESTIE_LAST_UPDATE = GetTime();
     elseif(event == "QUEST_PROGRESS") then
         if IsAddOnLoaded("EQL3") or IsAddOnLoaded("ShaguQuest") then
             if IsQuestCompletable() then
