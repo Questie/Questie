@@ -649,7 +649,7 @@ QuestieObjects = {
   },
   ["WANTED: Murkdeep!"] = {
     ["locations"] = {
-      [1] = {16.0, 0.3720, 0.4420, 100.0}
+      [1] = {16.0, 0.372, 0.442, 100.0}
     },
     ["locationCount"] = 1
   },
@@ -686,6 +686,69 @@ QuestieObjects = {
   ["Wanted Poster:  \"Hogger\""] = {
     ["locations"] = {
       [1] = {37.0, 0.2455, 0.7470, 100.0}
+    },
+    ["locationCount"] = 1,
+    ["faction"] = 1
+  },
+  ["Beached Sea Creature [1]"] = {
+    ["locations"] = {
+      [1] = {16.0, 0.419, 0.315, 100.0}
+    },
+    ["locationCount"] = 1,
+    ["faction"] = 1
+  },
+  ["Beached Sea Creature [2]"] = {
+    ["locations"] = {
+      [1] = {16.0, 0.360, 0.709, 100.0}
+    },
+    ["locationCount"] = 1,
+    ["faction"] = 1
+  },
+  ["Beached Sea Creature [3]"] = {
+    ["locations"] = {
+      [1] = {16.0, 0.327, 0.808, 100.0}
+    },
+    ["locationCount"] = 1,
+    ["faction"] = 1
+  },
+  ["Beached Sea Creature [4]"] = {
+    ["locations"] = {
+      [1] = {16.0, 0.313, 0.874, 100.0}
+    },
+    ["locationCount"] = 1,
+    ["faction"] = 1
+  },
+  ["Beached Sea Turtle [1]"] = {
+    ["locations"] = {
+      [1] = {16.0, 0.371, 0.622, 100.0}
+    },
+    ["locationCount"] = 1,
+    ["faction"] = 1
+  },
+  ["Beached Sea Turtle [2]"] = {
+    ["locations"] = {
+      [1] = {16.0, 0.442, 0.206, 100.0}
+    },
+    ["locationCount"] = 1,
+    ["faction"] = 1
+  },
+  ["Beached Sea Turtle [3]"] = {
+    ["locations"] = {
+      [1] = {16.0, 0.531, 0.181, 100.0}
+    },
+    ["locationCount"] = 1,
+    ["faction"] = 1
+  },
+  ["Beached Sea Turtle [4]"] = {
+    ["locations"] = {
+      [1] = {16.0, 0.317, 0.837, 100.0}
+    },
+    ["locationCount"] = 1,
+    ["faction"] = 1
+  },
+  ["Beached Sea Turtle [5]"] = {
+    ["locations"] = {
+      [1] = {16.0, 0.312, 0.856, 100.0}
     },
     ["locationCount"] = 1,
     ["faction"] = 1
