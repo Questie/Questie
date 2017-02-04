@@ -99335,7 +99335,7 @@ QuestieMonsters = {
   },
   ["Nefarian"] = {
     ["locations"] = {
-      [1] = {32.0, 0.4018, 1.0499, 100.0}
+      [1] = {32.0, 0.408, 0.9564, 100.0}
     },
     ["looted"] = 6,
     ["locationCount"] = 1
