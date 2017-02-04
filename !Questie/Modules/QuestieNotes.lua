@@ -211,9 +211,9 @@ end
 ---------------------------------------------------------------------------------------------------
 -- Gets a blank frame either from Pool or creates a new one!
 ---------------------------------------------------------------------------------------------------
-function Questie:GetBlankNoteFrame()
+function Questie:GetBlankNoteFrame(frame)
     if(table.getn(FramePool)==0) then
-        Questie:CreateBlankFrameNote();
+        Questie:CreateBlankFrameNote(frame);
     end
     f = FramePool[1];
     table.remove(FramePool, 1);
@@ -727,8 +727,8 @@ end
 -- Creates a blank frame for use within the map system
 ---------------------------------------------------------------------------------------------------
 CREATED_NOTE_FRAMES = 1;
-function Questie:CreateBlankFrameNote()
-    local f = CreateFrame("Button","QuestieNoteFrame"..CREATED_NOTE_FRAMES,WorldMapFrame)
+function Questie:CreateBlankFrameNote(frame)
+    local f = CreateFrame("Button","QuestieNoteFrame"..CREATED_NOTE_FRAMES,frame)
     local t = f:CreateTexture(nil,"BACKGROUND")
     f.texture = t
     f:SetScript("OnEnter", Questie_Tooltip_OnEnter); --Script Toolip
@@ -1021,11 +1021,6 @@ function Questie:AddClusterFromNote(frame, identifier, v)
     else
         table.insert(clustersByFrame[frame][identifier][v.x][v.y].points, v)
     end
-    --[[
-    local points = { v }
-    local cluster = Cluster.new(points)
-    table.insert(clustersByFrame[frame][identifier], cluster);
-    --]]
 end
 
 function Questie:GetClustersByFrame(frame, identifier)
@@ -1045,7 +1040,6 @@ function Questie:GetClustersByFrame(frame, identifier)
         end
     end
     return clusters
-    --return clustersByFrame[frame][identifier]
 end
 ---------------------------------------------------------------------------------------------------
 -- Finds the index of an item in a table. Not sure if a function already exists somewhere.
@@ -1153,20 +1147,23 @@ function Questie:DrawClusters(clusters, frameName, scale, frame, button)
                 (a.icontype == b.icontype and questA.level < questB.level) or
                 (a.icontype == b.icontype and questA.level == questB.level and questA.questLevel < questB.questLevel)
         end)
-        Icon = Questie:GetBlankNoteFrame()
+        Icon = Questie:GetBlankNoteFrame(frame)
         local mainV = cluster.points[1]
         for j, v in pairs(cluster.points) do
             if j == 1 then
-                Questie:SetFrameNoteData(Icon, v, frame, frameLevel, frameName, scale)
+                local finalFrameLevel = frameLevel
+                if v.icontype == "complete" then finalFrameLevel = finalFrameLevel + 1 end
+                Questie:SetFrameNoteData(Icon, v, frame, finalFrameLevel, frameName, scale)
             else
                 Questie:AddFrameNoteData(Icon, v)
             end
         end
-        Icon:Show()
+
         if frameName == "MiniMapNote" then
             Icon:SetHighlightTexture(QuestieIcons[mainV.icontype].path, "ADD");
             Astrolabe:PlaceIconOnMinimap(Icon, mainV.continent, mainV.zoneid, Icon.averageX, Icon.averageY);
         else
+            Icon:Show()
             xx, yy = Astrolabe:PlaceIconOnWorldMap(button, Icon, mainV.continent, mainV.zoneid, Icon.averageX, Icon.averageY)
             if(xx and yy and xx > 0 and xx < 1 and yy > 0 and yy < 1) then
                 table.insert(QuestieUsedNoteFrames, Icon);
