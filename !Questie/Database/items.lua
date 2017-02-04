@@ -29059,9 +29059,13 @@ QuestieItems = {
   },
   ["Red Wool Bandana"] = {
     ["drop"] = {
-      ["Defias Inmate"] = 7,
       ["Defias Prisoner"] = 6,
+      ["Defias Captive"] = 2,
+      ["Defias Inmate"] = 7,
       ["Defias Convict"] = 2,
+      ["Defias Insurgent"] = 2,
+      ["Bazil Thredd"] = 2,
+      ["Bruegal Ironknuckle"] = 2,
       ["Dextren Ward"] = 1
     }
   },

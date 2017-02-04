@@ -71798,7 +71798,7 @@ QuestieMonsters = {
   },
   ["Dextren Ward"] = {
     ["locations"] = {
-      [1] = {36.0, 0.3966, 0.5394, 100.0}
+      [1] = {36.0, 0.3965, 0.5393, 100.0}
     },
     ["looted"] = 997,
     ["locationCount"] = 1
@@ -76797,7 +76797,14 @@ QuestieMonsters = {
   },
   ["Bazil Thredd"] = {
     ["locations"] = {
-      [1] = {36.0, 0.3966, 0.5394, 100.0}
+      [1] = {36.0, 0.3965, 0.5393, 100.0}
+    },
+    ["looted"] = 945,
+    ["locationCount"] = 1
+  },
+  ["Bruegal Ironknuckle"] = {
+    ["locations"] = {
+      [1] = {36.0, 0.3965, 0.5393, 100.0}
     },
     ["looted"] = 945,
     ["locationCount"] = 1
@@ -81144,7 +81151,7 @@ QuestieMonsters = {
   },
   ["Defias Captive"] = {
     ["locations"] = {
-      [1] = {36.0, 0.3965, 0.5395, 100.0}
+      [1] = {36.0, 0.3965, 0.5393, 100.0}
     },
     ["looted"] = 16930,
     ["locationCount"] = 1
@@ -90592,7 +90599,7 @@ QuestieMonsters = {
   },
   ["Defias Inmate"] = {
     ["locations"] = {
-      [1] = {36.0, 0.3966, 0.5395, 100.0}
+      [1] = {36.0, 0.3965, 0.5393, 100.0}
     },
     ["looted"] = 21397,
     ["locationCount"] = 1
