@@ -47318,7 +47318,7 @@ QuestieMonsters = {
   },
   ["Targorr the Dread"] = {
     ["locations"] = {
-      [1] = {36.0, 0.3966, 0.5395, 100.0}
+      [1] = {36.0, 0.3965, 0.5393, 100.0}
     },
     ["looted"] = 1212,
     ["locationCount"] = 1
@@ -98546,7 +98546,7 @@ QuestieMonsters = {
   },
   ["Kam Deepfury"] = {
     ["locations"] = {
-      [1] = {36.0, 0.3967, 0.5396, 100.0}
+      [1] = {36.0, 0.3965, 0.5393, 100.0}
     },
     ["looted"] = 890,
     ["locationCount"] = 1
