@@ -773,4 +773,31 @@ QuestieObjects = {
     },
     ["locationCount"] = 1
   },
+  ["Old Lion Statue"] = {
+    ["locations"] = {
+      [1] = {30.0, 0.8435, 0.4681, 100.0}
+    },
+    ["locationCount"] = 1
+  },
+  ["A half-eaten body"] = {
+    ["locations"] = {
+      [1] = {37.0, 0.7267, 0.6036, 100.0}
+    },
+    ["locationCount"] = 1
+  },
+  ["Rolf's corpse"] = {
+    ["locations"] = {
+      [1] = {37.0, 0.7985, 0.5557, 100.0}
+    },
+    ["locationCount"] = 1
+  },
+  ["Bundle of Wood"] = {
+    ["locations"] = {
+      [1] = {37.0, 0.768, 0.618, 100.0},
+      [2] = {37.0, 0.8025, 0.6104, 100.0},
+      [3] = {37.0, 0.835, 0.592, 100.0},
+      [4] = {37.0, 0.809, 0.539, 100.0},
+    },
+    ["locationCount"] = 4
+  },
 }

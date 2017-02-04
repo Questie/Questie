@@ -48855,12 +48855,6 @@ QuestieMonsters = {
     ["looted"] = 157,
     ["locationCount"] = 1
   },
-  ["Old Lion Statue"] = {
-    ["locations"] = {
-      [1] = {30.0, 0.8435, 0.4681, 100.0}
-    },
-    ["locationCount"] = 1
-  },
   ["Arena Spectator"] = {
     ["locations"] = {
       [1] = {32.0, 0.2711, 0.7251, 100.0}
@@ -59417,12 +59411,6 @@ QuestieMonsters = {
     },
     ["locationCount"] = 1
   },
-  ["Rolf's corpse"] = {
-    ["locations"] = {
-      [1] = {37.0, 0.7985, 0.5557, 100.0}
-    },
-    ["locationCount"] = 1
-  },
   ["Baby Murloc"] = {
     ["locations"] = {
       [1] = {57.0, 0.267, 0.2278, 100.0}
@@ -65955,10 +65943,14 @@ QuestieMonsters = {
   },
   ["Riverpaw Runt"] = {
     ["locations"] = {
-      [1] = {37.0, 0.2665, 0.8847, 100.0}
+      [1] = {37.0, 0.2665, 0.8847, 100.0},
+      [2] = {37.0, 0.308, 0.828, 100.0},
+      [3] = {37.0, 0.684, 0.454, 100.0},
+      [4] = {37.0, 0.666, 0.395, 100.0},
+      [5] = {37.0, 0.692, 0.390, 100.0},
     },
     ["looted"] = 2605,
-    ["locationCount"] = 1
+    ["locationCount"] = 5
   },
   ["Dreadwing"] = {
     ["locations"] = {
@@ -86642,10 +86634,11 @@ QuestieMonsters = {
   },
   ["Murloc Forager"] = {
     ["locations"] = {
-      [1] = {37.0, 0.7919, 0.5684, 100.0}
+      [1] = {37.0, 0.7919, 0.5684, 100.0},
+      [2] = {37.0, 0.783, 0.441, 100.0},
     },
     ["looted"] = 6959,
-    ["locationCount"] = 1
+    ["locationCount"] = 2
   },
   ["Granny Smith"] = {
     ["locations"] = {
@@ -88192,12 +88185,6 @@ QuestieMonsters = {
     ["looted"] = 425,
     ["locationCount"] = 1,
     ["faction"] = 1
-  },
-  ["A half-eaten body"] = {
-    ["locations"] = {
-      [1] = {37.0, 0.7267, 0.6036, 100.0}
-    },
-    ["locationCount"] = 1
   },
   ["Searn Firewarder"] = {
     ["locations"] = {
@@ -90660,10 +90647,16 @@ QuestieMonsters = {
   },
   ["Defias Bandit"] = {
     ["locations"] = {
-      [1] = {37.0, 0.6996, 0.7859, 100.0}
+      [1] = {37.0, 0.6996, 0.7859, 100.0},
+      [2] = {37.0, 0.295, 0.579, 100.0},
+      [3] = {37.0, 0.303, 0.645, 100.0},
+      [4] = {37.0, 0.464, 0.754, 100.0},
+      [5] = {37.0, 0.478, 0.831, 100.0},
+      [6] = {37.0, 0.525, 0.591, 100.0},
+      [7] = {37.0, 0.892, 0.792, 100.0},
     },
     ["looted"] = 15850,
-    ["locationCount"] = 1
+    ["locationCount"] = 7
   },
   ["Deviate Moccasin"] = {
     ["locations"] = {
@@ -96033,10 +96026,11 @@ QuestieMonsters = {
   },
   ["Murloc Lurker"] = {
     ["locations"] = {
-      [1] = {37.0, 0.7878, 0.5741, 100.0}
+      [1] = {37.0, 0.7878, 0.5741, 100.0},
+      [2] = {37.0, 0.791, 0.467, 100.0},
     },
     ["looted"] = 6202,
-    ["locationCount"] = 1
+    ["locationCount"] = 2
   },
   ["Frenzied Plaguehound slain"] = {
     ["locations"] = {
@@ -99938,10 +99932,12 @@ QuestieMonsters = {
   },
   ["Riverpaw Outrunner"] = {
     ["locations"] = {
-      [1] = {37.0, 0.2661, 0.8879, 100.0}
+      [1] = {37.0, 0.2661, 0.8879, 100.0},
+      [2] = {37.0, 0.729, 0.383, 100.0},
+      [3] = {37.0, 0.669, 0.406, 100.0},
     },
     ["looted"] = 12784,
-    ["locationCount"] = 1
+    ["locationCount"] = 3
   },
   ["Healthy Dragon Scale"] = {
     ["locations"] = {

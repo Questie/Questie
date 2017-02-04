@@ -11171,7 +11171,14 @@ QuestieItems = {
   ["Red Linen Bandana"] = {
     ["drop"] = {
       ["Erlan Drudgemoor"] = 1,
-      ["Defias Bandit"] = 6
+      ["Morgan the Collector"] = 1,
+      ["Surena Caledon"] = 1,
+      ["Defias Bandit"] = 6,
+      ["Defias Rogue Wizard"] = 6,
+      ["Defias Dockmaster"] = 6,
+      ["Defias Dockworker"] = 6,
+      ["Defias Ambusher"] = 6,
+      ["Defias Bodyguard"] = 6,
     }
   },
   ["Auge des Shienorverstecks"] = {
@@ -40998,10 +41005,9 @@ QuestieItems = {
     ["vendor"] = 'Rodica'
   },
   ["Bundle of Wood"] = {
-    ["locations"] = {
-      [1] = {37.0, 0.8025, 0.6104, 100.0}
+    ["contained"] = {
+      ["Bundle of Wood"] = 1
     },
-    ["locationCount"] = 1
   },
   ["Gloom Weed"] = {
     ["locations"] = {
