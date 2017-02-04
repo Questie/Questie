@@ -532,6 +532,18 @@ AstroobjectiveProcessors = {
                         end
                         table.insert(list, monster)
                     end
+                elseif k == "contained" then
+                    for objectName, someNumber in pairs(v) do
+                        local monster = {}
+                        monster["name"] = name
+                        monster["lootname"] = objectName
+                        monster["locations"] = {}
+                        monster["type"] = "object"
+                        for k, pos in pairs(QuestieObjects[objectName]['locations']) do -- todo handle objects that appear when a mob is killed
+                            table.insert(monster["locations"], pos)
+                        end
+                        table.insert(list, monster)
+                    end
                 elseif k =="locations" then
                 else
                     Questie:debug_Print("[AstroobjectiveProcessors] ERROR2 " .. quest .. "  objective:" .. name.. " ID:1");

@@ -190,10 +190,9 @@ QuestieItems = {
     ["vendor"] = 'AccessoriesVendor'
   },
   ["A Simple Compass"] = {
-    ["locations"] = {
-      [1] = {49.0, 0.3629, 0.5457, 100.0}
+    ["contained"] = {
+      ["Alexston's Chest"] = 1
     },
-    ["locationCount"] = 1
   },
   ["Der'izu Bracer of Strength"] = {
     ["drop"] = {

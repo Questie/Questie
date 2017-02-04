@@ -753,4 +753,11 @@ QuestieObjects = {
     ["locationCount"] = 1,
     ["faction"] = 1
   },
+  ["Alexston's Chest"] = {
+    ["locations"] = {
+      [1] = {49.0, 0.3629, 0.5457, 100.0}
+    },
+    ["locationCount"] = 1,
+    ["faction"] = 1
+  },
 }
