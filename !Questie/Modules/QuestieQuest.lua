@@ -579,10 +579,9 @@ AstroobjectiveProcessors = {
         local list = {};
         local monster = {};
         if(string.find(name, " slain")) then
-            monster["name"] = name;
-        else
-            monster["name"] = string.sub(name, string.len(name)-6);
+            name = string.sub(name, 1, string.len(name)-6);
         end
+        monster["name"] = name;
         monster["type"] = "slay";
         monster["locations"] = {};
         if(QuestieMonsters[name] and QuestieMonsters[name]['locations']) then
@@ -663,7 +662,7 @@ function Questie:UpdateQuestIds()
             local questText, objectiveText = QGet_QuestLogQuestText();
             local hash = Questie:getQuestHash(q, level, objectiveText);
             if(not q or not level or not objective) then
-                Questie:debug_Print("[UpdateQuestID] ERROR!!!!  Error1",tostring(name), tostring(level), tostring(i), tostring(hash))
+                --Questie:debug_Print("[UpdateQuestID] ERROR!!!!  Error1",tostring(name), tostring(level), tostring(i), tostring(hash)) -- commented out the error because it was really annoying. -ZoeyZolotova
             end
             CachedIds[hash] = i;
             qc=qc+1
