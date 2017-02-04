@@ -14146,10 +14146,9 @@ QuestieItems = {
     ["locationCount"] = 1
   },
   ["Furlbrow's Pocket Watch"] = {
-    ["locations"] = {
-      [1] = {49.0, 0.4935, 0.1911, 100.0}
-    },
-    ["locationCount"] = 1
+    ["contained"] = {
+      ["Fulbrow's Wardrobe"] = 1
+    }
   },
   ["Seeping Gizzard"] = {
     ["drop"] = {
