@@ -66633,13 +66633,18 @@ QuestieItems = {
     ["locationCount"] = 1
   },
   ["Captain Sander's Treasure Map"] = {
-    ["locations"] = {
-      [1] = {49.0, 0.5458, 0.1057, 100.0},
-      [5] = {49.0, 0.2731, 0.7109, 2.0},
-      [3] = {49.0, 0.3574, 0.1995, 30.0},
-      [4] = {49.0, 0.272, 0.5573, 26.0},
-      [2] = {49.0, 0.334, 0.832, 30.0}
-    },
-    ["locationCount"] = 5
+    ["drop"] = {
+      ["Murloc Coastrunner"] = 1,
+      ["Murloc Tidehunter"] = 1,
+      ["Murloc Warrior"] = 1,
+      ["Murloc Minor Oracle"] = 1,
+      ["Murloc Hunter"] = 1,
+      ["Murloc Netter"] = 1,
+      ["Murloc Raider"] = 1,
+      ["Murloc Oracle"] = 1,
+      ["Old Murk-Eye"] = 1,
+      ["Slark"] = 1,
+      ["Brack"] = 1,
+    }
   },
 }
