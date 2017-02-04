@@ -842,7 +842,6 @@ function Questie:SetAvailableQuests()
         end
         -- Items
         for k, v in pairs(quests) do
-            Questie:debug_Print(v)
             if(QuestieHashMap[v] and QuestieHashMap[v]['startedBy'] and QuestieItems[QuestieHashMap[v]['startedBy']]) then
                 local item = QuestieItems[QuestieHashMap[v]['startedBy']]
                 if item['drop'] then

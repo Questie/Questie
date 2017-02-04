@@ -697,17 +697,22 @@ function Questie:getQuestHash(name, level, objectiveText)
         local race = UnitRace("Player");
         for k,v in pairs(questLookup) do
             local rr = v[1];
+            local adjustedDescription = k
+            local strlen = string.len(k)
+            if string.sub(k, -1) == "]" then
+                adjustedDescription = string.sub(k, 1, strlen-4)
+            end
             if checkRequirements(null, race, null, rr) or true then
                 if count == 1 then
                     hasOthers = true;
                 end
-                if k == objectiveText then
+                if adjustedDescription == objectiveText and tonumber(QuestieHashMap[v[2]]['questLevel']) == hashLevel then
                     QuestieQuestHashCache[name..hashLevel..hashText] = v[2];
                     return v[2],hasOthers; -- exact match
                 end
                 local dist = 4294967294;
                 if not (objectiveText == nil) then
-                    dist = Questie:Levenshtein(objectiveText, k);
+                    dist = Questie:Levenshtein(objectiveText, adjustedDescription);
                 end
                 if dist < bestDistance then
                     bestDistance = dist;

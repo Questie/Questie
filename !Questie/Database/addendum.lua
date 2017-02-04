@@ -4755,10 +4755,10 @@ QuestieLevLookup = {
   ["Speak to Jen'shan in the Valley of Trials."]={128,4223216040},
  },
  ["Beached Sea Creature"]={
-  ["Take the Sea Creature Bones to Gwennyth Bly'Leggonde in Auberdine."]={77,3862475968},
-  ["Take the Sea Creature Bones to Gwennyth Bly'Leggonde in Auberdine."]={77,3862478592},
-  ["Take the Sea Creature Bones to Gwennyth Bly'Leggonde in Auberdine."]={77,3862479744},
-  ["Take the Sea Creature Bones to Gwennyth Bly'Leggonde in Auberdine."]={77,3862481549},
+  ["Take the Sea Creature Bones to Gwennyth Bly'Leggonde in Auberdine. [1]"]={77,3862475968},
+  ["Take the Sea Creature Bones to Gwennyth Bly'Leggonde in Auberdine. [2]"]={77,3862478592},
+  ["Take the Sea Creature Bones to Gwennyth Bly'Leggonde in Auberdine. [3]"]={77,3862479744},
+  ["Take the Sea Creature Bones to Gwennyth Bly'Leggonde in Auberdine. [4]"]={77,3862481549},
  },
  ["Cairne's Hoofprint"]={
   ["Travel to Thunder Bluff to see about getting Cairne Bloodhoof's hoofprint for your ward."]={178,2827791242},
@@ -6913,11 +6913,11 @@ QuestieLevLookup = {
   ["Speak with Klockmort Spannerspan in Ironforge."]={0,3727698816},
  },
  ["Beached Sea Turtle"]={
-  ["Take the Sea Turtle Remains to Gwennyth Bly'Leggonde in Auberdine."]={77,1609368488},
-  ["Take the Strangely Marked Box to Gwennyth Bly'Leggonde in Auberdine."]={77,654119064},
-  ["Take the Sea Turtle Remains to Gwennyth Bly'Leggonde in Auberdine."]={77,1609371176},
-  ["Take the Strangely Marked Box to Gwennyth Bly'Leggonde in Auberdine."]={77,654122469},
-  ["Take the Sea Turtle Remains to Gwennyth Bly'Leggonde in Auberdine."]={77,1609374069},
+  ["Take the Sea Turtle Remains to Gwennyth Bly'Leggonde in Auberdine. [1]"]={77,1609368488},
+  ["Take the Strangely Marked Box to Gwennyth Bly'Leggonde in Auberdine. [1]"]={77,654119064},
+  ["Take the Sea Turtle Remains to Gwennyth Bly'Leggonde in Auberdine. [2]"]={77,1609371176},
+  ["Take the Strangely Marked Box to Gwennyth Bly'Leggonde in Auberdine. [2]"]={77,654122469},
+  ["Take the Sea Turtle Remains to Gwennyth Bly'Leggonde in Auberdine. [3]"]={77,1609374069},
  },
  ["Flickering Flames in the Eastern Kingdoms"]={
   ["Visit the bonfires within Hillsbrad Foothills, Silverpine Forest, Westfall, and the Wetlands, then speak with the Festival Flamekeeper."]={0,3472145328},
