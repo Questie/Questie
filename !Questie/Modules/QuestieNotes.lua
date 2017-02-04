@@ -495,7 +495,12 @@ function Questie_Tooltip_OnEnter()
         end
         Tooltip:SetOwner(this, this); --"ANCHOR_CURSOR"
         local count = 0
-        for i, data in pairs(this.quests) do
+        local canManualComplete = 0
+        local orderedQuests = {}
+        for questHash, quest in pairs(this.quests) do
+            orderedQuests[this.questOrders[questHash]] = quest
+        end
+        for i, data in pairs(orderedQuests) do
             count = count + 1
             if (count > 1) then
                 Tooltip:AddLine(" ");
@@ -551,9 +556,10 @@ function Questie_Tooltip_OnEnter()
                 if questOb ~= nil then
                     Tooltip:AddLine("Description: |cFFa6a6a6"..questOb.."|r",1,1,1,true);
                 end
+                canManualComplete = 1
             end
         end
-        if this.data.icontype == "available" then
+        if canManualComplete > 0 then
             if count > 1 then
                 Tooltip:AddLine(" ");
             end
@@ -752,6 +758,7 @@ end
 function Questie:SetFrameNoteData(f, data, parentFrame, frameLevel, type, scale)
     f.data = data;
     f.quests = {}
+    f.questOrders = {}
     Questie:AddFrameNoteData(f, data)
     f:SetParent(parentFrame);
     f:SetFrameLevel(frameLevel);
@@ -769,11 +776,15 @@ function Questie:AddFrameNoteData(icon, data)
             icon.averageX = 0
             icon.averageY = 0
         end
-        local numQuests = table.getn(icon.quests)
+        local numQuests = 0
+        for k, v in pairs(icon.quests) do
+            numQuests = numQuests + 1
+        end
         local newAverageX = (icon.averageX * numQuests + data.x) / (numQuests + 1)
         local newAverageY = (icon.averageY * numQuests + data.y) / (numQuests + 1)
         icon.averageX = newAverageX
         icon.averageY = newAverageY
+
         if icon.quests[data.questHash] then
             quest = icon.quests[data.questHash]
             -- Add cumulative quest data
@@ -781,6 +792,7 @@ function Questie:AddFrameNoteData(icon, data)
                 quest.monsterName = quest.monsterName..", "..data.monsterName
             end
         else
+            icon.questOrders[data.questHash] = numQuests + 1
             icon.quests[data.questHash] = data
         end
     end
