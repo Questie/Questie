@@ -512,19 +512,27 @@ function Questie_Tooltip_OnEnter()
                     if QuestLogID then
                         QSelect_QuestLogEntry(QuestLogID);
                         local q, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(QuestLogID);
-                        local count =  QGet_NumQuestLeaderBoards();
-                        local questText, objectiveText = QGet_QuestLogQuestText();
-                        local desc, typ, done = QGet_QuestLogLeaderBoard(data.objectiveid);
-                        Tooltip:AddLine(desc,1,1,1);
-                        Tooltip:AddLine("|cFFFFFFFFQuest:|r "..q);
-                        local prefix
-                        if data.icontype == "object" then
-                            prefix = "Contained in"
-                        elseif data.icontype == "loot" then
-                            prefix = "Dropped by"
-                        end
-                        if data.lootname and prefix then --data.icontype == "object" then
-                            Tooltip:AddLine(prefix..": |cFFa6a6a6"..data.lootname.."|r",1,1,1);
+                        Tooltip:AddLine(q);
+                        for objectiveid, lootnames in data.objectiveIds do
+                            local desc, typ, done = QGet_QuestLogLeaderBoard(objectiveid);
+                            Tooltip:AddLine(desc,1,1,1);
+                            local prefix
+                            if data.icontype == "object" then
+                                prefix = "Contained in"
+                            elseif data.icontype == "loot" then
+                                prefix = "Dropped by"
+                            end
+                            local lootnamesCombined
+                            for lootname, b in pairs(lootnames) do
+                                if lootnamesCombined == nil then
+                                    lootnamesCombined = lootname
+                                else
+                                    lootnamesCombined = lootnamesCombined..", "..lootname
+                                end
+                            end
+                            if prefix then
+                                Tooltip:AddLine(prefix..": |cFFa6a6a6"..lootnamesCombined.."|r",1,1,1,true);
+                            end
                         end
                     end
                 else
@@ -791,7 +799,19 @@ function Questie:AddFrameNoteData(icon, data)
             if quest.monsterName then
                 quest.monsterName = quest.monsterName..", "..data.monsterName
             end
+            if quest.objectiveIds[data.objectiveid] then
+                if data.lootname then
+                    quest.objectiveIds[data.objectiveid][data.lootname] = 1
+                end
+            else
+                quest.objectiveIds[data.objectiveid] = {}
+            end
         else
+            data.objectiveIds = {}
+            data.objectiveIds[data.objectiveid] = {}
+            if data.lootname then
+                data.objectiveIds[data.objectiveid][data.lootname] = 1
+            end
             icon.questOrders[data.questHash] = numQuests + 1
             icon.quests[data.questHash] = data
         end
