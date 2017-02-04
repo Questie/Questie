@@ -800,4 +800,16 @@ QuestieObjects = {
     },
     ["locationCount"] = 4
   },
+  ["Tear of Tilloa"] = {
+    ["locations"] = {
+      [1] = {31.0, 0.7836, 0.3599, 100.0}
+    },
+    ["locationCount"] = 1
+  },
+  ["Musquash Root"] = {
+    ["locations"] = {
+      [1] = {51.0, 0.6475, 0.7529, 100.0}
+    },
+    ["locationCount"] = 1
+  },
 }

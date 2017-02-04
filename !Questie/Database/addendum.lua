@@ -24857,7 +24857,8 @@ QuestieHashMap = {
   ['level']=60,
   ['questLevel']='60',
   ['rr']=5,
-  ['rc']=2
+  ['rc']=2,
+  ['rq']=3088449501
  },
  [1645996690]={
   ['name']="Test of Faith",
@@ -25788,7 +25789,7 @@ QuestieHashMap = {
   ['finishedType']="monster",
   ['startedBy']="Collin Mauren",
   ['finishedBy']="Collin Mauren",
-  ['level']=17,
+  ['level']=19,
   ['questLevel']='26',
   ['rr']=77
  },
