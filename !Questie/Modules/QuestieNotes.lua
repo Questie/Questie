@@ -52,7 +52,7 @@ function Questie:AddQuestToMap(questHash, redraw)
                     local notehandle = {};
                     notehandle.c = MapInfo[4];
                     notehandle.z = MapInfo[5];
-                    Questie:AddNoteToMap(MapInfo[4], MapInfo[5], location.x, location.y, location.type, questHash, location.objectiveid);
+                    Questie:AddNoteToMap(MapInfo[4], MapInfo[5], location.x, location.y, location.type, questHash, location.objectiveid, location.lootname);
                     if not UsedContinents[MapInfo[4]] and not UsedZones[MapInfo[5]] then
                         UsedContinents[MapInfo[4]] = true;
                         UsedZones[MapInfo[5]] = true;
@@ -159,7 +159,7 @@ end
 ---------------------------------------------------------------------------------------------------
 QuestieMapNotes = {};--Usage Questie[Continent][Zone][index]
 MiniQuestieMapNotes = {};
-function Questie:AddNoteToMap(continent, zoneid, posx, posy, type, questHash, objectiveid)
+function Questie:AddNoteToMap(continent, zoneid, posx, posy, type, questHash, objectiveid, lootname)
     --This is to set up the variables
     if QuestieConfig.hideobjectives and not (type == "complete") then
         return;
@@ -179,6 +179,7 @@ function Questie:AddNoteToMap(continent, zoneid, posx, posy, type, questHash, ob
     Note.icontype = type;
     Note.questHash = questHash;
     Note.objectiveid = objectiveid;
+    Note.lootname = lootname
     --Inserts it into the right zone and continent for later use.
     table.insert(QuestieMapNotes[continent][zoneid], Note);
 end
@@ -509,8 +510,17 @@ function Questie_Tooltip_OnEnter()
                         local count =  QGet_NumQuestLeaderBoards();
                         local questText, objectiveText = QGet_QuestLogQuestText();
                         local desc, typ, done = QGet_QuestLogLeaderBoard(data.objectiveid);
-                        Tooltip:AddLine(q ,1,1,1);
-                        Tooltip:AddLine(desc);
+                        Tooltip:AddLine(desc,1,1,1);
+                        Tooltip:AddLine("|cFFFFFFFFQuest:|r "..q);
+                        local prefix
+                        if data.icontype == "object" then
+                            prefix = "Contained in"
+                        elseif data.icontype == "loot" then
+                            prefix = "Dropped by"
+                        end
+                        if data.lootname and prefix then --data.icontype == "object" then
+                            Tooltip:AddLine(prefix..": |cFFa6a6a6"..data.lootname.."|r",1,1,1);
+                        end
                     end
                 else
                     Tooltip:AddLine("["..QuestieHashMap[data.questHash].questLevel.."] "..Quest["name"].." |cFF33FF00(complete)|r");
