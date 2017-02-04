@@ -497,10 +497,11 @@ function Questie_Tooltip_OnEnter()
         local count = 0
         local canManualComplete = 0
         local orderedQuests = {}
-        for questHash, quest in pairs(this.quests) do
-            orderedQuests[this.questOrders[questHash]] = quest
+        for questHash, questMeta in pairs(this.quests) do
+            orderedQuests[questMeta['sortOrder']] = questMeta
         end
-        for i, data in pairs(orderedQuests) do
+        for i, questMeta in pairs(orderedQuests) do
+            local data = questMeta['quest']
             count = count + 1
             if (count > 1) then
                 Tooltip:AddLine(" ");
@@ -513,7 +514,8 @@ function Questie_Tooltip_OnEnter()
                         QSelect_QuestLogEntry(QuestLogID);
                         local q, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(QuestLogID);
                         Tooltip:AddLine(q);
-                        for objectiveid, lootnames in data.objectiveIds do
+
+                        for objectiveid, lootnames in questMeta['objectives'] do
                             local desc, typ, done = QGet_QuestLogLeaderBoard(objectiveid);
                             Tooltip:AddLine(desc,1,1,1);
                             local prefix
@@ -559,7 +561,7 @@ function Questie_Tooltip_OnEnter()
                 Tooltip:AddLine("Min Level: |cFFa6a6a6"..QuestieHashMap[data.questHash].level.."|r",1,1,1);
                 Tooltip:AddLine("Started by: |cFFa6a6a6"..QuestieHashMap[data.questHash].startedBy.."|r",1,1,1);
                 if QuestieHashMap[data.questHash].startedType == "item" then
-                    Tooltip:AddLine("Dropped by: |cFFa6a6a6"..data.monsterName.."|r",1,1,1)
+                    Tooltip:AddLine("Dropped by: |cFFa6a6a6"..questMeta.monsterName.."|r",1,1,1)
                 end
                 if questOb ~= nil then
                     Tooltip:AddLine("Description: |cFFa6a6a6"..questOb.."|r",1,1,1,true);
@@ -607,10 +609,10 @@ function Questie_AvailableQuestClick()
         end
         local count = 0
         local firstQuest
-        for questHash, quest in pairs(this.quests) do
+        for questHash, questMeta in pairs(this.quests) do
             count = count + 1
             if not firstQuest then
-                firstQuest = quest
+                firstQuest = questMeta['quest']
             end
         end
         if (count < 2) then
@@ -624,8 +626,9 @@ function Questie_AvailableQuestClick()
             if (IsAddOnLoaded("Cartographer")) or (IsAddOnLoaded("MetaMap")) or (QuestieConfig.resizeWorldmap == true) then
                 Dewdrop:Register(WorldMapFrame,
                     'children', function()
-                        for i, quest in pairs(this.quests) do
-                            local hash = quest.questHash
+                        for questHash, questMeta in pairs(this.quests) do
+                            local quest = questMeta['quest']
+                            local hash = questHash
                             local questName = "["..QuestieHashMap[hash].questLevel.."] "..QuestieHashMap[hash]['name']
                             local finishFunc = function(quest)
                                 finishQuest(quest)
@@ -794,26 +797,27 @@ function Questie:AddFrameNoteData(icon, data)
         icon.averageY = newAverageY
 
         if icon.quests[data.questHash] then
-            quest = icon.quests[data.questHash]
             -- Add cumulative quest data
-            if quest.monsterName then
-                quest.monsterName = quest.monsterName..", "..data.monsterName
+            if data.monsterName then
+                icon.quests[data.questHash]['monsterName'] = icon.quests[data.questHash]['monsterName']..", "..data.monsterName
             end
-            if quest.objectiveIds[data.objectiveid] then
-                if data.lootname then
-                    quest.objectiveIds[data.objectiveid][data.lootname] = 1
-                end
-            else
-                quest.objectiveIds[data.objectiveid] = {}
+
+            if icon.quests[data.questHash]['objectives'][data.objectiveid] == nil then
+                icon.quests[data.questHash]['objectives'][data.objectiveid] = {}
+            end
+            if data.lootname then
+                icon.quests[data.questHash]['objectives'][data.objectiveid][data.lootname] = 1
             end
         else
-            data.objectiveIds = {}
-            data.objectiveIds[data.objectiveid] = {}
+            icon.quests[data.questHash] = {}
+            icon.quests[data.questHash]['quest'] = data
+            icon.quests[data.questHash]['sortOrder'] = numQuests + 1
+            icon.quests[data.questHash]['monsterName'] = data.monsterName
+            icon.quests[data.questHash]['objectives'] = {}
+            icon.quests[data.questHash]['objectives'][data.objectiveid] = {}
             if data.lootname then
-                data.objectiveIds[data.objectiveid][data.lootname] = 1
+                icon.quests[data.questHash]['objectives'][data.objectiveid][data.lootname] = 1
             end
-            icon.questOrders[data.questHash] = numQuests + 1
-            icon.quests[data.questHash] = data
         end
     end
 end
