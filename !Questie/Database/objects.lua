@@ -767,4 +767,10 @@ QuestieObjects = {
     ["locationCount"] = 1,
     ["faction"] = 1
   },
+  ["Milly's Harvest"] = {
+    ["locations"] = {
+      [1] = {37.0, 0.5378, 0.487, 100.0}
+    },
+    ["locationCount"] = 1
+  },
 }

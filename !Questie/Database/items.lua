@@ -53688,10 +53688,9 @@ QuestieItems = {
     ["locationCount"] = 2
   },
   ["Milly's Harvest"] = {
-    ["locations"] = {
-      [1] = {37.0, 0.5378, 0.487, 100.0}
+    ["contained"] = {
+      ["Milly's Harvest"] = 1
     },
-    ["locationCount"] = 1
   },
   ["Astraltechnologie"] = {
     ["locations"] = {
