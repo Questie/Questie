@@ -493,8 +493,10 @@ function Questie_Tooltip_OnEnter()
             Tooltip = GameTooltip;
         end
         Tooltip:SetOwner(this, this); --"ANCHOR_CURSOR"
+        local count = 0
         for i, data in pairs(this.quests) do
-            if (i > 1) then
+            count = count + 1
+            if (count > 1) then
                 Tooltip:AddLine(" ");
             end
             if(data.icontype ~= "available") then
@@ -539,8 +541,13 @@ function Questie_Tooltip_OnEnter()
                 if questOb ~= nil then
                     Tooltip:AddLine("Description: |cFFa6a6a6"..questOb.."|r",1,1,1,true);
                 end
-                Tooltip:AddLine("Shift+Click: |cFFa6a6a6Manually complete quest!|r",1,1,1);
             end
+        end
+        if this.data.icontype == "available" then
+            if count > 1 then
+                Tooltip:AddLine(" ");
+            end
+            Tooltip:AddLine("Shift+Click: |cFFa6a6a6Manually complete quest!|r",1,1,1);
         end
         if(NOTES_DEBUG and IsAltKeyDown()) then
             Tooltip:AddLine("!DEBUG!", 1, 0, 0);
@@ -574,10 +581,17 @@ function Questie_AvailableQuestClick()
                 Questie:Toggle()
             end
         end
-        if (table.getn(this.quests) < 2) then
+        local count = 0
+        local firstQuest
+        for questHash, quest in pairs(this.quests) do
+            count = count + 1
+            if not firstQuest then
+                firstQuest = quest
+            end
+        end
+        if (count < 2) then
             -- Finish first quest in list
-            local quest = this.quests[1]
-            finishQuest(quest)
+            finishQuest(firstQuest)
         else
             -- Open Dewdrop to select which quest to finish
             local closeFunc = function()
@@ -750,7 +764,15 @@ function Questie:AddFrameNoteData(icon, data)
         local newAverageY = (icon.averageY * numQuests + data.y) / (numQuests + 1)
         icon.averageX = newAverageX
         icon.averageY = newAverageY
-        table.insert(icon.quests, data)
+        if icon.quests[data.questHash] then
+            quest = icon.quests[data.questHash]
+            -- Add cumulative quest data
+            if quest.monsterName then
+                quest.monsterName = quest.monsterName..", "..data.monsterName
+            end
+        else
+            icon.quests[data.questHash] = data
+        end
     end
 end
 
