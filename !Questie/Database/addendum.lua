@@ -23937,7 +23937,8 @@ QuestieHashMap = {
   ['finishedBy']="Deputy Rainer",
   ['level']=6,
   ['questLevel']='10',
-  ['rr']=77
+  ['rr']=77,
+  ['rq']=2549659877
  },
  [4037025928]={
   ['name']="Corrupted Songflower",
