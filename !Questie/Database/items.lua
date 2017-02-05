@@ -36895,7 +36895,8 @@ QuestieItems = {
   ["Blue-feathered Necklace"] = {
     ["drop"] = {
       ["Berserk Owlbeast"] = 57,
-      ["Crazed Owlbeast"] = 9
+      ["Crazed Owlbeast"] = 9,
+      ["Moontouched Owlbeast"] = 1,
     }
   },
   ["고리쉬집 벽면 견본"] = {
