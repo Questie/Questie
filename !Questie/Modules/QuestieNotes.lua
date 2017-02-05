@@ -532,7 +532,7 @@ function Questie_Tooltip_OnEnter()
                                     lootnamesCombined = lootnamesCombined..", "..lootname
                                 end
                             end
-                            if prefix then
+                            if prefix and lootnamesCombined then
                                 Tooltip:AddLine(prefix..": |cFFa6a6a6"..lootnamesCombined.."|r",1,1,1,true);
                             end
                         end
@@ -567,16 +567,17 @@ function Questie_Tooltip_OnEnter()
                 elseif QuestieHashMap[data.questHash].startedType == "item" then
                     prefix = "Dropped by"
                 end
-                local monstedNamesCombined
+
+                local monsterNamesCombined
                 for monsterName, b in pairs(questMeta['monsterName']) do
-                    if monstedNamesCombined == nil then
-                        monstedNamesCombined = monsterName
+                    if monsterNamesCombined == nil then
+                        monsterNamesCombined = monsterName
                     else
-                        monstedNamesCombined = monstedNamesCombined..", "..monsterName
+                        monsterNamesCombined = monsterNamesCombined..", "..monsterName
                     end
                 end
                 if prefix and monsterNamesCombined then
-                    Tooltip:AddLine(prefix..": |cFFa6a6a6"..monstedNamesCombined.."|r",1,1,1,true);
+                    Tooltip:AddLine(prefix..": |cFFa6a6a6"..monsterNamesCombined.."|r",1,1,1,true);
                 end
                 if questOb ~= nil then
                     Tooltip:AddLine("Description: |cFFa6a6a6"..questOb.."|r",1,1,1,true);

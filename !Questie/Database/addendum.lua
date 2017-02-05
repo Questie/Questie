@@ -15076,7 +15076,7 @@ QuestieHashMap = {
   ['name']="Lonebrow's Journal",
   ['startedType']="item",
   ['finishedType']="monster",
-  ['startedBy']="unknown",
+  ['startedBy']="Henrig Lonebrow's Journal",
   ['finishedBy']="Falfindel Waywarder",
   ['level']=29,
   ['questLevel']='34+',
@@ -55567,6 +55567,13 @@ for k,v in pairs(QuestieHashMap) do
             if drops ~= nil then
                 for monsterName, someId in pairs(drops) do
                     local mapid = getMonsterMapId(monsterName)
+                    addQuestToZoneLevelMap(mapid, v['level'], k)
+                end
+            end
+            local contained = item['contained']
+            if contained ~= nil then
+                for objectName, someId in pairs(contained) do
+                    local mapid = getObjectMapId(objectName)
                     addQuestToZoneLevelMap(mapid, v['level'], k)
                 end
             end

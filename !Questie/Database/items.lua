@@ -59089,10 +59089,9 @@ QuestieItems = {
     }
   },
   ["Miners' Gear"] = {
-    ["locations"] = {
-      [1] = {29.0, 0.3562, 0.2356, 100.0}
+    ["contained"] = {
+      ["Miners' League Crates"] = 1
     },
-    ["locationCount"] = 1
   },
   ["Donnée du Fléau"] = {
     ["locations"] = {
@@ -66652,5 +66651,10 @@ QuestieItems = {
       ["Slark"] = 1,
       ["Brack"] = 1,
     }
+  },
+  ["Henrig Lonebrow's Journal"] = {
+    ["contained"] = {
+      ["Henrig Lonebrow's Journal"] = 1
+    },
   },
 }

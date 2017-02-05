@@ -812,4 +812,16 @@ QuestieObjects = {
     },
     ["locationCount"] = 1
   },
+  ["Henrig Lonebrow's Journal"] = {
+    ["locations"] = {
+      [1] = {14.0, 0.307, 0.243, 100.0}
+    },
+    ["locationCount"] = 1
+  },
+  ["Miners' League Crates"] = {
+    ["locations"] = {
+      [1] = {29.0, 0.3562, 0.2356, 100.0}
+    },
+    ["locationCount"] = 1
+  },
 }
