@@ -58609,7 +58609,7 @@ QuestieItems = {
     ["drop"] = {
       ["Andre Firebeard"] = 1
     },
-    ["contained"] = {
+    ["containedi"] = {
       ["Pirate's Footlocker"] = 373
     }
   },
@@ -66656,5 +66656,27 @@ QuestieItems = {
     ["contained"] = {
       ["Henrig Lonebrow's Journal"] = 1
     },
+  },
+  ["Cuergo's Treasure Map"] = {
+    ["created"] = {
+      ["Upper Map Fragment"] = 1,
+      ["Middle Map Fragment"] = 1,
+      ["Lower Map Fragment"] = 1,
+    },
+  },
+  ["Upper Map Fragment"] = {
+    ["containedi"] = {
+      ["Pirate's Footlocker"] = 1
+    }
+  },
+  ["Middle Map Fragment"] = {
+    ["containedi"] = {
+      ["Pirate's Footlocker"] = 1
+    }
+  },
+  ["Lower Map Fragment"] = {
+    ["containedi"] = {
+      ["Pirate's Footlocker"] = 1
+    }
   },
 }

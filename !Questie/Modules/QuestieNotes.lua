@@ -187,7 +187,7 @@ end
 -- Add available quest note to map
 ---------------------------------------------------------------------------------------------------
 QuestieAvailableMapNotes = {};
-function Questie:AddAvailableNoteToMap(continent, zoneid, posx, posy, type, questHash, objectiveid, monsterName)
+function Questie:AddAvailableNoteToMap(continent, zoneid, posx, posy, type, questHash, objectiveid, path)
     --This is to set up the variables
     if(QuestieAvailableMapNotes[continent] == nil) then
         QuestieAvailableMapNotes[continent] = {};
@@ -204,7 +204,7 @@ function Questie:AddAvailableNoteToMap(continent, zoneid, posx, posy, type, ques
     Note.icontype = type;
     Note.questHash = questHash;
     Note.objectiveid = objectiveid;
-    Note.monsterName = monsterName
+    Note.path = path
     --Inserts it into the right zone and continent for later use.
     table.insert(QuestieAvailableMapNotes[continent][zoneid], Note);
 end
@@ -561,6 +561,48 @@ function Questie_Tooltip_OnEnter()
                 Tooltip:AddLine("Min Level: |cFFa6a6a6"..QuestieHashMap[data.questHash].level.."|r",1,1,1);
                 Tooltip:AddLine("Started by: |cFFa6a6a6"..QuestieHashMap[data.questHash].startedBy.."|r",1,1,1);
 
+                print_r(questMeta['path'])
+
+                local tooltipPath
+                tooltipPath = function(path, indent)
+                    local indentString = ""
+                    for i=0,indent,1 do
+                        indentString = indentString.." "
+                    end
+                    for sourceType, sources in pairs(path) do
+                        local prefix
+                        if sourceType == "drop" then
+                            prefix = "Dropped by"
+                        elseif sourceType == "contained" then
+                            prefix = "Contained in"
+                        elseif sourceType == "containedi" then
+                            prefix = "Opened in"
+                        elseif sourceType == "created" then
+                            prefix = "Created by"
+                        end
+
+                        local sourcesCombined
+                        local extraPaths = {}
+                        for sourceName, sourcePath in pairs(sources) do
+                            if sourcesCombined == nil then
+                                sourcesCombined = sourceName
+                            else
+                                sourcesCombined = sourcesCombined..", "..sourceName
+                            end
+                            if next(sourcePath) ~= nil then
+                                table.insert(extraPaths, sourcePath)
+                            end
+                        end
+                        if prefix and sourcesCombined then
+                            Tooltip:AddLine(indentString..prefix..": |cFFa6a6a6"..sourcesCombined.."|r",1,1,1,true);
+                        end
+                        for i, extraPath in pairs(extraPaths) do
+                            tooltipPath(extraPath, indent+1)
+                        end
+                    end
+                end
+                tooltipPath(questMeta['path'], 0)
+
                 local prefix
                 if QuestieHashMap[data.questHash].startedType == "object" then
                     prefix = "Contained in"
@@ -807,10 +849,6 @@ function Questie:AddFrameNoteData(icon, data)
         for k, v in pairs(icon.quests) do
             numQuests = numQuests + 1
         end
-        local newAverageX = (icon.averageX * numQuests + data.x) / (numQuests + 1)
-        local newAverageY = (icon.averageY * numQuests + data.y) / (numQuests + 1)
-        icon.averageX = newAverageX
-        icon.averageY = newAverageY
 
         if icon.quests[data.questHash] then
             -- Add cumulative quest data
@@ -823,6 +861,16 @@ function Questie:AddFrameNoteData(icon, data)
             end
             if data.lootname then
                 icon.quests[data.questHash]['objectives'][data.objectiveid][data.lootname] = 1
+            end
+
+            if data.path then
+                if data.questHash == 113020088 then
+                    Questie:debug_Print("left:")
+                    print_r(icon.quests[data.questHash]['path'])
+                    Questie:debug_Print("right:")
+                    print_r(data.path)
+                end
+                Questie:JoinPathTables(icon.quests[data.questHash]['path'], data.path)
             end
         else
             icon.quests[data.questHash] = {}
@@ -837,6 +885,31 @@ function Questie:AddFrameNoteData(icon, data)
             if data.lootname then
                 icon.quests[data.questHash]['objectives'][data.objectiveid][data.lootname] = 1
             end
+
+            icon.quests[data.questHash]['path'] = {}
+            if data.path then
+                icon.quests[data.questHash]['path'] = data.path
+            end
+
+            local newAverageX = (icon.averageX * numQuests + data.x) / (numQuests + 1)
+            local newAverageY = (icon.averageY * numQuests + data.y) / (numQuests + 1)
+            icon.averageX = newAverageX
+            icon.averageY = newAverageY
+        end
+        --if data.questHash == 2996904832 then
+            --print_r(icon.quests[data.questHash]['path'])
+        --end
+    end
+end
+
+function Questie:JoinPathTables(path1, path2)
+    for k, v in pairs(path2) do
+        if path1[k] then
+            --Questie:debug_Print("Joining values for "..k)
+            Questie:JoinPathTables(path1[k], path2[k])
+        else
+            --Questie:debug_Print("Setting value for "..k)
+            path1[k] = path2[k]
         end
     end
 end
@@ -888,6 +961,158 @@ end
 ---------------------------------------------------------------------------------------------------
 -- Sets up all available quests
 ---------------------------------------------------------------------------------------------------
+function Questie:GetEntityLocations(entity)
+    local locations = {}
+    locations['drop'] = {}
+    locations['contained'] = {}
+    locations['containedi'] = {}
+    locations['created'] = {}
+    locations['locations'] = {}
+    for sourceType, sources in pairs(entity) do
+        --Questie:debug_Print("GetEntityLocation", sourceType)
+        if sourceType == "drop" then
+            for sourceName, b in pairs(sources) do
+                --Questie:debug_Print("GetEntityLocation", sourceName)
+                locations[sourceType][sourceName] = Questie:GetMonsterLocations(sourceName)
+            end
+        end
+        if sourceType == "contained" then
+            for sourceName, b in pairs(sources) do
+                --Questie:debug_Print("GetEntityLocation", sourceName)
+                locations[sourceType][sourceName] = Questie:GetObjectLocations(sourceName)
+            end
+        end
+        if sourceType == "containedi" then
+            for sourceName, b in pairs(sources) do
+                --Questie:debug_Print("GetEntityLocation", sourceName)
+                locations[sourceType][sourceName] = Questie:GetItemLocations(sourceName)
+            end
+        end
+        if sourceType == "created" then
+            for sourceName, b in pairs(sources) do
+                --Questie:debug_Print("GetEntityLocation", sourceName)
+                locations[sourceType][sourceName] = Questie:GetItemLocations(sourceName)
+            end
+        end
+        if sourceType == "locations" then
+            for i, location in pairs(sources) do
+                table.insert(locations[sourceType], location)
+            end
+        end
+    end
+    return locations
+end
+
+function Questie:GetMonsterLocations(monsterName)
+    if QuestieMonsters[monsterName] then
+        return Questie:GetEntityLocations(QuestieMonsters[monsterName])
+    end
+    return {}
+end
+
+function Questie:GetObjectLocations(objectName)
+    if QuestieObjects[objectName] then
+        return Questie:GetEntityLocations(QuestieObjects[objectName])
+    end
+    return {}
+end
+
+function Questie:GetItemLocations(itemName)
+    if QuestieItems[itemName] then
+        return Questie:GetEntityLocations(QuestieItems[itemName])
+    end
+    return {}
+end
+
+function print_r ( t )
+    local print_r_cache={}
+    local function sub_print_r(t,indent)
+        if (print_r_cache[tostring(t)]) then
+            Questie:debug_Print(indent.."*"..tostring(t))
+        else
+            print_r_cache[tostring(t)]=true
+            if (type(t)=="table") then
+                for pos,val in pairs(t) do
+                    if (type(val)=="table") then
+                        Questie:debug_Print(indent.."["..pos.."] => "..tostring(t).." {")
+                        sub_print_r(val,indent..string.rep(" ",string.len(pos)+8))
+                        Questie:debug_Print(indent..string.rep(" ",string.len(pos)+6).."}")
+                    elseif (type(val)=="string") then
+                        Questie:debug_Print(indent.."["..pos..'] => "'..val..'"')
+                    else
+                        Questie:debug_Print(indent.."["..pos.."] => "..tostring(val))
+                    end
+                end
+            else
+                Questie:debug_Print(indent..tostring(t))
+            end
+        end
+    end
+    if (type(t)=="table") then
+        Questie:debug_Print(tostring(t).." {")
+        sub_print_r(t,"  ")
+        Questie:debug_Print("}")
+    else
+        sub_print_r(t,"  ")
+    end
+    Questie:debug_Print()
+end
+
+function printTable(t)
+    for k, v in pairs(t) do
+        Questie:debug_Print("printTable:k=", k)
+        if type(v) == "table" then
+            printTable(v)
+        else
+            Questie:debug_Print("printTable:v=", v)
+        end
+    end
+end
+
+function deepcopy(orig)
+    local orig_type = type(orig)
+    local copy
+    if orig_type == 'table' then
+        copy = {}
+        for orig_key, orig_value in next, orig, nil do
+            copy[deepcopy(orig_key)] = deepcopy(orig_value)
+        end
+        setmetatable(copy, deepcopy(getmetatable(orig)))
+    else -- number, string, boolean, etc
+        copy = orig
+    end
+    return copy
+end
+
+function Questie:RecursiveCreateNotes(c, z, v, locationMeta, path, pathKeys)
+    if path == nil then path = {} end
+    if pathKeys == nil then pathKeys = {} end
+    for sourceType, sources in pairs(locationMeta) do
+        --Questie:debug_Print("RecursiveCreateNotes", sourceType)
+        if sourceType == "locations" and next(sources) then
+            --print_r(path)
+            for i, location in pairs(sources) do
+                Questie:AddAvailableNoteToMap(c,z,location[2],location[3],"available",v,-1,path);
+            end
+        elseif sourceType == "drop" or sourceType == "contained" or sourceType == "created" or sourceType == "containedi" then
+            for sourceName, sourceLocationMeta in pairs(sources) do
+                --Questie:debug_Print("RecursiveCreateNotes", sourceName)
+                local newPath = deepcopy(path)
+                local editPath = newPath
+                for i, pathKey in pairs(pathKeys) do
+                    editPath = editPath[pathKey]
+                end
+                editPath[sourceType] = {}
+                editPath[sourceType][sourceName] = {}
+                local newPathKeys = deepcopy(pathKeys)
+                table.insert(newPathKeys, sourceType)
+                table.insert(newPathKeys, sourceName)
+                Questie:RecursiveCreateNotes(c, z, v, sourceLocationMeta, newPath, newPathKeys)
+            end
+        end
+    end
+end
+
 function Questie:SetAvailableQuests()
     QuestieAvailableMapNotes = {};
     local t = GetTime();
@@ -913,43 +1138,24 @@ function Questie:SetAvailableQuests()
     if quests then
         -- Monsters
         for k, v in pairs(quests) do
-            if(QuestieHashMap[v] and QuestieHashMap[v]['startedBy'] and QuestieMonsters[QuestieHashMap[v]['startedBy']]) then
-                Monster = QuestieMonsters[QuestieHashMap[v]['startedBy']]['locations'][1]
-                local MapInfo = Questie:GetMapInfoFromID(Monster[1]);
-                Questie:AddAvailableNoteToMap(c,z,Monster[2],Monster[3],"available",v,-1);
+            Questie:debug_Print(v)
+            if(QuestieHashMap[v] and QuestieHashMap[v]['startedType'] == "monster" and QuestieHashMap[v]['startedBy']) then
+                local locationMeta = Questie:GetMonsterLocations(QuestieHashMap[v]['startedBy'])
+                Questie:RecursiveCreateNotes(c, z, v, locationMeta)
             end
         end
         -- Objects
         for k, v in pairs(quests) do
-            if(QuestieHashMap[v] and QuestieHashMap[v]['startedBy'] and QuestieObjects[QuestieHashMap[v]['startedBy']]) then
-                Objects = QuestieObjects[QuestieHashMap[v]['startedBy']]['locations'][1]
-                local MapInfo = Questie:GetMapInfoFromID(Objects[1]);
-                Questie:AddAvailableNoteToMap(c,z,Objects[2],Objects[3],"available",v,-1);
+            if(QuestieHashMap[v] and QuestieHashMap[v]['startedType'] == "object" and QuestieHashMap[v]['startedBy']) then
+                local locationMeta = Questie:GetObjectLocations(QuestieHashMap[v]['startedBy'])
+                Questie:RecursiveCreateNotes(c, z, v, locationMeta)
             end
         end
         -- Items
         for k, v in pairs(quests) do
-            if(QuestieHashMap[v] and QuestieHashMap[v]['startedBy'] and QuestieItems[QuestieHashMap[v]['startedBy']]) then
-                local item = QuestieItems[QuestieHashMap[v]['startedBy']]
-                if item['drop'] then
-                    local monsters = item['drop']
-                    for monsterName, someId in pairs(monsters) do
-                        local monster = QuestieMonsters[monsterName]
-                        local locations = monster['locations']
-                        for i, location in pairs(locations) do
-                            local MapInfo = Questie:GetMapInfoFromID(location[1])
-                            Questie:AddAvailableNoteToMap(c,z,location[2],location[3],"available",v,-1, monsterName)
-                        end
-                    end
-                end
-                -- todo items shouldn't really have locations i dont think. - ZoeyZolotova
-                if item['locations'] then
-                    local locations = item['locations']
-                    for i, location in pairs(locations) do
-                        local MapInfo = Questie:GetMapInfoFromID(location[1])
-                        Questie:AddAvailableNoteToMap(c,z,location[2],location[3],"available",v,-1)
-                    end
-                end
+            if(QuestieHashMap[v] and QuestieHashMap[v]['startedType'] == "item" and QuestieHashMap[v]['startedBy']) then
+                local locationMeta = Questie:GetItemLocations(QuestieHashMap[v]['startedBy'])
+                Questie:RecursiveCreateNotes(c, z, v, locationMeta)
             end
         end
         Questie:debug_Print("Added Available quests: Time:",tostring((GetTime()- t)*1000).."ms", "Count:"..table.getn(quests))
@@ -1171,7 +1377,7 @@ function Questie:DRAW_NOTES()
     local minimapClusters = Questie:GetClustersByFrame("MiniMapNote", "Quests")
     local worldMapClusters = Questie:GetClustersByFrame("WorldMapNote", "Quests")
     if QuestieConfig.clusterQuests then
-        Cluster:CalculateClusters(worldMapClusters, 0.025, 5)
+        Cluster:CalculateClusters(worldMapClusters, 0.025, 500)
     end
 
 

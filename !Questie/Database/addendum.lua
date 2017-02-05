@@ -33253,7 +33253,7 @@ QuestieHashMap = {
   ['name']="Ship Schedules",
   ['startedType']="item",
   ['finishedType']="monster",
-  ['startedBy']="unknown",
+  ['startedBy']="Ship Schedule",
   ['finishedBy']="Security Chief Bilgewhizzle",
   ['level']=40,
   ['questLevel']='45'
@@ -41529,7 +41529,7 @@ QuestieHashMap = {
   ['name']="Cuergo's Gold",
   ['startedType']="item",
   ['finishedType']="object",
-  ['startedBy']="unknown",
+  ['startedBy']="Cuergo's Treasure Map",
   ['finishedBy']="Pirate's Treasure!",
   ['level']=42,
   ['questLevel']='45'
@@ -55526,30 +55526,74 @@ function addQuestToZoneLevelMap(mapid, level, questId)
 end
 
 function getMonsterMapId(monsterName)
-    local mapid
     local monster = QuestieMonsters[monsterName]
     if monster ~= nil then
-        mapid = monster['locations'][1][1]
+        return monster['locations'][1][1]
     else
         local additionalCheck = QuestieAdditionalStartFinishLookup[monsterName]
         if additionalCheck ~= nil then
             local czLookupKey = additionalCheck[2]*100 + additionalCheck[3]
-            mapid = QuestieCZLookup[czLookupKey]
+            return QuestieCZLookup[czLookupKey]
         end
     end
-    return mapid
+    return nil
 end
 
 function getObjectMapId(name)
-    local mapid
     local object = QuestieObjects[name]
     if object ~= nil then
-        mapid = object['locations'][1][1]
+        if object['locations'] then
+            return object['locations'][1][1]
+        elseif object['drop'] then
+            for monsterName, i in pairs(object['drop']) do
+                return getMonsterMapId(monsterName)
+            end
+        end
     else
         -- todo shouldn't really check monsters, but someone moved some objects and items to the monsters list
-        mapid = getMonsterMapId(name)
+        return getMonsterMapId(name)
     end
-    return mapid
+    return nil
+end
+
+function getItemMapId(name)
+    local item = QuestieItems[name]
+    if item ~= nil then
+        local drops = item['drop']
+        if drops ~= nil then
+            for monsterName, someId in pairs(drops) do
+                DEFAULT_CHAT_FRAME:AddMessage(monsterName)
+                return getMonsterMapId(monsterName)
+            end
+        end
+        local contained = item['contained']
+        if contained ~= nil then
+            for objectName, someId in pairs(contained) do
+                return getObjectMapId(objectName)
+            end
+        end
+        local containedi = item['containedi']
+        if containedi ~= nil then
+            for itemName, someId in pairs(containedi) do
+                DEFAULT_CHAT_FRAME:AddMessage(itemName)
+                return getItemMapId(itemName)
+            end
+        end
+        local creations = item['created']
+        if creations ~= nil then
+            for itemName, someId in pairs(creations) do
+                DEFAULT_CHAT_FRAME:AddMessage(itemName)
+                return getItemMapId(itemName)
+            end
+        end
+        local locations = item['locations']
+        if locations ~= nil then
+            for i, location in pairs(locations) do
+                return location[1]
+            end
+        end
+    end
+    return nil
 end
 
 local start = GetTime();
@@ -55560,30 +55604,12 @@ for k,v in pairs(QuestieHashMap) do
             addQuestToZoneLevelMap(mapid, v['level'], k)
         end
     end
-    if v['startedType'] == "item" then
-        local item = QuestieItems[v['startedBy']]
-        if item ~= nil then
-            local drops = item['drop']
-            if drops ~= nil then
-                for monsterName, someId in pairs(drops) do
-                    local mapid = getMonsterMapId(monsterName)
-                    addQuestToZoneLevelMap(mapid, v['level'], k)
-                end
-            end
-            local contained = item['contained']
-            if contained ~= nil then
-                for objectName, someId in pairs(contained) do
-                    local mapid = getObjectMapId(objectName)
-                    addQuestToZoneLevelMap(mapid, v['level'], k)
-                end
-            end
-            local locations = item['locations']
-            if locations ~= nil then
-                for i, location in pairs(locations) do
-                    local mapid = location[1]
-                    addQuestToZoneLevelMap(mapid, v['level'], k)
-                end
-            end
+    if v['startedType'] == "item" and v['startedBy'] ~= "unknown" then
+        DEFAULT_CHAT_FRAME:AddMessage(v['startedBy'])
+        local mapid = getItemMapId(v['startedBy'])
+        if mapid ~= nil then
+            DEFAULT_CHAT_FRAME:AddMessage(mapid)
+            addQuestToZoneLevelMap(mapid, v['level'], k)
         end
     end
     if v['startedType'] == "object" then
