@@ -1111,21 +1111,18 @@ function Questie:DRAW_NOTES()
     --DEFAULT_CHAT_FRAME:AddMessage("Drawing map notes!")
     local c, z = GetCurrentMapContinent(), GetCurrentMapZone();
     Questie:debug_Print("DRAW_NOTES");
-    -- Draw minimap objective markers
-    if(QuestieMapNotes[c] and QuestieMapNotes[c][z]) then
-        for k, v in pairs(QuestieMapNotes[c][z]) do
-            --If an available quest isn't in the zone or we aren't tracking a quest on the QuestTracker then hide the objectives from the minimap
-            if ( (not QuestieConfig.hideMinimapIcons) or (QuestieConfig.alwaysShowQuests == false) ) and ((MMLastX ~= 0) and (MMLastY ~= 0)) and (QuestieTrackedQuests[v.questHash] ~= nil) and (QuestieTrackedQuests[v.questHash]["tracked"] ~= false) or (v.icontype == "complete") or (v.icontype == "available") then
-                if v.icontype == "complete" then
-                    Questie:AddClusterFromNote("MiniMapNote", "Quests", v)
-                else
-                    Questie:AddClusterFromNote("MiniMapNote", "Objectives", v)
-                end
-            elseif (QuestieConfig.alwaysShowQuests == true) and not QuestieConfig.hideMinimapIcons then
-                if v.icontype == "complete" or v.icontype == "available" then
-                    Questie:AddClusterFromNote("MiniMapNote", "Quests", v)
-                else
-                    Questie:AddClusterFromNote("MiniMapNote", "Objectives", v)
+    if not QuestieConfig.hideMinimapIcons then
+        -- Draw minimap objective markers
+        if(QuestieMapNotes[c] and QuestieMapNotes[c][z]) then
+            for k, v in pairs(QuestieMapNotes[c][z]) do
+                --If an available quest isn't in the zone or we aren't tracking a quest on the QuestTracker then hide the objectives from the minimap
+                local show = QuestieConfig.alwaysShowQuests or ((MMLastX ~= 0) and (MMLastY ~= 0)) and (QuestieTrackedQuests[v.questHash] ~= nil) and (QuestieTrackedQuests[v.questHash]["tracked"] ~= false)
+                if show then
+                    if v.icontype == "complete" then
+                        Questie:AddClusterFromNote("MiniMapNote", "Quests", v)
+                    else
+                        Questie:AddClusterFromNote("MiniMapNote", "Objectives", v)
+                    end
                 end
             end
         end
@@ -1160,7 +1157,9 @@ function Questie:DRAW_NOTES()
             local con,zon,x,y = Astrolabe:GetCurrentPlayerPosition();
             for k, v in pairs(QuestieAvailableMapNotes[c][z]) do
                 Questie:AddClusterFromNote("WorldMapNote", "Quests", v)
-                Questie:AddClusterFromNote("MiniMapNote", "Quests", v)
+                if not QuestieConfig.hideMinimapIcons then
+                    Questie:AddClusterFromNote("MiniMapNote", "Quests", v)
+                end
             end
         end
     end
