@@ -560,8 +560,23 @@ function Questie_Tooltip_OnEnter()
                 Tooltip:AddLine("["..QuestieHashMap[data.questHash].questLevel.."] "..QuestieHashMap[data.questHash].name.." |cFF33FF00(available)|r");
                 Tooltip:AddLine("Min Level: |cFFa6a6a6"..QuestieHashMap[data.questHash].level.."|r",1,1,1);
                 Tooltip:AddLine("Started by: |cFFa6a6a6"..QuestieHashMap[data.questHash].startedBy.."|r",1,1,1);
-                if QuestieHashMap[data.questHash].startedType == "item" then
-                    Tooltip:AddLine("Dropped by: |cFFa6a6a6"..questMeta.monsterName.."|r",1,1,1)
+
+                local prefix
+                if QuestieHashMap[data.questHash].startedType == "object" then
+                    prefix = "Contained in"
+                elseif QuestieHashMap[data.questHash].startedType == "item" then
+                    prefix = "Dropped by"
+                end
+                local monstedNamesCombined
+                for monsterName, b in pairs(questMeta['monsterName']) do
+                    if monstedNamesCombined == nil then
+                        monstedNamesCombined = monsterName
+                    else
+                        monstedNamesCombined = monstedNamesCombined..", "..monsterName
+                    end
+                end
+                if prefix and monsterNamesCombined then
+                    Tooltip:AddLine(prefix..": |cFFa6a6a6"..monstedNamesCombined.."|r",1,1,1,true);
                 end
                 if questOb ~= nil then
                     Tooltip:AddLine("Description: |cFFa6a6a6"..questOb.."|r",1,1,1,true);
@@ -799,7 +814,7 @@ function Questie:AddFrameNoteData(icon, data)
         if icon.quests[data.questHash] then
             -- Add cumulative quest data
             if data.monsterName then
-                icon.quests[data.questHash]['monsterName'] = icon.quests[data.questHash]['monsterName']..", "..data.monsterName
+                icon.quests[data.questHash]['monsterName'][data.monsterName] = 1
             end
 
             if icon.quests[data.questHash]['objectives'][data.objectiveid] == nil then
@@ -812,7 +827,10 @@ function Questie:AddFrameNoteData(icon, data)
             icon.quests[data.questHash] = {}
             icon.quests[data.questHash]['quest'] = data
             icon.quests[data.questHash]['sortOrder'] = numQuests + 1
-            icon.quests[data.questHash]['monsterName'] = data.monsterName
+            icon.quests[data.questHash]['monsterName'] = {}
+            if data.monsterName then
+                icon.quests[data.questHash]['monsterName'][data.monsterName] = 1
+            end
             icon.quests[data.questHash]['objectives'] = {}
             icon.quests[data.questHash]['objectives'][data.objectiveid] = {}
             if data.lootname then
