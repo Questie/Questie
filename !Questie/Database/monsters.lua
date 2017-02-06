@@ -67264,12 +67264,6 @@ QuestieMonsters = {
     ["looted"] = 8197,
     ["locationCount"] = 1
   },
-  ["Termite Barrel"] = {
-    ["locations"] = {
-      [1] = {50.0, 0.4835, 0.3196, 100.0}
-    },
-    ["locationCount"] = 1
-  },
   ["Nightmare Scalebane"] = {
     ["locations"] = {
       [1] = {46.0, 0.7733, 0.3593, 100.0}

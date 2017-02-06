@@ -23080,10 +23080,9 @@ QuestieItems = {
     }
   },
   ["Plagueland Termites"] = {
-    ["locations"] = {
-      [1] = {34.0, 0.432, 0.3204, 100.0}
+    ["contained"] = {
+      ["Large Termite Mound"] = 1
     },
-    ["locationCount"] = 1
   },
   ["Bloodstone Shard"] = {
     ["drop"] = {
