@@ -55510,10 +55510,88 @@ QuestieAdditionalStartFinishLookup = { -- {C,Z,X,Y}
     ["A-Me 01"] = {1, 20, 0.67657661437988, 0.16762030124664},
 }
 
+function GetEntityLocations(entity)
+    local locations = {}
+    locations['drop'] = {}
+    locations['contained'] = {}
+    locations['containedi'] = {}
+    locations['created'] = {}
+    locations['locations'] = {}
+    local mapIds = {}
+    for sourceType, sources in pairs(entity) do
+        if sourceType == "drop" then
+            for sourceName, b in pairs(sources) do
+                local locationMeta, ids = GetMonsterLocations(sourceName)
+                locations[sourceType][sourceName] = locationMeta
+                for id in ids do mapIds[id] = true end
+            end
+        end
+        if sourceType == "contained" then
+            for sourceName, b in pairs(sources) do
+                local locationMeta, ids = GetObjectLocations(sourceName)
+                locations[sourceType][sourceName] = locationMeta
+                for id in ids do mapIds[id] = true end
+            end
+        end
+        if sourceType == "containedi" then
+            for sourceName, b in pairs(sources) do
+                local locationMeta, ids = GetItemLocations(sourceName)
+                locations[sourceType][sourceName] = locationMeta
+                for id in ids do mapIds[id] = true end
+            end
+        end
+        if sourceType == "created" then
+            for sourceName, b in pairs(sources) do
+                local locationMeta, ids = GetItemLocations(sourceName)
+                locations[sourceType][sourceName] = locationMeta
+                for id in ids do mapIds[id] = true end
+            end
+        end
+        if sourceType == "locations" then
+            for i, location in pairs(sources) do
+                table.insert(locations[sourceType], location)
+                --mapIds[location[1]] = true -- todo uncomment this if monster locations get fixed
+            end
+            mapIds[sources[1][1]] = true -- todo remove this if monster locations get fixed
+        end
+    end
+    return locations, mapIds
+end
+
+function GetMonsterLocations(monsterName)
+    if QuestieMonsters[monsterName] then
+        return GetEntityLocations(QuestieMonsters[monsterName])
+    end
+    -- todo handle QuestieAdditionalStartFinishLookup
+    --local additionalCheck = QuestieAdditionalStartFinishLookup[monsterName]
+    --if additionalCheck ~= nil then
+    --    local czLookupKey = additionalCheck[2]*100 + additionalCheck[3]
+    --    return QuestieCZLookup[czLookupKey]
+    --end
+    return {}, {}
+end
+
+function GetObjectLocations(objectName)
+    if QuestieObjects[objectName] then
+        return GetEntityLocations(QuestieObjects[objectName])
+    else
+        -- todo shouldn't really check monsters, but someone moved some objects and items to the monsters list
+        return GetMonsterLocations(name)
+    end
+    return {}, {}
+end
+
+function GetItemLocations(itemName)
+    if QuestieItems[itemName] then
+        return GetEntityLocations(QuestieItems[itemName])
+    end
+    return {}, {}
+end
+
 QuestieZoneLevelMap = {
 }
 
-function addQuestToZoneLevelMap(mapid, level, questId)
+function addQuestToZoneLevelMap(mapid, level, questId, locationMeta)
     if mapid ~= nil then
         if QuestieZoneLevelMap[mapid] == nil then
             QuestieZoneLevelMap[mapid] = {};
@@ -55521,101 +55599,28 @@ function addQuestToZoneLevelMap(mapid, level, questId)
         if QuestieZoneLevelMap[mapid][level] == nil then
             QuestieZoneLevelMap[mapid][level] = {};
         end
-        QuestieZoneLevelMap[mapid][level][questId] = true
+        QuestieZoneLevelMap[mapid][level][questId] = locationMeta
     end
-end
-
-function getMonsterMapId(monsterName)
-    local monster = QuestieMonsters[monsterName]
-    if monster ~= nil then
-        return monster['locations'][1][1]
-    else
-        local additionalCheck = QuestieAdditionalStartFinishLookup[monsterName]
-        if additionalCheck ~= nil then
-            local czLookupKey = additionalCheck[2]*100 + additionalCheck[3]
-            return QuestieCZLookup[czLookupKey]
-        end
-    end
-    return nil
-end
-
-function getObjectMapId(name)
-    local object = QuestieObjects[name]
-    if object ~= nil then
-        if object['locations'] then
-            return object['locations'][1][1]
-        elseif object['drop'] then
-            for monsterName, i in pairs(object['drop']) do
-                return getMonsterMapId(monsterName)
-            end
-        end
-    else
-        -- todo shouldn't really check monsters, but someone moved some objects and items to the monsters list
-        return getMonsterMapId(name)
-    end
-    return nil
-end
-
-function getItemMapId(name)
-    local item = QuestieItems[name]
-    if item ~= nil then
-        local drops = item['drop']
-        if drops ~= nil then
-            for monsterName, someId in pairs(drops) do
-                DEFAULT_CHAT_FRAME:AddMessage(monsterName)
-                return getMonsterMapId(monsterName)
-            end
-        end
-        local contained = item['contained']
-        if contained ~= nil then
-            for objectName, someId in pairs(contained) do
-                return getObjectMapId(objectName)
-            end
-        end
-        local containedi = item['containedi']
-        if containedi ~= nil then
-            for itemName, someId in pairs(containedi) do
-                DEFAULT_CHAT_FRAME:AddMessage(itemName)
-                return getItemMapId(itemName)
-            end
-        end
-        local creations = item['created']
-        if creations ~= nil then
-            for itemName, someId in pairs(creations) do
-                DEFAULT_CHAT_FRAME:AddMessage(itemName)
-                return getItemMapId(itemName)
-            end
-        end
-        local locations = item['locations']
-        if locations ~= nil then
-            for i, location in pairs(locations) do
-                return location[1]
-            end
-        end
-    end
-    return nil
 end
 
 local start = GetTime();
 for k,v in pairs(QuestieHashMap) do
     if v['startedType'] == "monster" then
-        local mapid = getMonsterMapId(v['startedBy'])
-        if mapid ~= nil then
-            addQuestToZoneLevelMap(mapid, v['level'], k)
+        local locationMeta, mapIds = GetMonsterLocations(v['startedBy'])
+        for mapid in mapIds do
+            addQuestToZoneLevelMap(mapid, v['level'], k, locationMeta)
         end
     end
     if v['startedType'] == "item" and v['startedBy'] ~= "unknown" then
-        DEFAULT_CHAT_FRAME:AddMessage(v['startedBy'])
-        local mapid = getItemMapId(v['startedBy'])
-        if mapid ~= nil then
-            DEFAULT_CHAT_FRAME:AddMessage(mapid)
-            addQuestToZoneLevelMap(mapid, v['level'], k)
+        local locationMeta, mapIds = GetItemLocations(v['startedBy'])
+        for mapid in mapIds do
+            addQuestToZoneLevelMap(mapid, v['level'], k, locationMeta)
         end
     end
     if v['startedType'] == "object" then
-        local mapid = getObjectMapId(v['startedBy'])
-        if mapid ~= nil then
-            addQuestToZoneLevelMap(mapid, v['level'], k)
+        local locationMeta, mapIds = GetObjectLocations(v['startedBy'])
+        for mapid in mapIds do
+            addQuestToZoneLevelMap(mapid, v['level'], k, locationMeta)
         end
     end
 end

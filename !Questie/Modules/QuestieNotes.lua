@@ -561,8 +561,6 @@ function Questie_Tooltip_OnEnter()
                 Tooltip:AddLine("Min Level: |cFFa6a6a6"..QuestieHashMap[data.questHash].level.."|r",1,1,1);
                 Tooltip:AddLine("Started by: |cFFa6a6a6"..QuestieHashMap[data.questHash].startedBy.."|r",1,1,1);
 
-                print_r(questMeta['path'])
-
                 local tooltipPath
                 tooltipPath = function(path, indent)
                     local indentString = ""
@@ -864,12 +862,6 @@ function Questie:AddFrameNoteData(icon, data)
             end
 
             if data.path then
-                if data.questHash == 113020088 then
-                    Questie:debug_Print("left:")
-                    print_r(icon.quests[data.questHash]['path'])
-                    Questie:debug_Print("right:")
-                    print_r(data.path)
-                end
                 Questie:JoinPathTables(icon.quests[data.questHash]['path'], data.path)
             end
         else
@@ -896,9 +888,6 @@ function Questie:AddFrameNoteData(icon, data)
             icon.averageX = newAverageX
             icon.averageY = newAverageY
         end
-        --if data.questHash == 2996904832 then
-            --print_r(icon.quests[data.questHash]['path'])
-        --end
     end
 end
 
@@ -961,99 +950,39 @@ end
 ---------------------------------------------------------------------------------------------------
 -- Sets up all available quests
 ---------------------------------------------------------------------------------------------------
-function Questie:GetEntityLocations(entity)
-    local locations = {}
-    locations['drop'] = {}
-    locations['contained'] = {}
-    locations['containedi'] = {}
-    locations['created'] = {}
-    locations['locations'] = {}
-    for sourceType, sources in pairs(entity) do
-        --Questie:debug_Print("GetEntityLocation", sourceType)
-        if sourceType == "drop" then
-            for sourceName, b in pairs(sources) do
-                --Questie:debug_Print("GetEntityLocation", sourceName)
-                locations[sourceType][sourceName] = Questie:GetMonsterLocations(sourceName)
-            end
-        end
-        if sourceType == "contained" then
-            for sourceName, b in pairs(sources) do
-                --Questie:debug_Print("GetEntityLocation", sourceName)
-                locations[sourceType][sourceName] = Questie:GetObjectLocations(sourceName)
-            end
-        end
-        if sourceType == "containedi" then
-            for sourceName, b in pairs(sources) do
-                --Questie:debug_Print("GetEntityLocation", sourceName)
-                locations[sourceType][sourceName] = Questie:GetItemLocations(sourceName)
-            end
-        end
-        if sourceType == "created" then
-            for sourceName, b in pairs(sources) do
-                --Questie:debug_Print("GetEntityLocation", sourceName)
-                locations[sourceType][sourceName] = Questie:GetItemLocations(sourceName)
-            end
-        end
-        if sourceType == "locations" then
-            for i, location in pairs(sources) do
-                table.insert(locations[sourceType], location)
-            end
-        end
-    end
-    return locations
-end
-
-function Questie:GetMonsterLocations(monsterName)
-    if QuestieMonsters[monsterName] then
-        return Questie:GetEntityLocations(QuestieMonsters[monsterName])
-    end
-    return {}
-end
-
-function Questie:GetObjectLocations(objectName)
-    if QuestieObjects[objectName] then
-        return Questie:GetEntityLocations(QuestieObjects[objectName])
-    end
-    return {}
-end
-
-function Questie:GetItemLocations(itemName)
-    if QuestieItems[itemName] then
-        return Questie:GetEntityLocations(QuestieItems[itemName])
-    end
-    return {}
-end
 
 function print_r ( t )
     local print_r_cache={}
-    local function sub_print_r(t,indent)
+    local function sub_print_r(t,indentAmount)
         if (print_r_cache[tostring(t)]) then
-            Questie:debug_Print(indent.."*"..tostring(t))
+            Questie:debug_Print(string.rep(" ", indentAmount).."*"..tostring(t))
         else
             print_r_cache[tostring(t)]=true
             if (type(t)=="table") then
                 for pos,val in pairs(t) do
                     if (type(val)=="table") then
-                        Questie:debug_Print(indent.."["..pos.."] => "..tostring(t).." {")
-                        sub_print_r(val,indent..string.rep(" ",string.len(pos)+8))
-                        Questie:debug_Print(indent..string.rep(" ",string.len(pos)+6).."}")
+                        if next(val) then
+                            Questie:debug_Print(string.rep(" ", indentAmount).."["..pos.."] => "..tostring(t).." {")
+                            sub_print_r(val,indentAmount+1)
+                            Questie:debug_Print(string.rep(" ", indentAmount).."}")
+                        end
                     elseif (type(val)=="string") then
-                        Questie:debug_Print(indent.."["..pos..'] => "'..val..'"')
+                        Questie:debug_Print(string.rep(" ", indentAmount).."["..pos..'] => "'..val..'"')
                     else
-                        Questie:debug_Print(indent.."["..pos.."] => "..tostring(val))
+                        Questie:debug_Print(string.rep(" ", indentAmount).."["..pos.."] => "..tostring(val))
                     end
                 end
             else
-                Questie:debug_Print(indent..tostring(t))
+                Questie:debug_Print(string.rep(" ", indentAmount)..tostring(t))
             end
         end
     end
     if (type(t)=="table") then
         Questie:debug_Print(tostring(t).." {")
-        sub_print_r(t,"  ")
+        sub_print_r(t,1)
         Questie:debug_Print("}")
     else
-        sub_print_r(t,"  ")
+        sub_print_r(t,1)
     end
     Questie:debug_Print()
 end
@@ -1092,7 +1021,8 @@ function Questie:RecursiveCreateNotes(c, z, v, locationMeta, path, pathKeys)
         if sourceType == "locations" and next(sources) then
             --print_r(path)
             for i, location in pairs(sources) do
-                Questie:AddAvailableNoteToMap(c,z,location[2],location[3],"available",v,-1,path);
+                z = QuestieZoneIDLookup[location[1]][5]
+                Questie:AddAvailableNoteToMap(c,z,location[2],location[3],"available",v,-1,deepcopy(path));
             end
         elseif sourceType == "drop" or sourceType == "contained" or sourceType == "created" or sourceType == "containedi" then
             for sourceName, sourceLocationMeta in pairs(sources) do
@@ -1136,27 +1066,8 @@ function Questie:SetAvailableQuests()
         quests = Questie:GetAvailableQuestHashes(mapFileName,0,level);
     end
     if quests then
-        -- Monsters
         for k, v in pairs(quests) do
-            Questie:debug_Print(v)
-            if(QuestieHashMap[v] and QuestieHashMap[v]['startedType'] == "monster" and QuestieHashMap[v]['startedBy']) then
-                local locationMeta = Questie:GetMonsterLocations(QuestieHashMap[v]['startedBy'])
-                Questie:RecursiveCreateNotes(c, z, v, locationMeta)
-            end
-        end
-        -- Objects
-        for k, v in pairs(quests) do
-            if(QuestieHashMap[v] and QuestieHashMap[v]['startedType'] == "object" and QuestieHashMap[v]['startedBy']) then
-                local locationMeta = Questie:GetObjectLocations(QuestieHashMap[v]['startedBy'])
-                Questie:RecursiveCreateNotes(c, z, v, locationMeta)
-            end
-        end
-        -- Items
-        for k, v in pairs(quests) do
-            if(QuestieHashMap[v] and QuestieHashMap[v]['startedType'] == "item" and QuestieHashMap[v]['startedBy']) then
-                local locationMeta = Questie:GetItemLocations(QuestieHashMap[v]['startedBy'])
-                Questie:RecursiveCreateNotes(c, z, v, locationMeta)
-            end
+            Questie:RecursiveCreateNotes(c, z, k, v)
         end
         Questie:debug_Print("Added Available quests: Time:",tostring((GetTime()- t)*1000).."ms", "Count:"..table.getn(quests))
     end

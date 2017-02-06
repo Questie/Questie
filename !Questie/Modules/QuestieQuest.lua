@@ -847,7 +847,7 @@ function Questie:GetAvailableQuestHashes(mapFileName, levelFrom, levelTo)
         if QuestieZoneLevelMap[mapid] then
             local content = QuestieZoneLevelMap[mapid][l];
             if content then
-                for v,b in pairs(content) do
+                for v, locationMeta in pairs(content) do
                     local qdata = QuestieHashMap[v];
                     if(qdata) then
                         local requiredQuest = qdata['rq'];
@@ -859,7 +859,7 @@ function Questie:GetAvailableQuestHashes(mapFileName, levelFrom, levelTo)
                         valid = valid and (requiredSkill == nil or QuestieConfig.showProfessionQuests);
                         if valid then valid = valid and checkRequirements(class, race, requiredClasses,requiredRaces); end
                         if valid and not QuestieHandledQuests[requiredQuest] and not QuestieSeenQuests[v] then
-                            table.insert(hashes, v);
+                            hashes[v] = locationMeta
                         end
                     end
                 end
