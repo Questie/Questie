@@ -825,7 +825,6 @@ end
 function Questie:SetFrameNoteData(f, data, parentFrame, frameLevel, type, scale)
     f.data = data;
     f.quests = {}
-    f.questOrders = {}
     Questie:AddFrameNoteData(f, data)
     f:SetParent(parentFrame);
     f:SetFrameLevel(frameLevel);
@@ -1092,6 +1091,10 @@ function Questie:Clear_Note(v)
     v:SetHighlightTexture(nil, "ADD");
     v.questHash = nil;
     v.objId = nil;
+    v.data = nil
+    v.quests = nil
+    v.averageX = nil
+    v.averageY = nil
     table.insert(FramePool, v);
 end
 ---------------------------------------------------------------------------------------------------
