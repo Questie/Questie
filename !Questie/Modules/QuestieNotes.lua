@@ -1121,6 +1121,18 @@ function Cluster.new(points)
     return self
 end
 
+function Cluster:CountPoints()
+    local count = 0
+    local counted = {}
+    for i, q in pairs(self.points) do
+        if not counted[q.questHash] then
+            count = count + 1
+            counted[q.questHash] = true
+        end
+    end
+    return count
+end
+
 function Cluster.CalculateDistance(x1, y1, x2, y2)
     local deltaX = x1 - x2
     local deltaY = y1 - y2
@@ -1147,7 +1159,7 @@ function Cluster:CalculateClusters(clusters, distanceThreshold, maxClusterSize)
             for j, otherCluster in pairs(clusters) do
                 if cluster ~= otherCluster then
                     local distance = Cluster.CalculateLinkageDistance(cluster.points, otherCluster.points)
-                    if distance == 0 or ((nearestDistance == nil or distance < nearestDistance) and (table.getn(cluster.points) + table.getn(otherCluster.points) <= maxClusterSize)) then
+                    if distance == 0 or ((nearestDistance == nil or distance < nearestDistance) and (cluster:CountPoints() + otherCluster:CountPoints() <= maxClusterSize)) then
                         nearestDistance = distance
                         nearest1 = cluster
                         nearest2 = otherCluster
@@ -1288,7 +1300,7 @@ function Questie:DRAW_NOTES()
     local minimapClusters = Questie:GetClustersByFrame("MiniMapNote", "Quests")
     local worldMapClusters = Questie:GetClustersByFrame("WorldMapNote", "Quests")
     if QuestieConfig.clusterQuests then
-        Cluster:CalculateClusters(worldMapClusters, 0.025, 500)
+        Cluster:CalculateClusters(worldMapClusters, 0.025, 5)
     end
 
 
