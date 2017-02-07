@@ -1346,6 +1346,7 @@ function Questie:DrawClusters(clusters, frameName, scale, frame, button)
         if frameName == "MiniMapNote" then
             Icon:SetHighlightTexture(QuestieIcons[mainV.icontype].path, "ADD");
             Astrolabe:PlaceIconOnMinimap(Icon, mainV.continent, mainV.zoneid, Icon.averageX, Icon.averageY);
+            table.insert(QuestieUsedNoteFrames, Icon);
         else
             Icon:Show()
             xx, yy = Astrolabe:PlaceIconOnWorldMap(button, Icon, mainV.continent, mainV.zoneid, Icon.averageX, Icon.averageY)
