@@ -1334,7 +1334,7 @@ function Questie:DrawClusters(clusters, frameName, scale, frame, button)
                 (a.icontype == b.icontype and questA.level < questB.level) or
                 (a.icontype == b.icontype and questA.level == questB.level and questA.questLevel < questB.questLevel)
         end)
-        Icon = Questie:GetBlankNoteFrame(frame)
+        local Icon = Questie:GetBlankNoteFrame(frame)
         local mainV = cluster.points[1]
         for j, v in pairs(cluster.points) do
             if j == 1 then
