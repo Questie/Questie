@@ -1143,6 +1143,7 @@ function Cluster.CalculateLinkageDistance(cluster1, cluster2)
     local total = 0
     for i, pi in cluster1 do
         for j, pj in cluster2 do
+            if pi.zoneid ~= pj.zoneid then return -1 end
             local distance = Cluster.CalculateDistance(pi.x, pi.y, pj.x, pj.y)
             total = total + distance;
         end
@@ -1159,7 +1160,7 @@ function Cluster:CalculateClusters(clusters, distanceThreshold, maxClusterSize)
             for j, otherCluster in pairs(clusters) do
                 if cluster ~= otherCluster then
                     local distance = Cluster.CalculateLinkageDistance(cluster.points, otherCluster.points)
-                    if distance == 0 or ((nearestDistance == nil or distance < nearestDistance) and (cluster:CountPoints() + otherCluster:CountPoints() <= maxClusterSize)) then
+                    if distance >= 0 and (distance == 0 or ((nearestDistance == nil or distance < nearestDistance) and (cluster:CountPoints() + otherCluster:CountPoints() <= maxClusterSize))) then
                         nearestDistance = distance
                         nearest1 = cluster
                         nearest2 = otherCluster
