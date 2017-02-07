@@ -961,11 +961,11 @@ function print_r ( t )
             if (type(t)=="table") then
                 for pos,val in pairs(t) do
                     if (type(val)=="table") then
+                        Questie:debug_Print(string.rep(" ", indentAmount).."["..pos.."] => "..tostring(t).." {")
                         if next(val) then
-                            Questie:debug_Print(string.rep(" ", indentAmount).."["..pos.."] => "..tostring(t).." {")
                             sub_print_r(val,indentAmount+1)
-                            Questie:debug_Print(string.rep(" ", indentAmount).."}")
                         end
+                        Questie:debug_Print(string.rep(" ", indentAmount).."}")
                     elseif (type(val)=="string") then
                         Questie:debug_Print(string.rep(" ", indentAmount).."["..pos..'] => "'..val..'"')
                     else
