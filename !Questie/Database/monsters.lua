@@ -64237,10 +64237,9 @@ QuestieMonsters = {
   },
   ["Syndicate Documents"] = {
     ["locations"] = {
-      [1] = {48.0, 0.5080, 0.2030, 100.0},
-      [2] = {48.0, 0.5990, 0.7900, 100.0}
+      [1] = {48.0, 0.5080, 0.2030, 100.0}
     },
-    ["locationCount"] = 2,
+    ["locationCount"] = 1,
     ["faction"] = 1
   },
   ["Ancient Stone Keeper"] = {
