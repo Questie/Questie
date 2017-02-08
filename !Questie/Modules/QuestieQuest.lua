@@ -539,10 +539,12 @@ AstroobjectiveProcessors = {
                         monster["lootname"] = objectName
                         monster["locations"] = {}
                         monster["type"] = "object"
-                        for k, pos in pairs(QuestieObjects[objectName]['locations']) do -- todo handle objects that appear when a mob is killed
-                            table.insert(monster["locations"], pos)
+                        if QuestieObjects[objectName] then
+                            for k, pos in pairs(QuestieObjects[objectName]['locations']) do -- todo handle objects that appear when a mob is killed
+                                table.insert(monster["locations"], pos)
+                            end
+                            table.insert(list, monster)
                         end
-                        table.insert(list, monster)
                     end
                 elseif k =="locations" then
                 else
