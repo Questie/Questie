@@ -49,14 +49,16 @@ function Questie:AddQuestToMap(questHash, redraw)
                 --This checks if just THIS objective is done (Data is not super efficient but it's nil unless set so...)
                 if not location.done then
                     local MapInfo = Questie:GetMapInfoFromID(location.mapid);
-                    local notehandle = {};
-                    notehandle.c = MapInfo[4];
-                    notehandle.z = MapInfo[5];
-                    Questie:AddNoteToMap(MapInfo[4], MapInfo[5], location.x, location.y, location.type, questHash, location.objectiveid, location.lootname);
-                    if not UsedContinents[MapInfo[4]] and not UsedZones[MapInfo[5]] then
-                        UsedContinents[MapInfo[4]] = true;
-                        UsedZones[MapInfo[5]] = true;
-                        table.insert(ques["noteHandles"], notehandle);
+                    if MapInfo ~= nil then
+                        local notehandle = {};
+                        notehandle.c = MapInfo[4];
+                        notehandle.z = MapInfo[5];
+                        Questie:AddNoteToMap(MapInfo[4], MapInfo[5], location.x, location.y, location.type, questHash, location.objectiveid, location.lootname);
+                        if not UsedContinents[MapInfo[4]] and not UsedZones[MapInfo[5]] then
+                            UsedContinents[MapInfo[4]] = true;
+                            UsedZones[MapInfo[5]] = true;
+                            table.insert(ques["noteHandles"], notehandle);
+                        end
                     end
                 end
             end
@@ -84,14 +86,16 @@ function Questie:AddQuestToMap(questHash, redraw)
         if Monfin then finisher=Monfin elseif Objfin then finisher=Objfin end
         if(finisher) then
             local MapInfo = Questie:GetMapInfoFromID(finisher['locations'][1][1]);--Map id is at ID 1, i then convert this to a useful continent and zone
-            local c, z, x, y = MapInfo[4], MapInfo[5], finisher['locations'][1][2],finisher['locations'][1][3]-- You just have to know about this, 2 is x 3 is y
-            --The 1 is just the first locations as finisher only have one location
-            --Questie:debug_Print("Quest finished",MapInfo[4], MapInfo[5]);
-            Questie:AddNoteToMap(c,z, x, y, "complete", questHash, 0);
-            local notehandle = {};
-            notehandle.c = MapInfo[4];
-            notehandle.z = MapInfo[5];
-            table.insert(ques["noteHandles"], notehandle);
+            if MapInfo ~= nil then
+                local c, z, x, y = MapInfo[4], MapInfo[5], finisher['locations'][1][2],finisher['locations'][1][3]-- You just have to know about this, 2 is x 3 is y
+                --The 1 is just the first locations as finisher only have one location
+                --Questie:debug_Print("Quest finished",MapInfo[4], MapInfo[5]);
+                Questie:AddNoteToMap(c,z, x, y, "complete", questHash, 0);
+                local notehandle = {};
+                notehandle.c = MapInfo[4];
+                notehandle.z = MapInfo[5];
+                table.insert(ques["noteHandles"], notehandle);
+            end
         else
             Questie:debug_Print("[AddQuestToMap] ERROR Quest broken! ", Quest["name"], questHash, "report on github!");
         end
@@ -1020,7 +1024,10 @@ function Questie:RecursiveCreateNotes(c, z, v, locationMeta, path, pathKeys)
         if sourceType == "locations" and next(sources) then
             --print_r(path)
             for i, location in pairs(sources) do
-                z = QuestieZoneIDLookup[location[1]][5]
+                local MapInfo = QuestieZoneIDLookup[location[1]]
+                if MapInfo ~= nil then
+                    z = MapInfo[5]
+                end
                 Questie:AddAvailableNoteToMap(c,z,location[2],location[3],"available",v,-1,deepcopy(path));
             end
         elseif sourceType == "drop" or sourceType == "contained" or sourceType == "created" or sourceType == "containedi" then
