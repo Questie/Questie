@@ -851,6 +851,13 @@ function Questie:AddFrameNoteData(icon, data)
             numQuests = numQuests + 1
         end
 
+        if (data.icontype ~= "complete" and data.icontype ~= "available") or icon.quests[data.questHash] == nil then
+            local newAverageX = (icon.averageX * numQuests + data.x) / (numQuests + 1)
+            local newAverageY = (icon.averageY * numQuests + data.y) / (numQuests + 1)
+            icon.averageX = newAverageX
+            icon.averageY = newAverageY
+        end
+
         if icon.quests[data.questHash] then
             -- Add cumulative quest data
             if data.monsterName then
@@ -885,11 +892,6 @@ function Questie:AddFrameNoteData(icon, data)
             if data.path then
                 icon.quests[data.questHash]['path'] = data.path
             end
-
-            local newAverageX = (icon.averageX * numQuests + data.x) / (numQuests + 1)
-            local newAverageY = (icon.averageY * numQuests + data.y) / (numQuests + 1)
-            icon.averageX = newAverageX
-            icon.averageY = newAverageY
         end
     end
 end
@@ -1196,6 +1198,11 @@ function Cluster:CalculateClusters(clusters, distanceThreshold, maxClusterSize)
     end
 end
 
+function round(x, factor)
+    if factor == nil then factor = 1 end
+    return tonumber(string.format("%.2f", x/factor)) * factor
+end
+
 function Questie:AddClusterFromNote(frame, identifier, v)
     if clustersByFrame == nil then
         clustersByFrame = {}
@@ -1206,15 +1213,29 @@ function Questie:AddClusterFromNote(frame, identifier, v)
     if clustersByFrame[frame][identifier] == nil then
         clustersByFrame[frame][identifier] = {}
     end
-    if clustersByFrame[frame][identifier][v.x] == nil then
-        clustersByFrame[frame][identifier][v.x] = {}
+    if clustersByFrame[frame][identifier][v.continent] == nil then
+        clustersByFrame[frame][identifier][v.continent] = {}
     end
-    if clustersByFrame[frame][identifier][v.x][v.y] == nil then
+    if clustersByFrame[frame][identifier][v.continent][v.zoneid] == nil then
+        clustersByFrame[frame][identifier][v.continent][v.zoneid] = {}
+    end
+
+    local roundedX = v.x
+    local roundedY = v.y
+    if QuestieConfig.clusterQuests and frame == "WorldMapNote" and identifier == "Objectives" then
+        roundedX = round(v.x, 5)
+        roundedY = round(v.y, 5)
+    end
+
+    if clustersByFrame[frame][identifier][v.continent][v.zoneid][roundedX] == nil then
+        clustersByFrame[frame][identifier][v.continent][v.zoneid][roundedX] = {}
+    end
+    if clustersByFrame[frame][identifier][v.continent][v.zoneid][roundedX][roundedY] == nil then
         local points = { v }
         local cluster = Cluster.new(points)
-        clustersByFrame[frame][identifier][v.x][v.y] = cluster
+        clustersByFrame[frame][identifier][v.continent][v.zoneid][roundedX][roundedY] = cluster
     else
-        table.insert(clustersByFrame[frame][identifier][v.x][v.y].points, v)
+        table.insert(clustersByFrame[frame][identifier][v.continent][v.zoneid][roundedX][roundedY].points, v)
     end
 end
 
@@ -1229,9 +1250,13 @@ function Questie:GetClustersByFrame(frame, identifier)
         clustersByFrame[frame][identifier] = {}
     end
     local clusters = {}
-    for x, v in pairs(clustersByFrame[frame][identifier]) do
-        for y, v in pairs(clustersByFrame[frame][identifier][x]) do
-            table.insert(clusters, clustersByFrame[frame][identifier][x][y])
+    for c, v in pairs(clustersByFrame[frame][identifier]) do
+        for z, v in pairs(clustersByFrame[frame][identifier][c]) do
+            for x, v in pairs(clustersByFrame[frame][identifier][c][z]) do
+                for y, v in pairs(clustersByFrame[frame][identifier][c][z][x]) do
+                    table.insert(clusters, clustersByFrame[frame][identifier][c][z][x][y])
+                end
+            end
         end
     end
     return clusters
