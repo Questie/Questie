@@ -583,23 +583,9 @@ function Questie_Tooltip_OnEnter()
                             prefix = "Created by"
                         end
 
-                        local sourcesCombined
-                        local extraPaths = {}
                         for sourceName, sourcePath in pairs(sources) do
-                            if sourcesCombined == nil then
-                                sourcesCombined = sourceName
-                            else
-                                sourcesCombined = sourcesCombined..", "..sourceName
-                            end
-                            if next(sourcePath) ~= nil then
-                                table.insert(extraPaths, sourcePath)
-                            end
-                        end
-                        if prefix and sourcesCombined then
-                            Tooltip:AddLine(indentString..prefix..": |cFFa6a6a6"..sourcesCombined.."|r",1,1,1,true);
-                        end
-                        for i, extraPath in pairs(extraPaths) do
-                            tooltipPath(extraPath, indent+1)
+                            Tooltip:AddLine(indentString..prefix..": |cFFa6a6a6"..sourceName.."|r",1,1,1,true);
+                            tooltipPath(sourcePath, indent+1)
                         end
                     end
                 end
@@ -890,7 +876,7 @@ function Questie:AddFrameNoteData(icon, data)
 
             icon.quests[data.questHash]['path'] = {}
             if data.path then
-                icon.quests[data.questHash]['path'] = data.path
+                icon.quests[data.questHash]['path'] = deepcopy(data.path)
             end
         end
     end
@@ -905,6 +891,91 @@ function Questie:JoinPathTables(path1, path2)
             --Questie:debug_Print("Setting value for "..k)
             path1[k] = path2[k]
         end
+    end
+end
+
+function Questie:PathsAreIdentical(path1, path2)
+    if not next(path1) and not next(path2) then
+        return true
+    end
+
+    for sourceType1, sources1 in pairs(path1) do
+        for sourceType2, sources2 in pairs(path2) do
+            if path1[sourceType2] == nil or path2[sourceType1] == nil then
+                return false
+            end
+        end
+
+        for sourceName, sourcePath in pairs(path1[sourceType1]) do
+            for otherSourceName, otherSourcePath in pairs(path2[sourceType1]) do
+                if path1[sourceType1][otherSourceName] == nil or path2[sourceType1][sourceName] == nil then
+                    return false
+                end
+            end
+        end
+    end
+
+    return true
+end
+
+function Questie:PostProcessIconPath(path)
+    for sourceType, sources in pairs(path) do
+        for sourceName, sourcePath in pairs(sources) do
+            Questie:PostProcessIconPath(sourcePath)
+        end
+
+        local newSources = {}
+
+        for sourceName, sourcePath in pairs(sources) do
+            for otherSourceName, otherSourcePath in pairs(sources) do
+                if sourceName ~= otherSourceName and (newSources[sourceName] == nil or newSources[otherSourceName] == nil) then
+                    if Questie:PathsAreIdentical(sourcePath, otherSourcePath) then
+                        local newSource = newSources[sourceName]
+                        if newSource == nil then
+                            newSource = newSources[otherSourceName]
+                        end
+                        if newSource ~= nil then
+                            newSource.name = newSource.name..", "..otherSourceName
+                            table.insert(newSource.names, otherSourceName)
+                        else
+                            newSource = {
+                                ['name'] = sourceName..", "..otherSourceName,
+                                ['names'] = {sourceName, otherSourceName},
+                                ['sourcePath'] = sourcePath
+                            }
+                        end
+                        for i, name in ipairs(newSource.names) do
+                            newSources[name] = newSource
+                        end
+                    end
+                end
+            end
+        end
+
+        for sourceName, sourcePath in pairs(sources) do
+            if newSources[sourceName] == nil then
+                newSources[sourceName] = {
+                    ['name'] = sourceName,
+                    ['sourcePath'] = sourcePath,
+                    ['names'] = {sourceName}
+                }
+            end
+        end
+
+        local processedSources = {}
+        for sourceName, data in pairs(newSources) do
+            for i, name in ipairs(data.names) do
+                processedSources[data.name] = data.sourcePath
+            end
+        end
+
+        path[sourceType] = processedSources
+    end
+end
+
+function Questie:PostProcessIconPaths(icon)
+    for questHash, questMeta in pairs(icon.quests) do
+        Questie:PostProcessIconPath(questMeta.path)
     end
 end
 
@@ -990,17 +1061,6 @@ function print_r ( t )
         sub_print_r(t,1)
     end
     Questie:debug_Print()
-end
-
-function printTable(t)
-    for k, v in pairs(t) do
-        Questie:debug_Print("printTable:k=", k)
-        if type(v) == "table" then
-            printTable(v)
-        else
-            Questie:debug_Print("printTable:v=", v)
-        end
-    end
 end
 
 function deepcopy(orig)
@@ -1377,6 +1437,8 @@ function Questie:DrawClusters(clusters, frameName, scale, frame, button)
                 Questie:AddFrameNoteData(Icon, v)
             end
         end
+
+        Questie:PostProcessIconPaths(Icon)
 
         if frameName == "MiniMapNote" then
             Icon:SetHighlightTexture(QuestieIcons[mainV.icontype].path, "ADD");
