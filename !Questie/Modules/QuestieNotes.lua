@@ -1016,12 +1016,12 @@ function Questie:RecursiveCreateNotes(c, z, v, locationMeta, icontype, objective
                 if MapInfo ~= nil then
                     c = MapInfo[4]
                     z = MapInfo[5]
-                end
-                if icontype == nil then icontype = "slay" end
-                if icontype == "available" then
-                    Questie:AddAvailableNoteToMap(c,z,location[2],location[3],icontype,v,-1,deepcopy(path))
-                else
-                    Questie:AddNoteToMap(c,z,location[2],location[3],icontype,v,objectiveid,deepcopy(path))
+                    if icontype == nil then icontype = "slay" end
+                    if icontype == "available" then
+                        Questie:AddAvailableNoteToMap(c,z,location[2],location[3],icontype,v,-1,deepcopy(path))
+                    else
+                        Questie:AddNoteToMap(c,z,location[2],location[3],icontype,v,objectiveid,deepcopy(path))
+                    end
                 end
             end
         elseif sourceType == "drop" or sourceType == "contained" or sourceType == "created" or sourceType == "containedi" or sourceType == "openedby" then
