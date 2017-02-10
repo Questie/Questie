@@ -567,25 +567,7 @@ function Questie_Tooltip_OnEnter()
                 Tooltip:AddLine("Min Level: |cFFa6a6a6"..QuestieHashMap[data.questHash].level.."|r",1,1,1);
                 Tooltip:AddLine("Started by: |cFFa6a6a6"..QuestieHashMap[data.questHash].startedBy.."|r",1,1,1);
                 Questie:AddPathToTooltip(Tooltip, questMeta['path'], 1)
-
-                local prefix
-                if QuestieHashMap[data.questHash].startedType == "object" then
-                    prefix = "Contained in"
-                elseif QuestieHashMap[data.questHash].startedType == "item" then
-                    prefix = "Dropped by"
-                end
-
-                local monsterNamesCombined
-                for monsterName, b in pairs(questMeta['monsterName']) do
-                    if monsterNamesCombined == nil then
-                        monsterNamesCombined = monsterName
-                    else
-                        monsterNamesCombined = monsterNamesCombined..", "..monsterName
-                    end
-                end
-                if prefix and monsterNamesCombined then
-                    Tooltip:AddLine(prefix..": |cFFa6a6a6"..monsterNamesCombined.."|r",1,1,1,true);
-                end
+                
                 if questOb ~= nil then
                     Tooltip:AddLine("Description: |cFFa6a6a6"..questOb.."|r",1,1,1,true);
                 end
