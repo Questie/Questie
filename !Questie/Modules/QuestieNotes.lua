@@ -669,17 +669,18 @@ function Questie_AvailableQuestClick()
             local closeFunc = function()
                 Dewdrop:Close()
             end
-            if (IsAddOnLoaded("Cartographer")) or (IsAddOnLoaded("MetaMap")) or (QuestieConfig.resizeWorldmap == true) then
-                Dewdrop:Register(WorldMapFrame,
+            local registerDewdrop = function(frame, quests, k1, v1, k2, v2)
+                Dewdrop:Register(frame,
                     'children', function()
-                        for questHash, questMeta in pairs(this.quests) do
-                            local quest = questMeta['quest']
+                        for questHash, questMeta in pairs(quests) do
+                            local quest = questMeta.quest
                             local hash = questHash
                             local questName = "["..QuestieHashMap[hash].questLevel.."] "..QuestieHashMap[hash]['name']
                             local finishFunc = function(quest)
                                 finishQuest(quest)
                                 Dewdrop:Close()
                             end
+                            print_r(quest)
                             Dewdrop:AddLine(
                                 'text', questName,
                                 'notClickable', quest.icontype ~= "available",
@@ -702,86 +703,18 @@ function Questie_AvailableQuestClick()
                         )
                     end,
                     'dontHook', true,
-                    'cursorX', true,
-                    'cursorY', true
+                    k1, v1,
+                    k2, v2
                 )
-                Dewdrop:Open(WorldMapFrame)
-                Dewdrop:Unregister(WorldMapFrame)
-            elseif (not IsAddOnLoaded("Cartographer")) or (not IsAddOnLoaded("MetaMap")) and (QuestieConfig.resizeWorldmap == false) then
-                Dewdrop:Register(this,
-                    'children', function()
-                        for i, quest in pairs(this.quests) do
-                            local hash = quest.questHash
-                            local questName = "["..QuestieHashMap[hash].questLevel.."] "..QuestieHashMap[hash]['name']
-                            local finishFunc = function(quest)
-                                finishQuest(quest)
-                                Dewdrop:Close()
-                            end
-                            Dewdrop:AddLine(
-                                'text', questName,
-                                'notClickable', quest.icontype ~= "available",
-                                'icon', QuestieIcons[quest.icontype].path,
-                                'iconCoordLeft', 0,
-                                'iconCoordRight', 1,
-                                'iconCoordTop', 0,
-                                'iconCoordBottom', 1,
-                                'func', finishFunc,
-                                'arg1', quest
-                            )
-                        end
-                        Dewdrop:AddLine(
-                            'text', "",
-                            'notClickable', true
-                        )
-                        Dewdrop:AddLine(
-                            'text', "Cancel",
-                            'func', closeFunc
-                        )
-                    end,
-                    'dontHook', true,
-                    'point', "TOPLEFT",
-                    'relativePoint', "BOTTOMRIGHT"
-                )
-                Dewdrop:Open(this)
-                Dewdrop:Unregister(this)
+                Dewdrop:Open(frame)
+                Dewdrop:Unregister(frame)
             end
-            if (IsAddOnLoaded("Cartographer")) and (CartographerDB["disabledModules"]["Default"]["Look 'n' Feel"] == true) then
-                Dewdrop:Register(this,
-                    'children', function()
-                        for i, quest in pairs(this.quests) do
-                            local hash = quest.questHash
-                            local questName = "["..QuestieHashMap[hash].questLevel.."] "..QuestieHashMap[hash]['name']
-                            local finishFunc = function(quest)
-                                finishQuest(quest)
-                                Dewdrop:Close()
-                            end
-                            Dewdrop:AddLine(
-                                'text', questName,
-                                'notClickable', quest.icontype ~= "available",
-                                'icon', QuestieIcons[quest.icontype].path,
-                                'iconCoordLeft', 0,
-                                'iconCoordRight', 1,
-                                'iconCoordTop', 0,
-                                'iconCoordBottom', 1,
-                                'func', finishFunc,
-                                'arg1', quest
-                            )
-                        end
-                        Dewdrop:AddLine(
-                            'text', "",
-                            'notClickable', true
-                        )
-                        Dewdrop:AddLine(
-                            'text', "Cancel",
-                            'func', closeFunc
-                        )
-                    end,
-                    'dontHook', true,
-                    'point', "TOPLEFT",
-                    'relativePoint', "BOTTOMRIGHT"
-                )
-                Dewdrop:Open(this)
-                Dewdrop:Unregister(this)
+            if (IsAddOnLoaded("Cartographer")) or (IsAddOnLoaded("MetaMap")) or (QuestieConfig.resizeWorldmap == true) then
+                registerDewdrop(WorldMapFrame, this.quests, 'cursorX', true, 'cursorY', true)
+            elseif (not IsAddOnLoaded("Cartographer")) or (not IsAddOnLoaded("MetaMap")) and (QuestieConfig.resizeWorldmap == false) then
+                registerDewdrop(this, this.quests, 'point', "TOPLEFT", 'relativePoint', "BOTTOMRIGHT")
+            elseif (IsAddOnLoaded("Cartographer")) and (CartographerDB["disabledModules"]["Default"]["Look 'n' Feel"] == true) then
+                registerDewdrop(this, this.quests, 'point', "TOPLEFT", 'relativePoint', "BOTTOMRIGHT")
             end
         end
     end
