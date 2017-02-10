@@ -1258,9 +1258,9 @@ function Cluster:CalculateClusters(clusters, distanceThreshold, maxClusterSize)
     end
 end
 
-function round(x, factor)
+function Questie:RoundCoordinate(coord, factor)
     if factor == nil then factor = 1 end
-    return tonumber(string.format("%.2f", x/factor)) * factor
+    return tonumber(string.format("%.2f", coord/factor)) * factor
 end
 
 function Questie:AddClusterFromNote(frame, identifier, v)
@@ -1283,8 +1283,8 @@ function Questie:AddClusterFromNote(frame, identifier, v)
     local roundedX = v.x
     local roundedY = v.y
     if QuestieConfig.clusterQuests and frame == "WorldMapNote" and identifier == "Objectives" then
-        roundedX = round(v.x, 5)
-        roundedY = round(v.y, 5)
+        roundedX = Questie:RoundCoordinate(v.x, 5)
+        roundedY = Questie:RoundCoordinate(v.y, 5)
     end
 
     if clustersByFrame[frame][identifier][v.continent][v.zoneid][roundedX] == nil then
