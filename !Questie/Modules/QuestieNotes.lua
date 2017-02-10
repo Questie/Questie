@@ -35,8 +35,9 @@ function Questie:AddQuestToMap(questHash, redraw)
     if(Active == false) then
         return;
     end
+    local c, z = GetCurrentMapContinent(), GetCurrentMapZone();
     Questie:RemoveQuestFromMap(questHash);
-    Objectives = Questie:AstroGetQuestObjectives(questHash);
+    local objectives = Questie:GetQuestObjectivePaths(questHash)
     --Cache code
     local ques = {};
     ques["noteHandles"] = {};
@@ -44,24 +45,8 @@ function Questie:AddQuestToMap(questHash, redraw)
     UsedZones = {};
     local Quest = Questie:IsQuestFinished(questHash);
     if not (Quest) then
-        for name, locations in pairs(Objectives['objectives']) do
-            for k, location in pairs(locations) do
-                --This checks if just THIS objective is done (Data is not super efficient but it's nil unless set so...)
-                if not location.done then
-                    local MapInfo = Questie:GetMapInfoFromID(location.mapid);
-                    if MapInfo ~= nil then
-                        local notehandle = {};
-                        notehandle.c = MapInfo[4];
-                        notehandle.z = MapInfo[5];
-                        Questie:AddNoteToMap(MapInfo[4], MapInfo[5], location.x, location.y, location.type, questHash, location.objectiveid, location.lootname);
-                        if not UsedContinents[MapInfo[4]] and not UsedZones[MapInfo[5]] then
-                            UsedContinents[MapInfo[4]] = true;
-                            UsedZones[MapInfo[5]] = true;
-                            table.insert(ques["noteHandles"], notehandle);
-                        end
-                    end
-                end
-            end
+        for objectiveid, objectivePath in pairs(objectives) do
+            Questie:RecursiveCreateNotes(c, z, questHash, objectivePath, nil, objectiveid)
         end
     else
         local Monfin = nil;
@@ -101,7 +86,7 @@ function Questie:AddQuestToMap(questHash, redraw)
         end
     end
     --Cache code
-    ques["objectives"] = Objectives;
+    ques["objectives"] = objectives;
     QuestieHandledQuests[questHash] = ques;
     if(redraw) then
         Questie:RedrawNotes();
@@ -163,7 +148,7 @@ end
 ---------------------------------------------------------------------------------------------------
 QuestieMapNotes = {};--Usage Questie[Continent][Zone][index]
 MiniQuestieMapNotes = {};
-function Questie:AddNoteToMap(continent, zoneid, posx, posy, type, questHash, objectiveid, lootname)
+function Questie:AddNoteToMap(continent, zoneid, posx, posy, type, questHash, objectiveid, path)
     --This is to set up the variables
     if QuestieConfig.hideobjectives and not (type == "complete") then
         return;
@@ -183,7 +168,7 @@ function Questie:AddNoteToMap(continent, zoneid, posx, posy, type, questHash, ob
     Note.icontype = type;
     Note.questHash = questHash;
     Note.objectiveid = objectiveid;
-    Note.lootname = lootname
+    Note.path = path
     --Inserts it into the right zone and continent for later use.
     table.insert(QuestieMapNotes[continent][zoneid], Note);
 end
@@ -489,6 +474,34 @@ end
 ---------------------------------------------------------------------------------------------------
 -- Tooltip code for quest starters and finishers
 ---------------------------------------------------------------------------------------------------
+function Questie:AddPathToTooltip(Tooltip, path, indent)
+    local indentString = ""
+    for i=1,indent,1 do
+        indentString = indentString.." "
+    end
+    for sourceType, sources in pairs(path) do
+        local prefix
+        if sourceType == "drop" then
+            prefix = "Dropped by"
+        elseif sourceType == "contained" then
+            prefix = "Contained in"
+        elseif sourceType == "containedi" then
+            prefix = "Opened in"
+        elseif sourceType == "created" then
+            prefix = "Created by"
+        elseif sourceType == "openedby" then
+            prefix = "Opened by"
+        end
+
+        if prefix then
+            for sourceName, sourcePath in pairs(sources) do
+                Tooltip:AddLine(indentString..prefix..": |cFFa6a6a6"..sourceName.."|r",1,1,1,true);
+                Questie:AddPathToTooltip(Tooltip, sourcePath, indent+1)
+            end
+        end
+    end
+end
+
 function Questie_Tooltip_OnEnter()
     if(this.data.questHash) then
         local Tooltip = GameTooltip;
@@ -518,27 +531,16 @@ function Questie_Tooltip_OnEnter()
                         QSelect_QuestLogEntry(QuestLogID);
                         local q, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(QuestLogID);
                         Tooltip:AddLine(q);
-
-                        for objectiveid, lootnames in questMeta['objectives'] do
-                            local desc, typ, done = QGet_QuestLogLeaderBoard(objectiveid);
-                            Tooltip:AddLine(desc,1,1,1);
-                            local prefix
-                            if data.icontype == "object" then
-                                prefix = "Contained in"
-                            elseif data.icontype == "loot" then
-                                prefix = "Dropped by"
+                        for objectiveid, objectivePath in questMeta['objectives'] do
+                            local objectiveName
+                            if type(objectiveid) == "string" then
+                                objectiveName = objectiveid
+                            else
+                                local desc, typ, done = QGet_QuestLogLeaderBoard(objectiveid);
+                                objectiveName = desc
                             end
-                            local lootnamesCombined
-                            for lootname, b in pairs(lootnames) do
-                                if lootnamesCombined == nil then
-                                    lootnamesCombined = lootname
-                                else
-                                    lootnamesCombined = lootnamesCombined..", "..lootname
-                                end
-                            end
-                            if prefix and lootnamesCombined then
-                                Tooltip:AddLine(prefix..": |cFFa6a6a6"..lootnamesCombined.."|r",1,1,1,true);
-                            end
+                            Tooltip:AddLine(objectiveName,1,1,1);
+                            Questie:AddPathToTooltip(Tooltip, objectivePath, 0)
                         end
                     end
                 else
@@ -564,32 +566,7 @@ function Questie_Tooltip_OnEnter()
                 Tooltip:AddLine("["..QuestieHashMap[data.questHash].questLevel.."] "..QuestieHashMap[data.questHash].name.." |cFF33FF00(available)|r");
                 Tooltip:AddLine("Min Level: |cFFa6a6a6"..QuestieHashMap[data.questHash].level.."|r",1,1,1);
                 Tooltip:AddLine("Started by: |cFFa6a6a6"..QuestieHashMap[data.questHash].startedBy.."|r",1,1,1);
-
-                local tooltipPath
-                tooltipPath = function(path, indent)
-                    local indentString = ""
-                    for i=0,indent,1 do
-                        indentString = indentString.." "
-                    end
-                    for sourceType, sources in pairs(path) do
-                        local prefix
-                        if sourceType == "drop" then
-                            prefix = "Dropped by"
-                        elseif sourceType == "contained" then
-                            prefix = "Contained in"
-                        elseif sourceType == "containedi" then
-                            prefix = "Opened in"
-                        elseif sourceType == "created" then
-                            prefix = "Created by"
-                        end
-
-                        for sourceName, sourcePath in pairs(sources) do
-                            Tooltip:AddLine(indentString..prefix..": |cFFa6a6a6"..sourceName.."|r",1,1,1,true);
-                            tooltipPath(sourcePath, indent+1)
-                        end
-                    end
-                end
-                tooltipPath(questMeta['path'], 0)
+                Questie:AddPathToTooltip(Tooltip, questMeta['path'], 1)
 
                 local prefix
                 if QuestieHashMap[data.questHash].startedType == "object" then
@@ -779,35 +756,28 @@ function Questie:AddFrameNoteData(icon, data)
 
         if icon.quests[data.questHash] then
             -- Add cumulative quest data
-            if data.monsterName then
-                icon.quests[data.questHash]['monsterName'][data.monsterName] = 1
-            end
-
             if icon.quests[data.questHash]['objectives'][data.objectiveid] == nil then
                 icon.quests[data.questHash]['objectives'][data.objectiveid] = {}
-            end
-            if data.lootname then
-                icon.quests[data.questHash]['objectives'][data.objectiveid][data.lootname] = 1
             end
 
             if data.path then
                 Questie:JoinPathTables(icon.quests[data.questHash]['path'], data.path)
             end
+            if data.objectiveid and data.path then
+                Questie:JoinPathTables(icon.quests[data.questHash]['objectives'][data.objectiveid], data.path)
+            end
         else
             icon.quests[data.questHash] = {}
             icon.quests[data.questHash]['quest'] = data
             icon.quests[data.questHash]['sortOrder'] = numQuests + 1
-            icon.quests[data.questHash]['monsterName'] = {}
-            if data.monsterName then
-                icon.quests[data.questHash]['monsterName'][data.monsterName] = 1
-            end
             icon.quests[data.questHash]['objectives'] = {}
-            icon.quests[data.questHash]['objectives'][data.objectiveid] = {}
-            if data.lootname then
-                icon.quests[data.questHash]['objectives'][data.objectiveid][data.lootname] = 1
-            end
-
             icon.quests[data.questHash]['path'] = {}
+            if data.objectiveid then
+                icon.quests[data.questHash]['objectives'][data.objectiveid] = {}
+                if data.path then
+                    icon.quests[data.questHash]['objectives'][data.objectiveid] = deepcopy(data.path)
+                end
+            end
             if data.path then
                 icon.quests[data.questHash]['path'] = deepcopy(data.path)
             end
@@ -906,9 +876,42 @@ function Questie:PostProcessIconPath(path)
     end
 end
 
+function Questie:RecursiveFindAndCombineObjectiveName(pathToSearch, objectiveName, pathToAdd)
+    local found = false
+    for sourceType, sources in pairs(pathToSearch) do
+        for sourceName, sourcePath in pairs(sources) do
+            if sourceName == objectiveName then
+                sources[sourceName] = pathToAdd
+                found = true
+            else
+                if Questie:RecursiveFindAndCombineObjectiveName(sourcePath, objectiveName, pathToAdd) then
+                    found = true
+                end
+            end
+        end
+    end
+    return found
+end
+
+function Questie:FindAndCombineObjectiveName(objectives, objectiveName, pathToAdd)
+    for objectiveid, objectivePath in pairs(objectives) do
+        if type(objectiveid) ~= "string" then
+            if Questie:RecursiveFindAndCombineObjectiveName(objectivePath, objectiveName, pathToAdd) then
+                objectives[objectiveName] = nil
+            end
+        end
+    end
+end
+
 function Questie:PostProcessIconPaths(icon)
     for questHash, questMeta in pairs(icon.quests) do
         Questie:PostProcessIconPath(questMeta.path)
+        for objectiveid, objectivePath in pairs(questMeta.objectives) do
+            if type(objectiveid) == "string" then
+                Questie:FindAndCombineObjectiveName(questMeta.objectives, objectiveid, objectivePath)
+            end
+            Questie:PostProcessIconPath(objectivePath)
+        end
     end
 end
 
@@ -1011,23 +1014,36 @@ function deepcopy(orig)
     return copy
 end
 
-function Questie:RecursiveCreateNotes(c, z, v, locationMeta, path, pathKeys)
+function Questie:RecursiveCreateNotes(c, z, v, locationMeta, icontype, objectiveid, path, pathKeys)
     if path == nil then path = {} end
     if pathKeys == nil then pathKeys = {} end
     for sourceType, sources in pairs(locationMeta) do
-        --Questie:debug_Print("RecursiveCreateNotes", sourceType)
         if sourceType == "locations" and next(sources) then
-            --print_r(path)
+            if locationMeta["openedby"] ~= nil and next(locationMeta["openedby"])then
+                local pathToAppend = path
+                for i, pathKey in pairs(pathKeys) do
+                    pathToAppend = pathToAppend[pathKey]
+                end
+                pathToAppend["openedby"] = {}
+                for sourceName, sourcePath in pairs(locationMeta["openedby"]) do
+                    pathToAppend["openedby"][sourceName] = {}
+                end
+            end
             for i, location in pairs(sources) do
                 local MapInfo = QuestieZoneIDLookup[location[1]]
                 if MapInfo ~= nil then
+                    c = MapInfo[4]
                     z = MapInfo[5]
                 end
-                Questie:AddAvailableNoteToMap(c,z,location[2],location[3],"available",v,-1,deepcopy(path));
+                if icontype == nil then icontype = "slay" end
+                if icontype == "available" then
+                    Questie:AddAvailableNoteToMap(c,z,location[2],location[3],icontype,v,-1,deepcopy(path))
+                else
+                    Questie:AddNoteToMap(c,z,location[2],location[3],icontype,v,objectiveid,deepcopy(path))
+                end
             end
-        elseif sourceType == "drop" or sourceType == "contained" or sourceType == "created" or sourceType == "containedi" then
+        elseif sourceType == "drop" or sourceType == "contained" or sourceType == "created" or sourceType == "containedi" or sourceType == "openedby" then
             for sourceName, sourceLocationMeta in pairs(sources) do
-                --Questie:debug_Print("RecursiveCreateNotes", sourceName)
                 local newPath = deepcopy(path)
                 local editPath = newPath
                 for i, pathKey in pairs(pathKeys) do
@@ -1038,7 +1054,23 @@ function Questie:RecursiveCreateNotes(c, z, v, locationMeta, path, pathKeys)
                 local newPathKeys = deepcopy(pathKeys)
                 table.insert(newPathKeys, sourceType)
                 table.insert(newPathKeys, sourceName)
-                Questie:RecursiveCreateNotes(c, z, v, sourceLocationMeta, newPath, newPathKeys)
+                if icontype == nil then
+                    local typeToIcon = {
+                        ["drop"] = "loot",
+                        ["contained"] = "object",
+                        ["created"] = "event",
+                        ["containedi"] = "object",
+                        ["openedby"] = "object"
+                    }
+                    icontype = typeToIcon[sourceType]
+                end
+                if sourceType == "openedby" then
+                    newPath = {}
+                    newPathKeys = {}
+                    objectiveid = sourceName
+                    icontype = nil
+                end
+                Questie:RecursiveCreateNotes(c, z, v, sourceLocationMeta, icontype, objectiveid, newPath, newPathKeys)
             end
         end
     end
@@ -1068,7 +1100,7 @@ function Questie:SetAvailableQuests()
     end
     if quests then
         for k, v in pairs(quests) do
-            Questie:RecursiveCreateNotes(c, z, k, v)
+            Questie:RecursiveCreateNotes(c, z, k, v, "available")
         end
         Questie:debug_Print("Added Available quests: Time:",tostring((GetTime()- t)*1000).."ms", "Count:"..table.getn(quests))
     end

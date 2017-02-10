@@ -445,6 +445,39 @@ function Questie:AstroGetFinishedQuests()
     return FinishedQuests;
 end
 ---------------------------------------------------------------------------------------------------
+function Questie:GetQuestObjectivePaths(questHash)
+    local questLogID = Questie:GetQuestIdFromHash(questHash)
+    QSelect_QuestLogEntry(questLogID)
+    local count = QGet_NumQuestLeaderBoards()
+    local objectivePaths = {}
+    for i = 1, count do
+        local desc, type, done = QGet_QuestLogLeaderBoard(i)
+
+        local typeFunctions = {
+            ['item'] = GetItemLocations,
+            ['event'] = GetEventLocations,
+            ['monster'] = GetMonsterLocations,
+            ['object'] = GetObjectLocations
+        }
+        local typeFunction = typeFunctions[type]
+
+        if typeFunction ~= nil then
+            local objectiveName
+            local splitIndex = findLast(desc, ":")
+            if splitIndex ~= nil then
+                objectiveName = string.sub(desc, 1, splitIndex-1)
+                if(string.find(objectiveName, " slain")) then
+                    objectiveName = string.sub(objectiveName, 1, string.len(objectiveName)-6);
+                end
+            end
+
+            locations = typeFunction(objectiveName)
+            objectivePaths[i] = locations
+        end
+    end
+    return objectivePaths
+end
+
 function Questie:AstroGetQuestObjectives(questHash)
     QuestLogID = Questie:GetQuestIdFromHash(questHash);
     local mapid = GetCurrentMapID();
