@@ -452,27 +452,28 @@ function Questie:GetQuestObjectivePaths(questHash)
     local objectivePaths = {}
     for i = 1, count do
         local desc, type, done = QGet_QuestLogLeaderBoard(i)
+        if not done then
+            local typeFunctions = {
+                ['item'] = GetItemLocations,
+                ['event'] = GetEventLocations,
+                ['monster'] = GetMonsterLocations,
+                ['object'] = GetObjectLocations
+            }
+            local typeFunction = typeFunctions[type]
 
-        local typeFunctions = {
-            ['item'] = GetItemLocations,
-            ['event'] = GetEventLocations,
-            ['monster'] = GetMonsterLocations,
-            ['object'] = GetObjectLocations
-        }
-        local typeFunction = typeFunctions[type]
-
-        if typeFunction ~= nil then
-            local objectiveName
-            local splitIndex = findLast(desc, ":")
-            if splitIndex ~= nil then
-                objectiveName = string.sub(desc, 1, splitIndex-1)
-                if(string.find(objectiveName, " slain")) then
-                    objectiveName = string.sub(objectiveName, 1, string.len(objectiveName)-6);
+            if typeFunction ~= nil then
+                local objectiveName
+                local splitIndex = findLast(desc, ":")
+                if splitIndex ~= nil then
+                    objectiveName = string.sub(desc, 1, splitIndex-1)
+                    if(string.find(objectiveName, " slain")) then
+                        objectiveName = string.sub(objectiveName, 1, string.len(objectiveName)-6);
+                    end
                 end
-            end
 
-            locations = typeFunction(objectiveName)
-            objectivePaths[i] = locations
+                locations = typeFunction(objectiveName)
+                objectivePaths[i] = locations
+            end
         end
     end
     return objectivePaths
