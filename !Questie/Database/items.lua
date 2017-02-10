@@ -17105,12 +17105,9 @@ QuestieItems = {
     }
   },
   ["Iron Pommel"] = {
-    ["locations"] = {
-      [1] = {2.0, 0.7274, 0.7219, 100.0},
-      [3] = {2.0, 0.741, 0.7578, 2.0},
-      [2] = {2.0, 0.7102, 0.7467, 49.0}
-    },
-    ["locationCount"] = 3
+    ["contained"] = {
+      ["Rusty Chest"] = 1
+    }
   },
   ["Vial de Nagmara lleno"] = {
     ["locations"] = {
@@ -20299,10 +20296,9 @@ QuestieItems = {
     }
   },
   ["Iron Shaft"] = {
-    ["locations"] = {
-      [1] = {2.0, 0.544, 0.3535, 100.0}
-    },
-    ["locationCount"] = 1
+    ["contained"] = {
+      ["Worn Chest"] = 1
+    }
   },
   ["Adamantite Frame"] = {
     ["locations"] = {
@@ -66678,4 +66674,10 @@ QuestieItems = {
       ["Pirate's Footlocker"] = 1
     }
   },
+  ["Wooden Key"] = {
+    ["drop"] = {
+      ["Withered Ancient"] = 1,
+      ["Crazed Ancient"] = 1,
+    }
+  }
 }

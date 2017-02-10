@@ -861,4 +861,24 @@ QuestieObjects = {
     },
     ["locationCount"] = 1
   },
+  ["Worn Chest"] = {
+    ["openedby"] = {
+      ["Wooden Key"] = 1
+    },
+    ["locations"] = {
+      [1] = {2.0, 0.544, 0.3535, 100.0}
+    },
+    ["locationCount"] = 1
+  },
+  ["Rusty Chest"] = {
+    ["drop"] = {
+      ["Rotting Slime"] = 1
+    }
+  },
+  ["Hidden Shrine"] = {
+    ["locations"] = {
+      [1] = {2.0, 0.5641, 0.4926, 100.0}
+    },
+    ["locationCount"] = 1
+  },
 }

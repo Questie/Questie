@@ -2674,7 +2674,6 @@ QuestieFinishers = {
   ["Return to Kristoff"] = "Brother Kristoff",
   ["The Curious Visitor"] = "Baros Alexston",
   ["The Totem of Kar'dash"] = "Garrosh",
-  ["Raene's Cleansing"] = "Shael'dryn",
   ["Catch of the Day"] = "Nataka Longhorn",
   ["Forge Camp: Annihilated"] = "Altruis the Sufferer",
   ["Escorting Erland"] = "Rane Yorick",

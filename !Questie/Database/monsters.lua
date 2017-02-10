@@ -12691,6 +12691,7 @@ QuestieDropTable = {
         ["Heavy Bronze Lockbox"] = 1,
         ["Lesser Mana Potion"] = 4,
         ["Spongy Morel"] = 42,
+        ["Wooden Key"] = 1,
     },
     ["Helcular's Remains"] = {
         ["Tracker's Boots of the Whale"] = 1,
@@ -32955,6 +32956,7 @@ QuestieDropTable = {
         ["Lesser Mana Potion"] = 3,
         ["Oaken War Staff"] = 3,
         ["Spongy Morel"] = 32,
+        ["Wooden Key"] = 1,
     },
     ["Zauberbinderin Maryana"] = {
         ["Siegel von Krasus"] = 293,
@@ -91827,12 +91829,6 @@ QuestieMonsters = {
     ["looted"] = 1,
     ["locationCount"] = 5
   },
-  ["Hidden Shrine"] = {
-    ["locations"] = {
-      [1] = {2.0, 0.5641, 0.4926, 100.0}
-    },
-    ["locationCount"] = 1
-  },
   ["Branstock Khalder"] = {
     ["locations"] = {
       [1] = {28.0, 0.2863, 0.6644, 100.0}
@@ -109668,7 +109664,31 @@ QuestieMonsters = {
     },
     ["looted"] = 2433,
     ["locationCount"] = 2
-  }
+  },
+  ["Withered Ancient"] = {
+    ["locations"] = {
+      [1] = {2.0, 0.548, 0.350, 100.0},
+      [2] = {2.0, 0.547, 0.344, 100.0},
+      [3] = {2.0, 0.545, 0.341, 100.0},
+      [4] = {2.0, 0.550, 0.331, 100.0},
+    },
+    ["locationCount"] = 4
+  },
+  ["Crazed Ancient"] = {
+    ["locations"] = {
+      [1] = {2.0, 0.571, 0.314, 100.0},
+      [2] = {2.0, 0.578, 0.390, 100.0},
+    },
+    ["locationCount"] = 2
+  },
+  ["Rotting Slime"] = {
+    ["locations"] = {
+      [1] = {2.0, 0.7274, 0.7219, 100.0},
+      [3] = {2.0, 0.741, 0.7578, 2.0},
+      [2] = {2.0, 0.7102, 0.7467, 49.0}
+    },
+    ["locationCount"] = 3
+  },
 }
 
 -- Add drop table to monsters for faster searching
