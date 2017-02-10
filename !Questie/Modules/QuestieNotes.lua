@@ -531,7 +531,7 @@ function Questie_Tooltip_OnEnter()
                         QSelect_QuestLogEntry(QuestLogID);
                         local q, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(QuestLogID);
                         Tooltip:AddLine(q);
-                        for objectiveid, objectivePath in questMeta['objectives'] do
+                        for objectiveid, objectivePath in pairs(questMeta['objectives']) do
                             local objectiveName
                             if type(objectiveid) == "string" then
                                 objectiveName = objectiveid
@@ -540,7 +540,7 @@ function Questie_Tooltip_OnEnter()
                                 objectiveName = desc
                             end
                             Tooltip:AddLine(objectiveName,1,1,1);
-                            Questie:AddPathToTooltip(Tooltip, objectivePath, 0)
+                            Questie:AddPathToTooltip(Tooltip, objectivePath, 1)
                         end
                     end
                 else
