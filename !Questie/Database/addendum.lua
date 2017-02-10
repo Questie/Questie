@@ -55517,6 +55517,7 @@ function GetEntityLocations(entity)
     locations['containedi'] = {}
     locations['created'] = {}
     locations['locations'] = {}
+    locations['openedby'] = {}
     local mapIds = {}
     for sourceType, sources in pairs(entity) do
         if sourceType == "drop" then
@@ -55545,6 +55546,13 @@ function GetEntityLocations(entity)
                 local locationMeta, ids = GetItemLocations(sourceName)
                 locations[sourceType][sourceName] = locationMeta
                 for id in ids do mapIds[id] = true end
+            end
+        end
+        if sourceType == "openedby" then
+            for sourceName, b in pairs(sources) do
+                local locationMeta, ids = GetItemLocations(sourceName)
+                locations[sourceType][sourceName] = locationMeta
+                --for id in ids do mapIds[id] = true end
             end
         end
         if sourceType == "locations" then
@@ -55584,6 +55592,13 @@ end
 function GetItemLocations(itemName)
     if QuestieItems[itemName] then
         return GetEntityLocations(QuestieItems[itemName])
+    end
+    return {}, {}
+end
+
+function GetEventLocations(eventName)
+    if QuestieEvents[eventName] then
+        return GetEntityLocations(QuestieItems[eventName])
     end
     return {}, {}
 end
