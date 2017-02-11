@@ -101,6 +101,36 @@ function SetCrazyArrow(point, dist, title)
     end
 end
 
+function SetArrowFromIcon(icon)
+    local targetPoint = {
+        ["c"] = icon.data.continent,
+        ["z"] = icon.data.zoneid,
+        ["x"] = icon.averageX,
+        ["y"] = icon.averageY
+    }
+    local quest = QuestieHashMap[icon.data.questHash]
+    local data = {
+        ["point"] = targetPoint,
+        ["questName"] = quest.name,
+        ["questLevel"] = quest.questLevel
+    }
+    SetArrowFromData(data)
+end
+
+function SetArrowFromData(data)
+    local colorString = "|c" .. QuestieTracker:GetDifficultyColor(data.questLevel)
+    local title = colorString
+    title = title .. "[" .. data.questLevel .. "] "
+    if QuestieConfig.boldColors then
+        title = title .. "|r|cFFFFFFFF" .. data.questName .. "|r"
+    else
+        title = title .. data.questName .. "|r"
+    end
+    SetCrazyArrow(data.point, 0, title)
+    arrow_objective = nil
+    arrow_data = data
+end
+
 function SetArrowObjective(hash)
     if arrow_objective == hash then
         wayframe:Hide();
@@ -108,6 +138,7 @@ function SetArrowObjective(hash)
         return;
     end
     arrow_objective = hash
+    arrow_data = nil
     if not QuestieTrackedQuests[hash]["arrowPoint"] or not QuestieTrackedQuests[hash] then return end
     local objective = QuestieTrackedQuests[hash]["arrowPoint"]
     SetCrazyArrow(objective, objective.dist, objective.title)
@@ -130,6 +161,8 @@ local function OnUpdate(self, elapsed)
             else
                 self:Hide()
             end
+        elseif arrow_data then
+            SetArrowFromData(arrow_data)
         end
         if not active_point then
             self:Hide()

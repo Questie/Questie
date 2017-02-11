@@ -600,8 +600,8 @@ function Questie_AvailableQuestClick()
     else
         Tooltip = GameTooltip
     end
-    if (QuestieConfig.arrowEnabled == true) and (arg1 == "LeftButton") and (QuestieSeenQuests[this.data.questHash] == 0) and (QuestieTrackedQuests[this.data.questHash] ~= false) and (not IsControlKeyDown()) and (not IsShiftKeyDown()) then
-        SetArrowObjective(this.data.questHash)
+    if (QuestieConfig.arrowEnabled == true) and (arg1 == "LeftButton") and (not IsControlKeyDown()) and (not IsShiftKeyDown()) then
+        SetArrowFromIcon(this)
     end
     if ((this.data.icontype == "available" or this.data.icontype == "complete") and IsShiftKeyDown() and Tooltip ) then
         local finishQuest = function(quest)
@@ -1403,7 +1403,6 @@ function Questie:DrawClusters(clusters, frameName, scale, frame, button)
                 (a.icontype == b.icontype and questA.level == questB.level and questA.questLevel < questB.questLevel)
         end)
         local Icon = Questie:GetBlankNoteFrame(frame)
-        local mainV = cluster.points[1]
         for j, v in pairs(cluster.points) do
             if j == 1 then
                 local finalFrameLevel = frameLevel
@@ -1417,12 +1416,12 @@ function Questie:DrawClusters(clusters, frameName, scale, frame, button)
         Questie:PostProcessIconPaths(Icon)
 
         if frameName == "MiniMapNote" then
-            Icon:SetHighlightTexture(QuestieIcons[mainV.icontype].path, "ADD");
-            Astrolabe:PlaceIconOnMinimap(Icon, mainV.continent, mainV.zoneid, Icon.averageX, Icon.averageY);
+            Icon:SetHighlightTexture(QuestieIcons[Icon.data.icontype].path, "ADD");
+            Astrolabe:PlaceIconOnMinimap(Icon, Icon.data.continent, Icon.data.zoneid, Icon.averageX, Icon.averageY);
             table.insert(QuestieUsedNoteFrames, Icon);
         else
             Icon:Show()
-            xx, yy = Astrolabe:PlaceIconOnWorldMap(button, Icon, mainV.continent, mainV.zoneid, Icon.averageX, Icon.averageY)
+            xx, yy = Astrolabe:PlaceIconOnWorldMap(button, Icon, Icon.data.continent, Icon.data.zoneid, Icon.averageX, Icon.averageY)
             if(xx and yy and xx > 0 and xx < 1 and yy > 0 and yy < 1) then
                 table.insert(QuestieUsedNoteFrames, Icon);
             else
