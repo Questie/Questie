@@ -603,7 +603,7 @@ function Questie_AvailableQuestClick()
     if (QuestieConfig.arrowEnabled == true) and (arg1 == "LeftButton") and (QuestieSeenQuests[this.data.questHash] == 0) and (QuestieTrackedQuests[this.data.questHash] ~= false) and (not IsControlKeyDown()) and (not IsShiftKeyDown()) then
         SetArrowObjective(this.data.questHash)
     end
-    if ( IsShiftKeyDown() and Tooltip ) then
+    if ((this.data.icontype == "available" or this.data.icontype == "complete") and IsShiftKeyDown() and Tooltip ) then
         local finishQuest = function(quest)
             if (quest.icontype == "available") then
                 Questie:Toggle()
