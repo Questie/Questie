@@ -490,172 +490,92 @@ end
 function QuestieTracker:fillTrackingFrame()
     local index = 1;
     local sortedByDistance = QuestieTracker:updateTrackingFrame()
-    if QuestieConfig.boldColors == true then
-        for i,v in pairs(sortedByDistance) do
-            local hash = v["hash"];
-            local quest = QuestieTrackedQuests[hash];
-            local button = QuestieTracker:createOrGetTrackingButton(index);
-            button.hash = hash;
-            local colorString = "|c" .. QuestieTracker:GetDifficultyColor(quest["level"]);
-            local titleData = colorString;
-            if quest["questTag"] then
-                titleData = titleData .. "[" .. quest["level"] .. "+" .. "] " ;
-            else
-                titleData = titleData .. "[" .. quest["level"] .. "] " ;
-            end
-            titleData = titleData .. "|r|cFFFFFFFF" .. quest["questName"] .. "|r";
-            button.quest:SetText(titleData);
-            local obj = 1;
-            if quest["isComplete"] or quest["leaderboards"] == 0 then
-                QuestieTracker:AddObjectiveToButton(button, {['desc']="Quest Complete!"}, obj);
-                obj = 2;
-            else
-                while true do
-                    local beefcake = quest["objective" .. obj];
-                    if beefcake == nil then break; end
-                    if beefcake["type"] == "event" then
-                        QuestieTracker:AddEventToButton(button, beefcake, obj);
-                        obj = obj + 1;
-                    else
-                        QuestieTracker:AddObjectiveToButton(button, beefcake, obj);
-                        obj = obj + 1;
-                    end
-                end
-            end
-            button.currentObjectiveCount = obj - 1;
-            local heightLoss = 0;
-            while true do
-                if button.objectives[obj] == nil then break; end
-                button.objectives[obj]:SetText(""); --hecks
-                heightLoss = heightLoss + 11;
-                obj = obj + 1;
-            end
-            button:SetHeight(14 + (button.currentObjectiveCount * 11));
-            for i, v in (button.quest) do
-                local qtextWidth = button.quest:GetStringWidth() + 20
-                table.insert(QuestieTracker.questNames, qtextWidth);
-            end
-            local qmaxWidth = 0
-            for i, v in ipairs(QuestieTracker.questNames) do
-                if (QuestieTracker.questObjects) then
-                    qmaxWidth = math.max(qmaxWidth, v)
-                    table.insert(QuestieTracker.MaxButtonWidths, qmaxWidth);
-                     QuestieTracker.questNames = {};
-                end
-            end
-            local maxWidth = 0
-            for i, v in ipairs(QuestieTracker.MaxButtonWidths) do
-                maxWidth = math.max(maxWidth, v)
-                QuestieTracker.questButtons.maxWidth = maxWidth
-            end
-            button:SetWidth(maxWidth);
-            button:Show();
-            if (QuestieConfig.showTrackerHeader == true) then
-                local numEntries, numQuests = GetNumQuestLogEntries();
-                watcher:SetText("QuestLog Status: ("..numQuests.."/20)");
-                QuestieTrackerHeader:Show();
-            end
-            index = index + 1;
-        end
-        QuestieTracker.highestIndex = index - 1;
-        while true do
-            local d = QuestieTracker.questButtons[index];
-            if d == nil then break end;
-            d:Hide();
-            index = index + 1;
-        end
-        if (QuestieConfig.trackerEnabled == true) then
-            if (QuestieConfig.trackerMinimize == false) then
-                QuestieTracker.frame:Show();
-            end
+    for i,v in pairs(sortedByDistance) do
+        local hash = v["hash"];
+        local quest = QuestieTrackedQuests[hash];
+        local button = QuestieTracker:createOrGetTrackingButton(index);
+        button.hash = hash;
+        local colorString = "|c" .. QuestieTracker:GetDifficultyColor(quest["level"]);
+        local titleData = colorString;
+        if quest["questTag"] then
+            titleData = titleData .. "[" .. quest["level"] .. "+" .. "] " ;
         else
-            QuestieTracker:Hide();
-            QuestieTracker.frame:Hide();
+            titleData = titleData .. "[" .. quest["level"] .. "] " ;
+        end
+        if QuestieConfig.boldColors then
+            titleData = titleData .. "|r|cFFFFFFFF" .. quest["questName"] .. "|r";
+        else
+            titleData = titleData .. quest["questName"] .. "|r";
+        end
+        button.quest:SetText(titleData);
+        local obj = 1;
+        if quest["isComplete"] or quest["leaderboards"] == 0 then
+            QuestieTracker:AddObjectiveToButton(button, {['desc']="Quest Complete!"}, obj);
+            obj = 2;
+        else
+            while true do
+                local beefcake = quest["objective" .. obj];
+                if beefcake == nil then break; end
+                if beefcake["type"] == "event" then
+                    QuestieTracker:AddEventToButton(button, beefcake, obj);
+                    obj = obj + 1;
+                else
+                    QuestieTracker:AddObjectiveToButton(button, beefcake, obj);
+                    obj = obj + 1;
+                end
+            end
+        end
+        button.currentObjectiveCount = obj - 1;
+        local heightLoss = 0;
+        while true do
+            if button.objectives[obj] == nil then break; end
+            button.objectives[obj]:SetText(""); --hecks
+            heightLoss = heightLoss + 11;
+            obj = obj + 1;
+        end
+        button:SetHeight(14 + (button.currentObjectiveCount * 11));
+        for i, v in (button.quest) do
+            local qtextWidth = button.quest:GetStringWidth() + 20
+            table.insert(QuestieTracker.questNames, qtextWidth);
+        end
+        local qmaxWidth = 0
+        for i, v in ipairs(QuestieTracker.questNames) do
+            if (QuestieTracker.questObjects) then
+                qmaxWidth = math.max(qmaxWidth, v)
+                table.insert(QuestieTracker.MaxButtonWidths, qmaxWidth);
+                 QuestieTracker.questNames = {};
+            end
+        end
+        local maxWidth = 0
+        for i, v in ipairs(QuestieTracker.MaxButtonWidths) do
+            maxWidth = math.max(maxWidth, v)
+            QuestieTracker.questButtons.maxWidth = maxWidth
+        end
+        button:SetWidth(maxWidth);
+        button:Show();
+        if (QuestieConfig.showTrackerHeader == true) then
+            local numEntries, numQuests = GetNumQuestLogEntries();
+            watcher:SetText("QuestLog Status: ("..numQuests.."/20)");
+            QuestieTrackerHeader:Show();
+        end
+        index = index + 1;
+    end
+    QuestieTracker.highestIndex = index - 1;
+    while true do
+        local d = QuestieTracker.questButtons[index];
+        if d == nil then break end;
+        d:Hide();
+        index = index + 1;
+    end
+    if (QuestieConfig.trackerEnabled == true) then
+        if (QuestieConfig.trackerMinimize == false) then
+            QuestieTracker.frame:Show();
         end
     else
-        for i,v in pairs(sortedByDistance) do
-            local hash = v["hash"];
-            local quest = QuestieTrackedQuests[hash];
-            local button = QuestieTracker:createOrGetTrackingButton(index);
-            button.hash = hash;
-            local colorString = "|c" .. QuestieTracker:GetDifficultyColor(quest["level"]);
-            local titleData = colorString;
-            if quest["questTag"] then
-                titleData = titleData .. "[" .. quest["level"] .. "+" .. "] " ;
-            else
-                titleData = titleData .. "[" .. quest["level"] .. "] " ;
-            end
-            titleData = titleData .. quest["questName"];
-            titleData = titleData  .. "|r";
-            button.quest:SetText(titleData);
-            local obj = 1;
-            if quest["isComplete"] or quest["leaderboards"] == 0 then
-                QuestieTracker:AddObjectiveToButton(button, {['desc']="Quest Complete!"}, obj);
-                obj = 2;
-            else
-                while true do
-                    local beefcake = quest["objective" .. obj];
-                    if beefcake == nil then break; end
-                    if beefcake["type"] == "event" then
-                        QuestieTracker:AddEventToButton(button, beefcake, obj);
-                        obj = obj + 1;
-                    else
-                        QuestieTracker:AddObjectiveToButton(button, beefcake, obj);
-                        obj = obj + 1;
-                    end
-                end
-            end
-            button.currentObjectiveCount = obj - 1;
-            local heightLoss = 0;
-            while true do
-                if button.objectives[obj] == nil then break; end
-                button.objectives[obj]:SetText(""); --hecks
-                heightLoss = heightLoss + 11;
-                obj = obj + 1;
-            end
-            button:SetHeight(14 + (button.currentObjectiveCount * 11));
-            for i, v in (button.quest) do
-                local qtextWidth = button.quest:GetStringWidth() + 20
-                table.insert(QuestieTracker.questNames, qtextWidth);
-            end
-            local qmaxWidth = 0
-            for i, v in ipairs(QuestieTracker.questNames) do
-                if (QuestieTracker.questObjects) then
-                    qmaxWidth = math.max(qmaxWidth, v)
-                    table.insert(QuestieTracker.MaxButtonWidths, qmaxWidth);
-                    QuestieTracker.questNames = {};
-                end
-            end
-            local maxWidth = 0
-            for i, v in ipairs(QuestieTracker.MaxButtonWidths) do
-                maxWidth = math.max(maxWidth, v)
-                QuestieTracker.questButtons.maxWidth = maxWidth
-            end
-            button:SetWidth(maxWidth);
-            button:Show();
-            if (QuestieConfig.showTrackerHeader == true) then
-                local numEntries, numQuests = GetNumQuestLogEntries();
-                watcher:SetText("QuestLog Status: ("..numQuests.."/20)");
-                QuestieTrackerHeader:Show();
-            end
-            index = index + 1;
-        end
-        QuestieTracker.highestIndex = index - 1;
-        while true do
-            local d = QuestieTracker.questButtons[index];
-            if d == nil then break end;
-            d:Hide();
-            index = index + 1;
-        end
-        if (QuestieConfig.trackerEnabled == true) then
-            if (QuestieConfig.trackerMinimize == false) then
-                QuestieTracker.frame:Show();
-            end
-        else
-            QuestieTracker:Hide()
-            QuestieTracker.frame:Hide()
-        end
+        QuestieTracker:Hide()
+        QuestieTracker.frame:Hide()
     end
+
     if (QuestieConfig.trackerEnabled == true) and (QuestieConfig.trackerMinimize == false) then
         QuestieTracker.MaxButtonWidths = {};
         Questie:AddEvent("TRACKER", 0.02);
