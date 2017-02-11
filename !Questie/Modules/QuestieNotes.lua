@@ -45,8 +45,10 @@ function Questie:AddQuestToMap(questHash, redraw)
     UsedZones = {};
     local Quest = Questie:IsQuestFinished(questHash);
     if not (Quest) then
-        for objectiveid, objectivePath in pairs(objectives) do
-            Questie:RecursiveCreateNotes(c, z, questHash, objectivePath, nil, objectiveid)
+        for objectiveid, objective in pairs(objectives) do
+            if not objective.done then
+                Questie:RecursiveCreateNotes(c, z, questHash, objective.path, nil, objectiveid)
+            end
         end
     else
         local Monfin = nil;
@@ -994,6 +996,33 @@ function deepcopy(orig)
         copy = orig
     end
     return copy
+end
+
+function Questie:RecursiveGetPathLocations(path, locations)
+    if locations == nil then locations = {} end
+
+    for sourceType, sources in pairs(path) do
+        if sourceType == "locations" and next(sources) then
+            for i, location in pairs(sources) do
+                local MapInfo = QuestieZoneIDLookup[location[1]]
+                if MapInfo then
+                    local l = {
+                        ["c"] = MapInfo[4],
+                        ["z"] = MapInfo[5],
+                        ["x"] = location[2],
+                        ["y"] = location[3]
+                    }
+                    table.insert(locations, l)
+                end
+            end
+        elseif sourceType == "drop" or sourceType == "contained" or sourceType == "created" or sourceType == "containedi" then
+            for sourceName, sourcePath in pairs(sources) do
+                Questie:RecursiveGetPathLocations(sourcePath, locations)
+            end
+        end
+    end
+
+    return locations
 end
 
 function Questie:RecursiveCreateNotes(c, z, v, locationMeta, icontype, objectiveid, path, pathKeys)

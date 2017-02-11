@@ -372,47 +372,14 @@ end
 ---------------------------------------------------------------------------------------------------
 -- Finds quest finisher location by type and name
 ---------------------------------------------------------------------------------------------------
-function QuestieTracker:GetFinisherLocation(typ, name)
+function QuestieTracker:GetFinisherLocations(typ, name)
     local C, Z, X, Y;
     if typ == "monster" then
-        local npc = QuestieMonsters[name];
-        if npc == nil then
-            npc = QuestieAdditionalStartFinishLookup[name];
-            if not (npc == nil) then
-                C, Z, X, Y = npc[1], npc[2], npc[3], npc[4];
-            else
-            end
-        else
-            local loc = npc['locations'][1];
-            mapid = loc[1];
-            x = loc[2];
-            y = loc[3];
-            C, Z, X, Y = QuestieZoneIDLookup[mapid][4], QuestieZoneIDLookup[mapid][5], x, y
-        end
+        local paths = GetMonsterLocations(name)
+        return Questie:RecursiveGetPathLocations(paths)
     elseif typ == "object" then
-        local obj = QuestieObjects[name];
-        if not (obj == nil) then
-            local loc = obj['locations'][1];
-            mapid = loc[1];
-            x = loc[2];
-            y = loc[3];
-            C, Z, X, Y = QuestieZoneIDLookup[mapid][4], QuestieZoneIDLookup[mapid][5], x, y
-        else
-            local npc = QuestieMonsters[name];
-            if npc == nil then
-                npc = QuestieAdditionalStartFinishLookup[name];
-                if not (npc == nil) then
-                    C, Z, X, Y = npc[1], npc[2], npc[3], npc[4];
-                else
-                end
-            else
-                local loc = npc['locations'][1];
-                mapid = loc[1];
-                x = loc[2];
-                y = loc[3];
-                C, Z, X, Y = QuestieZoneIDLookup[mapid][4], QuestieZoneIDLookup[mapid][5], x, y
-            end
-        end
+        local paths = GetObjectLocations(name)
+        return Questie:RecursiveGetPathLocations(paths)
     end
     return C, Z, X, Y;
 end
@@ -428,50 +395,51 @@ function QuestieTracker:updateTrackingFrame()
     QuestieTracker.GeneralInterval = QuestieTracker.GeneralInterval + 1;
     if (QuestieTracker.GeneralInterval > (QuestieTracker.btnUpdate*0.99)) then
         QuestieTracker.GeneralInterval = 0
-        for hash,quest in pairs(QuestieHandledQuests) do
-            if (QuestieTrackedQuests[hash] ~= nil) and (QuestieTrackedQuests[hash]["tracked"] == true) and (QuestieHashMap[hash]) then
-                objc = 0;
-                if QuestieTrackedQuests[hash]["isComplete"] then
-                else
-                    for name,notes in pairs(quest.objectives.objectives) do
-                        for k,v in pairs(notes) do
-                            if not v.done then
-                                local continent, zone, xNote, yNote = QuestieZoneIDLookup[v.mapid][4], QuestieZoneIDLookup[v.mapid][5], v.x, v.y
-                                if continent and zone and xNote and yNote then
-                                    local dist, xDelta, yDelta = Astrolabe:ComputeDistance( C, Z, X, Y, continent, zone, xNote, yNote )
-                                    if dist and xDelta and yDelta then
-                                        local info = {
-                                            ["dist"] = dist,
-                                            ["hash"] = hash,
-                                            ["xDelta"] = xDelta,
-                                            ["yDelta"] = yDelta,
-                                            ["c"] = continent,
-                                            ["z"] = zone,
-                                            ["x"] = xNote,
-                                            ["y"] = yNote,
-                                        }
-                                        objc = objc + 1;
-                                        table.insert(distanceNotes, info);
-                                    end
+
+        for hash, quest in pairs(QuestieHandledQuests) do
+            local questTrack = QuestieTrackedQuests[hash]
+            if questTrack ~= nil and questTrack.tracked then
+                local objectiveCount = 0
+                if not quest.isComplete then
+                    for objectiveid, objective in pairs(quest.objectives) do
+                        if not objective.done then
+                            local locations = Questie:RecursiveGetPathLocations(objective.path)
+                            for i, location in pairs(locations) do
+                                local dist, xDelta, yDelta = Astrolabe:ComputeDistance( C, Z, X, Y, location.c, location.z, location.x, location.y)
+                                if dist and xDelta and yDelta then
+                                    local info = {
+                                        ["dist"] = dist,
+                                        ["hash"] = hash,
+                                        ["xDelta"] = xDelta,
+                                        ["yDelta"] = yDelta,
+                                        ["c"] = location.c,
+                                        ["z"] = location.z,
+                                        ["x"] = location.x,
+                                        ["y"] = location.y,
+                                    }
+                                    objectiveCount = objectiveCount + 1;
+                                    table.insert(distanceNotes, info);
                                 end
                             end
                         end
                     end
                 end
-                if objc == 0 then
-                    local continent, zone, xNote, yNote = QuestieTracker:GetFinisherLocation(QuestieHashMap[hash]['finishedType'], QuestieHashMap[hash]['finishedBy']);
-                    if continent and zone and xNote and yNote then
-                        local dist, xDelta, yDelta = Astrolabe:ComputeDistance( C, Z, X, Y, continent, zone, xNote, yNote );
-                        if dist and xDelta and yDelta  then
+                if objectiveCount == 0 then
+                    -- Show quest finished in tracker
+                    local quest = QuestieHashMap[hash]
+                    local locations = QuestieTracker:GetFinisherLocations(quest.finishedType, quest.finishedBy)
+                    for i, location in pairs(locations) do
+                        local dist, xDelta, yDelta = Astrolabe:ComputeDistance( C, Z, X, Y, location.c, location.z, location.x, location.y)
+                        if dist and xDelta and yDelta then
                             local info = {
                                 ["dist"] = dist,
                                 ["hash"] = hash,
                                 ["xDelta"] = xDelta,
                                 ["yDelta"] = yDelta,
-                                ["c"] = continent,
-                                ["z"] = zone,
-                                ["x"] = xNote,
-                                ["y"] = yNote,
+                                ["c"] = location.c,
+                                ["z"] = location.z,
+                                ["x"] = location.x,
+                                ["y"] = location.y,
                             }
                             table.insert(distanceNotes, info);
                         end
