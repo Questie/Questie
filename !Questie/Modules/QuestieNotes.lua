@@ -47,7 +47,17 @@ function Questie:AddQuestToMap(questHash, redraw)
     if not (Quest) then
         for objectiveid, objective in pairs(objectives) do
             if not objective.done then
-                Questie:RecursiveCreateNotes(c, z, questHash, objective.path, nil, objectiveid)
+                local typeToIcon = {
+                    ["item"] = "loot",
+                    ["event"] = "event",
+                    ["monster"] = "slay",
+                    ["object"] = "object",
+                }
+                local defaultIcon = typeToIcon[objective.type]
+                local iconMeta = {
+                    ["defaultIcon"] = defaultIcon
+                }
+                Questie:RecursiveCreateNotes(c, z, questHash, objective.path, iconMeta, objectiveid)
             end
         end
     else
@@ -1025,7 +1035,7 @@ function Questie:RecursiveGetPathLocations(path, locations)
     return locations
 end
 
-function Questie:RecursiveCreateNotes(c, z, v, locationMeta, icontype, objectiveid, path, pathKeys)
+function Questie:RecursiveCreateNotes(c, z, v, locationMeta, iconMeta, objectiveid, path, pathKeys)
     if path == nil then path = {} end
     if pathKeys == nil then pathKeys = {} end
     for sourceType, sources in pairs(locationMeta) do
@@ -1045,7 +1055,8 @@ function Questie:RecursiveCreateNotes(c, z, v, locationMeta, icontype, objective
                 if MapInfo ~= nil then
                     c = MapInfo[4]
                     z = MapInfo[5]
-                    if icontype == nil then icontype = "slay" end
+                    local icontype = iconMeta.selectedIcon
+                    if icontype == nil then icontype = iconMeta.defaultIcon end
                     if icontype == "available" then
                         Questie:AddAvailableNoteToMap(c,z,location[2],location[3],icontype,v,-1,deepcopy(path))
                     else
@@ -1065,7 +1076,7 @@ function Questie:RecursiveCreateNotes(c, z, v, locationMeta, icontype, objective
                 local newPathKeys = deepcopy(pathKeys)
                 table.insert(newPathKeys, sourceType)
                 table.insert(newPathKeys, sourceName)
-                if icontype == nil then
+                if iconMeta.selectedIcon == nil then
                     local typeToIcon = {
                         ["drop"] = "loot",
                         ["contained"] = "object",
@@ -1073,15 +1084,15 @@ function Questie:RecursiveCreateNotes(c, z, v, locationMeta, icontype, objective
                         ["containedi"] = "object",
                         ["openedby"] = "object"
                     }
-                    icontype = typeToIcon[sourceType]
+                    iconMeta.selectedIcon = typeToIcon[sourceType]
                 end
                 if sourceType == "openedby" then
                     newPath = {}
                     newPathKeys = {}
                     objectiveid = sourceName
-                    icontype = nil
+                    iconMeta.selectedIcon = nil
                 end
-                Questie:RecursiveCreateNotes(c, z, v, sourceLocationMeta, icontype, objectiveid, newPath, newPathKeys)
+                Questie:RecursiveCreateNotes(c, z, v, sourceLocationMeta, iconMeta, objectiveid, newPath, newPathKeys)
             end
         end
     end
@@ -1111,7 +1122,7 @@ function Questie:SetAvailableQuests()
     end
     if quests then
         for k, v in pairs(quests) do
-            Questie:RecursiveCreateNotes(c, z, k, v, "available")
+            Questie:RecursiveCreateNotes(c, z, k, v, {["selectedIcon"] = "available"})
         end
         Questie:debug_Print("Added Available quests: Time:",tostring((GetTime()- t)*1000).."ms", "Count:"..table.getn(quests))
     end
