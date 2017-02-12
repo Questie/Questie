@@ -289,14 +289,16 @@ function QuestieTracker:GetDifficultyColor(level)
     end
 end
 ---------------------------------------------------------------------------------------------------
-local function RGBToHex(r, g, b)
+-- todo move to QuestieUtils
+function RGBToHex(r, g, b)
     if r > 255 then r = 255; end
     if g > 255 then g = 255; end
     if b > 255 then b = 255; end;
     return string.format("%02x%02x%02x", r, g, b)
 end
 ---------------------------------------------------------------------------------------------------
-local function fRGBToHex(r, g, b)
+-- todo move to QuestieUtils
+function fRGBToHex(r, g, b)
     return RGBToHex(r*254, g*254, b*254);
 end
 ---------------------------------------------------------------------------------------------------

@@ -475,6 +475,7 @@ function Questie:GetQuestObjectivePaths(questHash)
             objectivePaths[i]['path'] = locations
             objectivePaths[i]['done'] = done
             objectivePaths[i]['type'] = type
+            objectivePaths[i]['name'] = objectiveName
         end
     end
     return objectivePaths

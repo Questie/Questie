@@ -262,213 +262,55 @@ function Questie:Tooltip(this, forceShow, bag, slot)
         if not validKey then
             return;
         end
+
+        local reaction = UnitReaction("mouseover", "player")
+        local unitColorRGB = Questie:GetReactionColor(reaction)
+        local unitColor = "ff"..fRGBToHex(unitColorRGB.r, unitColorRGB.g, unitColorRGB.b)
+
         if(Questie_TooltipCache[cacheKey] == nil) or (QUESTIE_LAST_UPDATE_FINISHED - Questie_TooltipCache[cacheKey]['updateTime']) > 0 then
+            -- Create or Update Tooltip Cache
             Questie_TooltipCache[cacheKey] = {};
             Questie_TooltipCache[cacheKey]['lines'] = {};
             Questie_TooltipCache[cacheKey]['lineCount'] = 1;
             Questie_TooltipCache[cacheKey]['updateTime'] = GetTime();
-            if monster and GetTime() - Questie_LastTooltip > .01 then
-                for k,v in pairs(QuestieHandledQuests) do
-                    local obj = v['objectives']['objectives'];
-                    if (obj) then
-                        for name,m in pairs(obj) do
-                            if m[1] and (m[1]['type'] == "monster" or m[1]['type'] == "slay") then
-                                if (monster .. " slain") == name or monster == name or monster == string.find(monster, string.len(monster)-6) then
-                                    local logid = Questie:GetQuestIdFromHash(k);
-                                    if logid then
-                                        QSelect_QuestLogEntry(logid);
-                                        local desc, typ, done = QGet_QuestLogLeaderBoard(m[1]['objectiveid']);
-                                        local indx = findLast(desc, ":");
-                                        local countstr = string.sub(desc, indx+2);
-                                        local lineIndex = Questie_TooltipCache[cacheKey]['lineCount'];
-                                        Questie_TooltipCache[cacheKey]['lines'][lineIndex] = {
-                                            ['color'] = {1, 1, 1},
-                                            ['data'] = " "
-                                        };
-                                        Questie_TooltipCache[cacheKey]['lines'][lineIndex + 1] = {
-                                            ['color'] = {0.2, 1, 0.3},
-                                            ['data'] = v['objectives']['QuestName']
-                                        };
-                                        Questie_TooltipCache[cacheKey]['lines'][lineIndex + 2] = {
-                                            ['color'] = {1, 1, 0.2},
-                                            ['data'] = "   " .. monster .. ": " .. countstr
-                                        };
-                                        Questie_TooltipCache[cacheKey]['lineCount'] = lineIndex + 3;
-                                        mi = true;
-                                    end
-                                    if (mi) then
-                                        break;
-                                    end
-                                end
-                            elseif m[1] and (m[1]['type'] == "monster" or m[1]['type'] == "loot") then
-                                local monroot = QuestieMonsters[monster];
-                                if monroot then
-                                    local mondat = monroot['drops'];
-                                    if mondat and mondat[name] then
-                                        if mondat[name] then
-                                            local logid = Questie:GetQuestIdFromHash(k);
-                                            if logid then
-                                                QSelect_QuestLogEntry(logid);
-                                                local desc, typ, done = QGet_QuestLogLeaderBoard(m[1]['objectiveid']);
-                                                local indx = findLast(desc, ":");
-                                                local countstr = string.sub(desc, indx+2);
-                                                local lineIndex = Questie_TooltipCache[cacheKey]['lineCount'];
-                                                Questie_TooltipCache[cacheKey]['lines'][lineIndex] = {
-                                                    ['color'] = {1, 1, 1},
-                                                    ['data'] = " "
-                                                };
-                                                Questie_TooltipCache[cacheKey]['lines'][lineIndex + 1] = {
-                                                    ['color'] = {0.2, 1, 0.3},
-                                                    ['data'] = v['objectives']['QuestName']
-                                                };
-                                                Questie_TooltipCache[cacheKey]['lines'][lineIndex + 2] = {
-                                                    ['color'] = {1, 1, 0.2},
-                                                    ['data'] = "   " .. name .. ": " .. countstr
-                                                };
-                                                Questie_TooltipCache[cacheKey]['lineCount'] = lineIndex + 3;
-                                                mi = true;
-                                            end
-                                            if (mi) then
-                                                break;
-                                            end
-                                        end
-                                    else
-                                        --Use the cache not to run unessecary objectives
-                                        local mi = nil;
-                                        for dropper, value in pairs(QuestieCachedMonstersAndObjects[k]) do
-                                            if(string.find(dropper, monster)) then
-                                                local logid = Questie:GetQuestIdFromHash(k);
-                                                if logid then
-                                                    QSelect_QuestLogEntry(logid);
-                                                    local count =  QGet_NumQuestLeaderBoards();
-                                                    for obj = 1, count do
-                                                        local desc, typ, done = QGet_QuestLogLeaderBoard(obj);
-                                                        local indx = findLast(desc, ":");
-                                                        if indx~=nil then
-                                                            local countstr = string.sub(desc, indx+2);
-                                                            local namestr = string.sub(desc, 1, indx-1);
-                                                            if(string.find(name, monster) and QuestieItems[namestr] and QuestieItems[namestr]['drop']) then -- Added Find to fix zapped giants (THIS IS NOT TESTED IF YOU FIND ERRORS REPORT!)
-                                                                for dropperr, id in pairs(QuestieItems[namestr]['drop']) do
-                                                                    if(name == dropperr or (string.find(name, dropperr) and name == dropperr) and not p) then-- Added Find to fix zapped giants (THIS IS NOT TESTED IF YOU FIND ERRORS REPORT!)
-                                                                        local lineIndex = Questie_TooltipCache[cacheKey]['lineCount'];
-                                                                        Questie_TooltipCache[cacheKey]['lines'][lineIndex] = {
-                                                                            ['color'] = {1, 1, 1},
-                                                                            ['data'] = " "
-                                                                        };
-                                                                        Questie_TooltipCache[cacheKey]['lines'][lineIndex + 1] = {
-                                                                            ['color'] = {0.2, 1, 0.3},
-                                                                            ['data'] = v['objectives']['QuestName']
-                                                                        };
-                                                                        Questie_TooltipCache[cacheKey]['lines'][lineIndex + 2] = {
-                                                                            ['color'] = {1, 1, 0.2},
-                                                                            ['data'] = "   " .. namestr .. ": " .. countstr
-                                                                        };
-                                                                        Questie_TooltipCache[cacheKey]['lineCount'] = lineIndex + 3;
-                                                                        mi = true;
-                                                                    end
-                                                                    if (mi) then
-                                                                        break;
-                                                                    end
-                                                                end
-                                                            end
-                                                        else
-                                                            local lineIndex = Questie_TooltipCache[cacheKey]['lineCount'];
-                                                            Questie_TooltipCache[cacheKey]['lines'][lineIndex] = {
-                                                                ['color'] = {1, 1, 1},
-                                                                ['data'] = " "
-                                                            };
-                                                            Questie_TooltipCache[cacheKey]['lines'][lineIndex + 1] = {
-                                                                ['color'] = {0.2, 1, 0.3},
-                                                                ['data'] = v['objectives']['QuestName']
-                                                            };
-                                                            Questie_TooltipCache[cacheKey]['lineCount'] = lineIndex + 2;
-                                                            mi = true;
-                                                        end
-                                                        if (mi) then
-                                                            break;
-                                                        end
-                                                    end
-                                                end
-                                            end
-                                        end
-                                    end
-                                end
-                            end
+
+            for questHash, quest in pairs(QuestieHandledQuests) do
+                local logid = Questie:GetQuestIdFromHash(questHash)
+                QSelect_QuestLogEntry(logid)
+                for objectiveid, objectiveInfo in pairs(quest.objectives) do
+                    Questie:PostProcessIconPath(objectiveInfo.path)
+                    local lines, sourceNames = Questie:GetTooltipLines(objectiveInfo.path, 1)
+                    if objectiveInfo.name == objective or sourceNames[objective] then
+                        local desc, type, done = QGet_QuestLogLeaderBoard(objectiveid)
+                        local lineIndex = Questie_TooltipCache[cacheKey]['lineCount']
+                        desc = string.gsub(desc, objective, "|c"..unitColor..objective.."|r")
+                        Questie_TooltipCache[cacheKey]['lines'][lineIndex] = {
+                            ['color'] = {1,1,1},
+                            ['data'] = " "
+                        }
+                        lineIndex = lineIndex + 1
+                        Questie_TooltipCache[cacheKey]['lines'][lineIndex] = {
+                            ['color'] = {1,1,1},
+                            ['data'] = desc
+                        }
+                        lineIndex = lineIndex + 1
+                        for i, line in pairs(lines) do
+                            line = string.gsub(line, objective, "|r|c"..unitColor..objective.."|r|cFFa6a6a6")
+                            Questie_TooltipCache[cacheKey]['lines'][lineIndex] = {
+                                ['color'] = {1,1,1},
+                                ['data'] = line
+                            }
+                            lineIndex = lineIndex + 1
                         end
+                        Questie_TooltipCache[cacheKey]['lineCount'] = lineIndex + 1
                     end
-                end
-                if mi then
-                    GameTooltip.lastmonster = monster;
-                    GameTooltip.lastobjective = nil;
-                end
-            elseif objective and GetTime() - Questie_LastTooltip < 0.05 then
-                for k,v in pairs(QuestieHandledQuests) do
-                    local obj = v['objectives']['objectives'];
-                    if ( obj ) then
-                        for name,m in pairs(obj) do
-                            if (m[1] and m[1]['type'] == "object") then
-                                local i, j = string.gfind(name, objective);
-                                if(i and j and QuestieObjects[name]) then
-                                    local lineIndex = Questie_TooltipCache[cacheKey]['lineCount'];
-                                    Questie_TooltipCache[cacheKey]['lines'][lineIndex] = {
-                                        ['color'] = {1, 1, 1},
-                                        ['data'] = " "
-                                    };
-                                    Questie_TooltipCache[cacheKey]['lines'][lineIndex + 1] = {
-                                        ['color'] = {0.2, 1, 0.3},
-                                        ['data'] = v['objectives']['QuestName']
-                                    };
-                                    Questie_TooltipCache[cacheKey]['lines'][lineIndex + 2] = {
-                                        ['color'] = {1, 1, 0.2},
-                                        ['data'] = "   " .. name
-                                    };
-                                    Questie_TooltipCache[cacheKey]['lineCount'] = lineIndex + 3;
-                                    mi = true;
-                                end
-                                if (mi) then
-                                    break;
-                                end
-                            elseif (m[1] and (m[1]['type'] == "item" or m[1]['type'] == "loot") and name == objective) then
-                                if(QuestieItems[objective]) then
-                                    local logid = Questie:GetQuestIdFromHash(k);
-                                    if logid then
-                                        QSelect_QuestLogEntry(logid);
-                                        local desc, typ, done = QGet_QuestLogLeaderBoard(m[1]['objectiveid']);
-                                        local indx = findLast(desc, ":");
-                                        local countstr = string.sub(desc, indx+2);
-                                        local lineIndex = Questie_TooltipCache[cacheKey]['lineCount'];
-                                        Questie_TooltipCache[cacheKey]['lines'][lineIndex] = {
-                                            ['color'] = {1, 1, 1},
-                                            ['data'] = " "
-                                        };
-                                        Questie_TooltipCache[cacheKey]['lines'][lineIndex + 1] = {
-                                            ['color'] = {0.2, 1, 0.3},
-                                            ['data'] = v['objectives']['QuestName']
-                                        };
-                                        Questie_TooltipCache[cacheKey]['lines'][lineIndex + 2] = {
-                                            ['color'] = {1, 1, 0.2},
-                                            ['data'] = "   " .. name .. ": " .. countstr
-                                        };
-                                        Questie_TooltipCache[cacheKey]['lineCount'] = lineIndex + 3;
-                                        mi = true;
-                                    end
-                                    if (mi) then
-                                        break;
-                                    end
-                                end
-                            end
-                        end
-                    end
-                end
-                if (mi) then
-                    GameTooltip.lastmonster = nil;
-                    GameTooltip.lastobjective = objective;
                 end
             end
+
         end
         for k, v in pairs(Questie_TooltipCache[cacheKey]['lines']) do
             if not __TT_LineCache[v['data']] then
-                GameTooltip:AddLine(v['data'], v['color'][1], v['color'][2], v['color'][3]);
+                GameTooltip:AddLine(v['data'], v['color'][1], v['color'][2], v['color'][3], true);
             end
         end
         if(QUESTIE_DEBUG_TOOLTIP) then
@@ -486,7 +328,9 @@ end
 ---------------------------------------------------------------------------------------------------
 -- Tooltip code for quest starters and finishers
 ---------------------------------------------------------------------------------------------------
-function Questie:AddPathToTooltip(Tooltip, path, indent)
+function Questie:GetTooltipLines(path, indent, lines, sourceNames)
+    if lines == nil then lines = {} end
+    if sourceNames == nil then sourceNames = {} end
     local indentString = ""
     for i=1,indent,1 do
         indentString = indentString.." "
@@ -507,10 +351,22 @@ function Questie:AddPathToTooltip(Tooltip, path, indent)
 
         if prefix then
             for sourceName, sourcePath in pairs(sources) do
-                Tooltip:AddLine(indentString..prefix..": |cFFa6a6a6"..sourceName.."|r",1,1,1,true);
-                Questie:AddPathToTooltip(Tooltip, sourcePath, indent+1)
+                table.insert(lines, indentString..prefix..": |cFFa6a6a6"..sourceName.."|r")
+                local splitNames = Questie:SplitString(sourceName, ", ")
+                for i, name in pairs(splitNames) do
+                    sourceNames[name] = true
+                end
+                Questie:GetTooltipLines(sourcePath, indent+1, lines, sourceNames)
             end
         end
+    end
+    return lines, sourceNames
+end
+
+function Questie:AddPathToTooltip(Tooltip, path, indent)
+    local lines = Questie:GetTooltipLines(path, indent)
+    for i, line in pairs(lines) do
+        Tooltip:AddLine(line,1,1,1,true);
     end
 end
 
@@ -819,6 +675,7 @@ function Questie:PathsAreIdentical(path1, path2)
 end
 
 function Questie:PostProcessIconPath(path)
+    if path["locations"] then path["locations"] = nil end
     for sourceType, sources in pairs(path) do
         for sourceName, sourcePath in pairs(sources) do
             Questie:PostProcessIconPath(sourcePath)
@@ -1249,9 +1106,31 @@ function Cluster:CalculateClusters(clusters, distanceThreshold, maxClusterSize)
     end
 end
 
+-- splits the specified text into an array on the specified separator
+-- todo make a QuestieUtils.lua file for things like this
+function Questie:SplitString( text, separator, limit )
+    local parts, position, length, last, jump, count = {}, 1, string.len( text ), nil, string.len( separator ), 0
+    while true do
+        last = string.find( text, separator, position, true )
+        if last and ( not limit or count < limit ) then
+            table.insert( parts, string.sub( text, position, last - 1 ) )
+            position, count = last + jump, count + 1
+        else
+            table.insert( parts, string.sub( text, position ) )
+            break
+        end
+    end
+    return parts;
+end
+
 function Questie:RoundCoordinate(coord, factor)
     if factor == nil then factor = 1 end
     return tonumber(string.format("%.2f", coord/factor)) * factor
+end
+
+function Questie:GetReactionColor(reaction)
+    if reaction == nil or reaction < 1 or reaction > 8 then reaction = 4 end
+    return FACTION_BAR_COLORS[reaction]
 end
 
 function Questie:AddClusterFromNote(frame, identifier, v)
