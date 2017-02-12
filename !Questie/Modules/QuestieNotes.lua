@@ -732,9 +732,10 @@ end
 
 function Questie:AddFrameNoteData(icon, data)
     if icon then
-        if (icon.averageX == nil or icon.averageY == nil) then
+        if (icon.averageX == nil or icon.averageY == nil or icon.countForAverage == nil) then
             icon.averageX = 0
             icon.averageY = 0
+            icon.countForAverage = 0
         end
         local numQuests = 0
         for k, v in pairs(icon.quests) do
@@ -742,10 +743,12 @@ function Questie:AddFrameNoteData(icon, data)
         end
 
         if (data.icontype ~= "complete" and data.icontype ~= "available") or icon.quests[data.questHash] == nil then
-            local newAverageX = (icon.averageX * numQuests + data.x) / (numQuests + 1)
-            local newAverageY = (icon.averageY * numQuests + data.y) / (numQuests + 1)
+            local newAverageX = (icon.averageX * icon.countForAverage + data.x) / (icon.countForAverage + 1)
+            local newAverageY = (icon.averageY * icon.countForAverage + data.y) / (icon.countForAverage + 1)
             icon.averageX = newAverageX
             icon.averageY = newAverageY
+
+            icon.countForAverage = icon.countForAverage + 1
         end
 
         if icon.quests[data.questHash] then
@@ -1151,6 +1154,7 @@ function Questie:Clear_Note(v)
     v.quests = nil
     v.averageX = nil
     v.averageY = nil
+    v.countForAverage = nil
     table.insert(FramePool, v);
 end
 ---------------------------------------------------------------------------------------------------
