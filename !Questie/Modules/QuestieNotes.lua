@@ -278,8 +278,9 @@ function Questie:Tooltip(this, forceShow, bag, slot)
                 local logid = Questie:GetQuestIdFromHash(questHash)
                 QSelect_QuestLogEntry(logid)
                 for objectiveid, objectiveInfo in pairs(quest.objectives) do
-                    Questie:PostProcessIconPath(objectiveInfo.path)
-                    local lines, sourceNames = Questie:GetTooltipLines(objectiveInfo.path, 1)
+                    local objectivePath = deepcopy(objectiveInfo.path)
+                    Questie:PostProcessIconPath(objectivePath)
+                    local lines, sourceNames = Questie:GetTooltipLines(objectivePath, 1)
                     if objectiveInfo.name == objective or sourceNames[objective] then
                         local desc, type, done = QGet_QuestLogLeaderBoard(objectiveid)
                         local lineIndex = Questie_TooltipCache[cacheKey]['lineCount']
