@@ -14154,7 +14154,7 @@ QuestieItems = {
   },
   ["Furlbrow's Pocket Watch"] = {
     ["contained"] = {
-      ["Fulbrow's Wardrobe"] = 1
+      ["Furlbrow's Wardrobe"] = 1
     }
   },
   ["Seeping Gizzard"] = {

@@ -760,7 +760,7 @@ QuestieObjects = {
     ["locationCount"] = 1,
     ["faction"] = 1
   },
-  ["Fulbrow's Wardrobe"] = {
+  ["Furlbrow's Wardrobe"] = {
     ["locations"] = {
       [1] = {49.0, 0.4935, 0.1911, 100.0}
     },
