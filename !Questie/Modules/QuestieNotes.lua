@@ -348,6 +348,10 @@ function Questie:GetTooltipLines(path, indent, lines, sourceNames)
             prefix = "Created by"
         elseif sourceType == "openedby" then
             prefix = "Opened by"
+        elseif sourceType == "transforms" then
+            prefix = "Used on"
+        elseif sourceType == "transformedby" then
+            prefix = "Created by"
         end
 
         if prefix then
@@ -886,7 +890,7 @@ function Questie:RecursiveGetPathLocations(path, locations)
                     table.insert(locations, l)
                 end
             end
-        elseif sourceType == "drop" or sourceType == "contained" or sourceType == "created" or sourceType == "containedi" then
+        elseif sourceType == "drop" or sourceType == "contained" or sourceType == "created" or sourceType == "containedi" or sourceType == "transforms" or sourceType == "transformedby" then
             for sourceName, sourcePath in pairs(sources) do
                 Questie:RecursiveGetPathLocations(sourcePath, locations)
             end
@@ -896,19 +900,24 @@ function Questie:RecursiveGetPathLocations(path, locations)
     return locations
 end
 
+local specialSources = {
+    ["openedby"] = 1,
+}
 function Questie:RecursiveCreateNotes(c, z, v, locationMeta, iconMeta, objectiveid, path, pathKeys)
     if path == nil then path = {} end
     if pathKeys == nil then pathKeys = {} end
     for sourceType, sources in pairs(locationMeta) do
         if sourceType == "locations" and next(sources) then
-            if locationMeta["openedby"] ~= nil and next(locationMeta["openedby"])then
-                local pathToAppend = path
-                for i, pathKey in pairs(pathKeys) do
-                    pathToAppend = pathToAppend[pathKey]
-                end
-                pathToAppend["openedby"] = {}
-                for sourceName, sourcePath in pairs(locationMeta["openedby"]) do
-                    pathToAppend["openedby"][sourceName] = {}
+            for specialSource, b in pairs(specialSources) do
+                if locationMeta[specialSource] ~= nil and next(locationMeta[specialSource]) then
+                    local pathToAppend = path
+                    for i, pathKey in pairs(pathKeys) do
+                        pathToAppend = pathToAppend[pathKey]
+                    end
+                    pathToAppend[specialSource] = {}
+                    for sourceName, sourcePath in pairs(locationMeta[specialSource]) do
+                        pathToAppend[specialSource][sourceName] = {}
+                    end
                 end
             end
             for i, location in pairs(sources) do
@@ -925,7 +934,7 @@ function Questie:RecursiveCreateNotes(c, z, v, locationMeta, iconMeta, objective
                     end
                 end
             end
-        elseif sourceType == "drop" or sourceType == "contained" or sourceType == "created" or sourceType == "containedi" or sourceType == "openedby" then
+        elseif sourceType == "drop" or sourceType == "contained" or sourceType == "created" or sourceType == "containedi" or sourceType == "openedby" or sourceType == "transforms" or sourceType == "transformedby" then
             for sourceName, sourceLocationMeta in pairs(sources) do
                 local newPath = deepcopy(path)
                 local editPath = newPath
@@ -943,11 +952,13 @@ function Questie:RecursiveCreateNotes(c, z, v, locationMeta, iconMeta, objective
                         ["contained"] = "object",
                         ["created"] = "event",
                         ["containedi"] = "object",
-                        ["openedby"] = "object"
+                        ["openedby"] = "object",
+                        ["transforms"] = "event",
+                        ["transformedby"] = "loot",
                     }
                     iconMeta.selectedIcon = typeToIcon[sourceType]
                 end
-                if sourceType == "openedby" then
+                if specialSources[sourceType] then
                     newPath = {}
                     newPathKeys = {}
                     objectiveid = sourceName

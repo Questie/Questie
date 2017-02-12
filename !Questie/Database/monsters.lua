@@ -47662,10 +47662,14 @@ QuestieMonsters = {
   },
   ["Shore Strider"] = {
     ["locations"] = {
-      [1] = {17.0, 0.446, 0.4808, 100.0}
+      [1] = {17.0, 0.4444, 0.4932, 100.0},
+      [5] = {17.0, 0.443, 0.5261, 3.0},
+      [3] = {17.0, 0.4659, 0.5854, 55.0},
+      [4] = {17.0, 0.4631, 0.6175, 39.0},
+      [2] = {17.0, 0.3696, 0.3472, 55.0}
     },
-    ["looted"] = 394,
-    ["locationCount"] = 1
+    ["looted"] = 2641,
+    ["locationCount"] = 5,
   },
   ["Defias Pillager"] = {
     ["locations"] = {
@@ -48290,14 +48294,9 @@ QuestieMonsters = {
     ["locationCount"] = 1
   },
   ["Zapped Deep Strider"] = {
-    ["locations"] = {
-      [1] = {17.0, 0.4444, 0.4999, 100.0},
-      [3] = {17.0, 0.3701, 0.3487, 46.0},
-      [4] = {17.0, 0.4617, 0.6207, 3.0},
-      [2] = {17.0, 0.4656, 0.5887, 57.0}
-    },
-    ["looted"] = 2770,
-    ["locationCount"] = 4
+    ["transformedby"] = {
+      ["Zorbin's Ultra-shrinker"] = 1
+    }
   },
   ["Gorishi Hive Queen"] = {
     ["locations"] = {
@@ -57588,13 +57587,9 @@ QuestieMonsters = {
     ["looted"] = 3
   },
   ["Zapped Wave Strider"] = {
-    ["locations"] = {
-      [1] = {17.0, 0.4449, 0.495, 100.0},
-      [3] = {17.0, 0.3693, 0.348, 4.0},
-      [2] = {17.0, 0.4649, 0.5973, 76.0}
-    },
-    ["looted"] = 2902,
-    ["locationCount"] = 3
+    ["transformedby"] = {
+      ["Zorbin's Ultra-shrinker"] = 1
+    }
   },
   ["Nurse Stonefield"] = {
     ["locations"] = {
@@ -76162,7 +76157,7 @@ QuestieMonsters = {
       [2] = {17.0, 0.3681, 0.3473, 62.0}
     },
     ["locationCount"] = 5,
-    ["looted"] = 141
+    ["looted"] = 141,
   },
   ["Nalpak"] = {
     ["locations"] = {
@@ -76473,11 +76468,9 @@ QuestieMonsters = {
     ["locationCount"] = 1
   },
   ["Zapped Cliff Giant"] = {
-    ["locations"] = {
-      [1] = {17.0, 0.3957, 0.2328, 100.0}
-    },
-    ["looted"] = 519,
-    ["locationCount"] = 1
+    ["transformedby"] = {
+      ["Zorbin's Ultra-shrinker"] = 1
+    }
   },
   ["Alliance Class Spells"] = {
     ["locations"] = {
@@ -82060,15 +82053,9 @@ QuestieMonsters = {
     ["locationCount"] = 2
   },
   ["Zapped Shore Strider"] = {
-    ["locations"] = {
-      [1] = {17.0, 0.4444, 0.4932, 100.0},
-      [5] = {17.0, 0.443, 0.5261, 3.0},
-      [3] = {17.0, 0.4659, 0.5854, 55.0},
-      [4] = {17.0, 0.4631, 0.6175, 39.0},
-      [2] = {17.0, 0.3696, 0.3472, 55.0}
-    },
-    ["looted"] = 2641,
-    ["locationCount"] = 5
+    ["transformedby"] = {
+      ["Zorbin's Ultra-shrinker"] = 1
+    }
   },
   ["Anchorite Ahuurn"] = {
     ["locations"] = {
@@ -88514,7 +88501,7 @@ QuestieMonsters = {
       [2] = {17.0, 0.4049, 0.2457, 100.0}
     },
     ["looted"] = 250,
-    ["locationCount"] = 3
+    ["locationCount"] = 3,
   },
   ["Dustbelcher Warrior"] = {
     ["locations"] = {
@@ -89309,11 +89296,9 @@ QuestieMonsters = {
     ["locationCount"] = 1
   },
   ["Zapped Land Walker"] = {
-    ["locations"] = {
-      [1] = {17.0, 0.396, 0.2332, 100.0}
-    },
-    ["looted"] = 464,
-    ["locationCount"] = 1
+    ["transformedby"] = {
+      ["Zorbin's Ultra-shrinker"] = 1
+    }
   },
   ["Watcher Backus"] = {
     ["locations"] = {
@@ -103188,7 +103173,7 @@ QuestieMonsters = {
       [2] = {17.0, 0.4061, 0.2467, 9.0}
     },
     ["looted"] = 254,
-    ["locationCount"] = 2
+    ["locationCount"] = 2,
   },
   ["Tortured Skeleton"] = {
     ["locations"] = {
@@ -104243,7 +104228,7 @@ QuestieMonsters = {
       [2] = {17.0, 0.3692, 0.3495, 82.0}
     },
     ["looted"] = 174,
-    ["locationCount"] = 5
+    ["locationCount"] = 5,
   },
   ["Cursed Marine"] = {
     ["locations"] = {

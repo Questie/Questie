@@ -18537,9 +18537,11 @@ QuestieItems = {
   },
   ["Miniaturization Residue"] = {
     ["drop"] = {
+      ["Zapped Shore Strider"] = 1,
+      ["Zapped Land Walker"] = 1,
+      ["Zapped Cliff Giant"] = 1,
       ["Zapped Wave Strider"] = 274,
-      ["Shore Strider"] = 166,
-      ["Zapped Deep Strider"] = 252
+      ["Zapped Deep Strider"] = 252,
     }
   },
   ["Dragonhawk Hat of Defense"] = {
@@ -66678,6 +66680,15 @@ QuestieItems = {
     ["drop"] = {
       ["Withered Ancient"] = 1,
       ["Crazed Ancient"] = 1,
+    }
+  },
+  ["Zorbin's Ultra-shrinker"] = {
+    ["transforms"] = {
+      ["Shore Strider"] = 1,
+      ["Land Walker"] = 1,
+      ["Wave Strider"] = 1,
+      ["Deep Strider"] = 1,
+      ["Cliff Giant"] = 1,
     }
   }
 }

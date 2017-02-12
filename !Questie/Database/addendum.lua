@@ -55518,6 +55518,8 @@ function GetEntityLocations(entity)
     locations['created'] = {}
     locations['locations'] = {}
     locations['openedby'] = {}
+    locations['transforms'] = {}
+    locations['transformedby'] = {}
     local mapIds = {}
     for sourceType, sources in pairs(entity) do
         if sourceType == "drop" then
@@ -55542,6 +55544,20 @@ function GetEntityLocations(entity)
             end
         end
         if sourceType == "created" then
+            for sourceName, b in pairs(sources) do
+                local locationMeta, ids = GetItemLocations(sourceName)
+                locations[sourceType][sourceName] = locationMeta
+                for id in ids do mapIds[id] = true end
+            end
+        end
+        if sourceType == "transforms" then
+            for sourceName, b in pairs(sources) do
+                local locationMeta, ids = GetMonsterLocations(sourceName)
+                locations[sourceType][sourceName] = locationMeta
+                for id in ids do mapIds[id] = true end
+            end
+        end
+        if sourceType == "transformedby" then
             for sourceName, b in pairs(sources) do
                 local locationMeta, ids = GetItemLocations(sourceName)
                 locations[sourceType][sourceName] = locationMeta
