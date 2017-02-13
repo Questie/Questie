@@ -28,6 +28,7 @@ local QSelect_QuestLogEntry = SelectQuestLogEntry;
 local QGet_QuestLogLeaderBoard = GetQuestLogLeaderBoard;
 local QGet_QuestLogQuestText = GetQuestLogQuestText;
 local QGet_TitleText = GetTitleText;
+local QGet_QuestLogSelection = GetQuestLogSelection;
 ---------------------------------------------------------------------------------------------------
 -- Adds quest notes to map
 ---------------------------------------------------------------------------------------------------
@@ -274,6 +275,7 @@ function Questie:Tooltip(this, forceShow, bag, slot)
             Questie_TooltipCache[cacheKey]['lineCount'] = 1;
             Questie_TooltipCache[cacheKey]['updateTime'] = GetTime();
 
+            local prevQuestLogSelection = QGet_QuestLogSelection()
             for questHash, quest in pairs(QuestieHandledQuests) do
                 local logid = Questie:GetQuestIdFromHash(questHash)
                 QSelect_QuestLogEntry(logid)
@@ -310,7 +312,7 @@ function Questie:Tooltip(this, forceShow, bag, slot)
                     end
                 end
             end
-
+            QSelect_QuestLogEntry(prevQuestLogSelection)
         end
         for k, v in pairs(Questie_TooltipCache[cacheKey]['lines']) do
             if not __TT_LineCache[v['data']] then
