@@ -66682,6 +66682,14 @@ QuestieItems = {
       ["Crazed Ancient"] = 1,
     }
   },
+  ["Gold Pickup Schedule"] = {
+    ["drop"] = {
+      ["Gruff Swiftbite"] = 1,
+      ["Riverpaw Runt"] = 1,
+      ["Hogger"] = 1,
+      ["Riverpaw Outrunner"] = 1,
+    }
+  },
   ["Zorbin's Ultra-shrinker"] = {
     ["transforms"] = {
       ["Shore Strider"] = 1,
