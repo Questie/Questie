@@ -121,7 +121,9 @@ function Questie:OptionsForm_ApplyOptions()
 
     QuestieConfig.clusterQuests = Questie:toboolean(QO_clusterquests:GetChecked())
 
-    DEFAULT_CHAT_FRAME:AddMessage("Questie Options Applied", 1, 0.75, 0);
+    DEFAULT_CHAT_FRAME:AddMessage("Questie Options Applied", 1, 0.75, 0)
+
+    Questie:Toggle()
 
     QuestieOptionsForm:Hide()
 end
