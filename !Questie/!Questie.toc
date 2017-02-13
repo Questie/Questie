@@ -39,8 +39,10 @@ Astrolabe\Astrolabe.lua
 
 # Questie
 Questie.lua
+QuestieOptionsForm.lua
 Modules\QuestieNotes.lua
 Modules\QuestieQuest.lua
 Modules\QuestieTracker.lua
 Modules\QuestieArrow.lua
 Questie.xml
+QuestieOptionsForm.xml

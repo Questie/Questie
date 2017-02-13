@@ -1083,6 +1083,9 @@ QuestieFastSlash = {
             DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie resizemap |r-- |c0000ffc0(toggle)|r Resize Worldmap", 0.75, 0.75, 0.75);
         end
     end,
+    ["options"] = function()
+        Questie:OptionsForm_Display()
+    end,
 };
 ---------------------------------------------------------------------------------------------------
 function Questie_SlashHandler(msgbase)
@@ -1225,6 +1228,11 @@ function Questie:Levenshtein(str1, str2)
     end
     -- return the last value - this is the Levenshtein distance
     return matrix[len1][len2]
+end
+
+-- Simple function to convert values to booleans
+function Questie:toboolean(bool)
+    return not not bool
 end
 ---------------------------------------------------------------------------------------------------
 -- End of misc helper functions and short cuts
