@@ -280,7 +280,11 @@ function Questie:Tooltip(this, forceShow, bag, slot)
                 for objectiveid, objectiveInfo in pairs(quest.objectives) do
                     local objectivePath = deepcopy(objectiveInfo.path)
                     Questie:PostProcessIconPath(objectivePath)
-                    local lines, sourceNames = Questie:GetTooltipLines(objectivePath, 1)
+                    local highlightInfo = {
+                        ["text"] = objective,
+                        ["color"] = unitColor
+                    }
+                    local lines, sourceNames = Questie:GetTooltipLines(objectivePath, 1, highlightInfo)
                     if objectiveInfo.name == objective or sourceNames[objective] then
                         local desc, type, done = QGet_QuestLogLeaderBoard(objectiveid)
                         local lineIndex = Questie_TooltipCache[cacheKey]['lineCount']
@@ -296,7 +300,6 @@ function Questie:Tooltip(this, forceShow, bag, slot)
                         }
                         lineIndex = lineIndex + 1
                         for i, line in pairs(lines) do
-                            line = string.gsub(line, objective, "|r|c"..unitColor..objective.."|r|cFFa6a6a6")
                             Questie_TooltipCache[cacheKey]['lines'][lineIndex] = {
                                 ['color'] = {1,1,1},
                                 ['data'] = line
@@ -329,7 +332,7 @@ end
 ---------------------------------------------------------------------------------------------------
 -- Tooltip code for quest starters and finishers
 ---------------------------------------------------------------------------------------------------
-function Questie:GetTooltipLines(path, indent, lines, sourceNames)
+function Questie:GetTooltipLines(path, indent, highlightInfo, lines, sourceNames)
     if lines == nil then lines = {} end
     if sourceNames == nil then sourceNames = {} end
     local indentString = ""
@@ -356,12 +359,26 @@ function Questie:GetTooltipLines(path, indent, lines, sourceNames)
 
         if prefix then
             for sourceName, sourcePath in pairs(sources) do
-                table.insert(lines, indentString..prefix..": |cFFa6a6a6"..sourceName.."|r")
                 local splitNames = Questie:SplitString(sourceName, ", ")
+                local combinedNames = ""
+                local countDown = table.getn(splitNames)
                 for i, name in pairs(splitNames) do
                     sourceNames[name] = true
+                    if i <= 5 or (highlightInfo ~= nil and name == highlightInfo.text) then
+                        if i > 1 then combinedNames = combinedNames..", " end
+                        if highlightInfo ~= nil and name == highlightInfo.text then
+                            combinedNames = combinedNames.."|r|c"..highlightInfo.color..name.."|r|cFFa6a6a6"
+                        else
+                            combinedNames = combinedNames..name
+                        end
+                        countDown = countDown - 1
+                    end
                 end
-                Questie:GetTooltipLines(sourcePath, indent+1, lines, sourceNames)
+                if countDown > 0 then
+                    combinedNames = combinedNames.." and "..countDown.." more..."
+                end
+                table.insert(lines, indentString..prefix..": |cFFa6a6a6"..combinedNames.."|r")
+                Questie:GetTooltipLines(sourcePath, indent+1, highlightInfo, lines, sourceNames)
             end
         end
     end
@@ -512,7 +529,7 @@ function Questie_AvailableQuestClick()
                                 finishQuest(quest)
                                 Dewdrop:Close()
                             end
-                            print_r(quest)
+
                             Dewdrop:AddLine(
                                 'text', questName,
                                 'notClickable', quest.icontype ~= "available",
