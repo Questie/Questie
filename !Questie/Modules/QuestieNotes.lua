@@ -325,7 +325,7 @@ function Questie:Tooltip(this, forceShow, bag, slot)
         end
         GameTooltip.QuestieDone = true;
         Questie_LastTooltip = GetTime();
-        Questie_TooltipCache = {};
+        --Questie_TooltipCache = {};
         mi = nil;
     end
 end
