@@ -409,6 +409,7 @@ function Questie_Tooltip_OnEnter()
         for questHash, questMeta in pairs(this.quests) do
             orderedQuests[questMeta['sortOrder']] = questMeta
         end
+        local prevQuestLogSelection = QGet_QuestLogSelection()
         for i, questMeta in pairs(orderedQuests) do
             local data = questMeta['quest']
             count = count + 1
@@ -466,6 +467,7 @@ function Questie_Tooltip_OnEnter()
                 canManualComplete = 1
             end
         end
+        QSelect_QuestLogEntry(prevQuestLogSelection)
         if canManualComplete > 0 then
             if count > 1 then
                 Tooltip:AddLine(" ");
