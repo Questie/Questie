@@ -99,22 +99,6 @@ function Questie:OptionsForm_ApplyOptions()
 
     QuestieConfig.showProfessionQuests = Questie:toboolean(QO_showprofessionquests:GetChecked())
 
-    QuestieConfig.showTrackerHeader = Questie:toboolean(QO_showtrackerheader:GetChecked())
-
-    QuestieConfig.showToolTips = Questie:toboolean(QO_showtooltips:GetChecked())
-
-    QuestieConfig.trackerEnabled = Questie:toboolean(QO_trackerenabled:GetChecked())
-
-    QuestieConfig.trackerList = Questie:toboolean(QO_trackerlist:GetChecked())
-
-    QuestieConfig.trackerScale = QO_trackerscale:GetText()
-
-    QuestieConfig.trackerBackground = Questie:toboolean(QO_trackerbackground:GetChecked())
-
-    QuestieConfig.trackerAlpha = QO_trackeralpha:GetText()
-
-    QuestieConfig.resizeWorldmap = Questie:toboolean(QO_resizeworldmap:GetChecked())
-
     QuestieConfig.hideMinimapIcons = Questie:toboolean(QO_hideminimapicons:GetChecked())
 
     QuestieConfig.hideObjectives = Questie:toboolean(QO_hideobjectives:GetChecked())
@@ -123,7 +107,92 @@ function Questie:OptionsForm_ApplyOptions()
 
     QuestieConfig.clusterQuests = Questie:toboolean(QO_clusterquests:GetChecked())
 
+
+    -- Compare opening values and values attempting to be set, if any are different a reload will be needed
+    local CachedValues = {
+        ["trackerList"] = QuestieConfig.trackerList, -- Changes list direction, true  = bottom>top, false = top>bottom
+        ["showTrackerHeader"] = QuestieConfig.showTrackerHeader,
+        ["showToolTips"] = QuestieConfig.showToolTips,
+        ["trackerEnabled"] = QuestieConfig.trackerEnabled,
+        ["trackerScale"] = QuestieConfig.trackerScale,
+        ["trackerAlpha"] = QuestieConfig.trackerAlpha,
+        ["resizeWorldmap"] = QuestieConfig.resizeWorldmap,
+        ["trackerBackground"] = QuestieConfig.trackerBackground
+    }
+
+    QuestieConfig.trackerList = Questie:toboolean(QO_trackerlist:GetChecked())
+    QuestieConfig.showTrackerHeader = Questie:toboolean(QO_showtrackerheader:GetChecked())
+    QuestieConfig.showToolTips = Questie:toboolean(QO_showtooltips:GetChecked())
+    QuestieConfig.trackerEnabled = Questie:toboolean(QO_trackerenabled:GetChecked())
+    QuestieConfig.trackerScale = QO_trackerscale:GetText()
+    QuestieConfig.trackerAlpha = QO_trackeralpha:GetText()
+    QuestieConfig.resizeWorldmap = Questie:toboolean(QO_resizeworldmap:GetChecked())
+    QuestieConfig.trackerBackground = Questie:toboolean(QO_trackerbackground:GetChecked())
+
     DEFAULT_CHAT_FRAME:AddMessage("Questie Options Applied", 1, 0.75, 0)
+
+    local bDisplayWarning = false
+    local WarningMessage = "|cFFFFFF00The following settings will require a UI Reload to apply:|n|n"
+    if(QuestieConfig.trackerList ~= CachedValues.trackerList) then
+        WarningMessage = WarningMessage.."Tracker List|n"
+        bDisplayWarning = true
+    end
+    if(QuestieConfig.showTrackerHeader ~= CachedValues.showTrackerHeader) then
+        WarningMessage = WarningMessage.."Show Tracker Header|n"
+        bDisplayWarning = true
+    end
+    if(QuestieConfig.showToolTips ~= CachedValues.showToolTips) then
+        WarningMessage = WarningMessage.."Show Tool Tips|n"
+        bDisplayWarning = true
+    end
+    if(QuestieConfig.trackerEnabled ~= CachedValues.trackerEnabled) then
+        WarningMessage = WarningMessage.."Tracker Enabled|n"
+        bDisplayWarning = true
+    end
+    if(QuestieConfig.trackerScale ~= CachedValues.trackerScale) then
+        WarningMessage = WarningMessage.."Tracker Scale|n"
+        bDisplayWarning = true
+    end
+    if(QuestieConfig.trackerAlpha ~= CachedValues.trackerAlpha) then
+        WarningMessage = WarningMessage.."Tracker Alpha|n"
+        bDisplayWarning = true
+    end
+    if(QuestieConfig.resizeWorldmap ~= CachedValues.resizeWorldmap) then
+        WarningMessage = WarningMessage.."Resize World Map|n"
+        bDisplayWarning = true
+    end
+    if(QuestieConfig.trackerBackground ~= CachedValues.trackerBackground) then
+        WarningMessage = WarningMessage.."Tracker Background|n"
+        bDisplayWarning = true
+    end
+    WarningMessage = WarningMessage.."|nAre you sure you want to continue?|r"
+
+    if(bDisplayWarning) then
+        StaticPopupDialogs["OPTIONS_WARNING_F"] = {
+            text = WarningMessage,
+            button1 = TEXT(YES),
+            button2 = TEXT(NO),
+            OnAccept = function()
+                ReloadUI()
+            end,
+            OnCancel = function()
+                -- Reset to cached values since user opted not to reloadui
+                QuestieConfig.trackerList = CachedValues.trackerList
+                QuestieConfig.showTrackerHeader = CachedValues.showTrackerHeader
+                QuestieConfig.showToolTips = CachedValues.showToolTips
+                QuestieConfig.trackerEnabled = CachedValues.trackerEnabled
+                QuestieConfig.trackerScale = CachedValues.trackerScale
+                QuestieConfig.trackerAlpha = CachedValues.trackerAlpha
+                QuestieConfig.resizeWorldmap = CachedValues.resizeWorldmap
+                QuestieConfig.trackerBackground = CachedValues.trackerBackground
+                DEFAULT_CHAT_FRAME:AddMessage("Questie Options that required a UI Reload have been reverted", 1, 0.75, 0)
+            end,
+            timeout = 60,
+            exclusive = 1,
+            hideOnEscape = 1
+        }
+        StaticPopup_Show("OPTIONS_WARNING_F")
+    end
 
     Questie:Toggle()
     Questie:Toggle()
