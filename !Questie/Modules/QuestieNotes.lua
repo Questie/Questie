@@ -279,6 +279,7 @@ function Questie:Tooltip(this, forceShow, bag, slot)
             for questHash, quest in pairs(QuestieHandledQuests) do
                 local logid = Questie:GetQuestIdFromHash(questHash)
                 QSelect_QuestLogEntry(logid)
+                local drawnQuestTitle = false
                 for objectiveid, objectiveInfo in pairs(quest.objectives) do
                     local objectivePath = deepcopy(objectiveInfo.path)
                     Questie:PostProcessIconPath(objectivePath)
@@ -288,14 +289,31 @@ function Questie:Tooltip(this, forceShow, bag, slot)
                     }
                     local lines, sourceNames = Questie:GetTooltipLines(objectivePath, 1, highlightInfo)
                     if objectiveInfo.name == objective or sourceNames[objective] then
-                        local desc, type, done = QGet_QuestLogLeaderBoard(objectiveid)
                         local lineIndex = Questie_TooltipCache[cacheKey]['lineCount']
-                        desc = string.gsub(desc, objective, "|c"..unitColor..objective.."|r")
                         Questie_TooltipCache[cacheKey]['lines'][lineIndex] = {
                             ['color'] = {1,1,1},
                             ['data'] = " "
                         }
                         lineIndex = lineIndex + 1
+
+                        if drawnQuestTitle == false then
+                            local q, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(QuestLogID);
+                            local questInfo = QuestieHashMap[questHash]
+                            local colorString = "|c" .. QuestieTracker:GetDifficultyColor(questInfo.questLevel)
+                            local title = colorString
+                            title = title .. "[" .. questInfo.questLevel .. "] "
+                            title = title .. questInfo.name .. "|r"
+                            Questie_TooltipCache[cacheKey]['lines'][lineIndex] = {
+                                ['color'] = {1,1,1},
+                                ['data'] = title
+                            }
+                            lineIndex = lineIndex + 1
+
+                            drawnQuestTitle = true
+                        end
+
+                        local desc, type, done = QGet_QuestLogLeaderBoard(objectiveid)
+                        desc = string.gsub(desc, objective, "|c"..unitColor..objective.."|r")
                         Questie_TooltipCache[cacheKey]['lines'][lineIndex] = {
                             ['color'] = {1,1,1},
                             ['data'] = desc

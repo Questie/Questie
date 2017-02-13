@@ -274,6 +274,10 @@ QuestieTracker.highestIndex = 0;
 -- Determines quest difficulty color based on payers level
 ---------------------------------------------------------------------------------------------------
 function QuestieTracker:GetDifficultyColor(level)
+    if type(level) == "string" then
+        for x in string.gfind(level, "%d+") do level = x end
+        level = tonumber(level)
+    end
     if level == nil then return "FFFFFFFF"; end
     local levelDiff = level - UnitLevel("player");
     if ( levelDiff >= 5 ) then
