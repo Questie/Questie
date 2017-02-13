@@ -1134,7 +1134,8 @@ function Questie:CurrentUserToggles()
         [19] = { "resizeWorldmap" },
         [20] = { "getVersion" },
         [21] = { "hideMinimapIcons" },
-        [22] = { "hideObjectives" }
+        [22] = { "hideObjectives" },
+        [23] = { "clusterQuests" }
     }
     if QuestieConfig then
         i = 1
