@@ -642,14 +642,12 @@ function Questie:AddFrameNoteData(icon, data)
             numQuests = numQuests + 1
         end
 
-        if (data.icontype ~= "complete" and data.icontype ~= "available") or icon.quests[data.questHash] == nil then
-            local newAverageX = (icon.averageX * icon.countForAverage + data.x) / (icon.countForAverage + 1)
-            local newAverageY = (icon.averageY * icon.countForAverage + data.y) / (icon.countForAverage + 1)
-            icon.averageX = newAverageX
-            icon.averageY = newAverageY
+        local newAverageX = (icon.averageX * icon.countForAverage + data.x) / (icon.countForAverage + 1)
+        local newAverageY = (icon.averageY * icon.countForAverage + data.y) / (icon.countForAverage + 1)
+        icon.averageX = newAverageX
+        icon.averageY = newAverageY
 
-            icon.countForAverage = icon.countForAverage + 1
-        end
+        icon.countForAverage = icon.countForAverage + 1
 
         if icon.quests[data.questHash] then
             -- Add cumulative quest data
