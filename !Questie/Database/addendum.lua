@@ -55614,7 +55614,7 @@ end
 
 function GetEventLocations(eventName)
     if QuestieEvents[eventName] then
-        return GetEntityLocations(QuestieItems[eventName])
+        return GetEntityLocations(QuestieEvents[eventName])
     end
     return {}, {}
 end

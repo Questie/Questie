@@ -473,10 +473,10 @@ function Questie:GetQuestObjectivePaths(questHash)
         local typeFunction = typeFunctions[type]
 
         if typeFunction ~= nil then
-            local objectiveName
-            local splitIndex = findLast(desc, ":")
+            local objectiveName = desc
+            local splitIndex = findLast(objectiveName, ":")
             if splitIndex ~= nil then
-                objectiveName = string.sub(desc, 1, splitIndex-1)
+                objectiveName = string.sub(objectiveName, 1, splitIndex-1)
                 if(string.find(objectiveName, " slain")) then
                     objectiveName = string.sub(objectiveName, 1, string.len(objectiveName)-6);
                 end
