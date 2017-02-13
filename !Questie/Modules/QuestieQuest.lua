@@ -19,6 +19,7 @@ local QSelect_QuestLogEntry = SelectQuestLogEntry;
 local QGet_QuestLogLeaderBoard = GetQuestLogLeaderBoard;
 local QGet_QuestLogQuestText = GetQuestLogQuestText;
 local QExpand_QuestHeader = ExpandQuestHeader;
+local QGet_QuestLogSelection = GetQuestLogSelection
 ---------------------------------------------------------------------------------------------------
 -- Finishes a quest and performs a recrusive check to make sure all the required quests that come
 -- before it are also finsihed and recorded in the players QuestieSeenQuests. It will also clear
