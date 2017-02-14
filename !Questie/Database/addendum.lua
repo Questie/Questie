@@ -55512,71 +55512,93 @@ QuestieAdditionalStartFinishLookup = { -- {C,Z,X,Y}
 
 function GetEntityLocations(entity)
     local locations = {}
-    locations['drop'] = {}
-    locations['contained'] = {}
-    locations['containedi'] = {}
-    locations['created'] = {}
-    locations['locations'] = {}
-    locations['openedby'] = {}
-    locations['transforms'] = {}
-    locations['transformedby'] = {}
     local mapIds = {}
     for sourceType, sources in pairs(entity) do
         if sourceType == "drop" then
             for sourceName, b in pairs(sources) do
                 local locationMeta, ids = GetMonsterLocations(sourceName)
-                locations[sourceType][sourceName] = locationMeta
-                for id in ids do mapIds[id] = true end
+                if next(locationMeta) then
+                    if locations[sourceType] == nil then locations[sourceType] = {} end
+                    locations[sourceType][sourceName] = locationMeta
+                    for id in ids do mapIds[id] = true end
+                end
             end
         end
         if sourceType == "contained" then
             for sourceName, b in pairs(sources) do
                 local locationMeta, ids = GetObjectLocations(sourceName)
-                locations[sourceType][sourceName] = locationMeta
-                for id in ids do mapIds[id] = true end
+                if next(locationMeta) then
+                    if locations[sourceType] == nil then locations[sourceType] = {} end
+                    locations[sourceType][sourceName] = locationMeta
+                    for id in ids do mapIds[id] = true end
+                end
             end
         end
         if sourceType == "containedi" then
             for sourceName, b in pairs(sources) do
                 local locationMeta, ids = GetItemLocations(sourceName)
-                locations[sourceType][sourceName] = locationMeta
-                for id in ids do mapIds[id] = true end
+                if next(locationMeta) then
+                    if locations[sourceType] == nil then locations[sourceType] = {} end
+                    locations[sourceType][sourceName] = locationMeta
+                    for id in ids do mapIds[id] = true end
+                end
             end
         end
         if sourceType == "created" then
             for sourceName, b in pairs(sources) do
                 local locationMeta, ids = GetItemLocations(sourceName)
-                locations[sourceType][sourceName] = locationMeta
-                for id in ids do mapIds[id] = true end
+                if next(locationMeta) then
+                    if locations[sourceType] == nil then locations[sourceType] = {} end
+                    locations[sourceType][sourceName] = locationMeta
+                    for id in ids do mapIds[id] = true end
+                end
             end
         end
         if sourceType == "transforms" then
             for sourceName, b in pairs(sources) do
                 local locationMeta, ids = GetMonsterLocations(sourceName)
-                locations[sourceType][sourceName] = locationMeta
-                for id in ids do mapIds[id] = true end
+                if next(locationMeta) then
+                    if locations[sourceType] == nil then locations[sourceType] = {} end
+                    locations[sourceType][sourceName] = locationMeta
+                    for id in ids do mapIds[id] = true end
+                end
             end
         end
         if sourceType == "transformedby" then
             for sourceName, b in pairs(sources) do
                 local locationMeta, ids = GetItemLocations(sourceName)
-                locations[sourceType][sourceName] = locationMeta
-                for id in ids do mapIds[id] = true end
+                if next(locationMeta) then
+                    if locations[sourceType] == nil then locations[sourceType] = {} end
+                    locations[sourceType][sourceName] = locationMeta
+                    for id in ids do mapIds[id] = true end
+                end
             end
         end
         if sourceType == "openedby" then
             for sourceName, b in pairs(sources) do
                 local locationMeta, ids = GetItemLocations(sourceName)
-                locations[sourceType][sourceName] = locationMeta
-                --for id in ids do mapIds[id] = true end
+                if next(locationMeta) then
+                    if locations[sourceType] == nil then locations[sourceType] = {} end
+                    locations[sourceType][sourceName] = locationMeta
+                    --for id in ids do mapIds[id] = true end
+                end
             end
         end
         if sourceType == "locations" then
+            local added = false
             for i, location in pairs(sources) do
-                table.insert(locations[sourceType], location)
+                if QuestieZoneIDLookup[location[1]] then
+                    if locations[sourceType] == nil then locations[sourceType] = {} end
+                    table.insert(locations[sourceType], location)
+                    if added == false then
+                        mapIds[location[1]] = true -- todo remove this if monster locations get fixed
+                        added = true
+                    end
+                else
+                    --sources[i] = nil
+                end
                 --mapIds[location[1]] = true -- todo uncomment this if monster locations get fixed
             end
-            mapIds[sources[1][1]] = true -- todo remove this if monster locations get fixed
         end
     end
     return locations, mapIds
