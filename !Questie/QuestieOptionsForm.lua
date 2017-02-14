@@ -199,74 +199,74 @@ function Questie:OptionsForm_SettingOnEnter(SettingsName)
     QuestieOptionsToolTip:SetOwner(this, "ANCHOR_RIGHT", -(this:GetWidth() / 2), 10)
 
     if(SettingsName == "ArrowEnabled") then
-        QuestieOptionsToolTip:AddLine("Quest Arrow", 1, 1, 0)
+        QuestieOptionsToolTip:AddLine("Quest Arrow (default=true)", 1, 1, 0)
 
     elseif(SettingsName == "AlwaysShowQuests") then
-        QuestieOptionsToolTip:AddLine("Always show quests and objectives", 1, 1, 0)
+        QuestieOptionsToolTip:AddLine("Always show quests and objectives (default=true)", 1, 1, 0)
 
     elseif(SettingsName == "BoldColors") then
-        QuestieOptionsToolTip:AddLine("QuestTracker Alternate Colors", 1, 1, 0)
+        QuestieOptionsToolTip:AddLine("QuestTracker Alternate Colors (default=false)", 1, 1, 0)
 
     elseif(SettingsName == "ClusterQuests") then
-        QuestieOptionsToolTip:AddLine("Cluster nearby quests together", 1, 1, 0)
+        QuestieOptionsToolTip:AddLine("Cluster nearby quests together (default=true)", 1, 1, 0)
 
     elseif(SettingsName == "CorpseArrow") then
-        QuestieOptionsToolTip:AddLine("Displays an arrow to your corpse", 1, 1, 0)
+        QuestieOptionsToolTip:AddLine("Displays an arrow to your corpse (default=true)", 1, 1, 0)
 
     elseif(SettingsName == "HideMinimapIcons") then
-        QuestieOptionsToolTip:AddLine("Hides quest starter icons on mini map only", 1, 1, 0)
+        QuestieOptionsToolTip:AddLine("Hides quest starter icons on mini map only (default=false)", 1, 1, 0)
 
     elseif(SettingsName == "HideObjectives") then
-        QuestieOptionsToolTip:AddLine("Objective Icons", 1, 1, 0)
+        QuestieOptionsToolTip:AddLine("Objective Icons (default=false)", 1, 1, 0)
 
     elseif(SettingsName == "MaxLevelFilter") then
-        QuestieOptionsToolTip:AddLine("Max-Level Filter", 1, 1, 0)
+        QuestieOptionsToolTip:AddLine("Max-Level Filter (default=false)", 1, 1, 0)
 
     elseif(SettingsName == "MaxShowLevel") then
         QuestieOptionsToolTip:AddLine("Hides quests until <X> levels above players level (default=3)", 1, 1, 0)
 
     elseif(SettingsName == "MinLevelFilter") then
-        QuestieOptionsToolTip:AddLine("Min-Level Filter", 1, 1, 0)
+        QuestieOptionsToolTip:AddLine("Min-Level Filter (default=false)", 1, 1, 0)
 
     elseif(SettingsName == "MinShowLevel") then
         QuestieOptionsToolTip:AddLine("Hides quests <X> levels below players level (default=5)", 1, 1, 0)
 
     elseif(SettingsName == "ResizeWorldmap") then
-        QuestieOptionsToolTip:AddLine("Resizes the Worldmap", 1, 1, 0)
+        QuestieOptionsToolTip:AddLine("Resizes the Worldmap (default=false)", 1, 1, 0)
         QuestieOptionsToolTip:AddLine("Requires ReloadUI", 1, 0, 0)
 
     elseif(SettingsName == "ShowMapAids") then
-        QuestieOptionsToolTip:AddLine("World/Minimap icons", 1, 1, 0)
+        QuestieOptionsToolTip:AddLine("World/Minimap icons (default=true)", 1, 1, 0)
 
     elseif(SettingsName == "ShowProfessionQuests") then
-        QuestieOptionsToolTip:AddLine("Profession quests", 1, 1, 0)
+        QuestieOptionsToolTip:AddLine("Profession quests (default=false)", 1, 1, 0)
 
     elseif(SettingsName == "ShowToolTips") then
-        QuestieOptionsToolTip:AddLine("Always show quest and objective tool tips", 1, 1, 0)
+        QuestieOptionsToolTip:AddLine("Always show quest and objective tool tips (default=true)", 1, 1, 0)
         QuestieOptionsToolTip:AddLine("Requires ReloadUI", 1, 0, 0)
 
     elseif(SettingsName == "ShowTrackerHeader") then
-        QuestieOptionsToolTip:AddLine("Displays a header above the quest tracker", 1, 1, 0)
+        QuestieOptionsToolTip:AddLine("Displays a header above the quest tracker (default=false)", 1, 1, 0)
         QuestieOptionsToolTip:AddLine("Requires ReloadUI", 1, 0, 0)
 
     elseif(SettingsName == "TrackerAlpha") then
-        QuestieOptionsToolTip:AddLine("QuestTracker background alpha level (default=4)", 1, 1, 0)
+        QuestieOptionsToolTip:AddLine("QuestTracker background alpha level (default=0.4)", 1, 1, 0)
         QuestieOptionsToolTip:AddLine("Requires ReloadUI", 1, 0, 0)
 
     elseif(SettingsName == "TrackerBackground") then
-        QuestieOptionsToolTip:AddLine("QuestTracker background will always remain on", 1, 1, 0)
+        QuestieOptionsToolTip:AddLine("QuestTracker background will always remain on (default=false)", 1, 1, 0)
         QuestieOptionsToolTip:AddLine("Requires ReloadUI", 1, 0, 0)
 
     elseif(SettingsName == "TrackerEnabled") then
-        QuestieOptionsToolTip:AddLine("QuestTracker", 1, 1, 0)
+        QuestieOptionsToolTip:AddLine("QuestTracker (default=true)", 1, 1, 0)
         QuestieOptionsToolTip:AddLine("Requires ReloadUI", 1, 0, 0)
 
     elseif(SettingsName == "TrackerList") then
-        QuestieOptionsToolTip:AddLine("Lists quests [Enabled] = Bottom->Up, [Disabled] = Top->Down", 1, 1, 0)
+        QuestieOptionsToolTip:AddLine("Lists quests [True] = Bottom->Up, [False] = Top->Down (default=false)", 1, 1, 0)
         QuestieOptionsToolTip:AddLine("Requires ReloadUI", 1, 0, 0)
 
     elseif(SettingsName == "TrackerScale") then
-        QuestieOptionsToolTip:AddLine("QuestTracker Size", 1, 1, 0)
+        QuestieOptionsToolTip:AddLine("QuestTracker Size (default=1)", 1, 1, 0)
         QuestieOptionsToolTip:AddLine("Requires ReloadUI", 1, 0, 0)
     end
 
