@@ -77,7 +77,7 @@
         </Anchors>
         <Scripts>
           <OnClick>Questie:OptionsForm_ApplyOptions()
-</OnClick>
+          </OnClick>
         </Scripts>
         <NormalTexture file="Interface\Buttons\UI-Panel-Button-Up">
           <TexCoords left="0" right="0.625" top="0" bottom="0.6875" />
@@ -105,7 +105,7 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="152" y="-225" />
+              <AbsDimension x="152" y="-339" />
             </Offset>
           </Anchor>
         </Anchors>
@@ -120,6 +120,14 @@
             <AbsValue val="16" />
           </EdgeSize>
         </Backdrop>
+        <Scripts>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("MaxShowLevel")
+
+          </OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()
+
+          </OnLeave>
+        </Scripts>
         <FontString font="Fonts\ARIALN.TTF">
           <FontHeight>
             <AbsValue val="14" />
@@ -137,55 +145,6 @@
           <AbsInset left="8" right="8" top="0" bottom="0" />
         </TextInsets>
       </EditBox>
-      <CheckButton name="$parentAlwaysShowLevelCheck">
-        <!--<FrameSkin skinid="f15d4970-d66d-444e-bb2d-1ad102c87fed" frameid="f15d4974-d66d-444e-bb2d-1ad102c87fed" />-->
-        <Size>
-          <AbsDimension x="32" y="32" />
-        </Size>
-        <Anchors>
-          <Anchor point="TOPLEFT">
-            <Offset>
-              <AbsDimension x="152" y="-35" />
-            </Offset>
-          </Anchor>
-        </Anchors>
-        <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
-        <PushedTexture file="Interface\Buttons\UI-CheckBox-Down" />
-        <DisabledTexture />
-        <HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD" />
-        <PushedTextOffset x="0" y="0" />
-        <CheckedTexture file="Interface\Buttons\UI-CheckBox-Check" />
-        <DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled" />
-      </CheckButton>
-      <Frame name="$parentAlwaysShowLevelLabel">
-        <!--<FrameSkin skinid="f15d4970-d66d-444e-bb2d-1ad102c87fed" frameid="f15d4978-d66d-444e-bb2d-1ad102c87fed" />-->
-        <Size>
-          <AbsDimension x="128" y="17" />
-        </Size>
-        <Anchors>
-          <Anchor point="TOPLEFT">
-            <Offset>
-              <AbsDimension x="18" y="-43" />
-            </Offset>
-          </Anchor>
-        </Anchors>
-        <Layers>
-          <Layer>
-            <FontString name="$parentLabel" setAllPoints="true" font="Fonts\FRIZQT__.TTF" text="Always Show Level">
-              <FontHeight>
-                <AbsValue val="12" />
-              </FontHeight>
-              <Color r="1" g="0.8196079" b="0" />
-              <Shadow>
-                <Color r="0" g="0" b="0" />
-                <Offset>
-                  <AbsDimension x="1" y="-1" />
-                </Offset>
-              </Shadow>
-            </FontString>
-          </Layer>
-        </Layers>
-      </Frame>
       <CheckButton name="$parentAlwaysShowQuestsCheck">
         <!--<FrameSkin skinid="f15d4970-d66d-444e-bb2d-1ad102c87fed" frameid="f15d4974-d66d-444e-bb2d-1ad102c87fed" />-->
         <Size>
@@ -198,6 +157,14 @@
             </Offset>
           </Anchor>
         </Anchors>
+        <Scripts>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("AlwaysShowQuests")
+
+          </OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()
+
+          </OnLeave>
+        </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
         <PushedTexture file="Interface\Buttons\UI-CheckBox-Down" />
         <DisabledTexture />
@@ -234,6 +201,14 @@
             </FontString>
           </Layer>
         </Layers>
+        <Scripts>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("AlwaysShowQuests")
+
+          </OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()
+
+          </OnLeave>
+        </Scripts>
       </Frame>
       <CheckButton name="$parentArrowEnabledCheck">
         <!--<FrameSkin skinid="f15d4970-d66d-444e-bb2d-1ad102c87fed" frameid="f15d4974-d66d-444e-bb2d-1ad102c87fed" />-->
@@ -243,10 +218,18 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="152" y="-111" />
+              <AbsDimension x="152" y="-35" />
             </Offset>
           </Anchor>
         </Anchors>
+        <Scripts>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("ArrowEnabled")
+
+          </OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()
+
+          </OnLeave>
+        </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
         <PushedTexture file="Interface\Buttons\UI-CheckBox-Down" />
         <DisabledTexture />
@@ -263,7 +246,7 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="18" y="-119" />
+              <AbsDimension x="18" y="-43" />
             </Offset>
           </Anchor>
         </Anchors>
@@ -283,6 +266,14 @@
             </FontString>
           </Layer>
         </Layers>
+        <Scripts>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("ArrowEnabled")
+
+          </OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()
+
+          </OnLeave>
+        </Scripts>
       </Frame>
       <CheckButton name="$parentBoldColorsCheck">
         <!--<FrameSkin skinid="f15d4970-d66d-444e-bb2d-1ad102c87fed" frameid="f15d4974-d66d-444e-bb2d-1ad102c87fed" />-->
@@ -292,10 +283,18 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="152" y="-149" />
+              <AbsDimension x="152" y="-111" />
             </Offset>
           </Anchor>
         </Anchors>
+        <Scripts>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("BoldColors")
+
+          </OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()
+
+          </OnLeave>
+        </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
         <PushedTexture file="Interface\Buttons\UI-CheckBox-Down" />
         <DisabledTexture />
@@ -312,7 +311,7 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="18" y="-157" />
+              <AbsDimension x="18" y="-119" />
             </Offset>
           </Anchor>
         </Anchors>
@@ -332,6 +331,14 @@
             </FontString>
           </Layer>
         </Layers>
+        <Scripts>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("BoldColors")
+
+          </OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()
+
+          </OnLeave>
+        </Scripts>
       </Frame>
       <CheckButton name="$parentMaxLevelFilterCheck">
         <!--<FrameSkin skinid="f15d4970-d66d-444e-bb2d-1ad102c87fed" frameid="f15d4974-d66d-444e-bb2d-1ad102c87fed" />-->
@@ -341,10 +348,18 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="152" y="-187" />
+              <AbsDimension x="152" y="-301" />
             </Offset>
           </Anchor>
         </Anchors>
+        <Scripts>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("MaxLevelFilter")
+
+          </OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()
+
+          </OnLeave>
+        </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
         <PushedTexture file="Interface\Buttons\UI-CheckBox-Down" />
         <DisabledTexture />
@@ -361,7 +376,7 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="18" y="-195" />
+              <AbsDimension x="18" y="-309" />
             </Offset>
           </Anchor>
         </Anchors>
@@ -381,6 +396,14 @@
             </FontString>
           </Layer>
         </Layers>
+        <Scripts>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("MaxLevelFilter")
+
+          </OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()
+
+          </OnLeave>
+        </Scripts>
       </Frame>
       <Frame name="$parentMaxShowLevelLabel">
         <!--<FrameSkin skinid="f15d4970-d66d-444e-bb2d-1ad102c87fed" frameid="f15d4978-d66d-444e-bb2d-1ad102c87fed" />-->
@@ -390,7 +413,7 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="18" y="-225" />
+              <AbsDimension x="18" y="-339" />
             </Offset>
           </Anchor>
         </Anchors>
@@ -410,6 +433,14 @@
             </FontString>
           </Layer>
         </Layers>
+        <Scripts>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("MaxShowLevel")
+
+          </OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()
+
+          </OnLeave>
+        </Scripts>
       </Frame>
       <CheckButton name="$parentMinLevelFilterCheck">
         <!--<FrameSkin skinid="f15d4970-d66d-444e-bb2d-1ad102c87fed" frameid="f15d4974-d66d-444e-bb2d-1ad102c87fed" />-->
@@ -419,10 +450,18 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="152" y="-263" />
+              <AbsDimension x="152" y="-377" />
             </Offset>
           </Anchor>
         </Anchors>
+        <Scripts>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("MinLevelFilter")
+
+          </OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()
+
+          </OnLeave>
+        </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
         <PushedTexture file="Interface\Buttons\UI-CheckBox-Down" />
         <DisabledTexture />
@@ -439,7 +478,7 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="18" y="-271" />
+              <AbsDimension x="18" y="-385" />
             </Offset>
           </Anchor>
         </Anchors>
@@ -459,6 +498,14 @@
             </FontString>
           </Layer>
         </Layers>
+        <Scripts>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("MinLevelFilter")
+
+          </OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()
+
+          </OnLeave>
+        </Scripts>
       </Frame>
       <Frame name="$parentMinShowLevelLabel">
         <!--<FrameSkin skinid="f15d4970-d66d-444e-bb2d-1ad102c87fed" frameid="f15d4978-d66d-444e-bb2d-1ad102c87fed" />-->
@@ -468,7 +515,7 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="18" y="-301" />
+              <AbsDimension x="18" y="-415" />
             </Offset>
           </Anchor>
         </Anchors>
@@ -488,6 +535,14 @@
             </FontString>
           </Layer>
         </Layers>
+        <Scripts>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("MinShowLevel")
+
+          </OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()
+
+          </OnLeave>
+        </Scripts>
       </Frame>
       <EditBox name="$parentMinShowLevelEdit" letters="2" numeric="true" autoFocus="false">
         <!--<FrameSkin skinid="f15d4970-d66d-444e-bb2d-1ad102c87fed" frameid="f15d4975-d66d-444e-bb2d-1ad102c87fed" />-->
@@ -497,7 +552,7 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="152" y="-301" />
+              <AbsDimension x="152" y="-415" />
             </Offset>
           </Anchor>
         </Anchors>
@@ -512,6 +567,14 @@
             <AbsValue val="16" />
           </EdgeSize>
         </Backdrop>
+        <Scripts>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("MinShowLevel")
+
+          </OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()
+
+          </OnLeave>
+        </Scripts>
         <FontString font="Fonts\ARIALN.TTF">
           <FontHeight>
             <AbsValue val="14" />
@@ -537,7 +600,7 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="18" y="-339" />
+              <AbsDimension x="208" y="-73" />
             </Offset>
           </Anchor>
         </Anchors>
@@ -557,6 +620,14 @@
             </FontString>
           </Layer>
         </Layers>
+        <Scripts>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("ShowMapAids")
+
+          </OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()
+
+          </OnLeave>
+        </Scripts>
       </Frame>
       <Frame name="$parentShowProfessionQuestsLabel">
         <!--<FrameSkin skinid="f15d4970-d66d-444e-bb2d-1ad102c87fed" frameid="f15d4978-d66d-444e-bb2d-1ad102c87fed" />-->
@@ -566,7 +637,7 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="18" y="-377" />
+              <AbsDimension x="208" y="-111" />
             </Offset>
           </Anchor>
         </Anchors>
@@ -586,6 +657,14 @@
             </FontString>
           </Layer>
         </Layers>
+        <Scripts>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("ShowProfessionQuests")
+
+          </OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()
+
+          </OnLeave>
+        </Scripts>
       </Frame>
       <Frame name="$parentShowTrackerHeaderLabel">
         <!--<FrameSkin skinid="f15d4970-d66d-444e-bb2d-1ad102c87fed" frameid="f15d4978-d66d-444e-bb2d-1ad102c87fed" />-->
@@ -595,7 +674,7 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="208" y="-35" />
+              <AbsDimension x="208" y="-187" />
             </Offset>
           </Anchor>
         </Anchors>
@@ -615,6 +694,14 @@
             </FontString>
           </Layer>
         </Layers>
+        <Scripts>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("ShowTrackerHeader")
+
+          </OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()
+
+          </OnLeave>
+        </Scripts>
       </Frame>
       <Frame name="$parentShowToolTipsLabel">
         <!--<FrameSkin skinid="f15d4970-d66d-444e-bb2d-1ad102c87fed" frameid="f15d4978-d66d-444e-bb2d-1ad102c87fed" />-->
@@ -624,7 +711,7 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="208" y="-73" />
+              <AbsDimension x="208" y="-149" />
             </Offset>
           </Anchor>
         </Anchors>
@@ -644,6 +731,14 @@
             </FontString>
           </Layer>
         </Layers>
+        <Scripts>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("ShowToolTips")
+
+          </OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()
+
+          </OnLeave>
+        </Scripts>
       </Frame>
       <Frame name="$parentTrackerEnabledLabel">
         <!--<FrameSkin skinid="f15d4970-d66d-444e-bb2d-1ad102c87fed" frameid="f15d4978-d66d-444e-bb2d-1ad102c87fed" />-->
@@ -653,7 +748,7 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="208" y="-111" />
+              <AbsDimension x="208" y="-301" />
             </Offset>
           </Anchor>
         </Anchors>
@@ -673,6 +768,14 @@
             </FontString>
           </Layer>
         </Layers>
+        <Scripts>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("TrackerEnabled")
+
+          </OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()
+
+          </OnLeave>
+        </Scripts>
       </Frame>
       <Frame name="$parentTrackerListLabel">
         <!--<FrameSkin skinid="f15d4970-d66d-444e-bb2d-1ad102c87fed" frameid="f15d4978-d66d-444e-bb2d-1ad102c87fed" />-->
@@ -682,7 +785,7 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="208" y="-149" />
+              <AbsDimension x="208" y="-339" />
             </Offset>
           </Anchor>
         </Anchors>
@@ -702,6 +805,14 @@
             </FontString>
           </Layer>
         </Layers>
+        <Scripts>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("TrackerList")
+
+          </OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()
+
+          </OnLeave>
+        </Scripts>
       </Frame>
       <EditBox name="$parentTrackerScaleEdit" letters="4" autoFocus="false">
         <!--<FrameSkin skinid="f15d4970-d66d-444e-bb2d-1ad102c87fed" frameid="f15d4975-d66d-444e-bb2d-1ad102c87fed" />-->
@@ -711,7 +822,7 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="342" y="-187" />
+              <AbsDimension x="342" y="-377" />
             </Offset>
           </Anchor>
         </Anchors>
@@ -726,6 +837,14 @@
             <AbsValue val="16" />
           </EdgeSize>
         </Backdrop>
+        <Scripts>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("TrackerScale")
+
+          </OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()
+
+          </OnLeave>
+        </Scripts>
         <FontString font="Fonts\ARIALN.TTF">
           <FontHeight>
             <AbsValue val="14" />
@@ -751,7 +870,7 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="208" y="-187" />
+              <AbsDimension x="208" y="-377" />
             </Offset>
           </Anchor>
         </Anchors>
@@ -771,6 +890,14 @@
             </FontString>
           </Layer>
         </Layers>
+        <Scripts>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("TrackerScale")
+
+          </OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()
+
+          </OnLeave>
+        </Scripts>
       </Frame>
       <Frame name="$parentTrackerBackgroundLabel">
         <!--<FrameSkin skinid="f15d4970-d66d-444e-bb2d-1ad102c87fed" frameid="f15d4978-d66d-444e-bb2d-1ad102c87fed" />-->
@@ -780,7 +907,7 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="208" y="-225" />
+              <AbsDimension x="208" y="-263" />
             </Offset>
           </Anchor>
         </Anchors>
@@ -800,6 +927,14 @@
             </FontString>
           </Layer>
         </Layers>
+        <Scripts>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("TrackerBackground")
+
+          </OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()
+
+          </OnLeave>
+        </Scripts>
       </Frame>
       <EditBox name="$parentTrackerAlphaEdit" letters="4" autoFocus="false">
         <!--<FrameSkin skinid="f15d4970-d66d-444e-bb2d-1ad102c87fed" frameid="f15d4975-d66d-444e-bb2d-1ad102c87fed" />-->
@@ -809,7 +944,7 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="342" y="-263" />
+              <AbsDimension x="342" y="-225" />
             </Offset>
           </Anchor>
         </Anchors>
@@ -824,6 +959,14 @@
             <AbsValue val="16" />
           </EdgeSize>
         </Backdrop>
+        <Scripts>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("TrackerAlpha")
+
+          </OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()
+
+          </OnLeave>
+        </Scripts>
         <FontString font="Fonts\ARIALN.TTF">
           <FontHeight>
             <AbsValue val="14" />
@@ -849,7 +992,7 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="208" y="-263" />
+              <AbsDimension x="208" y="-225" />
             </Offset>
           </Anchor>
         </Anchors>
@@ -869,6 +1012,14 @@
             </FontString>
           </Layer>
         </Layers>
+        <Scripts>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("TrackerAlpha")
+
+          </OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()
+
+          </OnLeave>
+        </Scripts>
       </Frame>
       <Frame name="$parentResizeWorldmapLabel">
         <!--<FrameSkin skinid="f15d4970-d66d-444e-bb2d-1ad102c87fed" frameid="f15d4978-d66d-444e-bb2d-1ad102c87fed" />-->
@@ -878,7 +1029,7 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="208" y="-301" />
+              <AbsDimension x="208" y="-35" />
             </Offset>
           </Anchor>
         </Anchors>
@@ -898,6 +1049,14 @@
             </FontString>
           </Layer>
         </Layers>
+        <Scripts>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("ResizeWorldmap")
+
+          </OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()
+
+          </OnLeave>
+        </Scripts>
       </Frame>
       <Frame name="$parentHideMinimapIconsLabel">
         <!--<FrameSkin skinid="f15d4970-d66d-444e-bb2d-1ad102c87fed" frameid="f15d4978-d66d-444e-bb2d-1ad102c87fed" />-->
@@ -907,7 +1066,7 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="208" y="-339" />
+              <AbsDimension x="18" y="-225" />
             </Offset>
           </Anchor>
         </Anchors>
@@ -927,6 +1086,14 @@
             </FontString>
           </Layer>
         </Layers>
+        <Scripts>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("HideMinimapIcons")
+
+          </OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()
+
+          </OnLeave>
+        </Scripts>
       </Frame>
       <Frame name="$parentHideObjectivesLabel">
         <!--<FrameSkin skinid="f15d4970-d66d-444e-bb2d-1ad102c87fed" frameid="f15d4978-d66d-444e-bb2d-1ad102c87fed" />-->
@@ -936,7 +1103,7 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="208" y="-377" />
+              <AbsDimension x="18" y="-263" />
             </Offset>
           </Anchor>
         </Anchors>
@@ -956,6 +1123,14 @@
             </FontString>
           </Layer>
         </Layers>
+        <Scripts>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("HideObjectives")
+
+          </OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()
+
+          </OnLeave>
+        </Scripts>
       </Frame>
       <Frame name="$parentVersionLabel">
         <!--<FrameSkin skinid="f15d4970-d66d-444e-bb2d-1ad102c87fed" frameid="f15d4978-d66d-444e-bb2d-1ad102c87fed" />-->
@@ -994,10 +1169,18 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="152" y="-339" />
+              <AbsDimension x="342" y="-73" />
             </Offset>
           </Anchor>
         </Anchors>
+        <Scripts>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("ShowMapAids")
+
+          </OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()
+
+          </OnLeave>
+        </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
         <PushedTexture file="Interface\Buttons\UI-CheckBox-Down" />
         <DisabledTexture />
@@ -1014,10 +1197,18 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="152" y="-377" />
+              <AbsDimension x="342" y="-111" />
             </Offset>
           </Anchor>
         </Anchors>
+        <Scripts>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("ShowProfessionQuests")
+
+          </OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()
+
+          </OnLeave>
+        </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
         <PushedTexture file="Interface\Buttons\UI-CheckBox-Down" />
         <DisabledTexture />
@@ -1034,10 +1225,18 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="342" y="-35" />
+              <AbsDimension x="342" y="-187" />
             </Offset>
           </Anchor>
         </Anchors>
+        <Scripts>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("ShowTrackerHeader")
+
+          </OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()
+
+          </OnLeave>
+        </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
         <PushedTexture file="Interface\Buttons\UI-CheckBox-Down" />
         <DisabledTexture />
@@ -1054,10 +1253,18 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="342" y="-73" />
+              <AbsDimension x="342" y="-149" />
             </Offset>
           </Anchor>
         </Anchors>
+        <Scripts>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("ShowToolTips")
+
+          </OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()
+
+          </OnLeave>
+        </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
         <PushedTexture file="Interface\Buttons\UI-CheckBox-Down" />
         <DisabledTexture />
@@ -1074,10 +1281,18 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="342" y="-111" />
+              <AbsDimension x="342" y="-301" />
             </Offset>
           </Anchor>
         </Anchors>
+        <Scripts>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("TrackerEnabled")
+
+          </OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()
+
+          </OnLeave>
+        </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
         <PushedTexture file="Interface\Buttons\UI-CheckBox-Down" />
         <DisabledTexture />
@@ -1094,10 +1309,18 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="342" y="-149" />
+              <AbsDimension x="342" y="-339" />
             </Offset>
           </Anchor>
         </Anchors>
+        <Scripts>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("TrackerList")
+
+          </OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()
+
+          </OnLeave>
+        </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
         <PushedTexture file="Interface\Buttons\UI-CheckBox-Down" />
         <DisabledTexture />
@@ -1114,10 +1337,18 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="342" y="-225" />
+              <AbsDimension x="342" y="-263" />
             </Offset>
           </Anchor>
         </Anchors>
+        <Scripts>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("TrackerBackground")
+
+          </OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()
+
+          </OnLeave>
+        </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
         <PushedTexture file="Interface\Buttons\UI-CheckBox-Down" />
         <DisabledTexture />
@@ -1134,10 +1365,18 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="342" y="-301" />
+              <AbsDimension x="342" y="-35" />
             </Offset>
           </Anchor>
         </Anchors>
+        <Scripts>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("ResizeWorldmap")
+
+          </OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()
+
+          </OnLeave>
+        </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
         <PushedTexture file="Interface\Buttons\UI-CheckBox-Down" />
         <DisabledTexture />
@@ -1154,10 +1393,18 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="342" y="-339" />
+              <AbsDimension x="152" y="-225" />
             </Offset>
           </Anchor>
         </Anchors>
+        <Scripts>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("HideMinimapIcons")
+
+          </OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()
+
+          </OnLeave>
+        </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
         <PushedTexture file="Interface\Buttons\UI-CheckBox-Down" />
         <DisabledTexture />
@@ -1174,10 +1421,18 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="342" y="-377" />
+              <AbsDimension x="152" y="-263" />
             </Offset>
           </Anchor>
         </Anchors>
+        <Scripts>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("HideObjectives")
+
+          </OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()
+
+          </OnLeave>
+        </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
         <PushedTexture file="Interface\Buttons\UI-CheckBox-Down" />
         <DisabledTexture />
@@ -1194,7 +1449,7 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="18" y="-415" />
+              <AbsDimension x="18" y="-187" />
             </Offset>
           </Anchor>
         </Anchors>
@@ -1214,6 +1469,14 @@
             </FontString>
           </Layer>
         </Layers>
+        <Scripts>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("CorpseArrow")
+
+          </OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()
+
+          </OnLeave>
+        </Scripts>
       </Frame>
       <CheckButton name="$parentCorpseArrowCheck">
         <!--<FrameSkin skinid="f15d4970-d66d-444e-bb2d-1ad102c87fed" frameid="f15d4974-d66d-444e-bb2d-1ad102c87fed" />-->
@@ -1223,10 +1486,18 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="152" y="-415" />
+              <AbsDimension x="152" y="-187" />
             </Offset>
           </Anchor>
         </Anchors>
+        <Scripts>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("CorpseArrow")
+
+          </OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()
+
+          </OnLeave>
+        </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
         <PushedTexture file="Interface\Buttons\UI-CheckBox-Down" />
         <DisabledTexture />
@@ -1243,7 +1514,7 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="208" y="-415" />
+              <AbsDimension x="18" y="-149" />
             </Offset>
           </Anchor>
         </Anchors>
@@ -1263,6 +1534,14 @@
             </FontString>
           </Layer>
         </Layers>
+        <Scripts>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("ClusterQuests")
+
+          </OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()
+
+          </OnLeave>
+        </Scripts>
       </Frame>
       <CheckButton name="$parentClusterQuestsCheck">
         <!--<FrameSkin skinid="f15d4970-d66d-444e-bb2d-1ad102c87fed" frameid="f15d4974-d66d-444e-bb2d-1ad102c87fed" />-->
@@ -1272,10 +1551,18 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="342" y="-415" />
+              <AbsDimension x="152" y="-149" />
             </Offset>
           </Anchor>
         </Anchors>
+        <Scripts>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("ClusterQuests")
+
+          </OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()
+
+          </OnLeave>
+        </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
         <PushedTexture file="Interface\Buttons\UI-CheckBox-Down" />
         <DisabledTexture />
@@ -1286,4 +1573,5 @@
       </CheckButton>
     </Frames>
   </Frame>
+  <GameTooltip name="QuestieOptionsToolTip" inherits="GameTooltipTemplate" parent="UIParent" hidden="true"/>
 </Ui>
