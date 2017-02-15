@@ -514,7 +514,7 @@ function Questie_AvailableQuestClick()
             if c == 0 then newC = this.data.continent
             else newZ = this.data.zoneid end
         end
-        if arg1 == "RightButton" then
+        if arg1 == "RightButton" or arg1 == "MiddleButton" then
             if z == 0 then newC = 0
             else newZ = 0 end
         end
@@ -622,7 +622,7 @@ function Questie:CreateBlankFrameNote(frame)
     f:SetScript("OnEnter", Questie_Tooltip_OnEnter); --Script Toolip
     f:SetScript("OnLeave", function() if(WorldMapTooltip) then WorldMapTooltip:Hide() end if(GameTooltip) then GameTooltip:Hide() end end) --Script Exit Tooltip
     f:SetScript("OnClick", Questie_AvailableQuestClick);
-    f:RegisterForClicks("LeftButtonDown", "RightButtonDown");
+    f:RegisterForClicks("LeftButtonDown", "RightButtonDown", "MiddleButtonDown");
     CREATED_NOTE_FRAMES = CREATED_NOTE_FRAMES+1;
     table.insert(FramePool, f);
     table.insert(AllFrames, f);
