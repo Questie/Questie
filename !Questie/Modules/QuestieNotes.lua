@@ -279,8 +279,8 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 
             local prevQuestLogSelection = QGet_QuestLogSelection()
             for questHash, quest in pairs(QuestieHandledQuests) do
-                local logid = Questie:GetQuestIdFromHash(questHash)
-                QSelect_QuestLogEntry(logid)
+                local QuestLogID = Questie:GetQuestIdFromHash(questHash)
+                QSelect_QuestLogEntry(QuestLogID)
                 local drawnQuestTitle = false
                 for objectiveid, objectiveInfo in pairs(quest.objectives) do
                     local objectivePath = deepcopy(objectiveInfo.path)
