@@ -506,6 +506,25 @@ end
 -- Force a quest to be finished via the Minimap or Worldmap (Shift-Click icon - NO confirmation)
 ---------------------------------------------------------------------------------------------------
 function Questie_AvailableQuestClick()
+    if this.type == "WorldMapNote" then
+        local c, z = GetCurrentMapContinent(), GetCurrentMapZone()
+        local newC, newZ = c, z
+
+        if arg1 == "LeftButton" then
+            if c == 0 then newC = this.data.continent
+            else newZ = this.data.zoneid end
+        end
+        if arg1 == "RightButton" then
+            if z == 0 then newC = 0
+            else newZ = 0 end
+        end
+
+        if newC ~= c or newZ ~= z then
+            SetMapZoom(newC, newZ)
+            return
+        end
+    end
+
     local Tooltip = GameTooltip
     if(this.type == "WorldMapNote") then
         Tooltip = WorldMapTooltip
