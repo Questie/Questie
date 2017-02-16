@@ -1038,21 +1038,17 @@ function Questie:SetAvailableQuests()
     local c, z = GetCurrentMapContinent(), GetCurrentMapZone();
     local mapFileName = GetMapInfo();
     local quests = nil;
-    local minlevel = QuestieConfig.minShowLevel
-    local maxlevel = QuestieConfig.maxShowLevel
-    -- minLevelFilter: ON / maxLevelFilter: OFF
-    if QuestieConfig.minLevelFilter and not QuestieConfig.maxLevelFilter then
-        quests = Questie:GetAvailableQuestHashes(mapFileName,(level - minlevel),level);
-    -- minLevelFilter: OFF / maxLevelFilter: ON
-    elseif not QuestieConfig.minLevelFilter and QuestieConfig.maxLevelFilter then
-        quests = Questie:GetAvailableQuestHashes(mapFileName,0,(level + maxlevel));
-    -- minLevelFilter: ON / maxLevelFilter: ON
-    elseif QuestieConfig.minLevelFilter and QuestieConfig.maxLevelFilter then
-        quests = Questie:GetAvailableQuestHashes(mapFileName,(level - minlevel),(level + maxlevel));
-    -- minLevelFilter: OFF / maxLevelFilter: OFF
-    elseif not QuestieConfig.minLevelFilter and not QuestieConfig.maxLevelFilter then
-        quests = Questie:GetAvailableQuestHashes(mapFileName,0,level);
+
+    local minLevel = 0
+    local maxLevel = 100
+    if QuestieConfig.minLevelFilter then
+        minLevel = level - QuestieConfig.minShowLevel
     end
+    if QuestieConfig.maxLevelFilter then
+        maxLevel = level + QuestieConfig.maxShowLevel
+    end
+    quests = Questie:GetAvailableQuestHashes(mapFileName, minLevel, maxLevel)
+
     if quests then
         for k, v in pairs(quests) do
             local icontype = "available"

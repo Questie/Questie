@@ -902,23 +902,38 @@ function Questie:GetAvailableQuestHashes(mapFileName, levelFrom, levelTo)
     local class = UnitClass("Player");
     local race = UnitRace("Player");
     local hashes = {};
-    for l=levelFrom,levelTo do
+    for l=0,100 do
         if QuestieZoneLevelMap[mapid] then
             local content = QuestieZoneLevelMap[mapid][l];
             if content then
                 for v, locationMeta in pairs(content) do
                     local qdata = QuestieHashMap[v];
+
                     if(qdata) then
-                        local requiredQuest = qdata['rq'];
-                        local requiredRaces = qdata['rr'];
-                        local requiredClasses = qdata['rc'];
-                        local requiredSkill = qdata['rs'];
-                        local valid = not QuestieSeenQuests[requiredQuest];
-                        if(requiredQuest) then valid = QuestieSeenQuests[requiredQuest]; end
-                        valid = valid and (requiredSkill == nil or QuestieConfig.showProfessionQuests);
-                        if valid then valid = valid and checkRequirements(class, race, requiredClasses,requiredRaces); end
-                        if valid and not QuestieHandledQuests[requiredQuest] and not QuestieSeenQuests[v] then
-                            hashes[v] = locationMeta
+                        local stop = false
+                        local questLevel = qdata.questLevel
+                        for x in string.gfind(questLevel, "%d+") do questLevel = x end
+                        questLevel = tonumber(questLevel)
+
+                        if QuestieConfig.minLevelFilter and questLevel < levelFrom then
+                            stop = true
+                        end
+                        if QuestieConfig.maxLevelFilter and qdata.level > levelTo then
+                            stop = true
+                        end
+
+                        if (not stop) then
+                            local requiredQuest = qdata['rq'];
+                            local requiredRaces = qdata['rr'];
+                            local requiredClasses = qdata['rc'];
+                            local requiredSkill = qdata['rs'];
+                            local valid = not QuestieSeenQuests[requiredQuest];
+                            if(requiredQuest) then valid = QuestieSeenQuests[requiredQuest]; end
+                            valid = valid and (requiredSkill == nil or QuestieConfig.showProfessionQuests);
+                            if valid then valid = valid and checkRequirements(class, race, requiredClasses,requiredRaces); end
+                            if valid and not QuestieHandledQuests[requiredQuest] and not QuestieSeenQuests[v] then
+                                hashes[v] = locationMeta
+                            end
                         end
                     end
                 end

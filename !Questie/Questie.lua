@@ -45,10 +45,10 @@ function Questie:SetupDefaults()
         ["arrowEnabled"] = true,
         ["corpseArrow"] = true,
         ["boldColors"] = false,
-        ["maxLevelFilter"] = false,
-        ["maxShowLevel"] = 3,
-        ["minLevelFilter"] = false,
-        ["minShowLevel"] = 5,
+        ["maxLevelFilter"] = true,
+        ["maxShowLevel"] = 7,
+        ["minLevelFilter"] = true,
+        ["minShowLevel"] = 4,
         ["trackerMinimize"] = false,
         ["showMapAids"] = true,
         ["showProfessionQuests"] = false,
@@ -95,18 +95,16 @@ function Questie:CheckDefaults()
         QuestieConfig.boldColors = false;
     end
     if QuestieConfig.maxLevelFilter == nil then
-        QuestieConfig.maxLevelFilter = false;
+        QuestieConfig.maxLevelFilter = true;
     end
     if QuestieConfig.maxShowLevel == nil then
-        QuestieConfig.maxShowLevel = false;
-        QuestieConfig.maxShowLevel = 3;
+        QuestieConfig.maxShowLevel = 7;
     end
     if QuestieConfig.minLevelFilter == nil then
-        QuestieConfig.minLevelFilter = false;
+        QuestieConfig.minLevelFilter = true;
     end
     if QuestieConfig.minShowLevel == nil then
-        QuestieConfig.minShowLevel = false;
-        QuestieConfig.minShowLevel = 5;
+        QuestieConfig.minShowLevel = 4;
     end
     if QuestieConfig.trackerMinimize == nil then
         QuestieConfig.trackerMinimize = false;
@@ -226,11 +224,11 @@ function Questie:ClearConfig(arg)
                 ["arrowEnabled"] = true,
                 ["corpseArrow"] = true,
                 ["boldColors"] = false,
-                ["maxLevelFilter"] = false,
-                ["maxShowLevel"] = 3,
-                ["minLevelFilter"] = false,
-                ["minShowLevel"] = 5,
-                ["trackerMinimize"] = false,
+                ["maxLevelFilter"] = true,
+                ["maxShowLevel"] = 7,
+                ["minLevelFilter"] = true,
+                ["minShowLevel"] = 4,
+                ["trackerMinimize"] = true,
                 ["showMapAids"] = true,
                 ["showProfessionQuests"] = false,
                 ["showTrackerHeader"] = false,
@@ -311,10 +309,10 @@ function Questie:NUKE(arg)
                 ["arrowEnabled"] = true,
                 ["corpseArrow"] = true,
                 ["boldColors"] = false,
-                ["maxLevelFilter"] = false,
-                ["maxShowLevel"] = 3,
-                ["minLevelFilter"] = false,
-                ["minShowLevel"] = 5,
+                ["maxLevelFilter"] = true,
+                ["maxShowLevel"] = 7,
+                ["minLevelFilter"] = true,
+                ["minShowLevel"] = 4,
                 ["trackerMinimize"] = false,
                 ["showMapAids"] = true,
                 ["showProfessionQuests"] = false,
@@ -914,7 +912,7 @@ QuestieFastSlash = {
         end
     end,
     ["minlevel"] = function()
-    -- Default: False
+    -- Default: True
         QuestieConfig.minLevelFilter = not QuestieConfig.minLevelFilter;
         if QuestieConfig.minLevelFilter then
             DEFAULT_CHAT_FRAME:AddMessage("Min-level filter on");
@@ -927,7 +925,7 @@ QuestieFastSlash = {
         end
     end,
     ["maxlevel"] = function()
-    -- Default: False
+    -- Default: True
         QuestieConfig.maxLevelFilter = not QuestieConfig.maxLevelFilter;
         if QuestieConfig.maxLevelFilter then
             DEFAULT_CHAT_FRAME:AddMessage("Max-level filter on");
@@ -940,9 +938,10 @@ QuestieFastSlash = {
         end
     end,
     ["setminlevel"] = function(args)
-    -- Default: 5 levels below current level - which is the Blizzard default
+    -- Default: 4. Quests will stop appearing when their recommended level is below your level minus 4
         if args then
             local val = tonumber(args);
+            DEFAULT_CHAT_FRAME:AddMessage("Min-Level filter set to "..val);
             QuestieConfig.minShowLevel = val;
             Questie:Toggle();
             Questie:Toggle();
@@ -951,9 +950,10 @@ QuestieFastSlash = {
         end
     end,
     ["setmaxlevel"] = function(args)
-    -- Default: Quest will not appear until current level is 3 levels above Blizzards suggested level
+    -- Default: 7. Quests will not appear until your level is 7 levels below the quest's minimum level
         if args then
             local val = tonumber(args);
+            DEFAULT_CHAT_FRAME:AddMessage("Max-Level filter set to "..val);
             QuestieConfig.maxShowLevel = val;
             Questie:Toggle();
             Questie:Toggle();
@@ -1070,8 +1070,8 @@ QuestieFastSlash = {
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie mintracker |r-- |c0000ffc0(toggle)|r Minimize or Maximize QuestieTracker", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie NUKE |r-- Resets ALL Questie data and settings", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie professions |r-- |c0000ffc0(toggle)|r Profession quests", 0.75, 0.75, 0.75);
-        DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie setmaxlevel |r|c0000ffc0<number>|r -- Hides quests until <X> levels above players level (default=3)", 0.75, 0.75, 0.75);
-        DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie setminlevel |r|c0000ffc0<number>|r -- Hides quests <X> levels below players level (default=5)", 0.75, 0.75, 0.75);
+        DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie setmaxlevel |r|c0000ffc0<number>|r -- Show quests when required level is <X> levels above players level (default=7)", 0.75, 0.75, 0.75);
+        DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie setminlevel |r|c0000ffc0<number>|r -- Show quests when recommended level is <X> levels below players level (default=4)", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie settings |r-- Displays your current toggles and settings.", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie showquests |r-- |c0000ffc0(toggle)|r Always show quests and objectives", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie tooltips |r-- |c0000ffc0(toggle)|r Always show quest and objective tool tips", 0.75, 0.75, 0.75);
@@ -1131,7 +1131,8 @@ function Questie:CurrentUserToggles()
         [19] = { "resizeWorldmap" },
         [20] = { "getVersion" },
         [21] = { "hideMinimapIcons" },
-        [22] = { "hideObjectives" }
+        [22] = { "hideObjectives" },
+        [23] = { "clusterQuests" },
     }
     if QuestieConfig then
         i = 1
