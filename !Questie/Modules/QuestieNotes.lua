@@ -436,7 +436,7 @@ function Questie_Tooltip_OnEnter()
             if (count > 1) then
                 Tooltip:AddLine(" ");
             end
-            if(data.icontype ~= "available") then
+            if(data.icontype ~= "available" and data.icontype ~= "availablesoon") then
                 local Quest = Questie:IsQuestFinished(data.questHash);
                 if not Quest then
                     local QuestLogID = Questie:GetQuestIdFromHash(data.questHash);
@@ -476,7 +476,10 @@ function Questie_Tooltip_OnEnter()
                         end
                     end
                 end
-                Tooltip:AddLine("["..QuestieHashMap[data.questHash].questLevel.."] "..QuestieHashMap[data.questHash].name.." |cFF33FF00(available)|r");
+                local questLine = "["..QuestieHashMap[data.questHash].questLevel.."] "..QuestieHashMap[data.questHash].name
+                if data.icontype == "available" then questLine = questLine.." |cFF33FF00(available)|r"
+                elseif data.icontype == "availablesoon" then questLine = questLine.." |cFFa6a6a6(not available)|r" end
+                Tooltip:AddLine(questLine);
                 Tooltip:AddLine("Min Level: |cFFa6a6a6"..QuestieHashMap[data.questHash].level.."|r",1,1,1);
                 Tooltip:AddLine("Started by: |cFFa6a6a6"..QuestieHashMap[data.questHash].startedBy.."|r",1,1,1);
                 Questie:AddPathToTooltip(Tooltip, questMeta['path'], 1)
@@ -534,9 +537,9 @@ function Questie_AvailableQuestClick()
     if (QuestieConfig.arrowEnabled == true) and (arg1 == "LeftButton") and (not IsControlKeyDown()) and (not IsShiftKeyDown()) then
         SetArrowFromIcon(this)
     end
-    if ((this.data.icontype == "available" or this.data.icontype == "complete") and IsShiftKeyDown() and Tooltip ) then
+    if ((this.data.icontype == "available" or this.data.icontype == "availablesoon" or this.data.icontype == "complete") and IsShiftKeyDown() and Tooltip ) then
         local finishQuest = function(quest)
-            if (quest.icontype == "available") then
+            if (quest.icontype == "available" or quest.icontype == "availablesoon") then
                 Questie:Toggle()
                 local hash = quest.questHash
                 local questName = "["..QuestieHashMap[hash].questLevel.."] "..QuestieHashMap[hash]['name']
@@ -575,7 +578,7 @@ function Questie_AvailableQuestClick()
 
                             Dewdrop:AddLine(
                                 'text', questName,
-                                'notClickable', quest.icontype ~= "available",
+                                'notClickable', quest.icontype ~= "available" and quest.icontype ~= "availablesoon",
                                 'icon', QuestieIcons[quest.icontype].path,
                                 'iconCoordLeft', 0,
                                 'iconCoordRight', 1,
@@ -985,7 +988,7 @@ function Questie:RecursiveCreateNotes(c, z, v, locationMeta, iconMeta, objective
                     z = MapInfo[5]
                     local icontype = iconMeta.selectedIcon
                     if icontype == nil then icontype = iconMeta.defaultIcon end
-                    if icontype == "available" then
+                    if icontype == "available" or icontype == "availablesoon" then
                         Questie:AddAvailableNoteToMap(c,z,location[2],location[3],icontype,v,-1,deepcopy(path))
                     else
                         Questie:AddNoteToMap(c,z,location[2],location[3],icontype,v,objectiveid,deepcopy(path))
@@ -1052,7 +1055,9 @@ function Questie:SetAvailableQuests()
     end
     if quests then
         for k, v in pairs(quests) do
-            Questie:RecursiveCreateNotes(c, z, k, v, {["selectedIcon"] = "available"})
+            local icontype = "available"
+            if QuestieHashMap[k].level > level then icontype = "availablesoon" end
+            Questie:RecursiveCreateNotes(c, z, k, v, {["selectedIcon"] = icontype})
         end
         Questie:debug_Print("Added Available quests: Time:",tostring((GetTime()- t)*1000).."ms", "Count:"..table.getn(quests))
     end
@@ -1363,8 +1368,8 @@ function Questie:DrawClusters(clusters, frameName, scale, frame, button)
             local questB = QuestieHashMap[b.questHash]
             return
                 (a.icontype == "complete" and b.icontype ~= "complete") or
-                (a.icontype == b.icontype and questA.level < questB.level) or
-                (a.icontype == b.icontype and questA.level == questB.level and questA.questLevel < questB.questLevel)
+                (a.icontype ~= "complete" and b.icontype ~= "complete" and questA.level < questB.level) or
+                (a.icontype ~= "complete" and b.icontype ~= "complete" and questA.level == questB.level and questA.questLevel < questB.questLevel)
         end)
         local Icon = Questie:GetBlankNoteFrame(frame)
         for j, v in pairs(cluster.points) do
@@ -1430,6 +1435,10 @@ QuestieIcons = {
     ["available"] = {
         text = "Complete",
         path = "Interface\\AddOns\\!Questie\\Icons\\available"
+    },
+    ["availablesoon"] = {
+        text = "Complete",
+        path = "Interface\\AddOns\\!Questie\\Icons\\availablesoon"
     },
     ["loot"] = {
         text = "Complete",
