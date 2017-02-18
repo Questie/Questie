@@ -9,19 +9,23 @@ function Questie:OptionsForm_Init()
     QO_hideminimapicons = getglobal(QO_FormName.."HideMinimapIconsCheck")
     QO_hideobjectives = getglobal(QO_FormName.."HideObjectivesCheck")
     QO_maxlevelfilter = getglobal(QO_FormName.."MaxLevelFilterCheck")
-    QO_maxshowlevel = getglobal(QO_FormName.."MaxShowLevelEdit")
+    QO_maxshowlevel = getglobal(QO_FormName.."MaxShowLevelSlider")
+    QO_maxshowlevel_current = getglobal(QO_FormName.."MaxShowLevelSlider".."Current")
     QO_minlevelfilter = getglobal(QO_FormName.."MinLevelFilterCheck")
-    QO_minshowlevel = getglobal(QO_FormName.."MinShowLevelEdit")
+    QO_minshowlevel = getglobal(QO_FormName.."MinShowLevelSlider")
+    QO_minshowlevel_current = getglobal(QO_FormName.."MinShowLevelSlider".."Current")
     QO_resizeworldmap = getglobal(QO_FormName.."ResizeWorldmapCheck")
     QO_showmapaids = getglobal(QO_FormName.."ShowMapAidsCheck")
     QO_showprofessionquests = getglobal(QO_FormName.."ShowProfessionQuestsCheck")
     QO_showtooltips = getglobal(QO_FormName.."ShowToolTipsCheck")
     QO_showtrackerheader = getglobal(QO_FormName.."ShowTrackerHeaderCheck")
-    QO_trackeralpha = getglobal(QO_FormName.."TrackerAlphaEdit")
     QO_trackerbackground = getglobal(QO_FormName.."TrackerBackgroundCheck")
     QO_trackerenabled = getglobal(QO_FormName.."TrackerEnabledCheck")
     QO_trackerlist = getglobal(QO_FormName.."TrackerListCheck")
-    QO_trackerscale = getglobal(QO_FormName.."TrackerScaleEdit")
+    QO_trackerscale = getglobal(QO_FormName.."TrackerScaleSlider")
+    QO_trackerscale_current = getglobal(QO_FormName.."TrackerScaleSlider".."Current")
+    QO_trackertransparency = getglobal(QO_FormName.."TrackerTransparencySlider")
+    QO_trackertransparency_current = getglobal(QO_FormName.."TrackerTransparencySlider".."Current")
     QO_versionlabel = getglobal(QO_FormName.."VersionLabel".."Label")
 end
 
@@ -44,11 +48,13 @@ function Questie:OptionsForm_Display()
 
     QO_maxlevelfilter:SetChecked(QuestieConfig["maxLevelFilter"])
 
-    QO_maxshowlevel:SetText(tostring(QuestieConfig["maxShowLevel"]))
+    QO_maxshowlevel:SetValue(QuestieConfig["maxShowLevel"])
+    QO_maxshowlevel_current:SetText(tostring(QuestieConfig["maxShowLevel"]))
 
     QO_minlevelfilter:SetChecked(QuestieConfig["minLevelFilter"])
 
-    QO_minshowlevel:SetText(tostring(QuestieConfig["minShowLevel"]))
+    QO_minshowlevel:SetValue(QuestieConfig["minShowLevel"])
+    QO_minshowlevel_current:SetText(tostring(QuestieConfig["minShowLevel"]))
 
     QO_resizeworldmap:SetChecked(QuestieConfig["resizeWorldmap"])
 
@@ -60,15 +66,17 @@ function Questie:OptionsForm_Display()
 
     QO_showtrackerheader:SetChecked(QuestieConfig["showTrackerHeader"])
 
-    QO_trackeralpha:SetText(tostring(QuestieConfig["trackerAlpha"]))
-
     QO_trackerbackground:SetChecked(QuestieConfig["trackerBackground"])
 
     QO_trackerenabled:SetChecked(QuestieConfig["trackerEnabled"])
 
     QO_trackerlist:SetChecked(QuestieConfig["trackerList"])
 
-    QO_trackerscale:SetText(tostring(QuestieConfig["trackerScale"]))
+    QO_trackerscale:SetValue(QuestieConfig["trackerScale"] * 100)
+    QO_trackerscale_current:SetText(tostring(QuestieConfig["trackerScale"] * 100).."%")
+
+    QO_trackertransparency:SetValue(100 - QuestieConfig["trackerAlpha"] * 100)
+    QO_trackertransparency_current:SetText(tostring(QuestieConfig["trackerAlpha"] * 100).."%")
 
     QO_versionlabel:SetText("Version: " .. tostring(QuestieConfig["getVersion"]))
 
@@ -92,11 +100,11 @@ function Questie:OptionsForm_ApplyOptions()
 
     QuestieConfig.maxLevelFilter = Questie:toboolean(QO_maxlevelfilter:GetChecked())
 
-    QuestieConfig.maxShowLevel = QO_maxshowlevel:GetText()
+    QuestieConfig.maxShowLevel = QO_maxshowlevel:GetValue()
 
     QuestieConfig.minLevelFilter = Questie:toboolean(QO_minlevelfilter:GetChecked())
 
-    QuestieConfig.minShowLevel = QO_minshowlevel:GetText()
+    QuestieConfig.minShowLevel = QO_minshowlevel:GetValue()
 
     QuestieConfig.showMapAids = Questie:toboolean(QO_showmapaids:GetChecked())
 
@@ -107,22 +115,22 @@ function Questie:OptionsForm_ApplyOptions()
         ["resizeWorldmap"] = QuestieConfig.resizeWorldmap,
         ["showToolTips"] = QuestieConfig.showToolTips,
         ["showTrackerHeader"] = QuestieConfig.showTrackerHeader,
-        ["trackerAlpha"] = QuestieConfig.trackerAlpha,
+        ["trackerAlpha"] = tonumber(QuestieConfig.trackerAlpha),
         ["trackerBackground"] = QuestieConfig.trackerBackground,
         ["trackerEnabled"] = QuestieConfig.trackerEnabled,
         ["trackerList"] = QuestieConfig.trackerList, -- Changes list direction, true  = bottom>top, false = top>bottom
-        ["trackerScale"] = QuestieConfig.trackerScale
+        ["trackerScale"] = tonumber(QuestieConfig.trackerScale)
     }
 
 
     QuestieConfig.resizeWorldmap = Questie:toboolean(QO_resizeworldmap:GetChecked())
     QuestieConfig.showToolTips = Questie:toboolean(QO_showtooltips:GetChecked())
     QuestieConfig.showTrackerHeader = Questie:toboolean(QO_showtrackerheader:GetChecked())
-    QuestieConfig.trackerAlpha = QO_trackeralpha:GetText()
+    QuestieConfig.trackerAlpha = tonumber((100 - QO_trackertransparency:GetValue()) / 100)
     QuestieConfig.trackerBackground = Questie:toboolean(QO_trackerbackground:GetChecked())
     QuestieConfig.trackerEnabled = Questie:toboolean(QO_trackerenabled:GetChecked())
     QuestieConfig.trackerList = Questie:toboolean(QO_trackerlist:GetChecked())
-    QuestieConfig.trackerScale = QO_trackerscale:GetText()
+    QuestieConfig.trackerScale = tonumber(QO_trackerscale:GetValue() / 100)
 
     DEFAULT_CHAT_FRAME:AddMessage("Questie Options Applied", 1, 0.75, 0)
 
@@ -249,10 +257,6 @@ function Questie:OptionsForm_SettingOnEnter(SettingsName)
         QuestieOptionsToolTip:AddLine("Displays a header above the quest tracker (default=false)", 1, 1, 0)
         QuestieOptionsToolTip:AddLine("Requires ReloadUI", 1, 0, 0)
 
-    elseif(SettingsName == "TrackerAlpha") then
-        QuestieOptionsToolTip:AddLine("QuestTracker background alpha level (default=0.4)", 1, 1, 0)
-        QuestieOptionsToolTip:AddLine("Requires ReloadUI", 1, 0, 0)
-
     elseif(SettingsName == "TrackerBackground") then
         QuestieOptionsToolTip:AddLine("QuestTracker background will always remain on (default=false)", 1, 1, 0)
         QuestieOptionsToolTip:AddLine("Requires ReloadUI", 1, 0, 0)
@@ -266,7 +270,11 @@ function Questie:OptionsForm_SettingOnEnter(SettingsName)
         QuestieOptionsToolTip:AddLine("Requires ReloadUI", 1, 0, 0)
 
     elseif(SettingsName == "TrackerScale") then
-        QuestieOptionsToolTip:AddLine("QuestTracker Size (default=1)", 1, 1, 0)
+        QuestieOptionsToolTip:AddLine("QuestTracker Size (default=100%)", 1, 1, 0)
+        QuestieOptionsToolTip:AddLine("Requires ReloadUI", 1, 0, 0)
+
+    elseif(SettingsName == "TrackerTransparency") then
+        QuestieOptionsToolTip:AddLine("QuestTracker background alpha level (default=40%)", 1, 1, 0)
         QuestieOptionsToolTip:AddLine("Requires ReloadUI", 1, 0, 0)
     end
 
@@ -275,4 +283,24 @@ end
 
 function Questie:OptionsForm_SettingOnLeave()
     QuestieOptionsToolTip:Hide()
+end
+
+function Questie:OptionsForm_SettingOnValueChanged()
+    if(this:GetName() == QO_FormName.."MaxShowLevelSlider") then
+        if(QO_maxshowlevel_current ~= nil) then
+            QO_maxshowlevel_current:SetText(tostring(this:GetValue()))
+        end
+    elseif(this:GetName() == QO_FormName.."MinShowLevelSlider") then
+        if(QO_minshowlevel_current ~= nil) then
+            QO_minshowlevel_current:SetText(tostring(this:GetValue()))
+        end
+    elseif(this:GetName() == QO_FormName.."TrackerTransparencySlider") then
+        if(QO_trackertransparency_current ~= nil) then
+            QO_trackertransparency_current:SetText(tostring(100 - this:GetValue()).."%")
+        end
+    elseif(this:GetName() == QO_FormName.."TrackerScaleSlider") then
+        if(QO_trackerscale_current ~= nil) then
+            QO_trackerscale_current:SetText(tostring(this:GetValue()).."%")
+        end
+    end
 end

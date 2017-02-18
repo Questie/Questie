@@ -63,6 +63,454 @@
       </Layer>
     </Layers>
     <Frames>
+      <Frame name="$parentMinShowLevel">
+        <!--<FrameSkin skinid="dcb143e1-a4ab-4e7c-b934-1efa40101d21" frameid="2d508889-59c2-4f83-ae10-27aaad48391b" />-->
+        <Size>
+          <AbsDimension x="166" y="32" />
+        </Size>
+        <Anchors>
+          <Anchor point="TOPLEFT">
+            <Offset>
+              <AbsDimension x="18" y="-415" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Frames>
+          <Slider name="$parentSlider" enableMouse="true" minValue="0" maxValue="60" defaultValue="5" valueStep="1" orientation="HORIZONTAL">
+            <Size>
+              <AbsDimension x="128" y="17" />
+            </Size>
+            <Anchors>
+              <Anchor point="LEFT" />
+              <Anchor point="RIGHT" />
+            </Anchors>
+            <Backdrop bgFile="Interface\Buttons\UI-SliderBar-Background" edgeFile="Interface\Buttons\UI-SliderBar-Border" tile="true">
+              <BackgroundInsets>
+                <AbsInset left="3" right="3" top="6" bottom="6" />
+              </BackgroundInsets>
+              <TileSize>
+                <AbsValue val="8" />
+              </TileSize>
+              <EdgeSize>
+                <AbsValue val="8" />
+              </EdgeSize>
+            </Backdrop>
+            <Layers>
+              <Layer>
+                <FontString name="$parentTitle" font="Fonts\FRIZQT__.TTF" text="Min Show Level">
+                  <Anchors>
+                    <Anchor point="BOTTOM" relativePoint="TOP" />
+                  </Anchors>
+                  <FontHeight>
+                    <AbsValue val="10" />
+                  </FontHeight>
+                  <Color r="1" g="0.8196079" b="0" />
+                  <Shadow>
+                    <Color r="0" g="0" b="0" />
+                    <Offset>
+                      <AbsDimension x="1" y="-1" />
+                    </Offset>
+                  </Shadow>
+                </FontString>
+                <FontString name="$parentCurrent" font="Fonts\FRIZQT__.TTF" text="5">
+                  <Anchors>
+                    <Anchor point="TOP" relativePoint="BOTTOM" />
+                  </Anchors>
+                  <FontHeight>
+                    <AbsValue val="10" />
+                  </FontHeight>
+                  <Color r="0.5" g="0.5" b="1" />
+                  <Shadow>
+                    <Color r="0" g="0" b="0" />
+                    <Offset>
+                      <AbsDimension x="1" y="-1" />
+                    </Offset>
+                  </Shadow>
+                </FontString>
+                <FontString name="$parentMin" font="Fonts\FRIZQT__.TTF" text="0">
+                  <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" />
+                  </Anchors>
+                  <FontHeight>
+                    <AbsValue val="10" />
+                  </FontHeight>
+                  <Color r="1" g="1" b="1" />
+                  <Shadow>
+                    <Color r="0" g="0" b="0" />
+                    <Offset>
+                      <AbsDimension x="1" y="-1" />
+                    </Offset>
+                  </Shadow>
+                </FontString>
+                <FontString name="$parentMax" font="Fonts\FRIZQT__.TTF" text="60">
+                  <Anchors>
+                    <Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" />
+                  </Anchors>
+                  <FontHeight>
+                    <AbsValue val="10" />
+                  </FontHeight>
+                  <Color r="1" g="1" b="1" />
+                  <Shadow>
+                    <Color r="0" g="0" b="0" />
+                    <Offset>
+                      <AbsDimension x="1" y="-1" />
+                    </Offset>
+                  </Shadow>
+                </FontString>
+              </Layer>
+            </Layers>
+            <ThumbTexture name="$parentThumb" file="Interface\Buttons\UI-SliderBar-Button-Horizontal">
+              <Size>
+                <AbsDimension x="32" y="32" />
+              </Size>
+            </ThumbTexture>
+            <Scripts>
+                <OnValueChanged>Questie:OptionsForm_SettingOnValueChanged()
+                </OnValueChanged>
+                <OnEnter>Questie:OptionsForm_SettingOnEnter("MinShowLevel")
+                </OnEnter>
+                <OnLeave>Questie:OptionsForm_SettingOnLeave()
+                </OnLeave>
+            </Scripts>
+          </Slider>
+        </Frames>
+      </Frame>
+      <Frame name="$parentMaxShowLevel">
+        <!--<FrameSkin skinid="dcb143e1-a4ab-4e7c-b934-1efa40101d21" frameid="2d508889-59c2-4f83-ae10-27aaad48391b" />-->
+        <Size>
+          <AbsDimension x="166" y="32" />
+        </Size>
+        <Anchors>
+          <Anchor point="TOPLEFT">
+            <Offset>
+              <AbsDimension x="18" y="-339" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Frames>
+          <Slider name="$parentSlider" enableMouse="true" minValue="0" maxValue="60" defaultValue="3" valueStep="1" orientation="HORIZONTAL">
+            <Size>
+              <AbsDimension x="128" y="17" />
+            </Size>
+            <Anchors>
+              <Anchor point="LEFT" />
+              <Anchor point="RIGHT" />
+            </Anchors>
+            <Backdrop bgFile="Interface\Buttons\UI-SliderBar-Background" edgeFile="Interface\Buttons\UI-SliderBar-Border" tile="true">
+              <BackgroundInsets>
+                <AbsInset left="3" right="3" top="6" bottom="6" />
+              </BackgroundInsets>
+              <TileSize>
+                <AbsValue val="8" />
+              </TileSize>
+              <EdgeSize>
+                <AbsValue val="8" />
+              </EdgeSize>
+            </Backdrop>
+            <Layers>
+              <Layer>
+                <FontString name="$parentTitle" font="Fonts\FRIZQT__.TTF" text="Max Show Level">
+                  <Anchors>
+                    <Anchor point="BOTTOM" relativePoint="TOP" />
+                  </Anchors>
+                  <FontHeight>
+                    <AbsValue val="10" />
+                  </FontHeight>
+                  <Color r="1" g="0.8196079" b="0" />
+                  <Shadow>
+                    <Color r="0" g="0" b="0" />
+                    <Offset>
+                      <AbsDimension x="1" y="-1" />
+                    </Offset>
+                  </Shadow>
+                </FontString>
+                <FontString name="$parentCurrent" font="Fonts\FRIZQT__.TTF" text="3">
+                  <Anchors>
+                    <Anchor point="TOP" relativePoint="BOTTOM" />
+                  </Anchors>
+                  <FontHeight>
+                    <AbsValue val="10" />
+                  </FontHeight>
+                  <Color r="0.5" g="0.5" b="1" />
+                  <Shadow>
+                    <Color r="0" g="0" b="0" />
+                    <Offset>
+                      <AbsDimension x="1" y="-1" />
+                    </Offset>
+                  </Shadow>
+                </FontString>
+                <FontString name="$parentMin" font="Fonts\FRIZQT__.TTF" text="0">
+                  <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" />
+                  </Anchors>
+                  <FontHeight>
+                    <AbsValue val="10" />
+                  </FontHeight>
+                  <Color r="1" g="1" b="1" />
+                  <Shadow>
+                    <Color r="0" g="0" b="0" />
+                    <Offset>
+                      <AbsDimension x="1" y="-1" />
+                    </Offset>
+                  </Shadow>
+                </FontString>
+                <FontString name="$parentMax" font="Fonts\FRIZQT__.TTF" text="60">
+                  <Anchors>
+                    <Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" />
+                  </Anchors>
+                  <FontHeight>
+                    <AbsValue val="10" />
+                  </FontHeight>
+                  <Color r="1" g="1" b="1" />
+                  <Shadow>
+                    <Color r="0" g="0" b="0" />
+                    <Offset>
+                      <AbsDimension x="1" y="-1" />
+                    </Offset>
+                  </Shadow>
+                </FontString>
+              </Layer>
+            </Layers>
+            <ThumbTexture name="$parentThumb" file="Interface\Buttons\UI-SliderBar-Button-Horizontal">
+              <Size>
+                <AbsDimension x="32" y="32" />
+              </Size>
+            </ThumbTexture>
+            <Scripts>
+                <OnValueChanged>Questie:OptionsForm_SettingOnValueChanged()
+                </OnValueChanged>
+                <OnEnter>Questie:OptionsForm_SettingOnEnter("MaxShowLevel")
+                </OnEnter>
+                <OnLeave>Questie:OptionsForm_SettingOnLeave()
+                </OnLeave>
+            </Scripts>
+          </Slider>
+        </Frames>
+      </Frame>
+      <Frame name="$parentTrackerScale">
+        <!--<FrameSkin skinid="dcb143e1-a4ab-4e7c-b934-1efa40101d21" frameid="2d508889-59c2-4f83-ae10-27aaad48391b" />-->
+        <Size>
+          <AbsDimension x="166" y="32" />
+        </Size>
+        <Anchors>
+          <Anchor point="TOPLEFT">
+            <Offset>
+              <AbsDimension x="208" y="-339" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Frames>
+          <Slider name="$parentSlider" enableMouse="true" minValue="100" maxValue="200" defaultValue="100" valueStep="1" orientation="HORIZONTAL">
+            <Size>
+              <AbsDimension x="128" y="17" />
+            </Size>
+            <Anchors>
+              <Anchor point="LEFT" />
+              <Anchor point="RIGHT" />
+            </Anchors>
+            <Backdrop bgFile="Interface\Buttons\UI-SliderBar-Background" edgeFile="Interface\Buttons\UI-SliderBar-Border" tile="true">
+              <BackgroundInsets>
+                <AbsInset left="3" right="3" top="6" bottom="6" />
+              </BackgroundInsets>
+              <TileSize>
+                <AbsValue val="8" />
+              </TileSize>
+              <EdgeSize>
+                <AbsValue val="8" />
+              </EdgeSize>
+            </Backdrop>
+            <Layers>
+              <Layer>
+                <FontString name="$parentTitle" font="Fonts\FRIZQT__.TTF" text="Tracker Scale">
+                  <Anchors>
+                    <Anchor point="BOTTOM" relativePoint="TOP" />
+                  </Anchors>
+                  <FontHeight>
+                    <AbsValue val="10" />
+                  </FontHeight>
+                  <Color r="1" g="0.8196079" b="0" />
+                  <Shadow>
+                    <Color r="0" g="0" b="0" />
+                    <Offset>
+                      <AbsDimension x="1" y="-1" />
+                    </Offset>
+                  </Shadow>
+                </FontString>
+                <FontString name="$parentCurrent" font="Fonts\FRIZQT__.TTF" text="100%">
+                  <Anchors>
+                    <Anchor point="TOP" relativePoint="BOTTOM" />
+                  </Anchors>
+                  <FontHeight>
+                    <AbsValue val="10" />
+                  </FontHeight>
+                  <Color r="0.5" g="0.5" b="1" />
+                  <Shadow>
+                    <Color r="0" g="0" b="0" />
+                    <Offset>
+                      <AbsDimension x="1" y="-1" />
+                    </Offset>
+                  </Shadow>
+                </FontString>
+                <FontString name="$parentMin" font="Fonts\FRIZQT__.TTF" text="100%">
+                  <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" />
+                  </Anchors>
+                  <FontHeight>
+                    <AbsValue val="10" />
+                  </FontHeight>
+                  <Color r="1" g="1" b="1" />
+                  <Shadow>
+                    <Color r="0" g="0" b="0" />
+                    <Offset>
+                      <AbsDimension x="1" y="-1" />
+                    </Offset>
+                  </Shadow>
+                </FontString>
+                <FontString name="$parentMax" font="Fonts\FRIZQT__.TTF" text="200%">
+                  <Anchors>
+                    <Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" />
+                  </Anchors>
+                  <FontHeight>
+                    <AbsValue val="10" />
+                  </FontHeight>
+                  <Color r="1" g="1" b="1" />
+                  <Shadow>
+                    <Color r="0" g="0" b="0" />
+                    <Offset>
+                      <AbsDimension x="1" y="-1" />
+                    </Offset>
+                  </Shadow>
+                </FontString>
+              </Layer>
+            </Layers>
+            <ThumbTexture name="$parentThumb" file="Interface\Buttons\UI-SliderBar-Button-Horizontal">
+              <Size>
+                <AbsDimension x="32" y="32" />
+              </Size>
+            </ThumbTexture>
+            <Scripts>
+                <OnValueChanged>Questie:OptionsForm_SettingOnValueChanged()
+                </OnValueChanged>
+                <OnEnter>Questie:OptionsForm_SettingOnEnter("TrackerScale")
+                </OnEnter>
+                <OnLeave>Questie:OptionsForm_SettingOnLeave()
+                </OnLeave>
+            </Scripts>
+          </Slider>
+        </Frames>
+      </Frame>
+      <Frame name="$parentTrackerTransparency">
+        <!--<FrameSkin skinid="dcb143e1-a4ab-4e7c-b934-1efa40101d21" frameid="2d508889-59c2-4f83-ae10-27aaad48391b" />-->
+        <Size>
+          <AbsDimension x="166" y="32" />
+        </Size>
+        <Anchors>
+          <Anchor point="TOPLEFT">
+            <Offset>
+              <AbsDimension x="208" y="-377" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Frames>
+          <Slider name="$parentSlider" enableMouse="true" minValue="0" maxValue="100" defaultValue="40" valueStep="1" orientation="HORIZONTAL">
+            <Size>
+              <AbsDimension x="128" y="17" />
+            </Size>
+            <Anchors>
+              <Anchor point="LEFT" />
+              <Anchor point="RIGHT" />
+            </Anchors>
+            <Backdrop bgFile="Interface\Buttons\UI-SliderBar-Background" edgeFile="Interface\Buttons\UI-SliderBar-Border" tile="true">
+              <BackgroundInsets>
+                <AbsInset left="3" right="3" top="6" bottom="6" />
+              </BackgroundInsets>
+              <TileSize>
+                <AbsValue val="8" />
+              </TileSize>
+              <EdgeSize>
+                <AbsValue val="8" />
+              </EdgeSize>
+            </Backdrop>
+            <Layers>
+              <Layer>
+                <FontString name="$parentTitle" font="Fonts\FRIZQT__.TTF" text="Tracker Transparency">
+                  <Anchors>
+                    <Anchor point="BOTTOM" relativePoint="TOP" />
+                  </Anchors>
+                  <FontHeight>
+                    <AbsValue val="10" />
+                  </FontHeight>
+                  <Color r="1" g="0.8196079" b="0" />
+                  <Shadow>
+                    <Color r="0" g="0" b="0" />
+                    <Offset>
+                      <AbsDimension x="1" y="-1" />
+                    </Offset>
+                  </Shadow>
+                </FontString>
+                <FontString name="$parentCurrent" font="Fonts\FRIZQT__.TTF" text="40%">
+                  <Anchors>
+                    <Anchor point="TOP" relativePoint="BOTTOM" />
+                  </Anchors>
+                  <FontHeight>
+                    <AbsValue val="10" />
+                  </FontHeight>
+                  <Color r="0.5" g="0.5" b="1" />
+                  <Shadow>
+                    <Color r="0" g="0" b="0" />
+                    <Offset>
+                      <AbsDimension x="1" y="-1" />
+                    </Offset>
+                  </Shadow>
+                </FontString>
+                <FontString name="$parentMax" font="Fonts\FRIZQT__.TTF" text="0%">
+                  <Anchors>
+                    <Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" />
+                  </Anchors>
+                  <FontHeight>
+                    <AbsValue val="10" />
+                  </FontHeight>
+                  <Color r="1" g="1" b="1" />
+                  <Shadow>
+                    <Color r="0" g="0" b="0" />
+                    <Offset>
+                      <AbsDimension x="1" y="-1" />
+                    </Offset>
+                  </Shadow>
+                </FontString>
+                <FontString name="$parentMin" font="Fonts\FRIZQT__.TTF" text="100%">
+                  <Anchors>
+                    <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" />
+                  </Anchors>
+                  <FontHeight>
+                    <AbsValue val="10" />
+                  </FontHeight>
+                  <Color r="1" g="1" b="1" />
+                  <Shadow>
+                    <Color r="0" g="0" b="0" />
+                    <Offset>
+                      <AbsDimension x="1" y="-1" />
+                    </Offset>
+                  </Shadow>
+                </FontString>
+              </Layer>
+            </Layers>
+            <ThumbTexture name="$parentThumb" file="Interface\Buttons\UI-SliderBar-Button-Horizontal">
+              <Size>
+                <AbsDimension x="32" y="32" />
+              </Size>
+            </ThumbTexture>
+            <Scripts>
+                <OnValueChanged>Questie:OptionsForm_SettingOnValueChanged()
+                </OnValueChanged>
+                <OnEnter>Questie:OptionsForm_SettingOnEnter("TrackerTransparency")
+                </OnEnter>
+                <OnLeave>Questie:OptionsForm_SettingOnLeave()
+                </OnLeave>
+            </Scripts>
+          </Slider>
+        </Frames>
+      </Frame>
       <Button name="$parentDoneButton" inherits="GameMenuButtonTemplate" text="Done">
         <!--<FrameSkin skinid="dcb143e1-a4ab-4e7c-b934-1efa40101d21" frameid="2d508884-59c2-4f83-ae10-27aaad48391b" />-->
         <Size>
@@ -97,54 +545,6 @@
           </FontHeight>
         </ButtonText>
       </Button>
-      <EditBox name="$parentMaxShowLevelEdit" letters="2" numeric="true" autoFocus="false">
-        <!--<FrameSkin skinid="f15d4970-d66d-444e-bb2d-1ad102c87fed" frameid="f15d4975-d66d-444e-bb2d-1ad102c87fed" />-->
-        <Size>
-          <AbsDimension x="32" y="32" />
-        </Size>
-        <Anchors>
-          <Anchor point="TOPLEFT">
-            <Offset>
-              <AbsDimension x="152" y="-339" />
-            </Offset>
-          </Anchor>
-        </Anchors>
-        <Backdrop bgFile="Interface\TutorialFrame\TutorialFrameBackground" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
-          <BackgroundInsets>
-            <AbsInset left="3" right="5" top="3" bottom="5" />
-          </BackgroundInsets>
-          <TileSize>
-            <AbsValue val="16" />
-          </TileSize>
-          <EdgeSize>
-            <AbsValue val="16" />
-          </EdgeSize>
-        </Backdrop>
-        <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("MaxShowLevel")
-
-          </OnEnter>
-          <OnLeave>Questie:OptionsForm_SettingOnLeave()
-
-          </OnLeave>
-        </Scripts>
-        <FontString font="Fonts\ARIALN.TTF">
-          <FontHeight>
-            <AbsValue val="14" />
-          </FontHeight>
-          <Color r="1" g="1" b="1" />
-          <Shadow>
-            <Color r="0" g="0" b="0" />
-            <Offset>
-              <AbsDimension x="1" y="-1" />
-            </Offset>
-          </Shadow>
-        </FontString>
-        <HighlightColor r="1" g="1" b="1" />
-        <TextInsets>
-          <AbsInset left="8" right="8" top="0" bottom="0" />
-        </TextInsets>
-      </EditBox>
       <CheckButton name="$parentAlwaysShowQuestsCheck">
         <!--<FrameSkin skinid="f15d4970-d66d-444e-bb2d-1ad102c87fed" frameid="f15d4974-d66d-444e-bb2d-1ad102c87fed" />-->
         <Size>
@@ -159,10 +559,8 @@
         </Anchors>
         <Scripts>
           <OnEnter>Questie:OptionsForm_SettingOnEnter("AlwaysShowQuests")
-
           </OnEnter>
           <OnLeave>Questie:OptionsForm_SettingOnLeave()
-
           </OnLeave>
         </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
@@ -203,10 +601,8 @@
         </Layers>
         <Scripts>
           <OnEnter>Questie:OptionsForm_SettingOnEnter("AlwaysShowQuests")
-
           </OnEnter>
           <OnLeave>Questie:OptionsForm_SettingOnLeave()
-
           </OnLeave>
         </Scripts>
       </Frame>
@@ -224,10 +620,8 @@
         </Anchors>
         <Scripts>
           <OnEnter>Questie:OptionsForm_SettingOnEnter("ArrowEnabled")
-
           </OnEnter>
           <OnLeave>Questie:OptionsForm_SettingOnLeave()
-
           </OnLeave>
         </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
@@ -268,10 +662,8 @@
         </Layers>
         <Scripts>
           <OnEnter>Questie:OptionsForm_SettingOnEnter("ArrowEnabled")
-
           </OnEnter>
           <OnLeave>Questie:OptionsForm_SettingOnLeave()
-
           </OnLeave>
         </Scripts>
       </Frame>
@@ -289,10 +681,8 @@
         </Anchors>
         <Scripts>
           <OnEnter>Questie:OptionsForm_SettingOnEnter("BoldColors")
-
           </OnEnter>
           <OnLeave>Questie:OptionsForm_SettingOnLeave()
-
           </OnLeave>
         </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
@@ -333,10 +723,8 @@
         </Layers>
         <Scripts>
           <OnEnter>Questie:OptionsForm_SettingOnEnter("BoldColors")
-
           </OnEnter>
           <OnLeave>Questie:OptionsForm_SettingOnLeave()
-
           </OnLeave>
         </Scripts>
       </Frame>
@@ -354,10 +742,8 @@
         </Anchors>
         <Scripts>
           <OnEnter>Questie:OptionsForm_SettingOnEnter("MaxLevelFilter")
-
           </OnEnter>
           <OnLeave>Questie:OptionsForm_SettingOnLeave()
-
           </OnLeave>
         </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
@@ -398,47 +784,8 @@
         </Layers>
         <Scripts>
           <OnEnter>Questie:OptionsForm_SettingOnEnter("MaxLevelFilter")
-
           </OnEnter>
           <OnLeave>Questie:OptionsForm_SettingOnLeave()
-
-          </OnLeave>
-        </Scripts>
-      </Frame>
-      <Frame name="$parentMaxShowLevelLabel">
-        <!--<FrameSkin skinid="f15d4970-d66d-444e-bb2d-1ad102c87fed" frameid="f15d4978-d66d-444e-bb2d-1ad102c87fed" />-->
-        <Size>
-          <AbsDimension x="128" y="32" />
-        </Size>
-        <Anchors>
-          <Anchor point="TOPLEFT">
-            <Offset>
-              <AbsDimension x="18" y="-339" />
-            </Offset>
-          </Anchor>
-        </Anchors>
-        <Layers>
-          <Layer>
-            <FontString name="$parentLabel" setAllPoints="true" font="Fonts\FRIZQT__.TTF" text="Max Show Level">
-              <FontHeight>
-                <AbsValue val="12" />
-              </FontHeight>
-              <Color r="1" g="0.8196079" b="0" />
-              <Shadow>
-                <Color r="0" g="0" b="0" />
-                <Offset>
-                  <AbsDimension x="1" y="-1" />
-                </Offset>
-              </Shadow>
-            </FontString>
-          </Layer>
-        </Layers>
-        <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("MaxShowLevel")
-
-          </OnEnter>
-          <OnLeave>Questie:OptionsForm_SettingOnLeave()
-
           </OnLeave>
         </Scripts>
       </Frame>
@@ -456,10 +803,8 @@
         </Anchors>
         <Scripts>
           <OnEnter>Questie:OptionsForm_SettingOnEnter("MinLevelFilter")
-
           </OnEnter>
           <OnLeave>Questie:OptionsForm_SettingOnLeave()
-
           </OnLeave>
         </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
@@ -500,98 +845,11 @@
         </Layers>
         <Scripts>
           <OnEnter>Questie:OptionsForm_SettingOnEnter("MinLevelFilter")
-
           </OnEnter>
           <OnLeave>Questie:OptionsForm_SettingOnLeave()
-
           </OnLeave>
         </Scripts>
       </Frame>
-      <Frame name="$parentMinShowLevelLabel">
-        <!--<FrameSkin skinid="f15d4970-d66d-444e-bb2d-1ad102c87fed" frameid="f15d4978-d66d-444e-bb2d-1ad102c87fed" />-->
-        <Size>
-          <AbsDimension x="128" y="32" />
-        </Size>
-        <Anchors>
-          <Anchor point="TOPLEFT">
-            <Offset>
-              <AbsDimension x="18" y="-415" />
-            </Offset>
-          </Anchor>
-        </Anchors>
-        <Layers>
-          <Layer>
-            <FontString name="$parentLabel" setAllPoints="true" font="Fonts\FRIZQT__.TTF" text="Min Show Level">
-              <FontHeight>
-                <AbsValue val="12" />
-              </FontHeight>
-              <Color r="1" g="0.8196079" b="0" />
-              <Shadow>
-                <Color r="0" g="0" b="0" />
-                <Offset>
-                  <AbsDimension x="1" y="-1" />
-                </Offset>
-              </Shadow>
-            </FontString>
-          </Layer>
-        </Layers>
-        <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("MinShowLevel")
-
-          </OnEnter>
-          <OnLeave>Questie:OptionsForm_SettingOnLeave()
-
-          </OnLeave>
-        </Scripts>
-      </Frame>
-      <EditBox name="$parentMinShowLevelEdit" letters="2" numeric="true" autoFocus="false">
-        <!--<FrameSkin skinid="f15d4970-d66d-444e-bb2d-1ad102c87fed" frameid="f15d4975-d66d-444e-bb2d-1ad102c87fed" />-->
-        <Size>
-          <AbsDimension x="32" y="32" />
-        </Size>
-        <Anchors>
-          <Anchor point="TOPLEFT">
-            <Offset>
-              <AbsDimension x="152" y="-415" />
-            </Offset>
-          </Anchor>
-        </Anchors>
-        <Backdrop bgFile="Interface\TutorialFrame\TutorialFrameBackground" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
-          <BackgroundInsets>
-            <AbsInset left="3" right="5" top="3" bottom="5" />
-          </BackgroundInsets>
-          <TileSize>
-            <AbsValue val="16" />
-          </TileSize>
-          <EdgeSize>
-            <AbsValue val="16" />
-          </EdgeSize>
-        </Backdrop>
-        <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("MinShowLevel")
-
-          </OnEnter>
-          <OnLeave>Questie:OptionsForm_SettingOnLeave()
-
-          </OnLeave>
-        </Scripts>
-        <FontString font="Fonts\ARIALN.TTF">
-          <FontHeight>
-            <AbsValue val="14" />
-          </FontHeight>
-          <Color r="1" g="1" b="1" />
-          <Shadow>
-            <Color r="0" g="0" b="0" />
-            <Offset>
-              <AbsDimension x="1" y="-1" />
-            </Offset>
-          </Shadow>
-        </FontString>
-        <HighlightColor r="1" g="1" b="1" />
-        <TextInsets>
-          <AbsInset left="8" right="8" top="0" bottom="0" />
-        </TextInsets>
-      </EditBox>
       <Frame name="$parentShowMapAidsLabel">
         <!--<FrameSkin skinid="f15d4970-d66d-444e-bb2d-1ad102c87fed" frameid="f15d4978-d66d-444e-bb2d-1ad102c87fed" />-->
         <Size>
@@ -622,10 +880,8 @@
         </Layers>
         <Scripts>
           <OnEnter>Questie:OptionsForm_SettingOnEnter("ShowMapAids")
-
           </OnEnter>
           <OnLeave>Questie:OptionsForm_SettingOnLeave()
-
           </OnLeave>
         </Scripts>
       </Frame>
@@ -659,10 +915,8 @@
         </Layers>
         <Scripts>
           <OnEnter>Questie:OptionsForm_SettingOnEnter("ShowProfessionQuests")
-
           </OnEnter>
           <OnLeave>Questie:OptionsForm_SettingOnLeave()
-
           </OnLeave>
         </Scripts>
       </Frame>
@@ -696,10 +950,8 @@
         </Layers>
         <Scripts>
           <OnEnter>Questie:OptionsForm_SettingOnEnter("ShowTrackerHeader")
-
           </OnEnter>
           <OnLeave>Questie:OptionsForm_SettingOnLeave()
-
           </OnLeave>
         </Scripts>
       </Frame>
@@ -733,10 +985,8 @@
         </Layers>
         <Scripts>
           <OnEnter>Questie:OptionsForm_SettingOnEnter("ShowToolTips")
-
           </OnEnter>
           <OnLeave>Questie:OptionsForm_SettingOnLeave()
-
           </OnLeave>
         </Scripts>
       </Frame>
@@ -748,7 +998,7 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="208" y="-301" />
+              <AbsDimension x="208" y="-263" />
             </Offset>
           </Anchor>
         </Anchors>
@@ -770,10 +1020,8 @@
         </Layers>
         <Scripts>
           <OnEnter>Questie:OptionsForm_SettingOnEnter("TrackerEnabled")
-
           </OnEnter>
           <OnLeave>Questie:OptionsForm_SettingOnLeave()
-
           </OnLeave>
         </Scripts>
       </Frame>
@@ -785,7 +1033,7 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="208" y="-339" />
+              <AbsDimension x="208" y="-301" />
             </Offset>
           </Anchor>
         </Anchors>
@@ -807,95 +1055,8 @@
         </Layers>
         <Scripts>
           <OnEnter>Questie:OptionsForm_SettingOnEnter("TrackerList")
-
           </OnEnter>
           <OnLeave>Questie:OptionsForm_SettingOnLeave()
-
-          </OnLeave>
-        </Scripts>
-      </Frame>
-      <EditBox name="$parentTrackerScaleEdit" letters="4" autoFocus="false">
-        <!--<FrameSkin skinid="f15d4970-d66d-444e-bb2d-1ad102c87fed" frameid="f15d4975-d66d-444e-bb2d-1ad102c87fed" />-->
-        <Size>
-          <AbsDimension x="32" y="32" />
-        </Size>
-        <Anchors>
-          <Anchor point="TOPLEFT">
-            <Offset>
-              <AbsDimension x="342" y="-377" />
-            </Offset>
-          </Anchor>
-        </Anchors>
-        <Backdrop bgFile="Interface\TutorialFrame\TutorialFrameBackground" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
-          <BackgroundInsets>
-            <AbsInset left="3" right="5" top="3" bottom="5" />
-          </BackgroundInsets>
-          <TileSize>
-            <AbsValue val="16" />
-          </TileSize>
-          <EdgeSize>
-            <AbsValue val="16" />
-          </EdgeSize>
-        </Backdrop>
-        <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("TrackerScale")
-
-          </OnEnter>
-          <OnLeave>Questie:OptionsForm_SettingOnLeave()
-
-          </OnLeave>
-        </Scripts>
-        <FontString font="Fonts\ARIALN.TTF">
-          <FontHeight>
-            <AbsValue val="14" />
-          </FontHeight>
-          <Color r="1" g="1" b="1" />
-          <Shadow>
-            <Color r="0" g="0" b="0" />
-            <Offset>
-              <AbsDimension x="1" y="-1" />
-            </Offset>
-          </Shadow>
-        </FontString>
-        <HighlightColor r="1" g="1" b="1" />
-        <TextInsets>
-          <AbsInset left="8" right="8" top="0" bottom="0" />
-        </TextInsets>
-      </EditBox>
-      <Frame name="$parentTrackerScaleLabel">
-        <!--<FrameSkin skinid="f15d4970-d66d-444e-bb2d-1ad102c87fed" frameid="f15d4978-d66d-444e-bb2d-1ad102c87fed" />-->
-        <Size>
-          <AbsDimension x="128" y="32" />
-        </Size>
-        <Anchors>
-          <Anchor point="TOPLEFT">
-            <Offset>
-              <AbsDimension x="208" y="-377" />
-            </Offset>
-          </Anchor>
-        </Anchors>
-        <Layers>
-          <Layer>
-            <FontString name="$parentLabel" setAllPoints="true" font="Fonts\FRIZQT__.TTF" text="Tracker Scale">
-              <FontHeight>
-                <AbsValue val="12" />
-              </FontHeight>
-              <Color r="1" g="0.8196079" b="0" />
-              <Shadow>
-                <Color r="0" g="0" b="0" />
-                <Offset>
-                  <AbsDimension x="1" y="-1" />
-                </Offset>
-              </Shadow>
-            </FontString>
-          </Layer>
-        </Layers>
-        <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("TrackerScale")
-
-          </OnEnter>
-          <OnLeave>Questie:OptionsForm_SettingOnLeave()
-
           </OnLeave>
         </Scripts>
       </Frame>
@@ -907,7 +1068,7 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="208" y="-263" />
+              <AbsDimension x="208" y="-225" />
             </Offset>
           </Anchor>
         </Anchors>
@@ -929,95 +1090,8 @@
         </Layers>
         <Scripts>
           <OnEnter>Questie:OptionsForm_SettingOnEnter("TrackerBackground")
-
           </OnEnter>
           <OnLeave>Questie:OptionsForm_SettingOnLeave()
-
-          </OnLeave>
-        </Scripts>
-      </Frame>
-      <EditBox name="$parentTrackerAlphaEdit" letters="4" autoFocus="false">
-        <!--<FrameSkin skinid="f15d4970-d66d-444e-bb2d-1ad102c87fed" frameid="f15d4975-d66d-444e-bb2d-1ad102c87fed" />-->
-        <Size>
-          <AbsDimension x="32" y="32" />
-        </Size>
-        <Anchors>
-          <Anchor point="TOPLEFT">
-            <Offset>
-              <AbsDimension x="342" y="-225" />
-            </Offset>
-          </Anchor>
-        </Anchors>
-        <Backdrop bgFile="Interface\TutorialFrame\TutorialFrameBackground" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
-          <BackgroundInsets>
-            <AbsInset left="3" right="5" top="3" bottom="5" />
-          </BackgroundInsets>
-          <TileSize>
-            <AbsValue val="16" />
-          </TileSize>
-          <EdgeSize>
-            <AbsValue val="16" />
-          </EdgeSize>
-        </Backdrop>
-        <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("TrackerAlpha")
-
-          </OnEnter>
-          <OnLeave>Questie:OptionsForm_SettingOnLeave()
-
-          </OnLeave>
-        </Scripts>
-        <FontString font="Fonts\ARIALN.TTF">
-          <FontHeight>
-            <AbsValue val="14" />
-          </FontHeight>
-          <Color r="1" g="1" b="1" />
-          <Shadow>
-            <Color r="0" g="0" b="0" />
-            <Offset>
-              <AbsDimension x="1" y="-1" />
-            </Offset>
-          </Shadow>
-        </FontString>
-        <HighlightColor r="1" g="1" b="1" />
-        <TextInsets>
-          <AbsInset left="8" right="8" top="0" bottom="0" />
-        </TextInsets>
-      </EditBox>
-      <Frame name="$parentTrackerAlphaLabel">
-        <!--<FrameSkin skinid="f15d4970-d66d-444e-bb2d-1ad102c87fed" frameid="f15d4978-d66d-444e-bb2d-1ad102c87fed" />-->
-        <Size>
-          <AbsDimension x="128" y="32" />
-        </Size>
-        <Anchors>
-          <Anchor point="TOPLEFT">
-            <Offset>
-              <AbsDimension x="208" y="-225" />
-            </Offset>
-          </Anchor>
-        </Anchors>
-        <Layers>
-          <Layer>
-            <FontString name="$parentLabel" setAllPoints="true" font="Fonts\FRIZQT__.TTF" text="Tracker Alpha">
-              <FontHeight>
-                <AbsValue val="12" />
-              </FontHeight>
-              <Color r="1" g="0.8196079" b="0" />
-              <Shadow>
-                <Color r="0" g="0" b="0" />
-                <Offset>
-                  <AbsDimension x="1" y="-1" />
-                </Offset>
-              </Shadow>
-            </FontString>
-          </Layer>
-        </Layers>
-        <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("TrackerAlpha")
-
-          </OnEnter>
-          <OnLeave>Questie:OptionsForm_SettingOnLeave()
-
           </OnLeave>
         </Scripts>
       </Frame>
@@ -1051,10 +1125,8 @@
         </Layers>
         <Scripts>
           <OnEnter>Questie:OptionsForm_SettingOnEnter("ResizeWorldmap")
-
           </OnEnter>
           <OnLeave>Questie:OptionsForm_SettingOnLeave()
-
           </OnLeave>
         </Scripts>
       </Frame>
@@ -1088,10 +1160,8 @@
         </Layers>
         <Scripts>
           <OnEnter>Questie:OptionsForm_SettingOnEnter("HideMinimapIcons")
-
           </OnEnter>
           <OnLeave>Questie:OptionsForm_SettingOnLeave()
-
           </OnLeave>
         </Scripts>
       </Frame>
@@ -1125,10 +1195,8 @@
         </Layers>
         <Scripts>
           <OnEnter>Questie:OptionsForm_SettingOnEnter("HideObjectives")
-
           </OnEnter>
           <OnLeave>Questie:OptionsForm_SettingOnLeave()
-
           </OnLeave>
         </Scripts>
       </Frame>
@@ -1175,10 +1243,8 @@
         </Anchors>
         <Scripts>
           <OnEnter>Questie:OptionsForm_SettingOnEnter("ShowMapAids")
-
           </OnEnter>
           <OnLeave>Questie:OptionsForm_SettingOnLeave()
-
           </OnLeave>
         </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
@@ -1203,10 +1269,8 @@
         </Anchors>
         <Scripts>
           <OnEnter>Questie:OptionsForm_SettingOnEnter("ShowProfessionQuests")
-
           </OnEnter>
           <OnLeave>Questie:OptionsForm_SettingOnLeave()
-
           </OnLeave>
         </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
@@ -1231,10 +1295,8 @@
         </Anchors>
         <Scripts>
           <OnEnter>Questie:OptionsForm_SettingOnEnter("ShowTrackerHeader")
-
           </OnEnter>
           <OnLeave>Questie:OptionsForm_SettingOnLeave()
-
           </OnLeave>
         </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
@@ -1259,10 +1321,8 @@
         </Anchors>
         <Scripts>
           <OnEnter>Questie:OptionsForm_SettingOnEnter("ShowToolTips")
-
           </OnEnter>
           <OnLeave>Questie:OptionsForm_SettingOnLeave()
-
           </OnLeave>
         </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
@@ -1281,16 +1341,14 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="342" y="-301" />
+              <AbsDimension x="342" y="-263" />
             </Offset>
           </Anchor>
         </Anchors>
         <Scripts>
           <OnEnter>Questie:OptionsForm_SettingOnEnter("TrackerEnabled")
-
           </OnEnter>
           <OnLeave>Questie:OptionsForm_SettingOnLeave()
-
           </OnLeave>
         </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
@@ -1309,16 +1367,14 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="342" y="-339" />
+              <AbsDimension x="342" y="-301" />
             </Offset>
           </Anchor>
         </Anchors>
         <Scripts>
           <OnEnter>Questie:OptionsForm_SettingOnEnter("TrackerList")
-
           </OnEnter>
           <OnLeave>Questie:OptionsForm_SettingOnLeave()
-
           </OnLeave>
         </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
@@ -1337,16 +1393,14 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="342" y="-263" />
+              <AbsDimension x="342" y="-225" />
             </Offset>
           </Anchor>
         </Anchors>
         <Scripts>
           <OnEnter>Questie:OptionsForm_SettingOnEnter("TrackerBackground")
-
           </OnEnter>
           <OnLeave>Questie:OptionsForm_SettingOnLeave()
-
           </OnLeave>
         </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
@@ -1371,10 +1425,8 @@
         </Anchors>
         <Scripts>
           <OnEnter>Questie:OptionsForm_SettingOnEnter("ResizeWorldmap")
-
           </OnEnter>
           <OnLeave>Questie:OptionsForm_SettingOnLeave()
-
           </OnLeave>
         </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
@@ -1399,10 +1451,8 @@
         </Anchors>
         <Scripts>
           <OnEnter>Questie:OptionsForm_SettingOnEnter("HideMinimapIcons")
-
           </OnEnter>
           <OnLeave>Questie:OptionsForm_SettingOnLeave()
-
           </OnLeave>
         </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
@@ -1427,10 +1477,8 @@
         </Anchors>
         <Scripts>
           <OnEnter>Questie:OptionsForm_SettingOnEnter("HideObjectives")
-
           </OnEnter>
           <OnLeave>Questie:OptionsForm_SettingOnLeave()
-
           </OnLeave>
         </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
@@ -1471,10 +1519,8 @@
         </Layers>
         <Scripts>
           <OnEnter>Questie:OptionsForm_SettingOnEnter("CorpseArrow")
-
           </OnEnter>
           <OnLeave>Questie:OptionsForm_SettingOnLeave()
-
           </OnLeave>
         </Scripts>
       </Frame>
@@ -1492,10 +1538,8 @@
         </Anchors>
         <Scripts>
           <OnEnter>Questie:OptionsForm_SettingOnEnter("CorpseArrow")
-
           </OnEnter>
           <OnLeave>Questie:OptionsForm_SettingOnLeave()
-
           </OnLeave>
         </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
@@ -1536,10 +1580,8 @@
         </Layers>
         <Scripts>
           <OnEnter>Questie:OptionsForm_SettingOnEnter("ClusterQuests")
-
           </OnEnter>
           <OnLeave>Questie:OptionsForm_SettingOnLeave()
-
           </OnLeave>
         </Scripts>
       </Frame>
@@ -1557,10 +1599,8 @@
         </Anchors>
         <Scripts>
           <OnEnter>Questie:OptionsForm_SettingOnEnter("ClusterQuests")
-
           </OnEnter>
           <OnLeave>Questie:OptionsForm_SettingOnLeave()
-
           </OnLeave>
         </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
