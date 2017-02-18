@@ -1019,13 +1019,16 @@ function Questie:RecursiveCreateNotes(c, z, v, locationMeta, iconMeta, objective
                     }
                     iconMeta.selectedIcon = typeToIcon[sourceType]
                 end
+                local newObjectiveId = objectiveid
+                local newIconMeta = iconMeta
                 if specialSources[sourceType] then
                     newPath = {}
                     newPathKeys = {}
-                    objectiveid = sourceName
-                    iconMeta.selectedIcon = nil
+                    newObjectiveId = sourceName
+                    newIconMeta = deepcopy(newIconMeta)
+                    newIconMeta.selectedIcon = nil
                 end
-                Questie:RecursiveCreateNotes(c, z, v, sourceLocationMeta, iconMeta, objectiveid, newPath, newPathKeys)
+                Questie:RecursiveCreateNotes(c, z, v, sourceLocationMeta, newIconMeta, newObjectiveId, newPath, newPathKeys)
             end
         end
     end
