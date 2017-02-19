@@ -34,6 +34,7 @@ Database\zone.lua
 Database\hash.lua
 Database\finishers.lua
 Database\objects.lua
+Database\newObjects.lua
 Database\addendum.lua
 Astrolabe\Astrolabe.lua
 

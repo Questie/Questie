@@ -235,10 +235,12 @@ function Questie:hookTooltipLineCheck()
         __TT_LineCache = {};
     end);
     GameTooltip.AddLine_orig = GameTooltip.AddLine;
-    GameTooltip.AddLine = function(self, line, r, g, b, wrap)
+    GameTooltip.AddLine = function(self, line, r, g, b, wrap, lineNumber)
         GameTooltip:AddLine_orig(line, r, g, b, wrap);
         if (line) then
-            __TT_LineCache[line] = true;
+            if lineNumber == nil then lineNumber = 1 end
+            __TT_LineCache[lineNumber] = {}
+            __TT_LineCache[lineNumber][line] = true;
         end
     end;
 end
@@ -292,11 +294,6 @@ function Questie:Tooltip(this, forceShow, bag, slot)
                     local lines, sourceNames = Questie:GetTooltipLines(objectivePath, 1, highlightInfo)
                     if objectiveInfo.name == objective or sourceNames[objective] then
                         local lineIndex = Questie_TooltipCache[cacheKey]['lineCount']
-                        Questie_TooltipCache[cacheKey]['lines'][lineIndex] = {
-                            ['color'] = {1,1,1},
-                            ['data'] = " "
-                        }
-                        lineIndex = lineIndex + 1
 
                         if drawnQuestTitle == false then
                             local q, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(QuestLogID);
@@ -305,6 +302,11 @@ function Questie:Tooltip(this, forceShow, bag, slot)
                             local title = colorString
                             title = title .. "[" .. questInfo.questLevel .. "] "
                             title = title .. questInfo.name .. "|r"
+                            Questie_TooltipCache[cacheKey]['lines'][lineIndex] = {
+                                ['color'] = {1,1,1},
+                                ['data'] = " "
+                            }
+                            lineIndex = lineIndex + 1
                             Questie_TooltipCache[cacheKey]['lines'][lineIndex] = {
                                 ['color'] = {1,1,1},
                                 ['data'] = title
@@ -328,15 +330,15 @@ function Questie:Tooltip(this, forceShow, bag, slot)
                             }
                             lineIndex = lineIndex + 1
                         end
-                        Questie_TooltipCache[cacheKey]['lineCount'] = lineIndex + 1
+                        Questie_TooltipCache[cacheKey]['lineCount'] = lineIndex
                     end
                 end
             end
             QSelect_QuestLogEntry(prevQuestLogSelection)
         end
         for k, v in pairs(Questie_TooltipCache[cacheKey]['lines']) do
-            if not __TT_LineCache[v['data']] then
-                GameTooltip:AddLine(v['data'], v['color'][1], v['color'][2], v['color'][3], true);
+            if (not __TT_LineCache[k]) or (not __TT_LineCache[k][v['data']]) then
+                GameTooltip:AddLine(v['data'], v['color'][1], v['color'][2], v['color'][3], true, k);
             end
         end
         if(QUESTIE_DEBUG_TOOLTIP) then
@@ -361,11 +363,14 @@ function Questie:GetTooltipLines(path, indent, highlightInfo, lines, sourceNames
     for i=1,indent,1 do
         indentString = indentString.." "
     end
+    if path["contained_id"] then path["contained"] = nil end
     for sourceType, sources in pairs(path) do
         local prefix
         if sourceType == "drop" then
             prefix = "Dropped by"
         elseif sourceType == "contained" then
+            prefix = "Contained in"
+        elseif sourceType == "contained_id" then
             prefix = "Contained in"
         elseif sourceType == "containedi" then
             prefix = "Opened in"

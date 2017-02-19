@@ -55534,6 +55534,18 @@ function GetEntityLocations(entity)
                 end
             end
         end
+        if sourceType == "contained_id" then
+            for sourceId, b in pairs(sources) do
+                local locationMeta, ids = GetNewObjectLocations(sourceId)
+                if next(locationMeta) then
+                    if locations[sourceType] == nil then locations[sourceType] = {} end
+                    local sourceName = locationMeta.name
+                    locationMeta.name = nil
+                    locations[sourceType][sourceName] = locationMeta
+                    for id in ids do mapIds[id] = true end
+                end
+            end
+        end
         if sourceType == "containedi" then
             for sourceName, b in pairs(sources) do
                 local locationMeta, ids = GetItemLocations(sourceName)
@@ -55587,10 +55599,10 @@ function GetEntityLocations(entity)
         if sourceType == "locations" then
             local added = false
             for i, location in pairs(sources) do
-                if QuestieZoneIDLookup[location[1]] then
+                if table.getn(location) == 3 or QuestieZoneIDLookup[location[1]] then
                     if locations[sourceType] == nil then locations[sourceType] = {} end
                     table.insert(locations[sourceType], location)
-                    if added == false then
+                    if added == false and table.getn(location) > 3 then
                         mapIds[location[1]] = true -- todo remove this if monster locations get fixed
                         added = true
                     end
@@ -55599,6 +55611,9 @@ function GetEntityLocations(entity)
                 end
                 --mapIds[location[1]] = true -- todo uncomment this if monster locations get fixed
             end
+        end
+        if sourceType == "name" then
+            locations[sourceType] = sources
         end
     end
     return locations, mapIds
@@ -55623,6 +55638,13 @@ function GetObjectLocations(objectName)
     else
         -- todo shouldn't really check monsters, but someone moved some objects and items to the monsters list
         return GetMonsterLocations(name)
+    end
+    return {}, {}
+end
+
+function GetNewObjectLocations(objectId)
+    if QuestieNewObjects[objectId] then
+        return GetEntityLocations(QuestieNewObjects[objectId])
     end
     return {}, {}
 end
