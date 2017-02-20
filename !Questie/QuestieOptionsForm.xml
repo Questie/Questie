@@ -63,6 +63,39 @@
       </Layer>
     </Layers>
     <Frames>
+      <Button name="$parentResetDefaultsButton" inherits="GameMenuButtonTemplate" text="Reset Defaults">
+        <!--<FrameSkin skinid="dcb143e1-a4ab-4e7c-b934-1efa40101d21" frameid="2d508884-59c2-4f83-ae10-27aaad48391b" />-->
+        <Size>
+          <AbsDimension x="100" y="22" />
+        </Size>
+        <Anchors>
+          <Anchor point="TOPLEFT">
+            <Offset>
+              <AbsDimension x="18" y="-498" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Scripts>
+          <OnClick>Questie:ClearConfig("slash")</OnClick>
+        </Scripts>
+        <NormalTexture file="Interface\Buttons\UI-Panel-Button-Up">
+          <TexCoords left="0" right="0.625" top="0" bottom="0.6875" />
+        </NormalTexture>
+        <PushedTexture file="Interface\Buttons\UI-Panel-Button-Down">
+          <TexCoords left="0" right="0.625" top="0" bottom="0.6875" />
+        </PushedTexture>
+        <DisabledTexture file="Interface\Buttons\UI-Panel-Button-Disabled">
+          <TexCoords left="0" right="0.625" top="0" bottom="0.6875" />
+        </DisabledTexture>
+        <HighlightTexture file="Interface\Buttons\UI-Panel-Button-Highlight" alphaMode="ADD">
+          <TexCoords left="0" right="0.625" top="0" bottom="0.6875" />
+        </HighlightTexture>
+        <ButtonText name="$parentText">
+          <FontHeight>
+            <AbsValue val="10" />
+          </FontHeight>
+        </ButtonText>
+      </Button>
       <Frame name="$parentMinShowLevel">
         <!--<FrameSkin skinid="dcb143e1-a4ab-4e7c-b934-1efa40101d21" frameid="2d508889-59c2-4f83-ae10-27aaad48391b" />-->
         <Size>
@@ -159,19 +192,19 @@
                 </FontString>
               </Layer>
             </Layers>
+            <Scripts>
+              <OnEnter>Questie:OptionsForm_SettingOnEnter("MinShowLevel")
+                </OnEnter>
+              <OnLeave>Questie:OptionsForm_SettingOnLeave()
+                </OnLeave>
+              <OnValueChanged>Questie:OptionsForm_SettingOnValueChanged()
+                </OnValueChanged>
+            </Scripts>
             <ThumbTexture name="$parentThumb" file="Interface\Buttons\UI-SliderBar-Button-Horizontal">
               <Size>
                 <AbsDimension x="32" y="32" />
               </Size>
             </ThumbTexture>
-            <Scripts>
-                <OnValueChanged>Questie:OptionsForm_SettingOnValueChanged()
-                </OnValueChanged>
-                <OnEnter>Questie:OptionsForm_SettingOnEnter("MinShowLevel")
-                </OnEnter>
-                <OnLeave>Questie:OptionsForm_SettingOnLeave()
-                </OnLeave>
-            </Scripts>
           </Slider>
         </Frames>
       </Frame>
@@ -271,19 +304,19 @@
                 </FontString>
               </Layer>
             </Layers>
+            <Scripts>
+              <OnEnter>Questie:OptionsForm_SettingOnEnter("MaxShowLevel")
+                </OnEnter>
+              <OnLeave>Questie:OptionsForm_SettingOnLeave()
+                </OnLeave>
+              <OnValueChanged>Questie:OptionsForm_SettingOnValueChanged()
+                </OnValueChanged>
+            </Scripts>
             <ThumbTexture name="$parentThumb" file="Interface\Buttons\UI-SliderBar-Button-Horizontal">
               <Size>
                 <AbsDimension x="32" y="32" />
               </Size>
             </ThumbTexture>
-            <Scripts>
-                <OnValueChanged>Questie:OptionsForm_SettingOnValueChanged()
-                </OnValueChanged>
-                <OnEnter>Questie:OptionsForm_SettingOnEnter("MaxShowLevel")
-                </OnEnter>
-                <OnLeave>Questie:OptionsForm_SettingOnLeave()
-                </OnLeave>
-            </Scripts>
           </Slider>
         </Frames>
       </Frame>
@@ -383,19 +416,19 @@
                 </FontString>
               </Layer>
             </Layers>
+            <Scripts>
+              <OnEnter>Questie:OptionsForm_SettingOnEnter("TrackerScale")
+                </OnEnter>
+              <OnLeave>Questie:OptionsForm_SettingOnLeave()
+                </OnLeave>
+              <OnValueChanged>Questie:OptionsForm_SettingOnValueChanged()
+                </OnValueChanged>
+            </Scripts>
             <ThumbTexture name="$parentThumb" file="Interface\Buttons\UI-SliderBar-Button-Horizontal">
               <Size>
                 <AbsDimension x="32" y="32" />
               </Size>
             </ThumbTexture>
-            <Scripts>
-                <OnValueChanged>Questie:OptionsForm_SettingOnValueChanged()
-                </OnValueChanged>
-                <OnEnter>Questie:OptionsForm_SettingOnEnter("TrackerScale")
-                </OnEnter>
-                <OnLeave>Questie:OptionsForm_SettingOnLeave()
-                </OnLeave>
-            </Scripts>
           </Slider>
         </Frames>
       </Frame>
@@ -495,19 +528,19 @@
                 </FontString>
               </Layer>
             </Layers>
+            <Scripts>
+              <OnEnter>Questie:OptionsForm_SettingOnEnter("TrackerTransparency")
+                </OnEnter>
+              <OnLeave>Questie:OptionsForm_SettingOnLeave()
+                </OnLeave>
+              <OnValueChanged>Questie:OptionsForm_SettingOnValueChanged()
+                </OnValueChanged>
+            </Scripts>
             <ThumbTexture name="$parentThumb" file="Interface\Buttons\UI-SliderBar-Button-Horizontal">
               <Size>
                 <AbsDimension x="32" y="32" />
               </Size>
             </ThumbTexture>
-            <Scripts>
-                <OnValueChanged>Questie:OptionsForm_SettingOnValueChanged()
-                </OnValueChanged>
-                <OnEnter>Questie:OptionsForm_SettingOnEnter("TrackerTransparency")
-                </OnEnter>
-                <OnLeave>Questie:OptionsForm_SettingOnLeave()
-                </OnLeave>
-            </Scripts>
           </Slider>
         </Frames>
       </Frame>
@@ -524,8 +557,7 @@
           </Anchor>
         </Anchors>
         <Scripts>
-          <OnClick>Questie:OptionsForm_ApplyOptions()
-          </OnClick>
+          <OnClick>Questie:OptionsForm_ApplyOptions()</OnClick>
         </Scripts>
         <NormalTexture file="Interface\Buttons\UI-Panel-Button-Up">
           <TexCoords left="0" right="0.625" top="0" bottom="0.6875" />
@@ -558,10 +590,8 @@
           </Anchor>
         </Anchors>
         <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("AlwaysShowQuests")
-          </OnEnter>
-          <OnLeave>Questie:OptionsForm_SettingOnLeave()
-          </OnLeave>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("AlwaysShowQuests")</OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()</OnLeave>
         </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
         <PushedTexture file="Interface\Buttons\UI-CheckBox-Down" />
@@ -600,10 +630,8 @@
           </Layer>
         </Layers>
         <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("AlwaysShowQuests")
-          </OnEnter>
-          <OnLeave>Questie:OptionsForm_SettingOnLeave()
-          </OnLeave>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("AlwaysShowQuests")</OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()</OnLeave>
         </Scripts>
       </Frame>
       <CheckButton name="$parentArrowEnabledCheck">
@@ -619,10 +647,8 @@
           </Anchor>
         </Anchors>
         <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("ArrowEnabled")
-          </OnEnter>
-          <OnLeave>Questie:OptionsForm_SettingOnLeave()
-          </OnLeave>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("ArrowEnabled")</OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()</OnLeave>
         </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
         <PushedTexture file="Interface\Buttons\UI-CheckBox-Down" />
@@ -661,10 +687,8 @@
           </Layer>
         </Layers>
         <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("ArrowEnabled")
-          </OnEnter>
-          <OnLeave>Questie:OptionsForm_SettingOnLeave()
-          </OnLeave>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("ArrowEnabled")</OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()</OnLeave>
         </Scripts>
       </Frame>
       <CheckButton name="$parentBoldColorsCheck">
@@ -680,10 +704,8 @@
           </Anchor>
         </Anchors>
         <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("BoldColors")
-          </OnEnter>
-          <OnLeave>Questie:OptionsForm_SettingOnLeave()
-          </OnLeave>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("BoldColors")</OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()</OnLeave>
         </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
         <PushedTexture file="Interface\Buttons\UI-CheckBox-Down" />
@@ -722,10 +744,8 @@
           </Layer>
         </Layers>
         <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("BoldColors")
-          </OnEnter>
-          <OnLeave>Questie:OptionsForm_SettingOnLeave()
-          </OnLeave>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("BoldColors")</OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()</OnLeave>
         </Scripts>
       </Frame>
       <CheckButton name="$parentMaxLevelFilterCheck">
@@ -741,10 +761,8 @@
           </Anchor>
         </Anchors>
         <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("MaxLevelFilter")
-          </OnEnter>
-          <OnLeave>Questie:OptionsForm_SettingOnLeave()
-          </OnLeave>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("MaxLevelFilter")</OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()</OnLeave>
         </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
         <PushedTexture file="Interface\Buttons\UI-CheckBox-Down" />
@@ -783,10 +801,8 @@
           </Layer>
         </Layers>
         <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("MaxLevelFilter")
-          </OnEnter>
-          <OnLeave>Questie:OptionsForm_SettingOnLeave()
-          </OnLeave>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("MaxLevelFilter")</OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()</OnLeave>
         </Scripts>
       </Frame>
       <CheckButton name="$parentMinLevelFilterCheck">
@@ -802,10 +818,8 @@
           </Anchor>
         </Anchors>
         <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("MinLevelFilter")
-          </OnEnter>
-          <OnLeave>Questie:OptionsForm_SettingOnLeave()
-          </OnLeave>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("MinLevelFilter")</OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()</OnLeave>
         </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
         <PushedTexture file="Interface\Buttons\UI-CheckBox-Down" />
@@ -844,10 +858,8 @@
           </Layer>
         </Layers>
         <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("MinLevelFilter")
-          </OnEnter>
-          <OnLeave>Questie:OptionsForm_SettingOnLeave()
-          </OnLeave>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("MinLevelFilter")</OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()</OnLeave>
         </Scripts>
       </Frame>
       <Frame name="$parentShowMapAidsLabel">
@@ -879,10 +891,8 @@
           </Layer>
         </Layers>
         <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("ShowMapAids")
-          </OnEnter>
-          <OnLeave>Questie:OptionsForm_SettingOnLeave()
-          </OnLeave>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("ShowMapAids")</OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()</OnLeave>
         </Scripts>
       </Frame>
       <Frame name="$parentShowProfessionQuestsLabel">
@@ -914,10 +924,8 @@
           </Layer>
         </Layers>
         <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("ShowProfessionQuests")
-          </OnEnter>
-          <OnLeave>Questie:OptionsForm_SettingOnLeave()
-          </OnLeave>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("ShowProfessionQuests")</OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()</OnLeave>
         </Scripts>
       </Frame>
       <Frame name="$parentShowTrackerHeaderLabel">
@@ -949,10 +957,8 @@
           </Layer>
         </Layers>
         <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("ShowTrackerHeader")
-          </OnEnter>
-          <OnLeave>Questie:OptionsForm_SettingOnLeave()
-          </OnLeave>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("ShowTrackerHeader")</OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()</OnLeave>
         </Scripts>
       </Frame>
       <Frame name="$parentShowToolTipsLabel">
@@ -984,10 +990,8 @@
           </Layer>
         </Layers>
         <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("ShowToolTips")
-          </OnEnter>
-          <OnLeave>Questie:OptionsForm_SettingOnLeave()
-          </OnLeave>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("ShowToolTips")</OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()</OnLeave>
         </Scripts>
       </Frame>
       <Frame name="$parentTrackerEnabledLabel">
@@ -1019,10 +1023,8 @@
           </Layer>
         </Layers>
         <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("TrackerEnabled")
-          </OnEnter>
-          <OnLeave>Questie:OptionsForm_SettingOnLeave()
-          </OnLeave>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("TrackerEnabled")</OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()</OnLeave>
         </Scripts>
       </Frame>
       <Frame name="$parentTrackerListLabel">
@@ -1054,10 +1056,8 @@
           </Layer>
         </Layers>
         <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("TrackerList")
-          </OnEnter>
-          <OnLeave>Questie:OptionsForm_SettingOnLeave()
-          </OnLeave>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("TrackerList")</OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()</OnLeave>
         </Scripts>
       </Frame>
       <Frame name="$parentTrackerBackgroundLabel">
@@ -1089,10 +1089,8 @@
           </Layer>
         </Layers>
         <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("TrackerBackground")
-          </OnEnter>
-          <OnLeave>Questie:OptionsForm_SettingOnLeave()
-          </OnLeave>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("TrackerBackground")</OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()</OnLeave>
         </Scripts>
       </Frame>
       <Frame name="$parentResizeWorldmapLabel">
@@ -1124,10 +1122,8 @@
           </Layer>
         </Layers>
         <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("ResizeWorldmap")
-          </OnEnter>
-          <OnLeave>Questie:OptionsForm_SettingOnLeave()
-          </OnLeave>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("ResizeWorldmap")</OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()</OnLeave>
         </Scripts>
       </Frame>
       <Frame name="$parentHideMinimapIconsLabel">
@@ -1159,10 +1155,8 @@
           </Layer>
         </Layers>
         <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("HideMinimapIcons")
-          </OnEnter>
-          <OnLeave>Questie:OptionsForm_SettingOnLeave()
-          </OnLeave>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("HideMinimapIcons")</OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()</OnLeave>
         </Scripts>
       </Frame>
       <Frame name="$parentHideObjectivesLabel">
@@ -1194,10 +1188,8 @@
           </Layer>
         </Layers>
         <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("HideObjectives")
-          </OnEnter>
-          <OnLeave>Questie:OptionsForm_SettingOnLeave()
-          </OnLeave>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("HideObjectives")</OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()</OnLeave>
         </Scripts>
       </Frame>
       <Frame name="$parentVersionLabel">
@@ -1242,10 +1234,8 @@
           </Anchor>
         </Anchors>
         <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("ShowMapAids")
-          </OnEnter>
-          <OnLeave>Questie:OptionsForm_SettingOnLeave()
-          </OnLeave>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("ShowMapAids")</OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()</OnLeave>
         </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
         <PushedTexture file="Interface\Buttons\UI-CheckBox-Down" />
@@ -1268,10 +1258,8 @@
           </Anchor>
         </Anchors>
         <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("ShowProfessionQuests")
-          </OnEnter>
-          <OnLeave>Questie:OptionsForm_SettingOnLeave()
-          </OnLeave>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("ShowProfessionQuests")</OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()</OnLeave>
         </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
         <PushedTexture file="Interface\Buttons\UI-CheckBox-Down" />
@@ -1294,10 +1282,8 @@
           </Anchor>
         </Anchors>
         <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("ShowTrackerHeader")
-          </OnEnter>
-          <OnLeave>Questie:OptionsForm_SettingOnLeave()
-          </OnLeave>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("ShowTrackerHeader")</OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()</OnLeave>
         </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
         <PushedTexture file="Interface\Buttons\UI-CheckBox-Down" />
@@ -1320,10 +1306,8 @@
           </Anchor>
         </Anchors>
         <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("ShowToolTips")
-          </OnEnter>
-          <OnLeave>Questie:OptionsForm_SettingOnLeave()
-          </OnLeave>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("ShowToolTips")</OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()</OnLeave>
         </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
         <PushedTexture file="Interface\Buttons\UI-CheckBox-Down" />
@@ -1346,10 +1330,8 @@
           </Anchor>
         </Anchors>
         <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("TrackerEnabled")
-          </OnEnter>
-          <OnLeave>Questie:OptionsForm_SettingOnLeave()
-          </OnLeave>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("TrackerEnabled")</OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()</OnLeave>
         </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
         <PushedTexture file="Interface\Buttons\UI-CheckBox-Down" />
@@ -1372,10 +1354,8 @@
           </Anchor>
         </Anchors>
         <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("TrackerList")
-          </OnEnter>
-          <OnLeave>Questie:OptionsForm_SettingOnLeave()
-          </OnLeave>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("TrackerList")</OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()</OnLeave>
         </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
         <PushedTexture file="Interface\Buttons\UI-CheckBox-Down" />
@@ -1398,10 +1378,8 @@
           </Anchor>
         </Anchors>
         <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("TrackerBackground")
-          </OnEnter>
-          <OnLeave>Questie:OptionsForm_SettingOnLeave()
-          </OnLeave>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("TrackerBackground")</OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()</OnLeave>
         </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
         <PushedTexture file="Interface\Buttons\UI-CheckBox-Down" />
@@ -1424,10 +1402,8 @@
           </Anchor>
         </Anchors>
         <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("ResizeWorldmap")
-          </OnEnter>
-          <OnLeave>Questie:OptionsForm_SettingOnLeave()
-          </OnLeave>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("ResizeWorldmap")</OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()</OnLeave>
         </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
         <PushedTexture file="Interface\Buttons\UI-CheckBox-Down" />
@@ -1450,10 +1426,8 @@
           </Anchor>
         </Anchors>
         <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("HideMinimapIcons")
-          </OnEnter>
-          <OnLeave>Questie:OptionsForm_SettingOnLeave()
-          </OnLeave>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("HideMinimapIcons")</OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()</OnLeave>
         </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
         <PushedTexture file="Interface\Buttons\UI-CheckBox-Down" />
@@ -1476,10 +1450,8 @@
           </Anchor>
         </Anchors>
         <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("HideObjectives")
-          </OnEnter>
-          <OnLeave>Questie:OptionsForm_SettingOnLeave()
-          </OnLeave>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("HideObjectives")</OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()</OnLeave>
         </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
         <PushedTexture file="Interface\Buttons\UI-CheckBox-Down" />
@@ -1518,10 +1490,8 @@
           </Layer>
         </Layers>
         <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("CorpseArrow")
-          </OnEnter>
-          <OnLeave>Questie:OptionsForm_SettingOnLeave()
-          </OnLeave>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("CorpseArrow")</OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()</OnLeave>
         </Scripts>
       </Frame>
       <CheckButton name="$parentCorpseArrowCheck">
@@ -1537,10 +1507,8 @@
           </Anchor>
         </Anchors>
         <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("CorpseArrow")
-          </OnEnter>
-          <OnLeave>Questie:OptionsForm_SettingOnLeave()
-          </OnLeave>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("CorpseArrow")</OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()</OnLeave>
         </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
         <PushedTexture file="Interface\Buttons\UI-CheckBox-Down" />
@@ -1579,10 +1547,8 @@
           </Layer>
         </Layers>
         <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("ClusterQuests")
-          </OnEnter>
-          <OnLeave>Questie:OptionsForm_SettingOnLeave()
-          </OnLeave>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("ClusterQuests")</OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()</OnLeave>
         </Scripts>
       </Frame>
       <CheckButton name="$parentClusterQuestsCheck">
@@ -1598,10 +1564,8 @@
           </Anchor>
         </Anchors>
         <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("ClusterQuests")
-          </OnEnter>
-          <OnLeave>Questie:OptionsForm_SettingOnLeave()
-          </OnLeave>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("ClusterQuests")</OnEnter>
+          <OnLeave>Questie:OptionsForm_SettingOnLeave()</OnLeave>
         </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
         <PushedTexture file="Interface\Buttons\UI-CheckBox-Down" />
