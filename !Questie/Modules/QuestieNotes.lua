@@ -1012,7 +1012,8 @@ function Questie:RecursiveCreateNotes(c, z, v, locationMeta, iconMeta, objective
                 local newPathKeys = deepcopy(pathKeys)
                 table.insert(newPathKeys, sourceType)
                 table.insert(newPathKeys, sourceName)
-                if iconMeta.selectedIcon == nil then
+                local newIconMeta = deepcopy(iconMeta)
+                if newIconMeta.selectedIcon == nil then
                     local typeToIcon = {
                         ["drop"] = "loot",
                         ["contained"] = "object",
@@ -1022,15 +1023,13 @@ function Questie:RecursiveCreateNotes(c, z, v, locationMeta, iconMeta, objective
                         ["transforms"] = "event",
                         ["transformedby"] = "loot",
                     }
-                    iconMeta.selectedIcon = typeToIcon[sourceType]
+                    newIconMeta.selectedIcon = typeToIcon[sourceType]
                 end
                 local newObjectiveId = objectiveid
-                local newIconMeta = iconMeta
                 if specialSources[sourceType] then
                     newPath = {}
                     newPathKeys = {}
                     newObjectiveId = sourceName
-                    newIconMeta = deepcopy(newIconMeta)
                     newIconMeta.selectedIcon = nil
                 end
                 Questie:RecursiveCreateNotes(c, z, v, sourceLocationMeta, newIconMeta, newObjectiveId, newPath, newPathKeys)
