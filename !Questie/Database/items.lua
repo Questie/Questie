@@ -175,7 +175,7 @@ QuestieItems = {
     },
     Bloodcap = {
         contained_id = {
-            ["164958"] = 1,
+            [164958] = 1,
         },
     },
     ["Primal Hakkari Shawl"] = {
@@ -1009,7 +1009,7 @@ QuestieItems = {
     },
     ["Ancient Statuette"] = {
         contained_id = {
-            ["17783"] = 1,
+            [17783] = 1,
         },
     },
     ["Warlord's Iron-Epaulets of the Whale"] = {
@@ -1127,7 +1127,7 @@ QuestieItems = {
     },
     ["Timberling Sprout"] = {
         contained_id = {
-            ["4608"] = 1,
+            [4608] = 1,
         },
     },
     ["Tool Kit"] = {
@@ -1915,7 +1915,7 @@ QuestieItems = {
     },
     ["Troll Charm"] = {
         contained_id = {
-            ["178144"] = 1,
+            [178144] = 1,
         },
     },
     ["Blackforge Girdle"] = {
@@ -2027,7 +2027,7 @@ QuestieItems = {
             ["Highperch Wyvern"] = 2,
         },
         contained_id = {
-            ["175384"] = 1,
+            [175384] = 1,
         },
     },
     ["Скипетр Света"] = {
@@ -2930,7 +2930,7 @@ QuestieItems = {
     },
     ["Taillasher Egg"] = {
         contained_id = {
-            ["3240"] = 1,
+            [3240] = 1,
         },
     },
     ["Filled Pure Sample Jar"] = {
@@ -3040,12 +3040,12 @@ QuestieItems = {
     },
     ["Crudely Dried Meat"] = {
         contained_id = {
-            ["22245"] = 1,
+            [22245] = 1,
         },
     },
     ["Velinde's Journal"] = {
         contained_id = {
-            ["19877"] = 1,
+            [19877] = 1,
         },
     },
     ["측량 장비 상자"] = {
@@ -3382,7 +3382,7 @@ QuestieItems = {
     },
     ["Carved Stone Urn"] = {
         contained_id = {
-            ["2743"] = 1,
+            [2743] = 1,
         },
     },
     ["Expedition Pants of Intellect"] = {
@@ -3437,8 +3437,8 @@ QuestieItems = {
     },
     ["Spire Spider Egg"] = {
         contained_id = {
-            ["175606"] = 1,
-            ["175588"] = 1,
+            [175606] = 1,
+            [175588] = 1,
         },
     },
     ["Warchief Kargath's Fist"] = {
@@ -4059,7 +4059,7 @@ QuestieItems = {
     },
     ["Tablet Shard"] = {
         contained_id = {
-            ["58"] = 1,
+            [58] = 1,
         },
     },
     ["트라드릭 수정 조각상"] = {
@@ -4294,7 +4294,7 @@ QuestieItems = {
     },
     ["Trelane's Phylactery"] = {
         contained_id = {
-            ["2717"] = 1,
+            [2717] = 1,
         },
     },
     ["Slimy Ichor"] = {
@@ -4445,7 +4445,7 @@ QuestieItems = {
     },
     Ambercorn = {
         contained_id = {
-            ["2912"] = 1,
+            [2912] = 1,
         },
     },
     ["Moss Agate"] = {
@@ -4752,12 +4752,12 @@ QuestieItems = {
     },
     ["Rocket Car Parts"] = {
         contained_id = {
-            ["19871"] = 1,
-            ["19873"] = 1,
-            ["19870"] = 1,
-            ["19869"] = 1,
-            ["19868"] = 1,
-            ["19872"] = 1,
+            [19871] = 1,
+            [19873] = 1,
+            [19870] = 1,
+            [19869] = 1,
+            [19868] = 1,
+            [19872] = 1,
         },
     },
     ["우차의 모피"] = {
@@ -4804,7 +4804,7 @@ QuestieItems = {
     },
     ["Secret Note #2"] = {
         contained_id = {
-            ["190483"] = 1,
+            [190483] = 1,
         },
     },
     ["Mysterious Relic"] = {
@@ -4856,7 +4856,7 @@ QuestieItems = {
     },
     ["Huntsman Malkhor's Skull"] = {
         contained_id = {
-            ["179915"] = 1,
+            [179915] = 1,
         },
     },
     ["Strigid Owl Feather"] = {
@@ -5510,7 +5510,7 @@ QuestieItems = {
     },
     ["Hilary's Necklace"] = {
         contained_id = {
-            ["154357"] = 1,
+            [154357] = 1,
         },
     },
     ["Krasus' Kompendium - Kapitel 1"] = {
@@ -6111,7 +6111,7 @@ QuestieItems = {
     },
     ["Frostmaul Shards"] = {
         contained_id = {
-            ["175324"] = 1,
+            [175324] = 1,
         },
     },
     Kicherfangunterkiefer = {
@@ -6481,7 +6481,7 @@ QuestieItems = {
     },
     ["Token of Thievery"] = {
         contained_id = {
-            ["121264"] = 1,
+            [121264] = 1,
         },
     },
     ["Geisterhafte Fesseln"] = {
@@ -6852,7 +6852,7 @@ QuestieItems = {
     ["Thundering Key"] = {
         vendor = "Misc",
         contained_id = {
-            ["2690"] = 1,
+            [2690] = 1,
         },
     },
     ["Smithing Tuyere"] = {
@@ -6873,7 +6873,7 @@ QuestieItems = {
     },
     ["Bundle of Charred Oak"] = {
         contained_id = {
-            ["50982"] = 1,
+            [50982] = 1,
         },
     },
     ["Chilled Basilisk Haunch"] = {
@@ -6884,7 +6884,7 @@ QuestieItems = {
     },
     ["Warsong Axe Shipment"] = {
         contained_id = {
-            ["178204"] = 1,
+            [178204] = 1,
         },
     },
     ["Brigade Gauntlets of the Whale"] = {
@@ -7167,7 +7167,7 @@ QuestieItems = {
     },
     ["Augustus' Receipt Book"] = {
         contained_id = {
-            ["177789"] = 1,
+            [177789] = 1,
         },
     },
     ["Части тел насекомых Сентипаар"] = {
@@ -7531,7 +7531,7 @@ QuestieItems = {
     },
     ["Essential Artificial"] = {
         contained_id = {
-            ["142344"] = 1,
+            [142344] = 1,
         },
     },
     ["Netherstorm Legguards of Stamina"] = {
@@ -8416,7 +8416,7 @@ QuestieItems = {
     },
     ["Searing Coral"] = {
         contained_id = {
-            ["89634"] = 1,
+            [89634] = 1,
         },
     },
     ["Crâne résonant"] = {
@@ -8483,7 +8483,7 @@ QuestieItems = {
     },
     ["Snufflenose Owner's Manual"] = {
         contained_id = {
-            ["21530"] = 1,
+            [21530] = 1,
         },
     },
     ["Cabeza del sobrestante Maltorius"] = {
@@ -8824,12 +8824,12 @@ QuestieItems = {
     },
     ["Powers of the Void"] = {
         contained_id = {
-            ["83763"] = 1,
+            [83763] = 1,
         },
     },
     ["Kim'Jael's Wizzlegoober"] = {
         contained_id = {
-            ["153123"] = 1,
+            [153123] = 1,
         },
     },
     ["Belt of the Gladiator"] = {
@@ -9049,7 +9049,7 @@ QuestieItems = {
     },
     ["Goodsteel Ledger"] = {
         contained_id = {
-            ["173266"] = 1,
+            [173266] = 1,
         },
     },
     ["Falconcrest's Head"] = {
@@ -9262,7 +9262,7 @@ QuestieItems = {
     },
     ["Kim'Jael's Stuffed Chicken"] = {
         contained_id = {
-            ["153123"] = 1,
+            [153123] = 1,
         },
     },
     ["Mor'Ladim's Skull"] = {
@@ -9323,7 +9323,7 @@ QuestieItems = {
     },
     ["Huntsman Malkhor's Bones"] = {
         contained_id = {
-            ["179914"] = 1,
+            [179914] = 1,
         },
     },
     ["Lazo vil de fuego de jade"] = {
@@ -9538,7 +9538,7 @@ QuestieItems = {
     },
     ["Berard's Journal"] = {
         contained_id = {
-            ["1594"] = 1,
+            [1594] = 1,
         },
     },
     ["Fiole céruléenne remplie"] = {
@@ -10085,7 +10085,7 @@ QuestieItems = {
     },
     ["Secret Note #1"] = {
         contained_id = {
-            ["176344"] = 1,
+            [176344] = 1,
         },
     },
     ["Mug O' Hurt"] = {
@@ -10405,7 +10405,7 @@ QuestieItems = {
     },
     ["Venture Co. Engineering Plans"] = {
         contained_id = {
-            ["19602"] = 1,
+            [19602] = 1,
         },
     },
     ["Canvas Scraps"] = {
@@ -10809,7 +10809,7 @@ QuestieItems = {
     },
     ["Emerald Dreamcatcher"] = {
         contained_id = {
-            ["126158"] = 1,
+            [126158] = 1,
         },
     },
     ["Ignition Key"] = {
@@ -11089,7 +11089,7 @@ QuestieItems = {
     },
     ["The Deed to Brill"] = {
         contained_id = {
-            ["176484"] = 1,
+            [176484] = 1,
         },
     },
     ["Carpenter's Mallet"] = {
@@ -11328,7 +11328,7 @@ QuestieItems = {
     },
     ["An Undelivered Letter"] = {
         contained_id = {
-            ["1560"] = 1,
+            [1560] = 1,
         },
     },
     ["Heart of Flame"] = {
@@ -11340,7 +11340,7 @@ QuestieItems = {
     },
     ["The Lich's Spellbook"] = {
         contained_id = {
-            ["1165"] = 1,
+            [1165] = 1,
         },
     },
     ["Wailing Essence"] = {
@@ -11351,10 +11351,10 @@ QuestieItems = {
     },
     ["Crystallized Azsharite"] = {
         contained_id = {
-            ["152621"] = 1,
-            ["152620"] = 1,
-            ["152631"] = 1,
-            ["152622"] = 1,
+            [152621] = 1,
+            [152620] = 1,
+            [152631] = 1,
+            [152622] = 1,
         },
     },
     ["Ember Wand of the Wolf"] = {
@@ -11429,7 +11429,7 @@ QuestieItems = {
     },
     ["Felix's Box"] = {
         contained_id = {
-            ["148499"] = 1,
+            [148499] = 1,
         },
     },
     ["Intrepid Strongbox Key"] = {
@@ -11582,7 +11582,7 @@ QuestieItems = {
     ["Barrow Key"] = {
         vendor = "Misc",
         contained_id = {
-            ["19598"] = 1,
+            [19598] = 1,
         },
     },
     ["Apexis Shard"] = {
@@ -11807,7 +11807,7 @@ QuestieItems = {
     },
     ["Fifth Mosh'aru Tablet"] = {
         contained_id = {
-            ["175949"] = 1,
+            [175949] = 1,
         },
     },
     ["Clefthoof Britches of Strength"] = {
@@ -11887,7 +11887,7 @@ QuestieItems = {
     },
     ["Golden Flame"] = {
         contained_id = {
-            ["164910"] = 1,
+            [164910] = 1,
         },
     },
     ["이케옌의 소지품"] = {
@@ -11920,7 +11920,7 @@ QuestieItems = {
     },
     ["Fungal Spores"] = {
         contained_id = {
-            ["3640"] = 1,
+            [3640] = 1,
         },
     },
     ["Razorthorn Root"] = {
@@ -12226,7 +12226,7 @@ QuestieItems = {
     },
     ["Bingles' Wrench"] = {
         contained_id = {
-            ["104564"] = 1,
+            [104564] = 1,
         },
     },
     ["Southfury Moonstone"] = {
@@ -12428,7 +12428,7 @@ QuestieItems = {
     },
     ["Rune of Nesting"] = {
         contained_id = {
-            ["2742"] = 1,
+            [2742] = 1,
         },
     },
     ["The Scroll of Skyriss"] = {
@@ -13405,7 +13405,7 @@ QuestieItems = {
     },
     ["Shattered Sword of Marduk"] = {
         contained_id = {
-            ["176209"] = 1,
+            [176209] = 1,
         },
     },
     ["Sequoia Hammer of the Tiger"] = {
@@ -13630,7 +13630,7 @@ QuestieItems = {
     },
     ["Hyacinth Mushroom"] = {
         contained_id = {
-            ["152094"] = 1,
+            [152094] = 1,
         },
     },
     ["Vibrant Plume"] = {
@@ -14741,7 +14741,7 @@ QuestieItems = {
     },
     ["Sacred Highborne Writings"] = {
         contained_id = {
-            ["176356"] = 1,
+            [176356] = 1,
         },
     },
     ["Imperiale Plattenrüstung"] = {
@@ -14860,7 +14860,7 @@ QuestieItems = {
     },
     ["The Fourth Troll Legend"] = {
         contained_id = {
-            ["54"] = 1,
+            [54] = 1,
         },
     },
     ["Верхняя часть ключа Гелхака"] = {
@@ -14990,7 +14990,7 @@ QuestieItems = {
     },
     ["Charged Rift Gem"] = {
         contained_id = {
-            ["271"] = 1,
+            [271] = 1,
         },
     },
     ["Cristal de draenéthyste"] = {
@@ -15018,7 +15018,7 @@ QuestieItems = {
     },
     ["Krom Stoutarm's Treasure"] = {
         contained_id = {
-            ["124389"] = 1,
+            [124389] = 1,
         },
     },
     ["Draenei Vessel"] = {
@@ -15371,7 +15371,7 @@ QuestieItems = {
     },
     ["Egalin's Grimoire"] = {
         contained_id = {
-            ["37098"] = 1,
+            [37098] = 1,
         },
     },
     ["Blue Voodoo Feather"] = {
@@ -15750,7 +15750,7 @@ QuestieItems = {
     },
     ["Fourth Relic Fragment"] = {
         contained_id = {
-            ["175893"] = 1,
+            [175893] = 1,
         },
     },
     ["Eingekerkerter Höllenbestiengeist"] = {
@@ -16096,7 +16096,7 @@ QuestieItems = {
     },
     ["Tirisfal Pumpkin"] = {
         contained_id = {
-            ["375"] = 1,
+            [375] = 1,
         },
     },
     ["Exquisite Flamberge of the Whale"] = {
@@ -16561,7 +16561,7 @@ QuestieItems = {
     },
     ["Rituals of Power"] = {
         contained_id = {
-            ["103664"] = 1,
+            [103664] = 1,
         },
     },
     ["지옥멧돼지 혈액 견본"] = {
@@ -16635,7 +16635,7 @@ QuestieItems = {
     },
     ["SI:7 Insignia (Rutger)"] = {
         contained_id = {
-            ["177806"] = 1,
+            [177806] = 1,
         },
     },
     ["Feste Skorpidbrustplatte"] = {
@@ -16675,7 +16675,7 @@ QuestieItems = {
     },
     ["Stolen Silver"] = {
         contained_id = {
-            ["147557"] = 1,
+            [147557] = 1,
         },
     },
     ["테디스의 발톱"] = {
@@ -16746,9 +16746,9 @@ QuestieItems = {
     },
     ["Sapphire of Aku'Mai"] = {
         contained_id = {
-            ["178184"] = 1,
-            ["178185"] = 1,
-            ["178186"] = 1,
+            [178184] = 1,
+            [178185] = 1,
+            [178186] = 1,
         },
     },
     ["Twilight Whisker"] = {
@@ -16810,7 +16810,7 @@ QuestieItems = {
     },
     ["A Simple Compass"] = {
         contained_id = {
-            ["1166"] = 1,
+            [1166] = 1,
         },
         contained = {
             ["Alexston's Chest"] = 1,
@@ -17276,7 +17276,7 @@ QuestieItems = {
     },
     ["Trelane's Orb"] = {
         contained_id = {
-            ["2716"] = 1,
+            [2716] = 1,
         },
     },
     ["나가 발톱"] = {
@@ -17855,7 +17855,7 @@ QuestieItems = {
     },
     ["Umbral Ore"] = {
         contained_id = {
-            ["85562"] = 1,
+            [85562] = 1,
         },
     },
     ["Cursed Talisman"] = {
@@ -17865,7 +17865,7 @@ QuestieItems = {
     },
     ["Piece of Threshadon Carcass"] = {
         contained_id = {
-            ["166863"] = 1,
+            [166863] = 1,
         },
     },
     ["Liegengelassene Nahrung"] = {
@@ -17915,7 +17915,7 @@ QuestieItems = {
     },
     ["Mythology of the Titans"] = {
         contained_id = {
-            ["19284"] = 1,
+            [19284] = 1,
         },
     },
     ["99 Jahre alter Portwein"] = {
@@ -18699,7 +18699,7 @@ QuestieItems = {
     },
     ["Second Relic Fragment"] = {
         contained_id = {
-            ["175891"] = 1,
+            [175891] = 1,
         },
     },
     ["Azerothian Diamond"] = {
@@ -19156,9 +19156,9 @@ QuestieItems = {
     },
     ["Magenta Fungus Cap"] = {
         contained_id = {
-            ["126049"] = 1,
-            ["177675"] = 1,
-            ["128293"] = 1,
+            [126049] = 1,
+            [177675] = 1,
+            [128293] = 1,
         },
     },
     ["Средоточие разъяренного сокрушителя"] = {
@@ -19219,12 +19219,12 @@ QuestieItems = {
     },
     ["Crate With Holes"] = {
         contained_id = {
-            ["21277"] = 1,
+            [21277] = 1,
         },
     },
     ["Davil's Libram"] = {
         contained_id = {
-            ["176206"] = 1,
+            [176206] = 1,
         },
     },
     ["First Half of Socrethar's Stone"] = {
@@ -19381,7 +19381,7 @@ QuestieItems = {
     },
     ["Iron Shaft"] = {
         contained_id = {
-            ["19022"] = 1,
+            [19022] = 1,
         },
         contained = {
             ["Worn Chest"] = 1,
@@ -19421,7 +19421,7 @@ QuestieItems = {
     },
     ["Gnomish Tools"] = {
         contained_id = {
-            ["3236"] = 1,
+            [3236] = 1,
         },
     },
     ["戈多克力量护手"] = {
@@ -19610,7 +19610,7 @@ QuestieItems = {
     },
     ["Chest of Containment Coffers"] = {
         contained_id = {
-            ["105174"] = 1,
+            [105174] = 1,
         },
     },
     ["Katoom's Best Lure"] = {
@@ -19892,7 +19892,7 @@ QuestieItems = {
     },
     ["Modr Fragment"] = {
         contained_id = {
-            ["334"] = 1,
+            [334] = 1,
         },
     },
     ["Elementalist Belt of the Prophet"] = {
@@ -19953,7 +19953,7 @@ QuestieItems = {
     },
     ["Wizards' Reagents"] = {
         contained_id = {
-            ["28024"] = 1,
+            [28024] = 1,
         },
     },
     ["Expedition Gloves of Arcane Protection"] = {
@@ -20434,7 +20434,7 @@ QuestieItems = {
     },
     ["Andorhal Watch"] = {
         contained_id = {
-            ["175802"] = 1,
+            [175802] = 1,
         },
     },
     ["Daggerspine Scale"] = {
@@ -20445,7 +20445,7 @@ QuestieItems = {
     },
     ["Tablet of Markri"] = {
         contained_id = {
-            ["148514"] = 1,
+            [148514] = 1,
         },
     },
     ["Croc de glisseuse du sable"] = {
@@ -20533,7 +20533,7 @@ QuestieItems = {
     },
     ["Lunar Fungus"] = {
         contained_id = {
-            ["177750"] = 1,
+            [177750] = 1,
         },
     },
     ["Conjured Manna Biscuit"] = {
@@ -20655,7 +20655,7 @@ QuestieItems = {
     },
     ["Tablet of Jin'yael"] = {
         contained_id = {
-            ["148513"] = 1,
+            [148513] = 1,
         },
     },
     ["Несовершенный фрагмент дренетиста"] = {
@@ -20952,7 +20952,7 @@ QuestieItems = {
     },
     ["Symbol of Lost Honor"] = {
         contained_id = {
-            ["177264"] = 1,
+            [177264] = 1,
         },
     },
     ["Spiritual Soup"] = {
@@ -21238,12 +21238,12 @@ QuestieItems = {
     },
     ["Wildkin Feather"] = {
         contained_id = {
-            ["153239"] = 1,
+            [153239] = 1,
         },
     },
     ["Shipment of Boots"] = {
         contained_id = {
-            ["3767"] = 1,
+            [3767] = 1,
         },
     },
     ["Cabeza de múrloc Malaescama"] = {
@@ -21261,7 +21261,7 @@ QuestieItems = {
     },
     ["Sea Creature Bones"] = {
         contained_id = {
-            ["175207"] = 1,
+            [175207] = 1,
         },
     },
     ["古拉巴什頭顱堆"] = {
@@ -21557,7 +21557,7 @@ QuestieItems = {
     },
     ["Moontouched Feather"] = {
         contained_id = {
-            ["175407"] = 1,
+            [175407] = 1,
         },
     },
     ["Boussole de Kim'Jael"] = {
@@ -21586,7 +21586,7 @@ QuestieItems = {
     },
     ["Agamand Family Mace"] = {
         contained_id = {
-            ["105172"] = 1,
+            [105172] = 1,
         },
     },
     ["Scarlet Armband"] = {
@@ -21625,7 +21625,7 @@ QuestieItems = {
     ["Burning Key"] = {
         vendor = "Misc",
         contained_id = {
-            ["2689"] = 1,
+            [2689] = 1,
         },
     },
     ["Lunar Wand of the Gorilla"] = {
@@ -21636,7 +21636,7 @@ QuestieItems = {
     },
     ["Crossroads' Supply Crates"] = {
         contained_id = {
-            ["175708"] = 1,
+            [175708] = 1,
         },
     },
     Umbralerz = {
@@ -21998,7 +21998,7 @@ QuestieItems = {
     },
     ["Rubbing: Rune of Beth'Amara"] = {
         contained_id = {
-            ["149481"] = 1,
+            [149481] = 1,
         },
     },
     ["El Tratado del Señor de la Guerra"] = {
@@ -22183,7 +22183,7 @@ QuestieItems = {
     },
     ["A Faded Journal Page"] = {
         contained_id = {
-            ["1562"] = 1,
+            [1562] = 1,
         },
     },
     ["Loathsome Remnant"] = {
@@ -22236,7 +22236,7 @@ QuestieItems = {
     },
     ["Elune's Tear"] = {
         contained_id = {
-            ["19015"] = 1,
+            [19015] = 1,
         },
     },
     ["Ivar's Head"] = {
@@ -22622,7 +22622,7 @@ QuestieItems = {
     },
     ["Felix's Bucket of Bolts"] = {
         contained_id = {
-            ["178085"] = 1,
+            [178085] = 1,
         },
     },
     ["Phiole mit gesegnetem Wasser"] = {
@@ -22923,7 +22923,7 @@ QuestieItems = {
     },
     ["Bijou's Belongings"] = {
         contained_id = {
-            ["175334"] = 1,
+            [175334] = 1,
         },
     },
     ["Wavethrasher Scales"] = {
@@ -23153,7 +23153,7 @@ QuestieItems = {
     },
     ["Worn Leather Book"] = {
         contained_id = {
-            ["1760"] = 1,
+            [1760] = 1,
         },
     },
     ["Отрубленный коготь Матриарха"] = {
@@ -23495,7 +23495,7 @@ QuestieItems = {
     },
     ["Plagueland Termites"] = {
         contained_id = {
-            ["177464"] = 1,
+            [177464] = 1,
         },
         contained = {
             ["Large Termite Mound"] = 1,
@@ -23575,7 +23575,7 @@ QuestieItems = {
     },
     ["Stone Circle"] = {
         contained_id = {
-            ["149036"] = 1,
+            [149036] = 1,
         },
     },
     ["Gantelet de puissance gordok"] = {
@@ -24171,7 +24171,7 @@ QuestieItems = {
     },
     ["Oslow's Toolbox"] = {
         contained_id = {
-            ["32"] = 1,
+            [32] = 1,
         },
     },
     ["Serena's Head"] = {
@@ -24299,7 +24299,7 @@ QuestieItems = {
     },
     ["Golm Fragment"] = {
         contained_id = {
-            ["333"] = 1,
+            [333] = 1,
         },
     },
     ["Silvered Bronze Gauntlets"] = {
@@ -24799,7 +24799,7 @@ QuestieItems = {
     },
     ["Tattered Manuscript"] = {
         contained_id = {
-            ["92423"] = 1,
+            [92423] = 1,
         },
     },
     ["Silithid Talon"] = {
@@ -24816,7 +24816,7 @@ QuestieItems = {
     },
     ["Core Fragment"] = {
         contained_id = {
-            ["179553"] = 1,
+            [179553] = 1,
         },
     },
     ["Light Leather"] = {
@@ -25495,7 +25495,7 @@ QuestieItems = {
     },
     ["Hinterlands Honey Ripple"] = {
         contained_id = {
-            ["142191"] = 1,
+            [142191] = 1,
         },
     },
     ["Ember Wand of the Gorilla"] = {
@@ -25702,8 +25702,8 @@ QuestieItems = {
     },
     ["Forged Steel Bars"] = {
         contained_id = {
-            ["58369"] = 1,
-            ["175233"] = 1,
+            [58369] = 1,
+            [175233] = 1,
         },
     },
     ["Heartseeker Knives of the Champion"] = {
@@ -25883,7 +25883,7 @@ QuestieItems = {
     },
     ["MacGrann's Dried Meats"] = {
         contained_id = {
-            ["272"] = 1,
+            [272] = 1,
         },
     },
     ["Envío de Stoley"] = {
@@ -26523,7 +26523,7 @@ QuestieItems = {
     },
     ["Ziata'jai Trophy"] = {
         contained_id = {
-            ["2892"] = 1,
+            [2892] = 1,
         },
     },
     ["Lohn'goron, Bow of the Torn-heart"] = {
@@ -27839,7 +27839,7 @@ QuestieItems = {
     },
     ["Legacy of the Aspects"] = {
         contained_id = {
-            ["20725"] = 1,
+            [20725] = 1,
         },
     },
     ["Geißeldaten"] = {
@@ -29065,7 +29065,7 @@ QuestieItems = {
     },
     ["Pupellyverbos Port"] = {
         contained_id = {
-            ["2068"] = 1,
+            [2068] = 1,
         },
     },
     ["Expedition Girdle of Healing"] = {
@@ -31005,7 +31005,7 @@ QuestieItems = {
     },
     ["Overdue Package"] = {
         contained_id = {
-            ["174728"] = 1,
+            [174728] = 1,
         },
     },
     ["Lexikon des Schattenhammerklans - Kapitel 3"] = {
@@ -31761,7 +31761,7 @@ QuestieItems = {
     },
     ["Third Mosh'aru Tablet"] = {
         contained_id = {
-            ["175487"] = 1,
+            [175487] = 1,
         },
     },
     ["Tête de Ribbly"] = {
@@ -31771,7 +31771,7 @@ QuestieItems = {
     },
     ["Horn of Awakening"] = {
         contained_id = {
-            ["176634"] = 1,
+            [176634] = 1,
         },
     },
     ["Bonelink Bracers of the Whale"] = {
@@ -32179,7 +32179,7 @@ QuestieItems = {
     },
     ["Nugget Slug"] = {
         contained_id = {
-            ["161752"] = 1,
+            [161752] = 1,
         },
     },
     ["Jon-Jon's Golden Spyglass"] = {
@@ -32765,7 +32765,7 @@ QuestieItems = {
     },
     ["Kim'Jael's Compass"] = {
         contained_id = {
-            ["153123"] = 1,
+            [153123] = 1,
         },
     },
     ["Fil d'or fin"] = {
@@ -33128,7 +33128,7 @@ QuestieItems = {
     },
     ["Defias Docket"] = {
         contained_id = {
-            ["21052"] = 1,
+            [21052] = 1,
         },
     },
     ["Meeting Note"] = {
@@ -33155,7 +33155,7 @@ QuestieItems = {
     },
     ["Agamand Family Axe"] = {
         contained_id = {
-            ["105170"] = 1,
+            [105170] = 1,
         },
     },
     ["Fine Moonstalker Pelt"] = {
@@ -33177,7 +33177,7 @@ QuestieItems = {
     },
     ["Sapphire of Sky"] = {
         contained_id = {
-            ["2741"] = 1,
+            [2741] = 1,
         },
     },
     ["The Traitor's Heart"] = {
@@ -33345,7 +33345,7 @@ QuestieItems = {
     },
     ["Well Stone"] = {
         contained_id = {
-            ["2910"] = 1,
+            [2910] = 1,
         },
     },
     ["Trozo codificado"] = {
@@ -33623,12 +33623,12 @@ QuestieItems = {
     },
     ["Alterac Granite"] = {
         contained_id = {
-            ["2714"] = 1,
+            [2714] = 1,
         },
     },
     ["Cloven Hoof"] = {
         contained_id = {
-            ["20807"] = 1,
+            [20807] = 1,
         },
     },
     ["Kreenig Snarlsnout's Tusk"] = {
@@ -34200,7 +34200,7 @@ QuestieItems = {
     },
     ["Garrett Family Treasure"] = {
         contained_id = {
-            ["124388"] = 1,
+            [124388] = 1,
         },
     },
     ["작은 돌조각"] = {
@@ -34210,7 +34210,7 @@ QuestieItems = {
     },
     ["Third Relic Fragment"] = {
         contained_id = {
-            ["175892"] = 1,
+            [175892] = 1,
         },
     },
     ["Probe des Spiegelseewassers"] = {
@@ -34398,7 +34398,7 @@ QuestieItems = {
     },
     ["Noggle's Satchel"] = {
         contained_id = {
-            ["180435"] = 1,
+            [180435] = 1,
         },
     },
     ["Howling Sword of the Bear"] = {
@@ -34547,7 +34547,7 @@ QuestieItems = {
     ["Sleepers' Key"] = {
         vendor = "Misc",
         contained_id = {
-            ["19596"] = 1,
+            [19596] = 1,
         },
     },
     ["Höllenkugel"] = {
@@ -34816,7 +34816,7 @@ QuestieItems = {
     },
     ["Ados Fragment"] = {
         contained_id = {
-            ["35252"] = 1,
+            [35252] = 1,
         },
     },
     ["Insigne de la Garde noire"] = {
@@ -35395,9 +35395,9 @@ QuestieItems = {
     },
     ["Mathystra Relic"] = {
         contained_id = {
-            ["12654"] = 1,
-            ["13360"] = 1,
-            ["13872"] = 1,
+            [12654] = 1,
+            [13360] = 1,
+            [13872] = 1,
         },
     },
     ["Oeuf d'Hakkar rempli"] = {
@@ -35903,7 +35903,7 @@ QuestieItems = {
     },
     ["Balnir Snapdragons"] = {
         contained_id = {
-            ["102985"] = 1,
+            [102985] = 1,
         },
     },
     ["Jordan's Refined Ore Shipment"] = {
@@ -36120,7 +36120,7 @@ QuestieItems = {
     },
     ["Redpath's Shield"] = {
         contained_id = {
-            ["176207"] = 1,
+            [176207] = 1,
         },
     },
     ["Orc Flatbow of the Beast"] = {
@@ -36359,7 +36359,7 @@ QuestieItems = {
             ["Spiked Stegodon"] = 20,
         },
         contained_id = {
-            ["161527"] = 1,
+            [161527] = 1,
         },
     },
     ["Shard of Azzinoth"] = {
@@ -36659,8 +36659,8 @@ QuestieItems = {
     },
     ["Venom Fern Extract"] = {
         contained_id = {
-            ["263"] = 1,
-            ["264"] = 1,
+            [263] = 1,
+            [264] = 1,
         },
     },
     ["Пойманная сущность огня"] = {
@@ -37028,7 +37028,7 @@ QuestieItems = {
     },
     ["Darkstone Tablet"] = {
         contained_id = {
-            ["175385"] = 1,
+            [175385] = 1,
         },
     },
     Krokiliskenbaby = {
@@ -37829,7 +37829,7 @@ QuestieItems = {
     },
     ["Slagtree's Lost Tools"] = {
         contained_id = {
-            ["179908"] = 1,
+            [179908] = 1,
         },
     },
     ["Yelmo de escamas de tortuga"] = {
@@ -38457,8 +38457,8 @@ QuestieItems = {
     },
     ["Twilight Tablet Fragment"] = {
         contained_id = {
-            ["180501"] = 1,
-            ["180436"] = 1,
+            [180501] = 1,
+            [180436] = 1,
         },
     },
     ["Star of Xil'yeh"] = {
@@ -39036,7 +39036,7 @@ QuestieItems = {
     },
     ["The First Troll Legend"] = {
         contained_id = {
-            ["57"] = 1,
+            [57] = 1,
         },
     },
     ["여왕 고리쉬 뇌"] = {
@@ -39575,8 +39575,8 @@ QuestieItems = {
     },
     ["Minshina's Skull"] = {
         contained_id = {
-            ["142958"] = 1,
-            ["3237"] = 1,
+            [142958] = 1,
+            [3237] = 1,
         },
     },
     ["Vorräte der Eisenschachtmine"] = {
@@ -41231,7 +41231,7 @@ QuestieItems = {
     },
     ["Agamand Family Sword"] = {
         contained_id = {
-            ["105169"] = 1,
+            [105169] = 1,
         },
     },
     ["Small Scroll"] = {
@@ -41241,7 +41241,7 @@ QuestieItems = {
     },
     ["Raven Claw Talisman"] = {
         contained_id = {
-            ["2740"] = 1,
+            [2740] = 1,
         },
     },
     ["연마된 수정"] = {
@@ -41562,8 +41562,8 @@ QuestieItems = {
     },
     ["Tablet of Verga"] = {
         contained_id = {
-            ["176197"] = 1,
-            ["58595"] = 1,
+            [176197] = 1,
+            [58595] = 1,
         },
     },
     ["Symbol of Ragnaros"] = {
@@ -41642,7 +41642,7 @@ QuestieItems = {
     },
     ["Mist Veil's Lockbox"] = {
         contained_id = {
-            ["175166"] = 1,
+            [175166] = 1,
         },
     },
     ["Flanis's Pack"] = {
@@ -41909,7 +41909,7 @@ QuestieItems = {
     },
     ["Water Pitcher"] = {
         contained_id = {
-            ["2907"] = 1,
+            [2907] = 1,
         },
     },
     ["Dizzy's Eye"] = {
@@ -42075,13 +42075,13 @@ QuestieItems = {
     },
     ["Jaron's Supplies"] = {
         contained_id = {
-            ["175629"] = 1,
-            ["175628"] = 1,
+            [175629] = 1,
+            [175628] = 1,
         },
     },
     ["Tablet of Ryun'eh"] = {
         contained_id = {
-            ["126260"] = 1,
+            [126260] = 1,
         },
     },
     ["Epée large en acier lunaire"] = {
@@ -42365,7 +42365,7 @@ QuestieItems = {
     },
     ["Sack of Barley"] = {
         contained_id = {
-            ["50936"] = 1,
+            [50936] = 1,
         },
     },
     ["Первая табличка Мошару"] = {
@@ -42508,7 +42508,7 @@ QuestieItems = {
     },
     ["Broken Tears"] = {
         contained_id = {
-            ["22246"] = 1,
+            [22246] = 1,
         },
     },
     ["Defias Script"] = {
@@ -42549,12 +42549,12 @@ QuestieItems = {
     },
     ["Scourge Data"] = {
         contained_id = {
-            ["176249"] = 1,
+            [176249] = 1,
         },
     },
     ["Mage-tastic Gizmonitor"] = {
         contained_id = {
-            ["102984"] = 1,
+            [102984] = 1,
         },
     },
     ["Exquisite Flamberge of the Tiger"] = {
@@ -42662,7 +42662,7 @@ QuestieItems = {
     },
     ["Spirit of Silverpine Log"] = {
         contained_id = {
-            ["2710"] = 1,
+            [2710] = 1,
         },
     },
     ["가열로 바람구멍"] = {
@@ -42731,7 +42731,7 @@ QuestieItems = {
     },
     ["Cantation of Manifestation"] = {
         contained_id = {
-            ["105175"] = 1,
+            [105175] = 1,
         },
     },
     ["Oreja de centauro"] = {
@@ -43437,7 +43437,7 @@ QuestieItems = {
     },
     ["Miners' Gear"] = {
         contained_id = {
-            ["271"] = 1,
+            [271] = 1,
         },
         contained = {
             ["Miners' League Crates"] = 1,
@@ -43499,7 +43499,7 @@ QuestieItems = {
             ["Frostmane Seer"] = 10,
         },
         contained_id = {
-            ["276"] = 1,
+            [276] = 1,
         },
     },
     ["Prismatic Shell"] = {
@@ -43772,7 +43772,7 @@ QuestieItems = {
     },
     ["Mok'Morokk's Grog"] = {
         contained_id = {
-            ["19905"] = 1,
+            [19905] = 1,
         },
     },
     ["Kesselschlüssel: Gahrrons Trauerfeld"] = {
@@ -44477,7 +44477,7 @@ QuestieItems = {
     },
     ["Sixth Mosh'aru Tablet"] = {
         contained_id = {
-            ["175950"] = 1,
+            [175950] = 1,
         },
     },
     ["Head of Ortor of Murkblood"] = {
@@ -44718,7 +44718,7 @@ QuestieItems = {
     },
     ["Abercrombie's Crate"] = {
         contained_id = {
-            ["119"] = 1,
+            [119] = 1,
         },
     },
     ["Large Candle"] = {
@@ -44896,7 +44896,7 @@ QuestieItems = {
     },
     ["First Relic Fragment"] = {
         contained_id = {
-            ["175888"] = 1,
+            [175888] = 1,
         },
     },
     ["Hive'Regal Scout Report"] = {
@@ -45111,7 +45111,7 @@ QuestieItems = {
     },
     ["Scavenged Goods"] = {
         contained_id = {
-            ["164662"] = 1,
+            [164662] = 1,
         },
     },
     ["Stein von Gletscharius"] = {
@@ -45297,7 +45297,7 @@ QuestieItems = {
     },
     ["Cactus Apple"] = {
         contained_id = {
-            ["171938"] = 1,
+            [171938] = 1,
         },
     },
     ["Insignia of the Crusade"] = {
@@ -45325,9 +45325,9 @@ QuestieItems = {
     },
     ["Resonite Crystal"] = {
         contained_id = {
-            ["178105"] = 1,
-            ["178104"] = 1,
-            ["178106"] = 1,
+            [178105] = 1,
+            [178104] = 1,
+            [178106] = 1,
         },
     },
     ["Uhr von Andorhal"] = {
@@ -45674,7 +45674,7 @@ QuestieItems = {
     },
     ["Beginnings of the Undead Threat"] = {
         contained_id = {
-            ["20726"] = 1,
+            [20726] = 1,
         },
     },
     ["Cheveu de Bathran"] = {
@@ -45769,7 +45769,7 @@ QuestieItems = {
     },
     ["Mok'Morokk's Snuff"] = {
         contained_id = {
-            ["19904"] = 1,
+            [19904] = 1,
         },
     },
     ["Alterac Valley Mark of Honor"] = {
@@ -46531,7 +46531,7 @@ QuestieItems = {
     },
     ["Seaforium Booster"] = {
         contained_id = {
-            ["20727"] = 1,
+            [20727] = 1,
         },
     },
     ["Ranger Helm of the Wolf"] = {
@@ -46918,7 +46918,7 @@ QuestieItems = {
     },
     ["Keepsake of Remembrance"] = {
         contained_id = {
-            ["176630"] = 1,
+            [176630] = 1,
         },
     },
     ["Small Chest"] = {
@@ -47242,7 +47242,7 @@ QuestieItems = {
     },
     ["Gloom Weed"] = {
         contained_id = {
-            ["175566"] = 1,
+            [175566] = 1,
         },
     },
     ["Astralaan Boots of Fiery Wrath"] = {
@@ -48711,7 +48711,7 @@ QuestieItems = {
     },
     ["Shattered Necklace Ruby"] = {
         contained_id = {
-            ["113757"] = 1,
+            [113757] = 1,
         },
     },
     ["Reifer Sporenbeutel"] = {
@@ -49295,7 +49295,7 @@ QuestieItems = {
     },
     ["Volcanic Ash"] = {
         contained_id = {
-            ["181098"] = 1,
+            [181098] = 1,
         },
     },
     ["Vendas de Shaffar"] = {
@@ -49749,7 +49749,7 @@ QuestieItems = {
     },
     ["Gahz'ridian Ornament"] = {
         contained_id = {
-            ["140971"] = 1,
+            [140971] = 1,
         },
     },
     ["Фиалковый траган"] = {
@@ -50484,7 +50484,7 @@ QuestieItems = {
     },
     ["Secret Plans: Fiery Flux"] = {
         contained_id = {
-            ["179826"] = 1,
+            [179826] = 1,
         },
     },
     ["Journal de Keanna"] = {
@@ -50626,7 +50626,7 @@ QuestieItems = {
     },
     ["Shipment of Iron"] = {
         contained_id = {
-            ["1736"] = 1,
+            [1736] = 1,
         },
     },
     ["Ключи Резака"] = {
@@ -51429,7 +51429,7 @@ QuestieItems = {
             ["Forsaken Courier"] = 5,
         },
         contained_id = {
-            ["2714"] = 1,
+            [2714] = 1,
         },
     },
     Mageroyal = {
@@ -51482,7 +51482,7 @@ QuestieItems = {
     },
     ["Tablet of Sael'hai"] = {
         contained_id = {
-            ["148515"] = 1,
+            [148515] = 1,
         },
     },
     ["Cetro de Luz"] = {
@@ -51508,7 +51508,7 @@ QuestieItems = {
     },
     ["Milly's Harvest"] = {
         contained_id = {
-            ["161557"] = 1,
+            [161557] = 1,
         },
         contained = {
             ["Milly's Harvest"] = 1,
@@ -51972,7 +51972,7 @@ QuestieItems = {
     ["Claw Key"] = {
         vendor = "Misc",
         contained_id = {
-            ["19597"] = 1,
+            [19597] = 1,
         },
     },
     ["Blood Elf Plans"] = {
@@ -52508,7 +52508,7 @@ QuestieItems = {
     },
     ["Andron's Ledger"] = {
         contained_id = {
-            ["103600"] = 1,
+            [103600] = 1,
         },
     },
     ["Fen Strider Tentacle"] = {
@@ -52695,7 +52695,7 @@ QuestieItems = {
     },
     ["Sunscorched Shell"] = {
         contained_id = {
-            ["89635"] = 1,
+            [89635] = 1,
         },
     },
     ["Razor Blade of Power"] = {
@@ -52925,7 +52925,7 @@ QuestieItems = {
     },
     ["Draenethyst Crystal"] = {
         contained_id = {
-            ["22550"] = 1,
+            [22550] = 1,
         },
     },
     ["Divined Scroll"] = {
@@ -53258,8 +53258,8 @@ QuestieItems = {
     },
     ["Kodo Bone"] = {
         contained_id = {
-            ["176752"] = 1,
-            ["176751"] = 1,
+            [176752] = 1,
+            [176751] = 1,
         },
     },
     ["Elven Gems"] = {
@@ -53422,7 +53422,7 @@ QuestieItems = {
     },
     ["Gaea Seed"] = {
         contained_id = {
-            ["177926"] = 1,
+            [177926] = 1,
         },
     },
     ["Sacrificial Kris of the Bear"] = {
@@ -54581,7 +54581,7 @@ QuestieItems = {
     },
     ["Reliquary of Purity"] = {
         contained_id = {
-            ["179565"] = 1,
+            [179565] = 1,
         },
     },
     ["Magitastischer Gizmonitor"] = {
@@ -54732,7 +54732,7 @@ QuestieItems = {
     },
     ["Spool of Light Chartreuse Silk Thread"] = {
         contained_id = {
-            ["140911"] = 1,
+            [140911] = 1,
         },
     },
     ["Zeth'Gor Shield of Agility"] = {
@@ -54837,7 +54837,7 @@ QuestieItems = {
     },
     ["Doom Weed"] = {
         contained_id = {
-            ["176753"] = 1,
+            [176753] = 1,
         },
     },
     ["藍珍珠"] = {
@@ -55408,7 +55408,7 @@ QuestieItems = {
     },
     ["Coldtooth Supplies"] = {
         contained_id = {
-            ["178784"] = 1,
+            [178784] = 1,
         },
     },
     ["Overlord's Legplates of the Boar"] = {
@@ -55833,7 +55833,7 @@ QuestieItems = {
     },
     ["Crate of Foodstuffs"] = {
         contained_id = {
-            ["161526"] = 1,
+            [161526] = 1,
         },
     },
     ["가득 찬 이슬샘"] = {
@@ -55908,7 +55908,7 @@ QuestieItems = {
     },
     ["Musquash Root"] = {
         contained_id = {
-            ["2084"] = 1,
+            [2084] = 1,
         },
         contained = {
             ["Musquash Root"] = 1,
@@ -56591,7 +56591,7 @@ QuestieItems = {
     },
     ["Stormpike Banner"] = {
         contained_id = {
-            ["179024"] = 1,
+            [179024] = 1,
         },
     },
     ["Diabolical Plans"] = {
@@ -57238,7 +57238,7 @@ QuestieItems = {
     },
     ["Black Feather Quill"] = {
         contained_id = {
-            ["2739"] = 1,
+            [2739] = 1,
         },
     },
     ["Lunar Wand of the Whale"] = {
@@ -57270,7 +57270,7 @@ QuestieItems = {
     },
     ["Moonpetal Lily"] = {
         contained_id = {
-            ["152095"] = 1,
+            [152095] = 1,
         },
     },
     ["Barra de torio encantado"] = {
@@ -57397,7 +57397,7 @@ QuestieItems = {
     },
     ["Sack of Supplies"] = {
         contained_id = {
-            ["3290"] = 1,
+            [3290] = 1,
         },
     },
     ["Chen's Empty Keg"] = {
@@ -57535,7 +57535,7 @@ QuestieItems = {
     },
     ["Rig Blueprints"] = {
         contained_id = {
-            ["142477"] = 1,
+            [142477] = 1,
         },
     },
     ["Cabeza de Zaeldarr"] = {
@@ -57550,7 +57550,7 @@ QuestieItems = {
     },
     ["The Second Troll Legend"] = {
         contained_id = {
-            ["58"] = 1,
+            [58] = 1,
         },
     },
     ["Nether Cloak of Spirit"] = {
@@ -57562,7 +57562,7 @@ QuestieItems = {
     ["Klaven Mortwake's Journal"] = {
         vendor = "RogueSetVendor",
         contained_id = {
-            ["123214"] = 1,
+            [123214] = 1,
         },
     },
     ["Robe en étoffe runique"] = {
@@ -57636,7 +57636,7 @@ QuestieItems = {
     },
     ["SI:7 Insignia (Turyen)"] = {
         contained_id = {
-            ["177805"] = 1,
+            [177805] = 1,
         },
     },
     ["Litanei der Verdammnis - Dritter Teil"] = {
@@ -58082,7 +58082,7 @@ QuestieItems = {
     },
     ["Keg of Shindigger Stout"] = {
         contained_id = {
-            ["1727"] = 1,
+            [1727] = 1,
         },
     },
     ["Ring of Mmmrrrggglll"] = {
@@ -58528,7 +58528,7 @@ QuestieItems = {
     },
     ["Skull of Horgus"] = {
         contained_id = {
-            ["176208"] = 1,
+            [176208] = 1,
         },
     },
     ["Späherbericht des Zoraschwarms"] = {
@@ -58728,7 +58728,7 @@ QuestieItems = {
     },
     ["Fathom Core"] = {
         contained_id = {
-            ["177964"] = 1,
+            [177964] = 1,
         },
     },
     ["Noyau infernal de Kroshius"] = {
@@ -58799,12 +58799,12 @@ QuestieItems = {
     },
     ["The Deed to Tarren Mill"] = {
         contained_id = {
-            ["176487"] = 1,
+            [176487] = 1,
         },
     },
     ["Violet Tragan"] = {
         contained_id = {
-            ["141853"] = 1,
+            [141853] = 1,
         },
     },
     ["Ojo de Velo Reskk"] = {
@@ -58912,7 +58912,7 @@ QuestieItems = {
     },
     ["Quel'Thalas Registry"] = {
         contained_id = {
-            ["177747"] = 1,
+            [177747] = 1,
         },
     },
     ["Muestra de teropolilla sañosa"] = {
@@ -59317,7 +59317,7 @@ QuestieItems = {
     },
     ["The Book of Ur"] = {
         contained_id = {
-            ["36738"] = 1,
+            [36738] = 1,
         },
     },
     Deathbringer = {
@@ -59338,9 +59338,9 @@ QuestieItems = {
     },
     ["The Heart of the Mountain"] = {
         contained_id = {
-            ["160845"] = 1,
-            ["165554"] = 1,
-            ["161495"] = 1,
+            [160845] = 1,
+            [165554] = 1,
+            [161495] = 1,
         },
     },
     ["Lethtendris' Netz"] = {
@@ -59547,7 +59547,7 @@ QuestieItems = {
     },
     ["Webwood Egg"] = {
         contained_id = {
-            ["4406"] = 1,
+            [4406] = 1,
         },
     },
     ["Medium Leather"] = {
@@ -59762,7 +59762,7 @@ QuestieItems = {
     },
     ["Zul'Mamwe Trophy"] = {
         contained_id = {
-            ["2893"] = 1,
+            [2893] = 1,
         },
     },
     ["Head of Jammal'an"] = {
@@ -60772,7 +60772,7 @@ QuestieItems = {
     },
     ["Silithid Egg"] = {
         contained_id = {
-            ["3685"] = 1,
+            [3685] = 1,
         },
     },
     ["Nordic Longshank"] = {
@@ -60891,12 +60891,12 @@ QuestieItems = {
     },
     ["Fourth Mosh'aru Tablet"] = {
         contained_id = {
-            ["175488"] = 1,
+            [175488] = 1,
         },
     },
     ["Alien Egg"] = {
         contained_id = {
-            ["175565"] = 1,
+            [175565] = 1,
         },
     },
     ["Moongraze Buck Hide"] = {
@@ -61126,7 +61126,7 @@ QuestieItems = {
     },
     ["Scaber Stalk"] = {
         contained_id = {
-            ["11714"] = 1,
+            [11714] = 1,
         },
     },
     ["Ironspine Belt of Intellect"] = {
@@ -61481,7 +61481,7 @@ QuestieItems = {
     },
     ["Handful of Stardust"] = {
         contained_id = {
-            ["19016"] = 1,
+            [19016] = 1,
         },
     },
     ["Astralaan Gloves of Healing"] = {
@@ -61611,10 +61611,10 @@ QuestieItems = {
             ["Oasis Snapjaw"] = 1,
         },
         contained_id = {
-            ["1617"] = 1,
-            ["1620"] = 1,
-            ["1619"] = 1,
-            ["1621"] = 1,
+            [1617] = 1,
+            [1620] = 1,
+            [1619] = 1,
+            [1621] = 1,
         },
     },
     ["Leaded Vial"] = {
@@ -61775,7 +61775,7 @@ QuestieItems = {
     },
     ["The Deed to Caer Darrow"] = {
         contained_id = {
-            ["176485"] = 1,
+            [176485] = 1,
         },
     },
     ["Ampolla de turmalina llena"] = {
@@ -62175,7 +62175,7 @@ QuestieItems = {
     },
     ["Tablet of Will"] = {
         contained_id = {
-            ["142088"] = 1,
+            [142088] = 1,
         },
     },
     ["Blackskull Shield"] = {
@@ -62361,7 +62361,7 @@ QuestieItems = {
     },
     ["Scrimshank's Surveying Gear"] = {
         contained_id = {
-            ["144053"] = 1,
+            [144053] = 1,
         },
     },
     ["Ключ от Башни Братства Справедливости"] = {
@@ -62529,7 +62529,7 @@ QuestieItems = {
     },
     ["Sack of Corn"] = {
         contained_id = {
-            ["50935"] = 1,
+            [50935] = 1,
         },
     },
     ["Bloodbelly Fish"] = {
@@ -62617,7 +62617,7 @@ QuestieItems = {
     },
     ["Tablet of Beth'Amara"] = {
         contained_id = {
-            ["148516"] = 1,
+            [148516] = 1,
         },
     },
     ["Oshu'gun Crystal Fragment"] = {
@@ -63429,9 +63429,9 @@ QuestieItems = {
     },
     ["Atal'ai Artifact"] = {
         contained_id = {
-            ["30856"] = 1,
-            ["30854"] = 1,
-            ["30855"] = 1,
+            [30856] = 1,
+            [30854] = 1,
+            [30855] = 1,
         },
     },
     ["鐵膽之錘"] = {
@@ -63463,7 +63463,7 @@ QuestieItems = {
     },
     ["Bloodsail Charts"] = {
         contained_id = {
-            ["2086"] = 1,
+            [2086] = 1,
         },
     },
     ["Hollow Vulture Bone"] = {
@@ -63745,7 +63745,7 @@ QuestieItems = {
     },
     ["Flagongut's Fossil"] = {
         contained_id = {
-            ["9630"] = 1,
+            [9630] = 1,
         },
     },
     ["Elemental Displacer"] = {
@@ -63757,7 +63757,7 @@ QuestieItems = {
     ["Cresting Key"] = {
         vendor = "Misc",
         contained_id = {
-            ["2691"] = 1,
+            [2691] = 1,
         },
     },
     ["Essenz des Adlers"] = {
@@ -63822,7 +63822,7 @@ QuestieItems = {
     },
     ["Jordan's Smithing Hammer"] = {
         contained_id = {
-            ["91138"] = 1,
+            [91138] = 1,
         },
     },
     ["Alma de Skulloc"] = {
@@ -63860,7 +63860,7 @@ QuestieItems = {
     },
     ["Silver Dawning's Lockbox"] = {
         contained_id = {
-            ["175165"] = 1,
+            [175165] = 1,
         },
     },
     ["Побег древесника"] = {
@@ -64823,7 +64823,7 @@ QuestieItems = {
     },
     ["Mysterious Artifact"] = {
         contained_id = {
-            ["148506"] = 1,
+            [148506] = 1,
         },
     },
     ["Coarse Blasting Powder"] = {
@@ -65468,8 +65468,8 @@ QuestieItems = {
     },
     ["Annals of Darrowshire"] = {
         contained_id = {
-            ["176151"] = 1,
-            ["176150"] = 1,
+            [176151] = 1,
+            [176150] = 1,
         },
     },
     ["분노한 우레정령의 핵"] = {
@@ -65667,7 +65667,7 @@ QuestieItems = {
     },
     Heartswood = {
         contained_id = {
-            ["93192"] = 1,
+            [93192] = 1,
         },
     },
     ["Sello terráneo"] = {
@@ -65683,7 +65683,7 @@ QuestieItems = {
     ["Remedy of Arugal"] = {
         opened = 1,
         contained_id = {
-            ["1571"] = 1,
+            [1571] = 1,
         },
     },
     ["Thermaplugg's Safe Combination"] = {
@@ -66566,7 +66566,7 @@ QuestieItems = {
     },
     ["Furlbrow's Pocket Watch"] = {
         contained_id = {
-            ["290"] = 1,
+            [290] = 1,
         },
         contained = {
             ["Furlbrow's Wardrobe"] = 1,
@@ -67147,7 +67147,7 @@ QuestieItems = {
     },
     ["Thazz'ril's Pick"] = {
         contained_id = {
-            ["178087"] = 1,
+            [178087] = 1,
         },
     },
     ["Khorium Power Core"] = {
@@ -67344,7 +67344,7 @@ QuestieItems = {
     },
     ["Bundle of Wood"] = {
         contained_id = {
-            ["176793"] = 1,
+            [176793] = 1,
         },
         contained = {
             ["Bundle of Wood"] = 1,
@@ -67487,7 +67487,7 @@ QuestieItems = {
     },
     Serpentbloom = {
         contained_id = {
-            ["13891"] = 1,
+            [13891] = 1,
         },
     },
     ["Essenz des Habichts"] = {
@@ -67605,7 +67605,7 @@ QuestieItems = {
     },
     ["Telescopic Lens"] = {
         contained_id = {
-            ["3768"] = 1,
+            [3768] = 1,
         },
     },
     ["Imposing Shoulders of the Owl"] = {
@@ -68144,7 +68144,7 @@ QuestieItems = {
     },
     ["Bathran's Hair"] = {
         contained_id = {
-            ["17282"] = 1,
+            [17282] = 1,
         },
     },
     ["Geringer Unsichtbarkeitstrank"] = {
@@ -68604,7 +68604,7 @@ QuestieItems = {
     },
     ["Death Cap"] = {
         contained_id = {
-            ["11713"] = 1,
+            [11713] = 1,
         },
     },
     ["Thick Bear Fur"] = {
@@ -68632,7 +68632,7 @@ QuestieItems = {
     },
     ["Joseph's Wedding Ring"] = {
         contained_id = {
-            ["176145"] = 1,
+            [176145] = 1,
         },
     },
     ["Yeti Fur"] = {
@@ -68897,7 +68897,7 @@ QuestieItems = {
     },
     ["Incendia Agave"] = {
         contained_id = {
-            ["175928"] = 1,
+            [175928] = 1,
         },
     },
     ["Healing Potion"] = {
@@ -68942,7 +68942,7 @@ QuestieItems = {
             ["Strashaz Serpent Guard"] = 6,
         },
         contained_id = {
-            ["181053"] = 1,
+            [181053] = 1,
         },
     },
     ["Umbrafen Britches of Stamina"] = {
@@ -69062,7 +69062,7 @@ QuestieItems = {
     },
     ["Frostwolf Banner"] = {
         contained_id = {
-            ["179025"] = 1,
+            [179025] = 1,
         },
     },
     ["Kralle von Tethis"] = {
@@ -69405,7 +69405,7 @@ QuestieItems = {
     },
     ["Rubbing: Rune of Markri"] = {
         contained_id = {
-            ["149482"] = 1,
+            [149482] = 1,
         },
     },
     ["南海海賊帽"] = {
@@ -69491,7 +69491,7 @@ QuestieItems = {
     },
     ["Elunite Ore"] = {
         contained_id = {
-            ["86492"] = 1,
+            [86492] = 1,
         },
     },
     ["Peau de Tyrantus durcie"] = {
@@ -69563,7 +69563,7 @@ QuestieItems = {
     },
     ["Kim'Jael's Scope"] = {
         contained_id = {
-            ["153123"] = 1,
+            [153123] = 1,
         },
     },
     ["Regal Star of the Whale"] = {
@@ -69710,7 +69710,7 @@ QuestieItems = {
     },
     ["Gauntlet of Gordok Might"] = {
         contained_id = {
-            ["179545"] = 1,
+            [179545] = 1,
         },
     },
     ["Pheromondrüse eines Ravasaurus"] = {
@@ -70163,7 +70163,7 @@ QuestieItems = {
     },
     ["Ancient Egg"] = {
         contained_id = {
-            ["175889"] = 1,
+            [175889] = 1,
         },
     },
     ["Sacoche de Noggle"] = {
@@ -70202,7 +70202,7 @@ QuestieItems = {
     },
     ["Mok'Morokk's Strongbox"] = {
         contained_id = {
-            ["19906"] = 1,
+            [19906] = 1,
         },
     },
     ["Rethban Ore"] = {
@@ -70467,7 +70467,7 @@ QuestieItems = {
     },
     ["Sack of Rye"] = {
         contained_id = {
-            ["50937"] = 1,
+            [50937] = 1,
         },
     },
     ["Вторая табличка Мошару"] = {
@@ -70513,7 +70513,7 @@ QuestieItems = {
     },
     ["Of Love and Family"] = {
         contained_id = {
-            ["177287"] = 1,
+            [177287] = 1,
         },
     },
     ["Razor Blade of Fiery Wrath"] = {
@@ -72111,8 +72111,8 @@ QuestieItems = {
     },
     ["Compendium of the Fallen"] = {
         contained_id = {
-            ["103664"] = 1,
-            ["19283"] = 1,
+            [103664] = 1,
+            [19283] = 1,
         },
     },
     ["Libram of Tenacity"] = {
@@ -72145,7 +72145,7 @@ QuestieItems = {
     },
     ["Research Equipment"] = {
         contained_id = {
-            ["161521"] = 1,
+            [161521] = 1,
         },
     },
     ["Dard de pinceur cinglepierre"] = {
@@ -72198,8 +72198,8 @@ QuestieItems = {
     },
     ["Bloodsail Orders"] = {
         contained_id = {
-            ["2086"] = 1,
-            ["2087"] = 1,
+            [2086] = 1,
+            [2087] = 1,
         },
     },
     ["Gahrron's Withering Cauldron Key"] = {
@@ -72298,12 +72298,12 @@ QuestieItems = {
     },
     ["Bottle of Disease"] = {
         contained_id = {
-            ["18036"] = 1,
+            [18036] = 1,
         },
     },
     ["Hillsbrad Town Registry"] = {
         contained_id = {
-            ["1759"] = 1,
+            [1759] = 1,
         },
     },
     ["Battered Chest"] = {
@@ -72785,7 +72785,7 @@ QuestieItems = {
     },
     ["Neru Fragment"] = {
         contained_id = {
-            ["331"] = 1,
+            [331] = 1,
         },
     },
     ["Lightforge Spaulders"] = {
@@ -72988,7 +72988,7 @@ QuestieItems = {
     },
     ["Mudsnout Blossoms"] = {
         contained_id = {
-            ["1723"] = 1,
+            [1723] = 1,
         },
     },
     ["Serpent Flesh"] = {
@@ -73075,7 +73075,7 @@ QuestieItems = {
     },
     ["Fuel Regulator Blueprints"] = {
         contained_id = {
-            ["20691"] = 1,
+            [20691] = 1,
         },
     },
     ["Main du surveillant"] = {
@@ -73320,7 +73320,7 @@ QuestieItems = {
     },
     ["Blueleaf Tuber"] = {
         contained_id = {
-            ["20920"] = 1,
+            [20920] = 1,
         },
     },
     ["Maillet lourd en cuivre"] = {
@@ -73575,7 +73575,7 @@ QuestieItems = {
     },
     ["Sundried Driftwood"] = {
         contained_id = {
-            ["24798"] = 1,
+            [24798] = 1,
         },
     },
     ["Ancient Pauldrons of the Falcon"] = {
@@ -74109,7 +74109,7 @@ QuestieItems = {
     },
     ["Handful of Oats"] = {
         contained_id = {
-            ["2724"] = 1,
+            [2724] = 1,
         },
     },
     ["Gregor's Remains"] = {
@@ -74204,7 +74204,7 @@ QuestieItems = {
     },
     ["Tear of the Moons"] = {
         contained_id = {
-            ["3646"] = 1,
+            [3646] = 1,
         },
     },
     ["Outland Shield of Defense"] = {
@@ -74439,7 +74439,7 @@ QuestieItems = {
     },
     ["Agamand Family Dagger"] = {
         contained_id = {
-            ["105171"] = 1,
+            [105171] = 1,
         },
     },
     ["Barra de arcanita"] = {
@@ -75221,7 +75221,7 @@ QuestieItems = {
     },
     ["Fel Cone"] = {
         contained_id = {
-            ["1673"] = 1,
+            [1673] = 1,
         },
     },
     ["Codex of Defense"] = {
@@ -75261,7 +75261,7 @@ QuestieItems = {
     },
     ["Bingles' Screwdriver"] = {
         contained_id = {
-            ["104569"] = 1,
+            [104569] = 1,
         },
     },
     ["Segunda tablilla Mosh'aru"] = {
@@ -75567,7 +75567,7 @@ QuestieItems = {
     },
     ["Bingles' Hammer"] = {
         contained_id = {
-            ["104574"] = 1,
+            [104574] = 1,
         },
     },
     ["다빌의 성서"] = {
@@ -75629,7 +75629,7 @@ QuestieItems = {
     },
     ["Jordan's Ore Shipment"] = {
         contained_id = {
-            ["92420"] = 1,
+            [92420] = 1,
         },
     },
     ["Llave de la caldera de la Gangrena de Gahrron"] = {
@@ -75724,7 +75724,7 @@ QuestieItems = {
     },
     ["The Deed to Southshore"] = {
         contained_id = {
-            ["176486"] = 1,
+            [176486] = 1,
         },
     },
     ["Der'izu Legguards of the Gorilla"] = {
@@ -75896,12 +75896,12 @@ QuestieItems = {
     },
     ["Secret Note #3"] = {
         contained_id = {
-            ["190484"] = 1,
+            [190484] = 1,
         },
     },
     ["Felix's Chest"] = {
         contained_id = {
-            ["178084"] = 1,
+            [178084] = 1,
         },
     },
     ["Verdichteter Gewichtsstein"] = {
@@ -75947,7 +75947,7 @@ QuestieItems = {
     },
     ["Warsong Oil"] = {
         contained_id = {
-            ["178195"] = 1,
+            [178195] = 1,
         },
     },
     ["Energía elemental"] = {
@@ -76238,7 +76238,7 @@ QuestieItems = {
     },
     ["Dalaran Status Report"] = {
         contained_id = {
-            ["103815"] = 1,
+            [103815] = 1,
         },
     },
     ["Gefangener Sperber"] = {
@@ -76451,7 +76451,7 @@ QuestieItems = {
     },
     ["Maiden's Folly Log"] = {
         contained_id = {
-            ["2709"] = 1,
+            [2709] = 1,
         },
     },
     ["Jon-Jons goldenes Handfernrohr"] = {
@@ -76643,7 +76643,7 @@ QuestieItems = {
     },
     ["Captain's Documents"] = {
         contained_id = {
-            ["20925"] = 1,
+            [20925] = 1,
         },
     },
     ["Оружие Вечной Скорби"] = {
@@ -77346,7 +77346,7 @@ QuestieItems = {
     },
     ["Stoley's Shipment"] = {
         contained_id = {
-            ["142181"] = 1,
+            [142181] = 1,
         },
     },
     ["Mistyreed Gloves of Fiery Wrath"] = {
@@ -77380,7 +77380,7 @@ QuestieItems = {
     },
     ["Shay's Bell"] = {
         contained_id = {
-            ["144054"] = 1,
+            [144054] = 1,
         },
     },
     ["Scale of Old Murk-Eye"] = {
@@ -77633,7 +77633,7 @@ QuestieItems = {
     },
     ["Supply Crate"] = {
         contained_id = {
-            ["2867"] = 1,
+            [2867] = 1,
         },
     },
     ["Boulderfist Armor of Arcane Protection"] = {
@@ -77889,7 +77889,7 @@ QuestieItems = {
     },
     ["Lorgalis Manuscript"] = {
         contained_id = {
-            ["13949"] = 1,
+            [13949] = 1,
         },
     },
     ["Brújula grande"] = {
@@ -78019,7 +78019,7 @@ QuestieItems = {
     },
     ["Atal'ai Tablet"] = {
         contained_id = {
-            ["37099"] = 1,
+            [37099] = 1,
         },
     },
     ["Brann Bronzebeard's Lost Letter"] = {
@@ -78907,7 +78907,7 @@ QuestieItems = {
     },
     ["Doomrigger's Clasp"] = {
         contained_id = {
-            ["175382"] = 1,
+            [175382] = 1,
         },
     },
     ["Hache lourde en mithril"] = {
@@ -79364,7 +79364,7 @@ QuestieItems = {
     },
     ["Shattered Necklace Topaz"] = {
         contained_id = {
-            ["125477"] = 1,
+            [125477] = 1,
         },
     },
     ["Mountainside Buckler"] = {
@@ -79476,7 +79476,7 @@ QuestieItems = {
     },
     ["Venture Co. Letters"] = {
         contained_id = {
-            ["19603"] = 1,
+            [19603] = 1,
         },
     },
     ["Sash of Mercy"] = {
@@ -79963,7 +79963,7 @@ QuestieItems = {
     },
     ["Rubbing: Rune of Jin'yael"] = {
         contained_id = {
-            ["149480"] = 1,
+            [149480] = 1,
         },
     },
     Witchbane = {
@@ -80343,7 +80343,7 @@ QuestieItems = {
     },
     ["Elven Gem"] = {
         contained_id = {
-            ["2712"] = 1,
+            [2712] = 1,
         },
     },
     ["Field Plate Pauldrons of the Eagle"] = {
@@ -80462,7 +80462,7 @@ QuestieItems = {
     },
     ["Ur's Treatise on Shadow Magic"] = {
         contained_id = {
-            ["103628"] = 1,
+            [103628] = 1,
         },
     },
     ["Orders From Kael'thas"] = {
@@ -81212,7 +81212,7 @@ QuestieItems = {
     },
     ["Maiden's Folly Charts"] = {
         contained_id = {
-            ["2707"] = 1,
+            [2707] = 1,
         },
     },
     ["Searing Collar"] = {
@@ -82316,7 +82316,7 @@ QuestieItems = {
     },
     ["Marshal Haggard's Badge"] = {
         contained_id = {
-            ["85563"] = 1,
+            [85563] = 1,
         },
     },
     ["Обломки дирижабля"] = {
@@ -82605,7 +82605,7 @@ QuestieItems = {
     },
     ["Tear of Tilloa"] = {
         contained_id = {
-            ["321"] = 1,
+            [321] = 1,
         },
         contained = {
             ["Tear of Tilloa"] = 1,
@@ -82821,7 +82821,7 @@ QuestieItems = {
     },
     ["Trelane's Ember Agate"] = {
         contained_id = {
-            ["2718"] = 1,
+            [2718] = 1,
         },
     },
     ["Ishamuhale's Fang"] = {
@@ -82941,7 +82941,7 @@ QuestieItems = {
     },
     ["Irondeep Supplies"] = {
         contained_id = {
-            ["178785"] = 1,
+            [178785] = 1,
         },
     },
     ["Water Sapta"] = {
@@ -82962,7 +82962,7 @@ QuestieItems = {
     },
     ["Cache of Zanzil's Altered Mixture"] = {
         contained_id = {
-            ["129127"] = 1,
+            [129127] = 1,
         },
     },
     ["Azure Phial"] = {
@@ -82978,7 +82978,7 @@ QuestieItems = {
     },
     ["Rubbing: Rune of Sael'hai"] = {
         contained_id = {
-            ["149483"] = 1,
+            [149483] = 1,
         },
     },
     ["Consortium Sash of Fiery Wrath"] = {
@@ -83507,7 +83507,7 @@ QuestieItems = {
     },
     ["Vessel of Tainted Blood"] = {
         contained_id = {
-            ["179922"] = 1,
+            [179922] = 1,
         },
     },
     ["Tête du seigneur des couvées Lashlayer"] = {
@@ -83763,7 +83763,7 @@ QuestieItems = {
     },
     ["Snufflenose Command Stick"] = {
         contained_id = {
-            ["68865"] = 1,
+            [68865] = 1,
         },
     },
     ["Blauwimpel von der ungezähmten Küste"] = {
@@ -83808,7 +83808,7 @@ QuestieItems = {
     },
     ["Bingles' Blastencapper"] = {
         contained_id = {
-            ["104575"] = 1,
+            [104575] = 1,
         },
     },
     ["Skullsplitter Tusk"] = {
@@ -83838,7 +83838,7 @@ QuestieItems = {
     },
     ["Sea Turtle Remains"] = {
         contained_id = {
-            ["176189"] = 1,
+            [176189] = 1,
         },
     },
     ["Dilapidated Brocken Blade"] = {
@@ -83867,7 +83867,7 @@ QuestieItems = {
     },
     ["Important Blackrock Documents"] = {
         contained_id = {
-            ["175785"] = 1,
+            [175785] = 1,
         },
     },
     ["Mature Nether Drake Essence"] = {
@@ -84133,7 +84133,7 @@ QuestieItems = {
     },
     ["Spirit of Silverpine Charts"] = {
         contained_id = {
-            ["2708"] = 1,
+            [2708] = 1,
         },
     },
     Steinpanzerskorpidstachel = {
@@ -84148,7 +84148,7 @@ QuestieItems = {
     },
     ["Rumbleshot's Ammo"] = {
         contained_id = {
-            ["176785"] = 1,
+            [176785] = 1,
         },
     },
     ["Ancient Lichen"] = {
@@ -84202,7 +84202,7 @@ QuestieItems = {
     },
     ["Deepmoss Egg"] = {
         contained_id = {
-            ["19541"] = 1,
+            [19541] = 1,
         },
     },
     ["Draenei Crystal Rod of Frost Protection"] = {
@@ -84344,7 +84344,7 @@ QuestieItems = {
     },
     ["The Third Troll Legend"] = {
         contained_id = {
-            ["52"] = 1,
+            [52] = 1,
         },
     },
     ["Netherwing Crystal"] = {
@@ -84429,7 +84429,7 @@ QuestieItems = {
     },
     ["Balia'mah Trophy"] = {
         contained_id = {
-            ["2891"] = 1,
+            [2891] = 1,
         },
     },
     ["Pergamino de magia de la Plaga"] = {
@@ -84818,7 +84818,7 @@ QuestieItems = {
     },
     ["SI:7 Insignia (Fredo)"] = {
         contained_id = {
-            ["177804"] = 1,
+            [177804] = 1,
         },
     },
     ["Gauntlets of Elements"] = {
@@ -84934,7 +84934,7 @@ QuestieItems = {
     },
     ["Moldy Tome"] = {
         contained_id = {
-            ["92013"] = 1,
+            [92013] = 1,
         },
     },
     ["Altered Crystal Sample"] = {
