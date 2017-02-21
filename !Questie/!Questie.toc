@@ -26,6 +26,9 @@ Libs\Babble-Spell-2.2\Babble-Spell-2.2.lua
 Libs\Tablet-2.0\Tablet-2.0.lua
 Libs\Tourist-2.0\Tourist-2.0.lua
 
+# Questie Utility Functions
+Modules\QuestieUtils.lua
+
 # Questie Database
 Database\items.lua
 Database\monsters.lua
