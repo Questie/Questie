@@ -897,14 +897,15 @@ end
 function Questie:GetAvailableQuestHashes(mapFileName, levelFrom, levelTo)
     local mapid =  -1
     if(QuestieZones[mapFileName]) then
-        mapid = QuestieZones[mapFileName][1];
+        c = QuestieZones[mapFileName][4]
+        z = QuestieZones[mapFileName][5]
     end
     local class = UnitClass("Player");
     local race = UnitRace("Player");
     local hashes = {};
     for l=0,100 do
-        if QuestieZoneLevelMap[mapid] then
-            local content = QuestieZoneLevelMap[mapid][l];
+        if QuestieZoneLevelMap[c] and QuestieZoneLevelMap[c][z] then
+            local content = QuestieZoneLevelMap[c][z][l];
             if content then
                 for v, locationMeta in pairs(content) do
                     local qdata = QuestieHashMap[v];

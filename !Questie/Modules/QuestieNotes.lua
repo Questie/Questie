@@ -894,16 +894,7 @@ function Questie:RecursiveGetPathLocations(path, locations)
     for sourceType, sources in pairs(path) do
         if sourceType == "locations" and next(sources) then
             for i, location in pairs(sources) do
-                local MapInfo = QuestieZoneIDLookup[location[1]]
-                if MapInfo then
-                    local l = {
-                        ["c"] = MapInfo[4],
-                        ["z"] = MapInfo[5],
-                        ["x"] = location[2],
-                        ["y"] = location[3]
-                    }
-                    table.insert(locations, l)
-                end
+                table.insert(locations, location)
             end
         elseif sourceType == "drop" or sourceType == "contained" or sourceType == "created" or sourceType == "containedi" or sourceType == "transforms" or sourceType == "transformedby" then
             for sourceName, sourcePath in pairs(sources) do
@@ -943,13 +934,13 @@ function Questie:RecursiveCreateNotes(c, z, v, locationMeta, iconMeta, objective
                     local icontype = iconMeta.selectedIcon
                     if icontype == nil then icontype = iconMeta.defaultIcon end
                     if icontype == "available" or icontype == "availablesoon" then
-                        Questie:AddAvailableNoteToMap(c,z,location[2],location[3],icontype,v,-1,deepcopy(path))
+                        Questie:AddAvailableNoteToMap(location[1],location[2],location[3],location[4],icontype,v,-1,deepcopy(path))
                     else
-                        Questie:AddNoteToMap(c,z,location[2],location[3],icontype,v,objectiveid,deepcopy(path))
+                        Questie:AddNoteToMap(location[1],location[2],location[3],location[4],icontype,v,objectiveid,deepcopy(path))
                     end
                 end
             end
-        elseif sourceType == "drop" or sourceType == "contained" or sourceType == "created" or sourceType == "containedi" or sourceType == "openedby" or sourceType == "transforms" or sourceType == "transformedby" then
+        elseif sourceType == "drop" or sourceType == "contained" or sourceType == "contained_id" or sourceType == "created" or sourceType == "containedi" or sourceType == "openedby" or sourceType == "transforms" or sourceType == "transformedby" then
             for sourceName, sourceLocationMeta in pairs(sources) do
                 local newPath = deepcopy(path)
                 local editPath = newPath
@@ -966,6 +957,7 @@ function Questie:RecursiveCreateNotes(c, z, v, locationMeta, iconMeta, objective
                     local typeToIcon = {
                         ["drop"] = "loot",
                         ["contained"] = "object",
+                        ["contained_id"] = "object",
                         ["created"] = "event",
                         ["containedi"] = "object",
                         ["openedby"] = "object",
