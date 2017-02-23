@@ -864,7 +864,7 @@ function Questie:RecursiveGetPathLocations(path, locations)
             for i, location in pairs(sources) do
                 table.insert(locations, location)
             end
-        elseif sourceType == "drop" or sourceType == "contained" or sourceType == "created" or sourceType == "containedi" or sourceType == "transforms" or sourceType == "transformedby" then
+        elseif sourceType == "drop" or sourceType == "contained" or sourceType == "contained_id" or sourceType == "created" or sourceType == "containedi" or sourceType == "transforms" or sourceType == "transformedby" then
             for sourceName, sourcePath in pairs(sources) do
                 Questie:RecursiveGetPathLocations(sourcePath, locations)
             end

@@ -436,17 +436,17 @@ function QuestieTracker:SortTrackingFrame()
                         if not objective.done then
                             local locations = Questie:RecursiveGetPathLocations(objective.path)
                             for i, location in pairs(locations) do
-                                local dist, xDelta, yDelta = Astrolabe:ComputeDistance( C, Z, X, Y, location.c, location.z, location.x, location.y)
+                                local dist, xDelta, yDelta = Astrolabe:ComputeDistance( C, Z, X, Y, location[1], location[2], location[3], location[4])
                                 if dist and xDelta and yDelta then
                                     local info = {
                                         ["dist"] = dist,
                                         ["hash"] = hash,
                                         ["xDelta"] = xDelta,
                                         ["yDelta"] = yDelta,
-                                        ["c"] = location.c,
-                                        ["z"] = location.z,
-                                        ["x"] = location.x,
-                                        ["y"] = location.y,
+                                        ["c"] = location[1],
+                                        ["z"] = location[2],
+                                        ["x"] = location[3],
+                                        ["y"] = location[4],
                                     }
                                     objectiveCount = objectiveCount + 1;
                                     table.insert(distanceNotes, info);
@@ -460,17 +460,17 @@ function QuestieTracker:SortTrackingFrame()
                     local quest = QuestieHashMap[hash]
                     local locations = QuestieTracker:GetFinisherLocations(quest.finishedType, quest.finishedBy)
                     for i, location in pairs(locations) do
-                        local dist, xDelta, yDelta = Astrolabe:ComputeDistance( C, Z, X, Y, location.c, location.z, location.x, location.y)
+                        local dist, xDelta, yDelta = Astrolabe:ComputeDistance( C, Z, X, Y, location[1], location[2], location[3], location[4])
                         if dist and xDelta and yDelta then
                             local info = {
                                 ["dist"] = dist,
                                 ["hash"] = hash,
                                 ["xDelta"] = xDelta,
                                 ["yDelta"] = yDelta,
-                                ["c"] = location.c,
-                                ["z"] = location.z,
-                                ["x"] = location.x,
-                                ["y"] = location.y,
+                                ["c"] = location[1],
+                                ["z"] = location[2],
+                                ["x"] = location[3],
+                                ["y"] = location[4],
                             }
                             table.insert(distanceNotes, info);
                         end
