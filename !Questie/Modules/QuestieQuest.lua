@@ -362,12 +362,12 @@ function Questie:UpdateQuestInZone(Zone, force)
                 if (QuestieTrackedQuests[hash]) then
                     QuestieTracker:updateFrameOnTracker(hash, i, level)
                 end
-                QuestieTracker:fillTrackingFrame()
+                QuestieTracker:FillTrackingFrame()
             elseif foundChange and QuestieConfig.trackerEnabled == true then
                 if (QuestieTrackedQuests[hash]) then
                     QuestieTracker:updateFrameOnTracker(hash, i, level)
                 end
-                QuestieTracker:fillTrackingFrame()
+                QuestieTracker:FillTrackingFrame()
             end
         end
         if(foundChange and not force) then

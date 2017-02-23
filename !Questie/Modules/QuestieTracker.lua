@@ -418,7 +418,7 @@ end
 ---------------------------------------------------------------------------------------------------
 -- Updates the QuestieTracker frames distance sorting feature
 ---------------------------------------------------------------------------------------------------
-function QuestieTracker:updateTrackingFrame()
+function QuestieTracker:SortTrackingFrame()
     local sortedByDistance = {};
     local distanceControlTable = {};
     local C,Z,X,Y = Astrolabe:GetCurrentPlayerPosition() -- continent, zone, x, y
@@ -1014,7 +1014,7 @@ function QuestieTracker:updateFrameOnTracker(hash, logId, level)
         uggo = i
     end
     uggo = uggo - 1
-    QuestieTracker:fillTrackingFrame()
+    QuestieTracker:FillTrackingFrame()
 end
 ---------------------------------------------------------------------------------------------------
 -- Removes quest from tracker when it's untracked - will not clear cached quest data

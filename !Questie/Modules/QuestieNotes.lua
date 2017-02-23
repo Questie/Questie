@@ -1010,7 +1010,6 @@ function Questie:CLEAR_ALL_NOTES()
     Astrolabe:RemoveAllMinimapIcons();
     clustersByFrame = nil
     for k, v in pairs(QuestieUsedNoteFrames) do
-        Questie:debug_Print("Hash:"..v.questHash,"Type:"..v.type);
         Questie:Clear_Note(v);
     end
     QuestieUsedNoteFrames = {};
