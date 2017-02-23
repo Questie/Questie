@@ -5,19 +5,19 @@
 --  with the artwork.)
 ----------------------------------------------------------------------------
 local function log(msg) DEFAULT_CHAT_FRAME:AddMessage(msg) end -- alias for convenience
-
+---------------------------------------------------------------------------------------------------
 math.modf = function(number)
     local fractional = Questie:Modulo(number, 1)
     local integral = number - fractional
     return integral, fractional
 end
-
+---------------------------------------------------------------------------------------------------
 function GetPlayerFacing()
     local p = Minimap
     local m = ({p:GetChildren()})[9]
     return m:GetFacing()
 end
-
+---------------------------------------------------------------------------------------------------
 local sformat = string.format
 local function ColorGradient(perc, tablee)
     local num = table.getn(tablee)
@@ -39,15 +39,14 @@ local function ColorGradient(perc, tablee)
             b1 + (b2-b1)*relperc
     end
 end
-
+---------------------------------------------------------------------------------------------------
 local twopi = math.pi * 2
-
 function WayFrame_OnClick()
     if (MouseIsOver(TomTomCrazyArrow) ~= nil) and (arg1 == "RightButton") then
         TomTomCrazyArrow:Hide()
     end
 end
-
+---------------------------------------------------------------------------------------------------
 local wayframe = CreateFrame("Button", "TomTomCrazyArrow", UIParent)
 wayframe:SetHeight(42)
 wayframe:SetWidth(56)
@@ -61,24 +60,24 @@ wayframe.title = titleframe:CreateFontString("OVERLAY", nil, "GameFontHighlightS
 wayframe.status = titleframe:CreateFontString("OVERLAY", nil, "GameFontNormalSmall")
 wayframe.title:SetPoint("TOP", wayframe, "BOTTOM", 0, 0)
 wayframe.status:SetPoint("TOP", wayframe.title, "BOTTOM", 0, 0)
-
+---------------------------------------------------------------------------------------------------
 local function OnDragStart(self, button)
     if IsControlKeyDown() and IsShiftKeyDown() then
         this:StartMoving()
         wayframe:SetClampedToScreen(true);
     end
 end
-
+---------------------------------------------------------------------------------------------------
 local function OnDragStop(self, button)
     this:StopMovingOrSizing()
 end
-
+---------------------------------------------------------------------------------------------------
 local function OnEvent(self, event, ...)
     if event == "ZONE_CHANGED_NEW_AREA" then
         self:Show()
     end
 end
-
+---------------------------------------------------------------------------------------------------
 wayframe:SetScript("OnDragStart", OnDragStart)
 wayframe:SetScript("OnDragStop", OnDragStop)
 wayframe:RegisterForDrag("LeftButton")
@@ -87,7 +86,7 @@ wayframe:SetScript("OnEvent", OnEvent)
 wayframe.arrow = wayframe:CreateTexture("OVERLAY")
 wayframe.arrow:SetTexture("Interface\\AddOns\\!Questie\\Images\\Arrow")
 wayframe.arrow:SetAllPoints()
-
+---------------------------------------------------------------------------------------------------
 local active_point, arrive_distance, showDownArrow, point_title, arrow_objective, isHide
 function SetCrazyArrow(point, dist, title)
     active_point = point
@@ -100,7 +99,7 @@ function SetCrazyArrow(point, dist, title)
         wayframe:Hide()
     end
 end
-
+---------------------------------------------------------------------------------------------------
 function SetArrowFromIcon(icon)
     local targetPoint = {
         ["c"] = icon.data.continent,
@@ -116,7 +115,7 @@ function SetArrowFromIcon(icon)
     }
     SetArrowFromData(data)
 end
-
+---------------------------------------------------------------------------------------------------
 function SetArrowFromData(data)
     local colorString = "|c" .. QuestieTracker:GetDifficultyColor(data.questLevel)
     local title = colorString
@@ -130,7 +129,7 @@ function SetArrowFromData(data)
     arrow_objective = nil
     arrow_data = data
 end
-
+---------------------------------------------------------------------------------------------------
 function SetArrowObjective(hash)
     if arrow_objective == hash then
         wayframe:Hide();
@@ -143,112 +142,121 @@ function SetArrowObjective(hash)
     local objective = QuestieTrackedQuests[hash]["arrowPoint"]
     SetCrazyArrow(objective, objective.dist, objective.title)
 end
-
-local status = wayframe.status
-local arrow = wayframe.arrow
-local count = 0
-local function OnUpdate(self, elapsed)
-    self = this
-    elapsed = 1/GetFramerate()
-    local dist,x,y
-    if not UnitIsDeadOrGhost("player") then
-        if arrow_objective then
-            if QuestieTrackedQuests[arrow_objective] then
-                local objective = QuestieTrackedQuests[arrow_objective]["arrowPoint"]
-                if objective then
-                    SetCrazyArrow(objective, objective.dist, objective.title)
-                end
-            else
-                self:Hide()
-            end
-        elseif arrow_data then
-            SetArrowFromData(arrow_data)
-        end
-        if not active_point then
-            self:Hide()
-            return
-        end
-    end
-    if UnitIsDeadOrGhost("player") and (UnitIsDead("player") ~= 1) and (bgactive == false) then
-        Questie:OnUpdate(elapsed)
-    end
-    if (TomTomCrazyArrow:IsVisible() ~= nil) then
-        local dist,x,y = GetDistanceToIcon(active_point)
-        -- The only time we cannot calculate the distance is when the waypoint
-        -- is on another continent, or we are in an instance
-        if not dist or IsInInstance() then
-            if not active_point.x and not active_point.y then
-                active_point = nil
-            end
-            self:Hide()
-            return
-        end
-        status:SetText(sformat("%d yards", dist))
-        local cell
-        -- Showing the arrival arrow?
-        if dist <= 5 then
-            if not showDownArrow then
-                arrow:SetHeight(70)
-                arrow:SetWidth(53)
-                arrow:SetTexture("Interface\\AddOns\\!Questie\\Images\\Arrow-UP")
-                arrow:SetVertexColor(0, 1, 0)
-                showDownArrow = true
-            end
-            count = count + 1
-            if count >= 55 then
-                count = 0
-            end
-            cell = count
-            local column = Questie:Modulo(cell, 9)
-            local row = floor(cell / 9)
-            local xstart = (column * 53) / 512
-            local ystart = (row * 70) / 512
-            local xend = ((column + 1) * 53) / 512
-            local yend = ((row + 1) * 70) / 512
-            arrow:SetTexCoord(xstart,xend,ystart,yend)
-        else
-            if showDownArrow then
-                arrow:SetHeight(56)
-                arrow:SetWidth(42)
-                arrow:SetTexture("Interface\\AddOns\\!Questie\\Images\\Arrow")
-                showDownArrow = false
-            end
-            local degtemp = GetDirectionToIcon(active_point);
-            if degtemp < 0 then degtemp = degtemp + 360; end
-            local angle = math.rad(degtemp)
-            local player = GetPlayerFacing()
-            angle = angle - player
-            local perc = 1-  math.abs(((math.pi - math.abs(angle)) / math.pi))
-            local gr,gg,gb = 1, 1, 1
-            local mr,mg,mb = 0.75, 0.75, 0.75
-            local br,bg,bb = 0.5, 0.5, 0.5
-            local tablee = {};
-            table.insert(tablee, gr)
-            table.insert(tablee, gg)
-            table.insert(tablee, gb)
-            table.insert(tablee, mr)
-            table.insert(tablee, mg)
-            table.insert(tablee, mb)
-            table.insert(tablee, br)
-            table.insert(tablee, bg)
-            table.insert(tablee, bb)
-            local r,g,b = ColorGradient(perc,tablee)
-            if not g then
-                g = 0;
-            end
-            arrow:SetVertexColor(1-g,-1+g*2,0)
-            cell = Questie:Modulo(floor(angle / twopi * 108 + 0.5), 108);
-            local column = Questie:Modulo(cell, 9)
-            local row = floor(cell / 9)
-            local xstart = (column * 56) / 512
-            local ystart = (row * 42) / 512
-            local xend = ((column + 1) * 56) / 512
-            local yend = ((row + 1) * 42) / 512
-            arrow:SetTexCoord(xstart,xend,ystart,yend)
-        end
+---------------------------------------------------------------------------------------------------
+function RemoveCrazyArrow(hash)
+    if (TomTomCrazyArrow:IsVisible() ~= nil) and (arrow_objective == hash or arrow_data) then
+        TomTomCrazyArrow:Hide()
     end
 end
-
+---------------------------------------------------------------------------------------------------
+local status = wayframe.status
+local arrow = wayframe.arrow
+local arrowLastUpdate = 0;
+local LastPlayerPosition = {};
+local count = 0
+local function OnUpdate(self, elapsed)
+    if GetTime() - arrowLastUpdate >= .04 then
+        self = this
+        local dist,x,y
+        if not UnitIsDeadOrGhost("player") then
+            if arrow_objective then
+                if QuestieTrackedQuests[arrow_objective] then
+                    local objective = QuestieTrackedQuests[arrow_objective]["arrowPoint"]
+                    if objective then
+                        SetCrazyArrow(objective, objective.dist, objective.title)
+                    end
+                else
+                     self:Hide()
+                end
+            elseif arrow_data then
+                SetArrowFromData(arrow_data)
+            end
+            if not active_point then
+                self:Hide()
+                return
+            end
+        end
+        --While dead this maintains the corpseArrow
+        if UnitIsDeadOrGhost("player") and (UnitIsDead("player") ~= 1) and (bgactive == false) then
+            Questie:OnUpdate(elapsed)
+        end
+        if (TomTomCrazyArrow:IsVisible() ~= nil) then
+            local dist,x,y = GetDistanceToIcon(active_point)
+            if not dist or IsInInstance() then
+                if not active_point.x and not active_point.y then
+                    active_point = nil
+                end
+                self:Hide()
+                return
+            end
+            status:SetText(sformat("%d yards", dist))
+            local cell
+            -- Showing the arrival arrow?
+            if dist <= 5 then
+                if not showDownArrow then
+                    arrow:SetHeight(70)
+                    arrow:SetWidth(53)
+                    arrow:SetTexture("Interface\\AddOns\\!Questie\\Images\\Arrow-UP")
+                    arrow:SetVertexColor(0, 1, 0)
+                    showDownArrow = true
+                end
+                count = count + 1
+                if count >= 55 then
+                    count = 0
+                end
+                cell = count
+                local column = Questie:Modulo(cell, 9)
+                local row = floor(cell / 9)
+                local xstart = (column * 53) / 512
+                local ystart = (row * 70) / 512
+                local xend = ((column + 1) * 53) / 512
+                local yend = ((row + 1) * 70) / 512
+                arrow:SetTexCoord(xstart,xend,ystart,yend)
+            else
+                if showDownArrow then
+                    arrow:SetHeight(56)
+                    arrow:SetWidth(42)
+                    arrow:SetTexture("Interface\\AddOns\\!Questie\\Images\\Arrow")
+                    showDownArrow = false
+                end
+                local degtemp = GetDirectionToIcon(active_point);
+                if degtemp < 0 then degtemp = degtemp + 360; end
+                local angle = math.rad(degtemp)
+                local player = GetPlayerFacing() + 0.1
+                angle = angle - player
+                local perc = 1-  math.abs(((math.pi - math.abs(angle)) / math.pi))
+                local gr,gg,gb = 1, 1, 1
+                local mr,mg,mb = 0.75, 0.75, 0.75
+                local br,bg,bb = 0.5, 0.5, 0.5
+                local tablee = {};
+                table.insert(tablee, gr)
+                table.insert(tablee, gg)
+                table.insert(tablee, gb)
+                table.insert(tablee, mr)
+                table.insert(tablee, mg)
+                table.insert(tablee, mb)
+                table.insert(tablee, br)
+                table.insert(tablee, bg)
+                table.insert(tablee, bb)
+                local r,g,b = ColorGradient(perc,tablee)
+                if not g then
+                    g = 0;
+                end
+                arrow:SetVertexColor(1-g,-1+g*2,0)
+                cell = Questie:Modulo(floor(angle / twopi * 108 + 0.5), 108);
+                local column = Questie:Modulo(cell, 9)
+                local row = floor(cell / 9)
+                local xstart = (column * 56) / 512
+                local ystart = (row * 42) / 512
+                local xend = ((column + 1) * 56) / 512
+                local yend = ((row + 1) * 42) / 512
+                arrow:SetTexCoord(xstart,xend,ystart,yend)
+            end
+        end
+        arrowLastUpdate = GetTime()
+    end
+end
+---------------------------------------------------------------------------------------------------
 function ShowHideCrazyArrow()
     if wayframe:IsShown() then
         wayframe:Show()
@@ -271,15 +279,15 @@ function ShowHideCrazyArrow()
         wayframe:Hide()
     end
 end
-
+---------------------------------------------------------------------------------------------------
 function ArrowHidden()
     isHide = true
 end
-
+---------------------------------------------------------------------------------------------------
 function ArrowShown()
     isHide = false
 end
-
+---------------------------------------------------------------------------------------------------
 wayframe:SetScript("OnUpdate", OnUpdate)
 wayframe:RegisterForClicks("RightButtonUp")
 wayframe:SetScript("OnClick", WayFrame_OnClick)
@@ -290,7 +298,7 @@ local function getCoords(column, row)
     local yend = ((row + 1) * 42) / 512
     return xstart, xend, ystart, yend
 end
-
+---------------------------------------------------------------------------------------------------
 --this is where texcoords are extracted incorrectly (I think), leading the arrow to not point in the correct direction
 local texcoords = setmetatable({}, {__index = function(t, k)
     -- this was k:match("(%d+):(%d+)") - so we need string.match, but that's not in Lua 5.0
@@ -303,7 +311,7 @@ local texcoords = setmetatable({}, {__index = function(t, k)
     rawset(t, k, obj)
     return obj
 end})
-
+---------------------------------------------------------------------------------------------------
 wayframe:RegisterEvent("ADDON_LOADED")
 local runonce = true
 wayframe:SetScript("OnEvent", function(self, event, arg1, ...)
@@ -358,7 +366,7 @@ wayframe:SetScript("OnEvent", function(self, event, arg1, ...)
     end
     runonce = false
 end)
-
+---------------------------------------------------------------------------------------------------
 -- calculations have to be redone - we are NOT actually working with Astrolabe "icons" here as TomTom did and want the arrow API
 -- to be accessible to everyone
 function GetDirectionToIcon( point )
@@ -373,7 +381,7 @@ function GetDirectionToIcon( point )
         return -dir;
     end
 end
-
+---------------------------------------------------------------------------------------------------
 function GetDistanceToIcon( point )
     local C,Z,X,Y = Astrolabe:GetCurrentPlayerPosition() -- continent, zone, x, y
     local dist, xDelta, yDelta = Astrolabe:ComputeDistance( C, Z, X, Y, point.c, point.z, point.x, point.y )

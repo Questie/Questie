@@ -154,7 +154,7 @@ function Questie:RemoveQuestFromMap(questHash, redraw)
         QuestieHandledQuests[questHash] = nil;
     end
 end
-
+---------------------------------------------------------------------------------------------------
 function Questie:GetMapInfoFromID(id)
     return QuestieZoneIDLookup[id];
 end
@@ -162,7 +162,6 @@ end
 -- Add quest note to map
 ---------------------------------------------------------------------------------------------------
 QuestieMapNotes = {};--Usage Questie[Continent][Zone][index]
-MiniQuestieMapNotes = {};
 function Questie:AddNoteToMap(continent, zoneid, posx, posy, type, questHash, objectiveid, path)
     --This is to set up the variables
     if QuestieConfig.hideobjectives and not (type == "complete") then
@@ -267,18 +266,15 @@ function Questie:Tooltip(this, forceShow, bag, slot)
         if not validKey then
             return;
         end
-
         local reaction = UnitReaction("mouseover", "player")
         local unitColorRGB = Questie:GetReactionColor(reaction)
         local unitColor = "ff"..fRGBToHex(unitColorRGB.r, unitColorRGB.g, unitColorRGB.b)
-
         if(Questie_TooltipCache[cacheKey] == nil) or (QUESTIE_LAST_UPDATE_FINISHED - Questie_TooltipCache[cacheKey]['updateTime']) > 0 then
             -- Create or Update Tooltip Cache
             Questie_TooltipCache[cacheKey] = {};
             Questie_TooltipCache[cacheKey]['lines'] = {};
             Questie_TooltipCache[cacheKey]['lineCount'] = 1;
             Questie_TooltipCache[cacheKey]['updateTime'] = GetTime();
-
             local prevQuestLogSelection = QGet_QuestLogSelection()
             for questHash, quest in pairs(QuestieHandledQuests) do
                 local QuestLogID = Questie:GetQuestIdFromHash(questHash)
@@ -294,7 +290,6 @@ function Questie:Tooltip(this, forceShow, bag, slot)
                     local lines, sourceNames = Questie:GetTooltipLines(objectivePath, 1, highlightInfo)
                     if objectiveInfo.name == objective or sourceNames[objective] then
                         local lineIndex = Questie_TooltipCache[cacheKey]['lineCount']
-
                         if drawnQuestTitle == false then
                             local q, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(QuestLogID);
                             local questInfo = QuestieHashMap[questHash]
@@ -312,10 +307,8 @@ function Questie:Tooltip(this, forceShow, bag, slot)
                                 ['data'] = title
                             }
                             lineIndex = lineIndex + 1
-
                             drawnQuestTitle = true
                         end
-
                         local desc, type, done = QGet_QuestLogLeaderBoard(objectiveid)
                         desc = string.gsub(desc, objective, "|c"..unitColor..objective.."|r")
                         Questie_TooltipCache[cacheKey]['lines'][lineIndex] = {
@@ -383,7 +376,6 @@ function Questie:GetTooltipLines(path, indent, highlightInfo, lines, sourceNames
         elseif sourceType == "transformedby" then
             prefix = "Created by"
         end
-
         if prefix then
             for sourceName, sourcePath in pairs(sources) do
                 local splitNames = Questie:SplitString(sourceName, ", ")
@@ -411,14 +403,14 @@ function Questie:GetTooltipLines(path, indent, highlightInfo, lines, sourceNames
     end
     return lines, sourceNames
 end
-
+---------------------------------------------------------------------------------------------------
 function Questie:AddPathToTooltip(Tooltip, path, indent)
     local lines = Questie:GetTooltipLines(path, indent)
     for i, line in pairs(lines) do
         Tooltip:AddLine(line,1,1,1,true);
     end
 end
-
+---------------------------------------------------------------------------------------------------
 function Questie_Tooltip_OnEnter()
     if(this.data.questHash) then
         local Tooltip = GameTooltip;
@@ -488,7 +480,6 @@ function Questie_Tooltip_OnEnter()
                 Tooltip:AddLine("Min Level: |cFFa6a6a6"..QuestieHashMap[data.questHash].level.."|r",1,1,1);
                 Tooltip:AddLine("Started by: |cFFa6a6a6"..QuestieHashMap[data.questHash].startedBy.."|r",1,1,1);
                 Questie:AddPathToTooltip(Tooltip, questMeta['path'], 1)
-                
                 if questOb ~= nil then
                     Tooltip:AddLine("Description: |cFFa6a6a6"..questOb.."|r",1,1,1,true);
                 end
@@ -517,7 +508,6 @@ function Questie_AvailableQuestClick()
     if this.type == "WorldMapNote" then
         local c, z = GetCurrentMapContinent(), GetCurrentMapZone()
         local newC, newZ = c, z
-
         if arg1 == "LeftButton" then
             if c == 0 then newC = this.data.continent
             else newZ = this.data.zoneid end
@@ -526,13 +516,11 @@ function Questie_AvailableQuestClick()
             if z == 0 then newC = 0
             else newZ = 0 end
         end
-
         if newC ~= c or newZ ~= z then
             SetMapZoom(newC, newZ)
             return
         end
     end
-
     local Tooltip = GameTooltip
     if(this.type == "WorldMapNote") then
         Tooltip = WorldMapTooltip
@@ -580,7 +568,6 @@ function Questie_AvailableQuestClick()
                                 finishQuest(quest)
                                 Dewdrop:Close()
                             end
-
                             Dewdrop:AddLine(
                                 'text', questName,
                                 'notClickable', quest.icontype ~= "available" and quest.icontype ~= "availablesoon",
@@ -635,7 +622,7 @@ function Questie:CreateBlankFrameNote(frame)
     table.insert(FramePool, f);
     table.insert(AllFrames, f);
 end
-
+---------------------------------------------------------------------------------------------------
 function Questie:GetFrameNote(data, parentFrame, frameLevel, type, scale)
     if(table.getn(FramePool)==0) then
         Questie:CreateFrameNote(data, parentFrame, frameLevel, type, scale);
@@ -644,7 +631,7 @@ function Questie:GetFrameNote(data, parentFrame, frameLevel, type, scale)
     table.remove(FramePool, 1);
     return f;
 end
-
+---------------------------------------------------------------------------------------------------
 function Questie:SetFrameNoteData(f, data, parentFrame, frameLevel, type, scale)
     f.data = data;
     f.quests = {}
@@ -658,7 +645,7 @@ function Questie:SetFrameNoteData(f, data, parentFrame, frameLevel, type, scale)
     f.texture:SetTexture(QuestieIcons[data.icontype].path)
     f.texture:SetAllPoints(f)
 end
-
+---------------------------------------------------------------------------------------------------
 function Questie:AddFrameNoteData(icon, data)
     if icon then
         if (icon.averageX == nil or icon.averageY == nil or icon.countForAverage == nil) then
@@ -670,20 +657,16 @@ function Questie:AddFrameNoteData(icon, data)
         for k, v in pairs(icon.quests) do
             numQuests = numQuests + 1
         end
-
         local newAverageX = (icon.averageX * icon.countForAverage + data.x) / (icon.countForAverage + 1)
         local newAverageY = (icon.averageY * icon.countForAverage + data.y) / (icon.countForAverage + 1)
         icon.averageX = newAverageX
         icon.averageY = newAverageY
-
         icon.countForAverage = icon.countForAverage + 1
-
         if icon.quests[data.questHash] then
             -- Add cumulative quest data
             if icon.quests[data.questHash]['objectives'][data.objectiveid] == nil then
                 icon.quests[data.questHash]['objectives'][data.objectiveid] = {}
             end
-
             if data.path then
                 Questie:JoinPathTables(icon.quests[data.questHash]['path'], data.path)
             end
@@ -708,7 +691,7 @@ function Questie:AddFrameNoteData(icon, data)
         end
     end
 end
-
+---------------------------------------------------------------------------------------------------
 function Questie:JoinPathTables(path1, path2)
     for k, v in pairs(path2) do
         if path1[k] then
@@ -720,19 +703,17 @@ function Questie:JoinPathTables(path1, path2)
         end
     end
 end
-
+---------------------------------------------------------------------------------------------------
 function Questie:PathsAreIdentical(path1, path2)
     if not next(path1) and not next(path2) then
         return true
     end
-
     for sourceType1, sources1 in pairs(path1) do
         for sourceType2, sources2 in pairs(path2) do
             if path1[sourceType2] == nil or path2[sourceType1] == nil then
                 return false
             end
         end
-
         for sourceName, sourcePath in pairs(path1[sourceType1]) do
             for otherSourceName, otherSourcePath in pairs(path2[sourceType1]) do
                 if path1[sourceType1][otherSourceName] == nil or path2[sourceType1][sourceName] == nil then
@@ -741,19 +722,16 @@ function Questie:PathsAreIdentical(path1, path2)
             end
         end
     end
-
     return true
 end
-
+---------------------------------------------------------------------------------------------------
 function Questie:PostProcessIconPath(path)
     if path["locations"] then path["locations"] = nil end
     for sourceType, sources in pairs(path) do
         for sourceName, sourcePath in pairs(sources) do
             Questie:PostProcessIconPath(sourcePath)
         end
-
         local newSources = {}
-
         for sourceName, sourcePath in pairs(sources) do
             for otherSourceName, otherSourcePath in pairs(sources) do
                 if sourceName ~= otherSourceName and (newSources[sourceName] == nil or newSources[otherSourceName] == nil) then
@@ -779,7 +757,6 @@ function Questie:PostProcessIconPath(path)
                 end
             end
         end
-
         for sourceName, sourcePath in pairs(sources) do
             if newSources[sourceName] == nil then
                 newSources[sourceName] = {
@@ -789,18 +766,16 @@ function Questie:PostProcessIconPath(path)
                 }
             end
         end
-
         local processedSources = {}
         for sourceName, data in pairs(newSources) do
             for i, name in ipairs(data.names) do
                 processedSources[data.name] = data.sourcePath
             end
         end
-
         path[sourceType] = processedSources
     end
 end
-
+---------------------------------------------------------------------------------------------------
 function Questie:RecursiveFindAndCombineObjectiveName(pathToSearch, objectiveName, pathToAdd)
     local found = false
     for sourceType, sources in pairs(pathToSearch) do
@@ -817,7 +792,7 @@ function Questie:RecursiveFindAndCombineObjectiveName(pathToSearch, objectiveNam
     end
     return found
 end
-
+---------------------------------------------------------------------------------------------------
 function Questie:FindAndCombineObjectiveName(objectives, objectiveName, pathToAdd)
     for objectiveid, objectivePath in pairs(objectives) do
         if type(objectiveid) ~= "string" then
@@ -827,7 +802,7 @@ function Questie:FindAndCombineObjectiveName(objectives, objectiveName, pathToAd
         end
     end
 end
-
+---------------------------------------------------------------------------------------------------
 function Questie:PostProcessIconPaths(icon)
     for questHash, questMeta in pairs(icon.quests) do
         Questie:PostProcessIconPath(questMeta.path)
@@ -839,14 +814,10 @@ function Questie:PostProcessIconPaths(icon)
         end
     end
 end
-
-TICK_DELAY = 0.01;--0.1 Atm not to get spam while debugging should probably be a lot faster...
-LAST_TICK = GetTime();
+---------------------------------------------------------------------------------------------------
 local LastContinent = nil;
 local LastZone = nil;
 UIOpen = false;
-NATURAL_REFRESH = 60;
-NATRUAL_REFRESH_SPACING = 2;
 ---------------------------------------------------------------------------------------------------
 -- Updates notes for current zone only
 ---------------------------------------------------------------------------------------------------
@@ -885,9 +856,6 @@ function Questie:NOTES_LOADED()
     Questie:debug_Print("Done Loading QuestieNotes");
 end
 ---------------------------------------------------------------------------------------------------
--- Sets up all available quests
----------------------------------------------------------------------------------------------------
-
 function Questie:RecursiveGetPathLocations(path, locations)
     if locations == nil then locations = {} end
 
@@ -905,7 +873,7 @@ function Questie:RecursiveGetPathLocations(path, locations)
 
     return locations
 end
-
+---------------------------------------------------------------------------------------------------
 local specialSources = {
     ["openedby"] = 1,
 }
@@ -978,7 +946,9 @@ function Questie:RecursiveCreateNotes(c, z, v, locationMeta, iconMeta, objective
         end
     end
 end
-
+---------------------------------------------------------------------------------------------------
+-- Sets up all available quests
+---------------------------------------------------------------------------------------------------
 function Questie:SetAvailableQuests()
     QuestieAvailableMapNotes = {};
     local t = GetTime();
@@ -986,7 +956,6 @@ function Questie:SetAvailableQuests()
     local c, z = GetCurrentMapContinent(), GetCurrentMapZone();
     local mapFileName = GetMapInfo();
     local quests = nil;
-
     local minLevel = 0
     local maxLevel = 100
     if QuestieConfig.minLevelFilter then
@@ -996,7 +965,6 @@ function Questie:SetAvailableQuests()
         maxLevel = level + QuestieConfig.maxShowLevel
     end
     quests = Questie:GetAvailableQuestHashes(mapFileName, minLevel, maxLevel)
-
     if quests then
         for k, v in pairs(quests) do
             local icontype = "available"
@@ -1017,7 +985,7 @@ function Questie:RedrawNotes()
     Questie:debug_Print("Notes redrawn time:", tostring((GetTime()- time)*1000).."ms");
     time = nil;
 end
-
+---------------------------------------------------------------------------------------------------
 function Questie:Clear_Note(v)
     v:SetParent(nil);
     v:Hide();
@@ -1038,12 +1006,11 @@ end
 -- QuestieUsedNotesFrame to new table;
 ---------------------------------------------------------------------------------------------------
 function Questie:CLEAR_ALL_NOTES()
-    --DEFAULT_CHAT_FRAME:AddMessage("Clearing map notes!")
     Questie:debug_Print("CLEAR_NOTES");
     Astrolabe:RemoveAllMinimapIcons();
     clustersByFrame = nil
     for k, v in pairs(QuestieUsedNoteFrames) do
-        --Questie:debug_Print("Hash:"..v.questHash,"Type:"..v.type);
+        Questie:debug_Print("Hash:"..v.questHash,"Type:"..v.type);
         Questie:Clear_Note(v);
     end
     QuestieUsedNoteFrames = {};
@@ -1053,13 +1020,13 @@ end
 ---------------------------------------------------------------------------------------------------
 local Cluster = {}
 Cluster.__index = Cluster
-
+---------------------------------------------------------------------------------------------------
 function Cluster.new(points)
     local self = setmetatable({}, Cluster)
     self.points = points
     return self
 end
-
+---------------------------------------------------------------------------------------------------
 function Cluster:CountPoints()
     local count = 0
     local counted = {}
@@ -1071,13 +1038,13 @@ function Cluster:CountPoints()
     end
     return count
 end
-
+---------------------------------------------------------------------------------------------------
 function Cluster.CalculateDistance(x1, y1, x2, y2)
     local deltaX = x1 - x2
     local deltaY = y1 - y2
     return sqrt(deltaX*deltaX + deltaY*deltaY)
 end
-
+---------------------------------------------------------------------------------------------------
 function Cluster.CalculateLinkageDistance(cluster1, cluster2)
     local total = 0
     for i, pi in cluster1 do
@@ -1089,7 +1056,7 @@ function Cluster.CalculateLinkageDistance(cluster1, cluster2)
     end
     return total / (table.getn(cluster1) * table.getn(cluster2))
 end
-
+---------------------------------------------------------------------------------------------------
 function Cluster:CalculateClusters(clusters, distanceThreshold, maxClusterSize)
     while table.getn(clusters) > 1 do
         local nearest1
@@ -1109,13 +1076,11 @@ function Cluster:CalculateClusters(clusters, distanceThreshold, maxClusterSize)
             end
             if nearestDistance == 0 then break end
         end
-
         if nearestDistance == nil or nearestDistance > distanceThreshold then break end
         local index1 = indexOf(clusters, nearest1)
         table.remove(clusters, index1)
         local index2 = indexOf(clusters, nearest2)
         table.remove(clusters, index2)
-
         local points = nearest1.points
         for i, point in pairs(nearest2.points) do
             table.insert(points, point)
@@ -1124,7 +1089,7 @@ function Cluster:CalculateClusters(clusters, distanceThreshold, maxClusterSize)
         table.insert(clusters, newCluster)
     end
 end
-
+---------------------------------------------------------------------------------------------------
 -- splits the specified text into an array on the specified separator
 -- todo make a QuestieUtils.lua file for things like this
 function Questie:SplitString( text, separator, limit )
@@ -1141,17 +1106,17 @@ function Questie:SplitString( text, separator, limit )
     end
     return parts;
 end
-
+---------------------------------------------------------------------------------------------------
 function Questie:RoundCoordinate(coord, factor)
     if factor == nil then factor = 1 end
     return tonumber(string.format("%.2f", coord/factor)) * factor
 end
-
+---------------------------------------------------------------------------------------------------
 function Questie:GetReactionColor(reaction)
     if reaction == nil or reaction < 1 or reaction > 8 then reaction = 4 end
     return FACTION_BAR_COLORS[reaction]
 end
-
+---------------------------------------------------------------------------------------------------
 function Questie:AddClusterFromNote(frame, identifier, v)
     if clustersByFrame == nil then
         clustersByFrame = {}
@@ -1168,14 +1133,12 @@ function Questie:AddClusterFromNote(frame, identifier, v)
     if clustersByFrame[frame][identifier][v.continent][v.zoneid] == nil then
         clustersByFrame[frame][identifier][v.continent][v.zoneid] = {}
     end
-
     local roundedX = v.x
     local roundedY = v.y
     if QuestieConfig.clusterQuests and frame == "WorldMapNote" and identifier == "Objectives" then
         roundedX = Questie:RoundCoordinate(v.x, 5)
         roundedY = Questie:RoundCoordinate(v.y, 5)
     end
-
     if clustersByFrame[frame][identifier][v.continent][v.zoneid][roundedX] == nil then
         clustersByFrame[frame][identifier][v.continent][v.zoneid][roundedX] = {}
     end
@@ -1187,7 +1150,7 @@ function Questie:AddClusterFromNote(frame, identifier, v)
         table.insert(clustersByFrame[frame][identifier][v.continent][v.zoneid][roundedX][roundedY].points, v)
     end
 end
-
+---------------------------------------------------------------------------------------------------
 function Questie:GetClustersByFrame(frame, identifier)
     if clustersByFrame == nil then
         clustersByFrame = {}
@@ -1223,72 +1186,93 @@ end
 -- Checks first if there are any notes for the current zone, then draws the desired icon
 ---------------------------------------------------------------------------------------------------
 function Questie:DRAW_NOTES()
-    --DEFAULT_CHAT_FRAME:AddMessage("Drawing map notes!")
-    local c, z = GetCurrentMapContinent(), GetCurrentMapZone();
-    Questie:debug_Print("DRAW_NOTES");
-    if not QuestieConfig.hideMinimapIcons then
-        -- Draw minimap objective markers
-        if(QuestieMapNotes[c] and QuestieMapNotes[c][z]) then
-            for k, v in pairs(QuestieMapNotes[c][z]) do
-                --If an available quest isn't in the zone or we aren't tracking a quest on the QuestTracker then hide the objectives from the minimap
-                local show = QuestieConfig.alwaysShowQuests or ((MMLastX ~= 0) and (MMLastY ~= 0)) and (QuestieTrackedQuests[v.questHash] ~= nil) and (QuestieTrackedQuests[v.questHash]["tracked"] ~= false)
-                if show then
-                    if v.icontype == "complete" then
+    local c,z,x,y = Astrolabe:GetCurrentPlayerPosition()
+    Questie:debug_Print("DRAW_NOTES")
+    --Draw minimap objective markers
+    if (QuestieMapNotes[c] and QuestieMapNotes[c][z]) then
+        for k, v in pairs(QuestieMapNotes[c][z]) do
+            --We are in a zone/dungeon with no coordinates so hide everything
+            if (MMLastX ~= 0 and MMLastY ~= 0) then
+                --Showing all quest related objects
+                if (QuestieConfig.alwaysShowQuests == true) and (not QuestieConfig.hideObjectives == true) then
+                    if (v.icontype == "complete") then
                         Questie:AddClusterFromNote("MiniMapNote", "Quests", v)
                     else
                         Questie:AddClusterFromNote("MiniMapNote", "Objectives", v)
                     end
-                end
-            end
-        end
-    end
-    -- Draw world map objective markers
-    for k, Continent in pairs(QuestieMapNotes) do
-        for zone, noteHeap in pairs(Continent) do
-            for k, v in pairs(noteHeap) do
-                if true then
-                    --If we aren't tracking a quest on the QuestTracker then hide the objectives from the worldmap
-                    if ( ( (QuestieTrackedQuests[v.questHash] ~= nil) and (QuestieTrackedQuests[v.questHash]["tracked"] ~= false) ) or (v.icontype == "complete") ) and (QuestieConfig.alwaysShowQuests == false) then
-                        if v.icontype == "complete" then
-                            Questie:AddClusterFromNote("WorldMapNote", "Quests", v)
-                        else
-                            Questie:AddClusterFromNote("WorldMapNote", "Objectives", v)
-                        end
-                    elseif (QuestieConfig.alwaysShowQuests == true) then
-                        if v.icontype == "complete" then
-                            Questie:AddClusterFromNote("WorldMapNote", "Quests", v)
-                        else
-                            Questie:AddClusterFromNote("WorldMapNote", "Objectives", v)
-                        end
+                --Not showing all quests and a quest isn't nil or not tracking a quest
+                elseif (QuestieTrackedQuests[v.questHash] ~= nil) and (QuestieTrackedQuests[v.questHash]["tracked"] == true) then
+                    if (v.icontype == "complete") then
+                        Questie:AddClusterFromNote("MiniMapNote", "Quests", v)
+                    else
+                        Questie:AddClusterFromNote("MiniMapNote", "Objectives", v)
                     end
-                end
-            end
-        end
-    end
-
-    -- Draw available quest markers.
-    if(QuestieAvailableMapNotes[c] and QuestieAvailableMapNotes[c][z]) then
-        if Active == true then
-            local con,zon,x,y = Astrolabe:GetCurrentPlayerPosition();
-            for k, v in pairs(QuestieAvailableMapNotes[c][z]) do
-                Questie:AddClusterFromNote("WorldMapNote", "Quests", v)
-                if not QuestieConfig.hideMinimapIcons then
+                --This ensures we're never hiding quest complete icons
+                elseif (QuestieTrackedQuests[v.questHash] ~= nil) and (not QuestieTrackedQuests[v.questHash]["tracked"] == true) and (v.icontype == "complete") and (not QuestieConfig.hideMinimapIcons == true) then
+                    Questie:AddClusterFromNote("MiniMapNote", "Quests", v)
+                elseif (QuestieTrackedQuests[v.questHash] ~= nil) and (not QuestieTrackedQuests[v.questHash]["tracked"] == true) and (v.icontype == "complete") and (QuestieConfig.hideMinimapIcons == true) then
                     Questie:AddClusterFromNote("MiniMapNote", "Quests", v)
                 end
             end
         end
     end
-
+    --Draw world map objective markers
+    for k, Continent in pairs(QuestieMapNotes) do
+        for zone, noteHeap in pairs(Continent) do
+            for k, v in pairs(noteHeap) do
+                if true then
+                    --Showing all quest related objects
+                    if (QuestieConfig.alwaysShowQuests == true) and (not QuestieConfig.hideObjectives == true) then
+                        if (v.icontype == "complete") then
+                            Questie:AddClusterFromNote("WorldMapNote", "Quests", v)
+                        else
+                            Questie:AddClusterFromNote("WorldMapNote", "Objectives", v)
+                        end
+                    --Not showing all quests and a quest isn't nil or not tracking a quest
+                    elseif (QuestieTrackedQuests[v.questHash] ~= nil) and (QuestieTrackedQuests[v.questHash]["tracked"] == true) then
+                        if (v.icontype == "complete") then
+                            Questie:AddClusterFromNote("WorldMapNote", "Quests", v)
+                        else
+                            Questie:AddClusterFromNote("WorldMapNote", "Objectives", v)
+                        end
+                    --This ensures we're never hiding quest complete icons
+                    elseif ((QuestieTrackedQuests[v.questHash] ~= nil) and (not QuestieTrackedQuests[v.questHash]["tracked"] == true)) and (v.icontype == "complete") then
+                        Questie:AddClusterFromNote("WorldMapNote", "Quests", v)
+                    end
+                end
+            end
+        end
+    end
+    --Draw minimap available markers.
+    if(QuestieAvailableMapNotes[c] and QuestieAvailableMapNotes[c][z]) then
+        if Active == true then
+            local con,zon,x,y = Astrolabe:GetCurrentPlayerPosition()
+            for k, v in pairs(QuestieAvailableMapNotes[c][z]) do
+                --We're hiding the mini map quest starters or we are in a zone/dungeon with no
+                --coordinates so hide everything
+                if (not QuestieConfig.hideMinimapIcons == true) and (MMLastX ~= 0 and MMLastY ~= 0)then
+                    Questie:AddClusterFromNote("MiniMapNote", "Quests", v)
+                end
+            end
+        end
+    end
+    --Draw world map available markers.
+    local c, z = GetCurrentMapContinent(), GetCurrentMapZone()
+    if(QuestieAvailableMapNotes[c] and QuestieAvailableMapNotes[c][z]) then
+        if Active == true then
+            for k, v in pairs(QuestieAvailableMapNotes[c][z]) do
+                --Always show quest starters on the world map
+                Questie:AddClusterFromNote("WorldMapNote", "Quests", v)
+            end
+        end
+    end
     local minimapObjectiveClusters = Questie:GetClustersByFrame("MiniMapNote", "Objectives")
     local worldMapObjectiveClusters = Questie:GetClustersByFrame("WorldMapNote", "Objectives")
-
     local minimapClusters = Questie:GetClustersByFrame("MiniMapNote", "Quests")
     local worldMapClusters = Questie:GetClustersByFrame("WorldMapNote", "Quests")
     if QuestieConfig.clusterQuests then
         Cluster:CalculateClusters(worldMapClusters, 0.025, 5)
     end
-
-
     local scale = QUESTIE_NOTES_MAP_ICON_SCALE;
     if(z == 0 and c == 0) then--Both continents
         scale = QUESTIE_NOTES_WORLD_MAP_ICON_SCALE;
@@ -1300,7 +1284,7 @@ function Questie:DRAW_NOTES()
     Questie:DrawClusters(minimapObjectiveClusters, "MiniMapNote", QUESTIE_NOTES_MINIMAP_ICON_SCALE, Minimap)
     Questie:DrawClusters(minimapClusters, "MiniMapNote", QUESTIE_NOTES_MINIMAP_ICON_SCALE, Minimap)
 end
-
+---------------------------------------------------------------------------------------------------
 function Questie:DrawClusters(clusters, frameName, scale, frame, button)
     local frameLevel = 9
     if frameName == "MiniMapNote" then
@@ -1325,9 +1309,7 @@ function Questie:DrawClusters(clusters, frameName, scale, frame, button)
                 Questie:AddFrameNoteData(Icon, v)
             end
         end
-
         Questie:PostProcessIconPaths(Icon)
-
         if frameName == "MiniMapNote" then
             Icon:SetHighlightTexture(QuestieIcons[Icon.data.icontype].path, "ADD");
             Astrolabe:PlaceIconOnMinimap(Icon, Icon.data.continent, Icon.data.zoneid, Icon.averageX, Icon.averageY);
