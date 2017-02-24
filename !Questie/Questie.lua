@@ -422,7 +422,6 @@ function Questie:OnUpdate(elapsed)
     if(table.getn(QUESTIE_EVENTQUEUE) > 0) then
         for k, v in pairs(QUESTIE_EVENTQUEUE) do
             if(v.EVENT == "UPDATE" and GetTime()- v.TIME > v.DELAY) then
-                DEFAULT_CHAT_FRAME:AddMessage("UPDATE")
                 while(true) do
                     local d = Questie:UpdateQuests()
                     if(not d) then
@@ -436,25 +435,20 @@ function Questie:OnUpdate(elapsed)
                 QuestieTracker:FillTrackingFrame()
                 Astrolabe.ForceNextUpdate = true
             elseif(v.EVENT == "CHECKLOG" and GetTime() - v.TIME > v.DELAY) then
-                DEFAULT_CHAT_FRAME:AddMessage("CHECKLOG")
                 Questie:CheckQuestLog()
                 table.remove(QUESTIE_EVENTQUEUE, 1)
                 break
             elseif(v.EVENT == "TRACKER" and GetTime() - v.TIME > v.DELAY) then
-                DEFAULT_CHAT_FRAME:AddMessage("TRACKER")
                 QuestieTracker:SortTrackingFrame()
                 QuestieTracker:FillTrackingFrame()
                 table.remove(QUESTIE_EVENTQUEUE, k)
             elseif(v.EVENT == "TRACKERSIZE" and GetTime() - v.TIME > v.DELAY) then
-                DEFAULT_CHAT_FRAME:AddMessage("TRACKERSIZE")
                 QuestieTracker:updateTrackingFrameSize()
                 table.remove(QUESTIE_EVENTQUEUE, k)
             elseif(v.EVENT == "WOWSYNCLOG" and GetTime() - v.TIME > v.DELAY) then
-                DEFAULT_CHAT_FRAME:AddMessage("WOWSYNCLOG")
                 QuestieTracker:syncWOWQuestLog()
                 table.remove(QUESTIE_EVENTQUEUE, k)
             elseif(v.EVENT == "SYNCLOG" and GetTime() - v.TIME > v.DELAY) then
-                DEFAULT_CHAT_FRAME:AddMessage("SYNCLOG")
                 QuestieTracker:syncQuestLog()
                 table.remove(QUESTIE_EVENTQUEUE, k)
             end
