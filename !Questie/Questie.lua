@@ -1,7 +1,7 @@
 ---------------------------------------------------------------------------------------------------
 -- Name: Questie for Vanilla WoW
--- Revision: 3.69
--- Authors: Aero/Schaka/Logon/Dyaxler/everyone else
+-- Revision: 3.70
+-- Authors: Aero/Schaka/Logon/Dyaxler/Muehe/Zoey/everyone else
 -- Website: https://github.com/AeroScripts/QuestieDev
 -- Description: Questie started out being a simple backport of QuestHelper but it has grown beyond
 -- it's original design into something better. Questie will show you where quests are available and
@@ -13,7 +13,7 @@
 ---------------------------------------------------------------------------------------------------
 DEBUG_LEVEL = nil; --0 Low info --1 Medium info --2 very spammy
 Questie = CreateFrame("Frame", "QuestieLua", UIParent, "ActionButtonTemplate");
-QuestieVersion = 3.69;
+QuestieVersion = 3.70;
 ---------------------------------------------------------------------------------------------------
 -- Setup Default Profile
 ---------------------------------------------------------------------------------------------------
@@ -153,7 +153,7 @@ function Questie:CheckDefaults()
     end
     --Version check
     --[23] --
-    if (not QuestieConfig.getVersion) or (QuestieConfig.getVersion < QuestieVersion) then
+    if (not QuestieConfig.getVersion) or (QuestieConfig.getVersion ~= QuestieVersion) then
         Questie:ClearConfig("version")
     end
     --Setups default QuestDB's for fresh characters
