@@ -71582,7 +71582,7 @@ QuestieMonsters = {
     ["locationCount"] = 1,
     ["faction"] = 2
   },
-  ["Hemet Nesingwary Jr."] = {
+  ["Hemet Nesingwary"] = {
     ["locations"] = {
       [1] = {38.0, 0.3566, 0.1076, 100.0}
     },
@@ -105449,12 +105449,6 @@ QuestieMonsters = {
     },
     ["looted"] = 17409,
     ["locationCount"] = 5
-  },
-  ["Hemet Nesingwary"] = {
-    ["locations"] = {
-      [1] = {58.0, 0.7152, 0.4076, 100.0}
-    },
-    ["locationCount"] = 1
   },
   ["Arcanist Janeda"] = {
     ["locations"] = {
