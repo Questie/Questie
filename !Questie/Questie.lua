@@ -657,11 +657,6 @@ QuestieFastSlash = {
     --Default: False
         QuestieConfig.trackerBackground = not QuestieConfig.trackerBackground
         if QuestieConfig.trackerBackground then
-            DEFAULT_CHAT_FRAME:AddMessage("QuestieTracker:|c0000ffc0 (Background On) |r")
-            QuestieTracker:createTrackingFrame()
-            QuestieTracker:SortTrackingFrame()
-            QuestieTracker:FillTrackingFrame()
-        else
             ReloadUI()
         end
     end,
