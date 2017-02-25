@@ -810,7 +810,7 @@ function Questie:UpdateQuestIds()
         i=i+1
     end
     QSelect_QuestLogEntry(prevQuestLogSelection)
-    Questie:debug_Print("[UpdateQuestID] Had to update UpdateQuestIds",(GetTime() - startTime)*1000,"ms")
+    --Questie:debug_Print("[UpdateQuestID] Had to update UpdateQuestIds",(GetTime() - startTime)*1000,"ms")
 end
 ---------------------------------------------------------------------------------------------------
 -- Get quest hash from quest name
