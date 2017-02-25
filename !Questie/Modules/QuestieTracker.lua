@@ -431,7 +431,7 @@ function QuestieTracker:SortTrackingFrame()
             local questTrack = QuestieTrackedQuests[hash]
             if questTrack ~= nil and questTrack.tracked then
                 local objectiveCount = 0
-                if not quest.isComplete then
+                if not questTrack.isComplete then
                     for objectiveid, objective in pairs(quest.objectives) do
                         if not objective.done then
                             local locations = Questie:RecursiveGetPathLocations(objective.path)
