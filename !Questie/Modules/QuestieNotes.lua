@@ -62,39 +62,28 @@ function Questie:AddQuestToMap(questHash, redraw)
             end
         end
     else
-        local Monfin = nil;
-        local Objfin = nil;
-        -- Monsters
-        if( QuestieHashMap[Quest["questHash"]] and QuestieHashMap[Quest["questHash"]]['finishedBy']) then
-            local finishMonster = QuestieHashMap[Quest["questHash"]]['finishedBy'];
-            Monfin = QuestieMonsters[finishMonster];
+        local questInfo = QuestieHashMap[Quest.questHash]
+        local typeFunctions = {
+            ['monster'] = GetMonsterLocations,
+            ['object'] = GetObjectLocations
+        }
+        local typeFunction = typeFunctions[questInfo.finishedType]
+        local finishPath = typeFunction(questInfo.finishedBy)
+        print_r(finishPath)
+        if finishPath == nil or (not next(finishPath)) then
+            finishPath = typeFunction(QuestieFinishers[Quest.name]) -- remind me why we need this?
         end
-        if(not Monfin) or Monfin.locations == nil or (not next(Monfin.locations)) or Questie:GetMapInfoFromID(Monfin.locations[1][1]) == nil then
-            Monfin = QuestieMonsters[QuestieFinishers[Quest["name"]]];
-        end
-        -- Objects
-        if( QuestieHashMap[Quest["questHash"]] and QuestieHashMap[Quest["questHash"]]['finishedBy']) then
-            local finishObject = QuestieHashMap[Quest["questHash"]]['finishedBy'];
-            Objfin = QuestieObjects[finishObject];
-        end
-        if(not Objfin) then
-            Objfin = QuestieObjects[QuestieFinishers[Quest["name"]]];
-        end
-        local finisher = nil;
-        if Monfin then finisher=Monfin elseif Objfin then finisher=Objfin end
-        if(finisher and finisher.locations ~= nil and next(finisher.locations)) then
-            local MapInfo = Questie:GetMapInfoFromID(finisher.locations[1][1]);--Map id is at ID 1, i then convert this to a useful continent and zone
-            if MapInfo ~= nil then
-                local c, z, x, y = MapInfo[4], MapInfo[5], finisher['locations'][1][2],finisher['locations'][1][3]-- You just have to know about this, 2 is x 3 is y
-                --The 1 is just the first locations as finisher only have one location
-                --Questie:debug_Print("Quest finished",MapInfo[4], MapInfo[5]);
-                Questie:AddNoteToMap(c,z, x, y, "complete", questHash, 0);
-                local notehandle = {};
-                notehandle.c = MapInfo[4];
-                notehandle.z = MapInfo[5];
-                table.insert(ques["noteHandles"], notehandle);
+
+        if(finishPath) then
+            local locations = Questie:RecursiveGetPathLocations(finishPath)
+
+            if next(locations) then
+                for i, location in pairs(locations) do
+                    local c, z, x, y = location[1], location[2], location[3], location[4]
+                    Questie:AddNoteToMap(c, z, x, y, "complete", questHash, 0)
+                end
             else
-                Questie:debug_Print("[AddQuestToMap] ERROR Quest broken! ", Quest["name"], questHash, "report on github!");
+                Questie:debug_Print("[AddQuestToMap] ERROR Quest broken! ", Quest.name, questHash, "report on github!");
             end
         else
             Questie:debug_Print("[AddQuestToMap] ERROR Quest broken! ", Quest["name"], questHash, "report on github!");
