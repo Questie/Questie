@@ -55520,7 +55520,7 @@ function GetEntityLocations(entity)
                 if next(locationMeta) then
                     if locations[sourceType] == nil then locations[sourceType] = {} end
                     locations[sourceType][sourceName] = locationMeta
-                    for c in ids do if mapIds[c] == nil then mapIds[c] = {} end for z in mapIds[c] do mapIds[c][z] = true end end
+                    for c, zs in pairs(ids) do if mapIds[c] == nil then mapIds[c] = {} end for z, b in pairs(zs) do mapIds[c][z] = true end end
                 end
             end
         end
@@ -55530,7 +55530,7 @@ function GetEntityLocations(entity)
                 if next(locationMeta) then
                     if locations[sourceType] == nil then locations[sourceType] = {} end
                     locations[sourceType][sourceName] = locationMeta
-                    for c in ids do if mapIds[c] == nil then mapIds[c] = {} end for z in mapIds[c] do mapIds[c][z] = true end end
+                    for c, zs in pairs(ids) do if mapIds[c] == nil then mapIds[c] = {} end for z, b in pairs(zs) do mapIds[c][z] = true end end
                 end
             end
         end
@@ -55542,7 +55542,7 @@ function GetEntityLocations(entity)
                     local sourceName = locationMeta.name
                     locationMeta.name = nil
                     locations[sourceType][sourceName] = locationMeta
-                    for c in ids do if mapIds[c] == nil then mapIds[c] = {} end for z in mapIds[c] do mapIds[c][z] = true end end
+                    for c, zs in pairs(ids) do if mapIds[c] == nil then mapIds[c] = {} end for z, b in pairs(zs) do mapIds[c][z] = true end end
                 end
             end
         end
@@ -55552,7 +55552,7 @@ function GetEntityLocations(entity)
                 if next(locationMeta) then
                     if locations[sourceType] == nil then locations[sourceType] = {} end
                     locations[sourceType][sourceName] = locationMeta
-                    for c in ids do if mapIds[c] == nil then mapIds[c] = {} end for z in mapIds[c] do mapIds[c][z] = true end end
+                    for c, zs in pairs(ids) do if mapIds[c] == nil then mapIds[c] = {} end for z, b in pairs(zs) do mapIds[c][z] = true end end
                 end
             end
         end
@@ -55562,7 +55562,7 @@ function GetEntityLocations(entity)
                 if next(locationMeta) then
                     if locations[sourceType] == nil then locations[sourceType] = {} end
                     locations[sourceType][sourceName] = locationMeta
-                    for c in ids do if mapIds[c] == nil then mapIds[c] = {} end for z in mapIds[c] do mapIds[c][z] = true end end
+                    for c, zs in pairs(ids) do if mapIds[c] == nil then mapIds[c] = {} end for z, b in pairs(zs) do mapIds[c][z] = true end end
                 end
             end
         end
@@ -55572,7 +55572,7 @@ function GetEntityLocations(entity)
                 if next(locationMeta) then
                     if locations[sourceType] == nil then locations[sourceType] = {} end
                     locations[sourceType][sourceName] = locationMeta
-                    for c in ids do if mapIds[c] == nil then mapIds[c] = {} end for z in mapIds[c] do mapIds[c][z] = true end end
+                    for c, zs in pairs(ids) do if mapIds[c] == nil then mapIds[c] = {} end for z, b in pairs(zs) do mapIds[c][z] = true end end
                 end
             end
         end
@@ -55582,7 +55582,7 @@ function GetEntityLocations(entity)
                 if next(locationMeta) then
                     if locations[sourceType] == nil then locations[sourceType] = {} end
                     locations[sourceType][sourceName] = locationMeta
-                    for c in ids do if mapIds[c] == nil then mapIds[c] = {} end for z in mapIds[c] do mapIds[c][z] = true end end
+                    for c, zs in pairs(ids) do if mapIds[c] == nil then mapIds[c] = {} end for z, b in pairs(zs) do mapIds[c][z] = true end end
                 end
             end
         end
@@ -55592,7 +55592,7 @@ function GetEntityLocations(entity)
                 if next(locationMeta) then
                     if locations[sourceType] == nil then locations[sourceType] = {} end
                     locations[sourceType][sourceName] = locationMeta
-                    --for c in ids do if mapIds[c] == nil then mapIds[c] = {} end for z in mapIds[c] do mapIds[c][z] = true end end
+                    --for c, zs in pairs(ids) do if mapIds[c] == nil then mapIds[c] = {} end for z, b in pairs(zs) do mapIds[c][z] = true end end
                 end
             end
         end
@@ -55694,24 +55694,24 @@ local start = GetTime();
 for k,v in pairs(QuestieHashMap) do
     if v['startedType'] == "monster" then
         local locationMeta, mapIds = GetMonsterLocations(v['startedBy'])
-        for c in mapIds do
-            for z in mapIds[c] do
+        for c, zs in pairs(mapIds) do
+            for z, b in pairs(zs) do
                 addQuestToZoneLevelMap(c, z, v['level'], k, locationMeta)
             end
         end
     end
     if v['startedType'] == "item" and v['startedBy'] ~= "unknown" then
         local locationMeta, mapIds = GetItemLocations(v['startedBy'])
-        for c in mapIds do
-            for z in mapIds[c] do
+        for c, zs in pairs(mapIds) do
+            for z, b in pairs(zs) do
                 addQuestToZoneLevelMap(c, z, v['level'], k, locationMeta)
             end
         end
     end
     if v['startedType'] == "object" then
         local locationMeta, mapIds = GetObjectLocations(v['startedBy'])
-        for c in mapIds do
-            for z in mapIds[c] do
+        for c, zs in pairs(mapIds) do
+            for z, b in pairs(zs) do
                 addQuestToZoneLevelMap(c, z, v['level'], k, locationMeta)
             end
         end
