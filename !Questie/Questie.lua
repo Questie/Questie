@@ -61,7 +61,7 @@ end
 ---------------------------------------------------------------------------------------------------
 function Questie:CheckDefaults()
     --Setups default QuestieConfig toggles for first time users.
-    --These are neccessary to prevent nil errors from occuring
+    --These are necessary to prevent nil errors from occurring
     --after creating a new character or clearing the config.
     --[1] --
     if QuestieConfig.alwaysShowQuests == nil then
@@ -80,7 +80,7 @@ function Questie:CheckDefaults()
         QuestieConfig.clusterQuests = true;
     end
     --[5] --
-    if QuestieConfig.corpseArrow == nile then
+    if QuestieConfig.corpseArrow == nil then
         QuestieConfig.corpseArrow = true;
     end
     --[6] --
@@ -161,7 +161,7 @@ function Questie:CheckDefaults()
         QuestieTrackedQuests = {}
     end
     --If the user deletes a character and makes a new one by the same name then it will continue to use
-    --the same Saved Varibles file. This check will delete the Questie Saved Varibles file to prevent
+    --the same Saved Variables file. This check will delete the Questie Saved Variables file to prevent
     --any quest issues for the new character.
     if UnitLevel("player") == 1 then
         local i = 0
@@ -176,7 +176,7 @@ function Questie:CheckDefaults()
             Questie:NUKE("newcharacter")
         end
     end
-    --Sets some EQL3 settings to keep it from conflicting with Questie fetures
+    --Sets some EQL3 settings to keep it from conflicting with Questie features
     EQL3_Player = UnitName("player").."-"..GetRealmName()
     if IsAddOnLoaded("EQL3") or IsAddOnLoaded("ShaguQuest") then
         if(not QuestlogOptions[EQL3_Player]) then return end
@@ -194,9 +194,9 @@ function Questie:CheckDefaults()
 end
 ---------------------------------------------------------------------------------------------------
 -- In Vanilla WoW there is no official Russian client so an addon was made to translate some of the
--- global strings. Two of the translated strings conflicted with Questie, displying the wrong info
--- on the World Map. This function simply over-rides those stings to force them back to english so
--- Questie can understand the returned sting in order to disply the correct locations and icons.
+-- global strings. Two of the translated strings conflicted with Questie, displaying the wrong info
+-- on the World Map. This function simply over-rides those stings to force them back to English so
+-- Questie can understand the returned sting in order to display the correct locations and icons.
 ---------------------------------------------------------------------------------------------------
 function Questie:BlockTranslations()
     if (IsAddOnLoaded("RuWoW") or IsAddOnLoaded("ProffBot")) or (IsAddOnLoaded("ruRU")) then
@@ -211,7 +211,7 @@ end
 ---------------------------------------------------------------------------------------------------
 function Questie:ClearConfig(arg)
     if arg == "slash" then
-        msg = "|cFFFFFF00You are about to clear your characters settings. This will NOT delete your quest database but it will clean it up a little. This will reset abandonded quests, and remove any finished or stale quest entries in the QuestTracker database. Your UI will be reloaded automatically to finalize the new settings.|n|nAre you sure you want to continue?|r";
+        msg = "|cFFFFFF00You are about to clear your characters settings. This will NOT delete your quest database but it will clean it up a little. This will reset abandoned quests, and remove any finished or stale quest entries in the QuestTracker database. Your UI will be reloaded automatically to finalize the new settings.|n|nAre you sure you want to continue?|r";
     elseif arg == "version" then
         msg = "|cFFFFFF00VERSION CHECK!|n|nIt appears you have installed Questie for the very first time or you have recently upgraded to a new version. Your UI will automatically be reloaded and your QuestieConfig will be updated and cleaned of any stale entries. This will NOT clear your quest history.|n|nPlease click Yes to begin the update.|r";
     end
@@ -262,10 +262,10 @@ function Questie:ClearConfig(arg)
             }
             -- The following will clean up the Quest Database removing stale/invalid entries.
             -- The (== 0 in QuestieSeenQuests) flag usually means a quest has been picked up and the (== -1
-            -- in QuestieSeenQuests) flag means the quest has been abandonded. Once we remove these flags
-            -- Questie will readd the quests based on what is in your log. A refresh of sorts without
+            -- in QuestieSeenQuests) flag means the quest has been abandoned. Once we remove these flags
+            -- Questie will re add the quests based on what is in your log. A refresh of sorts without
             -- touching or resetting your finished quests. When the quest log is crawled, Questie will
-            -- check any prerequired quests and flag all those as complete upto the quest in your chain
+            -- check any pre required quests and flag all those as complete up to the quest in your chain
             -- that you're currently on.
             local index = 0
             for i,v in pairs(QuestieSeenQuests) do
@@ -292,7 +292,7 @@ end
 ---------------------------------------------------------------------------------------------------
 function Questie:NUKE(arg)
     if arg == "slash" then
-        msg = "|cFFFFFF00You are about to clear your characters settings. This will NOT delete your quest database but it will clean it up a little. This will reset abandonded quests, and remove any finished or stale quest entries in the QuestTracker database. Your UI will be reloaded automatically to finalize the new settings.|n|nAre you sure you want to continue?|r";
+        msg = "|cFFFFFF00You are about to completely wipe your characters saved variables. This includes all quests you've completed, settings and preferences, and QuestTracker location.|n|nAre you sure you want to continue?|r";
     elseif arg == "newcharacter" then
         msg = "|cFFFFFF00ERROR! Database Detected!|n|nIt appears that you've used this name for a previous character. There are entries in the QuestDatabase that need to be cleared in order for Questie to work properly with this character. Your UI will be reloaded automatically to clear your config.|n|nAre you sure you want to continue?|r";
     end
@@ -466,7 +466,7 @@ function Questie:OnUpdate(elapsed)
                 bgactive = true
             end
         end
-        --Checks if player released and not in a Battleground. No sense paiting a corpseArrow if the
+        --Checks if player released and not in a Battleground. No sense painting a corpseArrow if the
         --player is waiting to be rez'd. If player is in a Battleground then this code never runs.
         if (UnitIsDead("player") ~= 1) and (bgactive == false) then
             if DiedAtX and DiedAtY and DiedAtX ~= 0 and DiedAtY ~= 0 then --<--set globally by PLAYER_DEAD event
