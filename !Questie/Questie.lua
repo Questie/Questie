@@ -1101,55 +1101,59 @@ end
 ---------------------------------------------------------------------------------------------------
 local HookSetItemRef = SetItemRef
 function SetItemRef(link, text, button)
-    isQuest, _, _ = string.find(link, "quest:(%d+):.*")
-    if isQuest then
-        _, _, QuestTitle = string.find(text, ".*|h%[(.*)%]|h.*")
-        local questTitle = tostring(QuestTitle)
-        if questTitle then
-            ShowUIPanel(ItemRefTooltip)
-            ItemRefTooltip:SetOwner(UIParent, "ANCHOR_PRESERVE")
-            ItemRefTooltip:AddLine(questTitle)
-            local questHash = Questie:getQuestHash(questTitle)
-            questOb = nil
-            local QuestName = QuestieHashMap[questHash].name
-            if QuestName == questTitle then
-                local index = 0
-                for k,v in pairs(QuestieLevLookup[QuestName]) do
-                    index = index + 1
-                    if (index == 1) and (v[2] == questHash) and (k ~= "") then
-                        questOb = k
-                    elseif (index > 0) and(v[2] == questHash) and (k ~= "") then
-                        questOb = k
-                    elseif (index == 1) and (v[2] ~= questHash) and (k ~= "") then
-                        questOb = k
+    if ItemRefTooltip:IsVisible() then
+        ItemRefTooltip:Hide()
+    else
+        isQuest, _, _ = string.find(link, "quest:(%d+):.*")
+        if isQuest then
+            _, _, QuestTitle = string.find(text, ".*|h%[(.*)%]|h.*")
+            local questTitle = tostring(QuestTitle)
+            if questTitle then
+                ShowUIPanel(ItemRefTooltip)
+                ItemRefTooltip:SetOwner(UIParent, "ANCHOR_PRESERVE")
+                ItemRefTooltip:AddLine(questTitle)
+                local questHash = Questie:getQuestHash(questTitle)
+                questOb = nil
+                local QuestName = QuestieHashMap[questHash].name
+                if QuestName == questTitle then
+                    local index = 0
+                    for k,v in pairs(QuestieLevLookup[QuestName]) do
+                        index = index + 1
+                        if (index == 1) and (v[2] == questHash) and (k ~= "") then
+                            questOb = k
+                        elseif (index > 0) and(v[2] == questHash) and (k ~= "") then
+                            questOb = k
+                        elseif (index == 1) and (v[2] ~= questHash) and (k ~= "") then
+                            questOb = k
+                        end
                     end
-                end
-                ItemRefTooltip:AddLine("Started by: |cFFa6a6a6"..QuestieHashMap[questHash].startedBy.."|r",1,1,1)
-                if questOb ~= nil then
-                    ItemRefTooltip:AddLine("|cffffffff"..questOb.."|r",1,1,1,true)
+                    ItemRefTooltip:AddLine("Started by: |cFFa6a6a6"..QuestieHashMap[questHash].startedBy.."|r",1,1,1)
+                    if questOb ~= nil then
+                        ItemRefTooltip:AddLine("|cffffffff"..questOb.."|r",1,1,1,true)
+                    else
+                        ItemRefTooltip:AddLine("Quest *Objective* not found in Questie Database!", 1, .8, .8)
+                        ItemRefTooltip:AddLine("Please file a bug report on our GitHub portal:)", 1, .8, .8)
+                        ItemRefTooltip:AddLine("https://github.com/AeroScripts/QuestieDev/issues", 1, .8, .8)
+                    end
+                    local _, _, questLevel = string.find(QuestieHashMap[questHash].questLevel, "(%d+)")
+                    if questLevel ~= 0 and questLevel ~= "0" then
+                        local color = GetDifficultyColor(questLevel)
+                        ItemRefTooltip:AddLine("Quest Level " ..QuestieHashMap[questHash].questLevel, color.r, color.g, color.b)
+                    end
+                    ItemRefTooltip:Show()
                 else
-                    ItemRefTooltip:AddLine("Quest *Objective* not found in Questie Database!", 1, .8, .8)
+                    ShowUIPanel(ItemRefTooltip)
+                    ItemRefTooltip:SetOwner(UIParent, "ANCHOR_PRESERVE")
+                    ItemRefTooltip:AddLine(questTitle, 1,1,0)
+                    ItemRefTooltip:AddLine("Quest not found in Questie Database!", 1, .8, .8)
                     ItemRefTooltip:AddLine("Please file a bug report on our GitHub portal:)", 1, .8, .8)
                     ItemRefTooltip:AddLine("https://github.com/AeroScripts/QuestieDev/issues", 1, .8, .8)
                 end
-                local _, _, questLevel = string.find(QuestieHashMap[questHash].questLevel, "(%d+)")
-                if questLevel ~= 0 and questLevel ~= "0" then
-                    local color = GetDifficultyColor(questLevel)
-                    ItemRefTooltip:AddLine("Quest Level " ..QuestieHashMap[questHash].questLevel, color.r, color.g, color.b)
-                end
                 ItemRefTooltip:Show()
-            else
-                ShowUIPanel(ItemRefTooltip)
-                ItemRefTooltip:SetOwner(UIParent, "ANCHOR_PRESERVE")
-                ItemRefTooltip:AddLine(questTitle, 1,1,0)
-                ItemRefTooltip:AddLine("Quest not found in Questie Database!", 1, .8, .8)
-                ItemRefTooltip:AddLine("Please file a bug report on our GitHub portal:)", 1, .8, .8)
-                ItemRefTooltip:AddLine("https://github.com/AeroScripts/QuestieDev/issues", 1, .8, .8)
             end
-            ItemRefTooltip:Show()
+        else
+            HookSetItemRef(link, text, button)
         end
-    else
-        HookSetItemRef(link, text, button)
     end
 end
 ---------------------------------------------------------------------------------------------------
