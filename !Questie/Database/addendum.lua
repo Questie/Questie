@@ -55648,7 +55648,7 @@ function GetObjectLocations(objectName)
         return GetEntityLocations(QuestieObjects[objectName])
     else
         -- todo shouldn't really check monsters, but someone moved some objects and items to the monsters list
-        return GetMonsterLocations(name)
+        return GetMonsterLocations(objectName)
     end
     return {}, {}
 end
