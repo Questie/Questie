@@ -49639,11 +49639,10 @@ QuestieMonsters = {
   },
   ["Gazban"] = {
     ["locations"] = {
-      [1] = {38.0, 0.2487, 0.2348, 100.0},
-      [2] = {38.0, 0.2075, 0.2267, 4.0}
+      [1] = {38.0, 0.2487, 0.2348, 100.0}
     },
     ["looted"] = 343,
-    ["locationCount"] = 2
+    ["locationCount"] = 1
   },
   ["Christopher Hewen"] = {
     ["locations"] = {
