@@ -9,7 +9,7 @@
 local QuestieQuestHashCache = {}
 LastQuestLogHashes = nil;
 LastQuestLogCount = 0;
-LastCount = 0;
+--LastCount = 0;
 QuestRewardCompleteButton = nil;
 QuestAbandonOnAccept = nil;
 QuestAbandonWithItemsOnAccept = nil;
@@ -162,10 +162,12 @@ end
 ---------------------------------------------------------------------------------------------------
 function Questie:CheckQuestLog()
     local numEntries, numQuests = QGet_NumQuestLogEntries();
+--[[
     if(LastCount == numEntries) then
     end
     LastCount = numEntries;
     local t = GetTime();
+]]
     if(not LastQuestLogHashes) then
         LastQuestLogHashes = Questie:AstroGetAllCurrentQuestHashesAsMeta();
         for k, v in pairs(LastQuestLogHashes) do

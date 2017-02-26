@@ -358,21 +358,23 @@ end
 -- OnLoad Handler
 ---------------------------------------------------------------------------------------------------
 function Questie:OnLoad()
-    this:RegisterEvent("QUEST_LOG_UPDATE");
-    this:RegisterEvent("QUEST_PROGRESS");
+    this:RegisterEvent("ADDON_LOADED");
     this:RegisterEvent("MINIMAP_UPDATE_ZOOM");
+    this:RegisterEvent("QUEST_LOG_UPDATE");
+    this:RegisterEvent("QUEST_ITEM_UPDATE");
+    this:RegisterEvent("VARIABLES_LOADED");
+    this:RegisterEvent("PLAYER_LOGIN");
+    this:RegisterEvent("CHAT_MSG_LOOT");
+    this:RegisterEvent("PLAYER_DEAD");
+    this:RegisterEvent("PLAYER_UNGHOST");
+--[[
+    this:RegisterEvent("QUEST_PROGRESS");
     this:RegisterEvent("UI_INFO_MESSAGE");
     this:RegisterEvent("CHAT_MSG_SYSTEM");
-    this:RegisterEvent("QUEST_ITEM_UPDATE");
     this:RegisterEvent("UNIT_QUEST_LOG_CHANGED");
     this:RegisterEvent("PLAYER_ENTERING_WORLD");
-    this:RegisterEvent("PLAYER_LOGIN");
-    this:RegisterEvent("ADDON_LOADED");
-    this:RegisterEvent("VARIABLES_LOADED");
-    this:RegisterEvent("CHAT_MSG_LOOT");
     this:RegisterEvent("QUEST_FINISHED");
-    this:RegisterEvent("PLAYER_UNGHOST");
-    this:RegisterEvent("PLAYER_DEAD");
+]]
     Questie:NOTES_LOADED();
     SlashCmdList["QUESTIE"] = Questie_SlashHandler;
     SLASH_QUESTIE1 = "/questie";
@@ -389,11 +391,11 @@ function Questie:Toggle()
             QuestieAvailableMapNotes = {};
             Questie:RedrawNotes();
             LastQuestLogHashes = nil;
-            LastCount = 0;
+            --LastCount = 0;
         else
             Active = true;
             LastQuestLogHashes = nil;
-            LastCount = 0;
+            --LastCount = 0;
             Questie:CheckQuestLog();
             Questie:SetAvailableQuests()
             Questie:RedrawNotes();
@@ -403,7 +405,7 @@ function Questie:Toggle()
         QuestieAvailableMapNotes = {};
         Questie:RedrawNotes();
         LastQuestLogHashes = nil;
-        LastCount = 0;
+        --LastCount = 0;
     end
 end
 ---------------------------------------------------------------------------------------------------
@@ -424,6 +426,7 @@ function Questie:OnUpdate(elapsed)
             if(v.EVENT == "UPDATE" and GetTime()- v.TIME > v.DELAY) then
                 while(true) do
                     local d = Questie:UpdateQuests()
+                    DEFAULT_CHAT_FRAME:AddMessage("UPDATE")
                     if(not d) then
                         table.remove(QUESTIE_EVENTQUEUE, 1)
                         break
@@ -431,25 +434,28 @@ function Questie:OnUpdate(elapsed)
                 end
                 Questie:SetAvailableQuests()
                 Questie:RedrawNotes()
-                QuestieTracker:SortTrackingFrame()
-                QuestieTracker:FillTrackingFrame()
                 Astrolabe.ForceNextUpdate = true
             elseif(v.EVENT == "CHECKLOG" and GetTime() - v.TIME > v.DELAY) then
                 Questie:CheckQuestLog()
+                DEFAULT_CHAT_FRAME:AddMessage("CHECKLOG")
                 table.remove(QUESTIE_EVENTQUEUE, 1)
                 break
             elseif(v.EVENT == "TRACKER" and GetTime() - v.TIME > v.DELAY) then
                 QuestieTracker:SortTrackingFrame()
                 QuestieTracker:FillTrackingFrame()
+                DEFAULT_CHAT_FRAME:AddMessage("TRACKER")
                 table.remove(QUESTIE_EVENTQUEUE, k)
             elseif(v.EVENT == "TRACKERSIZE" and GetTime() - v.TIME > v.DELAY) then
                 QuestieTracker:updateTrackingFrameSize()
+                DEFAULT_CHAT_FRAME:AddMessage("TRACKERSIZE")
                 table.remove(QUESTIE_EVENTQUEUE, k)
             elseif(v.EVENT == "WOWSYNCLOG" and GetTime() - v.TIME > v.DELAY) then
                 QuestieTracker:syncWOWQuestLog()
+                DEFAULT_CHAT_FRAME:AddMessage("WOWSYNCLOG")
                 table.remove(QUESTIE_EVENTQUEUE, k)
             elseif(v.EVENT == "SYNCLOG" and GetTime() - v.TIME > v.DELAY) then
                 QuestieTracker:syncQuestLog()
+                DEFAULT_CHAT_FRAME:AddMessage("SYNCLOG")
                 table.remove(QUESTIE_EVENTQUEUE, k)
             end
         end
@@ -515,35 +521,38 @@ QUESTIE_LAST_UPDATE = GetTime()
 QUESTIE_LAST_CHECKLOG = GetTime()
 QUESTIE_LAST_TRACKER = GetTime()
 QUESTIE_LAST_TRACKERSIZE = GetTime()
-QUESTIE_LAST_WOWSYNCLOG = GetTime()
 QUESTIE_LAST_SYNCLOG = GetTime()
 QUESTIE_UPDATE_EVENT = 0
 ---------------------------------------------------------------------------------------------------
 function Questie:RefreshQuestEvents()
     QUESTIE_UPDATE_EVENT = 1
     if(GetTime() - QUESTIE_LAST_CHECKLOG > 0.1) then
-        Questie:AddEvent("CHECKLOG", 0.165)
+        Questie:AddEvent("CHECKLOG", 0.135)
         QUESTIE_LAST_CHECKLOG = GetTime()
     end
     if(GetTime() - QUESTIE_LAST_UPDATE > 0.1) then
-        Questie:AddEvent("UPDATE", 0.18)
+        Questie:AddEvent("UPDATE", 0.15)
         QUESTIE_LAST_UPDATE = GetTime()
     end
     if(GetTime() - QUESTIE_LAST_TRACKER > 0.1) then
-        Questie:AddEvent("TRACKER", 0.3)
+        Questie:AddEvent("TRACKER", 0.15)
         QUESTIE_LAST_TRACKER = GetTime()
     end
-    if (not IsAddOnLoaded("EQL3")) and (not IsAddOnLoaded("ShaguQuest")) then
-        Questie:AddEvent("WOWSYNCLOG", 0.2)
-        QUESTIE_LAST_WOWSYNCLOG = GetTime()
-        Questie:AddEvent("SYNCLOG", 0.2)
-        QUESTIE_LAST_SYNCLOG = GetTime()
-    else
+    if(GetTime() - QUESTIE_LAST_SYNCLOG > 0.1) then
+        if (not IsAddOnLoaded("EQL3")) and (not IsAddOnLoaded("ShaguQuest")) then
+            Questie:AddEvent("WOWSYNCLOG", 0.2)
+            QUESTIE_LAST_SYNCLOG = GetTime()
+    --[[
+            Questie:AddEvent("SYNCLOG", 0.2)
+            QUESTIE_LAST_SYNCLOG = GetTime()
+        else
+            Questie:AddEvent("SYNCLOG", 1)
+            QUESTIE_LAST_SYNCLOG = GetTime()
+    ]]
+        end
         Questie:AddEvent("SYNCLOG", 1)
         QUESTIE_LAST_SYNCLOG = GetTime()
     end
-    Questie:AddEvent("SYNCLOG", 1.5)
-    QUESTIE_LAST_SYNCLOG = GetTime()
 end
 ---------------------------------------------------------------------------------------------------
 function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10)
@@ -553,6 +562,7 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
     elseif (event == "QUEST_LOG_UPDATE" or event == "QUEST_ITEM_UPDATE") then
         Questie:RefreshQuestEvents()
         Questie:BlockTranslations()
+--[[
     elseif (event == "QUEST_FINISHED") then
         Questie:RefreshQuestEvents()
     elseif (event == "QUEST_ACCEPTED") then
@@ -565,6 +575,7 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
         Questie:AddEvent("TRACKERSIZE", 0.9)
         QUESTIE_LAST_TRACKERSIZE = GetTime()
         Questie:RefreshQuestEvents()
+]]
     elseif (event == "VARIABLES_LOADED") then
         if(not QuestieSeenQuests) then
             QuestieSeenQuests = {}
