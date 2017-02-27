@@ -944,8 +944,7 @@ end
 function Questie:SetAvailableQuests(...)
     QuestieAvailableMapNotes = {};
     local t = GetTime();
-    local arg1 = tonumber(arg1)
-    local level = arg1 or UnitLevel("player");
+    local level = tonumber(arg[1]) or UnitLevel("player");
     local c, z = GetCurrentMapContinent(), GetCurrentMapZone();
     local mapFileName = GetMapInfo();
     local quests = nil;
