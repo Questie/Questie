@@ -359,6 +359,7 @@ function Questie:OnLoad()
     this:RegisterEvent("PLAYER_LOGIN");
     this:RegisterEvent("PLAYER_DEAD");
     this:RegisterEvent("PLAYER_UNGHOST");
+    this:RegisterEvent("PLAYER_LEVEL_UP");
     Questie:NOTES_LOADED();
     SlashCmdList["QUESTIE"] = Questie_SlashHandler;
     SLASH_QUESTIE1 = "/questie";
@@ -433,6 +434,10 @@ function Questie:OnUpdate(elapsed)
                 elseif(v.EVENT == "SYNCLOG") then
                     QuestieTracker:syncQuestLog()
                     QUESTIE_EVENTQUEUE[k] = nil
+                elseif(v.EVENT == "REDRAW") then
+                    Questie:SetAvailableQuests()
+                    Questie:RedrawNotes()
+                    QUESTIE_EVENTQUEUE[k] = nil
                 end
             else
                 if k ~= index then
@@ -505,6 +510,7 @@ QUESTIE_LAST_CHECKLOG = GetTime()
 QUESTIE_LAST_TRACKER = GetTime()
 QUESTIE_LAST_TRACKERSIZE = GetTime()
 QUESTIE_LAST_SYNCLOG = GetTime()
+QUESTIE_LAST_REDRAW = GetTime()
 QUESTIE_UPDATE_EVENT = 0
 ---------------------------------------------------------------------------------------------------
 function Questie:RefreshQuestEvents()
@@ -588,6 +594,9 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
             TomTomCrazyArrow:Hide()
         end
         WorldMapUpdateSpamOff = nil
+    elseif (event == "PLAYER_LEVEL_UP") then
+        Questie:AddEvent("REDRAW", 1)
+        QUESTIE_LAST_REDRAW = GetTime()
     end
 end
 ---------------------------------------------------------------------------------------------------
