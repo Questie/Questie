@@ -369,7 +369,7 @@ end
 ---------------------------------------------------------------------------------------------------
 Active = true;
 function Questie:Toggle()
-    if (QuestieConfig.showMapAids == true) or (QuestieConfig.alwaysShowObjectives == true) or ((QuestieConfig.showMapAids == true) and (QuestieConfig.alwaysShowObjectives == false)) then
+    if (QuestieConfig.showMapAids == true) or (QuestieConfig.alwaysShowObjectives == true) then
         if(Active == true) then
             Active = false;
             QuestieMapNotes = {};
