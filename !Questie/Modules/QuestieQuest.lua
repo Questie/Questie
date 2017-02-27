@@ -9,7 +9,6 @@
 local QuestieQuestHashCache = {}
 LastQuestLogHashes = nil;
 LastQuestLogCount = 0;
---LastCount = 0;
 QuestRewardCompleteButton = nil;
 QuestAbandonOnAccept = nil;
 QuestAbandonWithItemsOnAccept = nil;

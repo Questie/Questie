@@ -376,11 +376,9 @@ function Questie:Toggle()
             QuestieAvailableMapNotes = {};
             Questie:RedrawNotes();
             LastQuestLogHashes = nil;
-            --LastCount = 0;
         else
             Active = true;
             LastQuestLogHashes = nil;
-            --LastCount = 0;
             Questie:CheckQuestLog();
             Questie:SetAvailableQuests();
             Questie:RedrawNotes();
@@ -390,7 +388,6 @@ function Questie:Toggle()
         QuestieAvailableMapNotes = {};
         Questie:RedrawNotes();
         LastQuestLogHashes = nil;
-        --LastCount = 0;
     end
 end
 ---------------------------------------------------------------------------------------------------
@@ -433,10 +430,6 @@ function Questie:OnUpdate(elapsed)
                     QUESTIE_EVENTQUEUE[k] = nil
                 elseif(v.EVENT == "SYNCLOG") then
                     QuestieTracker:syncQuestLog()
-                    QUESTIE_EVENTQUEUE[k] = nil
-                elseif(v.EVENT == "REDRAW") then
-                    Questie:SetAvailableQuests()
-                    Questie:RedrawNotes()
                     QUESTIE_EVENTQUEUE[k] = nil
                 end
             else
@@ -510,7 +503,6 @@ QUESTIE_LAST_CHECKLOG = GetTime()
 QUESTIE_LAST_TRACKER = GetTime()
 QUESTIE_LAST_TRACKERSIZE = GetTime()
 QUESTIE_LAST_SYNCLOG = GetTime()
-QUESTIE_LAST_REDRAW = GetTime()
 QUESTIE_UPDATE_EVENT = 0
 ---------------------------------------------------------------------------------------------------
 function Questie:RefreshQuestEvents()
@@ -595,8 +587,8 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
         end
         WorldMapUpdateSpamOff = nil
     elseif (event == "PLAYER_LEVEL_UP") then
-        Questie:AddEvent("REDRAW", 1)
-        QUESTIE_LAST_REDRAW = GetTime()
+        Questie:SetAvailableQuests(arg1)
+        Questie:RedrawNotes()
     end
 end
 ---------------------------------------------------------------------------------------------------
