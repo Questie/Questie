@@ -941,10 +941,10 @@ end
 ---------------------------------------------------------------------------------------------------
 -- Sets up all available quests
 ---------------------------------------------------------------------------------------------------
-function Questie:SetAvailableQuests(...)
+function Questie:SetAvailableQuests(customLevel)
     QuestieAvailableMapNotes = {};
     local t = GetTime();
-    local level = tonumber(arg[1]) or UnitLevel("player");
+    local level = customLevel or UnitLevel("player");
     local c, z = GetCurrentMapContinent(), GetCurrentMapZone();
     local mapFileName = GetMapInfo();
     local quests = nil;

@@ -588,7 +588,7 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
         end
         WorldMapUpdateSpamOff = nil
     elseif (event == "PLAYER_LEVEL_UP") then
-        Questie:SetAvailableQuests(arg1)
+        Questie:SetAvailableQuests(tonumber(arg1))
         Questie:RedrawNotes()
     elseif (event == "ZONE_CHANGED_NEW_AREA") then
         if not WorldMapFrame:IsVisible() then SetMapToCurrentZone() end
