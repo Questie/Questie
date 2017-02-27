@@ -360,6 +360,7 @@ function Questie:OnLoad()
     this:RegisterEvent("PLAYER_DEAD");
     this:RegisterEvent("PLAYER_UNGHOST");
     this:RegisterEvent("PLAYER_LEVEL_UP");
+    this:RegisterEvent("ZONE_CHANGED_NEW_AREA");
     Questie:NOTES_LOADED();
     SlashCmdList["QUESTIE"] = Questie_SlashHandler;
     SLASH_QUESTIE1 = "/questie";
@@ -589,6 +590,8 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
     elseif (event == "PLAYER_LEVEL_UP") then
         Questie:SetAvailableQuests(arg1)
         Questie:RedrawNotes()
+    elseif (event == "ZONE_CHANGED_NEW_AREA") then
+        if not WorldMapFrame:IsVisible() then SetMapToCurrentZone() end
     end
 end
 ---------------------------------------------------------------------------------------------------
