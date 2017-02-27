@@ -57,7 +57,7 @@ function QuestieTracker_OnUpdate()
         end
     end
     if GetTime() - QuestieTracker.trackerUpdate >= 4 then
-        if (QuestieConfig.showMapAids == true) or (QuestieConfig.alwaysShowQuests == true) or ((QuestieConfig.showMapAids == true) and (QuestieConfig.alwaysShowQuests == false)) then
+        if (QuestieConfig.showMapAids == true) or (QuestieConfig.alwaysShowObjectives == true) or ((QuestieConfig.showMapAids == true) and (QuestieConfig.alwaysShowObjectives == false)) then
             QuestieTracker:SortTrackingFrame()
         end
         QuestieTracker.trackerUpdate = GetTime()
@@ -595,8 +595,8 @@ function QuestieTracker:FillTrackingFrame()
     end
     if (QuestieConfig.trackerEnabled == true) and (QuestieConfig.trackerMinimize == false) then
         QuestieTracker.MaxButtonWidths = {}
-        if(GetTime() - QuestieTracker.trackerSize > 0.1) then
-            Questie:AddEvent("TRACKERSIZE", 0.15)
+        if(GetTime() - QuestieTracker.trackerSize > 0.2) then
+            Questie:AddEvent("TRACKERSIZE", 0.22)
             QuestieTracker.trackerSize = GetTime()
         end
     end
@@ -716,12 +716,10 @@ function QuestLogTitleButton_OnClick(button)
                                     if( IsQuestWatched(i) ) then
                                         numTracked = numTracked+1
                                         RemoveQuestWatch(i)
-                                        --QuestieTracker:setQuestInfo(i)
                                         QuestieTracker:syncQuestLog()
                                     else
                                         numUntracked = numUntracked+1
                                         RemoveQuestWatch(i)
-                                        --QuestieTracker:setQuestInfo(i)
                                         QuestieTracker:syncQuestLog()
                                     end
                                 end
@@ -826,7 +824,6 @@ function QuestLogTitleButton_OnClick(button)
                 WIM_EditBoxInFocus:Insert("|cffffff00|Hquest:0:0:0:0|h["..gsub(this:GetText(), "  (.)", "%1").."]|h|r")
             else
                 if ( IsQuestWatched(questIndex) ) then
-                    --QuestieTracker:setQuestInfo(questIndex)
                     tremove(QUEST_WATCH_LIST, questIndex)
                     RemoveQuestWatch(questIndex)
                     QuestieTracker:syncQuestLog()
@@ -844,7 +841,6 @@ function QuestLogTitleButton_OnClick(button)
                         return
                     end
                     ----------------------------------------------------------------------]]
-                    --QuestieTracker:setQuestInfo(questIndex)
                     AutoQuestWatch_Insert(questIndex, QUEST_WATCH_NO_EXPIRE)
                     QuestieTracker:syncQuestLog()
                     QuestWatch_Update()
@@ -964,10 +960,10 @@ function QuestieTracker:addQuestToTracker(hash, logId, level)
             }
         end
     end
+    if (QuestieTrackedQuests[hash] == nil) or (QuestieTrackedQuests[hash]["tracked"] == false) then return end
     Questie:SetAvailableQuests()
     Questie:RedrawNotes()
     QuestieTracker:FillTrackingFrame()
-    if QuestieTrackedQuests[hash] == nil then return end
     if QuestieTrackedQuests[hash]["objective1"] then
         if (QuestieTrackedQuests[hash]["objective1"]["done"] ~= true) or (QuestieTrackedQuests[hash]["objective1"]["done"] ~= 1) or (QuestieTrackedQuests[hash]["objective1"]["type"] == nil) or (not QuestieTrackedQuests[hash]["arrowPoint"])then
             QuestieTracker:updateFrameOnTracker(hash, logId, level)
@@ -1011,6 +1007,7 @@ function QuestieTracker:updateFrameOnTracker(hash, logId, level)
         uggo = i
     end
     uggo = uggo - 1
+    QuestieTracker:FillTrackingFrame()
 end
 ---------------------------------------------------------------------------------------------------
 -- Removes quest from tracker when it's untracked - will not clear cached quest data
@@ -1020,8 +1017,6 @@ function QuestieTracker:removeQuestFromTracker(hash)
         QuestieTrackedQuests[hash]["tracked"] = false
         RemoveCrazyArrow(hash)
     end
-    Questie:SetAvailableQuests()
-    Questie:RedrawNotes()
     QuestieTracker:FillTrackingFrame()
     if (QuestieTracker.highestIndex) == 0 then
         QuestieTracker.frame:Hide()
@@ -1030,24 +1025,6 @@ function QuestieTracker:removeQuestFromTracker(hash)
         end
     end
 end
----------------------------------------------------------------------------------------------------
--- Determines quest log ID by quest name
---[[-----------------------------------------------------------------------------------------------
-function QuestieTracker:findLogIdByName(name)
-    local i=1;
-    local qc=0;
-    local nEntry, nQuests = GetNumQuestLogEntries()
-    while qc<nQuests do
-        local questName, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(i);
-        if(name == questName) then
-            return i;
-        end
-        if not isHeader then
-            qc=qc+1
-        end
-        i=i+1
-    end
-end]]
 ---------------------------------------------------------------------------------------------------
 -- Determines if a quest is currently being tracked
 ---------------------------------------------------------------------------------------------------
@@ -1069,26 +1046,6 @@ function QuestieTracker:isTracked(quest)
     end
     return false
 end
----------------------------------------------------------------------------------------------------
--- Adds quest to tracker based on quest ID
---[[-----------------------------------------------------------------------------------------------
-function QuestieTracker:setQuestInfo(id)
-    local questInfo = {}
-    local questName, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(id)
-    if not isHeader and not isCollapsed then
-        local hash = Questie:GetHashFromName(questName)
-        if(QuestieTracker:isTracked(questName)) then
-            QuestieTracker:removeQuestFromTracker(hash)
-            return
-        end
-        if QuestieTrackedQuests[hash] then
-            QuestieTrackedQuests[hash]["tracked"] = true
-            QuestieTracker:addQuestToTracker(hash, id, level)
-        else
-            QuestieTracker:addQuestToTracker(hash, id, level)
-        end
-    end
-end]]
 ---------------------------------------------------------------------------------------------------
 -- Sets up quest tracker frame and sync's with EQL3 if present after player logs in
 ---------------------------------------------------------------------------------------------------
@@ -1117,8 +1074,6 @@ function QuestieTracker:syncQuestLog()
                 if QuestieTrackedQuests[hash] then
                     QuestieTrackedQuests[hash]["tracked"] = true
                     QuestieTracker:addQuestToTracker(hash, id, level)
-                else
-                    --QuestieTracker:addQuestToTracker(hash, id, level)
                 end
             elseif( not isHeader and not QuestLogSync(id) and QuestieTracker:isTracked(questName) ) then
                 QuestieTracker:removeQuestFromTracker(hash)

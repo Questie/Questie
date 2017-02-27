@@ -162,12 +162,6 @@ end
 ---------------------------------------------------------------------------------------------------
 function Questie:CheckQuestLog()
     local numEntries, numQuests = QGet_NumQuestLogEntries();
---[[
-    if(LastCount == numEntries) then
-    end
-    LastCount = numEntries;
-    local t = GetTime();
-]]
     if(not LastQuestLogHashes) then
         LastQuestLogHashes = Questie:AstroGetAllCurrentQuestHashesAsMeta();
         for k, v in pairs(LastQuestLogHashes) do
@@ -219,7 +213,6 @@ function Questie:CheckQuestLog()
                 QuestieSeenQuests[v["hash"]] = 0;
                 QuestieTracker:addQuestToTracker(v["hash"]);
             end
-            MapChanged = true;
         elseif not Questie.collapsedThisRun then
             Questie:RemoveQuestFromMap(v["hash"]);
             QuestieTracker:removeQuestFromTracker(v["hash"]);
@@ -364,13 +357,12 @@ function Questie:UpdateQuestInZone(Zone, force)
                 if (QuestieTrackedQuests[hash]) then
                     QuestieTracker:updateFrameOnTracker(hash, i, level)
                 end
-                QuestieTracker:FillTrackingFrame()
             elseif foundChange and QuestieConfig.trackerEnabled == true then
                 if (QuestieTrackedQuests[hash]) then
                     QuestieTracker:updateFrameOnTracker(hash, i, level)
                 end
-                QuestieTracker:FillTrackingFrame()
             end
+            QuestieTracker:FillTrackingFrame()
         end
         if(foundChange and not force) then
             break;

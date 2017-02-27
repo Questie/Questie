@@ -19,13 +19,12 @@ QuestieVersion = 3.70;
 ---------------------------------------------------------------------------------------------------
 function Questie:SetupDefaults()
     if not QuestieConfig then QuestieConfig = {
-        ["alwaysShowQuests"] = true,
+        ["alwaysShowObjectives"] = true,
         ["arrowEnabled"] = true,
         ["boldColors"] = false,
         ["clusterQuests"] = true,
         ["corpseArrow"] = true,
         ["hideMinimapIcons"] = false,
-        ["hideObjectives"] = false,
         ["maxLevelFilter"] = true,
         ["maxShowLevel"] = 7,
         ["minLevelFilter"] = true,
@@ -64,8 +63,8 @@ function Questie:CheckDefaults()
     --These are necessary to prevent nil errors from occurring
     --after creating a new character or clearing the config.
     --[1] --
-    if QuestieConfig.alwaysShowQuests == nil then
-        QuestieConfig.alwaysShowQuests = true;
+    if QuestieConfig.alwaysShowObjectives == nil then
+        QuestieConfig.alwaysShowObjectives = true;
     end
     --[2] --
     if QuestieConfig.arrowEnabled == nil then
@@ -88,71 +87,67 @@ function Questie:CheckDefaults()
         QuestieConfig.hideMinimapIcons = false;
     end
     --[7] --
-    if QuestieConfig.hideObjectives == nil then
-        QuestieConfig.hideObjectives = false;
-    end
-    --[8] --
     if QuestieConfig.maxLevelFilter == nil then
         QuestieConfig.maxLevelFilter = true;
     end
-    --[9] --
+    --[8] --
     if QuestieConfig.maxShowLevel == nil then
         QuestieConfig.maxShowLevel = 7;
     end
-    --[10] --
+    --[9] --
     if QuestieConfig.minLevelFilter == nil then
         QuestieConfig.minLevelFilter = true;
     end
-    --[11] --
+    --[10] --
     if QuestieConfig.minShowLevel == nil then
         QuestieConfig.minShowLevel = 4;
     end
-    --[12] --
+    --[11] --
     if QuestieConfig.resizeWorldmap == nil then
         QuestieConfig.resizeWorldmap = false;
     end
-    --[13] --
+    --[12] --
     if QuestieConfig.showMapAids == nil then
         QuestieConfig.showMapAids = true;
     end
-    --[14] --
+    --[13] --
     if QuestieConfig.showProfessionQuests == nil then
         QuestieConfig.showProfessionQuests = false;
     end
-    --[15] --
+    --[14] --
     if QuestieConfig.showTrackerHeader == nil then
         QuestieConfig.showTrackerHeader = false;
     end
-    --[16] --
+    --[15] --
     if QuestieConfig.showToolTips == nil then
         QuestieConfig.showToolTips = true;
     end
-    --[17] --
+    --[16] --
     if QuestieConfig.trackerAlpha == nil then
         QuestieConfig.trackerAlpha = 0.4;
     end
-    --[18] --
+    --[17] --
     if QuestieConfig.trackerBackground == nil then
         QuestieConfig.trackerBackground = false;
     end
-    --[19] --
+    --[18] --
     if QuestieConfig.trackerEnabled == nil then
         QuestieConfig.trackerEnabled = true;
     end
-    --[20] --
+    --[19] --
     if QuestieConfig.trackerList == nil then
         QuestieConfig.trackerList = false;
     end
-    --[21] --
+    --[20] --
     if QuestieConfig.trackerMinimize == nil then
         QuestieConfig.trackerMinimize = false;
     end
-    --[22] --
+    --[21] --
     if QuestieConfig.trackerScale == nil then
         QuestieConfig.trackerScale = 1.0;
     end
     --Version check
-    --[23] --
+    --[22] --
     if (not QuestieConfig.getVersion) or (QuestieConfig.getVersion ~= QuestieVersion) then
         Questie:ClearConfig("version")
     end
@@ -224,13 +219,12 @@ function Questie:ClearConfig(arg)
             QuestieConfig = {}
             -- Setup default settings
             QuestieConfig = {
-                ["alwaysShowQuests"] = true,
+                ["alwaysShowObjectives"] = true,
                 ["arrowEnabled"] = true,
                 ["boldColors"] = false,
                 ["clusterQuests"] = true,
                 ["corpseArrow"] = true,
                 ["hideMinimapIcons"] = false,
-                ["hideObjectives"] = false,
                 ["maxLevelFilter"] = true,
                 ["maxShowLevel"] = 7,
                 ["minLevelFilter"] = true,
@@ -309,13 +303,12 @@ function Questie:NUKE(arg)
             QuestieConfig = {}
             -- Setup default settings
             QuestieConfig = {
-                ["alwaysShowQuests"] = true,
+                ["alwaysShowObjectives"] = true,
                 ["arrowEnabled"] = true,
                 ["boldColors"] = false,
                 ["clusterQuests"] = true,
                 ["corpseArrow"] = true,
                 ["hideMinimapIcons"] = false,
-                ["hideObjectives"] = false,
                 ["maxLevelFilter"] = true,
                 ["maxShowLevel"] = 7,
                 ["minLevelFilter"] = true,
@@ -364,17 +357,8 @@ function Questie:OnLoad()
     this:RegisterEvent("QUEST_ITEM_UPDATE");
     this:RegisterEvent("VARIABLES_LOADED");
     this:RegisterEvent("PLAYER_LOGIN");
-    this:RegisterEvent("CHAT_MSG_LOOT");
     this:RegisterEvent("PLAYER_DEAD");
     this:RegisterEvent("PLAYER_UNGHOST");
---[[
-    this:RegisterEvent("QUEST_PROGRESS");
-    this:RegisterEvent("UI_INFO_MESSAGE");
-    this:RegisterEvent("CHAT_MSG_SYSTEM");
-    this:RegisterEvent("UNIT_QUEST_LOG_CHANGED");
-    this:RegisterEvent("PLAYER_ENTERING_WORLD");
-    this:RegisterEvent("QUEST_FINISHED");
-]]
     Questie:NOTES_LOADED();
     SlashCmdList["QUESTIE"] = Questie_SlashHandler;
     SLASH_QUESTIE1 = "/questie";
@@ -384,7 +368,7 @@ end
 ---------------------------------------------------------------------------------------------------
 Active = true;
 function Questie:Toggle()
-    if (QuestieConfig.showMapAids == true) or (QuestieConfig.alwaysShowQuests == true) or ((QuestieConfig.showMapAids == true) and (QuestieConfig.alwaysShowQuests == false)) then
+    if (QuestieConfig.showMapAids == true) or (QuestieConfig.alwaysShowObjectives == true) or ((QuestieConfig.showMapAids == true) and (QuestieConfig.alwaysShowObjectives == false)) then
         if(Active == true) then
             Active = false;
             QuestieMapNotes = {};
@@ -397,7 +381,7 @@ function Questie:Toggle()
             LastQuestLogHashes = nil;
             --LastCount = 0;
             Questie:CheckQuestLog();
-            Questie:SetAvailableQuests()
+            Questie:SetAvailableQuests();
             Questie:RedrawNotes();
         end
     else
@@ -421,42 +405,41 @@ function Questie:OnUpdate(elapsed)
     end
     Astrolabe:OnUpdate(nil, elapsed)
     Questie:NOTES_ON_UPDATE(elapsed)
+    local index = 1
     if(table.getn(QUESTIE_EVENTQUEUE) > 0) then
         for k, v in pairs(QUESTIE_EVENTQUEUE) do
-            if(v.EVENT == "UPDATE" and GetTime()- v.TIME > v.DELAY) then
-                while(true) do
-                    local d = Questie:UpdateQuests()
-                    DEFAULT_CHAT_FRAME:AddMessage("UPDATE")
-                    if(not d) then
-                        table.remove(QUESTIE_EVENTQUEUE, 1)
-                        break
+            if GetTime() - v.TIME > v.DELAY then
+                if(v.EVENT == "UPDATE") then
+                    while(true) do
+                        local d = Questie:UpdateQuests()
+                        if(not d) then
+                            QUESTIE_EVENTQUEUE[k] = nil
+                            break
+                        end
                     end
+                elseif(v.EVENT == "CHECKLOG") then
+                    Questie:CheckQuestLog()
+                    QUESTIE_EVENTQUEUE[k] = nil
+                elseif(v.EVENT == "TRACKER") then
+                    QuestieTracker:SortTrackingFrame()
+                    QuestieTracker:FillTrackingFrame()
+                    QUESTIE_EVENTQUEUE[k] = nil
+                elseif(v.EVENT == "TRACKERSIZE") then
+                    QuestieTracker:updateTrackingFrameSize()
+                    QUESTIE_EVENTQUEUE[k] = nil
+                elseif(v.EVENT == "WOWSYNCLOG") then
+                    QuestieTracker:syncWOWQuestLog()
+                    QUESTIE_EVENTQUEUE[k] = nil
+                elseif(v.EVENT == "SYNCLOG") then
+                    QuestieTracker:syncQuestLog()
+                    QUESTIE_EVENTQUEUE[k] = nil
                 end
-                Questie:SetAvailableQuests()
-                Questie:RedrawNotes()
-                Astrolabe.ForceNextUpdate = true
-            elseif(v.EVENT == "CHECKLOG" and GetTime() - v.TIME > v.DELAY) then
-                Questie:CheckQuestLog()
-                DEFAULT_CHAT_FRAME:AddMessage("CHECKLOG")
-                table.remove(QUESTIE_EVENTQUEUE, 1)
-                break
-            elseif(v.EVENT == "TRACKER" and GetTime() - v.TIME > v.DELAY) then
-                QuestieTracker:SortTrackingFrame()
-                QuestieTracker:FillTrackingFrame()
-                DEFAULT_CHAT_FRAME:AddMessage("TRACKER")
-                table.remove(QUESTIE_EVENTQUEUE, k)
-            elseif(v.EVENT == "TRACKERSIZE" and GetTime() - v.TIME > v.DELAY) then
-                QuestieTracker:updateTrackingFrameSize()
-                DEFAULT_CHAT_FRAME:AddMessage("TRACKERSIZE")
-                table.remove(QUESTIE_EVENTQUEUE, k)
-            elseif(v.EVENT == "WOWSYNCLOG" and GetTime() - v.TIME > v.DELAY) then
-                QuestieTracker:syncWOWQuestLog()
-                DEFAULT_CHAT_FRAME:AddMessage("WOWSYNCLOG")
-                table.remove(QUESTIE_EVENTQUEUE, k)
-            elseif(v.EVENT == "SYNCLOG" and GetTime() - v.TIME > v.DELAY) then
-                QuestieTracker:syncQuestLog()
-                DEFAULT_CHAT_FRAME:AddMessage("SYNCLOG")
-                table.remove(QUESTIE_EVENTQUEUE, k)
+            else
+                if k ~= index then
+                    QUESTIE_EVENTQUEUE[index] = v
+                    QUESTIE_EVENTQUEUE[k] = nil
+                end
+                index = index + 1
             end
         end
     end
@@ -527,28 +510,21 @@ QUESTIE_UPDATE_EVENT = 0
 function Questie:RefreshQuestEvents()
     QUESTIE_UPDATE_EVENT = 1
     if(GetTime() - QUESTIE_LAST_CHECKLOG > 0.1) then
-        Questie:AddEvent("CHECKLOG", 0.135)
+        Questie:AddEvent("CHECKLOG", 0.165)
         QUESTIE_LAST_CHECKLOG = GetTime()
     end
     if(GetTime() - QUESTIE_LAST_UPDATE > 0.1) then
-        Questie:AddEvent("UPDATE", 0.15)
+        Questie:AddEvent("UPDATE", 0.18)
         QUESTIE_LAST_UPDATE = GetTime()
     end
     if(GetTime() - QUESTIE_LAST_TRACKER > 0.1) then
-        Questie:AddEvent("TRACKER", 0.15)
+        Questie:AddEvent("TRACKER", 0.3)
         QUESTIE_LAST_TRACKER = GetTime()
     end
-    if(GetTime() - QUESTIE_LAST_SYNCLOG > 0.1) then
+    if(GetTime() - QUESTIE_LAST_SYNCLOG > 0.2) then
         if (not IsAddOnLoaded("EQL3")) and (not IsAddOnLoaded("ShaguQuest")) then
             Questie:AddEvent("WOWSYNCLOG", 0.2)
             QUESTIE_LAST_SYNCLOG = GetTime()
-    --[[
-            Questie:AddEvent("SYNCLOG", 0.2)
-            QUESTIE_LAST_SYNCLOG = GetTime()
-        else
-            Questie:AddEvent("SYNCLOG", 1)
-            QUESTIE_LAST_SYNCLOG = GetTime()
-    ]]
         end
         Questie:AddEvent("SYNCLOG", 1)
         QUESTIE_LAST_SYNCLOG = GetTime()
@@ -562,20 +538,6 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
     elseif (event == "QUEST_LOG_UPDATE" or event == "QUEST_ITEM_UPDATE") then
         Questie:RefreshQuestEvents()
         Questie:BlockTranslations()
---[[
-    elseif (event == "QUEST_FINISHED") then
-        Questie:RefreshQuestEvents()
-    elseif (event == "QUEST_ACCEPTED") then
-        LastQuestLogHashes = nil
-        LastCount = 0
-        Questie:AddEvent("TRACKERSIZE", 0.9)
-        QUESTIE_LAST_TRACKERSIZE = GetTime()
-        Questie:RefreshQuestEvents()
-    elseif (event == "QUEST_PROGRESS") then
-        Questie:AddEvent("TRACKERSIZE", 0.9)
-        QUESTIE_LAST_TRACKERSIZE = GetTime()
-        Questie:RefreshQuestEvents()
-]]
     elseif (event == "VARIABLES_LOADED") then
         if(not QuestieSeenQuests) then
             QuestieSeenQuests = {}
@@ -583,7 +545,6 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
         Questie:BlockTranslations()
         Questie:SetupDefaults()
         Questie:CheckDefaults()
-        Astrolabe:isMinimapInCity()
     elseif (event == "PLAYER_LOGIN") then
         local f = GameTooltip:GetScript("OnShow")
         --Proper tooltip hooking!
@@ -612,15 +573,6 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
         end
         Questie:hookTooltipLineCheck()
         Questie:CheckDefaults()
-    elseif (event == "CHAT_MSG_LOOT") then
-        local _, _, msg, item = string.find(arg1, "(You receive loot%:) (.+)")
-        if msg then
-            Questie:RefreshQuestEvents()
-        end
-        local _, _, msg, item = string.find(arg1, "(Received item%:) (.+)")
-        if msg then
-            Questie:RefreshQuestEvents()
-        end
     elseif (event == "PLAYER_DEAD") then
         --Records players continent, zone and coordinates upon death to be used later. This is more accurate
         --than "posX, posY = GetCorpseMapPosition()" Blizzards API only records X and Y coordinates.
@@ -720,6 +672,7 @@ QuestieFastSlash = {
         else
             DEFAULT_CHAT_FRAME:AddMessage("QuestieQuest:|c0000ffc0 (Clustered Icons Off) |r")
         end
+        Questie:SetAvailableQuests()
         Questie:RedrawNotes()
     end,
     ["color"] = function()
@@ -783,17 +736,7 @@ QuestieFastSlash = {
         else
             DEFAULT_CHAT_FRAME:AddMessage("QuestieStarters:|c0000ffc0 (Are now being shown) |r")
         end
-        Questie:RedrawNotes()
-    end,
-    ["hideobjectives"] = function()
-    --Default: False
-        QuestieConfig.hideObjectives = not QuestieConfig.hideObjectives
-        if QuestieConfig.hideObjectives
-        then
-            DEFAULT_CHAT_FRAME:AddMessage("QuestieObjectives:|c0000ffc0 (Are now being hidden) |r")
-        else
-            DEFAULT_CHAT_FRAME:AddMessage("QuestieObjectives:|c0000ffc0 (Are now being shown) |r")
-        end
+        Questie:SetAvailableQuests()
         Questie:RedrawNotes()
     end,
     ["listdirection"] = function()
@@ -901,6 +844,7 @@ QuestieFastSlash = {
         else
             DEFAULT_CHAT_FRAME:AddMessage("QuestieQuest:|c0000ffc0 (Profession Quests Off) |r")
         end
+        Questie:SetAvailableQuests()
         Questie:RedrawNotes()
     end,
     ["qtscale"] = function(arg)
@@ -954,14 +898,15 @@ QuestieFastSlash = {
     ["settings"] = function()
         Questie:CurrentUserToggles()
     end,
-    ["showquests"] = function()
+    ["showobjectives"] = function()
     --Default: True
-        QuestieConfig.alwaysShowQuests = not QuestieConfig.alwaysShowQuests
-        if QuestieConfig.alwaysShowQuests then
+        QuestieConfig.alwaysShowObjectives = not QuestieConfig.alwaysShowObjectives
+        if QuestieConfig.alwaysShowObjectives then
             DEFAULT_CHAT_FRAME:AddMessage("QuestieOjectives:|c0000ffc0 (Set to always show) |r")
         else
             DEFAULT_CHAT_FRAME:AddMessage("QuestieObjectives:|c0000ffc0 (Only show on maps while tracking) |r")
         end
+        Questie:SetAvailableQuests()
         Questie:RedrawNotes()
     end,
     ["tooltips"] = function()
@@ -1025,7 +970,6 @@ QuestieFastSlash = {
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie color |r|c0000ffc0(toggle)|r QuestTracker: Select two different color themes", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie header |r|c0000ffc0(toggle)|r QuestTracker: Header & Quest Counter", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie hideminimap |r|c0000ffc0(toggle)|r QuestMap: Removes quest starter icons from Minimap", 0.75, 0.75, 0.75);
-        DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie hideobjectives |r|c0000ffc0(toggle)|r QuestMap: Removes objective icons (unless tracked)", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie listdirection |r|r|c0000ffc0(list)|r QuestTracker: Change list order: Top-->Down or Bottom-->Up", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie mapnotes |r|c0000ffc0(toggle)|r Questie: Commandline version of ToggleQuestie button", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie maxlevel |r|c0000ffc0(toggle)|r QuestMap: Filter - see setmaxlevel", 0.75, 0.75, 0.75);
@@ -1036,7 +980,7 @@ QuestieFastSlash = {
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie setmaxlevel |r|c0000ffc0<number>|r QuestMap: Show quests <X> levels above players level (default=7)", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie setminlevel |r|c0000ffc0<number>|r QuestMap: Show quests <X> levels below players level (default=4)", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie settings |r|c0000ffc0(list)|r Questie: Displays your current toggles and settings.", 0.75, 0.75, 0.75);
-        DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie showquests |r|c0000ffc0(toggle)|r QuestTracker: Show only quest objectives for actively tracked quests  ", 0.75, 0.75, 0.75);
+        DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie showobjectives |r|c0000ffc0(toggle)|r QuestTracker: Show only quest objectives for actively tracked quests  ", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie tooltips |r|c0000ffc0(toggle)|r QuestMobs&Items: Always show quest and objective tool tips", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie tracker |r|c0000ffc0(toggle)|r QuestTracker: Turn on and off the quest tracker", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie qtscale |r|c0000ffc0(small|medium|large)|r QuestTracker: Adjust the scale of the tracker (default=small)", 0.75, 0.75, 0.75);
@@ -1073,29 +1017,28 @@ end
 function Questie:CurrentUserToggles()
     DEFAULT_CHAT_FRAME:AddMessage("Questie Settings:", 0.5, 0.5, 1)
     local Vars = {
-        [1] = { "alwaysShowQuests" },
+        [1] = { "alwaysShowObjectives" },
         [2] = { "arrowEnabled" },
         [3] = { "boldColors" },
         [4] = { "clusterQuests" },
         [5] = { "corpseArrow" },
         [6] = { "hideMinimapIcons" },
-        [7] = { "hideObjectives" },
-        [8] = { "maxLevelFilter" },
-        [9] = { "maxShowLevel" },
-        [10] = { "minLevelFilter" },
-        [11] = { "minShowLevel" },
-        [12] = { "resizeWorldmap" },
-        [13] = { "showMapAids" },
-        [14] = { "showProfessionQuests" },
-        [15] = { "showToolTips" },
-        [16] = { "showTrackerHeader" },
-        [17] = { "trackerAlpha" },
-        [18] = { "trackerBackground" },
-        [19] = { "trackerEnabled" },
-        [20] = { "trackerList" },
-        [21] = { "trackerMinimize" },
-        [22] = { "trackerScale" },
-        [23] = { "getVersion" }
+        [7] = { "maxLevelFilter" },
+        [8] = { "maxShowLevel" },
+        [9] = { "minLevelFilter" },
+        [10] = { "minShowLevel" },
+        [11] = { "resizeWorldmap" },
+        [12] = { "showMapAids" },
+        [13] = { "showProfessionQuests" },
+        [14] = { "showToolTips" },
+        [15] = { "showTrackerHeader" },
+        [16] = { "trackerAlpha" },
+        [17] = { "trackerBackground" },
+        [18] = { "trackerEnabled" },
+        [19] = { "trackerList" },
+        [20] = { "trackerMinimize" },
+        [21] = { "trackerScale" },
+        [22] = { "getVersion" }
     }
     if QuestieConfig then
         i = 1
