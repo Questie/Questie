@@ -24,6 +24,7 @@ function Questie:SetupDefaults()
         ["clusterQuests"] = true,
         ["corpseArrow"] = true,
         ["hideMinimapIcons"] = false,
+        ["minimapButton"] = true,
         ["maxLevelFilter"] = true,
         ["maxShowLevel"] = 7,
         ["minLevelFilter"] = true,
@@ -145,9 +146,9 @@ function Questie:CheckDefaults()
     if QuestieConfig.trackerScale == nil then
         QuestieConfig.trackerScale = 1.0;
     end
-    if QuestieMinimapEnabled == nil then
-        QuestieMinimapEnabled = true
-    elseif QuestieMinimapEnabled == false then
+    if QuestieConfig.minimapButton == nil then
+        QuestieConfig.minimapButton = true
+    elseif QuestieConfig.minimapButton == false then
         Questie.minimapButton:Hide()
     end
     --Version check
@@ -229,6 +230,7 @@ function Questie:ClearConfig(arg)
                 ["clusterQuests"] = true,
                 ["corpseArrow"] = true,
                 ["hideMinimapIcons"] = false,
+                ["minimapButton"] = true,
                 ["maxLevelFilter"] = true,
                 ["maxShowLevel"] = 7,
                 ["minLevelFilter"] = true,
@@ -982,6 +984,15 @@ QuestieFastSlash = {
             StaticPopup_Show ("SHOW_TRACKER");
         end
     end,
+    ["minimapbutton"] = function()
+    --Default: True
+        QuestieConfig.minimapButton = not QuestieConfig.minimapButton;
+        if QuestieConfig.minimapButton then
+            Questie.minimapButton:Show();
+        else
+            Questie.minimapButton:Hide();
+        end
+    end,
 ---------------------------------------------------------------------------------------------------
 --Questie Help Menu
 ---------------------------------------------------------------------------------------------------
@@ -997,6 +1008,7 @@ QuestieFastSlash = {
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie color |r|c0000ffc0(toggle)|r QuestTracker: Select two different color themes", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie header |r|c0000ffc0(toggle)|r QuestTracker: Header & Quest Counter", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie hideminimap |r|c0000ffc0(toggle)|r QuestMap: Removes quest starter icons from Minimap", 0.75, 0.75, 0.75);
+        DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie minimapbutton |r|c0000ffc0(toggle)|r QuestMap: Removes questie minimap button", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie listdirection |r|r|c0000ffc0(list)|r QuestTracker: Change list order: Top-->Down or Bottom-->Up", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie mapnotes |r|c0000ffc0(toggle)|r Questie: Commandline version of ToggleQuestie button", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie maxlevel |r|c0000ffc0(toggle)|r QuestMap: Filter - see setmaxlevel", 0.75, 0.75, 0.75);
@@ -1065,7 +1077,8 @@ function Questie:CurrentUserToggles()
         [19] = { "trackerList" },
         [20] = { "trackerMinimize" },
         [21] = { "trackerScale" },
-        [22] = { "getVersion" }
+        [22] = { "getVersion" },
+        [23] = { "minimapButton" }
     };
     if QuestieConfig then
         i = 1;
