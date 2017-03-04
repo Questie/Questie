@@ -1043,7 +1043,7 @@ function Questie:CurrentUserToggles()
         [6] = { "hideMinimapIcons" },
         [7] = { "maxLevelFilter" },
         [8] = { "maxShowLevel" },
-        [9] = { "minimapButton" }
+        [9] = { "minimapButton" },
         [10] = { "minLevelFilter" },
         [11] = { "minShowLevel" },
         [12] = { "resizeWorldmap" },
