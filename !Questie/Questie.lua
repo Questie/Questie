@@ -24,9 +24,9 @@ function Questie:SetupDefaults()
         ["clusterQuests"] = true,
         ["corpseArrow"] = true,
         ["hideMinimapIcons"] = false,
-        ["minimapButton"] = true,
         ["maxLevelFilter"] = true,
         ["maxShowLevel"] = 7,
+        ["minimapButton"] = true,
         ["minLevelFilter"] = true,
         ["minShowLevel"] = 4,
         ["resizeWorldmap"] = false,
@@ -62,97 +62,75 @@ function Questie:CheckDefaults()
     --Setups default QuestieConfig toggles for first time users.
     --These are necessary to prevent nil errors from occurring
     --after creating a new character or clearing the config.
-    --[1] --
     if QuestieConfig.alwaysShowObjectives == nil then
         QuestieConfig.alwaysShowObjectives = true;
     end
-    --[2] --
     if QuestieConfig.arrowEnabled == nil then
         QuestieConfig.arrowEnabled = true;
     end
-    --[3] --
     if QuestieConfig.boldColors == nil then
         QuestieConfig.boldColors = false;
     end
-    --[4] --
     if QuestieConfig.clusterQuests == nil then
         QuestieConfig.clusterQuests = true;
     end
-    --[5] --
     if QuestieConfig.corpseArrow == nil then
         QuestieConfig.corpseArrow = true;
     end
-    --[6] --
     if QuestieConfig.hideMinimapIcons == nil then
         QuestieConfig.hideMinimapIcons = false;
     end
-    --[7] --
     if QuestieConfig.maxLevelFilter == nil then
         QuestieConfig.maxLevelFilter = true;
     end
-    --[8] --
     if QuestieConfig.maxShowLevel == nil then
         QuestieConfig.maxShowLevel = 7;
-    end
-    --[9] --
-    if QuestieConfig.minLevelFilter == nil then
-        QuestieConfig.minLevelFilter = true;
-    end
-    --[10] --
-    if QuestieConfig.minShowLevel == nil then
-        QuestieConfig.minShowLevel = 4;
-    end
-    --[11] --
-    if QuestieConfig.resizeWorldmap == nil then
-        QuestieConfig.resizeWorldmap = false;
-    end
-    --[12] --
-    if QuestieConfig.showMapAids == nil then
-        QuestieConfig.showMapAids = true;
-    end
-    --[13] --
-    if QuestieConfig.showProfessionQuests == nil then
-        QuestieConfig.showProfessionQuests = false;
-    end
-    --[14] --
-    if QuestieConfig.showTrackerHeader == nil then
-        QuestieConfig.showTrackerHeader = false;
-    end
-    --[15] --
-    if QuestieConfig.showToolTips == nil then
-        QuestieConfig.showToolTips = true;
-    end
-    --[16] --
-    if QuestieConfig.trackerAlpha == nil then
-        QuestieConfig.trackerAlpha = 0.4;
-    end
-    --[17] --
-    if QuestieConfig.trackerBackground == nil then
-        QuestieConfig.trackerBackground = false;
-    end
-    --[18] --
-    if QuestieConfig.trackerEnabled == nil then
-        QuestieConfig.trackerEnabled = true;
-    end
-    --[19] --
-    if QuestieConfig.trackerList == nil then
-        QuestieConfig.trackerList = false;
-    end
-    --[20] --
-    if QuestieConfig.trackerMinimize == nil then
-        QuestieConfig.trackerMinimize = false;
-    end
-    --[21] --
-    if QuestieConfig.trackerScale == nil then
-        QuestieConfig.trackerScale = 1.0;
     end
     if QuestieConfig.minimapButton == nil then
         QuestieConfig.minimapButton = true
     elseif QuestieConfig.minimapButton == false then
         Questie.minimapButton:Hide()
     end
+    if QuestieConfig.minLevelFilter == nil then
+        QuestieConfig.minLevelFilter = true;
+    end
+    if QuestieConfig.minShowLevel == nil then
+        QuestieConfig.minShowLevel = 4;
+    end
+    if QuestieConfig.resizeWorldmap == nil then
+        QuestieConfig.resizeWorldmap = false;
+    end
+    if QuestieConfig.showMapAids == nil then
+        QuestieConfig.showMapAids = true;
+    end
+    if QuestieConfig.showProfessionQuests == nil then
+        QuestieConfig.showProfessionQuests = false;
+    end
+    if QuestieConfig.showTrackerHeader == nil then
+        QuestieConfig.showTrackerHeader = false;
+    end
+    if QuestieConfig.showToolTips == nil then
+        QuestieConfig.showToolTips = true;
+    end
+    if QuestieConfig.trackerAlpha == nil then
+        QuestieConfig.trackerAlpha = 0.4;
+    end
+    if QuestieConfig.trackerBackground == nil then
+        QuestieConfig.trackerBackground = false;
+    end
+    if QuestieConfig.trackerEnabled == nil then
+        QuestieConfig.trackerEnabled = true;
+    end
+    if QuestieConfig.trackerList == nil then
+        QuestieConfig.trackerList = false;
+    end
+    if QuestieConfig.trackerMinimize == nil then
+        QuestieConfig.trackerMinimize = false;
+    end
+    if QuestieConfig.trackerScale == nil then
+        QuestieConfig.trackerScale = 1.0;
+    end
     --Version check
-    --[22] --
     if (not QuestieConfig.getVersion) or (QuestieConfig.getVersion ~= QuestieVersion) then
         Questie:ClearConfig("version")
     end
@@ -230,9 +208,9 @@ function Questie:ClearConfig(arg)
                 ["clusterQuests"] = true,
                 ["corpseArrow"] = true,
                 ["hideMinimapIcons"] = false,
-                ["minimapButton"] = true,
                 ["maxLevelFilter"] = true,
                 ["maxShowLevel"] = 7,
+                ["minimapButton"] = true,
                 ["minLevelFilter"] = true,
                 ["minShowLevel"] = 4,
                 ["resizeWorldmap"] = false,
@@ -317,6 +295,7 @@ function Questie:NUKE(arg)
                 ["hideMinimapIcons"] = false,
                 ["maxLevelFilter"] = true,
                 ["maxShowLevel"] = 7,
+                ["minimapButton"] = true,
                 ["minLevelFilter"] = true,
                 ["minShowLevel"] = 4,
                 ["resizeWorldmap"] = false,
@@ -838,6 +817,15 @@ QuestieFastSlash = {
         Questie:SetAvailableQuests();
         Questie:RedrawNotes();
     end,
+    ["minimapbutton"] = function()
+    --Default: True
+        QuestieConfig.minimapButton = not QuestieConfig.minimapButton;
+        if QuestieConfig.minimapButton then
+            Questie.minimapButton:Show();
+        else
+            Questie.minimapButton:Hide();
+        end
+    end,
     ["minlevel"] = function()
     --Default: True
         QuestieConfig.minLevelFilter = not QuestieConfig.minLevelFilter;
@@ -984,15 +972,6 @@ QuestieFastSlash = {
             StaticPopup_Show ("SHOW_TRACKER");
         end
     end,
-    ["minimapbutton"] = function()
-    --Default: True
-        QuestieConfig.minimapButton = not QuestieConfig.minimapButton;
-        if QuestieConfig.minimapButton then
-            Questie.minimapButton:Show();
-        else
-            Questie.minimapButton:Hide();
-        end
-    end,
 ---------------------------------------------------------------------------------------------------
 --Questie Help Menu
 ---------------------------------------------------------------------------------------------------
@@ -1008,10 +987,10 @@ QuestieFastSlash = {
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie color |r|c0000ffc0(toggle)|r QuestTracker: Select two different color themes", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie header |r|c0000ffc0(toggle)|r QuestTracker: Header & Quest Counter", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie hideminimap |r|c0000ffc0(toggle)|r QuestMap: Removes quest starter icons from Minimap", 0.75, 0.75, 0.75);
-        DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie minimapbutton |r|c0000ffc0(toggle)|r QuestMap: Removes questie minimap button", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie listdirection |r|r|c0000ffc0(list)|r QuestTracker: Change list order: Top-->Down or Bottom-->Up", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie mapnotes |r|c0000ffc0(toggle)|r Questie: Commandline version of ToggleQuestie button", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie maxlevel |r|c0000ffc0(toggle)|r QuestMap: Filter - see setmaxlevel", 0.75, 0.75, 0.75);
+        DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie minimapbutton |r|c0000ffc0(toggle)|r QuestMap: Removes questie minimap button", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie minlevel |r|c0000ffc0(toggle)|r QuestMap: Filter - see setminlevel", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie mintracker |r|c0000ffc0(toggle)|r QuestTracker: Minimize or Maximize the QuestieTracker", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie NUKE |r|r|c0000ffc0(Pop-up)|r Database: Resets ALL Questie data and settings", 0.75, 0.75, 0.75);
@@ -1064,21 +1043,21 @@ function Questie:CurrentUserToggles()
         [6] = { "hideMinimapIcons" },
         [7] = { "maxLevelFilter" },
         [8] = { "maxShowLevel" },
-        [9] = { "minLevelFilter" },
-        [10] = { "minShowLevel" },
-        [11] = { "resizeWorldmap" },
-        [12] = { "showMapAids" },
-        [13] = { "showProfessionQuests" },
-        [14] = { "showToolTips" },
-        [15] = { "showTrackerHeader" },
-        [16] = { "trackerAlpha" },
-        [17] = { "trackerBackground" },
-        [18] = { "trackerEnabled" },
-        [19] = { "trackerList" },
-        [20] = { "trackerMinimize" },
-        [21] = { "trackerScale" },
-        [22] = { "getVersion" },
-        [23] = { "minimapButton" }
+        [9] = { "minimapButton" }
+        [10] = { "minLevelFilter" },
+        [11] = { "minShowLevel" },
+        [12] = { "resizeWorldmap" },
+        [13] = { "showMapAids" },
+        [14] = { "showProfessionQuests" },
+        [15] = { "showToolTips" },
+        [16] = { "showTrackerHeader" },
+        [17] = { "trackerAlpha" },
+        [18] = { "trackerBackground" },
+        [19] = { "trackerEnabled" },
+        [20] = { "trackerList" },
+        [21] = { "trackerMinimize" },
+        [22] = { "trackerScale" },
+        [23] = { "getVersion" },
     };
     if QuestieConfig then
         i = 1;
