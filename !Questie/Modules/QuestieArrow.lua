@@ -138,8 +138,8 @@ function SetArrowObjective(hash)
     end
     arrow_objective = hash
     arrow_data = nil
-    if not QuestieTrackedQuests[hash]["arrowPoint"] or not QuestieTrackedQuests[hash] then return end
-    local objective = QuestieTrackedQuests[hash]["arrowPoint"]
+    if not QuestieCachedQuests[hash]["arrowPoint"] or not QuestieCachedQuests[hash] then return end
+    local objective = QuestieCachedQuests[hash]["arrowPoint"]
     SetCrazyArrow(objective, objective.dist, objective.title)
 end
 ---------------------------------------------------------------------------------------------------
@@ -160,8 +160,8 @@ local function OnUpdate(self, elapsed)
         local dist,x,y
         if not UnitIsDeadOrGhost("player") then
             if arrow_objective then
-                if QuestieTrackedQuests[arrow_objective] then
-                    local objective = QuestieTrackedQuests[arrow_objective]["arrowPoint"]
+                if QuestieCachedQuests[arrow_objective] then
+                    local objective = QuestieCachedQuests[arrow_objective]["arrowPoint"]
                     if objective then
                         SetCrazyArrow(objective, objective.dist, objective.title)
                     end
