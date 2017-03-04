@@ -145,6 +145,11 @@ function Questie:CheckDefaults()
     if QuestieConfig.trackerScale == nil then
         QuestieConfig.trackerScale = 1.0;
     end
+    if QuestieMinimapEnabled == nil then
+        QuestieMinimapEnabled = true
+    elseif QuestieMinimapEnabled == false then
+        Questie.minimapButton:Hide()
+    end
     --Version check
     --[22] --
     if (not QuestieConfig.getVersion) or (QuestieConfig.getVersion ~= QuestieVersion) then
