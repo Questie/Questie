@@ -308,20 +308,29 @@ function Questie:Tooltip(this, forceShow, bag, slot)
                             drawnQuestTitle = true;
                         end
                         local desc, type, done = QGet_QuestLogLeaderBoard(objectiveid);
-                        desc = string.gsub(desc, objective, "|c"..unitColor..objective.."|r");
-                        Questie_TooltipCache[cacheKey]['lines'][lineIndex] = {
-                            ['color'] = {1,1,1},
-                            ['data'] = desc
-                        };
-                        lineIndex = lineIndex + 1;
-                        for i, line in pairs(lines) do
+                        if done then
+                            Questie_TooltipCache[cacheKey]['lines'][lineIndex] = {
+                                ['color'] = {0.2,1,0.3},
+                                ['data'] = desc
+                            };
+                            lineIndex = lineIndex + 1
+                            Questie_TooltipCache[cacheKey]['lineCount'] = lineIndex
+                        else
+                            desc = string.gsub(desc, objective, "|c"..unitColor..objective.."|r")
                             Questie_TooltipCache[cacheKey]['lines'][lineIndex] = {
                                 ['color'] = {1,1,1},
-                                ['data'] = line
+                                ['data'] = desc
                             };
-                            lineIndex = lineIndex + 1;
+                            lineIndex = lineIndex + 1
+                            for i, line in pairs(lines) do
+                                Questie_TooltipCache[cacheKey]['lines'][lineIndex] = {
+                                    ['color'] = {1,1,1},
+                                    ['data'] = line
+                                };
+                                lineIndex = lineIndex + 1
+                            end
+                            Questie_TooltipCache[cacheKey]['lineCount'] = lineIndex
                         end
-                        Questie_TooltipCache[cacheKey]['lineCount'] = lineIndex;
                     end
                 end
             end
