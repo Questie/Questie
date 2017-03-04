@@ -267,7 +267,7 @@ function Questie:Tooltip(this, forceShow, bag, slot)
         local reaction = UnitReaction("mouseover", "player");
         local unitColorRGB = Questie:GetReactionColor(reaction);
         local unitColor = "ff"..fRGBToHex(unitColorRGB.r, unitColorRGB.g, unitColorRGB.b);
-        if (Questie_TooltipCache[cacheKey] == nil) then
+        if (Questie_TooltipCache[cacheKey] == nil) or (QUESTIE_LAST_UPDATE_FINISHED - Questie_TooltipCache[cacheKey]['updateTime']) > 0 then
             -- Create or Update Tooltip Cache
             Questie_TooltipCache[cacheKey] = {};
             Questie_TooltipCache[cacheKey]['lines'] = {};
