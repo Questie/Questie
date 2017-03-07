@@ -12,7 +12,6 @@ local Cluster = {};
 local LastContinent = nil;
 local LastZone = nil;
 local Dewdrop = AceLibrary("Dewdrop-2.0");
-local LAST_REDRAWNOTES = 0;
 local specialSources = { ["openedby"] = 1, };
 local QGet_QuestLogTitle = GetQuestLogTitle;
 local QGet_NumQuestLeaderBoards = GetNumQuestLeaderBoards;
@@ -45,9 +44,10 @@ UIOpen = false;
 -- Adds quest notes to map
 ---------------------------------------------------------------------------------------------------
 function Questie:AddQuestToMap(questHash, redraw)
-    if(Active == false) then
+    if(IsQuestieActive == false) then
         return;
     end
+    --Questie:debug_Print("Notes:AddQuestToMap --> Adding Quest to Map [Hash: "..questHash.."]");
     local c, z = GetCurrentMapContinent(), GetCurrentMapZone();
     Questie:RemoveQuestFromMap(questHash);
     local objectives = Questie:GetQuestObjectivePaths(questHash)
@@ -58,6 +58,7 @@ function Questie:AddQuestToMap(questHash, redraw)
     UsedZones = {};
     local Quest = Questie:IsQuestFinished(questHash);
     if not (Quest) then
+        --Questie:debug_Print("Notes:AddQuestToMap --> Display Objective Icons: [Hash: "..questHash.."]");
         for objectiveid, objective in pairs(objectives) do
             if not objective.done then
                 local typeToIcon = {
@@ -74,6 +75,7 @@ function Questie:AddQuestToMap(questHash, redraw)
             end
         end
     else
+        --Questie:debug_Print("Notes:AddQuestToMap --> Display Finished Quest Icon: [Hash: "..questHash.."]");
         local questInfo = QuestieHashMap[Quest.questHash];
         local typeFunctions = {
             ['monster'] = GetMonsterLocations,
@@ -103,12 +105,25 @@ function Questie:AddQuestToMap(questHash, redraw)
     ques["objectives"] = objectives;
     QuestieHandledQuests[questHash] = ques;
     if (redraw) then
-        if (GetTime()- LAST_REDRAWNOTES > 0) then
-            Questie:AddEvent("REDRAWNOTES", 0);
-            --Questie:debug_Print("AddQuestToMap --> Redraw");
-            LAST_REDRAWNOTES = GetTime();
+        --Questie:debug_Print("Notes:AddQuestToMap --> REDRAW VAR Found: [AddEvent:DRAWNOTES]");
+        Questie:SetAvailableQuests();
+        Questie:RedrawNotes();
+    end
+end
+---------------------------------------------------------------------------------------------------
+-- Checks for a quest note in QuestieMapNotes
+---------------------------------------------------------------------------------------------------
+function Questie:CheckQuestNote(questHash)
+    for continent, zoneTable in pairs(QuestieMapNotes) do
+        for index, zone in pairs(zoneTable) do
+            for i, note in pairs(zone) do
+                if (note.questHash == questHash) then
+                    return true
+                end
+            end
         end
     end
+    return false
 end
 ---------------------------------------------------------------------------------------------------
 -- Updates quest notes on map
@@ -134,8 +149,9 @@ function Questie:UpdateQuestNotes(questHash, redraw)
     end
     QSelect_QuestLogEntry(prevQuestLogSelection)
     if(redraw) then
-        Questie:AddEvent("REDRAWNOTES", 0);
-        --Questie:debug_Print("UpdateQuestNotes --> Redraw");
+        --Questie:debug_Print("Notes:UpdateQuestNotes --> REDRAW VAR Found: [AddEvent:DRAWNOTES]");
+        Questie:SetAvailableQuests();
+        Questie:RedrawNotes();
     end
 end
 ---------------------------------------------------------------------------------------------------
@@ -154,8 +170,9 @@ function Questie:RemoveQuestFromMap(questHash, redraw)
         end
     end
     if(redraw) then
-        Questie:AddEvent("REDRAWNOTES", 0);
-        --Questie:debug_Print("RemoveQuestFromMap --> Redraw");
+        --Questie:debug_Print("Notes:RemoveQuestFromMap --> REDRAW VAR Found: [AddEvent:DRAWNOTES]");
+        Questie:SetAvailableQuests();
+        Questie:RedrawNotes();
     end
     if(QuestieHandledQuests[questHash]) then
         QuestieHandledQuests[questHash] = nil;
@@ -223,6 +240,36 @@ function Questie:GetBlankNoteFrame(frame)
     f = FramePool[1];
     table.remove(FramePool, 1);
     return f;
+end
+---------------------------------------------------------------------------------------------------
+-- Hook Tooltip
+---------------------------------------------------------------------------------------------------
+function Questie:hookTooltip()
+    local f = GameTooltip:GetScript("OnShow");
+    --Proper tooltip hooking!
+    if not f then
+        GameTooltip:SetScript("OnShow", function(self)
+            Questie:Tooltip(self, true);
+        end)
+    end
+    local Blizz_GameTooltip_Show = GameTooltip.Show;
+    GameTooltip.Show = function(self)
+        Questie:Tooltip(self);
+        Blizz_GameTooltip_Show(self);
+    end
+    local Bliz_GameTooltip_SetLootItem = GameTooltip.SetLootItem;
+    GameTooltip.SetLootItem = function(self, slot)
+        Bliz_GameTooltip_SetLootItem(self, slot);
+        Questie:Tooltip(self, true);
+    end
+    local index = self:GetID();
+    local Bliz_GameTooltip_SetQuestLogItem = GameTooltip.SetQuestLogItem;
+    GameTooltip.SetQuestLogItem = function(self, type, index)
+        local link = GetQuestLogItemLink(type, index);
+        if link then
+            Bliz_GameTooltip_SetQuestLogItem(self, type, index);
+        end
+    end
 end
 ---------------------------------------------------------------------------------------------------
 -- Tooltip code for quest objects
@@ -549,12 +596,12 @@ function Questie_AvailableQuestClick()
     if ((this.data.icontype == "available" or this.data.icontype == "availablesoon" or this.data.icontype == "complete") and IsShiftKeyDown() and Tooltip ) then
         local finishQuest = function(quest)
             if (quest.icontype == "available" or quest.icontype == "availablesoon") then
-                Questie:AddEvent("REDRAWNOTES", 0);
                 local hash = quest.questHash;
                 local questName = "["..QuestieHashMap[hash].questLevel.."] "..QuestieHashMap[hash]['name'];
                 Questie:finishAndRecurse(hash);
                 DEFAULT_CHAT_FRAME:AddMessage("Completing quest |cFF00FF00\"" .. questName .. "\"|r and parent quest: "..hash);
-                Questie:AddEvent("REDRAWNOTES", 0);
+                Questie:debug_Print("Notes:Questie_AvailableQuestClick --> Refreshing QuestNPC Icons: [AddEvent:DRAWNOTES]");
+                Questie:AddEvent("DRAWNOTES", 0.1);
             end
         end
         local count = 0;
@@ -840,10 +887,12 @@ end
 -- Updates notes for current zone only
 ---------------------------------------------------------------------------------------------------
 function Questie:NOTES_ON_UPDATE(elapsed)
+    if GameLoadingComplete == false then return; end
     local c, z = GetCurrentMapContinent(), GetCurrentMapZone();
     if(c ~= LastContinent or LastZone ~= z) then
-        --Questie:debug_Print("Questie:notes_on_update --> Redraw");
-        Questie:AddEvent("REDRAWNOTES", 0);
+        --Questie:debug_Print("Notes:NOTES_ON_UPDATE: [AddEvent:DRAWNOTES]");
+        Questie:SetAvailableQuests();
+        Questie:RedrawNotes();
         LastContinent = c;
         LastZone = z;
     end
@@ -1233,7 +1282,7 @@ function Questie:DRAW_NOTES()
     end
     -- Draw available quest markers.
     if (QuestieAvailableMapNotes[c] and QuestieAvailableMapNotes[c][z]) then
-        if (Active == true) then
+        if (IsQuestieActive == true) then
             local con,zon,x,y = Astrolabe:GetCurrentPlayerPosition();
             for k, v in pairs(QuestieAvailableMapNotes[c][z]) do
                 Questie:AddClusterFromNote("WorldMapNote", "Quests", v);

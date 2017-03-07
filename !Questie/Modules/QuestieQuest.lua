@@ -1,10 +1,10 @@
 ---------------------------------------------------------------------------------------------------
--- Name: QuestieQuest
--- Description: Handles all the quest related functions
+--Name: QuestieQuest
+--Description: Handles all the quest related functions
 ---------------------------------------------------------------------------------------------------
 --///////////////////////////////////////////////////////////////////////////////////////////////--
 ---------------------------------------------------------------------------------------------------
--- Local Vars
+--Local Vars
 ---------------------------------------------------------------------------------------------------
 local QuestieHashCache = {};
 local LastNrOfEntries = 0;
@@ -19,7 +19,7 @@ local QGet_NumQuestLogEntries = GetNumQuestLogEntries;
 local QGet_QuestLogSelection = GetQuestLogSelection;
 local QSelect_QuestLogEntry = SelectQuestLogEntry;
 ---------------------------------------------------------------------------------------------------
--- Global Vars
+--Global Vars
 ---------------------------------------------------------------------------------------------------
 LastQuestLogHashes = nil;
 LastQuestLogCount = 0;
@@ -31,6 +31,7 @@ QuestProgressCompleteButton = nil;
 QuestDetailAcceptButton = nil;
 Questie.lastCollapsedCount = 0;
 Questie.collapsedThisRun = false;
+QUESTIE_LAST_UPDATECACHE = GetTime();
 ---------------------------------------------------------------------------------------------------
 --Blizzard Hook: Quest Abandon On Accept
 ---------------------------------------------------------------------------------------------------
@@ -51,6 +52,7 @@ StaticPopupDialogs["ABANDON_QUEST"].OnAccept = function()
                 QuestieSeenQuests[hash] = -1;
                 QuestieCachedQuests[hash] = nil;
                 QuestieHandledQuests[hash] = nil;
+                --Questie:debug_Print("Quest:QuestAbandonOnAccept: [questTitle: "..questName.."] | [Hash: "..hash.."]");
                 RemoveCrazyArrow(hash);
                 QuestAbandonOnAccept();
             end
@@ -82,6 +84,7 @@ StaticPopupDialogs["ABANDON_QUEST_WITH_ITEMS"].OnAccept = function()
                 QuestieSeenQuests[hash] = -1;
                 QuestieCachedQuests[hash] = nil;
                 QuestieHandledQuests[hash] = nil;
+                --Questie:debug_Print("Quest:QuestAbandonWithItemsOnAccept: [questTitle: "..questName.."] | [Hash: "..hash.."]");
                 RemoveCrazyArrow(hash);
                 QuestAbandonWithItemsOnAccept();
             end
@@ -120,10 +123,8 @@ QuestRewardCompleteButton_OnClick = function()
                 QuestieCompletedQuestMessages[qName] = 1;
                 QuestieCachedQuests[hash] = nil;
                 QuestieHandledQuests[hash] = nil;
-                if(not QuestieSeenQuests[hash]) or (QuestieSeenQuests[hash] == 0) or (QuestieSeenQuests[hash] == -1) then
-                    Questie:finishAndRecurse(hash);
-                    RemoveCrazyArrow(hash);
-                end
+                --Questie:debug_Print("Quest:QuestRewardCompleteButton: [questTitle: "..questName.."] | [Hash: "..hash.."]");
+                RemoveCrazyArrow(hash);
                 QuestRewardCompleteButton();
             end
         end
@@ -162,10 +163,8 @@ QuestProgressCompleteButton_OnClick = function()
                     QuestieCompletedQuestMessages[qName] = 1;
                     QuestieCachedQuests[hash] = nil;
                     QuestieHandledQuests[hash] = nil;
-                    if (not QuestieSeenQuests[hash]) or (QuestieSeenQuests[hash] == 0) or (QuestieSeenQuests[hash] == -1) then
-                        Questie:finishAndRecurse(hash);
-                        RemoveCrazyArrow(hash);
-                    end
+                    --Questie:debug_Print("Quest:QuestProgressCompleteButton: [questTitle: "..questName.."] | [Hash: "..hash.."]");
+                    RemoveCrazyArrow(hash);
                     QuestProgressCompleteButton();
                 end
             end
@@ -182,7 +181,7 @@ end
 ---------------------------------------------------------------------------------------------------
 QuestDetailAcceptButton = QuestDetailAcceptButton_OnClick;
 function QuestDetailAcceptButton_OnClick()
-    Questie:RefreshQuestEvents();
+    Questie:UpdateGameClientCache();
     QuestDetailAcceptButton();
 end
 ---------------------------------------------------------------------------------------------------
@@ -200,7 +199,6 @@ function Questie:CompleteQuest()
                 else
                     qName = qName;
                 end
-                Questie:debug_Print("CompleteQuest --> [questTitle: "..questTitle.."]");
                 local id = 1;
                 local qc = 0;
                 local prevQuestLogSelection = QGet_QuestLogSelection();
@@ -217,7 +215,7 @@ function Questie:CompleteQuest()
                                 QuestieCompletedQuestMessages[qName] = 1;
                                 QuestieCachedQuests[hash] = nil;
                                 QuestieHandledQuests[hash] = nil;
-                                Questie:debug_Print("CompleteQuest --> [Hash: "..hash.."]");
+                                Questie:debug_Print("Quest:CompleteQuest: [questTitle: "..questName.."] | [Hash: "..hash.."]");
                                 Questie:finishAndRecurse(hash);
                                 RemoveCrazyArrow(hash);
                             end
@@ -247,7 +245,6 @@ function Questie:GetQuestReward()
             else
                 qName = qName;
             end
-            Questie:debug_Print("GetQuestReward --> [questTitle: "..questTitle.."]");
             local id = 1;
             local qc = 0;
             local prevQuestLogSelection = QGet_QuestLogSelection();
@@ -264,7 +261,7 @@ function Questie:GetQuestReward()
                             QuestieCompletedQuestMessages[qName] = 1;
                             QuestieCachedQuests[hash] = nil;
                             QuestieHandledQuests[hash] = nil;
-                            Questie:debug_Print("GetQuestReward --> [Hash: "..hash.."]");
+                            Questie:debug_Print("Quest:GetQuestReward: [questTitle: "..questName.."] | [Hash: "..hash.."]");
                             Questie:finishAndRecurse(hash);
                             RemoveCrazyArrow(hash);
                         end
@@ -291,7 +288,6 @@ function Questie:DetectFinishedQuest()
         else
             qName = qName;
         end
-        Questie:debug_Print("DetectFinishedQuest --> [questTitle: "..questTitle.."]");
         local id = 1;
         local qc = 0;
         local prevQuestLogSelection = QGet_QuestLogSelection();
@@ -308,7 +304,7 @@ function Questie:DetectFinishedQuest()
                         QuestieCompletedQuestMessages[qName] = 1;
                         QuestieCachedQuests[hash] = nil;
                         QuestieHandledQuests[hash] = nil;
-                        Questie:debug_Print("DetectFinishedQuest --> [Hash: "..hash.."]");
+                        Questie:debug_Print("Quest:DetectFinishedQuest: [questTitle: "..questName.."] | [Hash: "..hash.."]");
                         Questie:finishAndRecurse(hash);
                         RemoveCrazyArrow(hash);
                     end
@@ -323,12 +319,12 @@ function Questie:DetectFinishedQuest()
     end
 end
 ---------------------------------------------------------------------------------------------------
--- Finishes a quest and performs a recrusive check to make sure all the required quests that come
--- before it are also finsihed and recorded in the players QuestieSeenQuests. It will also clear
--- any redundant quest tracking data and make sure a quest that is in a players log isn't
--- accidently marked finished. When ever this function is run it will also remove invalid tracker
--- data when it doesn't find a matching hash in the QuestieSeenQuests table. This sometimes
--- happens when a player starts a quest chain.
+--Finishes a quest and performs a recrusive check to make sure all the required quests that come
+--before it are also finsihed and recorded in the players QuestieSeenQuests. It will also clear
+--any redundant quest tracking data and make sure a quest that is in a players log isn't
+--accidently marked finished. When ever this function is run it will also remove invalid tracker
+--data when it doesn't find a matching hash in the QuestieSeenQuests table. This sometimes
+--happens when a player starts a quest chain.
 ---------------------------------------------------------------------------------------------------
 function Questie:finishAndRecurse(questhash)
     local QSQ = QuestieSeenQuests;
@@ -341,10 +337,9 @@ function Questie:finishAndRecurse(questhash)
             QCQ[questhash] = nil;
         end
     end
-    --This loop checks to make sure a quest is finished before marking it
-    --complete. It then recursively checks all required quests before it and
-    --marks those as complete as well. It also checks each one to make sure we
-    --aren't marking a seen quest finished.
+    --This loop checks to make sure a quest is finished before marking it complete. It then
+    --recursively checks all required quests before it and marks those as complete as well. It
+    --also checks each one to make sure we aren't marking a seen quest finished.
     if (QSQ[questhash] == 0) and (QCQ[questhash]) then
         if ((QCQ[questhash]["leaderboards"] == 0 or QCQ[questhash]["leaderboards"] == 1) or (QCQ[questhash]["isComplete"] == 1)) then
             QSQ[questhash] = 1;
@@ -360,10 +355,9 @@ function Questie:finishAndRecurse(questhash)
             end
             return;
         end
-    --This loop allows a player to recursively finish a quest and all required
-    --quests that comes before it by shift+clicking an icon from one of the
-    --maps. It also checks each one to make sure we aren't marking a seen
-    --quest finished.
+    --This loop allows a player to recursively finish a quest and all required quests that comes
+    --before it by shift+clicking an icon from one of the maps. It also checks each one to make
+    --sure we aren't marking a seen quest finished.
     elseif ((QSQ[questhash] == nil) and (QCQ[questhash] == nil)) then
         QSQ[questhash] = 1;
         local req = nil;
@@ -386,25 +380,87 @@ function Questie:finishAndRecurse(questhash)
     end
 end
 ---------------------------------------------------------------------------------------------------
--- Checks the players quest log to make sure the QuestieSeenQuests is accurate and adds or removes
--- any quests from the appropiate caches. This also updates quest tracking data.
+--Checks the players quest log upon login or ReloadUI to make sure QuestieMapNotes and
+--QuestieCachedQuests get pre-populated with cache data before normal CheckLog functions are run.
+--This is especially important if this data isn't already in the WoW game clients local cache.
+---------------------------------------------------------------------------------------------------
+function Questie:UpdateGameClientCache()
+    if (GetTime() - QUESTIE_LAST_UPDATECACHE > 0.1) then
+        --Questie:debug_Print();
+        --Questie:debug_Print("************************| Beginning Game Client Cache Pull |************************");
+        local prevQuestLogSelection = QGet_QuestLogSelection();
+        local id = 1;
+        local qc = 0;
+        local nEntry, nQuests = QGet_NumQuestLogEntries();
+        while qc < nQuests do
+            local questName, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(id);
+            if not isHeader and not isCollapsed then
+                QSelect_QuestLogEntry(id);
+                local questText, objectiveText = QGet_QuestLogQuestText();
+                local hash = Questie:getQuestHash(questName, level, objectiveText);
+                Questie:AddQuestToMap(hash);
+                QuestieTracker:addQuestToTrackerCache(hash);
+                Questie:AddQuestToMap(hash);
+            end
+            if not isHeader then
+                qc = qc + 1;
+            end
+            id = id + 1;
+        end
+        QSelect_QuestLogEntry(prevQuestLogSelection);
+        --Questie:debug_Print("************************| Game Client Cache Pull Complete |************************");
+        --Questie:debug_Print();
+        QUESTIE_LAST_UPDATECACHE = GetTime();
+    else
+        QUESTIE_LAST_UPDATECACHE = GetTime();
+    end
+end
+---------------------------------------------------------------------------------------------------
+--Checks the players quest log
 ---------------------------------------------------------------------------------------------------
 function Questie:CheckQuestLog()
+    --LastQuestLogHashes should always be nil upon Login or a ReloadUI - do these checks
     if (not LastQuestLogHashes) then
-        LastQuestLogHashes = Questie:AstroGetAllCurrentQuestHashesAsMeta();
-        for k, v in pairs(LastQuestLogHashes) do
-            Questie:AddQuestToMap(v["hash"]);
-            if (QuestieSeenQuests[v["hash"]] ~= 0) then
-                QuestieSeenQuests[v["hash"]] = 0;
-                QuestieTracker:addQuestToTrackerCache(v["hash"]);
-                Questie:debug_Print("Questie:CheckQuestLog --> addQuestToTrackerCache1 --> [Hash: "..v["hash"].."]");
+        --Questie:debug_Print();
+        --Questie:debug_Print("************************| [PRE] Beginning CheckLog |************************ ");
+        --Clears abandoned quests
+        for k, v in pairs(QuestieSeenQuests) do
+            if (QuestieSeenQuests[k] == -1) then
+                Questie:RemoveQuestFromMap(k);
+                QuestieCachedQuests[k] = nil;
+                QuestieSeenQuests[k] = nil;
+                QUEST_WATCH_LIST[k] = nil;
+                --Questie:debug_Print("Quest:CheckQuestLog: Cleared abandoned quest: [Hash: "..k.."]");
             end
         end
+        --Clears cached data
+        for k, v in pairs(QuestieCachedQuests) do
+            if QuestieSeenQuests[k] == 1 then
+                Questie:RemoveQuestFromMap(k);
+                QuestieCachedQuests[k] = nil;
+                --Questie:debug_Print("Quest:CheckQuestLog: Cleaned Quest Cache: [Hash: "..k.."]");
+            end
+        end
+        LastQuestLogHashes = Questie:AstroGetAllCurrentQuestHashesAsMeta();
+        for k, v in pairs(LastQuestLogHashes) do
+            --This "double-tap" ensures quest data is inserted into the cache
+            --Questie:debug_Print("Quest:CheckQuestLog: --> Tracker:addQuestToTrackerCache() [Hash: "..v["hash"].."]");
+            QuestieTracker:addQuestToTrackerCache(v["hash"]);
+            Questie:AddQuestToMap(v["hash"]);
+        end
+        Questie:OnLoad_QuestEvents();
         QuestieTracker:initWOWQuestLog();
-        Questie:AddEvent("REDRAWNOTES", 1);
-        Questie:AddEvent("TRACKER", 1);
-        --Questie:debug_Print("Questie:CheckQuestLog1 --> Redraw");
+        --Questie:debug_Print("Quest:CheckQuestLog: QuestLog Changed --> RefreshQuestStatus()");
+        Questie:AddEvent("UPDATE", 1.2);
+        Questie:AddEvent("SYNCLOG", 1.4);
+        Questie:AddEvent("DRAWNOTES", 1.6);
+        Questie:AddEvent("TRACKER", 1.6);
+        QuestieTracker:FillTrackingFrame();
+        _, LastQuestLogCount = QGet_NumQuestLogEntries();
         QUESTIE_LAST_UPDATE_FINISHED = GetTime();
+        --Questie:debug_Print("************************| [PRE] CheckLog Complete |************************ ");
+        --Questie:debug_Print();
+        GameLoadingComplete = true;
         return;
     end
     local Quests, QuestsCount = Questie:AstroGetAllCurrentQuestHashesAsMeta();
@@ -414,7 +470,7 @@ function Questie:CheckQuestLog()
         for k, v in pairs(Quests) do
             if (Quests[k] and LastQuestLogHashes[k]) then
             else
-                if(Quests[k]) then
+                if (Quests[k]) then
                     v["deltaType"] = 1;
                     table.insert(delta, v);
                 else
@@ -427,7 +483,7 @@ function Questie:CheckQuestLog()
         for k, v in pairs(LastQuestLogHashes) do
             if (Quests[k] and LastQuestLogHashes[k]) then
             else
-                if(Quests[k]) then
+                if (Quests[k]) then
                     v["deltaType"] = 1;
                     table.insert(delta, v);
                 else
@@ -438,43 +494,47 @@ function Questie:CheckQuestLog()
         end
     end
     for k, v in pairs(delta) do
+        Questie:debug_Print();
+        Questie:debug_Print("************************| [POST] Beginning CheckLog |************************ ");
+        Questie:debug_Print("Quest:CheckQuestLog: UPON ENTER: [QuestsCount: "..QuestsCount.."] | [LastCount: "..LastQuestLogCount.."]");
         if (v["deltaType"] == 1) then
             Questie:AddQuestToMap(v["hash"]);
+            --This adds a quest to the cache
             if (QuestieSeenQuests[v["hash"]] == nil) then
                 QuestieSeenQuests[v["hash"]] = 0;
-                Questie:debug_Print("Questie:CheckQuestLog --> addQuestToTrackerCache2 --> [Hash: "..v["hash"].."]");
+                Questie:debug_Print("Quest:CheckQuestLog: --> Quest:addQuestToTrackerCache() [Hash: "..v["hash"].."]");
                 QuestieTracker:addQuestToTrackerCache(v["hash"]);
-                Questie:AddEvent("SYNCLOG", 1);
+                QuestieTracker:syncWOWQuestLog();
             end
             MapChanged = true;
         elseif not Questie.collapsedThisRun then
+            Questie:RemoveQuestFromMap(v["hash"]);
+            --This clears cache of finished quests
             if (QuestieSeenQuests[v["hash"]] == 1) then
-                Questie:RemoveQuestFromMap(v["hash"]);
                 QuestieTracker:removeQuestFromTracker(v["hash"]);
                 Questie:finishAndRecurse(v["hash"]);
-                Questie:debug_Print("Questie:CheckQuestLog --> finishAndRecurse --> [Hash: "..v["hash"].."]");
+                Questie:debug_Print("Quest:CheckQuestLog: --> Quest:finishAndRecurse() [Hash: "..v["hash"].."]");
                 if (not QuestieCompletedQuestMessages[v["name"]]) then
                     QuestieCompletedQuestMessages[v["name"]] = 0;
                 end
-            --This clears abandoned quests
+            --This clears cache of abandoned quests
             elseif (QuestieSeenQuests[v["hash"]] == -1) then
-                Questie:RemoveQuestFromMap(v["hash"]);
+                QuestieTracker:removeQuestFromTracker(v["hash"]);
                 QuestieCachedQuests[v["hash"]] = nil;
                 QuestieSeenQuests[v["hash"]] = nil;
                 QUEST_WATCH_LIST[v["hash"]] = nil;
-                Questie:debug_Print("Questie:CheckQuestLog --> clear abandoned quest --> [Hash: "..v["hash"].."]");
+                Questie:debug_Print("Quest:CheckQuestLog: clear abandoned quest: [Hash: "..v["hash"].."]");
             end
-            --This cleans cached data
-            local index = 0;
-            for i,v in pairs(QuestieCachedQuests) do
-                if QuestieSeenQuests[i] == 1 then
-                    QuestieCachedQuests[i] = nil;
-                    Questie:debug_Print("Questie:CheckQuestLog --> Cleaned Quest Cache --> [Hash: "..i.."]");
-                    index = index + 1;
+            --Cleans cached data
+            for k, v in pairs(QuestieCachedQuests) do
+                if QuestieSeenQuests[k] == 1 then
+                    QuestieCachedQuests[k] = nil;
+                    Questie:debug_Print("Quest:CheckQuestLog: Cleaned Quest Cache: [Hash: "..k.."]");
                 end
             end
             if lastObjectives and lastObjectives[v["hash"]] then
-                lastObjectives = nil;
+                Questie:debug_Print("Quest:CheckQuestLog: lastObjectives update [Hash: "..v["hash"].."]");
+                lastObjectives = {};
             end
             MapChanged = true;
         end
@@ -482,12 +542,14 @@ function Questie:CheckQuestLog()
     delta = nil;
     LastQuestLogHashes = Quests;
     LastQuestLogCount = QuestsCount;
-    if(MapChanged == true) then
-        QuestieTracker:syncWOWQuestLog();
-        Questie:AddEvent("REDRAWNOTES", 1.2);
-        Questie:AddEvent("TRACKER", 1);
-        --Questie:debug_Print("Questie:CheckQuestLog2 --> Redraw");
+    if (MapChanged == true) then
+        Questie:debug_Print("Quest:CheckQuestLog: QuestLog Changed --> [AddEvent:DRAWNOTES]");
+        Questie:CheckQuestLog();
+        Questie:RefreshQuestStatus();
         QUESTIE_LAST_UPDATE_FINISHED = GetTime();
+        Questie:debug_Print("Quest:CheckQuestLog: UPON EXIT: [QuestsCount: "..QuestsCount.."] | [LastCount: "..LastQuestLogCount.."]");
+        Questie:debug_Print("************************| [POST] CheckLog Complete |************************ ");
+        Questie:debug_Print();
         return true;
     else
         QUESTIE_LAST_UPDATE_FINISHED = GetTime();
@@ -495,10 +557,10 @@ function Questie:CheckQuestLog()
     end
 end
 ---------------------------------------------------------------------------------------------------
--- Updates all quests in the questlog
+--Adds or updates all active objectives in the questlog to the lastObjectives table
 ---------------------------------------------------------------------------------------------------
 function Questie:UpdateQuests(force)
-    if (lastObjectives == nil) then
+    if (not lastObjectives) then
         lastObjectives = {};
         Questie:UpdateQuestsInit();
         return;
@@ -535,7 +597,7 @@ function Questie:UpdateQuests(force)
     return change;
 end
 ---------------------------------------------------------------------------------------------------
--- Updates all questlog objectives in a zone then updates the lastObjectives table
+--Updates all active objectives in a zone then updates the lastObjectives table
 ---------------------------------------------------------------------------------------------------
 function Questie:UpdateQuestInZone(Zone, force)
     local numEntries, numQuests = QGet_NumQuestLogEntries();
@@ -584,11 +646,11 @@ function Questie:UpdateQuestInZone(Zone, force)
             if (Refresh) then
                 Questie:AddQuestToMap(hash, true);
                 if (QuestieCachedQuests[hash]) then
-                    QuestieTracker:updateFrameOnTracker(hash, i, level);
+                    QuestieTracker:updateTrackerCache(hash, i, level);
                 end
             elseif foundChange and QuestieConfig.trackerEnabled == true then
                 if (QuestieCachedQuests[hash]) then
-                    QuestieTracker:updateFrameOnTracker(hash, i, level);
+                    QuestieTracker:updateTrackerCache(hash, i, level);
                 end
             end
             QuestieTracker:FillTrackingFrame();
@@ -605,7 +667,7 @@ function Questie:UpdateQuestInZone(Zone, force)
     return foundChange;
 end
 ---------------------------------------------------------------------------------------------------
--- Updates all questlog objectives upon login or UI reload and builds lastObjectives table
+--Adds all active objectives from all quests in the questlog to the lastObjectives table
 ---------------------------------------------------------------------------------------------------
 function Questie:UpdateQuestsInit()
     local numEntries, numQuests = QGet_NumQuestLogEntries();
@@ -637,7 +699,7 @@ function Questie:UpdateQuestsInit()
     QSelect_QuestLogEntry(prevQuestLogSelection);
 end
 ---------------------------------------------------------------------------------------------------
--- Astrolabe functions
+--Astrolabe functions
 ---------------------------------------------------------------------------------------------------
 function Questie:AstroGetAllCurrentQuestHashes(print)
     local hashes = {};
@@ -645,7 +707,7 @@ function Questie:AstroGetAllCurrentQuestHashes(print)
     local i = 1;
     local qc = 0;
     if (print) then
-        --Questie:debug_Print("AstroGetAllCurrentQuestHashes: Listing all current quests");
+        --Questie:debug_Print("Quest:AstroGetAllCurrentQuestHashes: Listing all current quests");
     end
     local prevQuestLogSelection = QGet_QuestLogSelection();
     while qc < numQuests do
@@ -675,7 +737,7 @@ function Questie:AstroGetAllCurrentQuestHashes(print)
     end
     QSelect_QuestLogEntry(prevQuestLogSelection);
     if (print) then
-        --Questie:debug_Print("AstroGetAllCurrentQuestHashes: End of all current quests");
+        --Questie:debug_Print("Quest:AstroGetAllCurrentQuestHashes: End of all current quests");
     end
     return hashes;
 end
@@ -717,14 +779,13 @@ function Questie:AstroGetAllCurrentQuestHashesAsMeta(print)
     end
     QSelect_QuestLogEntry(prevQuestLogSelection);
     if (print) then
-        --Questie:debug_Print("AstroGetAllCurrentQuestHashesAsMeta: End of all current quests");
+        --Questie:debug_Print("Quest:AstroGetAllCurrentQuestHashesAsMeta: End of all current quests");
     end
     if not (collapsedCount == Questie.lastCollapsedCount) then
         Questie.lastCollapsedCount = collapsedCount;
         Questie.collapsedThisRun = true;
     end
-    --Questie:debug_Print("AstroGetAllCurrentQuestHashesAsMeta: Getting all hashes took: "..tostring((GetTime()- agacqhamtime)*1000).."ms");
-    agacqhamtime = nil;
+    --Questie:debug_Print("Quest:AstroGetAllCurrentQuestHashesAsMeta --> Getting all hashes took: ["..tostring((GetTime()- agacqhamtime)*1000).."ms]");
     return hashes, numQuests;
 end
 ---------------------------------------------------------------------------------------------------
@@ -749,7 +810,7 @@ function Questie:AstroGetFinishedQuests()
             end
             if(Done) then
                 local hash = Questie:getQuestHash(q, level, objectiveText);
-                --Questie:debug_Print("AstroGetFinishedQuests: Returned Hash: "..hash.." Quest: "..q.." Level: "..level);
+                --Questie:debug_Print("AstroGetFinishedQuests: [Hash: "..hash.."] | [Quest: "..q.."] | [Level: "..level.."]");
                 table.insert(FinishedQuests, hash);
             end
             qc = qc + 1;
@@ -860,7 +921,7 @@ AstroobjectiveProcessors = {
         local itemdata = QuestieItems[name];
         --Questie:debug_Print(name);
         if itemdata == nil then
-            Questie:debug_Print("AstroobjectiveProcessors: ERROR1 PROCESSING '" .. quest .. "''  objective:'" .. name .. "'' no itemdata".. " ID:0");
+            Questie:debug_Print("Quest:AstroobjectiveProcessors --> ERROR1 PROCESSING: [Quest: "..quest.."] | [Objective: "..name.."] | No [itemdata] found | ID:0");
             itemdata = QuestieItems[name];
         end
         if itemdata then
@@ -895,7 +956,8 @@ AstroobjectiveProcessors = {
                         monster["locations"] = {};
                         monster["type"] = "object";
                         if QuestieObjects[objectName] then
-                            for k, pos in pairs(QuestieObjects[objectName]['locations']) do -- todo handle objects that appear when a mob is killed
+                            --TODO: handle objects that appear when a mob is killed
+                            for k, pos in pairs(QuestieObjects[objectName]['locations']) do
                                 table.insert(monster["locations"], pos);
                             end
                             table.insert(list, monster);
@@ -903,7 +965,7 @@ AstroobjectiveProcessors = {
                     end
                 elseif k =="locations" then
                 else
-                    Questie:debug_Print("AstroobjectiveProcessors: ERROR2 " .. quest .. "  objective:" .. name.. " ID:1");
+                    Questie:debug_Print("Quest:AstroobjectiveProcessors --> ERROR2: [Quest: "..quest.."] | [Objective: "..name.."] | ID:1");
                     for s, r in pairs(itemdata) do
                         Questie:debug_Print(s,tostring(r));
                     end
@@ -916,7 +978,7 @@ AstroobjectiveProcessors = {
         local evtdata = QuestieEvents[name];
         local list = {};
         if evtdata == nil then
-            Questie:debug_Print("AstroobjectiveProcessors: ERROR3 UNKNOWN EVENT " .. quest .. "  objective:" .. name.. " ID:2");
+            Questie:debug_Print("Quest:AstroobjectiveProcessors --> ERROR3 UNKNOWN EVENT: [Quest: "..quest.."] | [Objective: "..name.."] | ID:2");
         else
             for b=1,evtdata['locationCount'] do
                 local monster = {};
@@ -953,7 +1015,7 @@ AstroobjectiveProcessors = {
         local list = {};
         local objdata = QuestieObjects[name];
         if objdata == nil then
-            Questie:debug_Print("AstroobjectiveProcessors: ERROR4 UNKNOWN OBJECT " .. quest .. "  objective:" .. name);
+            Questie:debug_Print("Quest:AstroobjectiveProcessors: ERROR4 UNKNOWN OBJECT: [Quest: "..quest.."] | [Objective: "..name.."]");
         else
             for b=1,objdata['locationCount'] do
                 local monster = {};
@@ -971,11 +1033,11 @@ AstroobjectiveProcessors = {
     end
 }
 ---------------------------------------------------------------------------------------------------
--- End of Astrolabe functions
+--End of Astrolabe functions
 ---------------------------------------------------------------------------------------------------
 --///////////////////////////////////////////////////////////////////////////////////////////////--
 ---------------------------------------------------------------------------------------------------
--- Get quest ID from quest hash
+--Get quest ID from quest hash
 ---------------------------------------------------------------------------------------------------
 function Questie:GetQuestIdFromHash(questHash)
     local prevQuestLogSelection = QGet_QuestLogSelection();
@@ -996,16 +1058,16 @@ function Questie:GetQuestIdFromHash(questHash)
             if(Questie:getQuestHash(q, level, objectiveText) == questHash) then
                 return CachedIds[questHash];
             else
-                Questie:debug_Print("GetQuestIdFromHash: Something went wrong Error1");
+                Questie:debug_Print("Quest:GetQuestIdFromHash --> Error: [Hash: "..tostring(CachedIds[questHash]).."]1");
             end
         else
-            Questie:debug_Print("GetQuestIdFromHash: Something went wrong, Error2: Hash: "..tostring(CachedIds[questHash]).." Quest: "..tostring(q).." Level: "..tostring(level));
+            Questie:debug_Print("Quest:GetQuestIdFromHash --> Error2: [Hash: "..tostring(CachedIds[questHash]).."] | [Quest: "..tostring(q).."] | [Level: "..tostring(level).."]");
         end
     end
     QSelect_QuestLogEntry(prevQuestLogSelection);
 end
 ---------------------------------------------------------------------------------------------------
--- Update quest ID's
+--Update quest ID's
 ---------------------------------------------------------------------------------------------------
 function Questie:UpdateQuestIds()
     local uqidtime = GetTime()
@@ -1020,7 +1082,8 @@ function Questie:UpdateQuestIds()
             local questText, objectiveText = QGet_QuestLogQuestText();
             local hash = Questie:getQuestHash(q, level, objectiveText);
             if (not q or not level or not objective) then
-                --Questie:debug_Print("[UpdateQuestID] ERROR!!!!  Error1",tostring(name), tostring(level), tostring(i), tostring(hash)) -- commented out the error because it was really annoying. -ZoeyZolotova
+                --commented out the error because it was really annoying. -ZoeyZolotova
+                --Questie:debug_Print("Quest:UpdateQuestIds --> Error1: [Name: "..tostring(name).."] | [Level: "..tostring(level).."] | [Id: "..tostring(i).."] | [Hash: "..tostring(hash).."]")
             end
             CachedIds[hash] = i;
             qc = qc + 1;
@@ -1028,11 +1091,10 @@ function Questie:UpdateQuestIds()
         i = i + 1;
     end
     QSelect_QuestLogEntry(prevQuestLogSelection);
-    --Questie:debug_Print("UpdateQuestID: Had to update UpdateQuestIds: "..tostring((GetTime()- uqidtime)*1000).."ms")
-    uqidtime = nil;
+    --Questie:debug_Print("Quest:UpdateQuestID: --> Updating QuestIds took: ["..tostring((GetTime()- uqidtime)*1000).."ms]")
 end
 ---------------------------------------------------------------------------------------------------
--- Get quest hash from quest name
+--Get quest hash from quest name
 ---------------------------------------------------------------------------------------------------
 function Questie:GetHashFromName(name)
     if QuestieHashCache[name] then
@@ -1050,7 +1112,7 @@ function Questie:GetHashFromName(name)
     return Questie:getQuestHash(name, nil, nil);
 end
 ---------------------------------------------------------------------------------------------------
--- Lookup quest hash from name, level or objective text
+--Lookup quest hash from name, level or objective text
 ---------------------------------------------------------------------------------------------------
 function Questie:getQuestHash(name, level, objectiveText)
     local hashLevel = level or "hashLevel";
@@ -1063,7 +1125,7 @@ function Questie:getQuestHash(name, level, objectiveText)
     if questLookup then
         local count = 0;
         local retval = 0;
-        local bestDistance = 4294967295; -- some high number (0xFFFFFFFF)
+        local bestDistance = 4294967295; --some high number (0xFFFFFFFF)
         local race = UnitRace("Player");
         for k,v in pairs(questLookup) do
             local rr = v[1];
@@ -1078,7 +1140,7 @@ function Questie:getQuestHash(name, level, objectiveText)
                 end
                 if adjustedDescription == objectiveText and tonumber(QuestieHashMap[v[2]]['questLevel']) == hashLevel then
                     QuestieQuestHashCache[name..hashLevel..hashText] = v[2];
-                    return v[2],hasOthers; -- exact match
+                    return v[2],hasOthers; --exact match
                 end
                 local dist = 4294967294;
                 if not (objectiveText == nil) then
@@ -1094,7 +1156,7 @@ function Questie:getQuestHash(name, level, objectiveText)
         end
         if not (retval == 0) then
             QuestieQuestHashCache[name..hashLevel..hashText] = retval;
-            return retval, hasOthers; -- nearest match
+            return retval, hasOthers; --nearest match
         end
     end
     if name == nil then
@@ -1113,7 +1175,7 @@ function Questie:getQuestHash(name, level, objectiveText)
     return hash, false;
 end
 ---------------------------------------------------------------------------------------------------
--- Checks to see if a quest is finished by quest hash
+--Checks to see if a quest is finished by quest hash
 ---------------------------------------------------------------------------------------------------
 function Questie:IsQuestFinished(questHash)
     local id = Questie:GetQuestIdFromHash(questHash);
@@ -1144,7 +1206,7 @@ function Questie:IsQuestFinished(questHash)
     return nil;
 end
 ---------------------------------------------------------------------------------------------------
--- Race, Class and Profession filter functions
+--Race, Class and Profession filter functions
 ---------------------------------------------------------------------------------------------------
 RaceBitIndexTable = {
     ['human'] = 1,
@@ -1243,5 +1305,5 @@ function Questie:GetAvailableQuestHashes(mapFileName, levelFrom, levelTo)
     return hashes;
 end
 ---------------------------------------------------------------------------------------------------
--- End of filter functions
+--End of filter functions
 ---------------------------------------------------------------------------------------------------

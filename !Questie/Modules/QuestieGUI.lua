@@ -35,8 +35,7 @@ Questie.minimapButton:SetScript("OnClick", function()
         else
             DEFAULT_CHAT_FRAME:AddMessage("QuestieStarters:|c0000ffc0 (Are now being shown) |r")
         end
-        Questie:SetAvailableQuests()
-        Questie:RedrawNotes()
+        Questie:AddEvent("DRAWNOTES", 0.1);
     end
 end)
 Questie.minimapButton:SetScript("OnEnter", function()

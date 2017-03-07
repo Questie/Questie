@@ -83,7 +83,7 @@ QuestieTracker:SetScript("OnUpdate", QuestieTracker_OnUpdate);
 ---------------------------------------------------------------------------------------------------
 function QuestieTracker:updateTrackingFrameSize()
     if (QuestieConfig.trackerBackground == true) then
-        if (QuestieTracker.highestIndex == 0) and (QGet_NumQuestLogEntries == 0) then
+        if (QuestieTracker.highestIndex == 0) or (QGet_NumQuestLogEntries == 0) then
             QuestieTracker.frame:SetHeight(0.1);
             QuestieTracker.frame:SetWidth(0.1);
             QuestieTracker.frame:SetBackdropColor(0,0,0,0);
@@ -107,8 +107,8 @@ function QuestieTracker:updateTrackingFrameSize()
             local totalHeight = lastbuttonTop - trackerBottom;
             if (QuestieConfig.showTrackerHeader == true) then
                 QuestieTracker.frame:SetHeight(totalHeight + 7);
-                if totalWidth < 180 then
-                    QuestieTracker.frame:SetWidth(180);
+                if totalWidth < 150 then
+                    QuestieTracker.frame:SetWidth(150);
                 end
             else
                 QuestieTracker.frame:SetHeight(totalHeight + 11);
@@ -125,8 +125,8 @@ function QuestieTracker:updateTrackingFrameSize()
             local totalHeight = trackerTop - lastbuttonBottom;
             if (QuestieConfig.showTrackerHeader == true) then
                 QuestieTracker.frame:SetHeight(totalHeight + 11);
-                if totalWidth < 180 then
-                    QuestieTracker.frame:SetWidth(180);
+                if totalWidth < 150 then
+                    QuestieTracker.frame:SetWidth(150);
                 end
             else
                 QuestieTracker.frame:SetHeight(totalHeight + 11);
@@ -740,7 +740,7 @@ function QuestLogTitleButton_OnClick(button)
                         end
                         Questie:AddEvent("SYNCLOG", 0);
                         if QuestieConfig["alwaysShowObjectives"] == false then
-                            Questie:AddEvent("REDRAWNOTES", 0.1);
+                            Questie:AddEvent("DRAWNOTES", 0.1);
                             Questie:AddEvent("TRACKER", 0.5);
                         end
                         QuestWatch_Update();
@@ -764,7 +764,7 @@ function QuestLogTitleButton_OnClick(button)
                             Questie:AddEvent("SYNCLOG", 0);
                         end
                         if QuestieConfig["alwaysShowObjectives"] == false then
-                            Questie:AddEvent("REDRAWNOTES", 0.1);
+                            Questie:AddEvent("DRAWNOTES", 0.1);
                             Questie:AddEvent("TRACKER", 0.5);
                         end
                         QuestWatch_Update();
@@ -825,7 +825,7 @@ function QuestLogTitleButton_OnClick(button)
                 WIM_EditBoxInFocus:Insert("|cffffff00|Hquest:0:0:0:0|h["..gsub(this:GetText(), "  (.)", "%1").."]|h|r");
             else
                 if (IsQuestWatched(questIndex)) then
-                    Questie:debug_Print("QuestLogTitleButton_OnClick --> RemoveQuestWatch: [Id: "..questIndex.."] | [hash: "..hash.."]");
+                    Questie:debug_Print("Tracker:QuestLogTitleButton_OnClick --> RemoveQuestWatch: [Id: "..questIndex.."] | [hash: "..hash.."]");
                     RemoveQuestWatch(questIndex);
                 else
                     ------------------------------------------------------------------------------------
@@ -841,12 +841,11 @@ function QuestLogTitleButton_OnClick(button)
                     end
                     ----------------------------------------------------------------------------------]]
                     AddQuestWatch(questIndex);
-                    Questie:debug_Print("QuestLogTitleButton_OnClick --> AutoQuestWatch_Insert: [Id: "..questIndex.."] | [hash: "..hash.."]");
+                    Questie:debug_Print("Tracker:QuestLogTitleButton_OnClick --> AutoQuestWatch_Insert: [Id: "..questIndex.."] | [hash: "..hash.."]");
                 end
                 Questie:AddEvent("SYNCLOG", 0);
                 if QuestieConfig["alwaysShowObjectives"] == false then
-                    Questie:AddEvent("REDRAWNOTES", 0.1);
-                    Questie:AddEvent("TRACKER", 0.5);
+                    Questie:AddEvent("DRAWNOTES", 0.02);
                 end
                 QuestWatch_Update();
             end
@@ -915,19 +914,17 @@ function QuestieTracker:addQuestToTrackerCache(hash, logId, level)
             };
         end
     end
-    if (QuestieCachedQuests[hash] == nil) or (QuestieCachedQuests[hash]["tracked"] == false) then return; end
-    QuestieTracker:FillTrackingFrame();
-    --Questie:debug_Print("QuestieTracker:addQuestToTrackerCache: [Hash: "..hash.."]");
+    --Questie:debug_Print("Tracker:addQuestToTrackerCache: [Hash: "..hash.."]");
     if QuestieCachedQuests[hash]["objective1"] then
         if (QuestieCachedQuests[hash]["objective1"]["done"] ~= true) or (QuestieCachedQuests[hash]["objective1"]["done"] ~= 1) or (QuestieCachedQuests[hash]["objective1"]["type"] == nil) or (not QuestieCachedQuests[hash]["arrowPoint"]) then
-            QuestieTracker:updateFrameOnTracker(hash, logId, level);
+            QuestieTracker:updateTrackerCache(hash, logId, level);
         end
     end
 end
 ---------------------------------------------------------------------------------------------------
 -- If a quest is tracked, update quest on tracker and also update quest data cache
 ---------------------------------------------------------------------------------------------------
-function QuestieTracker:updateFrameOnTracker(hash, logId, level)
+function QuestieTracker:updateTrackerCache(hash, logId, level)
     if (not QUEST_WATCH_LIST[logId]) and (not QuestieCachedQuests[hash]) then
         QuestieTracker:addQuestToTrackerCache(hash, logId, level);
     end
@@ -962,6 +959,16 @@ function QuestieTracker:updateFrameOnTracker(hash, logId, level)
         uggo = i;
     end
     uggo = uggo - 1;
+    --Questie:debug_Print("Tracker:updateTrackerCache: [Hash: "..hash.."]");
+end
+---------------------------------------------------------------------------------------------------
+-- Adds quest from tracker when it's tracked - will not clear cached quest data
+---------------------------------------------------------------------------------------------------
+function QuestieTracker:addQuestToTracker(hash)
+    if (QuestieCachedQuests[hash] and QuestieCachedQuests[hash]["tracked"] ~= true) then
+        QuestieCachedQuests[hash]["tracked"] = true;
+        Questie:debug_Print("Tracker:addQuestToTracker: [Hash: "..hash.."]");
+    end
     QuestieTracker:FillTrackingFrame();
 end
 ---------------------------------------------------------------------------------------------------
@@ -970,7 +977,7 @@ end
 function QuestieTracker:removeQuestFromTracker(hash)
     if (QuestieSeenQuests[hash] == 0) and (QuestieCachedQuests[hash] ~= nil) then
         QuestieCachedQuests[hash]["tracked"] = false;
-        --Questie:debug_Print("QuestieTracker:removeQuestFromTracker: [Hash: "..hash.."]");
+        Questie:debug_Print("Tracker:removeQuestFromTracker: [Hash: "..hash.."]");
     end
     QuestieTracker:FillTrackingFrame();
     if (QuestieTracker.highestIndex) == 0 then
@@ -1080,7 +1087,7 @@ function QuestieTracker:syncWOWQuestLog()
                     local hash = Questie:getQuestHash(questName, level, objectiveText);
                     if not isHeader and (QuestieSeenQuests[hash] == 0 and QuestieCachedQuests[hash]["tracked"] == false) then
                         AddQuestWatch(id);
-                        Questie:debug_Print("QuestieTracker:syncWOWQuestLog --> AutoQuestWatch_Insert: [ID: "..id.."] | [hash: "..hash.."]");
+                        Questie:debug_Print("Tracker:syncWOWQuestLog --> AutoQuestWatch_Insert: [ID: "..id.."] | [hash: "..hash.."]");
                         QuestWatch_Update();
                         -- Prevents QuestWatcher "flickering bug"
                         if (QuestieConfig.trackerEnabled == true) then
@@ -1118,7 +1125,7 @@ function QuestieTracker:initWOWQuestLog()
                     local hash = Questie:getQuestHash(questName, level, objectiveText);
                     if not isHeader and (QuestieSeenQuests[hash] == 0 and (QuestieCachedQuests[hash] and QuestieCachedQuests[hash]["tracked"] == true)) then
                         AddQuestWatch(id);
-                        Questie:debug_Print("QuestieTracker:initWOWQuestLog --> AutoQuestWatch_Insert: [ID: "..id.."] | [hash: "..hash.."]");
+                        Questie:debug_Print("Tracker:initWOWQuestLog --> AutoQuestWatch_Insert: [ID: "..id.."] | [hash: "..hash.."]");
                         QuestWatch_Update();
                         -- Prevents QuestWatcher "flickering bug"
                         if (QuestieConfig.trackerEnabled == true) then
@@ -1160,16 +1167,15 @@ function QuestieTracker:syncQuestLog()
             QSelect_QuestLogEntry(id);
             local questText, objectiveText = QGet_QuestLogQuestText();
             local hash = Questie:getQuestHash(questName, level, objectiveText);
-            --Questie:debug_Print("QuestieTracker:syncQuestLog --> isQuestLogSync?: [Hash: "..hash.."] | ["..tostring(QuestLogSync(id)).."]");
             if not isHeader and (QuestLogSync(id) and (QuestieCachedQuests[hash] and QuestieCachedQuests[hash]["tracked"] ~= true)) then
                 if QuestieCachedQuests[hash] then
-                    QuestieCachedQuests[hash]["tracked"] = true;
+                    --Questie:debug_Print("Tracker:syncQuestLog --> addQuestToTrackerCache: [Hash: "..hash.."]");
                     QuestieTracker:addQuestToTrackerCache(hash, id, level);
-                    Questie:debug_Print("QuestieTracker:syncQuestLog --> addQuestToTracker: Flagging [Hash: "..hash.."] TRUE");
+                    QuestieTracker:addQuestToTracker(hash);
                 end
             elseif not isHeader and (not QuestLogSync(id) and (QuestieCachedQuests[hash] and QuestieCachedQuests[hash]["tracked"] ~= false)) then
+                --Questie:debug_Print("Tracker:syncQuestLog --> removeQuestFromTracker: Flagging [Hash: "..hash.."] FALSE");
                 QuestieTracker:removeQuestFromTracker(hash);
-                Questie:debug_Print("QuestieTracker:syncQuestLog --> removeQuestFromTracker: Flagging [Hash: "..hash.."] FALSE");
                 RemoveCrazyArrow(hash);
             end
         end
