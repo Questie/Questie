@@ -105,9 +105,8 @@ function Questie:AddQuestToMap(questHash, redraw)
     ques["objectives"] = objectives;
     QuestieHandledQuests[questHash] = ques;
     if (redraw) then
-        --Questie:debug_Print("Notes:AddQuestToMap --> REDRAW VAR Found: [AddEvent:DRAWNOTES]");
-        Questie:SetAvailableQuests();
-        Questie:RedrawNotes();
+        Questie:debug_Print("Notes:AddQuestToMap: redraw VAR true --> Questie:RefreshQuestStatus();");
+        Questie:RefreshQuestStatus();
     end
 end
 ---------------------------------------------------------------------------------------------------
@@ -149,9 +148,8 @@ function Questie:UpdateQuestNotes(questHash, redraw)
     end
     QSelect_QuestLogEntry(prevQuestLogSelection)
     if(redraw) then
-        --Questie:debug_Print("Notes:UpdateQuestNotes --> REDRAW VAR Found: [AddEvent:DRAWNOTES]");
-        Questie:SetAvailableQuests();
-        Questie:RedrawNotes();
+        Questie:debug_Print("Notes:UpdateQuestNotes: redraw VAR true --> Questie:RefreshQuestStatus();");
+        Questie:RefreshQuestStatus();
     end
 end
 ---------------------------------------------------------------------------------------------------
@@ -170,9 +168,8 @@ function Questie:RemoveQuestFromMap(questHash, redraw)
         end
     end
     if(redraw) then
-        --Questie:debug_Print("Notes:RemoveQuestFromMap --> REDRAW VAR Found: [AddEvent:DRAWNOTES]");
-        Questie:SetAvailableQuests();
-        Questie:RedrawNotes();
+        Questie:debug_Print("Notes:RemoveQuestFromMap: redraw VAR true --> Questie:RefreshQuestStatus();");
+        Questie:RefreshQuestStatus();
     end
     if(QuestieHandledQuests[questHash]) then
         QuestieHandledQuests[questHash] = nil;

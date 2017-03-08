@@ -101,6 +101,13 @@ end
 ---------------------------------------------------------------------------------------------------
 QuestRewardCompleteButton = QuestRewardCompleteButton_OnClick;
 QuestRewardCompleteButton_OnClick = function()
+    if Questie:CheckPlayerInventory() == 0 then
+        DEFAULT_CHAT_FRAME:AddMessage("|cFFFF2222 Quest:QuestRewardCompleteButton: Unable to auto complete quest. Player inventory is full!");
+        PlaySound("igQuestLogAbandonQuest");
+        DeclineQuest();
+        HideUIPanel(QuestFrame);
+        return
+    end
     local questTitle = QGet_TitleText();
     local _, _, qlevel, qName = string.find(questTitle, "%[(.+)%] (.+)");
     if qName == nil then
@@ -141,6 +148,13 @@ end
 QuestProgressCompleteButton = QuestProgressCompleteButton_OnClick;
 QuestProgressCompleteButton_OnClick = function()
     if IsQuestCompletable() then
+        if Questie:CheckPlayerInventory() == 0 then
+            DEFAULT_CHAT_FRAME:AddMessage("|cFFFF2222 Quest:QuestProgressCompleteButton: Unable to auto complete quest. Player inventory is full!");
+            PlaySound("igQuestLogAbandonQuest");
+            DeclineQuest();
+            HideUIPanel(QuestFrame);
+            return
+        end
         local questTitle = QGet_TitleText();
         local _, _, qlevel, qName = string.find(questTitle, "%[(.+)%] (.+)");
         if qName == nil then
@@ -192,6 +206,19 @@ function Questie:CompleteQuest()
     if IsAddOnLoaded("EQL3") or IsAddOnLoaded("ShaguQuest") then
         if (QuestlogOptions[EQL3_Player].AutoCompleteQuests == 1) then
             if (IsQuestCompletable()) then
+                if Questie:CheckPlayerInventory() == 0 then
+                    Questie_EQL3ToggleSave = QuestlogOptions[EQL3_Player].AutoCompleteQuests
+                    if QuestlogOptions[EQL3_Player].AutoCompleteQuests == 1 then
+                        QuestlogOptions[EQL3_Player].AutoCompleteQuests = 0;
+                    end
+                    DEFAULT_CHAT_FRAME:AddMessage("|cFFFF2222 Quest:CompleteQuest: Unable to auto complete quest. Player inventory is full!");
+                    PlaySound("igQuestLogAbandonQuest");
+                    DeclineQuest();
+                    HideUIPanel(QuestFrame);
+                    return
+                else
+                    QuestlogOptions[EQL3_Player].AutoCompleteQuests = Questie_EQL3ToggleSave;
+                end
                 local questTitle = QGet_TitleText();
                 local _, _, qlevel, qName = string.find(questTitle, "%[(.+)%] (.+)");
                 if qName == nil then
@@ -238,6 +265,19 @@ end
 function Questie:GetQuestReward()
     if IsAddOnLoaded("EQL3") or IsAddOnLoaded("ShaguQuest") then
         if (QuestlogOptions[EQL3_Player].AutoCompleteQuests == 1) and (GetNumQuestChoices() == 0) then
+            if Questie:CheckPlayerInventory() == 0 then
+                Questie_EQL3ToggleSave = QuestlogOptions[EQL3_Player].AutoCompleteQuests
+                if QuestlogOptions[EQL3_Player].AutoCompleteQuests == 1 then
+                    QuestlogOptions[EQL3_Player].AutoCompleteQuests = 0;
+                end
+                DEFAULT_CHAT_FRAME:AddMessage("|cFFFF2222 Quest:GetQuestReward: Unable to auto complete quest. Player inventory is full!");
+                PlaySound("igQuestLogAbandonQuest");
+                DeclineQuest();
+                HideUIPanel(QuestFrame);
+                return
+            else
+                QuestlogOptions[EQL3_Player].AutoCompleteQuests = Questie_EQL3ToggleSave;
+            end
             local questTitle = QGet_TitleText();
             local _, _, qlevel, qName = string.find(questTitle, "%[(.+)%] (.+)");
             if qName == nil then
@@ -277,46 +317,46 @@ function Questie:GetQuestReward()
     end
 end
 ---------------------------------------------------------------------------------------------------
---This is a catchall for finished quests that don't get picked up by another event
+--Matches a looted item to quest items that are contained in the QuestieCachedQuests table
 ---------------------------------------------------------------------------------------------------
-function Questie:DetectFinishedQuest()
-    if IsQuestCompletable() then
-        local questTitle = QGet_TitleText();
-        local _, _, qlevel, qName = string.find(questTitle, "%[(.+)%] (.+)");
-        if qName == nil then
-            qName = QGet_TitleText();
-        else
-            qName = qName;
-        end
-        local id = 1;
-        local qc = 0;
-        local prevQuestLogSelection = QGet_QuestLogSelection();
-        local nEntry, nQuests = QGet_NumQuestLogEntries();
-        while qc < nQuests do
-            local questName, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(id);
-            if not isHeader and not isCollapsed then
-                if qName == questName then
-                    QSelect_QuestLogEntry(id);
-                    local questText, objectiveText = QGet_QuestLogQuestText();
-                    local hash = Questie:getQuestHash(questName, level, objectiveText);
-                    if (not QuestieSeenQuests[hash]) or (QuestieSeenQuests[hash] == 0) or (QuestieSeenQuests[hash] == -1) then
-                        QuestieSeenQuests[hash] = 1;
-                        QuestieCompletedQuestMessages[qName] = 1;
-                        QuestieCachedQuests[hash] = nil;
-                        QuestieHandledQuests[hash] = nil;
-                        Questie:debug_Print("Quest:DetectFinishedQuest: [questTitle: "..questName.."] | [Hash: "..hash.."]");
-                        Questie:finishAndRecurse(hash);
-                        RemoveCrazyArrow(hash);
-                    end
+function Questie:DetectQuestItem(itemName)
+    for k, v in pairs(QuestieCachedQuests) do
+        local num = v["leaderboards"]
+        for i=1,num do
+            desc = v["objective"..i]["desc"]
+            if (desc) then
+                local  _, _, questItem, itemHave, itemNeed = string.find(desc, "(.+)%: (%d+)/(%d+)");
+                if itemName == questItem and itemHave ~= itemNeed then
+                    --Questie:debug_Print("Quest:DetectQuestItem: [questItem: "..questItem.."] | [itemHave: "..itemHave.."] | [itemNeed: "..itemNeed.."]");
+                    --Questie:debug_Print("Quest:DetectQuestItem: TRUE");
+                    return true
                 end
             end
-            if not isHeader then
-                qc = qc + 1;
-            end
-            id = id + 1;
         end
-        QSelect_QuestLogEntry(prevQuestLogSelection);
     end
+    --Questie:debug_Print("Quest:DetectQuestItem: FALSE");
+    return false
+end
+---------------------------------------------------------------------------------------------------
+--Used to make sure the players inventory isn't full before auto-completing quest.
+---------------------------------------------------------------------------------------------------
+function Questie:CheckPlayerInventory()
+    local totalSlots, usedSlosts, availableSlots;
+    local totalSlots = 0;
+    local usedSlots = 0;
+    for bag = 0, 4 do
+        local size = GetContainerNumSlots(bag);
+        if (size and size > 0) then
+		    totalSlots = totalSlots + size;
+            for slot = 1, size do
+                if (GetContainerItemInfo(bag, slot)) then
+                    usedSlots = usedSlots + 1;
+                end
+            end
+        end
+    end
+    availableSlots = totalSlots - usedSlots;
+    return availableSlots
 end
 ---------------------------------------------------------------------------------------------------
 --Finishes a quest and performs a recrusive check to make sure all the required quests that come
@@ -451,11 +491,9 @@ function Questie:CheckQuestLog()
         Questie:OnLoad_QuestEvents();
         QuestieTracker:initWOWQuestLog();
         --Questie:debug_Print("Quest:CheckQuestLog: QuestLog Changed --> RefreshQuestStatus()");
-        Questie:AddEvent("UPDATE", 1.2);
-        Questie:AddEvent("SYNCLOG", 1.4);
-        Questie:AddEvent("DRAWNOTES", 1.6);
-        Questie:AddEvent("TRACKER", 1.6);
-        QuestieTracker:FillTrackingFrame();
+        Questie:AddEvent("UPDATE", 0.1);
+        Questie:CheckQuestLogStatus();
+        Questie:RefreshQuestStatus();
         _, LastQuestLogCount = QGet_NumQuestLogEntries();
         QUESTIE_LAST_UPDATE_FINISHED = GetTime();
         --Questie:debug_Print("************************| [PRE] CheckLog Complete |************************ ");

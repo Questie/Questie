@@ -352,19 +352,19 @@ end
 ---------------------------------------------------------------------------------------------------
 function Questie:RefreshQuestStatus()
     QUESTIE_UPDATE_EVENT = 1;
-    if (GetTime() - QUESTIE_LAST_SYNCLOG > 0.1) then
+    if (GetTime() - QUESTIE_LAST_SYNCLOG > 0.18) then
         Questie:AddEvent("SYNCLOG", 1);
         QUESTIE_LAST_SYNCLOG = GetTime();
     else
         QUESTIE_LAST_SYNCLOG = GetTime();
     end
-    if (GetTime() - QUESTIE_LAST_DRAWNOTES > 0.1) then
+    if (GetTime() - QUESTIE_LAST_DRAWNOTES > 0.18) then
         Questie:AddEvent("DRAWNOTES", 1.2);
         QUESTIE_LAST_DRAWNOTES = GetTime();
     else
         QUESTIE_LAST_DRAWNOTES = GetTime();
     end
-    if (GetTime() - QUESTIE_LAST_TRACKER > 0.1) then
+    if (GetTime() - QUESTIE_LAST_TRACKER > 0.18) then
         Questie:AddEvent("TRACKER", 1.4);
         QUESTIE_LAST_TRACKER = GetTime();
     else
@@ -378,17 +378,24 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
     -------------------------------------------------
     elseif (event == "CHAT_MSG_LOOT") then
         --Questie:debug_Print("OnEvent: CHAT_MSG_LOOT");
-        local _, _, msg, item = string.find(arg1, "(You receive loot%:) (.+)");
-        if msg then
-            --TODO: build a function that only checks quest items; so for now quest item loots are
-            --handed by the "QUEST_LOG_UPDATE" and "QUEST_ITEM_UPDATE" events.
-            --Questie:CheckQuestLogStatus();
+        local _, _, msg1, item1 = string.find(arg1, "(You receive loot%:) (.+)");
+        local item1 = tostring(item1);
+        local _, _, loot1 = string.find(item1, "%[(.+)%].+");
+        if loot1 then
+            --Questie:debug_Print("OnEvent:CHAT_MSG_LOOT [loot: '"..loot1.."']");
+            if Questie:DetectQuestItem(loot1) then
+                Questie:AddEvent("SYNCLOG", 1);
+            end
         end
-        local _, _, msg, item = string.find(arg1, "(Received item%:) (.+)");
-        if msg then
-            --TODO: build a function that only checks quest items; so for now quest item loots are
-            --handed by the "QUEST_LOG_UPDATE" and "QUEST_ITEM_UPDATE" events.
-            --Questie:CheckQuestLogStatus();
+        -------------------------------------------------
+        local _, _, msg2, item2 = string.find(arg1, "(Received item%:) (.+)");
+        local item2 = tostring(item2);
+        local _, _, loot2 = string.find(item2, "%[(.+)%].+");
+        if loot2 then
+            --Questie:debug_Print("OnEvent:CHAT_MSG_LOOT [loot: '"..loot2.."']");
+            if Questie:DetectQuestItem(loot2) then
+                Questie:AddEvent("SYNCLOG", 1);
+            end
         end
     -------------------------------------------------
     elseif (event == "MINIMAP_UPDATE_ZOOM" ) then
@@ -420,6 +427,7 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
         Questie:BlockTranslations();
         Questie:AddEvent("UPDATECACHE", .5);
         Questie:AddEvent("CHECKLOG", 1);
+        Questie:AddEvent("UPDATE", 1.2);
     -------------------------------------------------
     elseif (event == "PLAYER_UNGHOST") then
         --If the corpseArrow is turned off and if the player has an objective active on the
@@ -439,14 +447,15 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
     -------------------------------------------------
     elseif (event == "QUEST_ITEM_UPDATE") then
         Questie:CheckQuestLogStatus();
+        Questie:RefreshQuestStatus();
     -------------------------------------------------
     elseif(event == "QUEST_PROGRESS") then
         Questie:CompleteQuest();
-        Questie:debug_Print("OnEvent: QUEST_PROGRESS");
+        --Questie:debug_Print("OnEvent: QUEST_PROGRESS");
     -------------------------------------------------
     elseif(event == "QUEST_COMPLETE") then
         Questie:GetQuestReward();
-        Questie:debug_Print("OnEvent: QUEST_COMPLETE");
+        --Questie:debug_Print("OnEvent: QUEST_COMPLETE");
     -------------------------------------------------
     elseif (event == "VARIABLES_LOADED") then
         Questie:SetupDefaults();
