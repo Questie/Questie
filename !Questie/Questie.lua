@@ -384,7 +384,7 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
         if loot1 then
             --Questie:debug_Print("OnEvent:CHAT_MSG_LOOT [loot: '"..loot1.."']");
             if Questie:DetectQuestItem(loot1) then
-                Questie:AddEvent("SYNCLOG", 1);
+                Questie:RefreshQuestStatus();
             end
         end
         -------------------------------------------------
@@ -394,7 +394,7 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
         if loot2 then
             --Questie:debug_Print("OnEvent:CHAT_MSG_LOOT [loot: '"..loot2.."']");
             if Questie:DetectQuestItem(loot2) then
-                Questie:AddEvent("SYNCLOG", 1);
+                Questie:RefreshQuestStatus();
             end
         end
     -------------------------------------------------
@@ -444,6 +444,7 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
         Questie:debug_Print("OnEvent: QUEST_LOG_UPDATE");
         Questie:UpdateGameClientCache();
         Questie:CheckQuestLogStatus();
+        Questie:RefreshQuestStatus();
     -------------------------------------------------
     elseif (event == "QUEST_ITEM_UPDATE") then
         Questie:debug_Print("OnEvent: QUEST_ITEM_UPDATE");
