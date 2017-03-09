@@ -206,6 +206,7 @@ function Questie:CompleteQuest()
     if IsAddOnLoaded("EQL3") or IsAddOnLoaded("ShaguQuest") then
         if (QuestlogOptions[EQL3_Player].AutoCompleteQuests == 1) then
             if (IsQuestCompletable()) then
+                local Questie_EQL3ToggleSave = nil;
                 if Questie:CheckPlayerInventory() == 0 then
                     Questie_EQL3ToggleSave = QuestlogOptions[EQL3_Player].AutoCompleteQuests
                     if QuestlogOptions[EQL3_Player].AutoCompleteQuests == 1 then
@@ -216,7 +217,7 @@ function Questie:CompleteQuest()
                     DeclineQuest();
                     HideUIPanel(QuestFrame);
                     return
-                else
+                elseif Questie_EQL3ToggleSave ~= nil then
                     QuestlogOptions[EQL3_Player].AutoCompleteQuests = Questie_EQL3ToggleSave;
                 end
                 local questTitle = QGet_TitleText();
@@ -266,6 +267,7 @@ function Questie:GetQuestReward()
     if IsAddOnLoaded("EQL3") or IsAddOnLoaded("ShaguQuest") then
         if (QuestlogOptions[EQL3_Player].AutoCompleteQuests == 1) and (GetNumQuestChoices() == 0) then
             if Questie:CheckPlayerInventory() == 0 then
+                local Questie_EQL3ToggleSave = nil;
                 Questie_EQL3ToggleSave = QuestlogOptions[EQL3_Player].AutoCompleteQuests
                 if QuestlogOptions[EQL3_Player].AutoCompleteQuests == 1 then
                     QuestlogOptions[EQL3_Player].AutoCompleteQuests = 0;
@@ -275,7 +277,7 @@ function Questie:GetQuestReward()
                 DeclineQuest();
                 HideUIPanel(QuestFrame);
                 return
-            else
+            elseif Questie_EQL3ToggleSave ~= nil then
                 QuestlogOptions[EQL3_Player].AutoCompleteQuests = Questie_EQL3ToggleSave;
             end
             local questTitle = QGet_TitleText();
