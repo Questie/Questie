@@ -499,8 +499,10 @@ function Questie:CheckQuestLog()
         QuestieTracker:initWOWQuestLog();
         --Questie:debug_Print("Quest:CheckQuestLog: QuestLog Changed --> RefreshQuestStatus()");
         Questie:AddEvent("UPDATE", 0.1);
-        Questie:CheckQuestLogStatus();
-        Questie:RefreshQuestStatus();
+        Questie:AddEvent("UPDATE", 1.2);
+        Questie:AddEvent("SYNCLOG", 1.4);
+        Questie:AddEvent("DRAWNOTES", 1.6);
+        Questie:AddEvent("TRACKER", 1.6);
         _, LastQuestLogCount = QGet_NumQuestLogEntries();
         QUESTIE_LAST_UPDATE_FINISHED = GetTime();
         --Questie:debug_Print("************************| [PRE] CheckLog Complete |************************ ");
