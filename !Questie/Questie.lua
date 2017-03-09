@@ -441,21 +441,22 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
         WorldMapUpdateSpamOff = nil;
     -------------------------------------------------
     elseif (event == "QUEST_LOG_UPDATE") then
-        --Questie:debug_Print("OnEvent: QUEST_LOG_UPDATE");
+        Questie:debug_Print("OnEvent: QUEST_LOG_UPDATE");
         Questie:UpdateGameClientCache();
         Questie:CheckQuestLogStatus();
     -------------------------------------------------
     elseif (event == "QUEST_ITEM_UPDATE") then
+        Questie:debug_Print("OnEvent: QUEST_ITEM_UPDATE");
         Questie:CheckQuestLogStatus();
         Questie:RefreshQuestStatus();
     -------------------------------------------------
     elseif(event == "QUEST_PROGRESS") then
+        Questie:debug_Print("OnEvent: QUEST_PROGRESS");
         Questie:CompleteQuest();
-        --Questie:debug_Print("OnEvent: QUEST_PROGRESS");
     -------------------------------------------------
     elseif(event == "QUEST_COMPLETE") then
+        Questie:debug_Print("OnEvent: QUEST_COMPLETE");
         Questie:GetQuestReward();
-        --Questie:debug_Print("OnEvent: QUEST_COMPLETE");
     -------------------------------------------------
     elseif (event == "VARIABLES_LOADED") then
         Questie:SetupDefaults();
@@ -497,9 +498,9 @@ function Questie:ClearConfig(arg)
         button2 = TEXT(NO),
         OnAccept = function()
             --Clears config
-            QuestieConfig = {};
+            QuestieConfig = nil;
             --Clears tracker settings
-            QuestieTrackerVariables = {};
+            QuestieTrackerVariables = nil;
             --Set default settings
             Questie:SetupDefaults();
             --Clean QuestieSeenQuests DB
@@ -512,8 +513,8 @@ function Questie:ClearConfig(arg)
             end
             --Clear QuestieCachedQuests DB
             QuestieCachedQuests = {};
-            ReloadUI();
             Questie:CheckDefaults();
+            ReloadUI();
         end,
         timeout = 60,
         exclusive = 1,
@@ -542,13 +543,13 @@ function Questie:NUKE(arg)
             --Clears cached quests DB
             QuestieCachedQuests = {};
             --Clears config settings
-            QuestieConfig = {};
+            QuestieConfig = nil;
             --Clears tracker settings
-            QuestieTrackerVariables = {};
+            QuestieTrackerVariables = nil;
             --Set default settings
             Questie:SetupDefaults();
-            ReloadUI();
             Questie:CheckDefaults();
+            ReloadUI();
         end,
         timeout = 60,
         exclusive = 1,
