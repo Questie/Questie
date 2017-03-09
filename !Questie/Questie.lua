@@ -504,12 +504,10 @@ function Questie:ClearConfig(arg)
             --Set default settings
             Questie:SetupDefaults();
             --Clean QuestieSeenQuests DB
-            local index = 0;
-            for i,v in pairs(QuestieSeenQuests) do
-                if (v == 0) or (v == -1) then
-                    QuestieSeenQuests[i] = nil;
+            for k,v in pairs(QuestieSeenQuests) do
+                if (k == 0) or (k == -1) then
+                    QuestieSeenQuests[k] = nil;
                 end
-                index = index + 1;
             end
             --Clear QuestieCachedQuests DB
             QuestieCachedQuests = {};

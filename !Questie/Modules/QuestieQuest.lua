@@ -483,6 +483,11 @@ function Questie:CheckQuestLog()
         end
         LastQuestLogHashes = Questie:AstroGetAllCurrentQuestHashesAsMeta();
         for k, v in pairs(LastQuestLogHashes) do
+            --If a quest is found in the log and for some reason it's set as finished (1), or
+            --missing all together (nill), reset its status back to active (0).
+            if QuestieSeenQuests[k] == 1 or QuestieSeenQuests[k] == nil then
+                QuestieSeenQuests[k] = 0;
+            end
             --This "double-tap" ensures quest data is inserted into the cache
             --Questie:debug_Print("Quest:CheckQuestLog: --> Tracker:addQuestToTrackerCache() [Hash: "..v["hash"].."]");
             QuestieTracker:addQuestToTrackerCache(v["hash"]);

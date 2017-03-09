@@ -1167,13 +1167,13 @@ function QuestieTracker:syncQuestLog()
             QSelect_QuestLogEntry(id);
             local questText, objectiveText = QGet_QuestLogQuestText();
             local hash = Questie:getQuestHash(questName, level, objectiveText);
-            if not isHeader and (QuestLogSync(id) and (QuestieCachedQuests[hash] and QuestieCachedQuests[hash]["tracked"] ~= true)) then
+            if not isHeader and QuestLogSync(id) and (QuestieCachedQuests[hash] and QuestieCachedQuests[hash]["tracked"] ~= true) then
                 if QuestieCachedQuests[hash] then
                     --Questie:debug_Print("Tracker:syncQuestLog --> addQuestToTrackerCache: [Hash: "..hash.."]");
                     QuestieTracker:addQuestToTrackerCache(hash, id, level);
                     QuestieTracker:addQuestToTracker(hash);
                 end
-            elseif not isHeader and (not QuestLogSync(id) and (QuestieCachedQuests[hash] and QuestieCachedQuests[hash]["tracked"] ~= false)) then
+            elseif not isHeader and not QuestLogSync(id) and (QuestieCachedQuests[hash] and QuestieCachedQuests[hash]["tracked"] ~= false) then
                 --Questie:debug_Print("Tracker:syncQuestLog --> removeQuestFromTracker: Flagging [Hash: "..hash.."] FALSE");
                 QuestieTracker:removeQuestFromTracker(hash);
                 RemoveCrazyArrow(hash);
