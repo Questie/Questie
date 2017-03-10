@@ -551,6 +551,7 @@ function Questie:CheckQuestLog()
                 QuestieSeenQuests[v["hash"]] = 0;
                 Questie:debug_Print("Quest:CheckQuestLog: --> Quest:addQuestToTrackerCache() [Hash: "..v["hash"].."]");
                 QuestieTracker:addQuestToTrackerCache(v["hash"]);
+                RemoveCrazyArrow(v["hash"]);
                 QuestieTracker:syncWOWQuestLog();
             end
             MapChanged = true;

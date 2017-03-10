@@ -977,6 +977,7 @@ end
 function QuestieTracker:removeQuestFromTracker(hash)
     if (QuestieSeenQuests[hash] == 0) and (QuestieCachedQuests[hash] ~= nil) then
         QuestieCachedQuests[hash]["tracked"] = false;
+        RemoveCrazyArrow(hash);
         Questie:debug_Print("Tracker:removeQuestFromTracker: [Hash: "..hash.."]");
     end
     QuestieTracker:FillTrackingFrame();
@@ -1176,7 +1177,6 @@ function QuestieTracker:syncQuestLog()
             elseif not isHeader and not QuestLogSync(id) and (QuestieCachedQuests[hash] and QuestieCachedQuests[hash]["tracked"] ~= false) then
                 --Questie:debug_Print("Tracker:syncQuestLog --> removeQuestFromTracker: Flagging [Hash: "..hash.."] FALSE");
                 QuestieTracker:removeQuestFromTracker(hash);
-                RemoveCrazyArrow(hash);
             end
         end
         if not isHeader then
