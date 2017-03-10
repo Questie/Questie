@@ -101,12 +101,14 @@ end
 ---------------------------------------------------------------------------------------------------
 QuestRewardCompleteButton = QuestRewardCompleteButton_OnClick;
 QuestRewardCompleteButton_OnClick = function()
-    if Questie:CheckPlayerInventory() == 0 then
-        DEFAULT_CHAT_FRAME:AddMessage("|cFFFF2222 Quest:QuestRewardCompleteButton: Unable to auto complete quest. Player inventory is full!");
-        PlaySound("igQuestLogAbandonQuest");
-        DeclineQuest();
-        HideUIPanel(QuestFrame);
-        return
+    if IsAddOnLoaded("EQL3") or IsAddOnLoaded("ShaguQuest") then
+        if Questie:CheckPlayerInventory() == 0 then
+            DEFAULT_CHAT_FRAME:AddMessage("|cFFFF2222 Quest:QuestRewardCompleteButton: Unable to auto complete quest. Player inventory is full!");
+            PlaySound("igQuestLogAbandonQuest");
+            DeclineQuest();
+            HideUIPanel(QuestFrame);
+            return
+        end
     end
     local questTitle = QGet_TitleText();
     local _, _, qlevel, qName = string.find(questTitle, "%[(.+)%] (.+)");
@@ -148,12 +150,14 @@ end
 QuestProgressCompleteButton = QuestProgressCompleteButton_OnClick;
 QuestProgressCompleteButton_OnClick = function()
     if IsQuestCompletable() then
-        if Questie:CheckPlayerInventory() == 0 then
-            DEFAULT_CHAT_FRAME:AddMessage("|cFFFF2222 Quest:QuestProgressCompleteButton: Unable to auto complete quest. Player inventory is full!");
-            PlaySound("igQuestLogAbandonQuest");
-            DeclineQuest();
-            HideUIPanel(QuestFrame);
-            return
+        if IsAddOnLoaded("EQL3") or IsAddOnLoaded("ShaguQuest") then
+            if Questie:CheckPlayerInventory() == 0 then
+                DEFAULT_CHAT_FRAME:AddMessage("|cFFFF2222 Quest:QuestProgressCompleteButton: Unable to auto complete quest. Player inventory is full!");
+                PlaySound("igQuestLogAbandonQuest");
+                DeclineQuest();
+                HideUIPanel(QuestFrame);
+                return
+            end
         end
         local questTitle = QGet_TitleText();
         local _, _, qlevel, qName = string.find(questTitle, "%[(.+)%] (.+)");
