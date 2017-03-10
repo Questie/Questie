@@ -1126,7 +1126,7 @@ function QuestieTracker:initWOWQuestLog()
                     local hash = Questie:getQuestHash(questName, level, objectiveText);
                     if not isHeader and (QuestieSeenQuests[hash] == 0 and (QuestieCachedQuests[hash] and QuestieCachedQuests[hash]["tracked"] == true)) then
                         AddQuestWatch(id);
-                        Questie:debug_Print("Tracker:initWOWQuestLog --> AutoQuestWatch_Insert: [ID: "..id.."] | [hash: "..hash.."]");
+                        --Questie:debug_Print("Tracker:initWOWQuestLog --> AutoQuestWatch_Insert: [ID: "..id.."] | [hash: "..hash.."]");
                         QuestWatch_Update();
                         -- Prevents QuestWatcher "flickering bug"
                         if (QuestieConfig.trackerEnabled == true) then

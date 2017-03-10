@@ -440,9 +440,25 @@ function Questie:UpdateGameClientCache()
                 QSelect_QuestLogEntry(id);
                 local questText, objectiveText = QGet_QuestLogQuestText();
                 local hash = Questie:getQuestHash(questName, level, objectiveText);
-                Questie:AddQuestToMap(hash);
-                QuestieTracker:addQuestToTrackerCache(hash);
-                Questie:AddQuestToMap(hash);
+                for index=1, QGet_NumQuestLeaderBoards(id) do
+                    local desc = QGet_QuestLogLeaderBoard(index, id);
+                    local objectiveName = desc;
+                    local splitIndex = findLast(objectiveName, ":");
+                    if splitIndex ~= nil then
+                        objectiveName = string.sub(objectiveName, 1, splitIndex-1);
+                        if (string.find(objectiveName, " slain")) then
+                            objectiveName = string.sub(objectiveName, 1, string.len(objectiveName)-6);
+                        end
+                    end
+                    if (not LastQuestLogHashes) or (QuestieHandledQuests[hash] and QuestieHandledQuests[hash]["objectives"] and QuestieHandledQuests[hash]["objectives"][index]["name"] ~= objectiveName) then
+                        Questie:AddQuestToMap(hash);
+                        --Questie:debug_Print("Quest:UpdateGameClientCache --> Questie:AddQuestToMap(): [Name: "..QuestieHandledQuests[hash]["objectives"][index]["name"].."]");
+                    end
+                end
+                if (not LastQuestLogHashes) or (QuestieCachedQuests[hash] and QuestieCachedQuests[hash]["questName"] ~= questName) then
+                    QuestieTracker:addQuestToTrackerCache(hash);
+                    --Questie:debug_Print("Quest:UpdateGameClientCache --> Questie:addQuestToTrackerCache(): [Hash: "..hash.."]");
+                end
             end
             if not isHeader then
                 qc = qc + 1;
