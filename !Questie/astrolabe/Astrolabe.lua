@@ -272,8 +272,8 @@ function Astrolabe:PlaceIconOnMinimap( icon, continent, zone, xPos, yPos )
     iconData.yDist = yDist;
     --show the new icon and force a placement update on the next screen draw
     icon:Show()
-    self.UpdateTimer = 0;
     Astrolabe.ForceNextUpdate = true;
+    Astrolabe:UpdateMinimapIconPositions();
     return 0;
 end
 

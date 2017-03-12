@@ -37,64 +37,34 @@ QUESTIE_LAST_UPDATECACHE = GetTime();
 ---------------------------------------------------------------------------------------------------
 QuestAbandonOnAccept = StaticPopupDialogs["ABANDON_QUEST"].OnAccept;
 StaticPopupDialogs["ABANDON_QUEST"].OnAccept = function()
-    local prevQuestLogSelection = QGet_QuestLogSelection();
-    local id = 1;
-    local qc = 0;
     local qName = GetAbandonQuestName();
-    local nEntry, nQuests = QGet_NumQuestLogEntries();
-    while qc < nQuests do
-        local questName, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(id);
-        if not isHeader and not isCollapsed then
-            if qName == questName then
-                QSelect_QuestLogEntry(id);
-                local questText, objectiveText = QGet_QuestLogQuestText();
-                local hash = Questie:getQuestHash(questName, level, objectiveText);
-                QuestieSeenQuests[hash] = -1;
-                QuestieCachedQuests[hash] = nil;
-                QuestieHandledQuests[hash] = nil;
-                --Questie:debug_Print("Quest:QuestAbandonOnAccept: [questTitle: "..questName.."] | [Hash: "..hash.."]");
-                RemoveCrazyArrow(hash);
-                QuestAbandonOnAccept();
-            end
+    for hash,v in pairs(QuestieCachedQuests) do
+        if v["questName"] == qName then
+            QuestieSeenQuests[hash] = -1;
+            QuestieCachedQuests[hash] = nil;
+            QuestieHandledQuests[hash] = nil;
+            Questie:debug_Print("Quest:QuestAbandonOnAccept: [questTitle: "..qName.."] | [Hash: "..hash.."]");
+            RemoveCrazyArrow(hash);
         end
-        if not isHeader then
-            qc = qc + 1;
-        end
-        id = id + 1;
+        QuestAbandonOnAccept();
     end
-    QSelect_QuestLogEntry(prevQuestLogSelection);
 end
 ---------------------------------------------------------------------------------------------------
 --Blizzard Hook: Quest Abandon With Items On Accept
 ---------------------------------------------------------------------------------------------------
 QuestAbandonWithItemsOnAccept = StaticPopupDialogs["ABANDON_QUEST_WITH_ITEMS"].OnAccept;
 StaticPopupDialogs["ABANDON_QUEST_WITH_ITEMS"].OnAccept = function()
-    local prevQuestLogSelection = QGet_QuestLogSelection();
-    local id = 1;
-    local qc = 0;
     local qName = GetAbandonQuestName();
-    local nEntry, nQuests = QGet_NumQuestLogEntries();
-    while qc < nQuests do
-        local questName, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(id);
-        if not isHeader and not isCollapsed then
-            if qName == questName then
-                QSelect_QuestLogEntry(id);
-                local questText, objectiveText = QGet_QuestLogQuestText();
-                local hash = Questie:getQuestHash(questName, level, objectiveText);
-                QuestieSeenQuests[hash] = -1;
-                QuestieCachedQuests[hash] = nil;
-                QuestieHandledQuests[hash] = nil;
-                --Questie:debug_Print("Quest:QuestAbandonWithItemsOnAccept: [questTitle: "..questName.."] | [Hash: "..hash.."]");
-                RemoveCrazyArrow(hash);
-                QuestAbandonWithItemsOnAccept();
-            end
+    for hash,v in pairs(QuestieCachedQuests) do
+        if v["questName"] == qName then
+            QuestieSeenQuests[hash] = -1;
+            QuestieCachedQuests[hash] = nil;
+            QuestieHandledQuests[hash] = nil;
+            Questie:debug_Print("Quest:QuestAbandonWithItemsOnAccept: [questTitle: "..qName.."] | [Hash: "..hash.."]");
+            RemoveCrazyArrow(hash);
         end
-        if not isHeader then
-            qc = qc + 1;
-        end
-        id = id + 1;
+        QuestAbandonWithItemsOnAccept();
     end
-    QSelect_QuestLogEntry(prevQuestLogSelection);
 end
 ---------------------------------------------------------------------------------------------------
 --Blizzard Hook: Quest Reward Complete Button
@@ -117,32 +87,17 @@ QuestRewardCompleteButton_OnClick = function()
     else
         qName = qName;
     end
-    local id = 1;
-    local qc = 0;
-    local prevQuestLogSelection = QGet_QuestLogSelection();
-    local nEntry, nQuests = QGet_NumQuestLogEntries();
-    while qc < nQuests do
-        local questName, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(id);
-        if not isHeader and not isCollapsed then
-            if qName == questName then
-                QSelect_QuestLogEntry(id);
-                local questText, objectiveText = QGet_QuestLogQuestText();
-                local hash = Questie:getQuestHash(questName, level, objectiveText);
-                QuestieSeenQuests[hash] = 1;
-                QuestieCompletedQuestMessages[qName] = 1;
-                QuestieCachedQuests[hash] = nil;
-                QuestieHandledQuests[hash] = nil;
-                --Questie:debug_Print("Quest:QuestRewardCompleteButton: [questTitle: "..questName.."] | [Hash: "..hash.."]");
-                RemoveCrazyArrow(hash);
-                QuestRewardCompleteButton();
-            end
+    for hash,v in pairs(QuestieCachedQuests) do
+        if v["questName"] == qName then
+            QuestieSeenQuests[hash] = 1;
+            QuestieCompletedQuestMessages[qName] = 1;
+            QuestieCachedQuests[hash] = nil;
+            QuestieHandledQuests[hash] = nil;
+            Questie:debug_Print("Quest:QuestRewardCompleteButton: [questTitle: "..qName.."] | [Hash: "..hash.."]");
+            RemoveCrazyArrow(hash);
         end
-        if not isHeader then
-            qc = qc + 1;
-        end
-        id = id + 1;
     end
-    QSelect_QuestLogEntry(prevQuestLogSelection);
+    QuestRewardCompleteButton();
 end
 ---------------------------------------------------------------------------------------------------
 --Blizzard Hook: Quest Progress Complete Button
@@ -166,33 +121,18 @@ QuestProgressCompleteButton_OnClick = function()
         else
             qName = qName;
         end
-        local id = 1;
-        local qc = 0;
-        local prevQuestLogSelection = QGet_QuestLogSelection();
-        local nEntry, nQuests = QGet_NumQuestLogEntries();
-        while qc < nQuests do
-            local questName, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(id);
-            if not isHeader and not isCollapsed then
-                if qName == questName then
-                    QSelect_QuestLogEntry(id);
-                    local questText, objectiveText = QGet_QuestLogQuestText();
-                    local hash = Questie:getQuestHash(questName, level, objectiveText);
-                    QuestieSeenQuests[hash] = 1;
-                    QuestieCompletedQuestMessages[qName] = 1;
-                    QuestieCachedQuests[hash] = nil;
-                    QuestieHandledQuests[hash] = nil;
-                    --Questie:debug_Print("Quest:QuestProgressCompleteButton: [questTitle: "..questName.."] | [Hash: "..hash.."]");
-                    RemoveCrazyArrow(hash);
-                    QuestProgressCompleteButton();
-                end
+        for hash,v in pairs(QuestieCachedQuests) do
+            if v["questName"] == qName then
+                QuestieSeenQuests[hash] = 1;
+                QuestieCompletedQuestMessages[qName] = 1;
+                QuestieCachedQuests[hash] = nil;
+                QuestieHandledQuests[hash] = nil;
+                Questie:debug_Print("Quest:QuestProgressCompleteButton: [questTitle: "..qName.."] | [Hash: "..hash.."]");
+                RemoveCrazyArrow(hash);
             end
-            if not isHeader then
-                qc = qc + 1;
-            end
-            id = id + 1;
         end
-        QSelect_QuestLogEntry(prevQuestLogSelection);
     end
+    QuestProgressCompleteButton();
 end
 ---------------------------------------------------------------------------------------------------
 --Blizzard Hook: Quest Progress Accept Button
@@ -231,34 +171,19 @@ function Questie:CompleteQuest()
                 else
                     qName = qName;
                 end
-                local id = 1;
-                local qc = 0;
-                local prevQuestLogSelection = QGet_QuestLogSelection();
-                local nEntry, nQuests = QGet_NumQuestLogEntries();
-                while qc < nQuests do
-                    local questName, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(id);
-                    if not isHeader and not isCollapsed then
-                        if qName == questName then
-                            QSelect_QuestLogEntry(id);
-                            local questText, objectiveText = QGet_QuestLogQuestText();
-                            local hash = Questie:getQuestHash(questName, level, objectiveText);
-                            if (not QuestieSeenQuests[hash]) or (QuestieSeenQuests[hash] == 0) or (QuestieSeenQuests[hash] == -1) then
-                                QuestieSeenQuests[hash] = 1;
-                                QuestieCompletedQuestMessages[qName] = 1;
-                                QuestieCachedQuests[hash] = nil;
-                                QuestieHandledQuests[hash] = nil;
-                                Questie:debug_Print("Quest:CompleteQuest: [questTitle: "..questName.."] | [Hash: "..hash.."]");
-                                Questie:finishAndRecurse(hash);
-                                RemoveCrazyArrow(hash);
-                            end
+                for hash,v in pairs(QuestieCachedQuests) do
+                    if v["questName"] == qName then
+                        if (not QuestieSeenQuests[hash]) or (QuestieSeenQuests[hash] == 0) or (QuestieSeenQuests[hash] == -1) then
+                            QuestieSeenQuests[hash] = 1;
+                            QuestieCompletedQuestMessages[qName] = 1;
+                            QuestieCachedQuests[hash] = nil;
+                            QuestieHandledQuests[hash] = nil;
+                            Questie:debug_Print("Quest:CompleteQuest: [questTitle: "..qName.."] | [Hash: "..hash.."]");
+                            Questie:finishAndRecurse(hash);
+                            RemoveCrazyArrow(hash);
                         end
                     end
-                    if not isHeader then
-                        qc = qc + 1;
-                    end
-                    id = id + 1;
                 end
-                QSelect_QuestLogEntry(prevQuestLogSelection);
             end
         end
     end
@@ -269,14 +194,14 @@ end
 ---------------------------------------------------------------------------------------------------
 function Questie:GetQuestReward()
     if IsAddOnLoaded("EQL3") or IsAddOnLoaded("ShaguQuest") then
-        if (QuestlogOptions[EQL3_Player].AutoCompleteQuests == 1) and (GetNumQuestChoices() == 0) then
-            if Questie:CheckPlayerInventory() == 0 then
+        if (QuestlogOptions[EQL3_Player].AutoCompleteQuests) and (GetNumQuestChoices() == 0) then
+            if GetNumQuestRewards() > Questie:CheckPlayerInventory() then
                 local Questie_EQL3ToggleSave = nil;
                 Questie_EQL3ToggleSave = QuestlogOptions[EQL3_Player].AutoCompleteQuests
                 if QuestlogOptions[EQL3_Player].AutoCompleteQuests == 1 then
                     QuestlogOptions[EQL3_Player].AutoCompleteQuests = 0;
                 end
-                DEFAULT_CHAT_FRAME:AddMessage("|cFFFF2222 Quest:GetQuestReward: Unable to auto complete quest. Player inventory is full!");
+                DEFAULT_CHAT_FRAME:AddMessage("|cFFFF2222 Quest:GetQuestReward: Player inventory is full or not enough slots for rewards!");
                 PlaySound("igQuestLogAbandonQuest");
                 DeclineQuest();
                 HideUIPanel(QuestFrame);
@@ -291,34 +216,19 @@ function Questie:GetQuestReward()
             else
                 qName = qName;
             end
-            local id = 1;
-            local qc = 0;
-            local prevQuestLogSelection = QGet_QuestLogSelection();
-            local nEntry, nQuests = QGet_NumQuestLogEntries();
-            while qc < nQuests do
-                local questName, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(id);
-                if not isHeader and not isCollapsed then
-                    if qName == questName then
-                        QSelect_QuestLogEntry(id);
-                        local questText, objectiveText = QGet_QuestLogQuestText();
-                        local hash = Questie:getQuestHash(questName, level, objectiveText);
-                        if (not QuestieSeenQuests[hash]) or (QuestieSeenQuests[hash] == 0) or (QuestieSeenQuests[hash] == -1) then
-                            QuestieSeenQuests[hash] = 1;
-                            QuestieCompletedQuestMessages[qName] = 1;
-                            QuestieCachedQuests[hash] = nil;
-                            QuestieHandledQuests[hash] = nil;
-                            Questie:debug_Print("Quest:GetQuestReward: [questTitle: "..questName.."] | [Hash: "..hash.."]");
-                            Questie:finishAndRecurse(hash);
-                            RemoveCrazyArrow(hash);
-                        end
+            for hash,v in pairs(QuestieCachedQuests) do
+                if v["questName"] == qName then
+                    if (not QuestieSeenQuests[hash]) or (QuestieSeenQuests[hash] == 0) or (QuestieSeenQuests[hash] == -1) then
+                        QuestieSeenQuests[hash] = 1;
+                        QuestieCompletedQuestMessages[qName] = 1;
+                        QuestieCachedQuests[hash] = nil;
+                        QuestieHandledQuests[hash] = nil;
+                        Questie:debug_Print("Quest:GetQuestReward: [questTitle: "..qName.."] | [Hash: "..hash.."]");
+                        Questie:finishAndRecurse(hash);
+                        RemoveCrazyArrow(hash);
                     end
                 end
-                if not isHeader then
-                    qc = qc + 1;
-                end
-                id = id + 1;
             end
-            QSelect_QuestLogEntry(prevQuestLogSelection);
         end
     end
 end
@@ -460,7 +370,7 @@ function Questie:UpdateGameClientCache()
                     end
                 end
                 if (not LastQuestLogHashes) or (QuestieCachedQuests[hash] and QuestieCachedQuests[hash]["questName"] ~= questName) then
-                    QuestieTracker:addQuestToTrackerCache(hash);
+                    QuestieTracker:addQuestToTrackerCache(hash, id, level);
                     --Questie:debug_Print("Quest:UpdateGameClientCache --> Questie:addQuestToTrackerCache(): [Hash: "..hash.."]");
                 end
             end
@@ -515,14 +425,12 @@ function Questie:CheckQuestLog()
             QuestieTracker:addQuestToTrackerCache(v["hash"]);
             Questie:AddQuestToMap(v["hash"]);
         end
+        --Questie:debug_Print("Quest:CheckQuestLog: Loading Complete --> Registering Quest Events");
         Questie:OnLoad_QuestEvents();
         QuestieTracker:initWOWQuestLog();
         --Questie:debug_Print("Quest:CheckQuestLog: QuestLog Changed --> RefreshQuestStatus()");
-        Questie:AddEvent("UPDATE", 0.1);
-        Questie:AddEvent("UPDATE", 1.2);
-        Questie:AddEvent("SYNCLOG", 1.4);
-        Questie:AddEvent("DRAWNOTES", 1.6);
-        Questie:AddEvent("TRACKER", 1.6);
+        Questie:RefreshQuestStatus();
+        QuestieTracker:FillTrackingFrame();
         _, LastQuestLogCount = QGet_NumQuestLogEntries();
         QUESTIE_LAST_UPDATE_FINISHED = GetTime();
         --Questie:debug_Print("************************| [PRE] CheckLog Complete |************************ ");
@@ -587,7 +495,7 @@ function Questie:CheckQuestLog()
                 end
             --This clears cache of abandoned quests
             elseif (QuestieSeenQuests[v["hash"]] == -1) then
-                QuestieTracker:removeQuestFromTracker(v["hash"]);
+                --QuestieTracker:removeQuestFromTracker(v["hash"]);
                 QuestieCachedQuests[v["hash"]] = nil;
                 QuestieSeenQuests[v["hash"]] = nil;
                 QUEST_WATCH_LIST[v["hash"]] = nil;
@@ -611,8 +519,7 @@ function Questie:CheckQuestLog()
     LastQuestLogHashes = Quests;
     LastQuestLogCount = QuestsCount;
     if (MapChanged == true) then
-        Questie:debug_Print("Quest:CheckQuestLog: QuestLog Changed --> [AddEvent:DRAWNOTES]");
-        Questie:CheckQuestLog();
+        Questie:debug_Print("Quest:CheckQuestLog: QuestLog Changed --> Questie:RefreshQuestStatus()");
         Questie:RefreshQuestStatus();
         QUESTIE_LAST_UPDATE_FINISHED = GetTime();
         Questie:debug_Print("Quest:CheckQuestLog: UPON EXIT: [QuestsCount: "..QuestsCount.."] | [LastCount: "..LastQuestLogCount.."]");

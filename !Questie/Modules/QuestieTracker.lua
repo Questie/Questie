@@ -741,7 +741,6 @@ function QuestLogTitleButton_OnClick(button)
                         Questie:AddEvent("SYNCLOG", 0);
                         if QuestieConfig["alwaysShowObjectives"] == false then
                             Questie:AddEvent("DRAWNOTES", 0.1);
-                            Questie:AddEvent("TRACKER", 0.5);
                         end
                         QuestWatch_Update();
                         QuestLog_Update();
@@ -754,18 +753,16 @@ function QuestLogTitleButton_OnClick(button)
                     else
                         if (IsQuestWatched(questIndex)) then
                             RemoveQuestWatch(questIndex);
-                            Questie:AddEvent("SYNCLOG", 0);
                         else
                             if (GetNumQuestWatches() >= 20) then
                                 UIErrorsFrame:AddMessage(format(QUEST_WATCH_TOO_MANY, "20"), 1.0, 0.1, 0.1, 1.0, UIERRORS_HOLD_TIME);
                                 return;
                             end
                             AddQuestWatch(questIndex);
-                            Questie:AddEvent("SYNCLOG", 0);
                         end
+                        Questie:AddEvent("SYNCLOG", 0);
                         if QuestieConfig["alwaysShowObjectives"] == false then
                             Questie:AddEvent("DRAWNOTES", 0.1);
-                            Questie:AddEvent("TRACKER", 0.5);
                         end
                         QuestWatch_Update();
                     end
@@ -1076,17 +1073,10 @@ end
 function QuestieTracker:syncWOWQuestLog()
     if (not IsAddOnLoaded("EQL3")) and (not IsAddOnLoaded("ShaguQuest")) then
         if (AUTO_QUEST_WATCH == "1") then
-            local prevQuestLogSelection = QGet_QuestLogSelection();
-            local id = 1;
-            local qc = 0;
-            local nEntry, nQuests = QGet_NumQuestLogEntries();
-            while qc < nQuests do
-                local questName, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(id);
-                if not isHeader and not isCollapsed then
-                    QSelect_QuestLogEntry(id);
-                    local questText, objectiveText = QGet_QuestLogQuestText();
-                    local hash = Questie:getQuestHash(questName, level, objectiveText);
-                    if not isHeader and (QuestieSeenQuests[hash] == 0 and QuestieCachedQuests[hash]["tracked"] == false) then
+            for hash,v in pairs(QuestieCachedQuests) do
+                if hash and v["logId"] then
+                    local id = v["logId"]
+                    if QuestieSeenQuests[hash] == 0 and QuestieCachedQuests[hash]["tracked"] == false then
                         AddQuestWatch(id);
                         Questie:debug_Print("Tracker:syncWOWQuestLog --> AutoQuestWatch_Insert: [ID: "..id.."] | [hash: "..hash.."]");
                         QuestWatch_Update();
@@ -1098,12 +1088,7 @@ function QuestieTracker:syncWOWQuestLog()
                         QuestLog_Update();
                     end
                 end
-                if not isHeader then
-                    qc = qc + 1;
-                end
-                id = id + 1;
             end
-            QSelect_QuestLogEntry(prevQuestLogSelection);
         end
     end
 end
@@ -1114,17 +1099,10 @@ end
 function QuestieTracker:initWOWQuestLog()
     if (not IsAddOnLoaded("EQL3")) and (not IsAddOnLoaded("ShaguQuest")) then
         if (AUTO_QUEST_WATCH == "1") then
-            local prevQuestLogSelection = QGet_QuestLogSelection();
-            local id = 1;
-            local qc = 0;
-            local nEntry, nQuests = QGet_NumQuestLogEntries();
-            while qc < nQuests do
-                local questName, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(id);
-                if not isHeader and not isCollapsed then
-                    QSelect_QuestLogEntry(id);
-                    local questText, objectiveText = QGet_QuestLogQuestText();
-                    local hash = Questie:getQuestHash(questName, level, objectiveText);
-                    if not isHeader and (QuestieSeenQuests[hash] == 0 and (QuestieCachedQuests[hash] and QuestieCachedQuests[hash]["tracked"] == true)) then
+            for hash,v in pairs(QuestieCachedQuests) do
+                if hash and v["logId"] then
+                    local id = v["logId"]
+                    if QuestieSeenQuests[hash] == 0 and QuestieCachedQuests[hash]["tracked"] == true then
                         AddQuestWatch(id);
                         --Questie:debug_Print("Tracker:initWOWQuestLog --> AutoQuestWatch_Insert: [ID: "..id.."] | [hash: "..hash.."]");
                         QuestWatch_Update();
@@ -1136,12 +1114,7 @@ function QuestieTracker:initWOWQuestLog()
                         QuestLog_Update();
                     end
                 end
-                if not isHeader then
-                    qc = qc + 1;
-                end
-                id = id + 1;
             end
-            QSelect_QuestLogEntry(prevQuestLogSelection);
         end
     end
 end
@@ -1185,6 +1158,7 @@ function QuestieTracker:syncQuestLog()
         id = id + 1;
     end
     QSelect_QuestLogEntry(prevQuestLogSelection);
+    QuestieTracker:FillTrackingFrame();
 end
 ---------------------------------------------------------------------------------------------------
 -- Saves the position of the tracker after the user moves it
