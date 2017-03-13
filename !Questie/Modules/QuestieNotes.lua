@@ -292,110 +292,109 @@ end
 ---------------------------------------------------------------------------------------------------
 function Questie:Tooltip(this, forceShow, bag, slot)
     if (QuestieConfig.showToolTips == false) then return end
-    if (QuestieConfig.showToolTips == true) then
-        local monster = UnitName("mouseover")
-        local objective = GameTooltipTextLeft1:GetText();
-        local cacheKey = ""-- .. monster .. objective;
-        local validKey = false;
-        if(monster) then
-            cacheKey = cacheKey .. monster;
-            validKey = true;
-        end
-        if(objective) then
-            cacheKey = cacheKey .. objective;
-            validKey = true;
-        end
-        if not validKey then
-            return;
-        end
-        local reaction = UnitReaction("mouseover", "player");
-        local unitColorRGB = Questie:GetReactionColor(reaction);
-        local unitColor = "ff"..fRGBToHex(unitColorRGB.r, unitColorRGB.g, unitColorRGB.b);
-        if (Questie_TooltipCache[cacheKey] == nil) or (QUESTIE_LAST_UPDATE_FINISHED - Questie_TooltipCache[cacheKey]['updateTime']) > 0 then
-            -- Create or Update Tooltip Cache
-            Questie_TooltipCache[cacheKey] = {};
-            Questie_TooltipCache[cacheKey]['lines'] = {};
-            Questie_TooltipCache[cacheKey]['lineCount'] = 1;
-            Questie_TooltipCache[cacheKey]['updateTime'] = GetTime();
-            local prevQuestLogSelection = QGet_QuestLogSelection();
-            for questHash, quest in pairs(QuestieHandledQuests) do
-                local QuestLogID = Questie:GetQuestIdFromHash(questHash);
-                QSelect_QuestLogEntry(QuestLogID);
-                local drawnQuestTitle = false;
-                for objectiveid, objectiveInfo in pairs(quest.objectives) do
-                    local objectivePath = deepcopy(objectiveInfo.path);
-                    Questie:PostProcessIconPath(objectivePath);
-                    local highlightInfo = {
-                        ["text"] = objective,
-                        ["color"] = unitColor
-                    };
-                    local lines, sourceNames = Questie:GetTooltipLines(objectivePath, 1, highlightInfo);
-                    if objectiveInfo.name == objective or sourceNames[objective] then
-                        local lineIndex = Questie_TooltipCache[cacheKey]['lineCount'];
-                        if drawnQuestTitle == false then
-                            local q, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(QuestLogID);
-                            local questInfo = QuestieHashMap[questHash];
-                            local colorString = "|c" .. QuestieTracker:GetDifficultyColor(questInfo.questLevel);
-                            local title = colorString;
-                            title = title .. "[" .. questInfo.questLevel .. "] ";
-                            title = title .. questInfo.name .. "|r";
+
+    local monster = UnitName("mouseover")
+    local objective = GameTooltipTextLeft1:GetText()
+    local cacheKey = ""-- .. monster .. objective
+    local validKey = false
+    if(monster) then
+        cacheKey = cacheKey .. monster
+        validKey = true
+    end
+    if(objective) then
+        cacheKey = cacheKey .. objective
+        validKey = true
+    end
+    if not validKey then
+        return
+    end
+    local reaction = UnitReaction("mouseover", "player")
+    local unitColorRGB = Questie:GetReactionColor(reaction)
+    local unitColor = "ff"..fRGBToHex(unitColorRGB.r, unitColorRGB.g, unitColorRGB.b)
+    if (Questie_TooltipCache[cacheKey] == nil) or (QUESTIE_LAST_UPDATE_FINISHED - Questie_TooltipCache[cacheKey]['updateTime']) > 0 then
+        -- Create or Update Tooltip Cache
+        Questie_TooltipCache[cacheKey] = {}
+        Questie_TooltipCache[cacheKey]['lines'] = {}
+        Questie_TooltipCache[cacheKey]['lineCount'] = 1
+        Questie_TooltipCache[cacheKey]['updateTime'] = GetTime()
+        local prevQuestLogSelection = QGet_QuestLogSelection()
+        for questHash, quest in pairs(QuestieHandledQuests) do
+            local QuestLogID = Questie:GetQuestIdFromHash(questHash)
+            QSelect_QuestLogEntry(QuestLogID)
+            local drawnQuestTitle = false
+            for objectiveid, objectiveInfo in pairs(quest.objectives) do
+                local objectivePath = deepcopy(objectiveInfo.path)
+                Questie:PostProcessIconPath(objectivePath)
+                local highlightInfo = {
+                    ["text"] = objective,
+                    ["color"] = unitColor
+                }
+                local lines, sourceNames = Questie:GetTooltipLines(objectivePath, 1, highlightInfo)
+                if objectiveInfo.name == objective or sourceNames[objective] then
+                    local lineIndex = Questie_TooltipCache[cacheKey]['lineCount']
+                    if drawnQuestTitle == false then
+                        local q, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(QuestLogID)
+                        local questInfo = QuestieHashMap[questHash]
+                        local colorString = "|c" .. QuestieTracker:GetDifficultyColor(questInfo.questLevel)
+                        local title = colorString
+                        title = title .. "[" .. questInfo.questLevel .. "] "
+                        title = title .. questInfo.name .. "|r"
+                        Questie_TooltipCache[cacheKey]['lines'][lineIndex] = {
+                            ['color'] = {1,1,1},
+                            ['data'] = " "
+                        }
+                        lineIndex = lineIndex + 1
+                        Questie_TooltipCache[cacheKey]['lines'][lineIndex] = {
+                            ['color'] = {1,1,1},
+                            ['data'] = title
+                        }
+                        lineIndex = lineIndex + 1
+                        drawnQuestTitle = true
+                    end
+                    local desc, type, done = QGet_QuestLogLeaderBoard(objectiveid)
+                    if done then
+                        Questie_TooltipCache[cacheKey]['lines'][lineIndex] = {
+                            ['color'] = {0.2,1,0.3},
+                            ['data'] = desc
+                        }
+                        lineIndex = lineIndex + 1
+                        Questie_TooltipCache[cacheKey]['lineCount'] = lineIndex
+                    else
+                        desc = string.gsub(desc, objective, "|c"..unitColor..objective.."|r")
+                        Questie_TooltipCache[cacheKey]['lines'][lineIndex] = {
+                            ['color'] = {1,1,1},
+                            ['data'] = desc
+                        }
+                        lineIndex = lineIndex + 1
+                        for i, line in pairs(lines) do
                             Questie_TooltipCache[cacheKey]['lines'][lineIndex] = {
                                 ['color'] = {1,1,1},
-                                ['data'] = " "
-                            };
-                            lineIndex = lineIndex + 1;
-                            Questie_TooltipCache[cacheKey]['lines'][lineIndex] = {
-                                ['color'] = {1,1,1},
-                                ['data'] = title
-                            };
-                            lineIndex = lineIndex + 1;
-                            drawnQuestTitle = true;
-                        end
-                        local desc, type, done = QGet_QuestLogLeaderBoard(objectiveid);
-                        if done then
-                            Questie_TooltipCache[cacheKey]['lines'][lineIndex] = {
-                                ['color'] = {0.2,1,0.3},
-                                ['data'] = desc
-                            };
+                                ['data'] = line
+                            }
                             lineIndex = lineIndex + 1
-                            Questie_TooltipCache[cacheKey]['lineCount'] = lineIndex
-                        else
-                            desc = string.gsub(desc, objective, "|c"..unitColor..objective.."|r")
-                            Questie_TooltipCache[cacheKey]['lines'][lineIndex] = {
-                                ['color'] = {1,1,1},
-                                ['data'] = desc
-                            };
-                            lineIndex = lineIndex + 1
-                            for i, line in pairs(lines) do
-                                Questie_TooltipCache[cacheKey]['lines'][lineIndex] = {
-                                    ['color'] = {1,1,1},
-                                    ['data'] = line
-                                };
-                                lineIndex = lineIndex + 1
-                            end
-                            Questie_TooltipCache[cacheKey]['lineCount'] = lineIndex
                         end
+                        Questie_TooltipCache[cacheKey]['lineCount'] = lineIndex
                     end
                 end
             end
-            QSelect_QuestLogEntry(prevQuestLogSelection);
         end
-        for k, v in pairs(Questie_TooltipCache[cacheKey]['lines']) do
-            if (not __TT_LineCache[k]) or (not __TT_LineCache[k][v['data']]) then
-                GameTooltip:AddLine(v['data'], v['color'][1], v['color'][2], v['color'][3], true, k);
-            end
-        end
-        if(QUESTIE_DEBUG_TOOLTIP) then
-            GameTooltip:AddLine("--Questie hook--");
-        end
-        if(forceShow) then
-            GameTooltip:Show();
-        end
-        GameTooltip.QuestieDone = true;
-        Questie_LastTooltip = GetTime();
-        --Questie_TooltipCache = {};
-        mi = nil;
+        QSelect_QuestLogEntry(prevQuestLogSelection)
     end
+    for k, v in pairs(Questie_TooltipCache[cacheKey]['lines']) do
+        if (not __TT_LineCache[k]) or (not __TT_LineCache[k][v['data']]) then
+            GameTooltip:AddLine(v['data'], v['color'][1], v['color'][2], v['color'][3], true, k)
+        end
+    end
+    if(QUESTIE_DEBUG_TOOLTIP) then
+        GameTooltip:AddLine("--Questie hook--")
+    end
+    if(forceShow) then
+        GameTooltip:Show()
+    end
+    GameTooltip.QuestieDone = true
+    Questie_LastTooltip = GetTime()
+    --Questie_TooltipCache = {}
+    mi = nil
 end
 ---------------------------------------------------------------------------------------------------
 -- Tooltip code for quest starters and finishers
