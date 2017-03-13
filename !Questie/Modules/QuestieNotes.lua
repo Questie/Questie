@@ -293,9 +293,13 @@ end
 function Questie:Tooltip(this, forceShow, bag, slot)
     if (QuestieConfig.showToolTips == false) then return end
 
-    -- Don't show detailed tooltip
+    -- Don't show detailed tooltip for regular minimap icons
     local anchorType = GameTooltip:GetAnchorType()
     if anchorType == "ANCHOR_CURSOR" then return end
+
+    -- Don't show detailed tooltip for questie minimap icons
+    local owner = GameTooltip.owner
+    if owner and owner.type == "MiniMapNote" then return end
 
     local monster = UnitName("mouseover")
     local objective = GameTooltipTextLeft1:GetText()
@@ -474,6 +478,7 @@ function Questie_Tooltip_OnEnter()
             Tooltip = GameTooltip;
         end
         Tooltip:SetOwner(this, this);
+        Tooltip.owner = this
         local count = 0;
         local canManualComplete = 0;
         local orderedQuests = {};
@@ -683,6 +688,7 @@ function Questie:CreateBlankFrameNote(frame)
         end
         if(GameTooltip) then
             GameTooltip:Hide();
+            GameTooltip.owner = nil
         end
     end)
     f:SetScript("OnClick", Questie_AvailableQuestClick);
