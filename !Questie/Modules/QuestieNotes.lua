@@ -293,6 +293,10 @@ end
 function Questie:Tooltip(this, forceShow, bag, slot)
     if (QuestieConfig.showToolTips == false) then return end
 
+    -- Don't show detailed tooltip
+    local anchorType = GameTooltip:GetAnchorType()
+    if anchorType == "ANCHOR_CURSOR" then return end
+
     local monster = UnitName("mouseover")
     local objective = GameTooltipTextLeft1:GetText()
     local cacheKey = ""-- .. monster .. objective
