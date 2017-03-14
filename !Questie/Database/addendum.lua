@@ -31344,10 +31344,10 @@ QuestieHashMap = {
  },
  [172976144]={
   ['name']="Crown of the Earth",
-  ['startedType']="item",
-  ['finishedType']="unknown",
-  ['startedBy']="unknown",
-  ['finishedBy']="unknown",
+  ['startedType']="monster",
+  ['finishedType']="monster",
+  ['startedBy']="Corithras Moonrage",
+  ['finishedBy']="Corithras Moonrage",
   ['level']=6,
   ['questLevel']='11',
   ['rq']=8875032

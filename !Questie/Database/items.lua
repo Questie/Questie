@@ -19029,6 +19029,17 @@ QuestieItems = {
             },
         },
     },
+    ["Vial of Blessed Water"] = {
+        locationCount = 1,
+        locations = {
+            {
+                24.0,
+                0.3843,
+                0.341,
+                100.0,
+            },
+        },
+    },
     Gangrebraise = {
         locationCount = 1,
         locations = {

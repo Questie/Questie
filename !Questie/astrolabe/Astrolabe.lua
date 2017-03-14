@@ -44,8 +44,8 @@ local initSizes
 --------------------------------------------------------------------------------------------------------------
 Astrolabe.LastPlayerPosition = {};
 Astrolabe.MinimapIcons = {};
-Astrolabe.MinimapUpdateTime = 0.1;
-Astrolabe.UpdateTimer = 0;
+Astrolabe.MinimapUpdateTime = 0.2;
+Astrolabe.UpdateTimer = 0.2;
 Astrolabe.ForceNextUpdate = false;
 Astrolabe.minimapOutside = false;
 local twoPi = math.pi * 2;
