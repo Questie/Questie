@@ -353,13 +353,13 @@ end
 function Questie:RefreshQuestStatus()
     QUESTIE_UPDATE_EVENT = 1;
     if (GetTime() - QUESTIE_LAST_SYNCLOG > 0.18) then
-        Questie:AddEvent("SYNCLOG", 1);
+        Questie:AddEvent("SYNCLOG", 1.2);
         QUESTIE_LAST_SYNCLOG = GetTime();
     else
         QUESTIE_LAST_SYNCLOG = GetTime();
     end
     if (GetTime() - QUESTIE_LAST_DRAWNOTES > 0.18) then
-        Questie:AddEvent("DRAWNOTES", 1.2);
+        Questie:AddEvent("DRAWNOTES", 1.4);
         QUESTIE_LAST_DRAWNOTES = GetTime();
     else
         QUESTIE_LAST_DRAWNOTES = GetTime();

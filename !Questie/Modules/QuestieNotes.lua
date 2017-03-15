@@ -605,7 +605,7 @@ function Questie_AvailableQuestClick()
                 local questName = "["..QuestieHashMap[hash].questLevel.."] "..QuestieHashMap[hash]['name'];
                 Questie:finishAndRecurse(hash);
                 DEFAULT_CHAT_FRAME:AddMessage("Completing quest |cFF00FF00\"" .. questName .. "\"|r and parent quest: "..hash);
-                Questie:debug_Print("Notes:Questie_AvailableQuestClick --> Refreshing QuestNPC Icons: [AddEvent:DRAWNOTES]");
+                --Questie:debug_Print("Notes:Questie_AvailableQuestClick --> Refreshing QuestNPC Icons: [AddEvent:DRAWNOTES]");
                 Questie:AddEvent("DRAWNOTES", 0.1);
             end
         end

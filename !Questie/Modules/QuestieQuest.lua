@@ -46,8 +46,8 @@ StaticPopupDialogs["ABANDON_QUEST"].OnAccept = function()
             Questie:debug_Print("Quest:QuestAbandonOnAccept: [questTitle: "..qName.."] | [Hash: "..hash.."]");
             RemoveCrazyArrow(hash);
         end
-        QuestAbandonOnAccept();
     end
+    QuestAbandonOnAccept();
 end
 ---------------------------------------------------------------------------------------------------
 --Blizzard Hook: Quest Abandon With Items On Accept
@@ -63,8 +63,8 @@ StaticPopupDialogs["ABANDON_QUEST_WITH_ITEMS"].OnAccept = function()
             Questie:debug_Print("Quest:QuestAbandonWithItemsOnAccept: [questTitle: "..qName.."] | [Hash: "..hash.."]");
             RemoveCrazyArrow(hash);
         end
-        QuestAbandonWithItemsOnAccept();
     end
+    QuestAbandonWithItemsOnAccept();
 end
 ---------------------------------------------------------------------------------------------------
 --Blizzard Hook: Quest Reward Complete Button
@@ -428,8 +428,12 @@ function Questie:CheckQuestLog()
         --Questie:debug_Print("Quest:CheckQuestLog: Loading Complete --> Registering Quest Events");
         Questie:OnLoad_QuestEvents();
         QuestieTracker:initWOWQuestLog();
+        Questie:AddEvent("UPDATE", 0.1);
         --Questie:debug_Print("Quest:CheckQuestLog: QuestLog Changed --> RefreshQuestStatus()");
-        Questie:RefreshQuestStatus();
+        Questie:AddEvent("UPDATE", 1.2);
+        Questie:AddEvent("SYNCLOG", 1.4);
+        Questie:AddEvent("DRAWNOTES", 1.6);
+        Questie:AddEvent("TRACKER", 1.6);
         QuestieTracker:FillTrackingFrame();
         _, LastQuestLogCount = QGet_NumQuestLogEntries();
         QUESTIE_LAST_UPDATE_FINISHED = GetTime();
@@ -495,7 +499,6 @@ function Questie:CheckQuestLog()
                 end
             --This clears cache of abandoned quests
             elseif (QuestieSeenQuests[v["hash"]] == -1) then
-                --QuestieTracker:removeQuestFromTracker(v["hash"]);
                 QuestieCachedQuests[v["hash"]] = nil;
                 QuestieSeenQuests[v["hash"]] = nil;
                 QUEST_WATCH_LIST[v["hash"]] = nil;
@@ -520,6 +523,7 @@ function Questie:CheckQuestLog()
     LastQuestLogCount = QuestsCount;
     if (MapChanged == true) then
         Questie:debug_Print("Quest:CheckQuestLog: QuestLog Changed --> Questie:RefreshQuestStatus()");
+        Questie:CheckQuestLog();
         Questie:RefreshQuestStatus();
         QUESTIE_LAST_UPDATE_FINISHED = GetTime();
         Questie:debug_Print("Quest:CheckQuestLog: UPON EXIT: [QuestsCount: "..QuestsCount.."] | [LastCount: "..LastQuestLogCount.."]");
