@@ -2,7 +2,7 @@ local QO_FormName = "QuestieOptionsForm"
 
 function Questie:OptionsForm_Init()
     QO_arrowenabled = getglobal(QO_FormName.."ArrowEnabledCheck")
-    QO_showquests = getglobal(QO_FormName.."AlwaysShowQuestsCheck")
+    QO_showquests = getglobal(QO_FormName.."AlwaysShowObjectivesCheck")
     QO_boldcolors = getglobal(QO_FormName.."BoldColorsCheck")
     QO_clusterquests = getglobal(QO_FormName.."ClusterQuestsCheck")
     QO_corpsearrow = getglobal(QO_FormName.."CorpseArrowCheck")
@@ -34,7 +34,7 @@ function Questie:OptionsForm_Display()
 
     QO_arrowenabled:SetChecked(QuestieConfig["arrowEnabled"])
 
-    QO_showquests:SetChecked(QuestieConfig["alwaysShowQuests"])
+    QO_showquests:SetChecked(QuestieConfig["alwaysShowObjectives"])
 
     QO_boldcolors:SetChecked(QuestieConfig["boldColors"])
 
@@ -84,7 +84,7 @@ function Questie:OptionsForm_Display()
 end
 
 function Questie:OptionsForm_ApplyOptions()
-    QuestieConfig.alwaysShowQuests = Questie:toboolean(QO_showquests:GetChecked())
+    QuestieConfig.alwaysShowObjectives = Questie:toboolean(QO_showquests:GetChecked())
 
     QuestieConfig.arrowEnabled = Questie:toboolean(QO_arrowenabled:GetChecked())
 
@@ -209,7 +209,7 @@ function Questie:OptionsForm_SettingOnEnter(SettingsName)
     if(SettingsName == "ArrowEnabled") then
         QuestieOptionsToolTip:AddLine("Quest Arrow (default=true)", 1, 1, 0)
 
-    elseif(SettingsName == "AlwaysShowQuests") then
+    elseif(SettingsName == "AlwaysShowObjectives") then
         QuestieOptionsToolTip:AddLine("Always show quests and objectives (default=true)", 1, 1, 0)
 
     elseif(SettingsName == "BoldColors") then
