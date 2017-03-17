@@ -233,6 +233,9 @@ function Questie:OptionsForm_SettingOnEnter(SettingsName)
     elseif(SettingsName == "MaxShowLevel") then
         QuestieOptionsToolTip:AddLine("Hides quests until <X> levels above players level (default=3)", 1, 1, 0)
 
+    elseif(SettingsName == "MinimapButton") then
+        QuestieOptionsToolTip:AddLine("Removes questie minimap button (default=true)", 1, 1, 0)
+
     elseif(SettingsName == "MinLevelFilter") then
         QuestieOptionsToolTip:AddLine("Min-Level Filter (default=false)", 1, 1, 0)
 
