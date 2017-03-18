@@ -47,6 +47,9 @@ function Questie:AddQuestToMap(questHash, redraw)
     if(IsQuestieActive == false) then
         return;
     end
+    if questHash == -1 then
+        return
+    end
     --Questie:debug_Print("Notes:AddQuestToMap --> Adding Quest to Map [Hash: "..questHash.."]");
     local c, z = GetCurrentMapContinent(), GetCurrentMapZone();
     Questie:RemoveQuestFromMap(questHash);
@@ -1324,12 +1327,18 @@ function Questie:DrawClusters(clusters, frameName, scale, frame, button)
     end
     for i, cluster in pairs(clusters) do
         table.sort(cluster.points, function(a, b)
-            local questA = QuestieHashMap[a.questHash];
-            local questB = QuestieHashMap[b.questHash];
-            return
-                (a.icontype == "complete" and b.icontype ~= "complete") or
-                (a.icontype ~= "complete" and b.icontype ~= "complete" and questA.level < questB.level) or
-                (a.icontype ~= "complete" and b.icontype ~= "complete" and questA.level == questB.level and questA.questLevel < questB.questLevel)
+            if QuestieIcons[a.icontype].priority ~= QuestieIcons[b.icontype].priority then return QuestieIcons[a.icontype].priority < QuestieIcons[b.icontype].priority end
+            if a.questHash == b.questHash then return tostring(a) < tostring(b) end
+            local questA = QuestieHashMap[a.questHash]
+            local questB = QuestieHashMap[b.questHash]
+            if not questA or not questB then return questA ~= nil end
+            if questA and questB then
+                if questA.level ~= questB.level then return questA.level < questB.level end
+                local questLevelA = GetNumberFromString(questA.questLevel)
+                local questLevelB = GetNumberFromString(questB.questLevel)
+                if questLevelA ~= questLevelB then return questLevelA < questLevelB end
+            end
+            return a.questHash < b.questHash
         end)
         local Icon = Questie:GetBlankNoteFrame(frame);
         for j, v in pairs(cluster.points) do
@@ -1388,34 +1397,42 @@ end
 QuestieIcons = {
     ["complete"] = {
         text = "Complete",
-        path = "Interface\\AddOns\\!Questie\\Icons\\complete"
+        path = "Interface\\AddOns\\!Questie\\Icons\\complete",
+        priority = 1
     },
     ["available"] = {
         text = "Complete",
-        path = "Interface\\AddOns\\!Questie\\Icons\\available"
+        path = "Interface\\AddOns\\!Questie\\Icons\\available",
+        priority = 2
     },
     ["availablesoon"] = {
         text = "Complete",
-        path = "Interface\\AddOns\\!Questie\\Icons\\availablesoon"
+        path = "Interface\\AddOns\\!Questie\\Icons\\availablesoon",
+        priority = 2
     },
     ["loot"] = {
         text = "Complete",
-        path = "Interface\\AddOns\\!Questie\\Icons\\loot"
+        path = "Interface\\AddOns\\!Questie\\Icons\\loot",
+        priority = 3
     },
     ["item"] = {
         text = "Complete",
-        path = "Interface\\AddOns\\!Questie\\Icons\\loot"
+        path = "Interface\\AddOns\\!Questie\\Icons\\loot",
+        priority = 3
     },
     ["event"] = {
         text = "Complete",
-        path = "Interface\\AddOns\\!Questie\\Icons\\event"
+        path = "Interface\\AddOns\\!Questie\\Icons\\event",
+        priority = 3
     },
     ["object"] = {
         text = "Complete",
-        path = "Interface\\AddOns\\!Questie\\Icons\\object"
+        path = "Interface\\AddOns\\!Questie\\Icons\\object",
+        priority = 3
     },
     ["slay"] = {
         text = "Complete",
-        path = "Interface\\AddOns\\!Questie\\Icons\\slay"
+        path = "Interface\\AddOns\\!Questie\\Icons\\slay",
+        priority = 3
     }
 };

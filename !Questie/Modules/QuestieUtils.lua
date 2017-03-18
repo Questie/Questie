@@ -81,3 +81,15 @@ function questieDebugPrint(...)
     end
     getglobal("ChatFrame"..debugWin):AddMessage(out, 1.0, 1.0, 0.3);
 end
+---------------------------------------------------------------------------------------------------
+-- Get numeric value from string
+---------------------------------------------------------------------------------------------------
+function GetNumberFromString(arg)
+    if type(arg) == "string" then
+        local n
+        for x in string.gfind(arg, "%d+") do n = x; end
+        n = tonumber(n);
+        return n
+    end
+    return nil
+end

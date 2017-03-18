@@ -739,14 +739,16 @@ function Questie:AstroGetAllCurrentQuestHashesAsMeta(print)
             local count =  QGet_NumQuestLeaderBoards();
             local questText, objectiveText = QGet_QuestLogQuestText();
             local hash = Questie:getQuestHash(q, level, objectiveText);
-            hashes[hash] = {};
-            hashes[hash]["hash"] = hash;
-            hashes[hash]["name"] = q;
-            hashes[hash]["level"] = level;
-            if(IsAddOnLoaded("URLCopy") and print)then
-                Questie:debug_Print("        "..q,URLCopy_Link(quest["hash"]));
-            elseif(print) then
-                Questie:debug_Print("        "..q,quest["hash"]);
+            if hash >= 0 then
+                hashes[hash] = {};
+                hashes[hash]["hash"] = hash;
+                hashes[hash]["name"] = q;
+                hashes[hash]["level"] = level;
+                if(IsAddOnLoaded("URLCopy") and print)then
+                    Questie:debug_Print("        "..q,URLCopy_Link(quest["hash"]));
+                elseif(print) then
+                    Questie:debug_Print("        "..q,quest["hash"]);
+                end
             end
             qc = qc + 1;
         else
@@ -1019,7 +1021,6 @@ AstroobjectiveProcessors = {
 --Get quest ID from quest hash
 ---------------------------------------------------------------------------------------------------
 function Questie:GetQuestIdFromHash(questHash)
-    local prevQuestLogSelection = QGet_QuestLogSelection();
     local numEntries, numQuests = QGet_NumQuestLogEntries();
     if (QUESTIE_UPDATE_EVENT or numEntries ~= LastNrOfEntries or not CachedIds[questHash]) then
         CachedIds[questHash] = {};
@@ -1030,11 +1031,13 @@ function Questie:GetQuestIdFromHash(questHash)
             return CachedIds[questHash];
         end
     else
+        local prevQuestLogSelection = QGet_QuestLogSelection();
         local q, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(CachedIds[questHash]);
         QSelect_QuestLogEntry(CachedIds[questHash]);
         local questText, objectiveText = QGet_QuestLogQuestText();
         if (q and level and objectiveText) then
             if(Questie:getQuestHash(q, level, objectiveText) == questHash) then
+                QSelect_QuestLogEntry(prevQuestLogSelection)
                 return CachedIds[questHash];
             else
                 Questie:debug_Print("Quest:GetQuestIdFromHash --> Error: [Hash: "..tostring(CachedIds[questHash]).."]1");
@@ -1042,8 +1045,8 @@ function Questie:GetQuestIdFromHash(questHash)
         else
             Questie:debug_Print("Quest:GetQuestIdFromHash --> Error2: [Hash: "..tostring(CachedIds[questHash]).."] | [Quest: "..tostring(q).."] | [Level: "..tostring(level).."]");
         end
+        QSelect_QuestLogEntry(prevQuestLogSelection);
     end
-    QSelect_QuestLogEntry(prevQuestLogSelection);
 end
 ---------------------------------------------------------------------------------------------------
 --Update quest ID's
