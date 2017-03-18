@@ -79,29 +79,32 @@ function Questie:AddQuestToMap(questHash, redraw)
         end
     else
         --Questie:debug_Print("Notes:AddQuestToMap --> Display Finished Quest Icon: [Hash: "..questHash.."]");
+        local addedNote = false
         local questInfo = QuestieHashMap[Quest.questHash];
-        local typeFunctions = {
-            ['monster'] = GetMonsterLocations,
-            ['object'] = GetObjectLocations
-        };
-        local typeFunction = typeFunctions[questInfo.finishedType];
-        local finishPath = typeFunction(questInfo.finishedBy);
-        --print_r(finishPath);
-        if finishPath == nil or (not next(finishPath)) then
-            finishPath = typeFunction(QuestieFinishers[Quest.name]);
-        end
-        if(finishPath) then
-            local locations = Questie:RecursiveGetPathLocations(finishPath);
-            if next(locations) then
-                for i, location in pairs(locations) do
-                    local c, z, x, y = location[1], location[2], location[3], location[4];
-                    Questie:AddNoteToMap(c, z, x, y, "complete", questHash, 0);
-                end
-            else
-                Questie:debug_Print("AddQuestToMap: ERROR Quest broken! ", Quest.name, questHash, "report on github!");
+        if questInfo ~= nil then
+            local typeFunctions = {
+                ['monster'] = GetMonsterLocations,
+                ['object'] = GetObjectLocations
+            };
+            local typeFunction = typeFunctions[questInfo.finishedType];
+            local finishPath = typeFunction(questInfo.finishedBy);
+            --print_r(finishPath);
+            if finishPath == nil or (not next(finishPath)) then
+                finishPath = typeFunction(QuestieFinishers[Quest.name]);
             end
-        else
-            Questie:debug_Print("AddQuestToMap: ERROR Quest broken! ", Quest["name"], questHash, "report on github!");
+            if(finishPath) then
+                local locations = Questie:RecursiveGetPathLocations(finishPath);
+                if next(locations) then
+                    for i, location in pairs(locations) do
+                        local c, z, x, y = location[1], location[2], location[3], location[4];
+                        Questie:AddNoteToMap(c, z, x, y, "complete", questHash, 0);
+                        addedNote = true
+                    end
+                end
+            end
+        end
+        if addedNote == false then
+            Questie:debug_Print("AddQuestToMap: ERROR Quest broken! ", Quest["name"], questHash, "report on github!")
         end
     end
     --Cache code
