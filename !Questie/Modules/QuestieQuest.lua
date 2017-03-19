@@ -632,7 +632,6 @@ function Questie:UpdateQuestInZone(Zone, force)
                     QuestieTracker:updateTrackerCache(hash, i, level);
                 end
             end
-            QuestieTracker:FillTrackingFrame();
         end
         if (foundChange and not force) then
             break;
