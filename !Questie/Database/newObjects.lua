@@ -2966,6 +2966,9 @@ QuestieNewObjects = {
   locations = {
    {1,1,0.5442,0.354},
   },
+  openedby = {
+   ["Wooden Key"] = 1
+  }
  },
  [175950] = {
   name = "Sixth Mosh\'aru Tablet",
