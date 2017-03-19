@@ -44,12 +44,8 @@ UIOpen = false;
 -- Adds quest notes to map
 ---------------------------------------------------------------------------------------------------
 function Questie:AddQuestToMap(questHash, redraw)
-    if(IsQuestieActive == false) then
-        return;
-    end
-    if questHash == -1 then
-        return
-    end
+    if(IsQuestieActive == false) then return; end
+    if questHash == -1 then return; end
     --Questie:debug_Print("Notes:AddQuestToMap --> Adding Quest to Map [Hash: "..questHash.."]");
     local c, z = GetCurrentMapContinent(), GetCurrentMapZone();
     Questie:RemoveQuestFromMap(questHash);
@@ -61,7 +57,7 @@ function Questie:AddQuestToMap(questHash, redraw)
     UsedZones = {};
     local Quest = Questie:IsQuestFinished(questHash);
     if not (Quest) then
-        --Questie:debug_Print("Notes:AddQuestToMap --> Display Objective Icons: [Hash: "..questHash.."]");
+        Questie:debug_Print("Notes:AddQuestToMap --> Display Objective Icons: [Hash: "..questHash.."]");
         for objectiveid, objective in pairs(objectives) do
             if not objective.done then
                 local typeToIcon = {
@@ -111,7 +107,7 @@ function Questie:AddQuestToMap(questHash, redraw)
     ques["objectives"] = objectives;
     QuestieHandledQuests[questHash] = ques;
     if (redraw) then
-        Questie:debug_Print("Notes:AddQuestToMap: redraw VAR true --> Questie:RefreshQuestStatus();");
+        --Questie:debug_Print("Notes:AddQuestToMap: redraw VAR true --> Questie:RefreshQuestStatus();");
         Questie:RefreshQuestStatus();
     end
 end

@@ -107,8 +107,8 @@ function QuestieTracker:updateTrackingFrameSize()
             local totalHeight = lastbuttonTop - trackerBottom;
             if (QuestieConfig.showTrackerHeader == true) then
                 QuestieTracker.frame:SetHeight(totalHeight + 7);
-                if totalWidth < 150 then
-                    QuestieTracker.frame:SetWidth(150);
+                if totalWidth < watcher:GetStringWidth() + 22 then
+                    QuestieTracker.frame:SetWidth(watcher:GetStringWidth() + 22);
                 end
             else
                 QuestieTracker.frame:SetHeight(totalHeight + 11);
@@ -125,8 +125,8 @@ function QuestieTracker:updateTrackingFrameSize()
             local totalHeight = trackerTop - lastbuttonBottom;
             if (QuestieConfig.showTrackerHeader == true) then
                 QuestieTracker.frame:SetHeight(totalHeight + 11);
-                if totalWidth < 150 then
-                    QuestieTracker.frame:SetWidth(150);
+                if totalWidth < watcher:GetStringWidth() + 22 then
+                    QuestieTracker.frame:SetWidth(watcher:GetStringWidth() + 22);
                 end
             else
                 QuestieTracker.frame:SetHeight(totalHeight + 11);
@@ -966,7 +966,7 @@ end
 function QuestieTracker:addQuestToTracker(hash)
     if (QuestieCachedQuests[hash] and QuestieCachedQuests[hash]["tracked"] ~= true) then
         QuestieCachedQuests[hash]["tracked"] = true;
-        Questie:debug_Print("Tracker:addQuestToTracker: [Hash: "..hash.."]");
+        --Questie:debug_Print("Tracker:addQuestToTracker: [Hash: "..hash.."]");
     end
     QuestieTracker:FillTrackingFrame();
 end
@@ -977,7 +977,7 @@ function QuestieTracker:removeQuestFromTracker(hash)
     if (QuestieSeenQuests[hash] == 0) and (QuestieCachedQuests[hash] ~= nil) then
         QuestieCachedQuests[hash]["tracked"] = false;
         RemoveCrazyArrow(hash);
-        Questie:debug_Print("Tracker:removeQuestFromTracker: [Hash: "..hash.."]");
+        --Questie:debug_Print("Tracker:removeQuestFromTracker: [Hash: "..hash.."]");
     end
     QuestieTracker:FillTrackingFrame();
     if (QuestieTracker.highestIndex) == 0 then
@@ -1080,7 +1080,7 @@ function QuestieTracker:syncWOWQuestLog()
                     local id = v["logId"]
                     if QuestieSeenQuests[hash] == 0 and QuestieCachedQuests[hash]["tracked"] == false then
                         AddQuestWatch(id);
-                        Questie:debug_Print("Tracker:syncWOWQuestLog --> AutoQuestWatch_Insert: [ID: "..id.."] | [hash: "..hash.."]");
+                        --Questie:debug_Print("Tracker:syncWOWQuestLog --> AutoQuestWatch_Insert: [ID: "..id.."] | [hash: "..hash.."]");
                         QuestWatch_Update();
                         -- Prevents QuestWatcher "flickering bug"
                         if (QuestieConfig.trackerEnabled == true) then
@@ -1128,6 +1128,7 @@ end
 --Checks and flags tracked quest status and then adds them to the quest tracker
 ---------------------------------------------------------------------------------------------------
 function QuestieTracker:syncQuestLog()
+    Questie:debug_Print();
     if IsAddOnLoaded("EQL3") or IsAddOnLoaded("ShaguQuest") then
         QuestLogSync = EQL3_IsQuestWatched;
     else
@@ -1145,12 +1146,12 @@ function QuestieTracker:syncQuestLog()
             local hash = Questie:getQuestHash(questName, level, objectiveText);
             if not isHeader and QuestLogSync(id) and (QuestieCachedQuests[hash] and QuestieCachedQuests[hash]["tracked"] ~= true) then
                 if QuestieCachedQuests[hash] then
-                    --Questie:debug_Print("Tracker:syncQuestLog --> addQuestToTrackerCache: [Hash: "..hash.."]");
+                    Questie:debug_Print("Tracker:syncQuestLog --> addQuestToTrackerCache: [Hash: "..hash.."]");
                     QuestieTracker:addQuestToTrackerCache(hash, id, level);
                     QuestieTracker:addQuestToTracker(hash);
                 end
             elseif not isHeader and not QuestLogSync(id) and (QuestieCachedQuests[hash] and QuestieCachedQuests[hash]["tracked"] ~= false) then
-                --Questie:debug_Print("Tracker:syncQuestLog --> removeQuestFromTracker: Flagging [Hash: "..hash.."] FALSE");
+                Questie:debug_Print("Tracker:syncQuestLog --> removeQuestFromTracker: Flagging [Hash: "..hash.."] FALSE");
                 QuestieTracker:removeQuestFromTracker(hash);
             end
         end

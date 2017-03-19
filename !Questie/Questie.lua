@@ -221,6 +221,7 @@ QuestieCompletedQuestMessages = {};
 QUESTIE_LAST_UPDATE_FINISHED = GetTime();
 QUESTIE_LAST_UPDATE = GetTime();
 QUESTIE_LAST_CHECKLOG = GetTime();
+QUESTIE_LAST_UPDATECACHE = GetTime();
 QUESTIE_LAST_TRACKER = GetTime();
 QUESTIE_LAST_SYNCLOG = GetTime();
 QUESTIE_LAST_DRAWNOTES = GetTime();
@@ -231,7 +232,6 @@ GameLoadingComplete = false;
 --Questie OnUpdate Handler
 ---------------------------------------------------------------------------------------------------
 function Questie:OnUpdate(elapsed)
-    if (IsQuestieActive == false) then return; end
     if (not GameTooltip.IsVisible(GameTooltip) ) then
         GameTooltip.QuestieDone = nil;
         GameTooltip.lastmonster = nil;
@@ -243,8 +243,8 @@ function Questie:OnUpdate(elapsed)
     if (table.getn(QUESTIE_EVENTQUEUE) > 0) then
         for k, v in pairs(QUESTIE_EVENTQUEUE) do
             if GetTime()- v.TIME > v.DELAY then
-                Questie:debug_Print("OnUpdate: "..v.EVENT);
                 if (v.EVENT == "UPDATE") then
+                    local UpdateTime = GetTime();
                     while (true) do
                         local d = Questie:UpdateQuests();
                         if (not d) then
@@ -252,23 +252,42 @@ function Questie:OnUpdate(elapsed)
                             break;
                         end
                     end
+                    Questie:debug_Print("OnUpdate: "..v.EVENT.." Took: "..tostring(GetTime()- UpdateTime).." ms");
                 elseif (v.EVENT == "UPDATECACHE") then
+                    local UpdateCacheTime = GetTime();
                     Questie:UpdateGameClientCache();
                     QUESTIE_EVENTQUEUE[k] = nil;
+                    Questie:debug_Print("OnUpdate: "..v.EVENT.." Took: "..tostring((GetTime()- UpdateCacheTime)*1000).." ms");
                 elseif (v.EVENT == "CHECKLOG") then
+                    local CheckLogTime = GetTime();
                     Questie:CheckQuestLog();
                     QUESTIE_EVENTQUEUE[k] = nil;
+                    Questie:debug_Print("OnUpdate: "..v.EVENT.." Took: "..tostring((GetTime()- CheckLogTime)*1000).." ms");
                 elseif (v.EVENT == "TRACKER") then
+                    local TrackerTime = GetTime();
                     QuestieTracker:SortTrackingFrame();
                     QuestieTracker:FillTrackingFrame();
                     QUESTIE_EVENTQUEUE[k] = nil;
+                    Questie:debug_Print("OnUpdate: "..v.EVENT.." Took: "..tostring((GetTime()- TrackerTime)*1000).." ms");
+                    Questie:debug_Print();
                 elseif (v.EVENT == "SYNCLOG") then
+                    local SyncLogTime = GetTime();
                     QuestieTracker:syncQuestLog();
                     QUESTIE_EVENTQUEUE[k] = nil;
+                    Questie:debug_Print("OnUpdate: "..v.EVENT.." Took: "..tostring((GetTime()- SyncLogTime)*1000).." ms");
                 elseif (v.EVENT == "DRAWNOTES") then
+                    local DrawNotesTime = GetTime();
                     Questie:SetAvailableQuests();
                     Questie:RedrawNotes();
                     QUESTIE_EVENTQUEUE[k] = nil;
+                    Questie:debug_Print("OnUpdate: "..v.EVENT.." Took: "..tostring((GetTime()- DrawNotesTime)*1000).." ms");
+                elseif (v.EVENT == "LOADEVENTS") then
+                    local LoadEventsTime = GetTime();
+                    GameLoadingComplete = true;
+                    Questie:OnLoad_QuestEvents();
+                    QuestieTracker:initWOWQuestLog();
+                    QUESTIE_EVENTQUEUE[k] = nil;
+                    Questie:debug_Print("OnUpdate: "..v.EVENT.." Took: "..tostring((GetTime()- LoadEventsTime)*1000).." ms");
                 end
             else
                 if k ~= index then
@@ -336,14 +355,20 @@ end
 ---------------------------------------------------------------------------------------------------
 function Questie:CheckQuestLogStatus()
     QUESTIE_UPDATE_EVENT = 1;
-    if(GetTime() - QUESTIE_LAST_CHECKLOG > 0.01) then
+    if(GetTime() - QUESTIE_LAST_CHECKLOG > 0.1) then
         Questie:AddEvent("CHECKLOG", 0.135);
         QUESTIE_LAST_CHECKLOG = GetTime();
     else
         QUESTIE_LAST_CHECKLOG = GetTime();
     end
+    if(GetTime() - QUESTIE_LAST_UPDATECACHE > 0.1) then
+        Questie:AddEvent("UPDATECACHE", 0.160);
+        QUESTIE_LAST_UPDATECACHE = GetTime();
+    else
+        QUESTIE_LAST_UPDATECACHE = GetTime();
+    end
     if(GetTime() - QUESTIE_LAST_UPDATE > 0.1) then
-        Questie:AddEvent("UPDATE", 0.15);
+        Questie:AddEvent("UPDATE", 0.185);
         QUESTIE_LAST_UPDATE = GetTime();
     else
         QUESTIE_LAST_UPDATE = GetTime();
@@ -365,7 +390,7 @@ function Questie:RefreshQuestStatus()
         QUESTIE_LAST_DRAWNOTES = GetTime();
     end
     if (GetTime() - QUESTIE_LAST_TRACKER > 0.18) then
-        Questie:AddEvent("TRACKER", 1.4);
+        Questie:AddEvent("TRACKER", 1.45);
         QUESTIE_LAST_TRACKER = GetTime();
     else
         QUESTIE_LAST_TRACKER = GetTime();
@@ -373,7 +398,6 @@ function Questie:RefreshQuestStatus()
 end
 ---------------------------------------------------------------------------------------------------
 function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10)
-    if (IsQuestieActive == false) then return; end
     if (event =="ADDON_LOADED" and arg1 == "Questie") then
     -------------------------------------------------
     elseif (event == "CHAT_MSG_LOOT") then
@@ -425,9 +449,12 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
         QuestieTracker:createTrackingFrame();
         QuestieTracker:LoadModule();
         Questie:BlockTranslations();
-        Questie:AddEvent("UPDATECACHE", .5);
         Questie:AddEvent("CHECKLOG", 1);
-        Questie:AddEvent("UPDATE", 1.2);
+        Questie:AddEvent("UPDATECACHE", 2.0);
+        Questie:AddEvent("UPDATE", 2.2);
+        Questie:AddEvent("LOADEVENTS", 2.4);
+        Questie:AddEvent("SYNCLOG", 2.6);
+        Questie:AddEvent("TRACKER", 2.8);
     -------------------------------------------------
     elseif (event == "PLAYER_UNGHOST") then
         --If the corpseArrow is turned off and if the player has an objective active on the
@@ -441,8 +468,7 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
         WorldMapUpdateSpamOff = nil;
     -------------------------------------------------
     elseif (event == "QUEST_LOG_UPDATE") then
-        Questie:debug_Print("OnEvent: QUEST_LOG_UPDATE");
-        Questie:UpdateGameClientCache();
+        --Questie:debug_Print("OnEvent: QUEST_LOG_UPDATE");
         Questie:CheckQuestLogStatus();
         Questie:RefreshQuestStatus();
     -------------------------------------------------

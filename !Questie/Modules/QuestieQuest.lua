@@ -43,7 +43,7 @@ StaticPopupDialogs["ABANDON_QUEST"].OnAccept = function()
             QuestieSeenQuests[hash] = -1;
             QuestieCachedQuests[hash] = nil;
             QuestieHandledQuests[hash] = nil;
-            Questie:debug_Print("Quest:QuestAbandonOnAccept: [questTitle: "..qName.."] | [Hash: "..hash.."]");
+            --Questie:debug_Print("Quest:QuestAbandonOnAccept: [questTitle: "..qName.."] | [Hash: "..hash.."]");
             RemoveCrazyArrow(hash);
         end
     end
@@ -60,7 +60,7 @@ StaticPopupDialogs["ABANDON_QUEST_WITH_ITEMS"].OnAccept = function()
             QuestieSeenQuests[hash] = -1;
             QuestieCachedQuests[hash] = nil;
             QuestieHandledQuests[hash] = nil;
-            Questie:debug_Print("Quest:QuestAbandonWithItemsOnAccept: [questTitle: "..qName.."] | [Hash: "..hash.."]");
+            --Questie:debug_Print("Quest:QuestAbandonWithItemsOnAccept: [questTitle: "..qName.."] | [Hash: "..hash.."]");
             RemoveCrazyArrow(hash);
         end
     end
@@ -342,8 +342,9 @@ end
 ---------------------------------------------------------------------------------------------------
 function Questie:UpdateGameClientCache()
     if (GetTime() - QUESTIE_LAST_UPDATECACHE > 0.1) then
-        --Questie:debug_Print();
-        --Questie:debug_Print("************************| Beginning Game Client Cache Pull |************************");
+        Questie:debug_Print();
+        Questie:debug_Print("****************| Running Quest:UpdateGameClientCache |****************");
+        local UpdateCacheTime = GetTime();
         local prevQuestLogSelection = QGet_QuestLogSelection();
         local id = 1;
         local qc = 0;
@@ -364,14 +365,14 @@ function Questie:UpdateGameClientCache()
                             objectiveName = string.sub(objectiveName, 1, string.len(objectiveName)-6);
                         end
                     end
-                    if (not LastQuestLogHashes) or (QuestieHandledQuests[hash] and QuestieHandledQuests[hash]["objectives"] and QuestieHandledQuests[hash]["objectives"][index]["name"] ~= objectiveName) then
+                    if (QuestieHandledQuests[hash] and QuestieHandledQuests[hash]["objectives"] and QuestieHandledQuests[hash]["objectives"][index]["name"] ~= objectiveName) then
                         Questie:AddQuestToMap(hash);
-                        --Questie:debug_Print("Quest:UpdateGameClientCache --> Questie:AddQuestToMap(): [Name: "..QuestieHandledQuests[hash]["objectives"][index]["name"].."]");
+                        Questie:debug_Print("Quest:UpdateGameClientCache --> Questie:AddQuestToMap(): [Name: "..QuestieHandledQuests[hash]["objectives"][index]["name"].."]");
                     end
                 end
-                if (not LastQuestLogHashes) or (QuestieCachedQuests[hash] and QuestieCachedQuests[hash]["questName"] ~= questName) then
+                if (QuestieCachedQuests[hash] and QuestieCachedQuests[hash]["questName"] ~= questName) then
                     QuestieTracker:addQuestToTrackerCache(hash, id, level);
-                    --Questie:debug_Print("Quest:UpdateGameClientCache --> Questie:addQuestToTrackerCache(): [Hash: "..hash.."]");
+                    Questie:debug_Print("Quest:UpdateGameClientCache --> Questie:addQuestToTrackerCache(): [Hash: "..hash.."]");
                 end
             end
             if not isHeader then
@@ -380,8 +381,8 @@ function Questie:UpdateGameClientCache()
             id = id + 1;
         end
         QSelect_QuestLogEntry(prevQuestLogSelection);
-        --Questie:debug_Print("************************| Game Client Cache Pull Complete |************************");
-        --Questie:debug_Print();
+        Questie:debug_Print("****************| Quest:UpdateGameClientCache Took: "..tostring((GetTime()- UpdateCacheTime)*1000).." ms |****************");
+        Questie:debug_Print();
         QUESTIE_LAST_UPDATECACHE = GetTime();
     else
         QUESTIE_LAST_UPDATECACHE = GetTime();
@@ -393,8 +394,9 @@ end
 function Questie:CheckQuestLog()
     --LastQuestLogHashes should always be nil upon Login or a ReloadUI - do these checks
     if (not LastQuestLogHashes) then
-        --Questie:debug_Print();
-        --Questie:debug_Print("************************| [PRE] Beginning CheckLog |************************ ");
+        Questie:debug_Print();
+        Questie:debug_Print("****************| Running [PRE] Quest:CheckQuestLog |****************");
+        local CheckLogTime = GetTime();
         --Clears abandoned quests
         for k, v in pairs(QuestieSeenQuests) do
             if (QuestieSeenQuests[k] == -1) then
@@ -402,7 +404,7 @@ function Questie:CheckQuestLog()
                 QuestieCachedQuests[k] = nil;
                 QuestieSeenQuests[k] = nil;
                 QUEST_WATCH_LIST[k] = nil;
-                --Questie:debug_Print("Quest:CheckQuestLog: Cleared abandoned quest: [Hash: "..k.."]");
+                Questie:debug_Print("Quest:CheckQuestLog: Found abandoned quest in QuestDB - Removed: [Hash: "..k.."]");
             end
         end
         --Clears cached data
@@ -410,38 +412,38 @@ function Questie:CheckQuestLog()
             if QuestieSeenQuests[k] == 1 then
                 Questie:RemoveQuestFromMap(k);
                 QuestieCachedQuests[k] = nil;
-                --Questie:debug_Print("Quest:CheckQuestLog: Cleaned Quest Cache: [Hash: "..k.."]");
+                Questie:debug_Print("Quest:CheckQuestLog: Found cached data for a finished quest - Removed: [Hash: "..k.."]");
             end
         end
-        LastQuestLogHashes = Questie:AstroGetAllCurrentQuestHashesAsMeta();
+        LastQuestLogHashes, LastQuestLogCount = Questie:AstroGetAllCurrentQuestHashesAsMeta();
         for k, v in pairs(LastQuestLogHashes) do
             --If a quest is found in the log and for some reason it's set as finished (1), or
-            --missing all together (nill), reset its status back to active (0).
+            --missing all together (nil), reset its status back to active (0).
             if QuestieSeenQuests[k] == 1 or QuestieSeenQuests[k] == nil then
                 QuestieSeenQuests[k] = 0;
+                Questie:debug_Print("Quest:CheckQuestLog: --> Quest found in QuestLog marked complete - Fixed: [Hash: "..v["hash"].."]");
             end
             --This "double-tap" ensures quest data is inserted into the cache
-            --Questie:debug_Print("Quest:CheckQuestLog: --> Tracker:addQuestToTrackerCache() [Hash: "..v["hash"].."]");
-            QuestieTracker:addQuestToTrackerCache(v["hash"]);
+            QuestieTracker:addQuestToTrackerCache(v["hash"], v["logId"], v["level"]);
             Questie:AddQuestToMap(v["hash"]);
+            Questie:debug_Print("Quest:CheckQuestLog: --> Add quest to Tracker and MapNotes caches: [Hash: "..v["hash"].."]");
         end
-        --Questie:debug_Print("Quest:CheckQuestLog: Loading Complete --> Registering Quest Events");
-        Questie:OnLoad_QuestEvents();
-        QuestieTracker:initWOWQuestLog();
-        Questie:AddEvent("UPDATE", 0.1);
-        --Questie:debug_Print("Quest:CheckQuestLog: QuestLog Changed --> RefreshQuestStatus()");
-        Questie:AddEvent("UPDATE", 1.2);
-        Questie:AddEvent("SYNCLOG", 1.4);
-        Questie:AddEvent("DRAWNOTES", 1.6);
-        Questie:AddEvent("TRACKER", 1.6);
-        QuestieTracker:FillTrackingFrame();
-        _, LastQuestLogCount = QGet_NumQuestLogEntries();
+        --Removes active quests from QuestDB if it's not active in the QuestLog
+        for k, v in pairs(QuestieSeenQuests) do
+            if QuestieSeenQuests[k] == 0 and LastQuestLogHashes[k] == nil then
+                QuestieCachedQuests[k] = nil;
+                QuestieSeenQuests[k] = nil;
+                QUEST_WATCH_LIST[k] = nil;
+                Questie:debug_Print("Quest:CheckQuestLog: --> Quest found in QuestDB not in QuestLog - Removed: [Hash: "..k.."]");
+            end
+        end
+        --QuestieTracker:FillTrackingFrame();
         QUESTIE_LAST_UPDATE_FINISHED = GetTime();
-        --Questie:debug_Print("************************| [PRE] CheckLog Complete |************************ ");
-        --Questie:debug_Print();
-        GameLoadingComplete = true;
+        Questie:debug_Print("****************| [PRE] Quest:CheckQuestLog Took: "..tostring((GetTime()- CheckLogTime)*1000).." ms |****************");
+        Questie:debug_Print();
         return;
     end
+    local CheckLogTime = GetTime();
     local Quests, QuestsCount = Questie:AstroGetAllCurrentQuestHashesAsMeta();
     MapChanged = false;
     delta = {};
@@ -474,15 +476,15 @@ function Questie:CheckQuestLog()
     end
     for k, v in pairs(delta) do
         Questie:debug_Print();
-        Questie:debug_Print("************************| [POST] Beginning CheckLog |************************ ");
+        Questie:debug_Print("****************| Running [POST] Quest:CheckQuestLog |**************** ");
         Questie:debug_Print("Quest:CheckQuestLog: UPON ENTER: [QuestsCount: "..QuestsCount.."] | [LastCount: "..LastQuestLogCount.."]");
         if (v["deltaType"] == 1) then
             Questie:AddQuestToMap(v["hash"]);
             --This adds a quest to the cache
             if (QuestieSeenQuests[v["hash"]] == nil) then
                 QuestieSeenQuests[v["hash"]] = 0;
-                Questie:debug_Print("Quest:CheckQuestLog: --> Quest:addQuestToTrackerCache() [Hash: "..v["hash"].."]");
-                QuestieTracker:addQuestToTrackerCache(v["hash"]);
+                QuestieTracker:addQuestToTrackerCache(v["hash"], v["logId"], v["level"]);
+                Questie:debug_Print("Quest:CheckQuestLog: --> Add quest to Tracker and MapNotes caches: [Hash: "..v["hash"].."]");
                 RemoveCrazyArrow(v["hash"]);
                 QuestieTracker:syncWOWQuestLog();
             end
@@ -527,7 +529,7 @@ function Questie:CheckQuestLog()
         Questie:RefreshQuestStatus();
         QUESTIE_LAST_UPDATE_FINISHED = GetTime();
         Questie:debug_Print("Quest:CheckQuestLog: UPON EXIT: [QuestsCount: "..QuestsCount.."] | [LastCount: "..LastQuestLogCount.."]");
-        Questie:debug_Print("************************| [POST] CheckLog Complete |************************ ");
+        Questie:debug_Print("****************| [POST] Quest:CheckQuestLog Took: "..tostring((GetTime()- CheckLogTime)*1000).." ms |****************");
         Questie:debug_Print();
         return true;
     else
@@ -544,6 +546,7 @@ function Questie:UpdateQuests(force)
         Questie:UpdateQuestsInit();
         return;
     end
+    local UpdateQuestsTime = GetTime();
     local ZonesChecked = 0;
     local CurrentZone = GetZoneText();
     local numEntries, numQuests = QGet_NumQuestLogEntries();
@@ -743,6 +746,7 @@ function Questie:AstroGetAllCurrentQuestHashesAsMeta(print)
                 hashes[hash]["hash"] = hash;
                 hashes[hash]["name"] = q;
                 hashes[hash]["level"] = level;
+                hashes[hash]["logId"] = i;
                 if(IsAddOnLoaded("URLCopy") and print)then
                     Questie:debug_Print("        "..q,URLCopy_Link(quest["hash"]));
                 elseif(print) then
