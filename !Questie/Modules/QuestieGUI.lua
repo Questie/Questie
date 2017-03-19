@@ -5,9 +5,17 @@ end
 
 Questie.minimapButton:SetMovable(true)
 Questie.minimapButton:EnableMouse(true)
-Questie.minimapButton:RegisterForDrag('LeftButton')
-Questie.minimapButton:RegisterForClicks("LeftButtonUp", "RightButtonUp")
-Questie.minimapButton:SetScript("OnDragStop", function()
+Questie.minimapButton:SetFrameStrata('HIGH')
+Questie.minimapButton:SetWidth(31)
+Questie.minimapButton:SetHeight(31)
+Questie.minimapButton:SetFrameLevel(9)
+Questie.minimapButton:SetHighlightTexture('Interface\\Minimap\\UI-Minimap-ZoomButton-Highlight')
+Questie.minimapButton:SetPoint("TOPLEFT", Minimap, "TOPLEFT", 52-(80*cos(QuestieMinimapPosition)),(80*sin(QuestieMinimapPosition))-52)
+
+Questie.minimapButton:RegisterForDrag("LeftButton")
+Questie.minimapButton.draggingFrame = CreateFrame("Frame", "QuestieMinimapDragging", Questie.minimapButton)
+Questie.minimapButton.draggingFrame:Hide();
+Questie.minimapButton.draggingFrame:SetScript("OnUpdate", function()
     local xpos,ypos = GetCursorPosition()
     local xmin,ymin = Minimap:GetLeft(), Minimap:GetBottom()
 
@@ -17,13 +25,16 @@ Questie.minimapButton:SetScript("OnDragStop", function()
     QuestieMinimapPosition = math.deg(math.atan2(ypos,xpos))
     Questie.minimapButton:SetPoint("TOPLEFT", Minimap, "TOPLEFT", 52-(80*cos(QuestieMinimapPosition)),(80*sin(QuestieMinimapPosition))-52)
 end)
+Questie.minimapButton:SetScript("OnDragStart", function()
+    this:LockHighlight();
+    Questie.minimapButton.draggingFrame:Show();
+end)
+Questie.minimapButton:SetScript("OnDragStop", function()
+    this:UnlockHighlight();
+    Questie.minimapButton.draggingFrame:Hide();
+end)
 
-Questie.minimapButton:SetFrameStrata('HIGH')
-Questie.minimapButton:SetWidth(31)
-Questie.minimapButton:SetHeight(31)
-Questie.minimapButton:SetFrameLevel(9)
-Questie.minimapButton:SetHighlightTexture('Interface\\Minimap\\UI-Minimap-ZoomButton-Highlight')
-Questie.minimapButton:SetPoint("TOPLEFT", Minimap, "TOPLEFT", 52-(80*cos(QuestieMinimapPosition)),(80*sin(QuestieMinimapPosition))-52)
+Questie.minimapButton:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 Questie.minimapButton:SetScript("OnClick", function()
     if ( arg1 == "LeftButton" ) then
         Questie:Toggle()
