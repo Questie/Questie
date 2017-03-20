@@ -817,7 +817,8 @@ function Questie:GetQuestObjectivePaths(questHash)
             ['item'] = GetItemLocations,
             ['event'] = GetEventLocations,
             ['monster'] = GetMonsterLocations,
-            ['object'] = GetObjectLocations
+            ['object'] = GetObjectLocations,
+            ['reputation'] = GetReputationLocations
         };
         local typeFunction = typeFunctions[type];
         if typeFunction ~= nil then

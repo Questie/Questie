@@ -421,6 +421,8 @@ function Questie:GetTooltipLines(path, indent, highlightInfo, lines, sourceNames
         local prefix;
         if sourceType == "drop" then
             prefix = "Dropped by";
+        elseif sourceType == "rewardedby" then
+            prefix = "Awarded by";
         elseif sourceType == "contained" then
             prefix = "Contained in";
         elseif sourceType == "contained_id" then
@@ -804,6 +806,7 @@ end
 ---------------------------------------------------------------------------------------------------
 function Questie:PostProcessIconPath(path)
     if path["locations"] then path["locations"] = nil; end
+    if path["name"] then path["name"] = nil; end
     for sourceType, sources in pairs(path) do
         for sourceName, sourcePath in pairs(sources) do
             Questie:PostProcessIconPath(sourcePath);
@@ -932,7 +935,7 @@ function Questie:RecursiveGetPathLocations(path, locations)
             for i, location in pairs(sources) do
                 table.insert(locations, location);
             end
-        elseif sourceType == "drop" or sourceType == "contained" or sourceType == "contained_id" or sourceType == "created" or sourceType == "containedi" or sourceType == "transforms" or sourceType == "transformedby" then
+        elseif sourceType == "drop" or sourceType == "rewardedby" or sourceType == "contained" or sourceType == "contained_id" or sourceType == "created" or sourceType == "containedi" or sourceType == "transforms" or sourceType == "transformedby" then
             for sourceName, sourcePath in pairs(sources) do
                 Questie:RecursiveGetPathLocations(sourcePath, locations);
             end
@@ -972,7 +975,7 @@ function Questie:RecursiveCreateNotes(c, z, v, locationMeta, iconMeta, objective
                     end
                 end
             end
-        elseif sourceType == "drop" or sourceType == "contained" or sourceType == "contained_id" or sourceType == "created" or sourceType == "containedi" or sourceType == "openedby" or sourceType == "transforms" or sourceType == "transformedby" then
+        elseif sourceType == "drop" or sourceType == "rewardedby" or sourceType == "contained" or sourceType == "contained_id" or sourceType == "created" or sourceType == "containedi" or sourceType == "openedby" or sourceType == "transforms" or sourceType == "transformedby" then
             for sourceName, sourceLocationMeta in pairs(sources) do
                 local newPath = deepcopy(path);
                 local editPath = newPath;
@@ -988,6 +991,7 @@ function Questie:RecursiveCreateNotes(c, z, v, locationMeta, iconMeta, objective
                 if newIconMeta.selectedIcon == nil then
                     local typeToIcon = {
                         ["drop"] = "loot",
+                        ["rewardedby"] = "slay",
                         ["contained"] = "object",
                         ["contained_id"] = "object",
                         ["created"] = "event",

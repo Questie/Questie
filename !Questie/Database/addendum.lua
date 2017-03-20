@@ -55524,6 +55524,16 @@ function GetEntityLocations(entity)
                 end
             end
         end
+        if sourceType == "rewardedby" then
+            for sourceName, b in pairs(sources) do
+                local locationMeta, ids = GetMonsterLocations(sourceName)
+                if next(locationMeta) then
+                    if locations[sourceType] == nil then locations[sourceType] = {} end
+                    locations[sourceType][sourceName] = locationMeta
+                    for c, zs in pairs(ids) do if mapIds[c] == nil then mapIds[c] = {} end for z, b in pairs(zs) do mapIds[c][z] = true end end
+                end
+            end
+        end
         if sourceType == "contained" then
             for sourceName, b in pairs(sources) do
                 local locationMeta, ids = GetObjectLocations(sourceName)
@@ -55670,6 +55680,13 @@ end
 function GetEventLocations(eventName)
     if QuestieEvents[eventName] then
         return GetEntityLocations(QuestieEvents[eventName])
+    end
+    return {}, {}
+end
+
+function GetReputationLocations(reputationName)
+    if QuestieReputationsByName[reputationName] then
+        return GetEntityLocations(QuestieReputationsByName[reputationName])
     end
     return {}, {}
 end
