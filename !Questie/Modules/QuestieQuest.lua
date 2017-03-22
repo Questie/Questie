@@ -265,20 +265,21 @@ end
 --Parses loot messages then passes item to DetectQuestItem for verification
 ---------------------------------------------------------------------------------------------------
 function Questie:ParseQuestLoot(arg1)
-    Questie:debug_Print("Quest:ParseQuestLoot --> [PRE] Quest [loot: '"..arg1.."'] detected.");
-    if string.find(arg1, "You receive loot%:") then
-        local _, _, item = string.find(arg1, "You receive loot%: (.+)");
+    local msg, item, loot
+    if string.find(arg1, "(You receive loot%:) (.+)") then
+        _, _, msg, item = string.find(arg1, "(You receive loot%:) (.+)");
     elseif string.find(arg1, "(Received item%:) (.+)") then
-        local _, _, item = string.find(arg1, "Received item%: (.+)");
-    elseif string.find(arg1, "(You received item%:) (.+)") then
-        local _, _, item = string.find(arg1, "You receive item%: (.+)");
+        _, _, msg, item = string.find(arg1, "(Received item%:) (.+)");
+    elseif string.find(arg1, "(You receive item%:) (.+)") then
+        _, _, msg, item = string.find(arg1, "(You receive item%:) (.+)");
     end
-    local item = tostring(item);
-    local _, _, loot = string.find(item, "%[(.+)%].+");
-    if loot then
-        if Questie:DetectQuestItem(loot) then
-            Questie:debug_Print("Quest:ParseQuestLoot --> [POST] Quest [loot: '"..loot.."'] detected.");
+    _, _, loot = string.find(item, "%[(.+)%].+");
+    if item then
+        if Questie:DetectQuestItem(item) then
+            Questie:debug_Print("Quest:ParseQuestLoot --> [POST] Quest Loot: [ "..loot.." ] was found.");
             Questie:RefreshQuestStatus();
+        else
+            Questie:debug_Print("Quest:ParseQuestLoot --> [POST] Quest Loot: [ "..loot.." ] is not a quest item.");
         end
     end
 end
