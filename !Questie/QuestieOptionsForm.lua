@@ -83,6 +83,10 @@ function Questie:OptionsForm_Display()
     QuestieOptionsForm:Show()
 end
 
+function Questie:OptionsForm_CancelOptions()
+    QuestieOptionsForm:Hide()
+end
+
 function Questie:OptionsForm_ApplyOptions()
     QuestieConfig.alwaysShowObjectives = Questie:toboolean(QO_showobjectives:GetChecked())
 
