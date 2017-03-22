@@ -335,8 +335,7 @@ function Questie:Tooltip(this, forceShow, bag, slot)
                     ["text"] = objective,
                     ["color"] = unitColor
                 }
-                local lines, sourceNames = {}, {}
-                sourceNames = Questie:RecursiveGetSourceNamesFromRawPath(objectiveInfo.path)
+                local sourceNames = Questie:RecursiveGetSourceNamesFromRawPath(objectiveInfo.path)
                 if objectiveInfo.name == objective or sourceNames[objective] then
                     local lineIndex = Questie_TooltipCache[cacheKey]['lineCount']
                     if drawnQuestTitle == false then
@@ -368,7 +367,7 @@ function Questie:Tooltip(this, forceShow, bag, slot)
                     else
                         local objectivePath = deepcopy(objectiveInfo.path)
                         Questie:PostProcessIconPath(objectivePath)
-                        lines = Questie:GetTooltipLines(objectivePath, 1, highlightInfo)
+                        local lines = Questie:GetTooltipLines(objectivePath, 1, highlightInfo)
                         desc = string.gsub(desc, objective, "|c"..unitColor..objective.."|r")
                         Questie_TooltipCache[cacheKey]['lines'][lineIndex] = {
                             ['color'] = {1,1,1},
