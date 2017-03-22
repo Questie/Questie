@@ -154,6 +154,7 @@ function Questie:CompleteQuest()
     if IsAddOnLoaded("EQL3") or IsAddOnLoaded("ShaguQuest") then
         if (QuestlogOptions[EQL3_Player].AutoCompleteQuests == 1) then
             if (IsQuestCompletable()) then
+--[[
                 local Questie_EQL3ToggleSave = nil;
                 if Questie:CheckPlayerInventory() == 0 then
                     Questie_EQL3ToggleSave = QuestlogOptions[EQL3_Player].AutoCompleteQuests
@@ -168,6 +169,7 @@ function Questie:CompleteQuest()
                 elseif Questie_EQL3ToggleSave ~= nil then
                     QuestlogOptions[EQL3_Player].AutoCompleteQuests = Questie_EQL3ToggleSave;
                 end
+]]
                 local questTitle = QGet_TitleText();
                 local _, _, qlevel, qName = string.find(questTitle, "%[(.+)%] (.+)");
                 if qName == nil then
@@ -199,13 +201,15 @@ end
 function Questie:GetQuestReward()
     if IsAddOnLoaded("EQL3") or IsAddOnLoaded("ShaguQuest") then
         if (QuestlogOptions[EQL3_Player].AutoCompleteQuests) and (GetNumQuestChoices() == 0) then
-            if GetNumQuestRewards() > Questie:CheckPlayerInventory() then
+            local numQuestRewards = GetNumQuestLogRewards();
+            local numAvailSlots = Questie:CheckPlayerInventory();
+            if numQuestRewards > numAvailSlots then
                 local Questie_EQL3ToggleSave = nil;
                 Questie_EQL3ToggleSave = QuestlogOptions[EQL3_Player].AutoCompleteQuests
                 if QuestlogOptions[EQL3_Player].AutoCompleteQuests == 1 then
                     QuestlogOptions[EQL3_Player].AutoCompleteQuests = 0;
                 end
-                DEFAULT_CHAT_FRAME:AddMessage("|cFFFF2222 Quest:GetQuestReward: Player inventory is full or not enough slots for rewards!");
+                DEFAULT_CHAT_FRAME:AddMessage("|cFFFF2222 Quest:GetQuestReward: Not enough room in player inventory for Quest Rewards!");
                 PlaySound("igQuestLogAbandonQuest");
                 DeclineQuest();
                 HideUIPanel(QuestFrame);
