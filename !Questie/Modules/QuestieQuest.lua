@@ -273,8 +273,8 @@ function Questie:ParseQuestLoot(arg1)
     elseif string.find(arg1, "(You receive item%:) (.+)") then
         _, _, msg, item = string.find(arg1, "(You receive item%:) (.+)");
     end
-    _, _, loot = string.find(item, "%[(.+)%].+");
     if item then
+        _, _, loot = string.find(item, "%[(.+)%].+");
         if Questie:DetectQuestItem(item) then
             Questie:debug_Print("Quest:ParseQuestLoot --> [POST] Quest Loot: [ "..loot.." ] was found.");
             Questie:RefreshQuestStatus();
