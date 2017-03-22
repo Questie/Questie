@@ -37,22 +37,16 @@ end)
 Questie.minimapButton:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 Questie.minimapButton:SetScript("OnClick", function()
     if ( arg1 == "LeftButton" ) then
-        Questie:Toggle()
+      Questie:OptionsForm_Display()
     end
     if (arg1 == "RightButton") then
-        QuestieConfig.hideMinimapIcons = not QuestieConfig.hideMinimapIcons
-        if QuestieConfig.hideMinimapIcons then
-            DEFAULT_CHAT_FRAME:AddMessage("QuestieStarters:|c0000ffc0 (Are now being hidden) |r")
-        else
-            DEFAULT_CHAT_FRAME:AddMessage("QuestieStarters:|c0000ffc0 (Are now being shown) |r")
-        end
-        Questie:AddEvent("DRAWNOTES", 0.1);
+      Questie:Toggle()
     end
 end)
 Questie.minimapButton:SetScript("OnEnter", function()
     QuestieTooltip:SetOwner(Questie.minimapButton, "ANCHOR_BOTTOMLEFT")
     QuestieTooltip:ClearLines()
-    QuestieTooltip:SetText("Questie\n\n<LeftClick>: Toggle all notes\n<RightClick>: Toggle minimap notes")
+    QuestieTooltip:SetText("Questie\n\n<LeftClick>: Opens Options UI\n<RightClick>: Toggles all notes")
     QuestieTooltip:Show()
 end)
 Questie.minimapButton:SetScript("OnLeave", function()
