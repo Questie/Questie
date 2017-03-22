@@ -37,10 +37,10 @@ end)
 Questie.minimapButton:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 Questie.minimapButton:SetScript("OnClick", function()
     if ( arg1 == "LeftButton" ) then
-      Questie:OptionsForm_Display()
+        Questie:OptionsForm_Display()
     end
     if (arg1 == "RightButton") then
-      Questie:Toggle()
+        Questie:Toggle()
     end
 end)
 Questie.minimapButton:SetScript("OnEnter", function()
