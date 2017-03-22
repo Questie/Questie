@@ -864,6 +864,7 @@ function Questie:GetQuestObjectivePaths(questHash)
             objectivePaths[i]['done'] = done;
             objectivePaths[i]['type'] = type;
             objectivePaths[i]['name'] = objectiveName;
+            objectivePaths[i]['desc'] = desc
         end
     end
     QSelect_QuestLogEntry(prevQuestLogSelection);

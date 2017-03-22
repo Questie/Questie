@@ -329,21 +329,17 @@ function Questie:Tooltip(this, forceShow, bag, slot)
         Questie_TooltipCache[cacheKey]['updateTime'] = GetTime()
         local prevQuestLogSelection = QGet_QuestLogSelection()
         for questHash, quest in pairs(QuestieHandledQuests) do
-            local QuestLogID = Questie:GetQuestIdFromHash(questHash)
-            QSelect_QuestLogEntry(QuestLogID)
             local drawnQuestTitle = false
             for objectiveid, objectiveInfo in pairs(quest.objectives) do
-                local objectivePath = deepcopy(objectiveInfo.path)
-                Questie:PostProcessIconPath(objectivePath)
                 local highlightInfo = {
                     ["text"] = objective,
                     ["color"] = unitColor
                 }
-                local lines, sourceNames = Questie:GetTooltipLines(objectivePath, 1, highlightInfo)
+                local lines, sourceNames = {}, {}
+                sourceNames = Questie:RecursiveGetSourceNamesFromRawPath(objectiveInfo.path)
                 if objectiveInfo.name == objective or sourceNames[objective] then
                     local lineIndex = Questie_TooltipCache[cacheKey]['lineCount']
                     if drawnQuestTitle == false then
-                        local q, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(QuestLogID)
                         local questInfo = QuestieHashMap[questHash]
                         local colorString = "|c" .. QuestieTracker:GetDifficultyColor(questInfo.questLevel)
                         local title = colorString
@@ -361,8 +357,8 @@ function Questie:Tooltip(this, forceShow, bag, slot)
                         lineIndex = lineIndex + 1
                         drawnQuestTitle = true
                     end
-                    local desc, type, done = QGet_QuestLogLeaderBoard(objectiveid)
-                    if done then
+                    local desc = objectiveInfo.desc
+                    if objectiveInfo.done then
                         Questie_TooltipCache[cacheKey]['lines'][lineIndex] = {
                             ['color'] = {0.2,1,0.3},
                             ['data'] = desc
@@ -370,6 +366,9 @@ function Questie:Tooltip(this, forceShow, bag, slot)
                         lineIndex = lineIndex + 1
                         Questie_TooltipCache[cacheKey]['lineCount'] = lineIndex
                     else
+                        local objectivePath = deepcopy(objectiveInfo.path)
+                        Questie:PostProcessIconPath(objectivePath)
+                        lines = Questie:GetTooltipLines(objectivePath, 1, highlightInfo)
                         desc = string.gsub(desc, objective, "|c"..unitColor..objective.."|r")
                         Questie_TooltipCache[cacheKey]['lines'][lineIndex] = {
                             ['color'] = {1,1,1},
@@ -409,9 +408,8 @@ end
 ---------------------------------------------------------------------------------------------------
 -- Tooltip code for quest starters and finishers
 ---------------------------------------------------------------------------------------------------
-function Questie:GetTooltipLines(path, indent, highlightInfo, lines, sourceNames)
+function Questie:GetTooltipLines(path, indent, highlightInfo, lines)
     if lines == nil then lines = {} end
-    if sourceNames == nil then sourceNames = {} end
     local indentString = "";
     for i=1,indent,1 do
         indentString = indentString.." ";
@@ -444,7 +442,6 @@ function Questie:GetTooltipLines(path, indent, highlightInfo, lines, sourceNames
                 local combinedNames = "";
                 local countDown = table.getn(splitNames);
                 for i, name in pairs(splitNames) do
-                    sourceNames[name] = true;
                     if i <= 5 or (highlightInfo ~= nil and name == highlightInfo.text) then
                         if i > 1 then combinedNames = combinedNames..", "; end
                         if highlightInfo ~= nil and name == highlightInfo.text then
@@ -463,7 +460,7 @@ function Questie:GetTooltipLines(path, indent, highlightInfo, lines, sourceNames
             end
         end
     end
-    return lines, sourceNames;
+    return lines
 end
 ---------------------------------------------------------------------------------------------------
 function Questie:AddPathToTooltip(Tooltip, path, indent)
@@ -848,12 +845,23 @@ function Questie:PostProcessIconPath(path)
         end
         local processedSources = {};
         for sourceName, data in pairs(newSources) do
-            for i, name in ipairs(data.names) do
-                processedSources[data.name] = data.sourcePath;
-            end
+            processedSources[data.name] = data.sourcePath;
         end
         path[sourceType] = processedSources;
     end
+end
+---------------------------------------------------------------------------------------------------
+function Questie:RecursiveGetSourceNamesFromRawPath(path, sourceNames)
+    if sourceNames == nil then sourceNames = {} end
+    for sourceType, sources in pairs(path) do
+        if sourceType ~= "locations" and sourceType ~= "name" then
+            for sourceName, sourcePath in pairs(sources) do
+                sourceNames[sourceName] = true
+                Questie:RecursiveGetSourceNamesFromRawPath(sourcePath, sourceNames)
+            end
+        end
+    end
+    return sourceNames
 end
 ---------------------------------------------------------------------------------------------------
 function Questie:RecursiveFindAndCombineObjectiveName(pathToSearch, objectiveName, pathToAdd)
