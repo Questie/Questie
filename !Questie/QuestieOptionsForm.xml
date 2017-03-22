@@ -216,7 +216,7 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="18" y="-339" />
+              <AbsDimension x="18" y="-301" />
             </Offset>
           </Anchor>
         </Anchors>
@@ -756,7 +756,7 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="152" y="-301" />
+              <AbsDimension x="152" y="-263" />
             </Offset>
           </Anchor>
         </Anchors>
@@ -780,7 +780,7 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="18" y="-309" />
+              <AbsDimension x="18" y="-271" />
             </Offset>
           </Anchor>
         </Anchors>
@@ -1159,7 +1159,7 @@
           <OnLeave>Questie:OptionsForm_SettingOnLeave()</OnLeave>
         </Scripts>
       </Frame>
-      <Frame name="$parentHideObjectivesLabel">
+      <Frame name="$parentMinimapButtonLabel">
         <!--<FrameSkin skinid="f15d4970-d66d-444e-bb2d-1ad102c87fed" frameid="f15d4978-d66d-444e-bb2d-1ad102c87fed" />-->
         <Size>
           <AbsDimension x="128" y="32" />
@@ -1167,13 +1167,13 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="18" y="-263" />
+              <AbsDimension x="18" y="-339" />
             </Offset>
           </Anchor>
         </Anchors>
         <Layers>
           <Layer>
-            <FontString name="$parentLabel" setAllPoints="true" font="Fonts\FRIZQT__.TTF" text="Hide Objectives">
+            <FontString name="$parentLabel" setAllPoints="true" font="Fonts\FRIZQT__.TTF" text="Minimap Button">
               <FontHeight>
                 <AbsValue val="12" />
               </FontHeight>
@@ -1188,7 +1188,7 @@
           </Layer>
         </Layers>
         <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("HideObjectives")</OnEnter>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("MinimapButton")</OnEnter>
           <OnLeave>Questie:OptionsForm_SettingOnLeave()</OnLeave>
         </Scripts>
       </Frame>
@@ -1437,7 +1437,7 @@
         <CheckedTexture file="Interface\Buttons\UI-CheckBox-Check" />
         <DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled" />
       </CheckButton>
-      <CheckButton name="$parentHideObjectivesCheck">
+      <CheckButton name="$parentMinimapButtonCheck">
         <!--<FrameSkin skinid="f15d4970-d66d-444e-bb2d-1ad102c87fed" frameid="f15d4974-d66d-444e-bb2d-1ad102c87fed" />-->
         <Size>
           <AbsDimension x="32" y="32" />
@@ -1445,12 +1445,12 @@
         <Anchors>
           <Anchor point="TOPLEFT">
             <Offset>
-              <AbsDimension x="152" y="-263" />
+              <AbsDimension x="152" y="-339" />
             </Offset>
           </Anchor>
         </Anchors>
         <Scripts>
-          <OnEnter>Questie:OptionsForm_SettingOnEnter("HideObjectives")</OnEnter>
+          <OnEnter>Questie:OptionsForm_SettingOnEnter("MinimapButton")</OnEnter>
           <OnLeave>Questie:OptionsForm_SettingOnLeave()</OnLeave>
         </Scripts>
         <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />

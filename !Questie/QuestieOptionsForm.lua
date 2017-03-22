@@ -7,10 +7,10 @@ function Questie:OptionsForm_Init()
     QO_clusterquests = getglobal(QO_FormName.."ClusterQuestsCheck")
     QO_corpsearrow = getglobal(QO_FormName.."CorpseArrowCheck")
     QO_hideminimapicons = getglobal(QO_FormName.."HideMinimapIconsCheck")
-    QO_hideobjectives = getglobal(QO_FormName.."HideObjectivesCheck")
     QO_maxlevelfilter = getglobal(QO_FormName.."MaxLevelFilterCheck")
     QO_maxshowlevel = getglobal(QO_FormName.."MaxShowLevelSlider")
     QO_maxshowlevel_current = getglobal(QO_FormName.."MaxShowLevelSlider".."Current")
+    QO_minimapbutton = getglobal(QO_FormName.."MinimapButtonCheck")
     QO_minlevelfilter = getglobal(QO_FormName.."MinLevelFilterCheck")
     QO_minshowlevel = getglobal(QO_FormName.."MinShowLevelSlider")
     QO_minshowlevel_current = getglobal(QO_FormName.."MinShowLevelSlider".."Current")
@@ -44,7 +44,7 @@ function Questie:OptionsForm_Display()
 
     QO_hideminimapicons:SetChecked(QuestieConfig["hideMinimapIcons"])
 
-    QO_hideobjectives:SetChecked(QuestieConfig["hideObjectives"])
+    QO_minimapbutton:SetChecked(QuestieConfig["minimapButton"])
 
     QO_maxlevelfilter:SetChecked(QuestieConfig["maxLevelFilter"])
 
@@ -96,7 +96,7 @@ function Questie:OptionsForm_ApplyOptions()
 
     QuestieConfig.hideMinimapIcons = Questie:toboolean(QO_hideminimapicons:GetChecked())
 
-    QuestieConfig.hideObjectives = Questie:toboolean(QO_hideobjectives:GetChecked())
+    QuestieConfig.minimapButton = Questie:toboolean(QO_minimapbutton:GetChecked())
 
     QuestieConfig.maxLevelFilter = Questie:toboolean(QO_maxlevelfilter:GetChecked())
 
@@ -224,9 +224,6 @@ function Questie:OptionsForm_SettingOnEnter(SettingsName)
     elseif(SettingsName == "HideMinimapIcons") then
         QuestieOptionsToolTip:AddLine("Hides quest starter icons on mini map only (default=false)", 1, 1, 0)
 
-    elseif(SettingsName == "HideObjectives") then
-        QuestieOptionsToolTip:AddLine("Objective Icons (default=false)", 1, 1, 0)
-
     elseif(SettingsName == "MaxLevelFilter") then
         QuestieOptionsToolTip:AddLine("Max-Level Filter (default=false)", 1, 1, 0)
 
@@ -234,7 +231,7 @@ function Questie:OptionsForm_SettingOnEnter(SettingsName)
         QuestieOptionsToolTip:AddLine("Hides quests until <X> levels above players level (default=3)", 1, 1, 0)
 
     elseif(SettingsName == "MinimapButton") then
-        QuestieOptionsToolTip:AddLine("Removes questie minimap button (default=true)", 1, 1, 0)
+        QuestieOptionsToolTip:AddLine("Show questie minimap button (default=true)", 1, 1, 0)
 
     elseif(SettingsName == "MinLevelFilter") then
         QuestieOptionsToolTip:AddLine("Min-Level Filter (default=false)", 1, 1, 0)
