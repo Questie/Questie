@@ -403,16 +403,6 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
     elseif (event == "CHAT_MSG_LOOT") then
         --Questie:debug_Print("OnEvent: CHAT_MSG_LOOT");
         Questie:ParseQuestLoot(arg1);
-        -------------------------------------------------
-        local _, _, msg2, item2 = string.find(arg1, "(Received item%:) (.+)");
-        local item2 = tostring(item2);
-        local _, _, loot2 = string.find(item2, "%[(.+)%].+");
-        if loot2 then
-            --Questie:debug_Print("OnEvent:CHAT_MSG_LOOT [loot: '"..loot2.."']");
-            if Questie:DetectQuestItem(loot2) then
-                Questie:RefreshQuestStatus();
-            end
-        end
     -------------------------------------------------
     elseif (event == "MINIMAP_UPDATE_ZOOM" ) then
         Astrolabe:isMinimapInCity();
