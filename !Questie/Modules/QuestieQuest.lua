@@ -72,8 +72,10 @@ end
 QuestRewardCompleteButton = QuestRewardCompleteButton_OnClick;
 QuestRewardCompleteButton_OnClick = function()
     if IsAddOnLoaded("EQL3") or IsAddOnLoaded("ShaguQuest") then
-        if Questie:CheckPlayerInventory() == 0 then
-            DEFAULT_CHAT_FRAME:AddMessage("|cFFFF2222 Quest:QuestRewardCompleteButton: Unable to auto complete quest. Player inventory is full!");
+        local numQuestRewards = GetNumQuestLogRewards();
+        local numAvailSlots = Questie:CheckPlayerInventory();
+        if numQuestRewards > numAvailSlots then
+            DEFAULT_CHAT_FRAME:AddMessage("|cFFFF2222 Quest:QuestRewardCompleteButton: Not enough room in player inventory for Quest Rewards!");
             PlaySound("igQuestLogAbandonQuest");
             DeclineQuest();
             HideUIPanel(QuestFrame);
@@ -105,6 +107,7 @@ end
 QuestProgressCompleteButton = QuestProgressCompleteButton_OnClick;
 QuestProgressCompleteButton_OnClick = function()
     if IsQuestCompletable() then
+--[[
         if IsAddOnLoaded("EQL3") or IsAddOnLoaded("ShaguQuest") then
             if Questie:CheckPlayerInventory() == 0 then
                 DEFAULT_CHAT_FRAME:AddMessage("|cFFFF2222 Quest:QuestProgressCompleteButton: Unable to auto complete quest. Player inventory is full!");
@@ -114,6 +117,7 @@ QuestProgressCompleteButton_OnClick = function()
                 return
             end
         end
+]]
         local questTitle = QGet_TitleText();
         local _, _, qlevel, qName = string.find(questTitle, "%[(.+)%] (.+)");
         if qName == nil then
@@ -243,15 +247,36 @@ function Questie:DetectQuestItem(itemName)
             if (desc) then
                 local  _, _, questItem, itemHave, itemNeed = string.find(desc, "(.+)%: (%d+)/(%d+)");
                 if itemName == questItem and itemHave ~= itemNeed then
-                    --Questie:debug_Print("Quest:DetectQuestItem: [questItem: "..questItem.."] | [itemHave: "..itemHave.."] | [itemNeed: "..itemNeed.."]");
-                    --Questie:debug_Print("Quest:DetectQuestItem: TRUE");
+                    Questie:debug_Print("Quest:DetectQuestItem: [questItem: "..questItem.."] | [itemHave: "..itemHave.."] | [itemNeed: "..itemNeed.."]");
+                    Questie:debug_Print("Quest:DetectQuestItem: TRUE");
                     return true
                 end
             end
         end
     end
-    --Questie:debug_Print("Quest:DetectQuestItem: FALSE");
+    Questie:debug_Print("Quest:DetectQuestItem: FALSE");
     return false
+end
+---------------------------------------------------------------------------------------------------
+--Parses loot messages then passes item to DetectQuestItem for verification
+---------------------------------------------------------------------------------------------------
+function Questie:ParseQuestLoot(arg1)
+    Questie:debug_Print("Quest:ParseQuestLoot --> [PRE] Quest [loot: '"..arg1.."'] detected.");
+    if string.find(arg1, "You receive loot%:") then
+        local _, _, item = string.find(arg1, "You receive loot%: (.+)");
+    elseif string.find(arg1, "(Received item%:) (.+)") then
+        local _, _, item = string.find(arg1, "Received item%: (.+)");
+    elseif string.find(arg1, "(You received item%:) (.+)") then
+        local _, _, item = string.find(arg1, "You receive item%: (.+)");
+    end
+    local item = tostring(item);
+    local _, _, loot = string.find(item, "%[(.+)%].+");
+    if loot then
+        if Questie:DetectQuestItem(loot) then
+            Questie:debug_Print("Quest:ParseQuestLoot --> [POST] Quest [loot: '"..loot.."'] detected.");
+            Questie:RefreshQuestStatus();
+        end
+    end
 end
 ---------------------------------------------------------------------------------------------------
 --Used to make sure the players inventory isn't full before auto-completing quest.
@@ -627,10 +652,8 @@ function Questie:UpdateQuestInZone(Zone, force)
             end
             if (Refresh) then
                 Questie:AddQuestToMap(hash, true);
-                if (QuestieCachedQuests[hash]) then
-                    QuestieTracker:updateTrackerCache(hash, i, level);
-                end
-            elseif foundChange and QuestieConfig.trackerEnabled == true then
+            end
+            if (foundChange and QuestieConfig.trackerEnabled == true) then
                 if (QuestieCachedQuests[hash]) then
                     QuestieTracker:updateTrackerCache(hash, i, level);
                 end

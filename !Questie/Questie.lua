@@ -402,15 +402,7 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
     -------------------------------------------------
     elseif (event == "CHAT_MSG_LOOT") then
         --Questie:debug_Print("OnEvent: CHAT_MSG_LOOT");
-        local _, _, msg1, item1 = string.find(arg1, "(You receive loot%:) (.+)");
-        local item1 = tostring(item1);
-        local _, _, loot1 = string.find(item1, "%[(.+)%].+");
-        if loot1 then
-            --Questie:debug_Print("OnEvent:CHAT_MSG_LOOT [loot: '"..loot1.."']");
-            if Questie:DetectQuestItem(loot1) then
-                Questie:RefreshQuestStatus();
-            end
-        end
+        Questie:ParseQuestLoot(arg1);
         -------------------------------------------------
         local _, _, msg2, item2 = string.find(arg1, "(Received item%:) (.+)");
         local item2 = tostring(item2);
