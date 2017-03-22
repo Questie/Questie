@@ -968,8 +968,6 @@ QuestieFastSlash = {
             DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie resizemap |r--|c0000ffc0(toggle)|r QuestMap: Shrinks Worldmap and allows dragging", 0.75, 0.75, 0.75);
         end
     end,
--- Questie Options Form, Temp method
--- TODO:Move to minimap button clicking
     ["options"] = function()
         Questie:OptionsForm_Display()
     end,
