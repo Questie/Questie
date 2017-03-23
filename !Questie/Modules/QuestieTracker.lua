@@ -37,6 +37,7 @@ QAutoQuestWatch_CheckDeleted = nil;
 QAutoQuestWatch_Update = nil;
 QIsQuestWatched = nil;
 QAutoQuestWatch_OnUpdate = nil;
+QQuestWatch_Update = nil;
 ---------------------------------------------------------------------------------------------------
 -- OnEvent
 ---------------------------------------------------------------------------------------------------
@@ -88,6 +89,9 @@ function QuestieTracker:updateTrackingFrameSize()
             QuestieTracker.frame:SetWidth(0.1);
             QuestieTracker.frame:SetBackdropColor(0,0,0,0);
             QuestieTracker.frame:Hide();
+            if (QuestieConfig.showTrackerHeader == true) then
+                QuestieTrackerHeader:Hide();
+            end
             return;
         end
         QuestieTracker.frame:Hide();
@@ -671,6 +675,40 @@ function QuestieTracker:createTrackingFrame()
     QuestieTracker.frame:Hide();
 end
 ---------------------------------------------------------------------------------------------------
+--Credit to Shagu for this fix for EQL3's freezing and event flooding upon Login.
+--Let QuestWatch Update only be triggered once per second in the first 10 seconds after login.
+---------------------------------------------------------------------------------------------------
+if (IsAddOnLoaded("EQL3")) and (not IsAddOnLoaded("ShaguQuest")) then
+    local EQL_Loader = CreateFrame("Frame",nil);
+    EQL_Loader.tick = GetTime();
+    EQL_Loader.step = 0;
+    EQL_Loader:SetScript("OnUpdate", function()
+        if EQL_Loader.tick + 1 <= GetTime() then
+            EQL_Loader.abort = false;
+            QuestWatch_Update();
+            EQL_Loader.tick = GetTime();
+            if EQL_Loader.step < 10 then
+                EQL_Loader.step = EQL_Loader.step + 1;
+            else
+                EQL_Loader:Hide();
+            end
+        end
+    end)
+---------------------------------------------------------------------------------------------------
+--Intercepts and injects extra code into EQL3
+---------------------------------------------------------------------------------------------------
+    local QQuestWatch_Update = QuestWatch_Update;
+    function QuestWatch_Update()
+        if EQL_Loader.abort == nil then EQL_Loader.abort = true end
+        if(not EQL3_Temp.hasManaged) or (EQL_Loader.abort == true and EQL_Loader.step < 10) then
+            QuestWatchFrame:Hide();
+            return;
+        end
+        EQL_Loader.abort = true
+        QQuestWatch_Update();
+    end
+end
+---------------------------------------------------------------------------------------------------
 -- Adds or removes quests to be tracked from the quest tracker. Also handles 'chat linking'.
 ---------------------------------------------------------------------------------------------------
 function QuestLogTitleButton_OnClick(button)
@@ -746,7 +784,7 @@ function QuestLogTitleButton_OnClick(button)
                         end
                         QuestWatch_Update();
                         QuestLog_Update();
-                   return;
+                    return;
                     end
                     if ChatFrameEditBox:IsVisible() then
                         ChatFrameEditBox:Insert("|cffffff00|Hquest:0:0:0:0|h["..gsub(this:GetText(), ".*%] (.*)", "%1").."]|h|r");
@@ -966,9 +1004,7 @@ end
 function QuestieTracker:addQuestToTracker(hash)
     if (QuestieCachedQuests[hash] and QuestieCachedQuests[hash]["tracked"] ~= true) then
         QuestieCachedQuests[hash]["tracked"] = true;
-        --Questie:debug_Print("Tracker:addQuestToTracker: [Hash: "..hash.."]");
     end
-    QuestieTracker:FillTrackingFrame();
 end
 ---------------------------------------------------------------------------------------------------
 -- Removes quest from tracker when it's untracked - will not clear cached quest data
@@ -977,14 +1013,6 @@ function QuestieTracker:removeQuestFromTracker(hash)
     if (QuestieSeenQuests[hash] == 0) and (QuestieCachedQuests[hash] ~= nil) then
         QuestieCachedQuests[hash]["tracked"] = false;
         RemoveCrazyArrow(hash);
-        --Questie:debug_Print("Tracker:removeQuestFromTracker: [Hash: "..hash.."]");
-    end
-    QuestieTracker:FillTrackingFrame();
-    if (QuestieTracker.highestIndex) == 0 then
-        QuestieTracker.frame:Hide();
-        if (QuestieConfig.showTrackerHeader == true) then
-            QuestieTrackerHeader:Hide();
-        end
     end
 end
 ---------------------------------------------------------------------------------------------------
@@ -1070,35 +1098,13 @@ function QuestieTracker:BlizzardHooks()
     end
 end
 ---------------------------------------------------------------------------------------------------
+--End of Blizzard Hooks
+---------------------------------------------------------------------------------------------------
+--///////////////////////////////////////////////////////////////////////////////////////////////--
+---------------------------------------------------------------------------------------------------
 --Adds new quests to the Blizzard QUEST_WATCH_LIST table and syncs with the quest log
 ---------------------------------------------------------------------------------------------------
-function QuestieTracker:syncWOWQuestLog()
-    if (not IsAddOnLoaded("EQL3")) and (not IsAddOnLoaded("ShaguQuest")) then
-        if (AUTO_QUEST_WATCH == "1") then
-            for hash,v in pairs(QuestieCachedQuests) do
-                if hash and v["logId"] then
-                    local id = v["logId"]
-                    if QuestieSeenQuests[hash] == 0 and QuestieCachedQuests[hash]["tracked"] == false then
-                        AddQuestWatch(id);
-                        --Questie:debug_Print("Tracker:syncWOWQuestLog --> AutoQuestWatch_Insert: [ID: "..id.."] | [hash: "..hash.."]");
-                        QuestWatch_Update();
-                        -- Prevents QuestWatcher "flickering bug"
-                        if (QuestieConfig.trackerEnabled == true) then
-                            QuestWatchFrame:Hide();
-                        end
-                        QuestLog_SetSelection(id);
-                        QuestLog_Update();
-                    end
-                end
-            end
-        end
-    end
-end
----------------------------------------------------------------------------------------------------
---Checks the QuestieCachedQuests table for tracked quests and builds the
---Blizzard QUEST_WATCH_LIST table upon login or reloading the UI.
----------------------------------------------------------------------------------------------------
-function QuestieTracker:initWOWQuestLog()
+function QuestieTracker:syncQuestWatch()
     if (not IsAddOnLoaded("EQL3")) and (not IsAddOnLoaded("ShaguQuest")) then
         if (AUTO_QUEST_WATCH == "1") then
             for hash,v in pairs(QuestieCachedQuests) do
@@ -1106,29 +1112,28 @@ function QuestieTracker:initWOWQuestLog()
                     local id = v["logId"]
                     if QuestieSeenQuests[hash] == 0 and QuestieCachedQuests[hash]["tracked"] == true then
                         AddQuestWatch(id);
-                        --Questie:debug_Print("Tracker:initWOWQuestLog --> AutoQuestWatch_Insert: [ID: "..id.."] | [hash: "..hash.."]");
-                        QuestWatch_Update();
-                        -- Prevents QuestWatcher "flickering bug"
-                        if (QuestieConfig.trackerEnabled == true) then
-                            QuestWatchFrame:Hide();
-                        end
-                        QuestLog_SetSelection(id);
-                        QuestLog_Update();
+                        Questie:debug_Print("Tracker:syncQuestWatch --> AddQuestWatch: [ID: "..id.."] | [hash: "..hash.."]");
+                    elseif QuestieSeenQuests[hash] == 0 and QuestieCachedQuests[hash]["tracked"] == false then
+                        RemoveQuestWatch(id);
+                        Questie:debug_Print("Tracker:syncQuestWatch --> RemoveQuestWatch: [ID: "..id.."] | [hash: "..hash.."]");
                     end
+                    QuestWatch_Update();
+                    -- Prevents QuestWatcher "flickering bug"
+                    if (QuestieConfig.trackerEnabled == true) then
+                        QuestWatchFrame:Hide();
+                    end
+                    QuestLog_SetSelection(id);
+                    QuestLog_Update();
                 end
             end
         end
     end
 end
 ---------------------------------------------------------------------------------------------------
---End of Blizzard Hooks
----------------------------------------------------------------------------------------------------
---///////////////////////////////////////////////////////////////////////////////////////////////--
----------------------------------------------------------------------------------------------------
 --Checks and flags tracked quest status and then adds them to the quest tracker
 ---------------------------------------------------------------------------------------------------
 function QuestieTracker:syncQuestLog()
-    Questie:debug_Print();
+    Questie:debug_Print("****************| Running QuestieTracker:syncQuestLog |**************** ");
     if IsAddOnLoaded("EQL3") or IsAddOnLoaded("ShaguQuest") then
         QuestLogSync = EQL3_IsQuestWatched;
     else
@@ -1146,7 +1151,11 @@ function QuestieTracker:syncQuestLog()
             local hash = Questie:getQuestHash(questName, level, objectiveText);
             if not isHeader and QuestLogSync(id) and (QuestieCachedQuests[hash] and QuestieCachedQuests[hash]["tracked"] ~= true) then
                 if QuestieCachedQuests[hash] then
-                    Questie:debug_Print("Tracker:syncQuestLog --> addQuestToTrackerCache: [Hash: "..hash.."]");
+                    Questie:debug_Print("Tracker:syncQuestLog --> addQuestToTracker: Flagging [Hash: "..hash.."] TRUE");
+                    QuestieTracker:addQuestToTracker(hash);
+                else
+                    Questie:debug_Print("Tracker:syncQuestLog --> Add quest to Tracker and MapNotes caches: [Hash: "..hash.."]");
+                    Questie:AddQuestToMap(hash);
                     QuestieTracker:addQuestToTrackerCache(hash, id, level);
                     QuestieTracker:addQuestToTracker(hash);
                 end
@@ -1162,6 +1171,7 @@ function QuestieTracker:syncQuestLog()
     end
     QSelect_QuestLogEntry(prevQuestLogSelection);
     QuestieTracker:FillTrackingFrame();
+    QuestieTracker:updateTrackingFrameSize();
 end
 ---------------------------------------------------------------------------------------------------
 -- Saves the position of the tracker after the user moves it

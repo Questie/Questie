@@ -253,11 +253,13 @@ function Questie:OnUpdate(elapsed)
                         end
                     end
                     Questie:debug_Print("OnUpdate: "..v.EVENT.." Took: "..tostring(GetTime()- UpdateTime).." ms");
+                    Questie:debug_Print();
                 elseif (v.EVENT == "UPDATECACHE") then
                     local UpdateCacheTime = GetTime();
                     Questie:UpdateGameClientCache();
                     QUESTIE_EVENTQUEUE[k] = nil;
                     Questie:debug_Print("OnUpdate: "..v.EVENT.." Took: "..tostring((GetTime()- UpdateCacheTime)*1000).." ms");
+                    Questie:debug_Print();
                 elseif (v.EVENT == "CHECKLOG") then
                     local CheckLogTime = GetTime();
                     Questie:CheckQuestLog();
@@ -275,19 +277,27 @@ function Questie:OnUpdate(elapsed)
                     QuestieTracker:syncQuestLog();
                     QUESTIE_EVENTQUEUE[k] = nil;
                     Questie:debug_Print("OnUpdate: "..v.EVENT.." Took: "..tostring((GetTime()- SyncLogTime)*1000).." ms");
+                    Questie:debug_Print();
+                elseif (v.EVENT == "SYNCWATCH") and (not IsAddOnLoaded("EQL3")) and (not IsAddOnLoaded("ShaguQuest")) then
+                    local SyncWoWLogTime = GetTime();
+                    QuestieTracker:syncQuestWatch();
+                    QUESTIE_EVENTQUEUE[k] = nil;
+                    Questie:debug_Print("OnUpdate: "..v.EVENT.." Took: "..tostring((GetTime()- SyncWoWLogTime)*1000).." ms");
+                    Questie:debug_Print();
                 elseif (v.EVENT == "DRAWNOTES") then
                     local DrawNotesTime = GetTime();
                     Questie:SetAvailableQuests();
                     Questie:RedrawNotes();
                     QUESTIE_EVENTQUEUE[k] = nil;
                     Questie:debug_Print("OnUpdate: "..v.EVENT.." Took: "..tostring((GetTime()- DrawNotesTime)*1000).." ms");
+                    Questie:debug_Print();
                 elseif (v.EVENT == "LOADEVENTS") then
                     local LoadEventsTime = GetTime();
                     GameLoadingComplete = true;
                     Questie:OnLoad_QuestEvents();
-                    QuestieTracker:initWOWQuestLog();
                     QUESTIE_EVENTQUEUE[k] = nil;
                     Questie:debug_Print("OnUpdate: "..v.EVENT.." Took: "..tostring((GetTime()- LoadEventsTime)*1000).." ms");
+                    Questie:debug_Print();
                 end
             else
                 if k ~= index then
@@ -340,10 +350,6 @@ end
 ---------------------------------------------------------------------------------------------------
 --Questie Event Handlers
 ---------------------------------------------------------------------------------------------------
---| Global flags used to check/report quest status in all caches and saved variables
---|  1 : Quest Complete
---|  0 : Found in QuestLog
---| -1 : Abandoned Quest
 function Questie:AddEvent(EVENT, DELAY, MSG)
     local evnt = {};
     evnt.EVENT = EVENT;
@@ -356,19 +362,19 @@ end
 function Questie:CheckQuestLogStatus()
     QUESTIE_UPDATE_EVENT = 1;
     if(GetTime() - QUESTIE_LAST_CHECKLOG > 0.1) then
-        Questie:AddEvent("CHECKLOG", 0.135);
+        Questie:AddEvent("CHECKLOG", 0.2);
         QUESTIE_LAST_CHECKLOG = GetTime();
     else
         QUESTIE_LAST_CHECKLOG = GetTime();
     end
     if(GetTime() - QUESTIE_LAST_UPDATECACHE > 0.1) then
-        Questie:AddEvent("UPDATECACHE", 0.160);
+        Questie:AddEvent("UPDATECACHE", 0.3);
         QUESTIE_LAST_UPDATECACHE = GetTime();
     else
         QUESTIE_LAST_UPDATECACHE = GetTime();
     end
     if(GetTime() - QUESTIE_LAST_UPDATE > 0.1) then
-        Questie:AddEvent("UPDATE", 0.185);
+        Questie:AddEvent("UPDATE", 0.4);
         QUESTIE_LAST_UPDATE = GetTime();
     else
         QUESTIE_LAST_UPDATE = GetTime();
@@ -377,20 +383,20 @@ end
 ---------------------------------------------------------------------------------------------------
 function Questie:RefreshQuestStatus()
     QUESTIE_UPDATE_EVENT = 1;
-    if (GetTime() - QUESTIE_LAST_SYNCLOG > 0.18) then
-        Questie:AddEvent("SYNCLOG", 1.2);
+    if (GetTime() - QUESTIE_LAST_SYNCLOG > 0.1) then
+        Questie:AddEvent("SYNCLOG", 1.0);
         QUESTIE_LAST_SYNCLOG = GetTime();
     else
         QUESTIE_LAST_SYNCLOG = GetTime();
     end
-    if (GetTime() - QUESTIE_LAST_DRAWNOTES > 0.18) then
-        Questie:AddEvent("DRAWNOTES", 1.4);
+    if (GetTime() - QUESTIE_LAST_DRAWNOTES > 0.1) then
+        Questie:AddEvent("DRAWNOTES", 1.2);
         QUESTIE_LAST_DRAWNOTES = GetTime();
     else
         QUESTIE_LAST_DRAWNOTES = GetTime();
     end
-    if (GetTime() - QUESTIE_LAST_TRACKER > 0.18) then
-        Questie:AddEvent("TRACKER", 1.45);
+    if (GetTime() - QUESTIE_LAST_TRACKER > 0.1) then
+        Questie:AddEvent("TRACKER", 1.2);
         QUESTIE_LAST_TRACKER = GetTime();
     else
         QUESTIE_LAST_TRACKER = GetTime();
@@ -414,7 +420,6 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
         DiedInCont, DiedInZone, DiedAtX, DiedAtY = Astrolabe:GetCurrentPlayerPosition();
     -------------------------------------------------
     elseif ( event == "PLAYER_ENTERING_WORLD" or event == "ZONE_CHANGED_NEW_AREA" ) then
-        Astrolabe:isMinimapInCity();
         if not WorldMapFrame:IsVisible() then SetMapToCurrentZone() end
     -------------------------------------------------
     elseif ( event == "PLAYER_LEAVING_WORLD" ) then
@@ -431,11 +436,13 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
         QuestieTracker:createTrackingFrame();
         QuestieTracker:LoadModule();
         Questie:BlockTranslations();
-        Questie:AddEvent("CHECKLOG", 1);
-        Questie:AddEvent("UPDATECACHE", 2.0);
+        Questie:AddEvent("CHECKLOG", 2.0);
+        Questie:AddEvent("UPDATECACHE", 2.1);
         Questie:AddEvent("UPDATE", 2.2);
         Questie:AddEvent("LOADEVENTS", 2.4);
+        Questie:AddEvent("SYNCWATCH", 2.5);
         Questie:AddEvent("SYNCLOG", 2.6);
+        Questie:AddEvent("DRAWNOTES", 2.7);
         Questie:AddEvent("TRACKER", 2.8);
     -------------------------------------------------
     elseif (event == "PLAYER_UNGHOST") then
@@ -457,7 +464,6 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
     elseif (event == "QUEST_ITEM_UPDATE") then
         Questie:debug_Print("OnEvent: QUEST_ITEM_UPDATE");
         Questie:CheckQuestLogStatus();
-        Questie:RefreshQuestStatus();
     -------------------------------------------------
     elseif(event == "QUEST_PROGRESS") then
         Questie:debug_Print("OnEvent: QUEST_PROGRESS");
@@ -490,6 +496,12 @@ function Questie:Toggle()
         end
     end
 end
+---------------------------------------------------------------------------------------------------
+-- QuestieSeenQuests flags to denote quest status in all cache and saved variable checks.
+--    1 : Quest Complete
+--    0 : Found in QuestLog
+--   -1 : Abandoned Quest
+-- Example: QuestieSeenQuests[hash] = flag
 ---------------------------------------------------------------------------------------------------
 --Cleans and resets the users Questie SavedVariables. Will also perform some quest and quest
 --tracker database clean up to purge stale/invalid entries. More notes below. Popup confirmation
