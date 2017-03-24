@@ -404,7 +404,8 @@ function Questie:RefreshQuestStatus()
 end
 ---------------------------------------------------------------------------------------------------
 function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10)
-    if (event =="ADDON_LOADED" and arg1 == "Questie") then
+    if (event =="ADDON_LOADED" and arg1 == "!Questie") then
+        Questie:CreateMinimapButton();
     -------------------------------------------------
     elseif (event == "CHAT_MSG_LOOT") then
         --Questie:debug_Print("OnEvent: CHAT_MSG_LOOT");
