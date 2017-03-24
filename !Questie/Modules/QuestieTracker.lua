@@ -595,10 +595,16 @@ function QuestieTracker:FillTrackingFrame()
         index = index + 1;
     end
     if (QuestieConfig.trackerEnabled == true) and (QuestieConfig.trackerMinimize == false) then
-        local trackerHeight = QuestieTracker.questButtons[QuestieTracker.highestIndex]:GetTop() - QuestieTracker.frame:GetBottom();
-        local trackerWidth = QuestieTracker.questButtons.maxWidth;
-        QuestieTracker.frame:SetWidth(trackerWidth);
-        QuestieTracker.frame:SetHeight(trackerHeight);
+        if (QuestieConfig.trackerBackground == false) then
+            trackerWidth = QuestieTracker.questButtons.maxWidth;
+            if (QuestieConfig.trackerList == false) then
+                trackerHeight = QuestieTracker.frame:GetTop() - QuestieTracker.questButtons[QuestieTracker.highestIndex]:GetBottom();
+            else
+                trackerHeight = QuestieTracker.questButtons[QuestieTracker.highestIndex]:GetTop() - QuestieTracker.frame:GetBottom();
+            end
+            QuestieTracker.frame:SetWidth(trackerWidth);
+            QuestieTracker.frame:SetHeight(trackerHeight);
+        end
         QuestieTracker.MaxButtonWidths = {};
         QuestieTracker:updateTrackingFrameSize();
     end
@@ -608,8 +614,9 @@ end
 ---------------------------------------------------------------------------------------------------
 function QuestieTracker:createTrackingFrame()
     QuestieTracker.frame = CreateFrame("Frame", "QuestieTrackerFrame", UIParent, "ActionButtonTemplate");
-    QuestieTracker.frame:SetWidth(1);
-    QuestieTracker.frame:SetHeight(1);
+    if trackerWidth or trackerHeight == nil then trackerWidth = 1; trackerHeight = 1; end
+    QuestieTracker.frame:SetWidth(trackerWidth);
+    QuestieTracker.frame:SetHeight(trackerHeight);
     QuestieTracker.frame:SetPoint(
         QuestieTrackerVariables["position"]["point"],
         QuestieTrackerVariables["position"]["relativeTo"],
