@@ -596,6 +596,8 @@ QuestieFastSlash = {
         QuestieConfig.trackerBackground = not QuestieConfig.trackerBackground;
         if QuestieConfig.trackerBackground then
             ReloadUI();
+        else
+            ReloadUI();
         end
     end,
     ["backgroundalpha"] = function(args)

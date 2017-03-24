@@ -595,6 +595,7 @@ function QuestieTracker:FillTrackingFrame()
         index = index + 1;
     end
     if (QuestieConfig.trackerEnabled == true) and (QuestieConfig.trackerMinimize == false) then
+        QuestieTracker.frame:SetWidth(QuestieTracker.questButtons.maxWidth);
         QuestieTracker.MaxButtonWidths = {};
         QuestieTracker:updateTrackingFrameSize();
     end
