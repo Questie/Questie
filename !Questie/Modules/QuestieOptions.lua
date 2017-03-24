@@ -201,9 +201,16 @@ function Questie:OptionsForm_ApplyOptions()
         StaticPopup_Show("OPTIONS_WARNING_F")
     end
 
-    Questie:AddEvent("SYNCLOG", 0.1)
-    Questie:AddEvent("DRAWNOTES", 0.2)
-    Questie:AddEvent("TRACKER", 0.3)
+    if (QuestieConfig.showMapNotes == false) and (IsQuestieActive == true) then
+        QuestieConfig.showMapNotes = true;
+        Questie:Toggle();
+    elseif (QuestieConfig.showMapNotes == true) and (IsQuestieActive == false) then
+        QuestieConfig.showMapNotes = false;
+        Questie:Toggle();
+    else
+        Questie:AddEvent("DRAWNOTES", 0.2);
+        Questie:AddEvent("TRACKER", 0.3);
+    end
 
     QuestieOptionsForm:Hide()
 end
