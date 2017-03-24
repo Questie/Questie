@@ -595,7 +595,7 @@ function QuestieTracker:FillTrackingFrame()
         index = index + 1;
     end
     if (QuestieConfig.trackerEnabled == true) and (QuestieConfig.trackerMinimize == false) then
-        if (QuestieConfig.trackerBackground == false) then
+        if (QuestieTracker.highestIndex >= 1) and (QuestieConfig.trackerBackground == false) then
             trackerWidth = QuestieTracker.questButtons.maxWidth;
             if (QuestieConfig.trackerList == false) then
                 trackerHeight = QuestieTracker.frame:GetTop() - QuestieTracker.questButtons[QuestieTracker.highestIndex]:GetBottom();
