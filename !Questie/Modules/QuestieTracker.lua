@@ -68,7 +68,7 @@ function QuestieTracker_OnUpdate()
         end
     end
     if GetTime() - QuestieTracker.trackerUpdate >= 2 then
-        if (QuestieConfig.showMapAids == true) or (QuestieConfig.alwaysShowObjectives == true) then
+        if (QuestieConfig.showMapNotes == true) or (QuestieConfig.alwaysShowObjectives == true) then
             QuestieTracker:SortTrackingFrame();
         end
         QuestieTracker.trackerUpdate = GetTime();

@@ -33,7 +33,7 @@ function Questie:SetupDefaults()
         ["minLevelFilter"] = true,
         ["minShowLevel"] = 4,
         ["resizeWorldmap"] = false,
-        ["showMapAids"] = true,
+        ["showMapNotes"] = true,
         ["showProfessionQuests"] = false,
         ["showToolTips"] = true,
         ["showTrackerHeader"] = false,
@@ -101,8 +101,8 @@ function Questie:CheckDefaults()
     if QuestieConfig.resizeWorldmap == nil then
         QuestieConfig.resizeWorldmap = false;
     end
-    if QuestieConfig.showMapAids == nil then
-        QuestieConfig.showMapAids = true;
+    if QuestieConfig.showMapNotes == nil then
+        QuestieConfig.showMapNotes = true;
     end
     if QuestieConfig.showProfessionQuests == nil then
         QuestieConfig.showProfessionQuests = false;
@@ -483,7 +483,7 @@ end
 --Questie Worldmap Toggle Button
 ---------------------------------------------------------------------------------------------------
 function Questie:Toggle()
-    if (QuestieConfig.showMapAids == true) or (QuestieConfig.alwaysShowObjectives == true) then
+    if (QuestieConfig.showMapNotes == true) or (QuestieConfig.alwaysShowObjectives == true) then
         if (IsQuestieActive == true) then
             IsQuestieActive = false;
             QuestieMapNotes = {};
@@ -765,8 +765,8 @@ QuestieFastSlash = {
     end,
     ["mapnotes"] = function()
     --Default: True
-        QuestieConfig.showMapAids = not QuestieConfig.showMapAids;
-        if QuestieConfig.showMapAids then
+        QuestieConfig.showMapNotes = not QuestieConfig.showMapNotes;
+        if QuestieConfig.showMapNotes then
             DEFAULT_CHAT_FRAME:AddMessage("QuestieQuest:|c0000ffc0 (Map Notes On) |r");
         else
             DEFAULT_CHAT_FRAME:AddMessage("QuestieQuest:|c0000ffc0 (Map Notes Off) |r");
@@ -1013,7 +1013,7 @@ function Questie:CurrentUserToggles()
         [11] = { "minLevelFilter" },
         [12] = { "minShowLevel" },
         [13] = { "resizeWorldmap" },
-        [14] = { "showMapAids" },
+        [14] = { "showMapNotes" },
         [15] = { "showProfessionQuests" },
         [16] = { "showTrackerHeader" },
         [17] = { "showToolTips" },
