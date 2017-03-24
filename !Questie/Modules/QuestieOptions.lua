@@ -15,7 +15,7 @@ function Questie:OptionsForm_Init()
     QO_minshowlevel = getglobal(QO_FormName.."MinShowLevelSlider")
     QO_minshowlevel_current = getglobal(QO_FormName.."MinShowLevelSlider".."Current")
     QO_resizeworldmap = getglobal(QO_FormName.."ResizeWorldmapCheck")
-    QO_showmapaids = getglobal(QO_FormName.."ShowMapAidsCheck")
+    QO_showmapnotes = getglobal(QO_FormName.."ShowMapNotesCheck")
     QO_showprofessionquests = getglobal(QO_FormName.."ShowProfessionQuestsCheck")
     QO_showtooltips = getglobal(QO_FormName.."ShowToolTipsCheck")
     QO_showtrackerheader = getglobal(QO_FormName.."ShowTrackerHeaderCheck")
@@ -58,7 +58,7 @@ function Questie:OptionsForm_Display()
 
     QO_resizeworldmap:SetChecked(QuestieConfig["resizeWorldmap"])
 
-    QO_showmapaids:SetChecked(QuestieConfig["showMapAids"])
+    QO_showmapnotes:SetChecked(QuestieConfig["showMapNotes"])
 
     QO_showprofessionquests:SetChecked(QuestieConfig["showProfessionQuests"])
 
@@ -110,7 +110,7 @@ function Questie:OptionsForm_ApplyOptions()
 
     QuestieConfig.minShowLevel = QO_minshowlevel:GetValue()
 
-    QuestieConfig.showMapAids = Questie:toboolean(QO_showmapaids:GetChecked())
+    QuestieConfig.showMapNotes = Questie:toboolean(QO_showmapnotes:GetChecked())
 
     QuestieConfig.showProfessionQuests = Questie:toboolean(QO_showprofessionquests:GetChecked())
 
@@ -201,7 +201,9 @@ function Questie:OptionsForm_ApplyOptions()
         StaticPopup_Show("OPTIONS_WARNING_F")
     end
 
-    Questie:RefreshQuestStatus()
+    Questie:AddEvent("SYNCLOG", 0.1)
+    Questie:AddEvent("DRAWNOTES", 0.2)
+    Questie:AddEvent("TRACKER", 0.3)
 
     QuestieOptionsForm:Hide()
 end
@@ -246,8 +248,8 @@ function Questie:OptionsForm_SettingOnEnter(SettingsName)
         QuestieOptionsToolTip:AddLine("Resizes the Worldmap (default=false)", 1, 1, 0)
         QuestieOptionsToolTip:AddLine("Requires ReloadUI", 1, 0, 0)
 
-    elseif(SettingsName == "ShowMapAids") then
-        QuestieOptionsToolTip:AddLine("World/Minimap icons (default=true)", 1, 1, 0)
+    elseif(SettingsName == "ShowMapNotes") then
+        QuestieOptionsToolTip:AddLine("World/Minimap Notes (default=true)", 1, 1, 0)
 
     elseif(SettingsName == "ShowProfessionQuests") then
         QuestieOptionsToolTip:AddLine("Profession quests (default=false)", 1, 1, 0)

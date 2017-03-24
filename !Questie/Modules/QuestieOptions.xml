@@ -891,7 +891,7 @@
                     <OnLeave>Questie:OptionsForm_SettingOnLeave()</OnLeave>
                 </Scripts>
             </Frame>
-            <Frame name="$parentShowMapAidsLabel">
+            <Frame name="$parentShowMapNotesLabel">
                 <!--<FrameSkin skinid="f15d4970-d66d-444e-bb2d-1ad102c87fed" frameid="f15d4978-d66d-444e-bb2d-1ad102c87fed" />-->
                 <Size>
                     <AbsDimension x="128" y="32" />
@@ -905,7 +905,7 @@
                 </Anchors>
                 <Layers>
                     <Layer>
-                        <FontString name="$parentLabel" setAllPoints="true" font="Fonts\FRIZQT__.TTF" text="Show Map Aids">
+                        <FontString name="$parentLabel" setAllPoints="true" font="Fonts\FRIZQT__.TTF" text="Show Map Notes">
                             <FontHeight>
                                 <AbsValue val="12" />
                             </FontHeight>
@@ -920,7 +920,7 @@
                     </Layer>
                 </Layers>
                 <Scripts>
-                    <OnEnter>Questie:OptionsForm_SettingOnEnter("ShowMapAids")</OnEnter>
+                    <OnEnter>Questie:OptionsForm_SettingOnEnter("ShowMapNotes")</OnEnter>
                     <OnLeave>Questie:OptionsForm_SettingOnLeave()</OnLeave>
                 </Scripts>
             </Frame>
@@ -1250,7 +1250,7 @@
                     </Layer>
                 </Layers>
             </Frame>
-            <CheckButton name="$parentShowMapAidsCheck">
+            <CheckButton name="$parentShowMapNotesCheck">
                 <!--<FrameSkin skinid="f15d4970-d66d-444e-bb2d-1ad102c87fed" frameid="f15d4974-d66d-444e-bb2d-1ad102c87fed" />-->
                 <Size>
                     <AbsDimension x="32" y="32" />
@@ -1263,7 +1263,7 @@
                     </Anchor>
                 </Anchors>
                 <Scripts>
-                    <OnEnter>Questie:OptionsForm_SettingOnEnter("ShowMapAids")</OnEnter>
+                    <OnEnter>Questie:OptionsForm_SettingOnEnter("ShowMapNotes")</OnEnter>
                     <OnLeave>Questie:OptionsForm_SettingOnLeave()</OnLeave>
                 </Scripts>
                 <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
