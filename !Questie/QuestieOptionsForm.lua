@@ -201,8 +201,7 @@ function Questie:OptionsForm_ApplyOptions()
         StaticPopup_Show("OPTIONS_WARNING_F")
     end
 
-    Questie:Toggle()
-    Questie:Toggle()
+    Questie:RefreshQuestStatus()
 
     QuestieOptionsForm:Hide()
 end
