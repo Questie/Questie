@@ -44,11 +44,11 @@ Astrolabe\Astrolabe.lua
 
 # Questie
 Questie.lua
-QuestieOptionsForm.lua
+Modules\QuestieOptions.lua
 Modules\QuestieArrow.lua
 Modules\QuestieGUI.lua
 Modules\QuestieNotes.lua
 Modules\QuestieQuest.lua
 Modules\QuestieTracker.lua
 Questie.xml
-QuestieOptionsForm.xml
+Modules\QuestieOptions.xml
