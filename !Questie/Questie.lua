@@ -483,18 +483,18 @@ end
 --Questie Worldmap Toggle Button
 ---------------------------------------------------------------------------------------------------
 function Questie:Toggle()
-    if (QuestieConfig.showMapNotes == true) or (QuestieConfig.alwaysShowObjectives == true) then
-        if (IsQuestieActive == true) then
-            IsQuestieActive = false;
-            QuestieMapNotes = {};
-            QuestieAvailableMapNotes = {};
-            Questie:CLEAR_ALL_NOTES();
-            LastQuestLogHashes = nil;
-        else
-            IsQuestieActive = true;
-            Questie:AddEvent("CHECKLOG", 0);
-            Questie:AddEvent("DRAWNOTES", 0.1);
-        end
+    if (QuestieConfig.showMapNotes == true) and (IsQuestieActive == true) then
+        QuestieConfig.showMapNotes = false;
+        IsQuestieActive = false;
+        QuestieMapNotes = {};
+        QuestieAvailableMapNotes = {};
+        Questie:CLEAR_ALL_NOTES();
+        LastQuestLogHashes = nil;
+    else
+        IsQuestieActive = true;
+        QuestieConfig.showMapNotes = true;
+        Questie:AddEvent("CHECKLOG", 0);
+        Questie:AddEvent("DRAWNOTES", 0.1);
     end
 end
 ---------------------------------------------------------------------------------------------------
@@ -765,13 +765,12 @@ QuestieFastSlash = {
     end,
     ["mapnotes"] = function()
     --Default: True
-        QuestieConfig.showMapNotes = not QuestieConfig.showMapNotes;
+        Questie:Toggle();
         if QuestieConfig.showMapNotes then
             DEFAULT_CHAT_FRAME:AddMessage("QuestieQuest:|c0000ffc0 (Map Notes On) |r");
         else
             DEFAULT_CHAT_FRAME:AddMessage("QuestieQuest:|c0000ffc0 (Map Notes Off) |r");
         end
-        Questie:Toggle();
     end,
     ["maxlevel"] = function()
     --Default: True
