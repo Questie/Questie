@@ -772,7 +772,6 @@ QuestieFastSlash = {
             DEFAULT_CHAT_FRAME:AddMessage("QuestieQuest:|c0000ffc0 (Map Notes Off) |r");
         end
         Questie:Toggle();
-        Questie:Toggle();
     end,
     ["maxlevel"] = function()
     --Default: True

@@ -83,7 +83,7 @@ QuestieTracker:SetScript("OnUpdate", QuestieTracker_OnUpdate);
 -- Automatically Calculates QuestieTracker Height and Width
 ---------------------------------------------------------------------------------------------------
 function QuestieTracker:updateTrackingFrameSize()
-    if (QuestieConfig.trackerBackground == true) then
+    if (QuestieConfig.trackerEnabled == true) then
         if (QuestieTracker.highestIndex == 0) or (QGet_NumQuestLogEntries == 0) then
             QuestieTracker.frame:SetHeight(0.1);
             QuestieTracker.frame:SetWidth(0.1);
@@ -595,7 +595,10 @@ function QuestieTracker:FillTrackingFrame()
         index = index + 1;
     end
     if (QuestieConfig.trackerEnabled == true) and (QuestieConfig.trackerMinimize == false) then
-        QuestieTracker.frame:SetWidth(QuestieTracker.questButtons.maxWidth);
+        local trackerHeight = QuestieTracker.questButtons[QuestieTracker.highestIndex]:GetTop() - QuestieTracker.frame:GetBottom();
+        local trackerWidth = QuestieTracker.questButtons.maxWidth;
+        QuestieTracker.frame:SetWidth(trackerWidth);
+        QuestieTracker.frame:SetHeight(trackerHeight);
         QuestieTracker.MaxButtonWidths = {};
         QuestieTracker:updateTrackingFrameSize();
     end
