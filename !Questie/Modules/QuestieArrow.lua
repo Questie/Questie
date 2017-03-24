@@ -144,7 +144,12 @@ function SetArrowObjective(hash)
 end
 ---------------------------------------------------------------------------------------------------
 function RemoveCrazyArrow(hash)
-    if (TomTomCrazyArrow:IsVisible() ~= nil) and (arrow_objective == hash or arrow_data) then
+    if hash then
+        if (TomTomCrazyArrow:IsVisible() ~= nil) and (arrow_objective == hash or arrow_data) then
+            TomTomCrazyArrow:Hide()
+        end
+    end
+    if (QuestieConfig.arrowEnabled == false) then
         TomTomCrazyArrow:Hide()
     end
 end
