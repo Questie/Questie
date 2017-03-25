@@ -1609,7 +1609,8 @@
             <OnLoad>this:RegisterForDrag("LeftButton")</OnLoad>
             <OnDragStart>this:StartMoving()</OnDragStart>
             <OnDragStop>this:StopMovingOrSizing()</OnDragStop>
-            <OnKeyDown>if (arg1 == "ESCAPE") then QuestieOptionsForm:Hide() end</OnKeyDown>
+            <OnShow>PlaySound("igQuestLogOpen")</OnShow>
+            <OnHide>PlaySound("igQuestLogClose")</OnHide>
         </Scripts>
     </Frame>
     <GameTooltip name="QuestieOptionsToolTip" inherits="GameTooltipTemplate" parent="UIParent" hidden="true"/>
