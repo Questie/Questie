@@ -437,7 +437,8 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
         QuestieTracker:createTrackingFrame();
         QuestieTracker:LoadModule();
         Questie:BlockTranslations();
-        Questie:AddEvent("CHECKLOG", 2.0);
+        Astrolabe:isMinimapInCity();
+        Questie:AddEvent("CHECKLOG", 1.8);
         Questie:AddEvent("UPDATECACHE", 2.1);
         Questie:AddEvent("UPDATE", 2.2);
         Questie:AddEvent("LOADEVENTS", 2.4);

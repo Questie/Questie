@@ -428,6 +428,7 @@ function Questie:CheckQuestLog()
                 Questie:debug_Print("Quest:CheckQuestLog: --> Quest found in QuestDB not in QuestLog - Removed: [Hash: "..k.."]");
             end
         end
+        Questie:CheckQuestLog();
         QUESTIE_LAST_UPDATE_FINISHED = GetTime();
         return;
     end

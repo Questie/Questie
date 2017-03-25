@@ -37,7 +37,6 @@ QAutoQuestWatch_CheckDeleted = nil;
 QAutoQuestWatch_Update = nil;
 QIsQuestWatched = nil;
 QAutoQuestWatch_OnUpdate = nil;
-QQuestWatch_Update = nil;
 ---------------------------------------------------------------------------------------------------
 -- OnEvent
 ---------------------------------------------------------------------------------------------------
@@ -716,7 +715,6 @@ if (IsAddOnLoaded("EQL3")) and (not IsAddOnLoaded("ShaguQuest")) then
             return;
         end
         EQL_Loader.abort = true
-        QQuestWatch_Update();
     end
 end
 ---------------------------------------------------------------------------------------------------
