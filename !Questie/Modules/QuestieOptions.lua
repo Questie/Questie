@@ -1,5 +1,20 @@
 local QO_FormName = "QuestieOptionsForm"
 
+Questie_Options = AceLibrary("AceAddon-2.0"):new("AceHook-2.1")
+
+function Questie_Options:OnInitialize()
+    self:Hook("CloseWindows", true)
+end
+
+function Questie_Options:CloseWindows()
+    local found = self.hooks.CloseWindows()
+    if QuestieOptionsForm:IsVisible() then
+        QuestieOptionsForm:Hide()
+        return 1
+    end
+    return found
+end
+
 function Questie:OptionsForm_Init()
     QO_arrowenabled = getglobal(QO_FormName.."ArrowEnabledCheck")
     QO_showobjectives = getglobal(QO_FormName.."AlwaysShowObjectivesCheck")
