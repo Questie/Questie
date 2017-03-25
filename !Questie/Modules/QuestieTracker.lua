@@ -714,7 +714,8 @@ if (IsAddOnLoaded("EQL3")) and (not IsAddOnLoaded("ShaguQuest")) then
             QuestWatchFrame:Hide();
             return;
         end
-        EQL_Loader.abort = true
+        EQL_Loader.abort = true;
+        QQuestWatch_Update();
     end
 end
 ---------------------------------------------------------------------------------------------------
