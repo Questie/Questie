@@ -38,7 +38,7 @@
                     </Anchors>
                     <TexCoords left="0.2" right="0.8" top="0" bottom="0.6" />
                 </Texture>
-                <FontString name="$parentTitleString" font="Fonts\FRIZQT__.TTF" text="Questie Options">
+                <FontString name="$parentTitleString" inherits="GameFontNormalSmall" text="Questie Options">
                     <Size>
                         <AbsDimension x="140" y="0" />
                     </Size>
@@ -159,7 +159,7 @@
                         </Backdrop>
                         <Layers>
                             <Layer>
-                                <FontString name="$parentTitle" font="Fonts\FRIZQT__.TTF" text="Min Show Level">
+                                <FontString name="$parentTitle" inherits="GameFontNormalSmall" text="Min Show Level">
                                     <Anchors>
                                         <Anchor point="BOTTOM" relativePoint="TOP" />
                                     </Anchors>
@@ -174,7 +174,7 @@
                                         </Offset>
                                     </Shadow>
                                 </FontString>
-                                <FontString name="$parentCurrent" font="Fonts\FRIZQT__.TTF" text="5">
+                                <FontString name="$parentCurrent" inherits="GameFontNormalSmall" text="5">
                                     <Anchors>
                                         <Anchor point="TOP" relativePoint="BOTTOM" />
                                     </Anchors>
@@ -189,7 +189,7 @@
                                         </Offset>
                                     </Shadow>
                                 </FontString>
-                                <FontString name="$parentMin" font="Fonts\FRIZQT__.TTF" text="0">
+                                <FontString name="$parentMin" inherits="GameFontNormalSmall" text="0">
                                     <Anchors>
                                         <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" />
                                     </Anchors>
@@ -204,7 +204,7 @@
                                         </Offset>
                                     </Shadow>
                                 </FontString>
-                                <FontString name="$parentMax" font="Fonts\FRIZQT__.TTF" text="60">
+                                <FontString name="$parentMax" inherits="GameFontNormalSmall" text="60">
                                     <Anchors>
                                         <Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" />
                                     </Anchors>
@@ -271,7 +271,7 @@
                         </Backdrop>
                         <Layers>
                             <Layer>
-                                <FontString name="$parentTitle" font="Fonts\FRIZQT__.TTF" text="Max Show Level">
+                                <FontString name="$parentTitle" inherits="GameFontNormalSmall" text="Max Show Level">
                                     <Anchors>
                                         <Anchor point="BOTTOM" relativePoint="TOP" />
                                     </Anchors>
@@ -286,7 +286,7 @@
                                         </Offset>
                                     </Shadow>
                                 </FontString>
-                                <FontString name="$parentCurrent" font="Fonts\FRIZQT__.TTF" text="3">
+                                <FontString name="$parentCurrent" inherits="GameFontNormalSmall" text="3">
                                     <Anchors>
                                         <Anchor point="TOP" relativePoint="BOTTOM" />
                                     </Anchors>
@@ -301,7 +301,7 @@
                                         </Offset>
                                     </Shadow>
                                 </FontString>
-                                <FontString name="$parentMin" font="Fonts\FRIZQT__.TTF" text="0">
+                                <FontString name="$parentMin" inherits="GameFontNormalSmall" text="0">
                                     <Anchors>
                                         <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" />
                                     </Anchors>
@@ -316,7 +316,7 @@
                                         </Offset>
                                     </Shadow>
                                 </FontString>
-                                <FontString name="$parentMax" font="Fonts\FRIZQT__.TTF" text="60">
+                                <FontString name="$parentMax" inherits="GameFontNormalSmall" text="60">
                                     <Anchors>
                                         <Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" />
                                     </Anchors>
@@ -383,7 +383,7 @@
                         </Backdrop>
                         <Layers>
                             <Layer>
-                                <FontString name="$parentTitle" font="Fonts\FRIZQT__.TTF" text="Tracker Scale">
+                                <FontString name="$parentTitle" inherits="GameFontNormalSmall" text="Tracker Scale">
                                     <Anchors>
                                         <Anchor point="BOTTOM" relativePoint="TOP" />
                                     </Anchors>
@@ -398,7 +398,7 @@
                                         </Offset>
                                     </Shadow>
                                 </FontString>
-                                <FontString name="$parentCurrent" font="Fonts\FRIZQT__.TTF" text="100%">
+                                <FontString name="$parentCurrent" inherits="GameFontNormalSmall" text="100%">
                                     <Anchors>
                                         <Anchor point="TOP" relativePoint="BOTTOM" />
                                     </Anchors>
@@ -413,7 +413,7 @@
                                         </Offset>
                                     </Shadow>
                                 </FontString>
-                                <FontString name="$parentMin" font="Fonts\FRIZQT__.TTF" text="60%">
+                                <FontString name="$parentMin" inherits="GameFontNormalSmall" text="60%">
                                     <Anchors>
                                         <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" />
                                     </Anchors>
@@ -428,7 +428,7 @@
                                         </Offset>
                                     </Shadow>
                                 </FontString>
-                                <FontString name="$parentMax" font="Fonts\FRIZQT__.TTF" text="140%">
+                                <FontString name="$parentMax" inherits="GameFontNormalSmall" text="140%">
                                     <Anchors>
                                         <Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" />
                                     </Anchors>
@@ -495,7 +495,7 @@
                         </Backdrop>
                         <Layers>
                             <Layer>
-                                <FontString name="$parentTitle" font="Fonts\FRIZQT__.TTF" text="Tracker Transparency">
+                                <FontString name="$parentTitle" inherits="GameFontNormalSmall" text="Tracker Transparency">
                                     <Anchors>
                                         <Anchor point="BOTTOM" relativePoint="TOP" />
                                     </Anchors>
@@ -510,7 +510,7 @@
                                         </Offset>
                                     </Shadow>
                                 </FontString>
-                                <FontString name="$parentCurrent" font="Fonts\FRIZQT__.TTF" text="50%">
+                                <FontString name="$parentCurrent" inherits="GameFontNormalSmall" text="50%">
                                     <Anchors>
                                         <Anchor point="TOP" relativePoint="BOTTOM" />
                                     </Anchors>
@@ -525,7 +525,7 @@
                                         </Offset>
                                     </Shadow>
                                 </FontString>
-                                <FontString name="$parentMax" font="Fonts\FRIZQT__.TTF" text="100%">
+                                <FontString name="$parentMax" inherits="GameFontNormalSmall" text="100%">
                                     <Anchors>
                                         <Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" />
                                     </Anchors>
@@ -540,7 +540,7 @@
                                         </Offset>
                                     </Shadow>
                                 </FontString>
-                                <FontString name="$parentMin" font="Fonts\FRIZQT__.TTF" text="10%">
+                                <FontString name="$parentMin" inherits="GameFontNormalSmall" text="10%">
                                     <Anchors>
                                         <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" />
                                     </Anchors>
@@ -644,7 +644,7 @@
                 </Anchors>
                 <Layers>
                     <Layer>
-                        <FontString name="$parentLabel" setAllPoints="true" font="Fonts\FRIZQT__.TTF" text="Always Show Quests">
+                        <FontString name="$parentLabel" setAllPoints="true" inherits="GameFontNormalSmall" text="Always Show Quests">
                             <FontHeight>
                                 <AbsValue val="12" />
                             </FontHeight>
@@ -701,7 +701,7 @@
                 </Anchors>
                 <Layers>
                     <Layer>
-                        <FontString name="$parentLabel" setAllPoints="true" font="Fonts\FRIZQT__.TTF" text="Arrow Enabled">
+                        <FontString name="$parentLabel" setAllPoints="true" inherits="GameFontNormalSmall" text="Arrow Enabled">
                             <FontHeight>
                                 <AbsValue val="12" />
                             </FontHeight>
@@ -758,7 +758,7 @@
                 </Anchors>
                 <Layers>
                     <Layer>
-                        <FontString name="$parentLabel" setAllPoints="true" font="Fonts\FRIZQT__.TTF" text="Bold Colors">
+                        <FontString name="$parentLabel" setAllPoints="true" inherits="GameFontNormalSmall" text="Bold Colors">
                             <FontHeight>
                                 <AbsValue val="12" />
                             </FontHeight>
@@ -815,7 +815,7 @@
                 </Anchors>
                 <Layers>
                     <Layer>
-                        <FontString name="$parentLabel" setAllPoints="true" font="Fonts\FRIZQT__.TTF" text="Max Level Filter">
+                        <FontString name="$parentLabel" setAllPoints="true" inherits="GameFontNormalSmall" text="Max Level Filter">
                             <FontHeight>
                                 <AbsValue val="12" />
                             </FontHeight>
@@ -872,7 +872,7 @@
                 </Anchors>
                 <Layers>
                     <Layer>
-                        <FontString name="$parentLabel" setAllPoints="true" font="Fonts\FRIZQT__.TTF" text="Min Level Filter">
+                        <FontString name="$parentLabel" setAllPoints="true" inherits="GameFontNormalSmall" text="Min Level Filter">
                             <FontHeight>
                                 <AbsValue val="12" />
                             </FontHeight>
@@ -905,7 +905,7 @@
                 </Anchors>
                 <Layers>
                     <Layer>
-                        <FontString name="$parentLabel" setAllPoints="true" font="Fonts\FRIZQT__.TTF" text="Show Map Notes">
+                        <FontString name="$parentLabel" setAllPoints="true" inherits="GameFontNormalSmall" text="Show Map Notes">
                             <FontHeight>
                                 <AbsValue val="12" />
                             </FontHeight>
@@ -938,7 +938,7 @@
                 </Anchors>
                 <Layers>
                     <Layer>
-                        <FontString name="$parentLabel" setAllPoints="true" font="Fonts\FRIZQT__.TTF" text="Show Profession Quests">
+                        <FontString name="$parentLabel" setAllPoints="true" inherits="GameFontNormalSmall" text="Show Profession Quests">
                             <FontHeight>
                                 <AbsValue val="12" />
                             </FontHeight>
@@ -971,7 +971,7 @@
                 </Anchors>
                 <Layers>
                     <Layer>
-                        <FontString name="$parentLabel" setAllPoints="true" font="Fonts\FRIZQT__.TTF" text="Show Tracker Header">
+                        <FontString name="$parentLabel" setAllPoints="true" inherits="GameFontNormalSmall" text="Show Tracker Header">
                             <FontHeight>
                                 <AbsValue val="12" />
                             </FontHeight>
@@ -1004,7 +1004,7 @@
                 </Anchors>
                 <Layers>
                     <Layer>
-                        <FontString name="$parentLabel" setAllPoints="true" font="Fonts\FRIZQT__.TTF" text="Show Tool Tips">
+                        <FontString name="$parentLabel" setAllPoints="true" inherits="GameFontNormalSmall" text="Show Tool Tips">
                             <FontHeight>
                                 <AbsValue val="12" />
                             </FontHeight>
@@ -1037,7 +1037,7 @@
                 </Anchors>
                 <Layers>
                     <Layer>
-                        <FontString name="$parentLabel" setAllPoints="true" font="Fonts\FRIZQT__.TTF" text="Tracker Enabled">
+                        <FontString name="$parentLabel" setAllPoints="true" inherits="GameFontNormalSmall" text="Tracker Enabled">
                             <FontHeight>
                                 <AbsValue val="12" />
                             </FontHeight>
@@ -1070,7 +1070,7 @@
                 </Anchors>
                 <Layers>
                     <Layer>
-                        <FontString name="$parentLabel" setAllPoints="true" font="Fonts\FRIZQT__.TTF" text="Tracker List">
+                        <FontString name="$parentLabel" setAllPoints="true" inherits="GameFontNormalSmall" text="Tracker List">
                             <FontHeight>
                                 <AbsValue val="12" />
                             </FontHeight>
@@ -1103,7 +1103,7 @@
                 </Anchors>
                 <Layers>
                     <Layer>
-                        <FontString name="$parentLabel" setAllPoints="true" font="Fonts\FRIZQT__.TTF" text="Tracker Background">
+                        <FontString name="$parentLabel" setAllPoints="true" inherits="GameFontNormalSmall" text="Tracker Background">
                             <FontHeight>
                                 <AbsValue val="12" />
                             </FontHeight>
@@ -1136,7 +1136,7 @@
                 </Anchors>
                 <Layers>
                     <Layer>
-                        <FontString name="$parentLabel" setAllPoints="true" font="Fonts\FRIZQT__.TTF" text="Resize Worldmap">
+                        <FontString name="$parentLabel" setAllPoints="true" inherits="GameFontNormalSmall" text="Resize Worldmap">
                             <FontHeight>
                                 <AbsValue val="12" />
                             </FontHeight>
@@ -1169,7 +1169,7 @@
                 </Anchors>
                 <Layers>
                     <Layer>
-                        <FontString name="$parentLabel" setAllPoints="true" font="Fonts\FRIZQT__.TTF" text="Hide Minimap Icons">
+                        <FontString name="$parentLabel" setAllPoints="true" inherits="GameFontNormalSmall" text="Hide Minimap Icons">
                             <FontHeight>
                                 <AbsValue val="12" />
                             </FontHeight>
@@ -1202,7 +1202,7 @@
                 </Anchors>
                 <Layers>
                     <Layer>
-                        <FontString name="$parentLabel" setAllPoints="true" font="Fonts\FRIZQT__.TTF" text="Minimap Button">
+                        <FontString name="$parentLabel" setAllPoints="true" inherits="GameFontNormalSmall" text="Minimap Button">
                             <FontHeight>
                                 <AbsValue val="12" />
                             </FontHeight>
@@ -1235,7 +1235,7 @@
                 </Anchors>
                 <Layers>
                     <Layer>
-                        <FontString name="$parentLabel" setAllPoints="true" font="Fonts\FRIZQT__.TTF" text="Version">
+                        <FontString name="$parentLabel" setAllPoints="true" inherits="GameFontNormalSmall" text="Version">
                             <FontHeight>
                                 <AbsValue val="12" />
                             </FontHeight>
@@ -1504,7 +1504,7 @@
                 </Anchors>
                 <Layers>
                     <Layer>
-                        <FontString name="$parentLabel" setAllPoints="true" font="Fonts\FRIZQT__.TTF" text="Corpse Arrow">
+                        <FontString name="$parentLabel" setAllPoints="true" inherits="GameFontNormalSmall" text="Corpse Arrow">
                             <FontHeight>
                                 <AbsValue val="12" />
                             </FontHeight>
@@ -1561,7 +1561,7 @@
                 </Anchors>
                 <Layers>
                     <Layer>
-                        <FontString name="$parentLabel" setAllPoints="true" font="Fonts\FRIZQT__.TTF" text="Cluster Quests">
+                        <FontString name="$parentLabel" setAllPoints="true" inherits="GameFontNormalSmall" text="Cluster Quests">
                             <FontHeight>
                                 <AbsValue val="12" />
                             </FontHeight>

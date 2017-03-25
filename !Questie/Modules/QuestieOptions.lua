@@ -80,6 +80,8 @@ function Questie:OptionsForm_Display()
 
     QO_versionlabel:SetText("Version: " .. tostring(QuestieConfig["getVersion"]))
 
+    QuestieOptionsForm:SetScale(GetCVar("uiScale"))
+
     QuestieOptionsForm:Show()
 end
 
