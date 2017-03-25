@@ -48,31 +48,29 @@ end
 -- OnUpdate
 ---------------------------------------------------------------------------------------------------
 function QuestieTracker_OnUpdate()
-    if (IsAddOnLoaded("EQL3") or IsAddOnLoaded("ShaguQuest")) then
-        if (QuestieConfig.trackerEnabled == true) then
-            QuestWatchFrame:Hide();
-            EQL3_QuestWatchFrame:Hide();
+    if GetTime() - QuestieTracker.trackerUpdate >= 0.01 then
+        if (IsAddOnLoaded("EQL3") or IsAddOnLoaded("ShaguQuest")) then
+            if (QuestieConfig.trackerEnabled == true) then
+                QuestWatchFrame:Hide();
+                EQL3_QuestWatchFrame:Hide();
+            else
+                QuestieTracker.frame:Hide();
+                QuestieTrackerHeader:Hide();
+            end
         else
-            QuestWatchFrame:Hide();
-            QuestieTracker:Hide();
-            QuestieTracker.frame:Hide();
-            QuestieTrackerHeader:Hide();
+            if (QuestieConfig.trackerEnabled == true) then
+                QuestWatchFrame:Hide();
+            else
+                QuestieTracker.frame:Hide();
+                QuestieTrackerHeader:Hide();
+            end
         end
-    else
-        if (QuestieConfig.trackerEnabled == true) then
-            QuestWatchFrame:Hide();
-        else
-            QuestieTracker:Hide();
-            QuestieTracker.frame:Hide();
-            QuestieTrackerHeader:Hide();
-        end
-    end
-    if GetTime() - QuestieTracker.trackerUpdate >= 2 then
+    elseif GetTime() - QuestieTracker.trackerUpdate >= 2 then
         if (QuestieConfig.showMapNotes == true) or (QuestieConfig.alwaysShowObjectives == true) then
             QuestieTracker:SortTrackingFrame();
         end
-        QuestieTracker.trackerUpdate = GetTime();
     end
+    QuestieTracker.trackerUpdate = GetTime();
 end
 ---------------------------------------------------------------------------------------------------
 -- Register events
@@ -138,8 +136,8 @@ function QuestieTracker:updateTrackingFrameSize()
             end
             QuestieTracker.frame:SetBackdropColor(0,0,0,QuestieConfig.trackerAlpha);
         end
+        QuestieTracker.frame:Show();
     end
-    QuestieTracker.frame:Show();
 end
 ---------------------------------------------------------------------------------------------------
 -- Color quest objective scheme for quest tracker color option 2

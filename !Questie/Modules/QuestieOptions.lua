@@ -75,7 +75,7 @@ function Questie:OptionsForm_Display()
     QO_trackerscale:SetValue(QuestieConfig["trackerScale"] * 100)
     QO_trackerscale_current:SetText(tostring(QuestieConfig["trackerScale"] * 100).."%")
 
-    QO_trackertransparency:SetValue(100 - QuestieConfig["trackerAlpha"] * 100)
+    QO_trackertransparency:SetValue(QuestieConfig["trackerAlpha"] * 100)
     QO_trackertransparency_current:SetText(tostring(QuestieConfig["trackerAlpha"] * 100).."%")
 
     QO_versionlabel:SetText("Version: " .. tostring(QuestieConfig["getVersion"]))
@@ -88,6 +88,7 @@ function Questie:OptionsForm_CancelOptions()
 end
 
 function Questie:OptionsForm_ApplyOptions()
+
     QuestieConfig.alwaysShowObjectives = Questie:toboolean(QO_showobjectives:GetChecked())
 
     QuestieConfig.arrowEnabled = Questie:toboolean(QO_arrowenabled:GetChecked())
@@ -114,23 +115,22 @@ function Questie:OptionsForm_ApplyOptions()
 
     QuestieConfig.showProfessionQuests = Questie:toboolean(QO_showprofessionquests:GetChecked())
 
+    QuestieConfig.trackerAlpha = tonumber((QO_trackertransparency:GetValue()) / 100)
+
     -- Compare opening values and values attempting to be set, if any are different a reload will be needed
     local CachedValues = {
         ["resizeWorldmap"] = QuestieConfig.resizeWorldmap,
         ["showToolTips"] = QuestieConfig.showToolTips,
         ["showTrackerHeader"] = QuestieConfig.showTrackerHeader,
-        ["trackerAlpha"] = tonumber(QuestieConfig.trackerAlpha),
         ["trackerBackground"] = QuestieConfig.trackerBackground,
         ["trackerEnabled"] = QuestieConfig.trackerEnabled,
         ["trackerList"] = QuestieConfig.trackerList, -- Changes list direction, true  = bottom>top, false = top>bottom
         ["trackerScale"] = tonumber(QuestieConfig.trackerScale)
     }
 
-
     QuestieConfig.resizeWorldmap = Questie:toboolean(QO_resizeworldmap:GetChecked())
     QuestieConfig.showToolTips = Questie:toboolean(QO_showtooltips:GetChecked())
     QuestieConfig.showTrackerHeader = Questie:toboolean(QO_showtrackerheader:GetChecked())
-    QuestieConfig.trackerAlpha = tonumber((100 - QO_trackertransparency:GetValue()) / 100)
     QuestieConfig.trackerBackground = Questie:toboolean(QO_trackerbackground:GetChecked())
     QuestieConfig.trackerEnabled = Questie:toboolean(QO_trackerenabled:GetChecked())
     QuestieConfig.trackerList = Questie:toboolean(QO_trackerlist:GetChecked())
@@ -150,10 +150,6 @@ function Questie:OptionsForm_ApplyOptions()
     end
     if(QuestieConfig.showTrackerHeader ~= CachedValues.showTrackerHeader) then
         WarningMessage = WarningMessage.."Show Tracker Header|n"
-        bDisplayWarning = true
-    end
-    if(QuestieConfig.trackerAlpha ~= CachedValues.trackerAlpha) then
-        WarningMessage = WarningMessage.."Tracker Alpha|n"
         bDisplayWarning = true
     end
     if(QuestieConfig.trackerBackground ~= CachedValues.trackerBackground) then
@@ -187,11 +183,11 @@ function Questie:OptionsForm_ApplyOptions()
                 QuestieConfig.resizeWorldmap = CachedValues.resizeWorldmap
                 QuestieConfig.showToolTips = CachedValues.showToolTips
                 QuestieConfig.showTrackerHeader = CachedValues.showTrackerHeader
-                QuestieConfig.trackerAlpha = CachedValues.trackerAlpha
                 QuestieConfig.trackerBackground = CachedValues.trackerBackground
                 QuestieConfig.trackerEnabled = CachedValues.trackerEnabled
                 QuestieConfig.trackerList = CachedValues.trackerList
                 QuestieConfig.trackerScale = CachedValues.trackerScale
+                Questie:AddEvent("TRACKER", 0)
                 DEFAULT_CHAT_FRAME:AddMessage("Questie Options that required a UI Reload have been reverted", 1, 0.75, 0)
             end,
             timeout = 60,
@@ -199,19 +195,24 @@ function Questie:OptionsForm_ApplyOptions()
             hideOnEscape = 1
         }
         StaticPopup_Show("OPTIONS_WARNING_F")
-    end
-
-    if (QuestieConfig.showMapNotes == false) and (IsQuestieActive == true) then
-        QuestieConfig.showMapNotes = true;
-        Questie:Toggle();
-    elseif (QuestieConfig.showMapNotes == true) and (IsQuestieActive == false) then
-        QuestieConfig.showMapNotes = false;
-        Questie:Toggle();
     else
-        Questie:AddEvent("DRAWNOTES", 0.2);
-        Questie:AddEvent("TRACKER", 0.3);
+        if (QuestieConfig.showMapNotes == false) and (IsQuestieActive == true) then
+            QuestieConfig.showMapNotes = true
+            Questie:Toggle()
+        elseif (QuestieConfig.showMapNotes == true) and (IsQuestieActive == false) then
+            QuestieConfig.showMapNotes = false
+            Questie:Toggle()
+        else
+            Questie:AddEvent("DRAWNOTES", 0.1)
+            Questie:AddEvent("TRACKER", 0.2)
+        end
+        if (QuestieConfig.minimapButton == true) then
+            Questie.minimapButton:Show()
+        else
+            Questie.minimapButton:Hide()
+        end
     end
-
+    RemoveCrazyArrow()
     QuestieOptionsForm:Hide()
 end
 
@@ -308,7 +309,7 @@ function Questie:OptionsForm_SettingOnValueChanged()
         end
     elseif(this:GetName() == QO_FormName.."TrackerTransparencySlider") then
         if(QO_trackertransparency_current ~= nil) then
-            QO_trackertransparency_current:SetText(tostring(100 - this:GetValue()).."%")
+            QO_trackertransparency_current:SetText(tostring(this:GetValue()).."%")
         end
     elseif(this:GetName() == QO_FormName.."TrackerScaleSlider") then
         if(QO_trackerscale_current ~= nil) then

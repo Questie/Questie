@@ -10,7 +10,7 @@ function Questie.CreateMinimapButton()
 
     Questie.minimapButton:SetMovable(true)
     Questie.minimapButton:EnableMouse(true)
-    Questie.minimapButton:SetFrameStrata('HIGH')
+    Questie.minimapButton:SetFrameStrata('LOW')
     Questie.minimapButton:SetWidth(31)
     Questie.minimapButton:SetHeight(31)
     Questie.minimapButton:SetFrameLevel(9)

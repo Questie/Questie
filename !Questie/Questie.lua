@@ -37,7 +37,7 @@ function Questie:SetupDefaults()
         ["showProfessionQuests"] = false,
         ["showToolTips"] = true,
         ["showTrackerHeader"] = false,
-        ["trackerAlpha"] = 0.4,
+        ["trackerAlpha"] = 0.6,
         ["trackerBackground"] = false,
         ["trackerEnabled"] = true,
         ["trackerList"] = false,
@@ -114,7 +114,7 @@ function Questie:CheckDefaults()
         QuestieConfig.showToolTips = true;
     end
     if QuestieConfig.trackerAlpha == nil then
-        QuestieConfig.trackerAlpha = 0.4;
+        QuestieConfig.trackerAlpha = 0.6;
     end
     if QuestieConfig.trackerBackground == nil then
         QuestieConfig.trackerBackground = false;
@@ -601,12 +601,12 @@ QuestieFastSlash = {
         end
     end,
     ["backgroundalpha"] = function(args)
-    --Default: 4
+    --Default: 0.6 (60%)
         if args then
-            local val = tonumber(args)/10;
-            QuestieConfig.trackerAlpha = val;
+            local val = tonumber(args);
+            QuestieConfig.trackerAlpha = val/100;
             QuestieTracker:FillTrackingFrame();
-            DEFAULT_CHAT_FRAME:AddMessage("QuestieTracker:|c0000ffc0 (Background Alpha Set To: |r|c0000c0ff"..val.."|r|c0000ffc0)|r");
+            DEFAULT_CHAT_FRAME:AddMessage("QuestieTracker:|c0000ffc0 (Background Alpha Set To: |r|c0000c0ff"..val.."%|r|c0000ffc0)|r");
         else
             DEFAULT_CHAT_FRAME:AddMessage("|cFFFF2222 Error: Invalid Number Supplied! |r");
         end
@@ -939,7 +939,7 @@ QuestieFastSlash = {
         DEFAULT_CHAT_FRAME:AddMessage("Questie SlashCommand Help Menu:", 1, 0.75, 0);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie arrow |r|c0000ffc0(toggle)|r QuestArrow: Toggle", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie background |r|c0000ffc0(toggle)|r QuestTracker: Background", 0.75, 0.75, 0.75);
-        DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie backgroundalpha |r|c0000ffc0(1-9)|r QuestTracker: Background Alpha Level (default=4)", 0.75, 0.75, 0.75);
+        DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie backgroundalpha |r|c0000ffc0(10-100%)|r QuestTracker: Background Alpha Level (default=60%)", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie clearconfig |r|c0000ffc0(Pop-up)|r UserSettings: Reset settings. Will NOT delete quest data.", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie cleartracker |r|c0000ffc0(Pop-up)|r QuestTracker: Reset & move tracker to center screen.", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie cluster |r|c0000ffc0(toggle)|r QuestMap: Groups nearby start/finish/objective icons together.", 0.75, 0.75, 0.75);
