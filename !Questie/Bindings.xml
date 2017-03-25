@@ -1,0 +1,8 @@
+<Bindings>
+	<Binding name="QUESTIEOPTIONS" header="QUESTIE">
+		Questie:OptionsForm_Display();
+	</Binding>
+	<Binding name="QUESTIETOGGLE">
+		Questie:Toggle();
+	</Binding>
+</Bindings>

@@ -1,4 +1,6 @@
-local QO_FormName = "QuestieOptionsForm"
+BINDING_HEADER_QUESTIE = "Questie"
+BINDING_NAME_QUESTIEOPTIONS = "Open Questie Options"
+BINDING_NAME_QUESTIETOGGLE = "Toggle Questie On or Off"
 
 Questie_Options = AceLibrary("AceAddon-2.0"):new("AceHook-2.1")
 
@@ -14,6 +16,8 @@ function Questie_Options:CloseWindows()
     end
     return found
 end
+
+local QO_FormName = "QuestieOptionsForm"
 
 function Questie:OptionsForm_Init()
     QO_arrowenabled = getglobal(QO_FormName.."ArrowEnabledCheck")
@@ -96,7 +100,6 @@ function Questie:OptionsForm_Display()
     QO_versionlabel:SetText("Version: " .. tostring(QuestieConfig["getVersion"]))
 
     QuestieOptionsForm:SetScale(GetCVar("uiScale"))
-
     QuestieOptionsForm:Show()
 end
 
