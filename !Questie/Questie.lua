@@ -985,7 +985,11 @@ function Questie_SlashHandler(msgbase)
         args = string.sub(msgbase, space+2);
     end
     if QuestieFastSlash[msg] ~= nil then
-        QuestieFastSlash[msg](args);
+        if ( QuestieOptionsForm:IsVisible() ) then
+            DEFAULT_CHAT_FRAME:AddMessage("|cffff0000Error: cannot execute commands while the Questie options window is open.|r")
+        else
+            QuestieFastSlash[msg](args);
+        end
     else
         if (not msg or msg=="") then
             QuestieFastSlash["help"]();
