@@ -21656,7 +21656,7 @@ QuestieHashMap = {
   ['finishedType']="monster",
   ['startedBy']="Theramore Guard Badge",
   ['finishedBy']="Captain Garran Vimes",
-  ['level']=30,
+  ['level']=32,
   ['questLevel']='40',
   ['rr']=77
  },
