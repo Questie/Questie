@@ -258,19 +258,19 @@ function Questie:OptionsForm_SettingOnEnter(SettingsName)
         QuestieOptionsToolTip:AddLine("Hides quest starter icons on mini map only (default=false)", 1, 1, 0)
 
     elseif(SettingsName == "MaxLevelFilter") then
-        QuestieOptionsToolTip:AddLine("Max-Level Filter (default=false)", 1, 1, 0)
+        QuestieOptionsToolTip:AddLine("Max-Level Filter (default=true)", 1, 1, 0)
 
     elseif(SettingsName == "MaxShowLevel") then
-        QuestieOptionsToolTip:AddLine("Hides quests until <X> levels above players level (default=3)", 1, 1, 0)
+        QuestieOptionsToolTip:AddLine("Show quests <X> levels above players level (default=7)", 1, 1, 0)
 
     elseif(SettingsName == "MinimapButton") then
         QuestieOptionsToolTip:AddLine("Show questie minimap button (default=true)", 1, 1, 0)
 
     elseif(SettingsName == "MinLevelFilter") then
-        QuestieOptionsToolTip:AddLine("Min-Level Filter (default=false)", 1, 1, 0)
+        QuestieOptionsToolTip:AddLine("Min-Level Filter (default=true)", 1, 1, 0)
 
     elseif(SettingsName == "MinShowLevel") then
-        QuestieOptionsToolTip:AddLine("Hides quests <X> levels below players level (default=5)", 1, 1, 0)
+        QuestieOptionsToolTip:AddLine("Show quests <X> levels below players level (default=4)", 1, 1, 0)
 
     elseif(SettingsName == "ResizeWorldmap") then
         QuestieOptionsToolTip:AddLine("Resizes the Worldmap (default=false)", 1, 1, 0)
