@@ -361,19 +361,19 @@ end
 ---------------------------------------------------------------------------------------------------
 function Questie:CheckQuestLogStatus()
     QUESTIE_UPDATE_EVENT = 1;
-    if(GetTime() - QUESTIE_LAST_CHECKLOG > 0.1) then
-        Questie:AddEvent("CHECKLOG", 0.2);
-        QUESTIE_LAST_CHECKLOG = GetTime();
-    else
-        QUESTIE_LAST_CHECKLOG = GetTime();
-    end
-    if(GetTime() - QUESTIE_LAST_UPDATECACHE > 0.1) then
-        Questie:AddEvent("UPDATECACHE", 0.3);
+    if(GetTime() - QUESTIE_LAST_UPDATECACHE > 0.01) then
+        Questie:AddEvent("UPDATECACHE", 0.2);
         QUESTIE_LAST_UPDATECACHE = GetTime();
     else
         QUESTIE_LAST_UPDATECACHE = GetTime();
     end
-    if(GetTime() - QUESTIE_LAST_UPDATE > 0.1) then
+    if(GetTime() - QUESTIE_LAST_CHECKLOG > 0.01) then
+        Questie:AddEvent("CHECKLOG", 0.3);
+        QUESTIE_LAST_CHECKLOG = GetTime();
+    else
+        QUESTIE_LAST_CHECKLOG = GetTime();
+    end
+    if(GetTime() - QUESTIE_LAST_UPDATE > 0.01) then
         Questie:AddEvent("UPDATE", 0.4);
         QUESTIE_LAST_UPDATE = GetTime();
     else
@@ -438,8 +438,9 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
         QuestieTracker:LoadModule();
         Questie:BlockTranslations();
         Astrolabe:isMinimapInCity();
-        Questie:AddEvent("CHECKLOG", 1.8);
-        Questie:AddEvent("UPDATECACHE", 2.1);
+        Questie:LoadEQL3Fix();
+        Questie:AddEvent("UPDATECACHE", 1.8);
+        Questie:AddEvent("CHECKLOG", 2.0);
         Questie:AddEvent("UPDATE", 2.2);
         Questie:AddEvent("LOADEVENTS", 2.4);
         Questie:AddEvent("SYNCWATCH", 2.5);
@@ -461,7 +462,6 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
     elseif (event == "QUEST_LOG_UPDATE") then
         --Questie:debug_Print("OnEvent: QUEST_LOG_UPDATE");
         Questie:CheckQuestLogStatus();
-        Questie:RefreshQuestStatus();
     -------------------------------------------------
     elseif (event == "QUEST_ITEM_UPDATE") then
         Questie:debug_Print("OnEvent: QUEST_ITEM_UPDATE");

@@ -688,34 +688,36 @@ end
 --Credit to Shagu for this fix for EQL3's freezing and event flooding upon Login.
 --Let QuestWatch Update only be triggered once per second in the first 10 seconds after login.
 ---------------------------------------------------------------------------------------------------
-if (IsAddOnLoaded("EQL3")) and (not IsAddOnLoaded("ShaguQuest")) then
-    local EQL_Loader = CreateFrame("Frame",nil);
-    EQL_Loader.tick = GetTime();
-    EQL_Loader.step = 0;
-    EQL_Loader:SetScript("OnUpdate", function()
-        if EQL_Loader.tick + 1 <= GetTime() then
-            EQL_Loader.abort = false;
-            QuestWatch_Update();
-            EQL_Loader.tick = GetTime();
-            if EQL_Loader.step < 10 then
-                EQL_Loader.step = EQL_Loader.step + 1;
-            else
-                EQL_Loader:Hide();
+function Questie:LoadEQL3Fix()
+    if (IsAddOnLoaded("EQL3")) and (not IsAddOnLoaded("ShaguQuest")) then
+        local EQL_Loader = CreateFrame("Frame",nil);
+        EQL_Loader.tick = GetTime();
+        EQL_Loader.step = 0;
+        EQL_Loader:SetScript("OnUpdate", function()
+            if EQL_Loader.tick + 1 <= GetTime() then
+                EQL_Loader.abort = false;
+                QuestWatch_Update();
+                EQL_Loader.tick = GetTime();
+                if EQL_Loader.step < 10 then
+                    EQL_Loader.step = EQL_Loader.step + 1;
+                else
+                    EQL_Loader:Hide();
+                end
             end
+        end)
+    ---------------------------------------------------------------------------------------------------
+    --Intercepts and injects extra code into EQL3
+    ---------------------------------------------------------------------------------------------------
+        local QQuestWatch_Update = QuestWatch_Update;
+        function QuestWatch_Update()
+            if EQL_Loader.abort == nil then EQL_Loader.abort = true end
+            if(not EQL3_Temp.hasManaged) or (EQL_Loader.abort == true and EQL_Loader.step < 10) then
+                QuestWatchFrame:Hide();
+                return;
+            end
+            EQL_Loader.abort = true;
+            QQuestWatch_Update();
         end
-    end)
----------------------------------------------------------------------------------------------------
---Intercepts and injects extra code into EQL3
----------------------------------------------------------------------------------------------------
-    local QQuestWatch_Update = QuestWatch_Update;
-    function QuestWatch_Update()
-        if EQL_Loader.abort == nil then EQL_Loader.abort = true end
-        if(not EQL3_Temp.hasManaged) or (EQL_Loader.abort == true and EQL_Loader.step < 10) then
-            QuestWatchFrame:Hide();
-            return;
-        end
-        EQL_Loader.abort = true;
-        QQuestWatch_Update();
     end
 end
 ---------------------------------------------------------------------------------------------------

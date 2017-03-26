@@ -350,10 +350,11 @@ function Questie:UpdateGameClientCache()
     local qc = 0;
     local nEntry, nQuests = QGet_NumQuestLogEntries();
     while qc < nQuests do
-        local questName, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(id);
+        QSelect_QuestLogEntry(id);
+        local questName, level, _, isHeader, isCollapsed, _ = QGet_QuestLogTitle(id);
         if not isHeader and not isCollapsed then
-            QSelect_QuestLogEntry(id);
             local questText, objectiveText = QGet_QuestLogQuestText();
+            if questName or level or objectiveText == nil then return; end
             local hash = Questie:getQuestHash(questName, level, objectiveText);
             for index=1, QGet_NumQuestLeaderBoards(id) do
                 local desc = QGet_QuestLogLeaderBoard(index, id);
