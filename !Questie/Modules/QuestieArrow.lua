@@ -138,7 +138,7 @@ function SetArrowObjective(hash)
     end
     arrow_objective = hash
     arrow_data = nil
-    if not QuestieCachedQuests[hash]["arrowPoint"] or not QuestieCachedQuests[hash] then return end
+    if not QuestieCachedQuests[hash] or not QuestieCachedQuests[hash]["arrowPoint"] then return end
     local objective = QuestieCachedQuests[hash]["arrowPoint"]
     SetCrazyArrow(objective, objective.dist, objective.title)
 end
