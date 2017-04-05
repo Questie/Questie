@@ -107,7 +107,7 @@ function Questie:AddQuestToMap(questHash, redraw)
     ques["objectives"] = objectives;
     QuestieHandledQuests[questHash] = ques;
     if (redraw) then
-        --Questie:debug_Print("Notes:AddQuestToMap: redraw VAR true --> Questie:RefreshQuestStatus();");
+        Questie:debug_Print("Notes:AddQuestToMap: redraw VAR true --> Questie:RefreshQuestStatus();");
         Questie:RefreshQuestStatus();
     end
 end

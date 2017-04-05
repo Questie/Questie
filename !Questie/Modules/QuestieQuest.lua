@@ -524,6 +524,10 @@ function Questie:CheckQuestLog()
         Questie:debug_Print("Quest:CheckQuestLog: UPON EXIT: [QuestsCount: "..QuestsCount.."] | [LastCount: "..LastQuestLogCount.."]");
         return true;
     else
+        Questie:debug_Print("Quest:CheckQuestLog: QuestLog Changed --> Questie:RefreshQuestStatus()");
+        Questie:AddEvent("SYNCLOG", 0.2);
+        Questie:AddEvent("DRAWNOTES", 0.4);
+        Questie:AddEvent("TRACKER", 0.6);
         QUESTIE_LAST_UPDATE_FINISHED = GetTime();
         return nil;
     end
