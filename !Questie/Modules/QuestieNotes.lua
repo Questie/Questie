@@ -329,6 +329,8 @@ function Questie:Tooltip(this, forceShow, bag, slot)
         Questie_TooltipCache[cacheKey]['updateTime'] = GetTime()
         local prevQuestLogSelection = QGet_QuestLogSelection()
         for questHash, quest in pairs(QuestieHandledQuests) do
+            local QuestLogID = Questie:GetQuestIdFromHash(questHash)
+            QSelect_QuestLogEntry(QuestLogID)
             local drawnQuestTitle = false
             for objectiveid, objectiveInfo in pairs(quest.objectives) do
                 local highlightInfo = {
@@ -357,8 +359,8 @@ function Questie:Tooltip(this, forceShow, bag, slot)
                         lineIndex = lineIndex + 1
                         drawnQuestTitle = true
                     end
-                    local desc = objectiveInfo.desc
-                    if objectiveInfo.done then
+                    local desc, type, done = QGet_QuestLogLeaderBoard(objectiveid)
+                    if done then
                         Questie_TooltipCache[cacheKey]['lines'][lineIndex] = {
                             ['color'] = {0.2,1,0.3},
                             ['data'] = desc,
