@@ -368,13 +368,13 @@ function Questie:CheckQuestLogStatus()
         QUESTIE_LAST_UPDATECACHE = GetTime();
     end
     if(GetTime() - QUESTIE_LAST_CHECKLOG > 0.01) then
-        Questie:AddEvent("CHECKLOG", 0.3);
+        Questie:AddEvent("CHECKLOG", 0.4);
         QUESTIE_LAST_CHECKLOG = GetTime();
     else
         QUESTIE_LAST_CHECKLOG = GetTime();
     end
     if(GetTime() - QUESTIE_LAST_UPDATE > 0.01) then
-        Questie:AddEvent("UPDATE", 0.4);
+        Questie:AddEvent("UPDATE", 0.6);
         QUESTIE_LAST_UPDATE = GetTime();
     else
         QUESTIE_LAST_UPDATE = GetTime();

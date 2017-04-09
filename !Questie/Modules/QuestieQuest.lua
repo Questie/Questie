@@ -350,11 +350,10 @@ function Questie:UpdateGameClientCache()
     local qc = 0;
     local nEntry, nQuests = QGet_NumQuestLogEntries();
     while qc < nQuests do
-        QSelect_QuestLogEntry(id);
         local questName, level, _, isHeader, isCollapsed, _ = QGet_QuestLogTitle(id);
         if not isHeader and not isCollapsed then
+            QSelect_QuestLogEntry(id);
             local questText, objectiveText = QGet_QuestLogQuestText();
-            if questName or level or objectiveText == nil then return; end
             local hash = Questie:getQuestHash(questName, level, objectiveText);
             for index=1, QGet_NumQuestLeaderBoards(id) do
                 local desc = QGet_QuestLogLeaderBoard(index, id);
@@ -416,9 +415,11 @@ function Questie:CheckQuestLog()
                 Questie:debug_Print("Quest:CheckQuestLog: --> Quest found in QuestLog marked complete - Fixed: [Hash: "..v["hash"].."]");
             end
             --This "double-tap" ensures quest data is inserted into the cache
-            QuestieTracker:addQuestToTrackerCache(v["hash"], v["logId"], v["level"]);
-            Questie:AddQuestToMap(v["hash"]);
-            Questie:debug_Print("Quest:CheckQuestLog: --> Add quest to Tracker and MapNotes caches: [Hash: "..v["hash"].."]");
+            if (QuestieCachedQuests[v["hash"]] == nil) or (QuestieHandledQuests[v["hash"]] == nil) then
+                QuestieTracker:addQuestToTrackerCache(v["hash"], v["logId"], v["level"]);
+                Questie:AddQuestToMap(v["hash"]);
+                Questie:debug_Print("Quest:CheckQuestLog: --> Add quest to Tracker and MapNotes caches: [Hash: "..v["hash"].."]");
+            end
         end
         --Removes active quests from QuestDB if it's not active in the QuestLog
         for k, v in pairs(QuestieSeenQuests) do
@@ -429,7 +430,6 @@ function Questie:CheckQuestLog()
                 Questie:debug_Print("Quest:CheckQuestLog: --> Quest found in QuestDB not in QuestLog - Removed: [Hash: "..k.."]");
             end
         end
-        Questie:CheckQuestLog();
         QUESTIE_LAST_UPDATE_FINISHED = GetTime();
         return;
     end
@@ -524,7 +524,7 @@ function Questie:CheckQuestLog()
         Questie:debug_Print("Quest:CheckQuestLog: UPON EXIT: [QuestsCount: "..QuestsCount.."] | [LastCount: "..LastQuestLogCount.."]");
         return true;
     else
-        Questie:debug_Print("Quest:CheckQuestLog: QuestLog Changed --> Questie:RefreshQuestStatus()");
+        Questie:debug_Print("Quest:CheckQuestLog: NO CHANGE --> Refresh Notes and Tracker");
         Questie:AddEvent("SYNCLOG", 0.2);
         Questie:AddEvent("DRAWNOTES", 0.4);
         Questie:AddEvent("TRACKER", 0.6);
