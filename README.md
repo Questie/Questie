@@ -1,6 +1,6 @@
 The unofficial pre-release v3.70 can be found here:
-https://github.com/Dyaxler/QuestieDev/tree/Version3.70
-Please continue submitted bug reports here and not in the Dev fork.
+<a href="https://github.com/Dyaxler/QuestieDev/tree/Version3.70"> v3.70 Dev Build</a>.
+Please continue submitted bug reports here in the main branch and not in the Dev fork.
 
 # Questie
 **A quest helper for World of Warcraft (1.12.1) - Vanilla**
