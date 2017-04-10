@@ -70,7 +70,7 @@ function Questie.CreateMinimapButton()
     Questie.minimapButton.icon = Questie.minimapButton:CreateTexture(nil, 'BACKGROUND')
     Questie.minimapButton.icon:SetWidth(20)
     Questie.minimapButton.icon:SetHeight(20)
-    Questie.minimapButton.icon:SetTexture('Interface\\AddOns\\!Questie\\Icons\\available')
+    Questie.minimapButton.icon:SetTexture('Interface\\AddOns\\!Questie\\Icons\\minimapIcon')
     Questie.minimapButton.icon:SetTexCoord(0.05, 0.95, 0.05, 0.95)
     Questie.minimapButton.icon:SetPoint('CENTER',1,1)
 end
