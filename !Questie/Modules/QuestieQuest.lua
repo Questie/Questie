@@ -343,6 +343,7 @@ end
 --This is especially important if this data isn't already in the WoW game clients local cache.
 ---------------------------------------------------------------------------------------------------
 function Questie:UpdateGameClientCache()
+    if (IsQuestieActive == false) then return; end
     Questie:debug_Print();
     Questie:debug_Print("****************| Running Quest:UpdateGameClientCache |****************");
     local prevQuestLogSelection = QGet_QuestLogSelection();
@@ -365,7 +366,7 @@ function Questie:UpdateGameClientCache()
                         objectiveName = string.sub(objectiveName, 1, string.len(objectiveName)-6);
                     end
                 end
-                if (QuestieHandledQuests[hash] and QuestieHandledQuests[hash]["objectives"] and QuestieHandledQuests[hash]["objectives"][index]["name"] ~= objectiveName) then
+                if (not LastQuestLogHashes) or (QuestieHandledQuests[hash] and QuestieHandledQuests[hash]["objectives"] and QuestieHandledQuests[hash]["objectives"][index]["name"] ~= objectiveName) then
                     Questie:AddQuestToMap(hash);
                     Questie:debug_Print("Quest:UpdateGameClientCache --> Questie:AddQuestToMap(): [Name: "..QuestieHandledQuests[hash]["objectives"][index]["name"].."]");
                     QuestieTracker:addQuestToTrackerCache(hash, id, level);

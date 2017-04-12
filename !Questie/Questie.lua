@@ -492,10 +492,13 @@ function Questie:Toggle()
         Questie:CLEAR_ALL_NOTES();
         LastQuestLogHashes = nil;
     else
+        LastQuestLogHashes = nil;
         IsQuestieActive = true;
         QuestieConfig.showMapNotes = true;
-        Questie:AddEvent("CHECKLOG", 0);
-        Questie:AddEvent("DRAWNOTES", 0.1);
+        Questie:AddEvent("UPDATECACHE", 0);
+        Questie:AddEvent("SYNCLOG", 0.1);
+        Questie:AddEvent("DRAWNOTES", 0.2);
+        Questie:AddEvent("TRACKER", 0.3);
     end
 end
 ---------------------------------------------------------------------------------------------------
