@@ -1055,11 +1055,11 @@ QuestieFastSlash = {
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie arrow |r-- |c0000ffc0(toggle)|r QuestArrow", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie background |r-- |c0000ffc0(toggle)|r QuestTracker background will always remain on", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie backgroundalpha |r-- |c0000ffc0(1-9)|r QuestTracker background alpha level (default=4)", 0.75, 0.75, 0.75);
-        DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie corpsearrow |r-- |c0000ffc0(toggle)|r CorpseArrow", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie clearconfig |r-- Resets Questie settings. It does NOT delete your quest data.", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie cleartracker |r-- Relocates the QuestTracker to the center of your screen.", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie cluster |r-- |c0000ffc0(toggle)|r Cluster nearby quests together.", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie color |r-- Select from two different color schemes", 0.75, 0.75, 0.75);
+        DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie corpsearrow |r-- |c0000ffc0(toggle)|r CorpseArrow", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie header |r-- |c0000ffc0(toggle)|r QuestTracker log counter", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie hideminimap |r-- |c0000ffc0(toggle)|r Hides quest starter icons on mini map only", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie hideobjectives |r-- |c0000ffc0(toggle)|r Objective Icons", 0.75, 0.75, 0.75);
@@ -1069,6 +1069,7 @@ QuestieFastSlash = {
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie minlevel |r-- |c0000ffc0(toggle)|r Min-Level Filter", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie mintracker |r-- |c0000ffc0(toggle)|r Minimize or Maximize QuestieTracker", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie NUKE |r-- Resets ALL Questie data and settings", 0.75, 0.75, 0.75);
+        DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie options |r-- Displays the Questie Options configuration interface", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie professions |r-- |c0000ffc0(toggle)|r Profession quests", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie setmaxlevel |r|c0000ffc0<number>|r -- Hides quests until <X> levels above players level (default=3)", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie setminlevel |r|c0000ffc0<number>|r -- Hides quests <X> levels below players level (default=5)", 0.75, 0.75, 0.75);
@@ -1082,6 +1083,9 @@ QuestieFastSlash = {
         elseif (not IsAddOnLoaded("Cartographer")) or (not IsAddOnLoaded("MetaMap")) then
             DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie resizemap |r-- |c0000ffc0(toggle)|r Resize Worldmap", 0.75, 0.75, 0.75);
         end
+    end,
+    ["options"] = function()
+        Questie:OptionsForm_Display()
     end,
 };
 ---------------------------------------------------------------------------------------------------
@@ -1112,26 +1116,27 @@ function Questie:CurrentUserToggles()
     local Vars = {
         [1] = { "alwaysShowQuests" },
         [2] = { "arrowEnabled" },
-        [3] = { "corpseArrow" },
-        [4] = { "boldColors" },
-        [5] = { "maxLevelFilter" },
-        [6] = { "maxShowLevel" },
-        [7] = { "minLevelFilter" },
-        [8] = { "minShowLevel" },
-        [9] = { "trackerMinimize" },
-        [10] = { "showMapAids" },
-        [11] = { "showProfessionQuests" },
-        [12] = { "showTrackerHeader" },
-        [13] = { "showToolTips" },
-        [14] = { "trackerEnabled" },
-        [15] = { "trackerList" },
-        [16] = { "trackerScale" },
-        [17] = { "trackerBackground" },
+        [3] = { "boldColors" },
+        [4] = { "clusterQuests" },
+        [5] = { "corpseArrow" },
+        [6] = { "getVersion" },
+        [7] = { "hideMinimapIcons" },
+        [8] = { "hideObjectives" },
+        [9] = { "maxLevelFilter" },
+        [10] = { "maxShowLevel" },
+        [11] = { "minLevelFilter" },
+        [12] = { "minShowLevel" },
+        [13] = { "resizeWorldmap" },
+        [14] = { "showMapAids" },
+        [15] = { "showProfessionQuests" },
+        [16] = { "showTrackerHeader" },
+        [17] = { "showToolTips" },
         [18] = { "trackerAlpha" },
-        [19] = { "resizeWorldmap" },
-        [20] = { "getVersion" },
-        [21] = { "hideMinimapIcons" },
-        [22] = { "hideObjectives" }
+        [19] = { "trackerBackground" },
+        [20] = { "trackerEnabled" },
+        [21] = { "trackerList" },
+        [22] = { "trackerMinimize" },
+        [23] = { "trackerScale" }
     }
     if QuestieConfig then
         i = 1
@@ -1225,6 +1230,11 @@ function Questie:Levenshtein(str1, str2)
     end
     -- return the last value - this is the Levenshtein distance
     return matrix[len1][len2]
+end
+
+-- Simple function to convert values to booleans
+function Questie:toboolean(bool)
+    return not not bool
 end
 ---------------------------------------------------------------------------------------------------
 -- End of misc helper functions and short cuts
