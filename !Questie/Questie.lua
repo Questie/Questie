@@ -495,10 +495,7 @@ function Questie:Toggle()
         LastQuestLogHashes = nil;
         IsQuestieActive = true;
         QuestieConfig.showMapNotes = true;
-        Questie:AddEvent("UPDATECACHE", 0);
-        Questie:AddEvent("SYNCLOG", 0.1);
-        Questie:AddEvent("DRAWNOTES", 0.2);
-        Questie:AddEvent("TRACKER", 0.3);
+        Questie:UpdateGameClientCache(true)
     end
 end
 ---------------------------------------------------------------------------------------------------

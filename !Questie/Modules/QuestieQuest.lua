@@ -342,7 +342,7 @@ end
 --QuestieCachedQuests get pre-populated with cache data before normal CheckLog functions are run.
 --This is especially important if this data isn't already in the WoW game clients local cache.
 ---------------------------------------------------------------------------------------------------
-function Questie:UpdateGameClientCache()
+function Questie:UpdateGameClientCache(force)
     if (IsQuestieActive == false) then return; end
     Questie:debug_Print();
     Questie:debug_Print("****************| Running Quest:UpdateGameClientCache |****************");
@@ -356,6 +356,12 @@ function Questie:UpdateGameClientCache()
             QSelect_QuestLogEntry(id);
             local questText, objectiveText = QGet_QuestLogQuestText();
             local hash = Questie:getQuestHash(questName, level, objectiveText);
+            if (force) then
+                Questie:AddQuestToMap(hash, true);
+                Questie:debug_Print("Quest:UpdateGameClientCache --> Questie:AddQuestToMap(forced): [Name: "..questName.."]");
+                QuestieTracker:addQuestToTrackerCache(hash, id, level);
+                Questie:debug_Print("Quest:UpdateGameClientCache --> Questie:addQuestToTrackerCache(forced): [Hash: "..hash.."]");
+            end
             for index=1, QGet_NumQuestLeaderBoards(id) do
                 local desc = QGet_QuestLogLeaderBoard(index, id);
                 local objectiveName = desc;
@@ -366,7 +372,7 @@ function Questie:UpdateGameClientCache()
                         objectiveName = string.sub(objectiveName, 1, string.len(objectiveName)-6);
                     end
                 end
-                if (not LastQuestLogHashes) or (QuestieHandledQuests[hash] and QuestieHandledQuests[hash]["objectives"] and QuestieHandledQuests[hash]["objectives"][index]["name"] ~= objectiveName) then
+                if (not LastQuestLogHashes and not force) or (QuestieHandledQuests[hash] and QuestieHandledQuests[hash]["objectives"] and QuestieHandledQuests[hash]["objectives"][index]["name"] ~= objectiveName) then
                     Questie:AddQuestToMap(hash);
                     Questie:debug_Print("Quest:UpdateGameClientCache --> Questie:AddQuestToMap(): [Name: "..QuestieHandledQuests[hash]["objectives"][index]["name"].."]");
                     QuestieTracker:addQuestToTrackerCache(hash, id, level);
