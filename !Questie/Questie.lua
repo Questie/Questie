@@ -505,7 +505,7 @@ function Questie:OnUpdate(elapsed)
         if (QuestieConfig.corpseArrow == true) then
             if DiedAtX and DiedAtY and DiedAtX ~= 0 and DiedAtY ~= 0 then
                 local ddist, xDelta, yDelta = Astrolabe:ComputeDistance(DiedInCont, DiedInZone, DiedAtX, DiedAtY, continent, zone, xNote, yNote)
-                local dtitle = "My Dead Corpse"
+                local dtitle = "My Corpse"
                 local dpoint = {c = DiedInCont, z = DiedInZone, x = DiedAtX, y = DiedAtY}
                 SetCrazyArrow(dpoint, ddist, dtitle);
                 if (not WorldMapFrame:IsVisible() == nil) then
