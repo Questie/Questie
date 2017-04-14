@@ -662,7 +662,7 @@ end
 -- Questie Parsing Shortcuts
 ---------------------------------------------------------------------------------------------------
 function findFirst(haystack, needle)
-    local i=string.find(haystack, " ");
+    local i=string.find(haystack, needle);
     if i==nil then return nil; else return i-1; end
 end
 ---------------------------------------------------------------------------------------------------
