@@ -41,6 +41,30 @@ Cluster.__index = Cluster;
 __TT_LineCache = {};
 UIOpen = false;
 ---------------------------------------------------------------------------------------------------
+-- Refreshes Quest Notes
+---------------------------------------------------------------------------------------------------
+function Questie:RefreshQuestNotes()
+    QUESTIE_UPDATE_EVENT = 1;
+    if (GetTime() - QUESTIE_LAST_SYNCLOG > 0.1) then
+        Questie:AddEvent("SYNCLOG", 0);
+        QUESTIE_LAST_SYNCLOG = GetTime();
+    else
+        QUESTIE_LAST_SYNCLOG = GetTime();
+    end
+    if (GetTime() - QUESTIE_LAST_DRAWNOTES > 0.1) then
+        Questie:AddEvent("DRAWNOTES", 0.2);
+        QUESTIE_LAST_DRAWNOTES = GetTime();
+    else
+        QUESTIE_LAST_DRAWNOTES = GetTime();
+    end
+    if (GetTime() - QUESTIE_LAST_TRACKER > 0.1) then
+        Questie:AddEvent("TRACKER", 0.4);
+        QUESTIE_LAST_TRACKER = GetTime();
+    else
+        QUESTIE_LAST_TRACKER = GetTime();
+    end
+end
+---------------------------------------------------------------------------------------------------
 -- Adds quest notes to map
 ---------------------------------------------------------------------------------------------------
 function Questie:AddQuestToMap(questHash, redraw)
@@ -108,7 +132,7 @@ function Questie:AddQuestToMap(questHash, redraw)
     QuestieHandledQuests[questHash] = ques;
     if (redraw) then
         Questie:debug_Print("Notes:AddQuestToMap: redraw VAR true --> Questie:RefreshQuestStatus();");
-        Questie:RefreshQuestStatus();
+        Questie:RefreshQuestNotes();
     end
 end
 ---------------------------------------------------------------------------------------------------
@@ -151,7 +175,7 @@ function Questie:UpdateQuestNotes(questHash, redraw)
     QSelect_QuestLogEntry(prevQuestLogSelection)
     if(redraw) then
         Questie:debug_Print("Notes:UpdateQuestNotes: redraw VAR true --> Questie:RefreshQuestStatus();");
-        Questie:RefreshQuestStatus();
+        Questie:RefreshQuestNotes();
     end
 end
 ---------------------------------------------------------------------------------------------------
@@ -171,7 +195,7 @@ function Questie:RemoveQuestFromMap(questHash, redraw)
     end
     if(redraw) then
         Questie:debug_Print("Notes:RemoveQuestFromMap: redraw VAR true --> Questie:RefreshQuestStatus();");
-        Questie:RefreshQuestStatus();
+        Questie:RefreshQuestNotes();
     end
     if(QuestieHandledQuests[questHash]) then
         QuestieHandledQuests[questHash] = nil;
