@@ -29563,7 +29563,7 @@ QuestieItems = {
             ["굽이나무 이끼늪괴물"] = 2365,
         },
     },
-    ["Zorbin's Ultra-shrinker"] = {
+    ["Zorbin's Ultra-Shrinker"] = {
         transforms = {
             ["Cliff Giant"] = 1,
             ["Shore Strider"] = 1,

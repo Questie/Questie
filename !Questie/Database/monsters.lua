@@ -48295,7 +48295,7 @@ QuestieMonsters = {
   },
   ["Zapped Deep Strider"] = {
     ["transformedby"] = {
-      ["Zorbin's Ultra-shrinker"] = 1
+      ["Zorbin's Ultra-Shrinker"] = 1
     }
   },
   ["Gorishi Hive Queen"] = {
@@ -57587,7 +57587,7 @@ QuestieMonsters = {
   },
   ["Zapped Wave Strider"] = {
     ["transformedby"] = {
-      ["Zorbin's Ultra-shrinker"] = 1
+      ["Zorbin's Ultra-Shrinker"] = 1
     }
   },
   ["Nurse Stonefield"] = {
@@ -76468,7 +76468,7 @@ QuestieMonsters = {
   },
   ["Zapped Cliff Giant"] = {
     ["transformedby"] = {
-      ["Zorbin's Ultra-shrinker"] = 1
+      ["Zorbin's Ultra-Shrinker"] = 1
     }
   },
   ["Alliance Class Spells"] = {
@@ -82053,7 +82053,7 @@ QuestieMonsters = {
   },
   ["Zapped Shore Strider"] = {
     ["transformedby"] = {
-      ["Zorbin's Ultra-shrinker"] = 1
+      ["Zorbin's Ultra-Shrinker"] = 1
     }
   },
   ["Anchorite Ahuurn"] = {
@@ -89296,7 +89296,7 @@ QuestieMonsters = {
   },
   ["Zapped Land Walker"] = {
     ["transformedby"] = {
-      ["Zorbin's Ultra-shrinker"] = 1
+      ["Zorbin's Ultra-Shrinker"] = 1
     }
   },
   ["Watcher Backus"] = {
