@@ -493,7 +493,7 @@ function Questie:CheckQuestLog()
             --This clears cache of finished quests
             if (QuestieSeenQuests[v["hash"]] == 1) then
                 QuestieTracker:removeQuestFromTracker(v["hash"]);
-                RemoveQuestWatch(v["logId"]);
+                QUEST_WATCH_LIST[v["hash"]] = nil;
                 Questie:finishAndRecurse(v["hash"]);
                 Questie:debug_Print("Quest:CheckQuestLog: --> Quest:finishAndRecurse() [Hash: "..v["hash"].."]");
                 if (not QuestieCompletedQuestMessages[v["name"]]) then

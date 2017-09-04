@@ -971,6 +971,22 @@ function QuestieTracker:addQuestToTrackerCache(hash, logId, level)
     end
 end
 ---------------------------------------------------------------------------------------------------
+-- This function is used to update the quest log index of a quest in the QUEST_WATCH_LIST and
+-- QuestieCachedQuests tables when another quest is added/removed from the quest log, and therefore
+-- the index might have changed. It's currently only called from updateTrackerCache and syncQuestLog
+-- in this file, which might have to be changed yet, but testing has shown no errors so far.
+---------------------------------------------------------------------------------------------------
+function QuestieTracker:updateQuestWatchLogId(hash, logId)
+    if QUEST_WATCH_LIST[hash] and QUEST_WATCH_LIST[hash].questIndex ~= logId then
+        Questie:debug_Print("Tracker:updateQuestWatchLogId: QUEST_WATCH_LIST["..hash.."].questIndex changed from "..QUEST_WATCH_LIST[hash].questIndex.." to "..logId)
+        QUEST_WATCH_LIST[hash].questIndex = logId
+    end
+    if QuestieCachedQuests[hash] and QuestieCachedQuests[hash].logId ~= logId then
+        Questie:debug_Print("Tracker:updateQuestWatchLogId: QuestieCachedQuests["..hash.."].logId changed from "..QuestieCachedQuests[hash].logId.." to "..logId)
+        QuestieCachedQuests[hash].logId = logId
+    end
+end
+---------------------------------------------------------------------------------------------------
 -- If a quest is tracked, update quest on tracker and also update quest data cache
 ---------------------------------------------------------------------------------------------------
 function QuestieTracker:updateTrackerCache(hash, logId, level)
@@ -997,6 +1013,7 @@ function QuestieTracker:updateTrackerCache(hash, logId, level)
     QuestieCachedQuests[hash]["level"] = level;
     QuestieCachedQuests[hash]["logId"] = logId;
     QuestieCachedQuests[hash]["leaderboards"] = QGet_NumQuestLeaderBoards(logId);
+    QuestieTracker:updateQuestWatchLogId(hash, logId);
     local uggo = 0;
     for i=1, QGet_NumQuestLeaderBoards(logId) do
         local desc, type, done = QGet_QuestLogLeaderBoard(i, logId);
@@ -1156,12 +1173,14 @@ function QuestieTracker:syncQuestLog()
     local qc = 0;
     local nEntry, nQuests = QGet_NumQuestLogEntries();
     while qc < nQuests do
+        local isWatched = QuestLogSync(id);
         local questName, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(id);
         if not isHeader and not isCollapsed then
             QSelect_QuestLogEntry(id);
             local questText, objectiveText = QGet_QuestLogQuestText();
             local hash = Questie:getQuestHash(questName, level, objectiveText);
-            if not isHeader and QuestLogSync(id) and (QuestieCachedQuests[hash] and QuestieCachedQuests[hash]["tracked"] ~= true) then
+            QuestieTracker:updateQuestWatchLogId(hash, id);
+            if (isWatched) and (QuestieCachedQuests[hash] and QuestieCachedQuests[hash]["tracked"] ~= true) then
                 if QuestieCachedQuests[hash] then
                     Questie:debug_Print("Tracker:syncQuestLog --> addQuestToTracker: Flagging [Hash: "..hash.."] TRUE");
                     QuestieTracker:addQuestToTracker(hash);
@@ -1171,7 +1190,7 @@ function QuestieTracker:syncQuestLog()
                     QuestieTracker:addQuestToTrackerCache(hash, id, level);
                     QuestieTracker:addQuestToTracker(hash);
                 end
-            elseif not isHeader and not QuestLogSync(id) and (QuestieCachedQuests[hash] and QuestieCachedQuests[hash]["tracked"] ~= false) then
+            elseif (not isWatched) and (QuestieCachedQuests[hash] and QuestieCachedQuests[hash]["tracked"] ~= false) then
                 Questie:debug_Print("Tracker:syncQuestLog --> removeQuestFromTracker: Flagging [Hash: "..hash.."] FALSE");
                 QuestieTracker:removeQuestFromTracker(hash);
             end
