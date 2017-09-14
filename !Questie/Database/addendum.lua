@@ -14958,6 +14958,7 @@ QuestieHashMap = {
   ['startedBy']="Nimboya",
   ['finishedBy']="Nimboya",
   ['level']=35,
+  ['rr']=178,
   ['questLevel']='42'
  },
  [2790069472]={
