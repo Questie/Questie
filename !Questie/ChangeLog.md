@@ -1,5 +1,5 @@
 ---------------------------------------------------------------------
-v3.7.0
+# v3.7.0
 
 Features:
 * Quest items contained in objects now display more accurate tooltip
@@ -82,7 +82,7 @@ help identify which component of Questie it's actually changing.
 based on a player’s frame rate (60FPS = 60 arrow updates per second!)
 We've throttled it down to one update every .04 seconds.
 ---------------------------------------------------------------------
-v3.69
+# v3.69
 
 [Hotfix]
 * The auto resize code was adding extra height to the QuestTracker
@@ -132,7 +132,7 @@ Please report any bugs you find. My evening test run was cut short by
 the server maintenance. I didn't want to wait until tomorrow to push
 out this release.
 ---------------------------------------------------------------------
-v3.68
+# v3.68
 
 * Fixed an issue with CorpseArrow. Thank you for the help Muehe!
 Occasionally your CorpseArrow would not show correct distance or
@@ -151,7 +151,7 @@ spent some time going back through the Quest pick up and finisher
 functions and made some tweaks that I'm hoping will keep things
 trimmed and organized.
 ---------------------------------------------------------------------
-v3.67
+# v3.67
 
 * Fixed the following quests:
   - Syndicate Documents
@@ -177,7 +177,7 @@ appear
 * You can now toggle the Corpse Arrow on and off. Use ( /questie
 corpsearrow )
 ---------------------------------------------------------------------
-v3.66
+# v3.66
 
 * Merged a user suggested change to tooltip hooking that seems to work
 better after some testing. Thank you rasberryrabbit!
@@ -194,7 +194,7 @@ via wanted posters and fixed a quest that a couple users reported.
 This Hotfix contains last night’s commit and a fix for another one
 that I found today.
 ---------------------------------------------------------------------
-v3.65
+# v3.65
 
 * Added a new feature that allows you to turn off the Questie tool
 tips. Use ( /questie tooltips ) to toggle them on and off. They are on
@@ -220,20 +220,20 @@ show until your character reaches a level of 30. Default maxlevel
 filter is 5 which means quests won't show until you are within 5
 levels of the quests Min Level.
 ---------------------------------------------------------------------
-v3.64
+# v3.64
 
 * If you were actively tracking a quest on the QuestArrow then died,
 the CorpseArrow wouldn't always appear and display the distance and
 direction to your corpse.
 ---------------------------------------------------------------------
-v3.63
+# v3.63
 
 * I introduced a bug where I was clearing the QuestieArrow whenever
 the player was NOT a Ghost causing the QuestieArrow to never appear
 for Quest Objectives. Clearing the QuestieArrow is now an event based
 clear after you resurrect. Sorry guys!
 ---------------------------------------------------------------------
-v3.62
+# v3.62
 
 * I think I may have traced the issue. In Vanilla WoW the only way to
 obtain a player’s true position is via the Worldmap. When you open the
@@ -256,7 +256,7 @@ me that it's a feature that I've always wanted. If you die, Questie
 will paint an arrow to your Corpse automatically. When you resurrect,
 it'll disappear.
 ---------------------------------------------------------------------
-v3.61
+# v3.61
 
 * Fixed an issue with the [ Shift+Click ] manual quest complete
 Dewdrop menu popup appearing off screen when a player’s Worldmap is in
@@ -279,7 +279,7 @@ objectives without it looking too ugly.
 * Minor improvement in completed quest markers not disappearing right
 away after completing a quest.
 ---------------------------------------------------------------------
-v3.6
+# v3.6
 
 * Fixed an issue with Tooltips - flickering/refresh rate was sometimes
 visible while hovering over quest items.
@@ -295,7 +295,7 @@ the QuestTracker.
   NOTE: This option only works on the Questie QuestTracker, NOT the
   Default WoW QuestTracker.
 ---------------------------------------------------------------------
-v3.5
+# v3.5
 
 * Hotfix: Corrected issues with ToolTip mods causing certain ToolTip
 elements to become stuck in a visible state.
@@ -310,7 +310,7 @@ the zone dropdowns)
 quests ( /questie hideobjectives )
 * Added an option to hide minimap icons ( /questie hideminimap )
 ---------------------------------------------------------------------
-v3.4
+# v3.4
 
 * Fixed conflict with tinytip that caused questie to add objective
 text to tooltips multiple times
@@ -322,14 +322,14 @@ the zone dropdowns)
 quests ( /questie hideobjectives )
 * Added an option to hide minimap icons ( /questie hideminimap )
 ---------------------------------------------------------------------
-v3.3
+# v3.3
 
 * Improved mouseover tooltip performance by using caching (this can be
 improved more in the future)
 * Fixed "tooltip only showing once" bug
 * Fixed version number in-game
 ---------------------------------------------------------------------
-v3.2
+# v3.2
 
 * Fixes to minimap and world coordinates
 * EQL3 fixes
@@ -337,7 +337,7 @@ v3.2
 the map. Now you can see all the available quests.
 
 ---------------------------------------------------------------------
-v3.1
+# v3.1
 
 * Hotfix: The previous hotfix was incorrect in the assumption that the
 updated data was incorrect. The city of Darnassis was spelled
@@ -417,7 +417,7 @@ and checked for duplicate entries from both the current database and
 either the most recent mangos distro or some other well respected
 project.
 ---------------------------------------------------------------------
-v3.0
+# v3.0
 
 * Code clean up and finalized code rewrite.
 * Fixed a tooltip issue where some quest objectives were appearing
@@ -432,8 +432,8 @@ that was conflicting with Questie. For example, the quest objective
 Tooltips. Having both add-ons showing quest objectives in the tooltips
 is redundant.
 ---------------------------------------------------------------------
+# v2.67
 
-v2.67
 * On certain servers EQL3 would inject the quest [%level%] tag into
 the Quest Title. When a player hands in a quest they get a nil error
 on servers that block this behavior or if the player is using a
@@ -449,8 +449,8 @@ posting a chat message.
 * Continent offsets and worldmap size are still everyone’s best guess
 but zone data is correct.
 ---------------------------------------------------------------------
+# v2.66
 
-v2.66:
 * I have fully converted Questie to cache all quest data for active
 quests. This means that Questie will no longer run as many function
 calls as it used to each time you track and untrack a quest. In order
@@ -477,8 +477,8 @@ a Pre-requisite quest exists, the function responsible for marking the
 quest as complete in the database will crawl back through all the
 quests before it and make sure they are also marked as complete.
 ---------------------------------------------------------------------
+# v2.65
 
-v2.65:
 * I have thoroughly reviewed all the functions that handle obtaining,
 abandoning, and tracking quests. Many of the functions have been
 tweaked or redesigned. During this long review, I found several new
@@ -547,8 +547,8 @@ item but will update properly once you pick up the second item.
 *scratches head* Yeah, I'm still thinking about that one...
 * Tons of code cleanup
 ---------------------------------------------------------------------
+# v2.64
 
-v2.64:
 * Since there are some new options in the SavedVariables - there
 needed to be better error checking for missing entries.
 * Cartographer's settings weren't being applied after a ReloadUI or a
@@ -573,8 +573,8 @@ zone change, obtaining or turning in quests etc. I've reviewed all the
 areas that triggers update functions in the QuestTracker module.
 Hopefully I caught them all and added a QuestTracker toggle check.
 ---------------------------------------------------------------------
+# v2.63
 
-v2.63:
 * Added a new command line option - ( /questie NUKE ). This wipes out
 all your settings and the quest database. USE WITH CAUTION. There is a
 confirmation popup.
@@ -634,8 +634,8 @@ compromising function. I believe I was fairly successful in reducing
 lag. I flew around between several flight points with 20 quests all in
 the tracker to test distance sorting and overall performance.
 ---------------------------------------------------------------------
+# v2.62
 
-v2.62:
 * The Questie Toggle Button has been returned - added bonus: if you
 turn off Questie using the Toggle then all Questie related objects
 will be hidden accept the quest tracker. You'll have to untrack all
@@ -734,8 +734,8 @@ the settings output. Should make it easier to find the command and or
 the setting you're looking for.
 * TONS of code clean up!
 ---------------------------------------------------------------------
+# v2.61
 
-v2.61:
 * Found a nil error at the last minute while getting a quest. At first
 I thought I had forgotten to remove some debug code but it was a line
 I inserted to keep from flagging event type quests as Complete until
@@ -745,8 +745,8 @@ it was causing a nil error - fixed. Inserted one more check to make
 sure the table entry exists before going on to check a second entry
 within the first.
 ---------------------------------------------------------------------
+# v2.6
 
-v2.6:
 * Fixed a bug with the QuestTracker - in certain situations upon
 getting a new quest, the quest would show up as complete when there
 were still objectives to accomplish. Untracking and Re-adding the
@@ -776,8 +776,8 @@ unnecessarily bloated with useless data. I've built in a routine to
 clean this entry as quests are completed.
 * More code clean-up work.
 ---------------------------------------------------------------------
+# v2.5
 
-v2.5:
 * Moved all Questie settings to a "per-character" setup so each
 character will have their own settings. This was necessary since most
 of the new options are more or less a Per-Character preference rather
@@ -832,8 +832,8 @@ to Yellow then finally to Green. The QuestArrow has also been changed
 to match. By default, the old color scheme is enabled.
 * More code clean-up.
 ---------------------------------------------------------------------
+# v2.4
 
-v2.4:
 * Added an "Elite" tag to the QuestTracker - Elite quests will now
 properly carry the [+] along with the quest level tag.
 * Added a minlevel/maxlevel filter along with an on/off toggle. These
@@ -860,8 +860,8 @@ longer needed. If you need to toggle the icons use ( /questie mapaids
 ).
 * Code clean up
 ---------------------------------------------------------------------
+# v2.3
 
-v2.3:
 * Added a [ Shift ] key modifier to the QuestTracker and QuestArrow –
 unless the [ Shift ] key is down, you can't drag it.
 * Wardz's commit fixing/preventing the QuestTracker from being dragged
@@ -879,8 +879,8 @@ to manually complete.
 allows the user to untrack a quest from their QuestTracker with or
 without EQL3.
 ---------------------------------------------------------------------
+# v2.2
 
-v2.2:
 * A bug was reported on the Nostalrius forums - there was some frame
 code that was creating double popups preventing new ones from
 appearing properly. Fixed.
@@ -892,8 +892,8 @@ might prevent it from being displayed properly. Grrrrrr.... - A
 failsafe of sorts.
 * Updated TOC to reflect new version
 ---------------------------------------------------------------------
+# v2.1
 
-v2.1:
 * Improved the WorldMap Quest tool tips by adding Quest Level, Quest
 Started by, Quest Finished by and an OnClick usage note for manually
 finishing quests.
