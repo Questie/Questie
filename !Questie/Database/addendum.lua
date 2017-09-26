@@ -17368,6 +17368,7 @@ QuestieHashMap = {
   ['finishedBy']="Theldurin the Lost",
   ['level']=30,
   ['questLevel']='40'
+  ['rr']=178
  },
  [3130142114]={
   ['name']="Prowlers of the Barrens",
