@@ -17367,7 +17367,7 @@ QuestieHashMap = {
   ['startedBy']="Zaruk",
   ['finishedBy']="Theldurin the Lost",
   ['level']=30,
-  ['questLevel']='40'
+  ['questLevel']='40',
   ['rr']=178
  },
  [3130142114]={
