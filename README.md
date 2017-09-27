@@ -7,6 +7,7 @@
 ## Download
 
 You can download the latest stable release from [here](https://github.com/AeroScripts/QuestieDev/releases/latest).
+
 If you are interested in testing our latest beta release, you can download it from [here](https://github.com/AeroScripts/QuestieDev/releases/tag/v3.7.0-beta).
 
 **Notes:**
