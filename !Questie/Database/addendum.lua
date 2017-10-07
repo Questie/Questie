@@ -18713,16 +18713,6 @@ QuestieHashMap = {
   ['level']=1,
   ['questLevel']='60'
  },
- [582117461]={
-  ['name']="Watcher Callahan",
-  ['startedType']="monster",
-  ['finishedType']="monster",
-  ['startedBy']="Watcher Dodds",
-  ['finishedBy']="Watcher Callahan",
-  ['level']=21,
-  ['questLevel']='25',
-  ['rr']=77
- },
  [197258989]={
   ['name']="Badlands Reagent Run",
   ['startedType']="monster",
