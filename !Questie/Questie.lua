@@ -144,7 +144,7 @@ function Questie:CheckDefaults()
     --any quest issues for the new character
     if UnitLevel("player") == 1 then
         local i = 0;
-        for i,v in pairs(QuestieSeenQuests) do
+        for _,_ in pairs(QuestieSeenQuests) do
             if (i < 3) then
                 i = i + 1;
             else
