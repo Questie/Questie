@@ -1,4 +1,15 @@
 QuestieObjects = {
+    ["Torn Scroll"] = {
+        locations = {
+            {
+                34.0,
+                0.2730,
+                0.8520,
+                100.0,
+            },
+        },
+        locationCount = 1,
+    },
     ["Ju-Ju Heaps Destroyed"] = {
         locations = {
             {
