@@ -37743,6 +37743,7 @@ QuestieHashMap = {
   ['startedBy']="Mist",
   ['finishedBy']="Sentinel Arynia Cloudsbreak",
   ['level']=9,
+  ['rr']=77,
   ['questLevel']='12'
  },
  [2631372589]={

@@ -44405,6 +44405,12 @@ QuestieDropTable = {
 }
 
 QuestieMonsters = {
+  ["Mist"] = {
+    ["locations"] = {
+        [1] = {24.0, 0.3150, 0.3160, 100.0},
+    },
+    ["locationCount"] = 1
+  },
   ["Warp Monstrosity"] = {
     ["locations"] = {
       [1] = {59.0, 0.3379, 0.3144, 100.0},
