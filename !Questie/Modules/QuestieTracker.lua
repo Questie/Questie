@@ -47,24 +47,23 @@ end
 -- OnUpdate
 ---------------------------------------------------------------------------------------------------
 function QuestieTracker_OnUpdate()
-    if GetTime() - QuestieTracker.trackerUpdate >= 0.01 then
-        if (IsAddOnLoaded("EQL3") or IsAddOnLoaded("ShaguQuest")) then
-            if (QuestieConfig.trackerEnabled == true) then
-                QuestWatchFrame:Hide();
-                EQL3_QuestWatchFrame:Hide();
-            else
-                QuestieTracker.frame:Hide();
-                QuestieTrackerHeader:Hide();
-            end
+    if (IsAddOnLoaded("EQL3") or IsAddOnLoaded("ShaguQuest")) then
+        if (QuestieConfig.trackerEnabled == true) then
+            QuestWatchFrame:Hide();
+            EQL3_QuestWatchFrame:Hide();
         else
-            if (QuestieConfig.trackerEnabled == true) then
-                QuestWatchFrame:Hide();
-            else
-                QuestieTracker.frame:Hide();
-                QuestieTrackerHeader:Hide();
-            end
+            QuestieTracker.frame:Hide();
+            QuestieTrackerHeader:Hide();
         end
-    elseif GetTime() - QuestieTracker.trackerUpdate >= 2 then
+    else
+        if (QuestieConfig.trackerEnabled == true) then
+            QuestWatchFrame:Hide();
+        else
+            QuestieTracker.frame:Hide();
+            QuestieTrackerHeader:Hide();
+        end
+    end
+    if GetTime() - QuestieTracker.trackerUpdate >= 2 then
         if (QuestieConfig.showMapNotes == true) or (QuestieConfig.alwaysShowObjectives == true) then
             QuestieTracker:SortTrackingFrame();
         end
