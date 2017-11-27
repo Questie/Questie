@@ -30,6 +30,7 @@ function Questie:SetupDefaults()
         ["maxLevelFilter"] = true,
         ["maxShowLevel"] = 7,
         ["minimapButton"] = true,
+        ["minimapZoom"] = false,
         ["minLevelFilter"] = true,
         ["minShowLevel"] = 4,
         ["resizeWorldmap"] = false,
@@ -91,6 +92,9 @@ function Questie:CheckDefaults()
         QuestieConfig.minimapButton = true;
     elseif QuestieConfig.minimapButton == false then
         Questie.minimapButton:Hide();
+    end
+    if QuestieConfig.minimapZoom == nil then
+        QuestieConfig.minimapZoom = false;
     end
     if QuestieConfig.minLevelFilter == nil then
         QuestieConfig.minLevelFilter = true;
@@ -412,7 +416,9 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
         Questie:ParseQuestLoot(arg1);
     -------------------------------------------------
     elseif (event == "MINIMAP_UPDATE_ZOOM" ) then
-        Astrolabe:isMinimapInCity();
+        if (QuestieConfig.minimapZoom == true) then
+            Astrolabe:isMinimapInCity();
+        end
     -------------------------------------------------
     elseif (event == "PLAYER_DEAD") then
         --Records players continent, zone and coordinates upon death to be used later. This is more
@@ -792,6 +798,17 @@ QuestieFastSlash = {
             Questie.minimapButton:Hide();
         end
     end,
+    ["minimapzoom"] = function()
+    --Default: False
+        QuestieConfig.minimapZoom = not QuestieConfig.minimapZoom;
+        if QuestieConfig.minimapZoom then
+            DEFAULT_CHAT_FRAME:AddMessage("QuestieMiniMap:|c0000ffc0 (MiniMap Auto-Zoom On) |r");
+            QuestieConfig.minimapZoom = true;
+        else
+            DEFAULT_CHAT_FRAME:AddMessage("QuestieMiniMap:|c0000ffc0 (MiniMap Auto-Zoom Off) |r");
+            QuestieConfig.minimapZoom = false;
+        end
+    end,
     ["minlevel"] = function()
     --Default: True
         QuestieConfig.minLevelFilter = not QuestieConfig.minLevelFilter;
@@ -952,6 +969,7 @@ QuestieFastSlash = {
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie mapnotes |r|c0000ffc0(toggle)|r Questie: Commandline version of ToggleQuestie button", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie maxlevel |r|c0000ffc0(toggle)|r QuestMap: Filter - see setmaxlevel", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie minimapbutton |r|c0000ffc0(toggle)|r QuestMap: Removes questie minimap button", 0.75, 0.75, 0.75);
+        DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie minimapzoom |r|c0000ffc0(toggle)|r QuestMap: Removes questie minimap auto-zoom", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie minlevel |r|c0000ffc0(toggle)|r QuestMap: Filter - see setminlevel", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie mintracker |r|c0000ffc0(toggle)|r QuestTracker: Minimize or Maximize the QuestieTracker", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie NUKE |r|r|c0000ffc0(Pop-up)|r Database: Resets ALL Questie data and settings", 0.75, 0.75, 0.75);
@@ -1014,19 +1032,20 @@ function Questie:CurrentUserToggles()
         [8] = { "maxLevelFilter" },
         [9] = { "maxShowLevel" },
         [10] = { "minimapButton" },
-        [11] = { "minLevelFilter" },
-        [12] = { "minShowLevel" },
-        [13] = { "resizeWorldmap" },
-        [14] = { "showMapNotes" },
-        [15] = { "showProfessionQuests" },
-        [16] = { "showTrackerHeader" },
-        [17] = { "showToolTips" },
-        [18] = { "trackerAlpha" },
-        [19] = { "trackerBackground" },
-        [20] = { "trackerEnabled" },
-        [21] = { "trackerList" },
-        [22] = { "trackerMinimize" },
-        [23] = { "trackerScale" },
+        [11] = { "minimapZoom" },
+        [12] = { "minLevelFilter" },
+        [13] = { "minShowLevel" },
+        [14] = { "resizeWorldmap" },
+        [15] = { "showMapNotes" },
+        [16] = { "showProfessionQuests" },
+        [17] = { "showTrackerHeader" },
+        [18] = { "showToolTips" },
+        [19] = { "trackerAlpha" },
+        [20] = { "trackerBackground" },
+        [21] = { "trackerEnabled" },
+        [22] = { "trackerList" },
+        [23] = { "trackerMinimize" },
+        [24] = { "trackerScale" },
     };
     if QuestieConfig then
         i = 1;
