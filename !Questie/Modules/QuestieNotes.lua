@@ -40,6 +40,14 @@ INIT_POOL_SIZE = 11;
 Cluster.__index = Cluster;
 __TT_LineCache = {};
 UIOpen = false;
+QuestieNotes = AceLibrary("AceAddon-2.0"):new("AceHook-2.1")
+---------------------------------------------------------------------------------------------------
+--Setup Hooks
+---------------------------------------------------------------------------------------------------
+function QuestieNotes:OnInitialize()
+    self:Hook(WorldMapFrame, "Show", "WorldMapFrame_Show", true)
+    self:Hook(WorldMapFrame, "SetAlpha", "WorldMapFrame_SetAlpha", true)
+end
 ---------------------------------------------------------------------------------------------------
 -- Refreshes Quest Notes
 ---------------------------------------------------------------------------------------------------
@@ -263,6 +271,26 @@ function Questie:GetBlankNoteFrame(frame)
     f = FramePool[1];
     table.remove(FramePool, 1);
     return f;
+end
+---------------------------------------------------------------------------------------------------
+-- Hook World Map Events
+---------------------------------------------------------------------------------------------------
+function QuestieNotes:SetAllNoteFramesAlpha()
+    for i,v in ipairs({WorldMapFrame:GetChildren()}) do
+        if v:GetName() and string.find(v:GetName(), "^QuestieNoteFrame") then
+            v:SetAlpha(1)
+        end
+    end
+end
+
+function QuestieNotes:WorldMapFrame_Show(this)
+	self.hooks[this].Show(this)
+	QuestieNotes:SetAllNoteFramesAlpha()
+end
+
+function QuestieNotes:WorldMapFrame_SetAlpha(this, alpha)
+	self.hooks[this].SetAlpha(this, alpha)
+    QuestieNotes:SetAllNoteFramesAlpha()
 end
 ---------------------------------------------------------------------------------------------------
 -- Hook Tooltip
