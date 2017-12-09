@@ -55601,28 +55601,32 @@ function GetEntityLocations(entity)
         end
         if sourceType == "locations" then
             local added = false
+            local class = UnitClass("Player")
+            local race = UnitRace("Player")
             for i, location in pairs(sources) do
-                local reformattedLocation
-                if location[2] >= 1 then
-                    -- new location format
-                    reformattedLocation = location
-                elseif QuestieZoneIDLookup[location[1]] then
-                    -- old location format
-                    local MapInfo = QuestieZoneIDLookup[location[1]]
-                    reformattedLocation = {MapInfo[4], MapInfo[5], location[2], location[3]}
-                end
-
-                if reformattedLocation then
-                    if locations[sourceType] == nil then locations[sourceType] = {} end
-                    table.insert(locations[sourceType], reformattedLocation)
-                    if added == false then
-                        local c, z = reformattedLocation[1], reformattedLocation[2]
-                        if mapIds[c] == nil then mapIds[c] = {} end
-                        mapIds[c][z] = true
-                        added = true
+                if (not entity['locations_rr']) or (not entity['locations_rr'][i]) or checkRequirements(class, race, nil, entity['locations_rr'][i]) then
+                    local reformattedLocation
+                    if location[2] >= 1 then
+                        -- new location format
+                        reformattedLocation = location
+                    elseif QuestieZoneIDLookup[location[1]] then
+                        -- old location format
+                        local MapInfo = QuestieZoneIDLookup[location[1]]
+                        reformattedLocation = {MapInfo[4], MapInfo[5], location[2], location[3]}
                     end
-                else
-                    --sources[i] = nil
+
+                    if reformattedLocation then
+                        if locations[sourceType] == nil then locations[sourceType] = {} end
+                        table.insert(locations[sourceType], reformattedLocation)
+                        if added == false then
+                            local c, z = reformattedLocation[1], reformattedLocation[2]
+                            if mapIds[c] == nil then mapIds[c] = {} end
+                            mapIds[c][z] = true
+                            added = true
+                        end
+                    else
+                        --sources[i] = nil
+                    end
                 end
             end
         end
