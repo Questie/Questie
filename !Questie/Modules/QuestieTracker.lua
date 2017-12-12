@@ -995,9 +995,6 @@ function QuestieTracker:updateTrackerCache(hash, logId, level)
     if (not QUEST_WATCH_LIST[logId]) and (not QuestieCachedQuests[hash]) then
         QuestieTracker:addQuestToTrackerCache(hash, logId, level);
     end
-    if (QuestieSeenQuests[hash] == 1) then
-        return;
-    end
     if not QuestieCachedQuests[hash] then
         QuestieCachedQuests[hash] = {};
     end
