@@ -116,7 +116,6 @@ function Questie:AddQuestToMap(questHash, redraw)
             };
             local typeFunction = typeFunctions[questInfo.finishedType];
             local finishPath = typeFunction(questInfo.finishedBy);
-            --print_r(finishPath);
             if finishPath == nil or (not next(finishPath)) then
                 finishPath = typeFunction(QuestieFinishers[Quest.name]);
             end
@@ -599,10 +598,10 @@ function Questie_Tooltip_OnEnter()
                 end
                 Tooltip:AddLine(questLine);
                 Tooltip:AddLine("Min Level: |cFFa6a6a6"..QuestieHashMap[data.questHash].level.."|r",1,1,1);
-                Tooltip:AddLine("Started by: |cFFa6a6a6"..QuestieHashMap[data.questHash].startedBy.."|r",1,1,1);
+                Tooltip:AddLine("Started by: |cFFa6a6a6"..Questie:RemoveUniqueSuffix(QuestieHashMap[data.questHash].startedBy).."|r",1,1,1);
                 Questie:AddPathToTooltip(Tooltip, questMeta['path'], 1);
                 if questOb ~= nil then
-                    Tooltip:AddLine("Description: |cFFa6a6a6"..questOb.."|r",1,1,1,true);
+                    Tooltip:AddLine("Description: |cFFa6a6a6"..Questie:RemoveUniqueSuffix(questOb).."|r",1,1,1,true);
                 end
                 canManualComplete = 1;
             end

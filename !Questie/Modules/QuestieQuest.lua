@@ -1090,22 +1090,14 @@ function Questie:SanitsedQuestLookup(name)
     return QuestieLevLookup[realName];
 end
 ---------------------------------------------------------------------------------------------------
---Get quest hash from quest name
+--Remove unique suffix from text.
 ---------------------------------------------------------------------------------------------------
-function Questie:GetHashFromName(name)
-    if QuestieHashCache[name] then
-        local hashtable = QuestieHashCache[name];
-        local bestValue = 0;
-        local bestHash = -1;
-        for k,v in pairs(hashtable) do
-            if v > bestValue then
-                bestValue = v;
-                bestHash = k;
-            end
-        end
-        if not (bestHash == -1) then return bestHash; end
+function Questie:RemoveUniqueSuffix(text)
+    if string.sub(text, -1) == "]" then
+        local strlen = string.len(text)
+        text = string.sub(text, 1, strlen-4)
     end
-    return Questie:getQuestHash(name, nil, nil);
+    return text
 end
 ---------------------------------------------------------------------------------------------------
 --Lookup quest hash from name, level or objective text
@@ -1125,28 +1117,22 @@ function Questie:getQuestHash(name, level, objectiveText)
         local race = UnitRace("Player");
         for k,v in pairs(questLookup) do
             local rr = v[1];
-            local adjustedDescription = k;
-            local strlen = string.len(k);
-            if string.sub(k, -1) == "]" then
-                adjustedDescription = string.sub(k, 1, strlen-4);
+            local adjustedDescription = Questie:RemoveUniqueSuffix(k)
+            if count == 1 then
+                hasOthers = true;
             end
-            if checkRequirements(null, race, null, rr) or true then
-                if count == 1 then
-                    hasOthers = true;
-                end
-                if adjustedDescription == objectiveText and tonumber(QuestieHashMap[v[2]]['questLevel']) == hashLevel then
-                    QuestieQuestHashCache[name..hashLevel..hashText] = v[2];
-                    return v[2],hasOthers; --exact match
-                end
-                local dist = 4294967294;
-                if not (objectiveText == nil) then
-                    dist = Questie:Levenshtein(objectiveText, adjustedDescription);
-                end
-                if dist < bestDistance then
-                    bestDistance = dist;
-                    retval = v[2];
-                end
-            else
+            local requiredQuest = QuestieHashMap[v[2]]['rq']
+            if adjustedDescription == objectiveText and tonumber(QuestieHashMap[v[2]]['questLevel']) == hashLevel and checkRequirements(null, race, null, rr) and (not requiredQuest or QuestieSeenQuests[requiredQuest]) and not QuestieSeenQuests[v[2]] then
+                QuestieQuestHashCache[name..hashLevel..hashText] = v[2];
+                return v[2],hasOthers; --exact match
+            end
+            local dist = 4294967294;
+            if not (objectiveText == nil) then
+                dist = Questie:Levenshtein(objectiveText, adjustedDescription);
+            end
+            if dist < bestDistance then
+                bestDistance = dist;
+                retval = v[2];
             end
             count = count + 1;
         end

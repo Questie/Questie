@@ -1121,9 +1121,9 @@ QuestieLevLookup = {
   ["Bring the Defias Docket to Elling Trias in Stormwind."]={77,2724313349},
   ["Speak to Dashel Stonefist in Stormwind."]={77,3048314541},
   ["Speak to Elling Trias in Stormwind."]={77,3859909405},
-  ["Speak to Mikhail in the Wetlands."]={77,416908933},
+  ["Speak to Mikhail in the Wetlands. [1]"]={77,416908933},
   ["Subdue Tapoke Jahn before he escapes, and then return to Mikhail in Menethil."]={77,1693582965},
-  ["Speak to Mikhail in the Wetlands."]={77,416909957},
+  ["Speak to Mikhail in the Wetlands. [2]"]={77,416909957},
   ["Find Commander Samaul in Dustwallow Marsh."]={77,415875861},
   ["Search Sentry Point for any sign of Private Hendel."]={77,3971079597},
   ["Find Private Hendel in Dustwallow Marsh."]={77,453624165},
@@ -9912,9 +9912,9 @@ QuestieLevLookup = {
  },
  ["A Plague Upon Thee"]={
   ["Use the Empty Termite Jar on the Termite Mounds in Eastern Plaguelands. After you've gathered 100 Plagueland Termites, return to Mickey Levine at the Bulwark in Tirisfal Glades."]={178,1277861866},
-  ["Find someplace suitable in the center of the Northridge Lumber Mill in Western Plaguelands to place the Barrel of Plagueland Termites."]={178,2113024202},
+  ["Find someplace suitable in the center of the Northridge Lumber Mill in Western Plaguelands to place the Barrel of Plagueland Termites. [1]"]={178,2113024202},
   ["Use the Empty Termite Jar on the Termite Mounds in Eastern Plaguelands. After you've gathered 100 Plagueland Termites, return to Nathaniel Dumah at Chillwind Camp in Western Plaguelands."]={77,2841821173},
-  ["Find someplace suitable in the center of the Northridge Lumber Mill in Western Plaguelands to place the Barrel of Plagueland Termites."]={77,2113025125},
+  ["Find someplace suitable in the center of the Northridge Lumber Mill in Western Plaguelands to place the Barrel of Plagueland Termites. [2]"]={77,2113025125},
   ["Release the Plagueland Termites in the Northridge Lumber Mill, then return with the Barrel of Plagueland Termites to Nathaniel Dumah at Chillwind Camp in Western Plaguelands."]={77,2046718397},
   ["Release the Plagueland Termites in the Northridge Lumber Mill, then return with the Barrel of Plagueland Termites to Mickey Levine at the Bulwark in Tirisfal Glades."]={178,154556338},
  },
@@ -55636,13 +55636,14 @@ end
 function GetMonsterLocations(monsterName)
     if QuestieMonsters[monsterName] then
         return GetEntityLocations(QuestieMonsters[monsterName])
+    elseif QuestieAdditionalStartFinishLookup[monsterName] then
+        return GetEntityLocations({
+            ["locations"] = {
+                [1] = QuestieAdditionalStartFinishLookup[monsterName]
+            },
+            ["locationCount"] = 1
+        })
     end
-    -- todo handle QuestieAdditionalStartFinishLookup
-    --local additionalCheck = QuestieAdditionalStartFinishLookup[monsterName]
-    --if additionalCheck ~= nil then
-    --    local czLookupKey = additionalCheck[2]*100 + additionalCheck[3]
-    --    return QuestieCZLookup[czLookupKey]
-    --end
     return {}, {}
 end
 
@@ -55687,7 +55688,9 @@ end
 QuestieZoneLevelMap = {
 }
 
-function addQuestToZoneLevelMap(c, z, level, questId, locationMeta)
+function addQuestToZoneLevelMap(c, z, questHash, questInfo, locationMeta)
+    local level = questInfo['level']
+    locationMeta['questName'] = questInfo['name']
     if QuestieZoneLevelMap[c] == nil then
         QuestieZoneLevelMap[c] = {};
     end
@@ -55697,32 +55700,32 @@ function addQuestToZoneLevelMap(c, z, level, questId, locationMeta)
     if QuestieZoneLevelMap[c][z][level] == nil then
         QuestieZoneLevelMap[c][z][level] = {};
     end
-    QuestieZoneLevelMap[c][z][level][questId] = locationMeta
+    QuestieZoneLevelMap[c][z][level][questHash] = locationMeta
 end
 
 local start = GetTime();
-for k,v in pairs(QuestieHashMap) do
-    if v['startedType'] == "monster" then
-        local locationMeta, mapIds = GetMonsterLocations(v['startedBy'])
+for questHash, questInfo in pairs(QuestieHashMap) do
+    if questInfo['startedType'] == "monster" then
+        local locationMeta, mapIds = GetMonsterLocations(questInfo['startedBy'])
         for c, zs in pairs(mapIds) do
             for z, b in pairs(zs) do
-                addQuestToZoneLevelMap(c, z, v['level'], k, locationMeta)
+                addQuestToZoneLevelMap(c, z, questHash, questInfo, locationMeta)
             end
         end
     end
-    if v['startedType'] == "item" and v['startedBy'] ~= "unknown" then
-        local locationMeta, mapIds = GetItemLocations(v['startedBy'])
+    if questInfo['startedType'] == "item" and questInfo['startedBy'] ~= "unknown" then
+        local locationMeta, mapIds = GetItemLocations(questInfo['startedBy'])
         for c, zs in pairs(mapIds) do
             for z, b in pairs(zs) do
-                addQuestToZoneLevelMap(c, z, v['level'], k, locationMeta)
+                addQuestToZoneLevelMap(c, z, questHash, questInfo, locationMeta)
             end
         end
     end
-    if v['startedType'] == "object" then
-        local locationMeta, mapIds = GetObjectLocations(v['startedBy'])
+    if questInfo['startedType'] == "object" then
+        local locationMeta, mapIds = GetObjectLocations(questInfo['startedBy'])
         for c, zs in pairs(mapIds) do
             for z, b in pairs(zs) do
-                addQuestToZoneLevelMap(c, z, v['level'], k, locationMeta)
+                addQuestToZoneLevelMap(c, z, questHash, questInfo, locationMeta)
             end
         end
     end
