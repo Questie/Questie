@@ -52,3 +52,5 @@ Modules\QuestieQuest.lua
 Modules\QuestieTracker.lua
 Questie.xml
 Modules\QuestieOptions.xml
+Modules\QuestieInterfaceTexts.lua
+

@@ -239,77 +239,20 @@ end
 function Questie:OptionsForm_SettingOnEnter(SettingsName)
     QuestieOptionsToolTip:SetOwner(this, "ANCHOR_RIGHT", -(this:GetWidth() / 2), 10)
 
-    if(SettingsName == "ArrowEnabled") then
-        QuestieOptionsToolTip:AddLine("Quest Arrow (default=true)", 1, 1, 0)
+    local language = QuestieLanguage or "enUS"
 
-    elseif(SettingsName == "AlwaysShowObjectives") then
-        QuestieOptionsToolTip:AddLine("Always show quests and objectives (default=true)", 1, 1, 0)
+    QuestieOptionsToolTip:AddLine(
+        QuestieInterfaceTexts["Settings"][SettingsName][language]["name"]..
+        " (Default: "..
+        QuestieInterfaceTexts["Settings"][SettingsName][language]["default"]..
+        ")",
+        1, 1, 0)
 
-    elseif(SettingsName == "BoldColors") then
-        QuestieOptionsToolTip:AddLine("QuestTracker Alternate Colors (default=false)", 1, 1, 0)
-
-    elseif(SettingsName == "ClusterQuests") then
-        QuestieOptionsToolTip:AddLine("Cluster nearby quests together (default=true)", 1, 1, 0)
-
-    elseif(SettingsName == "CorpseArrow") then
-        QuestieOptionsToolTip:AddLine("Displays an arrow to your corpse (default=true)", 1, 1, 0)
-
-    elseif(SettingsName == "HideMinimapIcons") then
-        QuestieOptionsToolTip:AddLine("Hides quest starter icons on mini map only (default=false)", 1, 1, 0)
-
-    elseif(SettingsName == "MaxLevelFilter") then
-        QuestieOptionsToolTip:AddLine("Max-Level Filter (default=true)", 1, 1, 0)
-
-    elseif(SettingsName == "MaxShowLevel") then
-        QuestieOptionsToolTip:AddLine("Show quests <X> levels above players level (default=7)", 1, 1, 0)
-
-    elseif(SettingsName == "MinimapButton") then
-        QuestieOptionsToolTip:AddLine("Show questie minimap button (default=true)", 1, 1, 0)
-
-    elseif(SettingsName == "MinLevelFilter") then
-        QuestieOptionsToolTip:AddLine("Min-Level Filter (default=true)", 1, 1, 0)
-
-    elseif(SettingsName == "MinShowLevel") then
-        QuestieOptionsToolTip:AddLine("Show quests <X> levels below players level (default=4)", 1, 1, 0)
-
-    elseif(SettingsName == "ResizeWorldmap") then
-        QuestieOptionsToolTip:AddLine("Resizes the Worldmap (default=false)", 1, 1, 0)
-        QuestieOptionsToolTip:AddLine("Requires ReloadUI", 1, 0, 0)
-
-    elseif(SettingsName == "ShowMapNotes") then
-        QuestieOptionsToolTip:AddLine("World/Minimap Notes (default=true)", 1, 1, 0)
-
-    elseif(SettingsName == "ShowProfessionQuests") then
-        QuestieOptionsToolTip:AddLine("Profession quests (default=false)", 1, 1, 0)
-
-    elseif(SettingsName == "ShowToolTips") then
-        QuestieOptionsToolTip:AddLine("Always show quest and objective tool tips (default=true)", 1, 1, 0)
-        QuestieOptionsToolTip:AddLine("Requires ReloadUI", 1, 0, 0)
-
-    elseif(SettingsName == "ShowTrackerHeader") then
-        QuestieOptionsToolTip:AddLine("Displays a header above the quest tracker (default=false)", 1, 1, 0)
-        QuestieOptionsToolTip:AddLine("Requires ReloadUI", 1, 0, 0)
-
-    elseif(SettingsName == "TrackerBackground") then
-        QuestieOptionsToolTip:AddLine("QuestTracker background will always remain on (default=false)", 1, 1, 0)
-        QuestieOptionsToolTip:AddLine("Requires ReloadUI", 1, 0, 0)
-
-    elseif(SettingsName == "TrackerEnabled") then
-        QuestieOptionsToolTip:AddLine("QuestTracker (default=true)", 1, 1, 0)
-        QuestieOptionsToolTip:AddLine("Requires ReloadUI", 1, 0, 0)
-
-    elseif(SettingsName == "TrackerList") then
-        QuestieOptionsToolTip:AddLine("Lists quests [True] = Bottom->Up, [False] = Top->Down (default=false)", 1, 1, 0)
-        QuestieOptionsToolTip:AddLine("Requires ReloadUI", 1, 0, 0)
-
-    elseif(SettingsName == "TrackerScale") then
-        QuestieOptionsToolTip:AddLine("QuestTracker Size (default=100%)", 1, 1, 0)
-        QuestieOptionsToolTip:AddLine("Requires ReloadUI", 1, 0, 0)
-
-    elseif(SettingsName == "TrackerTransparency") then
-        QuestieOptionsToolTip:AddLine("QuestTracker background alpha level (default=40%)", 1, 1, 0)
+    if QuestieInterfaceTexts["Settings"][SettingsName]["requiresReload"] then
         QuestieOptionsToolTip:AddLine("Requires ReloadUI", 1, 0, 0)
     end
+
+    QuestieOptionsToolTip:AddLine(QuestieInterfaceTexts["Settings"][SettingsName][language]["description"], 1, 1, 1, true)
 
     QuestieOptionsToolTip:Show()
 end
