@@ -914,9 +914,6 @@ local function trim(s)
 end
 ---------------------------------------------------------------------------------------------------
 function QuestieTracker:addQuestToTrackerCache(hash, logId, level)
-    if (QuestieSeenQuests[hash] == 1) then
-        return;
-    end
     if not QuestieCachedQuests[hash] then
         QuestieCachedQuests[hash] = {};
     end
