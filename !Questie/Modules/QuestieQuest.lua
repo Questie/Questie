@@ -1081,6 +1081,15 @@ function Questie:UpdateQuestIds()
     --Questie:debug_Print("Quest:UpdateQuestID: --> Updating QuestIds took: ["..tostring((GetTime()- uqidtime)*1000).."ms]")
 end
 ---------------------------------------------------------------------------------------------------
+--Some outdated server databases still use names like "Tower of Althalaxx part x".
+--which were used to turn quest names into a unique key. This function removes
+--those suffixes, so that they don't harm the quest lookup.
+---------------------------------------------------------------------------------------------------
+function Questie:SanitsedQuestLookup(name)
+    local realName, matched = string.gsub(name, " [(]?[Pp]art %d+[)]?", "");
+    return QuestieLevLookup[realName];
+end
+---------------------------------------------------------------------------------------------------
 --Get quest hash from quest name
 ---------------------------------------------------------------------------------------------------
 function Questie:GetHashFromName(name)
@@ -1107,7 +1116,7 @@ function Questie:getQuestHash(name, level, objectiveText)
     if QuestieQuestHashCache[name..hashLevel..hashText] then
         return QuestieQuestHashCache[name..hashLevel..hashText];
     end
-    local questLookup = QuestieLevLookup[name];
+    local questLookup = Questie:SanitsedQuestLookup(name);
     local hasOthers = false;
     if questLookup then
         local count = 0;

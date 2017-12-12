@@ -233,7 +233,7 @@ function QuestieTracker:createOrGetTrackingButton(index)
                     Tooltip:SetOwner(this, "ANCHOR_LEFT");
                 end
                 local index = 0;
-                for k,v in pairs(QuestieLevLookup[questTitle]) do
+                for k,v in pairs(Questie:SanitsedQuestLookup(questTitle)) do
                     index = index + 1;
                     if (index == 1) and (v[2] == questHash) and (k ~= "") then
                         questOb = k;
