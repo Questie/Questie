@@ -200,6 +200,7 @@ function Questie:OnLoad()
     this:RegisterEvent("PLAYER_LEVEL_UP");
     this:RegisterEvent("PLAYER_LOGIN");
     this:RegisterEvent("PLAYER_UNGHOST");
+    this:RegisterEvent("QUEST_PROGRESS");
     this:RegisterEvent("VARIABLES_LOADED");
     this:RegisterEvent("ZONE_CHANGED_NEW_AREA");
     Questie:NOTES_LOADED();
@@ -462,6 +463,10 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
             TomTomCrazyArrow:Hide();
         end
         WorldMapUpdateSpamOff = nil;
+    -------------------------------------------------
+    elseif (event == "QUEST_PROGRESS") then
+        Questie:debug_Print("OnEvent: QUEST_PROGRESS.\n    GetNumQuestItems: "..GetNumQuestItems())
+        Questie:OnQuestProgress()
     -------------------------------------------------
     elseif (event == "QUEST_LOG_UPDATE") then
         --Questie:debug_Print("OnEvent: QUEST_LOG_UPDATE");

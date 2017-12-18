@@ -67,44 +67,84 @@ StaticPopupDialogs["ABANDON_QUEST_WITH_ITEMS"].OnAccept = function()
     QuestAbandonWithItemsOnAccept();
 end
 ---------------------------------------------------------------------------------------------------
---Blizzard Hook: Quest Reward Complete Button
+--This function saves the number of slots that get freed when turning in a quest
+--to the QuestieCachedQuests table, so it can be read in the next function.
+--It is called upon the QUEST_PROGRESS event.
 ---------------------------------------------------------------------------------------------------
-QuestRewardCompleteButton = QuestRewardCompleteButton_OnClick;
-QuestRewardCompleteButton_OnClick = function()
+function Questie:OnQuestProgress()
+    local questTitle = QGet_TitleText();
+    local _, _, qlevel, qName = string.find(questTitle, "%[(.+)%] (.+)");
+    if qName == nil then
+        qName = QGet_TitleText();
+    end
+    for hash,v in pairs(QuestieCachedQuests) do
+        if v["questName"] == qName then
+            v["numQuestItems"] = GetNumQuestItems();
+        end
+    end
+end
+---------------------------------------------------------------------------------------------------
+--This function is used by the next two hooks.
+--It checks if the conditions for completing a quest are met:
+--    1. If there is a choice available, the player must have chosen.
+--    2. There must be (numRewards-numItems) free slots in the invetory.
+--If both conditions are met, the quest is marked as finished, otherwise
+--false is returned (return value is currently unused).
+---------------------------------------------------------------------------------------------------
+function Questie:MarkQuestAsFinished()
     local rewards = GetNumQuestRewards();
     local choices = GetNumQuestChoices();
     -- Filter condition: choices available but no choice made.
     if ( QuestFrameRewardPanel.itemChoice == 0 and choices > 0 ) then
-        QuestRewardCompleteButton();
-        return;
+        return false;
     end
     -- If there are rewards and choices, we need 1 more space.
     if choices > 0 then
         rewards = rewards + 1;
     end
-    -- Filter condition: not enough space in inventory.
-    if Questie:CheckPlayerInventory() < rewards then
-        QuestRewardCompleteButton();
-        return;
-    end
-    -- All checks passed, quest will be finished. Mark it in Questies DB.
+    -- Get quest name and compare it against values in cache
     local questTitle = QGet_TitleText();
     local _, _, qlevel, qName = string.find(questTitle, "%[(.+)%] (.+)");
     if qName == nil then
         qName = QGet_TitleText();
-    else
-        qName = qName;
     end
     for hash,v in pairs(QuestieCachedQuests) do
         if v["questName"] == qName then
+            -- Filter condition: not enough space in inventory.
+            if Questie:CheckPlayerInventory() < rewards - v["numQuestItems"] then
+                return false;
+            end
+            -- All checks passed, mark quest as finished and remove it from cache
             QuestieSeenQuests[hash] = 1;
             QuestieCompletedQuestMessages[qName] = 1;
             QuestieCachedQuests[hash] = nil;
             QuestieHandledQuests[hash] = nil;
             Questie:debug_Print("Quest:QuestRewardCompleteButton: [questTitle: "..qName.."] | [Hash: "..hash.."]");
             RemoveCrazyArrow(hash);
+            return true;
         end
     end
+end
+---------------------------------------------------------------------------------------------------
+--Blizzard Hook: GetQuestReward function
+--This hook marks a quest as finished in Questies DB if it can be finished.
+--The call to the hooked function then finishes the quest.
+--It is needed in addition to the next hook, because it is used by EQL3
+--when its "Auto Complete Quests"-option is enabled.
+---------------------------------------------------------------------------------------------------
+QGetQuestReward = GetQuestReward;
+GetQuestReward = function(choice)
+    Questie:MarkQuestAsFinished();
+    QGetQuestReward(choice);
+end
+---------------------------------------------------------------------------------------------------
+--Blizzard Hook: Quest Reward Complete Button
+--This hook marks a quest as finished in Questies DB if it can be finished.
+--The call to the hooked function then finishes the quest.
+---------------------------------------------------------------------------------------------------
+QuestRewardCompleteButton = QuestRewardCompleteButton_OnClick;
+QuestRewardCompleteButton_OnClick = function()
+    Questie:MarkQuestAsFinished();
     QuestRewardCompleteButton();
 end
 ---------------------------------------------------------------------------------------------------
