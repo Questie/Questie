@@ -1107,11 +1107,11 @@ function QuestieTracker:BlizzardHooks()
             local isWatched = false
             local questName, level, questTag, isHeader, isCollapsed, isComplete = QGet_QuestLogTitle(id)
             if not isHeader then
-                local headerName = Questie:GetHeaderForQuestIndex(id)
+                --local headerName = Questie:GetHeaderForQuestIndex(id)
                 local prevQuestLogSelection = QGet_QuestLogSelection()
                 QSelect_QuestLogEntry(id)
                 local questText, objectiveText = QGet_QuestLogQuestText()
-                local hash = Questie:getQuestHash(questName, level, objectiveText, headerName)
+                local hash = Questie:getQuestHash(questName, level, objectiveText)--, headerName)
                 if (QuestieCachedQuests[hash]) then
                     if QUEST_WATCH_LIST[hash] then
                         --Questie:debug_Print("IsQuestWatched: [Hash: "..hash.."] | [Id: "..id.."] | YES")
