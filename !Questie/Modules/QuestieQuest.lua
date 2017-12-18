@@ -111,7 +111,9 @@ function Questie:MarkQuestAsFinished()
     for hash,v in pairs(QuestieCachedQuests) do
         if v["questName"] == qName then
             -- Filter condition: not enough space in inventory.
-            if Questie:CheckPlayerInventory() < rewards - v["numQuestItems"] then
+            if (rewards == 0 and choices == 0) then
+                return;
+            elseif (Questie:CheckPlayerInventory() < rewards - v["numQuestItems"]) then
                 return false;
             end
             -- All checks passed, mark quest as finished and remove it from cache
