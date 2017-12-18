@@ -579,7 +579,7 @@ function Questie_Tooltip_OnEnter()
                 local QuestName = tostring(QuestieHashMap[data.questHash].name);
                 if QuestName then
                     local index = 0;
-                    for k,v in pairs(Questie:SanitsedQuestLookup(QuestName)) do
+                    for k,v in pairs(Questie:SanitisedQuestLookup(QuestName)) do
                         index = index + 1;
                         if (index == 1) and (v[2] == data.questHash) and (k ~= "") then
                             questOb = k;

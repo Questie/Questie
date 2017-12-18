@@ -1068,7 +1068,7 @@ function SetItemRef(link, text, button)
                 local QuestName = QuestieHashMap[questHash].name;
                 if QuestName == questTitle then
                     local index = 0;
-                    for k,v in pairs(Questie:SanitsedQuestLookup(QuestName)) do
+                    for k,v in pairs(Questie:SanitisedQuestLookup(QuestName)) do
                         index = index + 1;
                         if (index == 1) and (v[2] == questHash) and (k ~= "") then
                             questOb = k;
