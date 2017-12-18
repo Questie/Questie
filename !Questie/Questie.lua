@@ -200,8 +200,6 @@ function Questie:OnLoad()
     this:RegisterEvent("PLAYER_LEVEL_UP");
     this:RegisterEvent("PLAYER_LOGIN");
     this:RegisterEvent("PLAYER_UNGHOST");
-    this:RegisterEvent("QUEST_COMPLETE");
-    this:RegisterEvent("QUEST_PROGRESS");
     this:RegisterEvent("VARIABLES_LOADED");
     this:RegisterEvent("ZONE_CHANGED_NEW_AREA");
     Questie:NOTES_LOADED();
@@ -472,14 +470,6 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
     elseif (event == "QUEST_ITEM_UPDATE") then
         Questie:debug_Print("OnEvent: QUEST_ITEM_UPDATE");
         Questie:CheckQuestLogStatus();
-    -------------------------------------------------
-    elseif(event == "QUEST_PROGRESS") then
-        Questie:debug_Print("OnEvent: QUEST_PROGRESS");
-        Questie:CompleteQuest();
-    -------------------------------------------------
-    elseif(event == "QUEST_COMPLETE") then
-        Questie:debug_Print("OnEvent: QUEST_COMPLETE");
-        Questie:GetQuestReward();
     -------------------------------------------------
     elseif (event == "VARIABLES_LOADED") then
         Questie:SetupDefaults();

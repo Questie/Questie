@@ -71,16 +71,23 @@ end
 ---------------------------------------------------------------------------------------------------
 QuestRewardCompleteButton = QuestRewardCompleteButton_OnClick;
 QuestRewardCompleteButton_OnClick = function()
-    if IsAddOnLoaded("EQL3") or IsAddOnLoaded("ShaguQuest") then
-        local numAvailSlots = Questie:CheckPlayerInventory();
-        if numAvailSlots < 1 then
-            DEFAULT_CHAT_FRAME:AddMessage("|cFFFF2222 Quest:QuestRewardCompleteButton: Check your bags. Inventory appears to be full!");
-            PlaySound("igQuestLogAbandonQuest");
-            DeclineQuest();
-            HideUIPanel(QuestFrame);
-            return
-        end
+    local rewards = GetNumQuestRewards();
+    local choices = GetNumQuestChoices();
+    -- Filter condition: choices available but no choice made.
+    if ( QuestFrameRewardPanel.itemChoice == 0 and choices > 0 ) then
+        QuestRewardCompleteButton();
+        return;
     end
+    -- If there are rewards and choices, we need 1 more space.
+    if choices > 0 then
+        rewards = rewards + 1;
+    end
+    -- Filter condition: not enough space in inventory.
+    if Questie:CheckPlayerInventory() < rewards then
+        QuestRewardCompleteButton();
+        return;
+    end
+    -- All checks passed, quest will be finished. Mark it in Questies DB.
     local questTitle = QGet_TitleText();
     local _, _, qlevel, qName = string.find(questTitle, "%[(.+)%] (.+)");
     if qName == nil then
@@ -101,115 +108,12 @@ QuestRewardCompleteButton_OnClick = function()
     QuestRewardCompleteButton();
 end
 ---------------------------------------------------------------------------------------------------
---Blizzard Hook: Quest Progress Complete Button
----------------------------------------------------------------------------------------------------
-QuestProgressCompleteButton = QuestProgressCompleteButton_OnClick;
-QuestProgressCompleteButton_OnClick = function()
-    if IsQuestCompletable() then
-        local questTitle = QGet_TitleText();
-        local _, _, qlevel, qName = string.find(questTitle, "%[(.+)%] (.+)");
-        if qName == nil then
-            qName = QGet_TitleText();
-        else
-            qName = qName;
-        end
-        for hash,v in pairs(QuestieCachedQuests) do
-            if v["questName"] == qName then
-                QuestieSeenQuests[hash] = 1;
-                QuestieCompletedQuestMessages[qName] = 1;
-                QuestieCachedQuests[hash] = nil;
-                QuestieHandledQuests[hash] = nil;
-                Questie:debug_Print("Quest:QuestProgressCompleteButton: [questTitle: "..qName.."] | [Hash: "..hash.."]");
-                RemoveCrazyArrow(hash);
-            end
-        end
-    end
-    QuestProgressCompleteButton();
-end
----------------------------------------------------------------------------------------------------
 --Blizzard Hook: Quest Progress Accept Button
 ---------------------------------------------------------------------------------------------------
 QuestDetailAcceptButton = QuestDetailAcceptButton_OnClick;
 function QuestDetailAcceptButton_OnClick()
     Questie:CheckQuestLogStatus();
     QuestDetailAcceptButton();
-end
----------------------------------------------------------------------------------------------------
---EQL3 is auto finishing Quests too quickly for normal events to detect. Questie calls this
---function at the sametime to make sure our quest is flagged and updated accordingly.
----------------------------------------------------------------------------------------------------
-function Questie:CompleteQuest()
-    if IsAddOnLoaded("EQL3") or IsAddOnLoaded("ShaguQuest") then
-        if (QuestlogOptions[EQL3_Player].AutoCompleteQuests == 1) then
-            if (IsQuestCompletable()) then
-                local questTitle = QGet_TitleText();
-                local _, _, qlevel, qName = string.find(questTitle, "%[(.+)%] (.+)");
-                if qName == nil then
-                    qName = QGet_TitleText();
-                else
-                    qName = qName;
-                end
-                for hash,v in pairs(QuestieCachedQuests) do
-                    if v["questName"] == qName then
-                        if (not QuestieSeenQuests[hash]) or (QuestieSeenQuests[hash] == 0) or (QuestieSeenQuests[hash] == -1) then
-                            QuestieSeenQuests[hash] = 1;
-                            QuestieCompletedQuestMessages[qName] = 1;
-                            QuestieCachedQuests[hash] = nil;
-                            QuestieHandledQuests[hash] = nil;
-                            Questie:debug_Print("Quest:CompleteQuest: [questTitle: "..qName.."] | [Hash: "..hash.."]");
-                            Questie:finishAndRecurse(hash);
-                            RemoveCrazyArrow(hash);
-                        end
-                    end
-                end
-            end
-        end
-    end
-end
----------------------------------------------------------------------------------------------------
---EQL3 is auto finishing Quests too quickly for normal events to detect. Questie calls this
---function at the sametime to make sure our quest is flagged and updated accordingly.
----------------------------------------------------------------------------------------------------
-function Questie:GetQuestReward()
-    if IsAddOnLoaded("EQL3") or IsAddOnLoaded("ShaguQuest") then
-        if (QuestlogOptions[EQL3_Player].AutoCompleteQuests) and (GetNumQuestChoices() == 0) then
-            local numAvailSlots = Questie:CheckPlayerInventory();
-            if numAvailSlots < 1 then
-                local Questie_EQL3ToggleSave = nil;
-                Questie_EQL3ToggleSave = QuestlogOptions[EQL3_Player].AutoCompleteQuests
-                if QuestlogOptions[EQL3_Player].AutoCompleteQuests == 1 then
-                    QuestlogOptions[EQL3_Player].AutoCompleteQuests = 0;
-                end
-                DEFAULT_CHAT_FRAME:AddMessage("|cFFFF2222 Quest:GetQuestReward: Check your bags. Inventory appears to be full!");
-                PlaySound("igQuestLogAbandonQuest");
-                DeclineQuest();
-                HideUIPanel(QuestFrame);
-                return
-            elseif Questie_EQL3ToggleSave ~= nil then
-                QuestlogOptions[EQL3_Player].AutoCompleteQuests = Questie_EQL3ToggleSave;
-            end
-            local questTitle = QGet_TitleText();
-            local _, _, qlevel, qName = string.find(questTitle, "%[(.+)%] (.+)");
-            if qName == nil then
-                qName = QGet_TitleText();
-            else
-                qName = qName;
-            end
-            for hash,v in pairs(QuestieCachedQuests) do
-                if v["questName"] == qName then
-                    if (not QuestieSeenQuests[hash]) or (QuestieSeenQuests[hash] == 0) or (QuestieSeenQuests[hash] == -1) then
-                        QuestieSeenQuests[hash] = 1;
-                        QuestieCompletedQuestMessages[qName] = 1;
-                        QuestieCachedQuests[hash] = nil;
-                        QuestieHandledQuests[hash] = nil;
-                        Questie:debug_Print("Quest:GetQuestReward: [questTitle: "..qName.."] | [Hash: "..hash.."]");
-                        Questie:finishAndRecurse(hash);
-                        RemoveCrazyArrow(hash);
-                    end
-                end
-            end
-        end
-    end
 end
 ---------------------------------------------------------------------------------------------------
 --Matches a looted item to quest items that are contained in the QuestieCachedQuests table
