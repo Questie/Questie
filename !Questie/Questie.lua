@@ -22,6 +22,7 @@ function Questie:SetupDefaults()
     if not QuestieConfig then QuestieConfig = {
         ["alwaysShowObjectives"] = true,
         ["arrowEnabled"] = true,
+        ["arrowTime"] = true,
         ["boldColors"] = false,
         ["clusterQuests"] = true,
         ["corpseArrow"] = true,
@@ -69,6 +70,9 @@ function Questie:CheckDefaults()
     end
     if QuestieConfig.arrowEnabled == nil then
         QuestieConfig.arrowEnabled = true;
+    end
+    if QuestieConfig.arrowTime == nil then
+        QuestieConfig.arrowTime = false;
     end
     if QuestieConfig.boldColors == nil then
         QuestieConfig.boldColors = false;
@@ -593,6 +597,17 @@ QuestieFastSlash = {
             TomTomCrazyArrow:Hide();
         end
     end,
+    ["arrowtime"] = function()
+    --Default: False
+        QuestieConfig.arrowTime = not QuestieConfig.arrowTime;
+        if QuestieConfig.arrowTime then
+            DEFAULT_CHAT_FRAME:AddMessage("QuestieQuest:|c0000ffc0 (Arrow Time to Arrive On) |r");
+            TomTomCrazyArrow.tta:Show();
+        else
+            DEFAULT_CHAT_FRAME:AddMessage("QuestieQuest:|c0000ffc0 (Arrow Time to Arrive Off) |r");
+            TomTomCrazyArrow.tta:Hide();
+        end
+    end,
     ["background"] = function()
     --Default: False
         QuestieConfig.trackerBackground = not QuestieConfig.trackerBackground;
@@ -951,6 +966,7 @@ QuestieFastSlash = {
     ["help"] = function()
         DEFAULT_CHAT_FRAME:AddMessage("Questie SlashCommand Help Menu:", 1, 0.75, 0);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie arrow |r|c0000ffc0(toggle)|r QuestArrow: Toggle", 0.75, 0.75, 0.75);
+        DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie arrowtime |r|c0000ffc0(toggle)|r QuestArrow: Toggle Time to Arrive", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie background |r|c0000ffc0(toggle)|r QuestTracker: Background", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie backgroundalpha |r|c0000ffc0(10-100%)|r QuestTracker: Background Alpha Level (default=60%)", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie clearconfig |r|c0000ffc0(Pop-up)|r UserSettings: Reset settings. Will NOT delete quest data.", 0.75, 0.75, 0.75);
@@ -1019,28 +1035,29 @@ function Questie:CurrentUserToggles()
     local Vars = {
         [1] = { "alwaysShowObjectives" },
         [2] = { "arrowEnabled" },
-        [3] = { "boldColors" },
-        [4] = { "clusterQuests" },
-        [5] = { "corpseArrow" },
-        [6] = { "getVersion" },
-        [7] = { "hideMinimapIcons" },
-        [8] = { "maxLevelFilter" },
-        [9] = { "maxShowLevel" },
-        [10] = { "minimapButton" },
-        [11] = { "minimapZoom" },
-        [12] = { "minLevelFilter" },
-        [13] = { "minShowLevel" },
-        [14] = { "resizeWorldmap" },
-        [15] = { "showMapNotes" },
-        [16] = { "showProfessionQuests" },
-        [17] = { "showTrackerHeader" },
-        [18] = { "showToolTips" },
-        [19] = { "trackerAlpha" },
-        [20] = { "trackerBackground" },
-        [21] = { "trackerEnabled" },
-        [22] = { "trackerList" },
-        [23] = { "trackerMinimize" },
-        [24] = { "trackerScale" },
+        [3] = { "arrowTime" },
+        [4] = { "boldColors" },
+        [5] = { "clusterQuests" },
+        [6] = { "corpseArrow" },
+        [7] = { "getVersion" },
+        [8] = { "hideMinimapIcons" },
+        [9] = { "maxLevelFilter" },
+        [10] = { "maxShowLevel" },
+        [11] = { "minimapButton" },
+        [12] = { "minimapZoom" },
+        [13] = { "minLevelFilter" },
+        [14] = { "minShowLevel" },
+        [15] = { "resizeWorldmap" },
+        [16] = { "showMapNotes" },
+        [17] = { "showProfessionQuests" },
+        [18] = { "showTrackerHeader" },
+        [19] = { "showToolTips" },
+        [20] = { "trackerAlpha" },
+        [21] = { "trackerBackground" },
+        [22] = { "trackerEnabled" },
+        [23] = { "trackerList" },
+        [24] = { "trackerMinimize" },
+        [25] = { "trackerScale" },
     };
     if QuestieConfig then
         i = 1;

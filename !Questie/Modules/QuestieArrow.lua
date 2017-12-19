@@ -58,8 +58,10 @@ wayframe:Hide()
 local titleframe = CreateFrame("Frame", nil, wayframe)
 wayframe.title = titleframe:CreateFontString("OVERLAY", nil, "GameFontHighlightSmall")
 wayframe.status = titleframe:CreateFontString("OVERLAY", nil, "GameFontNormalSmall")
+wayframe.tta = titleframe:CreateFontString("OVERLAY", nil, "GameFontNormalSmall")
 wayframe.title:SetPoint("TOP", wayframe, "BOTTOM", 0, 0)
 wayframe.status:SetPoint("TOP", wayframe.title, "BOTTOM", 0, 0)
+wayframe.tta:SetPoint("TOP", wayframe.status, "BOTTOM", 0, 0)
 ---------------------------------------------------------------------------------------------------
 local function OnDragStart(self, button)
     if IsControlKeyDown() and IsShiftKeyDown() then
@@ -154,39 +156,45 @@ function RemoveCrazyArrow(hash)
     end
 end
 ---------------------------------------------------------------------------------------------------
-local status = wayframe.status
-local arrow = wayframe.arrow
+local status = wayframe.status;
+local tta = wayframe.tta;
+local arrow = wayframe.arrow;
 local arrowLastUpdate = 0;
 local LastPlayerPosition = {};
-local count = 0
+local count = 0;
+local last_distance = 0;
+local tta_throttle = 0;
+local speed = 0;
+local speed_count = 0;
 local function OnUpdate(self, elapsed)
-    if GetTime() - arrowLastUpdate >= .04 then
-        self = this
-        local dist,x,y
-        if not UnitIsDeadOrGhost("player") then
-            if arrow_objective then
-                if QuestieCachedQuests[arrow_objective] then
-                    local objective = QuestieCachedQuests[arrow_objective]["arrowPoint"]
-                    if objective then
-                        SetCrazyArrow(objective, objective.dist, objective.title)
-                    end
-                else
-                     self:Hide()
+    local self = this
+    local elapsed = 1/GetFramerate()
+    local dist,x,y
+    if not UnitIsDeadOrGhost("player") then
+        if arrow_objective then
+            if QuestieCachedQuests[arrow_objective] then
+                local objective = QuestieCachedQuests[arrow_objective]["arrowPoint"]
+                if objective then
+                    SetCrazyArrow(objective, objective.dist, objective.title)
                 end
-            elseif arrow_data then
-                SetArrowFromData(arrow_data)
+            else
+                 self:Hide()
             end
-            if not active_point then
-                self:Hide()
-                return
-            end
+        elseif arrow_data then
+            SetArrowFromData(arrow_data)
         end
-        --While dead this maintains the corpseArrow
-        if UnitIsDeadOrGhost("player") and (UnitIsDead("player") ~= 1) and (bgactive == false) then
-            Questie:OnUpdate(elapsed)
+        if not active_point then
+            self:Hide()
+            return
         end
+    end
+    --While dead this maintains the corpseArrow
+    if UnitIsDeadOrGhost("player") and (UnitIsDead("player") ~= 1) and (bgactive == false) then
+        Questie:OnUpdate(elapsed)
+    end
+    local dist,x,y = GetDistanceToIcon(active_point)
+    if GetTime() - arrowLastUpdate >= .04 then
         if (TomTomCrazyArrow:IsVisible() ~= nil) then
-            local dist,x,y = GetDistanceToIcon(active_point)
             if not dist or IsInInstance() then
                 if not active_point.x and not active_point.y then
                     active_point = nil
@@ -257,8 +265,35 @@ local function OnUpdate(self, elapsed)
                 local yend = ((row + 1) * 42) / 512
                 arrow:SetTexCoord(xstart,xend,ystart,yend)
             end
+            arrowLastUpdate = GetTime()
         end
-        arrowLastUpdate = GetTime()
+    end
+    if (QuestieConfig.arrowTime == true) then
+        -- Calculate the TTA every second  (%01d:%02d)
+        tta_throttle = tta_throttle + elapsed
+        if tta_throttle >= 1 then
+            -- Calculate the speed in yards per sec at which we're moving
+            local current_speed = (last_distance - dist) / tta_throttle
+            if last_distance == 0 then
+                current_speed = 0
+            end
+            if speed_count < 2 then
+                speed = (speed + current_speed) / 2
+                speed_count = speed_count + 1
+            else
+                speed_count = 0
+                speed = current_speed
+            end
+            if speed > 0 then
+                local eta = math.abs(dist / speed)
+                local text = string.format("%01d:%02d", eta / 60, Questie:Modulo(eta, 60))
+                tta:SetText(text)
+            else
+                tta:SetText("***")
+            end
+            last_distance = dist
+            tta_throttle = 0
+        end
     end
 end
 ---------------------------------------------------------------------------------------------------
@@ -280,6 +315,11 @@ function ShowHideCrazyArrow()
         wayframe.title:SetHeight(height)
         titleframe:SetScale(scale)
         titleframe:SetAlpha(1)
+		if true then
+			tta:Show()
+		else
+			tta:Hide()
+        end
     else
         wayframe:Hide()
     end
