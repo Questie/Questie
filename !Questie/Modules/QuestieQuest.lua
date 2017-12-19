@@ -110,10 +110,11 @@ function Questie:MarkQuestAsFinished()
     end
     for hash,v in pairs(QuestieCachedQuests) do
         if v["questName"] == qName then
+            if (not v["numQuestItems"]) then
+                Questie:debug_Print("ERROR: QuestRewardCompleteButton: [questTitle: "..qName.."] | [Hash: "..hash.."]:\n    Failed to read numQuestItems from SavedVariables")
+            end
             -- Filter condition: not enough space in inventory.
-            if (rewards == 0 and choices == 0) then
-                return;
-            elseif (Questie:CheckPlayerInventory() < rewards - v["numQuestItems"]) then
+            if (rewards > 0) and (Questie:CheckPlayerInventory() < (rewards - (v["numQuestItems"] or 0))) then
                 return false;
             end
             -- All checks passed, mark quest as finished and remove it from cache
