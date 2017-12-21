@@ -456,7 +456,7 @@ function QuestieTracker:SortTrackingFrame()
                     -- Show quest finished in tracker
                     local quest = QuestieHashMap[hash];
                     if quest ~= nil then
-                        local locations = QuestieTracker:GetFinisherLocations(quest.finishedType, quest.finishedBy);
+                        local locations = QuestieTracker:GetFinisherLocations(quest.finishedType, quest.finishedBy) or {};
                         for i, location in pairs(locations) do
                             local dist, xDelta, yDelta = Astrolabe:ComputeDistance( C, Z, X, Y, location[1], location[2], location[3], location[4]);
                             if dist and xDelta and yDelta then

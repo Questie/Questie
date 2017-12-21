@@ -112,7 +112,8 @@ function Questie:AddQuestToMap(questHash, redraw)
         if questInfo ~= nil then
             local typeFunctions = {
                 ['monster'] = GetMonsterLocations,
-                ['object'] = GetObjectLocations
+                ['object'] = GetObjectLocations,
+                ['unknown'] = function() return nil; end
             };
             local typeFunction = typeFunctions[questInfo.finishedType];
             local finishPath = typeFunction(questInfo.finishedBy);
