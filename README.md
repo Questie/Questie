@@ -7,12 +7,11 @@
 ## Download
 
 You can download the latest stable release from [here](https://github.com/AeroScripts/QuestieDev/releases/latest).
-
-If you are interested in testing our latest beta release, you can download it from [here](https://github.com/AeroScripts/QuestieDev/releases/tag/v3.7.0-beta).
+Installation instructions are found on the [Readme & FAQ](https://github.com/AeroScripts/QuestieDev/wiki/FAQ&Readme#basic-installation-instructions) page of our Wiki.
 
 **Notes:**
 - You can use the [issue tracker](https://github.com/AeroScripts/QuestieDev/issues) to report bugs (requires a Github account). Please read the [Readme & FAQ](https://github.com/AeroScripts/QuestieDev/wiki/FAQ&Readme) before reporting bugs.
-- If you get an error message from the WoW client, please include the text or a screenshot of it in your report.
+- If you get an error message from the WoW client, please include the **complete** text or a screenshot of it in your report.
 - If you wish to submit a bug fix or feature addition you made, you can create a Pull Request on Github. Please read the [rules](https://github.com/AeroScripts/QuestieDev/wiki/Pull-Request-Rules) first.
 - You can contact us on Discord: https://discord.gg/phKnHVu
 
