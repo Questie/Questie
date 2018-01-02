@@ -448,6 +448,7 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
         Questie:BlockTranslations();
         Astrolabe:isMinimapInCity();
         Questie:LoadEQL3Fix();
+        Questie:Toggle_Position();
         Questie:AddEvent("UPDATECACHE", 1.8);
         Questie:AddEvent("CHECKLOG", 2.0);
         Questie:AddEvent("UPDATE", 2.2);
@@ -501,6 +502,19 @@ function Questie:Toggle()
         IsQuestieActive = true;
         QuestieConfig.showMapNotes = true;
         Questie:UpdateGameClientCache(true)
+    end
+end
+---------------------------------------------------------------------------------------------------
+--Reposition Questie Worldmap Toggle Button - MetaMap & Cartographer support
+---------------------------------------------------------------------------------------------------
+function Questie:Toggle_Position()
+    if IsAddOnLoaded("MetaMap") then
+        Questie_Toggle:ClearAllPoints();
+        Questie_Toggle:SetPoint("CENTER", WorldMapFrame, "CENTER", -430, 335);
+    end
+    if IsAddOnLoaded("Cartographer") then 
+        Questie_Toggle:ClearAllPoints();
+        Questie_Toggle:SetPoint("CENTER", WorldMapFrame, "CENTER", 0, 338);
     end
 end
 ---------------------------------------------------------------------------------------------------
