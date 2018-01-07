@@ -2,6 +2,8 @@
 
 **A quest helper for World of Warcraft (1.12.1) - Vanilla**
 
+ Trust us it's <Good>!
+
 **---------- Please read the [Readme & FAQ](https://github.com/AeroScripts/QuestieDev/wiki/FAQ&Readme) before reporting bugs ----------**
 
 ## Download
