@@ -48,3 +48,5 @@ SuperMacro/
 Questie/.settings
 Questie/.buildpath
 Questie/.project
+
+*.bak
