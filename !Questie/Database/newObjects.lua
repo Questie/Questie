@@ -1,4 +1,10 @@
 QuestieNewObjects = {
+ [2656] = {
+  name = "Waterlogged Letter",
+  locations = {
+   {2,2,0.443,0.929},
+  },
+ },
  [164662] = {
   name = "Equipment Boxes",
   locations = {

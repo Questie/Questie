@@ -1,4 +1,9 @@
 QuestieItems = {
+    ["Waterlogged Envelope"] = {
+        contained_id = {
+            [2656] = 1,
+        },
+    },
     Felshetzerei = {
         locationCount = 2,
         locations = {
