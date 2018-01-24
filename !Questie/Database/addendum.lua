@@ -33092,7 +33092,8 @@ QuestieHashMap = {
   ['startedBy']="Foggy MacKreel",
   ['finishedBy']="Brewmeister Bilger",
   ['level']=28,
-  ['questLevel']='30'
+  ['questLevel']='30',
+  ['rr']=77
  },
  [486062952]={
   ['name']="Unfinished Business",
