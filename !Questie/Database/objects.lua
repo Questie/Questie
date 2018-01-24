@@ -1,4 +1,15 @@
 QuestieObjects = {
+    ["Wanted Board"] = {
+        locations = {
+            {
+                39.0,
+                0.46,
+                0.478,
+                100.0,
+            },
+        },
+        locationCount = 1,
+    },
     ["Torn Scroll"] = {
         locations = {
             {
