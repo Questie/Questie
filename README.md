@@ -2,6 +2,12 @@
 
 **A quest helper for World of Warcraft (1.12.1) - Vanilla**
 
+[![Downloads](https://img.shields.io/github/downloads/AeroScripts/QuestieDev/total.svg)](https://github.com/AeroScripts/QuestieDev/releases/)
+
+[![Downloads Latest](https://img.shields.io/github/downloads/AeroScripts/QuestieDev/v3.7.0/total.svg)](https://github.com/AeroScripts/QuestieDev/releases/latest)
+[![Date Latest](https://img.shields.io/github/release-date/AeroScripts/QuestieDev.svg)](https://github.com/AeroScripts/QuestieDev/releases/latest)
+[![Commits Since Latest](https://img.shields.io/github/commits-since/AeroScripts/QuestieDev/latest.svg)](https://github.com/AeroScripts/QuestieDev/commits/master)
+
  Trust us it's (Good)!
 
 **---------- Please read the [Readme & FAQ](https://github.com/AeroScripts/QuestieDev/wiki/FAQ&Readme) before reporting bugs ----------**
