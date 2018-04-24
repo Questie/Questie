@@ -100,6 +100,13 @@ QuestieInterfaceTexts = {
                 ["description"] = "This option toggles Questies world map and minimap notes on and off.",
             },
         },
+		["hideObjectives"] = {
+            ["enUS"] = {
+                ["default"] = "false",
+                ["name"] = "Hide Objective Markers",
+                ["description"] = "This option toggles showing of objectives (mob locations etc). If enabled only quest icons (!/?) are shown.",
+            },
+        },
         ["showProfessionQuests"] = {
             ["enUS"] = {
                 ["default"] = "false",
