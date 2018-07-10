@@ -51614,6 +51614,13 @@ QuestieMonsters = {
     ["locationCount"] = 1,
     ["faction"] = 1
   },
+  ["Strange Fronded Plant"] = {
+    ["locations"] = {
+        [1] = {24.0, 0.3460, 0.2880, 100.0}
+    },
+    ["locationCount"] = 1,
+    ["faction"] = 1
+  },
   ["Fel Cannon Destroyed"] = {
     ["locations"] = {
       [1] = {56.0, 0.7262, 0.2156, 100.0},

@@ -12387,7 +12387,7 @@ QuestieHashMap = {
  },
  [866040024]={
   ['name']="The Shimmering Frond",
-  ['startedType']="object",
+  ['startedType']="monster",
   ['finishedType']="monster",
   ['startedBy']="Strange Fronded Plant",
   ['finishedBy']="Denalan",
