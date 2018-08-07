@@ -6434,9 +6434,6 @@ QuestieLevLookup = {
  ["More Bat Eyes"]={
   [""]={0,3498454280},
  },
- ["Watcher Callahan"]={
-  ["Speak with Watcher Callahan."]={77,582117461},
- },
  ["Cryptstalker Spaulders"]={
   ["Huntsman Leopold at Light's Hope Chapel in the Eastern Plaguelands will make Cryptstalker Spaulders if you bring him the following: 1 Desecrated Spaulders, 12 Wartorn Chain Scraps, 2 Arcanite Bars and 3 Cured Rugged Hides."]={0,2919433112},
  },
