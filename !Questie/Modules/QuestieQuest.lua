@@ -1034,7 +1034,7 @@ end
 ---------------------------------------------------------------------------------------------------
 function Questie:SanitisedQuestLookup(name)
     local realName, matched = string.gsub(name, " [(]?[Pp]art %d+[)]?", "");
-    return QuestieLevLookup[realName] or {};
+    return QuestieLevLookup[realName] or false;
 end
 ---------------------------------------------------------------------------------------------------
 --Remove unique suffix from text.
@@ -1063,25 +1063,29 @@ function Questie:getQuestHash(name, level, objectiveText)
         local bestDistance = 4294967295; --some high number (0xFFFFFFFF)
         local race = UnitRace("Player");
         for k,v in pairs(questLookup) do
-            local rr = v[1];
-            local adjustedDescription = Questie:RemoveUniqueSuffix(k)
-            if count == 1 then
-                hasOthers = true;
+            if QuestieHashMap[v[2]] ~= nil then
+                local rr = v[1];
+                local adjustedDescription = Questie:RemoveUniqueSuffix(k)
+                if count == 1 then
+                    hasOthers = true;
+                end
+                local requiredQuest = QuestieHashMap[v[2]]['rq']
+                if adjustedDescription == objectiveText and tonumber(QuestieHashMap[v[2]]['questLevel']) == hashLevel and checkRequirements(null, race, null, rr) and (not requiredQuest or QuestieSeenQuests[requiredQuest]) and not QuestieSeenQuests[v[2]] then
+                    QuestieQuestHashCache[name..hashLevel..hashText] = v[2];
+                    return v[2],hasOthers; --exact match
+                end
+                local dist = 4294967294;
+                if not (objectiveText == nil) then
+                    dist = Questie:Levenshtein(objectiveText, adjustedDescription);
+                end
+                if dist < bestDistance then
+                    bestDistance = dist;
+                    retval = v[2];
+                end
+                count = count + 1;
+            else
+                Questie:debug_Print("ERROR: Quest '"..name.."' was found but data is missing for hash "..v[2].." Please report this on Github!")
             end
-            local requiredQuest = QuestieHashMap[v[2]]['rq']
-            if adjustedDescription == objectiveText and tonumber(QuestieHashMap[v[2]]['questLevel']) == hashLevel and checkRequirements(null, race, null, rr) and (not requiredQuest or QuestieSeenQuests[requiredQuest]) and not QuestieSeenQuests[v[2]] then
-                QuestieQuestHashCache[name..hashLevel..hashText] = v[2];
-                return v[2],hasOthers; --exact match
-            end
-            local dist = 4294967294;
-            if not (objectiveText == nil) then
-                dist = Questie:Levenshtein(objectiveText, adjustedDescription);
-            end
-            if dist < bestDistance then
-                bestDistance = dist;
-                retval = v[2];
-            end
-            count = count + 1;
         end
         if not (retval == 0) then
             QuestieQuestHashCache[name..hashLevel..hashText] = retval;
