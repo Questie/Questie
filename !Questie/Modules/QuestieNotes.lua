@@ -347,10 +347,6 @@ end
 function Questie:Tooltip(this, forceShow, bag, slot)
     if (QuestieConfig.showToolTips == false) then return end
 
-    -- Don't show detailed tooltip for regular minimap icons
-    local anchorType = GameTooltip:GetAnchorType()
-    if anchorType == "ANCHOR_CURSOR" then return end
-
     -- Don't show detailed tooltip for questie minimap icons
     local owner = GameTooltip.owner
     if owner and owner.type == "MiniMapNote" then return end
