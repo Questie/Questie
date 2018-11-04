@@ -68,7 +68,7 @@ function Questie:CheckQuestLog()
 		for k, v in pairs(LastQuestLogHashes) do
 			Questie:AddQuestToMap(v["hash"]);
 			if (not QuestieHashMap[v["hash"]]) then
-				DEFAULT_CHAT_FRAME:AddMessage("QuestieQuest: Error! This doesn't appear to be a valid quest or it's missing from the database. Please report on GitHub.",1 ,0 ,0)
+				--DEFAULT_CHAT_FRAME:AddMessage("QuestieQuest: Error! This doesn't appear to be a valid quest or it's missing from the database. Please report on GitHub.",1 ,0 ,0)
 				return
 			end
 			if (not QuestieSeenQuests[v["hash"]]) then
@@ -118,7 +118,7 @@ function Questie:CheckQuestLog()
 		if(v["deltaType"] == 1) then
 			Questie:AddQuestToMap(v["hash"]);
 			if (not QuestieHashMap[v["hash"]]) then
-				DEFAULT_CHAT_FRAME:AddMessage("QuestieQuest: Error! This doesn't appear to be a valid quest or it's missing from the database. Please report on GitHub.",1 ,0 ,0)
+				--DEFAULT_CHAT_FRAME:AddMessage("QuestieQuest: Error! This doesn't appear to be a valid quest or it's missing from the database. Please report on GitHub.",1 ,0 ,0)
 				return
 			end
 			if (not QuestieSeenQuests[v["hash"]]) then
@@ -139,7 +139,7 @@ function Questie:CheckQuestLog()
 				QuestieCompletedQuestMessages[v["name"]] = 0;
 			end
 			if (not QuestieHashMap[v["hash"]]) then
-				DEFAULT_CHAT_FRAME:AddMessage("QuestieQuest: Error! This doesn't appear to be a valid quest or it's missing from the database. Please report on GitHub.",1 ,0 ,0)
+				--DEFAULT_CHAT_FRAME:AddMessage("QuestieQuest: Error! This doesn't appear to be a valid quest or it's missing from the database. Please report on GitHub.",1 ,0 ,0)
 				return
 			end
 			if (not QuestieSeenQuests[v["hash"]]) then
