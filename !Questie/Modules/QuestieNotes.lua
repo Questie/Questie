@@ -461,19 +461,19 @@ function Questie:NOTES_ON_UPDATE(elapsed)
 	elseif(WorldMapFrame:IsVisible() == nil and UIOpen == true) then
 		UIOpen = false;
 	end
-	local MBB_ExcludeTemp = {}
-	local count = CREATED_NOTE_FRAMES
-	local tbsize = table.getn(MBB_Exclude)
-	if tbsize == 0 then
-		MBB_Exclude[1] = "QuestiePlaceHolderFrame";
-	end
 	if IsAddOnLoaded("MBB") then
+		local MBB_ExcludeTemp = {}
+		local count = CREATED_NOTE_FRAMES
+		local tbsize = table.getn(MBB_Exclude)
+		if tbsize == 0 then
+			MBB_Exclude[1] = "QuestiePlaceHolderFrame";
+		end
 		if tbsize >= count + 1 then return end
 		for i = 1, count do
 			MBB_ExcludeTemp[i] = "QuestieNoteFrame"..i;
 		end
 		for i = 1, #MBB_ExcludeTemp do
-		 MBB_Exclude[#MBB_Exclude+1] = MBB_ExcludeTemp[i]
+			MBB_Exclude[#MBB_Exclude+1] = MBB_ExcludeTemp[i]
 		end
 		MBB_ExcludeTemp = {}
 	end
