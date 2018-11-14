@@ -593,30 +593,26 @@ end
 ---------------------------------------------------------------------------------------------------
 -- Adds or removes quests to be tracked from the quest tracker. Also handles 'chat linking'.
 ---------------------------------------------------------------------------------------------------
+local Blizzard_QuestLogTitleButton_OnClick = QuestLogTitleButton_OnClick;
 function QuestLogTitleButton_OnClick(button)
+	Blizzard_QuestLogTitleButton_OnClick(button); -- First run blizzard's own code.
 	if IsAddOnLoaded("EQL3") then
 		if ( IsShiftKeyDown() ) then
 			if not ChatFrameEditBox:IsVisible() then
+				-- add/remove quest to/from Questie tracking
 				QuestieTracker:setQuestInfo(this:GetID() + FauxScrollFrame_GetOffset(EQL3_QuestLogListScrollFrame));
 			end
 		end
-		QuestLogTitleButton_OnClick(button);
 		EQL3_QuestWatchFrame:Hide();
 	else
-		if ( button == "LeftButton" ) then
-			if ( IsShiftKeyDown() ) then
-				if(ChatFrameEditBox:IsVisible()) then
-					ChatFrameEditBox:Insert(this:GetText());
-				else
-					-- add/remove quest to/from tracking
-					QuestieTracker:setQuestInfo(this:GetID() + FauxScrollFrame_GetOffset(QuestLogListScrollFrame));
-				end
+		if ( button == "LeftButton" and IsShiftKeyDown() ) then
+			if not ChatFrameEditBox:IsVisible() then
+				-- add/remove quest to/from Questie tracking
+				QuestieTracker:setQuestInfo(this:GetID() + FauxScrollFrame_GetOffset(QuestLogListScrollFrame));
 			end
-			QuestLog_SetSelection(this:GetID() + FauxScrollFrame_GetOffset(QuestLogListScrollFrame))
-			QuestLog_Update();
 		end
 	end
-	QuestWatchFrame:Hide()
+	QuestWatchFrame:Hide() -- Hide blizzard's quest watcher.
 	QuestieTracker:fillTrackingFrame();
 end
 ---------------------------------------------------------------------------------------------------
