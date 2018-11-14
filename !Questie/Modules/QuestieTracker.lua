@@ -631,10 +631,10 @@ function QuestieTracker:saveFramePosition()
 			["xOfs"] = (QuestieTracker.frame:GetLeft()),
 		};
 	elseif (QuestieConfig.trackerList == false) then
-			QuestieTrackerVariables = {};
-			QuestieTrackerVariables["position"] = {
-			["point"] = "TOPLEFT",
-			["relativePoint"] = "TOPLEFT",
+		QuestieTrackerVariables = {};
+		QuestieTrackerVariables["position"] = {
+			["point"] = point,
+			["relativePoint"] = relativePoint,
 			["relativeTo"] = "UIParent",
 			["yOfs"] = yOfs,
 			["xOfs"] = xOfs,
