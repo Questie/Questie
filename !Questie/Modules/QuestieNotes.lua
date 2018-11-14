@@ -294,7 +294,10 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 			if ( obj ) then
 				for name,m in pairs(obj) do
 					if (m[1] and m[1]['type'] == "object") then
-						local i, j = string.gfind(name, objective);
+						-- Search for Objective (tooltip contents) in Name, to see if the hovered item/NPC tooltip is related to any of our quests.
+						-- Name = A quest objective name, such as "Strange Object examined".
+						-- Objective = The first line of text from the current game-tooltip, such as an NPC-name, item-name ("Strange Object"), etc.
+						local i, j = string.find(name, objective);
 						if(i and j and QuestieObjects[m["name"]]) then
 							GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
 							GameTooltip:AddLine("   " .. name, 1, 1, 0.2)
