@@ -1,6 +1,6 @@
 # Questie
 
-**A quest helper for World of Warcraft (1.12.1) - Vanilla**
+**A quest helper for World of Warcraft Classic **
 
 [![Downloads](https://img.shields.io/github/downloads/AeroScripts/QuestieDev/total.svg)](https://github.com/AeroScripts/QuestieDev/releases/)
 
@@ -12,33 +12,13 @@
 
 **---------- Please read the [Readme & FAQ](https://github.com/AeroScripts/QuestieDev/wiki/FAQ&Readme) before reporting bugs ----------**
 
-## Download
-
-You can download the latest stable release from [here](https://github.com/AeroScripts/QuestieDev/releases/latest).
-Installation instructions are found on the [Readme & FAQ](https://github.com/AeroScripts/QuestieDev/wiki/FAQ&Readme#basic-installation-instructions) page of our Wiki.
+## Information
 
 **Notes:**
 - You can use the [issue tracker](https://github.com/AeroScripts/QuestieDev/issues) to report bugs (requires a Github account). Please read the [Readme & FAQ](https://github.com/AeroScripts/QuestieDev/wiki/FAQ&Readme) before reporting bugs.
 - If you get an error message from the WoW client, please include the **complete** text or a screenshot of it in your report.
 - If you wish to submit a bug fix or feature addition you made, you can create a Pull Request on Github. Please read the [rules](https://github.com/AeroScripts/QuestieDev/wiki/Pull-Request-Rules) first.
 - You can contact us on Discord: https://discord.gg/phKnHVu
-
-## Screenshots
-Here are some example images of what Questie can do:
-
-<img src="http://i.imgur.com/iYna778.png" alt="Questie Tooltip"/>
-
-<img src="http://i.imgur.com/oRoWMvQ.jpg" alt="Questie Arrow"/>
-
-<img src="http://i.imgur.com/NHiBRKd.jpg" alt="Questie Tracker"/>
-
-<img src="http://i.imgur.com/I49Saph.png" alt="Questie Minimap"/>
-
-<img src="http://i.imgur.com/tpjeodc.png" alt="Questie Map"/>
-
-<img src="http://i.imgur.com/1fPc5qQ.jpg" alt="Questie Worldmap"/>
-
-
 
 If you'd like to support the development of Questie by donating, you can do so here:
 
