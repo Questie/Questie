@@ -203,7 +203,8 @@ function Questie:OnInitialize()
 	self.db = LibStub("AceDB-3.0"):New("QuestieClassicDB", defaults, true)
 
 
-	--[[x, y, z = HBD:GetPlayerWorldPosition();
+	--WILL ERROR; Run with reloadui!
+	x, y, z = HBD:GetPlayerWorldPosition();
 	Questie:Print("XYZ:", x, y, z, "Zone: "..getPlayerZone(), "Cont: "..getPlayerContinent());
 	--Questie:Print(HBD:GetWorldCoordinatesFromAzerothWorldMap(x, y, ));
 	mapX, mapY = HBD:GetAzerothWorldMapCoordinatesFromWorld(x, y, 0);
@@ -221,7 +222,7 @@ function Questie:OnInitialize()
 	--Note.data.questHash = questHash;
 	--Note.data.objectiveid = objectiveid;
 	--HBDPins:AddMinimapIconWorld(Questie, Note, 0, x, y, true)
-	HBDPins:AddWorldMapIconWorld(Questie, Note, 0, x, y, HBD_PINS_WORLDMAP_SHOW_WORLD)]]--
+	HBDPins:AddWorldMapIconWorld(Questie, Note, 0, x, y, HBD_PINS_WORLDMAP_SHOW_WORLD)
 
 	--QuestieFrame = AceGUI:Create("Frame")
 	--Questie.db.global.lastmessage = 0
