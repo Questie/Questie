@@ -1,14 +1,16 @@
 
 Questie = LibStub("AceAddon-3.0"):NewAddon("Questie", "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0", "AceComm-3.0", "AceSerializer-3.0")
+_Questie = {...}
+--Questie.db.realm
+--Questie.db.char
 
 local LibC = LibStub:GetLibrary("LibCompress")
 local LibCE = LibC:GetAddonEncodeTable()
 local AceGUI = LibStub("AceGUI-3.0")
-local HBD = LibStub("HereBeDragons-2.0")
-local HBDPins = LibStub("HereBeDragons-Pins-2.0")
+HBD = LibStub("HereBeDragons-2.0")
+HBDPins = LibStub("HereBeDragons-Pins-2.0")
 
-debug = false
-send = true
+debug = true
 
 -- get option value
 local function GetGlobalOptionLocal(info)
@@ -75,56 +77,41 @@ function Questie:OnDisable()
 end
 
 
---[[local options = {
-    name = "Trade Shout",
+local options = {
+    name = "Questie Classic",
     handler = Questie,
     type = "group",
 	childGroups = "tab",
     args = {
 		general_tab = {
-			name = "Messages",
+			name = "Options",
 			type = "group",
 			order = 10,
 			args = {
 				enabled = {
 					type = "toggle",
 					order = 11,
-					name = "Enable Questie",
+					name = "Enable Questie Classic",
 					desc = "Enable or disable addon functionality.",
-					width = 200,
 					get =	function ()
-								return Questie.db.realm.enabled
+								return Questie.db.char.enabled
 							end,
 					set =	function (info, value)
-								Questie.db.realm.enabled = value
-								Questie:SetTimer()
-							end,
-				},
-				TSM = {
-					type = "toggle",
-					order = 11,
-					name = "Enable TSM resolve",
-					desc = "Enable replacement of %(80% dbmarket) with gold using TSM",
-					width = 200,
-					get =	function ()
-								return Questie.db.char.tsmenabled
-							end,
-					set =	function (info, value)
-								Questie.db.char.tsmenabled = value
+								Questie.db.char.enabled = value
 							end,
 				},
 				description = {
 					type = "description",
 					order = 12,
 					fontSize = "medium",
-					name = "This addon spams tradechat with preset messages",
+					name = "Test text",
 				},
 				debug_options = {
 					type = "header",
 					order = 13,
-					name = "Messages",
+					name = "Note Options",
 				},
-				message = {
+				--[[message = {
 					type = "input",
 					order = 14,
 					name = "Message to announce, one per line",
@@ -142,21 +129,52 @@ end
 					width = "normal",
 					get = GetGlobalOptionLocal,
 					set = SetGlobalOptionLocal,
-				},
-				timer = {
-					type = "range",
+				},]]--
+				gray = {
+					type = "toggle",
 					order = 16,
-					name = "Announce interval, seconds",
-					desc = "How often announce your message to channel.",
-					min = 30,
-					max = 1800,
+					name = "Show Gray Quests (Low level quests)",
+					desc = "Enable or disable showing of gray quests on the map.",
+					width = 200,
+					get =	function ()
+								return Questie.db.char.lowlevel
+							end,
+					set =	function (info, value)
+								Questie.db.char.lowlevel = value
+							end,
+				},
+				minLevelFilter = {
+					type = "range",
+					order = 17,
+					name = "< Show below level",
+					desc = "How many levels below your character to show.",
+					width = "HALF",
+					min = 1,
+					max = 10,
 					step = 1,
 					get = GetGlobalOptionLocal,
 					set = SetGlobalOptionLocal,
 				},
+				maxLevelFilter = {
+					type = "range",
+					order = 17,
+					name = "Show above level >",
+					desc = "How many levels above your character to show.",
+					width = "HALF",
+					min = 1,
+					max = 10,
+					step = 1,
+					get = GetGlobalOptionLocal,
+					set = SetGlobalOptionLocal,
+				},
+				arrow_options = {
+					type = "header",
+					order = 18,
+					name = "Arrow Options",
+				},
 				test = {
 					type = "execute",
-					order = 16,
+					order = 18,
 					name = "Test Message",
 					desc = "Print next message in say.",
 					func = function() Questie:Print(Questie:GetNextMessage()) end,
@@ -164,19 +182,28 @@ end
 			},
 		}
 	}
-}]]--
+}
 
+local defaults = {
+  global = {
+    maxLevelFilter = 7,
+		minLevelFilter = 4
+  },
+	char = {
+		enabled = true
+	}
+}
 
 glooobball = ""
-
+Note = nil
 function Questie:OnInitialize()
 	Questie:RegisterChatCommand("questieclassic", "MySlashProcessorFunc")
 	Questie:RegisterChatCommand("test", "SlashTest")
 	Questie:RegisterChatCommand("qc", "MySlashProcessorFunc")
-	self.db = LibStub("AceDB-3.0"):New("QuestieDB", defaults, true)
+	self.db = LibStub("AceDB-3.0"):New("QuestieClassicDB", defaults, true)
 
 
-	x, y, z = HBD:GetPlayerWorldPosition();
+	--[[x, y, z = HBD:GetPlayerWorldPosition();
 	Questie:Print("XYZ:", x, y, z, "Zone: "..getPlayerZone(), "Cont: "..getPlayerContinent());
 	--Questie:Print(HBD:GetWorldCoordinatesFromAzerothWorldMap(x, y, ));
 	mapX, mapY = HBD:GetAzerothWorldMapCoordinatesFromWorld(x, y, 0);
@@ -193,12 +220,13 @@ function Questie:OnInitialize()
 	--Note.data.IconType = type;
 	--Note.data.questHash = questHash;
 	--Note.data.objectiveid = objectiveid;
-		HBDPins:AddMinimapIconWorld(Questie, Note, 0, x, y, true)
+	--HBDPins:AddMinimapIconWorld(Questie, Note, 0, x, y, true)
+	HBDPins:AddWorldMapIconWorld(Questie, Note, 0, x, y, HBD_PINS_WORLDMAP_SHOW_WORLD)]]--
 
-	--Questie.db.QuestieFrame = AceGUI:Create("Frame")
+	--QuestieFrame = AceGUI:Create("Frame")
 	--Questie.db.global.lastmessage = 0
-	--LibStub("AceConfig-3.0"):RegisterOptionsTable("Questie", options)
-	--radeShoutFrame = LibStub("AceConfigDialog-3.0"):Open("Questie", Questie.db.QuestieFrame)
+	LibStub("AceConfig-3.0"):RegisterOptionsTable("Questie", options)
+	--QuestieFrame2 = LibStub("AceConfigDialog-3.0"):Open("Questie", QuestieFrame)
 
 
 	--QuestieFrame:SetTitle("Example frame")
@@ -206,7 +234,7 @@ function Questie:OnInitialize()
 	--QuestieFrame:SetCallback("OnClose", function() QuestieFrame:Hide() end)
 	--QuestieFrame:SetLayout(options)
 
-	--self.configFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Questie", "Trade Shout");
+	self.configFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Questie", "Questie Classic");
 
   -- Code that you want to run when the addon is first loaded goes here.
   --Questie:Print("Hello, world!")
