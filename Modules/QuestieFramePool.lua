@@ -44,12 +44,13 @@ end
 
 function _QuestieFrame:Questie_Tooltip(self)
   local Tooltip = GameTooltip;
-  Questie:Print(self.QuestID)
+  Questie:Print(self.data.QuestID)
   Questie:Print(self)
   Tooltip:SetOwner(self, "ANCHOR_CURSOR"); --"ANCHOR_CURSOR" or (self, self)
 
   --TODO Logic for tooltip!
   Tooltip:AddLine("Tooltip!");
+  -- Preferably call something outside, keep it "abstract" here
 
 
   Tooltip:SetFrameStrata("TOOLTIP");
@@ -58,4 +59,6 @@ end
 
 function _QuestieFrame:Questie_Click(self)
   Questie:Print("Click!");
+  --TODO Logic for click!
+  -- Preferably call something outside, keep it "abstract" here
 end

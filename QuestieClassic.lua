@@ -188,11 +188,11 @@ function Questie:OnInitialize()
 
 	Note = QuestieFrame:GetFrame();
 	--THIS WILL BE MOVED!!!
-	Note.QuestID = 1337
-	--Note.NoteType = NoteType --MiniMapNote or WorldMapNote, Will be moved!
-	--Note.IconType = type;
-	--Note.questHash = questHash;
-	--Note.objectiveid = objectiveid;
+	Note.data.QuestID = 1337
+	--Note.data.data..NoteType = NoteType --MiniMapNote or WorldMapNote, Will be moved!
+	--Note.data.IconType = type;
+	--Note.data.questHash = questHash;
+	--Note.data.objectiveid = objectiveid;
 		HBDPins:AddMinimapIconWorld(Questie, Note, 0, x, y, true)
 
 	--Questie.db.QuestieFrame = AceGUI:Create("Frame")
