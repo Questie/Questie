@@ -1,97 +1,60 @@
 
-TradeShout = LibStub("AceAddon-3.0"):NewAddon("TradeShout", "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0", "AceComm-3.0", "AceSerializer-3.0")
+Questie = LibStub("AceAddon-3.0"):NewAddon("Questie", "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0", "AceComm-3.0", "AceSerializer-3.0")
 local LibC = LibStub:GetLibrary("LibCompress")
 local LibCE = LibC:GetAddonEncodeTable()
 local AceGUI = LibStub("AceGUI-3.0")
+local HBD = LibStub("HereBeDragons-2.0")
 
 debug = false
 send = true
 
 -- get option value
 local function GetGlobalOptionLocal(info)
-	return TradeShout.db.global[info[#info]]
+	return Questie.db.global[info[#info]]
 end
 
 
 -- set option value
 local function SetGlobalOptionLocal(info, value)
-	if debug and TradeShout.db.global[info[#info]] ~= value then
-		TradeShout:Printf("DEBUG: global option %s changed from '%s' to '%s'", info[#info], tostring(TradeShout.db.global[info[#info]]), tostring(value))
+	if debug and Questie.db.global[info[#info]] ~= value then
+		Questie:Printf("DEBUG: global option %s changed from '%s' to '%s'", info[#info], tostring(Questie.db.global[info[#info]]), tostring(value))
 	end
 
-	TradeShout.db.global[info[#info]] = value
+	Questie.db.global[info[#info]] = value
 end
 
 
 
 
 
-function TradeShout:OnUpdate()
+function Questie:OnUpdate()
 
 end
 
-function TradeShout:SlashTest(input)
-	TradeShout:Print("SlashTest!");
+function Questie:SlashTest(input)
+	Questie:Print("SlashTest!");
 end
 
-function TradeShout:MySlashProcessorFunc(input)
-	--TradeShout:Print(ChatFrame1, "Hello, World!")
+function Questie:MySlashProcessorFunc(input)
+	--Questie:Print(ChatFrame1, "Hello, World!")
 	--SetMessage("test", "test")
-		TradeShout:Print("MySlashProcessorFunc!");
+		Questie:Print("MySlashProcessorFunc!");
   -- Process the slash command ('input' contains whatever follows the slash command)
 
 end
 
-function TradeShout:GetNextMessage()
-	local message = { strsplit("\n", TradeShout.db.global.message) }
-	local count = 0
-	for i, k in ipairs(message) do
-		count = count + 1
-	end
-	for i, k in ipairs(message) do
-		if(TradeShout.db.global.lastmessage == count) then
-			TradeShout.db.global.lastmessage = 0
-		end
-		if(i > TradeShout.db.global.lastmessage) then
-			k = TradeShout:TSMConvert(k)
-			if(strlen(k) > 255) then
-				TradeShout:Print("ERROR: Message", i, "is too long, will be cut!")
-			end
-			k = string.sub(k, 0,255)
-			TradeShout.db.global.lastmessage = TradeShout.db.global.lastmessage + 1
-			return k
-		end
-	end
-end
-
-function TradeShout:OnEnable()
+function Questie:OnEnable()
     -- Called when the addon is enabled
 end
 
-function TradeShout:OnDisable()
+function Questie:OnDisable()
     -- Called when the addon is disabled
 end
 
-function TradeShout:Announce()
-	if(TradeShout.db.realm.enabled == true) then
-		--TradeShout:Print("ANNOUNCE!", TradeShout.db.global.NrMessages)
-		msg = TradeShout:GetNextMessage()
-		SendChatMessage(msg, "CHANNEL", nil, TradeShout.db.global.channel)
-		TradeShout:SetTimer()
-	end
-end
 
-function TradeShout:SetTimer()
-	TradeShout:CancelAllTimers()
-	rNr = math.random(1,7)
-	TradeShout:Print("Random number generated "..rNr.. " Total: "..TradeShout.db.global.timer+rNr)
-	TradeShout:ScheduleRepeatingTimer("Announce", TradeShout.db.global.timer+rNr)
-end
-
-
-local options = {
+--[[local options = {
     name = "Trade Shout",
-    handler = TradeShout,
+    handler = Questie,
     type = "group",
 	childGroups = "tab",
     args = {
@@ -103,15 +66,15 @@ local options = {
 				enabled = {
 					type = "toggle",
 					order = 11,
-					name = "Enable TradeShout",
+					name = "Enable Questie",
 					desc = "Enable or disable addon functionality.",
 					width = 200,
 					get =	function ()
-								return TradeShout.db.realm.enabled
+								return Questie.db.realm.enabled
 							end,
 					set =	function (info, value)
-								TradeShout.db.realm.enabled = value
-								TradeShout:SetTimer()
+								Questie.db.realm.enabled = value
+								Questie:SetTimer()
 							end,
 				},
 				TSM = {
@@ -121,10 +84,10 @@ local options = {
 					desc = "Enable replacement of %(80% dbmarket) with gold using TSM",
 					width = 200,
 					get =	function ()
-								return TradeShout.db.char.tsmenabled
+								return Questie.db.char.tsmenabled
 							end,
 					set =	function (info, value)
-								TradeShout.db.char.tsmenabled = value
+								Questie.db.char.tsmenabled = value
 							end,
 				},
 				description = {
@@ -173,33 +136,33 @@ local options = {
 					order = 16,
 					name = "Test Message",
 					desc = "Print next message in say.",
-					func = function() TradeShout:Print(TradeShout:GetNextMessage()) end,
+					func = function() Questie:Print(Questie:GetNextMessage()) end,
 				},
 			},
 		}
 	}
-}
+}]]--
 
-function TradeShout:OnInitialize()
-	TradeShout:RegisterChatCommand("tradeshout", "MySlashProcessorFunc")
-	TradeShout:RegisterChatCommand("test", "SlashTest")
-	TradeShout:RegisterChatCommand("ts", "MySlashProcessorFunc")
-	self.db = LibStub("AceDB-3.0"):New("TradeShoutDB", defaults, true)
-	TradeShout.db.TradeShoutFrame = AceGUI:Create("Frame")
-	TradeShout.db.global.lastmessage = 0
+function Questie:OnInitialize()
+	Questie:RegisterChatCommand("questieclassic", "MySlashProcessorFunc")
+	Questie:RegisterChatCommand("test", "SlashTest")
+	Questie:RegisterChatCommand("qc", "MySlashProcessorFunc")
+	self.db = LibStub("AceDB-3.0"):New("QuestieDB", defaults, true)
+	Questie:Print(HBD:GetPlayerWorldPosition());
+	--Questie.db.QuestieFrame = AceGUI:Create("Frame")
+	--Questie.db.global.lastmessage = 0
+	--LibStub("AceConfig-3.0"):RegisterOptionsTable("Questie", options)
+	--radeShoutFrame = LibStub("AceConfigDialog-3.0"):Open("Questie", Questie.db.QuestieFrame)
 
-	--TradeShoutFrame:SetTitle("Example frame")
-	--TradeShoutFrame:SetStatusText("AceGUI-3.0 Example Container frame")
-	--TradeShoutFrame:SetCallback("OnClose", function() TradeShoutFrame:Hide() end)
-	--TradeShoutFrame:SetLayout(options)
-	LibStub("AceConfig-3.0"):RegisterOptionsTable("TradeShout", options)
-	TradeShoutFrame = LibStub("AceConfigDialog-3.0"):Open("TradeShout", TradeShout.db.TradeShoutFrame)
 
-	TradeShout:SetTimer()
+	--QuestieFrame:SetTitle("Example frame")
+	--QuestieFrame:SetStatusText("AceGUI-3.0 Example Container frame")
+	--QuestieFrame:SetCallback("OnClose", function() QuestieFrame:Hide() end)
+	--QuestieFrame:SetLayout(options)
 
-	--self.configFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("TradeShout", "Trade Shout");
+	--self.configFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Questie", "Trade Shout");
 
   -- Code that you want to run when the addon is first loaded goes here.
-  --TradeShout:Print("Hello, world!")
-  --self:RegisterChatCommand("TradeShout", "ChatCommand")
+  --Questie:Print("Hello, world!")
+  --self:RegisterChatCommand("Questie", "ChatCommand")
 end

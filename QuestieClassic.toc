@@ -1,18 +1,19 @@
 ## Interface: 80000
 
-## Title: TradeShout
-## Notes: Helps announce your guild recruitment information to Trade and LFG channels.
+## Title: QuestieClassic
+## Notes: QuestieClassic
 
-## Version: 3.4
+## Version: 0.1
 
-## Author: Logon
+## Author: Logon + More to come!
 
-## SavedVariables: TradeShoutDB
+## SavedVariables: QuestieClassic
 ## OptionalDeps: Ace3, LibDataBroker-1.1, LibCompress
 
 
 #@no-lib-strip@
 embeds.xml
+Libs\HereBeDragons\HereBeDragons-2.0.lua
 #@end-no-lib-strip@
 
-TradeShout.lua
+QuestieClassic.lua
