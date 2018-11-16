@@ -1,0 +1,401 @@
+Ace3 Release - Revision r1182 (July 17th, 2018)
+-----------------------------------------------
+- AceComm-3.0: Support numeric targets for custom channels (Ticket #419)
+- AceComm-3.0/ChatThrottleLib: Updated for WoW 8.0 API changes
+- AceConfig-3.0: Allow number values for the "width" parameter, which acts as a multiplier of the default width
+- AceConfigDialog-3.0: Enable iconCoords for the main level of a tree group (Ticket #417)
+- AceGUI-3.0: Implement a Table Layout (#442)
+- AceGUI-3.0: EditBox: Only try to handle dragging if a valid object is being dragged into the text box
+- AceGUI-3.0: Various fixes and work-arounds for WoW 8.0 changes
+
+Ace3 Release - Revision r1166 (August 29th, 2017)
+-------------------------------------------------
+- Updated any use of PlaySound to the new numeric constants (Fix for WoW 7.3)
+- AceConfigDialog-3.0: implement fallback validation feedback in a StaticPopup (Ticket #2)
+
+Ace3 Release - Revision r1158 (March 28th, 2017)
+------------------------------------------------
+- AceGUI-3.0: Fire OnShow events from Frame and Windows containers (Ticket #396)
+- AceGUI-3.0: Add SetJustifyV/H API to the Label/InteractiveLabel widgets (Ticket #397)
+
+Ace3 Release - Revision r1151 (July 18th, 2016)
+-----------------------------------------------
+- AceConfig-3.0: Allow specifying images using the numeric fileID (Ticket #389)
+- AceGUI-3.0: Use SetColorTexture in WoW 7.0
+- AceGUI-3.0: Expose the HighlightText API for EditBox and MultiLineEditBox Widgets (Ticket #378)
+- AceGUI-3.0: Keybinding: Support MouseWheel Up/Down bindings (Ticket #372)
+- AceGUI-3.0: TreeGroup: Refresh the tree in an OnUpdate once after Acquire, not only after creation (Fixes missing tree in WoW 7.0)
+- AceSerializer-3.0: Create consistent tokens for infinity, independent of the clients platform
+
+Ace3 Release - Revision r1134 (June 23rd, 2015)
+-----------------------------------------------
+- AceGUI-3.0: TreeGroup: Prevent Word Wrap in tree elements
+
+Ace3 Release - Revision r1128 (February 24th, 2015)
+---------------------------------------------------
+- AceGUI-3.0: Fixed an error in GameTooltip handling causing wrong formatting in some cases
+
+Ace3 Release - Revision r1122 (October 14th, 2014)
+--------------------------------------------------
+- AceDB-3.0: Now using the GetCurrentRegion() API to determine region-based profile keys (fix for WoW 6.0)
+- AceComm-3.0: Update ChatThrottleLib to v23
+- AceConfigDialog-3.0: Show a more meaningful title on Blizzard Options Groups (Ticket #353)
+- AceGUI-3.0: ColorPicker: Frame Level is automatically increased to ensure the color picker frame is above the option panel
+- AceGUI-3.0: DropDown: Properly disable all clickable areas when the dropdown is disabled (Ticket #360)
+- AceHook-3.0: Always use HookScript when hooking scripts in a secure fashion (Ticket #338)
+- AceTimer-3.0: New timer implementation based on C_Timer.After
+
+Ace3 Release - Revision r1109 (February 19th, 2014)
+---------------------------------------------------
+- AceComm-3.0: Ambiguate addon comm messages to restore behavior to be identical to pre-5.4.7
+- AceConfigRegistry-3.0: Added an option to skip options table validation on registering
+
+Ace3 Release - Revision r1104 (October 31st, 2013)
+--------------------------------------------------
+- AceGUI-3.0: Flow Layout: Added a safeguard to prevent an infinite loop in the layout engine
+- AceGUI-3.0: DropDown: Adjust its style slightly to closer resemble the Blizzard DropDown Widget
+- AceGUI-3.0: DropDown: API enhancements to specify the width of the pullout and be notified when its opened
+
+Ace3 Release - Revision r1098 (September 13th, 2013)
+----------------------------------------------------
+- AceDB-3.0: Switch characters to the default profile if their active profile is deleted (Ticket #324)
+- AceConfigDialog-3.0: Try to prevent static popup taint (Ticket #322)
+- AceGUI-3.0: Button: Add a new "Auto Width" option (Ticket #310)
+- AceGUI-3.0: DropDown: Make the entire DropDown widget clickable (Ticket #339)
+- AceGUI-3.0: EditBox: Allow dragging macros to the editbox (which will then contain the macros name) (Ticket #337)
+- AceGUI-3.0: Slider: Add a workaround for the broken slider steps in WoW 5.4 (Ticket #346)
+- AceGUI-3.0: TreeGroup: Fix an issue introduced by 5.4 broken scrollbars (Ticket #345)
+- AceHook-3.0: Allow hooking of AnimationGroup scripts (Ticket #314)
+
+Ace3 Release - Revision r1086 (May 21st, 2013)
+----------------------------------------------
+- AceAddon-3.0: Improved behavior when loading modules during game startup, ensures proper loading order
+
+Ace3 Release - Revision r1083 (March 4th, 2013)
+-----------------------------------------------
+- AceTimer-3.0: Fixed an issue that caused the parameter list passed to the callback to be cut off at nil values
+- AceGUI-3.0: InlineGroup: The title attribute is properly reset for recycled objects
+
+Ace3 Release - Revision r1078 (February 10th, 2013)
+---------------------------------------------------
+- AceTimer-3.0: Re-write based on AnimationTimers
+- AceHook-3.0: Improved checks/error messages when trying to hook a script on a "nil" frame
+- AceDBOptions-3.0: Added Italian locale
+- AceGUI-3.0: BlizOptionsGroup: Fixed the "default" button callback
+- AceGUI-3.0: Colorpicker: The colorpicker is now clamped to the screen
+
+Ace3 Release - Revision r1061 (August 27th, 2012)
+-------------------------------------------------
+- AceConfigDialog-3.0: Try to avoid potential taints in static popup dialogs
+- AceConfigDialog-3.0: Sort multiselects with "radio" style
+- AceGUI-3.0: Support for WoW 5.0
+- AceGUI-3.0: MultiLineEditBox: Support shift-click'ing items/spells/etc. into the editbox
+- AceGUI-3.0: Label: Fix text alignment (Ticket #301)
+- AceGUI-3.0: Checkbox: Description text on a disable checkbox should look disabled (Ticket #304)
+- AceGUI-3.0: Keybinding: Ensure the Keybinding popup is on the top level (Ticket #305)
+
+Ace3 Release - Revision r1041 (November 29th, 2011)
+---------------------------------------------------
+- AceDB-3.0: Added locale and factionrealmregion profile keys
+- AceSerializer-3.0: Removed support for NaN, as WoW 4.3 does no longer allow it.
+- AceGUI-3.0: Frame: Add :EnableResize (Ticket #214)
+
+Ace3 Release - Revision r1032 (June 29th, 2011)
+-----------------------------------------------
+- AceTab-3.0: Improvements to Match handling (Ticket #255 and #256)
+- AceGUI-3.0: DropDown layout fix with hidden labels (Ticket #234)
+
+Ace3 Release - Revision r1025 (April 27th, 2011)
+------------------------------------------------
+- AceComm-3.0: Updated for 4.1 changes - now handles RegisterAddonMessagePrefix internally for you.
+- AceGUI-3.0: TabGroup: Fixed width of tabs in 4.1(Ticket #243)
+
+Ace3 Release - Revision r1009 (February 9th, 2011)
+--------------------------------------------------
+- AceLocale-3.0: Fix erronous assumption that the default locale is always the first to be registered for the :NewLocale() "silent" flag. The flag must now be set on the FIRST locale to be registered.
+- AceLocale-3.0: The :NewLocale() "silent" flag may now be set to the string "raw", meaning nils are returned for unknown translations.
+- AceGUI-3.0: Fix the disabled state of Icon widgets
+- AceGUI-3.0: The header of the Frame widget now dynamically changes size to fit the text (Ticket #171)
+- AceGUI-3.0: Its now possible to define a custom order the elements in a dropdown widget
+- AceGUI-3.0: Improved widget focus behaviour across the board (Ticket #192, #193)
+- AceGUI-3.0: Fixed a bug that made it impossible to block the tree widget from being user resizable (Ticket #163)
+- AceGUI-3.0: Fixed a bug that caused TreeGroups to become unresponsive under certain conditions (Ticket #189, #202)
+- AceGUI-3.0: Enhanced the DropDown widget to allow it to be reused more easily.
+- AceConfigDialog-3.0: Select Groups now have the proper order in the dropdown (Ticket #184)
+- AceConfigDialog-3.0: Implemented "radio" style select boxes (Ticket #149)
+
+Ace3 Release - Revision r981 (October 27th, 2010)
+-------------------------------------------------
+- AceAddon-3.0: Fixed a library upgrading issue
+- AceAddon-3.0: Modules are now enabled in loading order
+- AceGUI-3.0: Keybinding: The widget will no longer steal keybindings even when inactive (Ticket #169)
+- AceGUI-3.0: EditBox: Fixed spell drag'n'drop
+
+
+Ace3 Release - Revision r971 (October 12th, 2010)
+-------------------------------------------------
+- Small fixes and adjustments for the 4.0 Content Patch.
+- AceGUI-3.0: ScrollFrame: Allow for a small margin of error when determining if the scroll bar should be shown.
+- AceGUI-3.0: Added new widget APIs: GetText for EditBox and DisableButton for MultiLineEditBox
+
+Ace3 Release - Revision r960 (July 20th, 2010)
+----------------------------------------------
+- AceGUI-3.0: Label: Reset Image Size and TexCoords on Acquire (Ticket #110)
+- AceGUI-3.0: CheckBox: Re-apply the disabled state after setting a value, so the visuals are correct in either case. (Ticket #107)
+- AceGUI-3.0: Icon: Fix the vertical size. It'll now properly scale with the image size, and not be fixed to about 110px. (Ticket #104)
+- AceGUI-3.0: External Containers (Frame, Window) should always start in a visible state. (Ticket #121)
+- AceGUI-3.0: Added Blizzard sounds to widgets (Ticket #120)
+- AceGUI-3.0: CheckBox: check for self.desc:GetText() being nil as well as "" to prevent setting the wrong height on the checkbox causing bouncing checkboxes.
+- AceGUI-3.0: Rewrite of the MultiLineEditBox (Ticket #68)
+- AceGUI-3.0: CheckBox: Fix alignment of the text in OnMouseDown when an image is set. (Ticket #142)
+- AceGUI-3.0: Add SetMaxLetters APIs to EB and MLEB (Ticket #135)
+- AceGUI-3.0: Frame: Add events for OnEnter/OnLeave of the statusbar (Ticket #139)
+- AceGUI-3.0: Major cleanups and refactoring in nearly all widgets and containers.
+- AceConfigDialog-3.0: Always obey the min/max values on range-type widgets (Ticket #114)
+- AceConfigDialog-3.0: Pass iconCoords set on groups in the options table to the tree widget (Ticket #111)
+- AceConfigDialog-3.0: Implement "softMin" and "softMax", allowing for a UI-specific minimum/maximum for range controls, while allowing manual input of values in the old min/max range. (Ticket #123)
+- AceConfigDialog-3.0: Don't close frames in CloseAll that are being opened after the CloseAll event was dispatched. (Ticket #132).
+- AceSerializer-3.0: Fix encoding & decoding of \030. (Ticket #115)
+- AceDB-3.0: Remove empty sections on logout, keeping the SV clean of more useless informations.
+- AceDBOptions-3.0.lua: Fix a string typo (Ticket #141)
+
+Ace3 Release - Revision r907 (December 16th, 2009)
+---------------------------------------------------
+- AceGUI-3.0: Frame: Properly save the width in the status table.
+- AceConfigCmd-3.0: Properly handle help output of inline groups with a different handler. (Ticket #101)
+- AceConfigDialog-3.0: Don't bail out and error when a dialogControl was invalid, instead show the error and fallback to the default control for that type.
+- AceConfigDialog-3.0: Fix a hickup with the OnUpdate script not getting upgraded properly in some situations.
+
+Ace3 Release - Revision r900 (December 8th, 2009)
+--------------------------------------------------
+- AceGUI-3.0: Alot of visual fixes regarding margins and general widget styles.
+- AceGUI-3.0: Ability to accept links for EditBox Widget (Ticket #21)
+- AceGUI-3.0: ScrollFrame: Hide the scrollbar when there is no overflowing content, and allow the Layout functions to use that space for widgets.
+- AceGUI-3.0: DropDown: Added a GetValue() API to the Widget (Ticket #69)
+- AceGUI-3.0: Button: Pass the arguments of the OnClick handler to the OnClick callback (Ticket #57)
+- AceGUI-3.0: add a Window container, basically a plain window with close button
+- AceGUI-3.0: Add support for inline descriptions to the checkbox widget.
+- AceGUI-3.0: Added an API to the Window container to disable the user-resizing of the same. (Ticket #80)
+- AceGUI-3.0: TreeGroup: Allow iconCoords to be passed for the tree elements. (Ticket #59)
+- AceGUI-3.0: Slider: Add a more visible backdrop/border around the manual input area (Ticket #98, #46)
+- AceGUI-3.0: Allow displaying a image in front of the checkbox label. (Ticket #82)
+- AceConfig-3.0: Added an experimental "descStyle" member to all option table nodes that allows you to control the way the description is presented. 
+                 Supported values are "tooltip" for the old behaviour, and "inline" for a inline display of the description, pending support in AceGUI-3.0 widgets.
+- AceConfigCmd-3.0: Properly parse functions and methods supplied for the "hidden" option table member. (Ticket #96)
+- AceConfigDialog-3.0: Fix the unpacking of the basepath arguments when internally calling :Open (Ticket #90)
+- AceConfigDialog-3.0: Properly refresh BlizOptions Windows which are registered with a path on NotifyChange. (Ticket #93)
+- AceConfigDialog-3.0: Allow image/imageCoords on toogle elements (Note that the width/height of the image on the toggle cannot be changed) (Ticket #82)
+- AceConfigDialog-3.0: Pass the groups "name" tag to DropDownGroups as the title. (Ticket #79)
+- AceDB-3.0: Remove the metatable from the DB before removing defaults, so we don't accidentally invoke it in the process. (Ticket #66)
+- AceDB-3.0: Don't save the profileKeys for namespaces, since we use the profile of the parent DB anyway. This will cut down on SV complexity when using alot of namespaces.
+- AceDB-3.0: Don't fire the OnProfileReset callback when copying a profile.
+- AceDBOptions-3.0: Show the current profile on the dialog. (Ticket #56)
+- AceComm-3.0: Add callbacks for message chunks going out the wire (via CTL). Useful for displaying progress for very large messages.
+- AceConsole-3.0: Add :Printf() so you don't have to do Print(format())
+
+Ace3 Beta - Revision 820 (August 7th, 2009)
+--------------------------------------------
+- AceComm-3.0: Updated ChatThrottleLib to v21
+- AceGUI-3.0: Fixed a glitch in the TabGroup code that caused tabs to be unresponsive under rare conditions. (Ticket #38)
+- AceGUI-3.0: Consistent "disabled" behaviour of all widgets. (Ticket #47)
+- AceGUI-3.0: Changed the way widgets are handled on release to avoid a crash in the game client. (Ticket #49)
+- AceGUI-3.0: Fixed a glitch in the button graphics. (Ticket #58)
+- AceGUI-3.0: Localized the "Close" Text on the Frame widget.
+
+Ace3 Beta - Revision 803 (April 14th, 2009)
+--------------------------------------------
+- AceConfig-3.0: Allow spaces in the keys of config tables. Spaces will be changed on the fly to underscores in AceConfigCmd-3.0 - there is no collision check in place, yet.
+- AceConfig-3.0: Support a "fontSize" attribute to the description type. Possible values are "small" (default), "medium" and "large".
+- AceConfigDialog-3.0: Fixed an error that would occur when calling InterfaceOptionsFrame_OpenToCategory from within an event handler in a Blizzard Options integrated frame. (Ticket #33)
+- AceConfigDialog-3.0: The "execute" type does now recognize the "image" attributes, and will display a clickable icon instead of the button when an image is supplied. (Ticket #35)
+- AceConfigDialog-3.0: Pass icons defined in the option table to the TreeGroup widget (Ticket #20)
+- AceConfigDialog-3.0: Fixed a bug that caused an empty group widget to be drawn if all groups were hidden.
+- AceConfigCmd-3.0: Improved the behaviour of select and multiselect elements. (Ticket #26)
+- AceDB-3.0: Add a GetNamespace function to the DB Objects which returns an existing namespace from the DB object.
+- AceGUI-3.0 Slider Widget: Properly show percentage values as min/max if isPercent is true. (Ticket #32)
+- AceGUI-3.0: Fixed an error in the TreeGroup Widget that caused execution to stop if no name was provided.
+- AceGUI-3.0: Fixed the behaviour of the MultiLineEditbox Widget (Accept button not clickable). (Ticket #28)
+- AceGUI-3.0: TabGroup: Set a maximum width for tabs based on the size of the widget. (Ticket #34)
+- AceGUI-3.0: Added a new InteractiveLabel with OnEnter/OnLeave/OnClick callbacks and a highlight texture
+- AceGUI-3.0: Add SetFont and SetFontObject functions to the Label widget (and the new InteractiveLabel)
+- AceGUI-3.0: Support icons in the TreeGroup display. (Ticket #20)
+- AceGUI-3.0: Added a new :SetRelativeWidth Widget-API that allows you to set the width of widgets relative to their container.
+- AceGUI-3.0: Alot of fixes, tweaks and consistency changes.
+
+Ace3 Beta - Revision 741 (Feb 15th, 2009)
+--------------------------------------------
+- AceDBOptions-3.0: Disable the "Copy From" and "Delete" dropdowns if there are no profiles to choose from. (Ticket #19)
+- AceGUI-3.0: Improve TabGroup visual style - only stretch them to the full width if they would use more then 75% of the exisiting space.
+- AceGUI-3.0: Added a third optional argument to <container>:AddChild() to specify the position for the new widget. (Ticket #22)
+- AceConfigCmd-3.0: Improve help output when viewing groups.
+- AceConfigDialog-3.0: Refresh the Options Panel after a confirmation is canceled to reset the value to its previous value. (Ticket #23)
+- AceDB-3.0: Fix a data inconsistency when using false as a table key. (Ticket #25)
+
+Ace3 Beta - Revision 722 (Jan 4th, 2009)
+--------------------------------------------
+- AceHook-3.0: Fix :SecureHookScript to not fail on previously empty scripts since frame:HookScript does nothing at all in that case. (Ticket #16)
+- AceLocale-3.0: Implement 'silent' option for :NewLocale to disable the warnings on unknown entrys (Ticket #18)
+- AceTimer-3.0: Implement :TimeLeft(handle) function (Ticket #10)
+- AceGUI-3.0: Fix TabGroup tab resizing to be consistent
+- AceGUI-3.0: Fixed EditBox alignment when the label is disabled (Ticket #13)
+- AceDB-3.0: Implement OnProfileShutdown callback (Ticket #7)
+- AceDBOptions-3.0: Updated esES and ruRU locale
+
+Ace3 Beta - Revision 706 (Oct 18th, 2008)
+--------------------------------------------
+- First Beta release after WoWAce move
+- Removed WoW 2.4.x compat layer
+- AceGUI-3.0: Fix disabling of the Multiline Editbox
+- AceGUI-3.0: Improvements to the Keybinding Widget
+
+Ace3 Beta - Revision 81437 (Sept 6th, 2008)
+--------------------------------------------
+- AceConfigDialog-3.0: the confirm callback will now receive the new value that is being set (same signature as the validate callback)
+- AceConfigDialog-3.0: :Close and :CloseAll are now safe to call from within callbacks.
+- AceGUI-3.0: Added new methods to the widget base table, see ACE-205 for full reference
+- AceGUI-3.0: Various fixes to Widgets and recycling process
+- Now compatible with WoW 3.0 (compat layer is to be removed upon 3.0 release)
+
+
+Ace3 Beta - Revision 76325 (June 9th, 2008)
+--------------------------------------------
+- AceGUI-3.0: Finish Multiselect support for the Dropdown widget (nargiddley)
+- AceGUI-3.0: Re-write TabGroup layouting (nargiddley)
+- AceGUI-3.0: TreeGroup: Add :EnableButtonTooltips(enable) to make the default tooltips on the tree optional, enabled by default. (nargiddley)
+- AceGUI-3.0: TabGroup: Add OnTabEnter and OnTabLeave Callbacks  (nargiddley)
+- AceConfigDialog-3.0: Add :SelectGroup(appName, ...) - Selects the group given by the path specified then refreshes open windows. (nargiddley)
+- AceConfigDialog-3.0: :Open now accepts an optional path, when given will open the window with only the given group and its children visible (nargiddley)
+- AceConfigDialog-3.0: :AddToBlizOptions now accepts an optional path, this will add the config page to display the specified group and its children only. (nargiddley)
+- AceConfigDialog-3.0: ACE-189: allow multiselect to be shown as a dropdown by setting dialogControl = "Dropdown" (nargiddley)
+- AceConfigDialog-3.0: Add Custom tooltips to the TreeGroup and TabGroup, shows both name and desc for the group. (nargiddley)
+- AceConfigCmd-3.0: ACE-195: Remove unneeded references to .confirm, will no longer error when .confirm is a boolean (nargiddley)
+- AceAddon-3.0: Allow for an optional first argument to NewAddon to be a table to be used as the base for the addon. (ammo)
+
+Ace3 Beta - Revision 74633 (May 19th, 2008)
+--------------------------------------------
+- AceTimer-3.0: ACE-173: don't error on nil handle for CancelTimer(), just bail out early. (ammo)
+- AceGUI-3.0: ACE-161, ACE-180, ACE-181: New and improved DropDown widget (originally coded by Borlox) (nargiddley,nevcairiel)
+- AceGUI-3.0: AceGUI will call OnWidthSet and OnHeightSet as frames resize (nargiddley)
+- AceGUI-3.0: TabGroup: Use OptionsFrameTabButtonTemplate for tabs (nargiddley)
+- AceGUI-3.0: TabGroup: Tabs now span multiple lines when there are too many to fit in the width of the frame (nargiddley)
+- AceGUI-3.0: TreeGroup: Tree is now sizable by dragging, orig patch by yssaril (nargiddley)
+- AceGUI-3.0: Flow layout will now reduce widgets width to fit rather than leaving them sticking out the side of container widgets (nargiddley)
+- AceGUI-3.0: Dropdowns will no longer be left open in the background when the frame is clicked or other widgets are activated (nargiddley)
+- AceGUI-3.0: ACE-159: Rename Release to OnRelease and Acquire to OnAcquire for widgets. (nargiddley)
+- AceGUI-3.0: ACE-171: add IsVisible and IsShown methods to the widget metatable (nargiddley)
+- AceGUI-3.0: ACE-164: add tooltips to tree to show full text of childs that got clipped (ammo)
+- AceGUI-3.0: ACE-174: make buttons in AceGUI-3.0 locale independant (ammo)
+- AceGUI-3.0: ACE-166: fix treegroup visual bug (ammo)
+- AceGUI-3.0: ACE-184: make numeric entry for slider more intuitive (ammo)
+- AceConfigCmd-3.0: ACE-172 - ignore description in cmd (ammo)
+- AceConsole-3.0:  nolonger check for existance of slashcommands, overwrite where needed. Last one wins, this enables AddonLoader to X-LoadOn-Slash and override the slashcommand from AddonLoader slashcommand with an Ace3 one. (Ammo)
+
+Ace3 Beta - Revision 69509 (April 13th, 2008)
+---------------------------------------------
+- AceComm-3.0: turn off error messages when receiving invalid multi-part messages (its happening on login etc) (nevcairiel)
+- AceDBOptions-3.0: shorten info text at top to prevent scrollbars. (nevcairiel)
+- AceHook-3.0: ACE-162: fix unhooking of objects that were not actually hooked (nevcairiel)
+- AceDB-3.0: fire the DB callbacks after the namespaces changed their profile as well (nevcairiel)
+- AceDB-3.0: namespaces can now be individually reset using :ResetProfile() on the namespace directly (nevcairiel)
+- AceDB-3.0: added a optional argument to :ResetProfile to not populate the reset to all namespaces (so the main profile can reset individually without reseting all namespaces too)  (nevcairiel)
+
+Ace3 Beta - Revision 66329 (March 27th, 2008)
+---------------------------------------------
+- Overall 2.4 clean ups - removing 2.4 checks and work arounds (nevcairiel)
+- AceBucket-3.0: clear the timer reference when unregistering a bucket to prevent a error when unregistering a bucket that was never fired (nevcairiel)
+- AceAddon-3.0: Bugfix when enabling/disabling modules from the parents OnEnable after disabling / enabling the parent addon. (ammo)
+- AceGUI-3.0: Don't parent the BlizOptionsGroup widget to UIParent and Hide it by default. Fixes stray controls on the screen. (nargiddley)
+- AceConfigDialog-3.0: Config windows without a default size won't incorrectly get a default size from a previously open window. (nargiddley)
+- AceDBOptions-3.0: added zhCN and zhTW locale (nevcairiel)
+
+Ace3 Beta - Revision 65665 (March 25th, 2008)
+---------------------------------------------
+- AceGUI-3.0: ACE-139: Changed all Widgets to resemble the Blizzard 2.4 Options Style (nevcairiel)
+- AceGUI-3.0: Fixed "List"-Layout not reporting new width to "fill"-mode widgets (mikk)
+- AceGUI-3.0: added :SetColor to the Label widget (nevcairiel)
+- AceGUI-3.0: ACE-132: ColorPicker: added checkers texture for better alpha channel display, and fixed "white"-texture bug (nevcairiel,nargiddley,ammo)
+- AceConfig-3.0: ACE-113: Added uiName, uiType, handler, option, type to the info table (nevcairiel,nargiddley)
+- AceConfigDialog-3.0: ACE-139: Adjusted for 2.4 options panels (nevcairiel)
+- AceConfigDialog-3.0: Use "width" parameter for the description widget (if present) (nevcairiel)
+- AceConfigDialog-3.0: ACE-135: Add support for specifying a rowcount for multiline editboxes (nargiddley)
+- AceConfigDialog-3.0: :AddToBlizOptions will return the frame registered so you can use it in InterfaceOptionsFrame_OpenToFrame (nevcairiel)
+- AceConfigCmd-3.0: handle "hidden" in help-output (nevcairiel)
+- AceHook-3.0: fix unhooking of secure hooks (nevcairiel)
+- AceDBOptions-3.0: add optional argument to GetOptionsTable(db[, noDefaultProfiles]) - if set to true will not show the default profiles in the profile selection (nevcairiel)
+- AceDBOptions-3.0: added koKR locale (nevcairiel)
+- Ace3 Standalone: Removed the "Ace3" Category from the 2.4 options panel (nevcairiel)
+
+Ace3 Beta - Revision 64176 (March 10th, 2008)
+---------------------------------------------
+- AceGUI-3.0: Improve Alpha handling for the ColorPicker widget, ColorPicker widget closes the ColorPickerFrame before opening to prevent values getting carried over (nargiddley)
+- AceGUI-3.0: The Slider widget will only react to the mousewheel after it has been clicked (anywhere including the label) to prevent accidental changes to the value when trying to scroll the container it is in (nargiddley)
+- AceGUI-3.0: The TreeGroup widget is scrollable with the mousewheel (nargiddley)
+- AceGUI-3.0: ACE-154: Fix frame levels in more cases to prevent widgets ending up behind their containers (nargiddley)
+- AceConfigDialog: Color picker obeys hasAlpha on the color type (nargiddley)
+- AceConfigDialog-3.0: ACE-155: Make sure that the selected group is type='group' when checking if it exists (nargiddley)
+- AceDBOptions-3.0: added frFR locale (nevcairiel)
+
+Ace3 Beta - Revision 63886 (March 8th, 2008)
+---------------------------------------------
+- AceDBOptions-3.0: new library to provide a Ace3Options table to control the AceDB-3.0 profiles (nevcairiel)
+- AceDB-3.0: add "silent" option to DeleteProfile and CopyProfile when we deal with namespaces (nevcairiel)
+- AceDB-3.0: implement library upgrade path (nevcairiel)
+- AceDB-3.0: ACE-146: fix problem with non-table values overruling ['*']-type defaults (nevcairiel)
+- AceConsole-3.0: treat |T|t texture links similar to |H|h|h links. (ammo)
+- AceGUI-3.0: Use Blizzard Templates for the EditBox and DropDown widget (nevcairiel)
+- AceBucket-3.0: ACE-150: callback is now optional, if not supplied will use the eventname as method name (only possible if one event is supplied, and not a event table) (nevcairiel)
+- tests: adjust tests for AceGUI and AceConsole changes (nevcairiel)
+
+Ace3 Beta - Revision 63220 (Feb 29th, 2008)
+---------------------------------------------
+- AceTimer-3.0: CancelAllTimers() now cancels silent (elkano)
+- AceConfigDialog: Add :SetDefaultSize(appName, width, height), sets the size the dialog will open to. Does not effect already open windows.  (nargiddley)
+- AceConfigDialog: Fix typo in type check for range values (nargiddley)
+- AceGUI: ColorPicker widget will correctly fire OnValueChanged for the cancel event of the colorpicker popup.  Reset ColorPicker's color on Acquire.  (nargiddley)
+- AceGUI: Fix Spelling of Aquire -> Acquire for widgets, all custom widgets will need to be updated.  A warning will be printed for widgets not upgraded yet.  (nargiddley)
+- AceConfigCmd-3.0: add simple coloring to slashcommand output. (ammo)
+- AceConsole-3.0: add some color to :Print (ammo)
+- AceAddon-3.0: set error level on library embedding to point to the :NewAddon call (nevcairiel)
+
+Ace3 Beta - Revision 62182 (Feb 20th, 2008)
+---------------------------------------------
+- Ace3 StandAlone: Add a page to the Blizzard 2.4 Interface Options with icons to open dialogs for configs registered when installed standalone (nargiddley)
+- AceConfigDialog: type = 'description' now uses the fields image and imageCoords instead of icon and iconCoords, add imageWidth and imageHeight (nargiddley)
+- AceConfigDialog: Add :AddToBlizzardOptions(appName, name), this will add the specified config to the Blizzard Options pane new in 2.4.  This will only be available if running on the 2.4 PTR (nargiddley)
+- AceDB: fix GetProfiles() when setting the same profile twice (nevcairiel)
+- AceDB: bail out of :SetProfile early when trying to set to the same profile (nevcairiel)
+- AceDB: add nil checks to metatable handling (nevcairiel)
+- AceDB: clear tables that are empty after defaults removal (nevcairiel)
+- AceGUI: Fix a couple of layout bugs causing the width of groups to be wrong (nargiddley)
+- AceGUI: Add Icon widget (nargiddley)
+- AceGUI: Allow room for the border in the BlizOptionsGroup widget (nargiddley)
+- AceGUI: Button and Keybinding use UIPanelButtonTemplate2 (nargiddley)
+- AceConsole-3.0: Fix bug where no table for [self] was created when registering weak commands (ammo)
+- AceTimer-3.0: add missing :OnEmbedDisable (ammo)
+- AceAddon-3.0: added :GetName() that will always return the "real" name of a addon or module object without any prefixes (nevcairiel)
+
+Ace3 Beta - Revision 60697 (Feb 9th, 2008)
+---------------------------------------------
+- CallbackHandler-1.0: remove unnecessary table creation if a event is fired thats not registered (nevcairiel)
+- AceAddon-3.0: fixed a bug with recursive addon loading (nevcairiel)
+- AceGUI: Update TabGroup's tablist format, tabs are selected by value not index (nargiddley)
+- AceGUI: Add MultiLineEditBox widget (nargiddley, originally by bam)
+- AceGUI: Small fix to the flow layout preventing controls overlapping in some cases (nargiddley)
+- AceConfigDialog: Implement control and dialogControl for types 'input' and 'select' (nargiddley)
+- AceConfigDialog: Add support for multiline = true on type = 'input' (nargiddley)
+- AceConfigDialog: Fix an error when all groups are hidden in a group with childGroups = 'select' (nargiddley)
+- AceConfigDialog: type = 'description' will now show .icon as an image with its text (nargiddley)
+- AceConfigDialog: multiline inputs are no longer forced to width = "full" (nargiddley)
+- AceConfigDialog: bug fix when loading without AceConsole present (nevcairiel)
+
+Ace3 Beta - Revision 60545 (Feb 7th, 2008)
+---------------------------------------------
+- AceGUI: SetToplevel(true) for the Frame widget, multiple open windows should play nice together now (nargiddley)
+- AceGUI: Move Frames to the FULLSCREEN_DIALOG strata (nargiddley)
+- AceGUI: Dropdown, Editbox and Keybinding labels grey out when disabled (nargiddley)
+- AceGUI: Add OnClick callback to the TreeGroup widget (nargiddley)
+- AceConfigDialog: Confirm popups will be above the config window (nargiddley)
+
+Ace3 Beta - Revision 60163 (Feb 3rd, 2008)
+---------------------------------------------
+- Initial Beta release

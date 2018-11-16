@@ -1,0 +1,5 @@
+<Bindings>
+	<Binding name="RELOADUI" description="Reloads the UI." header="ACE3" category="ADDONS">
+		ReloadUI()
+	</Binding>
+</Bindings>

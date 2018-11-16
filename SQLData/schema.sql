@@ -1,2 +1,0 @@
-CREATE DATABASE  IF NOT EXISTS `questie` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `questie`;

@@ -1,0 +1,18 @@
+## Interface: 80000
+
+## Title: TradeShout
+## Notes: Helps announce your guild recruitment information to Trade and LFG channels.
+
+## Version: 3.4
+
+## Author: Logon
+
+## SavedVariables: TradeShoutDB
+## OptionalDeps: Ace3, LibDataBroker-1.1, LibCompress
+
+
+#@no-lib-strip@
+embeds.xml
+#@end-no-lib-strip@
+
+TradeShout.lua
