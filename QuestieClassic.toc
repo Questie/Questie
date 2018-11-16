@@ -7,7 +7,7 @@
 
 ## Author: Logon + More to come!
 
-## SavedVariables: QuestieClassic
+## SavedVariables: QuestieClassicDB
 ## OptionalDeps: Ace3, LibDataBroker-1.1, LibCompress
 
 
