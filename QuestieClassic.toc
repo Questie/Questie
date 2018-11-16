@@ -18,4 +18,6 @@ Libs\HereBeDragons\HereBeDragons-Pins-2.0.lua
 #@end-no-lib-strip@
 
 Modules\QuestieMap.lua
+Modules\QuestieFramePool.lua
+## Modules\QuestieFrameQuest.lua
 QuestieClassic.lua

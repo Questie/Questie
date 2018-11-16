@@ -185,15 +185,15 @@ function Questie:OnInitialize()
 	--glooobball = HBD:GetAllMapIDs()
 	Questie:Print(HBD:GetAllMapIDs())
 	Questie:Print(GetWorldContinentFromZone(getPlayerZone()))
-	local f = CreateFrame("Frame",nil,nil)
-	f:SetWidth(16) -- Set these to whatever height/width is needed
-	f:SetHeight(16) -- for your Texture
-	local t = f:CreateTexture(nil,"TOOLTIP")
-	t:SetTexture("Interface\\Icons\\INV_Misc_Eye_02.blp")
-	t:SetAllPoints(f)
-	t:SetWidth(16)
-	t:SetHeight(16)
-	HBDPins:AddMinimapIconWorld(Questie, t, 0, x, y, true)
+
+	Note = QuestieFrame:GetFrame();
+	--THIS WILL BE MOVED!!!
+	Note.QuestID = 1337
+	--Note.NoteType = NoteType --MiniMapNote or WorldMapNote, Will be moved!
+	--Note.IconType = type;
+	--Note.questHash = questHash;
+	--Note.objectiveid = objectiveid;
+		HBDPins:AddMinimapIconWorld(Questie, Note, 0, x, y, true)
 
 	--Questie.db.QuestieFrame = AceGUI:Create("Frame")
 	--Questie.db.global.lastmessage = 0
