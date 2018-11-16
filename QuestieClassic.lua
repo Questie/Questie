@@ -1,9 +1,11 @@
 
 Questie = LibStub("AceAddon-3.0"):NewAddon("Questie", "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0", "AceComm-3.0", "AceSerializer-3.0")
+
 local LibC = LibStub:GetLibrary("LibCompress")
 local LibCE = LibC:GetAddonEncodeTable()
 local AceGUI = LibStub("AceGUI-3.0")
 local HBD = LibStub("HereBeDragons-2.0")
+local HBDPins = LibStub("HereBeDragons-Pins-2.0")
 
 debug = false
 send = true
@@ -24,8 +26,28 @@ local function SetGlobalOptionLocal(info, value)
 end
 
 
+local function getPlayerContinent()
+    local mapID = C_Map.GetBestMapForUnit("player")
+    if(mapID) then
+        local info = C_Map.GetMapInfo(mapID)
+        if(info) then
+            while(info['mapType'] and info['mapType'] > 2) do
+                info = C_Map.GetMapInfo(info['parentMapID'])
+            end
+            if(info['mapType'] == 2) then
+                return info['mapID']
+            end
+        end
+    end
+end
 
+local function getPlayerZone()
+	return C_Map.GetBestMapForUnit("player");
+end
 
+local function getWorldMapZone()
+	return WorldMapFrame:GetMapID();
+end
 
 function Questie:OnUpdate()
 
@@ -39,6 +61,7 @@ function Questie:MySlashProcessorFunc(input)
 	--Questie:Print(ChatFrame1, "Hello, World!")
 	--SetMessage("test", "test")
 		Questie:Print("MySlashProcessorFunc!");
+
   -- Process the slash command ('input' contains whatever follows the slash command)
 
 end
@@ -143,12 +166,35 @@ end
 	}
 }]]--
 
+
+glooobball = ""
+
 function Questie:OnInitialize()
 	Questie:RegisterChatCommand("questieclassic", "MySlashProcessorFunc")
 	Questie:RegisterChatCommand("test", "SlashTest")
 	Questie:RegisterChatCommand("qc", "MySlashProcessorFunc")
 	self.db = LibStub("AceDB-3.0"):New("QuestieDB", defaults, true)
-	Questie:Print(HBD:GetPlayerWorldPosition());
+
+
+	x, y, z = HBD:GetPlayerWorldPosition();
+	Questie:Print("XYZ:", x, y, z, "Zone: "..getPlayerZone(), "Cont: "..getPlayerContinent());
+	--Questie:Print(HBD:GetWorldCoordinatesFromAzerothWorldMap(x, y, ));
+	mapX, mapY = HBD:GetAzerothWorldMapCoordinatesFromWorld(x, y, 0);
+	Questie:Print(mapX, mapY);
+	glooobball = C_Map.GetMapInfo(1)
+	--glooobball = HBD:GetAllMapIDs()
+	Questie:Print(HBD:GetAllMapIDs())
+	Questie:Print(GetWorldContinentFromZone(getPlayerZone()))
+	local f = CreateFrame("Frame",nil,nil)
+	f:SetWidth(16) -- Set these to whatever height/width is needed
+	f:SetHeight(16) -- for your Texture
+	local t = f:CreateTexture(nil,"TOOLTIP")
+	t:SetTexture("Interface\\Icons\\INV_Misc_Eye_02.blp")
+	t:SetAllPoints(f)
+	t:SetWidth(16)
+	t:SetHeight(16)
+	HBDPins:AddMinimapIconWorld(Questie, t, 0, x, y, true)
+
 	--Questie.db.QuestieFrame = AceGUI:Create("Frame")
 	--Questie.db.global.lastmessage = 0
 	--LibStub("AceConfig-3.0"):RegisterOptionsTable("Questie", options)
