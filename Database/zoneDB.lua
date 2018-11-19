@@ -1,3 +1,29 @@
+
+QuestieDBZone = {...}
+
+--Dumps MAPIDs
+function savefunc()
+  Questie.db.global.mapsName = {}
+  Questie.db.global.mapsID = {}
+  for i, ID in ipairs(HBD:GetAllMapIDs()) do
+    Questie.db.global.mapsName[HBD:GetLocalizedMap(ID)] = ID
+    Questie.db.global.mapsID[tostring(ID)] = HBD:GetLocalizedMap(ID)
+  end
+end
+
+
+function QuestieDBZone:zoneCreateConvertion()
+	for RKey, RValue in pairs(zoneDataRetail) do
+		for CKey, CName in pairs(zoneDataClassic) do
+			if(RValue[1] == CName) then
+				zoneDataRetailToClassic[CKey] = RKey
+				zoneDataClassicToRetail[RKey] = CKey
+			end
+		end
+	end
+end
+
+
 zoneDataClassic = { --AreaTable IDs
 	[1] = 'Dun Morogh',
 	[3] = 'Badlands',
@@ -81,6 +107,105 @@ zoneDataClassic = { --AreaTable IDs
 	[3456] = 'Naxxramas',
 	[7307] = 'Upper Blacrock Spire',
 }
+
+zoneDataRetailToClassic = { } --Get generated [Retail] = Classic
+zoneDataClassicToRetail = { } --Get generated [Classic] = Retail
+
+--Got it from https://wow.gamepedia.com/UiMapID use excel to sort.
+
+zoneDataRetail = { --Name, Type (Zone, Dungeon, Orphan, Micro), Parent
+	[1] = {"Durotar", "Zone", "Kalimdor"},
+	[7] = {"Mulgore", "Zone", "Kalimdor"},
+	[10] = {"Northern Barrens", "Zone", "Kalimdor"},
+	[12] = {"Kalimdor", "Continent", "Azeroth"},
+	[13] = {"Eastern Kingdoms", "Continent", "Azeroth"},
+	[14] = {"Arathi Highlands", "Zone", "Eastern Kingdoms"},
+	[15] = {"Badlands", "Zone", "Eastern Kingdoms"},
+	[17] = {"Blasted Lands", "Zone", "Eastern Kingdoms"},
+	[18] = {"Tirisfal Glades", "Zone", "Eastern Kingdoms"},
+	[21] = {"Silverpine Forest", "Zone", "Eastern Kingdoms"},
+	[22] = {"Western Plaguelands", "Zone", "Eastern Kingdoms"},
+	[23] = {"Eastern Plaguelands", "Zone", "Eastern Kingdoms"},
+	[25] = {"Hillsbrad Foothills", "Zone", "Eastern Kingdoms"},
+	[26] = {"The Hinterlands", "Zone", "Eastern Kingdoms"},
+	[27] = {"Dun Morogh", "Zone", "Eastern Kingdoms"},
+	[32] = {"Searing Gorge", "Zone", "Eastern Kingdoms"},
+	[36] = {"Burning Steppes", "Zone", "Eastern Kingdoms"},
+	[37] = {"Elwynn Forest", "Zone", "Eastern Kingdoms"},
+	[42] = {"Deadwind Pass", "Zone", "Eastern Kingdoms"},
+	[47] = {"Duskwood", "Zone", "Eastern Kingdoms"},
+	[48] = {"Loch Modan", "Zone", "Eastern Kingdoms"},
+	[49] = {"Redridge Mountains", "Zone", "Eastern Kingdoms"},
+	[51] = {"Swamp of Sorrows", "Zone", "Eastern Kingdoms"},
+	[52] = {"Westfall", "Zone", "Eastern Kingdoms"},
+	[56] = {"Wetlands", "Zone", "Eastern Kingdoms"},
+	[57] = {"Teldrassil", "Zone", "Kalimdor"},
+	[62] = {"Darkshore", "Zone", "Kalimdor"},
+	[63] = {"Ashenvale", "Zone", "Kalimdor"},
+	[64] = {"Thousand Needles", "Zone", "Kalimdor"},
+	[65] = {"Stonetalon Mountains", "Zone", "Kalimdor"},
+	[66] = {"Desolace", "Zone", "Kalimdor"},
+	[69] = {"Feralas", "Zone", "Kalimdor"},
+	[70] = {"Dustwallow Marsh", "Zone", "Kalimdor"},
+	[71] = {"Tanaris", "Zone", "Kalimdor"},
+	[76] = {"Azshara", "Zone", "Kalimdor"},
+	[77] = {"Felwood", "Zone", "Kalimdor"},
+	[78] = {"Un'Goro Crater", "Zone", "Kalimdor"},
+	[80] = {"Moonglade", "Zone", "Kalimdor"},
+	[81] = {"Silithus", "Zone", "Kalimdor"},
+	[83] = {"Winterspring", "Zone", "Kalimdor"},
+	[84] = {"Stormwind City", "Zone", "Eastern Kingdoms"},
+	[87] = {"Ironforge", "Zone", "Eastern Kingdoms"},
+	[88] = {"Thunder Bluff", "Zone", "Kalimdor"},
+	[89] = {"Darnassus", "Zone", "Kalimdor"},
+	[90] = {"Undercity", "Zone", "Eastern Kingdoms"},
+	[94] = {"Eversong Woods", "Zone", "Eastern Kingdoms"},
+	[95] = {"Ghostlands", "Zone", "Eastern Kingdoms"},
+	[97] = {"Azuremyst Isle", "Zone", "Kalimdor"},
+	[103] = {"The Exodar", "Zone", "Kalimdor"},
+	[106] = {"Bloodmyst Isle", "Zone", "Kalimdor"},
+	[110] = {"Silvermoon City", "Zone", "Eastern Kingdoms"},
+	[113] = {"Northrend", "Continent", "Azeroth"},
+	[122] = {"Isle of Quel'Danas", "Zone", "Eastern Kingdoms"},
+	[179] = {"Gilneas", "Zone", "Eastern Kingdoms"},
+	[198] = {"Mount Hyjal", "Zone", "Kalimdor"},
+	[199] = {"Southern Barrens", "Zone", "Kalimdor"},
+	[203] = {"Vashj'ir", "Zone", "Eastern Kingdoms"},
+	[217] = {"Ruins of Gilneas", "Zone", "Eastern Kingdoms"},
+	[224] = {"Stranglethorn Vale", "Zone", "Eastern Kingdoms"},
+	[241] = {"Twilight Highlands", "Zone", "Eastern Kingdoms"},
+	[244] = {"Tol Barad", "Zone", "Eastern Kingdoms"},
+	[245] = {"Tol Barad Peninsula", "Zone", "Eastern Kingdoms"},
+	[249] = {"Uldum", "Zone", "Kalimdor"},
+	[424] = {"Pandaria", "Continent", "Azeroth"},
+	[619] = {"Broken Isles", "Continent", "Azeroth"},
+	[775] = {"The Exodar", "Zone", "Kalimdor"},
+	[875] = {"Zandalar", "Continent", "Azeroth"},
+	[876] = {"Kul Tiras", "Continent", "Azeroth"},
+	[948] = {"The Maelstrom", "Continent", "Azeroth"},
+	[218] = {"Ruins of Gilneas City", "Orphan", "Eastern Kingdoms"},
+	[327] = {"Ahn'Qiraj: The Fallen Kingdom", "Orphan", "Kalimdor"},
+	[378] = {"The Wandering Isle", "Orphan", "Azeroth"},
+	[407] = {"Darkmoon Island", "Orphan", "Azeroth"},
+	[524] = {"Battle on the High Seas", "Orphan", "Kalimdor"},
+	[773] = {"Tol Barad", "Orphan", "Eastern Kingdoms"},
+	[776] = {"Azuremyst Isle", "Orphan", "Kalimdor"},
+	[824] = {"Islands", "Orphan", "Azeroth"},
+	[906] = {"Arathi Highlands", "Orphan", "Eastern Kingdoms"},
+	[907] = {"Seething Shore", "Orphan", "Kalimdor"},
+	[908] = {"Ruins of Lordaeron", "Orphan", "Eastern Kingdoms"},
+	[938] = {"Gilneas Island", "Orphan", "Azeroth"},
+	[939] = {"Tropical Isle 8.0", "Orphan", "Azeroth"},
+	[943] = {"Arathi Highlands", "Orphan", "Eastern Kingdoms"},
+	[981] = {"Un'gol Ruins", "Orphan", "Azeroth"},
+	[1012] = {"Stormwind City", "Orphan", "Eastern Kingdoms"},
+	[1013] = {"The Stockade", "Orphan", "Eastern Kingdoms"},
+	[1044] = {"Arathi Highlands", "Orphan", "Eastern Kingdoms"},
+	[1156] = {"The Great Sea", "Orphan", "Azeroth"},
+	[1157] = {"The Great Sea", "Orphan", "Azeroth"}
+}
+
+
 
 zoneLevelList = {{1, 1, 10},
                  {3, 35, 45},
