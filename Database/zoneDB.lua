@@ -82,7 +82,7 @@ zoneDataClassic = { --AreaTable IDs
 	[7307] = 'Upper Blacrock Spire',
 }
 
-zoneLevelList = {{1, 1, 10}, --Gets rebuilt! [ZoneID] = {Min, max}
+zoneLevelList = {{1, 1, 10},
                  {3, 35, 45},
                  {4, 45, 55},
                  {8, 35, 45},

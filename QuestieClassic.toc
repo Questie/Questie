@@ -17,12 +17,17 @@ Libs\HereBeDragons\HereBeDragons-2.0.lua
 Libs\HereBeDragons\HereBeDragons-Pins-2.0.lua
 #@end-no-lib-strip@
 
-Database\objectDB.lua
+#Databases
 Database\questDB.lua
+Database\objectDB.lua
 Database\spawnDB.lua
 Database\zoneDB.lua
+Database\itemDB.lua
 
+#Modules
 Modules\QuestieMap.lua
 Modules\QuestieFramePool.lua
 Modules\QuestieQuest.lua
+
+#Main
 QuestieClassic.lua
