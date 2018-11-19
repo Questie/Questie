@@ -23,7 +23,6 @@ local function SetGlobalOptionLocal(info, value)
 	if debug and Questie.db.global[info[#info]] ~= value then
 		Questie:Printf("DEBUG: global option %s changed from '%s' to '%s'", info[#info], tostring(Questie.db.global[info[#info]]), tostring(value))
 	end
-
 	Questie.db.global[info[#info]] = value
 end
 
@@ -140,6 +139,7 @@ local options = {
 								return Questie.db.char.lowlevel
 							end,
 					set =	function (info, value)
+								QuestieDBQuest:CalculateAvailableQuests()
 								Questie.db.char.lowlevel = value
 							end,
 				},
@@ -153,7 +153,10 @@ local options = {
 					max = 10,
 					step = 1,
 					get = GetGlobalOptionLocal,
-					set = SetGlobalOptionLocal,
+					set = function (info, value)
+								QuestieDBQuest:CalculateAvailableQuests()
+								SetGlobalOptionLocal(info, value)
+							end,
 				},
 				maxLevelFilter = {
 					type = "range",
@@ -165,7 +168,10 @@ local options = {
 					max = 10,
 					step = 1,
 					get = GetGlobalOptionLocal,
-					set = SetGlobalOptionLocal,
+					set = function (info, value)
+								QuestieDBQuest:CalculateAvailableQuests()
+								SetGlobalOptionLocal(info, value)
+							end,
 				},
 				arrow_options = {
 					type = "header",
@@ -197,6 +203,7 @@ local defaults = {
 glooobball = ""
 Note = nil
 function Questie:OnInitialize()
+	Questie:RegisterEvent("PLAYER_ENTERING_WORLD", PLAYER_ENTERING_WORLD)
 	Questie:RegisterChatCommand("questieclassic", "MySlashProcessorFunc")
 	Questie:RegisterChatCommand("test", "SlashTest")
 	Questie:RegisterChatCommand("qc", "MySlashProcessorFunc")
@@ -224,10 +231,10 @@ function Questie:OnInitialize()
 	--HBDPins:AddMinimapIconWorld(Questie, Note, 0, x, y, true)
 	HBDPins:AddWorldMapIconWorld(Questie, Note, 0, x, y, HBD_PINS_WORLDMAP_SHOW_WORLD)
 
-	--QuestieFrame = AceGUI:Create("Frame")
+	QuestieFrame = AceGUI:Create("Frame")
 	--Questie.db.global.lastmessage = 0
 	LibStub("AceConfig-3.0"):RegisterOptionsTable("Questie", options)
-	--QuestieFrame2 = LibStub("AceConfigDialog-3.0"):Open("Questie", QuestieFrame)
+	QuestieFrame2 = LibStub("AceConfigDialog-3.0"):Open("Questie", QuestieFrame)
 
 
 	--QuestieFrame:SetTitle("Example frame")
@@ -240,4 +247,22 @@ function Questie:OnInitialize()
   -- Code that you want to run when the addon is first loaded goes here.
   --Questie:Print("Hello, world!")
   --self:RegisterChatCommand("Questie", "ChatCommand")
+
+
+end
+
+function PLAYER_ENTERING_WORLD()
+	QuestieDB:Initialize()
+	QuestieQuest:CalculateAvailableQuests()
+end
+
+
+function Questie:Debug(...)
+	if(debug) then
+		Questie:Print("DEBUG:", ...)
+	end
+end
+
+function Questie:debug(...)
+	Questie:Debug(...)
 end
