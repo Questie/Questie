@@ -16,17 +16,27 @@ function QuestieQuest:DrawAvailableQuests()--All quests between
         if(NPC ~= nil) then
           --Questie:Debug(NPCID)
           for Zone, Spawns in pairs(NPC.Spawns) do
-            if(Zone == 1) then
-              Questie:Debug("Zone", Zone)
-              Questie:Debug("Qid:", questid)
+            if(Zone ~= nil) then
+              --Questie:Debug("Zone", Zone)
+              --Questie:Debug("Qid:", questid)
               for _, coords in ipairs(Spawns) do
-                Questie:Debug("Coords", coords[1], coords[2])
-                local Note = QuestieFramePool:GetFrame()
-                Note.data.QuestData = Quest;
-                Note.data.Starter = NPC;
-                Questie:Debug("Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[Zone])
-                --HBDPins:AddWorldMapIconMap(Questie, Note, zoneDataAreaIDToUiMapID[Zone], coords[1]/100, coords[2]/100, HBD_PINS_WORLDMAP_SHOW_WORLD)
-                QuestieMap:DrawWorldIcon(Note, Zone, coords[1], coords[2])
+                --Questie:Debug("Coords", coords[1], coords[2])
+                local data = {}
+                data.ID = questid
+                data.QuestData = Quest;
+                data.Starter = NPC;
+                if(coords[1] == -1 or coords[2] == -1) then
+                  if(instanceData[Zone] ~= nil) then
+                    for index, value in ipairs(instanceData[Zone]) do
+                      Questie:Debug("Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[value[1]])
+                      QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
+                    end
+                  end
+                else
+                  Questie:Debug("Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[Zone])
+                  --HBDPins:AddWorldMapIconMap(Questie, Note, zoneDataAreaIDToUiMapID[Zone], coords[1]/100, coords[2]/100, HBD_PINS_WORLDMAP_SHOW_WORLD)
+                  QuestieMap:DrawWorldIcon(data, Zone, coords[1], coords[2])
+                end
               end
             end
           end
@@ -48,7 +58,7 @@ function QuestieQuest:CalculateAvailableQuests()
   for i, v in pairs(qData) do
     if(MinLevel >= v[DB_MIN_LEVEL]) then
       table.insert(qAvailableQuests, i)
-    elseif(MaxLevel >= v[DB_MIN_LEVEL]) then
+    elseif(MaxLevel >= v[DB_MIN_LEVEL] and MaxLevel >= v[DB_LEVEL]) then --MaxLevel >= v[DB_LEVEL] Hides lvl 60 quests if you are not close, some are pretty stupid to show such as 1-60 range quests
       table.insert(qAvailableQuests, i)
     elseif(MaxLevel >= v[DB_MIN_LEVEL] and Questie.db.char.lowlevel) then
       table.insert(qAvailableQuests, i)
