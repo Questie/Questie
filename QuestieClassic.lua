@@ -12,6 +12,13 @@ HBDPins = LibStub("HereBeDragons-Pins-2.0")
 HBDMigrate = LibStub("HereBeDragons-Migrate")
 
 debug = true
+debuglevel = 5 --1 Critical, 2 ELEVATED, 3 Info, 4, Develop, 5 SPAM THAT SHIT YO
+DEBUG_CRITICAL = "|cff00f2e6[CRITICAL]|r"
+DEBUG_ELEVATED = "|cffebf441[ELEVATED]|r"
+DEBUG_INFO = "|cff00bc32[INFO]|r"
+DEBUG_DEVELOP = "|cff7c83ff[DEVELOP]|r"
+DEBUG_SPAM = "|cffff8484[SPAM]|r"
+
 
 -- get option value
 local function GetGlobalOptionLocal(info)
@@ -204,6 +211,7 @@ local defaults = {
 glooobball = ""
 Note = nil
 function Questie:OnInitialize()
+	Questie:Debug(DEBUG_CRITICAL, "Questie addon loaded")
 	Questie:RegisterEvent("PLAYER_ENTERING_WORLD", PLAYER_ENTERING_WORLD)
 	Questie:RegisterChatCommand("questieclassic", "MySlashProcessorFunc")
 	Questie:RegisterChatCommand("test", "SlashTest")
@@ -212,14 +220,14 @@ function Questie:OnInitialize()
 
 
 	--WILL ERROR; Run with reloadui!
-	x, y, z = HBD:GetPlayerWorldPosition();
-	Questie:Print("XYZ:", x, y, z, "Zone: "..getPlayerZone(), "Cont: "..getPlayerContinent());
+	--x, y, z = HBD:GetPlayerWorldPosition();
+	--Questie:Print("XYZ:", x, y, z, "Zone: "..getPlayerZone(), "Cont: "..getPlayerContinent());
 	--Questie:Print(HBD:GetWorldCoordinatesFromAzerothWorldMap(x, y, ));
-	mapX, mapY = HBD:GetAzerothWorldMapCoordinatesFromWorld(x, y, 0);
-	Questie:Print(mapX, mapY);
-	glooobball = C_Map.GetMapInfo(1)
+	--mapX, mapY = HBD:GetAzerothWorldMapCoordinatesFromWorld(x, y, 0);
+	--Questie:Print(mapX, mapY);
+	--glooobball = C_Map.GetMapInfo(1)
 	--glooobball = HBD:GetAllMapIDs()
-	Questie:Print(HBD:GetAllMapIDs())
+	--Questie:Print(HBD:GetAllMapIDs())
 	--Questie:Print(GetWorldContinentFromZone(getPlayerZone()))
 
 
@@ -246,6 +254,7 @@ function Questie:OnInitialize()
 end
 
 function PLAYER_ENTERING_WORLD()
+	Questie:Debug(DEBUG_ELEVATED, "Player entered world")
 	QuestieDB:Initialize()
 	QuestieQuest:CalculateAvailableQuests()
 
@@ -268,16 +277,28 @@ function PLAYER_ENTERING_WORLD()
 end
 
 function Questie:Error(...)
-	Questie:Print("|cffff0000ERROR:", ...)
+	Questie:Print("|cffff0000ERROR:|r", ...)
 end
 
 function Questie:error(...)
 	Questie:Error(...)
 end
 
+--debuglevel = 5 --1 Critical, 2 ELEVATED, 3 Info, 4, Develop, 5 SPAM THAT SHIT YO
+--DEBUG_CRITICAL = "1DEBUG"
+--DEBUG_ELEVATED = "2DEBUG"
+--DEBUG_INFO = "3DEBUG"
+--DEBUG_DEVELOP = "4DEBUG"
+--DEBUG_SPAM = "5DEBUG"
+
 function Questie:Debug(...)
 	if(debug) then
-		Questie:Print("DEBUG:", ...)
+		if(debuglevel < 5 and arg[1] == DEBUG_SPAM)then return; end
+		if(debuglevel < 4 and arg[1] == DEBUG_DEVELOP)then return; end
+		if(debuglevel < 3 and arg[1] == DEBUG_INFO)then return; end
+		if(debuglevel < 2 and arg[1] == DEBUG_ELEVATED)then return; end
+		if(debuglevel < 1 and arg[1] == DEBUG_CRITICAL)then return; end
+		Questie:Print(...)
 	end
 end
 
