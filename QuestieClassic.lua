@@ -9,6 +9,7 @@ local LibCE = LibC:GetAddonEncodeTable()
 local AceGUI = LibStub("AceGUI-3.0")
 HBD = LibStub("HereBeDragons-2.0")
 HBDPins = LibStub("HereBeDragons-Pins-2.0")
+HBDMigrate = LibStub("HereBeDragons-Migrate")
 
 debug = true
 
@@ -219,22 +220,15 @@ function Questie:OnInitialize()
 	glooobball = C_Map.GetMapInfo(1)
 	--glooobball = HBD:GetAllMapIDs()
 	Questie:Print(HBD:GetAllMapIDs())
-	Questie:Print(GetWorldContinentFromZone(getPlayerZone()))
+	--Questie:Print(GetWorldContinentFromZone(getPlayerZone()))
 
-	Note = QuestieFrame:GetFrame();
-	--THIS WILL BE MOVED!!!
-	Note.data.QuestID = 1337
-	--Note.data.data..NoteType = NoteType --MiniMapNote or WorldMapNote, Will be moved!
-	--Note.data.IconType = type;
-	--Note.data.questHash = questHash;
-	--Note.data.objectiveid = objectiveid;
-	--HBDPins:AddMinimapIconWorld(Questie, Note, 0, x, y, true)
-	HBDPins:AddWorldMapIconWorld(Questie, Note, 0, x, y, HBD_PINS_WORLDMAP_SHOW_WORLD)
 
-	QuestieFrame = AceGUI:Create("Frame")
+
+
+	QuestieFrameOpt = AceGUI:Create("Frame")
 	--Questie.db.global.lastmessage = 0
 	LibStub("AceConfig-3.0"):RegisterOptionsTable("Questie", options)
-	QuestieFrame2 = LibStub("AceConfigDialog-3.0"):Open("Questie", QuestieFrame)
+	QuestieFrame2 = LibStub("AceConfigDialog-3.0"):Open("Questie", QuestieFrameOpt)
 
 
 	--QuestieFrame:SetTitle("Example frame")
@@ -254,8 +248,32 @@ end
 function PLAYER_ENTERING_WORLD()
 	QuestieDB:Initialize()
 	QuestieQuest:CalculateAvailableQuests()
+
+
+	local Note = QuestieFramePool:GetFrame();
+	--THIS WILL BE MOVED!!!
+	Note.data.QuestID = 1337
+	--Note.data.data..NoteType = NoteType --MiniMapNote or WorldMapNote, Will be moved!
+	--Note.data.IconType = type;
+	--Note.data.questHash = questHash;
+	--Note.data.objectiveid = objectiveid;
+	--HBDPins:AddMinimapIconWorld(Questie, Note, 0, x, y, true)
+	--HBDPins:AddWorldMapIconWorld(Questie, Note, 0, x, y, HBD_PINS_WORLDMAP_SHOW_WORLD)
+
+
+	Questie:error(zoneDataAreaIDToUiMapID[1])
+	HBDPins:AddWorldMapIconMap(Questie, Note, 27, 0.5, 0.5, HBD_PINS_WORLDMAP_SHOW_WORLD)
+
+	QuestieQuest:DrawAvailableQuests()
 end
 
+function Questie:Error(...)
+	Questie:Print("|cffff0000ERROR:", ...)
+end
+
+function Questie:error(...)
+	Questie:Error(...)
+end
 
 function Questie:Debug(...)
 	if(debug) then
