@@ -11,25 +11,14 @@ function savefunc()
   Questie.db.global.mapsName = {}
   Questie.db.global.mapsID = {}
   for i, ID in ipairs(HBD:GetAllMapIDs()) do
-    Questie.db.global.mapsName[HBD:GetLocalizedMap(ID)] = ID
-    Questie.db.global.mapsID[tostring(ID)] = HBD:GetLocalizedMap(ID)
+    --Questie.db.global.mapsName[HBD:GetLocalizedMap(ID)] = ID
+    --Questie.db.global.mapsID[tostring(ID)] = HBD:GetLocalizedMap(ID)
   end
 end
 
 
 function QuestieDBZone:zoneCreateConvertion()
-	--[[for RKey, RValue in pairs(zoneDataRetail) do
-		for CKey, CName in pairs(zoneDataClassic) do
-			if(RValue[1] == CName) then
-				zoneDataRetailToClassic[CKey] = RKey
-				zoneDataClassicToRetail[RKey] = CKey
-			end
-		end
-	end]]--
 	for index, Data in ipairs(zoneDataClassicDemo) do
-		--for CKey, CName in pairs(zoneDataClassic) do
---
-		--end
 		local UiMapID = HBDMigrate:GetUIMapIDFromMapAreaId(Data[4])
 		if(UiMapID == nil) then
 			Questie:Error("Map convertion failed! : ", "DataName("..tostring(Data[1])..")","UiMapID("..tostring(UiMapID)..")", "AreaID("..tostring(Data[3])..")", "MapID("..tostring(Data[4])..")")
@@ -37,7 +26,7 @@ function QuestieDBZone:zoneCreateConvertion()
 			zoneDataAreaIDToMapID[Data[3]] = Data[4]
 			zoneDataAreaIDToUiMapID[Data[3]] = UiMapID
 			zoneDataUiMapIDToAreaID[UiMapID] = Data[3]
-			Questie:Debug(Data[1], Data[3], Data[4], UiMapID)
+			Questie:Debug(DEBUG_SPAM, Data[1], Data[3], Data[4], UiMapID)
 		end
 	end
 end
