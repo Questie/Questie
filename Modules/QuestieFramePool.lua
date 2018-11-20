@@ -1,38 +1,46 @@
 QuestieFramePool = {...} -- GLobal Functions
 local _QuestieFramePool = {...} --Local Functions
 local NumberOfFrames = 0
+
+local unusedframes = {}
+
 local allframes = {}
 
 
 
 -- Global Functions --
 function QuestieFramePool:GetFrame()
-	for i, frame in ipairs(allframes) do
-    if(frame.loaded == nil)then
-      frame.loaded = true;
-      return frame
-    end
+	local f = tremove(unusedframes)
+	if not f then
+  	f = _QuestieFramePool:QuestieCreateFrame()
 	end
-  local Note = _QuestieFramePool:QuestieCreateFrame()
-  Note.loaded = true;
-	return Note
+	f.loaded = true;
+	return f
+end
+
+--for i, frame in ipairs(allframes) do
+--	if(frame.loaded == nil)then
+--		return frame
+--	end
+--end
+
+function QuestieFramePool:UnloadAll()
+	Questie:Debug(DEBUG_DEVELOP, "Unloading all frames, count:", #allframes)
+  for i, frame in ipairs(allframes) do
+    _QuestieFramePool:UnloadFrame(frame);
+  end
 end
 
 
 -- Local Functions --
 
-function _QuestieFramePool:UnloadAll()
-  for i, frame in ipairs(allframes) do
-    QuestieFramePool:UnloadFrame(frame);
-  end
-end
-
 --Use FRAME.Unload(FRAME) on frame object to unload!
 function _QuestieFramePool:UnloadFrame(frame)
   HBDPins:RemoveMinimapIcon(Questie, frame);
   HBDPins:RemoveWorldMapIcon(Questie, frame);
-  frame.data.QuestID = nil; -- Just to be safe
+  frame.data = nil; -- Just to be safe
   frame.loaded = nil;
+	table.insert(unusedframes, frame)
 end
 
 function _QuestieFramePool:QuestieCreateFrame()
