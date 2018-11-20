@@ -38,7 +38,7 @@ function QuestieDB:GetQuest(QuestID)
   rawdata = qData[QuestID]
   if(rawdata)then
     QO = {}
-    QO.ID = QuestID --Key
+    QO.Id = QuestID --Key
     QO.Name = rawdata[1] --Name - 1
     QO.Starts = {} --Starts - 2
     QO.Starts["NPC"] = rawdata[2][1] --2.1
@@ -88,7 +88,7 @@ function QuestieDB:GetNPC(NPCID)
   if(rawdata)then
     NPC = {}
     NPC.Type = "NPC" --This can be used to look at which type it is, Gameobject and Items will have the same!
-    NPC.ID = NPCID
+    NPC.Id = NPCID
     NPC.Name = rawdata[DB_NAME]
     NPC.MinHealth = rawdata[DB_MIN_LEVEL_HEALTH]
     NPC.MaxHealth = rawdata[DB_MAX_LEVEL_HEALTH]
