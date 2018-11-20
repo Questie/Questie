@@ -306,11 +306,13 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 						if(QuestieItems[objective]) then
 							GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
 							local logid = Questie:GetQuestIdFromHash(k);
-							QSelect_QuestLogEntry(logid);
-							local desc, typ, done = QGet_QuestLogLeaderBoard(m[1]['objectiveid']);
-							local indx = findLast(desc, ":");
-							local countstr = string.sub(desc, indx+2);
-							GameTooltip:AddLine("   " .. name .. ": " .. countstr, 1, 1, 0.2)
+							if logid then
+								QSelect_QuestLogEntry(logid);
+								local desc, typ, done = QGet_QuestLogLeaderBoard(m[1]['objectiveid']);
+								local indx = findLast(desc, ":");
+								local countstr = string.sub(desc, indx+2);
+								GameTooltip:AddLine("   " .. name .. ": " .. countstr, 1, 1, 0.2)
+							end
 						end
 					end
 				end
