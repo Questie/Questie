@@ -1,43 +1,41 @@
-QuestieFrame = {...} -- GLobal Functions
-local _QuestieFrame = {...} --Local Functions
+QuestieFramePool = {...} -- GLobal Functions
+local _QuestieFramePool = {...} --Local Functions
 local NumberOfFrames = 0
 local allframes = {}
 
 
 
 -- Global Functions --
-function QuestieFrame:GetFrame()
+function QuestieFramePool:GetFrame()
 	for i, frame in ipairs(allframes) do
     if(frame.loaded == nil)then
       frame.loaded = true;
       return frame
     end
 	end
-  local Note = _QuestieFrame:QuestieCreateFrame()
+  local Note = _QuestieFramePool:QuestieCreateFrame()
   Note.loaded = true;
 	return Note
 end
 
 
-
-
 -- Local Functions --
 
-function _QuestieFrame:UnloadAll()
+function _QuestieFramePool:UnloadAll()
   for i, frame in ipairs(allframes) do
-    QuestieFrame:UnloadFrame(frame);
+    QuestieFramePool:UnloadFrame(frame);
   end
 end
 
 --Use FRAME.Unload(FRAME) on frame object to unload!
-function _QuestieFrame:UnloadFrame(frame)
+function _QuestieFramePool:UnloadFrame(frame)
   HBDPins:RemoveMinimapIcon(Questie, frame);
   HBDPins:RemoveWorldMapIcon(Questie, frame);
   frame.data.QuestID = nil; -- Just to be safe
   frame.loaded = nil;
 end
 
-function _QuestieFrame:QuestieCreateFrame()
+function _QuestieFramePool:QuestieCreateFrame()
 	NumberOfFrames = NumberOfFrames + 1
 	local f = CreateFrame("Button","QuestieFrame"..NumberOfFrames,nil)
   f:SetFrameStrata("TOOLTIP");
@@ -54,24 +52,23 @@ function _QuestieFrame:QuestieCreateFrame()
 	--f:SetScript('OnEnter', function() Questie:Print("Enter") end)
 	--f:SetScript('OnLeave', function() Questie:Print("Leave") end)
 
-  f:SetScript("OnEnter", function(self) _QuestieFrame:Questie_Tooltip(self) end); --Script Toolip
+  f:SetScript("OnEnter", function(self) _QuestieFramePool:Questie_Tooltip(self) end); --Script Toolip
   f:SetScript("OnLeave", function() if(WorldMapTooltip) then WorldMapTooltip:Hide() end if(GameTooltip) then GameTooltip:Hide() end end) --Script Exit Tooltip
-  f:SetScript("OnClick", function(self) _QuestieFrame:Questie_Click(self) end);
-  f.Unload = function(frame) _QuestieFrame:UnloadFrame(frame) end;
+  f:SetScript("OnClick", function(self) _QuestieFramePool:Questie_Click(self) end);
+  f.Unload = function(frame) _QuestieFramePool:UnloadFrame(frame) end;
   f.data = {}
 	table.insert(allframes, f)
-  f:Hide();
 	return f
 end
 
 
-function _QuestieFrame:Questie_Tooltip(self)
+function _QuestieFramePool:Questie_Tooltip(self)
   local Tooltip = GameTooltip;
   Tooltip:SetOwner(self, "ANCHOR_CURSOR"); --"ANCHOR_CURSOR" or (self, self)
 
   --TODO Logic for tooltip!
-  Tooltip:AddLine("Tooltip!");
-  Tooltip:AddLine(self.data.QuestID);
+  Tooltip:AddLine("["..self.data.QuestData.Level.."] "..self.data.QuestData.Name);
+  Tooltip:AddLine("Started by: "..self.data.Starter.Name);
   -- Preferably call something outside, keep it "abstract" here
 
 
@@ -79,7 +76,7 @@ function _QuestieFrame:Questie_Tooltip(self)
   Tooltip:Show();
 end
 
-function _QuestieFrame:Questie_Click(self)
+function _QuestieFramePool:Questie_Click(self)
   Questie:Print("Click!");
   --TODO Logic for click!
   -- Preferably call something outside, keep it "abstract" here
