@@ -11,18 +11,27 @@ function QuestieQuest:DrawAvailableQuests()--All quests between
   for i, questid in ipairs(qAvailableQuests) do
     Quest = QuestieDB:GetQuest(questid)
     if(Quest.Starts["NPC"] ~= nil)then
-      Questie:Debug("Qid:", questid)
       for index, NPCID in ipairs(Quest.Starts["NPC"]) do
         NPC = QuestieDB:GetNPC(NPCID)
-        for Zone, Spawns in pairs(NPC.Spawns) do
-          Questie:Debug("Zone", Zone)
-          for _, coords in ipairs(Spawns) do
-            Questie:Debug("Coords", coords[1], coords[2])
+        if(NPC ~= nil) then
+          --Questie:Debug(NPCID)
+          for Zone, Spawns in pairs(NPC.Spawns) do
+            if(Zone == 1) then
+              Questie:Debug("Zone", Zone)
+              Questie:Debug("Qid:", questid)
+              for _, coords in ipairs(Spawns) do
+                Questie:Debug("Coords", coords[1], coords[2])
+                local Note = QuestieFramePool:GetFrame()
+                Note.data.QuestData = Quest;
+                Note.data.Starter = NPC;
+                Questie:Debug("Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[Zone])
+                --HBDPins:AddWorldMapIconMap(Questie, Note, zoneDataAreaIDToUiMapID[Zone], coords[1]/100, coords[2]/100, HBD_PINS_WORLDMAP_SHOW_WORLD)
+                QuestieMap:DrawWorldIcon(Note, Zone, coords[1], coords[2])
+              end
+            end
           end
         end
       end
-
-      break;
     end
   end
 end
