@@ -20,7 +20,7 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
       error(MAJOR..": AddWorldMapIconMap: 'AreaID', 'x' and 'y' must be numbers "..AreaID.." "..x.." "..y.." "..showFlag)
   end
   if zoneDataAreaIDToUiMapID[AreaID] == nil then
-    Questie:Error("No UiMapID for ".. AreaID)
+    Questie:Error("No UiMapID for ("..zoneDataClassic[AreaID]..") :".. AreaID)
     return false
   end
   if(showFlag == nil) then showFlag = HBD_PINS_WORLDMAP_SHOW_WORLD; end
@@ -29,8 +29,6 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
   icon.data = data
   HBDPins:AddWorldMapIconMap(Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x/100, y/100, showFlag)
   return true;
-
-
 end
 
 
