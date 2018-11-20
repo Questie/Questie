@@ -23,7 +23,7 @@ Database\questDB.lua
 Database\objectDB.lua
 Database\spawnDB.lua
 Database\zoneDB.lua
-Database\itemDB.lua
+#Database\itemDB.lua
 Database\functionsDB.lua
 
 #Modules

@@ -5,6 +5,14 @@ function QuestieDB:Initialize()
   _QuestieDBQuest:deleteFaction()
 end
 
+function QuestieDB:ItemLookup(ItemId)
+  itemName, itemLink = GetItemInfo(ItemId)
+  Item = {}
+  Item.Name = itemName
+  Item.Link = itemLink
+  return Item
+end
+
 function QuestieDB:GetQuest(QuestID)
   --[[
   --key
