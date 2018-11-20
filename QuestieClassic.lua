@@ -250,9 +250,9 @@ function PLAYER_ENTERING_WORLD()
 	QuestieQuest:CalculateAvailableQuests()
 
 
-	local Note = QuestieFramePool:GetFrame();
+	--local Note = QuestieFramePool:GetFrame();
 	--THIS WILL BE MOVED!!!
-	Note.data.QuestID = 1337
+	--Note.data.QuestID = 1337
 	--Note.data.data..NoteType = NoteType --MiniMapNote or WorldMapNote, Will be moved!
 	--Note.data.IconType = type;
 	--Note.data.questHash = questHash;
@@ -262,7 +262,7 @@ function PLAYER_ENTERING_WORLD()
 
 
 	Questie:error(zoneDataAreaIDToUiMapID[1])
-	HBDPins:AddWorldMapIconMap(Questie, Note, 27, 0.5, 0.5, HBD_PINS_WORLDMAP_SHOW_WORLD)
+	--HBDPins:AddWorldMapIconMap(Questie, Note, 27, 0.5, 0.5, HBD_PINS_WORLDMAP_SHOW_WORLD)
 
 	QuestieQuest:DrawAvailableQuests()
 end

@@ -12,16 +12,24 @@ end
 --A layer to keep the area convertion away from the other parts of the code
 --coordinates need to be 0-1 instead of 0-100
 --showFlag isn't required but may want to be Modified
-function QuestieMap:DrawWorldIcon(icon, AreaID, x, y, showFlag)
-  if type(icon) ~= "table" or not icon.SetPoint then
-      error(MAJOR..": AddWorldMapIconMap: 'icon' must be a frame")
+function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
+  if type(data) ~= "table" then
+      error(MAJOR..": AddWorldMapIconMap: must have some data")
   end
   if type(AreaID) ~= "number" or type(x) ~= "number" or type(y) ~= "number" then
-      error(MAJOR..": AddWorldMapIconMap: 'AreaID', 'x' and 'y' must be numbers")
+      error(MAJOR..": AddWorldMapIconMap: 'AreaID', 'x' and 'y' must be numbers "..AreaID.." "..x.." "..y.." "..showFlag)
+  end
+  if zoneDataAreaIDToUiMapID[AreaID] == nil then
+    Questie:Error("No UiMapID for ".. AreaID)
+    return false
   end
   if(showFlag == nil) then showFlag = HBD_PINS_WORLDMAP_SHOW_WORLD; end
+
+  local icon = QuestieFramePool:GetFrame()
+  icon.data = data
   HBDPins:AddWorldMapIconMap(Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x/100, y/100, showFlag)
   return true;
+
 
 end
 

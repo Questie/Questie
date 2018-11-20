@@ -57,6 +57,7 @@ function _QuestieFramePool:QuestieCreateFrame()
   f:SetScript("OnClick", function(self) _QuestieFramePool:Questie_Click(self) end);
   f.Unload = function(frame) _QuestieFramePool:UnloadFrame(frame) end;
   f.data = {}
+  f:Hide()
 	table.insert(allframes, f)
 	return f
 end
@@ -68,8 +69,10 @@ function _QuestieFramePool:Questie_Tooltip(self)
 
   --TODO Logic for tooltip!
   Tooltip:AddLine("["..self.data.QuestData.Level.."] "..self.data.QuestData.Name);
-  Tooltip:AddLine("Started by: "..self.data.Starter.Name);
-  -- Preferably call something outside, keep it "abstract" here
+  if(self.data.Starter.Type == "NPC") then
+    Tooltip:AddLine("Started by: "..self.data.Starter.Name);
+    -- Preferably call something outside, keep it "abstract" here
+  end
 
 
   Tooltip:SetFrameStrata("TOOLTIP");

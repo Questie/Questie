@@ -87,6 +87,7 @@ function QuestieDB:GetNPC(NPCID)
   rawdata = npcData[NPCID]
   if(rawdata)then
     NPC = {}
+    NPC.Type = "NPC" --This can be used to look at which type it is, Gameobject and Items will have the same!
     NPC.ID = NPCID
     NPC.Name = rawdata[DB_NAME]
     NPC.MinHealth = rawdata[DB_MIN_LEVEL_HEALTH]
