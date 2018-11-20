@@ -35,12 +35,23 @@ function Questie:finishAndRecurse(questhash)
 		end
 	elseif ((QuestieSeenQuests[questhash] == nil) or (QuestieTrackedQuests[questhash] == nil)) then
 		QuestieSeenQuests[questhash] = 1;
-		local req = QuestieHashMap[questhash]['rq'];
+		-- Mark pre-quest chain as finished too, if this quest is known by Questie.
+		local req = Questie:GetRequiredQuest(questhash);
 		if req then
 			Questie:finishAndRecurse(req);
 			QuestieTrackedQuests[req] = nil;
 		end
 	end
+end
+---------------------------------------------------------------------------------------------------
+-- Retrieves the required pre-quest's Id for the given questHash, or nil if no pre-quest exists.
+---------------------------------------------------------------------------------------------------
+function Questie:GetRequiredQuest(questHash)
+	local questInfo = QuestieHashMap[questHash];
+	if questInfo and questInfo['rq'] then
+		return questInfo['rq'];
+	end
+	return nil;
 end
 ---------------------------------------------------------------------------------------------------
 -- Checks the players quest log to make sure the QuestieSeenQuests is accurate and adds or removes
@@ -57,11 +68,12 @@ function Questie:CheckQuestLog()
 		for k, v in pairs(LastQuestLogHashes) do
 			Questie:AddQuestToMap(v["hash"]);
 			if (not QuestieHashMap[v["hash"]]) then
-				DEFAULT_CHAT_FRAME:AddMessage("QuestieQuest: Error! This doesn't appear to be a valid quest or it's missing from the database. Please report on GitHub.",1 ,0 ,0)
+				--DEFAULT_CHAT_FRAME:AddMessage("QuestieQuest: Error! This doesn't appear to be a valid quest or it's missing from the database. Please report on GitHub.",1 ,0 ,0)
 				return
 			end
 			if (not QuestieSeenQuests[v["hash"]]) then
-				local req = QuestieHashMap[v["hash"]]['rq'];
+				-- Mark pre-quest chain as finished too, if this quest is known by Questie.
+				local req = Questie:GetRequiredQuest(v["hash"]);
 				if req then
 					Questie:finishAndRecurse(req)
 					QuestieTrackedQuests[req] = nil
@@ -106,11 +118,12 @@ function Questie:CheckQuestLog()
 		if(v["deltaType"] == 1) then
 			Questie:AddQuestToMap(v["hash"]);
 			if (not QuestieHashMap[v["hash"]]) then
-				DEFAULT_CHAT_FRAME:AddMessage("QuestieQuest: Error! This doesn't appear to be a valid quest or it's missing from the database. Please report on GitHub.",1 ,0 ,0)
+				--DEFAULT_CHAT_FRAME:AddMessage("QuestieQuest: Error! This doesn't appear to be a valid quest or it's missing from the database. Please report on GitHub.",1 ,0 ,0)
 				return
 			end
 			if (not QuestieSeenQuests[v["hash"]]) then
-				local req = QuestieHashMap[v["hash"]]['rq'];
+				-- Mark pre-quest chain as finished too, if this quest is known by Questie.
+				local req = Questie:GetRequiredQuest(v["hash"]);
 				if req then
 					Questie:finishAndRecurse(req)
 					QuestieTrackedQuests[req] = nil
@@ -126,11 +139,12 @@ function Questie:CheckQuestLog()
 				QuestieCompletedQuestMessages[v["name"]] = 0;
 			end
 			if (not QuestieHashMap[v["hash"]]) then
-				DEFAULT_CHAT_FRAME:AddMessage("QuestieQuest: Error! This doesn't appear to be a valid quest or it's missing from the database. Please report on GitHub.",1 ,0 ,0)
+				--DEFAULT_CHAT_FRAME:AddMessage("QuestieQuest: Error! This doesn't appear to be a valid quest or it's missing from the database. Please report on GitHub.",1 ,0 ,0)
 				return
 			end
 			if (not QuestieSeenQuests[v["hash"]]) then
-				local req = QuestieHashMap[v["hash"]]['rq'];
+				-- Mark pre-quest chain as finished too, if this quest is known by Questie.
+				local req = Questie:GetRequiredQuest(v["hash"]);
 				if req then
 					QuestieTrackedQuests[req] = nil
 					Questie:finishAndRecurse(req)
