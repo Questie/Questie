@@ -772,15 +772,18 @@ function Questie:debug_Print(...)
 	end
 	if (debugWin == 0) then return end
 	local out = "";
-	for i = 1, arg.n, 1 do
+	local n = select("#", ...);
+	local v;
+	for i=1, n do
+		v = select(i, ...);
 		if (i > 1) then out = out .. ", "; end
-		local t = type(arg[i]);
+		local t = type(v);
 		if (t == "string") then
-			out = out .. '"'..arg[i]..'"';
+			out = out .. '"'..v..'"';
 		elseif (t == "number") then
-			out = out .. arg[i];
+			out = out .. v;
 		else
-			out = out .. dump(arg[i]);
+			out = out .. dump(v);
 		end
 	end
 	getglobal("ChatFrame"..debugWin):AddMessage(out, 1.0, 1.0, 0.3);
