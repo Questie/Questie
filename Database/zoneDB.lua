@@ -18,6 +18,7 @@ end
 
 
 function QuestieDBZone:zoneCreateConvertion()
+  Questie:Debug(DEBUG_DEVELOP, "[QuestieDBZone] Converting ZoneIds")
 	for index, Data in ipairs(zoneDataClassicDemo) do
 		local UiMapID = HBDMigrate:GetUIMapIDFromMapAreaId(Data[4])
 		if(UiMapID == nil) then
@@ -26,7 +27,7 @@ function QuestieDBZone:zoneCreateConvertion()
 			zoneDataAreaIDToMapID[Data[3]] = Data[4]
 			zoneDataAreaIDToUiMapID[Data[3]] = UiMapID
 			zoneDataUiMapIDToAreaID[UiMapID] = Data[3]
-			Questie:Debug(DEBUG_SPAM, Data[1], Data[3], Data[4], UiMapID)
+			--Questie:Debug(DEBUG_SPAM, "[QuestieDBZone]", Data[1], Data[3], Data[4], UiMapID)
 		end
 	end
 end

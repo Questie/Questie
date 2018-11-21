@@ -6,7 +6,10 @@ local unusedframes = {}
 
 local allframes = {}
 
-
+--TODO: Add all types
+ICON_TYPE_AVAILABLE = "available"
+ICON_TYPE_SLAY = "slay"
+ICON_TYPE_COMPLETE = "complete"
 
 -- Global Functions --
 function QuestieFramePool:GetFrame()
@@ -25,7 +28,7 @@ end
 --end
 
 function QuestieFramePool:UnloadAll()
-	Questie:Debug(DEBUG_DEVELOP, "Unloading all frames, count:", #allframes)
+	Questie:Debug(DEBUG_DEVELOP, "[QuestieFramePool] Unloading all frames, count:", #allframes)
   for i, frame in ipairs(allframes) do
     _QuestieFramePool:UnloadFrame(frame);
   end
