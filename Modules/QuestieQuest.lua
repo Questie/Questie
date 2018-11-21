@@ -11,15 +11,18 @@ function QuestieQuest:Initialize()
   GetQuestsCompleted(Questie.db.char.complete)
 end
 
+
+--Use the category order to draw the quests and trust the database order.
+--/dump QuestieQuest:GetAllQuestObjectives(24475)
+--Use -> QuestieQuest:GetAllQuestObjectives(QuestId)
 --170
 function QuestieQuest:TrackQuest(QuestId)--Should probably be called from some kind of questlog or similar, will have to wait untill classic to find out how tracking really works...
   Quest = qCurrentQuestlog[QuestId]
   Quest = QuestieDB:GetQuest(QuestId)
-  
+
   ObjectiveID = 0
   if type(Quest) == "table" then
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]:", QuestId)
-    for
     if(Quest.Objectives["NPC"] ~= nil) then
       for index, ObjectiveData in pairs(Quest.Objectives["NPC"]) do
         for _, NPCID in pairs(ObjectiveData) do
@@ -85,18 +88,44 @@ function QuestieQuest:GetAllQuestIds()
     end
   end
 end
+
+--Use the category order to draw the quests and trust the database order.
+--/dump QuestieQuest:GetAllQuestObjectives(24475)
+function QuestieQuest:GetAllQuestObjectives(QuestId)
+  local count = GetNumQuestLeaderBoards(GetQuestLogIndexByID(QuestId))
+  objectives = {}
+  for i = 1, count do
+    objectiveType, objectiveDesc, numItems, numNeeded, isCompleted = _QuestieQuest:GetLeaderBoardDetails(i, QuestId)
+    objectives[i] = {}
+    objectives[i].Type = objectiveType
+    objectives[i].Description = objectiveDesc
+    objectives[i].Collected = numItems
+    objectives[i].Needed = numNeeded
+    objectives[i].Completed = isComplete
+    objectives[i].Index = i
+  end
+  return objectives
+end
+
+
+--TODO Check that this resolves correctly in classic!
 --/dump QuestieQuest:GetLeaderBoardDetails (1,1)
-function QuestieQuest:GetLeaderBoardDetails(BoardIndex,QuestId)
+function _QuestieQuest:GetLeaderBoardDetails(BoardIndex,QuestId)
   Index = GetQuestLogIndexByID(QuestId)
   if(Index == 0) then
     Index = QuestId;
   end
   local description, objectiveType, isCompleted = GetQuestLogLeaderBoard (BoardIndex, Index);
-  local numItems, numNeeded, itemName = string.match(description, "(%d+)\/(%d+)(.*)")
-  --local itemName = "tet";
-  --local itemName, numItems, numNeeded = string.match(description, "(.*):%s*([%d]+)%s*/%s*([%d]+)");
+  --Classic
+  local itemName, numItems, numNeeded = string.match(description, "(.*):%s*([%d]+)%s*/%s*([%d]+)");
+  --Retail
+  if(itemName == nil or len(itemName) < 5) then --Just a figure... check if its not 0
+    numItems, numNeeded, itemName = string.match(description, "(%d+)\/(%d+)(.*)")
+  end
+  itemName = string.gsub(itemName, "slain", "")
+  numItems, numNeeded = string.match(description, "(%d+)\/(%d+)")
   return objectiveType, strtrim(itemName), numItems, numNeeded, isCompleted;
-end -- returns eg. "monster", "Young Nightsaber slain", 1, 7, nil
+end
 
 
 function QuestieQuest:DrawAvailableQuests()--All quests between
