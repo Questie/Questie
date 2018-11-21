@@ -1,5 +1,4 @@
 
-questCache = {}
 _QuestieDBQuest = {...}
 
 -- Local functions --

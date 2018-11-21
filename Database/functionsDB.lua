@@ -40,9 +40,6 @@ function QuestieDB:GetQuest(QuestID)
   -- 14 DB_SUB_QUESTS
   -- 15 DB_QUEST_GROUP
   -- 16 DB_EXCLUSIVE_QUEST_GROUP]]--
-  if(questCache[QuestID]) then
-    return questCache[QuestID]
-  end
   rawdata = qData[QuestID]
   if(rawdata)then
     QO = {}
@@ -67,7 +64,7 @@ function QuestieDB:GetQuest(QuestID)
     QO.Objectives["Item"] = rawdata[10][3]
     QO.SrcItemId = rawdata[11] --A quest item given by a questgiver of some kind.
     if(rawdata[12] ~= nil and rawdata[13] ~= nil) then
-      Questie:Debug("ERRRRORRRRRRR not mutually exclusive!")
+      Questie:Debug(DEBUG_CRITICAL, "ERRRRORRRRRRR not mutually exclusive!")
     end
     if(rawdata[12] ~= nil) then
       QO.RequiredQuest = rawdata[12]
@@ -78,7 +75,6 @@ function QuestieDB:GetQuest(QuestID)
     QO.QuestGroup = rawdata[15] --Quests that are part of the same group, example complete this group of quests to open the next one.
     QO.ExclusiveQuestGroup = rawdata[16]
 
-    questCache[QuestID] = QO
     return QO
   else
     return nil
