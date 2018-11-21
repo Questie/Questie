@@ -11,8 +11,46 @@ function QuestieQuest:Initialize()
   GetQuestsCompleted(Questie.db.char.complete)
 end
 
-function QuestieQuest:TrackQuest(QuestID)--Should probably be called from some kind of questlog or similar, will have to wait untill classic to find out how tracking really works...
+--170
+function QuestieQuest:TrackQuest(QuestId)--Should probably be called from some kind of questlog or similar, will have to wait untill classic to find out how tracking really works...
+  Quest = qCurrentQuestlog[QuestId]
+  Quest = QuestieDB:GetQuest(QuestId)
+  
+  ObjectiveID = 0
+  if type(Quest) == "table" then
+    Questie:Debug(DEBUG_INFO, "[QuestieQuest]:", QuestId)
+    for
+    if(Quest.Objectives["NPC"] ~= nil) then
+      for index, ObjectiveData in pairs(Quest.Objectives["NPC"]) do
+        for _, NPCID in pairs(ObjectiveData) do
+          NPC = QuestieDB:GetNPC(NPCID)
+          for Zone, Spawns in pairs(NPC.Spawns) do
+            for _, coords in ipairs(Spawns) do
+              Questie:Debug(DEBUG_INFO, "[QuestieQuest]:", Zone, coords[1], coords[2])
+              data = {}
+              data.Id = QuestId;
+              data.IconType = ICON_TYPE_SLAY
+              data.ObjectiveId = ObjectiveID
+              data.NpcData = NPC;
+              --data.QuestData = Quest;
+              QuestieMap:DrawWorldIcon(data, Zone, coords[1], coords[2])
+            end
+          end
+        end
+        ObjectiveID = ObjectiveID + 1
+      end
+    end--
+  end
+end
 
+function QuestieQuest:AcceptQuest(QuestId)
+  Quest = qData[questId]
+  if(Quest ~= nil) then
+    qCurrentQuestlog[QuestId] = Quest
+  else
+    qCurrentQuestlog[QuestId] = questId
+  end
+  Questie:Debug(DEBUG_INFO, "[QuestieQuest]: Accept quest:", QuestId)
 end
 
 function QuestieQuest:CompleteQuest(QuestId)
@@ -47,13 +85,19 @@ function QuestieQuest:GetAllQuestIds()
     end
   end
 end
+--/dump QuestieQuest:GetLeaderBoardDetails (1,1)
+function QuestieQuest:GetLeaderBoardDetails(BoardIndex,QuestId)
+  Index = GetQuestLogIndexByID(QuestId)
+  if(Index == 0) then
+    Index = QuestId;
+  end
+  local description, objectiveType, isCompleted = GetQuestLogLeaderBoard (BoardIndex, Index);
+  local numItems, numNeeded, itemName = string.match(description, "(%d+)\/(%d+)(.*)")
+  --local itemName = "tet";
+  --local itemName, numItems, numNeeded = string.match(description, "(.*):%s*([%d]+)%s*/%s*([%d]+)");
+  return objectiveType, strtrim(itemName), numItems, numNeeded, isCompleted;
+end -- returns eg. "monster", "Young Nightsaber slain", 1, 7, nil
 
-
-
---Gets run on events
-function QuestieQuest:GetQuestId(QuestLogIndex)
-  qCurrentQuestlog[QuestLogIndex] = ""
-end
 
 function QuestieQuest:DrawAvailableQuests()--All quests between
 
@@ -61,7 +105,7 @@ function QuestieQuest:DrawAvailableQuests()--All quests between
   QuestieFramePool:UnloadAll()
 
   local count = 0
-  for i, questid in ipairs(qAvailableQuests) do
+  for questid, qid in pairs(qAvailableQuests) do
     Quest = QuestieDB:GetQuest(questid)
     if(Quest.Starts["NPC"] ~= nil)then
       for index, NPCID in ipairs(Quest.Starts["NPC"]) do
@@ -111,16 +155,20 @@ local ShowAllQuestsDebug = false
 function QuestieQuest:CalculateAvailableQuests()
   local MinLevel = UnitLevel("player") - Questie.db.global.minLevelFilter
   local MaxLevel = UnitLevel("player") + Questie.db.global.maxLevelFilter
+  for id, data in pairs(qAvailableQuests) do
+
+  end
+  qAvailableQuests = {}
   for i, v in pairs(qData) do
     if(ShowAllQuestsDebug == true) then
-      table.insert(qAvailableQuests, i)
+      qAvailableQuests[i] = i
     else
       if(MinLevel >= v[DB_MIN_LEVEL]) then
-        table.insert(qAvailableQuests, i)
+        qAvailableQuests[i] = i
       elseif(MaxLevel >= v[DB_MIN_LEVEL] and MaxLevel >= v[DB_LEVEL]) then --MaxLevel >= v[DB_LEVEL] Hides lvl 60 quests if you are not close, some are pretty stupid to show such as 1-60 range quests
-        table.insert(qAvailableQuests, i)
+        qAvailableQuests[i] = i
       elseif(MaxLevel >= v[DB_MIN_LEVEL] and Questie.db.char.lowlevel) then
-        table.insert(qAvailableQuests, i)
+        qAvailableQuests[i] = i
       end
     end
   end

@@ -1,11 +1,19 @@
 QuestieMap = {...}
 
-
+qQuestIdFrames = {}
 
 function QuestieMap:DrawWorldMap(QuestID)
 
 end
 
+--Get the frames for a quest, this returns all of the frames
+function QuestieMap:GetFramesForQuest(QuestId)
+  frames = {}
+  for i, name in ipairs(qQuestIdFrames[QuestId]) do
+    table.insert(frames, _G[name])
+  end
+  return frames
+end
 
 --(Questie, Note, zoneDataAreaIDToUiMapID[Zone], coords[1]/100, coords[2]/100, HBD_PINS_WORLDMAP_SHOW_WORLD)
 
@@ -19,16 +27,23 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
   if type(AreaID) ~= "number" or type(x) ~= "number" or type(y) ~= "number" then
       error(MAJOR..": AddWorldMapIconMap: 'AreaID', 'x' and 'y' must be numbers "..AreaID.." "..x.." "..y.." "..showFlag)
   end
+  if type(data.Id) ~= "number" or type(data.Id) ~= "number"then
+      error(MAJOR.."Data.Id must be set to the quests ID!")
+  end
   if zoneDataAreaIDToUiMapID[AreaID] == nil then
     Questie:Error("No UiMapID for ("..zoneDataClassic[AreaID]..") :".. AreaID)
-    return false
+    return nil
   end
   if(showFlag == nil) then showFlag = HBD_PINS_WORLDMAP_SHOW_WORLD; end
 
   local icon = QuestieFramePool:GetFrame()
   icon.data = data
   HBDPins:AddWorldMapIconMap(Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x/100, y/100, showFlag)
-  return true;
+  if(qQuestIdFrames[data.Id] == nil) then
+    qQuestIdFrames[data.Id] = {}
+  end
+  table.insert(qQuestIdFrames[data.Id], icon:GetName())
+  return icon;
 end
 
 
