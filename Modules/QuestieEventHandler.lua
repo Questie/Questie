@@ -20,12 +20,14 @@ end
 
 --Fires when a quest is accepted in anyway.
 function QUEST_ACCEPTED(Event, QuestLogIndex, QuestId)
-  Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_ACCEPTED", "QuestLogIndex: "..QuestLogIndex,  "QuestID: "..QuestId);
+  Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_ACCEPTED", "QLogIndex: "..QuestLogIndex,  "QuestID: "..QuestId);
+  QuestieQuest:AcceptQuest(QuestId)
 end
 
 --Fires when a quest is removed from the questlog, this includes turning it in!
 function QUEST_REMOVED(Event, QuestId)
   Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_REMOVED", QuestId);
+  QuestieQuest:AbandonedQuest(QuestId)
 end
 
 --Fires when a quest is turned in.
@@ -36,7 +38,7 @@ end
 
 function QUEST_WATCH_UPDATE(Event, QuestLogIndex)
   title, level, _, isHeader, _, isComplete, _, questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(QuestLogIndex)
-  Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_WATCH_UPDATE", "QuestLogIndex: "..QuestLogIndex,  "QuestID: "..questId, displayQuestId);
+  Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_WATCH_UPDATE", "QLogIndex: "..QuestLogIndex,  "QuestID: "..questId);
 end
 
 function QUEST_LOG_CRITERIA_UPDATE(Event, questID, specificTreeID, description, numFulfilled, numRequired)
