@@ -10,6 +10,8 @@ local allframes = {}
 ICON_TYPE_AVAILABLE = "available"
 ICON_TYPE_SLAY = "slay"
 ICON_TYPE_COMPLETE = "complete"
+ICON_TYPE_ITEM = "item"
+ICON_TYPE_LOOT = "loot"
 
 -- Global Functions --
 function QuestieFramePool:GetFrame()
@@ -39,6 +41,8 @@ end
 
 --Use FRAME.Unload(FRAME) on frame object to unload!
 function _QuestieFramePool:UnloadFrame(frame)
+	--We are reseting the frames, making sure that no data is wrong.
+	qQuestIdFrames = {}
   HBDPins:RemoveMinimapIcon(Questie, frame);
   HBDPins:RemoveWorldMapIcon(Questie, frame);
   frame.data = nil; -- Just to be safe
@@ -78,12 +82,16 @@ function _QuestieFramePool:Questie_Tooltip(self)
   local Tooltip = GameTooltip;
   Tooltip:SetOwner(self, "ANCHOR_CURSOR"); --"ANCHOR_CURSOR" or (self, self)
 
-  --TODO Logic for tooltip!
-  Tooltip:AddLine("["..self.data.QuestData.Level.."] "..self.data.QuestData.Name);
-  if(self.data.Starter.Type == "NPC") then
-    Tooltip:AddLine("Started by: "..self.data.Starter.Name);
-    -- Preferably call something outside, keep it "abstract" here
-  end
+	if(self.data.QuestData) then
+	  --TODO Logic for tooltip!
+	  Tooltip:AddLine("["..self.data.QuestData.Level.."] "..self.data.QuestData.Name);
+	  if(self.data.Starter.Type == "NPC") then
+	    Tooltip:AddLine("Started by: "..self.data.Starter.Name);
+	    -- Preferably call something outside, keep it "abstract" here
+	  end
+	elseif(self.data.NpcData) then
+		Tooltip:AddLine(self.data.NpcData.Name)
+	end
 
 
   Tooltip:SetFrameStrata("TOOLTIP");
