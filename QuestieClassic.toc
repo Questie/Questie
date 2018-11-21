@@ -27,6 +27,7 @@ Database\itemDB.lua
 Database\functionsDB.lua
 
 #Modules
+Modules\QuestieEventHandler.lua
 Modules\QuestieFramePool.lua
 Modules\QuestieMap.lua
 Modules\QuestieQuest.lua

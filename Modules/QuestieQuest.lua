@@ -2,10 +2,58 @@ QuestieQuest = {...}
 local _QuestieQuest = {...}
 
 
+qAvailableQuests = {} --Gets populated at PLAYER_ENTERED_WORLD
+
+qCurrentQuestlog = {} --Gets populated by QuestieQuest:GetAllQuestIds(), this is either an object to the quest in question, or the ID if the object doesn't exist.
+
+function QuestieQuest:Initialize()
+  Questie:Debug(DEBUG_INFO, "[QuestieQuest]: Getting all completed quests")
+  GetQuestsCompleted(Questie.db.char.complete)
+end
+
 function QuestieQuest:TrackQuest(QuestID)--Should probably be called from some kind of questlog or similar, will have to wait untill classic to find out how tracking really works...
 
 end
 
+function QuestieQuest:CompleteQuest(QuestId)
+  qCurrentQuestlog[QuestId] = nil;
+  Questie.db.char.complete[QuestId] = true --can we use some other relevant info here?
+  Questie:Debug(DEBUG_INFO, "[QuestieQuest]: Completed quest:", QuestId)
+end
+
+function QuestieQuest:AbandonedQuest(QuestId)
+  if(qCurrentQuestlog[QuestId]) then
+    Questie:Debug(DEBUG_DEVELOP "[QuestieQuest]: Abandoned Quest:", QuestId)
+    qCurrentQuestlog[QuestId] = nil
+  end
+end
+
+--Run this if you want to update the entire table
+function QuestieQuest:GetAllQuestIds()
+  Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]: Getting all quests")
+  numEntries, numQuests = GetNumQuestLogEntries();
+  qCurrentQuestlog = {}
+  for index = 1, numEntries do
+    title, level, _, isHeader, _, isComplete, _, questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
+    if(not isHeader) then
+      --Keep the object in the questlog to save searching
+      Quest = qData[questId]
+      if(Quest ~= nil) then
+        qCurrentQuestlog[questId] = Quest
+      else
+        qCurrentQuestlog[questId] = questId
+      end
+      Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Added quest: "..questId)
+    end
+  end
+end
+
+
+
+--Gets run on events
+function QuestieQuest:GetQuestId(QuestLogIndex)
+  qCurrentQuestlog[QuestLogIndex] = ""
+end
 
 function QuestieQuest:DrawAvailableQuests()--All quests between
 
@@ -28,7 +76,7 @@ function QuestieQuest:DrawAvailableQuests()--All quests between
                 --Questie:Debug("Coords", coords[1], coords[2])
                 local data = {}
                 data.Id = questid;
-                data.IconType = ""
+                data.IconType = ICON_TYPE_AVAILABLE
                 data.ObjectiveId = -1
                 data.QuestData = Quest;
                 data.Starter = NPC
@@ -52,22 +100,19 @@ function QuestieQuest:DrawAvailableQuests()--All quests between
       end
     end
   end
-  Questie:Debug(DEBUG_INFO, count, "available quests drawn.");
+  Questie:Debug(DEBUG_INFO,"[QuestieQuest]", count, "available quests drawn.");
 end
 
 
-qAvailableQuests = {
 
-}
 
 --TODO Check that this function does what it is supposed to...
-
 local ShowAllQuestsDebug = false
 function QuestieQuest:CalculateAvailableQuests()
   local MinLevel = UnitLevel("player") - Questie.db.global.minLevelFilter
   local MaxLevel = UnitLevel("player") + Questie.db.global.maxLevelFilter
   for i, v in pairs(qData) do
-    if(ShowAllQuestsDebug) then
+    if(ShowAllQuestsDebug == true) then
       table.insert(qAvailableQuests, i)
     else
       if(MinLevel >= v[DB_MIN_LEVEL]) then

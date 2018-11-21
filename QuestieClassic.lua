@@ -204,6 +204,7 @@ local defaults = {
 		minLevelFilter = 4
   },
 	char = {
+		complete = {},
 		enabled = true
 	}
 }
@@ -213,6 +214,24 @@ Note = nil
 function Questie:OnInitialize()
 	Questie:Debug(DEBUG_CRITICAL, "Questie addon loaded")
 	Questie:RegisterEvent("PLAYER_ENTERING_WORLD", PLAYER_ENTERING_WORLD)
+	--Accepted Events
+	Questie:RegisterEvent("QUEST_ACCEPTED", QUEST_ACCEPTED)
+	Questie:RegisterEvent("QUEST_WATCH_UPDATE", QUEST_WATCH_UPDATE);
+	Questie:RegisterEvent("QUEST_TURNED_IN", QUEST_TURNED_IN)
+	Questie:RegisterEvent("QUEST_REMOVED", QUEST_REMOVED)
+
+	--TODO: QUEST_QUERY_COMPLETE Will get all quests the character has finished, need to be implemented!
+
+
+	--Old stuff that has been tried, remove in cleanup
+	--Hook the questcomplete button
+	--QuestFrameCompleteQuestButton:HookScript("OnClick", CUSTOM_QUEST_COMPLETE)
+	--Questie:RegisterEvent("QUEST_COMPLETE", QUEST_COMPLETE)
+	--Questie:RegisterEvent("QUEST_FINISHED", QUEST_FINISHED)
+	--?? What does this do?
+	Questie:RegisterEvent("QUEST_LOG_CRITERIA_UPDATE", QUEST_LOG_CRITERIA_UPDATE)
+
+
 	Questie:RegisterChatCommand("questieclassic", "MySlashProcessorFunc")
 	Questie:RegisterChatCommand("test", "SlashTest")
 	Questie:RegisterChatCommand("qc", "MySlashProcessorFunc")
@@ -253,31 +272,10 @@ function Questie:OnInitialize()
 
 end
 
-function PLAYER_ENTERING_WORLD()
-	Questie:Debug(DEBUG_ELEVATED, "Player entered world")
-	QuestieDB:Initialize()
-	QuestieQuest:CalculateAvailableQuests()
 
-
-	--local Note = QuestieFramePool:GetFrame();
-	--THIS WILL BE MOVED!!!
-	--Note.data.QuestID = 1337
-	--Note.data.data..NoteType = NoteType --MiniMapNote or WorldMapNote, Will be moved!
-	--Note.data.IconType = type;
-	--Note.data.questHash = questHash;
-	--Note.data.objectiveid = objectiveid;
-	--HBDPins:AddMinimapIconWorld(Questie, Note, 0, x, y, true)
-	--HBDPins:AddWorldMapIconWorld(Questie, Note, 0, x, y, HBD_PINS_WORLDMAP_SHOW_WORLD)
-
-
-	Questie:error(zoneDataAreaIDToUiMapID[1])
-	--HBDPins:AddWorldMapIconMap(Questie, Note, 27, 0.5, 0.5, HBD_PINS_WORLDMAP_SHOW_WORLD)
-
-	QuestieQuest:DrawAvailableQuests()
-end
 
 function Questie:Error(...)
-	Questie:Print("|cffff0000ERROR:|r", ...)
+	Questie:Print("|cffff0000[ERROR]|r", ...)
 end
 
 function Questie:error(...)
