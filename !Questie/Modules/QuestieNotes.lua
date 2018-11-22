@@ -339,7 +339,15 @@ function Questie_Tooltip_OnEnter()
 			Tooltip = GameTooltip;
 		end
 		Tooltip:SetOwner(this, this); --"ANCHOR_CURSOR"
-		if(this.data.icontype ~= "available") then
+		if(not QuestieHashMap[this.data.questHash]) then --Debug for missing quests that somehow end up on the world map anyway (ie via known "finisher" NPCs).
+			Tooltip:AddLine("<Unknown Quest>",1,1,1);
+			local QuestLogID = Questie:GetQuestIdFromHash(this.data.questHash);
+			if QuestLogID then
+				local questName, level, questTag, suggestedGroup, isHeader, isCollapsed, isComplete, isDaily, questID = QGet_QuestLogTitle(QuestLogID);
+				Tooltip:AddLine(questName,1,0,0);
+			end
+			Tooltip:AddLine("QuestID: "..this.data.questHash, 1, 0, 0);
+		elseif(this.data.icontype ~= "available") then
 			local Quest = Questie:IsQuestFinished(this.data.questHash);
 			if not Quest then
 				local QuestLogID = Questie:GetQuestIdFromHash(this.data.questHash);
