@@ -306,11 +306,13 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 						if(QuestieItems[objective]) then
 							GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
 							local logid = Questie:GetQuestIdFromHash(k);
-							QSelect_QuestLogEntry(logid);
-							local desc, typ, done = QGet_QuestLogLeaderBoard(m[1]['objectiveid']);
-							local indx = findLast(desc, ":");
-							local countstr = string.sub(desc, indx+2);
-							GameTooltip:AddLine("   " .. name .. ": " .. countstr, 1, 1, 0.2)
+							if logid then
+								QSelect_QuestLogEntry(logid);
+								local desc, typ, done = QGet_QuestLogLeaderBoard(m[1]['objectiveid']);
+								local indx = findLast(desc, ":");
+								local countstr = string.sub(desc, indx+2);
+								GameTooltip:AddLine("   " .. name .. ": " .. countstr, 1, 1, 0.2)
+							end
 						end
 					end
 				end
@@ -337,7 +339,15 @@ function Questie_Tooltip_OnEnter()
 			Tooltip = GameTooltip;
 		end
 		Tooltip:SetOwner(this, this); --"ANCHOR_CURSOR"
-		if(this.data.icontype ~= "available") then
+		if(not QuestieHashMap[this.data.questHash]) then --Debug for missing quests that somehow end up on the world map anyway (ie via known "finisher" NPCs).
+			Tooltip:AddLine("<Unknown Quest>",1,1,1);
+			local QuestLogID = Questie:GetQuestIdFromHash(this.data.questHash);
+			if QuestLogID then
+				local questName, level, questTag, suggestedGroup, isHeader, isCollapsed, isComplete, isDaily, questID = QGet_QuestLogTitle(QuestLogID);
+				Tooltip:AddLine(questName,1,0,0);
+			end
+			Tooltip:AddLine("QuestID: "..this.data.questHash, 1, 0, 0);
+		elseif(this.data.icontype ~= "available") then
 			local Quest = Questie:IsQuestFinished(this.data.questHash);
 			if not Quest then
 				local QuestLogID = Questie:GetQuestIdFromHash(this.data.questHash);
@@ -770,15 +780,18 @@ function Questie:debug_Print(...)
 	end
 	if (debugWin == 0) then return end
 	local out = "";
-	for i = 1, arg.n, 1 do
+	local n = select("#", ...);
+	local v;
+	for i=1, n do
+		v = select(i, ...);
 		if (i > 1) then out = out .. ", "; end
-		local t = type(arg[i]);
+		local t = type(v);
 		if (t == "string") then
-			out = out .. '"'..arg[i]..'"';
+			out = out .. '"'..v..'"';
 		elseif (t == "number") then
-			out = out .. arg[i];
+			out = out .. v;
 		else
-			out = out .. dump(arg[i]);
+			out = out .. dump(v);
 		end
 	end
 	getglobal("ChatFrame"..debugWin):AddMessage(out, 1.0, 1.0, 0.3);
