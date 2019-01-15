@@ -280,8 +280,13 @@ end
 ---------------------------------------------------------------------------------------------------
 function QuestieTracker:GetFinisherLocation(typ, name)
 	local C, Z, X, Y;
-	if typ == "monster" then
-		local npc = QuestieMonsters[name];
+	if typ == 1 then
+		local npc = Questie_NPCLookup[name];
+		if npc then
+			npc = Questie_NPCSpawns[npc];
+		else
+			DEFAULT_CHAT_FRAME:AddMessage("(QuestieDebug) Tracker NPC not found?? " .. name);
+		end
 		if npc == nil then
 			npc = QuestieAdditionalStartFinishLookup[name];
 			if not (npc == nil) then
@@ -289,35 +294,27 @@ function QuestieTracker:GetFinisherLocation(typ, name)
 			else
 			end
 		else
-			local loc = npc['locations'][1];
-			mapid = loc[1];
-			x = loc[2];
-			y = loc[3];
+			local loc = npc[2][1];
+			mapid = loc[3];
+			x = loc[1];
+			y = loc[2];
 			C, Z, X, Y = QuestieZoneIDLookup[mapid][4], QuestieZoneIDLookup[mapid][5], x, y
 		end
-	elseif typ == "object" then
-		local obj = QuestieObjects[name];
+	elseif typ == 2 then
+		local obj = Questie_ObjectLookup[name];
+		if obj then
+			obj = Questie_ObjSpawns[obj];
+		else
+			DEFAULT_CHAT_FRAME:AddMessage("(QuestieDebug) Tracker Obj not found?? " .. name);
+		end
 		if not (obj == nil) then
-			local loc = obj['locations'][1];
-			mapid = loc[1];
-			x = loc[2];
-			y = loc[3];
+			local loc = obj[2][1];
+			mapid = loc[3];
+			x = loc[1];
+			y = loc[2];
 			C, Z, X, Y = QuestieZoneIDLookup[mapid][4], QuestieZoneIDLookup[mapid][5], x, y
 		else
-			local npc = QuestieMonsters[name];
-			if npc == nil then
-				npc = QuestieAdditionalStartFinishLookup[name];
-				if not (npc == nil) then
-					C, Z, X, Y = npc[1], npc[2], npc[3], npc[4];
-				else
-				end
-			else
-				local loc = npc['locations'][1];
-				mapid = loc[1];
-				x = loc[2];
-				y = loc[3];
-				C, Z, X, Y = QuestieZoneIDLookup[mapid][4], QuestieZoneIDLookup[mapid][5], x, y
-			end
+			return QuestieTracker:GetFinisherLocation(1, name); -- try npc?
 		end
 	end
 	return C, Z, X, Y;
@@ -336,7 +333,7 @@ function QuestieTracker:fillTrackingFrame()
 	if (QuestieTracker.GeneralInterval > (QuestieTracker.btnUpdate*0.99)) then
 		QuestieTracker.GeneralInterval = 0
 		for hash,quest in pairs(QuestieHandledQuests) do
-			if (QuestieTrackedQuests[hash] ~= nil) and (QuestieTrackedQuests[hash]["tracked"] == true) and (QuestieHashMap[hash]) then
+			if (QuestieTrackedQuests[hash] ~= nil) and (QuestieTrackedQuests[hash]["tracked"] == true) and (Questie_Meta[hash]) then
 				objc = 0;
 				if QuestieTrackedQuests[hash]["isComplete"] then
 				else
@@ -366,7 +363,7 @@ function QuestieTracker:fillTrackingFrame()
 					end
 				end
 				if objc == 0 then
-					local continent, zone, xNote, yNote = QuestieTracker:GetFinisherLocation(QuestieHashMap[hash]['finishedType'], QuestieHashMap[hash]['finishedBy']);
+					local continent, zone, xNote, yNote = QuestieTracker:GetFinisherLocation(Questie_Meta[hash][4][3], Questie_NPCSpawns[Questie_Meta[hash][4][4]][1]);
 					if continent and zone and xNote and yNote then
 						local dist, xDelta, yDelta = Astrolabe:ComputeDistance( C, Z, X, Y, continent, zone, xNote, yNote );
 						if dist and xDelta and yDelta  then

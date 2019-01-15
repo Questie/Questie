@@ -72,8 +72,8 @@ QuestieZoneIDLookup = {};
 for k,v in pairs(QuestieZones) do
   -- must be non-linear array
   QuestieZoneIDLookup[v[1]] = v;
-end
-QuestieCZLookup = {};
-for k,v in pairs(QuestieZones) do
-	QuestieCZLookup[v[2] * 100 + v[3]] = v[1];
+  
+  -- hack to fix tbc
+  v[4] = v[2];
+  v[5] = v[3];
 end

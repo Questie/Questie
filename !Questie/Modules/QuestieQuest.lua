@@ -47,11 +47,16 @@ end
 -- Retrieves the required pre-quest's Id for the given questHash, or nil if no pre-quest exists.
 ---------------------------------------------------------------------------------------------------
 function Questie:GetRequiredQuest(questHash)
-	local questInfo = QuestieHashMap[questHash];
-	if questInfo and questInfo['rq'] then
-		return questInfo['rq'];
+	local questInfo = Questie_Meta[questHash];
+	local ret = 0;
+	if questInfo then
+		ret = questInfo[2][1];
 	end
-	return nil;
+	if(ret == 0) then
+		return nil
+	else
+		return ret
+	end
 end
 ---------------------------------------------------------------------------------------------------
 -- Checks the players quest log to make sure the QuestieSeenQuests is accurate and adds or removes
@@ -67,7 +72,7 @@ function Questie:CheckQuestLog()
 		LastQuestLogHashes = Questie:AstroGetAllCurrentQuestHashesAsMeta();
 		for k, v in pairs(LastQuestLogHashes) do
 			Questie:AddQuestToMap(v["hash"]);
-			if (not QuestieHashMap[v["hash"]]) then
+			if (not Questie_Meta[v["hash"]]) then
 				--DEFAULT_CHAT_FRAME:AddMessage("QuestieQuest: Error! This doesn't appear to be a valid quest or it's missing from the database. Please report on GitHub.",1 ,0 ,0)
 				return
 			end
@@ -117,7 +122,7 @@ function Questie:CheckQuestLog()
 	for k, v in pairs(delta) do
 		if(v["deltaType"] == 1) then
 			Questie:AddQuestToMap(v["hash"]);
-			if (not QuestieHashMap[v["hash"]]) then
+			if (not Questie_Meta[v["hash"]]) then
 				--DEFAULT_CHAT_FRAME:AddMessage("QuestieQuest: Error! This doesn't appear to be a valid quest or it's missing from the database. Please report on GitHub.",1 ,0 ,0)
 				return
 			end
@@ -138,7 +143,7 @@ function Questie:CheckQuestLog()
 			if(not QuestieCompletedQuestMessages[v["name"]]) then
 				QuestieCompletedQuestMessages[v["name"]] = 0;
 			end
-			if (not QuestieHashMap[v["hash"]]) then
+			if (not Questie_Meta[v["hash"]]) then
 				--DEFAULT_CHAT_FRAME:AddMessage("QuestieQuest: Error! This doesn't appear to be a valid quest or it's missing from the database. Please report on GitHub.",1 ,0 ,0)
 				return
 			end
@@ -470,47 +475,48 @@ function Questie:AstroGetQuestObjectives(questHash)
 	end
 	return AllObjectives;
 end
+local function addAll(a, b, name, typ)
+	-- {22.0, 0.538, 0.4828, 8.0}
+	local monster = {};
+	monster["name"] = name;
+	monster["locations"] = {};
+	monster["type"] = typ;
+    for k, v in pairs(b) do
+		table.insert(monster["locations"], {v[3], v[1], v[2], 100});
+    end
+	table.insert(a, monster);
+end
 ---------------------------------------------------------------------------------------------------
 AstroobjectiveProcessors = {
 	['item'] = function(quest, name, amount, selected, mapid)
 		local list = {};
-		local itemdata = QuestieItems[name];
+		local itemdata = Questie_DropLookup[name];
+		if itemdata then
+			itemdata = Questie_Drops[itemdata];
+		end
 		Questie:debug_Print(name);
 		if itemdata == nil then
 			Questie:debug_Print("[AstroobjectiveProcessors] ERROR1 PROCESSING '" .. quest .. "''  objective:'" .. name .. "'' no itemdata".. " ID:0");
-			itemdata = QuestieItems[name];
+			--itemdata = QuestieItems[name];
 		end
+			
 		if itemdata then
-			for k,v in pairs(itemdata) do
-				if k == "locationCount" then
-					local monster = {};
-					monster["name"] = name;
-					monster["locations"] = {};
-					monster["type"] = "loot";
-					for b=1,itemdata['locationCount'] do
-						local loc = itemdata['locations'][b];
-						table.insert(monster["locations"], loc);
-					end
-					table.insert(list, monster);
-				elseif k == "drop" then
-					for e,r in pairs(v) do
-						local monster = {};
-						monster["name"] = e;
-						monster["locations"] = {};
-						monster["type"] = "loot";
-						for k, pos in pairs(QuestieMonsters[e]['locations']) do
-							table.insert(monster["locations"], pos);
-						end
-						table.insert(list, monster)
-					end
-				elseif k =="locations" then
+			for k, v in pairs(itemdata[3]) do -- drops
+				if Questie_NPCSpawns[v] then
+					addAll(list, Questie_NPCSpawns[v][2], Questie_NPCSpawns[v][1], "loot");
 				else
-					Questie:debug_Print("[AstroobjectiveProcessors] ERROR2 " .. quest .. "  objective:" .. name.. " ID:1");
-					for s, r in pairs(itemdata) do
-						Questie:debug_Print(s,tostring(r));
-					end
+					DEFAULT_CHAT_FRAME:AddMessage("(QuestieDebug)Missing npc " .. v);
 				end
 			end
+			for k, v in pairs(itemdata[4]) do -- containers
+				if Questie_ObjSpawns[v] then
+					addAll(list, Questie_ObjSpawns[v][2], Questie_ObjSpawns[v][1], "loot");
+				else
+					DEFAULT_CHAT_FRAME:AddMessage("(QuestieDebug)Missing object " .. v);
+				end
+			end
+		else
+			DEFAULT_CHAT_FRAME:AddMessage("(QuestieDebug)No drop table for " .. name);
 		end
 		return list;
 	end,
@@ -537,38 +543,46 @@ AstroobjectiveProcessors = {
 	['monster'] = function(quest, name, amount, selected, mapid)
 		local list = {};
 		local monster = {};
-		if(string.find(name, " slain")) then
+		if not (string.find(name, " slain")) then
 			monster["name"] = name;
 		else
-			monster["name"] = string.sub(name, string.len(name)-6);
+			monster["name"] = string.sub(name, 0, string.len(name)-6);
 		end
 		monster["type"] = "slay";
 		monster["locations"] = {};
-		if(QuestieMonsters[name] and QuestieMonsters[name]['locations']) then
-			for k, pos in pairs(QuestieMonsters[name]['locations']) do
-				table.insert(monster["locations"], pos);
+		if Questie_NPCLookup[monster["name"]] then
+			local spawns = Questie_NPCSpawns[Questie_NPCLookup[monster["name"]]][2];
+			for k,v in pairs(spawns) do
+				table.insert(monster["locations"], {v[3], v[1], v[2]});
 			end
+		else
+			DEFAULT_CHAT_FRAME:AddMessage("NPC Data not found for " .. monster["name"]);
 		end
+		--if(QuestieMonsters[name] and QuestieMonsters[name]['locations']) then
+		--	for k, pos in pairs(QuestieMonsters[name]['locations']) do
+		--		table.insert(monster["locations"], pos);
+		--	end
+		--end
 		table.insert(list, monster);
 		return list;
 	end,
 	['object'] = function(quest, name, amount, selected, mapid)
 		local list = {};
-		local objdata = QuestieObjects[name];
+		local objdata = Questie_ObjectLookup[name];
+		if objdata then
+			objdata = Questie_ObjSpawns[objdata];
+		end
 		if objdata == nil then
 			Questie:debug_Print("[AstroobjectiveProcessors] ERROR4 UNKNOWN OBJECT " .. quest .. "  objective:" .. name);
 		else
-			for b=1,objdata['locationCount'] do
-				local monster = {};
-				monster["name"] = name;
-				monster["locations"] = {};
-				monster["type"] = "object";
-				for b=1,objdata['locationCount'] do
-					local loc = objdata['locations'][b];
-					table.insert(monster["locations"], loc);
-				end
-				table.insert(list, monster);
+			local monster = {};
+			monster["name"] = name;
+			monster["locations"] = {};
+			monster["type"] = "object";
+			for k,v in pairs(objdata[2]) do
+				table.insert(monster["locations"], {v[3], v[1], v[2]});
 			end
+			table.insert(list, monster);
 		end
 		return list;
 	end
@@ -654,7 +668,7 @@ function Questie:getQuestHash(name, level, objectiveText)
 	if QuestieQuestHashCache[name..hashLevel..hashText] then
 		return QuestieQuestHashCache[name..hashLevel..hashText]
 	end
-	local questLookup = QuestieLevLookup[name];
+	local questLookup = Questie_Lookup[name];
 	local hasOthers = false;
 	if questLookup then
 		local count = 0;
@@ -662,14 +676,18 @@ function Questie:getQuestHash(name, level, objectiveText)
 		local bestDistance = 4294967295; -- some high number (0xFFFFFFFF)
 		local race = UnitRace("Player");
 		for k,v in pairs(questLookup) do
-			local rr = v[1];
+			
+			local qMeta = Questie_Meta[v[1]];
+			local rr = qMeta[2][3];
+			
+			
 			if checkRequirements(null, race, null, rr) or true then
 				if count == 1 then
 					hasOthers = true;
 				end
 				if k == objectiveText then
-					QuestieQuestHashCache[name..hashLevel..hashText] = v[2];
-					return v[2],hasOthers; -- exact match
+					QuestieQuestHashCache[name..hashLevel..hashText] = v[1];
+					return v[1],hasOthers; -- exact match
 				end
 				local dist = 4294967294;
 				if not (objectiveText == nil) then
@@ -677,7 +695,7 @@ function Questie:getQuestHash(name, level, objectiveText)
 				end
 				if dist < bestDistance then
 					bestDistance = dist;
-					retval = v[2];
+					retval = v[1];
 				end
 			else
 			end
@@ -688,20 +706,7 @@ function Questie:getQuestHash(name, level, objectiveText)
 			return retval, hasOthers; -- nearest match
 		end
 	end
-	if name == nil then
-		return -1;
-	end
-	local hash = Questie:MixString(0, name);
-	if not (level == nil) then
-		hash = Questie:MixInt(hash, level);
-		QuestieQuestHashCache[name..hashLevel..hashText] = hash;
-	end
-	if not (objectiveText == nil) then
-		hash = Questie:MixString(hash, objectiveText);
-		QuestieQuestHashCache[name..hashLevel..hashText] = hash;
-	end
-	QuestieQuestHashCache[name..hashLevel..hashText] = hash;
-	return hash, false;
+	
 end
 ---------------------------------------------------------------------------------------------------
 -- Checks to see if a quest is finished by quest hash
@@ -746,7 +751,9 @@ RaceBitIndexTable = {
 	['tauren'] = 6,
 	['gnome'] = 7,
 	['troll'] = 8,
-	['goblin'] = 9
+	['goblin'] = 9,
+	['bloodelf'] = 10,
+	['draenei'] = 11
 };
 ClassBitIndexTable = {
 	['warrior'] = 1,
@@ -778,7 +785,7 @@ function checkRequirements(class, race, dbClass, dbRace)
 		local racemap = unpackBinary(dbRace);
 		valid = racemap[RaceBitIndexTable[strlower(race)]];
 	end
-	if class and dbClass and valid and not (dbRace == 0)then
+	if class and dbClass and valid and not (dbClass == 0)then
 		local classmap = unpackBinary(dbClass);
 		valid = classmap[ClassBitIndexTable[strlower(class)]];
 	end
@@ -798,15 +805,15 @@ function Questie:GetAvailableQuestHashes(mapFileName, levelFrom, levelTo)
 			local content = QuestieZoneLevelMap[mapid][l];
 			if content then
 				for k,v in pairs(content) do
-					local qdata = QuestieHashMap[v];
+					local qdata = Questie_Meta[v];
 					if(qdata) then
-						local requiredQuest = qdata['rq'];
-						local requiredRaces = qdata['rr'];
-						local requiredClasses = qdata['rc'];
-						local requiredSkill = qdata['rs'];
+						local requiredQuest = qdata[2][1];
+						local requiredRaces = qdata[2][3];
+						local requiredClasses = qdata[2][4];
+						local requiredSkill = qdata[2][5];
 						local valid = not QuestieSeenQuests[requiredQuest];
-						if(requiredQuest) then valid = QuestieSeenQuests[requiredQuest]; end
-						valid = valid and (requiredSkill == nil or QuestieConfig.showProfessionQuests);
+						if(requiredQuest) and not (requiredQuest == 0) then valid = QuestieSeenQuests[requiredQuest]; end
+						valid = valid and (requiredSkill == 0 or QuestieConfig.showProfessionQuests);
 						if valid then valid = valid and checkRequirements(class, race, requiredClasses,requiredRaces); end
 						if valid and not QuestieHandledQuests[requiredQuest] and not QuestieSeenQuests[v] then
 							table.insert(hashes, v);

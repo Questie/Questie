@@ -63,16 +63,17 @@ function Questie:AddQuestToMap(questHash, redraw)
 		end
 	else
 		local finisher = nil;
-		if( QuestieHashMap[Quest["questHash"]] and QuestieHashMap[Quest["questHash"]]['finishedBy']) then
-			local finishMonster = QuestieHashMap[Quest["questHash"]]['finishedBy'];
-			finisher = QuestieMonsters[finishMonster];
-		end
-		if(not finisher) then
-			finisher = QuestieMonsters[QuestieFinishers[Quest["name"]]];
+		if( Questie_Meta[Quest["questHash"]] ) then
+			finisher = Questie_Meta[Quest["questHash"]][4][4];
+			if(Questie_Meta[Quest["questHash"]][4][3] == 1) then
+				finisher = Questie_NPCSpawns[finisher];
+			else
+				finisher = Questie_ObjSpawns[finisher];
+			end
 		end
 		if(finisher) then
-			local MapInfo = Questie:GetMapInfoFromID(finisher['locations'][1][1]);--Map id is at ID 1, i then convert this to a useful continent and zone
-			local c, z, x, y = MapInfo[4], MapInfo[5], finisher['locations'][1][2],finisher['locations'][1][3]-- You just have to know about this, 2 is x 3 is y
+			local MapInfo = Questie:GetMapInfoFromID(finisher[2][1][3]);--Map id is at ID 1, i then convert this to a useful continent and zone
+			local c, z, x, y = MapInfo[4], MapInfo[5], finisher[2][1][1],finisher[2][1][2]-- You just have to know about this, 2 is x 3 is y
 			--The 1 is just the first locations as finisher only have one location
 			--Questie:debug_Print("Quest finished",MapInfo[4], MapInfo[5]);
 			Questie:AddNoteToMap(c,z, x, y, "complete", questHash, 0);
@@ -236,7 +237,12 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 							end
 						end
 					elseif m[1] and (m[1]['type'] == "item" or m[1]['type'] == "loot") then
-						local monroot = QuestieMonsters[monster];
+						local monroot = Questie_NPCLookup[monster];
+						if monroot then
+							monroot = Questie_NPCSpawns[monroot];
+						else
+							--DEFAULT_CHAT_FRAME:AddMessage("QuestData not found for NPC??? " .. monster);
+						end
 						if monroot then
 							local mondat = monroot['drops'];
 							if mondat and mondat[name] then
@@ -265,8 +271,9 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 												local indx = findLast(desc, ":");
 												local countstr = string.sub(desc, indx+2);
 												local namestr = string.sub(desc, 1, indx-1);
-												if(string.find(name, monster) and QuestieItems[namestr] and QuestieItems[namestr]['drop']) then -- Added Find to fix zapped giants (THIS IS NOT TESTED IF YOU FIND ERRORS REPORT!)
-													for dropperr, id in pairs(QuestieItems[namestr]['drop']) do
+												if(string.find(name, monster) and Questie_DropLookup[namestr]) then -- Added Find to fix zapped giants (THIS IS NOT TESTED IF YOU FIND ERRORS REPORT!)
+													for h,c in pairs(Questie_Drops[Questie_DropLookup[namestr]][3]) do
+														local dropperr = Questie_NPCSpawns[c][1];
 														if(name == dropperr or (string.find(name, dropperr) and name == dropperr) and not p) then-- Added Find to fix zapped giants (THIS IS NOT TESTED IF YOU FIND ERRORS REPORT!)
 															GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
 															GameTooltip:AddLine("   " .. namestr .. ": " .. countstr, 1, 1, 0.2)
@@ -303,7 +310,7 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 							GameTooltip:AddLine("   " .. name, 1, 1, 0.2)
 						end
 					elseif (m[1] and (m[1]['type'] == "item" or m[1]['type'] == "loot") and name == objective) then
-						if(QuestieItems[objective]) then
+						if(Questie_DropLookup[objective]) then
 							GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
 							local logid = Questie:GetQuestIdFromHash(k);
 							if logid then
@@ -339,7 +346,7 @@ function Questie_Tooltip_OnEnter()
 			Tooltip = GameTooltip;
 		end
 		Tooltip:SetOwner(this, this); --"ANCHOR_CURSOR"
-		if(not QuestieHashMap[this.data.questHash]) then --Debug for missing quests that somehow end up on the world map anyway (ie via known "finisher" NPCs).
+		if(not Questie_Meta[this.data.questHash]) then --Debug for missing quests that somehow end up on the world map anyway (ie via known "finisher" NPCs).
 			Tooltip:AddLine("<Unknown Quest>",1,1,1);
 			local QuestLogID = Questie:GetQuestIdFromHash(this.data.questHash);
 			if QuestLogID then
@@ -361,15 +368,21 @@ function Questie_Tooltip_OnEnter()
 					Tooltip:AddLine(desc);
 				end
 			else
-				Tooltip:AddLine("["..QuestieHashMap[this.data.questHash].level.."] "..Quest["name"].." |cFF33FF00(complete)|r");
-				Tooltip:AddLine("Finished by: |cFFa6a6a6"..QuestieHashMap[this.data.questHash].finishedBy.."|r",1,1,1);
+				Tooltip:AddLine("["..Questie_Meta[this.data.questHash][3][1].."] "..Quest["name"].." |cFF33FF00(complete)|r");
+				local nameVal = Questie_Meta[this.data.questHash][4][4];
+				if(Questie_Meta[this.data.questHash][4][3] == 1) then
+					nameVal = Questie_NPCSpawns[nameVal][1];
+				else
+					nameVal = Questie_ObjSpawns[nameVal][1];
+				end
+				Tooltip:AddLine("Finished by: |cFFa6a6a6"..nameVal.."|r",1,1,1);
 			end
 		else
 			questOb = nil
-			local QuestName = tostring(QuestieHashMap[this.data.questHash].name)
+			local QuestName = tostring(Questie_Meta[this.data.questHash][1])
 			if QuestName then
 				local index = 0
-				for k,v in pairs(QuestieLevLookup[QuestName]) do
+				for k,v in pairs(Questie_Lookup[QuestName]) do
 					index = index + 1
 					if (index == 1) and (v[2] == this.data.questHash) and (k ~= "") then
 						questOb = k
@@ -380,8 +393,14 @@ function Questie_Tooltip_OnEnter()
 					end
 				end
 			end
-			Tooltip:AddLine("["..QuestieHashMap[this.data.questHash].level.."] "..QuestieHashMap[this.data.questHash].name.." |cFF33FF00(available)|r");
-			Tooltip:AddLine("Started by: |cFFa6a6a6"..QuestieHashMap[this.data.questHash].startedBy.."|r",1,1,1);
+			Tooltip:AddLine("["..Questie_Meta[this.data.questHash][3][1].."] "..Questie_Meta[this.data.questHash][1].." |cFF33FF00(available)|r");
+			local nameVal = Questie_Meta[this.data.questHash][4][2];
+			if(Questie_Meta[this.data.questHash][4][1] == 1) then
+				nameVal = Questie_NPCSpawns[nameVal][1];
+			else
+				nameVal = Questie_ObjSpawns[nameVal][1];
+			end
+			Tooltip:AddLine("Started by: |cFFa6a6a6"..nameVal.."|r",1,1,1);
 			if questOb ~= nil then
 				Tooltip:AddLine("Description: |cFFa6a6a6"..questOb.."|r",1,1,1,true);
 			end
@@ -524,10 +543,18 @@ function Questie:SetAvailableQuests()
 	end
 	if quests then
 	for k, v in pairs(quests) do
-		if(QuestieHashMap[v] and QuestieHashMap[v]['startedBy'] and QuestieMonsters[QuestieHashMap[v]['startedBy']]) then
-			Monster = QuestieMonsters[QuestieHashMap[v]['startedBy']]['locations'][1]
-			local MapInfo = Questie:GetMapInfoFromID(Monster[1]);
-			Questie:AddAvailableNoteToMap(c,z,Monster[2],Monster[3],"available",v,-1);
+		if(Questie_Meta[v]) then
+			local meta = Questie_Meta[v];
+			if(meta[4][1] == 1) then
+				Monster = Questie_NPCSpawns[meta[4][2]];
+			else
+				Monster = Questie_ObjSpawns[meta[4][2]];
+			end
+			if Monster then
+				Monster = Monster[2][1];
+				local MapInfo = Questie:GetMapInfoFromID(Monster[3]);
+				Questie:AddAvailableNoteToMap(c,z,Monster[1],Monster[2],"available",v,-1);
+			end
 		end
 	end
 	Questie:debug_Print("Added Available quests: Time:",tostring((GetTime()- t)*1000).."ms", "Count:"..table.getn(quests))

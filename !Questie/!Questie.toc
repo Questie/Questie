@@ -1,8 +1,8 @@
 ## Interface: 20400
-## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v1.0|r
+## Title: |cFFFFFFFFQuestieTBC|r|cFF00FF00 v1.1|r
 ## Author: Aero/Schaka/Logonz/Dyaxler/everyone else
 ## Notes: A standalone quest helper for WoW 2.4.3 (TBC)
-## Version: 1.0
+## Version: 1.1
 ## RequiredDeps:
 ## OptionalDeps: Cartographer, MetaMap
 ## SavedVariables:
@@ -32,14 +32,22 @@ Libs\Tourist-2.0\Tourist-2.0.lua
 Astrolabe\Load.xml
 
 # Questie Database
-Database\items.lua
-Database\monsters.lua
+# Database\items.lua
+# Database\monsters.lua
 Database\events.lua
 Database\zone.lua
-Database\hash.lua
-Database\finishers.lua
-Database\objects.lua
-Database\addendum.lua
+# Database\finishers.lua
+# Database\objects.lua
+# Database\addendum.lua
+
+# questie4 format db (with 2.4.3 data)
+Database\lookup.lua
+Database\meta.lua
+Database\provided.lua
+Database\npcs.lua
+Database\objs.lua
+Database\items.lua
+Database\post.lua
 
 # Questie
 Questie.lua
