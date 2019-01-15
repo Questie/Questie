@@ -71,16 +71,18 @@ function Questie:AddQuestToMap(questHash, redraw)
 				finisher = Questie_ObjSpawns[finisher];
 			end
 		end
-		if(finisher) then
+		if (finisher and finisher[2][1]) then
 			local MapInfo = Questie:GetMapInfoFromID(finisher[2][1][3]);--Map id is at ID 1, i then convert this to a useful continent and zone
-			local c, z, x, y = MapInfo[4], MapInfo[5], finisher[2][1][1],finisher[2][1][2]-- You just have to know about this, 2 is x 3 is y
-			--The 1 is just the first locations as finisher only have one location
-			--Questie:debug_Print("Quest finished",MapInfo[4], MapInfo[5]);
-			Questie:AddNoteToMap(c,z, x, y, "complete", questHash, 0);
-			local notehandle = {};
-			notehandle.c = MapInfo[4];
-			notehandle.z = MapInfo[5];
-			table.insert(ques["noteHandles"], notehandle);
+			if MapInfo then
+				local c, z, x, y = MapInfo[4], MapInfo[5], finisher[2][1][1],finisher[2][1][2]-- You just have to know about this, 2 is x 3 is y
+				--The 1 is just the first locations as finisher only have one location
+				--Questie:debug_Print("Quest finished",MapInfo[4], MapInfo[5]);
+				Questie:AddNoteToMap(c,z, x, y, "complete", questHash, 0);
+				local notehandle = {};
+				notehandle.c = MapInfo[4];
+				notehandle.z = MapInfo[5];
+				table.insert(ques["noteHandles"], notehandle);
+			end
 		else
 			Questie:debug_Print("[AddQuestToMap] ERROR Quest broken! ", Quest["name"], questHash, "report on github!");
 		end
@@ -141,7 +143,11 @@ function Questie:RemoveQuestFromMap(questHash, redraw)
 end
 
 function Questie:GetMapInfoFromID(id)
-	return QuestieZoneIDLookup[id];
+	local r = QuestieZoneIDLookup[id];
+	if not r then
+		DEFAULT_CHAT_FRAME:AddMessage("(MoreQuestieSpam) MapInfo not found for ID " .. id .. "??? TELL AERO!!");
+	end
+	return r;
 end
 ---------------------------------------------------------------------------------------------------
 -- Add quest note to map
