@@ -144,9 +144,9 @@ end
 
 function Questie:GetMapInfoFromID(id)
 	local r = QuestieZoneIDLookup[id];
-	if not r then
-		DEFAULT_CHAT_FRAME:AddMessage("(MoreQuestieSpam) MapInfo not found for ID " .. id .. "??? TELL AERO!!");
-	end
+	--if not r then
+		--DEFAULT_CHAT_FRAME:AddMessage("(MoreQuestieSpam) MapInfo not found for ID " .. id .. "??? TELL AERO!!");
+	--end
 	return r;
 end
 ---------------------------------------------------------------------------------------------------
