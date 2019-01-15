@@ -430,7 +430,7 @@ function Questie_AvailableQuestClick()
 	if ( IsShiftKeyDown() and Tooltip and Questie_Meta[this.data.questHash] ) then
 		local QuestName = tostring(Questie_Meta[this.data.questHash][1])
 		if QuestName then
-			for k,v in pairs(QuestieLevLookup) do
+			for k,v in pairs(Questie_Lookup) do
 				if strlower(k) == strlower(QuestName) then
 					Questie:Toggle()
 					local hash = (this.data.questHash)
