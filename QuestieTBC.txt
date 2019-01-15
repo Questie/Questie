@@ -1,1 +1,1 @@
-This is The Burning Crusade client
+This is The Burning Crusade Questie port
