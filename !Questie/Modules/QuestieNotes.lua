@@ -427,15 +427,15 @@ function Questie_AvailableQuestClick()
 	if (QuestieConfig.arrowEnabled == true) and (arg1 == "LeftButton") and (QuestieSeenQuests[this.data.questHash] == 0) and (QuestieTrackedQuests[this.data.questHash] ~= false) and (not IsControlKeyDown()) and (not IsShiftKeyDown()) then
 		SetArrowObjective(this.data.questHash)
 	end
-	if ( IsShiftKeyDown() and Tooltip ) then
-		local QuestName = tostring(QuestieHashMap[this.data.questHash].name)
+	if ( IsShiftKeyDown() and Tooltip and Questie_Meta[this.data.questHash] ) then
+		local QuestName = tostring(Questie_Meta[this.data.questHash][1])
 		if QuestName then
 			for k,v in pairs(QuestieLevLookup) do
 				if strlower(k) == strlower(QuestName) then
 					Questie:Toggle()
 					local hash = (this.data.questHash)
 					Questie:finishAndRecurse(this.data.questHash)
-					DEFAULT_CHAT_FRAME:AddMessage("Completing quest |cFF00FF00\"" .. QuestieHashMap[this.data.questHash]['name'] .. "\"|r and parent quest: "..this.data.questHash);
+					DEFAULT_CHAT_FRAME:AddMessage("Completing quest |cFF00FF00\"" .. Questie_Meta[this.data.questHash][1] .. "\"|r and parent quest: "..this.data.questHash);
 				end
 			end
 		end

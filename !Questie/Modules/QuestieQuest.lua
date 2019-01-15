@@ -505,18 +505,18 @@ AstroobjectiveProcessors = {
 				if Questie_NPCSpawns[v] then
 					addAll(list, Questie_NPCSpawns[v][2], Questie_NPCSpawns[v][1], "loot");
 				else
-					DEFAULT_CHAT_FRAME:AddMessage("(QuestieDebug)Missing npc " .. v);
+					--DEFAULT_CHAT_FRAME:AddMessage("(QuestieDebug)Missing npc " .. v);
 				end
 			end
 			for k, v in pairs(itemdata[4]) do -- containers
 				if Questie_ObjSpawns[v] then
 					addAll(list, Questie_ObjSpawns[v][2], Questie_ObjSpawns[v][1], "loot");
 				else
-					DEFAULT_CHAT_FRAME:AddMessage("(QuestieDebug)Missing object " .. v);
+					--DEFAULT_CHAT_FRAME:AddMessage("(QuestieDebug)Missing object " .. v);
 				end
 			end
 		else
-			DEFAULT_CHAT_FRAME:AddMessage("(QuestieDebug)No drop table for " .. name);
+			--DEFAULT_CHAT_FRAME:AddMessage("(QuestieDebug)No drop table for " .. name);
 		end
 		return list;
 	end,
@@ -556,7 +556,7 @@ AstroobjectiveProcessors = {
 				table.insert(monster["locations"], {v[3], v[1], v[2]});
 			end
 		else
-			DEFAULT_CHAT_FRAME:AddMessage("NPC Data not found for " .. monster["name"]);
+			--DEFAULT_CHAT_FRAME:AddMessage("NPC Data not found for " .. monster["name"]);
 		end
 		--if(QuestieMonsters[name] and QuestieMonsters[name]['locations']) then
 		--	for k, pos in pairs(QuestieMonsters[name]['locations']) do

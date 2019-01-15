@@ -285,7 +285,7 @@ function QuestieTracker:GetFinisherLocation(typ, name)
 		if npc then
 			npc = Questie_NPCSpawns[npc];
 		else
-			DEFAULT_CHAT_FRAME:AddMessage("(QuestieDebug) Tracker NPC not found?? " .. name);
+			--DEFAULT_CHAT_FRAME:AddMessage("(QuestieDebug) Tracker NPC not found?? " .. name);
 		end
 		if npc == nil then
 			npc = QuestieAdditionalStartFinishLookup[name];
@@ -305,7 +305,7 @@ function QuestieTracker:GetFinisherLocation(typ, name)
 		if obj then
 			obj = Questie_ObjSpawns[obj];
 		else
-			DEFAULT_CHAT_FRAME:AddMessage("(QuestieDebug) Tracker Obj not found?? " .. name);
+			--DEFAULT_CHAT_FRAME:AddMessage("(QuestieDebug) Tracker Obj not found?? " .. name);
 		end
 		if not (obj == nil) then
 			local loc = obj[2][1];
