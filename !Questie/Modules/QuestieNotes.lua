@@ -49,14 +49,16 @@ function Questie:AddQuestToMap(questHash, redraw)
 				--This checks if just THIS objective is done (Data is not super efficient but it's nil unless set so...)
 				if not location.done then
 					local MapInfo = Questie:GetMapInfoFromID(location.mapid);
-					local notehandle = {};
-					notehandle.c = MapInfo[4];
-					notehandle.z = MapInfo[5];
-					Questie:AddNoteToMap(MapInfo[4], MapInfo[5], location.x, location.y, location.type, questHash, location.objectiveid);
-					if not UsedContinents[MapInfo[4]] and not UsedZones[MapInfo[5]] then
-						UsedContinents[MapInfo[4]] = true;
-						UsedZones[MapInfo[5]] = true;
-						table.insert(ques["noteHandles"], notehandle);
+					if MapInfo then
+						local notehandle = {};
+						notehandle.c = MapInfo[4];
+						notehandle.z = MapInfo[5];
+						Questie:AddNoteToMap(MapInfo[4], MapInfo[5], location.x, location.y, location.type, questHash, location.objectiveid);
+						if not UsedContinents[MapInfo[4]] and not UsedZones[MapInfo[5]] then
+							UsedContinents[MapInfo[4]] = true;
+							UsedZones[MapInfo[5]] = true;
+							table.insert(ques["noteHandles"], notehandle);
+						end
 					end
 				end
 			end

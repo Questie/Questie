@@ -298,7 +298,9 @@ function QuestieTracker:GetFinisherLocation(typ, name)
 			mapid = loc[3];
 			x = loc[1];
 			y = loc[2];
-			C, Z, X, Y = QuestieZoneIDLookup[mapid][4], QuestieZoneIDLookup[mapid][5], x, y
+			if QuestieZoneIDLookup[mapid] then
+				C, Z, X, Y = QuestieZoneIDLookup[mapid][4], QuestieZoneIDLookup[mapid][5], x, y
+			end
 		end
 	elseif typ == 2 then
 		local obj = Questie_ObjectLookup[name];
@@ -701,7 +703,7 @@ function QuestieTracker:addQuestToTracker(hash, logId, level) -- never used???
 	Questie:SetAvailableQuests()
 	Questie:RedrawNotes()
 	QuestieTracker:fillTrackingFrame()
-	if QuestieTrackedQuests[hash]["objective1"] then
+	if QuestieTrackedQuests[hash] and QuestieTrackedQuests[hash]["objective1"] then
 		if (QuestieTrackedQuests[hash]["objective1"]["done"] ~= true) or (QuestieTrackedQuests[hash]["objective1"]["done"] ~= 1) or (QuestieTrackedQuests[hash]["objective1"]["type"] == nil) or (not QuestieTrackedQuests[hash]["arrowPoint"])then
 			QuestieTracker:updateFrameOnTracker(hash, logId, level)
 		end
