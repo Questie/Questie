@@ -342,23 +342,27 @@ function QuestieTracker:fillTrackingFrame()
 					for name,notes in pairs(quest.objectives.objectives) do
 						for k,v in pairs(notes) do
 							if not v.done then
-								local continent, zone, xNote, yNote = QuestieZoneIDLookup[v.mapid][4], QuestieZoneIDLookup[v.mapid][5], v.x, v.y
-								if continent and zone and xNote and yNote then
-									local dist, xDelta, yDelta = Astrolabe:ComputeDistance( C, Z, X, Y, continent, zone, xNote, yNote )
-									if dist and xDelta and yDelta then
-										local info = {
-											["dist"] = dist,
-											["hash"] = hash,
-											["xDelta"] = xDelta,
-											["yDelta"] = yDelta,
-											["c"] = continent,
-											["z"] = zone,
-											["x"] = xNote,
-											["y"] = yNote,
-										}
-										objc = objc + 1;
-										table.insert(distanceNotes, info);
-									end
+								if v.mapid == 0 or (not QuestieZoneIDLookup[v.mapid]) then
+
+								else
+									local continent, zone, xNote, yNote = QuestieZoneIDLookup[v.mapid][4], QuestieZoneIDLookup[v.mapid][5], v.x, v.y
+									if continent and zone and xNote and yNote then
+										local dist, xDelta, yDelta = Astrolabe:ComputeDistance( C, Z, X, Y, continent, zone, xNote, yNote )
+										if dist and xDelta and yDelta then
+											local info = {
+												["dist"] = dist,
+												["hash"] = hash,
+												["xDelta"] = xDelta,
+												["yDelta"] = yDelta,
+												["c"] = continent,
+												["z"] = zone,
+												["x"] = xNote,
+												["y"] = yNote,
+											}
+											objc = objc + 1;
+											table.insert(distanceNotes, info);
+										end
+									end 
 								end
 							end
 						end
