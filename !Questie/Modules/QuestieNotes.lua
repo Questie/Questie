@@ -281,8 +281,11 @@ function Questie:Tooltip(this, forceShow, bag, slot)
 												local namestr = string.sub(desc, 1, indx-1);
 												if(string.find(name, monster) and Questie_DropLookup[namestr]) then -- Added Find to fix zapped giants (THIS IS NOT TESTED IF YOU FIND ERRORS REPORT!)
 													for h,c in pairs(Questie_Drops[Questie_DropLookup[namestr]][3]) do
-														local dropperr = Questie_NPCSpawns[c][1];
-														if(name == dropperr or (string.find(name, dropperr) and name == dropperr) and not p) then-- Added Find to fix zapped giants (THIS IS NOT TESTED IF YOU FIND ERRORS REPORT!)
+														local dropperr = Questie_NPCSpawns[c];
+														if dropperr then 
+															dropperr = dropperr[1];
+														end
+														if dropperr and (name == dropperr or (string.find(name, dropperr) and name == dropperr) and not p) then-- Added Find to fix zapped giants (THIS IS NOT TESTED IF YOU FIND ERRORS REPORT!)
 															GameTooltip:AddLine(v['objectives']['QuestName'], 0.2, 1, 0.3)
 															GameTooltip:AddLine("   " .. namestr .. ": " .. countstr, 1, 1, 0.2)
 															p = true;
