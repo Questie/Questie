@@ -8,6 +8,9 @@
 ## SavedVariables:
 ## SavedVariablesPerCharacter: QuestieSeenQuests, QuestieTrackedQuests, QuestieConfig, QuestieTrackerVariables
 
+# compat module
+Modules\QuestieCompat.lua
+
 # Ace Libs
 Libs\AceLibrary\AceLibrary.lua
 Libs\AceOO-2.0\AceOO-2.0.lua
