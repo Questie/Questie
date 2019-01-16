@@ -477,16 +477,20 @@ function Questie:AstroGetQuestObjectives(questHash)
 end
 local function addAll(a, b, name, typ)
 	-- {22.0, 0.538, 0.4828, 8.0}
+	local added = 0;
 	local monster = {};
 	monster["name"] = name;
 	monster["locations"] = {};
 	monster["type"] = typ;
     for k, v in pairs(b) do
 		table.insert(monster["locations"], {v[3], v[1], v[2], 100});
+		added = added + 1;
     end
 	table.insert(a, monster);
+	return added;
 end
 ---------------------------------------------------------------------------------------------------
+local _NOTE_LIMIT_PER_OBJECTIVE = 128;
 AstroobjectiveProcessors = {
 	['item'] = function(quest, name, amount, selected, mapid)
 		local list = {};
@@ -499,21 +503,28 @@ AstroobjectiveProcessors = {
 			Questie:debug_Print("[AstroobjectiveProcessors] ERROR1 PROCESSING '" .. quest .. "''  objective:'" .. name .. "'' no itemdata".. " ID:0");
 			--itemdata = QuestieItems[name];
 		end
-			
+		local maxv = _NOTE_LIMIT_PER_OBJECTIVE;
 		if itemdata then
 			for k, v in pairs(itemdata[3]) do -- drops
+				if ( maxv < 0 ) then
+					break
+				end
 				if Questie_NPCSpawns[v] then
-					addAll(list, Questie_NPCSpawns[v][2], Questie_NPCSpawns[v][1], "loot");
+					maxv = maxv - addAll(list, Questie_NPCSpawns[v][2], Questie_NPCSpawns[v][1], "loot");
 				else
 					--DEFAULT_CHAT_FRAME:AddMessage("(QuestieDebug)Missing npc " .. v);
 				end
 			end
 			for k, v in pairs(itemdata[4]) do -- containers
+				if ( maxv < 0 ) then
+					break
+				end
 				if Questie_ObjSpawns[v] then
-					addAll(list, Questie_ObjSpawns[v][2], Questie_ObjSpawns[v][1], "loot");
+					maxv = maxv - addAll(list, Questie_ObjSpawns[v][2], Questie_ObjSpawns[v][1], "loot");
 				else
 					--DEFAULT_CHAT_FRAME:AddMessage("(QuestieDebug)Missing object " .. v);
 				end
+				
 			end
 		else
 			--DEFAULT_CHAT_FRAME:AddMessage("(QuestieDebug)No drop table for " .. name);
@@ -550,10 +561,15 @@ AstroobjectiveProcessors = {
 		end
 		monster["type"] = "slay";
 		monster["locations"] = {};
+		local maxv = _NOTE_LIMIT_PER_OBJECTIVE;
 		if Questie_NPCLookup[monster["name"]] then
 			local spawns = Questie_NPCSpawns[Questie_NPCLookup[monster["name"]]][2];
 			for k,v in pairs(spawns) do
 				table.insert(monster["locations"], {v[3], v[1], v[2]});
+				maxv = maxv - 1;
+				if (maxv < 0) then
+					break;
+				end
 			end
 		else
 			--DEFAULT_CHAT_FRAME:AddMessage("NPC Data not found for " .. monster["name"]);
@@ -579,8 +595,13 @@ AstroobjectiveProcessors = {
 			monster["name"] = name;
 			monster["locations"] = {};
 			monster["type"] = "object";
+			local maxv = _NOTE_LIMIT_PER_OBJECTIVE;
 			for k,v in pairs(objdata[2]) do
 				table.insert(monster["locations"], {v[3], v[1], v[2]});
+				maxv = maxv - 1;
+				if (maxv < 0) then
+					break;
+				end
 			end
 			table.insert(list, monster);
 		end
