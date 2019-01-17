@@ -369,21 +369,23 @@ function QuestieTracker:fillTrackingFrame()
 					end
 				end
 				if objc == 0 then
-					local continent, zone, xNote, yNote = QuestieTracker:GetFinisherLocation(Questie_Meta[hash][4][3], Questie_NPCSpawns[Questie_Meta[hash][4][4]][1]);
-					if continent and zone and xNote and yNote then
-						local dist, xDelta, yDelta = Astrolabe:ComputeDistance( C, Z, X, Y, continent, zone, xNote, yNote );
-						if dist and xDelta and yDelta  then
-							local info = {
-								["dist"] = dist,
-								["hash"] = hash,
-								["xDelta"] = xDelta,
-								["yDelta"] = yDelta,
-								["c"] = continent,
-								["z"] = zone,
-								["x"] = xNote,
-								["y"] = yNote,
-							}
-							table.insert(distanceNotes, info);
+					if Questie_Meta[hash] and Questie_Meta[hash][4] and Questie_NPCSpawns[Questie_Meta[hash][4][4]] then
+						local continent, zone, xNote, yNote = QuestieTracker:GetFinisherLocation(Questie_Meta[hash][4][3], Questie_NPCSpawns[Questie_Meta[hash][4][4]][1]);
+						if continent and zone and xNote and yNote then
+							local dist, xDelta, yDelta = Astrolabe:ComputeDistance( C, Z, X, Y, continent, zone, xNote, yNote );
+							if dist and xDelta and yDelta  then
+								local info = {
+									["dist"] = dist,
+									["hash"] = hash,
+									["xDelta"] = xDelta,
+									["yDelta"] = yDelta,
+									["c"] = continent,
+									["z"] = zone,
+									["x"] = xNote,
+									["y"] = yNote,
+								}
+								table.insert(distanceNotes, info);
+							end
 						end
 					end
 				end
