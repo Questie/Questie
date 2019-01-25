@@ -435,6 +435,7 @@ function Questie:OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, 
 		Questie:BlockTranslations();
 		Questie:SetupDefaults();
 		Questie:CheckDefaults();
+		Questie:UpdateIconScale();
 	elseif(event == "PLAYER_LOGIN") then
 		Questie:CheckQuestLog();
 		Questie:AddEvent("UPDATE", 1.15);
