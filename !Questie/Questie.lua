@@ -47,6 +47,7 @@ function Questie:SetupDefaults()
 		["alwaysShowQuests"] = true,
 		["arrowEnabled"] = true,
 		["boldColors"] = false,
+		["iconScale"] = 1.0,
 		["maxLevelFilter"] = false,
 		["maxShowLevel"] = 3,
 		["minLevelFilter"] = false,
@@ -89,6 +90,9 @@ function Questie:CheckDefaults()
 	end
 	if QuestieConfig.boldColors == nil then
 		QuestieConfig.boldColors = false;
+	end
+	if QuestieConfig.iconScale == nil then
+		QuestieConfig.iconScale = 1.0;
 	end
 	if QuestieConfig.maxLevelFilter == nil then
 		QuestieConfig.maxLevelFilter = false;
@@ -176,6 +180,7 @@ function Questie:ClearConfig(arg)
 				["alwaysShowQuests"] = true,
 				["arrowEnabled"] = true,
 				["boldColors"] = false,
+				["iconScale"] = 1.0,
 				["maxLevelFilter"] = false,
 				["maxShowLevel"] = 3,
 				["minLevelFilter"] = false,
@@ -720,6 +725,7 @@ QuestieFastSlash = {
 					["alwaysShowQuests"] = true,
 					["arrowEnabled"] = true,
 					["boldColors"] = false,
+					["iconScale"] = 1.0,
 					["maxLevelFilter"] = false,
 					["maxShowLevel"] = 3,
 					["minLevelFilter"] = false,
@@ -778,6 +784,18 @@ QuestieFastSlash = {
 		}
 		StaticPopup_Show ("CLEAR_TRACKER")
 	end,
+	["seticonscale"] = function(args)
+	-- Default: 1.0
+		if args then
+			local val = tonumber(args);
+			QuestieConfig.iconScale = val;
+			Questie:UpdateIconScale();
+			Questie:Toggle();
+			Questie:Toggle();
+		else
+			DEFAULT_CHAT_FRAME:AddMessage("|cFFFF2222Error: invalid number supplied!");
+		end
+	end,
 	["settings"] = function()
 		Questie:CurrentUserToggles()
 	end,
@@ -794,6 +812,7 @@ QuestieFastSlash = {
 		DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie minlevel |r-- |c0000ffc0(toggle)|r Min-Level Filter", 0.75, 0.75, 0.75);
 		DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie NUKE |r-- Resets ALL Questie data and settings", 0.75, 0.75, 0.75);
 		DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie professions |r-- |c0000ffc0(toggle)|r Profession quests", 0.75, 0.75, 0.75);
+		DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie seticonscale |r|c0000ffc0<number>|r -- Scales all icons by <X> (default=1.0)", 0.75, 0.75, 0.75);
 		DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie setmaxlevel |r|c0000ffc0<number>|r -- Hides quests until <X> levels above players level (default=3)", 0.75, 0.75, 0.75);
 		DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie setminlevel |r|c0000ffc0<number>|r -- Hides quests <X> levels below players level (default=5)", 0.75, 0.75, 0.75);
 		DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie settings |r-- Displays your current toggles and settings.", 0.75, 0.75, 0.75);
@@ -836,17 +855,18 @@ function Questie:CurrentUserToggles()
 		[2] = { "alwaysShowQuests" },
 		[3] = { "arrowEnabled" },
 		[4] = { "boldColors" },
-		[5] = { "maxLevelFilter" },
-		[6] = { "maxShowLevel" },
-		[7] = { "minLevelFilter" },
-		[8] = { "minShowLevel" },
-		[9] = { "showMapAids" },
-		[10] = { "showProfessionQuests" },
-		[11] = { "showTrackerHeader" },
-		[12] = { "trackerEnabled" },
-		[13] = { "trackerList" },
-		[14] = { "resizeWorldmap" },
-		[15] = { "getVersion" },
+		[5] = { "iconScale"},
+		[6] = { "maxLevelFilter" },
+		[7] = { "maxShowLevel" },
+		[8] = { "minLevelFilter" },
+		[9] = { "minShowLevel" },
+		[10] = { "showMapAids" },
+		[11] = { "showProfessionQuests" },
+		[12] = { "showTrackerHeader" },
+		[13] = { "trackerEnabled" },
+		[14] = { "trackerList" },
+		[15] = { "resizeWorldmap" },
+		[16] = { "getVersion" },
 	}
 	if QuestieConfig then
 		i = 1

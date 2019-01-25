@@ -28,6 +28,17 @@ local QSelect_QuestLogEntry = SelectQuestLogEntry;
 local QGet_QuestLogLeaderBoard = GetQuestLogLeaderBoard;
 local QGet_QuestLogQuestText = GetQuestLogQuestText;
 local QGet_TitleText = GetTitleText;
+
+---------------------------------------------------------------------------------------------------
+-- Updates all icons' scale
+---------------------------------------------------------------------------------------------------
+function Questie:UpdateIconScale()
+	QUESTIE_NOTES_MAP_ICON_SCALE =  1.2 * QuestieConfig.iconScale;
+	QUESTIE_NOTES_WORLD_MAP_ICON_SCALE = 0.75 * QuestieConfig.iconScale;
+	QUESTIE_NOTES_CONTINENT_ICON_SCALE = 1 * QuestieConfig.iconScale;
+	QUESTIE_NOTES_MINIMAP_ICON_SCALE = 1.0 * QuestieConfig.iconScale;
+end
+
 ---------------------------------------------------------------------------------------------------
 -- Adds quest notes to map
 ---------------------------------------------------------------------------------------------------
