@@ -12,6 +12,13 @@
 
 **---------- Please read the [FAQ](FAQ.md) before reporting bugs ----------**
 
+## Support
+
+- You can use the [issue tracker](https://github.com/AeroScripts/QuestieDev/issues) to report bugs (requires a Github account). Please read the [FAQ](FAQ.md) before reporting bugs.
+- If you get an error message from the WoW client, please include the **complete** text or a screenshot of it in your report.
+- If you wish to submit a bug fix or feature addition you made, you can create a Pull Request on Github. Please read the [rules](https://github.com/AeroScripts/QuestieDev/wiki/Pull-Request-Rules) first.
+- You can contact us on Discord: https://discord.gg/phKnHVu
+
 ## Installation instructions:
 
 ### Download
@@ -40,13 +47,6 @@ When you have both ready:
     - **Remove or increase the addon memory limit (top right of the addon menu window)**
         - Set to 0 for unlimited memory
         - Set no less than 256MB if you want to limit it, or WoW might crash
-
-## Support
-
-- You can use the [issue tracker](https://github.com/AeroScripts/QuestieDev/issues) to report bugs (requires a Github account). Please read the [FAQ](FAQ.md) before reporting bugs.
-- If you get an error message from the WoW client, please include the **complete** text or a screenshot of it in your report.
-- If you wish to submit a bug fix or feature addition you made, you can create a Pull Request on Github. Please read the [rules](https://github.com/AeroScripts/QuestieDev/wiki/Pull-Request-Rules) first.
-- You can contact us on Discord: https://discord.gg/phKnHVu
 
 ## Screenshots
 Here are some example images of what Questie can do:
