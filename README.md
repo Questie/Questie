@@ -4,7 +4,7 @@
 
 [![Downloads](https://img.shields.io/github/downloads/AeroScripts/QuestieDev/total.svg)](https://github.com/AeroScripts/QuestieDev/releases/)
 
-[![Downloads Latest](https://img.shields.io/github/downloads/AeroScripts/QuestieDev/v3.7.0/total.svg)](https://github.com/AeroScripts/QuestieDev/releases/latest)
+[![Downloads Latest](https://img.shields.io/github/downloads/AeroScripts/QuestieDev/v3.7.1/total.svg)](https://github.com/AeroScripts/QuestieDev/releases/latest)
 [![Date Latest](https://img.shields.io/github/release-date/AeroScripts/QuestieDev.svg)](https://github.com/AeroScripts/QuestieDev/releases/latest)
 [![Commits Since Latest](https://img.shields.io/github/commits-since/AeroScripts/QuestieDev/latest.svg)](https://github.com/AeroScripts/QuestieDev/commits/master)
 

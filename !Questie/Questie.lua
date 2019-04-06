@@ -1,6 +1,5 @@
 ---------------------------------------------------------------------------------------------------
 --Name: Questie for Vanilla WoW
---Revision: 3.70
 --Authors: Aero/Schaka/Logon/Dyaxler/Muehe/Zoey/everyone else
 --Website: https://github.com/AeroScripts/QuestieDev
 --Description: Questie started out being a simple backport of QuestHelper but it has grown beyond
@@ -12,7 +11,7 @@
 --///////////////////////////////////////////////////////////////////////////////////////////////--
 ---------------------------------------------------------------------------------------------------
 Questie = CreateFrame("Frame", "QuestieLua", UIParent, "ActionButtonTemplate");
-QuestieVersion = 3.70;
+QuestieVersion = "3.7.1";
 ---------------------------------------------------------------------------------------------------
 --Setup Default Profile
 ---------------------------------------------------------------------------------------------------
