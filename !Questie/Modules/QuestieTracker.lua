@@ -801,9 +801,13 @@ function QuestLogTitleButton_OnClick(button)
                     return;
                     end
                     if ChatFrameEditBox:IsVisible() then
-                        ChatFrameEditBox:Insert("|cffffff00|Hquest:0:0:0:0|h["..gsub(this:GetText(), ".*%] (.*)", "%1").."]|h|r");
+                        local text = this:GetText();
+                        if QuestieConfig.useQuestLinks then text = "|cffffff00|Hquest:0:0:0:0|h["..gsub(text, ".*%] (.*)", "%1").."]|h|r"; end
+                        ChatFrameEditBox:Insert(text);
                     elseif (WIM_EditBoxInFocus) then
-                        WIM_EditBoxInFocus:Insert("|cffffff00|Hquest:0:0:0:0|h["..gsub(this:GetText(), ".*%]  (.*)", "%1").."]|h|r");
+                        local text = this:GetText();
+                        if QuestieConfig.useQuestLinks then text = "|cffffff00|Hquest:0:0:0:0|h["..gsub(text, ".*%] (.*)", "%1").."]|h|r"; end
+                        WIM_EditBoxInFocus:Insert(text);
                     else
                         if (IsQuestWatched(questIndex)) then
                             RemoveQuestWatch(questIndex);
@@ -871,9 +875,13 @@ function QuestLogTitleButton_OnClick(button)
             end
             local hash = Questie:getQuestHash(qName, level, objectiveText, headerName);
             if ChatFrameEditBox:IsVisible() then
-                ChatFrameEditBox:Insert("|cffffff00|Hquest:0:0:0:0|h["..gsub(this:GetText(), "  (.)", "%1").."]|h|r");
+                local text = this:GetText();
+                if QuestieConfig.useQuestLinks then text = "|cffffff00|Hquest:0:0:0:0|h["..gsub(text, "  (.)", "%1").."]|h|r"; end
+                ChatFrameEditBox:Insert(text);
             elseif (WIM_EditBoxInFocus) then
-                WIM_EditBoxInFocus:Insert("|cffffff00|Hquest:0:0:0:0|h["..gsub(this:GetText(), "  (.)", "%1").."]|h|r");
+                local text = this:GetText();
+                if QuestieConfig.useQuestLinks then text = "|cffffff00|Hquest:0:0:0:0|h["..gsub(text, "  (.)", "%1").."]|h|r"; end
+                WIM_EditBoxInFocus:Insert(text);
             else
                 if (IsQuestWatched(questIndex)) then
                     Questie:debug_Print("Tracker:QuestLogTitleButton_OnClick --> RemoveQuestWatch: [Id: "..questIndex.."] | [hash: "..hash.."]");

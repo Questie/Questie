@@ -46,6 +46,7 @@ function Questie:OptionsForm_Init()
     QO_trackerscale_current = getglobal(QO_FormName.."TrackerScaleSlider".."Current")
     QO_trackertransparency = getglobal(QO_FormName.."TrackerTransparencySlider")
     QO_trackertransparency_current = getglobal(QO_FormName.."TrackerTransparencySlider".."Current")
+    QO_usequestlinks = getglobal(QO_FormName.."UseQuestLinksCheck")
     QO_versionlabel = getglobal(QO_FormName.."VersionLabel".."Label")
 end
 
@@ -79,7 +80,7 @@ function Questie:OptionsForm_Display()
     QO_resizeworldmap:SetChecked(QuestieConfig["resizeWorldmap"])
 
     QO_showmapnotes:SetChecked(QuestieConfig["showMapNotes"])
-	
+
 	QO_hideobjectives:SetChecked(QuestieConfig["hideObjectives"])
 
     QO_showprofessionquests:SetChecked(QuestieConfig["showProfessionQuests"])
@@ -99,6 +100,8 @@ function Questie:OptionsForm_Display()
 
     QO_trackertransparency:SetValue(QuestieConfig["trackerAlpha"] * 100)
     QO_trackertransparency_current:SetText(tostring(QuestieConfig["trackerAlpha"] * 100).."%")
+
+    QO_usequestlinks:SetChecked(QuestieConfig["useQuestLinks"])
 
     QO_versionlabel:SetText("Version: " .. tostring(QuestieConfig["getVersion"]))
 
@@ -135,12 +138,14 @@ function Questie:OptionsForm_ApplyOptions()
     QuestieConfig.minShowLevel = QO_minshowlevel:GetValue()
 
     QuestieConfig.showMapNotes = Questie:toboolean(QO_showmapnotes:GetChecked())
-	
+
 	QuestieConfig.hideObjectives = Questie:toboolean(QO_hideobjectives:GetChecked())
 
     QuestieConfig.showProfessionQuests = Questie:toboolean(QO_showprofessionquests:GetChecked())
 
     QuestieConfig.trackerAlpha = tonumber((QO_trackertransparency:GetValue()) / 100)
+
+    QuestieConfig.useQuestLinks = Questie:toboolean(QO_usequestlinks:GetChecked())
 
     -- Compare opening values and values attempting to be set, if any are different a reload will be needed
     local CachedValues = {

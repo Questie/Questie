@@ -176,5 +176,13 @@ QuestieInterfaceTexts = {
             },
             ["requiresReload"] = true,
         },
+        ["useQuestLinks"] = {
+            ["enUS"] = {
+                ["default"] = "true",
+                ["name"] = "Use Quest Links",
+                ["description"] = "When shift-clicking a quest in the quest log while the chat input window is open, paste a link into the chat instead of just plain text.\n\nSome servers filter chat links. If the link does not appear after sending the chat message, disable this option.",
+            },
+            ["requiresReload"] = false,
+        },
     }
 }

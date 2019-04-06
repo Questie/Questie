@@ -133,7 +133,7 @@
                 <Anchors>
                     <Anchor point="TOPLEFT">
                         <Offset>
-                            <AbsDimension x="18" y="-415" />
+                            <AbsDimension x="18" y="-453" />
                         </Offset>
                     </Anchor>
                 </Anchors>
@@ -245,7 +245,7 @@
                 <Anchors>
                     <Anchor point="TOPLEFT">
                         <Offset>
-                            <AbsDimension x="18" y="-339" />
+                            <AbsDimension x="18" y="-377" />
                         </Offset>
                     </Anchor>
                 </Anchors>
@@ -785,7 +785,7 @@
                 <Anchors>
                     <Anchor point="TOPLEFT">
                         <Offset>
-                            <AbsDimension x="152" y="-301" />
+                            <AbsDimension x="152" y="-339" />
                         </Offset>
                     </Anchor>
                 </Anchors>
@@ -804,12 +804,12 @@
             <Frame name="$parentMaxLevelFilterLabel">
                 <!--<FrameSkin skinid="f15d4970-d66d-444e-bb2d-1ad102c87fed" frameid="f15d4978-d66d-444e-bb2d-1ad102c87fed" />-->
                 <Size>
-                    <AbsDimension x="128" y="17" />
+                    <AbsDimension x="128" y="32" />
                 </Size>
                 <Anchors>
                     <Anchor point="TOPLEFT">
                         <Offset>
-                            <AbsDimension x="18" y="-309" />
+                            <AbsDimension x="18" y="-339" />
                         </Offset>
                     </Anchor>
                 </Anchors>
@@ -842,7 +842,7 @@
                 <Anchors>
                     <Anchor point="TOPLEFT">
                         <Offset>
-                            <AbsDimension x="152" y="-377" />
+                            <AbsDimension x="152" y="-415" />
                         </Offset>
                     </Anchor>
                 </Anchors>
@@ -861,12 +861,12 @@
             <Frame name="$parentMinLevelFilterLabel">
                 <!--<FrameSkin skinid="f15d4970-d66d-444e-bb2d-1ad102c87fed" frameid="f15d4978-d66d-444e-bb2d-1ad102c87fed" />-->
                 <Size>
-                    <AbsDimension x="128" y="17" />
+                    <AbsDimension x="128" y="32" />
                 </Size>
                 <Anchors>
                     <Anchor point="TOPLEFT">
                         <Offset>
-                            <AbsDimension x="18" y="-385" />
+                            <AbsDimension x="18" y="-415" />
                         </Offset>
                     </Anchor>
                 </Anchors>
@@ -1262,7 +1262,7 @@
                 <Anchors>
                     <Anchor point="TOPLEFT">
                         <Offset>
-                            <AbsDimension x="132" y="-451" />
+                            <AbsDimension x="224" y="-451" />
                         </Offset>
                     </Anchor>
                 </Anchors>
@@ -1661,6 +1661,61 @@
                 <CheckedTexture file="Interface\Buttons\UI-CheckBox-Check" />
                 <DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled" />
             </CheckButton>
+            <CheckButton name="$parentUseQuestLinksCheck">
+                <Size>
+                    <AbsDimension x="32" y="32" />
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT">
+                        <Offset>
+                            <AbsDimension x="152" y="-301" />
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnEnter>Questie:OptionsForm_SettingOnEnter("useQuestLinks")</OnEnter>
+                    <OnLeave>Questie:OptionsForm_SettingOnLeave()</OnLeave>
+                </Scripts>
+                <NormalTexture file="Interface\Buttons\UI-CheckBox-Up" />
+                <PushedTexture file="Interface\Buttons\UI-CheckBox-Down" />
+                <DisabledTexture />
+                <HighlightTexture file="Interface\Buttons\UI-CheckBox-Highlight" alphaMode="ADD" />
+                <PushedTextOffset x="0" y="0" />
+                <CheckedTexture file="Interface\Buttons\UI-CheckBox-Check" />
+                <DisabledCheckedTexture file="Interface\Buttons\UI-CheckBox-Check-Disabled" />
+            </CheckButton>
+            <Frame name="$parentUseQuestLinksLabel">
+                <Size>
+                    <AbsDimension x="128" y="32" />
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT">
+                        <Offset>
+                            <AbsDimension x="18" y="-301" />
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Layers>
+                    <Layer>
+                        <FontString name="$parentLabel" setAllPoints="true" inherits="GameFontNormalSmall" text="Use Quest Links">
+                            <FontHeight>
+                                <AbsValue val="12" />
+                            </FontHeight>
+                            <Color r="1" g="0.8196079" b="0" />
+                            <Shadow>
+                                <Color r="0" g="0" b="0" />
+                                <Offset>
+                                    <AbsDimension x="1" y="-1" />
+                                </Offset>
+                            </Shadow>
+                        </FontString>
+                    </Layer>
+                </Layers>
+                <Scripts>
+                    <OnEnter>Questie:OptionsForm_SettingOnEnter("useQuestLinks")</OnEnter>
+                    <OnLeave>Questie:OptionsForm_SettingOnLeave()</OnLeave>
+                </Scripts>
+            </Frame>
         </Frames>
         <Scripts>
             <OnLoad>this:RegisterForDrag("LeftButton")</OnLoad>

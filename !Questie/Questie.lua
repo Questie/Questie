@@ -46,6 +46,7 @@ function Questie:SetupDefaults()
         ["trackerList"] = false,
         ["trackerMinimize"] = false,
         ["trackerScale"] = 1.0,
+        ["useQuestLinks"] = true,
     };
     end
     --Setup default settings and repositions the QuestTracker against the left side of the screen.
@@ -142,6 +143,9 @@ function Questie:CheckDefaults()
     end
     if QuestieConfig.trackerScale == nil then
         QuestieConfig.trackerScale = 1.0;
+    end
+    if QuestieConfig.useQuestLinks == nil then
+        QuestieConfig.useQuestLinks = true;
     end
     --Version check
     if (not QuestieConfig.getVersion) or (QuestieConfig.getVersion ~= QuestieVersion) then
@@ -516,7 +520,7 @@ function Questie:Toggle_Position()
         Questie_Toggle:ClearAllPoints();
         Questie_Toggle:SetPoint("CENTER", WorldMapFrame, "CENTER", -430, 335);
     end
-    if IsAddOnLoaded("Cartographer") then 
+    if IsAddOnLoaded("Cartographer") then
         Questie_Toggle:ClearAllPoints();
         Questie_Toggle:SetPoint("CENTER", WorldMapFrame, "CENTER", 0, 338);
     end
@@ -988,6 +992,15 @@ QuestieFastSlash = {
             StaticPopup_Show ("SHOW_TRACKER");
         end
     end,
+    ["questlinks"] = function()
+    --Default: True
+        QuestieConfig.useQuestLinks = not QuestieConfig.useQuestLinks;
+        if QuestieConfig.useQuestLinks then
+            DEFAULT_CHAT_FRAME:AddMessage("QuestieQuest:|c0000ffc0 (Quest Links On) |r");
+        else
+            DEFAULT_CHAT_FRAME:AddMessage("QuestieQuest:|c0000ffc0 (Quest Links Off) |r");
+        end
+    end,
 ---------------------------------------------------------------------------------------------------
 --Questie Help Menu
 ---------------------------------------------------------------------------------------------------
@@ -1022,6 +1035,7 @@ QuestieFastSlash = {
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie tooltips |r|c0000ffc0(toggle)|r QuestMobs&Items: Always show quest and objective tool tips", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie tracker |r|c0000ffc0(toggle)|r QuestTracker: Turn on and off the quest tracker", 0.75, 0.75, 0.75);
         DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie qtscale |r|c0000ffc0(small|medium|large)|r QuestTracker: Adjust the scale of the tracker (default=small)", 0.75, 0.75, 0.75);
+        DEFAULT_CHAT_FRAME:AddMessage("|c0000c0ff  /questie questlinks |r|c0000ffc0(toggle)|r QuestLog: Paste links instead of text into chat when shift-clicking a quest", 0.75, 0.75, 0.75);
         if (IsAddOnLoaded("Cartographer")) or (IsAddOnLoaded("MetaMap")) then
             return;
         elseif (not IsAddOnLoaded("Cartographer")) or (not IsAddOnLoaded("MetaMap")) then
@@ -1088,6 +1102,7 @@ function Questie:CurrentUserToggles()
         [24] = { "trackerList" },
         [25] = { "trackerMinimize" },
         [26] = { "trackerScale" },
+        [27] = { "useQuestLinks" },
     };
     if QuestieConfig then
         i = 1;
