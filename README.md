@@ -10,15 +10,40 @@
 
  Trust us it's (Good)!
 
-**---------- Please read the [Readme & FAQ](https://github.com/AeroScripts/QuestieDev/wiki/FAQ&Readme) before reporting bugs ----------**
+**---------- Please read the [FAQ](FAQ.md) before reporting bugs ----------**
 
-## Download
+## Installation instructions:
 
-You can download the latest stable release from [here](https://github.com/AeroScripts/QuestieDev/releases/latest).
-Installation instructions are found on the [Readme & FAQ](https://github.com/AeroScripts/QuestieDev/wiki/FAQ&Readme#basic-installation-instructions) page of our Wiki.
+### Download
 
-**Notes:**
-- You can use the [issue tracker](https://github.com/AeroScripts/QuestieDev/issues) to report bugs (requires a Github account). Please read the [Readme & FAQ](https://github.com/AeroScripts/QuestieDev/wiki/FAQ&Readme) before reporting bugs.
+In order to properly set up Questie with your World of Warcraft client, you must ensure you have the following:
+
+* A Vanilla (1.12.1) WoW Client.
+* Questie itself.
+  * You can download the latest stable release from [here](https://github.com/AeroScripts/QuestieDev/releases/latest).
+  * If you want to test the current status of development, you can download the full repository by clicking [this link](https://github.com/AeroScripts/QuestieDev/archive/master.zip).
+    * Note that you have to copy the `!Questie` folder over to WoW, not the whole folder called `QuestieDev-master`.
+    * There might be bugs.
+
+### Setup
+
+When you have both ready:
+
+ - Extract the downloaded zip archive.
+ - Copy the `!Questie` directory into your `<WOW PATH>/Interface/AddOns/` directory.
+    * **NOTE: The default program folders in Windows (*C:\Program Files* or *C:\Program Files (x86)*) are write protected. DO NOT INSTALL WOW THERE. If it is installed there, move it to some other folder.** Questie and other addons do not work correctly when WoW is installed there.
+ - Verify that Questie is loading and grant more addon memory
+    - Start WoW
+    - Log in
+    - Go into the addon menu (button on the bottom left of the screen)
+        - If there is no button or Questie is not in the list when the menu is opened, there might have been a mistake when copying Questie to the WoW directory
+    - **Remove or increase the addon memory limit (top right of the addon menu window)**
+        - Set to 0 for unlimited memory
+        - Set no less than 256MB if you want to limit it, or WoW might crash
+
+## Support
+
+- You can use the [issue tracker](https://github.com/AeroScripts/QuestieDev/issues) to report bugs (requires a Github account). Please read the [FAQ](FAQ.md) before reporting bugs.
 - If you get an error message from the WoW client, please include the **complete** text or a screenshot of it in your report.
 - If you wish to submit a bug fix or feature addition you made, you can create a Pull Request on Github. Please read the [rules](https://github.com/AeroScripts/QuestieDev/wiki/Pull-Request-Rules) first.
 - You can contact us on Discord: https://discord.gg/phKnHVu
