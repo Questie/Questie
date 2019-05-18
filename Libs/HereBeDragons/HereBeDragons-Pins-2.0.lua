@@ -1,7 +1,7 @@
 -- HereBeDragons-Pins is a library to show pins/icons on the world map and minimap
 
 -- HereBeDragons-Pins-2.0 is not supported on WoW 7.x
-if select(4, GetBuildInfo()) < 80000 then
+if select(4, GetBuildInfo()) < 80000 and False then
 	return
 end
 
@@ -373,7 +373,6 @@ end
 
 function worldmapProvider:HandlePin(icon, data)
     local uiMapID = self:GetMap():GetMapID()
-
     -- check for a valid map
     if not uiMapID then return end
 
@@ -680,6 +679,8 @@ end
 -- @param y Y position in local/point coordinates (0-1), relative to the zone
 -- @param showFlag Flag to control on which maps this pin will be shown
 function pins:AddWorldMapIconMap(ref, icon, uiMapID, x, y, showFlag)
+	--DEFAULT_CHAT_FRAME:AddMessage("AddWorldMapIconMap");
+	--uiMapID = uiMapID + 1400
     if not ref then
         error(MAJOR..": AddWorldMapIconMap: 'ref' must not be nil")
     end
@@ -692,7 +693,10 @@ function pins:AddWorldMapIconMap(ref, icon, uiMapID, x, y, showFlag)
 
     -- convert to world coordinates
     local xCoord, yCoord, instanceID = HBD:GetWorldCoordinatesFromZone(x, y, uiMapID)
-    if not xCoord then return end
+    if not xCoord then 
+		--DEFAULT_CHAT_FRAME:AddMessage("No world coordinates for zone");
+		return 
+	end
 
     if not worldmapPinRegistry[ref] then
         worldmapPinRegistry[ref] = {}
@@ -708,7 +712,7 @@ function pins:AddWorldMapIconMap(ref, icon, uiMapID, x, y, showFlag)
     t.worldMapShowFlag = showFlag or 0
 
     worldmapPins[icon] = t
-
+    
     worldmapProvider:HandlePin(icon, t)
 end
 

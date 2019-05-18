@@ -1,7 +1,7 @@
 -- HereBeDragons is a data API for the World of Warcraft mapping system
 
 -- HereBeDragons-2.0 is not supported on WoW 7.x or earlier
-if select(4, GetBuildInfo()) < 80000 then
+if select(4, GetBuildInfo()) < 80000 and False then
     return
 end
 
@@ -21,7 +21,7 @@ HereBeDragons.transforms       = HereBeDragons.transforms or {}
 HereBeDragons.callbacks        = HereBeDragons.callbacks or CBH:New(HereBeDragons, nil, nil, false)
 
 -- Data Constants
-local COSMIC_MAP_ID = 946
+local COSMIC_MAP_ID = 947
 local WORLD_MAP_ID = 947
 
 -- Lua upvalues
@@ -72,7 +72,8 @@ local instanceIDOverrides = {
 }
 
 -- gather map info, but only if this isn't an upgrade (or the upgrade version forces a re-map)
-if not oldversion or oldversion < 3 then
+if 1 then
+	DEFAULT_CHAT_FRAME:AddMessage("lool");
     -- wipe old data, if required, otherwise the upgrade path isn't triggered
     if oldversion then
         wipe(mapData)
@@ -120,14 +121,18 @@ if not oldversion or oldversion < 3 then
     local vector00, vector05 = CreateVector2D(0, 0), CreateVector2D(0.5, 0.5)
     -- gather the data of one map (by uiMapID)
     local function processMap(id, data)
-        if not id or mapData[id] then return end
-
+        if not id or mapData[id] then 
+			
+			return 
+		end
         -- get two positions from the map, we use 0/0 and 0.5/0.5 to avoid issues on some maps where 1/1 is translated inaccurately
         local instance, topLeft = C_Map.GetWorldPosFromMapPos(id, vector00)
         local _, bottomRight = C_Map.GetWorldPosFromMapPos(id, vector05)
+
         if topLeft and bottomRight then
             local top, left = topLeft:GetXY()
             local bottom, right = bottomRight:GetXY()
+			DEFAULT_CHAT_FRAME:AddMessage("Data: " .. instance .. " " .. top .. " " .. left .. " " .. bottom .. " " .. right .. " " .. id);
             bottom = top + (bottom - top) * 2
             right = left + (right - left) * 2
 
@@ -144,6 +149,7 @@ if not oldversion or oldversion < 3 then
             for i = 1, #children do
                 local id = children[i].mapID
                 if id and not mapData[id] then
+					DEFAULT_CHAT_FRAME:AddMessage("ProcessMap " .. id);
                     processMap(id, children[i])
                     processMapChildrenRecursive(id)
                 end
@@ -158,7 +164,7 @@ if not oldversion or oldversion < 3 then
         mapData[COSMIC_MAP_ID].name = cosmic.name
         mapData[COSMIC_MAP_ID].mapType = cosmic.mapType
 
-        -- data for the azeroth world map
+        -- data for the azeroth world map width,height,left,top
         worldMapData[0] = { 76153.14, 50748.62, 65008.24, 23827.51 }
         worldMapData[1] = { 77803.77, 51854.98, 13157.6, 28030.61 }
         worldMapData[571] = { 71773.64, 50054.05, 36205.94, 12366.81 }
@@ -282,6 +288,7 @@ end
 -- @param y Y position in 0-1 point coordinates
 -- @param zone uiMapID of the zone
 function HereBeDragons:GetWorldCoordinatesFromZone(x, y, zone)
+	--DEFAULT_CHAT_FRAME:AddMessage("GetWCFZ " .. x .. " " .. y .. " " .. zone .. " " .. level);
     local data = mapData[zone]
     if not data or data[1] == 0 or data[2] == 0 then return nil, nil, nil end
     if not x or not y then return nil, nil, nil end

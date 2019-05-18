@@ -149,10 +149,9 @@ function QuestieQuest:DrawAvailableQuests()--All quests between
                 --Questie:Debug("Coords", coords[1], coords[2])
                 local data = {}
                 data.Id = questid;
-                data.IconType = ICON_TYPE_AVAILABLE
-                data.ObjectiveId = -1
+                data.Icon = "Interface\\Addons\\Questie\\Icons\\available.blp"
                 data.QuestData = Quest;
-                data.Starter = NPC
+				data.tooltip = {Quest.Name, "Started by: " .. NPC.Name}
                 if(coords[1] == -1 or coords[2] == -1) then
                   if(instanceData[Zone] ~= nil) then
                     for index, value in ipairs(instanceData[Zone]) do

@@ -157,7 +157,7 @@ local options = {
 					name = "< Show below level",
 					desc = "How many levels below your character to show.",
 					width = "HALF",
-					min = 1,
+					min = 0,
 					max = 10,
 					step = 1,
 					get = GetGlobalOptionLocal,
@@ -172,7 +172,7 @@ local options = {
 					name = "Show above level >",
 					desc = "How many levels above your character to show.",
 					width = "HALF",
-					min = 1,
+					min = 0,
 					max = 10,
 					step = 1,
 					get = GetGlobalOptionLocal,
@@ -200,8 +200,8 @@ local options = {
 
 local defaults = {
   global = {
-    maxLevelFilter = 7,
-		minLevelFilter = 4
+    maxLevelFilter = 0,
+		minLevelFilter = 5
   },
 	char = {
 		complete = {},
@@ -229,7 +229,9 @@ function Questie:OnInitialize()
 	--Questie:RegisterEvent("QUEST_COMPLETE", QUEST_COMPLETE)
 	--Questie:RegisterEvent("QUEST_FINISHED", QUEST_FINISHED)
 	--?? What does this do?
-	Questie:RegisterEvent("QUEST_LOG_CRITERIA_UPDATE", QUEST_LOG_CRITERIA_UPDATE)
+	
+	
+	-- not in classic Questie:RegisterEvent("QUEST_LOG_CRITERIA_UPDATE", QUEST_LOG_CRITERIA_UPDATE)
 
 
 	Questie:RegisterChatCommand("questieclassic", "MySlashProcessorFunc")

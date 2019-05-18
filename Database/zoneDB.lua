@@ -20,7 +20,17 @@ end
 function QuestieDBZone:zoneCreateConvertion()
   Questie:Debug(DEBUG_DEVELOP, "[QuestieDBZone] Converting ZoneIds")
 	for index, Data in ipairs(zoneDataClassicDemo) do
-		local UiMapID = HBDMigrate:GetUIMapIDFromMapAreaId(Data[4])
+		--local UiMapID = HBDMigrate:GetUIMapIDFromMapAreaId(Data[4])
+		local zn = Data[1];
+		if zoneLookupHack[zn] then
+			zn = zoneLookupHack[zn];
+		end
+		local UiMapID = zoneDataClassicBetaHack[zn];
+		if UiMapID == nil then
+			DEFAULT_CHAT_FRAME:AddMessage("Data not found for " .. zn);--Questie:Error("Data not found for" , zn);
+		else
+			UiMapID = UiMapID[1]
+		end
 		if(UiMapID == nil) then
 			Questie:Error("Map convertion failed! : ", "DataName("..tostring(Data[1])..")","UiMapID("..tostring(UiMapID)..")", "AreaID("..tostring(Data[3])..")", "MapID("..tostring(Data[4])..")")
 		elseif(UiMapID ~= nil) then
@@ -31,6 +41,96 @@ function QuestieDBZone:zoneCreateConvertion()
 		end
 	end
 end
+zoneLookupHack = {
+	["Barrens"] = "The Barrens",
+	["Alterac"] = "Alterac Mountains",
+	["Arathi"] = "Arathi Highlands",
+	["BlastedLands"] = "Blasted Lands",
+	["Tirisfal"] = "Tirisfal Glades",
+	["Silverpine"] = "Silverpine Forest",
+	["ArathiBasin"] = "Arathi Basin",
+	["WarsongGulch"] = "Warsong Gulch",
+	["AlteracValley"] = "Alterac Valley",
+	["Darnassis"] = "Darnassus", -- lol what
+	["ThunderBluff"] = "Thunder Bluff",
+	["Ogrimmar"] = "Orgrimmar", -- lol what
+	["Stormwind"] = "Stormwind City",
+	["EasternPlaguelands"] = "Eastern Plaguelands",
+	["WesternPlaguelands"] = "Western Plaguelands",
+	["Hilsbrad"] = "Hillsbrad Foothills",
+	["Hinterlands"] = "The Hinterlands",
+	["DunMorogh"] = "Dun Morogh",
+	["SearingGorge"] = "Searing Gorge",
+	["BurningSteppes"] = "Burning Steppes",
+	["Elwynn"] = "Elwynn Forest",
+	["DeadwindPass"] = "Deadwind Pass",
+	["LochModan"] = "Loch Modan",
+	["Redridge"] = "Redridge Mountains",
+	["Stranglethorn"] = "Stranglethorn Vale",
+	["SwampOfSorrows"] = "Swamp of Sorrows",
+	["ThousandNeedles"] = "Thousand Needles",
+	["Dustwallow"] = "Dustwallow Marsh",
+	["Aszhara"] = "Azshara", -- lol what
+	["UngoroCrater"] = "Un'Goro Crater",
+	["StonetalonMountains"] = "Stonetalon Mountains"
+}
+zoneDataClassicBetaHack = {
+    ["Azeroth"] = {947,0},
+    ["Durotar"] = {1411,1414},
+    ["Mulgore"] = {1412,1414},
+    ["The Barrens"] = {1413,1414},
+    ["Kalimdor"] = {1414,947},
+    ["Eastern Kingdoms"] = {1415,947},
+    ["Alterac Mountains"] = {1416,1415},
+    ["Arathi Highlands"] = {1417,1415},
+    ["Badlands"] = {1418,1415},
+    ["Blasted Lands"] = {1419,1415},
+    ["Tirisfal Glades"] = {1420,1415},
+    ["Silverpine Forest"] = {1421,1415},
+    ["Western Plaguelands"] = {1422,1415},
+    ["Eastern Plaguelands"] = {1423,1415},
+    ["Hillsbrad Foothills"] = {1424,1415},
+    ["The Hinterlands"] = {1425,1415},
+    ["Dun Morogh"] = {1426,1415},
+    ["Searing Gorge"] = {1427,1415},
+    ["Burning Steppes"] = {1428,1415},
+    ["Elwynn Forest"] = {1429,1415},
+    ["Deadwind Pass"] = {1430,1415},
+    ["Duskwood"] = {1431,1415},
+    ["Loch Modan"] = {1432,1415},
+    ["Redridge Mountains"] = {1433,1415},
+    ["Stranglethorn Vale"] = {1434,1415},
+    ["Swamp of Sorrows"] = {1435,1415},
+    ["Westfall"] = {1436,1415},
+    ["Wetlands"] = {1437,1415},
+    ["Teldrassil"] = {1438,1414},
+    ["Darkshore"] = {1439,1414},
+    ["Ashenvale"] = {1440,1414},
+    ["Thousand Needles"] = {1441,1414},
+    ["Stonetalon Mountains"] = {1442,1414},
+    ["Desolace"] = {1443,1414},
+    ["Feralas"] = {1444,1414},
+    ["Dustwallow Marsh"] = {1445,1414},
+    ["Tanaris"] = {1446,1414},
+    ["Azshara"] = {1447,1414},
+    ["Felwood"] = {1448,1414},
+    ["Un'Goro Crater"] = {1449,1414},
+    ["Moonglade"] = {1450,1414},
+    ["Silithus"] = {1451,1414},
+    ["Winterspring"] = {1452,1414},
+    ["Stormwind City"] = {1453,1415},
+    ["Orgrimmar"] = {1454,1414},
+    ["Ironforge"] = {1455,1415},
+    ["Thunder Bluff"] = {1456,1414},
+    ["Darnassus"] = {1457,1414},
+    ["Undercity"] = {1458,1415},
+    ["Alterac Valley"] = {1459,947},
+    ["Warsong Gulch"] = {1460,947},
+    ["Arathi Basin"] = {1461,947},
+    ["Eastern Kingdoms"] = {1463,0},
+    ["Kalimdor"] = {1464,0}
+}
+
 
 zoneDataClassic = { --AreaTable IDs --Aka AreaID
 	[1] = 'Dun Morogh',
@@ -115,6 +215,7 @@ zoneDataClassic = { --AreaTable IDs --Aka AreaID
 	[3456] = 'Naxxramas',
 	[7307] = 'Upper Blacrock Spire',
 }
+
 
 --Exported IDs from Classic DEMO
 zoneDataClassicDemo = {--AreaName, Continent, AreaID, mapID (Yes it is actually misspelled in the datafiles...)

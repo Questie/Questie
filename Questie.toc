@@ -1,22 +1,18 @@
-## Interface: 80000
-
-## Title: QuestieClassic
-## Notes: QuestieClassic
-
-## Version: 0.1
-
-## Author: Logon + More to come!
-
-## SavedVariables: QuestieClassicDB
+## Interface: 11300
+## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v4|r|cFFFF0000 Alpha|r
+## Author: Aero/Logon/Muehe/Dyaxler/Schaka/Zoey/Everyone else
+## Notes: A standalone Classic QuestHelper
+## Version: 4.0 ALPHA
+## RequiredDeps: 
 ## OptionalDeps: Ace3, LibDataBroker-1.1, LibCompress
+## SavedVariables: QuestieConfig
+## SavedVariablesPerCharacter: QuestieConfigCharacter
 
-
-#@no-lib-strip@
 embeds.xml
 Libs\HereBeDragons\HereBeDragons-2.0.lua
 Libs\HereBeDragons\HereBeDragons-Pins-2.0.lua
 Libs\HereBeDragons\HereBeDragons-Migrate.lua
-#@end-no-lib-strip@
+
 
 #Databases
 Database\questDB.lua
@@ -27,10 +23,11 @@ Database\itemDB.lua
 Database\functionsDB.lua
 
 #Modules
+Modules\QuestieStream.lua
 Modules\QuestieEventHandler.lua
 Modules\QuestieFramePool.lua
 Modules\QuestieMap.lua
 Modules\QuestieQuest.lua
 
 #Main
-QuestieClassic.lua
+loader.lua
