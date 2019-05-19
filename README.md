@@ -2,7 +2,7 @@
 
 **A quest helper for World of Warcraft: Classic**
 
-Note: classic beta development is being done int he "QuestieClassic" branch, it will be merged into master once things become stable.
+*Note: classic beta development is being done in the "QuestieClassic" branch, it will be merged into master once things become stable.*
 
 [![Downloads](https://img.shields.io/github/downloads/AeroScripts/QuestieDev/total.svg)](https://github.com/AeroScripts/QuestieDev/releases/)
 
