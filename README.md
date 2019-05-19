@@ -1,4 +1,5 @@
-# Questie - WARNING: THIS IS A WIP BUILD FOR THE BETA! Many things are missing, but its all being ported in slowly. Keep an eye on this branch and the discord (linked below)
+# Questie - WARNING: THIS IS A WIP BUILD FOR THE BETA! 
+*Many things are missing, but its all being ported in slowly. Keep an eye on this branch and the discord (linked below)*
 
 **A quest helper for World of Warcraft: Classic**
 
