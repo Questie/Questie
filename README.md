@@ -1,6 +1,8 @@
 # Questie
 
-**A quest helper for World of Warcraft (1.12.1) - Vanilla**
+**A quest helper for World of Warcraft: Classic**
+
+Note: classic beta development is being done int he "QuestieClassic" branch, it will be merged into master once things become stable.
 
 [![Downloads](https://img.shields.io/github/downloads/AeroScripts/QuestieDev/total.svg)](https://github.com/AeroScripts/QuestieDev/releases/)
 
@@ -25,7 +27,7 @@
 
 In order to properly set up Questie with your World of Warcraft client, you must ensure you have the following:
 
-* A Vanilla (1.12.1) WoW Client.
+* World of Warcraft: Classic.
 * Questie itself.
   * You can download the latest stable release from [here](https://github.com/AeroScripts/QuestieDev/releases/latest).
   * If you want to test the current status of development, you can download the full repository by clicking [this link](https://github.com/AeroScripts/QuestieDev/archive/master.zip).
