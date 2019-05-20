@@ -155,7 +155,7 @@ function _QuestieQuest:GetLeaderBoardDetails(BoardIndex,QuestId)
   --Classic
   local itemName, numItems, numNeeded = string.match(description, "(.*):%s*([%d]+)%s*/%s*([%d]+)");
   --Retail
-  if(itemName == nil or len(itemName) < 5) then --Just a figure... check if its not 0
+  if(itemName == nil or string.len(itemName) < 5) then --Just a figure... check if its not 0
     numItems, numNeeded, itemName = string.match(description, "(%d+)\/(%d+)(.*)")
   end
   itemName = string.gsub(itemName, "slain", "")
