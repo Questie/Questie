@@ -13,12 +13,14 @@ end
 
 -- some plebs dont have beta, i need diz
 function LOGONDEBUG_ADDQUEST(QuestId)
-  qCurrentQuestlog[QuestId] = QuestieDB:GetQuest(QuestId);
+  --qCurrentQuestlog[QuestId] = QuestieDB:GetQuest(QuestId);
   Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]: Adding the quest ", QuestId, qCurrentQuestlog[QuestId])
-  QuestieQuest:TrackQuest(QuestId)
+  QuestieQuest:AcceptQuest(QuestId);
+  --QuestieQuest:TrackQuest(QuestId)
 end
+
 function LOGONDEBUG_REMOVEQUEST(QuestId)
-  qCurrentQuestlog[QuestId] = nil;
+  QuestieQuest:AbandonedQuest(QuestId);
   Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]: Removed the quest ", QuestId, qCurrentQuestlog[QuestId])
 end
 
@@ -57,21 +59,21 @@ function QuestieQuest:TrackQuest(QuestId)--Should probably be called from some k
   end
 end
 
-function QuestieQuest:AcceptQuest(QuestId)
-  Quest = qData[questId]
+function QuestieQuest:AcceptQuest(questId)
+  Quest = QuestieDB:GetQuest(questId)
   if(Quest ~= nil) then
-    qCurrentQuestlog[QuestId] = Quest
+    qCurrentQuestlog[questId] = Quest
   else
-    qCurrentQuestlog[QuestId] = questId
+    qCurrentQuestlog[questId] = questId
   end
 
   --Get all the Frames for the quest and unload them, the available quest icon for example.
-  QuestieMap:UnloadQuestFrames(QuestId);
+  QuestieMap:UnloadQuestFrames(questId);
 
   --TODO: Insert call to drawing objective logic here!
-  --QuestieQuest:TrackQuest(QuestId);
+  --QuestieQuest:TrackQuest(questId);
 
-  Questie:Debug(DEBUG_INFO, "[QuestieQuest]: Accept quest:", QuestId)
+  Questie:Debug(DEBUG_INFO, "[QuestieQuest]: Accept quest:", questId)
 end
 
 function QuestieQuest:CompleteQuest(QuestId)
@@ -95,10 +97,11 @@ function QuestieQuest:AbandonedQuest(QuestId)
     --Unload all the quest frames from the map.
     QuestieMap:UnloadQuestFrames(QuestId);
 
+    local quest = QuestieDB:GetQuest(QuestId);
     --The old data for notes are still there, we don't need to recalulate data.
-    _QuestieQuest:DrawAvailableQuest(QuestieDB:GetQuest(QuestId))
+    _QuestieQuest:DrawAvailableQuest(quest)
 
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]: Abandoned Quest:", QuestId)
+    Questie:Debug(DEBUG_INFO, "[QuestieQuest]: Abandoned Quest:", QuestId)
   end
 end
 
