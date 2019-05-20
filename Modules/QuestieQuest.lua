@@ -53,19 +53,41 @@ function QuestieQuest:AcceptQuest(QuestId)
   else
     qCurrentQuestlog[QuestId] = questId
   end
+
+  --Get all the Frames for the quest and unload them, the available quest icon for example.
+  QuestieMap:UnloadQuestFrames(QuestId);
+
+  --TODO: Insert call to drawing objective logic here!
+  --QuestieQuest:TrackQuest(QuestId);
+
   Questie:Debug(DEBUG_INFO, "[QuestieQuest]: Accept quest:", QuestId)
 end
 
 function QuestieQuest:CompleteQuest(QuestId)
   qCurrentQuestlog[QuestId] = nil;
   Questie.db.char.complete[QuestId] = true --can we use some other relevant info here?
+
+  --Unload all the quest frames from the map.
+  --QuestieMap:UnloadQuestFrames(QuestId); --We are currently redrawing everything so we might as well not use this now
+
+  --TODO: This can probably be done better?
+  QuestieQuest:CalculateAvailableQuests()
+  QuestieQuest:DrawAllAvailableQuests();
+
   Questie:Debug(DEBUG_INFO, "[QuestieQuest]: Completed quest:", QuestId)
 end
 
 function QuestieQuest:AbandonedQuest(QuestId)
   if(qCurrentQuestlog[QuestId]) then
-    Questie:Debug(DEBUG_DEVELOP "[QuestieQuest]: Abandoned Quest:", QuestId)
     qCurrentQuestlog[QuestId] = nil
+
+    --Unload all the quest frames from the map.
+    QuestieMap:UnloadQuestFrames(QuestId);
+
+    --The old data for notes are still there, we don't need to recalulate data.
+    _QuestieQuest:DrawAvailableQuest(QuestieDB:GetQuest(QuestId))
+
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]: Abandoned Quest:", QuestId)
   end
 end
 
