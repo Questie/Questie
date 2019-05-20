@@ -121,9 +121,9 @@ if 1 then
     local vector00, vector05 = CreateVector2D(0, 0), CreateVector2D(0.5, 0.5)
     -- gather the data of one map (by uiMapID)
     local function processMap(id, data)
-        if not id or mapData[id] then 
-			
-			return 
+        if not id or mapData[id] then
+
+			return
 		end
         -- get two positions from the map, we use 0/0 and 0.5/0.5 to avoid issues on some maps where 1/1 is translated inaccurately
         local instance, topLeft = C_Map.GetWorldPosFromMapPos(id, vector00)
@@ -165,8 +165,12 @@ if 1 then
         mapData[COSMIC_MAP_ID].mapType = cosmic.mapType
 
         -- data for the azeroth world map width,height,left,top
-        worldMapData[0] = { 76153.14, 50748.62, 65008.24, 23827.51 }
-        worldMapData[1] = { 77803.77, 51854.98, 13157.6, 28030.61 }
+
+        --worldMapData[0] = { 76153.14, 50748.62, 65008.24, 23827.51 }
+        worldMapData[0] = { 44688.52, 29795.11, 32601.03, 9894.93 }
+        --worldMapData[1] = { 77803.77, 51854.98, 13157.6, 28030.61 }
+        worldMapData[1] = { 44878.66, 29916.09, 8723.95, 14824.52 }
+
         worldMapData[571] = { 71773.64, 50054.05, 36205.94, 12366.81 }
         worldMapData[870] = { 67710.54, 45118.08, 33565.89, 38020.67 }
         worldMapData[1220] = { 82758.64, 55151.28, 52943.46, 24484.72 }
