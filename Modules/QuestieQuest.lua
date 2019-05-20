@@ -178,25 +178,54 @@ end
 
 
 
+function _QuestieQuest:IsDoable(questObject)
+  local allFinished=true
+  --Run though the requiredQuests
+  if questObject.RequiredQuest == nil or questObject.RequiredQuest == 0 then
+    return true
+  end
+  for index, preQuestId in pairs(questObject.RequiredQuest) do
+
+    local preQuest = QuestieDB:GetQuest(preQuestId);
+
+    --If a quest is not complete not all are finished, we need to check group
+    if not Questie.db.char.complete[preQuestId] then
+      allFinished=false
+    --If one of the quests in the group is done we return true
+    elseif preQuest and preQuest.ExclusiveQuestGroup then
+      return true
+    end
+
+    --If one of the quests are in the log, return false
+    if preQuest and qCurrentQuestlog[preQuest.Id] then
+      return false
+    end
+  end
+  return allFinished
+end
+
 --TODO Check that this function does what it is supposed to...
 local ShowAllQuestsDebug = false
 function QuestieQuest:CalculateAvailableQuests()
+
+  -- this should be renamed to levelsBelowPlayer / levelsAbovePlayer to be less confusing
   local MinLevel = UnitLevel("player") - Questie.db.global.minLevelFilter
   local MaxLevel = UnitLevel("player") + Questie.db.global.maxLevelFilter
-  for id, data in pairs(qAvailableQuests) do
 
-  end
+  DEFAULT_CHAT_FRAME:AddMessage(" minlevel/maxlevel: " .. MinLevel .. "/" .. MaxLevel);
+
   qAvailableQuests = {}
+
   for i, v in pairs(qData) do
+    local QuestID = i;
     if(ShowAllQuestsDebug == true) then
-      qAvailableQuests[i] = i
+      qAvailableQuests[QuestID] = QuestID
     else
-      if(MinLevel >= v[DB_MIN_LEVEL]) then
-        qAvailableQuests[i] = i
-      elseif(MaxLevel >= v[DB_MIN_LEVEL] and MaxLevel >= v[DB_LEVEL]) then --MaxLevel >= v[DB_LEVEL] Hides lvl 60 quests if you are not close, some are pretty stupid to show such as 1-60 range quests
-        qAvailableQuests[i] = i
-      elseif(MaxLevel >= v[DB_MIN_LEVEL] and Questie.db.char.lowlevel) then
-        qAvailableQuests[i] = i
+      if(not Questie.db.char.complete[QuestID]) then --Check if we've already completed the quest or its prerequisites
+        local Quest = QuestieDB:GetQuest(QuestID);
+        if _QuestieQuest:IsDoable(Quest) and Quest.MinLevel > MinLevel and Quest.MinLevel <= MaxLevel then
+          qAvailableQuests[QuestID] = QuestID
+        end
       end
     end
   end
