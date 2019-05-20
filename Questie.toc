@@ -24,10 +24,11 @@ Database\functionsDB.lua
 
 #Modules
 Modules\QuestieStream.lua
+Modules\QuestieTooltips.lua
 Modules\QuestieEventHandler.lua
 Modules\QuestieFramePool.lua
 Modules\QuestieMap.lua
 Modules\QuestieQuest.lua
 
 #Main
-loader.lua
+Questie.lua

@@ -151,7 +151,7 @@ function QuestieQuest:DrawAvailableQuests()--All quests between
                 data.Id = questid;
                 data.Icon = "Interface\\Addons\\Questie\\Icons\\available.blp"
                 data.QuestData = Quest;
-				data.tooltip = {Quest.Name, "Started by: " .. NPC.Name}
+				data.tooltip = {"[" .. Quest.Level .. "] " .. Quest.Name, "Started by: " .. NPC.Name}
                 if(coords[1] == -1 or coords[2] == -1) then
                   if(instanceData[Zone] ~= nil) then
                     for index, value in ipairs(instanceData[Zone]) do
