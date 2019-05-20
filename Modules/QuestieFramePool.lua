@@ -7,11 +7,11 @@ local unusedframes = {}
 local allframes = {}
 
 --TODO: Add all types
-ICON_TYPE_AVAILABLE = "available"
-ICON_TYPE_SLAY = "slay"
-ICON_TYPE_COMPLETE = "complete"
-ICON_TYPE_ITEM = "item"
-ICON_TYPE_LOOT = "loot"
+ICON_TYPE_AVAILABLE = "Interface\\Addons\\Questie\\Icons\\available.blp"
+ICON_TYPE_SLAY = "Interface\\Addons\\Questie\\Icons\\slay.blp"
+ICON_TYPE_COMPLETE = "Interface\\Addons\\Questie\\Icons\\complete.blp"
+ICON_TYPE_ITEM = "Interface\\Addons\\Questie\\Icons\\item.blp"
+ICON_TYPE_LOOT = "Interface\\Addons\\Questie\\Icons\\loot.blp"
 
 -- Global Functions --
 function QuestieFramePool:GetFrame()
