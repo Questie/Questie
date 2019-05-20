@@ -149,50 +149,60 @@ function _QuestieQuest:GetLeaderBoardDetails(BoardIndex,QuestId)
   return objectiveType, strtrim(itemName), numItems, numNeeded, isCompleted;
 end
 
+--Draw a single available quest, it is used by the DrawAllAvailableQuests function.
+function _QuestieQuest:DrawAvailableQuest(questObject)
+  --If the object is nil we just return
+  if(questObject == nil) then
+    return false;
+  end
+  --TODO More logic here, currently only shows NPC quest givers.
+  if(questObject.Starts["NPC"] ~= nil)then
+    for index, NPCID in ipairs(questObject.Starts["NPC"]) do
+      NPC = QuestieDB:GetNPC(NPCID)
+      if(NPC ~= nil) then
+        --Questie:Debug(DEBUG_DEVELOP,"Adding Quest:", questObject.Id, "StarterNPC:", NPC.Id)
+        for Zone, Spawns in pairs(NPC.Spawns) do
+          if(Zone ~= nil) then
+            --Questie:Debug("Zone", Zone)
+            --Questie:Debug("Qid:", questid)
+            for _, coords in ipairs(Spawns) do
+              --Questie:Debug("Coords", coords[1], coords[2])
+              local data = {}
+              data.Id = questObject.Id;
+              data.Icon = ICON_TYPE_AVAILABLE;
+              data.QuestData = questObject;
+              data.tooltip = {"[" .. questObject.Level .. "] " .. questObject.Name, "Started by: " .. NPC.Name, "QuestId:"..questObject.Id}
 
-function QuestieQuest:DrawAvailableQuests()--All quests between
-
-  --This should probably be called somewhere else!
-  QuestieFramePool:UnloadAll()
-
-  local count = 0
-  for questid, qid in pairs(qAvailableQuests) do
-    Quest = QuestieDB:GetQuest(questid)
-    if(Quest.Starts["NPC"] ~= nil)then
-      for index, NPCID in ipairs(Quest.Starts["NPC"]) do
-        NPC = QuestieDB:GetNPC(NPCID)
-        if(NPC ~= nil) then
-          --Questie:Debug(DEBUG_DEVELOP,"Adding Quest:", Quest.Id, "StarterNPC:", NPC.Id)
-          for Zone, Spawns in pairs(NPC.Spawns) do
-            if(Zone ~= nil) then
-              --Questie:Debug("Zone", Zone)
-              --Questie:Debug("Qid:", questid)
-              for _, coords in ipairs(Spawns) do
-                --Questie:Debug("Coords", coords[1], coords[2])
-                local data = {}
-                data.Id = questid;
-                data.Icon = "Interface\\Addons\\Questie\\Icons\\available.blp"
-                data.QuestData = Quest;
-				data.tooltip = {"[" .. Quest.Level .. "] " .. Quest.Name, "Started by: " .. NPC.Name}
-                if(coords[1] == -1 or coords[2] == -1) then
-                  if(instanceData[Zone] ~= nil) then
-                    for index, value in ipairs(instanceData[Zone]) do
-                      --Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[value[1]])
-                      QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
-                    end
+              if(coords[1] == -1 or coords[2] == -1) then
+                if(instanceData[Zone] ~= nil) then
+                  for index, value in ipairs(instanceData[Zone]) do
+                    --Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[value[1]])
+                    QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
                   end
-                else
-                  --Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[Zone])
-                  --HBDPins:AddWorldMapIconMap(Questie, Note, zoneDataAreaIDToUiMapID[Zone], coords[1]/100, coords[2]/100, HBD_PINS_WORLDMAP_SHOW_WORLD)
-                  QuestieMap:DrawWorldIcon(data, Zone, coords[1], coords[2])
                 end
-                count = count + 1
+              else
+                --Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[Zone])
+                --HBDPins:AddWorldMapIconMap(Questie, Note, zoneDataAreaIDToUiMapID[Zone], coords[1]/100, coords[2]/100, HBD_PINS_WORLDMAP_SHOW_WORLD)
+                QuestieMap:DrawWorldIcon(data, Zone, coords[1], coords[2])
               end
             end
           end
         end
       end
     end
+  end
+end
+
+function QuestieQuest:DrawAllAvailableQuests()--All quests between
+  --This should probably be called somewhere else!
+  QuestieFramePool:UnloadAll()
+
+  local count = 0
+  for questid, qid in pairs(qAvailableQuests) do
+    Quest = QuestieDB:GetQuest(questid)
+    --Draw a specific quest through the function
+    _QuestieQuest:DrawAvailableQuest(Quest)
+    count = count + 1
   end
   Questie:Debug(DEBUG_INFO,"[QuestieQuest]", count, "available quests drawn.");
 end
