@@ -9,10 +9,20 @@ end
 --Get the frames for a quest, this returns all of the frames
 function QuestieMap:GetFramesForQuest(QuestId)
   frames = {}
-  for i, name in ipairs(qQuestIdFrames[QuestId]) do
-    table.insert(frames, _G[name])
+  --If no frames exists or if the quest does not exist we just return an empty list
+  if (qQuestIdFrames[QuestId]) then
+    for i, name in ipairs(qQuestIdFrames[QuestId]) do
+      table.insert(frames, _G[name])
+    end
   end
   return frames
+end
+
+function QuestieMap:UnloadQuestFrames(QuestId)
+  for index, frame in ipairs(QuestieMap:GetFramesForQuest(QuestId)) do
+    frame.Unload();
+  end
+  Questie:Debug(DEBUG_DEVELOP, "[QuestieMap]: Unloading quest frames:", QuestId)
 end
 
 --(Questie, Note, zoneDataAreaIDToUiMapID[Zone], coords[1]/100, coords[2]/100, HBD_PINS_WORLDMAP_SHOW_WORLD)
