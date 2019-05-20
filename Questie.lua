@@ -162,7 +162,8 @@ local options = {
 					step = 1,
 					get = GetGlobalOptionLocal,
 					set = function (info, value)
-								QuestieDBQuest:CalculateAvailableQuests()
+								QuestieQuest:CalculateAvailableQuests() --recalulate and redraw when changing settings.
+								QuestieQuest:DrawAllAvailableQuests()
 								SetGlobalOptionLocal(info, value)
 							end,
 				},
@@ -177,7 +178,8 @@ local options = {
 					step = 1,
 					get = GetGlobalOptionLocal,
 					set = function (info, value)
-								QuestieDBQuest:CalculateAvailableQuests()
+								QuestieQuest:CalculateAvailableQuests() --recalulate and redraw when changing settings.
+								QuestieQuest:DrawAllAvailableQuests()
 								SetGlobalOptionLocal(info, value)
 							end,
 				},
@@ -201,7 +203,7 @@ local options = {
 local defaults = {
   global = {
     maxLevelFilter = 0,
-		minLevelFilter = 5
+		minLevelFilter = 8 --Raised the default to allow more quests to be shown
   },
 	char = {
 		complete = {},
@@ -229,8 +231,8 @@ function Questie:OnInitialize()
 	--Questie:RegisterEvent("QUEST_COMPLETE", QUEST_COMPLETE)
 	--Questie:RegisterEvent("QUEST_FINISHED", QUEST_FINISHED)
 	--?? What does this do?
-	
-	
+
+
 	-- not in classic Questie:RegisterEvent("QUEST_LOG_CRITERIA_UPDATE", QUEST_LOG_CRITERIA_UPDATE)
 
 
