@@ -3,6 +3,7 @@ QuestieDB = {...}
 function QuestieDB:Initialize()
   QuestieDBZone:zoneCreateConvertion()
   _QuestieDBQuest:deleteFaction()
+  _QuestieDBQuest:deleteClasses()
 end
 
 function QuestieDB:ItemLookup(ItemId)

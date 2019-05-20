@@ -17,8 +17,37 @@ function _QuestieDBQuest:deleteFaction()
             qData[key] = nil;
         end
     end
-    Questie:Debug("Opposite factions quests deleted");
+    Questie:Debug(DEBUG_DEVELOP, "Opposite factions quests deleted");
 end
+
+function _QuestieDBQuest:deleteClasses()
+    localizedClass, englishClass, classIndex = UnitClass("player");
+    local classes = {"Warrior", "Paladin", "Hunter", "Rogue", "Priest", "Death Knight", "Shaman", "Mage", "Warlock", "Druid"};
+    local playerClass = false;
+    for key, name in pairs(classes) do
+        if string.upper(name) == englishClass then
+            Questie:Debug(DEBUG_DEVELOP, "Identified class as : ", name, "/", englishClass);
+            playerClass = key - 1;
+        end
+    end
+    if playerClass then
+        for key, data in pairs(qData) do
+            if data[DB_REQ_CLASS] then
+                local found = false;
+                for k, class in pairs(data[DB_REQ_CLASS]) do
+                    if class == playerClass then
+                        found = true;
+                    end
+                end
+                if not found then
+                    qData[key] = nil;
+                end
+            end
+        end
+    end
+    Questie:Debug(DEBUG_DEVELOP, "Other class quests deleted");
+end
+
 
 
 --[[ Remove this? It sucks and is overly complicated...
@@ -51,36 +80,6 @@ end]]--
 
 
 --[[
-function deleteClasses()
-    if (not CdbSettings.class) or (CdbSettings.dbMode) then
-        return;
-    end
-    local before = CdbGetTableLength(qData);
-    local classes = {"Warrior", "Paladin", "Hunter", "Rogue", "Priest", "Death Knight", "Shaman", "Mage", "Warlock", "Druid"};
-    local playerClass = false;
-    for key, name in pairs(classes) do
-        if name == CdbSettings.class then
-            playerClass = key - 1;
-        end
-    end
-    if playerClass then
-        for key, data in pairs(qData) do
-            if data[DB_REQ_CLASS] then
-                local found = false;
-                for k, class in pairs(data[DB_REQ_CLASS]) do
-                    if class == playerClass then
-                        found = true;
-                    end
-                end
-                if not found then
-                    qData[key] = nil;
-                end
-            end
-        end
-    end
-    local after = CdbGetTableLength(qData);
-    CdbDebugPrint(2, before-after.." other class quests deleted");
-end
 qLookup = {};
 function fillQuestLookup()
     local checkedNames = {};
