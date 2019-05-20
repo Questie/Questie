@@ -254,11 +254,10 @@ function Questie:OnInitialize()
 
 
 
-	QuestieFrameOpt = AceGUI:Create("Frame")
+	--QuestieFrameOpt = AceGUI:Create("Frame")
 	--Questie.db.global.lastmessage = 0
 	LibStub("AceConfig-3.0"):RegisterOptionsTable("Questie", options)
-	QuestieFrame2 = LibStub("AceConfigDialog-3.0"):Open("Questie", QuestieFrameOpt)
-
+	--QuestieFrame2 = LibStub("AceConfigDialog-3.0"):Open("Questie", QuestieFrameOpt)
 
 	--QuestieFrame:SetTitle("Example frame")
 	--QuestieFrame:SetStatusText("AceGUI-3.0 Example Container frame")
