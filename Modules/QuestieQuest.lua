@@ -221,7 +221,8 @@ function QuestieQuest:CalculateAvailableQuests()
     if(ShowAllQuestsDebug == true) then
       qAvailableQuests[QuestID] = QuestID
     else
-      if(not Questie.db.char.complete[QuestID]) then --Check if we've already completed the quest or its prerequisites
+       --Check if we've already completed the quest and that it is not "manually" hidden.
+      if(not Questie.db.char.complete[QuestID] and not qHide[QuestID]) then
         local Quest = QuestieDB:GetQuest(QuestID);
         if _QuestieQuest:IsDoable(Quest) and Quest.MinLevel > MinLevel and Quest.MinLevel <= MaxLevel then
           qAvailableQuests[QuestID] = QuestID
