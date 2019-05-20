@@ -202,8 +202,8 @@ local options = {
 
 local defaults = {
   global = {
-    maxLevelFilter = 0,
-		minLevelFilter = 8 --Raised the default to allow more quests to be shown
+    maxLevelFilter = 7,
+		minLevelFilter = 5 --Raised the default to allow more quests to be shown
   },
 	char = {
 		complete = {},

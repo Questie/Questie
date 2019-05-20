@@ -254,6 +254,7 @@ end
 function QuestieQuest:CalculateAvailableQuests()
 
   -- this should be renamed to levelsBelowPlayer / levelsAbovePlayer to be less confusing
+  local PlayerLevel = UnitLevel("player");
   local MinLevel = UnitLevel("player") - Questie.db.global.minLevelFilter
   local MaxLevel = UnitLevel("player") + Questie.db.global.maxLevelFilter
 
@@ -266,8 +267,10 @@ function QuestieQuest:CalculateAvailableQuests()
     --Check if we've already completed the quest and that it is not "manually" hidden and that the quest is not currently in the questlog.
     if(not Questie.db.char.complete[QuestID] and not qHide[QuestID] and not qCurrentQuestlog[QuestID]) then --Should be not qCurrentQuestlog[QuestID]
       local Quest = QuestieDB:GetQuest(QuestID);
-      if _QuestieQuest:IsDoable(Quest) and Quest.MinLevel > MinLevel and Quest.MinLevel <= MaxLevel then
-        qAvailableQuests[QuestID] = QuestID
+      if Quest.Level > MinLevel and Quest.Level < MaxLevel and Quest.MinLevel <= PlayerLevel then
+        if _QuestieQuest:IsDoable(Quest) then
+          qAvailableQuests[QuestID] = QuestID
+        end
       end
     end
   end
