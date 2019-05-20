@@ -1,7 +1,7 @@
 -- HereBeDragons is a data API for the World of Warcraft mapping system
 
 -- HereBeDragons-2.0 is not supported on WoW 7.x or earlier
-if select(4, GetBuildInfo()) < 80000 and False then
+if select(4, GetBuildInfo()) < 80000 and false then
     return
 end
 
@@ -73,7 +73,6 @@ local instanceIDOverrides = {
 
 -- gather map info, but only if this isn't an upgrade (or the upgrade version forces a re-map)
 if 1 then
-	DEFAULT_CHAT_FRAME:AddMessage("lool");
     -- wipe old data, if required, otherwise the upgrade path isn't triggered
     if oldversion then
         wipe(mapData)
@@ -132,7 +131,7 @@ if 1 then
         if topLeft and bottomRight then
             local top, left = topLeft:GetXY()
             local bottom, right = bottomRight:GetXY()
-			DEFAULT_CHAT_FRAME:AddMessage("Data: " .. instance .. " " .. top .. " " .. left .. " " .. bottom .. " " .. right .. " " .. id);
+			--DEFAULT_CHAT_FRAME:AddMessage("Data: " .. instance .. " " .. top .. " " .. left .. " " .. bottom .. " " .. right .. " " .. id);
             bottom = top + (bottom - top) * 2
             right = left + (right - left) * 2
 
@@ -149,7 +148,7 @@ if 1 then
             for i = 1, #children do
                 local id = children[i].mapID
                 if id and not mapData[id] then
-					DEFAULT_CHAT_FRAME:AddMessage("ProcessMap " .. id);
+					--DEFAULT_CHAT_FRAME:AddMessage("ProcessMap " .. id);
                     processMap(id, children[i])
                     processMapChildrenRecursive(id)
                 end
