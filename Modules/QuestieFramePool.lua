@@ -34,6 +34,7 @@ function QuestieFramePool:UnloadAll()
   for i, frame in ipairs(allframes) do
     _QuestieFramePool:UnloadFrame(frame);
   end
+	qQuestIdFrames = {}
 end
 
 
@@ -42,7 +43,6 @@ end
 --Use FRAME.Unload(FRAME) on frame object to unload!
 function _QuestieFramePool:UnloadFrame(frame)
 	--We are reseting the frames, making sure that no data is wrong.
-	qQuestIdFrames = {}
   HBDPins:RemoveMinimapIcon(Questie, frame);
   HBDPins:RemoveWorldMapIcon(Questie, frame);
   frame.data = nil; -- Just to be safe
