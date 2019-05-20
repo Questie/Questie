@@ -22,18 +22,27 @@ end
 function QUEST_ACCEPTED(Event, QuestLogIndex, QuestId)
   Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_ACCEPTED", "QLogIndex: "..QuestLogIndex,  "QuestID: "..QuestId);
   QuestieQuest:AcceptQuest(QuestId)
+	--Hacky solution to redraw the quests!
+	QuestieQuest:CalculateAvailableQuests()
+	QuestieQuest:DrawAvailableQuests()
 end
 
 --Fires when a quest is removed from the questlog, this includes turning it in!
 function QUEST_REMOVED(Event, QuestId)
   Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_REMOVED", QuestId);
   QuestieQuest:AbandonedQuest(QuestId)
+	--Hacky solution to redraw the quests!
+	QuestieQuest:CalculateAvailableQuests()
+	QuestieQuest:DrawAvailableQuests()
 end
 
 --Fires when a quest is turned in.
 function QUEST_TURNED_IN(Event, questID, xpReward, moneyReward)
   Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_TURNED_IN", questID, xpReward, moneyReward);
   QuestieQuest:CompleteQuest(questID)
+	--Hacky solution to redraw the quests!
+	QuestieQuest:CalculateAvailableQuests()
+	QuestieQuest:DrawAvailableQuests()
 end
 
 function QUEST_WATCH_UPDATE(Event, QuestLogIndex)
