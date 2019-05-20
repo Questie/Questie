@@ -11,6 +11,16 @@ function QuestieQuest:Initialize()
   GetQuestsCompleted(Questie.db.char.complete)
 end
 
+-- some plebs dont have beta, i need diz
+function LOGONDEBUG_ADDQUEST(QuestId)
+  qCurrentQuestlog[QuestId] = QuestieDB:GetQuest(QuestId);
+  Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]: Adding the quest ", QuestId, qCurrentQuestlog[QuestId])
+  QuestieQuest:TrackQuest(QuestId)
+end
+function LOGONDEBUG_REMOVEQUEST(QuestId)
+  qCurrentQuestlog[QuestId] = nil;
+  Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]: Removed the quest ", QuestId, qCurrentQuestlog[QuestId])
+end
 
 --Use the category order to draw the quests and trust the database order.
 --/dump QuestieQuest:GetAllQuestObjectives(24475)
@@ -18,7 +28,7 @@ end
 --170
 function QuestieQuest:TrackQuest(QuestId)--Should probably be called from some kind of questlog or similar, will have to wait untill classic to find out how tracking really works...
   Quest = qCurrentQuestlog[QuestId]
-  Quest = QuestieDB:GetQuest(QuestId)
+  --Quest = QuestieDB:GetQuest(QuestId)
 
   ObjectiveID = 0
   if type(Quest) == "table" then
@@ -32,9 +42,10 @@ function QuestieQuest:TrackQuest(QuestId)--Should probably be called from some k
               Questie:Debug(DEBUG_INFO, "[QuestieQuest]:", Zone, coords[1], coords[2])
               data = {}
               data.Id = QuestId;
-              data.IconType = ICON_TYPE_SLAY
+              data.Icon = ICON_TYPE_SLAY
               data.ObjectiveId = ObjectiveID
               data.NpcData = NPC;
+              data.tooltip = {NPC.Name}
               --data.QuestData = Quest;
               QuestieMap:DrawWorldIcon(data, Zone, coords[1], coords[2])
             end
@@ -237,7 +248,6 @@ function _QuestieQuest:IsDoable(questObject)
 end
 
 --TODO Check that this function does what it is supposed to...
-local ShowAllQuestsDebug = false
 function QuestieQuest:CalculateAvailableQuests()
 
   -- this should be renamed to levelsBelowPlayer / levelsAbovePlayer to be less confusing
@@ -250,15 +260,11 @@ function QuestieQuest:CalculateAvailableQuests()
 
   for i, v in pairs(qData) do
     local QuestID = i;
-    if(ShowAllQuestsDebug == true) then
-      qAvailableQuests[QuestID] = QuestID
-    else
-       --Check if we've already completed the quest and that it is not "manually" hidden.
-      if(not Questie.db.char.complete[QuestID] and not qHide[QuestID]) then
-        local Quest = QuestieDB:GetQuest(QuestID);
-        if _QuestieQuest:IsDoable(Quest) and Quest.MinLevel > MinLevel and Quest.MinLevel <= MaxLevel then
-          qAvailableQuests[QuestID] = QuestID
-        end
+    --Check if we've already completed the quest and that it is not "manually" hidden and that the quest is not currently in the questlog.
+    if(not Questie.db.char.complete[QuestID] and not qHide[QuestID] and not qCurrentQuestlog[QuestID]) then --Should be not qCurrentQuestlog[QuestID]
+      local Quest = QuestieDB:GetQuest(QuestID);
+      if _QuestieQuest:IsDoable(Quest) and Quest.MinLevel > MinLevel and Quest.MinLevel <= MaxLevel then
+        qAvailableQuests[QuestID] = QuestID
       end
     end
   end
