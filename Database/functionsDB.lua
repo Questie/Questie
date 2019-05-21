@@ -20,6 +20,9 @@ QuestieDB._ItemCache = {};
 QuestieDB._NPCCache = {};
 QuestieDB._ObjectCache = {};
 function QuestieDB:GetObject(ObjectID)
+  if ObjectID == nil then
+    return nil
+  end
   if QuestieDB._ObjectCache[ObjectID] ~= nil then
     return QuestieDB._ObjectCache[ObjectID];
   end
@@ -35,6 +38,9 @@ function QuestieDB:GetObject(ObjectID)
   end
 end
 function QuestieDB:GetItem(ItemID)
+  if ItemID == nil then
+    return nil
+  end
   if QuestieDB._ItemCache[ItemID] ~= nil then
     return QuestieDB._ItemCache[ItemID];
   end
@@ -62,6 +68,9 @@ function QuestieDB:GetItem(ItemID)
 end
 
 function QuestieDB:GetQuest(QuestID)
+  if QuestID == nil then
+    return nil
+  end
   if QuestieDB._QuestCache[QuestID] ~= nil then
     return QuestieDB._QuestCache[QuestID];
   end
@@ -206,7 +215,9 @@ function QuestieDB:GetQuest(QuestID)
 end
 
 function QuestieDB:GetNPC(NPCID)
-
+  if NPCID == nil then
+    return nil
+  end
   --[key] = {1 Name,2 minHP,3 maxHP,4 minLevel,5 maxLevel,6 rank,7 spawns,8 waypoint,9 zone, 10 starts, 11 ends},
 
   if(QuestieDB._NPCCache[NPCID]) then
