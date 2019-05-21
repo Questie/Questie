@@ -425,7 +425,11 @@ function _QuestieQuest:GetLeaderBoardDetails(BoardIndex,QuestId)
     numItems, numNeeded, itemName = string.match(description, "(%d+)\/(%d+)(.*)")
   end
   Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Quest Details2:", QuestId, itemName, numItems, numNeeded)
-  itemName = string.gsub(itemName, "slain", "")
+  if (itemName) then
+    itemName = string.gsub(itemName, "slain", "")
+  else
+    itemName = description;
+  end
   numItems, numNeeded = string.match(description, "(%d+)\/(%d+)")
   return objectiveType, strtrim(itemName), numItems, numNeeded, isCompleted;
 end
