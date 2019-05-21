@@ -1,10 +1,13 @@
 function PLAYER_ENTERING_WORLD()
-	Questie:Debug(DEBUG_ELEVATED, "Player entered world")
-  QuestieQuest:Initialize()
-	QuestieDB:Initialize()
-  QuestieQuest:GetAllQuestIds()
-	QuestieQuest:CalculateAvailableQuests()
-	QuestieQuest:DrawAllAvailableQuests()
+    C_Timer.After(3, function ()
+	  Questie:Debug(DEBUG_ELEVATED, "Player entered world")
+      QuestieQuest:Initialize()
+	  QuestieDB:Initialize()
+      QuestieQuest:GetAllQuestIds()
+	  QuestieQuest:CalculateAvailableQuests()
+	  QuestieQuest:DrawAllAvailableQuests()
+	end)
+
 
 
 	--local Note = QuestieFramePool:GetFrame();
@@ -20,26 +23,34 @@ end
 
 --Fires when a quest is accepted in anyway.
 function QUEST_ACCEPTED(Event, QuestLogIndex, QuestId)
-  Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_ACCEPTED", "QLogIndex: "..QuestLogIndex,  "QuestID: "..QuestId);
-  QuestieQuest:AcceptQuest(QuestId)
+  C_Timer.After(2, function ()
+    Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_ACCEPTED", "QLogIndex: "..QuestLogIndex,  "QuestID: "..QuestId);
+    QuestieQuest:AcceptQuest(QuestId) -- is it safe to pass params to virtual functions like this?
+  end)
 end
 
 --Fires when a quest is removed from the questlog, this includes turning it in!
 function QUEST_REMOVED(Event, QuestId)
-  Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_REMOVED", QuestId);
-  QuestieQuest:AbandonedQuest(QuestId)
+  C_Timer.After(2, function ()
+    Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_REMOVED", QuestId);
+    QuestieQuest:AbandonedQuest(QuestId)
+  end)
 end
 
 --Fires when a quest is turned in.
 function QUEST_TURNED_IN(Event, questID, xpReward, moneyReward)
-  Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_TURNED_IN", questID, xpReward, moneyReward);
-  QuestieQuest:CompleteQuest(questID)
+  C_Timer.After(2, function ()
+    Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_TURNED_IN", questID, xpReward, moneyReward);
+    QuestieQuest:CompleteQuest(questID)
+  end)
 end
 
 function QUEST_WATCH_UPDATE(Event, QuestLogIndex)
-  title, level, _, isHeader, _, isComplete, _, questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(QuestLogIndex)
-  Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_WATCH_UPDATE", "QLogIndex: "..QuestLogIndex,  "QuestID: "..questId);
-  QuestieQuest:UpdateQuest(questId);
+  C_Timer.After(2, function ()
+    title, level, _, isHeader, _, isComplete, _, questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(QuestLogIndex)
+    Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_WATCH_UPDATE", "QLogIndex: "..QuestLogIndex,  "QuestID: "..questId);
+    QuestieQuest:UpdateQuest(questId);
+  end)
 end
 
 function QUEST_LOG_CRITERIA_UPDATE(Event, questID, specificTreeID, description, numFulfilled, numRequired)
