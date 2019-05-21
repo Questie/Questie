@@ -1,4 +1,5 @@
 # Questie - WARNING: THIS IS A WIP BUILD FOR THE BETA! 
+# Put "QuestieDev-QuestieClassic" in your interface folder! DELETE THE OLD "Questie" FOLDER IF YOU HAVE ONE!
 *Many things are missing, but its all being ported in slowly. Keep an eye on this branch and the discord (linked below)*
 
 **A quest helper for World of Warcraft: Classic**
