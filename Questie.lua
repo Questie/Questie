@@ -148,14 +148,14 @@ local options = {
 					desc = "Enable or disable showing of showing low level quests on the map.",
 					width = 200,
 					get =	function ()
-  							QuestieQuest:CalculateAvailableQuests()
-        				QuestieQuest:DrawAllAvailableQuests()
-								return Questie.db.char.lowlevel
+                                QuestieQuest:CalculateAvailableQuests()
+                                QuestieQuest:DrawAllAvailableQuests()
+                                return Questie.db.char.lowlevel
 							end,
 					set =	function (info, value)
-								QuestieQuest:CalculateAvailableQuests()
-      					QuestieQuest:DrawAllAvailableQuests()
-								Questie.db.char.lowlevel = value
+                                QuestieQuest:CalculateAvailableQuests()
+                                QuestieQuest:DrawAllAvailableQuests()
+                                Questie.db.char.lowlevel = value
 							end,
 				},
 				minLevelFilter = {
@@ -188,23 +188,24 @@ local options = {
 								QuestieQuest:CalculateAvailableQuests() --recalulate and redraw when changing settings.
 								QuestieQuest:DrawAllAvailableQuests()
 								SetGlobalOptionLocal(info, value)
-							end,
+                            end,
 				},
-        clusterLevel = {
-          type = "range",
-          order = 18,
-          name = "Objective icon cluster amount  (Not yet implemented)",
-          desc = "How much objective icons should cluster.",
-          width = "double",
-          min = 0.02,
-          max = 5,
-          step = 0.01,
-          get = GetGlobalOptionLocal,
-          set = function (info, value)
-                --QUESTIE_NOTES_CLUSTERMUL_HACK = value;
-                SetGlobalOptionLocal(info, value)
-              end,
-        },
+                clusterLevel = {
+                  type = "range",
+                  order = 18,
+                  name = "Objective icon cluster amount  (Not yet implemented)",
+                  desc = "How much objective icons should cluster.",
+                  width = "double",
+                  min = 0.02,
+                  max = 5,
+                  step = 0.01,
+                  get = GetGlobalOptionLocal,
+                  set = function (info, value)
+
+                        --QUESTIE_NOTES_CLUSTERMUL_HACK = value;
+                        SetGlobalOptionLocal(info, value)
+                        end,
+                },
 				arrow_options = {
 					type = "header",
 					order = 19,
@@ -263,27 +264,11 @@ function Questie:OnInitialize()
 	Questie:RegisterChatCommand("test", "SlashTest")
 	Questie:RegisterChatCommand("qc", "MySlashProcessorFunc")
 
-  --If we actually want the settings to save, uncomment this line and comment next one!
-  --self.db = LibStub("AceDB-3.0"):New("QuestieConfig", defaults, true)
+    --If we actually want the settings to save, uncomment this line and comment next one!
+    --self.db = LibStub("AceDB-3.0"):New("QuestieConfig", defaults, true)
     self.db = LibStub("AceDB-3.0"):New("QuestieClassicDB", defaults, true)
 
 
-	--WILL ERROR; Run with reloadui!
-	--x, y, z = HBD:GetPlayerWorldPosition();
-	--Questie:Print("XYZ:", x, y, z, "Zone: "..getPlayerZone(), "Cont: "..getPlayerContinent());
-	--Questie:Print(HBD:GetWorldCoordinatesFromAzerothWorldMap(x, y, ));
-	--mapX, mapY = HBD:GetAzerothWorldMapCoordinatesFromWorld(x, y, 0);
-	--Questie:Print(mapX, mapY);
-	--glooobball = C_Map.GetMapInfo(1)
-	--glooobball = HBD:GetAllMapIDs()
-	--Questie:Print(HBD:GetAllMapIDs())
-	--Questie:Print(GetWorldContinentFromZone(getPlayerZone()))
-
-
-
-
-	--QuestieFrameOpt = AceGUI:Create("Frame")
-	--Questie.db.global.lastmessage = 0
 	LibStub("AceConfig-3.0"):RegisterOptionsTable("Questie", options)
 	--QuestieFrame2 = LibStub("AceConfigDialog-3.0"):Open("Questie", QuestieFrameOpt)
 
@@ -291,12 +276,28 @@ function Questie:OnInitialize()
 	--QuestieFrame:SetStatusText("AceGUI-3.0 Example Container frame")
 	--QuestieFrame:SetCallback("OnClose", function() QuestieFrame:Hide() end)
 	--QuestieFrame:SetLayout(options)
+    --WILL ERROR; Run with reloadui!
+    --x, y, z = HBD:GetPlayerWorldPosition();
+    --Questie:Print("XYZ:", x, y, z, "Zone: "..getPlayerZone(), "Cont: "..getPlayerContinent());
+    --Questie:Print(HBD:GetWorldCoordinatesFromAzerothWorldMap(x, y, ));
+    --mapX, mapY = HBD:GetAzerothWorldMapCoordinatesFromWorld(x, y, 0);
+    --Questie:Print(mapX, mapY);
+    --glooobball = C_Map.GetMapInfo(1)
+    --glooobball = HBD:GetAllMapIDs()
+    --Questie:Print(HBD:GetAllMapIDs())
+    --Questie:Print(GetWorldContinentFromZone(getPlayerZone()))
+    --QuestieFrameOpt = AceGUI:Create("Frame")
+    --Questie.db.global.lastmessage = 0
 
 	self.configFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Questie", "Questie Classic");
 
-  -- Code that you want to run when the addon is first loaded goes here.
-  --Questie:Print("Hello, world!")
-  --self:RegisterChatCommand("Questie", "ChatCommand")
+    -- Code that you want to run when the addon is first loaded goes here.
+    --Questie:Print("Hello, world!")
+    --self:RegisterChatCommand("Questie", "ChatCommand")
+
+    --Initialize the DB settings.
+    Questie:debug(DEBUG_DEVELOP, "Setting clustering value to:", Questie.db.global.clusterLevel)
+    QUESTIE_NOTES_CLUSTERMUL_HACK = Questie.db.global.clusterLevel;
 
 
 end
