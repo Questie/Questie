@@ -31,7 +31,6 @@ function QuestieTooltips:PrintDifficultyColor(level, text)
 			level = UnitLevel("player");
 	end
 	local PlayerLevel = UnitLevel("player");
-	print(level.. "/"..PlayerLevel)
 	if (level > (PlayerLevel + 4)) then
 	    return "|cFFFF1A1A"..text.."|r"; -- Red
 	elseif (level > (PlayerLevel + 2)) then
