@@ -1,6 +1,7 @@
 
 -- todo: move this in to a proper global
 QuestieTooltips = {};
+local _QuestieTooltips = {};
 
 
 QuestieTooltips.tooltipLookup = {
@@ -8,7 +9,7 @@ QuestieTooltips.tooltipLookup = {
 }
 
 
-function QuestieTooltips:PrintDifficultyColor(level, text)
+function QuestieTooltips:OLDPrintDifficultyColor(level, text)
 	local PlayerLevel = UnitLevel("player");
 	if level == nil then return "FFFFFFFF"; end
 	local levelDiff = level - UnitLevel("player");
@@ -23,6 +24,35 @@ function QuestieTooltips:PrintDifficultyColor(level, text)
 	else
 		return "|cFFC0C0C0"..text.."|r";
 	end
+end
+
+function QuestieTooltips:PrintDifficultyColor(level, text)
+	if level == -1 then
+			level = UnitLevel("player");
+	end
+	local PlayerLevel = UnitLevel("player");
+	if (PlayerLevel > (level + 4)) then
+	    return "|cFFFF1A1A"..text.."|r"; -- Red
+	elseif (PlayerLevel > (level + 2)) then
+	    return "|cFF40C040"..text.."|r"; -- Green
+	elseif (PlayerLevel <= (level + 2)) and (PlayerLevel >= (level - 2)) then
+	    return "|cFFFFFF00"..text.."|r"; -- Yellow
+	elseif (PlayerLevel > _QuestieTooltips:GetQuestGreyLevel(level)) then
+	    return "|cFFFF8040"..text.."|r"; -- Orange
+	else
+	    return "|cFFC0C0C0"..text.."|r"; -- Grey
+	end
+	return "|cFFffffff"..text.."|r"; --white
+end
+
+function _QuestieTooltips:GetQuestGreyLevel(level)
+    if (level <= 5) then
+        return 0;
+    elseif (level <= 39) then
+        return (level - math.floor(level/10) - 5);
+    else
+        return (level - math.floor(level/5) - 1);
+    end
 end
 
 -- key format:
