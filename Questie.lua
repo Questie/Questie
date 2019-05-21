@@ -144,14 +144,18 @@ local options = {
 				gray = {
 					type = "toggle",
 					order = 16,
-					name = "Show Gray Quests (Low level quests)",
-					desc = "Enable or disable showing of gray quests on the map.",
+					name = "Show ALl Quests below range (Low level quests)",
+					desc = "Enable or disable showing of showing low level quests on the map.",
 					width = 200,
 					get =	function ()
+
+  							QuestieQuest:CalculateAvailableQuests()
+        				QuestieQuest:DrawAllAvailableQuests()
 								return Questie.db.char.lowlevel
 							end,
 					set =	function (info, value)
-								QuestieDBQuest:CalculateAvailableQuests()
+								QuestieQuest:CalculateAvailableQuests()
+      					QuestieQuest:DrawAllAvailableQuests()
 								Questie.db.char.lowlevel = value
 							end,
 				},
