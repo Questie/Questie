@@ -8,9 +8,10 @@
 **What is working/ported**
 - map/minimap system (Currently using a port of HereBeDragons but that may change)
 - available quests (some bugs related to profession/class quests are being worked on)
-- objective notes (excluding event objectives, like "explore the fargodeep mine")
+- objective notes
 
 **What is not working/ported**
+- event-type quests, like "explore the fargodeep mine"
 - tracker
 - arrow
 - mob/item tooltips
