@@ -3,7 +3,7 @@ Questie = LibStub("AceAddon-3.0"):NewAddon("Questie", "AceConsole-3.0", "AceEven
 _Questie = {...}
 if QuestieConfig == nil then
   QuestieConfig = {}
-  QuestieConfig.enableDebug = true;
+  QuestieConfig.enableDebug = false;
 end
 --Questie.db.realm
 --Questie.db.char
