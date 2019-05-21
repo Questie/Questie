@@ -372,7 +372,10 @@ end
 --/dump QuestieQuest:GetAllQuestObjectives(24475)
 function QuestieQuest:GetAllQuestObjectives(Quest)
   local count = GetNumQuestLeaderBoards(GetQuestLogIndexByID(Quest.Id))
-
+  if Quest.Objectives == nil then
+    Quest.Objectives = {} ; -- TODO: remove after api bug is fixed!!!
+	Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Error: objective table doesnt exist when getting objectives, this should never happen!")
+  end
 
   for i = 1, count do
     objectiveType, objectiveDesc, numItems, numNeeded, isCompleted = _QuestieQuest:GetLeaderBoardDetails(i, Quest.Id)
