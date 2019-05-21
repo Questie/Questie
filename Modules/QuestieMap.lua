@@ -3,7 +3,7 @@ QuestieMap = {...}
 qQuestIdFrames = {}
 
 -- copypaste from old questie (clean up later)
-QUESTIE_NOTES_CLUSTERMUL_HACK = 2; -- smaller numbers = less icons on map
+QUESTIE_NOTES_CLUSTERMUL_HACK = 1; -- smaller numbers = less icons on map
 local MapCache_ClutterFix = {};
 
 function QuestieMap:DrawWorldMap(QuestID)
