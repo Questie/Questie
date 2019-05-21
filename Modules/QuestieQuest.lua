@@ -212,15 +212,15 @@ function QuestieQuest:PopulateObjectiveNotes(Quest)
 		end
 		if v.Type == "item" then
 		   local item = QuestieDB:GetItem(v.Id);
-		   if item ~= nil then
+		   if item ~= nil and item.Sources ~= nil then
 		     Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: GotItem", v.Id, item.Id)
 			 for k2,v2 in pairs(item.Sources) do
 			   if v2.Type == "monster" then
 				  NPC = QuestieDB:GetNPC(v2.Id)
-				  if(NPC ~= nil) then
+				  if(NPC ~= nil and NPC.Spawns ~= nil) then
 					--Questie:Debug(DEBUG_DEVELOP,"Adding Quest:", questObject.Id, "StarterNPC:", NPC.Id)
 					for Zone, Spawns in pairs(NPC.Spawns) do
-					  if(Zone ~= nil) then
+					  if(Zone ~= nil and Spawns ~= nil) then
 						--Questie:Debug("Zone", Zone)
 						--Questie:Debug("Qid:", questid)
 						for _, coords in ipairs(Spawns) do
@@ -257,10 +257,10 @@ function QuestieQuest:PopulateObjectiveNotes(Quest)
 				  end
 			   elseif v2.Type == "object" then
 				  local obj = QuestieDB:GetObject(v2.Id)
-				  if(obj ~= nil) then
+				  if(obj ~= nil and obj.Spawns ~= nil) then
 					--Questie:Debug(DEBUG_DEVELOP,"Adding Quest:", questObject.Id, "StarterNPC:", NPC.Id)
 					for Zone, Spawns in pairs(obj.Spawns) do
-					  if(Zone ~= nil) then
+					  if(Zone ~= nil and Spawns ~= nil) then
 						--Questie:Debug("Zone", Zone)
 						--Questie:Debug("Qid:", questid)
 						for _, coords in ipairs(Spawns) do
@@ -304,10 +304,10 @@ function QuestieQuest:PopulateObjectiveNotes(Quest)
 		   end
 		elseif v.Type == "monster" then
 		  NPC = QuestieDB:GetNPC(v.Id)
-		  if(NPC ~= nil) then
+		  if(NPC ~= nil and NPC.Spawns ~= nil) then
 			--Questie:Debug(DEBUG_DEVELOP,"Adding Quest:", questObject.Id, "StarterNPC:", NPC.Id)
 			for Zone, Spawns in pairs(NPC.Spawns) do
-			  if(Zone ~= nil) then
+			  if(Zone ~= nil and Spawns ~= nil) then
 				--Questie:Debug("Zone", Zone)
 				--Questie:Debug("Qid:", questid)
 				for _, coords in ipairs(Spawns) do
@@ -342,6 +342,8 @@ function QuestieQuest:PopulateObjectiveNotes(Quest)
 			  end
 			end
 		  end
+		elseif v.Type == "event" then
+		  
 		end
 	end
 end
@@ -379,7 +381,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
 	
 	if count == 1 and counthack(Quest.ObjectiveData) == 1 then
 	  Quest.Objectives[i].Id = Quest.ObjectiveData[1].Id
-	else
+	elseif Quest.ObjectiveData ~= nil then
 	  -- try to find npc/item/event ID
 	  for k,v in pairs(Quest.ObjectiveData) do
 	    if objectiveType == v.Type then
@@ -431,10 +433,10 @@ function _QuestieQuest:DrawAvailableQuest(questObject)
   if(questObject.Starts["NPC"] ~= nil)then
     for index, NPCID in ipairs(questObject.Starts["NPC"]) do
       NPC = QuestieDB:GetNPC(NPCID)
-      if(NPC ~= nil) then
+      if(NPC ~= nil and NPC.Spawns ~= nil) then
         --Questie:Debug(DEBUG_DEVELOP,"Adding Quest:", questObject.Id, "StarterNPC:", NPC.Id)
         for Zone, Spawns in pairs(NPC.Spawns) do
-          if(Zone ~= nil) then
+          if(Zone ~= nil and Spawns ~= nil) then
             --Questie:Debug("Zone", Zone)
             --Questie:Debug("Qid:", questid)
             for _, coords in ipairs(Spawns) do
@@ -482,7 +484,7 @@ end
 
 
 
-function _QuestieQuest:IsDoable(questObject)
+function _QuestieQuest:IsDoable(questObject) -- we need to add profession/reputation checks here
   local allFinished=true
   --Run though the requiredQuests
   if questObject.RequiredQuest == nil or questObject.RequiredQuest == 0 then
