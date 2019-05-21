@@ -9,7 +9,7 @@ QuestieTooltips.tooltipLookup = {
 }
 
 
-function QuestieTooltips:OLDPrintDifficultyColor(level, text)
+function QuestieTooltips:PrintDifficultyColor(level, text)
 	local PlayerLevel = UnitLevel("player");
 	if level == nil then return "FFFFFFFF"; end
 	local levelDiff = level - UnitLevel("player");
@@ -26,18 +26,18 @@ function QuestieTooltips:OLDPrintDifficultyColor(level, text)
 	end
 end
 
-function QuestieTooltips:PrintDifficultyColor(level, text)
+function QuestieTooltips:NewPrintDifficultyColor(level, text)
 	if level == -1 then
 			level = UnitLevel("player");
 	end
 	local PlayerLevel = UnitLevel("player");
 	if (PlayerLevel > (level + 4)) then
 	    return "|cFFFF1A1A"..text.."|r"; -- Red
-	elseif (PlayerLevel > (level + 2)) then
+	elseif (PlayerLevel < (level + 2)) then
 	    return "|cFF40C040"..text.."|r"; -- Green
-	elseif (PlayerLevel <= (level + 2)) and (PlayerLevel >= (level - 2)) then
+	elseif (PlayerLevel >= (level + 2)) and (PlayerLevel >= (level - 2)) then
 	    return "|cFFFFFF00"..text.."|r"; -- Yellow
-	elseif (PlayerLevel > _QuestieTooltips:GetQuestGreyLevel(level)) then
+	elseif (PlayerLevel < _QuestieTooltips:GetQuestGreyLevel(level)) then
 	    return "|cFFFF8040"..text.."|r"; -- Orange
 	else
 	    return "|cFFC0C0C0"..text.."|r"; -- Grey
