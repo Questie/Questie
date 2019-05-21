@@ -163,7 +163,7 @@ local options = {
 					order = 17,
 					name = "< Show below level",
 					desc = "How many levels below your character to show.",
-					width = "HALF",
+					width = "normal",
 					min = 1,
 					max = 10,
 					step = 1,
@@ -179,7 +179,7 @@ local options = {
 					order = 17,
 					name = "Show above level >",
 					desc = "How many levels above your character to show.",
-					width = "HALF",
+					width = "normal",
 					min = 1,
 					max = 10,
 					step = 1,
@@ -190,14 +190,29 @@ local options = {
 								SetGlobalOptionLocal(info, value)
 							end,
 				},
+        clusterLevel = {
+          type = "range",
+          order = 18,
+          name = "Objective icon cluster amount  (Not yet implemented)",
+          desc = "How much objective icons should cluster.",
+          width = "double",
+          min = 0.02,
+          max = 5,
+          step = 0.01,
+          get = GetGlobalOptionLocal,
+          set = function (info, value)
+                --QUESTIE_NOTES_CLUSTERMUL_HACK = value;
+                SetGlobalOptionLocal(info, value)
+              end,
+        },
 				arrow_options = {
 					type = "header",
-					order = 18,
+					order = 19,
 					name = "Arrow Options",
 				},
 				test = {
 					type = "execute",
-					order = 18,
+					order = 19,
 					name = "Test Message",
 					desc = "Print next message in say.",
 					func = function() Questie:Print(Questie:GetNextMessage()) end,
@@ -210,7 +225,8 @@ local options = {
 local defaults = {
   global = {
     maxLevelFilter = 7,
-		minLevelFilter = 5 --Raised the default to allow more quests to be shown
+    minLevelFilter = 5, --Raised the default to allow more quests to be shown
+    clusterLevel = 1
   },
 	char = {
 		complete = {},
@@ -246,7 +262,10 @@ function Questie:OnInitialize()
 	Questie:RegisterChatCommand("questieclassic", "MySlashProcessorFunc")
 	Questie:RegisterChatCommand("test", "SlashTest")
 	Questie:RegisterChatCommand("qc", "MySlashProcessorFunc")
-	self.db = LibStub("AceDB-3.0"):New("QuestieClassicDB", defaults, true)
+
+  --If we actually want the settings to save, uncomment this line and comment next one!
+  --self.db = LibStub("AceDB-3.0"):New("QuestieConfig", defaults, true)
+    self.db = LibStub("AceDB-3.0"):New("QuestieClassicDB", defaults, true)
 
 
 	--WILL ERROR; Run with reloadui!
