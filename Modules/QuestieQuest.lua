@@ -239,6 +239,7 @@ function QuestieQuest:PopulateObjectiveNotes(Quest)
 						  data.Icon = ICON_TYPE_LOOT;
 						  data.IconScale = 0.5;
 						  data.QuestData = Quest;
+						  data.ObjectiveTargetId = v2.Id
 						  data.tooltip = {NPC.Name, "|cFF22FF22" .. v.Description .. " " .. v.Collected .. "/" .. v.Needed, "|cFFFFFFFF" .. Quest.Name}
 							--Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn1", v.Id, item.Id, NPC.Name )
 						  if(coords[1] == -1 or coords[2] == -1) then
@@ -279,6 +280,7 @@ function QuestieQuest:PopulateObjectiveNotes(Quest)
 						  data.Icon = ICON_TYPE_LOOT;
 						  data.IconScale = 0.5;
 						  data.QuestData = Quest;
+						  data.ObjectiveTargetId = v2.Id
 						  data.tooltip = {obj.Name, "|cFF22FF22" .. v.Description .. " " .. v.Collected .. "/" .. v.Needed, "|cFFFFFFFF" .. Quest.Name}
 							--Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn1", v.Id, item.Id, obj.Name )
 						  if(coords[1] == -1 or coords[2] == -1) then
@@ -326,6 +328,7 @@ function QuestieQuest:PopulateObjectiveNotes(Quest)
 				  data.Icon = ICON_TYPE_SLAY;
 				  data.IconScale = 0.5;
 				  data.QuestData = Quest;
+				  data.ObjectiveTargetId = v2.Id
 				  data.tooltip = {NPC.Name, "|cFF22FF22" .. v.Description .. " " .. v.Collected .. "/" .. v.Needed, "|cFFFFFFFF" .. Quest.Name}
 				  --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn1", v.Id, NPC.Name )
 				  if(coords[1] == -1 or coords[2] == -1) then

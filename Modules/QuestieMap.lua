@@ -2,6 +2,10 @@ QuestieMap = {...}
 
 qQuestIdFrames = {}
 
+-- copypaste from old questie (clean up later)
+QUESTIE_NOTES_CLUSTERMUL_HACK = 2; -- smaller numbers = less icons on map
+local MapCache_ClutterFix = {};
+
 function QuestieMap:DrawWorldMap(QuestID)
 
 end
@@ -53,13 +57,29 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
   data.refWorldMap = icon -- used for removing
   icon.texture:SetTexture(data.Icon)
   --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddWorldMapIconMap", icon, zoneDataAreaIDToUiMapID[AreaID], x/100, y/100, showFlag )
-  HBDPins:AddWorldMapIconMap(Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x/100, y/100, showFlag)
+  
 
   local iconMinimap = QuestieFramePool:GetFrame()
   iconMinimap.data = data
   data.refMiniMap = iconMinimap -- used for removing
   iconMinimap.texture:SetTexture(data.Icon)
-  HBDPins:AddMinimapIconMap(Questie, iconMinimap, zoneDataAreaIDToUiMapID[AreaID], x/100, y/100, true, floatOnEdge)
+  
+  -- check clustering
+  local xcell = math.floor((x*QUESTIE_NOTES_CLUSTERMUL_HACK));
+  local ycell = math.floor((x*QUESTIE_NOTES_CLUSTERMUL_HACK));
+  
+  if MapCache_ClutterFix[AreaID] == nil then MapCache_ClutterFix[AreaID] = {}; end
+  if MapCache_ClutterFix[AreaID][xcell] == nil then MapCache_ClutterFix[AreaID][xcell] = {}; end
+  if MapCache_ClutterFix[AreaID][xcell][ycell] == nil then MapCache_ClutterFix[AreaID][xcell][ycell] = {}; end
+
+  
+  if data.ObjectiveTargetId == nil or not MapCache_ClutterFix[AreaID][xcell][ycell][data.ObjectiveTargetId] then -- the reason why we only prevent adding to HBD is so its easy to "unhide" if we need to, and so the refs still exist
+    HBDPins:AddMinimapIconMap(Questie, iconMinimap, zoneDataAreaIDToUiMapID[AreaID], x/100, y/100, true, floatOnEdge)
+	HBDPins:AddWorldMapIconMap(Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x/100, y/100, showFlag)
+	if data.ObjectiveTargetId ~= nil then
+	  MapCache_ClutterFix[AreaID][xcell][ycell][data.ObjectiveTargetId] = true
+	end
+  end
   if(qQuestIdFrames[data.Id] == nil) then
     qQuestIdFrames[data.Id] = {}
   end
