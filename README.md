@@ -1,6 +1,8 @@
 # Questie
 
-**A quest helper for World of Warcraft: Classic**
+**A quest helper for Vanilla World of Warcraft**
+
+**For Classic BETA go to https://github.com/AeroScripts/QuestieDev/tree/QuestieClassic**
 
 *Note: classic beta development is being done in the "QuestieClassic" branch, it will be merged into master once things become stable.*
 
