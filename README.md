@@ -1,8 +1,24 @@
 # Questie - WARNING: THIS IS A WIP BUILD FOR THE BETA! 
+**A quest helper for World of Warcraft: Classic**
+
+
 # Put "QuestieDev-QuestieClassic" in your interface folder! DELETE THE OLD "Questie" FOLDER IF YOU HAVE ONE!
 *Many things are missing, but its all being ported in slowly. Keep an eye on this branch and the discord (linked below)*
 
-**A quest helper for World of Warcraft: Classic**
+**What is working/ported**
+- map/minimap system (Currently using a port of HereBeDragons but that may change)
+- available quests (some bugs related to profession/class quests are being worked on)
+- objective notes (excluding event objectives, like "explore the fargodeep mine")
+
+**What is not working/ported**
+- tracker
+- arrow
+- mob/item tooltips
+- map tooltip clustering (If more than 1 icon is on the same spot, or more than 1 quest is available from the same NPC, only 1 will show in the tooltip currently)
+
+
+
+
 
 [![Downloads](https://img.shields.io/github/downloads/AeroScripts/QuestieDev/total.svg)](https://github.com/AeroScripts/QuestieDev/releases/)
 
