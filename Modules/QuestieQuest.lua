@@ -77,7 +77,7 @@ function QuestieQuest:AcceptQuest(questId)
   --QuestieQuest:TrackQuest(questId);
 
   Questie:Debug(DEBUG_INFO, "[QuestieQuest]: Accept quest:", questId)
-  
+
 end
 
 function QuestieQuest:CompleteQuest(QuestId)
@@ -138,7 +138,7 @@ function QuestieQuest:GetAllQuestIds()
   end
 end
 
-function QuestieQuest:ShouldQuestShowObjectives(QuestId) 
+function QuestieQuest:ShouldQuestShowObjectives(QuestId)
 	return true -- todo: implement tracker logic here, to hide non-tracked quest optionally (1.12 questie does this optionally)
 end
 
@@ -206,7 +206,7 @@ function QuestieQuest:PopulateObjectiveNotes(Quest)
         return
 	end
 	local maxNotes = 256 -- max notes for 1 quest, this should be changed to clustering code later (prevent LAG on some quests)
-	
+
 	-- we've already checked the objectives table by doing IsComplete
 	-- of that changes, check it here
 	for k,v in pairs(Quest.Objectives) do
@@ -230,7 +230,7 @@ function QuestieQuest:PopulateObjectiveNotes(Quest)
 						for _, coords in ipairs(Spawns) do
 					      maxNotes = maxNotes - 1
 						  if maxNotes < 0 then
-						     return 
+						     return
 					      end
 						  --Questie:Debug("Coords", coords[1], coords[2])
 						  local data = {}
@@ -271,7 +271,7 @@ function QuestieQuest:PopulateObjectiveNotes(Quest)
 						for _, coords in ipairs(Spawns) do
 					      maxNotes = maxNotes - 1
 						  if maxNotes < 0 then
-						     return 
+						     return
 					      end
 						  --Questie:Debug("Coords", coords[1], coords[2])
 						  local data = {}
@@ -319,7 +319,7 @@ function QuestieQuest:PopulateObjectiveNotes(Quest)
 				for _, coords in ipairs(Spawns) do
 				  maxNotes = maxNotes - 1
 				  if maxNotes < 0 then
-					 return 
+					 return
 				  end
 				  --Questie:Debug("Coords", coords[1], coords[2])
 				  local data = {}
@@ -350,7 +350,7 @@ function QuestieQuest:PopulateObjectiveNotes(Quest)
 			end
 		  end
 		elseif v.Type == "event" then
-		  
+
 		end
 	end
 end
@@ -372,7 +372,7 @@ end
 --/dump QuestieQuest:GetAllQuestObjectives(24475)
 function QuestieQuest:GetAllQuestObjectives(Quest)
   local count = GetNumQuestLeaderBoards(GetQuestLogIndexByID(Quest.Id))
-  
+
 
   for i = 1, count do
     objectiveType, objectiveDesc, numItems, numNeeded, isCompleted = _QuestieQuest:GetLeaderBoardDetails(i, Quest.Id)
@@ -385,7 +385,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
     Quest.Objectives[i].Needed = numNeeded
     Quest.Objectives[i].Completed = isComplete
     Quest.Objectives[i].Index = i
-	
+
 	if count == 1 and counthack(Quest.ObjectiveData) == 1 then
 	  Quest.Objectives[i].Id = Quest.ObjectiveData[1].Id
 	elseif Quest.ObjectiveData ~= nil then
@@ -399,11 +399,11 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
 	    end
 	  end
 	end
-	
+
 	if Quest.Objectives[i].Id == nil then
 	  Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Error finding entry ID for objective", objectiveType, objectiveDesc, Quest.ObjectiveData[1].Id)
 	end
-	
+
   end
   return Quest.Objectives
 end
@@ -480,9 +480,12 @@ function QuestieQuest:DrawAllAvailableQuests()--All quests between
 
   local count = 0
   for questid, qid in pairs(qAvailableQuests) do
-    Quest = QuestieDB:GetQuest(questid)
-    --Draw a specific quest through the function
-    _QuestieQuest:DrawAvailableQuest(Quest)
+    --If the quest is not drawn draw the quest, otherwise skip.
+    if(not qQuestIdFrames[questid]) then
+      Quest = QuestieDB:GetQuest(questid)
+      --Draw a specific quest through the function
+      _QuestieQuest:DrawAvailableQuest(Quest)
+    end
     count = count + 1
   end
   Questie:Debug(DEBUG_INFO,"[QuestieQuest]", count, "available quests drawn.");
@@ -532,12 +535,17 @@ function QuestieQuest:CalculateAvailableQuests()
   for i, v in pairs(qData) do
     local QuestID = i;
     --Check if we've already completed the quest and that it is not "manually" hidden and that the quest is not currently in the questlog.
+
     if(not Questie.db.char.complete[QuestID] and not qHide[QuestID] and not qCurrentQuestlog[QuestID]) then --Should be not qCurrentQuestlog[QuestID]
       local Quest = QuestieDB:GetQuest(QuestID);
       if Quest.Level > MinLevel and Quest.Level < MaxLevel and Quest.MinLevel <= PlayerLevel then
         if _QuestieQuest:IsDoable(Quest) then
           qAvailableQuests[QuestID] = QuestID
         end
+      else
+        --If the quests are not within level range we want to unload them
+        --(This is for when people level up or change settings etc)
+        QuestieMap:UnloadQuestFrames(QuestID);
       end
     end
   end
