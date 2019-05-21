@@ -1,6 +1,10 @@
 
 Questie = LibStub("AceAddon-3.0"):NewAddon("Questie", "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0", "AceComm-3.0", "AceSerializer-3.0")
 _Questie = {...}
+if QuestieConfig == nil then
+  QuestieConfig = {}
+  QuestieConfig.enableDebug = true;
+end
 --Questie.db.realm
 --Questie.db.char
 
@@ -293,6 +297,9 @@ end
 --DEBUG_SPAM = "5DEBUG"
 
 function Questie:Debug(...)
+    -- using a separate var here TEMPORARILY to make it easier for people to disable
+	-- /run QuestieConfig.enableDebug = false;
+	if not QuestieConfig.enableDebug then return; end
 	if(debug) then
 		if(debuglevel < 5 and arg[1] == DEBUG_SPAM)then return; end
 		if(debuglevel < 4 and arg[1] == DEBUG_DEVELOP)then return; end

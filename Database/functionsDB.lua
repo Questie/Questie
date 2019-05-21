@@ -15,8 +15,57 @@ function QuestieDB:ItemLookup(ItemId)
   return Item
 end
 
+QuestieDB._QuestCache = {}; -- stores quest objects so they dont need to be regenerated
+QuestieDB._ItemCache = {};
+QuestieDB._NPCCache = {};
+QuestieDB._ObjectCache = {};
+function QuestieDB:GetObject(ObjectID)
+  if QuestieDB._ObjectCache[ObjectID] ~= nil then
+    return QuestieDB._ObjectCache[ObjectID];
+  end
+  local raw = objData[ObjectID];
+  if raw ~= nil then
+    local obj = {};
+	obj.Name = raw[1];
+	obj.Spawns = raw[4];
+	QuestieDB._ObjectCache[ObjectID] = obj;
+	return obj;
+  else
+	Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Missing container ", ObjectID)
+  end
+end
+function QuestieDB:GetItem(ItemID)
+  if QuestieDB._ItemCache[ItemID] ~= nil then
+    return QuestieDB._ItemCache[ItemID];
+  end
+  local item = {};
+  local raw = CHANGEME_Questie4_ItemDB[ItemID]; -- TODO: use the good item db, I need to talk to Muehe about the format, this is a temporary fix
+  if raw ~= nil then
+    item.Id = ItemID;
+	item.Name = raw[1];
+	item.Sources = {};
+	for k,v in pairs(raw[3]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
+	  local source = {};
+	  source.Type = "monster";
+	  source.Id = v;
+	  table.insert(item.Sources, source);
+	end
+	for k,v in pairs(raw[4]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
+	  local source = {};
+	  source.Type = "object";
+	  source.Id = v;
+	  table.insert(item.Sources, source);
+	end
+  end
+  QuestieDB._ItemCache[ItemID] = item;
+  return item
+end
+
 function QuestieDB:GetQuest(QuestID)
-  --[[
+  if QuestieDB._QuestCache[QuestID] ~= nil then
+    return QuestieDB._QuestCache[QuestID];
+  end
+  --[[ 	[916] = {"Webwood Venom",{{2082,},nil,nil,},{{2082,},nil,},3,4,"A",nil,nil,nil,{nil,nil,{{5166,nil},},},nil,nil,nil,nil,nil,nil,},
   --key
   --name = 1
   --starts = 2
@@ -42,7 +91,7 @@ function QuestieDB:GetQuest(QuestID)
   -- 14 DB_SUB_QUESTS
   -- 15 DB_QUEST_GROUP
   -- 16 DB_EXCLUSIVE_QUEST_GROUP]]--
-  rawdata = qData[QuestID]
+  rawdata = qData[QuestID] -- shouldnt rawdata be local
   if(rawdata)then
     QO = {}
     QO.Id = QuestID --Key
@@ -60,11 +109,84 @@ function QuestieDB:GetQuest(QuestID)
     QO.RequiredClasses = rawdata[7]
     QO.ObjectiveText = rawdata[8]
     QO.Triggers = rawdata[9] --List of coordinates
-    QO.Objectives = {}
-    QO.Objectives["NPC"] = rawdata[10][1] --{NPCID, Different name of NPC or object}
-    QO.Objectives["GameObject"] = rawdata[10][2] --{GOID, Different name of NPC or object}
-    QO.Objectives["Item"] = rawdata[10][3]
-    QO.SrcItemId = rawdata[11] --A quest item given by a questgiver of some kind.
+    QO.ObjectiveData = {} -- to differentiate from the current quest log info
+	--    type 
+    --String - could be the following things: "item", "object", "monster", "reputation", "log", or "event". (from wow api)
+    
+	if QO.Triggers ~= nil then
+	  for k,v in pairs(QO.Triggers) do
+	      local obj = {};
+		  obj.Type = "event"
+		  obj.Coordinates = v
+		  table.insert(QO.ObjectiveData, obj);
+	  end
+	end
+
+	if rawdata[10][1] ~= nil then
+	  for _k,_v in pairs(rawdata[10][1]) do
+	    if _v ~= nil then
+	      for k,v in pairs(_v) do
+	        if v ~= nil then
+	          local obj = {};
+		      obj.Type = "monster"
+		      obj.Id = v
+			  
+			  -- this speeds up lookup
+			  obj.Name = npcData[v]
+			  if obj.Name ~= nil then
+			    obj.Name = string.lower(obj.Name[1]);
+			  end
+			  
+		      table.insert(QO.ObjectiveData, obj);
+		    end
+		  end
+		end
+	  end
+	end
+	if rawdata[10][2] ~= nil then
+	  for _k,_v in pairs(rawdata[10][2]) do
+	    if _v ~= nil then
+	      for k,v in pairs(_v) do
+	        if v ~= nil then
+	          local obj = {};
+		      obj.Type = "object"
+		      obj.Id = v
+			  
+			  obj.Name = objData[v]
+			  if obj.Name ~= nil then
+			    obj.Name = string.lower(obj.Name[1]);
+			  end
+			  
+		      table.insert(QO.ObjectiveData, obj);
+		    end
+		  end
+		end
+	  end
+	end
+	if rawdata[10][3] ~= nil then
+	  for _k,_v in pairs(rawdata[10][3]) do
+	    if _v ~= nil then
+	      for k,v in pairs(_v) do
+	        if v ~= nil then
+	          local obj = {};
+		      obj.Type = "item"
+		      obj.Id = v
+			  
+			  obj.Name = CHANGEME_Questie4_ItemDB[v]
+			  if obj.Name ~= nil then
+			    obj.Name = string.lower(obj.Name[1]);
+			  end
+			  
+		      table.insert(QO.ObjectiveData, obj);
+		    end
+		  end
+		end
+	  end
+	end
+    --QO.Objectives["NPC"] = rawdata[10][1] --{NPCID, Different name of NPC or object}
+    --QO.Objectives["GameObject"] = rawdata[10][2] --{GOID, Different name of NPC or object}
+    --QO.Objectives["Item"] = rawdata[10][3]
+    --QO.SrcItemId = rawdata[11] --A quest item given by a questgiver of some kind.
     if(rawdata[12] ~= nil and rawdata[13] ~= nil) then
       Questie:Debug(DEBUG_CRITICAL, "ERRRRORRRRRRR not mutually exclusive!")
     end
@@ -76,7 +198,7 @@ function QuestieDB:GetQuest(QuestID)
     QO.SubQuests = rawdata[14] --Quests that give questitems that are used in later quests (See STV manual)
     QO.QuestGroup = rawdata[15] --Quests that are part of the same group, example complete this group of quests to open the next one.
     QO.ExclusiveQuestGroup = rawdata[16]
-
+    QuestieDB._QuestCache[QuestID] = QO
     return QO
   else
     return nil
@@ -87,13 +209,13 @@ function QuestieDB:GetNPC(NPCID)
 
   --[key] = {1 Name,2 minHP,3 maxHP,4 minLevel,5 maxLevel,6 rank,7 spawns,8 waypoint,9 zone, 10 starts, 11 ends},
 
-  if(npcCache[NPCID]) then
-    return npcCache[NPCID]
+  if(QuestieDB._NPCCache[NPCID]) then
+    return QuestieDB._NPCCache[NPCID]
   end
   rawdata = npcData[NPCID]
   if(rawdata)then
     NPC = {}
-    NPC.Type = "NPC" --This can be used to look at which type it is, Gameobject and Items will have the same!
+    NPC.Type = "NPC" --This can be used to look at which type it is, Gameobject and Items will have the same! (should be monster to match wow api)
     NPC.Id = NPCID
     NPC.Name = rawdata[DB_NAME]
     NPC.MinHealth = rawdata[DB_MIN_LEVEL_HEALTH]
@@ -105,7 +227,7 @@ function QuestieDB:GetNPC(NPCID)
     NPC.Waypoints = rawdata[DB_NPC_WAYPOINTS]
     NPC.Starts = rawdata[DB_NPC_STARTS]
     NPC.Ends = rawdata[DB_NPC_ENDS]
-    npcCache[NPCID] = NPC
+    QuestieDB._NPCCache[NPCID] = NPC
     return NPC
   else
     return nil

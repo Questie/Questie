@@ -42,20 +42,27 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
       error(MAJOR.."Data.Id must be set to the quests ID!")
   end
   if zoneDataAreaIDToUiMapID[AreaID] == nil then
-    --Questie:Error("No UiMapID for ("..zoneDataClassic[AreaID]..") :".. AreaID)
+    Questie:Error("No UiMapID for ("..zoneDataClassic[AreaID]..") :".. AreaID)
     return nil
   end
   if(showFlag == nil) then showFlag = HBD_PINS_WORLDMAP_SHOW_WORLD; end
 
   local icon = QuestieFramePool:GetFrame()
   icon.data = data
+  data.ref = icon -- used for removing
   icon.texture:SetTexture(data.Icon)
+  --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddWorldMapIconMap", icon, zoneDataAreaIDToUiMapID[AreaID], x/100, y/100, showFlag )
   HBDPins:AddWorldMapIconMap(Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x/100, y/100, showFlag)
   if(qQuestIdFrames[data.Id] == nil) then
     qQuestIdFrames[data.Id] = {}
   end
+
   table.insert(qQuestIdFrames[data.Id], icon:GetName())
   return icon;
+end
+
+function QuestieMap:RemoveIcon(ref)
+	HBDPins:RemoveWorldMapIcon(Questie, ref)
 end
 
 

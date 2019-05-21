@@ -13,17 +13,18 @@ Libs\HereBeDragons\HereBeDragons-2.0.lua
 Libs\HereBeDragons\HereBeDragons-Pins-2.0.lua
 Libs\HereBeDragons\HereBeDragons-Migrate.lua
 
+#stream module (used by DB)
+Modules\QuestieStream.lua
 
 #Databases
 Database\questDB.lua
 Database\objectDB.lua
 Database\spawnDB.lua
 Database\zoneDB.lua
-Database\itemDB.lua
+Database\TEMP_questie4items.lua
 Database\functionsDB.lua
 
 #Modules
-Modules\QuestieStream.lua
 Modules\QuestieTooltips.lua
 Modules\QuestieEventHandler.lua
 Modules\QuestieFramePool.lua

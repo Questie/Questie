@@ -39,6 +39,7 @@ end
 function QUEST_WATCH_UPDATE(Event, QuestLogIndex)
   title, level, _, isHeader, _, isComplete, _, questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(QuestLogIndex)
   Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_WATCH_UPDATE", "QLogIndex: "..QuestLogIndex,  "QuestID: "..questId);
+  QuestieQuest:UpdateQuest(questId);
 end
 
 function QUEST_LOG_CRITERIA_UPDATE(Event, questID, specificTreeID, description, numFulfilled, numRequired)

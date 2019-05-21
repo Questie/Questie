@@ -679,7 +679,7 @@ end
 -- @param y Y position in local/point coordinates (0-1), relative to the zone
 -- @param showFlag Flag to control on which maps this pin will be shown
 function pins:AddWorldMapIconMap(ref, icon, uiMapID, x, y, showFlag)
-	--DEFAULT_CHAT_FRAME:AddMessage("AddWorldMapIconMap");
+	
 	--uiMapID = uiMapID + 1400
     if not ref then
         error(MAJOR..": AddWorldMapIconMap: 'ref' must not be nil")
@@ -694,7 +694,7 @@ function pins:AddWorldMapIconMap(ref, icon, uiMapID, x, y, showFlag)
     -- convert to world coordinates
     local xCoord, yCoord, instanceID = HBD:GetWorldCoordinatesFromZone(x, y, uiMapID)
     if not xCoord then 
-		--DEFAULT_CHAT_FRAME:AddMessage("No world coordinates for zone");
+		DEFAULT_CHAT_FRAME:AddMessage("No world coordinates for zone " .. uiMapID);
 		return 
 	end
 

@@ -30,6 +30,7 @@ end
 --end
 
 function QuestieFramePool:UnloadAll()
+
 	Questie:Debug(DEBUG_DEVELOP, "[QuestieFramePool] Unloading all frames, count:", #allframes)
   for i, frame in ipairs(allframes) do
     _QuestieFramePool:UnloadFrame(frame);
