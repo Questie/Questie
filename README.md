@@ -12,6 +12,7 @@
 
 **What is not working/ported**
 - event-type quests, like "explore the fargodeep mine"
+- quest turn-in points
 - tracker
 - arrow
 - mob/item tooltips
