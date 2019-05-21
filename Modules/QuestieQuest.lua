@@ -401,7 +401,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
 	end
 
 	if Quest.Objectives[i].Id == nil then
-	  Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Error finding entry ID for objective", objectiveType, objectiveDesc, Quest.ObjectiveData[1].Id)
+	  Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Error finding entry ID for objective", objectiveType, objectiveDesc)
 	end
 
   end
