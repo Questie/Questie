@@ -164,10 +164,12 @@ function QuestieQuest:UpdateObjectiveNotes(Quest)
 			Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: UpdateObjectiveNotes: Updated tooltip:", v2.tooltip[2])
 			-- HACK: for some reason, notes arent being removed on complete, this is a temporary fix
 			if (v.Collected+1) >= tonumber(v.Needed) then
-			  Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: UpdateObjectiveNotes: Removing tooltip:", v2.ref)
-			  QuestieMap:RemoveIcon(v2.ref)
+			  Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: UpdateObjectiveNotes: Removing tooltip:", v2.refWorldMap, v2.refMiniMap)
+        v2.refMiniMap.Unload(v2.refMiniMap);
+        v2.refWorldMap.Unload(v2.refWorldMap);
+			  --QuestieMap:RemoveIcon(v2.ref)
 			end
-			
+
 		  end
 		else
 		  Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: UpdateObjectiveNotes: attempt to update objective with no noterefs")
@@ -181,7 +183,9 @@ function QuestieQuest:UpdateObjectiveNotes(Quest)
 		for k,v in pairs(Quest.Objectives) do
 			if v.NoteRefs ~= nil then
 				for k2,v2 in pairs(v.NoteRefs) do
-					QuestieMap:RemoveIcon(v2.ref)
+          v2.refMiniMap.Unload(v2.refMiniMap);
+          v2.refWorldMap.Unload(v2.refWorldMap);
+					--QuestieMap:RemoveIcon(v2.ref)
 				end
 			end
 		end
@@ -445,7 +449,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject)
               data.Id = questObject.Id;
               data.Icon = ICON_TYPE_AVAILABLE;
               data.QuestData = questObject;
-              data.tooltip = {"[" .. questObject.Level .. "] " .. questObject.Name, "|cFFFFFFFFStarted by: |r|cFF22FF22" .. NPC.Name, "QuestId:"..questObject.Id}
+              data.tooltip = {QuestieTooltips:PrintDifficultyColor(questObject.Level, "[" .. questObject.Level .. "] " .. questObject.Name), "|cFFFFFFFFStarted by: |r|cFF22FF22" .. NPC.Name, "QuestId:"..questObject.Id}
 
               if(coords[1] == -1 or coords[2] == -1) then
                 if(instanceData[Zone] ~= nil) then

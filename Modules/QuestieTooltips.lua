@@ -8,7 +8,24 @@ QuestieTooltips.tooltipLookup = {
 }
 
 
--- key format: 
+function QuestieTooltips:PrintDifficultyColor(level, text)
+	local PlayerLevel = UnitLevel("player");
+	if level == nil then return "FFFFFFFF"; end
+	local levelDiff = level - UnitLevel("player");
+	if (levelDiff >= 5) then
+		return "|cFFFF1A1A"..text.."|r";
+	elseif (levelDiff >= 3) then
+		return "|cFFFF8040"..text.."|r";
+	elseif (levelDiff >= -2) then
+		return "|cFFFFFF00"..text.."|r";
+	elseif (-levelDiff <= GetQuestGreenRange()) then
+		return "|cFF40C040"..text.."|r";
+	else
+		return "|cFFC0C0C0"..text.."|r";
+	end
+end
+
+-- key format:
 --  The key is the string name of the object the tooltip is relevant to, started with a small flag that specifies the type:
 --        units: u_
 --        items: i_

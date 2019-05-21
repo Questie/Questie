@@ -46,24 +46,32 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
     return nil
   end
   if(showFlag == nil) then showFlag = HBD_PINS_WORLDMAP_SHOW_WORLD; end
+  if(floatOnEdge == nil) then floatOnEdge = true; end
 
   local icon = QuestieFramePool:GetFrame()
   icon.data = data
-  data.ref = icon -- used for removing
+  data.refWorldMap = icon -- used for removing
   icon.texture:SetTexture(data.Icon)
   --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddWorldMapIconMap", icon, zoneDataAreaIDToUiMapID[AreaID], x/100, y/100, showFlag )
   HBDPins:AddWorldMapIconMap(Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x/100, y/100, showFlag)
+
+  local iconMinimap = QuestieFramePool:GetFrame()
+  iconMinimap.data = data
+  data.refMiniMap = iconMinimap -- used for removing
+  iconMinimap.texture:SetTexture(data.Icon)
+  HBDPins:AddMinimapIconMap(Questie, iconMinimap, zoneDataAreaIDToUiMapID[AreaID], x/100, y/100, true, floatOnEdge)
   if(qQuestIdFrames[data.Id] == nil) then
     qQuestIdFrames[data.Id] = {}
   end
 
   table.insert(qQuestIdFrames[data.Id], icon:GetName())
+  table.insert(qQuestIdFrames[data.Id], iconMinimap:GetName())
   return icon;
 end
 
-function QuestieMap:RemoveIcon(ref)
-	HBDPins:RemoveWorldMapIcon(Questie, ref)
-end
+--function QuestieMap:RemoveIcon(ref)
+--	HBDPins:RemoveWorldMapIcon(Questie, ref)
+--end
 
 
 --DOES NOT WORK

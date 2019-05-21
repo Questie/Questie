@@ -1,6 +1,6 @@
 QuestieFramePool = {...} -- GLobal Functions
 local _QuestieFramePool = {...} --Local Functions
-local NumberOfFrames = 0
+qNumberOfFrames = 0
 
 local unusedframes = {}
 
@@ -52,8 +52,11 @@ function _QuestieFramePool:UnloadFrame(frame)
 end
 
 function _QuestieFramePool:QuestieCreateFrame()
-	NumberOfFrames = NumberOfFrames + 1
-	local f = CreateFrame("Button","QuestieFrame"..NumberOfFrames,nil)
+	qNumberOfFrames = qNumberOfFrames + 1
+	local f = CreateFrame("Button","QuestieFrame"..qNumberOfFrames,nil)
+	if(qNumberOfFrames > 5000) then
+		Questie:Debug(DEBUG_CRITICAL, "[QuestieFramePool] Over 5000 frames... maybe there is a leak?", qNumberOfFrames)
+	end
   f:SetFrameStrata("TOOLTIP");
 	f:SetWidth(16) -- Set these to whatever height/width is needed
 	f:SetHeight(16) -- for your Texture
