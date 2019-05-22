@@ -10,7 +10,7 @@ qPlayerLevel = -1
 
 
 function PLAYER_ENTERING_WORLD()
-    C_Timer.After(3, function ()
+    C_Timer.After(4.5, function ()
 	  Questie:Debug(DEBUG_ELEVATED, "Player entered world")
 	  qPlayerLevel = UnitLevel("player")
       QuestieQuest:Initialize()
@@ -36,7 +36,7 @@ end
 --Fires when a quest is accepted in anyway.
 function QUEST_ACCEPTED(Event, QuestLogIndex, QuestId)
   _hack_prime_log()
-  C_Timer.After(1, function ()
+  C_Timer.After(2, function ()
     Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_ACCEPTED", "QLogIndex: "..QuestLogIndex,  "QuestID: "..QuestId);
     QuestieQuest:AcceptQuest(QuestId) -- is it safe to pass params to virtual functions like this?
   end)
@@ -45,7 +45,7 @@ end
 --Fires when a quest is removed from the questlog, this includes turning it in!
 function QUEST_REMOVED(Event, QuestId)
   _hack_prime_log()
-  C_Timer.After(1, function ()
+  C_Timer.After(2, function ()
     Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_REMOVED", QuestId);
     QuestieQuest:AbandonedQuest(QuestId)
   end)
@@ -54,7 +54,7 @@ end
 --Fires when a quest is turned in.
 function QUEST_TURNED_IN(Event, questID, xpReward, moneyReward)
   _hack_prime_log()
-  C_Timer.After(1, function ()
+  C_Timer.After(2, function ()
     Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_TURNED_IN", questID, xpReward, moneyReward);
     QuestieQuest:CompleteQuest(questID)
   end)
@@ -62,7 +62,7 @@ end
 
 function QUEST_WATCH_UPDATE(Event, QuestLogIndex)
   _hack_prime_log()
-  C_Timer.After(1, function ()
+  C_Timer.After(2, function ()
     title, level, _, isHeader, _, isComplete, _, questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(QuestLogIndex)
     Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_WATCH_UPDATE", "QLogIndex: "..QuestLogIndex,  "QuestID: "..questId);
     QuestieQuest:UpdateQuest(questId);
