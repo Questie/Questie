@@ -545,6 +545,7 @@ qHide = {
   [2849] = true,
   [2856] = true,
   [6608] = true,
+  [90] = true, --Seasoned Wolf Kabobs Unsure if this is a profession quest.
 }
 
 
