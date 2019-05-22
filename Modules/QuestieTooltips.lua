@@ -2,7 +2,7 @@
 -- todo: move this in to a proper global
 QuestieTooltips = {};
 local _QuestieTooltips = {};
-
+QuestieTooltips.lastTooltipTime = GetTime() -- hack for object tooltips
 
 QuestieTooltips.tooltipLookup = {
 	--["u_Grell"] = {questid, {"Line 1", "Line 2"}}
@@ -85,6 +85,7 @@ end
 
 
 local function TooltipShowing_unit(self)
+    QuestieTooltips.lastTooltipTime = GetTime()
 	local name, ttype = self:GetUnit()
 	if name then
 		local tooltipData = QuestieTooltips.tooltipLookup["u_" .. name];
@@ -97,6 +98,7 @@ local function TooltipShowing_unit(self)
 end
 
 local function TooltipShowing_item(self)
+    QuestieTooltips.lastTooltipTime = GetTime()
 	local name, link = self:GetItem()
 	if name then
 		local tooltipData = QuestieTooltips.tooltipLookup["i_" .. name];
@@ -108,9 +110,28 @@ local function TooltipShowing_item(self)
 	end
 end
 
+local function TooltipShowing_maybeobject(name)
+	if name then
+		local tooltipData = QuestieTooltips.tooltipLookup["o_" .. name];
+		if tooltipData then
+			for k,v in pairs(tooltipData[2]) do
+				GameTooltip:AddLine(v)
+			end
+		end
+		QuestieTooltips.lastTooltipTime = GetTime()
+		GameTooltip:Show()
+	end
+end
+
 function QuestieTooltips:init()
     GameTooltip:HookScript("OnTooltipSetUnit", TooltipShowing_unit)
 	GameTooltip:HookScript("OnTooltipSetItem", TooltipShowing_item)
+	GameTooltip:HookScript("OnShow", function() 
+	   if GetTime() - QuestieTooltips.lastTooltipTime > 0.2 then
+          DEFAULT_CHAT_FRAME:AddMessage("Maybe object tooltip?");
+		  TooltipShowing_maybeobject(GameTooltipTextLeft1:GetText())
+	   end 
+	end)
 end
 
 -- todo move this call into loader

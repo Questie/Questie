@@ -103,6 +103,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
 
 
   Tooltip:SetFrameStrata("TOOLTIP");
+  QuestieTooltips.lastTooltipTime = GetTime() -- hack for object tooltips
   Tooltip:Show();
 end
 
