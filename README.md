@@ -9,13 +9,13 @@
 - map/minimap system (Currently using a port of HereBeDragons but that may change)
 - available quests (some bugs related to profession/class quests are being worked on)
 - objective notes
+- quest turn-in points
+- mob/item tooltips
 
 **What is not working/ported**
 - event-type quests, like "explore the fargodeep mine"
-- quest turn-in points
 - tracker
 - arrow
-- mob/item tooltips
 - map tooltip clustering (If more than 1 icon is on the same spot, or more than 1 quest is available from the same NPC, only 1 will show in the tooltip currently)
 
 
