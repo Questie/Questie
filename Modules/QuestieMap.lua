@@ -58,10 +58,20 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
   icon.data = data
   data.refWorldMap = icon -- used for removing
   icon.texture:SetTexture(data.Icon)
+  if data.IconScale ~= nil then
+    local scale = 16 * data.IconScale;
+	icon:SetWidth(scale)
+	icon:SetHeight(scale)
+  else
+  	icon:SetWidth(16)
+	icon:SetHeight(16)
+  end
   --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddWorldMapIconMap", icon, zoneDataAreaIDToUiMapID[AreaID], x/100, y/100, showFlag )
 
 
   local iconMinimap = QuestieFramePool:GetFrame()
+  iconMinimap:SetWidth(12)
+  iconMinimap:SetHeight(12)
   iconMinimap.data = data
   data.refMiniMap = iconMinimap -- used for removing
   iconMinimap.texture:SetTexture(data.Icon)

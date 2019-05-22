@@ -83,7 +83,7 @@ end
 function QuestieQuest:CompleteQuest(QuestId)
   qCurrentQuestlog[QuestId] = nil;
   Questie.db.char.complete[QuestId] = true --can we use some other relevant info here?
-
+  QuestieMap:UnloadQuestFrames(QuestId);
   --Unload all the quest frames from the map.
   --QuestieMap:UnloadQuestFrames(QuestId); --We are currently redrawing everything so we might as well not use this now
 
@@ -112,8 +112,17 @@ end
 function QuestieQuest:UpdateQuest(QuestId)
   local quest = QuestieDB:GetQuest(QuestId);
   if quest ~= nil then
+    QuestieQuest:PopulateQuestLogInfo(quest)
     QuestieQuest:GetAllQuestObjectives(quest) -- update quest log values in quest object
 	QuestieQuest:UpdateObjectiveNotes(quest)
+	if QuestieQuest:IsComplete(quest) then
+	  DEFAULT_CHAT_FRAME:AddMessage("Finished " .. QuestId);
+	  QuestieMap:UnloadQuestFrames(QuestId);
+	  QuestieQuest:AddFinisher(quest)
+      return
+	else
+	  DEFAULT_CHAT_FRAME:AddMessage("Still not finished " .. QuestId);
+	end
   end
 end
 --Run this if you want to update the entire table
@@ -148,8 +157,20 @@ local function counthack(tab) -- according to stack overflow, # and table.getn a
    for k,v in pairs(tab) do count = count + 1; end
    return count
 end
+
+function QuestieQuest:_IsCompleteHack(Quest) -- adding this because I hit my threshold of 3 hours trying to debug why .isComplete isnt working properly
+-- we can fix this later 
+    local logID = GetQuestLogIndexByID(Quest.Id);
+	if logID ~= 0 then
+	  _, _, _, _, _, Quest.isComplete, _, _, _, _, _, _, _, _, _, Quest.isHidden = GetQuestLogTitle(logID)
+	  if Quest.isComplete and Quest.isComplete == 1 then
+	    return true;
+	  end
+	end
+end
+
 function QuestieQuest:IsComplete(Quest)
-   return Quest.Objectives == nil or counthack(Quest.Objectives) == 0 or Quest.isComplete;
+   return Quest.Objectives == nil or counthack(Quest.Objectives) == 0 or Quest.isComplete or QuestieQuest:_IsCompleteHack(Quest);
 end
 -- iterate all notes, update / remove as needed
 function QuestieQuest:UpdateObjectiveNotes(Quest)
@@ -190,6 +211,7 @@ function QuestieQuest:UpdateObjectiveNotes(Quest)
 			end
 		end
   end
+  
 	--if QuestieQuest:IsComplete(Quest) then
 	--	for k,v in pairs(Quest.Objectives) do
 	--		if v.NoteRefs ~= nil then
@@ -201,9 +223,58 @@ function QuestieQuest:UpdateObjectiveNotes(Quest)
     --    return
 	--end
 end
-function QuestieQuest:PopulateObjectiveNotes(Quest)
+function QuestieQuest:AddFinisher(Quest)
+  NPC = nil
+  if Quest.Finisher ~= nil then
+	if Quest.Finisher.Type == "monster" then
+	  NPC = QuestieDB:GetNPC(Quest.Finisher.Id)
+	elseif Quest.Finisher.Type == "object" then
+	  NPC = QuestieDB:GetObject(Quest.Finisher.Id)
+	else
+	  Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Unhandled finisher type:", Quest.Finisher.Type, Quest.Id, Quest.Name)
+	end
+  else
+	Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Quest has no finisher:", Quest.Id, Quest.Name)
+  end
+  --NPC = QuestieDB:GetNPC(Quest.Finisher)
+  if(NPC ~= nil and NPC.Spawns ~= nil) then
+	--Questie:Debug(DEBUG_DEVELOP,"Adding Quest:", questObject.Id, "StarterNPC:", NPC.Id)
+	for Zone, Spawns in pairs(NPC.Spawns) do
+	  if(Zone ~= nil and Spawns ~= nil) then
+		--Questie:Debug("Zone", Zone)
+		--Questie:Debug("Qid:", questid)
+		for _, coords in ipairs(Spawns) do
+		  --Questie:Debug("Coords", coords[1], coords[2])
+		  local data = {}
+		  data.Id = Quest.Id;
+		  data.Icon = ICON_TYPE_COMPLETE;
+		  data.IconScale = 1;
+		  data.QuestData = Quest;
+		  data.tooltip = {QuestieTooltips:PrintDifficultyColor(Quest.Level, "[" .. Quest.Level .. "] " .. Quest.Name), "|cFFFFFFFFQuest complete!", "Finished by: |cFF00FF00" .. NPC.Name}
+		  --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn1", v.Id, NPC.Name )
+		  if(coords[1] == -1 or coords[2] == -1) then
+			if(instanceData[Zone] ~= nil) then
+			  for index, value in ipairs(instanceData[Zone]) do
+				--Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[value[1]])
+				--Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn3", value[1], value[2], value[3])
+				QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
+			  end
+			end
+		  else
+			--Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[Zone])
+			--HBDPins:AddWorldMapIconMap(Questie, Note, zoneDataAreaIDToUiMapID[Zone], coords[1]/100, coords[2]/100, HBD_PINS_WORLDMAP_SHOW_WORLD)
+			--Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn2", Zone, coords[1], coords[2])
+			QuestieMap:DrawWorldIcon(data, Zone, coords[1], coords[2])
+		  end
+		end
+	  end
+	end
+  end
+end
+function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to PopulateNotes as it also handles finishers now
 	if QuestieQuest:IsComplete(Quest) then
-        return
+	  QuestieQuest:AddFinisher(Quest)
+      return
 	end
 	local maxNotes = 256 -- max notes for 1 quest, this should be changed to clustering code later (prevent LAG on some quests)
 
@@ -214,7 +285,7 @@ function QuestieQuest:PopulateObjectiveNotes(Quest)
 		if v.NoteRefs == nil then -- used for updating notes
 		  v.NoteRefs = {};
 		end
-		if v.Type == "item" then
+		if v.Type == "item" and tonumber(v.Needed) > tonumber(v.Collected) then
 		   local item = QuestieDB:GetItem(v.Id);
 		   if item ~= nil and item.Sources ~= nil then
 		     Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: GotItem", v.Id, item.Id)
@@ -237,12 +308,12 @@ function QuestieQuest:PopulateObjectiveNotes(Quest)
 						  table.insert(v.NoteRefs, data);
 						  data.Id = Quest.Id;
 						  data.Icon = ICON_TYPE_LOOT;
-						  data.IconScale = 0.5;
+						  data.IconScale = 0.7;
 						  data.QuestData = Quest;
 						  data.ObjectiveTargetId = v2.Id
 						  data.tooltip = {NPC.Name, "|cFF22FF22" .. v.Description .. " " .. v.Collected .. "/" .. v.Needed, "|cFFFFFFFF" .. Quest.Name}
 							--Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn1", v.Id, item.Id, NPC.Name )
-						  if(coords[1] == -1 or coords[2] == -1) then
+						  if(coords[1] == -1 or coords[2] == -1)then
 							if(instanceData[Zone] ~= nil) then
 							  for index, value in ipairs(instanceData[Zone]) do
 								--Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[value[1]])
@@ -278,7 +349,7 @@ function QuestieQuest:PopulateObjectiveNotes(Quest)
 						  table.insert(v.NoteRefs, data);
 						  data.Id = Quest.Id;
 						  data.Icon = ICON_TYPE_LOOT;
-						  data.IconScale = 0.5;
+						  data.IconScale = 0.7;
 						  data.QuestData = Quest;
 						  data.ObjectiveTargetId = v2.Id
 						  data.tooltip = {obj.Name, "|cFF22FF22" .. v.Description .. " " .. v.Collected .. "/" .. v.Needed, "|cFFFFFFFF" .. Quest.Name}
@@ -308,7 +379,7 @@ function QuestieQuest:PopulateObjectiveNotes(Quest)
 		   else
 		     Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Error getting item ", v.Id)
 		   end
-		elseif v.Type == "monster" then
+		elseif v.Type == "monster" and tonumber(v.Needed) > tonumber(v.Collected) then
 		  NPC = QuestieDB:GetNPC(v.Id)
 		  if(NPC ~= nil and NPC.Spawns ~= nil) then
 			--Questie:Debug(DEBUG_DEVELOP,"Adding Quest:", questObject.Id, "StarterNPC:", NPC.Id)
@@ -326,7 +397,7 @@ function QuestieQuest:PopulateObjectiveNotes(Quest)
 				  table.insert(v.NoteRefs, data);
 				  data.Id = Quest.Id;
 				  data.Icon = ICON_TYPE_SLAY;
-				  data.IconScale = 0.5;
+				  data.IconScale = 0.7;
 				  data.QuestData = Quest;
 				  data.ObjectiveTargetId = v.Id
 				  data.tooltip = {NPC.Name, "|cFF22FF22" .. v.Description .. " " .. v.Collected .. "/" .. v.Needed, "|cFFFFFFFF" .. Quest.Name}
@@ -364,7 +435,12 @@ function QuestieQuest:PopulateQuestLogInfo(Quest)
 	local logID = GetQuestLogIndexByID(Quest.Id);
 	if logID ~= 0 then
 	  _, _, _, _, _, Quest.isComplete, _, _, _, _, _, _, _, _, _, Quest.isHidden = GetQuestLogTitle(logID)
-	  --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: PopulateMeta:", Quest.isComplete, Quest.Name)
+	  if Quest.isComplete ~= nil and Quest.isComplete == 1 then
+	    Quest.isComplete = true
+	  end
+	  Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: PopulateMeta:", Quest.isComplete, Quest.Name)
+	else
+	  Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Error: No logid for:", Quest.Name, Quest.Id )
 	end
 end
 

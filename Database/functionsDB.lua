@@ -110,8 +110,57 @@ function QuestieDB:GetQuest(QuestID)
     QO.Starts["GameObject"] = rawdata[2][2] --2.2
     QO.Starts["Item"] = rawdata[2][3] --2.3
     QO.Ends = {} --ends 3
-    QO.Ends["NPC"] = rawdata[3][1]
-    QO.Ends["GameObject"] = rawdata[3][2]
+    --QO.Ends["NPC"] = rawdata[3][1]
+    --QO.Ends["GameObject"] = rawdata[3][2]
+	
+	--[4495] = {"A Good Friend",{{8583,},nil,nil,},{{8584,},nil,}
+	--QO.Finisher = {};
+	-- reorganize to match wow api
+	if rawdata[3][1] ~= nil then
+	  for k,v in pairs(rawdata[3][1]) do
+	    --if _v ~= nil then
+	      --for k,v in pairs(_v) do
+	        if v ~= nil then
+	          local obj = {};
+		      obj.Type = "monster"
+		      obj.Id = v
+			  
+			  -- this speeds up lookup
+			  obj.Name = npcData[v]
+			  if obj.Name ~= nil then
+			    obj.Name = string.lower(obj.Name[1]);
+			  end
+			  
+		      QO.Finisher = obj; -- there is only 1 finisher --table.insert(QO.Finisher, obj);
+		    end
+		  --end
+		--end
+	  end
+	end
+	if rawdata[3][2] ~= nil then
+	  for k,v in pairs(rawdata[3][2]) do
+	    --if _v ~= nil then
+	      --for k,v in pairs(_v) do
+	        if v ~= nil then
+	          local obj = {};
+		      obj.Type = "object"
+		      obj.Id = v
+			  
+			  -- this speeds up lookup
+			  obj.Name = objData[v]
+			  if obj.Name ~= nil then
+			    obj.Name = string.lower(obj.Name[1]);
+			  end
+			  
+		      QO.Finisher = obj; -- there is only 1 finisher
+		    end
+		  --end
+		--end
+	  end
+	end
+	
+	
+	
     QO.MinLevel = rawdata[4]
     QO.Level = rawdata[5]
     QO.RequiredRaces = rawdata[6]
