@@ -80,9 +80,9 @@ function QuestieTooltips:UpdateAvailableTooltip()
 			frame = _G[frameName]
 			if(frame.data) then
 				if(frame.data.Icon == ICON_TYPE_AVAILABLE)then
-					frame.data.tooltip = frame.data.updateTooltip(frame.data)
+					frame.data.tooltip = frame.data:getTooltip()
 				elseif(frame.data.Icon == ICON_TYPE_COMPLETE) then
-					frame.data.tooltip = frame.data.updateTooltip(frame.data)
+					frame.data.tooltip = frame.data:getTooltip()
 				end
 			end
 		end

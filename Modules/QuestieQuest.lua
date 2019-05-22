@@ -257,12 +257,16 @@ function QuestieQuest:AddFinisher(Quest)
 		  data.Icon = ICON_TYPE_COMPLETE;
 		  data.IconScale = 1;
 		  data.QuestData = Quest;
-
           data.QuestData.NPCName = NPC.Name
-          data.updateTooltip = function(data)
-              return {QuestieTooltips:PrintDifficultyColor(data.QuestData.Level, "[" .. data.QuestData.Level .. "] " .. data.QuestData.Name), "|cFFFFFFFFQuest complete!", "Finished by: |cFF00FF00" .. data.QuestData.NPCName}
+
+          --data.updateTooltip = function(data)
+              --return {QuestieTooltips:PrintDifficultyColor(data.QuestData.Level, "[" .. data.QuestData.Level .. "] " .. data.QuestData.Name), "|cFFFFFFFFQuest complete!", "Finished by: |cFF00FF00" .. data.QuestData.NPCName}
+          --end
+          --data.tooltip = data.updateTooltip(data)
+          function data:getTooltip()
+              return {QuestieTooltips:PrintDifficultyColor(self.QuestData.Level, "[" .. self.QuestData.Level .. "] " .. self.QuestData.Name), "|cFFFFFFFFQuest complete!", "Finished by: |cFF00FF00" .. self.QuestData.NPCName}
           end
-          data.tooltip = data.updateTooltip(data)
+          data.tooltip = data:getTooltip()
 
 		  --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn1", v.Id, NPC.Name )
 		  if(coords[1] == -1 or coords[2] == -1) then
@@ -599,10 +603,13 @@ function _QuestieQuest:DrawAvailableQuest(questObject)
               data.Icon = ICON_TYPE_AVAILABLE;
               data.QuestData = questObject;
               data.QuestData.NPCName = NPC.Name
-              data.updateTooltip = function(data)
+              --data.updateTooltip = function(data)
+              --    return {QuestieTooltips:PrintDifficultyColor(data.QuestData.Level, "[" .. data.QuestData.Level .. "] " .. data.QuestData.Name), "|cFFFFFFFFStarted by: |r|cFF22FF22" .. data.QuestData.NPCName, "QuestId:"..data.QuestData.Id}
+              --end
+              function data:getTooltip()
                   return {QuestieTooltips:PrintDifficultyColor(data.QuestData.Level, "[" .. data.QuestData.Level .. "] " .. data.QuestData.Name), "|cFFFFFFFFStarted by: |r|cFF22FF22" .. data.QuestData.NPCName, "QuestId:"..data.QuestData.Id}
               end
-              data.tooltip = data.updateTooltip(data)
+              data.tooltip = data:getTooltip()
               if(coords[1] == -1 or coords[2] == -1) then
                 if(instanceData[Zone] ~= nil) then
                   for index, value in ipairs(instanceData[Zone]) do
