@@ -737,6 +737,13 @@ qHide = {
   [6861] = true,
   [6862] = true,
   [8001] = true,
+  --More pvp quests ?? strange Ones
+  [8369] = true,
+  [8387] = true,
+  [8375] = true,
+  [8383] = true,
+  [8438] = true,
+  [8384] = true,
 }
 
 
