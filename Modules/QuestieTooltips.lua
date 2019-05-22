@@ -128,7 +128,6 @@ function QuestieTooltips:init()
 	GameTooltip:HookScript("OnTooltipSetItem", TooltipShowing_item)
 	GameTooltip:HookScript("OnShow", function() 
 	   if GetTime() - QuestieTooltips.lastTooltipTime > 0.2 then
-          DEFAULT_CHAT_FRAME:AddMessage("Maybe object tooltip?");
 		  TooltipShowing_maybeobject(GameTooltipTextLeft1:GetText())
 	   end 
 	end)
