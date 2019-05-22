@@ -240,6 +240,47 @@ local options = {
 					func = function() Questie:Print("Why did you click this?") end,
 				},
 			},
+		},
+
+		icon_tab = {
+			name = "Icon Scale",
+			type = "group",
+			order = 11,
+			args = {
+				debug_options = {
+					type = "header",
+					order = 13,
+					name = "Note Options",
+				},
+				objectiveScale = {
+					type = "range",
+					order = 17,
+					name = "Scale for objective icons",
+					desc = "How large the objective icons are",
+					width = "full",
+                    min = 0.01,
+					max = 2,
+					step = 0.01,
+					get = GetGlobalOptionLocal,
+					set = function (info, value)
+								SetGlobalOptionLocal(info, value)
+							end,
+				},
+				availableScale = {
+					type = "range",
+					order = 18,
+                    name = "Scale for available and complete icons",
+					desc = "How large the available and complete icons are",
+					width = "full",
+					min = 0.01,
+					max = 2,
+					step = 0.01,
+					get = GetGlobalOptionLocal,
+					set = function (info, value)
+								SetGlobalOptionLocal(info, value)
+                            end,
+				},
+			},
 		}
 	}
 }
@@ -248,7 +289,9 @@ local defaults = {
   global = {
     maxLevelFilter = 7,
     minLevelFilter = 5, --Raised the default to allow more quests to be shown
-    clusterLevel = 1
+    clusterLevel = 1,
+    availableScale = 1,
+    objectiveScale = 0.7
   },
 	char = {
 		complete = {},
@@ -344,7 +387,7 @@ end
 function Questie:Debug(...)
     -- using a separate var here TEMPORARILY to make it easier for people to disable
 	-- /run QuestieConfig.enableDebug = false;
-	if not QuestieConfig.enableDebug then return; end
+	--if not QuestieConfig.enableDebug then return; end
 	if(debug) then
 		if(debuglevel < 5 and arg[1] == DEBUG_SPAM)then return; end
 		if(debuglevel < 4 and arg[1] == DEBUG_DEVELOP)then return; end
