@@ -4,9 +4,15 @@ function _hack_prime_log() -- this seems to make it update the data much quicker
   end
 end
 
+--- GLOBAL ---
+--This is needed for functions around the addon, due to UnitLevel("player") not returning actual level PLAYER_LEVEL_UP unless this is used.
+qPlayerLevel = -1
+
+
 function PLAYER_ENTERING_WORLD()
     C_Timer.After(3, function ()
 	  Questie:Debug(DEBUG_ELEVATED, "Player entered world")
+	  qPlayerLevel = UnitLevel("player")
       QuestieQuest:Initialize()
 	  QuestieDB:Initialize()
       QuestieQuest:GetAllQuestIds()
@@ -70,6 +76,14 @@ end
 function CUSTOM_QUEST_COMPLETE()
   numEntries, numQuests = GetNumQuestLogEntries();
   --Questie:Debug(DEBUG_CRITICAL, "CUSTOM_QUEST_COMPLETE", "Quests: "..numQuests);
+end
+
+function PLAYER_LEVEL_UP(event, level, hitpoints, manapoints, talentpoints, ...)
+  	Questie:Debug(DEBUG_DEVELOP, "EVENT: PLAYER_LEVEL_UP", level);
+	qPlayerLevel = level;
+	QuestieQuest:CalculateAvailableQuests();
+	QuestieQuest:DrawAllAvailableQuests();
+	QuestieTooltips:UpdateAvailableTooltip();
 end
 
 --Old stuff

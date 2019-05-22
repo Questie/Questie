@@ -10,9 +10,9 @@ QuestieTooltips.tooltipLookup = {
 
 
 function QuestieTooltips:OldPrintDifficultyColor(level, text)
-	local PlayerLevel = UnitLevel("player");
+	local PlayerLevel = qPlayerLevel;
 	if level == nil then return "FFFFFFFF"; end
-	local levelDiff = level - UnitLevel("player");
+	local levelDiff = level - qPlayerLevel;
 	if (levelDiff >= 5) then
 		return "|cFFFF1A1A"..text.."|r";
 	elseif (levelDiff >= 3) then
@@ -27,10 +27,11 @@ function QuestieTooltips:OldPrintDifficultyColor(level, text)
 end
 
 function QuestieTooltips:PrintDifficultyColor(level, text)
+
 	if level == -1 then
-			level = UnitLevel("player");
+			level = qPlayerLevel;
 	end
-	local PlayerLevel = UnitLevel("player");
+	local PlayerLevel = qPlayerLevel;
 	if (level > (PlayerLevel + 4)) then
 	    return "|cFFFF1A1A"..text.."|r"; -- Red
 	elseif (level > (PlayerLevel + 2)) then
@@ -70,6 +71,22 @@ end
 
 function QuestieTooltips:GetTooltip(key)
     return QuestieTooltips.tooltipLookup[key][2];
+end
+
+function QuestieTooltips:UpdateAvailableTooltip()
+	Questie:Debug(DEBUG_DEVELOP, "[QuestieTooltips] Updating tooltips!")
+	for questId, frameList in pairs(qQuestIdFrames) do
+		for index, frameName in ipairs(frameList) do
+			frame = _G[frameName]
+			if(frame.data) then
+				if(frame.data.Icon == ICON_TYPE_AVAILABLE)then
+					frame.data.tooltip = frame.data.updateTooltip(frame.data)
+				elseif(frame.data.Icon == ICON_TYPE_COMPLETE) then
+					frame.data.tooltip = frame.data.updateTooltip(frame.data)
+				end
+			end
+		end
+	end
 end
 
 function QuestieTooltips:RemoveQuest(questid)

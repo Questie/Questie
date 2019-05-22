@@ -3,6 +3,7 @@ Questie = LibStub("AceAddon-3.0"):NewAddon("Questie", "AceConsole-3.0", "AceEven
 _Questie = {...}
 if QuestieConfig == nil then
   QuestieConfig = {}
+  --Look below at the debug variable, it is set to false!
   QuestieConfig.enableDebug = false;
 end
 --Questie.db.realm
@@ -15,7 +16,7 @@ HBD = LibStub("HereBeDragons-2.0")
 HBDPins = LibStub("HereBeDragons-Pins-2.0")
 HBDMigrate = LibStub("HereBeDragons-Migrate")
 
-debug = true
+debug = false
 debuglevel = 5 --1 Critical, 2 ELEVATED, 3 Info, 4, Develop, 5 SPAM THAT SHIT YO
 DEBUG_CRITICAL = "|cff00f2e6[CRITICAL]|r"
 DEBUG_ELEVATED = "|cffebf441[ELEVATED]|r"
@@ -310,6 +311,7 @@ function Questie:OnInitialize()
 	Questie:RegisterEvent("QUEST_WATCH_UPDATE", QUEST_WATCH_UPDATE);
 	Questie:RegisterEvent("QUEST_TURNED_IN", QUEST_TURNED_IN)
 	Questie:RegisterEvent("QUEST_REMOVED", QUEST_REMOVED)
+    Questie:RegisterEvent("PLAYER_LEVEL_UP", PLAYER_LEVEL_UP);
 
 	--TODO: QUEST_QUERY_COMPLETE Will get all quests the character has finished, need to be implemented!
 
@@ -388,7 +390,7 @@ function Questie:Debug(...)
     -- using a separate var here TEMPORARILY to make it easier for people to disable
 	-- /run QuestieConfig.enableDebug = false;
 	--if not QuestieConfig.enableDebug then return; end
-	if(debug) and false then
+	if(debug) then
 		if(debuglevel < 5 and arg[1] == DEBUG_SPAM)then return; end
 		if(debuglevel < 4 and arg[1] == DEBUG_DEVELOP)then return; end
 		if(debuglevel < 3 and arg[1] == DEBUG_INFO)then return; end

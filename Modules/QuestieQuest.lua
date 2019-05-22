@@ -257,7 +257,13 @@ function QuestieQuest:AddFinisher(Quest)
 		  data.Icon = ICON_TYPE_COMPLETE;
 		  data.IconScale = 1;
 		  data.QuestData = Quest;
-		  data.tooltip = {QuestieTooltips:PrintDifficultyColor(Quest.Level, "[" .. Quest.Level .. "] " .. Quest.Name), "|cFFFFFFFFQuest complete!", "Finished by: |cFF00FF00" .. NPC.Name}
+
+          data.QuestData.NPCName = NPC.Name
+          data.updateTooltip = function(data)
+              return {QuestieTooltips:PrintDifficultyColor(data.QuestData.Level, "[" .. data.QuestData.Level .. "] " .. data.QuestData.Name), "|cFFFFFFFFQuest complete!", "Finished by: |cFF00FF00" .. data.QuestData.NPCName}
+          end
+          data.tooltip = data.updateTooltip(data)
+
 		  --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn1", v.Id, NPC.Name )
 		  if(coords[1] == -1 or coords[2] == -1) then
 			if(instanceData[Zone] ~= nil) then
@@ -592,8 +598,11 @@ function _QuestieQuest:DrawAvailableQuest(questObject)
               data.Id = questObject.Id;
               data.Icon = ICON_TYPE_AVAILABLE;
               data.QuestData = questObject;
-              data.tooltip = {QuestieTooltips:PrintDifficultyColor(questObject.Level, "[" .. questObject.Level .. "] " .. questObject.Name), "|cFFFFFFFFStarted by: |r|cFF22FF22" .. NPC.Name, "QuestId:"..questObject.Id}
-
+              data.QuestData.NPCName = NPC.Name
+              data.updateTooltip = function(data)
+                  return {QuestieTooltips:PrintDifficultyColor(data.QuestData.Level, "[" .. data.QuestData.Level .. "] " .. data.QuestData.Name), "|cFFFFFFFFStarted by: |r|cFF22FF22" .. data.QuestData.NPCName, "QuestId:"..data.QuestData.Id}
+              end
+              data.tooltip = data.updateTooltip(data)
               if(coords[1] == -1 or coords[2] == -1) then
                 if(instanceData[Zone] ~= nil) then
                   for index, value in ipairs(instanceData[Zone]) do
@@ -628,7 +637,7 @@ function QuestieQuest:DrawAllAvailableQuests()--All quests between
     end
     count = count + 1
   end
-  Questie:Debug(DEBUG_INFO,"[QuestieQuest]", count, "available quests drawn.");
+  Questie:Debug(DEBUG_INFO,"[QuestieQuest]", count, "available quests drawn. PlayerLevel = ", qPlayerLevel);
 end
 
 
@@ -662,11 +671,10 @@ end
 
 --TODO Check that this function does what it is supposed to...
 function QuestieQuest:CalculateAvailableQuests()
+    local PlayerLevel = qPlayerLevel;
 
-  -- this should be renamed to levelsBelowPlayer / levelsAbovePlayer to be less confusing
-  local PlayerLevel = UnitLevel("player");
-  local MinLevel = PlayerLevel - Questie.db.global.minLevelFilter
-  local MaxLevel = PlayerLevel + Questie.db.global.maxLevelFilter
+    local MinLevel = PlayerLevel - Questie.db.global.minLevelFilter
+    local MaxLevel = PlayerLevel + Questie.db.global.maxLevelFilter
 
   --DEFAULT_CHAT_FRAME:AddMessage(" minlevel/maxlevel: " .. MinLevel .. "/" .. MaxLevel);
 
