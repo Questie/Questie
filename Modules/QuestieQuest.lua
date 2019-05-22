@@ -188,7 +188,11 @@ function QuestieQuest:UpdateObjectiveNotes(Quest)
 	    if v.NoteRefs ~= nil then -- update tooltip value
 		  for k2,v2 in pairs(v.NoteRefs) do
 		                                                         -- the reason why we do +1 here is the classic beta api is bugged atm. it is *always* 1 behind right after an update
-		    v2.tooltip[2] = "|cFF22FF22" .. v.Description .. " " .. (v.Collected) .. "/" .. v.Needed;
+		    if v.Needed ~= nil and v.Collected ~= nil then
+			   v2.tooltip[2] = "|cFF22FF22" .. v.Description .. " " .. (v.Collected) .. "/" .. v.Needed;
+			elseif v.Description ~= nil then -- special objetive type, desc only
+			   v2.tooltip[2] = "|cFF22FF22" .. v.Description;
+			end
 			Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: UpdateObjectiveNotes: Updated tooltip:", v2.tooltip[2])
 			-- HACK: for some reason, notes arent being removed on complete, this is a temporary fix
 			if tonumber(v.Collected) >= tonumber(v.Needed) then
