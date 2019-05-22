@@ -85,7 +85,7 @@ end
 
 
 local function TooltipShowing_unit(self)
-    QuestieTooltips.lastTooltipTime = GetTime()
+    --QuestieTooltips.lastTooltipTime = GetTime()
 	local name, ttype = self:GetUnit()
 	if name then
 		local tooltipData = QuestieTooltips.tooltipLookup["u_" .. name];
@@ -98,7 +98,7 @@ local function TooltipShowing_unit(self)
 end
 
 local function TooltipShowing_item(self)
-    QuestieTooltips.lastTooltipTime = GetTime()
+    --QuestieTooltips.lastTooltipTime = GetTime()
 	local name, link = self:GetItem()
 	if name then
 		local tooltipData = QuestieTooltips.tooltipLookup["i_" .. name];
@@ -129,7 +129,7 @@ function QuestieTooltips:init()
 	GameTooltip:HookScript("OnShow", function(self) 
 	    
         local name, unit = self:GetUnit()
-		if name == nil and unit == nil then
+		if name == nil and unit == nil and GetTime() - QuestieTooltips.lastTooltipTime > 0.1 then
 		    TooltipShowing_maybeobject(GameTooltipTextLeft1:GetText())
 		end
 	end)
