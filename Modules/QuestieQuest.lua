@@ -193,8 +193,8 @@ function QuestieQuest:UpdateObjectiveNotes(Quest)
 			-- HACK: for some reason, notes arent being removed on complete, this is a temporary fix
 			if tonumber(v.Collected) >= tonumber(v.Needed) then
 			  Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: UpdateObjectiveNotes: Removing tooltip:", v2.refWorldMap, v2.refMiniMap)
-        v2.refMiniMap.Unload(v2.refMiniMap);
-        v2.refWorldMap.Unload(v2.refWorldMap);
+        v2.refMiniMap:Unload();
+        v2.refWorldMap:Unload();
 			  --QuestieMap:RemoveIcon(v2.ref)
 			end
 
@@ -211,14 +211,14 @@ function QuestieQuest:UpdateObjectiveNotes(Quest)
 		for k,v in pairs(Quest.Objectives) do
 			if v.NoteRefs ~= nil then
 				for k2,v2 in pairs(v.NoteRefs) do
-          v2.refMiniMap.Unload(v2.refMiniMap);
-          v2.refWorldMap.Unload(v2.refWorldMap);
+                    v2.refMiniMap:Unload();
+                    v2.refWorldMap:Unload();
 					--QuestieMap:RemoveIcon(v2.ref)
 				end
 			end
 		end
   end
-  
+
 	--if QuestieQuest:IsComplete(Quest) then
 	--	for k,v in pairs(Quest.Objectives) do
 	--		if v.NoteRefs ~= nil then

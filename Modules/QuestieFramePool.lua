@@ -34,7 +34,8 @@ function QuestieFramePool:UnloadAll()
 
 	Questie:Debug(DEBUG_DEVELOP, "[QuestieFramePool] Unloading all frames, count:", #allframes)
   for i, frame in ipairs(allframes) do
-    _QuestieFramePool:UnloadFrame(frame);
+    --_QuestieFramePool:UnloadFrame(frame);
+	frame:Unload()
   end
 	qQuestIdFrames = {}
 end
@@ -42,7 +43,7 @@ end
 
 -- Local Functions --
 
---Use FRAME.Unload(FRAME) on frame object to unload!
+--[[Use FRAME.Unload(FRAME) on frame object to unload!
 function _QuestieFramePool:UnloadFrame(frame)
 	--We are reseting the frames, making sure that no data is wrong.
   HBDPins:RemoveMinimapIcon(Questie, frame);
@@ -50,7 +51,7 @@ function _QuestieFramePool:UnloadFrame(frame)
   frame.data = nil; -- Just to be safe
   frame.loaded = nil;
 	table.insert(unusedframes, frame)
-end
+end]]--
 
 function _QuestieFramePool:QuestieCreateFrame()
 	qNumberOfFrames = qNumberOfFrames + 1
@@ -76,7 +77,15 @@ function _QuestieFramePool:QuestieCreateFrame()
   f:SetScript("OnEnter", function(self) _QuestieFramePool:Questie_Tooltip(self) end); --Script Toolip
   f:SetScript("OnLeave", function() if(WorldMapTooltip) then WorldMapTooltip:Hide() end if(GameTooltip) then GameTooltip:Hide() end end) --Script Exit Tooltip
   f:SetScript("OnClick", function(self) _QuestieFramePool:Questie_Click(self) end);
-  f.Unload = function(frame) _QuestieFramePool:UnloadFrame(frame) end;
+  --f.Unload = function(frame) _QuestieFramePool:UnloadFrame(frame) end;
+  function f:Unload()
+	  --We are reseting the frames, making sure that no data is wrong.
+	  HBDPins:RemoveMinimapIcon(Questie, self);
+	  HBDPins:RemoveWorldMapIcon(Questie, self);
+	  self.data = nil; -- Just to be safe
+	  self.loaded = nil;
+	  table.insert(unusedframes, self)
+  end
   f.data = {}
   f:Hide()
 	table.insert(allframes, f)

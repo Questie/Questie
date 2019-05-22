@@ -25,7 +25,7 @@ end
 function QuestieMap:UnloadQuestFrames(QuestId)
     if(qQuestIdFrames[QuestId]) then
       for index, frame in ipairs(QuestieMap:GetFramesForQuest(QuestId)) do
-        frame.Unload(frame);
+        frame:Unload();
       end
       qQuestIdFrames[QuestId] = nil;
       Questie:Debug(DEBUG_DEVELOP, "[QuestieMap]: Unloading quest frames:", QuestId)
