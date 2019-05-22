@@ -388,7 +388,7 @@ function Questie:Debug(...)
     -- using a separate var here TEMPORARILY to make it easier for people to disable
 	-- /run QuestieConfig.enableDebug = false;
 	--if not QuestieConfig.enableDebug then return; end
-	if(debug) then
+	if(debug) and false then
 		if(debuglevel < 5 and arg[1] == DEBUG_SPAM)then return; end
 		if(debuglevel < 4 and arg[1] == DEBUG_DEVELOP)then return; end
 		if(debuglevel < 3 and arg[1] == DEBUG_INFO)then return; end
