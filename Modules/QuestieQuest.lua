@@ -118,12 +118,12 @@ function QuestieQuest:UpdateQuest(QuestId)
     QuestieQuest:GetAllQuestObjectives(quest) -- update quest log values in quest object
 	QuestieQuest:UpdateObjectiveNotes(quest)
 	if QuestieQuest:IsComplete(quest) then
-	  DEFAULT_CHAT_FRAME:AddMessage("Finished " .. QuestId);
+	  --DEFAULT_CHAT_FRAME:AddMessage("Finished " .. QuestId);
 	  QuestieMap:UnloadQuestFrames(QuestId);
 	  QuestieQuest:AddFinisher(quest)
       return
 	else
-	  DEFAULT_CHAT_FRAME:AddMessage("Still not finished " .. QuestId);
+	  --DEFAULT_CHAT_FRAME:AddMessage("Still not finished " .. QuestId);
 	end
   end
 end
