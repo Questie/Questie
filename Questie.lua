@@ -33,7 +33,7 @@ end
 -- set option value
 local function SetGlobalOptionLocal(info, value)
 	if debug and Questie.db.global[info[#info]] ~= value then
-		Questie:Printf("DEBUG: global option %s changed from '%s' to '%s'", info[#info], tostring(Questie.db.global[info[#info]]), tostring(value))
+		Questie:Debug(DEBUG_SPAM, "DEBUG: global option "..info[#info].." changed from '"..tostring(Questie.db.global[info[#info]]).."' to '"..tostring(value).."'")
 	end
 	Questie.db.global[info[#info]] = value
 end
@@ -87,6 +87,8 @@ function Questie:OnDisable()
     -- Called when the addon is disabled
 end
 
+
+local _optionsTimer = nil;
 
 local options = {
     name = "Questie Classic",
@@ -201,8 +203,15 @@ local options = {
                   step = 0.01,
                   get = GetGlobalOptionLocal,
                   set = function (info, value)
-
-                        --QUESTIE_NOTES_CLUSTERMUL_HACK = value;
+                        if(_optionsTimer) then
+                            Questie:CancelTimer(_optionsTimer)
+                            _optionsTimer = nil;
+                        end
+                        _optionsTimer = Questie:ScheduleTimer(function()
+                            --Redraw here!
+                            Questie:Debug(DEBUG_DEVELOP, "[Questie] NYI Setting clustering value, redrawing!")
+                        end, 0.5)
+                        QUESTIE_NOTES_CLUSTERMUL_HACK = value;
                         SetGlobalOptionLocal(info, value)
                         end,
                 },
@@ -215,8 +224,8 @@ local options = {
 					type = "execute",
 					order = 19,
 					name = "Test Message",
-					desc = "Print next message in say.",
-					func = function() Questie:Print(Questie:GetNextMessage()) end,
+					desc = "Click this",
+					func = function() Questie:Print("Why did you click this?") end,
 				},
 			},
 		}
