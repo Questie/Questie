@@ -440,7 +440,7 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
 			  end
 			end
 		  end
-		elseif v.Type == "event" then
+		elseif v.Type == "event" and v.Coordinates ~= nil then
 			for Zone, Spawns in pairs(v.Coordinates) do
 			  if(Zone ~= nil and Spawns ~= nil) then
 				--Questie:Debug("Zone", Zone)
