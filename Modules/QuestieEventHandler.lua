@@ -10,7 +10,8 @@ qPlayerLevel = -1
 
 
 function PLAYER_ENTERING_WORLD()
-    C_Timer.After(4.5, function ()
+    _hack_prime_log()
+    C_Timer.After(4, function ()
 	  Questie:Debug(DEBUG_ELEVATED, "Player entered world")
 	  qPlayerLevel = UnitLevel("player")
       QuestieQuest:Initialize()
