@@ -441,7 +441,43 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
 			end
 		  end
 		elseif v.Type == "event" then
-
+			for Zone, Spawns in pairs(v.Coordinates) do
+			  if(Zone ~= nil and Spawns ~= nil) then
+				--Questie:Debug("Zone", Zone)
+				--Questie:Debug("Qid:", questid)
+				for _, coords in ipairs(Spawns) do
+				  maxNotes = maxNotes - 1
+				  if maxNotes < 0 then
+					 return
+				  end
+				  --Questie:Debug("Coords", coords[1], coords[2])
+				  local data = {}
+				  table.insert(v.NoteRefs, data);
+				  data.Id = Quest.Id;
+				  data.Icon = ICON_TYPE_EVENT;
+				  data.IconScale = 1;
+				  data.QuestData = Quest;
+				  data.ObjectiveTargetId = v.Id
+				  data.tooltip = {v.Description, QuestieTooltips:PrintDifficultyColor(Quest.Level, "|cFFFFFFFFNeeded for: |r" .. "[" .. Quest.Level .. "] " .. Quest.Name)}
+				  --QuestieTooltips:RegisterTooltip(Quest.Id, "u_" .. NPC.Name, {data.tooltip[2], "|cFFFFFFFFNeeded for: |r" .. data.tooltip[3]});
+				  --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn1", v.Id, NPC.Name )
+				  if(coords[1] == -1 or coords[2] == -1) then
+					if(instanceData[Zone] ~= nil) then
+					  for index, value in ipairs(instanceData[Zone]) do
+						--Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[value[1]])
+						--Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn3", value[1], value[2], value[3])
+						QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
+					  end
+					end
+				  else
+					--Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[Zone])
+					--HBDPins:AddWorldMapIconMap(Questie, Note, zoneDataAreaIDToUiMapID[Zone], coords[1]/100, coords[2]/100, HBD_PINS_WORLDMAP_SHOW_WORLD)
+					--Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn2", Zone, coords[1], coords[2])
+					QuestieMap:DrawWorldIcon(data, Zone, coords[1], coords[2])
+				  end
+				end
+			  end
+			end
 		end
 	end
 end
@@ -490,10 +526,11 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
 	elseif Quest.ObjectiveData ~= nil then
 	  -- try to find npc/item/event ID
 	  for k,v in pairs(Quest.ObjectiveData) do
-	    if objectiveType == v.Type then
+	    if objectiveType == v.Type  then
 	      -- TODO: use string distance to find closest, dont rely on exact match
-		  if string.lower(objectiveDesc) == v.Name or v.Name == nil then
+		  if v.Name == nil or string.lower(objectiveDesc) == string.lower(v.Name) then
 		    Quest.Objectives[i].Id = v.Id
+			Quest.Objectives[i].Coordinates = v.Coordinates
 		  end
 	    end
 	  end

@@ -126,10 +126,12 @@ end
 function QuestieTooltips:init()
     GameTooltip:HookScript("OnTooltipSetUnit", TooltipShowing_unit)
 	GameTooltip:HookScript("OnTooltipSetItem", TooltipShowing_item)
-	GameTooltip:HookScript("OnShow", function() 
-	   if GetTime() - QuestieTooltips.lastTooltipTime > 0.2 then
-		  TooltipShowing_maybeobject(GameTooltipTextLeft1:GetText())
-	   end 
+	GameTooltip:HookScript("OnShow", function(self) 
+	    
+        local name, unit = self:GetUnit()
+		if name == nil and unit == nil then
+		    TooltipShowing_maybeobject(GameTooltipTextLeft1:GetText())
+		end
 	end)
 end
 
