@@ -90,6 +90,29 @@ end
 
 local _optionsTimer = nil;
 
+
+local _QuestieOptions = {...}
+
+function _QuestieOptions:AvailableQuestRedraw()
+    QuestieQuest:CalculateAvailableQuests()
+    QuestieQuest:DrawAllAvailableQuests()
+end
+
+function _QuestieOptions:ClusterRedraw()
+    --Redraw clusters here
+end
+
+function _QuestieOptions:Delay(time, func, message)
+    if(_optionsTimer) then
+        Questie:CancelTimer(_optionsTimer)
+        _optionsTimer = nil;
+    end
+    _optionsTimer = Questie:ScheduleTimer(function()
+        func()
+        Questie:Debug(DEBUG_DEVELOP, message)
+    end, time)
+end
+
 local options = {
     name = "Questie Classic",
     handler = Questie,
@@ -150,14 +173,12 @@ local options = {
 					desc = "Enable or disable showing of showing low level quests on the map.",
 					width = 200,
 					get =	function ()
-                                QuestieQuest:CalculateAvailableQuests()
-                                QuestieQuest:DrawAllAvailableQuests()
                                 return Questie.db.char.lowlevel
 							end,
 					set =	function (info, value)
-                                QuestieQuest:CalculateAvailableQuests()
-                                QuestieQuest:DrawAllAvailableQuests()
                                 Questie.db.char.lowlevel = value
+                                _QuestieOptions.AvailableQuestRedraw();
+                                Questie:debug(DEBUG_DEVELOP, "Gray Quests toggled to:", value)
 							end,
 				},
 				minLevelFilter = {
@@ -171,9 +192,8 @@ local options = {
 					step = 1,
 					get = GetGlobalOptionLocal,
 					set = function (info, value)
-								QuestieQuest:CalculateAvailableQuests() --recalulate and redraw when changing settings.
-								QuestieQuest:DrawAllAvailableQuests()
 								SetGlobalOptionLocal(info, value)
+                                _QuestieOptions:Delay(0.3, _QuestieOptions.AvailableQuestRedraw, "minLevelFilter set to "..value)
 							end,
 				},
 				maxLevelFilter = {
@@ -187,9 +207,8 @@ local options = {
 					step = 1,
 					get = GetGlobalOptionLocal,
 					set = function (info, value)
-								QuestieQuest:CalculateAvailableQuests() --recalulate and redraw when changing settings.
-								QuestieQuest:DrawAllAvailableQuests()
 								SetGlobalOptionLocal(info, value)
+                                _QuestieOptions:Delay(0.3, _QuestieOptions.AvailableQuestRedraw, "maxLevelFilter set to "..value)
                             end,
 				},
                 clusterLevel = {
@@ -203,14 +222,7 @@ local options = {
                   step = 0.01,
                   get = GetGlobalOptionLocal,
                   set = function (info, value)
-                        if(_optionsTimer) then
-                            Questie:CancelTimer(_optionsTimer)
-                            _optionsTimer = nil;
-                        end
-                        _optionsTimer = Questie:ScheduleTimer(function()
-                            --Redraw here!
-                            Questie:Debug(DEBUG_DEVELOP, "[Questie] NYI Setting clustering value, redrawing!")
-                        end, 0.5)
+                        _QuestieOptions:Delay(0.5, _QuestieOptions.ClusterRedraw, "NYI Setting clustering value, clusterLevel set to "..value.." : Redrawing!")
                         QUESTIE_NOTES_CLUSTERMUL_HACK = value;
                         SetGlobalOptionLocal(info, value)
                         end,
@@ -240,7 +252,8 @@ local defaults = {
   },
 	char = {
 		complete = {},
-		enabled = true
+		enabled = true,
+        lowlevel = false
 	}
 }
 
