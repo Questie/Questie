@@ -84,6 +84,7 @@ function QuestieQuest:CompleteQuest(QuestId)
   qCurrentQuestlog[QuestId] = nil;
   Questie.db.char.complete[QuestId] = true --can we use some other relevant info here?
   QuestieMap:UnloadQuestFrames(QuestId);
+  QuestieTooltips:RemoveQuest(QuestId)
   --Unload all the quest frames from the map.
   --QuestieMap:UnloadQuestFrames(QuestId); --We are currently redrawing everything so we might as well not use this now
 
@@ -95,6 +96,7 @@ function QuestieQuest:CompleteQuest(QuestId)
 end
 
 function QuestieQuest:AbandonedQuest(QuestId)
+  QuestieTooltips:RemoveQuest(QuestId)
   if(qCurrentQuestlog[QuestId]) then
     qCurrentQuestlog[QuestId] = nil
 
@@ -104,7 +106,7 @@ function QuestieQuest:AbandonedQuest(QuestId)
     local quest = QuestieDB:GetQuest(QuestId);
     --The old data for notes are still there, we don't need to recalulate data.
     _QuestieQuest:DrawAvailableQuest(quest)
-
+	
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: Abandoned Quest:", QuestId)
   end
 end
@@ -178,6 +180,11 @@ function QuestieQuest:UpdateObjectiveNotes(Quest)
   if 1 then
     if Quest.Objectives ~= nil then
 	  for k,v in pairs(Quest.Objectives) do
+	    if v.TooltipRefs ~= nil then
+		  for k2,v2 in pairs(v.TooltipRefs) do
+		    QuestieTooltips:GetTooltip(v2)[1] = "|cFF22FF22" .. v.Description .. " " .. (v.Collected) .. "/" .. v.Needed;
+		  end
+		end
 	    if v.NoteRefs ~= nil then -- update tooltip value
 		  for k2,v2 in pairs(v.NoteRefs) do
 		                                                         -- the reason why we do +1 here is the classic beta api is bugged atm. it is *always* 1 behind right after an update
@@ -285,14 +292,21 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
 		if v.NoteRefs == nil then -- used for updating notes
 		  v.NoteRefs = {};
 		end
+		if v.TooltipRefs == nil then
+		  v.TooltipRefs = {};
+		end
 		if v.Type == "item" and tonumber(v.Needed) > tonumber(v.Collected) then
 		   local item = QuestieDB:GetItem(v.Id);
 		   if item ~= nil and item.Sources ~= nil then
 		     Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: GotItem", v.Id, item.Id)
 			 for k2,v2 in pairs(item.Sources) do
+			   -- add item tooltips
+			   QuestieTooltips:RegisterTooltip(Quest.Id, "i_" .. item.Name, {"|cFF22FF22" .. v.Description .. " " .. v.Collected .. "/" .. v.Needed, "|cFFFFFFFFNeeded for: |r" .. QuestieTooltips:PrintDifficultyColor(Quest.Level, "[" .. Quest.Level .. "] " .. Quest.Name)});
+			   table.insert(v.TooltipRefs, "i_" .. item.Name);
 			   if v2.Type == "monster" then
 				  NPC = QuestieDB:GetNPC(v2.Id)
 				  if(NPC ~= nil and NPC.Spawns ~= nil) then
+				  table.insert(v.TooltipRefs, "u_" .. NPC.Name);
 					--Questie:Debug(DEBUG_DEVELOP,"Adding Quest:", questObject.Id, "StarterNPC:", NPC.Id)
 					for Zone, Spawns in pairs(NPC.Spawns) do
 					  if(Zone ~= nil and Spawns ~= nil) then
@@ -311,7 +325,9 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
 						  data.IconScale = 0.7;
 						  data.QuestData = Quest;
 						  data.ObjectiveTargetId = v2.Id
-						  data.tooltip = {NPC.Name, "|cFF22FF22" .. v.Description .. " " .. v.Collected .. "/" .. v.Needed, "|cFFFFFFFF" .. Quest.Name}
+						  
+						  data.tooltip = {NPC.Name, "|cFF22FF22" .. v.Description .. " " .. v.Collected .. "/" .. v.Needed, QuestieTooltips:PrintDifficultyColor(Quest.Level, "[" .. Quest.Level .. "] " .. Quest.Name)}
+						  QuestieTooltips:RegisterTooltip(Quest.Id, "u_" .. NPC.Name, {data.tooltip[2], "|cFFFFFFFFNeeded for: |r" .. data.tooltip[3]});
 							--Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn1", v.Id, item.Id, NPC.Name )
 						  if(coords[1] == -1 or coords[2] == -1)then
 							if(instanceData[Zone] ~= nil) then
@@ -334,6 +350,7 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
 			   elseif v2.Type == "object" then
 				  local obj = QuestieDB:GetObject(v2.Id)
 				  if(obj ~= nil and obj.Spawns ~= nil) then
+				    table.insert(v.TooltipRefs, "o_" .. obj.Name);
 					--Questie:Debug(DEBUG_DEVELOP,"Adding Quest:", questObject.Id, "StarterNPC:", NPC.Id)
 					for Zone, Spawns in pairs(obj.Spawns) do
 					  if(Zone ~= nil and Spawns ~= nil) then
@@ -352,7 +369,8 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
 						  data.IconScale = 0.7;
 						  data.QuestData = Quest;
 						  data.ObjectiveTargetId = v2.Id
-						  data.tooltip = {obj.Name, "|cFF22FF22" .. v.Description .. " " .. v.Collected .. "/" .. v.Needed, "|cFFFFFFFF" .. Quest.Name}
+						  data.tooltip = {obj.Name, "|cFF22FF22" .. v.Description .. " " .. v.Collected .. "/" .. v.Needed, QuestieTooltips:PrintDifficultyColor(Quest.Level, "[" .. Quest.Level .. "] " .. Quest.Name)}
+                          QuestieTooltips:RegisterTooltip(Quest.Id, "o_" .. obj.Name, {data.tooltip[2], "|cFFFFFFFFNeeded for: |r" .. data.tooltip[3]});
 							--Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn1", v.Id, item.Id, obj.Name )
 						  if(coords[1] == -1 or coords[2] == -1) then
 							if(instanceData[Zone] ~= nil) then
@@ -382,6 +400,7 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
 		elseif v.Type == "monster" and tonumber(v.Needed) > tonumber(v.Collected) then
 		  NPC = QuestieDB:GetNPC(v.Id)
 		  if(NPC ~= nil and NPC.Spawns ~= nil) then
+		    table.insert(v.TooltipRefs, "u_" .. NPC.Name);
 			--Questie:Debug(DEBUG_DEVELOP,"Adding Quest:", questObject.Id, "StarterNPC:", NPC.Id)
 			for Zone, Spawns in pairs(NPC.Spawns) do
 			  if(Zone ~= nil and Spawns ~= nil) then
@@ -400,7 +419,8 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
 				  data.IconScale = 0.7;
 				  data.QuestData = Quest;
 				  data.ObjectiveTargetId = v.Id
-				  data.tooltip = {NPC.Name, "|cFF22FF22" .. v.Description .. " " .. v.Collected .. "/" .. v.Needed, "|cFFFFFFFF" .. Quest.Name}
+				  data.tooltip = {NPC.Name, "|cFF22FF22" .. v.Description .. " " .. v.Collected .. "/" .. v.Needed, QuestieTooltips:PrintDifficultyColor(Quest.Level, "[" .. Quest.Level .. "] " .. Quest.Name)}
+				  QuestieTooltips:RegisterTooltip(Quest.Id, "u_" .. NPC.Name, {data.tooltip[2], "|cFFFFFFFFNeeded for: |r" .. data.tooltip[3]});
 				  --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn1", v.Id, NPC.Name )
 				  if(coords[1] == -1 or coords[2] == -1) then
 					if(instanceData[Zone] ~= nil) then

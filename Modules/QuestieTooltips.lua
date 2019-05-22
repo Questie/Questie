@@ -5,7 +5,7 @@ local _QuestieTooltips = {};
 
 
 QuestieTooltips.tooltipLookup = {
-	--["u_Grell"] = {"Line 1", "Line 2"}
+	--["u_Grell"] = {questid, {"Line 1", "Line 2"}}
 }
 
 
@@ -60,14 +60,25 @@ end
 --        units: u_
 --        items: i_
 --      objects: o_
-function QuestieTooltips:RegisterTooltip(key, value)
-	QuestieTooltips.tooltipLookup[key] = value;
+function QuestieTooltips:RegisterTooltip(questid, key, value)
+	QuestieTooltips.tooltipLookup[key] = {questid, value};
 end
 
 function QuestieTooltips:RemoveTooltip(key)
 	QuestieTooltips.tooltipLookup[key] = nil
 end
 
+function QuestieTooltips:GetTooltip(key)
+    return QuestieTooltips.tooltipLookup[key][2];
+end
+
+function QuestieTooltips:RemoveQuest(questid)
+    for k, v in pairs(QuestieTooltips.tooltipLookup) do
+	  if v[1] == questid then
+	    QuestieTooltips:RemoveTooltip(k)
+	  end
+	end
+end
 
 
 
@@ -78,7 +89,7 @@ local function TooltipShowing_unit(self)
 	if name then
 		local tooltipData = QuestieTooltips.tooltipLookup["u_" .. name];
 		if tooltipData then
-			for k,v in pairs(tooltipData) do
+			for k,v in pairs(tooltipData[2]) do
 				GameTooltip:AddLine(v)
 			end
 		end
@@ -90,7 +101,7 @@ local function TooltipShowing_item(self)
 	if name then
 		local tooltipData = QuestieTooltips.tooltipLookup["i_" .. name];
 		if tooltipData then
-			for k,v in pairs(tooltipData) do
+			for k,v in pairs(tooltipData[2]) do
 				GameTooltip:AddLine(v)
 			end
 		end
