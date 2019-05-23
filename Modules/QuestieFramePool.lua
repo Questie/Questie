@@ -116,21 +116,23 @@ function _QuestieFramePool:Questie_Tooltip(self)
   if self.data.tooltip == nil then return; end
   already[table.concat(self.data.tooltip)] = true
   -- iterate frames and add nearby to the tooltip also. TODO: Add all nearby to a table and sort by type
-  for k,v in pairs(allframes) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
-    if v.data.x ~= nil and v.data.AreaID == self.data.AreaID then
-	  local dist = _QuestieFramePool:euclid(v.data.x, v.data.y, self.data.x, self.data.y);
-	  if dist < maxDistCluster and v.data.tooltip ~= nil then
-	    local key = table.concat(v.data.tooltip);
-		if already[key] == nil then
-		  already[key] = true
-		  for k,v in pairs(v.data.tooltip) do
-			Tooltip:AddLine(v);
+	for questId, framelist in pairs(qQuestIdFrames) do
+	 for index, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
+	    local icon = _G[frameName];
+		if icon.data.x ~= nil and icon.data.AreaID == self.data.AreaID then
+		  local dist = _QuestieFramePool:euclid(icon.data.x, icon.data.y, self.data.x, self.data.y);
+		  if dist < maxDistCluster and icon.data.tooltip ~= nil then
+			local key = table.concat(icon.data.tooltip);
+			if already[key] == nil then
+			  already[key] = true
+			  for k,v in pairs(icon.data.tooltip) do
+				Tooltip:AddLine(v);
+			  end
+			end
 		  end
 		end
 	  end
 	end
-  end
-  
   
   
 --	if(self.data.QuestData) then
