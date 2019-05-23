@@ -11,6 +11,22 @@ function QuestieQuest:Initialize()
   GetQuestsCompleted(Questie.db.char.complete)
 end
 
+function QuestieQuest:GetRawLeaderBoardDetails(QuestLogIndex)
+    local quest = {}
+    _, _, _, _, _, _, _, questId, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(QuestLogIndex)
+    local numQuestLogLeaderBoards = GetNumQuestLeaderBoards(questId)
+    quest.Objectives = {}
+    for BoardIndex = 1, numQuestLogLeaderBoards do
+        local description, objectiveType, isCompleted = GetQuestLogLeaderBoard (BoardIndex, QuestLogIndex);
+        quest.Objectives[i].description = description;
+        quest.Objectives[i].objectiveType = objectiveType;
+        quest.Objectives[i].isCompleted = isCompleted;
+        quest.compareString = quest.compareString..description..objectiveType..isComplete;
+    end
+	quest.Id = questId
+    return quest;
+end
+
 -- some plebs dont have beta, i need diz
 function LOGONDEBUG_ADDQUEST(QuestId)
   --qCurrentQuestlog[QuestId] = QuestieDB:GetQuest(QuestId);
@@ -262,7 +278,7 @@ function QuestieQuest:AddFinisher(Quest)
 		  data.IconScale = 1;
 		  data.QuestData = Quest;
           data.QuestData.NPCName = NPC.Name
-
+          data.IsObjectiveNote = false
           --data.updateTooltip = function(data)
               --return {QuestieTooltips:PrintDifficultyColor(data.QuestData.Level, "[" .. data.QuestData.Level .. "] " .. data.QuestData.Name), "|cFFFFFFFFQuest complete!", "Finished by: |cFF00FF00" .. data.QuestData.NPCName}
           --end
@@ -339,7 +355,7 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
 						  data.IconScale = 0.7;
 						  data.QuestData = Quest;
 						  data.ObjectiveTargetId = v2.Id
-						  
+						  data.IsObjectiveNote = true
 						  data.tooltip = {NPC.Name, "|cFF22FF22" .. v.Description .. " " .. v.Collected .. "/" .. v.Needed, QuestieTooltips:PrintDifficultyColor(Quest.Level, "[" .. Quest.Level .. "] " .. Quest.Name)}
 						  QuestieTooltips:RegisterTooltip(Quest.Id, "u_" .. NPC.Name, {data.tooltip[2], "|cFFFFFFFFNeeded for: |r" .. data.tooltip[3]});
 							--Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn1", v.Id, item.Id, NPC.Name )
@@ -383,6 +399,7 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
 						  data.IconScale = 0.7;
 						  data.QuestData = Quest;
 						  data.ObjectiveTargetId = v2.Id
+						  data.IsObjectiveNote = true
 						  data.tooltip = {obj.Name, "|cFF22FF22" .. v.Description .. " " .. v.Collected .. "/" .. v.Needed, QuestieTooltips:PrintDifficultyColor(Quest.Level, "[" .. Quest.Level .. "] " .. Quest.Name)}
                           QuestieTooltips:RegisterTooltip(Quest.Id, "o_" .. obj.Name, {data.tooltip[2], "|cFFFFFFFFNeeded for: |r" .. data.tooltip[3]});
 							--Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn1", v.Id, item.Id, obj.Name )
@@ -433,6 +450,7 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
 				  data.IconScale = 0.7;
 				  data.QuestData = Quest;
 				  data.ObjectiveTargetId = v.Id
+				  data.IsObjectiveNote = true
 				  data.tooltip = {NPC.Name, "|cFF22FF22" .. v.Description .. " " .. v.Collected .. "/" .. v.Needed, QuestieTooltips:PrintDifficultyColor(Quest.Level, "[" .. Quest.Level .. "] " .. Quest.Name)}
 				  QuestieTooltips:RegisterTooltip(Quest.Id, "u_" .. NPC.Name, {data.tooltip[2], "|cFFFFFFFFNeeded for: |r" .. data.tooltip[3]});
 				  --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn1", v.Id, NPC.Name )
@@ -472,6 +490,7 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
 				  data.IconScale = 1;
 				  data.QuestData = Quest;
 				  data.ObjectiveTargetId = v.Id
+				  data.IsObjectiveNote = true
 				  data.tooltip = {v.Description, QuestieTooltips:PrintDifficultyColor(Quest.Level, "|cFFFFFFFFNeeded for: |r" .. "[" .. Quest.Level .. "] " .. Quest.Name)}
 				  --QuestieTooltips:RegisterTooltip(Quest.Id, "u_" .. NPC.Name, {data.tooltip[2], "|cFFFFFFFFNeeded for: |r" .. data.tooltip[3]});
 				  --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn1", v.Id, NPC.Name )
@@ -607,6 +626,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject)
               data.Icon = ICON_TYPE_AVAILABLE;
               data.QuestData = questObject;
               data.QuestData.NPCName = NPC.Name
+			  data.IsObjectiveNote = false
               --data.updateTooltip = function(data)
               --    return {QuestieTooltips:PrintDifficultyColor(data.QuestData.Level, "[" .. data.QuestData.Level .. "] " .. data.QuestData.Name), "|cFFFFFFFFStarted by: |r|cFF22FF22" .. data.QuestData.NPCName, "QuestId:"..data.QuestData.Id}
               --end
