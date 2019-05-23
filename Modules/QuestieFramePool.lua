@@ -122,7 +122,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
 	for questId, framelist in pairs(qQuestIdFrames) do
 	 for index, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
 	    local icon = _G[frameName];
-		if icon.data.x ~= nil and icon.data.AreaID == self.data.AreaID then
+		if icon ~= nil and icon.data ~= nil and icon.data.x ~= nil and icon.data.AreaID == self.data.AreaID then
 		  local dist = _QuestieFramePool:euclid(icon.data.x, icon.data.y, self.data.x, self.data.y);
 		  if dist < maxDistCluster and icon.data.tooltip ~= nil then
 			local key = table.concat(icon.data.tooltip);
