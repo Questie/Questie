@@ -112,6 +112,9 @@ function _QuestieFramePool:Questie_Tooltip(self)
   elseif mid == 1415 or mid == 1414 then -- kalimdor/ek
     maxDistCluster = 8
   end
+  if not WorldMapFrame:IsShown() then
+    maxDistCluster = 0.5
+  end
   local already = {};
   if self.data.tooltip == nil then return; end
   already[table.concat(self.data.tooltip)] = true
