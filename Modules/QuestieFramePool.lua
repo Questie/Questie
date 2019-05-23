@@ -92,6 +92,11 @@ function _QuestieFramePool:QuestieCreateFrame()
 	return f
 end
 
+function _QuestieFramePool:euclid(x, y, i, e)
+  local xd = math.abs(x-i);
+  local yd = math.abs(y-e);
+  return math.sqrt(xd*xd+yd*yd);
+end
 
 function _QuestieFramePool:Questie_Tooltip(self)
   local Tooltip = GameTooltip;
@@ -100,6 +105,34 @@ function _QuestieFramePool:Questie_Tooltip(self)
   for k,v in pairs(self.data.tooltip) do
 	Tooltip:AddLine(v);
   end
+  local maxDistCluster = 2
+  local mid = WorldMapFrame:GetMapID();
+  if mid == 947 then -- world
+    maxDistCluster = 16
+  elseif mid == 1415 or mid == 1414 then -- kalimdor/ek
+    maxDistCluster = 8
+  end
+  local already = {};
+  if self.data.tooltip == nil then return; end
+  already[table.concat(self.data.tooltip)] = true
+  -- iterate frames and add nearby to the tooltip also. TODO: Add all nearby to a table and sort by type
+  for k,v in pairs(allframes) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
+    if v.data.x ~= nil and v.data.AreaID == self.data.AreaID then
+	  local dist = _QuestieFramePool:euclid(v.data.x, v.data.y, self.data.x, self.data.y);
+	  if dist < maxDistCluster and v.data.tooltip ~= nil then
+	    local key = table.concat(v.data.tooltip);
+		if already[key] == nil then
+		  already[key] = true
+		  for k,v in pairs(v.data.tooltip) do
+			Tooltip:AddLine(v);
+		  end
+		end
+	  end
+	end
+  end
+  
+  
+  
 --	if(self.data.QuestData) then
 --	  --TODO Logic for tooltip!
 --	  Tooltip:AddLine("["..self.data.QuestData.Level.."] "..self.data.QuestData.Name);

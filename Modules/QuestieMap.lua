@@ -57,6 +57,10 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
   local icon = QuestieFramePool:GetFrame()
   icon.data = data
   data.refWorldMap = icon -- used for removing
+  data.x = x;
+  data.y = y; -- used for tooltip clustering
+  data.AreaID = AreaID-- used for tooltip clustering
+  
   icon.texture:SetTexture(data.Icon)
   if data.IconScale ~= nil then
     local scale = 16 * data.IconScale;
