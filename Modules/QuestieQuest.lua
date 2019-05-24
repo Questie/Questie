@@ -17,11 +17,11 @@ function QuestieQuest:GetRawLeaderBoardDetails(QuestLogIndex)
     local numQuestLogLeaderBoards = GetNumQuestLeaderBoards(questId)
     quest.Objectives = {}
     for BoardIndex = 1, numQuestLogLeaderBoards do
-        local description, objectiveType, isCompleted = GetQuestLogLeaderBoard (BoardIndex, QuestLogIndex);
+        local description, objectiveType, isCompleted = GetQuestLogLeaderBoard(BoardIndex, QuestLogIndex);
         quest.Objectives[BoardIndex].description = description;
         quest.Objectives[BoardIndex].objectiveType = objectiveType;
         quest.Objectives[BoardIndex].isCompleted = isCompleted;
-        quest.compareString = quest.compareString..description..objectiveType..isComplete;
+        quest.compareString = quest.compareString..description..objectiveType;--..isComplete;
     end
 	quest.Id = questId
     return quest;
