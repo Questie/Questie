@@ -19,11 +19,19 @@ function QuestieQuest:GetRawLeaderBoardDetails(QuestLogIndex)
     quest.compareString = ""
     for BoardIndex = 1, numQuestLogLeaderBoards do
         local description, objectiveType, isCompleted = GetQuestLogLeaderBoard(BoardIndex, QuestLogIndex);
-        quest.Objectives[BoardIndex] = {}
+		if quest.Objectives[BoardIndex] == nil then -- dont reset this
+          quest.Objectives[BoardIndex] = {}
+		end
         quest.Objectives[BoardIndex].description = description;
         quest.Objectives[BoardIndex].objectiveType = objectiveType;
         quest.Objectives[BoardIndex].isCompleted = isCompleted;
-        quest.compareString = quest.compareString..description..objectiveType;
+        quest.compareString = quest.compareString
+		if quest.compareString and description then
+		  quest.compareString = quest.compareString .. description
+		end
+		if quest.compareString and objectiveType then
+		  quest.compareString = quest.compareString .. objectiveType
+		end
     end
     quest.Id = questId
     return quest;
