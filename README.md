@@ -15,9 +15,7 @@
 **What is not working/ported**
 - tracker
 - arrow
-- map tooltip clustering (If more than 1 icon is on the same spot, or more than 1 quest is available from the same NPC, only 1 will show in the tooltip currently)
-
-
+- polygon objective display (instead of many points) and other display modes
 
 
 
