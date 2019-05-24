@@ -16,14 +16,16 @@ function QuestieQuest:GetRawLeaderBoardDetails(QuestLogIndex)
     _, _, _, _, _, _, _, questId, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(QuestLogIndex)
     local numQuestLogLeaderBoards = GetNumQuestLeaderBoards(questId)
     quest.Objectives = {}
+    quest.compareString = ""
     for BoardIndex = 1, numQuestLogLeaderBoards do
         local description, objectiveType, isCompleted = GetQuestLogLeaderBoard(BoardIndex, QuestLogIndex);
+        quest.Objectives[BoardIndex] = {}
         quest.Objectives[BoardIndex].description = description;
         quest.Objectives[BoardIndex].objectiveType = objectiveType;
         quest.Objectives[BoardIndex].isCompleted = isCompleted;
-        quest.compareString = quest.compareString..description..objectiveType;--..isComplete;
+        quest.compareString = quest.compareString..description..objectiveType;
     end
-	quest.Id = questId
+    quest.Id = questId
     return quest;
 end
 
@@ -122,7 +124,7 @@ function QuestieQuest:AbandonedQuest(QuestId)
     local quest = QuestieDB:GetQuest(QuestId);
     --The old data for notes are still there, we don't need to recalulate data.
     _QuestieQuest:DrawAvailableQuest(quest)
-	
+
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: Abandoned Quest:", QuestId)
   end
 end
@@ -196,7 +198,7 @@ local function counthack(tab) -- according to stack overflow, # and table.getn a
 end
 
 function QuestieQuest:_IsCompleteHack(Quest) -- adding this because I hit my threshold of 3 hours trying to debug why .isComplete isnt working properly
--- we can fix this later 
+-- we can fix this later
     local logID = GetQuestLogIndexByID(Quest.Id);
 	if logID ~= 0 then
 	  _, _, _, _, _, Quest.isComplete, _, _, _, _, _, _, _, _, _, Quest.isHidden = GetQuestLogTitle(logID)
