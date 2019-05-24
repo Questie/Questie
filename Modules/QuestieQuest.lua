@@ -491,7 +491,7 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
 				  data.QuestData = Quest;
 				  data.ObjectiveTargetId = v.Id
 				  data.IsObjectiveNote = true
-				  data.tooltip = {v.Description, QuestieTooltips:PrintDifficultyColor(Quest.Level, "|cFFFFFFFFNeeded for: |r" .. "[" .. Quest.Level .. "] " .. Quest.Name)}
+				  data.tooltip = {v.Description, "|cFF22FF22" .. v.Description, QuestieTooltips:PrintDifficultyColor(Quest.Level, "[" .. Quest.Level .. "] " .. Quest.Name)}--data.tooltip = {v.Description, QuestieTooltips:PrintDifficultyColor(Quest.Level, "|cFFFFFFFFNeeded for: |r" .. "[" .. Quest.Level .. "] " .. Quest.Name)}
 				  --QuestieTooltips:RegisterTooltip(Quest.Id, "u_" .. NPC.Name, {data.tooltip[2], "|cFFFFFFFFNeeded for: |r" .. data.tooltip[3]});
 				  --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn1", v.Id, NPC.Name )
 				  if(coords[1] == -1 or coords[2] == -1) then

@@ -102,9 +102,6 @@ function _QuestieFramePool:Questie_Tooltip(self)
   local Tooltip = GameTooltip;
   Tooltip:SetOwner(self, "ANCHOR_CURSOR"); --"ANCHOR_CURSOR" or (self, self)
 
-  for k,v in pairs(self.data.tooltip) do
-	Tooltip:AddLine(v);
-  end
   local maxDistCluster = 2
   local mid = WorldMapFrame:GetMapID();
   if mid == 947 then -- world
@@ -112,28 +109,102 @@ function _QuestieFramePool:Questie_Tooltip(self)
   elseif mid == 1415 or mid == 1414 then -- kalimdor/ek
     maxDistCluster = 8
   end
-  if not WorldMapFrame:IsShown() then
+  if not WorldMapFrame:IsShown() then -- this should check if its a minimap note or map note instead, some map addons dont use WorldMapFrame
     maxDistCluster = 0.5
   end
   local already = {};
   if self.data.tooltip == nil then return; end
+  
+  local headers = {};
+  local footers = {};
+  local contents = {};
+  
+  --for k,v in pairs(self.data.tooltip) do
+	--Tooltip:AddLine(v);
+  --end
+
+  -- assumes 3-line tooltips currently, but it should allow multi-line contents (maybe using \n could be an easy hack to do that, add first and last line toheader/footer)
+  if self.data.IsObjectiveNote then
+    if self.data.Icon ~= ICON_TYPE_EVENT then -- logic needs to be improved
+      table.insert(headers, self.data.tooltip[1]);
+    end
+    table.insert(contents, self.data.tooltip[3]);
+    table.insert(contents, self.data.tooltip[2]);
+  else
+    for k,v in pairs(self.data.tooltip) do
+	  Tooltip:AddLine(v);
+    end
+  end
   already[table.concat(self.data.tooltip)] = true
+  
+  --iterate and add non-objective notes
+	for questId, framelist in pairs(qQuestIdFrames) do
+	 for index, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
+	    local icon = _G[frameName];
+		if icon.data.x ~= nil and icon.data.AreaID == self.data.AreaID then
+		  local dist = _QuestieFramePool:euclid(icon.data.x, icon.data.y, self.data.x, self.data.y);
+		  if dist < maxDistCluster and icon.data.tooltip ~= nil then
+			local key = table.concat(icon.data.tooltip);
+			if already[key] == nil then
+			  if not self.data.IsObjectiveNote then
+			    already[key] = true
+				for k,v in pairs(icon.data.tooltip) do
+				  Tooltip:AddLine(v);
+				end
+			  end
+			end
+		  end
+		end
+	  end
+	end
+  
+  
   -- iterate frames and add nearby to the tooltip also. TODO: Add all nearby to a table and sort by type
 	for questId, framelist in pairs(qQuestIdFrames) do
 	 for index, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
 	    local icon = _G[frameName];
-		if icon ~= nil and icon.data ~= nil and icon.data.x ~= nil and icon.data.AreaID == self.data.AreaID then
+		if icon.data.x ~= nil and icon.data.AreaID == self.data.AreaID then
 		  local dist = _QuestieFramePool:euclid(icon.data.x, icon.data.y, self.data.x, self.data.y);
 		  if dist < maxDistCluster and icon.data.tooltip ~= nil then
 			local key = table.concat(icon.data.tooltip);
 			if already[key] == nil then
 			  already[key] = true
-			  for k,v in pairs(icon.data.tooltip) do
-				Tooltip:AddLine(v);
+			  if self.data.IsObjectiveNote then
+			    if icon.data.Icon ~= ICON_TYPE_EVENT then -- logic needs to be improved
+			      table.insert(headers, icon.data.tooltip[1]);
+			    end
+			    table.insert(contents, icon.data.tooltip[3]);
+			    table.insert(contents, icon.data.tooltip[2]);
 			  end
+			  --table.insert(footers, icon.data.tooltip[3]);
+			  --for k,v in pairs(icon.data.tooltip) do
+				--Tooltip:AddLine(v);
+			  --end
 			end
 		  end
 		end
+	  end
+	end
+	
+	already = {}; -- is there a table.clear that is faster?
+	for k,v in pairs(headers) do
+	  if already[v] == nil then
+	    Tooltip:AddLine(v);
+		already[v] = true
+	  end
+	end
+	already = {};
+	for k,v in pairs(contents) do
+	  if already[v] == nil then
+	    Tooltip:AddLine(v);
+		already[v] = true
+	  end
+	end
+	already = {}; 
+	for k,v in pairs(footers) do
+	  if already[v] == nil then
+	    Tooltip:AddLine(v);
+		already[v] = true
 	  end
 	end
   
