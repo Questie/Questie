@@ -165,6 +165,25 @@ function QuestieQuest:GetAllQuestIds()
   end
 end
 
+function QuestieQuest:GetAllQuestIdsNoObjectives()
+  Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]: Getting all quests")
+  numEntries, numQuests = GetNumQuestLogEntries();
+  qCurrentQuestlog = {}
+  for index = 1, numEntries do
+    title, level, _, isHeader, _, isComplete, _, questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
+    if(not isHeader) then
+      --Keep the object in the questlog to save searching
+      Quest = QuestieDB:GetQuest(questId)
+      if(Quest ~= nil) then
+        qCurrentQuestlog[questId] = Quest
+      else
+        qCurrentQuestlog[questId] = questId
+      end
+      Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Added quest: "..questId)
+    end
+  end
+end
+
 function QuestieQuest:ShouldQuestShowObjectives(QuestId)
 	return true -- todo: implement tracker logic here, to hide non-tracked quest optionally (1.12 questie does this optionally)
 end
@@ -743,6 +762,10 @@ function _QuestieQuest:IsDoable(questObject) -- we need to add profession/reputa
     end
   end
   return allFinished
+end
+
+function _QuestieQuest:CheckExclusivity(questObject)
+
 end
 
 --TODO Check that this function does what it is supposed to...

@@ -1,6 +1,7 @@
 function _hack_prime_log() -- this seems to make it update the data much quicker
   for i=1,GetNumQuestLogEntries()+1 do
     GetQuestLogTitle(i)
+	QuestieQuest:GetRawLeaderBoardDetails(i)
   end
 end
 
@@ -8,19 +9,41 @@ end
 --This is needed for functions around the addon, due to UnitLevel("player") not returning actual level PLAYER_LEVEL_UP unless this is used.
 qPlayerLevel = -1
 
+local QuestWatchTimers = {
+    cancelTimer = nil,
+    repeatTimer = nil
+}
+local lastState = {}
+
+__UPDATEFIX_IDX = 1; -- temporary bad fix
 
 function PLAYER_ENTERING_WORLD()
     _hack_prime_log()
-    C_Timer.After(4, function ()
+	qPlayerLevel = UnitLevel("player")
+    QuestieQuest:Initialize()
+	QuestieDB:Initialize()
+	QuestieQuest:GetAllQuestIdsNoObjectives()
+	QuestieQuest:CalculateAvailableQuests()
+	QuestieQuest:DrawAllAvailableQuests()
+	
+
+    C_Timer.After(5, function ()
 	  Questie:Debug(DEBUG_ELEVATED, "Player entered world")
-	  qPlayerLevel = UnitLevel("player")
-      QuestieQuest:Initialize()
-	  QuestieDB:Initialize()
       QuestieQuest:GetAllQuestIds()
-	  QuestieQuest:CalculateAvailableQuests()
-	  QuestieQuest:DrawAllAvailableQuests()
+
 	end)
 
+	-- periodically update the objectives of quests, temporary hold-over until we can properly fix the event based logic
+	Questie:ScheduleRepeatingTimer(function()
+	    if GetNumQuestLogEntries()+1 == __UPDATEFIX_IDX then
+		  __UPDATEFIX_IDX = 1
+		end
+        title, level, _, isHeader, _, isComplete, _, _questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(__UPDATEFIX_IDX)
+        if (not isHeader) and _questId ~= nil and _questId > 0 then
+		  QuestieQuest:UpdateQuest(_questId);
+		end
+		__UPDATEFIX_IDX = __UPDATEFIX_IDX + 1
+    end, 2)
 
 
 	--local Note = QuestieFramePool:GetFrame();
@@ -46,7 +69,7 @@ end
 --Fires when a quest is removed from the questlog, this includes turning it in!
 function QUEST_REMOVED(Event, QuestId)
   _hack_prime_log()
-  C_Timer.After(2, function ()
+  C_Timer.After(1, function ()
     Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_REMOVED", QuestId);
     QuestieQuest:AbandonedQuest(QuestId)
   end)
@@ -55,19 +78,55 @@ end
 --Fires when a quest is turned in.
 function QUEST_TURNED_IN(Event, questID, xpReward, moneyReward)
   _hack_prime_log()
-  C_Timer.After(2, function ()
+  C_Timer.After(1, function ()
     Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_TURNED_IN", questID, xpReward, moneyReward);
     QuestieQuest:CompleteQuest(questID)
   end)
 end
 
 function QUEST_WATCH_UPDATE(Event, QuestLogIndex)
-  _hack_prime_log()
-  C_Timer.After(2, function ()
+    _hack_prime_log()
     title, level, _, isHeader, _, isComplete, _, questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(QuestLogIndex)
     Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_WATCH_UPDATE", "QLogIndex: "..QuestLogIndex,  "QuestID: "..questId);
-    QuestieQuest:UpdateQuest(questId);
-  end)
+ 
+    --If a timer exists from previous upda
+    if(QuestWatchTimers.cancelTimer) then
+        Questie:CancelTimer(QuestWatchTimers.cancelTimer)
+        QuestWatchTimers.cancelTimer = nil;
+        Questie:Debug(DEBUG_DEVELOP, "[QuestieEventHandler] Cancel timer exists, canceled!")
+    end
+    if(QuestWatchTimers.repeatTimer) then
+        Questie:CancelTimer(QuestWatchTimers.repeatTimer)
+        QuestWatchTimers.repeatTimer = nil;
+        Questie:Debug(DEBUG_DEVELOP, "[QuestieEventHandler] Repeat timer exists, canceled!")
+    end
+ 	local _QuestLogIndexFinal = tonumber(QuestLogIndex)
+	local _questIdFinal = tonumber(questId);
+    QuestWatchTimers.cancelTimer = Questie:ScheduleTimer(function()
+	    if QuestWatchTimers.repeatTimer ~= nil then
+          Questie:CancelTimer(QuestWatchTimers.repeatTimer)
+          QuestWatchTimers.repeatTimer = nil;
+          QuestWatchTimers.cancelTimer = nil;
+          Questie:Debug(DEBUG_DEVELOP, "[QuestieEventHandler] Repeat timer took to long, cancel it!")
+        
+		  if _questIdFinal ~= nil and _questIdFinal > 0 then
+		    QuestieQuest:UpdateQuest(_questIdFinal);
+		  end
+		end
+    end, 4)
+
+    QuestWatchTimers.repeatTimer = Questie:ScheduleRepeatingTimer(function()
+        local QuestInfo = QuestieQuest:GetRawLeaderBoardDetails(_QuestLogIndexFinal)
+        if(lastState[QuestInfo.Id] == nil or lastState[QuestInfo.Id].compareString ~= QuestInfo.compareString) then
+            Questie:Debug(DEBUG_DEVELOP, "[QuestieEventHandler] QUEST_WATCH_UPDATE found a change!")
+            lastState[QuestInfo.Id] = QuestInfo;
+            Questie:CancelTimer(QuestWatchTimers.repeatTimer)
+            Questie:CancelTimer(QuestWatchTimers.cancelTimer)
+            QuestWatchTimers.cancelTimer = nil;
+            QuestWatchTimers.repeatTimer = nil;
+            QuestieQuest:UpdateQuest(QuestInfo.Id);
+        end
+    end, 0.5)
 end
 
 function QUEST_LOG_CRITERIA_UPDATE(Event, questID, specificTreeID, description, numFulfilled, numRequired)
