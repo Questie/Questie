@@ -18,9 +18,9 @@ function QuestieQuest:GetRawLeaderBoardDetails(QuestLogIndex)
     quest.Objectives = {}
     for BoardIndex = 1, numQuestLogLeaderBoards do
         local description, objectiveType, isCompleted = GetQuestLogLeaderBoard (BoardIndex, QuestLogIndex);
-        quest.Objectives[i].description = description;
-        quest.Objectives[i].objectiveType = objectiveType;
-        quest.Objectives[i].isCompleted = isCompleted;
+        quest.Objectives[BoardIndex].description = description;
+        quest.Objectives[BoardIndex].objectiveType = objectiveType;
+        quest.Objectives[BoardIndex].isCompleted = isCompleted;
         quest.compareString = quest.compareString..description..objectiveType..isComplete;
     end
 	quest.Id = questId
