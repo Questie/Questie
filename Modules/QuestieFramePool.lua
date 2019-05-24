@@ -136,32 +136,25 @@ function _QuestieFramePool:Questie_Tooltip(self)
 	--Tooltip:AddLine(v);
   --end
 
-  -- assumes 3-line tooltips currently, but it should allow multi-line contents (maybe using \n could be an easy hack to do that, add first and last line toheader/footer)
-  if self.data.IsObjectiveNote then
-    if self.data.Icon ~= ICON_TYPE_EVENT then -- logic needs to be improved
-      table.insert(headers, self.data.tooltip[1]);
-    end
-    table.insert(contents, self.data.tooltip[3]);
-    table.insert(contents, self.data.tooltip[2]);
-  else
-    for k,v in pairs(self.data.tooltip) do
-	  Tooltip:AddLine(v);
-    end
-  end
-  already[table.concat(self.data.tooltip)] = true
-  alreadyUnique[self.data.Id] = {};
-  
   --iterate and add non-objective notes
 	for questId, framelist in pairs(qQuestIdFrames) do
 	 for index, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
-	    local icon = _G[frameName];
+		local icon = _G[frameName];
 		if icon ~= nil and icon.data ~= nil and icon.data.x ~= nil and icon.data.AreaID == self.data.AreaID then
 		  local dist = _QuestieFramePool:euclid(icon.data.x, icon.data.y, self.data.x, self.data.y);
 		  if dist < maxDistCluster and icon.data.tooltip ~= nil then
 			local key = table.concat(icon.data.tooltip);
 			if already[key] == nil then
-			  if not self.data.IsObjectiveNote then
-			    already[key] = true
+			  if alreadyUnique[icon.data.Id] == nil then
+				alreadyUnique[icon.data.Id] = {};
+			  end
+			  -- TODO: change how the logic works, so this can be nil
+			  if icon.data.ObjectiveIndex == nil then -- it is nil on some notes like starters/finishers, because its for objectives. However, it needs to be an integer here for duplicate checks
+				icon.data.ObjectiveIndex = 0
+			  end
+			  if (not icon.data.IsObjectiveNote) and alreadyUnique[icon.data.Id][icon.data.ObjectiveIndex] == nil then
+				alreadyUnique[icon.data.Id][icon.data.ObjectiveIndex] = true
+				already[key] = true
 				for k,v in pairs(icon.data.tooltip) do
 				  Tooltip:AddLine(v);
 				end
@@ -172,8 +165,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
 	  end
 	end
   
-  
-  -- iterate frames and add nearby to the tooltip also. TODO: Add all nearby to a table and sort by type
+    -- iterate frames and add nearby to the tooltip also. TODO: Add all nearby to a table and sort by type
 	for questId, framelist in pairs(qQuestIdFrames) do
 	 for index, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
 	    local icon = _G[frameName];
@@ -190,7 +182,8 @@ function _QuestieFramePool:Questie_Tooltip(self)
 			  if icon.data.ObjectiveIndex == nil then -- it is nil on some notes like starters/finishers, because its for objectives. However, it needs to be an integer here for duplicate checks
 				icon.data.ObjectiveIndex = 0
 			  end
-			  if self.data.IsObjectiveNote and alreadyUnique[icon.data.Id][icon.data.ObjectiveIndex] == nil then
+			  if icon.data.IsObjectiveNote and alreadyUnique[icon.data.Id][icon.data.ObjectiveIndex] == nil then
+				
 			    alreadyUnique[icon.data.Id][icon.data.ObjectiveIndex] = true
 			    if icon.data.Icon ~= ICON_TYPE_EVENT then -- logic needs to be improved
 			      table.insert(headers, icon.data.tooltip[1]);
@@ -208,25 +201,31 @@ function _QuestieFramePool:Questie_Tooltip(self)
 	  end
 	end
 	
+	local maxLines = 4;
 	already = {}; -- is there a table.clear that is faster?
 	for k,v in pairs(headers) do
-	  if already[v] == nil then
+	  if already[v] == nil and maxLines > 0 then
 	    Tooltip:AddLine(v);
 		already[v] = true
+		maxLines = maxLines - 1
 	  end
 	end
 	already = {};
+	maxLines = 20;
 	for k,v in pairs(contents) do
-	  if already[v] == nil then
+	  if already[v] == nil and maxLines > 0 then
 	    Tooltip:AddLine(v);
 		already[v] = true
+		maxLines = maxLines - 1
 	  end
 	end
 	already = {}; 
+	maxLines = 20;
 	for k,v in pairs(footers) do
-	  if already[v] == nil then
+	  if already[v] == nil and maxLines > 0 then
 	    Tooltip:AddLine(v);
 		already[v] = true
+		maxLines = maxLines - 1
 	  end
 	end
   
