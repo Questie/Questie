@@ -15,7 +15,7 @@
 **What is not working/ported**
 - tracker
 - arrow
-
+- polygon objective display (instead of many points) and other display modes
 
 
 
