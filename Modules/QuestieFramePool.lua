@@ -98,7 +98,12 @@ function _QuestieFramePool:euclid(x, y, i, e)
   return math.sqrt(xd*xd+yd*yd);
 end
 
+_QuestieFramePool.lastTooltipShowHack = GetTime()
 function _QuestieFramePool:Questie_Tooltip(self)
+  if GetTime() - _QuestieFramePool.lastTooltipShowHack < 0.05 and GameTooltip:IsShown() then
+    return
+  end
+  _QuestieFramePool.lastTooltipShowHack = GetTime()
   local Tooltip = GameTooltip;
   Tooltip:SetOwner(self, "ANCHOR_CURSOR"); --"ANCHOR_CURSOR" or (self, self)
 
@@ -112,12 +117,20 @@ function _QuestieFramePool:Questie_Tooltip(self)
   if not WorldMapFrame:IsShown() then -- this should check if its a minimap note or map note instead, some map addons dont use WorldMapFrame
     maxDistCluster = 0.5
   end
-  local already = {};
+  
+  local already = {}; -- per quest
+  local alreadyUnique = {}; -- per objective
+  
   if self.data.tooltip == nil then return; end
   
   local headers = {};
   local footers = {};
   local contents = {};
+  
+  -- TODO: change how the logic works, so this can be nil
+  if self.data.ObjectiveIndex == nil then -- it is nil on some notes like starters/finishers, because its for objectives. However, it needs to be an integer here for duplicate checks
+    self.data.ObjectiveIndex = 0
+  end
   
   --for k,v in pairs(self.data.tooltip) do
 	--Tooltip:AddLine(v);
@@ -136,6 +149,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
     end
   end
   already[table.concat(self.data.tooltip)] = true
+  alreadyUnique[self.data.Id] = {};
   
   --iterate and add non-objective notes
 	for questId, framelist in pairs(qQuestIdFrames) do
@@ -169,7 +183,15 @@ function _QuestieFramePool:Questie_Tooltip(self)
 			local key = table.concat(icon.data.tooltip);
 			if already[key] == nil then
 			  already[key] = true
-			  if self.data.IsObjectiveNote then
+			  if alreadyUnique[icon.data.Id] == nil then
+			    alreadyUnique[icon.data.Id] = {};
+			  end
+			  -- TODO: change how the logic works, so this can be nil
+			  if icon.data.ObjectiveIndex == nil then -- it is nil on some notes like starters/finishers, because its for objectives. However, it needs to be an integer here for duplicate checks
+				icon.data.ObjectiveIndex = 0
+			  end
+			  if self.data.IsObjectiveNote and alreadyUnique[icon.data.Id][icon.data.ObjectiveIndex] == nil then
+			    alreadyUnique[icon.data.Id][icon.data.ObjectiveIndex] = true
 			    if icon.data.Icon ~= ICON_TYPE_EVENT then -- logic needs to be improved
 			      table.insert(headers, icon.data.tooltip[1]);
 			    end

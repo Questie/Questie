@@ -355,6 +355,7 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
 						  data.IconScale = 0.7;
 						  data.QuestData = Quest;
 						  data.ObjectiveTargetId = v2.Id
+						  data.ObjectiveIndex = k
 						  data.IsObjectiveNote = true
 						  data.tooltip = {NPC.Name, "|cFF22FF22" .. v.Description .. " " .. v.Collected .. "/" .. v.Needed, QuestieTooltips:PrintDifficultyColor(Quest.Level, "[" .. Quest.Level .. "] " .. Quest.Name)}
 						  QuestieTooltips:RegisterTooltip(Quest.Id, "u_" .. NPC.Name, {data.tooltip[2], "|cFFFFFFFFNeeded for: |r" .. data.tooltip[3]});
@@ -399,6 +400,7 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
 						  data.IconScale = 0.7;
 						  data.QuestData = Quest;
 						  data.ObjectiveTargetId = v2.Id
+						  data.ObjectiveIndex = k
 						  data.IsObjectiveNote = true
 						  data.tooltip = {obj.Name, "|cFF22FF22" .. v.Description .. " " .. v.Collected .. "/" .. v.Needed, QuestieTooltips:PrintDifficultyColor(Quest.Level, "[" .. Quest.Level .. "] " .. Quest.Name)}
                           QuestieTooltips:RegisterTooltip(Quest.Id, "o_" .. obj.Name, {data.tooltip[2], "|cFFFFFFFFNeeded for: |r" .. data.tooltip[3]});
@@ -450,6 +452,7 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
 				  data.IconScale = 0.7;
 				  data.QuestData = Quest;
 				  data.ObjectiveTargetId = v.Id
+				  data.ObjectiveIndex = k
 				  data.IsObjectiveNote = true
 				  data.tooltip = {NPC.Name, "|cFF22FF22" .. v.Description .. " " .. v.Collected .. "/" .. v.Needed, QuestieTooltips:PrintDifficultyColor(Quest.Level, "[" .. Quest.Level .. "] " .. Quest.Name)}
 				  QuestieTooltips:RegisterTooltip(Quest.Id, "u_" .. NPC.Name, {data.tooltip[2], "|cFFFFFFFFNeeded for: |r" .. data.tooltip[3]});
@@ -490,6 +493,7 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
 				  data.IconScale = 1;
 				  data.QuestData = Quest;
 				  data.ObjectiveTargetId = v.Id
+				  data.ObjectiveIndex = k
 				  data.IsObjectiveNote = true
 				  data.tooltip = {v.Description, "|cFF22FF22" .. v.Description, QuestieTooltips:PrintDifficultyColor(Quest.Level, "[" .. Quest.Level .. "] " .. Quest.Name)}--data.tooltip = {v.Description, QuestieTooltips:PrintDifficultyColor(Quest.Level, "|cFFFFFFFFNeeded for: |r" .. "[" .. Quest.Level .. "] " .. Quest.Name)}
 				  --QuestieTooltips:RegisterTooltip(Quest.Id, "u_" .. NPC.Name, {data.tooltip[2], "|cFFFFFFFFNeeded for: |r" .. data.tooltip[3]});
