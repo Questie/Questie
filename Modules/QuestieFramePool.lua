@@ -107,12 +107,12 @@ function _QuestieFramePool:Questie_Tooltip(self)
   local Tooltip = GameTooltip;
   Tooltip:SetOwner(self, "ANCHOR_CURSOR"); --"ANCHOR_CURSOR" or (self, self)
 
-  local maxDistCluster = 2
+  local maxDistCluster = 1
   local mid = WorldMapFrame:GetMapID();
   if mid == 947 then -- world
-    maxDistCluster = 16
-  elseif mid == 1415 or mid == 1414 then -- kalimdor/ek
     maxDistCluster = 8
+  elseif mid == 1415 or mid == 1414 then -- kalimdor/ek
+    maxDistCluster = 4
   end
   if not WorldMapFrame:IsShown() then -- this should check if its a minimap note or map note instead, some map addons dont use WorldMapFrame
     maxDistCluster = 0.5
@@ -185,7 +185,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
 			  if icon.data.IsObjectiveNote and alreadyUnique[icon.data.Id][icon.data.ObjectiveIndex] == nil then
 				
 			    alreadyUnique[icon.data.Id][icon.data.ObjectiveIndex] = true
-			    if icon.data.Icon ~= ICON_TYPE_EVENT then -- logic needs to be improved
+			    if icon.data.Icon == ICON_TYPE_LOOT then -- logic needs to be improved
 			      table.insert(headers, icon.data.tooltip[1]);
 			    end
 			    table.insert(contents, icon.data.tooltip[3]);
