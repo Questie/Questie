@@ -1,4 +1,21 @@
 -- Automatically generated on Tue May 21 03:55:09 EDT 2019
+qPlayerProfessions = {}
+function GetPlayerProfessions()
+    local profs = {}
+    for questId, data in pairs(Questie_RepProfData) do
+        if(data[2] ~= 0) then
+            profs[select(1, GetSpellInfo(data[2]))] = data[2];
+        end
+    end
+
+    for i=1, GetNumSkillLines() do
+        local skillName, isHeader, isExpanded, skillRank, numTempPoints, skillModifier, skillMaxRank, isAbandonable, stepCost, rankCost, minLevel, skillCostType, skillDescription = GetSkillLineInfo(GetSkillLineInfo(i))
+        if(profs[skillName]) then
+            qPlayerProfessions[profs[skillName]] = skillRank;
+        end
+    end
+end
+
 Questie_RepProfData = { -- [questId] = {requiredClass,requiredSkill,requiredSkillValue,requiredRepFaction,requiredRepValue}
 [30]={1024,0,0,0,0},
 [5061]={1024,0,0,0,0},
