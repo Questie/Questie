@@ -13,6 +13,7 @@
 - mob/item tooltips
 
 **What is not working/ported**
+- some quests may incorrectly show as available when they aren't, or not show when they are. Please report this if you see it
 - tracker
 - arrow
 - polygon objective display (instead of many points) and other display modes
