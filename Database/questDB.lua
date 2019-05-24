@@ -49,7 +49,9 @@ function _QuestieDBQuest:deleteClasses()
 end
 
 questRequirementFixes = {
-  [46] = {39}
+  [46] = {39},
+  [3903] = {18}, 
+  [33] = {783}
 }
 
 qHide = {
