@@ -48,6 +48,10 @@ function _QuestieDBQuest:deleteClasses()
     Questie:Debug(DEBUG_DEVELOP, "Other class quests deleted");
 end
 
+questRequirementFixes = {
+  [46] = {39}
+}
+
 qHide = {
   --Stray quests
   [3861] = true, --CLUCK!
