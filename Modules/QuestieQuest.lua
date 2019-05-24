@@ -610,7 +610,48 @@ function _QuestieQuest:DrawAvailableQuest(questObject)
     return false;
   end
   --TODO More logic here, currently only shows NPC quest givers.
-  if(questObject.Starts["NPC"] ~= nil)then
+  if questObject.Starts["GameObject"] ~= nil then
+    for index, ObjectID in ipairs(questObject.Starts["GameObject"]) do
+      obj = QuestieDB:GetObject(ObjectID)
+      if(obj ~= nil and obj.Spawns ~= nil) then
+        --Questie:Debug(DEBUG_DEVELOP,"Adding Quest:", questObject.Id, "StarterNPC:", NPC.Id)
+        for Zone, Spawns in pairs(obj.Spawns) do
+          if(Zone ~= nil and Spawns ~= nil) then
+            --Questie:Debug("Zone", Zone)
+            --Questie:Debug("Qid:", questid)
+            for _, coords in ipairs(Spawns) do
+              --Questie:Debug("Coords", coords[1], coords[2])
+              local data = {}
+              data.Id = questObject.Id;
+              data.Icon = ICON_TYPE_AVAILABLE;
+              data.QuestData = questObject;
+              data.QuestData.NPCName = obj.Name
+			  data.IsObjectiveNote = false
+              --data.updateTooltip = function(data)
+              --    return {QuestieTooltips:PrintDifficultyColor(data.QuestData.Level, "[" .. data.QuestData.Level .. "] " .. data.QuestData.Name), "|cFFFFFFFFStarted by: |r|cFF22FF22" .. data.QuestData.NPCName, "QuestId:"..data.QuestData.Id}
+              --end
+              function data:getTooltip()
+                  return {QuestieTooltips:PrintDifficultyColor(data.QuestData.Level, "[" .. data.QuestData.Level .. "] " .. data.QuestData.Name), "|cFFFFFFFFStarted by: |r|cFF22FF22" .. data.QuestData.NPCName, "QuestId:"..data.QuestData.Id}
+              end
+              data.tooltip = data:getTooltip()
+              if(coords[1] == -1 or coords[2] == -1) then
+                if(instanceData[Zone] ~= nil) then
+                  for index, value in ipairs(instanceData[Zone]) do
+                    --Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[value[1]])
+                    QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
+                  end
+                end
+              else
+                --Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[Zone])
+                --HBDPins:AddWorldMapIconMap(Questie, Note, zoneDataAreaIDToUiMapID[Zone], coords[1]/100, coords[2]/100, HBD_PINS_WORLDMAP_SHOW_WORLD)
+                QuestieMap:DrawWorldIcon(data, Zone, coords[1], coords[2])
+              end
+            end
+          end
+        end
+      end
+    end
+  elseif(questObject.Starts["NPC"] ~= nil)then
     for index, NPCID in ipairs(questObject.Starts["NPC"]) do
       NPC = QuestieDB:GetNPC(NPCID)
       if(NPC ~= nil and NPC.Spawns ~= nil) then
