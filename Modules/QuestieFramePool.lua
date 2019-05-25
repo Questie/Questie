@@ -91,6 +91,10 @@ function _QuestieFramePool:QuestieCreateFrame()
 	  --We are reseting the frames, making sure that no data is wrong.
 	  HBDPins:RemoveMinimapIcon(Questie, self);
 	  HBDPins:RemoveWorldMapIcon(Questie, self);
+	  if(self.data and self.data.texture) then
+		  self.data.texture:SetVertexColor(1,1,1,1);
+	  end
+	  self:Hide();
 	  self.data = nil; -- Just to be safe
 	  self.loaded = nil;
 	  table.insert(unusedframes, self)
@@ -101,7 +105,7 @@ function _QuestieFramePool:QuestieCreateFrame()
 	return f
 end
 
-function _QuestieFramePool:euclid(x, y, i, e)
+function QuestieFramePool:euclid(x, y, i, e)
   local xd = math.abs(x-i);
   local yd = math.abs(y-e);
   return math.sqrt(xd*xd+yd*yd);
@@ -151,7 +155,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
 	 for index, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
 		local icon = _G[frameName];
 		if icon ~= nil and icon.data ~= nil and icon.data.x ~= nil and icon.data.AreaID == self.data.AreaID then
-		  local dist = _QuestieFramePool:euclid(icon.data.x, icon.data.y, self.data.x, self.data.y);
+		  local dist = QuestieFramePool:euclid(icon.data.x, icon.data.y, self.data.x, self.data.y);
 		  if dist < maxDistCluster and icon.data.tooltip ~= nil then
 			local key = table.concat(icon.data.tooltip);
 			if already[key] == nil then
@@ -203,7 +207,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
 	 for index, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
 	    local icon = _G[frameName];
 		if icon ~= nil and icon.data ~= nil and icon.data.x ~= nil and icon.data.AreaID == self.data.AreaID then
-		  local dist = _QuestieFramePool:euclid(icon.data.x, icon.data.y, self.data.x, self.data.y);
+		  local dist = QuestieFramePool:euclid(icon.data.x, icon.data.y, self.data.x, self.data.y);
 		  if dist < maxDistCluster and icon.data.tooltip ~= nil then
 			local key = table.concat(icon.data.tooltip);
 			if already[key] == nil then

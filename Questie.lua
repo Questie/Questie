@@ -130,6 +130,7 @@ local options = {
 					order = 11,
 					name = "Enable Questie Classic",
 					desc = "Enable or disable addon functionality.",
+					width = "full",
 					get =	function ()
 								return Questie.db.char.enabled
 							end,
@@ -143,9 +144,44 @@ local options = {
 					fontSize = "medium",
 					name = "Test text",
 				},
-				debug_options = {
+				--[[quest_options = {
 					type = "header",
 					order = 13,
+					name = "Quest Options",
+				},
+				autoaccept = {
+					type = "toggle",
+					order = 14,
+					name = "Auto Accept Quests",
+					desc = "Enable or disable Questie auto-accepting quests.",
+					width = 200,
+					width = "normal",
+					get =	function ()
+								return Questie.db.char.autoaccept
+							end,
+					set =	function (info, value)
+								Questie.db.char.autoaccept = value
+								Questie:debug(DEBUG_DEVELOP, "Auto Accept toggled to:", value)
+							end,
+				},
+				autocomplete = {
+					type = "toggle",
+					order = 14,
+					name = "Auto Complete",
+					desc = "Enable or disable Questie auto-complete quests.",
+					width = 200,
+					width = "normal",
+					get =	function ()
+								return Questie.db.char.autocomplete
+							end,
+					set =	function (info, value)
+								Questie.db.char.autocomplete = value
+								Questie:debug(DEBUG_DEVELOP, "Auto Complete toggled to:", value)
+							end,
+				},]]--
+				debug_options = {
+					type = "header",
+					order = 15,
 					name = "Note Options",
 				},
 				--[[message = {
@@ -228,6 +264,20 @@ local options = {
                         SetGlobalOptionLocal(info, value)
                         end,
                 },
+				fadeLevel = {
+				  type = "range",
+				  order = 18,
+				  name = "Fade objective distance",
+				  desc = "How much objective icons should fade depending on distance.",
+				  width = "double",
+				  min = 0.01,
+				  max = 5,
+				  step = 0.01,
+				  get = GetGlobalOptionLocal,
+				  set = function (info, value)
+						SetGlobalOptionLocal(info, value)
+						end,
+				},
 				arrow_options = {
 					type = "header",
 					order = 19,
@@ -292,12 +342,15 @@ local defaults = {
     minLevelFilter = 5, --Raised the default to allow more quests to be shown
     clusterLevel = 1,
     availableScale = 1,
-    objectiveScale = 0.7
+    objectiveScale = 0.7,
+	fadeLevel = 1.5
   },
 	char = {
 		complete = {},
 		enabled = true,
-        lowlevel = false
+        lowlevel = false,
+		autoaccept = false,
+		autocomplete = false
 	}
 }
 
@@ -312,6 +365,19 @@ function Questie:OnInitialize()
 	Questie:RegisterEvent("QUEST_TURNED_IN", QUEST_TURNED_IN)
 	Questie:RegisterEvent("QUEST_REMOVED", QUEST_REMOVED)
     Questie:RegisterEvent("PLAYER_LEVEL_UP", PLAYER_LEVEL_UP);
+
+    --When the quest is presented!
+    Questie:RegisterEvent("QUEST_DETAIL", QuestieAuto_QUEST_DETAIL)
+    --???
+    Questie:RegisterEvent("QUEST_PROGRESS", QuestieAuto_QUEST_PROGRESS)
+    --Gossip??
+    Questie:RegisterEvent("GOSSIP_SHOW", QuestieAuto_GOSSIP_SHOW)
+    --The window when multiple quest from a NPC
+    Questie:RegisterEvent("QUEST_GREETING", QuestieAuto_QUEST_GREETING)
+    --If an escort quest is taken by people close by
+    Questie:RegisterEvent("QUEST_ACCEPT_CONFIRM", QuestieAuto_QUEST_ACCEPT_CONFIRM)
+    --When complete window shows
+    Questie:RegisterEvent("QUEST_COMPLETE", QuestieAuto_QUEST_COMPLETE)
 
 	--TODO: QUEST_QUERY_COMPLETE Will get all quests the character has finished, need to be implemented!
 
