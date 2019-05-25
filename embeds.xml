@@ -14,4 +14,26 @@
 
   <Script file="Libs\LibDataBroker-1.1\LibDataBroker-1.1.lua"/>
   <Script file="Libs\LibCompress\LibCompress.lua"/>
+  
+  
+  <Button name="Questie_Toggle" parent="WorldMapFrame" inherits="UIPanelButtonTemplate" text="Hide Questie">
+	<Size>
+		<AbsDimension x="120" y="20"/>
+	</Size>
+	<Anchors>
+		<Anchor point="RIGHT" relativePoint="LEFT" relativeTo="WorldMapContinentDropDown">
+			<Offset>
+				<AbsDimension x="10" y="2"/>
+			</Offset>
+		</Anchor>
+	</Anchors>
+	<Scripts>
+		<OnLoad>
+			self:SetFrameLevel(10);
+		</OnLoad>
+		<OnClick>
+			QuestieQuest:ToggleNotes();
+		</OnClick>
+	</Scripts>
+  </Button>
 </Ui>

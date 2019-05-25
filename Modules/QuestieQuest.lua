@@ -11,6 +11,48 @@ function QuestieQuest:Initialize()
   GetQuestsCompleted(Questie.db.char.complete)
 end
 
+QuestieQuest.NotesHidden = false
+
+function QuestieQuest:ToggleNotes()
+  if QuestieQuest.NotesHidden then
+    Questie_Toggle:SetText("Hide Questie");
+    for questId, framelist in pairs(qQuestIdFrames) do
+	  for index, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
+		local icon = _G[frameName];
+		if icon ~= nil and icon.hidden then
+		  icon.hidden = false
+		  icon.Show = icon._show;
+		  icon.Hide = icon._hide;
+		  if icon.shouldBeShowing then
+		    icon:Show();
+		  end
+		end
+	  end
+	end
+  else
+    Questie_Toggle:SetText("Show Questie");
+    for questId, framelist in pairs(qQuestIdFrames) do
+	  for index, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
+		local icon = _G[frameName];
+		if icon ~= nil and icon.IsShown ~= nil and (not icon.hidden) then -- check for function to make sure its a frame 
+		  icon.shouldBeShowing = icon:IsShown();
+		  icon._show = icon.Show;
+		  icon.Show = function()
+		    icon.shouldBeShowing = true;
+		  end
+		  icon:Hide();
+		  icon._hide = icon.Hide;
+		  icon.Hide = function()
+			icon.shouldBeShowing = false;
+		  end
+		  icon.hidden = true
+		end
+	  end
+	end
+  end
+  QuestieQuest.NotesHidden = not QuestieQuest.NotesHidden
+end
+
 function QuestieQuest:GetRawLeaderBoardDetails(QuestLogIndex)
     local quest = {}
     _, _, _, _, _, _, _, questId, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(QuestLogIndex)
