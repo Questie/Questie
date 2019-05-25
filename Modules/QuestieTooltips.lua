@@ -70,6 +70,9 @@ function QuestieTooltips:RemoveTooltip(key)
 end
 
 function QuestieTooltips:GetTooltip(key)
+    if QuestieTooltips.tooltipLookup[key] == nil then
+	  return nil
+	end
     return QuestieTooltips.tooltipLookup[key][2];
 end
 

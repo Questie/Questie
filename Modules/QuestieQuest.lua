@@ -233,7 +233,10 @@ function QuestieQuest:UpdateObjectiveNotes(Quest)
 	  for k,v in pairs(Quest.Objectives) do
 	    if v.TooltipRefs ~= nil then
 		  for k2,v2 in pairs(v.TooltipRefs) do
-		    QuestieTooltips:GetTooltip(v2)[1] = "|cFF22FF22" .. v.Description .. " " .. (v.Collected) .. "/" .. v.Needed;
+		    local tt = QuestieTooltips:GetTooltip(v2);
+			if tt ~= nil then
+		      tt[1] = "|cFF22FF22" .. v.Description .. " " .. (v.Collected) .. "/" .. v.Needed;
+			end
 		  end
 		end
 	    if v.NoteRefs ~= nil then -- update tooltip value
