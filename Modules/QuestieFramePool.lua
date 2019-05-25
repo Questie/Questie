@@ -21,6 +21,7 @@ function QuestieFramePool:GetFrame()
   	f = _QuestieFramePool:QuestieCreateFrame()
 	end
 	f.loaded = true;
+	f.shouldBeShowing = false;
 	return f
 end
 
@@ -265,7 +266,31 @@ function _QuestieFramePool:Questie_Tooltip(self)
 
   Tooltip:SetFrameStrata("TOOLTIP");
   QuestieTooltips.lastTooltipTime = GetTime() -- hack for object tooltips
+
+  
+  
+  --if GameTooltipTextLeft1 ~= nil and GameTooltipTextLeft1.SetScale ~= nil then
+    --GameTooltipTextLeft1:SetScale(0.89)
+  --end
+  --if GameTooltipTextRight1 ~= nil and GameTooltipTextRight1.SetScale ~= nil then
+    --GameTooltipTextRight1:SetScale(0.89)
+  --end
   Tooltip:Show();
+  -- this might be bad? Without it, the line never resets to its proper size
+  --if Tooltip._hide == nil then
+	--  Tooltip._hide = Hide
+	--  Tooltip.Hide = function()
+	--	if GameTooltipTextLeft1 ~= nil and GameTooltipTextLeft1.SetScale ~= nil then
+	--	  GameTooltipTextLeft1:SetScale(1)
+	--	end
+	--	if GameTooltipTextRight1 ~= nil and GameTooltipTextRight1.SetScale ~= nil then
+	--	  GameTooltipTextRight1:SetScale(1)
+	--	end
+	--	Tooltip.Hide = Tooltip._hide;
+	--	Tooltip._hide = nil;
+	--	Tooltip:Hide();
+	--  end
+  --end
 end
 
 function _QuestieFramePool:Questie_Click(self)
