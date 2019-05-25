@@ -66,7 +66,8 @@ end
 questRequirementFixes = {
   [46] = {39},
   [3903] = {18}, 
-  [33] = {783}
+  [33] = {783},
+  [374] = {427} -- proof of demise requires at war with the scarlet crusade
 }
 
 qHide = {
