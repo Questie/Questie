@@ -218,9 +218,9 @@ function _QuestieFramePool:Questie_Tooltip(self)
 			  if icon.data.IsObjectiveNote and alreadyUnique[icon.data.Id][icon.data.ObjectiveIndex] == nil then
 				
 			    alreadyUnique[icon.data.Id][icon.data.ObjectiveIndex] = true
-			    if icon.data.Icon == ICON_TYPE_LOOT then -- logic needs to be improved
-			      table.insert(headers, icon.data.tooltip[1]);
-			    end
+			    --if icon.data.Icon == ICON_TYPE_LOOT then -- logic needs to be improved
+			    --  table.insert(headers, icon.data.tooltip[1]);
+			    --end
 			    table.insert(contents, icon.data.tooltip[3]);
 			    table.insert(contents, icon.data.tooltip[2]);
 			  end
