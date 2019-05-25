@@ -73,6 +73,12 @@ function QUEST_ACCEPTED(Event, QuestLogIndex, QuestId)
     Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_ACCEPTED", "QLogIndex: "..QuestLogIndex,  "QuestID: "..QuestId);
     QuestieQuest:AcceptQuest(QuestId) -- is it safe to pass params to virtual functions like this?
   end)
+  
+  -- this needs to use a repeating timer maybe? Often times when quest is accepted, it has the same trouble as the other events
+  C_Timer.After(5, function()
+    QuestieQuest:UpdateQuest(QuestId);
+  end)
+  
 end
 
 --Fires when a quest is removed from the questlog, this includes turning it in!
