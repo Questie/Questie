@@ -562,8 +562,34 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
 			  end
 			end
 		  end
-		elseif v.Type == "event" and v.Coordinates ~= nil then
-			for Zone, Spawns in pairs(v.Coordinates) do
+		elseif v.Type == "event" then
+		    if v.Coordinates == nil and v.Description ~= nil then
+			  local questie2data = TEMP_Questie2Events[v.Description];
+			  if questie2data ~= nil and questie2data["locations"] ~= nil then
+			  local data = {}
+				table.insert(v.NoteRefs, data);
+				data.Id = Quest.Id;
+				data.Icon = ICON_TYPE_EVENT;
+				data.IconScale = 1;
+				data.QuestData = Quest;
+				data.ObjectiveTargetId = v.Id
+				data.ObjectiveIndex = k
+				data.IsObjectiveNote = true
+				data.tooltip = {v.Description, "|cFF22FF22   " .. v.Description, QuestieTooltips:PrintDifficultyColor(Quest.Level, "[" .. Quest.Level .. "] " .. Quest.Name)}
+			    for i, spawn in pairs(questie2data["locations"]) do
+				  if spawn ~= nil and spawn[1] ~= nil then
+				   local zid = Questie2ZoneTableInverse[spawn[1]];
+				   if zid ~= nil then
+				     zid = zoneDataUiMapIDToAreaID[zid];
+				     local x = spawn[2]*100;
+				     local y = spawn[3]*100;
+				     QuestieMap:DrawWorldIcon(data, zid, x, y)
+				   end
+				  end
+				end
+			  end
+			else
+			 for Zone, Spawns in pairs(v.Coordinates) do
 			  if(Zone ~= nil and Spawns ~= nil) then
 				--Questie:Debug("Zone", Zone)
 				--Questie:Debug("Qid:", questid)
@@ -600,7 +626,8 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
 					QuestieMap:DrawWorldIcon(data, Zone, coords[1], coords[2])
 				  end
 				end
-			  end
+			   end
+			 end
 			end
 		end
 	end

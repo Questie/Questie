@@ -272,6 +272,92 @@ zoneDataClassicDemo = {--AreaName, Continent, AreaID, mapID (Yes it is actually 
 	{"ArathiBasin", 529,3358,461}
 }
 
+Questie2ZoneTable = {
+    ["WorldMap"] = {1337, 1337, 0, 08}, --
+    ["Azeroth"] = {-1, -1, -1, 2, 0}, --
+    ["Kalimdor"] = {-1, -1, -1, 1, 0}, --
+    ["The Hinterlands"] = {42, 2, 24, 2, 20}, -- -- I found the code questhelper used, didnt do enough searching D:
+    ["Moonglade"] = {20, 1, 12, 1, 10}, --
+    ["Thousand Needles"] = {14, 1, 21, 1, 18}, --
+    ["Winterspring"] = {19, 1, 24, 1, 21}, --
+    ["Bloodmyst Isle"] = {9, 1, 4, -1, -1},--
+    ["Terokkar Forest"] = {55, 3, 7, -1, -1},--
+    ["Arathi Highlands"] = {39, 2, 2, 2, 2},--
+    ["Eversong Woods"] = {41, 2, 11, -1, -1}, --
+    ["Dustwallow Marsh"] = {10, 1, 9, 1, 7},--
+    ["Badlands"] = {27, 2, 3, 2, 3}, --
+    ["Darkshore"] = {16, 1, 5, 1, 3},--
+    ["Orgrimmar"] = {1, 1, 14, 1, 12},--
+    ["Blades Edge Mountains"] = {54, 3, 1, -1, -1},
+    ["Undercity"] = {45, 2, 26, 2, 22},
+    ["Desolace"] = {4, 1, 7, 1, 5},
+    ["Netherstorm"] = {59, 3, 4, -1, -1},
+    ["Barrens"] = {11, 1, 19, 1, 17},
+    ["Tanaris"] = {8, 1, 17, 1, 15},
+    ["Stormwind"] = {36, 2, 21, 2, 17},--
+    ["Zangarmarsh"] = {57, 3, 8, -1, -1},
+    ["Durotar"] = {7, 1, 8, 1, 6},--
+    ["Hellfire"] = {56, 3, 2, -1, -1},
+    ["Silithus"] = {5, 1, 15, 1, 13},
+    ["Shattrath City"] = {60, 3, 6, -1, -1},
+    ["Shadowmoon Valley"] = {53, 3, 5, -1, -1},
+    ["Swamp of Sorrows"] = {46, 2, 23, 2, 19},
+    ["Silvermoon City"] = {52, 2, 19, -1, -1},
+    ["Darnassus"] = {21, 1, 6, 1, 4},
+    ["Azuremyst Isle"] = {3, 1, 3, -1, -1},
+    ["Elwynn Forest"] = {37, 2, 10, 2, 10},--
+    ["Stranglethorn Vale"] = {38, 2, 22, 2, 18},
+    ["Eastern Plaguelands"] = {34, 2, 9, 2, 9},
+    ["Duskwood"] = {31, 2, 8, 2, 8},
+    ["Western Plaguelands"] = {50, 2, 27, 2, 23},
+    ["Westfall"] = {49, 2, 28, 2, 24},
+    ["Ashenvale"] = {2, 1, 1, 1, 1},
+    ["Teldrassil"] = {24, 1, 18, 1, 16},
+    ["Redridge Mountains"] = {30, 2, 17, 2, 14},
+    ["Un\'Goro Crater"] = {18, 1, 23, 1, 20},
+    ["Mulgore"] = {22, 1, 13, 1, 11},
+    ["Ironforge"] = {25, 2, 14, 2, 12},
+    ["Felwood"] = {13, 1, 10, 1, 8},
+    ["Hillsbrad Foothills"] = {48, 2, 13, 2, 11},
+    ["Deadwind Pass"] = {47, 2, 6, 2, 6},
+    ["Burning Steppes"] = {40, 2, 5, 2, 5},
+    ["Ghostlands"] = {44, 2, 12, -1, -1},
+    ["Tirisfal Glades"] = {43, 2, 25, 2, 21},
+    ["The Exodar"] = {12, 1, 20, -1, -1},
+    ["Wetlands"] = {51, 2, 29, 2, 25},
+    ["Searing Gorge"] = {32, 2, 18, 2, 15},
+    ["Blasted Lands"] = {33, 2, 4, 2, 4},
+    ["Silverpine Forest"] = {35, 2, 20, 2, 16},
+    ["Loch Modan"] = {29, 2, 16, 2, 13},
+    ["Feralas"] = {17, 1, 11, 1, 9},
+    ["Dun Morogh"] = {28, 2, 7, 2, 7},
+    ["Alterac Mountains"] = {26, 2, 1, 2, 1},
+    ["Thunder Bluff"] = {23, 1, 22, 1, 19},
+    ["Aszhara"] = {15, 1, 2, 1, 2},
+    ["Stonetalon Mountains"] = {6, 1, 16, 1, 14},
+    ["Nagrand"] = {58, 3, 3, -1, -1},
+    ["Kalimdor"] = {61, 1, 0, 1, 0},
+    ["Azeroth"] = {62, 2, 0, 2, 0},
+    ["Expansion01"] = {63, 3, 0, -1, -1},
+    ["Sunwell"] = {64, 2, 15, -1, -1} -- code copied from questhelper (this is actually the only code that was directly copied, the database was put through JavaRefactorProject
+}
+
+Questie2ZoneTableInverse = {};
+
+for k,v in pairs(Questie2ZoneTable) do
+  
+  if zoneLookupHack[k] then
+    Questie2ZoneTableInverse[v[1]] = zoneLookupHack[k];
+  else
+    Questie2ZoneTableInverse[v[1]] = k;
+  end
+  Questie2ZoneTableInverse[v[1]] = zoneDataClassicBetaHack[Questie2ZoneTableInverse[v[1]]]
+  if Questie2ZoneTableInverse[v[1]] == nil then
+    -- probably a tbc zone
+  else 
+    Questie2ZoneTableInverse[v[1]] = Questie2ZoneTableInverse[v[1]][1];
+  end
+end
 
 zoneLevelList = {{1, 1, 10},
                  {3, 35, 45},
