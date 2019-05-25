@@ -19,32 +19,47 @@ function _QuestieDBQuest:deleteFaction()
     end
     Questie:Debug(DEBUG_DEVELOP, "Opposite factions quests deleted");
 end
-
+ClassBitIndexTable = {
+    ['warrior'] = 1,
+    ['paladin'] = 2,
+    ['hunter'] = 3,
+    ['rogue'] = 4,
+    ['priest'] = 5,
+    ['shaman'] = 7,
+    ['mage'] = 8,
+    ['warlock'] = 9,
+    ['druid'] = 11
+};
+function unpackBinary(val)
+    ret = {};
+    for q=0,16 do
+        if bit.band(bit.rshift(val,q), 1) == 1 then
+            table.insert(ret, true);
+        else
+            table.insert(ret, false);
+        end
+    end
+    return ret;
+end
+function checkRequirements(class, dbClass)
+    local valid = true;
+    if class and dbClass and valid and not (dbRace == 0)then
+        local classmap = unpackBinary(dbClass);
+        valid = classmap[ClassBitIndexTable[strlower(class)]];
+    end
+    return valid;
+end
 function _QuestieDBQuest:deleteClasses()
     localizedClass, englishClass, classIndex = UnitClass("player");
-    local classes = {"Warrior", "Paladin", "Hunter", "Rogue", "Priest", "Death Knight", "Shaman", "Mage", "Warlock", "Druid"};
-    local playerClass = false;
-    for key, name in pairs(classes) do
-        if string.upper(name) == englishClass then
-            Questie:Debug(DEBUG_DEVELOP, "Identified class as : ", name, "/", englishClass);
-            playerClass = key - 1;
-        end
+	local playerClass = string.lower(englishClass);
+    for key, data in pairs(qData) do
+      if Questie_RepProfData[key] then
+		if not checkRequirements(playerClass, Questie_RepProfData[key][1]) then
+		  qData[key] = nil
+	    end
+	  end
     end
-    if playerClass then
-        for key, data in pairs(qData) do
-            if data[DB_REQ_CLASS] then
-                local found = false;
-                for k, class in pairs(data[DB_REQ_CLASS]) do
-                    if class == playerClass then
-                        found = true;
-                    end
-                end
-                if not found then
-                    qData[key] = nil;
-                end
-            end
-        end
-    end
+    
     Questie:Debug(DEBUG_DEVELOP, "Other class quests deleted");
 end
 

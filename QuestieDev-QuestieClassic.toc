@@ -22,6 +22,7 @@ Database\objectDB.lua
 Database\spawnDB.lua
 Database\zoneDB.lua
 Database\TEMP_questie4items.lua
+Database\TEMP_repprof.lua
 Database\functionsDB.lua
 
 #Modules
