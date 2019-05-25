@@ -850,6 +850,9 @@ end
 
 function _QuestieQuest:IsDoable(questObject) -- we need to add profession/reputation checks here
   local allFinished=true
+  if questObject == nil then 
+    return false;
+  end
   --Run though the requiredQuests
   if questObject.ExclusiveQuestGroup then -- fix (DO NOT REVERT, tested thoroughly)
     for k,v in pairs(questObject.ExclusiveQuestGroup) do
