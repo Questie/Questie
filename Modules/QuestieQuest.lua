@@ -23,7 +23,21 @@ function QuestieQuest:GetRawLeaderBoardDetails(QuestLogIndex)
         quest.Objectives[BoardIndex].description = description;
         quest.Objectives[BoardIndex].objectiveType = objectiveType;
         quest.Objectives[BoardIndex].isCompleted = isCompleted;
-        quest.compareString = string.format("%s%s%s%s", quest.compareString, description, objectiveType, isCompleted);
+	quest.compareString = quest.compareString
+	if quest.compareString and description then
+		  quest.compareString = quest.compareString .. description
+		end
+		if quest.compareString and objectiveType then
+		  quest.compareString = quest.compareString .. objectiveType
+		end
+		if quest.compareString then
+			if isCompleted then
+				quest.compareString = quest.compareString .."true";
+			else
+				quest.compareString = quest.compareString .."false";
+			end
+		end
+        --quest.compareString = string.format("%s%s%s%s", quest.compareString, description, objectiveType, isCompleted);
     end
     quest.Id = questId
     return quest;
