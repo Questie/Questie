@@ -136,9 +136,16 @@ end
 function QuestieQuest:AcceptQuest(questId)
   --Get all the Frames for the quest and unload them, the available quest icon for example.
   QuestieMap:UnloadQuestFrames(questId);
-
+  
   Quest = QuestieDB:GetQuest(questId)
   if(Quest ~= nil) then
+    -- we also need to remove exclusivegroup icons (TESTED)
+	if Quest.ExclusiveQuestGroup then
+	  for k,v in pairs(Quest.ExclusiveQuestGroup) do
+	    QuestieMap:UnloadQuestFrames(v);
+	  end
+	end
+  
     QuestieQuest:PopulateQuestLogInfo(Quest)
 	QuestieQuest:PopulateObjectiveNotes(Quest)
     qCurrentQuestlog[questId] = Quest
@@ -688,11 +695,26 @@ function _QuestieQuest:GetLeaderBoardDetails(BoardIndex,QuestId)
 end
 
 --Draw a single available quest, it is used by the DrawAllAvailableQuests function.
-function _QuestieQuest:DrawAvailableQuest(questObject)
+function _QuestieQuest:DrawAvailableQuest(questObject) -- prevent recursion
+  return _QuestieQuest:DrawAvailableQuest(questObject, false)
+end
+function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
   --If the object is nil we just return
   if(questObject == nil) then
     return false;
   end
+  
+  -- where applicable, make the exclusivegroup quests available again (TESTED)
+  if Quest.ExclusiveQuestGroup and (not noChildren) then
+	for k,v in pairs(Quest.ExclusiveQuestGroup) do
+	  local quest = QuestieDB:GetQuest(v)
+	  if _QuestieQuest:IsDoable(quest) then
+	    _QuestieQuest:DrawAvailableQuest(quest, true);
+	  end
+	end
+  end
+  
+  
   --TODO More logic here, currently only shows NPC quest givers.
   if questObject.Starts["GameObject"] ~= nil then
     for index, ObjectID in ipairs(questObject.Starts["GameObject"]) do
@@ -802,6 +824,13 @@ end
 function _QuestieQuest:IsDoable(questObject) -- we need to add profession/reputation checks here
   local allFinished=true
   --Run though the requiredQuests
+  if questObject.ExclusiveQuestGroup then -- fix (DO NOT REVERT, tested thoroughly)
+    for k,v in pairs(questObject.ExclusiveQuestGroup) do
+	  if Questie.db.char.complete[v] or qCurrentQuestlog[v] ~= nil then
+	    return false
+	  end
+	end
+  end
   if questObject.RequiredQuest == nil or questObject.RequiredQuest == 0 then
     return true
   end
