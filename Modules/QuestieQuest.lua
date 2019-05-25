@@ -364,7 +364,7 @@ function QuestieQuest:AddFinisher(Quest)
           --end
           --data.tooltip = data.updateTooltip(data)
           function data:getTooltip()
-              return {QuestieTooltips:PrintDifficultyColor(self.QuestData.Level, "[" .. self.QuestData.Level .. "] " .. self.QuestData.Name), "|cFFFFFFFFQuest complete!", "Finished by: |cFF00FF00" .. self.QuestData.NPCName}
+              return {QuestieTooltips:PrintDifficultyColor(self.QuestData.Level, "[" .. self.QuestData.Level .. "] " .. self.QuestData.Name), "|cFF00FF00" .. self.QuestData.NPCName, "|cFFFFFFFFQuest complete!"}
           end
           data.tooltip = data:getTooltip()
 
@@ -715,7 +715,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject)
               --    return {QuestieTooltips:PrintDifficultyColor(data.QuestData.Level, "[" .. data.QuestData.Level .. "] " .. data.QuestData.Name), "|cFFFFFFFFStarted by: |r|cFF22FF22" .. data.QuestData.NPCName, "QuestId:"..data.QuestData.Id}
               --end
               function data:getTooltip()
-                  return {QuestieTooltips:PrintDifficultyColor(data.QuestData.Level, "[" .. data.QuestData.Level .. "] " .. data.QuestData.Name), "|cFFFFFFFFStarted by: |r|cFF22FF22" .. data.QuestData.NPCName, "QuestId:"..data.QuestData.Id}
+                  return {QuestieTooltips:PrintDifficultyColor(data.QuestData.Level, "[" .. data.QuestData.Level .. "] " .. data.QuestData.Name), "|cFF00FF00" .. data.QuestData.NPCName, "QuestId: "..data.QuestData.Id}
               end
               data.tooltip = data:getTooltip()
               if(coords[1] == -1 or coords[2] == -1) then
@@ -756,7 +756,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject)
               --    return {QuestieTooltips:PrintDifficultyColor(data.QuestData.Level, "[" .. data.QuestData.Level .. "] " .. data.QuestData.Name), "|cFFFFFFFFStarted by: |r|cFF22FF22" .. data.QuestData.NPCName, "QuestId:"..data.QuestData.Id}
               --end
               function data:getTooltip()
-                  return {QuestieTooltips:PrintDifficultyColor(data.QuestData.Level, "[" .. data.QuestData.Level .. "] " .. data.QuestData.Name), "|cFFFFFFFFStarted by: |r|cFF22FF22" .. data.QuestData.NPCName, "QuestId:"..data.QuestData.Id}
+                  return {QuestieTooltips:PrintDifficultyColor(data.QuestData.Level, "[" .. data.QuestData.Level .. "] " .. data.QuestData.Name), "|cFF00FF00" .. data.QuestData.NPCName, "QuestId: "..data.QuestData.Id}
               end
               data.tooltip = data:getTooltip()
               if(coords[1] == -1 or coords[2] == -1) then

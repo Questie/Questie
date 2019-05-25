@@ -137,6 +137,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
   --end
 
   --iterate and add non-objective notes
+    local npcOrder = {};
 	for questId, framelist in pairs(qQuestIdFrames) do
 	 for index, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
 		local icon = _G[frameName];
@@ -155,14 +156,34 @@ function _QuestieFramePool:Questie_Tooltip(self)
 			  if (not icon.data.IsObjectiveNote) and alreadyUnique[icon.data.Id][icon.data.ObjectiveIndex] == nil then
 				alreadyUnique[icon.data.Id][icon.data.ObjectiveIndex] = true
 				already[key] = true
-				for k,v in pairs(icon.data.tooltip) do
-				  Tooltip:AddLine(v);
+				if icon.data.tooltip ~= nil and icon.data.tooltip[2] ~= nil then
+				  if npcOrder[icon.data.tooltip[2]] == nil then
+				    npcOrder[icon.data.tooltip[2]] = {};
+				  end
+				  local dat = {};
+				  dat.title = icon.data.tooltip[1];
+				  if icon.data.Icon == ICON_TYPE_COMPLETE then
+				    dat.type = "(Complete)";
+				  else
+				    dat.type = "(Available)";
+				  end
+				  table.insert(npcOrder[icon.data.tooltip[2]], dat);
 				end
+				--for k,v in pairs(icon.data.tooltip) do
+				--  Tooltip:AddLine(v);
+				--end
 			  end
 			end
 		  end
 		end
 	  end
+	end
+	
+	for k,v in pairs(npcOrder) do -- this logic really needs to be improved
+	  for k2,v2 in pairs(v) do
+	    Tooltip:AddDoubleLine(v2.title, v2.type);
+	  end
+	  Tooltip:AddLine("    " .. k);
 	end
   
     -- iterate frames and add nearby to the tooltip also. TODO: Add all nearby to a table and sort by type
