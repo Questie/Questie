@@ -27,23 +27,32 @@ function PLAYER_ENTERING_WORLD()
 	QuestieQuest:DrawAllAvailableQuests()
 	
 
-    C_Timer.After(5, function ()
+	C_Timer.After(2, function ()
 	  Questie:Debug(DEBUG_ELEVATED, "Player entered world")
       QuestieQuest:GetAllQuestIds()
-
+	end)
+	
+    C_Timer.After(5, function ()
+	  Questie:Debug(DEBUG_ELEVATED, "Player entered world (deferred update)")
+      QuestieQuest:GetAllQuestIds()
+	end)
+	
+	C_Timer.After(10, function () -- until we fix entering world, deferred 2nd update
+	  Questie:Debug(DEBUG_ELEVATED, "Player entered world (deferred update 2)")
+      QuestieQuest:GetAllQuestIds()
 	end)
 
 	-- periodically update the objectives of quests, temporary hold-over until we can properly fix the event based logic
-	Questie:ScheduleRepeatingTimer(function()
-	    if GetNumQuestLogEntries()+1 == __UPDATEFIX_IDX then
-		  __UPDATEFIX_IDX = 1
-		end
-        title, level, _, isHeader, _, isComplete, _, _questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(__UPDATEFIX_IDX)
-        if (not isHeader) and _questId ~= nil and _questId > 0 then
-		  QuestieQuest:UpdateQuest(_questId);
-		end
-		__UPDATEFIX_IDX = __UPDATEFIX_IDX + 1
-    end, 2)
+	--Questie:ScheduleRepeatingTimer(function()
+	--    if GetNumQuestLogEntries()+1 == __UPDATEFIX_IDX then
+	--	  __UPDATEFIX_IDX = 1
+	--	end
+    --    title, level, _, isHeader, _, isComplete, _, _questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(__UPDATEFIX_IDX)
+    --    if (not isHeader) and _questId ~= nil and _questId > 0 then
+	--	  QuestieQuest:UpdateQuest(_questId);
+	--	end
+	--	__UPDATEFIX_IDX = __UPDATEFIX_IDX + 1
+    --end, 2)
 
 
 	--local Note = QuestieFramePool:GetFrame();

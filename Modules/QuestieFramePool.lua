@@ -181,10 +181,13 @@ function _QuestieFramePool:Questie_Tooltip(self)
 	end
 	
 	for k,v in pairs(npcOrder) do -- this logic really needs to be improved
+	  Tooltip:AddLine(k);
 	  for k2,v2 in pairs(v) do
-	    Tooltip:AddDoubleLine(v2.title, v2.type);
+	    if v2.title ~= nil then 
+	      Tooltip:AddDoubleLine("   " .. v2.title, v2.type);
+		end
 	  end
-	  Tooltip:AddLine("    " .. k);
+	  
 	end
   
     -- iterate frames and add nearby to the tooltip also. TODO: Add all nearby to a table and sort by type
