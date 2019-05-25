@@ -679,7 +679,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
 	  for k,v in pairs(Quest.ObjectiveData) do
 	    if objectiveType == v.Type  then
 	      -- TODO: use string distance to find closest, dont rely on exact match
-		  if v.Name == nil or string.lower(objectiveDesc) == string.lower(v.Name) then
+		  if v.Name == nil or objectiveDesc == nil or string.lower(objectiveDesc) == string.lower(v.Name) then
 		    Quest.Objectives[i].Id = v.Id
 			Quest.Objectives[i].Coordinates = v.Coordinates
 		  end
@@ -849,10 +849,10 @@ end
 
 
 function _QuestieQuest:IsDoable(questObject) -- we need to add profession/reputation checks here
-  local allFinished=true
-  if questObject == nil then 
+  if not questObject then
     return false;
   end
+  local allFinished=true
   --Run though the requiredQuests
   if questObject.ExclusiveQuestGroup then -- fix (DO NOT REVERT, tested thoroughly)
     for k,v in pairs(questObject.ExclusiveQuestGroup) do
