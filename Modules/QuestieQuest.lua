@@ -34,7 +34,7 @@ function QuestieQuest:ToggleNotes()
     for questId, framelist in pairs(qQuestIdFrames) do
 	  for index, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
 		local icon = _G[frameName];
-		if icon ~= nil and icon.IsShown ~= nil and (not icon.hidden) then -- check for function to make sure its a frame 
+		if icon ~= nil and icon.IsShown ~= nil and (not icon.hidden) then -- check for function to make sure its a frame
 		  icon.shouldBeShowing = icon:IsShown();
 		  icon._show = icon.Show;
 		  icon.Show = function()
@@ -136,7 +136,7 @@ end
 function QuestieQuest:AcceptQuest(questId)
   --Get all the Frames for the quest and unload them, the available quest icon for example.
   QuestieMap:UnloadQuestFrames(questId);
-  
+
   Quest = QuestieDB:GetQuest(questId)
   if(Quest ~= nil) then
     -- we also need to remove exclusivegroup icons (TESTED)
@@ -145,7 +145,7 @@ function QuestieQuest:AcceptQuest(questId)
 	    QuestieMap:UnloadQuestFrames(v);
 	  end
 	end
-  
+
     QuestieQuest:PopulateQuestLogInfo(Quest)
 	QuestieQuest:PopulateObjectiveNotes(Quest)
     qCurrentQuestlog[questId] = Quest
@@ -282,19 +282,31 @@ function QuestieQuest:UpdateObjectiveNotes(Quest)
 	  for k,v in pairs(Quest.Objectives) do
 	    if v.TooltipRefs ~= nil then
 		  for k2,v2 in pairs(v.TooltipRefs) do
-		    local tt = QuestieTooltips:GetTooltip(v2);
-			if tt ~= nil then
-		      tt[1] = "|cFF22FF22   " .. v.Description .. " " .. (v.Collected) .. "/" .. v.Needed;
-			end
+                if(v2.getTooltip and v2.tooltip) then
+                    v2.tooltip = v2:getTooltip();
+                else
+                    local tt = QuestieTooltips:GetTooltip(v2);
+                    if tt ~= nil then
+                      tt[1] = "|cFF22FF22   " .. v.Description .. " " .. (v.Collected) .. "/" .. v.Needed;
+                    end
+                end
 		  end
 		end
 	    if v.NoteRefs ~= nil then -- update tooltip value
 		  for k2,v2 in pairs(v.NoteRefs) do
 		                                                         -- the reason why we do +1 here is the classic beta api is bugged atm. it is *always* 1 behind right after an update
 		    if v.Needed ~= nil and v.Collected ~= nil then
-			   v2.tooltip[2] = "|cFF22FF22   " .. v.Description .. " " .. (v.Collected) .. "/" .. v.Needed;
+                if (v2.getTooltip) then
+                    v2.tooltip = v2:getTooltip();
+                else
+                    v2.tooltip[2] = "|cFF22FF22   " .. v.Description .. " " .. (v.Collected) .. "/" .. v.Needed;
+                end
 			elseif v.Description ~= nil then -- special objetive type, desc only
-			   v2.tooltip[2] = "|cFF22FF22   " .. v.Description;
+                if (v2.getTooltip) then
+                    v2.tooltip = v2:getTooltip();
+                else
+                    v2.tooltip[2] = "|cFF22FF22   " .. v.Description;
+                end
 			end
 			Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: UpdateObjectiveNotes: Updated tooltip:", v2.tooltip[2])
 			-- HACK: for some reason, notes arent being removed on complete, this is a temporary fix
@@ -444,8 +456,19 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
 						  data.ObjectiveTargetId = v2.Id
 						  data.ObjectiveIndex = k
 						  data.IsObjectiveNote = true
-						  data.tooltip = {NPC.Name, "|cFF22FF22   " .. v.Description .. " " .. v.Collected .. "/" .. v.Needed, QuestieTooltips:PrintDifficultyColor(Quest.Level, "[" .. Quest.Level .. "] " .. Quest.Name)}
-						  QuestieTooltips:RegisterTooltip(Quest.Id, "u_" .. NPC.Name, {data.tooltip[2], "|cFFFFFFFFNeeded for: |r" .. data.tooltip[3]});
+
+                          data.NPCName = NPC.Name;
+                          function data:getTooltip()
+                              if(self) then
+                                  local objectiveType, objectiveDesc, numItems, numNeeded, isCompleted = _QuestieQuest:GetLeaderBoardDetails(self.ObjectiveIndex, self.Id);
+                                  objectiveLine = "|cFF22FF22   " .. tostring(objectiveDesc) .. " " .. tostring(numItems) .. "/" .. tostring(numNeeded)
+                                  questLine = QuestieTooltips:PrintDifficultyColor(self.QuestData.Level, "[" .. self.QuestData.Level .. "] " .. self.QuestData.Name)
+                                  return {self.NPCName, objectiveLine, questLine}
+                              end
+                          end
+						  data.tooltip = data:getTooltip();
+						  QuestieTooltips:RegisterTooltip(Quest.Id, "u_" .. NPC.Name, data.getTooltip, data);
+
 							--Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn1", v.Id, item.Id, NPC.Name )
 						  if(coords[1] == -1 or coords[2] == -1)then
 							if(instanceData[Zone] ~= nil) then
@@ -489,8 +512,21 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
 						  data.ObjectiveTargetId = v2.Id
 						  data.ObjectiveIndex = k
 						  data.IsObjectiveNote = true
-						  data.tooltip = {obj.Name, "|cFF22FF22   " .. v.Description .. " " .. v.Collected .. "/" .. v.Needed, QuestieTooltips:PrintDifficultyColor(Quest.Level, "[" .. Quest.Level .. "] " .. Quest.Name)}
-                          QuestieTooltips:RegisterTooltip(Quest.Id, "o_" .. obj.Name, {data.tooltip[2], "|cFFFFFFFFNeeded for: |r" .. data.tooltip[3]});
+
+                          data.objName = obj.Name;
+                          function data:getTooltip()
+                              if(self) then
+                                  local objectiveType, objectiveDesc, numItems, numNeeded, isCompleted = _QuestieQuest:GetLeaderBoardDetails(self.ObjectiveIndex, self.Id);
+                                  objectiveLine = "|cFF22FF22   " .. tostring(objectiveDesc) .. " " .. tostring(numItems) .. "/" .. tostring(numNeeded)
+                                  questLine = QuestieTooltips:PrintDifficultyColor(self.QuestData.Level, "[" .. self.QuestData.Level .. "] " .. self.QuestData.Name)
+                                  return {self.objName, objectiveLine, questLine}
+                              end
+                          end
+						  data.tooltip = data:getTooltip();
+						  QuestieTooltips:RegisterTooltip(Quest.Id, "o_" .. obj.Name, data.getTooltip, data);
+
+						  --data.tooltip = {obj.Name, "|cFF22FF22   " .. v.Description .. " " .. v.Collected .. "/" .. v.Needed, QuestieTooltips:PrintDifficultyColor(Quest.Level, "[" .. Quest.Level .. "] " .. Quest.Name)}
+                          --QuestieTooltips:RegisterTooltip(Quest.Id, "o_" .. obj.Name, {data.tooltip[2], "|cFFFFFFFFNeeded for: |r" .. data.tooltip[3]});
 							--Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn1", v.Id, item.Id, obj.Name )
 						  if(coords[1] == -1 or coords[2] == -1) then
 							if(instanceData[Zone] ~= nil) then
@@ -541,8 +577,21 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
 				  data.ObjectiveTargetId = v.Id
 				  data.ObjectiveIndex = k
 				  data.IsObjectiveNote = true
-				  data.tooltip = {NPC.Name, "|cFF22FF22   " .. v.Description .. " " .. v.Collected .. "/" .. v.Needed, QuestieTooltips:PrintDifficultyColor(Quest.Level, "[" .. Quest.Level .. "] " .. Quest.Name)}
-				  QuestieTooltips:RegisterTooltip(Quest.Id, "u_" .. NPC.Name, {data.tooltip[2], "|cFFFFFFFFNeeded for: |r" .. data.tooltip[3]});
+
+                  data.NPCName = NPC.Name;
+                  function data:getTooltip()
+                      if(self) then
+                          local objectiveType, objectiveDesc, numItems, numNeeded, isCompleted = _QuestieQuest:GetLeaderBoardDetails(self.ObjectiveIndex, self.Id);
+                          objectiveLine = "|cFF22FF22   " .. tostring(objectiveDesc) .. " " .. tostring(numItems) .. "/" .. tostring(numNeeded)
+                          questLine = QuestieTooltips:PrintDifficultyColor(self.QuestData.Level, "[" .. self.QuestData.Level .. "] " .. self.QuestData.Name)
+                          return {self.NPCName, objectiveLine, questLine}
+                      end
+                  end
+                  data.tooltip = data:getTooltip();
+                  QuestieTooltips:RegisterTooltip(Quest.Id, "u_" .. NPC.Name, data.getTooltip, data);
+
+				  --data.tooltip = {NPC.Name, "|cFF22FF22   " .. v.Description .. " " .. v.Collected .. "/" .. v.Needed, QuestieTooltips:PrintDifficultyColor(Quest.Level, "[" .. Quest.Level .. "] " .. Quest.Name)}
+				  --QuestieTooltips:RegisterTooltip(Quest.Id, "u_" .. NPC.Name, {data.tooltip[2], "|cFFFFFFFFNeeded for: |r" .. data.tooltip[3]});
 				  --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn1", v.Id, NPC.Name )
 				  if(coords[1] == -1 or coords[2] == -1) then
 					if(instanceData[Zone] ~= nil) then
@@ -730,7 +779,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
   if(questObject == nil) then
     return false;
   end
-  
+
   -- where applicable, make the exclusivegroup quests available again (TESTED)
   if Quest.ExclusiveQuestGroup and (not noChildren) then
 	for k,v in pairs(Quest.ExclusiveQuestGroup) do
@@ -740,8 +789,8 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
 	  end
 	end
   end
-  
-  
+
+
   --TODO More logic here, currently only shows NPC quest givers.
   if questObject.Starts["GameObject"] ~= nil then
     for index, ObjectID in ipairs(questObject.Starts["GameObject"]) do
