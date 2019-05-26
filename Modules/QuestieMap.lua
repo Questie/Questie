@@ -80,7 +80,7 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
   data.refMiniMap = iconMinimap -- used for removing
   iconMinimap.texture:SetTexture(data.Icon)
   iconMinimap:HookScript("OnUpdate", function(frame)
-      if(frame and frame.data and frame.data.x and frame.data.y and frame.texture and frame.texture.SetVertexColor and Questie and Questie.db and Questie.db.global and Questie.db.global.fadeLevel) then
+      if(frame and frame.data and frame.data.x and frame.data.y and frame.texture and frame.texture.SetVertexColor and Questie and Questie.db and Questie.db.global and Questie.db.global.fadeLevel and HBD and HBD.GetPlayerZonePosition and QuestieFramePool and QuestieFramePool.euclid) then
         local playerX, playerY, playerInstanceID = HBD:GetPlayerZonePosition()
         if(playerX and playerY) then
             local distance = QuestieFramePool:euclid(playerX, playerY, frame.data.x/100, frame.data.y/100);

@@ -30,6 +30,19 @@ ClassBitIndexTable = {
     ['warlock'] = 9,
     ['druid'] = 11
 };
+RaceBitIndexTable = {
+    ['human'] = 1,
+    ['orc'] = 2,
+    ['dwarf'] = 3,
+    ['nightelf'] = 4,
+    ['night elf'] = 4,
+    ['scourge'] = 5,
+    ['undead'] = 5,
+    ['tauren'] = 6,
+    ['gnome'] = 7,
+    ['troll'] = 8,
+    ['goblin'] = 9
+};
 function unpackBinary(val)
     ret = {};
     for q=0,16 do
@@ -41,7 +54,15 @@ function unpackBinary(val)
     end
     return ret;
 end
-function checkRequirements(class, dbClass)
+function checkRace(race, dbRace)
+    local valid = true;
+    if race and dbRace and not (dbRace == 0) then
+        local racemap = unpackBinary(dbRace);
+        valid = racemap[RaceBitIndexTable[strlower(race)]];
+	end
+	return valid;
+end
+function checkClass(class, dbClass)
     local valid = true;
     if class and dbClass and valid and not (dbRace == 0)then
         local classmap = unpackBinary(dbClass);
@@ -51,15 +72,26 @@ function checkRequirements(class, dbClass)
 end
 function _QuestieDBQuest:deleteClasses()
     localizedClass, englishClass, classIndex = UnitClass("player");
-	local playerClass = string.lower(englishClass);
-    for key, data in pairs(qData) do
-      if Questie_RepProfData[key] then
-		if not checkRequirements(playerClass, Questie_RepProfData[key][1]) then
-		  qData[key] = nil
+	localizedRace, playerRace = UnitRace("player");
+	if englishClass and playerRace then 
+	  local playerClass = string.lower(englishClass);
+	  playerRace = string.lower(playerRace);
+      for key, data in pairs(qData) do
+	    local rpdata = Questie_RepProfData[key]; -- only strip race/class quests here
+        if rpdata then
+		  if rpdata[2] ~= 0 then
+	  	    if not checkClass(playerClass, rpdata[2]) then
+		      qData[key] = nil
+	        end
+		  end
+		  if rpdata[1] ~= 0 then
+		    if not checkRace(playerRace, rpdata[1]) then
+		      qData[key] = nil
+	        end
+		  end
 	    end
-	  end
+      end
     end
-    
     Questie:Debug(DEBUG_DEVELOP, "Other class quests deleted");
 end
 
@@ -68,6 +100,10 @@ questRequirementFixes = {
   [3903] = {18}, 
   [33] = {783},
   [374] = {427} -- proof of demise requires at war with the scarlet crusade
+}
+
+questExclusiveGroupFixes = {
+	[463] = {276} --greenwarden cant be completed if you have trampling paws
 }
 
 qHide = {
