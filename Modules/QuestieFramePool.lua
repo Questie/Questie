@@ -108,9 +108,10 @@ function _QuestieFramePool:QuestieCreateFrame()
 	  --We are reseting the frames, making sure that no data is wrong.
 	  HBDPins:RemoveMinimapIcon(Questie, self);
 	  HBDPins:RemoveWorldMapIcon(Questie, self);
-	  if(self.data and self.data.texture) then
-		  self.data.texture:SetVertexColor(1,1,1,1);
+	  if(self.texture) then
+		  self.texture:SetVertexColor(1,1,1,1);
 	  end
+	  self.miniMapIcon = nil;
 	  self:Hide();
 	  self.data = nil; -- Just to be safe
 	  self.loaded = nil;

@@ -63,8 +63,9 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
   if AreaID then
     data.UiMapID = zoneDataAreaIDToUiMapID[AreaID];
   end
-  
+
   icon.texture:SetTexture(data.Icon)
+  icon.texture:SetVertexColor(1,1,1,1);
   if data.IconScale ~= nil then
     local scale = 16 * data.IconScale;
 	icon:SetWidth(scale)
@@ -82,25 +83,37 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
   iconMinimap.data = data
   data.refMiniMap = iconMinimap -- used for removing
   iconMinimap.texture:SetTexture(data.Icon)
-  iconMinimap:HookScript("OnUpdate", function(frame)
-      if(frame and frame.data and frame.data.x and frame.data.y and frame.texture and frame.texture.SetVertexColor and Questie and Questie.db and Questie.db.global and Questie.db.global.fadeLevel and HBD and HBD.GetPlayerZonePosition and QuestieFramePool and QuestieFramePool.euclid) then
-        local playerX, playerY, playerInstanceID = HBD:GetPlayerZonePosition()
-        if(playerX and playerY) then
-            local distance = QuestieFramePool:euclid(playerX, playerY, frame.data.x/100, frame.data.y/100);
-            --Very small value before, hard to work with.
-            distance = distance*10
-            local NormalizedValue = 1/(Questie.db.global.fadeLevel or 1.5);
-            if(distance > 0.6) then
-                frame.texture:SetVertexColor(1, 1, 1, (1-NormalizedValue*distance)+0.5)
+  iconMinimap.texture:SetVertexColor(1,1,1,1);
+  --Are we a minimap note?
+  iconMinimap.miniMapIcon = true;
+
+  if(not iconMinimap.fadeLogic) then
+      function iconMinimap:fadeLogic()
+          if(self.data and self.miniMapIcon and self.data.x and self.data.y and self.texture and self.texture.SetVertexColor and Questie and Questie.db and Questie.db.global and Questie.db.global.fadeLevel and HBD and HBD.GetPlayerZonePosition and QuestieFramePool and QuestieFramePool.euclid) then
+            local playerX, playerY, playerInstanceID = HBD:GetPlayerZonePosition()
+            if(playerX and playerY) then
+                local distance = QuestieFramePool:euclid(playerX, playerY, self.data.x/100, self.data.y/100);
+                --Very small value before, hard to work with.
+                distance = distance*10
+                local NormalizedValue = 1/(Questie.db.global.fadeLevel or 1.5);
+                if(distance > 0.6) then
+                    self.texture:SetVertexColor(1, 1, 1, (1-NormalizedValue*distance)+0.5)
+                else
+                    self.texture:SetVertexColor(1, 1, 1, 1)
+                end
             else
-                frame.texture:SetVertexColor(1, 1, 1, 1)
+                self.texture:SetVertexColor(1, 1, 1, 1)
             end
-        else
-            frame.texture:SetVertexColor(1, 1, 1, 1)
         end
+      end
+      -- We do not want to hook the OnUpdate again!
+      iconMinimap:HookScript("OnUpdate", function(frame)
+            --Only run if these two are true!
+            if(frame.fadeLogic and frame.miniMapIcon) then
+                frame:fadeLogic()
+            end
+        end)
     end
-  end
-  )
 
   -- check clustering
   local xcell = math.floor((x*QUESTIE_NOTES_CLUSTERMUL_HACK));
