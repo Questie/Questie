@@ -60,6 +60,9 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
   data.x = x;
   data.y = y; -- used for tooltip clustering
   data.AreaID = AreaID-- used for tooltip clustering
+  if AreaID then
+    data.UiMapID = zoneDataAreaIDToUiMapID[AreaID];
+  end
   
   icon.texture:SetTexture(data.Icon)
   if data.IconScale ~= nil then

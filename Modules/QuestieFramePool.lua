@@ -79,13 +79,30 @@ function _QuestieFramePool:QuestieCreateFrame()
 	t:SetAllPoints(f)
 	f.texture = t;
 	f:SetPoint("CENTER",0,0)
-	f:EnableMouse()
+	f:EnableMouse(true)--f:EnableMouse()
+	--f.mouseIsOver = false;
+	--f:SetScript("OnUpdate", function() 
+	--  local mo = MouseIsOver(self); -- function exists in classic but crashes the game
+	--  if mo and (not f.mouseIsOver) then
+	--    f.mouseIsOver = true
+	--	_QuestieFramePool:Questie_Tooltip(self)
+	--  elseif (not mo) and f.mouseIsOver then
+	--    f.mouseIsOver = false
+	--	if(WorldMapTooltip) then WorldMapTooltip:Hide() end if(GameTooltip) then GameTooltip:Hide() end
+	--  end
+	--end)
+	
 	--f:SetScript('OnEnter', function() Questie:Print("Enter") end)
 	--f:SetScript('OnLeave', function() Questie:Print("Leave") end)
 
   f:SetScript("OnEnter", function(self) _QuestieFramePool:Questie_Tooltip(self) end); --Script Toolip
   f:SetScript("OnLeave", function() if(WorldMapTooltip) then WorldMapTooltip:Hide() end if(GameTooltip) then GameTooltip:Hide() end end) --Script Exit Tooltip
-  f:SetScript("OnClick", function(self) _QuestieFramePool:Questie_Click(self) end);
+  f:SetScript("OnClick", function(self) 
+    --_QuestieFramePool:Questie_Click(self) 
+	if self and self.data and self.data.UiMapID and WorldMapFrame and WorldMapFrame:IsShown() and self.data.UiMapID ~= WorldMapFrame:GetMapID() then
+	  WorldMapFrame:SetMapID(self.data.UiMapID);
+	end
+  end);
   --f.Unload = function(frame) _QuestieFramePool:UnloadFrame(frame) end;
   function f:Unload()
 	  --We are reseting the frames, making sure that no data is wrong.
