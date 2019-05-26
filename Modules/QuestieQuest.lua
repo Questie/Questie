@@ -400,7 +400,7 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
 	  QuestieQuest:AddFinisher(Quest)
       return
 	end
-	local maxNotes = 256 -- max notes for 1 quest, this should be changed to clustering code later (prevent LAG on some quests)
+	local maxNotes = 200 -- max notes for 1 quest, this should be changed to clustering code later (prevent LAG on some quests)
 
 	-- we've already checked the objectives table by doing IsComplete
 	-- of that changes, check it here
