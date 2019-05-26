@@ -32,7 +32,6 @@ Modules\QuestieEventHandler.lua
 Modules\QuestieFramePool.lua
 Modules\QuestieMap.lua
 Modules\QuestieQuest.lua
-Modules\QuestieAuto.lua
 
 #Main
 Questie.lua

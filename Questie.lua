@@ -115,7 +115,7 @@ function _QuestieOptions:Delay(time, func, message)
 end
 
 local options = {
-    name = "Questie Classic",
+    name = "Questie",
     handler = Questie,
     type = "group",
 	childGroups = "tab",
@@ -128,7 +128,7 @@ local options = {
 				enabled = {
 					type = "toggle",
 					order = 11,
-					name = "Enable Questie Classic",
+					name = "Enable Questie",
 					desc = "Enable or disable addon functionality.",
 					width = "full",
 					get =	function ()
@@ -148,36 +148,6 @@ local options = {
 					type = "header",
 					order = 13,
 					name = "Quest Options",
-				},
-				autoaccept = {
-					type = "toggle",
-					order = 14,
-					name = "Auto Accept Quests",
-					desc = "Enable or disable Questie auto-accepting quests.",
-					width = 200,
-					width = "normal",
-					get =	function ()
-								return Questie.db.char.autoaccept
-							end,
-					set =	function (info, value)
-								Questie.db.char.autoaccept = value
-								Questie:debug(DEBUG_DEVELOP, "Auto Accept toggled to:", value)
-							end,
-				},
-				autocomplete = {
-					type = "toggle",
-					order = 14,
-					name = "Auto Complete",
-					desc = "Enable or disable Questie auto-complete quests.",
-					width = 200,
-					width = "normal",
-					get =	function ()
-								return Questie.db.char.autocomplete
-							end,
-					set =	function (info, value)
-								Questie.db.char.autocomplete = value
-								Questie:debug(DEBUG_DEVELOP, "Auto Complete toggled to:", value)
-							end,
 				},]]--
 				debug_options = {
 					type = "header",
@@ -349,8 +319,8 @@ local defaults = {
 		complete = {},
 		enabled = true,
         lowlevel = false,
-		autoaccept = false,
-		autocomplete = false
+		--autoaccept = false,
+		--autocomplete = false
 	}
 }
 
@@ -365,19 +335,6 @@ function Questie:OnInitialize()
 	Questie:RegisterEvent("QUEST_TURNED_IN", QUEST_TURNED_IN)
 	Questie:RegisterEvent("QUEST_REMOVED", QUEST_REMOVED)
     Questie:RegisterEvent("PLAYER_LEVEL_UP", PLAYER_LEVEL_UP);
-
-    --When the quest is presented!
-    Questie:RegisterEvent("QUEST_DETAIL", QuestieAuto_QUEST_DETAIL)
-    --???
-    Questie:RegisterEvent("QUEST_PROGRESS", QuestieAuto_QUEST_PROGRESS)
-    --Gossip??
-    Questie:RegisterEvent("GOSSIP_SHOW", QuestieAuto_GOSSIP_SHOW)
-    --The window when multiple quest from a NPC
-    Questie:RegisterEvent("QUEST_GREETING", QuestieAuto_QUEST_GREETING)
-    --If an escort quest is taken by people close by
-    Questie:RegisterEvent("QUEST_ACCEPT_CONFIRM", QuestieAuto_QUEST_ACCEPT_CONFIRM)
-    --When complete window shows
-    Questie:RegisterEvent("QUEST_COMPLETE", QuestieAuto_QUEST_COMPLETE)
 
 	--TODO: QUEST_QUERY_COMPLETE Will get all quests the character has finished, need to be implemented!
 
@@ -422,7 +379,7 @@ function Questie:OnInitialize()
     --QuestieFrameOpt = AceGUI:Create("Frame")
     --Questie.db.global.lastmessage = 0
 
-	self.configFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Questie", "Questie Classic");
+	self.configFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Questie", "Questie");
 
     -- Code that you want to run when the addon is first loaded goes here.
     --Questie:Print("Hello, world!")
