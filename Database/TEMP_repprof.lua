@@ -2957,3 +2957,8 @@ Questie_RepProfData = { -- [questId] = {requiredRace,requiredClass,requiredSkill
 [7506]={0,1024,0,0,0,0}
 }
 
+
+-- corrections
+Questie_RepProfData[6181]={1,0,0,0,0,0}   -- "a swift message" can only be done by humans
+Questie_RepProfData[6387]={260,0,0,0,0,0} -- "honor students" can only be done by dwarves and gnomes
+Questie_RepProfData[6344]={8,0,0,0,0,0}   -- nelf version
