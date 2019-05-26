@@ -4,6 +4,8 @@ local activeGUIDs = {};
 local npFrames = {};
 local npFramesCount = 0;
 
+QuestieNameplate.TimerSet = 2;
+
 -- Frame Management
 -- This was created mostly because the current frame pool doesn't support anything 
 -- other than world map frames and didn't want to refactor that right now
@@ -38,6 +40,7 @@ end
 
 function QuestieNameplate:removeFrame(guid)
     if npFrames[guid] then
+        npFrames[guid]:Hide();
         npFrames[guid] = nil;
     end
 
@@ -66,9 +69,10 @@ function QuestieNameplate:NameplateCreated(token)
                 Timer hack to account for delay in populating QuestieTooltips
                 Without delay, if nameplates start off toggled, then they need to
                 be toggled off and back on again or delay 2 seconds apperas instant
-                on the client.
+                on the client.  Only needs to be run once, controlled with Timer set.
             ]]
-            C_Timer.After(2, function()
+            C_Timer.After(QuestieNameplate.TimerSet, function()
+                QuestieNameplate.TimerSet = 0;
                 local toKill = QuestieTooltips.tooltipLookup["u_" .. unitName];
 
                 if toKill then
