@@ -298,7 +298,7 @@ function QuestieQuest:UpdateObjectiveNotes(Quest)
 			end
 			Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: UpdateObjectiveNotes: Updated tooltip:", v2.tooltip[2])
 			-- HACK: for some reason, notes arent being removed on complete, this is a temporary fix
-			if ((v.Collected ~= nil and v.Needed ~= nil) and tonumber(v.Collected) >= tonumber(v.Needed)) or v.Completed then -- dont remove events on update
+			if ((v.Collected ~= nil and v.Needed ~= nil) and tonumber(v.Collected) >= tonumber(v.Needed)) then -- completed was removing non-complete objectives sometimes
 			  Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: UpdateObjectiveNotes: Removing tooltip:", v2.refWorldMap, v2.refMiniMap)
         v2.refMiniMap:Unload();
         v2.refWorldMap:Unload();
