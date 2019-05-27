@@ -8,8 +8,6 @@ local npFramesCount = 0;
 QuestieNameplate.TimerSet = 2;
 
 
-local counter = 0;
-
 -- Initializer
 function QuestieNameplate:Initialize()
     QuestieNameplate.GlobalFrame = CreateFrame("Frame");
