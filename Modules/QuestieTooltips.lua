@@ -3,6 +3,7 @@
 QuestieTooltips = {};
 local _QuestieTooltips = {};
 QuestieTooltips.lastTooltipTime = GetTime() -- hack for object tooltips
+QuestieTooltips.lastGametooltip = ""
 
 QuestieTooltips.tooltipLookup = {
 	--["u_Grell"] = {questid, {"Line 1", "Line 2"}}
@@ -61,8 +62,8 @@ end
 --        units: u_
 --        items: i_
 --      objects: o_
-function QuestieTooltips:RegisterTooltip(questid, key, value)
-	QuestieTooltips.tooltipLookup[key] = {questid, value};
+function QuestieTooltips:RegisterTooltip(questid, key, value, data)
+	QuestieTooltips.tooltipLookup[key] = {questid, value, data};
 end
 
 function QuestieTooltips:RemoveTooltip(key)
@@ -73,7 +74,12 @@ function QuestieTooltips:GetTooltip(key)
     if key == nil or QuestieTooltips.tooltipLookup[key] == nil then
 	  return nil
 	end
-    return QuestieTooltips.tooltipLookup[key][2];
+	if(type(QuestieTooltips.tooltipLookup[key][2]) == "function") then
+		local tooltip = QuestieTooltips.tooltipLookup[key][2](QuestieTooltips.tooltipLookup[key][3])
+		return {tooltip[2], "|cFFFFFFFFNeeded for: |r" .. tooltip[3]}
+	else
+    	return QuestieTooltips.tooltipLookup[key][2];
+	end
 end
 
 function QuestieTooltips:UpdateAvailableTooltip()
@@ -108,9 +114,9 @@ local function TooltipShowing_unit(self)
     --QuestieTooltips.lastTooltipTime = GetTime()
 	local name, ttype = self:GetUnit()
 	if name then
-		local tooltipData = QuestieTooltips.tooltipLookup["u_" .. name];
+		local tooltipData = QuestieTooltips:GetTooltip("u_" .. name);
 		if tooltipData then
-			for k,v in pairs(tooltipData[2]) do
+			for k,v in ipairs(tooltipData) do
 				GameTooltip:AddLine(v)
 			end
 		end
@@ -121,9 +127,9 @@ local function TooltipShowing_item(self)
     --QuestieTooltips.lastTooltipTime = GetTime()
 	local name, link = self:GetItem()
 	if name then
-		local tooltipData = QuestieTooltips.tooltipLookup["i_" .. name];
+		local tooltipData = QuestieTooltips:GetTooltip("i_" .. name);
 		if tooltipData then
-			for k,v in pairs(tooltipData[2]) do
+			for k,v in ipairs(tooltipData) do
 				GameTooltip:AddLine(v)
 			end
 		end
@@ -132,9 +138,9 @@ end
 
 local function TooltipShowing_maybeobject(name)
 	if name then
-		local tooltipData = QuestieTooltips.tooltipLookup["o_" .. name];
+		local tooltipData = QuestieTooltips:GetTooltip("o_" .. name);
 		if tooltipData then
-			for k,v in pairs(tooltipData[2]) do
+			for k,v in ipairs(tooltipData) do
 				GameTooltip:AddLine(v)
 			end
 		end
@@ -146,12 +152,23 @@ end
 function QuestieTooltips:init()
     GameTooltip:HookScript("OnTooltipSetUnit", TooltipShowing_unit)
 	GameTooltip:HookScript("OnTooltipSetItem", TooltipShowing_item)
-	GameTooltip:HookScript("OnShow", function(self) 
-	    
-        local name, unit = self:GetUnit()
-		if name == nil and unit == nil and GetTime() - QuestieTooltips.lastTooltipTime > 0.1 then
+	GameTooltip:HookScript("OnShow", function(self)
+        --local name, unit = self:GetUnit()
+		--Questie:Debug(DEBUG_DEVELOP,"SHOW!", unit)
+		--if name == nil and unit == nil  then
+		--    TooltipShowing_maybeobject(GameTooltipTextLeft1:GetText())
+		--nd
+	end)
+	GameTooltip:HookScript("OnHide", function(self)
+		QuestieTooltips.lastGametooltip = ""
+	end)
+
+	GameTooltip:HookScript("OnUpdate", function(self)
+		local name, unit = self:GetUnit()
+		if( name == nil and unit == nil and QuestieTooltips.lastGametooltip ~= GameTooltipTextLeft1:GetText()) then
 		    TooltipShowing_maybeobject(GameTooltipTextLeft1:GetText())
 		end
+		QuestieTooltips.lastGametooltip = GameTooltipTextLeft1:GetText()
 	end)
 end
 

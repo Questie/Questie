@@ -418,11 +418,11 @@ function Questie:Debug(...)
 	-- /run QuestieConfig.enableDebug = false;
 	--if not QuestieConfig.enableDebug then return; end
 	if(debug) then
-		if(debuglevel < 5 and arg[1] == DEBUG_SPAM)then return; end
-		if(debuglevel < 4 and arg[1] == DEBUG_DEVELOP)then return; end
-		if(debuglevel < 3 and arg[1] == DEBUG_INFO)then return; end
-		if(debuglevel < 2 and arg[1] == DEBUG_ELEVATED)then return; end
-		if(debuglevel < 1 and arg[1] == DEBUG_CRITICAL)then return; end
+		if(debuglevel < 5 and select(1, ...) == DEBUG_SPAM)then return; end
+		if(debuglevel < 4 and select(1, ...) == DEBUG_DEVELOP)then return; end
+		if(debuglevel < 3 and select(1, ...) == DEBUG_INFO)then return; end
+		if(debuglevel < 2 and select(1, ...) == DEBUG_ELEVATED)then return; end
+		if(debuglevel < 1 and select(1, ...) == DEBUG_CRITICAL)then return; end
 		Questie:Print(...)
 	end
 end

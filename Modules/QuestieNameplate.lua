@@ -2,12 +2,13 @@ QuestieNameplate = {};
 
 local activeGUIDs = {};
 local npFrames = {};
+local npUnusedFrames = {};
 local npFramesCount = 0;
 
 QuestieNameplate.TimerSet = 2;
 
 -- Frame Management
--- This was created mostly because the current frame pool doesn't support anything 
+-- This was created mostly because the current frame pool doesn't support anything
 -- other than world map frames and didn't want to refactor that right now
 function QuestieNameplate:getFrame(guid)
 
@@ -17,11 +18,16 @@ function QuestieNameplate:getFrame(guid)
 
     local parent = C_NamePlate.GetNamePlateForUnit(guid);
 
-    local frame = CreateFrame("Frame");
+    local frame = tremove(npUnusedFrames)
+
+    if(not frame) then
+        frame = CreateFrame("Frame");
+        npFramesCount = npFramesCount + 1;
+    end
     frame:SetFrameStrata("HIGH");
     frame:SetFrameLevel(10);
     frame:SetWidth(16)
-	frame:SetHeight(16)
+    frame:SetHeight(16)
     frame:EnableMouse(false);
     frame:SetParent(parent);
     frame:SetPoint("LEFT", parent, -12, -7);
@@ -30,21 +36,20 @@ function QuestieNameplate:getFrame(guid)
     frame.Icon:ClearAllPoints();
     frame.Icon:SetTexture(ICON_TYPE_AVAILABLE);
     frame.Icon:SetAllPoints(frame)
+    frame:SetParent(parent);
 
 
     npFrames[guid] = frame;
-    npFramesCount = npFramesCount + 1;
 
     return frame;
 end
 
 function QuestieNameplate:removeFrame(guid)
     if npFrames[guid] then
+        table.insert(npUnusedFrames, npFrames[guid])
         npFrames[guid]:Hide();
         npFrames[guid] = nil;
     end
-
-    npFramesCount = npFramesCount - 1;
 end
 
 
@@ -79,6 +84,7 @@ function QuestieNameplate:NameplateCreated(token)
                     activeGUIDs[token] = unitGUID;
 
                     local f = QuestieNameplate:getFrame(token);
+                    f.Icon:SetTexture(toKill[3].Icon)
                     f:Show();
 
                 end
@@ -93,6 +99,5 @@ function QuestieNameplate:NameplateDestroyed(token)
         activeGUIDs[token] = nil;
         QuestieNameplate:removeFrame(token);
     end
-    
-end
 
+end
