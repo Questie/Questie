@@ -343,6 +343,7 @@ function Questie:OnInitialize()
 	Questie:RegisterEvent("NAME_PLATE_UNIT_ADDED", QuestieNameplate.NameplateCreated);
 	Questie:RegisterEvent("NAME_PLATE_UNIT_REMOVED", QuestieNameplate.NameplateDestroyed);
 
+
 	--Old stuff that has been tried, remove in cleanup
 	--Hook the questcomplete button
 	--QuestFrameCompleteQuestButton:HookScript("OnClick", CUSTOM_QUEST_COMPLETE)
@@ -393,6 +394,7 @@ function Questie:OnInitialize()
     Questie:debug(DEBUG_DEVELOP, "Setting clustering value to:", Questie.db.global.clusterLevel)
     QUESTIE_NOTES_CLUSTERMUL_HACK = Questie.db.global.clusterLevel;
 
+	QuestieNameplate:Initialize();
 
 end
 
