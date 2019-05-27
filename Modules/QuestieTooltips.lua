@@ -76,7 +76,7 @@ function QuestieTooltips:GetTooltip(key)
 	end
 	if(type(QuestieTooltips.tooltipLookup[key][2]) == "function") then
 		local tooltip = QuestieTooltips.tooltipLookup[key][2](QuestieTooltips.tooltipLookup[key][3])
-		return {tooltip[2], "|cFFFFFFFFNeeded for: |r" .. tooltip[3]}
+		return {tooltip[2], tooltip[3]}
 	else
     	return QuestieTooltips.tooltipLookup[key][2];
 	end
