@@ -461,9 +461,9 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
                           function data:getTooltip()
                               if(self) then
                                   local objectiveType, objectiveDesc, numItems, numNeeded, isCompleted = _QuestieQuest:GetLeaderBoardDetails(self.ObjectiveIndex, self.Id);
-                                  objectiveLine = "|cFF22FF22   " .. tostring(objectiveDesc) .. " " .. tostring(numItems) .. "/" .. tostring(numNeeded)
+                                  objectiveLine = "|cFF22FF22   "..tostring(numItems) .. "/" .. tostring(numNeeded) .. " " .. tostring(objectiveDesc)
                                   questLine = QuestieTooltips:PrintDifficultyColor(self.QuestData.Level, "[" .. self.QuestData.Level .. "] " .. self.QuestData.Name)
-                                  return {self.NPCName, objectiveLine, questLine}
+                                  return {self.NPCName, questLine, objectiveLine}
                               end
                           end
 						  data.tooltip = data:getTooltip();
@@ -517,9 +517,9 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
                           function data:getTooltip()
                               if(self) then
                                   local objectiveType, objectiveDesc, numItems, numNeeded, isCompleted = _QuestieQuest:GetLeaderBoardDetails(self.ObjectiveIndex, self.Id);
-                                  objectiveLine = "|cFF22FF22   " .. tostring(objectiveDesc) .. " " .. tostring(numItems) .. "/" .. tostring(numNeeded)
+                                  objectiveLine = "|cFF22FF22   "..tostring(numItems) .. "/" .. tostring(numNeeded) .. " " .. tostring(objectiveDesc)
                                   questLine = QuestieTooltips:PrintDifficultyColor(self.QuestData.Level, "[" .. self.QuestData.Level .. "] " .. self.QuestData.Name)
-                                  return {self.objName, objectiveLine, questLine}
+                                  return {self.objName, questLine, objectiveLine}
                               end
                           end
 						  data.tooltip = data:getTooltip();
@@ -582,9 +582,9 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
                   function data:getTooltip()
                       if(self) then
                           local objectiveType, objectiveDesc, numItems, numNeeded, isCompleted = _QuestieQuest:GetLeaderBoardDetails(self.ObjectiveIndex, self.Id);
-                          objectiveLine = "|cFF22FF22   " .. tostring(objectiveDesc) .. " " .. tostring(numItems) .. "/" .. tostring(numNeeded)
+                          objectiveLine = "|cFF22FF22   "..tostring(numItems) .. "/" .. tostring(numNeeded) .. " " .. tostring(objectiveDesc)
                           questLine = QuestieTooltips:PrintDifficultyColor(self.QuestData.Level, "[" .. self.QuestData.Level .. "] " .. self.QuestData.Name)
-                          return {self.NPCName, objectiveLine, questLine}
+                          return {self.NPCName, questLine, objectiveLine}
                       end
                   end
                   data.tooltip = data:getTooltip();
