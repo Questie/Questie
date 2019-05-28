@@ -7,16 +7,22 @@ local npFramesCount = 0;
 
 QuestieNameplate.TimerSet = 2;
 
+
+-- Initializer
+function QuestieNameplate:Initialize()
+    QuestieNameplate.GlobalFrame = CreateFrame("Frame");
+    QuestieNameplate.GlobalFrame:SetScript("OnUpdate", QuestieNameplate.UpdateNameplate);
+
+end
+
 -- Frame Management
--- This was created mostly because the current frame pool doesn't support anything
--- other than world map frames and didn't want to refactor that right now
 function QuestieNameplate:getFrame(guid)
 
     if npFrames[guid] and npFrames[guid] ~= nil then
         return npFrames[guid];
     end
 
-    local parent = C_NamePlate.GetNamePlateForUnit(guid);
+    local parent = C_NamePlate.GetNamePlateForUnit(activeGUIDs[guid]);
 
     local frame = tremove(npUnusedFrames)
 
@@ -34,9 +40,7 @@ function QuestieNameplate:getFrame(guid)
 
     frame.Icon = frame:CreateTexture(nil, "ARTWORK");
     frame.Icon:ClearAllPoints();
-    frame.Icon:SetTexture(ICON_TYPE_AVAILABLE);
     frame.Icon:SetAllPoints(frame)
-    frame:SetParent(parent);
 
 
     npFrames[guid] = frame;
@@ -47,6 +51,7 @@ end
 function QuestieNameplate:removeFrame(guid)
     if npFrames[guid] then
         table.insert(npUnusedFrames, npFrames[guid])
+        npFrames[guid].Icon:SetTexture(nil); -- fix for overlapping icons
         npFrames[guid]:Hide();
         npFrames[guid] = nil;
     end
@@ -62,6 +67,8 @@ function QuestieNameplate:NameplateCreated(token)
 
     local unitGUID = UnitGUID(token);
     local unitName, _ = UnitName(token);
+
+    if not unitGUID or not unitName then return end
 
     -- we only need to use put this over creatures.
     -- to avoid running this code over Pet, Player, etc.
@@ -81,9 +88,9 @@ function QuestieNameplate:NameplateCreated(token)
                 local toKill = QuestieTooltips.tooltipLookup["u_" .. unitName];
 
                 if toKill then
-                    activeGUIDs[token] = unitGUID;
+                    activeGUIDs[unitGUID] = token;
 
-                    local f = QuestieNameplate:getFrame(token);
+                    local f = QuestieNameplate:getFrame(unitGUID);
                     f.Icon:SetTexture(toKill[3].Icon)
                     f:Show();
 
@@ -95,9 +102,43 @@ end
 
 function QuestieNameplate:NameplateDestroyed(token)
 
-    if activeGUIDs[token] then
-        activeGUIDs[token] = nil;
-        QuestieNameplate:removeFrame(token);
+    local unitGUID = UnitGUID(token);
+    
+    if activeGUIDs[unitGUID] then
+        activeGUIDs[unitGUID] = nil;
+        QuestieNameplate:removeFrame(unitGUID);
     end
 
+end
+
+
+function QuestieNameplate:UpdateNameplate(self)
+
+    for k,v in pairs(activeGUIDs) do
+        
+        unitName, _ = UnitName(activeGUIDs[k]);
+
+        if unitName == nil then return end
+
+        local toKill = QuestieTooltips.tooltipLookup["u_" .. unitName];
+
+        if toKill then
+            local quest = QuestieDB:GetQuest(toKill[3].Id);
+
+            for k2,v2 in pairs(quest.Objectives) do
+
+
+                if unitName == v2.Description then
+                    local need  = v2.Needed;
+                    local total = v2.Collected;
+
+
+                    if tonumber(need) == tonumber(total) then
+                        activeGUIDs[k] = nil;
+                        QuestieNameplate:removeFrame(k);
+                    end
+                end
+            end  
+        end
+    end
 end
