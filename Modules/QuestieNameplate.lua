@@ -118,6 +118,8 @@ function QuestieNameplate:UpdateNameplate(self)
         
         unitName, _ = UnitName(activeGUIDs[k]);
 
+        if unitName == nil then return end
+
         local toKill = QuestieTooltips.tooltipLookup["u_" .. unitName];
 
         if toKill then
