@@ -753,6 +753,7 @@ function _QuestieQuest:GetLeaderBoardDetails(BoardIndex,QuestId)
     Index = QuestId;
   end
   local description, objectiveType, isCompleted = GetQuestLogLeaderBoard (BoardIndex, Index);
+  if not description then return nil; end
   --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Quest Details1:", description, objectiveType, isCompleted)
   --Classic
   local itemName, numItems, numNeeded = string.match(description, "(.*):%s*([%d]+)%s*/%s*([%d]+)");
