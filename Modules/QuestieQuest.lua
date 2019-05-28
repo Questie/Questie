@@ -783,7 +783,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
 
   -- where applicable, make the exclusivegroup quests available again (TESTED)
   if questObject.ExclusiveQuestGroup and (not noChildren) then
-	for k,v in pairs(Quest.ExclusiveQuestGroup) do
+	for k,v in pairs(questObject.ExclusiveQuestGroup) do
 	  local quest = QuestieDB:GetQuest(v)
 	  if _QuestieQuest:IsDoable(quest) then
 	    _QuestieQuest:DrawAvailableQuest(quest, true);
