@@ -51,6 +51,7 @@ end
 function QuestieNameplate:removeFrame(guid)
     if npFrames[guid] then
         table.insert(npUnusedFrames, npFrames[guid])
+        npFrames[guid].Icon:SetTexture(nil); -- fix for overlapping icons
         npFrames[guid]:Hide();
         npFrames[guid] = nil;
     end
