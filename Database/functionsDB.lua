@@ -67,7 +67,7 @@ function QuestieDB:GetItem(ItemID)
   return item
 end
 
-function QuestieDB:GetQuest(QuestID)
+function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
   if QuestID == nil then
     return nil
   end
@@ -110,6 +110,8 @@ function QuestieDB:GetQuest(QuestID)
     QO.Starts["GameObject"] = rawdata[2][2] --2.2
     QO.Starts["Item"] = rawdata[2][3] --2.3
     QO.Ends = {} --ends 3
+	QO.Hidden = rawdata.hidden
+	
     --QO.Ends["NPC"] = rawdata[3][1]
     --QO.Ends["GameObject"] = rawdata[3][2]
 	

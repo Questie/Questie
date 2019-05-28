@@ -901,6 +901,9 @@ function _QuestieQuest:IsDoable(questObject) -- we need to add profession/reputa
   if not questObject then
     return false;
   end
+  if questObject.Hidden then
+    return false;
+  end
   local allFinished=true
   --Run though the requiredQuests
   if questObject.ExclusiveQuestGroup then -- fix (DO NOT REVERT, tested thoroughly)

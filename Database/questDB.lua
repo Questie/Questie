@@ -81,12 +81,12 @@ function _QuestieDBQuest:deleteClasses()
         if rpdata then
 		  if rpdata[2] ~= 0 then
 	  	    if not checkClass(playerClass, rpdata[2]) then
-		      qData[key] = nil
+		      qData[key].hidden = true--qData[key] = nil
 	        end
 		  end
 		  if rpdata[1] ~= 0 then
 		    if not checkRace(playerRace, rpdata[1]) then
-		      qData[key] = nil
+		      qData[key].hidden = true--qData[key] = nil
 	        end
 		  end
 	    end

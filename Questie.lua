@@ -343,7 +343,6 @@ function Questie:OnInitialize()
 	Questie:RegisterEvent("NAME_PLATE_UNIT_ADDED", QuestieNameplate.NameplateCreated);
 	Questie:RegisterEvent("NAME_PLATE_UNIT_REMOVED", QuestieNameplate.NameplateDestroyed);
 
-
 	--Old stuff that has been tried, remove in cleanup
 	--Hook the questcomplete button
 	--QuestFrameCompleteQuestButton:HookScript("OnClick", CUSTOM_QUEST_COMPLETE)
