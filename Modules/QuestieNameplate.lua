@@ -68,6 +68,8 @@ function QuestieNameplate:NameplateCreated(token)
     local unitGUID = UnitGUID(token);
     local unitName, _ = UnitName(token);
 
+    if not unitGUID or not unitName then return end
+
     -- we only need to use put this over creatures.
     -- to avoid running this code over Pet, Player, etc.
     local unitType = strsplit("-", unitGUID);
