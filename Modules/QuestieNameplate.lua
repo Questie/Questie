@@ -36,7 +36,7 @@ function QuestieNameplate:getFrame(guid)
     frame:SetHeight(16)
     frame:EnableMouse(false);
     frame:SetParent(parent);
-    frame:SetPoint("LEFT", parent, - 12, - 7);
+    frame:SetPoint("LEFT", parent, Questie.db.global.nameplateX, Questie.db.global.nameplateY);
 
     frame.Icon = frame:CreateTexture(nil, "ARTWORK");
     frame.Icon:ClearAllPoints();
@@ -46,6 +46,12 @@ function QuestieNameplate:getFrame(guid)
     npFrames[guid] = frame;
 
     return frame;
+end
+
+function QuestieNameplate:redrawIcons()
+    for index, frame in pairs(npFrames) do
+        frame:SetPoint("LEFT", Questie.db.global.nameplateX, Questie.db.global.nameplateY)
+    end
 end
 
 function QuestieNameplate:removeFrame(guid)

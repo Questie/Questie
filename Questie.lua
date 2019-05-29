@@ -255,7 +255,7 @@ local options = {
 		},
 
 		icon_tab = {
-			name = "Icon Scale",
+			name = "Icon/Note Options",
 			type = "group",
 			order = 11,
 			args = {
@@ -271,7 +271,7 @@ local options = {
 					desc = "How large the objective icons are",
 					width = "full",
                     min = 0.01,
-					max = 2,
+					max = 4,
 					step = 0.01,
 					get = GetGlobalOptionLocal,
 					set = function (info, value)
@@ -286,7 +286,7 @@ local options = {
 					desc = "How large the available and complete icons are",
 					width = "full",
 					min = 0.01,
-					max = 2,
+					max = 4,
 					step = 0.01,
 					get = GetGlobalOptionLocal,
 					set = function (info, value)
@@ -306,7 +306,7 @@ local options = {
                     desc = "How large the Mini-Map objective icons are",
                     width = "full",
                     min = 0.01,
-                    max = 2,
+                    max = 4,
                     step = 0.01,
                     get = GetGlobalOptionLocal,
                     set = function (info, value)
@@ -321,11 +321,46 @@ local options = {
                     desc = "How large the Mini-Map available and complete icons are",
                     width = "full",
                     min = 0.01,
-                    max = 2,
+                    max = 4,
                     step = 0.01,
                     get = GetGlobalOptionLocal,
                     set = function (info, value)
                                 QuestieMap:rescaleIcons(value)
+                                SetGlobalOptionLocal(info, value)
+                            end,
+                },
+                nameplate_options = {
+                    type = "header",
+                    order = 7,
+                    name = "Nameplate Icon Options",
+                },
+                nameplateX = {
+                    type = "range",
+                    order = 8,
+                    name = "X position for the nameplate icons",
+                    desc = "Where on the X axis the nameplate icon should be",
+                    width = "double",
+                    min = -200,
+                    max = 200,
+                    step = 1,
+                    get = GetGlobalOptionLocal,
+                    set = function (info, value)
+                                QuestieNameplate:redrawIcons()
+                                SetGlobalOptionLocal(info, value)
+                            end,
+                },
+                nameplateY = {
+                    type = "range",
+                    order = 9,
+                    name = "Y position for the nameplate icons",
+                    desc = "Where on the Y axis the nameplate icon should be",
+                    width = "double",
+                    min = -200,
+                    max = 200,
+                    step = 1,
+                    get = GetGlobalOptionLocal,
+                    set = function (info, value)
+                                QuestieNameplate:redrawIcons()
                                 SetGlobalOptionLocal(info, value)
                             end,
                 },
@@ -357,8 +392,8 @@ local options = {
 				debugLevel = {
 					type = "range",
 					order = 3,
-					name = "Scale for Mini-Map available and complete icons",
-					desc = "How large the Mini-Map available and complete icons are",
+					name = "Debug level to print",
+					desc = "What debug level to print at : \nDEBUG_CRITICAL = 1\nDEBUG_ELEVATED = 2\nDEBUG_INFO = 3\nDEBUG_DEVELOP = 4\nDEBUG_SPAM = 5",
 					width = "normal",
 					min = 1,
 					max = 5,
@@ -385,6 +420,8 @@ local defaults = {
 	fadeLevel = 1.5,
 	debugEnabled = false,
 	debugLevel = 4,
+    nameplateX = -12,
+    nameplateY = -7
   },
 	char = {
 		complete = {},
