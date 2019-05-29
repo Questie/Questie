@@ -48,40 +48,77 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
       error(MAJOR.."Data.Id must be set to the quests ID!")
   end
   if zoneDataAreaIDToUiMapID[AreaID] == nil then
-    Questie:Error("No UiMapID for ("..zoneDataClassic[AreaID]..") :".. AreaID)
-    return nil
+    --Questie:Error("No UiMapID for ("..tostring(zoneDataClassic[AreaID])..") :".. AreaID .. tostring(data.Name))
+    return nil, nil
   end
   if(showFlag == nil) then showFlag = HBD_PINS_WORLDMAP_SHOW_WORLD; end
   if(floatOnEdge == nil) then floatOnEdge = true; end
+    -- check clustering
+  local xcell = math.floor((x*(QUESTIE_NOTES_CLUSTERMUL_HACK)));
+  local ycell = math.floor((x*(QUESTIE_NOTES_CLUSTERMUL_HACK)));
 
+  if MapCache_ClutterFix[AreaID] == nil then MapCache_ClutterFix[AreaID] = {}; end
+  if MapCache_ClutterFix[AreaID][xcell] == nil then MapCache_ClutterFix[AreaID][xcell] = {}; end
+  if MapCache_ClutterFix[AreaID][xcell][ycell] == nil then MapCache_ClutterFix[AreaID][xcell][ycell] = {}; end
+
+
+  if (not data.ClusterId) or (not MapCache_ClutterFix[AreaID][xcell][ycell][data.ClusterId]) then -- the reason why we only prevent adding to HBD is so its easy to "unhide" if we need to, and so the refs still exist
+  --MapCache_ClutterFix[AreaID][xcell][ycell][data.ObjectiveTargetId] = true
   local icon = QuestieFramePool:GetFrame()
   icon.data = data
-  data.refWorldMap = icon -- used for removing
-  data.x = x;
-  data.y = y; -- used for tooltip clustering
-  data.AreaID = AreaID-- used for tooltip clustering
+  icon.x = x
+  icon.y = y
+  icon.AreaID = AreaID
   if AreaID then
     data.UiMapID = zoneDataAreaIDToUiMapID[AreaID];
   end
 
-  icon.texture:SetTexture(data.Icon)
-  icon.texture:SetVertexColor(1,1,1,1);
-  if data.IconScale ~= nil then
-    local scale = 16 * data.IconScale;
-	icon:SetWidth(scale)
-	icon:SetHeight(scale)
+  local glow = false;
+  
+  if glow then
+	  icon.texture:SetTexture("Interface\\Addons\\QuestieDev-QuestieClassic\\Icons\\glow.blp")-- because of how frames work, I cant seem to set the glow as being behind the note. So for now things are draw in reverse.
+	  if data.QuestData and data.QuestData.Color then
+		  icon.texture:SetVertexColor(data.QuestData.Color[1], data.QuestData.Color[2], data.QuestData.Color[3],1);
+	  end
+	  icon.glowTexture:SetTexture(data.Icon) -- todo: implement .GlowIcon
+	  icon.glowTexture:SetVertexColor(1,1,1,1);
+	  
+	  -- because of how frames work, I cant seem to set the glow as being behind the note. So for now things are draw in reverse.
+	  if data.IconScale ~= nil then
+		local scale = 16 * data.IconScale;
+		icon.glow:SetWidth(scale)
+		icon.glow:SetHeight(scale)
+		icon:SetWidth(scale+2)
+		icon:SetHeight(scale+2)
+	  else
+		icon.glow:SetWidth(16)
+		icon.glow:SetHeight(16)
+		icon:SetWidth(18)
+		icon:SetHeight(18)
+	  end
+	  --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddWorldMapIconMap", icon, zoneDataAreaIDToUiMapID[AreaID], x/100, y/100, showFlag )
   else
-  	icon:SetWidth(16)
-	icon:SetHeight(16)
+	  icon.texture:SetTexture(data.Icon) -- todo: implement .GlowIcon
+	  icon.texture:SetVertexColor(1,1,1,1);
+	  -- because of how frames work, I cant seem to set the glow as being behind the note. So for now things are draw in reverse.
+	  if data.IconScale ~= nil then
+		local scale = 16 * data.IconScale;
+		icon:SetWidth(scale)
+		icon:SetHeight(scale)
+	  else
+		icon:SetWidth(16)
+		icon:SetHeight(16)
+	  end
   end
-  --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddWorldMapIconMap", icon, zoneDataAreaIDToUiMapID[AreaID], x/100, y/100, showFlag )
-
-
+  
   local iconMinimap = QuestieFramePool:GetFrame()
   iconMinimap:SetWidth(12)
   iconMinimap:SetHeight(12)
   iconMinimap.data = data
-  data.refMiniMap = iconMinimap -- used for removing
+  iconMinimap.x = x
+  iconMinimap.y = y
+  iconMinimap.AreaID = AreaID
+  --data.refMiniMap = iconMinimap -- used for removing
   iconMinimap.texture:SetTexture(data.Icon)
   iconMinimap.texture:SetVertexColor(1,1,1,1);
   --Are we a minimap note?
@@ -89,10 +126,10 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
 
   if(not iconMinimap.fadeLogic) then
       function iconMinimap:fadeLogic()
-          if(self.data and self.miniMapIcon and self.data.x and self.data.y and self.texture and self.texture.SetVertexColor and Questie and Questie.db and Questie.db.global and Questie.db.global.fadeLevel and HBD and HBD.GetPlayerZonePosition and QuestieFramePool and QuestieFramePool.euclid) then
+          if self.miniMapIcon and self.x and self.y and self.texture and self.texture.SetVertexColor and Questie and Questie.db and Questie.db.global and Questie.db.global.fadeLevel and HBD and HBD.GetPlayerZonePosition and QuestieFramePool and QuestieFramePool.euclid then
             local playerX, playerY, playerInstanceID = HBD:GetPlayerZonePosition()
             if(playerX and playerY) then
-                local distance = QuestieFramePool:euclid(playerX, playerY, self.data.x/100, self.data.y/100);
+                local distance = QuestieFramePool:euclid(playerX, playerY, self.x/100, self.y/100);
                 --Very small value before, hard to work with.
                 distance = distance*10
                 local NormalizedValue = 1/(Questie.db.global.fadeLevel or 1.5);
@@ -107,7 +144,7 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
         end
       end
       -- We do not want to hook the OnUpdate again!
-      iconMinimap:HookScript("OnUpdate", function(frame)
+        iconMinimap:SetScript("OnUpdate", function(frame)
             --Only run if these two are true!
             if(frame.fadeLogic and frame.miniMapIcon) then
                 frame:fadeLogic()
@@ -115,29 +152,20 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
         end)
     end
 
-  -- check clustering
-  local xcell = math.floor((x*QUESTIE_NOTES_CLUSTERMUL_HACK));
-  local ycell = math.floor((x*QUESTIE_NOTES_CLUSTERMUL_HACK));
-
-  if MapCache_ClutterFix[AreaID] == nil then MapCache_ClutterFix[AreaID] = {}; end
-  if MapCache_ClutterFix[AreaID][xcell] == nil then MapCache_ClutterFix[AreaID][xcell] = {}; end
-  if MapCache_ClutterFix[AreaID][xcell][ycell] == nil then MapCache_ClutterFix[AreaID][xcell][ycell] = {}; end
-
-
-  if data.ObjectiveTargetId == nil or not MapCache_ClutterFix[AreaID][xcell][ycell][data.ObjectiveTargetId] then -- the reason why we only prevent adding to HBD is so its easy to "unhide" if we need to, and so the refs still exist
     HBDPins:AddMinimapIconMap(Questie, iconMinimap, zoneDataAreaIDToUiMapID[AreaID], x/100, y/100, true, floatOnEdge)
 	HBDPins:AddWorldMapIconMap(Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x/100, y/100, showFlag)
-	if data.ObjectiveTargetId ~= nil then
-	  MapCache_ClutterFix[AreaID][xcell][ycell][data.ObjectiveTargetId] = true
+	if data.ClusterId then
+	  MapCache_ClutterFix[AreaID][xcell][ycell][data.ClusterId] = true
 	end
-  end
-  if(qQuestIdFrames[data.Id] == nil) then
+	  if(qQuestIdFrames[data.Id] == nil) then
     qQuestIdFrames[data.Id] = {}
   end
 
   table.insert(qQuestIdFrames[data.Id], icon:GetName())
   table.insert(qQuestIdFrames[data.Id], iconMinimap:GetName())
-  return icon;
+  return icon, iconMinimap;
+  end
+  return nil, nil
 end
 
 --function QuestieMap:RemoveIcon(ref)

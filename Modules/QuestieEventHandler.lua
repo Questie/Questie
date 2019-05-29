@@ -36,11 +36,6 @@ function PLAYER_ENTERING_WORLD()
 	  Questie:Debug(DEBUG_ELEVATED, "Player entered world (deferred update)")
       QuestieQuest:GetAllQuestIds()
 	end)
-	
-	C_Timer.After(10, function () -- until we fix entering world, deferred 2nd update
-	  Questie:Debug(DEBUG_ELEVATED, "Player entered world (deferred update 2)")
-      QuestieQuest:GetAllQuestIds()
-	end)
 
 	-- periodically update the objectives of quests, temporary hold-over until we can properly fix the event based logic
 	Questie:ScheduleRepeatingTimer(function()
@@ -164,7 +159,6 @@ function PLAYER_LEVEL_UP(event, level, hitpoints, manapoints, talentpoints, ...)
 	qPlayerLevel = level;
 	QuestieQuest:CalculateAvailableQuests();
 	QuestieQuest:DrawAllAvailableQuests();
-	QuestieTooltips:UpdateAvailableTooltip();
 end
 
 --Old stuff

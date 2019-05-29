@@ -5,7 +5,7 @@ local npFrames = {};
 local npUnusedFrames = {};
 local npFramesCount = 0;
 
-QuestieNameplate.TimerSet = 2;
+QuestieNameplate.TimerSet = 0.5;
 
 
 -- Initializer
@@ -87,11 +87,14 @@ function QuestieNameplate:NameplateCreated(token)
                 QuestieNameplate.TimerSet = 0;
                 local toKill = QuestieTooltips.tooltipLookup["u_" .. unitName];
 
-                if toKill then
+                if toKill and toKill[1] and toKill[1].Objective then
+				    -- tooltips are now stored in sub tables to support more than 1 objective, quick fix
+					local icon = toKill[1].Objective.Icon
+					
                     activeGUIDs[unitGUID] = token;
 
                     local f = QuestieNameplate:getFrame(unitGUID);
-                    f.Icon:SetTexture(toKill[3].Icon)
+                    f.Icon:SetTexture(icon)
                     f:Show();
 
                 end
@@ -122,23 +125,12 @@ function QuestieNameplate:UpdateNameplate(self)
 
         local toKill = QuestieTooltips.tooltipLookup["u_" .. unitName];
 
-        if toKill then
-            local quest = QuestieDB:GetQuest(toKill[3].Id);
-
-            for k2,v2 in pairs(quest.Objectives) do
-
-
-                if unitName == v2.Description then
-                    local need  = v2.Needed;
-                    local total = v2.Collected;
-
-
-                    if tonumber(need) == tonumber(total) then
-                        activeGUIDs[k] = nil;
-                        QuestieNameplate:removeFrame(k);
-                    end
-                end
-            end  
+        if toKill and toKill[1] and toKill[1].Objective then
+			-- tooltips are now stored in sub tables to support more than 1 objective, quick fix
+            if toKill[1].Objective.Completed or (tonumber(toKill[1].Objective.Needed) == tonumber(toKill[1].Objective.Collected) and tonumber(toKill[1].Objective.Needed) > 0) then
+                activeGUIDs[k] = nil;
+                QuestieNameplate:removeFrame(k);
+			end
         end
     end
 end

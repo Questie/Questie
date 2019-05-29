@@ -3,6 +3,7 @@ local _QuestieFramePool = {...} --Local Functions
 qNumberOfFrames = 0
 
 local unusedframes = {}
+local usedFrames = {};
 
 local allframes = {}
 
@@ -30,6 +31,7 @@ function QuestieFramePool:GetFrame()
 	end
 	f.loaded = true;
 	f.shouldBeShowing = false;
+	usedFrames[f:GetName()] = f
 	return f
 end
 
@@ -68,7 +70,14 @@ function _QuestieFramePool:QuestieCreateFrame()
 	if(qNumberOfFrames > 5000) then
 		Questie:Debug(DEBUG_CRITICAL, "[QuestieFramePool] Over 5000 frames... maybe there is a leak?", qNumberOfFrames)
 	end
-  f:SetFrameStrata("TOOLTIP");
+	
+	f.glow = CreateFrame("Button","QuestieFrame"..qNumberOfFrames.."Glow",nil) -- glow frame
+	f.glow:SetFrameStrata("TOOLTIP");
+	f.glow:SetWidth(18) -- Set these to whatever height/width is needed
+	f.glow:SetHeight(18) 
+	
+	
+    f:SetFrameStrata("TOOLTIP");
 	f:SetWidth(16) -- Set these to whatever height/width is needed
 	f:SetHeight(16) -- for your Texture
 	local t = f:CreateTexture(nil,"TOOLTIP")
@@ -77,8 +86,17 @@ function _QuestieFramePool:QuestieCreateFrame()
 	t:SetWidth(16)
 	t:SetHeight(16)
 	t:SetAllPoints(f)
+	
+	local glowt = f.glow:CreateTexture(nil,"TOOLTIP")
+	glowt:SetWidth(18)
+	glowt:SetHeight(18)
+	glowt:SetAllPoints(f.glow)
+	
 	f.texture = t;
+	f.glowTexture = glowt
 	f:SetPoint("CENTER",0,0)
+	f.glow:SetPoint("CENTER",-1,-1) -- 2 pixels bigger than normal icon
+	f.glow:EnableMouse(false)
 	f:EnableMouse(true)--f:EnableMouse()
 	--f.mouseIsOver = false;
 	--f:SetScript("OnUpdate", function() 
@@ -103,6 +121,15 @@ function _QuestieFramePool:QuestieCreateFrame()
 	  WorldMapFrame:SetMapID(self.data.UiMapID);
 	end
   end);
+  f:HookScript("OnUpdate", function(self)
+      self.glow:SetPoint("BOTTOMLEFT", self, 1, 1)
+  end)
+  f:HookScript("OnShow", function(self)
+      self.glow:Show()
+  end)
+  f:HookScript("OnHide", function(self)
+      self.glow:Hide()
+  end)
   --f.Unload = function(frame) _QuestieFramePool:UnloadFrame(frame) end;
   function f:Unload()
 	  --We are reseting the frames, making sure that no data is wrong.
@@ -113,12 +140,15 @@ function _QuestieFramePool:QuestieCreateFrame()
 	  end
 	  self.miniMapIcon = nil;
 	  self:Hide();
+	  --self.glow:Hide()
 	  self.data = nil; -- Just to be safe
 	  self.loaded = nil;
 	  table.insert(unusedframes, self)
+	  usedFrames[self:GetName()] = nil
   end
   f.data = {}
   f:Hide()
+  --f.glow:Hide()
 	table.insert(allframes, f)
 	return f
 end
@@ -138,7 +168,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
   local Tooltip = GameTooltip;
   Tooltip:SetOwner(self, "ANCHOR_CURSOR"); --"ANCHOR_CURSOR" or (self, self)
 
-  local maxDistCluster = 1
+  local maxDistCluster = 1.5
   local mid = WorldMapFrame:GetMapID();
   if mid == 947 then -- world
     maxDistCluster = 8
@@ -148,11 +178,8 @@ function _QuestieFramePool:Questie_Tooltip(self)
   if not WorldMapFrame:IsShown() then -- this should check if its a minimap note or map note instead, some map addons dont use WorldMapFrame
     maxDistCluster = 0.5
   end
-  
   local already = {}; -- per quest
   local alreadyUnique = {}; -- per objective
-  
-  if self.data.tooltip == nil then return; end
   
   local headers = {};
   local footers = {};
@@ -167,163 +194,62 @@ function _QuestieFramePool:Questie_Tooltip(self)
 	--Tooltip:AddLine(v);
   --end
 
-  --iterate and add non-objective notes
-    local npcOrder = {};
-	for questId, framelist in pairs(qQuestIdFrames) do
-	 for index, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
-		local icon = _G[frameName];
-		if icon ~= nil and icon.data ~= nil and icon.data.x ~= nil and icon.data.AreaID == self.data.AreaID then
-		  local dist = QuestieFramePool:euclid(icon.data.x, icon.data.y, self.data.x, self.data.y);
-		  if dist < maxDistCluster and icon.data.tooltip ~= nil then
-			local key = table.concat(icon.data.tooltip);
-			if already[key] == nil then
-			  if alreadyUnique[icon.data.Id] == nil then
-				alreadyUnique[icon.data.Id] = {};
-			  end
-			  -- TODO: change how the logic works, so this can be nil
-			  if icon.data.ObjectiveIndex == nil then -- it is nil on some notes like starters/finishers, because its for objectives. However, it needs to be an integer here for duplicate checks
-				icon.data.ObjectiveIndex = 0
-			  end
-			  if (not icon.data.IsObjectiveNote) and alreadyUnique[icon.data.Id][icon.data.ObjectiveIndex] == nil then
-				alreadyUnique[icon.data.Id][icon.data.ObjectiveIndex] = true
-				already[key] = true
-				if icon.data.tooltip ~= nil and icon.data.tooltip[2] ~= nil then
-				  if npcOrder[icon.data.tooltip[2]] == nil then
-				    npcOrder[icon.data.tooltip[2]] = {};
-				  end
-				  local dat = {};
-				  dat.title = icon.data.tooltip[1];
-				  if icon.data.Icon == ICON_TYPE_COMPLETE then
-				    dat.type = "(Complete)";
-				  else
-				    dat.type = "(Available)";
-				  end
-				  table.insert(npcOrder[icon.data.tooltip[2]], dat);
+	local npcOrder = {};
+	local questOrder = {};
+    if 1 then
+	    for _,icon in pairs(usedFrames) do -- I added "usedFrames" because I think its a bit more efficient than using _G but I might be wrong
+		    if icon and icon.data and icon.x and icon.AreaID == self.AreaID then
+			    local dist = QuestieFramePool:euclid(icon.x, icon.y, self.x, self.y);
+				if dist < maxDistCluster then
+				    if icon.data.Type == "available" or icon.data.Type == "complete" then
+						if npcOrder[icon.data.Name] == nil then
+						    npcOrder[icon.data.Name] = {};
+					    end
+						local dat = {};
+						if icon.data.Type == "complete" then
+				            dat.type = "(Complete)";
+				        else
+				            dat.type = "(Available)";
+				        end
+						dat.title = icon.data.QuestData:GetColoredQuestName()
+						npcOrder[icon.data.Name][dat.title] = dat
+						--table.insert(npcOrder[icon.data.Name], dat);
+					elseif icon.data.ObjectiveData and icon.data.ObjectiveData.Description then
+					    local key = icon.data.QuestData:GetColoredQuestName();
+						if not questOrder[key] then
+						    questOrder[key] = {};
+					    end
+						icon.data.ObjectiveData:GetProgress(); -- update progress info
+						if icon.data.Type == "event" then
+						    questOrder[key][icon.data.ObjectiveData.Description] = true
+						else
+						    local text = tostring(icon.data.ObjectiveData.Collected) .. "/" .. tostring(icon.data.ObjectiveData.Needed) .. " " .. icon.data.ObjectiveData.Description
+							questOrder[key][text] = true
+							--table.insert(questOrder[key], text);--questOrder[key][icon.data.ObjectiveData.Description] = tostring(icon.data.ObjectiveData.Collected) .. "/" .. tostring(icon.data.ObjectiveData.Needed) .. " " .. icon.data.ObjectiveData.Description--table.insert(questOrder[key], tostring(icon.data.ObjectiveData.Collected) .. "/" .. tostring(icon.data.ObjectiveData.Needed) .. " " .. icon.data.ObjectiveData.Description);
+						end
+					end
 				end
-				--for k,v in pairs(icon.data.tooltip) do
-				--  Tooltip:AddLine(v);
-				--end
-			  end
-			end
-		  end
+		    end
 		end
-	  end
-	end
-	
-	for k,v in pairs(npcOrder) do -- this logic really needs to be improved
-	  Tooltip:AddLine(k);
+    end
+		
+  	for k,v in pairs(npcOrder) do -- this logic really needs to be improved
+	  Tooltip:AddLine("|cFF33FF33"..k);
 	  for k2,v2 in pairs(v) do
 	    if v2.title ~= nil then 
 	      Tooltip:AddDoubleLine("   " .. v2.title, v2.type);
 		end
 	  end
-	  
 	end
-  
-    -- iterate frames and add nearby to the tooltip also. TODO: Add all nearby to a table and sort by type
-	for questId, framelist in pairs(qQuestIdFrames) do
-	 for index, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
-	    local icon = _G[frameName];
-		if icon ~= nil and icon.data ~= nil and icon.data.x ~= nil and icon.data.AreaID == self.data.AreaID then
-		  local dist = QuestieFramePool:euclid(icon.data.x, icon.data.y, self.data.x, self.data.y);
-		  if dist < maxDistCluster and icon.data.tooltip ~= nil then
-			local key = table.concat(icon.data.tooltip);
-			if already[key] == nil then
-			  already[key] = true
-			  if alreadyUnique[icon.data.Id] == nil then
-			    alreadyUnique[icon.data.Id] = {};
-			  end
-			  -- TODO: change how the logic works, so this can be nil
-			  if icon.data.ObjectiveIndex == nil then -- it is nil on some notes like starters/finishers, because its for objectives. However, it needs to be an integer here for duplicate checks
-				icon.data.ObjectiveIndex = 0
-			  end
-			  if icon.data.IsObjectiveNote and alreadyUnique[icon.data.Id][icon.data.ObjectiveIndex] == nil then
-				
-			    alreadyUnique[icon.data.Id][icon.data.ObjectiveIndex] = true
-			    --if icon.data.Icon == ICON_TYPE_LOOT then -- logic needs to be improved
-			    --  table.insert(headers, icon.data.tooltip[1]);
-			    --end
-			    table.insert(contents, icon.data.tooltip[2]);
-			    table.insert(contents, icon.data.tooltip[3]);
-			  end
-			  --table.insert(footers, icon.data.tooltip[3]);
-			  --for k,v in pairs(icon.data.tooltip) do
-				--Tooltip:AddLine(v);
-			  --end
-			end
-		  end
-		end
+	for k,v in pairs(questOrder) do -- this logic really needs to be improved
+	  Tooltip:AddLine(k);
+	  for k2,v2 in pairs(v) do
+	    Tooltip:AddLine("   |cFF33FF33" .. k2);
 	  end
 	end
-	
-	local maxLines = 4;
-	already = {}; -- is there a table.clear that is faster?
-	for k,v in pairs(headers) do
-	  if already[v] == nil and maxLines > 0 then
-	    Tooltip:AddLine(v);
-		already[v] = true
-		maxLines = maxLines - 1
-	  end
-	end
-	already = {};
-	maxLines = 20;
-	for k,v in pairs(contents) do
-	  if already[v] == nil and maxLines > 0 then
-	    Tooltip:AddLine(v);
-		already[v] = true
-		maxLines = maxLines - 1
-	  end
-	end
-	already = {}; 
-	maxLines = 20;
-	for k,v in pairs(footers) do
-	  if already[v] == nil and maxLines > 0 then
-	    Tooltip:AddLine(v);
-		already[v] = true
-		maxLines = maxLines - 1
-	  end
-	end
-  
-  
---	if(self.data.QuestData) then
---	  --TODO Logic for tooltip!
---	  Tooltip:AddLine("["..self.data.QuestData.Level.."] "..self.data.QuestData.Name);
---	  if(self.data.Starter.Type == "NPC") then
---	    Tooltip:AddLine("Started by: "..self.data.Starter.Name);
---	    -- Preferably call something outside, keep it "abstract" here
---	  end
---	elseif(self.data.NpcData) then
---		Tooltip:AddLine(self.data.NpcData.Name)
---	end
-
-
-  Tooltip:SetFrameStrata("TOOLTIP");
-  QuestieTooltips.lastTooltipTime = GetTime() -- hack for object tooltips
-
-  
-  
-  --if GameTooltipTextLeft1 ~= nil and GameTooltipTextLeft1.SetScale ~= nil then
-    --GameTooltipTextLeft1:SetScale(0.89)
-  --end
-  --if GameTooltipTextRight1 ~= nil and GameTooltipTextRight1.SetScale ~= nil then
-    --GameTooltipTextRight1:SetScale(0.89)
-  --end
-  Tooltip:Show();
-  -- this might be bad? Without it, the line never resets to its proper size
-  --if Tooltip._hide == nil then
-	--  Tooltip._hide = Hide
-	--  Tooltip.Hide = function()
-	--	if GameTooltipTextLeft1 ~= nil and GameTooltipTextLeft1.SetScale ~= nil then
-	--	  GameTooltipTextLeft1:SetScale(1)
-	--	end
-	--	if GameTooltipTextRight1 ~= nil and GameTooltipTextRight1.SetScale ~= nil then
-	--	  GameTooltipTextRight1:SetScale(1)
-	--	end
-	--	Tooltip.Hide = Tooltip._hide;
-	--	Tooltip._hide = nil;
-	--	Tooltip:Hide();
-	--  end
-  --end
+    Tooltip:SetFrameStrata("TOOLTIP");
+    QuestieTooltips.lastTooltipTime = GetTime() -- hack for object tooltips
+    Tooltip:Show();
 end
 
 function _QuestieFramePool:Questie_Click(self)

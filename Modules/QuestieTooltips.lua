@@ -62,8 +62,14 @@ end
 --        units: u_
 --        items: i_
 --      objects: o_
-function QuestieTooltips:RegisterTooltip(questid, key, value, data)
-	QuestieTooltips.tooltipLookup[key] = {questid, value, data};
+function QuestieTooltips:RegisterTooltip(questid, key, Objective)
+    if QuestieTooltips.tooltipLookup[key] == nil then
+	    QuestieTooltips.tooltipLookup[key] = {};
+	end
+	local tooltip = {};
+	tooltip.QuestId = questid;
+	tooltip.Objective = Objective
+	table.insert(QuestieTooltips.tooltipLookup[key], tooltip);
 end
 
 function QuestieTooltips:RemoveTooltip(key)
@@ -74,34 +80,28 @@ function QuestieTooltips:GetTooltip(key)
     if key == nil or QuestieTooltips.tooltipLookup[key] == nil then
 	  return nil
 	end
-	if(type(QuestieTooltips.tooltipLookup[key][2]) == "function") then
-		local tooltip = QuestieTooltips.tooltipLookup[key][2](QuestieTooltips.tooltipLookup[key][3])
-		return {tooltip[2], tooltip[3]}
-	else
-    	return QuestieTooltips.tooltipLookup[key][2];
+	local tip = {};
+	for k, tooltip in pairs(QuestieTooltips.tooltipLookup[key]) do
+        tooltip.Objective:GetProgress(); -- update progress
+		
+		-- we need Objective:IsComplete()
+		local complete = tooltip.Objective.Completed or (tooltip.Objective.Needed ~= nil and tonumber(tooltip.Objective.Needed) > 0 and tonumber(tooltip.Objective.Collected) >= tonumber(tooltip.Objective.Needed));
+		if complete and tostring(key):sub(1, #"i_") ~= "i_" then -- BAD CODE: dont remove complete item tooltips
+		    QuestieTooltips.tooltipLookup[key][k] = nil
+		else
+		    table.insert(tip, tooltip.Objective.QuestData:GetColoredQuestName());
+		    table.insert(tip, "   |cFF33FF33" .. tostring(tooltip.Objective.Collected) .. "/" .. tostring(tooltip.Objective.Needed) .. " " .. tostring(tooltip.Objective.Description));
+	    end
 	end
-end
-
-function QuestieTooltips:UpdateAvailableTooltip()
-	Questie:Debug(DEBUG_DEVELOP, "[QuestieTooltips] Updating tooltips!")
-	for questId, frameList in pairs(qQuestIdFrames) do
-		for index, frameName in ipairs(frameList) do
-			frame = _G[frameName]
-			if(frame.data) then
-				if(frame.data.Icon == ICON_TYPE_AVAILABLE)then
-					frame.data.tooltip = frame.data:getTooltip()
-				elseif(frame.data.Icon == ICON_TYPE_COMPLETE) then
-					frame.data.tooltip = frame.data:getTooltip()
-				end
-			end
-		end
-	end
+	return tip
 end
 
 function QuestieTooltips:RemoveQuest(questid)
     for k, v in pairs(QuestieTooltips.tooltipLookup) do
-	  if v[1] == questid then
-	    QuestieTooltips:RemoveTooltip(k)
+	  for index, tooltip in pairs(v) do
+	    if tooltip[1] == questid then
+	      table.remove(v, index);
+	    end
 	  end
 	end
 end
@@ -116,7 +116,7 @@ local function TooltipShowing_unit(self)
 	if name then
 		local tooltipData = QuestieTooltips:GetTooltip("u_" .. name);
 		if tooltipData then
-			for k,v in ipairs(tooltipData) do
+		    for _,v in pairs (tooltipData) do
 				GameTooltip:AddLine(v)
 			end
 		end
@@ -129,7 +129,7 @@ local function TooltipShowing_item(self)
 	if name then
 		local tooltipData = QuestieTooltips:GetTooltip("i_" .. name);
 		if tooltipData then
-			for k,v in ipairs(tooltipData) do
+		    for _,v in pairs (tooltipData) do
 				GameTooltip:AddLine(v)
 			end
 		end
@@ -140,7 +140,7 @@ local function TooltipShowing_maybeobject(name)
 	if name then
 		local tooltipData = QuestieTooltips:GetTooltip("o_" .. name);
 		if tooltipData then
-			for k,v in ipairs(tooltipData) do
+		    for _,v in pairs (tooltipData) do
 				GameTooltip:AddLine(v)
 			end
 		end

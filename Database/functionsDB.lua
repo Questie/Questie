@@ -66,7 +66,9 @@ function QuestieDB:GetItem(ItemID)
   QuestieDB._ItemCache[ItemID] = item;
   return item
 end
-
+local function _GetColoredQuestName(self)
+	return QuestieTooltips:PrintDifficultyColor(self.Level, "[" .. self.Level .. "] " .. self.Name)
+end
 function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
   if QuestID == nil then
     return nil
@@ -103,6 +105,7 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
   rawdata = qData[QuestID] -- shouldnt rawdata be local
   if(rawdata)then
     QO = {}
+	QO.GetColoredQuestName = _GetColoredQuestName
     QO.Id = QuestID --Key
     QO.Name = rawdata[1] --Name - 1
     QO.Starts = {} --Starts - 2
