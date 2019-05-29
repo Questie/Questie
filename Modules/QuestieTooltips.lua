@@ -4,6 +4,7 @@ QuestieTooltips = {};
 local _QuestieTooltips = {};
 QuestieTooltips.lastTooltipTime = GetTime() -- hack for object tooltips
 QuestieTooltips.lastGametooltip = ""
+QuestieTooltips.lastGametooltipCount = -1;
 
 QuestieTooltips.tooltipLookup = {
     --["u_Grell"] = {questid, {"Line 1", "Line 2"}}
@@ -149,6 +150,18 @@ local function TooltipShowing_maybeobject(name)
     end
 end
 
+function _QuestieTooltips:countTooltip()
+	local tooltipcount = 0
+	for i = 1, 25 do
+		local frame = _G["GameTooltipTextLeft"..i]
+		if(frame and frame:GetText()) then
+			tooltipcount = tooltipcount + 1
+		else
+			return tooltipcount
+		end
+	end
+end
+
 function QuestieTooltips:init()
     GameTooltip:HookScript("OnTooltipSetUnit", TooltipShowing_unit)
     GameTooltip:HookScript("OnTooltipSetItem", TooltipShowing_item)
@@ -165,8 +178,9 @@ function QuestieTooltips:init()
 
     GameTooltip:HookScript("OnUpdate", function(self)
         local name, unit = self:GetUnit()
-        if( name == nil and unit == nil and QuestieTooltips.lastGametooltip ~= GameTooltipTextLeft1:GetText()) then
+        if( name == nil and unit == nil and (QuestieTooltips.lastGametooltip ~= GameTooltipTextLeft1:GetText() or _QuestieTooltips:countTooltip() ~= QuestieTooltips.lastGametooltipCount)) then
             TooltipShowing_maybeobject(GameTooltipTextLeft1:GetText())
+			QuestieTooltips.lastGametooltipCount = _QuestieTooltips:countTooltip()
         end
         QuestieTooltips.lastGametooltip = GameTooltipTextLeft1:GetText()
     end)
