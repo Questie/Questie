@@ -55,7 +55,10 @@ end
 
 function QuestieQuest:GetRawLeaderBoardDetails(QuestLogIndex)
     local quest = {}
-    _, _, _, _, _, _, _, questId, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(QuestLogIndex)
+    title, level, _, isHeader, _, isComplete, _, questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(QuestLogIndex)
+    quest.title = title;
+    quest.level = level;
+    quest.isComplete = isComplete;
     SelectQuestLogEntry(QuestLogIndex);
     local numQuestLogLeaderBoards = GetNumQuestLeaderBoards()
 
