@@ -707,6 +707,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                             local data = {}
                             data.Id = questObject.Id;
                             data.Icon = ICON_TYPE_AVAILABLE;
+                            data.Type = "available";
                             data.QuestData = questObject;
                             data.Name = obj.Name
 
