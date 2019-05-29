@@ -25,13 +25,13 @@ function PLAYER_ENTERING_WORLD()
 	QuestieQuest:GetAllQuestIdsNoObjectives()
 	QuestieQuest:CalculateAvailableQuests()
 	QuestieQuest:DrawAllAvailableQuests()
-	
+
 
 	C_Timer.After(2, function ()
 	  Questie:Debug(DEBUG_ELEVATED, "Player entered world")
       QuestieQuest:GetAllQuestIds()
 	end)
-	
+
     C_Timer.After(5, function ()
 	  Questie:Debug(DEBUG_ELEVATED, "Player entered world (deferred update)")
       QuestieQuest:GetAllQuestIds()
@@ -68,12 +68,12 @@ function QUEST_ACCEPTED(Event, QuestLogIndex, QuestId)
     Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_ACCEPTED", "QLogIndex: "..QuestLogIndex,  "QuestID: "..QuestId);
     QuestieQuest:AcceptQuest(QuestId) -- is it safe to pass params to virtual functions like this?
   end)
-  
+
   -- this needs to use a repeating timer maybe? Often times when quest is accepted, it has the same trouble as the other events
   C_Timer.After(5, function()
     QuestieQuest:UpdateQuest(QuestId);
   end)
-  
+
 end
 
 --Fires when a quest is removed from the questlog, this includes turning it in!
@@ -98,7 +98,7 @@ function QUEST_WATCH_UPDATE(Event, QuestLogIndex)
     _hack_prime_log()
     title, level, _, isHeader, _, isComplete, _, questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(QuestLogIndex)
     Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_WATCH_UPDATE", "QLogIndex: "..QuestLogIndex,  "QuestID: "..questId);
- 
+
     --If a timer exists from previous upda
     if(QuestWatchTimers.cancelTimer) then
         Questie:CancelTimer(QuestWatchTimers.cancelTimer)
@@ -118,18 +118,18 @@ function QUEST_WATCH_UPDATE(Event, QuestLogIndex)
           QuestWatchTimers.repeatTimer = nil;
           QuestWatchTimers.cancelTimer = nil;
           Questie:Debug(DEBUG_DEVELOP, "[QuestieEventHandler] Repeat timer took to long, cancel it!")
-        
+
 		  --if _questIdFinal ~= nil and _questIdFinal > 0 then
 		  --  QuestieQuest:UpdateQuest(_questIdFinal);
 		  --end
 		end
-		-- always double-update 
+		-- always double-update
 		if _questIdFinal ~= nil and _questIdFinal > 0 then
 		  QuestieQuest:UpdateQuest(_questIdFinal);
 		end
     end, 6)
 
-    C_Timer.After(1, function() -- start repeating after 1 sec, first update was incorrectly being detected as a change because this bug is super annoying 
+    C_Timer.After(1, function() -- start repeating after 1 sec, first update was incorrectly being detected as a change because this bug is super annoying
 		QuestWatchTimers.repeatTimer = Questie:ScheduleRepeatingTimer(function()
 			local QuestInfo = QuestieQuest:GetRawLeaderBoardDetails(_QuestLogIndexFinal)
 			if(lastState[QuestInfo.Id] == nil or lastState[QuestInfo.Id].compareString ~= QuestInfo.compareString) then

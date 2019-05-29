@@ -14,6 +14,7 @@ ICON_TYPE_COMPLETE = "Interface\\Addons\\QuestieDev-QuestieClassic\\Icons\\compl
 ICON_TYPE_ITEM = "Interface\\Addons\\QuestieDev-QuestieClassic\\Icons\\item.blp"
 ICON_TYPE_LOOT = "Interface\\Addons\\QuestieDev-QuestieClassic\\Icons\\loot.blp"
 ICON_TYPE_EVENT = "Interface\\Addons\\QuestieDev-QuestieClassic\\Icons\\event.blp"
+ICON_TYPE_OBJECT = "Interface\\Addons\\QuestieDev-QuestieClassic\\Icons\\object.blp"
 
 -- Global Functions --
 function QuestieFramePool:GetFrame()

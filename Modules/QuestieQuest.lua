@@ -56,7 +56,9 @@ end
 function QuestieQuest:GetRawLeaderBoardDetails(QuestLogIndex)
     local quest = {}
     _, _, _, _, _, _, _, questId, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(QuestLogIndex)
-    local numQuestLogLeaderBoards = GetNumQuestLeaderBoards(questId)
+    SelectQuestLogEntry(QuestLogIndex);
+    local numQuestLogLeaderBoards = GetNumQuestLeaderBoards()
+
     quest.Objectives = {}
     quest.compareString = ""
     for BoardIndex = 1, numQuestLogLeaderBoards do
@@ -146,6 +148,8 @@ function QuestieQuest:AcceptQuest(questId)
 	  end
 	end
 
+    --Reset the clustering for the map
+    QuestieMap.MapCache_ClutterFix = {};
     QuestieQuest:PopulateQuestLogInfo(Quest)
 	QuestieQuest:PopulateObjectiveNotes(Quest)
     qCurrentQuestlog[questId] = Quest
@@ -185,6 +189,7 @@ function QuestieQuest:AbandonedQuest(QuestId)
     QuestieMap:UnloadQuestFrames(QuestId);
 
     local quest = QuestieDB:GetQuest(QuestId);
+    quest.Objectives = nil;
     --The old data for notes are still there, we don't need to recalulate data.
     _QuestieQuest:DrawAvailableQuest(quest)
 
@@ -260,8 +265,7 @@ local function counthack(tab) -- according to stack overflow, # and table.getn a
    return count
 end
 
-function QuestieQuest:_IsCompleteHack(Quest) -- adding this because I hit my threshold of 3 hours trying to debug why .isComplete isnt working properly
--- we can fix this later
+function QuestieQuest:_IsCompleteHack(Quest) -- adding this because I hit my threshold of 3 hours trying to debug why .isComplete isnt working properly-- we can fix this later
     local logID = GetQuestLogIndexByID(Quest.Id);
 	if logID ~= 0 then
 	  _, _, _, _, _, Quest.isComplete, _, _, _, _, _, _, _, _, _, Quest.isHidden = GetQuestLogTitle(logID)
@@ -352,13 +356,13 @@ ObjectiveSpawnListCallTable = {
         end
         local ret = {}
 		local mon = {};
-		
+
         mon.Name = npcData.Name
         mon.Spawns = npcData.Spawns
         mon.Icon = ICON_TYPE_SLAY
 		mon.Id = id
 		mon.TooltipKey = "u_" .. npcData.Name -- todo: use ID based keys
-		
+
 		ret[id] = mon;
         return ret
     end,
@@ -370,19 +374,19 @@ ObjectiveSpawnListCallTable = {
         end
         local ret = {}
 		local obj = {}
-		
+
         obj.Name = objData.Name
         obj.Spawns = objData.Spawns
         obj.Icon = ICON_TYPE_LOOT
 		obj.TooltipKey = "o_" .. objData.Name
 		obj.Id = id
-		
+
 		ret[id] = obj
         return ret
     end,
     ["event"] = function(id, Objective)
         local ret = {}
-        if Objective.Coordinates then 
+        if Objective.Coordinates then
             ret[1] = {};
             ret[1].Name = Objective.Description;
             ret[1].Spawns = Objective.Coordinates
@@ -392,7 +396,7 @@ ObjectiveSpawnListCallTable = {
             ret[1].Name = Objective.Description;
             ret[1].Spawns = {}
             ret[1].Icon = ICON_TYPE_EVENT
-        
+
             local questie2data = TEMP_Questie2Events[Objective.Description];
             if questie2data and questie2data["locations"] then
                 for i, spawn in pairs(questie2data["locations"]) do
@@ -427,7 +431,11 @@ ObjectiveSpawnListCallTable = {
                                 ret[id] = {};
                                 ret[id].Name = sourceData.Name;
                                 ret[id].Spawns = {};
-                                ret[id].Icon = ICON_TYPE_LOOT
+                                if source.Type == "object" then
+                                    ret[id].Icon = ICON_TYPE_OBJECT
+                                else
+                                    ret[id].Icon = ICON_TYPE_LOOT
+                                end
 								ret[id].TooltipKey = sourceData.TooltipKey
 								ret[id].Id = id
                             end
@@ -466,7 +474,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective) -- mus
         end
     end
     if Objective.spawnList then
-        local hasSpawnHack = false -- used to check if we have bad data due to API delay. Remove this check once the API bug is dealt with properly 
+        local hasSpawnHack = false -- used to check if we have bad data due to API delay. Remove this check once the API bug is dealt with properly
         local tooltipRegisterHack = {} -- improve this
         for id, spawnData in pairs(Objective.spawnList) do -- spawnData.Name, spawnData.Spawns
 		    hasSpawnHack = true -- #table and table.getn are unreliable
@@ -486,13 +494,13 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective) -- mus
                 data.Type = Objective.Type
                 data.ObjectiveTargetId = spawnData.Id
 				data.ClusterId = tostring(spawnData.Id) .. tostring(Quest.Id) .. ObjectiveIndex
-				
+
 				Objective.AlreadySpawned[id] = {};
 				Objective.AlreadySpawned[id].data = data;
 				Objective.AlreadySpawned[id].minimapRefs = {};
 				Objective.AlreadySpawned[id].mapRefs = {};
-				
-                
+
+
                 if not Objective.registeredTooltips and spawnData.TooltipKey and (not tooltipRegisterHack[spawnData.TooltipKey]) then -- register mob / item / object tooltips
                     QuestieTooltips:RegisterTooltip(Quest.Id, spawnData.TooltipKey, Objective);
                     tooltipRegisterHack[spawnData.TooltipKey] = true
@@ -520,7 +528,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective) -- mus
 				end
             end
         end
-		if not hasSpawnHack then-- used to check if we have bad data due to API delay. Remove this check once the API bug is dealt with properly 
+		if not hasSpawnHack then-- used to check if we have bad data due to API delay. Remove this check once the API bug is dealt with properly
 		    Objective.spawnList = nil -- reset the list so it can be regenerated with hopefully better quest log data
 		end
         Objective.registeredTooltips = true
@@ -533,7 +541,7 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
 	  QuestieQuest:AddFinisher(Quest)
       return
 	end
-	
+
 
 	if not Quest.Color then -- todo: move to a better place
 	   Quest.Color = {0.45+math.random()/2,0.45+math.random()/2,0.45+math.random()/2}
@@ -544,10 +552,10 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
 	for k,v in pairs(Quest.Objectives) do
 	  result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, Quest, k, v);
 	  if not result then
-	    Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: There was an error populating objectives for ", Quest.Name, Quest.Id, k, err)
+	    Questie:Error("[QuestieQuest]: There was an error populating objectives for ", Quest.Name, Quest.Id, k, err)
 	  end
 	end
-	
+
 end
 function QuestieQuest:PopulateQuestLogInfo(Quest)
 	--Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: PopulateMeta1:", Quest.Id, Quest.Name)
@@ -571,10 +579,12 @@ end
 --Use the category order to draw the quests and trust the database order.
 --/dump QuestieQuest:GetAllQuestObjectives(24475)
 function QuestieQuest:GetAllQuestObjectives(Quest)
-  local count = GetNumQuestLeaderBoards(GetQuestLogIndexByID(Quest.Id))
+    local logId = GetQuestLogIndexByID(Quest.Id)
+    SelectQuestLogEntry(logId)
+  local count = GetNumQuestLeaderBoards()
   if Quest.Objectives == nil then
     Quest.Objectives = {}; -- TODO: remove after api bug is fixed!!!
-	Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Error: objective table doesnt exist when getting objectives, this should never happen!")
+	Questie:Debug(DEBUG_CRITICAL, "[QuestieQuest]: Error: objective table doesnt exist when getting objectives, this should never happen!")
   end
 
   for i = 1, count do
@@ -593,18 +603,18 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
 		end
 		self._lastUpdate = now
         objectiveType, objectiveDesc, numItems, numNeeded, isCompleted = _QuestieQuest:GetLeaderBoardDetails(self.Index, self.QuestId)
-		
+
 		-- fixes for api bug
 		if not numItems then numItems = 0; end
 		if not numNeeded then numNeeded = 0; end
 		if not isComplete then isComplete = false; end -- ensure its boolean false and not nil (hack)
-		
+
 	    self.Type = objectiveType
         self.Description = objectiveDesc
         self.Collected = tonumber(numItems)
         self.Needed = tonumber(numNeeded)
         self.Completed = (self.Needed == self.Collected and self.Needed > 0) or (isComplete and self.Needed == 0) -- some objectives get removed on PLAYER_LOGIN because isComplete is set to true at random????
-		
+
 		return {self.Collected, self.Needed, self.Completed}
 	end
 	Quest.Objectives[i]:GetProgress()
@@ -696,7 +706,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
               data.Icon = ICON_TYPE_AVAILABLE;
               data.QuestData = questObject;
               data.Name = obj.Name
-			  
+
 			  data.IsObjectiveNote = false
               --data.updateTooltip = function(data)
               --    return {QuestieTooltips:PrintDifficultyColor(data.QuestData.Level, "[" .. data.QuestData.Level .. "] " .. data.QuestData.Name), "|cFFFFFFFFStarted by: |r|cFF22FF22" .. data.QuestData.NPCName, "QuestId:"..data.QuestData.Id}

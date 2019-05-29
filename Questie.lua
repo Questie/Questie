@@ -1,13 +1,6 @@
 
 Questie = LibStub("AceAddon-3.0"):NewAddon("Questie", "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0", "AceComm-3.0", "AceSerializer-3.0")
 _Questie = {...}
-if QuestieConfig == nil then
-  QuestieConfig = {}
-  --Look below at the debug variable, it is set to false!
-  QuestieConfig.enableDebug = false;
-end
---Questie.db.realm
---Questie.db.char
 
 local LibC = LibStub:GetLibrary("LibCompress")
 local LibCE = LibC:GetAddonEncodeTable()
@@ -16,8 +9,6 @@ HBD = LibStub("HereBeDragons-2.0")
 HBDPins = LibStub("HereBeDragons-Pins-2.0")
 HBDMigrate = LibStub("HereBeDragons-Migrate")
 
-debug = false
-debuglevel = 5 --1 Critical, 2 ELEVATED, 3 Info, 4, Develop, 5 SPAM THAT SHIT YO
 DEBUG_CRITICAL = "|cff00f2e6[CRITICAL]|r"
 DEBUG_ELEVATED = "|cffebf441[ELEVATED]|r"
 DEBUG_INFO = "|cff00bc32[INFO]|r"
@@ -268,14 +259,14 @@ local options = {
 			type = "group",
 			order = 11,
 			args = {
-				debug_options = {
+				map_options = {
 					type = "header",
-					order = 13,
-					name = "Note Options",
+					order = 1,
+					name = "Map Note Options",
 				},
 				objectiveScale = {
 					type = "range",
-					order = 17,
+					order = 2,
 					name = "Scale for objective icons",
 					desc = "How large the objective icons are",
 					width = "full",
@@ -284,12 +275,13 @@ local options = {
 					step = 0.01,
 					get = GetGlobalOptionLocal,
 					set = function (info, value)
+                                QuestieMap:rescaleIcons(value)
 								SetGlobalOptionLocal(info, value)
 							end,
 				},
 				availableScale = {
 					type = "range",
-					order = 18,
+					order = 3,
                     name = "Scale for available and complete icons",
 					desc = "How large the available and complete icons are",
 					width = "full",
@@ -298,8 +290,83 @@ local options = {
 					step = 0.01,
 					get = GetGlobalOptionLocal,
 					set = function (info, value)
+                                QuestieMap:rescaleIcons(value)
 								SetGlobalOptionLocal(info, value)
                             end,
+				},
+                minimap_options = {
+                    type = "header",
+                    order = 4,
+                    name = "Mini-Map Note Options",
+                },
+                objectiveMiniMapScale = {
+                    type = "range",
+                    order = 5,
+                    name = "Scale for Mini-Map objective icons",
+                    desc = "How large the Mini-Map objective icons are",
+                    width = "full",
+                    min = 0.01,
+                    max = 2,
+                    step = 0.01,
+                    get = GetGlobalOptionLocal,
+                    set = function (info, value)
+                                QuestieMap:rescaleIcons(value)
+                                SetGlobalOptionLocal(info, value)
+                            end,
+                },
+                availableMiniMapScale = {
+                    type = "range",
+                    order = 6,
+                    name = "Scale for Mini-Map available and complete icons",
+                    desc = "How large the Mini-Map available and complete icons are",
+                    width = "full",
+                    min = 0.01,
+                    max = 2,
+                    step = 0.01,
+                    get = GetGlobalOptionLocal,
+                    set = function (info, value)
+                                QuestieMap:rescaleIcons(value)
+                                SetGlobalOptionLocal(info, value)
+                            end,
+                },
+			},
+		},
+		Advanced_tab = {
+			name = "Advanced",
+			type = "group",
+			order = 12,
+			args = {
+				map_options = {
+					type = "header",
+					order = 1,
+					name = "Developer Options",
+				},
+				debugEnabled = {
+					type = "toggle",
+					order = 2,
+					name = "Enable debug",
+					desc = "Enable or disable debug functionality.",
+					width = "full",
+					get =	function ()
+								return Questie.db.global.debugEnabled
+							end,
+					set =	function (info, value)
+								Questie.db.global.debugEnabled = value
+							end,
+				},
+				debugLevel = {
+					type = "range",
+					order = 3,
+					name = "Scale for Mini-Map available and complete icons",
+					desc = "How large the Mini-Map available and complete icons are",
+					width = "normal",
+					min = 1,
+					max = 5,
+					step = 1,
+					get = GetGlobalOptionLocal,
+					set = function (info, value)
+								SetGlobalOptionLocal(info, value)
+							end,
 				},
 			},
 		}
@@ -313,7 +380,11 @@ local defaults = {
     clusterLevel = 1,
     availableScale = 1,
     objectiveScale = 0.7,
-	fadeLevel = 1.5
+    availableMiniMapScale = 0.75,
+    objectiveMiniMapScale = 0.75,
+	fadeLevel = 1.5,
+	debugEnabled = false,
+	debugLevel = 4,
   },
 	char = {
 		complete = {},
@@ -324,9 +395,15 @@ local defaults = {
 	}
 }
 
+
 glooobball = ""
 Note = nil
 function Questie:OnInitialize()
+
+    --If we actually want the settings to save, uncomment this line and comment next one!
+    self.db = LibStub("AceDB-3.0"):New("QuestieConfig", defaults, true)
+    --self.db = LibStub("AceDB-3.0"):New("QuestieClassicDB", defaults, true)
+
 	Questie:Debug(DEBUG_CRITICAL, "Questie addon loaded")
 	Questie:RegisterEvent("PLAYER_ENTERING_WORLD", PLAYER_ENTERING_WORLD)
 	--Accepted Events
@@ -335,6 +412,7 @@ function Questie:OnInitialize()
 	Questie:RegisterEvent("QUEST_TURNED_IN", QUEST_TURNED_IN)
 	Questie:RegisterEvent("QUEST_REMOVED", QUEST_REMOVED)
     Questie:RegisterEvent("PLAYER_LEVEL_UP", PLAYER_LEVEL_UP);
+    --Questie:RegisterEvent("QUEST_LOG_UPDATE", QUEST_LOG_UPDATE);
 
 	--TODO: QUEST_QUERY_COMPLETE Will get all quests the character has finished, need to be implemented!
 
@@ -358,9 +436,6 @@ function Questie:OnInitialize()
 	Questie:RegisterChatCommand("test", "SlashTest")
 	Questie:RegisterChatCommand("qc", "MySlashProcessorFunc")
 
-    --If we actually want the settings to save, uncomment this line and comment next one!
-    --self.db = LibStub("AceDB-3.0"):New("QuestieConfig", defaults, true)
-    self.db = LibStub("AceDB-3.0"):New("QuestieClassicDB", defaults, true)
 
 
 	LibStub("AceConfig-3.0"):RegisterOptionsTable("Questie", options)
@@ -393,7 +468,6 @@ function Questie:OnInitialize()
     Questie:debug(DEBUG_DEVELOP, "Setting clustering value to:", Questie.db.global.clusterLevel)
     QUESTIE_NOTES_CLUSTERMUL_HACK = Questie.db.global.clusterLevel;
 
-	QuestieNameplate:Initialize();
 
 end
 
@@ -418,12 +492,12 @@ function Questie:Debug(...)
     -- using a separate var here TEMPORARILY to make it easier for people to disable
 	-- /run QuestieConfig.enableDebug = false;
 	--if not QuestieConfig.enableDebug then return; end
-	if(debug) then
-		if(debuglevel < 5 and select(1, ...) == DEBUG_SPAM)then return; end
-		if(debuglevel < 4 and select(1, ...) == DEBUG_DEVELOP)then return; end
-		if(debuglevel < 3 and select(1, ...) == DEBUG_INFO)then return; end
-		if(debuglevel < 2 and select(1, ...) == DEBUG_ELEVATED)then return; end
-		if(debuglevel < 1 and select(1, ...) == DEBUG_CRITICAL)then return; end
+	if(Questie.db.global.debugEnabled) then
+		if(Questie.db.global.debugLevel < 5 and select(1, ...) == DEBUG_SPAM)then return; end
+		if(Questie.db.global.debugLevel < 4 and select(1, ...) == DEBUG_DEVELOP)then return; end
+		if(Questie.db.global.debugLevel < 3 and select(1, ...) == DEBUG_INFO)then return; end
+		if(Questie.db.global.debugLevel < 2 and select(1, ...) == DEBUG_ELEVATED)then return; end
+		if(Questie.db.global.debugLevel < 1 and select(1, ...) == DEBUG_CRITICAL)then return; end
 		Questie:Print(...)
 	end
 end
