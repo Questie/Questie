@@ -404,47 +404,47 @@ function Questie:OnInitialize()
     self.db = LibStub("AceDB-3.0"):New("QuestieConfig", defaults, true)
     --self.db = LibStub("AceDB-3.0"):New("QuestieClassicDB", defaults, true)
 
-	Questie:Debug(DEBUG_CRITICAL, "Questie addon loaded")
-	Questie:RegisterEvent("PLAYER_ENTERING_WORLD", PLAYER_ENTERING_WORLD)
-	--Accepted Events
-	Questie:RegisterEvent("QUEST_ACCEPTED", QUEST_ACCEPTED)
-	Questie:RegisterEvent("QUEST_WATCH_UPDATE", QUEST_WATCH_UPDATE);
-	Questie:RegisterEvent("QUEST_TURNED_IN", QUEST_TURNED_IN)
-	Questie:RegisterEvent("QUEST_REMOVED", QUEST_REMOVED)
+    Questie:Debug(DEBUG_CRITICAL, "Questie addon loaded")
+    Questie:RegisterEvent("PLAYER_ENTERING_WORLD", PLAYER_ENTERING_WORLD)
+    --Accepted Events
+    Questie:RegisterEvent("QUEST_ACCEPTED", QUEST_ACCEPTED)
+    Questie:RegisterEvent("QUEST_WATCH_UPDATE", QUEST_WATCH_UPDATE);
+    Questie:RegisterEvent("QUEST_TURNED_IN", QUEST_TURNED_IN)
+    Questie:RegisterEvent("QUEST_REMOVED", QUEST_REMOVED)
     Questie:RegisterEvent("PLAYER_LEVEL_UP", PLAYER_LEVEL_UP);
     --Questie:RegisterEvent("QUEST_LOG_UPDATE", QUEST_LOG_UPDATE);
 
-	--TODO: QUEST_QUERY_COMPLETE Will get all quests the character has finished, need to be implemented!
+    --TODO: QUEST_QUERY_COMPLETE Will get all quests the character has finished, need to be implemented!
 
 
-	-- Nameplate Quest ! for mobs to kill
-	Questie:RegisterEvent("NAME_PLATE_UNIT_ADDED", QuestieNameplate.NameplateCreated);
-	Questie:RegisterEvent("NAME_PLATE_UNIT_REMOVED", QuestieNameplate.NameplateDestroyed);
+    -- Nameplate Quest ! for mobs to kill
+    Questie:RegisterEvent("NAME_PLATE_UNIT_ADDED", QuestieNameplate.NameplateCreated);
+    Questie:RegisterEvent("NAME_PLATE_UNIT_REMOVED", QuestieNameplate.NameplateDestroyed);
 
-	--Old stuff that has been tried, remove in cleanup
-	--Hook the questcomplete button
-	--QuestFrameCompleteQuestButton:HookScript("OnClick", CUSTOM_QUEST_COMPLETE)
-	--Questie:RegisterEvent("QUEST_COMPLETE", QUEST_COMPLETE)
-	--Questie:RegisterEvent("QUEST_FINISHED", QUEST_FINISHED)
-	--?? What does this do?
-
-
-	-- not in classic Questie:RegisterEvent("QUEST_LOG_CRITERIA_UPDATE", QUEST_LOG_CRITERIA_UPDATE)
+    --Old stuff that has been tried, remove in cleanup
+    --Hook the questcomplete button
+    --QuestFrameCompleteQuestButton:HookScript("OnClick", CUSTOM_QUEST_COMPLETE)
+    --Questie:RegisterEvent("QUEST_COMPLETE", QUEST_COMPLETE)
+    --Questie:RegisterEvent("QUEST_FINISHED", QUEST_FINISHED)
+    --?? What does this do?
 
 
-	Questie:RegisterChatCommand("questieclassic", "MySlashProcessorFunc")
-	Questie:RegisterChatCommand("test", "SlashTest")
-	Questie:RegisterChatCommand("qc", "MySlashProcessorFunc")
+    -- not in classic Questie:RegisterEvent("QUEST_LOG_CRITERIA_UPDATE", QUEST_LOG_CRITERIA_UPDATE)
+
+
+    Questie:RegisterChatCommand("questieclassic", "MySlashProcessorFunc")
+    Questie:RegisterChatCommand("test", "SlashTest")
+    Questie:RegisterChatCommand("qc", "MySlashProcessorFunc")
 
 
 
-	LibStub("AceConfig-3.0"):RegisterOptionsTable("Questie", options)
-	--QuestieFrame2 = LibStub("AceConfigDialog-3.0"):Open("Questie", QuestieFrameOpt)
+    LibStub("AceConfig-3.0"):RegisterOptionsTable("Questie", options)
+    --QuestieFrame2 = LibStub("AceConfigDialog-3.0"):Open("Questie", QuestieFrameOpt)
 
-	--QuestieFrame:SetTitle("Example frame")
-	--QuestieFrame:SetStatusText("AceGUI-3.0 Example Container frame")
-	--QuestieFrame:SetCallback("OnClose", function() QuestieFrame:Hide() end)
-	--QuestieFrame:SetLayout(options)
+    --QuestieFrame:SetTitle("Example frame")
+    --QuestieFrame:SetStatusText("AceGUI-3.0 Example Container frame")
+    --QuestieFrame:SetCallback("OnClose", function() QuestieFrame:Hide() end)
+    --QuestieFrame:SetLayout(options)
     --WILL ERROR; Run with reloadui!
     --x, y, z = HBD:GetPlayerWorldPosition();
     --Questie:Print("XYZ:", x, y, z, "Zone: "..getPlayerZone(), "Cont: "..getPlayerContinent());
@@ -458,7 +458,7 @@ function Questie:OnInitialize()
     --QuestieFrameOpt = AceGUI:Create("Frame")
     --Questie.db.global.lastmessage = 0
 
-	self.configFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Questie", "Questie");
+    self.configFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Questie", "Questie");
 
     -- Code that you want to run when the addon is first loaded goes here.
     --Questie:Print("Hello, world!")
@@ -474,11 +474,11 @@ end
 
 
 function Questie:Error(...)
-	Questie:Print("|cffff0000[ERROR]|r", ...)
+    Questie:Print("|cffff0000[ERROR]|r", ...)
 end
 
 function Questie:error(...)
-	Questie:Error(...)
+    Questie:Error(...)
 end
 
 --debuglevel = 5 --1 Critical, 2 ELEVATED, 3 Info, 4, Develop, 5 SPAM THAT SHIT YO
@@ -490,18 +490,18 @@ end
 
 function Questie:Debug(...)
     -- using a separate var here TEMPORARILY to make it easier for people to disable
-	-- /run QuestieConfig.enableDebug = false;
-	--if not QuestieConfig.enableDebug then return; end
-	if(Questie.db.global.debugEnabled) then
-		if(Questie.db.global.debugLevel < 5 and select(1, ...) == DEBUG_SPAM)then return; end
-		if(Questie.db.global.debugLevel < 4 and select(1, ...) == DEBUG_DEVELOP)then return; end
-		if(Questie.db.global.debugLevel < 3 and select(1, ...) == DEBUG_INFO)then return; end
-		if(Questie.db.global.debugLevel < 2 and select(1, ...) == DEBUG_ELEVATED)then return; end
-		if(Questie.db.global.debugLevel < 1 and select(1, ...) == DEBUG_CRITICAL)then return; end
-		Questie:Print(...)
-	end
+    -- /run QuestieConfig.enableDebug = false;
+    --if not QuestieConfig.enableDebug then return; end
+    if(Questie.db.global.debugEnabled) then
+        if(Questie.db.global.debugLevel < 5 and select(1, ...) == DEBUG_SPAM)then return; end
+        if(Questie.db.global.debugLevel < 4 and select(1, ...) == DEBUG_DEVELOP)then return; end
+        if(Questie.db.global.debugLevel < 3 and select(1, ...) == DEBUG_INFO)then return; end
+        if(Questie.db.global.debugLevel < 2 and select(1, ...) == DEBUG_ELEVATED)then return; end
+        if(Questie.db.global.debugLevel < 1 and select(1, ...) == DEBUG_CRITICAL)then return; end
+        Questie:Print(...)
+    end
 end
 
 function Questie:debug(...)
-	Questie:Debug(...)
+    Questie:Debug(...)
 end

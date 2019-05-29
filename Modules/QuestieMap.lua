@@ -153,8 +153,8 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
         end
 
         local iconMinimap = QuestieFramePool:GetFrame()
-        iconMinimap:SetWidth(16*miniMapScale)
-        iconMinimap:SetHeight(16*miniMapScale)
+        iconMinimap:SetWidth(16 * miniMapScale)
+        iconMinimap:SetHeight(16 * miniMapScale)
         iconMinimap.data = data
         iconMinimap.data.IconScale = miniMapScale;
         iconMinimap.x = x
