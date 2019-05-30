@@ -26,6 +26,9 @@ function PLAYER_ENTERING_WORLD()
     QuestieQuest:CalculateAvailableQuests()
     QuestieQuest:DrawAllAvailableQuests()
 
+    -- /Reload causes icons to not draw right away.
+    QuestieNameplate.TimerSet = 2.5;
+
     C_Timer.After(2, function ()
         Questie:Debug(DEBUG_ELEVATED, "Player entered world")
         QuestieQuest:GetAllQuestIds()
