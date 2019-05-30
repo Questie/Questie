@@ -407,12 +407,15 @@ ObjectiveSpawnListCallTable = {
                 for i, spawn in pairs(questie2data["locations"]) do
                     local zid = Questie2ZoneTableInverse[spawn[1]];
                     if zid then
-                        if not ret[1].Spawns[zid] then
-                            ret[1].Spawns[zid] = {};
+                        zid = zoneDataUiMapIDToAreaID[zid]
+                        if zid then
+                            if not ret[1].Spawns[zid] then
+                                ret[1].Spawns[zid] = {};
+                            end
+                            local x = spawn[2] * 100;
+                            local y = spawn[3] * 100;
+                            table.insert(ret[1].Spawns[zid], {x, y});
                         end
-                        local x = spawn[2] * 100;
-                        local y = spawn[3] * 100;
-                        table.insert(ret[1].Spawns, {x, y});
                     end
                 end
             end
