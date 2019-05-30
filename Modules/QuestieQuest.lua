@@ -7,56 +7,61 @@ qAvailableQuests = {} --Gets populated at PLAYER_ENTERED_WORLD
 qCurrentQuestlog = {} --Gets populated by QuestieQuest:GetAllQuestIds(), this is either an object to the quest in question, or the ID if the object doesn't exist.
 
 function QuestieQuest:Initialize()
-  Questie:Debug(DEBUG_INFO, "[QuestieQuest]: Getting all completed quests")
-  GetQuestsCompleted(Questie.db.char.complete)
+    Questie:Debug(DEBUG_INFO, "[QuestieQuest]: Getting all completed quests")
+    GetQuestsCompleted(Questie.db.char.complete)
 end
 
 QuestieQuest.NotesHidden = false
 
 function QuestieQuest:ToggleNotes()
-  if QuestieQuest.NotesHidden then
-    Questie_Toggle:SetText("Hide Questie");
-    for questId, framelist in pairs(qQuestIdFrames) do
-	  for index, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
-		local icon = _G[frameName];
-		if icon ~= nil and icon.hidden then
-		  icon.hidden = false
-		  icon.Show = icon._show;
-		  icon.Hide = icon._hide;
-		  if icon.shouldBeShowing then
-		    icon:Show();
-		  end
-		end
-	  end
-	end
-  else
-    Questie_Toggle:SetText("Show Questie");
-    for questId, framelist in pairs(qQuestIdFrames) do
-	  for index, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
-		local icon = _G[frameName];
-		if icon ~= nil and icon.IsShown ~= nil and (not icon.hidden) then -- check for function to make sure its a frame
-		  icon.shouldBeShowing = icon:IsShown();
-		  icon._show = icon.Show;
-		  icon.Show = function()
-		    icon.shouldBeShowing = true;
-		  end
-		  icon:Hide();
-		  icon._hide = icon.Hide;
-		  icon.Hide = function()
-			icon.shouldBeShowing = false;
-		  end
-		  icon.hidden = true
-		end
-	  end
-	end
-  end
-  QuestieQuest.NotesHidden = not QuestieQuest.NotesHidden
+    if QuestieQuest.NotesHidden then
+        Questie_Toggle:SetText("Hide Questie");
+        for questId, framelist in pairs(qQuestIdFrames) do
+            for index, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
+                local icon = _G[frameName];
+                if icon ~= nil and icon.hidden then
+                    icon.hidden = false
+                    icon.Show = icon._show;
+                    icon.Hide = icon._hide;
+                    if icon.shouldBeShowing then
+                        icon:Show();
+                    end
+                end
+            end
+        end
+    else
+        Questie_Toggle:SetText("Show Questie");
+        for questId, framelist in pairs(qQuestIdFrames) do
+            for index, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
+                local icon = _G[frameName];
+                if icon ~= nil and icon.IsShown ~= nil and (not icon.hidden) then -- check for function to make sure its a frame
+                    icon.shouldBeShowing = icon:IsShown();
+                    icon._show = icon.Show;
+                    icon.Show = function()
+                        icon.shouldBeShowing = true;
+                    end
+                    icon:Hide();
+                    icon._hide = icon.Hide;
+                    icon.Hide = function()
+                        icon.shouldBeShowing = false;
+                    end
+                    icon.hidden = true
+                end
+            end
+        end
+    end
+    QuestieQuest.NotesHidden = not QuestieQuest.NotesHidden
 end
 
 function QuestieQuest:GetRawLeaderBoardDetails(QuestLogIndex)
     local quest = {}
-    _, _, _, _, _, _, _, questId, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(QuestLogIndex)
-    local numQuestLogLeaderBoards = GetNumQuestLeaderBoards(questId)
+    title, level, _, isHeader, _, isComplete, _, questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(QuestLogIndex)
+    quest.title = title;
+    quest.level = level;
+    quest.isComplete = isComplete;
+    SelectQuestLogEntry(QuestLogIndex);
+    local numQuestLogLeaderBoards = GetNumQuestLeaderBoards()
+
     quest.Objectives = {}
     quest.compareString = ""
     for BoardIndex = 1, numQuestLogLeaderBoards do
@@ -65,20 +70,20 @@ function QuestieQuest:GetRawLeaderBoardDetails(QuestLogIndex)
         quest.Objectives[BoardIndex].description = description;
         quest.Objectives[BoardIndex].objectiveType = objectiveType;
         quest.Objectives[BoardIndex].isCompleted = isCompleted;
-	quest.compareString = quest.compareString
-	if quest.compareString and description then
-		  quest.compareString = quest.compareString .. description
-		end
-		if quest.compareString and objectiveType then
-		  quest.compareString = quest.compareString .. objectiveType
-		end
-		if quest.compareString then
-			if isCompleted then
-				quest.compareString = quest.compareString .."true";
-			else
-				quest.compareString = quest.compareString .."false";
-			end
-		end
+        quest.compareString = quest.compareString
+        if quest.compareString and description then
+            quest.compareString = quest.compareString .. description
+        end
+        if quest.compareString and objectiveType then
+            quest.compareString = quest.compareString .. objectiveType
+        end
+        if quest.compareString then
+            if isCompleted then
+                quest.compareString = quest.compareString .."true";
+            else
+                quest.compareString = quest.compareString .."false";
+            end
+        end
         --quest.compareString = string.format("%s%s%s%s", quest.compareString, description, objectiveType, isCompleted);
     end
     quest.Id = questId
@@ -87,15 +92,15 @@ end
 
 -- some plebs dont have beta, i need diz
 function LOGONDEBUG_ADDQUEST(QuestId)
-  --qCurrentQuestlog[QuestId] = QuestieDB:GetQuest(QuestId);
-  Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]: Adding the quest ", QuestId, qCurrentQuestlog[QuestId])
-  QuestieQuest:AcceptQuest(QuestId);
-  --QuestieQuest:TrackQuest(QuestId)
+    --qCurrentQuestlog[QuestId] = QuestieDB:GetQuest(QuestId);
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]: Adding the quest ", QuestId, qCurrentQuestlog[QuestId])
+    QuestieQuest:AcceptQuest(QuestId);
+    --QuestieQuest:TrackQuest(QuestId)
 end
 
 function LOGONDEBUG_REMOVEQUEST(QuestId)
-  QuestieQuest:AbandonedQuest(QuestId);
-  Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]: Removed the quest ", QuestId, qCurrentQuestlog[QuestId])
+    QuestieQuest:AbandonedQuest(QuestId);
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]: Removed the quest ", QuestId, qCurrentQuestlog[QuestId])
 end
 
 --Use the category order to draw the quests and trust the database order.
@@ -103,834 +108,728 @@ end
 --Use -> QuestieQuest:GetAllQuestObjectives(QuestId)
 --170
 function QuestieQuest:TrackQuest(QuestId)--Should probably be called from some kind of questlog or similar, will have to wait untill classic to find out how tracking really works...
-  Quest = qCurrentQuestlog[QuestId]
-  --Quest = QuestieDB:GetQuest(QuestId)
+    Quest = qCurrentQuestlog[QuestId]
+    --Quest = QuestieDB:GetQuest(QuestId)
 
-  ObjectiveID = 0
-  if type(Quest) == "table" then
-    Questie:Debug(DEBUG_INFO, "[QuestieQuest]:", QuestId)
-    if(Quest.Objectives["NPC"] ~= nil) then
-      for index, ObjectiveData in pairs(Quest.Objectives["NPC"]) do
-        for _, NPCID in pairs(ObjectiveData) do
-          NPC = QuestieDB:GetNPC(NPCID)
-          for Zone, Spawns in pairs(NPC.Spawns) do
-            for _, coords in ipairs(Spawns) do
-              Questie:Debug(DEBUG_INFO, "[QuestieQuest]:", Zone, coords[1], coords[2])
-              data = {}
-              data.Id = QuestId;
-              data.Icon = ICON_TYPE_SLAY
-              data.ObjectiveId = ObjectiveID
-              data.NpcData = NPC;
-              data.tooltip = {NPC.Name}
-              --data.QuestData = Quest;
-              QuestieMap:DrawWorldIcon(data, Zone, coords[1], coords[2])
+    ObjectiveID = 0
+    if type(Quest) == "table" then
+        Questie:Debug(DEBUG_INFO, "[QuestieQuest]:", QuestId)
+        if(Quest.Objectives["NPC"] ~= nil) then
+            for index, ObjectiveData in pairs(Quest.Objectives["NPC"]) do
+                for _, NPCID in pairs(ObjectiveData) do
+                    NPC = QuestieDB:GetNPC(NPCID)
+                    for Zone, Spawns in pairs(NPC.Spawns) do
+                        for _, coords in ipairs(Spawns) do
+                            Questie:Debug(DEBUG_INFO, "[QuestieQuest]:", Zone, coords[1], coords[2])
+                            data = {}
+                            data.Id = QuestId;
+                            data.Icon = ICON_TYPE_SLAY
+                            data.ObjectiveId = ObjectiveID
+                            data.NpcData = NPC;
+                            data.tooltip = {NPC.Name}
+                            --data.QuestData = Quest;
+                            QuestieMap:DrawWorldIcon(data, Zone, coords[1], coords[2])
+                        end
+                    end
+                end
+                ObjectiveID = ObjectiveID + 1
             end
-          end
-        end
-        ObjectiveID = ObjectiveID + 1
-      end
-    end--
-  end
+        end--
+    end
 end
 
 function QuestieQuest:AcceptQuest(questId)
-  --Get all the Frames for the quest and unload them, the available quest icon for example.
-  QuestieMap:UnloadQuestFrames(questId);
+    --Get all the Frames for the quest and unload them, the available quest icon for example.
+    QuestieMap:UnloadQuestFrames(questId);
 
-  Quest = QuestieDB:GetQuest(questId)
-  if(Quest ~= nil) then
-    -- we also need to remove exclusivegroup icons (TESTED)
-	if Quest.ExclusiveQuestGroup then
-	  for k,v in pairs(Quest.ExclusiveQuestGroup) do
-	    QuestieMap:UnloadQuestFrames(v);
-	  end
-	end
+    Quest = QuestieDB:GetQuest(questId)
+    if(Quest ~= nil) then
+        -- we also need to remove exclusivegroup icons (TESTED)
+        if Quest.ExclusiveQuestGroup then
+            for k, v in pairs(Quest.ExclusiveQuestGroup) do
+                QuestieMap:UnloadQuestFrames(v);
+            end
+        end
 
-    QuestieQuest:PopulateQuestLogInfo(Quest)
-	QuestieQuest:PopulateObjectiveNotes(Quest)
-    qCurrentQuestlog[questId] = Quest
-  else
-    qCurrentQuestlog[questId] = questId
-  end
+        --Reset the clustering for the map
+        QuestieMap.MapCache_ClutterFix = {};
+        QuestieQuest:PopulateQuestLogInfo(Quest)
+        QuestieQuest:PopulateObjectiveNotes(Quest)
+        qCurrentQuestlog[questId] = Quest
+    else
+        qCurrentQuestlog[questId] = questId
+    end
 
 
-  --TODO: Insert call to drawing objective logic here!
-  --QuestieQuest:TrackQuest(questId);
+    --TODO: Insert call to drawing objective logic here!
+    --QuestieQuest:TrackQuest(questId);
 
-  Questie:Debug(DEBUG_INFO, "[QuestieQuest]: Accept quest:", questId)
+    Questie:Debug(DEBUG_INFO, "[QuestieQuest]: Accept quest:", questId)
 
 end
 
 function QuestieQuest:CompleteQuest(QuestId)
-  qCurrentQuestlog[QuestId] = nil;
-  Questie.db.char.complete[QuestId] = true --can we use some other relevant info here?
-  QuestieMap:UnloadQuestFrames(QuestId);
-  QuestieTooltips:RemoveQuest(QuestId)
-  --Unload all the quest frames from the map.
-  --QuestieMap:UnloadQuestFrames(QuestId); --We are currently redrawing everything so we might as well not use this now
+    qCurrentQuestlog[QuestId] = nil;
+    Questie.db.char.complete[QuestId] = true --can we use some other relevant info here?
+    QuestieMap:UnloadQuestFrames(QuestId);
+    QuestieTooltips:RemoveQuest(QuestId)
+    --Unload all the quest frames from the map.
+    --QuestieMap:UnloadQuestFrames(QuestId); --We are currently redrawing everything so we might as well not use this now
 
-  --TODO: This can probably be done better?
-  QuestieQuest:CalculateAvailableQuests()
-  QuestieQuest:DrawAllAvailableQuests();
+    --TODO: This can probably be done better?
+    QuestieQuest:CalculateAvailableQuests()
+    QuestieQuest:DrawAllAvailableQuests();
 
-  Questie:Debug(DEBUG_INFO, "[QuestieQuest]: Completed quest:", QuestId)
+    Questie:Debug(DEBUG_INFO, "[QuestieQuest]: Completed quest:", QuestId)
 end
 
 function QuestieQuest:AbandonedQuest(QuestId)
-  QuestieTooltips:RemoveQuest(QuestId)
-  if(qCurrentQuestlog[QuestId]) then
-    qCurrentQuestlog[QuestId] = nil
+    QuestieTooltips:RemoveQuest(QuestId)
+    if(qCurrentQuestlog[QuestId]) then
+        qCurrentQuestlog[QuestId] = nil
 
-    --Unload all the quest frames from the map.
-    QuestieMap:UnloadQuestFrames(QuestId);
+        --Unload all the quest frames from the map.
+        QuestieMap:UnloadQuestFrames(QuestId);
 
-    local quest = QuestieDB:GetQuest(QuestId);
-    --The old data for notes are still there, we don't need to recalulate data.
-    _QuestieQuest:DrawAvailableQuest(quest)
+        local quest = QuestieDB:GetQuest(QuestId);
+        quest.Objectives = nil;
+        --The old data for notes are still there, we don't need to recalulate data.
+        _QuestieQuest:DrawAvailableQuest(quest)
 
-    Questie:Debug(DEBUG_INFO, "[QuestieQuest]: Abandoned Quest:", QuestId)
-  end
+        Questie:Debug(DEBUG_INFO, "[QuestieQuest]: Abandoned Quest:", QuestId)
+    end
 end
 
 function QuestieQuest:UpdateQuest(QuestId)
-  local quest = QuestieDB:GetQuest(QuestId);
-  if quest ~= nil then
-    QuestieQuest:PopulateQuestLogInfo(quest)
-    QuestieQuest:GetAllQuestObjectives(quest) -- update quest log values in quest object
-	QuestieQuest:UpdateObjectiveNotes(quest)
-	if QuestieQuest:IsComplete(quest) then
-	  --DEFAULT_CHAT_FRAME:AddMessage("Finished " .. QuestId);
-	  QuestieMap:UnloadQuestFrames(QuestId);
-	  QuestieQuest:AddFinisher(quest)
-      return
-	else
-	  --DEFAULT_CHAT_FRAME:AddMessage("Still not finished " .. QuestId);
-	end
-  end
+    local quest = QuestieDB:GetQuest(QuestId);
+    if quest ~= nil then
+        QuestieQuest:PopulateQuestLogInfo(quest)
+        QuestieQuest:GetAllQuestObjectives(quest) -- update quest log values in quest object
+        QuestieQuest:UpdateObjectiveNotes(quest)
+        if QuestieQuest:IsComplete(quest) then
+            --DEFAULT_CHAT_FRAME:AddMessage("Finished " .. QuestId);
+            QuestieMap:UnloadQuestFrames(QuestId);
+            QuestieQuest:AddFinisher(quest)
+            return
+        else
+            --DEFAULT_CHAT_FRAME:AddMessage("Still not finished " .. QuestId);
+        end
+    end
 end
 --Run this if you want to update the entire table
 function QuestieQuest:GetAllQuestIds()
-  Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]: Getting all quests")
-  numEntries, numQuests = GetNumQuestLogEntries();
-  qCurrentQuestlog = {}
-  for index = 1, numEntries do
-    title, level, _, isHeader, _, isComplete, _, questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
-    if(not isHeader) then
-      --Keep the object in the questlog to save searching
-      Quest = QuestieDB:GetQuest(questId)
-      if(Quest ~= nil) then
-	    QuestieQuest:PopulateQuestLogInfo(Quest)
-		QuestieQuest:PopulateObjectiveNotes(Quest)
-        qCurrentQuestlog[questId] = Quest
-      else
-        qCurrentQuestlog[questId] = questId
-      end
-      Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Added quest: "..questId)
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]: Getting all quests")
+    numEntries, numQuests = GetNumQuestLogEntries();
+    qCurrentQuestlog = {}
+    for index = 1, numEntries do
+        title, level, _, isHeader, _, isComplete, _, questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
+        if(not isHeader) then
+            --Keep the object in the questlog to save searching
+            Quest = QuestieDB:GetQuest(questId)
+            if(Quest ~= nil) then
+                QuestieQuest:PopulateQuestLogInfo(Quest)
+                QuestieQuest:PopulateObjectiveNotes(Quest)
+                qCurrentQuestlog[questId] = Quest
+            else
+                qCurrentQuestlog[questId] = questId
+            end
+            Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Added quest: "..questId)
+        end
     end
-  end
 end
 
 function QuestieQuest:GetAllQuestIdsNoObjectives()
-  Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]: Getting all quests")
-  numEntries, numQuests = GetNumQuestLogEntries();
-  qCurrentQuestlog = {}
-  for index = 1, numEntries do
-    title, level, _, isHeader, _, isComplete, _, questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
-    if(not isHeader) then
-      --Keep the object in the questlog to save searching
-      Quest = QuestieDB:GetQuest(questId)
-      if(Quest ~= nil) then
-        qCurrentQuestlog[questId] = Quest
-      else
-        qCurrentQuestlog[questId] = questId
-      end
-      Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Added quest: "..questId)
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]: Getting all quests")
+    numEntries, numQuests = GetNumQuestLogEntries();
+    qCurrentQuestlog = {}
+    for index = 1, numEntries do
+        title, level, _, isHeader, _, isComplete, _, questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
+        if(not isHeader) then
+            --Keep the object in the questlog to save searching
+            Quest = QuestieDB:GetQuest(questId)
+            if(Quest ~= nil) then
+                qCurrentQuestlog[questId] = Quest
+            else
+                qCurrentQuestlog[questId] = questId
+            end
+            Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Added quest: "..questId)
+        end
     end
-  end
 end
 
 function QuestieQuest:ShouldQuestShowObjectives(QuestId)
-	return true -- todo: implement tracker logic here, to hide non-tracked quest optionally (1.12 questie does this optionally)
+    return true -- todo: implement tracker logic here, to hide non-tracked quest optionally (1.12 questie does this optionally)
 end
 
 
 local function counthack(tab) -- according to stack overflow, # and table.getn arent reliable (I've experienced this? not sure whats up)
-   local count = 0
-   for k,v in pairs(tab) do count = count + 1; end
-   return count
+    local count = 0
+    for k, v in pairs(tab) do count = count + 1; end
+    return count
 end
 
-function QuestieQuest:_IsCompleteHack(Quest) -- adding this because I hit my threshold of 3 hours trying to debug why .isComplete isnt working properly
--- we can fix this later
+function QuestieQuest:_IsCompleteHack(Quest) -- adding this because I hit my threshold of 3 hours trying to debug why .isComplete isnt working properly-- we can fix this later
     local logID = GetQuestLogIndexByID(Quest.Id);
-	if logID ~= 0 then
-	  _, _, _, _, _, Quest.isComplete, _, _, _, _, _, _, _, _, _, Quest.isHidden = GetQuestLogTitle(logID)
-	  if Quest.isComplete and Quest.isComplete == 1 then
-	    return true;
-	  end
-	end
+    if logID ~= 0 then
+        _, _, _, _, _, Quest.isComplete, _, _, _, _, _, _, _, _, _, Quest.isHidden = GetQuestLogTitle(logID)
+        if Quest.isComplete and Quest.isComplete == 1 then
+            return true;
+        end
+    end
 end
 
 function QuestieQuest:IsComplete(Quest)
-   return Quest.Objectives == nil or counthack(Quest.Objectives) == 0 or Quest.isComplete or QuestieQuest:_IsCompleteHack(Quest);
+    return Quest.Objectives == nil or counthack(Quest.Objectives) == 0 or Quest.isComplete or QuestieQuest:_IsCompleteHack(Quest);
 end
 -- iterate all notes, update / remove as needed
 function QuestieQuest:UpdateObjectiveNotes(Quest)
-  Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: UpdateObjectiveNotes:", Quest.Id)
-  if 1 then
-    if Quest.Objectives ~= nil then
-	  for k,v in pairs(Quest.Objectives) do
-	    if v.TooltipRefs ~= nil then
-		  for k2,v2 in pairs(v.TooltipRefs) do
-                if(v2.getTooltip and v2.tooltip) then
-                    v2.tooltip = v2:getTooltip();
-                else
-                    local tt = QuestieTooltips:GetTooltip(v2);
-                    if tt ~= nil then
-                      tt[1] = "|cFF22FF22   " .. v.Description .. " " .. (v.Collected) .. "/" .. v.Needed;
-                    end
-                end
-		  end
-		end
-	    if v.NoteRefs ~= nil then -- update tooltip value
-		  for k2,v2 in pairs(v.NoteRefs) do
-		                                                         -- the reason why we do +1 here is the classic beta api is bugged atm. it is *always* 1 behind right after an update
-		    if v.Needed ~= nil and v.Collected ~= nil then
-                if (v2.getTooltip) then
-                    v2.tooltip = v2:getTooltip();
-                else
-                    v2.tooltip[2] = "|cFF22FF22   " .. v.Description .. " " .. (v.Collected) .. "/" .. v.Needed;
-                end
-			elseif v.Description ~= nil then -- special objetive type, desc only
-                if (v2.getTooltip) then
-                    v2.tooltip = v2:getTooltip();
-                else
-                    v2.tooltip[2] = "|cFF22FF22   " .. v.Description;
-                end
-			end
-			Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: UpdateObjectiveNotes: Updated tooltip:", v2.tooltip[2])
-			-- HACK: for some reason, notes arent being removed on complete, this is a temporary fix
-			if ((v.Collected ~= nil and v.Needed ~= nil) and tonumber(v.Collected) >= tonumber(v.Needed)) then -- completed was removing non-complete objectives sometimes
-			  Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: UpdateObjectiveNotes: Removing tooltip:", v2.refWorldMap, v2.refMiniMap)
-        v2.refMiniMap:Unload();
-        v2.refWorldMap:Unload();
-			  --QuestieMap:RemoveIcon(v2.ref)
-			end
-
-		  end
-		else
-		  Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: UpdateObjectiveNotes: attempt to update objective with no noterefs")
-		end
-	  end
-	else
-	  Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: UpdateObjectiveNotes: attempt to update quest with no objective data")
-	end
-  else
-    Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: UpdateObjectiveNotes: attempt to update completed quest")
-		for k,v in pairs(Quest.Objectives) do
-			if v.NoteRefs ~= nil then
-				for k2,v2 in pairs(v.NoteRefs) do
-                    v2.refMiniMap:Unload();
-                    v2.refWorldMap:Unload();
-					--QuestieMap:RemoveIcon(v2.ref)
-				end
-			end
-		end
-  end
-
-	--if QuestieQuest:IsComplete(Quest) then
-	--	for k,v in pairs(Quest.Objectives) do
-	--		if v.NoteRefs ~= nil then
-	--			for k2,v2 in pairs(v.NoteRefs) do
-	--				QuestieMap:RemoveIcon(v2.ref)
-	--			end
-	--		end
-	--	end
-    --    return
-	--end
+    Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: UpdateObjectiveNotes:", Quest.Id)
+    if Quest.Objectives then
+        for k, v in pairs(Quest.Objectives) do
+            result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, Quest, k, v);
+            if not result then
+                Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: There was an error populating objectives for ", Quest.Name, Quest.Id, k, err)
+            end
+        end
+    end
 end
 function QuestieQuest:AddFinisher(Quest)
-  NPC = nil
-  if Quest.Finisher ~= nil then
-	if Quest.Finisher.Type == "monster" then
-	  NPC = QuestieDB:GetNPC(Quest.Finisher.Id)
-	elseif Quest.Finisher.Type == "object" then
-	  NPC = QuestieDB:GetObject(Quest.Finisher.Id)
-	else
-	  Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Unhandled finisher type:", Quest.Finisher.Type, Quest.Id, Quest.Name)
-	end
-  else
-	Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Quest has no finisher:", Quest.Id, Quest.Name)
-  end
-  --NPC = QuestieDB:GetNPC(Quest.Finisher)
-  if(NPC ~= nil and NPC.Spawns ~= nil) then
-	--Questie:Debug(DEBUG_DEVELOP,"Adding Quest:", questObject.Id, "StarterNPC:", NPC.Id)
-	for Zone, Spawns in pairs(NPC.Spawns) do
-	  if(Zone ~= nil and Spawns ~= nil) then
-		--Questie:Debug("Zone", Zone)
-		--Questie:Debug("Qid:", questid)
-		for _, coords in ipairs(Spawns) do
-		  --Questie:Debug("Coords", coords[1], coords[2])
-		  local data = {}
-		  data.Id = Quest.Id;
-		  data.Icon = ICON_TYPE_COMPLETE;
-		  data.IconScale = 1;
-		  data.QuestData = Quest;
-          data.QuestData.NPCName = NPC.Name
-          data.IsObjectiveNote = false
-          --data.updateTooltip = function(data)
-              --return {QuestieTooltips:PrintDifficultyColor(data.QuestData.Level, "[" .. data.QuestData.Level .. "] " .. data.QuestData.Name), "|cFFFFFFFFQuest complete!", "Finished by: |cFF00FF00" .. data.QuestData.NPCName}
-          --end
-          --data.tooltip = data.updateTooltip(data)
-          function data:getTooltip()
-              return {QuestieTooltips:PrintDifficultyColor(self.QuestData.Level, "[" .. self.QuestData.Level .. "] " .. self.QuestData.Name), "|cFF00FF00" .. self.QuestData.NPCName, "|cFFFFFFFFQuest complete!"}
-          end
-          data.tooltip = data:getTooltip()
+    NPC = nil
+    if Quest.Finisher ~= nil then
+        if Quest.Finisher.Type == "monster" then
+            NPC = QuestieDB:GetNPC(Quest.Finisher.Id)
+        elseif Quest.Finisher.Type == "object" then
+            NPC = QuestieDB:GetObject(Quest.Finisher.Id)
+        else
+            Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Unhandled finisher type:", Quest.Finisher.Type, Quest.Id, Quest.Name)
+        end
+    else
+        Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Quest has no finisher:", Quest.Id, Quest.Name)
+    end
+    --NPC = QuestieDB:GetNPC(Quest.Finisher)
+    if(NPC ~= nil and NPC.Spawns ~= nil) then
+        --Questie:Debug(DEBUG_DEVELOP,"Adding Quest:", questObject.Id, "StarterNPC:", NPC.Id)
+        for Zone, Spawns in pairs(NPC.Spawns) do
+            if(Zone ~= nil and Spawns ~= nil) then
+                --Questie:Debug("Zone", Zone)
+                --Questie:Debug("Qid:", questid)
+                for _, coords in ipairs(Spawns) do
+                    --Questie:Debug("Coords", coords[1], coords[2])
+                    local data = {}
+                    data.Id = Quest.Id;
+                    data.Icon = ICON_TYPE_COMPLETE;
+                    data.IconScale = 1;
+                    data.Type = "complete";
+                    data.QuestData = Quest;
+                    data.Name = NPC.Name
+                    data.IsObjectiveNote = false
+                    --data.updateTooltip = function(data)
+                    --return {QuestieTooltips:PrintDifficultyColor(data.QuestData.Level, "[" .. data.QuestData.Level .. "] " .. data.QuestData.Name), "|cFFFFFFFFQuest complete!", "Finished by: |cFF00FF00" .. data.QuestData.NPCName}
+                    --end
+                    --data.tooltip = data.updateTooltip(data)
 
-		  --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn1", v.Id, NPC.Name )
-		  if(coords[1] == -1 or coords[2] == -1) then
-			if(instanceData[Zone] ~= nil) then
-			  for index, value in ipairs(instanceData[Zone]) do
-				--Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[value[1]])
-				--Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn3", value[1], value[2], value[3])
-				QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
-			  end
-			end
-		  else
-			--Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[Zone])
-			--HBDPins:AddWorldMapIconMap(Questie, Note, zoneDataAreaIDToUiMapID[Zone], coords[1]/100, coords[2]/100, HBD_PINS_WORLDMAP_SHOW_WORLD)
-			--Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn2", Zone, coords[1], coords[2])
-			QuestieMap:DrawWorldIcon(data, Zone, coords[1], coords[2])
-		  end
-		end
-	  end
-	end
-  end
+                    --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn1", v.Id, NPC.Name )
+                    if(coords[1] == -1 or coords[2] == -1) then
+                        if(instanceData[Zone] ~= nil) then
+                            for index, value in ipairs(instanceData[Zone]) do
+                                --Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[value[1]])
+                                --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn3", value[1], value[2], value[3])
+                                QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
+                            end
+                        end
+                    else
+                        --Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[Zone])
+                        --HBDPins:AddWorldMapIconMap(Questie, Note, zoneDataAreaIDToUiMapID[Zone], coords[1]/100, coords[2]/100, HBD_PINS_WORLDMAP_SHOW_WORLD)
+                        --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn2", Zone, coords[1], coords[2])
+                        QuestieMap:DrawWorldIcon(data, Zone, coords[1], coords[2])
+                    end
+                end
+            end
+        end
+    end
 end
+
+
+ObjectiveSpawnListCallTable = {
+    ["monster"] = function(id, Objective)
+        local npcData = QuestieDB:GetNPC(id)
+        if not npcData then
+            -- todo: log this
+            return nil
+        end
+        local ret = {}
+        local mon = {};
+
+        mon.Name = npcData.Name
+        mon.Spawns = npcData.Spawns
+        mon.Icon = ICON_TYPE_SLAY
+        mon.Id = id
+        mon.TooltipKey = "u_" .. npcData.Name -- todo: use ID based keys
+
+        ret[id] = mon;
+        return ret
+    end,
+    ["object"] = function(id, Objective)
+        local objData = QuestieDB:GetObject(id)
+        if not objData then
+            -- todo: log this
+            return nil
+        end
+        local ret = {}
+        local obj = {}
+
+        obj.Name = objData.Name
+        obj.Spawns = objData.Spawns
+        obj.Icon = ICON_TYPE_LOOT
+        obj.TooltipKey = "o_" .. objData.Name
+        obj.Id = id
+
+        ret[id] = obj
+        return ret
+    end,
+    ["event"] = function(id, Objective)
+        local ret = {}
+        if Objective.Coordinates then
+            ret[1] = {};
+            ret[1].Name = Objective.Description;
+            ret[1].Spawns = Objective.Coordinates
+            ret[1].Icon = ICON_TYPE_EVENT
+        else-- we need to fall back to old questie data, some events are missing in the new DB
+            ret[1] = {};
+            ret[1].Name = Objective.Description;
+            ret[1].Spawns = {}
+            ret[1].Icon = ICON_TYPE_EVENT
+
+            local questie2data = TEMP_Questie2Events[Objective.Description];
+            if questie2data and questie2data["locations"] then
+                for i, spawn in pairs(questie2data["locations"]) do
+                    local zid = Questie2ZoneTableInverse[spawn[1]];
+                    if zid then
+                        if not ret[1].Spawns[zid] then
+                            ret[1].Spawns[zid] = {};
+                        end
+                        local x = spawn[2] * 100;
+                        local y = spawn[3] * 100;
+                        table.insert(ret[1].Spawns, {x, y});
+                    end
+                end
+            end
+        end
+        ret[1].IconScale = 1
+        ret[1].Id = id or 0
+        return ret
+    end,
+    ["item"] = function(id, Objective)
+        local ret = {};
+        local item = QuestieDB:GetItem(id);
+        if item ~= nil and item.Sources ~= nil then
+            for _, source in pairs(item.Sources) do
+                if ObjectiveSpawnListCallTable[source.Type] and source.Type ~= "item" then -- anti-recursive-loop check, should never be possible but would be bad if it was
+                    local sourceList = ObjectiveSpawnListCallTable[source.Type](source.Id, Objective);
+                    if sourceList == nil then
+                        -- log this
+                    else
+                        for id, sourceData in pairs(sourceList) do
+                            if not ret[id] then
+                                ret[id] = {};
+                                ret[id].Name = sourceData.Name;
+                                ret[id].Spawns = {};
+                                if source.Type == "object" then
+                                    ret[id].Icon = ICON_TYPE_OBJECT
+                                else
+                                    ret[id].Icon = ICON_TYPE_LOOT
+                                end
+                                ret[id].TooltipKey = sourceData.TooltipKey
+                                ret[id].Id = id
+                            end
+                            if sourceData.Spawns then
+                                for zone, spawns in pairs(sourceData.Spawns) do
+                                    if not ret[id].Spawns[zone] then
+                                        ret[id].Spawns[zone] = {};
+                                    end
+                                    for _, spawn in pairs(spawns) do
+                                        table.insert(ret[id].Spawns[zone], spawn);
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+        return ret
+    end
+}
+
+function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective) -- must be pcalled
+    local completed = Objective.Completed or (Objective.Needed ~= nil and tonumber(Objective.Needed) > 0 and tonumber(Objective.Collected) >= tonumber(Objective.Needed));
+    if Objective.AlreadySpawned == nil then
+        Objective.AlreadySpawned = {};
+    end
+    if ObjectiveSpawnListCallTable[Objective.Type] and (not Objective.spawnList) then
+        Objective.spawnList = ObjectiveSpawnListCallTable[Objective.Type](Objective.Id, Objective);
+    end
+    local maxPerType = 128
+    if (not Objective.registeredTooltips) and Objective.Type == "item" then -- register item tooltip (special case)
+        local itm = QuestieDB:GetItem(Objective.Id);
+        if itm and itm.Name then
+            QuestieTooltips:RegisterTooltip(Quest.Id, "i_" .. itm.Name, Objective);
+        end
+    end
+    if Objective.spawnList then
+        local hasSpawnHack = false -- used to check if we have bad data due to API delay. Remove this check once the API bug is dealt with properly
+        local tooltipRegisterHack = {} -- improve this
+        for id, spawnData in pairs(Objective.spawnList) do -- spawnData.Name, spawnData.Spawns
+            hasSpawnHack = true -- #table and table.getn are unreliable
+            if not Objective.Icon and spawnData.Icon then -- move this to a better place
+                Objective.Icon = spawnData.Icon
+            end
+            if not Objective.AlreadySpawned[id] then
+                local maxCount = 0
+                local data = {}
+                data.Id = Quest.Id
+                data.ObjectiveIndex = ObjectiveIndex
+                data.QuestData = Quest
+                data.ObjectiveData = Objective
+                data.Icon = spawnData.Icon
+                data.IconScale = spawnData.IconScale or 0.7
+                data.Name = spawnData.Name
+                data.Type = Objective.Type
+                data.ObjectiveTargetId = spawnData.Id
+                data.ClusterId = tostring(spawnData.Id) .. tostring(Quest.Id) .. ObjectiveIndex
+
+                Objective.AlreadySpawned[id] = {};
+                Objective.AlreadySpawned[id].data = data;
+                Objective.AlreadySpawned[id].minimapRefs = {};
+                Objective.AlreadySpawned[id].mapRefs = {};
+
+
+                if not Objective.registeredTooltips and spawnData.TooltipKey and (not tooltipRegisterHack[spawnData.TooltipKey]) then -- register mob / item / object tooltips
+                    QuestieTooltips:RegisterTooltip(Quest.Id, spawnData.TooltipKey, Objective);
+                    tooltipRegisterHack[spawnData.TooltipKey] = true
+                end
+                for zone, spawns in pairs(spawnData.Spawns) do
+                    for _, spawn in pairs(spawns) do
+                        iconMap, iconMini = QuestieMap:DrawWorldIcon(data, zone, spawn[1], spawn[2]) -- clustering code takes care of duplicates as long as mindist is more than 0
+                        if iconMap and iconMini then
+                            table.insert(Objective.AlreadySpawned[id].mapRefs, iconMap);
+                            table.insert(Objective.AlreadySpawned[id].minimapRefs, iconMini);
+                        end
+                        maxCount = maxCount + 1
+                        if maxCount > maxPerType then break; end
+                    end
+                    if maxCount > maxPerType then break; end
+                end
+            elseif completed and Objective.AlreadySpawned then -- unregister notes
+                for id, spawn in pairs(Objective.AlreadySpawned) do
+                    for _, note in pairs(spawn.mapRefs) do
+                        note:Unload();
+                    end
+                    for _, note in pairs(spawn.minimapRefs) do
+                        note:Unload();
+                    end
+                end
+            end
+        end
+        if not hasSpawnHack then-- used to check if we have bad data due to API delay. Remove this check once the API bug is dealt with properly
+            Objective.spawnList = nil -- reset the list so it can be regenerated with hopefully better quest log data
+        end
+        Objective.registeredTooltips = true
+    end
+end
+
 function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to PopulateNotes as it also handles finishers now
-	if QuestieQuest:IsComplete(Quest) then
-	  QuestieQuest:AddFinisher(Quest)
-      return
-	end
-	local maxNotes = 200 -- max notes for 1 quest, this should be changed to clustering code later (prevent LAG on some quests)
+    if not Quest then return; end
+    if QuestieQuest:IsComplete(Quest) then
+        QuestieQuest:AddFinisher(Quest)
+        return
+    end
 
-	-- we've already checked the objectives table by doing IsComplete
-	-- of that changes, check it here
-	for k,v in pairs(Quest.Objectives) do
-        Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: PopulateObjectiveNotes:", k, v.Type, v.Description, v.Collected, v.Needed, v.Id)
-		if v.NoteRefs == nil then -- used for updating notes
-		  v.NoteRefs = {};
-		end
-		if v.TooltipRefs == nil then
-		  v.TooltipRefs = {};
-		end
-		if v.Type == "item" and tonumber(v.Needed) > tonumber(v.Collected) then
-		   local item = QuestieDB:GetItem(v.Id);
-		   if item ~= nil and item.Sources ~= nil then
-		     Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: GotItem", v.Id, item.Id)
-			 for k2,v2 in pairs(item.Sources) do
-			   -- add item tooltips
-			   QuestieTooltips:RegisterTooltip(Quest.Id, "i_" .. item.Name, {"|cFF22FF22   " .. v.Description .. " " .. v.Collected .. "/" .. v.Needed, "|cFFFFFFFFNeeded for: |r" .. QuestieTooltips:PrintDifficultyColor(Quest.Level, "[" .. Quest.Level .. "] " .. Quest.Name)});
-			   table.insert(v.TooltipRefs, "i_" .. item.Name);
-			   if v2.Type == "monster" then
-				  NPC = QuestieDB:GetNPC(v2.Id)
-				  if(NPC ~= nil and NPC.Spawns ~= nil) then
-				  table.insert(v.TooltipRefs, "u_" .. NPC.Name);
-					--Questie:Debug(DEBUG_DEVELOP,"Adding Quest:", questObject.Id, "StarterNPC:", NPC.Id)
-					for Zone, Spawns in pairs(NPC.Spawns) do
-					  if(Zone ~= nil and Spawns ~= nil) then
-						--Questie:Debug("Zone", Zone)
-						--Questie:Debug("Qid:", questid)
-						for _, coords in ipairs(Spawns) do
-					      maxNotes = maxNotes - 1
-						  if maxNotes < 0 then
-						     return
-					      end
-						  --Questie:Debug("Coords", coords[1], coords[2])
-						  local data = {}
-						  table.insert(v.NoteRefs, data);
-						  data.Id = Quest.Id;
-						  data.Icon = ICON_TYPE_LOOT;
-						  data.IconScale = 0.7;
-						  data.QuestData = Quest;
-						  data.ObjectiveTargetId = v2.Id
-						  data.ObjectiveIndex = k
-						  data.IsObjectiveNote = true
 
-                          data.NPCName = NPC.Name;
-                          function data:getTooltip()
-                              if(self) then
-                                  local objectiveType, objectiveDesc, numItems, numNeeded, isCompleted = _QuestieQuest:GetLeaderBoardDetails(self.ObjectiveIndex, self.Id);
-                                  objectiveLine = "|cFF22FF22   "..tostring(numItems) .. "/" .. tostring(numNeeded) .. " " .. tostring(objectiveDesc)
-                                  questLine = QuestieTooltips:PrintDifficultyColor(self.QuestData.Level, "[" .. self.QuestData.Level .. "] " .. self.QuestData.Name)
-                                  return {self.NPCName, questLine, objectiveLine}
-                              end
-                          end
-						  data.tooltip = data:getTooltip();
-						  QuestieTooltips:RegisterTooltip(Quest.Id, "u_" .. NPC.Name, data.getTooltip, data);
+    if not Quest.Color then -- todo: move to a better place
+        Quest.Color = {0.45 + math.random() / 2, 0.45 + math.random() / 2, 0.45 + math.random() / 2}
+    end
 
-							--Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn1", v.Id, item.Id, NPC.Name )
-						  if(coords[1] == -1 or coords[2] == -1)then
-							if(instanceData[Zone] ~= nil) then
-							  for index, value in ipairs(instanceData[Zone]) do
-								--Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[value[1]])
-								--Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn3", value[1], value[2], value[3])
-								QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
-							  end
-							end
-						  else
-							--Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[Zone])
-							--HBDPins:AddWorldMapIconMap(Questie, Note, zoneDataAreaIDToUiMapID[Zone], coords[1]/100, coords[2]/100, HBD_PINS_WORLDMAP_SHOW_WORLD)
-							--Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn2", Zone, coords[1], coords[2])
-							QuestieMap:DrawWorldIcon(data, Zone, coords[1], coords[2])
-						  end
-						end
-					  end
-					end
-				  end
-			   elseif v2.Type == "object" then
-				  local obj = QuestieDB:GetObject(v2.Id)
-				  if(obj ~= nil and obj.Spawns ~= nil) then
-				    table.insert(v.TooltipRefs, "o_" .. obj.Name);
-					--Questie:Debug(DEBUG_DEVELOP,"Adding Quest:", questObject.Id, "StarterNPC:", NPC.Id)
-					for Zone, Spawns in pairs(obj.Spawns) do
-					  if(Zone ~= nil and Spawns ~= nil) then
-						--Questie:Debug("Zone", Zone)
-						--Questie:Debug("Qid:", questid)
-						for _, coords in ipairs(Spawns) do
-					      maxNotes = maxNotes - 1
-						  if maxNotes < 0 then
-						     return
-					      end
-						  --Questie:Debug("Coords", coords[1], coords[2])
-						  local data = {}
-						  table.insert(v.NoteRefs, data);
-						  data.Id = Quest.Id;
-						  data.Icon = ICON_TYPE_LOOT;
-						  data.IconScale = 0.7;
-						  data.QuestData = Quest;
-						  data.ObjectiveTargetId = v2.Id
-						  data.ObjectiveIndex = k
-						  data.IsObjectiveNote = true
+    -- we've already checked the objectives table by doing IsComplete
+    -- of that changes, check it here
+    for k, v in pairs(Quest.Objectives) do
+        result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, Quest, k, v);
+        if not result then
+            Questie:Error("[QuestieQuest]: There was an error populating objectives for ", Quest.Name, Quest.Id, k, err)
+        end
+    end
 
-                          data.objName = obj.Name;
-                          function data:getTooltip()
-                              if(self) then
-                                  local objectiveType, objectiveDesc, numItems, numNeeded, isCompleted = _QuestieQuest:GetLeaderBoardDetails(self.ObjectiveIndex, self.Id);
-                                  objectiveLine = "|cFF22FF22   "..tostring(numItems) .. "/" .. tostring(numNeeded) .. " " .. tostring(objectiveDesc)
-                                  questLine = QuestieTooltips:PrintDifficultyColor(self.QuestData.Level, "[" .. self.QuestData.Level .. "] " .. self.QuestData.Name)
-                                  return {self.objName, questLine, objectiveLine}
-                              end
-                          end
-						  data.tooltip = data:getTooltip();
-						  QuestieTooltips:RegisterTooltip(Quest.Id, "o_" .. obj.Name, data.getTooltip, data);
-
-						  --data.tooltip = {obj.Name, "|cFF22FF22   " .. v.Description .. " " .. v.Collected .. "/" .. v.Needed, QuestieTooltips:PrintDifficultyColor(Quest.Level, "[" .. Quest.Level .. "] " .. Quest.Name)}
-                          --QuestieTooltips:RegisterTooltip(Quest.Id, "o_" .. obj.Name, {data.tooltip[2], "|cFFFFFFFFNeeded for: |r" .. data.tooltip[3]});
-							--Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn1", v.Id, item.Id, obj.Name )
-						  if(coords[1] == -1 or coords[2] == -1) then
-							if(instanceData[Zone] ~= nil) then
-							  for index, value in ipairs(instanceData[Zone]) do
-								--Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[value[1]])
-								--Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn3", value[1], value[2], value[3])
-								QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
-							  end
-							end
-						  else
-							--Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[Zone])
-							--HBDPins:AddWorldMapIconMap(Questie, Note, zoneDataAreaIDToUiMapID[Zone], coords[1]/100, coords[2]/100, HBD_PINS_WORLDMAP_SHOW_WORLD)
-							--Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn2", Zone, coords[1], coords[2])
-							QuestieMap:DrawWorldIcon(data, Zone, coords[1], coords[2])
-						  end
-						end
-					  end
-					end
-				  end
-			   else
-			     Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Unhandled item source type ", v2.Id, v2.Type)
-			   end
-			 end
-		   else
-		     Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Error getting item ", v.Id)
-		   end
-		elseif v.Type == "monster" and tonumber(v.Needed) > tonumber(v.Collected) then
-		  NPC = QuestieDB:GetNPC(v.Id)
-		  if(NPC ~= nil and NPC.Spawns ~= nil) then
-		    table.insert(v.TooltipRefs, "u_" .. NPC.Name);
-			--Questie:Debug(DEBUG_DEVELOP,"Adding Quest:", questObject.Id, "StarterNPC:", NPC.Id)
-			for Zone, Spawns in pairs(NPC.Spawns) do
-			  if(Zone ~= nil and Spawns ~= nil) then
-				--Questie:Debug("Zone", Zone)
-				--Questie:Debug("Qid:", questid)
-				for _, coords in ipairs(Spawns) do
-				  maxNotes = maxNotes - 1
-				  if maxNotes < 0 then
-					 return
-				  end
-				  --Questie:Debug("Coords", coords[1], coords[2])
-				  local data = {}
-				  table.insert(v.NoteRefs, data);
-				  data.Id = Quest.Id;
-				  data.Icon = ICON_TYPE_SLAY;
-				  data.IconScale = 0.7;
-				  data.QuestData = Quest;
-				  data.ObjectiveTargetId = v.Id
-				  data.ObjectiveIndex = k
-				  data.IsObjectiveNote = true
-
-                  data.NPCName = NPC.Name;
-                  function data:getTooltip()
-                      if(self) then
-                          local objectiveType, objectiveDesc, numItems, numNeeded, isCompleted = _QuestieQuest:GetLeaderBoardDetails(self.ObjectiveIndex, self.Id);
-                          objectiveLine = "|cFF22FF22   "..tostring(numItems) .. "/" .. tostring(numNeeded) .. " " .. tostring(objectiveDesc)
-                          questLine = QuestieTooltips:PrintDifficultyColor(self.QuestData.Level, "[" .. self.QuestData.Level .. "] " .. self.QuestData.Name)
-                          return {self.NPCName, questLine, objectiveLine}
-                      end
-                  end
-                  data.tooltip = data:getTooltip();
-                  QuestieTooltips:RegisterTooltip(Quest.Id, "u_" .. NPC.Name, data.getTooltip, data);
-
-				  --data.tooltip = {NPC.Name, "|cFF22FF22   " .. v.Description .. " " .. v.Collected .. "/" .. v.Needed, QuestieTooltips:PrintDifficultyColor(Quest.Level, "[" .. Quest.Level .. "] " .. Quest.Name)}
-				  --QuestieTooltips:RegisterTooltip(Quest.Id, "u_" .. NPC.Name, {data.tooltip[2], "|cFFFFFFFFNeeded for: |r" .. data.tooltip[3]});
-				  --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn1", v.Id, NPC.Name )
-				  if(coords[1] == -1 or coords[2] == -1) then
-					if(instanceData[Zone] ~= nil) then
-					  for index, value in ipairs(instanceData[Zone]) do
-						--Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[value[1]])
-						--Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn3", value[1], value[2], value[3])
-						QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
-					  end
-					end
-				  else
-					--Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[Zone])
-					--HBDPins:AddWorldMapIconMap(Questie, Note, zoneDataAreaIDToUiMapID[Zone], coords[1]/100, coords[2]/100, HBD_PINS_WORLDMAP_SHOW_WORLD)
-					--Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn2", Zone, coords[1], coords[2])
-					QuestieMap:DrawWorldIcon(data, Zone, coords[1], coords[2])
-				  end
-				end
-			  end
-			end
-		  end
-		elseif v.Type == "event" then
-		    if v.Coordinates == nil and v.Description ~= nil then
-			  local questie2data = TEMP_Questie2Events[v.Description];
-			  if questie2data ~= nil and questie2data["locations"] ~= nil then
-			  local data = {}
-				table.insert(v.NoteRefs, data);
-				data.Id = Quest.Id;
-				data.Icon = ICON_TYPE_EVENT;
-				data.IconScale = 1;
-				data.QuestData = Quest;
-				data.ObjectiveTargetId = v.Id
-				data.ObjectiveIndex = k
-				data.IsObjectiveNote = true
-				data.tooltip = {v.Description, "|cFF22FF22   " .. v.Description, QuestieTooltips:PrintDifficultyColor(Quest.Level, "[" .. Quest.Level .. "] " .. Quest.Name)}
-			    for i, spawn in pairs(questie2data["locations"]) do
-				  if spawn ~= nil and spawn[1] ~= nil then
-				   local zid = Questie2ZoneTableInverse[spawn[1]];
-				   if zid ~= nil then
-				     zid = zoneDataUiMapIDToAreaID[zid];
-				     local x = spawn[2]*100;
-				     local y = spawn[3]*100;
-				     QuestieMap:DrawWorldIcon(data, zid, x, y)
-				   end
-				  end
-				end
-			  end
-			else
-			 for Zone, Spawns in pairs(v.Coordinates) do
-			  if(Zone ~= nil and Spawns ~= nil) then
-				--Questie:Debug("Zone", Zone)
-				--Questie:Debug("Qid:", questid)
-				for _, coords in ipairs(Spawns) do
-				  maxNotes = maxNotes - 1
-				  if maxNotes < 0 then
-					 return
-				  end
-				  --Questie:Debug("Coords", coords[1], coords[2])
-				  local data = {}
-				  table.insert(v.NoteRefs, data);
-				  data.Id = Quest.Id;
-				  data.Icon = ICON_TYPE_EVENT;
-				  data.IconScale = 1;
-				  data.QuestData = Quest;
-				  data.ObjectiveTargetId = v.Id
-				  data.ObjectiveIndex = k
-				  data.IsObjectiveNote = true
-				  data.tooltip = {v.Description, "|cFF22FF22   " .. v.Description, QuestieTooltips:PrintDifficultyColor(Quest.Level, "[" .. Quest.Level .. "] " .. Quest.Name)}--data.tooltip = {v.Description, QuestieTooltips:PrintDifficultyColor(Quest.Level, "|cFFFFFFFFNeeded for: |r" .. "[" .. Quest.Level .. "] " .. Quest.Name)}
-				  --QuestieTooltips:RegisterTooltip(Quest.Id, "u_" .. NPC.Name, {data.tooltip[2], "|cFFFFFFFFNeeded for: |r" .. data.tooltip[3]});
-				  --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn1", v.Id, NPC.Name )
-				  if(coords[1] == -1 or coords[2] == -1) then
-					if(instanceData[Zone] ~= nil) then
-					  for index, value in ipairs(instanceData[Zone]) do
-						--Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[value[1]])
-						--Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn3", value[1], value[2], value[3])
-						QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
-					  end
-					end
-				  else
-					--Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[Zone])
-					--HBDPins:AddWorldMapIconMap(Questie, Note, zoneDataAreaIDToUiMapID[Zone], coords[1]/100, coords[2]/100, HBD_PINS_WORLDMAP_SHOW_WORLD)
-					--Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn2", Zone, coords[1], coords[2])
-					QuestieMap:DrawWorldIcon(data, Zone, coords[1], coords[2])
-				  end
-				end
-			   end
-			 end
-			end
-		end
-	end
 end
 function QuestieQuest:PopulateQuestLogInfo(Quest)
-	--Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: PopulateMeta1:", Quest.Id, Quest.Name)
-	if Quest.Objectives == nil then
-	  Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: PopulateQuestLogInfo: creating new objective table")
-	  Quest.Objectives = {};
-	end
-	QuestieQuest:GetAllQuestObjectives(Quest)
-	local logID = GetQuestLogIndexByID(Quest.Id);
-	if logID ~= 0 then
-	  _, _, _, _, _, Quest.isComplete, _, _, _, _, _, _, _, _, _, Quest.isHidden = GetQuestLogTitle(logID)
-	  if Quest.isComplete ~= nil and Quest.isComplete == 1 then
-	    Quest.isComplete = true
-	  end
-	  Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: PopulateMeta:", Quest.isComplete, Quest.Name)
-	else
-	  Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Error: No logid for:", Quest.Name, Quest.Id )
-	end
+    --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: PopulateMeta1:", Quest.Id, Quest.Name)
+    if Quest.Objectives == nil then
+        Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: PopulateQuestLogInfo: creating new objective table")
+        Quest.Objectives = {};
+    end
+    local logID = GetQuestLogIndexByID(Quest.Id);
+    if logID ~= 0 then
+        _, _, _, _, _, Quest.isComplete, _, _, _, _, _, _, _, _, _, Quest.isHidden = GetQuestLogTitle(logID)
+        if Quest.isComplete ~= nil and Quest.isComplete == 1 then
+            Quest.isComplete = true
+        end
+        Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: PopulateMeta:", Quest.isComplete, Quest.Name)
+    else
+        Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Error: No logid for:", Quest.Name, Quest.Id )
+    end
+    QuestieQuest:GetAllQuestObjectives(Quest)
 end
 
 --Use the category order to draw the quests and trust the database order.
 --/dump QuestieQuest:GetAllQuestObjectives(24475)
 function QuestieQuest:GetAllQuestObjectives(Quest)
-  local count = GetNumQuestLeaderBoards(GetQuestLogIndexByID(Quest.Id))
-  if Quest.Objectives == nil then
-    Quest.Objectives = {} ; -- TODO: remove after api bug is fixed!!!
-	Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Error: objective table doesnt exist when getting objectives, this should never happen!")
-  end
+    local logId = GetQuestLogIndexByID(Quest.Id)
+    SelectQuestLogEntry(logId)
+    local count = GetNumQuestLeaderBoards()
+    if Quest.Objectives == nil then
+        Quest.Objectives = {}; -- TODO: remove after api bug is fixed!!!
+        Questie:Debug(DEBUG_CRITICAL, "[QuestieQuest]: Error: objective table doesnt exist when getting objectives, this should never happen!")
+    end
 
-  for i = 1, count do
-    objectiveType, objectiveDesc, numItems, numNeeded, isCompleted = _QuestieQuest:GetLeaderBoardDetails(i, Quest.Id)
-    if Quest.Objectives[i] == nil then
-	  Quest.Objectives[i] = {}
-	end
-    Quest.Objectives[i].Type = objectiveType
-    Quest.Objectives[i].Description = objectiveDesc
-    Quest.Objectives[i].Collected = numItems
-    Quest.Objectives[i].Needed = numNeeded
-    Quest.Objectives[i].Completed = isComplete
-    Quest.Objectives[i].Index = i
+    for i = 1, count do
+        objectiveType, objectiveDesc, numItems, numNeeded, isCompleted = _QuestieQuest:GetLeaderBoardDetails(i, Quest.Id)
+        if Quest.Objectives[i] == nil then
+            Quest.Objectives[i] = {}
+        end
+        Quest.Objectives[i].Index = i
+        Quest.Objectives[i].QuestId = Quest.Id
+        Quest.Objectives[i].QuestData = Quest
+        Quest.Objectives[i]._lastUpdate = 0;
+        Quest.Objectives[i].GetProgress = function(self)
+            local now = GetTime();
+            if now - self._lastUpdate < 0.5 then
+                return {self.Collected, self.Needed, self.Completed} -- updated too recently
+            end
+            self._lastUpdate = now
+            objectiveType, objectiveDesc, numItems, numNeeded, isCompleted = _QuestieQuest:GetLeaderBoardDetails(self.Index, self.QuestId)
 
-	if count == 1 and counthack(Quest.ObjectiveData) == 1 then
-	  Quest.Objectives[i].Id = Quest.ObjectiveData[1].Id
-	elseif Quest.ObjectiveData ~= nil then
-	  -- try to find npc/item/event ID
-	  for k,v in pairs(Quest.ObjectiveData) do
-	    if objectiveType == v.Type  then
-	      -- TODO: use string distance to find closest, dont rely on exact match
-		  if v.Name == nil or objectiveDesc == nil or string.lower(objectiveDesc) == string.lower(v.Name) then
-		    Quest.Objectives[i].Id = v.Id
-			Quest.Objectives[i].Coordinates = v.Coordinates
-		  end
-	    end
-	  end
-	end
+            -- fixes for api bug
+            if not numItems then numItems = 0; end
+            if not numNeeded then numNeeded = 0; end
+            if not isComplete then isComplete = false; end -- ensure its boolean false and not nil (hack)
 
-	if Quest.Objectives[i].Id == nil then
-	  Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Error finding entry ID for objective", objectiveType, objectiveDesc)
-	end
+            self.Type = objectiveType
+            self.Description = objectiveDesc
+            self.Collected = tonumber(numItems)
+            self.Needed = tonumber(numNeeded)
+            self.Completed = (self.Needed == self.Collected and self.Needed > 0) or (isComplete and self.Needed == 0) -- some objectives get removed on PLAYER_LOGIN because isComplete is set to true at random????
 
-  end
-  return Quest.Objectives
+            return {self.Collected, self.Needed, self.Completed}
+        end
+        Quest.Objectives[i]:GetProgress()
+
+        if count == 1 and counthack(Quest.ObjectiveData) == 1 then
+            Quest.Objectives[i].Id = Quest.ObjectiveData[1].Id
+        elseif Quest.ObjectiveData ~= nil then
+            -- try to find npc/item/event ID
+            for k, v in pairs(Quest.ObjectiveData) do
+                if objectiveType == v.Type then
+                    -- TODO: use string distance to find closest, dont rely on exact match
+                    if v.Name == nil or objectiveDesc == nil or string.lower(objectiveDesc) == string.lower(v.Name) then
+                        Quest.Objectives[i].Id = v.Id
+                        Quest.Objectives[i].Coordinates = v.Coordinates
+                    end
+                end
+            end
+        end
+
+        if Quest.Objectives[i].Id == nil then
+            Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Error finding entry ID for objective", objectiveType, objectiveDesc)
+        end
+
+    end
+    return Quest.Objectives
 end
 
 
 --TODO Check that this resolves correctly in classic!
 --/dump QuestieQuest:GetLeaderBoardDetails (1,1)
-function _QuestieQuest:GetLeaderBoardDetails(BoardIndex,QuestId)
-  Index = GetQuestLogIndexByID(QuestId)
-  if(Index == 0) then
-    Index = QuestId;
-  end
-  local description, objectiveType, isCompleted = GetQuestLogLeaderBoard (BoardIndex, Index);
-  --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Quest Details1:", description, objectiveType, isCompleted)
-  --Classic
-  local itemName, numItems, numNeeded = string.match(description, "(.*):%s*([%d]+)%s*/%s*([%d]+)");
-  --Retail
-  if(itemName == nil or string.len(itemName) < 5) then --Just a figure... check if its not 0
-    numItems, numNeeded, itemName = string.match(description, "(%d+)\/(%d+)(.*)")
-  end
-  Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Quest Details2:", QuestId, itemName, numItems, numNeeded)
-  if (itemName) then
-    itemName = string.gsub(itemName, "slain", "")
-  else
-    itemName = description;
-  end
-  numItems, numNeeded = string.match(description, "(%d+)\/(%d+)")
-  return objectiveType, strtrim(itemName), numItems, numNeeded, isCompleted;
+function _QuestieQuest:GetLeaderBoardDetails(BoardIndex, QuestId)
+    Index = GetQuestLogIndexByID(QuestId)
+    if(Index == 0) then
+        Index = QuestId;
+    end
+    local description, objectiveType, isCompleted = GetQuestLogLeaderBoard (BoardIndex, Index);
+    --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Quest Details1:", description, objectiveType, isCompleted)
+    --Classic
+    local itemName, numItems, numNeeded = string.match(description, "(.*):%s*([%d]+)%s*/%s*([%d]+)");
+    --Retail
+    if(itemName == nil or string.len(itemName) < 5) then --Just a figure... check if its not 0
+        numItems, numNeeded, itemName = string.match(description, "(%d+)\/(%d+)(.*)")
+    end
+    Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Quest Details2:", QuestId, itemName, numItems, numNeeded)
+    if (itemName) then
+        itemName = string.gsub(itemName, "slain", "")
+    else
+        itemName = description;
+    end
+    numItems, numNeeded = string.match(description, "(%d+)\/(%d+)")
+    return objectiveType, strtrim(itemName), numItems, numNeeded, isCompleted;
 end
 
 --Draw a single available quest, it is used by the DrawAllAvailableQuests function.
 function _QuestieQuest:DrawAvailableQuest(questObject) -- prevent recursion
-  return _QuestieQuest:DrawAvailableQuest(questObject, false)
+    return _QuestieQuest:DrawAvailableQuest(questObject, false)
 end
 function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
-  --If the object is nil we just return
-  if(questObject == nil) then
-    return false;
-  end
-
-  -- where applicable, make the exclusivegroup quests available again (TESTED)
-  if Quest.ExclusiveQuestGroup and (not noChildren) then
-	for k,v in pairs(Quest.ExclusiveQuestGroup) do
-	  local quest = QuestieDB:GetQuest(v)
-	  if _QuestieQuest:IsDoable(quest) then
-	    _QuestieQuest:DrawAvailableQuest(quest, true);
-	  end
-	end
-  end
-
-
-  --TODO More logic here, currently only shows NPC quest givers.
-  if questObject.Starts["GameObject"] ~= nil then
-    for index, ObjectID in ipairs(questObject.Starts["GameObject"]) do
-      obj = QuestieDB:GetObject(ObjectID)
-      if(obj ~= nil and obj.Spawns ~= nil) then
-        --Questie:Debug(DEBUG_DEVELOP,"Adding Quest:", questObject.Id, "StarterNPC:", NPC.Id)
-        for Zone, Spawns in pairs(obj.Spawns) do
-          if(Zone ~= nil and Spawns ~= nil) then
-            --Questie:Debug("Zone", Zone)
-            --Questie:Debug("Qid:", questid)
-            for _, coords in ipairs(Spawns) do
-              --Questie:Debug("Coords", coords[1], coords[2])
-              local data = {}
-              data.Id = questObject.Id;
-              data.Icon = ICON_TYPE_AVAILABLE;
-              data.QuestData = questObject;
-              data.QuestData.NPCName = obj.Name
-			  data.IsObjectiveNote = false
-              --data.updateTooltip = function(data)
-              --    return {QuestieTooltips:PrintDifficultyColor(data.QuestData.Level, "[" .. data.QuestData.Level .. "] " .. data.QuestData.Name), "|cFFFFFFFFStarted by: |r|cFF22FF22" .. data.QuestData.NPCName, "QuestId:"..data.QuestData.Id}
-              --end
-              function data:getTooltip()
-                  return {QuestieTooltips:PrintDifficultyColor(data.QuestData.Level, "[" .. data.QuestData.Level .. "] " .. data.QuestData.Name), "|cFF00FF00" .. data.QuestData.NPCName, "QuestId: "..data.QuestData.Id}
-              end
-              data.tooltip = data:getTooltip()
-              if(coords[1] == -1 or coords[2] == -1) then
-                if(instanceData[Zone] ~= nil) then
-                  for index, value in ipairs(instanceData[Zone]) do
-                    --Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[value[1]])
-                    QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
-                  end
-                end
-              else
-                --Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[Zone])
-                --HBDPins:AddWorldMapIconMap(Questie, Note, zoneDataAreaIDToUiMapID[Zone], coords[1]/100, coords[2]/100, HBD_PINS_WORLDMAP_SHOW_WORLD)
-                QuestieMap:DrawWorldIcon(data, Zone, coords[1], coords[2])
-              end
-            end
-          end
-        end
-      end
+    --If the object is nil we just return
+    if(questObject == nil) then
+        return false;
     end
-  elseif(questObject.Starts["NPC"] ~= nil)then
-    for index, NPCID in ipairs(questObject.Starts["NPC"]) do
-      NPC = QuestieDB:GetNPC(NPCID)
-      if(NPC ~= nil and NPC.Spawns ~= nil) then
-        --Questie:Debug(DEBUG_DEVELOP,"Adding Quest:", questObject.Id, "StarterNPC:", NPC.Id)
-        for Zone, Spawns in pairs(NPC.Spawns) do
-          if(Zone ~= nil and Spawns ~= nil) then
-            --Questie:Debug("Zone", Zone)
-            --Questie:Debug("Qid:", questid)
-            for _, coords in ipairs(Spawns) do
-              --Questie:Debug("Coords", coords[1], coords[2])
-              local data = {}
-              data.Id = questObject.Id;
-              data.Icon = ICON_TYPE_AVAILABLE;
-              data.QuestData = questObject;
-              data.QuestData.NPCName = NPC.Name
-			  data.IsObjectiveNote = false
-              --data.updateTooltip = function(data)
-              --    return {QuestieTooltips:PrintDifficultyColor(data.QuestData.Level, "[" .. data.QuestData.Level .. "] " .. data.QuestData.Name), "|cFFFFFFFFStarted by: |r|cFF22FF22" .. data.QuestData.NPCName, "QuestId:"..data.QuestData.Id}
-              --end
-              function data:getTooltip()
-                  return {QuestieTooltips:PrintDifficultyColor(data.QuestData.Level, "[" .. data.QuestData.Level .. "] " .. data.QuestData.Name), "|cFF00FF00" .. data.QuestData.NPCName, "QuestId: "..data.QuestData.Id}
-              end
-              data.tooltip = data:getTooltip()
-              if(coords[1] == -1 or coords[2] == -1) then
-                if(instanceData[Zone] ~= nil) then
-                  for index, value in ipairs(instanceData[Zone]) do
-                    --Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[value[1]])
-                    QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
-                  end
-                end
-              else
-                --Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[Zone])
-                --HBDPins:AddWorldMapIconMap(Questie, Note, zoneDataAreaIDToUiMapID[Zone], coords[1]/100, coords[2]/100, HBD_PINS_WORLDMAP_SHOW_WORLD)
-                QuestieMap:DrawWorldIcon(data, Zone, coords[1], coords[2])
-              end
+
+    -- where applicable, make the exclusivegroup quests available again (TESTED)
+    if questObject.ExclusiveQuestGroup and (not noChildren) then
+        for k, v in pairs(questObject.ExclusiveQuestGroup) do
+            local quest = QuestieDB:GetQuest(v)
+            if _QuestieQuest:IsDoable(quest) then
+                _QuestieQuest:DrawAvailableQuest(quest, true);
             end
-          end
         end
-      end
     end
-  end
+
+
+    --TODO More logic here, currently only shows NPC quest givers.
+    if questObject.Starts["GameObject"] ~= nil then
+        for index, ObjectID in ipairs(questObject.Starts["GameObject"]) do
+            obj = QuestieDB:GetObject(ObjectID)
+            if(obj ~= nil and obj.Spawns ~= nil) then
+                --Questie:Debug(DEBUG_DEVELOP,"Adding Quest:", questObject.Id, "StarterNPC:", NPC.Id)
+                for Zone, Spawns in pairs(obj.Spawns) do
+                    if(Zone ~= nil and Spawns ~= nil) then
+                        --Questie:Debug("Zone", Zone)
+                        --Questie:Debug("Qid:", questid)
+                        for _, coords in ipairs(Spawns) do
+                            --Questie:Debug("Coords", coords[1], coords[2])
+                            local data = {}
+                            data.Id = questObject.Id;
+                            data.Icon = ICON_TYPE_AVAILABLE;
+                            data.Type = "available";
+                            data.QuestData = questObject;
+                            data.Name = obj.Name
+
+                            data.IsObjectiveNote = false
+                            --data.updateTooltip = function(data)
+                            --    return {QuestieTooltips:PrintDifficultyColor(data.QuestData.Level, "[" .. data.QuestData.Level .. "] " .. data.QuestData.Name), "|cFFFFFFFFStarted by: |r|cFF22FF22" .. data.QuestData.NPCName, "QuestId:"..data.QuestData.Id}
+                            --end
+                            if(coords[1] == -1 or coords[2] == -1) then
+                                if(instanceData[Zone] ~= nil) then
+                                    for index, value in ipairs(instanceData[Zone]) do
+                                        --Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[value[1]])
+                                        QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
+                                    end
+                                end
+                            else
+                                --Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[Zone])
+                                --HBDPins:AddWorldMapIconMap(Questie, Note, zoneDataAreaIDToUiMapID[Zone], coords[1]/100, coords[2]/100, HBD_PINS_WORLDMAP_SHOW_WORLD)
+                                QuestieMap:DrawWorldIcon(data, Zone, coords[1], coords[2])
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    elseif(questObject.Starts["NPC"] ~= nil)then
+        for index, NPCID in ipairs(questObject.Starts["NPC"]) do
+            NPC = QuestieDB:GetNPC(NPCID)
+            if(NPC ~= nil and NPC.Spawns ~= nil) then
+                --Questie:Debug(DEBUG_DEVELOP,"Adding Quest:", questObject.Id, "StarterNPC:", NPC.Id)
+                for Zone, Spawns in pairs(NPC.Spawns) do
+                    if(Zone ~= nil and Spawns ~= nil) then
+                        --Questie:Debug("Zone", Zone)
+                        --Questie:Debug("Qid:", questid)
+                        for _, coords in ipairs(Spawns) do
+                            --Questie:Debug("Coords", coords[1], coords[2])
+                            local data = {}
+                            data.Id = questObject.Id;
+                            data.Icon = ICON_TYPE_AVAILABLE;
+                            data.Type = "available";
+                            data.QuestData = questObject;
+                            data.Name = NPC.Name
+                            data.IsObjectiveNote = false
+                            --data.updateTooltip = function(data)
+                            --    return {QuestieTooltips:PrintDifficultyColor(data.QuestData.Level, "[" .. data.QuestData.Level .. "] " .. data.QuestData.Name), "|cFFFFFFFFStarted by: |r|cFF22FF22" .. data.QuestData.NPCName, "QuestId:"..data.QuestData.Id}
+                            --end
+                            if(coords[1] == -1 or coords[2] == -1) then
+                                if(instanceData[Zone] ~= nil) then
+                                    for index, value in ipairs(instanceData[Zone]) do
+                                        --Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[value[1]])
+                                        QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
+                                    end
+                                end
+                            else
+                                --Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[Zone])
+                                --HBDPins:AddWorldMapIconMap(Questie, Note, zoneDataAreaIDToUiMapID[Zone], coords[1]/100, coords[2]/100, HBD_PINS_WORLDMAP_SHOW_WORLD)
+                                QuestieMap:DrawWorldIcon(data, Zone, coords[1], coords[2])
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
 end
 
 function QuestieQuest:DrawAllAvailableQuests()--All quests between
-  --This should probably be called somewhere else!
-  --QuestieFramePool:UnloadAll()
+    --This should probably be called somewhere else!
+    --QuestieFramePool:UnloadAll()
 
-  local count = 0
-  for questid, qid in pairs(qAvailableQuests) do
-    --If the quest is not drawn draw the quest, otherwise skip.
-    if(not qQuestIdFrames[questid]) then
-      Quest = QuestieDB:GetQuest(questid)
-      --Draw a specific quest through the function
-      _QuestieQuest:DrawAvailableQuest(Quest)
+    local count = 0
+    for questid, qid in pairs(qAvailableQuests) do
+        --If the quest is not drawn draw the quest, otherwise skip.
+        if(not qQuestIdFrames[questid]) then
+            Quest = QuestieDB:GetQuest(questid)
+            --Draw a specific quest through the function
+            _QuestieQuest:DrawAvailableQuest(Quest)
+        end
+        count = count + 1
     end
-    count = count + 1
-  end
-  Questie:Debug(DEBUG_INFO,"[QuestieQuest]", count, "available quests drawn. PlayerLevel = ", qPlayerLevel);
+    Questie:Debug(DEBUG_INFO, "[QuestieQuest]", count, "available quests drawn. PlayerLevel = ", qPlayerLevel);
 end
 
 
 
 
 function _QuestieQuest:IsDoable(questObject) -- we need to add profession/reputation checks here
-  if not questObject then
-    return false;
-  end
-  local allFinished=true
-  --Run though the requiredQuests
-  if questObject.ExclusiveQuestGroup then -- fix (DO NOT REVERT, tested thoroughly)
-    for k,v in pairs(questObject.ExclusiveQuestGroup) do
-	  if Questie.db.char.complete[v] or qCurrentQuestlog[v] ~= nil then
-	    return false
-	  end
-	end
-  end
-  if questObject.RequiredQuest == nil or questObject.RequiredQuest == 0 then
-    return true
-  end
-  for index, preQuestId in pairs(questObject.RequiredQuest) do
-
-    local preQuest = QuestieDB:GetQuest(preQuestId);
-
-    --If a quest is not complete not all are finished, we need to check group
-    if not Questie.db.char.complete[preQuestId] then
-      allFinished=false
-    --If one of the quests in the group is done we return true
-    elseif preQuest and preQuest.ExclusiveQuestGroup then
-      return true
+    if not questObject then
+        return false;
     end
-
-    --If one of the quests are in the log, return false
-    if preQuest and qCurrentQuestlog[preQuest.Id] then
-      return false
+    if questObject.Hidden then
+        return false;
     end
-  end
-  return allFinished
+    local allFinished = true
+    --Run though the requiredQuests
+    if questObject.ExclusiveQuestGroup then -- fix (DO NOT REVERT, tested thoroughly)
+        for k, v in pairs(questObject.ExclusiveQuestGroup) do
+            if Questie.db.char.complete[v] or qCurrentQuestlog[v] ~= nil then
+                return false
+            end
+        end
+    end
+    if questObject.RequiredQuest == nil or questObject.RequiredQuest == 0 then
+        return true
+    end
+    for index, preQuestId in pairs(questObject.RequiredQuest) do
+
+        local preQuest = QuestieDB:GetQuest(preQuestId);
+
+        --If a quest is not complete not all are finished, we need to check group
+        if not Questie.db.char.complete[preQuestId] then
+            allFinished = false
+            --If one of the quests in the group is done we return true
+        elseif preQuest and preQuest.ExclusiveQuestGroup then
+            return true
+        end
+
+        --If one of the quests are in the log, return false
+        if preQuest and qCurrentQuestlog[preQuest.Id] then
+            return false
+        end
+    end
+    return allFinished
 end
 
 function _QuestieQuest:CheckExclusivity(questObject)
@@ -944,25 +843,25 @@ function QuestieQuest:CalculateAvailableQuests()
     local MinLevel = PlayerLevel - Questie.db.global.minLevelFilter
     local MaxLevel = PlayerLevel + Questie.db.global.maxLevelFilter
 
-  --DEFAULT_CHAT_FRAME:AddMessage(" minlevel/maxlevel: " .. MinLevel .. "/" .. MaxLevel);
+    --DEFAULT_CHAT_FRAME:AddMessage(" minlevel/maxlevel: " .. MinLevel .. "/" .. MaxLevel);
 
-  qAvailableQuests = {}
+    qAvailableQuests = {}
 
-  for i, v in pairs(qData) do
-    local QuestID = i;
-    --Check if we've already completed the quest and that it is not "manually" hidden and that the quest is not currently in the questlog.
+    for i, v in pairs(qData) do
+        local QuestID = i;
+        --Check if we've already completed the quest and that it is not "manually" hidden and that the quest is not currently in the questlog.
 
-    if(not Questie.db.char.complete[QuestID] and not qHide[QuestID] and not qCurrentQuestlog[QuestID]) then --Should be not qCurrentQuestlog[QuestID]
-      local Quest = QuestieDB:GetQuest(QuestID);
-      if (Quest.Level > MinLevel or Questie.db.char.lowlevel) and Quest.Level < MaxLevel and Quest.MinLevel <= PlayerLevel then
-        if _QuestieQuest:IsDoable(Quest) then
-          qAvailableQuests[QuestID] = QuestID
+        if(not Questie.db.char.complete[QuestID] and not qHide[QuestID] and not qCurrentQuestlog[QuestID]) then --Should be not qCurrentQuestlog[QuestID]
+            local Quest = QuestieDB:GetQuest(QuestID);
+            if (Quest.Level > MinLevel or Questie.db.char.lowlevel) and Quest.Level < MaxLevel and Quest.MinLevel <= PlayerLevel then
+                if _QuestieQuest:IsDoable(Quest) then
+                    qAvailableQuests[QuestID] = QuestID
+                end
+            else
+                --If the quests are not within level range we want to unload them
+                --(This is for when people level up or change settings etc)
+                QuestieMap:UnloadQuestFrames(QuestID);
+            end
         end
-      else
-        --If the quests are not within level range we want to unload them
-        --(This is for when people level up or change settings etc)
-        QuestieMap:UnloadQuestFrames(QuestID);
-      end
     end
-  end
 end

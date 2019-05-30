@@ -40,8 +40,8 @@ end
 function QuestieStreamLib:readTinyString()
     local length = self:readByte();
     local ret = "";
-    for i=1,length do
-        ret = ret .. string.char(self:readByte())  -- bad lua code is bad
+    for i = 1, length do
+        ret = ret .. string.char(self:readByte()) -- bad lua code is bad
     end
     return ret;
 end
@@ -49,8 +49,8 @@ end
 function QuestieStreamLib:readShortString()
     local length = self:readShort();
     local ret = "";
-    for i=1,length do
-        ret = ret .. string.char(self:readByte())  -- bad lua code is bad
+    for i = 1, length do
+        ret = ret .. string.char(self:readByte()) -- bad lua code is bad
     end
     return ret;
 end
@@ -66,7 +66,7 @@ function QuestieStreamLib:load(bin)
     self._pointer = 0;
     self._size = 0;
     local level = 0;
-    for i=1,string.len(bin) do
+    for i = 1, string.len(bin) do
         local v = string.byte(bin, i);
         --print(v);
         if QSL_dltab[v] == nil then
