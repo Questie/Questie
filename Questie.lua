@@ -65,7 +65,11 @@ end
 function Questie:MySlashProcessorFunc(input)
 	--Questie:Print(ChatFrame1, "Hello, World!")
 	--SetMessage("test", "test")
-		Questie:Print("MySlashProcessorFunc!");
+		if(not QuestieFrameOpt) then
+			QuestieFrameOpt = AceGUI:Create("Frame")
+		end
+	    QuestieFrame2 = LibStub("AceConfigDialog-3.0"):Open("Questie", QuestieFrameOpt)
+
 
   -- Process the slash command ('input' contains whatever follows the slash command)
 
@@ -471,12 +475,13 @@ function Questie:OnInitialize()
 
     Questie:RegisterChatCommand("questieclassic", "MySlashProcessorFunc")
     Questie:RegisterChatCommand("test", "SlashTest")
-    Questie:RegisterChatCommand("qc", "MySlashProcessorFunc")
+    Questie:RegisterChatCommand("questie", "MySlashProcessorFunc")
 
 
 
     LibStub("AceConfig-3.0"):RegisterOptionsTable("Questie", options)
-    --QuestieFrame2 = LibStub("AceConfigDialog-3.0"):Open("Questie", QuestieFrameOpt)
+
+
 
     --QuestieFrame:SetTitle("Example frame")
     --QuestieFrame:SetStatusText("AceGUI-3.0 Example Container frame")
@@ -492,7 +497,6 @@ function Questie:OnInitialize()
     --glooobball = HBD:GetAllMapIDs()
     --Questie:Print(HBD:GetAllMapIDs())
     --Questie:Print(GetWorldContinentFromZone(getPlayerZone()))
-    --QuestieFrameOpt = AceGUI:Create("Frame")
     --Questie.db.global.lastmessage = 0
 
     self.configFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Questie", "Questie");
