@@ -59,7 +59,7 @@ function QuestieQuest:GetRawLeaderBoardDetails(QuestLogIndex)
     quest.title = title;
     quest.level = level;
     quest.isComplete = isComplete;
-	local old = GetQuestLogSelection()
+    local old = GetQuestLogSelection()
     SelectQuestLogEntry(QuestLogIndex);
     local numQuestLogLeaderBoards = GetNumQuestLeaderBoards()
 
@@ -88,7 +88,7 @@ function QuestieQuest:GetRawLeaderBoardDetails(QuestLogIndex)
         --quest.compareString = string.format("%s%s%s%s", quest.compareString, description, objectiveType, isCompleted);
     end
     quest.Id = questId
-	if old then SelectQuestLogEntry(old); end
+    if old then SelectQuestLogEntry(old); end
     return quest;
 end
 
@@ -585,7 +585,7 @@ end
 --/dump QuestieQuest:GetAllQuestObjectives(24475)
 function QuestieQuest:GetAllQuestObjectives(Quest)
     local logId = GetQuestLogIndexByID(Quest.Id)
-	local old = GetQuestLogSelection()
+    local old = GetQuestLogSelection()
     SelectQuestLogEntry(logId)
     local count = GetNumQuestLeaderBoards()
     if Quest.Objectives == nil then
@@ -605,7 +605,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
         Quest.Objectives[i].GetProgress = function(self)
             local now = GetTime();
             if now - self._lastUpdate < 0.5 then
-			    if old then SelectQuestLogEntry(old); end
+                if old then SelectQuestLogEntry(old); end
                 return {self.Collected, self.Needed, self.Completed} -- updated too recently
             end
             self._lastUpdate = now
@@ -646,7 +646,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
         end
 
     end
-	if old then SelectQuestLogEntry(old); end
+    if old then SelectQuestLogEntry(old); end
     return Quest.Objectives
 end
 
