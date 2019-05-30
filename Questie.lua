@@ -442,14 +442,14 @@ function Questie:OnInitialize()
     --self.db = LibStub("AceDB-3.0"):New("QuestieClassicDB", defaults, true)
 
     Questie:Debug(DEBUG_CRITICAL, "Questie addon loaded")
-    Questie:RegisterEvent("PLAYER_ENTERING_WORLD", PLAYER_ENTERING_WORLD)
+    Questie:RegisterEvent("PLAYER_ENTERING_WORLD", QuestieEventHandler.PLAYER_ENTERING_WORLD)
     --Accepted Events
-    Questie:RegisterEvent("QUEST_ACCEPTED", QUEST_ACCEPTED)
-    Questie:RegisterEvent("QUEST_WATCH_UPDATE", QUEST_WATCH_UPDATE);
-    Questie:RegisterEvent("QUEST_TURNED_IN", QUEST_TURNED_IN)
-    Questie:RegisterEvent("QUEST_REMOVED", QUEST_REMOVED)
-    Questie:RegisterEvent("PLAYER_LEVEL_UP", PLAYER_LEVEL_UP);
-    --Questie:RegisterEvent("QUEST_LOG_UPDATE", QUEST_LOG_UPDATE);
+    Questie:RegisterEvent("QUEST_ACCEPTED", QuestieEventHandler.QUEST_ACCEPTED)
+    Questie:RegisterEvent("QUEST_WATCH_UPDATE", QuestieEventHandler.QUEST_WATCH_UPDATE);
+    Questie:RegisterEvent("QUEST_TURNED_IN", QuestieEventHandler.QUEST_TURNED_IN)
+    Questie:RegisterEvent("QUEST_REMOVED", QuestieEventHandler.QUEST_REMOVED)
+    Questie:RegisterEvent("PLAYER_LEVEL_UP", QuestieEventHandler.PLAYER_LEVEL_UP);
+    Questie:RegisterEvent("QUEST_LOG_UPDATE", QuestieEventHandler.QUEST_LOG_UPDATE);
 
     --TODO: QUEST_QUERY_COMPLETE Will get all quests the character has finished, need to be implemented!
 
