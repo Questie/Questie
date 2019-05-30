@@ -595,53 +595,56 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
 
     for i = 1, count do
         objectiveType, objectiveDesc, numItems, numNeeded, isCompleted = _QuestieQuest:GetLeaderBoardDetails(i, Quest.Id)
-        if Quest.Objectives[i] == nil then
-            Quest.Objectives[i] = {}
-        end
-        Quest.Objectives[i].Index = i
-        Quest.Objectives[i].QuestId = Quest.Id
-        Quest.Objectives[i].QuestData = Quest
-        Quest.Objectives[i]._lastUpdate = 0;
-        Quest.Objectives[i].GetProgress = function(self)
-            local now = GetTime();
-            if now - self._lastUpdate < 0.5 then
-                if old then SelectQuestLogEntry(old); end
-                return {self.Collected, self.Needed, self.Completed} -- updated too recently
+        if objectiveType then 
+            if Quest.Objectives[i] == nil then
+                Quest.Objectives[i] = {}
             end
-            self._lastUpdate = now
-            objectiveType, objectiveDesc, numItems, numNeeded, isCompleted = _QuestieQuest:GetLeaderBoardDetails(self.Index, self.QuestId)
+            Quest.Objectives[i].Index = i
+            Quest.Objectives[i].QuestId = Quest.Id
+            Quest.Objectives[i].QuestData = Quest
+            Quest.Objectives[i]._lastUpdate = 0;
+            Quest.Objectives[i].GetProgress = function(self)
+                local now = GetTime();
+                if now - self._lastUpdate < 0.5 then
+                    if old then SelectQuestLogEntry(old); end
+                    return {self.Collected, self.Needed, self.Completed} -- updated too recently
+                end
+                self._lastUpdate = now
+                objectiveType, objectiveDesc, numItems, numNeeded, isCompleted = _QuestieQuest:GetLeaderBoardDetails(self.Index, self.QuestId)
+                if objectiveType then
+                    -- fixes for api bug
+                    if not numItems then numItems = 0; end
+                    if not numNeeded then numNeeded = 0; end
+                    if not isComplete then isComplete = false; end -- ensure its boolean false and not nil (hack)
 
-            -- fixes for api bug
-            if not numItems then numItems = 0; end
-            if not numNeeded then numNeeded = 0; end
-            if not isComplete then isComplete = false; end -- ensure its boolean false and not nil (hack)
+                    self.Type = objectiveType
+                    self.Description = objectiveDesc
+                    self.Collected = tonumber(numItems)
+                    self.Needed = tonumber(numNeeded)
+                    self.Completed = (self.Needed == self.Collected and self.Needed > 0) or (isComplete and self.Needed == 0) -- some objectives get removed on PLAYER_LOGIN because isComplete is set to true at random????
+                    if old then SelectQuestLogEntry(old); end
+                end
+                return {self.Collected, self.Needed, self.Completed}
+            end
+            Quest.Objectives[i]:GetProgress()
 
-            self.Type = objectiveType
-            self.Description = objectiveDesc
-            self.Collected = tonumber(numItems)
-            self.Needed = tonumber(numNeeded)
-            self.Completed = (self.Needed == self.Collected and self.Needed > 0) or (isComplete and self.Needed == 0) -- some objectives get removed on PLAYER_LOGIN because isComplete is set to true at random????
-            if old then SelectQuestLogEntry(old); end
-            return {self.Collected, self.Needed, self.Completed}
-        end
-        Quest.Objectives[i]:GetProgress()
-
-        if count == 1 and counthack(Quest.ObjectiveData) == 1 then
-            Quest.Objectives[i].Id = Quest.ObjectiveData[1].Id
-        elseif Quest.ObjectiveData ~= nil then
-            -- try to find npc/item/event ID
-            for k, v in pairs(Quest.ObjectiveData) do
-                if objectiveType == v.Type then
-                    -- TODO: use string distance to find closest, dont rely on exact match
-                    if v.Name == nil or objectiveDesc == nil or string.lower(objectiveDesc) == string.lower(v.Name) then
-                        Quest.Objectives[i].Id = v.Id
-                        Quest.Objectives[i].Coordinates = v.Coordinates
+            if count == 1 and counthack(Quest.ObjectiveData) == 1 then
+                Quest.Objectives[i].Id = Quest.ObjectiveData[1].Id
+            elseif Quest.ObjectiveData ~= nil then
+                -- try to find npc/item/event ID
+                for k, v in pairs(Quest.ObjectiveData) do
+                    if objectiveType == v.Type then
+                        -- TODO: use string distance to find closest, dont rely on exact match
+                            if v.Name == nil or objectiveDesc == nil or string.lower(objectiveDesc) == string.lower(v.Name) then
+                            Quest.Objectives[i].Id = v.Id
+                            Quest.Objectives[i].Coordinates = v.Coordinates
+                        end
                     end
                 end
             end
         end
 
-        if Quest.Objectives[i].Id == nil then
+        if (not Quest.Objectives[i]) or (not Quest.Objectives[i].Id) then
             Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Error finding entry ID for objective", objectiveType, objectiveDesc)
         end
 
@@ -659,6 +662,8 @@ function _QuestieQuest:GetLeaderBoardDetails(BoardIndex, QuestId)
         Index = QuestId;
     end
     local description, objectiveType, isCompleted = GetQuestLogLeaderBoard (BoardIndex, Index);
+    if not description then return nil; end -- invalid board index (this has happened extremely rarely see issue 565)
+    
     --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Quest Details1:", description, objectiveType, isCompleted)
     --Classic
     local itemName, numItems, numNeeded = string.match(description, "(.*):%s*([%d]+)%s*/%s*([%d]+)");
