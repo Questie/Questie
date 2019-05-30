@@ -1,13 +1,14 @@
 
 questRequirementFixes = {
-  [46] = {39},
-  [3903] = {18},
-  [33] = {783},
-  [374] = {427} -- proof of demise requires at war with the scarlet crusade
+    [46] = {39},
+    [3903] = {18},
+    [33] = {783},
+    [374] = {427} -- proof of demise requires at war with the scarlet crusade
 }
 
 questExclusiveGroupFixes = {
-	[463] = {276} --greenwarden cant be completed if you have trampling paws
+    [463] = {276}, --greenwarden cant be completed if you have trampling paws
+    [415] = {413} --cant complete rejolds new brew if you do shimmer stout (see issue 567)
 }
 
 qHide = {
