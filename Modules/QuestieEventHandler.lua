@@ -25,6 +25,7 @@ function PLAYER_ENTERING_WORLD()
     QuestieQuest:GetAllQuestIdsNoObjectives()
     QuestieQuest:CalculateAvailableQuests()
     QuestieQuest:DrawAllAvailableQuests()
+    QuestieNameplate:Initialize();
 
     C_Timer.After(2, function ()
         Questie:Debug(DEBUG_ELEVATED, "Player entered world")

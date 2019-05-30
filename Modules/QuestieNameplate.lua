@@ -6,13 +6,16 @@ local npUnusedFrames = {};
 local npFramesCount = 0;
 
 QuestieNameplate.TimerSet = 0.5;
-
+QuestieNameplate.GlobalFrame = nil;
 
 -- Initializer
 function QuestieNameplate:Initialize()
-    QuestieNameplate.GlobalFrame = CreateFrame("Frame");
-    QuestieNameplate.GlobalFrame:SetScript("OnUpdate", QuestieNameplate.UpdateNameplate);
+    if QuestieNameplate.GlobalFrame == nil then
+        QuestieNameplate.GlobalFrame = CreateFrame("Frame");
+        QuestieNameplate.GlobalFrame:SetScript("OnUpdate", QuestieNameplate.UpdateNameplate);
+    end
 
+    QuestieNameplate.TimerSet = 2.5;
 end
 
 -- Frame Management
@@ -81,31 +84,27 @@ function QuestieNameplate:NameplateCreated(token)
     local unitType = strsplit("-", unitGUID);
 
     if unitType == "Creature" then
+        --[[
+            Timer hack to account for delay in populating QuestieTooltips
+            Without delay, if nameplates start off toggled, then they need to
+            be toggled off and back on again or delay 2 seconds apperas instant
+            on the client.  Only needs to be run once, controlled with TimerSet.
+        ]]
+        C_Timer.After(QuestieNameplate.TimerSet, function()
+            QuestieNameplate.TimerSet = 0;
+            local toKill = QuestieTooltips.tooltipLookup["u_" .. unitName];
 
-        if unitName then
-            --[[
-                Timer hack to account for delay in populating QuestieTooltips
-                Without delay, if nameplates start off toggled, then they need to
-                be toggled off and back on again or delay 2 seconds apperas instant
-                on the client.  Only needs to be run once, controlled with Timer set.
-            ]]
-            C_Timer.After(QuestieNameplate.TimerSet, function()
-                QuestieNameplate.TimerSet = 0;
-                local toKill = QuestieTooltips.tooltipLookup["u_" .. unitName];
+            if toKill and toKill[1] and toKill[1].Objective then
+                local icon = toKill[1].Objective.Icon
 
-                if toKill and toKill[1] and toKill[1].Objective then
-                    -- tooltips are now stored in sub tables to support more than 1 objective, quick fix
-                    local icon = toKill[1].Objective.Icon
+                activeGUIDs[unitGUID] = token;
 
-                    activeGUIDs[unitGUID] = token;
+                local f = QuestieNameplate:getFrame(unitGUID);
+                f.Icon:SetTexture(icon)
+                f:Show();
 
-                    local f = QuestieNameplate:getFrame(unitGUID);
-                    f.Icon:SetTexture(icon)
-                    f:Show();
-
-                end
-            end);
-        end
+            end
+        end);
     end
 end
 
@@ -113,7 +112,7 @@ function QuestieNameplate:NameplateDestroyed(token)
 
     local unitGUID = UnitGUID(token);
 
-    if activeGUIDs[unitGUID] then
+    if unitGUID and activeGUIDs[unitGUID] then
         activeGUIDs[unitGUID] = nil;
         QuestieNameplate:removeFrame(unitGUID);
     end
@@ -123,20 +122,42 @@ end
 
 function QuestieNameplate:UpdateNameplate(self)
 
-    for k, v in pairs(activeGUIDs) do
+    for guid, token in pairs(activeGUIDs) do
 
-        unitName, _ = UnitName(activeGUIDs[k]);
+        unitName, _ = UnitName(token);
 
-        if unitName == nil then return end
+        if not unitName then return end
 
         local toKill = QuestieTooltips.tooltipLookup["u_" .. unitName];
 
-        if toKill and toKill[1] and toKill[1].Objective then
-            -- tooltips are now stored in sub tables to support more than 1 objective, quick fix
-            if toKill[1].Objective.Completed or (tonumber(toKill[1].Objective.Needed) == tonumber(toKill[1].Objective.Collected) and tonumber(toKill[1].Objective.Needed) > 0) then
-                activeGUIDs[k] = nil;
-                QuestieNameplate:removeFrame(k);
+        if toKill then
+            -- see if the mob has no objectives
+            if #toKill == 0 then
+                activeGUIDs[guid] = nil;
+                QuestieNameplate:removeFrame(guid);
+            elseif toKill[1] and toKill[1].Objective then
+                -- Update to current main objective (first in list)
+                if toKill[1].Objective.Completed or (tonumber(toKill[1].Objective.Needed) == tonumber(toKill[1].Objective.Collected) and tonumber(toKill[1].Objective.Needed) > 0) then
+
+                    if toKill[2] and toKill[2].Objective then
+                        local frame = QuestieNameplate:getFrame(guid);
+                        frame.Icon:SetTexture(nil);
+                        frame.Icon:SetTexture(toKill[2].Objective.Icon);
+                    else
+                        activeGUIDs[guid] = nil;
+                        QuestieNameplate:removeFrame(guid);
+                    end
+                else
+                    local frame = QuestieNameplate:getFrame(guid);
+                    frame.Icon:SetTexture(nil);
+                    frame.Icon:SetTexture(toKill[1].Objective.Icon);
+                end
             end
+        else
+            -- tooltip removed but we still have the frame active, remove it
+            print ("In the extra else");
+            activeGUIDs[guid] = nil;
+            QuestieNameplate:removeFrame(guid);
         end
     end
 end
