@@ -392,13 +392,13 @@ ObjectiveSpawnListCallTable = {
     ["event"] = function(id, Objective)
         local ret = {}
         ret[1] = {};
-        ret[1].Name = Objective.Description;
+        ret[1].Name = Objective.Description or "Event Trigger";
         ret[1].Icon = ICON_TYPE_EVENT
         ret[1].IconScale = 1
         ret[1].Id = id or 0
         if Objective.Coordinates then
             ret[1].Spawns = Objective.Coordinates
-        else-- we need to fall back to old questie data, some events are missing in the new DB
+        elseif Objective.Description then-- we need to fall back to old questie data, some events are missing in the new DB
             ret[1].Spawns = {}
             local questie2data = TEMP_Questie2Events[Objective.Description];
             if questie2data and questie2data["locations"] then
@@ -463,7 +463,7 @@ ObjectiveSpawnListCallTable = {
 }
 
 function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective) -- must be pcalled
-    local completed = Objective.Completed or (Objective.Needed ~= nil and tonumber(Objective.Needed) > 0 and tonumber(Objective.Collected) >= tonumber(Objective.Needed));
+    local completed = Objective.Completed or (Objective.Needed ~= nil and tonumber(Objective.Needed) > 0 and tonumber(Objective.Collected) >= tonumber(Objective.Needed)) or QuestieQuest:IsComplete(Quest);
     if Objective.AlreadySpawned == nil then
         Objective.AlreadySpawned = {};
     end
@@ -563,13 +563,24 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
     end
 
     -- we've already checked the objectives table by doing IsComplete
-    -- of that changes, check it here
+    -- if that changes, check it here
     for k, v in pairs(Quest.Objectives) do
         result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, Quest, k, v);
         if not result then
             Questie:Error("[QuestieQuest]: There was an error populating objectives for ", Quest.Name, Quest.Id, k, err)
         end
     end
+    
+    -- check for special (unlisted) DB objectives
+    if Quest.SpecialObjectives then
+        for _, objective in pairs(Quest.SpecialObjectives) do
+            result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, Quest, 0, objective);
+            if not result then
+                Questie:Error("[QuestieQuest]: There was an error populating objectives for ", Quest.Name, Quest.Id, k, err)
+            end
+        end
+    end
+    
 
 end
 function QuestieQuest:PopulateQuestLogInfo(Quest)
@@ -645,9 +656,10 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                 for k, v in pairs(Quest.ObjectiveData) do
                     if objectiveType == v.Type then
                         -- TODO: use string distance to find closest, dont rely on exact match
-                            if v.Name == nil or objectiveDesc == nil or (v.Name and ((string.lower(objectiveDesc) == string.lower(v.Name))) or (v.Text and (string.lower(objectiveDesc) == string.lower(v.Text)))) then
+                        if v.Name == nil or objectiveDesc == nil or (v.Name and ((string.lower(objectiveDesc) == string.lower(v.Name))) or (v.Text and (string.lower(objectiveDesc) == string.lower(v.Text)))) then
                             Quest.Objectives[i].Id = v.Id
                             Quest.Objectives[i].Coordinates = v.Coordinates
+                            v.ObjectiveRef = Quest.Objectives[i]
                         end
                     end
                 end
@@ -660,6 +672,41 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
 
     end
     if old then SelectQuestLogEntry(old); end
+    
+    -- find special unlisted objectives
+    if Quest.ObjectiveData then
+        for _, objective in pairs(Quest.ObjectiveData) do
+            if not objective.ObjectiveRef then -- there was no qlog objective detected for this DB objective
+                objective.QuestData = Quest
+                objective.QuestId = Quest.Id
+                objective.GetProgress = function() end
+                
+                -- hack
+                if objective.Type then
+                    if objective.Type == "monster" then
+                        local npc = QuestieDB:GetNPC(objective.Id);
+                        if npc and npc.Name then
+                            objective.Description = npc.Name
+                        end
+                    elseif objective.Type == "item" then
+                        local itm = QuestieDB:GetItem(objective.Id);
+                        if itm and itm.Name then
+                            objective.Description = itm.Name
+                        end
+                    elseif objective.Type == "event" then
+                        objective.Description = "Event Trigger"
+                    end
+                end
+                if not objective.Description then objective.Description = "Hidden objective"; end
+                
+                if not Quest.SpecialObjectives then
+                    Quest.SpecialObjectives = {};
+                end
+                table.insert(Quest.SpecialObjectives, objective);
+            end
+        end
+    end
+    
     return Quest.Objectives
 end
 

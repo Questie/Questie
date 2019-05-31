@@ -37,9 +37,9 @@ function QuestieFramePool:GetFrame()
 end
 
 --for i, frame in ipairs(allframes) do
---	if(frame.loaded == nil)then
---		return frame
---	end
+--    if(frame.loaded == nil)then
+--        return frame
+--    end
 --end
 
 function QuestieFramePool:UnloadAll()
@@ -57,12 +57,12 @@ end
 
 --[[Use FRAME.Unload(FRAME) on frame object to unload!
 function _QuestieFramePool:UnloadFrame(frame)
-	--We are reseting the frames, making sure that no data is wrong.
+    --We are reseting the frames, making sure that no data is wrong.
   HBDPins:RemoveMinimapIcon(Questie, frame);
   HBDPins:RemoveWorldMapIcon(Questie, frame);
   frame.data = nil; -- Just to be safe
   frame.loaded = nil;
-	table.insert(unusedframes, frame)
+    table.insert(unusedframes, frame)
 end]]--
 
 function _QuestieFramePool:QuestieCreateFrame()
@@ -104,10 +104,10 @@ function _QuestieFramePool:QuestieCreateFrame()
     --  local mo = MouseIsOver(self); -- function exists in classic but crashes the game
     --  if mo and (not f.mouseIsOver) then
     --    f.mouseIsOver = true
-    --	_QuestieFramePool:Questie_Tooltip(self)
+    --    _QuestieFramePool:Questie_Tooltip(self)
     --  elseif (not mo) and f.mouseIsOver then
     --    f.mouseIsOver = false
-    --	if(WorldMapTooltip) then WorldMapTooltip:Hide() end if(GameTooltip) then GameTooltip:Hide() end
+    --    if(WorldMapTooltip) then WorldMapTooltip:Hide() end if(GameTooltip) then GameTooltip:Hide() end
     --  end
     --end)
 
@@ -224,7 +224,10 @@ function _QuestieFramePool:Questie_Tooltip(self)
                         if icon.data.Type == "event" then
                             questOrder[key][icon.data.ObjectiveData.Description] = true
                         else
-                            local text = tostring(icon.data.ObjectiveData.Collected) .. "/" .. tostring(icon.data.ObjectiveData.Needed) .. " " .. icon.data.ObjectiveData.Description
+                            local text = icon.data.ObjectiveData.Description
+                            if icon.data.ObjectiveData.Needed then
+                                text = tostring(icon.data.ObjectiveData.Collected) .. "/" .. tostring(icon.data.ObjectiveData.Needed) .. " " .. text
+                            end
                             questOrder[key][text] = true
                             --table.insert(questOrder[key], text);--questOrder[key][icon.data.ObjectiveData.Description] = tostring(icon.data.ObjectiveData.Collected) .. "/" .. tostring(icon.data.ObjectiveData.Needed) .. " " .. icon.data.ObjectiveData.Description--table.insert(questOrder[key], tostring(icon.data.ObjectiveData.Collected) .. "/" .. tostring(icon.data.ObjectiveData.Needed) .. " " .. icon.data.ObjectiveData.Description);
                         end

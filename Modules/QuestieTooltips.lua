@@ -91,7 +91,11 @@ function QuestieTooltips:GetTooltip(key)
             QuestieTooltips.tooltipLookup[key][k] = nil
         else
             table.insert(tip, tooltip.Objective.QuestData:GetColoredQuestName());
-            table.insert(tip, "   |cFF33FF33" .. tostring(tooltip.Objective.Collected) .. "/" .. tostring(tooltip.Objective.Needed) .. " " .. tostring(tooltip.Objective.Description));
+            if tooltip.Objective.Needed then
+                table.insert(tip, "   |cFF33FF33" .. tostring(tooltip.Objective.Collected) .. "/" .. tostring(tooltip.Objective.Needed) .. " " .. tostring(tooltip.Objective.Description));
+            else
+                table.insert(tip, "   |cFF33FF33" .. tostring(tooltip.Objective.Description));
+            end
         end
     end
     return tip
@@ -151,15 +155,15 @@ local function TooltipShowing_maybeobject(name)
 end
 
 function _QuestieTooltips:countTooltip()
-	local tooltipcount = 0
-	for i = 1, 25 do
-		local frame = _G["GameTooltipTextLeft"..i]
-		if(frame and frame:GetText()) then
-			tooltipcount = tooltipcount + 1
-		else
-			return tooltipcount
-		end
-	end
+    local tooltipcount = 0
+    for i = 1, 25 do
+        local frame = _G["GameTooltipTextLeft"..i]
+        if(frame and frame:GetText()) then
+            tooltipcount = tooltipcount + 1
+        else
+            return tooltipcount
+        end
+    end
 end
 
 function QuestieTooltips:init()
@@ -180,7 +184,7 @@ function QuestieTooltips:init()
         local name, unit = self:GetUnit()
         if( name == nil and unit == nil and (QuestieTooltips.lastGametooltip ~= GameTooltipTextLeft1:GetText() or _QuestieTooltips:countTooltip() ~= QuestieTooltips.lastGametooltipCount)) then
             TooltipShowing_maybeobject(GameTooltipTextLeft1:GetText())
-			QuestieTooltips.lastGametooltipCount = _QuestieTooltips:countTooltip()
+            QuestieTooltips.lastGametooltipCount = _QuestieTooltips:countTooltip()
         end
         QuestieTooltips.lastGametooltip = GameTooltipTextLeft1:GetText()
     end)
