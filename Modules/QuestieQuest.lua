@@ -674,7 +674,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
     if old then SelectQuestLogEntry(old); end
     
     -- find special unlisted objectives
-    if Quest.ObjectiveData then
+    if Quest.ObjectiveData and false then
         for _, objective in pairs(Quest.ObjectiveData) do
             if not objective.ObjectiveRef then -- there was no qlog objective detected for this DB objective
                 objective.QuestData = Quest
