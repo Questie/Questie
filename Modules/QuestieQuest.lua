@@ -391,17 +391,15 @@ ObjectiveSpawnListCallTable = {
     end,
     ["event"] = function(id, Objective)
         local ret = {}
+        ret[1] = {};
+        ret[1].Name = Objective.Description;
+        ret[1].Icon = ICON_TYPE_EVENT
+        ret[1].IconScale = 1
+        ret[1].Id = id or 0
         if Objective.Coordinates then
-            ret[1] = {};
-            ret[1].Name = Objective.Description;
             ret[1].Spawns = Objective.Coordinates
-            ret[1].Icon = ICON_TYPE_EVENT
         else-- we need to fall back to old questie data, some events are missing in the new DB
-            ret[1] = {};
-            ret[1].Name = Objective.Description;
             ret[1].Spawns = {}
-            ret[1].Icon = ICON_TYPE_EVENT
-
             local questie2data = TEMP_Questie2Events[Objective.Description];
             if questie2data and questie2data["locations"] then
                 for i, spawn in pairs(questie2data["locations"]) do
@@ -420,8 +418,6 @@ ObjectiveSpawnListCallTable = {
                 end
             end
         end
-        ret[1].IconScale = 1
-        ret[1].Id = id or 0
         return ret
     end,
     ["item"] = function(id, Objective)
@@ -474,7 +470,8 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective) -- mus
     if ObjectiveSpawnListCallTable[Objective.Type] and (not Objective.spawnList) then
         Objective.spawnList = ObjectiveSpawnListCallTable[Objective.Type](Objective.Id, Objective);
     end
-    local maxPerType = 128
+    local maxPerType = 100
+    local maxPerObjectiveOutsideZone = 100
     if (not Objective.registeredTooltips) and Objective.Type == "item" then -- register item tooltip (special case)
         local itm = QuestieDB:GetItem(Objective.Id);
         if itm and itm.Name then
@@ -515,12 +512,19 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective) -- mus
                 end
                 for zone, spawns in pairs(spawnData.Spawns) do
                     for _, spawn in pairs(spawns) do
-                        iconMap, iconMini = QuestieMap:DrawWorldIcon(data, zone, spawn[1], spawn[2]) -- clustering code takes care of duplicates as long as mindist is more than 0
-                        if iconMap and iconMini then
-                            table.insert(Objective.AlreadySpawned[id].mapRefs, iconMap);
-                            table.insert(Objective.AlreadySpawned[id].minimapRefs, iconMini);
+                        if maxPerObjectiveOutsideZone > 0 or ((not Quest.Zone) or Quest.Zone == zone) then -- still add the note if its in the current zone
+                            iconMap, iconMini = QuestieMap:DrawWorldIcon(data, zone, spawn[1], spawn[2]) -- clustering code takes care of duplicates as long as mindist is more than 0
+                            if iconMap and iconMini then
+                                table.insert(Objective.AlreadySpawned[id].mapRefs, iconMap);
+                                table.insert(Objective.AlreadySpawned[id].minimapRefs, iconMini);
+                            end
                         end
                         maxCount = maxCount + 1
+                        if Quest.Zone then
+                            if zone ~= Quest.Zone then
+                                maxPerObjectiveOutsideZone = maxPerObjectiveOutsideZone - 1
+                            end
+                        end
                         if maxCount > maxPerType then break; end
                     end
                     if maxCount > maxPerType then break; end

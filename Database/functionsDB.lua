@@ -192,7 +192,7 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
               local obj = {};
               obj.Type = "monster"
               obj.Id = _v[1]
-			  obj.Text = _v[2];
+              obj.Text = _v[2];
 
               -- this speeds up lookup
               obj.Name = npcData[obj.Id]
@@ -212,7 +212,7 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
               local obj = {};
               obj.Type = "object"
               obj.Id = _v[1]
-			  obj.Text = _v[2]
+              obj.Text = _v[2]
 
               obj.Name = objData[obj.Id]
               if obj.Name ~= nil then
@@ -230,7 +230,7 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
               local obj = {};
               obj.Type = "item"
               obj.Id = _v[1]
-			  obj.Text = _v[2]
+              obj.Text = _v[2]
 
               obj.Name = CHANGEME_Questie4_ItemDB[obj.Id]
               if obj.Name ~= nil then
@@ -259,6 +259,16 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
     QO.SubQuests = rawdata[14] --Quests that give questitems that are used in later quests (See STV manual)
     QO.QuestGroup = rawdata[15] --Quests that are part of the same group, example complete this group of quests to open the next one.
     QO.ExclusiveQuestGroup = questExclusiveGroupFixes[QuestID] or rawdata[16]
+    
+    local zos = rawdata[17]
+    if zos and zos ~= 0 then
+        if zos > 0 then
+            QO.Zone = zos
+        else
+            QO.Sort = -zos
+        end
+    end
+    
     QuestieDB._QuestCache[QuestID] = QO
     return QO
   else
