@@ -138,11 +138,24 @@ local options = {
 								Questie.db.char.enabled = value
 							end,
 				},
-				description = {
-					type = "description",
+				iconEnabled = {
+					type = "toggle",
 					order = 12,
-					fontSize = "medium",
-					name = "Test text",
+					name = "Enable Questie Minimap Icon",
+					desc = "Enable or disable the minimap icon",
+					width = "full",
+					get =	function ()
+								return not Questie.db.profile.minimap.hide;
+							end,
+					set =	function (info, value)
+								Questie.db.profile.minimap.hide = not value;
+
+								if value then
+									Questie.minimapConfigIcon:Show("MinimapIcon");
+								else
+									Questie.minimapConfigIcon:Hide("MinimapIcon");
+								end
+							end,
 				},
 				--[[quest_options = {
 					type = "header",
@@ -348,7 +361,7 @@ local options = {
                     order = 8,
                     name = "X position for the nameplate icons",
                     desc = "Where on the X axis the nameplate icon should be",
-                    width = "double",
+                    width = "full",
                     min = -200,
                     max = 200,
                     step = 1,
@@ -363,7 +376,7 @@ local options = {
                     order = 9,
                     name = "Y position for the nameplate icons",
                     desc = "Where on the Y axis the nameplate icon should be",
-                    width = "double",
+                    width = "full",
                     min = -200,
                     max = 200,
                     step = 1,
@@ -561,8 +574,8 @@ function Questie:OnInitialize()
 	
 
     -- Creating the minimap config icon
-	self.minimapConfigIcon = LibStub("LibDBIcon-1.0");
-	self.minimapConfigIcon:Register("MinimapIcon", minimapIconLDB, Questie.db.profile.minimap);
+	Questie.minimapConfigIcon = LibStub("LibDBIcon-1.0");
+	Questie.minimapConfigIcon:Register("MinimapIcon", minimapIconLDB, Questie.db.profile.minimap);
 
 
 end
