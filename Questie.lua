@@ -392,6 +392,7 @@ local options = {
 					func = function (info, value)
 						Questie.db.global.nameplateX = -17;
 						Questie.db.global.nameplateY = -7;
+						Questie.db.global.nameplateScale = 1;
 						QuestieNameplate:redrawIcons();
 					end,
 				},
@@ -454,8 +455,8 @@ local defaults = {
 	debugEnabled = false,
 	debugLevel = 4,
     nameplateX = -17,
-	nameplateY = -7,
-	nameplateScale = 1
+    nameplateY = -7,
+    nameplateScale = 1
   },
 	char = {
 		complete = {},
