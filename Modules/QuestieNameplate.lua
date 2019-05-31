@@ -33,10 +33,13 @@ function QuestieNameplate:getFrame(guid)
         frame = CreateFrame("Frame");
         npFramesCount = npFramesCount + 1;
     end
+
+    local iconScale = Questie.db.global.nameplateScale;
+
     frame:SetFrameStrata("HIGH");
     frame:SetFrameLevel(10);
-    frame:SetWidth(16)
-    frame:SetHeight(16)
+    frame:SetWidth(16 * iconScale)
+    frame:SetHeight(16 * iconScale)
     frame:EnableMouse(false);
     frame:SetParent(parent);
     frame:SetPoint("LEFT", parent, Questie.db.global.nameplateX, Questie.db.global.nameplateY);
@@ -53,7 +56,11 @@ end
 
 function QuestieNameplate:redrawIcons()
     for index, frame in pairs(npFrames) do
-        frame:SetPoint("LEFT", Questie.db.global.nameplateX, Questie.db.global.nameplateY)
+        local iconScale = Questie.db.global.nameplateScale;
+
+        frame:SetPoint("LEFT", Questie.db.global.nameplateX, Questie.db.global.nameplateY);
+        frame:SetWidth(16 * iconScale);
+        frame:SetHeight(16 * iconScale);
     end
 end
 
@@ -65,7 +72,6 @@ function QuestieNameplate:removeFrame(guid)
         npFrames[guid] = nil;
     end
 end
-
 
 -- Event Handlers
 function QuestieNameplate:NameplateCreated(token)
