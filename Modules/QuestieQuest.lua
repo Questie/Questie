@@ -498,7 +498,10 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective) -- mus
                 data.Name = spawnData.Name
                 data.Type = Objective.Type
                 data.ObjectiveTargetId = spawnData.Id
-                data.ClusterId = tostring(spawnData.Id) .. tostring(Quest.Id) .. ObjectiveIndex
+                
+                if spawnData.Icon ~= ICON_TYPE_OBJECT then -- new clustering / limit code should prevent problems, always show all object notes
+                    data.ClusterId = tostring(spawnData.Id) .. tostring(Quest.Id) .. ObjectiveIndex
+                end
 
                 Objective.AlreadySpawned[id] = {};
                 Objective.AlreadySpawned[id].data = data;
