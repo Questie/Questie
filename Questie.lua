@@ -367,7 +367,36 @@ local options = {
                                 QuestieNameplate:redrawIcons()
                                 SetGlobalOptionLocal(info, value)
                             end,
-                },
+				},
+				nameplateScale = {
+					type = "range",
+					order = 10,
+					name = "Nameplate Icon Scale",
+					desc = "Scale the size of the quest icons on creature nameplates",
+					width = "full",
+					min = 0.01,
+					max = 4,
+					step = 0.01,
+					get = GetGlobalOptionLocal,
+                    set = function (info, value)
+								SetGlobalOptionLocal(info, value)
+								QuestieNameplate:redrawIcons()
+                            end,
+
+				},
+				nameplateReset = {
+					type = "execute",
+					order = 11,
+					name = "Reset Nameplates",
+					desc = "Reset to Default Nameplate Positions",
+					func = function (info, value)
+						Questie.db.global.nameplateX = -17;
+						Questie.db.global.nameplateY = -7;
+						Questie.db.global.nameplateScale = 1;
+						QuestieNameplate:redrawIcons();
+					end,
+				},
+				
 			},
 		},
 		Advanced_tab = {
@@ -407,6 +436,7 @@ local options = {
 								SetGlobalOptionLocal(info, value)
 							end,
 				},
+				
 			},
 		}
 	}
@@ -424,8 +454,9 @@ local defaults = {
 	fadeLevel = 1.5,
 	debugEnabled = false,
 	debugLevel = 4,
-    nameplateX = -12,
-    nameplateY = -7
+    nameplateX = -17,
+    nameplateY = -7,
+    nameplateScale = 1
   },
 	char = {
 		complete = {},
