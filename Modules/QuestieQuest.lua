@@ -478,7 +478,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective) -- mus
             QuestieTooltips:RegisterTooltip(Quest.Id, "i_" .. itm.Name, Objective);
         end
     end
-    if Objective.spawnList and (not completed) then
+    if Objective.spawnList then
         local hasSpawnHack = false -- used to check if we have bad data due to API delay. Remove this check once the API bug is dealt with properly
         local tooltipRegisterHack = {} -- improve this
         for id, spawnData in pairs(Objective.spawnList) do -- spawnData.Name, spawnData.Spawns
@@ -486,7 +486,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective) -- mus
             if not Objective.Icon and spawnData.Icon then -- move this to a better place
                 Objective.Icon = spawnData.Icon
             end
-            if not Objective.AlreadySpawned[id] then
+            if (not Objective.AlreadySpawned[id]) and (not completed) then
                 local maxCount = 0
                 local data = {}
                 data.Id = Quest.Id
