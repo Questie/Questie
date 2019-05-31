@@ -65,7 +65,11 @@ end
 function Questie:MySlashProcessorFunc(input)
 	--Questie:Print(ChatFrame1, "Hello, World!")
 	--SetMessage("test", "test")
-		Questie:Print("MySlashProcessorFunc!");
+		if(not QuestieFrameOpt) then
+			QuestieFrameOpt = AceGUI:Create("Frame")
+		end
+	    QuestieFrame2 = LibStub("AceConfigDialog-3.0"):Open("Questie", QuestieFrameOpt)
+
 
   -- Process the slash command ('input' contains whatever follows the slash command)
 
@@ -442,14 +446,14 @@ function Questie:OnInitialize()
     --self.db = LibStub("AceDB-3.0"):New("QuestieClassicDB", defaults, true)
 
     Questie:Debug(DEBUG_CRITICAL, "Questie addon loaded")
-    Questie:RegisterEvent("PLAYER_ENTERING_WORLD", PLAYER_ENTERING_WORLD)
+    Questie:RegisterEvent("PLAYER_ENTERING_WORLD", QuestieEventHandler.PLAYER_ENTERING_WORLD)
     --Accepted Events
-    Questie:RegisterEvent("QUEST_ACCEPTED", QUEST_ACCEPTED)
-    Questie:RegisterEvent("QUEST_WATCH_UPDATE", QUEST_WATCH_UPDATE);
-    Questie:RegisterEvent("QUEST_TURNED_IN", QUEST_TURNED_IN)
-    Questie:RegisterEvent("QUEST_REMOVED", QUEST_REMOVED)
-    Questie:RegisterEvent("PLAYER_LEVEL_UP", PLAYER_LEVEL_UP);
-    --Questie:RegisterEvent("QUEST_LOG_UPDATE", QUEST_LOG_UPDATE);
+    Questie:RegisterEvent("QUEST_ACCEPTED", QuestieEventHandler.QUEST_ACCEPTED)
+    Questie:RegisterEvent("QUEST_WATCH_UPDATE", QuestieEventHandler.QUEST_WATCH_UPDATE);
+    Questie:RegisterEvent("QUEST_TURNED_IN", QuestieEventHandler.QUEST_TURNED_IN)
+    Questie:RegisterEvent("QUEST_REMOVED", QuestieEventHandler.QUEST_REMOVED)
+    Questie:RegisterEvent("PLAYER_LEVEL_UP", QuestieEventHandler.PLAYER_LEVEL_UP);
+    Questie:RegisterEvent("QUEST_LOG_UPDATE", QuestieEventHandler.QUEST_LOG_UPDATE);
 
     --TODO: QUEST_QUERY_COMPLETE Will get all quests the character has finished, need to be implemented!
 
@@ -471,12 +475,13 @@ function Questie:OnInitialize()
 
     Questie:RegisterChatCommand("questieclassic", "MySlashProcessorFunc")
     Questie:RegisterChatCommand("test", "SlashTest")
-    Questie:RegisterChatCommand("qc", "MySlashProcessorFunc")
+    Questie:RegisterChatCommand("questie", "MySlashProcessorFunc")
 
 
 
     LibStub("AceConfig-3.0"):RegisterOptionsTable("Questie", options)
-    --QuestieFrame2 = LibStub("AceConfigDialog-3.0"):Open("Questie", QuestieFrameOpt)
+
+
 
     --QuestieFrame:SetTitle("Example frame")
     --QuestieFrame:SetStatusText("AceGUI-3.0 Example Container frame")
@@ -492,7 +497,6 @@ function Questie:OnInitialize()
     --glooobball = HBD:GetAllMapIDs()
     --Questie:Print(HBD:GetAllMapIDs())
     --Questie:Print(GetWorldContinentFromZone(getPlayerZone()))
-    --QuestieFrameOpt = AceGUI:Create("Frame")
     --Questie.db.global.lastmessage = 0
 
     self.configFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Questie", "Questie");

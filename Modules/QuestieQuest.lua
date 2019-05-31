@@ -59,6 +59,7 @@ function QuestieQuest:GetRawLeaderBoardDetails(QuestLogIndex)
     quest.title = title;
     quest.level = level;
     quest.isComplete = isComplete;
+    local old = GetQuestLogSelection()
     SelectQuestLogEntry(QuestLogIndex);
     local numQuestLogLeaderBoards = GetNumQuestLeaderBoards()
 
@@ -87,6 +88,7 @@ function QuestieQuest:GetRawLeaderBoardDetails(QuestLogIndex)
         --quest.compareString = string.format("%s%s%s%s", quest.compareString, description, objectiveType, isCompleted);
     end
     quest.Id = questId
+    if old then SelectQuestLogEntry(old); end
     return quest;
 end
 
@@ -389,34 +391,33 @@ ObjectiveSpawnListCallTable = {
     end,
     ["event"] = function(id, Objective)
         local ret = {}
+        ret[1] = {};
+        ret[1].Name = Objective.Description or "Event Trigger";
+        ret[1].Icon = ICON_TYPE_EVENT
+        ret[1].IconScale = 1
+        ret[1].Id = id or 0
         if Objective.Coordinates then
-            ret[1] = {};
-            ret[1].Name = Objective.Description;
             ret[1].Spawns = Objective.Coordinates
-            ret[1].Icon = ICON_TYPE_EVENT
-        else-- we need to fall back to old questie data, some events are missing in the new DB
-            ret[1] = {};
-            ret[1].Name = Objective.Description;
+        elseif Objective.Description then-- we need to fall back to old questie data, some events are missing in the new DB
             ret[1].Spawns = {}
-            ret[1].Icon = ICON_TYPE_EVENT
-
             local questie2data = TEMP_Questie2Events[Objective.Description];
             if questie2data and questie2data["locations"] then
                 for i, spawn in pairs(questie2data["locations"]) do
                     local zid = Questie2ZoneTableInverse[spawn[1]];
                     if zid then
-                        if not ret[1].Spawns[zid] then
-                            ret[1].Spawns[zid] = {};
+                        zid = zoneDataUiMapIDToAreaID[zid]
+                        if zid then
+                            if not ret[1].Spawns[zid] then
+                                ret[1].Spawns[zid] = {};
+                            end
+                            local x = spawn[2] * 100;
+                            local y = spawn[3] * 100;
+                            table.insert(ret[1].Spawns[zid], {x, y});
                         end
-                        local x = spawn[2] * 100;
-                        local y = spawn[3] * 100;
-                        table.insert(ret[1].Spawns, {x, y});
                     end
                 end
             end
         end
-        ret[1].IconScale = 1
-        ret[1].Id = id or 0
         return ret
     end,
     ["item"] = function(id, Objective)
@@ -462,14 +463,15 @@ ObjectiveSpawnListCallTable = {
 }
 
 function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective) -- must be pcalled
-    local completed = Objective.Completed or (Objective.Needed ~= nil and tonumber(Objective.Needed) > 0 and tonumber(Objective.Collected) >= tonumber(Objective.Needed));
+    local completed = Objective.Completed or (Objective.Needed ~= nil and tonumber(Objective.Needed) > 0 and tonumber(Objective.Collected) >= tonumber(Objective.Needed)) or QuestieQuest:IsComplete(Quest);
     if Objective.AlreadySpawned == nil then
         Objective.AlreadySpawned = {};
     end
     if ObjectiveSpawnListCallTable[Objective.Type] and (not Objective.spawnList) then
         Objective.spawnList = ObjectiveSpawnListCallTable[Objective.Type](Objective.Id, Objective);
     end
-    local maxPerType = 128
+    local maxPerType = 100
+    local maxPerObjectiveOutsideZone = 100
     if (not Objective.registeredTooltips) and Objective.Type == "item" then -- register item tooltip (special case)
         local itm = QuestieDB:GetItem(Objective.Id);
         if itm and itm.Name then
@@ -484,7 +486,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective) -- mus
             if not Objective.Icon and spawnData.Icon then -- move this to a better place
                 Objective.Icon = spawnData.Icon
             end
-            if not Objective.AlreadySpawned[id] then
+            if (not Objective.AlreadySpawned[id]) and (not completed) then
                 local maxCount = 0
                 local data = {}
                 data.Id = Quest.Id
@@ -496,7 +498,10 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective) -- mus
                 data.Name = spawnData.Name
                 data.Type = Objective.Type
                 data.ObjectiveTargetId = spawnData.Id
-                data.ClusterId = tostring(spawnData.Id) .. tostring(Quest.Id) .. ObjectiveIndex
+                
+                if spawnData.Icon ~= ICON_TYPE_OBJECT then -- new clustering / limit code should prevent problems, always show all object notes
+                    data.ClusterId = tostring(spawnData.Id) .. tostring(Quest.Id) .. ObjectiveIndex
+                end
 
                 Objective.AlreadySpawned[id] = {};
                 Objective.AlreadySpawned[id].data = data;
@@ -510,12 +515,19 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective) -- mus
                 end
                 for zone, spawns in pairs(spawnData.Spawns) do
                     for _, spawn in pairs(spawns) do
-                        iconMap, iconMini = QuestieMap:DrawWorldIcon(data, zone, spawn[1], spawn[2]) -- clustering code takes care of duplicates as long as mindist is more than 0
-                        if iconMap and iconMini then
-                            table.insert(Objective.AlreadySpawned[id].mapRefs, iconMap);
-                            table.insert(Objective.AlreadySpawned[id].minimapRefs, iconMini);
+                        if maxPerObjectiveOutsideZone > 0 or ((not Quest.Zone) or Quest.Zone == zone) then -- still add the note if its in the current zone
+                            iconMap, iconMini = QuestieMap:DrawWorldIcon(data, zone, spawn[1], spawn[2]) -- clustering code takes care of duplicates as long as mindist is more than 0
+                            if iconMap and iconMini then
+                                table.insert(Objective.AlreadySpawned[id].mapRefs, iconMap);
+                                table.insert(Objective.AlreadySpawned[id].minimapRefs, iconMini);
+                            end
                         end
                         maxCount = maxCount + 1
+                        if Quest.Zone then
+                            if zone ~= Quest.Zone then
+                                maxPerObjectiveOutsideZone = maxPerObjectiveOutsideZone - 1
+                            end
+                        end
                         if maxCount > maxPerType then break; end
                     end
                     if maxCount > maxPerType then break; end
@@ -551,13 +563,24 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
     end
 
     -- we've already checked the objectives table by doing IsComplete
-    -- of that changes, check it here
+    -- if that changes, check it here
     for k, v in pairs(Quest.Objectives) do
         result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, Quest, k, v);
         if not result then
             Questie:Error("[QuestieQuest]: There was an error populating objectives for ", Quest.Name, Quest.Id, k, err)
         end
     end
+    
+    -- check for special (unlisted) DB objectives
+    if Quest.SpecialObjectives then
+        for _, objective in pairs(Quest.SpecialObjectives) do
+            result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, Quest, 0, objective);
+            if not result then
+                Questie:Error("[QuestieQuest]: There was an error populating objectives for ", Quest.Name, Quest.Id, k, err)
+            end
+        end
+    end
+    
 
 end
 function QuestieQuest:PopulateQuestLogInfo(Quest)
@@ -583,6 +606,7 @@ end
 --/dump QuestieQuest:GetAllQuestObjectives(24475)
 function QuestieQuest:GetAllQuestObjectives(Quest)
     local logId = GetQuestLogIndexByID(Quest.Id)
+    local old = GetQuestLogSelection()
     SelectQuestLogEntry(logId)
     local count = GetNumQuestLeaderBoards()
     if Quest.Objectives == nil then
@@ -592,56 +616,97 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
 
     for i = 1, count do
         objectiveType, objectiveDesc, numItems, numNeeded, isCompleted = _QuestieQuest:GetLeaderBoardDetails(i, Quest.Id)
-        if Quest.Objectives[i] == nil then
-            Quest.Objectives[i] = {}
-        end
-        Quest.Objectives[i].Index = i
-        Quest.Objectives[i].QuestId = Quest.Id
-        Quest.Objectives[i].QuestData = Quest
-        Quest.Objectives[i]._lastUpdate = 0;
-        Quest.Objectives[i].GetProgress = function(self)
-            local now = GetTime();
-            if now - self._lastUpdate < 0.5 then
-                return {self.Collected, self.Needed, self.Completed} -- updated too recently
+        if objectiveType then 
+            if Quest.Objectives[i] == nil then
+                Quest.Objectives[i] = {}
             end
-            self._lastUpdate = now
-            objectiveType, objectiveDesc, numItems, numNeeded, isCompleted = _QuestieQuest:GetLeaderBoardDetails(self.Index, self.QuestId)
+            Quest.Objectives[i].Index = i
+            Quest.Objectives[i].QuestId = Quest.Id
+            Quest.Objectives[i].QuestData = Quest
+            Quest.Objectives[i]._lastUpdate = 0;
+            Quest.Objectives[i].GetProgress = function(self)
+                local now = GetTime();
+                if now - self._lastUpdate < 0.5 then
+                    if old then SelectQuestLogEntry(old); end
+                    return {self.Collected, self.Needed, self.Completed} -- updated too recently
+                end
+                self._lastUpdate = now
+                objectiveType, objectiveDesc, numItems, numNeeded, isCompleted = _QuestieQuest:GetLeaderBoardDetails(self.Index, self.QuestId)
+                if objectiveType then
+                    -- fixes for api bug
+                    if not numItems then numItems = 0; end
+                    if not numNeeded then numNeeded = 0; end
+                    if not isComplete then isComplete = false; end -- ensure its boolean false and not nil (hack)
 
-            -- fixes for api bug
-            if not numItems then numItems = 0; end
-            if not numNeeded then numNeeded = 0; end
-            if not isComplete then isComplete = false; end -- ensure its boolean false and not nil (hack)
+                    self.Type = objectiveType
+                    self.Description = objectiveDesc
+                    self.Collected = tonumber(numItems)
+                    self.Needed = tonumber(numNeeded)
+                    self.Completed = (self.Needed == self.Collected and self.Needed > 0) or (isComplete and self.Needed == 0) -- some objectives get removed on PLAYER_LOGIN because isComplete is set to true at random????
+                    if old then SelectQuestLogEntry(old); end
+                end
+                return {self.Collected, self.Needed, self.Completed}
+            end
+            Quest.Objectives[i]:GetProgress()
 
-            self.Type = objectiveType
-            self.Description = objectiveDesc
-            self.Collected = tonumber(numItems)
-            self.Needed = tonumber(numNeeded)
-            self.Completed = (self.Needed == self.Collected and self.Needed > 0) or (isComplete and self.Needed == 0) -- some objectives get removed on PLAYER_LOGIN because isComplete is set to true at random????
-
-            return {self.Collected, self.Needed, self.Completed}
-        end
-        Quest.Objectives[i]:GetProgress()
-
-        if count == 1 and counthack(Quest.ObjectiveData) == 1 then
-            Quest.Objectives[i].Id = Quest.ObjectiveData[1].Id
-        elseif Quest.ObjectiveData ~= nil then
-            -- try to find npc/item/event ID
-            for k, v in pairs(Quest.ObjectiveData) do
-                if objectiveType == v.Type then
-                    -- TODO: use string distance to find closest, dont rely on exact match
-                    if v.Name == nil or objectiveDesc == nil or string.lower(objectiveDesc) == string.lower(v.Name) then
-                        Quest.Objectives[i].Id = v.Id
-                        Quest.Objectives[i].Coordinates = v.Coordinates
+            if count == 1 and counthack(Quest.ObjectiveData) == 1 then
+                Quest.Objectives[i].Id = Quest.ObjectiveData[1].Id
+            elseif Quest.ObjectiveData ~= nil then
+                -- try to find npc/item/event ID
+                for k, v in pairs(Quest.ObjectiveData) do
+                    if objectiveType == v.Type then
+                        -- TODO: use string distance to find closest, dont rely on exact match
+                        if v.Name == nil or objectiveDesc == nil or (v.Name and ((string.lower(objectiveDesc) == string.lower(v.Name))) or (v.Text and (string.lower(objectiveDesc) == string.lower(v.Text)))) then
+                            Quest.Objectives[i].Id = v.Id
+                            Quest.Objectives[i].Coordinates = v.Coordinates
+                            v.ObjectiveRef = Quest.Objectives[i]
+                        end
                     end
                 end
             end
         end
 
-        if Quest.Objectives[i].Id == nil then
+        if (not Quest.Objectives[i]) or (not Quest.Objectives[i].Id) then
             Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Error finding entry ID for objective", objectiveType, objectiveDesc)
         end
 
     end
+    if old then SelectQuestLogEntry(old); end
+    
+    -- find special unlisted objectives
+    if Quest.ObjectiveData and false then
+        for _, objective in pairs(Quest.ObjectiveData) do
+            if not objective.ObjectiveRef then -- there was no qlog objective detected for this DB objective
+                objective.QuestData = Quest
+                objective.QuestId = Quest.Id
+                objective.GetProgress = function() end
+                
+                -- hack
+                if objective.Type then
+                    if objective.Type == "monster" then
+                        local npc = QuestieDB:GetNPC(objective.Id);
+                        if npc and npc.Name then
+                            objective.Description = npc.Name
+                        end
+                    elseif objective.Type == "item" then
+                        local itm = QuestieDB:GetItem(objective.Id);
+                        if itm and itm.Name then
+                            objective.Description = itm.Name
+                        end
+                    elseif objective.Type == "event" then
+                        objective.Description = "Event Trigger"
+                    end
+                end
+                if not objective.Description then objective.Description = "Hidden objective"; end
+                
+                if not Quest.SpecialObjectives then
+                    Quest.SpecialObjectives = {};
+                end
+                table.insert(Quest.SpecialObjectives, objective);
+            end
+        end
+    end
+    
     return Quest.Objectives
 end
 
@@ -654,6 +719,8 @@ function _QuestieQuest:GetLeaderBoardDetails(BoardIndex, QuestId)
         Index = QuestId;
     end
     local description, objectiveType, isCompleted = GetQuestLogLeaderBoard (BoardIndex, Index);
+    if not description then return nil; end -- invalid board index (this has happened extremely rarely see issue 565)
+    
     --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Quest Details1:", description, objectiveType, isCompleted)
     --Classic
     local itemName, numItems, numNeeded = string.match(description, "(.*):%s*([%d]+)%s*/%s*([%d]+)");

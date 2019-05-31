@@ -7,17 +7,64 @@ end
 
 --- GLOBAL ---
 --This is needed for functions around the addon, due to UnitLevel("player") not returning actual level PLAYER_LEVEL_UP unless this is used.
+QuestieEventHandler = {}
 qPlayerLevel = -1
 
+__UPDATEFIX_IDX = 1; -- temporary bad fix
+
+--- LOCAL ---
 local QuestWatchTimers = {
     cancelTimer = nil,
     repeatTimer = nil
 }
 local lastState = {}
+--False -> true -> nil
+local playerEntered = false;
 
-__UPDATEFIX_IDX = 1; -- temporary bad fix
 
-function PLAYER_ENTERING_WORLD()
+local questWatchFrames = {}
+for i = 1, 35 do
+    questWatchFrames[i] = CreateFrame("Frame", "QuestWatchFrame"..i)
+    questWatchFrames[i].questLogIndex = i;
+    questWatchFrames[i].refresh = false;
+    questWatchFrames[i].accept = false;
+    questWatchFrames[i].objectives = {}
+    questWatchFrames[i]:RegisterEvent("QUEST_LOG_UPDATE")--, QUEST_LOG_UPDATE
+    questWatchFrames[i]:SetScript("OnEvent", function(self, event, ...)
+        if (event == "QUEST_LOG_UPDATE") then
+            if(self.refresh) then
+                --Get quest info
+                local QuestInfo = QuestieQuest:GetRawLeaderBoardDetails(self.questLogIndex)
+
+                --No need to run this unless we have to.
+                if(Questie.db.global.debugEnabled) then
+                    Questie:Debug(DEBUG_DEVELOP, event, "Updating index", self.questLogIndex, "Title:", QuestInfo.title, "Id:", QuestInfo.Id)
+                    for index, objective in pairs(QuestInfo.Objectives) do
+                        Questie:Debug(DEBUG_DEVELOP, "-------->", objective.description);
+                    end
+                end
+                --Update the quest
+                QuestieQuest:UpdateQuest(QuestInfo.Id);
+                self.refresh = false;
+            end
+            if(self.accept) then
+                local QuestInfo = QuestieQuest:GetRawLeaderBoardDetails(self.questLogIndex)
+                Questie:Debug(DEBUG_DEVELOP, event, "Accepted quest", self.questLogIndex, "Title:", QuestInfo.title, "Id:", QuestInfo.Id)
+
+                --Accept the quest.
+                QuestieQuest:AcceptQuest(QuestInfo.Id)
+                --Delay the update by 1 second to let everything propagate, should not be needed...
+                C_Timer.After(1, function ()
+                    Questie:Debug(DEBUG_DEVELOP, event, "Updated quest", self.questLogIndex, "Title:", QuestInfo.title, "Id:", QuestInfo.Id)
+                    QuestieQuest:UpdateQuest(QuestInfo.Id)
+                end)
+                self.accept = false;
+            end
+        end
+    end)
+end
+
+function QuestieEventHandler:PLAYER_ENTERING_WORLD()
     _hack_prime_log()
     qPlayerLevel = UnitLevel("player")
     QuestieQuest:Initialize()
@@ -26,8 +73,11 @@ function PLAYER_ENTERING_WORLD()
     QuestieQuest:CalculateAvailableQuests()
     QuestieQuest:DrawAllAvailableQuests()
     QuestieNameplate:Initialize();
+    Questie:Debug(DEBUG_ELEVATED, "PLAYER_ENTERED_WORLD")
+    playerEntered = true
 
-    C_Timer.After(2, function ()
+
+    --[[C_Timer.After(2, function ()
         Questie:Debug(DEBUG_ELEVATED, "Player entered world")
         QuestieQuest:GetAllQuestIds()
     end)
@@ -35,10 +85,10 @@ function PLAYER_ENTERING_WORLD()
     C_Timer.After(5, function ()
         Questie:Debug(DEBUG_ELEVATED, "Player entered world (deferred update)")
         QuestieQuest:GetAllQuestIds()
-    end)
+    end)]]--
 
     -- periodically update the objectives of quests, temporary hold-over until we can properly fix the event based logic
-    Questie:ScheduleRepeatingTimer(function()
+    --[[Questie:ScheduleRepeatingTimer(function()
         if (GetNumQuestLogEntries()+1 == __UPDATEFIX_IDX) then
             __UPDATEFIX_IDX = 1;
         end
@@ -48,7 +98,7 @@ function PLAYER_ENTERING_WORLD()
             QuestieQuest:UpdateQuest(_questId);
         end
         __UPDATEFIX_IDX = __UPDATEFIX_IDX + 1
-    end, 3);
+    end, 3);]]--
 
     --local Note = QuestieFramePool:GetFrame();
     --THIS WILL BE MOVED!!!
@@ -62,31 +112,34 @@ function PLAYER_ENTERING_WORLD()
 end
 
 --Fires when a quest is accepted in anyway.
-function QUEST_ACCEPTED(Event, QuestLogIndex, QuestId)
+function QuestieEventHandler:QUEST_ACCEPTED(QuestLogIndex, QuestId)
+    Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_ACCEPTED", "QLogIndex: "..QuestLogIndex,  "QuestID: "..QuestId);
     _hack_prime_log()
-    C_Timer.After(2, function ()
-        Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_ACCEPTED", "QLogIndex: "..QuestLogIndex,  "QuestID: "..QuestId);
+
+    --Update the information on next QUEST_LOG_UPDATE
+    questWatchFrames[QuestLogIndex].accept = true;
+
+
+    --[[C_Timer.After(2, function ()
         QuestieQuest:AcceptQuest(QuestId) -- is it safe to pass params to virtual functions like this?
     end)
 
     -- this needs to use a repeating timer maybe? Often times when quest is accepted, it has the same trouble as the other events
     C_Timer.After(5, function()
         QuestieQuest:UpdateQuest(QuestId);
-    end)
+    end)]]--
 
 end
 
 --Fires when a quest is removed from the questlog, this includes turning it in!
-function QUEST_REMOVED(Event, QuestId)
+function QuestieEventHandler:QUEST_REMOVED(QuestId)
     _hack_prime_log()
-    C_Timer.After(1, function ()
-        Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_REMOVED", QuestId);
-        QuestieQuest:AbandonedQuest(QuestId)
-    end)
+    Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_REMOVED", QuestId);
+    QuestieQuest:AbandonedQuest(QuestId)
 end
 
 --Fires when a quest is turned in.
-function QUEST_TURNED_IN(Event, questID, xpReward, moneyReward)
+function QuestieEventHandler:QUEST_TURNED_IN(questID, xpReward, moneyReward)
     _hack_prime_log()
     C_Timer.After(1, function ()
         Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_TURNED_IN", questID, xpReward, moneyReward);
@@ -94,8 +147,25 @@ function QUEST_TURNED_IN(Event, questID, xpReward, moneyReward)
     end)
 end
 
-function QUEST_WATCH_UPDATE(Event, QuestLogIndex)
-    _hack_prime_log()
+function QuestieEventHandler:QUEST_LOG_UPDATE()
+    Questie:Debug(DEBUG_DEVELOP, "QUEST_LOG_UPDATE")
+    if(playerEntered)then
+        Questie:Debug(DEBUG_DEVELOP, "---> Player entered world, START.")
+        C_Timer.After(1, function ()
+            Questie:Debug(DEBUG_DEVELOP, "---> Player entered world, DONE.")
+            QuestieQuest:GetAllQuestIds()
+        end)
+        playerEntered = nil;
+    end
+end
+
+function QuestieEventHandler:QUEST_WATCH_UPDATE(QuestLogIndex)
+    Questie:Debug(DEBUG_INFO, "QUEST_WATCH_UPDATE", QuestLogIndex)
+    --When a quest gets updated, wait until next QUEST_LOG_UPDATE before updating.
+    questWatchFrames[QuestLogIndex].refresh = true
+
+
+    --[[_hack_prime_log()
     title, level, _, isHeader, _, isComplete, _, questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(QuestLogIndex)
     Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_WATCH_UPDATE", "QLogIndex: "..QuestLogIndex, "QuestID: "..questId);
 
@@ -142,19 +212,19 @@ function QUEST_WATCH_UPDATE(Event, QuestLogIndex)
                 QuestieQuest:UpdateQuest(QuestInfo.Id);
             end
         end, 1)
-    end)
+    end)]]--
 end
 
-function QUEST_LOG_CRITERIA_UPDATE(Event, questID, specificTreeID, description, numFulfilled, numRequired)
+function QuestieEventHandler:QUEST_LOG_CRITERIA_UPDATE(questID, specificTreeID, description, numFulfilled, numRequired)
     Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_LOG_CRITERIA_UPDATE", questID, specificTreeID, description, numFulfilled, numRequired);
 end
 
-function CUSTOM_QUEST_COMPLETE()
+function QuestieEventHandler:CUSTOM_QUEST_COMPLETE()
     numEntries, numQuests = GetNumQuestLogEntries();
     --Questie:Debug(DEBUG_CRITICAL, "CUSTOM_QUEST_COMPLETE", "Quests: "..numQuests);
 end
 
-function PLAYER_LEVEL_UP(event, level, hitpoints, manapoints, talentpoints, ...)
+function QuestieEventHandler:PLAYER_LEVEL_UP(level, hitpoints, manapoints, talentpoints, ...)
     Questie:Debug(DEBUG_DEVELOP, "EVENT: PLAYER_LEVEL_UP", level);
     qPlayerLevel = level;
     QuestieQuest:CalculateAvailableQuests();
@@ -166,13 +236,13 @@ end
 --This is used to see if they acually completed the quest or just fucking with us...
 local NumberOfQuestInLog = -1
 
-function QUEST_COMPLETE()
+function QuestieEventHandler:QUEST_COMPLETE()
     numEntries, numQuests = GetNumQuestLogEntries();
     NumberOfQuestInLog = numQuests;
     --Questie:Debug(DEBUG_CRITICAL, "EVENT: QUEST_COMPLETE", "Quests: "..numQuests);
 end
 
-function QUEST_FINISHED()
+function QuestieEventHandler:QUEST_FINISHED()
     numEntries, numQuests = GetNumQuestLogEntries();
     if (NumberOfQuestInLog ~= numQuests) then
         --Questie:Debug(DEBUG_CRITICAL, "EVENT: QUEST_FINISHED", "CHANGE");

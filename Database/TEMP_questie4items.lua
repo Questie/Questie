@@ -1516,3 +1516,5 @@ CHANGEME_Questie4_ItemDB={
 
 -- fixes 
 CHANGEME_Questie4_ItemDB[5056]={"Root Sample",{866},{},{}} -- prevent root sample quest from adding all herb nodes
+CHANGEME_Questie4_ItemDB[2449]={"Earthroot",{6123,6128},{},{}} -- remove earthroot drop data just in case (570)
+CHANGEME_Questie4_ItemDB[2447]={"Peacebloom",{8549,8550},{},{}}
