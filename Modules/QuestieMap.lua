@@ -38,27 +38,27 @@ function QuestieMap:rescaleIcons(iconScale)
             local frame = _G[frameName]
             if frame and frame.data then
                 if(frame.data.Icon == ICON_TYPE_AVAILABLE or frame.data.Icon == ICON_TYPE_COMPLETE) then
-				    local scale = 16
+                    local scale = 16
                     if(frame.miniMapIcon) then
                         scale = Questie.db.global.availableMiniMapScale;
                     else
                         scale = Questie.db.global.availableScale;
                     end
-					if scale > 1 then
+                    if scale > 1 then
                         frame:SetWidth(scale)
                         frame:SetHeight(scale)
-					end
+                    end
                 else
-				    local scale = 16
+                    local scale = 16
                     if(frame.miniMapIcon) then
                         scale = ((frame.data.IconScale or 1) * Questie.db.global.objectiveMiniMapScale);
                     else
                         scale = ((frame.data.IconScale or 1) * Questie.db.global.objectiveScale);
                     end
-					if scale > 1 then
+                    if scale > 1 then
                         frame:SetWidth(scale)
                         frame:SetHeight(scale)
-					end
+                    end
                 end
             end
         end
@@ -203,7 +203,7 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
 end
 
 --function QuestieMap:RemoveIcon(ref)
---	HBDPins:RemoveWorldMapIcon(Questie, ref)
+--    HBDPins:RemoveWorldMapIcon(Questie, ref)
 --end
 
 
