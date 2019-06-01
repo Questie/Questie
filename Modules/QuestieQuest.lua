@@ -395,7 +395,7 @@ ObjectiveSpawnListCallTable = {
         ret[1] = {};
         ret[1].Name = Objective.Description or "Event Trigger";
         ret[1].Icon = ICON_TYPE_EVENT
-        ret[1].IconScale = 1
+        ret[1].IconScale = 1.35
         ret[1].Id = id or 0
         if Objective.Coordinates then
             ret[1].Spawns = Objective.Coordinates
@@ -509,7 +509,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective) -- mus
                 data.QuestData = Quest
                 data.ObjectiveData = Objective
                 data.Icon = spawnData.Icon
-                data.IconScale = spawnData.IconScale or 0.7
+                data.IconScale = spawnData.IconScale or 1
                 data.Name = spawnData.Name
                 data.Type = Objective.Type
                 data.ObjectiveTargetId = spawnData.Id
