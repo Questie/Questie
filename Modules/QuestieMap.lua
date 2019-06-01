@@ -36,7 +36,7 @@ function QuestieMap:rescaleIcons(iconScale)
     for qId, framelist in pairs(qQuestIdFrames) do
         for i, frameName in ipairs(framelist) do
             local frame = _G[frameName]
-            if(frame.data) then
+            if frame and frame.data then
                 if(frame.data.Icon == ICON_TYPE_AVAILABLE or frame.data.Icon == ICON_TYPE_COMPLETE) then
                     if(frame.miniMapIcon) then
                         frame.data.IconScale = Questie.db.global.availableMiniMapScale;
