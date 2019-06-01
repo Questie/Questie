@@ -321,7 +321,7 @@ function QuestieQuest:AddFinisher(Quest)
                     local data = {}
                     data.Id = Quest.Id;
                     data.Icon = ICON_TYPE_COMPLETE;
-                    data.IconScale = 1;
+                    data.IconScale = 1.3;
                     data.Type = "complete";
                     data.QuestData = Quest;
                     data.Name = NPC.Name
@@ -789,6 +789,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                             local data = {}
                             data.Id = questObject.Id;
                             data.Icon = ICON_TYPE_AVAILABLE;
+							data.IconScale = 1.3
                             data.Type = "available";
                             data.QuestData = questObject;
                             data.Name = obj.Name
@@ -828,6 +829,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                             local data = {}
                             data.Id = questObject.Id;
                             data.Icon = ICON_TYPE_AVAILABLE;
+							data.IconScale = 1.3
                             data.Type = "available";
                             data.QuestData = questObject;
                             data.Name = NPC.Name

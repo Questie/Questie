@@ -40,9 +40,9 @@ function QuestieMap:rescaleIcons(iconScale)
                 if(frame.data.Icon == ICON_TYPE_AVAILABLE or frame.data.Icon == ICON_TYPE_COMPLETE) then
                     local scale = 16
                     if(frame.miniMapIcon) then
-                        scale = Questie.db.global.availableMiniMapScale;
+                        scale = (frame.data.IconScale or 1) * Questie.db.global.availableMiniMapScale;
                     else
-                        scale = Questie.db.global.availableScale;
+                        scale = (frame.data.IconScale or 1) * Questie.db.global.availableScale;
                     end
                     if scale > 1 then
                         frame:SetWidth(scale)
