@@ -355,10 +355,26 @@ local options = {
                     type = "header",
                     order = 7,
                     name = "Nameplate Icon Options",
-                },
+				},
+				nameplateEnabled = {
+					type = "toggle",
+					order = 8,
+					name = "Enable Nameplate Quest Objectives",
+					desc = "Enable or disable the quest objective icons over creature nameplates.",
+					width = "full",
+					get = GetGlobalOptionLocal,
+                    set = function (info, value)
+								SetGlobalOptionLocal(info, value)
+								
+								-- on false, hide current nameplates
+								if not value then
+									QuestieNameplate:HideCurrentFrames();
+								end
+                            end,
+				},
                 nameplateX = {
                     type = "range",
-                    order = 8,
+                    order = 9,
                     name = "X position for the nameplate icons",
                     desc = "Where on the X axis the nameplate icon should be",
                     width = "full",
@@ -373,7 +389,7 @@ local options = {
                 },
                 nameplateY = {
                     type = "range",
-                    order = 9,
+                    order = 10,
                     name = "Y position for the nameplate icons",
                     desc = "Where on the Y axis the nameplate icon should be",
                     width = "full",
@@ -388,7 +404,7 @@ local options = {
 				},
 				nameplateScale = {
 					type = "range",
-					order = 10,
+					order = 11,
 					name = "Nameplate Icon Scale",
 					desc = "Scale the size of the quest icons on creature nameplates",
 					width = "full",
@@ -404,7 +420,7 @@ local options = {
 				},
 				nameplateReset = {
 					type = "execute",
-					order = 11,
+					order = 12,
 					name = "Reset Nameplates",
 					desc = "Reset to Default Nameplate Positions",
 					func = function (info, value)
@@ -474,7 +490,8 @@ local defaults = {
 	debugLevel = 4,
     nameplateX = -17,
     nameplateY = -7,
-    nameplateScale = 1
+	nameplateScale = 1,
+	nameplateEnabled = true,
   },
 	char = {
 		complete = {},
