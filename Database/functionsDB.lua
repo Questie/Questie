@@ -259,7 +259,7 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
     QO.SubQuests = rawdata[14] --Quests that give questitems that are used in later quests (See STV manual)
     QO.QuestGroup = rawdata[15] --Quests that are part of the same group, example complete this group of quests to open the next one.
     QO.ExclusiveQuestGroup = questExclusiveGroupFixes[QuestID] or rawdata[16]
-    
+
     local zos = rawdata[17]
     if zos and zos ~= 0 then
         if zos > 0 then
@@ -268,7 +268,7 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
             QO.Sort = -zos
         end
     end
-    
+
     QuestieDB._QuestCache[QuestID] = QO
     return QO
   else
@@ -405,22 +405,7 @@ end
 ---------------------------------------------------------------------------------------------------
 -- Modifications to questDB
 
---Deletes opposite factions quests, saves time!
-function QuestieDB:deleteFaction()
-    englishFaction, _ = UnitFactionGroup("player")
-    local fac = ""
-    if(englishFaction == "Alliance") then
-      fac = "A"
-    else
-      fac = "H"
-    end
-    for key, data in pairs(qData) do
-        if (data[DB_REQ_RACE] ~= "AH") and (data[DB_REQ_RACE] ~= fac) then
-            qData[key] = nil;
-        end
-    end
-    Questie:Debug(DEBUG_DEVELOP, "Opposite factions quests deleted");
-end
+
 
 ClassBitIndexTable = {
     ['warrior'] = 1,
@@ -471,6 +456,7 @@ end
 
 function checkClass(class, dbClass)
     local valid = true;
+
     if class and dbClass and valid and not (dbRace == 0)then
         local classmap = unpackBinary(dbClass);
         valid = classmap[ClassBitIndexTable[strlower(class)]];
@@ -478,26 +464,40 @@ function checkClass(class, dbClass)
     return valid;
 end
 
-function QuestieDB:deleteClasses()
+--Deletes opposite factions quests, saves time!
+function QuestieDB:deleteFaction() -- deleteClasses also deletes races, so it only needs to iterate once. Should probably be renamed to deleteInvalid or something
+    --englishFaction, _ = UnitFactionGroup("player")
+    --local fac = ""
+    --if(englishFaction == "Alliance") then
+    --  fac = "A"
+    --else
+    --  fac = "H"
+    --end
+    --for key, data in pairs(qData) do
+    --    if (data[DB_REQ_RACE] ~= "AH") and (data[DB_REQ_RACE] ~= fac) then
+    --        qData[key] = nil;
+    --    end
+    --end
+    --Questie:Debug(DEBUG_DEVELOP, "Opposite factions quests deleted");
+end
+
+function QuestieDB:deleteClasses() -- handles races too
     localizedClass, englishClass, classIndex = UnitClass("player");
     localizedRace, playerRace = UnitRace("player");
     if englishClass and playerRace then
       local playerClass = string.lower(englishClass);
       playerRace = string.lower(playerRace);
       for key, data in pairs(qData) do
-        local rpdata = Questie_RepProfData[key]; -- only strip race/class quests here
-        if rpdata then
-          if rpdata[2] ~= 0 then
-              if not checkClass(playerClass, rpdata[2]) then
-              qData[key].hidden = true--qData[key] = nil
+          if data[7] and data[7] ~= 0 then
+            if not checkClass(playerClass, data[7]) then
+              qData[key].hidden = true
             end
           end
-          if rpdata[1] ~= 0 then
-            if not checkRace(playerRace, rpdata[1]) then
-              qData[key].hidden = true--qData[key] = nil
+          if data[6] and data[6] ~= 0 and data[6] ~= 255 then
+            if not checkRace(playerRace, data[6]) then
+              qData[key].hidden = true
             end
           end
-        end
       end
     end
     Questie:Debug(DEBUG_DEVELOP, "Other class quests deleted");
