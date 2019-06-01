@@ -36,25 +36,29 @@ function QuestieMap:rescaleIcons(iconScale)
     for qId, framelist in pairs(qQuestIdFrames) do
         for i, frameName in ipairs(framelist) do
             local frame = _G[frameName]
-            if(frame.data) then
+            if frame and frame.data then
                 if(frame.data.Icon == ICON_TYPE_AVAILABLE or frame.data.Icon == ICON_TYPE_COMPLETE) then
+                    local scale = 16
                     if(frame.miniMapIcon) then
-                        frame.data.IconScale = Questie.db.global.availableMiniMapScale;
+                        scale = (frame.data.IconScale or 1) * Questie.db.global.availableMiniMapScale;
                     else
-                        frame.data.IconScale = Questie.db.global.availableScale;
+                        scale = (frame.data.IconScale or 1) * Questie.db.global.availableScale;
                     end
-                    local scale = 16 * frame.data.IconScale;
-                    frame:SetWidth(scale)
-                    frame:SetHeight(scale)
+                    if scale > 1 then
+                        frame:SetWidth(scale)
+                        frame:SetHeight(scale)
+                    end
                 else
+                    local scale = 16
                     if(frame.miniMapIcon) then
-                        frame.data.IconScale = Questie.db.global.objectiveMiniMapScale;
+                        scale = ((frame.data.IconScale or 1) * Questie.db.global.objectiveMiniMapScale);
                     else
-                        frame.data.IconScale = Questie.db.global.objectiveScale;
+                        scale = ((frame.data.IconScale or 1) * Questie.db.global.objectiveScale);
                     end
-                    local scale = 16 * frame.data.IconScale;
-                    frame:SetWidth(scale)
-                    frame:SetHeight(scale)
+                    if scale > 1 then
+                        frame:SetWidth(scale)
+                        frame:SetHeight(scale)
+                    end
                 end
             end
         end
@@ -103,17 +107,6 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
             data.UiMapID = zoneDataAreaIDToUiMapID[AreaID];
         end
 
-        local iconScale = 1
-        local miniMapScale = 0.75
-        if(data.Icon == ICON_TYPE_AVAILABLE or data.Icon == ICON_TYPE_COMPLETE) then
-            iconScale = Questie.db.global.availableScale
-            miniMapScale = Questie.db.global.availableMiniMapScale
-        else
-            iconScale = Questie.db.global.objectiveScale
-            miniMapScale = Questie.db.global.objectiveMiniMapScale
-        end
-        icon.data.IconScale = iconScale;
-
         local glow = false;
 
         if glow then
@@ -126,7 +119,7 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
 
             -- because of how frames work, I cant seem to set the glow as being behind the note. So for now things are draw in reverse.
             if data.IconScale ~= nil then
-                local scale = 16 * data.IconScale;
+                local scale = 16 * (data.IconScale*Questie.db.global.objectiveScale);
                 icon.glow:SetWidth(scale)
                 icon.glow:SetHeight(scale)
                 icon:SetWidth(scale + 2)
@@ -142,8 +135,8 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
             icon.texture:SetTexture(data.Icon) -- todo: implement .GlowIcon
             icon.texture:SetVertexColor(1, 1, 1, 1);
             -- because of how frames work, I cant seem to set the glow as being behind the note. So for now things are draw in reverse.
-            if data.IconScale ~= nil then
-                local scale = 16 * data.IconScale;
+            if data.IconScale then
+                local scale = 16 * (data.IconScale*Questie.db.global.objectiveScale);
                 icon:SetWidth(scale)
                 icon:SetHeight(scale)
             else
@@ -153,10 +146,9 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
         end
 
         local iconMinimap = QuestieFramePool:GetFrame()
-        iconMinimap:SetWidth(16 * miniMapScale)
-        iconMinimap:SetHeight(16 * miniMapScale)
+        iconMinimap:SetWidth(16 * ((data.iconScale or 1) * Questie.db.global.objectiveMiniMapScale))
+        iconMinimap:SetHeight(16 * ((data.iconScale or 1) * Questie.db.global.objectiveMiniMapScale))
         iconMinimap.data = data
-        iconMinimap.data.IconScale = miniMapScale;
         iconMinimap.x = x
         iconMinimap.y = y
         iconMinimap.AreaID = AreaID
@@ -211,7 +203,7 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
 end
 
 --function QuestieMap:RemoveIcon(ref)
---	HBDPins:RemoveWorldMapIcon(Questie, ref)
+--    HBDPins:RemoveWorldMapIcon(Questie, ref)
 --end
 
 

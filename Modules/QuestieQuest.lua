@@ -195,6 +195,7 @@ function QuestieQuest:AbandonedQuest(QuestId)
 
         local quest = QuestieDB:GetQuest(QuestId);
         quest.Objectives = nil;
+        quest.AlreadySpawned = nil; -- temporary fix for "special objectives" remove later
         --The old data for notes are still there, we don't need to recalulate data.
         _QuestieQuest:DrawAvailableQuest(quest)
 
@@ -320,7 +321,7 @@ function QuestieQuest:AddFinisher(Quest)
                     local data = {}
                     data.Id = Quest.Id;
                     data.Icon = ICON_TYPE_COMPLETE;
-                    data.IconScale = 1;
+                    data.IconScale = 1.3;
                     data.Type = "complete";
                     data.QuestData = Quest;
                     data.Name = NPC.Name
@@ -394,7 +395,7 @@ ObjectiveSpawnListCallTable = {
         ret[1] = {};
         ret[1].Name = Objective.Description or "Event Trigger";
         ret[1].Icon = ICON_TYPE_EVENT
-        ret[1].IconScale = 1
+        ret[1].IconScale = 1.35
         ret[1].Id = id or 0
         if Objective.Coordinates then
             ret[1].Spawns = Objective.Coordinates
@@ -464,9 +465,15 @@ ObjectiveSpawnListCallTable = {
 
 function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective) -- must be pcalled
     local completed = Objective.Completed or (Objective.Needed ~= nil and tonumber(Objective.Needed) > 0 and tonumber(Objective.Collected) >= tonumber(Objective.Needed)) or QuestieQuest:IsComplete(Quest);
-    if Objective.AlreadySpawned == nil then
+    if not Objective.AlreadySpawned then
         Objective.AlreadySpawned = {};
     end
+    
+    -- temporary fix for "special objectives" to not double-spawn (we need to fix the objective detection logic)
+    if not Quest.AlreadySpawned then
+        Quest.AlreadySpawned = {};
+    end
+    
     if ObjectiveSpawnListCallTable[Objective.Type] and (not Objective.spawnList) then
         Objective.spawnList = ObjectiveSpawnListCallTable[Objective.Type](Objective.Id, Objective);
     end
@@ -486,7 +493,15 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective) -- mus
             if not Objective.Icon and spawnData.Icon then -- move this to a better place
                 Objective.Icon = spawnData.Icon
             end
-            if (not Objective.AlreadySpawned[id]) and (not completed) then
+            if not Quest.AlreadySpawned[Objective.Type] then
+                Quest.AlreadySpawned[Objective.Type] = {};
+            end
+            if (not Objective.AlreadySpawned[id]) and (not completed) and (not Quest.AlreadySpawned[Objective.Type][spawnData.Id]) then
+            
+                -- temporary fix for "special objectives" to not double-spawn (we need to fix the objective detection logic)
+                Quest.AlreadySpawned[Objective.Type][spawnData.Id] = true
+                
+                
                 local maxCount = 0
                 local data = {}
                 data.Id = Quest.Id
@@ -494,7 +509,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective) -- mus
                 data.QuestData = Quest
                 data.ObjectiveData = Objective
                 data.Icon = spawnData.Icon
-                data.IconScale = spawnData.IconScale or 0.7
+                data.IconScale = spawnData.IconScale or 1
                 data.Name = spawnData.Name
                 data.Type = Objective.Type
                 data.ObjectiveTargetId = spawnData.Id
@@ -674,7 +689,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
     if old then SelectQuestLogEntry(old); end
     
     -- find special unlisted objectives
-    if Quest.ObjectiveData and false then
+    if Quest.ObjectiveData then
         for _, objective in pairs(Quest.ObjectiveData) do
             if not objective.ObjectiveRef then -- there was no qlog objective detected for this DB objective
                 objective.QuestData = Quest
@@ -725,7 +740,7 @@ function _QuestieQuest:GetLeaderBoardDetails(BoardIndex, QuestId)
     --Classic
     local itemName, numItems, numNeeded = string.match(description, "(.*):%s*([%d]+)%s*/%s*([%d]+)");
     --Retail
-    if(itemName == nil or string.len(itemName) < 5) then --Just a figure... check if its not 0
+    if(itemName == nil or string.len(itemName) < 1) then --Just a figure... check if its not 0
         numItems, numNeeded, itemName = string.match(description, "(%d+)\/(%d+)(.*)")
     end
     Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Quest Details2:", QuestId, itemName, numItems, numNeeded)
@@ -774,6 +789,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                             local data = {}
                             data.Id = questObject.Id;
                             data.Icon = ICON_TYPE_AVAILABLE;
+							data.IconScale = 1.3
                             data.Type = "available";
                             data.QuestData = questObject;
                             data.Name = obj.Name
@@ -813,6 +829,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                             local data = {}
                             data.Id = questObject.Id;
                             data.Icon = ICON_TYPE_AVAILABLE;
+							data.IconScale = 1.3
                             data.Type = "available";
                             data.QuestData = questObject;
                             data.Name = NPC.Name
