@@ -73,6 +73,20 @@ function QuestieNameplate:removeFrame(guid)
     end
 end
 
+function _getValidIcon(tooltip) -- helper function to get the first valid (incomplete) icon from the specified tooltip, or nil if there is none
+    if tooltip then
+        for _,Quest in pairs(tooltip) do
+            if Quest.Objective and Quest.Objective.GetProgress then
+                Quest.Objective:GetProgress() -- get latest qlog data if its outdated
+                if (not Quest.Objective.Completed) and Quest.Objective.Icon then
+                    return Quest.Objective.Icon
+                end
+            end
+        end
+    end
+    return nil
+end
+
 -- Event Handlers
 function QuestieNameplate:NameplateCreated(token)
     -- to avoid memory issues
@@ -96,21 +110,19 @@ function QuestieNameplate:NameplateCreated(token)
             be toggled off and back on again or delay 2 seconds apperas instant
             on the client.  Only needs to be run once, controlled with TimerSet.
         ]]
-        C_Timer.After(QuestieNameplate.TimerSet, function()
+        --C_Timer.After(QuestieNameplate.TimerSet, function()
             QuestieNameplate.TimerSet = 0;
-            local toKill = QuestieTooltips.tooltipLookup["u_" .. unitName];
+            local icon = _getValidIcon(QuestieTooltips.tooltipLookup["u_" .. unitName]);
 
-            if toKill and toKill[1] and toKill[1].Objective then
-                local icon = toKill[1].Objective.Icon
-
+            if icon then
                 activeGUIDs[unitGUID] = token;
 
                 local f = QuestieNameplate:getFrame(unitGUID);
                 f.Icon:SetTexture(icon)
+                f.lastIcon = icon -- this is used to prevent updating the texture when it's already what it needs to be
                 f:Show();
-
             end
-        end);
+        --end);
     end
 end
 
@@ -134,34 +146,18 @@ function QuestieNameplate:UpdateNameplate(self)
 
         if not unitName then return end
 
-        local toKill = QuestieTooltips.tooltipLookup["u_" .. unitName];
+        local icon = _getValidIcon(QuestieTooltips.tooltipLookup["u_" .. unitName]);
 
-        if toKill then
-            -- see if the mob has no objectives
-            if #toKill == 0 then
-                activeGUIDs[guid] = nil;
-                QuestieNameplate:removeFrame(guid);
-            elseif toKill[1] and toKill[1].Objective then
-                -- Update to current main objective (first in list)
-                if toKill[1].Objective.Completed or (tonumber(toKill[1].Objective.Needed) == tonumber(toKill[1].Objective.Collected) and tonumber(toKill[1].Objective.Needed) > 0) then
-
-                    if toKill[2] and toKill[2].Objective then
-                        local frame = QuestieNameplate:getFrame(guid);
-                        frame.Icon:SetTexture(nil);
-                        frame.Icon:SetTexture(toKill[2].Objective.Icon);
-                    else
-                        activeGUIDs[guid] = nil;
-                        QuestieNameplate:removeFrame(guid);
-                    end
-                else
-                    local frame = QuestieNameplate:getFrame(guid);
-                    frame.Icon:SetTexture(nil);
-                    frame.Icon:SetTexture(toKill[1].Objective.Icon);
-                end
+        if icon then
+            local frame = QuestieNameplate:getFrame(guid);
+            -- check if the texture needs to be changed
+            if (not frame.lastIcon) or icon ~= frame.lastIcon then
+                frame.lastIcon = icon
+                frame.Icon:SetTexture(nil);
+                frame.Icon:SetTexture(icon);
             end
         else
             -- tooltip removed but we still have the frame active, remove it
-            print ("In the extra else");
             activeGUIDs[guid] = nil;
             QuestieNameplate:removeFrame(guid);
         end
