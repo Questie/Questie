@@ -15,6 +15,8 @@ DEBUG_INFO = "|cff00bc32[INFO]|r"
 DEBUG_DEVELOP = "|cff7c83ff[DEVELOP]|r"
 DEBUG_SPAM = "|cffff8484[SPAM]|r"
 
+-- to avoid opening multiple copies of the config window
+local configWindowOpen = false;
 
 -- get option value
 local function GetGlobalOptionLocal(info)
@@ -65,10 +67,13 @@ end
 function Questie:MySlashProcessorFunc(input)
 	--Questie:Print(ChatFrame1, "Hello, World!")
 	--SetMessage("test", "test")
+	if not configWindowOpen then
 		if(not QuestieFrameOpt) then
 			QuestieFrameOpt = AceGUI:Create("Frame")
 		end
-	    QuestieFrame2 = LibStub("AceConfigDialog-3.0"):Open("Questie", QuestieFrameOpt)
+		QuestieFrame2 = LibStub("AceConfigDialog-3.0"):Open("Questie", QuestieFrameOpt)
+		configWindowOpen = true;
+	end
 
 
   -- Process the slash command ('input' contains whatever follows the slash command)
@@ -133,11 +138,24 @@ local options = {
 								Questie.db.char.enabled = value
 							end,
 				},
-				description = {
-					type = "description",
+				iconEnabled = {
+					type = "toggle",
 					order = 12,
-					fontSize = "medium",
-					name = "Test text",
+					name = "Enable Questie Minimap Icon",
+					desc = "Enable or disable the minimap icon",
+					width = "full",
+					get =	function ()
+								return not Questie.db.profile.minimap.hide;
+							end,
+					set =	function (info, value)
+								Questie.db.profile.minimap.hide = not value;
+
+								if value then
+									Questie.minimapConfigIcon:Show("MinimapIcon");
+								else
+									Questie.minimapConfigIcon:Hide("MinimapIcon");
+								end
+							end,
 				},
 				--[[quest_options = {
 					type = "header",
@@ -343,7 +361,7 @@ local options = {
                     order = 8,
                     name = "X position for the nameplate icons",
                     desc = "Where on the X axis the nameplate icon should be",
-                    width = "double",
+                    width = "full",
                     min = -200,
                     max = 200,
                     step = 1,
@@ -358,7 +376,7 @@ local options = {
                     order = 9,
                     name = "Y position for the nameplate icons",
                     desc = "Where on the Y axis the nameplate icon should be",
-                    width = "double",
+                    width = "full",
                     min = -200,
                     max = 200,
                     step = 1,
@@ -464,8 +482,22 @@ local defaults = {
         lowlevel = false,
 		--autoaccept = false,
 		--autocomplete = false
-	}
+	},
+	profile = {
+		minimap = {
+			hide = false,
+		},
+	},
 }
+
+
+local minimapIconLDB = LibStub("LibDataBroker-1.1"):NewDataObject("MinimapIcon", {
+	type = "data source",
+	text = "Questie",
+	icon = "Interface\\Addons\\QuestieDev-QuestieClassic\\Icons\\complete.blp",
+	OnClick = function () Questie.ToggleMinimapConfigIcon() end,
+
+});
 
 
 glooobball = ""
@@ -538,11 +570,26 @@ function Questie:OnInitialize()
 
     --Initialize the DB settings.
     Questie:debug(DEBUG_DEVELOP, "Setting clustering value to:", Questie.db.global.clusterLevel)
-    QUESTIE_NOTES_CLUSTERMUL_HACK = Questie.db.global.clusterLevel;
+	QUESTIE_NOTES_CLUSTERMUL_HACK = Questie.db.global.clusterLevel;
+	
+
+    -- Creating the minimap config icon
+	Questie.minimapConfigIcon = LibStub("LibDBIcon-1.0");
+	Questie.minimapConfigIcon:Register("MinimapIcon", minimapIconLDB, Questie.db.profile.minimap);
 
 
 end
 
+function Questie:ToggleMinimapConfigIcon()
+    if configWindowOpen then
+		LibStub("AceConfigDialog-3.0"):Close("Questie");
+	else
+		LibStub("AceConfigDialog-3.0"):Open("Questie");
+	end
+
+	configWindowOpen = not configWindowOpen;
+
+end
 
 
 function Questie:Error(...)
