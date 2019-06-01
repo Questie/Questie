@@ -297,7 +297,7 @@ local options = {
 					step = 0.01,
 					get = GetGlobalOptionLocal,
 					set = function (info, value)
-                                QuestieMap:rescaleIcons(value)
+                                QuestieMap:rescaleIcons()
 								SetGlobalOptionLocal(info, value)
 							end,
 				},
@@ -312,7 +312,7 @@ local options = {
 					step = 0.01,
 					get = GetGlobalOptionLocal,
 					set = function (info, value)
-                                QuestieMap:rescaleIcons(value)
+                                QuestieMap:rescaleIcons()
 								SetGlobalOptionLocal(info, value)
                             end,
 				},
@@ -332,7 +332,7 @@ local options = {
                     step = 0.01,
                     get = GetGlobalOptionLocal,
                     set = function (info, value)
-                                QuestieMap:rescaleIcons(value)
+                                QuestieMap:rescaleIcons()
                                 SetGlobalOptionLocal(info, value)
                             end,
                 },
@@ -347,7 +347,7 @@ local options = {
                     step = 0.01,
                     get = GetGlobalOptionLocal,
                     set = function (info, value)
-                                QuestieMap:rescaleIcons(value)
+                                QuestieMap:rescaleIcons()
                                 SetGlobalOptionLocal(info, value)
                             end,
                 },

@@ -32,7 +32,7 @@ function QuestieMap:UnloadQuestFrames(QuestId)
     end
 end
 
-function QuestieMap:rescaleIcons(iconScale)
+function QuestieMap:rescaleIcons()
     for qId, framelist in pairs(qQuestIdFrames) do
         for i, frameName in ipairs(framelist) do
             local frame = _G[frameName]
@@ -40,10 +40,11 @@ function QuestieMap:rescaleIcons(iconScale)
                 if(frame.data.Icon == ICON_TYPE_AVAILABLE or frame.data.Icon == ICON_TYPE_COMPLETE) then
                     local scale = 16
                     if(frame.miniMapIcon) then
-                        scale = (frame.data.IconScale or 1) * Questie.db.global.availableMiniMapScale;
+                        scale = scale * (frame.data.IconScale or 1) * Questie.db.global.availableMiniMapScale;
                     else
-                        scale = (frame.data.IconScale or 1) * Questie.db.global.availableScale;
+                        scale = scale * (frame.data.IconScale or 1) * Questie.db.global.availableScale;
                     end
+                    
                     if scale > 1 then
                         frame:SetWidth(scale)
                         frame:SetHeight(scale)
@@ -51,10 +52,11 @@ function QuestieMap:rescaleIcons(iconScale)
                 else
                     local scale = 16
                     if(frame.miniMapIcon) then
-                        scale = ((frame.data.IconScale or 1) * Questie.db.global.objectiveMiniMapScale);
+                        scale = scale * ((frame.data.IconScale or 1) * Questie.db.global.objectiveMiniMapScale);
                     else
-                        scale = ((frame.data.IconScale or 1) * Questie.db.global.objectiveScale);
+                        scale = scale * ((frame.data.IconScale or 1) * Questie.db.global.objectiveScale);
                     end
+
                     if scale > 1 then
                         frame:SetWidth(scale)
                         frame:SetHeight(scale)
