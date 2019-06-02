@@ -89,6 +89,9 @@ end
 
 -- Event Handlers
 function QuestieNameplate:NameplateCreated(token)
+    -- if nameplates are disbaled, don't create new nameplates.
+    if not Questie.db.global.nameplateEnabled then return end;
+
     -- to avoid memory issues
     if npFramesCount >= 300 then
         return
@@ -162,4 +165,11 @@ function QuestieNameplate:UpdateNameplate(self)
             QuestieNameplate:removeFrame(guid);
         end
     end
+end
+
+function QuestieNameplate:HideCurrentFrames()
+        for guid, token in pairs(activeGUIDs) do
+            activeGUIDs[guid] = nil;
+            QuestieNameplate:removeFrame(guid);
+        end
 end
