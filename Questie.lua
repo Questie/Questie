@@ -249,7 +249,7 @@ local options = {
                 },
 				fadeLevel = {
 				  type = "range",
-				  order = 18,
+				  order = 19,
 				  name = "Fade objective distance",
 				  desc = "How much objective icons should fade depending on distance.",
 				  width = "double",
@@ -261,14 +261,25 @@ local options = {
 						SetGlobalOptionLocal(info, value)
 						end,
 				},
+				fadeOverPlayer = {
+					type = "toggle",
+					order = 20,
+					name = "Fade Icons over Player",
+					desc = "Fades icons on the minimap when your player walks near them.",
+					width = "full",
+					get = GetGlobalOptionLocal,
+					set = function (info, value)
+						  SetGlobalOptionLocal(info, value)
+						  end,
+				},
 				arrow_options = {
 					type = "header",
-					order = 19,
+					order = 21,
 					name = "Arrow Options",
 				},
 				test = {
 					type = "execute",
-					order = 19,
+					order = 22,
 					name = "Test Message",
 					desc = "Click this",
 					func = function() Questie:Print("Why did you click this?") end,
@@ -486,6 +497,7 @@ local defaults = {
     availableMiniMapScale = 0.75,
     objectiveMiniMapScale = 0.75,
 	fadeLevel = 1.5,
+	fadeOverPlayer = true,
 	debugEnabled = false,
 	debugLevel = 4,
     nameplateX = -17,
