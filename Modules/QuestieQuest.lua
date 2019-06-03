@@ -768,7 +768,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                 end
             end
             if hasRemoved then -- reset cluster data (hack)
-                QuestieMap.MapCache_ClutterFix = nil
+                QuestieMap.MapCache_ClutterFix = {}
             end
         end
     end
