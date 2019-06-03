@@ -76,8 +76,8 @@ end
 function _getValidIcon(tooltip) -- helper function to get the first valid (incomplete) icon from the specified tooltip, or nil if there is none
     if tooltip then
         for _,Quest in pairs(tooltip) do
-            if Quest.Objective and Quest.Objective.GetProgress then
-                Quest.Objective:GetProgress() -- get latest qlog data if its outdated
+            if Quest.Objective and Quest.Objective.Update then
+                Quest.Objective:Update() -- get latest qlog data if its outdated
                 if (not Quest.Objective.Completed) and Quest.Objective.Icon then
                     return Quest.Objective.Icon
                 end

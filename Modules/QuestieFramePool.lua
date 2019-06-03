@@ -221,7 +221,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
                         if not questOrder[key] then
                             questOrder[key] = {};
                         end
-                        icon.data.ObjectiveData:GetProgress(); -- update progress info
+                        icon.data.ObjectiveData:Update(); -- update progress info
                         if icon.data.Type == "event" then
                             questOrder[key][icon.data.ObjectiveData.Description] = true
                         else

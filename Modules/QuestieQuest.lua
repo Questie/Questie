@@ -480,8 +480,8 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective) -- mus
     local maxPerType = 100
     local maxPerObjectiveOutsideZone = 100
     
-    Objective:GetProgress() -- update qlog data
-    local completed = Objective.Completed or (Objective.Needed ~= nil and tonumber(Objective.Needed) > 0 and tonumber(Objective.Collected) >= tonumber(Objective.Needed)) or QuestieQuest:IsComplete(Quest);
+    Objective:Update() -- update qlog data
+    local completed = Objective.Completed
     
     if (not Objective.registeredTooltips) and Objective.Type == "item" then -- register item tooltip (special case)
         local itm = QuestieDB:GetItem(Objective.Id);
@@ -503,6 +503,10 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective) -- mus
             end
             if not Quest.AlreadySpawned[Objective.Type] then
                 Quest.AlreadySpawned[Objective.Type] = {};
+            end
+            if not Objective.registeredTooltips and spawnData.TooltipKey and (not tooltipRegisterHack[spawnData.TooltipKey]) then -- register mob / item / object tooltips
+                QuestieTooltips:RegisterTooltip(Quest.Id, spawnData.TooltipKey, Objective);
+                tooltipRegisterHack[spawnData.TooltipKey] = true
             end
             if (not Objective.AlreadySpawned[id]) and (not completed) and (not Quest.AlreadySpawned[Objective.Type][spawnData.Id]) then
             
@@ -531,11 +535,6 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective) -- mus
                 Objective.AlreadySpawned[id].minimapRefs = {};
                 Objective.AlreadySpawned[id].mapRefs = {};
 
-
-                if not Objective.registeredTooltips and spawnData.TooltipKey and (not tooltipRegisterHack[spawnData.TooltipKey]) then -- register mob / item / object tooltips
-                    QuestieTooltips:RegisterTooltip(Quest.Id, spawnData.TooltipKey, Objective);
-                    tooltipRegisterHack[spawnData.TooltipKey] = true
-                end
                 for zone, spawns in pairs(spawnData.Spawns) do
                     for _, spawn in pairs(spawns) do
                         if maxPerObjectiveOutsideZone > 0 or ((not Quest.Zone) or Quest.Zone == zone) then -- still add the note if its in the current zone
@@ -651,7 +650,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
             Quest.Objectives[i].QuestId = Quest.Id
             Quest.Objectives[i].QuestData = Quest
             Quest.Objectives[i]._lastUpdate = 0;
-            Quest.Objectives[i].GetProgress = function(self)
+            Quest.Objectives[i].Update = function(self)
                 local now = GetTime();
                 if now - self._lastUpdate < 0.5 then
                     if old then SelectQuestLogEntry(old); end
@@ -679,7 +678,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                 end
                 return {self.Collected, self.Needed, self.Completed}
             end
-            Quest.Objectives[i]:GetProgress()
+            Quest.Objectives[i]:Update()
 
             if count == 1 and counthack(Quest.ObjectiveData) == 1 then
                 Quest.Objectives[i].Id = Quest.ObjectiveData[1].Id
@@ -735,7 +734,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                 if not Quest.SpecialObjectives[objective.Description] then
                     objective.QuestData = Quest
                     objective.QuestId = Quest.Id
-                    objective.GetProgress = function() end
+                    objective.Update = function() end
                 
 
                 

@@ -83,10 +83,10 @@ function QuestieTooltips:GetTooltip(key)
     end
     local tip = {};
     for k, tooltip in pairs(QuestieTooltips.tooltipLookup[key]) do
-        tooltip.Objective:GetProgress(); -- update progress
+        tooltip.Objective:Update() -- update progress
 
         -- we need Objective:IsComplete()
-        local complete = (tooltip.Objective.Needed ~= nil and tonumber(tooltip.Objective.Needed) > 0 and tonumber(tooltip.Objective.Collected) == tonumber(tooltip.Objective.Needed));
+        local complete = tooltip.Objective.Completed
         if complete and tostring(key):sub(1, #"i_") ~= "i_" then -- BAD CODE: dont remove complete item tooltips
             QuestieTooltips.tooltipLookup[key][k] = nil
         else
