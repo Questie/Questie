@@ -504,16 +504,16 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective) -- mus
             if not Quest.AlreadySpawned[Objective.Type] then
                 Quest.AlreadySpawned[Objective.Type] = {};
             end
-            if not Objective.registeredTooltips and spawnData.TooltipKey and (not tooltipRegisterHack[spawnData.TooltipKey]) then -- register mob / item / object tooltips
-                QuestieTooltips:RegisterTooltip(Quest.Id, spawnData.TooltipKey, Objective);
-                tooltipRegisterHack[spawnData.TooltipKey] = true
-            end
+
             if (not Objective.AlreadySpawned[id]) and (not completed) and (not Quest.AlreadySpawned[Objective.Type][spawnData.Id]) then
             
                 -- temporary fix for "special objectives" to not double-spawn (we need to fix the objective detection logic)
                 Quest.AlreadySpawned[Objective.Type][spawnData.Id] = true
                 
-                
+                if not Objective.registeredTooltips and spawnData.TooltipKey and (not tooltipRegisterHack[spawnData.TooltipKey]) then -- register mob / item / object tooltips
+                    QuestieTooltips:RegisterTooltip(Quest.Id, spawnData.TooltipKey, Objective);
+                    tooltipRegisterHack[spawnData.TooltipKey] = true
+                end    
                 local maxCount = 0
                 local data = {}
                 data.Id = Quest.Id
