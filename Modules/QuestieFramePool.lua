@@ -140,6 +140,7 @@ function _QuestieFramePool:QuestieCreateFrame()
             self.texture:SetVertexColor(1, 1, 1, 1);
         end
         self.miniMapIcon = nil;
+		self:SetScript("OnUpdate", nil)
         self:Hide();
         --self.glow:Hide()
         self.data = nil; -- Just to be safe

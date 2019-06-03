@@ -464,7 +464,7 @@ ObjectiveSpawnListCallTable = {
 }
 
 function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective) -- must be pcalled
-    local completed = Objective.Completed or (Objective.Needed ~= nil and tonumber(Objective.Needed) > 0 and tonumber(Objective.Collected) >= tonumber(Objective.Needed)) or QuestieQuest:IsComplete(Quest);
+    
     if not Objective.AlreadySpawned then
         Objective.AlreadySpawned = {};
     end
@@ -479,10 +479,18 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective) -- mus
     end
     local maxPerType = 100
     local maxPerObjectiveOutsideZone = 100
+    
+    Objective:GetProgress() -- update qlog data
+    local completed = Objective.Completed or (Objective.Needed ~= nil and tonumber(Objective.Needed) > 0 and tonumber(Objective.Collected) >= tonumber(Objective.Needed)) or QuestieQuest:IsComplete(Quest);
+    
     if (not Objective.registeredTooltips) and Objective.Type == "item" then -- register item tooltip (special case)
         local itm = QuestieDB:GetItem(Objective.Id);
         if itm and itm.Name then
-            QuestieTooltips:RegisterTooltip(Quest.Id, "i_" .. itm.Name, Objective);
+            if completed then
+                QuestieTooltips:RegisterTooltip(Quest.Id, "i_" .. itm.Name, Objective);
+            else
+                QuestieTooltips:RemoveTooltip("i_" .. itm.Name)
+            end
         end
     end
     if Objective.spawnList then
@@ -579,7 +587,9 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
 
     -- we've already checked the objectives table by doing IsComplete
     -- if that changes, check it here
+    local old = GetQuestLogSelection()
     for k, v in pairs(Quest.Objectives) do
+        SelectQuestLogEntry(v.Index)
         result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, Quest, k, v);
         if not result then
             Questie:Error("[QuestieQuest]: There was an error populating objectives for ", Quest.Name, Quest.Id, k, err)
@@ -595,7 +605,9 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
             end
         end
     end
-    
+    if old then
+        SelectQuestLogEntry(old)
+    end
 
 end
 function QuestieQuest:PopulateQuestLogInfo(Quest)
@@ -646,6 +658,11 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                     return {self.Collected, self.Needed, self.Completed} -- updated too recently
                 end
                 self._lastUpdate = now
+                
+                -- check if this is still a valid objective (fix)
+                --_,_,_,_,_,_,_,questID = GetQuestLogTitle(self.Index)
+                --DEFAULT_CHAT_FRAME:AddMessage("qid: " .. questID .. " " .. self.QuestId)
+                
                 objectiveType, objectiveDesc, numItems, numNeeded, isCompleted = _QuestieQuest:GetLeaderBoardDetails(self.Index, self.QuestId)
                 if objectiveType then
                     -- fixes for api bug
@@ -689,14 +706,15 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
     if old then SelectQuestLogEntry(old); end
     
     -- find special unlisted objectives
+    -- hack to remove misdetected unlisted (when qlog returns bad data for objective text on first try)
+    local checkTime = GetTime();
     if Quest.ObjectiveData then
         for _, objective in pairs(Quest.ObjectiveData) do
             if not objective.ObjectiveRef then -- there was no qlog objective detected for this DB objective
-                objective.QuestData = Quest
-                objective.QuestId = Quest.Id
-                objective.GetProgress = function() end
-                
                 -- hack
+                if not Quest.SpecialObjectives then
+                    Quest.SpecialObjectives = {};
+                end
                 if objective.Type then
                     if objective.Type == "monster" then
                         local npc = QuestieDB:GetNPC(objective.Id);
@@ -714,11 +732,45 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                 end
                 if not objective.Description then objective.Description = "Hidden objective"; end
                 
-                if not Quest.SpecialObjectives then
-                    Quest.SpecialObjectives = {};
+                if not Quest.SpecialObjectives[objective.Description] then
+                    objective.QuestData = Quest
+                    objective.QuestId = Quest.Id
+                    objective.GetProgress = function() end
+                
+
+                
+
+                    objective.checkTime = checkTime
+                    Quest.SpecialObjectives[objective.Description] = objective
                 end
-                table.insert(Quest.SpecialObjectives, objective);
+                --table.insert(Quest.SpecialObjectives, objective);
             end
+        end
+        
+        -- check for removed specials (hack)
+        if Quest.SpecialObjectives then
+		    local hasRemoved = false
+            for _,obj in pairs(Quest.SpecialObjectives) do
+                if obj.checkTime ~= checkTime and obj.AlreadySpawned then -- objective has been removed
+                    for id, spawn in pairs(obj.AlreadySpawned) do
+                        if spawn.mapRefs then
+                            for _, note in pairs(spawn.mapRefs) do
+                                note:Unload();
+								hasRemoved = true
+                            end
+                        end
+                        if spawn.minimapRefs then
+                            for _, note in pairs(spawn.minimapRefs) do
+                                note:Unload();
+								hasRemoved = true
+                            end
+                        end
+                    end
+                end
+            end
+			if hasRemoved then -- reset cluster data (hack)
+			    QuestieMap.MapCache_ClutterFix = nil
+			end
         end
     end
     
@@ -789,7 +841,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                             local data = {}
                             data.Id = questObject.Id;
                             data.Icon = ICON_TYPE_AVAILABLE;
-							data.IconScale = 1.3
+                            data.IconScale = 1.3
                             data.Type = "available";
                             data.QuestData = questObject;
                             data.Name = obj.Name
@@ -829,7 +881,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                             local data = {}
                             data.Id = questObject.Id;
                             data.Icon = ICON_TYPE_AVAILABLE;
-							data.IconScale = 1.3
+                            data.IconScale = 1.3
                             data.Type = "available";
                             data.QuestData = questObject;
                             data.Name = NPC.Name
