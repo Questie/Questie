@@ -166,11 +166,15 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
                     local playerX, playerY, playerInstanceID = HBD:GetPlayerZonePosition()
                     if(playerX and playerY) then
                         local distance = QuestieFramePool:euclid(playerX, playerY, self.x / 100, self.y / 100);
+
                         --Very small value before, hard to work with.
                         distance = distance * 10
                         local NormalizedValue = 1 / (Questie.db.global.fadeLevel or 1.5);
+
                         if(distance > 0.6) then
                             self.texture:SetVertexColor(1, 1, 1, (1 - NormalizedValue * distance) + 0.5)
+                        elseif (distance < 0.1) and Questie.db.global.fadeOverPlayer then
+                            self.texture:SetVertexColor(1, 1, 1, .5)
                         else
                             self.texture:SetVertexColor(1, 1, 1, 1)
                         end
@@ -183,7 +187,7 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
             iconMinimap:SetScript("OnUpdate", function(frame)
                 --Only run if these two are true!
                 if(frame.fadeLogic and frame.miniMapIcon) then
-                    frame:fadeLogic()
+                   frame:fadeLogic()
                 end
             end)
         end
