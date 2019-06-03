@@ -2,8 +2,14 @@
 **A quest helper for World of Warcraft: Classic**
 
 
-# Put "QuestieDev-QuestieClassic" in your interface folder! DELETE THE OLD "Questie" FOLDER IF YOU HAVE ONE!
-*Many things are missing, but its all being ported in slowly. Keep an eye on this branch and the discord (linked below)*
+# Put "QuestieDev-master" in your interface folder! Delete any old questie folders you have first!
+*Some features are missing, but its all being ported in slowly. Keep an eye on discord! (linked below)*
+
+[![Downloads](https://img.shields.io/github/downloads/AeroScripts/QuestieDev/total.svg)](https://github.com/AeroScripts/QuestieDev/releases/)
+
+[![Downloads Latest](https://img.shields.io/github/downloads/AeroScripts/QuestieDev/v3.7.1/total.svg)](https://github.com/AeroScripts/QuestieDev/releases/latest)
+[![Date Latest](https://img.shields.io/github/release-date/AeroScripts/QuestieDev.svg)](https://github.com/AeroScripts/QuestieDev/releases/latest)
+[![Commits Since Latest](https://img.shields.io/github/commits-since/AeroScripts/QuestieDev/latest.svg)](https://github.com/AeroScripts/QuestieDev/commits/master)
 
 **What is working/ported**
 - map/minimap system (Currently using a port of HereBeDragons but that may change)
@@ -37,6 +43,14 @@
 - You can use the [issue tracker](https://github.com/AeroScripts/QuestieDev/issues) to report bugs (requires a Github account). Please read the [Readme & FAQ](https://github.com/AeroScripts/QuestieDev/wiki/FAQ&Readme) before reporting bugs.
 - If you get an error message from the WoW client, please include the **complete** text or a screenshot of it in your report.
 - If you wish to submit a bug fix or feature addition you made, you can create a Pull Request on Github. Please read the [rules](https://github.com/AeroScripts/QuestieDev/wiki/Pull-Request-Rules) first.
+
+
+## Screenshots
+Here are some example images of what Questie can do:
+
+<img src="https://i.imgur.com/uPykHKC.png" alt="Questie Tooltip"/> <img src="https://i.imgur.com/z2OJoiu.png" alt="Questie Mobs"/>
+<img src="https://i.imgur.com/4abi5yu.png" alt="Questie Quest Givers"/>
+<img src="https://i.imgur.com/DgvBHyh.png" alt="Questie Complete"/>
 
 If you'd like to support the development of Questie by donating, you can do so here:
 
