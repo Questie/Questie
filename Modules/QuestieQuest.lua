@@ -463,7 +463,7 @@ ObjectiveSpawnListCallTable = {
     end
 }
 
-function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective) -- must be pcalled
+function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockItemTooltips) -- must be pcalled
     
     if not Objective.AlreadySpawned then
         Objective.AlreadySpawned = {};
@@ -483,7 +483,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective) -- mus
     Objective:Update() -- update qlog data
     local completed = Objective.Completed
     
-    if (not Objective.registeredTooltips) and Objective.Type == "item" then -- register item tooltip (special case)
+    if (not Objective.registeredTooltips) and Objective.Type == "item" and (not BlockItemTooltips) then -- register item tooltip (special case)
         local itm = QuestieDB:GetItem(Objective.Id);
         if itm and itm.Name then
             if completed then
@@ -589,7 +589,7 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
     local old = GetQuestLogSelection()
     for k, v in pairs(Quest.Objectives) do
         SelectQuestLogEntry(v.Index)
-        result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, Quest, k, v);
+        result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, Quest, k, v, false);
         if not result then
             Questie:Error("[QuestieQuest]: There was an error populating objectives for ", Quest.Name, Quest.Id, k, err)
         end
@@ -598,7 +598,7 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
     -- check for special (unlisted) DB objectives
     if Quest.SpecialObjectives then
         for _, objective in pairs(Quest.SpecialObjectives) do
-            result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, Quest, 0, objective);
+            result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, Quest, 0, objective, true);
             if not result then
                 Questie:Error("[QuestieQuest]: There was an error populating objectives for ", Quest.Name, Quest.Id, k, err)
             end
