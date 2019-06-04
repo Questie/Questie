@@ -27,8 +27,14 @@ function QuestieFramePool:GetFrame()
         icon.Show = icon._show;
         icon.Hide = icon._hide;
     end
-    if f.IsShowing ~= nil and f:IsShowing() then
-        f:Hide();
+    f.fadeLogic = nil
+    
+    --if f.IsShowing ~= nil and f:IsShowing() then
+    f:Hide();
+    --end
+    
+    if f.texture then
+        f.texture:SetVertexColor(1, 1, 1, 1)
     end
     f.loaded = true;
     f.shouldBeShowing = false;
@@ -140,7 +146,7 @@ function _QuestieFramePool:QuestieCreateFrame()
             self.texture:SetVertexColor(1, 1, 1, 1);
         end
         self.miniMapIcon = nil;
-		self:SetScript("OnUpdate", nil)
+        self:SetScript("OnUpdate", nil)
         self:Hide();
         --self.glow:Hide()
         self.data = nil; -- Just to be safe
