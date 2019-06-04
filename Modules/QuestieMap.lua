@@ -44,7 +44,7 @@ function QuestieMap:rescaleIcons()
                     else
                         scale = scale * (frame.data.IconScale or 1) * Questie.db.global.availableScale;
                     end
-                    
+
                     if scale > 1 then
                         frame:SetWidth(scale)
                         frame:SetHeight(scale)
@@ -174,7 +174,7 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
                         if(distance > 0.6) then
                             self.texture:SetVertexColor(1, 1, 1, (1 - NormalizedValue * distance) + 0.5)
                         elseif (distance < 0.1) and Questie.db.global.fadeOverPlayer then
-                            self.texture:SetVertexColor(1, 1, 1, .5)
+                            self.texture:SetVertexColor(1, 1, 1, distance*10)
                         else
                             self.texture:SetVertexColor(1, 1, 1, 1)
                         end
