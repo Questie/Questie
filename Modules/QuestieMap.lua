@@ -174,7 +174,7 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
                         if(distance > 0.6) then
                             self.texture:SetVertexColor(1, 1, 1, (1 - NormalizedValue * distance) + 0.5)
                         elseif (distance < 0.1) and Questie.db.global.fadeOverPlayer then
-                            self.texture:SetVertexColor(1, 1, 1, distance*10)
+                            self.texture:SetVertexColor(1, 1, 1, math.max(distance*10, 0.5))
                         else
                             self.texture:SetVertexColor(1, 1, 1, 1)
                         end
