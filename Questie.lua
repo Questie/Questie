@@ -523,7 +523,7 @@ local defaults = {
 local minimapIconLDB = LibStub("LibDataBroker-1.1"):NewDataObject("MinimapIcon", {
 	type = "data source",
 	text = "Questie",
-	icon = "Interface\\Addons\\QuestieDev-QuestieClassic\\Icons\\complete.blp",
+	icon = "Interface\\Addons\\QuestieDev-master\\Icons\\complete.blp",
 	OnClick = function () Questie.ToggleMinimapConfigIcon() end,
 
 });
