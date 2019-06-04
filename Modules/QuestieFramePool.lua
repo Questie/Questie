@@ -8,13 +8,13 @@ local usedFrames = {};
 local allframes = {}
 
 --TODO: Add all types
-ICON_TYPE_AVAILABLE = "Interface\\Addons\\QuestieDev-QuestieClassic\\Icons\\available.blp"
-ICON_TYPE_SLAY = "Interface\\Addons\\QuestieDev-QuestieClassic\\Icons\\slay.blp"
-ICON_TYPE_COMPLETE = "Interface\\Addons\\QuestieDev-QuestieClassic\\Icons\\complete.blp"
-ICON_TYPE_ITEM = "Interface\\Addons\\QuestieDev-QuestieClassic\\Icons\\item.blp"
-ICON_TYPE_LOOT = "Interface\\Addons\\QuestieDev-QuestieClassic\\Icons\\loot.blp"
-ICON_TYPE_EVENT = "Interface\\Addons\\QuestieDev-QuestieClassic\\Icons\\event.blp"
-ICON_TYPE_OBJECT = "Interface\\Addons\\QuestieDev-QuestieClassic\\Icons\\object.blp"
+ICON_TYPE_AVAILABLE = "Interface\\Addons\\QuestieDev-master\\Icons\\available.blp"
+ICON_TYPE_SLAY = "Interface\\Addons\\QuestieDev-master\\Icons\\slay.blp"
+ICON_TYPE_COMPLETE = "Interface\\Addons\\QuestieDev-master\\Icons\\complete.blp"
+ICON_TYPE_ITEM = "Interface\\Addons\\QuestieDev-master\\Icons\\item.blp"
+ICON_TYPE_LOOT = "Interface\\Addons\\QuestieDev-master\\Icons\\loot.blp"
+ICON_TYPE_EVENT = "Interface\\Addons\\QuestieDev-master\\Icons\\event.blp"
+ICON_TYPE_OBJECT = "Interface\\Addons\\QuestieDev-master\\Icons\\object.blp"
 
 -- Global Functions --
 function QuestieFramePool:GetFrame()

@@ -112,7 +112,7 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
         local glow = false;
 
         if glow then
-            icon.texture:SetTexture("Interface\\Addons\\QuestieDev-QuestieClassic\\Icons\\glow.blp")-- because of how frames work, I cant seem to set the glow as being behind the note. So for now things are draw in reverse.
+            icon.texture:SetTexture("Interface\\Addons\\QuestieDev-master\\Icons\\glow.blp")-- because of how frames work, I cant seem to set the glow as being behind the note. So for now things are draw in reverse.
             if data.QuestData and data.QuestData.Color then
                 icon.texture:SetVertexColor(data.QuestData.Color[1], data.QuestData.Color[2], data.QuestData.Color[3], 1);
             end
