@@ -376,7 +376,7 @@ local options = {
 					get = GetGlobalOptionLocal,
                     set = function (info, value)
 								SetGlobalOptionLocal(info, value)
-								
+
 								-- on false, hide current nameplates
 								if not value then
 									QuestieNameplate:HideCurrentFrames();
@@ -441,7 +441,7 @@ local options = {
 						QuestieNameplate:redrawIcons();
 					end,
 				},
-				
+
 			},
 		},
 		Advanced_tab = {
@@ -481,7 +481,7 @@ local options = {
 								SetGlobalOptionLocal(info, value)
 							end,
 				},
-				
+
 			},
 		}
 	}
@@ -523,7 +523,7 @@ local defaults = {
 local minimapIconLDB = LibStub("LibDataBroker-1.1"):NewDataObject("MinimapIcon", {
 	type = "data source",
 	text = "Questie",
-	icon = "Interface\\Addons\\QuestieDev-master\\Icons\\complete.blp",
+	icon = ICON_TYPE_COMPLETE,
 	OnClick = function () Questie.ToggleMinimapConfigIcon() end,
 
 });
@@ -600,7 +600,7 @@ function Questie:OnInitialize()
     --Initialize the DB settings.
     Questie:debug(DEBUG_DEVELOP, "Setting clustering value to:", Questie.db.global.clusterLevel)
 	QUESTIE_NOTES_CLUSTERMUL_HACK = Questie.db.global.clusterLevel;
-	
+
 
     -- Creating the minimap config icon
 	Questie.minimapConfigIcon = LibStub("LibDBIcon-1.0");
