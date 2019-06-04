@@ -7,14 +7,21 @@ local usedFrames = {};
 
 local allframes = {}
 
+--These changes allow me to develop on retail!
+if(select(4, GetBuildInfo()) > 80000) then
+    _QuestieFramePool.addonPath = "Interface\\Addons\\QuestieDev-master-retail\\"
+else
+    _QuestieFramePool.addonPath = "Interface\\Addons\\QuestieDev-master\\"
+end
+
 --TODO: Add all types
-ICON_TYPE_AVAILABLE = "Interface\\Addons\\QuestieDev-master\\Icons\\available.blp"
-ICON_TYPE_SLAY = "Interface\\Addons\\QuestieDev-master\\Icons\\slay.blp"
-ICON_TYPE_COMPLETE = "Interface\\Addons\\QuestieDev-master\\Icons\\complete.blp"
-ICON_TYPE_ITEM = "Interface\\Addons\\QuestieDev-master\\Icons\\item.blp"
-ICON_TYPE_LOOT = "Interface\\Addons\\QuestieDev-master\\Icons\\loot.blp"
-ICON_TYPE_EVENT = "Interface\\Addons\\QuestieDev-master\\Icons\\event.blp"
-ICON_TYPE_OBJECT = "Interface\\Addons\\QuestieDev-master\\Icons\\object.blp"
+ICON_TYPE_AVAILABLE =  _QuestieFramePool.addonPath.."Icons\\available.blp"
+ICON_TYPE_SLAY =  _QuestieFramePool.addonPath.."Icons\\slay.blp"
+ICON_TYPE_COMPLETE =  _QuestieFramePool.addonPath.."Icons\\complete.blp"
+ICON_TYPE_ITEM =  _QuestieFramePool.addonPath.."Icons\\item.blp"
+ICON_TYPE_LOOT =  _QuestieFramePool.addonPath.."Icons\\loot.blp"
+ICON_TYPE_EVENT =  _QuestieFramePool.addonPath.."Icons\\event.blp"
+ICON_TYPE_OBJECT =  _QuestieFramePool.addonPath.."Icons\\object.blp"
 
 -- Global Functions --
 function QuestieFramePool:GetFrame()
@@ -28,11 +35,11 @@ function QuestieFramePool:GetFrame()
         icon.Hide = icon._hide;
     end
     f.fadeLogic = nil
-    
+
     --if f.IsShowing ~= nil and f:IsShowing() then
     f:Hide();
     --end
-    
+
     if f.texture then
         f.texture:SetVertexColor(1, 1, 1, 1)
     end

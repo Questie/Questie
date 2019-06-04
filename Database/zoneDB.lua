@@ -20,17 +20,23 @@ end
 function QuestieDBZone:zoneCreateConvertion()
   Questie:Debug(DEBUG_DEVELOP, "[QuestieDBZone] Converting ZoneIds")
 	for index, Data in ipairs(zoneDataClassicDemo) do
-		--local UiMapID = HBDMigrate:GetUIMapIDFromMapAreaId(Data[4])
-		local zn = Data[1];
-		if zoneLookupHack[zn] then
-			zn = zoneLookupHack[zn];
-		end
-		local UiMapID = zoneDataClassicBetaHack[zn];
-		if UiMapID == nil then
-			DEFAULT_CHAT_FRAME:AddMessage("Data not found for " .. zn);--Questie:Error("Data not found for" , zn);
-		else
-			UiMapID = UiMapID[1]
-		end
+        local buildNr = select(4, GetBuildInfo())
+        local UiMapID = nil
+        if(buildNr > 80000) then
+            UiMapID = HBDMigrate:GetUIMapIDFromMapAreaId(Data[4])
+        else
+    		local zn = Data[1];
+    		if zoneLookupHack[zn] then
+    			zn = zoneLookupHack[zn];
+    		end
+    		UiMapID = zoneDataClassicBetaHack[zn];
+    		if UiMapID == nil then
+    			DEFAULT_CHAT_FRAME:AddMessage("Data not found for " .. zn);--Questie:Error("Data not found for" , zn);
+    		else
+    			UiMapID = UiMapID[1]
+    		end
+        end
+
 		if(UiMapID == nil) then
 			Questie:Error("Map convertion failed! : ", "DataName("..tostring(Data[1])..")","UiMapID("..tostring(UiMapID)..")", "AreaID("..tostring(Data[3])..")", "MapID("..tostring(Data[4])..")")
 		elseif(UiMapID ~= nil) then
@@ -345,7 +351,7 @@ Questie2ZoneTable = {
 Questie2ZoneTableInverse = {};
 
 for k,v in pairs(Questie2ZoneTable) do
-  
+
   if zoneLookupHack[k] then
     Questie2ZoneTableInverse[v[1]] = zoneLookupHack[k];
   else
@@ -354,7 +360,7 @@ for k,v in pairs(Questie2ZoneTable) do
   Questie2ZoneTableInverse[v[1]] = zoneDataClassicBetaHack[Questie2ZoneTableInverse[v[1]]]
   if Questie2ZoneTableInverse[v[1]] == nil then
     -- probably a tbc zone
-  else 
+  else
     Questie2ZoneTableInverse[v[1]] = Questie2ZoneTableInverse[v[1]][1];
   end
 end
