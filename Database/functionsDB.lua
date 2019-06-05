@@ -259,6 +259,26 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
     QO.SubQuests = rawdata[14] --Quests that give questitems that are used in later quests (See STV manual)
     QO.QuestGroup = rawdata[15] --Quests that are part of the same group, example complete this group of quests to open the next one.
     QO.ExclusiveQuestGroup = questExclusiveGroupFixes[QuestID] or rawdata[16]
+	
+	QO.HiddenObjectiveData = {}
+	
+    if rawdata[21] ~= nil then --required source items
+      for _,Id in pairs(rawdata[21]) do
+        if Id ~= nil then
+
+              local obj = {};
+              obj.Type = "item"
+              obj.Id = Id
+
+              obj.Name = CHANGEME_Questie4_ItemDB[obj.Id]
+              if obj.Name ~= nil then
+                obj.Name = string.lower(obj.Name[1]);
+              end
+
+              table.insert(QO.HiddenObjectiveData, obj);
+        end
+      end
+    end
 
     local zos = rawdata[17]
     if zos and zos ~= 0 then

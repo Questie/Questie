@@ -707,8 +707,8 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
     -- find special unlisted objectives
     -- hack to remove misdetected unlisted (when qlog returns bad data for objective text on first try)
     local checkTime = GetTime();
-    if Quest.ObjectiveData then
-        for _, objective in pairs(Quest.ObjectiveData) do
+    if Quest.HiddenObjectiveData then
+        for _, objective in pairs(Quest.HiddenObjectiveData) do
             if not objective.ObjectiveRef then -- there was no qlog objective detected for this DB objective
                 -- hack
                 if not Quest.SpecialObjectives then
@@ -735,40 +735,10 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                     objective.QuestData = Quest
                     objective.QuestId = Quest.Id
                     objective.Update = function() end
-                
-
-                
-
                     objective.checkTime = checkTime
                     Quest.SpecialObjectives[objective.Description] = objective
                 end
                 --table.insert(Quest.SpecialObjectives, objective);
-            end
-        end
-        
-        -- check for removed specials (hack)
-        if Quest.SpecialObjectives then
-            local hasRemoved = false
-            for _,obj in pairs(Quest.SpecialObjectives) do
-                if obj.checkTime ~= checkTime and obj.AlreadySpawned then -- objective has been removed
-                    for id, spawn in pairs(obj.AlreadySpawned) do
-                        if spawn.mapRefs then
-                            for _, note in pairs(spawn.mapRefs) do
-                                note:Unload();
-                                hasRemoved = true
-                            end
-                        end
-                        if spawn.minimapRefs then
-                            for _, note in pairs(spawn.minimapRefs) do
-                                note:Unload();
-                                hasRemoved = true
-                            end
-                        end
-                    end
-                end
-            end
-            if hasRemoved then -- reset cluster data (hack)
-                QuestieMap.MapCache_ClutterFix = {}
             end
         end
     end
