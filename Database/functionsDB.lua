@@ -50,17 +50,19 @@ function QuestieDB:GetItem(ItemID)
     item.Id = ItemID;
     item.Name = raw[1];
     item.Sources = {};
-    for k,v in pairs(raw[3]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
-      local source = {};
-      source.Type = "monster";
-      source.Id = v;
-      table.insert(item.Sources, source);
-    end
-    for k,v in pairs(raw[4]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
-      local source = {};
-      source.Type = "object";
-      source.Id = v;
-      table.insert(item.Sources, source);
+	if not questItemBlacklist[ItemID] then
+      for k,v in pairs(raw[3]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
+        local source = {};
+        source.Type = "monster";
+        source.Id = v;
+        table.insert(item.Sources, source);
+      end
+      for k,v in pairs(raw[4]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
+        local source = {};
+        source.Type = "object";
+        source.Id = v;
+        table.insert(item.Sources, source);
+      end
     end
   end
   QuestieDB._ItemCache[ItemID] = item;

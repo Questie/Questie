@@ -14,6 +14,16 @@ questExclusiveGroupFixes = {
     [1943] = {1944} -- mage robe breadcrumb 
 }
 
+questItemBlacklist = {
+    [2589] = true, -- linen cloth
+    [2592] = true, -- wool cloth
+    [4306] = true, -- silk cloth
+    [4338] = true, -- mageweave
+    [14047] = true, -- runecloth
+    [2997] = true, -- bolt of wool
+    [14048] = true -- bolt of runecloth
+}
+
 qHide = {
   --Stray quests
   [3861] = true, --CLUCK!
