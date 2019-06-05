@@ -250,3 +250,14 @@ function QuestieEventHandler:QUEST_FINISHED()
     end
     --Questie:Debug(DEBUG_CRITICAL, "EVENT: QUEST_FINISHED", "NO CHANGE");
 end
+
+function QuestieEventHandler:MODIFIER_STATE_CHANGED(key, down)
+    if GameTooltip and GameTooltip:IsShown() and GameTooltip._rebuild then
+	    GameTooltip:Hide()
+		GameTooltip:ClearLines()
+		GameTooltip:SetOwner(GameTooltip._owner, "ANCHOR_CURSOR");
+	    GameTooltip:_rebuild() -- rebuild the tooltip
+        GameTooltip:SetFrameStrata("TOOLTIP");
+		GameTooltip:Show()
+	end
+end

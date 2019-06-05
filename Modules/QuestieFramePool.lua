@@ -128,7 +128,7 @@ function _QuestieFramePool:QuestieCreateFrame()
     --f:SetScript('OnLeave', function() Questie:Print("Leave") end)
 
     f:SetScript("OnEnter", function(self) _QuestieFramePool:Questie_Tooltip(self) end); --Script Toolip
-    f:SetScript("OnLeave", function() if(WorldMapTooltip) then WorldMapTooltip:Hide() end if(GameTooltip) then GameTooltip:Hide() end end) --Script Exit Tooltip
+    f:SetScript("OnLeave", function() if(WorldMapTooltip) then WorldMapTooltip:Hide(); WorldMapTooltip._rebuild = nil; end if(GameTooltip) then GameTooltip:Hide(); GameTooltip._rebuild = nil; end end) --Script Exit Tooltip
     f:SetScript("OnClick", function(self)
         --_QuestieFramePool:Questie_Click(self)
         if self and self.data and self.data.UiMapID and WorldMapFrame and WorldMapFrame:IsShown() and self.data.UiMapID ~= WorldMapFrame:GetMapID() then
@@ -181,6 +181,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
     end
     _QuestieFramePool.lastTooltipShowHack = GetTime()
     local Tooltip = GameTooltip;
+    Tooltip._owner = self;
     Tooltip:SetOwner(self, "ANCHOR_CURSOR"); --"ANCHOR_CURSOR" or (self, self)
 
     local maxDistCluster = 1.5
@@ -227,6 +228,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
                             dat.type = "(Available)";
                         end
                         dat.title = icon.data.QuestData:GetColoredQuestName()
+                        dat.subData = icon.data.QuestData.Description
                         npcOrder[icon.data.Name][dat.title] = dat
                         --table.insert(npcOrder[icon.data.Name], dat);
                     elseif icon.data.ObjectiveData and icon.data.ObjectiveData.Description then
@@ -251,20 +253,39 @@ function _QuestieFramePool:Questie_Tooltip(self)
         end
     end
 
-    for k, v in pairs(npcOrder) do -- this logic really needs to be improved
-        Tooltip:AddLine("|cFF33FF33"..k);
-        for k2, v2 in pairs(v) do
-            if v2.title ~= nil then
-                Tooltip:AddDoubleLine("   " .. v2.title, v2.type);
+    Tooltip.npcOrder = npcOrder
+    Tooltip.questOrder = questOrder
+    Tooltip._rebuild = function(self)
+        local shift = IsShiftKeyDown()
+        local haveGiver = false -- hack
+        for k, v in pairs(self.npcOrder) do -- this logic really needs to be improved
+            haveGiver = true
+            self:AddLine("|cFF33FF33"..k);
+            for k2, v2 in pairs(v) do
+                if v2.title ~= nil then
+                    self:AddDoubleLine("   " .. v2.title, v2.type);
+                end
+                if v2.subData and shift then
+                    for _,line in pairs(v2.subData) do
+                        self:AddLine("      |cFFDDDDDD" .. line);
+                    end
+                end
+            end
+        end
+        for k, v in pairs(self.questOrder) do -- this logic really needs to be improved
+            if haveGiver then
+                self:AddLine(" ")
+                self:AddDoubleLine(k, "(Active)");
+                haveGiver = false -- looks better when only the first one shows (active)
+            else
+                self:AddLine(k);
+            end
+            for k2, v2 in pairs(v) do
+                self:AddLine("   |cFF33FF33" .. k2);
             end
         end
     end
-    for k, v in pairs(questOrder) do -- this logic really needs to be improved
-        Tooltip:AddLine(k);
-        for k2, v2 in pairs(v) do
-            Tooltip:AddLine("   |cFF33FF33" .. k2);
-        end
-    end
+    Tooltip:_rebuild() -- we separate this so things like MODIFIER_STATE_CHANGED can redraw the tooltip
     Tooltip:SetFrameStrata("TOOLTIP");
     QuestieTooltips.lastTooltipTime = GetTime() -- hack for object tooltips
     Tooltip:Show();
