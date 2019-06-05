@@ -662,7 +662,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                 --_,_,_,_,_,_,_,questID = GetQuestLogTitle(self.Index)
                 --DEFAULT_CHAT_FRAME:AddMessage("qid: " .. questID .. " " .. self.QuestId)
                 
-                objectiveType, objectiveDesc, numItems, numNeeded, isCompleted = _QuestieQuest:GetLeaderBoardDetails(self.Index, self.QuestId)
+                objectiveType, objectiveDesc, numItems, numNeeded, isComplete = _QuestieQuest:GetLeaderBoardDetails(self.Index, self.QuestId)
                 if objectiveType then
                     -- fixes for api bug
                     if not numItems then numItems = 0; end
@@ -673,7 +673,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                     self.Description = objectiveDesc
                     self.Collected = tonumber(numItems)
                     self.Needed = tonumber(numNeeded)
-                    self.Completed = (self.Needed == self.Collected and self.Needed > 0) or (isComplete and self.Needed == 0) -- some objectives get removed on PLAYER_LOGIN because isComplete is set to true at random????
+                    self.Completed = (self.Needed == self.Collected and self.Needed > 0) or (isComplete and (self.Needed == 0 or (not self.Needed))) -- some objectives get removed on PLAYER_LOGIN because isComplete is set to true at random????
                     if old then SelectQuestLogEntry(old); end
                 end
                 return {self.Collected, self.Needed, self.Completed}
