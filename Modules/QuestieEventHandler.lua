@@ -1,7 +1,7 @@
 function _hack_prime_log() -- this seems to make it update the data much quicker
   for i=1,GetNumQuestLogEntries()+1 do
     GetQuestLogTitle(i)
-	QuestieQuest:GetRawLeaderBoardDetails(i)
+    QuestieQuest:GetRawLeaderBoardDetails(i)
   end
 end
 
@@ -253,11 +253,11 @@ end
 
 function QuestieEventHandler:MODIFIER_STATE_CHANGED(key, down)
     if GameTooltip and GameTooltip:IsShown() and GameTooltip._rebuild then
-	    GameTooltip:Hide()
-		GameTooltip:ClearLines()
-		GameTooltip:SetOwner(GameTooltip._owner, "ANCHOR_CURSOR");
-	    GameTooltip:_rebuild() -- rebuild the tooltip
+        GameTooltip:Hide()
+        GameTooltip:ClearLines()
+        GameTooltip:SetOwner(GameTooltip._owner, "ANCHOR_CURSOR");
+        GameTooltip:_rebuild() -- rebuild the tooltip
         GameTooltip:SetFrameStrata("TOOLTIP");
-		GameTooltip:Show()
-	end
+        GameTooltip:Show()
+    end
 end
