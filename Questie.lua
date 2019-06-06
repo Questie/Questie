@@ -548,10 +548,76 @@ local options = {
 				},
 
 
-				Spacer_A = _QuestieOptions:Spacer(8),
+				Spacer_A = _QuestieOptions:Spacer(10),
+				reset_header = {
+					type = "header",
+					order = 11,
+					name = "Reset Questie",
+				},
+				Spacer_B = _QuestieOptions:Spacer(12),
 				github_text = {
 					type = "description",
-					order = 9,
+					order = 13,
+					name = "Hitting this button will reset all of the questie configuration settings back to their default values.",
+					fontSize = "medium",
+				},
+				questieReset = {
+					type = "execute",
+					order = 14,
+					name = "Reset Questie",
+					desc = "Reset Questie to the default values for all settings.",
+					func = function (info, value)
+						-- update all values to default
+						Questie.db.global.maxLevelFilter  = _QuestieOptions.defaults.global.maxLevelFilter ;
+						Questie.db.global.minLevelFilter = _QuestieOptions.defaults.global.minLevelFilter;
+						Questie.db.global.clusterLevel = _QuestieOptions.defaults.global.clusterLevel;
+						Questie.db.global.availableScale = _QuestieOptions.defaults.global.availableScale;
+						Questie.db.global.objectiveScale = _QuestieOptions.defaults.global.objectiveScale;
+						Questie.db.global.availableMiniMapScale = _QuestieOptions.defaults.global.availableMiniMapScale;
+						Questie.db.global.objectiveMiniMapScale = _QuestieOptions.defaults.global.objectiveMiniMapScale;
+						Questie.db.global.fadeLevel = _QuestieOptions.defaults.global.fadeLevel;
+						Questie.db.global.fadeOverPlayer = _QuestieOptions.defaults.global.fadeOverPlayer;
+						Questie.db.global.fadeOverPlayerLevel = _QuestieOptions.defaults.global.fadeOverPlayerLevel;
+						Questie.db.global.fadeOverPlayerDistance = _QuestieOptions.defaults.global.fadeOverPlayerDistance;
+						Questie.db.global.debugEnabled = _QuestieOptions.defaults.global.debugEnabled;
+						Questie.db.global.debugLevel = _QuestieOptions.defaults.global.debugLevel;
+						Questie.db.global.nameplateX = _QuestieOptions.defaults.global.nameplateX;
+						Questie.db.global.nameplateY = _QuestieOptions.defaults.global.nameplateY;
+						Questie.db.global.nameplateScale = _QuestieOptions.defaults.global.nameplateScale;
+						Questie.db.global.nameplateEnabled = _QuestieOptions.defaults.global.nameplateEnabled;
+
+
+						-- only toggle questie if it's off (must be called before resetting the value)
+						if not Questie.db.char.enabled then
+							QuestieQuest:ToggleNotes();
+						end
+
+
+						Questie.db.char.enabled = _QuestieOptions.defaults.char.enabled;
+						Questie.db.char.lowlevel = _QuestieOptions.defaults.char.lowlevel;
+						
+						Questie.db.profile.minimap.hide = _QuestieOptions.defaults.profile.minimap.hide;
+						
+						-- update minimap icon to default
+						if not Questie.db.profile.minimap.hide then
+							Questie.minimapConfigIcon:Show("MinimapIcon");
+						else
+							Questie.minimapConfigIcon:Hide("MinimapIcon");
+						end
+
+
+						_QuestieOptions:Delay(0.3, _QuestieOptions.AvailableQuestRedraw, "minLevelFilter and maxLevelFilter reset to defaults");
+
+						QuestieNameplate:redrawIcons();
+						QuestieMap:rescaleIcons()
+					end,
+				},
+
+
+				Spacer_C = _QuestieOptions:Spacer(20),
+				github_text = {
+					type = "description",
+					order = 21,
 					name = [[Questie is under active development for World of Warcraft: Classic. Please check GitHub for the latest alpha builds or to report issues. Or join us on our discord! (( https://github.com/AeroScripts/QuestieDev/ ))]],
 					fontSize = "medium",
 				},
