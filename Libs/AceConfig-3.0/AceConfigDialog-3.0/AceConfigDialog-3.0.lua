@@ -12,7 +12,6 @@ local AceConfigDialog, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not AceConfigDialog then return end
 
-AceConfigDialog.cb = AceConfigDialog.cb or nil; -- added for Close Window Callback
 AceConfigDialog.OpenFrames = AceConfigDialog.OpenFrames or {}
 AceConfigDialog.Status = AceConfigDialog.Status or {}
 AceConfigDialog.frame = AceConfigDialog.frame or CreateFrame("Frame")
@@ -902,7 +901,6 @@ local function FrameOnClose(widget, event)
 	local appName = widget:GetUserData("appName")
 	AceConfigDialog.OpenFrames[appName] = nil
 	gui:Release(widget)
-	AceConfigDialog.cb();
 end
 
 local function CheckOptionHidden(option, options, path, appName)

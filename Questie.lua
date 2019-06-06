@@ -55,24 +55,6 @@ local function getWorldMapZone()
 end
 
 local _optionsTimer = nil;
-local configWindowOpen = false;
-
-
-function Questie:MySlashProcessorFunc(input)
-	--Questie:Print(ChatFrame1, "Hello, World!")
-	--SetMessage("test", "test")
-	if not configWindowOpen then
-	--	if(not QuestieFrameOpt) then
-	--		QuestieFrameOpt = AceGUI:Create("Frame")
-	--	end
-	--	QuestieFrame2 = LibStub("AceConfigDialog-3.0"):Open("Questie", QuestieFrameOpt)
-		LibStub("AceConfigDialog-3.0"):Open("Questie")
-		configWindowOpen = true;
-	end
-
-  -- Process the slash command ('input' contains whatever follows the slash command)
-
-end
 
 function Questie:OnUpdate()
 
@@ -118,19 +100,9 @@ function _QuestieOptions:Spacer(o)
 	}
 end
 
-function _QuestieOptions:CloseCallback()
-	configWindowOpen = false;
-end
-
-function _QuestieOptions:ToggleMinimapConfigIcon()
-    if configWindowOpen then
-		LibStub("AceConfigDialog-3.0"):Close("Questie");
-	else
-		LibStub("AceConfigDialog-3.0"):Open("Questie");
-	end
-
-	configWindowOpen = not configWindowOpen;
-
+function _QuestieOptions:OpenConfigWindow()
+	PlaySound(882)
+	LibStub("AceConfigDialog-3.0"):Open("Questie")
 end
 
 
@@ -595,7 +567,7 @@ local minimapIconLDB = LibStub("LibDataBroker-1.1"):NewDataObject("MinimapIcon",
 	icon = ICON_TYPE_COMPLETE,
 	OnClick = function (self, button) 
 		if button == "LeftButton" then
-			_QuestieOptions.ToggleMinimapConfigIcon() 
+			_QuestieOptions.OpenConfigWindow()
 			return;
 		elseif button == "RightButton" then
 			if IsControlKeyDown() then
@@ -607,7 +579,7 @@ local minimapIconLDB = LibStub("LibDataBroker-1.1"):NewDataObject("MinimapIcon",
 	end,
 	OnTooltipShow = function (tooltip)
 		tooltip:AddLine("Questie", 1, 1, 1);
-		tooltip:AddLine ("|cFFCFCFCFLeft Click|r: Toggle Options")
+		tooltip:AddLine ("|cFFCFCFCFLeft Click|r: Open Options")
 		tooltip:AddLine ("|cFFCFCFCFCtrl + Right Click|r: Hide Minimap Icon")
 	end,
 
@@ -677,7 +649,6 @@ function Questie:OnInitialize()
     --Questie.db.global.lastmessage = 0
 
 	self.configFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Questie", "Questie");
-	LibStub("AceConfigDialog-3.0"):CloseCallback(_QuestieOptions.CloseCallback);
 
     -- Code that you want to run when the addon is first loaded goes here.
     --Questie:Print("Hello, world!")
@@ -692,6 +663,16 @@ function Questie:OnInitialize()
 	Questie.minimapConfigIcon = LibStub("LibDBIcon-1.0");
 	Questie.minimapConfigIcon:Register("MinimapIcon", minimapIconLDB, Questie.db.profile.minimap);
 
+
+end
+
+function Questie:MySlashProcessorFunc(input)
+	--Questie:Print(ChatFrame1, "Hello, World!")
+	--SetMessage("test", "test")
+
+	_QuestieOptions.OpenConfigWindow()
+
+  -- Process the slash command ('input' contains whatever follows the slash command)
 
 end
 
