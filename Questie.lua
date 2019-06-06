@@ -121,13 +121,14 @@ local options = {
 					type = "toggle",
 					order = 1,
 					name = "Enable Questie",
-					desc = "Enable or disable addon functionality. (Not Yet Implemented)",
+					desc = "Enable or disable addon functionality.",
 					width = "full",
 					get =	function ()
 								return Questie.db.char.enabled
 							end,
 					set =	function (info, value)
-								Questie.db.char.enabled = value
+								QuestieQuest:ToggleNotes();
+								Questie.db.char.enabled = value						
 							end,
 				},
 				iconEnabled = {
@@ -662,7 +663,6 @@ function Questie:OnInitialize()
     -- Creating the minimap config icon
 	Questie.minimapConfigIcon = LibStub("LibDBIcon-1.0");
 	Questie.minimapConfigIcon:Register("MinimapIcon", minimapIconLDB, Questie.db.profile.minimap);
-
 
 end
 
