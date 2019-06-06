@@ -36,7 +36,7 @@ function QuestieNameplate:getFrame(guid)
 
     local iconScale = Questie.db.global.nameplateScale;
 
-    frame:SetFrameStrata("HIGH");
+    frame:SetFrameStrata("LOW");
     frame:SetFrameLevel(10);
     frame:SetWidth(16 * iconScale)
     frame:SetHeight(16 * iconScale)
