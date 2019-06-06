@@ -62,10 +62,11 @@ function Questie:MySlashProcessorFunc(input)
 	--Questie:Print(ChatFrame1, "Hello, World!")
 	--SetMessage("test", "test")
 	if not configWindowOpen then
-		if(not QuestieFrameOpt) then
-			QuestieFrameOpt = AceGUI:Create("Frame")
-		end
-		QuestieFrame2 = LibStub("AceConfigDialog-3.0"):Open("Questie", QuestieFrameOpt)
+	--	if(not QuestieFrameOpt) then
+	--		QuestieFrameOpt = AceGUI:Create("Frame")
+	--	end
+	--	QuestieFrame2 = LibStub("AceConfigDialog-3.0"):Open("Questie", QuestieFrameOpt)
+		LibStub("AceConfigDialog-3.0"):Open("Questie")
 		configWindowOpen = true;
 	end
 
