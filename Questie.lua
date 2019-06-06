@@ -15,8 +15,6 @@ DEBUG_INFO = "|cff00bc32[INFO]|r"
 DEBUG_DEVELOP = "|cff7c83ff[DEVELOP]|r"
 DEBUG_SPAM = "|cffff8484[SPAM]|r"
 
--- to avoid opening multiple copies of the config window
-local configWindowOpen = false;
 
 -- get option value
 local function GetGlobalOptionLocal(info)
@@ -56,13 +54,9 @@ local function getWorldMapZone()
 	return WorldMapFrame:GetMapID();
 end
 
-function Questie:OnUpdate()
+local _optionsTimer = nil;
+local configWindowOpen = false;
 
-end
-
-function Questie:SlashTest(input)
-	Questie:Print("SlashTest!");
-end
 
 function Questie:MySlashProcessorFunc(input)
 	--Questie:Print(ChatFrame1, "Hello, World!")
@@ -75,8 +69,11 @@ function Questie:MySlashProcessorFunc(input)
 		configWindowOpen = true;
 	end
 
-
   -- Process the slash command ('input' contains whatever follows the slash command)
+
+end
+
+function Questie:OnUpdate()
 
 end
 
@@ -87,9 +84,6 @@ end
 function Questie:OnDisable()
     -- Called when the addon is disabled
 end
-
-
-local _optionsTimer = nil;
 
 
 local _QuestieOptions = {...}
@@ -114,6 +108,31 @@ function _QuestieOptions:Delay(time, func, message)
     end, time)
 end
 
+function _QuestieOptions:Spacer(o)
+	return {
+		type = "description",
+		order = o,
+		name = " ",
+		fontSize = "large",
+	}
+end
+
+function _QuestieOptions:CloseCallback()
+	configWindowOpen = false;
+end
+
+function _QuestieOptions:ToggleMinimapConfigIcon()
+    if configWindowOpen then
+		LibStub("AceConfigDialog-3.0"):Close("Questie");
+	else
+		LibStub("AceConfigDialog-3.0"):Open("Questie");
+	end
+
+	configWindowOpen = not configWindowOpen;
+
+end
+
+
 local options = {
     name = "Questie",
     handler = Questie,
@@ -127,9 +146,9 @@ local options = {
 			args = {
 				enabled = {
 					type = "toggle",
-					order = 11,
+					order = 1,
 					name = "Enable Questie",
-					desc = "Enable or disable addon functionality.",
+					desc = "Enable or disable addon functionality. (Not Yet Implemented)",
 					width = "full",
 					get =	function ()
 								return Questie.db.char.enabled
@@ -140,9 +159,9 @@ local options = {
 				},
 				iconEnabled = {
 					type = "toggle",
-					order = 12,
+					order = 2,
 					name = "Enable Questie Minimap Icon",
-					desc = "Enable or disable the minimap icon",
+					desc = "Enable or disable the minimap icon. You can access the options menu with /questie",
 					width = "full",
 					get =	function ()
 								return not Questie.db.profile.minimap.hide;
@@ -157,38 +176,16 @@ local options = {
 								end
 							end,
 				},
-				--[[quest_options = {
+				Spacer_A = _QuestieOptions:Spacer(3),
+				quest_options = {
 					type = "header",
-					order = 13,
+					order = 10,
 					name = "Quest Options",
-				},]]--
-				debug_options = {
-					type = "header",
-					order = 15,
-					name = "Note Options",
 				},
-				--[[message = {
-					type = "input",
-					order = 14,
-					name = "Message to announce, one per line",
-					desc = "Type the message to announce, every line will be announced.",
-					multiline = 7,
-					width = "full",
-					get = GetGlobalOptionLocal,
-					set = SetMessage,
-				},
-				channel = {
-					type = "input",
-					order = 15,
-					name = "Channel number",
-					desc = "What channel should be posted to.",
-					width = "normal",
-					get = GetGlobalOptionLocal,
-					set = SetGlobalOptionLocal,
-				},]]--
+				Spacer_B = _QuestieOptions:Spacer(11),
 				gray = {
 					type = "toggle",
-					order = 16,
+					order = 12,
 					name = "Show All Quests below range (Low level quests)",
 					desc = "Enable or disable showing of showing low level quests on the map.",
 					width = 200,
@@ -203,7 +200,7 @@ local options = {
 				},
 				minLevelFilter = {
 					type = "range",
-					order = 17,
+					order = 13,
 					name = "< Show below level",
 					desc = "How many levels below your character to show.",
 					width = "normal",
@@ -218,7 +215,7 @@ local options = {
 				},
 				maxLevelFilter = {
 					type = "range",
-					order = 17,
+					order = 13,
 					name = "Show above level >",
 					desc = "How many levels above your character to show.",
 					width = "normal",
@@ -233,7 +230,7 @@ local options = {
 				},
                 clusterLevel = {
                   type = "range",
-                  order = 18,
+                  order = 14,
                   name = "Objective icon cluster amount  (Not yet implemented)",
                   desc = "How much objective icons should cluster.",
                   width = "double",
@@ -246,33 +243,10 @@ local options = {
                         QUESTIE_NOTES_CLUSTERMUL_HACK = value;
                         SetGlobalOptionLocal(info, value)
                         end,
-                },
-				fadeLevel = {
-				  type = "range",
-				  order = 19,
-				  name = "Fade objective distance",
-				  desc = "How much objective icons should fade depending on distance.",
-				  width = "double",
-				  min = 0.01,
-				  max = 5,
-				  step = 0.01,
-				  get = GetGlobalOptionLocal,
-				  set = function (info, value)
-						SetGlobalOptionLocal(info, value)
-						end,
 				},
-				fadeOverPlayer = {
-					type = "toggle",
-					order = 20,
-					name = "Fade Icons over Player",
-					desc = "Fades icons on the minimap when your player walks near them.",
-					width = "full",
-					get = GetGlobalOptionLocal,
-					set = function (info, value)
-						  SetGlobalOptionLocal(info, value)
-						  end,
-				},
-				arrow_options = {
+				
+
+			--[[	arrow_options = {
 					type = "header",
 					order = 21,
 					name = "Arrow Options",
@@ -283,61 +257,27 @@ local options = {
 					name = "Test Message",
 					desc = "Click this",
 					func = function() Questie:Print("Why did you click this?") end,
-				},
+				}, ]]
 			},
 		},
 
-		icon_tab = {
-			name = "Icon/Note Options",
+		minimap_tab = {
+			name = "Minimap Options",
 			type = "group",
 			order = 11,
 			args = {
-				map_options = {
-					type = "header",
-					order = 1,
-					name = "Map Note Options",
-				},
-				objectiveScale = {
-					type = "range",
-					order = 2,
-					name = "Scale for objective icons",
-					desc = "How large the objective icons are",
-					width = "full",
-                    min = 0.01,
-					max = 4,
-					step = 0.01,
-					get = GetGlobalOptionLocal,
-					set = function (info, value)
-                                QuestieMap:rescaleIcons()
-								SetGlobalOptionLocal(info, value)
-							end,
-				},
-				availableScale = {
-					type = "range",
-					order = 3,
-                    name = "Scale for available and complete icons",
-					desc = "How large the available and complete icons are",
-					width = "full",
-					min = 0.01,
-					max = 4,
-					step = 0.01,
-					get = GetGlobalOptionLocal,
-					set = function (info, value)
-                                QuestieMap:rescaleIcons()
-								SetGlobalOptionLocal(info, value)
-                            end,
-				},
-                minimap_options = {
+				minimap_options = {
                     type = "header",
-                    order = 4,
+                    order = 1,
                     name = "Mini-Map Note Options",
-                },
+				},
+				Spacer_A = _QuestieOptions:Spacer(2),
                 objectiveMiniMapScale = {
                     type = "range",
-                    order = 5,
+                    order = 3,
                     name = "Scale for Mini-Map objective icons",
                     desc = "How large the Mini-Map objective icons are",
-                    width = "full",
+                    width = "double",
                     min = 0.01,
                     max = 4,
                     step = 0.01,
@@ -349,10 +289,10 @@ local options = {
                 },
                 availableMiniMapScale = {
                     type = "range",
-                    order = 6,
+                    order = 4,
                     name = "Scale for Mini-Map available and complete icons",
                     desc = "How large the Mini-Map available and complete icons are",
-                    width = "full",
+                    width = "double",
                     min = 0.01,
                     max = 4,
                     step = 0.01,
@@ -361,15 +301,130 @@ local options = {
                                 QuestieMap:rescaleIcons()
                                 SetGlobalOptionLocal(info, value)
                             end,
-                },
+				},
+				Spacer_B = _QuestieOptions:Spacer(9),
+				fade_options = {
+					type = "header",
+					order = 10,
+					name = "Mini-Map Note Fading",
+				},
+				Spacer_C = _QuestieOptions:Spacer(11),
+				fadeLevel = {
+					type = "range",
+					order = 12,
+					name = "Fade objective distance",
+					desc = "How much objective icons should fade depending on distance.",
+					width = "double",
+					min = 0.01,
+					max = 5,
+					step = 0.01,
+					get = GetGlobalOptionLocal,
+					set = function (info, value)
+						  SetGlobalOptionLocal(info, value)
+						  end,
+				},
+				Spacer_D = _QuestieOptions:Spacer(13),
+				fadeOverPlayer = {
+					type = "toggle",
+					order = 14,
+					name = "Fade Icons over Player",
+					desc = "Fades icons on the minimap when your player walks near them.",
+					width = "full",
+					get = GetGlobalOptionLocal,
+					set = function (info, value)
+						SetGlobalOptionLocal(info, value)
+						end,
+				},
+				fadeOverPlayerDistance = {
+					type = "range",
+					order = 15,
+					name = "Fade over Player Distance",
+					desc = "How far from player should icons start to fade",
+					width = "double",
+					min = 0.1,
+					max = 0.5,
+					step = 0.01,
+					get = GetGlobalOptionLocal,
+					set = function (info, value)
+						SetGlobalOptionLocal(info, value)
+					end,
+				},
+				fadeOverPlayerLevel = {
+					type = "range",
+					order = 16,
+					name = "Fade over Player Amount",
+					desc = "How much should the icons around the player fade",
+					width = "double",
+					min = 0.1,
+					max = 1,
+					step = 0.1,
+					get = GetGlobalOptionLocal,
+					set = function (info, value)
+						SetGlobalOptionLocal(info, value)
+					end,
+				},
+			},
+		},
+
+		map_tab = {
+			name = "Map Options",
+			type = "group",
+			order = 13,
+			args = {
+				map_options = {
+					type = "header",
+					order = 1,
+					name = "Map Note Options",
+				},
+				Spacer_A = _QuestieOptions:Spacer(2),
+				objectiveScale = {
+					type = "range",
+					order = 3,
+					name = "Scale for objective icons",
+					desc = "How large the objective icons are",
+					width = "double",
+                    min = 0.01,
+					max = 4,
+					step = 0.01,
+					get = GetGlobalOptionLocal,
+					set = function (info, value)
+                                QuestieMap:rescaleIcons()
+								SetGlobalOptionLocal(info, value)
+							end,
+				},
+				availableScale = {
+					type = "range",
+					order = 4,
+                    name = "Scale for available and complete icons",
+					desc = "How large the available and complete icons are",
+					width = "double",
+					min = 0.01,
+					max = 4,
+					step = 0.01,
+					get = GetGlobalOptionLocal,
+					set = function (info, value)
+                                QuestieMap:rescaleIcons()
+								SetGlobalOptionLocal(info, value)
+                            end,
+				},
+			},
+		},
+
+
+		nameplate_tab = {
+			name = "Nameplate Options",
+			type = "group",
+			order = 14,
+			args = {
                 nameplate_options = {
                     type = "header",
-                    order = 7,
+                    order = 1,
                     name = "Nameplate Icon Options",
 				},
+				Spacer_A = _QuestieOptions:Spacer(2),
 				nameplateEnabled = {
 					type = "toggle",
-					order = 8,
+					order = 3,
 					name = "Enable Nameplate Quest Objectives",
 					desc = "Enable or disable the quest objective icons over creature nameplates.",
 					width = "full",
@@ -383,12 +438,13 @@ local options = {
 								end
                             end,
 				},
+				Spacer_B = _QuestieOptions:Spacer(4),
                 nameplateX = {
                     type = "range",
-                    order = 9,
-                    name = "X position for the nameplate icons",
+                    order = 5,
+                    name = "Icon Position X",
                     desc = "Where on the X axis the nameplate icon should be",
-                    width = "full",
+                    width = "normal",
                     min = -200,
                     max = 200,
                     step = 1,
@@ -400,10 +456,10 @@ local options = {
                 },
                 nameplateY = {
                     type = "range",
-                    order = 10,
-                    name = "Y position for the nameplate icons",
+                    order = 5,
+                    name = "Icon Position Y",
                     desc = "Where on the Y axis the nameplate icon should be",
-                    width = "full",
+                    width = "normal",
                     min = -200,
                     max = 200,
                     step = 1,
@@ -415,10 +471,10 @@ local options = {
 				},
 				nameplateScale = {
 					type = "range",
-					order = 11,
+					order = 6,
 					name = "Nameplate Icon Scale",
 					desc = "Scale the size of the quest icons on creature nameplates",
-					width = "full",
+					width = "double",
 					min = 0.01,
 					max = 4,
 					step = 0.01,
@@ -429,15 +485,16 @@ local options = {
                             end,
 
 				},
+				Spacer_C = _QuestieOptions:Spacer(7),
 				nameplateReset = {
 					type = "execute",
-					order = 12,
-					name = "Reset Nameplates",
+					order = 8,
+					name = "Reset Nameplate Positions",
 					desc = "Reset to Default Nameplate Positions",
 					func = function (info, value)
-						Questie.db.global.nameplateX = -17;
-						Questie.db.global.nameplateY = -7;
-						Questie.db.global.nameplateScale = 1;
+						Questie.db.global.nameplateX = _QuestieOptions.defaults.global.nameplateX;
+						Questie.db.global.nameplateY = _QuestieOptions.defaults.global.nameplateY;
+						Questie.db.global.nameplateScale = _QuestieOptions.defaults.global.nameplateScale;
 						QuestieNameplate:redrawIcons();
 					end,
 				},
@@ -447,7 +504,7 @@ local options = {
 		Advanced_tab = {
 			name = "Advanced",
 			type = "group",
-			order = 12,
+			order = 15,
 			args = {
 				map_options = {
 					type = "header",
@@ -456,7 +513,7 @@ local options = {
 				},
 				debugEnabled = {
 					type = "toggle",
-					order = 2,
+					order = 4,
 					name = "Enable debug",
 					desc = "Enable or disable debug functionality.",
 					width = "full",
@@ -469,7 +526,7 @@ local options = {
 				},
 				debugLevel = {
 					type = "range",
-					order = 3,
+					order = 5,
 					name = "Debug level to print",
 					desc = "What debug level to print at : \nDEBUG_CRITICAL = 1\nDEBUG_ELEVATED = 2\nDEBUG_INFO = 3\nDEBUG_DEVELOP = 4\nDEBUG_SPAM = 5",
 					width = "normal",
@@ -482,12 +539,21 @@ local options = {
 							end,
 				},
 
+
+				Spacer_A = _QuestieOptions:Spacer(8),
+				github_text = {
+					type = "description",
+					order = 9,
+					name = [[Questie is under active development for World of Warcraft: Classic. Please check GitHub for the latest alpha builds or to report issues. Or join us on our discord! (( https://github.com/AeroScripts/QuestieDev/ ))]],
+					fontSize = "medium",
+				},
+
 			},
 		}
 	}
 }
 
-local defaults = {
+_QuestieOptions.defaults = {
   global = {
     maxLevelFilter = 7,
     minLevelFilter = 5, --Raised the default to allow more quests to be shown
@@ -498,10 +564,12 @@ local defaults = {
     objectiveMiniMapScale = 0.75,
 	fadeLevel = 1.5,
 	fadeOverPlayer = true,
+	fadeOverPlayerLevel = 0.5,
+	fadeOverPlayerDistance = 0.1,
 	debugEnabled = false,
 	debugLevel = 4,
     nameplateX = -17,
-    nameplateY = -7,
+	nameplateY = -7,
 	nameplateScale = 1,
 	nameplateEnabled = true,
   },
@@ -524,7 +592,23 @@ local minimapIconLDB = LibStub("LibDataBroker-1.1"):NewDataObject("MinimapIcon",
 	type = "data source",
 	text = "Questie",
 	icon = ICON_TYPE_COMPLETE,
-	OnClick = function () Questie.ToggleMinimapConfigIcon() end,
+	OnClick = function (self, button) 
+		if button == "LeftButton" then
+			_QuestieOptions.ToggleMinimapConfigIcon() 
+			return;
+		elseif button == "RightButton" then
+			if IsControlKeyDown() then
+				Questie.db.profile.minimap.hide = true;
+				Questie.minimapConfigIcon:Hide("MinimapIcon");
+				return;
+			end
+		end
+	end,
+	OnTooltipShow = function (tooltip)
+		tooltip:AddLine("Questie", 1, 1, 1);
+		tooltip:AddLine ("|cFFCFCFCFLeft Click|r: Toggle Options")
+		tooltip:AddLine ("|cFFCFCFCFCtrl + Right Click|r: Hide Minimap Icon")
+	end,
 
 });
 
@@ -534,7 +618,7 @@ Note = nil
 function Questie:OnInitialize()
 
     --If we actually want the settings to save, uncomment this line and comment next one!
-    self.db = LibStub("AceDB-3.0"):New("QuestieConfig", defaults, true)
+    self.db = LibStub("AceDB-3.0"):New("QuestieConfig", _QuestieOptions.defaults, true)
     --self.db = LibStub("AceDB-3.0"):New("QuestieClassicDB", defaults, true)
 
     Questie:Debug(DEBUG_CRITICAL, "Questie addon loaded")
@@ -567,7 +651,6 @@ function Questie:OnInitialize()
 
 
     Questie:RegisterChatCommand("questieclassic", "MySlashProcessorFunc")
-    Questie:RegisterChatCommand("test", "SlashTest")
     Questie:RegisterChatCommand("questie", "MySlashProcessorFunc")
 
 
@@ -592,7 +675,8 @@ function Questie:OnInitialize()
     --Questie:Print(GetWorldContinentFromZone(getPlayerZone()))
     --Questie.db.global.lastmessage = 0
 
-    self.configFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Questie", "Questie");
+	self.configFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Questie", "Questie");
+	LibStub("AceConfigDialog-3.0"):CloseCallback(_QuestieOptions.CloseCallback);
 
     -- Code that you want to run when the addon is first loaded goes here.
     --Questie:Print("Hello, world!")
@@ -609,18 +693,6 @@ function Questie:OnInitialize()
 
 
 end
-
-function Questie:ToggleMinimapConfigIcon()
-    if configWindowOpen then
-		LibStub("AceConfigDialog-3.0"):Close("Questie");
-	else
-		LibStub("AceConfigDialog-3.0"):Open("Questie");
-	end
-
-	configWindowOpen = not configWindowOpen;
-
-end
-
 
 function Questie:Error(...)
     Questie:Print("|cffff0000[ERROR]|r", ...)

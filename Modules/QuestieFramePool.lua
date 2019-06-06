@@ -174,6 +174,10 @@ function QuestieFramePool:euclid(x, y, i, e)
     return math.sqrt(xd * xd + yd * yd);
 end
 
+function QuestieFramePool:remap(value, low1, high1, low2, high2)
+    return low2 + (value - low1) * (high2 - low2) / (high1 - low1);
+end
+
 _QuestieFramePool.lastTooltipShowHack = GetTime()
 function _QuestieFramePool:Questie_Tooltip(self)
     if GetTime() - _QuestieFramePool.lastTooltipShowHack < 0.05 and GameTooltip:IsShown() then
