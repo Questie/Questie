@@ -1779,12 +1779,6 @@ function AceConfigDialog:CloseAll()
 	end
 end
 
-
--- Callback for options window being closed
-function AceConfigDialog:CloseCallback(func)
-	AceConfigDialog.cb = func;
-end
-
 --- Close a specific options window.
 -- @param appName The application name as given to `:RegisterOptionsTable()`
 function AceConfigDialog:Close(appName)
