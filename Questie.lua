@@ -105,6 +105,40 @@ function _QuestieOptions:OpenConfigWindow()
 	LibStub("AceConfigDialog-3.0"):Open("Questie")
 end
 
+_QuestieOptions.defaults = {
+	global = {
+	  maxLevelFilter = 7,
+	  minLevelFilter = 5, --Raised the default to allow more quests to be shown
+	  clusterLevel = 1,
+	  availableScale = 1,
+	  objectiveScale = 0.7,
+	  availableMiniMapScale = 0.75,
+	  objectiveMiniMapScale = 0.75,
+	  fadeLevel = 1.5,
+	  fadeOverPlayer = true,
+	  fadeOverPlayerLevel = 0.5,
+	  fadeOverPlayerDistance = 0.2,
+	  debugEnabled = false,
+	  debugLevel = 4,
+	  nameplateX = -17,
+	  nameplateY = -7,
+	  nameplateScale = 1,
+	  nameplateEnabled = true,
+	},
+	  char = {
+		  complete = {},
+		  enabled = true,
+		  lowlevel = false,
+		  --autoaccept = false,
+		  --autocomplete = false
+	  },
+	  profile = {
+		  minimap = {
+			  hide = false,
+		  },
+	  },
+  }
+
 
 local options = {
     name = "Questie",
@@ -135,7 +169,7 @@ local options = {
 					type = "toggle",
 					order = 2,
 					name = "Enable Questie Minimap Icon",
-					desc = "Enable or disable the minimap icon. You can access the options menu with /questie",
+					desc = "Enable or disable the minimap icon. You can still access the options menu with /questie",
 					width = "full",
 					get =	function ()
 								return not Questie.db.profile.minimap.hide;
@@ -176,7 +210,7 @@ local options = {
 					type = "range",
 					order = 13,
 					name = "< Show below level",
-					desc = "How many levels below your character to show.",
+					desc = "How many levels below your character to show. ( Default: ".. _QuestieOptions.defaults.global.minLevelFilter .." )",
 					width = "normal",
 					min = 1,
 					max = 10,
@@ -191,7 +225,7 @@ local options = {
 					type = "range",
 					order = 13,
 					name = "Show above level >",
-					desc = "How many levels above your character to show.",
+					desc = "How many levels above your character to show. ( Default: ".. _QuestieOptions.defaults.global.maxLevelFilter .." )",
 					width = "normal",
 					min = 1,
 					max = 10,
@@ -250,7 +284,7 @@ local options = {
                     type = "range",
                     order = 3,
                     name = "Scale for Mini-Map objective icons",
-                    desc = "How large the Mini-Map objective icons are",
+                    desc = "How large the Mini-Map objective icons are. ( Default: ".. _QuestieOptions.defaults.global.objectiveMiniMapScale  .." )",
                     width = "double",
                     min = 0.01,
                     max = 4,
@@ -265,7 +299,7 @@ local options = {
                     type = "range",
                     order = 4,
                     name = "Scale for Mini-Map available and complete icons",
-                    desc = "How large the Mini-Map available and complete icons are",
+                    desc = "How large the Mini-Map available and complete icons are. ( Default: ".. _QuestieOptions.defaults.global.availableMiniMapScale  .." )",
                     width = "double",
                     min = 0.01,
                     max = 4,
@@ -287,7 +321,7 @@ local options = {
 					type = "range",
 					order = 12,
 					name = "Fade objective distance",
-					desc = "How much objective icons should fade depending on distance.",
+					desc = "How much objective icons should fade depending on distance. ( Default: ".. _QuestieOptions.defaults.global.fadeLevel  .." )",
 					width = "double",
 					min = 0.01,
 					max = 5,
@@ -313,7 +347,7 @@ local options = {
 					type = "range",
 					order = 15,
 					name = "Fade over Player Distance",
-					desc = "How far from player should icons start to fade",
+					desc = "How far from player should icons start to fade. ( Default: ".. _QuestieOptions.defaults.global.fadeOverPlayerDistance  .." )",
 					width = "double",
 					min = 0.1,
 					max = 0.5,
@@ -327,7 +361,7 @@ local options = {
 					type = "range",
 					order = 16,
 					name = "Fade over Player Amount",
-					desc = "How much should the icons around the player fade",
+					desc = "How much should the icons around the player fade. ( Default: ".. _QuestieOptions.defaults.global.fadeOverPlayerLevel  .." )",
 					width = "double",
 					min = 0.1,
 					max = 1,
@@ -355,7 +389,7 @@ local options = {
 					type = "range",
 					order = 3,
 					name = "Scale for objective icons",
-					desc = "How large the objective icons are",
+					desc = "How large the kill and collect objective icons are.  ( Default: ".. _QuestieOptions.defaults.global.objectiveScale  .." )",
 					width = "double",
                     min = 0.01,
 					max = 4,
@@ -370,7 +404,7 @@ local options = {
 					type = "range",
 					order = 4,
                     name = "Scale for available and complete icons",
-					desc = "How large the available and complete icons are",
+					desc = "How large the available and complete icons are. ( Default: ".. _QuestieOptions.defaults.global.availableScale  .." )",
 					width = "double",
 					min = 0.01,
 					max = 4,
@@ -417,7 +451,7 @@ local options = {
                     type = "range",
                     order = 5,
                     name = "Icon Position X",
-                    desc = "Where on the X axis the nameplate icon should be",
+                    desc = "Where on the X axis the nameplate icon should be. ( Default: ".. _QuestieOptions.defaults.global.nameplateX  .." )",
                     width = "normal",
                     min = -200,
                     max = 200,
@@ -432,7 +466,7 @@ local options = {
                     type = "range",
                     order = 5,
                     name = "Icon Position Y",
-                    desc = "Where on the Y axis the nameplate icon should be",
+                    desc = "Where on the Y axis the nameplate icon should be. ( Default: ".. _QuestieOptions.defaults.global.nameplateY  .." )",
                     width = "normal",
                     min = -200,
                     max = 200,
@@ -447,7 +481,7 @@ local options = {
 					type = "range",
 					order = 6,
 					name = "Nameplate Icon Scale",
-					desc = "Scale the size of the quest icons on creature nameplates",
+					desc = "Scale the size of the quest icons on creature nameplates. ( Default: ".. _QuestieOptions.defaults.global.nameplateScale  .." )",
 					width = "double",
 					min = 0.01,
 					max = 4,
@@ -463,8 +497,8 @@ local options = {
 				nameplateReset = {
 					type = "execute",
 					order = 8,
-					name = "Reset Nameplate Positions",
-					desc = "Reset to Default Nameplate Positions",
+					name = "Reset Nameplates",
+					desc = "Reset to Default Nameplate Positions and Scale",
 					func = function (info, value)
 						Questie.db.global.nameplateX = _QuestieOptions.defaults.global.nameplateX;
 						Questie.db.global.nameplateY = _QuestieOptions.defaults.global.nameplateY;
@@ -525,40 +559,6 @@ local options = {
 			},
 		}
 	}
-}
-
-_QuestieOptions.defaults = {
-  global = {
-    maxLevelFilter = 7,
-    minLevelFilter = 5, --Raised the default to allow more quests to be shown
-    clusterLevel = 1,
-    availableScale = 1,
-    objectiveScale = 0.7,
-    availableMiniMapScale = 0.75,
-    objectiveMiniMapScale = 0.75,
-	fadeLevel = 1.5,
-	fadeOverPlayer = true,
-	fadeOverPlayerLevel = 0.5,
-	fadeOverPlayerDistance = 0.1,
-	debugEnabled = false,
-	debugLevel = 4,
-    nameplateX = -17,
-	nameplateY = -7,
-	nameplateScale = 1,
-	nameplateEnabled = true,
-  },
-	char = {
-		complete = {},
-		enabled = true,
-        lowlevel = false,
-		--autoaccept = false,
-		--autocomplete = false
-	},
-	profile = {
-		minimap = {
-			hide = false,
-		},
-	},
 }
 
 
