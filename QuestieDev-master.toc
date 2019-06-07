@@ -35,6 +35,7 @@ Modules\QuestieFramePool.lua
 Modules\QuestieMap.lua
 Modules\QuestieQuest.lua
 Modules\QuestieNameplate.lua
+Modules\QuestieCoordinates.lua
 
 #Main
 Questie.lua

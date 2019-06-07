@@ -124,6 +124,8 @@ _QuestieOptions.defaults = {
 	  nameplateY = -7,
 	  nameplateScale = 1,
 	  nameplateEnabled = true,
+	  minimapCoordinatesEnabled = true,
+	  mapCoordinatesEnabled = true,
 	},
 	  char = {
 		  complete = {},
@@ -151,9 +153,14 @@ local options = {
 			type = "group",
 			order = 10,
 			args = {
+				questie_header = {
+					type = "header",
+					order = 1,
+					name = "Questie Options",
+				},
 				enabled = {
 					type = "toggle",
-					order = 1,
+					order = 3,
 					name = "Enable Questie",
 					desc = "Enable or disable addon functionality.",
 					width = "full",
@@ -167,7 +174,7 @@ local options = {
 				},
 				iconEnabled = {
 					type = "toggle",
-					order = 2,
+					order = 4,
 					name = "Enable Questie Minimap Icon",
 					desc = "Enable or disable the minimap icon. You can still access the options menu with /questie",
 					width = "full",
@@ -184,11 +191,28 @@ local options = {
 								end
 							end,
 				},
-				Spacer_A = _QuestieOptions:Spacer(3),
+				instantQuest = {
+					type = "toggle",
+					order = 5,
+					name = "Enable Instant Quest Text",
+					desc = "Toggles the default Instant Quest Text option. This is just a shortcut for the WoW option in Interface",
+					width = "full",
+					get =	function ()
+								if GetCVar("instantQuestText") == '1' then return true else return false end;
+							end,
+					set =	function (info, value)
+								if value then
+									SetCVar("instantQuestText", 1);
+								else
+									SetCVar("instantQuestText", 0);
+								end
+							end,
+				},
+				Spacer_A = _QuestieOptions:Spacer(9),
 				quest_options = {
 					type = "header",
 					order = 10,
-					name = "Quest Options",
+					name = "Quest Level Options",
 				},
 				Spacer_B = _QuestieOptions:Spacer(11),
 				gray = {
@@ -371,6 +395,28 @@ local options = {
 						SetGlobalOptionLocal(info, value)
 					end,
 				},
+				Spacer_E = _QuestieOptions:Spacer(20),
+				fade_options = {
+					type = "header",
+					order = 21,
+					name = "Mini-Map Coordinates",
+				},
+				Spacer_F = _QuestieOptions:Spacer(22),
+				minimapCoordinatesEnabled = {
+					type = "toggle",
+					order = 23,
+					name = "Player Coordinates on Minimap",
+					desc = "Place the Player's coordinates on the Minimap title.",
+					width = "full",
+					get = GetGlobalOptionLocal,
+					set = function (info, value)
+						SetGlobalOptionLocal(info, value)
+
+						if not value then
+							QuestieCoords.ResetMinimapText();
+						end
+					end,
+				},
 			},
 		},
 
@@ -415,9 +461,30 @@ local options = {
 								SetGlobalOptionLocal(info, value)
                             end,
 				},
+				Spacer_B = _QuestieOptions:Spacer(20),
+				fade_options = {
+					type = "header",
+					order = 21,
+					name = "Map and Cursor Coordinates",
+				},
+				Spacer_C = _QuestieOptions:Spacer(22),
+				mapCoordinatesEnabled = {
+					type = "toggle",
+					order = 23,
+					name = "Player and Cursor Coordinates",
+					desc = "Place the Player's coordinates and Cursor's coordinates on the Map's title.",
+					width = "full",
+					get = GetGlobalOptionLocal,
+					set = function (info, value)
+						SetGlobalOptionLocal(info, value)
+
+						if not value then
+							QuestieCoords.ResetMapText();
+						end
+					end,
+				},
 			},
 		},
-
 
 		nameplate_tab = {
 			name = "Nameplate Options",
@@ -509,6 +576,7 @@ local options = {
 
 			},
 		},
+
 		Advanced_tab = {
 			name = "Advanced",
 			type = "group",
@@ -585,13 +653,13 @@ local options = {
 						Questie.db.global.nameplateY = _QuestieOptions.defaults.global.nameplateY;
 						Questie.db.global.nameplateScale = _QuestieOptions.defaults.global.nameplateScale;
 						Questie.db.global.nameplateEnabled = _QuestieOptions.defaults.global.nameplateEnabled;
-
+						Questie.db.global.minimapCoordinatesEnabled = _QuestieOptions.defaults.global.minimapCoordinatesEnabled;
+						Questie.db.global.mapCoordinatesEnabled = _QuestieOptions.defaults.global.mapCoordinatesEnabled;
 
 						-- only toggle questie if it's off (must be called before resetting the value)
 						if not Questie.db.char.enabled then
 							QuestieQuest:ToggleNotes();
 						end
-
 
 						Questie.db.char.enabled = _QuestieOptions.defaults.char.enabled;
 						Questie.db.char.lowlevel = _QuestieOptions.defaults.char.lowlevel;
@@ -605,6 +673,14 @@ local options = {
 							Questie.minimapConfigIcon:Hide("MinimapIcon");
 						end
 
+						-- update map / minimap coordinates reset
+						if not Questie.db.global.minimapCoordinatesEnabled then
+							QuestieCoords.ResetMinimapText();
+						end
+
+						if not Questie.db.global.mapCoordinatesEnabled then
+							QuestieCoords.ResetMapText();
+						end
 
 						_QuestieOptions:Delay(0.3, _QuestieOptions.AvailableQuestRedraw, "minLevelFilter and maxLevelFilter reset to defaults");
 
@@ -663,7 +739,8 @@ function Questie:OnInitialize()
 
     Questie:Debug(DEBUG_CRITICAL, "Questie addon loaded")
     Questie:RegisterEvent("PLAYER_ENTERING_WORLD", QuestieEventHandler.PLAYER_ENTERING_WORLD)
-    --Accepted Events
+   
+	--Accepted Events
     Questie:RegisterEvent("QUEST_ACCEPTED", QuestieEventHandler.QUEST_ACCEPTED)
     Questie:RegisterEvent("QUEST_WATCH_UPDATE", QuestieEventHandler.QUEST_WATCH_UPDATE);
     Questie:RegisterEvent("QUEST_TURNED_IN", QuestieEventHandler.QUEST_TURNED_IN)
@@ -674,10 +751,13 @@ function Questie:OnInitialize()
 
     --TODO: QUEST_QUERY_COMPLETE Will get all quests the character has finished, need to be implemented!
 
-
-    -- Nameplate Quest ! for mobs to kill
+    -- Nameplate Objective Events
     Questie:RegisterEvent("NAME_PLATE_UNIT_ADDED", QuestieNameplate.NameplateCreated);
-    Questie:RegisterEvent("NAME_PLATE_UNIT_REMOVED", QuestieNameplate.NameplateDestroyed);
+	Questie:RegisterEvent("NAME_PLATE_UNIT_REMOVED", QuestieNameplate.NameplateDestroyed);
+	
+	-- Initialize Coordinates
+	QuestieCoords.Initialize();
+
 
     --Old stuff that has been tried, remove in cleanup
     --Hook the questcomplete button
