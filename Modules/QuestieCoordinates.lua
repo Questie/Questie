@@ -21,6 +21,8 @@ function QuestieCoords:WriteCoords()
     local posX;
     local posY;
 
+    local precision = "%.".. Questie.db.global.mapCoordinatePrecision .."f";
+    
     -- if minimap
     if Questie.db.global.minimapCoordinatesEnabled and Minimap:IsVisible() then
         mapID = C_Map.GetBestMapForUnit("player")
@@ -57,7 +59,7 @@ function QuestieCoords:WriteCoords()
         curX = (curX - left) / width * 100;
         curY = (top - curY) / height * 100;
         
-        local worldmapCoordsText = "Cursor: "..format("%.1f X, %.1f Y  ", curX, curY);
+        local worldmapCoordsText = "Cursor: "..format(precision.. " X, ".. precision .." Y  ", curX, curY);
         
         
         -- Player position
@@ -72,7 +74,7 @@ function QuestieCoords:WriteCoords()
             posX = position.x * 100;
             posY = position.y * 100;
 
-			worldmapCoordsText = worldmapCoordsText.."|  Player: "..format("%.1f X , %.1f Y", posX, posY);
+			worldmapCoordsText = worldmapCoordsText.."|  Player: "..format(precision.. " X , ".. precision .." Y", posX, posY);
 		end
 		-- Add text to world map
 		GetMapTitleText():SetText(worldmapCoordsText)
