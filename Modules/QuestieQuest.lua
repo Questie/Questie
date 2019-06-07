@@ -50,6 +50,8 @@ function QuestieQuest:ToggleNotes()
             end
         end
     end
+
+    Questie.db.char.enabled = QuestieQuest.NotesHidden;
     QuestieQuest.NotesHidden = not QuestieQuest.NotesHidden
 end
 
@@ -779,6 +781,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject) -- prevent recursion
     return _QuestieQuest:DrawAvailableQuest(questObject, false)
 end
 function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
+
     --If the object is nil we just return
     if(questObject == nil) then
         return false;
