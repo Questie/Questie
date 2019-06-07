@@ -191,6 +191,24 @@ local options = {
 								end
 							end,
 				},
+				instantQuest = {
+					type = "toggle",
+					order = 5,
+					name = "Enable Instant Quest Text",
+					desc = "Toggles the default Instant Quest Text option. This is just a shortcut for the WoW option in Interface",
+					width = "full",
+					get =	function ()
+								if GetCVar("instantQuestText") == '1' then return true else return false end;
+							end,
+					set =	function (info, value)
+								if value then
+									SetCVar("instantQuestText", 1);
+								else
+									SetCVar("instantQuestText", 0);
+								end
+							end,
+				},
+				Spacer_A = _QuestieOptions:Spacer(9),
 				quest_options = {
 					type = "header",
 					order = 10,
