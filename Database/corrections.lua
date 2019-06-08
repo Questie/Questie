@@ -24,6 +24,10 @@ questItemBlacklist = {
     [14048] = true -- bolt of runecloth
 }
 
+questObjectFixes = {
+    [92423] = {"Damaged Chest",nil,nil,{[400]={{43.4, 32.7},},[17]={{49.02,96.77},}},400}
+}
+
 qHide = {
   --Stray quests
   [3861] = true, --CLUCK!

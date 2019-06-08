@@ -26,7 +26,7 @@ function QuestieDB:GetObject(ObjectID)
   if QuestieDB._ObjectCache[ObjectID] ~= nil then
     return QuestieDB._ObjectCache[ObjectID];
   end
-  local raw = objData[ObjectID];
+  local raw = questObjectFixes[ObjectID] or objData[ObjectID];
   if raw ~= nil then
     local obj = {};
     obj.Name = raw[1];
