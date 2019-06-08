@@ -652,6 +652,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
             Quest.Objectives[i].QuestId = Quest.Id
             Quest.Objectives[i].QuestData = Quest
             Quest.Objectives[i]._lastUpdate = 0;
+            Quest.Objectives[i].Description = nil
             Quest.Objectives[i].Update = function(self)
                 local now = GetTime();
                 if now - self._lastUpdate < 0.5 then
@@ -665,6 +666,13 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                 --DEFAULT_CHAT_FRAME:AddMessage("qid: " .. questID .. " " .. self.QuestId)
                 
                 objectiveType, objectiveDesc, numItems, numNeeded, isComplete = _QuestieQuest:GetLeaderBoardDetails(self.Index, self.QuestId)
+                
+                if self.Description and strlen(self.Description) > 1 and self.Description ~= objectiveDesc then -- fix bug (mentioned above with GetQuestLogTitle)
+                    self.Collected = self.Needed
+                    self.Completed = true
+                    return {self.Collected, self.Needed, self.Completed}
+                end
+                
                 if objectiveType then
                     -- fixes for api bug
                     if not numItems then numItems = 0; end
