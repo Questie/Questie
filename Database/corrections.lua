@@ -13,7 +13,8 @@ questExclusiveGroupFixes = {
 	[1339] = {1338}, -- mountaineer stormpike's task cant be done if you have finished stormpike's order
     [1943] = {1944}, -- mage robe breadcrumb
     [526] = {322}, -- not 100% sure on this one but it seems lightforge ingots is optional, block it after completing subsequent steps (#587)
-    [3765] = {1275} -- corruption abroad breadcrumb
+    [3765] = {1275}, -- corruption abroad breadcrumb
+    [164] = {95} -- deliveries to sven is a breadcrumb
 }
 
 questItemBlacklist = {
