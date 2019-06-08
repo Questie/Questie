@@ -11,7 +11,8 @@ questExclusiveGroupFixes = {
     [463] = {276}, --greenwarden cant be completed if you have trampling paws
     [415] = {413}, --cant complete rejolds new brew if you do shimmer stout (see issue 567)
 	[1339] = {1338}, -- mountaineer stormpike's task cant be done if you have finished stormpike's order
-    [1943] = {1944} -- mage robe breadcrumb 
+    [1943] = {1944}, -- mage robe breadcrumb
+    [526] = {322} -- not 100% sure on this one but it seems lightforge ingots is optional, block it after completing subsequent steps (#587)
 }
 
 questItemBlacklist = {
