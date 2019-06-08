@@ -126,6 +126,7 @@ _QuestieOptions.defaults = {
 	  nameplateEnabled = true,
 	  minimapCoordinatesEnabled = true,
 	  mapCoordinatesEnabled = true,
+	  mapCoordinatePrecision = 1,
 	},
 	  char = {
 		  complete = {},
@@ -483,6 +484,20 @@ local options = {
 						end
 					end,
 				},
+				mapCoordinatePrecision = {
+					type = "range",
+					order = 24,
+                    name = "Map Coordinates Decimal Precision",
+					desc = "How many decimals to include in the precision on the Map for Player and Cursor coordinates. ( Default: ".. _QuestieOptions.defaults.global.mapCoordinatePrecision  .." )",
+					width = "double",
+					min = 1,
+					max = 5,
+					step = 1,
+					get = GetGlobalOptionLocal,
+					set = function (info, value)
+								SetGlobalOptionLocal(info, value)
+                            end,
+				}
 			},
 		},
 
@@ -623,10 +638,10 @@ local options = {
 					name = "Reset Questie",
 				},
 				Spacer_B = _QuestieOptions:Spacer(12),
-				github_text = {
+				reset_text = {
 					type = "description",
 					order = 13,
-					name = "Hitting this button will reset all of the questie configuration settings back to their default values.",
+					name = "Hitting this button will reset all of the Questie configuration settings back to their default values.",
 					fontSize = "medium",
 				},
 				questieReset = {
@@ -655,6 +670,7 @@ local options = {
 						Questie.db.global.nameplateEnabled = _QuestieOptions.defaults.global.nameplateEnabled;
 						Questie.db.global.minimapCoordinatesEnabled = _QuestieOptions.defaults.global.minimapCoordinatesEnabled;
 						Questie.db.global.mapCoordinatesEnabled = _QuestieOptions.defaults.global.mapCoordinatesEnabled;
+						Questie.db.global.mapCoordinatePrecision = _QuestieOptions.defaults.global.mapCoordinatePrecision;
 
 						-- only toggle questie if it's off (must be called before resetting the value)
 						if not Questie.db.char.enabled then
@@ -694,7 +710,7 @@ local options = {
 				github_text = {
 					type = "description",
 					order = 21,
-					name = [[Questie is under active development for World of Warcraft: Classic. Please check GitHub for the latest alpha builds or to report issues. Or join us on our discord! (( https://github.com/AeroScripts/QuestieDev/ ))]],
+					name = "|cffb900ffQuestie is under active development for World of Warcraft: Classic. Please check GitHub for the latest alpha builds or to report issues. Or join us on our discord! (( https://github.com/AeroScripts/QuestieDev/ ))",
 					fontSize = "medium",
 				},
 
