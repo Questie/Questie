@@ -11,7 +11,10 @@ questExclusiveGroupFixes = {
     [463] = {276}, --greenwarden cant be completed if you have trampling paws
     [415] = {413}, --cant complete rejolds new brew if you do shimmer stout (see issue 567)
 	[1339] = {1338}, -- mountaineer stormpike's task cant be done if you have finished stormpike's order
-    [1943] = {1944} -- mage robe breadcrumb 
+    [1943] = {1944}, -- mage robe breadcrumb
+    [526] = {322}, -- not 100% sure on this one but it seems lightforge ingots is optional, block it after completing subsequent steps (#587)
+    [3765] = {1275}, -- corruption abroad breadcrumb
+    [164] = {95} -- deliveries to sven is a breadcrumb
 }
 
 questItemBlacklist = {
@@ -22,6 +25,11 @@ questItemBlacklist = {
     [14047] = true, -- runecloth
     [2997] = true, -- bolt of wool
     [14048] = true -- bolt of runecloth
+}
+
+questObjectFixes = {
+    [92423] = {"Damaged Chest",nil,nil,{[400]={{43.4, 32.7}},[17]={{49.02,96.77}}},400},
+    [167] = {"Abercrombie's Crate",nil,nil,{[10]={{33.42,76.35}}},10}
 }
 
 qHide = {

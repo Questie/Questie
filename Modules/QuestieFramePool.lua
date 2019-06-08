@@ -30,9 +30,9 @@ function QuestieFramePool:GetFrame()
         f = _QuestieFramePool:QuestieCreateFrame()
     end
     if f ~= nil and f.hidden and f._show ~= nil and f._hide ~= nil then -- restore state to normal (toggle questie)
-        icon.hidden = false
-        icon.Show = icon._show;
-        icon.Hide = icon._hide;
+        f.hidden = false
+        f.Show = f._show;
+        f.Hide = f._hide;
     end
     f.fadeLogic = nil
 
