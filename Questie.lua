@@ -133,6 +133,10 @@ _QuestieOptions.defaults = {
 	  minimapCoordinatesEnabled = true,
 	  mapCoordinatesEnabled = true,
 	  mapCoordinatePrecision = 1,
+	  nameplateTargetFrameEnabled = false,
+	  nameplateTargetFrameX = -25,
+	  nameplateTargetFrameY = 25,
+	  nameplateTargetFrameScale = 1.7,
 	},
 	  char = {
 		  complete = {},
@@ -611,7 +615,95 @@ local options = {
 						QuestieNameplate:redrawIcons();
 					end,
 				},
+				Spacer_D = _QuestieOptions:Spacer(9),
+				targetframe_header = {
+					type = "header",
+                    order = 20,
+                    name = "Target Frame Icon Options",
+				},
+				Spacer_E = _QuestieOptions:Spacer(21),
+				nameplateTargetFrameEnabled = {
+					type = "toggle",
+					order = 22,
+					name = "Enable Target Frame Quest Objectives",
+					desc = "Enable or disable the quest objective icons over creature target frame.",
+					width = "full",
+					get = GetGlobalOptionLocal,
+                    set = function (info, value)
+								SetGlobalOptionLocal(info, value)
 
+								-- on false, hide current nameplates
+								if not value then
+									QuestieNameplate:HideCurrentTargetFrame();
+								else
+									QuestieNameplate:DrawTargetFrame();
+								end
+                            end,
+				},
+				Spacer_F = _QuestieOptions:Spacer(23),
+                nameplateTargetFrameX  = {
+                    type = "range",
+                    order = 24,
+                    name = "Icon Position X",
+                    desc = "Where on the X axis the target frame icon should be. ( Default: ".. _QuestieOptions.defaults.global.nameplateTargetFrameX   .." )",
+                    width = "normal",
+                    min = -200,
+                    max = 200,
+					step = 1,
+					disabled = function() return not Questie.db.global.nameplateTargetFrameEnabled end,
+                    get = GetGlobalOptionLocal,
+                    set = function (info, value)
+                                QuestieNameplate:redrawFrameIcon()
+                                SetGlobalOptionLocal(info, value)
+                            end,
+                },
+                nameplateTargetFrameY  = {
+                    type = "range",
+                    order = 24,
+                    name = "Icon Position Y",
+                    desc = "Where on the Y axis the target frame icon should be. ( Default: ".. _QuestieOptions.defaults.global.nameplateTargetFrameY   .." )",
+                    width = "normal",
+                    min = -200,
+                    max = 200,
+					step = 1,
+					disabled = function() return not Questie.db.global.nameplateTargetFrameEnabled end,
+                    get = GetGlobalOptionLocal,
+                    set = function (info, value)
+								QuestieNameplate:redrawFrameIcon()
+                                SetGlobalOptionLocal(info, value)
+                            end,
+				},
+				nameplateTargetFrameScale  = {
+					type = "range",
+					order = 25,
+					name = "Nameplate Icon Scale",
+					desc = "Scale the size of the quest icons on creature target frame. ( Default: ".. _QuestieOptions.defaults.global.nameplateTargetFrameScale   .." )",
+					width = "double",
+					min = 0.01,
+					max = 4,
+					step = 0.01,
+					disabled = function() return not Questie.db.global.nameplateTargetFrameEnabled end,
+					get = GetGlobalOptionLocal,
+                    set = function (info, value)
+								SetGlobalOptionLocal(info, value)
+								QuestieNameplate:redrawFrameIcon()
+                            end,
+
+				},
+				Spacer_G = _QuestieOptions:Spacer(26),
+				targetFrameReset = {
+					type = "execute",
+					order = 27,
+					name = "Reset Target Frame",
+					desc = "Reset to Default Target Frame Positions and Scale",
+					disabled = function() return not Questie.db.global.nameplateTargetFrameEnabled end,
+					func = function (info, value)
+						Questie.db.global.nameplateTargetFrameX = _QuestieOptions.defaults.global.nameplateTargetFrameX;
+						Questie.db.global.nameplateTargetFrameY = _QuestieOptions.defaults.global.nameplateTargetFrameY;
+						Questie.db.global.nameplateTargetFrameScale = _QuestieOptions.defaults.global.nameplateTargetFrameScale;
+						QuestieNameplate:redrawFrameIcon();
+					end,
+				},
 			},
 		},
 
@@ -647,6 +739,7 @@ local options = {
 					min = 1,
 					max = 5,
 					step = 1,
+					disabled = function() return not Questie.db.global.debugEnabled end,
 					get = GetGlobalOptionLocal,
 					set = function (info, value)
 								SetGlobalOptionLocal(info, value)
@@ -694,6 +787,11 @@ local options = {
 						Questie.db.global.minimapCoordinatesEnabled = _QuestieOptions.defaults.global.minimapCoordinatesEnabled;
 						Questie.db.global.mapCoordinatesEnabled = _QuestieOptions.defaults.global.mapCoordinatesEnabled;
 						Questie.db.global.mapCoordinatePrecision = _QuestieOptions.defaults.global.mapCoordinatePrecision;
+						Questie.db.global.nameplateTargetFrameEnabled = _QuestieOptions.defaults.global.nameplateTargetFrameEnabled;
+						Questie.db.global.nameplateTargetFrameX = _QuestieOptions.defaults.global.nameplateTargetFrameX;
+						Questie.db.global.nameplateTargetFrameY = _QuestieOptions.defaults.global.nameplateTargetFrameY;
+						Questie.db.global.nameplateTargetFrameScale = _QuestieOptions.defaults.global.nameplateTargetFrameScale;
+
 
 						-- only toggle questie if it's off (must be called before resetting the value)
 						if not Questie.db.char.enabled then
@@ -788,9 +886,10 @@ function Questie:OnInitialize()
 
     --TODO: QUEST_QUERY_COMPLETE Will get all quests the character has finished, need to be implemented!
 
-    -- Nameplate Objective Events
+    -- Nameplate / Tar5get Frame Objective Events
     Questie:RegisterEvent("NAME_PLATE_UNIT_ADDED", QuestieNameplate.NameplateCreated);
 	Questie:RegisterEvent("NAME_PLATE_UNIT_REMOVED", QuestieNameplate.NameplateDestroyed);
+	Questie:RegisterEvent("PLAYER_TARGET_CHANGED", QuestieNameplate.DrawTargetFrame);
 	
 	-- Initialize Coordinates
 	QuestieCoords.Initialize();
