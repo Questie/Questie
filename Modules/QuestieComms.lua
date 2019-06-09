@@ -9,12 +9,12 @@ QC_WRITE_CHANNEL = 5
 QC_ID_BROADCAST_QUEST_UPDATE = 1 -- send quest_log_update status to party/raid members
 QC_ID_BROADCAST_QUESTIE_GETVERSION = 2 -- ask anyone for the newest questie version
 QC_ID_BROADCAST_QUESTIE_VERSION = 3 -- broadcast the current questie version
-QC_ID_ASK_CHANGELOG = 4
+QC_ID_ASK_CHANGELOG = 4 -- ask a player for the changelog
 QC_ID_SEND_CHANGELOG = 5
-QC_ID_ASK_QUEST = 6
-QC_ID_SEND_QUEST = 7
-QC_ID_ASK_QUESTLIST = 8
-QC_ID_SEND_QUESTLIST = 9
+QC_ID_ASK_QUESTS = 6 -- ask a player for their quest progress on specific quests
+QC_ID_SEND_QUESTS = 7
+QC_ID_ASK_QUESTSLIST = 8 -- ask a player for their current quest log as a list of quest IDs
+QC_ID_SEND_QUESTSLIST = 9
 
 function QuestieGetVersionString() -- todo: better place
 	local _,ver = GetAddOnInfo("QuestieDev-master")
@@ -33,22 +33,29 @@ end
 QuestieComms.packets = {
 	[QC_ID_BROADCAST_QUEST_UPDATE] = {
 		write = function(self)
-			self.stream:writeShort(self.Quest.Id)
-			self.stream:writeByte(#self.Quest.Objectives)
-			for _,objective in pairs(self.Quest.Objectives) do
+			local count = 0;
+			for _ in pairs(self.quest.Objectives) do count = count + 1; end -- why does lua suck
+			
+			self.stream:writeShort(self.quest.Id)
+			self.stream:writeByte(count)
+			
+			for _,objective in pairs(self.quest.Objectives) do
 				self.stream:writeBytes(objective.Index, objective.Needed, objective.Collected)
 			end
 		end,
 		read = function(self)
-			local remoteQuestData = {};
-			remoteQuestData.Objectives = {};
-			remoteQuestData.Id = stream:readShort()
-			local count = stream:readByte()
-			for i=1,count do
-				local index = stream:readByte()
-				remoteQuestData.Objectives[index] = {}
-				remoteQuestData.Objectives[index].Needed = stream:readByte()
-				remoteQuestData.Objectives[index].Collected = stream:readByte()
+			local quest = QuestieDB:GetQuest(self.stream:readShort())
+			local count = self.stream:readByte()
+			if quest then
+				if not quest.RemoteObjectives[self.player] then
+					quest.RemoteObjectives[self.player] = {}
+				end
+				local index = self.stream:readByte()
+				if not quest.RemoteObjectives[self.player][index] then
+					quest.RemoteObjectives[self.player][index] = {}
+				end
+				quest.RemoteObjectives[self.player][index].Needed = self.stream:readByte()
+				quest.RemoteObjectives[self.player][index].Connected = self.stream:readByte()
 			end
 		end
 	},
@@ -96,7 +103,7 @@ QuestieComms.packets = {
 			local version = QuestieGetVersionString()
 			local latest = _QuestieChangeLog[version]
 			local count = 0;
-			for _,_ in pairs(latest) do count = count + 1; end -- why does lua suck
+			for _ in pairs(latest) do count = count + 1; end -- why does lua suck
 			self.stream:writeBytes(count)
 			self.stream:writeShortString(version)
 			for _,change in pairs(latest) do
@@ -125,51 +132,117 @@ QuestieComms.packets = {
 		
 		end
     },
-    [QC_ID_ASK_QUEST] = {
+    [QC_ID_ASK_QUESTS] = {
         write = function(self)
-			self.stream:writeShort(self.questId)
+			local count = 0;
+			for _ in pairs(self.quests) do count = count + 1; end -- why does lua suck
+			self.stream:writeByte(count)
+			for _,id in pairs(self.quests) do
+				self.stream:writeShort(id)
+			end
         end,
         read = function(self)
-			local qid = self.stream:readShort()
-			local quest = QuestieDB:GetQuest(qid)
-			
-			if quest and quest.Objectives then
-				local pkt = QuestieComms:getPacket(QC_ID_SEND_QUEST)
-				pkt.player = self.player
-				pkt.writeMode = QC_WRITE_WHISPER
-				pkt.quest = quest
-				QuestieComms:write(pkt)
-				pkt.stream:finished()
+			local count = self.stream:readByte()
+			local quests = {};
+			for i=1,count do
+				local qid = self.stream:readShort()
+				local quest = QuestieDB:GetQuest(qid)
+				if quest and quest.Objectives then 
+					table.insert(quests, quest)
+				end
 			end
+			local pkt = QuestieComms:getPacket(QC_ID_SEND_QUESTS)
+			pkt.player = self.player
+			pkt.writeMode = QC_WRITE_WHISPER
+			pkt.quests = quests
+			QuestieComms:write(pkt)
+			pkt.stream:finished()
         end
     },
-	[QC_ID_SEND_QUEST] = {
+	[QC_ID_SEND_QUESTS] = {
 		write = function(self)
-			self.stream:writeShort(self.quest.Id)
 			local count = 0;
-			for _,_ in pairs(self.quest.Objectives) do count = count + 1; end -- why does lua suck
+			for _ in pairs(self.quests) do count = count + 1; end -- why does lua suck
 			self.stream:writeByte(count)
-			for index,v in pairs(self.quest.Objectives) do
-				self.stream:writeBytes(index, v.Needed, v.Collected)
+			for _,quest in pairs(self.quests) do
+				self.stream:writeShort(quest.Id)
+				local count = 0;
+				for _ in pairs(quest.Objectives) do count = count + 1; end -- why does lua suck
+				self.stream:writeByte(count)
+				for index,v in pairs(quest.Objectives) do
+					self.stream:writeBytes(index, v.Needed, v.Collected)
+				end
 			end
 		end,
 		read = function(self)
-			local quest = QuestieDB:GetQuest(self.stream:readShort())
-			if not Quest.RemoteObjectives then
-				Quest.RemoteObjectives = {}
+			local count = self.stream:readByte()
+			for i=1,count do
+				local quest = QuestieDB:GetQuest(self.stream:readShort())
+				if not quest.RemoteObjectives then
+					quest.RemoteObjectives = {}
+				end
+				if not quest.RemoteObjectives[self.player] then
+					quest.RemoteObjectives[self.player] = {}
+				end
+				local cnt = self.stream:readByte()
+				for i=1,cnt do
+					local index, needed, collected = self.stream:readBytes(3)
+					if not quest.RemoteObjectives[self.player][index] then
+						quest.RemoteObjectives[self.player][index] = {}
+					end
+					quest.RemoteObjectives[self.player][index].Needed = needed
+					quest.RemoteObjectives[self.player][index].Connected = collected
+				end
 			end
-			if not Quest.RemoteObjectives[self.player] then
-				Quest.RemoteObjectives[self.player] = {}
+		end
+	},
+	[QC_ID_ASK_QUESTSLIST] = {
+		write = function(self)
+			-- no need to write anything, packet ID is enough
+		end,
+		read = function(self)
+			local pkt = QuestieComms:getPacket(QC_ID_SEND_QUESTSLIST)
+			pkt.player = self.player
+			pkt.writeMode = QC_WRITE_WHISPER
+			QuestieComms:write(pkt)
+			pkt.stream:finished()
+		end
+	},
+	[QC_ID_SEND_QUESTSLIST] = {
+		write = function(self)
+			local count = 0;
+			for _ in pairs(qCurrentQuestlog) do count = count + 1; end -- why does lua suck
+			self.stream:writeByte(count)
+			for id,_ in pairs(qCurrentQuestlog) do
+				self.stream:writeShort(id)
 			end
-			local cnt = self.stream:readByte()
-			for i=1,cnt do
-				local index, needed, collected = self.stream:readBytes(3)
-				Quest.RemoteObjectives[self.player][index].Needed = needed
-				Quest.RemoteObjectives[self.player][index].Connected = collected
+		end,
+		read = function(self)
+			local count = self.stream:readByte()
+			qRemoteQuestLogs[self.player] = {self.stream:readShorts(count)}
+			local toAsk = {}
+			for _,id in pairs(qRemoteQuestLogs[self.player]) do
+				if qCurrentQuestlog[id] then
+					table.insert(toAsk, id)
+				end
 			end
+			local pkt = QuestieComms:getPacket(QC_ID_ASK_QUESTS)
+			pkt.player = self.player
+			pkt.writeMode = QC_WRITE_WHISPER
+			pkt.quests = toAsk
+			QuestieComms:write(pkt)
+			pkt.stream:finished()
 		end
 	}
 }
+
+function QuestieComms:testGetQuestInfo(player)
+	local pkt = QuestieComms:getPacket(QC_ID_ASK_QUESTSLIST)
+	pkt.writeMode = QC_WRITE_WHISPER
+	pkt.player = player
+	QuestieComms:write(pkt)
+	pkt.stream:finished()
+end
 
 function QuestieComms:read(rawPacket, sourceType, source)
     local stream = QuestieStreamLib:getStream()
@@ -301,3 +374,20 @@ function QuestieComms:MessageReceived(channel, message, type, source) -- pcall t
 		end
 	end
 end
+
+function QuestieComms:BroadcastQuestUpdate(quest) -- broadcast quest update to group or raid
+	local raid = UnitInRaid("player")
+	local party = UnitInParty("player")
+	if raid or party then
+		local pkt = QuestieComms:getPacket(QC_ID_BROADCAST_QUEST_UPDATE)
+		pkt.quest = quest
+		if raid then
+			raid.writeMode = QC_WRITE_ALLRAID
+		else
+			raid.writeMode = QC_WRITE_ALLGROUP
+		end
+		QuestieComms:write(pkt)
+		pkt.stream:finished()
+	end
+end
+

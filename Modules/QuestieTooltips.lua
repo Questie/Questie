@@ -103,10 +103,16 @@ end
 
 function QuestieTooltips:RemoveQuest(questid)
     for k, v in pairs(QuestieTooltips.tooltipLookup) do
+        local stillHave = false
         for index, tooltip in pairs(v) do
-            if tooltip[1] == questid then
+            if tooltip.QuestId == questid then
                 table.remove(v, index);
+            else
+                stillHave = true
             end
+        end
+        if not stillHave then
+            QuestieTooltips.tooltipLookup[k] = nil
         end
     end
 end

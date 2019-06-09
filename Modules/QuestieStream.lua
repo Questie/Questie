@@ -69,6 +69,14 @@ function QuestieStreamLib:readBytes(count)
     return unpack(ret)
 end
 
+function QuestieStreamLib:readShorts(count)
+    local ret = {};
+    for i=1,count do
+        table.insert(ret, self:readShort());
+    end
+    return unpack(ret)
+end
+
 function QuestieStreamLib:readShort()
     return bit.lshift(self:readByte(), 8) + self:readByte();
 end
@@ -105,6 +113,12 @@ end
 function QuestieStreamLib:writeBytes(...)
     for _,val in pairs({...}) do
         self:writeByte(val)
+    end
+end
+
+function QuestieStreamLib:writeShorts(...)
+    for _,val in pairs({...}) do
+        self:writeShort(val)
     end
 end
 
