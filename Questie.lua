@@ -772,9 +772,7 @@ glooobball = ""
 Note = nil
 function Questie:OnInitialize()
 
-    --If we actually want the settings to save, uncomment this line and comment next one!
     self.db = LibStub("AceDB-3.0"):New("QuestieConfig", _QuestieOptions.defaults, true)
-    --self.db = LibStub("AceDB-3.0"):New("QuestieClassicDB", defaults, true)
 
     Questie:Debug(DEBUG_CRITICAL, "Questie addon loaded")
     Questie:RegisterEvent("PLAYER_ENTERING_WORLD", QuestieEventHandler.PLAYER_ENTERING_WORLD)
@@ -798,47 +796,12 @@ function Questie:OnInitialize()
 	QuestieCoords.Initialize();
 
 
-    --Old stuff that has been tried, remove in cleanup
-    --Hook the questcomplete button
-    --QuestFrameCompleteQuestButton:HookScript("OnClick", CUSTOM_QUEST_COMPLETE)
-    --Questie:RegisterEvent("QUEST_COMPLETE", QUEST_COMPLETE)
-    --Questie:RegisterEvent("QUEST_FINISHED", QUEST_FINISHED)
-    --?? What does this do?
-
-
-    -- not in classic Questie:RegisterEvent("QUEST_LOG_CRITERIA_UPDATE", QUEST_LOG_CRITERIA_UPDATE)
-
 
     Questie:RegisterChatCommand("questieclassic", "MySlashProcessorFunc")
     Questie:RegisterChatCommand("questie", "MySlashProcessorFunc")
 
-
-
     LibStub("AceConfig-3.0"):RegisterOptionsTable("Questie", options)
-
-
-
-    --QuestieFrame:SetTitle("Example frame")
-    --QuestieFrame:SetStatusText("AceGUI-3.0 Example Container frame")
-    --QuestieFrame:SetCallback("OnClose", function() QuestieFrame:Hide() end)
-    --QuestieFrame:SetLayout(options)
-    --WILL ERROR; Run with reloadui!
-    --x, y, z = HBD:GetPlayerWorldPosition();
-    --Questie:Print("XYZ:", x, y, z, "Zone: "..getPlayerZone(), "Cont: "..getPlayerContinent());
-    --Questie:Print(HBD:GetWorldCoordinatesFromAzerothWorldMap(x, y, ));
-    --mapX, mapY = HBD:GetAzerothWorldMapCoordinatesFromWorld(x, y, 0);
-    --Questie:Print(mapX, mapY);
-    --glooobball = C_Map.GetMapInfo(1)
-    --glooobball = HBD:GetAllMapIDs()
-    --Questie:Print(HBD:GetAllMapIDs())
-    --Questie:Print(GetWorldContinentFromZone(getPlayerZone()))
-    --Questie.db.global.lastmessage = 0
-
 	self.configFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Questie", "Questie");
-
-    -- Code that you want to run when the addon is first loaded goes here.
-    --Questie:Print("Hello, world!")
-    --self:RegisterChatCommand("Questie", "ChatCommand")
 
     --Initialize the DB settings.
     Questie:debug(DEBUG_DEVELOP, "Setting clustering value to:", Questie.db.global.clusterLevel)
