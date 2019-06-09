@@ -228,6 +228,7 @@ local options = {
 					name = "Show All Quests below range (Low level quests)",
 					desc = "Enable or disable showing of showing low level quests on the map.",
 					width = 200,
+					disabled = function() return not Questie.db.char.enabled end,
 					get =	function ()
                                 return Questie.db.char.lowlevel
 							end,
@@ -246,6 +247,7 @@ local options = {
 					min = 1,
 					max = 10,
 					step = 1,
+					disabled = function() return not Questie.db.char.enabled end,
 					get = GetGlobalOptionLocal,
 					set = function (info, value)
 								SetGlobalOptionLocal(info, value)
@@ -261,6 +263,7 @@ local options = {
 					min = 1,
 					max = 10,
 					step = 1,
+					disabled = function() return not Questie.db.char.enabled end,
 					get = GetGlobalOptionLocal,
 					set = function (info, value)
 								SetGlobalOptionLocal(info, value)
@@ -275,7 +278,8 @@ local options = {
                   width = "double",
                   min = 0.02,
                   max = 5,
-                  step = 0.01,
+				  step = 0.01,
+				  disabled = function() return not Questie.db.char.enabled end,
                   get = GetGlobalOptionLocal,
                   set = function (info, value)
                         _QuestieOptions:Delay(0.5, _QuestieOptions.ClusterRedraw, "NYI Setting clustering value, clusterLevel set to "..value.." : Redrawing!")
@@ -319,7 +323,8 @@ local options = {
                     width = "double",
                     min = 0.01,
                     max = 4,
-                    step = 0.01,
+					step = 0.01,
+					disabled = function() return not Questie.db.char.enabled end,
                     get = GetGlobalOptionLocal,
                     set = function (info, value)
                                 QuestieMap:rescaleIcons()
@@ -334,7 +339,8 @@ local options = {
                     width = "double",
                     min = 0.01,
                     max = 4,
-                    step = 0.01,
+					step = 0.01,
+					disabled = function() return not Questie.db.char.enabled end,
                     get = GetGlobalOptionLocal,
                     set = function (info, value)
                                 QuestieMap:rescaleIcons()
@@ -357,6 +363,7 @@ local options = {
 					min = 0.01,
 					max = 5,
 					step = 0.01,
+					disabled = function() return not Questie.db.char.enabled end,
 					get = GetGlobalOptionLocal,
 					set = function (info, value)
 						  SetGlobalOptionLocal(info, value)
@@ -369,6 +376,7 @@ local options = {
 					name = "Fade Icons over Player",
 					desc = "Fades icons on the minimap when your player walks near them.",
 					width = "full",
+					disabled = function() return not Questie.db.char.enabled end,
 					get = GetGlobalOptionLocal,
 					set = function (info, value)
 						SetGlobalOptionLocal(info, value)
@@ -384,6 +392,7 @@ local options = {
 					max = 0.5,
 					step = 0.01,
 					get = GetGlobalOptionLocal,
+					disabled = function() return (not Questie.db.char.enabled) and (not Questie.db.global.fadeOverPlayer) end,
 					set = function (info, value)
 						SetGlobalOptionLocal(info, value)
 					end,
@@ -397,6 +406,7 @@ local options = {
 					min = 0.1,
 					max = 1,
 					step = 0.1,
+					disabled = function() return (not Questie.db.char.enabled) and (not Questie.db.global.fadeOverPlayer) end,
 					get = GetGlobalOptionLocal,
 					set = function (info, value)
 						SetGlobalOptionLocal(info, value)
@@ -447,6 +457,7 @@ local options = {
                     min = 0.01,
 					max = 4,
 					step = 0.01,
+					disabled = function() return not Questie.db.char.enabled end,
 					get = GetGlobalOptionLocal,
 					set = function (info, value)
                                 QuestieMap:rescaleIcons()
@@ -462,6 +473,7 @@ local options = {
 					min = 0.01,
 					max = 4,
 					step = 0.01,
+					disabled = function() return not Questie.db.char.enabled end,
 					get = GetGlobalOptionLocal,
 					set = function (info, value)
                                 QuestieMap:rescaleIcons()
@@ -499,6 +511,7 @@ local options = {
 					min = 1,
 					max = 5,
 					step = 1,
+					disabled = function() return not Questie.db.global.mapCoordinatesEnabled end,
 					get = GetGlobalOptionLocal,
 					set = function (info, value)
 								SetGlobalOptionLocal(info, value)
@@ -543,7 +556,8 @@ local options = {
                     width = "normal",
                     min = -200,
                     max = 200,
-                    step = 1,
+					step = 1,
+					disabled = function() return not Questie.db.global.nameplateEnabled end,
                     get = GetGlobalOptionLocal,
                     set = function (info, value)
                                 QuestieNameplate:redrawIcons()
@@ -558,7 +572,8 @@ local options = {
                     width = "normal",
                     min = -200,
                     max = 200,
-                    step = 1,
+					step = 1,
+					disabled = function() return not Questie.db.global.nameplateEnabled end,
                     get = GetGlobalOptionLocal,
                     set = function (info, value)
                                 QuestieNameplate:redrawIcons()
@@ -574,6 +589,7 @@ local options = {
 					min = 0.01,
 					max = 4,
 					step = 0.01,
+					disabled = function() return not Questie.db.global.nameplateEnabled end,
 					get = GetGlobalOptionLocal,
                     set = function (info, value)
 								SetGlobalOptionLocal(info, value)
@@ -587,6 +603,7 @@ local options = {
 					order = 8,
 					name = "Reset Nameplates",
 					desc = "Reset to Default Nameplate Positions and Scale",
+					disabled = function() return not Questie.db.global.nameplateEnabled end,
 					func = function (info, value)
 						Questie.db.global.nameplateX = _QuestieOptions.defaults.global.nameplateX;
 						Questie.db.global.nameplateY = _QuestieOptions.defaults.global.nameplateY;
