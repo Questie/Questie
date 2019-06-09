@@ -100,9 +100,15 @@ function _QuestieOptions:Spacer(o)
 	}
 end
 
+_QuestieOptions.configFrame = nil;
 function _QuestieOptions:OpenConfigWindow()
-	PlaySound(882)
-	LibStub("AceConfigDialog-3.0"):Open("Questie")
+	PlaySound(882);
+
+	if not _QuestieOptions.configFrame then
+		_QuestieOptions.configFrame = AceGUI:Create("Frame");
+	end
+
+	LibStub("AceConfigDialog-3.0"):Open("Questie", _QuestieOptions.configFrame)
 end
 
 _QuestieOptions.defaults = {
@@ -829,12 +835,12 @@ function Questie:OnInitialize()
 end
 
 function Questie:MySlashProcessorFunc(input)
-	--Questie:Print(ChatFrame1, "Hello, World!")
-	--SetMessage("test", "test")
 
-	_QuestieOptions.OpenConfigWindow()
+	if input == "" or not input then
+		_QuestieOptions.OpenConfigWindow()
+		return ;
+	end
 
-  -- Process the slash command ('input' contains whatever follows the slash command)
 
 end
 
@@ -854,9 +860,6 @@ end
 --DEBUG_SPAM = "5DEBUG"
 
 function Questie:Debug(...)
-    -- using a separate var here TEMPORARILY to make it easier for people to disable
-    -- /run QuestieConfig.enableDebug = false;
-    --if not QuestieConfig.enableDebug then return; end
     if(Questie.db.global.debugEnabled) then
         if(Questie.db.global.debugLevel < 5 and select(1, ...) == DEBUG_SPAM)then return; end
         if(Questie.db.global.debugLevel < 4 and select(1, ...) == DEBUG_DEVELOP)then return; end
