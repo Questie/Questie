@@ -34,7 +34,8 @@ questObjectFixes = {
 }
 
 questItemFixes = {
-    [5475] = {"Wooden Key",{},{3919,3834},{}}
+    [5475] = {"Wooden Key",{},{3919,3834},{}},
+    [5519] = {"Iron Pommel",{1027},{3928},{}}
 }
 --hack
 for k,v in pairs(questItemFixes) do CHANGEME_Questie4_ItemDB[k]=v; end
