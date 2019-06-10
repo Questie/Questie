@@ -32,6 +32,16 @@ questObjectFixes = {
     [167] = {"Abercrombie's Crate",nil,nil,{[10]={{33.42,76.35}}},10}
 }
 
+questItemFixes = {
+    [5475] = {"Wooden Key",{},{3919,3834},{}}
+}
+--hack
+for k,v in pairs(questItemFixes) do CHANGEME_Questie4_ItemDB[k]=v; end
+
+questHiddenFixes = {
+    [1026] = {5475} -- wooden key
+}
+
 qHide = {
   --Stray quests
   [3861] = true, --CLUCK!

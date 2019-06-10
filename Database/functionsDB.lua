@@ -264,8 +264,10 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
 	
 	QO.HiddenObjectiveData = {}
 	
-    if rawdata[21] ~= nil then --required source items
-      for _,Id in pairs(rawdata[21]) do
+	local hidden = questHiddenFixes[QuestID] or rawdata[21]
+	
+    if hidden ~= nil then --required source items
+      for _,Id in pairs(hidden) do
         if Id ~= nil then
 
               local obj = {};
