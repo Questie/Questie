@@ -50,7 +50,7 @@ function QuestieDB:GetItem(ItemID)
     item.Id = ItemID;
     item.Name = raw[1];
     item.Sources = {};
-	if not questItemBlacklist[ItemID] then
+    if not questItemBlacklist[ItemID] then
       for k,v in pairs(raw[3]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
         local source = {};
         source.Type = "monster";
@@ -69,7 +69,7 @@ function QuestieDB:GetItem(ItemID)
   return item
 end
 local function _GetColoredQuestName(self)
-    return QuestieTooltips:PrintDifficultyColor(self.Level, "[" .. self.Level .. "] " .. self.Name)
+    return QuestieTooltips:PrintDifficultyColor(self.Level, "[" .. self.Level .. "] " .. (self.LocalizedName or self.Name))
 end
 function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
   if QuestID == nil then
@@ -261,11 +261,11 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
     QO.SubQuests = rawdata[14] --Quests that give questitems that are used in later quests (See STV manual)
     QO.QuestGroup = rawdata[15] --Quests that are part of the same group, example complete this group of quests to open the next one.
     QO.ExclusiveQuestGroup = questExclusiveGroupFixes[QuestID] or rawdata[16]
-	
-	QO.HiddenObjectiveData = {}
-	
-	local hidden = questHiddenFixes[QuestID] or rawdata[21]
-	
+    
+    QO.HiddenObjectiveData = {}
+    
+    local hidden = questHiddenFixes[QuestID] or rawdata[21]
+    
     if hidden ~= nil then --required source items
       for _,Id in pairs(hidden) do
         if Id ~= nil then

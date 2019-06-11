@@ -235,6 +235,9 @@ function QuestieQuest:GetAllQuestIds()
                 QuestieQuest:PopulateQuestLogInfo(Quest)
                 QuestieQuest:PopulateObjectiveNotes(Quest)
                 qCurrentQuestlog[questId] = Quest
+                if title and strlen(title) > 1 then
+                    Quest.LocalizedName = title
+                end
             else
                 qCurrentQuestlog[questId] = questId
             end
