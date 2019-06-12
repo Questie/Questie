@@ -28,6 +28,11 @@ Database\specialspawns.lua
 Database\corrections.lua
 Database\functionsDB.lua
 
+#Localization
+Locale\en\locale.xml
+Locale\es\locale.xml
+Locale\QuestieLocale.lua
+
 #Modules
 Modules\QuestieTooltips.lua
 Modules\QuestieEventHandler.lua

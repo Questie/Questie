@@ -21,7 +21,6 @@ local function GetGlobalOptionLocal(info)
 	return Questie.db.global[info[#info]]
 end
 
-
 -- set option value
 local function SetGlobalOptionLocal(info, value)
 	if debug and Questie.db.global[info[#info]] ~= value then
@@ -30,46 +29,9 @@ local function SetGlobalOptionLocal(info, value)
 	Questie.db.global[info[#info]] = value
 end
 
-
-local function getPlayerContinent()
-    local mapID = C_Map.GetBestMapForUnit("player")
-    if(mapID) then
-        local info = C_Map.GetMapInfo(mapID)
-        if(info) then
-            while(info['mapType'] and info['mapType'] > 2) do
-                info = C_Map.GetMapInfo(info['parentMapID'])
-            end
-            if(info['mapType'] == 2) then
-                return info['mapID']
-            end
-        end
-    end
-end
-
-local function getPlayerZone()
-	return C_Map.GetBestMapForUnit("player");
-end
-
-local function getWorldMapZone()
-	return WorldMapFrame:GetMapID();
-end
-
 local _optionsTimer = nil;
-
-function Questie:OnUpdate()
-
-end
-
-function Questie:OnEnable()
-    -- Called when the addon is enabled
-end
-
-function Questie:OnDisable()
-    -- Called when the addon is disabled
-end
-
-
-local _QuestieOptions = {...}
+local _QuestieOptions = {...};
+_QuestieOptions.configFrame = nil;
 
 function _QuestieOptions:AvailableQuestRedraw()
     QuestieQuest:CalculateAvailableQuests()
@@ -100,7 +62,6 @@ function _QuestieOptions:Spacer(o)
 	}
 end
 
-_QuestieOptions.configFrame = nil;
 function _QuestieOptions:OpenConfigWindow()
 	
 	if not _QuestieOptions.configFrame then
@@ -178,7 +139,7 @@ local options = {
 				enabled = {
 					type = "toggle",
 					order = 3,
-					name = "Enable Questie",
+					name = QuestieLocale:GetString('ENABLE_QUESTIE'),
 					desc = "Enable or disable addon functionality.",
 					width = "full",
 					get =	function ()
@@ -774,23 +735,43 @@ local options = {
 							end,
 				},
 
-
 				Spacer_A = _QuestieOptions:Spacer(10),
-				reset_header = {
+				locale_header = {
 					type = "header",
 					order = 11,
-					name = "Reset Questie",
+					name = "Localization Settings",
 				},
 				Spacer_B = _QuestieOptions:Spacer(12),
+				locale_dropdown = {
+					type = "select",
+					order = 13,
+					values = {
+						['en'] = 'English (EN)',
+						['es'] = 'Espanol (ES)',
+					},
+					style = 'dropdown',
+					get = function() return QuestieLocale:GetLocale(); end,
+					set = function(lang) 
+						QuestieLocale:SetLocale(lang);
+						LibStub("AceConfigRegistry-3.0"):NotifyChange("Questie");
+					end,
+				},
+				Spacer_C = _QuestieOptions:Spacer(20),
+				reset_header = {
+					type = "header",
+					order = 21,
+					name = "Reset Questie",
+				},
+				Spacer_D = _QuestieOptions:Spacer(22),
 				reset_text = {
 					type = "description",
-					order = 13,
+					order = 23,
 					name = "Hitting this button will reset all of the Questie configuration settings back to their default values.",
 					fontSize = "medium",
 				},
 				questieReset = {
 					type = "execute",
-					order = 14,
+					order = 24,
 					name = "Reset Questie",
 					desc = "Reset Questie to the default values for all settings.",
 					func = function (info, value)
@@ -858,7 +839,9 @@ local options = {
 						_QuestieOptions:Delay(0.3, _QuestieOptions.AvailableQuestRedraw, "minLevelFilter and maxLevelFilter reset to defaults");
 
 						QuestieNameplate:redrawIcons();
-						QuestieMap:rescaleIcons()
+						QuestieMap:rescaleIcons();
+
+						LibStub("AceConfigRegistry-3.0"):NotifyChange("Questie");
 					end,
 				},
 
@@ -881,6 +864,7 @@ local minimapIconLDB = LibStub("LibDataBroker-1.1"):NewDataObject("MinimapIcon",
 	type = "data source",
 	text = "Questie",
 	icon = ICON_TYPE_COMPLETE,
+
 	OnClick = function (self, button) 
 		if button == "LeftButton" then
 			if IsShiftKeyDown() then
@@ -888,7 +872,8 @@ local minimapIconLDB = LibStub("LibDataBroker-1.1"):NewDataObject("MinimapIcon",
 
 				-- CLose config window if it's open to avoid desyncing the Checkbox
 				if _QuestieOptions.configFrame and _QuestieOptions.configFrame:IsShown() then
-					_QuestieOptions.configFrame:Hide();
+					-- _QuestieOptions.configFrame:Hide();
+					LibStub("AceConfigRegistry-3.0"):NotifyChange("Questie");
 				end
 				return;
 			end
@@ -904,18 +889,16 @@ local minimapIconLDB = LibStub("LibDataBroker-1.1"):NewDataObject("MinimapIcon",
 			end
 		end
 	end,
+
 	OnTooltipShow = function (tooltip)
 		tooltip:AddLine("Questie", 1, 1, 1);
 		tooltip:AddLine ("|cFFCFCFCFLeft Click|r: Toggle Options")
 		tooltip:AddLine ("|cFFCFCFCFShift + Left Click|r: Toggle Questie")
 		tooltip:AddLine ("|cFFCFCFCFCtrl + Right Click|r: Hide Minimap Icon")
 	end,
-
 });
 
 
-glooobball = ""
-Note = nil
 function Questie:OnInitialize()
 
     self.db = LibStub("AceDB-3.0"):New("QuestieConfig", _QuestieOptions.defaults, true)
@@ -943,9 +926,9 @@ function Questie:OnInitialize()
 	QuestieCoords.Initialize();
 
 
-
-    Questie:RegisterChatCommand("questieclassic", "MySlashProcessorFunc")
-    Questie:RegisterChatCommand("questie", "MySlashProcessorFunc")
+	-- Register Slash Commands
+    Questie:RegisterChatCommand("questieclassic", "QuestieSlash")
+    Questie:RegisterChatCommand("questie", "QuestieSlash")
 
     LibStub("AceConfig-3.0"):RegisterOptionsTable("Questie", options)
 	self.configFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Questie", "Questie");
@@ -965,11 +948,21 @@ function Questie:OnInitialize()
 	else
 		Questie_Toggle:Hide();
 	end
+end
 
+function Questie:OnUpdate()
 
 end
 
-function Questie:MySlashProcessorFunc(input)
+function Questie:OnEnable()
+    -- Called when the addon is enabled
+end
+
+function Questie:OnDisable()
+    -- Called when the addon is disabled
+end
+
+function Questie:QuestieSlash(input)
 
 	-- /questie
 	if input == "" or not input then
@@ -991,13 +984,25 @@ function Questie:MySlashProcessorFunc(input)
 
 		-- CLose config window if it's open to avoid desyncing the Checkbox
 		if _QuestieOptions.configFrame and _QuestieOptions.configFrame:IsShown() then
-			_QuestieOptions.configFrame:Hide();
+			-- _QuestieOptions.configFrame:Hide();
+			LibStub("AceConfigRegistry-3.0"):NotifyChange("Questie");
 		end
 		return;
 	end
 
-
 	print("|cFFFFB900Questie Command:|r Invalid command. Type |cFFFFB900/questie help|r for a list of options.");
+end
+
+function Questie:Colorize(str, color)
+	local c = '';
+
+	if color == 'red' then
+		c = 'FF001122';
+	elseif color == 'yellow' then
+		c = 'FFFFB900';
+	end	
+
+	return "|c".. c .. str .. "|r"
 
 end
 
@@ -1030,3 +1035,36 @@ end
 function Questie:debug(...)
     Questie:Debug(...)
 end
+
+
+--[[  VERIFY: Can be removed?
+
+glooobball = ""
+Note = nil
+
+
+local function getPlayerContinent()
+    local mapID = C_Map.GetBestMapForUnit("player")
+    if(mapID) then
+        local info = C_Map.GetMapInfo(mapID)
+        if(info) then
+            while(info['mapType'] and info['mapType'] > 2) do
+                info = C_Map.GetMapInfo(info['parentMapID'])
+            end
+            if(info['mapType'] == 2) then
+                return info['mapID']
+            end
+        end
+    end
+end
+
+local function getPlayerZone()
+	return C_Map.GetBestMapForUnit("player");
+end
+
+local function getWorldMapZone()
+	return WorldMapFrame:GetMapID();
+end
+
+
+]]
