@@ -74,6 +74,8 @@ function QuestieFramePool:GetFrame()
         f.hidden = false
         f.Show = f._show;
         f.Hide = f._hide;
+        f._show = nil
+        f._hide = nil
     end
     f.fadeLogic = nil
 
@@ -188,6 +190,14 @@ function _QuestieFramePool:QuestieCreateFrame()
     --f.Unload = function(frame) _QuestieFramePool:UnloadFrame(frame) end;
     function f:Unload()
         --We are reseting the frames, making sure that no data is wrong.
+        if self ~= nil and self.hidden and self._show ~= nil and self._hide ~= nil then -- restore state to normal (toggle questie)
+            self.hidden = false
+            self.Show = self._show;
+            self.Hide = self._hide;
+            self._show = nil
+            self._hide = nil
+        end
+        self.shouldBeShowing = nil
         HBDPins:RemoveMinimapIcon(Questie, self);
         HBDPins:RemoveWorldMapIcon(Questie, self);
         if(self.texture) then

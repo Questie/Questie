@@ -23,6 +23,8 @@ function QuestieQuest:ToggleNotes()
                     icon.hidden = false
                     icon.Show = icon._show;
                     icon.Hide = icon._hide;
+                    icon._show = nil
+                    icon._hide = nil
                     if icon.shouldBeShowing then
                         icon:Show();
                     end
