@@ -23,6 +23,8 @@ function QuestieQuest:ToggleNotes()
                     icon.hidden = false
                     icon.Show = icon._show;
                     icon.Hide = icon._hide;
+                    icon._show = nil
+                    icon._hide = nil
                     if icon.shouldBeShowing then
                         icon:Show();
                     end
@@ -235,6 +237,9 @@ function QuestieQuest:GetAllQuestIds()
                 QuestieQuest:PopulateQuestLogInfo(Quest)
                 QuestieQuest:PopulateObjectiveNotes(Quest)
                 qCurrentQuestlog[questId] = Quest
+                if title and strlen(title) > 1 then
+                    Quest.LocalizedName = title
+                end
             else
                 qCurrentQuestlog[questId] = questId
             end
@@ -667,11 +672,11 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                 
                 objectiveType, objectiveDesc, numItems, numNeeded, isComplete = _QuestieQuest:GetLeaderBoardDetails(self.Index, self.QuestId)
                 
-                if self.Description and strlen(self.Description) > 1 and self.Description ~= objectiveDesc then -- fix bug (mentioned above with GetQuestLogTitle)
-                    self.Collected = self.Needed
-                    self.Completed = true
-                    return {self.Collected, self.Needed, self.Completed}
-                end
+                --if self.Description and strlen(self.Description) > 1 and self.Description ~= objectiveDesc then -- fix bug (mentioned above with GetQuestLogTitle)
+                --    self.Collected = self.Needed
+                --    self.Completed = true
+                --    return {self.Collected, self.Needed, self.Completed}
+                --end
                 
                 if objectiveType then
                     -- fixes for api bug

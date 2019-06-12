@@ -7,6 +7,7 @@ local usedFrames = {};
 
 local allframes = {}
 
+
 --These changes allow me to develop on retail!
 if(select(4, GetBuildInfo()) > 80000) then
     _QuestieFramePool.addonPath = "Interface\\Addons\\QuestieDev-master-retail\\"
@@ -23,6 +24,46 @@ ICON_TYPE_LOOT =  _QuestieFramePool.addonPath.."Icons\\loot.blp"
 ICON_TYPE_EVENT =  _QuestieFramePool.addonPath.."Icons\\event.blp"
 ICON_TYPE_OBJECT =  _QuestieFramePool.addonPath.."Icons\\object.blp"
 
+
+local function testPath(tex)
+    local textestFrame = CreateFrame("Frame")-- each test needs to be done with its own frame unfortunately. TODO: Maybe use frame pool?
+    local textest = textestFrame:CreateTexture()
+    textest:SetPoint("CENTER", WorldFrame)
+    textestFrame:SetAllPoints(textest)
+    textestFrame.path = tex
+    textestFrame:SetScript("OnSizeChanged", function(self, width, height)
+        if math.floor(width+0.5) == 256 and math.floor(height+0.5) == 16 then
+            -- detected texture
+            _QuestieFramePool.addonPath = self.path
+            ICON_TYPE_AVAILABLE =  _QuestieFramePool.addonPath.."Icons\\available.blp"
+            ICON_TYPE_SLAY =  _QuestieFramePool.addonPath.."Icons\\slay.blp"
+            ICON_TYPE_COMPLETE =  _QuestieFramePool.addonPath.."Icons\\complete.blp"
+            ICON_TYPE_ITEM =  _QuestieFramePool.addonPath.."Icons\\item.blp"
+            ICON_TYPE_LOOT =  _QuestieFramePool.addonPath.."Icons\\loot.blp"
+            ICON_TYPE_EVENT =  _QuestieFramePool.addonPath.."Icons\\event.blp"
+            ICON_TYPE_OBJECT =  _QuestieFramePool.addonPath.."Icons\\object.blp"
+        end
+        self:Hide()
+    end)
+    textest:SetTexture(tex .. "Icons\\test.blp")
+    textest:SetSize(0, 0)
+    textestFrame:Show()
+end
+testPath("Interface\\Addons\\Questie\\")
+testPath("Interface\\Addons\\QuestieDev-master\\")
+testPath("Interface\\Addons\\QuestieDev-master-retail\\")
+testPath("Interface\\Addons\\QuestieDev\\")
+testPath("Interface\\Addons\\!Questie\\")
+--qtTestPaths = { -- test various texture paths
+--    raw = {textest:SetTexture("Interface\\Addons\\Questie\\Icons\\available.blp"), textest:GetTexture()},
+--    master = {textest:SetTexture("Interface\\Addons\\QuestieDev-master\\Icons\\available.blp"), textest:GetTexture()},
+--    retail = {textest:SetTexture("Interface\\Addons\\QuestieDev-master-retail\\Icons\\available.blp"), textest:GetTexture()},
+--    qdev = {textest:SetTexture("Interface\\Addons\\QuestieDev\\Icons\\available.blp"), textest:GetTexture()},
+--    old = {textest:SetTexture("Interface\\Addons\\!Questie\\Icons\\available.blp"), textest:GetTexture()}
+--}
+
+
+
 -- Global Functions --
 function QuestieFramePool:GetFrame()
     local f = tremove(unusedframes)
@@ -33,6 +74,8 @@ function QuestieFramePool:GetFrame()
         f.hidden = false
         f.Show = f._show;
         f.Hide = f._hide;
+        f._show = nil
+        f._hide = nil
     end
     f.fadeLogic = nil
 
@@ -147,6 +190,14 @@ function _QuestieFramePool:QuestieCreateFrame()
     --f.Unload = function(frame) _QuestieFramePool:UnloadFrame(frame) end;
     function f:Unload()
         --We are reseting the frames, making sure that no data is wrong.
+        if self ~= nil and self.hidden and self._show ~= nil and self._hide ~= nil then -- restore state to normal (toggle questie)
+            self.hidden = false
+            self.Show = self._show;
+            self.Hide = self._hide;
+            self._show = nil
+            self._hide = nil
+        end
+        self.shouldBeShowing = nil
         HBDPins:RemoveMinimapIcon(Questie, self);
         HBDPins:RemoveWorldMapIcon(Questie, self);
         if(self.texture) then
