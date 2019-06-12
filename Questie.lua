@@ -102,13 +102,18 @@ end
 
 _QuestieOptions.configFrame = nil;
 function _QuestieOptions:OpenConfigWindow()
-	PlaySound(882);
-
+	
 	if not _QuestieOptions.configFrame then
 		_QuestieOptions.configFrame = AceGUI:Create("Frame");
+		_QuestieOptions.configFrame:Hide();
 	end
 
-	LibStub("AceConfigDialog-3.0"):Open("Questie", _QuestieOptions.configFrame)
+	if not _QuestieOptions.configFrame:IsShown() then
+		PlaySound(882);
+		LibStub("AceConfigDialog-3.0"):Open("Questie", _QuestieOptions.configFrame)
+	else
+		_QuestieOptions.configFrame:Hide();
+	end
 end
 
 _QuestieOptions.defaults = {
@@ -859,7 +864,7 @@ local minimapIconLDB = LibStub("LibDataBroker-1.1"):NewDataObject("MinimapIcon",
 	end,
 	OnTooltipShow = function (tooltip)
 		tooltip:AddLine("Questie", 1, 1, 1);
-		tooltip:AddLine ("|cFFCFCFCFLeft Click|r: Open Options")
+		tooltip:AddLine ("|cFFCFCFCFLeft Click|r: Toggle Options")
 		tooltip:AddLine ("|cFFCFCFCFCtrl + Right Click|r: Hide Minimap Icon")
 	end,
 
