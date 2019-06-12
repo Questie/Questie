@@ -138,8 +138,9 @@ _QuestieOptions.defaults = {
 	  minimapCoordinatesEnabled = true,
 	  mapCoordinatesEnabled = true,
 	  mapCoordinatePrecision = 1,
+	  mapShowHideEnabled = true,
 	  nameplateTargetFrameEnabled = false,
-	  nameplateTargetFrameX = -25,
+	  nameplateTargetFrameX = -30,
 	  nameplateTargetFrameY = 25,
 	  nameplateTargetFrameScale = 1.7,
 	},
@@ -454,12 +455,35 @@ local options = {
 				map_options = {
 					type = "header",
 					order = 1,
+					name = "Map Options",
+				},
+				mapShowHideEnabled = {
+					type = "toggle",
+					order = 3,
+					name = "Show Questie Map Button",
+					desc = "Enable or disable the Show/Hide Questie Button on Map (May fix some Map Addon interactions)",
+					width = "full",
+					get =	GetGlobalOptionLocal,
+					set =	function (info, value)
+								SetGlobalOptionLocal(info, value)		
+								
+								if value then
+									Questie_Toggle:Show();
+								else
+									Questie_Toggle:Hide();
+								end
+							end,
+				},
+				Spacer_A = _QuestieOptions:Spacer(6),
+				mapnote_options = {
+					type = "header",
+					order = 7,
 					name = "Map Note Options",
 				},
-				Spacer_A = _QuestieOptions:Spacer(2),
+				Spacer_B = _QuestieOptions:Spacer(8),
 				objectiveScale = {
 					type = "range",
-					order = 3,
+					order = 9,
 					name = "Scale for objective icons",
 					desc = "How large the kill and collect objective icons are.  ( Default: ".. _QuestieOptions.defaults.global.objectiveScale  .." )",
 					width = "double",
@@ -475,7 +499,7 @@ local options = {
 				},
 				availableScale = {
 					type = "range",
-					order = 4,
+					order = 10,
                     name = "Scale for available and complete icons",
 					desc = "How large the available and complete icons are. ( Default: ".. _QuestieOptions.defaults.global.availableScale  .." )",
 					width = "double",
@@ -489,13 +513,13 @@ local options = {
 								SetGlobalOptionLocal(info, value)
                             end,
 				},
-				Spacer_B = _QuestieOptions:Spacer(20),
+				Spacer_C = _QuestieOptions:Spacer(20),
 				fade_options = {
 					type = "header",
 					order = 21,
 					name = "Map and Cursor Coordinates",
 				},
-				Spacer_C = _QuestieOptions:Spacer(22),
+				Spacer_D = _QuestieOptions:Spacer(22),
 				mapCoordinatesEnabled = {
 					type = "toggle",
 					order = 23,
@@ -539,7 +563,6 @@ local options = {
                     order = 1,
                     name = "Nameplate Icon Options",
 				},
-				Spacer_A = _QuestieOptions:Spacer(2),
 				nameplateEnabled = {
 					type = "toggle",
 					order = 3,
@@ -556,7 +579,7 @@ local options = {
 								end
                             end,
 				},
-				Spacer_B = _QuestieOptions:Spacer(4),
+				Spacer_A = _QuestieOptions:Spacer(4),
                 nameplateX = {
                     type = "range",
                     order = 5,
@@ -606,7 +629,7 @@ local options = {
                             end,
 
 				},
-				Spacer_C = _QuestieOptions:Spacer(7),
+				Spacer_B = _QuestieOptions:Spacer(7),
 				nameplateReset = {
 					type = "execute",
 					order = 8,
@@ -620,13 +643,13 @@ local options = {
 						QuestieNameplate:redrawIcons();
 					end,
 				},
-				Spacer_D = _QuestieOptions:Spacer(9),
+				Spacer_C = _QuestieOptions:Spacer(9),
 				targetframe_header = {
 					type = "header",
                     order = 20,
                     name = "Target Frame Icon Options",
 				},
-				Spacer_E = _QuestieOptions:Spacer(21),
+				Spacer_D = _QuestieOptions:Spacer(21),
 				nameplateTargetFrameEnabled = {
 					type = "toggle",
 					order = 22,
@@ -645,7 +668,7 @@ local options = {
 								end
                             end,
 				},
-				Spacer_F = _QuestieOptions:Spacer(23),
+				Spacer_E = _QuestieOptions:Spacer(23),
                 nameplateTargetFrameX  = {
                     type = "range",
                     order = 24,
@@ -695,7 +718,7 @@ local options = {
                             end,
 
 				},
-				Spacer_G = _QuestieOptions:Spacer(26),
+				Spacer_F = _QuestieOptions:Spacer(26),
 				targetFrameReset = {
 					type = "execute",
 					order = 27,
@@ -796,6 +819,7 @@ local options = {
 						Questie.db.global.nameplateTargetFrameX = _QuestieOptions.defaults.global.nameplateTargetFrameX;
 						Questie.db.global.nameplateTargetFrameY = _QuestieOptions.defaults.global.nameplateTargetFrameY;
 						Questie.db.global.nameplateTargetFrameScale = _QuestieOptions.defaults.global.nameplateTargetFrameScale;
+						Questie.db.global.mapShowHideEnabled = _QuestieOptions.defaults.global.mapShowHideEnabled;
 
 
 						-- only toggle questie if it's off (must be called before resetting the value)
@@ -822,6 +846,13 @@ local options = {
 
 						if not Questie.db.global.mapCoordinatesEnabled then
 							QuestieCoords.ResetMapText();
+						end
+
+						-- Reset the show/hide on map
+						if Questie.db.global.mapShowHideEnabled then
+							Questie_Toggle:Show();
+						else
+							Questie_Toggle:Hide();
 						end
 
 						_QuestieOptions:Delay(0.3, _QuestieOptions.AvailableQuestRedraw, "minLevelFilter and maxLevelFilter reset to defaults");
@@ -852,8 +883,19 @@ local minimapIconLDB = LibStub("LibDataBroker-1.1"):NewDataObject("MinimapIcon",
 	icon = ICON_TYPE_COMPLETE,
 	OnClick = function (self, button) 
 		if button == "LeftButton" then
+			if IsShiftKeyDown() then
+				QuestieQuest:ToggleNotes();
+
+				-- CLose config window if it's open to avoid desyncing the Checkbox
+				if _QuestieOptions.configFrame and _QuestieOptions.configFrame:IsShown() then
+					_QuestieOptions.configFrame:Hide();
+				end
+				return;
+			end
+
 			_QuestieOptions.OpenConfigWindow()
 			return;
+
 		elseif button == "RightButton" then
 			if IsControlKeyDown() then
 				Questie.db.profile.minimap.hide = true;
@@ -865,6 +907,7 @@ local minimapIconLDB = LibStub("LibDataBroker-1.1"):NewDataObject("MinimapIcon",
 	OnTooltipShow = function (tooltip)
 		tooltip:AddLine("Questie", 1, 1, 1);
 		tooltip:AddLine ("|cFFCFCFCFLeft Click|r: Toggle Options")
+		tooltip:AddLine ("|cFFCFCFCFShift + Left Click|r: Toggle Questie")
 		tooltip:AddLine ("|cFFCFCFCFCtrl + Right Click|r: Hide Minimap Icon")
 	end,
 
@@ -915,6 +958,14 @@ function Questie:OnInitialize()
     -- Creating the minimap config icon
 	Questie.minimapConfigIcon = LibStub("LibDBIcon-1.0");
 	Questie.minimapConfigIcon:Register("MinimapIcon", minimapIconLDB, Questie.db.profile.minimap);
+
+	-- Update status of Map button on hide between play sessions
+	if Questie.db.global.mapShowHideEnabled then
+		Questie_Toggle:Show();
+	else
+		Questie_Toggle:Hide();
+	end
+
 
 end
 
