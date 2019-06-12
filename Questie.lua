@@ -971,11 +971,33 @@ end
 
 function Questie:MySlashProcessorFunc(input)
 
+	-- /questie
 	if input == "" or not input then
 		_QuestieOptions.OpenConfigWindow()
 		return ;
 	end
 
+	-- /questie help || /questie ?
+	if input == "help" or input == "?" then
+		print("|cFFFFB900Questie Commands");
+		print("|cFFFFB900/questie -- Toggles the Config window");
+		print("|cFFFFB900/questie toggle -- Toggles showing questie on the map and minimap");
+		return;
+	end
+
+	-- /questie toggle
+	if input == "toggle" then
+		QuestieQuest:ToggleNotes();
+
+		-- CLose config window if it's open to avoid desyncing the Checkbox
+		if _QuestieOptions.configFrame and _QuestieOptions.configFrame:IsShown() then
+			_QuestieOptions.configFrame:Hide();
+		end
+		return;
+	end
+
+
+	print("|cFFFFB900Questie Command:|r Invalid command. Type |cFFFFB900/questie help|r for a list of options.");
 
 end
 
