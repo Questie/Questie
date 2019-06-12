@@ -42,7 +42,7 @@ function QuestieNameplate:getFrame(guid)
     frame:SetHeight(16 * iconScale)
     frame:EnableMouse(false);
     frame:SetParent(parent);
-    frame:SetPoint("LEFT", parent, Questie.db.global.nameplateX, Questie.db.global.nameplateY);
+    frame:SetPoint("LEFT", Questie.db.global.nameplateX, Questie.db.global.nameplateY);
 
     frame.Icon = frame:CreateTexture(nil, "ARTWORK");
     frame.Icon:ClearAllPoints();
@@ -172,4 +172,75 @@ function QuestieNameplate:HideCurrentFrames()
             activeGUIDs[guid] = nil;
             QuestieNameplate:removeFrame(guid);
         end
+end
+
+
+local activeTargetFrame = nil;
+
+function QuestieNameplate:DrawTargetFrame()
+    if Questie.db.global.nameplateTargetFrameEnabled then
+
+        -- always remove the previous frame if it exists
+        if activeTargetFrame ~= nil then
+            activeTargetFrame.Icon:SetTexture(nil);
+            activeTargetFrame:Hide();
+        end
+
+        local unitGUID = UnitGUID("target");
+        local unitName = UnitName("target");
+
+        if unitName and unitGUID then 
+            local unitType = strsplit("-", unitGUID);
+
+            if unitType == "Creature" then
+
+                local icon = _getValidIcon(QuestieTooltips.tooltipLookup["u_" .. unitName]);
+
+                if icon then
+
+                    if activeTargetFrame == nil then
+                        activeTargetFrame = CreateFrame("Frame");
+
+                        local iconScale = Questie.db.global.nameplateTargetFrameScale;
+
+                        activeTargetFrame:SetFrameStrata("LOW");
+                        activeTargetFrame:SetFrameLevel(10);
+                        activeTargetFrame:SetWidth(16 * iconScale)
+                        activeTargetFrame:SetHeight(16 * iconScale)
+                        activeTargetFrame:EnableMouse(false);
+                        activeTargetFrame:SetParent(TargetFrame);
+                        activeTargetFrame:SetPoint("RIGHT", Questie.db.global.nameplateTargetFrameX, Questie.db.global.nameplateTargetFrameY);
+
+                        activeTargetFrame.Icon = activeTargetFrame:CreateTexture(nil, "ARTWORK");
+                        activeTargetFrame.Icon:ClearAllPoints();
+                        activeTargetFrame.Icon:SetAllPoints(activeTargetFrame)
+                    end
+
+                    activeTargetFrame.Icon:SetTexture(icon)
+                    activeTargetFrame:Show();
+
+                end
+            end
+        end
+    end
+end
+
+function QuestieNameplate:HideCurrentTargetFrame()
+    if activeTargetFrame then
+        activeTargetFrame.Icon:SetTexture(nil)
+        activeTargetFrame:Hide();
+        activeTargetFrame = nil;
+    end
+end
+
+
+function QuestieNameplate:redrawFrameIcon()
+    if Questie.db.global.nameplateTargetFrameEnabled then
+        if activeTargetFrame then
+            local iconScale = Questie.db.global.nameplateTargetFrameScale;
+            activeTargetFrame:SetWidth(16 * iconScale);
+            activeTargetFrame:SetHeight(16 * iconScale);
+            activeTargetFrame:SetPoint("RIGHT", Questie.db.global.nameplateTargetFrameX, Questie.db.global.nameplateTargetFrameY);
+        end
+    end
 end

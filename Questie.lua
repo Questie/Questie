@@ -100,9 +100,15 @@ function _QuestieOptions:Spacer(o)
 	}
 end
 
+_QuestieOptions.configFrame = nil;
 function _QuestieOptions:OpenConfigWindow()
-	PlaySound(882)
-	LibStub("AceConfigDialog-3.0"):Open("Questie")
+	PlaySound(882);
+
+	if not _QuestieOptions.configFrame then
+		_QuestieOptions.configFrame = AceGUI:Create("Frame");
+	end
+
+	LibStub("AceConfigDialog-3.0"):Open("Questie", _QuestieOptions.configFrame)
 end
 
 _QuestieOptions.defaults = {
@@ -127,6 +133,10 @@ _QuestieOptions.defaults = {
 	  minimapCoordinatesEnabled = true,
 	  mapCoordinatesEnabled = true,
 	  mapCoordinatePrecision = 1,
+	  nameplateTargetFrameEnabled = false,
+	  nameplateTargetFrameX = -25,
+	  nameplateTargetFrameY = 25,
+	  nameplateTargetFrameScale = 1.7,
 	},
 	  char = {
 		  complete = {},
@@ -222,6 +232,7 @@ local options = {
 					name = "Show All Quests below range (Low level quests)",
 					desc = "Enable or disable showing of showing low level quests on the map.",
 					width = 200,
+					disabled = function() return not Questie.db.char.enabled end,
 					get =	function ()
                                 return Questie.db.char.lowlevel
 							end,
@@ -240,6 +251,7 @@ local options = {
 					min = 1,
 					max = 10,
 					step = 1,
+					disabled = function() return not Questie.db.char.enabled end,
 					get = GetGlobalOptionLocal,
 					set = function (info, value)
 								SetGlobalOptionLocal(info, value)
@@ -255,6 +267,7 @@ local options = {
 					min = 1,
 					max = 10,
 					step = 1,
+					disabled = function() return not Questie.db.char.enabled end,
 					get = GetGlobalOptionLocal,
 					set = function (info, value)
 								SetGlobalOptionLocal(info, value)
@@ -269,7 +282,8 @@ local options = {
                   width = "double",
                   min = 0.02,
                   max = 5,
-                  step = 0.01,
+				  step = 0.01,
+				  disabled = function() return not Questie.db.char.enabled end,
                   get = GetGlobalOptionLocal,
                   set = function (info, value)
                         _QuestieOptions:Delay(0.5, _QuestieOptions.ClusterRedraw, "NYI Setting clustering value, clusterLevel set to "..value.." : Redrawing!")
@@ -313,7 +327,8 @@ local options = {
                     width = "double",
                     min = 0.01,
                     max = 4,
-                    step = 0.01,
+					step = 0.01,
+					disabled = function() return not Questie.db.char.enabled end,
                     get = GetGlobalOptionLocal,
                     set = function (info, value)
                                 QuestieMap:rescaleIcons()
@@ -328,7 +343,8 @@ local options = {
                     width = "double",
                     min = 0.01,
                     max = 4,
-                    step = 0.01,
+					step = 0.01,
+					disabled = function() return not Questie.db.char.enabled end,
                     get = GetGlobalOptionLocal,
                     set = function (info, value)
                                 QuestieMap:rescaleIcons()
@@ -351,6 +367,7 @@ local options = {
 					min = 0.01,
 					max = 5,
 					step = 0.01,
+					disabled = function() return not Questie.db.char.enabled end,
 					get = GetGlobalOptionLocal,
 					set = function (info, value)
 						  SetGlobalOptionLocal(info, value)
@@ -363,6 +380,7 @@ local options = {
 					name = "Fade Icons over Player",
 					desc = "Fades icons on the minimap when your player walks near them.",
 					width = "full",
+					disabled = function() return not Questie.db.char.enabled end,
 					get = GetGlobalOptionLocal,
 					set = function (info, value)
 						SetGlobalOptionLocal(info, value)
@@ -378,6 +396,7 @@ local options = {
 					max = 0.5,
 					step = 0.01,
 					get = GetGlobalOptionLocal,
+					disabled = function() return (not Questie.db.char.enabled) and (not Questie.db.global.fadeOverPlayer) end,
 					set = function (info, value)
 						SetGlobalOptionLocal(info, value)
 					end,
@@ -391,6 +410,7 @@ local options = {
 					min = 0.1,
 					max = 1,
 					step = 0.1,
+					disabled = function() return (not Questie.db.char.enabled) and (not Questie.db.global.fadeOverPlayer) end,
 					get = GetGlobalOptionLocal,
 					set = function (info, value)
 						SetGlobalOptionLocal(info, value)
@@ -441,6 +461,7 @@ local options = {
                     min = 0.01,
 					max = 4,
 					step = 0.01,
+					disabled = function() return not Questie.db.char.enabled end,
 					get = GetGlobalOptionLocal,
 					set = function (info, value)
                                 QuestieMap:rescaleIcons()
@@ -456,6 +477,7 @@ local options = {
 					min = 0.01,
 					max = 4,
 					step = 0.01,
+					disabled = function() return not Questie.db.char.enabled end,
 					get = GetGlobalOptionLocal,
 					set = function (info, value)
                                 QuestieMap:rescaleIcons()
@@ -493,6 +515,7 @@ local options = {
 					min = 1,
 					max = 5,
 					step = 1,
+					disabled = function() return not Questie.db.global.mapCoordinatesEnabled end,
 					get = GetGlobalOptionLocal,
 					set = function (info, value)
 								SetGlobalOptionLocal(info, value)
@@ -537,7 +560,8 @@ local options = {
                     width = "normal",
                     min = -200,
                     max = 200,
-                    step = 1,
+					step = 1,
+					disabled = function() return not Questie.db.global.nameplateEnabled end,
                     get = GetGlobalOptionLocal,
                     set = function (info, value)
                                 QuestieNameplate:redrawIcons()
@@ -552,7 +576,8 @@ local options = {
                     width = "normal",
                     min = -200,
                     max = 200,
-                    step = 1,
+					step = 1,
+					disabled = function() return not Questie.db.global.nameplateEnabled end,
                     get = GetGlobalOptionLocal,
                     set = function (info, value)
                                 QuestieNameplate:redrawIcons()
@@ -568,6 +593,7 @@ local options = {
 					min = 0.01,
 					max = 4,
 					step = 0.01,
+					disabled = function() return not Questie.db.global.nameplateEnabled end,
 					get = GetGlobalOptionLocal,
                     set = function (info, value)
 								SetGlobalOptionLocal(info, value)
@@ -581,6 +607,7 @@ local options = {
 					order = 8,
 					name = "Reset Nameplates",
 					desc = "Reset to Default Nameplate Positions and Scale",
+					disabled = function() return not Questie.db.global.nameplateEnabled end,
 					func = function (info, value)
 						Questie.db.global.nameplateX = _QuestieOptions.defaults.global.nameplateX;
 						Questie.db.global.nameplateY = _QuestieOptions.defaults.global.nameplateY;
@@ -588,7 +615,95 @@ local options = {
 						QuestieNameplate:redrawIcons();
 					end,
 				},
+				Spacer_D = _QuestieOptions:Spacer(9),
+				targetframe_header = {
+					type = "header",
+                    order = 20,
+                    name = "Target Frame Icon Options",
+				},
+				Spacer_E = _QuestieOptions:Spacer(21),
+				nameplateTargetFrameEnabled = {
+					type = "toggle",
+					order = 22,
+					name = "Enable Target Frame Quest Objectives",
+					desc = "Enable or disable the quest objective icons over creature target frame.",
+					width = "full",
+					get = GetGlobalOptionLocal,
+                    set = function (info, value)
+								SetGlobalOptionLocal(info, value)
 
+								-- on false, hide current nameplates
+								if not value then
+									QuestieNameplate:HideCurrentTargetFrame();
+								else
+									QuestieNameplate:DrawTargetFrame();
+								end
+                            end,
+				},
+				Spacer_F = _QuestieOptions:Spacer(23),
+                nameplateTargetFrameX  = {
+                    type = "range",
+                    order = 24,
+                    name = "Icon Position X",
+                    desc = "Where on the X axis the target frame icon should be. ( Default: ".. _QuestieOptions.defaults.global.nameplateTargetFrameX   .." )",
+                    width = "normal",
+                    min = -200,
+                    max = 200,
+					step = 1,
+					disabled = function() return not Questie.db.global.nameplateTargetFrameEnabled end,
+                    get = GetGlobalOptionLocal,
+                    set = function (info, value)
+                                QuestieNameplate:redrawFrameIcon()
+                                SetGlobalOptionLocal(info, value)
+                            end,
+                },
+                nameplateTargetFrameY  = {
+                    type = "range",
+                    order = 24,
+                    name = "Icon Position Y",
+                    desc = "Where on the Y axis the target frame icon should be. ( Default: ".. _QuestieOptions.defaults.global.nameplateTargetFrameY   .." )",
+                    width = "normal",
+                    min = -200,
+                    max = 200,
+					step = 1,
+					disabled = function() return not Questie.db.global.nameplateTargetFrameEnabled end,
+                    get = GetGlobalOptionLocal,
+                    set = function (info, value)
+								QuestieNameplate:redrawFrameIcon()
+                                SetGlobalOptionLocal(info, value)
+                            end,
+				},
+				nameplateTargetFrameScale  = {
+					type = "range",
+					order = 25,
+					name = "Nameplate Icon Scale",
+					desc = "Scale the size of the quest icons on creature target frame. ( Default: ".. _QuestieOptions.defaults.global.nameplateTargetFrameScale   .." )",
+					width = "double",
+					min = 0.01,
+					max = 4,
+					step = 0.01,
+					disabled = function() return not Questie.db.global.nameplateTargetFrameEnabled end,
+					get = GetGlobalOptionLocal,
+                    set = function (info, value)
+								SetGlobalOptionLocal(info, value)
+								QuestieNameplate:redrawFrameIcon()
+                            end,
+
+				},
+				Spacer_G = _QuestieOptions:Spacer(26),
+				targetFrameReset = {
+					type = "execute",
+					order = 27,
+					name = "Reset Target Frame",
+					desc = "Reset to Default Target Frame Positions and Scale",
+					disabled = function() return not Questie.db.global.nameplateTargetFrameEnabled end,
+					func = function (info, value)
+						Questie.db.global.nameplateTargetFrameX = _QuestieOptions.defaults.global.nameplateTargetFrameX;
+						Questie.db.global.nameplateTargetFrameY = _QuestieOptions.defaults.global.nameplateTargetFrameY;
+						Questie.db.global.nameplateTargetFrameScale = _QuestieOptions.defaults.global.nameplateTargetFrameScale;
+						QuestieNameplate:redrawFrameIcon();
+					end,
+				},
 			},
 		},
 
@@ -624,6 +739,7 @@ local options = {
 					min = 1,
 					max = 5,
 					step = 1,
+					disabled = function() return not Questie.db.global.debugEnabled end,
 					get = GetGlobalOptionLocal,
 					set = function (info, value)
 								SetGlobalOptionLocal(info, value)
@@ -671,6 +787,11 @@ local options = {
 						Questie.db.global.minimapCoordinatesEnabled = _QuestieOptions.defaults.global.minimapCoordinatesEnabled;
 						Questie.db.global.mapCoordinatesEnabled = _QuestieOptions.defaults.global.mapCoordinatesEnabled;
 						Questie.db.global.mapCoordinatePrecision = _QuestieOptions.defaults.global.mapCoordinatePrecision;
+						Questie.db.global.nameplateTargetFrameEnabled = _QuestieOptions.defaults.global.nameplateTargetFrameEnabled;
+						Questie.db.global.nameplateTargetFrameX = _QuestieOptions.defaults.global.nameplateTargetFrameX;
+						Questie.db.global.nameplateTargetFrameY = _QuestieOptions.defaults.global.nameplateTargetFrameY;
+						Questie.db.global.nameplateTargetFrameScale = _QuestieOptions.defaults.global.nameplateTargetFrameScale;
+
 
 						-- only toggle questie if it's off (must be called before resetting the value)
 						if not Questie.db.char.enabled then
@@ -749,9 +870,7 @@ glooobball = ""
 Note = nil
 function Questie:OnInitialize()
 
-    --If we actually want the settings to save, uncomment this line and comment next one!
     self.db = LibStub("AceDB-3.0"):New("QuestieConfig", _QuestieOptions.defaults, true)
-    --self.db = LibStub("AceDB-3.0"):New("QuestieClassicDB", defaults, true)
 
     Questie:Debug(DEBUG_CRITICAL, "Questie addon loaded")
     Questie:RegisterEvent("PLAYER_ENTERING_WORLD", QuestieEventHandler.PLAYER_ENTERING_WORLD)
@@ -767,55 +886,21 @@ function Questie:OnInitialize()
 
     --TODO: QUEST_QUERY_COMPLETE Will get all quests the character has finished, need to be implemented!
 
-    -- Nameplate Objective Events
+    -- Nameplate / Tar5get Frame Objective Events
     Questie:RegisterEvent("NAME_PLATE_UNIT_ADDED", QuestieNameplate.NameplateCreated);
 	Questie:RegisterEvent("NAME_PLATE_UNIT_REMOVED", QuestieNameplate.NameplateDestroyed);
+	Questie:RegisterEvent("PLAYER_TARGET_CHANGED", QuestieNameplate.DrawTargetFrame);
 	
 	-- Initialize Coordinates
 	QuestieCoords.Initialize();
 
 
-    --Old stuff that has been tried, remove in cleanup
-    --Hook the questcomplete button
-    --QuestFrameCompleteQuestButton:HookScript("OnClick", CUSTOM_QUEST_COMPLETE)
-    --Questie:RegisterEvent("QUEST_COMPLETE", QUEST_COMPLETE)
-    --Questie:RegisterEvent("QUEST_FINISHED", QUEST_FINISHED)
-    --?? What does this do?
-
-
-    -- not in classic Questie:RegisterEvent("QUEST_LOG_CRITERIA_UPDATE", QUEST_LOG_CRITERIA_UPDATE)
-
 
     Questie:RegisterChatCommand("questieclassic", "MySlashProcessorFunc")
     Questie:RegisterChatCommand("questie", "MySlashProcessorFunc")
 
-
-
     LibStub("AceConfig-3.0"):RegisterOptionsTable("Questie", options)
-
-
-
-    --QuestieFrame:SetTitle("Example frame")
-    --QuestieFrame:SetStatusText("AceGUI-3.0 Example Container frame")
-    --QuestieFrame:SetCallback("OnClose", function() QuestieFrame:Hide() end)
-    --QuestieFrame:SetLayout(options)
-    --WILL ERROR; Run with reloadui!
-    --x, y, z = HBD:GetPlayerWorldPosition();
-    --Questie:Print("XYZ:", x, y, z, "Zone: "..getPlayerZone(), "Cont: "..getPlayerContinent());
-    --Questie:Print(HBD:GetWorldCoordinatesFromAzerothWorldMap(x, y, ));
-    --mapX, mapY = HBD:GetAzerothWorldMapCoordinatesFromWorld(x, y, 0);
-    --Questie:Print(mapX, mapY);
-    --glooobball = C_Map.GetMapInfo(1)
-    --glooobball = HBD:GetAllMapIDs()
-    --Questie:Print(HBD:GetAllMapIDs())
-    --Questie:Print(GetWorldContinentFromZone(getPlayerZone()))
-    --Questie.db.global.lastmessage = 0
-
 	self.configFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Questie", "Questie");
-
-    -- Code that you want to run when the addon is first loaded goes here.
-    --Questie:Print("Hello, world!")
-    --self:RegisterChatCommand("Questie", "ChatCommand")
 
     --Initialize the DB settings.
     Questie:debug(DEBUG_DEVELOP, "Setting clustering value to:", Questie.db.global.clusterLevel)
@@ -829,12 +914,12 @@ function Questie:OnInitialize()
 end
 
 function Questie:MySlashProcessorFunc(input)
-	--Questie:Print(ChatFrame1, "Hello, World!")
-	--SetMessage("test", "test")
 
-	_QuestieOptions.OpenConfigWindow()
+	if input == "" or not input then
+		_QuestieOptions.OpenConfigWindow()
+		return ;
+	end
 
-  -- Process the slash command ('input' contains whatever follows the slash command)
 
 end
 
@@ -854,9 +939,6 @@ end
 --DEBUG_SPAM = "5DEBUG"
 
 function Questie:Debug(...)
-    -- using a separate var here TEMPORARILY to make it easier for people to disable
-    -- /run QuestieConfig.enableDebug = false;
-    --if not QuestieConfig.enableDebug then return; end
     if(Questie.db.global.debugEnabled) then
         if(Questie.db.global.debugLevel < 5 and select(1, ...) == DEBUG_SPAM)then return; end
         if(Questie.db.global.debugLevel < 4 and select(1, ...) == DEBUG_DEVELOP)then return; end
