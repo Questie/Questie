@@ -116,7 +116,7 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
     QO.Starts["Item"] = rawdata[2][3] --2.3
     QO.Ends = {} --ends 3
     QO.Hidden = rawdata.hidden
-
+    QO.Description = rawdata[8]
     --QO.Ends["NPC"] = rawdata[3][1]
     --QO.Ends["GameObject"] = rawdata[3][2]
 
