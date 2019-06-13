@@ -309,7 +309,7 @@ function QuestieDB:GetNPC(NPCID)
   if(QuestieDB._NPCCache[NPCID]) then
     return QuestieDB._NPCCache[NPCID]
   end
-  rawdata = npcData[NPCID]
+  rawdata = questMobFixes[NPCID] or npcData[NPCID]
   if(rawdata)then
     NPC = {}
     NPC.Type = "NPC" --This can be used to look at which type it is, Gameobject and Items will have the same! (should be monster to match wow api)
