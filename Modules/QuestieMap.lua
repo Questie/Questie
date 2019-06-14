@@ -28,7 +28,7 @@ function QuestieMap:UnloadQuestFrames(QuestId)
             frame:Unload();
         end
         qQuestIdFrames[QuestId] = nil;
-        Questie:Debug(DEBUG_DEVELOP, "[QuestieMap]: Unloading quest frames:", QuestId)
+        Questie:Debug(DEBUG_DEVELOP, "[QuestieMap]: ".. QuestieLocale:GetUIString('DEBUG_UNLOAD_QFRAMES', QuestId))
     end
 end
 

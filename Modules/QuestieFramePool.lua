@@ -100,7 +100,7 @@ end
 
 function QuestieFramePool:UnloadAll()
 
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieFramePool] Unloading all frames, count:", #allframes)
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieFramePool] ".. QuestieLocale:GetUIString('DEBUG_UNLOAD_ALL', #allframes))
     for i, frame in ipairs(allframes) do
         --_QuestieFramePool:UnloadFrame(frame);
         frame:Unload()

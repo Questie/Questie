@@ -5,7 +5,6 @@ local npFrames = {};
 local npUnusedFrames = {};
 local npFramesCount = 0;
 
-QuestieNameplate.TimerSet = 0.5;
 QuestieNameplate.GlobalFrame = nil;
 
 -- Initializer
@@ -14,8 +13,6 @@ function QuestieNameplate:Initialize()
         QuestieNameplate.GlobalFrame = CreateFrame("Frame");
         QuestieNameplate.GlobalFrame:SetScript("OnUpdate", QuestieNameplate.UpdateNameplate);
     end
-
-    QuestieNameplate.TimerSet = 2.5;
 end
 
 -- Frame Management
@@ -107,25 +104,16 @@ function QuestieNameplate:NameplateCreated(token)
     local unitType = strsplit("-", unitGUID);
 
     if unitType == "Creature" then
-        --[[
-            Timer hack to account for delay in populating QuestieTooltips
-            Without delay, if nameplates start off toggled, then they need to
-            be toggled off and back on again or delay 2 seconds apperas instant
-            on the client.  Only needs to be run once, controlled with TimerSet.
-        ]]
-        --C_Timer.After(QuestieNameplate.TimerSet, function()
-            QuestieNameplate.TimerSet = 0;
-            local icon = _getValidIcon(QuestieTooltips.tooltipLookup["u_" .. unitName]);
+        local icon = _getValidIcon(QuestieTooltips.tooltipLookup["u_" .. unitName]);
 
-            if icon then
-                activeGUIDs[unitGUID] = token;
+        if icon then
+            activeGUIDs[unitGUID] = token;
 
-                local f = QuestieNameplate:getFrame(unitGUID);
-                f.Icon:SetTexture(icon)
-                f.lastIcon = icon -- this is used to prevent updating the texture when it's already what it needs to be
-                f:Show();
-            end
-        --end);
+            local f = QuestieNameplate:getFrame(unitGUID);
+            f.Icon:SetTexture(icon)
+            f.lastIcon = icon -- this is used to prevent updating the texture when it's already what it needs to be
+            f:Show();
+        end
     end
 end
 
