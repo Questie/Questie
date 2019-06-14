@@ -116,7 +116,7 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
     QO.Starts["Item"] = rawdata[2][3] --2.3
     QO.Ends = {} --ends 3
     QO.Hidden = rawdata.hidden
-
+    QO.Description = rawdata[8]
     --QO.Ends["NPC"] = rawdata[3][1]
     --QO.Ends["GameObject"] = rawdata[3][2]
 
@@ -309,7 +309,7 @@ function QuestieDB:GetNPC(NPCID)
   if(QuestieDB._NPCCache[NPCID]) then
     return QuestieDB._NPCCache[NPCID]
   end
-  rawdata = npcData[NPCID]
+  rawdata = questMobFixes[NPCID] or npcData[NPCID]
   if(rawdata)then
     NPC = {}
     NPC.Type = "NPC" --This can be used to look at which type it is, Gameobject and Items will have the same! (should be monster to match wow api)
