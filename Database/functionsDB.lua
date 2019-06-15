@@ -261,11 +261,12 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
     QO.SubQuests = rawdata[14] --Quests that give questitems that are used in later quests (See STV manual)
     QO.QuestGroup = rawdata[15] --Quests that are part of the same group, example complete this group of quests to open the next one.
     QO.ExclusiveQuestGroup = questExclusiveGroupFixes[QuestID] or rawdata[16]
-    
+    QO.NextQuestInChain = rawdata[22]
+
     QO.HiddenObjectiveData = {}
-    
+
     local hidden = questHiddenFixes[QuestID] or rawdata[21]
-    
+
     if hidden ~= nil then --required source items
       for _,Id in pairs(hidden) do
         if Id ~= nil then
