@@ -4,7 +4,8 @@ questRequirementFixes = {
     [3903] = {18},
     [33] = {783},
     [374] = {427}, -- proof of demise requires at war with the scarlet crusade
-    [1106] = {1104, 1105}
+    [1106] = {1104, 1105},
+    [926] = {809} -- #606
 }
 
 questExclusiveGroupFixes = {
@@ -12,7 +13,7 @@ questExclusiveGroupFixes = {
     [415] = {413}, --cant complete rejolds new brew if you do shimmer stout (see issue 567)
 	[1339] = {1338}, -- mountaineer stormpike's task cant be done if you have finished stormpike's order
     [1943] = {1944}, -- mage robe breadcrumb
-    [526] = {322}, -- not 100% sure on this one but it seems lightforge ingots is optional, block it after completing subsequent steps (#587)
+    [526] = {322,324}, -- not 100% sure on this one but it seems lightforge ingots is optional, block it after completing subsequent steps (#587)
     [3765] = {1275}, -- corruption abroad breadcrumb
     [164] = {95} -- deliveries to sven is a breadcrumb
 }
@@ -34,7 +35,8 @@ questObjectFixes = {
 }
 
 questMobFixes = {
-    [300] = {'Zzarc\' Vul',1050,1050,33,33,0,{[10]={{38,80},},},nil,10,nil,nil}
+    [300] = {'Zzarc\' Vul',1050,1050,33,33,0,{[10]={{38,80},},},nil,10,nil,nil},
+    [5082] = {'Vincent Hyal',1605,1605,30,30,0,{[11]={{10.8,60.4}}},nil,11,{1302},{1301}}
 }
 
 questItemFixes = {
