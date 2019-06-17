@@ -48,6 +48,7 @@ Modules\QuestieMap.lua
 Modules\QuestieQuest.lua
 Modules\QuestieNameplate.lua
 Modules\QuestieCoordinates.lua
+Modules\QuestieJourney.lua
 
 #Main
 Questie.lua
