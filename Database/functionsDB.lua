@@ -19,6 +19,8 @@ QuestieDB._QuestCache = {}; -- stores quest objects so they dont need to be rege
 QuestieDB._ItemCache = {};
 QuestieDB._NPCCache = {};
 QuestieDB._ObjectCache = {};
+QuestieDB._ZoneCache = {};
+
 function QuestieDB:GetObject(ObjectID)
   if ObjectID == nil then
     return nil
@@ -29,14 +31,18 @@ function QuestieDB:GetObject(ObjectID)
   local raw = questObjectFixes[ObjectID] or objData[ObjectID];
   if raw ~= nil then
     local obj = {};
+    obj.Id = ObjectID;
     obj.Name = raw[1];
     obj.Spawns = raw[4];
+    obj.Starts = raw[2];
+    obj.Ends = raw[3];
     QuestieDB._ObjectCache[ObjectID] = obj;
     return obj;
   else
     Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Missing container ", ObjectID)
   end
 end
+
 function QuestieDB:GetItem(ItemID)
   if ItemID == nil then
     return nil
@@ -68,6 +74,7 @@ function QuestieDB:GetItem(ItemID)
   QuestieDB._ItemCache[ItemID] = item;
   return item
 end
+
 local function _GetColoredQuestName(self)
     return QuestieTooltips:PrintDifficultyColor(self.Level, "[" .. self.Level .. "] " .. (self.LocalizedName or self.Name))
 end
@@ -117,6 +124,7 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
     QO.Ends = {} --ends 3
     QO.Hidden = rawdata.hidden
     QO.Description = rawdata[8]
+
     --QO.Ends["NPC"] = rawdata[3][1]
     --QO.Ends["GameObject"] = rawdata[3][2]
 
@@ -355,6 +363,99 @@ function QuestieDB:GetNPC(NPCID)
     return nil
   end
 end
+
+
+
+function QuestieDB:GetQuestsByName(questName)
+  if not questName then
+    return nil;
+  end
+
+  local returnTable = {};
+
+  for index, quest in pairs(qData) do
+      local needle = string.lower(questName);
+      local haystack = string.lower(quest[1]);
+
+      if string.find(haystack, needle) then
+        table.insert(returnTable, index);
+      end
+  end
+
+  return returnTable;
+end 
+
+function QuestieDB:GetNPCsByName(npcName)
+  if not npcName then
+    return nil;
+  end
+
+  local returnTable = {};
+
+  for index, npc in pairs(npcData) do
+    local needle = string.lower(npcName);
+    local haystack = string.lower(npc[1]);
+
+    if string.find(haystack, needle) then
+      table.insert(returnTable, index);
+    end
+end
+
+  return returnTable;
+end
+
+
+function QuestieDB:GetQuestsByZoneId(zoneid)
+  
+  if not zoneid then
+    return nil;
+  end
+  
+  -- in in cache return that
+  if QuestieDB._ZoneCache[zoneid] then
+    return QuestieDB._ZoneCache[zoneid]
+  end
+
+
+  local zoneTable = {};
+  -- loop over all quests to populate a zone
+  for qid, _ in pairs(qData) do
+      local quest = QuestieDB:GetQuest(qid);
+
+      if quest and quest.Starts then
+        if quest.Starts.NPC then
+          local npc = QuestieDB:GetNPC(quest.Starts.NPC[1]);
+
+          if npc and npc.Spawns then
+            for zone, _ in pairs(npc.Spawns) do
+              if zone == zoneid then
+                zoneTable[qid] = quest;
+              end
+            end
+          end
+        end
+
+        if quest.Starts.GameObject then
+          local obj = QuestieDB:GetObject(quest.Starts.GameObject[1]);
+
+          if obj and obj.Spawns then
+            for zone, _ in pairs(obj.Spawns) do
+              if zone == zoneid then
+                zoneTable[qid] = quest;
+              end
+            end
+          end
+        end
+
+      end
+  end
+
+  QuestieDB._ZoneCache[zoneid] = zoneTable;
+
+  return zoneTable;
+
+end
+
 -- DB keys
 DB_NAME, DB_NPC, NOTE_TITLE = 1, 1, 1;
 DB_STARTS, DB_OBJ, NOTE_COMMENT, DB_MIN_LEVEL_HEALTH = 2, 2, 2, 2;

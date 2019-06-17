@@ -67,6 +67,9 @@ function _QuestieOptions:OpenConfigWindow()
 	if not _QuestieOptions.configFrame then
 		_QuestieOptions.configFrame = AceGUI:Create("Frame");
 		_QuestieOptions.configFrame:Hide();
+
+		_G["QuestieConfigFrame"] = _QuestieOptions.configFrame.frame;
+		table.insert(UISpecialFrames, "QuestieConfigFrame");
 	end
 
 	if not _QuestieOptions.configFrame:IsShown() then
@@ -111,6 +114,7 @@ _QuestieOptions.defaults = {
 		  complete = {},
 		  enabled = true,
 		  lowlevel = false,
+		  journey = {},
 		  --autoaccept = false,
 		  --autocomplete = false
 	  },
@@ -872,10 +876,22 @@ local minimapIconLDB = LibStub("LibDataBroker-1.1"):NewDataObject("MinimapIcon",
 			end
 
 			_QuestieOptions.OpenConfigWindow()
+
+			if QuestieJourney:JounreyWinodwShown() then
+				QuestieJourney.toggleJourneyWindow();
+			end
 			return;
 
 		elseif button == "RightButton" then
-			if IsControlKeyDown() then
+			if not IsModifierKeyDown() then
+				-- CLose config window if it's open to avoid desyncing the Checkbox
+				if _QuestieOptions.configFrame and _QuestieOptions.configFrame:IsShown() then
+					_QuestieOptions.configFrame:Hide();
+				end
+
+				QuestieJourney.toggleJourneyWindow();
+				return;
+			elseif IsControlKeyDown() then
 				Questie.db.profile.minimap.hide = true;
 				Questie.minimapConfigIcon:Hide("MinimapIcon");
 				return;
@@ -887,6 +903,7 @@ local minimapIconLDB = LibStub("LibDataBroker-1.1"):NewDataObject("MinimapIcon",
 		tooltip:AddLine("Questie", 1, 1, 1);
 		tooltip:AddLine (Questie:Colorize(QuestieLocale:GetUIString('ICON_LEFT_CLICK') , 'gray') .. ": ".. QuestieLocale:GetUIString('ICON_TOGGLE'));
 		tooltip:AddLine (Questie:Colorize(QuestieLocale:GetUIString('ICON_SHIFTLEFT_CLICK') , 'gray') .. ": ".. QuestieLocale:GetUIString('ICON_TOGGLE_QUESTIE'));
+		tooltip:AddLine (Questie:Colorize(QuestieLocale:GetUIString('ICON_RIGHT_CLICK') , 'gray') .. ": ".. QuestieLocale:GetUIString('ICON_JOURNEY'));
 		tooltip:AddLine (Questie:Colorize(QuestieLocale:GetUIString('ICON_CTRLRIGHT_CLICK') , 'gray') .. ": ".. QuestieLocale:GetUIString('ICON_HIDE'));
 	end,
 });
@@ -923,6 +940,9 @@ function Questie:OnInitialize()
 	
 	-- Initialize Coordinates
 	QuestieCoords.Initialize();
+
+	-- Initialize Journey Window
+	QuestieJourney.Initialize();
 
 
 	-- Register Slash Commands
@@ -972,7 +992,11 @@ function Questie:QuestieSlash(input)
 
 	-- /questie
 	if input == "" or not input then
-		_QuestieOptions.OpenConfigWindow()
+		_QuestieOptions.OpenConfigWindow();
+
+		if QuestieJourney:JounreyWinodwShown() then
+			QuestieJourney.toggleJourneyWindow();
+		end
 		return ;
 	end
 
@@ -981,6 +1005,7 @@ function Questie:QuestieSlash(input)
 		print(Questie:Colorize(QuestieLocale:GetUIString('SLASH_HEAD'), 'yellow'));
 		print(Questie:Colorize(QuestieLocale:GetUIString('SLASH_CONFIG'), 'yellow'));
 		print(Questie:Colorize(QuestieLocale:GetUIString('SLASH_TOGGLE_QUESTIE'), 'yellow'));
+		print(Questie:Colorize(QuestieLocale:GetUIString('SLASH_JOURNEY'), 'yellow'));
 		return;
 	end
 
@@ -992,6 +1017,16 @@ function Questie:QuestieSlash(input)
 		if _QuestieOptions.configFrame and _QuestieOptions.configFrame:IsShown() then
 			 _QuestieOptions.configFrame:Hide();
 		end
+		return;
+	end
+
+	-- /questie journey
+	if input == "journey" then
+		QuestieJourney.toggleJourneyWindow();
+
+		if _QuestieOptions.configFrame and _QuestieOptions.configFrame:IsShown() then
+			_QuestieOptions.configFrame:Hide();
+	   end
 		return;
 	end
 
@@ -1014,7 +1049,33 @@ function Questie:Colorize(str, color)
 	end
 
 	return c .. str .. "|r"
+end
 
+function Questie:GetClassColor(class)
+
+	class = string.lower(class);
+
+	if class == 'druid' then
+		return '|cFFFF7D0A';
+	elseif class == 'hunter' then
+		return '|cFFABD473';
+	elseif class == 'mage' then
+		return '|cFF69CCF0';
+	elseif class == 'paladin' then
+		return '|cFFF58CBA';
+	elseif class == 'priest' then
+		return '|cFFFFFFFF'; 
+	elseif class == 'rogue' then
+		return '|cFFFFF569';
+	elseif class == 'shaman' then
+		return '|cFF0070DE';
+	elseif class == 'warlock' then
+		return '|cFF9482C9';
+	elseif class == 'warrior' then
+		return '|cFFC79C6E';
+	else
+		return '|cffff0000'; -- error red
+	end
 end
 
 function Questie:Error(...)
