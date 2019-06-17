@@ -355,7 +355,7 @@ local options = {
 					max = 0.5,
 					step = 0.01,
 					get = GetGlobalOptionLocal,
-					disabled = function() return (not Questie.db.char.enabled) and (not Questie.db.global.fadeOverPlayer) end,
+					disabled = function() return (not Questie.db.char.enabled) or (not Questie.db.global.fadeOverPlayer) end,
 					set = function (info, value)
 						SetGlobalOptionLocal(info, value)
 					end,
@@ -369,7 +369,7 @@ local options = {
 					min = 0.1,
 					max = 1,
 					step = 0.1,
-					disabled = function() return (not Questie.db.char.enabled) and (not Questie.db.global.fadeOverPlayer) end,
+					disabled = function() return (not Questie.db.char.enabled) or (not Questie.db.global.fadeOverPlayer) end,
 					get = GetGlobalOptionLocal,
 					set = function (info, value)
 						SetGlobalOptionLocal(info, value)
