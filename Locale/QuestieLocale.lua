@@ -12,10 +12,10 @@ function QuestieLocale:FallbackLocale(lang)
         return lang;
     elseif lang == 'enGB' then
         return 'enUS';
-    elseif lang == 'zhCN' then
-        return 'enCN';
-    elseif lang == 'zhTW' then 
-        return 'enTW';
+    elseif lang == 'enCN' then
+        return 'zhCN';
+    elseif lang == 'enTW' then 
+        return 'zhTW';
     elseif lang == 'esMX' then
         return 'esES';
     elseif lang == 'ptPT' then

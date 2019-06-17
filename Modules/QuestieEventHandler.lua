@@ -129,6 +129,28 @@ function QuestieEventHandler:QUEST_ACCEPTED(QuestLogIndex, QuestId)
         QuestieQuest:UpdateQuest(QuestId);
     end)]]--
 
+    -- Add quest accept journey note.
+    local data = {};
+    data.Event = "Quest";
+    data.SubType = "Accept";
+    data.Quest = QuestId;
+    data.Level = UnitLevel("player");
+    data.Timestamp = time();
+    data.Party = {};
+
+    if GetHomePartyInfo() then
+        data.Party = {};
+        local p = {};
+        for i, v in pairs(GetHomePartyInfo()) do
+            p.Name = v;
+            p.Class,_ ,_ = UnitClass(v);
+            p.Level = UnitLevel(v);
+            table.insert(data.Party, p);
+        end
+    end
+    
+    table.insert(Questie.db.char.journey, data);
+
 end
 
 --Fires when a quest is removed from the questlog, this includes turning it in!
@@ -136,15 +158,72 @@ function QuestieEventHandler:QUEST_REMOVED(QuestId)
     _hack_prime_log()
     Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_REMOVED", QuestId);
     QuestieQuest:AbandonedQuest(QuestId)
+
+    -- Abandon Quest added to Journey
+    -- first check to see if the quest has been completed already or not
+    local skipAbandon = false;
+    for i in ipairs(Questie.db.char.journey) do
+
+        local entry = Questie.db.char.journey[i];
+        if entry.Event == "Quest" then
+            if entry.Quest == QuestId then
+                if entry.SubType == "Complete" then
+                    skipAbandon = true;
+                end
+            end
+        end
+    end
+
+    if not skipAbandon then
+        local data = {};
+        data.Event = "Quest";
+        data.SubType = "Abandon";
+        data.Quest = QuestId;
+        data.Level = UnitLevel("player");
+        data.Timestamp = time()
+        data.Party = {};
+
+        if GetHomePartyInfo() then
+            local p = {};
+            for i, v in pairs(GetHomePartyInfo()) do
+                p.Name = v;
+                p.Class, _, _ = UnitClass(v);
+                p.Level = UnitLevel(v);
+                table.insert(data.Party, p);
+            end
+        end
+        
+        table.insert(Questie.db.char.journey, data);
+    end
 end
 
 --Fires when a quest is turned in.
 function QuestieEventHandler:QUEST_TURNED_IN(questID, xpReward, moneyReward)
     _hack_prime_log()
-    C_Timer.After(1, function ()
         Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_TURNED_IN", questID, xpReward, moneyReward);
         QuestieQuest:CompleteQuest(questID)
-    end)
+
+
+        -- Complete Quest added to Journey
+        local data = {};
+        data.Event = "Quest";
+        data.SubType = "Complete";
+        data.Quest = questID;
+        data.Level = UnitLevel("player");
+        data.Timestamp = time();
+        data.Party = {};
+
+        if GetHomePartyInfo() then
+            local p = {};
+            for i, v in pairs(GetHomePartyInfo()) do
+                p.Name = v;
+                p.Class, _, _ = UnitClass(v);
+                p.Level = UnitLevel(v);
+                table.insert(data.Party, p);
+            end
+        end
+        
+        table.insert(Questie.db.char.journey, data);
 end
 
 function QuestieEventHandler:QUEST_LOG_UPDATE()
@@ -229,6 +308,26 @@ function QuestieEventHandler:PLAYER_LEVEL_UP(level, hitpoints, manapoints, talen
     qPlayerLevel = level;
     QuestieQuest:CalculateAvailableQuests();
     QuestieQuest:DrawAllAvailableQuests();
+
+    -- Complete Quest added to Journey
+    local data = {};
+    data.Event = "Level";
+    data.NewLevel = level;
+    data.Timestamp = time();
+    data.Party = {};
+
+   if GetHomePartyInfo() then
+        data.Party = {};
+        local p = {};
+        for i, v in pairs(GetHomePartyInfo()) do
+            p.Name = v;
+            p.Class, _, _ = UnitClass(v);
+            p.Level = UnitLevel(v);
+            table.insert(data.Party, p);
+        end
+    end 
+    
+    table.insert(Questie.db.char.journey, data);
 end
 
 --Old stuff
