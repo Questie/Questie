@@ -33,8 +33,8 @@ Locale\QuestieLocale.lua
 Locale\enUS\locale.xml
 Locale\esES\locale.xml
 Locale\deDE\locale.xml
-Locale\enCN\locale.xml
-Locale\enTW\locale.xml
+Locale\zhCN\locale.xml
+Locale\zhTW\locale.xml
 Locale\frFR\locale.xml
 Locale\koKR\locale.xml
 Locale\ptBR\locale.xml
