@@ -37,30 +37,26 @@ function QuestieMap:rescaleIcons()
         for i, frameName in ipairs(framelist) do
             local frame = _G[frameName]
             if frame and frame.data then
-                if(frame.data.Icon == ICON_TYPE_AVAILABLE or frame.data.Icon == ICON_TYPE_COMPLETE) then
-                    local scale = 16
-                    if(frame.miniMapIcon) then
-                        scale = scale * (frame.data.IconScale or 1) * Questie.db.global.availableMiniMapScale;
-                    else
-                        scale = scale * (frame.data.IconScale or 1) * Questie.db.global.availableScale;
-                    end
-
-                    if scale > 1 then
-                        frame:SetWidth(scale)
-                        frame:SetHeight(scale)
-                    end
+                local scale = nil
+                if frame.miniMapIcon then
+                    scale = 16 * (Questie.db.global.globalMiniMapScale or 0.7)
                 else
-                    local scale = 16
-                    if(frame.miniMapIcon) then
-                        scale = scale * ((frame.data.IconScale or 1) * Questie.db.global.objectiveMiniMapScale);
-                    else
-                        scale = scale * ((frame.data.IconScale or 1) * Questie.db.global.objectiveScale);
-                    end
-
-                    if scale > 1 then
-                        frame:SetWidth(scale)
-                        frame:SetHeight(scale)
-                    end
+                    scale = 16 * (Questie.db.global.globalScale or 0.7)
+                end
+                if (frame.data.Icon == ICON_TYPE_AVAILABLE or frame.data.Icon == ICON_TYPE_COMPLETE) then
+                    scale = scale * Questie.db.global.availableScale
+                elseif frame.data.Icon == ICON_TYPE_EVENT then
+                    scale = scale * (Questie.db.global.eventScale or 1)
+                elseif frame.data.Icon == ICON_TYPE_SLAY then
+                    scale = scale * (Questie.db.global.monsterScale or 1)
+                elseif frame.data.Icon == ICON_TYPE_OBJECT then
+                    scale = scale * (Questie.db.global.objectScale or 1)
+                elseif frame.data.Icon == ICON_TYPE_LOOT then
+                    scale = scale * (Questie.db.global.lootScale or 1)
+                end
+                if scale > 1 then
+                    frame:SetWidth(scale)
+                    frame:SetHeight(scale)
                 end
             end
         end
