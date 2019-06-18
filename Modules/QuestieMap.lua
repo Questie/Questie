@@ -121,11 +121,7 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
 
             -- because of how frames work, I cant seem to set the glow as being behind the note. So for now things are draw in reverse.
             if data.IconScale ~= nil then
-                local optionScale = Questie.db.global.objectiveScale;
-                if(data.Icon == ICON_TYPE_AVAILABLE or data.Icon == ICON_TYPE_COMPLETE) then
-                    optionScale = Questie.db.global.availableScale;
-                end
-                local scale = 16 * (data.IconScale*optionScale);
+                local scale = 16 * (data.IconScale*(Questie.db.global.globalScale or 0.7));
                 icon.glow:SetWidth(scale)
                 icon.glow:SetHeight(scale)
                 icon:SetWidth(scale + 2)
@@ -142,11 +138,7 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
             icon.texture:SetVertexColor(1, 1, 1, 1);
             -- because of how frames work, I cant seem to set the glow as being behind the note. So for now things are draw in reverse.
             if data.IconScale then
-                local optionScale = Questie.db.global.objectiveScale;
-                if(data.Icon == ICON_TYPE_AVAILABLE or data.Icon == ICON_TYPE_COMPLETE) then
-                    optionScale = Questie.db.global.availableScale;
-                end
-                local scale = 16 * (data.IconScale*optionScale);
+                local scale = 16 * (data.IconScale*(Questie.db.global.globalScale or 0.7));
                 icon:SetWidth(scale)
                 icon:SetHeight(scale)
             else
@@ -156,12 +148,8 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
         end
 
         local iconMinimap = QuestieFramePool:GetFrame()
-        local optionScale = Questie.db.global.objectiveMiniMapScale;
-        if(data.Icon == ICON_TYPE_AVAILABLE or data.Icon == ICON_TYPE_COMPLETE) then
-            optionScale = Questie.db.global.availableMiniMapScale;
-        end
-        iconMinimap:SetWidth(16 * ((data.iconScale or 1) * optionScale))
-        iconMinimap:SetHeight(16 * ((data.iconScale or 1) * optionScale))
+        iconMinimap:SetWidth(16 * ((data.iconScale or 1) * (Questie.db.global.globalMiniMapScale or 0.7)))
+        iconMinimap:SetHeight(16 * ((data.iconScale or 1) * (Questie.db.global.globalMiniMapScale or 0.7)))
         iconMinimap.data = data
         iconMinimap.x = x
         iconMinimap.y = y
