@@ -940,6 +940,11 @@ function Questie:OnInitialize()
 	
 	-- Initialize Coordinates
 	QuestieCoords.Initialize();
+	
+    -- Initialize questiecomms
+    C_ChatInfo.RegisterAddonMessagePrefix("questie")
+    -- JoinTemporaryChannel("questie")
+    Questie:RegisterEvent("CHAT_MSG_ADDON", QuestieComms.MessageReceived)
 
 	-- Initialize Journey Window
 	QuestieJourney.Initialize();
