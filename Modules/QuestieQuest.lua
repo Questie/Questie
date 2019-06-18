@@ -702,7 +702,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                 for k, v in pairs(Quest.ObjectiveData) do
                     if objectiveType == v.Type then
                         -- TODO: use string distance to find closest, dont rely on exact match
-                        if v.Name == nil or objectiveDesc == nil or (v.Name and ((string.lower(objectiveDesc) == string.lower(v.Name))) or (v.Text and (string.lower(objectiveDesc) == string.lower(v.Text)))) then
+                        if ((v.Name == nil or objectiveDesc == nil) and v.Type ~= "item" and v.Type ~= "monster") or (v.Name and ((string.lower(objectiveDesc) == string.lower(v.Name))) or (v.Text and (string.lower(objectiveDesc) == string.lower(v.Text)))) then
                             Quest.Objectives[i].Id = v.Id
                             Quest.Objectives[i].Coordinates = v.Coordinates
                             v.ObjectiveRef = Quest.Objectives[i]
