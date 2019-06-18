@@ -108,6 +108,8 @@ local function manageJourneyTree(container)
         journeyTreeFrame = AceGUI:Create("TreeGroup");
         journeyTreeFrame:SetFullWidth(true);
         journeyTreeFrame:SetFullHeight(true);
+
+        journeyTreeFrame.treeframe:SetWidth(220);
         
         journeyTree = {};
         journeyTree = splitJourneyByDate();
@@ -374,6 +376,7 @@ function notePopup()
         titleBox:SetFullWidth(true);
         titleBox:SetLabel(QuestieLocale:GetUIString('JOURNEY_NOTE_ENTRY_TITLE'));
         titleBox:DisableButton(true);
+        titleBox:SetFocus();
         frame:AddChild(titleBox);
 
         local messageBox = AceGUI:Create("MultiLineEditBox");
@@ -937,7 +940,7 @@ local function manageZoneTree(container, zt)
         zoneTreeFrame:SetFullHeight(true);
         zoneTreeFrame:SetTree(zt);
         
-        zoneTreeFrame.treeframe:SetWidth(200);
+        zoneTreeFrame.treeframe:SetWidth(220);
  
         zoneTreeFrame:SetCallback("OnGroupSelected", function(group)
 
@@ -1056,7 +1059,7 @@ function CollectZoneQuests(container, zoneid)
                 -- remove any breadcrumb quests too
                 if questExclusiveGroupFixes and not questExclusiveGroupFixes[qid] then
                     temp.value = qid;
-                    temp.text = q.Name;
+                    temp.text = q:GetColoredQuestName();
                     table.insert(zoneTree[1].children, temp);
                     temp = {}; -- Weird Lua bug requires this to be reset?
                     availableCounter = availableCounter + 1;
@@ -1070,7 +1073,7 @@ function CollectZoneQuests(container, zoneid)
     for qid, _ in pairs(Questie.db.char.complete) do
         if quests[qid] then
             temp.value = qid;
-            temp.text = quests[qid].Name;
+            temp.text = quests[qid]:GetColoredQuestName();
             table.insert(zoneTree[2].children, temp);
             temp = {}; -- Weird Lua bug requires this to be reset?
             completedCounter = completedCounter + 1;
@@ -1093,7 +1096,7 @@ local function DrawSearchResults(searchGroup, selectedKey, content)
         searchGroup:ReleaseChildren();
         local results = PopulateSearchResults(selectedKey, content);
 
-        if #results[1].children == 0 then
+        if #results == 0 then
             local noresults = AceGUI:Create("Label");
             noresults:SetText(Questie:Colorize(QuestieLocale:GetUIString('JOURNEY_SEARCH_NOMATCH', content), 'yellow'));
             noresults:SetFullWidth(true);
@@ -1106,12 +1109,11 @@ local function DrawSearchResults(searchGroup, selectedKey, content)
         searchTreeFrame:SetFullHeight(true);
         searchTreeFrame:SetTree(results);
 
+        searchTreeFrame.treeframe:SetWidth(220);
+
         searchTreeFrame:SetCallback("OnGroupSelected", function(group)
             -- if they clicked on the header, don't do anything
             local sel = group.localstatus.selected;
-            if sel == "r" then
-                return;
-            end
 
             -- get master frame and create scroll frame inside
             local master = group.frame.obj;
@@ -1124,16 +1126,16 @@ local function DrawSearchResults(searchGroup, selectedKey, content)
             f:SetLayout("flow");
             master:AddChild(f);
 
-            _, qid = strsplit("\001", sel);
-            qid = tonumber(qid);
+            --_, qid = strsplit("\001", sel);
+            qid = tonumber(sel);
 
 
-            if selectedKey == 1 then
+            if selectedKey == 1 or selectedKey == 2 then
                 -- Quests
                 local quest = QuestieDB:GetQuest(qid);
                 questFrame(f, quest);
                 
-            elseif selectedKey == 2 then
+            elseif selectedKey == 3 or selectedKey == 4 then
                 -- NPCs
                 local npc = QuestieDB:GetNPC(qid);
                 npcFrame(f, npc);
@@ -1152,11 +1154,6 @@ end
 -- Populate Search Results
 function PopulateSearchResults(selectedKey, content)
     local returnTable = {
-        [1] = {
-            value = "r",
-            text = QuestieLocale:GetUIString('JOURNEY_SEARCH_RESULTS'),
-            children = {},
-        }
     };
 
     if selectedKey == 1 then
@@ -1166,15 +1163,31 @@ function PopulateSearchResults(selectedKey, content)
 
         if quests then
             for i, v in ipairs(quests) do
+                local q = QuestieDB:GetQuest(tonumber(v));
                 temp.value = tostring(v);
-                temp.text = QuestieDB:GetQuest(tonumber(v)).Name;
+                temp.text = '['.. q.Level ..'] '.. q.Name;
 
-                table.insert(returnTable[1].children, temp);
+                table.insert(returnTable, temp);
 
                 temp = {};
             end
         end
     elseif selectedKey == 2 then
+        -- Get Quest ID
+        local quest = QuestieDB:GetQuest(tonumber(content));
+
+        local temp = {};
+
+        if quest then
+            temp.value = tostring(quest.Id);
+            temp.text = '['.. quest.Level ..'] '.. quest.Name;
+
+            table.insert(returnTable, temp);
+
+            temp = {};
+        end
+
+    elseif selectedKey == 3 then
         -- NPCs
         local npcs = QuestieDB:GetNPCsByName(content);
         local temp = {};
@@ -1184,10 +1197,24 @@ function PopulateSearchResults(selectedKey, content)
                 temp.value = tostring(v);
                 temp.text = QuestieDB:GetNPC(tonumber(v)).Name;
 
-                table.insert(returnTable[1].children, temp);
+                table.insert(returnTable, temp);
 
                 temp = {};
             end
+        end
+    elseif selectedKey == 4 then
+        -- NPC by ID
+        local npc = QuestieDB:GetNPC(tonumber(content));
+
+        local temp = {};
+
+        if npc then
+            temp.value = tostring(npc.Id);
+            temp.text = npc.Name;
+
+            table.insert(returnTable, temp);
+
+            temp = {};
         end
     end
 
@@ -1196,7 +1223,6 @@ end
 
 -- Advanced Search Tab
 local function DrawSearchTab(container)
-    local selectedKey = 0;
 
     -- Header
     local header = AceGUI:Create("Heading");
@@ -1214,17 +1240,21 @@ local function DrawSearchTab(container)
     -- Dropdown for Continent 
     typeDropdown:SetList({
         [1] = QuestieLocale:GetUIString('JOURNEY_SEARCH_QUESTS'),
-        [2] = QuestieLocale:GetUIString('JOURNEY_SEARCH_NPCS'),
+        [2] = QuestieLocale:GetUIString('JOURNEY_SEARCH_QUESTS_ID'),
+        [3] = QuestieLocale:GetUIString('JOURNEY_SEARCH_NPCS'),
+        [4] = QuestieLocale:GetUIString('JOURNEY_SEARCH_NPCS_ID'),
     });
-    typeDropdown:SetText(QuestieLocale:GetUIString('JOURNEY_SEARCH_CRITERIA'));
+    typeDropdown:SetValue(Questie.db.char.searchCriteria);
 
     typeDropdown:SetCallback("OnValueChanged", function(key, checked) 
-        selectedKey = key.value;
-        searchBox:SetDisabled(false);
+        Questie.db.char.searchCriteria = key.value;
+        searchGroup:ReleaseChildren();
+        searchBox:SetText('');
+        searchBox:SetFocus();
     end)
     container:AddChild(typeDropdown);
 
-    searchBox:SetDisabled(true);
+    searchBox:SetFocus();
     searchBox:SetRelativeWidth(0.6);
     searchBox:SetLabel(QuestieLocale:GetUIString('JOURNEY_SEARCH_TAB'));
     searchBox:DisableButton(true);
@@ -1236,12 +1266,21 @@ local function DrawSearchTab(container)
         end
     end);
 
+    searchBox:SetCallback("OnEnterPressed", function() 
+        if not (searchBox:GetText() == '') then
+            local text = string.trim(searchBox:GetText(), " \n\r\t[]");
+            DrawSearchResults(searchGroup, Questie.db.char.searchCriteria, text);
+        end
+    end);
+    
+
     container:AddChild(searchBox);
 
     searchBtn:SetText(QuestieLocale:GetUIString('JOURNEY_SEARCH_EXE'));
     searchBtn:SetDisabled(true);
     searchBtn:SetCallback("OnClick", function()
-        DrawSearchResults(searchGroup, selectedKey, searchBox:GetText());
+        local text = string.trim(searchBox:GetText(), " \n\r\t[]");
+        DrawSearchResults(searchGroup, Questie.db.char.searchCriteria, text);
     end);
 
     container:AddChild(searchBtn);
@@ -1342,4 +1381,61 @@ end
 
 function QuestieJourney:JounreyWinodwShown()
     return isWindowShown;
+end
+
+
+function QuestieJourney:GetLevelDifficultyRanges(questLevel, questMinLevel)
+
+    local red, orange, yellow, green, gray = 0,0,0,0,0;
+
+    -- Calculate Base Values
+    red = questLevel - 10;
+    orange = questLevel - 4;
+    yellow = questLevel - 2;
+    green = questLevel + 3;
+
+    -- Gray Level based on level range.
+    if questLevel <= 5 then
+        gray = questLevel + 5;
+    elseif questLevel >= 39 then 
+        gray = math.floor(questLevel / 10) + questLevel + 6;
+    else
+        gray = math.floor(questLevel / 5) + questLevel + 2;
+    end;
+
+    -- Double check for negative values
+    if yellow <= 0 then
+        yellow = questMinLevel;
+    end
+
+    if orange <= 0 then
+        orange = questMinLevel;
+    elseif orange < questMinLevel then
+        orange = questMinLevel;
+    end
+
+    if orange == yellow then
+        orange = nil;
+    end
+
+    if red <= questMinLevel then
+        red = questMinLevel;
+    end
+
+    if red <= 0 then
+
+        red = math.abs(red);
+        red = questLevel - (10 - red);
+
+        if red <= 0 then
+            red = questMinLevel;
+        end
+    end
+
+    if red == orange or not orange then
+        red = nil;
+    end
+
+
+    return red, orange, yellow, green, gray;
 end
