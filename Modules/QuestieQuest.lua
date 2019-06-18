@@ -328,7 +328,7 @@ function QuestieQuest:AddFinisher(Quest)
                     local data = {}
                     data.Id = Quest.Id;
                     data.Icon = ICON_TYPE_COMPLETE;
-                    data.IconScale = 1.3;
+                    data.IconScale = Questie.db.global.availableScale or 1.3
                     data.Type = "complete";
                     data.QuestData = Quest;
                     data.Name = NPC.Name
@@ -374,6 +374,7 @@ ObjectiveSpawnListCallTable = {
         mon.Spawns = npcData.Spawns
         mon.Icon = ICON_TYPE_SLAY
         mon.Id = id
+        mon.IconScale = Questie.db.global.monsterScale or 1
         mon.TooltipKey = "u_" .. npcData.Name -- todo: use ID based keys
 
         ret[id] = mon;
@@ -391,6 +392,7 @@ ObjectiveSpawnListCallTable = {
         obj.Name = objData.Name
         obj.Spawns = objData.Spawns
         obj.Icon = ICON_TYPE_LOOT
+        obj.IconScale = Questie.db.global.objectScale or 1
         obj.TooltipKey = "o_" .. objData.Name
         obj.Id = id
 
@@ -402,7 +404,7 @@ ObjectiveSpawnListCallTable = {
         ret[1] = {};
         ret[1].Name = Objective.Description or "Event Trigger";
         ret[1].Icon = ICON_TYPE_EVENT
-        ret[1].IconScale = 1.35
+        ret[1].IconScale = Questie.db.global.eventScale or 1.35
         ret[1].Id = id or 0
         if Objective.Coordinates then
             ret[1].Spawns = Objective.Coordinates
@@ -445,8 +447,10 @@ ObjectiveSpawnListCallTable = {
                                 ret[id].Spawns = {};
                                 if source.Type == "object" then
                                     ret[id].Icon = ICON_TYPE_OBJECT
+                                    ret[id].IconScale = Questie.db.global.objectScale or 1
                                 else
                                     ret[id].Icon = ICON_TYPE_LOOT
+                                    ret[id].IconScale = Questie.db.global.lootScale or 1
                                 end
                                 ret[id].TooltipKey = sourceData.TooltipKey
                                 ret[id].Id = id
@@ -471,25 +475,25 @@ ObjectiveSpawnListCallTable = {
 }
 
 function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockItemTooltips) -- must be pcalled
-    
+
     if not Objective.AlreadySpawned then
         Objective.AlreadySpawned = {};
     end
-    
+
     -- temporary fix for "special objectives" to not double-spawn (we need to fix the objective detection logic)
     if not Quest.AlreadySpawned then
         Quest.AlreadySpawned = {};
     end
-    
+
     if ObjectiveSpawnListCallTable[Objective.Type] and (not Objective.spawnList) then
         Objective.spawnList = ObjectiveSpawnListCallTable[Objective.Type](Objective.Id, Objective);
     end
     local maxPerType = 100
     local maxPerObjectiveOutsideZone = 100
-    
+
     Objective:Update() -- update qlog data
     local completed = Objective.Completed
-    
+
     if (not Objective.registeredTooltips) and Objective.Type == "item" and (not BlockItemTooltips) then -- register item tooltip (special case)
         local itm = QuestieDB:GetItem(Objective.Id);
         if itm and itm.Name then
@@ -513,14 +517,14 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
             end
 
             if (not Objective.AlreadySpawned[id]) and (not completed) and (not Quest.AlreadySpawned[Objective.Type][spawnData.Id]) then
-            
+
                 -- temporary fix for "special objectives" to not double-spawn (we need to fix the objective detection logic)
                 Quest.AlreadySpawned[Objective.Type][spawnData.Id] = true
-                
+
                 if not Objective.registeredTooltips and spawnData.TooltipKey and (not tooltipRegisterHack[spawnData.TooltipKey]) then -- register mob / item / object tooltips
                     QuestieTooltips:RegisterTooltip(Quest.Id, spawnData.TooltipKey, Objective);
                     tooltipRegisterHack[spawnData.TooltipKey] = true
-                end    
+                end
                 local maxCount = 0
                 local data = {}
                 data.Id = Quest.Id
@@ -532,7 +536,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                 data.Name = spawnData.Name
                 data.Type = Objective.Type
                 data.ObjectiveTargetId = spawnData.Id
-                
+
                 if spawnData.Icon ~= ICON_TYPE_OBJECT then -- new clustering / limit code should prevent problems, always show all object notes
                     data.ClusterId = tostring(spawnData.Id) .. tostring(Quest.Id) .. ObjectiveIndex
                 end
@@ -601,7 +605,7 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
             Questie:Error("[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_POPULATE_ERR', Quest.Name, Quest.Id, k, err));
         end
     end
-    
+
     -- check for special (unlisted) DB objectives
     if Quest.SpecialObjectives then
         for _, objective in pairs(Quest.SpecialObjectives) do
@@ -649,7 +653,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
 
     for i = 1, count do
         objectiveType, objectiveDesc, numItems, numNeeded, isCompleted = _QuestieQuest:GetLeaderBoardDetails(i, Quest.Id)
-        if objectiveType then 
+        if objectiveType then
             if Quest.Objectives[i] == nil then
                 Quest.Objectives[i] = {}
             end
@@ -665,19 +669,19 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                     return {self.Collected, self.Needed, self.Completed} -- updated too recently
                 end
                 self._lastUpdate = now
-                
+
                 -- check if this is still a valid objective (fix)
                 --_,_,_,_,_,_,_,questID = GetQuestLogTitle(self.Index)
                 --DEFAULT_CHAT_FRAME:AddMessage("qid: " .. questID .. " " .. self.QuestId)
-                
+
                 objectiveType, objectiveDesc, numItems, numNeeded, isComplete = _QuestieQuest:GetLeaderBoardDetails(self.Index, self.QuestId)
-                
+
                 --if self.Description and strlen(self.Description) > 1 and self.Description ~= objectiveDesc then -- fix bug (mentioned above with GetQuestLogTitle)
                 --    self.Collected = self.Needed
                 --    self.Completed = true
                 --    return {self.Collected, self.Needed, self.Completed}
                 --end
-                
+
                 if objectiveType then
                     -- fixes for api bug
                     if not numItems then numItems = 0; end
@@ -702,7 +706,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                 for k, v in pairs(Quest.ObjectiveData) do
                     if objectiveType == v.Type then
                         -- TODO: use string distance to find closest, dont rely on exact match
-                        if v.Name == nil or objectiveDesc == nil or (v.Name and ((string.lower(objectiveDesc) == string.lower(v.Name))) or (v.Text and (string.lower(objectiveDesc) == string.lower(v.Text)))) then
+                        if ((v.Name == nil or objectiveDesc == nil) and v.Type ~= "item" and v.Type ~= "monster") or (v.Name and ((string.lower(objectiveDesc) == string.lower(v.Name))) or (v.Text and (string.lower(objectiveDesc) == string.lower(v.Text)))) then
                             Quest.Objectives[i].Id = v.Id
                             Quest.Objectives[i].Coordinates = v.Coordinates
                             v.ObjectiveRef = Quest.Objectives[i]
@@ -718,7 +722,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
 
     end
     if old then SelectQuestLogEntry(old); end
-    
+
     -- find special unlisted objectives
     -- hack to remove misdetected unlisted (when qlog returns bad data for objective text on first try)
     local checkTime = GetTime();
@@ -745,7 +749,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                     end
                 end
                 if not objective.Description then objective.Description = "Hidden objective"; end
-                
+
                 if not Quest.SpecialObjectives[objective.Description] then
                     objective.QuestData = Quest
                     objective.QuestId = Quest.Id
@@ -757,7 +761,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
             end
         end
     end
-    
+
     return Quest.Objectives
 end
 
@@ -771,7 +775,7 @@ function _QuestieQuest:GetLeaderBoardDetails(BoardIndex, QuestId)
     end
     local description, objectiveType, isCompleted = GetQuestLogLeaderBoard (BoardIndex, Index);
     if not description then return nil; end -- invalid board index (this has happened extremely rarely see issue 565)
-    
+
     --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Quest Details1:", description, objectiveType, isCompleted)
     --Classic
     local itemName, numItems, numNeeded = string.match(description, "(.*):%s*([%d]+)%s*/%s*([%d]+)");
@@ -826,7 +830,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                             local data = {}
                             data.Id = questObject.Id;
                             data.Icon = ICON_TYPE_AVAILABLE;
-                            data.IconScale = 1.3
+                            data.IconScale = Questie.db.global.availableScale or 1.3
                             data.Type = "available";
                             data.QuestData = questObject;
                             data.Name = obj.Name
@@ -866,7 +870,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                             local data = {}
                             data.Id = questObject.Id;
                             data.Icon = ICON_TYPE_AVAILABLE;
-                            data.IconScale = 1.3
+                            data.IconScale = Questie.db.global.availableScale or 1.3
                             data.Type = "available";
                             data.QuestData = questObject;
                             data.Name = NPC.Name
@@ -921,11 +925,16 @@ function _QuestieQuest:IsDoable(questObject) -- we need to add profession/reputa
     if questObject.Hidden then
         return false;
     end
+    if questObject.NextQuestInChain then
+        if Questie.db.char.complete[questObject.NextQuestInChain] or qCurrentQuestlog[questObject.NextQuestInChain] then
+            return false
+        end
+    end
     local allFinished = true
     --Run though the requiredQuests
     if questObject.ExclusiveQuestGroup then -- fix (DO NOT REVERT, tested thoroughly)
         for k, v in pairs(questObject.ExclusiveQuestGroup) do
-            if Questie.db.char.complete[v] or qCurrentQuestlog[v] ~= nil then
+            if Questie.db.char.complete[v] or qCurrentQuestlog[v] then
                 return false
             end
         end

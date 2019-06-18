@@ -85,10 +85,13 @@ _QuestieOptions.defaults = {
 	  maxLevelFilter = 7,
 	  minLevelFilter = 5, --Raised the default to allow more quests to be shown
 	  clusterLevel = 1,
-	  availableScale = 1,
-	  objectiveScale = 0.7,
-	  availableMiniMapScale = 0.75,
-	  objectiveMiniMapScale = 0.75,
+	  availableScale = 1.3,
+	  eventScale = 1.35,
+	  lootScale = 1,
+	  monsterScale = 1,
+	  objectScale = 1,
+      globalScale = 0.7,
+      globalMiniMapScale = 0.7,
 	  fadeLevel = 1.5,
 	  fadeOverPlayer = true,
 	  fadeOverPlayerLevel = 0.5,
@@ -279,11 +282,11 @@ local options = {
                     name = function() return QuestieLocale:GetUIString('MINIMAP_HEADER') end,
 				},
 				Spacer_A = _QuestieOptions:Spacer(2),
-                objectiveMiniMapScale = {
+                globalMiniMapScale = {
                     type = "range",
                     order = 3,
-                    name = function() return QuestieLocale:GetUIString('MINIMAP_OBJECTIVE_SCALE') end,  
-                    desc = function() return QuestieLocale:GetUIString('MINIMAP_OBJECTIVE_SCALE_DESC', _QuestieOptions.defaults.global.objectiveMiniMapScale) end,
+                    name = function() return QuestieLocale:GetUIString('MINIMAP_GLOBAL_SCALE') end,  
+                    desc = function() return QuestieLocale:GetUIString('MINIMAP_GLOBAL_SCALE_DESC', _QuestieOptions.defaults.global.globalMiniMapScale) end,
                     width = "double",
                     min = 0.01,
                     max = 4,
@@ -295,22 +298,6 @@ local options = {
                                 SetGlobalOptionLocal(info, value)
                             end,
                 },
-                availableMiniMapScale = {
-                    type = "range",
-                    order = 4,
-                    name = function() return QuestieLocale:GetUIString('MINIMAP_AVAILABLE_SCALE') end,  
-                    desc = function() return QuestieLocale:GetUIString('MINIMAP_AVAILABLE_SCALE_DESC', _QuestieOptions.defaults.global.availableMiniMapScale) end,
-                    width = "double",
-                    min = 0.01,
-                    max = 4,
-					step = 0.01,
-					disabled = function() return not Questie.db.char.enabled end,
-                    get = GetGlobalOptionLocal,
-                    set = function (info, value)
-                                QuestieMap:rescaleIcons()
-                                SetGlobalOptionLocal(info, value)
-                            end,
-				},
 				Spacer_B = _QuestieOptions:Spacer(9),
 				fade_options = {
 					type = "header",
@@ -435,11 +422,11 @@ local options = {
 					name = function() return QuestieLocale:GetUIString('MAP_NOTES') end,
 				},
 				Spacer_B = _QuestieOptions:Spacer(8),
-				objectiveScale = {
+				globalScale = {
 					type = "range",
 					order = 9,
-					name = function() return QuestieLocale:GetUIString('MAP_OBJECTIVE_SCALE') end,
-					desc = function() return QuestieLocale:GetUIString('MAP_OBJECTIVE_SCALE_DESC', _QuestieOptions.defaults.global.objectiveScale) end,
+					name = function() return QuestieLocale:GetUIString('MAP_GLOBAL_SCALE') end,
+					desc = function() return QuestieLocale:GetUIString('MAP_GLOBAL_SCALE_DESC', _QuestieOptions.defaults.global.globalScale) end,
 					width = "double",
                     min = 0.01,
 					max = 4,
@@ -453,11 +440,11 @@ local options = {
 				},
 				availableScale = {
 					type = "range",
-					order = 10,
-                    name = function() return QuestieLocale:GetUIString('MAP_AVAILABLE_SCALE') end,
-					desc = function() return QuestieLocale:GetUIString('MAP_AVAILABLE_SCALE_DESC', _QuestieOptions.defaults.global.availableScale) end,
+					order = 9,
+					name = function() return QuestieLocale:GetUIString('AVAILABLE_ICON_SCALE') end,
+					desc = function() return QuestieLocale:GetUIString('AVAILABLE_ICON_SCALE_DESC', _QuestieOptions.defaults.global.availableScale) end,
 					width = "double",
-					min = 0.01,
+                    min = 0.01,
 					max = 4,
 					step = 0.01,
 					disabled = function() return not Questie.db.char.enabled end,
@@ -465,7 +452,71 @@ local options = {
 					set = function (info, value)
                                 QuestieMap:rescaleIcons()
 								SetGlobalOptionLocal(info, value)
-                            end,
+							end,
+				},
+				eventScale = {
+					type = "range",
+					order = 9,
+					name = function() return QuestieLocale:GetUIString('EVENT_ICON_SCALE') end,
+					desc = function() return QuestieLocale:GetUIString('EVENT_ICON_SCALE_DESC', _QuestieOptions.defaults.global.eventScale) end,
+					width = "double",
+                    min = 0.01,
+					max = 4,
+					step = 0.01,
+					disabled = function() return not Questie.db.char.enabled end,
+					get = GetGlobalOptionLocal,
+					set = function (info, value)
+                                QuestieMap:rescaleIcons()
+								SetGlobalOptionLocal(info, value)
+							end,
+				},
+				lootScale = {
+					type = "range",
+					order = 9,
+					name = function() return QuestieLocale:GetUIString('LOOT_ICON_SCALE') end,
+					desc = function() return QuestieLocale:GetUIString('LOOT_ICON_SCALE_DESC', _QuestieOptions.defaults.global.lootScale) end,
+					width = "double",
+                    min = 0.01,
+					max = 4,
+					step = 0.01,
+					disabled = function() return not Questie.db.char.enabled end,
+					get = GetGlobalOptionLocal,
+					set = function (info, value)
+                                QuestieMap:rescaleIcons()
+								SetGlobalOptionLocal(info, value)
+							end,
+				},
+				monsterScale = {
+					type = "range",
+					order = 9,
+					name = function() return QuestieLocale:GetUIString('MONSTER_ICON_SCALE') end,
+					desc = function() return QuestieLocale:GetUIString('MONSTER_ICON_SCALE_DESC', _QuestieOptions.defaults.global.monsterScale) end,
+					width = "double",
+                    min = 0.01,
+					max = 4,
+					step = 0.01,
+					disabled = function() return not Questie.db.char.enabled end,
+					get = GetGlobalOptionLocal,
+					set = function (info, value)
+                                QuestieMap:rescaleIcons()
+								SetGlobalOptionLocal(info, value)
+							end,
+				},
+				objectScale = {
+					type = "range",
+					order = 9,
+					name = function() return QuestieLocale:GetUIString('OBJECT_ICON_SCALE') end,
+					desc = function() return QuestieLocale:GetUIString('OBJECT_ICON_SCALE_DESC', _QuestieOptions.defaults.global.objectScale) end,
+					width = "double",
+                    min = 0.01,
+					max = 4,
+					step = 0.01,
+					disabled = function() return not Questie.db.char.enabled end,
+					get = GetGlobalOptionLocal,
+					set = function (info, value)
+                                QuestieMap:rescaleIcons()
+								SetGlobalOptionLocal(info, value)
+							end,
 				},
 				Spacer_C = _QuestieOptions:Spacer(20),
 				fade_options = {
@@ -778,32 +829,9 @@ local options = {
 					desc = function() return QuestieLocale:GetUIString('RESET_QUESTIE_BTN_DESC') end,
 					func = function (info, value)
 						-- update all values to default
-						Questie.db.global.maxLevelFilter  = _QuestieOptions.defaults.global.maxLevelFilter ;
-						Questie.db.global.minLevelFilter = _QuestieOptions.defaults.global.minLevelFilter;
-						Questie.db.global.clusterLevel = _QuestieOptions.defaults.global.clusterLevel;
-						Questie.db.global.availableScale = _QuestieOptions.defaults.global.availableScale;
-						Questie.db.global.objectiveScale = _QuestieOptions.defaults.global.objectiveScale;
-						Questie.db.global.availableMiniMapScale = _QuestieOptions.defaults.global.availableMiniMapScale;
-						Questie.db.global.objectiveMiniMapScale = _QuestieOptions.defaults.global.objectiveMiniMapScale;
-						Questie.db.global.fadeLevel = _QuestieOptions.defaults.global.fadeLevel;
-						Questie.db.global.fadeOverPlayer = _QuestieOptions.defaults.global.fadeOverPlayer;
-						Questie.db.global.fadeOverPlayerLevel = _QuestieOptions.defaults.global.fadeOverPlayerLevel;
-						Questie.db.global.fadeOverPlayerDistance = _QuestieOptions.defaults.global.fadeOverPlayerDistance;
-						Questie.db.global.debugEnabled = _QuestieOptions.defaults.global.debugEnabled;
-						Questie.db.global.debugLevel = _QuestieOptions.defaults.global.debugLevel;
-						Questie.db.global.nameplateX = _QuestieOptions.defaults.global.nameplateX;
-						Questie.db.global.nameplateY = _QuestieOptions.defaults.global.nameplateY;
-						Questie.db.global.nameplateScale = _QuestieOptions.defaults.global.nameplateScale;
-						Questie.db.global.nameplateEnabled = _QuestieOptions.defaults.global.nameplateEnabled;
-						Questie.db.global.minimapCoordinatesEnabled = _QuestieOptions.defaults.global.minimapCoordinatesEnabled;
-						Questie.db.global.mapCoordinatesEnabled = _QuestieOptions.defaults.global.mapCoordinatesEnabled;
-						Questie.db.global.mapCoordinatePrecision = _QuestieOptions.defaults.global.mapCoordinatePrecision;
-						Questie.db.global.nameplateTargetFrameEnabled = _QuestieOptions.defaults.global.nameplateTargetFrameEnabled;
-						Questie.db.global.nameplateTargetFrameX = _QuestieOptions.defaults.global.nameplateTargetFrameX;
-						Questie.db.global.nameplateTargetFrameY = _QuestieOptions.defaults.global.nameplateTargetFrameY;
-						Questie.db.global.nameplateTargetFrameScale = _QuestieOptions.defaults.global.nameplateTargetFrameScale;
-						Questie.db.global.mapShowHideEnabled = _QuestieOptions.defaults.global.mapShowHideEnabled;
-
+						for k,v in pairs(_QuestieOptions.defaults.global) do
+						   Questie.db.global[k] = v
+						end
 
 						-- only toggle questie if it's off (must be called before resetting the value)
 						if not Questie.db.char.enabled then
@@ -941,6 +969,11 @@ function Questie:OnInitialize()
 	
 	-- Initialize Coordinates
 	QuestieCoords.Initialize();
+	
+    -- Initialize questiecomms
+    C_ChatInfo.RegisterAddonMessagePrefix("questie")
+    -- JoinTemporaryChannel("questie")
+    Questie:RegisterEvent("CHAT_MSG_ADDON", QuestieComms.MessageReceived)
 
 	-- Initialize Journey Window
 	QuestieJourney.Initialize();

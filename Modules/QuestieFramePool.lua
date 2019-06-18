@@ -78,6 +78,7 @@ function QuestieFramePool:GetFrame()
         f._hide = nil
     end
     f.fadeLogic = nil
+    f.miniMapIcon = nil
 
     --if f.IsShowing ~= nil and f:IsShowing() then
     f:Hide();
@@ -89,6 +90,7 @@ function QuestieFramePool:GetFrame()
     f.loaded = true;
     f.shouldBeShowing = false;
     usedFrames[f:GetName()] = f
+    f:SetScript("OnUpdate", nil)
     return f
 end
 
