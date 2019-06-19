@@ -366,6 +366,7 @@ qHide = {
   [9272] = true,
   [1036] = true,
   [4621] = true,
+  [9268] = true,
   --fishing tournament
   [8194] = true,
   [8193] = true,
@@ -1110,7 +1111,10 @@ qHide = {
   [8850] = true,
   [9250] = true,
   [9251] = true,
---Phase 5 - Naxxramas
+  [8764] = true,
+  [8765] = true,
+  [8766] = true,
+--Phase 6 - Naxxramas
   [9033] = true,
   [9034] = true,
   [9036] = true,
@@ -1225,4 +1229,14 @@ qHide = {
   [9244] = true,
   [9245] = true,
   [9246] = true,
+  --Phase 6 - Silithus/EPL PvP
+  [9664] = true,
+  [9415] = true,
+  [8731] = true,
+  [8507] = true,
+  [8732] = true,
+  [8508] = true,
+  [9419] = true,
+  [9416] = true,
+  [9665] = true,
 }
