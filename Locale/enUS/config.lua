@@ -142,6 +142,7 @@ QuestieLocale.locale['enUS'] = {
     ['JOURNEY_ALSO_STARTS_GO'] = "This Object Also Starts the following quests:",
     ['JOURNEY_ALSO_ENDS_GO'] = "This Object Also Completes the following quests:",
     ['JOURNEY_NO_QUEST'] = "No Quests to List",
+    ['JOURNEY_NEXT_QUEST'] = "Quest Chain",
     ['JOURNEY_QUEST_LEVEL'] = "Recommended Quest Level: ",
     ['JOURNEY_QUEST_MINLEVEL'] = "Minimum Required Level for Quest: ",
     ['JOURNEY_QUEST_ID'] = "Quest ID: ",
