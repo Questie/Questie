@@ -906,7 +906,7 @@ local minimapIconLDB = LibStub("LibDataBroker-1.1"):NewDataObject("MinimapIcon",
 
 			_QuestieOptions.OpenConfigWindow()
 
-			if QuestieJourney:JounreyWinodwShown() then
+			if QuestieJourney:JounreyWindowShown() then
 				QuestieJourney.toggleJourneyWindow();
 			end
 			return;
@@ -1024,11 +1024,13 @@ end
 
 function Questie:QuestieSlash(input)
 
+	input = string.trim(input, " ");
+
 	-- /questie
 	if input == "" or not input then
 		_QuestieOptions.OpenConfigWindow();
 
-		if QuestieJourney:JounreyWinodwShown() then
+		if QuestieJourney:JounreyWindowShown() then
 			QuestieJourney.toggleJourneyWindow();
 		end
 		return ;
@@ -1039,6 +1041,7 @@ function Questie:QuestieSlash(input)
 		print(Questie:Colorize(QuestieLocale:GetUIString('SLASH_HEAD'), 'yellow'));
 		print(Questie:Colorize(QuestieLocale:GetUIString('SLASH_CONFIG'), 'yellow'));
 		print(Questie:Colorize(QuestieLocale:GetUIString('SLASH_TOGGLE_QUESTIE'), 'yellow'));
+		print(Questie:Colorize(QuestieLocale:GetUIString('SLASH_MINIMAP'), 'yellow'));
 		print(Questie:Colorize(QuestieLocale:GetUIString('SLASH_JOURNEY'), 'yellow'));
 		return;
 	end
@@ -1050,6 +1053,18 @@ function Questie:QuestieSlash(input)
 		-- CLose config window if it's open to avoid desyncing the Checkbox
 		if _QuestieOptions.configFrame and _QuestieOptions.configFrame:IsShown() then
 			 _QuestieOptions.configFrame:Hide();
+		end
+		return;
+	end
+
+	-- /questie minimap
+	if input == "minimap" then
+		Questie.db.profile.minimap.hide = not Questie.db.profile.minimap.hide;
+
+		if Questie.db.profile.minimap.hide then
+			Questie.minimapConfigIcon:Hide("MinimapIcon");
+		else
+			Questie.minimapConfigIcon:Show("MinimapIcon");
 		end
 		return;
 	end

@@ -119,6 +119,7 @@ QuestieLocale.locale['enUS'] = {
     ['SLASH_CONFIG'] = "/questie -- Toggles the Config window",
     ['SLASH_TOGGLE_QUESTIE'] = "/questie toggle -- Toggles showing questie on the map and minimap",
     ['SLASH_JOURNEY'] = "/questie journey -- Toggles the My Journey window",
+    ['SLASH_MINIMAP'] = "/questie minimap -- Toggles the Minimap Button for Questie",
 
 
     -- Journey Window
@@ -141,6 +142,7 @@ QuestieLocale.locale['enUS'] = {
     ['JOURNEY_ALSO_STARTS_GO'] = "This Object Also Starts the following quests:",
     ['JOURNEY_ALSO_ENDS_GO'] = "This Object Also Completes the following quests:",
     ['JOURNEY_NO_QUEST'] = "No Quests to List",
+    ['JOURNEY_NEXT_QUEST'] = "Quest Chain",
     ['JOURNEY_QUEST_LEVEL'] = "Recommended Quest Level: ",
     ['JOURNEY_QUEST_MINLEVEL'] = "Minimum Required Level for Quest: ",
     ['JOURNEY_QUEST_ID'] = "Quest ID: ",
