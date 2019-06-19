@@ -1379,7 +1379,7 @@ function QuestieJourney:toggleJourneyWindow()
     end
 end
 
-function QuestieJourney:JounreyWinodwShown()
+function QuestieJourney:JounreyWindowShown()
     return isWindowShown;
 end
 
