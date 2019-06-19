@@ -81,6 +81,8 @@ function QuestieFramePool:GetFrame()
     f.miniMapIcon = nil
 
     --if f.IsShowing ~= nil and f:IsShowing() then
+    f.data = {} -- this should probably be nil but QuestieCreateFrame sets it to an empty table for some reason
+    f.x = nil;f.y = nil;f.AreaID = nil;
     f:Hide();
     --end
 
@@ -211,6 +213,7 @@ function _QuestieFramePool:QuestieCreateFrame()
         --self.glow:Hide()
         self.data = nil; -- Just to be safe
         self.loaded = nil;
+        self.x = nil;self.y = nil;self.AreaID = nil;
         table.insert(unusedframes, self)
         usedFrames[self:GetName()] = nil
     end
