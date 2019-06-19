@@ -328,7 +328,8 @@ function QuestieQuest:AddFinisher(Quest)
                     local data = {}
                     data.Id = Quest.Id;
                     data.Icon = ICON_TYPE_COMPLETE;
-                    data.IconScale = Questie.db.global.availableScale or 1.3
+                    data.GetIconScale = function() return Questie.db.global.availableScale or 1.3 end
+                    data.IconScale = data:GetIconScale();
                     data.Type = "complete";
                     data.QuestData = Quest;
                     data.Name = NPC.Name
@@ -374,7 +375,8 @@ ObjectiveSpawnListCallTable = {
         mon.Spawns = npcData.Spawns
         mon.Icon = ICON_TYPE_SLAY
         mon.Id = id
-        mon.IconScale = Questie.db.global.monsterScale or 1
+        mon.GetIconScale = function() return Questie.db.global.monsterScale or 1 end
+        mon.IconScale = mon:GetIconScale();
         mon.TooltipKey = "u_" .. npcData.Name -- todo: use ID based keys
 
         ret[id] = mon;
@@ -392,7 +394,8 @@ ObjectiveSpawnListCallTable = {
         obj.Name = objData.Name
         obj.Spawns = objData.Spawns
         obj.Icon = ICON_TYPE_LOOT
-        obj.IconScale = Questie.db.global.objectScale or 1
+        obj.GetIconScale = function() return Questie.db.global.objectScale or 1 end
+        obj.IconScale = obj:GetIconScale()
         obj.TooltipKey = "o_" .. objData.Name
         obj.Id = id
 
@@ -404,7 +407,8 @@ ObjectiveSpawnListCallTable = {
         ret[1] = {};
         ret[1].Name = Objective.Description or "Event Trigger";
         ret[1].Icon = ICON_TYPE_EVENT
-        ret[1].IconScale = Questie.db.global.eventScale or 1.35
+        ret[1].GetIconScale = function() return Questie.db.global.eventScale or 1.35 end
+        ret[1].IconScale = ret[1]:GetIconScale();
         ret[1].Id = id or 0
         if Objective.Coordinates then
             ret[1].Spawns = Objective.Coordinates
@@ -447,10 +451,12 @@ ObjectiveSpawnListCallTable = {
                                 ret[id].Spawns = {};
                                 if source.Type == "object" then
                                     ret[id].Icon = ICON_TYPE_OBJECT
-                                    ret[id].IconScale = Questie.db.global.objectScale or 1
+                                    ret[id].GetIconScale = function() return Questie.db.global.objectScale or 1 end
+                                    ret[id].IconScale = ret[id]:GetIconScale()
                                 else
                                     ret[id].Icon = ICON_TYPE_LOOT
-                                    ret[id].IconScale = Questie.db.global.lootScale or 1
+                                    ret[id].GetIconScale = function() return Questie.db.global.lootScale or 1 end
+                                    ret[id].IconScale = ret[id]:GetIconScale()
                                 end
                                 ret[id].TooltipKey = sourceData.TooltipKey
                                 ret[id].Id = id
@@ -532,7 +538,8 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                 data.QuestData = Quest
                 data.ObjectiveData = Objective
                 data.Icon = spawnData.Icon
-                data.IconScale = spawnData.IconScale or 1
+                data.GetIconScale = function() return spawnData:GetIconScale() or 1 end
+                data.IconScale = data:GetIconScale()
                 data.Name = spawnData.Name
                 data.Type = Objective.Type
                 data.ObjectiveTargetId = spawnData.Id
@@ -830,7 +837,8 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                             local data = {}
                             data.Id = questObject.Id;
                             data.Icon = ICON_TYPE_AVAILABLE;
-                            data.IconScale = Questie.db.global.availableScale or 1.3
+                            data.GetIconScale = function() return Questie.db.global.availableScale or 1.3 end
+                            data.IconScale = data:GetIconScale()
                             data.Type = "available";
                             data.QuestData = questObject;
                             data.Name = obj.Name
@@ -870,7 +878,8 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                             local data = {}
                             data.Id = questObject.Id;
                             data.Icon = ICON_TYPE_AVAILABLE;
-                            data.IconScale = Questie.db.global.availableScale or 1.3
+                            data.GetIconScale = function() return Questie.db.global.availableScale or 1.3 end
+                            data.IconScale = data.GetIconScale();
                             data.Type = "available";
                             data.QuestData = questObject;
                             data.Name = NPC.Name

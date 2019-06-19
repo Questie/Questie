@@ -37,26 +37,21 @@ function QuestieMap:rescaleIcons()
         for i, frameName in ipairs(framelist) do
             local frame = _G[frameName]
             if frame and frame.data then
-                if (frame.data.Icon == ICON_TYPE_AVAILABLE or frame.data.Icon == ICON_TYPE_COMPLETE) then
-                    frame.data.IconScale = Questie.db.global.availableScale
-                elseif frame.data.Icon == ICON_TYPE_EVENT then
-                    frame.data.IconScale = (Questie.db.global.eventScale or 1)
-                elseif frame.data.Icon == ICON_TYPE_SLAY then
-                    frame.data.IconScale = (Questie.db.global.monsterScale or 1)
-                elseif frame.data.Icon == ICON_TYPE_OBJECT then
-                    frame.data.IconScale = (Questie.db.global.objectScale or 1)
-                elseif frame.data.Icon == ICON_TYPE_LOOT then
-                    frame.data.IconScale = (Questie.db.global.lootScale or 1)
-                end
-                local scale = nil
-                if frame.miniMapIcon then
-                    scale = 16 * (Questie.db.global.globalMiniMapScale or 0.7) * frame.data.IconScale
+                if(frame.data.GetIconScale) then
+                    frame.data.IconScale = frame.data:GetIconScale();
+                    local scale = nil
+                    if(frame.miniMapIcon) then
+                        scale = 16 * (frame.data.IconScale or 1) * (Questie.db.global.globalMiniMapScale or 0.7);
+                    else
+                        scale = 16 * (frame.data.IconScale or 1) * (Questie.db.global.globalScale or 0.7);
+                    end
+
+                    if scale > 1 then
+                        frame:SetWidth(scale)
+                        frame:SetHeight(scale)
+                    end
                 else
-                    scale = 16 * (Questie.db.global.globalScale or 0.7) * frame.data.IconScale
-                end
-                if scale > 1 then
-                    frame:SetWidth(scale)
-                    frame:SetHeight(scale)
+                    Questie:Error("A frame is lacking the GetIconScale function for resizing!", frame.data.Id);
                 end
             end
         end
