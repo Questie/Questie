@@ -904,7 +904,9 @@ local function questFrame(f, quest)
 
         Spacer(endNPCGroup);
 
-    
+        -- Fix for sometimes the scroll content will max out and not show everything until window is resized
+        f.content:SetHeight(10000);
+   
     end
 end
 
@@ -1042,6 +1044,9 @@ local function npcFrame(f, npc)
 
     Spacer(f);
 
+    -- Fix for sometimes the scroll content will max out and not show everything until window is resized
+    f.content:SetHeight(10000);
+
 end
 
 -- Manage teh zone tree itself and the contents of the per-quest window
@@ -1071,6 +1076,7 @@ local function manageZoneTree(container, zt)
 
             local f = AceGUI:Create("ScrollFrame");
             f:SetLayout("flow");
+            f:SetFullHeight(true);
             master:AddChild(f);
 
             _, qid = strsplit("\001", sel);
@@ -1078,6 +1084,7 @@ local function manageZoneTree(container, zt)
 
             local quest = QuestieDB:GetQuest(qid);
             questFrame(f, quest);
+
         end);
 
         container:AddChild(zoneTreeFrame);
