@@ -565,12 +565,33 @@ local function questFrame(f, quest)
     minLevel:SetText(Questie:Colorize(QuestieLocale:GetUIString('JOURNEY_QUEST_MINLEVEL'), 'yellow') .. quest.MinLevel);
     minLevel:SetFullWidth(true);
     f:AddChild(minLevel);
+    
+    local diff = AceGUI:Create("Label");
+    diff:SetFullWidth(true);
+    local red, orange, yellow, green, gray = QuestieJourney:GetLevelDifficultyRanges(quest.Level, quest.MinLevel);
+    local diffStr = '';
+
+    if red then
+        diffStr = diffStr .. "|cFFFF1A1A[".. red .."]|r ";
+    end
+
+    if orange then
+        diffStr = diffStr .. "|cFFFF8040[".. orange .."]|r ";
+    end
+
+    diffStr = diffStr .. "|cFFFFFF00[".. yellow .."]|r ";
+    diffStr = diffStr .. "|cFF40C040[".. green .."]|r ";
+    diffStr = diffStr .. "|cFFC0C0C0[".. gray .."]|r ";
+
+    diff:SetText(Questie:Colorize(QuestieLocale:GetUIString('JOURNEY_DIFFICULTY', diffStr), 'yellow'));
+    f:AddChild(diff);
 
     local id = AceGUI:Create("Label");
     id:SetText(Questie:Colorize(QuestieLocale:GetUIString('JOURNEY_QUEST_ID'), 'yellow') .. quest.Id);
     id:SetFullWidth(true);
     f:AddChild(id);
     Spacer(f);
+
 
 
     -- Get Quest Start NPC
@@ -883,7 +904,9 @@ local function questFrame(f, quest)
 
         Spacer(endNPCGroup);
 
-    
+        -- Fix for sometimes the scroll content will max out and not show everything until window is resized
+        f.content:SetHeight(10000);
+   
     end
 end
 
@@ -1021,6 +1044,9 @@ local function npcFrame(f, npc)
 
     Spacer(f);
 
+    -- Fix for sometimes the scroll content will max out and not show everything until window is resized
+    f.content:SetHeight(10000);
+
 end
 
 -- Manage teh zone tree itself and the contents of the per-quest window
@@ -1050,6 +1076,7 @@ local function manageZoneTree(container, zt)
 
             local f = AceGUI:Create("ScrollFrame");
             f:SetLayout("flow");
+            f:SetFullHeight(true);
             master:AddChild(f);
 
             _, qid = strsplit("\001", sel);
@@ -1057,6 +1084,7 @@ local function manageZoneTree(container, zt)
 
             local quest = QuestieDB:GetQuest(qid);
             questFrame(f, quest);
+
         end);
 
         container:AddChild(zoneTreeFrame);
@@ -1476,7 +1504,7 @@ function QuestieJourney:toggleJourneyWindow()
     end
 end
 
-function QuestieJourney:JounreyWindowShown()
+function QuestieJourney:IsShown()
     return isWindowShown;
 end
 
@@ -1486,47 +1514,31 @@ function QuestieJourney:GetLevelDifficultyRanges(questLevel, questMinLevel)
     local red, orange, yellow, green, gray = 0,0,0,0,0;
 
     -- Calculate Base Values
-    red = questLevel - 10;
+    red = questMinLevel;
     orange = questLevel - 4;
     yellow = questLevel - 2;
     green = questLevel + 3;
 
     -- Gray Level based on level range.
-    if questLevel <= 5 then
-        gray = questLevel + 5;
-    elseif questLevel >= 39 then 
-        gray = math.floor(questLevel / 10) + questLevel + 6;
+    if (questLevel <= 13) then
+        gray =  questLevel + 6;
+    elseif (questLevel <= 39) then
+        gray = (questLevel + math.ceil(questLevel / 10) + 5);
     else
-        gray = math.floor(questLevel / 5) + questLevel + 2;
-    end;
+        gray = (questLevel + math.ceil(questLevel / 5) + 1);
+    end
 
     -- Double check for negative values
     if yellow <= 0 then
         yellow = questMinLevel;
     end
 
-    if orange <= 0 then
-        orange = questMinLevel;
-    elseif orange < questMinLevel then
+    if orange < questMinLevel then
         orange = questMinLevel;
     end
 
     if orange == yellow then
         orange = nil;
-    end
-
-    if red <= questMinLevel then
-        red = questMinLevel;
-    end
-
-    if red <= 0 then
-
-        red = math.abs(red);
-        red = questLevel - (10 - red);
-
-        if red <= 0 then
-            red = questMinLevel;
-        end
     end
 
     if red == orange or not orange then
