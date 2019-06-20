@@ -906,7 +906,7 @@ local minimapIconLDB = LibStub("LibDataBroker-1.1"):NewDataObject("MinimapIcon",
 
 			_QuestieOptions.OpenConfigWindow()
 
-			if QuestieJourney:JounreyWindowShown() then
+			if QuestieJourney:IsShown() then
 				QuestieJourney.toggleJourneyWindow();
 			end
 			return;
@@ -1030,7 +1030,7 @@ function Questie:QuestieSlash(input)
 	if input == "" or not input then
 		_QuestieOptions.OpenConfigWindow();
 
-		if QuestieJourney:JounreyWindowShown() then
+		if QuestieJourney:IsShown() then
 			QuestieJourney.toggleJourneyWindow();
 		end
 		return ;

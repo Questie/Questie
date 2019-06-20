@@ -1476,7 +1476,7 @@ function QuestieJourney:toggleJourneyWindow()
     end
 end
 
-function QuestieJourney:JounreyWindowShown()
+function QuestieJourney:IsShown()
     return isWindowShown;
 end
 
