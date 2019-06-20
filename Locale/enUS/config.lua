@@ -146,6 +146,7 @@ QuestieLocale.locale['enUS'] = {
     ['JOURNEY_QUEST_LEVEL'] = "Recommended Quest Level: ",
     ['JOURNEY_QUEST_MINLEVEL'] = "Minimum Required Level for Quest: ",
     ['JOURNEY_QUEST_ID'] = "Quest ID: ",
+    ['JOURNEY_DIFFICULTY'] = "Difficulty Range: %s",
     ['JOURNEY_AUTO_QUEST'] = "This quest is an automatic completion quest and does not contain an objective.",
     ['JOURNEY_RECENT_EVENTS'] = "Your Recent History",
     ['JOURNEY_NOTE_CREATED'] = "Your Created a new Note titled: %s",
