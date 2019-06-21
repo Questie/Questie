@@ -112,6 +112,8 @@ _QuestieOptions.defaults = {
 	  nameplateTargetFrameScale = 1.7,
 	  questieLocale = 'enUS',
 	  questieLocaleDiff = false,
+	  alwaysGlowMap = false,
+	  alwaysGlowMinimap = false
 	},
 	  char = {
 		  complete = {},
@@ -281,6 +283,18 @@ local options = {
                     order = 1,
                     name = function() return QuestieLocale:GetUIString('MINIMAP_HEADER') end,
 				},
+				alwaysGlowMinimap = {
+					type = "toggle",
+					order = 1.7,
+					name = function() return QuestieLocale:GetUIString('MINIMAP_ALWAYS_GLOW_TOGGLE') end,
+					desc = function() return QuestieLocale:GetUIString('MINIMAP_ALWAYS_GLOW_TOGGLE_DESC') end,
+					width = "full",
+					get = GetGlobalOptionLocal,
+                    set = function (info, value)
+						SetGlobalOptionLocal(info, value)
+						QuestieFramePool:UpdateGlowConfig(true, value)
+					end,
+				},
 				Spacer_A = _QuestieOptions:Spacer(2),
                 globalMiniMapScale = {
                     type = "range",
@@ -298,13 +312,11 @@ local options = {
                                 SetGlobalOptionLocal(info, value)
                             end,
                 },
-				Spacer_B = _QuestieOptions:Spacer(9),
 				fade_options = {
 					type = "header",
 					order = 10,
 					name = function() return QuestieLocale:GetUIString('MINIMAP_FADE') end,
 				},
-				Spacer_C = _QuestieOptions:Spacer(11),
 				fadeLevel = {
 					type = "range",
 					order = 12,
@@ -414,6 +426,18 @@ local options = {
 									Questie_Toggle:Hide();
 								end
 							end,
+				},
+				alwaysGlowMap = {
+					type = "toggle",
+					order = 3.1,
+					name = function() return QuestieLocale:GetUIString('MAP_ALWAYS_GLOW_TOGGLE') end,
+					desc = function() return QuestieLocale:GetUIString('MAP_ALWAYS_GLOW_TOGGLE_DESC') end,
+					width = "full",
+					get = GetGlobalOptionLocal,
+                    set = function (info, value)
+						SetGlobalOptionLocal(info, value)
+						QuestieFramePool:UpdateGlowConfig(false, value)
+					end,
 				},
 				Spacer_A = _QuestieOptions:Spacer(6),
 				mapnote_options = {

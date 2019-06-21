@@ -100,42 +100,17 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
             data.UiMapID = zoneDataAreaIDToUiMapID[AreaID];
         end
 
-        local glow = false;
 
-        if glow then
-            icon.texture:SetTexture("Interface\\Addons\\QuestieDev-master\\Icons\\glow.blp")-- because of how frames work, I cant seem to set the glow as being behind the note. So for now things are draw in reverse.
-            if data.QuestData and data.QuestData.Color then
-                icon.texture:SetVertexColor(data.QuestData.Color[1], data.QuestData.Color[2], data.QuestData.Color[3], 1);
-            end
-            icon.glowTexture:SetTexture(data.Icon) -- todo: implement .GlowIcon
-            icon.glowTexture:SetVertexColor(1, 1, 1, 1);
-
-            -- because of how frames work, I cant seem to set the glow as being behind the note. So for now things are draw in reverse.
-            if data.IconScale ~= nil then
-                local scale = 16 * (data.IconScale*(Questie.db.global.globalScale or 0.7));
-                icon.glow:SetWidth(scale)
-                icon.glow:SetHeight(scale)
-                icon:SetWidth(scale + 2)
-                icon:SetHeight(scale + 2)
-            else
-                icon.glow:SetWidth(16)
-                icon.glow:SetHeight(16)
-                icon:SetWidth(18)
-                icon:SetHeight(18)
-            end
-            --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddWorldMapIconMap", icon, zoneDataAreaIDToUiMapID[AreaID], x/100, y/100, showFlag )
+        icon.texture:SetTexture(data.Icon) -- todo: implement .GlowIcon
+        icon.texture:SetVertexColor(1, 1, 1, 1);
+        -- because of how frames work, I cant seem to set the glow as being behind the note. So for now things are draw in reverse.
+        if data.IconScale then
+            local scale = 16 * (data.IconScale*(Questie.db.global.globalScale or 0.7));
+            icon:SetWidth(scale)
+            icon:SetHeight(scale)
         else
-            icon.texture:SetTexture(data.Icon) -- todo: implement .GlowIcon
-            icon.texture:SetVertexColor(1, 1, 1, 1);
-            -- because of how frames work, I cant seem to set the glow as being behind the note. So for now things are draw in reverse.
-            if data.IconScale then
-                local scale = 16 * (data.IconScale*(Questie.db.global.globalScale or 0.7));
-                icon:SetWidth(scale)
-                icon:SetHeight(scale)
-            else
-                icon:SetWidth(16)
-                icon:SetHeight(16)
-            end
+            icon:SetWidth(16)
+            icon:SetHeight(16)
         end
 
         local iconMinimap = QuestieFramePool:GetFrame()
@@ -168,11 +143,23 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
                             local fadeAmount = QuestieFramePool:remap(distance, 0, Questie.db.global.fadeOverPlayerDistance, Questie.db.global.fadeOverPlayerLevel, 1);
                            -- local fadeAmount = math.max(fadeAmount, 0.5);
                             self.texture:SetVertexColor(1, 1, 1, fadeAmount)
+                            if self.glowTexture and self.glowTexture.GetVertexColor then
+                                local r,g,b = self.glowTexture:GetVertexColor()
+                                self.glowTexture:SetVertexColor(r,g,b,fadeAmount)
+                            end
                         else
                             self.texture:SetVertexColor(1, 1, 1, 1)
+                            if self.glowTexture and self.glowTexture.GetVertexColor then
+                                local r,g,b = self.glowTexture:GetVertexColor()
+                                self.glowTexture:SetVertexColor(r,g,b,1)
+                            end
                         end
                     else
                         self.texture:SetVertexColor(1, 1, 1, 1)
+                        if self.glowTexture and self.glowTexture.GetVertexColor then
+                            local r,g,b = self.glowTexture:GetVertexColor()
+                            self.glowTexture:SetVertexColor(r,g,b,1)
+                        end
                     end
                 end
             end

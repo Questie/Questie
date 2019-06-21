@@ -35,8 +35,9 @@ QuestieLocale.locale['enUS'] = {
     ['MINMAP_COORDS'] = "Mini-Map Coordinates",
     ['ENABLE_COORDS'] = "Player Coordinates on Minimap",
     ['ENABLE_COORDS_DESC'] = "Place the Player's coordinates on the Minimap title.",
-
-
+    ['MINIMAP_ALWAYS_GLOW_TOGGLE'] = "Always glow behind minimap icons",
+    ['MINIMAP_ALWAYS_GLOW_TOGGLE_DESC'] = "Draw a glow texture behind minimap icons, colored unique to each quest",
+	
     ['MAP_TAB'] = "Map Options",
     ['ENABLE_MAP_BUTTON'] = "Show Questie Map Button",
     ['ENABLE_MAP_BUTTON_DESC'] = "Enable or disable the Show/Hide Questie Button on Map (May fix some Map Addon interactions)",
@@ -48,6 +49,8 @@ QuestieLocale.locale['enUS'] = {
     ['ENABLE_MAP_COORDS_DESC'] = "Place the Player's coordinates and Cursor's coordinates on the Map's title.",
     ['MAP_COORDS_PRECISION'] = "Map Coordinates Decimal Precision",
     ['MAP_COORDS_PRECISION_DESC'] = "How many decimals to include in the precision on the Map for Player and Cursor coordinates. ( Default: %s )",
+    ['MAP_ALWAYS_GLOW_TOGGLE'] = "Always glow behind map icons",
+    ['MAP_ALWAYS_GLOW_TOGGLE_DESC'] = "Draw a glow texture behind map icons, colored unique to each quest",
 
     ['AVAILABLE_ICON_SCALE'] = "Scale for Available/Complete Icons",
     ['AVAILABIE_ICON_SCALE_DESC'] = "How large the available/complete icons are.  ( Default: %s )",

@@ -23,6 +23,7 @@ ICON_TYPE_ITEM =  _QuestieFramePool.addonPath.."Icons\\item.blp"
 ICON_TYPE_LOOT =  _QuestieFramePool.addonPath.."Icons\\loot.blp"
 ICON_TYPE_EVENT =  _QuestieFramePool.addonPath.."Icons\\event.blp"
 ICON_TYPE_OBJECT =  _QuestieFramePool.addonPath.."Icons\\object.blp"
+ICON_TYPE_GLOW = _QuestieFramePool.addonPath.."Icons\\glow.blp"
 
 
 local function testPath(tex)
@@ -42,6 +43,7 @@ local function testPath(tex)
             ICON_TYPE_LOOT =  _QuestieFramePool.addonPath.."Icons\\loot.blp"
             ICON_TYPE_EVENT =  _QuestieFramePool.addonPath.."Icons\\event.blp"
             ICON_TYPE_OBJECT =  _QuestieFramePool.addonPath.."Icons\\object.blp"
+            ICON_TYPE_GLOW =  _QuestieFramePool.addonPath.."Icons\\glow.blp"
         end
         self:Hide()
     end)
@@ -112,6 +114,22 @@ function QuestieFramePool:UnloadAll()
     qQuestIdFrames = {}
 end
 
+function QuestieFramePool:UpdateGlowConfig(mini, mode)
+    DEFAULT_CHAT_FRAME:AddMessage("Glow: " .. tostring(mini) .. " " .. tostring(mode));
+    if mode then
+        for _, icon in pairs(usedFrames) do
+            if (((mini and icon.miniMapIcon) or not mini) and icon.glow) and icon.IsShown and icon:IsShown() then
+                icon:GetScript("OnShow")(icon) -- forces a glow update
+            end
+        end
+    else
+        for _, icon in pairs(usedFrames) do
+            if ((mini and icon.miniMapIcon) or not mini) and icon.glow then
+                icon.glow:Hide()
+            end
+        end
+    end
+end
 
 -- Local Functions --
 
@@ -132,7 +150,7 @@ function _QuestieFramePool:QuestieCreateFrame()
         Questie:Debug(DEBUG_CRITICAL, "[QuestieFramePool] Over 5000 frames... maybe there is a leak?", qNumberOfFrames)
     end
 
-    f.glow = CreateFrame("Button", "QuestieFrame"..qNumberOfFrames.."Glow", nil) -- glow frame
+    f.glow = CreateFrame("Button", "QuestieFrame"..qNumberOfFrames.."Glow", f) -- glow frame
     f.glow:SetFrameStrata("TOOLTIP");
     f.glow:SetWidth(18) -- Set these to whatever height/width is needed
     f.glow:SetHeight(18)
@@ -155,10 +173,13 @@ function _QuestieFramePool:QuestieCreateFrame()
 
     f.texture = t;
     f.glowTexture = glowt
+    f.glowTexture:SetTexture(ICON_TYPE_GLOW)
+    f.glow:Hide()
     f:SetPoint("CENTER", 0, 0)
     f.glow:SetPoint("CENTER", - 1, - 1) -- 2 pixels bigger than normal icon
     f.glow:EnableMouse(false)
     f:EnableMouse(true)--f:EnableMouse()
+
     --f.mouseIsOver = false;
     --f:SetScript("OnUpdate", function()
     --  local mo = MouseIsOver(self); -- function exists in classic but crashes the game
@@ -183,10 +204,27 @@ function _QuestieFramePool:QuestieCreateFrame()
         end
     end);
     f:HookScript("OnUpdate", function(self)
-        self.glow:SetPoint("BOTTOMLEFT", self, 1, 1)
+        if self.glow and self.glow.IsShown and self.glow:IsShown() then
+            self.glow:SetWidth(self:GetWidth()*1.13)
+            self.glow:SetHeight(self:GetHeight()*1.13)
+            self.glow:SetPoint("CENTER", self, 0, 0)
+            if self.data and self.data.QuestData and self.data.QuestData.Color and self.glowTexture then
+                local _,_,_,alpha = self.texture:GetVertexColor()
+                self.glowTexture:SetVertexColor(self.data.QuestData.Color[1], self.data.QuestData.Color[2], self.data.QuestData.Color[3], alpha or 1);
+            end
+        end
+        --self.glow:SetPoint("BOTTOMLEFT", self, 1, 1)
     end)
     f:HookScript("OnShow", function(self)
-        self.glow:Show()
+        if ((self.miniMapIcon and Questie.db.global.alwaysGlowMinimap) or ((not self.miniMapIcon) and Questie.db.global.alwaysGlowMap)) and self.data and self.data.QuestData and self.data.QuestData.Color and (self.data.Type and (self.data.Type ~= "available" and self.data.Type ~= "complete")) then
+            self.glow:SetWidth(self:GetWidth()*1.13)
+            self.glow:SetHeight(self:GetHeight()*1.13)
+            self.glow:SetPoint("CENTER", self, 0, 0)
+            local _,_,_,alpha = self.texture:GetVertexColor()
+            self.glowTexture:SetVertexColor(self.data.QuestData.Color[1], self.data.QuestData.Color[2], self.data.QuestData.Color[3], alpha or 1);
+            self.glow:Show()
+            self.glow:SetFrameLevel(self:GetFrameLevel() - 1)
+        end
     end)
     f:HookScript("OnHide", function(self)
         self.glow:Hide()
@@ -361,6 +399,8 @@ function _QuestieFramePool:Questie_Tooltip(self)
         end
     end
     Tooltip:_rebuild() -- we separate this so things like MODIFIER_STATE_CHANGED can redraw the tooltip
+    --Tooltip:AddDoubleLine("" .. self:GetFrameStrata(), ""..self:GetFrameLevel())
+    --Tooltip:AddDoubleLine("" .. self.glow:GetFrameStrata(), ""..self.glow:GetFrameLevel())
     Tooltip:SetFrameStrata("TOOLTIP");
     QuestieTooltips.lastTooltipTime = GetTime() -- hack for object tooltips
     Tooltip:Show();
