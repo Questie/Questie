@@ -590,6 +590,17 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
     end
 end
 
+local _randomSeed = 0;
+local function math_randomseed(seed)
+    _randomSeed = seed
+end
+local function math_random()
+    local high = 0xffffff;
+    _randomSeed = (_randomSeed * 214013 + 2531011) % 2^32;
+    local rand = math.floor(_randomSeed / 2^16) % 2^15;
+    return (1 + math.floor(rand / 0x7fff * high)) / high
+end
+
 function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to PopulateNotes as it also handles finishers now
     if not Quest then return; end
     if QuestieQuest:IsComplete(Quest) then
@@ -599,7 +610,8 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
 
 
     if not Quest.Color then -- todo: move to a better place
-        Quest.Color = {0.45 + math.random() / 2, 0.45 + math.random() / 2, 0.45 + math.random() / 2}
+        math_randomseed(Quest.Id)
+        Quest.Color = {0.45 + math_random() / 2, 0.45 + math_random() / 2, 0.45 + math_random() / 2}
     end
 
     -- we've already checked the objectives table by doing IsComplete
