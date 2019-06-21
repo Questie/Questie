@@ -716,8 +716,8 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                     self.Collected = tonumber(numItems)
                     self.Needed = tonumber(numNeeded)
                     self.Completed = (self.Needed == self.Collected and self.Needed > 0) or (isComplete and (self.Needed == 0 or (not self.Needed))) -- some objectives get removed on PLAYER_LOGIN because isComplete is set to true at random????
-                    if old then SelectQuestLogEntry(old); end
                 end
+                if old then SelectQuestLogEntry(old); end
                 return {self.Collected, self.Needed, self.Completed}
             end
             Quest.Objectives[i]:Update()
