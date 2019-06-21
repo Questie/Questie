@@ -512,6 +512,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
     end
     if Objective.spawnList then
         local hasSpawnHack = false -- used to check if we have bad data due to API delay. Remove this check once the API bug is dealt with properly
+        local hasTooltipHack = false
         local tooltipRegisterHack = {} -- improve this
         for id, spawnData in pairs(Objective.spawnList) do -- spawnData.Name, spawnData.Spawns
             hasSpawnHack = true -- #table and table.getn are unreliable
@@ -530,6 +531,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                 if not Objective.registeredTooltips and spawnData.TooltipKey and (not tooltipRegisterHack[spawnData.TooltipKey]) then -- register mob / item / object tooltips
                     QuestieTooltips:RegisterTooltip(Quest.Id, spawnData.TooltipKey, Objective);
                     tooltipRegisterHack[spawnData.TooltipKey] = true
+                    hasTooltipHack = true
                 end
                 local maxCount = 0
                 local data = {}
@@ -586,7 +588,9 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
         if not hasSpawnHack then-- used to check if we have bad data due to API delay. Remove this check once the API bug is dealt with properly
             Objective.spawnList = nil -- reset the list so it can be regenerated with hopefully better quest log data
         end
-        Objective.registeredTooltips = true
+        if hasTooltipHack then
+            Objective.registeredTooltips = true
+        end
     end
 end
 
