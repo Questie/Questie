@@ -300,11 +300,17 @@ function _QuestieFramePool:Questie_Tooltip(self)
                         if icon.data.Type == "event" then
                             questOrder[key][icon.data.ObjectiveData.Description] = true
                         else
+                            --dat.subData = icon.data.ObjectiveData
                             local text = icon.data.ObjectiveData.Description
                             if icon.data.ObjectiveData.Needed then
                                 text = tostring(icon.data.ObjectiveData.Collected) .. "/" .. tostring(icon.data.ObjectiveData.Needed) .. " " .. text
                             end
-                            questOrder[key][text] = true
+                            if not questOrder[key][text] then
+                                questOrder[key][text] = {}
+                            end
+                            if icon.data.Name then
+                                questOrder[key][text][icon.data.Name] = true
+                            end
                             --table.insert(questOrder[key], text);--questOrder[key][icon.data.ObjectiveData.Description] = tostring(icon.data.ObjectiveData.Collected) .. "/" .. tostring(icon.data.ObjectiveData.Needed) .. " " .. icon.data.ObjectiveData.Description--table.insert(questOrder[key], tostring(icon.data.ObjectiveData.Collected) .. "/" .. tostring(icon.data.ObjectiveData.Needed) .. " " .. icon.data.ObjectiveData.Description);
                         end
                     end
@@ -340,8 +346,17 @@ function _QuestieFramePool:Questie_Tooltip(self)
             else
                 self:AddLine(k);
             end
-            for k2, v2 in pairs(v) do
-                self:AddLine("   |cFF33FF33" .. k2);
+            if shift then
+                for k2, v2 in pairs(v) do
+                    for k3 in pairs(v2) do
+                        self:AddLine("   |cFFDDDDDD" .. k3);
+                    end
+                    self:AddLine("      |cFF33FF33" .. k2);
+                end
+            else
+                for k2, v2 in pairs(v) do
+                    self:AddLine("   |cFF33FF33" .. k2);
+                end
             end
         end
     end
