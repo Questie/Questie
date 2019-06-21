@@ -682,10 +682,13 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
             end
             Quest.Objectives[i].Index = i
             Quest.Objectives[i].QuestId = Quest.Id
+            Quest.Objectives[i].QuestLogId = logId
             Quest.Objectives[i].QuestData = Quest
             Quest.Objectives[i]._lastUpdate = 0;
             Quest.Objectives[i].Description = nil
             Quest.Objectives[i].Update = function(self)
+                local old = GetQuestLogSelection()
+                SelectQuestLogEntry(self.QuestLogId)
                 local now = GetTime();
                 if now - self._lastUpdate < 0.5 then
                     if old then SelectQuestLogEntry(old); end
