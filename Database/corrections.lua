@@ -36,7 +36,8 @@ questObjectFixes = {
 
 questMobFixes = {
     [300] = {'Zzarc\' Vul',1050,1050,33,33,0,{[10]={{38,80},},},nil,10,nil,nil},
-    [5082] = {'Vincent Hyal',1605,1605,30,30,0,{[11]={{10.8,60.4}}},nil,11,{1302},{1301}}
+    [5082] = {'Vincent Hyal',1605,1605,30,30,0,{[11]={{10.8,60.4}}},nil,11,{1302},{1301}},
+    [4360] = {'Mirefin Warrior',1208,1257,37,39,0,{},nil,15,nil,nil} -- TODO: remove this after the db is fixed!!! This is just to fix tooltips
 }
 
 questItemFixes = {
