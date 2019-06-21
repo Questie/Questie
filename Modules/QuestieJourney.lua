@@ -189,17 +189,7 @@ local function manageJourneyTree(container)
 
                     local obj = AceGUI:Create("Label");
                     obj:SetFullWidth(true);
-                    local objText = "";
-
-                    if quest.Description then 
-                        for i, v in ipairs(quest.Description) do
-                            objText = objText .. v .. "\n";
-                        end
-                    else
-                        objText = Questie:Colorize(QuestieLocale:GetUIString('JOURNEY_AUTO_QUEST'), 'yellow');
-                    end
-
-                    obj:SetText(objText);
+                    obj:SetText(createObjectiveText(quest.Description));
                     f:AddChild(obj);
 
                     Spacer(f);
@@ -521,6 +511,57 @@ local zoneTable = {
 };
 
 
+function jumpToSearch(button)
+    local qid = button:GetUserData('id');
+    local qname = button:GetUserData('name');
+
+    if not (lastOpenWindow == 'search') then
+        tabGroup:SelectTab('search');
+    end
+
+    typeDropdown:SetValue(1);
+    searchBox:SetText(qname);
+    DrawSearchResults(searchGroup, 1, qname);
+    searchTreeFrame:SelectByValue(qid);
+
+    hideJourneyTooltip();
+end
+
+function showJourneyTooltip(button)
+    if GameTooltip:IsShown() then
+        return;
+    end
+
+    local qid = button:GetUserData('id');
+    local quest = QuestieDB:GetQuest(tonumber(qid));
+
+    GameTooltip:SetOwner(_G["QuestieJourneyFrame"], "ANCHOR_CURSOR");
+    GameTooltip:AddLine("[".. quest.Level .."] ".. quest.Name);
+    GameTooltip:AddLine("|cFFFFFFFF" .. createObjectiveText(quest.Description))
+    GameTooltip:SetFrameStrata("TOOLTIP");
+    GameTooltip:Show();
+end
+
+function hideJourneyTooltip()
+    if GameTooltip:IsShown() then
+        GameTooltip:Hide();
+    end
+end
+
+function createObjectiveText(desc)
+    local objText = "";
+
+    if desc then 
+        for i, v in ipairs(desc) do
+            objText = objText .. v .. "\n";
+        end
+    else
+        objText = Questie:Colorize(QuestieLocale:GetUIString('JOURNEY_AUTO_QUEST'), 'yellow');
+    end
+
+    return objText;
+end
+
 local zoneTreeFrame = nil;
 local selectedContinent = 0;
 
@@ -533,17 +574,7 @@ local function questFrame(f, quest)
     Spacer(f);
 
     local obj = AceGUI:Create("Label");
-    local objText = "";
-
-    if quest.Description then 
-        for i, v in ipairs(quest.Description) do
-            objText = objText .. v .. "\n";
-        end
-    else
-        objText = Questie:Colorize(QuestieLocale:GetUIString('JOURNEY_AUTO_QUEST'), 'yellow');
-    end
-
-    obj:SetText(objText);
+    obj:SetText(createObjectiveText(quest.Description));
 
 
     obj:SetFullWidth(true);
@@ -666,20 +697,9 @@ local function questFrame(f, quest)
                     startQuests[counter].frame:SetText(startQuests[counter].quest:GetColoredQuestName());
                     startQuests[counter].frame:SetUserData('id', v);
                     startQuests[counter].frame:SetUserData('name', startQuests[counter].quest.Name);
-                    startQuests[counter].frame:SetCallback("OnClick", function(button)
-           
-                        local qid = button:GetUserData('id');
-                        local qname = button:GetUserData('name');
-        
-                        if not (lastOpenWindow == 'search') then
-                            tabGroup:SelectTab('search');
-                        end
-
-                        typeDropdown:SetValue(1);
-                        searchBox:SetText(qname);
-                        DrawSearchResults(searchGroup, 1, qname);
-                        searchTreeFrame:SelectByValue(qid);
-                    end);
+                    startQuests[counter].frame:SetCallback("OnClick", jumpToSearch);
+                    startQuests[counter].frame:SetCallback("OnEnter", showJourneyTooltip);
+                    startQuests[counter].frame:SetCallback("OnLeave", hideJourneyTooltip);
                     startNPCGroup:AddChild(startQuests[counter].frame);
                     counter = counter + 1;
                 end
@@ -771,20 +791,9 @@ local function questFrame(f, quest)
                         startQuests[counter].frame:SetText(startQuests[counter].quest:GetColoredQuestName());
                         startQuests[counter].frame:SetUserData('id', v);
                         startQuests[counter].frame:SetUserData('name', startQuests[counter].quest.Name);
-                        startQuests[counter].frame:SetCallback("OnClick", function(button)
-               
-                            local qid = button:GetUserData('id');
-                            local qname = button:GetUserData('name');
-
-                            if not (lastOpenWindow == 'search') then
-                                tabGroup:SelectTab('search');
-                            end
-            
-                            typeDropdown:SetValue(1);
-                            searchBox:SetText(qname);
-                            DrawSearchResults(searchGroup, 1, qname);
-                            searchTreeFrame:SelectByValue(qid);
-                        end);
+                        startQuests[counter].frame:SetCallback("OnClick", jumpToSearch);
+                        startQuests[counter].frame:SetCallback("OnEnter", showJourneyTooltip);
+                        startQuests[counter].frame:SetCallback("OnLeave", hideJourneyTooltip);
                         startGOGroup:AddChild(startQuests[counter].frame);
                         counter = counter + 1;
                     end
@@ -811,7 +820,7 @@ local function questFrame(f, quest)
         endNPCGroup:SetTitle(QuestieLocale:GetUIString('JOURNEY_END_NPC'));
         endNPCGroup:SetFullWidth(true);
         f:AddChild(endNPCGroup);
-        Spacer(endNPCGroup, "small");
+        Spacer(endNPCGroup);
 
         local endnpc = QuestieDB:GetNPC(quest.Finisher.Id);
 
@@ -874,20 +883,9 @@ local function questFrame(f, quest)
                     endQuests[counter].frame:SetText(endQuests[counter].quest:GetColoredQuestName());
                     endQuests[counter].frame:SetUserData('id', v);
                     endQuests[counter].frame:SetUserData('name', endQuests[counter].quest.Name);
-                    endQuests[counter].frame:SetCallback("OnClick", function(button)
-           
-                        local qid = button:GetUserData('id');
-                        local qname = button:GetUserData('name');
-
-                        if not (lastOpenWindow == 'search') then
-                            tabGroup:SelectTab('search');
-                        end
-        
-                        typeDropdown:SetValue(1);
-                        searchBox:SetText(qname);
-                        DrawSearchResults(searchGroup, 1, qname);
-                        searchTreeFrame:SelectByValue(qid);
-                    end);
+                    endQuests[counter].frame:SetCallback("OnClick", jumpToSearch);
+                    endQuests[counter].frame:SetCallback("OnEnter", showJourneyTooltip);
+                    endQuests[counter].frame:SetCallback("OnLeave", hideJourneyTooltip);
                     endNPCGroup:AddChild(endQuests[counter].frame);
                     counter = counter + 1;
                 end
@@ -970,20 +968,9 @@ local function npcFrame(f, npc)
             startQuests[counter].frame:SetText(startQuests[counter].quest:GetColoredQuestName());
             startQuests[counter].frame:SetUserData('id', v);
             startQuests[counter].frame:SetUserData('name', startQuests[counter].quest.Name);
-            startQuests[counter].frame:SetCallback("OnClick", function(button)
-   
-                local qid = button:GetUserData('id');
-                local qname = button:GetUserData('name');
-
-                if not (lastOpenWindow == 'search') then
-                    tabGroup:SelectTab('search');
-                end
-
-                typeDropdown:SetValue(1);
-                searchBox:SetText(qname);
-                DrawSearchResults(searchGroup, 1, qname);
-                searchTreeFrame:SelectByValue(qid);
-            end);
+            startQuests[counter].frame:SetCallback("OnClick", jumpToSearch);
+            startQuests[counter].frame:SetCallback("OnEnter", showJourneyTooltip);
+            startQuests[counter].frame:SetCallback("OnLeave", hideJourneyTooltip);
             startGroup:AddChild(startQuests[counter].frame);
             counter = counter + 1;
         end
@@ -1016,20 +1003,9 @@ local function npcFrame(f, npc)
             endQuests[counter].frame:SetText(endQuests[counter].quest:GetColoredQuestName());
             endQuests[counter].frame:SetUserData('id', v);
             endQuests[counter].frame:SetUserData('name', endQuests[counter].quest.Name);
-            endQuests[counter].frame:SetCallback("OnClick", function(button)
-   
-                local qid = button:GetUserData('id');
-                local qname = button:GetUserData('name');
-
-                if not (lastOpenWindow == 'search') then
-                    tabGroup:SelectTab('search');
-                end
-
-                typeDropdown:SetValue(1);
-                searchBox:SetText(qname);
-                DrawSearchResults(searchGroup, 1, qname);
-                searchTreeFrame:SelectByValue(qid);
-            end);
+            endQuests[counter].frame:SetCallback("OnClick", jumpToSearch);
+            endQuests[counter].frame:SetCallback("OnEnter", showJourneyTooltip);
+            endQuests[counter].frame:SetCallback("OnLeave", hideJourneyTooltip);
             endGroup:AddChild(endQuests[counter].frame);
             counter = counter + 1;
         end
