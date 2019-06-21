@@ -115,7 +115,6 @@ function QuestieFramePool:UnloadAll()
 end
 
 function QuestieFramePool:UpdateGlowConfig(mini, mode)
-    DEFAULT_CHAT_FRAME:AddMessage("Glow: " .. tostring(mini) .. " " .. tostring(mode));
     if mode then
         for _, icon in pairs(usedFrames) do
             if (((mini and icon.miniMapIcon) or not mini) and icon.glow) and icon.IsShown and icon:IsShown() then
