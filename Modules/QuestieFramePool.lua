@@ -123,7 +123,7 @@ function QuestieFramePool:UpdateGlowConfig(mini, mode)
         end
     else
         for _, icon in pairs(usedFrames) do
-            if ((mini and icon.miniMapIcon) or not mini) and icon.glow then
+            if ((mini and icon.miniMapIcon) or (not mini and not icon.miniMapIcon)) and icon.glow then
                 icon.glow:Hide()
             end
         end
