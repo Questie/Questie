@@ -292,7 +292,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
         maxDistCluster = 4
     end
     if self.miniMapIcon then 
-        maxDistCluster = 2 / (1+Minimap:GetZoom())
+        maxDistCluster = 3 / (1+Minimap:GetZoom())
     end
     local already = {}; -- per quest
     local alreadyUnique = {}; -- per objective
