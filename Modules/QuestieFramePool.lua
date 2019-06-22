@@ -291,8 +291,8 @@ function _QuestieFramePool:Questie_Tooltip(self)
     elseif mid == 1415 or mid == 1414 then -- kalimdor/ek
         maxDistCluster = 4
     end
-    if not WorldMapFrame:IsShown() then -- this should check if its a minimap note or map note instead, some map addons dont use WorldMapFrame
-        maxDistCluster = 0.5
+    if self.miniMapIcon then 
+        maxDistCluster = 2 / (1+Minimap:GetZoom())
     end
     local already = {}; -- per quest
     local alreadyUnique = {}; -- per objective
