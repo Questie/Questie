@@ -215,6 +215,9 @@ function _QuestieFramePool:QuestieCreateFrame()
         --self.glow:SetPoint("BOTTOMLEFT", self, 1, 1)
     end)
     f:HookScript("OnShow", function(self)
+        if self.data and self.data.Type and self.data.Type == "complete" then
+            self:SetFrameLevel(self:GetFrameLevel() + 1)
+        end
         if ((self.miniMapIcon and Questie.db.global.alwaysGlowMinimap) or ((not self.miniMapIcon) and Questie.db.global.alwaysGlowMap)) and self.data and self.data.QuestData and self.data.QuestData.Color and (self.data.Type and (self.data.Type ~= "available" and self.data.Type ~= "complete")) then
             self.glow:SetWidth(self:GetWidth()*1.13)
             self.glow:SetHeight(self:GetHeight()*1.13)
