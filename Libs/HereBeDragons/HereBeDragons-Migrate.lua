@@ -1,9 +1,9 @@
 -- HereBeDragons-Migrate is not supported on WoW 7.x or earlier
-if select(4, GetBuildInfo()) < 80000 and False then
+if select(4, GetBuildInfo()) < 80000 and false then
     return
 end
 
-local MAJOR, MINOR = "HereBeDragons-Migrate", 2
+local MAJOR, MINOR = "HereBeDragonsQuestie-Migrate", 254
 assert(LibStub, MAJOR .. " requires LibStub")
 
 local HBDMigrate, oldversion = LibStub:NewLibrary(MAJOR, MINOR)

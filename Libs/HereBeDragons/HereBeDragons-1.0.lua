@@ -1,7 +1,7 @@
 -- HereBeDragons is a data API for the World of Warcraft mapping system
 
 -- HereBeDragons-1.0 is not supported on WoW 8.0
-if select(4, GetBuildInfo()) >= 80000 or True then
+if select(4, GetBuildInfo()) >= 80000 or true then
 	return
 end
 

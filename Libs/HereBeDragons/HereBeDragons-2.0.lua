@@ -5,7 +5,7 @@ if select(4, GetBuildInfo()) < 80000 and false then
     return
 end
 
-local MAJOR, MINOR = "HereBeDragons-2.0", 6
+local MAJOR, MINOR = "HereBeDragonsQuestie-2.0", 254
 assert(LibStub, MAJOR .. " requires LibStub")
 
 local HereBeDragons, oldversion = LibStub:NewLibrary(MAJOR, MINOR)
