@@ -2,10 +2,10 @@ QuestieLocale.locale['enUS'] = {
     -- Config Windows
     ['OPTIONS_TAB'] = "Options",
     ['QUESTIE_HEADER'] = "Questie Options",
-    ['ENABLE_QUESTIE'] = "Enable Questie",
-    ['ENABLE_QUESTIE_DESC'] = "Enable or disable addon functionality.",
-    ['ENABLE_ICON'] = "Enable Questie Minimap Icon",
-    ['ENABLE_ICON_DESC'] = "Enable or disable the minimap icon. You can still access the options menu with /questie",
+    ['ENABLE_QUESTIE'] = "Enable Icons",
+    ['ENABLE_QUESTIE_DESC'] = "Enable or disable Questie icons",
+    ['ENABLE_ICON'] = "Enable Minimap Button",
+    ['ENABLE_ICON_DESC'] = "Enable or disable the Questie minimap button. You can still access the options menu with /questie",
     ['ENABLE_INSTANT'] = "Enable Instant Quest Text",
     ['ENABLE_INSTANT_DESC'] = "Toggles the default Instant Quest Text option. This is just a shortcut for the WoW option in Interface",
     ['LEVEL_HEADER'] = "Quest Level Options",
@@ -111,7 +111,7 @@ QuestieLocale.locale['enUS'] = {
     ['ICON_SHIFTLEFT_CLICK'] = "Shift + Left Click", 
     ['ICON_TOGGLE_QUESTIE'] = "Toggle Questie",
     ['ICON_CTRLRIGHT_CLICK'] = "Ctrl + Right Click", 
-    ['ICON_HIDE'] = "Hide Minimap Icon",
+    ['ICON_HIDE'] = "Hide Minimap Button",
     ['ICON_RIGHT_CLICK'] = "Right Click",
     ['ICON_JOURNEY'] = "Toggle My Journey",
 

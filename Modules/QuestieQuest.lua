@@ -13,7 +13,10 @@ end
 
 QuestieQuest.NotesHidden = false
 
-function QuestieQuest:ToggleNotes()
+function QuestieQuest:ToggleNotes(desiredValue)
+    if desiredValue ~= nil and desiredValue == (not QuestieQuest.NotesHidden) then
+        return -- we already have the desired state
+    end
     if QuestieQuest.NotesHidden then
         Questie_Toggle:SetText(QuestieLocale:GetUIString('QUESTIE_MAP_BUTTON_HIDE'));
         for questId, framelist in pairs(qQuestIdFrames) do
@@ -52,9 +55,8 @@ function QuestieQuest:ToggleNotes()
             end
         end
     end
-
-    Questie.db.char.enabled = QuestieQuest.NotesHidden;
     QuestieQuest.NotesHidden = not QuestieQuest.NotesHidden
+    Questie.db.char.enabled = not QuestieQuest.NotesHidden
 end
 
 function QuestieQuest:GetRawLeaderBoardDetails(QuestLogIndex)

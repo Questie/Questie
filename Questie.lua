@@ -158,7 +158,7 @@ local options = {
 								return Questie.db.char.enabled
 							end,
 					set =	function (info, value)
-								QuestieQuest:ToggleNotes();
+								QuestieQuest:ToggleNotes(value);
 								Questie.db.char.enabled = value						
 							end,
 				},
@@ -211,7 +211,6 @@ local options = {
 					name = function() return QuestieLocale:GetUIString('ENABLE_LOWLEVEL') end,
 					desc = function() return QuestieLocale:GetUIString('ENABLE_LOWLEVEL_DESC') end,
 					width = 200,
-					disabled = function() return not Questie.db.char.enabled end,
 					get =	function ()
                                 return Questie.db.char.lowlevel
 							end,
@@ -230,7 +229,6 @@ local options = {
 					min = 1,
 					max = 10,
 					step = 1,
-					disabled = function() return not Questie.db.char.enabled end,
 					get = GetGlobalOptionLocal,
 					set = function (info, value)
 								SetGlobalOptionLocal(info, value)
@@ -246,7 +244,6 @@ local options = {
 					min = 1,
 					max = 10,
 					step = 1,
-					disabled = function() return not Questie.db.char.enabled end,
 					get = GetGlobalOptionLocal,
 					set = function (info, value)
 								SetGlobalOptionLocal(info, value)
@@ -262,7 +259,6 @@ local options = {
                   min = 0.02,
                   max = 5,
 				  step = 0.01,
-				  disabled = function() return not Questie.db.char.enabled end,
                   get = GetGlobalOptionLocal,
                   set = function (info, value)
                         _QuestieOptions:Delay(0.5, _QuestieOptions.ClusterRedraw, QuestieLocale:GetUIString('DEBUG_CLUSTER', value))
@@ -305,7 +301,6 @@ local options = {
                     min = 0.01,
                     max = 4,
 					step = 0.01,
-					disabled = function() return not Questie.db.char.enabled end,
                     get = GetGlobalOptionLocal,
                     set = function (info, value)
                                 QuestieMap:rescaleIcons()
@@ -326,7 +321,6 @@ local options = {
 					min = 0.01,
 					max = 5,
 					step = 0.01,
-					disabled = function() return not Questie.db.char.enabled end,
 					get = GetGlobalOptionLocal,
 					set = function (info, value)
 						  SetGlobalOptionLocal(info, value)
@@ -339,7 +333,6 @@ local options = {
 					name = function() return QuestieLocale:GetUIString('MINIMAP_FADE_PLAYER') end,
 					desc = function() return QuestieLocale:GetUIString('MINIMAP_FADE_PLAYER_DESC') end,
 					width = "full",
-					disabled = function() return not Questie.db.char.enabled end,
 					get = GetGlobalOptionLocal,
 					set = function (info, value)
 						SetGlobalOptionLocal(info, value)
@@ -355,7 +348,7 @@ local options = {
 					max = 0.5,
 					step = 0.01,
 					get = GetGlobalOptionLocal,
-					disabled = function() return (not Questie.db.char.enabled) or (not Questie.db.global.fadeOverPlayer) end,
+					disabled = function() return (not Questie.db.global.fadeOverPlayer) end,
 					set = function (info, value)
 						SetGlobalOptionLocal(info, value)
 					end,
@@ -369,7 +362,7 @@ local options = {
 					min = 0.1,
 					max = 1,
 					step = 0.1,
-					disabled = function() return (not Questie.db.char.enabled) or (not Questie.db.global.fadeOverPlayer) end,
+					disabled = function() return (not Questie.db.global.fadeOverPlayer) end,
 					get = GetGlobalOptionLocal,
 					set = function (info, value)
 						SetGlobalOptionLocal(info, value)
@@ -455,7 +448,6 @@ local options = {
                     min = 0.01,
 					max = 4,
 					step = 0.01,
-					disabled = function() return not Questie.db.char.enabled end,
 					get = GetGlobalOptionLocal,
 					set = function (info, value)
                                 QuestieMap:rescaleIcons()
@@ -471,7 +463,6 @@ local options = {
                     min = 0.01,
 					max = 4,
 					step = 0.01,
-					disabled = function() return not Questie.db.char.enabled end,
 					get = GetGlobalOptionLocal,
 					set = function (info, value)
                                 QuestieMap:rescaleIcons()
@@ -487,7 +478,6 @@ local options = {
                     min = 0.01,
 					max = 4,
 					step = 0.01,
-					disabled = function() return not Questie.db.char.enabled end,
 					get = GetGlobalOptionLocal,
 					set = function (info, value)
                                 QuestieMap:rescaleIcons()
@@ -503,7 +493,6 @@ local options = {
                     min = 0.01,
 					max = 4,
 					step = 0.01,
-					disabled = function() return not Questie.db.char.enabled end,
 					get = GetGlobalOptionLocal,
 					set = function (info, value)
                                 QuestieMap:rescaleIcons()
@@ -519,7 +508,6 @@ local options = {
                     min = 0.01,
 					max = 4,
 					step = 0.01,
-					disabled = function() return not Questie.db.char.enabled end,
 					get = GetGlobalOptionLocal,
 					set = function (info, value)
                                 QuestieMap:rescaleIcons()
@@ -535,7 +523,6 @@ local options = {
                     min = 0.01,
 					max = 4,
 					step = 0.01,
-					disabled = function() return not Questie.db.char.enabled end,
 					get = GetGlobalOptionLocal,
 					set = function (info, value)
                                 QuestieMap:rescaleIcons()
@@ -1024,6 +1011,7 @@ function Questie:OnInitialize()
 		Questie_Toggle:SetText(QuestieLocale:GetUIString('QUESTIE_MAP_BUTTON_HIDE'));
 	else
 		Questie_Toggle:SetText(QuestieLocale:GetUIString('QUESTIE_MAP_BUTTON_SHOW'));
+        QuestieQuest:ToggleNotes(false)
 	end
 
 	-- Update status of Map button on hide between play sessions
