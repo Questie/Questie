@@ -1,0 +1,12 @@
+#We don't want the zip file in the repo
+*.zip
+#Don't push temp files...
+*.zip.tmp*
+#Don't push the bash script lock file.
+*.lock
+
+#This is used for the atom build package, enables the build to happen on each save.
+.atom-build.yml
+
+#Used by the buildscript in batch
+*.temporary
