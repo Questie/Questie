@@ -207,9 +207,9 @@ function _QuestieFramePool:QuestieCreateFrame()
             self.glow:SetWidth(self:GetWidth()*1.13)
             self.glow:SetHeight(self:GetHeight()*1.13)
             self.glow:SetPoint("CENTER", self, 0, 0)
-            if self.data and self.data.QuestData and self.data.QuestData.Color and self.glowTexture then
+            if self.data and self.data.ObjectiveData and self.data.ObjectiveData.Color and self.glowTexture then
                 local _,_,_,alpha = self.texture:GetVertexColor()
-                self.glowTexture:SetVertexColor(self.data.QuestData.Color[1], self.data.QuestData.Color[2], self.data.QuestData.Color[3], alpha or 1);
+                self.glowTexture:SetVertexColor(self.data.ObjectiveData.Color[1], self.data.ObjectiveData.Color[2], self.data.ObjectiveData.Color[3], alpha or 1);
             end
         end
         --self.glow:SetPoint("BOTTOMLEFT", self, 1, 1)
@@ -218,12 +218,12 @@ function _QuestieFramePool:QuestieCreateFrame()
         if self.data and self.data.Type and self.data.Type == "complete" then
             self:SetFrameLevel(self:GetFrameLevel() + 1)
         end
-        if ((self.miniMapIcon and Questie.db.global.alwaysGlowMinimap) or ((not self.miniMapIcon) and Questie.db.global.alwaysGlowMap)) and self.data and self.data.QuestData and self.data.QuestData.Color and (self.data.Type and (self.data.Type ~= "available" and self.data.Type ~= "complete")) then
+        if ((self.miniMapIcon and Questie.db.global.alwaysGlowMinimap) or ((not self.miniMapIcon) and Questie.db.global.alwaysGlowMap)) and self.data and self.data.ObjectiveData and self.data.ObjectiveData.Color and (self.data.Type and (self.data.Type ~= "available" and self.data.Type ~= "complete")) then
             self.glow:SetWidth(self:GetWidth()*1.13)
             self.glow:SetHeight(self:GetHeight()*1.13)
             self.glow:SetPoint("CENTER", self, 0, 0)
             local _,_,_,alpha = self.texture:GetVertexColor()
-            self.glowTexture:SetVertexColor(self.data.QuestData.Color[1], self.data.QuestData.Color[2], self.data.QuestData.Color[3], alpha or 1);
+            self.glowTexture:SetVertexColor(self.data.ObjectiveData.Color[1], self.data.ObjectiveData.Color[2], self.data.ObjectiveData.Color[3], alpha or 1);
             self.glow:Show()
             self.glow:SetFrameLevel(self:GetFrameLevel() - 1)
         end

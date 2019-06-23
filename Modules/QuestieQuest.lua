@@ -499,6 +499,11 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
 
     Objective:Update() -- update qlog data
     local completed = Objective.Completed
+	
+    if not Objective.Color then -- todo: move to a better place
+        QuestieQuest:math_randomseed(Quest.Id + 32768 * ObjectiveIndex)
+        Objective.Color = {0.45 + QuestieQuest:math_random() / 2, 0.45 + QuestieQuest:math_random() / 2, 0.45 + QuestieQuest:math_random() / 2}
+    end
 
     if (not Objective.registeredItemTooltips) and Objective.Type == "item" and (not BlockItemTooltips) and Objective.Id then -- register item tooltip (special case)
         local itm = QuestieDB:GetItem(Objective.Id);
@@ -596,10 +601,10 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
 end
 
 local _randomSeed = 0;
-local function math_randomseed(seed)
+function QuestieQuest:math_randomseed(seed)
     _randomSeed = seed
 end
-local function math_random()
+function QuestieQuest:math_random()
     local high = 0xffffff;
     _randomSeed = (_randomSeed * 214013 + 2531011) % 2^32;
     local rand = math.floor(_randomSeed / 2^16) % 2^15;
@@ -615,8 +620,8 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
 
 
     if not Quest.Color then -- todo: move to a better place
-        math_randomseed(Quest.Id)
-        Quest.Color = {0.45 + math_random() / 2, 0.45 + math_random() / 2, 0.45 + math_random() / 2}
+        QuestieQuest:math_randomseed(Quest.Id)
+        Quest.Color = {0.45 + QuestieQuest:math_random() / 2, 0.45 + QuestieQuest:math_random() / 2, 0.45 + QuestieQuest:math_random() / 2}
     end
 
     -- we've already checked the objectives table by doing IsComplete
