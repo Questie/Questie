@@ -275,6 +275,33 @@ function QuestieFramePool:remap(value, low1, high1, low2, high2)
 end
 
 _QuestieFramePool.lastTooltipShowHack = GetTime()
+function _QuestieFramePool:isMinimapInside()
+    if _QuestieFramePool._lastMiniInsideCheck and GetTime() - _QuestieFramePool._lastMiniInsideCheck < 1 then
+        return _QuestieFramePool._lastMiniInside
+    end
+    local tempzoom = 0;
+    if (GetCVar("minimapZoom") == GetCVar("minimapInsideZoom")) then
+        if (GetCVar("minimapInsideZoom")+0 >= 3) then
+            Minimap:SetZoom(Minimap:GetZoom() - 1);
+            tempzoom = 1;
+        else
+            Minimap:SetZoom(Minimap:GetZoom() + 1);
+            tempzoom = -1;
+        end
+    end
+    if (GetCVar("minimapInsideZoom")+0 == Minimap:GetZoom()) then 
+        Minimap:SetZoom(Minimap:GetZoom() + tempzoom);
+        _QuestieFramePool._lastMiniInside = true
+        _QuestieFramePool._lastMiniInsideCheck = GetTime()
+        return true
+    else
+        _QuestieFramePool._lastMiniInside = false
+        _QuestieFramePool._lastMiniInsideCheck = GetTime()
+        Minimap:SetZoom(Minimap:GetZoom() + tempzoom);
+        return false
+    end
+end
+
 function _QuestieFramePool:Questie_Tooltip(self)
     if GetTime() - _QuestieFramePool.lastTooltipShowHack < 0.05 and GameTooltip:IsShown() then
         return
@@ -292,7 +319,11 @@ function _QuestieFramePool:Questie_Tooltip(self)
         maxDistCluster = 4
     end
     if self.miniMapIcon then 
-        maxDistCluster = 3 / (1+Minimap:GetZoom())
+        if _QuestieFramePool:isMinimapInside() then
+            maxDistCluster = 1 / (1+Minimap:GetZoom())
+        else
+            maxDistCluster = 2 / (1+Minimap:GetZoom())
+        end
     end
     local already = {}; -- per quest
     local alreadyUnique = {}; -- per objective
