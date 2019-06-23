@@ -500,7 +500,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
     Objective:Update() -- update qlog data
     local completed = Objective.Completed
 
-    if (not Objective.registeredTooltips) and Objective.Type == "item" and (not BlockItemTooltips) then -- register item tooltip (special case)
+    if (not Objective.registeredItemTooltips) and Objective.Type == "item" and (not BlockItemTooltips) and Objective.Id then -- register item tooltip (special case)
         local itm = QuestieDB:GetItem(Objective.Id);
         if itm and itm.Name then
             if completed then
@@ -509,6 +509,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                 QuestieTooltips:RegisterTooltip(Quest.Id, "i_" .. itm.Name, Objective);
             end
         end
+        Objective.registeredItemTooltips = true
     end
     if Objective.spawnList then
         local hasSpawnHack = false -- used to check if we have bad data due to API delay. Remove this check once the API bug is dealt with properly
