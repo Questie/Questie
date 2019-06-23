@@ -233,6 +233,7 @@ function _QuestieFramePool:QuestieCreateFrame()
     end)
     --f.Unload = function(frame) _QuestieFramePool:UnloadFrame(frame) end;
     function f:Unload()
+        usedFrames[self:GetName()] = nil
         --We are reseting the frames, making sure that no data is wrong.
         if self ~= nil and self.hidden and self._show ~= nil and self._hide ~= nil then -- restore state to normal (toggle questie)
             self.hidden = false
@@ -255,7 +256,6 @@ function _QuestieFramePool:QuestieCreateFrame()
         self.loaded = nil;
         self.x = nil;self.y = nil;self.AreaID = nil;
         table.insert(unusedframes, self)
-        usedFrames[self:GetName()] = nil
     end
     f.data = {}
     f:Hide()

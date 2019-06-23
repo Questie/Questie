@@ -47,6 +47,14 @@ function QuestieLocale:GetLocaleTable()
 end
 
 function QuestieLocale:GetUIString(key, ...)
+    local result, val = pcall(QuestieLocale._GetUIString, QuestieLocale, key, ...)
+    if result then
+        return val
+	else
+        return tostring(key) .. ' ERROR: '.. val;
+	end
+end
+function QuestieLocale:_GetUIString(key, ...)
     if key then
         -- convert all args to string
         local arg = {...};        
@@ -61,14 +69,14 @@ function QuestieLocale:GetUIString(key, ...)
                 if QuestieLocale.locale['enUS'] and QuestieLocale.locale['enUS'][key] then
                     return string.format(QuestieLocale.locale['enUS'][key], unpack(arg));
                 else
-                    return 'QUESTIE LOCALE ERROR';
+                    return tostring(key) ..' ERROR: '..tostring(locale)..' key missing!';
                 end
             end
         else
             if QuestieLocale.locale['enUS'] and QuestieLocale.locale['enUS'][key] then
                 return string.format(QuestieLocale.locale['enUS'][key], unpack(arg));
             else
-                return 'QUESTIE LOCALE ERROR';
+                return tostring(key) ..' ERROR: enUS key missing!';
             end
         end
     end

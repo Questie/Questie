@@ -89,7 +89,9 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
 
 
     if (not data.ClusterId) or (not QuestieMap.MapCache_ClutterFix[AreaID][xcell][ycell][data.ClusterId]) then -- the reason why we only prevent adding to HBD is so its easy to "unhide" if we need to, and so the refs still exist
-
+        if data.ClusterId then
+            QuestieMap.MapCache_ClutterFix[AreaID][xcell][ycell][data.ClusterId] = true
+        end
         --QuestieMap.MapCache_ClutterFix[AreaID][xcell][ycell][data.ObjectiveTargetId] = true
         local icon = QuestieFramePool:GetFrame()
         icon.data = data
@@ -178,9 +180,6 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
 
         HBDPins:AddMinimapIconMap(Questie, iconMinimap, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, true, floatOnEdge)
         HBDPins:AddWorldMapIconMap(Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, showFlag)
-        if data.ClusterId then
-            QuestieMap.MapCache_ClutterFix[AreaID][xcell][ycell][data.ClusterId] = true
-        end
         if(qQuestIdFrames[data.Id] == nil) then
             qQuestIdFrames[data.Id] = {}
         end
