@@ -69,7 +69,25 @@ questItemBlacklist = {
     [13465] = true, --mountain silversage
     [13466] = true, -- plaguebloom
     [13467] = true, -- icecap
-    [13468] = true -- black lotus
+    [13468] = true, -- black lotus
+    
+    -- stranglethorn pages
+    [2725]=true,
+    [2728]=true,
+    [2730]=true,
+    [2732]=true,
+    [2734]=true,
+    [2735]=true,
+    [2738]=true,
+    [2740]=true,
+    [2742]=true,
+    [2744]=true,
+    [2745]=true,
+    [2748]=true,
+    [2749]=true,
+    [2750]=true,
+    [2751]=true
+    
 }
 
 questObjectFixes = {
