@@ -7,6 +7,9 @@ local usedFrames = {};
 
 local allframes = {}
 
+local HBD = LibStub("HereBeDragonsQuestie-2.0")
+local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
+local HBDMigrate = LibStub("HereBeDragonsQuestie-Migrate")
 
 --These changes allow me to develop on retail!
 if(select(4, GetBuildInfo()) > 80000) then

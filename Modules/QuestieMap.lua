@@ -2,6 +2,11 @@ QuestieMap = {...}
 
 qQuestIdFrames = {}
 
+local HBD = LibStub("HereBeDragonsQuestie-2.0")
+local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
+local HBDMigrate = LibStub("HereBeDragonsQuestie-Migrate")
+
+
 -- copypaste from old questie (clean up later)
 QUESTIE_NOTES_CLUSTERMUL_HACK = 1; -- smaller numbers = less icons on map
 QuestieMap.MapCache_ClutterFix = {};

@@ -5,9 +5,9 @@ _Questie = {...}
 local LibC = LibStub:GetLibrary("LibCompress")
 local LibCE = LibC:GetAddonEncodeTable()
 local AceGUI = LibStub("AceGUI-3.0")
-HBD = LibStub("HereBeDragonsQuestie-2.0")
-HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
-HBDMigrate = LibStub("HereBeDragonsQuestie-Migrate")
+local HBD = LibStub("HereBeDragonsQuestie-2.0")
+local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
+local HBDMigrate = LibStub("HereBeDragonsQuestie-Migrate")
 
 DEBUG_CRITICAL = "|cff00f2e6[CRITICAL]|r"
 DEBUG_ELEVATED = "|cffebf441[ELEVATED]|r"
