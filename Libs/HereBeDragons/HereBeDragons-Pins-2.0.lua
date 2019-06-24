@@ -340,15 +340,15 @@ worldmapPinsPool.resetterFunc = function(pinPool, pin)
 end
 
 -- register pin pool with the world map
-WorldMapFrame.pinPools["HereBeDragonsPinsTemplate"] = worldmapPinsPool
+WorldMapFrame.pinPools["HereBeDragonsQuestiePinsTemplate"] = worldmapPinsPool
 
 -- provider base API
 function worldmapProvider:RemoveAllData()
-    self:GetMap():RemoveAllPinsByTemplate("HereBeDragonsPinsTemplate")
+    self:GetMap():RemoveAllPinsByTemplate("HereBeDragonsQuestiePinsTemplate")
 end
 
 function worldmapProvider:RemovePinByIcon(icon)
-    for pin in self:GetMap():EnumeratePinsByTemplate("HereBeDragonsPinsTemplate") do
+    for pin in self:GetMap():EnumeratePinsByTemplate("HereBeDragonsQuestiePinsTemplate") do
         if pin.icon == icon then
             self:GetMap():RemovePin(pin)
         end
@@ -356,7 +356,7 @@ function worldmapProvider:RemovePinByIcon(icon)
 end
 
 function worldmapProvider:RemovePinsByRef(ref)
-    for pin in self:GetMap():EnumeratePinsByTemplate("HereBeDragonsPinsTemplate") do
+    for pin in self:GetMap():EnumeratePinsByTemplate("HereBeDragonsQuestiePinsTemplate") do
         if pin.icon and worldmapPinRegistry[ref][pin.icon] then
             self:GetMap():RemovePin(pin)
         end
@@ -426,7 +426,7 @@ function worldmapProvider:HandlePin(icon, data)
         x, y = HBD:GetZoneCoordinatesFromWorld(data.x, data.y, uiMapID)
     end
     if x and y then
-        self:GetMap():AcquirePin("HereBeDragonsPinsTemplate", icon, x, y)
+        self:GetMap():AcquirePin("HereBeDragonsQuestiePinsTemplate", icon, x, y)
     end
 end
 
