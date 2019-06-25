@@ -100,7 +100,10 @@ questItemBlacklist = {
     [16650]=true,
     [16651]=true,
     [16652]=true,
-    [16653]=true
+    [16653]=true,
+	
+	
+    [12207]=true -- giant egg
     
 }
 
