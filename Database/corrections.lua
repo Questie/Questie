@@ -524,7 +524,7 @@ qHide = {
   [6625] = true,
   [8194] = true,
   [2751] = true,
-  [384] = true,
+  --[384] = true,
   [2757] = true,
   [6610] = true,
   [5307] = true,
@@ -630,7 +630,7 @@ qHide = {
   [2849] = true,
   [2856] = true,
   [6608] = true,
-  [90] = true, --Seasoned Wolf Kabobs Unsure if this is a profession quest.
+  --[90] = true, --Seasoned Wolf Kabobs Unsure if this is a profession quest.
   --All PVP Quests
   [7385] = true,
   [7362] = true,
