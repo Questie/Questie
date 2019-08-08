@@ -2,7 +2,7 @@
 **A quest helper for World of Warcraft: Classic**
 
 
-# Put "QuestieDev-master" in your interface folder! Delete any old questie folders you have first!
+# To download go onto releases and download the latest version!
 *Some features are missing, but its all being ported in slowly. Keep an eye on discord! (linked below)*
 
 [![Downloads](https://img.shields.io/github/downloads/AeroScripts/QuestieDev/total.svg)](https://github.com/AeroScripts/QuestieDev/releases/)
