@@ -48,7 +48,10 @@ cp -r embeds.xml releases/$VERSION/$FOLDERNAME
 cp -r Questie.lua releases/$VERSION/$FOLDERNAME
 cp -r README.md releases/$VERSION/$FOLDERNAME
 
-cp QuestieDev-master.toc releases/$VERSION/$FOLDERNAME/$FOLDERNAME.toc
+# Add hash of currently checked out commit to toc
+COMMIT=$(git rev-parse HEAD)
+echo "# Commit hash: $COMMIT" >> releases/$VERSION/$FOLDERNAME/$FOLDERNAME.toc
+cat QuestieDev-master.toc >> releases/$VERSION/$FOLDERNAME/$FOLDERNAME.toc
 
 echo "Packaging release"
 ROOT=$(pwd)
