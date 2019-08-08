@@ -15,7 +15,7 @@ local HBDMigrate = LibStub("HereBeDragonsQuestie-Migrate")
 if(select(4, GetBuildInfo()) > 80000) then
     _QuestieFramePool.addonPath = "Interface\\Addons\\QuestieDev-master-retail\\"
 else
-    _QuestieFramePool.addonPath = "Interface\\Addons\\QuestieDev-master\\"
+    _QuestieFramePool.addonPath = "Interface\\Addons\\Questie\\"
 end
 
 --TODO: Add all types
@@ -292,7 +292,7 @@ function _QuestieFramePool:isMinimapInside()
             tempzoom = -1;
         end
     end
-    if (GetCVar("minimapInsideZoom")+0 == Minimap:GetZoom()) then 
+    if (GetCVar("minimapInsideZoom")+0 == Minimap:GetZoom()) then
         Minimap:SetZoom(Minimap:GetZoom() + tempzoom);
         _QuestieFramePool._lastMiniInside = true
         _QuestieFramePool._lastMiniInsideCheck = GetTime()
@@ -321,7 +321,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
     elseif mid == 1415 or mid == 1414 then -- kalimdor/ek
         maxDistCluster = 4
     end
-    if self.miniMapIcon then 
+    if self.miniMapIcon then
         if _QuestieFramePool:isMinimapInside() then
             maxDistCluster = 1 / (1+Minimap:GetZoom())
         else

@@ -13,49 +13,49 @@ if [ ! -f $LOCKFILE ] ; then
 
     echo "--> Generating develop toc files"
     echo "----> Classic"
-    echo "#DO NOT MODIFY"> QuestieDev-master.toc
-    echo "#AUTOMATICALLY GENERATED FROM Configuration\\general.toc.conf" >> QuestieDev-master.toc
-    echo "## Interface: $CLASSICVERSION" >> QuestieDev-master.toc
-    cat Configuration\\general.toc.conf >> QuestieDev-master.toc
+    echo "#DO NOT MODIFY"> Questie.toc
+    echo "#AUTOMATICALLY GENERATED FROM Configuration/general.toc.conf" >> Questie.toc
+    echo "## Interface: $CLASSICVERSION" >> Questie.toc
+    cat Configuration/general.toc.conf >> Questie.toc
 
-    echo "----> Retail"
-    echo "#DO NOT MODIFY"> QuestieDev-master-retail.toc
-    echo "#AUTOMATICALLY GENERATED FROM Configuration\\general.toc.conf" >> QuestieDev-master-retail.toc
-    echo "## Interface: $RETAILVERSION" >> QuestieDev-master-retail.toc
-    cat Configuration\\general.toc.conf >> QuestieDev-master-retail.toc
+    #echo "----> Retail"
+    #echo "#DO NOT MODIFY"> QuestieDev-master-retail.toc
+    #echo "#AUTOMATICALLY GENERATED FROM Configuration/general.toc.conf" >> QuestieDev-master-retail.toc
+    #echo "## Interface: $RETAILVERSION" >> QuestieDev-master-retail.toc
+    #cat Configuration/general.toc.conf >> QuestieDev-master-retail.toc
 
     #Had to do this because reading a file with this didn't seem to work because it read linebreak and stuff...
     echo "Moving code!"
-    mkdir Configuration\\$FOLDERNAME
+    mkdir Configuration/$FOLDERNAME
 
-    cp -R ./Database Configuration\\$FOLDERNAME
-    cp -R ./Icons Configuration\\$FOLDERNAME
-    cp -R ./Libs Configuration\\$FOLDERNAME
-    cp -R ./Locale Configuration\\$FOLDERNAME
-    cp -R ./Modules Configuration\\$FOLDERNAME
-    cp -r embeds.xml Configuration\\$FOLDERNAME
-    cp -r Questie.lua Configuration\\$FOLDERNAME
-    cp -r README.md Configuration\\$FOLDERNAME
+    cp -R ./Database Configuration/$FOLDERNAME
+    cp -R ./Icons Configuration/$FOLDERNAME
+    cp -R ./Libs Configuration/$FOLDERNAME
+    cp -R ./Locale Configuration/$FOLDERNAME
+    cp -R ./Modules Configuration/$FOLDERNAME
+    cp -r embeds.xml Configuration/$FOLDERNAME
+    cp -r Questie.lua Configuration/$FOLDERNAME
+    cp -r README.md Configuration/$FOLDERNAME
 
     echo "--> Generating develop toc files"
     echo "----> Classic"
-    echo "#DO NOT MODIFY"> Configuration\\$FOLDERNAME\\$FOLDERNAME.toc
-    echo "#AUTOMATICALLY GENERATED FROM Configuration\\general.toc.conf" >> Configuration\\$FOLDERNAME\\$FOLDERNAME.toc
-    echo "## Interface: $CLASSICVERSION" >> Configuration\\$FOLDERNAME\\$FOLDERNAME.toc
-    cat Configuration\\general.toc.conf >> Configuration\\$FOLDERNAME\\$FOLDERNAME.toc
+    echo "#DO NOT MODIFY"> Configuration/$FOLDERNAME/$FOLDERNAME.toc
+    echo "#AUTOMATICALLY GENERATED FROM Configuration/general.toc.conf" >> Configuration/$FOLDERNAME/$FOLDERNAME.toc
+    echo "## Interface: $CLASSICVERSION" >> Configuration/$FOLDERNAME/$FOLDERNAME.toc
+    cat Configuration/general.toc.conf >> Configuration/$FOLDERNAME/$FOLDERNAME.toc
 
-    echo "----> Retail"
-    echo "#DO NOT MODIFY"> Configuration\\$FOLDERNAME\\$FOLDERNAME-retail.toc
-    echo "#AUTOMATICALLY GENERATED FROM Configuration\\general.toc.conf" >> Configuration\\$FOLDERNAME\\$FOLDERNAME-retail.toc
-    echo "## Interface: $RETAILVERSION" >> Configuration\\$FOLDERNAME\\$FOLDERNAME-retail.toc
-    cat Configuration\\general.toc.conf >> Configuration\\$FOLDERNAME\\$FOLDERNAME-retail.toc
+    #echo "----> Retail"
+    #echo "#DO NOT MODIFY"> Configuration/$FOLDERNAME/$FOLDERNAME-retail.toc
+    #echo "#AUTOMATICALLY GENERATED FROM Configuration/general.toc.conf" >> Configuration/$FOLDERNAME/$FOLDERNAME-retail.toc
+    #echo "## Interface: $RETAILVERSION" >> Configuration/$FOLDERNAME/$FOLDERNAME-retail.toc
+    #cat Configuration/general.toc.conf >> Configuration/$FOLDERNAME/$FOLDERNAME-retail.toc
 
     echo "Packaging release"
-    rm -rf Configuration\\Questie-$VERSION.zip
-    cd Configuration\\
-    7z a -tzip Questie_$VERSION.zip $FOLDERNAME
+    rm -rf Configuration/Questie-$VERSION.zip
+    cd Configuration/
+    7z a -tzip Questie-v$VERSION.zip $FOLDERNAME
     cd "$ROOT"
-    rm -rf Configuration\\$FOLDERNAME
+    rm -rf Configuration/$FOLDERNAME
 
     echo "Done!"
     rm $LOCKFILE
