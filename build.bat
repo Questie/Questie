@@ -14,16 +14,10 @@ IF EXIST "Configuration\\package.lock" (
 
     echo "--> Generating develop toc files"
     echo "----> Classic"
-    @echo #DO NOT MODIFY> QuestieDev-master.toc
-    @echo #AUTOMATICALLY GENERATED FROM Configuration\\general.toc.conf >> QuestieDev-master.toc
-    @echo ## Interface: %classicversion% >> QuestieDev-master.toc
-    type Configuration\\general.toc.conf >> QuestieDev-master.toc
-
-    echo "----> Retail"
-    @echo #DO NOT MODIFY> QuestieDev-master-retail.toc
-    @echo #AUTOMATICALLY GENERATED FROM Configuration\\general.toc.conf >> QuestieDev-master-retail.toc
-    @echo ## Interface: %retailversion% >> QuestieDev-master-retail.toc
-    type Configuration\\general.toc.conf >> QuestieDev-master-retail.toc
+    @echo #DO NOT MODIFY> Questie.toc
+    @echo #AUTOMATICALLY GENERATED FROM Configuration\\general.toc.conf >> Questie.toc
+    @echo ## Interface: %classicversion% >> Questie.toc
+    type Configuration\\general.toc.conf >> Questie.toc
 
     @echo "#Had to do this because reading a file with this didn't seem to work because it read linebreak and stuff..."
     echo "Moving code!"
@@ -47,15 +41,10 @@ IF EXIST "Configuration\\package.lock" (
     @echo ## Interface: %classicversion% >> Configuration\%foldername%\%foldername%.toc
     type Configuration\\general.toc.conf >> Configuration\%foldername%\%foldername%.toc
 
-    echo "----> Retail"
-    @echo #DO NOT MODIFY> Configuration\%foldername%\%foldername%-retail.toc
-    @echo #AUTOMATICALLY GENERATED FROM Configuration\\general.toc.conf >> Configuration\%foldername%\%foldername%-retail.toc
-    @echo ## Interface: %retailversion% >> Configuration\%foldername%\%foldername%-retail.toc
-    type Configuration\\general.toc.conf >> Configuration\%foldername%\%foldername%-retail.toc
     echo "--> Packaging release"
     del "Configuration\\Questie-%versions%.zip"
     cd Configuration
-    7z a -tzip "Questie-%versions%.zip" %foldername%
+    7z a -tzip 'Questie-%versions%.zip' %foldername%
     cd ..
 
     echo "--> Removing packed items"

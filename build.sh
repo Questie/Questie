@@ -51,7 +51,7 @@ if [ ! -f $LOCKFILE ] ; then
     #cat Configuration/general.toc.conf >> Configuration/$FOLDERNAME/$FOLDERNAME-retail.toc
 
     echo "Packaging release"
-    rm -rf Configuration/Questie-$VERSION.zip
+    rm -rf Configuration/Questie-v$VERSION.zip
     cd Configuration/
     7z a -tzip Questie-v$VERSION.zip $FOLDERNAME
     cd "$ROOT"
