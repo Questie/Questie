@@ -1,10 +1,10 @@
 #!/bin/bash
-LOCKFILE="Configuration\\package.lock"
+LOCKFILE="Configuration/package.lock"
 PREFIX="## Version:"
 FOLDERNAME="Questie"
 CLASSICVERSION=11302
 RETAILVERSION=80000
-VERSION=$(grep "## Version:" Configuration\\general.toc.conf)
+VERSION=$(grep "## Version:" Configuration/general.toc.conf)
 VERSION=${VERSION#"## Version:"}
 VERSION=${VERSION//[^A-Za-z0-9._-]/_}
 ROOT=$(pwd)
@@ -13,10 +13,11 @@ if [ ! -f $LOCKFILE ] ; then
 
     echo "--> Generating develop toc files"
     echo "----> Classic"
-    echo "#DO NOT MODIFY"> Questie.toc
-    echo "#AUTOMATICALLY GENERATED FROM Configuration/general.toc.conf" >> Questie.toc
-    echo "## Interface: $CLASSICVERSION" >> Questie.toc
-    cat Configuration/general.toc.conf >> Questie.toc
+    echo "#DO NOT MODIFY"> QuestieDev-master.toc
+    echo "#AUTOMATICALLY GENERATED FROM Configuration/general.toc.conf" >> QuestieDev-master.toc
+    echo "## Interface: $CLASSICVERSION" >> QuestieDev-master.toc
+    cat Configuration/general.toc.conf >> QuestieDev-master.toc
+    cp QuestieDev-master.toc Questie.toc
 
     #echo "----> Retail"
     #echo "#DO NOT MODIFY"> QuestieDev-master-retail.toc
