@@ -10,3 +10,5 @@
 
 #Used by the buildscript in batch
 *.temporary
+
+releases/

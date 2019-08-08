@@ -1,5 +1,3 @@
-#DO NOT MODIFY
-#AUTOMATICALLY GENERATED FROM Configuration/general.toc.conf
 ## Interface: 11302
 ## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v4.0.7|r|cFFFF0000 Beta|r
 ## Author: Aero/Logon/Muehe/Dyaxler/Schaka/Zoey/Everyone else
