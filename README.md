@@ -1,8 +1,11 @@
-# Questie - WARNING: THIS IS A WIP BUILD FOR THE BETA! 
+# Questie
 **A quest helper for World of Warcraft: Classic**
 
+## WARNING: THIS IS A WIP BUILD FOR THE BETA! 
 
-# To download go onto releases and download the latest version!
+# Download:
+https://github.com/AeroScripts/QuestieDev/releases/latest
+
 *Some features are missing, but its all being ported in slowly. Keep an eye on discord! (linked below)*
 
 [![Downloads](https://img.shields.io/github/downloads/AeroScripts/QuestieDev/total.svg)](https://github.com/AeroScripts/QuestieDev/releases/)
