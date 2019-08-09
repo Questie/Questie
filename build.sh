@@ -11,7 +11,7 @@ RETAILVERSION=80000
 VERSION_LINE=$(grep "## Version: " QuestieDev-master.toc)
 # Remove prefix
 VERSION=${VERSION_LINE#"## Version: "}
-# Replace whitespace
+# Replace whitespace and unusual symbols
 VERSION=${VERSION//[^A-Za-z0-9._-]/_}
 
 # Create release dir if it doesn't exist
@@ -33,14 +33,19 @@ if [ -f $LOCKFILE ] ; then
     exit 2
 fi
 
+# Lockfile wasn't present, create it
 > $LOCKFILE;
 
 echo "Copying code!"
+
+# Create directories
 mkdir releases/$VERSION
 mkdir releases/$VERSION/$FOLDERNAME
 
+# Change path reference in the code
 git apply releasePathes.patch
 
+# Copy files
 cp -R ./Database releases/$VERSION/$FOLDERNAME
 cp -R ./Icons releases/$VERSION/$FOLDERNAME
 cp -R ./Libs releases/$VERSION/$FOLDERNAME
@@ -50,11 +55,13 @@ cp -r embeds.xml releases/$VERSION/$FOLDERNAME
 cp -r Questie.lua releases/$VERSION/$FOLDERNAME
 cp -r README.md releases/$VERSION/$FOLDERNAME
 
+# Reset path reference changes
 git reset --hard HEAD
 
 # Add hash of currently checked out commit to toc
 COMMIT=$(git rev-parse HEAD)
 echo "# Commit hash: $COMMIT" >> releases/$VERSION/$FOLDERNAME/$FOLDERNAME.toc
+# Copy rest of toc
 cat QuestieDev-master.toc >> releases/$VERSION/$FOLDERNAME/$FOLDERNAME.toc
 
 echo "Packaging release"
@@ -63,6 +70,6 @@ cd releases/$VERSION
 7z a -tzip Questie-v$VERSION.zip $FOLDERNAME
 cd $ROOT
 
-echo "Done!"
 rm $LOCKFILE
+echo "Done!"
 
