@@ -39,6 +39,8 @@ echo "Copying code!"
 mkdir releases/$VERSION
 mkdir releases/$VERSION/$FOLDERNAME
 
+git apply releasePathes.patch
+
 cp -R ./Database releases/$VERSION/$FOLDERNAME
 cp -R ./Icons releases/$VERSION/$FOLDERNAME
 cp -R ./Libs releases/$VERSION/$FOLDERNAME
@@ -47,6 +49,8 @@ cp -R ./Modules releases/$VERSION/$FOLDERNAME
 cp -r embeds.xml releases/$VERSION/$FOLDERNAME
 cp -r Questie.lua releases/$VERSION/$FOLDERNAME
 cp -r README.md releases/$VERSION/$FOLDERNAME
+
+git reset --hard HEAD
 
 # Add hash of currently checked out commit to toc
 COMMIT=$(git rev-parse HEAD)

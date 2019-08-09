@@ -1,0 +1,26 @@
+diff --git a/Modules/QuestieComms.lua b/Modules/QuestieComms.lua
+index 5634dba..f9064f7 100644
+--- a/Modules/QuestieComms.lua
++++ b/Modules/QuestieComms.lua
+@@ -17,7 +17,7 @@ QC_ID_ASK_QUESTSLIST = 8 -- ask a player for their current quest log as a list o
+ QC_ID_SEND_QUESTSLIST = 9
+ 
+ function QuestieGetVersionString() -- todo: better place
+-	local _,ver = GetAddOnInfo("QuestieDev-master")
++	local _,ver = GetAddOnInfo("Questie")
+ 	-- todo: better regex for this
+ 	ver = string.sub(ver, 32)
+ 	ver = string.sub(ver, 0, string.find(ver, "|")-1)
+diff --git a/Modules/QuestieFramePool.lua b/Modules/QuestieFramePool.lua
+index bc1cc14..ea01430 100644
+--- a/Modules/QuestieFramePool.lua
++++ b/Modules/QuestieFramePool.lua
+@@ -11,7 +11,7 @@ local HBD = LibStub("HereBeDragonsQuestie-2.0")
+ local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
+ local HBDMigrate = LibStub("HereBeDragonsQuestie-Migrate")
+ 
+-_QuestieFramePool.addonPath = "Interface\\Addons\\QuestieDev-master\\"
++_QuestieFramePool.addonPath = "Interface\\Addons\\Questie\\"
+ 
+ --TODO: Add all types
+ ICON_TYPE_AVAILABLE =  _QuestieFramePool.addonPath.."Icons\\available.blp"
