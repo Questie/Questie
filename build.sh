@@ -43,7 +43,7 @@ mkdir releases/$VERSION
 mkdir releases/$VERSION/$FOLDERNAME
 
 # Change path reference in the code
-git apply releasePathes.patch
+git apply release.patch
 
 # Copy files
 cp -R ./Database releases/$VERSION/$FOLDERNAME
@@ -56,7 +56,7 @@ cp -r Questie.lua releases/$VERSION/$FOLDERNAME
 cp -r README.md releases/$VERSION/$FOLDERNAME
 
 # Reset path reference changes
-git reset --hard HEAD
+git apply -R release.patch
 
 # Add hash of currently checked out commit to toc
 COMMIT=$(git rev-parse HEAD)
