@@ -5,6 +5,8 @@ questRequirementFixes = {
     [33] = {783},
     [374] = {427}, -- proof of demise requires at war with the scarlet crusade
     [1106] = {1104, 1105},
+    [431] = {366}, -- #638
+    [410] = {366}, -- #638
     [926] = {809} -- #606
 }
 
