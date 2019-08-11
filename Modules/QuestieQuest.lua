@@ -744,6 +744,9 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                             Quest.Objectives[i].Id = v.Id
                             Quest.Objectives[i].Coordinates = v.Coordinates
                             v.ObjectiveRef = Quest.Objectives[i]
+                        else
+                            -- When nothing is found (other languages) fill it.
+                            Quest.Objectives[i].Id = Quest.ObjectiveData[i].Id
                         end
                     end
                 end
