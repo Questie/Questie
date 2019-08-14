@@ -17,7 +17,15 @@ QuestieLocale.locale['enUS'] = {
     ['LOWLEVEL_ABOVE_DESC'] = "How many levels above your character to show. ( Default: %s )",
     ['CLUSTER'] = "Objective icon cluster amount  (Not yet implemented)",
     ['CLUSTER_DESC'] = "How much objective icons should cluster.",
-
+    ['ENABLE_OBJECTIVES'] = "Enable Objective Icons",
+    ['ENABLE_OBJECTIVES_DESC'] = "When this is enabled, quest objective icons will be shown on the map/minimap",
+    ['ENABLE_TURNINS'] = "Enable Completed Quest Icons",
+    ['ENABLE_TURNINS_DESC'] = "When this is enabled, the quest turn-in locations will be shown on the map/minimap",
+    ['ENABLE_AVAILABLE'] = "Enable Available Quest Icons",
+    ['ENABLE_AVAILABLE_DESC'] = "When this is enabled, the quest turn-in locations will be shown on the map/minimap",
+    ['ENABLE_TOOLTIPS'] = "Enable Tooltips",
+    ['ENABLE_TOOLTIPS_DESC'] = "When this is enabled, quest info will be added to relevant mob/item tooltips",
+	
 
     ['MINIMAP_TAB'] = "Minimap Options",
     ['MINIMAP_HEADER'] = "Mini-Map Note Options",

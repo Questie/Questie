@@ -38,6 +38,7 @@ function QuestieFramePool:GetFrame()
     end
     f.fadeLogic = nil
     f.miniMapIcon = nil
+    f._hidden_toggle_hack = nil -- TODO: this will be removed later, see QuestieQuest:UpdateHiddenNotes()
 
     --if f.IsShowing ~= nil and f:IsShowing() then
     f.data = {} -- this should probably be nil but QuestieCreateFrame sets it to an empty table for some reason

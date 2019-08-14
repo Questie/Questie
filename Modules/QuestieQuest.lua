@@ -59,6 +59,49 @@ function QuestieQuest:ToggleNotes(desiredValue)
     Questie.db.char.enabled = not QuestieQuest.NotesHidden
 end
 
+function QuestieQuest:UpdateHiddenNotes()
+    QuestieQuest:GetAllQuestIds() -- add notes that weren't added from previous hidden state
+    if not Questie.db.global.disableAvailable then
+        QuestieQuest:DrawAllAvailableQuests();
+    end
+
+    for questId, framelist in pairs(qQuestIdFrames) do
+        for index, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
+            local icon = _G[frameName];
+            if icon ~= nil and icon.data then
+                if ((Questie.db.global.disableObjectives and (icon.data.Type == "monster" or icon.data.Type == "object" or icon.data.Type == "event" or icon.data.Type == "item"))
+                 or (Questie.db.global.disableTurnins and icon.data.Type == "complete")
+                 or (Questie.db.global.disableAvailable and icon.data.Type == "available")) then
+                    icon.shouldBeShowing = false
+                    icon._show = icon.Show;
+                    icon.Show = function()
+                    end
+                    icon._hidden_toggle_hack_state = icon:IsShown()
+                    icon:Hide();
+                    icon._hide = icon.Hide;
+                    icon.Hide = function()
+                    end
+                    icon.hidden = true
+                    icon._hidden_toggle_hack = true -- todo: this wont be used once UpdateHiddenNotes is rewritten to just refresh all notes
+                elseif icon._hidden_toggle_hack then -- icon was previously hidden but is no longer toggled off
+                    icon.hidden = false
+                    icon._hidden_toggle_hack = nil
+                    icon.Show = icon._show;
+                    icon.Hide = icon._hide;
+                    icon._show = nil
+                    icon._hide = nil
+                    if icon._hidden_toggle_hack_state then
+                        icon:Show();
+                    end
+                    icon._hidden_toggle_hack_state = nil
+                end
+            end
+        end
+    end
+    -- hack to hide already-added notes of unwanted type
+    
+end
+
 function QuestieQuest:GetRawLeaderBoardDetails(QuestLogIndex)
     local quest = {}
     title, level, _, isHeader, _, isComplete, _, questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(QuestLogIndex)
@@ -501,7 +544,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
 
     Objective:Update() -- update qlog data
     local completed = Objective.Completed
-	
+    
     if not Objective.Color then -- todo: move to a better place
         QuestieQuest:math_randomseed(Quest.Id + 32768 * ObjectiveIndex)
         Objective.Color = {0.45 + QuestieQuest:math_random() / 2, 0.45 + QuestieQuest:math_random() / 2, 0.45 + QuestieQuest:math_random() / 2}
@@ -533,54 +576,56 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
 
             if (not Objective.AlreadySpawned[id]) and (not completed) and (not Quest.AlreadySpawned[Objective.Type][spawnData.Id]) then
 
-                -- temporary fix for "special objectives" to not double-spawn (we need to fix the objective detection logic)
-                Quest.AlreadySpawned[Objective.Type][spawnData.Id] = true
 
                 if not Objective.registeredTooltips and spawnData.TooltipKey and (not tooltipRegisterHack[spawnData.TooltipKey]) then -- register mob / item / object tooltips
                     QuestieTooltips:RegisterTooltip(Quest.Id, spawnData.TooltipKey, Objective);
                     tooltipRegisterHack[spawnData.TooltipKey] = true
                     hasTooltipHack = true
                 end
-                local maxCount = 0
-                local data = {}
-                data.Id = Quest.Id
-                data.ObjectiveIndex = ObjectiveIndex
-                data.QuestData = Quest
-                data.ObjectiveData = Objective
-                data.Icon = spawnData.Icon
-                data.GetIconScale = function() return spawnData:GetIconScale() or 1 end
-                data.IconScale = data:GetIconScale()
-                data.Name = spawnData.Name
-                data.Type = Objective.Type
-                data.ObjectiveTargetId = spawnData.Id
+                if not Questie.db.global.disableObjectives then
+                    -- temporary fix for "special objectives" to not double-spawn (we need to fix the objective detection logic)
+                    Quest.AlreadySpawned[Objective.Type][spawnData.Id] = true
+                    local maxCount = 0
+                    local data = {}
+                    data.Id = Quest.Id
+                    data.ObjectiveIndex = ObjectiveIndex
+                    data.QuestData = Quest
+                    data.ObjectiveData = Objective
+                    data.Icon = spawnData.Icon
+                    data.GetIconScale = function() return spawnData:GetIconScale() or 1 end
+                    data.IconScale = data:GetIconScale()
+                    data.Name = spawnData.Name
+                    data.Type = Objective.Type
+                    data.ObjectiveTargetId = spawnData.Id
 
-                if spawnData.Icon ~= ICON_TYPE_OBJECT then -- new clustering / limit code should prevent problems, always show all object notes
-                    data.ClusterId = tostring(spawnData.Id) .. tostring(Quest.Id) .. ObjectiveIndex
-                end
+                    if spawnData.Icon ~= ICON_TYPE_OBJECT then -- new clustering / limit code should prevent problems, always show all object notes
+                        data.ClusterId = tostring(spawnData.Id) .. tostring(Quest.Id) .. ObjectiveIndex
+                    end
 
-                Objective.AlreadySpawned[id] = {};
-                Objective.AlreadySpawned[id].data = data;
-                Objective.AlreadySpawned[id].minimapRefs = {};
-                Objective.AlreadySpawned[id].mapRefs = {};
+                    Objective.AlreadySpawned[id] = {};
+                    Objective.AlreadySpawned[id].data = data;
+                    Objective.AlreadySpawned[id].minimapRefs = {};
+                    Objective.AlreadySpawned[id].mapRefs = {};
 
-                for zone, spawns in pairs(spawnData.Spawns) do
-                    for _, spawn in pairs(spawns) do
-                        if maxPerObjectiveOutsideZone > 0 or ((not Quest.Zone) or Quest.Zone == zone) then -- still add the note if its in the current zone
-                            iconMap, iconMini = QuestieMap:DrawWorldIcon(data, zone, spawn[1], spawn[2]) -- clustering code takes care of duplicates as long as mindist is more than 0
-                            if iconMap and iconMini then
-                                table.insert(Objective.AlreadySpawned[id].mapRefs, iconMap);
-                                table.insert(Objective.AlreadySpawned[id].minimapRefs, iconMini);
+                    for zone, spawns in pairs(spawnData.Spawns) do
+                        for _, spawn in pairs(spawns) do
+                            if maxPerObjectiveOutsideZone > 0 or ((not Quest.Zone) or Quest.Zone == zone) then -- still add the note if its in the current zone
+                                iconMap, iconMini = QuestieMap:DrawWorldIcon(data, zone, spawn[1], spawn[2]) -- clustering code takes care of duplicates as long as mindist is more than 0
+                                if iconMap and iconMini then
+                                    table.insert(Objective.AlreadySpawned[id].mapRefs, iconMap);
+                                    table.insert(Objective.AlreadySpawned[id].minimapRefs, iconMini);
+                                end
                             end
-                        end
-                        maxCount = maxCount + 1
-                        if Quest.Zone then
-                            if zone ~= Quest.Zone then
-                                maxPerObjectiveOutsideZone = maxPerObjectiveOutsideZone - 1
+                            maxCount = maxCount + 1
+                            if Quest.Zone then
+                                if zone ~= Quest.Zone then
+                                    maxPerObjectiveOutsideZone = maxPerObjectiveOutsideZone - 1
+                                end
                             end
+                            if maxCount > maxPerType then break; end
                         end
                         if maxCount > maxPerType then break; end
                     end
-                    if maxCount > maxPerType then break; end
                 end
             elseif completed and Objective.AlreadySpawned then -- unregister notes
                 for id, spawn in pairs(Objective.AlreadySpawned) do

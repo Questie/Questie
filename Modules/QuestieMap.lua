@@ -84,6 +84,16 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
     end
     if(showFlag == nil) then showFlag = HBD_PINS_WORLDMAP_SHOW_WORLD; end
     if(floatOnEdge == nil) then floatOnEdge = true; end
+    
+    -- check toggles
+    if data.Type then
+        if ((Questie.db.global.disableObjectives and (data.Type == "monster" or data.Type == "object" or data.Type == "event" or data.Type == "item"))
+         or (Questie.db.global.disableTurnins and data.Type == "complete")
+         or (Questie.db.global.disableAvailable and data.Type == "available")) then
+            return -- dont add icon
+        end
+    end
+    
     -- check clustering
     local xcell = math.floor((x * (QUESTIE_NOTES_CLUSTERMUL_HACK)));
     local ycell = math.floor((x * (QUESTIE_NOTES_CLUSTERMUL_HACK)));
