@@ -792,6 +792,15 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                         end
                     end
                 end
+                -- 2nd pass (fix for missing language data)
+                if Quest.Objectives[i].Id == nil then
+                    for k,v in pairs(Quest.ObjectiveData) do
+                        if objectiveType == v.Type then
+                            -- When nothing is found (other languages) fill it.
+                            Quest.Objectives[i].Id = v.Id
+                        end
+                    end
+                end
             end
         end
 
