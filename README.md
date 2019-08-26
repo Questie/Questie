@@ -1,7 +1,7 @@
 # Questie
 **A quest helper for World of Warcraft: Classic**
 
-## WARNING: THIS IS A WIP BUILD FOR THE BETA!
+## CLASSIC BUILD IS STILL A WORK IN PROGRESS!
 
 # Download:
 https://github.com/AeroScripts/QuestieDev/releases/latest
