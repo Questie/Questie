@@ -61,7 +61,7 @@ QuestieLocale.locale['enUS'] = {
     ['MAP_ALWAYS_GLOW_TOGGLE_DESC'] = "Draw a glow texture behind map icons, colored unique to each quest",
 
     ['AVAILABLE_ICON_SCALE'] = "Scale for Available/Complete Icons",
-    ['AVAILABIE_ICON_SCALE_DESC'] = "How large the available/complete icons are.  ( Default: %s )",
+    ['AVAILABLE_ICON_SCALE_DESC'] = "How large the available/complete icons are.  ( Default: %s )",
     ['LOOT_ICON_SCALE'] = "Scale for Loot Icons",
     ['LOOT_ICON_SCALE_DESC'] = "How large the loot icons are.  ( Default: %s )",
     ['MONSTER_ICON_SCALE'] = "Scale for Slay Icons",
