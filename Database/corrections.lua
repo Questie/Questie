@@ -18,7 +18,8 @@ questExclusiveGroupFixes = {
     [526] = {322,324}, -- not 100% sure on this one but it seems lightforge ingots is optional, block it after completing subsequent steps (#587)
     [3765] = {1275}, -- corruption abroad breadcrumb
     [164] = {95}, -- deliveries to sven is a breadcrumb
-    [311] = {403} -- completing the unguarded barrel quest prevents to do the optional guarded barrel prequest
+    [311] = {403}, -- completing the unguarded barrel quest prevents to do the optional guarded barrel prequest
+    [428] = {429} -- lost deathstalkers breadcrumb
 }
 
 questItemBlacklist = {
