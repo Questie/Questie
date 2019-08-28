@@ -1,6 +1,9 @@
 
 Questie = LibStub("AceAddon-3.0"):NewAddon("Questie", "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0", "AceComm-3.0", "AceSerializer-3.0")
 _Questie = {...}
+if not QuestieConfigCharacter then
+    QuestieConfigCharacter = {}
+end
 
 local LibC = LibStub:GetLibrary("LibCompress")
 local LibCE = LibC:GetAddonEncodeTable()
@@ -97,6 +100,7 @@ _QuestieOptions.defaults = {
 	  fadeOverPlayerLevel = 0.5,
 	  fadeOverPlayerDistance = 0.2,
 	  debugEnabled = false,
+	  debugEnabledPrint = false,
 	  debugLevel = 4,
 	  nameplateX = -17,
 	  nameplateY = -7,
@@ -1214,13 +1218,25 @@ end
 --DEBUG_SPAM = "5DEBUG"
 
 function Questie:Debug(...)
-    if(Questie.db.global.debugEnabled) then
+    if(Questie.db.global.debugEnabled) then 
         if(Questie.db.global.debugLevel < 5 and select(1, ...) == DEBUG_SPAM)then return; end
         if(Questie.db.global.debugLevel < 4 and select(1, ...) == DEBUG_DEVELOP)then return; end
         if(Questie.db.global.debugLevel < 3 and select(1, ...) == DEBUG_INFO)then return; end
         if(Questie.db.global.debugLevel < 2 and select(1, ...) == DEBUG_ELEVATED)then return; end
         if(Questie.db.global.debugLevel < 1 and select(1, ...) == DEBUG_CRITICAL)then return; end
-        Questie:Print(...)
+        --Questie:Print(...)
+        if not Questie.debugSession then
+            Questie.debugSession = GetTime()
+            if not QuestieConfigCharacter.log then QuestieConfigCharacter.log = {} end
+            QuestieConfigCharacter.log[Questie.debugSession] = {};
+        end
+        local entry = {}
+        entry.time = GetTime()
+        entry.data = {...}
+        table.insert(QuestieConfigCharacter.log[Questie.debugSession], entry)
+        if Questie.db.global.debugEnabledPrint then
+            Questie:Print(...)	
+        end
     end
 end
 
