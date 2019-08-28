@@ -19,7 +19,8 @@ questExclusiveGroupFixes = {
     [3765] = {1275}, -- corruption abroad breadcrumb
     [164] = {95}, -- deliveries to sven is a breadcrumb
     [311] = {403}, -- completing the unguarded barrel quest prevents to do the optional guarded barrel prequest
-    [428] = {429} -- lost deathstalkers breadcrumb
+    [428] = {429}, -- lost deathstalkers breadcrumb
+    [308] = {311} -- distracting jarven can't be completed once you get the followup
 }
 
 questItemBlacklist = {
