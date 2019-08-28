@@ -122,6 +122,8 @@ function _QuestieFramePool:QuestieCreateFrame()
     t:SetWidth(16)
     t:SetHeight(16)
     t:SetAllPoints(f)
+    t:SetTexelSnappingBias(0)
+    t:SetSnapToPixelGrid(false)
 
     local glowt = f.glow:CreateTexture(nil, "TOOLTIP")
     glowt:SetWidth(18)
