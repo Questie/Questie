@@ -58,6 +58,13 @@ for i = 1, 35 do
                     Questie:Debug(DEBUG_DEVELOP, event, "Updated quest", self.questLogIndex, "Title:", QuestInfo.title, "Id:", QuestInfo.Id)
                     QuestieQuest:UpdateQuest(QuestInfo.Id)
                 end)
+                
+                -- deferred update (possible desync fix)
+                C_Timer.After(3, function()
+                    QuestieQuest:PopulateObjectiveNotes(QuestieDB:GetQuest(QuestInfo.Id))
+                    QuestieQuest:UpdateQuest(QuestInfo.Id)
+                end)
+                
                 self.accept = false;
             end
         end
@@ -195,35 +202,46 @@ function QuestieEventHandler:QUEST_REMOVED(QuestId)
         
         table.insert(Questie.db.char.journey, data);
     end
+    
+    -- deferred update (possible desync fix?)
+    C_Timer.After(3, function()
+        QuestieQuest:CalculateAvailableQuests();
+        QuestieQuest:DrawAllAvailableQuests();
+    end)
 end
 
 --Fires when a quest is turned in.
 function QuestieEventHandler:QUEST_TURNED_IN(questID, xpReward, moneyReward)
     _hack_prime_log()
-        Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_TURNED_IN", questID, xpReward, moneyReward);
-        QuestieQuest:CompleteQuest(questID)
+    Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_TURNED_IN", questID, xpReward, moneyReward);
+    QuestieQuest:CompleteQuest(questID)
+    
+    -- deferred update (possible desync fix?)
+    C_Timer.After(3, function()
+        QuestieQuest:CalculateAvailableQuests();
+        QuestieQuest:DrawAllAvailableQuests();
+    end)
 
+    -- Complete Quest added to Journey
+    local data = {};
+    data.Event = "Quest";
+    data.SubType = "Complete";
+    data.Quest = questID;
+    data.Level = UnitLevel("player");
+    data.Timestamp = time();
+    data.Party = {};
 
-        -- Complete Quest added to Journey
-        local data = {};
-        data.Event = "Quest";
-        data.SubType = "Complete";
-        data.Quest = questID;
-        data.Level = UnitLevel("player");
-        data.Timestamp = time();
-        data.Party = {};
-
-        if GetHomePartyInfo() then
-            local p = {};
-            for i, v in pairs(GetHomePartyInfo()) do
-                p.Name = v;
-                p.Class, _, _ = UnitClass(v);
-                p.Level = UnitLevel(v);
-                table.insert(data.Party, p);
-            end
+    if GetHomePartyInfo() then
+        local p = {};
+        for i, v in pairs(GetHomePartyInfo()) do
+            p.Name = v;
+            p.Class, _, _ = UnitClass(v);
+            p.Level = UnitLevel(v);
+            table.insert(data.Party, p);
         end
+    end
         
-        table.insert(Questie.db.char.journey, data);
+    table.insert(Questie.db.char.journey, data);
 end
 
 function QuestieEventHandler:QUEST_LOG_UPDATE()
@@ -305,9 +323,17 @@ end
 
 function QuestieEventHandler:PLAYER_LEVEL_UP(level, hitpoints, manapoints, talentpoints, ...)
     Questie:Debug(DEBUG_DEVELOP, "EVENT: PLAYER_LEVEL_UP", level);
+    
     qPlayerLevel = level;
     QuestieQuest:CalculateAvailableQuests();
     QuestieQuest:DrawAllAvailableQuests();
+    
+    -- deferred update (possible desync fix?)
+    C_Timer.After(3, function() 
+        qPlayerLevel = UnitLevel("player") 
+        QuestieQuest:CalculateAvailableQuests();
+        QuestieQuest:DrawAllAvailableQuests();
+    end)
 
     -- Complete Quest added to Journey
     local data = {};
