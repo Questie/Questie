@@ -26,7 +26,20 @@ ICON_TYPE_BLACK = _QuestieFramePool.addonPath.."Icons\\black.blp"
 
 -- Global Functions --
 function QuestieFramePool:GetFrame()
-    local f = tremove(unusedframes)
+    local f = nil--tremove(unusedframes)
+    
+    -- im not sure its this, but using string keys for the table prevents double-adding to unusedframes, calling unload() twice could double-add it maybe?
+    for k,v in pairs(unusedframes) do -- yikes (why is tremove broken? is there a better to get the first key of a non-indexed table?)
+        f = v
+        unusedframes[k] = nil
+        break
+    end
+    
+    
+    if f and f.GetName and usedFrames[f:GetName()] then
+        -- something went horribly wrong (desync bug?) don't use this frame since its already in use
+        f = nil
+    end
     if not f then
         f = _QuestieFramePool:QuestieCreateFrame()
     end
@@ -217,7 +230,7 @@ function _QuestieFramePool:QuestieCreateFrame()
         self:SetScript("OnUpdate", nil)
         self:SetScript("OnShow", nil)
         self:SetScript("OnHide", nil)
-        usedFrames[self:GetName()] = nil
+        
         --We are reseting the frames, making sure that no data is wrong.
         if self ~= nil and self.hidden and self._show ~= nil and self._hide ~= nil then -- restore state to normal (toggle questie)
             self.hidden = false
@@ -239,7 +252,10 @@ function _QuestieFramePool:QuestieCreateFrame()
         self.data = nil; -- Just to be safe
         self.loaded = nil;
         self.x = nil;self.y = nil;self.AreaID = nil;
-        table.insert(unusedframes, self)
+        if usedFrames[self:GetName()] then
+            usedFrames[self:GetName()] = nil
+            unusedframes[self:GetName()] = self--table.insert(unusedframes, self)
+        end
     end
     f.data = {}
     f:Hide()

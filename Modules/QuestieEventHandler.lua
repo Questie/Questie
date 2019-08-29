@@ -44,7 +44,10 @@ for i = 1, 35 do
                     end
                 end
                 --Update the quest
-                QuestieQuest:UpdateQuest(QuestInfo.Id);
+                C_Timer.After(1, function ()
+                    QuestieQuest:UpdateQuest(QuestInfo.Id)
+                end)
+                --QuestieQuest:UpdateQuest(QuestInfo.Id);
                 self.refresh = false;
             end
             if(self.accept) then
