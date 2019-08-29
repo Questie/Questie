@@ -3,6 +3,9 @@
 
 ## CLASSIC BUILD IS STILL A WORK IN PROGRESS!
 
+# Installation Guide
+Follow the [Installation Guide](https://github.com/AeroScripts/QuestieDev/wiki/Installation-Guide) in the Wiki if you just want to get the latest version of Questie up and running.
+
 # Download:
 https://github.com/AeroScripts/QuestieDev/releases/latest
 
