@@ -635,6 +635,8 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                     for _, note in pairs(spawn.minimapRefs) do
                         note:Unload();
                     end
+                    spawn.mapRefs = {}
+                    spawn.minimapRefs = {}
                 end
             end
         end
