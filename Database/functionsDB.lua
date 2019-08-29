@@ -5,6 +5,19 @@ function QuestieDB:Initialize()
   QuestieDB:deleteFaction()
   QuestieDB:deleteClasses()
   QuestieDB:deleteGatheringNodes()
+  
+  -- populate mustHave (subquests) this is sorta a hack, maybe Muehe can integrate this logic into the converter tool
+  for k,v in pairs(qData) do
+    if v and v[14] then
+      for _,v2 in ipairs(v[14]) do
+	    qData[v2].mustHave = k;
+		--print(" " .. tostring(v2) .. " must have " .. tostring(k))
+        --if questExclusiveGroupFixes[v2] then
+        --    print("WARNING: possible bad exclusivegroup fix: " .. tostring(v2))
+        --end
+      end
+    end
+  end
 end
 
 function QuestieDB:ItemLookup(ItemId)
@@ -124,6 +137,7 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
     QO.Ends = {} --ends 3
     QO.Hidden = rawdata.hidden
     QO.Description = rawdata[8]
+    QO.MustHave = rawdata.mustHave
 
     --QO.Ends["NPC"] = rawdata[3][1]
     --QO.Ends["GameObject"] = rawdata[3][2]
