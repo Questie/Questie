@@ -22,6 +22,7 @@ ICON_TYPE_LOOT =  _QuestieFramePool.addonPath.."Icons\\loot.blp"
 ICON_TYPE_EVENT =  _QuestieFramePool.addonPath.."Icons\\event.blp"
 ICON_TYPE_OBJECT =  _QuestieFramePool.addonPath.."Icons\\object.blp"
 ICON_TYPE_GLOW = _QuestieFramePool.addonPath.."Icons\\glow.blp"
+ICON_TYPE_BLACK = _QuestieFramePool.addonPath.."Icons\\black.blp"
 
 -- Global Functions --
 function QuestieFramePool:GetFrame()
@@ -45,14 +46,29 @@ function QuestieFramePool:GetFrame()
     f.x = nil;f.y = nil;f.AreaID = nil;
     f:Hide();
     --end
-
+    
     if f.texture then
         f.texture:SetVertexColor(1, 1, 1, 1)
     end
-    f.loaded = true;
-    f.shouldBeShowing = false;
+    f.loaded = true
+    f.shouldBeShowing = nil
+    f.hidden = nil
+    
+    if f.baseOnShow then
+        f:SetScript("OnShow", f.baseOnShow)
+    end
+    
+    if f.baseOnUpdate then
+        f:SetScript("OnUpdate", f.baseOnUpdate)
+    else
+        f:SetScript("OnUpdate", nil)
+    end
+    
+    if f.baseOnHide then
+        f:SetScript("OnHide", f.baseOnHide)
+    end
+    
     usedFrames[f:GetName()] = f
-    f:SetScript("OnUpdate", nil)
     return f
 end
 
@@ -162,7 +178,7 @@ function _QuestieFramePool:QuestieCreateFrame()
             WorldMapFrame:SetMapID(self.data.UiMapID);
         end
     end);
-    f:HookScript("OnUpdate", function(self)
+    f.glowUpdate = function(self)--f:HookScript("OnUpdate", function(self)
         if self.glow and self.glow.IsShown and self.glow:IsShown() then
             self.glow:SetWidth(self:GetWidth()*1.13)
             self.glow:SetHeight(self:GetHeight()*1.13)
@@ -173,8 +189,13 @@ function _QuestieFramePool:QuestieCreateFrame()
             end
         end
         --self.glow:SetPoint("BOTTOMLEFT", self, 1, 1)
-    end)
-    f:HookScript("OnShow", function(self)
+    end--end)
+    f.baseOnUpdate = function(self)
+        if self.glowUpdate then
+            self:glowUpdate()
+        end
+    end
+    f.baseOnShow = function(self)--f:SetScript("OnShow", function(self)
         if self.data and self.data.Type and self.data.Type == "complete" then
             self:SetFrameLevel(self:GetFrameLevel() + 1)
         end
@@ -187,12 +208,15 @@ function _QuestieFramePool:QuestieCreateFrame()
             self.glow:Show()
             self.glow:SetFrameLevel(self:GetFrameLevel() - 1)
         end
-    end)
-    f:HookScript("OnHide", function(self)
+    end--end)
+    f.baseOnHide = function(self)--f:HookScript("OnHide", function(self)
         self.glow:Hide()
-    end)
+    end--end)
     --f.Unload = function(frame) _QuestieFramePool:UnloadFrame(frame) end;
     function f:Unload()
+        self:SetScript("OnUpdate", nil)
+        self:SetScript("OnShow", nil)
+        self:SetScript("OnHide", nil)
         usedFrames[self:GetName()] = nil
         --We are reseting the frames, making sure that no data is wrong.
         if self ~= nil and self.hidden and self._show ~= nil and self._hide ~= nil then -- restore state to normal (toggle questie)
