@@ -525,6 +525,7 @@ qHide = {
   [8759] = true,
   [8760] = true,
   --Profession quests
+  [768] = true,
   [7652] = true,
   [2771] = true,
   [6625] = true,
