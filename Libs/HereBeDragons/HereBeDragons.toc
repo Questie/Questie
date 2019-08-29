@@ -1,4 +1,4 @@
-## Interface: 80000
+## Interface: 80200
 ## Title: Lib: HereBeDragons
 ## Notes: HereBeDragons is a data API for the World of Warcraft mapping system
 ## Author: Nevcairiel
@@ -6,14 +6,11 @@
 ## X-Category: Library
 ## X-License: BSD
 ## X-Website: http://www.wowace.com/addons/herebedragons/
-## Version: 2.00-release
+## Version: 2.02-release
+## X-Curse-Project-ID: 94348
 
 LibStub\LibStub.lua
 CallbackHandler-1.0\CallbackHandler-1.0.lua
-
-# WoW 7.x version
-HereBeDragons-1.0.lua
-HereBeDragons-Pins-1.0.lua
 
 # WoW 8.0+ version
 HereBeDragons-2.0.lua

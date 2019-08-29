@@ -2,8 +2,8 @@ QuestieMap = {...}
 
 qQuestIdFrames = {}
 
-local HBD = LibStub("HereBeDragonsQuestie-2.0")
-local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
+local HBD = LibStub("HereBeDragons-2.0")
+local HBDPins = LibStub("HereBeDragons-Pins-2.0")
 local HBDMigrate = LibStub("HereBeDragonsQuestie-Migrate")
 
 
