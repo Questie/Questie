@@ -1,12 +1,12 @@
 -- HereBeDragons-Pins is a library to show pins/icons on the world map and minimap
 
-local MAJOR, MINOR = "HereBeDragons-Pins-2.0", 6
+local MAJOR, MINOR = "HereBeDragonsQuestie-Pins-2.0", 6
 assert(LibStub, MAJOR .. " requires LibStub")
 
 local pins, _oldversion = LibStub:NewLibrary(MAJOR, MINOR)
 if not pins then return end
 
-local HBD = LibStub("HereBeDragons-2.0")
+local HBD = LibStub("HereBeDragonsQuestie-2.0")
 
 pins.updateFrame          = pins.updateFrame or CreateFrame("Frame")
 
@@ -335,15 +335,15 @@ worldmapPinsPool.resetterFunc = function(pinPool, pin)
 end
 
 -- register pin pool with the world map
-WorldMapFrame.pinPools["HereBeDragonsPinsTemplate"] = worldmapPinsPool
+WorldMapFrame.pinPools["HereBeDragonsPinsTemplateQuestie"] = worldmapPinsPool
 
 -- provider base API
 function worldmapProvider:RemoveAllData()
-    self:GetMap():RemoveAllPinsByTemplate("HereBeDragonsPinsTemplate")
+    self:GetMap():RemoveAllPinsByTemplate("HereBeDragonsPinsTemplateQuestie")
 end
 
 function worldmapProvider:RemovePinByIcon(icon)
-    for pin in self:GetMap():EnumeratePinsByTemplate("HereBeDragonsPinsTemplate") do
+    for pin in self:GetMap():EnumeratePinsByTemplate("HereBeDragonsPinsTemplateQuestie") do
         if pin.icon == icon then
             self:GetMap():RemovePin(pin)
         end
@@ -351,7 +351,7 @@ function worldmapProvider:RemovePinByIcon(icon)
 end
 
 function worldmapProvider:RemovePinsByRef(ref)
-    for pin in self:GetMap():EnumeratePinsByTemplate("HereBeDragonsPinsTemplate") do
+    for pin in self:GetMap():EnumeratePinsByTemplate("HereBeDragonsPinsTemplateQuestie") do
         if pin.icon and worldmapPinRegistry[ref][pin.icon] then
             self:GetMap():RemovePin(pin)
         end
@@ -422,7 +422,7 @@ function worldmapProvider:HandlePin(icon, data)
         x, y = HBD:GetZoneCoordinatesFromWorld(data.x, data.y, uiMapID)
     end
     if x and y then
-        self:GetMap():AcquirePin("HereBeDragonsPinsTemplate", icon, x, y, data.frameLevelType)
+        self:GetMap():AcquirePin("HereBeDragonsPinsTemplateQuestie", icon, x, y, data.frameLevelType)
     end
 end
 
