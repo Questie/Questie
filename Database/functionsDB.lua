@@ -129,15 +129,23 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
     QO = {}
     QO.GetColoredQuestName = _GetColoredQuestName
     QO.Id = QuestID --Key
-    QO.Name = LangQuestLookup[QuestID][1] or rawdata[1] --Name - 1
+	QO.Name = rawdata[1] --Name - 1
     QO.Starts = {} --Starts - 2
     QO.Starts["NPC"] = rawdata[2][1] --2.1
     QO.Starts["GameObject"] = rawdata[2][2] --2.2
     QO.Starts["Item"] = rawdata[2][3] --2.3
     QO.Ends = {} --ends 3
     QO.Hidden = rawdata.hidden
-    QO.Description = LangQuestLookup[QuestID][3] or rawdata[8]
+	QO.Description = rawdata[8]
     QO.MustHave = rawdata.mustHave
+
+
+    -- Do localization 
+	local localizedQuest = LangQuestLookup[QuestID] 
+	if localizedQuest ~=nil then
+	  QO.Name = localizedQuest[1]
+	  QO.Description = localizedQuest[3]
+	end
 
     --QO.Ends["NPC"] = rawdata[3][1]
     --QO.Ends["GameObject"] = rawdata[3][2]
@@ -392,7 +400,11 @@ function QuestieDB:GetQuestsByName(questName)
 
   for index, quest in pairs(qData) do
       local needle = string.lower(questName);
-      local haystack = LangQuestLookup[index][1] or quest[1]
+      local haystack = quest[1]
+	  local localizedQuest = LangQuestLookup[index] 
+	  if localizedQuest ~=nil then
+	    haystack = localizedQuest[1]
+	  end
       local lowerHaystack = string.lower(haystack);
 
       if string.find(lowerHaystack, needle) then
