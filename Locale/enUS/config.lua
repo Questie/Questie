@@ -22,7 +22,7 @@ QuestieLocale.locale['enUS'] = {
     ['ENABLE_TURNINS'] = "Enable Completed Quest Icons",
     ['ENABLE_TURNINS_DESC'] = "When this is enabled, the quest turn-in locations will be shown on the map/minimap",
     ['ENABLE_AVAILABLE'] = "Enable Available Quest Icons",
-    ['ENABLE_AVAILABLE_DESC'] = "When this is enabled, the quest turn-in locations will be shown on the map/minimap",
+    ['ENABLE_AVAILABLE_DESC'] = "When this is enabled, the available quest locations will be shown on the map/minimap",
     ['ENABLE_TOOLTIPS'] = "Enable Tooltips",
     ['ENABLE_TOOLTIPS_DESC'] = "When this is enabled, quest info will be added to relevant mob/item tooltips",
 	
