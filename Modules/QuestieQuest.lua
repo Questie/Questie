@@ -8,7 +8,20 @@ qCurrentQuestlog = {} --Gets populated by QuestieQuest:GetAllQuestIds(), this is
 
 function QuestieQuest:Initialize()
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_GET_QUEST_COMP'))
-    GetQuestsCompleted(Questie.db.char.complete)
+    --GetQuestsCompleted(Questie.db.char.complete)
+
+    local db = {}
+    GetQuestsCompleted(db)
+    
+    -- maintain additional data added to db.char.complete, but remove quests that are no longer complete
+    for k,v in pairs(db) do
+        if not Questie.db.char.complete[k] then Questie.db.char.complete[k] = true; end
+    end
+    for k,v in pairs(Questie.db.char.complete) do
+        if not db[k] then
+            Questie.db.char.complete[k] = nil
+        end
+    end
 end
 
 QuestieQuest.NotesHidden = false
