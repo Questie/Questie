@@ -123,7 +123,7 @@ end
 
 local function TooltipShowing_unit(self)
     if self.IsForbidden and self:IsForbidden() then return; end
-    if Questie.db.global.disableTooltips then return; end
+    if not Questie.db.global.enableTooltips then return; end
     --QuestieTooltips.lastTooltipTime = GetTime()
     local name, ttype = self:GetUnit()
     if name then
@@ -151,7 +151,7 @@ local function TooltipShowing_item(self)
 end
 
 local function TooltipShowing_maybeobject(name)
-    if Questie.db.global.disableTooltips then return; end
+    if not Questie.db.global.enableTooltips then return; end
     if name then
         local tooltipData = QuestieTooltips:GetTooltip("o_" .. name);
         if tooltipData then

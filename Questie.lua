@@ -118,10 +118,10 @@ _QuestieOptions.defaults = {
       questieLocaleDiff = false,
       alwaysGlowMap = false,
       alwaysGlowMinimap = false,
-      disableObjectives = false,
-      disableTurnins = false,
-      disableAvailable = false,
-      disableTooltips = false
+      enableObjectives = true,
+      enableTurnins = true,
+      enableAvailable = true,
+      enableTooltips = true,
     },
       char = {
           complete = {},
@@ -183,10 +183,10 @@ local options = {
                             desc = function() return QuestieLocale:GetUIString('ENABLE_OBJECTIVES_DESC') end,
                             width = "full",
                             get =    function ()
-                                        return not Questie.db.global.disableObjectives;
+                                        return Questie.db.global.enableObjectives;
                                     end,
                             set =    function (info, value)
-                                        Questie.db.global.disableObjectives = not value
+                                        Questie.db.global.enableObjectives = value
                                         QuestieQuest:UpdateHiddenNotes();
                                     end,
                         },
@@ -197,10 +197,10 @@ local options = {
                             desc = function() return QuestieLocale:GetUIString('ENABLE_TURNINS_DESC') end,
                             width = "full",
                             get =    function ()
-                                        return not Questie.db.global.disableTurnins;
+                                        return Questie.db.global.enableTurnins;
                                     end,
                             set =    function (info, value)
-                                        Questie.db.global.disableTurnins = not value
+                                        Questie.db.global.enableTurnins = value
                                         QuestieQuest:UpdateHiddenNotes();
                                     end,
                         },
@@ -211,10 +211,10 @@ local options = {
                             desc = function() return QuestieLocale:GetUIString('ENABLE_AVAILABLE_DESC') end,
                             width = "full",
                             get =    function ()
-                                        return not Questie.db.global.disableAvailable;
+                                        return Questie.db.global.enableAvailable;
                                     end,
                             set =    function (info, value)
-                                        Questie.db.global.disableAvailable = not value
+                                        Questie.db.global.enableAvailable = value
                                         QuestieQuest:UpdateHiddenNotes();
                                     end,
                         },
@@ -263,10 +263,10 @@ local options = {
                     desc = function() return QuestieLocale:GetUIString('ENABLE_TOOLTIPS_DESC') end,
                     width = "full",
                     get =    function ()
-                                return not Questie.db.global.disableTooltips;
+                                return Questie.db.global.enableTooltips;
                             end,
                     set =    function (info, value)
-                                Questie.db.global.disableTooltips = not value
+                                Questie.db.global.enableTooltips = value
                             end,
                 },
                 --Spacer_A = _QuestieOptions:Spacer(9),
