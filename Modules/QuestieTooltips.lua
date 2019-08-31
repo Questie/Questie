@@ -122,6 +122,7 @@ end
 
 
 local function TooltipShowing_unit(self)
+    if self.IsForbidden and self:IsForbidden() then return; end
     if Questie.db.global.disableTooltips then return; end
     --QuestieTooltips.lastTooltipTime = GetTime()
     local name, ttype = self:GetUnit()
@@ -136,6 +137,7 @@ local function TooltipShowing_unit(self)
 end
 
 local function TooltipShowing_item(self)
+    if self.IsForbidden and self:IsForbidden() then return; end
     --QuestieTooltips.lastTooltipTime = GetTime()
     local name, link = self:GetItem()
     if name then
@@ -185,16 +187,20 @@ function QuestieTooltips:init()
         --nd
     end)
     GameTooltip:HookScript("OnHide", function(self)
-        QuestieTooltips.lastGametooltip = ""
+        if (not self.IsForbidden) or self:IsForbidden() then -- do we need this here also
+            QuestieTooltips.lastGametooltip = ""
+        end
     end)
 
     GameTooltip:HookScript("OnUpdate", function(self)
-        local name, unit = self:GetUnit()
-        if( name == nil and unit == nil and (QuestieTooltips.lastGametooltip ~= GameTooltipTextLeft1:GetText() or _QuestieTooltips:countTooltip() ~= QuestieTooltips.lastGametooltipCount)) then
-            TooltipShowing_maybeobject(GameTooltipTextLeft1:GetText())
-            QuestieTooltips.lastGametooltipCount = _QuestieTooltips:countTooltip()
+        if (not self.IsForbidden) or self:IsForbidden() then
+            local name, unit = self:GetUnit()
+            if( name == nil and unit == nil and (QuestieTooltips.lastGametooltip ~= GameTooltipTextLeft1:GetText() or _QuestieTooltips:countTooltip() ~= QuestieTooltips.lastGametooltipCount)) then
+                TooltipShowing_maybeobject(GameTooltipTextLeft1:GetText())
+                QuestieTooltips.lastGametooltipCount = _QuestieTooltips:countTooltip()
+            end
+            QuestieTooltips.lastGametooltip = GameTooltipTextLeft1:GetText()
         end
-        QuestieTooltips.lastGametooltip = GameTooltipTextLeft1:GetText()
     end)
 end
 
