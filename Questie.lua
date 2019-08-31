@@ -206,9 +206,22 @@ local options = {
                                 end
                             end,
                 },
-                enableObjectivesToggle = {
+                enableTooltipsToggle = {
                     type = "toggle",
                     order = 6,
+                    name = function() return QuestieLocale:GetUIString('ENABLE_TOOLTIPS') end,
+                    desc = function() return QuestieLocale:GetUIString('ENABLE_TOOLTIPS_DESC') end,
+                    width = "full",
+                    get =    function ()
+                                return not Questie.db.global.disableTooltips;
+                            end,
+                    set =    function (info, value)
+                                Questie.db.global.disableTooltips = not value
+                            end,
+                },
+                enableObjectivesToggle = {
+                    type = "toggle",
+                    order = 7,
                     name = function() return QuestieLocale:GetUIString('ENABLE_OBJECTIVES') end,
                     desc = function() return QuestieLocale:GetUIString('ENABLE_OBJECTIVES_DESC') end,
                     width = "full",
@@ -222,7 +235,7 @@ local options = {
                 },
                 enableTurninsToggle = {
                     type = "toggle",
-                    order = 7,
+                    order = 8,
                     name = function() return QuestieLocale:GetUIString('ENABLE_TURNINS') end,
                     desc = function() return QuestieLocale:GetUIString('ENABLE_TURNINS_DESC') end,
                     width = "full",
@@ -236,7 +249,7 @@ local options = {
                 },
                 enableAvailableToggle = {
                     type = "toggle",
-                    order = 8,
+                    order = 9,
                     name = function() return QuestieLocale:GetUIString('ENABLE_AVAILABLE') end,
                     desc = function() return QuestieLocale:GetUIString('ENABLE_AVAILABLE_DESC') end,
                     width = "full",
@@ -246,19 +259,6 @@ local options = {
                     set =    function (info, value)
                                 Questie.db.global.disableAvailable = not value
                                 QuestieQuest:UpdateHiddenNotes();
-                            end,
-                },
-                enableTooltipsToggle = {
-                    type = "toggle",
-                    order = 9,
-                    name = function() return QuestieLocale:GetUIString('ENABLE_TOOLTIPS') end,
-                    desc = function() return QuestieLocale:GetUIString('ENABLE_TOOLTIPS_DESC') end,
-                    width = "full",
-                    get =    function ()
-                                return not Questie.db.global.disableTooltips;
-                            end,
-                    set =    function (info, value)
-                                Questie.db.global.disableTooltips = not value
                             end,
                 },
                 --Spacer_A = _QuestieOptions:Spacer(9),
