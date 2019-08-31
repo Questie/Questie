@@ -1,5 +1,4 @@
-
-LangNameLookup = {
+LangNameLookup['frFR'] = {
 	[3] = 'Dévoreur',
 	[6] = 'Vermine kobold',
 	[30] = 'Araignée forestière',
@@ -7415,7 +7414,7 @@ LangNameLookup = {
 	[17804] = 'Ecuyer Rowe',
 	[18199] = 'Silithus Dust Turnin Quest Doodad Horde',
 }
-LangQuestLookup = {
+LangQuestLookup['frFR'] = {
 	[2] = {'Sharptalon\'s Claw', 'The mighty hippogryph Sharptalon has been slain, with the claw of the felled beast serving as a testament to your victory. Senani Thunderheart at the Splintertree Post will no doubt be interested in seeing this trophy as proof of your deeds.', 'Bring Sharptalon\'s Claw to Senani Thunderheart at Splintertree Post, Ashenvale.'},
 	[5] = {'L\'estomac qui gargouille', 'Je suis resté caché dans cette ville fantôme depuis des semaines. Apportez-moi de quoi festoyer et je vous payerai généreusement. J\'ai entendu parler d\'un certain chef Grual qui fait de succulents gâteaux au crabe brun, à la taverne du Corbeau écarlate à Darkshire...', 'Parler au chef Grual.'},
 	[6] = {'La prime pour Garrick Padfoot', 'Garrick Padfoot – un brigand qui harcèle les fermiers et les marchands de la région depuis des semaines – a été vu dans une cabane près des vignes qui se trouvent à l\'est de l\'abbaye, juste après le pont. Rapportez-moi la tête de ce mécréant, et vous empocherez la récompense ! Mais soyez <prudent/prudente> <nom>. Garrick a rassemblé une bande de voyous autour de lui. Il ne sera pas aisé de l\'approcher.   Vous pourrez choisir une de ces récompenses :', 'Tuer Garrick Padfoot et rapporter sa tête à l\'Adjoint Willem de l\'Abbaye du Northshire.'},

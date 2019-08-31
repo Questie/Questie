@@ -1,5 +1,4 @@
-
-LangNameLookup = {
+LangNameLookup['deDE'] = {
 	[3] = 'Fleischfresser',
 	[6] = 'Koboldgezücht',
 	[30] = 'Waldspinne',
@@ -7414,7 +7413,7 @@ LangNameLookup = {
 	[17804] = 'Knappe Rowe',
 	[18199] = 'Silithus Dust Turnin Quest Doodad Horde',
 }
-LangQuestLookup = {
+LangQuestLookup['deDE'] = {
 	[2] = {'Klaue von Scharfkralle', 'Der mächtige Hippogryph Scharfkralle wurde getötet und die Klaue der erschlagenen Bestie dient als Beweis für Euren Sieg. Senani Thunderheart im Splintertreeposten wird zum Beweis Eurer Tat sicher gern diese Trophäe sehen wollen.', 'Bringt die Klaue von Scharfkralle zu Senani Thunderheart im Splintertreeposten in Ashenvale. Eine Level 20 Ashenvale Quest. +100 Ruf mit der Fraktion Thunder Bluff'},
 	[5] = {'Jitters\' knurrender Magen', 'Ich verstecke mich jetzt schon seit Wochen in dieser Geisterstadt, und die ganze Zeit habe ich nichts gegessen außer Maden und Unkraut! Ich brauche was Anständiges zum Essen, und ich werde mich nicht lumpen lassen. Bringt mir ein Festessen, und ich bezahle Euch gut dafür. Ich habe gehört, dass Küchenchef Grual aus der Taverne Zum roten Raben in Dunkelhain ganz ausgezeichnete schwärzliche Krebsküchlein macht...', 'Sprecht mit Küchenchef Grual. Eine Level 17 Dämmerwald Quest. +25 Ruf mit der Fraktion Stormwind. Entlohnt . Hinzugefügt in World of Warcraft: Classic.'},
 	[6] = {'Kopfgeld auf Garrick Padfoot', 'Garrick Padfoot, ein Dieb und Halsabschneider, der schon seit Wochen unseren Bauern und Händlern das Leben schwer macht, ist bei einem Schuppen in der Nähe der Weinberge gesehen worden. Die Weinberge liegen im Osten der Abtei, auf der anderen Seite der Brücke. Bringt mir den Kopf des Schurken und verdient Euch das Kopfgeld, das auf ihn ausgesetzt ist! Doch seht Euch vor, <Name>. Garrick hat eine Bande von Rohlingen um sich versammelt, also werdet Ihr nicht leicht an ihn herankommen.   Auf Euch wartet eine dieser Belohnungen:', 'Tötet Garrick Padfoot und bringt seinen Kopf zu Deputy Willem in der Nähe der Abtei von Nordhain. Eine Level 2 Wald von Elwynn Quest. Immer auf dem Laufenden.'},

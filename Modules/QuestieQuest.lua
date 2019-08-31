@@ -3,7 +3,8 @@ local _QuestieQuest = {...}
 
 local slainTexts = {
     ['enUS'] = 'slain',
-    ['frFR'] = 'tué'
+    ['frFR'] = 'tué',
+	['deDE'] = 'getötet',
 }
 
 qAvailableQuests = {} --Gets populated at PLAYER_ENTERED_WORLD
@@ -791,22 +792,28 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                 for k, v in pairs(Quest.ObjectiveData) do
                     if objectiveType == v.Type then
                         -- TODO: use string distance to find closest, dont rely on exact match
-                        if ((v.Name == nil or objectiveDesc == nil) and v.Type ~= "item" and v.Type ~= "monster") or (v.Name and ((string.lower(objectiveDesc) == string.lower(v.Name))) or (v.Text and (string.lower(objectiveDesc) == string.lower(v.Text)))) then
-                            Quest.Objectives[i].Id = v.Id
+						
+		
+							Questie:Debug(DEBUG_SPAM, "[objectiveDesc]:".. string.lower(objectiveDesc).. '#')
+							Questie:Debug(DEBUG_SPAM, "[v.name]:".. string.lower(v.Name).. '#')
+
+                        if ((v.Name == nil or objectiveDesc == nil) and v.Type ~= "item" and v.Type ~= "monster") or (v.Name and ((string.lower(strtrim(objectiveDesc)) == string.lower(v.Name))) or (v.Text and (string.lower(objectiveDesc) == string.lower(v.Text)))) then
+                            
+							Quest.Objectives[i].Id = v.Id
                             Quest.Objectives[i].Coordinates = v.Coordinates
                             v.ObjectiveRef = Quest.Objectives[i]
                         end
                     end
                 end
                 -- 2nd pass (fix for missing language data)
-                if Quest.Objectives[i].Id == nil and GetLocale() ~= "enUS" and GetLocale() ~= "enGB" then
-                    for k,v in pairs(Quest.ObjectiveData) do
-                        if objectiveType == v.Type then
-                            -- When nothing is found (other languages) fill it.
-                            Quest.Objectives[i].Id = v.Id
-                        end
-                    end
-                 end
+                -- if Quest.Objectives[i].Id == nil and GetLocale() ~= "enUS" and GetLocale() ~= "enGB" then
+                --    for k,v in pairs(Quest.ObjectiveData) do
+                --        if objectiveType == v.Type then
+                --            -- When nothing is found (other languages) fill it.
+                --            Quest.Objectives[i].Id = v.Id
+                --        end
+                --    end
+                -- end
             end
         end
 
@@ -880,7 +887,11 @@ function _QuestieQuest:GetLeaderBoardDetails(BoardIndex, QuestId)
     Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Quest Details2:", QuestId, itemName, numItems, numNeeded)
     if (itemName) then
         local slainText = slainTexts[GetLocale()] or "slain"
-        itemName = string.gsub(itemName, slainText, "")
+		local slainPosition = strfind(itemName,slainText)
+
+		if(slainPosition) then
+          itemName = strsub(itemName, 0, slainPosition-2)
+		end
     else
         itemName = description;
     end

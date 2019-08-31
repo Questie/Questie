@@ -1,5 +1,4 @@
-
-LangNameLookup = {
+LangNameLookup['esES'] = {
 	[3] = 'Comecarnes',
 	[6] = 'Alimaña kóbold',
 	[30] = 'Araña del bosque',
@@ -7414,7 +7413,8 @@ LangNameLookup = {
 	[17804] = 'Escudero Rowe',
 	[18199] = 'Elemento de la Horda de entrega de misión del polvo en Silithus',
 }
-LangQuestLookup = {
+
+LangQuestLookup['esES'] = {
 	[2] = {'Sharptalon\'s Claw', 'The mighty hippogryph Sharptalon has been slain, with the claw of the felled beast serving as a testament to your victory. Senani Thunderheart at the Splintertree Post will no doubt be interested in seeing this trophy as proof of your deeds.', 'Bring Sharptalon\'s Claw to Senani Thunderheart at Splintertree Post, Ashenvale.'},
 	[5] = {'La hambruna de Gato', '¡Llevo semanas escondiéndome en esta ciudad fantasma y no he comido más que larvas y hierbajos! Necesito algo de comida decente. Estoy en disposición de pagar bien. Si me traes un festín, te pagaré generosamente. He oído que el chef Grual del Mesón del Cuervo Escarlata de Villa Oscura hace unas estupendas croquetas de cangrejo...', 'Habla con el Chef Grual.'},
 	[6] = {'La recompensa por Garrick Piesuaves', 'Garrick Piesuaves es un maleante que lleva semanas acosando a granjeros y mercaderes. Ha sido visto en una choza cerca de los viñedos, cruzando el puente al este de la abadía. Tráeme la cabeza de ese villano y podrás quedarte con su botín. Pero ve con cuidado, <nombre>. Garrick anda con una pandilla de matones. Puede que no te sea fácil llegar hasta él.', 'Mata a Garrick Piesuaves y lleva su cabeza al ayudante Willem a la Abadía de Villanorte.'},
