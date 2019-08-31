@@ -17,6 +17,7 @@ QuestieLocale.locale['koKR'] = {
     ['LOWLEVEL_ABOVE_DESC'] = "How many levels above your character to show. ( Default: %s )",
     ['CLUSTER'] = "Objective icon cluster amount  (Not yet implemented)",
     ['CLUSTER_DESC'] = "How much objective icons should cluster.",
+    ['ICON_TYPE_HEADER'] = "Icon Types",
 
 
     ['MINIMAP_TAB'] = "Minimap Options",
@@ -97,11 +98,11 @@ QuestieLocale.locale['koKR'] = {
     -- UI Elements
     ['QUESTIE_MAP_BUTTON_SHOW'] = "Show Questie",
     ['QUESTIE_MAP_BUTTON_HIDE'] = "Hide Questie",
-    ['ICON_LEFT_CLICK'] = "Left Click", 
+    ['ICON_LEFT_CLICK'] = "Left Click",
     ['ICON_TOGGLE'] = "Toggle Options",
-    ['ICON_SHIFTLEFT_CLICK'] = "Shift + Left Click", 
+    ['ICON_SHIFTLEFT_CLICK'] = "Shift + Left Click",
     ['ICON_TOGGLE_QUESTIE'] = "Toggle Questie",
-    ['ICON_CTRLRIGHT_CLICK'] = "Ctrl + Right Click", 
+    ['ICON_CTRLRIGHT_CLICK'] = "Ctrl + Right Click",
     ['ICON_HIDE'] = "Hide Minimap Icon",
 
 

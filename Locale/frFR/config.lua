@@ -26,6 +26,7 @@ QuestieLocale.locale['frFR'] = {
     ['ENABLE_AVAILABLE_DESC'] = "Lorsque cette option est activée, les lieux d'activation de la quête seront affichés sur la carte / la mini-carte",
     ['ENABLE_TOOLTIPS'] = "Activer les info-bulles",
     ['ENABLE_TOOLTIPS_DESC'] = "Si cela est activé, les informations de quête seront ajoutées aux info-bulles mob / item pertinentes",
+    ['ICON_TYPE_HEADER'] = "Icon Types",
 
 
 	['MINIMAP_TAB'] = "Options de la mini-carte",
@@ -102,7 +103,7 @@ QuestieLocale.locale['frFR'] = {
     ['TARGET_RESET_BTN_DESC'] = "Réinitialiser les positions et l'échelle du cadre cible par défaut",
 
 
-    
+
 	['ADV_TAB'] = "Avancé",
     ['DEV_OPTIONS'] = "Options du développeur",
     ['ENABLE_DEBUG'] = "Activer le débogage",
@@ -134,8 +135,8 @@ QuestieLocale.locale['frFR'] = {
     ['SLASH_HEAD'] = "Commandes Questie",
     ['SLASH_CONFIG'] = "/ Questie - Bascule la fenêtre de configuration",
     ['SLASH_TOGGLE_Questie'] = "/ Questie bascule - Active / désactive l'affichage de la Questie sur la carte et la carte",
-	
-	
+
+
 	--Voyage Commandes
 	['JOURNEY_TITLE'] = "Le voyage de% s",
     ['JOUNREY_TAB'] = "Mon voyage",

@@ -170,9 +170,59 @@ local options = {
                                 Questie.db.char.enabled = value
                             end,
                 },
+                iconTypes = {
+                    type = "group",
+                    order = 4,
+                    inline = true,
+                    name = function() return QuestieLocale:GetUIString('ICON_TYPE_HEADER') end,
+                    args = {
+                        enableObjectivesToggle = {
+                            type = "toggle",
+                            order = 1,
+                            name = function() return QuestieLocale:GetUIString('ENABLE_OBJECTIVES') end,
+                            desc = function() return QuestieLocale:GetUIString('ENABLE_OBJECTIVES_DESC') end,
+                            width = "full",
+                            get =    function ()
+                                        return not Questie.db.global.disableObjectives;
+                                    end,
+                            set =    function (info, value)
+                                        Questie.db.global.disableObjectives = not value
+                                        QuestieQuest:UpdateHiddenNotes();
+                                    end,
+                        },
+                        enableTurninsToggle = {
+                            type = "toggle",
+                            order = 2,
+                            name = function() return QuestieLocale:GetUIString('ENABLE_TURNINS') end,
+                            desc = function() return QuestieLocale:GetUIString('ENABLE_TURNINS_DESC') end,
+                            width = "full",
+                            get =    function ()
+                                        return not Questie.db.global.disableTurnins;
+                                    end,
+                            set =    function (info, value)
+                                        Questie.db.global.disableTurnins = not value
+                                        QuestieQuest:UpdateHiddenNotes();
+                                    end,
+                        },
+                        enableAvailableToggle = {
+                            type = "toggle",
+                            order = 3,
+                            name = function() return QuestieLocale:GetUIString('ENABLE_AVAILABLE') end,
+                            desc = function() return QuestieLocale:GetUIString('ENABLE_AVAILABLE_DESC') end,
+                            width = "full",
+                            get =    function ()
+                                        return not Questie.db.global.disableAvailable;
+                                    end,
+                            set =    function (info, value)
+                                        Questie.db.global.disableAvailable = not value
+                                        QuestieQuest:UpdateHiddenNotes();
+                                    end,
+                        },
+                    },
+                },
                 iconEnabled = {
                     type = "toggle",
-                    order = 4,
+                    order = 5,
                     name = function() return QuestieLocale:GetUIString('ENABLE_ICON') end,
                     desc = function() return QuestieLocale:GetUIString('ENABLE_ICON_DESC') end,
                     width = "full",
@@ -191,7 +241,7 @@ local options = {
                 },
                 instantQuest = {
                     type = "toggle",
-                    order = 5,
+                    order = 6,
                     name = function() return QuestieLocale:GetUIString('ENABLE_INSTANT') end,
                     desc = function() return QuestieLocale:GetUIString('ENABLE_INSTANT_DESC') end,
                     width = "full",
@@ -208,7 +258,7 @@ local options = {
                 },
                 enableTooltipsToggle = {
                     type = "toggle",
-                    order = 6,
+                    order = 7,
                     name = function() return QuestieLocale:GetUIString('ENABLE_TOOLTIPS') end,
                     desc = function() return QuestieLocale:GetUIString('ENABLE_TOOLTIPS_DESC') end,
                     width = "full",
@@ -219,58 +269,16 @@ local options = {
                                 Questie.db.global.disableTooltips = not value
                             end,
                 },
-                enableObjectivesToggle = {
-                    type = "toggle",
-                    order = 7,
-                    name = function() return QuestieLocale:GetUIString('ENABLE_OBJECTIVES') end,
-                    desc = function() return QuestieLocale:GetUIString('ENABLE_OBJECTIVES_DESC') end,
-                    width = "full",
-                    get =    function ()
-                                return not Questie.db.global.disableObjectives;
-                            end,
-                    set =    function (info, value)
-                                Questie.db.global.disableObjectives = not value
-                                QuestieQuest:UpdateHiddenNotes();
-                            end,
-                },
-                enableTurninsToggle = {
-                    type = "toggle",
-                    order = 8,
-                    name = function() return QuestieLocale:GetUIString('ENABLE_TURNINS') end,
-                    desc = function() return QuestieLocale:GetUIString('ENABLE_TURNINS_DESC') end,
-                    width = "full",
-                    get =    function ()
-                                return not Questie.db.global.disableTurnins;
-                            end,
-                    set =    function (info, value)
-                                Questie.db.global.disableTurnins = not value
-                                QuestieQuest:UpdateHiddenNotes();
-                            end,
-                },
-                enableAvailableToggle = {
-                    type = "toggle",
-                    order = 9,
-                    name = function() return QuestieLocale:GetUIString('ENABLE_AVAILABLE') end,
-                    desc = function() return QuestieLocale:GetUIString('ENABLE_AVAILABLE_DESC') end,
-                    width = "full",
-                    get =    function ()
-                                return not Questie.db.global.disableAvailable;
-                            end,
-                    set =    function (info, value)
-                                Questie.db.global.disableAvailable = not value
-                                QuestieQuest:UpdateHiddenNotes();
-                            end,
-                },
                 --Spacer_A = _QuestieOptions:Spacer(9),
                 quest_options = {
                     type = "header",
-                    order = 10,
+                    order = 8,
                     name = function() return QuestieLocale:GetUIString('LEVEL_HEADER') end,
                 },
-                Spacer_B = _QuestieOptions:Spacer(11),
+                Spacer_B = _QuestieOptions:Spacer(9),
                 gray = {
                     type = "toggle",
-                    order = 12,
+                    order = 10,
                     name = function() return QuestieLocale:GetUIString('ENABLE_LOWLEVEL') end,
                     desc = function() return QuestieLocale:GetUIString('ENABLE_LOWLEVEL_DESC') end,
                     width = 200,
@@ -285,7 +293,7 @@ local options = {
                 },
                 minLevelFilter = {
                     type = "range",
-                    order = 13,
+                    order = 11,
                     name = function() return QuestieLocale:GetUIString('LOWLEVEL_BELOW') end,
                     desc = function() return QuestieLocale:GetUIString('LOWLEVEL_BELOW_DESC', _QuestieOptions.defaults.global.minLevelFilter) end,
                     width = "normal",
@@ -300,7 +308,7 @@ local options = {
                 },
                 maxLevelFilter = {
                     type = "range",
-                    order = 13,
+                    order = 12,
                     name = function() return QuestieLocale:GetUIString('LOWLEVEL_ABOVE') end,
                     desc = function() return QuestieLocale:GetUIString('LOWLEVEL_ABOVE_DESC', _QuestieOptions.defaults.global.maxLevelFilter) end,
                     width = "normal",
@@ -315,7 +323,7 @@ local options = {
                 },
                 clusterLevel = {
                   type = "range",
-                  order = 14,
+                  order = 13,
                   name = function() return QuestieLocale:GetUIString('CLUSTER') end,
                   desc = function() return QuestieLocale:GetUIString('CLUSTER_DESC') end,
                   width = "double",

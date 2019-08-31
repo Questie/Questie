@@ -25,6 +25,7 @@ QuestieLocale.locale['zhCN'] = {
     ['ENABLE_AVAILABLE_DESC'] = "若启用，在地图上标记可取得任务的地点",
     ['ENABLE_TOOLTIPS'] = "启用鼠标提示",
     ['ENABLE_TOOLTIPS_DESC'] = "若启用，在目标或物品的鼠标提示显示任务资讯",
+    ['ICON_TYPE_HEADER'] = "Icon Types",
 
     ['MINIMAP_TAB'] = "小地图选项",
     ['MINIMAP_HEADER'] = "小地图标记选项",

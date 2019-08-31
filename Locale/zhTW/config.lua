@@ -25,6 +25,7 @@ QuestieLocale.locale['zhTW'] = {
     ['ENABLE_AVAILABLE_DESC'] = "若啟用，在地圖上標記可取得任務的地點",
     ['ENABLE_TOOLTIPS'] = "啟用滑鼠提示",
     ['ENABLE_TOOLTIPS_DESC'] = "若啟用，在目標或物品的滑鼠提示顯示任務資訊",
+    ['ICON_TYPE_HEADER'] = "Icon Types",
 
     ['MINIMAP_TAB'] = "小地圖選項",
     ['MINIMAP_HEADER'] = "小地圖標記選項",
@@ -113,11 +114,11 @@ QuestieLocale.locale['zhTW'] = {
     -- UI Elements
     ['QUESTIE_MAP_BUTTON_SHOW'] = "顯示Questie",
     ['QUESTIE_MAP_BUTTON_HIDE'] = "隱藏Questie",
-    ['ICON_LEFT_CLICK'] = "左鍵", 
+    ['ICON_LEFT_CLICK'] = "左鍵",
     ['ICON_TOGGLE'] = "打開設定",
-    ['ICON_SHIFTLEFT_CLICK'] = "Shift + 左鍵", 
+    ['ICON_SHIFTLEFT_CLICK'] = "Shift + 左鍵",
     ['ICON_TOGGLE_QUESTIE'] = "打開Questie",
-    ['ICON_CTRLRIGHT_CLICK'] = "Ctrl + 右鍵", 
+    ['ICON_CTRLRIGHT_CLICK'] = "Ctrl + 右鍵",
     ['ICON_HIDE'] = "隱藏小地圖圖示",
 
     -- Slash Commands

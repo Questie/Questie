@@ -25,6 +25,7 @@ QuestieLocale.locale['deDE'] = {
     ['ENABLE_AVAILABLE_DESC'] = "Aktiviert/Deaktiviert die Icons der verfügbaren Quests auf der Karte/Minimap.",
     ['ENABLE_TOOLTIPS'] = "Tooltops aktivieren",
     ['ENABLE_TOOLTIPS_DESC'] = "Aktiviert/Deaktiviert zusätzliche Informationen zu Gegnern und Gegenständen als Tooltip.",
+    ['ICON_TYPE_HEADER'] = "Icon Arten",
 
     ['MINIMAP_TAB'] = "Minimap Einstellungen",
     ['MINIMAP_HEADER'] = "Minimap Notiz Einstellungen",

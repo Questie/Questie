@@ -17,7 +17,7 @@ QuestieLocale.locale['ruRU'] = {
     ['LOWLEVEL_ABOVE_DESC'] = "Установка максимального порога отображения заданий по уровню. ( По умолчанию: %s )",
     ['CLUSTER'] = "Группировать задачи  (Пока не реализовано)",
     ['CLUSTER_DESC'] = "Установка минимального количества заданий, при котором они будут группироваться.",
-
+    ['ICON_TYPE_HEADER'] = "Icon Types",
 
     ['MINIMAP_TAB'] = "Миникарта",
     ['MINIMAP_HEADER'] = "Настройки миникарты",
@@ -97,11 +97,11 @@ QuestieLocale.locale['ruRU'] = {
     -- UI Elements
     ['QUESTIE_MAP_BUTTON_SHOW'] = "Показать Questie",
     ['QUESTIE_MAP_BUTTON_HIDE'] = "Скрыть Questie",
-    ['ICON_LEFT_CLICK'] = "Левый клик", 
+    ['ICON_LEFT_CLICK'] = "Левый клик",
     ['ICON_TOGGLE'] = "Показать/скрыть настройки",
-    ['ICON_SHIFTLEFT_CLICK'] = "Shift + Левый клик", 
+    ['ICON_SHIFTLEFT_CLICK'] = "Shift + Левый клик",
     ['ICON_TOGGLE_QUESTIE'] = "Показать/скрыть Questie",
-    ['ICON_CTRLRIGHT_CLICK'] = "Ctrl + Правый клик", 
+    ['ICON_CTRLRIGHT_CLICK'] = "Ctrl + Правый клик",
     ['ICON_HIDE'] = "Скрыть иконку на миникарте",
 
 
