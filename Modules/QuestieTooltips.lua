@@ -193,7 +193,7 @@ function QuestieTooltips:init()
     end)
 
     GameTooltip:HookScript("OnUpdate", function(self)
-        if (not self.IsForbidden) or self:IsForbidden() then
+        if (not self.IsForbidden) or (not self:IsForbidden()) then
             local name, unit = self:GetUnit()
             if( name == nil and unit == nil and (QuestieTooltips.lastGametooltip ~= GameTooltipTextLeft1:GetText() or _QuestieTooltips:countTooltip() ~= QuestieTooltips.lastGametooltipCount)) then
                 TooltipShowing_maybeobject(GameTooltipTextLeft1:GetText())
