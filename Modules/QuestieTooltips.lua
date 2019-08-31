@@ -187,7 +187,7 @@ function QuestieTooltips:init()
         --nd
     end)
     GameTooltip:HookScript("OnHide", function(self)
-        if (not self.IsForbidden) or self:IsForbidden() then -- do we need this here also
+        if (not self.IsForbidden) or (not self:IsForbidden()) then -- do we need this here also
             QuestieTooltips.lastGametooltip = ""
         end
     end)
