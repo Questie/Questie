@@ -270,6 +270,10 @@ function QuestieFramePool:euclid(x, y, i, e)
     return math.sqrt(xd * xd + yd * yd);
 end
 
+function QuestieFramePool:maxdist(x, y, i, e)
+    return math.max(math.abs(x - i), math.abs(y - e))
+end
+
 function QuestieFramePool:remap(value, low1, high1, low2, high2)
     return low2 + (value - low1) * (high2 - low2) / (high1 - low1);
 end
@@ -311,12 +315,12 @@ function _QuestieFramePool:Questie_Tooltip(self)
     Tooltip._owner = self;
     Tooltip:SetOwner(self, "ANCHOR_CURSOR"); --"ANCHOR_CURSOR" or (self, self)
 
-    local maxDistCluster = 1.5
+    local maxDistCluster = 1
     local mid = WorldMapFrame:GetMapID();
     if mid == 947 then -- world
-        maxDistCluster = 8
+        maxDistCluster = 6
     elseif mid == 1415 or mid == 1414 then -- kalimdor/ek
-        maxDistCluster = 4
+        maxDistCluster = 3
     end
     if self.miniMapIcon then
         if _QuestieFramePool:isMinimapInside() then
@@ -346,7 +350,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
     if 1 then
         for _, icon in pairs(usedFrames) do -- I added "usedFrames" because I think its a bit more efficient than using _G but I might be wrong
             if icon and icon.data and icon.x and icon.AreaID == self.AreaID then
-                local dist = QuestieFramePool:euclid(icon.x, icon.y, self.x, self.y);
+                local dist = QuestieFramePool:maxdist(icon.x, icon.y, self.x, self.y);
                 if dist < maxDistCluster then
                     if icon.data.Type == "available" or icon.data.Type == "complete" then
                         if npcOrder[icon.data.Name] == nil then
