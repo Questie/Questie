@@ -18,6 +18,10 @@ QuestieLocale.locale['ptBR'] = {
     ['CLUSTER'] = "Objective icon cluster amount  (Not yet implemented)",
     ['CLUSTER_DESC'] = "How much objective icons should cluster.",
     ['ICON_TYPE_HEADER'] = "Icon Types",
+    ['ENABLE_MAP_ICONS'] = "Enable Map Icons",
+    ['ENABLE_MAP_ICONS_DESC'] = "Show/hide all icons from the main map",
+    ['ENABLE_MINIMAP_ICONS'] = "Enable Minimap Icons",
+    ['ENABLE_MINIMAP_ICONS_DESC'] = "Show/hide all icons from the minimap",
 
     ['MINIMAP_TAB'] = "Minimap Options",
     ['MINIMAP_HEADER'] = "Mini-Map Note Options",

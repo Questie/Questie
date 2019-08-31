@@ -84,7 +84,9 @@ function QuestieQuest:UpdateHiddenNotes()
             if icon ~= nil and icon.data then
                 if (((not Questie.db.global.enableObjectives) and (icon.data.Type == "monster" or icon.data.Type == "object" or icon.data.Type == "event" or icon.data.Type == "item"))
                  or ((not Questie.db.global.enableTurnins) and icon.data.Type == "complete")
-                 or ((not Questie.db.global.enableAvailable) and icon.data.Type == "available")) then
+                 or ((not Questie.db.global.enableAvailable) and icon.data.Type == "available"))
+                 or ((not Questie.db.global.enableMapIcons) and (not icon.miniMapIcon))
+                 or ((not Questie.db.global.enableMiniMapIcons) and (icon.miniMapIcon)) then
                     icon.shouldBeShowing = false
                     icon._show = icon.Show;
                     icon.Show = function()

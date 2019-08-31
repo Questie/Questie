@@ -18,6 +18,10 @@ QuestieLocale.locale['ruRU'] = {
     ['CLUSTER'] = "Группировать задачи  (Пока не реализовано)",
     ['CLUSTER_DESC'] = "Установка минимального количества заданий, при котором они будут группироваться.",
     ['ICON_TYPE_HEADER'] = "Icon Types",
+    ['ENABLE_MAP_ICONS'] = "Enable Map Icons",
+    ['ENABLE_MAP_ICONS_DESC'] = "Show/hide all icons from the main map",
+    ['ENABLE_MINIMAP_ICONS'] = "Enable Minimap Icons",
+    ['ENABLE_MINIMAP_ICONS_DESC'] = "Show/hide all icons from the minimap",
 
     ['MINIMAP_TAB'] = "Миникарта",
     ['MINIMAP_HEADER'] = "Настройки миникарты",

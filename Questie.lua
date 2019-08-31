@@ -122,6 +122,8 @@ _QuestieOptions.defaults = {
       enableTurnins = true,
       enableAvailable = true,
       enableTooltips = true,
+      enableMapIcons = true,
+      enableMiniMapIcons = true,
     },
       char = {
           complete = {},
@@ -176,12 +178,48 @@ local options = {
                     inline = true,
                     name = function() return QuestieLocale:GetUIString('ICON_TYPE_HEADER') end,
                     args = {
-                        enableObjectivesToggle = {
+                        enableMapToggle = {
                             type = "toggle",
                             order = 1,
+                            name = function() return QuestieLocale:GetUIString('ENABLE_MAP_ICONS') end,
+                            desc = function() return QuestieLocale:GetUIString('ENABLE_MAP_ICONS_DESC') end,
+                            width = "full",
+                            disabled = function() return (not Questie.db.char.enabled) end,
+                            get =    function ()
+                                        return Questie.db.global.enableMapIcons;
+                                    end,
+                            set =    function (info, value)
+                                        Questie.db.global.enableMapIcons = value
+                                        QuestieQuest:UpdateHiddenNotes();
+                                    end,
+                        },
+                        enableMiniMapToggle = {
+                            type = "toggle",
+                            order = 2,
+                            name = function() return QuestieLocale:GetUIString('ENABLE_MINIMAP_ICONS') end,
+                            desc = function() return QuestieLocale:GetUIString('ENABLE_MINIMAP_ICONS_DESC') end,
+                            width = "full",
+                            disabled = function() return (not Questie.db.char.enabled) end,
+                            get =    function ()
+                                        return Questie.db.global.enableMiniMapIcons;
+                                    end,
+                            set =    function (info, value)
+                                        Questie.db.global.enableMiniMapIcons = value
+                                        QuestieQuest:UpdateHiddenNotes();
+                                    end,
+                        },
+                        seperatingHeader = {
+                            type = "header",
+                            order = 3,
+                            name = "",
+                        },
+                        enableObjectivesToggle = {
+                            type = "toggle",
+                            order = 4,
                             name = function() return QuestieLocale:GetUIString('ENABLE_OBJECTIVES') end,
                             desc = function() return QuestieLocale:GetUIString('ENABLE_OBJECTIVES_DESC') end,
                             width = "full",
+                            disabled = function() return (not Questie.db.char.enabled) end,
                             get =    function ()
                                         return Questie.db.global.enableObjectives;
                                     end,
@@ -192,10 +230,11 @@ local options = {
                         },
                         enableTurninsToggle = {
                             type = "toggle",
-                            order = 2,
+                            order = 5,
                             name = function() return QuestieLocale:GetUIString('ENABLE_TURNINS') end,
                             desc = function() return QuestieLocale:GetUIString('ENABLE_TURNINS_DESC') end,
                             width = "full",
+                            disabled = function() return (not Questie.db.char.enabled) end,
                             get =    function ()
                                         return Questie.db.global.enableTurnins;
                                     end,
@@ -206,10 +245,11 @@ local options = {
                         },
                         enableAvailableToggle = {
                             type = "toggle",
-                            order = 3,
+                            order = 6,
                             name = function() return QuestieLocale:GetUIString('ENABLE_AVAILABLE') end,
                             desc = function() return QuestieLocale:GetUIString('ENABLE_AVAILABLE_DESC') end,
                             width = "full",
+                            disabled = function() return (not Questie.db.char.enabled) end,
                             get =    function ()
                                         return Questie.db.global.enableAvailable;
                                     end,

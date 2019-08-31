@@ -26,6 +26,10 @@ QuestieLocale.locale['zhTW'] = {
     ['ENABLE_TOOLTIPS'] = "啟用滑鼠提示",
     ['ENABLE_TOOLTIPS_DESC'] = "若啟用，在目標或物品的滑鼠提示顯示任務資訊",
     ['ICON_TYPE_HEADER'] = "Icon Types",
+    ['ENABLE_MAP_ICONS'] = "Enable Map Icons",
+    ['ENABLE_MAP_ICONS_DESC'] = "Show/hide all icons from the main map",
+    ['ENABLE_MINIMAP_ICONS'] = "Enable Minimap Icons",
+    ['ENABLE_MINIMAP_ICONS_DESC'] = "Show/hide all icons from the minimap",
 
     ['MINIMAP_TAB'] = "小地圖選項",
     ['MINIMAP_HEADER'] = "小地圖標記選項",

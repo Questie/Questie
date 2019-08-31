@@ -27,7 +27,10 @@ QuestieLocale.locale['frFR'] = {
     ['ENABLE_TOOLTIPS'] = "Activer les info-bulles",
     ['ENABLE_TOOLTIPS_DESC'] = "Si cela est activé, les informations de quête seront ajoutées aux info-bulles mob / item pertinentes",
     ['ICON_TYPE_HEADER'] = "Icon Types",
-
+    ['ENABLE_MAP_ICONS'] = "Enable Map Icons",
+    ['ENABLE_MAP_ICONS_DESC'] = "Show/hide all icons from the main map",
+    ['ENABLE_MINIMAP_ICONS'] = "Enable Minimap Icons",
+    ['ENABLE_MINIMAP_ICONS_DESC'] = "Show/hide all icons from the minimap",
 
 	['MINIMAP_TAB'] = "Options de la mini-carte",
     ['MINIMAP_HEADER'] = "Options de note de mini-carte",

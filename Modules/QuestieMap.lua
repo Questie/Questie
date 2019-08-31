@@ -113,6 +113,7 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
         icon.x = x
         icon.y = y
         icon.AreaID = AreaID
+        icon.miniMapIcon = false;
         if AreaID then
             data.UiMapID = zoneDataAreaIDToUiMapID[AreaID];
         end
@@ -196,8 +197,12 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
             end)
         end
 
-        HBDPins:AddMinimapIconMap(Questie, iconMinimap, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, true, floatOnEdge)
-        HBDPins:AddWorldMapIconMap(Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, showFlag)
+        if Questie.db.global.enableMiniMapIcons then
+            HBDPins:AddMinimapIconMap(Questie, iconMinimap, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, true, floatOnEdge)
+        end
+        if Questie.db.global.enableMapIcons then
+            HBDPins:AddWorldMapIconMap(Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, showFlag)
+        end
         if(qQuestIdFrames[data.Id] == nil) then
             qQuestIdFrames[data.Id] = {}
         end
