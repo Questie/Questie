@@ -1,6 +1,10 @@
 QuestieQuest = {...}
 local _QuestieQuest = {...}
 
+local slainTexts = {
+    ['enUS'] = 'slain',
+    ['frFR'] = 'tué'
+}
 
 qAvailableQuests = {} --Gets populated at PLAYER_ENTERED_WORLD
 
@@ -788,7 +792,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                     if objectiveType == v.Type then
                         -- TODO: use string distance to find closest, dont rely on exact match
                         if ((v.Name == nil or objectiveDesc == nil) and v.Type ~= "item" and v.Type ~= "monster") or (v.Name and ((string.lower(objectiveDesc) == string.lower(v.Name))) or (v.Text and (string.lower(objectiveDesc) == string.lower(v.Text)))) then
-							Quest.Objectives[i].Id = v.Id
+                            Quest.Objectives[i].Id = v.Id
                             Quest.Objectives[i].Coordinates = v.Coordinates
                             v.ObjectiveRef = Quest.Objectives[i]
                         end
@@ -875,7 +879,8 @@ function _QuestieQuest:GetLeaderBoardDetails(BoardIndex, QuestId)
     end
     Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Quest Details2:", QuestId, itemName, numItems, numNeeded)
     if (itemName) then
-        itemName = string.gsub(itemName, "tué", "")
+        local slainText = slainTexts[GetLocale()] or "slain"
+        itemName = string.gsub(itemName, slainText, "")
     else
         itemName = description;
     end
