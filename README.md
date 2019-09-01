@@ -6,6 +6,10 @@
 # Installation Guide
 Follow the [Installation Guide](https://github.com/AeroScripts/QuestieDev/wiki/Installation-Guide) in the Wiki if you just want to get the latest version of Questie up and running.
 
+## FAQ for Classic (1.13)
+
+You can find the FAQ for Classic [here](https://github.com/AeroScripts/QuestieDev/wiki/FAQ-for-Classic-(1.13))!
+
 # Download:
 https://github.com/AeroScripts/QuestieDev/releases/latest
 
