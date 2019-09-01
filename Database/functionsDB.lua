@@ -1,17 +1,14 @@
 QuestieDB = {...}
 
 function QuestieDB:Initialize()
+
+
   QuestieDBZone:zoneCreateConvertion()
   QuestieDB:deleteFaction()
   QuestieDB:deleteClasses()
   QuestieDB:deleteGatheringNodes()
   
-  
-  -- Initialize LangNameLookup & LangQuestLookup
-    LangNameLookup = LangNameLookup[GetLocale()] or {}
-    LangQuestLookup = LangQuestLookup[GetLocale()] or {}
 
-  
   -- populate mustHave (subquests) this is sorta a hack, maybe Muehe can integrate this logic into the converter tool
   for k,v in pairs(qData) do
     if v and v[14] then

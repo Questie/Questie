@@ -36,6 +36,10 @@ local _optionsTimer = nil;
 local _QuestieOptions = {...};
 _QuestieOptions.configFrame = nil;
 
+-- Initialize LangNameLookup & LangQuestLookup
+LangNameLookup = LangNameLookup[GetLocale()] or {}
+LangQuestLookup = LangQuestLookup[GetLocale()] or {}
+  
 function _QuestieOptions:AvailableQuestRedraw()
     QuestieQuest:CalculateAvailableQuests()
     QuestieQuest:DrawAllAvailableQuests()
