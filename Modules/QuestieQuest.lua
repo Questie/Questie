@@ -792,11 +792,6 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                 for k, v in pairs(Quest.ObjectiveData) do
                     if objectiveType == v.Type then
                         -- TODO: use string distance to find closest, dont rely on exact match
-						
-		
-							Questie:Debug(DEBUG_SPAM, "[objectiveDesc]:".. string.lower(objectiveDesc).. '#')
-							Questie:Debug(DEBUG_SPAM, "[v.name]:".. string.lower(v.Name).. '#')
-
                         if ((v.Name == nil or objectiveDesc == nil) and v.Type ~= "item" and v.Type ~= "monster") or (v.Name and ((string.lower(strtrim(objectiveDesc)) == string.lower(v.Name))) or (v.Text and (string.lower(objectiveDesc) == string.lower(v.Text)))) then
                             
 							Quest.Objectives[i].Id = v.Id
@@ -806,14 +801,14 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                     end
                 end
                 -- 2nd pass (fix for missing language data)
-                -- if Quest.Objectives[i].Id == nil and GetLocale() ~= "enUS" and GetLocale() ~= "enGB" then
-                --    for k,v in pairs(Quest.ObjectiveData) do
-                --        if objectiveType == v.Type then
-                --            -- When nothing is found (other languages) fill it.
-                --            Quest.Objectives[i].Id = v.Id
-                --        end
-                --    end
-                -- end
+                if Quest.Objectives[i].Id == nil and GetLocale() ~= "enUS" and GetLocale() ~= "enGB" then
+                    for k,v in pairs(Quest.ObjectiveData) do
+                        if objectiveType == v.Type then
+                           -- When nothing is found (other languages) fill it.
+                           Quest.Objectives[i].Id = v.Id
+                        end
+                    end
+                end
             end
         end
 
