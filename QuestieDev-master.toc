@@ -1,8 +1,8 @@
 ## Interface: 11302
-## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v4.0.12|r|cFFFF0000 Beta|r
+## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v4.0.13|r|cFFFF0000 Beta|r
 ## Author: Aero/Logon/Muehe/Dyaxler/Schaka/Zoey/Everyone else
 ## Notes: A standalone Classic QuestHelper
-## Version: 4.0.12 BETA
+## Version: 4.0.13 BETA
 ## RequiredDeps:
 ## OptionalDeps: Ace3, LibDataBroker-1.1, LibCompress
 ## SavedVariables: QuestieConfig
@@ -27,6 +27,7 @@ Database\TEMP_repprof.lua
 Database\specialspawns.lua
 Database\corrections.lua
 Database\functionsDB.lua
+Database\itemDB.lua
 
 #Localization
 Locale\QuestieLocale.lua
@@ -50,6 +51,7 @@ Modules\QuestieNameplate.lua
 Modules\QuestieCoordinates.lua
 Modules\QuestieJourney.lua
 Modules\QuestieComms.lua
+Modules\QuestieSearch.lua
 
 #Main
 Questie.lua
