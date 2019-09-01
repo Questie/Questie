@@ -131,6 +131,7 @@ QuestieLocale.locale['frFR'] = {
     ['ICON_TOGGLE_Questie'] = "Basculer la question",
     ['ICON_CTRLRIGHT_CLICK'] = "Ctrl + Clic droit",
     ['ICON_HIDE'] = "Masquer l'icône mini-carte",
+    ['CONFIRM_HIDE_QUEST'] = "Are you sure you want to hide the quest \"%s\"?",
 
 
     -- Slash Commandes

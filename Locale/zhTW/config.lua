@@ -124,6 +124,7 @@ QuestieLocale.locale['zhTW'] = {
     ['ICON_TOGGLE_QUESTIE'] = "打開Questie",
     ['ICON_CTRLRIGHT_CLICK'] = "Ctrl + 右鍵",
     ['ICON_HIDE'] = "隱藏小地圖圖示",
+    ['CONFIRM_HIDE_QUEST'] = "你確定要隱藏任務： %s嗎？",
 
     -- Slash Commands
     ['SLASH_INVALID'] = "無效指令，要查看指令列表請輸入：",

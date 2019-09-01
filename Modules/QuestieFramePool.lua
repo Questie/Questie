@@ -13,7 +13,7 @@ local HBDMigrate = LibStub("HereBeDragonsQuestie-Migrate")
 
 _QuestieFramePool.addonPath = "Interface\\Addons\\QuestieDev-master\\"
 
---TODO: Add all types
+--TODO: Add all types (we gotta stop using globals, needs refactoring)
 ICON_TYPE_AVAILABLE =  _QuestieFramePool.addonPath.."Icons\\available.blp"
 ICON_TYPE_SLAY =  _QuestieFramePool.addonPath.."Icons\\slay.blp"
 ICON_TYPE_COMPLETE =  _QuestieFramePool.addonPath.."Icons\\complete.blp"
@@ -23,6 +23,27 @@ ICON_TYPE_EVENT =  _QuestieFramePool.addonPath.."Icons\\event.blp"
 ICON_TYPE_OBJECT =  _QuestieFramePool.addonPath.."Icons\\object.blp"
 ICON_TYPE_GLOW = _QuestieFramePool.addonPath.."Icons\\glow.blp"
 ICON_TYPE_BLACK = _QuestieFramePool.addonPath.."Icons\\black.blp"
+
+StaticPopupDialogs["QUESTIE_CONFIRMHIDE"] = {
+    text = "", -- set before showing
+    QuestID = 0, -- set before showing
+    button1 = "Yes",
+    button2 = "No",
+    OnAccept = function()
+        QuestieQuest:HideQuest(StaticPopupDialogs["QUESTIE_CONFIRMHIDE"].QuestID)
+    end,
+    SetQuest = function(self, id)
+        self.QuestID = id
+        self.text = QuestieLocale:GetUIString("CONFIRM_HIDE_QUEST", QuestieDB:GetQuest(self.QuestID):GetColoredQuestName())
+    end,
+    OnShow = function(self)
+        self:SetFrameStrata("TOOLTIP")
+    end,
+    timeout = 0,
+    whileDead = true,
+    hideOnEscape = true,
+    preferredIndex = 3
+}
 
 -- Global Functions --
 function QuestieFramePool:GetFrame()
@@ -187,8 +208,17 @@ function _QuestieFramePool:QuestieCreateFrame()
     f:SetScript("OnLeave", function() if(WorldMapTooltip) then WorldMapTooltip:Hide(); WorldMapTooltip._rebuild = nil; end if(GameTooltip) then GameTooltip:Hide(); GameTooltip._rebuild = nil; end end) --Script Exit Tooltip
     f:SetScript("OnClick", function(self)
         --_QuestieFramePool:Questie_Click(self)
-        if self and self.data and self.data.UiMapID and WorldMapFrame and WorldMapFrame:IsShown() and self.data.UiMapID ~= WorldMapFrame:GetMapID() then
-            WorldMapFrame:SetMapID(self.data.UiMapID);
+        if self and self.data and self.data.UiMapID and WorldMapFrame and WorldMapFrame:IsShown() then
+            if self.data.UiMapID ~= WorldMapFrame:GetMapID() then
+                WorldMapFrame:SetMapID(self.data.UiMapID);
+            end
+            if self.data.Type == "available" and IsShiftKeyDown() then
+                StaticPopupDialogs["QUESTIE_CONFIRMHIDE"]:SetQuest(self.data.QuestData.Id)
+                --WorldMapFrame:Hide()
+                --StaticPopup:SetFrameStrata("TOOLTIP")
+                StaticPopup_Show ("QUESTIE_CONFIRMHIDE")
+                
+            end
         end
     end);
     f.glowUpdate = function(self)--f:HookScript("OnUpdate", function(self)

@@ -127,6 +127,7 @@ _QuestieOptions.defaults = {
     },
       char = {
           complete = {},
+          hidden = {},
           enabled = true,
           lowlevel = false,
           journey = {},

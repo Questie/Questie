@@ -107,6 +107,7 @@ QuestieLocale.locale['ruRU'] = {
     ['ICON_TOGGLE_QUESTIE'] = "Показать/скрыть Questie",
     ['ICON_CTRLRIGHT_CLICK'] = "Ctrl + Правый клик",
     ['ICON_HIDE'] = "Скрыть иконку на миникарте",
+    ['CONFIRM_HIDE_QUEST'] = "Are you sure you want to hide the quest \"%s\"?",
 
 
     -- Slash Commands

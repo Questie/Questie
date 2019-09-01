@@ -117,6 +117,11 @@ function QuestieQuest:UpdateHiddenNotes()
 
 end
 
+function QuestieQuest:HideQuest(id)
+    Questie.db.char.hidden[id] = true
+    QuestieMap:UnloadQuestFrames(id);
+end
+
 function QuestieQuest:GetRawLeaderBoardDetails(QuestLogIndex)
     local quest = {}
     title, level, _, isHeader, _, isComplete, _, questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(QuestLogIndex)
@@ -1030,6 +1035,9 @@ function _QuestieQuest:IsDoable(questObject) -- we need to add profession/reputa
         return false;
     end
     if questObject.Hidden then
+        return false;
+    end
+    if Questie.db.char.hidden[questObject.Id] then
         return false;
     end
     if questObject.NextQuestInChain then

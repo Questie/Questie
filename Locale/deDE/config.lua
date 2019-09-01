@@ -124,6 +124,7 @@ QuestieLocale.locale['deDE'] = {
     ['ICON_HIDE'] = "Minimap Button verstecken",
     ['ICON_RIGHT_CLICK'] = "Rechtsklick",
     ['ICON_JOURNEY'] = "Meine Reise zeigen/verstecken",
+    ['CONFIRM_HIDE_QUEST'] = "Are you sure you want to hide the quest \"%s\"?",
 
     -- Slash Commands
     ['SLASH_INVALID'] = "Ungültiger Befehl. Für eine Liste aller verfügbaren Befehle nutze: ",
