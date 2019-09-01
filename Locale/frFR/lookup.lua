@@ -1,5 +1,4 @@
-
-LangNameLookup = {
+LangNameLookup['frFR'] = {
 [3] = 'Dévoreur',
 [6] = 'Vermine kobold',
 [30] = 'Araignée forestière',
@@ -7415,7 +7414,7 @@ LangNameLookup = {
 [17804] = 'Ecuyer Rowe',
 [18199] = 'Silithus Dust Turnin Quest Doodad Horde',
 }
-LangQuestLookup = {
+LangQuestLookup['frFR'] = {
 [2] = {nil, nil, nil},
 [5] = {'L\'estomac qui gargouille', 'Je suis resté caché dans cette ville fantôme depuis des semaines. Apportez-moi de quoi festoyer et je vous payerai généreusement. J\'ai entendu parler d\'un certain chef Grual qui fait de succulents gâteaux au crabe brun, à la taverne du Corbeau écarlate à Darkshire...', 'Parler au chef Grual.'},
 [6] = {'La prime pour Garrick Padfoot', nil, 'Tuer Garrick Padfoot et rapporter sa tête à l\'Adjoint Willem de l\'Abbaye du Northshire.'},

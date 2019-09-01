@@ -139,6 +139,13 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
     QO.Description = rawdata[8]
     QO.MustHave = rawdata.mustHave
 
+    -- Do localization
+	  local localizedQuest = LangQuestLookup[QuestID]
+	  if localizedQuest ~=nil then
+	    QO.Name = localizedQuest[1] or QO.Name
+	    QO.Description = localizedQuest[3] or QO.Description
+	  end
+
     --QO.Ends["NPC"] = rawdata[3][1]
     --QO.Ends["GameObject"] = rawdata[3][2]
 
@@ -157,7 +164,8 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
               -- this speeds up lookup
               obj.Name = npcData[v]
               if obj.Name ~= nil then
-                obj.Name = string.lower(obj.Name[1]);
+                local name = LangNameLookup[v] or obj.Name[1]
+                obj.Name = string.lower(name);
               end
 
               QO.Finisher = obj; -- there is only 1 finisher --table.insert(QO.Finisher, obj);
@@ -221,7 +229,8 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
               -- this speeds up lookup
               obj.Name = npcData[obj.Id]
               if obj.Name ~= nil then
-                obj.Name = string.lower(obj.Name[1]);
+                local name = LangNameLookup[obj.Id] or obj.Name[1]
+                obj.Name = string.lower(name);
               end
 
               table.insert(QO.ObjectiveData, obj);
@@ -337,7 +346,7 @@ function QuestieDB:GetNPC(NPCID)
     NPC = {}
     NPC.Type = "NPC" --This can be used to look at which type it is, Gameobject and Items will have the same! (should be monster to match wow api)
     NPC.Id = NPCID
-    NPC.Name = rawdata[DB_NAME]
+    NPC.Name = LangNameLookup[NPCID] or rawdata[DB_NAME]
     NPC.MinHealth = rawdata[DB_MIN_LEVEL_HEALTH]
     NPC.MaxHealth = rawdata[DB_MAX_LEVEL_HEALTH]
     NPC.MinLevel = rawdata[DB_MIN_LEVEL]
@@ -390,9 +399,13 @@ function QuestieDB:GetQuestsByName(questName)
 
   for index, quest in pairs(qData) do
       local needle = string.lower(questName);
-      local haystack = string.lower(quest[1]);
-
-      if string.find(haystack, needle) then
+      local haystack = quest[1]
+	    local localizedQuest = LangQuestLookup[index]
+	    if localizedQuest ~=nil then
+	      haystack = localizedQuest[1] or quest[1]
+	    end
+      local lowerHaystack = string.lower(haystack);
+      if string.find(lowerHaystack, needle) then
         table.insert(returnTable, index);
       end
   end
@@ -409,12 +422,13 @@ function QuestieDB:GetNPCsByName(npcName)
 
   for index, npc in pairs(npcData) do
     local needle = string.lower(npcName);
-    local haystack = string.lower(npc[1]);
+    local haystack =  LangNameLookup[index] or npc[1]
+    local lowerHaystack = string.lower(haystack);
 
-    if string.find(haystack, needle) then
+    if string.find(lowerHaystack, needle) then
       table.insert(returnTable, index);
     end
-end
+  end
 
   return returnTable;
 end
