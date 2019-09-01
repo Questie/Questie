@@ -31,7 +31,7 @@ local StreamPool = {}
 
 function QuestieStreamLib:getStream() -- returns a new stream
     local stream = tremove(StreamPool)
-    if stream then 
+    if stream then
         return stream
     else
         stream = {}
@@ -171,7 +171,7 @@ function QuestieStreamLib:save()
         else
             result = result .. string.char(chr)
         end
-        
+
     end
     return result
 end
@@ -182,12 +182,12 @@ function QuestieStreamLib:savePart(limit)
     if self._size < self._pointer then
         self._size = self._pointer
     end
-	if limit > self._size then
-		limit = self._size
-	end
+    if limit > self._size then
+        limit = self._size
+    end
     for i=1,limit do
         local e = self:readByte()
-		if not e then return result; end
+        if not e then return result; end
         local level = math.floor(e / 86);
         if not (lmt == level) then
             lmt = level
@@ -199,7 +199,7 @@ function QuestieStreamLib:savePart(limit)
         else
             result = result .. string.char(chr)
         end
-        
+
     end
     return result
 end
