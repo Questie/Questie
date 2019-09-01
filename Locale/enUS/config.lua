@@ -126,7 +126,7 @@ QuestieLocale.locale['enUS'] = {
     ['ICON_HIDE'] = "Hide Minimap Button",
     ['ICON_RIGHT_CLICK'] = "Right Click",
     ['ICON_JOURNEY'] = "Toggle My Journey",
-    ['CONFIRM_HIDE_QUEST'] = "Are you sure you want to hide the quest \"%s\"?",
+    ['CONFIRM_HIDE_QUEST'] = "Are you sure you want to hide the quest \"%s\"?\nIf this quest isn't actually available, please report it to us!",
 
 
     -- Slash Commands
