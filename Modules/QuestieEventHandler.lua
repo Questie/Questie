@@ -20,7 +20,7 @@ local QuestWatchTimers = {
 local lastState = {}
 --False -> true -> nil
 local playerEntered = false;
-
+local hasFirstQLU = false;
 
 local questWatchFrames = {}
 for i = 1, 35 do
@@ -75,16 +75,22 @@ for i = 1, 35 do
 end
 
 function QuestieEventHandler:PLAYER_ENTERING_WORLD()
-    _hack_prime_log()
-    qPlayerLevel = UnitLevel("player")
-    QuestieQuest:Initialize()
-    QuestieDB:Initialize()
-    QuestieQuest:GetAllQuestIdsNoObjectives()
-    QuestieQuest:CalculateAvailableQuests()
-    QuestieQuest:DrawAllAvailableQuests()
-    QuestieNameplate:Initialize();
-    Questie:Debug(DEBUG_ELEVATED, "PLAYER_ENTERED_WORLD")
-    playerEntered = true
+    C_Timer.After(4, function()
+        _hack_prime_log()
+        qPlayerLevel = UnitLevel("player")
+        QuestieQuest:Initialize()
+        QuestieDB:Initialize()
+        QuestieQuest:GetAllQuestIdsNoObjectives()
+        QuestieQuest:CalculateAvailableQuests()
+        QuestieQuest:DrawAllAvailableQuests()
+        QuestieNameplate:Initialize();
+        Questie:Debug(DEBUG_ELEVATED, "PLAYER_ENTERED_WORLD")
+        playerEntered = true
+        -- manually fire QLU since enter has been delayed past the first QLU
+        if hasFirstQLU then
+            QuestieEventHandler:QUEST_LOG_UPDATE()
+        end
+    end)
 
 
     --[[C_Timer.After(2, function ()
@@ -251,6 +257,7 @@ end
 
 function QuestieEventHandler:QUEST_LOG_UPDATE()
     Questie:Debug(DEBUG_DEVELOP, "QUEST_LOG_UPDATE")
+    hasFirstQLU = true
     if(playerEntered)then
         Questie:Debug(DEBUG_DEVELOP, "---> Player entered world, START.")
         C_Timer.After(1, function ()
