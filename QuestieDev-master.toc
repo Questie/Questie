@@ -51,7 +51,6 @@ Modules\QuestieNameplate.lua
 Modules\QuestieCoordinates.lua
 Modules\QuestieJourney.lua
 Modules\QuestieComms.lua
-Modules\QuestieSearch.lua
 
 #Main
 Questie.lua
