@@ -13,7 +13,20 @@ qCurrentQuestlog = {} --Gets populated by QuestieQuest:GetAllQuestIds(), this is
 
 function QuestieQuest:Initialize()
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_GET_QUEST_COMP'))
-    GetQuestsCompleted(Questie.db.char.complete)
+    --GetQuestsCompleted(Questie.db.char.complete)
+    Questie.db.char.complete = GetQuestsCompleted()
+    --local db = {}
+    --GetQuestsCompleted(db)
+
+    -- maintain additional data added to db.char.complete, but remove quests that are no longer complete
+    --for k,v in pairs(db) do
+    --    if not Questie.db.char.complete[k] then Questie.db.char.complete[k] = true; end
+    --end
+    --for k,v in pairs(Questie.db.char.complete) do
+    --    if not db[k] then
+    --        Questie.db.char.complete[k] = nil
+    --    end
+    --end
 end
 
 QuestieQuest.NotesHidden = false
@@ -66,7 +79,7 @@ end
 
 function QuestieQuest:UpdateHiddenNotes()
     QuestieQuest:GetAllQuestIds() -- add notes that weren't added from previous hidden state
-    if not Questie.db.global.disableAvailable then
+    if Questie.db.global.enableAvailable then
         QuestieQuest:DrawAllAvailableQuests();
     end
 
@@ -74,9 +87,11 @@ function QuestieQuest:UpdateHiddenNotes()
         for index, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
             local icon = _G[frameName];
             if icon ~= nil and icon.data then
-                if ((Questie.db.global.disableObjectives and (icon.data.Type == "monster" or icon.data.Type == "object" or icon.data.Type == "event" or icon.data.Type == "item"))
-                 or (Questie.db.global.disableTurnins and icon.data.Type == "complete")
-                 or (Questie.db.global.disableAvailable and icon.data.Type == "available")) then
+                if (((not Questie.db.global.enableObjectives) and (icon.data.Type == "monster" or icon.data.Type == "object" or icon.data.Type == "event" or icon.data.Type == "item"))
+                 or ((not Questie.db.global.enableTurnins) and icon.data.Type == "complete")
+                 or ((not Questie.db.global.enableAvailable) and icon.data.Type == "available"))
+                 or ((not Questie.db.global.enableMapIcons) and (not icon.miniMapIcon))
+                 or ((not Questie.db.global.enableMiniMapIcons) and (icon.miniMapIcon)) then
                     icon.shouldBeShowing = false
                     icon._show = icon.Show;
                     icon.Show = function()
@@ -104,7 +119,7 @@ function QuestieQuest:UpdateHiddenNotes()
         end
     end
     -- hack to hide already-added notes of unwanted type
-    
+
 end
 
 function QuestieQuest:GetRawLeaderBoardDetails(QuestLogIndex)
@@ -549,7 +564,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
 
     Objective:Update() -- update qlog data
     local completed = Objective.Completed
-    
+
     if not Objective.Color then -- todo: move to a better place
         QuestieQuest:math_randomseed(Quest.Id + 32768 * ObjectiveIndex)
         Objective.Color = {0.45 + QuestieQuest:math_random() / 2, 0.45 + QuestieQuest:math_random() / 2, 0.45 + QuestieQuest:math_random() / 2}
@@ -587,7 +602,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                     tooltipRegisterHack[spawnData.TooltipKey] = true
                     hasTooltipHack = true
                 end
-                if not Questie.db.global.disableObjectives then
+                if Questie.db.global.enableObjectives then
                     -- temporary fix for "special objectives" to not double-spawn (we need to fix the objective detection logic)
                     Quest.AlreadySpawned[Objective.Type][spawnData.Id] = true
                     local maxCount = 0

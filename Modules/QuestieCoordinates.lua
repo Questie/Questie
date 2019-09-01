@@ -1,6 +1,6 @@
 QuestieCoords = {};
 
-QuestieCoords.updateInterval = 0.2;
+QuestieCoords.updateInterval = 0.3;
 local totalTime = 0;
 local eventHandler = nil;
 
@@ -82,19 +82,20 @@ function QuestieCoords:WriteCoords()
 end
 
 function QuestieCoords:Initialize()
-    QuestieCoords.coordFrame = CreateFrame("Frame");
-    QuestieCoords.coordFrame:SetScript("OnUpdate", QuestieCoords.Update);   
+    --QuestieCoords.coordFrame = CreateFrame("Frame");
+    --QuestieCoords.coordFrame:SetScript("OnUpdate", QuestieCoords.Update);
+	C_Timer.NewTicker(QuestieCoords.updateInterval, QuestieCoords.Update)
 end
 
 function QuestieCoords:Update(elapsed)
     if (Questie.db.global.minimapCoordinatesEnabled) or
 		(Questie.db.global.mapCoordinatesEnabled) then
             
-        totalTime = totalTime + elapsed;
-        if(totalTime > QuestieCoords.updateInterval) then
-            totalTime = 0;
+        --totalTime = totalTime + elapsed;
+        --if(totalTime > QuestieCoords.updateInterval) then
+        --    totalTime = 0;
             QuestieCoords.WriteCoords();
-        end
+        --end
 	end
 end
 

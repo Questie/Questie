@@ -26,7 +26,11 @@ QuestieLocale.locale['frFR'] = {
     ['ENABLE_AVAILABLE_DESC'] = "Lorsque cette option est activée, les lieux d'activation de la quête seront affichés sur la carte / la mini-carte",
     ['ENABLE_TOOLTIPS'] = "Activer les info-bulles",
     ['ENABLE_TOOLTIPS_DESC'] = "Si cela est activé, les informations de quête seront ajoutées aux info-bulles mob / item pertinentes",
-
+    ['ICON_TYPE_HEADER'] = "Icon Types",
+    ['ENABLE_MAP_ICONS'] = "Enable Map Icons",
+    ['ENABLE_MAP_ICONS_DESC'] = "Show/hide all icons from the main map",
+    ['ENABLE_MINIMAP_ICONS'] = "Enable Minimap Icons",
+    ['ENABLE_MINIMAP_ICONS_DESC'] = "Show/hide all icons from the minimap",
 
 	['MINIMAP_TAB'] = "Options de la mini-carte",
     ['MINIMAP_HEADER'] = "Options de note de mini-carte",
@@ -102,7 +106,7 @@ QuestieLocale.locale['frFR'] = {
     ['TARGET_RESET_BTN_DESC'] = "Réinitialiser les positions et l'échelle du cadre cible par défaut",
 
 
-    
+
 	['ADV_TAB'] = "Avancé",
     ['DEV_OPTIONS'] = "Options du développeur",
     ['ENABLE_DEBUG'] = "Activer le débogage",
@@ -134,8 +138,8 @@ QuestieLocale.locale['frFR'] = {
     ['SLASH_HEAD'] = "Commandes Questie",
     ['SLASH_CONFIG'] = "/ Questie - Bascule la fenêtre de configuration",
     ['SLASH_TOGGLE_Questie'] = "/ Questie bascule - Active / désactive l'affichage de la Questie sur la carte et la carte",
-	
-	
+
+
 	--Voyage Commandes
 	['JOURNEY_TITLE'] = "Le voyage de% s",
     ['JOUNREY_TAB'] = "Mon voyage",
@@ -189,10 +193,8 @@ QuestieLocale.locale['frFR'] = {
     ['JOURNEY_BEGIN'] = "Il est temps que vous embarquiez pour votre premier voyage!",
     ['JOURNEY_SEARCH_HEAD'] = "Entrez dans votre recherche",
     ['JOURNEY_SEARCH_CRITERIA'] = "Sélectionner les critères de recherche",
-    ['JOURNEY_SEARCH_QUESTS'] = "Recherche de quêtes par nom",
-    ['JOURNEY_SEARCH_QUESTS_ID'] = "Rechercher une recherche par identifiant de quête",
-    ['JOURNEY_SEARCH_NPCS'] = "Rechercher des NPC par nom",
-    ['JOURNEY_SEARCH_NPCS_ID'] = "Recherche de NPC par ID de NPC",
+    ['JOURNEY_SEARCH_BY_NAME'] = "Recherche de quêtes par nom",
+    ['JOURNEY_SEARCH_BY_ID'] = "Rechercher une recherche par identifiant de quête",
     ['JOURNEY_SEARCH_EXE'] = "Rechercher",
     ['JOURNEY_SEARCH_RESULTS'] = "Résultats de la recherche",
     ['JOURNEY_SEARCH_NOMATCH'] = "Aucune correspondance pour les résultats de recherche:% s",

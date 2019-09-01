@@ -122,7 +122,8 @@ end
 
 
 local function TooltipShowing_unit(self)
-    if Questie.db.global.disableTooltips then return; end
+    if self.IsForbidden and self:IsForbidden() then return; end
+    if not Questie.db.global.enableTooltips then return; end
     --QuestieTooltips.lastTooltipTime = GetTime()
     local name, ttype = self:GetUnit()
     if name then
@@ -136,6 +137,7 @@ local function TooltipShowing_unit(self)
 end
 
 local function TooltipShowing_item(self)
+    if self.IsForbidden and self:IsForbidden() then return; end
     --QuestieTooltips.lastTooltipTime = GetTime()
     local name, link = self:GetItem()
     if name then
@@ -149,7 +151,7 @@ local function TooltipShowing_item(self)
 end
 
 local function TooltipShowing_maybeobject(name)
-    if Questie.db.global.disableTooltips then return; end
+    if not Questie.db.global.enableTooltips then return; end
     if name then
         local tooltipData = QuestieTooltips:GetTooltip("o_" .. name);
         if tooltipData then
@@ -185,16 +187,20 @@ function QuestieTooltips:init()
         --nd
     end)
     GameTooltip:HookScript("OnHide", function(self)
-        QuestieTooltips.lastGametooltip = ""
+        if (not self.IsForbidden) or (not self:IsForbidden()) then -- do we need this here also
+            QuestieTooltips.lastGametooltip = ""
+        end
     end)
 
     GameTooltip:HookScript("OnUpdate", function(self)
-        local name, unit = self:GetUnit()
-        if( name == nil and unit == nil and (QuestieTooltips.lastGametooltip ~= GameTooltipTextLeft1:GetText() or _QuestieTooltips:countTooltip() ~= QuestieTooltips.lastGametooltipCount)) then
-            TooltipShowing_maybeobject(GameTooltipTextLeft1:GetText())
-            QuestieTooltips.lastGametooltipCount = _QuestieTooltips:countTooltip()
+        if (not self.IsForbidden) or (not self:IsForbidden()) then
+            local name, unit = self:GetUnit()
+            if( name == nil and unit == nil and (QuestieTooltips.lastGametooltip ~= GameTooltipTextLeft1:GetText() or _QuestieTooltips:countTooltip() ~= QuestieTooltips.lastGametooltipCount)) then
+                TooltipShowing_maybeobject(GameTooltipTextLeft1:GetText())
+                QuestieTooltips.lastGametooltipCount = _QuestieTooltips:countTooltip()
+            end
+            QuestieTooltips.lastGametooltip = GameTooltipTextLeft1:GetText()
         end
-        QuestieTooltips.lastGametooltip = GameTooltipTextLeft1:GetText()
     end)
 end
 

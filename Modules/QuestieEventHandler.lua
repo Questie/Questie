@@ -207,10 +207,11 @@ function QuestieEventHandler:QUEST_REMOVED(QuestId)
     end
     
     -- deferred update (possible desync fix?)
-    C_Timer.After(3, function()
-        QuestieQuest:CalculateAvailableQuests();
-        QuestieQuest:DrawAllAvailableQuests();
-    end)
+    --C_Timer.After(3, function()
+    --    QuestieQuest:GetAllQuestIdsNoObjectives();
+    --    QuestieQuest:CalculateAvailableQuests();
+    --    QuestieQuest:DrawAllAvailableQuests();
+    --end)
 end
 
 --Fires when a quest is turned in.
@@ -220,10 +221,11 @@ function QuestieEventHandler:QUEST_TURNED_IN(questID, xpReward, moneyReward)
     QuestieQuest:CompleteQuest(questID)
     
     -- deferred update (possible desync fix?)
-    C_Timer.After(3, function()
-        QuestieQuest:CalculateAvailableQuests();
-        QuestieQuest:DrawAllAvailableQuests();
-    end)
+    --C_Timer.After(3, function()
+    --    QuestieQuest:GetAllQuestIdsNoObjectives()
+    --    QuestieQuest:CalculateAvailableQuests();
+    --    QuestieQuest:DrawAllAvailableQuests();
+    --end)
 
     -- Complete Quest added to Journey
     local data = {};
@@ -328,8 +330,8 @@ function QuestieEventHandler:PLAYER_LEVEL_UP(level, hitpoints, manapoints, talen
     Questie:Debug(DEBUG_DEVELOP, "EVENT: PLAYER_LEVEL_UP", level);
     
     qPlayerLevel = level;
-    QuestieQuest:CalculateAvailableQuests();
-    QuestieQuest:DrawAllAvailableQuests();
+    --QuestieQuest:CalculateAvailableQuests();
+    --QuestieQuest:DrawAllAvailableQuests();
     
     -- deferred update (possible desync fix?)
     C_Timer.After(3, function() 
