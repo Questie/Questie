@@ -130,7 +130,7 @@ _QuestieOptions.defaults = {
           enabled = true,
           lowlevel = false,
           journey = {},
-          searchCriteria = 1,
+          searchType = 1,
           --autoaccept = false,
           --autocomplete = false
       },

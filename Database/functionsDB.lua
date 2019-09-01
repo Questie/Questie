@@ -5,7 +5,7 @@ function QuestieDB:Initialize()
   QuestieDB:deleteFaction()
   QuestieDB:deleteClasses()
   QuestieDB:deleteGatheringNodes()
-  
+
   -- populate mustHave (subquests) this is sorta a hack, maybe Muehe can integrate this logic into the converter tool
   for k,v in pairs(qData) do
     if v and v[14] then
@@ -398,7 +398,7 @@ function QuestieDB:GetQuestsByName(questName)
   end
 
   return returnTable;
-end 
+end
 
 function QuestieDB:GetNPCsByName(npcName)
   if not npcName then
@@ -421,11 +421,11 @@ end
 
 
 function QuestieDB:GetQuestsByZoneId(zoneid)
-  
+
   if not zoneid then
     return nil;
   end
-  
+
   -- in in cache return that
   if QuestieDB._ZoneCache[zoneid] then
     return QuestieDB._ZoneCache[zoneid]
@@ -489,6 +489,34 @@ DB_SUB_QUESTS = 14;
 DB_QUEST_GROUP = 15;
 DB_EXCLUSIVE_QUEST_GROUP = 16;
 
+-- for quest keys see questDB.lua
+
+-- for object keys see objectDB.lua
+
+npcKeys = {
+    ['name'] = 1, -- string
+    ['minLevelHealth'] = 2, -- int
+    ['maxLevelHealth'] = 3, -- int
+    ['minLevel'] = 4, -- int
+    ['maxLevel'] = 5, -- int
+    ['rank'] = 6, -- int, see https://github.com/cmangos/issues/wiki/creature_template#rank
+    ['spawns'] = 7, -- table {[zoneID(int)] = {coordPair(floatVector2D),...},...}
+    ['waypoints'] = 8, -- table {[zoneID(int)] = {coordPair(floatVector2D),...},...}
+    ['zoneID'] = 9, -- guess as to where this NPC is most common
+    ['startQuests'] = 10, -- table {questID(int),...}
+    ['endQuests'] = 11, -- table {questID(int),...}
+    ['factionID'] = 12, -- int, see https://github.com/cmangos/issues/wiki/FactionTemplate.dbc
+    ['friendlyToFaction'] = 13, -- string, Contains "A" and/or "H" depending on NPC being friendly towards those factions. nil if hostile to both.
+}
+
+itemKeys = {
+    ['npc_drops'] = 1, -- table {{npcID(int), dropChance(float)},...}
+    ['object_drops'] = 2, -- table {{objectID(int), dropChance(float)},...}
+    ['item_drops'] = 3, -- table {{itemID(int), dropChance(float)},...}
+    ['vendors'] = 4, -- table {{npcID(int), maxcount(int), incrtime(int)},...}
+    ['quests'] = 5, -- table {quesID(int),...}
+    ['name'] = 6,
+}
 
 ---------------------------------------------------------------------------------------------------
 -- Returns the Levenshtein distance between the two given strings
