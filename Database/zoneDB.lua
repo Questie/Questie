@@ -11,48 +11,7 @@ zoneDataAreaIDToMapID = { } --Databaseareaids (Vanilla) to MapID(This is not UiM
 zoneDataAreaIDToUiMapID = { }
 zoneDataUiMapIDToAreaID = { } --You should really never need the MapIDs, but you can convert back using all 3 variables.
 
---Dumps MAPIDs
-function savefunc()
-  Questie.db.global.mapsName = {}
-  Questie.db.global.mapsID = {}
-  for i, ID in ipairs(HBD:GetAllMapIDs()) do
-    --Questie.db.global.mapsName[HBD:GetLocalizedMap(ID)] = ID
-    --Questie.db.global.mapsID[tostring(ID)] = HBD:GetLocalizedMap(ID)
-  end
-end
-
-
-function QuestieDBZone:zoneCreateConvertion()
-  Questie:Debug(DEBUG_DEVELOP, "[QuestieDBZone] Converting ZoneIds")
-    for index, Data in ipairs(zoneDataClassicDemo) do
-        local buildNr = select(4, GetBuildInfo())
-        local UiMapID = nil
-        if(buildNr > 80000) then
-            UiMapID = HBDMigrate:GetUIMapIDFromMapAreaId(Data[4])
-        else
-            local zn = Data[1];
-            if zoneLookupHack[zn] then
-                zn = zoneLookupHack[zn];
-            end
-            UiMapID = zoneDataClassicBetaHack[zn];
-            if UiMapID == nil then
-                DEFAULT_CHAT_FRAME:AddMessage("Data not found for " .. zn);--Questie:Error("Data not found for" , zn);
-            else
-                UiMapID = UiMapID[1]
-            end
-        end
-
-        if(UiMapID == nil) then
-            Questie:Error("Map convertion failed! : ", "DataName("..tostring(Data[1])..")","UiMapID("..tostring(UiMapID)..")", "AreaID("..tostring(Data[3])..")", "MapID("..tostring(Data[4])..")")
-        elseif(UiMapID ~= nil) then
-            zoneDataAreaIDToMapID[Data[3]] = Data[4]
-            zoneDataAreaIDToUiMapID[Data[3]] = UiMapID
-            zoneDataUiMapIDToAreaID[UiMapID] = Data[3]
-            --Questie:Debug(DEBUG_SPAM, "[QuestieDBZone]", Data[1], Data[3], Data[4], UiMapID)
-        end
-    end
-end
-zoneLookupHack = {
+local zoneLookupHack = {
     ["Barrens"] = "The Barrens",
     ["Alterac"] = "Alterac Mountains",
     ["Arathi"] = "Arathi Highlands",
@@ -85,7 +44,7 @@ zoneLookupHack = {
     ["UngoroCrater"] = "Un'Goro Crater",
     ["StonetalonMountains"] = "Stonetalon Mountains"
 }
-zoneDataClassicBetaHack = {
+local zoneDataClassicBetaHack = {
     ["Azeroth"] = {947,0},
     ["Durotar"] = {1411,1414},
     ["Mulgore"] = {1412,1414},
@@ -143,7 +102,7 @@ zoneDataClassicBetaHack = {
 }
 
 
-zoneDataClassic = { --AreaTable IDs --Aka AreaID
+local zoneDataClassic = { --AreaTable IDs --Aka AreaID
     [1] = 'Dun Morogh',
     [3] = 'Badlands',
     [4] = 'Blasted Lands',
@@ -229,7 +188,7 @@ zoneDataClassic = { --AreaTable IDs --Aka AreaID
 
 
 --Exported IDs from Classic DEMO
-zoneDataClassicDemo = {--AreaName, Continent, AreaID, mapID (Yes it is actually misspelled in the datafiles...)
+local zoneDataClassicDemo = {--AreaName, Continent, AreaID, mapID (Yes it is actually misspelled in the datafiles...)
     {"Durotar", 1,14,4},
     {"Mulgore", 1,215,9},
     {"Barrens", 1,17,11},
@@ -283,7 +242,7 @@ zoneDataClassicDemo = {--AreaName, Continent, AreaID, mapID (Yes it is actually 
     {"ArathiBasin", 529,3358,461}
 }
 
-Questie2ZoneTable = {
+local Questie2ZoneTable = {
     ["WorldMap"] = {1337, 1337, 0, 08}, --
     ["Azeroth"] = {-1, -1, -1, 2, 0}, --
     ["Kalimdor"] = {-1, -1, -1, 1, 0}, --
@@ -353,7 +312,7 @@ Questie2ZoneTable = {
     ["Sunwell"] = {64, 2, 15, -1, -1} -- code copied from questhelper (this is actually the only code that was directly copied, the database was put through JavaRefactorProject
 }
 
-Questie2ZoneTableInverse = {};
+local Questie2ZoneTableInverse = {};
 
 for k,v in pairs(Questie2ZoneTable) do
 
@@ -370,7 +329,7 @@ for k,v in pairs(Questie2ZoneTable) do
   end
 end
 
-zoneLevelList = {{1, 1, 10},
+local zoneLevelList = {{1, 1, 10},
                  {3, 35, 45},
                  {4, 45, 55},
                  {8, 35, 45},
@@ -418,7 +377,7 @@ zoneLevelList = {{1, 1, 10},
                  {1657, 1, 60}}
 
 --Locations for instances in the world.
-instanceData = {
+local instanceData = {
     [209] = {{130, 45, 68.7}},
     [491] = {{17, 42.3, 89.9}},
     [717] = {{1519, 40.5, 55.9}},
@@ -452,6 +411,40 @@ instanceData = {
     [3456] = {{139, 39.9, 25.8}},
     [7307] = {{51, 34.8, 84.8}, {46, 31.7, 50.4}},
 }
+
+
+
+function QuestieDBZone:zoneCreateConvertion()
+  Questie:Debug(DEBUG_DEVELOP, "[QuestieDBZone] Converting ZoneIds")
+    for index, Data in ipairs(zoneDataClassicDemo) do
+        local buildNr = select(4, GetBuildInfo())
+        local UiMapID = nil
+        if(buildNr > 80000) then
+            UiMapID = HBDMigrate:GetUIMapIDFromMapAreaId(Data[4])
+        else
+            local zn = Data[1];
+            if zoneLookupHack[zn] then
+                zn = zoneLookupHack[zn];
+            end
+            UiMapID = zoneDataClassicBetaHack[zn];
+            if UiMapID == nil then
+                DEFAULT_CHAT_FRAME:AddMessage("Data not found for " .. zn);--Questie:Error("Data not found for" , zn);
+            else
+                UiMapID = UiMapID[1]
+            end
+        end
+
+        if(UiMapID == nil) then
+            Questie:Error("Map convertion failed! : ", "DataName("..tostring(Data[1])..")","UiMapID("..tostring(UiMapID)..")", "AreaID("..tostring(Data[3])..")", "MapID("..tostring(Data[4])..")")
+        elseif(UiMapID ~= nil) then
+            zoneDataAreaIDToMapID[Data[3]] = Data[4]
+            zoneDataAreaIDToUiMapID[Data[3]] = UiMapID
+            zoneDataUiMapIDToAreaID[UiMapID] = Data[3]
+            --Questie:Debug(DEBUG_SPAM, "[QuestieDBZone]", Data[1], Data[3], Data[4], UiMapID)
+        end
+    end
+end
+
 
 --Everything below is probably junk! But keep it for the time being.
 

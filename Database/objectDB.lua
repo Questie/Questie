@@ -1,4 +1,4 @@
-objKeys = {
+local objKeys = {
     ['name'] = 1, -- string
     ['questStarts'] = 2, -- table {questID(int),...}
     ['questEnds'] = 3, -- table {questID(int),...}

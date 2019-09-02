@@ -1,5 +1,79 @@
 QuestieDB = {...}
 
+-- DB keys
+local DB_NAME, DB_NPC, NOTE_TITLE = 1, 1, 1;
+local DB_STARTS, DB_OBJ, NOTE_COMMENT, DB_MIN_LEVEL_HEALTH = 2, 2, 2, 2;
+local DB_ENDS, DB_ITM, NOTE_ICON, DB_MAX_LEVEL_HEALTH = 3, 3, 3, 3;
+local DB_MIN_LEVEL, DB_ZONES, DB_VENDOR, DB_OBJ_SPAWNS, DB_TRIGGER_MARKED = 4, 4, 4, 4, 4;
+local DB_LEVEL, DB_ITM_QUEST_REW = 5, 5;
+local DB_REQ_RACE, DB_RANK, DB_ITM_NAME = 6, 6, 6;
+local DB_REQ_CLASS, DB_NPC_SPAWNS = 7, 7;
+local DB_OBJECTIVES, DB_NPC_WAYPOINTS = 8, 8;
+local DB_TRIGGER, DB_ZONE = 9, 9;
+local DB_REQ_NPC_OR_OBJ_OR_ITM, DB_NPC_STARTS = 10, 10;
+local DB_SRC_ITM, DB_NPC_ENDS = 11, 11;
+local DB_PRE_QUEST_GROUP = 12;
+local DB_PRE_QUEST_SINGLE = 13;
+local DB_SUB_QUESTS = 14;
+local DB_QUEST_GROUP = 15;
+local DB_EXCLUSIVE_QUEST_GROUP = 16;
+
+-- for quest keys see questDB.lua
+
+-- for object keys see objectDB.lua
+
+local npcKeys = {
+    ['name'] = 1, -- string
+    ['minLevelHealth'] = 2, -- int
+    ['maxLevelHealth'] = 3, -- int
+    ['minLevel'] = 4, -- int
+    ['maxLevel'] = 5, -- int
+    ['rank'] = 6, -- int, see https://github.com/cmangos/issues/wiki/creature_template#rank
+    ['spawns'] = 7, -- table {[zoneID(int)] = {coordPair(floatVector2D),...},...}
+    ['waypoints'] = 8, -- table {[zoneID(int)] = {coordPair(floatVector2D),...},...}
+    ['zoneID'] = 9, -- guess as to where this NPC is most common
+    ['startQuests'] = 10, -- table {questID(int),...}
+    ['endQuests'] = 11, -- table {questID(int),...}
+    ['factionID'] = 12, -- int, see https://github.com/cmangos/issues/wiki/FactionTemplate.dbc
+    ['friendlyToFaction'] = 13, -- string, Contains "A" and/or "H" depending on NPC being friendly towards those factions. nil if hostile to both.
+}
+
+local itemKeys = {
+    ['npc_drops'] = 1, -- table {{npcID(int), dropChance(float)},...}
+    ['object_drops'] = 2, -- table {{objectID(int), dropChance(float)},...}
+    ['item_drops'] = 3, -- table {{itemID(int), dropChance(float)},...}
+    ['vendors'] = 4, -- table {{npcID(int), maxcount(int), incrtime(int)},...}
+    ['quests'] = 5, -- table {quesID(int),...}
+    ['name'] = 6,
+}
+
+
+local ClassBitIndexTable = {
+    ['warrior'] = 1,
+    ['paladin'] = 2,
+    ['hunter'] = 3,
+    ['rogue'] = 4,
+    ['priest'] = 5,
+    ['shaman'] = 7,
+    ['mage'] = 8,
+    ['warlock'] = 9,
+    ['druid'] = 11
+};
+
+local RaceBitIndexTable = {
+    ['human'] = 1,
+    ['orc'] = 2,
+    ['dwarf'] = 3,
+    ['nightelf'] = 4,
+    ['night elf'] = 4,
+    ['scourge'] = 5,
+    ['undead'] = 5,
+    ['tauren'] = 6,
+    ['gnome'] = 7,
+    ['troll'] = 8,
+    ['goblin'] = 9
+};
+
 function QuestieDB:Initialize()
     QuestieDBZone:zoneCreateConvertion()
     QuestieDB:deleteFaction()
@@ -476,52 +550,7 @@ function QuestieDB:GetQuestsByZoneId(zoneid)
 
 end
 
--- DB keys
-DB_NAME, DB_NPC, NOTE_TITLE = 1, 1, 1;
-DB_STARTS, DB_OBJ, NOTE_COMMENT, DB_MIN_LEVEL_HEALTH = 2, 2, 2, 2;
-DB_ENDS, DB_ITM, NOTE_ICON, DB_MAX_LEVEL_HEALTH = 3, 3, 3, 3;
-DB_MIN_LEVEL, DB_ZONES, DB_VENDOR, DB_OBJ_SPAWNS, DB_TRIGGER_MARKED = 4, 4, 4, 4, 4;
-DB_LEVEL, DB_ITM_QUEST_REW = 5, 5;
-DB_REQ_RACE, DB_RANK, DB_ITM_NAME = 6, 6, 6;
-DB_REQ_CLASS, DB_NPC_SPAWNS = 7, 7;
-DB_OBJECTIVES, DB_NPC_WAYPOINTS = 8, 8;
-DB_TRIGGER, DB_ZONE = 9, 9;
-DB_REQ_NPC_OR_OBJ_OR_ITM, DB_NPC_STARTS = 10, 10;
-DB_SRC_ITM, DB_NPC_ENDS = 11, 11;
-DB_PRE_QUEST_GROUP = 12;
-DB_PRE_QUEST_SINGLE = 13;
-DB_SUB_QUESTS = 14;
-DB_QUEST_GROUP = 15;
-DB_EXCLUSIVE_QUEST_GROUP = 16;
 
--- for quest keys see questDB.lua
-
--- for object keys see objectDB.lua
-
-npcKeys = {
-    ['name'] = 1, -- string
-    ['minLevelHealth'] = 2, -- int
-    ['maxLevelHealth'] = 3, -- int
-    ['minLevel'] = 4, -- int
-    ['maxLevel'] = 5, -- int
-    ['rank'] = 6, -- int, see https://github.com/cmangos/issues/wiki/creature_template#rank
-    ['spawns'] = 7, -- table {[zoneID(int)] = {coordPair(floatVector2D),...},...}
-    ['waypoints'] = 8, -- table {[zoneID(int)] = {coordPair(floatVector2D),...},...}
-    ['zoneID'] = 9, -- guess as to where this NPC is most common
-    ['startQuests'] = 10, -- table {questID(int),...}
-    ['endQuests'] = 11, -- table {questID(int),...}
-    ['factionID'] = 12, -- int, see https://github.com/cmangos/issues/wiki/FactionTemplate.dbc
-    ['friendlyToFaction'] = 13, -- string, Contains "A" and/or "H" depending on NPC being friendly towards those factions. nil if hostile to both.
-}
-
-itemKeys = {
-    ['npc_drops'] = 1, -- table {{npcID(int), dropChance(float)},...}
-    ['object_drops'] = 2, -- table {{objectID(int), dropChance(float)},...}
-    ['item_drops'] = 3, -- table {{itemID(int), dropChance(float)},...}
-    ['vendors'] = 4, -- table {{npcID(int), maxcount(int), incrtime(int)},...}
-    ['quests'] = 5, -- table {quesID(int),...}
-    ['name'] = 6,
-}
 
 ---------------------------------------------------------------------------------------------------
 -- Returns the Levenshtein distance between the two given strings
@@ -577,32 +606,6 @@ end
 
 ---------------------------------------------------------------------------------------------------
 -- Modifications to questDB
-
-ClassBitIndexTable = {
-    ['warrior'] = 1,
-    ['paladin'] = 2,
-    ['hunter'] = 3,
-    ['rogue'] = 4,
-    ['priest'] = 5,
-    ['shaman'] = 7,
-    ['mage'] = 8,
-    ['warlock'] = 9,
-    ['druid'] = 11
-};
-
-RaceBitIndexTable = {
-    ['human'] = 1,
-    ['orc'] = 2,
-    ['dwarf'] = 3,
-    ['nightelf'] = 4,
-    ['night elf'] = 4,
-    ['scourge'] = 5,
-    ['undead'] = 5,
-    ['tauren'] = 6,
-    ['gnome'] = 7,
-    ['troll'] = 8,
-    ['goblin'] = 9
-};
 
 function unpackBinary(val)
     ret = {};
