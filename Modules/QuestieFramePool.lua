@@ -453,8 +453,10 @@ function _QuestieFramePool:Questie_Tooltip(self)
             end
             if shift then
                 for k2, v2 in pairs(v) do
-                    for k3 in pairs(v2) do
-                        self:AddLine("   |cFFDDDDDD" .. k3);
+                    if type(v2) == "table" then
+                        for k3 in pairs(v2) do
+                            self:AddLine("   |cFFDDDDDD" .. k3);
+                        end
                     end
                     self:AddLine("      |cFF33FF33" .. k2);
                 end
