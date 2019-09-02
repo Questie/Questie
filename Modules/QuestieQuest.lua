@@ -970,7 +970,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
     elseif(questObject.Starts["NPC"] ~= nil)then
         for index, NPCID in ipairs(questObject.Starts["NPC"]) do
             NPC = QuestieDB:GetNPC(NPCID)
-            if(NPC ~= nil and NPC.Spawns ~= nil) then
+            if (NPC ~= nil and NPC.Spawns ~= nil and NPC.Friendly) then
                 --Questie:Debug(DEBUG_DEVELOP,"Adding Quest:", questObject.Id, "StarterNPC:", NPC.Id)
                 for Zone, Spawns in pairs(NPC.Spawns) do
                     if(Zone ~= nil and Spawns ~= nil) then
