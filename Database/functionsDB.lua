@@ -401,6 +401,8 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
     end
 end
 
+QuestieDB.FactionGroup = UnitFactionGroup("player")
+
 function QuestieDB:GetNPC(NPCID)
     if NPCID == nil then
         return nil
@@ -429,9 +431,9 @@ function QuestieDB:GetNPC(NPCID)
             if rawdata[DB_NPC_FRIENDLY] == "AH" then
                 NPC.Friendly = true
             else
-                if UnitFactionGroup("player") == "Horde" and rawdata[DB_NPC_FRIENDLY] == "H" then
+                if QuestieDB.FactionGroup == "Horde" and rawdata[DB_NPC_FRIENDLY] == "H" then
                     NPC.Friendly = true
-                elseif UnitFactionGroup("player") == "Alliance" and rawdata[DB_NPC_FRIENDLY] == "A" then
+                elseif QuestieDB.FactionGroup == "Alliance" and rawdata[DB_NPC_FRIENDLY] == "A" then
                     NPC.Friendly = true
                 end
             end
