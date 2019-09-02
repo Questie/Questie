@@ -13,7 +13,7 @@ local DB_TRIGGER, DB_ZONE = 9, 9;
 local DB_REQ_NPC_OR_OBJ_OR_ITM, DB_NPC_STARTS = 10, 10;
 local DB_SRC_ITM, DB_NPC_ENDS = 11, 11;
 local DB_PRE_QUEST_GROUP = 12;
-local DB_PRE_QUEST_SINGLE = 13;
+local DB_PRE_QUEST_SINGLE, DB_NPC_FRIENDLY = 13, 13;
 local DB_SUB_QUESTS = 14;
 local DB_QUEST_GROUP = 15;
 local DB_EXCLUSIVE_QUEST_GROUP = 16;
@@ -425,6 +425,19 @@ function QuestieDB:GetNPC(NPCID)
         NPC.Waypoints = rawdata[DB_NPC_WAYPOINTS]
         NPC.Starts = rawdata[DB_NPC_STARTS]
         NPC.Ends = rawdata[DB_NPC_ENDS]
+        if rawdata[DB_NPC_FRIENDLY] then
+            if rawdata[DB_NPC_FRIENDLY] == "AH" then
+                NPC.Friendly = true
+            else
+                if UnitFactionGroup("player") == "Horde" and rawdata[DB_NPC_FRIENDLY] == "H" then
+                    NPC.Friendly = true
+                elseif UnitFactionGroup("player") == "Alliance" and rawdata[DB_NPC_FRIENDLY] == "A" then
+                    NPC.Friendly = true
+                end
+            end
+        else
+            NPC.Friendly = true
+        end
         QuestieDB._NPCCache[NPCID] = NPC
         return NPC
     else

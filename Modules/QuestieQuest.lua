@@ -1059,6 +1059,21 @@ function _QuestieQuest:IsDoable(questObject) -- we need to add profession/reputa
             return false
         end
     end
+    
+    -- check if npc is friendly
+    if questObject.Starts["NPC"] ~= nil then
+        local hasValidNPC = false
+        for _, id in ipairs(questObject.Starts["NPC"]) do
+            if QuestieDB:GetNPC(id).Friendly then
+                hasValidNPC = true
+                break
+            end
+        end
+        if not hasValidNPC then
+            return false
+        end
+    end
+    
     if questObject.RequiredQuest == nil or questObject.RequiredQuest == 0 then
         return true
     end
@@ -1078,7 +1093,8 @@ function _QuestieQuest:IsDoable(questObject) -- we need to add profession/reputa
         if preQuest and qCurrentQuestlog[preQuest.Id] then
             return false
         end
-    end
+    end    
+    
     return allFinished
 end
 
