@@ -428,40 +428,40 @@ end
 
 ObjectiveSpawnListCallTable = {
     ["monster"] = function(id, Objective)
-        local npcData = QuestieDB:GetNPC(id)
-        if not npcData then
+        local npc = QuestieDB:GetNPC(id)
+        if not npc then
             -- todo: log this
             return nil
         end
         local ret = {}
         local mon = {};
 
-        mon.Name = npcData.Name
-        mon.Spawns = npcData.Spawns
+        mon.Name = npc.Name
+        mon.Spawns = npc.Spawns
         mon.Icon = ICON_TYPE_SLAY
         mon.Id = id
         mon.GetIconScale = function() return Questie.db.global.monsterScale or 1 end
         mon.IconScale = mon:GetIconScale();
-        mon.TooltipKey = "u_" .. npcData.Name -- todo: use ID based keys
+        mon.TooltipKey = "u_" .. npc.Name -- todo: use ID based keys
 
         ret[id] = mon;
         return ret
     end,
     ["object"] = function(id, Objective)
-        local objData = QuestieDB:GetObject(id)
-        if not objData then
+        local object = QuestieDB:GetObject(id)
+        if not object then
             -- todo: log this
             return nil
         end
         local ret = {}
         local obj = {}
 
-        obj.Name = objData.Name
-        obj.Spawns = objData.Spawns
+        obj.Name = object.Name
+        obj.Spawns = object.Spawns
         obj.Icon = ICON_TYPE_LOOT
         obj.GetIconScale = function() return Questie.db.global.objectScale or 1 end
         obj.IconScale = obj:GetIconScale()
-        obj.TooltipKey = "o_" .. objData.Name
+        obj.TooltipKey = "o_" .. object.Name
         obj.Id = id
 
         ret[id] = obj
@@ -1059,7 +1059,7 @@ function _QuestieQuest:IsDoable(questObject) -- we need to add profession/reputa
             return false
         end
     end
-    
+
     -- check if npc is friendly
     if questObject.Starts["NPC"] ~= nil then
         local hasValidNPC = false
@@ -1073,7 +1073,7 @@ function _QuestieQuest:IsDoable(questObject) -- we need to add profession/reputa
             return false
         end
     end
-    
+
     if questObject.RequiredQuest == nil or questObject.RequiredQuest == 0 then
         return true
     end
@@ -1093,8 +1093,8 @@ function _QuestieQuest:IsDoable(questObject) -- we need to add profession/reputa
         if preQuest and qCurrentQuestlog[preQuest.Id] then
             return false
         end
-    end    
-    
+    end
+
     return allFinished
 end
 
@@ -1113,7 +1113,7 @@ function QuestieQuest:CalculateAvailableQuests()
 
     qAvailableQuests = {}
 
-    for i, v in pairs(qData) do
+    for i, v in pairs(QuestieDB.questData) do
         local QuestID = i;
         --Check if we've already completed the quest and that it is not "manually" hidden and that the quest is not currently in the questlog.
 

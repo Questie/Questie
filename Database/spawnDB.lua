@@ -1,4 +1,4 @@
-local npcKeys = {
+QuestieDB.npcKeys = {
     ['name'] = 1, -- string
     ['minLevelHealth'] = 2, -- int
     ['maxLevelHealth'] = 3, -- int
@@ -14,7 +14,7 @@ local npcKeys = {
     ['friendlyToFaction'] = 13, -- string, Contains "A" and/or "H" depending on NPC being friendly towards those factions. nil if hostile to both.
 }
 
-npcData = { -- bad global
+QuestieDB.npcData = { -- bad global
 [1] = {'Waypoint (Only GM can see it)',42,42,1,1,0,nil,nil,0,nil,nil,35,"AH",},
 [2] = {'Spawn Point (Only GM can see it)',42,42,1,1,0,nil,nil,0,nil,nil,35,"AH",},
 [3] = {'Flesh Eater',664,713,24,25,0,{[10]={{25.06,38.2},{25.37,36.04},{25.69,34.45},{23.81,39.21},{22.81,39.09},{22.04,32.62},{21.7,38.3},{22.2,36.96},{25.37,39.03},},},nil,10,nil,nil,21,nil,},

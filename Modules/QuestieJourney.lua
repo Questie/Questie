@@ -1377,37 +1377,37 @@ local function addParagraph(frame, lookupObject, firstKey, secondKey, header, lo
 end
 
 local function fillQuestDetailsFrame(details, id)
-    local quest = qData[id]
+    local quest = QuestieDB.questData[id]
     -- header
     title = AceGUI:Create("Heading")
     title:SetFullWidth(true);
-    title:SetText(quest[qKeys.name])
+    title:SetText(quest[QuestieDB.questKeys.name])
     details:AddChild(title)
     -- general info
     addLine(details, yellow .. "Quest ID:|r " .. id)
-    addLine(details,  yellow .. "Quest Level:|r " .. quest[qKeys.questLevel])
-    addLine(details,  yellow .. "Required Level:|r " .. quest[qKeys.requiredLevel])
-    reqRaces = getRacesString(quest[qKeys.requiredRaces])
+    addLine(details,  yellow .. "Quest Level:|r " .. quest[QuestieDB.questKeys.questLevel])
+    addLine(details,  yellow .. "Required Level:|r " .. quest[QuestieDB.questKeys.requiredLevel])
+    reqRaces = getRacesString(quest[QuestieDB.questKeys.requiredRaces])
     if (reqRaces ~= "None") then
         addLine(details, yellow .. "Required Races:|r " .. reqRaces)
     end
     -- objectives text
-    if quest[qKeys.objectivesText] then
+    if quest[QuestieDB.questKeys.objectivesText] then
         addLine(details, "")
         addLine(details,  yellow .. "Quest Objectives:|r")
-        for k,v in pairs(quest[qKeys.objectivesText]) do
+        for k,v in pairs(quest[QuestieDB.questKeys.objectivesText]) do
             addLine(details, v)
         end
     end
     -- quest starters
     addLine(details, "")
-    addParagraph(details, quest, qKeys.startedBy, qKeys.creatureStart, "Creatures starting this quest:", npcData, npcKeys.name)
-    addParagraph(details, quest, qKeys.startedBy, qKeys.objectStart, "Objects starting this quest:", objData, objKeys.name)
-    addParagraph(details, quest, qKeys.startedBy, qKeys.itemStart, "Items starting this quest:", itemLookup, itemKeys.name)
+    addParagraph(details, quest, QuestieDB.questKeys.startedBy, QuestieDB.questKeys.creatureStart, "Creatures starting this quest:", QuestieDB.npcData, QuestieDB.npcKeys.name)
+    addParagraph(details, quest, QuestieDB.questKeys.startedBy, QuestieDB.questKeys.objectStart, "Objects starting this quest:", QuestieDB.objectData, QuestieDB.objectKeys.name)
+    addParagraph(details, quest, QuestieDB.questKeys.startedBy, QuestieDB.questKeys.itemStart, "Items starting this quest:", QuestieDB.itemData, QuestieDB.itemKeys.name)
     -- quest finishers
     addLine(details, "")
-    addParagraph(details, quest, qKeys.finishedBy, qKeys.creatureEnd, "Creatures finishing this quest:", npcData, npcKeys.name)
-    addParagraph(details, quest, qKeys.finishedBy, qKeys.objectEnd, "Objects finishing this quest:", objData, objKeys.name)
+    addParagraph(details, quest, QuestieDB.questKeys.finishedBy, QuestieDB.questKeys.creatureEnd, "Creatures finishing this quest:", QuestieDB.npcData, QuestieDB.npcKeys.name)
+    addParagraph(details, quest, QuestieDB.questKeys.finishedBy, QuestieDB.questKeys.objectEnd, "Objects finishing this quest:", QuestieDB.objectData, QuestieDB.objectKeys.name)
     addLine(details, "")
 end
 
@@ -1421,17 +1421,17 @@ function DrawResultTab(container, group)
     local database
     local key
     if group == "quest" then
-        database = qData
-        key = qKeys.name
+        database = QuestieDB.questData
+        key = QuestieDB.questKeys.name
     elseif group == "npc" then
-        database = npcData
+        database = QuestieDB.npcData
         key = DB_NAME
     elseif group == "object" then
-        database = objData
-        key = objKeys.name
+        database = QuestieDB.objectData
+        key = QuestieDB.objectKeys.name
     elseif group == "item" then
-        database = itemLookup
-        key = itemKeys.name
+        database = QuestieDB.itemData
+        key = QuestieDB.itemKeys.name
     else
         return
     end

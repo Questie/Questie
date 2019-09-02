@@ -72,17 +72,17 @@ function QuestieSearch:Search(query, searchType, queryType)
     local actualDatabase;
     local NAME_KEY;
     if searchType == "npc" then
-        actualDatabase = npcData;
-        NAME_KEY = DB_NAME;
+        actualDatabase = QuestieDB.npcData;
+        NAME_KEY = QuestieDB.npcKeys.name;
     elseif searchType == "object" then
-        actualDatabase = objData;
-        NAME_KEY = DB_NAME;
+        actualDatabase = QuestieDB.objectData;
+        NAME_KEY = QuestieDB.objectKeys.name;
     elseif searchType == "item" then
-        actualDatabase = itemLookup;
-        NAME_KEY = DB_ITM_NAME;
+        actualDatabase = QuestieDB.itemData;
+        NAME_KEY = QuestieDB.itemKeys.name;
     elseif searchType == "quest" then
-        actualDatabase = qData;
-        NAME_KEY = DB_NAME;
+        actualDatabase = QuestieDB.questData;
+        NAME_KEY = QuestieDB.questKeys.name;
     else
         return
     end

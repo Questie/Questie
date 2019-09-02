@@ -1,4 +1,13 @@
-itemLookup = {
+QuestieDB.itemKeys = {
+    ['npc_drops'] = 1, -- table {{npcID(int), dropChance(float)},...}
+    ['object_drops'] = 2, -- table {{objectID(int), dropChance(float)},...}
+    ['item_drops'] = 3, -- table {{itemID(int), dropChance(float)},...}
+    ['vendors'] = 4, -- table {{npcID(int), maxcount(int), incrtime(int)},...}
+    ['quests'] = 5, -- table {quesID(int),...}
+    ['name'] = 6,
+}
+
+QuestieDB.itemData = {
 	[19719] = {
 			{
 			{11380,9.17},

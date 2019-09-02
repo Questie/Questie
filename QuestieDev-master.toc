@@ -17,6 +17,7 @@ Libs\HereBeDragons\HereBeDragons-Migrate.lua
 Modules\QuestieStream.lua
 
 #Databases
+Database\functionsDB.lua
 Database\TEMP_questie2events.lua
 Database\questDB.lua
 Database\objectDB.lua
@@ -26,7 +27,6 @@ Database\TEMP_questie4items.lua
 Database\TEMP_repprof.lua
 Database\specialspawns.lua
 Database\corrections.lua
-Database\functionsDB.lua
 Database\itemDB.lua
 
 #Localization
