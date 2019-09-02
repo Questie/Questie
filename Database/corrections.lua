@@ -140,7 +140,8 @@ questItemFixes = {
     [5475] = {"Wooden Key",{},{3919,3834},{}},
     [5519] = {"Iron Pommel",{1027},{3928},{}},
     [4611] = {"Blue Pearl",{705},{},{2744}},
-    [3340] = {"Incendicite Ore",{466},{},{1610,1667}}
+    [3340] = {"Incendicite Ore",{466},{},{1610,1667}},
+    [4483] = {"Burning Key",{651},{},{2689}}
 }
 --hack
 for k,v in pairs(questItemFixes) do CHANGEME_Questie4_ItemDB[k]=v; end
