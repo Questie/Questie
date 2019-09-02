@@ -10,6 +10,7 @@ questRequirementFixes = {
     [926] = {809} -- #606
 }
 
+-- [quest id to hide] = {if you have these IDs completed or in quest log it will be hidden}
 questExclusiveGroupFixes = {
     [463] = {276}, --greenwarden cant be completed if you have trampling paws
     [415] = {413}, --cant complete rejolds new brew if you do shimmer stout (see issue 567)
@@ -31,6 +32,9 @@ questExclusiveGroupFixes = {
     [1642] = {2998,3861},
     [2998] = {1642,3861},
     [3861] = {1642,2998},
+    -- Voidwalker questline for horde
+    [1473] = {1501},
+    [1501] = {1473},
 }
 
 questItemBlacklist = {
