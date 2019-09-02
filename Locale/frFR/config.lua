@@ -123,8 +123,8 @@ QuestieLocale.locale['frFR'] = {
 
 
 	-- Éléments d'interface utilisateur
-	['QUESTIE_MAP_BUTTON_SHOW'] = "Afficher le Questie",
-    ['QUESTIE_MAP_BUTTON_HIDE'] = "Masquer le Questie",
+	['QUESTIE_MAP_BUTTON_SHOW'] = "Afficher Questie",
+    ['QUESTIE_MAP_BUTTON_HIDE'] = "Masquer Questie",
     ['ICON_LEFT_CLICK'] = "Clic Gauche",
     ['ICON_TOGGLE'] = "Options de bascule",
     ['ICON_SHIFTLEFT_CLICK'] = "Maj + Clic Gauche",
