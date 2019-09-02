@@ -102,7 +102,7 @@ local zoneDataClassicBetaHack = {
 }
 
 
-local zoneDataClassic = { --AreaTable IDs --Aka AreaID
+zoneDataClassic = { --AreaTable IDs --Aka AreaID
     [1] = 'Dun Morogh',
     [3] = 'Badlands',
     [4] = 'Blasted Lands',
@@ -377,7 +377,7 @@ local zoneLevelList = {{1, 1, 10},
                  {1657, 1, 60}}
 
 --Locations for instances in the world.
-local instanceData = {
+instanceData = {
     [209] = {{130, 45, 68.7}},
     [491] = {{17, 42.3, 89.9}},
     [717] = {{1519, 40.5, 55.9}},
