@@ -127,6 +127,9 @@ QuestieLocale.locale['deDE'] = {
     ['CONFIRM_HIDE_QUEST'] = "Are you sure you want to hide the quest \"%s\"?",
     ['CONFIRM_HIDE_YES'] = "Yes",
     ['CONFIRM_HIDE_NO'] = "No",
+    ['TOOLTIP_QUEST_COMPLETE'] = "(Complete)",
+    ['TOOLTIP_QUEST_AVAILABLE'] = "(Available)",
+    ['TOOLTIP_QUEST_ACTIVE'] = "(Active)",
 
     -- Slash Commands
     ['SLASH_INVALID'] = "Ungültiger Befehl. Für eine Liste aller verfügbaren Befehle nutze: ",

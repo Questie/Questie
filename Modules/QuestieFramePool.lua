@@ -388,9 +388,9 @@ function _QuestieFramePool:Questie_Tooltip(self)
                         end
                         local dat = {};
                         if icon.data.Type == "complete" then
-                            dat.type = "(Complete)";
+                            dat.type = QuestieLocale:GetUIString("TOOLTIP_QUEST_COMPLETE");
                         else
-                            dat.type = "(Available)";
+                            dat.type = QuestieLocale:GetUIString("TOOLTIP_QUEST_AVAILABLE");
                         end
                         dat.title = icon.data.QuestData:GetColoredQuestName()
                         dat.subData = icon.data.QuestData.Description
@@ -446,7 +446,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
         for k, v in pairs(self.questOrder) do -- this logic really needs to be improved
             if haveGiver then
                 self:AddLine(" ")
-                self:AddDoubleLine(k, "(Active)");
+                self:AddDoubleLine(k, QuestieLocale:GetUIString("TOOLTIP_QUEST_ACTIVE"));
                 haveGiver = false -- looks better when only the first one shows (active)
             else
                 self:AddLine(k);

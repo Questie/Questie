@@ -127,6 +127,9 @@ QuestieLocale.locale['zhCN'] = {
     ['CONFIRM_HIDE_QUEST'] = "你确定要隐藏任务： %s吗？",
     ['CONFIRM_HIDE_YES'] = "Yes",
     ['CONFIRM_HIDE_NO'] = "No",
+    ['TOOLTIP_QUEST_COMPLETE'] = "(Complete)",
+    ['TOOLTIP_QUEST_AVAILABLE'] = "(Available)",
+    ['TOOLTIP_QUEST_ACTIVE'] = "(Active)",
 
     -- Slash Commands
     ['SLASH_INVALID'] = "无效命令，要查看指令列表请输入：",

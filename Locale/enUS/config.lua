@@ -129,6 +129,9 @@ QuestieLocale.locale['enUS'] = {
     ['CONFIRM_HIDE_QUEST'] = "Are you sure you want to hide the quest \"%s\"?\nIf this quest isn't actually available, please report it to us!",
     ['CONFIRM_HIDE_YES'] = "Yes",
     ['CONFIRM_HIDE_NO'] = "No",
+    ['TOOLTIP_QUEST_COMPLETE'] = "(Complete)",
+    ['TOOLTIP_QUEST_AVAILABLE'] = "(Available)",
+    ['TOOLTIP_QUEST_ACTIVE'] = "(Active)",
 
     -- Slash Commands
     ['SLASH_INVALID'] = "Invalid command. For a list of options please type: ",
