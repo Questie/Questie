@@ -1,5 +1,5 @@
 QuestieLocale.locale['frFR'] = {
-    -- Trad by Pgmbru (V.2)
+    -- Trad by Pgmbru (V.3)
 	
 	-- Configuration Windows
 	['OPTIONS_TAB'] = "Options",
