@@ -55,6 +55,9 @@ function QuestieDB:Initialize()
         if v and v[14] then
             for _,v2 in ipairs(v[14]) do
                 QuestieDB.questData[v2].mustHave = k;
+                if QuestieDB._QuestCache[v2] then -- shouldnt happen but it is
+                    QuestieDB._QuestCache[v2].MustHave = k;
+                end
             end
         end
     end
