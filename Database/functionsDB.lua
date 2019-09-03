@@ -373,6 +373,39 @@ end
 
 QuestieDB.FactionGroup = UnitFactionGroup("player")
 
+function QuestieDB:_GetSpecialNPC(NPCID)
+    if NPCID == nil then
+        return nil
+    end
+    rawdata = Questie_SpecialNPCs[NPCID]
+    if rawdata then
+        NPC = {}
+        NPC.Id = NPCID
+        QuestieStreamLib:load(rawdata)
+        NPC.Name = QuestieStreamLib:readTinyString()
+        NPC.Type = "NPC" --This can be used to look at which type it is, Gameobject and Items will have the same! (should be monster to match wow api)
+        NPC.NewFormatSpawns = {}; -- spawns should be stored like this: {{x, y, uimapid}, ...} so im creating a 2nd var to aid with moving to the new format
+        NPC.Spawns = {};
+        local count = QuestieStreamLib:readByte()
+        for i=1,count do
+            local x = QuestieStreamLib:readShort() / 655.35
+            local y = QuestieStreamLib:readShort() / 655.35
+            local m = QuestieStreamLib:readByte() + 1400
+            table.insert(NPC.NewFormatSpawns, {x, y, m});
+            local om = m;
+            m = zoneDataUiMapIDToAreaID[m];
+            if m then
+                if not NPC.Spawns[m] then
+                    NPC.Spawns[m] = {};
+                end
+                table.insert(NPC.Spawns[m], {x, y});
+            end
+        end
+        return NPC
+    end
+    return nil
+end
+
 function QuestieDB:GetNPC(NPCID)
     if NPCID == nil then
         return nil
@@ -394,6 +427,11 @@ function QuestieDB:GetNPC(NPCID)
         NPC.MaxLevel = rawdata[DB_LEVEL]
         NPC.Rank = rawdata[DB_RANK]
         NPC.Spawns = rawdata[DB_NPC_SPAWNS]
+        
+        if NPC.Spawns == nil and Questie_SpecialNPCs[NPCID] then -- get spawns from script spawns list
+            NPC.Spawns = QuestieDB:_GetSpecialNPC(NPCID).Spawns
+        end
+        
         NPC.Waypoints = rawdata[DB_NPC_WAYPOINTS]
         NPC.Starts = rawdata[DB_NPC_STARTS]
         NPC.Ends = rawdata[DB_NPC_ENDS]
@@ -413,32 +451,7 @@ function QuestieDB:GetNPC(NPCID)
         QuestieDB._NPCCache[NPCID] = NPC
         return NPC
     else
-        rawdata = Questie_SpecialNPCs[NPCID]
-        if rawdata then
-            NPC = {}
-            NPC.Id = NPCID
-            QuestieStreamLib:load(rawdata)
-            NPC.Name = QuestieStreamLib:readTinyString()
-            NPC.NewFormatSpawns = {}; -- spawns should be stored like this: {{x, y, uimapid}, ...} so im creating a 2nd var to aid with moving to the new format
-            NPC.Spawns = {};
-            local count = QuestieStreamLib:readByte()
-            for i=1,count do
-                local x = QuestieStreamLib:readShort() / 655.35
-                local y = QuestieStreamLib:readShort() / 655.35
-                local m = QuestieStreamLib:readByte() + 1400
-                table.insert(NPC.NewFormatSpawns, {x, y, m});
-                local om = m;
-                m = zoneDataUiMapIDToAreaID[m];
-                if m then
-                    if not NPC.Spawns[m] then
-                        NPC.Spawns[m] = {};
-                    end
-                    table.insert(NPC.Spawns[m], {x, y});
-                end
-            end
-            return NPC
-        end
-        return nil
+        return QuestieDB:_GetSpecialNPC(NPCID)
     end
 end
 
