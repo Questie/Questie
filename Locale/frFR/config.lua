@@ -133,7 +133,7 @@ QuestieLocale.locale['frFR'] = {
     ['ICON_HIDE'] = "Bouton Masquer la mini-carte",
     ['ICON_RIGHT_CLICK'] = "Clic Droit",
     ['ICON_JOURNEY'] = "Basculer mon voyage",
-    ['CONFIRM_HIDE_QUEST'] = "Êtes-vous sûr de vouloir masquer la quête \"%s\"?\ Si cette quête n'est pas réellement disponible, merci de nous la signaler!",
+    ['CONFIRM_HIDE_QUEST'] = "Êtes-vous sûr de vouloir masquer la quête \"%s\"?\n Si cette quête n'est pas réellement disponible, merci de nous la signaler!",
 
 
     -- Slash Commandes
