@@ -232,6 +232,15 @@ function QuestieQuest:AcceptQuest(questId)
     end
 
 
+    for k,v in pairs(qAvailableQuests) do
+        if not _QuestieQuest:IsDoable(QuestieDB:GetQuest(k)) then
+            QuestieMap:UnloadQuestFrames(k); 
+        end
+    end
+    
+    QuestieQuest:CalculateAvailableQuests()
+    QuestieQuest:DrawAllAvailableQuests()
+    
     --TODO: Insert call to drawing objective logic here!
     --QuestieQuest:TrackQuest(questId);
 
@@ -266,7 +275,16 @@ function QuestieQuest:AbandonedQuest(QuestId)
         quest.Objectives = nil;
         quest.AlreadySpawned = nil; -- temporary fix for "special objectives" remove later
         --The old data for notes are still there, we don't need to recalulate data.
-        _QuestieQuest:DrawAvailableQuest(quest)
+        --_QuestieQuest:DrawAvailableQuest(quest)
+        
+        -- yes we do, since abandoning can unlock more than 1 quest, or remove unlocked quests
+        for k,v in pairs(qAvailableQuests) do
+            if not _QuestieQuest:IsDoable(QuestieDB:GetQuest(k)) then
+                QuestieMap:UnloadQuestFrames(k); 
+            end
+        end
+        QuestieQuest:CalculateAvailableQuests()
+        QuestieQuest:DrawAllAvailableQuests()
 
         Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ABANDON_QUEST', QuestId));
     end
