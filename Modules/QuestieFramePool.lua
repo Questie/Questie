@@ -27,8 +27,8 @@ ICON_TYPE_BLACK = _QuestieFramePool.addonPath.."Icons\\black.blp"
 StaticPopupDialogs["QUESTIE_CONFIRMHIDE"] = {
     text = "", -- set before showing
     QuestID = 0, -- set before showing
-    button1 = "Yes",
-    button2 = "No",
+    button1 = QuestieLocale:GetUIString("CONFIRM_HIDE_YES"),
+    button2 = QuestieLocale:GetUIString("CONFIRM_HIDE_NO"),
     OnAccept = function()
         QuestieQuest:HideQuest(StaticPopupDialogs["QUESTIE_CONFIRMHIDE"].QuestID)
     end,

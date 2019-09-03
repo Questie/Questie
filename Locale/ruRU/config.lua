@@ -108,6 +108,8 @@ QuestieLocale.locale['ruRU'] = {
     ['ICON_CTRLRIGHT_CLICK'] = "Ctrl + Правый клик",
     ['ICON_HIDE'] = "Скрыть иконку на миникарте",
     ['CONFIRM_HIDE_QUEST'] = "Are you sure you want to hide the quest \"%s\"?",
+    ['CONFIRM_HIDE_YES'] = "Yes",
+    ['CONFIRM_HIDE_NO'] = "No",
 
 
     -- Slash Commands

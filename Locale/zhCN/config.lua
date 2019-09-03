@@ -125,6 +125,8 @@ QuestieLocale.locale['zhCN'] = {
     ['ICON_CTRLRIGHT_CLICK'] = "Ctrl + 右键",
     ['ICON_HIDE'] = "隐藏小地图图标",
     ['CONFIRM_HIDE_QUEST'] = "你确定要隐藏任务： %s吗？",
+    ['CONFIRM_HIDE_YES'] = "Yes",
+    ['CONFIRM_HIDE_NO'] = "No",
 
     -- Slash Commands
     ['SLASH_INVALID'] = "无效命令，要查看指令列表请输入：",

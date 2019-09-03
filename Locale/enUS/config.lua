@@ -127,7 +127,8 @@ QuestieLocale.locale['enUS'] = {
     ['ICON_RIGHT_CLICK'] = "Right Click",
     ['ICON_JOURNEY'] = "Toggle My Journey",
     ['CONFIRM_HIDE_QUEST'] = "Are you sure you want to hide the quest \"%s\"?\nIf this quest isn't actually available, please report it to us!",
-
+    ['CONFIRM_HIDE_YES'] = "Yes",
+    ['CONFIRM_HIDE_NO'] = "No",
 
     -- Slash Commands
     ['SLASH_INVALID'] = "Invalid command. For a list of options please type: ",
