@@ -423,11 +423,6 @@ local options = {
                                 SetGlobalOptionLocal(info, value)
                             end,
                 },
-                fade_options = {
-                    type = "header",
-                    order = 10,
-                    name = function() return QuestieLocale:GetUIString('MINIMAP_FADE') end,
-                },
                 fadeLevel = {
                     type = "range",
                     order = 12,
