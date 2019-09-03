@@ -35,7 +35,6 @@ QuestieLocale.locale['enUS'] = {
     ['MINIMAP_HEADER'] = "Mini-Map Note Options",
     ['MINIMAP_GLOBAL_SCALE'] = "Global Scale for Mini-Map Icons",
     ['MINIMAP_GLOBAL_SCALE_DESC'] = "How large the Mini-Map icons are. ( Default: %s )",
-    ['MINIMAP_FADE'] = "Mini-Map Note Fading",
     ['MINIMAP_FADING'] = "Fade objective distance",
     ['MINIMAP_FADING_DESC'] = "How much objective icons should fade depending on distance. ( Default: %s )",
     ['MINIMAP_FADE_PLAYER'] = "Fade Icons over Player",
@@ -99,7 +98,6 @@ QuestieLocale.locale['enUS'] = {
     ['TARGET_RESET_BTN'] = "Reset Target Frame",
     ['TARGET_RESET_BTN_DESC'] = "Reset to Default Target Frame Positions and Scale",
 
-
     ['ADV_TAB'] = "Advanced",
     ['DEV_OPTIONS'] = "Developer Options",
     ['ENABLE_DEBUG'] = "Enable debug",
@@ -113,7 +111,6 @@ QuestieLocale.locale['enUS'] = {
     ['RESET_QUESTIE_BTN'] = "Reset Questie",
     ['RESET_QUESTIE_BTN_DESC'] = "Reset Questie to the default values for all settings.",
     ['QUESTIE_DEV_MESSAGE'] = "Questie is under active development for World of Warcraft: Classic. Please check GitHub for the latest alpha builds or to report issues. Or join us on our discord! (( https://github.com/AeroScripts/QuestieDev/ ))",
-
 
     -- UI Elements
     ['QUESTIE_MAP_BUTTON_SHOW'] = "Show Questie",
@@ -140,7 +137,6 @@ QuestieLocale.locale['enUS'] = {
     ['SLASH_TOGGLE_QUESTIE'] = "/questie toggle -- Toggles showing questie on the map and minimap",
     ['SLASH_JOURNEY'] = "/questie journey -- Toggles the My Journey window",
     ['SLASH_MINIMAP'] = "/questie minimap -- Toggles the Minimap Button for Questie",
-
 
     -- Journey Window
     ['JOURNEY_TITLE'] = "%s's Journey",
@@ -201,9 +197,6 @@ QuestieLocale.locale['enUS'] = {
     ['JOURNEY_SEARCH_RESULTS'] = "Search Results",
     ['JOURNEY_SEARCH_NOMATCH'] = "No Match for Search Results: %s",
 
-
-
-
     -- Debug Messages
     ['DEBUG_LOWLEVEL'] = "Gray Quests toggled to:",
     ['DEBUG_MINLEVEL'] = "minLevelFilter set to %s",
@@ -226,6 +219,4 @@ QuestieLocale.locale['enUS'] = {
     ['DEBUG_DRAW'] = "%s available quests drawn. PlayerLevel = %s",
     ['DEBUG_UNLOAD_QFRAMES'] = "Unloading quest frames: %s",
     ['DEBUG_UNLOAD_ALL'] = "Unloading all frames, count: %s",
-
-
 };
