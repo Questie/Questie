@@ -1323,6 +1323,7 @@ end
 
 local yellow = "|cFFFFFF00"
 
+-- TODO move to QuestieDB
 local function getRacesString(raceMask)
     if not raceMask then return "" end
     if (raceMask == 0) or (raceMask == 255) then
