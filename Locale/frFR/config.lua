@@ -242,4 +242,9 @@ QuestieLocale.locale['frFR'] = {
 	['EVENT_ICON_SCALE_DESC'] = "Quelle est la taille des icônes d'événement. (Par défaut: %s)",
 	['MAP_ALWAYS_GLOW_TOGGLE'] = "Toujours visible derrière les icônes de la carte",
     ['MAP_ALWAYS_GLOW_TOGGLE_DESC'] = "Dessinez une texture luminescente derrière les icônes de la carte, colorées de manière unique pour chaque quête",
+	['CONFIRM_HIDE_YES'] = "Oui",
+    ['CONFIRM_HIDE_NO'] = "Non",
+	['TOOLTIP_QUEST_COMPLETE'] = "(Complète)",
+    ['TOOLTIP_QUEST_AVAILABLE'] = "(Disponible)",
+    ['TOOLTIP_QUEST_ACTIVE'] = "(Actif)",
 };
