@@ -23,11 +23,13 @@ questExclusiveGroupFixes = {
     [428] = {429}, -- lost deathstalkers breadcrumb
     [308] = {311}, -- distracting jarven can't be completed once you get the followup
     -- Tome of Divinity starting quests for dwarfs
+    [1645] = {1646,2997,2999,3000},
     [1646] = {2997,2999,3000},
     [2997] = {1646,2999,3000},
     [2999] = {1646,2997,3000},
     [3000] = {1646,2997,2999},
     -- Tome of Divinity starting quests for humans
+    [1641] = {1642,2998,3861},
     [1642] = {2998,3861},
     [2998] = {1642,3861},
     [3861] = {1642,2998},
