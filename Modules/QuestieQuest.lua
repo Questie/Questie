@@ -8,7 +8,20 @@ qCurrentQuestlog = {} --Gets populated by QuestieQuest:GetAllQuestIds(), this is
 
 function QuestieQuest:Initialize()
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_GET_QUEST_COMP'))
-    GetQuestsCompleted(Questie.db.char.complete)
+    --GetQuestsCompleted(Questie.db.char.complete)
+    Questie.db.char.complete = GetQuestsCompleted()
+    --local db = {}
+    --GetQuestsCompleted(db)
+
+    -- maintain additional data added to db.char.complete, but remove quests that are no longer complete
+    --for k,v in pairs(db) do
+    --    if not Questie.db.char.complete[k] then Questie.db.char.complete[k] = true; end
+    --end
+    --for k,v in pairs(Questie.db.char.complete) do
+    --    if not db[k] then
+    --        Questie.db.char.complete[k] = nil
+    --    end
+    --end
 end
 
 QuestieQuest.NotesHidden = false
@@ -61,7 +74,7 @@ end
 
 function QuestieQuest:UpdateHiddenNotes()
     QuestieQuest:GetAllQuestIds() -- add notes that weren't added from previous hidden state
-    if not Questie.db.global.disableAvailable then
+    if Questie.db.global.enableAvailable then
         QuestieQuest:DrawAllAvailableQuests();
     end
 
@@ -69,9 +82,11 @@ function QuestieQuest:UpdateHiddenNotes()
         for index, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
             local icon = _G[frameName];
             if icon ~= nil and icon.data then
-                if ((Questie.db.global.disableObjectives and (icon.data.Type == "monster" or icon.data.Type == "object" or icon.data.Type == "event" or icon.data.Type == "item"))
-                 or (Questie.db.global.disableTurnins and icon.data.Type == "complete")
-                 or (Questie.db.global.disableAvailable and icon.data.Type == "available")) then
+                if (((not Questie.db.global.enableObjectives) and (icon.data.Type == "monster" or icon.data.Type == "object" or icon.data.Type == "event" or icon.data.Type == "item"))
+                 or ((not Questie.db.global.enableTurnins) and icon.data.Type == "complete")
+                 or ((not Questie.db.global.enableAvailable) and icon.data.Type == "available"))
+                 or ((not Questie.db.global.enableMapIcons) and (not icon.miniMapIcon))
+                 or ((not Questie.db.global.enableMiniMapIcons) and (icon.miniMapIcon)) then
                     icon.shouldBeShowing = false
                     icon._show = icon.Show;
                     icon.Show = function()
@@ -99,7 +114,12 @@ function QuestieQuest:UpdateHiddenNotes()
         end
     end
     -- hack to hide already-added notes of unwanted type
-    
+
+end
+
+function QuestieQuest:HideQuest(id)
+    Questie.db.char.hidden[id] = true
+    QuestieMap:UnloadQuestFrames(id);
 end
 
 function QuestieQuest:GetRawLeaderBoardDetails(QuestLogIndex)
@@ -408,40 +428,40 @@ end
 
 ObjectiveSpawnListCallTable = {
     ["monster"] = function(id, Objective)
-        local npcData = QuestieDB:GetNPC(id)
-        if not npcData then
+        local npc = QuestieDB:GetNPC(id)
+        if not npc then
             -- todo: log this
             return nil
         end
         local ret = {}
         local mon = {};
 
-        mon.Name = npcData.Name
-        mon.Spawns = npcData.Spawns
+        mon.Name = npc.Name
+        mon.Spawns = npc.Spawns
         mon.Icon = ICON_TYPE_SLAY
         mon.Id = id
         mon.GetIconScale = function() return Questie.db.global.monsterScale or 1 end
         mon.IconScale = mon:GetIconScale();
-        mon.TooltipKey = "u_" .. npcData.Name -- todo: use ID based keys
+        mon.TooltipKey = "u_" .. npc.Name -- todo: use ID based keys
 
         ret[id] = mon;
         return ret
     end,
     ["object"] = function(id, Objective)
-        local objData = QuestieDB:GetObject(id)
-        if not objData then
+        local object = QuestieDB:GetObject(id)
+        if not object then
             -- todo: log this
             return nil
         end
         local ret = {}
         local obj = {}
 
-        obj.Name = objData.Name
-        obj.Spawns = objData.Spawns
+        obj.Name = object.Name
+        obj.Spawns = object.Spawns
         obj.Icon = ICON_TYPE_LOOT
         obj.GetIconScale = function() return Questie.db.global.objectScale or 1 end
         obj.IconScale = obj:GetIconScale()
-        obj.TooltipKey = "o_" .. objData.Name
+        obj.TooltipKey = "o_" .. object.Name
         obj.Id = id
 
         ret[id] = obj
@@ -544,7 +564,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
 
     Objective:Update() -- update qlog data
     local completed = Objective.Completed
-    
+
     if not Objective.Color then -- todo: move to a better place
         QuestieQuest:math_randomseed(Quest.Id + 32768 * ObjectiveIndex)
         Objective.Color = {0.45 + QuestieQuest:math_random() / 2, 0.45 + QuestieQuest:math_random() / 2, 0.45 + QuestieQuest:math_random() / 2}
@@ -582,7 +602,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                     tooltipRegisterHack[spawnData.TooltipKey] = true
                     hasTooltipHack = true
                 end
-                if not Questie.db.global.disableObjectives then
+                if Questie.db.global.enableObjectives then
                     -- temporary fix for "special objectives" to not double-spawn (we need to fix the objective detection logic)
                     Quest.AlreadySpawned[Objective.Type][spawnData.Id] = true
                     local maxCount = 0
@@ -635,6 +655,8 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                     for _, note in pairs(spawn.minimapRefs) do
                         note:Unload();
                     end
+                    spawn.mapRefs = {}
+                    spawn.minimapRefs = {}
                 end
             end
         end
@@ -793,7 +815,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                     end
                 end
                 -- 2nd pass (fix for missing language data)
-                if Quest.Objectives[i].Id == nil then
+                if Quest.Objectives[i].Id == nil and GetLocale() ~= "enUS" and GetLocale() ~= "enGB" then
                     for k,v in pairs(Quest.ObjectiveData) do
                         if objectiveType == v.Type then
                             -- When nothing is found (other languages) fill it.
@@ -948,7 +970,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
     elseif(questObject.Starts["NPC"] ~= nil)then
         for index, NPCID in ipairs(questObject.Starts["NPC"]) do
             NPC = QuestieDB:GetNPC(NPCID)
-            if(NPC ~= nil and NPC.Spawns ~= nil) then
+            if (NPC ~= nil and NPC.Spawns ~= nil and NPC.Friendly) then
                 --Questie:Debug(DEBUG_DEVELOP,"Adding Quest:", questObject.Id, "StarterNPC:", NPC.Id)
                 for Zone, Spawns in pairs(NPC.Spawns) do
                     if(Zone ~= nil and Spawns ~= nil) then
@@ -1015,6 +1037,9 @@ function _QuestieQuest:IsDoable(questObject) -- we need to add profession/reputa
     if questObject.Hidden then
         return false;
     end
+    if Questie.db.char.hidden[questObject.Id] then
+        return false;
+    end
     if questObject.NextQuestInChain then
         if Questie.db.char.complete[questObject.NextQuestInChain] or qCurrentQuestlog[questObject.NextQuestInChain] then
             return false
@@ -1029,6 +1054,26 @@ function _QuestieQuest:IsDoable(questObject) -- we need to add profession/reputa
             end
         end
     end
+    if questObject.MustHave then
+        if not qCurrentQuestlog[questObject.MustHave] then
+            return false
+        end
+    end
+
+    -- check if npc is friendly
+    if questObject.Starts["NPC"] ~= nil then
+        local hasValidNPC = false
+        for _, id in ipairs(questObject.Starts["NPC"]) do
+            if QuestieDB:GetNPC(id).Friendly then
+                hasValidNPC = true
+                break
+            end
+        end
+        if not hasValidNPC then
+            return false
+        end
+    end
+
     if questObject.RequiredQuest == nil or questObject.RequiredQuest == 0 then
         return true
     end
@@ -1049,6 +1094,7 @@ function _QuestieQuest:IsDoable(questObject) -- we need to add profession/reputa
             return false
         end
     end
+
     return allFinished
 end
 
@@ -1067,7 +1113,7 @@ function QuestieQuest:CalculateAvailableQuests()
 
     qAvailableQuests = {}
 
-    for i, v in pairs(qData) do
+    for i, v in pairs(QuestieDB.questData) do
         local QuestID = i;
         --Check if we've already completed the quest and that it is not "manually" hidden and that the quest is not currently in the questlog.
 

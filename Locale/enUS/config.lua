@@ -22,10 +22,14 @@ QuestieLocale.locale['enUS'] = {
     ['ENABLE_TURNINS'] = "Enable Completed Quest Icons",
     ['ENABLE_TURNINS_DESC'] = "When this is enabled, the quest turn-in locations will be shown on the map/minimap",
     ['ENABLE_AVAILABLE'] = "Enable Available Quest Icons",
-    ['ENABLE_AVAILABLE_DESC'] = "When this is enabled, the quest turn-in locations will be shown on the map/minimap",
+    ['ENABLE_AVAILABLE_DESC'] = "When this is enabled, the available quest locations will be shown on the map/minimap",
     ['ENABLE_TOOLTIPS'] = "Enable Tooltips",
     ['ENABLE_TOOLTIPS_DESC'] = "When this is enabled, quest info will be added to relevant mob/item tooltips",
-	
+    ['ICON_TYPE_HEADER'] = "Icon Types",
+    ['ENABLE_MAP_ICONS'] = "Enable Map Icons",
+    ['ENABLE_MAP_ICONS_DESC'] = "Show/hide all icons from the main map",
+    ['ENABLE_MINIMAP_ICONS'] = "Enable Minimap Icons",
+    ['ENABLE_MINIMAP_ICONS_DESC'] = "Show/hide all icons from the minimap",
 
     ['MINIMAP_TAB'] = "Minimap Options",
     ['MINIMAP_HEADER'] = "Mini-Map Note Options",
@@ -122,7 +126,12 @@ QuestieLocale.locale['enUS'] = {
     ['ICON_HIDE'] = "Hide Minimap Button",
     ['ICON_RIGHT_CLICK'] = "Right Click",
     ['ICON_JOURNEY'] = "Toggle My Journey",
-
+    ['CONFIRM_HIDE_QUEST'] = "Are you sure you want to hide the quest \"%s\"?\nIf this quest isn't actually available, please report it to us!",
+    ['CONFIRM_HIDE_YES'] = "Yes",
+    ['CONFIRM_HIDE_NO'] = "No",
+    ['TOOLTIP_QUEST_COMPLETE'] = "(Complete)",
+    ['TOOLTIP_QUEST_AVAILABLE'] = "(Available)",
+    ['TOOLTIP_QUEST_ACTIVE'] = "(Active)",
 
     -- Slash Commands
     ['SLASH_INVALID'] = "Invalid command. For a list of options please type: ",
@@ -186,10 +195,8 @@ QuestieLocale.locale['enUS'] = {
     ['JOURNEY_BEGIN'] = "It's about time you embark on your first Journey!",
     ['JOURNEY_SEARCH_HEAD'] = "Enter in your Search",
     ['JOURNEY_SEARCH_CRITERIA'] = "Select Search Criteria",
-    ['JOURNEY_SEARCH_QUESTS'] = "Search Quests By Name",
-    ['JOURNEY_SEARCH_QUESTS_ID'] = "Search Quest By Quest ID",
-    ['JOURNEY_SEARCH_NPCS'] = "Search for NPCs By Name",
-    ['JOURNEY_SEARCH_NPCS_ID'] = "Search for NPC By NPC ID",
+    ['JOURNEY_SEARCH_BY_NAME'] = "Search By Name",
+    ['JOURNEY_SEARCH_BY_ID'] = "Search By ID",
     ['JOURNEY_SEARCH_EXE'] = "Search",
     ['JOURNEY_SEARCH_RESULTS'] = "Search Results",
     ['JOURNEY_SEARCH_NOMATCH'] = "No Match for Search Results: %s",

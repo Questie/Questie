@@ -107,7 +107,7 @@ function QuestieAuto_QUEST_COMPLETE(event, ...)
     Questie:Debug(DEBUG_DEVELOP, event, ...);
     -- blasted Lands citadel wonderful NPC. They do not trigger any events except quest_complete.
     --if not AllowedToHandle() then
-    --	return
+    --    return
     --end
 
     local questname = GetTitleText()

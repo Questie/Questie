@@ -1,11 +1,6 @@
 -- HereBeDragons is a data API for the World of Warcraft mapping system
 
--- HereBeDragons-2.0 is not supported on WoW 7.x or earlier
-if select(4, GetBuildInfo()) < 80000 and false then
-    return
-end
-
-local MAJOR, MINOR = "HereBeDragonsQuestie-2.0", 254
+local MAJOR, MINOR = "HereBeDragonsQuestie-2.0", 9
 assert(LibStub, MAJOR .. " requires LibStub")
 
 local HereBeDragons, oldversion = LibStub:NewLibrary(MAJOR, MINOR)
@@ -20,16 +15,16 @@ HereBeDragons.worldMapData     = HereBeDragons.worldMapData or {}
 HereBeDragons.transforms       = HereBeDragons.transforms or {}
 HereBeDragons.callbacks        = HereBeDragons.callbacks or CBH:New(HereBeDragons, nil, nil, false)
 
+local WoWClassic = select(4, GetBuildInfo()) < 20000
+
 -- Data Constants
-local COSMIC_MAP_ID = 947
+local COSMIC_MAP_ID = 946
 local WORLD_MAP_ID = 947
 
 -- Lua upvalues
 local PI2 = math.pi * 2
 local atan2 = math.atan2
 local pairs, ipairs = pairs, ipairs
-local type = type
-local band = bit.band
 
 -- WoW API upvalues
 local UnitPosition = UnitPosition
@@ -72,7 +67,7 @@ local instanceIDOverrides = {
 }
 
 -- gather map info, but only if this isn't an upgrade (or the upgrade version forces a re-map)
-if 1 then
+if not oldversion or oldversion < 7 then
     -- wipe old data, if required, otherwise the upgrade path isn't triggered
     if oldversion then
         wipe(mapData)
@@ -103,13 +98,13 @@ if 1 then
 
     local function applyMapTransforms(instanceID, left, right, top, bottom)
         if transforms[instanceID] then
-            for _, transformData in ipairs(transforms[instanceID]) do
-                if left <= transformData.maxX and right >= transformData.minX and top <= transformData.maxY and bottom >= transformData.minY then
-                    instanceID = transformData.newInstanceID
-                    left   = left   + transformData.offsetX
-                    right  = right  + transformData.offsetX
-                    top    = top    + transformData.offsetY
-                    bottom = bottom + transformData.offsetY
+            for _, data in ipairs(transforms[instanceID]) do
+                if left <= data.maxX and right >= data.minX and top <= data.maxY and bottom >= data.minY then
+                    instanceID = data.newInstanceID
+                    left   = left   + data.offsetX
+                    right  = right  + data.offsetX
+                    top    = top    + data.offsetY
+                    bottom = bottom + data.offsetY
                     break
                 end
             end
@@ -119,38 +114,55 @@ if 1 then
 
     local vector00, vector05 = CreateVector2D(0, 0), CreateVector2D(0.5, 0.5)
     -- gather the data of one map (by uiMapID)
-    local function processMap(id, data)
-        if not id or mapData[id] then
+    local function processMap(id, data, parent)
+        if not id or not data or mapData[id] then return end
 
-			return
-		end
+        if data.parentMapID and data.parentMapID ~= 0 then
+            parent = data.parentMapID
+        elseif not parent then
+            parent = 0
+        end
+
         -- get two positions from the map, we use 0/0 and 0.5/0.5 to avoid issues on some maps where 1/1 is translated inaccurately
         local instance, topLeft = C_Map.GetWorldPosFromMapPos(id, vector00)
         local _, bottomRight = C_Map.GetWorldPosFromMapPos(id, vector05)
-
         if topLeft and bottomRight then
             local top, left = topLeft:GetXY()
             local bottom, right = bottomRight:GetXY()
-			--DEFAULT_CHAT_FRAME:AddMessage("Data: " .. instance .. " " .. top .. " " .. left .. " " .. bottom .. " " .. right .. " " .. id);
             bottom = top + (bottom - top) * 2
             right = left + (right - left) * 2
 
             instance, left, right, top, bottom = applyMapTransforms(instance, left, right, top, bottom)
-            mapData[id] = {left - right, top - bottom, left, top, instance = instance, name = data.name, mapType = data.mapType, parent = data.parentMapID}
+            mapData[id] = {left - right, top - bottom, left, top, instance = instance, name = data.name, mapType = data.mapType, parent = parent }
         else
-            mapData[id] = {0, 0, 0, 0, instance = instance or -1, name = data.name, mapType = data.mapType, parent = data.parentMapID }
+            mapData[id] = {0, 0, 0, 0, instance = instance or -1, name = data.name, mapType = data.mapType, parent = parent }
         end
     end
 
-    local function processMapChildrenRecursive(id)
-        local children = C_Map.GetMapChildrenInfo(id)
+    local function processMapChildrenRecursive(parent)
+        local children = C_Map.GetMapChildrenInfo(parent)
         if children and #children > 0 then
             for i = 1, #children do
                 local id = children[i].mapID
                 if id and not mapData[id] then
-					--DEFAULT_CHAT_FRAME:AddMessage("ProcessMap " .. id);
-                    processMap(id, children[i])
+                    processMap(id, children[i], parent)
                     processMapChildrenRecursive(id)
+
+                    -- process sibling maps (in the same group)
+                    -- in some cases these are not discovered by GetMapChildrenInfo above
+                    local groupID = C_Map.GetMapGroupID(id)
+                    if groupID then
+                        local groupMembers = C_Map.GetMapGroupMembersInfo(groupID)
+                        if groupMembers then
+                            for k = 1, #groupMembers do
+                                local memberId = groupMembers[k].mapID
+                                if memberId and not mapData[memberId] then
+                                    processMap(memberId, C_Map.GetMapInfo(memberId), parent)
+                                    processMapChildrenRecursive(memberId)
+                                end
+                            end
+                        end
+                    end
                 end
             end
         end
@@ -158,36 +170,50 @@ if 1 then
 
     local function fixupZones()
         local cosmic = C_Map.GetMapInfo(COSMIC_MAP_ID)
-        mapData[COSMIC_MAP_ID] = {0, 0, 0, 0}
-        mapData[COSMIC_MAP_ID].instance = -1
-        mapData[COSMIC_MAP_ID].name = cosmic.name
-        mapData[COSMIC_MAP_ID].mapType = cosmic.mapType
-
-        -- data for the azeroth world map width,height,left,top
-
-        if(select(4, GetBuildInfo()) > 80000) then
-            worldMapData[0] = { 76153.14, 50748.62, 65008.24, 23827.51 }
-            worldMapData[1] = { 77803.77, 51854.98, 13157.6, 28030.61 }
-        else
-            --worldMapData[0] = { 76153.14, 50748.62, 65008.24, 23827.51 }
-            worldMapData[0] = { 44688.52, 29795.11, 32601.03, 9894.93 }
-            --worldMapData[1] = { 77803.77, 51854.98, 13157.6, 28030.61 }
-            worldMapData[1] = { 44878.66, 29916.09, 8723.95, 14824.52 }
+        if cosmic then
+            mapData[COSMIC_MAP_ID] = {0, 0, 0, 0}
+            mapData[COSMIC_MAP_ID].instance = -1
+            mapData[COSMIC_MAP_ID].name = cosmic.name
+            mapData[COSMIC_MAP_ID].mapType = cosmic.mapType
         end
 
-        worldMapData[571] = { 71773.64, 50054.05, 36205.94, 12366.81 }
-        worldMapData[870] = { 67710.54, 45118.08, 33565.89, 38020.67 }
-        worldMapData[1220] = { 82758.64, 55151.28, 52943.46, 24484.72 }
-        worldMapData[1642] = { 77933.3, 51988.91, 44262.36, 32835.1 }
-        worldMapData[1643] = { 76060.47, 50696.96, 55384.8, 25774.35 }
+        -- data for the azeroth world map
+        if WoWClassic then
+            worldMapData[0] = { 44688.53, 29795.11, 32601.04, 9894.93 }
+            worldMapData[1] = { 44878.66, 29916.10, 8723.96, 14824.53 }
+        else
+            worldMapData[0] = { 76153.14, 50748.62, 65008.24, 23827.51 }
+            worldMapData[1] = { 77803.77, 51854.98, 13157.6, 28030.61 }
+            worldMapData[571] = { 71773.64, 50054.05, 36205.94, 12366.81 }
+            worldMapData[870] = { 67710.54, 45118.08, 33565.89, 38020.67 }
+            worldMapData[1220] = { 82758.64, 55151.28, 52943.46, 24484.72 }
+            worldMapData[1642] = { 77933.3, 51988.91, 44262.36, 32835.1 }
+            worldMapData[1643] = { 76060.47, 50696.96, 55384.8, 25774.35 }
+        end
     end
 
     local function gatherMapData()
         processTransforms()
 
-        processMapChildrenRecursive(COSMIC_MAP_ID)
+        -- find all maps in well known structures
+        if WoWClassic then
+            processMap(WORLD_MAP_ID)
+            processMapChildrenRecursive(WORLD_MAP_ID)
+        else
+            processMapChildrenRecursive(COSMIC_MAP_ID)
+        end
 
         fixupZones()
+
+        -- try to fill in holes in the map list
+        for i = 1, 2000 do
+            if not mapData[i] then
+                local mapInfo = C_Map.GetMapInfo(i)
+                if mapInfo and mapInfo.name then
+                    processMap(i, mapInfo, nil)
+                end
+            end
+        end
     end
 
     gatherMapData()
@@ -296,7 +322,6 @@ end
 -- @param y Y position in 0-1 point coordinates
 -- @param zone uiMapID of the zone
 function HereBeDragons:GetWorldCoordinatesFromZone(x, y, zone)
-	--DEFAULT_CHAT_FRAME:AddMessage("GetWCFZ " .. x .. " " .. y .. " " .. zone .. " " .. level);
     local data = mapData[zone]
     if not data or data[1] == 0 or data[2] == 0 then return nil, nil, nil end
     if not x or not y then return nil, nil, nil end
@@ -368,9 +393,6 @@ local function TranslateAzerothWorldMapCoordinates(self, x, y, oZone, dZone, all
     local instance = (oZone == WORLD_MAP_ID) and mapData[dZone].instance or mapData[oZone].instance
     if not worldMapData[instance] then return nil, nil end
 
-    local data = worldMapData[instance]
-    local width, height, left, top = data[1], data[2], data[3], data[4]
-
     if oZone == WORLD_MAP_ID then
         x, y = self:GetWorldCoordinatesFromAzerothWorldMap(x, y, instance)
         return self:GetZoneCoordinatesFromWorld(x, y, dZone, allowOutOfBounds)
@@ -424,11 +446,12 @@ end
 -- @param dY destination Y, in local zone/point coordinates
 -- @return distance, deltaX, deltaY in yards
 function HereBeDragons:GetZoneDistance(oZone, oX, oY, dZone, dX, dY)
-    local oX, oY, oInstance = self:GetWorldCoordinatesFromZone(oX, oY, oZone)
+    local oInstance, dInstance
+    oX, oY, oInstance = self:GetWorldCoordinatesFromZone(oX, oY, oZone)
     if not oX then return nil, nil, nil end
 
     -- translate dX, dY to the origin zone
-    local dX, dY, dInstance = self:GetWorldCoordinatesFromZone(dX, dY, dZone)
+    dX, dY, dInstance = self:GetWorldCoordinatesFromZone(dX, dY, dZone)
     if not dX then return nil, nil, nil end
 
     if oInstance ~= dInstance then return nil, nil, nil end
@@ -468,7 +491,7 @@ end
 -- @return x, y, instanceID
 function HereBeDragons:GetUnitWorldPosition(unitId)
     -- get the current position
-    local y, x, z, instanceID = UnitPosition(unitId)
+    local y, x, _z, instanceID = UnitPosition(unitId)
     if not x or not y then return nil, nil, instanceIDOverrides[instanceID] or instanceID end
 
     -- return transformed coordinates
@@ -480,7 +503,7 @@ end
 -- @return x, y, instanceID
 function HereBeDragons:GetPlayerWorldPosition()
     -- get the current position
-    local y, x, z, instanceID = UnitPosition("player")
+    local y, x, _z, instanceID = UnitPosition("player")
     if not x or not y then return nil, nil, instanceIDOverrides[instanceID] or instanceID end
 
     -- return transformed coordinates
@@ -500,7 +523,7 @@ end
 -- @return x, y, uiMapID, mapType
 function HereBeDragons:GetPlayerZonePosition(allowOutOfBounds)
     if not currentPlayerUIMapID then return nil, nil, nil, nil end
-    local x, y, instanceID = self:GetPlayerWorldPosition()
+    local x, y, _instanceID = self:GetPlayerWorldPosition()
     if not x or not y then return nil, nil, nil, nil end
 
     x, y = self:GetZoneCoordinatesFromWorld(x, y, currentPlayerUIMapID, allowOutOfBounds)

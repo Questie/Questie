@@ -18,8 +18,21 @@ questExclusiveGroupFixes = {
     [526] = {322,324}, -- not 100% sure on this one but it seems lightforge ingots is optional, block it after completing subsequent steps (#587)
     [3765] = {1275}, -- corruption abroad breadcrumb
     [164] = {95}, -- deliveries to sven is a breadcrumb
-    [311] = {403}, -- completing the unguarded barrel quest prevents to do the optional guarded barrel prequest
-    [428] = {429} -- lost deathstalkers breadcrumb
+    -- this is a subquest
+    --[403] = {311}, -- completing the unguarded barrel quest prevents to do the optional guarded barrel prequest
+    [428] = {429}, -- lost deathstalkers breadcrumb
+    [308] = {311}, -- distracting jarven can't be completed once you get the followup
+    -- Tome of Divinity starting quests for dwarfs
+    [1646] = {2997,2999,3000},
+    [2997] = {1646,2999,3000},
+    [2999] = {1646,2997,3000},
+    [3000] = {1646,2997,2999},
+    -- Tome of Divinity starting quests for humans
+    [1642] = {2998,3861},
+    [2998] = {1642,3861},
+    [3861] = {1642,2998},
+    [431] = {411}, -- candles of beckoning
+    [410] = {411} -- the dormant shade
 }
 
 questItemBlacklist = {
@@ -115,19 +128,24 @@ questObjectFixes = {
     [92423] = {"Damaged Chest",nil,nil,{[400]={{43.4, 32.7}},[17]={{49.02,96.77}}},400},
     [167] = {"Abercrombie's Crate",nil,nil,{[10]={{33.42,76.35}}},10},
     [19021] = {"Rusty Chest",nil,nil,{[331]={{69.04,84.77},{77.03,73.8},{79.08,74.48},{70.53,73.58},{70.68,85.06},{69.29,82.67},{71.29,83.83},{77.97,65.82},{77.38,69.77},{77.06,68.3},{69.87,74.11},{78.3,73.6},{76.22,67.48},{76.62,70.67},{76.77,72.19},{78.31,69.73},{68.24,77.68},{77.68,72.63},{74.77,69.6},{78.26,64.58},{70.72,75.24},{74.23,69.47},{74.36,70.21},{75.88,73.52},{75.87,69.99},{69.89,85.32},{74.34,77.92},{70.1,76.08},{74.58,77.19},{74.67,75.39},{76.67,68.46},{68.94,84.86},{74.41,73.38},{74.46,75.56},{73.09,73.23},{71.04,73.8},{71.45,76.97},{73.68,76.95},{72.63,76.86},{70.77,75.99},{72.51,75.12}}},331},
-    [2867] = {"Excavation Supply Crate",nil,nil,{[3]={{66.6,22}}},3} -- position was slightly off
+    [2867] = {"Excavation Supply Crate",nil,nil,{[3]={{66.6,22}}},3}, -- position was slightly off
+    [154357] = {"Glinting Mud",nil,nil,{[44]={{38.04,54.49},{19.16,51.74},{34.13,53.37},{29.52,53.72},{21.79,53.17},},},44,},
 }
 
 questMobFixes = {
     [300] = {'Zzarc\' Vul',1050,1050,33,33,0,{[10]={{38,80},},},nil,10,nil,nil},
     [5082] = {'Vincent Hyal',1605,1605,30,30,0,{[11]={{10.8,60.4}}},nil,11,{1302},{1301}},
-    [4360] = {'Mirefin Warrior',1208,1257,37,39,0,{},nil,15,nil,nil} -- TODO: remove this after the db is fixed!!! This is just to fix tooltips
+    [4360] = {'Mirefin Warrior',1208,1257,37,39,0,{},nil,15,nil,nil}, -- TODO: remove this after the db is fixed!!! This is just to fix tooltips
+    [11876] = {'Demon Spirit',1743,1743,37,37,0,{[405]={{55.00,26.60},},},nil,405,nil,nil,92,nil,},
 }
 
 questItemFixes = {
     [5475] = {"Wooden Key",{},{3919,3834},{}},
     [5519] = {"Iron Pommel",{1027},{3928},{}},
     [4611] = {"Blue Pearl",{705},{},{2744}},
+    [3340] = {"Incendicite Ore",{466},{},{1610,1667}},
+    [4483] = {"Burning Key",{651},{},{2689}},
+    [3829] = {"Frost Oil",{713,1193},{},{}}
 }
 --hack
 for k,v in pairs(questItemFixes) do CHANGEME_Questie4_ItemDB[k]=v; end
@@ -523,6 +541,7 @@ qHide = {
   [8759] = true,
   [8760] = true,
   --Profession quests
+  [768] = true,
   [7652] = true,
   [2771] = true,
   [6625] = true,

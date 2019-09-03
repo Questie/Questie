@@ -1,5 +1,8 @@
 QuestieLocale = {};
 QuestieLocale.locale = {};
+LangNameLookup= {};
+LangQuestLookup = {};
+
 local locale = 'enUS';
 
 function QuestieLocale:FallbackLocale(lang)

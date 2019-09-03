@@ -13,7 +13,7 @@ local HBDMigrate = LibStub("HereBeDragonsQuestie-Migrate")
 
 _QuestieFramePool.addonPath = "Interface\\Addons\\QuestieDev-master\\"
 
---TODO: Add all types
+--TODO: Add all types (we gotta stop using globals, needs refactoring)
 ICON_TYPE_AVAILABLE =  _QuestieFramePool.addonPath.."Icons\\available.blp"
 ICON_TYPE_SLAY =  _QuestieFramePool.addonPath.."Icons\\slay.blp"
 ICON_TYPE_COMPLETE =  _QuestieFramePool.addonPath.."Icons\\complete.blp"
@@ -22,10 +22,49 @@ ICON_TYPE_LOOT =  _QuestieFramePool.addonPath.."Icons\\loot.blp"
 ICON_TYPE_EVENT =  _QuestieFramePool.addonPath.."Icons\\event.blp"
 ICON_TYPE_OBJECT =  _QuestieFramePool.addonPath.."Icons\\object.blp"
 ICON_TYPE_GLOW = _QuestieFramePool.addonPath.."Icons\\glow.blp"
+ICON_TYPE_BLACK = _QuestieFramePool.addonPath.."Icons\\black.blp"
+
+StaticPopupDialogs["QUESTIE_CONFIRMHIDE"] = {
+    text = "", -- set before showing
+    QuestID = 0, -- set before showing
+    button1 = QuestieLocale:GetUIString("CONFIRM_HIDE_YES"),
+    button2 = QuestieLocale:GetUIString("CONFIRM_HIDE_NO"),
+    OnAccept = function()
+        QuestieQuest:HideQuest(StaticPopupDialogs["QUESTIE_CONFIRMHIDE"].QuestID)
+    end,
+    SetQuest = function(self, id)
+        self.QuestID = id
+        self.text = QuestieLocale:GetUIString("CONFIRM_HIDE_QUEST", QuestieDB:GetQuest(self.QuestID):GetColoredQuestName())
+		
+		-- locale might not be loaded when this is first created (this does happen almost always)
+        self.button1 = QuestieLocale:GetUIString("CONFIRM_HIDE_YES")
+        self.button2 = QuestieLocale:GetUIString("CONFIRM_HIDE_NO")
+    end,
+    OnShow = function(self)
+        self:SetFrameStrata("TOOLTIP")
+    end,
+    timeout = 0,
+    whileDead = true,
+    hideOnEscape = true,
+    preferredIndex = 3
+}
 
 -- Global Functions --
 function QuestieFramePool:GetFrame()
-    local f = tremove(unusedframes)
+    local f = nil--tremove(unusedframes)
+    
+    -- im not sure its this, but using string keys for the table prevents double-adding to unusedframes, calling unload() twice could double-add it maybe?
+    for k,v in pairs(unusedframes) do -- yikes (why is tremove broken? is there a better to get the first key of a non-indexed table?)
+        f = v
+        unusedframes[k] = nil
+        break
+    end
+    
+    
+    if f and f.GetName and usedFrames[f:GetName()] then
+        -- something went horribly wrong (desync bug?) don't use this frame since its already in use
+        f = nil
+    end
     if not f then
         f = _QuestieFramePool:QuestieCreateFrame()
     end
@@ -45,14 +84,29 @@ function QuestieFramePool:GetFrame()
     f.x = nil;f.y = nil;f.AreaID = nil;
     f:Hide();
     --end
-
+    
     if f.texture then
         f.texture:SetVertexColor(1, 1, 1, 1)
     end
-    f.loaded = true;
-    f.shouldBeShowing = false;
+    f.loaded = true
+    f.shouldBeShowing = nil
+    f.hidden = nil
+    
+    if f.baseOnShow then
+        f:SetScript("OnShow", f.baseOnShow)
+    end
+    
+    if f.baseOnUpdate then
+        f:SetScript("OnUpdate", f.baseOnUpdate)
+    else
+        f:SetScript("OnUpdate", nil)
+    end
+    
+    if f.baseOnHide then
+        f:SetScript("OnHide", f.baseOnHide)
+    end
+    
     usedFrames[f:GetName()] = f
-    f:SetScript("OnUpdate", nil)
     return f
 end
 
@@ -122,6 +176,8 @@ function _QuestieFramePool:QuestieCreateFrame()
     t:SetWidth(16)
     t:SetHeight(16)
     t:SetAllPoints(f)
+    t:SetTexelSnappingBias(0)
+    t:SetSnapToPixelGrid(false)
 
     local glowt = f.glow:CreateTexture(nil, "TOOLTIP")
     glowt:SetWidth(18)
@@ -156,11 +212,20 @@ function _QuestieFramePool:QuestieCreateFrame()
     f:SetScript("OnLeave", function() if(WorldMapTooltip) then WorldMapTooltip:Hide(); WorldMapTooltip._rebuild = nil; end if(GameTooltip) then GameTooltip:Hide(); GameTooltip._rebuild = nil; end end) --Script Exit Tooltip
     f:SetScript("OnClick", function(self)
         --_QuestieFramePool:Questie_Click(self)
-        if self and self.data and self.data.UiMapID and WorldMapFrame and WorldMapFrame:IsShown() and self.data.UiMapID ~= WorldMapFrame:GetMapID() then
-            WorldMapFrame:SetMapID(self.data.UiMapID);
+        if self and self.data and self.data.UiMapID and WorldMapFrame and WorldMapFrame:IsShown() then
+            if self.data.UiMapID ~= WorldMapFrame:GetMapID() then
+                WorldMapFrame:SetMapID(self.data.UiMapID);
+            end
+            if self.data.Type == "available" and IsShiftKeyDown() then
+                StaticPopupDialogs["QUESTIE_CONFIRMHIDE"]:SetQuest(self.data.QuestData.Id)
+                --WorldMapFrame:Hide()
+                --StaticPopup:SetFrameStrata("TOOLTIP")
+                StaticPopup_Show ("QUESTIE_CONFIRMHIDE")
+                
+            end
         end
     end);
-    f:HookScript("OnUpdate", function(self)
+    f.glowUpdate = function(self)--f:HookScript("OnUpdate", function(self)
         if self.glow and self.glow.IsShown and self.glow:IsShown() then
             self.glow:SetWidth(self:GetWidth()*1.13)
             self.glow:SetHeight(self:GetHeight()*1.13)
@@ -171,8 +236,13 @@ function _QuestieFramePool:QuestieCreateFrame()
             end
         end
         --self.glow:SetPoint("BOTTOMLEFT", self, 1, 1)
-    end)
-    f:HookScript("OnShow", function(self)
+    end--end)
+    f.baseOnUpdate = function(self)
+        if self.glowUpdate then
+            self:glowUpdate()
+        end
+    end
+    f.baseOnShow = function(self)--f:SetScript("OnShow", function(self)
         if self.data and self.data.Type and self.data.Type == "complete" then
             self:SetFrameLevel(self:GetFrameLevel() + 1)
         end
@@ -185,13 +255,16 @@ function _QuestieFramePool:QuestieCreateFrame()
             self.glow:Show()
             self.glow:SetFrameLevel(self:GetFrameLevel() - 1)
         end
-    end)
-    f:HookScript("OnHide", function(self)
+    end--end)
+    f.baseOnHide = function(self)--f:HookScript("OnHide", function(self)
         self.glow:Hide()
-    end)
+    end--end)
     --f.Unload = function(frame) _QuestieFramePool:UnloadFrame(frame) end;
     function f:Unload()
-        usedFrames[self:GetName()] = nil
+        self:SetScript("OnUpdate", nil)
+        self:SetScript("OnShow", nil)
+        self:SetScript("OnHide", nil)
+        
         --We are reseting the frames, making sure that no data is wrong.
         if self ~= nil and self.hidden and self._show ~= nil and self._hide ~= nil then -- restore state to normal (toggle questie)
             self.hidden = false
@@ -213,7 +286,10 @@ function _QuestieFramePool:QuestieCreateFrame()
         self.data = nil; -- Just to be safe
         self.loaded = nil;
         self.x = nil;self.y = nil;self.AreaID = nil;
-        table.insert(unusedframes, self)
+        if usedFrames[self:GetName()] then
+            usedFrames[self:GetName()] = nil
+            unusedframes[self:GetName()] = self--table.insert(unusedframes, self)
+        end
     end
     f.data = {}
     f:Hide()
@@ -226,6 +302,10 @@ function QuestieFramePool:euclid(x, y, i, e)
     local xd = math.abs(x - i);
     local yd = math.abs(y - e);
     return math.sqrt(xd * xd + yd * yd);
+end
+
+function QuestieFramePool:maxdist(x, y, i, e)
+    return math.max(math.abs(x - i), math.abs(y - e))
 end
 
 function QuestieFramePool:remap(value, low1, high1, low2, high2)
@@ -269,12 +349,12 @@ function _QuestieFramePool:Questie_Tooltip(self)
     Tooltip._owner = self;
     Tooltip:SetOwner(self, "ANCHOR_CURSOR"); --"ANCHOR_CURSOR" or (self, self)
 
-    local maxDistCluster = 1.5
+    local maxDistCluster = 1
     local mid = WorldMapFrame:GetMapID();
     if mid == 947 then -- world
-        maxDistCluster = 8
+        maxDistCluster = 6
     elseif mid == 1415 or mid == 1414 then -- kalimdor/ek
-        maxDistCluster = 4
+        maxDistCluster = 3
     end
     if self.miniMapIcon then
         if _QuestieFramePool:isMinimapInside() then
@@ -304,7 +384,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
     if 1 then
         for _, icon in pairs(usedFrames) do -- I added "usedFrames" because I think its a bit more efficient than using _G but I might be wrong
             if icon and icon.data and icon.x and icon.AreaID == self.AreaID then
-                local dist = QuestieFramePool:euclid(icon.x, icon.y, self.x, self.y);
+                local dist = QuestieFramePool:maxdist(icon.x, icon.y, self.x, self.y);
                 if dist < maxDistCluster then
                     if icon.data.Type == "available" or icon.data.Type == "complete" then
                         if npcOrder[icon.data.Name] == nil then
@@ -312,9 +392,9 @@ function _QuestieFramePool:Questie_Tooltip(self)
                         end
                         local dat = {};
                         if icon.data.Type == "complete" then
-                            dat.type = "(Complete)";
+                            dat.type = QuestieLocale:GetUIString("TOOLTIP_QUEST_COMPLETE");
                         else
-                            dat.type = "(Available)";
+                            dat.type = QuestieLocale:GetUIString("TOOLTIP_QUEST_AVAILABLE");
                         end
                         dat.title = icon.data.QuestData:GetColoredQuestName()
                         dat.subData = icon.data.QuestData.Description
@@ -370,15 +450,17 @@ function _QuestieFramePool:Questie_Tooltip(self)
         for k, v in pairs(self.questOrder) do -- this logic really needs to be improved
             if haveGiver then
                 self:AddLine(" ")
-                self:AddDoubleLine(k, "(Active)");
+                self:AddDoubleLine(k, QuestieLocale:GetUIString("TOOLTIP_QUEST_ACTIVE"));
                 haveGiver = false -- looks better when only the first one shows (active)
             else
                 self:AddLine(k);
             end
             if shift then
                 for k2, v2 in pairs(v) do
-                    for k3 in pairs(v2) do
-                        self:AddLine("   |cFFDDDDDD" .. k3);
+                    if type(v2) == "table" then
+                        for k3 in pairs(v2) do
+                            self:AddLine("   |cFFDDDDDD" .. k3);
+                        end
                     end
                     self:AddLine("      |cFF33FF33" .. k2);
                 end

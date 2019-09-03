@@ -17,7 +17,11 @@ QuestieLocale.locale['ptBR'] = {
     ['LOWLEVEL_ABOVE_DESC'] = "How many levels above your character to show. ( Default: %s )",
     ['CLUSTER'] = "Objective icon cluster amount  (Not yet implemented)",
     ['CLUSTER_DESC'] = "How much objective icons should cluster.",
-
+    ['ICON_TYPE_HEADER'] = "Icon Types",
+    ['ENABLE_MAP_ICONS'] = "Enable Map Icons",
+    ['ENABLE_MAP_ICONS_DESC'] = "Show/hide all icons from the main map",
+    ['ENABLE_MINIMAP_ICONS'] = "Enable Minimap Icons",
+    ['ENABLE_MINIMAP_ICONS_DESC'] = "Show/hide all icons from the minimap",
 
     ['MINIMAP_TAB'] = "Minimap Options",
     ['MINIMAP_HEADER'] = "Mini-Map Note Options",
@@ -97,11 +101,11 @@ QuestieLocale.locale['ptBR'] = {
     -- UI Elements
     ['QUESTIE_MAP_BUTTON_SHOW'] = "Show Questie",
     ['QUESTIE_MAP_BUTTON_HIDE'] = "Hide Questie",
-    ['ICON_LEFT_CLICK'] = "Left Click", 
+    ['ICON_LEFT_CLICK'] = "Left Click",
     ['ICON_TOGGLE'] = "Toggle Options",
-    ['ICON_SHIFTLEFT_CLICK'] = "Shift + Left Click", 
+    ['ICON_SHIFTLEFT_CLICK'] = "Shift + Left Click",
     ['ICON_TOGGLE_QUESTIE'] = "Toggle Questie",
-    ['ICON_CTRLRIGHT_CLICK'] = "Ctrl + Right Click", 
+    ['ICON_CTRLRIGHT_CLICK'] = "Ctrl + Right Click",
     ['ICON_HIDE'] = "Hide Minimap Icon",
 
 

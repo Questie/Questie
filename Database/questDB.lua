@@ -1,4 +1,4 @@
-qKeys = {
+QuestieDB.questKeys = {
     ['name'] = 1, -- string
     ['startedBy'] = 2, -- table
         ['creatureStart'] = 1, -- table {creature(int),...}
@@ -31,7 +31,7 @@ qKeys = {
     ['requiredSourceItems'] = 21, -- table: {item(int), ...} Items that are not an objective but still needed for the quest.
     ['nextQuestInChain'] = 22, -- int: if this quest is active/finished, the current quest is not available anymore
 }
-qData = {
+QuestieDB.questData = {
 [2] = {"Sharptalon's Claw",{nil,nil,{16305,},},{{12696,},nil,},20,30,178,nil,{"Bring Sharptalon's Claw to Senani Thunderheart at Splintertree Post, Ashenvale.",},nil,{nil,nil,nil,nil,},16305,nil,{6383,},nil,{23,24,},nil,331,nil,nil,nil,nil,nil,},
 [5] = {"Jitters' Growling Gut",{{288,},nil,nil,},{{272,},nil,},17,20,77,nil,{"Speak with Chef Grual.",},nil,{nil,nil,nil,nil,},nil,nil,{163,},nil,nil,nil,10,nil,nil,nil,nil,93,},
 [6] = {"Bounty on Garrick Padfoot",{{823,},nil,nil,},{{823,},nil,},2,5,77,nil,{"Kill Garrick Padfoot and bring his head to Deputy Willem at Northshire Abbey.",},nil,{nil,nil,{{182,nil},},nil,},nil,nil,{18,},nil,nil,nil,9,nil,nil,nil,nil,nil,},
