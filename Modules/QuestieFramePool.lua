@@ -35,6 +35,10 @@ StaticPopupDialogs["QUESTIE_CONFIRMHIDE"] = {
     SetQuest = function(self, id)
         self.QuestID = id
         self.text = QuestieLocale:GetUIString("CONFIRM_HIDE_QUEST", QuestieDB:GetQuest(self.QuestID):GetColoredQuestName())
+		
+		-- locale might not be loaded when this is first created (this does happen almost always)
+        self.button1 = QuestieLocale:GetUIString("CONFIRM_HIDE_YES")
+        self.button2 = QuestieLocale:GetUIString("CONFIRM_HIDE_NO")
     end,
     OnShow = function(self)
         self:SetFrameStrata("TOOLTIP")
