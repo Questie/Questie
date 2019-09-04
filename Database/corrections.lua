@@ -139,13 +139,16 @@ questMobFixes = {
     [11876] = {'Demon Spirit',1743,1743,37,37,0,{[405]={{55.00,26.60},},},nil,405,nil,nil,92,nil,},
 }
 
+-- [item ID] = {"name",{objective of},{dropped by},{contained in/gathered from/mined from}}
 questItemFixes = {
     [5475] = {"Wooden Key",{},{3919,3834},{}},
     [5519] = {"Iron Pommel",{1027},{3928},{}},
     [4611] = {"Blue Pearl",{705},{},{2744}},
     [3340] = {"Incendicite Ore",{466},{},{1610,1667}},
     [4483] = {"Burning Key",{651},{},{2689}},
-    [3829] = {"Frost Oil",{713,1193},{},{}}
+    [3829] = {"Frost Oil",{713,1193},{},{}},
+    [15843] = {"Filled Dreadmist Peak Sampler",{6127},{},{19464}},
+    [15845] = {"Filled Cliffspring Falls Sampler",{6122},{},{19463}}
 }
 --hack
 for k,v in pairs(questItemFixes) do CHANGEME_Questie4_ItemDB[k]=v; end
