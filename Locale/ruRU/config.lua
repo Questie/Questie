@@ -234,7 +234,7 @@ QuestieLocale.locale['ruRU'] = {
     ['MAP_GLOBAL_SCALE_DESC'] = "Размер значков карты.  ( По умолчанию: %s )",
     ['MINIMAP_GLOBAL_SCALE'] = "Глобальная шкала для иконок мини-карт",
     ['MINIMAP_GLOBAL_SCALE_DESC'] = "Размер значков мини-карты. ( По умолчанию: %s )",
-	['MINIMAP_ALWAYS_GLOW_TOGGLE'] = "Подсветка иконок миникарты",
+    ['MINIMAP_ALWAYS_GLOW_TOGGLE'] = "Подсветка иконок миникарты",
     ['MINIMAP_ALWAYS_GLOW_TOGGLE_DESC'] = "Нарисуйте текстуру свечения позади иконок миникарты, окрашенных уникальными для каждого квеста"
 
 };
