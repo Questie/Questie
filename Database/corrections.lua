@@ -34,7 +34,10 @@ questExclusiveGroupFixes = {
     [2998] = {1642,3861},
     [3861] = {1642,2998},
     [431] = {411}, -- candles of beckoning
-    [410] = {411} -- the dormant shade
+    [410] = {411}, -- the dormant shade
+    -- Voidwalker questline for horde
+    [1473] = {1501},
+    [1501] = {1473},
 }
 
 questItemBlacklist = {
