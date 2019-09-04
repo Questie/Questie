@@ -153,7 +153,13 @@ questItemFixes = {
     [4483] = {"Burning Key",{651},{},{2689}},
     [3829] = {"Frost Oil",{713,1193},{},{}},
     [15843] = {"Filled Dreadmist Peak Sampler",{6127},{},{19464}},
-    [15845] = {"Filled Cliffspring Falls Sampler",{6122},{},{19463}}
+    [15845] = {"Filled Cliffspring Falls Sampler",{6122},{},{19463}},
+    [17124] = {"Syndicate Emblem",{},{2246,2590,2240,2586,2589,2587,2588,2242,2241,2319,2261,2244,2260},{}},
+    [8072] = {"Silixiz's Tower Key",{},{7287},{}},
+    [7923] = {"Defias Tower Key",{2359},{7051},{}},
+    [7675] = {"Defias Shipping Schedule",{},{6846},{}},
+    [7737] = {"Sethir's Journal",{},{6909},{}},
+    [7208] = {"Tazan's Key",{},{6466},{}}
 }
 --hack
 for k,v in pairs(questItemFixes) do CHANGEME_Questie4_ItemDB[k]=v; end
