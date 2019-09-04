@@ -125,8 +125,8 @@ questItemBlacklist = {
     [16653]=true,
 
 
-    [12207]=true -- giant egg
-
+    [12207]=true, -- giant egg
+    [8932]=true, -- Alterac Swiss
 }
 
 questObjectFixes = {
