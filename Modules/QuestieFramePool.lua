@@ -35,8 +35,8 @@ StaticPopupDialogs["QUESTIE_CONFIRMHIDE"] = {
     SetQuest = function(self, id)
         self.QuestID = id
         self.text = QuestieLocale:GetUIString("CONFIRM_HIDE_QUEST", QuestieDB:GetQuest(self.QuestID):GetColoredQuestName())
-		
-		-- locale might not be loaded when this is first created (this does happen almost always)
+        
+        -- locale might not be loaded when this is first created (this does happen almost always)
         self.button1 = QuestieLocale:GetUIString("CONFIRM_HIDE_YES")
         self.button2 = QuestieLocale:GetUIString("CONFIRM_HIDE_NO")
     end,
@@ -153,7 +153,6 @@ function _QuestieFramePool:UnloadFrame(frame)
   frame.loaded = nil;
     table.insert(unusedframes, frame)
 end]]--
-
 function _QuestieFramePool:QuestieCreateFrame()
     qNumberOfFrames = qNumberOfFrames + 1
     local f = CreateFrame("Button", "QuestieFrame"..qNumberOfFrames, nil)
@@ -223,6 +222,13 @@ function _QuestieFramePool:QuestieCreateFrame()
                 StaticPopup_Show ("QUESTIE_CONFIRMHIDE")
                 
             end
+        end
+        if self and self.data and self.data.UiMapID and IsControlKeyDown() and TomTom and TomTom.AddWaypoint then
+            -- tomtom integration (needs more work, will come with tracker
+            if Questie.db.char._tom_waypoint and TomTom.RemoveWaypoint then -- remove old waypoint
+                TomTom:RemoveWaypoint(Questie.db.char._tom_waypoint)
+            end
+            Questie.db.char._tom_waypoint = TomTom:AddWaypoint(self.data.UiMapID, self.x/100, self.y/100,  {title = self.data.Name, crazy = true})
         end
     end);
     f.glowUpdate = function(self)--f:HookScript("OnUpdate", function(self)
