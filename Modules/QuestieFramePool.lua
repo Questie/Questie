@@ -212,11 +212,9 @@ function _QuestieFramePool:QuestieCreateFrame()
     f:RegisterForClicks("RightButtonUp", "LeftButtonUp")
     f:SetScript("OnClick", function(self, button)
         --_QuestieFramePool:Questie_Click(self)
-        print("Button: " .. tostring(button));
         if self and self.data and self.data.UiMapID and WorldMapFrame and WorldMapFrame:IsShown() then
             if button == "RightButton" then
                 -- zoom out if possible
-                print("RightClick")
                 local currentMapParent = WorldMapFrame:GetMapID()
                 if currentMapParent then
                     currentMapParent = QuestieZoneToParentTable[currentMapParent];
