@@ -313,6 +313,21 @@ Questie2ZoneTable = {
 }
 
 Questie2ZoneTableInverse = {};
+QuestieZoneToParentTable = {}; -- is there an api function we can use for this?
+
+for _,v in pairs(zoneDataClassicBetaHack) do
+    QuestieZoneToParentTable[v[1]] = v[2]
+end
+
+-- fix cities
+QuestieZoneToParentTable[zoneDataClassicBetaHack["Thunder Bluff"][1]] = zoneDataClassicBetaHack["Mulgore"][1]
+QuestieZoneToParentTable[zoneDataClassicBetaHack["Undercity"][1]] = zoneDataClassicBetaHack["Tirisfal Glades"][1]
+QuestieZoneToParentTable[zoneDataClassicBetaHack["Orgrimmar"][1]] = zoneDataClassicBetaHack["Durotar"][1]
+
+QuestieZoneToParentTable[zoneDataClassicBetaHack["Stormwind City"][1]] = zoneDataClassicBetaHack["Elwynn Forest"][1]
+QuestieZoneToParentTable[zoneDataClassicBetaHack["Ironforge"][1]] = zoneDataClassicBetaHack["Dun Morogh"][1]
+QuestieZoneToParentTable[zoneDataClassicBetaHack["Darnassus"][1]] = zoneDataClassicBetaHack["Teldrassil"][1]
+
 
 for k,v in pairs(Questie2ZoneTable) do
 

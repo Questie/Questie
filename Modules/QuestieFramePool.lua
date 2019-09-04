@@ -209,11 +209,25 @@ function _QuestieFramePool:QuestieCreateFrame()
 
     f:SetScript("OnEnter", function(self) _QuestieFramePool:Questie_Tooltip(self) end); --Script Toolip
     f:SetScript("OnLeave", function() if(WorldMapTooltip) then WorldMapTooltip:Hide(); WorldMapTooltip._rebuild = nil; end if(GameTooltip) then GameTooltip:Hide(); GameTooltip._rebuild = nil; end end) --Script Exit Tooltip
-    f:SetScript("OnClick", function(self)
+    f:RegisterForClicks("RightButtonUp", "LeftButtonUp")
+    f:SetScript("OnClick", function(self, button)
         --_QuestieFramePool:Questie_Click(self)
+        print("Button: " .. tostring(button));
         if self and self.data and self.data.UiMapID and WorldMapFrame and WorldMapFrame:IsShown() then
-            if self.data.UiMapID ~= WorldMapFrame:GetMapID() then
-                WorldMapFrame:SetMapID(self.data.UiMapID);
+            if button == "RightButton" then
+                -- zoom out if possible
+                print("RightClick")
+                local currentMapParent = WorldMapFrame:GetMapID()
+                if currentMapParent then
+                    currentMapParent = QuestieZoneToParentTable[currentMapParent];
+                    if currentMapParent and currentMapParent > 0 then
+                        WorldMapFrame:SetMapID(currentMapParent)
+                    end
+                end
+            else
+                if self.data.UiMapID ~= WorldMapFrame:GetMapID() then
+                    WorldMapFrame:SetMapID(self.data.UiMapID);
+                end
             end
             if self.data.Type == "available" and IsShiftKeyDown() then
                 StaticPopupDialogs["QUESTIE_CONFIRMHIDE"]:SetQuest(self.data.QuestData.Id)
