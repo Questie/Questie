@@ -265,14 +265,16 @@ local function DrawJourneyTab(container)
         -- if it's a quest event
         if Questie.db.char.journey[i].Event == "Quest" then
             local quest = QuestieDB:GetQuest(Questie.db.char.journey[i].Quest);
-            local qName = Questie:Colorize(quest.Name, 'gray');
+            if quest then
+                local qName = Questie:Colorize(quest.Name, 'gray');
 
-            if Questie.db.char.journey[i].SubType == "Accept" then
-                recentEvents[i]:SetText( timestamp .. Questie:Colorize( QuestieLocale:GetUIString('JOURNEY_QUEST_ACCEPT', qName) , 'yellow')  );
-            elseif Questie.db.char.journey[i].SubType == "Abandon" then
-                recentEvents[i]:SetText( timestamp .. Questie:Colorize( QuestieLocale:GetUIString('JOURNEY_QUEST_ABANDON', qName) , 'yellow')  );
-            elseif Questie.db.char.journey[i].SubType == "Complete" then
-                recentEvents[i]:SetText( timestamp .. Questie:Colorize( QuestieLocale:GetUIString('JOURNEY_QUEST_COMPLETE', qName) , 'yellow')  );
+                if Questie.db.char.journey[i].SubType == "Accept" then
+                    recentEvents[i]:SetText( timestamp .. Questie:Colorize( QuestieLocale:GetUIString('JOURNEY_QUEST_ACCEPT', qName) , 'yellow')  );
+                elseif Questie.db.char.journey[i].SubType == "Abandon" then
+                    recentEvents[i]:SetText( timestamp .. Questie:Colorize( QuestieLocale:GetUIString('JOURNEY_QUEST_ABANDON', qName) , 'yellow')  );
+                elseif Questie.db.char.journey[i].SubType == "Complete" then
+                    recentEvents[i]:SetText( timestamp .. Questie:Colorize( QuestieLocale:GetUIString('JOURNEY_QUEST_COMPLETE', qName) , 'yellow')  );
+                end
             end
         elseif Questie.db.char.journey[i].Event == "Level" then
             local level = Questie:Colorize(QuestieLocale:GetUIString('JOURNEY_LEVELNUM', Questie.db.char.journey[i].NewLevel), 'gray');
