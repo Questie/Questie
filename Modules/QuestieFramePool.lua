@@ -241,6 +241,9 @@ function _QuestieFramePool:QuestieCreateFrame()
                 TomTom:RemoveWaypoint(Questie.db.char._tom_waypoint)
             end
             Questie.db.char._tom_waypoint = TomTom:AddWaypoint(self.data.UiMapID, self.x/100, self.y/100,  {title = self.data.Name, crazy = true})
+        elseif self.miniMapIcon then
+            local _, _, _, x, y = self:GetPoint()
+            Minimap:PingLocation(x, y)
         end
     end);
     f.glowUpdate = function(self)--f:HookScript("OnUpdate", function(self)
