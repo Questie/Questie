@@ -169,6 +169,7 @@ questHiddenFixes = {
 }
 
 qHide = {
+  [1878] = true, -- Repeatable version of 1707 - Fixing #775
   --Stray quests
   [3861] = true, --CLUCK!
   --World event quests
