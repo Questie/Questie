@@ -37,7 +37,8 @@ QuestieCorrections.itemFixes = {
     [7923] = {"Defias Tower Key",{2359},{7051},{}},
     [7675] = {"Defias Shipping Schedule",{},{6846},{}},
     [7737] = {"Sethir's Journal",{},{6909},{}},
-    [7208] = {"Tazan's Key",{},{6466},{}}
+    [7208] = {"Tazan's Key",{},{6466},{}},
+    [2886] = {"Crag Boar Rib",{384},{1125,1126,1127,1689},{}},
 }
 
 QuestieCorrections.questRequirementFixes = {
