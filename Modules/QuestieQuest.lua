@@ -35,15 +35,12 @@ function QuestieQuest:ToggleNotes(desiredValue)
         for questId, framelist in pairs(qQuestIdFrames) do
             for index, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
                 local icon = _G[frameName];
-                if icon ~= nil and icon.hidden then
-                    icon.hidden = false
-                    icon.Show = icon._show;
-                    icon.Hide = icon._hide;
-                    icon._show = nil
-                    icon._hide = nil
-                    if icon.shouldBeShowing then
-                        icon:Show();
-                    end
+                if icon ~= nil and icon.hidden and not ((((not Questie.db.global.enableObjectives) and (icon.data.Type == "monster" or icon.data.Type == "object" or icon.data.Type == "event" or icon.data.Type == "item"))
+                 or ((not Questie.db.global.enableTurnins) and icon.data.Type == "complete")
+                 or ((not Questie.db.global.enableAvailable) and icon.data.Type == "available"))
+                 or ((not Questie.db.global.enableMapIcons) and (not icon.miniMapIcon))
+                 or ((not Questie.db.global.enableMiniMapIcons) and (icon.miniMapIcon))) then
+                    icon:FakeUnhide()
                 end
             end
         end
@@ -53,17 +50,7 @@ function QuestieQuest:ToggleNotes(desiredValue)
             for index, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
                 local icon = _G[frameName];
                 if icon ~= nil and icon.IsShown ~= nil and (not icon.hidden) then -- check for function to make sure its a frame
-                    icon.shouldBeShowing = icon:IsShown();
-                    icon._show = icon.Show;
-                    icon.Show = function()
-                        icon.shouldBeShowing = true;
-                    end
-                    icon:Hide();
-                    icon._hide = icon.Hide;
-                    icon.Hide = function()
-                        icon.shouldBeShowing = false;
-                    end
-                    icon.hidden = true
+                    icon:FakeHide()
                 end
             end
         end
@@ -168,33 +155,14 @@ function QuestieQuest:UpdateHiddenNotes()
         for index, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
             local icon = _G[frameName];
             if icon ~= nil and icon.data then
-                if (((not Questie.db.global.enableObjectives) and (icon.data.Type == "monster" or icon.data.Type == "object" or icon.data.Type == "event" or icon.data.Type == "item"))
+                if (QuestieQuest.NotesHidden or (((not Questie.db.global.enableObjectives) and (icon.data.Type == "monster" or icon.data.Type == "object" or icon.data.Type == "event" or icon.data.Type == "item"))
                  or ((not Questie.db.global.enableTurnins) and icon.data.Type == "complete")
                  or ((not Questie.db.global.enableAvailable) and icon.data.Type == "available"))
                  or ((not Questie.db.global.enableMapIcons) and (not icon.miniMapIcon))
-                 or ((not Questie.db.global.enableMiniMapIcons) and (icon.miniMapIcon)) then
-                    icon.shouldBeShowing = false
-                    icon._show = icon.Show;
-                    icon.Show = function()
-                    end
-                    icon._hidden_toggle_hack_state = icon:IsShown()
-                    icon:Hide();
-                    icon._hide = icon.Hide;
-                    icon.Hide = function()
-                    end
-                    icon.hidden = true
-                    icon._hidden_toggle_hack = true -- todo: this wont be used once UpdateHiddenNotes is rewritten to just refresh all notes
-                elseif icon._hidden_toggle_hack then -- icon was previously hidden but is no longer toggled off
-                    icon.hidden = false
-                    icon._hidden_toggle_hack = nil
-                    icon.Show = icon._show;
-                    icon.Hide = icon._hide;
-                    icon._show = nil
-                    icon._hide = nil
-                    if icon._hidden_toggle_hack_state then
-                        icon:Show();
-                    end
-                    icon._hidden_toggle_hack_state = nil
+                 or ((not Questie.db.global.enableMiniMapIcons) and (icon.miniMapIcon))) then
+                    icon:FakeHide()
+                else
+                    icon:FakeUnhide()
                 end
             end
         end

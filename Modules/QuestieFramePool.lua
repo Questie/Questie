@@ -314,6 +314,35 @@ function _QuestieFramePool:QuestieCreateFrame()
     end
     f.data = {}
     f:Hide()
+    
+    -- functions for fake hide/unhide
+    function f:FakeHide()
+        if not self.hidden then
+            self.shouldBeShowing = self:IsShown();
+            self._show = self.Show;
+            self.Show = function()
+                self.shouldBeShowing = true;
+            end
+            self:Hide();
+            self._hide = self.Hide;
+            self.Hide = function()
+                self.shouldBeShowing = false;
+            end
+            self.hidden = true
+        end
+    end
+    function f:FakeUnhide()
+        if self.hidden then
+            self.hidden = false
+            self.Show = self._show;
+            self.Hide = self._hide;
+            self._show = nil
+            self._hide = nil
+            if self.shouldBeShowing then
+                self:Show();
+            end
+        end
+    end
     --f.glow:Hide()
     table.insert(allframes, f)
     return f

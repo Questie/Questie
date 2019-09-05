@@ -85,14 +85,14 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
     if(showFlag == nil) then showFlag = HBD_PINS_WORLDMAP_SHOW_WORLD; end
     if(floatOnEdge == nil) then floatOnEdge = true; end
 
-    -- check toggles
-    if data.Type then
-        if (((not Questie.db.global.enableObjectives) and (data.Type == "monster" or data.Type == "object" or data.Type == "event" or data.Type == "item"))
-         or ((not Questie.db.global.enableTurnins) and data.Type == "complete")
-         or ((not Questie.db.global.enableAvailable) and data.Type == "available")) then
-            return -- dont add icon
-        end
-    end
+    -- check toggles (not anymore, we need to add then hide)
+    --if data.Type then
+    --   if (((not Questie.db.global.enableObjectives) and (data.Type == "monster" or data.Type == "object" or data.Type == "event" or data.Type == "item"))
+    --     or ((not Questie.db.global.enableTurnins) and data.Type == "complete")
+    --     or ((not Questie.db.global.enableAvailable) and data.Type == "available")) then
+    --        return -- dont add icon
+    --    end
+    --end
 
     -- check clustering
     local xcell = math.floor((x * (QUESTIE_NOTES_CLUSTERMUL_HACK)));
@@ -209,6 +209,19 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
 
         table.insert(qQuestIdFrames[data.Id], icon:GetName())
         table.insert(qQuestIdFrames[data.Id], iconMinimap:GetName())
+        
+        -- preset hidden state when needed (logic from QuestieQuest:UpdateHiddenNotes
+        -- we should add all this code to something like obj:CheckHide() instead of copying it
+        if (QuestieQuest.NotesHidden or (((not Questie.db.global.enableObjectives) and (icon.data.Type == "monster" or icon.data.Type == "object" or icon.data.Type == "event" or icon.data.Type == "item"))
+                 or ((not Questie.db.global.enableTurnins) and icon.data.Type == "complete")
+                 or ((not Questie.db.global.enableAvailable) and icon.data.Type == "available"))
+                 or ((not Questie.db.global.enableMapIcons) and (not icon.miniMapIcon))
+                 or ((not Questie.db.global.enableMiniMapIcons) and (icon.miniMapIcon))) then
+            icon:FakeHide()
+            iconMinimap:FakeHide()
+        end
+        
+        
         return icon, iconMinimap;
     end
     return nil, nil
