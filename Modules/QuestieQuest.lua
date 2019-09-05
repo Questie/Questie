@@ -72,6 +72,60 @@ function QuestieQuest:ToggleNotes(desiredValue)
     Questie.db.char.enabled = not QuestieQuest.NotesHidden
 end
 
+
+function QuestieQuest:ClearAllNotes()
+    for quest in pairs (qCurrentQuestlog) do
+        local Quest = QuestieDB:GetQuest(quest)
+        
+        -- Clear user-specifc data from quest object (maybe we should refactor into Quest.session.* so we can do Quest.session = nil to reset easier
+        Quest.AlreadySpawned = nil 
+        Quest.Objectives = nil
+        Quest.SpecialObjectives = nil
+    end
+    
+    for questId, framelist in pairs(qQuestIdFrames) do
+        for index, frameName in ipairs(framelist) do
+            local icon = _G[frameName]
+            if icon and icon.Unload then 
+                icon:Unload()
+            end
+        end
+    end
+    qQuestIdFrames = {}
+    QuestieMap.MapCache_ClutterFix = {}
+end
+
+function QuestieQuest:AddAllNotes()
+    qAvailableQuests = {} -- reset available quest db
+    
+    -- draw available quests
+    QuestieQuest:GetAllQuestIdsNoObjectives()
+    QuestieQuest:CalculateAvailableQuests()
+    QuestieQuest:DrawAllAvailableQuests()
+    
+    -- draw quests
+    for quest in pairs (qCurrentQuestlog) do
+        QuestieQuest:UpdateQuest(quest)
+    end
+end
+
+function QuestieQuest:Reset()
+    -- clear all notes
+    QuestieQuest:ClearAllNotes()
+    
+    -- reset quest log and tooltips
+    qCurrentQuestlog = {}
+    QuestieTooltips.tooltipLookup = {}
+    
+    -- make sure complete db is correct
+    Questie.db.char.complete = GetQuestsCompleted()
+    
+    QuestieQuest:AddAllNotes()
+end
+
+
+
+
 function QuestieQuest:UpdateHiddenNotes()
     QuestieQuest:GetAllQuestIds() -- add notes that weren't added from previous hidden state
     if Questie.db.global.enableAvailable then
@@ -564,7 +618,6 @@ ObjectiveSpawnListCallTable = {
 }
 
 function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockItemTooltips) -- must be pcalled
-
     if not Objective.AlreadySpawned then
         Objective.AlreadySpawned = {};
     end
