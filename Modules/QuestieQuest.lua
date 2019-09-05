@@ -123,7 +123,39 @@ function QuestieQuest:Reset()
     QuestieQuest:AddAllNotes()
 end
 
-
+function QuestieQuest:SmoothReset() -- use timers to reset progressively instead of all at once
+    -- bit of a hack (there has to be a better way to do logic like this
+    local stepTable = {
+        QuestieQuest.ClearAllNotes,
+        function()
+            -- reset quest log and tooltips
+            qCurrentQuestlog = {}
+            QuestieTooltips.tooltipLookup = {}
+            
+            -- make sure complete db is correct
+            Questie.db.char.complete = GetQuestsCompleted()
+            qAvailableQuests = {} -- reset available quest db
+    
+            -- draw available quests
+            QuestieQuest:GetAllQuestIdsNoObjectives()
+        end, 
+        QuestieQuest.CalculateAvailableQuests,
+        QuestieQuest.DrawAllAvailableQuests,
+        function()
+            -- bit of a hack here too
+            local mod = 0
+            for quest in pairs (qCurrentQuestlog) do
+                C_Timer.After(mod, function() QuestieQuest:UpdateQuest(quest) end)
+                mod = mod + 0.3
+            end
+        end
+    }
+    local step = 1
+    C_Timer.NewTicker(0.1, function() 
+        stepTable[step]()
+        step = step + 1
+    end, 5)
+end
 
 
 function QuestieQuest:UpdateHiddenNotes()
