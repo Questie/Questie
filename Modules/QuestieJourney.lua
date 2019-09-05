@@ -1160,10 +1160,10 @@ function CollectZoneQuests(container, zoneid)
         if not Questie.db.char.complete[qid] and not q.Hidden then
 
             -- see if it's supposed to be a hidden quest
-            if qHide and not qHide[qid] then
+            if QuestieCorrections.hiddenQuests and not QuestieCorrections.hiddenQuests[qid] then
 
                 -- remove any breadcrumb quests too
-                if questExclusiveGroupFixes and not questExclusiveGroupFixes[qid] then
+                if QuestieCorrections.questExclusiveGroupFixes and not QuestieCorrections.questExclusiveGroupFixes[qid] then
                     temp.value = qid;
                     temp.text = q:GetColoredQuestName();
                     table.insert(zoneTree[1].children, temp);

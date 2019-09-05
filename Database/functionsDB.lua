@@ -46,7 +46,6 @@ local RaceBitIndexTable = {
 
 function QuestieDB:Initialize()
     QuestieDBZone:zoneCreateConvertion()
-    QuestieDB:deleteFaction()
     QuestieDB:deleteClasses()
     QuestieDB:deleteGatheringNodes()
 
@@ -84,7 +83,7 @@ function QuestieDB:GetObject(ObjectID)
     if QuestieDB._ObjectCache[ObjectID] ~= nil then
         return QuestieDB._ObjectCache[ObjectID];
     end
-    local raw = questObjectFixes[ObjectID] or QuestieDB.objectData[ObjectID];
+    local raw = QuestieCorrections.objectFixes[ObjectID] or QuestieDB.objectData[ObjectID];
     if raw ~= nil then
         local obj = {};
         obj.Id = ObjectID;
@@ -112,7 +111,7 @@ function QuestieDB:GetItem(ItemID)
         item.Id = ItemID;
         item.Name = raw[1];
         item.Sources = {};
-        if not questItemBlacklist[ItemID] then
+        if not QuestieCorrections.questItemBlacklist[ItemID] then
             for k,v in pairs(raw[3]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
                 local source = {};
                 source.Type = "monster";
@@ -168,9 +167,9 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
     -- 14 DB_SUB_QUESTS
     -- 15 DB_QUEST_GROUP
     -- 16 DB_EXCLUSIVE_QUEST_GROUP]]--
-    rawdata = QuestieDB.questData[QuestID] -- shouldnt rawdata be local
+    local rawdata = QuestieCorrections.questFixes[ObjectID] or QuestieDB.questData[QuestID];
     if(rawdata)then
-        QO = {}
+        local QO = {}
         QO.GetColoredQuestName = _GetColoredQuestName
         QO.Id = QuestID --Key
         QO.Name = rawdata[1] --Name - 1
@@ -328,17 +327,17 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
         else
             QO.RequiredQuest = rawdata[13]
         end
-        if questRequirementFixes[QuestID] ~= nil then
-            QO.RequiredQuest = questRequirementFixes[QuestID]
+        if QuestieCorrections.questRequirementFixes[QuestID] ~= nil then
+            QO.RequiredQuest = QuestieCorrections.questRequirementFixes[QuestID]
         end
         QO.SubQuests = rawdata[14] --Quests that give questitems that are used in later quests (See STV manual)
         QO.QuestGroup = rawdata[15] --Quests that are part of the same group, example complete this group of quests to open the next one.
-        QO.ExclusiveQuestGroup = questExclusiveGroupFixes[QuestID] or rawdata[16]
+        QO.ExclusiveQuestGroup = QuestieCorrections.questExclusiveGroupFixes[QuestID] or rawdata[16]
         QO.NextQuestInChain = rawdata[22]
 
         QO.HiddenObjectiveData = {}
 
-        local hidden = questHiddenFixes[QuestID] or rawdata[21]
+        local hidden = QuestieCorrections.questHiddenFixes[QuestID] or rawdata[21]
 
         if hidden ~= nil then --required source items
             for _,Id in pairs(hidden) do
@@ -380,7 +379,7 @@ function QuestieDB:_GetSpecialNPC(NPCID)
     if NPCID == nil then
         return nil
     end
-    rawdata = Questie_SpecialNPCs[NPCID]
+    local rawdata = Questie_SpecialNPCs[NPCID]
     if rawdata then
         NPC = {}
         NPC.Id = NPCID
@@ -418,7 +417,7 @@ function QuestieDB:GetNPC(NPCID)
     if(QuestieDB._NPCCache[NPCID]) then
         return QuestieDB._NPCCache[NPCID]
     end
-    rawdata = questMobFixes[NPCID] or QuestieDB.npcData[NPCID]
+    local rawdata = QuestieCorrections.npcFixes[NPCID] or QuestieDB.npcData[NPCID]
     if(rawdata)then
         NPC = {}
         NPC.Type = "NPC" --This can be used to look at which type it is, Gameobject and Items will have the same! (should be monster to match wow api)
@@ -430,11 +429,11 @@ function QuestieDB:GetNPC(NPCID)
         NPC.MaxLevel = rawdata[DB_LEVEL]
         NPC.Rank = rawdata[DB_RANK]
         NPC.Spawns = rawdata[DB_NPC_SPAWNS]
-        
+
         if NPC.Spawns == nil and Questie_SpecialNPCs[NPCID] then -- get spawns from script spawns list
             NPC.Spawns = QuestieDB:_GetSpecialNPC(NPCID).Spawns
         end
-        
+
         NPC.Waypoints = rawdata[DB_NPC_WAYPOINTS]
         NPC.Starts = rawdata[DB_NPC_STARTS]
         NPC.Ends = rawdata[DB_NPC_ENDS]
@@ -551,8 +550,6 @@ function QuestieDB:GetQuestsByZoneId(zoneid)
 
 end
 
-
-
 ---------------------------------------------------------------------------------------------------
 -- Returns the Levenshtein distance between the two given strings
 -- credit to https://gist.github.com/Badgerati/3261142
@@ -609,7 +606,7 @@ end
 -- Modifications to questDB
 
 function unpackBinary(val)
-    ret = {};
+    local ret = {};
     for q=0,16 do
         if bit.band(bit.rshift(val,q), 1) == 1 then
             table.insert(ret, true);
@@ -639,26 +636,9 @@ function checkClass(class, dbClass)
     return valid;
 end
 
---Deletes opposite factions quests, saves time!
-function QuestieDB:deleteFaction() -- deleteClasses also deletes races, so it only needs to iterate once. Should probably be renamed to deleteInvalid or something
-    --englishFaction, _ = UnitFactionGroup("player")
-    --local fac = ""
-    --if(englishFaction == "Alliance") then
-    --  fac = "A"
-    --else
-    --  fac = "H"
-    --end
-    --for key, data in pairs(QuestieDB.questData) do
-    --    if (data[DB_REQ_RACE] ~= "AH") and (data[DB_REQ_RACE] ~= fac) then
-    --        QuestieDB.questData[key] = nil;
-    --    end
-    --end
-    --Questie:Debug(DEBUG_DEVELOP, "Opposite factions quests deleted");
-end
-
 function QuestieDB:deleteClasses() -- handles races too
-    localizedClass, englishClass, classIndex = UnitClass("player");
-    localizedRace, playerRace = UnitRace("player");
+    local localizedClass, englishClass, classIndex = UnitClass("player");
+    local localizedRace, playerRace = UnitRace("player");
     if englishClass and playerRace then
         local playerClass = string.lower(englishClass);
         playerRace = string.lower(playerRace);

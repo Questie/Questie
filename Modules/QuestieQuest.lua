@@ -1135,7 +1135,7 @@ function QuestieQuest:CalculateAvailableQuests()
         local QuestID = i;
         --Check if we've already completed the quest and that it is not "manually" hidden and that the quest is not currently in the questlog.
 
-        if(not Questie.db.char.complete[QuestID] and not qHide[QuestID] and not qCurrentQuestlog[QuestID]) then --Should be not qCurrentQuestlog[QuestID]
+        if(not Questie.db.char.complete[QuestID] and not QuestieCorrections.hiddenQuests[QuestID] and not qCurrentQuestlog[QuestID]) then --Should be not qCurrentQuestlog[QuestID]
             local Quest = QuestieDB:GetQuest(QuestID);
             if (Quest.Level > MinLevel or Questie.db.char.lowlevel) and Quest.Level < MaxLevel and Quest.MinLevel <= PlayerLevel then
                 if _QuestieQuest:IsDoable(Quest) then

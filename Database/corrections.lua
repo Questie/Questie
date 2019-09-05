@@ -1,5 +1,45 @@
+QuestieCorrections = {}
 
-questRequirementFixes = {
+QuestieCorrections.questFixes = {
+    -- add quest 3375 in field 14 (subQuests)
+    -- TODO add parentQuest field to database so 3375 knows when not to show as available
+    [2201] = {"Find the Gems",{{6912,},nil,nil,},{nil,{112877,},},40,43,77,nil,{"Find the ruby, sapphire, and topaz that are scattered throughout Uldaman.","Once acquired, contact Talvash del Kissel remotely by using the Phial of Scrying he previously gave you.","From the journal, you know...","* The ruby has been stashed in a barricaded Shadowforge area.","* The topaz has been hidden in an urn in one of the Trogg areas, near some Alliance dwarves.","* The sapphire has been claimed by Grimlok, the trogg leader.",},nil,{nil,nil,{{7669,nil},{7670,nil},{7671,nil},},nil,},7668,nil,{2200,},{3375},nil,nil,1517,nil,nil,nil,nil,2204,},
+}
+
+QuestieCorrections.npcFixes = {
+    [300] = {'Zzarc\' Vul',1050,1050,33,33,0,{[10]={{38,80},},},nil,10,nil,nil},
+    [5082] = {'Vincent Hyal',1605,1605,30,30,0,{[11]={{10.8,60.4}}},nil,11,{1302},{1301}},
+    [4360] = {'Mirefin Warrior',1208,1257,37,39,0,{},nil,15,nil,nil}, -- TODO: remove this after the db is fixed!!! This is just to fix tooltips
+    [11876] = {'Demon Spirit',1743,1743,37,37,0,{[405]={{55.00,26.60},},},nil,405,nil,nil,92,nil,},
+}
+
+QuestieCorrections.objectFixes = {
+    [92423] = {"Damaged Chest",nil,nil,{[400]={{43.4, 32.7}},[17]={{49.02,96.77}}},400},
+    [167] = {"Abercrombie's Crate",nil,nil,{[10]={{33.42,76.35}}},10},
+    [19021] = {"Rusty Chest",nil,nil,{[331]={{69.04,84.77},{77.03,73.8},{79.08,74.48},{70.53,73.58},{70.68,85.06},{69.29,82.67},{71.29,83.83},{77.97,65.82},{77.38,69.77},{77.06,68.3},{69.87,74.11},{78.3,73.6},{76.22,67.48},{76.62,70.67},{76.77,72.19},{78.31,69.73},{68.24,77.68},{77.68,72.63},{74.77,69.6},{78.26,64.58},{70.72,75.24},{74.23,69.47},{74.36,70.21},{75.88,73.52},{75.87,69.99},{69.89,85.32},{74.34,77.92},{70.1,76.08},{74.58,77.19},{74.67,75.39},{76.67,68.46},{68.94,84.86},{74.41,73.38},{74.46,75.56},{73.09,73.23},{71.04,73.8},{71.45,76.97},{73.68,76.95},{72.63,76.86},{70.77,75.99},{72.51,75.12}}},331},
+    [2867] = {"Excavation Supply Crate",nil,nil,{[3]={{66.6,22}}},3}, -- position was slightly off
+    [154357] = {"Glinting Mud",nil,nil,{[44]={{38.04,54.49},{19.16,51.74},{34.13,53.37},{29.52,53.72},{21.79,53.17},},},44,},
+}
+
+-- [item ID] = {"name",{objective of},{dropped by},{contained in/gathered from/mined from}}
+QuestieCorrections.itemFixes = {
+    [5475] = {"Wooden Key",{},{3919,3834},{}},
+    [5519] = {"Iron Pommel",{1027},{3928},{}},
+    [4611] = {"Blue Pearl",{705},{},{2744}},
+    [3340] = {"Incendicite Ore",{466},{},{1610,1667}},
+    [4483] = {"Burning Key",{651},{},{2689}},
+    [3829] = {"Frost Oil",{713,1193},{},{}},
+    [15843] = {"Filled Dreadmist Peak Sampler",{6127},{},{19464}},
+    [15845] = {"Filled Cliffspring Falls Sampler",{6122},{},{19463}},
+    [17124] = {"Syndicate Emblem",{},{2246,2590,2240,2586,2589,2587,2588,2242,2241,2319,2261,2244,2260},{}},
+    [8072] = {"Silixiz's Tower Key",{},{7287},{}},
+    [7923] = {"Defias Tower Key",{2359},{7051},{}},
+    [7675] = {"Defias Shipping Schedule",{},{6846},{}},
+    [7737] = {"Sethir's Journal",{},{6909},{}},
+    [7208] = {"Tazan's Key",{},{6466},{}}
+}
+
+QuestieCorrections.questRequirementFixes = {
     [46] = {39},
     [3903] = {18},
     [33] = {783},
@@ -10,7 +50,7 @@ questRequirementFixes = {
     [926] = {809} -- #606
 }
 
-questExclusiveGroupFixes = {
+QuestieCorrections.questExclusiveGroupFixes = {
     [463] = {276}, --greenwarden cant be completed if you have trampling paws
     [415] = {413}, --cant complete rejolds new brew if you do shimmer stout (see issue 567)
     [1339] = {1338}, -- mountaineer stormpike's task cant be done if you have finished stormpike's order
@@ -40,7 +80,7 @@ questExclusiveGroupFixes = {
     [1501] = {1473},
 }
 
-questItemBlacklist = {
+QuestieCorrections.questItemBlacklist = {
     [2589] = true, -- linen cloth
     [2592] = true, -- wool cloth
     [4306] = true, -- silk cloth
@@ -129,46 +169,14 @@ questItemBlacklist = {
     [8932]=true, -- Alterac Swiss
 }
 
-questObjectFixes = {
-    [92423] = {"Damaged Chest",nil,nil,{[400]={{43.4, 32.7}},[17]={{49.02,96.77}}},400},
-    [167] = {"Abercrombie's Crate",nil,nil,{[10]={{33.42,76.35}}},10},
-    [19021] = {"Rusty Chest",nil,nil,{[331]={{69.04,84.77},{77.03,73.8},{79.08,74.48},{70.53,73.58},{70.68,85.06},{69.29,82.67},{71.29,83.83},{77.97,65.82},{77.38,69.77},{77.06,68.3},{69.87,74.11},{78.3,73.6},{76.22,67.48},{76.62,70.67},{76.77,72.19},{78.31,69.73},{68.24,77.68},{77.68,72.63},{74.77,69.6},{78.26,64.58},{70.72,75.24},{74.23,69.47},{74.36,70.21},{75.88,73.52},{75.87,69.99},{69.89,85.32},{74.34,77.92},{70.1,76.08},{74.58,77.19},{74.67,75.39},{76.67,68.46},{68.94,84.86},{74.41,73.38},{74.46,75.56},{73.09,73.23},{71.04,73.8},{71.45,76.97},{73.68,76.95},{72.63,76.86},{70.77,75.99},{72.51,75.12}}},331},
-    [2867] = {"Excavation Supply Crate",nil,nil,{[3]={{66.6,22}}},3}, -- position was slightly off
-    [154357] = {"Glinting Mud",nil,nil,{[44]={{38.04,54.49},{19.16,51.74},{34.13,53.37},{29.52,53.72},{21.79,53.17},},},44,},
-}
-
-questMobFixes = {
-    [300] = {'Zzarc\' Vul',1050,1050,33,33,0,{[10]={{38,80},},},nil,10,nil,nil},
-    [5082] = {'Vincent Hyal',1605,1605,30,30,0,{[11]={{10.8,60.4}}},nil,11,{1302},{1301}},
-    [4360] = {'Mirefin Warrior',1208,1257,37,39,0,{},nil,15,nil,nil}, -- TODO: remove this after the db is fixed!!! This is just to fix tooltips
-    [11876] = {'Demon Spirit',1743,1743,37,37,0,{[405]={{55.00,26.60},},},nil,405,nil,nil,92,nil,},
-}
-
--- [item ID] = {"name",{objective of},{dropped by},{contained in/gathered from/mined from}}
-questItemFixes = {
-    [5475] = {"Wooden Key",{},{3919,3834},{}},
-    [5519] = {"Iron Pommel",{1027},{3928},{}},
-    [4611] = {"Blue Pearl",{705},{},{2744}},
-    [3340] = {"Incendicite Ore",{466},{},{1610,1667}},
-    [4483] = {"Burning Key",{651},{},{2689}},
-    [3829] = {"Frost Oil",{713,1193},{},{}},
-    [15843] = {"Filled Dreadmist Peak Sampler",{6127},{},{19464}},
-    [15845] = {"Filled Cliffspring Falls Sampler",{6122},{},{19463}},
-    [17124] = {"Syndicate Emblem",{},{2246,2590,2240,2586,2589,2587,2588,2242,2241,2319,2261,2244,2260},{}},
-    [8072] = {"Silixiz's Tower Key",{},{7287},{}},
-    [7923] = {"Defias Tower Key",{2359},{7051},{}},
-    [7675] = {"Defias Shipping Schedule",{},{6846},{}},
-    [7737] = {"Sethir's Journal",{},{6909},{}},
-    [7208] = {"Tazan's Key",{},{6466},{}}
-}
 --hack
-for k,v in pairs(questItemFixes) do CHANGEME_Questie4_ItemDB[k]=v; end
+for k,v in pairs(QuestieCorrections.itemFixes) do CHANGEME_Questie4_ItemDB[k]=v; end
 
-questHiddenFixes = {
+QuestieCorrections.questHiddenFixes = {
     [1026] = {5475} -- wooden key
 }
 
-qHide = {
+QuestieCorrections.hiddenQuests = {
   [1878] = true, -- Repeatable version of 1707 - Fixing #775
   --Stray quests
   [3861] = true, --CLUCK!
