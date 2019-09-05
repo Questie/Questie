@@ -443,6 +443,8 @@ function _QuestieFramePool:Questie_Tooltip(self)
                             end
                             --table.insert(questOrder[key], text);--questOrder[key][icon.data.ObjectiveData.Description] = tostring(icon.data.ObjectiveData.Collected) .. "/" .. tostring(icon.data.ObjectiveData.Needed) .. " " .. icon.data.ObjectiveData.Description--table.insert(questOrder[key], tostring(icon.data.ObjectiveData.Collected) .. "/" .. tostring(icon.data.ObjectiveData.Needed) .. " " .. icon.data.ObjectiveData.Description);
                         end
+                    elseif icon.data.CustomTooltipData then
+                        questOrder[icon.data.CustomTooltipData.Title] = icon.data.CustomTooltipData.Body
                     end
                 end
             end

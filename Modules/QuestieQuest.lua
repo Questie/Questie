@@ -617,6 +617,36 @@ ObjectiveSpawnListCallTable = {
     end
 }
 
+-- this is for forcing specific things on to the map (That aren't quest related)
+-- label and customScale can be nil
+function QuestieQuest:ForceToMap(type, id, label, customScale)
+    if ObjectiveSpawnListCallTable[type] and type ~= "event" then
+        local mapRefs = {}
+        local miniRefs = {}
+        local spawnData = ObjectiveSpawnListCallTable[type](id)[id]
+        spawnData.Type = type
+        spawnData.CustomTooltipData = {}
+        spawnData.CustomTooltipData.Title = label or "Forced Icon"
+        spawnData.CustomTooltipData.Body = {[spawnData.Name]=spawnData.Name}
+        if customScale then
+            spawnData.GetIconScale = function(self)
+                return customScale
+            end
+            spawnData.IconScale = customScale
+        end
+        for zone, spawns in pairs(spawnData.Spawns) do
+            for _, spawn in pairs(spawns) do
+                iconMap, iconMini = QuestieMap:DrawWorldIcon(spawnData, zone, spawn[1], spawn[2])
+                if iconMap and iconMini then
+                    table.insert(mapRefs, iconMap);
+                    table.insert(miniRefs, iconMini);
+                end
+            end
+        end
+        return mapRefs, miniRefs
+    end
+end
+
 function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockItemTooltips) -- must be pcalled
     if not Objective.AlreadySpawned then
         Objective.AlreadySpawned = {};
@@ -1188,7 +1218,7 @@ function QuestieQuest:CalculateAvailableQuests()
         local QuestID = i;
         --Check if we've already completed the quest and that it is not "manually" hidden and that the quest is not currently in the questlog.
 
-        if(not Questie.db.char.complete[QuestID] and not QuestieCorrections.hiddenQuests[QuestID] and not qCurrentQuestlog[QuestID]) then --Should be not qCurrentQuestlog[QuestID]
+        if((not Questie.db.char.complete[QuestID]) and (not QuestieCorrections.hiddenQuests[QuestID]) and (not qCurrentQuestlog[QuestID])) then --Should be not qCurrentQuestlog[QuestID]
             local Quest = QuestieDB:GetQuest(QuestID);
             if (Quest.Level > MinLevel or Questie.db.char.lowlevel) and Quest.Level < MaxLevel and Quest.MinLevel <= PlayerLevel then
                 if _QuestieQuest:IsDoable(Quest) then
