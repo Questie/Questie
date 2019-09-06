@@ -43,6 +43,7 @@ QuestieCorrections.itemFixes = {
     [7208] = {"Tazan's Key",{},{6466},{}},
     [12347] = {"Filled Cleansing Bowl",{},{},{174795}},
     [2886] = {"Crag Boar Rib",{384},{1125,1126,1127,1689},{}},
+    [5051] = {"Dig Rat",{862},{3444},{}},
 }
 
 -- some quest items are shared across factions but require different sources for each faction (not sure if there is a better way to implement this)
