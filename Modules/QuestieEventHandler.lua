@@ -84,6 +84,7 @@ function QuestieEventHandler:PLAYER_ENTERING_WORLD()
         QuestieQuest:CalculateAvailableQuests()
         QuestieQuest:DrawAllAvailableQuests()
         QuestieNameplate:Initialize();
+        QuestieTracker:Initialize()
         Questie:Debug(DEBUG_ELEVATED, "PLAYER_ENTERED_WORLD")
         playerEntered = true
         -- manually fire QLU since enter has been delayed past the first QLU

@@ -350,6 +350,7 @@ function QuestieQuest:UpdateQuest(QuestId)
         QuestieQuest:PopulateQuestLogInfo(quest)
         QuestieQuest:GetAllQuestObjectives(quest) -- update quest log values in quest object
         QuestieQuest:UpdateObjectiveNotes(quest)
+        QuestieTracker:Update()
         if QuestieQuest:IsComplete(quest) then
             --DEFAULT_CHAT_FRAME:AddMessage("Finished " .. QuestId);
             QuestieMap:UnloadQuestFrames(QuestId);
@@ -383,6 +384,7 @@ function QuestieQuest:GetAllQuestIds()
             Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ADD_QUEST', questId, qCurrentQuestlog[questId]));
         end
     end
+    QuestieTracker:Update()
 end
 
 function QuestieQuest:GetAllQuestIdsNoObjectives()
@@ -623,23 +625,25 @@ function QuestieQuest:ForceToMap(type, id, label, customScale)
     if ObjectiveSpawnListCallTable[type] and type ~= "event" then
         local mapRefs = {}
         local miniRefs = {}
-        local spawnData = ObjectiveSpawnListCallTable[type](id)[id]
-        spawnData.Type = type
-        spawnData.CustomTooltipData = {}
-        spawnData.CustomTooltipData.Title = label or "Forced Icon"
-        spawnData.CustomTooltipData.Body = {[spawnData.Name]=spawnData.Name}
-        if customScale then
-            spawnData.GetIconScale = function(self)
-                return customScale
+        --local spawnData = ObjectiveSpawnListCallTable[type](id)[id]
+        for id, spawnData in pairs(ObjectiveSpawnListCallTable[type](id)) do
+            spawnData.Type = type
+            spawnData.CustomTooltipData = {}
+            spawnData.CustomTooltipData.Title = label or "Forced Icon"
+            spawnData.CustomTooltipData.Body = {[spawnData.Name]=spawnData.Name}
+            if customScale then
+                spawnData.GetIconScale = function(self)
+                    return customScale
+                end
+                spawnData.IconScale = customScale
             end
-            spawnData.IconScale = customScale
-        end
-        for zone, spawns in pairs(spawnData.Spawns) do
-            for _, spawn in pairs(spawns) do
-                iconMap, iconMini = QuestieMap:DrawWorldIcon(spawnData, zone, spawn[1], spawn[2])
-                if iconMap and iconMini then
-                    table.insert(mapRefs, iconMap);
-                    table.insert(miniRefs, iconMini);
+            for zone, spawns in pairs(spawnData.Spawns) do
+                for _, spawn in pairs(spawns) do
+                    iconMap, iconMini = QuestieMap:DrawWorldIcon(spawnData, zone, spawn[1], spawn[2])
+                    if iconMap and iconMini then
+                        table.insert(mapRefs, iconMap);
+                        table.insert(miniRefs, iconMini);
+                    end
                 end
             end
         end
