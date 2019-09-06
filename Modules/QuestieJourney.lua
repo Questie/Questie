@@ -43,7 +43,11 @@ local function splitJourneyByDate()
             dateTable[year][month] = {};
         end
 
-        table.insert(dateTable[year][month], v);
+        local e = {};
+        e.idx = i;
+        e.value = v;
+
+        table.insert(dateTable[year][month], e);
     end
 
     -- now take those sorted dates and create a tree table
@@ -62,7 +66,10 @@ local function splitJourneyByDate()
                 children = {},
             };
 
-            for idx, entry in pairs(dateTable[i][mon]) do
+            for idx, e in pairs(dateTable[i][mon]) do
+
+                entry = e.value;
+
 
                 local entryText = '';
                 if entry.Event == "Level" then
@@ -89,9 +96,8 @@ local function splitJourneyByDate()
                     end
                 end
 
-
                 local entryView = {
-                    value = idx,
+                    value = e.idx,
                     text = entryText,
                 };
 
