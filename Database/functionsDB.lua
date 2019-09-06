@@ -44,6 +44,12 @@ local RaceBitIndexTable = {
     ['goblin'] = 9
 };
 
+QuestieDB._QuestCache = {}; -- stores quest objects so they dont need to be regenerated
+QuestieDB._ItemCache = {};
+QuestieDB._NPCCache = {};
+QuestieDB._ObjectCache = {};
+QuestieDB._ZoneCache = {};
+
 function QuestieDB:Initialize()
     QuestieDBZone:zoneCreateConvertion()
     QuestieDB:deleteClasses()
@@ -54,12 +60,16 @@ function QuestieDB:Initialize()
         if v and v[14] then
             for _,v2 in ipairs(v[14]) do
                 QuestieDB.questData[v2].mustHave = k;
-                if QuestieDB._QuestCache[v2] then -- shouldnt happen but it is
-                    QuestieDB._QuestCache[v2].MustHave = k;
-                end
             end
         end
     end
+	
+    -- data has been corrected, ensure cache is empty (something might have accessed the api before questie initialized)
+    QuestieDB._QuestCache = {};
+    QuestieDB._ItemCache = {};
+    QuestieDB._NPCCache = {};
+    QuestieDB._ObjectCache = {};
+    QuestieDB._ZoneCache = {};
 end
 
 function QuestieDB:ItemLookup(ItemId)
@@ -70,11 +80,6 @@ function QuestieDB:ItemLookup(ItemId)
     return Item
 end
 
-QuestieDB._QuestCache = {}; -- stores quest objects so they dont need to be regenerated
-QuestieDB._ItemCache = {};
-QuestieDB._NPCCache = {};
-QuestieDB._ObjectCache = {};
-QuestieDB._ZoneCache = {};
 
 function QuestieDB:GetObject(ObjectID)
     if ObjectID == nil then
@@ -167,7 +172,7 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
     -- 14 DB_SUB_QUESTS
     -- 15 DB_QUEST_GROUP
     -- 16 DB_EXCLUSIVE_QUEST_GROUP]]--
-    local rawdata = QuestieCorrections.questFixes[ObjectID] or QuestieDB.questData[QuestID];
+    local rawdata = QuestieCorrections.questFixes[QuestID] or QuestieDB.questData[QuestID];
     if(rawdata)then
         local QO = {}
         QO.GetColoredQuestName = _GetColoredQuestName
@@ -642,15 +647,16 @@ function QuestieDB:deleteClasses() -- handles races too
     if englishClass and playerRace then
         local playerClass = string.lower(englishClass);
         playerRace = string.lower(playerRace);
-        for key, data in pairs(QuestieDB.questData) do
+        for key, entry in pairs(QuestieDB.questData) do
+            local data = QuestieCorrections.questFixes[key] or entry
             if data[7] and data[7] ~= 0 then
                 if not checkClass(playerClass, data[7]) then
-                    QuestieDB.questData[key].hidden = true
+                    data.hidden = true
                 end
             end
             if data[6] and data[6] ~= 0 and data[6] ~= 255 then
                 if not checkRace(playerRace, data[6]) then
-                    QuestieDB.questData[key].hidden = true
+                    data.hidden = true
                 end
             end
         end
