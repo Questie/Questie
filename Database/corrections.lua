@@ -4,6 +4,7 @@ QuestieCorrections.questFixes = {
     -- add quest 3375 in field 14 (subQuests)
     -- TODO add parentQuest field to database so 3375 knows when not to show as available
     [2201] = {"Find the Gems",{{6912,},nil,nil,},{nil,{112877,},},40,43,77,nil,{"Find the ruby, sapphire, and topaz that are scattered throughout Uldaman.","Once acquired, contact Talvash del Kissel remotely by using the Phial of Scrying he previously gave you.","From the journal, you know...","* The ruby has been stashed in a barricaded Shadowforge area.","* The topaz has been hidden in an urn in one of the Trogg areas, near some Alliance dwarves.","* The sapphire has been claimed by Grimlok, the trogg leader.",},nil,{nil,nil,{{7669,nil},{7670,nil},{7671,nil},},nil,},7668,nil,{2200,},{3375},nil,nil,1517,nil,nil,nil,nil,2204,},
+    [4763] = {"The Blackwood Corrupted",{{3649,},nil,nil,},{{3649,},nil,},15,18,77,nil,{"Fill the Empty Cleansing Bowl at the Auberdine Moonwell.","Gather a sample of fruit, nut, and grain from the northern Blackwood furbolg camps.","Mix the bowl and place it near the bonfire closest to the Cliffspring River at the northern camp, thus summoning the satyr corruptor.","Take the Talisman of Corruption and bring it to Thundris Windweaver in Auberdine.",},nil,{nil,nil,{{12355,nil},},nil,},12346,nil,{4762,},nil,nil,nil,148,nil,nil,nil,{12347,12341,12342,12343,},nil,},
 }
 
 QuestieCorrections.npcFixes = {
@@ -39,6 +40,7 @@ QuestieCorrections.itemFixes = {
     [7675] = {"Defias Shipping Schedule",{},{6846},{}},
     [7737] = {"Sethir's Journal",{},{6909},{}},
     [7208] = {"Tazan's Key",{},{6466},{}},
+    [12347] = {"Filled Cleansing Bowl",{},{},{174795}},
     [2886] = {"Crag Boar Rib",{384},{1125,1126,1127,1689},{}},
 }
 
