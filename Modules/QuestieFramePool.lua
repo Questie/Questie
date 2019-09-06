@@ -302,7 +302,8 @@ function _QuestieFramePool:QuestieCreateFrame()
         end
         self.miniMapIcon = nil;
         self:SetScript("OnUpdate", nil)
-        self:Hide();
+        self:Hide()
+        self.glow:Hide()
         --self.glow:Hide()
         self.data = nil; -- Just to be safe
         self.loaded = nil;
