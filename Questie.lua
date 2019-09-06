@@ -1183,6 +1183,11 @@ function Questie:QuestieSlash(input)
         end
         return;
     end
+	
+    if input == "reload" then
+        QuestieQuest:SmoothReset()
+        return
+    end
 
     -- /questie minimap
     if input == "minimap" then
