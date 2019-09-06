@@ -1442,7 +1442,7 @@ function DrawResultTab(container, group)
         key = QuestieDB.questKeys.name
     elseif group == "npc" then
         database = QuestieDB.npcData
-        key = DB_NAME
+        key = QuestieDB.npcKeys.name
     elseif group == "object" then
         database = QuestieDB.objectData
         key = QuestieDB.objectKeys.name
