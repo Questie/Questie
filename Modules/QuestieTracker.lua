@@ -169,7 +169,7 @@ function QuestieTracker:Update()
             for _,Objective in pairs(Quest.Objectives) do
                 line = _QuestieTracker:GetNextLine()
                 line:SetMode("line")
-                line.label:SetText("    |cFFDDDDDD" .. Objective.Description .. ": " .. tostring(Objective.Collected) .. "/" .. tostring(Objective.Needed))
+                line.label:SetText("    |cFFEEEEEE" .. Objective.Description .. ": " .. tostring(Objective.Collected) .. "/" .. tostring(Objective.Needed))
                 line.label:Show()
                 trackerWidth = math.max(trackerWidth, line.label:GetWidth())
             end
