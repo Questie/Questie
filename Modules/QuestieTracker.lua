@@ -9,8 +9,6 @@ local trackerLineCount = 64 -- shouldnt need more than this
 local trackerBackgroundPadding = 4
 local trackerQuestPadding = 2 -- padding between quests in the tracker
 
-local trackerEnabled = true
-
 -- used for fading the background of the trakcer
 _QuestieTracker.FadeTickerValue = 0
 _QuestieTracker.FadeTickerDirection = false -- true to fade in
@@ -40,7 +38,7 @@ function _QuestieTracker:StartFadeTicker()
 end
 
 function QuestieTracker:Initialize()
-    if QuestieTracker.started or (not trackerEnabled) then return; end
+    if QuestieTracker.started or (not Questie.db.char.trackerEnabled) then return; end
     _QuestieTracker.baseFrame = QuestieTracker:CreateBaseFrame()
     
     -- this number is static, I doubt it will ever need more
@@ -154,7 +152,7 @@ function _QuestieTracker:GetNextLine()
 end
 
 function QuestieTracker:Update()
-    if (not QuestieTracker.started) or (not trackerEnabled) then return; end
+    if (not QuestieTracker.started) or (not Questie.db.char.trackerEnabled) then return; end
     index = 0 -- zero because it simplifies GetNextLine()
     -- populate tracker
     local trackerWidth = 0
