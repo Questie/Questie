@@ -10,14 +10,14 @@ Follow the [Installation Guide](https://github.com/AeroScripts/QuestieDev/wiki/I
 
 You can find the FAQ for Classic [here](https://github.com/AeroScripts/QuestieDev/wiki/FAQ-for-Classic-(1.13))!
 
-# Download:
+# Download
 https://github.com/AeroScripts/QuestieDev/releases/latest
 
 *Some features are missing, but its all being ported in slowly. Keep an eye on discord! (linked below)*
 
 [![Downloads](https://img.shields.io/github/downloads/AeroScripts/QuestieDev/total.svg)](https://github.com/AeroScripts/QuestieDev/releases/)
 
-[![Downloads Latest](https://img.shields.io/github/downloads/AeroScripts/QuestieDev/v4.0.15/total.svg)](https://github.com/AeroScripts/QuestieDev/releases/latest)
+[![Downloads Latest](https://img.shields.io/github/downloads/AeroScripts/QuestieDev/v4.0.17/total.svg)](https://github.com/AeroScripts/QuestieDev/releases/latest)
 [![Date Latest](https://img.shields.io/github/release-date/AeroScripts/QuestieDev.svg)](https://github.com/AeroScripts/QuestieDev/releases/latest)
 [![Commits Since Latest](https://img.shields.io/github/commits-since/AeroScripts/QuestieDev/latest.svg)](https://github.com/AeroScripts/QuestieDev/commits/master)
 
@@ -26,14 +26,14 @@ https://github.com/AeroScripts/QuestieDev/releases/latest
 - map/minimap system (Currently using a port of HereBeDragons but that may change)
 - available quests (some bugs related to profession/class quests are being worked on)
 - objective notes
-- quest turn-in points
-- mob/item tooltips
+- quest start/turn-in points
+- mob/item tooltips (for multiple languages!)
+- arrow (requires TomTom)
 
 ## What is not working/ported
 - some quests may incorrectly show as available when they aren't, or not show when they are. Please report this if you see it
 - tracker
-- arrow
-- polygon objective display (instead of many points) and other display modes
+- polygon/cluster objective display (instead of many points) and other display modes
 
  Trust us it's (Good)!
 

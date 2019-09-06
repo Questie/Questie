@@ -423,11 +423,6 @@ local options = {
                                 SetGlobalOptionLocal(info, value)
                             end,
                 },
-                fade_options = {
-                    type = "header",
-                    order = 10,
-                    name = function() return QuestieLocale:GetUIString('MINIMAP_FADE') end,
-                },
                 fadeLevel = {
                     type = "range",
                     order = 12,
@@ -1029,6 +1024,9 @@ local minimapIconLDB = LibStub("LibDataBroker-1.1"):NewDataObject("MinimapIcon",
                     _QuestieOptions.configFrame:Hide();
                 end
                 return;
+            elseif IsControlKeyDown() then
+                QuestieQuest:SmoothReset()
+                return
             end
 
             _QuestieOptions.OpenConfigWindow()
@@ -1061,6 +1059,7 @@ local minimapIconLDB = LibStub("LibDataBroker-1.1"):NewDataObject("MinimapIcon",
         tooltip:AddLine (Questie:Colorize(QuestieLocale:GetUIString('ICON_SHIFTLEFT_CLICK') , 'gray') .. ": ".. QuestieLocale:GetUIString('ICON_TOGGLE_QUESTIE'));
         tooltip:AddLine (Questie:Colorize(QuestieLocale:GetUIString('ICON_RIGHT_CLICK') , 'gray') .. ": ".. QuestieLocale:GetUIString('ICON_JOURNEY'));
         tooltip:AddLine (Questie:Colorize(QuestieLocale:GetUIString('ICON_CTRLRIGHT_CLICK') , 'gray') .. ": ".. QuestieLocale:GetUIString('ICON_HIDE'));
+        tooltip:AddLine (Questie:Colorize(QuestieLocale:GetUIString('ICON_CTRLLEFT_CLICK'),   'gray') .. ": ".. QuestieLocale:GetUIString('ICON_RELOAD'));
     end,
 });
 
@@ -1183,6 +1182,11 @@ function Questie:QuestieSlash(input)
              _QuestieOptions.configFrame:Hide();
         end
         return;
+    end
+	
+    if input == "reload" then
+        QuestieQuest:SmoothReset()
+        return
     end
 
     -- /questie minimap

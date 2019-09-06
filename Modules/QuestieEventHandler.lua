@@ -78,12 +78,13 @@ function QuestieEventHandler:PLAYER_ENTERING_WORLD()
     C_Timer.After(4, function()
         _hack_prime_log()
         qPlayerLevel = UnitLevel("player")
-        QuestieQuest:Initialize()
         QuestieDB:Initialize()
+        QuestieQuest:Initialize()
         QuestieQuest:GetAllQuestIdsNoObjectives()
         QuestieQuest:CalculateAvailableQuests()
         QuestieQuest:DrawAllAvailableQuests()
         QuestieNameplate:Initialize();
+        QuestieTracker:Initialize()
         Questie:Debug(DEBUG_ELEVATED, "PLAYER_ENTERED_WORLD")
         playerEntered = true
         -- manually fire QLU since enter has been delayed past the first QLU

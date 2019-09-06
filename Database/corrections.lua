@@ -1,5 +1,80 @@
+QuestieCorrections = {}
 
-questRequirementFixes = {
+QuestieCorrections.questFixes = {
+    -- add quest 3375 in field 14 (subQuests)
+    -- TODO add parentQuest field to database so 3375 knows when not to show as available
+    [2201] = {"Find the Gems",{{6912,},nil,nil,},{nil,{112877,},},40,43,77,nil,{"Find the ruby, sapphire, and topaz that are scattered throughout Uldaman.","Once acquired, contact Talvash del Kissel remotely by using the Phial of Scrying he previously gave you.","From the journal, you know...","* The ruby has been stashed in a barricaded Shadowforge area.","* The topaz has been hidden in an urn in one of the Trogg areas, near some Alliance dwarves.","* The sapphire has been claimed by Grimlok, the trogg leader.",},nil,{nil,nil,{{7669,nil},{7670,nil},{7671,nil},},nil,},7668,nil,{2200,},{3375},nil,nil,1517,nil,nil,nil,nil,2204,},
+    [4763] = {"The Blackwood Corrupted",{{3649,},nil,nil,},{{3649,},nil,},15,18,77,nil,{"Fill the Empty Cleansing Bowl at the Auberdine Moonwell.","Gather a sample of fruit, nut, and grain from the northern Blackwood furbolg camps.","Mix the bowl and place it near the bonfire closest to the Cliffspring River at the northern camp, thus summoning the satyr corruptor.","Take the Talisman of Corruption and bring it to Thundris Windweaver in Auberdine.",},nil,{nil,nil,{{12355,nil},},nil,},12346,nil,{4762,},nil,nil,nil,148,nil,nil,nil,{12347,12341,12342,12343,},nil,},
+
+    -- please label what you changed in the entry so its easier to figure out
+    -- I still think replacing specific entries instead of the whole quest is a more future proof way of dealing with corrections
+	
+    -- change race requirement bitmask to be only alliance (was 255)
+    [6132] = {"Get Me Out of Here!",{{12277,},nil,nil,},{{6019,},nil,},34,39,77,nil,{"Escort Melizza Brimbuzzle, then speak with Hornizz Brimbuzzle at the Kodo Graveyard in Desolace.",},nil,{nil,nil,nil,nil,},nil,nil,nil,nil,nil,nil,405,nil,nil,nil,nil,nil,},
+
+}
+
+QuestieCorrections.npcFixes = {
+    [300] = {'Zzarc\' Vul',1050,1050,33,33,0,{[10]={{38,80},},},nil,10,nil,nil},
+    [5082] = {'Vincent Hyal',1605,1605,30,30,0,{[11]={{10.8,60.4}}},nil,11,{1302},{1301}},
+    [4360] = {'Mirefin Warrior',1208,1257,37,39,0,{},nil,15,nil,nil}, -- TODO: remove this after the db is fixed!!! This is just to fix tooltips
+    [11876] = {'Demon Spirit',1743,1743,37,37,0,{[405]={{55.00,26.60},},},nil,405,nil,nil,92,nil,},
+    [12297] = {'Sickly Gazelle',14,14,3,3,0,{[17]={{48.8,23.8},{42.47,20.49},{51.15,38.53},{48.11,14.51},{42.81,15.28},{59.18,17.75},{42.74,36.02},{41.18,25.68},{54.41,21.93},{54.67,29.98},{51.74,20.44},{57.68,20.79},{50.52,13.04},{52.4,14.28},{46.08,29.96},{53.45,20.8},{45.44,26.66},{56.93,38.97},{44.71,33.76},{50.18,23.26},{60.29,28.13},{58.03,37.06},{53.81,12.23},{57.36,18.14},{41.49,22.7},{54.67,10.57},{44.2,19.76},{56.61,16.61},{52.77,18.57},{56.65,18.12},{48.32,26.34},{44.52,17.61},{40.81,20.67},{59.94,31.01},{43.27,28.12},{48.76,36.48},{52.42,12.74},{43.74,39.33},{49.26,27.23},{54.99,13.34},{47.0,24.16},{58.44,34.68},{45.53,14.75},{60.32,35.27},{51.02,19.46},{50.39,15.37},{57.43,33.98},{54.5,32.09},{53.44,26.84},{50.47,35.75},{50.01,31.15},{48.77,29.55},{55.09,35.44},{54.99,38.7},{53.28,37.96},{58.22,23.88},{49.96,31.05},{50.7,35.92},{48.71,36.9},{54.25,24.17},{54.3,21.78},{57.59,20.49},{58.72,22.12},{60.27,21.63},},},{[14]={{17.44,47.56},{17.34,48.09},{17.29,48.36},{17.38,48.57},{17.63,48.66},{18.06,48.63},{18.58,48.54},{18.6,48.22},{18.62,47.86},{18.65,47.58},{18.76,47.16},{18.82,46.97},{18.89,46.61},{18.8,46.15},{18.58,45.84},{18.19,46.0},{17.95,46.2},{17.82,46.53},{17.65,47.38},{9.38,50.08},{9.12,50.04},{8.66,50.09},{8.01,50.19},{7.82,49.93},{7.61,49.37},{7.75,49.39},{8.11,49.46},{8.88,49.22},{9.37,49.21},{10.28,49.43},{10.54,49.65},{10.42,49.97},{10.17,50.13},{9.82,50.13},{23.67,44.89},{23.52,44.47},{23.25,44.05},{23.03,43.83},{22.81,43.61},{22.53,43.25},{22.47,42.84},{22.62,42.44},{22.84,42.5},{23.05,42.71},{23.31,43.18},{23.6,43.3},{23.87,43.33},{24.24,43.41},{24.46,43.62},{24.61,43.98},{24.66,44.44},{24.57,44.82},{24.38,45.07},{24.13,45.16},{23.71,45.18},},[17]={{54.35,21.92},{54.3,22.19},{54.27,22.33},{54.32,22.44},{54.45,22.49},{54.68,22.47},{54.94,22.42},{54.96,22.26},{54.97,22.07},{54.98,21.93},{55.04,21.71},{55.07,21.61},{55.11,21.42},{55.06,21.18},{54.95,21.02},{54.74,21.1},{54.62,21.21},{54.55,21.38},{54.46,21.82},{50.15,23.23},{50.01,23.21},{49.77,23.23},{49.43,23.29},{49.33,23.15},{49.22,22.86},{49.3,22.87},{49.48,22.91},{49.89,22.78},{50.14,22.77},{50.62,22.89},{50.75,23.0},{50.69,23.17},{50.56,23.26},{50.38,23.25},{57.6,20.52},{57.52,20.3},{57.38,20.09},{57.27,19.97},{57.15,19.86},{57.0,19.67},{56.97,19.45},{57.05,19.24},{57.17,19.28},{57.28,19.38},{57.42,19.63},{57.57,19.69},{57.7,19.71},{57.9,19.75},{58.01,19.86},{58.09,20.05},{58.12,20.29},{58.07,20.49},{57.97,20.62},{57.84,20.66},{57.62,20.67},},},17,nil,nil,188,"AH",},
+    [12299] = {'Sickly Deer',20,20,5,5,0,{[148]={{44.48,24.36},{35.17,89.26},{46.56,24.97},{34.57,87.25},{38.36,77.52},{36.19,81.94},{44.56,27.62},{43.7,64.03},{46.81,51.18},{46.17,48.28},{41.95,69.65},{45.02,44.31},{39.1,61.87},{46.99,44.1},{43.62,31.44},{46.0,41.38},{41.85,38.14},{43.97,52.89},{40.08,69.85},{42.2,73.37},{43.07,75.47},{43.97,80.14},{47.14,42.21},{47.17,41.27},{45.82,41.49},{38.56,36.07},{43.77,41.38},{48.13,33.97},{46.92,33.91},{45.56,31.68},{43.18,88.41},{39.11,89.9},{40.67,89.83},{41.02,77.81},{49.48,35.21},{49.11,36.08},{41.44,52.68},{41.04,34.8},{51.1,33.53},{51.92,32.75},{41.23,48.31},{38.57,59.21},{40.3,81.84},{38.92,70.36},{51.18,29.79},{49.48,28.58},{41.5,46.08},{38.68,54.53},{40.84,60.16},{47.68,27.5},{43.53,83.42},{43.35,40.79},{42.3,39.6},{40.34,52.3},{43.28,66.94},{37.06,91.2},{39.09,47.85},{43.81,48.22},{48.17,38.98},},},nil,148,nil,nil,188,"AH",},
+    [5600] = {'Khan Dez\'hepah',1341,1341,35,35,0,{[405]={{73.2,41.8},{73.4,43},{74,43.6},{74.4,44.8},{73.6,46.6},{73,47.8},{74.6,48.8},},},nil,405,nil,nil,130,nil,},
+}
+
+QuestieCorrections.objectFixes = {
+    [92423] = {"Damaged Chest",nil,nil,{[400]={{43.4, 32.7}},[17]={{49.02,96.77}}},400},
+    [167] = {"Abercrombie's Crate",nil,nil,{[10]={{33.42,76.35}}},10},
+    [19021] = {"Rusty Chest",nil,nil,{[331]={{69.04,84.77},{77.03,73.8},{79.08,74.48},{70.53,73.58},{70.68,85.06},{69.29,82.67},{71.29,83.83},{77.97,65.82},{77.38,69.77},{77.06,68.3},{69.87,74.11},{78.3,73.6},{76.22,67.48},{76.62,70.67},{76.77,72.19},{78.31,69.73},{68.24,77.68},{77.68,72.63},{74.77,69.6},{78.26,64.58},{70.72,75.24},{74.23,69.47},{74.36,70.21},{75.88,73.52},{75.87,69.99},{69.89,85.32},{74.34,77.92},{70.1,76.08},{74.58,77.19},{74.67,75.39},{76.67,68.46},{68.94,84.86},{74.41,73.38},{74.46,75.56},{73.09,73.23},{71.04,73.8},{71.45,76.97},{73.68,76.95},{72.63,76.86},{70.77,75.99},{72.51,75.12}}},331},
+    [2867] = {"Excavation Supply Crate",nil,nil,{[3]={{66.6,22}}},3}, -- position was slightly off
+    [154357] = {"Glinting Mud",nil,nil,{[44]={{38.04,54.49},{19.16,51.74},{34.13,53.37},{29.52,53.72},{21.79,53.17},},},44,},
+}
+
+-- [item ID] = {"name",{objective of},{dropped by},{contained in/gathered from/mined from}}
+QuestieCorrections.itemFixes = {
+    [5475] = {"Wooden Key",{},{3919,3834},{}},
+    [5519] = {"Iron Pommel",{1027},{3928},{}},
+    [4611] = {"Blue Pearl",{705},{},{2744}},
+    [3340] = {"Incendicite Ore",{466},{},{1610,1667}},
+    [4483] = {"Burning Key",{651},{},{2689}},
+    [3829] = {"Frost Oil",{713,1193},{},{}},
+    [15843] = {"Filled Dreadmist Peak Sampler",{6127},{},{19464}},
+    [15845] = {"Filled Cliffspring Falls Sampler",{6122},{},{19463}},
+    [17124] = {"Syndicate Emblem",{},{2246,2590,2240,2586,2589,2587,2588,2242,2241,2319,2261,2244,2260},{}},
+    [8072] = {"Silixiz's Tower Key",{},{7287},{}},
+    [7923] = {"Defias Tower Key",{2359},{7051},{}},
+    [7675] = {"Defias Shipping Schedule",{},{6846},{}},
+    [7737] = {"Sethir's Journal",{},{6909},{}},
+    [7208] = {"Tazan's Key",{},{6466},{}},
+    [12347] = {"Filled Cleansing Bowl",{},{},{174795}},
+    [2886] = {"Crag Boar Rib",{384},{1125,1126,1127,1689},{}},
+    [5051] = {"Dig Rat",{862},{3444},{}},
+}
+
+-- some quest items are shared across factions but require different sources for each faction (not sure if there is a better way to implement this)
+QuestieCorrections.itemFixesHorde = {
+    [15882]={"Half Pendant of Aquatic Endurance",{30,272},{},{177790}},
+    [15883]={"Half Pendant of Aquatic Agility",{30,272},{},{177794}},
+}
+
+QuestieCorrections.itemFixesAlliance = {
+    [15882]={"Half Pendant of Aquatic Endurance",{30,272},{},{177844}},
+    [15883]={"Half Pendant of Aquatic Agility",{30,272},{},{177792}},
+}
+
+if UnitFactionGroup("Player") == "Horde" then
+    for index, fix in pairs(QuestieCorrections.itemFixesHorde) do
+        QuestieCorrections.itemFixes[index] = fix
+    end
+else
+    for index, fix in pairs(QuestieCorrections.itemFixesAlliance) do
+        QuestieCorrections.itemFixes[index] = fix
+    end
+end
+
+QuestieCorrections.questRequirementFixes = {
     [46] = {39},
     [3903] = {18},
     [33] = {783},
@@ -10,7 +85,7 @@ questRequirementFixes = {
     [926] = {809} -- #606
 }
 
-questExclusiveGroupFixes = {
+QuestieCorrections.questExclusiveGroupFixes = {
     [463] = {276}, --greenwarden cant be completed if you have trampling paws
     [415] = {413}, --cant complete rejolds new brew if you do shimmer stout (see issue 567)
     [1339] = {1338}, -- mountaineer stormpike's task cant be done if you have finished stormpike's order
@@ -23,19 +98,24 @@ questExclusiveGroupFixes = {
     [428] = {429}, -- lost deathstalkers breadcrumb
     [308] = {311}, -- distracting jarven can't be completed once you get the followup
     -- Tome of Divinity starting quests for dwarfs
+    [1645] = {1646,2997,2999,3000},
     [1646] = {2997,2999,3000},
     [2997] = {1646,2999,3000},
     [2999] = {1646,2997,3000},
     [3000] = {1646,2997,2999},
     -- Tome of Divinity starting quests for humans
+    [1641] = {1642,2998,3861},
     [1642] = {2998,3861},
     [2998] = {1642,3861},
     [3861] = {1642,2998},
     [431] = {411}, -- candles of beckoning
-    [410] = {411} -- the dormant shade
+    [410] = {411}, -- the dormant shade
+    -- Voidwalker questline for horde
+    [1473] = {1501},
+    [1501] = {1473},
 }
 
-questItemBlacklist = {
+QuestieCorrections.questItemBlacklist = {
     [2589] = true, -- linen cloth
     [2592] = true, -- wool cloth
     [4306] = true, -- silk cloth
@@ -120,41 +200,20 @@ questItemBlacklist = {
     [16653]=true,
 
 
-    [12207]=true -- giant egg
-
+    [12207]=true, -- giant egg
+    [8932]=true, -- Alterac Swiss
 }
 
-questObjectFixes = {
-    [92423] = {"Damaged Chest",nil,nil,{[400]={{43.4, 32.7}},[17]={{49.02,96.77}}},400},
-    [167] = {"Abercrombie's Crate",nil,nil,{[10]={{33.42,76.35}}},10},
-    [19021] = {"Rusty Chest",nil,nil,{[331]={{69.04,84.77},{77.03,73.8},{79.08,74.48},{70.53,73.58},{70.68,85.06},{69.29,82.67},{71.29,83.83},{77.97,65.82},{77.38,69.77},{77.06,68.3},{69.87,74.11},{78.3,73.6},{76.22,67.48},{76.62,70.67},{76.77,72.19},{78.31,69.73},{68.24,77.68},{77.68,72.63},{74.77,69.6},{78.26,64.58},{70.72,75.24},{74.23,69.47},{74.36,70.21},{75.88,73.52},{75.87,69.99},{69.89,85.32},{74.34,77.92},{70.1,76.08},{74.58,77.19},{74.67,75.39},{76.67,68.46},{68.94,84.86},{74.41,73.38},{74.46,75.56},{73.09,73.23},{71.04,73.8},{71.45,76.97},{73.68,76.95},{72.63,76.86},{70.77,75.99},{72.51,75.12}}},331},
-    [2867] = {"Excavation Supply Crate",nil,nil,{[3]={{66.6,22}}},3}, -- position was slightly off
-    [154357] = {"Glinting Mud",nil,nil,{[44]={{38.04,54.49},{19.16,51.74},{34.13,53.37},{29.52,53.72},{21.79,53.17},},},44,},
-}
-
-questMobFixes = {
-    [300] = {'Zzarc\' Vul',1050,1050,33,33,0,{[10]={{38,80},},},nil,10,nil,nil},
-    [5082] = {'Vincent Hyal',1605,1605,30,30,0,{[11]={{10.8,60.4}}},nil,11,{1302},{1301}},
-    [4360] = {'Mirefin Warrior',1208,1257,37,39,0,{},nil,15,nil,nil}, -- TODO: remove this after the db is fixed!!! This is just to fix tooltips
-    [11876] = {'Demon Spirit',1743,1743,37,37,0,{[405]={{55.00,26.60},},},nil,405,nil,nil,92,nil,},
-}
-
-questItemFixes = {
-    [5475] = {"Wooden Key",{},{3919,3834},{}},
-    [5519] = {"Iron Pommel",{1027},{3928},{}},
-    [4611] = {"Blue Pearl",{705},{},{2744}},
-    [3340] = {"Incendicite Ore",{466},{},{1610,1667}},
-    [4483] = {"Burning Key",{651},{},{2689}},
-    [3829] = {"Frost Oil",{713,1193},{},{}}
-}
 --hack
-for k,v in pairs(questItemFixes) do CHANGEME_Questie4_ItemDB[k]=v; end
+for k,v in pairs(QuestieCorrections.itemFixes) do CHANGEME_Questie4_ItemDB[k]=v; end
 
-questHiddenFixes = {
+QuestieCorrections.questHiddenFixes = {
     [1026] = {5475} -- wooden key
 }
 
-qHide = {
+QuestieCorrections.hiddenQuests = {
+  [1878] = true, -- Repeatable version of 1707 - Fixing #775
+  [2281] = true, -- Repeatable version of 2280
   --Stray quests
   [3861] = true, --CLUCK!
   --World event quests
@@ -541,6 +600,7 @@ qHide = {
   [8759] = true,
   [8760] = true,
   --Profession quests
+  [769] = true,
   [768] = true,
   [7652] = true,
   [2771] = true,

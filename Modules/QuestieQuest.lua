@@ -35,15 +35,12 @@ function QuestieQuest:ToggleNotes(desiredValue)
         for questId, framelist in pairs(qQuestIdFrames) do
             for index, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
                 local icon = _G[frameName];
-                if icon ~= nil and icon.hidden then
-                    icon.hidden = false
-                    icon.Show = icon._show;
-                    icon.Hide = icon._hide;
-                    icon._show = nil
-                    icon._hide = nil
-                    if icon.shouldBeShowing then
-                        icon:Show();
-                    end
+                if icon ~= nil and icon.hidden and not ((((not Questie.db.global.enableObjectives) and (icon.data.Type == "monster" or icon.data.Type == "object" or icon.data.Type == "event" or icon.data.Type == "item"))
+                 or ((not Questie.db.global.enableTurnins) and icon.data.Type == "complete")
+                 or ((not Questie.db.global.enableAvailable) and icon.data.Type == "available"))
+                 or ((not Questie.db.global.enableMapIcons) and (not icon.miniMapIcon))
+                 or ((not Questie.db.global.enableMiniMapIcons) and (icon.miniMapIcon))) then
+                    icon:FakeUnhide()
                 end
             end
         end
@@ -53,17 +50,7 @@ function QuestieQuest:ToggleNotes(desiredValue)
             for index, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
                 local icon = _G[frameName];
                 if icon ~= nil and icon.IsShown ~= nil and (not icon.hidden) then -- check for function to make sure its a frame
-                    icon.shouldBeShowing = icon:IsShown();
-                    icon._show = icon.Show;
-                    icon.Show = function()
-                        icon.shouldBeShowing = true;
-                    end
-                    icon:Hide();
-                    icon._hide = icon.Hide;
-                    icon.Hide = function()
-                        icon.shouldBeShowing = false;
-                    end
-                    icon.hidden = true
+                    icon:FakeHide()
                 end
             end
         end
@@ -71,6 +58,92 @@ function QuestieQuest:ToggleNotes(desiredValue)
     QuestieQuest.NotesHidden = not QuestieQuest.NotesHidden
     Questie.db.char.enabled = not QuestieQuest.NotesHidden
 end
+
+
+function QuestieQuest:ClearAllNotes()
+    for quest in pairs (qCurrentQuestlog) do
+        local Quest = QuestieDB:GetQuest(quest)
+        
+        -- Clear user-specifc data from quest object (maybe we should refactor into Quest.session.* so we can do Quest.session = nil to reset easier
+        Quest.AlreadySpawned = nil 
+        Quest.Objectives = nil
+        Quest.SpecialObjectives = nil
+    end
+    
+    for questId, framelist in pairs(qQuestIdFrames) do
+        for index, frameName in ipairs(framelist) do
+            local icon = _G[frameName]
+            if icon and icon.Unload then 
+                icon:Unload()
+            end
+        end
+    end
+    qQuestIdFrames = {}
+    QuestieMap.MapCache_ClutterFix = {}
+end
+
+function QuestieQuest:AddAllNotes()
+    qAvailableQuests = {} -- reset available quest db
+    
+    -- draw available quests
+    QuestieQuest:GetAllQuestIdsNoObjectives()
+    QuestieQuest:CalculateAvailableQuests()
+    QuestieQuest:DrawAllAvailableQuests()
+    
+    -- draw quests
+    for quest in pairs (qCurrentQuestlog) do
+        QuestieQuest:UpdateQuest(quest)
+    end
+end
+
+function QuestieQuest:Reset()
+    -- clear all notes
+    QuestieQuest:ClearAllNotes()
+    
+    -- reset quest log and tooltips
+    qCurrentQuestlog = {}
+    QuestieTooltips.tooltipLookup = {}
+    
+    -- make sure complete db is correct
+    Questie.db.char.complete = GetQuestsCompleted()
+    
+    QuestieQuest:AddAllNotes()
+end
+
+function QuestieQuest:SmoothReset() -- use timers to reset progressively instead of all at once
+    -- bit of a hack (there has to be a better way to do logic like this
+    local stepTable = {
+        QuestieQuest.ClearAllNotes,
+        function()
+            -- reset quest log and tooltips
+            qCurrentQuestlog = {}
+            QuestieTooltips.tooltipLookup = {}
+            
+            -- make sure complete db is correct
+            Questie.db.char.complete = GetQuestsCompleted()
+            qAvailableQuests = {} -- reset available quest db
+    
+            -- draw available quests
+            QuestieQuest:GetAllQuestIdsNoObjectives()
+        end, 
+        QuestieQuest.CalculateAvailableQuests,
+        QuestieQuest.DrawAllAvailableQuests,
+        function()
+            -- bit of a hack here too
+            local mod = 0
+            for quest in pairs (qCurrentQuestlog) do
+                C_Timer.After(mod, function() QuestieQuest:UpdateQuest(quest) end)
+                mod = mod + 0.3
+            end
+        end
+    }
+    local step = 1
+    C_Timer.NewTicker(0.1, function() 
+        stepTable[step]()
+        step = step + 1
+    end, 5)
+end
+
 
 function QuestieQuest:UpdateHiddenNotes()
     QuestieQuest:GetAllQuestIds() -- add notes that weren't added from previous hidden state
@@ -82,33 +155,14 @@ function QuestieQuest:UpdateHiddenNotes()
         for index, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
             local icon = _G[frameName];
             if icon ~= nil and icon.data then
-                if (((not Questie.db.global.enableObjectives) and (icon.data.Type == "monster" or icon.data.Type == "object" or icon.data.Type == "event" or icon.data.Type == "item"))
+                if (QuestieQuest.NotesHidden or (((not Questie.db.global.enableObjectives) and (icon.data.Type == "monster" or icon.data.Type == "object" or icon.data.Type == "event" or icon.data.Type == "item"))
                  or ((not Questie.db.global.enableTurnins) and icon.data.Type == "complete")
                  or ((not Questie.db.global.enableAvailable) and icon.data.Type == "available"))
                  or ((not Questie.db.global.enableMapIcons) and (not icon.miniMapIcon))
-                 or ((not Questie.db.global.enableMiniMapIcons) and (icon.miniMapIcon)) then
-                    icon.shouldBeShowing = false
-                    icon._show = icon.Show;
-                    icon.Show = function()
-                    end
-                    icon._hidden_toggle_hack_state = icon:IsShown()
-                    icon:Hide();
-                    icon._hide = icon.Hide;
-                    icon.Hide = function()
-                    end
-                    icon.hidden = true
-                    icon._hidden_toggle_hack = true -- todo: this wont be used once UpdateHiddenNotes is rewritten to just refresh all notes
-                elseif icon._hidden_toggle_hack then -- icon was previously hidden but is no longer toggled off
-                    icon.hidden = false
-                    icon._hidden_toggle_hack = nil
-                    icon.Show = icon._show;
-                    icon.Hide = icon._hide;
-                    icon._show = nil
-                    icon._hide = nil
-                    if icon._hidden_toggle_hack_state then
-                        icon:Show();
-                    end
-                    icon._hidden_toggle_hack_state = nil
+                 or ((not Questie.db.global.enableMiniMapIcons) and (icon.miniMapIcon))) then
+                    icon:FakeHide()
+                else
+                    icon:FakeUnhide()
                 end
             end
         end
@@ -232,6 +286,15 @@ function QuestieQuest:AcceptQuest(questId)
     end
 
 
+    for k,v in pairs(qAvailableQuests) do
+        if not _QuestieQuest:IsDoable(QuestieDB:GetQuest(k)) then
+            QuestieMap:UnloadQuestFrames(k); 
+        end
+    end
+    
+    QuestieQuest:CalculateAvailableQuests()
+    QuestieQuest:DrawAllAvailableQuests()
+    
     --TODO: Insert call to drawing objective logic here!
     --QuestieQuest:TrackQuest(questId);
 
@@ -266,7 +329,16 @@ function QuestieQuest:AbandonedQuest(QuestId)
         quest.Objectives = nil;
         quest.AlreadySpawned = nil; -- temporary fix for "special objectives" remove later
         --The old data for notes are still there, we don't need to recalulate data.
-        _QuestieQuest:DrawAvailableQuest(quest)
+        --_QuestieQuest:DrawAvailableQuest(quest)
+        
+        -- yes we do, since abandoning can unlock more than 1 quest, or remove unlocked quests
+        for k,v in pairs(qAvailableQuests) do
+            if not _QuestieQuest:IsDoable(QuestieDB:GetQuest(k)) then
+                QuestieMap:UnloadQuestFrames(k); 
+            end
+        end
+        QuestieQuest:CalculateAvailableQuests()
+        QuestieQuest:DrawAllAvailableQuests()
 
         Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ABANDON_QUEST', QuestId));
     end
@@ -278,6 +350,7 @@ function QuestieQuest:UpdateQuest(QuestId)
         QuestieQuest:PopulateQuestLogInfo(quest)
         QuestieQuest:GetAllQuestObjectives(quest) -- update quest log values in quest object
         QuestieQuest:UpdateObjectiveNotes(quest)
+        QuestieTracker:Update()
         if QuestieQuest:IsComplete(quest) then
             --DEFAULT_CHAT_FRAME:AddMessage("Finished " .. QuestId);
             QuestieMap:UnloadQuestFrames(QuestId);
@@ -311,6 +384,7 @@ function QuestieQuest:GetAllQuestIds()
             Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ADD_QUEST', questId, qCurrentQuestlog[questId]));
         end
     end
+    QuestieTracker:Update()
 end
 
 function QuestieQuest:GetAllQuestIdsNoObjectives()
@@ -545,8 +619,39 @@ ObjectiveSpawnListCallTable = {
     end
 }
 
-function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockItemTooltips) -- must be pcalled
+-- this is for forcing specific things on to the map (That aren't quest related)
+-- label and customScale can be nil
+function QuestieQuest:ForceToMap(type, id, label, customScale)
+    if ObjectiveSpawnListCallTable[type] and type ~= "event" then
+        local mapRefs = {}
+        local miniRefs = {}
+        --local spawnData = ObjectiveSpawnListCallTable[type](id)[id]
+        for id, spawnData in pairs(ObjectiveSpawnListCallTable[type](id)) do
+            spawnData.Type = type
+            spawnData.CustomTooltipData = {}
+            spawnData.CustomTooltipData.Title = label or "Forced Icon"
+            spawnData.CustomTooltipData.Body = {[spawnData.Name]=spawnData.Name}
+            if customScale then
+                spawnData.GetIconScale = function(self)
+                    return customScale
+                end
+                spawnData.IconScale = customScale
+            end
+            for zone, spawns in pairs(spawnData.Spawns) do
+                for _, spawn in pairs(spawns) do
+                    iconMap, iconMini = QuestieMap:DrawWorldIcon(spawnData, zone, spawn[1], spawn[2])
+                    if iconMap and iconMini then
+                        table.insert(mapRefs, iconMap);
+                        table.insert(miniRefs, iconMini);
+                    end
+                end
+            end
+        end
+        return mapRefs, miniRefs
+    end
+end
 
+function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockItemTooltips) -- must be pcalled
     if not Objective.AlreadySpawned then
         Objective.AlreadySpawned = {};
     end
@@ -1117,7 +1222,7 @@ function QuestieQuest:CalculateAvailableQuests()
         local QuestID = i;
         --Check if we've already completed the quest and that it is not "manually" hidden and that the quest is not currently in the questlog.
 
-        if(not Questie.db.char.complete[QuestID] and not qHide[QuestID] and not qCurrentQuestlog[QuestID]) then --Should be not qCurrentQuestlog[QuestID]
+        if((not Questie.db.char.complete[QuestID]) and (not QuestieCorrections.hiddenQuests[QuestID]) and (not qCurrentQuestlog[QuestID])) then --Should be not qCurrentQuestlog[QuestID]
             local Quest = QuestieDB:GetQuest(QuestID);
             if (Quest.Level > MinLevel or Questie.db.char.lowlevel) and Quest.Level < MaxLevel and Quest.MinLevel <= PlayerLevel then
                 if _QuestieQuest:IsDoable(Quest) then

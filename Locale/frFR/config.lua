@@ -122,17 +122,19 @@ QuestieLocale.locale['frFR'] = {
     ['QUESTIE_DEV_MESSAGE'] = "Questie est en cours de développement pour World of Warcraft: Classic. Veuillez consulter GitHub pour connaître les dernières versions alpha ou signaler des problèmes. Ou rejoignez nous sur notre discord! (( https://github.com/AeroScripts/QuestieDev/ )) ",
 
 
-	-- Éléments d'interface utilisateur
+-- Éléments d'interface utilisateur
 	['QUESTIE_MAP_BUTTON_SHOW'] = "Afficher Questie",
     ['QUESTIE_MAP_BUTTON_HIDE'] = "Masquer Questie",
     ['ICON_LEFT_CLICK'] = "Clic Gauche",
     ['ICON_TOGGLE'] = "Options de bascule",
     ['ICON_SHIFTLEFT_CLICK'] = "Maj + Clic Gauche",
     ['ICON_TOGGLE_QUESTIE'] = "Basculer la Questie",
-    ['ICON_CTRLRIGHT_CLICK'] = "Ctrl + Clic droit",
+    ['ICON_CTRLRIGHT_CLICK'] = "Ctrl + Clic Droit",
+	['ICON_CTRLLEFT_CLICK'] = "Ctrl + Clic Gauche",
     ['ICON_HIDE'] = "Bouton Masquer la mini-carte",
     ['ICON_RIGHT_CLICK'] = "Clic Droit",
     ['ICON_JOURNEY'] = "Basculer mon voyage",
+	['ICON_RELOAD'] = "Recharger Questie",
     ['CONFIRM_HIDE_QUEST'] = "Êtes-vous sûr de vouloir masquer la quête \"%s\"?\n Si cette quête n'est pas réellement disponible, merci de nous la signaler!",
 
 

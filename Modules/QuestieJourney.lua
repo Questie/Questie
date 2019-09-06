@@ -43,7 +43,11 @@ local function splitJourneyByDate()
             dateTable[year][month] = {};
         end
 
-        table.insert(dateTable[year][month], v);
+        local e = {};
+        e.idx = i;
+        e.value = v;
+
+        table.insert(dateTable[year][month], e);
     end
 
     -- now take those sorted dates and create a tree table
@@ -62,7 +66,10 @@ local function splitJourneyByDate()
                 children = {},
             };
 
-            for idx, entry in pairs(dateTable[i][mon]) do
+            for idx, e in pairs(dateTable[i][mon]) do
+
+                entry = e.value;
+
 
                 local entryText = '';
                 if entry.Event == "Level" then
@@ -80,14 +87,17 @@ local function splitJourneyByDate()
                     else
                         state = "ERROR!!";
                     end
-
-                    local qName = QuestieDB:GetQuest(entry.Quest).Name;
-                    entryText = QuestieLocale:GetUIString('JOURNEY_TABLE_QUEST', state, qName);
+                    local quest = QuestieDB:GetQuest(entry.Quest)
+                    if quest then
+                        local qName = quest.Name;
+                        entryText = QuestieLocale:GetUIString('JOURNEY_TABLE_QUEST', state, qName);
+                    else
+                        entryText = QuestieLocale:GetUIString('JOURNEY_MISSING_QUEST');
+                    end
                 end
 
-
                 local entryView = {
-                    value = idx,
+                    value = e.idx,
                     text = entryText,
                 };
 
@@ -265,14 +275,16 @@ local function DrawJourneyTab(container)
         -- if it's a quest event
         if Questie.db.char.journey[i].Event == "Quest" then
             local quest = QuestieDB:GetQuest(Questie.db.char.journey[i].Quest);
-            local qName = Questie:Colorize(quest.Name, 'gray');
+            if quest then
+                local qName = Questie:Colorize(quest.Name, 'gray');
 
-            if Questie.db.char.journey[i].SubType == "Accept" then
-                recentEvents[i]:SetText( timestamp .. Questie:Colorize( QuestieLocale:GetUIString('JOURNEY_QUEST_ACCEPT', qName) , 'yellow')  );
-            elseif Questie.db.char.journey[i].SubType == "Abandon" then
-                recentEvents[i]:SetText( timestamp .. Questie:Colorize( QuestieLocale:GetUIString('JOURNEY_QUEST_ABANDON', qName) , 'yellow')  );
-            elseif Questie.db.char.journey[i].SubType == "Complete" then
-                recentEvents[i]:SetText( timestamp .. Questie:Colorize( QuestieLocale:GetUIString('JOURNEY_QUEST_COMPLETE', qName) , 'yellow')  );
+                if Questie.db.char.journey[i].SubType == "Accept" then
+                    recentEvents[i]:SetText( timestamp .. Questie:Colorize( QuestieLocale:GetUIString('JOURNEY_QUEST_ACCEPT', qName) , 'yellow')  );
+                elseif Questie.db.char.journey[i].SubType == "Abandon" then
+                    recentEvents[i]:SetText( timestamp .. Questie:Colorize( QuestieLocale:GetUIString('JOURNEY_QUEST_ABANDON', qName) , 'yellow')  );
+                elseif Questie.db.char.journey[i].SubType == "Complete" then
+                    recentEvents[i]:SetText( timestamp .. Questie:Colorize( QuestieLocale:GetUIString('JOURNEY_QUEST_COMPLETE', qName) , 'yellow')  );
+                end
             end
         elseif Questie.db.char.journey[i].Event == "Level" then
             local level = Questie:Colorize(QuestieLocale:GetUIString('JOURNEY_LEVELNUM', Questie.db.char.journey[i].NewLevel), 'gray');
@@ -456,7 +468,7 @@ local zoneTable = {
         [51] = "Searing Gorge",
         [130] = "Silverpine Forest",
         [1519] = "Stormwind City",
-        [33] = "Strangelthorn Vale",
+        [33] = "Stranglethorn Vale",
         [8] = "Swamp of Sorrows",
         [47] = "The Hinterlands",
         [85] = "Tirisfal Glade",
@@ -553,8 +565,12 @@ function createObjectiveText(desc)
     local objText = "";
 
     if desc then
-        for i, v in ipairs(desc) do
-            objText = objText .. v .. "\n";
+        if type(desc) == "table" then
+            for i, v in ipairs(desc) do
+                objText = objText .. v .. "\n";
+            end
+        else
+            objText = objText .. tostring(desc) .. "\n"
         end
     else
         objText = Questie:Colorize(QuestieLocale:GetUIString('JOURNEY_AUTO_QUEST'), 'yellow');
@@ -1150,10 +1166,10 @@ function CollectZoneQuests(container, zoneid)
         if not Questie.db.char.complete[qid] and not q.Hidden then
 
             -- see if it's supposed to be a hidden quest
-            if qHide and not qHide[qid] then
+            if QuestieCorrections.hiddenQuests and not QuestieCorrections.hiddenQuests[qid] then
 
                 -- remove any breadcrumb quests too
-                if questExclusiveGroupFixes and not questExclusiveGroupFixes[qid] then
+                if QuestieCorrections.questExclusiveGroupFixes and not QuestieCorrections.questExclusiveGroupFixes[qid] then
                     temp.value = qid;
                     temp.text = q:GetColoredQuestName();
                     table.insert(zoneTree[1].children, temp);
