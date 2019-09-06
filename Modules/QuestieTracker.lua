@@ -88,7 +88,7 @@ function QuestieTracker:Initialize()
         frm:SetScript("OnDragStart", function(self, button)
             if button == "RightButton" then
 
-            elseif IsControlKeyDown() and IsShiftKeyDown() then
+            elseif IsControlKeyDown() then
                 _QuestieTracker.baseFrame:StartMoving()
             else
                 if not IsMouselooking() then-- this is a HORRIBLE solution, why does MouselookStart have to break OnMouseUp (is there a MOUSE_RELEASED event that always fires?)
@@ -222,7 +222,7 @@ function QuestieTracker:CreateBaseFrame()
     frm:RegisterForDrag("LeftButton")
     
     frm:SetScript("OnDragStart", function(self, button)
-        if IsControlKeyDown() and IsShiftKeyDown() then
+        if IsControlKeyDown() then
             _QuestieTracker.baseFrame:StartMoving()
         else
             if not IsMouselooking() then
