@@ -139,11 +139,7 @@ function QuestieTracker:Initialize()
             frm:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerBackgroundPadding, -trackerBackgroundPadding)
         end
         frm:SetWidth(1)
-        if math.random() > 0.5 then
-            frm:SetMode("header")
-        else
-            frm:SetMode("line")
-        end
+        frm:SetMode("header")
         --frm:Show()
         _QuestieTracker.LineFrames[i] = frm
         lastFrame = frm
