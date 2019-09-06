@@ -45,6 +45,27 @@ QuestieCorrections.itemFixes = {
     [2886] = {"Crag Boar Rib",{384},{1125,1126,1127,1689},{}},
 }
 
+-- some quest items are shared across factions but require different sources for each faction (not sure if there is a better way to implement this)
+QuestieCorrections.itemFixesHorde = {
+    [15882]={"Half Pendant of Aquatic Endurance",{30,272},{},{177790}},
+    [15883]={"Half Pendant of Aquatic Agility",{30,272},{},{177794}},
+}
+
+QuestieCorrections.itemFixesAlliance = {
+    [15882]={"Half Pendant of Aquatic Endurance",{30,272},{},{177844}},
+    [15883]={"Half Pendant of Aquatic Agility",{30,272},{},{177792}},
+}
+
+if UnitFactionGroup("Player") == "Horde" then
+    for index, fix in pairs(QuestieCorrections.itemFixesHorde) do
+        QuestieCorrections.itemFixes[index] = fix
+    end
+else
+    for index, fix in pairs(QuestieCorrections.itemFixesAlliance) do
+        QuestieCorrections.itemFixes[index] = fix
+    end
+end
+
 QuestieCorrections.questRequirementFixes = {
     [46] = {39},
     [3903] = {18},
