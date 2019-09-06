@@ -494,8 +494,13 @@ function _QuestieFramePool:Questie_Tooltip(self)
                     self:AddDoubleLine("   " .. v2.title, v2.type);
                 end
                 if v2.subData and shift then
-                    for _,line in pairs(v2.subData) do
-                        self:AddLine("      |cFFDDDDDD" .. line);
+                    local dataType = type(v2.subData)
+                    if dataType == "table" then
+                        for _,line in pairs(v2.subData) do
+                            self:AddLine("      |cFFDDDDDD" .. line);
+                        end
+                    elseif dataType == "string" then
+                        self:AddLine("      |cFFDDDDDD" .. v2.subData);
                     end
                 end
             end
@@ -510,10 +515,13 @@ function _QuestieFramePool:Questie_Tooltip(self)
             end
             if shift then
                 for k2, v2 in pairs(v) do
-                    if type(v2) == "table" then
+                    local dataType = type(v2)
+                    if dataType == "table" then
                         for k3 in pairs(v2) do
                             self:AddLine("   |cFFDDDDDD" .. k3);
                         end
+                    elseif dataType == "string" then
+                        self:AddLine("   |cFFDDDDDD" .. v2);
                     end
                     self:AddLine("      |cFF33FF33" .. k2);
                 end
