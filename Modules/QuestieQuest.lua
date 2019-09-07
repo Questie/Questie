@@ -813,7 +813,7 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
         for _, objective in pairs(Quest.SpecialObjectives) do
             result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, Quest, 0, objective, true);
             if not result then
-                Questie:Error("[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_POPULATE_ERR', Quest.Name or "No quest name", Quest.Id or "No quest id", k or "No objective", err or "No error"));
+                Questie:Error("[QuestieQuest]: [SpecialObjectives] ".. QuestieLocale:GetUIString('DEBUG_POPULATE_ERR', Quest.Name or "No quest name", Quest.Id or "No quest id", k or "No objective", err or "No error"));
             end
         end
     end
@@ -941,7 +941,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
     -- hack to remove misdetected unlisted (when qlog returns bad data for objective text on first try)
     local checkTime = GetTime();
     if Quest.HiddenObjectiveData then
-        for _, objective in pairs(Quest.HiddenObjectiveData) do
+        for index, objective in pairs(Quest.HiddenObjectiveData) do
             if not objective.ObjectiveRef then -- there was no qlog objective detected for this DB objective
                 -- hack
                 if not Quest.SpecialObjectives then
@@ -969,6 +969,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                     objective.QuestId = Quest.Id
                     objective.Update = function() end
                     objective.checkTime = checkTime
+                    objective.Index = 64 + index -- offset to not conflict with real objectives
                     Quest.SpecialObjectives[objective.Description] = objective
                 end
                 --table.insert(Quest.SpecialObjectives, objective);
