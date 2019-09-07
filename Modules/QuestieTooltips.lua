@@ -85,9 +85,7 @@ function QuestieTooltips:GetTooltip(key)
     local tip = {};
     for k, tooltip in pairs(QuestieTooltips.tooltipLookup[key]) do
         tooltip.Objective:Update() -- update progress
-        -- we need Objective:IsComplete()
-        local complete = tooltip.Objective.Completed
-        if complete and tostring(key):sub(1, #"i_") ~= "i_" then -- BAD CODE: dont remove complete item tooltips
+        if not qCurrentQuestlog[tooltip.Objective.QuestData.Id] then 
             QuestieTooltips.tooltipLookup[key][k] = nil
         else
             table.insert(tip, tooltip.Objective.QuestData:GetColoredQuestName());
