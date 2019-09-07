@@ -57,6 +57,16 @@ QuestieCorrections.itemFixes = {
     [5056] = {"Root Sample",{866},{},{1619,3726,1618,3724,1620,3727}},
     [12349] = {"Cliffspring River Sample",{4762},{},{175371}},
     [12350] = {"Empty Sampling Tube",{4762},{},{}},
+    [5184] = {"Filled Crystal Phial",{921},{},{19549}},
+    [5185] = {"Crystal Phial",{921},{},{}},
+    [5186] = {"Partially Filled Vessel",{928},{},{}},
+    [5639] = {"Filled Jade Phial",{929},{},{19550}},
+    [5619] = {"Jade Phial",{929},{},{}},
+    [5645] = {"Filled Tourmaline Phial",{933},{},{19551}},
+    [5621] = {"Tourmaline Phial",{933},{},{}},
+    [18151] = {"Filled Amethyst Phial",{7383},{},{19552}},
+    [18152] = {"Amethyst Phial",{7383},{},{}},
+    [5188] = {"Filled Vessel",{935},{},{}},
 }
 
 -- some quest items are shared across factions but require different sources for each faction (not sure if there is a better way to implement this)
