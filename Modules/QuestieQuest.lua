@@ -63,17 +63,17 @@ end
 function QuestieQuest:ClearAllNotes()
     for quest in pairs (qCurrentQuestlog) do
         local Quest = QuestieDB:GetQuest(quest)
-        
+
         -- Clear user-specifc data from quest object (maybe we should refactor into Quest.session.* so we can do Quest.session = nil to reset easier
-        Quest.AlreadySpawned = nil 
+        Quest.AlreadySpawned = nil
         Quest.Objectives = nil
         Quest.SpecialObjectives = nil
     end
-    
+
     for questId, framelist in pairs(qQuestIdFrames) do
         for index, frameName in ipairs(framelist) do
             local icon = _G[frameName]
-            if icon and icon.Unload then 
+            if icon and icon.Unload then
                 icon:Unload()
             end
         end
@@ -84,12 +84,12 @@ end
 
 function QuestieQuest:AddAllNotes()
     qAvailableQuests = {} -- reset available quest db
-    
+
     -- draw available quests
     QuestieQuest:GetAllQuestIdsNoObjectives()
     QuestieQuest:CalculateAvailableQuests()
     QuestieQuest:DrawAllAvailableQuests()
-    
+
     -- draw quests
     for quest in pairs (qCurrentQuestlog) do
         QuestieQuest:UpdateQuest(quest)
@@ -99,14 +99,14 @@ end
 function QuestieQuest:Reset()
     -- clear all notes
     QuestieQuest:ClearAllNotes()
-    
+
     -- reset quest log and tooltips
     qCurrentQuestlog = {}
     QuestieTooltips.tooltipLookup = {}
-    
+
     -- make sure complete db is correct
     Questie.db.char.complete = GetQuestsCompleted()
-    
+
     QuestieQuest:AddAllNotes()
 end
 
@@ -118,14 +118,14 @@ function QuestieQuest:SmoothReset() -- use timers to reset progressively instead
             -- reset quest log and tooltips
             qCurrentQuestlog = {}
             QuestieTooltips.tooltipLookup = {}
-            
+
             -- make sure complete db is correct
             Questie.db.char.complete = GetQuestsCompleted()
             qAvailableQuests = {} -- reset available quest db
-    
+
             -- draw available quests
             QuestieQuest:GetAllQuestIdsNoObjectives()
-        end, 
+        end,
         QuestieQuest.CalculateAvailableQuests,
         QuestieQuest.DrawAllAvailableQuests,
         function()
@@ -138,7 +138,7 @@ function QuestieQuest:SmoothReset() -- use timers to reset progressively instead
         end
     }
     local step = 1
-    C_Timer.NewTicker(0.1, function() 
+    C_Timer.NewTicker(0.1, function()
         stepTable[step]()
         step = step + 1
     end, 5)
@@ -174,6 +174,12 @@ end
 function QuestieQuest:HideQuest(id)
     Questie.db.char.hidden[id] = true
     QuestieMap:UnloadQuestFrames(id);
+end
+
+function QuestieQuest:UnhideQuest(id)
+    Questie.db.char.hidden[id] = nil
+    QuestieQuest:CalculateAvailableQuests()
+    QuestieQuest:DrawAllAvailableQuests()
 end
 
 function QuestieQuest:GetRawLeaderBoardDetails(QuestLogIndex)
@@ -288,13 +294,13 @@ function QuestieQuest:AcceptQuest(questId)
 
     for k,v in pairs(qAvailableQuests) do
         if not _QuestieQuest:IsDoable(QuestieDB:GetQuest(k)) then
-            QuestieMap:UnloadQuestFrames(k); 
+            QuestieMap:UnloadQuestFrames(k);
         end
     end
-    
+
     QuestieQuest:CalculateAvailableQuests()
     QuestieQuest:DrawAllAvailableQuests()
-    
+
     --TODO: Insert call to drawing objective logic here!
     --QuestieQuest:TrackQuest(questId);
 
@@ -330,11 +336,11 @@ function QuestieQuest:AbandonedQuest(QuestId)
         quest.AlreadySpawned = nil; -- temporary fix for "special objectives" remove later
         --The old data for notes are still there, we don't need to recalulate data.
         --_QuestieQuest:DrawAvailableQuest(quest)
-        
+
         -- yes we do, since abandoning can unlock more than 1 quest, or remove unlocked quests
         for k,v in pairs(qAvailableQuests) do
             if not _QuestieQuest:IsDoable(QuestieDB:GetQuest(k)) then
-                QuestieMap:UnloadQuestFrames(k); 
+                QuestieMap:UnloadQuestFrames(k);
             end
         end
         QuestieQuest:CalculateAvailableQuests()
