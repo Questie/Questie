@@ -68,6 +68,7 @@ function QuestieTooltips:RegisterTooltip(questid, key, Objective)
         QuestieTooltips.tooltipLookup[key] = {};
     end
     local tooltip = {};
+	print("keyreg: " .. key .. " " .. Objective.Description)
     tooltip.QuestId = questid;
     tooltip.Objective = Objective
     --table.insert(QuestieTooltips.tooltipLookup[key], tooltip);
@@ -85,6 +86,8 @@ function QuestieTooltips:GetTooltip(key)
     local tip = {};
     for k, tooltip in pairs(QuestieTooltips.tooltipLookup[key]) do
         tooltip.Objective:Update() -- update progress
+		print(tooltip.Objective.Description)
+		
         if not qCurrentQuestlog[tooltip.Objective.QuestData.Id] then 
             QuestieTooltips.tooltipLookup[key][k] = nil
         else
@@ -104,7 +107,7 @@ function QuestieTooltips:RemoveQuest(questid)
         local stillHave = false
         for index, tooltip in pairs(v) do
             if tooltip.QuestId == questid then
-                table.remove(v, index);
+                v[index] = nil
             else
                 stillHave = true
             end
