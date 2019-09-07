@@ -1224,7 +1224,7 @@ function QuestieQuest:CalculateAvailableQuests()
 
         if((not Questie.db.char.complete[QuestID]) and (not QuestieCorrections.hiddenQuests[QuestID]) and (not qCurrentQuestlog[QuestID])) then --Should be not qCurrentQuestlog[QuestID]
             local Quest = QuestieDB:GetQuest(QuestID);
-            if (Quest.Level > MinLevel or Questie.db.char.lowlevel) and Quest.Level < MaxLevel and Quest.MinLevel <= PlayerLevel then
+            if (Quest.Level >= MinLevel or Questie.db.char.lowlevel) and Quest.Level <= MaxLevel and Quest.MinLevel <= PlayerLevel then
                 if _QuestieQuest:IsDoable(Quest) then
                     qAvailableQuests[QuestID] = QuestID
                 end
