@@ -102,13 +102,13 @@ QuestieCorrections.questExclusiveGroupFixes = {
     --[403] = {311}, -- completing the unguarded barrel quest prevents to do the optional guarded barrel prequest
     [428] = {429}, -- lost deathstalkers breadcrumb
     [308] = {311}, -- distracting jarven can't be completed once you get the followup
-    -- Tome of Divinity starting quests for dwarfs #742
+    -- Tome of Divinity starting quests for dwarfs #703
     [1645] = {1642,1646,2997,2998,2999,3000,3681}, -- This is repeatable giving an item starting 1646
     [1646] = {1642,2997,2998,2999,3000,3681},
     [2997] = {1642,1646,2998,2999,3000,3681},
     [2999] = {1642,1646,2997,2998,3000,3681},
     [3000] = {1642,1646,2997,2998,2999,3681},
-    -- Tome of Divinity starting quests for humans #742
+    -- Tome of Divinity starting quests for humans #703
     [1641] = {1642,1646,2997,2998,2999,3000,3861}, -- This is repeatable giving an item starting 1642
     [1642] = {1646,2997,2998,2999,3000,3861},
     [2998] = {1642,1646,2997,2998,3000,3861},
