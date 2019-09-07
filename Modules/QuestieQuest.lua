@@ -790,9 +790,7 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
     if not Quest then return; end
     if QuestieQuest:IsComplete(Quest) then
         QuestieQuest:AddFinisher(Quest)
-        return
     end
-
 
     if not Quest.Color then -- todo: move to a better place
         QuestieQuest:math_randomseed(Quest.Id)
