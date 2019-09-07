@@ -55,6 +55,8 @@ QuestieCorrections.itemFixes = {
     [2449] = {"Earthroot",{6123,6128},{},{1619,3726}},
     [2447] = {"Peacebloom",{8549,8550},{},{1618,3724}},
     [5056] = {"Root Sample",{866},{},{1619,3726,1618,3724,1620,3727}},
+    [12349] = {"Cliffspring River Sample",{4762},{},{175371}},
+    [12350] = {"Empty Sampling Tube",{4762},{},{}},
 }
 
 -- some quest items are shared across factions but require different sources for each faction (not sure if there is a better way to implement this)
