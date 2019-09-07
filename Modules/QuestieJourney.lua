@@ -5,7 +5,7 @@ local journeyFrame = {};
 local isWindowShown = false;
 local lastOpenWindow = "journey";
 local lastOpenSearch = "quest";
-containerCache = nil;
+local containerCache = nil;
 
 local function Spacer(container, size)
     local spacer = AceGUI:Create("Label");
@@ -1201,7 +1201,7 @@ function CollectZoneQuests(container, zoneid)
 end
 
 -- Draw search results from advanced search tab
-searchResultTabs = nil;
+local searchResultTabs = nil;
 function DrawSearchResultTab(searchGroup, searchType, query)
     if not searchResultTabs then
         searchGroup:ReleaseChildren();
@@ -1270,9 +1270,9 @@ function DrawSearchResultTab(searchGroup, searchType, query)
 end
 
 -- Advanced Search Tab
-typeDropdown = nil;
-searchBox = nil;
-searchGroup = nil;
+local typeDropdown = nil;
+local searchBox = nil;
+local searchGroup = nil;
 local function DrawSearchTab(container)
     -- Header
     local header = AceGUI:Create("Heading");
@@ -1570,7 +1570,7 @@ function journeySelectTabGroup(container, event, group)
     end
 end
 
-tabGroup = nil;
+local tabGroup = nil;
 function QuestieJourney:Initialize()
 
     journeyFrame.frame = AceGUI:Create("Frame");
