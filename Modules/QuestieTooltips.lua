@@ -71,7 +71,7 @@ function QuestieTooltips:RegisterTooltip(questid, key, Objective)
     tooltip.QuestId = questid;
     tooltip.Objective = Objective
     --table.insert(QuestieTooltips.tooltipLookup[key], tooltip);
-    QuestieTooltips.tooltipLookup[key][Objective.Index] = tooltip
+    QuestieTooltips.tooltipLookup[key][tostring(questid) .. " " .. Objective.Index] = tooltip
 end
 
 function QuestieTooltips:RemoveTooltip(key)
