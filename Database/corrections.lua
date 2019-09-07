@@ -113,6 +113,9 @@ QuestieCorrections.questExclusiveGroupFixes = {
     [1642] = {1646,2997,2998,2999,3000,3861},
     [2998] = {1642,1646,2997,2998,3000,3861},
     [3861] = {1642,1646,2997,2998,2999,3000},
+    -- Tome of Valor repeatable starting quests #742
+    [1793] = {1649},
+    [1794] = {1649},
     [431] = {411}, -- candles of beckoning
     [410] = {411}, -- the dormant shade
     -- Voidwalker questline for horde
