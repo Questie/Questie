@@ -220,7 +220,6 @@ QuestieCorrections.hiddenQuests = {
   [1878] = true, -- Repeatable version of 1707 - Fixing #775
   [2881] = true, -- Repeatable version of 2880
   [5663] = true, -- Touch of Weakness of Dark Cleric Beryl - Fixing #730
-  [6382] = true, -- The Ashenvalue Hunt of Jorn Skyseer
   --Stray quests
   [3861] = true, --CLUCK!
   --World event quests
