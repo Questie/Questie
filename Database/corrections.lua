@@ -51,17 +51,22 @@ QuestieCorrections.itemFixes = {
     [12347] = {"Filled Cleansing Bowl",{},{},{174795}},
     [2886] = {"Crag Boar Rib",{384},{1125,1126,1127,1689},{}},
     [5051] = {"Dig Rat",{862},{3444},{}},
+    [2449] = {"Earthroot",{6123,6128},{},{1619,3726}},
+    [2447] = {"Peacebloom",{8549,8550},{},{1618,3724}},
+    [5056] = {"Root Sample",{866},{},{1619,3726,1618,3724,1620,3727}},
 }
 
 -- some quest items are shared across factions but require different sources for each faction (not sure if there is a better way to implement this)
 QuestieCorrections.itemFixesHorde = {
     [15882]={"Half Pendant of Aquatic Endurance",{30,272},{},{177790}},
     [15883]={"Half Pendant of Aquatic Agility",{30,272},{},{177794}},
+    [3713]={"Soothing Spices",{},{2381,4897},{}},
 }
 
 QuestieCorrections.itemFixesAlliance = {
     [15882]={"Half Pendant of Aquatic Endurance",{30,272},{},{177844}},
     [15883]={"Half Pendant of Aquatic Agility",{30,272},{},{177792}},
+    [3713]={"Soothing Spices",{},{2397,8307},{}},
 }
 
 if UnitFactionGroup("Player") == "Horde" then

@@ -1515,12 +1515,8 @@ CHANGEME_Questie4_ItemDB={
 }
 
 -- fixes 
-CHANGEME_Questie4_ItemDB[5056]={"Root Sample",{866},{},{}} -- prevent root sample quest from adding all herb nodes
-CHANGEME_Questie4_ItemDB[2449]={"Earthroot",{6123,6128},{},{}} -- remove earthroot drop data just in case (570)
-CHANGEME_Questie4_ItemDB[2447]={"Peacebloom",{8549,8550},{},{}}
 
-if UnitFactionGroup("player") == "Alliance" then -- HACK!
-    CHANGEME_Questie4_ItemDB[3713]={"Soothing Spices",{},{2381,4897},{}} -- 3 quests use this item, add nearby vendor NPCs for these quests
-else
-    CHANGEME_Questie4_ItemDB[3713]={"Soothing Spices",{},{2397,8307},{}} -- 3 quests use this item, add nearby vendor NPCs for these quests
-end
+-- this is now handled by the higher level logic
+--CHANGEME_Questie4_ItemDB[5056]={"Root Sample",{866},{},{}} -- prevent root sample quest from adding all herb nodes
+--CHANGEME_Questie4_ItemDB[2449]={"Earthroot",{6123,6128},{},{}} -- remove earthroot drop data just in case (570)
+--CHANGEME_Questie4_ItemDB[2447]={"Peacebloom",{8549,8550},{},{}}

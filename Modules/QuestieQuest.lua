@@ -133,7 +133,7 @@ function QuestieQuest:SmoothReset() -- use timers to reset progressively instead
             local mod = 0
             for quest in pairs (qCurrentQuestlog) do
                 C_Timer.After(mod, function() QuestieQuest:UpdateQuest(quest) end)
-                mod = mod + 0.3
+                mod = mod + 0.2
             end
         end
     }
@@ -606,7 +606,7 @@ ObjectiveSpawnListCallTable = {
                                 ret[id].TooltipKey = sourceData.TooltipKey
                                 ret[id].Id = id
                             end
-                            if sourceData.Spawns then
+                            if sourceData.Spawns and not item.Hidden then
                                 for zone, spawns in pairs(sourceData.Spawns) do
                                     if not ret[id].Spawns[zone] then
                                         ret[id].Spawns[zone] = {};
@@ -670,7 +670,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
     if ObjectiveSpawnListCallTable[Objective.Type] and (not Objective.spawnList) then
         Objective.spawnList = ObjectiveSpawnListCallTable[Objective.Type](Objective.Id, Objective);
     end
-    local maxPerType = 100
+    local maxPerType = 200
     local maxPerObjectiveOutsideZone = 100
 
     Objective:Update() -- update qlog data
@@ -684,11 +684,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
     if (not Objective.registeredItemTooltips) and Objective.Type == "item" and (not BlockItemTooltips) and Objective.Id then -- register item tooltip (special case)
         local itm = QuestieDB:GetItem(Objective.Id);
         if itm and itm.Name then
-            if completed then
-                QuestieTooltips:RemoveTooltip("i_" .. itm.Name)
-            else
-                QuestieTooltips:RegisterTooltip(Quest.Id, "i_" .. itm.Name, Objective);
-            end
+            QuestieTooltips:RegisterTooltip(Quest.Id, "i_" .. itm.Name, Objective);
         end
         Objective.registeredItemTooltips = true
     end
@@ -704,15 +700,14 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
             if not Quest.AlreadySpawned[Objective.Type] then
                 Quest.AlreadySpawned[Objective.Type] = {};
             end
-
-            if (not Objective.AlreadySpawned[id]) and (not completed) and (not Quest.AlreadySpawned[Objective.Type][spawnData.Id]) then
-
-
+            if (not Objective.AlreadySpawned[id]) and (not Quest.AlreadySpawned[Objective.Type][spawnData.Id]) then
                 if not Objective.registeredTooltips and spawnData.TooltipKey and (not tooltipRegisterHack[spawnData.TooltipKey]) then -- register mob / item / object tooltips
                     QuestieTooltips:RegisterTooltip(Quest.Id, spawnData.TooltipKey, Objective);
                     tooltipRegisterHack[spawnData.TooltipKey] = true
                     hasTooltipHack = true
                 end
+            end
+            if (not Objective.AlreadySpawned[id]) and (not completed) and (not Quest.AlreadySpawned[Objective.Type][spawnData.Id]) then
                 if Questie.db.global.enableObjectives then
                     -- temporary fix for "special objectives" to not double-spawn (we need to fix the objective detection logic)
                     Quest.AlreadySpawned[Objective.Type][spawnData.Id] = true

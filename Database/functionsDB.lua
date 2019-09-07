@@ -116,19 +116,18 @@ function QuestieDB:GetItem(ItemID)
         item.Id = ItemID;
         item.Name = raw[1];
         item.Sources = {};
-        if not QuestieCorrections.questItemBlacklist[ItemID] then
-            for k,v in pairs(raw[3]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
-                local source = {};
-                source.Type = "monster";
-                source.Id = v;
-                table.insert(item.Sources, source);
-            end
-            for k,v in pairs(raw[4]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
-                local source = {};
-                source.Type = "object";
-                source.Id = v;
-                table.insert(item.Sources, source);
-            end
+        item.Hidden = QuestieCorrections.questItemBlacklist[ItemID]
+        for k,v in pairs(raw[3]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
+            local source = {};
+            source.Type = "monster";
+            source.Id = v;
+            table.insert(item.Sources, source);
+        end
+        for k,v in pairs(raw[4]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
+            local source = {};
+            source.Type = "object";
+            source.Id = v;
+            table.insert(item.Sources, source);
         end
     end
     QuestieDB._ItemCache[ItemID] = item;
@@ -603,7 +602,7 @@ function QuestieDB:deleteGatheringNodes()
         1731,1732,1733,1734,1735,123848,150082,175404,176643,177388,324,150079,176645,2040,123310 -- mining
     };
     for k,v in pairs(prune) do
-        QuestieDB.objectData[v] = nil
+        QuestieDB.objectData[v][DB_OBJ_SPAWNS] = nil
     end
 end
 
