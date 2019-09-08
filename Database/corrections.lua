@@ -73,6 +73,7 @@ QuestieCorrections.itemFixes = {
     [11188]={"Yellow Power Crystal",{4284,4381,4385,4386},{},{164661,164781}},
     -- add NPC 1988 (missing in cmangos) and object 152094 (present in cmangos)
     [10639]={"Hyacinth Mushroom",{3521},{1988,1989},{152094}},
+    [8846]={"Gromsblood",{4201},{},{142145,176637}},
 }
 
 -- some quest items are shared across factions but require different sources for each faction (not sure if there is a better way to implement this)
