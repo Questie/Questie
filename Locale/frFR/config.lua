@@ -228,7 +228,7 @@ QuestieLocale.locale['frFR'] = {
     ['DEBUG_DRAW'] = "% s quêtes disponibles dessinées. PlayerLevel = %s",
     ['DEBUG_UNLOAD_QFRAMES'] = "Déchargement des cadres de quête: %s",
     ['DEBUG_UNLOAD_ALL'] = "Déchargement de toutes les trames, compte: %s",
-
+		['QUESTIE_UPDATED_RESTART'] = "|cFFFF0000ATTENTION !|r Vous avez mis à jour Questie sans redémarrer le jeu, cela risque de poser problème. Veuillez redémarrer le jeu avant de continuer",	
 
 
 	-- Ajoute cas oublier
