@@ -683,6 +683,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                     data.QuestData = Quest
                     data.ObjectiveData = Objective
                     data.Icon = spawnData.Icon
+                    data.IconColor = Quest.Color
                     data.GetIconScale = function() return spawnData:GetIconScale() or 1 end
                     data.IconScale = data:GetIconScale()
                     data.Name = spawnData.Name
