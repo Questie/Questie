@@ -1468,7 +1468,7 @@ function LQuestie_ToggleDropDownMenu(level, value, dropDownFrame, anchorName, xO
 				point = gsub(point, "(.*)LEFT", "%1RIGHT");
 				relativePoint = gsub(relativePoint, "TOP(.*)", "BOTTOM%1");
 				relativePoint = gsub(relativePoint, "(.*)RIGHT", "%1LEFT");
-				xOffset = -11;
+				xOffset = 0;
 				yOffset = -14;
 			elseif ( offscreenY ) then
 				point = gsub(point, "TOP(.*)", "BOTTOM%1");
@@ -1478,7 +1478,7 @@ function LQuestie_ToggleDropDownMenu(level, value, dropDownFrame, anchorName, xO
 			elseif ( offscreenX ) then
 				point = gsub(point, "(.*)LEFT", "%1RIGHT");
 				relativePoint = gsub(relativePoint, "(.*)RIGHT", "%1LEFT");
-				xOffset = -11;
+				xOffset = 0;
 				yOffset = 14;
 			else
 				xOffset = 0;
