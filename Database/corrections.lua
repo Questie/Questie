@@ -601,6 +601,21 @@ QuestieCorrections.hiddenQuests = {
   [8918] = true,
   [8919] = true,
   [8920] = true,
+
+  -- plaguelands quests that arent in phase 1
+  [5403] = true,
+  [5407] = true,
+  [5509] = true,
+  [5510] = true,
+  [5408] = true,
+  [5402] = true,
+  [5401] = true,
+  [5405] = true,
+  [5503] = true,
+  [5404] = true,
+  [5508] = true,
+  [5406] = true,
+  
   --PvP Warsong Gulch. Slay alliance/ slay horde shown for both alliance and horde
   [8290] = true,
   [7788] = true,
