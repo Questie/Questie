@@ -177,6 +177,7 @@ function _QuestieTooltips:countTooltip()
             return tooltipcount
         end
     end
+    return tooltipcount
 end
 
 function QuestieTooltips:init()
