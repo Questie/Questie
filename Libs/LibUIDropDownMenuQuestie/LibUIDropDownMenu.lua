@@ -544,12 +544,8 @@ function LQuestie_UIDropDownMenuButtonInvisibleButton_OnLeave(self)
 end
 
 function LQuestie_UIDropDownMenuButton_OnEnter(self)
-	if ( self.hasArrow ) then
-		local level =  self:GetParent():GetID() + 1;
-		local listFrame = _G["LQuestie_DropDownList"..level];
-		if ( not listFrame or not listFrame:IsShown() or select(2, listFrame:GetPoint()) ~= self ) then
-			LQuestie_ToggleDropDownMenu(self:GetParent():GetID() + 1, self.value, nil, nil, nil, nil, self.menuList, self);
-		end
+	if ( self.hasArrow and self.ExpandArrow ) then
+		self.ExpandArrow:GetScript("OnEnter")(self.ExpandArrow)
 	else
 		LQuestie_CloseDropDownMenus(self:GetParent():GetID() + 1);
 	end
