@@ -39,7 +39,7 @@ function QuestieQuest:ToggleNotes(desiredValue)
                  or ((not Questie.db.global.enableTurnins) and icon.data.Type == "complete")
                  or ((not Questie.db.global.enableAvailable) and icon.data.Type == "available"))
                  or ((not Questie.db.global.enableMapIcons) and (not icon.miniMapIcon))
-                 or ((not Questie.db.global.enableMiniMapIcons) and (icon.miniMapIcon))) then
+                 or ((not Questie.db.global.enableMiniMapIcons) and (icon.miniMapIcon))) or (icon.data.ObjectiveData and icon.data.ObjectiveData.HideIcons) or (icon.data.QuestData and icon.data.QuestData.HideIcons) then
                     icon:FakeUnhide()
                 end
             end
@@ -159,7 +159,7 @@ function QuestieQuest:UpdateHiddenNotes()
                  or ((not Questie.db.global.enableTurnins) and icon.data.Type == "complete")
                  or ((not Questie.db.global.enableAvailable) and icon.data.Type == "available"))
                  or ((not Questie.db.global.enableMapIcons) and (not icon.miniMapIcon))
-                 or ((not Questie.db.global.enableMiniMapIcons) and (icon.miniMapIcon))) then
+                 or ((not Questie.db.global.enableMiniMapIcons) and (icon.miniMapIcon))) or (icon.data.ObjectiveData and icon.data.ObjectiveData.HideIcons) or (icon.data.QuestData and icon.data.QuestData.HideIcons) then
                     icon:FakeHide()
                 else
                     icon:FakeUnhide()
@@ -232,41 +232,6 @@ end
 function LOGONDEBUG_REMOVEQUEST(QuestId)
     QuestieQuest:AbandonedQuest(QuestId);
     Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_REMOVE_QUEST', QuestId, qCurrentQuestlog[QuestId]));
-end
-
---Use the category order to draw the quests and trust the database order.
---/dump QuestieQuest:GetAllQuestObjectives(24475)
---Use -> QuestieQuest:GetAllQuestObjectives(QuestId)
---170
-function QuestieQuest:TrackQuest(QuestId)--Should probably be called from some kind of questlog or similar, will have to wait untill classic to find out how tracking really works...
-    Quest = qCurrentQuestlog[QuestId]
-    --Quest = QuestieDB:GetQuest(QuestId)
-
-    ObjectiveID = 0
-    if type(Quest) == "table" then
-        Questie:Debug(DEBUG_INFO, "[QuestieQuest]:", QuestId)
-        if(Quest.Objectives["NPC"] ~= nil) then
-            for index, ObjectiveData in pairs(Quest.Objectives["NPC"]) do
-                for _, NPCID in pairs(ObjectiveData) do
-                    NPC = QuestieDB:GetNPC(NPCID)
-                    for Zone, Spawns in pairs(NPC.Spawns) do
-                        for _, coords in ipairs(Spawns) do
-                            Questie:Debug(DEBUG_INFO, "[QuestieQuest]:", Zone, coords[1], coords[2])
-                            data = {}
-                            data.Id = QuestId;
-                            data.Icon = ICON_TYPE_SLAY
-                            data.ObjectiveId = ObjectiveID
-                            data.NpcData = NPC;
-                            data.tooltip = {NPC.Name}
-                            --data.QuestData = Quest;
-                            QuestieMap:DrawWorldIcon(data, Zone, coords[1], coords[2])
-                        end
-                    end
-                end
-                ObjectiveID = ObjectiveID + 1
-            end
-        end--
-    end
 end
 
 function QuestieQuest:AcceptQuest(questId)

@@ -208,7 +208,12 @@ local function _BuildMenu(Quest)
         
         table.insert(objectiveMenu, {text = "Focus Objective", func = function() LQuestie_CloseDropDownMenus()end})
         table.insert(objectiveMenu, {text = "Set TomTom Target", func = function() LQuestie_CloseDropDownMenus()end})
-        table.insert(objectiveMenu, {text = "Hide Icons", func = function() LQuestie_CloseDropDownMenus()end})
+        if Objective.HideIcons then
+            table.insert(objectiveMenu, {text = "Show Icons", func = function() LQuestie_CloseDropDownMenus() Objective.HideIcons = false; QuestieQuest:UpdateHiddenNotes() end})
+        else
+            table.insert(objectiveMenu, {text = "Hide Icons", func = function() LQuestie_CloseDropDownMenus() Objective.HideIcons = true; QuestieQuest:UpdateHiddenNotes() end})
+        end
+        
         table.insert(objectiveMenu, {text = "Show on Map", func = function() LQuestie_CloseDropDownMenus() _ShowObjectiveOnMap(Objective) end})
         
         table.insert(subMenu, {text = Objective.Description, hasArrow = true, menuList = objectiveMenu})
@@ -217,7 +222,11 @@ local function _BuildMenu(Quest)
     
     table.insert(menu, {text=Quest:GetColoredQuestName(), isTitle = true})
     table.insert(menu, {text="Objectives", hasArrow = true, menuList = subMenu})
-    table.insert(menu, {text="Hide Icons", func = function() end})
+    if Quest.HideIcons then
+        table.insert(menu, {text="Show Icons", func = function() Quest.HideIcons = false; QuestieQuest:UpdateHiddenNotes() end})
+    else
+        table.insert(menu, {text="Hide Icons", func = function() Quest.HideIcons = true; QuestieQuest:UpdateHiddenNotes() end})
+    end
     table.insert(menu, {text="Show in Quest Log", func = function() end})
     table.insert(menu, {text="Un-track Quest", func = function() end})
     table.insert(menu, {text="Focus Quest", func = function() end})
