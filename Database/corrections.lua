@@ -67,6 +67,10 @@ QuestieCorrections.itemFixes = {
     [18151] = {"Filled Amethyst Phial",{7383},{},{19552}},
     [18152] = {"Amethyst Phial",{7383},{},{}},
     [5188] = {"Filled Vessel",{935},{},{}},
+    [11184]={"Blue Power Crystal",{4284,4382,4384,4386},{},{164658,164778}},
+    [11185]={"Green Power Crystal",{4284,4381,4382,4383},{},{164659,164779}},
+    [11186]={"Red Power Crystal",{4284,4383,4384,4385},{},{164660,164780}},
+    [11188]={"Yellow Power Crystal",{4284,4381,4385,4386},{},{164661,164781}},
 }
 
 -- some quest items are shared across factions but require different sources for each faction (not sure if there is a better way to implement this)
