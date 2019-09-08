@@ -19,6 +19,17 @@ DEBUG_DEVELOP = "|cff7c83ff[DEVELOP]|r"
 DEBUG_SPAM = "|cffff8484[SPAM]|r"
 
 
+-- check if user has updated but not restarted the game (todo: add future new source files to this)
+if not QuestieTracker then
+	if QuestieLocale.locale['enUS'] and QuestieLocale.locale['enUS']['QUESTIE_UPDATED_RESTART'] then -- sometimes locale doesnt update without restarting also
+		print(QuestieLocale:GetUIString('QUESTIE_UPDATED_RESTART'))
+	else
+		print("|cFFFF0000WARNING!|r You have updated questie without restarting the game, this will likely cause problems. Please restart the game before continuing")
+	end
+end
+
+
+
 -- get option value
 local function GetGlobalOptionLocal(info)
     return Questie.db.global[info[#info]]

@@ -356,7 +356,6 @@ function QuestieQuest:UpdateQuest(QuestId)
         QuestieQuest:PopulateQuestLogInfo(quest)
         QuestieQuest:GetAllQuestObjectives(quest) -- update quest log values in quest object
         QuestieQuest:UpdateObjectiveNotes(quest)
-        QuestieTracker:Update()
         if QuestieQuest:IsComplete(quest) then
             --DEFAULT_CHAT_FRAME:AddMessage("Finished " .. QuestId);
             QuestieMap:UnloadQuestFrames(QuestId);
@@ -365,6 +364,7 @@ function QuestieQuest:UpdateQuest(QuestId)
         else
             --DEFAULT_CHAT_FRAME:AddMessage("Still not finished " .. QuestId);
         end
+        QuestieTracker:Update()
     end
 end
 --Run this if you want to update the entire table
@@ -1015,9 +1015,12 @@ end
 function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
 
     --If the object is nil we just return
-    if(questObject == nil) then
+    if (questObject == nil) then
         return false;
     end
+	
+    -- recheck IsDoable (shouldn't be needed)
+    if not _QuestieQuest:IsDoable(questObject) then return false; end
 
     -- where applicable, make the exclusivegroup quests available again (TESTED)
     if questObject.ExclusiveQuestGroup and (not noChildren) then

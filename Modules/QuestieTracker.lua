@@ -18,7 +18,7 @@ function _QuestieTracker:StartFadeTicker()
         _QuestieTracker.FadeTicker = C_Timer.NewTicker(0.02, function()
             if _QuestieTracker.FadeTickerDirection then
                 if _QuestieTracker.FadeTickerValue < 0.3 then
-                    _QuestieTracker.FadeTickerValue = _QuestieTracker.FadeTickerValue + 0.04
+                    _QuestieTracker.FadeTickerValue = _QuestieTracker.FadeTickerValue + 0.06
                     _QuestieTracker.baseFrame.texture:SetVertexColor(1,1,1,_QuestieTracker.FadeTickerValue)
                 else
                     _QuestieTracker.FadeTicker:Cancel()
@@ -26,7 +26,7 @@ function _QuestieTracker:StartFadeTicker()
                 end
             else
                 if _QuestieTracker.FadeTickerValue > 0 then
-                    _QuestieTracker.FadeTickerValue = _QuestieTracker.FadeTickerValue - 0.04
+                    _QuestieTracker.FadeTickerValue = _QuestieTracker.FadeTickerValue - 0.06
                     _QuestieTracker.baseFrame.texture:SetVertexColor(1,1,1,math.max(0,_QuestieTracker.FadeTickerValue))
                 else
                     _QuestieTracker.FadeTicker:Cancel()
