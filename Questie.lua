@@ -133,6 +133,7 @@ _QuestieOptions.defaults = {
       questieLocaleDiff = false,
       alwaysGlowMap = false,
       alwaysGlowMinimap = false,
+      questObjectiveColors = false,
       enableObjectives = true,
       enableTurnins = true,
       enableAvailable = true,
@@ -552,6 +553,18 @@ local options = {
                     set = function (info, value)
                         SetGlobalOptionLocal(info, value)
                         QuestieFramePool:UpdateGlowConfig(false, value)
+                    end,
+                },
+                questObjectiveColors = {
+                    type = "toggle",
+                    order = 3.1,
+                    name = "Different map icon color for each quest",
+                    desc = "Different map icon color for each quest",
+                    width = "full",
+                    get = GetGlobalOptionLocal,
+                    set = function (info, value)
+                        SetGlobalOptionLocal(info, value)
+                        QuestieFramePool:UpdateColorConfig(false, value)
                     end,
                 },
                 Spacer_A = _QuestieOptions:Spacer(6),

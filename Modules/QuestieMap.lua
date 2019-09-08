@@ -121,7 +121,7 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
 
         icon.texture:SetTexture(data.Icon) -- todo: implement .GlowIcon
         local colors = {1, 1, 1}
-        if data.IconColor ~= nil then
+        if data.IconColor ~= nil and Questie.db.global.questObjectiveColors then
             colors = data.IconColor
         end
         icon.texture:SetVertexColor(colors[1], colors[2], colors[3], 1);
