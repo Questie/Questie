@@ -86,6 +86,15 @@ local function _GetNearestSpawn(Objective)
     return bestSpawn, bestSpawnZone, bestSpawnName, bestSpawnId, bestSpawnType
 end
 
+local function _SetTomTomTarget(title, zone, x, y)
+	if TomTom and TomTom.AddWaypoint then
+		if Questie.db.char._tom_waypoint and TomTom.RemoveWaypoint then -- remove old waypoint
+			TomTom:RemoveWaypoint(Questie.db.char._tom_waypoint)
+		end
+		Questie.db.char._tom_waypoint = TomTom:AddWaypoint(zoneDataAreaIDToUiMapID[zone], x/100, y/100,  {title = title, crazy = true})
+	end
+end
+
 local function _FlashObjective(Objective) -- really terrible animation code, sorry guys
     if Objective.AlreadySpawned then
         local toFlash = {}
@@ -207,7 +216,11 @@ local function _BuildMenu(Quest)
         local objectiveMenu = {}
         
         table.insert(objectiveMenu, {text = "Focus Objective", func = function() LQuestie_CloseDropDownMenus()end})
-        table.insert(objectiveMenu, {text = "Set TomTom Target", func = function() LQuestie_CloseDropDownMenus()end})
+        table.insert(objectiveMenu, {text = "Set TomTom Target", func = function() 
+			LQuestie_CloseDropDownMenus()
+			spawn, zone, name = _GetNearestSpawn(Objective)
+			_SetTomTomTarget(name, zone, spawn[1], spawn[2])
+		end})
         if Objective.HideIcons then
             table.insert(objectiveMenu, {text = "Show Icons", func = function() LQuestie_CloseDropDownMenus() Objective.HideIcons = false; QuestieQuest:UpdateHiddenNotes() end})
         else
