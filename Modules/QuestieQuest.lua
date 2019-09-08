@@ -745,11 +745,25 @@ local _randomSeed = 0;
 function QuestieQuest:math_randomseed(seed)
     _randomSeed = seed
 end
-function QuestieQuest:math_random()
-    local high = 0xffffff;
+function QuestieQuest:math_random(low_or_high_arg, high_arg)
+    local low = nil
+    local high = nil
+    if low_or_high_arg ~= nil then
+        if high_arg ~= nil then
+            low = low_or_high_arg
+            high = high_arg
+        else
+            low = 1
+            high = low_or_high_arg
+        end
+    end
+
     _randomSeed = (_randomSeed * 214013 + 2531011) % 2^32;
-    local rand = math.floor(_randomSeed / 2^16) % 2^15;
-    return (1 + math.floor(rand / 0x7fff * high)) / high
+    local rand = (math.floor(_randomSeed / 2^16) % 2^15) / 0x7fff;
+    if high == nil then
+        return rand
+    end
+    return low + math.floor(rand * high)
 end
 
 function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to PopulateNotes as it also handles finishers now
