@@ -697,20 +697,20 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
             if not Objective.Icon and spawnData.Icon then -- move this to a better place
                 Objective.Icon = spawnData.Icon
             end
-            if not Quest.AlreadySpawned[Objective.Type] then
-                Quest.AlreadySpawned[Objective.Type] = {};
+            if not Quest.AlreadySpawned[Objective.Type .. tostring(ObjectiveIndex)] then
+                Quest.AlreadySpawned[Objective.Type .. tostring(ObjectiveIndex)] = {};
             end
-            if (not Objective.AlreadySpawned[id]) and (not Quest.AlreadySpawned[Objective.Type][spawnData.Id]) then
+            if (not Objective.AlreadySpawned[id]) and (not Quest.AlreadySpawned[Objective.Type .. tostring(ObjectiveIndex)][spawnData.Id]) then
                 if not Objective.registeredTooltips and spawnData.TooltipKey and (not tooltipRegisterHack[spawnData.TooltipKey]) then -- register mob / item / object tooltips
                     QuestieTooltips:RegisterTooltip(Quest.Id, spawnData.TooltipKey, Objective);
                     tooltipRegisterHack[spawnData.TooltipKey] = true
                     hasTooltipHack = true
                 end
             end
-            if (not Objective.AlreadySpawned[id]) and (not completed) and (not Quest.AlreadySpawned[Objective.Type][spawnData.Id]) then
+            if (not Objective.AlreadySpawned[id]) and (not completed) and (not Quest.AlreadySpawned[Objective.Type .. tostring(ObjectiveIndex)][spawnData.Id]) then
                 if Questie.db.global.enableObjectives then
                     -- temporary fix for "special objectives" to not double-spawn (we need to fix the objective detection logic)
-                    Quest.AlreadySpawned[Objective.Type][spawnData.Id] = true
+                    Quest.AlreadySpawned[Objective.Type .. tostring(ObjectiveIndex)][spawnData.Id] = true
                     local maxCount = 0
                     local data = {}
                     data.Id = Quest.Id
