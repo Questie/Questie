@@ -563,6 +563,8 @@ QuestieCorrections.hiddenQuests = {
   [8228] = true,
   [8229] = true,
   --love is in the air
+  [8981] = true,
+  [8993] = true,
   [8982] = true,
   [9026] = true,
   [8983] = true,
