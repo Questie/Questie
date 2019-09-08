@@ -9,7 +9,7 @@ QuestieCorrections.questFixes = {
 
     -- please label what you changed in the entry so its easier to figure out
     -- I still think replacing specific entries instead of the whole quest is a more future proof way of dealing with corrections
-	
+
     -- change race requirement bitmask to be only alliance (was 255)
     [6132] = {"Get Me Out of Here!",{{12277,},nil,nil,},{{6019,},nil,},34,39,77,nil,{"Escort Melizza Brimbuzzle, then speak with Hornizz Brimbuzzle at the Kodo Graveyard in Desolace.",},nil,{nil,nil,nil,nil,},nil,nil,nil,nil,nil,nil,405,nil,nil,nil,nil,nil,},
 
@@ -71,6 +71,8 @@ QuestieCorrections.itemFixes = {
     [11185]={"Green Power Crystal",{4284,4381,4382,4383},{},{164659,164779}},
     [11186]={"Red Power Crystal",{4284,4383,4384,4385},{},{164660,164780}},
     [11188]={"Yellow Power Crystal",{4284,4381,4385,4386},{},{164661,164781}},
+    -- add NPC 1988 (missing in cmangos) and object 152094 (present in cmangos)
+    [10639]={"Hyacinth Mushroom",{3521},{1988,1989},{152094}},
 }
 
 -- some quest items are shared across factions but require different sources for each faction (not sure if there is a better way to implement this)
@@ -615,7 +617,7 @@ QuestieCorrections.hiddenQuests = {
   [5404] = true,
   [5508] = true,
   [5406] = true,
-  
+
   --PvP Warsong Gulch. Slay alliance/ slay horde shown for both alliance and horde
   [8290] = true,
   [7788] = true,
