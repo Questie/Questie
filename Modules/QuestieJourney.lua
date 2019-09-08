@@ -1100,8 +1100,8 @@ local function DrawZoneQuestTab(container)
     Spacer(container);
 
     -- Dropdown for Continent
-    local CDropdown = AceGUI:Create("Dropdown");
-    local zDropdown = AceGUI:Create("Dropdown");
+    local CDropdown = AceGUI:Create("LQDropdown");
+    local zDropdown = AceGUI:Create("LQDropdown");
     local treegroup = AceGUI:Create("SimpleGroup");
 
     CDropdown:SetList(continentTable);
@@ -1281,7 +1281,7 @@ local function DrawSearchTab(container)
     container:AddChild(header);
     Spacer(container);
     -- Declare scopes
-    typeDropdown = AceGUI:Create("Dropdown");
+    typeDropdown = AceGUI:Create("LQDropdown");
     searchBox = AceGUI:Create("EditBox");
     searchGroup = AceGUI:Create("SimpleGroup");
     local searchBtn = AceGUI:Create("Button");

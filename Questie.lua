@@ -20,7 +20,7 @@ DEBUG_SPAM = "|cffff8484[SPAM]|r"
 
 
 -- check if user has updated but not restarted the game (todo: add future new source files to this)
-if not QuestieTracker then
+if (not QuestieTracker) or (not LQuestie_EasyMenu) then
 	if QuestieLocale.locale['enUS'] and QuestieLocale.locale['enUS']['QUESTIE_UPDATED_RESTART'] then -- sometimes locale doesnt update without restarting also
 		print(QuestieLocale:GetUIString('QUESTIE_UPDATED_RESTART'))
 	else

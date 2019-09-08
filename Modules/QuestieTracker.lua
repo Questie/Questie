@@ -37,9 +37,96 @@ function _QuestieTracker:StartFadeTicker()
     end
 end
 
+local function _OnDragStart(self, button)
+	if IsControlKeyDown() then
+		_QuestieTracker.baseFrame:StartMoving()
+	else
+		if not IsMouselooking() then-- this is a HORRIBLE solution, why does MouselookStart have to break OnMouseUp (is there a MOUSE_RELEASED event that always fires?)
+			MouselookStart() -- unfortunately, even though we only want to catch right click for a context menu
+			-- the only api function we can use is MouselookStart/MouselookStop which replicates the default 
+			-- right click-drag behavior of also making your player turn :(
+			_QuestieTracker._mouselook_ticker = C_Timer.NewTicker(0.1, function()
+				if not IsMouseButtonDown(button) then
+					MouselookStop()
+					_QuestieTracker._mouselook_ticker:Cancel()
+				end
+			end)
+		end
+	end
+end
+
+local function _BuildMenu(Quest) 
+	local menu = {}
+	
+	--[[table.insert(menu, {text=Quest:GetColoredQuestName(), isTitle = true})
+	if Objective then
+		table.insert(menu, {text="Focus Objective", func = function() end})
+	else
+		table.insert(menu, {text="Focus Quest", func = function() end})
+	end
+    table.insert(menu, {text="Show on Map", func = function() end})
+	table.insert(menu, {text="Set TomTom Target", func = function() end})
+	table.insert(menu, {text="Hide Icons", func = function() end})
+	table.insert(menu, {text="Un-track Quest", func = function() end})
+    table.insert(menu, {text="Show in Quest Log", func = function() end})
+	table.insert(menu, {text="Cancel", func = function() end})]]--
+	
+	--[[[if Objective then
+		local subMenu = {}
+		
+		table.insert(menu, {"Objective Options", hasArrow = true, menuList = subMenu})
+	end]]--
+	
+	local subMenu = {}
+	for _, Objective in pairs(Quest.Objectives) do
+		local objectiveMenu = {}
+		
+		table.insert(objectiveMenu, {text = "Focus Objective", func = function() end})
+		table.insert(objectiveMenu, {text = "Set TomTom Target", func = function() end})
+		table.insert(objectiveMenu, {text = "Hide Icons", func = function() end})
+		table.insert(objectiveMenu, {text = "Show on Map", func = function() _QuestieTracker.menuFrame:Hide() end})
+		
+		table.insert(subMenu, {text = Objective.Description, hasArrow = true, menuList = objectiveMenu})
+	end
+	
+	
+	table.insert(menu, {text=Quest:GetColoredQuestName(), isTitle = true})
+	table.insert(menu, {text="Objectives", hasArrow = true, menuList = subMenu})
+	table.insert(menu, {text="Hide Icons", func = function() end})
+	table.insert(menu, {text="Show in Quest Log", func = function() end})
+	table.insert(menu, {text="Un-track Quest", func = function() end})
+	table.insert(menu, {text="Focus Quest", func = function() end})
+	table.insert(menu, {text="Cancel", func = function() end})
+	LQuestie_EasyMenu(menu, _QuestieTracker.menuFrame, "cursor", 0 , 0, "MENU")
+end
+
+local function _OnClick(self, button)
+	print("Click " .. button)
+	if button == "RightButton" then
+		_BuildMenu(self.Quest)
+	end
+end
+
+local function _OnDragStop()
+	_QuestieTracker.baseFrame:StopMovingOrSizing()
+	Questie.db.char.TrackerLocation = {_QuestieTracker.baseFrame:GetPoint()}
+end
+
+local function _OnEnter()
+	_QuestieTracker.FadeTickerDirection = true
+	_QuestieTracker:StartFadeTicker()
+end
+
+local function _OnLeave()
+	_QuestieTracker.FadeTickerDirection = false
+	_QuestieTracker:StartFadeTicker()
+end
+
 function QuestieTracker:Initialize()
     if QuestieTracker.started or (not Questie.db.char.trackerEnabled) then return; end
     _QuestieTracker.baseFrame = QuestieTracker:CreateBaseFrame()
+	_QuestieTracker.menuFrame = LQuestie_Create_UIDropDownMenu("QuestieTrackerMenuFrame", UIParent)
+
     
     -- this number is static, I doubt it will ever need more
     local lastFrame = nil
@@ -58,6 +145,14 @@ function QuestieTracker:Initialize()
                 end
             end
         end
+		
+		function frm:SetQuest(Quest)
+			self.Quest = Quest
+		end
+		
+		function frm:SetObjective(Objective)
+			self.Objective = Objective
+		end
         
         function frm:SetVerticalPadding(amount)
             if self.mode == "header" then
@@ -81,54 +176,15 @@ function QuestieTracker:Initialize()
         end
         
         frm:EnableMouse(true)
-        frm:RegisterForDrag("LeftButton")
-        --frm:RegisterForClicks("RightButtonUp")
+        frm:RegisterForDrag("LeftButton", "RightButton")
+        frm:RegisterForClicks("RightButtonUp", "LeftButtonUp")
         
         -- hack for click-through
-        frm:SetScript("OnDragStart", function(self, button)
-            if button == "RightButton" then
-
-            elseif IsControlKeyDown() then
-                _QuestieTracker.baseFrame:StartMoving()
-            else
-                if not IsMouselooking() then-- this is a HORRIBLE solution, why does MouselookStart have to break OnMouseUp (is there a MOUSE_RELEASED event that always fires?)
-                    MouselookStart() -- unfortunately, even though we only want to catch right click for a context menu
-                    -- the only api function we can use is MouselookStart/MouselookStop which replicates the default 
-                    -- right click-drag behavior of also making your player turn :(
-                    _QuestieTracker._mouselook_ticker = C_Timer.NewTicker(0.1, function()
-                        if not IsMouseButtonDown(button) then
-                            MouselookStop()
-                            _QuestieTracker._mouselook_ticker:Cancel()
-                        end
-                    end)
-                end
-            end
-            
-        end)
-        
-        -- MouselookStart() calls OnMouseUp immediately :(
-        --frm:SetScript("OnMouseUp", function(self)
-        --    print("OMU")
-        --    if IsMouselooking() then MouselookStop() end
-        --end)
-        --frm:SetScript("OnClick", function(self)
-        --    print("Clicka clacka")
-        --end)
-        
-        frm:SetScript("OnDragStop", function() 
-            _QuestieTracker.baseFrame:StopMovingOrSizing()
-            Questie.db.char.TrackerLocation = {_QuestieTracker.baseFrame:GetPoint()}
-        end)
-        
-        frm:SetScript("OnEnter", function(self)
-            _QuestieTracker.FadeTickerDirection = true
-            _QuestieTracker:StartFadeTicker()
-        end)
-        
-        frm:SetScript("OnLeave", function(self)
-            _QuestieTracker.FadeTickerDirection = false
-            _QuestieTracker:StartFadeTicker()
-        end)
+        frm:SetScript("OnDragStart", _OnDragStart)
+		frm:SetScript("OnClick", _OnClick)
+        frm:SetScript("OnDragStop", _OnDragStop)
+        frm:SetScript("OnEnter", _OnEnter)
+        frm:SetScript("OnLeave", _OnLeave)
         
         
         if lastFrame then
@@ -163,12 +219,16 @@ function QuestieTracker:Update()
         if not QuestieQuest:IsComplete(Quest) then -- maybe have an option to display quests in the list with (Complete!) in the title
             line = _QuestieTracker:GetNextLine()
             line:SetMode("header")
+			line:SetQuest(Quest)
+			line:SetObjective(nil)
             line.label:SetText(Quest:GetColoredQuestName())
             line.label:Show()
             trackerWidth = math.max(trackerWidth, line.label:GetWidth())
             for _,Objective in pairs(Quest.Objectives) do
                 line = _QuestieTracker:GetNextLine()
                 line:SetMode("line")
+				line:SetQuest(Quest)
+				line:SetObjective(Objective)
                 line.label:SetText("    |cFFEEEEEE" .. Objective.Description .. ": " .. tostring(Objective.Collected) .. "/" .. tostring(Objective.Needed))
                 line.label:Show()
                 trackerWidth = math.max(trackerWidth, line.label:GetWidth())
@@ -207,52 +267,15 @@ function QuestieTracker:CreateBaseFrame()
     else
         frm:SetPoint("CENTER",0,0)
     end
+	
     frm:SetMovable(true)
-    frm:SetScript("OnEnter", function(self)
-        _QuestieTracker.FadeTickerDirection = true
-        _QuestieTracker:StartFadeTicker()
-    end)
+	frm:EnableMouse(true)
+	frm:RegisterForDrag("LeftButton", "RightButton")
     
-    frm:SetScript("OnLeave", function(self)
-        _QuestieTracker.FadeTickerDirection = false
-        _QuestieTracker:StartFadeTicker()
-    end)
-    
-    frm:EnableMouse(true)
-    frm:RegisterForDrag("LeftButton")
-    
-    frm:SetScript("OnDragStart", function(self, button)
-        if IsControlKeyDown() then
-            _QuestieTracker.baseFrame:StartMoving()
-        else
-            if not IsMouselooking() then
-                MouselookStart() -- unfortunately, even though we only want to catch right click for a context menu
-                -- the only api function we can use is MouselookStart/MouselookStop which replicates the default 
-                -- right click-drag behavior of also making your player turn :(
-                _QuestieTracker._mouselook_ticker = C_Timer.NewTicker(0.1, function()
-                    if not IsMouseButtonDown(button) then
-                        MouselookStop()
-                        _QuestieTracker._mouselook_ticker:Cancel()
-                    end
-                end)
-            end
-        end
-    end)
-    
-    -- MouselookStart() calls OnMouseUp immediately :(
-    --frm:SetScript("OnMouseUp", function(self)
-    --    print("OMU")
-    --    if IsMouselooking() then MouselookStop() end
-    --end)
-    --frm:SetScript("OnClick", function(self)
-    --    print("Clicka clacka")
-    --end)
-    
-    frm:SetScript("OnDragStop", function() 
-        _QuestieTracker.baseFrame:StopMovingOrSizing()
-        Questie.db.char.TrackerLocation = {_QuestieTracker.baseFrame:GetPoint()}
-    end)
-    
+	frm:SetScript("OnDragStart", _OnDragStart)
+	frm:SetScript("OnDragStop", _OnDragStop)
+	frm:SetScript("OnEnter", _OnEnter)
+	frm:SetScript("OnLeave", _OnLeave)
     
     frm:Show()
     
