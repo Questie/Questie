@@ -62,6 +62,8 @@ QuestieLocale.locale['enUS'] = {
     ['MAP_COORDS_PRECISION_DESC'] = "How many decimals to include in the precision on the Map for Player and Cursor coordinates. ( Default: %s )",
     ['MAP_ALWAYS_GLOW_TOGGLE'] = "Always glow behind map icons",
     ['MAP_ALWAYS_GLOW_TOGGLE_DESC'] = "Draw a glow texture behind map icons, colored unique to each quest",
+    ['MAP_QUEST_COLORS'] = "Different map icon color for each quest",
+    ['MAP_QUEST_COLORS_DESC'] = "Show map icons with colors that are randomly generated based on quest ID",
 
     ['AVAILABLE_ICON_SCALE'] = "Scale for Available/Complete Icons",
     ['AVAILABLE_ICON_SCALE_DESC'] = "How large the available/complete icons are.  ( Default: %s )",
