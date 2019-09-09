@@ -114,6 +114,7 @@ local function _SetTomTomTarget(title, zone, x, y)
 end
 
 local function _UnFocus() -- reset HideIcons to match savedvariable state 
+    if not Questie.db.char.TrackerFocus then return; end
     for quest in pairs (qCurrentQuestlog) do
         local Quest = QuestieDB:GetQuest(quest)
         if Quest.Objectives then
@@ -392,7 +393,7 @@ local function _BuildMenu(Quest)
         if Objective.HideIcons then
             table.insert(objectiveMenu, {text = "Show Icons", func = function() 
                 LQuestie_CloseDropDownMenus()
-                Objective.HideIcons = false;
+                Objective.HideIcons = nil;
                 QuestieQuest:UpdateHiddenNotes()
                 Questie.db.char.TrackerHiddenObjectives[tostring(Quest.Id) .. " " .. tostring(Objective.Index)] = nil
             end})
@@ -405,7 +406,25 @@ local function _BuildMenu(Quest)
             end})
         end
         
-        table.insert(objectiveMenu, {text = "Show on Map", func = function() LQuestie_CloseDropDownMenus() _ShowObjectiveOnMap(Objective) end})
+        table.insert(objectiveMenu, {text = "Show on Map", func = function()
+            LQuestie_CloseDropDownMenus()
+            local needHiddenUpdate
+            if (Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus ~= tostring(Quest.Id) .. " " .. tostring(Objective.Index))
+            or (Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "number" and Questie.db.char.TrackerFocus ~= Quest.Id) then
+                _UnFocus()
+                needHiddenUpdate = true
+            end
+            if Objective.HideIcons then
+                Objective.HideIcons = nil
+                needHiddenUpdate = true
+            end
+            if Quest.HideIcons then
+                Quest.HideIcons = nil
+                needHiddenUpdate = true
+            end
+            if needHiddenUpdate then QuestieQuest:UpdateHiddenNotes(); end
+            _ShowObjectiveOnMap(Objective)
+        end})
         
         table.insert(subMenu, {text = Objective.Description, hasArrow = true, menuList = objectiveMenu})
     end
@@ -415,7 +434,7 @@ local function _BuildMenu(Quest)
     table.insert(menu, {text="Objectives", hasArrow = true, menuList = subMenu})
     if Quest.HideIcons then
         table.insert(menu, {text="Show Icons", func = function() 
-            Quest.HideIcons = false
+            Quest.HideIcons = nil
             QuestieQuest:UpdateHiddenNotes() 
             Questie.db.char.TrackerHiddenQuests[Quest.Id] = nil
         end})
