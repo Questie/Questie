@@ -113,6 +113,68 @@ local function _SetTomTomTarget(title, zone, x, y)
     end
 end
 
+local function _UnFocus() -- reset HideIcons to match savedvariable state 
+    for quest in pairs (qCurrentQuestlog) do
+        local Quest = QuestieDB:GetQuest(quest)
+        if Quest.Objectives then
+            if Questie.db.char.TrackerHiddenQuests[Quest.Id] then
+                Quest.HideIcons = true
+            else
+                Quest.HideIcons = nil
+            end
+            for _,Objective in pairs(Quest.Objectives) do
+                if Questie.db.char.TrackerHiddenObjectives[tostring(quest) .. " " .. tostring(Objective.Index)] then
+                    Objective.HideIcons = true
+                else
+                    Objective.HideIcons = nil
+                end
+            end
+        end
+    end
+    Questie.db.char.TrackerFocus = nil
+end
+
+local function _FocusObjective(TargetQuest, TargetObjective)
+    if Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus ~= tostring(TargetQuest.Id) .. " " .. tostring(TargetObjective.Index) then
+        _UnFocus()
+    end
+    Questie.db.char.TrackerFocus = tostring(TargetQuest.Id) .. " " .. tostring(TargetObjective.Index)
+    print("Focusing " .. Questie.db.char.TrackerFocus)
+    for quest in pairs (qCurrentQuestlog) do
+        local Quest = QuestieDB:GetQuest(quest)
+        if Quest.Objectives then
+            if quest == TargetQuest.Id then
+                Quest.HideIcons = nil
+            else
+                Quest.HideIcons = true
+            end
+            for _,Objective in pairs(Quest.Objectives) do
+                if Objective.Index == TargetObjective.Index then
+                    Objective.HideIcons = nil
+                else
+                    Objective.HideIcons = true
+                end
+            end
+        end
+    end
+end
+
+local function _FocusQuest(TargetQuest)
+    if Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "number" and Questie.db.char.TrackerFocus ~= TargetQuest.Id then
+        _UnFocus()
+    end
+    Questie.db.char.TrackerFocus = TargetQuest.Id
+    print("Focusing " .. tostring(Questie.db.char.TrackerFocus))
+    for quest in pairs (qCurrentQuestlog) do
+        local Quest = QuestieDB:GetQuest(quest)
+        if quest == TargetQuest.Id then
+            Quest.HideIcons = nil
+        else
+            Quest.HideIcons = true
+        end
+    end
+end
+
 local function _FlashObjectiveByTexture(Objective) -- really terrible animation code, sorry guys
     if Objective.AlreadySpawned then
         local toFlash = {}
@@ -316,8 +378,12 @@ local function _BuildMenu(Quest)
     local subMenu = {}
     for _, Objective in pairs(Quest.Objectives) do
         local objectiveMenu = {}
-        
-        table.insert(objectiveMenu, {text = "Focus Objective", func = function() LQuestie_CloseDropDownMenus()end})
+        --_UnFocus()
+        if Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus == tostring(Quest.Id) .. " " .. tostring(Objective.Index) then
+            table.insert(objectiveMenu, {text = "Unfocus", func = function() LQuestie_CloseDropDownMenus(); _UnFocus(); QuestieQuest:UpdateHiddenNotes()end})
+        else
+            table.insert(objectiveMenu, {text = "Focus Objective", func = function() LQuestie_CloseDropDownMenus(); _FocusObjective(Quest, Objective); QuestieQuest:UpdateHiddenNotes()end})
+        end
         table.insert(objectiveMenu, {text = "Set TomTom Target", func = function() 
             LQuestie_CloseDropDownMenus()
             spawn, zone, name = _GetNearestSpawn(Objective)
@@ -509,9 +575,18 @@ function QuestieTracker:Update()
             line.label:Show()
             trackerWidth = math.max(trackerWidth, line.label:GetWidth())
             
-            if _QuestieTracker.IsFirstRun and Questie.db.char.TrackerHiddenQuests[quest] then
-                Quest.HideIcons = true
+            if _QuestieTracker.IsFirstRun then
+                if Questie.db.char.TrackerHiddenQuests[quest] then
+                    Quest.HideIcons = true
+                end
+                if Questie.db.char.TrackerFocus then
+                    if Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "number" and Questie.db.char.TrackerFocus == Quest.Id then -- quest focus
+                        _FocusQuest(Quest)
+                    end
+                end
             end
+            
+            
             
             for _,Objective in pairs(Quest.Objectives) do
                 line = _QuestieTracker:GetNextLine()
@@ -522,8 +597,13 @@ function QuestieTracker:Update()
                 line.label:Show()
                 trackerWidth = math.max(trackerWidth, line.label:GetWidth())
                 
-                if _QuestieTracker.IsFirstRun and Questie.db.char.TrackerHiddenObjectives[tostring(quest) .. " " .. tostring(Objective.Index)] then
-                    Objective.HideIcons = true
+                if _QuestieTracker.IsFirstRun then
+                    if Questie.db.char.TrackerHiddenObjectives[tostring(quest) .. " " .. tostring(Objective.Index)] then
+                        Objective.HideIcons = true
+                    end
+                    if  Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus == tostring(Quest.Id) .. " " .. tostring(Objective.Index) then
+                        _FocusObjective(Quest, Objective)
+                    end
                 end
             end
             line:SetVerticalPadding(trackerQuestPadding)
