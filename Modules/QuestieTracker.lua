@@ -380,9 +380,9 @@ local function _BuildMenu(Quest)
         local objectiveMenu = {}
         --_UnFocus()
         if Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus == tostring(Quest.Id) .. " " .. tostring(Objective.Index) then
-            table.insert(objectiveMenu, {text = "Unfocus", func = function() LQuestie_CloseDropDownMenus(); _UnFocus(); QuestieQuest:UpdateHiddenNotes()end})
+            table.insert(objectiveMenu, {text = "Unfocus", func = function() LQuestie_CloseDropDownMenus(); _UnFocus(); QuestieQuest:UpdateHiddenNotes() end})
         else
-            table.insert(objectiveMenu, {text = "Focus Objective", func = function() LQuestie_CloseDropDownMenus(); _FocusObjective(Quest, Objective); QuestieQuest:UpdateHiddenNotes()end})
+            table.insert(objectiveMenu, {text = "Focus Objective", func = function() LQuestie_CloseDropDownMenus(); _FocusObjective(Quest, Objective); QuestieQuest:UpdateHiddenNotes() end})
         end
         table.insert(objectiveMenu, {text = "Set TomTom Target", func = function() 
             LQuestie_CloseDropDownMenus()
@@ -439,7 +439,11 @@ local function _BuildMenu(Quest)
         QuestLog_Update() 
     end})
     table.insert(menu, {text="Un-track Quest", func = function() end})
-    table.insert(menu, {text="Focus Quest", func = function() end})
+    if Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "number" and Questie.db.char.TrackerFocus == Quest.Id then
+        table.insert(menu, {text="Unfocus", func = function() LQuestie_CloseDropDownMenus(); _UnFocus(); QuestieQuest:UpdateHiddenNotes() end})
+    else
+        table.insert(menu, {text="Focus Quest", func = function() LQuestie_CloseDropDownMenus(); _FocusQuest(Quest); QuestieQuest:UpdateHiddenNotes()  end})
+    end
     table.insert(menu, {text="Cancel", func = function() end})
     LQuestie_EasyMenu(menu, _QuestieTracker.menuFrame, "cursor", 0 , 0, "MENU")
 end
