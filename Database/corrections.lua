@@ -52,8 +52,6 @@ QuestieCorrections.itemFixes = {
     [12347] = {"Filled Cleansing Bowl",{},{},{174795}},
     [2886] = {"Crag Boar Rib",{384},{1125,1126,1127,1689},{}},
     [5051] = {"Dig Rat",{862},{3444},{}},
-    [2449] = {"Earthroot",{6123,6128},{},{1619,3726}},
-    [2447] = {"Peacebloom",{8549,8550},{},{1618,3724}},
     [5056] = {"Root Sample",{866},{},{1619,3726,1618,3724,1620,3727}},
     [12349] = {"Cliffspring River Sample",{4762},{},{175371}},
     [12350] = {"Empty Sampling Tube",{4762},{},{}},
@@ -73,7 +71,43 @@ QuestieCorrections.itemFixes = {
     [11188]={"Yellow Power Crystal",{4284,4381,4385,4386},{},{164661,164781}},
     -- add NPC 1988 (missing in cmangos) and object 152094 (present in cmangos)
     [10639]={"Hyacinth Mushroom",{3521},{1988,1989},{152094}},
+	
+    -- quest related herbs
+    [2449] = {"Earthroot",{6123,6128},{},{1619,3726}},
+    [2447] = {"Peacebloom",{8549,8550},{},{1618,3724}},
     [8846]={"Gromsblood",{4201},{},{142145,176637}},
+    [3356]={"Kingsblood",{7736},{},{1624}},
+    [3357]={"Liferoot",{1712},{},{2041}},
+    [8836]={"Arthas' Tears",{8509,8510,7642},{},{142141,176642}},
+    [4625]={"Firebloom",{8580,8581},{},{2866}},
+    [3820]={"Stranglekelp",{8503,8504},{},{2045}},
+    [8831]={"Purple Lotus",{8505,8506,8582,8583},{},{142140,180165}},
+	
+    -- quest related leather
+    [4304]={"Thick Leather",{8515,8516,8590,8591,2847,2854},{},{}},
+    [4234]={"Heavy Leather",{8242,8588,8589},{},{}},
+    [2318]={"Light Leather",{8511,8512,768,769},{},{}},
+    [2319]={"Medium Leather",{8513,8514},{},{}},
+    [8170]={"Rugged Leather",{8600,8601,5518,5519},{},{}},
+	
+    -- quest related mining stuff
+    [11370]={"Dark Iron Ore",{6642,7627},{},{165658}},
+    [1206]={"Moss Agate",{2948,2950},{},{}},
+    [12364]={"Huge Emerald",{8779,8807},{},{}},
+    [1529]={"Jade",{1948},{},{}},
+    [7910]={"Star Ruby",{4083,5124},{},{}},
+    [3864]={"Citrine",{2763},{},{}},
+
+    -- other quest related trade goods
+    [2592]={"Wool Cloth",{7791,7797,7802,7807,7813,7820,7826,7833},{},{}},
+    [2997]={"Bolt of Woolen Cloth",{565},{},{}},
+    [4306]={"Silk Cloth",{9259,2746,4449,7793,7798,7803,7808,7814,7821,7827,7834},{},{}},
+    [4338]={"Mageweave Cloth",{9268,7794,7799,7804,7809,7817,7822,7831,7835},{},{}},
+    [2589]={"Linen Cloth",{9267,1644,1648,1921,1961},{},{}},
+    [14047]={"Runecloth",{9266,5218,5221,5224,5227,6031,7642,7795,7796,7800,7801,7805,7806,7811,7812,7818,7819,7823,7824,7825,7832,7836,7837},{},{}},
+    [14048]={"Bolt of Runecloth",{8782,8808,9237,9238,9239,9240,5518,5519},{},{}},
+
+	
 }
 
 -- some quest items are shared across factions but require different sources for each faction (not sure if there is a better way to implement this)
