@@ -66,7 +66,7 @@ local function _GetNearestSpawn(Objective)
         for id, spawnData in pairs(Objective.spawnList) do
             for zone, spawns in pairs(spawnData.Spawns) do
                 for _,spawn in pairs(spawns) do
-                    dX, dY, dInstance = HBD:GetWorldCoordinatesFromZone(spawn[1]/100.0, spawn[2]/100.0, zoneDataAreaIDToUiMapID[zone])
+                    local dX, dY, dInstance = HBD:GetWorldCoordinatesFromZone(spawn[1]/100.0, spawn[2]/100.0, zoneDataAreaIDToUiMapID[zone])
                     --print (" " .. tostring(dX) .. " " .. tostring(dY) .. " " .. zoneDataAreaIDToUiMapID[zone])
                     if dInstance == playerI then
                         local dist = HBD:GetWorldDistance(dInstance, playerX, playerY, dX, dY)
@@ -83,16 +83,117 @@ local function _GetNearestSpawn(Objective)
             end
         end
     end
-    return bestSpawn, bestSpawnZone, bestSpawnName, bestSpawnId, bestSpawnType
+    return bestSpawn, bestSpawnZone, bestSpawnName, bestSpawnId, bestSpawnType, bestDistance
+end
+
+local function _GetNearestQuestSpawn(Quest)
+    local bestDistance = 999999999
+    local bestSpawn, bestSpawnZone, bestSpawnId, bestSpawnType, bestSpawnName
+    for _,Objective in pairs(Quest.Objectives) do
+        local spawn, zone, Name, id, Type, dist = _GetNearestSpawn(Objective)
+        if spawn and dist < bestDistance then
+            bestDistance = dist
+            bestSpawn = spawn
+            bestSpawnZone = zone
+            bestSpawnId = id
+            bestSpawnType = Type
+            bestSpawnName = Name
+        end
+    end
+    return bestSpawn, bestSpawnZone, bestSpawnName, bestSpawnId, bestSpawnType, bestDistance
 end
 
 local function _SetTomTomTarget(title, zone, x, y)
-	if TomTom and TomTom.AddWaypoint then
-		if Questie.db.char._tom_waypoint and TomTom.RemoveWaypoint then -- remove old waypoint
-			TomTom:RemoveWaypoint(Questie.db.char._tom_waypoint)
-		end
-		Questie.db.char._tom_waypoint = TomTom:AddWaypoint(zoneDataAreaIDToUiMapID[zone], x/100, y/100,  {title = title, crazy = true})
-	end
+    if TomTom and TomTom.AddWaypoint then
+        if Questie.db.char._tom_waypoint and TomTom.RemoveWaypoint then -- remove old waypoint
+            TomTom:RemoveWaypoint(Questie.db.char._tom_waypoint)
+        end
+        Questie.db.char._tom_waypoint = TomTom:AddWaypoint(zoneDataAreaIDToUiMapID[zone], x/100, y/100,  {title = title, crazy = true})
+    end
+end
+
+local function _FlashObjectiveByTexture(Objective) -- really terrible animation code, sorry guys
+    if Objective.AlreadySpawned then
+        local toFlash = {}
+        -- ugly code
+        for questId, framelist in pairs(qQuestIdFrames) do
+            for index, frameName in ipairs(framelist) do
+                local icon = _G[frameName];
+                if not icon.miniMapIcon then
+                    
+                    -- todo: move into frame.session
+                    if icon:IsShown() then
+                        icon._hidden_by_flash = true
+                        icon:Hide()
+                    end
+                end
+            end
+        end
+
+
+        for _, spawn in pairs(Objective.AlreadySpawned) do
+            if spawn.mapRefs then
+                for _, frame in pairs(spawn.mapRefs) do
+                    if frame.data.ObjectiveData then
+                        table.insert(toFlash, frame)
+                        if frame._hidden_by_flash then
+                            frame:Show()
+                        end
+                        
+                        -- todo: move into frame.session
+                        frame._hidden_by_flash = nil
+                        frame._size = frame:GetWidth()
+                        frame._sizemul = 2
+                        frame:SetWidth(frame._size * 2)
+                        frame:SetHeight(frame._size * 2)
+                    end
+                end
+            end
+        end
+        local flashB = true
+        _QuestieTracker._ObjectiveFlashTicker = C_Timer.NewTicker(0.28, function() 
+            if flashB then
+                flashB = false
+                for _, frame in pairs(toFlash) do
+                    frame.texture:SetVertexColor(0.3,0.3,0.3,1)
+                    frame.glowTexture:SetVertexColor(frame.data.ObjectiveData.Color[1]/3,frame.data.ObjectiveData.Color[2]/3,frame.data.ObjectiveData.Color[3]/3,1)
+                end
+            else
+                flashB = true
+                for _, frame in pairs(toFlash) do
+                    frame.texture:SetVertexColor(1,1,1,1)
+                    frame.glowTexture:SetVertexColor(frame.data.ObjectiveData.Color[1],frame.data.ObjectiveData.Color[2],frame.data.ObjectiveData.Color[3],1)
+                end
+            end
+        end, 6)
+        C_Timer.After(5*0.28, function() 
+            C_Timer.NewTicker(0.1, function() 
+                for _, frame in pairs(toFlash) do
+                    frame._sizemul = frame._sizemul - 0.2
+                    frame:SetWidth(frame._size * frame._sizemul)
+                    frame:SetHeight(frame._size  * frame._sizemul)
+                end
+            end, 5)
+        end)
+        --C_Timer.After(6*0.3+0.1, function() 
+        --    for _, frame in pairs(toFlash) do
+        --        frame:SetWidth(frame._size)
+        --        frame:SetHeight(frame._size)
+        --      frame._size = nil; frame._sizemul = nil
+        --    end
+        --end)
+        C_Timer.After(6*0.28+0.7, function() 
+            for questId, framelist in pairs(qQuestIdFrames) do
+                for index, frameName in ipairs(framelist) do
+                    local icon = _G[frameName];
+                    if icon._hidden_by_flash then
+                        icon._hidden_by_flash = nil
+                        icon:Show()
+                    end
+                end
+            end
+        end)
+    end
 end
 
 local function _FlashObjective(Objective) -- really terrible animation code, sorry guys
@@ -123,7 +224,7 @@ local function _FlashObjective(Objective) -- really terrible animation code, sor
                     end
                     
                     -- todo: move into frame.session
-                    frame._hidden_by_flash = false
+                    frame._hidden_by_flash = nil
                     frame._size = frame:GetWidth()
                 end
             end
@@ -217,10 +318,10 @@ local function _BuildMenu(Quest)
         
         table.insert(objectiveMenu, {text = "Focus Objective", func = function() LQuestie_CloseDropDownMenus()end})
         table.insert(objectiveMenu, {text = "Set TomTom Target", func = function() 
-			LQuestie_CloseDropDownMenus()
-			spawn, zone, name = _GetNearestSpawn(Objective)
-			_SetTomTomTarget(name, zone, spawn[1], spawn[2])
-		end})
+            LQuestie_CloseDropDownMenus()
+            spawn, zone, name = _GetNearestSpawn(Objective)
+            _SetTomTomTarget(name, zone, spawn[1], spawn[2])
+        end})
         if Objective.HideIcons then
             table.insert(objectiveMenu, {text = "Show Icons", func = function() LQuestie_CloseDropDownMenus() Objective.HideIcons = false; QuestieQuest:UpdateHiddenNotes() end})
         else
@@ -240,6 +341,11 @@ local function _BuildMenu(Quest)
     else
         table.insert(menu, {text="Hide Icons", func = function() Quest.HideIcons = true; QuestieQuest:UpdateHiddenNotes() end})
     end
+    table.insert(menu, {text="Set TomTom Target", func = function() 
+        LQuestie_CloseDropDownMenus()
+        spawn, zone, name = _GetNearestQuestSpawn(Quest)
+        _SetTomTomTarget(name, zone, spawn[1], spawn[2])
+    end})
     table.insert(menu, {text="Show in Quest Log", func = function() end})
     table.insert(menu, {text="Un-track Quest", func = function() end})
     table.insert(menu, {text="Focus Quest", func = function() end})
