@@ -14,6 +14,7 @@ local trackerQuestPadding = 2 -- padding between quests in the tracker
 -- used for fading the background of the trakcer
 _QuestieTracker.FadeTickerValue = 0
 _QuestieTracker.FadeTickerDirection = false -- true to fade in
+_QuestieTracker.IsFirstRun = true -- bad code
 
 function _QuestieTracker:StartFadeTicker()
     if not _QuestieTracker.FadeTicker then
@@ -323,9 +324,19 @@ local function _BuildMenu(Quest)
             _SetTomTomTarget(name, zone, spawn[1], spawn[2])
         end})
         if Objective.HideIcons then
-            table.insert(objectiveMenu, {text = "Show Icons", func = function() LQuestie_CloseDropDownMenus() Objective.HideIcons = false; QuestieQuest:UpdateHiddenNotes() end})
+            table.insert(objectiveMenu, {text = "Show Icons", func = function() 
+                LQuestie_CloseDropDownMenus()
+                Objective.HideIcons = false;
+                QuestieQuest:UpdateHiddenNotes()
+                Questie.db.char.TrackerHiddenObjectives[tostring(Quest.Id) .. " " .. tostring(Objective.Index)] = nil
+            end})
         else
-            table.insert(objectiveMenu, {text = "Hide Icons", func = function() LQuestie_CloseDropDownMenus() Objective.HideIcons = true; QuestieQuest:UpdateHiddenNotes() end})
+            table.insert(objectiveMenu, {text = "Hide Icons", func = function()
+                LQuestie_CloseDropDownMenus()
+                Objective.HideIcons = true;
+                QuestieQuest:UpdateHiddenNotes()
+                Questie.db.char.TrackerHiddenObjectives[tostring(Quest.Id) .. " " .. tostring(Objective.Index)] = true
+            end})
         end
         
         table.insert(objectiveMenu, {text = "Show on Map", func = function() LQuestie_CloseDropDownMenus() _ShowObjectiveOnMap(Objective) end})
@@ -337,9 +348,17 @@ local function _BuildMenu(Quest)
     table.insert(menu, {text=Quest:GetColoredQuestName(), isTitle = true})
     table.insert(menu, {text="Objectives", hasArrow = true, menuList = subMenu})
     if Quest.HideIcons then
-        table.insert(menu, {text="Show Icons", func = function() Quest.HideIcons = false; QuestieQuest:UpdateHiddenNotes() end})
+        table.insert(menu, {text="Show Icons", func = function() 
+            Quest.HideIcons = false
+            QuestieQuest:UpdateHiddenNotes() 
+            Questie.db.char.TrackerHiddenQuests[Quest.Id] = nil
+        end})
     else
-        table.insert(menu, {text="Hide Icons", func = function() Quest.HideIcons = true; QuestieQuest:UpdateHiddenNotes() end})
+        table.insert(menu, {text="Hide Icons", func = function() 
+            Quest.HideIcons = true
+            QuestieQuest:UpdateHiddenNotes() 
+            Questie.db.char.TrackerHiddenQuests[Quest.Id] = true
+        end})
     end
     table.insert(menu, {text="Set TomTom Target", func = function() 
         LQuestie_CloseDropDownMenus()
@@ -383,6 +402,12 @@ end
 
 function QuestieTracker:Initialize()
     if QuestieTracker.started or (not Questie.db.char.trackerEnabled) then return; end
+    if not Questie.db.char.TrackerHiddenQuests then
+        Questie.db.char.TrackerHiddenQuests = {}
+    end
+    if not Questie.db.char.TrackerHiddenObjectives then
+        Questie.db.char.TrackerHiddenObjectives = {}
+    end
     _QuestieTracker.baseFrame = QuestieTracker:CreateBaseFrame()
     _QuestieTracker.menuFrame = LQuestie_Create_UIDropDownMenu("QuestieTrackerMenuFrame", UIParent)
 
@@ -483,6 +508,11 @@ function QuestieTracker:Update()
             line.label:SetText(Quest:GetColoredQuestName())
             line.label:Show()
             trackerWidth = math.max(trackerWidth, line.label:GetWidth())
+            
+            if _QuestieTracker.IsFirstRun and Questie.db.char.TrackerHiddenQuests[quest] then
+                Quest.HideIcons = true
+            end
+            
             for _,Objective in pairs(Quest.Objectives) do
                 line = _QuestieTracker:GetNextLine()
                 line:SetMode("line")
@@ -491,6 +521,10 @@ function QuestieTracker:Update()
                 line.label:SetText("    |cFFEEEEEE" .. Objective.Description .. ": " .. tostring(Objective.Collected) .. "/" .. tostring(Objective.Needed))
                 line.label:Show()
                 trackerWidth = math.max(trackerWidth, line.label:GetWidth())
+                
+                if _QuestieTracker.IsFirstRun and Questie.db.char.TrackerHiddenObjectives[tostring(quest) .. " " .. tostring(Objective.Index)] then
+                    Objective.HideIcons = true
+                end
             end
             line:SetVerticalPadding(trackerQuestPadding)
         end
@@ -507,6 +541,12 @@ function QuestieTracker:Update()
         _QuestieTracker.baseFrame:SetHeight((_QuestieTracker.baseFrame:GetTop() - line:GetBottom()) + trackerBackgroundPadding*2 - trackerQuestPadding*2)
     end
     -- make sure tracker is inside the screen
+    
+    if _QuestieTracker.IsFirstRun then
+        _QuestieTracker.IsFirstRun = nil
+        -- bad code 
+        QuestieQuest:UpdateHiddenNotes()
+    end
 end
 
 function QuestieTracker:CreateBaseFrame()
