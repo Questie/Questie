@@ -249,4 +249,6 @@ QuestieLocale.locale['frFR'] = {
 	['TOOLTIP_QUEST_COMPLETE'] = "(Complète)",
     ['TOOLTIP_QUEST_AVAILABLE'] = "(Disponible)",
     ['TOOLTIP_QUEST_ACTIVE'] = "(Actif)",
+	['MAP_QUEST_COLORS'] = "Couleur d'icône de la carte différente pour chaque quête",
+  ['MAP_QUEST_COLORS_DESC'] = "Afficher les icônes de la carte avec des couleurs générées de manière aléatoire en fonction de l'ID de quête",	
 };
