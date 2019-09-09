@@ -14,6 +14,8 @@ QuestieCorrections.questFixes = {
     [6132] = {"Get Me Out of Here!",{{12277,},nil,nil,},{{6019,},nil,},34,39,77,nil,{"Escort Melizza Brimbuzzle, then speak with Hornizz Brimbuzzle at the Kodo Graveyard in Desolace.",},nil,{nil,nil,nil,nil,},nil,nil,nil,nil,nil,nil,405,nil,nil,nil,nil,nil,},
     -- add 177528 to requiredSourceItems as addition to #857
     [5721] = {"The Battle of Darrowshire",{{10667,},nil,nil,},{{10926,},nil,},55,60,255,nil,{"Place the Relic Bundle at the Darrowshire town square.","Prevent Davil Lightfire's death until the death of Horgus.","Prevent Captain Redpath's death until Redpath the Corrupted appears.","Defeat Redpath the Corrupted.","Speak with the spirit of Joseph Redpath when he appears at the town square, then speak with Pamela at her home.",},nil,{{{10936,"Accept Redpath's Forgiveness"},},nil,nil,nil,},15209,nil,{5941,},nil,nil,nil,139,nil,nil,nil,{177528,},5942,},    
+    -- fix race requirement bitmask to be only horde (was 255)
+    [858] = {"Ignition",{{3439,},nil,nil,},{{3439,},nil,},13,18,178,nil,{"Get the Ignition Key and bring it to Wizzlecrank.",},nil,{nil,nil,{{5050,nil},},nil,},nil,nil,nil,nil,nil,nil,17,nil,nil,nil,nil,nil,},
 }
 
 QuestieCorrections.npcFixes = {
