@@ -120,7 +120,11 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
 
 
         icon.texture:SetTexture(data.Icon) -- todo: implement .GlowIcon
-        icon.texture:SetVertexColor(1, 1, 1, 1);
+        local colors = {1, 1, 1}
+        if data.IconColor ~= nil and Questie.db.global.questObjectiveColors then
+            colors = data.IconColor
+        end
+        icon.texture:SetVertexColor(colors[1], colors[2], colors[3], 1);
         -- because of how frames work, I cant seem to set the glow as being behind the note. So for now things are draw in reverse.
         if data.IconScale then
             local scale = 16 * (data:GetIconScale()*(Questie.db.global.globalScale or 0.7));

@@ -142,6 +142,26 @@ function QuestieFramePool:UpdateGlowConfig(mini, mode)
     end
 end
 
+function QuestieFramePool:UpdateColorConfig(mini, enable)
+    if enable then
+        for _, icon in pairs(usedFrames) do
+            if (mini and icon.miniMapIcon) or not mini then
+                local colors = {1, 1, 1}
+                if icon.data.IconColor ~= nil then
+                    colors = icon.data.IconColor
+                end
+                icon.texture:SetVertexColor(colors[1], colors[2], colors[3], 1)
+            end
+        end
+    else
+        for _, icon in pairs(usedFrames) do
+            if (mini and icon.miniMapIcon) or not mini then
+                icon.texture:SetVertexColor(1, 1, 1, 1)
+            end
+        end
+    end
+end
+
 -- Local Functions --
 
 --[[Use FRAME.Unload(FRAME) on frame object to unload!
