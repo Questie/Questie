@@ -74,6 +74,8 @@ QuestieCorrections.itemFixes = {
     [11188]={"Yellow Power Crystal",{4284,4381,4385,4386},{},{164661,164781}},
     -- add NPC 1988 (missing in cmangos) and object 152094 (present in cmangos)
     [10639]={"Hyacinth Mushroom",{3521},{1988,1989},{152094}},
+    [14338] = {"Empty Water Tube",{4812},{},{}},
+    [14339] = {"Moonwell Water Tube",{4812},{},{174795}},
 	
     -- quest related herbs
     [2449] = {"Earthroot",{6123,6128},{},{1619,3726}},
