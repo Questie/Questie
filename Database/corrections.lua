@@ -12,7 +12,8 @@ QuestieCorrections.questFixes = {
 
     -- change race requirement bitmask to be only alliance (was 255)
     [6132] = {"Get Me Out of Here!",{{12277,},nil,nil,},{{6019,},nil,},34,39,77,nil,{"Escort Melizza Brimbuzzle, then speak with Hornizz Brimbuzzle at the Kodo Graveyard in Desolace.",},nil,{nil,nil,nil,nil,},nil,nil,nil,nil,nil,nil,405,nil,nil,nil,nil,nil,},
-
+    -- add 177528 to requiredSourceItems as addition to #857
+    [5721] = {"The Battle of Darrowshire",{{10667,},nil,nil,},{{10926,},nil,},55,60,255,nil,{"Place the Relic Bundle at the Darrowshire town square.","Prevent Davil Lightfire's death until the death of Horgus.","Prevent Captain Redpath's death until Redpath the Corrupted appears.","Defeat Redpath the Corrupted.","Speak with the spirit of Joseph Redpath when he appears at the town square, then speak with Pamela at her home.",},nil,{{{10936,"Accept Redpath's Forgiveness"},},nil,nil,nil,},15209,nil,{5941,},nil,nil,nil,139,nil,nil,nil,{177528,},5942,},    
 }
 
 QuestieCorrections.npcFixes = {
@@ -107,7 +108,7 @@ QuestieCorrections.itemFixes = {
     [14047]={"Runecloth",{9266,5218,5221,5224,5227,6031,7642,7795,7796,7800,7801,7805,7806,7811,7812,7818,7819,7823,7824,7825,7832,7836,7837},{},{}},
     [14048]={"Bolt of Runecloth",{8782,8808,9237,9238,9239,9240,5518,5519},{},{}},
 
-	
+    [15209] = {"Relic Bundle",{5721},{},{}},
 }
 
 -- some quest items are shared across factions but require different sources for each faction (not sure if there is a better way to implement this)
