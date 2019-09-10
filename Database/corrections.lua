@@ -146,7 +146,8 @@ QuestieCorrections.questRequirementFixes = {
     [1106] = {1104, 1105},
     [431] = {366}, -- #638
     [410] = {366}, -- #638
-    [926] = {809} -- #606
+    [926] = {809}, -- #606
+    [364] = {}, -- #882
 }
 
 QuestieCorrections.questExclusiveGroupFixes = {
