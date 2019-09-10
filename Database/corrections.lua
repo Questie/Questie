@@ -16,6 +16,10 @@ QuestieCorrections.questFixes = {
     [5721] = {"The Battle of Darrowshire",{{10667,},nil,nil,},{{10926,},nil,},55,60,255,nil,{"Place the Relic Bundle at the Darrowshire town square.","Prevent Davil Lightfire's death until the death of Horgus.","Prevent Captain Redpath's death until Redpath the Corrupted appears.","Defeat Redpath the Corrupted.","Speak with the spirit of Joseph Redpath when he appears at the town square, then speak with Pamela at her home.",},nil,{{{10936,"Accept Redpath's Forgiveness"},},nil,nil,nil,},15209,nil,{5941,},nil,nil,nil,139,nil,nil,nil,{177528,},5942,},    
     -- fix race requirement bitmask to be only horde (was 255)
     [858] = {"Ignition",{{3439,},nil,nil,},{{3439,},nil,},13,18,178,nil,{"Get the Ignition Key and bring it to Wizzlecrank.",},nil,{nil,nil,{{5050,nil},},nil,},nil,nil,nil,nil,nil,nil,17,nil,nil,nil,nil,nil,},
+    -- fix race requirement bitmask to be horde (was 16) #888
+    [367] = {"A New Plague",{{1518,},nil,nil,},{{1518,},nil,},6,6,178,nil,{"Apothecary Johaan in the town of Brill wants you to collect 5 Vials of Darkhound Blood.",},nil,{nil,nil,{{2858,nil},},nil,},nil,nil,nil,nil,nil,nil,85,nil,nil,nil,nil,368,},
+    [368] = {"A New Plague",{{1518,},nil,nil,},{{1518,},nil,},6,9,178,nil,{"Apothecary Johaan of the town of Brill needs 5 Vile Fin Scales from Murlocs in Tirisfal Glades.",},nil,{nil,nil,{{2859,nil},},nil,},nil,nil,{367,},nil,nil,nil,85,nil,nil,nil,nil,369,},
+    [369] = {"A New Plague",{{1518,},nil,nil,},{{1518,},nil,},6,11,178,nil,{"Apothecary Johaan in the town of Brill wants you to bring him 4 samples of venom from a Vicious Night Web Spider.",},nil,{nil,nil,{{2872,nil},},nil,},nil,nil,{368,},nil,nil,nil,85,nil,nil,nil,nil,492,},
 }
 
 QuestieCorrections.npcFixes = {
