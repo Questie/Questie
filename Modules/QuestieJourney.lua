@@ -5,7 +5,7 @@ local journeyFrame = {};
 local isWindowShown = false;
 local lastOpenWindow = "journey";
 local lastOpenSearch = "quest";
-containerCache = nil;
+local containerCache = nil;
 
 local function Spacer(container, size)
     local spacer = AceGUI:Create("Label");
@@ -1100,8 +1100,8 @@ local function DrawZoneQuestTab(container)
     Spacer(container);
 
     -- Dropdown for Continent
-    local CDropdown = AceGUI:Create("Dropdown");
-    local zDropdown = AceGUI:Create("Dropdown");
+    local CDropdown = AceGUI:Create("LQDropdown");
+    local zDropdown = AceGUI:Create("LQDropdown");
     local treegroup = AceGUI:Create("SimpleGroup");
 
     CDropdown:SetList(continentTable);
@@ -1201,7 +1201,7 @@ function CollectZoneQuests(container, zoneid)
 end
 
 -- Draw search results from advanced search tab
-searchResultTabs = nil;
+local searchResultTabs = nil;
 function DrawSearchResultTab(searchGroup, searchType, query)
     if not searchResultTabs then
         searchGroup:ReleaseChildren();
@@ -1270,9 +1270,9 @@ function DrawSearchResultTab(searchGroup, searchType, query)
 end
 
 -- Advanced Search Tab
-typeDropdown = nil;
-searchBox = nil;
-searchGroup = nil;
+local typeDropdown = nil;
+local searchBox = nil;
+local searchGroup = nil;
 local function DrawSearchTab(container)
     -- Header
     local header = AceGUI:Create("Heading");
@@ -1281,7 +1281,7 @@ local function DrawSearchTab(container)
     container:AddChild(header);
     Spacer(container);
     -- Declare scopes
-    typeDropdown = AceGUI:Create("Dropdown");
+    typeDropdown = AceGUI:Create("LQDropdown");
     searchBox = AceGUI:Create("EditBox");
     searchGroup = AceGUI:Create("SimpleGroup");
     local searchBtn = AceGUI:Create("Button");
@@ -1381,6 +1381,7 @@ local function addLine(frame, text)
     local label = AceGUI:Create("Label")
     label:SetFullWidth(true);
     label:SetText(text)
+    label:SetFontObject(GameFontNormal)
     frame:AddChild(label)
 end
 
@@ -1396,10 +1397,60 @@ end
 local function fillQuestDetailsFrame(details, id)
     local quest = QuestieDB.questData[id]
     -- header
-    title = AceGUI:Create("Heading")
+    local title = AceGUI:Create("Heading")
     title:SetFullWidth(true);
     title:SetText(quest[QuestieDB.questKeys.name])
     details:AddChild(title)
+    -- hidden states
+    local hiddenByUser = AceGUI:Create("CheckBox")
+    hiddenByUser.id = id
+    hiddenByUser:SetLabel("Hidden by user")
+    hiddenByUser:SetCallback("OnValueChanged", function(frame)
+        if Questie.db.char.hidden[frame.id] ~= nil then
+            QuestieQuest:UnhideQuest(frame.id)
+        else
+            QuestieQuest:HideQuest(frame.id)
+        end
+    end)
+    hiddenByUser:SetCallback("OnEnter", function()
+        if GameTooltip:IsShown() then
+            return;
+        end
+        GameTooltip:SetOwner(_G["QuestieJourneyFrame"], "ANCHOR_CURSOR");
+        GameTooltip:AddLine("Quests hidden by the user.")
+        GameTooltip:AddLine("\nWhen selected, hides the quest from the map, even if it is active.\n\nHiding a quest is also possible by Shift-clicking it on the map.", 1, 1, 1, true);
+        GameTooltip:SetFrameStrata("TOOLTIP");
+        GameTooltip:Show();
+    end)
+    hiddenByUser:SetCallback("OnLeave", function()
+        if GameTooltip:IsShown() then
+            GameTooltip:Hide();
+        end
+    end)
+    details:AddChild(hiddenByUser)
+    local hiddenQuests = AceGUI:Create("CheckBox")
+    hiddenQuests:SetValue(QuestieCorrections.hiddenQuests[id] ~= nil)
+    hiddenQuests:SetLabel("Hidden by Questie")
+    hiddenQuests:SetCallback("OnEnter", function()
+        if GameTooltip:IsShown() then
+            return;
+        end
+        GameTooltip:SetOwner(_G["QuestieJourneyFrame"], "ANCHOR_CURSOR");
+        GameTooltip:AddLine("Quests hidden by Questie");
+        GameTooltip:AddLine("\nCertain quests, like world/holiday/class/etc. are hidden.\n\nWe will eventually show more of these once we can properly check their conditions.\n\nSome are intentionally hidden and will always stay that way though (like CLUCK!).", 1, 1, 1, true);
+        GameTooltip:SetFrameStrata("TOOLTIP");
+        GameTooltip:Show();
+    end)
+    hiddenQuests:SetCallback("OnLeave", function()
+        if GameTooltip:IsShown() then
+            GameTooltip:Hide();
+        end
+    end)
+    hiddenQuests:SetCallback("OnValueChanged", function(frame)
+        frame:SetValue(not frame:GetValue())
+    end)
+    --hiddenQuests:SetDisabled(true)
+    details:AddChild(hiddenQuests)
     -- general info
     addLine(details, yellow .. "Quest ID:|r " .. id)
     addLine(details,  yellow .. "Quest Level:|r " .. quest[QuestieDB.questKeys.questLevel])
@@ -1442,7 +1493,7 @@ function DrawResultTab(container, group)
         key = QuestieDB.questKeys.name
     elseif group == "npc" then
         database = QuestieDB.npcData
-        key = DB_NAME
+        key = QuestieDB.npcKeys.name
     elseif group == "object" then
         database = QuestieDB.objectData
         key = QuestieDB.objectKeys.name
@@ -1453,10 +1504,12 @@ function DrawResultTab(container, group)
         return
     end
     for k,_ in pairs(QuestieSearch.LastResult[group]) do
-        table.insert(results, {
-            ["text"] = database[k][key],
-            ["value"] = tonumber(k)
-        })
+        if database[k] ~= nil and database[k][key] ~= nil then
+            table.insert(results, {
+                ["text"] = database[k][key],
+                ["value"] = tonumber(k)
+            })
+        end
     end
     local resultFrame = AceGUI:Create("SimpleGroup");
     resultFrame:SetLayout("Fill");
@@ -1517,7 +1570,7 @@ function journeySelectTabGroup(container, event, group)
     end
 end
 
-tabGroup = nil;
+local tabGroup = nil;
 function QuestieJourney:Initialize()
 
     journeyFrame.frame = AceGUI:Create("Frame");

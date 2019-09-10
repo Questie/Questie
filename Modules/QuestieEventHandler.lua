@@ -75,10 +75,12 @@ for i = 1, 35 do
 end
 
 function QuestieEventHandler:PLAYER_ENTERING_WORLD()
+    C_Timer.After(1, function()
+        QuestieDB:Initialize()
+    end)
     C_Timer.After(4, function()
         _hack_prime_log()
         qPlayerLevel = UnitLevel("player")
-        QuestieDB:Initialize()
         QuestieQuest:Initialize()
         QuestieQuest:GetAllQuestIdsNoObjectives()
         QuestieQuest:CalculateAvailableQuests()

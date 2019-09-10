@@ -116,19 +116,18 @@ function QuestieDB:GetItem(ItemID)
         item.Id = ItemID;
         item.Name = raw[1];
         item.Sources = {};
-        if not QuestieCorrections.questItemBlacklist[ItemID] then
-            for k,v in pairs(raw[3]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
-                local source = {};
-                source.Type = "monster";
-                source.Id = v;
-                table.insert(item.Sources, source);
-            end
-            for k,v in pairs(raw[4]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
-                local source = {};
-                source.Type = "object";
-                source.Id = v;
-                table.insert(item.Sources, source);
-            end
+        item.Hidden = QuestieCorrections.questItemBlacklist[ItemID]
+        for k,v in pairs(raw[3]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
+            local source = {};
+            source.Type = "monster";
+            source.Id = v;
+            table.insert(item.Sources, source);
+        end
+        for k,v in pairs(raw[4]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
+            local source = {};
+            source.Type = "object";
+            source.Id = v;
+            table.insert(item.Sources, source);
         end
     end
     QuestieDB._ItemCache[ItemID] = item;
@@ -183,7 +182,7 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
         QO.Starts["GameObject"] = rawdata[2][2] --2.2
         QO.Starts["Item"] = rawdata[2][3] --2.3
         QO.Ends = {} --ends 3
-        QO.Hidden = rawdata.hidden
+        QO.Hidden = rawdata.hidden or QuestieCorrections.hiddenQuests[QuestID]
         QO.Description = rawdata[8]
         QO.MustHave = rawdata.mustHave
 
@@ -386,7 +385,7 @@ function QuestieDB:_GetSpecialNPC(NPCID)
     end
     local rawdata = Questie_SpecialNPCs[NPCID]
     if rawdata then
-        NPC = {}
+        local NPC = {}
         NPC.Id = NPCID
         QuestieStreamLib:load(rawdata)
         NPC.Name = QuestieStreamLib:readTinyString()
@@ -424,7 +423,7 @@ function QuestieDB:GetNPC(NPCID)
     end
     local rawdata = QuestieCorrections.npcFixes[NPCID] or QuestieDB.npcData[NPCID]
     if(rawdata)then
-        NPC = {}
+        local NPC = {}
         NPC.Type = "NPC" --This can be used to look at which type it is, Gameobject and Items will have the same! (should be monster to match wow api)
         NPC.Id = NPCID
         NPC.Name = LangNameLookup[NPCID] or rawdata[DB_NAME]
@@ -603,7 +602,7 @@ function QuestieDB:deleteGatheringNodes()
         1731,1732,1733,1734,1735,123848,150082,175404,176643,177388,324,150079,176645,2040,123310 -- mining
     };
     for k,v in pairs(prune) do
-        QuestieDB.objectData[v] = nil
+        QuestieDB.objectData[v][DB_OBJ_SPAWNS] = nil
     end
 end
 

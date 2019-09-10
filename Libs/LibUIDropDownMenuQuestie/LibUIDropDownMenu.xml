@@ -1,0 +1,26 @@
+<!-- $Id: LibUIDropDownMenu.xml 40 2018-12-23 16:14:03Z arith $ -->
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+	<Script file="LibUIDropDownMenu.lua"/>
+	<Include file="LibUIDropDownMenuTemplates.xml"/>
+	<Script file="LibEasyMenu.lua"/>
+	<Script file="AceGUIWidget-LQDropDown.lua"/>
+<!--
+	<Button name="LQuestie_DropDownList1" toplevel="true" frameStrata="FULLSCREEN_DIALOG" inherits="LQuestie_UIDropDownListTemplate" hidden="true" id="1">
+		<Size>
+			<AbsDimension x="180" y="10"/>
+		</Size>
+		<Scripts>
+			<OnLoad>
+				local fontName, fontHeight, fontFlags = _G["LQuestie_DropDownList1Button1NormalText"]:GetFont();
+				LQuestie_UIDROPDOWNMENU_DEFAULT_TEXT_HEIGHT = fontHeight;
+			</OnLoad>
+		</Scripts>
+	</Button>
+	<Button name="LQuestie_DropDownList2" toplevel="true" frameStrata="FULLSCREEN_DIALOG" inherits="LQuestie_UIDropDownListTemplate" hidden="true" id="2">
+		<Size>
+			<AbsDimension x="180" y="10"/>
+		</Size>
+	</Button>
+-->
+</Ui>
