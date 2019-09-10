@@ -457,7 +457,9 @@ local function _BuildMenu(Quest)
         QuestLog_UpdateQuestDetails() 
         QuestLog_Update() 
     end})
-    table.insert(menu, {text="Un-track Quest", func = function() end})
+    if GetCVar("autoQuestWatch") == "0" then
+        table.insert(menu, {text="Un-track Quest", func = function() end})
+    end
     if Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "number" and Questie.db.char.TrackerFocus == Quest.Id then
         table.insert(menu, {text="Unfocus", func = function() LQuestie_CloseDropDownMenus(); _UnFocus(); QuestieQuest:UpdateHiddenNotes() end})
     else
@@ -497,9 +499,13 @@ function QuestieTracker:Initialize()
     if not Questie.db.char.TrackerHiddenObjectives then
         Questie.db.char.TrackerHiddenObjectives = {}
     end
+    if not Questie.db.char.TrackedQuests then
+        Questie.db.char.TrackedQuests = {}
+    end
     _QuestieTracker.baseFrame = QuestieTracker:CreateBaseFrame()
     _QuestieTracker.menuFrame = LQuestie_Create_UIDropDownMenu("QuestieTrackerMenuFrame", UIParent)
 
+    QuestieTracker:HookBaseTracker()
     
     -- this number is static, I doubt it will ever need more
     local lastFrame = nil
@@ -589,7 +595,7 @@ function QuestieTracker:Update()
     for quest in pairs (qCurrentQuestlog) do
         -- if quest.userData.tracked 
         local Quest = QuestieDB:GetQuest(quest)
-        if not QuestieQuest:IsComplete(Quest) then -- maybe have an option to display quests in the list with (Complete!) in the title
+        if not QuestieQuest:IsComplete(Quest) and ((GetCVar("autoQuestWatch") == "1") or Questie.db.char.TrackedQuests[quest])  then -- maybe have an option to display quests in the list with (Complete!) in the title
             line = _QuestieTracker:GetNextLine()
             line:SetMode("header")
             line:SetQuest(Quest)
@@ -649,6 +655,38 @@ function QuestieTracker:Update()
         _QuestieTracker.IsFirstRun = nil
         -- bad code 
         QuestieQuest:UpdateHiddenNotes()
+    end
+end
+
+local function _RemoveQuestWatch(index, isQuestie)
+    if not isQuestie then
+        Questie.db.char.TrackedQuests[select(8,GetQuestLogTitle(index)) or -1] = nil
+        C_Timer.After(0.1, function() 
+            QuestieTracker:Update()
+        end)
+    end
+end
+
+local function _AQW_Insert(index, expire)
+    RemoveQuestWatch(index, true)
+    local qid = select(8,GetQuestLogTitle(index))
+    if Questie.db.char.TrackedQuests[qid] then
+        Questie.db.char.TrackedQuests[qid] = nil
+    else
+        Questie.db.char.TrackedQuests[qid] = true
+    end
+    C_Timer.After(0.1, function() 
+        QuestieTracker:Update()
+    end)
+end
+
+function QuestieTracker:HookBaseTracker()
+    hooksecurefunc("AutoQuestWatch_Insert", _AQW_Insert)
+    hooksecurefunc("RemoveQuestWatch", _RemoveQuestWatch)
+    
+    -- this is probably bad
+    IsQuestWatched = function(index)
+        return Questie.db.char.TrackedQuests[select(8,GetQuestLogTitle(index)) or -1]
     end
 end
 
