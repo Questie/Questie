@@ -92,7 +92,7 @@ function _QuestieOptions:OpenConfigWindow()
 
     if not _QuestieOptions.configFrame:IsShown() then
         PlaySound(882);
-        LibStub("AceConfigDialog-3.0"):Open("Questie", _QuestieOptions.configFrame)
+        LibStub("AceConfigDialogQuestie-3.0"):Open("Questie", _QuestieOptions.configFrame)
     else
         _QuestieOptions.configFrame:Hide();
     end
@@ -1320,8 +1320,8 @@ function Questie:OnInitialize()
     Questie:RegisterChatCommand("questieclassic", "QuestieSlash")
     Questie:RegisterChatCommand("questie", "QuestieSlash")
 
-    LibStub("AceConfig-3.0"):RegisterOptionsTable("Questie", options)
-    self.configFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Questie", "Questie");
+    LibStub("AceConfigQuestie-3.0"):RegisterOptionsTable("Questie", options)
+    self.configFrame = LibStub("AceConfigDialogQuestie-3.0"):AddToBlizOptions("Questie", "Questie");
 
     --Initialize the DB settings.
     Questie:debug(DEBUG_DEVELOP, QuestieLocale:GetUIString('DEBUG_CLUSTER', Questie.db.global.clusterLevel))
