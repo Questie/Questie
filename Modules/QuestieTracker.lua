@@ -65,16 +65,17 @@ local function _GetNearestSpawn(Objective)
                 for _,spawn in pairs(spawns) do
                     local dX, dY, dInstance = HBD:GetWorldCoordinatesFromZone(spawn[1]/100.0, spawn[2]/100.0, zoneDataAreaIDToUiMapID[zone])
                     --print (" " .. tostring(dX) .. " " .. tostring(dY) .. " " .. zoneDataAreaIDToUiMapID[zone])
-                    if dInstance == playerI then
-                        local dist = HBD:GetWorldDistance(dInstance, playerX, playerY, dX, dY)
-                        if dist < bestDistance then
-                            bestDistance = dist
-                            bestSpawn = spawn
-                            bestSpawnZone = zone
-                            bestSpawnId = id
-                            bestSpawnType = spawnData.Type
-                            bestSpawnName = spawnData.Name
-                        end
+                    local dist = HBD:GetWorldDistance(dInstance, playerX, playerY, dX, dY)
+                    if dInstance ~= playerI then
+                        dist = 500000 + dist * 100 -- hack
+                    end
+                    if dist < bestDistance then
+                        bestDistance = dist
+                        bestSpawn = spawn
+                        bestSpawnZone = zone
+                        bestSpawnId = id
+                        bestSpawnType = spawnData.Type
+                        bestSpawnName = spawnData.Name
                     end
                 end
             end
@@ -101,16 +102,17 @@ local function _GetNearestQuestSpawn(Quest)
                 for _,spawn in pairs(spawns) do
                     local dX, dY, dInstance = HBD:GetWorldCoordinatesFromZone(spawn[1]/100.0, spawn[2]/100.0, zoneDataAreaIDToUiMapID[zone])
                     --print (" " .. tostring(dX) .. " " .. tostring(dY) .. " " .. zoneDataAreaIDToUiMapID[zone])
-                    if dInstance == playerI then
-                        local dist = HBD:GetWorldDistance(dInstance, playerX, playerY, dX, dY)
-                        if dist < bestDistance then
-                            bestDistance = dist
-                            bestSpawn = spawn
-                            bestSpawnZone = zone
-                            bestSpawnId = id
-                            bestSpawnType = Quest.Finisher.Type
-                            bestSpawnName = NPC.LocalizedName or NPC.Name
-                        end
+                    if dInstance ~= playerI then
+                        dist = 500000 + dist * 100 -- hack
+                    end
+                    local dist = HBD:GetWorldDistance(dInstance, playerX, playerY, dX, dY)
+                    if dist < bestDistance then
+                        bestDistance = dist
+                        bestSpawn = spawn
+                        bestSpawnZone = zone
+                        bestSpawnId = id
+                        bestSpawnType = Quest.Finisher.Type
+                        bestSpawnName = NPC.LocalizedName or NPC.Name
                     end
                 end
             end
@@ -453,20 +455,24 @@ end
 
 local function _ShowObjectiveOnMap(Objective)
     -- calculate nearest spawn
-    spawn, zone, name = _GetNearestSpawn(Objective) 
-    --print("Found best spawn: " .. name .. " in zone " .. tostring(zone) .. " at " .. tostring(spawn[1]) .. " " .. tostring(spawn[2]))
-    WorldMapFrame:Show()
-    WorldMapFrame:SetMapID(zoneDataAreaIDToUiMapID[zone])
-    _FlashObjective(Objective)
+    spawn, zone, name = _GetNearestSpawn(Objective)
+    if spawn then
+        --print("Found best spawn: " .. name .. " in zone " .. tostring(zone) .. " at " .. tostring(spawn[1]) .. " " .. tostring(spawn[2]))
+        WorldMapFrame:Show()
+        WorldMapFrame:SetMapID(zoneDataAreaIDToUiMapID[zone])
+        _FlashObjective(Objective)
+    end
 end
 
 local function _ShowFinisherOnMap(Quest)
     -- calculate nearest spawn
     spawn, zone, name = _GetNearestQuestSpawn(Quest) 
-    --print("Found best spawn: " .. name .. " in zone " .. tostring(zone) .. " at " .. tostring(spawn[1]) .. " " .. tostring(spawn[2]))
-    WorldMapFrame:Show()
-    WorldMapFrame:SetMapID(zoneDataAreaIDToUiMapID[zone])
-    _FlashFinisher(Quest)
+    if spawn then
+        --print("Found best spawn: " .. name .. " in zone " .. tostring(zone) .. " at " .. tostring(spawn[1]) .. " " .. tostring(spawn[2]))
+        WorldMapFrame:Show()
+        WorldMapFrame:SetMapID(zoneDataAreaIDToUiMapID[zone])
+        _FlashFinisher(Quest)
+    end
 end
 
 local function _BuildMenu(Quest) 
@@ -546,6 +552,61 @@ local function _BuildMenu(Quest)
         table.insert(subMenu, {text = Objective.Description, hasArrow = true, menuList = objectiveMenu})
     end
     
+    if Quest.SpecialObjectives then
+        for _,Objective in pairs(Quest.SpecialObjectives) do
+            local objectiveMenu = {}
+            --_UnFocus()
+            if Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus == tostring(Quest.Id) .. " " .. tostring(Objective.Index) then
+                table.insert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_UNFOCUS'), func = function() LQuestie_CloseDropDownMenus(); _UnFocus(); QuestieQuest:UpdateHiddenNotes() end})
+            else
+                table.insert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_FOCUS_OBJECTIVE'), func = function() LQuestie_CloseDropDownMenus(); _FocusObjective(Quest, Objective); QuestieQuest:UpdateHiddenNotes() end})
+            end
+            table.insert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_SET_TOMTOM'), func = function() 
+                LQuestie_CloseDropDownMenus()
+                spawn, zone, name = _GetNearestSpawn(Objective)
+                if spawn then
+                    _SetTomTomTarget(name, zone, spawn[1], spawn[2])
+                end
+            end})
+            if Objective.HideIcons then
+                table.insert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_SHOW_ICONS'), func = function() 
+                    LQuestie_CloseDropDownMenus()
+                    Objective.HideIcons = nil;
+                    QuestieQuest:UpdateHiddenNotes()
+                    Questie.db.char.TrackerHiddenObjectives[tostring(Quest.Id) .. " " .. tostring(Objective.Index)] = nil
+                end})
+            else
+                table.insert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_HIDE_ICONS'), func = function()
+                    LQuestie_CloseDropDownMenus()
+                    Objective.HideIcons = true;
+                    QuestieQuest:UpdateHiddenNotes()
+                    Questie.db.char.TrackerHiddenObjectives[tostring(Quest.Id) .. " " .. tostring(Objective.Index)] = true
+                end})
+            end
+            
+            table.insert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_SHOW_ON_MAP'), func = function()
+                LQuestie_CloseDropDownMenus()
+                local needHiddenUpdate
+                if (Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus ~= tostring(Quest.Id) .. " " .. tostring(Objective.Index))
+                or (Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "number" and Questie.db.char.TrackerFocus ~= Quest.Id) then
+                    _UnFocus()
+                    needHiddenUpdate = true
+                end
+                if Objective.HideIcons then
+                    Objective.HideIcons = nil
+                    needHiddenUpdate = true
+                end
+                if Quest.HideIcons then
+                    Quest.HideIcons = nil
+                    needHiddenUpdate = true
+                end
+                if needHiddenUpdate then QuestieQuest:UpdateHiddenNotes(); end
+                _ShowObjectiveOnMap(Objective)
+            end})
+            
+            table.insert(subMenu, {text = Objective.Description, hasArrow = true, menuList = objectiveMenu})
+        end
+    end
     
     table.insert(menu, {text=Quest:GetColoredQuestName(), isTitle = true})
     if not QuestieQuest:IsComplete(Quest) then
