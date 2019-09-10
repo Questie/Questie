@@ -146,6 +146,7 @@ _QuestieOptions.defaults = {
 	  trackerEnabled = true,
 	  trackerColorObjectives = 'white',
 	  trackerQuestPadding = 2,
+	  trackerSortObjectives = 'byComplete',
     },
       char = {
           complete = {},
@@ -810,7 +811,24 @@ local options = {
 						QuestieTracker:Update()
                     end,
                 },
-				Spacer_A = _QuestieOptions:Spacer(7),
+				sortObjectives = {
+                    type = "select",
+                    order = 7,
+                    values = {
+                        ['byComplete'] = QuestieLocale:GetUIString('TRACKER_SORT_BY_COMPLETE'),
+						['byLevel'] = QuestieLocale:GetUIString('TRACKER_SORT_BY_LEVEL'),
+						['byLevelReversed'] = QuestieLocale:GetUIString('TRACKER_SORT_BY_LEVEL_REVERSED'),
+						['none'] = QuestieLocale:GetUIString('TRACKER_DONT_SORT'),
+                    },
+                    style = 'dropdown',
+                    name = function() return QuestieLocale:GetUIString('TRACKER_SORT_OBJECTIVES') end,
+					desc = function() return QuestieLocale:GetUIString('TRACKER_SORT_OBJECTIVES_DESC') end,
+                    get = function() return Questie.db.global.trackerSortObjectives end,
+                    set = function(input, key)
+						Questie.db.global.trackerSortObjectives = key
+						QuestieTracker:Update()
+                    end,
+                },
 				
 				fontSizeHeader = {
                     type = "range",

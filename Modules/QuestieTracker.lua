@@ -56,7 +56,6 @@ local function _OnDragStart(self, button)
 end
 
 local function _GetNearestSpawn(Objective) 
-    print("GetNearest...")
     local playerX, playerY, playerI = HBD:GetPlayerWorldPosition()
     local bestDistance = 999999999
     local bestSpawn, bestSpawnZone, bestSpawnId, bestSpawnType, bestSpawnName
@@ -85,6 +84,40 @@ local function _GetNearestSpawn(Objective)
 end
 
 local function _GetNearestQuestSpawn(Quest)
+    if QuestieQuest:IsComplete(Quest) then
+        local NPC = nil
+        if Quest.Finisher ~= nil then
+            if Quest.Finisher.Type == "monster" then
+                NPC = QuestieDB:GetNPC(Quest.Finisher.Id)
+            elseif Quest.Finisher.Type == "object" then
+                NPC = QuestieDB:GetObject(Quest.Finisher.Id)
+            end
+        end
+        if NPC and NPC.Spawns then -- redundant code
+            local bestDistance = 999999999
+            local playerX, playerY, playerI = HBD:GetPlayerWorldPosition()
+            local bestSpawn, bestSpawnZone, bestSpawnId, bestSpawnType, bestSpawnName
+            for zone, spawns in pairs(NPC.Spawns) do
+                for _,spawn in pairs(spawns) do
+                    local dX, dY, dInstance = HBD:GetWorldCoordinatesFromZone(spawn[1]/100.0, spawn[2]/100.0, zoneDataAreaIDToUiMapID[zone])
+                    --print (" " .. tostring(dX) .. " " .. tostring(dY) .. " " .. zoneDataAreaIDToUiMapID[zone])
+                    if dInstance == playerI then
+                        local dist = HBD:GetWorldDistance(dInstance, playerX, playerY, dX, dY)
+                        if dist < bestDistance then
+                            bestDistance = dist
+                            bestSpawn = spawn
+                            bestSpawnZone = zone
+                            bestSpawnId = id
+                            bestSpawnType = spawnData.Type
+                            bestSpawnName = spawnData.Name
+                        end
+                    end
+                end
+            end
+            return bestSpawn, bestSpawnZone, bestSpawnName, bestSpawnId, bestSpawnType, bestDistance
+        end
+        return nil
+    end
     local bestDistance = 999999999
     local bestSpawn, bestSpawnZone, bestSpawnId, bestSpawnType, bestSpawnName
     for _,Objective in pairs(Quest.Objectives) do
@@ -137,7 +170,6 @@ local function _FocusObjective(TargetQuest, TargetObjective)
         _UnFocus()
     end
     Questie.db.char.TrackerFocus = tostring(TargetQuest.Id) .. " " .. tostring(TargetObjective.Index)
-    print("Focusing " .. Questie.db.char.TrackerFocus)
     for quest in pairs (qCurrentQuestlog) do
         local Quest = QuestieDB:GetQuest(quest)
         if Quest.Objectives then
@@ -162,7 +194,6 @@ local function _FocusQuest(TargetQuest)
         _UnFocus()
     end
     Questie.db.char.TrackerFocus = TargetQuest.Id
-    print("Focusing " .. tostring(Questie.db.char.TrackerFocus))
     for quest in pairs (qCurrentQuestlog) do
         local Quest = QuestieDB:GetQuest(quest)
         if quest == TargetQuest.Id then
@@ -428,7 +459,9 @@ local function _BuildMenu(Quest)
     
     
     table.insert(menu, {text=Quest:GetColoredQuestName(), isTitle = true})
-    table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_OBJECTIVES'), hasArrow = true, menuList = subMenu})
+    if not QuestieQuest:IsComplete(Quest) then
+        table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_OBJECTIVES'), hasArrow = true, menuList = subMenu})
+    end
     if Quest.HideIcons then
         table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_SHOW_ICONS'), func = function() 
             Quest.HideIcons = nil
@@ -471,7 +504,6 @@ local function _BuildMenu(Quest)
 end
 
 local function _OnClick(self, button)
-    print("Click " .. button)
     if button == "RightButton" then
         _BuildMenu(self.Quest)
     end
@@ -667,18 +699,60 @@ function QuestieTracker:Update()
     -- populate tracker
     local trackerWidth = 0
     local line = nil
+    
+    local order = {}
+    local questCompletePercent = {}
     for quest in pairs (qCurrentQuestlog) do
+        local Quest = QuestieDB:GetQuest(quest)
+        if QuestieQuest:IsComplete(Quest) or not Quest.Objectives then
+            questCompletePercent[Quest.Id] = 1
+        else
+            local percent = 0
+            local count = 0;
+            for _,Objective in pairs(Quest.Objectives) do
+                percent = percent + (Objective.Collected / Objective.Needed)
+                count = count + 1
+            end
+            percent = percent / count
+            questCompletePercent[Quest.Id] = percent
+        end
+        table.insert(order, quest)
+    end
+    if Questie.db.global.trackerSortObjectives == "byComplete" then
+        table.sort(order, function(a, b) 
+            local vA, vB = questCompletePercent[a], questCompletePercent[b]
+            if vA == vB then
+                return QuestieDB:GetQuest(a).Level < QuestieDB:GetQuest(b).Level
+            end
+            return vB < vA
+        end)
+    elseif Questie.db.global.trackerSortObjectives == "byLevel" then
+        table.sort(order, function(a, b) 
+            return QuestieDB:GetQuest(a).Level < QuestieDB:GetQuest(b).Level
+        end)
+    elseif Questie.db.global.trackerSortObjectives == "byLevelReversed" then
+        table.sort(order, function(a, b) 
+            return QuestieDB:GetQuest(a).Level > QuestieDB:GetQuest(b).Level
+        end)
+    end
+    
+    for _,quest in pairs (order) do
         -- if quest.userData.tracked 
         local Quest = QuestieDB:GetQuest(quest)
-        if ((not QuestieQuest:IsComplete(Quest)) or Questie.db.global.trackerShowCompleteQuests) and ((GetCVar("autoQuestWatch") == "1") or Questie.db.char.TrackedQuests[quest])  then -- maybe have an option to display quests in the list with (Complete!) in the title
+        local complete = QuestieQuest:IsComplete(Quest)
+        if ((not complete) or Questie.db.global.trackerShowCompleteQuests) and ((GetCVar("autoQuestWatch") == "1") or Questie.db.char.TrackedQuests[quest])  then -- maybe have an option to display quests in the list with (Complete!) in the title
             line = _QuestieTracker:GetNextLine()
             line:SetMode("header")
             line:SetQuest(Quest)
             line:SetObjective(nil)
-            line.label:SetText(Quest:GetColoredQuestName())
+            if complete then
+                line.label:SetText(QuestieTooltips:PrintDifficultyColor(Quest.Level, "[" .. Quest.Level .. "] " .. (Quest.LocalizedName or Quest.Name) .. " " .. QuestieLocale:GetUIString('TOOLTIP_QUEST_COMPLETE')))
+            else
+                line.label:SetText(Quest:GetColoredQuestName())
+            end
             line.label:Show()
             trackerWidth = math.max(trackerWidth, line.label:GetWidth())
-            
+            --
             if _QuestieTracker.IsFirstRun then
                 if Questie.db.char.TrackerHiddenQuests[quest] then
                     Quest.HideIcons = true
@@ -796,7 +870,7 @@ function QuestieTracker:CreateBaseFrame()
         result, error = pcall(frm.SetPoint, frm, unpack(Questie.db.char.TrackerLocation))
         if not result then
             Questie.db.char.TrackerLocation = nil
-            print("Error: Questie tracker in invalid location, resetting...")
+            print(QuestieLocale:GetUIString('TRACKER_INVALID_LOCATION'))
             frm:SetPoint("CENTER",0,0)
         end
     else

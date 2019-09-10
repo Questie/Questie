@@ -155,7 +155,7 @@ QuestieLocale.locale['enUS'] = {
     ['TRACKER_ENABLE_HOOKS_DESC'] = "Enable hooking the Blizzard quest tracker. This is required for some features of the Questie tracker, and to integrate with other addons. If you are having issues with quest tracking you may need to disable this (requres /reload)",
     ['TRACKER_SHOW_COMPLETE'] = "Show Complete Quests",
     ['TRACKER_SHOW_COMPLETE_DESC'] = "When this is checked, completed quests will show in the quest tracker",
-    ['TRACKER_COLOR_OBJECTIVES'] = "Color Objectives",
+    ['TRACKER_COLOR_OBJECTIVES'] = "Objective Color",
     ['TRACKER_COLOR_OBJECTIVES_DESC'] = "Change the color of objectives in the tracker by how complete they are",
     ['TRACKER_COLOR_WHITE'] = "White",
     ['TRACKER_COLOR_WHITE_TO_GREEN'] = "White to Green", 
@@ -166,6 +166,13 @@ QuestieLocale.locale['enUS'] = {
     ['TRACKER_FONT_LINE_DESC'] = "The font size the tracker uses for objectives",
     ['TRACKER_QUEST_PADDING'] = "Padding Between Quests",
     ['TRACKER_QUEST_PADDING_DESC'] = "The amount of padding between quests in the tracker",
+    ['TRACKER_INVALID_LOCATION'] = "Error: Questie tracker in invalid location, resetting...",
+    ['TRACKER_SORT_OBJECTIVES'] = "Objective Sorting",
+    ['TRACKER_SORT_OBJECTIVES_DESC'] = "How objectives are sorted in the tracker", 
+    ['TRACKER_SORT_BY_COMPLETE'] = "By %% Completed",
+    ['TRACKER_SORT_BY_LEVEL'] = "By Level",
+    ['TRACKER_SORT_BY_LEVEL_REVERSED'] = "By Level (Reversed)",
+    ['TRACKER_DONT_SORT'] = "Don't Sort",
     
     -- tracker right click menu
     ['TRACKER_UNFOCUS'] = "Unfocus", -- focus makes only that quest/objective show on map
