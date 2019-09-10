@@ -176,9 +176,9 @@ QuestieLocale.locale['frFR'] = {
 	['TRACKER_DONT_SORT'] = "Ne pas trier",
 	
 	-- Menu contextuel du Traqueur
-	['TRACKER_UNFOCUS'] = "Focus", -- le focus permet d'afficher uniquement cette quête/cet objectif sur la carte
-	['TRACKER_FOCUS_OBJECTIVE'] = "Objectif du Focus",
-	['TRACKER_FOCUS_QUEST'] = "Focus cette Quête",
+	['TRACKER_UNFOCUS'] = "Ne plus focus cette quête",
+	['TRACKER_FOCUS_OBJECTIVE'] = "Objectif du focus", -- le focus permet d'afficher uniquement cette quête/cet objectif sur la carte
+	['TRACKER_FOCUS_QUEST'] = "Focus cette quête",
 	['TRACKER_CANCEL'] = "Annuler",
 	['TRACKER_UNTRACK'] = "Annuler la quête",
 	['TRACKER_SHOW_QUESTLOG'] = "Afficher dans le journal de quête",
