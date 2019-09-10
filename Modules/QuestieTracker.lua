@@ -373,6 +373,84 @@ local function _FlashObjective(Objective) -- really terrible animation code, sor
     end
 end
 
+local function _FlashFinisher(Quest) -- really terrible animation copypasta, sorry guys
+    local toFlash = {}
+    -- ugly code
+    for questId, framelist in pairs(qQuestIdFrames) do
+        if questId ~= Quest.Id then
+            for index, frameName in ipairs(framelist) do
+                local icon = _G[frameName];
+                if not icon.miniMapIcon then
+                    
+                    -- todo: move into frame.session
+                    if icon:IsShown() then
+                        icon._hidden_by_flash = true
+                        icon:Hide()
+                    end
+                end
+            end
+        else
+            for index, frameName in ipairs(framelist) do
+                local icon = _G[frameName];
+                if not icon.miniMapIcon then
+                    icon._size = icon:GetWidth()
+                    table.insert(toFlash, icon)
+                end
+            end
+        end
+    end
+    
+    local flashW = 1
+    local flashB = true
+    local flashDone = 0
+    _QuestieTracker._ObjectiveFlashTicker = C_Timer.NewTicker(0.1, function() 
+        for _, frame in pairs(toFlash) do
+            frame:SetWidth(frame._size + flashW)
+            frame:SetHeight(frame._size + flashW)
+        end
+        if flashB then
+            if flashW < 10 then
+                flashW = flashW + (16 - flashW) / 2 + 0.06
+                if flashW >= 9.5 then
+                    flashB = false
+                end
+            end
+        else
+            if flashW > 0 then
+                flashW = flashW - 2 
+                --flashW = (flashW + (-flashW) / 3) - 0.06
+                if flashW < 1 then
+                    --flashW = 0
+                    flashB = true
+                    -- ugly code 
+                    if flashDone > 0 then
+                        C_Timer.After(0.1, function()
+                            _QuestieTracker._ObjectiveFlashTicker:Cancel()
+                            for _, frame in pairs(toFlash) do
+                                frame:SetWidth(frame._size)
+                                frame:SetHeight(frame._size)
+                                frame._size = nil
+                            end
+                        end)
+                        C_Timer.After(0.5, function()
+                            for questId, framelist in pairs(qQuestIdFrames) do
+                                for index, frameName in ipairs(framelist) do
+                                    local icon = _G[frameName];
+                                    if icon._hidden_by_flash then
+                                        icon._hidden_by_flash = nil
+                                        icon:Show()
+                                    end
+                                end
+                            end
+                        end)
+                    end
+                    flashDone = flashDone + 1
+                end
+            end
+        end
+    end)
+end
+
 local function _ShowObjectiveOnMap(Objective)
     -- calculate nearest spawn
     spawn, zone, name = _GetNearestSpawn(Objective) 
@@ -380,6 +458,15 @@ local function _ShowObjectiveOnMap(Objective)
     WorldMapFrame:Show()
     WorldMapFrame:SetMapID(zoneDataAreaIDToUiMapID[zone])
     _FlashObjective(Objective)
+end
+
+local function _ShowFinisherOnMap(Quest)
+    -- calculate nearest spawn
+    spawn, zone, name = _GetNearestQuestSpawn(Quest) 
+    --print("Found best spawn: " .. name .. " in zone " .. tostring(zone) .. " at " .. tostring(spawn[1]) .. " " .. tostring(spawn[2]))
+    WorldMapFrame:Show()
+    WorldMapFrame:SetMapID(zoneDataAreaIDToUiMapID[zone])
+    _FlashFinisher(Quest)
 end
 
 local function _BuildMenu(Quest) 
@@ -484,6 +571,12 @@ local function _BuildMenu(Quest)
             _SetTomTomTarget(name, zone, spawn[1], spawn[2])
         end
     end})
+    if QuestieQuest:IsComplete(Quest) then
+        table.insert(menu, {text = QuestieLocale:GetUIString('TRACKER_SHOW_ON_MAP'), func = function()
+            LQuestie_CloseDropDownMenus()
+            _ShowFinisherOnMap(Quest)
+        end})
+    end
     table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_SHOW_QUESTLOG'), func = function() 
         LQuestie_CloseDropDownMenus() 
         QuestLogFrame:Show() 
