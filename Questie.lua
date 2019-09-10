@@ -797,11 +797,11 @@ local options = {
 				colorObjectives = {
                     type = "select",
                     order = 6,
-                    values = {
+                    values = function() return {
                         ['white'] = QuestieLocale:GetUIString('TRACKER_COLOR_WHITE'),
                         ['whiteToGreen'] = QuestieLocale:GetUIString('TRACKER_COLOR_WHITE_TO_GREEN'),
                         ['redToGreen'] = QuestieLocale:GetUIString('TRACKER_COLOR_RED_TO_GREEN'),
-                    },
+                    }end ,
                     style = 'dropdown',
                     name = function() return QuestieLocale:GetUIString('TRACKER_COLOR_OBJECTIVES') end,
 					desc = function() return QuestieLocale:GetUIString('TRACKER_COLOR_OBJECTIVES_DESC') end,
@@ -814,12 +814,12 @@ local options = {
 				sortObjectives = {
                     type = "select",
                     order = 7,
-                    values = {
+                    values = function() return {
                         ['byComplete'] = QuestieLocale:GetUIString('TRACKER_SORT_BY_COMPLETE'),
 						['byLevel'] = QuestieLocale:GetUIString('TRACKER_SORT_BY_LEVEL'),
 						['byLevelReversed'] = QuestieLocale:GetUIString('TRACKER_SORT_BY_LEVEL_REVERSED'),
 						['none'] = QuestieLocale:GetUIString('TRACKER_DONT_SORT'),
-                    },
+                    }end,
                     style = 'dropdown',
                     name = function() return QuestieLocale:GetUIString('TRACKER_SORT_OBJECTIVES') end,
 					desc = function() return QuestieLocale:GetUIString('TRACKER_SORT_OBJECTIVES_DESC') end,
