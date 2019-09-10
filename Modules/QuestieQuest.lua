@@ -284,6 +284,8 @@ function QuestieQuest:CompleteQuest(QuestId)
     --TODO: This can probably be done better?
     QuestieQuest:CalculateAvailableQuests()
     QuestieQuest:DrawAllAvailableQuests();
+    
+    QuestieTracker:Update()
 
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_COMPLETE_QUEST', QuestId));
 end
@@ -310,6 +312,8 @@ function QuestieQuest:AbandonedQuest(QuestId)
         end
         QuestieQuest:CalculateAvailableQuests()
         QuestieQuest:DrawAllAvailableQuests()
+        
+        QuestieTracker:Update()
 
         Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ABANDON_QUEST', QuestId));
     end
