@@ -92,6 +92,7 @@ QuestieCorrections.itemFixes = {
     [8584] = {"Untapped Dowsing Widget",{992},{},{}},
     [8585] = {"Tapped Dowsing Widget",{992},{},{144052}},
     [11149] = {"Samophlange Manual",{3924},{},{}},
+    [11018] = {"Un\'Goro Soil",{4496,3761,3764},{},{157936}},
 	
     -- quest related herbs
     [2449] = {"Earthroot",{6123,6128},{},{1619,3726}},
