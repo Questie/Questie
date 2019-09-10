@@ -505,7 +505,9 @@ function QuestieTracker:Initialize()
     _QuestieTracker.baseFrame = QuestieTracker:CreateBaseFrame()
     _QuestieTracker.menuFrame = LQuestie_Create_UIDropDownMenu("QuestieTrackerMenuFrame", UIParent)
 
-    QuestieTracker:HookBaseTracker()
+    if Questie.db.char.hookTracking then
+        QuestieTracker:HookBaseTracker()
+    end
     
     -- this number is static, I doubt it will ever need more
     local lastFrame = nil
@@ -595,7 +597,7 @@ function QuestieTracker:Update()
     for quest in pairs (qCurrentQuestlog) do
         -- if quest.userData.tracked 
         local Quest = QuestieDB:GetQuest(quest)
-        if not QuestieQuest:IsComplete(Quest) and ((GetCVar("autoQuestWatch") == "1") or Questie.db.char.TrackedQuests[quest])  then -- maybe have an option to display quests in the list with (Complete!) in the title
+        if ((not QuestieQuest:IsComplete(Quest)) or Questie.db.char.trackerShowCompleteQuests) and ((GetCVar("autoQuestWatch") == "1") or Questie.db.char.TrackedQuests[quest])  then -- maybe have an option to display quests in the list with (Complete!) in the title
             line = _QuestieTracker:GetNextLine()
             line:SetMode("header")
             line:SetQuest(Quest)
@@ -681,12 +683,22 @@ local function _AQW_Insert(index, expire)
 end
 
 function QuestieTracker:HookBaseTracker()
+    if _QuestieTracker._alreadyHooked then return; end
     hooksecurefunc("AutoQuestWatch_Insert", _AQW_Insert)
     hooksecurefunc("RemoveQuestWatch", _RemoveQuestWatch)
     
     -- this is probably bad
     IsQuestWatched = function(index)
         return Questie.db.char.TrackedQuests[select(8,GetQuestLogTitle(index)) or -1]
+    end
+    QuestieTracker._alreadyHooked = true
+end
+
+function QuestieTracker:ResetLocation()
+    Questie.db.char.TrackerLocation = nil
+    if _QuestieTracker.baseFrame then
+        _QuestieTracker.baseFrame:SetPoint("CENTER",0,0)
+        _QuestieTracker.baseFrame:Show()
     end
 end
 

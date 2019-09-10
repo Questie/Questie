@@ -148,6 +148,8 @@ _QuestieOptions.defaults = {
           lowlevel = false,
           journey = {},
           searchType = 1,
+		  hookTracking = true,
+          trackerEnabled = true,
           --autoaccept = false,
           --autocomplete = false
       },
@@ -703,6 +705,90 @@ local options = {
                 }
             },
         },
+		
+		tracker_tab = {
+			name = function() return QuestieLocale:GetUIString('TRACKER_TAB') end,
+            type = "group",
+            order = 13.5,
+			args = {
+				header = {
+                    type = "header",
+                    order = 1,
+                    name = function() return QuestieLocale:GetUIString('TRACKER_HEAD') end,
+				},
+				questieTrackerEnabled = {
+					type = "toggle",
+					order = 2,
+					width = "full",
+					name = function() return QuestieLocale:GetUIString('TRACKER_ENABLED') end,
+					desc = function() return QuestieLocale:GetUIString('TRACKER_ENABLED_DESC') end,
+					get = function() return Questie.db.char.trackerEnabled end,
+					set = function (info, value)
+						Questie.db.char.trackerEnabled = value
+						if value then
+							-- may not have been initialized yet
+							QuestieTracker:Initialize()
+						end
+						QuestieTracker:Update()
+					end
+				},
+				autoQuestTracking = {
+					type = "toggle",
+					order = 3,
+					width = "full",
+					name = function() return QuestieLocale:GetUIString('TRACKER_ENABLE_AUTOTRACK') end,
+					desc = function() return QuestieLocale:GetUIString('TRACKER_ENABLE_AUTOTRACK_DESC') end,
+					get = function() return GetCVar("autoQuestWatch") == "1" end,
+					set = function (info, value)
+						if value then
+							SetCVar("autoQuestWatch", "1")
+						else
+							SetCVar("autoQuestWatch", "0")
+						end
+						QuestieTracker:Update()
+					end
+				},
+				hookBaseTracker = {
+					type = "toggle",
+					order = 4,
+					width = "full",
+					name = function() return QuestieLocale:GetUIString('TRACKER_ENABLE_HOOKS') end,
+					desc = function() return QuestieLocale:GetUIString('TRACKER_ENABLE_HOOKS_DESC') end,
+					get = function() return Questie.db.char.hookTracking end,
+					set = function (info, value)
+						Questie.db.char.hookTracking = value
+						if value then
+							-- may not have been initialized yet
+							QuestieTracker:HookBaseTracker()
+						end
+						QuestieTracker:Update()
+					end
+				},
+				hookBaseTracker = {
+					type = "toggle",
+					order = 5,
+					width = "full",
+					name = function() return QuestieLocale:GetUIString('TRACKER_SHOW_COMPLETE') end,
+					desc = function() return QuestieLocale:GetUIString('TRACKER_SHOW_COMPLETE_DESC') end,
+					get = function() return Questie.db.char.trackerShowCompleteQuests end,
+					set = function (info, value)
+						Questie.db.char.trackerShowCompleteQuests = value
+						QuestieTracker:Update()
+					end
+				},
+				
+				resetTrackerLocation = {
+					type = "execute",
+                    order = 99,
+                    name = function() return QuestieLocale:GetUIString('TRACKER_RESET_LOCATION') end,
+                    desc = function() return QuestieLocale:GetUIString('TRACKER_RESET_LOCATION_DESC') end,
+                    disabled = function() return false end,
+                    func = function (info, value)
+						QuestieTracker:ResetLocation()
+                    end,
+				}
+			}
+		},
 
         nameplate_tab = {
             name = function() return QuestieLocale:GetUIString('NAMEPLATE_TAB') end,

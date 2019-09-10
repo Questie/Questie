@@ -31,7 +31,7 @@ QuestieLocale.locale['enUS'] = {
     ['ENABLE_MINIMAP_ICONS'] = "Enable Minimap Icons",
     ['ENABLE_MINIMAP_ICONS_DESC'] = "Show/hide all icons from the minimap",
 
-    ['MINIMAP_TAB'] = "Minimap Options",
+    ['MINIMAP_TAB'] = "Minimap",
     ['MINIMAP_HEADER'] = "Mini-Map Note Options",
     ['MINIMAP_GLOBAL_SCALE'] = "Global Scale for Mini-Map Icons",
     ['MINIMAP_GLOBAL_SCALE_DESC'] = "How large the Mini-Map icons are. ( Default: %s )",
@@ -46,10 +46,10 @@ QuestieLocale.locale['enUS'] = {
     ['MINMAP_COORDS'] = "Mini-Map Coordinates",
     ['ENABLE_COORDS'] = "Player Coordinates on Minimap",
     ['ENABLE_COORDS_DESC'] = "Place the Player's coordinates on the Minimap title.",
-    ['MINIMAP_ALWAYS_GLOW_TOGGLE'] = "Always glow behind minimap icons",
+    ['MINIMAP_ALWAYS_GLOW_TOGGLE'] = "Always Glow Behind Minimap Icons",
     ['MINIMAP_ALWAYS_GLOW_TOGGLE_DESC'] = "Draw a glow texture behind minimap icons, colored unique to each quest",
 
-    ['MAP_TAB'] = "Map Options",
+    ['MAP_TAB'] = "Map",
     ['ENABLE_MAP_BUTTON'] = "Show Questie Map Button",
     ['ENABLE_MAP_BUTTON_DESC'] = "Enable or disable the Show/Hide Questie Button on Map (May fix some Map Addon interactions)",
     ['MAP_NOTES'] = "Map Note Options",
@@ -60,9 +60,9 @@ QuestieLocale.locale['enUS'] = {
     ['ENABLE_MAP_COORDS_DESC'] = "Place the Player's coordinates and Cursor's coordinates on the Map's title.",
     ['MAP_COORDS_PRECISION'] = "Map Coordinates Decimal Precision",
     ['MAP_COORDS_PRECISION_DESC'] = "How many decimals to include in the precision on the Map for Player and Cursor coordinates. ( Default: %s )",
-    ['MAP_ALWAYS_GLOW_TOGGLE'] = "Always glow behind map icons",
+    ['MAP_ALWAYS_GLOW_TOGGLE'] = "Always Glow Behind Map Icons",
     ['MAP_ALWAYS_GLOW_TOGGLE_DESC'] = "Draw a glow texture behind map icons, colored unique to each quest",
-    ['MAP_QUEST_COLORS'] = "Different map icon color for each quest",
+    ['MAP_QUEST_COLORS'] = "Different Map Icon Color for Each Quest",
     ['MAP_QUEST_COLORS_DESC'] = "Show map icons with colors that are randomly generated based on quest ID",
 
     ['AVAILABLE_ICON_SCALE'] = "Scale for Available/Complete Icons",
@@ -76,7 +76,7 @@ QuestieLocale.locale['enUS'] = {
     ['EVENT_ICON_SCALE'] = "Scale for Event Icons",
     ['EVENT_ICON_SCALE_DESC'] = "How large the event icons are.  ( Default: %s )",
 
-    ['NAMEPLATE_TAB'] = "Nameplate Options",
+    ['NAMEPLATE_TAB'] = "Nameplates",
     ['NAMEPLATE_HEAD'] = "Nameplate Icon Options",
     ['NAMEPLATE_TOGGLE'] = "Enable Nameplate Quest Objectives",
     ['NAMEPLATE_TOGGLE_DESC'] = "Enable or disable the quest objective icons over creature nameplates.",
@@ -102,7 +102,7 @@ QuestieLocale.locale['enUS'] = {
 
     ['ADV_TAB'] = "Advanced",
     ['DEV_OPTIONS'] = "Developer Options",
-    ['ENABLE_DEBUG'] = "Enable debug",
+    ['ENABLE_DEBUG'] = "Enable Debug",
     ['ENABLE_DEBUG_DESC'] = "Enable or disable debug functionality.",
     ['DEBUG_LEVEL'] = "Debug level to print",
     ['DEBUG_LEVEL_DESC'] = "What debug level to print at : %s",
@@ -141,7 +141,21 @@ QuestieLocale.locale['enUS'] = {
     ['SLASH_TOGGLE_QUESTIE'] = "/questie toggle -- Toggles showing questie on the map and minimap",
     ['SLASH_JOURNEY'] = "/questie journey -- Toggles the My Journey window",
     ['SLASH_MINIMAP'] = "/questie minimap -- Toggles the Minimap Button for Questie",
-
+    
+    -- Tracker
+    ['TRACKER_TAB'] = "Tracker",
+    ['TRACKER_HEAD'] = "Quest Tracker Options",
+    ['TRACKER_ENABLED'] = "Enable the Questie Tracker",
+    ['TRACKER_ENABLED_DESC'] = "When this is checked, the default blizzard quest tracker is replaced with the Questie tracker",
+    ['TRACKER_ENABLE_AUTOTRACK'] = "Automatically Track All Quests",
+    ['TRACKER_ENABLE_AUTOTRACK_DESC'] = "This is the same as \"Enable automatic quest tracking\" in interface options. When enabled, the Questie tracker will automatically track all quests in your log. This prevents shift-click manual tracking",
+    ['TRACKER_RESET_LOCATION'] = "Reset Tracker Position",
+    ['TRACKER_RESET_LOCATION_DESC'] = "If the Questie tracker is stuck offscreen or lost, you can reset it's location to the center of the screen with this button",
+    ['TRACKER_ENABLE_HOOKS'] = "Enable Tracker Hooks",
+    ['TRACKER_ENABLE_HOOKS_DESC'] = "Enable hooking the Blizzard quest tracker. This is required for some features of the Questie tracker, and to integrate with other addons. If you are having issues with quest tracking you may need to disable this (requres /reload)",
+    ['TRACKER_SHOW_COMPLETE'] = "Show Complete Quests",
+    ['TRACKER_SHOW_COMPLETE_DESC'] = "When this is checked, completed quests will show in the quest tracker",
+    
     -- Journey Window
     ['JOURNEY_TITLE'] = "%s's Journey",
     ['JOUNREY_TAB'] = "My Journey",
