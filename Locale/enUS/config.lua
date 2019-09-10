@@ -167,6 +167,19 @@ QuestieLocale.locale['enUS'] = {
     ['TRACKER_QUEST_PADDING'] = "Padding Between Quests",
     ['TRACKER_QUEST_PADDING_DESC'] = "The amount of padding between quests in the tracker",
     
+    -- tracker right click menu
+    ['TRACKER_UNFOCUS'] = "Unfocus", -- focus makes only that quest/objective show on map
+    ['TRACKER_FOCUS_OBJECTIVE'] = "Focus Objective",
+    ['TRACKER_FOCUS_QUEST'] = "Focus Quest",
+    ['TRACKER_CANCEL'] = "Cancel",
+    ['TRACKER_UNTRACK'] = "Untrack Quest",
+    ['TRACKER_SHOW_QUESTLOG'] = "Show in Quest Log",
+    ['TRACKER_SET_TOMTOM'] = "Set TomTom Target",
+    ['TRACKER_SHOW_ICONS'] = "Show Icons",
+    ['TRACKER_HIDE_ICONS'] = "Hide Icons",
+    ['TRACKER_OBJECTIVES'] = "Objectives",
+    ['TRACKER_SHOW_ON_MAP'] = "Show on Map",
+    
     -- Journey Window
     ['JOURNEY_TITLE'] = "%s's Journey",
     ['JOUNREY_TAB'] = "My Journey",
