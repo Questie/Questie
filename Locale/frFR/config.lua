@@ -1,6 +1,5 @@
 QuestieLocale.locale['frFR'] = {
-    -- Trad by Pgmbru (V.3)
-	
+    -- Trad by Pgmbru (V.4)
 	-- Configuration Windows
 	['OPTIONS_TAB'] = "Options",
     ['Questie_HEADER'] = "Options d'interrogation",
@@ -37,11 +36,6 @@ QuestieLocale.locale['frFR'] = {
     ['MINIMAP_HEADER'] = "Options de note de mini-carte",
 	['MINIMAP_GLOBAL_SCALE'] = "Échelle globale des icônes de mini-cartes",
     ['MINIMAP_GLOBAL_SCALE_DESC'] = "Quelle est la taille des icônes de la mini-carte. (Par défaut: %s)",
-    ['MINIMAP_OBJECTIVE_SCALE'] = "Échelle des icônes d'objectif de mini-carte",
-    ['MINIMAP_OBJECTIVE_SCALE_DESC'] = "Quelle est la taille des icônes d'objectif Mini-Map. (Par défaut: %s)",
-    ['MINIMAP_AVAILABLE_SCALE'] = "Echelle des icônes complètes et disponibles pour la mini-carte",
-    ['MINIMAP_AVAILABLE_SCALE_DESC'] = "Quelle est la taille des icônes complètes et disponibles pour la mini-carte. (Par défaut: %s)",
-    ['MINIMAP_FADE'] = "Fading des notes de la mini-carte",
     ['MINIMAP_FADING'] = "Distance objective du fondu",
     ['MINIMAP_FADING_DESC'] = "Combien d'icônes d'objectif devraient s'estomper en fonction de la distance. (Par défaut: %s)",
     ['MINIMAP_FADE_PLAYER'] = "Fondu d'icônes sur le joueur",
@@ -56,23 +50,24 @@ QuestieLocale.locale['frFR'] = {
 	['MINIMAP_ALWAYS_GLOW_TOGGLE'] = "Toujours visible derrière les icônes de la mini-carte",
     ['MINIMAP_ALWAYS_GLOW_TOGGLE_DESC'] = "Dessinez une texture luminescente derrière les icônes de la carte minimale, coloriées de manière unique pour chaque quête",
 
-
-	['MAP_TAB'] = "Options de la carte",
+	['MAP_TAB'] = "Carte",
     ['ENABLE_MAP_BUTTON'] = "Afficher le bouton de la carte Questie",
-    ['ENABLE_MAP_BUTTON_DESC'] = "Activer ou désactiver le bouton Afficher / Masquer les questions sur la carte (peut corriger certaines interactions de Map Addon)",
+    ['ENABLE_MAP_BUTTON_DESC'] = "Activer ou désactiver le bouton Afficher / Masquer Questie sur la carte (peut corriger certaines interactions avec l'Addon Map)",
     ['MAP_NOTES'] = "Options de note de carte",
-    ['MAP_OBJECTIVE_SCALE'] = "Échelle pour les icônes d'objectif",
-    ['MAP_OBJECTIVE_SCALE_DESC'] = "Quelle est la taille des icônes d'élimination et de récupération des objectifs. (Par défaut: %s",
-    ['MAP_AVAILABLE_SCALE'] = "Échelle des icônes disponibles et complètes",
-    ['MAP_AVAILABLE_SCALE_DESC'] = "Quelle est la taille des icônes disponibles et complètes (valeur Par défaut: %s",
+    ['MAP_GLOBAL_SCALE'] = "Échelle globale des icônes de la carte",
+    ['MAP_GLOBAL_SCALE_DESC'] = "Quelle est la taille des icônes de la carte. (Par défaut: %s)",
     ['MAP_COORDS'] = "Coordonnées de la carte et du curseur",
     ['ENABLE_MAP_COORDS'] = "Coordonnées du joueur et du curseur",
     ['ENABLE_MAP_COORDS_DESC'] = "Placez les coordonnées du joueur et celles du curseur sur le titre de la carte.",
     ['MAP_COORDS_PRECISION'] = "Précision décimale des coordonnées de la carte",
-    ['MAP_COORDS_PRECISION_DESC'] = "Nombre de décimales à inclure dans la précision de la carte pour les coordonnées du joueur et du curseur. (Par défaut: %s",
+    ['MAP_COORDS_PRECISION_DESC'] = "Nombre de décimales à inclure dans la précision de la carte pour les coordonnées du joueur et du curseur. (Par défaut: %s)",
+    ['MAP_ALWAYS_GLOW_TOGGLE'] = "Toujours visible derrière les icônes de la carte",
+    ['MAP_ALWAYS_GLOW_TOGGLE_DESC'] = "Dessinez une texture luminescente derrière les icônes de la carte, colorées de manière unique pour chaque quête",
+    ['MAP_QUEST_COLORS'] = "Couleur différente de l'icône de la carte pour chaque quête",
+    ['MAP_QUEST_COLORS_DESC'] = "Afficher les icônes de carte avec des couleurs générées de manière aléatoire en fonction de l'ID de quête",
 
 	['AVAILABLE_ICON_SCALE'] = "Balance pour les icônes disponibles / complètes",
-    ['AVAILABIE_ICON_SCALE_DESC'] = "Quelle est la taille des icônes disponibles / complètes (valeur Par défaut: %s",
+    ['AVAILABLE_ICON_SCALE_DESC'] = "Quelle est la taille des icônes disponibles / complètes (valeur Par défaut: %s",
     ['LOOT_ICON_SCALE'] = "Balance pour les icônes de butin",
     ['LOOT_ICON_SCALE_DESC'] = "Quelle est la taille des icônes de butin (valeur Par défaut: %s",
     ['MONSTER_ICON_SCALE'] = "Échelle pour les icônes de Slay",
@@ -106,8 +101,6 @@ QuestieLocale.locale['frFR'] = {
     ['TARGET_RESET_BTN'] = "Réinitialiser le cadre cible",
     ['TARGET_RESET_BTN_DESC'] = "Réinitialiser les positions et l'échelle du cadre cible par défaut",
 
-
-
 	['ADV_TAB'] = "Avancé",
     ['DEV_OPTIONS'] = "Options du développeur",
     ['ENABLE_DEBUG'] = "Activer le debug",
@@ -116,13 +109,13 @@ QuestieLocale.locale['frFR'] = {
     ['DEBUG_LEVEL_DESC'] = "Quel niveau de debug pour imprimer à: %s",
     ['LOCALE'] = "Paramètres de localisation",
     ['LOCALE_DROP'] = "Sélectionnez l'interface utilisateur",
+	['RESET_QUESTIE'] = "Réinitialiser Questie",
     ['RESET_QUESTIE_DESC'] = "Si vous cliquez sur ce bouton, tous les paramètres de configuration de Questie seront réinitialisés à leurs valeurs par défaut. (Hors localisation / Traduction)",
     ['RESET_QUESTIE_BTN'] = "Réinitialiser Questie",
     ['RESET_QUESTIE_BTN_DESC'] = "Réinitialiser Questie aux valeurs par défaut pour tous les paramètres.",
     ['QUESTIE_DEV_MESSAGE'] = "Questie est en cours de développement pour World of Warcraft: Classic. Veuillez consulter GitHub pour connaître les dernières versions alpha ou signaler des problèmes. Ou rejoignez nous sur notre discord! (( https://github.com/AeroScripts/QuestieDev/ )) ",
 
-
--- Éléments d'interface utilisateur
+	-- Éléments d'interface utilisateur
 	['QUESTIE_MAP_BUTTON_SHOW'] = "Afficher Questie",
     ['QUESTIE_MAP_BUTTON_HIDE'] = "Masquer Questie",
     ['ICON_LEFT_CLICK'] = "Clic Gauche",
@@ -136,16 +129,66 @@ QuestieLocale.locale['frFR'] = {
     ['ICON_JOURNEY'] = "Basculer mon voyage",
 	['ICON_RELOAD'] = "Recharger Questie",
     ['CONFIRM_HIDE_QUEST'] = "Êtes-vous sûr de vouloir masquer la quête \"%s\"?\n Si cette quête n'est pas réellement disponible, merci de nous la signaler!",
-
+	['CONFIRM_HIDE_YES'] = "Oui",
+    ['CONFIRM_HIDE_NO'] = "Non",
+	['TOOLTIP_QUEST_COMPLETE'] = "(Complète)",
+    ['TOOLTIP_QUEST_AVAILABLE'] = "(Disponible)",
+    ['TOOLTIP_QUEST_ACTIVE'] = "(Actif)",
 
     -- Slash Commandes
     ['SLASH_INVALID'] = "Commande invalide. Pour obtenir une liste d'options, veuillez taper:",
     ['SLASH_HEAD'] = "Commandes de Questie",
     ['SLASH_CONFIG'] = "Questie - Bascule la fenêtre de configuration",
     ['SLASH_TOGGLE_Questie'] = "Questie bascule - Active / Désactive l'affichage de la Questie sur la carte et la carte",
+	['SLASH_JOURNEY'] = "/questie journey - Bascule la fenêtre Mon voyage",
+    ['SLASH_MINIMAP'] = "/questie minimap - Bascule le bouton de la mini-carte pour Questie",
 
+	-- Traqueur
+    ['TRACKER_TAB'] = "Traqueur",
+    ['TRACKER_HEAD'] = "Options du Traqueur pour les quêtes",
+    ['TRACKER_ENABLED'] = "Activer le Traqueur de Questie",
+    ['TRACKER_ENABLED_DESC'] = "Lorsque cette case est cochée, le suivi par défaut des quêtes blizzard sont remplacé par le Traqueur de Questie",
+    ['TRACKER_ENABLE_AUTOTRACK'] = "Suivre automatiquement toutes les quêtes",
+    ['TRACKER_ENABLE_AUTOTRACK_DESC'] = "Ceci est identique à \"Activer le suivi automatique des quêtes\" dans les options d'interface. Lorsque cette option est activée, le Traqueur Questie suivra automatiquement toutes les quêtes de votre journal. Cela empêchera le Traqueur manuel par shift-clic",
+    ['TRACKER_RESET_LOCATION'] = "Réinitialiser la position du Traqueur",
+    ['TRACKER_RESET_LOCATION_DESC'] = "Si le Traqueur de Questie est bloqué hors écran ou perdu, vous pouvez rétablir son emplacement au centre de l'écran avec ce bouton (peut nécessiter /reload)",
+    ['TRACKER_ENABLE_HOOKS'] = "Activer les crochets de Traqueur",
+    ['TRACKER_ENABLE_HOOKS_DESC'] = "Activez l’accrochage du suivi de quête Blizzard. C’est obligatoire pour certaines fonctionnalités du Traqueur de Questie, et pour l’intégration avec d’autres addons. Si vous rencontrez des problèmes de Traqueur de quête, vous devrez peut-être désactiver cette option. ) ",
+    ['TRACKER_SHOW_COMPLETE'] = "Afficher les quêtes complètes",
+    ['TRACKER_SHOW_COMPLETE_DESC'] = "Lorsque cette case est cochée, les quêtes terminées apparaissent dans l'outil de suivi des quêtes",
+    ['TRACKER_COLOR_OBJECTIVES'] = "Couleur de l'objectif",
+    ['TRACKER_COLOR_OBJECTIVES_DESC'] = "Changer la couleur des objectifs dans le Traqueur en fonction de leur complétude",
+    ['TRACKER_COLOR_WHITE'] = "Blanc",
+    ['TRACKER_COLOR_WHITE_TO_GREEN'] = "Blanc à vert",
+    ['TRACKER_COLOR_RED_TO_GREEN'] = "Rouge à vert",
+    ['TRACKER_FONT_HEADER'] = "Taille de la police pour les noms de quête",
+    ['TRACKER_FONT_HEADER_DESC'] = "La taille de police utilisée par le suivi pour les noms de quête",
+    ['TRACKER_FONT_LINE'] = "Taille de la police pour les objectifs",
+    ['TRACKER_FONT_LINE_DESC'] = "La taille de police utilisée par le Traqueur pour les objectifs",
+    ['TRACKER_QUEST_PADDING'] = "Rembourrage entre les quêtes",
+    ['TRACKER_QUEST_PADDING_DESC'] = "La quantité de remplissage entre les quêtes dans le Traqueur",
+    ['TRACKER_INVALID_LOCATION'] = "Erreur : Questie Traqueur dans un endroit non valide, réinitialisation..."",
+    ['TRACKER_SORT_OBJECTIVES'] = "Tri des objectifs",
+    ['TRACKER_SORT_OBJECTIVES_DESC'] = "Comment les objectifs sont triés dans le Traqueur",
+    ['TRACKER_SORT_BY_COMPLETE'] = "Par %% terminé",
+    ['TRACKER_SORT_BY_LEVEL'] = "Par niveau",
+    ['TRACKER_SORT_BY_LEVEL_REVERSED'] = "Par niveau (inversé)",
+    ['TRACKER_DONT_SORT'] = "Ne pas trier",
+    
+    -- Menu contextuel du Traqueur
+    ['TRACKER_UNFOCUS'] = "Focus", -- le focus permet d'afficher uniquement cette quête/cet objectif sur la carte
+    ['TRACKER_FOCUS_OBJECTIVE'] = "Objectif de Focus",
+    ['TRACKER_FOCUS_QUEST'] = "Quête de Focus",
+    ['TRACKER_CANCEL'] = "Annuler",
+    ['TRACKER_UNTRACK'] = "Annuler la quête",
+    ['TRACKER_SHOW_QUESTLOG'] = "Afficher dans le journal de quête",
+    ['TRACKER_SET_TOMTOM'] = "Définir la cible TomTom",
+    ['TRACKER_SHOW_ICONS'] = "Afficher les icônes",
+    ['TRACKER_HIDE_ICONS'] = "Masquer les icônes",
+    ['TRACKER_OBJECTIVES'] = "Objectifs",
+    ['TRACKER_SHOW_ON_MAP'] = "Afficher sur la carte",
 
-	--Voyage Commandes
+	-- Voyage Commandes
 	['JOURNEY_TITLE'] = "Le voyage de %s",
     ['JOUNREY_TAB'] = "Mon voyage",
     ['JOURNEY_ZONE_TAB'] = "Quêtes par zone",
@@ -204,8 +247,6 @@ QuestieLocale.locale['frFR'] = {
     ['JOURNEY_SEARCH_RESULTS'] = "Résultats de la recherche",
     ['JOURNEY_SEARCH_NOMATCH'] = "Aucune correspondance pour les résultats de recherche: %s",
 
-
-
     -- Debug Messages
 	['DEBUG_LOWLEVEL'] = "Les quêtes grises sont basculées sur:",
     ['DEBUG_MINLEVEL'] = "minLevelFilter défini sur %s",
@@ -228,27 +269,12 @@ QuestieLocale.locale['frFR'] = {
     ['DEBUG_DRAW'] = "% s quêtes disponibles dessinées. PlayerLevel = %s",
     ['DEBUG_UNLOAD_QFRAMES'] = "Déchargement des cadres de quête: %s",
     ['DEBUG_UNLOAD_ALL'] = "Déchargement de toutes les trames, compte: %s",
-		['QUESTIE_UPDATED_RESTART'] = "|cFFFF0000ATTENTION !|r Vous avez mis à jour Questie sans redémarrer le jeu, cela risque de poser problème. Veuillez redémarrer le jeu avant de continuer",	
+	['QUESTIE_UPDATED_RESTART'] = "|cFFFF0000ATTENTION !|r Vous avez mis à jour Questie sans redémarrer le jeu, cela risque de poser problème. Veuillez redémarrer le jeu avant de continuer",	
 
-
-	-- Ajoute cas oublier
-	['ENABLE_QUESTIE'] = "Activer les icônes",
-	['ENABLE_QUESTIE_DESC'] = "Activer ou désactiver les icônes de Questie",
-	['MAP_GLOBAL_SCALE'] = "Échelle globale pour les icônes de carte ",
-	['MINIMAP_GLOBAL_SCALE_DESC'] = "Quelle est la taille des icônes de la mini-carte. (Par défaut: %s)",
-	['MAP_GLOBAL_SCALE_DESC'] = "Quelle est la taille des icônes de la carte. (Par défaut: %s)",
-	['AVAILABLE_ICON_SCALE_DESC'] = "Quelle est la taille des icônes disponibles / complètes (valeur par défaut: %s)",
-	['LOOT_ICON_SCALE_DESC'] = "Quelle est la taille des icônes de butin (valeur par défaut: %s)",
-	['MONSTER_ICON_SCALE_DESC'] = "Quelle est la taille des icônes de tueries (valeur par défaut: %s)",
-	['OBJECT_ICON_SCALE_DESC'] = "Quelle est la taille des icônes d'objet. (Par défaut: %s)",
-	['EVENT_ICON_SCALE_DESC'] = "Quelle est la taille des icônes d'événement. (Par défaut: %s)",
-	['MAP_ALWAYS_GLOW_TOGGLE'] = "Toujours visible derrière les icônes de la carte",
-    ['MAP_ALWAYS_GLOW_TOGGLE_DESC'] = "Dessinez une texture luminescente derrière les icônes de la carte, colorées de manière unique pour chaque quête",
-	['CONFIRM_HIDE_YES'] = "Oui",
-    ['CONFIRM_HIDE_NO'] = "Non",
-	['TOOLTIP_QUEST_COMPLETE'] = "(Complète)",
-    ['TOOLTIP_QUEST_AVAILABLE'] = "(Disponible)",
-    ['TOOLTIP_QUEST_ACTIVE'] = "(Actif)",
-	['MAP_QUEST_COLORS'] = "Couleur d'icône de la carte différente pour chaque quête",
-  ['MAP_QUEST_COLORS_DESC'] = "Afficher les icônes de la carte avec des couleurs générées de manière aléatoire en fonction de l'ID de quête",	
+	-- EN ATTENTE
+	['MINIMAP_OBJECTIVE_SCALE'] = "Échelle des icônes d'objectif de mini-carte", -- En Attente
+    ['MINIMAP_OBJECTIVE_SCALE_DESC'] = "Quelle est la taille des icônes d'objectif Mini-Map. (Par défaut: %s)", -- En Attente
+    ['MINIMAP_AVAILABLE_SCALE'] = "Echelle des icônes complètes et disponibles pour la mini-carte", -- En Attente
+    ['MINIMAP_AVAILABLE_SCALE_DESC'] = "Quelle est la taille des icônes complètes et disponibles pour la mini-carte. (Par défaut: %s)", -- En Attente
+    ['MINIMAP_FADE'] = "Fading des notes de la mini-carte", -- En Attente
 };
