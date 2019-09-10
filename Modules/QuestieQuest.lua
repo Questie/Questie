@@ -325,7 +325,7 @@ function QuestieQuest:UpdateQuest(QuestId)
             --DEFAULT_CHAT_FRAME:AddMessage("Finished " .. QuestId);
             QuestieMap:UnloadQuestFrames(QuestId);
             QuestieQuest:AddFinisher(quest)
-            return
+
         else
             --DEFAULT_CHAT_FRAME:AddMessage("Still not finished " .. QuestId);
         end

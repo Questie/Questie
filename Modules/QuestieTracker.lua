@@ -843,7 +843,7 @@ function QuestieTracker:Update()
         local Quest = QuestieDB:GetQuest(quest)
         -- make sure objective data is up to date
         if Quest.Objectives then
-        for _,Objective in pairs(Quest.Objectives) do
+            for _,Objective in pairs(Quest.Objectives) do
                 if Objective.Update then Objective:Update() end
             end
         end
