@@ -287,6 +287,8 @@ QuestieCorrections.hiddenQuests = {
   [1878] = true, -- Repeatable version of 1707 - Fixing #775
   [2881] = true, -- Repeatable version of 2880
   [5663] = true, -- Touch of Weakness of Dark Cleric Beryl - Fixing #730
+  [7725] = true, -- Repeatable version of 7003 - Fixing #891
+  [7726] = true, -- Repeatable version of 7721 - Fixing #891
   --Stray quests
   [3861] = true, --CLUCK!
   --World event quests
