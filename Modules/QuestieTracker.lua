@@ -867,26 +867,27 @@ function QuestieTracker:Update()
             end
             
             
-            
-            for _,Objective in pairs(Quest.Objectives) do
-                line = _QuestieTracker:GetNextLine()
-                line:SetMode("line")
-                line:SetQuest(Quest)
-                line:SetObjective(Objective)
-                if (Questie.db.global.trackerColorObjectives and Questie.db.global.trackerColorObjectives ~= "white") and Objective.Collected and type(Objective.Collected) == "number" then
-                    line.label:SetText("    " .. _QuestieTracker:getRGBForObjective(Objective) .. Objective.Description .. ": " .. tostring(Objective.Collected) .. "/" .. tostring(Objective.Needed))
-                else
-                    line.label:SetText("    |cFFEEEEEE" .. Objective.Description .. ": " .. tostring(Objective.Collected) .. "/" .. tostring(Objective.Needed))
-                end
-                line.label:Show()
-                trackerWidth = math.max(trackerWidth, line.label:GetWidth())
-                
-                if _QuestieTracker.IsFirstRun then
-                    if Questie.db.char.TrackerHiddenObjectives[tostring(quest) .. " " .. tostring(Objective.Index)] then
-                        Objective.HideIcons = true
+            if Quest.Objectives then
+                for _,Objective in pairs(Quest.Objectives) do
+                    line = _QuestieTracker:GetNextLine()
+                    line:SetMode("line")
+                    line:SetQuest(Quest)
+                    line:SetObjective(Objective)
+                    if (Questie.db.global.trackerColorObjectives and Questie.db.global.trackerColorObjectives ~= "white") and Objective.Collected and type(Objective.Collected) == "number" then
+                        line.label:SetText("    " .. _QuestieTracker:getRGBForObjective(Objective) .. Objective.Description .. ": " .. tostring(Objective.Collected) .. "/" .. tostring(Objective.Needed))
+                    else
+                        line.label:SetText("    |cFFEEEEEE" .. Objective.Description .. ": " .. tostring(Objective.Collected) .. "/" .. tostring(Objective.Needed))
                     end
-                    if  Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus == tostring(Quest.Id) .. " " .. tostring(Objective.Index) then
-                        _FocusObjective(Quest, Objective)
+                    line.label:Show()
+                    trackerWidth = math.max(trackerWidth, line.label:GetWidth())
+                    
+                    if _QuestieTracker.IsFirstRun then
+                        if Questie.db.char.TrackerHiddenObjectives[tostring(quest) .. " " .. tostring(Objective.Index)] then
+                            Objective.HideIcons = true
+                        end
+                        if  Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus == tostring(Quest.Id) .. " " .. tostring(Objective.Index) then
+                            _FocusObjective(Quest, Objective)
+                        end
                     end
                 end
             end
