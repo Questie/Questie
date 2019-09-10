@@ -1,7 +1,7 @@
 QuestieLocale.locale['enUS'] = {
     -- Config Windows
-    ['OPTIONS_TAB'] = "Options",
-    ['QUESTIE_HEADER'] = "Questie Options",
+    ['OPTIONS_TAB'] = "General",
+    ['QUESTIE_HEADER'] = "General Options",
     ['ENABLE_QUESTIE'] = "Enable Icons",
     ['ENABLE_QUESTIE_DESC'] = "Enable or disable Questie icons",
     ['ENABLE_ICON'] = "Enable Minimap Button",
@@ -150,11 +150,22 @@ QuestieLocale.locale['enUS'] = {
     ['TRACKER_ENABLE_AUTOTRACK'] = "Automatically Track All Quests",
     ['TRACKER_ENABLE_AUTOTRACK_DESC'] = "This is the same as \"Enable automatic quest tracking\" in interface options. When enabled, the Questie tracker will automatically track all quests in your log. This prevents shift-click manual tracking",
     ['TRACKER_RESET_LOCATION'] = "Reset Tracker Position",
-    ['TRACKER_RESET_LOCATION_DESC'] = "If the Questie tracker is stuck offscreen or lost, you can reset it's location to the center of the screen with this button",
+    ['TRACKER_RESET_LOCATION_DESC'] = "If the Questie tracker is stuck offscreen or lost, you can reset it's location to the center of the screen with this button (may require /reload)",
     ['TRACKER_ENABLE_HOOKS'] = "Enable Tracker Hooks",
     ['TRACKER_ENABLE_HOOKS_DESC'] = "Enable hooking the Blizzard quest tracker. This is required for some features of the Questie tracker, and to integrate with other addons. If you are having issues with quest tracking you may need to disable this (requres /reload)",
     ['TRACKER_SHOW_COMPLETE'] = "Show Complete Quests",
     ['TRACKER_SHOW_COMPLETE_DESC'] = "When this is checked, completed quests will show in the quest tracker",
+    ['TRACKER_COLOR_OBJECTIVES'] = "Color Objectives",
+    ['TRACKER_COLOR_OBJECTIVES_DESC'] = "Change the color of objectives in the tracker by how complete they are",
+    ['TRACKER_COLOR_WHITE'] = "White",
+    ['TRACKER_COLOR_WHITE_TO_GREEN'] = "White to Green", 
+    ['TRACKER_COLOR_RED_TO_GREEN'] = "Red to Green", 
+    ['TRACKER_FONT_HEADER'] = "Font Size for Quest Names",
+    ['TRACKER_FONT_HEADER_DESC'] = "The font size the tracker uses for quest names",
+    ['TRACKER_FONT_LINE'] = "Font Size for Objectives",
+    ['TRACKER_FONT_LINE_DESC'] = "The font size the tracker uses for objectives",
+    ['TRACKER_QUEST_PADDING'] = "Padding Between Quests",
+    ['TRACKER_QUEST_PADDING_DESC'] = "The amount of padding between quests in the tracker",
     
     -- Journey Window
     ['JOURNEY_TITLE'] = "%s's Journey",

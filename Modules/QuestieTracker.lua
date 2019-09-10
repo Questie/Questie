@@ -5,11 +5,8 @@ _QuestieTracker.LineFrames = {}
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 
 -- these should be configurable maybe
-local fontSizeHeader = 13
-local fontSizeLine = 11
 local trackerLineCount = 64 -- shouldnt need more than this
 local trackerBackgroundPadding = 4
-local trackerQuestPadding = 2 -- padding between quests in the tracker
 
 -- used for fading the background of the trakcer
 _QuestieTracker.FadeTickerValue = 0
@@ -491,8 +488,14 @@ local function _OnLeave()
     _QuestieTracker:StartFadeTicker()
 end
 
+function QuestieTracker:_ResetLinesForFontChange()
+    for i=1,trackerLineCount do
+        _QuestieTracker.LineFrames[i].mode = nil
+    end
+end
+
 function QuestieTracker:Initialize()
-    if QuestieTracker.started or (not Questie.db.char.trackerEnabled) then return; end
+    if QuestieTracker.started or (not Questie.db.global.trackerEnabled) then return; end
     if not Questie.db.char.TrackerHiddenQuests then
         Questie.db.char.TrackerHiddenQuests = {}
     end
@@ -505,7 +508,7 @@ function QuestieTracker:Initialize()
     _QuestieTracker.baseFrame = QuestieTracker:CreateBaseFrame()
     _QuestieTracker.menuFrame = LQuestie_Create_UIDropDownMenu("QuestieTrackerMenuFrame", UIParent)
 
-    if Questie.db.char.hookTracking then
+    if Questie.db.global.hookTracking then
         QuestieTracker:HookBaseTracker()
     end
     
@@ -518,11 +521,11 @@ function QuestieTracker:Initialize()
             if mode ~= self.mode then
                 self.mode = mode
                 if mode == "header" then
-                    self.label:SetFont(self.label:GetFont(), fontSizeHeader)
-                    self:SetHeight(fontSizeHeader)
+                    self.label:SetFont(self.label:GetFont(), Questie.db.global.trackerFontSizeHeader)
+                    self:SetHeight(Questie.db.global.trackerFontSizeHeader)
                 else
-                    self.label:SetFont(self.label:GetFont(), fontSizeLine)
-                    self:SetHeight(fontSizeLine)
+                    self.label:SetFont(self.label:GetFont(), Questie.db.global.trackerFontSizeLine)
+                    self:SetHeight(Questie.db.global.trackerFontSizeLine)
                 end
             end
         end
@@ -537,9 +540,9 @@ function QuestieTracker:Initialize()
         
         function frm:SetVerticalPadding(amount)
             if self.mode == "header" then
-                self:SetHeight(fontSizeHeader + amount)
+                self:SetHeight(Questie.db.global.trackerFontSizeHeader + amount)
             else
-                self:SetHeight(fontSizeLine + amount)
+                self:SetHeight(Questie.db.global.trackerFontSizeLine + amount)
             end
         end
         
@@ -588,8 +591,74 @@ function _QuestieTracker:GetNextLine()
     return _QuestieTracker.LineFrames[index]
 end
 
+_QuestieTracker.HexTableHack = {
+    '00','11','22','33','44','55','66','77','88','99','AA','BB','CC','DD','EE','FF'
+}
+function _QuestieTracker:PrintProgressColor(percent, text)
+    local hexGreen, hexRed, hexBlue = 
+    _QuestieTracker.HexTableHack[5 + math.floor(percent * 10)], _QuestieTracker.HexTableHack[8 + math.floor((1-percent) * 6)], _QuestieTracker.HexTableHack[4 + math.floor(percent * 6)]
+    return "|cFF"..hexRed..hexGreen..hexBlue..text.."|r"
+end
+
+-- 1.12 color logic
+local function RGBToHex(r, g, b)
+    if r > 255 then r = 255; end
+    if g > 255 then g = 255; end
+    if b > 255 then b = 255; end
+    return string.format("|cFF%02x%02x%02x", r, g, b);
+end
+local function fRGBToHex(r, g, b)
+    return RGBToHex(r*254, g*254, b*254);
+end
+function _QuestieTracker:getRGBForObjective(Objective)
+    if not Objective.Collected or type(Objective.Collected) ~= "number" then return 0.8,0.8,0.8; end
+    local float = Objective.Collected / Objective.Needed
+    
+    if Questie.db.global.trackerColorObjectives == "whiteToGreen" then
+        return fRGBToHex(0.8-float/2, 0.8+float/3, 0.8-float/2);
+    else
+        if float < .49 then return fRGBToHex(1, 0+float/.5, 0); end
+        if float == .50 then return fRGBToHex(1, 1, 0); end
+        if float > .50 then return fRGBToHex(1-float/2, 1, 0); end
+    end
+    --return fRGBToHex(0.8-float/2, 0.8+float/3, 0.8-float/2);
+    
+    --[[if QuestieConfig.boldColors == false then
+        if not (type(objective) == "function") then
+            local lastIndex = findLast(objective, ":");
+            if not (lastIndex == nil) then
+                local progress = string.sub(objective, lastIndex+2);
+                local slash = findLast(progress, "/");
+                local have = tonumber(string.sub(progress, 0, slash-1));
+                local need = tonumber(string.sub(progress, slash+1));
+                if not have or not need then return 0.8, 0.8, 0.8; end
+                local float = have / need;
+                return 0.8-float/2, 0.8+float/3, 0.8-float/2;
+            end
+        end
+        return 0.3, 1, 0.3;
+    else
+        if not (type(objective) == "function") then
+            local lastIndex = findLast(objective, ":");
+            if not (lastIndex == nil) then
+                local progress = string.sub(objective, lastIndex+2);
+                local slash = findLast(progress, "/");
+                local have = tonumber(string.sub(progress, 0, slash-1));
+                local need = tonumber(string.sub(progress, slash+1));
+                if not have or not need then return 1, 0, 0; end
+                local float = have / need;
+                if float < .49 then return 1, 0+float/.5, 0; end
+                if float == .50 then return 1, 1, 0; end
+                if float > .50 then return 1-float/2, 1, 0; end
+            end
+        end
+        return 0, 1, 0;
+    end]]--
+end
+
+
 function QuestieTracker:Update()
-    if (not QuestieTracker.started) or (not Questie.db.char.trackerEnabled) then return; end
+    if (not QuestieTracker.started) or (not Questie.db.global.trackerEnabled) then return; end
     index = 0 -- zero because it simplifies GetNextLine()
     -- populate tracker
     local trackerWidth = 0
@@ -597,7 +666,7 @@ function QuestieTracker:Update()
     for quest in pairs (qCurrentQuestlog) do
         -- if quest.userData.tracked 
         local Quest = QuestieDB:GetQuest(quest)
-        if ((not QuestieQuest:IsComplete(Quest)) or Questie.db.char.trackerShowCompleteQuests) and ((GetCVar("autoQuestWatch") == "1") or Questie.db.char.TrackedQuests[quest])  then -- maybe have an option to display quests in the list with (Complete!) in the title
+        if ((not QuestieQuest:IsComplete(Quest)) or Questie.db.global.trackerShowCompleteQuests) and ((GetCVar("autoQuestWatch") == "1") or Questie.db.char.TrackedQuests[quest])  then -- maybe have an option to display quests in the list with (Complete!) in the title
             line = _QuestieTracker:GetNextLine()
             line:SetMode("header")
             line:SetQuest(Quest)
@@ -624,7 +693,11 @@ function QuestieTracker:Update()
                 line:SetMode("line")
                 line:SetQuest(Quest)
                 line:SetObjective(Objective)
-                line.label:SetText("    |cFFEEEEEE" .. Objective.Description .. ": " .. tostring(Objective.Collected) .. "/" .. tostring(Objective.Needed))
+                if (Questie.db.global.trackerColorObjectives and Questie.db.global.trackerColorObjectives ~= "white") and Objective.Collected and type(Objective.Collected) == "number" then
+                    line.label:SetText("    " .. _QuestieTracker:getRGBForObjective(Objective) .. Objective.Description .. ": " .. tostring(Objective.Collected) .. "/" .. tostring(Objective.Needed))
+                else
+                    line.label:SetText("    |cFFEEEEEE" .. Objective.Description .. ": " .. tostring(Objective.Collected) .. "/" .. tostring(Objective.Needed))
+                end
                 line.label:Show()
                 trackerWidth = math.max(trackerWidth, line.label:GetWidth())
                 
@@ -637,7 +710,7 @@ function QuestieTracker:Update()
                     end
                 end
             end
-            line:SetVerticalPadding(trackerQuestPadding)
+            line:SetVerticalPadding(Questie.db.global.trackerQuestPadding)
         end
     end
     
@@ -649,7 +722,7 @@ function QuestieTracker:Update()
     -- adjust base frame size for dragging
     if line then
         _QuestieTracker.baseFrame:SetWidth(trackerWidth + trackerBackgroundPadding*2)
-        _QuestieTracker.baseFrame:SetHeight((_QuestieTracker.baseFrame:GetTop() - line:GetBottom()) + trackerBackgroundPadding*2 - trackerQuestPadding*2)
+        _QuestieTracker.baseFrame:SetHeight((_QuestieTracker.baseFrame:GetTop() - line:GetBottom()) + trackerBackgroundPadding*2 - Questie.db.global.trackerQuestPadding*2)
     end
     -- make sure tracker is inside the screen
     
@@ -715,7 +788,13 @@ function QuestieTracker:CreateBaseFrame()
     frm.texture = t
     
     if Questie.db.char.TrackerLocation then
-        frm:SetPoint(unpack(Questie.db.char.TrackerLocation))
+        -- we need to pcall this because it can error if something like MoveAnything is used to move the tracker
+        result, error = pcall(frm.SetPoint, frm, unpack(Questie.db.char.TrackerLocation))
+        if not result then
+            Questie.db.char.TrackerLocation = nil
+            print("Error: Questie tracker in invalid location, resetting...")
+            frm:SetPoint("CENTER",0,0)
+        end
     else
         frm:SetPoint("CENTER",0,0)
     end
