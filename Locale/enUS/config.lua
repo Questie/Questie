@@ -214,7 +214,6 @@ QuestieLocale.locale['enUS'] = {
     ['JOURNEY_DIFFICULTY'] = "Difficulty Range: %s",
     ['JOURNEY_AUTO_QUEST'] = "This quest is an automatic completion quest and does not contain an objective.",
     ['JOURNEY_RECENT_EVENTS'] = "Your Recent History",
-    ['JOURNEY_NOTE_CREATED'] = "Your Created a new Note titled: %s",
     ['JOURNEY_LEVELUP'] = "Congratulations! You reached %s !",
     ['JOURNEY_LEVELNUM'] = "Level %s",
     ['JOURNEY_LEVELREACH'] = "You Reached Level %s",
