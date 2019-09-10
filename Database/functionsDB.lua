@@ -385,7 +385,7 @@ function QuestieDB:_GetSpecialNPC(NPCID)
     end
     local rawdata = Questie_SpecialNPCs[NPCID]
     if rawdata then
-        NPC = {}
+        local NPC = {}
         NPC.Id = NPCID
         QuestieStreamLib:load(rawdata)
         NPC.Name = QuestieStreamLib:readTinyString()
@@ -423,7 +423,7 @@ function QuestieDB:GetNPC(NPCID)
     end
     local rawdata = QuestieCorrections.npcFixes[NPCID] or QuestieDB.npcData[NPCID]
     if(rawdata)then
-        NPC = {}
+        local NPC = {}
         NPC.Type = "NPC" --This can be used to look at which type it is, Gameobject and Items will have the same! (should be monster to match wow api)
         NPC.Id = NPCID
         NPC.Name = LangNameLookup[NPCID] or rawdata[DB_NAME]

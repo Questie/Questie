@@ -108,8 +108,8 @@ local function _GetNearestQuestSpawn(Quest)
                             bestSpawn = spawn
                             bestSpawnZone = zone
                             bestSpawnId = id
-                            bestSpawnType = spawnData.Type
-                            bestSpawnName = spawnData.Name
+                            bestSpawnType = Quest.Finisher.Type
+                            bestSpawnName = NPC.LocalizedName or NPC.Name
                         end
                     end
                 end
@@ -416,7 +416,9 @@ local function _BuildMenu(Quest)
         table.insert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_SET_TOMTOM'), func = function() 
             LQuestie_CloseDropDownMenus()
             spawn, zone, name = _GetNearestSpawn(Objective)
-            _SetTomTomTarget(name, zone, spawn[1], spawn[2])
+            if spawn then
+                _SetTomTomTarget(name, zone, spawn[1], spawn[2])
+            end
         end})
         if Objective.HideIcons then
             table.insert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_SHOW_ICONS'), func = function() 
@@ -478,7 +480,9 @@ local function _BuildMenu(Quest)
     table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_SET_TOMTOM'), func = function() 
         LQuestie_CloseDropDownMenus()
         spawn, zone, name = _GetNearestQuestSpawn(Quest)
-        _SetTomTomTarget(name, zone, spawn[1], spawn[2])
+        if spawn then
+            _SetTomTomTarget(name, zone, spawn[1], spawn[2])
+        end
     end})
     table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_SHOW_QUESTLOG'), func = function() 
         LQuestie_CloseDropDownMenus() 
@@ -506,6 +510,11 @@ end
 local function _OnClick(self, button)
     if button == "RightButton" then
         _BuildMenu(self.Quest)
+    elseif button == "LeftButton" and IsShiftKeyDown() then
+        spawn, zone, name = _GetNearestQuestSpawn(self.Quest)
+        if spawn then
+            _SetTomTomTarget(name, zone, spawn[1], spawn[2])
+        end
     end
 end
 

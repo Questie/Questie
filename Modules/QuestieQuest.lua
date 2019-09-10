@@ -341,7 +341,7 @@ function QuestieQuest:GetAllQuestIds()
         title, level, _, isHeader, _, isComplete, _, questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
         if(not isHeader) then
             --Keep the object in the questlog to save searching
-            Quest = QuestieDB:GetQuest(questId)
+            local Quest = QuestieDB:GetQuest(questId)
             if(Quest ~= nil) then
                 QuestieQuest:PopulateQuestLogInfo(Quest)
                 QuestieQuest:PopulateObjectiveNotes(Quest)
@@ -366,7 +366,7 @@ function QuestieQuest:GetAllQuestIdsNoObjectives()
         title, level, _, isHeader, _, isComplete, _, questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
         if(not isHeader) then
             --Keep the object in the questlog to save searching
-            Quest = QuestieDB:GetQuest(questId)
+            local Quest = QuestieDB:GetQuest(questId)
             if(Quest ~= nil) then
                 qCurrentQuestlog[questId] = Quest
             else
@@ -414,7 +414,7 @@ function QuestieQuest:UpdateObjectiveNotes(Quest)
     end
 end
 function QuestieQuest:AddFinisher(Quest)
-    NPC = nil
+    local NPC = nil
     if Quest.Finisher ~= nil then
         if Quest.Finisher.Type == "monster" then
             NPC = QuestieDB:GetNPC(Quest.Finisher.Id)
@@ -1016,7 +1016,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
     --TODO More logic here, currently only shows NPC quest givers.
     if questObject.Starts["GameObject"] ~= nil then
         for index, ObjectID in ipairs(questObject.Starts["GameObject"]) do
-            obj = QuestieDB:GetObject(ObjectID)
+            local obj = QuestieDB:GetObject(ObjectID)
             if(obj ~= nil and obj.Spawns ~= nil) then
                 --Questie:Debug(DEBUG_DEVELOP,"Adding Quest:", questObject.Id, "StarterNPC:", NPC.Id)
                 for Zone, Spawns in pairs(obj.Spawns) do
@@ -1057,7 +1057,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
         end
     elseif(questObject.Starts["NPC"] ~= nil)then
         for index, NPCID in ipairs(questObject.Starts["NPC"]) do
-            NPC = QuestieDB:GetNPC(NPCID)
+            local NPC = QuestieDB:GetNPC(NPCID)
             if (NPC ~= nil and NPC.Spawns ~= nil and NPC.Friendly) then
                 --Questie:Debug(DEBUG_DEVELOP,"Adding Quest:", questObject.Id, "StarterNPC:", NPC.Id)
                 for Zone, Spawns in pairs(NPC.Spawns) do
@@ -1106,7 +1106,7 @@ function QuestieQuest:DrawAllAvailableQuests()--All quests between
     for questid, qid in pairs(qAvailableQuests) do
         --If the quest is not drawn draw the quest, otherwise skip.
         if(not qQuestIdFrames[questid]) then
-            Quest = QuestieDB:GetQuest(questid)
+            local Quest = QuestieDB:GetQuest(questid)
             --Draw a specific quest through the function
             _QuestieQuest:DrawAvailableQuest(Quest)
         end
