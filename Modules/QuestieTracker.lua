@@ -841,6 +841,14 @@ function QuestieTracker:Update()
     for _,quest in pairs (order) do
         -- if quest.userData.tracked 
         local Quest = QuestieDB:GetQuest(quest)
+        -- make sure objective data is up to date
+        if Quest.Objectives then
+        for _,Objective in pairs(Quest.Objectives) do
+                if Objective.Update then Objective:Update() end
+            end
+        end
+    
+    
         local complete = QuestieQuest:IsComplete(Quest)
         if ((not complete) or Questie.db.global.trackerShowCompleteQuests) and ((GetCVar("autoQuestWatch") == "1") or Questie.db.char.TrackedQuests[quest])  then -- maybe have an option to display quests in the list with (Complete!) in the title
             line = _QuestieTracker:GetNextLine()
@@ -867,7 +875,7 @@ function QuestieTracker:Update()
             end
             
             
-            if Quest.Objectives then
+            if Quest.Objectives and not complete then
                 for _,Objective in pairs(Quest.Objectives) do
                     line = _QuestieTracker:GetNextLine()
                     line:SetMode("line")
