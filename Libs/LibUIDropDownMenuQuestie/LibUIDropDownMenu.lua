@@ -12,7 +12,7 @@ local wipe = table.wipe
 local CreateFrame, GetCursorPosition, GetCVar, GetScreenHeight, GetScreenWidth, PlaySound = _G.CreateFrame, _G.GetCursorPosition, _G.GetCVar, _G.GetScreenHeight, _G.GetScreenWidth, _G.PlaySound
 
 -- ----------------------------------------------------------------------------
-local MAJOR_VERSION = "LibUIDropDownMenu-2.0"
+local MAJOR_VERSION = "LibUIDropDownMenuQuestie-2.0"
 local MINOR_VERSION = 90000 + tonumber(("$Rev: 43 $"):match("%d+"))
 
 local LibStub = _G.LibStub

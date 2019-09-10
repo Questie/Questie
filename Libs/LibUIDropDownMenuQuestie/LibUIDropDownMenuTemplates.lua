@@ -4,7 +4,7 @@
 -- ----------------------------------------------------------------------------
 local _G = getfenv(0)
 -- ----------------------------------------------------------------------------
-local MAJOR_VERSION = "LibUIDropDownMenuTemplates-2.0"
+local MAJOR_VERSION = "LibUIDropDownMenuTemplatesQuestie-2.0"
 local MINOR_VERSION = 90000 + tonumber(("$Rev: 40 $"):match("%d+"))
 
 local LibStub = _G.LibStub
