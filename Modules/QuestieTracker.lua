@@ -102,10 +102,10 @@ local function _GetNearestQuestSpawn(Quest)
                 for _,spawn in pairs(spawns) do
                     local dX, dY, dInstance = HBD:GetWorldCoordinatesFromZone(spawn[1]/100.0, spawn[2]/100.0, zoneDataAreaIDToUiMapID[zone])
                     --print (" " .. tostring(dX) .. " " .. tostring(dY) .. " " .. zoneDataAreaIDToUiMapID[zone])
+                    local dist = HBD:GetWorldDistance(dInstance, playerX, playerY, dX, dY)
                     if dInstance ~= playerI then
                         dist = 500000 + dist * 100 -- hack
                     end
-                    local dist = HBD:GetWorldDistance(dInstance, playerX, playerY, dX, dY)
                     if dist < bestDistance then
                         bestDistance = dist
                         bestSpawn = spawn
