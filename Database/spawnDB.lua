@@ -8,8 +8,8 @@ QuestieDB.npcKeys = {
     ['spawns'] = 7, -- table {[zoneID(int)] = {coordPair(floatVector2D),...},...}
     ['waypoints'] = 8, -- table {[zoneID(int)] = {coordPair(floatVector2D),...},...}
     ['zoneID'] = 9, -- guess as to where this NPC is most common
-    ['startQuests'] = 10, -- table {questID(int),...}
-    ['endQuests'] = 11, -- table {questID(int),...}
+    ['questStarts'] = 10, -- table {questID(int),...}
+    ['questEnds'] = 11, -- table {questID(int),...}
     ['factionID'] = 12, -- int, see https://github.com/cmangos/issues/wiki/FactionTemplate.dbc
     ['friendlyToFaction'] = 13, -- string, Contains "A" and/or "H" depending on NPC being friendly towards those factions. nil if hostile to both.
 }

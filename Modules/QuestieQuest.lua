@@ -67,7 +67,7 @@ function QuestieQuest:ClearAllNotes()
         -- Clear user-specifc data from quest object (maybe we should refactor into Quest.session.* so we can do Quest.session = nil to reset easier
         Quest.AlreadySpawned = nil
         Quest.Objectives = nil
-        
+
         -- reference is still held elswhere
         if Quest.SpecialObjectives then for _,s in pairs(Quest.SpecialObjectives) do s.AlreadySpawned = nil end end
         Quest.SpecialObjectives = nil
@@ -303,7 +303,7 @@ function QuestieQuest:CompleteQuest(QuestId)
     --TODO: This can probably be done better?
     QuestieQuest:CalculateAvailableQuests()
     QuestieQuest:DrawAllAvailableQuests();
-    
+
     QuestieTracker:QuestRemoved(QuestId)
     QuestieTracker:Update()
 
@@ -332,7 +332,7 @@ function QuestieQuest:AbandonedQuest(QuestId)
         end
         QuestieQuest:CalculateAvailableQuests()
         QuestieQuest:DrawAllAvailableQuests()
-        
+
         QuestieTracker:QuestRemoved(QuestId)
         QuestieTracker:Update()
 
@@ -438,28 +438,24 @@ function QuestieQuest:UpdateObjectiveNotes(Quest)
         end
     end
 end
+
 function QuestieQuest:AddFinisher(Quest)
-    local NPC = nil
+    local finisher = nil
     if Quest.Finisher ~= nil then
         if Quest.Finisher.Type == "monster" then
-            NPC = QuestieDB:GetNPC(Quest.Finisher.Id)
+            finisher = QuestieDB:GetNPC(Quest.Finisher.Id)
         elseif Quest.Finisher.Type == "object" then
-            NPC = QuestieDB:GetObject(Quest.Finisher.Id)
+            finisher = QuestieDB:GetObject(Quest.Finisher.Id)
         else
             Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_UNHANDLE_FINISH', Quest.Finisher.Type, Quest.Id, Quest.Name))
         end
     else
         Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_NO_FINISH', Quest.Id, Quest.Name))
     end
-    --NPC = QuestieDB:GetNPC(Quest.Finisher)
-    if(NPC ~= nil and NPC.Spawns ~= nil) then
-        --Questie:Debug(DEBUG_DEVELOP,"Adding Quest:", questObject.Id, "StarterNPC:", NPC.Id)
-        for Zone, Spawns in pairs(NPC.Spawns) do
+    if(finisher ~= nil and finisher.spawns ~= nil) then
+        for Zone, Spawns in pairs(finisher.spawns) do
             if(Zone ~= nil and Spawns ~= nil) then
-                --Questie:Debug("Zone", Zone)
-                --Questie:Debug("Qid:", questid)
                 for _, coords in ipairs(Spawns) do
-                    --Questie:Debug("Coords", coords[1], coords[2])
                     local data = {}
                     data.Id = Quest.Id;
                     data.Icon = ICON_TYPE_COMPLETE;
@@ -467,26 +463,15 @@ function QuestieQuest:AddFinisher(Quest)
                     data.IconScale = data:GetIconScale();
                     data.Type = "complete";
                     data.QuestData = Quest;
-                    data.Name = NPC.Name
+                    data.Name = finisher.name
                     data.IsObjectiveNote = false
-                    --data.updateTooltip = function(data)
-                    --return {QuestieTooltips:PrintDifficultyColor(data.QuestData.Level, "[" .. data.QuestData.Level .. "] " .. data.QuestData.Name), "|cFFFFFFFFQuest complete!", "Finished by: |cFF00FF00" .. data.QuestData.NPCName}
-                    --end
-                    --data.tooltip = data.updateTooltip(data)
-
-                    --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn1", v.Id, NPC.Name )
                     if(coords[1] == -1 or coords[2] == -1) then
                         if(instanceData[Zone] ~= nil) then
                             for index, value in ipairs(instanceData[Zone]) do
-                                --Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[value[1]])
-                                --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn3", value[1], value[2], value[3])
                                 QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
                             end
                         end
                     else
-                        --Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[Zone])
-                        --HBDPins:AddWorldMapIconMap(Questie, Note, zoneDataAreaIDToUiMapID[Zone], coords[1]/100, coords[2]/100, HBD_PINS_WORLDMAP_SHOW_WORLD)
-                        --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: AddSpawn2", Zone, coords[1], coords[2])
                         QuestieMap:DrawWorldIcon(data, Zone, coords[1], coords[2])
                     end
                 end
@@ -494,7 +479,6 @@ function QuestieQuest:AddFinisher(Quest)
         end
     end
 end
-
 
 ObjectiveSpawnListCallTable = {
     ["monster"] = function(id, Objective)
@@ -506,13 +490,13 @@ ObjectiveSpawnListCallTable = {
         local ret = {}
         local mon = {};
 
-        mon.Name = npc.Name
-        mon.Spawns = npc.Spawns
+        mon.Name = npc.name
+        mon.Spawns = npc.spawns
         mon.Icon = ICON_TYPE_SLAY
         mon.Id = id
         mon.GetIconScale = function() return Questie.db.global.monsterScale or 1 end
         mon.IconScale = mon:GetIconScale();
-        mon.TooltipKey = "u_" .. npc.Name -- todo: use ID based keys
+        mon.TooltipKey = "u_" .. npc.name -- todo: use ID based keys
 
         ret[id] = mon;
         return ret
@@ -526,12 +510,12 @@ ObjectiveSpawnListCallTable = {
         local ret = {}
         local obj = {}
 
-        obj.Name = object.Name
-        obj.Spawns = object.Spawns
+        obj.Name = object.name
+        obj.Spawns = object.spawns
         obj.Icon = ICON_TYPE_LOOT
         obj.GetIconScale = function() return Questie.db.global.objectScale or 1 end
         obj.IconScale = obj:GetIconScale()
-        obj.TooltipKey = "o_" .. object.Name
+        obj.TooltipKey = "o_" .. object.name
         obj.Id = id
 
         ret[id] = obj
@@ -955,8 +939,8 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                 if objective.Type then
                     if objective.Type == "monster" then
                         local npc = QuestieDB:GetNPC(objective.Id);
-                        if npc and npc.Name then
-                            objective.Description = npc.Name
+                        if npc and npc.name then
+                            objective.Description = npc.name
                         end
                     elseif objective.Type == "item" then
                         local itm = QuestieDB:GetItem(objective.Id);
@@ -1023,7 +1007,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
     if (questObject == nil) then
         return false;
     end
-    
+
     -- recheck IsDoable (shouldn't be needed)
     if not _QuestieQuest:IsDoable(questObject) then return false; end
 
@@ -1042,14 +1026,10 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
     if questObject.Starts["GameObject"] ~= nil then
         for index, ObjectID in ipairs(questObject.Starts["GameObject"]) do
             local obj = QuestieDB:GetObject(ObjectID)
-            if(obj ~= nil and obj.Spawns ~= nil) then
-                --Questie:Debug(DEBUG_DEVELOP,"Adding Quest:", questObject.Id, "StarterNPC:", NPC.Id)
-                for Zone, Spawns in pairs(obj.Spawns) do
+            if(obj ~= nil and obj.spawns ~= nil) then
+                for Zone, Spawns in pairs(obj.spawns) do
                     if(Zone ~= nil and Spawns ~= nil) then
-                        --Questie:Debug("Zone", Zone)
-                        --Questie:Debug("Qid:", questid)
                         for _, coords in ipairs(Spawns) do
-                            --Questie:Debug("Coords", coords[1], coords[2])
                             local data = {}
                             data.Id = questObject.Id;
                             data.Icon = ICON_TYPE_AVAILABLE;
@@ -1057,22 +1037,16 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                             data.IconScale = data:GetIconScale()
                             data.Type = "available";
                             data.QuestData = questObject;
-                            data.Name = obj.Name
+                            data.Name = obj.name
 
                             data.IsObjectiveNote = false
-                            --data.updateTooltip = function(data)
-                            --    return {QuestieTooltips:PrintDifficultyColor(data.QuestData.Level, "[" .. data.QuestData.Level .. "] " .. data.QuestData.Name), "|cFFFFFFFFStarted by: |r|cFF22FF22" .. data.QuestData.NPCName, "QuestId:"..data.QuestData.Id}
-                            --end
                             if(coords[1] == -1 or coords[2] == -1) then
                                 if(instanceData[Zone] ~= nil) then
                                     for index, value in ipairs(instanceData[Zone]) do
-                                        --Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[value[1]])
                                         QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
                                     end
                                 end
                             else
-                                --Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[Zone])
-                                --HBDPins:AddWorldMapIconMap(Questie, Note, zoneDataAreaIDToUiMapID[Zone], coords[1]/100, coords[2]/100, HBD_PINS_WORLDMAP_SHOW_WORLD)
                                 QuestieMap:DrawWorldIcon(data, Zone, coords[1], coords[2])
                             end
                         end
@@ -1083,9 +1057,9 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
     elseif(questObject.Starts["NPC"] ~= nil)then
         for index, NPCID in ipairs(questObject.Starts["NPC"]) do
             local NPC = QuestieDB:GetNPC(NPCID)
-            if (NPC ~= nil and NPC.Spawns ~= nil and NPC.Friendly) then
+            if (NPC ~= nil and NPC.spawns ~= nil and NPC.friendly) then
                 --Questie:Debug(DEBUG_DEVELOP,"Adding Quest:", questObject.Id, "StarterNPC:", NPC.Id)
-                for Zone, Spawns in pairs(NPC.Spawns) do
+                for Zone, Spawns in pairs(NPC.spawns) do
                     if(Zone ~= nil and Spawns ~= nil) then
                         --Questie:Debug("Zone", Zone)
                         --Questie:Debug("Qid:", questid)
@@ -1098,7 +1072,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                             data.IconScale = data.GetIconScale();
                             data.Type = "available";
                             data.QuestData = questObject;
-                            data.Name = NPC.Name
+                            data.Name = NPC.name
                             data.IsObjectiveNote = false
                             --data.updateTooltip = function(data)
                             --    return {QuestieTooltips:PrintDifficultyColor(data.QuestData.Level, "[" .. data.QuestData.Level .. "] " .. data.QuestData.Name), "|cFFFFFFFFStarted by: |r|cFF22FF22" .. data.QuestData.NPCName, "QuestId:"..data.QuestData.Id}
@@ -1177,7 +1151,7 @@ function _QuestieQuest:IsDoable(questObject) -- we need to add profession/reputa
     if questObject.Starts["NPC"] ~= nil then
         local hasValidNPC = false
         for _, id in ipairs(questObject.Starts["NPC"]) do
-            if QuestieDB:GetNPC(id).Friendly then
+            if QuestieDB:GetNPC(id).friendly then
                 hasValidNPC = true
                 break
             end

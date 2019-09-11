@@ -96,14 +96,11 @@ function QuestieDB:GetObject(ObjectID)
     local raw = QuestieDB.objectData[ObjectID];
     if raw ~= nil then
         local obj = {};
-        obj.Id = ObjectID;
+        obj.id = ObjectID
+        obj.type = "object"
         for stringKey, intKey in pairs(QuestieDB.objectKeys) do
             obj[stringKey] = raw[intKey]
         end
-        obj.Name = raw[1];
-        obj.Spawns = raw[4];
-        obj.Starts = raw[2];
-        obj.Ends = raw[3];
         QuestieDB._ObjectCache[ObjectID] = obj;
         return obj;
     else
@@ -402,25 +399,25 @@ function QuestieDB:_GetSpecialNPC(NPCID)
     local rawdata = Questie_SpecialNPCs[NPCID]
     if rawdata then
         local NPC = {}
-        NPC.Id = NPCID
+        NPC.id = NPCID
         QuestieStreamLib:load(rawdata)
-        NPC.Name = QuestieStreamLib:readTinyString()
-        NPC.Type = "NPC" --This can be used to look at which type it is, Gameobject and Items will have the same! (should be monster to match wow api)
-        NPC.NewFormatSpawns = {}; -- spawns should be stored like this: {{x, y, uimapid}, ...} so im creating a 2nd var to aid with moving to the new format
-        NPC.Spawns = {};
+        NPC.name = QuestieStreamLib:readTinyString()
+        NPC.type = "monster"
+        NPC.newFormatSpawns = {}; -- spawns should be stored like this: {{x, y, uimapid}, ...} so im creating a 2nd var to aid with moving to the new format
+        NPC.spawns = {};
         local count = QuestieStreamLib:readByte()
         for i=1,count do
             local x = QuestieStreamLib:readShort() / 655.35
             local y = QuestieStreamLib:readShort() / 655.35
             local m = QuestieStreamLib:readByte() + 1400
-            table.insert(NPC.NewFormatSpawns, {x, y, m});
+            table.insert(NPC.newFormatSpawns, {x, y, m});
             local om = m;
             m = zoneDataUiMapIDToAreaID[m];
             if m then
-                if not NPC.Spawns[m] then
-                    NPC.Spawns[m] = {};
+                if not NPC.spawns[m] then
+                    NPC.spawns[m] = {};
                 end
-                table.insert(NPC.Spawns[m], {x, y});
+                table.insert(NPC.spawns[m], {x, y});
             end
         end
         return NPC
@@ -432,8 +429,6 @@ function QuestieDB:GetNPC(NPCID)
     if NPCID == nil then
         return nil
     end
-    --[key] = {1 Name,2 minHP,3 maxHP,4 minLevel,5 maxLevel,6 rank,7 spawns,8 waypoint,9 zone, 10 starts, 11 ends},
-
     if(QuestieDB._NPCCache[NPCID]) then
         return QuestieDB._NPCCache[NPCID]
     end
@@ -445,38 +440,28 @@ function QuestieDB:GetNPC(NPCID)
     local rawdata = QuestieDB.npcData[NPCID]
     if(rawdata)then
         local NPC = {}
-        NPC.Type = "NPC" --This can be used to look at which type it is, Gameobject and Items will have the same! (should be monster to match wow api)
-        NPC.Id = NPCID
+        NPC.type = "monster"
+        NPC.id = NPCID
         for stringKey, intKey in pairs(QuestieDB.npcKeys) do
             NPC[stringKey] = rawdata[intKey]
         end
-        NPC.Name = LangNameLookup[NPCID] or rawdata[DB_NAME]
-        NPC.MinHealth = rawdata[DB_MIN_LEVEL_HEALTH]
-        NPC.MaxHealth = rawdata[DB_MAX_LEVEL_HEALTH]
-        NPC.MinLevel = rawdata[DB_MIN_LEVEL]
-        NPC.MaxLevel = rawdata[DB_LEVEL]
-        NPC.Rank = rawdata[DB_RANK]
-        NPC.Spawns = rawdata[DB_NPC_SPAWNS]
 
-        if NPC.Spawns == nil and Questie_SpecialNPCs[NPCID] then -- get spawns from script spawns list
-            NPC.Spawns = QuestieDB:_GetSpecialNPC(NPCID).Spawns
+        if NPC.spawns == nil and Questie_SpecialNPCs[NPCID] then -- get spawns from script spawns list
+            NPC.spawns = QuestieDB:_GetSpecialNPC(NPCID).spawns
         end
 
-        NPC.Waypoints = rawdata[DB_NPC_WAYPOINTS]
-        NPC.Starts = rawdata[DB_NPC_STARTS]
-        NPC.Ends = rawdata[DB_NPC_ENDS]
         if rawdata[DB_NPC_FRIENDLY] then
             if rawdata[DB_NPC_FRIENDLY] == "AH" then
-                NPC.Friendly = true
+                NPC.friendly = true
             else
                 if QuestieDB.FactionGroup == "Horde" and rawdata[DB_NPC_FRIENDLY] == "H" then
-                    NPC.Friendly = true
+                    NPC.friendly = true
                 elseif QuestieDB.FactionGroup == "Alliance" and rawdata[DB_NPC_FRIENDLY] == "A" then
-                    NPC.Friendly = true
+                    NPC.friendly = true
                 end
             end
         else
-            NPC.Friendly = true
+            NPC.friendly = true
         end
         QuestieDB._NPCCache[NPCID] = NPC
         return NPC
@@ -548,8 +533,8 @@ function QuestieDB:GetQuestsByZoneId(zoneid)
             if quest.Starts.NPC then
                 local npc = QuestieDB:GetNPC(quest.Starts.NPC[1]);
 
-                if npc and npc.Spawns then
-                    for zone, _ in pairs(npc.Spawns) do
+                if npc and npc.spawns then
+                    for zone, _ in pairs(npc.spawns) do
                         if zone == zoneid then
                             zoneTable[qid] = quest;
                         end
@@ -560,8 +545,8 @@ function QuestieDB:GetQuestsByZoneId(zoneid)
             if quest.Starts.GameObject then
                 local obj = QuestieDB:GetObject(quest.Starts.GameObject[1]);
 
-                if obj and obj.Spawns then
-                    for zone, _ in pairs(obj.Spawns) do
+                if obj and obj.spawns then
+                    for zone, _ in pairs(obj.spawns) do
                         if zone == zoneid then
                             zoneTable[qid] = quest;
                         end
