@@ -1141,8 +1141,8 @@ function _QuestieQuest:IsDoable(questObject) -- we need to add profession/reputa
             end
         end
     end
-    if questObject.MustHave then
-        if not qCurrentQuestlog[questObject.MustHave] then
+    if questObject.parentQuest then
+        if not qCurrentQuestlog[questObject.parentQuest] then
             return false
         end
     end

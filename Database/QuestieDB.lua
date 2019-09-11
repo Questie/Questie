@@ -55,15 +55,6 @@ function QuestieDB:Initialize()
     QuestieDB:deleteClasses()
     QuestieDB:deleteGatheringNodes()
 
-    -- populate mustHave (subquests) this is sorta a hack, maybe Muehe can integrate this logic into the converter tool
-    for k,v in pairs(QuestieDB.questData) do
-        if v and v[14] then
-            for _,v2 in ipairs(v[14]) do
-                QuestieDB.questData[v2].mustHave = k;
-            end
-        end
-    end
-
     -- data has been corrected, ensure cache is empty (something might have accessed the api before questie initialized)
     QuestieDB._QuestCache = {};
     QuestieDB._ItemCache = {};
@@ -197,7 +188,6 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
         QO.Ends = {} --ends 3
         QO.Hidden = rawdata.hidden or QuestieCorrections.hiddenQuests[QuestID]
         QO.Description = rawdata[8]
-        QO.MustHave = rawdata.mustHave
 
         -- Do localization
         local localizedQuest = LangQuestLookup[QuestID]
