@@ -95,6 +95,8 @@ QuestieCorrections.itemFixes = {
     [11149] = {"Samophlange Manual",{3924},{},{}},
     [11018] = {"Un\'Goro Soil",{4496,3761,3764},{},{157936}},
     [6435] = {"Infused Burning Gem",{1435},{4663,4664,4665,4666,4667,4668,4705,13019},{}},
+    [3388] = {"Strong Troll's Brool Potion",{515},{},{}},
+    [3508] = {"Mudsnout Mixture",{515},{},{}},
 	
     -- quest related herbs
     [2449] = {"Earthroot",{6123,6128},{},{1619,3726}},
