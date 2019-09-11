@@ -1014,6 +1014,11 @@ function QuestieTracker:HookBaseTracker()
     IsQuestWatched = function(index)
         return Questie.db.char.TrackedQuests[select(8,GetQuestLogTitle(index)) or -1]
     end
+	
+	QuestWatchFrame:Hide()
+	-- totally prevent the frame from showing (BAD CODE, shouldn't be needed but some have had trouble)
+	QuestWatchFrame:HookScript("OnShow", function(self) self:Hide() end)
+	
     QuestieTracker._alreadyHooked = true
 end
 
