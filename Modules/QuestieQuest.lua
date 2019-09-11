@@ -67,6 +67,9 @@ function QuestieQuest:ClearAllNotes()
         -- Clear user-specifc data from quest object (maybe we should refactor into Quest.session.* so we can do Quest.session = nil to reset easier
         Quest.AlreadySpawned = nil
         Quest.Objectives = nil
+        
+        -- reference is still held elswhere
+        if Quest.SpecialObjectives then for _,s in pairs(Quest.SpecialObjectives) do s.AlreadySpawned = nil end end
         Quest.SpecialObjectives = nil
     end
 
@@ -82,6 +85,21 @@ function QuestieQuest:ClearAllNotes()
     QuestieMap.MapCache_ClutterFix = {}
 end
 
+-- this is only needed for reset, normally special objectives don't need to update
+local function _UpdateSpecials(quest)
+    local Quest = QuestieDB:GetQuest(quest)
+    if Quest and Quest.SpecialObjectives then
+        if Quest.SpecialObjectives then
+            for _, objective in pairs(Quest.SpecialObjectives) do
+                result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, Quest, 0, objective, true);
+                if not result then
+                    Questie:Error("[QuestieQuest]: [SpecialObjectives] ".. QuestieLocale:GetUIString('DEBUG_POPULATE_ERR', Quest.Name or "No quest name", Quest.Id or "No quest id", k or "No objective", err or "No error"));
+                end
+            end
+        end
+    end
+end
+
 function QuestieQuest:AddAllNotes()
     qAvailableQuests = {} -- reset available quest db
 
@@ -93,6 +111,7 @@ function QuestieQuest:AddAllNotes()
     -- draw quests
     for quest in pairs (qCurrentQuestlog) do
         QuestieQuest:UpdateQuest(quest)
+        _UpdateSpecials(quest)
     end
 end
 
@@ -132,7 +151,7 @@ function QuestieQuest:SmoothReset() -- use timers to reset progressively instead
             -- bit of a hack here too
             local mod = 0
             for quest in pairs (qCurrentQuestlog) do
-                C_Timer.After(mod, function() QuestieQuest:UpdateQuest(quest) end)
+                C_Timer.After(mod, function() QuestieQuest:UpdateQuest(quest) _UpdateSpecials(quest) end)
                 mod = mod + 0.2
             end
         end
