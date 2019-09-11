@@ -706,6 +706,16 @@ function QuestieTracker:_ResetLinesForFontChange()
     end
 end
 
+function QuestieTracker:QuestRemoved(id)
+    if Questie.db.char.TrackerFocus then
+        if (type(Questie.db.char.TrackerFocus) == "number" and Questie.db.char.TrackerFocus == id) 
+        or (type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus:sub(1, #tostring(id)) == tostring(id)) then
+            _UnFocus()
+            QuestieQuest:UpdateHiddenNotes()
+        end
+    end
+end
+
 function QuestieTracker:Initialize()
     if QuestieTracker.started or (not Questie.db.global.trackerEnabled) then return; end
     if not Questie.db.char.TrackerHiddenQuests then

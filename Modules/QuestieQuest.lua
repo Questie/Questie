@@ -304,6 +304,7 @@ function QuestieQuest:CompleteQuest(QuestId)
     QuestieQuest:CalculateAvailableQuests()
     QuestieQuest:DrawAllAvailableQuests();
     
+    QuestieTracker:QuestRemoved(QuestId)
     QuestieTracker:Update()
 
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_COMPLETE_QUEST', QuestId));
@@ -332,6 +333,7 @@ function QuestieQuest:AbandonedQuest(QuestId)
         QuestieQuest:CalculateAvailableQuests()
         QuestieQuest:DrawAllAvailableQuests()
         
+        QuestieTracker:QuestRemoved(QuestId)
         QuestieTracker:Update()
 
         Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ABANDON_QUEST', QuestId));
