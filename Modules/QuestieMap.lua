@@ -69,6 +69,25 @@ end
 --coordinates need to be 0-1 instead of 0-100
 --showFlag isn't required but may want to be Modified
 function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
+    local worldMapId = zoneDataAreaIDToUiMapID[AreaID]
+    local isExplored = false
+
+    if worldMapId then
+        local exploredAreaIDs = C_MapExplorationInfo.GetExploredAreaIDsAtPosition(worldMapId, CreateVector2D(x / 100, y / 100));
+        if exploredAreaIDs then isExplored = true              -- Explored
+        elseif (worldMapId == 1453) then isExplored = true     -- Stormwind
+        elseif (worldMapId == 1455) then isExplored = true     -- Ironforge
+        elseif (worldMapId == 1457) then isExplored = true     -- Darnassus
+        elseif (worldMapId == 1458) then isExplored = true     -- Undercity
+        elseif (worldMapId == 1454) then isExplored = true     -- Orgrimmar
+        elseif (worldMapId == 1456) then isExplored = true     -- Thunder Bluff
+        end
+    end
+
+    --    if hit == false then
+    --        return nil, nil
+    --    end
+
     if type(data) ~= "table" then
         error(MAJOR..": AddWorldMapIconMap: must have some data")
     end
@@ -201,6 +220,10 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
             end)
         end
 
+        if ((Questie.db.global.hideUnexploredMapIcons) and (isExplored == false)) then
+            return nil, nil
+        end
+
         if Questie.db.global.enableMiniMapIcons then
             HBDPins:AddMinimapIconMap(Questie, iconMinimap, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, true, floatOnEdge)
         end
@@ -213,7 +236,7 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
 
         table.insert(qQuestIdFrames[data.Id], icon:GetName())
         table.insert(qQuestIdFrames[data.Id], iconMinimap:GetName())
-        
+
         -- preset hidden state when needed (logic from QuestieQuest:UpdateHiddenNotes
         -- we should add all this code to something like obj:CheckHide() instead of copying it
         if (QuestieQuest.NotesHidden or (((not Questie.db.global.enableObjectives) and (icon.data.Type == "monster" or icon.data.Type == "object" or icon.data.Type == "event" or icon.data.Type == "item"))
@@ -224,8 +247,8 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
             icon:FakeHide()
             iconMinimap:FakeHide()
         end
-        
-        
+
+
         return icon, iconMinimap;
     end
     return nil, nil

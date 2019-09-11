@@ -30,6 +30,8 @@ QuestieLocale.locale['enUS'] = {
     ['ENABLE_MAP_ICONS_DESC'] = "Show/hide all icons from the main map",
     ['ENABLE_MINIMAP_ICONS'] = "Enable Minimap Icons",
     ['ENABLE_MINIMAP_ICONS_DESC'] = "Show/hide all icons from the minimap",
+    ['HIDE_UNEXPLORED_ICONS'] = "Hide unexplored area icons",
+    ['HIDE_UNEXPLORED_ICONS_DESC'] = "Hide icons from unexplored area",
 
     ['MINIMAP_TAB'] = "Minimap",
     ['MINIMAP_HEADER'] = "Mini-Map Note Options",
@@ -141,7 +143,7 @@ QuestieLocale.locale['enUS'] = {
     ['SLASH_TOGGLE_QUESTIE'] = "/questie toggle -- Toggles showing questie on the map and minimap",
     ['SLASH_JOURNEY'] = "/questie journey -- Toggles the My Journey window",
     ['SLASH_MINIMAP'] = "/questie minimap -- Toggles the Minimap Button for Questie",
-    
+
     -- Tracker
     ['TRACKER_TAB'] = "Tracker",
     ['TRACKER_HEAD'] = "Quest Tracker Options",
@@ -158,8 +160,8 @@ QuestieLocale.locale['enUS'] = {
     ['TRACKER_COLOR_OBJECTIVES'] = "Objective Color",
     ['TRACKER_COLOR_OBJECTIVES_DESC'] = "Change the color of objectives in the tracker by how complete they are",
     ['TRACKER_COLOR_WHITE'] = "White",
-    ['TRACKER_COLOR_WHITE_TO_GREEN'] = "White to Green", 
-    ['TRACKER_COLOR_RED_TO_GREEN'] = "Red to Green", 
+    ['TRACKER_COLOR_WHITE_TO_GREEN'] = "White to Green",
+    ['TRACKER_COLOR_RED_TO_GREEN'] = "Red to Green",
     ['TRACKER_FONT_HEADER'] = "Font Size for Quest Names",
     ['TRACKER_FONT_HEADER_DESC'] = "The font size the tracker uses for quest names",
     ['TRACKER_FONT_LINE'] = "Font Size for Objectives",
@@ -168,12 +170,12 @@ QuestieLocale.locale['enUS'] = {
     ['TRACKER_QUEST_PADDING_DESC'] = "The amount of padding between quests in the tracker",
     ['TRACKER_INVALID_LOCATION'] = "Error: Questie tracker in invalid location, resetting...",
     ['TRACKER_SORT_OBJECTIVES'] = "Objective Sorting",
-    ['TRACKER_SORT_OBJECTIVES_DESC'] = "How objectives are sorted in the tracker", 
+    ['TRACKER_SORT_OBJECTIVES_DESC'] = "How objectives are sorted in the tracker",
     ['TRACKER_SORT_BY_COMPLETE'] = "By %% Completed",
     ['TRACKER_SORT_BY_LEVEL'] = "By Level",
     ['TRACKER_SORT_BY_LEVEL_REVERSED'] = "By Level (Reversed)",
     ['TRACKER_DONT_SORT'] = "Don't Sort",
-    
+
     -- tracker right click menu
     ['TRACKER_UNFOCUS'] = "Unfocus", -- focus makes only that quest/objective show on map
     ['TRACKER_FOCUS_OBJECTIVE'] = "Focus Objective",
@@ -186,7 +188,7 @@ QuestieLocale.locale['enUS'] = {
     ['TRACKER_HIDE_ICONS'] = "Hide Icons",
     ['TRACKER_OBJECTIVES'] = "Objectives",
     ['TRACKER_SHOW_ON_MAP'] = "Show on Map",
-    
+
     -- Journey Window
     ['JOURNEY_TITLE'] = "%s's Journey",
     ['JOUNREY_TAB'] = "My Journey",

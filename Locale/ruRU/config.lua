@@ -30,6 +30,8 @@ QuestieLocale.locale['ruRU'] = {
     ['ENABLE_MAP_ICONS_DESC'] = "Показать/скрыть все иконки на главной карте",
     ['ENABLE_MINIMAP_ICONS'] = "Ключить иконки на миникарте",
     ['ENABLE_MINIMAP_ICONS_DESC'] = "Показать/скрыть все иконки на миникарте",
+    ['HIDE_UNEXPLORED_ICONS'] = "Скрывать квесты в неразведанных зонах",
+    ['HIDE_UNEXPLORED_ICONS_DESC'] = "Показать/скрыть квесты в неразведанных зонах",
 
     ['MINIMAP_TAB'] = "Миникарта",
     ['MINIMAP_HEADER'] = "Настройки миникарты",
@@ -151,7 +153,7 @@ QuestieLocale.locale['ruRU'] = {
     ['DEBUG_DRAW'] = "%s доступные задания обозначены. Уровень персонажа = %s",
     ['DEBUG_UNLOAD_QFRAMES'] = "Выгрузка окон заданий: %s",
     ['DEBUG_UNLOAD_ALL'] = "Выгрузка всех окон, количество: %s",
-	
+
 
     -- Journey Window
     ['JOURNEY_TITLE'] = "%s's Путешествие",
