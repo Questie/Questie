@@ -63,7 +63,7 @@ function QuestieDB:Initialize()
             end
         end
     end
-	
+
     -- data has been corrected, ensure cache is empty (something might have accessed the api before questie initialized)
     QuestieDB._QuestCache = {};
     QuestieDB._ItemCache = {};
@@ -88,7 +88,12 @@ function QuestieDB:GetObject(ObjectID)
     if QuestieDB._ObjectCache[ObjectID] ~= nil then
         return QuestieDB._ObjectCache[ObjectID];
     end
-    local raw = QuestieCorrections.objectFixes[ObjectID] or QuestieDB.objectData[ObjectID];
+    if QuestieCorrections.objectFixes[ObjectID] then
+        for k,v in pairs(QuestieCorrections.objectFixes[ObjectID]) do
+            QuestieDB.objectData[ObjectID][k] = v
+        end
+    end
+    local raw = QuestieDB.objectData[ObjectID];
     if raw ~= nil then
         local obj = {};
         obj.Id = ObjectID;
@@ -171,7 +176,12 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
     -- 14 DB_SUB_QUESTS
     -- 15 DB_QUEST_GROUP
     -- 16 DB_EXCLUSIVE_QUEST_GROUP]]--
-    local rawdata = QuestieCorrections.questFixes[QuestID] or QuestieDB.questData[QuestID];
+    if QuestieCorrections.questFixes[QuestID] then
+        for k,v in pairs(QuestieCorrections.questFixes[QuestID]) do
+            QuestieDB.questData[QuestID][k] = v
+        end
+    end
+    local rawdata = QuestieDB.questData[QuestID];
     if(rawdata)then
         local QO = {}
         QO.GetColoredQuestName = _GetColoredQuestName
@@ -421,7 +431,12 @@ function QuestieDB:GetNPC(NPCID)
     if(QuestieDB._NPCCache[NPCID]) then
         return QuestieDB._NPCCache[NPCID]
     end
-    local rawdata = QuestieCorrections.npcFixes[NPCID] or QuestieDB.npcData[NPCID]
+    if QuestieCorrections.npcFixes[NPCID] then
+        for k,v in pairs(QuestieCorrections.npcFixes[NPCID]) do
+            QuestieDB.npcData[NPCID][k] = v
+        end
+    end
+    local rawdata = QuestieDB.npcData[NPCID]
     if(rawdata)then
         local NPC = {}
         NPC.Type = "NPC" --This can be used to look at which type it is, Gameobject and Items will have the same! (should be monster to match wow api)
