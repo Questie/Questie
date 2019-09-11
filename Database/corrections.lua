@@ -97,6 +97,7 @@ QuestieCorrections.itemFixes = {
     [6435] = {"Infused Burning Gem",{1435},{4663,4664,4665,4666,4667,4668,4705,13019},{}},
     [3388] = {"Strong Troll's Brool Potion",{515},{},{}},
     [3508] = {"Mudsnout Mixture",{515},{},{}},
+    [4904] = {"Venomtail Antidote",{812},{},{}},
 	
     -- quest related herbs
     [2449] = {"Earthroot",{6123,6128},{},{1619,3726}},
