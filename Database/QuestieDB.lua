@@ -97,6 +97,9 @@ function QuestieDB:GetObject(ObjectID)
     if raw ~= nil then
         local obj = {};
         obj.Id = ObjectID;
+        for stringKey, intKey in pairs(QuestieDB.objectKeys) do
+            obj[stringKey] = raw[intKey]
+        end
         obj.Name = raw[1];
         obj.Spawns = raw[4];
         obj.Starts = raw[2];
@@ -186,6 +189,9 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
         local QO = {}
         QO.GetColoredQuestName = _GetColoredQuestName
         QO.Id = QuestID --Key
+        for stringKey, intKey in pairs(QuestieDB.questKeys) do
+            QO[stringKey] = rawdata[intKey]
+        end
         QO.Name = rawdata[1] --Name - 1
         QO.Starts = {} --Starts - 2
         QO.Starts["NPC"] = rawdata[2][1] --2.1
@@ -441,6 +447,9 @@ function QuestieDB:GetNPC(NPCID)
         local NPC = {}
         NPC.Type = "NPC" --This can be used to look at which type it is, Gameobject and Items will have the same! (should be monster to match wow api)
         NPC.Id = NPCID
+        for stringKey, intKey in pairs(QuestieDB.npcKeys) do
+            NPC[stringKey] = rawdata[intKey]
+        end
         NPC.Name = LangNameLookup[NPCID] or rawdata[DB_NAME]
         NPC.MinHealth = rawdata[DB_MIN_LEVEL_HEALTH]
         NPC.MaxHealth = rawdata[DB_MAX_LEVEL_HEALTH]
