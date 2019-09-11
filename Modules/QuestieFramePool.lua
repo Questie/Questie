@@ -11,6 +11,12 @@ local HBD = LibStub("HereBeDragonsQuestie-2.0")
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 local HBDMigrate = LibStub("HereBeDragonsQuestie-Migrate")
 
+-- set pins parent to QuestieFrameGroup for easier compatibility with other addons 
+-- cant use this because it fucks with everything, but we gotta stick with HereBeDragonsQuestie anyway
+HBDPins.MinimapGroup = CreateFrame("Frame", "QuestieFrameGroup", Minimap)
+--HBDPins:SetMinimapObject(_CreateMinimapParent())
+
+
 _QuestieFramePool.addonPath = "Interface\\Addons\\QuestieDev-master\\"
 
 --TODO: Add all types (we gotta stop using globals, needs refactoring)
