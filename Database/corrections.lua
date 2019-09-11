@@ -202,6 +202,7 @@ QuestieCorrections.questExclusiveGroupFixes = {
     -- Voidwalker questline for horde
     [1473] = {1501},
     [1501] = {1473},
+    [163] = {5}, -- Raven Hill breadcrumb
 }
 
 QuestieCorrections.questItemBlacklist = {
