@@ -169,6 +169,7 @@ QuestieCorrections.questRequirementFixes = {
     [926] = {809}, -- #606
     [364] = {}, -- #882
     [1275] = {}, -- #745 prequest is not required in Classic
+    [1302] = {}, -- #889
 }
 
 QuestieCorrections.questExclusiveGroupFixes = {
@@ -203,6 +204,7 @@ QuestieCorrections.questExclusiveGroupFixes = {
     [1473] = {1501},
     [1501] = {1473},
     [163] = {5}, -- Raven Hill breadcrumb
+    [1301] = {1302}, -- breadcrumb of James Hyal #917
 }
 
 QuestieCorrections.questItemBlacklist = {
