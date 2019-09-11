@@ -17,7 +17,7 @@ Libs\HereBeDragons\HereBeDragons-Migrate.lua
 Modules\QuestieStream.lua
 
 #Databases
-Database\functionsDB.lua
+Database\QuestieDB.lua
 Database\TEMP_questie2events.lua
 Database\questDB.lua
 Database\objectDB.lua
