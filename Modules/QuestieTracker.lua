@@ -124,13 +124,26 @@ local function _GetNearestQuestSpawn(Quest)
     local bestSpawn, bestSpawnZone, bestSpawnId, bestSpawnType, bestSpawnName
     for _,Objective in pairs(Quest.Objectives) do
         local spawn, zone, Name, id, Type, dist = _GetNearestSpawn(Objective)
-        if spawn and dist < bestDistance then
+        if spawn and dist < bestDistance and ((not Objective.Needed) or Objective.Needed ~= Objective.Collected) then
             bestDistance = dist
             bestSpawn = spawn
             bestSpawnZone = zone
             bestSpawnId = id
             bestSpawnType = Type
             bestSpawnName = Name
+        end
+    end
+    if Quest.SpecialObjectives then
+        for _,Objective in pairs(Quest.SpecialObjectives) do
+            local spawn, zone, Name, id, Type, dist = _GetNearestSpawn(Objective)
+            if spawn and dist < bestDistance and ((not Objective.Needed) or Objective.Needed ~= Objective.Collected) then
+                bestDistance = dist
+                bestSpawn = spawn
+                bestSpawnZone = zone
+                bestSpawnId = id
+                bestSpawnType = Type
+                bestSpawnName = Name
+            end
         end
     end
     return bestSpawn, bestSpawnZone, bestSpawnName, bestSpawnId, bestSpawnType, bestDistance
@@ -993,7 +1006,7 @@ local function _RemoveQuestWatch(index, isQuestie)
 end
 
 local function _AQW_Insert(index, expire)
-    RemoveQuestWatch(index, true)
+    RemoveQuestWatch(index, true) -- prevent hitting 5 quest watch limit
     local qid = select(8,GetQuestLogTitle(index))
     if Questie.db.char.TrackedQuests[qid] then
         Questie.db.char.TrackedQuests[qid] = nil
@@ -1014,11 +1027,12 @@ function QuestieTracker:HookBaseTracker()
     IsQuestWatched = function(index)
         return Questie.db.char.TrackedQuests[select(8,GetQuestLogTitle(index)) or -1]
     end
-	
-	QuestWatchFrame:Hide()
-	-- totally prevent the frame from showing (BAD CODE, shouldn't be needed but some have had trouble)
-	QuestWatchFrame:HookScript("OnShow", function(self) self:Hide() end)
-	
+    
+    QuestWatchFrame:Hide()
+    
+    -- totally prevent the blizzard tracker frame from showing (BAD CODE, shouldn't be needed but some have had trouble)
+    QuestWatchFrame:HookScript("OnShow", function(self) self:Hide() end)
+    
     QuestieTracker._alreadyHooked = true
 end
 
