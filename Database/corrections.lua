@@ -310,6 +310,7 @@ QuestieCorrections.hiddenQuests = {
   [5663] = true, -- Touch of Weakness of Dark Cleric Beryl - Fixing #730
   [7725] = true, -- Repeatable version of 7003 - Fixing #891
   [7726] = true, -- Repeatable version of 7721 - Fixing #891
+  [2358] = true, -- Horns of Nez'ra is not in the game at this point. See #921
   --Stray quests
   [3861] = true, --CLUCK!
   --World event quests
