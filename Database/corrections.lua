@@ -204,6 +204,10 @@ QuestieCorrections.questExclusiveGroupFixes = {
     [1794] = {1649},
     [431] = {411}, -- candles of beckoning
     [410] = {411}, -- the dormant shade
+    -- Tome of Nobility quests #1661
+    [1661] = {4485,4486},
+    [4485] = {1661,4486},
+    [4486] = {1661,4485},
     -- Voidwalker questline for horde
     [1473] = {1501},
     [1501] = {1473},
