@@ -171,6 +171,7 @@ QuestieCorrections.questRequirementFixes = {
     [364] = {}, -- #882
     [1275] = {}, -- #745 prequest is not required in Classic
     [1302] = {}, -- #889
+    [473] = {455}, -- #809
 }
 
 QuestieCorrections.questExclusiveGroupFixes = {
