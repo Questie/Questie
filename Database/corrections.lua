@@ -20,6 +20,8 @@ QuestieCorrections.questFixes = {
     [367] = {"A New Plague",{{1518,},nil,nil,},{{1518,},nil,},6,6,178,nil,{"Apothecary Johaan in the town of Brill wants you to collect 5 Vials of Darkhound Blood.",},nil,{nil,nil,{{2858,nil},},nil,},nil,nil,nil,nil,nil,nil,85,nil,nil,nil,nil,368,},
     [368] = {"A New Plague",{{1518,},nil,nil,},{{1518,},nil,},6,9,178,nil,{"Apothecary Johaan of the town of Brill needs 5 Vile Fin Scales from Murlocs in Tirisfal Glades.",},nil,{nil,nil,{{2859,nil},},nil,},nil,nil,{367,},nil,nil,nil,85,nil,nil,nil,nil,369,},
     [369] = {"A New Plague",{{1518,},nil,nil,},{{1518,},nil,},6,11,178,nil,{"Apothecary Johaan in the town of Brill wants you to bring him 4 samples of venom from a Vicious Night Web Spider.",},nil,{nil,nil,{{2872,nil},},nil,},nil,nil,{368,},nil,nil,nil,85,nil,nil,nil,nil,492,},
+    -- Fix race requirement bitmask to orc (was 178) #813
+    [3090] = {"Tainted Parchment",{{3143,},nil,nil,},{{3156,},nil,},1,1,2,256,{"Read the Tainted Parchment and speak to Nartok inside the Den in the Valley of Trials.",},nil,{nil,nil,nil,nil,},9579,nil,{788,},nil,nil,nil,-61,nil,nil,nil,nil,nil,nil,nil,nil,},
 }
 
 QuestieCorrections.npcFixes = {
