@@ -71,12 +71,13 @@ function _QuestieOptions:Delay(time, func, message)
     end, time)
 end
 
-function _QuestieOptions:Spacer(o)
+function _QuestieOptions:Spacer(o, height)
     return {
         type = "description",
         order = o,
         name = " ",
         fontSize = "large",
+		fontHeight = height
     }
 end
 
@@ -147,6 +148,8 @@ _QuestieOptions.defaults = {
 	  trackerColorObjectives = 'white',
 	  trackerQuestPadding = 2,
 	  trackerSortObjectives = 'byComplete',
+	  trackerbindOpenQuestLog = 'shiftleft',
+	  trackerbindSetTomTom = 'ctrlleft',
     },
       char = {
           complete = {},
@@ -724,7 +727,7 @@ local options = {
 				questieTrackerEnabled = {
 					type = "toggle",
 					order = 2,
-					width = "full",
+					width = 1.5,
 					name = function() return QuestieLocale:GetUIString('TRACKER_ENABLED') end,
 					desc = function() return QuestieLocale:GetUIString('TRACKER_ENABLED_DESC') end,
 					get = function() return Questie.db.global.trackerEnabled end,
@@ -740,7 +743,7 @@ local options = {
 				autoQuestTracking = {
 					type = "toggle",
 					order = 3,
-					width = "full",
+					width = 1.5,
 					name = function() return QuestieLocale:GetUIString('TRACKER_ENABLE_AUTOTRACK') end,
 					desc = function() return QuestieLocale:GetUIString('TRACKER_ENABLE_AUTOTRACK_DESC') end,
 					get = function() return GetCVar("autoQuestWatch") == "1" end,
@@ -753,10 +756,11 @@ local options = {
 						QuestieTracker:Update()
 					end
 				},
+				Spacer_F3 = _QuestieOptions:Spacer(3.5, 0.001),
 				hookBaseTracker = {
 					type = "toggle",
 					order = 4,
-					width = "full",
+					width = 1.5,
 					name = function() return QuestieLocale:GetUIString('TRACKER_ENABLE_HOOKS') end,
 					desc = function() return QuestieLocale:GetUIString('TRACKER_ENABLE_HOOKS_DESC') end,
 					get = function() return Questie.db.global.hookTracking end,
@@ -772,7 +776,7 @@ local options = {
 				showCompleteQuests = {
 					type = "toggle",
 					order = 5,
-					width = "full",
+					width = 1.5,
 					name = function() return QuestieLocale:GetUIString('TRACKER_SHOW_COMPLETE') end,
 					desc = function() return QuestieLocale:GetUIString('TRACKER_SHOW_COMPLETE_DESC') end,
 					get = function() return Questie.db.global.trackerShowCompleteQuests end,
@@ -781,6 +785,7 @@ local options = {
 						QuestieTracker:Update()
 					end
 				},
+				Spacer_Q = _QuestieOptions:Spacer(5.1,5),
 				--[[colorObjectives = {
 					type = "toggle",
 					order = 6,
@@ -829,6 +834,52 @@ local options = {
 						QuestieTracker:Update()
                     end,
                 },
+				Spacer_F2 = _QuestieOptions:Spacer(7.1, 0.001),
+				setTomTom = {
+                    type = "select",
+                    order = 7.2,
+                    values = function() return {
+                        ['left'] = QuestieLocale:GetUIString('TRACKER_LEFT_CLICK'),
+						['right'] = QuestieLocale:GetUIString('TRACKER_RIGHT_CLICK'),
+						['shiftleft'] = QuestieLocale:GetUIString('TRACKER_SHIFT') .. QuestieLocale:GetUIString('TRACKER_LEFT_CLICK'),
+						['shiftright'] = QuestieLocale:GetUIString('TRACKER_SHIFT') .. QuestieLocale:GetUIString('TRACKER_RIGHT_CLICK'),
+						['ctrlleft'] = QuestieLocale:GetUIString('TRACKER_CTRL') .. QuestieLocale:GetUIString('TRACKER_LEFT_CLICK'),
+						['ctrlright'] = QuestieLocale:GetUIString('TRACKER_CTRL') .. QuestieLocale:GetUIString('TRACKER_RIGHT_CLICK'),
+						['altleft'] = QuestieLocale:GetUIString('TRACKER_ALT') .. QuestieLocale:GetUIString('TRACKER_LEFT_CLICK'),
+						['altright'] = QuestieLocale:GetUIString('TRACKER_ALT') .. QuestieLocale:GetUIString('TRACKER_RIGHT_CLICK'),
+						['disabled'] = QuestieLocale:GetUIString('TRACKER_COLOR_WHITE'),
+                    }end ,
+                    style = 'dropdown',
+                    name = function() return QuestieLocale:GetUIString('TRACKER_SET_TOMTOM') end,
+					desc = function() return QuestieLocale:GetUIString('TRACKER_SET_TOMTOM_DESC') end,
+                    get = function() return Questie.db.global.trackerbindSetTomTom end,
+                    set = function(input, key)
+						Questie.db.global.trackerbindSetTomTom = key
+                    end,
+                },
+				openQuestLog = {
+                    type = "select",
+                    order = 7.3,
+                    values = function() return {
+                        ['left'] = QuestieLocale:GetUIString('TRACKER_LEFT_CLICK'),
+						['right'] = QuestieLocale:GetUIString('TRACKER_RIGHT_CLICK'),
+						['shiftleft'] = QuestieLocale:GetUIString('TRACKER_SHIFT') .. QuestieLocale:GetUIString('TRACKER_LEFT_CLICK'),
+						['shiftright'] = QuestieLocale:GetUIString('TRACKER_SHIFT') .. QuestieLocale:GetUIString('TRACKER_RIGHT_CLICK'),
+						['ctrlleft'] = QuestieLocale:GetUIString('TRACKER_CTRL') .. QuestieLocale:GetUIString('TRACKER_LEFT_CLICK'),
+						['ctrlright'] = QuestieLocale:GetUIString('TRACKER_CTRL') .. QuestieLocale:GetUIString('TRACKER_RIGHT_CLICK'),
+						['altleft'] = QuestieLocale:GetUIString('TRACKER_ALT') .. QuestieLocale:GetUIString('TRACKER_LEFT_CLICK'),
+						['altright'] = QuestieLocale:GetUIString('TRACKER_ALT') .. QuestieLocale:GetUIString('TRACKER_RIGHT_CLICK'),
+						['disabled'] = QuestieLocale:GetUIString('TRACKER_COLOR_WHITE'),
+                    }end,
+                    style = 'dropdown',
+                    name = function() return QuestieLocale:GetUIString('TRACKER_SHOW_QUESTLOG') end,
+					desc = function() return QuestieLocale:GetUIString('TRACKER_SHOW_QUESTLOG_DESC') end,
+                    get = function() return Questie.db.global.trackerbindOpenQuestLog end,
+                    set = function(input, key)
+						Questie.db.global.trackerbindOpenQuestLog = key
+                    end,
+                },
+				Spacer_F = _QuestieOptions:Spacer(7.4, 5),
 				
 				fontSizeHeader = {
                     type = "range",
@@ -877,7 +928,7 @@ local options = {
 						QuestieTracker:Update()
                     end,
                 },
-				Spacer_B = _QuestieOptions:Spacer(98),
+				Spacer_B = _QuestieOptions:Spacer(98, 5),
 				resetTrackerLocation = {
 					type = "execute",
                     order = 99,
