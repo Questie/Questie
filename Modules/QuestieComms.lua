@@ -36,7 +36,7 @@ QuestieComms.packets = {
             local count = 0;
             for _ in pairs(self.quest.Objectives) do count = count + 1; end -- why does lua suck
 
-            self.stream:writeShort(self.quest.Id)
+            self.stream:writeShort(self.quest.id)
             self.stream:writeByte(count)
 
             for _,objective in pairs(self.quest.Objectives) do
@@ -165,7 +165,7 @@ QuestieComms.packets = {
             for _ in pairs(self.quests) do count = count + 1; end -- why does lua suck
             self.stream:writeByte(count)
             for _,quest in pairs(self.quests) do
-                self.stream:writeShort(quest.Id)
+                self.stream:writeShort(quest.id)
                 local count = 0;
                 for _ in pairs(quest.Objectives) do count = count + 1; end -- why does lua suck
                 self.stream:writeByte(count)

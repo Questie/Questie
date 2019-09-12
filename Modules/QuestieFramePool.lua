@@ -11,7 +11,7 @@ local HBD = LibStub("HereBeDragonsQuestie-2.0")
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 local HBDMigrate = LibStub("HereBeDragonsQuestie-Migrate")
 
--- set pins parent to QuestieFrameGroup for easier compatibility with other addons 
+-- set pins parent to QuestieFrameGroup for easier compatibility with other addons
 -- cant use this because it fucks with everything, but we gotta stick with HereBeDragonsQuestie anyway
 HBDPins.MinimapGroup = CreateFrame("Frame", "QuestieFrameGroup", Minimap)
 --HBDPins:SetMinimapObject(_CreateMinimapParent())
@@ -41,7 +41,7 @@ StaticPopupDialogs["QUESTIE_CONFIRMHIDE"] = {
     SetQuest = function(self, id)
         self.QuestID = id
         self.text = QuestieLocale:GetUIString("CONFIRM_HIDE_QUEST", QuestieDB:GetQuest(self.QuestID):GetColoredQuestName())
-        
+
         -- locale might not be loaded when this is first created (this does happen almost always)
         self.button1 = QuestieLocale:GetUIString("CONFIRM_HIDE_YES")
         self.button2 = QuestieLocale:GetUIString("CONFIRM_HIDE_NO")
@@ -58,15 +58,15 @@ StaticPopupDialogs["QUESTIE_CONFIRMHIDE"] = {
 -- Global Functions --
 function QuestieFramePool:GetFrame()
     local f = nil--tremove(unusedframes)
-    
+
     -- im not sure its this, but using string keys for the table prevents double-adding to unusedframes, calling unload() twice could double-add it maybe?
     for k,v in pairs(unusedframes) do -- yikes (why is tremove broken? is there a better to get the first key of a non-indexed table?)
         f = v
         unusedframes[k] = nil
         break
     end
-    
-    
+
+
     if f and f.GetName and usedFrames[f:GetName()] then
         -- something went horribly wrong (desync bug?) don't use this frame since its already in use
         f = nil
@@ -90,28 +90,28 @@ function QuestieFramePool:GetFrame()
     f.x = nil;f.y = nil;f.AreaID = nil;
     f:Hide();
     --end
-    
+
     if f.texture then
         f.texture:SetVertexColor(1, 1, 1, 1)
     end
     f.loaded = true
     f.shouldBeShowing = nil
     f.hidden = nil
-    
+
     if f.baseOnShow then
         f:SetScript("OnShow", f.baseOnShow)
     end
-    
+
     if f.baseOnUpdate then
         f:SetScript("OnUpdate", f.baseOnUpdate)
     else
         f:SetScript("OnUpdate", nil)
     end
-    
+
     if f.baseOnHide then
         f:SetScript("OnHide", f.baseOnHide)
     end
-    
+
     usedFrames[f:GetName()] = f
     return f
 end
@@ -258,7 +258,7 @@ function _QuestieFramePool:QuestieCreateFrame()
                 --WorldMapFrame:Hide()
                 --StaticPopup:SetFrameStrata("TOOLTIP")
                 StaticPopup_Show ("QUESTIE_CONFIRMHIDE")
-                
+
             end
         end
         if self and self.data and self.data.UiMapID and IsControlKeyDown() and TomTom and TomTom.AddWaypoint then
@@ -311,7 +311,7 @@ function _QuestieFramePool:QuestieCreateFrame()
         self:SetScript("OnUpdate", nil)
         self:SetScript("OnShow", nil)
         self:SetScript("OnHide", nil)
-        
+
         --We are reseting the frames, making sure that no data is wrong.
         if self ~= nil and self.hidden and self._show ~= nil and self._hide ~= nil then -- restore state to normal (toggle questie)
             self.hidden = false
@@ -341,7 +341,7 @@ function _QuestieFramePool:QuestieCreateFrame()
     end
     f.data = {}
     f:Hide()
-    
+
     -- functions for fake hide/unhide
     function f:FakeHide()
         if not self.hidden then
@@ -474,20 +474,20 @@ function _QuestieFramePool:Questie_Tooltip(self)
                             dat.type = QuestieLocale:GetUIString("TOOLTIP_QUEST_AVAILABLE");
                         end
                         dat.title = icon.data.QuestData:GetColoredQuestName()
-                        dat.subData = icon.data.QuestData.Description
+                        dat.subData = icon.data.QuestData.objectivesText
                         npcOrder[icon.data.Name][dat.title] = dat
                         --table.insert(npcOrder[icon.data.Name], dat);
-                    elseif icon.data.ObjectiveData and icon.data.ObjectiveData.Description then
+                    elseif icon.data.ObjectiveData and icon.data.ObjectiveData.objectivesText then
                         local key = icon.data.QuestData:GetColoredQuestName();
                         if not questOrder[key] then
                             questOrder[key] = {};
                         end
                         icon.data.ObjectiveData:Update(); -- update progress info
                         if icon.data.Type == "event" then
-                            questOrder[key][icon.data.ObjectiveData.Description] = true
+                            questOrder[key][icon.data.ObjectiveData.objectivesText] = true
                         else
                             --dat.subData = icon.data.ObjectiveData
-                            local text = icon.data.ObjectiveData.Description
+                            local text = icon.data.ObjectiveData.objectivesText
                             if icon.data.ObjectiveData.Needed then
                                 text = tostring(icon.data.ObjectiveData.Collected) .. "/" .. tostring(icon.data.ObjectiveData.Needed) .. " " .. text
                             end
@@ -497,7 +497,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
                             if icon.data.Name then
                                 questOrder[key][text][icon.data.Name] = true
                             end
-                            --table.insert(questOrder[key], text);--questOrder[key][icon.data.ObjectiveData.Description] = tostring(icon.data.ObjectiveData.Collected) .. "/" .. tostring(icon.data.ObjectiveData.Needed) .. " " .. icon.data.ObjectiveData.Description--table.insert(questOrder[key], tostring(icon.data.ObjectiveData.Collected) .. "/" .. tostring(icon.data.ObjectiveData.Needed) .. " " .. icon.data.ObjectiveData.Description);
+                            --table.insert(questOrder[key], text);--questOrder[key][icon.data.ObjectiveData.objectivesText] = tostring(icon.data.ObjectiveData.Collected) .. "/" .. tostring(icon.data.ObjectiveData.Needed) .. " " .. icon.data.ObjectiveData.objectivesText--table.insert(questOrder[key], tostring(icon.data.ObjectiveData.Collected) .. "/" .. tostring(icon.data.ObjectiveData.Needed) .. " " .. icon.data.ObjectiveData.objectivesText);
                         end
                     elseif icon.data.CustomTooltipData then
                         questOrder[icon.data.CustomTooltipData.Title] = icon.data.CustomTooltipData.Body

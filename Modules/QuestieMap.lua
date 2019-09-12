@@ -56,7 +56,7 @@ function QuestieMap:rescaleIcons()
                         frame:SetHeight(scale)
                     end
                 else
-                    Questie:Error("A frame is lacking the GetIconScale function for resizing!", frame.data.Id);
+                    Questie:Error("A frame is lacking the GetIconScale function for resizing!", frame.data.id);
                 end
             end
         end
@@ -75,8 +75,8 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
     if type(AreaID) ~= "number" or type(x) ~= "number" or type(y) ~= "number" then
         error(MAJOR..": AddWorldMapIconMap: 'AreaID', 'x' and 'y' must be numbers "..AreaID.." "..x.." "..y.." "..showFlag)
     end
-    if type(data.Id) ~= "number" or type(data.Id) ~= "number"then
-        error(MAJOR.."Data.Id must be set to the quests ID!")
+    if type(data.id) ~= "number" or type(data.id) ~= "number"then
+        error(MAJOR.."Data.id must be set to the quests ID!")
     end
     if zoneDataAreaIDToUiMapID[AreaID] == nil then
         --Questie:Error("No UiMapID for ("..tostring(zoneDataClassic[AreaID])..") :".. AreaID .. tostring(data.Name))
@@ -207,13 +207,13 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
         if Questie.db.global.enableMapIcons then
             HBDPins:AddWorldMapIconMap(Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, showFlag)
         end
-        if(qQuestIdFrames[data.Id] == nil) then
-            qQuestIdFrames[data.Id] = {}
+        if(qQuestIdFrames[data.id] == nil) then
+            qQuestIdFrames[data.id] = {}
         end
 
-        table.insert(qQuestIdFrames[data.Id], icon:GetName())
-        table.insert(qQuestIdFrames[data.Id], iconMinimap:GetName())
-        
+        table.insert(qQuestIdFrames[data.id], icon:GetName())
+        table.insert(qQuestIdFrames[data.id], iconMinimap:GetName())
+
         -- preset hidden state when needed (logic from QuestieQuest:UpdateHiddenNotes
         -- we should add all this code to something like obj:CheckHide() instead of copying it
         if (QuestieQuest.NotesHidden or (((not Questie.db.global.enableObjectives) and (icon.data.Type == "monster" or icon.data.Type == "object" or icon.data.Type == "event" or icon.data.Type == "item"))
@@ -224,8 +224,8 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
             icon:FakeHide()
             iconMinimap:FakeHide()
         end
-        
-        
+
+
         return icon, iconMinimap;
     end
     return nil, nil

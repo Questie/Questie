@@ -85,15 +85,15 @@ function QuestieTooltips:GetTooltip(key)
     local tip = {};
     for k, tooltip in pairs(QuestieTooltips.tooltipLookup[key]) do
         tooltip.Objective:Update() -- update progress
-		
-        if not qCurrentQuestlog[tooltip.Objective.QuestData.Id] then 
+
+        if not qCurrentQuestlog[tooltip.Objective.QuestData.id] then
             QuestieTooltips.tooltipLookup[key][k] = nil
         else
             table.insert(tip, tooltip.Objective.QuestData:GetColoredQuestName());
             if tooltip.Objective.Needed then
-                table.insert(tip, "   |cFF33FF33" .. tostring(tooltip.Objective.Collected) .. "/" .. tostring(tooltip.Objective.Needed) .. " " .. tostring(tooltip.Objective.Description));
+                table.insert(tip, "   |cFF33FF33" .. tostring(tooltip.Objective.Collected) .. "/" .. tostring(tooltip.Objective.Needed) .. " " .. tostring(tooltip.Objective.objectivesText));
             else
-                table.insert(tip, "   |cFF33FF33" .. tostring(tooltip.Objective.Description));
+                table.insert(tip, "   |cFF33FF33" .. tostring(tooltip.Objective.objectivesText));
             end
         end
     end
