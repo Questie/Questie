@@ -173,6 +173,12 @@ QuestieLocale.locale['enUS'] = {
     ['TRACKER_SORT_BY_LEVEL'] = "By Level",
     ['TRACKER_SORT_BY_LEVEL_REVERSED'] = "By Level (Reversed)",
     ['TRACKER_DONT_SORT'] = "Don't Sort",
+    ['TRACKER_LEFT_CLICK'] = "Left CLick",
+    ['TRACKER_RIGHT_CLICK'] = "Right Click",
+    ['TRACKER_SHIFT'] = "Shift + ",
+    ['TRACKER_CTRL'] = "Control + ",
+    ['TRACKER_ALT'] = "Alt + ",
+    ['TRACKER_DISABLED'] = "Disabled",
     
     -- tracker right click menu
     ['TRACKER_UNFOCUS'] = "Unfocus", -- focus makes only that quest/objective show on map
