@@ -10,6 +10,7 @@ function QuestieQuest:Initialize()
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_GET_QUEST_COMP'))
     --GetQuestsCompleted(Questie.db.char.complete)
     Questie.db.char.complete = GetQuestsCompleted()
+    QuestieQuest:LoadPlayerProfessions()
     --local db = {}
     --GetQuestsCompleted(db)
 
@@ -125,6 +126,7 @@ function QuestieQuest:Reset()
 
     -- make sure complete db is correct
     Questie.db.char.complete = GetQuestsCompleted()
+    QuestieQuest:LoadPlayerProfessions()
 
     QuestieQuest:AddAllNotes()
 end
@@ -140,6 +142,7 @@ function QuestieQuest:SmoothReset() -- use timers to reset progressively instead
 
             -- make sure complete db is correct
             Questie.db.char.complete = GetQuestsCompleted()
+            QuestieQuest:LoadPlayerProfessions()
             qAvailableQuests = {} -- reset available quest db
 
             -- draw available quests
@@ -1115,7 +1118,43 @@ function QuestieQuest:DrawAllAvailableQuests()--All quests between
 end
 
 
+qProfessions = {
+    ["First Aid"] = 129,
+    ["Blacksmithing"] = 164,
+    ["Leatherworking"] = 165,
+    ["Alchemy"] = 171,
+    ["Herbalism"] = 182,
+    ["Cooking"] = 185,
+    ["Mining"] = 186,
+    ["Tailoring"] = 197,
+    ["Engineering"] = 202,
+    ["Enchanting"] = 333,
+    ["Fishing"] = 356,
+    ["Skinning"] = 393,
+}
 
+qPlayerProfessions = {}
+
+function QuestieQuest:LoadPlayerProfessions()
+    for i=1, GetNumSkillLines() do
+        local skillName, isHeader, _, skillRank, _, _, _, _, _, _, _, _, _ = GetSkillLineInfo(i)
+        if isHeader ~= 1 and qProfessions[skillName] then
+            qPlayerProfessions[qProfessions[skillName]] = skillRank
+        end
+    end
+end
+
+local function HasProfession(prof)
+    return prof and qPlayerProfessions[prof]
+end
+
+local function HasProfessionSkill(prof, reqSkill)
+    return reqSkill and qPlayerProfessions[prof] >= reqSkill
+end
+
+local function HasProfessionAndSkill(reqSkill)
+    return reqSkill ~= nil and HasProfession(reqSkill[1]) and HasProfessionSkill(reqSkill[1], reqSkill[2])
+end
 
 function _QuestieQuest:IsDoable(questObject) -- we need to add profession/reputation checks here
     if not questObject then
@@ -1159,6 +1198,10 @@ function _QuestieQuest:IsDoable(questObject) -- we need to add profession/reputa
         if not hasValidNPC then
             return false
         end
+    end
+
+    if HasProfessionAndSkill(questObject.requiredSkill) == false then
+        return false
     end
 
     if questObject.RequiredQuest == nil or questObject.RequiredQuest == 0 then
