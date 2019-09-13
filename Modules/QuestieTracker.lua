@@ -8,7 +8,7 @@ local HBD = LibStub("HereBeDragonsQuestie-2.0")
 local trackerLineCount = 64 -- shouldnt need more than this
 local trackerBackgroundPadding = 4
 
--- used for fading the background of the trakcer
+-- used for fading the background of the tracker
 _QuestieTracker.FadeTickerValue = 0
 _QuestieTracker.FadeTickerDirection = false -- true to fade in
 _QuestieTracker.IsFirstRun = true -- bad code
