@@ -273,6 +273,7 @@ QuestieLocale.locale['enUS'] = {
     ['DEBUG_DRAW'] = "%s available quests drawn. PlayerLevel = %s",
     ['DEBUG_UNLOAD_QFRAMES'] = "Unloading quest frames: %s",
     ['DEBUG_UNLOAD_ALL'] = "Unloading all frames, count: %s",
+    ['QUESTIE_ACCEPT_NIL'] = "|cFFFF0000Questie ERROR:|r Attempt to accept nil quest! You may need to run /questie reload", 
     ['QUESTIE_UPDATED_RESTART'] = "|cFFFF0000WARNING!|r You have updated questie without restarting the game, this will likely cause problems. Please restart the game before continuing",
 
 };
