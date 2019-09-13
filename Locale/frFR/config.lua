@@ -174,6 +174,12 @@ QuestieLocale.locale['frFR'] = {
 	['TRACKER_SORT_BY_LEVEL'] = "Par niveau",
 	['TRACKER_SORT_BY_LEVEL_REVERSED'] = "Par niveau (inversé)",
 	['TRACKER_DONT_SORT'] = "Ne pas trier",
+	['TRACKER_LEFT_CLICK'] = "Clic Gauche",
+	['TRACKER_RIGHT_CLICK'] = "Clic Droit",
+	['TRACKER_SHIFT'] = "Maj + ",
+	['TRACKER_CTRL'] = "Ctrl + ",
+	['TRACKER_ALT'] = "Alt + ",
+	['TRACKER_DISABLED'] = "Désactivé",
 	
 	-- Menu contextuel du Traqueur
 	['TRACKER_UNFOCUS'] = "Ne plus focus cette quête",
