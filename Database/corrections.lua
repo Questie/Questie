@@ -35,7 +35,11 @@ QuestieCorrections.questFixes = {
     },
     [7070] = {
         [QuestieDB.questKeys.requiredLevel] = 39,
-    }
+    },
+    -- Save Techbot's Brain does not need the Tinkmaster Overspark breadcrumb #687
+    [2922] = {
+        [QuestieDB.questKeys.preQuestSingle] = {},
+    },
 }
 
 QuestieCorrections.npcFixes = {
