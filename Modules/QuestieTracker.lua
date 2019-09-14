@@ -889,6 +889,8 @@ end
 
 
 function QuestieTracker:Update()
+    Questie:Debug(DEBUG_DEVELOP, "QuestieTracker: Update")
+
     if (not QuestieTracker.started) or (not Questie.db.global.trackerEnabled) then return; end
     index = 0 -- zero because it simplifies GetNextLine()
     -- populate tracker
