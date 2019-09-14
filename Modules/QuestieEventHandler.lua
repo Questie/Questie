@@ -271,6 +271,7 @@ function QuestieEventHandler:QUEST_LOG_UPDATE()
         end)
         playerEntered = nil;
     end
+    QuestieTracker:Update()
 end
 
 function QuestieEventHandler:QUEST_WATCH_UPDATE(QuestLogIndex)
