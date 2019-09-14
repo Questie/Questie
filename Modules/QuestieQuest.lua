@@ -13,7 +13,7 @@ function QuestieQuest:Initialize()
 
     -- this inserts the Questie Icons to the MinimapButtonBag ignore list
     if MBB_Ignore then
-        table.insert(MBB_Ignore, "QuestieGroupFrame")
+        table.insert(MBB_Ignore, "QuestieFrameGroup")
     end
     --local db = {}
     --GetQuestsCompleted(db)
