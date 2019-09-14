@@ -102,6 +102,7 @@ local typedkeys={
 		imageHeight=optnumber,
 		imageWidth=optnumber,
 		fontSize=optstringfunc,
+		fontHeight=optnumber,
 	},
 	group={
 		args=istable,

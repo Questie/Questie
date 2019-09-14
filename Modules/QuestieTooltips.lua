@@ -85,7 +85,7 @@ function QuestieTooltips:GetTooltip(key)
     local tip = {};
     for k, tooltip in pairs(QuestieTooltips.tooltipLookup[key]) do
         tooltip.Objective:Update() -- update progress
-		
+
         if not qCurrentQuestlog[tooltip.Objective.QuestData.Id] then 
             QuestieTooltips.tooltipLookup[key][k] = nil
         else
