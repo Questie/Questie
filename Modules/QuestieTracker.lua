@@ -1016,7 +1016,6 @@ function QuestieTracker:Update()
 end
 
 local function _RemoveQuestWatch(index, isQuestie)
-    print("RQW " .. index)
     if not isQuestie then
         local qid = select(8,GetQuestLogTitle(index))
         if qid then
