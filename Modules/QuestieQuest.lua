@@ -11,6 +11,11 @@ function QuestieQuest:Initialize()
     --GetQuestsCompleted(Questie.db.char.complete)
     Questie.db.char.complete = GetQuestsCompleted()
     QuestieQuest:LoadPlayerProfessions()
+
+    -- this inserts the Questie Icons to the MinimapButtonBag ignore list
+    if MBB_Ignore then
+        table.insert(MBB_Ignore, "QuestieFrameGroup")
+    end
     --local db = {}
     --GetQuestsCompleted(db)
 

@@ -662,13 +662,15 @@ local function _BuildMenu(Quest)
         QuestLog_UpdateQuestDetails()
         QuestLog_Update()
     end})
-    if GetCVar("autoQuestWatch") == "0" then
-        table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_UNTRACK'), func = function()
-            LQuestie_CloseDropDownMenus();
+    table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_UNTRACK'), func = function()
+        LQuestie_CloseDropDownMenus();
+        if GetCVar("autoQuestWatch") == "0" then
             Questie.db.char.TrackedQuests[Quest.Id] = nil
-            QuestieTracker:Update()
-        end})
-    end
+        else
+            Questie.db.char.AutoUntrackedQuests[Quest.Id] = true
+        end
+        QuestieTracker:Update()
+    end})
     if Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "number" and Questie.db.char.TrackerFocus == Quest.Id then
         table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_UNFOCUS'), func = function() LQuestie_CloseDropDownMenus(); _UnFocus(); QuestieQuest:UpdateHiddenNotes() end})
     else
@@ -730,6 +732,9 @@ function QuestieTracker:Initialize()
     end
     if not Questie.db.char.TrackedQuests then
         Questie.db.char.TrackedQuests = {}
+    end
+    if not Questie.db.char.AutoUntrackedQuests then
+        Questie.db.char.AutoUntrackedQuests = {} -- the reason why we separate this from TrackedQuests is so that users can switch between auto/manual without losing their manual tracking selection
     end
     _QuestieTracker.baseFrame = QuestieTracker:CreateBaseFrame()
     _QuestieTracker.menuFrame = LQuestie_Create_UIDropDownMenu("QuestieTrackerMenuFrame", UIParent)
@@ -938,7 +943,7 @@ function QuestieTracker:Update()
 
 
         local complete = QuestieQuest:IsComplete(Quest)
-        if ((not complete) or Questie.db.global.trackerShowCompleteQuests) and ((GetCVar("autoQuestWatch") == "1") or Questie.db.char.TrackedQuests[quest])  then -- maybe have an option to display quests in the list with (Complete!) in the title
+        if ((not complete) or Questie.db.global.trackerShowCompleteQuests) and ((GetCVar("autoQuestWatch") == "1" and not Questie.db.char.AutoUntrackedQuests[quest]) or (GetCVar("autoQuestWatch") == "0" and Questie.db.char.TrackedQuests[quest]))  then -- maybe have an option to display quests in the list with (Complete!) in the title
             line = _QuestieTracker:GetNextLine()
             line:SetMode("header")
             line:SetQuest(Quest)
@@ -1012,24 +1017,41 @@ end
 
 local function _RemoveQuestWatch(index, isQuestie)
     if not isQuestie then
-        Questie.db.char.TrackedQuests[select(8,GetQuestLogTitle(index)) or -1] = nil
-        C_Timer.After(0.1, function()
-            QuestieTracker:Update()
-        end)
+        local qid = select(8,GetQuestLogTitle(index))
+        if qid then
+            if "0" == GetCVar("autoQuestWatch") then
+                Questie.db.char.TrackedQuests[qid] = nil
+            else
+                Questie.db.char.AutoUntrackedQuests[qid] = true
+            end
+            C_Timer.After(0.1, function()
+                QuestieTracker:Update()
+            end)
+        end
     end
 end
 
 local function _AQW_Insert(index, expire)
     RemoveQuestWatch(index, true) -- prevent hitting 5 quest watch limit
     local qid = select(8,GetQuestLogTitle(index))
-    if Questie.db.char.TrackedQuests[qid] then
-        Questie.db.char.TrackedQuests[qid] = nil
-    else
-        Questie.db.char.TrackedQuests[qid] = true
+    if qid then
+        if "0" == GetCVar("autoQuestWatch") then
+            if Questie.db.char.TrackedQuests[qid] then
+                Questie.db.char.TrackedQuests[qid] = nil
+            else
+                Questie.db.char.TrackedQuests[qid] = true
+            end
+        else
+            if Questie.db.char.AutoUntrackedQuests[qid] then
+                Questie.db.char.AutoUntrackedQuests[qid] = nil
+            else
+                Questie.db.char.AutoUntrackedQuests[qid] = true
+            end
+        end
+        C_Timer.After(0.1, function()
+            QuestieTracker:Update()
+        end)
     end
-    C_Timer.After(0.1, function()
-        QuestieTracker:Update()
-    end)
 end
 
 function QuestieTracker:HookBaseTracker()
@@ -1039,7 +1061,12 @@ function QuestieTracker:HookBaseTracker()
 
     -- this is probably bad
     IsQuestWatched = function(index)
-        return Questie.db.char.TrackedQuests[select(8,GetQuestLogTitle(index)) or -1]
+        if "0" == GetCVar("autoQuestWatch") then
+            return Questie.db.char.TrackedQuests[select(8,GetQuestLogTitle(index)) or -1]
+        else
+            local qid = select(8,GetQuestLogTitle(index))
+            return qid and qCurrentQuestlog[qid] and not Questie.db.char.AutoUntrackedQuests[qid]
+        end
     end
 
     QuestWatchFrame:Hide()
