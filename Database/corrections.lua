@@ -319,6 +319,7 @@ QuestieCorrections.hiddenQuests = {
   [7725] = true, -- Repeatable version of 7003 - Fixing #891
   [7726] = true, -- Repeatable version of 7721 - Fixing #891
   [2358] = true, -- Horns of Nez'ra is not in the game at this point. See #921
+  [787] = true, -- The New Horde is not in the game. See #830
   --Stray quests
   [3861] = true, --CLUCK!
   --World event quests
