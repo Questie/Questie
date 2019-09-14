@@ -1150,11 +1150,11 @@ function QuestieQuest:LoadPlayerProfessions()
 end
 
 local function HasProfession(prof)
-    return prof and qPlayerProfessions[prof]
+    return prof ~= nil and qPlayerProfessions[prof] ~= nil
 end
 
 local function HasProfessionSkill(prof, reqSkill)
-    return reqSkill and qPlayerProfessions[prof] >= reqSkill
+    return reqSkill ~= nil and qPlayerProfessions[prof] >= reqSkill
 end
 
 local function HasProfessionAndSkill(reqSkill)
