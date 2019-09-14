@@ -22,6 +22,17 @@ QuestieCorrections.questFixes = {
     [369] = {"A New Plague",{{1518,},nil,nil,},{{1518,},nil,},6,11,178,nil,{"Apothecary Johaan in the town of Brill wants you to bring him 4 samples of venom from a Vicious Night Web Spider.",},nil,{nil,nil,{{2872,nil},},nil,},nil,nil,{368,},nil,nil,nil,85,nil,nil,nil,nil,492,},
     -- Fix race requirement bitmask to orc (was 178) #813
     [3090] = {"Tainted Parchment",{{3143,},nil,nil,},{{3156,},nil,},1,1,2,256,{"Read the Tainted Parchment and speak to Nartok inside the Den in the Valley of Trials.",},nil,{nil,nil,nil,nil,},9579,nil,{788,},nil,nil,nil,-61,nil,nil,nil,nil,nil,nil,nil,nil,},
+    -- Switch Alliance and Horde Druid quest IDs #948
+    [26] = {
+        [QuestieDB.questKeys.startedBy] = {{4217,},nil,nil,},
+        [QuestieDB.questKeys.requiredRaces] = 8,
+        [QuestieDB.questKeys.nextQuestInChain] = 29,
+    },
+    [27] = {
+        [QuestieDB.questKeys.startedBy] = {{3033,},nil,nil,},
+        [QuestieDB.questKeys.requiredRaces] = 32,
+        [QuestieDB.questKeys.nextQuestInChain] = 28,
+    },
 }
 
 QuestieCorrections.npcFixes = {
