@@ -116,6 +116,7 @@ QuestieCorrections.itemFixes = {
     [3508] = {"Mudsnout Mixture",{515},{},{}},
     [4904] = {"Venomtail Antidote",{812},{},{}},
     [2594] = {"Flagon of Dwarven Honeymead",{288},{1464},{}},
+    [5868] = {"Filled Etched Phial",{1195},{},{20806}},
 
     -- quest related herbs
     [2449] = {"Earthroot",{6123,6128},{},{1619,3726}},
