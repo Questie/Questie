@@ -10,6 +10,11 @@ function QuestieQuest:Initialize()
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_GET_QUEST_COMP'))
     --GetQuestsCompleted(Questie.db.char.complete)
     Questie.db.char.complete = GetQuestsCompleted()
+
+    -- this inserts the Questie Icons to the MinimapButtonBag ignore list
+    if MBB_Ignore then
+        table.insert(MBB_Ignore, "QuestieGroupFrame")
+    end
     --local db = {}
     --GetQuestsCompleted(db)
 
