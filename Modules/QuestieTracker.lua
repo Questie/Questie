@@ -689,7 +689,14 @@ local function _BuildMenu(Quest)
     end
     table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_SHOW_QUESTLOG'), func = function()
         LQuestie_CloseDropDownMenus()
-        QuestLogFrame:Show()
+        if QuestLogExFrame then
+            QuestLogExFrame:Show()
+            if QuestLogExFrameMaximizeButton then
+                QuestLogExFrameMaximizeButton:GetScript("OnClick")(QuestLogExFrameMaximizeButton)
+            end
+        else
+            QuestLogFrame:Show()
+        end    
         SelectQuestLogEntry(GetQuestLogIndexByID(Quest.Id))
         QuestLog_UpdateQuestDetails()
         QuestLog_Update()
@@ -1090,7 +1097,7 @@ local function _AQW_Insert(index, expire)
         else
             if Questie.db.char.AutoUntrackedQuests[qid] then
                 Questie.db.char.AutoUntrackedQuests[qid] = nil
-            else
+            elseif IsShiftKeyDown() and (QuestLogFrame:IsShown() or (QuestLogExFrame and QuestLogExFrame:IsShown())) then--hack
                 Questie.db.char.AutoUntrackedQuests[qid] = true
             end
         end
