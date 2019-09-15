@@ -38,7 +38,7 @@ function _QuestieTracker:StartFadeTicker()
 end
 
 local function _OnDragStart(self, button)
-    if IsControlKeyDown() then
+    if IsControlKeyDown() or not Questie.db.global.trackerLocked then
         _QuestieTracker.baseFrame:StartMoving()
     else
         if not IsMouselooking() then-- this is a HORRIBLE solution, why does MouselookStart have to break OnMouseUp (is there a MOUSE_RELEASED event that always fires?)
@@ -708,6 +708,11 @@ local function _BuildMenu(Quest)
     else
         table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_FOCUS_QUEST'), func = function() LQuestie_CloseDropDownMenus(); _FocusQuest(Quest); QuestieQuest:UpdateHiddenNotes()  end})
     end
+    if Questie.db.global.trackerLocked then
+        table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_UNLOCK'), func = function() LQuestie_CloseDropDownMenus(); Questie.db.global.trackerLocked = false end})
+    else
+        table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_LOCK'), func = function() LQuestie_CloseDropDownMenus(); Questie.db.global.trackerLocked = true end})
+    end
     table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_CANCEL'), func = function() end})
     LQuestie_EasyMenu(menu, _QuestieTracker.menuFrame, "cursor", 0 , 0, "MENU")
 end
@@ -923,7 +928,13 @@ end
 function QuestieTracker:Update()
     Questie:Debug(DEBUG_DEVELOP, "QuestieTracker: Update")
 
-    if (not QuestieTracker.started) or (not Questie.db.global.trackerEnabled) then return; end
+    if (not QuestieTracker.started) then return; end
+    
+    if (not Questie.db.global.trackerEnabled) then
+        -- tracker has started but not enabled
+        _QuestieTracker.baseFrame:Hide()
+        return
+    end
     index = 0 -- zero because it simplifies GetNextLine()
     -- populate tracker
     local trackerWidth = 0
@@ -1047,6 +1058,7 @@ function QuestieTracker:Update()
         -- bad code
         QuestieQuest:UpdateHiddenNotes()
     end
+    _QuestieTracker.baseFrame:Show()
 end
 
 local function _RemoveQuestWatch(index, isQuestie)
@@ -1137,10 +1149,19 @@ function QuestieTracker:CreateBaseFrame()
         if not result then
             Questie.db.char.TrackerLocation = nil
             print(QuestieLocale:GetUIString('TRACKER_INVALID_LOCATION'))
-            frm:SetPoint("CENTER",0,0)
+            result, error = pcall(frm.SetPoint, frm, unpack({QuestWatchFrame:GetPoint()}))
+            if not result then
+                Questie.db.char.TrackerLocation = nil
+                frm:SetPoint("CENTER",0,0)
+            end
         end
     else
-        frm:SetPoint("CENTER",0,0)
+        result, error = pcall(frm.SetPoint, frm, unpack({QuestWatchFrame:GetPoint()}))
+        if not result then
+            Questie.db.char.TrackerLocation = nil
+            print(QuestieLocale:GetUIString('TRACKER_INVALID_LOCATION'))
+            frm:SetPoint("CENTER",0,0)
+        end
     end
 
     frm:SetMovable(true)

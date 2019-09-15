@@ -465,9 +465,9 @@ function _QuestieFramePool:Questie_Tooltip(self)
     end
     if self.miniMapIcon then
         if _QuestieFramePool:isMinimapInside() then
-            maxDistCluster = 1 / (1+Minimap:GetZoom())
+            maxDistCluster = 0.3 / (1+Minimap:GetZoom())
         else
-            maxDistCluster = 2 / (1+Minimap:GetZoom())
+            maxDistCluster = 0.5 / (1+Minimap:GetZoom())
         end
     end
     local already = {}; -- per quest

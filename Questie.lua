@@ -151,6 +151,7 @@ _QuestieOptions.defaults = {
       trackerbindOpenQuestLog = 'shiftleft',
       trackerbindSetTomTom = 'ctrlleft',
       iconFadeLevel = 0.3,
+      trackerLocked = true,
     },
       char = {
           complete = {},

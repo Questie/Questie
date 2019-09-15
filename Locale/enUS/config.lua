@@ -192,6 +192,8 @@ QuestieLocale.locale['enUS'] = {
     ['TRACKER_HIDE_ICONS'] = "Hide Icons",
     ['TRACKER_OBJECTIVES'] = "Objectives",
     ['TRACKER_SHOW_ON_MAP'] = "Show on Map",
+    ['TRACKER_UNLOCK'] = "Unlock Tracker",
+    ['TRACKER_LOCK'] = "Lock Tracker",
     
     -- Journey Window
     ['JOURNEY_TITLE'] = "%s's Journey",
