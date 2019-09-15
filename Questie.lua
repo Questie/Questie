@@ -1257,7 +1257,7 @@ local options = {
 
                     end,
                 },
-                Spacer_C = _QuestieOptions:Spacer(30),
+                Spacer_E = _QuestieOptions:Spacer(30),
                 github_text = {
                     type = "description",
                     order = 31,
