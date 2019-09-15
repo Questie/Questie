@@ -180,6 +180,9 @@ QuestieLocale.locale['frFR'] = {
 	['TRACKER_CTRL'] = "Ctrl + ",
 	['TRACKER_ALT'] = "Alt + ",
 	['TRACKER_DISABLED'] = "Désactivé",
+	['TRACKER_SHORTCUT'] = "Raccourci",
+	['TRACKER_SET_TOMTOM_DESC'] = "Le raccourci pour ouvrir TomTom",
+	['TRACKER_SHOW_QUESTLOG_DESC'] = "Le raccourci pour afficher la quête dans le journal de la quête",
 	
 	-- Menu contextuel du Traqueur
 	['TRACKER_UNFOCUS'] = "Ne plus focus cette quête",
