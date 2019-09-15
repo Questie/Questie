@@ -49,6 +49,9 @@ QuestieCorrections.questFixes = {
     [1204] = {
         [QuestieDB.questKeys.preQuestSingle] = {}, -- #938
     },
+    [4494] = {
+        [QuestieDB.questKeys.preQuestSingle] = {82}, -- #942
+    }
 }
 
 QuestieCorrections.npcFixes = {
