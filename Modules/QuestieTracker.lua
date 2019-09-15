@@ -113,7 +113,6 @@ local function _GetNearestQuestSpawn(Quest)
                             bestDistance = dist
                             bestSpawn = spawn
                             bestSpawnZone = zone
-                            bestSpawnId = id
                             bestSpawnType = Quest.Finisher.Type
                             bestSpawnName = finisher.LocalizedName or finisher.name
                         end
