@@ -140,6 +140,7 @@ QuestieCorrections.itemFixes = {
     [16765] = {"Warsong Outrider Update",{6543},{},{}},
     [1013] = {"Iron Rivet",{89},{426,430,446,580},{}}, -- Remove rare mob #903
     [2856] = {"Iron Pike",{89},{426,430,446,580},{}}, -- Remove rare mob #903
+    [11131] = {"Hive Wall Sample",{3883},{},{174793}},
 
     -- quest related herbs
     [2449] = {"Earthroot",{6123,6128},{},{1619,3726}},
