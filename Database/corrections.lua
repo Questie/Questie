@@ -65,6 +65,7 @@ QuestieCorrections.npcFixes = {
     [14640] = {'Zapped Cliff Giant',3092,3092,49,49,0,{[357]={{39.9,21.9},{40.44,22.43},{40.32,24.63},{40.72,24.44},{38.69,23.6},{39.67,22.3},{38.78,21.93},{38.23,20.59},{38.17,21.4},{41.05,22.62},{39.62,22.23},},},nil,357,nil,nil,778,nil,},
     [13017] = {'Deeprun Rat',1,1,1,1,0,{},nil,0,nil,nil,188,"AH"},
     [11122] = {'Restless Soul',42,42,1,1,0,{},nil,0,nil,nil,35,"AH",}, -- #919
+    [12369] = {'Lord Kragaru',1604,1604,38,38,0,{[405]={{28.6,7.4}}},nil,0,nil,nil,14,nil,}, -- Add spawn to show objective point #901
 }
 
 QuestieCorrections.objectFixes = {
