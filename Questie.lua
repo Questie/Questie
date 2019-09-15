@@ -150,6 +150,7 @@ _QuestieOptions.defaults = {
       trackerSortObjectives = 'byComplete',
       trackerbindOpenQuestLog = 'shiftleft',
       trackerbindSetTomTom = 'ctrlleft',
+      iconFadeLevel = 0.3,
     },
       char = {
           complete = {},

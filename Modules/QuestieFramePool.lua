@@ -82,6 +82,7 @@ function QuestieFramePool:GetFrame()
         f._hide = nil
     end
     f.fadeLogic = nil
+    f.faded = nil
     f.miniMapIcon = nil
     f._hidden_toggle_hack = nil -- TODO: this will be removed later, see QuestieQuest:UpdateHiddenNotes()
 
@@ -321,19 +322,20 @@ function _QuestieFramePool:QuestieCreateFrame()
             self._hide = nil
         end
         self.shouldBeShowing = nil
-        HBDPins:RemoveMinimapIcon(Questie, self);
-        HBDPins:RemoveWorldMapIcon(Questie, self);
+        self.faded = nil
+        HBDPins:RemoveMinimapIcon(Questie, self)
+        HBDPins:RemoveWorldMapIcon(Questie, self)
         if(self.texture) then
-            self.texture:SetVertexColor(1, 1, 1, 1);
+            self.texture:SetVertexColor(1, 1, 1, 1)
         end
         self.miniMapIcon = nil;
         self:SetScript("OnUpdate", nil)
         self:Hide()
         self.glow:Hide()
         --self.glow:Hide()
-        self.data = nil; -- Just to be safe
-        self.loaded = nil;
-        self.x = nil;self.y = nil;self.AreaID = nil;
+        self.data = nil -- Just to be safe
+        self.loaded = nil
+        self.x = nil;self.y = nil;self.AreaID = nil
         if usedFrames[self:GetName()] then
             usedFrames[self:GetName()] = nil
             unusedframes[self:GetName()] = self--table.insert(unusedframes, self)
@@ -343,6 +345,33 @@ function _QuestieFramePool:QuestieCreateFrame()
     f:Hide()
     
     -- functions for fake hide/unhide
+    function f:FadeOut()
+        if not self.faded then
+            self.faded = true
+            if self.texture then
+                local r,g,b = self.texture:GetVertexColor()
+                self.texture:SetVertexColor(r,g,b, Questie.db.global.iconFadeLevel)
+            end
+            if self.glowTexture then
+                local r,g,b = self.glowTexture:GetVertexColor()
+                self.glowTexture:SetVertexColor(r,g,b, Questie.db.global.iconFadeLevel)
+            end
+        end
+    end
+    
+    function f:FadeIn()
+        if self.faded then
+            self.faded = nil
+            if self.texture then
+                local r,g,b = self.texture:GetVertexColor()
+                self.texture:SetVertexColor(r,g,b, 1)
+            end
+            if self.glowTexture then
+                local r,g,b = self.glowTexture:GetVertexColor()
+                self.glowTexture:SetVertexColor(r,g,b, 1)
+            end
+        end
+    end
     function f:FakeHide()
         if not self.hidden then
             self.shouldBeShowing = self:IsShown();
