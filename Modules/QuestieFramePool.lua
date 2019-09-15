@@ -29,6 +29,7 @@ ICON_TYPE_EVENT =  _QuestieFramePool.addonPath.."Icons\\event.blp"
 ICON_TYPE_OBJECT =  _QuestieFramePool.addonPath.."Icons\\object.blp"
 ICON_TYPE_GLOW = _QuestieFramePool.addonPath.."Icons\\glow.blp"
 ICON_TYPE_BLACK = _QuestieFramePool.addonPath.."Icons\\black.blp"
+ICON_TYPE_REPEATABLE =  _QuestieFramePool.addonPath.."Icons\\repeatable.blp"
 
 StaticPopupDialogs["QUESTIE_CONFIRMHIDE"] = {
     text = "", -- set before showing
