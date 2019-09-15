@@ -1445,6 +1445,7 @@ QuestieCorrections.hiddenQuests = {
   [8765] = true,
   [8766] = true,
 --Phase 6 - Naxxramas
+  [9141] = true,
   [9033] = true,
   [9034] = true,
   [9036] = true,
