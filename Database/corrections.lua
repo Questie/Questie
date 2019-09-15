@@ -55,6 +55,9 @@ QuestieCorrections.questFixes = {
     [282] = {
         [QuestieDB.questKeys.exclusiveTo] = {287}, -- #881
     },
+    [1127] = {
+        [QuestieDB.questKeys.specialFlags] = 1, -- #884
+    },
 }
 
 QuestieCorrections.npcFixes = {
