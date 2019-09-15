@@ -769,6 +769,7 @@ QuestieCorrections.hiddenQuests = {
   [8759] = true,
   [8760] = true,
   --Profession quests
+  [8798] = true,
   [769] = true,
   [768] = true,
   [7652] = true,
