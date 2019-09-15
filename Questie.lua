@@ -852,7 +852,7 @@ local options = {
                         ['disabled'] = QuestieLocale:GetUIString('TRACKER_DISABLED'),
                     } end,
                     style = 'dropdown',
-                    name = function() return QuestieLocale:GetUIString('TRACKER_SET_TOMTOM') end,
+                    name = function() return QuestieLocale:GetUIString('TRACKER_SET_TOMTOM') .. QuestieLocale:GetUIString('TRACKER_SHORTCUT') end,
                     desc = function() return QuestieLocale:GetUIString('TRACKER_SET_TOMTOM_DESC') end,
                     get = function() return Questie.db.global.trackerbindSetTomTom end,
                     set = function(input, key)
@@ -874,7 +874,7 @@ local options = {
                         ['disabled'] = QuestieLocale:GetUIString('TRACKER_DISABLED'),
                     } end,
                     style = 'dropdown',
-                    name = function() return QuestieLocale:GetUIString('TRACKER_SHOW_QUESTLOG') end,
+                    name = function() return QuestieLocale:GetUIString('TRACKER_SHOW_QUESTLOG') .. QuestieLocale:GetUIString('TRACKER_SHORTCUT') end,
                     desc = function() return QuestieLocale:GetUIString('TRACKER_SHOW_QUESTLOG_DESC') end,
                     get = function() return Questie.db.global.trackerbindOpenQuestLog end,
                     set = function(input, key)

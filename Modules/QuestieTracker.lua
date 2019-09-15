@@ -13,6 +13,38 @@ _QuestieTracker.FadeTickerValue = 0
 _QuestieTracker.FadeTickerDirection = false -- true to fade in
 _QuestieTracker.IsFirstRun = true -- bad code
 
+local _BindTruthTable = {
+    ['left'] = function(button)
+        return "LeftButton" == button
+    end,
+    ['right'] = function(button)
+        return "RightButton" == button
+    end,
+    ['shiftleft'] = function(button)
+        return "LeftButton" == button and IsShiftKeyDown()
+    end,
+    ['shiftright'] = function(button)
+        return "RightButton" == button and IsShiftKeyDown()
+    end,
+    ['ctrlleft'] = function(button)
+        return "LeftButton" == button and IsControlKeyDown()
+    end,
+    ['ctrlright'] = function(button)
+        return "RightButton" == button and IsControlKeyDown()
+    end,
+    ['altleft'] = function(button)
+        return "LeftButton" == button and IsAltKeyDown()
+    end,
+    ['altright'] = function(button)
+        return "RightButton" == button and IsAltKeyDown()
+    end,
+    ['disabled'] = function() return false; end,
+}
+
+local function _IsBindTrue(bind, button)
+    return bind and button and _BindTruthTable[bind] and _BindTruthTable[bind](button)
+end
+
 function _QuestieTracker:StartFadeTicker()
     if not _QuestieTracker.FadeTicker then
         _QuestieTracker.FadeTicker = C_Timer.NewTicker(0.02, function()
@@ -159,6 +191,20 @@ local function _SetTomTomTarget(title, zone, x, y)
         end
         Questie.db.char._tom_waypoint = TomTom:AddWaypoint(zoneDataAreaIDToUiMapID[zone], x/100, y/100,  {title = title, crazy = true})
     end
+end
+
+local function _ShowQuestLog(Quest)
+    if QuestLogExFrame then
+        QuestLogExFrame:Show()
+        if QuestLogExFrameMaximizeButton then
+            QuestLogExFrameMaximizeButton:GetScript("OnClick")(QuestLogExFrameMaximizeButton)
+        end
+    else
+        QuestLogFrame:Show()
+    end    
+    SelectQuestLogEntry(GetQuestLogIndexByID(Quest.Id))
+    QuestLog_UpdateQuestDetails()
+    QuestLog_Update()
 end
 
 local function _UnFocus() -- reset HideIcons to match savedvariable state
@@ -689,17 +735,7 @@ local function _BuildMenu(Quest)
     end
     table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_SHOW_QUESTLOG'), func = function()
         LQuestie_CloseDropDownMenus()
-        if QuestLogExFrame then
-            QuestLogExFrame:Show()
-            if QuestLogExFrameMaximizeButton then
-                QuestLogExFrameMaximizeButton:GetScript("OnClick")(QuestLogExFrameMaximizeButton)
-            end
-        else
-            QuestLogFrame:Show()
-        end    
-        SelectQuestLogEntry(GetQuestLogIndexByID(Quest.Id))
-        QuestLog_UpdateQuestDetails()
-        QuestLog_Update()
+        _ShowQuestLog(Quest)
     end})
     table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_UNTRACK'), func = function()
         LQuestie_CloseDropDownMenus();
@@ -725,14 +761,22 @@ local function _BuildMenu(Quest)
 end
 
 local function _OnClick(self, button)
-    if button == "RightButton" then
-        _BuildMenu(self.Quest)
-    elseif button == "LeftButton" and IsShiftKeyDown() then
+    if _IsBindTrue(Questie.db.global.trackerbindSetTomTom, button) then
         spawn, zone, name = _GetNearestQuestSpawn(self.Quest)
         if spawn then
             _SetTomTomTarget(name, zone, spawn[1], spawn[2])
         end
+    elseif _IsBindTrue(Questie.db.global.trackerbindOpenQuestLog, button) then
+        _ShowQuestLog(self.Quest)
+    elseif button == "RightButton" then
+        _BuildMenu(self.Quest)
     end
+    --elseif button == "LeftButton" and IsShiftKeyDown() then
+    --    spawn, zone, name = _GetNearestQuestSpawn(self.Quest)
+    --    if spawn then
+    --        _SetTomTomTarget(name, zone, spawn[1], spawn[2])
+    --    end
+    --end
 end
 
 local function _OnDragStop()
