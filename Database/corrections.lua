@@ -51,7 +51,10 @@ QuestieCorrections.questFixes = {
     },
     [4494] = {
         [QuestieDB.questKeys.preQuestSingle] = {82}, -- #942
-    }
+    },
+    [282] = {
+        [QuestieDB.questKeys.exclusiveTo] = {287}, -- #881
+    },
 }
 
 QuestieCorrections.npcFixes = {
