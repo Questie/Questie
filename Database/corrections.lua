@@ -1111,6 +1111,7 @@ QuestieCorrections.hiddenQuests = {
   [4448] = true,
   [4462] = true,
   --Phase 2 - Dire Maul
+  [8250] = true,
   [7494] = true,
   [7441] = true,
   [7492] = true,
