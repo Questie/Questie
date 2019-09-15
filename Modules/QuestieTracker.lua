@@ -261,7 +261,6 @@ local function _FocusObjective(TargetQuest, TargetObjective, isSpecial)
                         Objective.HideIcons = nil
                         Objective.FadeIcons = nil
                     else
-                        Objective.HideIcons = nil
                         Objective.FadeIcons = true
                     end
                 end
@@ -271,7 +270,6 @@ local function _FocusObjective(TargetQuest, TargetObjective, isSpecial)
                             Objective.HideIcons = nil
                             Objective.FadeIcons = nil
                         else
-                            Objective.HideIcons = nil
                             Objective.FadeIcons = true
                         end
                     end
@@ -1052,16 +1050,6 @@ function QuestieTracker:Update()
             line.label:Show()
             trackerWidth = math.max(trackerWidth, line.label:GetWidth())
             --
-            if _QuestieTracker.IsFirstRun then
-                if Questie.db.char.TrackerHiddenQuests[quest] then
-                    Quest.HideIcons = true
-                end
-                if Questie.db.char.TrackerFocus then
-                    if Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "number" and Questie.db.char.TrackerFocus == Quest.Id then -- quest focus
-                        _FocusQuest(Quest)
-                    end
-                end
-            end
 
 
             if Quest.Objectives and not complete then
@@ -1077,15 +1065,6 @@ function QuestieTracker:Update()
                     end
                     line.label:Show()
                     trackerWidth = math.max(trackerWidth, line.label:GetWidth())
-
-                    if _QuestieTracker.IsFirstRun then
-                        if Questie.db.char.TrackerHiddenObjectives[tostring(quest) .. " " .. tostring(Objective.Index)] then
-                            Objective.HideIcons = true
-                        end
-                        if  Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus == tostring(Quest.Id) .. " " .. tostring(Objective.Index) then
-                            _FocusObjective(Quest, Objective)
-                        end
-                    end
                 end
             end
             line:SetVerticalPadding(Questie.db.global.trackerQuestPadding)
@@ -1106,7 +1085,39 @@ function QuestieTracker:Update()
 
     if _QuestieTracker.IsFirstRun then
         _QuestieTracker.IsFirstRun = nil
-        -- bad code
+        for quest in pairs (qCurrentQuestlog) do
+            local Quest = QuestieDB:GetQuest(quest)
+            if Quest then
+                if Questie.db.char.TrackerHiddenQuests[quest] then
+                    Quest.HideIcons = true
+                end
+                if Questie.db.char.TrackerFocus then
+                    if Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "number" and Questie.db.char.TrackerFocus == Quest.Id then -- quest focus
+                        _FocusQuest(Quest)
+                    end
+                end
+                if Quest.Objectives then
+                    for _,Objective in pairs(Quest.Objectives) do
+                        if Questie.db.char.TrackerHiddenObjectives[tostring(quest) .. " " .. tostring(Objective.Index)] then
+                            Objective.HideIcons = true
+                        end
+                        if  Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus == tostring(Quest.Id) .. " " .. tostring(Objective.Index) then
+                            _FocusObjective(Quest, Objective)
+                        end
+                    end
+                end
+                if Quest.SpecialObjectives then
+                    for _,Objective in pairs(Quest.SpecialObjectives) do
+                        if Questie.db.char.TrackerHiddenObjectives[tostring(quest) .. " " .. tostring(Objective.Index)] then
+                            Objective.HideIcons = true
+                        end
+                        if  Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus == tostring(Quest.Id) .. " " .. tostring(Objective.Index) then
+                            _FocusObjective(Quest, Objective)
+                        end
+                    end
+                end
+            end
+        end
         QuestieQuest:UpdateHiddenNotes()
     end
     _QuestieTracker.baseFrame:Show()
