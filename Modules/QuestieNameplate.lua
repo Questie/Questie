@@ -70,7 +70,7 @@ function QuestieNameplate:removeFrame(guid)
     end
 end
 
-function _getValidIcon(tooltip) -- helper function to get the first valid (incomplete) icon from the specified tooltip, or nil if there is none
+local function _getValidIcon(tooltip) -- helper function to get the first valid (incomplete) icon from the specified tooltip, or nil if there is none
     if tooltip then
         for _,Quest in pairs(tooltip) do
             if Quest.Objective and Quest.Objective.Update then
@@ -133,7 +133,7 @@ function QuestieNameplate:UpdateNameplate(self)
 
     for guid, token in pairs(activeGUIDs) do
 
-        unitName, _ = UnitName(token);
+        local unitName, _ = UnitName(token);
 
         if not unitName then return end
 

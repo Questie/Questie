@@ -96,9 +96,9 @@ local function _UpdateSpecials(quest)
     if Quest and Quest.SpecialObjectives then
         if Quest.SpecialObjectives then
             for _, objective in pairs(Quest.SpecialObjectives) do
-                result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, Quest, 0, objective, true);
+                local result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, Quest, 0, objective, true);
                 if not result then
-                    Questie:Error("[QuestieQuest]: [SpecialObjectives] ".. QuestieLocale:GetUIString('DEBUG_POPULATE_ERR', Quest.Name or "No quest name", Quest.Id or "No quest id", k or "No objective", err or "No error"));
+                    Questie:Error("[QuestieQuest]: [SpecialObjectives] ".. QuestieLocale:GetUIString('DEBUG_POPULATE_ERR', Quest.Name or "No quest name", Quest.Id or "No quest id", 0 or "No objective", err or "No error"));
                 end
             end
         end
@@ -208,7 +208,7 @@ end
 
 function QuestieQuest:GetRawLeaderBoardDetails(QuestLogIndex)
     local quest = {}
-    title, level, _, isHeader, _, isComplete, _, questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(QuestLogIndex)
+    local title, level, _, isHeader, _, isComplete, _, questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(QuestLogIndex)
     quest.title = title;
     quest.level = level;
     quest.isComplete = isComplete;
@@ -365,10 +365,10 @@ end
 --Run this if you want to update the entire table
 function QuestieQuest:GetAllQuestIds()
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_GET_QUEST'));
-    numEntries, numQuests = GetNumQuestLogEntries();
+    local numEntries, numQuests = GetNumQuestLogEntries();
     qCurrentQuestlog = {}
     for index = 1, numEntries do
-        title, level, _, isHeader, _, isComplete, _, questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
+        local title, level, _, isHeader, _, isComplete, _, questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
         if(not isHeader) then
             --Keep the object in the questlog to save searching
             local Quest = QuestieDB:GetQuest(questId)
@@ -390,10 +390,10 @@ end
 
 function QuestieQuest:GetAllQuestIdsNoObjectives()
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_GET_QUEST'));
-    numEntries, numQuests = GetNumQuestLogEntries();
+    local numEntries, numQuests = GetNumQuestLogEntries();
     qCurrentQuestlog = {}
     for index = 1, numEntries do
-        title, level, _, isHeader, _, isComplete, _, questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
+        local title, level, _, isHeader, _, isComplete, _, questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
         if(not isHeader) then
             --Keep the object in the questlog to save searching
             local Quest = QuestieDB:GetQuest(questId)
@@ -436,7 +436,7 @@ function QuestieQuest:UpdateObjectiveNotes(Quest)
     Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: UpdateObjectiveNotes:", Quest.Id)
     if Quest.Objectives then
         for k, v in pairs(Quest.Objectives) do
-            result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, Quest, k, v);
+            local result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, Quest, k, v);
             if not result then
                 Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_POP_ERROR', Quest.Name, Quest.Id, k, err));
             end
@@ -624,7 +624,7 @@ function QuestieQuest:ForceToMap(type, id, label, customScale)
             end
             for zone, spawns in pairs(spawnData.Spawns) do
                 for _, spawn in pairs(spawns) do
-                    iconMap, iconMini = QuestieMap:DrawWorldIcon(spawnData, zone, spawn[1], spawn[2])
+                    local iconMap, iconMini = QuestieMap:DrawWorldIcon(spawnData, zone, spawn[1], spawn[2])
                     if iconMap and iconMini then
                         table.insert(mapRefs, iconMap);
                         table.insert(miniRefs, iconMini);
@@ -716,7 +716,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                     for zone, spawns in pairs(spawnData.Spawns) do
                         for _, spawn in pairs(spawns) do
                             if maxPerObjectiveOutsideZone > 0 or ((not Quest.Zone) or Quest.Zone == zone) then -- still add the note if its in the current zone
-                                iconMap, iconMini = QuestieMap:DrawWorldIcon(data, zone, spawn[1], spawn[2]) -- clustering code takes care of duplicates as long as mindist is more than 0
+                                local iconMap, iconMini = QuestieMap:DrawWorldIcon(data, zone, spawn[1], spawn[2]) -- clustering code takes care of duplicates as long as mindist is more than 0
                                 if iconMap and iconMini then
                                     table.insert(Objective.AlreadySpawned[id].mapRefs, iconMap);
                                     table.insert(Objective.AlreadySpawned[id].minimapRefs, iconMini);
@@ -796,7 +796,7 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
     local old = GetQuestLogSelection()
     for k, v in pairs(Quest.Objectives) do
         SelectQuestLogEntry(v.Index)
-        result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, Quest, k, v, false);
+        local result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, Quest, k, v, false);
         if not result then
             Questie:Error("[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_POPULATE_ERR', Quest.Name or "No quest name", Quest.Id or "No quest id", k or "No objective", err or "No error"));
         end
@@ -805,9 +805,9 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
     -- check for special (unlisted) DB objectives
     if Quest.SpecialObjectives then
         for _, objective in pairs(Quest.SpecialObjectives) do
-            result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, Quest, 0, objective, true);
+            local result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, Quest, 0, objective, true);
             if not result then
-                Questie:Error("[QuestieQuest]: [SpecialObjectives] ".. QuestieLocale:GetUIString('DEBUG_POPULATE_ERR', Quest.Name or "No quest name", Quest.Id or "No quest id", k or "No objective", err or "No error"));
+                Questie:Error("[QuestieQuest]: [SpecialObjectives] ".. QuestieLocale:GetUIString('DEBUG_POPULATE_ERR', Quest.Name or "No quest name", Quest.Id or "No quest id", 0 or "No objective", err or "No error"));
             end
         end
     end
@@ -848,7 +848,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
     end
 
     for i = 1, count do
-        objectiveType, objectiveDesc, numItems, numNeeded, isCompleted = _QuestieQuest:GetLeaderBoardDetails(i, Quest.Id)
+        local objectiveType, objectiveDesc, numItems, numNeeded, isCompleted = _QuestieQuest:GetLeaderBoardDetails(i, Quest.Id)
         if objectiveType then
             if Quest.Objectives[i] == nil then
                 Quest.Objectives[i] = {}
@@ -873,7 +873,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                 --_,_,_,_,_,_,_,questID = GetQuestLogTitle(self.Index)
                 --DEFAULT_CHAT_FRAME:AddMessage("qid: " .. questID .. " " .. self.QuestId)
 
-                objectiveType, objectiveDesc, numItems, numNeeded, isComplete = _QuestieQuest:GetLeaderBoardDetails(self.Index, self.QuestId)
+                objectiveType, objectiveDesc, numItems, numNeeded, isCompleted = _QuestieQuest:GetLeaderBoardDetails(self.Index, self.QuestId)
 
                 --if self.Description and strlen(self.Description) > 1 and self.Description ~= objectiveDesc then -- fix bug (mentioned above with GetQuestLogTitle)
                 --    self.Collected = self.Needed
@@ -885,13 +885,13 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                     -- fixes for api bug
                     if not numItems then numItems = 0; end
                     if not numNeeded then numNeeded = 0; end
-                    if not isComplete then isComplete = false; end -- ensure its boolean false and not nil (hack)
+                    if not isCompleted then isCompleted = false; end -- ensure its boolean false and not nil (hack)
 
                     self.Type = objectiveType
                     self.Description = objectiveDesc
                     self.Collected = tonumber(numItems)
                     self.Needed = tonumber(numNeeded)
-                    self.Completed = (self.Needed == self.Collected and self.Needed > 0) or (isComplete and (self.Needed == 0 or (not self.Needed))) -- some objectives get removed on PLAYER_LOGIN because isComplete is set to true at random????
+                    self.Completed = (self.Needed == self.Collected and self.Needed > 0) or (isCompleted and (self.Needed == 0 or (not self.Needed))) -- some objectives get removed on PLAYER_LOGIN because isComplete is set to true at random????
                 end
                 if old then SelectQuestLogEntry(old); end
                 return {self.Collected, self.Needed, self.Completed}
@@ -976,30 +976,27 @@ end
 
 
 --TODO Check that this resolves correctly in classic!
---/dump QuestieQuest:GetLeaderBoardDetails (1,1)
+--/dump QuestieQuest:GetLeaderBoardDetails(1,1)
 function _QuestieQuest:GetLeaderBoardDetails(BoardIndex, QuestId)
     Index = GetQuestLogIndexByID(QuestId)
     if(Index == 0) then
         Index = QuestId;
     end
-    local description, objectiveType, isCompleted = GetQuestLogLeaderBoard (BoardIndex, Index);
+
+    local description, objectiveType, isCompleted = GetQuestLogLeaderBoard(BoardIndex, Index);
     if not description then return nil; end -- invalid board index (this has happened extremely rarely see issue 565)
 
-    --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Quest Details1:", description, objectiveType, isCompleted)
-    --Classic
+    -- Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Quest Details1:", description, objectiveType, isCompleted)
     local itemName, numItems, numNeeded = string.match(description, "(.*):%s*([%d]+)%s*/%s*([%d]+)");
-    --Retail
-    if(itemName == nil or string.len(itemName) < 1) then --Just a figure... check if its not 0
-        numItems, numNeeded, itemName = string.match(description, "(%d+)\/(%d+)(.*)")
-    end
     Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Quest Details2:", QuestId, itemName, numItems, numNeeded)
+
     if (itemName) then
         itemName = string.gsub(itemName, "slain", "")
     else
         itemName = description;
     end
-    numItems, numNeeded = string.match(description, "(%d+)\/(%d+)")
-    return objectiveType, strtrim(itemName), numItems, numNeeded, isCompleted;
+
+    return objectiveType, strtrim(itemName), tonumber(numItems), tonumber(numNeeded), isCompleted;
 end
 
 --Draw a single available quest, it is used by the DrawAllAvailableQuests function.

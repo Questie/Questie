@@ -1,4 +1,4 @@
-function _hack_prime_log() -- this seems to make it update the data much quicker
+local function _hack_prime_log() -- this seems to make it update the data much quicker
   for i=1,GetNumQuestLogEntries()+1 do
     GetQuestLogTitle(i)
     QuestieQuest:GetRawLeaderBoardDetails(i)
@@ -335,7 +335,7 @@ function QuestieEventHandler:QUEST_LOG_CRITERIA_UPDATE(questID, specificTreeID, 
 end
 
 function QuestieEventHandler:CUSTOM_QUEST_COMPLETE()
-    numEntries, numQuests = GetNumQuestLogEntries();
+    local numEntries, numQuests = GetNumQuestLogEntries();
     --Questie:Debug(DEBUG_CRITICAL, "CUSTOM_QUEST_COMPLETE", "Quests: "..numQuests);
 end
 
@@ -380,13 +380,13 @@ end
 local NumberOfQuestInLog = -1
 
 function QuestieEventHandler:QUEST_COMPLETE()
-    numEntries, numQuests = GetNumQuestLogEntries();
+    local numEntries, numQuests = GetNumQuestLogEntries();
     NumberOfQuestInLog = numQuests;
     --Questie:Debug(DEBUG_CRITICAL, "EVENT: QUEST_COMPLETE", "Quests: "..numQuests);
 end
 
 function QuestieEventHandler:QUEST_FINISHED()
-    numEntries, numQuests = GetNumQuestLogEntries();
+    local numEntries, numQuests = GetNumQuestLogEntries();
     if (NumberOfQuestInLog ~= numQuests) then
         --Questie:Debug(DEBUG_CRITICAL, "EVENT: QUEST_FINISHED", "CHANGE");
         NumberOfQuestInLog = -1

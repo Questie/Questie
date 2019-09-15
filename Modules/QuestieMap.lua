@@ -17,7 +17,7 @@ end
 
 --Get the frames for a quest, this returns all of the frames
 function QuestieMap:GetFramesForQuest(QuestId)
-    frames = {}
+    local frames = {}
     --If no frames exists or if the quest does not exist we just return an empty list
     if (qQuestIdFrames[QuestId]) then
         for i, name in ipairs(qQuestIdFrames[QuestId]) do
@@ -83,7 +83,8 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
         return nil, nil
     end
     if(showFlag == nil) then showFlag = HBD_PINS_WORLDMAP_SHOW_WORLD; end
-    if(floatOnEdge == nil) then floatOnEdge = true; end
+    -- if(floatOnEdge == nil) then floatOnEdge = true; end
+    local floatOnEdge = true
 
     -- check toggles (not anymore, we need to add then hide)
     --if data.Type then

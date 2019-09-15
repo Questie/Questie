@@ -64,7 +64,7 @@ function QuestieDB:Initialize()
 end
 
 function QuestieDB:ItemLookup(ItemId)
-    itemName, itemLink = GetItemInfo(ItemId)
+    local itemName, itemLink = GetItemInfo(ItemId)
     Item = {}
     Item.Name = itemName
     Item.Link = itemLink
@@ -608,7 +608,7 @@ end
 ---------------------------------------------------------------------------------------------------
 -- Modifications to questDB
 
-function unpackBinary(val)
+function UnpackBinary(val)
     local ret = {};
     for q=0,16 do
         if bit.band(bit.rshift(val,q), 1) == 1 then
@@ -620,20 +620,20 @@ function unpackBinary(val)
     return ret;
 end
 
-function checkRace(race, dbRace)
+local function checkRace(race, dbRace)
     local valid = true;
     if race and dbRace and not (dbRace == 0) then
-        local racemap = unpackBinary(dbRace);
+        local racemap = UnpackBinary(dbRace);
         valid = racemap[RaceBitIndexTable[strlower(race)]];
     end
     return valid;
 end
 
-function checkClass(class, dbClass)
+local function checkClass(class, dbClass)
     local valid = true;
 
     if class and dbClass and valid and not (dbRace == 0)then
-        local classmap = unpackBinary(dbClass);
+        local classmap = UnpackBinary(dbClass);
         valid = classmap[ClassBitIndexTable[strlower(class)]];
     end
     return valid;

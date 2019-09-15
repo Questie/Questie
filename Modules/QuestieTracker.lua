@@ -471,7 +471,7 @@ end
 
 local function _ShowObjectiveOnMap(Objective)
     -- calculate nearest spawn
-    spawn, zone, name = _GetNearestSpawn(Objective)
+    local spawn, zone, name = _GetNearestSpawn(Objective)
     if spawn then
         --print("Found best spawn: " .. name .. " in zone " .. tostring(zone) .. " at " .. tostring(spawn[1]) .. " " .. tostring(spawn[2]))
         WorldMapFrame:Show()
@@ -482,7 +482,7 @@ end
 
 local function _ShowFinisherOnMap(Quest)
     -- calculate nearest spawn
-    spawn, zone, name = _GetNearestQuestSpawn(Quest)
+    local spawn, zone, name = _GetNearestQuestSpawn(Quest)
     if spawn then
         --print("Found best spawn: " .. name .. " in zone " .. tostring(zone) .. " at " .. tostring(spawn[1]) .. " " .. tostring(spawn[2]))
         WorldMapFrame:Show()
@@ -524,7 +524,7 @@ local function _BuildMenu(Quest)
         end
         table.insert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_SET_TOMTOM'), func = function()
             LQuestie_CloseDropDownMenus()
-            spawn, zone, name = _GetNearestSpawn(Objective)
+            local spawn, zone, name = _GetNearestSpawn(Objective)
             if spawn then
                 _SetTomTomTarget(name, zone, spawn[1], spawn[2])
             end
@@ -579,7 +579,7 @@ local function _BuildMenu(Quest)
             end
             table.insert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_SET_TOMTOM'), func = function()
                 LQuestie_CloseDropDownMenus()
-                spawn, zone, name = _GetNearestSpawn(Objective)
+                local spawn, zone, name = _GetNearestSpawn(Objective)
                 if spawn then
                     _SetTomTomTarget(name, zone, spawn[1], spawn[2])
                 end
@@ -643,7 +643,7 @@ local function _BuildMenu(Quest)
     end
     table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_SET_TOMTOM'), func = function()
         LQuestie_CloseDropDownMenus()
-        spawn, zone, name = _GetNearestQuestSpawn(Quest)
+        local spawn, zone, name = _GetNearestQuestSpawn(Quest)
         if spawn then
             _SetTomTomTarget(name, zone, spawn[1], spawn[2])
         end
@@ -683,7 +683,7 @@ local function _OnClick(self, button)
     if button == "RightButton" then
         _BuildMenu(self.Quest)
     elseif button == "LeftButton" and IsShiftKeyDown() then
-        spawn, zone, name = _GetNearestQuestSpawn(self.Quest)
+        local spawn, zone, name = _GetNearestQuestSpawn(self.Quest)
         if spawn then
             _SetTomTomTarget(name, zone, spawn[1], spawn[2])
         end
@@ -1100,7 +1100,7 @@ function QuestieTracker:CreateBaseFrame()
 
     if Questie.db.char.TrackerLocation then
         -- we need to pcall this because it can error if something like MoveAnything is used to move the tracker
-        result, error = pcall(frm.SetPoint, frm, unpack(Questie.db.char.TrackerLocation))
+        local result, error = pcall(frm.SetPoint, frm, unpack(Questie.db.char.TrackerLocation))
         if not result then
             Questie.db.char.TrackerLocation = nil
             print(QuestieLocale:GetUIString('TRACKER_INVALID_LOCATION'))
