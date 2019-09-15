@@ -46,6 +46,9 @@ QuestieCorrections.questFixes = {
     [4641] = {
         [QuestieDB.questKeys.requiredRaces] = 178, -- #877
     },
+    [1204] = {
+        [QuestieDB.questKeys.preQuestSingle] = {}, -- #938
+    },
 }
 
 QuestieCorrections.npcFixes = {
