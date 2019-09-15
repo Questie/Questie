@@ -148,6 +148,10 @@ QuestieCorrections.itemFixes = {
     [2856] = {"Iron Pike",{89},{426,430,446,580},{}}, -- Remove rare mob #903
     [11131] = {"Hive Wall Sample",{3883},{},{174793}},
     [5455] = {"Divined Scroll",{1016},{},{}},
+    [9440] = {"Acceptable Basilisk Sample",{654},{},{}},
+    [9441] = {"Acceptable Hyena Sample",{654},{},{}},
+    [9438] = {"Acceptable Scorpid Sample",{654},{},{}},
+    [8523] = {"Field Testing Kit",{654},{7683},{}},
 
     -- quest related herbs
     [2449] = {"Earthroot",{6123,6128},{},{1619,3726}},
