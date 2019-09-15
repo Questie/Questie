@@ -130,6 +130,9 @@ QuestieCorrections.itemFixes = {
     [16642] = {"Shredder Operating Manual - Chapter 1",{6504},{},{}},
     [16643] = {"Shredder Operating Manual - Chapter 2",{6504},{},{}},
     [16644] = {"Shredder Operating Manual - Chapter 3",{6504},{},{}},
+    [16764] = {"Warsong Scout Update",{6543},{},{}},
+    [16763] = {"Warsong Runner Update",{6543},{},{}},
+    [16765] = {"Warsong Outrider Update",{6543},{},{}},
 
     -- quest related herbs
     [2449] = {"Earthroot",{6123,6128},{},{1619,3726}},
