@@ -631,8 +631,7 @@ end
 
 local function checkClass(class, dbClass)
     local valid = true;
-
-    if class and dbClass and valid and not (dbRace == 0)then
+    if class and dbClass and not (dbClass == 0) then
         local classmap = UnpackBinary(dbClass);
         valid = classmap[ClassBitIndexTable[strlower(class)]];
     end
