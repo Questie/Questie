@@ -70,7 +70,7 @@ function _QuestieTracker:StartFadeTicker()
 end
 
 local function _OnDragStart(self, button)
-    if IsControlKeyDown() and not Questie.db.global.trackerLocked then
+    if IsControlKeyDown() or not Questie.db.global.trackerLocked then
         _QuestieTracker.baseFrame:StartMoving()
     else
         if not IsMouselooking() then-- this is a HORRIBLE solution, why does MouselookStart have to break OnMouseUp (is there a MOUSE_RELEASED event that always fires?)
@@ -594,7 +594,7 @@ local function _BuildMenu(Quest)
 
     table.insert(menu, {text=Quest:GetColoredQuestName(), isTitle = true, notCheckable = true})
     table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_TRACK'), checked = true, func = function()
-        CloseDropDownMenus()
+        LQuestie_CloseDropDownMenus()
         if GetCVar("autoQuestWatch") == "0" then
             Questie.db.char.TrackedQuests[Quest.Id] = nil
         else
@@ -604,14 +604,14 @@ local function _BuildMenu(Quest)
     end})
     if Quest.HideIcons then
         table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_SHOW_ICONS'), checked = false, func = function()
-            CloseDropDownMenus()
+            LQuestie_CloseDropDownMenus()
             Quest.HideIcons = nil
             QuestieQuest:UpdateHiddenNotes()
             Questie.db.char.TrackerHiddenQuests[Quest.Id] = nil
         end})
     else
         table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_SHOW_ICONS'), checked = true, func = function()
-            CloseDropDownMenus()
+            LQuestie_CloseDropDownMenus()
             Quest.HideIcons = true
             QuestieQuest:UpdateHiddenNotes()
             Questie.db.char.TrackerHiddenQuests[Quest.Id] = true
@@ -619,13 +619,13 @@ local function _BuildMenu(Quest)
     end
     --table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_SHOW_QUESTLOG'), notCheckable = true, func = function() _ShowQuestLog(Quest) end})
     if Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "number" and Questie.db.char.TrackerFocus == Quest.Id then
-        table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_FOCUS_QUEST'), checked = true, func = function() CloseDropDownMenus(); _UnFocus(); QuestieQuest:UpdateHiddenNotes() end})
+        table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_FOCUS_QUEST'), checked = true, func = function() LQuestie_CloseDropDownMenus(); _UnFocus(); QuestieQuest:UpdateHiddenNotes() end})
     else
-        table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_FOCUS_QUEST'), checked = false, func = function() CloseDropDownMenus(); _FocusQuest(Quest); QuestieQuest:UpdateHiddenNotes()  end})
+        table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_FOCUS_QUEST'), checked = false, func = function() LQuestie_CloseDropDownMenus(); _FocusQuest(Quest); QuestieQuest:UpdateHiddenNotes()  end})
     end
     if TomTom then
         table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_SET_TOMTOM'), notCheckable = true, func = function()
-            CloseDropDownMenus()
+            LQuestie_CloseDropDownMenus()
             spawn, zone, name = _GetNearestQuestSpawn(Quest)
             if spawn then
                 _SetTomTomTarget(name, zone, spawn[1], spawn[2])
@@ -634,7 +634,7 @@ local function _BuildMenu(Quest)
     end
     if QuestieQuest:IsComplete(Quest) then
         table.insert(menu, {text = QuestieLocale:GetUIString('TRACKER_SHOW_ON_MAP'), notCheckable = true, func = function()
-            CloseDropDownMenus()
+            LQuestie_CloseDropDownMenus()
             _ShowFinisherOnMap(Quest)
         end})
     else
@@ -643,14 +643,14 @@ local function _BuildMenu(Quest)
             local objectiveMenu = {}
             if Objective.HideIcons then
                 table.insert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_SHOW_ICONS'), checked = false, func = function()
-                    CloseDropDownMenus()
+                    LQuestie_CloseDropDownMenus()
                     Objective.HideIcons = nil
                     QuestieQuest:UpdateHiddenNotes()
                     Questie.db.char.TrackerHiddenObjectives[tostring(Quest.Id) .. " " .. tostring(Objective.Index)] = nil
                 end})
             else
                 table.insert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_SHOW_ICONS'), checked = true, func = function()
-                    CloseDropDownMenus()
+                    LQuestie_CloseDropDownMenus()
                     Objective.HideIcons = true
                     QuestieQuest:UpdateHiddenNotes()
                     Questie.db.char.TrackerHiddenObjectives[tostring(Quest.Id) .. " " .. tostring(Objective.Index)] = true
@@ -658,14 +658,14 @@ local function _BuildMenu(Quest)
             end
             --_UnFocus()
             if Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus == tostring(Quest.Id) .. " " .. tostring(Objective.Index) then
-                table.insert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_FOCUS_OBJECTIVE'), checked = true, func = function() CloseDropDownMenus(); _UnFocus(); QuestieQuest:UpdateHiddenNotes() end})
+                table.insert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_FOCUS_OBJECTIVE'), checked = true, func = function() LQuestie_CloseDropDownMenus(); _UnFocus(); QuestieQuest:UpdateHiddenNotes() end})
             else
-                table.insert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_FOCUS_OBJECTIVE'), checked = false, func = function() CloseDropDownMenus(); _FocusObjective(Quest, Objective); QuestieQuest:UpdateHiddenNotes() end})
+                table.insert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_FOCUS_OBJECTIVE'), checked = false, func = function() LQuestie_CloseDropDownMenus(); _FocusObjective(Quest, Objective); QuestieQuest:UpdateHiddenNotes() end})
             end
 
             if TomTom then
                 table.insert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_SET_TOMTOM'), notCheckable = true, func = function()
-                    CloseDropDownMenus()
+                    LQuestie_CloseDropDownMenus()
                     spawn, zone, name = _GetNearestSpawn(Objective)
                     if spawn then
                         _SetTomTomTarget(name, zone, spawn[1], spawn[2])
@@ -673,7 +673,7 @@ local function _BuildMenu(Quest)
                 end})
             end
             table.insert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_SHOW_ON_MAP'), notCheckable = true, func = function()
-                CloseDropDownMenus()
+                LQuestie_CloseDropDownMenus()
                 local needHiddenUpdate
                 if (Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus ~= tostring(Quest.Id) .. " " .. tostring(Objective.Index))
                 or (Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "number" and Questie.db.char.TrackerFocus ~= Quest.Id) then
@@ -700,14 +700,14 @@ local function _BuildMenu(Quest)
                 local objectiveMenu = {}
                 if Objective.HideIcons then
                     table.insert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_SHOW_ICONS'), checked = false, func = function()
-                        CloseDropDownMenus()
+                        LQuestie_CloseDropDownMenus()
                         Objective.HideIcons = nil
                         QuestieQuest:UpdateHiddenNotes()
                         Questie.db.char.TrackerHiddenObjectives[tostring(Quest.Id) .. " " .. tostring(Objective.Index)] = nil
                     end})
                 else
                     table.insert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_SHOW_ICONS'), checked = true, func = function()
-                        CloseDropDownMenus()
+                        LQuestie_CloseDropDownMenus()
                         Objective.HideIcons = true
                         QuestieQuest:UpdateHiddenNotes()
                         Questie.db.char.TrackerHiddenObjectives[tostring(Quest.Id) .. " " .. tostring(Objective.Index)] = true
@@ -715,14 +715,14 @@ local function _BuildMenu(Quest)
                 end
                 --_UnFocus()
                 if Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus == tostring(Quest.Id) .. " " .. tostring(Objective.Index) then
-                    table.insert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_FOCUS_OBJECTIVE'), checked = true, func = function() CloseDropDownMenus(); _UnFocus(); QuestieQuest:UpdateHiddenNotes() end})
+                    table.insert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_FOCUS_OBJECTIVE'), checked = true, func = function() LQuestie_CloseDropDownMenus(); _UnFocus(); QuestieQuest:UpdateHiddenNotes() end})
                 else
-                    table.insert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_FOCUS_OBJECTIVE'), checked = false, func = function() CloseDropDownMenus(); _FocusObjective(Quest, Objective, true); QuestieQuest:UpdateHiddenNotes() end})
+                    table.insert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_FOCUS_OBJECTIVE'), checked = false, func = function() LQuestie_CloseDropDownMenus(); _FocusObjective(Quest, Objective, true); QuestieQuest:UpdateHiddenNotes() end})
                 end
 
                 if TomTom then
                     table.insert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_SET_TOMTOM'), notCheckable = true, func = function()
-                        CloseDropDownMenus()
+                        LQuestie_CloseDropDownMenus()
                         spawn, zone, name = _GetNearestSpawn(Objective)
                         if spawn then
                             _SetTomTomTarget(name, zone, spawn[1], spawn[2])
@@ -730,7 +730,7 @@ local function _BuildMenu(Quest)
                     end})
                 end
                 table.insert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_SHOW_ON_MAP'), notCheckable = true, func = function()
-                    CloseDropDownMenus()
+                    LQuestie_CloseDropDownMenus()
                     local needHiddenUpdate
                     if (Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus ~= tostring(Quest.Id) .. " " .. tostring(Objective.Index))
                     or (Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "number" and Questie.db.char.TrackerFocus ~= Quest.Id) then
@@ -754,9 +754,9 @@ local function _BuildMenu(Quest)
         end
     end
 
-    table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_LOCK'), checked = Questie.db.global.trackerLocked, func = function() CloseDropDownMenus(); Questie.db.global.trackerLocked = not Questie.db.global.trackerLocked end})
-    table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_CANCEL'), notCheckable = true, func = function() CloseDropDownMenus() end})
-    EasyMenu(menu, _QuestieTracker.menuFrame, "cursor", 0 , 0, "MENU")
+    table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_LOCK'), checked = Questie.db.global.trackerLocked, func = function() LQuestie_CloseDropDownMenus(); Questie.db.global.trackerLocked = not Questie.db.global.trackerLocked end})
+    table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_CANCEL'), notCheckable = true, func = function() LQuestie_CloseDropDownMenus() end})
+    LQuestie_EasyMenu(menu, _QuestieTracker.menuFrame, "cursor", 0 , 0, "MENU")
 end
 
 local function _OnClick(self, button)
@@ -826,7 +826,7 @@ function QuestieTracker:Initialize()
         Questie.db.char.AutoUntrackedQuests = {} -- the reason why we separate this from TrackedQuests is so that users can switch between auto/manual without losing their manual tracking selection
     end
     _QuestieTracker.baseFrame = QuestieTracker:CreateBaseFrame()
-    _QuestieTracker.menuFrame = CreateFrame("Frame", "QuestieTrackerMenuFrame", UIParent, "UIDropDownMenuTemplate")
+    _QuestieTracker.menuFrame = LQuestie_Create_UIDropDownMenu("QuestieTrackerMenuFrame", UIParent)
 
     if Questie.db.global.hookTracking then
         QuestieTracker:HookBaseTracker()
