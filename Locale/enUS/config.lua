@@ -188,6 +188,7 @@ QuestieLocale.locale['enUS'] = {
     ['TRACKER_FOCUS_OBJECTIVE'] = "Focus Objective",
     ['TRACKER_FOCUS_QUEST'] = "Focus Quest",
     ['TRACKER_CANCEL'] = "Cancel",
+    ['TRACKER_TRACK'] = "Track Quest",
     ['TRACKER_UNTRACK'] = "Untrack Quest",
     ['TRACKER_SHOW_QUESTLOG'] = "Show in Quest Log",
     ['TRACKER_SET_TOMTOM'] = "Set TomTom Target",
