@@ -1377,6 +1377,11 @@ local function FeedOptions(appName, options,container,rootframe,path,group,inlin
 						control:SetFontObject(GameFontHighlightSmall)
 					end
 					
+					local fontHeight = GetOptionsMemberValue("fontHeight",v, options, path, appName)
+					if fontHeight then
+						control.label:SetTextHeight(fontHeight)
+					end
+					
 					local imageCoords = GetOptionsMemberValue("imageCoords",v, options, path, appName)
 					local image, width, height = GetOptionsMemberValue("image",v, options, path, appName)
 					

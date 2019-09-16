@@ -1,4 +1,4 @@
-Questie_Graveyards = { -- [id] = {name, faction(=1=unknown, 0=both, 1=alliance, 2=horde), x, y, uimapid}
+Questie_Graveyards = { -- [id] = {name, faction(-1=unknown, 0=both, 1=alliance, 2=horde), x, y, uimapid}
 [1] = {"Stormwind",-1,0.32050,0.50783,1429},
 [2] = {"Redridge Mountains",-1,0.33819,0.48069,1433},
 [3] = {"Duskwood, Darkshire",1,0.74926,0.58755,1431},

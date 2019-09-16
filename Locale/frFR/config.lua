@@ -1,5 +1,5 @@
 QuestieLocale.locale['frFR'] = {
-	-- Trad by Pgmbru (V.4.2)
+	-- Trad by Pgmbru (V.4.5)
 	-- Configuration Windows
 	['OPTIONS_TAB'] = "Options",
 	['QUESTIE_HEADER'] = "Options Générales",
@@ -174,6 +174,15 @@ QuestieLocale.locale['frFR'] = {
 	['TRACKER_SORT_BY_LEVEL'] = "Par niveau",
 	['TRACKER_SORT_BY_LEVEL_REVERSED'] = "Par niveau (inversé)",
 	['TRACKER_DONT_SORT'] = "Ne pas trier",
+	['TRACKER_LEFT_CLICK'] = "Clic Gauche",
+	['TRACKER_RIGHT_CLICK'] = "Clic Droit",
+	['TRACKER_SHIFT'] = "Maj + ",
+	['TRACKER_CTRL'] = "Ctrl + ",
+	['TRACKER_ALT'] = "Alt + ",
+	['TRACKER_DISABLED'] = "Désactivé",
+	['TRACKER_SHORTCUT'] = " Raccourci",
+	['TRACKER_SET_TOMTOM_DESC'] = "Le raccourci pour ouvrir TomTom",
+	['TRACKER_SHOW_QUESTLOG_DESC'] = "Le raccourci pour afficher la quête dans le journal de la quête",
 	
 	-- Menu contextuel du Traqueur
 	['TRACKER_UNFOCUS'] = "Ne plus focus cette quête",
@@ -187,6 +196,8 @@ QuestieLocale.locale['frFR'] = {
 	['TRACKER_HIDE_ICONS'] = "Masquer les icônes",
 	['TRACKER_OBJECTIVES'] = "Objectifs",
 	['TRACKER_SHOW_ON_MAP'] = "Afficher sur la carte",
+	['TRACKER_UNLOCK'] = "Débloqué le Traqueur",
+	['TRACKER_LOCK'] = "Bloqué le Traqueur",
 	
 	-- Voyage Commandes
 	['JOURNEY_TITLE'] = "Le voyage de %s",
@@ -269,6 +280,7 @@ QuestieLocale.locale['frFR'] = {
 	['DEBUG_DRAW'] = "% s quêtes disponibles dessinées. PlayerLevel = %s",
 	['DEBUG_UNLOAD_QFRAMES'] = "Déchargement des cadres de quête: %s",
 	['DEBUG_UNLOAD_ALL'] = "Déchargement de toutes les trames, compte: %s",
+	['QUESTIE_ACCEPT_NIL'] = "|cFFFF0000ERREUR Questie:|r Essayez d'accepter des quêtes vide! Vous devrez peut-être exécuter un /reload pour la quête",
 	['QUESTIE_UPDATED_RESTART'] = "|cFFFF0000ATTENTION !|r Vous avez mis à jour Questie sans redémarrer le jeu, cela risque de poser problème. Veuillez redémarrer le jeu avant de continuer",	
 	
 	-- EN ATTENTE

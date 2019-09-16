@@ -26,7 +26,6 @@ function QuestieLocale:FallbackLocale(lang)
     else
         return 'enUS';
     end
-
 end
 
 function QuestieLocale:SetUILocale(lang)
@@ -53,10 +52,11 @@ function QuestieLocale:GetUIString(key, ...)
     local result, val = pcall(QuestieLocale._GetUIString, QuestieLocale, key, ...)
     if result then
         return val
-	else
+    else
         return tostring(key) .. ' ERROR: '.. val;
-	end
+    end
 end
+
 function QuestieLocale:_GetUIString(key, ...)
     if key then
         -- convert all args to string
@@ -83,6 +83,4 @@ function QuestieLocale:_GetUIString(key, ...)
             end
         end
     end
-
 end
-

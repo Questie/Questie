@@ -173,6 +173,15 @@ QuestieLocale.locale['enUS'] = {
     ['TRACKER_SORT_BY_LEVEL'] = "By Level",
     ['TRACKER_SORT_BY_LEVEL_REVERSED'] = "By Level (Reversed)",
     ['TRACKER_DONT_SORT'] = "Don't Sort",
+    ['TRACKER_LEFT_CLICK'] = "Left Click",
+    ['TRACKER_RIGHT_CLICK'] = "Right Click",
+    ['TRACKER_SHIFT'] = "Shift + ",
+    ['TRACKER_CTRL'] = "Control + ",
+    ['TRACKER_ALT'] = "Alt + ",
+    ['TRACKER_DISABLED'] = "Disabled",
+    ['TRACKER_SHORTCUT'] = " Shortcut",
+    ['TRACKER_SET_TOMTOM_DESC'] = "The tracker shortcut to open TomTom",
+    ['TRACKER_SHOW_QUESTLOG_DESC'] = "The tracker shortcut to show the quest in the quest log",
     
     -- tracker right click menu
     ['TRACKER_UNFOCUS'] = "Unfocus", -- focus makes only that quest/objective show on map
@@ -186,6 +195,8 @@ QuestieLocale.locale['enUS'] = {
     ['TRACKER_HIDE_ICONS'] = "Hide Icons",
     ['TRACKER_OBJECTIVES'] = "Objectives",
     ['TRACKER_SHOW_ON_MAP'] = "Show on Map",
+    ['TRACKER_UNLOCK'] = "Unlock Tracker",
+    ['TRACKER_LOCK'] = "Lock Tracker",
     
     -- Journey Window
     ['JOURNEY_TITLE'] = "%s's Journey",
@@ -267,6 +278,7 @@ QuestieLocale.locale['enUS'] = {
     ['DEBUG_DRAW'] = "%s available quests drawn. PlayerLevel = %s",
     ['DEBUG_UNLOAD_QFRAMES'] = "Unloading quest frames: %s",
     ['DEBUG_UNLOAD_ALL'] = "Unloading all frames, count: %s",
+    ['QUESTIE_ACCEPT_NIL'] = "|cFFFF0000Questie ERROR:|r Attempt to accept nil quest! You may need to run /questie reload", 
     ['QUESTIE_UPDATED_RESTART'] = "|cFFFF0000WARNING!|r You have updated questie without restarting the game, this will likely cause problems. Please restart the game before continuing",
 
 };

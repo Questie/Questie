@@ -13,13 +13,54 @@ QuestieCorrections.questFixes = {
     -- change race requirement bitmask to be only alliance (was 255)
     [6132] = {"Get Me Out of Here!",{{12277,},nil,nil,},{{6019,},nil,},34,39,77,nil,{"Escort Melizza Brimbuzzle, then speak with Hornizz Brimbuzzle at the Kodo Graveyard in Desolace.",},nil,{nil,nil,nil,nil,},nil,nil,nil,nil,nil,nil,405,nil,nil,nil,nil,nil,},
     -- add 177528 to requiredSourceItems as addition to #857
-    [5721] = {"The Battle of Darrowshire",{{10667,},nil,nil,},{{10926,},nil,},55,60,255,nil,{"Place the Relic Bundle at the Darrowshire town square.","Prevent Davil Lightfire's death until the death of Horgus.","Prevent Captain Redpath's death until Redpath the Corrupted appears.","Defeat Redpath the Corrupted.","Speak with the spirit of Joseph Redpath when he appears at the town square, then speak with Pamela at her home.",},nil,{{{10936,"Accept Redpath's Forgiveness"},},nil,nil,nil,},15209,nil,{5941,},nil,nil,nil,139,nil,nil,nil,{177528,},5942,},    
+    [5721] = {"The Battle of Darrowshire",{{10667,},nil,nil,},{{10926,},nil,},55,60,255,nil,{"Place the Relic Bundle at the Darrowshire town square.","Prevent Davil Lightfire's death until the death of Horgus.","Prevent Captain Redpath's death until Redpath the Corrupted appears.","Defeat Redpath the Corrupted.","Speak with the spirit of Joseph Redpath when he appears at the town square, then speak with Pamela at her home.",},nil,{{{10936,"Accept Redpath's Forgiveness"},},nil,nil,nil,},15209,nil,{5941,},nil,nil,nil,139,nil,nil,nil,{177528,},5942,},
     -- fix race requirement bitmask to be only horde (was 255)
     [858] = {"Ignition",{{3439,},nil,nil,},{{3439,},nil,},13,18,178,nil,{"Get the Ignition Key and bring it to Wizzlecrank.",},nil,{nil,nil,{{5050,nil},},nil,},nil,nil,nil,nil,nil,nil,17,nil,nil,nil,nil,nil,},
     -- fix race requirement bitmask to be horde (was 16) #888
     [367] = {"A New Plague",{{1518,},nil,nil,},{{1518,},nil,},6,6,178,nil,{"Apothecary Johaan in the town of Brill wants you to collect 5 Vials of Darkhound Blood.",},nil,{nil,nil,{{2858,nil},},nil,},nil,nil,nil,nil,nil,nil,85,nil,nil,nil,nil,368,},
     [368] = {"A New Plague",{{1518,},nil,nil,},{{1518,},nil,},6,9,178,nil,{"Apothecary Johaan of the town of Brill needs 5 Vile Fin Scales from Murlocs in Tirisfal Glades.",},nil,{nil,nil,{{2859,nil},},nil,},nil,nil,{367,},nil,nil,nil,85,nil,nil,nil,nil,369,},
     [369] = {"A New Plague",{{1518,},nil,nil,},{{1518,},nil,},6,11,178,nil,{"Apothecary Johaan in the town of Brill wants you to bring him 4 samples of venom from a Vicious Night Web Spider.",},nil,{nil,nil,{{2872,nil},},nil,},nil,nil,{368,},nil,nil,nil,85,nil,nil,nil,nil,492,},
+    -- Fix race requirement bitmask to orc (was 178) #813
+    [3090] = {"Tainted Parchment",{{3143,},nil,nil,},{{3156,},nil,},1,1,2,256,{"Read the Tainted Parchment and speak to Nartok inside the Den in the Valley of Trials.",},nil,{nil,nil,nil,nil,},9579,nil,{788,},nil,nil,nil,-61,nil,nil,nil,nil,nil,nil,nil,nil,},
+    -- Switch Alliance and Horde Druid quest IDs #948
+    [26] = {
+        [QuestieDB.questKeys.startedBy] = {{4217,},nil,nil,},
+        [QuestieDB.questKeys.requiredRaces] = 8,
+        [QuestieDB.questKeys.nextQuestInChain] = 29,
+    },
+    [27] = {
+        [QuestieDB.questKeys.startedBy] = {{3033,},nil,nil,},
+        [QuestieDB.questKeys.requiredRaces] = 32,
+        [QuestieDB.questKeys.nextQuestInChain] = 28,
+    },
+    [7068] = {
+        [QuestieDB.questKeys.requiredLevel] = 39,
+    },
+    [7070] = {
+        [QuestieDB.questKeys.requiredLevel] = 39,
+    },
+    -- Save Techbot's Brain does not need the Tinkmaster Overspark breadcrumb #687
+    [2922] = {
+        [QuestieDB.questKeys.preQuestSingle] = {},
+    },
+    [1276] = {
+        [QuestieDB.questKeys.preQuestSingle] = {1323,1273,},
+    },
+    [4641] = {
+        [QuestieDB.questKeys.requiredRaces] = 178, -- #877
+    },
+    [1204] = {
+        [QuestieDB.questKeys.preQuestSingle] = {}, -- #938
+    },
+    [4494] = {
+        [QuestieDB.questKeys.preQuestSingle] = {82}, -- #942
+    },
+    [282] = {
+        [QuestieDB.questKeys.exclusiveTo] = {287}, -- #881
+    },
+    [1127] = {
+        [QuestieDB.questKeys.specialFlags] = 1, -- #884
+    },
 }
 
 QuestieCorrections.npcFixes = {
@@ -30,13 +71,22 @@ QuestieCorrections.npcFixes = {
     [12297] = {'Sickly Gazelle',14,14,3,3,0,{[17]={{48.8,23.8},{42.47,20.49},{51.15,38.53},{48.11,14.51},{42.81,15.28},{59.18,17.75},{42.74,36.02},{41.18,25.68},{54.41,21.93},{54.67,29.98},{51.74,20.44},{57.68,20.79},{50.52,13.04},{52.4,14.28},{46.08,29.96},{53.45,20.8},{45.44,26.66},{56.93,38.97},{44.71,33.76},{50.18,23.26},{60.29,28.13},{58.03,37.06},{53.81,12.23},{57.36,18.14},{41.49,22.7},{54.67,10.57},{44.2,19.76},{56.61,16.61},{52.77,18.57},{56.65,18.12},{48.32,26.34},{44.52,17.61},{40.81,20.67},{59.94,31.01},{43.27,28.12},{48.76,36.48},{52.42,12.74},{43.74,39.33},{49.26,27.23},{54.99,13.34},{47.0,24.16},{58.44,34.68},{45.53,14.75},{60.32,35.27},{51.02,19.46},{50.39,15.37},{57.43,33.98},{54.5,32.09},{53.44,26.84},{50.47,35.75},{50.01,31.15},{48.77,29.55},{55.09,35.44},{54.99,38.7},{53.28,37.96},{58.22,23.88},{49.96,31.05},{50.7,35.92},{48.71,36.9},{54.25,24.17},{54.3,21.78},{57.59,20.49},{58.72,22.12},{60.27,21.63},},},{[14]={{17.44,47.56},{17.34,48.09},{17.29,48.36},{17.38,48.57},{17.63,48.66},{18.06,48.63},{18.58,48.54},{18.6,48.22},{18.62,47.86},{18.65,47.58},{18.76,47.16},{18.82,46.97},{18.89,46.61},{18.8,46.15},{18.58,45.84},{18.19,46.0},{17.95,46.2},{17.82,46.53},{17.65,47.38},{9.38,50.08},{9.12,50.04},{8.66,50.09},{8.01,50.19},{7.82,49.93},{7.61,49.37},{7.75,49.39},{8.11,49.46},{8.88,49.22},{9.37,49.21},{10.28,49.43},{10.54,49.65},{10.42,49.97},{10.17,50.13},{9.82,50.13},{23.67,44.89},{23.52,44.47},{23.25,44.05},{23.03,43.83},{22.81,43.61},{22.53,43.25},{22.47,42.84},{22.62,42.44},{22.84,42.5},{23.05,42.71},{23.31,43.18},{23.6,43.3},{23.87,43.33},{24.24,43.41},{24.46,43.62},{24.61,43.98},{24.66,44.44},{24.57,44.82},{24.38,45.07},{24.13,45.16},{23.71,45.18},},[17]={{54.35,21.92},{54.3,22.19},{54.27,22.33},{54.32,22.44},{54.45,22.49},{54.68,22.47},{54.94,22.42},{54.96,22.26},{54.97,22.07},{54.98,21.93},{55.04,21.71},{55.07,21.61},{55.11,21.42},{55.06,21.18},{54.95,21.02},{54.74,21.1},{54.62,21.21},{54.55,21.38},{54.46,21.82},{50.15,23.23},{50.01,23.21},{49.77,23.23},{49.43,23.29},{49.33,23.15},{49.22,22.86},{49.3,22.87},{49.48,22.91},{49.89,22.78},{50.14,22.77},{50.62,22.89},{50.75,23.0},{50.69,23.17},{50.56,23.26},{50.38,23.25},{57.6,20.52},{57.52,20.3},{57.38,20.09},{57.27,19.97},{57.15,19.86},{57.0,19.67},{56.97,19.45},{57.05,19.24},{57.17,19.28},{57.28,19.38},{57.42,19.63},{57.57,19.69},{57.7,19.71},{57.9,19.75},{58.01,19.86},{58.09,20.05},{58.12,20.29},{58.07,20.49},{57.97,20.62},{57.84,20.66},{57.62,20.67},},},17,nil,nil,188,"AH",},
     [12299] = {'Sickly Deer',20,20,5,5,0,{[148]={{44.48,24.36},{35.17,89.26},{46.56,24.97},{34.57,87.25},{38.36,77.52},{36.19,81.94},{44.56,27.62},{43.7,64.03},{46.81,51.18},{46.17,48.28},{41.95,69.65},{45.02,44.31},{39.1,61.87},{46.99,44.1},{43.62,31.44},{46.0,41.38},{41.85,38.14},{43.97,52.89},{40.08,69.85},{42.2,73.37},{43.07,75.47},{43.97,80.14},{47.14,42.21},{47.17,41.27},{45.82,41.49},{38.56,36.07},{43.77,41.38},{48.13,33.97},{46.92,33.91},{45.56,31.68},{43.18,88.41},{39.11,89.9},{40.67,89.83},{41.02,77.81},{49.48,35.21},{49.11,36.08},{41.44,52.68},{41.04,34.8},{51.1,33.53},{51.92,32.75},{41.23,48.31},{38.57,59.21},{40.3,81.84},{38.92,70.36},{51.18,29.79},{49.48,28.58},{41.5,46.08},{38.68,54.53},{40.84,60.16},{47.68,27.5},{43.53,83.42},{43.35,40.79},{42.3,39.6},{40.34,52.3},{43.28,66.94},{37.06,91.2},{39.09,47.85},{43.81,48.22},{48.17,38.98},},},nil,148,nil,nil,188,"AH",},
     [5600] = {'Khan Dez\'hepah',1341,1341,35,35,0,{[405]={{73.2,41.8},{73.4,43},{74,43.6},{74.4,44.8},{73.6,46.6},{73,47.8},{74.6,48.8},},},nil,405,nil,nil,130,nil,},
-    [6569] = {'Gnoarn',919,919,20,20,0,{[1537]={{69.5,50.6},},},nil,1,{2039,2041,2927,},nil,55,"A",}, -- Dun Morogh -> Ironforge for #708
+    [6569] = {'Gnoarn',919,919,20,20,0,{[1537]={{69.5,50.6},},},nil,1537,{2039,2041,2927,},nil,55,"A",}, -- Dun Morogh -> Ironforge for #708
     -- Copy spawns of unzapped mobs to zapped ones to fix #892
     [14603] = {'Zapped Shore Strider',2873,2884,48,49,0,{[357]={{34.54,33.98},{42.52,46.88},{38.25,34.95},{36.47,35.75},{36.42,36.53},{45.46,62.32},{44.15,50.09},{45.9,57.9},{46.49,59.58},},},nil,357,nil,nil,14,nil,},
     [14604] = {'Zapped Land Walker',3294,3294,48,48,0,{[357]={{40.93,25.55},{38.07,18.26},{37.99,23.6},{39.61,22.11},{37.76,21.92},{39.16,23.89},{38.52,24.39},{41.15,24.82},},},nil,357,nil,nil,14,nil,},
     [14638] = {'Zapped Wave Strider',2779,2841,47,48,0,{[357]={{45.1,61.95},{37.71,34.47},{44.34,46.61},{46.78,57.88},},},nil,357,nil,nil,14,nil,},
     [14639] = {'Zapped Deep Strider',2282,2479,47,49,0,{[357]={{36.14,33.44},{43.13,52.95},{40.15,38.65},{44.99,66.44},{44.12,49.08},{45.23,52.9},{46.83,62.22},},},nil,357,nil,nil,14,nil,},
     [14640] = {'Zapped Cliff Giant',3092,3092,49,49,0,{[357]={{39.9,21.9},{40.44,22.43},{40.32,24.63},{40.72,24.44},{38.69,23.6},{39.67,22.3},{38.78,21.93},{38.23,20.59},{38.17,21.4},{41.05,22.62},{39.62,22.23},},},nil,357,nil,nil,778,nil,},
+    [13017] = {'Deeprun Rat',1,1,1,1,0,{},nil,0,nil,nil,188,"AH"},
+    [11122] = {'Restless Soul',42,42,1,1,0,{},nil,0,nil,nil,35,"AH",}, -- #919
+    [12369] = {'Lord Kragaru',1604,1604,38,38,0,{[405]={{28.6,7.4}}},nil,0,nil,nil,14,nil,}, -- Add spawn to show objective point #901
+    -- Remove wrong patrolling zones on those two (found while investigating #903)
+    [446] = {'Redridge Basher',417,449,19,20,0,{[44]={{32.44,29.17},{32.29,29.38},{28.32,30.49},{28.89,30.16},{27.49,27.37},{27.38,29.43},{29.87,31.19},{28.55,31.48},{19.53,21.68},{23.73,29.13},{19.51,23.92},{21.94,15.29},{17.57,19.85},{18.63,18.15},{19.38,25.88},{23.11,18.3},{18.35,23.13},{16.7,21.92},{20.47,29.91},{17.9,19.45},{28.26,28.43},{28.31,27.8},{28.7,25.63},{34.09,25.26},{34.3,25.0},{35.22,25.76},{31.91,24.02},{23.56,25.24},{23.38,25.38},{23.51,26.23},{23.3,26.75},{23.46,24.15},{35.33,27.98},{30.98,22.78},{34.04,24.8},},},{[44]={{23.51,26.77},{23.73,29.13},{24.21,30.93},{23.73,29.13},{19.82,30.28},{19.44,30.78},{19.42,31.63},{19.44,30.78},{19.82,30.28},{20.47,29.91},{20.82,29.36},{20.88,28.23},{20.11,27.76},{19.3,25.56},{18.8,24.44},{19.04,23.74},{19.45,21.99},{19.04,23.74},{18.8,24.44},{19.29,25.52},{20.11,27.76},{20.88,28.23},{20.82,29.36},{20.47,29.91},{18.53,20.34},{19.18,20.53},{19.72,20.45},{20.24,20.71},{20.45,21.2},{20.42,21.78},{20.45,21.21},{20.24,20.71},{19.72,20.45},{19.18,20.53},{18.53,20.34},{17.9,19.45},{16.72,19.28},{15.8,18.95},{15.85,20.7},{16.37,21.75},{17.54,22.69},{16.37,21.75},{15.85,20.7},{15.8,18.95},{16.72,19.28},{17.9,19.45},},},44,nil,nil,19,nil,},
+    [580] = {'Redridge Drudger',494,531,20,21,0,{[44]={{16.07,17.13},{20.29,21.05},{15.89,21.17},{15.96,18.87},{19.96,27.48},{21.63,23.63},{21.28,17.37},{22.35,20.55},{20.2,13.23},{18.73,15.3},{22.26,16.55},{18.82,24.3},{17.04,17.92},{18.54,15.22},},},{[44]={{17.73,15.61},{18.54,15.22},{18.88,14.35},{19.46,13.61},{20.55,13.37},{21.62,14.63},{22.28,15.88},{21.62,14.63},{20.55,13.37},{19.46,13.61},{18.88,14.35},{18.54,15.22},},},44,nil,nil,19,nil,},
+    [9683] = {'Lar\'korwi Mate',2583,2694,49,50,0,{[490]={{58,78},{60,72},{62,65},{62,80},{63,77},{66,62},{66,66},{67,60},{67,73},{67,67},{70,60},{71,59},},},nil,0,nil,nil,48,nil,},
+    [10936] = {'Joseph Redpath',3857,3857,60,60,0,{[139]={{39.2,91.33},},},nil,0,nil,nil,35,"AH",},
+    [12576] = {'Grish Longrunner',706,706,25,25,0,{[400]={{31.86,21.66},},[17]={{44.0,92.0}},},nil,400,nil,{5881,},104,"H",}, -- Add spawn in The Barrens to be shown on the map
 }
 
 QuestieCorrections.objectFixes = {
@@ -93,7 +143,27 @@ QuestieCorrections.itemFixes = {
     [8585] = {"Tapped Dowsing Widget",{992},{},{144052}},
     [11149] = {"Samophlange Manual",{3924},{},{}},
     [11018] = {"Un\'Goro Soil",{4496,3761,3764},{},{157936}},
-	
+    [6435] = {"Infused Burning Gem",{1435},{4663,4664,4665,4666,4667,4668,4705,13019},{}},
+    [3388] = {"Strong Troll's Brool Potion",{515},{},{}},
+    [3508] = {"Mudsnout Mixture",{515},{},{}},
+    [4904] = {"Venomtail Antidote",{812},{},{}},
+    [2594] = {"Flagon of Dwarven Honeymead",{288},{1464},{}},
+    [5868] = {"Filled Etched Phial",{1195},{},{20806}},
+    [16642] = {"Shredder Operating Manual - Chapter 1",{6504},{},{}},
+    [16643] = {"Shredder Operating Manual - Chapter 2",{6504},{},{}},
+    [16644] = {"Shredder Operating Manual - Chapter 3",{6504},{},{}},
+    [16764] = {"Warsong Scout Update",{6543},{},{}},
+    [16763] = {"Warsong Runner Update",{6543},{},{}},
+    [16765] = {"Warsong Outrider Update",{6543},{},{}},
+    [1013] = {"Iron Rivet",{89},{426,430,446,580},{}}, -- Remove rare mob #903
+    [2856] = {"Iron Pike",{89},{426,430,446,580},{}}, -- Remove rare mob #903
+    [11131] = {"Hive Wall Sample",{3883},{},{174793}},
+    [5455] = {"Divined Scroll",{1016},{},{}},
+    [9440] = {"Acceptable Basilisk Sample",{654},{},{}},
+    [9441] = {"Acceptable Hyena Sample",{654},{},{}},
+    [9438] = {"Acceptable Scorpid Sample",{654},{},{}},
+    [8523] = {"Field Testing Kit",{654},{7683},{}},
+
     -- quest related herbs
     [2449] = {"Earthroot",{6123,6128},{},{1619,3726}},
     [2447] = {"Peacebloom",{8549,8550},{},{1618,3724}},
@@ -104,14 +174,14 @@ QuestieCorrections.itemFixes = {
     [4625] = {"Firebloom",{8580,8581},{},{2866}},
     [3820] = {"Stranglekelp",{8503,8504},{},{2045}},
     [8831] = {"Purple Lotus",{8505,8506,8582,8583},{},{142140,180165}},
-	
+
     -- quest related leather
     [4304] = {"Thick Leather",{8515,8516,8590,8591,2847,2854},{},{}},
     [4234] = {"Heavy Leather",{8242,8588,8589},{},{}},
     [2318] = {"Light Leather",{8511,8512,768,769},{},{}},
     [2319] = {"Medium Leather",{8513,8514},{},{}},
     [8170] = {"Rugged Leather",{8600,8601,5518,5519},{},{}},
-	
+
     -- quest related mining stuff
     [11370] = {"Dark Iron Ore",{6642,7627},{},{165658}},
     [1206] = {"Moss Agate",{2948,2950},{},{}},
@@ -164,6 +234,8 @@ QuestieCorrections.questRequirementFixes = {
     [926] = {809}, -- #606
     [364] = {}, -- #882
     [1275] = {}, -- #745 prequest is not required in Classic
+    [1302] = {}, -- #889
+    [473] = {455}, -- #809
 }
 
 QuestieCorrections.questExclusiveGroupFixes = {
@@ -194,9 +266,15 @@ QuestieCorrections.questExclusiveGroupFixes = {
     [1794] = {1649},
     [431] = {411}, -- candles of beckoning
     [410] = {411}, -- the dormant shade
+    -- Tome of Nobility quests #1661
+    [1661] = {4485,4486},
+    [4485] = {1661,4486},
+    [4486] = {1661,4485},
     -- Voidwalker questline for horde
     [1473] = {1501},
     [1501] = {1473},
+    [163] = {5}, -- Raven Hill breadcrumb
+    [1301] = {1302}, -- breadcrumb of James Hyal #917
 }
 
 QuestieCorrections.questItemBlacklist = {
@@ -301,6 +379,8 @@ QuestieCorrections.hiddenQuests = {
   [5663] = true, -- Touch of Weakness of Dark Cleric Beryl - Fixing #730
   [7725] = true, -- Repeatable version of 7003 - Fixing #891
   [7726] = true, -- Repeatable version of 7721 - Fixing #891
+  [2358] = true, -- Horns of Nez'ra is not in the game at this point. See #921
+  [787] = true, -- The New Horde is not in the game. See #830
   --Stray quests
   [3861] = true, --CLUCK!
   --World event quests
@@ -704,6 +784,7 @@ QuestieCorrections.hiddenQuests = {
   [8759] = true,
   [8760] = true,
   --Profession quests
+  [8798] = true,
   [769] = true,
   [768] = true,
   [7652] = true,
@@ -1061,6 +1142,7 @@ QuestieCorrections.hiddenQuests = {
   [4448] = true,
   [4462] = true,
   --Phase 2 - Dire Maul
+  [8250] = true,
   [7494] = true,
   [7441] = true,
   [7492] = true,
@@ -1176,6 +1258,22 @@ QuestieCorrections.hiddenQuests = {
   [9209] = true,
   [9210] = true,
 --Phase 5 - AQ20/AQ40/AQ War Effort
+  [8275] = true,
+  [8276] = true,
+  [8304] = true,
+  [8343] = true,
+  [8331] = true,
+  [8320] = true,
+  [8361] = true,
+  [9338] = true,
+  [9023] = true,
+  [9248] = true,
+  [9422] = true,
+  [8280] = true,
+  [8277] = true,
+  [8283] = true,
+  [8284] = true,
+  [8318] = true,
   [8286] = true,
   [8288] = true,
   [8301] = true,
@@ -1384,6 +1482,7 @@ QuestieCorrections.hiddenQuests = {
   [8765] = true,
   [8766] = true,
 --Phase 6 - Naxxramas
+  [9141] = true,
   [9033] = true,
   [9034] = true,
   [9036] = true,

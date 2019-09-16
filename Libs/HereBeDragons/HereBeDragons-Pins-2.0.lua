@@ -542,7 +542,7 @@ function pins:AddMinimapIconWorld(ref, icon, instanceID, x, y, floatOnEdge)
     minimapPins[icon] = t
     queueFullUpdate = true
 
-    icon:SetParent(pins.Minimap)
+    icon:SetParent(pins.MinimapGroup or pins.Minimap)
 end
 
 --- Add a icon to the minimap (UiMapID zone coordinate version)
