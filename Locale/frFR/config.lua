@@ -1,5 +1,5 @@
 QuestieLocale.locale['frFR'] = {
-	-- Trad by Pgmbru (V.4.2)
+	-- Trad by Pgmbru (V.4.5)
 	-- Configuration Windows
 	['OPTIONS_TAB'] = "Options",
 	['QUESTIE_HEADER'] = "Options Générales",
@@ -180,7 +180,7 @@ QuestieLocale.locale['frFR'] = {
 	['TRACKER_CTRL'] = "Ctrl + ",
 	['TRACKER_ALT'] = "Alt + ",
 	['TRACKER_DISABLED'] = "Désactivé",
-	['TRACKER_SHORTCUT'] = "Raccourci",
+	['TRACKER_SHORTCUT'] = " Raccourci",
 	['TRACKER_SET_TOMTOM_DESC'] = "Le raccourci pour ouvrir TomTom",
 	['TRACKER_SHOW_QUESTLOG_DESC'] = "Le raccourci pour afficher la quête dans le journal de la quête",
 	
@@ -196,6 +196,8 @@ QuestieLocale.locale['frFR'] = {
 	['TRACKER_HIDE_ICONS'] = "Masquer les icônes",
 	['TRACKER_OBJECTIVES'] = "Objectifs",
 	['TRACKER_SHOW_ON_MAP'] = "Afficher sur la carte",
+	['TRACKER_UNLOCK'] = "Débloqué le Traqueur",
+	['TRACKER_LOCK'] = "Bloqué le Traqueur",
 	
 	-- Voyage Commandes
 	['JOURNEY_TITLE'] = "Le voyage de %s",
