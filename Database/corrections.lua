@@ -33,6 +33,9 @@ QuestieCorrections.questFixes = {
         [QuestieDB.questKeys.requiredRaces] = 32,
         [QuestieDB.questKeys.nextQuestInChain] = 28,
     },
+    [7068] = {
+        [QuestieDB.questKeys.requiredLevel] = 39,
+    },
     [7070] = {
         [QuestieDB.questKeys.requiredLevel] = 39,
     },
