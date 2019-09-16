@@ -148,7 +148,7 @@ QuestieLocale.locale['zhTW'] = {
     ['TRACKER_ENABLED'] = "啟用Questie任務追蹤",
     ['TRACKER_ENABLED_DESC'] = "啟用後，Questie任務追蹤會取代暴雪內建的任務追蹤框架。",
     ['TRACKER_ENABLE_AUTOTRACK'] = "自動追蹤所有任務",
-    ['TRACKER_ENABLE_AUTOTRACK_DESC'] = "這和暴雪的「自動任務追蹤」是相同的。啟用後，Questie任務追蹤會自動追蹤任務日誌中的所有任務， This prevents shift-click manual tracking",
+    ['TRACKER_ENABLE_AUTOTRACK_DESC'] = "這和暴雪的「自動任務追蹤」是相同的。啟用後，Questie任務追蹤會自動追蹤任務日誌中的所有任務。",
     ['TRACKER_RESET_LOCATION'] = "重設追蹤框架位置",
     ['TRACKER_RESET_LOCATION_DESC'] = "如果Questie任務追蹤的框架卡住了或不小心跑到畫面之外，你可以將它的位置重設回畫面中央，這可能需要重載介面（/reload）",
     ['TRACKER_ENABLE_HOOKS'] = "接管任務追蹤",
@@ -166,13 +166,22 @@ QuestieLocale.locale['zhTW'] = {
     ['TRACKER_FONT_LINE_DESC'] = "任務追蹤框中，各項任務目標的字型大小",
     ['TRACKER_QUEST_PADDING'] = "任務間距",
     ['TRACKER_QUEST_PADDING_DESC'] = "追蹤列表中，每個任務的間距",
-    ['TRACKER_INVALID_LOCATION'] = "錯誤：Questie任務追蹤的框架跑到奇怪的地方去了，重置一下......",
+    ['TRACKER_INVALID_LOCATION'] = "錯誤：Questie任務追蹤的框架跑到奇怪的地方去了，重置一下……",
     ['TRACKER_SORT_OBJECTIVES'] = "目標排序",
     ['TRACKER_SORT_OBJECTIVES_DESC'] = "追蹤列表中的任務要如何排序", 
     ['TRACKER_SORT_BY_COMPLETE'] = "根據進度百分比",
     ['TRACKER_SORT_BY_LEVEL'] = "根據等級正序排列",
     ['TRACKER_SORT_BY_LEVEL_REVERSED'] = "根據等級反序排列",
     ['TRACKER_DONT_SORT'] = "不排序",
+	['TRACKER_LEFT_CLICK'] = "左鍵點擊",
+    ['TRACKER_RIGHT_CLICK'] = "右鍵點擊",
+    ['TRACKER_SHIFT'] = "Shift + ",
+    ['TRACKER_CTRL'] = "Ctrl + ",
+    ['TRACKER_ALT'] = "Alt + ",
+    ['TRACKER_DISABLED'] = "停用",
+    ['TRACKER_SHORTCUT'] = " 快捷鍵",
+    ['TRACKER_SET_TOMTOM_DESC'] = "在任務追蹤上開啟TomTom的快捷鍵",
+    ['TRACKER_SHOW_QUESTLOG_DESC'] = "在任務追蹤上開啟任務日誌的快捷鍵",
 	
 	-- tracker right click menu
     ['TRACKER_UNFOCUS'] = "停止關注", -- focus makes only that quest/objective show on map
@@ -186,6 +195,8 @@ QuestieLocale.locale['zhTW'] = {
     ['TRACKER_HIDE_ICONS'] = "隱藏標記",
     ['TRACKER_OBJECTIVES'] = "目標",
     ['TRACKER_SHOW_ON_MAP'] = "顯示於地圖",
+    ['TRACKER_UNLOCK'] = "解鎖框架",
+    ['TRACKER_LOCK'] = "鎖定框架",
 	
     -- Journey Window
     ['JOURNEY_TITLE'] = "%s的任務歷程",
@@ -213,8 +224,7 @@ QuestieLocale.locale['zhTW'] = {
     ['JOURNEY_QUEST_ID'] = "任務ID： ",
     ['JOURNEY_DIFFICULTY'] = "難度級距：%s",
     ['JOURNEY_AUTO_QUEST'] = "這個任務自動完成，所以沒有目標。",
-    ['JOURNEY_RECENT_EVENTS'] = "近期紀錄",
-	
+    ['JOURNEY_RECENT_EVENTS'] = "近期紀錄",	
     ['JOURNEY_LEVELUP'] = "恭喜你達到了%s！",
     ['JOURNEY_LEVELNUM'] = "等級%s",
     ['JOURNEY_LEVELREACH'] = "你達到了等級%s",
@@ -268,4 +278,6 @@ QuestieLocale.locale['zhTW'] = {
     ['DEBUG_DRAW'] = "%s available quests drawn. PlayerLevel = %s",
     ['DEBUG_UNLOAD_QFRAMES'] = "Unloading quest frames: %s",
     ['DEBUG_UNLOAD_ALL'] = "Unloading all frames, count: %s",
+	['QUESTIE_ACCEPT_NIL'] = "|cFFFF0000Questie錯誤：|r你嘗試接受任務時返回空值，請輸入 /questie reload 重新載入Quesite。", 
+    ['QUESTIE_UPDATED_RESTART'] = "|cFFFF0000警告！|r你沒有重開遊戲就更新了Questie，這可能會使Questie出現某些錯誤。請完全關閉魔獸世界再重新啟動遊戲，確保Questie能正常運作。",
 };
