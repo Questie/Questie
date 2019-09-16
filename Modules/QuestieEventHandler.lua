@@ -88,7 +88,6 @@ function QuestieEventHandler:PLAYER_ENTERING_WORLD()
         QuestieQuest:CalculateAvailableQuests()
         QuestieQuest:DrawAllAvailableQuests()
         QuestieNameplate:Initialize();
-        QuestieTracker:Initialize()
         Questie:Debug(DEBUG_ELEVATED, "PLAYER_ENTERED_WORLD")
         playerEntered = true
         -- manually fire QLU since enter has been delayed past the first QLU
@@ -268,9 +267,12 @@ function QuestieEventHandler:QUEST_LOG_UPDATE()
         C_Timer.After(1, function ()
             Questie:Debug(DEBUG_DEVELOP, "---> Player entered world, DONE.")
             QuestieQuest:GetAllQuestIds()
+            QuestieTracker:Initialize()
+            QuestieTracker:Update()
         end)
         playerEntered = nil;
     end
+    
 end
 
 function QuestieEventHandler:QUEST_WATCH_UPDATE(QuestLogIndex)

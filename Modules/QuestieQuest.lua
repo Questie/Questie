@@ -10,6 +10,11 @@ function QuestieQuest:Initialize()
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_GET_QUEST_COMP'))
     --GetQuestsCompleted(Questie.db.char.complete)
     Questie.db.char.complete = GetQuestsCompleted()
+
+    -- this inserts the Questie Icons to the MinimapButtonBag ignore list
+    if MBB_Ignore then
+        table.insert(MBB_Ignore, "QuestieFrameGroup")
+    end
     --local db = {}
     --GetQuestsCompleted(db)
 
@@ -182,6 +187,11 @@ function QuestieQuest:UpdateHiddenNotes()
                     icon:FakeHide()
                 else
                     icon:FakeUnhide()
+                end
+                if icon.data.QuestData.FadeIcons or (icon.data.ObjectiveData and icon.data.ObjectiveData.FadeIcons) then
+                    icon:FadeOut()
+                else
+                    icon:FadeIn()
                 end
             end
         end
@@ -1032,7 +1042,11 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                         for _, coords in ipairs(Spawns) do
                             local data = {}
                             data.Id = questObject.Id;
-                            data.Icon = ICON_TYPE_AVAILABLE;
+                            if questObject.Repeatable then
+                                data.Icon = ICON_TYPE_REPEATABLE
+                            else
+                                data.Icon = ICON_TYPE_AVAILABLE
+                            end
                             data.GetIconScale = function() return Questie.db.global.availableScale or 1.3 end
                             data.IconScale = data:GetIconScale()
                             data.Type = "available";
@@ -1067,7 +1081,11 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                             --Questie:Debug("Coords", coords[1], coords[2])
                             local data = {}
                             data.Id = questObject.Id;
-                            data.Icon = ICON_TYPE_AVAILABLE;
+                            if questObject.Repeatable then
+                                data.Icon = ICON_TYPE_REPEATABLE
+                            else
+                                data.Icon = ICON_TYPE_AVAILABLE
+                            end
                             data.GetIconScale = function() return Questie.db.global.availableScale or 1.3 end
                             data.IconScale = data.GetIconScale();
                             data.Type = "available";
