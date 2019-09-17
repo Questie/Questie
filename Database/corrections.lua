@@ -166,6 +166,7 @@ QuestieCorrections.itemFixes = {
     [9441] = {"Acceptable Hyena Sample",{654},{},{}},
     [9438] = {"Acceptable Scorpid Sample",{654},{},{}},
     [8523] = {"Field Testing Kit",{654},{7683},{}},
+    [9330] = {"Snapshot of Gammerita",{2944},{7977},{}},
 
     -- quest related herbs
     [2449] = {"Earthroot",{6123,6128},{},{1619,3726}},
