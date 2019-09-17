@@ -93,6 +93,11 @@ function QuestieDB:GetObject(ObjectID)
         for stringKey, intKey in pairs(QuestieDB.objectKeys) do
             obj[stringKey] = raw[intKey]
         end
+        -- Do localization
+        local localizedName = LangObjectLookup[NPCID]
+        if localizedName ~= nil then
+            obj.name = localizedName or obj.name
+        end
         QuestieDB._ObjectCache[ObjectID] = obj;
         return obj;
     else
