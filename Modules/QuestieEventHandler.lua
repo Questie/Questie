@@ -405,3 +405,9 @@ function QuestieEventHandler:MODIFIER_STATE_CHANGED(key, down)
         GameTooltip:Show()
     end
 end
+
+-- Fired when some chat messages about skills are displayed
+function QuestieEventHandler:CHAT_MSG_SKILL()
+    Questie:Debug(DEBUG_DEVELOP, "CHAT_MSG_SKILL")
+    QuestieProfessions:Update()
+end
