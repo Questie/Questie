@@ -1024,7 +1024,7 @@ function QuestieTracker:Update()
             return QuestieDB:GetQuest(a).Level > QuestieDB:GetQuest(b).Level
         end)
     end
-
+    local hasQuest = false
     for _,quest in pairs (order) do
         -- if quest.userData.tracked
         local Quest = QuestieDB:GetQuest(quest)
@@ -1038,6 +1038,7 @@ function QuestieTracker:Update()
 
         local complete = QuestieQuest:IsComplete(Quest)
         if ((not complete) or Questie.db.global.trackerShowCompleteQuests) and ((GetCVar("autoQuestWatch") == "1" and not Questie.db.char.AutoUntrackedQuests[quest]) or (GetCVar("autoQuestWatch") == "0" and Questie.db.char.TrackedQuests[quest]))  then -- maybe have an option to display quests in the list with (Complete!) in the title
+            hasQuest = true
             line = _QuestieTracker:GetNextLine()
             line:SetMode("header")
             line:SetQuest(Quest)
@@ -1124,7 +1125,11 @@ function QuestieTracker:Update()
         end
         QuestieQuest:UpdateHiddenNotes()
     end
-    _QuestieTracker.baseFrame:Show()
+    if hasQuest then
+        _QuestieTracker.baseFrame:Show()
+    else
+        _QuestieTracker.baseFrame:Hide()
+    end
 end
 
 local function _RemoveQuestWatch(index, isQuestie)
