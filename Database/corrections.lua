@@ -64,6 +64,12 @@ QuestieCorrections.questFixes = {
     [1275] = {
         [QuestieDB.questKeys.preQuestSingle] = {}, -- #973
     },
+    [3449] = {
+        [QuestieDB.questKeys.childQuests] = {3451}, -- #1008
+    },
+    [3451] = {
+        [QuestieDB.questKeys.parentQuest] = {3449}, -- #1008
+    },
 }
 
 QuestieCorrections.npcFixes = {
