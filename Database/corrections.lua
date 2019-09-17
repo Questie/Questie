@@ -61,6 +61,9 @@ QuestieCorrections.questFixes = {
     [1127] = {
         [QuestieDB.questKeys.specialFlags] = 1, -- #884
     },
+    [1275] = {
+        [QuestieDB.questKeys.preQuestSingle] = {}, -- #973
+    },
 }
 
 QuestieCorrections.npcFixes = {
