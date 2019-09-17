@@ -6,6 +6,8 @@ qAvailableQuests = {} --Gets populated at PLAYER_ENTERED_WORLD
 
 qCurrentQuestlog = {} --Gets populated by QuestieQuest:GetAllQuestIds(), this is either an object to the quest in question, or the ID if the object doesn't exist.
 
+qPlayerProfessions = {} -- Gets filled in QuestieQuest:LoadPlayerProfessions() and contains the IDs with the current skill level of each profession
+
 function QuestieQuest:Initialize()
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_GET_QUEST_COMP'))
     --GetQuestsCompleted(Questie.db.char.complete)
@@ -1122,29 +1124,11 @@ function QuestieQuest:DrawAllAvailableQuests()--All quests between
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]", QuestieLocale:GetUIString('DEBUG_DRAW', count, qPlayerLevel));
 end
 
-
-qProfessions = {
-    ["First Aid"] = 129,
-    ["Blacksmithing"] = 164,
-    ["Leatherworking"] = 165,
-    ["Alchemy"] = 171,
-    ["Herbalism"] = 182,
-    ["Cooking"] = 185,
-    ["Mining"] = 186,
-    ["Tailoring"] = 197,
-    ["Engineering"] = 202,
-    ["Enchanting"] = 333,
-    ["Fishing"] = 356,
-    ["Skinning"] = 393,
-}
-
-qPlayerProfessions = {}
-
 function QuestieQuest:LoadPlayerProfessions()
     for i=1, GetNumSkillLines() do
         local skillName, isHeader, _, skillRank, _, _, _, _, _, _, _, _, _ = GetSkillLineInfo(i)
-        if isHeader ~= 1 and qProfessions[skillName] then
-            qPlayerProfessions[qProfessions[skillName]] = skillRank
+        if isHeader ~= 1 and QuestieDB.ProfessionTable[skillName] then
+            qPlayerProfessions[QuestieDB.ProfessionTable[skillName]] = skillRank
         end
     end
 end

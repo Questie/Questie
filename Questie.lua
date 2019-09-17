@@ -1348,6 +1348,10 @@ function Questie:OnInitialize()
     Questie:RegisterEvent("QUEST_LOG_UPDATE", QuestieEventHandler.QUEST_LOG_UPDATE);
     Questie:RegisterEvent("MODIFIER_STATE_CHANGED", QuestieEventHandler.MODIFIER_STATE_CHANGED);
 
+    -- Trade skill events to check a players profession
+    Questie:RegisterEvent("TRADE_SKILL_UPDATE", QuestieEventHandler.TRADE_SKILL_UPDATE)
+    Questie:RegisterEvent("NEW_RECIPE_LEARNED", QuestieEventHandler.NEW_RECIPE_LEARNED)
+
     --TODO: QUEST_QUERY_COMPLETE Will get all quests the character has finished, need to be implemented!
 
     -- Nameplate / Tar5get Frame Objective Events

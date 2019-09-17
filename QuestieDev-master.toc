@@ -28,6 +28,7 @@ Database\TEMP_repprof.lua
 Database\specialspawns.lua
 Database\corrections.lua
 Database\itemDB.lua
+Database\profession.lua
 
 #Localization
 Locale\QuestieLocale.lua

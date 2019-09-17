@@ -403,3 +403,14 @@ function QuestieEventHandler:MODIFIER_STATE_CHANGED(key, down)
         GameTooltip:Show()
     end
 end
+
+function QuestieEventHandler:TRADE_SKILL_UPDATE()
+    Questie:Debug(DEBUG_DEVELOP, "TRADE_SKILL_UPDATE")
+    QuestieQuest:LoadPlayerProfessions()
+end
+
+function QuestieEventHandler:NEW_RECIPE_LEARNED()
+    Questie:Debug(DEBUG_DEVELOP, "NEW_RECIPE_LEARNED")
+    QuestieQuest:LoadPlayerProfessions()
+end
+
