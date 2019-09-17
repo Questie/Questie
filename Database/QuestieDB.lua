@@ -94,7 +94,7 @@ function QuestieDB:GetObject(ObjectID)
             obj[stringKey] = raw[intKey]
         end
         -- Do localization
-        local localizedName = LangObjectLookup[NPCID]
+        local localizedName = LangObjectLookup[ObjectID]
         if localizedName ~= nil then
             obj.name = localizedName or obj.name
         end
