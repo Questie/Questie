@@ -1128,6 +1128,7 @@ function QuestieTracker:Update()
 end
 
 local function _RemoveQuestWatch(index, isQuestie)
+	if QuestieTracker._disableHooks then return end
     if not isQuestie then
         local qid = select(8,GetQuestLogTitle(index))
         if qid then
@@ -1144,6 +1145,7 @@ local function _RemoveQuestWatch(index, isQuestie)
 end
 
 local function _AQW_Insert(index, expire)
+	if QuestieTracker._disableHooks then return end
     RemoveQuestWatch(index, true) -- prevent hitting 5 quest watch limit
     local qid = select(8,GetQuestLogTitle(index))
     if qid then
@@ -1166,11 +1168,30 @@ local function _AQW_Insert(index, expire)
     end
 end
 
+function QuestieTracker:Unhook()
+	if not QuestieTracker._alreadyHooked then return; end
+	QuestieTracker._disableHooks = true
+	if QuestieTracker._IsQuestWatched then
+		IsQuestWatched = QuestieTracker._IsQuestWatched
+	end
+	_QuestieTracker._alreadyHooked = nil
+	QuestWatchFrame:Show()
+end
+
 function QuestieTracker:HookBaseTracker()
     if _QuestieTracker._alreadyHooked then return; end
-    hooksecurefunc("AutoQuestWatch_Insert", _AQW_Insert)
-    hooksecurefunc("RemoveQuestWatch", _RemoveQuestWatch)
-
+	QuestieTracker._disableHooks = nil
+	
+	if not QuestieTracker._alreadyHookedSecure then
+		hooksecurefunc("AutoQuestWatch_Insert", _AQW_Insert)
+		hooksecurefunc("RemoveQuestWatch", _RemoveQuestWatch)
+	    -- totally prevent the blizzard tracker frame from showing (BAD CODE, shouldn't be needed but some have had trouble)
+		QuestWatchFrame:HookScript("OnShow", function(self) if QuestieTracker._disableHooks then return end self:Hide() end)
+		QuestieTracker._alreadyHookedSecure = true
+	end
+	if not QuestieTracker._IsQuestWatched then
+		QuestieTracker._IsQuestWatched = IsQuestWatched
+	end
     -- this is probably bad
     IsQuestWatched = function(index)
         if "0" == GetCVar("autoQuestWatch") then
@@ -1182,10 +1203,6 @@ function QuestieTracker:HookBaseTracker()
     end
 
     QuestWatchFrame:Hide()
-
-    -- totally prevent the blizzard tracker frame from showing (BAD CODE, shouldn't be needed but some have had trouble)
-    QuestWatchFrame:HookScript("OnShow", function(self) self:Hide() end)
-
     QuestieTracker._alreadyHooked = true
 end
 

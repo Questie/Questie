@@ -737,7 +737,12 @@ local options = {
                         Questie.db.global.trackerEnabled = value
                         if value then
                             -- may not have been initialized yet
+                            if Questie.db.global.hookTracking then
+                                QuestieTracker:HookBaseTracker()
+                            end
                             QuestieTracker:Initialize()
+                        elseif Questie.db.global.hookTracking then
+                            QuestieTracker:Unhook()
                         end
                         QuestieTracker:Update()
                     end
@@ -771,6 +776,8 @@ local options = {
                         if value then
                             -- may not have been initialized yet
                             QuestieTracker:HookBaseTracker()
+                        else
+                            QuestieTracker:Unhook()
                         end
                         QuestieTracker:Update()
                     end
