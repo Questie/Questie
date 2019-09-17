@@ -71,8 +71,7 @@ def main():
     root = os.getcwd()
     os.chdir('releases/%s' % (versionDir))
     with open(os.devnull, 'w') as fp:
-        if subprocess.run(['7z', 'a', '-tzip', 'Questie-v%s.zip' % (versionDir), addonDir], stdout=fp).returncode != 0:
-            raise RuntimeError('Error while packaging release')
+        shutil.make_archive('Questie-v%s' % (versionDir), "zip", ".", addonDir)
     os.chdir(root)
     print('New release "%s" created successfully' % (versionDir))
 
