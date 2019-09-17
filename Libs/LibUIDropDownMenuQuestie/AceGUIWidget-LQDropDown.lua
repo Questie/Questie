@@ -153,23 +153,25 @@ do
 	
 	-- exported, AceGUI callback
 	local function OnRelease(self)
-		if self.open then
-			self.pullout:Close()
+		if self and ((not self.IsForbidden) or not self:IsForbidden()) then
+			if self.open then
+				self.pullout:Close()
+			end
+			AceGUI:Release(self.pullout)
+			self.pullout = nil
+			
+			self:SetText("")
+			self:SetDisabled(false)
+			self:SetMultiselect(false)
+			
+			self.value = nil
+			self.list = nil
+			self.open = nil
+			self.hasClose = nil
+			
+			self.frame:ClearAllPoints()
+			self.frame:Hide()
 		end
-		AceGUI:Release(self.pullout)
-		self.pullout = nil
-		
-		self:SetText("")
-		self:SetDisabled(false)
-		self:SetMultiselect(false)
-		
-		self.value = nil
-		self.list = nil
-		self.open = nil
-		self.hasClose = nil
-		
-		self.frame:ClearAllPoints()
-		self.frame:Hide()
 	end
 	
 	-- exported
@@ -334,7 +336,7 @@ do
 	local function Constructor()
 		local count = AceGUI:GetNextWidgetNum(widgetType)
 		local frame = CreateFrame("Frame", nil, UIParent)
-		local dropdown = LQuestie_Create_UIDropDownMenu("AceGUI30DropDown"..count, frame)--local dropdown = CreateFrame("Frame", "AceGUI30DropDown"..count, frame, "UIDropDownMenuTemplate")
+		local dropdown = LQuestie_Create_UIDropDownMenu("AceGUI30LQDropDown"..count, frame)--local dropdown = CreateFrame("Frame", "AceGUI30DropDown"..count, frame, "UIDropDownMenuTemplate")
 		
 		local self = {}
 		self.type = widgetType

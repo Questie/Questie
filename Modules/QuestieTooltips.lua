@@ -125,7 +125,7 @@ local function TooltipShowing_unit(self)
     if not Questie.db.global.enableTooltips then return; end
     --QuestieTooltips.lastTooltipTime = GetTime()
     local name, ttype = self:GetUnit()
-    if name and (name ~= lastGametooltipUnit or (not QuestieTooltips.lastGametooltipCount) or _QuestieTooltips:countTooltip() < QuestieTooltips.lastGametooltipCount) then
+    if name and (name ~= QuestieTooltips.lastGametooltipUnit or (not QuestieTooltips.lastGametooltipCount) or _QuestieTooltips:countTooltip() < QuestieTooltips.lastGametooltipCount) then
         QuestieTooltips.lastGametooltipUnit = name
         local tooltipData = QuestieTooltips:GetTooltip("u_" .. name);
         if tooltipData then

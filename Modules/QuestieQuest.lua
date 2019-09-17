@@ -192,6 +192,11 @@ function QuestieQuest:UpdateHiddenNotes()
                 else
                     icon:FakeUnhide()
                 end
+                if icon.data.QuestData.FadeIcons or (icon.data.ObjectiveData and icon.data.ObjectiveData.FadeIcons) then
+                    icon:FadeOut()
+                else
+                    icon:FadeIn()
+                end
             end
         end
     end
@@ -991,7 +996,7 @@ function _QuestieQuest:GetLeaderBoardDetails(BoardIndex, QuestId)
 
     --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Quest Details1:", description, objectiveType, isCompleted)
     --Classic
-    local itemName, numItems, numNeeded = string.match(description, "(.*):%s*([%d]+)%s*/%s*([%d]+)");
+    local itemName, numItems, numNeeded = string.match(description, "(.*)[：,:]%s*([%d]+)%s*/%s*([%d]+)");
     --Retail
     if(itemName == nil or string.len(itemName) < 1) then --Just a figure... check if its not 0
         numItems, numNeeded, itemName = string.match(description, "(%d+)\/(%d+)(.*)")
@@ -1041,7 +1046,11 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                         for _, coords in ipairs(Spawns) do
                             local data = {}
                             data.Id = questObject.Id;
-                            data.Icon = ICON_TYPE_AVAILABLE;
+                            if questObject.Repeatable then
+                                data.Icon = ICON_TYPE_REPEATABLE
+                            else
+                                data.Icon = ICON_TYPE_AVAILABLE
+                            end
                             data.GetIconScale = function() return Questie.db.global.availableScale or 1.3 end
                             data.IconScale = data:GetIconScale()
                             data.Type = "available";
@@ -1076,7 +1085,11 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                             --Questie:Debug("Coords", coords[1], coords[2])
                             local data = {}
                             data.Id = questObject.Id;
-                            data.Icon = ICON_TYPE_AVAILABLE;
+                            if questObject.Repeatable then
+                                data.Icon = ICON_TYPE_REPEATABLE
+                            else
+                                data.Icon = ICON_TYPE_AVAILABLE
+                            end
                             data.GetIconScale = function() return Questie.db.global.availableScale or 1.3 end
                             data.IconScale = data.GetIconScale();
                             data.Type = "available";

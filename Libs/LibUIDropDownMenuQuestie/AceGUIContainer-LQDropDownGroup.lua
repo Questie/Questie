@@ -27,9 +27,11 @@ Methods
 -------------------------------------------------------------------------------]]
 local methods = {
 	["OnAcquire"] = function(self)
-		self.dropdown:SetText("")
-		self:SetDropdownWidth(200)
-		self:SetTitle("")
+		if self and ((not self.IsForbidden) or not self:IsForbidden()) then
+			self.dropdown:SetText("")
+			self:SetDropdownWidth(200)
+			self:SetTitle("")
+		end
 	end,
 
 	["OnRelease"] = function(self)
@@ -41,17 +43,21 @@ local methods = {
 	end,
 
 	["SetTitle"] = function(self, title)
-		self.titletext:SetText(title)
-		self.dropdown.frame:ClearAllPoints()
-		if title and title ~= "" then
-			self.dropdown.frame:SetPoint("TOPRIGHT", -2, 0)
-		else
-			self.dropdown.frame:SetPoint("TOPLEFT", -1, 0)
+		if self and ((not self.IsForbidden) or not self:IsForbidden()) then
+			self.titletext:SetText(title)
+			self.dropdown.frame:ClearAllPoints()
+			if title and title ~= "" then
+				self.dropdown.frame:SetPoint("TOPRIGHT", -2, 0)
+			else
+				self.dropdown.frame:SetPoint("TOPLEFT", -1, 0)
+			end
 		end
 	end,
 
 	["SetGroupList"] = function(self,list,order)
-		self.dropdown:SetList(list,order)
+		if self and ((not self.IsForbidden) or not self:IsForbidden()) then
+			self.dropdown:SetList(list,order)
+		end
 	end,
 
 	["SetStatusTable"] = function(self, status)
@@ -60,38 +66,48 @@ local methods = {
 	end,
 
 	["SetGroup"] = function(self,group)
-		self.dropdown:SetValue(group)
-		local status = self.status or self.localstatus
-		status.selected = group
-		self:Fire("OnGroupSelected", group)
+		if self and ((not self.IsForbidden) or not self:IsForbidden()) then
+			self.dropdown:SetValue(group)
+			local status = self.status or self.localstatus
+			status.selected = group
+			self:Fire("OnGroupSelected", group)
+		end
 	end,
 
 	["OnWidthSet"] = function(self, width)
-		local content = self.content
-		local contentwidth = width - 26
-		if contentwidth < 0 then
-			contentwidth = 0
+		if self and ((not self.IsForbidden) or not self:IsForbidden()) then
+			local content = self.content
+			local contentwidth = width - 26
+			if contentwidth < 0 then
+				contentwidth = 0
+			end
+			content:SetWidth(contentwidth)
+			content.width = contentwidth
 		end
-		content:SetWidth(contentwidth)
-		content.width = contentwidth
 	end,
 
 	["OnHeightSet"] = function(self, height)
-		local content = self.content
-		local contentheight = height - 63
-		if contentheight < 0 then
-			contentheight = 0
+		if self and ((not self.IsForbidden) or not self:IsForbidden()) then
+			local content = self.content
+			local contentheight = height - 63
+			if contentheight < 0 then
+				contentheight = 0
+			end
+			content:SetHeight(contentheight)
+			content.height = contentheight
 		end
-		content:SetHeight(contentheight)
-		content.height = contentheight
 	end,
 
 	["LayoutFinished"] = function(self, width, height)
-		self:SetHeight((height or 0) + 63)
+		if self and ((not self.IsForbidden) or not self:IsForbidden()) then
+			self:SetHeight((height or 0) + 63)
+		end
 	end,
 
 	["SetDropdownWidth"] = function(self, width)
-		self.dropdown:SetWidth(width)
+		if self and ((not self.IsForbidden) or not self:IsForbidden()) then
+			self.dropdown:SetWidth(width)
+		end
 	end
 }
 

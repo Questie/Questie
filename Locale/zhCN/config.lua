@@ -148,7 +148,7 @@ QuestieLocale.locale['zhCN'] = {
     ['TRACKER_ENABLED'] = "启用Questie任务追踪",
     ['TRACKER_ENABLED_DESC'] = "启用后，Questie任务追踪会取代暴雪内置的任务追踪框体。",
     ['TRACKER_ENABLE_AUTOTRACK'] = "自动追踪所有任务",
-    ['TRACKER_ENABLE_AUTOTRACK_DESC'] = "这和暴雪的“自动任务追踪”是相同的。启用后，Questie任务追踪会自动追踪任务日志中的所有任务， This prevents shift-click manual tracking",
+    ['TRACKER_ENABLE_AUTOTRACK_DESC'] = "这和暴雪的“自动任务追踪”是相同的。启用后，Questie任务追踪会自动追踪任务日志中的所有任务。",
     ['TRACKER_RESET_LOCATION'] = "重置追踪框架位置",
     ['TRACKER_RESET_LOCATION_DESC'] = "如果Questie任务追踪的框体不小心跑到屏幕外面，你可以将它的位置重置回屏幕中央，这可能需要重载界面（/reload）",
     ['TRACKER_ENABLE_HOOKS'] = "接管任务追踪",
@@ -173,6 +173,15 @@ QuestieLocale.locale['zhCN'] = {
     ['TRACKER_SORT_BY_LEVEL'] = "根据等级正序排列",
     ['TRACKER_SORT_BY_LEVEL_REVERSED'] = "根据等级反序排列",
     ['TRACKER_DONT_SORT'] = "不排序",
+	['TRACKER_LEFT_CLICK'] = "左键点击",
+    ['TRACKER_RIGHT_CLICK'] = "右键点击",
+    ['TRACKER_SHIFT'] = "Shift + ",
+    ['TRACKER_CTRL'] = "Ctrl + ",
+    ['TRACKER_ALT'] = "Alt + ",
+    ['TRACKER_DISABLED'] = "停用",
+    ['TRACKER_SHORTCUT'] = " 快捷键",
+    ['TRACKER_SET_TOMTOM_DESC'] = "在任务追踪上开启TomTom的快捷键",
+    ['TRACKER_SHOW_QUESTLOG_DESC'] = "在任务追踪上开启任务日志的快捷键",
 	
 	-- tracker right click menu
     ['TRACKER_UNFOCUS'] = "停止关注", -- focus makes only that quest/objective show on map
@@ -186,6 +195,8 @@ QuestieLocale.locale['zhCN'] = {
     ['TRACKER_HIDE_ICONS'] = "隐藏标记",
     ['TRACKER_OBJECTIVES'] = "目标",
     ['TRACKER_SHOW_ON_MAP'] = "显示于地图",
+	['TRACKER_UNLOCK'] = "解锁框体",
+    ['TRACKER_LOCK'] = "锁定框体",
 
     -- Journey Window
     ['JOURNEY_TITLE'] = "%s的任务历程",
@@ -267,4 +278,6 @@ QuestieLocale.locale['zhCN'] = {
     ['DEBUG_DRAW'] = "%s available quests drawn. PlayerLevel = %s",
     ['DEBUG_UNLOAD_QFRAMES'] = "Unloading quest frames: %s",
     ['DEBUG_UNLOAD_ALL'] = "Unloading all frames, count: %s",
+	['QUESTIE_ACCEPT_NIL'] = "|cFFFF0000Questie错误：|r你尝试接受任务时返回空值，请输入 /questie reload 重新载入Quesite。", 
+    ['QUESTIE_UPDATED_RESTART'] = "|cFFFF0000警告！|r你没有重开游戏就更新了Questie，这可能会使Questie出现某些错误。请完全关闭魔兽世界再重新启动游戏，确保Questie能正常运作。",
 };

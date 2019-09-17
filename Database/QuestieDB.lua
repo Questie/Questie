@@ -17,6 +17,7 @@ local DB_PRE_QUEST_SINGLE, DB_NPC_FRIENDLY = 13, 13;
 local DB_SUB_QUESTS = 14;
 local DB_QUEST_GROUP = 15;
 local DB_EXCLUSIVE_QUEST_GROUP = 16;
+local DB_SPECIAL_FLAGS = 24
 
 local ClassBitIndexTable = {
     ['warrior'] = 1,
@@ -187,7 +188,11 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
         QO.Starts["Item"] = rawdata[2][3] --2.3
         QO.Ends = {} --ends 3
         QO.Hidden = rawdata.hidden or QuestieCorrections.hiddenQuests[QuestID]
-        QO.Description = rawdata[8]
+        QO.Description = rawdata[8] -- 
+        QO.SpecialFlags = rawdata[DB_SPECIAL_FLAGS]
+        if QO.SpecialFlags then
+            QO.Repeatable = mod(QO.SpecialFlags, 2) == 1
+        end
 
         -- Do localization
         local localizedQuest = LangQuestLookup[QuestID]
