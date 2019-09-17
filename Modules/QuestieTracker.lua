@@ -1128,7 +1128,7 @@ function QuestieTracker:Update()
 end
 
 local function _RemoveQuestWatch(index, isQuestie)
-	if QuestieTracker._disableHooks then return end
+    if QuestieTracker._disableHooks then return end
     if not isQuestie then
         local qid = select(8,GetQuestLogTitle(index))
         if qid then
@@ -1143,9 +1143,13 @@ local function _RemoveQuestWatch(index, isQuestie)
         end
     end
 end
-
+QuestieTracker._last_aqw_time = GetTime()
 local function _AQW_Insert(index, expire)
-	if QuestieTracker._disableHooks then return end
+    if QuestieTracker._disableHooks then return end
+    local time = GetTime()
+    if index and index == QuestieTracker._last_aqw and (time - QuestieTracker._last_aqw_time) < 0.1 then return end -- this fixes double calling due to AQW+AQW_Insert (QuestGuru fix)
+    QuestieTracker._last_aqw_time = time
+    QuestieTracker._last_aqw = index
     RemoveQuestWatch(index, true) -- prevent hitting 5 quest watch limit
     local qid = select(8,GetQuestLogTitle(index))
     if qid then
@@ -1169,29 +1173,32 @@ local function _AQW_Insert(index, expire)
 end
 
 function QuestieTracker:Unhook()
-	if not QuestieTracker._alreadyHooked then return; end
-	QuestieTracker._disableHooks = true
-	if QuestieTracker._IsQuestWatched then
-		IsQuestWatched = QuestieTracker._IsQuestWatched
-	end
-	_QuestieTracker._alreadyHooked = nil
-	QuestWatchFrame:Show()
+    if not QuestieTracker._alreadyHooked then return; end
+    QuestieTracker._disableHooks = true
+    if QuestieTracker._IsQuestWatched then
+        IsQuestWatched = QuestieTracker._IsQuestWatched
+        GetNumQuestWatches = QuestieTracker._GetNumQuestWatches
+    end
+    _QuestieTracker._alreadyHooked = nil
+    QuestWatchFrame:Show()
 end
 
 function QuestieTracker:HookBaseTracker()
     if _QuestieTracker._alreadyHooked then return; end
-	QuestieTracker._disableHooks = nil
-	
-	if not QuestieTracker._alreadyHookedSecure then
-		hooksecurefunc("AutoQuestWatch_Insert", _AQW_Insert)
-		hooksecurefunc("RemoveQuestWatch", _RemoveQuestWatch)
-	    -- totally prevent the blizzard tracker frame from showing (BAD CODE, shouldn't be needed but some have had trouble)
-		QuestWatchFrame:HookScript("OnShow", function(self) if QuestieTracker._disableHooks then return end self:Hide() end)
-		QuestieTracker._alreadyHookedSecure = true
-	end
-	if not QuestieTracker._IsQuestWatched then
-		QuestieTracker._IsQuestWatched = IsQuestWatched
-	end
+    QuestieTracker._disableHooks = nil
+    
+    if not QuestieTracker._alreadyHookedSecure then
+        hooksecurefunc("AutoQuestWatch_Insert", _AQW_Insert)
+        hooksecurefunc("AddQuestWatch", _AQW_Insert)
+        hooksecurefunc("RemoveQuestWatch", _RemoveQuestWatch)
+        -- totally prevent the blizzard tracker frame from showing (BAD CODE, shouldn't be needed but some have had trouble)
+        QuestWatchFrame:HookScript("OnShow", function(self) if QuestieTracker._disableHooks then return end self:Hide() end)
+        QuestieTracker._alreadyHookedSecure = true
+    end
+    if not QuestieTracker._IsQuestWatched then
+        QuestieTracker._IsQuestWatched = IsQuestWatched
+        QuestieTracker._GetNumQuestWatches = GetNumQuestWatches
+    end
     -- this is probably bad
     IsQuestWatched = function(index)
         if "0" == GetCVar("autoQuestWatch") then
@@ -1200,6 +1207,9 @@ function QuestieTracker:HookBaseTracker()
             local qid = select(8,GetQuestLogTitle(index))
             return qid and qCurrentQuestlog[qid] and not Questie.db.char.AutoUntrackedQuests[qid]
         end
+    end
+    GetNumQuestWatches = function()
+        return 0
     end
 
     QuestWatchFrame:Hide()
