@@ -404,13 +404,8 @@ function QuestieEventHandler:MODIFIER_STATE_CHANGED(key, down)
     end
 end
 
-function QuestieEventHandler:TRADE_SKILL_UPDATE()
-    Questie:Debug(DEBUG_DEVELOP, "TRADE_SKILL_UPDATE")
-    QuestieQuest:LoadPlayerProfessions()
+-- Fired when some chat messages about skills are displayed
+function QuestieEventHandler:CHAT_MSG_SKILL()
+    Questie:Debug(DEBUG_DEVELOP, "CHAT_MSG_SKILL")
+    QuestieProfessions:Update()
 end
-
-function QuestieEventHandler:NEW_RECIPE_LEARNED()
-    Questie:Debug(DEBUG_DEVELOP, "NEW_RECIPE_LEARNED")
-    QuestieQuest:LoadPlayerProfessions()
-end
-

@@ -28,7 +28,6 @@ Database\TEMP_repprof.lua
 Database\specialspawns.lua
 Database\corrections.lua
 Database\itemDB.lua
-Database\profession.lua
 
 #Localization
 Locale\QuestieLocale.lua
@@ -54,6 +53,7 @@ Modules\QuestieJourney.lua
 Modules\QuestieComms.lua
 Modules\QuestieSearch.lua
 Modules\QuestieTracker.lua
+Modules\QuestieProfessions.lua
 
 #Main
 Questie.lua

@@ -1,4 +1,40 @@
-QuestieDB.ProfessionTable = {
+QuestieProfessions = {...}
+local playerProfessions = {}
+local professionTable = {}
+
+function QuestieProfessions:Update()
+    Questie:Debug(DEBUG_DEVELOP, "QuestieProfeesion: Update")
+    -- We can always skip the first 3 entries. These are 2 headers and (at least) one class skill
+    for i=4, GetNumSkillLines() do
+        if i > 14 then break; end -- We don't have to go through all the weapon skills
+
+        local skillName, isHeader, _, skillRank, _, _, _, _, _, _, _, _, _ = GetSkillLineInfo(i)
+        if isHeader == nil and professionTable[skillName] then
+            playerProfessions[professionTable[skillName]] = skillRank
+        end
+    end
+end
+
+-- This function is just for debugging purpose
+-- These is no need to access the playerProfessions table somewhere else
+function QuestieProfessions:GetPlayerProfessions()
+    return playerProfessions
+end
+
+local function HasProfession(prof)
+    return prof ~= nil and playerProfessions[prof] ~= nil
+end
+
+local function HasProfessionSkill(prof, reqSkill)
+    return reqSkill ~= nil and playerProfessions[prof] >= reqSkill
+end
+
+function QuestieProfessions:HasProfessionAndSkill(reqSkill)
+    return reqSkill ~= nil and HasProfession(reqSkill[1]) and HasProfessionSkill(reqSkill[1], reqSkill[2])
+end
+
+-- There are no quests for Skinning and Mining so we don't need them
+professionTable = {
     ["First Aid"] = 129,
     ["Erste Hilfe"] = 129,
     ["Primeros auxilios"] = 129,
@@ -48,14 +84,6 @@ QuestieDB.ProfessionTable = {
     ["Кулинария"] = 185,
     ["烹饪"] = 185,
 
-    ["Mining"] = 186,
-    ["Bergbau"] = 186,
-    ["Minería"] = 186,
-    ["Minage"] = 186,
-    ["Mineração"] = 186,
-    ["Горное дело"] = 186,
-    ["采矿"] = 186,
-
     ["Tailoring"] = 197,
     ["Schneiderei"] = 197,
     ["Costura"] = 197,
@@ -87,12 +115,4 @@ QuestieDB.ProfessionTable = {
     ["Pesca"] = 356,
     ["Рыбная ловля"] = 356,
     ["钓鱼"] = 356,
-
-    ["Skinning"] = 393,
-    ["Kürschnerei"] = 393,
-    ["Desollar"] = 393,
-    ["Dépeçage"] = 393,
-    ["Esfolamento"] = 393,
-    ["Снятие шкур"] = 393,
-    ["剥皮"] = 393,
 }
