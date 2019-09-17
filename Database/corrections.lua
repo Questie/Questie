@@ -99,6 +99,7 @@ QuestieCorrections.objectFixes = {
     [2867] = {"Excavation Supply Crate",nil,nil,{[3]={{66.6,22}}},3}, -- position was slightly off
     [154357] = {"Glinting Mud",nil,nil,{[44]={{38.04,54.49},{19.16,51.74},{34.13,53.37},{29.52,53.72},{21.79,53.17},},},44,},
     [144052] = {"Sandsorrow Watch Water Hole",nil,nil,{[440]={{39,29}}},440,},
+    [249] = {"Crate of Foodstuffs",nil,nil,{[490]={{68.4,38}}},490,},
 }
 
 -- [item ID] = {"name",{objective of},{dropped by},{contained in/gathered from/mined from}}
