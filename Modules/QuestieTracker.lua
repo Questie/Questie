@@ -1058,10 +1058,14 @@ function QuestieTracker:Update()
                     line:SetMode("line")
                     line:SetQuest(Quest)
                     line:SetObjective(Objective)
+                    local lineEnding = "" -- initialize because its not set if Needed is 0
+                    if Objective.Needed > 0 then
+                        lineEnding = tostring(Objective.Collected) .. "/" .. tostring(Objective.Needed)
+                    end
                     if (Questie.db.global.trackerColorObjectives and Questie.db.global.trackerColorObjectives ~= "white") and Objective.Collected and type(Objective.Collected) == "number" then
-                        line.label:SetText("    " .. _QuestieTracker:getRGBForObjective(Objective) .. Objective.Description .. ": " .. tostring(Objective.Collected) .. "/" .. tostring(Objective.Needed))
+                        line.label:SetText("    " .. _QuestieTracker:getRGBForObjective(Objective) .. Objective.Description .. ": " .. lineEnding)
                     else
-                        line.label:SetText("    |cFFEEEEEE" .. Objective.Description .. ": " .. tostring(Objective.Collected) .. "/" .. tostring(Objective.Needed))
+                        line.label:SetText("    |cFFEEEEEE" .. Objective.Description .. ": " .. lineEnding)
                     end
                     line.label:Show()
                     trackerWidth = math.max(trackerWidth, line.label:GetWidth())
