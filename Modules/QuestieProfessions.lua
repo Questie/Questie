@@ -40,7 +40,7 @@ local function HasProfessionSkill(prof, reqSkill)
 end
 
 function QuestieProfessions:HasProfessionAndSkill(reqSkill)
-    return reqSkill ~= nil and HasProfession(reqSkill[1]) and HasProfessionSkill(reqSkill[1], reqSkill[2])
+    return reqSkill == nil or (HasProfession(reqSkill[1]) and HasProfessionSkill(reqSkill[1], reqSkill[2]))
 end
 
 -- There are no quests for Skinning and Mining so we don't need them
