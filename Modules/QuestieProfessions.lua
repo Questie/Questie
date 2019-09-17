@@ -3,14 +3,24 @@ local playerProfessions = {}
 local professionTable = {}
 
 function QuestieProfessions:Update()
-    Questie:Debug(DEBUG_DEVELOP, "QuestieProfeesion: Update")
-    -- We can always skip the first 3 entries. These are 2 headers and (at least) one class skill
-    for i=4, GetNumSkillLines() do
+    Questie:Debug(DEBUG_DEVELOP, "QuestieProfession: Update")
+
+    for i=1, GetNumSkillLines() do
         if i > 14 then break; end -- We don't have to go through all the weapon skills
 
-        local skillName, isHeader, _, skillRank, _, _, _, _, _, _, _, _, _ = GetSkillLineInfo(i)
+        local skillName, isHeader, isExpanded, skillRank, _, _, _, _, _, _, _, _, _ = GetSkillLineInfo(i)
+        if isHeader == 1 and isExpanded == nil then
+            Questie:Debug(DEBUG_DEVELOP, "QuestieProfession: Expanding header")
+            ExpandSkillHeader(i)
+        end
+
         if isHeader == nil and professionTable[skillName] then
             playerProfessions[professionTable[skillName]] = skillRank
+        end
+
+        if isHeader == 1 and isExpanded == nil then
+            Questie:Debug(DEBUG_DEVELOP, "QuestieProfession: Collapsing header")
+            CollapseSkillHeader(i)
         end
     end
 end
@@ -40,7 +50,6 @@ professionTable = {
     ["Primeros auxilios"] = 129,
     ["Secourisme"] = 129,
     ["Primeiros Socorros"] = 129,
-    ["Первая помощь"] = 129,
     ["Первая помощь"] = 129,
     ["急救"] = 129,
 

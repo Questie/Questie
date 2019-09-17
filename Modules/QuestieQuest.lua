@@ -1136,7 +1136,7 @@ function QuestieQuest:DrawAllAvailableQuests()--All quests between
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]", QuestieLocale:GetUIString('DEBUG_DRAW', count, qPlayerLevel));
 end
 
-function _QuestieQuest:IsDoable(questObject) -- we need to add profession/reputation checks here
+function _QuestieQuest:IsDoable(questObject) -- we need to add reputation checks here
     if not questObject then
         return false;
     end
