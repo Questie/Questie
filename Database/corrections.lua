@@ -1164,6 +1164,7 @@ QuestieCorrections.hiddenQuests = {
   [9209] = true,
   [9210] = true,
 --Phase 5 - AQ20/AQ40/AQ War Effort
+  [8307] = true,
   [8254] = true,
   [8275] = true,
   [8276] = true,
