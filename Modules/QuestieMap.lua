@@ -1,4 +1,6 @@
 QuestieMap = {...}
+QuestieMap.ICON_MAP_TYPE = "MAP";
+QuestieMap.ICON_MINIMAP_TYPE = "MINIMAP";
 
 qQuestIdFrames = {}
 
@@ -10,6 +12,7 @@ local HBDMigrate = LibStub("HereBeDragonsQuestie-Migrate")
 -- copypaste from old questie (clean up later)
 QUESTIE_NOTES_CLUSTERMUL_HACK = 1; -- smaller numbers = less icons on map
 QuestieMap.MapCache_ClutterFix = {};
+QuestieMap.drawTimer = nil;
 
 function QuestieMap:DrawWorldMap(QuestID)
 
@@ -63,6 +66,33 @@ function QuestieMap:rescaleIcons()
     end
 end
 
+local tinsert = table.insert;
+local tremove = table.remove;
+local tunpack = table.unpack;
+local mapDrawQueue = {};
+local minimapDrawQueue = {};
+function QuestieMap:InitializeQueue()
+    QuestieMap.drawTimer = C_Timer.NewTicker(math.max(1/60, 1/tonumber(GetFramerate())), QuestieMap.ProcessQueue)
+end
+
+function QuestieMap:QueueDraw(drawType, ...)
+    if(drawType == QuestieMap.ICON_MAP_TYPE) then
+        tinsert(mapDrawQueue, {...});
+    elseif(drawType == QuestieMap.ICON_MINIMAP_TYPE) then
+        tinsert(minimapDrawQueue, {...});
+    end
+end
+
+function QuestieMap:ProcessQueue()
+    local mapDrawCall = tremove(mapDrawQueue, 1);
+    if(mapDrawCall) then
+        HBDPins:AddWorldMapIconMap(tunpack(mapDrawCall));
+    end
+    local minimapDrawCall = tremove(minimapDrawQueue, 1);
+    if(minimapDrawCall) then
+        HBDPins:AddMinimapIconMap(tunpack(minimapDrawCall));
+    end
+end
 --(Questie, Note, zoneDataAreaIDToUiMapID[Zone], coords[1]/100, coords[2]/100, HBD_PINS_WORLDMAP_SHOW_WORLD)
 
 --A layer to keep the area convertion away from the other parts of the code
@@ -221,10 +251,12 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
         end
 
         if Questie.db.global.enableMiniMapIcons then
-            HBDPins:AddMinimapIconMap(Questie, iconMinimap, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, true, floatOnEdge)
+            QuestieMap:QueueDraw(QuestieMap.ICON_MINIMAP_TYPE, Questie, iconMinimap, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, true, floatOnEdge);
+            --HBDPins:AddMinimapIconMap(Questie, iconMinimap, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, true, floatOnEdge)
         end
         if Questie.db.global.enableMapIcons then
-            HBDPins:AddWorldMapIconMap(Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, showFlag)
+            QuestieMap:QueueDraw(QuestieMap.ICON_MAP_TYPE, Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, showFlag);
+            --HBDPins:AddWorldMapIconMap(Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, showFlag)
         end
         if(qQuestIdFrames[data.Id] == nil) then
             qQuestIdFrames[data.Id] = {}

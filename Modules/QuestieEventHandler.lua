@@ -81,6 +81,8 @@ function QuestieEventHandler:PLAYER_ENTERING_WORLD()
         QuestieDB:Initialize()
     end)
     C_Timer.After(4, function()
+        -- We want the framerate to be HIGH!!!
+        QuestieMap:InitializeQueue();
         _hack_prime_log()
         qPlayerLevel = UnitLevel("player")
         QuestieQuest:Initialize()
