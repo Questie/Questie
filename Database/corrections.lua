@@ -70,6 +70,17 @@ QuestieCorrections.questFixes = {
     [3451] = {
         [QuestieDB.questKeys.parentQuest] = {3449}, -- #1008
     },
+    -- Profession quests
+    [769] = {
+        [QuestieDB.questKeys.requiredSkill] = {165,10},
+    },
+    [862] = {
+        [QuestieDB.questKeys.requiredSkill] = {185,76}, -- You need to be a Journeyman for this quest
+    },
+    [3385] = {
+        [QuestieDB.questKeys.requiredSkill] = {197,226}, -- You need to be an Artisan for this quest
+    }
+    --------------------
 }
 
 QuestieCorrections.npcFixes = {

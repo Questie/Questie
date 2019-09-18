@@ -93,6 +93,14 @@ professionTable = {
     ["Кулинария"] = 185,
     ["烹饪"] = 185,
 
+    ["Mining"] = 186,
+    ["Bergbau"] = 186,
+    ["Minería"] = 186,
+    ["Minage"] = 186,
+    ["Mineração"] = 186,
+    ["Горное дело"] = 186,
+    ["采矿"] = 186,
+
     ["Tailoring"] = 197,
     ["Schneiderei"] = 197,
     ["Costura"] = 197,
@@ -124,4 +132,12 @@ professionTable = {
     ["Pesca"] = 356,
     ["Рыбная ловля"] = 356,
     ["钓鱼"] = 356,
+
+    ["Skinning"] = 393,
+    ["Kürschnerei"] = 393,
+    ["Desollar"] = 393,
+    ["Dépeçage"] = 393,
+    ["Esfolamento"] = 393,
+    ["Снятие шкур"] = 393,
+    ["剥皮"] = 393,
 }
