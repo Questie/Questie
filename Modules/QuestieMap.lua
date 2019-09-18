@@ -66,32 +66,36 @@ function QuestieMap:rescaleIcons()
     end
 end
 
+
 local tinsert = table.insert;
+local tpack = table.pack;
 local tremove = table.remove;
-local tunpack = table.unpack;
+local tunpack = unpack;
 local mapDrawQueue = {};
 local minimapDrawQueue = {};
 function QuestieMap:InitializeQueue()
+    DEFAULT_CHAT_FRAME:AddMessage("Starting timer");
+    DEFAULT_CHAT_FRAME:AddMessage(math.max(1/60, 1/tonumber(GetFramerate())));
     QuestieMap.drawTimer = C_Timer.NewTicker(math.max(1/60, 1/tonumber(GetFramerate())), QuestieMap.ProcessQueue)
 end
 
 function QuestieMap:QueueDraw(drawType, ...)
-    if(drawType == QuestieMap.ICON_MAP_TYPE) then
-        tinsert(mapDrawQueue, {...});
-    elseif(drawType == QuestieMap.ICON_MINIMAP_TYPE) then
-        tinsert(minimapDrawQueue, {...});
-    end
+  if(drawType == QuestieMap.ICON_MAP_TYPE) then
+    tinsert(mapDrawQueue, {...});
+  elseif(drawType == QuestieMap.ICON_MINIMAP_TYPE) then
+    tinsert(minimapDrawQueue, {...});
+  end
 end
 
 function QuestieMap:ProcessQueue()
-    local mapDrawCall = tremove(mapDrawQueue, 1);
-    if(mapDrawCall) then
-        HBDPins:AddWorldMapIconMap(tunpack(mapDrawCall));
-    end
-    local minimapDrawCall = tremove(minimapDrawQueue, 1);
-    if(minimapDrawCall) then
-        HBDPins:AddMinimapIconMap(tunpack(minimapDrawCall));
-    end
+  local mapDrawCall = tremove(mapDrawQueue, 1);
+  if(mapDrawCall) then
+    HBDPins:AddWorldMapIconMap(tunpack(mapDrawCall));
+  end
+  local minimapDrawCall = tremove(minimapDrawQueue, 1);
+  if(minimapDrawCall) then
+    HBDPins:AddMinimapIconMap(tunpack(minimapDrawCall));
+  end
 end
 --(Questie, Note, zoneDataAreaIDToUiMapID[Zone], coords[1]/100, coords[2]/100, HBD_PINS_WORLDMAP_SHOW_WORLD)
 
@@ -264,7 +268,7 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
 
         table.insert(qQuestIdFrames[data.Id], icon:GetName())
         table.insert(qQuestIdFrames[data.Id], iconMinimap:GetName())
-        
+
         -- preset hidden state when needed (logic from QuestieQuest:UpdateHiddenNotes
         -- we should add all this code to something like obj:CheckHide() instead of copying it
         if (QuestieQuest.NotesHidden or (((not Questie.db.global.enableObjectives) and (icon.data.Type == "monster" or icon.data.Type == "object" or icon.data.Type == "event" or icon.data.Type == "item"))
@@ -275,7 +279,7 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
             icon:FakeHide()
             iconMinimap:FakeHide()
         end
-        
+
         return icon, iconMinimap;
     end
     return nil, nil
