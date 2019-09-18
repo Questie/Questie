@@ -73,6 +73,10 @@ QuestieCorrections.questFixes = {
     [7633] = {
         [QuestieDB.questKeys.preQuestSingle] = {7632},
     },
+    [5211] = {
+        [QuestieDB.questKeys.preQuestSingle] = {}, -- #983
+        [QuestieDB.questKeys.objectives] = {{{11064,"Darrowshire Spirits Freed"},{8530,"Darrowshire Spirits Freed"},{8531,"Darrowshire Spirits Freed"},{8532,"Darrowshire Spirits Freed"},},nil,nil,nil,},
+    },
     -- Profession quests
     [769] = {
         [QuestieDB.questKeys.requiredSkill] = {165,10},
