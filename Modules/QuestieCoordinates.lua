@@ -1,8 +1,13 @@
 QuestieCoords = {};
 
 QuestieCoords.updateInterval = 0.3;
-local totalTime = 0;
-local eventHandler = nil;
+QuestieCoords.playerX = 0;
+QuestieCoords.playerY = 0;
+
+-- Placing the functions locally to save time when spamming the updateInterval
+local GetBestMapForUnit = C_Map.GetBestMapForUnit;
+local GetPlayerMapPosition = C_Map.GetPlayerMapPosition;
+local GetCursorPosition = GetCursorPosition;
 
 
 local function GetMapTitleText()
@@ -18,66 +23,49 @@ end
 function QuestieCoords:WriteCoords()
     local mapID;
     local position;
-    local posX;
-    local posY;
+    -- Player position
+    mapID = GetBestMapForUnit("player");
 
-    local precision = "%.".. Questie.db.global.mapCoordinatePrecision .."f";
-
-    -- if minimap
-    if Questie.db.global.minimapCoordinatesEnabled and Minimap:IsVisible() then
-        mapID = C_Map.GetBestMapForUnit("player")
-
-        if mapID then
-            position = C_Map.GetPlayerMapPosition(mapID, "player")
-
-            if position and position.x ~= 0 and position.y ~= 0  then
-
-                posX = position.x * 100.0;
-                posY = position.y * 100.0;
-
-                MinimapZoneText:SetText(
-                    format("(%d, %d) ", posX, posY) .. GetMinimapZoneText()
-                );
-            end
-        end
-    end
-
-    -- if main map
-    if Questie.db.global.mapCoordinatesEnabled and WorldMapFrame:IsVisible() then
-        -- get cursor position
-        local curX, curY = GetCursorPosition();
-
-        local scale = WorldMapFrame:GetCanvas():GetEffectiveScale();
-        curX = curX / scale;
-        curY = curY / scale;
-
-        local width = WorldMapFrame:GetCanvas():GetWidth();
-        local height = WorldMapFrame:GetCanvas():GetHeight();
-        local left = WorldMapFrame:GetCanvas():GetLeft();
-        local top = WorldMapFrame:GetCanvas():GetTop();
-
-        curX = (curX - left) / width * 100;
-        curY = (top - curY) / height * 100;
-
-        local worldmapCoordsText = "Cursor: "..format(precision.. " X, ".. precision .." Y  ", curX, curY);
-
-
-        -- Player position
-        mapID = C_Map.GetBestMapForUnit("player");
-
-        if mapID then
-            position = C_Map.GetPlayerMapPosition(mapID, "player");
-        end
-
+    if mapID then
+        position = GetPlayerMapPosition(mapID, "player");
         if position and position.x ~= 0 and position.y ~= 0  then
+          QuestieCoords.playerX = position.x * 100;
+          QuestieCoords.playerY = position.y * 100;
 
-            posX = position.x * 100;
-            posY = position.y * 100;
+          -- if minimap
+          if Questie.db.global.minimapCoordinatesEnabled and Minimap:IsVisible() and QuestieCoords.playerX and QuestieCoords.playerY then
+              MinimapZoneText:SetText(
+                          format("(%d, %d) ", QuestieCoords.playerX, QuestieCoords.playerY) .. GetMinimapZoneText()
+                      );
+          end
 
-            worldmapCoordsText = worldmapCoordsText.."|  Player: "..format(precision.. " X , ".. precision .." Y", posX, posY);
+          -- if main map
+          if Questie.db.global.mapCoordinatesEnabled and WorldMapFrame:IsVisible() then
+              -- get cursor position
+              local curX, curY = GetCursorPosition();
+
+              local scale = WorldMapFrame:GetCanvas():GetEffectiveScale();
+              curX = curX / scale;
+              curY = curY / scale;
+
+              local width = WorldMapFrame:GetCanvas():GetWidth();
+              local height = WorldMapFrame:GetCanvas():GetHeight();
+              local left = WorldMapFrame:GetCanvas():GetLeft();
+              local top = WorldMapFrame:GetCanvas():GetTop();
+
+              curX = (curX - left) / width * 100;
+              curY = (top - curY) / height * 100;
+              local precision = "%.".. Questie.db.global.mapCoordinatePrecision .."f";
+
+              local worldmapCoordsText = "Cursor: "..format(precision.. " X, ".. precision .." Y  ", curX, curY);
+
+              if QuestieCoords.playerX and QuestieCoords.playerY  then
+                  worldmapCoordsText = worldmapCoordsText.."|  Player: "..format(precision.. " X , ".. precision .." Y", QuestieCoords.playerX, QuestieCoords.playerY);
+              end
+              -- Add text to world map
+              GetMapTitleText():SetText(worldmapCoordsText)
+          end
         end
-        -- Add text to world map
-        GetMapTitleText():SetText(worldmapCoordsText)
     end
 end
 
