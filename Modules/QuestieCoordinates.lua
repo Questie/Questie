@@ -1,13 +1,16 @@
 QuestieCoords = {};
+local posX = 0;
+local posY = 0;
 
 QuestieCoords.updateInterval = 0.3;
-QuestieCoords.playerX = 0;
-QuestieCoords.playerY = 0;
-
 -- Placing the functions locally to save time when spamming the updateInterval
 local GetBestMapForUnit = C_Map.GetBestMapForUnit;
 local GetPlayerMapPosition = C_Map.GetPlayerMapPosition;
 local GetCursorPosition = GetCursorPosition;
+
+local GetMinimapZoneText = GetMinimapZoneText;
+local format = format;
+
 
 
 local function GetMapTitleText()
@@ -23,19 +26,20 @@ end
 function QuestieCoords:WriteCoords()
     local mapID;
     local position;
+
     -- Player position
     mapID = GetBestMapForUnit("player");
 
     if mapID then
         position = GetPlayerMapPosition(mapID, "player");
         if position and position.x ~= 0 and position.y ~= 0  then
-          QuestieCoords.playerX = position.x * 100;
-          QuestieCoords.playerY = position.y * 100;
+          posX = position.x * 100;
+          posY = position.y * 100;
 
           -- if minimap
-          if Questie.db.global.minimapCoordinatesEnabled and Minimap:IsVisible() and QuestieCoords.playerX and QuestieCoords.playerY then
+          if Questie.db.global.minimapCoordinatesEnabled and Minimap:IsVisible() then
               MinimapZoneText:SetText(
-                          format("(%d, %d) ", QuestieCoords.playerX, QuestieCoords.playerY) .. GetMinimapZoneText()
+                          format("(%d, %d) ", posX, posY) .. GetMinimapZoneText()
                       );
           end
 
@@ -59,9 +63,7 @@ function QuestieCoords:WriteCoords()
 
               local worldmapCoordsText = "Cursor: "..format(precision.. " X, ".. precision .." Y  ", curX, curY);
 
-              if QuestieCoords.playerX and QuestieCoords.playerY  then
-                  worldmapCoordsText = worldmapCoordsText.."|  Player: "..format(precision.. " X , ".. precision .." Y", QuestieCoords.playerX, QuestieCoords.playerY);
-              end
+              worldmapCoordsText = worldmapCoordsText.."|  Player: "..format(precision.. " X , ".. precision .." Y", posX, posY);
               -- Add text to world map
               GetMapTitleText():SetText(worldmapCoordsText)
           end
