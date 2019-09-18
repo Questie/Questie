@@ -12,7 +12,7 @@ LangQuestLookup = LangQuestLookup[GetLocale()] or {}
 
 function QuestieOptions:Initialize()
     LibStub("AceConfigQuestie-3.0"):RegisterOptionsTable("Questie", QuestieOptions:GetOptionsGUI())
-    _QuestieOptions.configFrame = LibStub("AceConfigDialogQuestie-3.0"):AddToBlizOptions("Questie", "Questie");
+    Questie.configFrame = LibStub("AceConfigDialogQuestie-3.0"):AddToBlizOptions("Questie", "Questie");
 end
 
 -- Generic function to hide the config frame.
@@ -1182,6 +1182,19 @@ _QuestieOptions.optionsGUI = {
                                 SetGlobalOptionLocal(info, value)
                             end,
                 },
+                debugEnabledPrint = {
+                    type = "toggle",
+                    order = 6,
+                    name = function() return QuestieLocale:GetUIString('ENABLE_DEBUG').."-PRINT" end,
+                    desc = function() return QuestieLocale:GetUIString('ENABLE_DEBUG_DESC').."-PRINT" end,
+                    width = "full",
+                    get =    function ()
+                                return Questie.db.global.debugEnabledPrint
+                            end,
+                    set =    function (info, value)
+                                Questie.db.global.debugEnabledPrint = value
+                            end,
+                },
 
                 Spacer_A = _QuestieOptions:Spacer(10),
                 locale_header = {
@@ -1309,7 +1322,7 @@ _QuestieOptions.minimapIconLDB = LibStub("LibDataBroker-1.1"):NewDataObject("Min
                 return
             end
 
-            _QuestieOptions.OpenConfigWindow()
+            QuestieOptions:OpenConfigWindow()
 
             if QuestieJourney:IsShown() then
                 QuestieJourney.toggleJourneyWindow();
