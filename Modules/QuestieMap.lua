@@ -74,9 +74,8 @@ local tunpack = unpack;
 local mapDrawQueue = {};
 local minimapDrawQueue = {};
 function QuestieMap:InitializeQueue()
-    DEFAULT_CHAT_FRAME:AddMessage("Starting timer");
-    DEFAULT_CHAT_FRAME:AddMessage(math.max(1/60, 1/tonumber(GetFramerate())));
-    QuestieMap.drawTimer = C_Timer.NewTicker(math.max(1/60, 1/tonumber(GetFramerate())), QuestieMap.ProcessQueue)
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieMap] Starting draw queue timer!")
+    QuestieMap.drawTimer = C_Timer.NewTicker(0.005, QuestieMap.ProcessQueue)
 end
 
 function QuestieMap:QueueDraw(drawType, ...)
