@@ -331,6 +331,9 @@ function _QuestieFramePool:QuestieCreateFrame()
         end
         self.miniMapIcon = nil;
         self:SetScript("OnUpdate", nil)
+        if(self.fadeLogicTimer) then
+          self.fadeLogicTimer:Cancel();
+        end
         self:Hide()
         self.glow:Hide()
         --self.glow:Hide()

@@ -241,16 +241,17 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
                     end
                 end
             end
-            -- We do not want to hook the OnUpdate again!
-            iconMinimap:SetScript("OnUpdate", function(frame)
+            iconMinimap.fadeLogicTimer = C_Timer.NewTicker(0.1, function()
                 --Only run if these two are true!
-                if (frame.fadeLogic and frame.miniMapIcon) then
-                   frame:fadeLogic()
+                if (iconMinimap.fadeLogic and iconMinimap.miniMapIcon) then
+                   iconMinimap:fadeLogic()
                 end
-                if frame.glowUpdate then
-                    frame:glowUpdate()
+                if iconMinimap.glowUpdate then
+                    iconMinimap:glowUpdate()
                 end
-            end)
+            end);
+            -- We do not want to hook the OnUpdate again!
+            -- iconMinimap:SetScript("OnUpdate", )
         end
 
         if Questie.db.global.enableMiniMapIcons then
