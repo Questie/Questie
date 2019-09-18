@@ -6,10 +6,12 @@ qAvailableQuests = {} --Gets populated at PLAYER_ENTERED_WORLD
 
 qCurrentQuestlog = {} --Gets populated by QuestieQuest:GetAllQuestIds(), this is either an object to the quest in question, or the ID if the object doesn't exist.
 
+
 function QuestieQuest:Initialize()
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_GET_QUEST_COMP'))
     --GetQuestsCompleted(Questie.db.char.complete)
     Questie.db.char.complete = GetQuestsCompleted()
+    QuestieProfessions:Update()
 
     -- this inserts the Questie Icons to the MinimapButtonBag ignore list
     if MBB_Ignore then
@@ -130,6 +132,7 @@ function QuestieQuest:Reset()
 
     -- make sure complete db is correct
     Questie.db.char.complete = GetQuestsCompleted()
+    QuestieProfessions:Update()
 
     QuestieQuest:AddAllNotes()
 end
@@ -145,6 +148,7 @@ function QuestieQuest:SmoothReset() -- use timers to reset progressively instead
 
             -- make sure complete db is correct
             Questie.db.char.complete = GetQuestsCompleted()
+            QuestieProfessions:Update()
             qAvailableQuests = {} -- reset available quest db
 
             -- draw available quests
@@ -992,7 +996,7 @@ function _QuestieQuest:GetLeaderBoardDetails(BoardIndex, QuestId)
 
     --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Quest Details1:", description, objectiveType, isCompleted)
     --Classic
-    local itemName, numItems, numNeeded = string.match(description, "(.*):%s*([%d]+)%s*/%s*([%d]+)");
+    local itemName, numItems, numNeeded = string.match(description, "(.*)[：,:]%s*([%d]+)%s*/%s*([%d]+)");
     --Retail
     if(itemName == nil or string.len(itemName) < 1) then --Just a figure... check if its not 0
         numItems, numNeeded, itemName = string.match(description, "(%d+)\/(%d+)(.*)")
@@ -1132,10 +1136,7 @@ function QuestieQuest:DrawAllAvailableQuests()--All quests between
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]", QuestieLocale:GetUIString('DEBUG_DRAW', count, qPlayerLevel));
 end
 
-
-
-
-function _QuestieQuest:IsDoable(questObject) -- we need to add profession/reputation checks here
+function _QuestieQuest:IsDoable(questObject) -- we need to add reputation checks here
     if not questObject then
         return false;
     end
@@ -1177,6 +1178,10 @@ function _QuestieQuest:IsDoable(questObject) -- we need to add profession/reputa
         if not hasValidNPC then
             return false
         end
+    end
+
+    if QuestieProfessions:HasProfessionAndSkill(questObject.requiredSkill) == false then
+        return false
     end
 
     if questObject.RequiredQuest == nil or questObject.RequiredQuest == 0 then

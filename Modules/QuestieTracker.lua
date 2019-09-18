@@ -1024,7 +1024,7 @@ function QuestieTracker:Update()
             return QuestieDB:GetQuest(a).Level > QuestieDB:GetQuest(b).Level
         end)
     end
-
+    local hasQuest = false
     for _,quest in pairs (order) do
         -- if quest.userData.tracked
         local Quest = QuestieDB:GetQuest(quest)
@@ -1038,6 +1038,7 @@ function QuestieTracker:Update()
 
         local complete = QuestieQuest:IsComplete(Quest)
         if ((not complete) or Questie.db.global.trackerShowCompleteQuests) and ((GetCVar("autoQuestWatch") == "1" and not Questie.db.char.AutoUntrackedQuests[quest]) or (GetCVar("autoQuestWatch") == "0" and Questie.db.char.TrackedQuests[quest]))  then -- maybe have an option to display quests in the list with (Complete!) in the title
+            hasQuest = true
             line = _QuestieTracker:GetNextLine()
             line:SetMode("header")
             line:SetQuest(Quest)
@@ -1058,10 +1059,14 @@ function QuestieTracker:Update()
                     line:SetMode("line")
                     line:SetQuest(Quest)
                     line:SetObjective(Objective)
+                    local lineEnding = "" -- initialize because its not set if Needed is 0
+                    if Objective.Needed > 0 then
+                        lineEnding = tostring(Objective.Collected) .. "/" .. tostring(Objective.Needed)
+                    end
                     if (Questie.db.global.trackerColorObjectives and Questie.db.global.trackerColorObjectives ~= "white") and Objective.Collected and type(Objective.Collected) == "number" then
-                        line.label:SetText("    " .. _QuestieTracker:getRGBForObjective(Objective) .. Objective.Description .. ": " .. tostring(Objective.Collected) .. "/" .. tostring(Objective.Needed))
+                        line.label:SetText("    " .. _QuestieTracker:getRGBForObjective(Objective) .. Objective.Description .. ": " .. lineEnding)
                     else
-                        line.label:SetText("    |cFFEEEEEE" .. Objective.Description .. ": " .. tostring(Objective.Collected) .. "/" .. tostring(Objective.Needed))
+                        line.label:SetText("    |cFFEEEEEE" .. Objective.Description .. ": " .. lineEnding)
                     end
                     line.label:Show()
                     trackerWidth = math.max(trackerWidth, line.label:GetWidth())
@@ -1120,10 +1125,15 @@ function QuestieTracker:Update()
         end
         QuestieQuest:UpdateHiddenNotes()
     end
-    _QuestieTracker.baseFrame:Show()
+    if hasQuest then
+        _QuestieTracker.baseFrame:Show()
+    else
+        _QuestieTracker.baseFrame:Hide()
+    end
 end
 
 local function _RemoveQuestWatch(index, isQuestie)
+    if QuestieTracker._disableHooks then return end
     if not isQuestie then
         local qid = select(8,GetQuestLogTitle(index))
         if qid then
@@ -1138,8 +1148,13 @@ local function _RemoveQuestWatch(index, isQuestie)
         end
     end
 end
-
+QuestieTracker._last_aqw_time = GetTime()
 local function _AQW_Insert(index, expire)
+    if QuestieTracker._disableHooks then return end
+    local time = GetTime()
+    if index and index == QuestieTracker._last_aqw and (time - QuestieTracker._last_aqw_time) < 0.1 then return end -- this fixes double calling due to AQW+AQW_Insert (QuestGuru fix)
+    QuestieTracker._last_aqw_time = time
+    QuestieTracker._last_aqw = index
     RemoveQuestWatch(index, true) -- prevent hitting 5 quest watch limit
     local qid = select(8,GetQuestLogTitle(index))
     if qid then
@@ -1162,11 +1177,33 @@ local function _AQW_Insert(index, expire)
     end
 end
 
+function QuestieTracker:Unhook()
+    if not QuestieTracker._alreadyHooked then return; end
+    QuestieTracker._disableHooks = true
+    if QuestieTracker._IsQuestWatched then
+        IsQuestWatched = QuestieTracker._IsQuestWatched
+        GetNumQuestWatches = QuestieTracker._GetNumQuestWatches
+    end
+    _QuestieTracker._alreadyHooked = nil
+    QuestWatchFrame:Show()
+end
+
 function QuestieTracker:HookBaseTracker()
     if _QuestieTracker._alreadyHooked then return; end
-    hooksecurefunc("AutoQuestWatch_Insert", _AQW_Insert)
-    hooksecurefunc("RemoveQuestWatch", _RemoveQuestWatch)
-
+    QuestieTracker._disableHooks = nil
+    
+    if not QuestieTracker._alreadyHookedSecure then
+        hooksecurefunc("AutoQuestWatch_Insert", _AQW_Insert)
+        hooksecurefunc("AddQuestWatch", _AQW_Insert)
+        hooksecurefunc("RemoveQuestWatch", _RemoveQuestWatch)
+        -- totally prevent the blizzard tracker frame from showing (BAD CODE, shouldn't be needed but some have had trouble)
+        QuestWatchFrame:HookScript("OnShow", function(self) if QuestieTracker._disableHooks then return end self:Hide() end)
+        QuestieTracker._alreadyHookedSecure = true
+    end
+    if not QuestieTracker._IsQuestWatched then
+        QuestieTracker._IsQuestWatched = IsQuestWatched
+        QuestieTracker._GetNumQuestWatches = GetNumQuestWatches
+    end
     -- this is probably bad
     IsQuestWatched = function(index)
         if "0" == GetCVar("autoQuestWatch") then
@@ -1176,12 +1213,11 @@ function QuestieTracker:HookBaseTracker()
             return qid and qCurrentQuestlog[qid] and not Questie.db.char.AutoUntrackedQuests[qid]
         end
     end
+    GetNumQuestWatches = function()
+        return 0
+    end
 
     QuestWatchFrame:Hide()
-
-    -- totally prevent the blizzard tracker frame from showing (BAD CODE, shouldn't be needed but some have had trouble)
-    QuestWatchFrame:HookScript("OnShow", function(self) self:Hide() end)
-
     QuestieTracker._alreadyHooked = true
 end
 
