@@ -504,7 +504,11 @@ function _QuestieFramePool:Questie_Tooltip(self)
                         if icon.data.Type == "complete" then
                             dat.type = QuestieLocale:GetUIString("TOOLTIP_QUEST_COMPLETE");
                         else
+                          if(icon.Icon == ICON_TYPE_REPEATABLE) then
+                            dat.type = "(Repeatable)"; --QuestieLocale:GetUIString("TOOLTIP_QUEST_REPEATABLE");
+                          else
                             dat.type = QuestieLocale:GetUIString("TOOLTIP_QUEST_AVAILABLE");
+                          end
                         end
                         dat.title = icon.data.QuestData:GetColoredQuestName()
                         dat.subData = icon.data.QuestData.Description
