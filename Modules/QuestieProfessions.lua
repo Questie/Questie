@@ -52,6 +52,7 @@ professionTable = {
     ["Primeiros Socorros"] = 129,
     ["Первая помощь"] = 129,
     ["急救"] = 129,
+    ["急救"] = 129,
 
     ["Blacksmithing"] = 164,
     ["Schmiedekunst"] = 164,
@@ -60,6 +61,7 @@ professionTable = {
     ["Ferraria"] = 164,
     ["Кузнечное дело"] = 164,
     ["锻造"] = 164,
+    ["鍛造"] = 164,
 
     ["Leatherworking"] = 165,
     ["Lederverarbeitung"] = 165,
@@ -68,6 +70,7 @@ professionTable = {
     ["Couraria"] = 165,
     ["Кожевничество"] = 165,
     ["制皮"] = 165,
+    ["製皮"] = 165,
 
     ["Alchemy"] = 171,
     ["Alchimie"] = 171,
@@ -76,6 +79,7 @@ professionTable = {
     ["Alquimia"] = 171,
     ["Алхимия"] = 171,
     ["炼金术"] = 171,
+    ["鍊金術"] = 171,
 
     ["Herbalism"] = 182,
     ["Kräuterkunde"] = 182,
@@ -84,6 +88,7 @@ professionTable = {
     ["Herborismo"] = 182,
     ["Травничество"] = 182,
     ["草药学"] = 182,
+    ["草藥學"] = 182,
 
     ["Cooking"] = 185,
     ["Kochkunst"] = 185,
@@ -92,6 +97,7 @@ professionTable = {
     ["Culinária"] = 185,
     ["Кулинария"] = 185,
     ["烹饪"] = 185,
+    ["烹飪"] = 185,
 
     ["Mining"] = 186,
     ["Bergbau"] = 186,
@@ -100,6 +106,7 @@ professionTable = {
     ["Mineração"] = 186,
     ["Горное дело"] = 186,
     ["采矿"] = 186,
+    ["採礦"] = 186,
 
     ["Tailoring"] = 197,
     ["Schneiderei"] = 197,
@@ -108,6 +115,7 @@ professionTable = {
     ["Alfaiataria"] = 197,
     ["Портняжное дело"] = 197,
     ["裁缝"] = 197,
+    ["裁縫"] = 197,
 
     ["Engineering"] = 202,
     ["Ingenieurskunst"] = 202,
@@ -116,6 +124,7 @@ professionTable = {
     ["Engenharia"] = 202,
     ["Инженерное дело"] = 202,
     ["工程学"] = 202,
+    ["工程學"] = 202,
 
     ["Enchanting"] = 333,
     ["Verzauberkunst"] = 333,
@@ -123,6 +132,7 @@ professionTable = {
     ["Enchantement"] = 333,
     ["Encantamento"] = 333,
     ["Наложение чар"] = 333,
+    ["附魔"] = 333,
     ["附魔"] = 333,
 
     ["Fishing"] = 356,
@@ -132,6 +142,7 @@ professionTable = {
     ["Pesca"] = 356,
     ["Рыбная ловля"] = 356,
     ["钓鱼"] = 356,
+    ["釣魚"] = 356,
 
     ["Skinning"] = 393,
     ["Kürschnerei"] = 393,
@@ -140,4 +151,5 @@ professionTable = {
     ["Esfolamento"] = 393,
     ["Снятие шкур"] = 393,
     ["剥皮"] = 393,
+    ["剝皮"] = 393,
 }
