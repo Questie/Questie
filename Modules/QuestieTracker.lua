@@ -925,19 +925,19 @@ local function RGBToHex(r, g, b)
     if b > 255 then b = 255; end
     return string.format("|cFF%02x%02x%02x", r, g, b);
 end
-local function fRGBToHex(r, g, b)
+local function FloatRGBToHex(r, g, b)
     return RGBToHex(r*254, g*254, b*254);
 end
-function _QuestieTracker:getRGBForObjective(Objective)
+function _QuestieTracker:GetRGBForObjective(Objective)
     if not Objective.Collected or type(Objective.Collected) ~= "number" then return 0.8,0.8,0.8; end
     local float = Objective.Collected / Objective.Needed
 
     if Questie.db.global.trackerColorObjectives == "whiteToGreen" then
-        return fRGBToHex(0.8-float/2, 0.8+float/3, 0.8-float/2);
+        return FloatRGBToHex(0.8-float/2, 0.8+float/3, 0.8-float/2);
     else
-        if float < .49 then return fRGBToHex(1, 0+float/.5, 0); end
-        if float == .50 then return fRGBToHex(1, 1, 0); end
-        if float > .50 then return fRGBToHex(1-float/2, 1, 0); end
+        if float < .49 then return FloatRGBToHex(1, 0+float/.5, 0); end
+        if float == .50 then return FloatRGBToHex(1, 1, 0); end
+        if float > .50 then return FloatRGBToHex(1-float/2, 1, 0); end
     end
     --return fRGBToHex(0.8-float/2, 0.8+float/3, 0.8-float/2);
 
@@ -1065,7 +1065,7 @@ function QuestieTracker:Update()
                         lineEnding = tostring(Objective.Collected) .. "/" .. tostring(Objective.Needed)
                     end
                     if (Questie.db.global.trackerColorObjectives and Questie.db.global.trackerColorObjectives ~= "white") and Objective.Collected and type(Objective.Collected) == "number" then
-                        line.label:SetText("    " .. _QuestieTracker:getRGBForObjective(Objective) .. Objective.Description .. ": " .. lineEnding)
+                        line.label:SetText("    " .. _QuestieTracker:GetRGBForObjective(Objective) .. Objective.Description .. ": " .. lineEnding)
                     else
                         line.label:SetText("    |cFFEEEEEE" .. Objective.Description .. ": " .. lineEnding)
                     end
