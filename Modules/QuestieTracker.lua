@@ -1255,7 +1255,7 @@ function QuestieTracker:CreateBaseFrame()
             end
         end
     else
-        result, error = pcall(frm.SetPoint, frm, unpack({QuestWatchFrame:GetPoint()}))
+        local result, error = pcall(frm.SetPoint, frm, unpack({QuestWatchFrame:GetPoint()}))
         if not result then
             Questie.db.char.TrackerLocation = nil
             print(QuestieLocale:GetUIString('TRACKER_INVALID_LOCATION'))

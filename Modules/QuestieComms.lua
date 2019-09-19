@@ -36,48 +36,48 @@ QuestieComms.packets = {
             local count = 0;
             for _ in pairs(self.quest.Objectives) do count = count + 1; end -- why does lua suck
 
-            self.stream:writeShort(self.quest.Id)
-            self.stream:writeByte(count)
+            self.stream:WriteShort(self.quest.Id)
+            self.stream:WriteByte(count)
 
             for _,objective in pairs(self.quest.Objectives) do
-                self.stream:writeBytes(objective.Index, objective.Needed, objective.Collected)
+                self.stream:WriteBytes(objective.Index, objective.Needed, objective.Collected)
             end
         end,
         read = function(self)
-            local quest = QuestieDB:GetQuest(self.stream:readShort())
-            local count = self.stream:readByte()
+            local quest = QuestieDB:GetQuest(self.stream:ReadShort())
+            local count = self.stream:ReadByte()
             if quest then
                 if not quest.RemoteObjectives[self.player] then
                     quest.RemoteObjectives[self.player] = {}
                 end
-                local index = self.stream:readByte()
+                local index = self.stream:ReadByte()
                 if not quest.RemoteObjectives[self.player][index] then
                     quest.RemoteObjectives[self.player][index] = {}
                 end
-                quest.RemoteObjectives[self.player][index].Needed = self.stream:readByte()
-                quest.RemoteObjectives[self.player][index].Connected = self.stream:readByte()
+                quest.RemoteObjectives[self.player][index].Needed = self.stream:ReadByte()
+                quest.RemoteObjectives[self.player][index].Connected = self.stream:ReadByte()
             end
         end
     },
     [QC_ID_BROADCAST_QUESTIE_VERSION] = {
         write = function(self)
             local major, minor, patch = QuestieGetVersionInfo()
-            self.stream:writeBytes(major, minor, patch)
+            self.stream:WriteBytes(major, minor, patch)
         end,
         read = function(self)
             if not __QUESTIE_ALREADY_UPDATE_MSG then -- hack to prevent saying there is an update twice
-                local major, minor, patch = self.stream:readBytes(3)
+                local major, minor, patch = self.stream:ReadBytes(3)
                 local majorNow, minorNow, patchNow = QuestieGetVersionInfo()
 
                 if major > majorNow or (major == majorNow and minor > minorNow) or (major == majorNow and minor == minorNow and patch > patchNow) then
                     DEFAULT_CHAT_FRAME:AddMessage("Questie has updated! New version: |cFF22FF22v" .. tostring(major) .. "." .. tostring(minor) .. "." .. tostring(patch)) -- todo: make this better
                     __QUESTIE_ALREADY_UPDATE_MSG = true
                     -- ask for changelog
-                    local clg = QuestieComms:getPacket(QC_ID_ASK_CHANGELOG)
+                    local clg = QuestieComms:GetPacket(QC_ID_ASK_CHANGELOG)
                     clg.player = self.player
                     clg.writeMode = QC_WRITE_WHISPER
                     QuestieComms:write(clg)
-                    clg.stream:finished()
+                    clg.stream:Finished()
                 end
             end
         end,
@@ -88,14 +88,14 @@ QuestieComms.packets = {
     [QC_ID_ASK_CHANGELOG] = {
         write = function(self)
             local major, minor, patch = QuestieGetVersionInfo()
-            self.stream:writeBytes(major, minor, patch)
+            self.stream:WriteBytes(major, minor, patch)
         end,
         read = function(self)
-            local sendChangelog = QuestieComms:getPacket(QC_ID_SEND_CHANGELOG)
+            local sendChangelog = QuestieComms:GetPacket(QC_ID_SEND_CHANGELOG)
             sendChangelog.player = self.player
             sendChangelog.writeMode = QC_WRITE_WHISPER
             QuestieComms:write(sendChangelog)
-            sendChangelog.stream:finished()
+            sendChangelog.stream:Finished()
         end
     },
     [QC_ID_SEND_CHANGELOG] = {
@@ -104,21 +104,21 @@ QuestieComms.packets = {
             local latest = _QuestieChangeLog[version]
             local count = 0;
             for _ in pairs(latest) do count = count + 1; end -- why does lua suck
-            self.stream:writeBytes(count)
-            self.stream:writeShortString(version)
+            self.stream:WriteBytes(count)
+            self.stream:WriteShortString(version)
             for _,change in pairs(latest) do
-                self.stream:writeShortString(change)
+                self.stream:WriteShortString(change)
             end
-            for _,v in pairs(_makeSegments(self)) do
+            for _,v in pairs(_MakeSegments(self)) do
                 --DEFAULT_CHAT_FRAME:AddMessage("lol" .. _ .. "  ".. v)
             end
         end,
         read = function(self)
-            local count = self.stream:readByte()
-            local ver = self.stream:readShortString()
+            local count = self.stream:ReadByte()
+            local ver = self.stream:ReadShortString()
             local changes = {}
             for i=1,count do
-                local str = self.stream:readShortString()
+                local str = self.stream:ReadShortString()
                 DEFAULT_CHAT_FRAME:AddMessage(str)
                 table.insert(changes, str)
             end
@@ -136,57 +136,57 @@ QuestieComms.packets = {
         write = function(self)
             local count = 0;
             for _ in pairs(self.quests) do count = count + 1; end -- why does lua suck
-            self.stream:writeByte(count)
+            self.stream:WriteByte(count)
             for _,id in pairs(self.quests) do
-                self.stream:writeShort(id)
+                self.stream:WriteShort(id)
             end
         end,
         read = function(self)
-            local count = self.stream:readByte()
+            local count = self.stream:ReadByte()
             local quests = {};
             for i=1,count do
-                local qid = self.stream:readShort()
+                local qid = self.stream:ReadShort()
                 local quest = QuestieDB:GetQuest(qid)
                 if quest and quest.Objectives then
                     table.insert(quests, quest)
                 end
             end
-            local pkt = QuestieComms:getPacket(QC_ID_SEND_QUESTS)
+            local pkt = QuestieComms:GetPacket(QC_ID_SEND_QUESTS)
             pkt.player = self.player
             pkt.writeMode = QC_WRITE_WHISPER
             pkt.quests = quests
             QuestieComms:write(pkt)
-            pkt.stream:finished()
+            pkt.stream:Finished()
         end
     },
     [QC_ID_SEND_QUESTS] = {
         write = function(self)
             local count = 0;
             for _ in pairs(self.quests) do count = count + 1; end -- why does lua suck
-            self.stream:writeByte(count)
+            self.stream:WriteByte(count)
             for _,quest in pairs(self.quests) do
-                self.stream:writeShort(quest.Id)
+                self.stream:WriteShort(quest.Id)
                 local count = 0;
                 for _ in pairs(quest.Objectives) do count = count + 1; end -- why does lua suck
-                self.stream:writeByte(count)
+                self.stream:WriteByte(count)
                 for index,v in pairs(quest.Objectives) do
-                    self.stream:writeBytes(index, v.Needed, v.Collected)
+                    self.stream:WriteBytes(index, v.Needed, v.Collected)
                 end
             end
         end,
         read = function(self)
-            local count = self.stream:readByte()
+            local count = self.stream:ReadByte()
             for i=1,count do
-                local quest = QuestieDB:GetQuest(self.stream:readShort())
+                local quest = QuestieDB:GetQuest(self.stream:ReadShort())
                 if not quest.RemoteObjectives then
                     quest.RemoteObjectives = {}
                 end
                 if not quest.RemoteObjectives[self.player] then
                     quest.RemoteObjectives[self.player] = {}
                 end
-                local cnt = self.stream:readByte()
+                local cnt = self.stream:ReadByte()
                 for i=1,cnt do
-                    local index, needed, collected = self.stream:readBytes(3)
+                    local index, needed, collected = self.stream:ReadBytes(3)
                     if not quest.RemoteObjectives[self.player][index] then
                         quest.RemoteObjectives[self.player][index] = {}
                     end
@@ -201,53 +201,53 @@ QuestieComms.packets = {
             -- no need to write anything, packet ID is enough
         end,
         read = function(self)
-            local pkt = QuestieComms:getPacket(QC_ID_SEND_QUESTSLIST)
+            local pkt = QuestieComms:GetPacket(QC_ID_SEND_QUESTSLIST)
             pkt.player = self.player
             pkt.writeMode = QC_WRITE_WHISPER
             QuestieComms:write(pkt)
-            pkt.stream:finished()
+            pkt.stream:Finished()
         end
     },
     [QC_ID_SEND_QUESTSLIST] = {
         write = function(self)
             local count = 0;
             for _ in pairs(qCurrentQuestlog) do count = count + 1; end -- why does lua suck
-            self.stream:writeByte(count)
+            self.stream:WriteByte(count)
             for id,_ in pairs(qCurrentQuestlog) do
-                self.stream:writeShort(id)
+                self.stream:WriteShort(id)
             end
         end,
         read = function(self)
-            local count = self.stream:readByte()
-            qRemoteQuestLogs[self.player] = {self.stream:readShorts(count)}
+            local count = self.stream:ReadByte()
+            qRemoteQuestLogs[self.player] = {self.stream:ReadShorts(count)}
             local toAsk = {}
             for _,id in pairs(qRemoteQuestLogs[self.player]) do
                 if qCurrentQuestlog[id] then
                     table.insert(toAsk, id)
                 end
             end
-            local pkt = QuestieComms:getPacket(QC_ID_ASK_QUESTS)
+            local pkt = QuestieComms:GetPacket(QC_ID_ASK_QUESTS)
             pkt.player = self.player
             pkt.writeMode = QC_WRITE_WHISPER
             pkt.quests = toAsk
             QuestieComms:write(pkt)
-            pkt.stream:finished()
+            pkt.stream:Finished()
         end
     }
 }
 
-function QuestieComms:testGetQuestInfo(player)
-    local pkt = QuestieComms:getPacket(QC_ID_ASK_QUESTSLIST)
+function QuestieComms:TestGetQuestInfo(player)
+    local pkt = QuestieComms:GetPacket(QC_ID_ASK_QUESTSLIST)
     pkt.writeMode = QC_WRITE_WHISPER
     pkt.player = player
     QuestieComms:write(pkt)
-    pkt.stream:finished()
+    pkt.stream:Finished()
 end
 
 function QuestieComms:read(rawPacket, sourceType, source)
     local stream = QuestieStreamLib:GetStream()
-    stream:load(rawPacket)
-    local packetProcessor = QuestieComms.packets[stream:readByte()];
+    stream:Load(rawPacket)
+    local packetProcessor = QuestieComms.packets[stream:ReadByte()];
     if (not packetProcessor) or (not packetProcessor.read) then
         -- invalid packet id, error or something
         return
@@ -259,10 +259,10 @@ function QuestieComms:read(rawPacket, sourceType, source)
     context.source = source
     packetProcessor.read(context)
 
-    stream:finished() -- add back to stream pool (optional, will be garbage collected otherwise)
+    stream:Finished() -- add back to stream pool (optional, will be garbage collected otherwise)
 end
 
-function QuestieComms:getPacket(id)
+function QuestieComms:GetPacket(id)
     local pkt = {};
     for k,v in pairs(QuestieComms.packets[id]) do
         pkt[k] = v
@@ -275,31 +275,31 @@ function QuestieComms:getPacket(id)
     return pkt
 end
 
-function _makeSegments(packet)
+function _MakeSegments(packet)
     local metaStream = QuestieStreamLib:GetStream()
     if packet.stream._size < packet.stream._pointer then
         packet.stream._size = packet.stream._pointer
     end
     if packet.stream._size < 128 then
-        metaStream:writeByte(packet.id)
-        metaStream:writeByte(1) -- only 1 chunk
-        metaStream:writeByte(1) -- chunk id
-        local meta = metaStream:save()
-        metaStream:finished()
-        return {meta .. ' ' .. packet.stream:save()}
+        metaStream:WriteByte(packet.id)
+        metaStream:WriteByte(1) -- only 1 chunk
+        metaStream:WriteByte(1) -- chunk id
+        local meta = metaStream:Save()
+        metaStream:Finished()
+        return {meta .. ' ' .. packet.stream:Save()}
     end
     local ret = {};
     local count = math.ceil(packet.stream._size / 128.0)
-    packet.stream:setPointer(0)
+    packet.stream:SetPointer(0)
     for i=1,count do
-        metaStream:setPointer(0)
-        metaStream:writeByte(packet.id)
-        metaStream:writeByte(count)
-        metaStream:writeByte(i)
-        local dat = metaStream:save()
-        table.insert(ret, dat .. ' ' .. packet.stream:savePart(128))
+        metaStream:SetPointer(0)
+        metaStream:WriteByte(packet.id)
+        metaStream:WriteByte(count)
+        metaStream:WriteByte(i)
+        local dat = metaStream:Save()
+        table.insert(ret, dat .. ' ' .. packet.stream:SavePart(128))
     end
-    metaStream:finished()
+    metaStream:Finished()
     return ret
 end
 
@@ -312,29 +312,29 @@ function QuestieComms:write(packet)
     --DEFAULT_CHAT_FRAME:AddMessage("QCWrite")
     packet:write()
     packet.stream._size = packet.stream._pointer
-    packet.stream:setPointer(0)
+    packet.stream:SetPointer(0)
     if packet.writeMode == QC_WRITE_ALLGUILD then
-        for _,segment in pairs(_makeSegments(packet)) do
+        for _,segment in pairs(_MakeSegments(packet)) do
             DEFAULT_CHAT_FRAME:AddMessage("send(|cFFFF2222" .. segment .. "|r)")
             C_ChatInfo.SendAddonMessage("questie", segment, "GUILD")
         end
     elseif packet.writeMode == QC_WRITE_ALLGROUP then
-        for _,segment in pairs(_makeSegments(packet)) do
+        for _,segment in pairs(_MakeSegments(packet)) do
             DEFAULT_CHAT_FRAME:AddMessage("send(|cFFFF2222" .. segment .. "|r)")
             C_ChatInfo.SendAddonMessage("questie", segment, "PARTY")
         end
     elseif packet.writeMode == QC_WRITE_ALLRAID then
-        for _,segment in pairs(_makeSegments(packet)) do
+        for _,segment in pairs(_MakeSegments(packet)) do
             DEFAULT_CHAT_FRAME:AddMessage("send(|cFFFF2222" .. segment .. "|r)")
             C_ChatInfo.SendAddonMessage("questie", segment, "RAID")
         end
     elseif packet.writeMode == QC_WRITE_WHISPER then
-        for _,segment in pairs(_makeSegments(packet)) do
+        for _,segment in pairs(_MakeSegments(packet)) do
             DEFAULT_CHAT_FRAME:AddMessage("send(|cFFFF2222" .. segment .. "|r)")
             C_ChatInfo.SendAddonMessage("questie", segment, "WHISPER", packet.player)
         end
     elseif packet.writeMode == QC_WRITE_CHANNEL then
-        for _,segment in pairs(_makeSegments(packet)) do
+        for _,segment in pairs(_MakeSegments(packet)) do
             DEFAULT_CHAT_FRAME:AddMessage("send(|cFFFF2222" .. segment .. "|r)")
             C_ChatInfo.SendAddonMessage("questie", segment, "CHANNEL", GetChannelName("questiecom"))
         end
@@ -348,7 +348,7 @@ function QuestieComms:MessageReceived(channel, message, type, source) -- pcall t
     DEFAULT_CHAT_FRAME:AddMessage("recv(|cFF22FF22" .. message .. "|r)")
     if channel == "questie" and source then
         QuestieComms.parserStream:load(string.sub(message, 0, string.find(message, " ")-1))
-        local packetid, count, index = QuestieComms.parserStream:readBytes(3)
+        local packetid, count, index = QuestieComms.parserStream:ReadBytes(3)
         if not QuestieComms.packetReadQueue[source] then
             QuestieComms.packetReadQueue[source] = {}
         end
@@ -362,10 +362,10 @@ function QuestieComms:MessageReceived(channel, message, type, source) -- pcall t
         if QuestieComms.packetReadQueue[source][packetid].have == count then
             -- process packet
             --DEFAULT_CHAT_FRAME:AddMessage("Process packet!")
-            local pkt = QuestieComms:getPacket(packetid)
-            pkt.stream:setPointer(0)
+            local pkt = QuestieComms:GetPacket(packetid)
+            pkt.stream:SetPointer(0)
             for i=1,count do
-                pkt.stream:loadPart(QuestieComms.packetReadQueue[source][packetid][i])
+                pkt.stream:LoadPart(QuestieComms.packetReadQueue[source][packetid][i])
             end
             pkt.stream._pointer = 0;
             pkt.player = source
@@ -379,7 +379,7 @@ function QuestieComms:BroadcastQuestUpdate(quest) -- broadcast quest update to g
     local raid = UnitInRaid("player")
     local party = UnitInParty("player")
     if raid or party then
-        local pkt = QuestieComms:getPacket(QC_ID_BROADCAST_QUEST_UPDATE)
+        local pkt = QuestieComms:GetPacket(QC_ID_BROADCAST_QUEST_UPDATE)
         pkt.quest = quest
         if raid then
             raid.writeMode = QC_WRITE_ALLRAID
@@ -387,6 +387,6 @@ function QuestieComms:BroadcastQuestUpdate(quest) -- broadcast quest update to g
             raid.writeMode = QC_WRITE_ALLGROUP
         end
         QuestieComms:write(pkt)
-        pkt.stream:finished()
+        pkt.stream:Finished()
     end
 end

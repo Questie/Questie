@@ -150,11 +150,11 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
         iconMinimap.miniMapIcon = true;
 
         if(not iconMinimap.fadeLogic) then
-            function iconMinimap:fadeLogic()Euclid
-                if self.miniMapIcon and self.x and self.y and self.texture and self.texture.SetVertexColor and Questie and Questie.db and Questie.db.global and Questie.db.global.fadeLevel and HBD and HBD.GetPlayerZonePosition and QuestieFramePool and QuestieFramePool.euclid then
+            function iconMinimap:fadeLogic()
+                if self.miniMapIcon and self.x and self.y and self.texture and self.texture.SetVertexColor and Questie and Questie.db and Questie.db.global and Questie.db.global.fadeLevel and HBD and HBD.GetPlayerZonePosition and QuestieFramePool and QuestieFramePool.Euclid then
                     local playerX, playerY, playerInstanceID = HBD:GetPlayerZonePosition()
-                    if(playerX and playerY) thenEuclid
-                        local distance = QuestieFramePool:euclid(playerX, playerY, self.x / 100, self.y / 100);
+                    if(playerX and playerY) then
+                        local distance = QuestieFramePool:Euclid(playerX, playerY, self.x / 100, self.y / 100);
 
                         --Very small value before, hard to work with.
                         distance = distance * 10
