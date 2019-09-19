@@ -1111,6 +1111,7 @@ QuestieCorrections.hiddenQuests = {
   [7703] = true,
   [7877] = true,
 --Phase 4 - Zul'Gurub
+  [9063] = true,
   [8056] = true,
   [8057] = true,
   [8064] = true,
