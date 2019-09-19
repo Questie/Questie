@@ -1,4 +1,6 @@
 QuestieMap = {...}
+QuestieMap.ICON_MAP_TYPE = "MAP";
+QuestieMap.ICON_MINIMAP_TYPE = "MINIMAP";
 
 qQuestIdFrames = {}
 
@@ -10,6 +12,7 @@ local HBDMigrate = LibStub("HereBeDragonsQuestie-Migrate")
 -- copypaste from old questie (clean up later)
 QUESTIE_NOTES_CLUSTERMUL_HACK = 1; -- smaller numbers = less icons on map
 QuestieMap.MapCache_ClutterFix = {};
+QuestieMap.drawTimer = nil;
 
 function QuestieMap:DrawWorldMap(QuestID)
 
@@ -63,6 +66,36 @@ function QuestieMap:RescaleIcons()
     end
 end
 
+
+local tinsert = table.insert;
+local tpack = table.pack;
+local tremove = table.remove;
+local tunpack = unpack;
+local mapDrawQueue = {};
+local minimapDrawQueue = {};
+function QuestieMap:InitializeQueue()
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieMap] Starting draw queue timer!")
+    QuestieMap.drawTimer = C_Timer.NewTicker(0.005, QuestieMap.ProcessQueue)
+end
+
+function QuestieMap:QueueDraw(drawType, ...)
+  if(drawType == QuestieMap.ICON_MAP_TYPE) then
+    tinsert(mapDrawQueue, {...});
+  elseif(drawType == QuestieMap.ICON_MINIMAP_TYPE) then
+    tinsert(minimapDrawQueue, {...});
+  end
+end
+
+function QuestieMap:ProcessQueue()
+  local mapDrawCall = tremove(mapDrawQueue, 1);
+  if(mapDrawCall) then
+    HBDPins:AddWorldMapIconMap(tunpack(mapDrawCall));
+  end
+  local minimapDrawCall = tremove(minimapDrawQueue, 1);
+  if(minimapDrawCall) then
+    HBDPins:AddMinimapIconMap(tunpack(minimapDrawCall));
+  end
+end
 --(Questie, Note, zoneDataAreaIDToUiMapID[Zone], coords[1]/100, coords[2]/100, HBD_PINS_WORLDMAP_SHOW_WORLD)
 
 --A layer to keep the area convertion away from the other parts of the code
@@ -149,8 +182,8 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
         --Are we a minimap note?
         iconMinimap.miniMapIcon = true;
 
-        if(not iconMinimap.fadeLogic) then
-            function iconMinimap:fadeLogic()
+        if(not iconMinimap.FadeLogic) then
+            function iconMinimap:FadeLogic()
                 if self.miniMapIcon and self.x and self.y and self.texture and self.texture.SetVertexColor and Questie and Questie.db and Questie.db.global and Questie.db.global.fadeLevel and HBD and HBD.GetPlayerZonePosition and QuestieFramePool and QuestieFramePool.Euclid then
                     local playerX, playerY, playerInstanceID = HBD:GetPlayerZonePosition()
                     if(playerX and playerY) then
@@ -209,23 +242,26 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
                     end
                 end
             end
-            -- We do not want to hook the OnUpdate again!
-            iconMinimap:SetScript("OnUpdate", function(frame)
+            iconMinimap.fadeLogicTimer = C_Timer.NewTicker(0.1, function()
                 --Only run if these two are true!
-                if (frame.fadeLogic and frame.miniMapIcon) then
-                   frame:fadeLogic()
+                if (iconMinimap.FadeLogic and iconMinimap.miniMapIcon) then
+                   iconMinimap:FadeLogic()
                 end
-                if frame.glowUpdate then
-                    frame:glowUpdate()
+                if iconMinimap.glowUpdate then
+                    iconMinimap:glowUpdate()
                 end
-            end)
+            end);
+            -- We do not want to hook the OnUpdate again!
+            -- iconMinimap:SetScript("OnUpdate", )
         end
 
         if Questie.db.global.enableMiniMapIcons then
-            HBDPins:AddMinimapIconMap(Questie, iconMinimap, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, true, floatOnEdge)
+            QuestieMap:QueueDraw(QuestieMap.ICON_MINIMAP_TYPE, Questie, iconMinimap, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, true, floatOnEdge);
+            --HBDPins:AddMinimapIconMap(Questie, iconMinimap, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, true, floatOnEdge)
         end
         if Questie.db.global.enableMapIcons then
-            HBDPins:AddWorldMapIconMap(Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, showFlag)
+            QuestieMap:QueueDraw(QuestieMap.ICON_MAP_TYPE, Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, showFlag);
+            --HBDPins:AddWorldMapIconMap(Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, showFlag)
         end
         if(qQuestIdFrames[data.Id] == nil) then
             qQuestIdFrames[data.Id] = {}
@@ -233,7 +269,7 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
 
         table.insert(qQuestIdFrames[data.Id], icon:GetName())
         table.insert(qQuestIdFrames[data.Id], iconMinimap:GetName())
-        
+
         -- preset hidden state when needed (logic from QuestieQuest:UpdateHiddenNotes
         -- we should add all this code to something like obj:CheckHide() instead of copying it
         if (QuestieQuest.NotesHidden or (((not Questie.db.global.enableObjectives) and (icon.data.Type == "monster" or icon.data.Type == "object" or icon.data.Type == "event" or icon.data.Type == "item"))
@@ -244,7 +280,7 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
             icon:FakeHide()
             iconMinimap:FakeHide()
         end
-        
+
         return icon, iconMinimap;
     end
     return nil, nil

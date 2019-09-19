@@ -5,13 +5,12 @@ local npFrames = {};
 local npUnusedFrames = {};
 local npFramesCount = 0;
 
-QuestieNameplate.GlobalFrame = nil;
+QuestieNameplate.ticker = nil;
 
 -- Initializer
 function QuestieNameplate:Initialize()
-    if QuestieNameplate.GlobalFrame == nil then
-        QuestieNameplate.GlobalFrame = CreateFrame("Frame");
-        QuestieNameplate.GlobalFrame:SetScript("OnUpdate", QuestieNameplate.UpdateNameplate);
+    if QuestieNameplate.ticker == nil then
+      QuestieNameplate.ticker = C_Timer.NewTicker(0.1, QuestieNameplate.UpdateNameplate);
     end
 end
 

@@ -82,7 +82,7 @@ function QuestieFramePool:GetFrame()
         f._show = nil
         f._hide = nil
     end
-    f.fadeLogic = nil
+    f.FadeLogic = nil
     f.faded = nil
     f.miniMapIcon = nil
     f._hidden_toggle_hack = nil -- TODO: this will be removed later, see QuestieQuest:UpdateHiddenNotes()
@@ -100,18 +100,18 @@ function QuestieFramePool:GetFrame()
     f.shouldBeShowing = nil
     f.hidden = nil
     
-    if f.baseOnShow then
-        f:SetScript("OnShow", f.baseOnShow)
+    if f.BaseOnShow then
+        f:SetScript("OnShow", f.BaseOnShow)
     end
     
-    if f.baseOnUpdate then
-        f:SetScript("OnUpdate", f.baseOnUpdate)
+    if f.BaseOnUpdate then
+        f:SetScript("OnUpdate", f.BaseOnUpdate)
     else
         f:SetScript("OnUpdate", nil)
     end
     
-    if f.baseOnHide then
-        f:SetScript("OnHide", f.baseOnHide)
+    if f.BaseOnHide then
+        f:SetScript("OnHide", f.BaseOnHide)
     end
     
     usedFrames[f:GetName()] = f
@@ -236,7 +236,7 @@ function _QuestieFramePool:QuestieCreateFrame()
     --f:SetScript('OnLeave', function() Questie:Print("Leave") end)
 
     f:SetScript("OnEnter", function(self) _QuestieFramePool:Questie_Tooltip(self) end); --Script Toolip
-    f:SetScript("OnLeave", function() if(WorldMapTooltip) then WorldMapTooltip:Hide(); WorldMapTooltip._rebuild = nil; end if(GameTooltip) then GameTooltip:Hide(); GameTooltip._rebuild = nil; end end) --Script Exit Tooltip
+    f:SetScript("OnLeave", function() if(WorldMapTooltip) then WorldMapTooltip:Hide(); WorldMapTooltip._rebuild = nil; end if(GameTooltip) then GameTooltip:Hide(); GameTooltip._Rebuild = nil; end end) --Script Exit Tooltip
     f:RegisterForClicks("RightButtonUp", "LeftButtonUp")
     f:SetScript("OnClick", function(self, button)
         --_QuestieFramePool:Questie_Click(self)
@@ -274,7 +274,7 @@ function _QuestieFramePool:QuestieCreateFrame()
             Minimap:PingLocation(x, y)
         end
     end);
-    f.glowUpdate = function(self)--f:HookScript("OnUpdate", function(self)
+    f.GlowUpdate = function(self)--f:HookScript("OnUpdate", function(self)
         if self.glow and self.glow.IsShown and self.glow:IsShown() then
             self.glow:SetWidth(self:GetWidth()*1.13)
             self.glow:SetHeight(self:GetHeight()*1.13)
@@ -286,12 +286,12 @@ function _QuestieFramePool:QuestieCreateFrame()
         end
         --self.glow:SetPoint("BOTTOMLEFT", self, 1, 1)
     end--end)
-    f.baseOnUpdate = function(self)
-        if self.glowUpdate then
-            self:glowUpdate()
+    f.BaseOnUpdate = function(self)
+        if self.GlowUpdate then
+            self:GlowUpdate()
         end
     end
-    f.baseOnShow = function(self)--f:SetScript("OnShow", function(self)
+    f.BaseOnShow = function(self)--f:SetScript("OnShow", function(self)
         if self.data and self.data.Type and self.data.Type == "complete" then
             self:SetFrameLevel(self:GetFrameLevel() + 1)
         end
@@ -305,7 +305,7 @@ function _QuestieFramePool:QuestieCreateFrame()
             self.glow:SetFrameLevel(self:GetFrameLevel() - 1)
         end
     end--end)
-    f.baseOnHide = function(self)--f:HookScript("OnHide", function(self)
+    f.BaseOnHide = function(self)--f:HookScript("OnHide", function(self)
         self.glow:Hide()
     end--end)
     --f.Unload = function(frame) _QuestieFramePool:UnloadFrame(frame) end;
@@ -331,6 +331,9 @@ function _QuestieFramePool:QuestieCreateFrame()
         end
         self.miniMapIcon = nil;
         self:SetScript("OnUpdate", nil)
+        if(self.fadeLogicTimer) then
+          self.fadeLogicTimer:Cancel();
+        end
         self:Hide()
         self.glow:Hide()
         --self.glow:Hide()
@@ -501,7 +504,11 @@ function _QuestieFramePool:Questie_Tooltip(self)
                         if icon.data.Type == "complete" then
                             dat.type = QuestieLocale:GetUIString("TOOLTIP_QUEST_COMPLETE");
                         else
+                          if(icon.Icon == ICON_TYPE_REPEATABLE) then
+                            dat.type = QuestieLocale:GetUIString("TOOLTIP_QUEST_REPEATABLE");--"(Repeatable)"; --
+                          else
                             dat.type = QuestieLocale:GetUIString("TOOLTIP_QUEST_AVAILABLE");
+                          end
                         end
                         dat.title = icon.data.QuestData:GetColoredQuestName()
                         dat.subData = icon.data.QuestData.Description
@@ -539,7 +546,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
 
     Tooltip.npcOrder = npcOrder
     Tooltip.questOrder = questOrder
-    Tooltip._rebuild = function(self)
+    Tooltip._Rebuild = function(self)
         local shift = IsShiftKeyDown()
         local haveGiver = false -- hack
         for k, v in pairs(self.npcOrder) do -- this logic really needs to be improved
@@ -588,7 +595,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
             end
         end
     end
-    Tooltip:_rebuild() -- we separate this so things like MODIFIER_STATE_CHANGED can redraw the tooltip
+    Tooltip:_Rebuild() -- we separate this so things like MODIFIER_STATE_CHANGED can redraw the tooltip
     --Tooltip:AddDoubleLine("" .. self:GetFrameStrata(), ""..self:GetFrameLevel())
     --Tooltip:AddDoubleLine("" .. self.glow:GetFrameStrata(), ""..self.glow:GetFrameLevel())
     Tooltip:SetFrameStrata("TOOLTIP");

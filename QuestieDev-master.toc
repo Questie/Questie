@@ -53,6 +53,7 @@ Modules\QuestieJourney.lua
 Modules\QuestieComms.lua
 Modules\QuestieSearch.lua
 Modules\QuestieTracker.lua
+Modules\QuestieOptions.lua
 Modules\QuestieProfessions.lua
 
 #Main

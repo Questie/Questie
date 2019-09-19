@@ -81,6 +81,8 @@ function QuestieEventHandler:PLAYER_ENTERING_WORLD()
         QuestieDB:Initialize()
     end)
     C_Timer.After(4, function()
+        -- We want the framerate to be HIGH!!!
+        QuestieMap:InitializeQueue();
         _Hack_prime_log()
         qPlayerLevel = UnitLevel("player")
         QuestieQuest:Initialize()
@@ -396,11 +398,11 @@ function QuestieEventHandler:QUEST_FINISHED()
 end
 
 function QuestieEventHandler:MODIFIER_STATE_CHANGED(key, down)
-    if GameTooltip and GameTooltip:IsShown() and GameTooltip._rebuild then
+    if GameTooltip and GameTooltip:IsShown() and GameTooltip._Rebuild then
         GameTooltip:Hide()
         GameTooltip:ClearLines()
         GameTooltip:SetOwner(GameTooltip._owner, "ANCHOR_CURSOR");
-        GameTooltip:_rebuild() -- rebuild the tooltip
+        GameTooltip:_Rebuild() -- rebuild the tooltip
         GameTooltip:SetFrameStrata("TOOLTIP");
         GameTooltip:Show()
     end
