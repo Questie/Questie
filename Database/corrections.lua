@@ -83,6 +83,15 @@ QuestieCorrections.questFixes = {
     [5060] = {
         [QuestieDB.questKeys.preQuestSingle] = {5059}, -- #922
     },
+    [1654] = {
+        [QuestieDB.questKeys.childQuests] = {1442,1655},
+    },
+    [1442] = {
+        [QuestieDB.questKeys.parentQuest] = {1654},
+    },
+    [1655] = {
+        [QuestieDB.questKeys.parentQuest] = {1654},
+    },
     -- Profession quests
     [769] = {
         [QuestieDB.questKeys.requiredSkill] = {165,10},
