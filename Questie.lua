@@ -150,6 +150,8 @@ _QuestieOptions.defaults = {
       trackerSortObjectives = 'byComplete',
       trackerbindOpenQuestLog = 'shiftleft',
       trackerbindSetTomTom = 'ctrlleft',
+      iconFadeLevel = 0.3,
+      trackerLocked = true,
     },
       char = {
           complete = {},
@@ -735,7 +737,12 @@ local options = {
                         Questie.db.global.trackerEnabled = value
                         if value then
                             -- may not have been initialized yet
+                            if Questie.db.global.hookTracking then
+                                QuestieTracker:HookBaseTracker()
+                            end
                             QuestieTracker:Initialize()
+                        elseif Questie.db.global.hookTracking then
+                            QuestieTracker:Unhook()
                         end
                         QuestieTracker:Update()
                     end
@@ -769,6 +776,8 @@ local options = {
                         if value then
                             -- may not have been initialized yet
                             QuestieTracker:HookBaseTracker()
+                        else
+                            QuestieTracker:Unhook()
                         end
                         QuestieTracker:Update()
                     end
@@ -850,7 +859,7 @@ local options = {
                         ['disabled'] = QuestieLocale:GetUIString('TRACKER_DISABLED'),
                     } end,
                     style = 'dropdown',
-                    name = function() return QuestieLocale:GetUIString('TRACKER_SET_TOMTOM') end,
+                    name = function() return QuestieLocale:GetUIString('TRACKER_SET_TOMTOM') .. QuestieLocale:GetUIString('TRACKER_SHORTCUT') end,
                     desc = function() return QuestieLocale:GetUIString('TRACKER_SET_TOMTOM_DESC') end,
                     get = function() return Questie.db.global.trackerbindSetTomTom end,
                     set = function(input, key)
@@ -872,7 +881,7 @@ local options = {
                         ['disabled'] = QuestieLocale:GetUIString('TRACKER_DISABLED'),
                     } end,
                     style = 'dropdown',
-                    name = function() return QuestieLocale:GetUIString('TRACKER_SHOW_QUESTLOG') end,
+                    name = function() return QuestieLocale:GetUIString('TRACKER_SHOW_QUESTLOG') .. QuestieLocale:GetUIString('TRACKER_SHORTCUT') end,
                     desc = function() return QuestieLocale:GetUIString('TRACKER_SHOW_QUESTLOG_DESC') end,
                     get = function() return Questie.db.global.trackerbindOpenQuestLog end,
                     set = function(input, key)
@@ -1347,6 +1356,9 @@ function Questie:OnInitialize()
     Questie:RegisterEvent("PLAYER_LEVEL_UP", QuestieEventHandler.PLAYER_LEVEL_UP);
     Questie:RegisterEvent("QUEST_LOG_UPDATE", QuestieEventHandler.QUEST_LOG_UPDATE);
     Questie:RegisterEvent("MODIFIER_STATE_CHANGED", QuestieEventHandler.MODIFIER_STATE_CHANGED);
+
+    -- Trade skill event to update a players profession
+    Questie:RegisterEvent("CHAT_MSG_SKILL", QuestieEventHandler.CHAT_MSG_SKILL)
 
     --TODO: QUEST_QUERY_COMPLETE Will get all quests the character has finished, need to be implemented!
 

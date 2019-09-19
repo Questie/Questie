@@ -6,10 +6,12 @@ qAvailableQuests = {} --Gets populated at PLAYER_ENTERED_WORLD
 
 qCurrentQuestlog = {} --Gets populated by QuestieQuest:GetAllQuestIds(), this is either an object to the quest in question, or the ID if the object doesn't exist.
 
+
 function QuestieQuest:Initialize()
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_GET_QUEST_COMP'))
     --GetQuestsCompleted(Questie.db.char.complete)
     Questie.db.char.complete = GetQuestsCompleted()
+    QuestieProfessions:Update()
 
     -- this inserts the Questie Icons to the MinimapButtonBag ignore list
     if MBB_Ignore then
@@ -130,6 +132,7 @@ function QuestieQuest:Reset()
 
     -- make sure complete db is correct
     Questie.db.char.complete = GetQuestsCompleted()
+    QuestieProfessions:Update()
 
     QuestieQuest:AddAllNotes()
 end
@@ -145,6 +148,7 @@ function QuestieQuest:SmoothReset() -- use timers to reset progressively instead
 
             -- make sure complete db is correct
             Questie.db.char.complete = GetQuestsCompleted()
+            QuestieProfessions:Update()
             qAvailableQuests = {} -- reset available quest db
 
             -- draw available quests
@@ -187,6 +191,11 @@ function QuestieQuest:UpdateHiddenNotes()
                     icon:FakeHide()
                 else
                     icon:FakeUnhide()
+                end
+                if icon.data.QuestData.FadeIcons or (icon.data.ObjectiveData and icon.data.ObjectiveData.FadeIcons) then
+                    icon:FadeOut()
+                else
+                    icon:FadeIn()
                 end
             end
         end
@@ -986,8 +995,13 @@ function _QuestieQuest:GetLeaderBoardDetails(BoardIndex, QuestId)
     local description, objectiveType, isCompleted = GetQuestLogLeaderBoard(BoardIndex, Index);
     if not description then return nil; end -- invalid board index (this has happened extremely rarely see issue 565)
 
-    -- Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Quest Details1:", description, objectiveType, isCompleted)
-    local itemName, numItems, numNeeded = string.match(description, "(.*):%s*([%d]+)%s*/%s*([%d]+)");
+    --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Quest Details1:", description, objectiveType, isCompleted)
+    --Classic
+    local itemName, numItems, numNeeded = string.match(description, "(.*)[：,:]%s*([%d]+)%s*/%s*([%d]+)");
+    --Retail
+    if(itemName == nil or string.len(itemName) < 1) then --Just a figure... check if its not 0
+        numItems, numNeeded, itemName = string.match(description, "(%d+)\/(%d+)(.*)")
+    end
     Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Quest Details2:", QuestId, itemName, numItems, numNeeded)
 
     if (itemName) then
@@ -1034,7 +1048,11 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                         for _, coords in ipairs(Spawns) do
                             local data = {}
                             data.Id = questObject.Id;
-                            data.Icon = ICON_TYPE_AVAILABLE;
+                            if questObject.Repeatable then
+                                data.Icon = ICON_TYPE_REPEATABLE
+                            else
+                                data.Icon = ICON_TYPE_AVAILABLE
+                            end
                             data.GetIconScale = function() return Questie.db.global.availableScale or 1.3 end
                             data.IconScale = data:GetIconScale()
                             data.Type = "available";
@@ -1069,7 +1087,11 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                             --Questie:Debug("Coords", coords[1], coords[2])
                             local data = {}
                             data.Id = questObject.Id;
-                            data.Icon = ICON_TYPE_AVAILABLE;
+                            if questObject.Repeatable then
+                                data.Icon = ICON_TYPE_REPEATABLE
+                            else
+                                data.Icon = ICON_TYPE_AVAILABLE
+                            end
                             data.GetIconScale = function() return Questie.db.global.availableScale or 1.3 end
                             data.IconScale = data.GetIconScale();
                             data.Type = "available";
@@ -1116,10 +1138,7 @@ function QuestieQuest:DrawAllAvailableQuests()--All quests between
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]", QuestieLocale:GetUIString('DEBUG_DRAW', count, qPlayerLevel));
 end
 
-
-
-
-function _QuestieQuest:IsDoable(questObject) -- we need to add profession/reputation checks here
+function _QuestieQuest:IsDoable(questObject) -- we need to add reputation checks here
     if not questObject then
         return false;
     end
@@ -1161,6 +1180,10 @@ function _QuestieQuest:IsDoable(questObject) -- we need to add profession/reputa
         if not hasValidNPC then
             return false
         end
+    end
+
+    if QuestieProfessions:HasProfessionAndSkill(questObject.requiredSkill) == false then
+        return false
     end
 
     if questObject.RequiredQuest == nil or questObject.RequiredQuest == 0 then

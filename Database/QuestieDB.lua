@@ -17,6 +17,7 @@ local DB_PRE_QUEST_SINGLE, DB_NPC_FRIENDLY = 13, 13;
 local DB_SUB_QUESTS = 14;
 local DB_QUEST_GROUP = 15;
 local DB_EXCLUSIVE_QUEST_GROUP = 16;
+local DB_SPECIAL_FLAGS = 24
 
 local ClassBitIndexTable = {
     ['warrior'] = 1,
@@ -91,6 +92,11 @@ function QuestieDB:GetObject(ObjectID)
         obj.type = "object"
         for stringKey, intKey in pairs(QuestieDB.objectKeys) do
             obj[stringKey] = raw[intKey]
+        end
+        -- Do localization
+        local localizedName = LangObjectLookup[ObjectID]
+        if localizedName ~= nil then
+            obj.name = localizedName or obj.name
         end
         QuestieDB._ObjectCache[ObjectID] = obj;
         return obj;
@@ -187,7 +193,11 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
         QO.Starts["Item"] = rawdata[2][3] --2.3
         QO.Ends = {} --ends 3
         QO.Hidden = rawdata.hidden or QuestieCorrections.hiddenQuests[QuestID]
-        QO.Description = rawdata[8]
+        QO.Description = rawdata[8] -- 
+        QO.SpecialFlags = rawdata[DB_SPECIAL_FLAGS]
+        if QO.SpecialFlags then
+            QO.Repeatable = mod(QO.SpecialFlags, 2) == 1
+        end
 
         -- Do localization
         local localizedQuest = LangQuestLookup[QuestID]
@@ -435,7 +445,11 @@ function QuestieDB:GetNPC(NPCID)
         for stringKey, intKey in pairs(QuestieDB.npcKeys) do
             NPC[stringKey] = rawdata[intKey]
         end
-
+        -- Do localization
+        local localizedName = LangNameLookup[NPCID]
+        if localizedName ~=nil then
+            NPC.name = localizedName or NPC.name
+        end
         if NPC.spawns == nil and Questie_SpecialNPCs[NPCID] then -- get spawns from script spawns list
             NPC.spawns = QuestieDB:_GetSpecialNPC(NPCID).spawns
         end

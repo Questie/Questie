@@ -12,13 +12,24 @@ This program accepts two command line options:
 -v versionDir       Overwrites the default version with the provided string so
                     the release will be placed under 'releases/versionDir'.
 
+                    Since the script aborts if a release folder already exists,
+                    it is recommended to use this option for test releases, e.g.:
+                    build.py -v someFeature
+
                     Default: Version string from the toc file, e.g. '4.0.10_BETA'
 
 -a addonDir         Overwrites the default addon name with the provided string so
                     the directory name, toc name, and path references in the code
                     can be updated.
 
+                    This affects the addon directory and the .toc file.
+
                     Default: 'Questie'
+
+-z zipName          If provided, replaces the default zip name.
+
+                    Default: 'Questie-v' plus the version string from the toc
+                    file, e.g.: 'Questie-v4.1.1'
 
 Example usage:
 
@@ -33,6 +44,7 @@ def setArgs():
     # set defaults
     versionDir = getVersion().replace(' ', '_')
     addonDir = 'Questie'
+    zipName = 'Questie-v%s' % (versionDir)
     # overwrite with command line arguments, if provided
     pos = 1
     end = len(sys.argv)
@@ -43,15 +55,18 @@ def setArgs():
         elif (sys.argv[pos] == '-a'):
             pos += 1
             addonDir = sys.argv[pos]
+        elif (sys.argv[pos] == '-z'):
+            pos += 1
+            zipName = sys.argv[pos]
         pos += 1
-    return versionDir, addonDir
+    return versionDir, addonDir, zipName
 
 def main():
     # check dependencies
     if not shutil.which('7z'):
         raise RuntimeError('7z not in PATH')
     # set up pathes and handle command line arguments
-    versionDir, addonDir = setArgs()
+    versionDir, addonDir, zipName = setArgs()
     # check that nothing is overwritten
     if os.path.isdir('releases/%s' % (versionDir)):
         raise RuntimeError('The directory releases/%s already exists' % (versionDir))
@@ -71,8 +86,7 @@ def main():
     root = os.getcwd()
     os.chdir('releases/%s' % (versionDir))
     with open(os.devnull, 'w') as fp:
-        if subprocess.run(['7z', 'a', '-tzip', 'Questie-v%s.zip' % (versionDir), addonDir], stdout=fp).returncode != 0:
-            raise RuntimeError('Error while packaging release')
+        shutil.make_archive(zipName, "zip", ".", addonDir)
     os.chdir(root)
     print('New release "%s" created successfully' % (versionDir))
 
