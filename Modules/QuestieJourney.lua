@@ -578,7 +578,7 @@ if (GetLocale() == "deDE") then
 		},
 		[3] = {
 			[2437] = "Flammenschlund",
-			[1581] = "Die Todesmienen",
+			[1581] = "Die Todesminen",
 			[718] = "Die Höhlen des Wehklagens",
 			[209] = "Burg Shadowfang",
 			[719] = "Tiefschwarze Grotte",
