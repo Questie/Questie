@@ -46,22 +46,6 @@ function QuestieTooltips:PrintDifficultyColor(level, text)
     else
         return "|cFFC0C0C0"..text.."|r"; -- Grey
     end
-
-
-
-    -- local PlayerLevel = qPlayerLevel;
-    -- if (level > (PlayerLevel + 4)) then
-    --     return "|cFFFF1A1A"..text.."|r"; -- Red
-    -- elseif (level > (PlayerLevel + 2)) then
-    --     return "|cFFFF8040"..text.."|r"; -- Orange
-    -- elseif (level <= (PlayerLevel + 2)) and (level >= (PlayerLevel - 2)) then
-    --     return "|cFFFFFF00"..text.."|r"; -- Yellow
-    -- elseif (level > _QuestieTooltips:GetQuestGreyLevel(PlayerLevel)) then
-    --     return "|cFF40C040"..text.."|r"; -- Green
-    -- else
-    --     return "|cFFC0C0C0"..text.."|r"; -- Grey
-    -- end
-    -- return "|cFFffffff"..text.."|r"; --white
 end
 
 function _QuestieTooltips:GetQuestGreyLevel(level)
