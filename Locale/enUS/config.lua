@@ -133,6 +133,7 @@ QuestieLocale.locale['enUS'] = {
     ['TOOLTIP_QUEST_COMPLETE'] = "(Complete)",
     ['TOOLTIP_QUEST_AVAILABLE'] = "(Available)",
     ['TOOLTIP_QUEST_ACTIVE'] = "(Active)",
+    ['TOOLTIP_QUEST_REPEATABLE'] = "(Repeatable)",
 
     -- Slash Commands
     ['SLASH_INVALID'] = "Invalid command. For a list of options please type: ",

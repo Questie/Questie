@@ -134,6 +134,7 @@ QuestieLocale.locale['frFR'] = {
 	['TOOLTIP_QUEST_COMPLETE'] = "(Complète)",
 	['TOOLTIP_QUEST_AVAILABLE'] = "(Disponible)",
 	['TOOLTIP_QUEST_ACTIVE'] = "(Actif)",
+    ['TOOLTIP_QUEST_REPEATABLE'] = "(Repeatable)",
 	
 	-- Slash Commandes
 	['SLASH_INVALID'] = "Commande invalide. Pour obtenir une liste d'options, veuillez taper:",

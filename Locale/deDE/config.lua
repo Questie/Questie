@@ -131,6 +131,7 @@ QuestieLocale.locale['deDE'] = {
     ['TOOLTIP_QUEST_COMPLETE'] = "(Abgeschlossen)",
     ['TOOLTIP_QUEST_AVAILABLE'] = "(Verfügbar)",
     ['TOOLTIP_QUEST_ACTIVE'] = "(Aktiv)",
+    ['TOOLTIP_QUEST_REPEATABLE'] = "(Repeatable)",
 
     -- Slash Commands
     ['SLASH_INVALID'] = "Ungültiger Befehl. Für eine Liste aller verfügbaren Befehle nutze: ",
