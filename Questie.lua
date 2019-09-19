@@ -443,7 +443,7 @@ local options = {
                     step = 0.01,
                     get = GetGlobalOptionLocal,
                     set = function (info, value)
-                                QuestieMap:rescaleIcons()
+                                QuestieMap:RescaleIcons()
                                 SetGlobalOptionLocal(info, value)
                             end,
                 },
@@ -597,7 +597,7 @@ local options = {
                     step = 0.01,
                     get = GetGlobalOptionLocal,
                     set = function (info, value)
-                                QuestieMap:rescaleIcons()
+                                QuestieMap:RescaleIcons()
                                 SetGlobalOptionLocal(info, value)
                             end,
                 },
@@ -612,7 +612,7 @@ local options = {
                     step = 0.01,
                     get = GetGlobalOptionLocal,
                     set = function (info, value)
-                                QuestieMap:rescaleIcons()
+                                QuestieMap:RescaleIcons()
                                 SetGlobalOptionLocal(info, value)
                             end,
                 },
@@ -627,7 +627,7 @@ local options = {
                     step = 0.01,
                     get = GetGlobalOptionLocal,
                     set = function (info, value)
-                                QuestieMap:rescaleIcons()
+                                QuestieMap:RescaleIcons()
                                 SetGlobalOptionLocal(info, value)
                             end,
                 },
@@ -642,7 +642,7 @@ local options = {
                     step = 0.01,
                     get = GetGlobalOptionLocal,
                     set = function (info, value)
-                                QuestieMap:rescaleIcons()
+                                QuestieMap:RescaleIcons()
                                 SetGlobalOptionLocal(info, value)
                             end,
                 },
@@ -657,7 +657,7 @@ local options = {
                     step = 0.01,
                     get = GetGlobalOptionLocal,
                     set = function (info, value)
-                                QuestieMap:rescaleIcons()
+                                QuestieMap:RescaleIcons()
                                 SetGlobalOptionLocal(info, value)
                             end,
                 },
@@ -672,7 +672,7 @@ local options = {
                     step = 0.01,
                     get = GetGlobalOptionLocal,
                     set = function (info, value)
-                                QuestieMap:rescaleIcons()
+                                QuestieMap:RescaleIcons()
                                 SetGlobalOptionLocal(info, value)
                             end,
                 },
@@ -990,7 +990,7 @@ local options = {
                     disabled = function() return not Questie.db.global.nameplateEnabled end,
                     get = GetGlobalOptionLocal,
                     set = function (info, value)
-                                QuestieNameplate:redrawIcons()
+                                QuestieNameplate:RedrawIcons()
                                 SetGlobalOptionLocal(info, value)
                             end,
                 },
@@ -1006,7 +1006,7 @@ local options = {
                     disabled = function() return not Questie.db.global.nameplateEnabled end,
                     get = GetGlobalOptionLocal,
                     set = function (info, value)
-                                QuestieNameplate:redrawIcons()
+                                QuestieNameplate:RedrawIcons()
                                 SetGlobalOptionLocal(info, value)
                             end,
                 },
@@ -1023,7 +1023,7 @@ local options = {
                     get = GetGlobalOptionLocal,
                     set = function (info, value)
                                 SetGlobalOptionLocal(info, value)
-                                QuestieNameplate:redrawIcons()
+                                QuestieNameplate:RedrawIcons()
                             end,
 
                 },
@@ -1038,7 +1038,7 @@ local options = {
                         Questie.db.global.nameplateX = _QuestieOptions.defaults.global.nameplateX;
                         Questie.db.global.nameplateY = _QuestieOptions.defaults.global.nameplateY;
                         Questie.db.global.nameplateScale = _QuestieOptions.defaults.global.nameplateScale;
-                        QuestieNameplate:redrawIcons();
+                        QuestieNameplate:RedrawIcons();
                     end,
                 },
                 Spacer_C = _QuestieOptions:Spacer(9),
@@ -1079,7 +1079,7 @@ local options = {
                     disabled = function() return not Questie.db.global.nameplateTargetFrameEnabled end,
                     get = GetGlobalOptionLocal,
                     set = function (info, value)
-                                QuestieNameplate:redrawFrameIcon()
+                                QuestieNameplate:RedrawFrameIcon()
                                 SetGlobalOptionLocal(info, value)
                             end,
                 },
@@ -1095,7 +1095,7 @@ local options = {
                     disabled = function() return not Questie.db.global.nameplateTargetFrameEnabled end,
                     get = GetGlobalOptionLocal,
                     set = function (info, value)
-                                QuestieNameplate:redrawFrameIcon()
+                                QuestieNameplate:RedrawFrameIcon()
                                 SetGlobalOptionLocal(info, value)
                             end,
                 },
@@ -1112,7 +1112,7 @@ local options = {
                     get = GetGlobalOptionLocal,
                     set = function (info, value)
                                 SetGlobalOptionLocal(info, value)
-                                QuestieNameplate:redrawFrameIcon()
+                                QuestieNameplate:RedrawFrameIcon()
                             end,
 
                 },
@@ -1127,7 +1127,7 @@ local options = {
                         Questie.db.global.nameplateTargetFrameX = _QuestieOptions.defaults.global.nameplateTargetFrameX;
                         Questie.db.global.nameplateTargetFrameY = _QuestieOptions.defaults.global.nameplateTargetFrameY;
                         Questie.db.global.nameplateTargetFrameScale = _QuestieOptions.defaults.global.nameplateTargetFrameScale;
-                        QuestieNameplate:redrawFrameIcon();
+                        QuestieNameplate:RedrawFrameIcon();
                     end,
                 },
             },
@@ -1261,8 +1261,8 @@ local options = {
 
                         _QuestieOptions:Delay(0.3, _QuestieOptions.AvailableQuestRedraw, "minLevelFilter and maxLevelFilter reset to defaults");
 
-                        QuestieNameplate:redrawIcons();
-                        QuestieMap:rescaleIcons();
+                        QuestieNameplate:RedrawIcons();
+                        QuestieMap:RescaleIcons();
 
                     end,
                 },
@@ -1303,7 +1303,7 @@ local minimapIconLDB = LibStub("LibDataBroker-1.1"):NewDataObject("MinimapIcon",
             _QuestieOptions.OpenConfigWindow()
 
             if QuestieJourney:IsShown() then
-                QuestieJourney.toggleJourneyWindow();
+                QuestieJourney.ToggleJourneyWindow();
             end
             return;
 
@@ -1314,7 +1314,7 @@ local minimapIconLDB = LibStub("LibDataBroker-1.1"):NewDataObject("MinimapIcon",
                     _QuestieOptions.configFrame:Hide();
                 end
 
-                QuestieJourney.toggleJourneyWindow();
+                QuestieJourney.ToggleJourneyWindow();
                 return;
             elseif IsControlKeyDown() then
                 Questie.db.profile.minimap.hide = true;
@@ -1432,7 +1432,7 @@ function Questie:QuestieSlash(input)
         _QuestieOptions.OpenConfigWindow();
 
         if QuestieJourney:IsShown() then
-            QuestieJourney.toggleJourneyWindow();
+            QuestieJourney.ToggleJourneyWindow();
         end
         return ;
     end
@@ -1477,7 +1477,7 @@ function Questie:QuestieSlash(input)
 
     -- /questie journey
     if input == "journey" then
-        QuestieJourney.toggleJourneyWindow();
+        QuestieJourney.ToggleJourneyWindow();
 
         if _QuestieOptions.configFrame and _QuestieOptions.configFrame:IsShown() then
             _QuestieOptions.configFrame:Hide();

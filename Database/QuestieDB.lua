@@ -52,9 +52,9 @@ QuestieDB._ObjectCache = {};
 QuestieDB._ZoneCache = {};
 
 function QuestieDB:Initialize()
-    QuestieDBZone:zoneCreateConvertion()
-    QuestieDB:deleteClasses()
-    QuestieDB:deleteGatheringNodes()
+    QuestieDBZone:ZoneCreateConvertion()
+    QuestieDB:DeleteClasses()
+    QuestieDB:DeleteGatheringNodes()
 
     -- data has been corrected, ensure cache is empty (something might have accessed the api before questie initialized)
     QuestieDB._QuestCache = {};
@@ -400,16 +400,16 @@ function QuestieDB:_GetSpecialNPC(NPCID)
     if rawdata then
         local NPC = {}
         NPC.id = NPCID
-        QuestieStreamLib:load(rawdata)
-        NPC.name = QuestieStreamLib:readTinyString()
+        QuestieStreamLib:Load(rawdata)
+        NPC.name = QuestieStreamLib:ReadTinyString()
         NPC.type = "monster"
         NPC.newFormatSpawns = {}; -- spawns should be stored like this: {{x, y, uimapid}, ...} so im creating a 2nd var to aid with moving to the new format
         NPC.spawns = {};
-        local count = QuestieStreamLib:readByte()
+        local count = QuestieStreamLib:ReadByte()
         for i=1,count do
-            local x = QuestieStreamLib:readShort() / 655.35
-            local y = QuestieStreamLib:readShort() / 655.35
-            local m = QuestieStreamLib:readByte() + 1400
+            local x = QuestieStreamLib:ReadShort() / 655.35
+            local y = QuestieStreamLib:ReadShort() / 655.35
+            local m = QuestieStreamLib:ReadByte() + 1400
             table.insert(NPC.newFormatSpawns, {x, y, m});
             local om = m;
             m = zoneDataUiMapIDToAreaID[m];
@@ -608,7 +608,7 @@ end
 
 ---------------------------------------------------------------------------------------------------
 -- Modifications to objectDB
-function QuestieDB:deleteGatheringNodes()
+function QuestieDB:DeleteGatheringNodes()
     local prune = { -- gathering nodes
         1617,1618,1619,1620,1621,1622,1623,1624,1628, -- herbs
 
@@ -634,7 +634,7 @@ function UnpackBinary(val)
     return ret;
 end
 
-local function checkRace(race, dbRace)
+local function CheckRace(race, dbRace)
     local valid = true;
     if race and dbRace and not (dbRace == 0) then
         local racemap = UnpackBinary(dbRace);
@@ -643,7 +643,7 @@ local function checkRace(race, dbRace)
     return valid;
 end
 
-local function checkClass(class, dbClass)
+local function CheckClass(class, dbClass)
     local valid = true;
     if class and dbClass and not (dbClass == 0) then
         local classmap = UnpackBinary(dbClass);
@@ -652,7 +652,7 @@ local function checkClass(class, dbClass)
     return valid;
 end
 
-function QuestieDB:deleteClasses() -- handles races too
+function QuestieDB:DeleteClasses() -- handles races too
     local localizedClass, englishClass, classIndex = UnitClass("player");
     local localizedRace, playerRace = UnitRace("player");
     if englishClass and playerRace then
@@ -661,12 +661,12 @@ function QuestieDB:deleteClasses() -- handles races too
         for key, entry in pairs(QuestieDB.questData) do
             local data = QuestieCorrections.questFixes[key] or entry
             if data[7] and data[7] ~= 0 then
-                if not checkClass(playerClass, data[7]) then
+                if not CheckClass(playerClass, data[7]) then
                     data.hidden = true
                 end
             end
             if data[6] and data[6] ~= 0 and data[6] ~= 255 then
-                if not checkRace(playerRace, data[6]) then
+                if not CheckRace(playerRace, data[6]) then
                     data.hidden = true
                 end
             end

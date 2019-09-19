@@ -1,4 +1,4 @@
-local function _hack_prime_log() -- this seems to make it update the data much quicker
+local function _Hack_prime_log() -- this seems to make it update the data much quicker
   for i=1,GetNumQuestLogEntries()+1 do
     GetQuestLogTitle(i)
     QuestieQuest:GetRawLeaderBoardDetails(i)
@@ -81,7 +81,7 @@ function QuestieEventHandler:PLAYER_ENTERING_WORLD()
         QuestieDB:Initialize()
     end)
     C_Timer.After(4, function()
-        _hack_prime_log()
+        _Hack_prime_log()
         qPlayerLevel = UnitLevel("player")
         QuestieQuest:Initialize()
         QuestieQuest:GetAllQuestIdsNoObjectives()
@@ -134,7 +134,7 @@ end
 --Fires when a quest is accepted in anyway.
 function QuestieEventHandler:QUEST_ACCEPTED(QuestLogIndex, QuestId)
     Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_ACCEPTED", "QLogIndex: "..QuestLogIndex,  "QuestID: "..QuestId);
-    _hack_prime_log()
+    _Hack_prime_log()
 
     --Update the information on next QUEST_LOG_UPDATE
     questWatchFrames[QuestLogIndex].accept = true;
@@ -175,7 +175,7 @@ end
 
 --Fires when a quest is removed from the questlog, this includes turning it in!
 function QuestieEventHandler:QUEST_REMOVED(QuestId)
-    _hack_prime_log()
+    _Hack_prime_log()
     Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_REMOVED", QuestId);
     QuestieQuest:AbandonedQuest(QuestId)
 
@@ -226,7 +226,7 @@ end
 
 --Fires when a quest is turned in.
 function QuestieEventHandler:QUEST_TURNED_IN(questID, xpReward, moneyReward)
-    _hack_prime_log()
+    _Hack_prime_log()
     Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_TURNED_IN", questID, xpReward, moneyReward);
     QuestieQuest:CompleteQuest(questID)
     

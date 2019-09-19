@@ -25,7 +25,7 @@ end
 local journeyTreeFrame = nil;
 local treeCache = nil;
 
-local function splitJourneyByDate()
+local function SplitJourneyByDate()
 
     local dateTable = {};
 
@@ -114,7 +114,7 @@ local function splitJourneyByDate()
 end
 
 -- manage the journey tree
-local function manageJourneyTree(container)
+local function ManageJourneyTree(container)
     if not journeyTreeFrame then
         journeyTreeFrame = AceGUI:Create("TreeGroup");
         journeyTreeFrame:SetFullWidth(true);
@@ -123,7 +123,7 @@ local function manageJourneyTree(container)
         journeyTreeFrame.treeframe:SetWidth(220);
 
         local journeyTree = {};
-        journeyTree = splitJourneyByDate();
+        journeyTree = SplitJourneyByDate();
         journeyTreeFrame:SetTree(journeyTree);
         journeyTreeFrame:SetCallback("OnGroupSelected", function(group)
 
@@ -243,7 +243,7 @@ local function manageJourneyTree(container)
     else
         container:ReleaseChildren();
         journeyTreeFrame = nil;
-        manageJourneyTree(container);
+        ManageJourneyTree(container);
     end
 end
 
@@ -327,7 +327,7 @@ local function DrawJourneyTab(container)
 
     treeCache = treeGroup;
 
-    manageJourneyTree(treeGroup);
+    ManageJourneyTree(treeGroup);
 end
 
 
@@ -422,7 +422,7 @@ function NotePopup()
             table.insert(Questie.db.char.journey, data);
 
 
-            manageJourneyTree(treeCache);
+            ManageJourneyTree(treeCache);
 
             notesPopupWin:Hide();
             notesPopupWin = nil;
@@ -582,7 +582,7 @@ end
 local zoneTreeFrame = nil;
 local selectedContinent = 0;
 
-local function npcFrame(f, npc)
+local function NpcFrame(f, npc)
     local header = AceGUI:Create("Heading");
     header:SetFullWidth(true);
     header:SetText(npc.name);
@@ -698,7 +698,7 @@ local function npcFrame(f, npc)
 
 end
 -- TODO remove again once the call in manageZoneTree was removed
-local function questFrame(f, quest)
+local function QuestFrame(f, quest)
     local header = AceGUI:Create("Heading");
     header:SetFullWidth(true);
     header:SetText(quest.Name);
@@ -1041,8 +1041,8 @@ local function questFrame(f, quest)
     end
 end
 
--- Manage teh zone tree itself and the contents of the per-quest window
-local function manageZoneTree(container, zt)
+-- Manage the zone tree itself and the contents of the per-quest window
+local function ManageZoneTree(container, zt)
     if not zoneTreeFrame then
         zoneTreeFrame = AceGUI:Create("TreeGroup");
         zoneTreeFrame:SetFullWidth(true);
@@ -1076,7 +1076,7 @@ local function manageZoneTree(container, zt)
 
             -- TODO replace with fillQuestDetailsFrame and remove the questFrame function
             local quest = QuestieDB:GetQuest(qid);
-            questFrame(f, quest);
+            QuestFrame(f, quest);
 
         end);
 
@@ -1085,7 +1085,7 @@ local function manageZoneTree(container, zt)
     else
         container:ReleaseChildren();
         zoneTreeFrame = nil;
-        manageZoneTree(container, zt);
+        ManageZoneTree(container, zt);
     end
 
 end
@@ -1197,7 +1197,7 @@ function CollectZoneQuests(container, zoneid)
     zoneTree[2].text = zoneTree[2].text .. ' [ '..  completedCounter ..'/'.. totalCounter ..' ]';
 
     -- Build Tree
-    manageZoneTree(container, zoneTree);
+    ManageZoneTree(container, zoneTree);
 end
 
 -- Draw search results from advanced search tab
@@ -1340,7 +1340,7 @@ end
 local yellow = "|cFFFFFF00"
 
 -- TODO move to QuestieDB
-local function getRacesString(raceMask)
+local function GetRacesString(raceMask)
     if not raceMask then return "" end
     if (raceMask == 0) or (raceMask == 255) then
         return "None"
@@ -1377,7 +1377,7 @@ local function getRacesString(raceMask)
     end
 end--]]
 
-local function addLine(frame, text)
+local function AddLine(frame, text)
     local label = AceGUI:Create("Label")
     label:SetFullWidth(true);
     label:SetText(text)
@@ -1385,16 +1385,16 @@ local function addLine(frame, text)
     frame:AddChild(label)
 end
 
-local function addParagraph(frame, lookupObject, firstKey, secondKey, header, lookupDB, lookupKey)
+local function AddParagraph(frame, lookupObject, firstKey, secondKey, header, lookupDB, lookupKey)
     if lookupObject[firstKey][secondKey] then
-        addLine(frame,  yellow .. header .. "|r")
+        AddLine(frame,  yellow .. header .. "|r")
         for _,id in pairs(lookupObject[firstKey][secondKey]) do
-            addLine(frame, lookupDB[id][lookupKey].." ("..id..")")
+            AddLine(frame, lookupDB[id][lookupKey].." ("..id..")")
         end
     end
 end
 
-local function fillQuestDetailsFrame(details, id)
+local function FillQuestDetailsFrame(details, id)
     local quest = QuestieDB.questData[id]
     -- header
     local title = AceGUI:Create("Heading")
@@ -1452,31 +1452,31 @@ local function fillQuestDetailsFrame(details, id)
     --hiddenQuests:SetDisabled(true)
     details:AddChild(hiddenQuests)
     -- general info
-    addLine(details, yellow .. "Quest ID:|r " .. id)
-    addLine(details,  yellow .. "Quest Level:|r " .. quest[QuestieDB.questKeys.questLevel])
-    addLine(details,  yellow .. "Required Level:|r " .. quest[QuestieDB.questKeys.requiredLevel])
-    local reqRaces = getRacesString(quest[QuestieDB.questKeys.requiredRaces])
+    AddLine(details, yellow .. "Quest ID:|r " .. id)
+    AddLine(details,  yellow .. "Quest Level:|r " .. quest[QuestieDB.questKeys.questLevel])
+    AddLine(details,  yellow .. "Required Level:|r " .. quest[QuestieDB.questKeys.requiredLevel])
+    local reqRaces = GetRacesString(quest[QuestieDB.questKeys.requiredRaces])
     if (reqRaces ~= "None") then
-        addLine(details, yellow .. "Required Races:|r " .. reqRaces)
+        AddLine(details, yellow .. "Required Races:|r " .. reqRaces)
     end
     -- objectives text
     if quest[QuestieDB.questKeys.objectivesText] then
-        addLine(details, "")
-        addLine(details,  yellow .. "Quest Objectives:|r")
+        AddLine(details, "")
+        AddLine(details,  yellow .. "Quest Objectives:|r")
         for k,v in pairs(quest[QuestieDB.questKeys.objectivesText]) do
-            addLine(details, v)
+            AddLine(details, v)
         end
     end
     -- quest starters
-    addLine(details, "")
-    addParagraph(details, quest, QuestieDB.questKeys.startedBy, QuestieDB.questKeys.creatureStart, "Creatures starting this quest:", QuestieDB.npcData, QuestieDB.npcKeys.name)
-    addParagraph(details, quest, QuestieDB.questKeys.startedBy, QuestieDB.questKeys.objectStart, "Objects starting this quest:", QuestieDB.objectData, QuestieDB.objectKeys.name)
-    addParagraph(details, quest, QuestieDB.questKeys.startedBy, QuestieDB.questKeys.itemStart, "Items starting this quest:", QuestieDB.itemData, QuestieDB.itemKeys.name)
+    AddLine(details, "")
+    AddParagraph(details, quest, QuestieDB.questKeys.startedBy, QuestieDB.questKeys.creatureStart, "Creatures starting this quest:", QuestieDB.npcData, QuestieDB.npcKeys.name)
+    AddParagraph(details, quest, QuestieDB.questKeys.startedBy, QuestieDB.questKeys.objectStart, "Objects starting this quest:", QuestieDB.objectData, QuestieDB.objectKeys.name)
+    AddParagraph(details, quest, QuestieDB.questKeys.startedBy, QuestieDB.questKeys.itemStart, "Items starting this quest:", QuestieDB.itemData, QuestieDB.itemKeys.name)
     -- quest finishers
-    addLine(details, "")
-    addParagraph(details, quest, QuestieDB.questKeys.finishedBy, QuestieDB.questKeys.creatureEnd, "Creatures finishing this quest:", QuestieDB.npcData, QuestieDB.npcKeys.name)
-    addParagraph(details, quest, QuestieDB.questKeys.finishedBy, QuestieDB.questKeys.objectEnd, "Objects finishing this quest:", QuestieDB.objectData, QuestieDB.objectKeys.name)
-    addLine(details, "")
+    AddLine(details, "")
+    AddParagraph(details, quest, QuestieDB.questKeys.finishedBy, QuestieDB.questKeys.creatureEnd, "Creatures finishing this quest:", QuestieDB.npcData, QuestieDB.npcKeys.name)
+    AddParagraph(details, quest, QuestieDB.questKeys.finishedBy, QuestieDB.questKeys.objectEnd, "Objects finishing this quest:", QuestieDB.objectData, QuestieDB.objectKeys.name)
+    AddLine(details, "")
 end
 
 function DrawResultTab(container, group)
@@ -1538,11 +1538,11 @@ function DrawResultTab(container, group)
         local id = tonumber(sel);
 
         if lastOpenSearch == "quest" then
-            fillQuestDetailsFrame(details, id);
+            FillQuestDetailsFrame(details, id);
         elseif lastOpenSearch == "npc" then
             -- NPCs
             local npc = QuestieDB:GetNPC(id);
-            npcFrame(details, npc);
+            NpcFrame(details, npc);
 
         end
     end);
@@ -1615,7 +1615,7 @@ function QuestieJourney:Initialize()
     table.insert(UISpecialFrames, "QuestieJourneyFrame");
 end
 
-function QuestieJourney:toggleJourneyWindow()
+function QuestieJourney:ToggleJourneyWindow()
     if not isWindowShown then
         PlaySound(882);
 

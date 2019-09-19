@@ -37,7 +37,7 @@ function QuestieMap:UnloadQuestFrames(QuestId)
     end
 end
 
-function QuestieMap:rescaleIcons()
+function QuestieMap:RescaleIcons()
     for qId, framelist in pairs(qQuestIdFrames) do
         for i, frameName in ipairs(framelist) do
             local frame = _G[frameName]
@@ -150,10 +150,10 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
         iconMinimap.miniMapIcon = true;
 
         if(not iconMinimap.fadeLogic) then
-            function iconMinimap:fadeLogic()
+            function iconMinimap:fadeLogic()Euclid
                 if self.miniMapIcon and self.x and self.y and self.texture and self.texture.SetVertexColor and Questie and Questie.db and Questie.db.global and Questie.db.global.fadeLevel and HBD and HBD.GetPlayerZonePosition and QuestieFramePool and QuestieFramePool.euclid then
                     local playerX, playerY, playerInstanceID = HBD:GetPlayerZonePosition()
-                    if(playerX and playerY) then
+                    if(playerX and playerY) thenEuclid
                         local distance = QuestieFramePool:euclid(playerX, playerY, self.x / 100, self.y / 100);
 
                         --Very small value before, hard to work with.
@@ -169,7 +169,7 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
                                 self.glowTexture:SetVertexColor(r,g,b,fadeAmount)
                             end
                         elseif (distance < Questie.db.global.fadeOverPlayerDistance) and Questie.db.global.fadeOverPlayer then
-                            local fadeAmount = QuestieFramePool:remap(distance, 0, Questie.db.global.fadeOverPlayerDistance, Questie.db.global.fadeOverPlayerLevel, 1);
+                            local fadeAmount = QuestieFramePool:Remap(distance, 0, Questie.db.global.fadeOverPlayerDistance, Questie.db.global.fadeOverPlayerLevel, 1);
                            -- local fadeAmount = math.max(fadeAmount, 0.5);
                             if self.faded and fadeAmount > Questie.db.global.iconFadeLevel then fadeAmount = Questie.db.global.iconFadeLevel end
                             self.texture:SetVertexColor(1, 1, 1, fadeAmount)

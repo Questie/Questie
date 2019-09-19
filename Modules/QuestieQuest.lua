@@ -421,7 +421,7 @@ function QuestieQuest:ShouldQuestShowObjectives(QuestId)
 end
 
 
-local function counthack(tab) -- according to stack overflow, # and table.getn arent reliable (I've experienced this? not sure whats up)
+local function Counthack(tab) -- according to stack overflow, # and table.getn arent reliable (I've experienced this? not sure whats up)
     local count = 0
     for k, v in pairs(tab) do count = count + 1; end
     return count
@@ -438,7 +438,7 @@ function QuestieQuest:_IsCompleteHack(Quest) -- adding this because I hit my thr
 end
 
 function QuestieQuest:IsComplete(Quest)
-    return Quest.Objectives == nil or counthack(Quest.Objectives) == 0 or Quest.isComplete or QuestieQuest:_IsCompleteHack(Quest);
+    return Quest.Objectives == nil or Counthack(Quest.Objectives) == 0 or Quest.isComplete or QuestieQuest:_IsCompleteHack(Quest);
 end
 -- iterate all notes, update / remove as needed
 function QuestieQuest:UpdateObjectiveNotes(Quest)
@@ -665,8 +665,8 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
     local completed = Objective.Completed
 
     if not Objective.Color then -- todo: move to a better place
-        QuestieQuest:math_randomseed(Quest.Id + 32768 * ObjectiveIndex)
-        Objective.Color = {0.45 + QuestieQuest:math_random() / 2, 0.45 + QuestieQuest:math_random() / 2, 0.45 + QuestieQuest:math_random() / 2}
+        QuestieQuest:Math_randomseed(Quest.Id + 32768 * ObjectiveIndex)
+        Objective.Color = {0.45 + QuestieQuest:Math_random() / 2, 0.45 + QuestieQuest:Math_random() / 2, 0.45 + QuestieQuest:Math_random() / 2}
     end
 
     if (not Objective.registeredItemTooltips) and Objective.Type == "item" and (not BlockItemTooltips) and Objective.Id then -- register item tooltip (special case)
@@ -765,10 +765,10 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
 end
 
 local _randomSeed = 0;
-function QuestieQuest:math_randomseed(seed)
+function QuestieQuest:Math_randomseed(seed)
     _randomSeed = seed
 end
-function QuestieQuest:math_random(low_or_high_arg, high_arg)
+function QuestieQuest:Math_random(low_or_high_arg, high_arg)
     local low = nil
     local high = nil
     if low_or_high_arg ~= nil then
@@ -796,8 +796,8 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
     end
 
     if not Quest.Color then -- todo: move to a better place
-        QuestieQuest:math_randomseed(Quest.Id)
-        Quest.Color = {0.45 + QuestieQuest:math_random() / 2, 0.45 + QuestieQuest:math_random() / 2, 0.45 + QuestieQuest:math_random() / 2}
+        QuestieQuest:Math_randomseed(Quest.Id)
+        Quest.Color = {0.45 + QuestieQuest:Math_random() / 2, 0.45 + QuestieQuest:Math_random() / 2, 0.45 + QuestieQuest:Math_random() / 2}
     end
 
     -- we've already checked the objectives table by doing IsComplete
@@ -907,7 +907,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
             end
             Quest.Objectives[i]:Update()
 
-            if count == 1 and counthack(Quest.ObjectiveData) == 1 then
+            if count == 1 and Counthack(Quest.ObjectiveData) == 1 then
                 Quest.Objectives[i].Id = Quest.ObjectiveData[1].Id
             elseif Quest.ObjectiveData ~= nil then
                 -- try to find npc/item/event ID

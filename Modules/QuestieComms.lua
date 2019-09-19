@@ -245,7 +245,7 @@ function QuestieComms:testGetQuestInfo(player)
 end
 
 function QuestieComms:read(rawPacket, sourceType, source)
-    local stream = QuestieStreamLib:getStream()
+    local stream = QuestieStreamLib:GetStream()
     stream:load(rawPacket)
     local packetProcessor = QuestieComms.packets[stream:readByte()];
     if (not packetProcessor) or (not packetProcessor.read) then
@@ -267,7 +267,7 @@ function QuestieComms:getPacket(id)
     for k,v in pairs(QuestieComms.packets[id]) do
         pkt[k] = v
     end
-    pkt.stream = QuestieStreamLib:getStream()
+    pkt.stream = QuestieStreamLib:GetStream()
     pkt.id = id
     if pkt.init then
         pkt:init()
@@ -276,7 +276,7 @@ function QuestieComms:getPacket(id)
 end
 
 function _makeSegments(packet)
-    local metaStream = QuestieStreamLib:getStream()
+    local metaStream = QuestieStreamLib:GetStream()
     if packet.stream._size < packet.stream._pointer then
         packet.stream._size = packet.stream._pointer
     end
@@ -341,7 +341,7 @@ function QuestieComms:write(packet)
     end
 end
 
-QuestieComms.parserStream = QuestieStreamLib:getStream()
+QuestieComms.parserStream = QuestieStreamLib:GetStream()
 QuestieComms.packetReadQueue = {}
 
 function QuestieComms:MessageReceived(channel, message, type, source) -- pcall this
