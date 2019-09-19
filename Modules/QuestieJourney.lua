@@ -529,7 +529,7 @@ if (GetLocale() == "deDE") then
 			[36] = "Alteracgebirge",
 			[45] = "Arathihochland",
 			[3] = "Verwüstet Lande",
-			[4] = "Verwüstee Lande",
+			[4] = "Verwüstete Lande",
 			[46] = "Brennende Steppe",
 			[41] = "Gebirgspass der Totenwinde",
 			[2257] = "Tiefenbahn",
