@@ -917,17 +917,24 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
 
                         -- Fetch the name of the objective
                         local oName = ""
-                        if(objective.Type == "monster") then
+                        if(objective.Type == "monster" and objective.Id) then
                             oName = string.lower(QuestieDB:GetNPC(objective.Id).name);
-                        elseif(objective.Type == "object") then
+                        elseif(objective.Type == "object" and objective.Id) then
                             oName = string.lower(QuestieDB:GetObject(objective.Id).name);
-                        elseif(objective.Type == "item") then
-                            oName = string.lower(QuestieDB:GetItem(objective.Id).Name);-- this is capital letters for some reason...
+                        elseif(objective.Type == "item" and objective.Id) then
+                            --testVar = CHANGEME_Questie4_ItemDB[objective.Id]
+                            --DEFAULT_CHAT_FRAME:AddMessage(CHANGEME_Questie4_ItemDB[objective.Id][1][])
+                            local item = QuestieDB:GetItem(objective.Id);
+                            if(item and item.Name) then
+                                oName = string.lower(item.Name);-- this is capital letters for some reason...
+                            else
+                                oName = nil;
+                            end
                         end
                         -- To lower the questlog objective text
-                        local oDesc = string.lower(objectiveDesc);
+                        local oDesc = string.lower(objectiveDesc) or nil;
                         -- This is whaaaat?
-                        local oText = string.lower(objective.Text);
+                        local oText = string.lower(objective.Text or "");
 
                         local correctObjective = false;
                         if(oName and oDesc) then

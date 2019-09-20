@@ -117,16 +117,6 @@ function QuestieDB:GetItem(ItemID)
     if raw ~= nil then
         item.Id = ItemID;
         item.Name = raw[1];
-        if(GetLocale() ~= "enUS" and GetLocale() ~= "enGB") then
-            --- IMPLEMENT LOCALIZED HERE!!
-            -- Try and fetch the name from the server. This is used for localization.
-            local i = Item:CreateFromItemID(item.Id);
-            item:ContinueOnItemLoad(function()
-                local itemName = i:GetItemName();
-                item.Name = itemName;
-            end)
-            ---
-        end
         item.Sources = {};
         item.Hidden = QuestieCorrections.questItemBlacklist[ItemID]
         for k,v in pairs(raw[3]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
