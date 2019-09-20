@@ -12,6 +12,11 @@ LangObjectLookup = {}
 for k,v in pairs(LangObjectIdLookup) do
     LangObjectLookup[v]=k
 end
+if(GetLocale() == "enUS" or GetLocale() == "enGB") then
+    for id, data in pairs(QuestieDB.objectData) do
+        LangObjectIdLookup[data[1]] = id;
+    end
+end
 
 -- Global Functions --
 
