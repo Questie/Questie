@@ -1045,7 +1045,7 @@ function QuestieTracker:Update()
             line:SetQuest(Quest)
             line:SetObjective(nil)
             if complete then
-                line.label:SetText(QuestieTooltips:PrintDifficultyColor(Quest.Level, "[" .. Quest.Level .. "] " .. (Quest.LocalizedName or Quest.Name) .. " " .. QuestieLocale:GetUIString('TOOLTIP_QUEST_COMPLETE')))
+                line.label:SetText(QuestieLib:PrintDifficultyColor(Quest.Level, "[" .. Quest.Level .. "] " .. (Quest.LocalizedName or Quest.Name) .. " " .. QuestieLocale:GetUIString('TOOLTIP_QUEST_COMPLETE')))
             else
                 line.label:SetText(Quest:GetColoredQuestName())
             end

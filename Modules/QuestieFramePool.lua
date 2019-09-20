@@ -408,19 +408,6 @@ function _QuestieFramePool:QuestieCreateFrame()
     return f
 end
 
-function QuestieFramePool:Euclid(x, y, i, e)
-    local xd = math.abs(x - i);
-    local yd = math.abs(y - e);
-    return math.sqrt(xd * xd + yd * yd);
-end
-
-function QuestieFramePool:Maxdist(x, y, i, e)
-    return math.max(math.abs(x - i), math.abs(y - e))
-end
-
-function QuestieFramePool:Remap(value, low1, high1, low2, high2)
-    return low2 + (value - low1) * (high2 - low2) / (high1 - low1);
-end
 
 _QuestieFramePool.lastTooltipShowHack = GetTime()
 function _QuestieFramePool:IsMinimapInside()
@@ -494,7 +481,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
     if 1 then
         for _, icon in pairs(usedFrames) do -- I added "usedFrames" because I think its a bit more efficient than using _G but I might be wrong
             if icon and icon.data and icon.x and icon.AreaID == self.AreaID then
-                local dist = QuestieFramePool:Maxdist(icon.x, icon.y, self.x, self.y);
+                local dist = QuestieLib:Maxdist(icon.x, icon.y, self.x, self.y);
                 if dist < maxDistCluster then
                     if icon.data.Type == "available" or icon.data.Type == "complete" then
                         if npcOrder[icon.data.Name] == nil then

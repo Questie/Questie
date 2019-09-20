@@ -23,11 +23,6 @@ if (not QuestieTracker) or (not LQuestie_EasyMenu) then
 end
 
 
-function Questie:ProfileFunction(func)
-  local time, count = GetFunctionCPUUsage(func, true);
-  DEFAULT_CHAT_FRAME:AddMessage(time/count);
-end
-
 
 
 function Questie:OnInitialize()

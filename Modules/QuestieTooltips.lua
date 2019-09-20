@@ -10,26 +10,6 @@ QuestieTooltips.tooltipLookup = {
     --["u_Grell"] = {questid, {"Line 1", "Line 2"}}
 }
 
-function QuestieTooltips:PrintDifficultyColor(level, text)
-
-    if level == -1 then
-        level = qPlayerLevel;
-    end
-    local levelDiff = level - qPlayerLevel
-
-    if (levelDiff >= 5) then
-        return "|cFFFF1A1A"..text.."|r"; -- Red
-    elseif (levelDiff >= 3) then
-        return "|cFFFF8040"..text.."|r"; -- Orange
-    elseif (levelDiff >= -4) then
-        return "|cFFFFFF00"..text.."|r"; -- Yellow
-    elseif (-levelDiff <= GetQuestGreenRange()) then
-        return "|cFF40C040"..text.."|r"; -- Green
-    else
-        return "|cFFC0C0C0"..text.."|r"; -- Grey
-    end
-end
-
 -- key format:
 --  The key is the string name of the object the tooltip is relevant to, started with a small flag that specifies the type:
 --        units: u_
