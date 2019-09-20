@@ -1,4 +1,256 @@
-QuestieComms = {};
+QuestieComms = {...};
+local _QuestieComms = {...};
+-- Addon message prefix
+_QuestieComms.prefix = "questie";
+-- List of all players questlog private to prevent modification from the outside.
+_QuestieComms.remoteQuestLogs = {};
+
+--Channel types
+_QuestieComms.QC_WRITE_ALLGUILD = "GUILD"
+_QuestieComms.QC_WRITE_ALLGROUP = "PARTY"
+_QuestieComms.QC_WRITE_ALLRAID = "RAID"
+_QuestieComms.QC_WRITE_WHISPER = "WHISPER"
+_QuestieComms.QC_WRITE_CHANNEL = "CHANNEL"
+
+--Message types.
+_QuestieComms.QC_ID_BROADCAST_QUEST_UPDATE = 1 -- send quest_log_update status to party/raid members
+-- NYI ->
+_QuestieComms.QC_ID_BROADCAST_QUESTIE_GETVERSION = 2 -- ask anyone for the newest questie version
+_QuestieComms.QC_ID_BROADCAST_QUESTIE_VERSION = 3 -- broadcast the current questie version
+_QuestieComms.QC_ID_ASK_CHANGELOG = 4 -- ask a player for the changelog
+_QuestieComms.QC_ID_SEND_CHANGELOG = 5
+_QuestieComms.QC_ID_ASK_QUESTS = 6 -- ask a player for their quest progress on specific quests
+_QuestieComms.QC_ID_SEND_QUESTS = 7
+_QuestieComms.QC_ID_ASK_QUESTSLIST = 8 -- ask a player for their current quest log as a list of quest IDs
+_QuestieComms.QC_ID_SEND_QUESTSLIST = 9
+-- <-- NYI
+_QuestieComms.QC_ID_BROADCAST_FULL_QUESTLIST = 10
+
+--- Global Functions --
+
+
+--Move to Questie.lua after QuestieOptions move.
+function Questie:GetAddonVersionInfo()  -- todo: better place
+    local _, title, _, _, _, reason = GetAddOnInfo("QuestieDev-master");
+    if(reason == "MISSING") then
+      _, title = GetAddOnInfo("Questie");
+    end
+    local major, minor, patch = string.match(title, "v(%d+)\.(%d+)\.(%d+)");
+    return tonumber(major), tonumber(minor), tonumber(patch);
+end
+
+
+-- THIS SHOULD NOT BE HERE
+function QuestieQuest:ConvertDescription(description)
+  -- stub, return a converted datastream.
+end
+
+
+---------
+-- Fetch quest information about a specific player.
+-- Params:
+--  playerName (string)
+--  questId (int)
+-- Return:
+--  Similar object as QuestieQuest:GetRawLeaderBoardDetails()
+--  Quest.(Id|level|isComplete) --title is trimmed to save space
+--  Quest.Objectives[index].(description|objectiveType|isCompleted)
+---------
+function QuestieComms:GetQuest(playerName, questId)
+  if(_QuestieComms.remoteQuestLogs[playerName]) then
+    if(_QuestieComms.remoteQuestLogs[playerName][questId]) then
+      -- Create a copy of the object, other side should never be able to edit the underlying object.
+      local quest = {};
+      for key,value in pairs(_QuestieComms.remoteQuestLogs[playerName][questId]) do
+        if(key ~= "title" and key ~= "compareString") then --Trim title and compareString string, felt good, might add more late idk UwU.
+          quest[key] = value;
+        end
+      end
+      return quest;
+    end
+  end
+  return nil;
+end
+
+function QuestieComms:Initialize()
+  -- Lets us send any length of message. Also implements ChatThrottleLib to not get disconnected.
+  Questie:RegisterComm(_QuestieComms.prefix, _QuestieComms.OnCommReceived);
+
+  -- Events to be used to broadcast updates to other people
+  Questie:RegisterEvent("QC_ID_BROADCAST_QUEST_UPDATE", _QuestieComms.BroadcastQuestUpdate);
+  Questie:RegisterEvent("QC_ID_BROADCAST_FULL_QUESTLIST", _QuestieComms.BroadcastQuestLog);
+end
+
+-- Local Functions --
+
+function _QuestieComms:BroadcastQuestUpdate(eventName, quest) -- broadcast quest update to group or raid
+  if(quest) then
+    local raid = UnitInRaid("player")
+    local party = UnitInParty("player")
+    if raid or party then
+      --Do we really need to make this?
+      local questPacket = _QuestieComms:createPacket(_QuestieComms.QC_ID_BROADCAST_QUEST_UPDATE)
+      --Trim these
+      quest.compareString = nil;
+      quest.title = nil;
+
+      questPacket.data.quest = quest
+      questPacket.data.priority = "NORMAL";
+      if raid then
+        questPacket.data.writeMode = _QuestieComms.QC_WRITE_ALLRAID
+      else
+        questPacket.data.writeMode = _QuestieComms.QC_WRITE_ALLGROUP
+      end
+      questPacket:write()
+    end
+  end
+end
+
+function _QuestieComms:BroadcastQuestLog(eventName) -- broadcast quest update to group or raid
+  local raid = UnitInRaid("player")
+  local party = UnitInParty("player")
+  if raid or party then
+    local rawQuestList = {}
+    -- Maybe this should be its own function in QuestieQuest...
+    local numEntries, numQuests = GetNumQuestLogEntries();
+    for index = 1, numEntries do
+      local title, level, _, isHeader, _, isComplete, _, questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
+      if(not isHeader) then
+        local quest = QuestieQuest:GetRawLeaderBoardDetails(index);
+        --Trim these
+        quest.compareString = nil;
+        quest.title = nil;
+
+        rawQuestList[quest.Id] = quest;
+      end
+    end
+
+    --Do we really need to make this?
+    local questPacket = _QuestieComms:createPacket(_QuestieComms.QC_ID_BROADCAST_FULL_QUESTLIST);
+    questPacket.data.rawQuestList = rawQuestList;
+
+    -- We might aswell send the current version to the party member.
+    questPacket.data.version = table.pack(Questie:GetAddonVersionInfo());
+    if raid then
+      questPacket.data.writeMode = _QuestieComms.QC_WRITE_ALLRAID;
+      questPacket.data.priority = "BULK";
+    else
+      questPacket.data.writeMode = _QuestieComms.QC_WRITE_ALLGROUP;
+      questPacket.data.priority = "NORMAL";
+    end
+    questPacket:write();
+  end
+end
+
+_QuestieComms.packets = {
+  [_QuestieComms.QC_ID_BROADCAST_QUEST_UPDATE] = {
+      write = function(self)
+          self.data.playerName = UnitName("player");
+          _QuestieComms:broadcast(self.data);
+      end,
+      read = function(self, remoteQuestPacket)
+        --These are not strictly needed but helps readability.
+        local playerName = remoteQuestPacket.playerName;
+        local quest = remoteQuestPacket.quest;
+        if quest then
+          -- Create empty player.
+          if not _QuestieComms.remoteQuestLogs[playerName] then
+              _QuestieComms.remoteQuestLogs[playerName] = {}
+          end
+          -- Create empty quests.
+          if not _QuestieComms.remoteQuestLogs[playerName][quest.Id] then
+              _QuestieComms.remoteQuestLogs[playerName][quest.Id] = {}
+          end
+          _QuestieComms.remoteQuestLogs[playerName][quest.Id] = quest;
+        end
+      end
+  },
+  [_QuestieComms.QC_ID_BROADCAST_FULL_QUESTLIST] = {
+      write = function(self)
+          self.data.playerName = UnitName("player");
+          _QuestieComms:broadcast(self.data);
+      end,
+      read = function(self, remoteQuestPacket)
+        --These are not strictly needed but helps readability.
+        local playerName = remoteQuestPacket.playerName;
+        local quest = remoteQuestPacket.quest;
+        
+        -- Maybe we shouldn't send this here?
+        local major, minor, patch = table.unpack(remoteQuestPacket.version);
+        if quest then
+          -- Create empty player.
+          if not _QuestieComms.remoteQuestLogs[playerName] then
+              _QuestieComms.remoteQuestLogs[playerName] = {}
+          end
+          -- Create empty quests.
+          if not _QuestieComms.remoteQuestLogs[playerName][quest.Id] then
+              _QuestieComms.remoteQuestLogs[playerName][quest.Id] = {}
+          end
+          _QuestieComms.remoteQuestLogs[playerName][quest.Id] = quest;
+        end
+      end
+  },
+}
+
+-- Renamed Write function
+function _QuestieComms:broadcast(packet)
+    -- If the priority is not set, it must not be very important
+    if(not packet.priority) then
+      packet.priority = "BULK";
+    end
+    local compressedData = QuestieCompress:Compress(packet);
+    if packet.writeMode == _QuestieComms.QC_WRITE_WHISPER then
+        Questie:Debug(DEBUG_DEVELOP,"send(|cFFFF2222" .. compressedData .. "|r)")
+        Questie:SendCommMessage(_QuestieComms.prefix, compressedData, packet.writeMode, packet.target, packet.priority)
+    elseif packet.writeMode == _QuestieComms.QC_WRITE_CHANNEL then
+        Questie:Debug(DEBUG_DEVELOP,"send(|cFFFF2222" .. compressedData .. "|r)")
+        -- Always do channel messages as BULK priority
+        Questie:SendCommMessage(_QuestieComms.prefix, compressedData, packet.writeMode, GetChannelName("questiecom"), "BULK")
+        --OLD: C_ChatInfo.SendAddonMessage("questie", compressedData, "CHANNEL", GetChannelName("questiecom"))
+    else
+        Questie:Debug(DEBUG_DEVELOP, "send(|cFFFF2222" .. compressedData .. "|r)")
+        Questie:SendCommMessage(_QuestieComms.prefix, compressedData, packet.writeMode, nil, packet.priority)
+        --OLD: C_ChatInfo.SendAddonMessage("questie", compressedData, packet.writeMode)
+    end
+end
+
+function _QuestieComms:OnCommReceived(prefix, message, distribution, sender)
+    Questie:Debug(DEBUG_DEVELOP, "recv(|cFF22FF22" .. message .. "|r)")
+    if prefix == _QuestieComms.prefix and sender then
+      local decompressedData = QuestieCompress:Decompress(message);
+      QuestieComms.packets[message.messageId].read(decompressedData);
+    end
+end
+
+-- Copied: Is this really needed? Can't we just optimize away this?
+function _QuestieComms:createPacket(messageId)
+    -- Duplicate the object.
+    local pkt = {};
+    for k,v in pairs(QuestieComms.packets[messageId]) do
+        pkt[k] = v
+    end
+    -- Set messageId
+    pkt.data.messageId = messageId
+    -- Some messages initialize
+    if pkt.init then
+        pkt:init()
+    end
+    return pkt
+end
+
+
+
+-- NOT USED
+function QuestieComms:MessageReceived(channel, message, type, source) -- pcall this
+    Questie:Debug(DEBUG_DEVELOP, "recv(|cFF22FF22" .. message .. "|r)")
+    if channel == "questie" and source then
+      local decompressedData = QuestieCompress:decompress(message);
+      QuestieComms.packets[message.messageId].read(decompressedData);
+    end
+end
+
+--AeroScripts comms module, do not remove!!! Everything is still a WIP!!!
+--[[QuestieComms = {};
 
 QC_WRITE_ALLGUILD = 1
 QC_WRITE_ALLGROUP = 2
@@ -390,3 +642,4 @@ function QuestieComms:BroadcastQuestUpdate(quest) -- broadcast quest update to g
         pkt.stream:Finished()
     end
 end
+]]--
