@@ -910,23 +910,44 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
             if count == 1 and Counthack(Quest.ObjectiveData) == 1 then
                 Quest.Objectives[i].Id = Quest.ObjectiveData[1].Id
             elseif Quest.ObjectiveData ~= nil then
-                -- try to find npc/item/event ID
-                for k, v in pairs(Quest.ObjectiveData) do
-                    if objectiveType == v.Type then
+                -- try to find npc/item/object/event ID
+                for objectiveIndex, objective in pairs(Quest.ObjectiveData) do
+                    if objectiveType == objective.Type then
                         -- TODO: use string distance to find closest, dont rely on exact match
-                        if ((v.Name == nil or objectiveDesc == nil) and v.Type ~= "item" and v.Type ~= "monster") or (v.Name and ((string.lower(objectiveDesc) == string.lower(v.Name))) or (v.Text and (string.lower(objectiveDesc) == string.lower(v.Text)))) then
-                            Quest.Objectives[i].Id = v.Id
-                            Quest.Objectives[i].Coordinates = v.Coordinates
-                            v.ObjectiveRef = Quest.Objectives[i]
+
+                        -- Fetch the name of the objective
+                        local oName = ""
+                        if(objective.Type == "monster") then
+                            oName = string.lower(QuestieDB:GetNPC(objective.Id).name);
+                        elseif(objective.Type == "object") then
+                            oName = string.lower(QuestieDB:GetObject(objective.Id).name);
+                        elseif(objective.Type == "item") then
+                            oName = string.lower(QuestieDB:GetItem(objective.Id).Name);-- this is capital letters for some reason...
                         end
-                    end
-                end
-                -- 2nd pass (fix for missing language data)
-                if Quest.Objectives[i].Id == nil and GetLocale() ~= "enUS" and GetLocale() ~= "enGB" then
-                    for k,v in pairs(Quest.ObjectiveData) do
-                        if objectiveType == v.Type then
-                            -- When nothing is found (other languages) fill it.
-                            Quest.Objectives[i].Id = v.Id
+                        -- To lower the questlog objective text
+                        local oDesc = string.lower(objectiveDesc);
+                        -- This is whaaaat?
+                        local oText = string.lower(objective.Text);
+
+                        local correctObjective = false;
+                        if(oName and oDesc) then
+                            -- Does regular ch  eck work good? or Regex mayhaps?
+                            if((oName == oDesc) or strfind(oDesc, oName, 1, true)) then
+                                correctObjective = true;
+                            elseif(oText == oDesc or strfind(oDesc, oName, 1, true)) then
+                                correctObjective = true;
+                            end
+                        elseif((oName == nil or oDesc == nil) and objective.Type ~= "item" and objective.Type ~= "monster") then
+                            correctObjective = true;
+                        end
+
+                        --Is this objective the same as the object description
+                        if(correctObjective) then
+                            Quest.Objectives[i].Id = objective.Id;
+                            Quest.Objectives[i].Coordinates = objective.Coordinates;
+                            objective.ObjectiveRef = Quest.Objectives[i];
+                        elseif(GetLocale() ~= "enUS" and GetLocale() ~= "enGB") then
+                            Quest.Objectives[i].Id = objective.Id;
                         end
                     end
                 end

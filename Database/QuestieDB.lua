@@ -117,6 +117,16 @@ function QuestieDB:GetItem(ItemID)
     if raw ~= nil then
         item.Id = ItemID;
         item.Name = raw[1];
+        if(GetLocale() ~= "enUS" and GetLocale() ~= "enGB") then
+            --- IMPLEMENT LOCALIZED HERE!!
+            -- Try and fetch the name from the server. This is used for localization.
+            local i = Item:CreateFromItemID(item.Id);
+            item:ContinueOnItemLoad(function()
+                local itemName = i:GetItemName();
+                i.Name = itemName;
+            end)
+            ---
+        end
         item.Sources = {};
         item.Hidden = QuestieCorrections.questItemBlacklist[ItemID]
         for k,v in pairs(raw[3]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
@@ -284,13 +294,6 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
                     obj.Id = _v[1]
                     obj.Text = _v[2];
 
-                    -- this speeds up lookup
-                    obj.Name = QuestieDB.npcData[obj.Id]
-                    if obj.Name ~= nil then
-                        local name = LangNameLookup[obj.Id] or obj.Name[1]
-                        obj.Name = string.lower(name);
-                    end
-
                     table.insert(QO.ObjectiveData, obj);
 
                 end
@@ -305,11 +308,6 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
                     obj.Id = _v[1]
                     obj.Text = _v[2]
 
-                    obj.Name = QuestieDB.objectData[obj.Id]
-                    if obj.Name ~= nil then
-                        obj.Name = string.lower(obj.Name[1]);
-                    end
-
                     table.insert(QO.ObjectiveData, obj);
 
                 end
@@ -322,11 +320,6 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
                     obj.Type = "item"
                     obj.Id = _v[1]
                     obj.Text = _v[2]
-
-                    obj.Name = CHANGEME_Questie4_ItemDB[obj.Id]
-                    if obj.Name ~= nil then
-                        obj.Name = string.lower(obj.Name[1]);
-                    end
 
                     table.insert(QO.ObjectiveData, obj);
                 end
