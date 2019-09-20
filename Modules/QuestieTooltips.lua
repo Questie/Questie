@@ -76,8 +76,9 @@ local function TooltipShowing_unit(self)
     if self.IsForbidden and self:IsForbidden() then return; end
     if not Questie.db.global.enableTooltips then return; end
     --QuestieTooltips.lastTooltipTime = GetTime()
-    local name, ttype = self:GetUnit()
+    local name, unitId = self:GetUnit()
     if name and (name ~= QuestieTooltips.lastGametooltipUnit or (not QuestieTooltips.lastGametooltipCount) or _QuestieTooltips:CountTooltip() < QuestieTooltips.lastGametooltipCount) then
+        Questie:Debug(DEBUG_DEVELOP, "[QuestieTooltip] Unit Id on hover : ", unitId);
         QuestieTooltips.lastGametooltipUnit = name
         local tooltipData = QuestieTooltips:GetTooltip("u_" .. name);
         if tooltipData then
@@ -93,6 +94,9 @@ local function TooltipShowing_item(self)
     if self.IsForbidden and self:IsForbidden() then return; end
     --QuestieTooltips.lastTooltipTime = GetTime()
     local name, link = self:GetItem()
+    local _, _, _, _, itemId, _, _, _, _, _, _, _, _, itemName = string.find(link, "|?c?f?f?(%x*)|?H?([^:]*):?(%d+):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%-?%d*):?(%-?%d*):?(%d*):?(%d*):?(%-?%d*)|?h?%[?([^%[%]]*)%]?|?h?|?r?")
+    
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieTooltip] Item Id on hover : ", itemId);
     if name and (name ~= QuestieTooltips.lastGametooltipItem or (not QuestieTooltips.lastGametooltipCount) or _QuestieTooltips:CountTooltip() < QuestieTooltips.lastGametooltipCount) then
         QuestieTooltips.lastGametooltipItem = name
         local tooltipData = QuestieTooltips:GetTooltip("i_" .. name);
@@ -108,6 +112,8 @@ end
 local function TooltipShowing_maybeobject(name)
     if not Questie.db.global.enableTooltips then return; end
     if name then
+        local gameObjectId = LangObjectIdLookup[name];
+        Questie:Debug(DEBUG_DEVELOP, "[QuestieTooltip] Object Id on hover : ", gameObjectId);
         local tooltipData = QuestieTooltips:GetTooltip("o_" .. name);
         if tooltipData then
             for _, v in pairs (tooltipData) do
@@ -119,9 +125,25 @@ local function TooltipShowing_maybeobject(name)
     end
 end
 
+function _QuestieTooltips:GetGUID()
+    local ret = {}
+    local guid = UnitGUID("mouseover");
+    local B = tonumber(guid:sub(5,5), 16);
+    local maskedB = B % 8; -- x % 8 has the same effect as x & 0x7 on numbers <= 0xf
+    local knownTypes = {[0]="player", [3]="NPC", [4]="pet", [5]="vehicle"};
+    local id = tonumber((guid):sub(-12, -9), 16);
+    local name = UnitName("mouseover")
+    ret.guid = guid;
+    ret.name = name;
+    ret.id = id;
+    ret.type = knownTypes[maskedB] or nil
+
+    return ret;
+end
+
 function _QuestieTooltips:CountTooltip()
     local tooltipcount = 0
-    for i = 1, 25 do
+    for i = 1, 25 do -- Should probably use GameTooltip:NumLines() instead.
         local frame = _G["GameTooltipTextLeft"..i]
         if(frame and frame:GetText()) then
             tooltipcount = tooltipcount + 1
