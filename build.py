@@ -62,9 +62,6 @@ def setArgs():
     return versionDir, addonDir, zipName
 
 def main():
-    # check dependencies
-    if not shutil.which('7z'):
-        raise RuntimeError('7z not in PATH')
     # set up pathes and handle command line arguments
     versionDir, addonDir, zipName = setArgs()
     # check that nothing is overwritten
