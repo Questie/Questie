@@ -504,7 +504,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
                         if icon.data.Type == "complete" then
                             dat.type = QuestieLocale:GetUIString("TOOLTIP_QUEST_COMPLETE");
                         else
-                          if(icon.Icon == ICON_TYPE_REPEATABLE) then
+                          if(icon.data.Icon == ICON_TYPE_REPEATABLE) then
                             dat.type = QuestieLocale:GetUIString("TOOLTIP_QUEST_REPEATABLE");--"(Repeatable)"; --
                           else
                             dat.type = QuestieLocale:GetUIString("TOOLTIP_QUEST_AVAILABLE");
