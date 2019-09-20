@@ -7,10 +7,10 @@ local AceGUI = LibStub("AceGUI-3.0")
 -- Initialize LangNameLookup & LangQuestLookup & LangObjectLookup
 LangNameLookup = LangNameLookup[GetLocale()] or {};
 LangQuestLookup = LangQuestLookup[GetLocale()] or {};
-LangObjectLookup = LangObjectLookup[GetLocale()] or {};
-LangObjectIdLookup = {}
-for k,v in pairs(LangObjectLookup) do
-    LangObjectIdLookup[v]=k
+LangObjectIdLookup = LangObjectLookup[GetLocale()] or {};
+LangObjectLookup = {}
+for k,v in pairs(LangObjectIdLookup) do
+    LangObjectLookup[v]=k
 end
 
 -- Global Functions --
