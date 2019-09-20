@@ -42,6 +42,7 @@ Locale\ptBR\locale.xml
 Locale\ruRU\locale.xml
 
 #Modules
+Modules\Libs\QuestieCompress.lua
 Modules\QuestieTooltips.lua
 Modules\QuestieEventHandler.lua
 Modules\QuestieFramePool.lua
