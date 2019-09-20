@@ -43,7 +43,7 @@ Locale\ruRU\locale.xml
 
 #Modules
 Modules\Libs\QuestieLib.lua
-Modules\Libs\QuestieCompress.lua
+#Modules\Libs\QuestieCompress.lua
 Modules\QuestieTooltips.lua
 Modules\QuestieEventHandler.lua
 Modules\QuestieFramePool.lua
@@ -52,7 +52,7 @@ Modules\QuestieQuest.lua
 Modules\QuestieNameplate.lua
 Modules\QuestieCoordinates.lua
 Modules\QuestieJourney.lua
-Modules\QuestieComms.lua
+#Modules\QuestieComms.lua
 Modules\QuestieSearch.lua
 Modules\QuestieTracker.lua
 Modules\QuestieOptions.lua
