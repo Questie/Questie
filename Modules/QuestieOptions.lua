@@ -4,9 +4,14 @@ _QuestieOptions.configFrame = nil;
 
 local AceGUI = LibStub("AceGUI-3.0")
 
--- Initialize LangNameLookup & LangQuestLookup
-LangNameLookup = LangNameLookup[GetLocale()] or {}
-LangQuestLookup = LangQuestLookup[GetLocale()] or {}
+-- Initialize LangNameLookup & LangQuestLookup & LangObjectLookup
+LangNameLookup = LangNameLookup[GetLocale()] or {};
+LangQuestLookup = LangQuestLookup[GetLocale()] or {};
+LangObjectLookup = LangObjectLookup[GetLocale()] or {};
+LangObjectIdLookup = {}
+for k,v in pairs(LangObjectLookup) do
+    LangObjectIdLookup[v]=k
+end
 
 -- Global Functions --
 
