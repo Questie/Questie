@@ -123,7 +123,7 @@ function QuestieDB:GetItem(ItemID)
             local i = Item:CreateFromItemID(item.Id);
             item:ContinueOnItemLoad(function()
                 local itemName = i:GetItemName();
-                i.Name = itemName;
+                item.Name = itemName;
             end)
             ---
         end
