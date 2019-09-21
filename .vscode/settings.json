@@ -2479,6 +2479,13 @@
         "C_Timer",
         "----> JSONCOMMENT - WoW Functions Above",
         "LibStub",
+        "hooksecurefunc",
+        "QuestWatchFrame",
+        "QuestLogFrame",
+        "QuestLogExFrame",
+        "QuestieLib",
+        "LQuestie_Create_UIDropDownMenu",
+        "LQuestie_EasyMenu"
     ],
     "Lua.workspace.ignoreDir": [
         "Libs/**"
