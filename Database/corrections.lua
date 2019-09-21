@@ -246,6 +246,7 @@ QuestieCorrections.itemFixes = {
     [8523] = {"Field Testing Kit",{654},{7683},{}},
     [9330] = {"Snapshot of Gammerita",{2944},{7977},{}},
     [11113] = {"Crate of Foodstuffs",{3881},{},{161526}},
+    [11470] = {"Tablet Transcript",{4296},{},{169294}},
 
     -- quest related herbs
     [2449] = {"Earthroot",{6123,6128},{},{1619,3726}},
