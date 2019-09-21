@@ -1130,7 +1130,6 @@ QuestieCorrections.hiddenQuests = {
   [4448] = true,
   [4462] = true,
   --Phase 2 - Dire Maul
-  [8250] = true,
   [7494] = true,
   [7441] = true,
   [7492] = true,
@@ -1161,8 +1160,15 @@ QuestieCorrections.hiddenQuests = {
   [7703] = true,
   [7877] = true,
 --Phase 4 - Zul'Gurub
+  [8250] = true,
   [8417] = true,
+  [8415] = true,
+  [8151] = true,
+  [8233] = true,
+  [8254] = true,
   [9063] = true,
+  [8410] = true,
+  [8419] = true,
   [8056] = true,
   [8057] = true,
   [8064] = true,
@@ -1249,7 +1255,6 @@ QuestieCorrections.hiddenQuests = {
   [9210] = true,
 --Phase 5 - AQ20/AQ40/AQ War Effort
   [8307] = true,
-  [8254] = true,
   [8275] = true,
   [8276] = true,
   [8304] = true,
