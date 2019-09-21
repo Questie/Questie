@@ -42,6 +42,9 @@ QuestieCorrections.questFixes = {
     [152] = {
         [QuestieDB.questKeys.requiredRaces] = 77, -- #1025
     },
+    [691] = {
+        [QuestieDB.questKeys.preQuestSingle] = {},
+    },
     [7068] = {
         [QuestieDB.questKeys.requiredLevel] = 39,
     },
