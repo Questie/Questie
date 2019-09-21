@@ -1044,11 +1044,16 @@ function QuestieTracker:Update()
             line:SetMode("header")
             line:SetQuest(Quest)
             line:SetObjective(nil)
-            if complete then
-                line.label:SetText(QuestieLib:PrintDifficultyColor(Quest.Level, "[" .. Quest.Level .. "] " .. (Quest.LocalizedName or Quest.Name) .. " " .. QuestieLocale:GetUIString('TOOLTIP_QUEST_COMPLETE')))
-            else
-                line.label:SetText(Quest:GetColoredQuestName())
+
+            local questString = (Quest.LocalizedName or Quest.Name)
+            if Questie.db.global.trackerShowQuestLevel then
+                questString = "[" .. Quest.Level .. "] " .. questString
             end
+            if complete then
+                questString  = questString .. QuestieLocale:GetUIString('TOOLTIP_QUEST_COMPLETE')
+            end
+            line.label:SetText(QuestieLib:PrintDifficultyColor(Quest.Level, questString))
+            
             line.label:Show()
             trackerWidth = math.max(trackerWidth, line.label:GetWidth())
             --
