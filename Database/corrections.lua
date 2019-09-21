@@ -60,6 +60,10 @@ QuestieCorrections.questFixes = {
     },
     [1127] = {
         [QuestieDB.questKeys.specialFlags] = 1, -- #884
+        [QuestieDB.questKeys.parentQuest] = {1119}, -- #1084
+    },
+    [1119] = {
+        [QuestieDB.questKeys.childQuests] = {1127}, -- #1084
     },
     [1275] = {
         [QuestieDB.questKeys.preQuestSingle] = {}, -- #973
