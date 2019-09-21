@@ -106,6 +106,18 @@ QuestieCorrections.questFixes = {
         [QuestieDB.questKeys.preQuestSingle] = {}, -- #889
         [QuestieDB.questKeys.exclusiveTo] = {}, -- #875
     },
+    [1598] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1599}, -- #999
+    },
+    [1599] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1598}, -- #999
+    },
+    [1470] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1485}, -- #999
+    },
+    [1485] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1470}, -- #999
+    },
     -- Profession quests
     [769] = {
         [QuestieDB.questKeys.requiredSkill] = {165,10},
