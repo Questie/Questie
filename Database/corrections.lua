@@ -428,6 +428,8 @@ QuestieCorrections.questItemBlacklist = {
     [13466] = true, -- plaguebloom
     [13467] = true, -- icecap
     [13468] = true, -- black lotus
+    [929] = true, -- Healing Potion
+    [13446] = true, -- Major Healing Potion
 
     -- stranglethorn pages
     [2725] = true,
