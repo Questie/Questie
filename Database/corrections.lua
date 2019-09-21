@@ -258,6 +258,7 @@ QuestieCorrections.itemFixes = {
     [11113] = {"Crate of Foodstuffs",{3881},{},{161526}},
     [11470] = {"Tablet Transcript",{4296},{},{169294}},
     [12283] = {"Broodling Essence",{4726},{7047,7048,7049,},{175264}},
+    [11522] = {"Silver Totem of Aquementas",{4005},{},{148507}},
 
     -- quest related herbs
     [2449] = {"Earthroot",{6123,6128},{},{1619,3726}},
