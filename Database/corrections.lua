@@ -164,17 +164,115 @@ QuestieCorrections.questFixes = {
     [1106] = {
         [QuestieDB.questKeys.preQuestGroup] = {1104, 1105},
     },
-    [431] = {
+    [431] = { -- candles of beckoning
         [QuestieDB.questKeys.preQuestSingle] = {366}, -- #638
+        [QuestieDB.questKeys.exclusiveTo] = {411}, -- #752
     },
-    [410] = {
+    [410] = { -- the dormant shade
         [QuestieDB.questKeys.preQuestSingle] = {366}, -- #638
+        [QuestieDB.questKeys.exclusiveTo] = {411}, -- #752
     },
     [364] = {
         [QuestieDB.questKeys.preQuestSingle] = {}, -- #882
     },
     [473] = {
         [QuestieDB.questKeys.preQuestSingle] = {455}, -- #809
+    },
+    --------------------
+    -- questExclusiveGroupFixes
+    [463] = {
+        [QuestieDB.questKeys.exclusiveTo] = {276}, --greenwarden cant be completed if you have trampling paws
+    },
+    [415] = {
+        [QuestieDB.questKeys.exclusiveTo] = {413}, -- cant complete rejolds new brew if you do shimmer stout (see issue 567)
+    },
+    [1339] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1338}, -- mountaineer stormpike's task cant be done if you have finished stormpike's order
+    },
+    [1943] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1944}, -- mage robe breadcrumb
+    },
+    [526] = {
+        [QuestieDB.questKeys.exclusiveTo] = {322,324}, -- not 100% sure on this one but it seems lightforge ingots is optional, block it after completing subsequent steps (#587)
+    },
+    [3765] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1275}, -- corruption abroad breadcrumb
+    },
+    [164] = {
+        [QuestieDB.questKeys.exclusiveTo] = {95}, -- deliveries to sven is a breadcrumb
+    },
+    -- this is a subquest
+    --[403] = {[QuestieDB.questKeys.exclusiveTo] = {311},}, -- completing the unguarded barrel quest prevents to do the optional guarded barrel prequest
+    [428] = {
+        [QuestieDB.questKeys.exclusiveTo] = {429}, -- lost deathstalkers breadcrumb
+    },
+    [308] = {
+        [QuestieDB.questKeys.exclusiveTo] = {311}, -- distracting jarven can't be completed once you get the followup
+    },
+
+    -- Tome of Divinity starting quests for dwarfs #703
+    [1645] = { -- This is repeatable giving an item starting 1646
+        [QuestieDB.questKeys.exclusiveTo] = {1642,1646,2997,2998,2999,3000,3681},
+    },
+    [1646] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1642,2997,2998,2999,3000,3681},
+    },
+    [2997] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1642,1646,2998,2999,3000,3681},
+    },
+    [2999] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1642,1646,2997,2998,3000,3681},
+    },
+    [3000] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1642,1646,2997,2998,2999,3681},
+    },
+
+    -- Tome of Divinity starting quests for humans #703
+    [1641] = { -- This is repeatable giving an item starting 1642
+        [QuestieDB.questKeys.exclusiveTo] = {1642,1646,2997,2998,2999,3000,3681},
+    },
+    [1642] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1646,2997,2998,2999,3000,3681},
+    },
+    [2998] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1642,1646,2997,2998,3000,3681},
+    },
+    [3681] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1642,1646,2997,2998,2999,3000},
+    },
+
+    -- Tome of Valor repeatable starting quests #742
+    [1793] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1649},
+    },
+    [1794] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1649},
+    },
+
+    -- Tome of Nobility quests #1661
+    [1661] = {
+        [QuestieDB.questKeys.exclusiveTo] = {4485,4486},
+    },
+    [4485] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1661,4486},
+    },
+    [4486] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1661,4485},
+    },
+
+    -- Voidwalker questline for horde
+    [1473] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1501},
+    },
+    [1501] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1473},
+    },
+
+    [163] = {
+        [QuestieDB.questKeys.exclusiveTo] = {5}, -- Raven Hill breadcrumb
+    },
+    [1301] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1302}, -- breadcrumb of James Hyal #917
     },
 }
 
@@ -357,45 +455,6 @@ else
         QuestieCorrections.itemFixes[index] = fix
     end
 end
-
-QuestieCorrections.questExclusiveGroupFixes = {
-    [463] = {276}, --greenwarden cant be completed if you have trampling paws
-    [415] = {413}, --cant complete rejolds new brew if you do shimmer stout (see issue 567)
-    [1339] = {1338}, -- mountaineer stormpike's task cant be done if you have finished stormpike's order
-    [1943] = {1944}, -- mage robe breadcrumb
-    [526] = {322,324}, -- not 100% sure on this one but it seems lightforge ingots is optional, block it after completing subsequent steps (#587)
-    [3765] = {1275}, -- corruption abroad breadcrumb
-    [164] = {95}, -- deliveries to sven is a breadcrumb
-    -- this is a subquest
-    --[403] = {311}, -- completing the unguarded barrel quest prevents to do the optional guarded barrel prequest
-    [428] = {429}, -- lost deathstalkers breadcrumb
-    [308] = {311}, -- distracting jarven can't be completed once you get the followup
-    -- Tome of Divinity starting quests for dwarfs #703
-    [1645] = {1642,1646,2997,2998,2999,3000,3681}, -- This is repeatable giving an item starting 1646
-    [1646] = {1642,2997,2998,2999,3000,3681},
-    [2997] = {1642,1646,2998,2999,3000,3681},
-    [2999] = {1642,1646,2997,2998,3000,3681},
-    [3000] = {1642,1646,2997,2998,2999,3681},
-    -- Tome of Divinity starting quests for humans #703
-    [1641] = {1642,1646,2997,2998,2999,3000,3861}, -- This is repeatable giving an item starting 1642
-    [1642] = {1646,2997,2998,2999,3000,3861},
-    [2998] = {1642,1646,2997,2998,3000,3861},
-    [3861] = {1642,1646,2997,2998,2999,3000},
-    -- Tome of Valor repeatable starting quests #742
-    [1793] = {1649},
-    [1794] = {1649},
-    [431] = {411}, -- candles of beckoning
-    [410] = {411}, -- the dormant shade
-    -- Tome of Nobility quests #1661
-    [1661] = {4485,4486},
-    [4485] = {1661,4486},
-    [4486] = {1661,4485},
-    -- Voidwalker questline for horde
-    [1473] = {1501},
-    [1501] = {1473},
-    [163] = {5}, -- Raven Hill breadcrumb
-    [1301] = {1302}, -- breadcrumb of James Hyal #917
-}
 
 QuestieCorrections.questItemBlacklist = {
     [2589] = true, -- linen cloth
