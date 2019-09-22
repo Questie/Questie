@@ -74,6 +74,9 @@ QuestieCorrections.questFixes = {
     [1119] = {
         [QuestieDB.questKeys.inGroupWith] = {}, -- #886
     },
+    [680] = {
+        [QuestieDB.questKeys.preQuestSingle] = {678}, -- #1062
+    },
     [691] = {
         [QuestieDB.questKeys.preQuestSingle] = {},
     },
