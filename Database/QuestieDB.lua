@@ -344,9 +344,6 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
         else
             QO.RequiredQuest = rawdata[13]
         end
-        if QuestieCorrections.questRequirementFixes[QuestID] ~= nil then
-            QO.RequiredQuest = QuestieCorrections.questRequirementFixes[QuestID]
-        end
         QO.SubQuests = rawdata[14] --Quests that give questitems that are used in later quests (See STV manual)
         QO.QuestGroup = rawdata[15] --Quests that are part of the same group, example complete this group of quests to open the next one.
         QO.ExclusiveQuestGroup = QuestieCorrections.questExclusiveGroupFixes[QuestID] or rawdata[16]

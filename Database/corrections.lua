@@ -78,7 +78,7 @@ QuestieCorrections.questFixes = {
         [QuestieDB.questKeys.childQuests] = {1127}, -- #1084
     },
     [1275] = {
-        [QuestieDB.questKeys.preQuestSingle] = {}, -- #973
+        [QuestieDB.questKeys.preQuestSingle] = {}, -- #973 -- #745 prequest is not required in Classic
     },
     [1718] = {
         [QuestieDB.questKeys.startedBy] = {{3041,3354,4595,5113,5479,},nil,nil,}, -- #1034
@@ -113,6 +113,7 @@ QuestieCorrections.questFixes = {
     },
     [926] = {
         [QuestieDB.questKeys.parentQuest] = {924}, -- #806
+        [QuestieDB.questKeys.preQuestSingle] = {809}, --#606
     },
     [930] = {
         [QuestieDB.questKeys.preQuestSingle] = {918,919}, -- #971
@@ -145,8 +146,36 @@ QuestieCorrections.questFixes = {
     },
     [3385] = {
         [QuestieDB.questKeys.requiredSkill] = {197,226}, -- You need to be an Artisan for this quest
-    }
+    },
     --------------------
+    -- questRequirementFixes
+    [46] = {
+        [QuestieDB.questKeys.preQuestSingle] = {39},
+    },
+    [3903] = {
+        [QuestieDB.questKeys.preQuestSingle] = {18},
+    },
+    [33] = {
+        [QuestieDB.questKeys.preQuestSingle] = {783},
+    },
+    [374] = {
+        [QuestieDB.questKeys.preQuestSingle] = {427}, -- proof of demise requires at war with the scarlet crusade
+    },
+    [1106] = {
+        [QuestieDB.questKeys.preQuestGroup] = {1104, 1105},
+    },
+    [431] = {
+        [QuestieDB.questKeys.preQuestSingle] = {366}, -- #638
+    },
+    [410] = {
+        [QuestieDB.questKeys.preQuestSingle] = {366}, -- #638
+    },
+    [364] = {
+        [QuestieDB.questKeys.preQuestSingle] = {}, -- #882
+    },
+    [473] = {
+        [QuestieDB.questKeys.preQuestSingle] = {455}, -- #809
+    },
 }
 
 QuestieCorrections.npcFixes = {
@@ -328,21 +357,6 @@ else
         QuestieCorrections.itemFixes[index] = fix
     end
 end
-
-QuestieCorrections.questRequirementFixes = {
-    [46] = {39},
-    [3903] = {18},
-    [33] = {783},
-    [374] = {427}, -- proof of demise requires at war with the scarlet crusade
-    [1106] = {1104, 1105},
-    [431] = {366}, -- #638
-    [410] = {366}, -- #638
-    [926] = {809}, -- #606
-    [364] = {}, -- #882
-    [1275] = {}, -- #745 prequest is not required in Classic
-    [1302] = {}, -- #889
-    [473] = {455}, -- #809
-}
 
 QuestieCorrections.questExclusiveGroupFixes = {
     [463] = {276}, --greenwarden cant be completed if you have trampling paws
