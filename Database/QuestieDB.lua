@@ -52,8 +52,8 @@ QuestieDB._ObjectCache = {};
 QuestieDB._ZoneCache = {};
 
 function QuestieDB:Initialize()
-    QuestieDBZone:ZoneCreateConvertion()
-    QuestieDB:DeleteClasses()
+    QuestieDBZone:ZoneCreateConversion()
+    QuestieDB:HideClassAndRaceQuests()
     QuestieDB:DeleteGatheringNodes()
 
     -- data has been corrected, ensure cache is empty (something might have accessed the api before questie initialized)
@@ -198,7 +198,7 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
         QO.Starts["Item"] = rawdata[2][3] --2.3
         QO.Ends = {} --ends 3
         QO.Hidden = rawdata.hidden or QuestieCorrections.hiddenQuests[QuestID]
-        QO.Description = rawdata[8] -- 
+        QO.Description = rawdata[8] --
         QO.SpecialFlags = rawdata[DB_SPECIAL_FLAGS]
         if QO.SpecialFlags then
             QO.Repeatable = mod(QO.SpecialFlags, 2) == 1
@@ -332,12 +332,9 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
         else
             QO.RequiredQuest = rawdata[13]
         end
-        if QuestieCorrections.questRequirementFixes[QuestID] ~= nil then
-            QO.RequiredQuest = QuestieCorrections.questRequirementFixes[QuestID]
-        end
         QO.SubQuests = rawdata[14] --Quests that give questitems that are used in later quests (See STV manual)
         QO.QuestGroup = rawdata[15] --Quests that are part of the same group, example complete this group of quests to open the next one.
-        QO.ExclusiveQuestGroup = QuestieCorrections.questExclusiveGroupFixes[QuestID] or rawdata[16]
+        QO.ExclusiveQuestGroup = rawdata[16]
         QO.NextQuestInChain = rawdata[22]
 
         QO.HiddenObjectiveData = {}
@@ -622,43 +619,36 @@ function UnpackBinary(val)
     return ret;
 end
 
-local function CheckRace(race, dbRace)
-    local valid = true;
-    if race and dbRace and not (dbRace == 0) then
-        local racemap = UnpackBinary(dbRace);
-        valid = racemap[RaceBitIndexTable[strlower(race)]];
-    end
-    return valid;
-end
-
-local function CheckClass(class, dbClass)
-    local valid = true;
-    if class and dbClass and not (dbClass == 0) then
-        local classmap = UnpackBinary(dbClass);
-        valid = classmap[ClassBitIndexTable[strlower(class)]];
-    end
-    return valid;
-end
-
-function QuestieDB:DeleteClasses() -- handles races too
-    local localizedClass, englishClass, classIndex = UnitClass("player");
-    local localizedRace, playerRace = UnitRace("player");
-    if englishClass and playerRace then
-        local playerClass = string.lower(englishClass);
-        playerRace = string.lower(playerRace);
+function QuestieDB:HideClassAndRaceQuests()
+    local _, _, classIndex = UnitClass("player");
+    local _, _, raceIndex = UnitRace("player");
+    if classIndex and raceIndex then
+        classIndex = math.pow(2, classIndex-1)
+        raceIndex = math.pow(2, raceIndex-1)
+        local questKeys = QuestieDB.questKeys
         for key, entry in pairs(QuestieDB.questData) do
-            local data = QuestieCorrections.questFixes[key] or entry
-            if data[7] and data[7] ~= 0 then
-                if not CheckClass(playerClass, data[7]) then
-                    data.hidden = true
+            -- load corrections into QuestieDB.questData
+            local correction = QuestieCorrections.questFixes[key]
+            if correction and correction[questKeys.requiredClasses] then
+                entry[questKeys.requiredClasses] = correction[questKeys.requiredClasses]
+            end
+            if correction and correction[questKeys.requiredRaces] then
+                entry[questKeys.requiredRaces] = correction[questKeys.requiredRaces]
+            end
+            -- check requirements, set hidden flag if not met
+            local requiredClasses = entry[questKeys.requiredClasses]
+            if (requiredClasses) and (requiredClasses ~= 0) then
+                if (bit.band(requiredClasses, classIndex) == 0) then
+                    entry.hidden = true
                 end
             end
-            if data[6] and data[6] ~= 0 and data[6] ~= 255 then
-                if not CheckRace(playerRace, data[6]) then
-                    data.hidden = true
+            local requiredRaces = entry[questKeys.requiredRaces]
+            if (requiredRaces) and (requiredRaces ~= 0) and (requiredRaces ~= 255) then
+                if (bit.band(requiredRaces, raceIndex) == 0) then
+                    entry.hidden = true
                 end
             end
         end
     end
-    Questie:Debug(DEBUG_DEVELOP, "Other class quests deleted");
+    Questie:Debug(DEBUG_DEVELOP, "Other class and race quests hidden");
 end

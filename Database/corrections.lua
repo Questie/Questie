@@ -33,6 +33,18 @@ QuestieCorrections.questFixes = {
         [QuestieDB.questKeys.requiredRaces] = 32,
         [QuestieDB.questKeys.nextQuestInChain] = 28,
     },
+    [103] = {
+        [QuestieDB.questKeys.requiredRaces] = 77, -- #1025
+    },
+    [104] = {
+        [QuestieDB.questKeys.requiredRaces] = 77, -- #1025
+    },
+    [152] = {
+        [QuestieDB.questKeys.requiredRaces] = 77, -- #1025
+    },
+    [691] = {
+        [QuestieDB.questKeys.preQuestSingle] = {},
+    },
     [7068] = {
         [QuestieDB.questKeys.requiredLevel] = 39,
     },
@@ -60,9 +72,16 @@ QuestieCorrections.questFixes = {
     },
     [1127] = {
         [QuestieDB.questKeys.specialFlags] = 1, -- #884
+        [QuestieDB.questKeys.parentQuest] = {1119}, -- #1084
+    },
+    [1119] = {
+        [QuestieDB.questKeys.childQuests] = {1127}, -- #1084
     },
     [1275] = {
-        [QuestieDB.questKeys.preQuestSingle] = {}, -- #973
+        [QuestieDB.questKeys.preQuestSingle] = {}, -- #973 -- #745 prequest is not required in Classic
+    },
+    [1718] = {
+        [QuestieDB.questKeys.startedBy] = {{3041,3354,4595,5113,5479,},nil,nil,}, -- #1034
     },
     [3449] = {
         [QuestieDB.questKeys.childQuests] = {3451}, -- #1008
@@ -94,6 +113,10 @@ QuestieCorrections.questFixes = {
     },
     [926] = {
         [QuestieDB.questKeys.parentQuest] = {924}, -- #806
+        [QuestieDB.questKeys.preQuestSingle] = {809}, --#606
+    },
+    [930] = {
+        [QuestieDB.questKeys.preQuestSingle] = {918,919}, -- #971
     },
     [1282] = {
         [QuestieDB.questKeys.exclusiveTo] = {}, -- #875
@@ -101,6 +124,18 @@ QuestieCorrections.questFixes = {
     [1302] = {
         [QuestieDB.questKeys.preQuestSingle] = {}, -- #889
         [QuestieDB.questKeys.exclusiveTo] = {}, -- #875
+    },
+    [1598] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1599}, -- #999
+    },
+    [1599] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1598}, -- #999
+    },
+    [1470] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1485}, -- #999
+    },
+    [1485] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1470}, -- #999
     },
     -- Profession quests
     [769] = {
@@ -111,12 +146,138 @@ QuestieCorrections.questFixes = {
     },
     [3385] = {
         [QuestieDB.questKeys.requiredSkill] = {197,226}, -- You need to be an Artisan for this quest
-    }
+    },
     --------------------
+    -- questRequirementFixes
+    [46] = {
+        [QuestieDB.questKeys.preQuestSingle] = {39},
+    },
+    [3903] = {
+        [QuestieDB.questKeys.preQuestSingle] = {18},
+    },
+    [33] = {
+        [QuestieDB.questKeys.preQuestSingle] = {783},
+    },
+    [374] = {
+        [QuestieDB.questKeys.preQuestSingle] = {427}, -- proof of demise requires at war with the scarlet crusade
+    },
+    [1106] = {
+        [QuestieDB.questKeys.preQuestGroup] = {1104, 1105},
+    },
+    [431] = { -- candles of beckoning
+        [QuestieDB.questKeys.preQuestSingle] = {366}, -- #638
+        [QuestieDB.questKeys.exclusiveTo] = {411}, -- #752
+    },
+    [410] = { -- the dormant shade
+        [QuestieDB.questKeys.preQuestSingle] = {366}, -- #638
+        [QuestieDB.questKeys.exclusiveTo] = {411}, -- #752
+    },
+    [364] = {
+        [QuestieDB.questKeys.preQuestSingle] = {}, -- #882
+    },
+    [473] = {
+        [QuestieDB.questKeys.preQuestSingle] = {455}, -- #809
+    },
+    --------------------
+    -- questExclusiveGroupFixes
+    [463] = {
+        [QuestieDB.questKeys.exclusiveTo] = {276}, --greenwarden cant be completed if you have trampling paws
+    },
+    [415] = {
+        [QuestieDB.questKeys.exclusiveTo] = {413}, -- cant complete rejolds new brew if you do shimmer stout (see issue 567)
+    },
+    [1339] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1338}, -- mountaineer stormpike's task cant be done if you have finished stormpike's order
+    },
+    [1943] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1944}, -- mage robe breadcrumb
+    },
+    [526] = {
+        [QuestieDB.questKeys.exclusiveTo] = {322,324}, -- not 100% sure on this one but it seems lightforge ingots is optional, block it after completing subsequent steps (#587)
+    },
+    [3765] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1275}, -- corruption abroad breadcrumb
+    },
+    [164] = {
+        [QuestieDB.questKeys.exclusiveTo] = {95}, -- deliveries to sven is a breadcrumb
+    },
+    -- this is a subquest
+    --[403] = {[QuestieDB.questKeys.exclusiveTo] = {311},}, -- completing the unguarded barrel quest prevents to do the optional guarded barrel prequest
+    [428] = {
+        [QuestieDB.questKeys.exclusiveTo] = {429}, -- lost deathstalkers breadcrumb
+    },
+    [308] = {
+        [QuestieDB.questKeys.exclusiveTo] = {311}, -- distracting jarven can't be completed once you get the followup
+    },
+
+    -- Tome of Divinity starting quests for dwarfs #703
+    [1645] = { -- This is repeatable giving an item starting 1646
+        [QuestieDB.questKeys.exclusiveTo] = {1642,1646,2997,2998,2999,3000,3681},
+    },
+    [1646] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1642,2997,2998,2999,3000,3681},
+    },
+    [2997] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1642,1646,2998,2999,3000,3681},
+    },
+    [2999] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1642,1646,2997,2998,3000,3681},
+    },
+    [3000] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1642,1646,2997,2998,2999,3681},
+    },
+
+    -- Tome of Divinity starting quests for humans #703
+    [1641] = { -- This is repeatable giving an item starting 1642
+        [QuestieDB.questKeys.exclusiveTo] = {1642,1646,2997,2998,2999,3000,3681},
+    },
+    [1642] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1646,2997,2998,2999,3000,3681},
+    },
+    [2998] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1642,1646,2997,2998,3000,3681},
+    },
+    [3681] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1642,1646,2997,2998,2999,3000},
+    },
+
+    -- Tome of Valor repeatable starting quests #742
+    [1793] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1649},
+    },
+    [1794] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1649},
+    },
+
+    -- Tome of Nobility quests #1661
+    [1661] = {
+        [QuestieDB.questKeys.exclusiveTo] = {4485,4486},
+    },
+    [4485] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1661,4486},
+    },
+    [4486] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1661,4485},
+    },
+
+    -- Voidwalker questline for horde
+    [1473] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1501},
+    },
+    [1501] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1473},
+    },
+
+    [163] = {
+        [QuestieDB.questKeys.exclusiveTo] = {5}, -- Raven Hill breadcrumb
+    },
+    [1301] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1302}, -- breadcrumb of James Hyal #917
+    },
 }
 
 QuestieCorrections.npcFixes = {
-    [300] = {'Zzarc\' Vul',1050,1050,33,33,0,{[10]={{38,80},},},nil,10,nil,nil},
+    [300] = {'Zzarc\' Vul',1050,1050,33,33,0,{[10]={{35,80},{36.81,83.79},{38,80},},},nil,10,nil,nil}, -- #1047
     [5082] = {'Vincent Hyal',1605,1605,30,30,0,{[11]={{10.8,60.4}}},nil,11,{1302},{1301}},
     [4360] = {'Mirefin Warrior',1208,1257,37,39,0,{},nil,15,nil,nil}, -- TODO: remove this after the db is fixed!!! This is just to fix tooltips
     [11876] = {'Demon Spirit',1743,1743,37,37,0,{[405]={{55.00,26.60},},},nil,405,nil,nil,92,nil,},
@@ -145,6 +306,8 @@ QuestieCorrections.npcFixes = {
     [4400] = {'Mudrock Snapjaw',1532,1603,41,42,0,{[15]={{53.4,46.8},{54.6,48.6},{56.8,60.2},{57,60.6},{57.2,51.2},{57.4,51.6},{57.4,62.2},{58,52},{58.2,51.4},{58.2,53},{58.2,60.6},{58.4,60.2},{58.6,60.4},{58.6,64.6},{59,51.4},{59.2,53},{59.2,53.8},{59.2,56.2},{59.2,62.2},{59.2,63},{59.4,52.2},{59.6,51.8},{59.6,56.4},{59.6,58.2},{59.8,54.4},{59.8,62.4},{59.8,62.8},{60,54.6},{60.2,51.4},{60.2,63.8},{60.4,52.6},{60.4,57},{60.4,61},{60.6,53.4},{60.6,57},{60.6,58},{60.6,61.8},{60.6,62.6},{60.8,52.4},{60.8,54.8},{60.8,60.4},{61,60.8},{61,65.6},{61.4,54.2},{61.4,55.8},{61.4,59.4},{61.4,65},{61.6,55.8},{61.6,56.8},{61.6,57.8},{61.6,65.4},{62,55.2},{62,63},},},nil,15,nil,nil,15,"AH",},
     [4377] = {'Darkmist Lurker',1120,1516,37,38,0,{[15]={{30.2,21.4},{30.4,21.8},{30.8,20.4},{31.2,21.4},{31.4,22.4},{31.4,22.6},{31.6,22.6},{32.2,22.2},{32.6,22.4},{32.6,22.6},{33.6,22.6},},},nil,15,nil,nil,22,nil,},
     [4499] = {'Rok\'Alim the Pounder',2970,2970,30,30,1,{[400]={{17.1,38.1},},},nil,400,nil,nil,91,nil,},
+    [7319] = {'Lady Sathrah',275,275,12,12,0,{[141]={{39.4,25.4},{39.4,25.6},{39.6,25.4},{39.6,25.6},{41,25.6},{41.4,25.2},{42,25.4},{42,25.6},{46.2,24.4},{47.8,26.6},{48,25.2},{48,25.6},{48.6,24.6},},},nil,141,nil,nil,22,nil,},
+    [9166] = {'Pterrordax',2880,3082,50,52,0,{[490]={{42,64.6},{42.4,89},{42.6,88.8},{42.8,85.4},{42.8,86},{43,62.6},{43,90.8},{43,91.8},{43.2,87},{43.2,93.6},{43.4,65.2},{43.4,65.6},{43.4,72},{43.4,87.6},{43.4,90.4},{43.4,92.6},{43.6,68.4},{43.6,92.6},{43.8,60.4},{43.8,63.4},{43.8,65.2},{43.8,87.4},{43.8,92},{44,63.6},{44,70.6},{44.2,61.4},{44.2,61.6},{44.2,69},{44.2,88.4},{44.2,89.2},{44.4,66.2},{44.4,66.8},{44.4,90.2},{44.4,90.6},{44.6,7},{44.6,60.6},{44.6,65.4},{44.6,88.4},{44.6,89.6},{44.6,90.8},{44.8,60.2},{44.8,63.6},{44.8,67},{44.8,69.8},{44.8,71},{44.8,87.4},{44.8,89.4},{45,61.6},{45.2,67.8},{45.2,71.6},{45.4,59.4},{45.4,62.8},{45.4,66.2},{45.4,69},{45.6,61},{45.6,61.6},{45.6,70.6},{45.8,67},{45.8,68.2},{46,71.8},{46.4,63.2},{46.4,63.6},{46.6,62.2},{46.6,62.6},{46.6,69.4},{46.8,66.4},{46.8,70.6},{47,64.8},{47,67.2},{47,67.6},{47.2,70.4},{47.2,86.8},{47.4,12.8},{47.4,61.4},{47.4,64},{47.6,60.8},{47.6,64},{47.6,64.8},{47.8,63},{47.8,68.8},{48,62.4},{48.2,70},{48.2,71},{48.4,13.2},{48.4,13.8},{48.6,61},{48.6,62.4},{48.6,62.8},{48.6,64.2},{48.6,71.2},{48.8,59.2},{48.8,60},{48.8,69.6},{49,86.6},{49.2,65.8},{49.2,71.8},{49.4,14.2},{49.6,64.4},{49.8,65},{49.8,87.2},{50,14},{50,61.2},{50,65.8},{50,70.8},{50.2,59.4},{50.2,59.8},{50.2,62.4},{50.2,70.2},{50.2,90.8},{50.4,10.4},{50.4,10.8},{50.4,11.8},{50.4,12.6},{50.4,88.2},{50.4,88.8},{50.4,89.6},{50.6,9.4},{50.6,10},{50.6,11},{50.6,12},{50.6,59.8},{50.6,60.6},{50.6,65.8},{50.6,88},{50.6,89},{50.6,89.6},{50.8,62.6},{50.8,65.2},{50.8,70},{50.8,87},{51,13},{51,63.8},{51,67.8},{51.4,62},{51.4,67},{51.4,69.4},{51.4,70.6},{51.6,13.8},{51.6,65.8},{51.8,63.2},{51.8,68.2},{52,62.4},{52,67.4},{52,69.8},{52.2,16},{52.2,69.4},{52.2,70.6},{52.6,66},{52.6,70},{52.8,63},{52.8,63.6},{53,65.4},{53.2,62.2},{53.2,71.2},{53.2,71.8},{53.4,60.2},{53.6,63.4},{53.6,71.2},{53.6,73},{54,16.4},{54,61.6},{54,64.4},{54,65.8},{54,72.4},{54.2,58.8},{54.2,60},{54.2,60.8},{54.2,65},{54.4,86.6},{54.6,14},{54.6,64.4},{54.6,85.8},{54.8,63},{55,58.8},{55,66.8},{55.2,61},{55.2,62.4},{55.2,72.8},{55.4,7.4},{55.4,12},{55.4,66.2},{55.4,87.4},{55.4,87.6},{55.4,92},{55.6,51.8},{55.6,63.2},{55.6,63.6},{55.6,74.6},{55.8,64.8},{55.8,72},{56,59.8},{56.2,8.2},{56.2,9},{56.2,10},{56.2,53.2},{56.2,59.2},{56.2,67},{56.2,88.6},{56.4,7.4},{56.4,11.2},{56.4,12.2},{56.4,12.6},{56.4,49},{56.4,62},{56.4,70.4},{56.4,87.4},{56.4,88.2},{56.4,90.4},{56.4,91.2},{56.4,91.6},{56.6,11.4},{56.6,52.8},{56.6,63.6},{56.6,88.4},{56.6,89.4},{56.6,91.2},{56.6,92},{56.8,6.4},{56.8,12.4},{56.8,63.4},{56.8,67.2},{56.8,72.4},{56.8,92.8},{57,12.6},{57,39.6},{57,65.2},{57,68.4},{57,72.6},{57,90},{57.2,10.2},{57.2,51.6},{57.2,54.6},{57.2,56.2},{57.2,61.4},{57.4,7.2},{57.4,8.2},{57.4,9},{57.4,50.4},{57.4,50.8},{57.4,60.2},{57.4,69.4},{57.4,69.8},{57.4,86.4},{57.4,87.2},{57.6,7.4},{57.6,7.8},{57.6,9.6},{57.6,13},{57.6,50.4},{57.6,52.4},{57.6,52.8},{57.6,62.8},{57.6,65.2},{57.6,73},{57.6,85.4},{57.6,87.2},{57.6,87.8},{57.6,90.4},{57.8,8.8},{57.8,60.2},{57.8,69},{57.8,90.8},{57.8,92},{57.8,92.6},{58,6.2},{58,14.2},{58,61.2},{58,64.4},{58,69.6},{58,86.4},{58.2,15.8},{58.2,40.4},{58.2,55.6},{58.2,58.8},{58.2,66.4},{58.2,66.8},{58.2,89.4},{58.4,10.8},{58.4,53.8},{58.4,55.2},{58.4,57},{58.4,57.6},{58.4,61.8},{58.6,39},{58.6,52},{58.6,53.2},{58.6,55.2},{58.6,55.8},{58.6,56.6},{58.6,59},{58.6,67},{58.6,69.8},{58.8,53.8},{59,9.2},{59,41},{59,51.2},{59,60.8},{59,62.6},{59,63.8},{59.2,40.4},{59.2,60.2},{59.2,62.2},{59.4,41.6},{59.4,65.8},{59.6,42},{59.6,50.8},{59.6,62.6},{59.8,57.2},{60,55.6},{60,57.8},{60.2,40.8},{60.2,55},{60.2,58.6},{60.2,61.8},{60.2,64.6},{60.4,43},{60.4,52.4},{60.4,60},{60.4,61.2},{60.6,53.4},{60.6,57.4},{60.6,58.6},{60.6,61},{60.8,60.4},{61,53.8},{61,55.2},{61,55.6},{61,58.4},{61,62.2},{61,62.8},{61.2,40.2},{61.2,41.6},{61.2,63.8},{61.4,40.8},{61.6,41},{61.8,37.8},{61.8,40.4},{62,56},{62.2,37.2},{62.2,38.6},{62.6,38.2},{62.8,38.8},{64.2,37.4},{64.2,37.8},{64.6,36.6},{64.6,39.6},{65,37.6},{65.2,38.6},{65.6,42.2},{65.8,40},{65.8,41.2},{66,39.2},{66.4,37.6},{66.6,41.2},{66.6,41.6},{67,39.2},{67,39.6},{67.4,36.6},{67.4,37.6},{67.6,38.6},{67.6,40.4},{67.6,40.8},{68,36.4},{68.2,34},{68.4,34.8},{68.4,36.8},{68.6,35.4},{68.6,35.8},{68.6,36.6},{69,34.4},{69.6,35.4},{69.6,36.2},},},nil,490,nil,nil,14,nil,},
 }
 
 QuestieCorrections.objectFixes = {
@@ -229,6 +392,10 @@ QuestieCorrections.itemFixes = {
     [8523] = {"Field Testing Kit",{654},{7683},{}},
     [9330] = {"Snapshot of Gammerita",{2944},{7977},{}},
     [11113] = {"Crate of Foodstuffs",{3881},{},{161526}},
+    [11470] = {"Tablet Transcript",{4296},{},{169294}},
+    [12283] = {"Broodling Essence",{4726},{7047,7048,7049,},{175264}},
+    [11522] = {"Silver Totem of Aquementas",{4005},{},{148507}},
+    [9595] = {"Hippogryph Muisek",{3124},{5300,5304,5305,5306},{}},
 
     -- quest related herbs
     [2449] = {"Earthroot",{6123,6128},{},{1619,3726}},
@@ -289,60 +456,6 @@ else
     end
 end
 
-QuestieCorrections.questRequirementFixes = {
-    [46] = {39},
-    [3903] = {18},
-    [33] = {783},
-    [374] = {427}, -- proof of demise requires at war with the scarlet crusade
-    [1106] = {1104, 1105},
-    [431] = {366}, -- #638
-    [410] = {366}, -- #638
-    [926] = {809}, -- #606
-    [364] = {}, -- #882
-    [1275] = {}, -- #745 prequest is not required in Classic
-    [1302] = {}, -- #889
-    [473] = {455}, -- #809
-}
-
-QuestieCorrections.questExclusiveGroupFixes = {
-    [463] = {276}, --greenwarden cant be completed if you have trampling paws
-    [415] = {413}, --cant complete rejolds new brew if you do shimmer stout (see issue 567)
-    [1339] = {1338}, -- mountaineer stormpike's task cant be done if you have finished stormpike's order
-    [1943] = {1944}, -- mage robe breadcrumb
-    [526] = {322,324}, -- not 100% sure on this one but it seems lightforge ingots is optional, block it after completing subsequent steps (#587)
-    [3765] = {1275}, -- corruption abroad breadcrumb
-    [164] = {95}, -- deliveries to sven is a breadcrumb
-    -- this is a subquest
-    --[403] = {311}, -- completing the unguarded barrel quest prevents to do the optional guarded barrel prequest
-    [428] = {429}, -- lost deathstalkers breadcrumb
-    [308] = {311}, -- distracting jarven can't be completed once you get the followup
-    -- Tome of Divinity starting quests for dwarfs #703
-    [1645] = {1642,1646,2997,2998,2999,3000,3681}, -- This is repeatable giving an item starting 1646
-    [1646] = {1642,2997,2998,2999,3000,3681},
-    [2997] = {1642,1646,2998,2999,3000,3681},
-    [2999] = {1642,1646,2997,2998,3000,3681},
-    [3000] = {1642,1646,2997,2998,2999,3681},
-    -- Tome of Divinity starting quests for humans #703
-    [1641] = {1642,1646,2997,2998,2999,3000,3861}, -- This is repeatable giving an item starting 1642
-    [1642] = {1646,2997,2998,2999,3000,3861},
-    [2998] = {1642,1646,2997,2998,3000,3861},
-    [3861] = {1642,1646,2997,2998,2999,3000},
-    -- Tome of Valor repeatable starting quests #742
-    [1793] = {1649},
-    [1794] = {1649},
-    [431] = {411}, -- candles of beckoning
-    [410] = {411}, -- the dormant shade
-    -- Tome of Nobility quests #1661
-    [1661] = {4485,4486},
-    [4485] = {1661,4486},
-    [4486] = {1661,4485},
-    -- Voidwalker questline for horde
-    [1473] = {1501},
-    [1501] = {1473},
-    [163] = {5}, -- Raven Hill breadcrumb
-    [1301] = {1302}, -- breadcrumb of James Hyal #917
-}
-
 QuestieCorrections.questItemBlacklist = {
     [2589] = true, -- linen cloth
     [2592] = true, -- wool cloth
@@ -395,6 +508,8 @@ QuestieCorrections.questItemBlacklist = {
     [13466] = true, -- plaguebloom
     [13467] = true, -- icecap
     [13468] = true, -- black lotus
+    [929] = true, -- Healing Potion
+    [13446] = true, -- Major Healing Potion
 
     -- stranglethorn pages
     [2725] = true,
@@ -1092,7 +1207,6 @@ QuestieCorrections.hiddenQuests = {
   [4448] = true,
   [4462] = true,
   --Phase 2 - Dire Maul
-  [8250] = true,
   [7494] = true,
   [7441] = true,
   [7492] = true,
@@ -1123,8 +1237,15 @@ QuestieCorrections.hiddenQuests = {
   [7703] = true,
   [7877] = true,
 --Phase 4 - Zul'Gurub
+  [8250] = true,
   [8417] = true,
+  [8415] = true,
+  [8151] = true,
+  [8233] = true,
+  [8254] = true,
   [9063] = true,
+  [8410] = true,
+  [8419] = true,
   [8056] = true,
   [8057] = true,
   [8064] = true,
@@ -1211,7 +1332,6 @@ QuestieCorrections.hiddenQuests = {
   [9210] = true,
 --Phase 5 - AQ20/AQ40/AQ War Effort
   [8307] = true,
-  [8254] = true,
   [8275] = true,
   [8276] = true,
   [8304] = true,
