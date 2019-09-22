@@ -1185,6 +1185,7 @@ local options = {
                     values = {
                         ['enUS'] = 'English',
                         ['esES'] = 'Español',
+                        ['esMX'] = 'Español',
                         ['ptBR'] = 'Português',
                         ['frFR'] = 'Français',
                         ['deDE'] = 'Deutsch',
