@@ -150,7 +150,7 @@ QuestieCorrections.questFixes = {
 }
 
 QuestieCorrections.npcFixes = {
-    [300] = {'Zzarc\' Vul',1050,1050,33,33,0,{[10]={{38,80},},},nil,10,nil,nil},
+    [300] = {'Zzarc\' Vul',1050,1050,33,33,0,{[10]={{35,80},{36.81,83.79},{38,80},},},nil,10,nil,nil}, -- #1047
     [5082] = {'Vincent Hyal',1605,1605,30,30,0,{[11]={{10.8,60.4}}},nil,11,{1302},{1301}},
     [4360] = {'Mirefin Warrior',1208,1257,37,39,0,{},nil,15,nil,nil}, -- TODO: remove this after the db is fixed!!! This is just to fix tooltips
     [11876] = {'Demon Spirit',1743,1743,37,37,0,{[405]={{55.00,26.60},},},nil,405,nil,nil,92,nil,},
