@@ -117,6 +117,9 @@ QuestieCorrections.questFixes = {
     [1718] = {
         [QuestieDB.questKeys.startedBy] = {{3041,3354,4595,5113,5479,},nil,nil,}, -- #1034
     },
+    [2781] = {
+        [QuestieDB.questKeys.startedBy] = {nil,{142122,150075,},nil,}, -- #1081
+    },
     [3449] = {
         [QuestieDB.questKeys.childQuests] = {3451}, -- #1008
     },
