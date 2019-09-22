@@ -88,6 +88,7 @@ function QuestieCoords:Initialize()
 end
 
 function QuestieCoords:Update(elapsed)
+	Questie:SendMessage("QUESITE_ICON_ON_UPDATE")
     if (Questie.db.global.minimapCoordinatesEnabled) or
         (Questie.db.global.mapCoordinatesEnabled) then
 
