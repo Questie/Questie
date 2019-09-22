@@ -306,6 +306,12 @@ QuestieCorrections.questFixes = {
     [1301] = {
         [QuestieDB.questKeys.exclusiveTo] = {1302}, -- breadcrumb of James Hyal #917
     },
+    [578] = {
+        [QuestieDB.questKeys.childQuests] = {579},
+    },
+    [579] = {
+        [QuestieDB.questKeys.parentQuest] = {578},
+    },
 }
 
 QuestieCorrections.npcFixes = {
