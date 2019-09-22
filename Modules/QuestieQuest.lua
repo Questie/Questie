@@ -859,9 +859,9 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
     for i = 1, count do
         objectiveType, objectiveDesc, numItems, numNeeded, isCompleted = _QuestieQuest:GetLeaderBoardDetails(i, Quest.Id)
         if objectiveType then
-            -- if Quest.Objectives[i] == nil then
-            Quest.Objectives[i] = {}
-            -- end
+            if Quest.Objectives[i] == nil then
+                Quest.Objectives[i] = {}
+            end
             Quest.Objectives[i].Index = i
             Quest.Objectives[i].QuestId = Quest.Id
             Quest.Objectives[i].QuestLogId = logId
@@ -907,14 +907,11 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
             end
             Quest.Objectives[i]:Update()
             if count == 1 and counthack(Quest.ObjectiveData) == 1 then
-                -- Questie:Debug(DEBUG_DEVELOP, "AAAAAAAAAAAAAA")
                 Quest.Objectives[i].Id = Quest.ObjectiveData[1].Id
             elseif Quest.ObjectiveData ~= nil then
                 -- try to find npc/item/event ID
                 for k, v in pairs(Quest.ObjectiveData) do
                     if objectiveType == v.Type then
-                        -- Questie:Debug(DEBUG_DEVELOP, "BBBBBBBBBBBBBB")
-                        Questie:Debug(DEBUG_DEVELOP, tostring(v.Name) .. " ?= " .. tostring(objectiveDesc))
                         -- TODO: use string distance to find closest, dont rely on exact match
                         if ((v.Name == nil or objectiveDesc == nil) and v.Type ~= "item" and v.Type ~= "monster") or (v.Name and ((string.lower(objectiveDesc) == string.lower(v.Name))) or (v.Text and (string.lower(objectiveDesc) == string.lower(v.Text)))) then
                             Quest.Objectives[i].Id = v.Id
