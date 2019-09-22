@@ -77,10 +77,12 @@ local function TooltipShowing_unit(self)
     if not Questie.db.global.enableTooltips then return; end
     --QuestieTooltips.lastTooltipTime = GetTime()
     local name, unitId = self:GetUnit()
-    if name and (name ~= QuestieTooltips.lastGametooltipUnit or (not QuestieTooltips.lastGametooltipCount) or _QuestieTooltips:CountTooltip() < QuestieTooltips.lastGametooltipCount) then
-        Questie:Debug(DEBUG_DEVELOP, "[QuestieTooltip] Unit Id on hover : ", unitId);
+    local guid = UnitGUID("mouseover");
+    local type, zero, server_id, instance_id, zone_uid, npc_id, spawn_uid = strsplit("-",guid or "");
+    if name and type=="Creature" and (name ~= QuestieTooltips.lastGametooltipUnit or (not QuestieTooltips.lastGametooltipCount) or _QuestieTooltips:CountTooltip() < QuestieTooltips.lastGametooltipCount) then
+        --Questie:Debug(DEBUG_DEVELOP, "[QuestieTooltip] Unit Id on hover : ", npc_id);
         QuestieTooltips.lastGametooltipUnit = name
-        local tooltipData = QuestieTooltips:GetTooltip("u_" .. name);
+        local tooltipData = QuestieTooltips:GetTooltip("u_" .. npc_id);
         if tooltipData then
             for _, v in pairs (tooltipData) do
                 GameTooltip:AddLine(v)
@@ -97,9 +99,9 @@ local function TooltipShowing_item(self)
     local _, _, _, _, itemId, _, _, _, _, _, _, _, _, itemName = string.find(link, "|?c?f?f?(%x*)|?H?([^:]*):?(%d+):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%-?%d*):?(%-?%d*):?(%d*):?(%d*):?(%-?%d*)|?h?%[?([^%[%]]*)%]?|?h?|?r?")
     
     Questie:Debug(DEBUG_DEVELOP, "[QuestieTooltip] Item Id on hover : ", itemId);
-    if name and (name ~= QuestieTooltips.lastGametooltipItem or (not QuestieTooltips.lastGametooltipCount) or _QuestieTooltips:CountTooltip() < QuestieTooltips.lastGametooltipCount) then
+    if name and itemId and (name ~= QuestieTooltips.lastGametooltipItem or (not QuestieTooltips.lastGametooltipCount) or _QuestieTooltips:CountTooltip() < QuestieTooltips.lastGametooltipCount) then
         QuestieTooltips.lastGametooltipItem = name
-        local tooltipData = QuestieTooltips:GetTooltip("i_" .. name);
+        --local tooltipData = QuestieTooltips:GetTooltip("i_" .. itemId);
         if tooltipData then
             for _, v in pairs (tooltipData) do
                 GameTooltip:AddLine(v)
@@ -113,14 +115,16 @@ local function TooltipShowing_maybeobject(name)
     if not Questie.db.global.enableTooltips then return; end
     if name then
         local gameObjectId = LangObjectIdLookup[name];
-        Questie:Debug(DEBUG_DEVELOP, "[QuestieTooltip] Object Id on hover : ", gameObjectId);
-        local tooltipData = QuestieTooltips:GetTooltip("o_" .. name);
-        if tooltipData then
-            for _, v in pairs (tooltipData) do
-                GameTooltip:AddLine(v)
-            end
+        if(type(gameObjectId)=="number")then
+          --Questie:Debug(DEBUG_DEVELOP, "[QuestieTooltip] Object Id on hover : ", gameObjectId);
+          local tooltipData = QuestieTooltips:GetTooltip("o_" .. gameObjectId);
+          if tooltipData then
+              for _, v in pairs (tooltipData) do
+                  GameTooltip:AddLine(v)
+              end
+          end
+          QuestieTooltips.lastTooltipTime = GetTime()
         end
-        QuestieTooltips.lastTooltipTime = GetTime()
         GameTooltip:Show()
     end
 end

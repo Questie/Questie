@@ -510,7 +510,7 @@ ObjectiveSpawnListCallTable = {
         mon.Id = id
         mon.GetIconScale = function() return Questie.db.global.monsterScale or 1 end
         mon.IconScale = mon:GetIconScale();
-        mon.TooltipKey = "u_" .. npc.name -- todo: use ID based keys
+        mon.TooltipKey = "u_" .. id -- todo: use ID based keys
 
         ret[id] = mon;
         return ret
@@ -529,7 +529,7 @@ ObjectiveSpawnListCallTable = {
         obj.Icon = ICON_TYPE_LOOT
         obj.GetIconScale = function() return Questie.db.global.objectScale or 1 end
         obj.IconScale = obj:GetIconScale()
-        obj.TooltipKey = "o_" .. object.name
+        obj.TooltipKey = "o_" .. id
         obj.Id = id
 
         ret[id] = obj
@@ -672,7 +672,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
     if (not Objective.registeredItemTooltips) and Objective.Type == "item" and (not BlockItemTooltips) and Objective.Id then -- register item tooltip (special case)
         local itm = QuestieDB:GetItem(Objective.Id);
         if itm and itm.Name then
-            QuestieTooltips:RegisterTooltip(Quest.Id, "i_" .. itm.Name, Objective);
+            QuestieTooltips:RegisterTooltip(Quest.Id, "i_" .. itm.Id, Objective);
         end
         Objective.registeredItemTooltips = true
     end
