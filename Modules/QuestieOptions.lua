@@ -160,12 +160,14 @@ _QuestieOptions.defaults = {
       enableTurnins = true,
       enableAvailable = true,
       enableTooltips = true,
+      enableTooltipsQuestLevel = true,
       enableMapIcons = true,
       enableMiniMapIcons = true,
       trackerFontSizeHeader = 13,
       trackerFontSizeLine = 11,
       hookTracking = true,
       trackerEnabled = true,
+      trackerShowQuestLevel = true,
       trackerColorObjectives = 'white',
       trackerQuestPadding = 2,
       trackerSortObjectives = 'byComplete',
@@ -359,10 +361,25 @@ _QuestieOptions.optionsGUI = {
                                 Questie.db.global.enableTooltips = value
                             end,
                 },
+                showQuestLevels = {
+                    type = "toggle",
+                    order = 8,
+                    name = function() return QuestieLocale:GetUIString('ENABLE_TOOLTIPS_QUEST_LEVEL') end,
+                    desc = function() return QuestieLocale:GetUIString('ENABLE_TOOLTIPS_QUEST_LEVEL_DESC') end,
+                    width = "full",
+                    get = function() return Questie.db.global.enableTooltipsQuestLevel end,
+                    set = function (info, value)
+                        Questie.db.global.enableTooltipsQuestLevel = value
+                        if value and not Questie.db.global.trackerShowQuestLevel then
+                            Questie.db.global.trackerShowQuestLevel = true
+                            QuestieTracker:Update()
+                        end
+                    end
+                },
                 --Spacer_A = _QuestieOptions:Spacer(9),
                 quest_options = {
                     type = "header",
-                    order = 8,
+                    order = 9,
                     name = function() return QuestieLocale:GetUIString('LEVEL_HEADER') end,
                 },
                 Spacer_B = _QuestieOptions:Spacer(9),
@@ -815,7 +832,20 @@ _QuestieOptions.optionsGUI = {
                         QuestieTracker:Update()
                     end
                 },
-                Spacer_Q = _QuestieOptions:Spacer(5.1,5),
+                Spacer_F4 = _QuestieOptions:Spacer(5.5, 0.001),
+                showQuestLevels = {
+                    type = "toggle",
+                    order = 6,
+                    width = 1.5,
+                    name = function() return QuestieLocale:GetUIString('TRACKER_SHOW_QUEST_LEVEL') end,
+                    desc = function() return QuestieLocale:GetUIString('TRACKER_SHOW_QUEST_LEVEL_DESC') end,
+                    get = function() return Questie.db.global.trackerShowQuestLevel end,
+                    set = function (info, value)
+                        Questie.db.global.trackerShowQuestLevel = value
+                        QuestieTracker:Update()
+                    end
+                },
+                Spacer_Q = _QuestieOptions:Spacer(6.1,5),
                 --[[colorObjectives = {
                     type = "toggle",
                     order = 6,
@@ -831,7 +861,7 @@ _QuestieOptions.optionsGUI = {
                 },]]--
                 colorObjectives = {
                     type = "select",
-                    order = 6,
+                    order = 8,
                     values = function() return {
                         ['white'] = QuestieLocale:GetUIString('TRACKER_COLOR_WHITE'),
                         ['whiteToGreen'] = QuestieLocale:GetUIString('TRACKER_COLOR_WHITE_TO_GREEN'),
@@ -848,7 +878,7 @@ _QuestieOptions.optionsGUI = {
                 },
                 sortObjectives = {
                     type = "select",
-                    order = 7,
+                    order = 9,
                     values = function() return {
                         ['byComplete'] = QuestieLocale:GetUIString('TRACKER_SORT_BY_COMPLETE'),
                         ['byLevel'] = QuestieLocale:GetUIString('TRACKER_SORT_BY_LEVEL'),
@@ -864,10 +894,10 @@ _QuestieOptions.optionsGUI = {
                         QuestieTracker:Update()
                     end,
                 },
-                Spacer_F2 = _QuestieOptions:Spacer(7.1, 0.001),
+                Spacer_F2 = _QuestieOptions:Spacer(9.1, 0.001),
                 setTomTom = {
                     type = "select",
-                    order = 7.2,
+                    order = 9.2,
                     values = function() return {
                         ['left'] = QuestieLocale:GetUIString('TRACKER_LEFT_CLICK'),
                         ['right'] = QuestieLocale:GetUIString('TRACKER_RIGHT_CLICK'),
@@ -889,7 +919,7 @@ _QuestieOptions.optionsGUI = {
                 },
                 openQuestLog = {
                     type = "select",
-                    order = 7.3,
+                    order = 9.3,
                     values = function() return {
                         ['left'] = QuestieLocale:GetUIString('TRACKER_LEFT_CLICK'),
                         ['right'] = QuestieLocale:GetUIString('TRACKER_RIGHT_CLICK'),
@@ -909,7 +939,7 @@ _QuestieOptions.optionsGUI = {
                         Questie.db.global.trackerbindOpenQuestLog = key
                     end,
                 },
-                Spacer_F = _QuestieOptions:Spacer(7.4, 5),
+                Spacer_F = _QuestieOptions:Spacer(9.4, 5),
                 
                 fontSizeHeader = {
                     type = "range",
