@@ -12,34 +12,42 @@
 QuestieCorrections = {}
 
 QuestieCorrections.questFixes = {
-    -- add quest 3375 in field 14 (subQuests)
-    -- TODO add parentQuest field to database so 3375 knows when not to show as available
-    [2201] = {"Find the Gems",{{6912,},nil,nil,},{nil,{112877,},},40,43,77,nil,{"Find the ruby, sapphire, and topaz that are scattered throughout Uldaman.","Once acquired, contact Talvash del Kissel remotely by using the Phial of Scrying he previously gave you.","From the journal, you know...","* The ruby has been stashed in a barricaded Shadowforge area.","* The topaz has been hidden in an urn in one of the Trogg areas, near some Alliance dwarves.","* The sapphire has been claimed by Grimlok, the trogg leader.",},nil,{nil,nil,{{7669,nil},{7670,nil},{7671,nil},},nil,},7668,nil,{2200,},{3375},nil,nil,1517,nil,nil,nil,nil,2204,},
-    -- Add 12347 to the sourceItemIds so the objective is shown on the map #798
-    [4763] = {"The Blackwood Corrupted",{{3649,},nil,nil,},{{3649,},nil,},15,18,77,nil,{"Fill the Empty Cleansing Bowl at the Auberdine Moonwell.","Gather a sample of fruit, nut, and grain from the northern Blackwood furbolg camps.","Mix the bowl and place it near the bonfire closest to the Cliffspring River at the northern camp, thus summoning the satyr corruptor.","Take the Talisman of Corruption and bring it to Thundris Windweaver in Auberdine.",},nil,{nil,nil,{{12355,nil},},nil,},12346,nil,{4762,},nil,nil,nil,148,nil,nil,nil,{12347,12341,12342,12343,},nil,},
-
-    -- please label what you changed in the entry so its easier to figure out
-    -- I still think replacing specific entries instead of the whole quest is a more future proof way of dealing with corrections
-
-    -- change race requirement bitmask to be only alliance (was 255)
-    [6132] = {"Get Me Out of Here!",{{12277,},nil,nil,},{{6019,},nil,},34,39,77,nil,{"Escort Melizza Brimbuzzle, then speak with Hornizz Brimbuzzle at the Kodo Graveyard in Desolace.",},nil,{nil,nil,nil,nil,},nil,nil,nil,nil,nil,nil,405,nil,nil,nil,nil,nil,},
-    -- add 177528 to requiredSourceItems as addition to #857
-    [5721] = {"The Battle of Darrowshire",{{10667,},nil,nil,},{{10926,},nil,},55,60,255,nil,{"Place the Relic Bundle at the Darrowshire town square.","Prevent Davil Lightfire's death until the death of Horgus.","Prevent Captain Redpath's death until Redpath the Corrupted appears.","Defeat Redpath the Corrupted.","Speak with the spirit of Joseph Redpath when he appears at the town square, then speak with Pamela at her home.",},nil,{{{10936,"Accept Redpath's Forgiveness"},},nil,nil,nil,},15209,nil,{5941,},nil,nil,nil,139,nil,nil,nil,{177528,},5942,},
-    -- fix race requirement bitmask to be only horde (was 255)
-    [858] = {"Ignition",{{3439,},nil,nil,},{{3439,},nil,},13,18,178,nil,{"Get the Ignition Key and bring it to Wizzlecrank.",},nil,{nil,nil,{{5050,nil},},nil,},nil,nil,nil,nil,nil,nil,17,nil,nil,nil,nil,nil,},
-    -- fix race requirement bitmask to be horde (was 16) #888
-    [367] = {"A New Plague",{{1518,},nil,nil,},{{1518,},nil,},6,6,178,nil,{"Apothecary Johaan in the town of Brill wants you to collect 5 Vials of Darkhound Blood.",},nil,{nil,nil,{{2858,nil},},nil,},nil,nil,nil,nil,nil,nil,85,nil,nil,nil,nil,368,},
-    [368] = {"A New Plague",{{1518,},nil,nil,},{{1518,},nil,},6,9,178,nil,{"Apothecary Johaan of the town of Brill needs 5 Vile Fin Scales from Murlocs in Tirisfal Glades.",},nil,{nil,nil,{{2859,nil},},nil,},nil,nil,{367,},nil,nil,nil,85,nil,nil,nil,nil,369,},
-    [369] = {"A New Plague",{{1518,},nil,nil,},{{1518,},nil,},6,11,178,nil,{"Apothecary Johaan in the town of Brill wants you to bring him 4 samples of venom from a Vicious Night Web Spider.",},nil,{nil,nil,{{2872,nil},},nil,},nil,nil,{368,},nil,nil,nil,85,nil,nil,nil,nil,492,},
-    -- Fix race requirement bitmask to orc (was 178) #813
-    [3090] = {"Tainted Parchment",{{3143,},nil,nil,},{{3156,},nil,},1,1,2,256,{"Read the Tainted Parchment and speak to Nartok inside the Den in the Valley of Trials.",},nil,{nil,nil,nil,nil,},9579,nil,{788,},nil,nil,nil,-61,nil,nil,nil,nil,nil,nil,nil,nil,},
-    -- Switch Alliance and Horde Druid quest IDs #948
-    [26] = {
+    [2201] = {
+        [QuestieDB.questKeys.childQuests] = {3375},
+    },
+    [3375] = {
+        [QuestieDB.questKeys.parentQuest] = {2201},
+    },
+    [4763] = {
+        [QuestieDB.questKeys.requiredSourceItems] = {12347,12341,12342,12343,}, -- #798
+    },
+    [6132] = {
+        [QuestieDB.questKeys.requiredRaces] = 77,
+    },
+    [5721] = {
+        [QuestieDB.questKeys.requiredSourceItems] = {177528,}, -- 857
+    },
+    [858] = {
+        [QuestieDB.questKeys.requiredRaces] = 178,
+    },
+    [367] = {
+        [QuestieDB.questKeys.requiredRaces] = 178, -- #888
+    },
+    [368] = {
+        [QuestieDB.questKeys.requiredRaces] = 178, -- #888
+    },
+    [369] = {
+        [QuestieDB.questKeys.requiredRaces] = 178, -- #888
+    },
+    [3090] = {
+        [QuestieDB.questKeys.requiredRaces] = 256, -- #813
+    },
+    [26] = { -- Switch Alliance and Horde Druid quest IDs #948
         [QuestieDB.questKeys.startedBy] = {{4217,},nil,nil,},
         [QuestieDB.questKeys.requiredRaces] = 8,
         [QuestieDB.questKeys.nextQuestInChain] = 29,
     },
-    [27] = {
+    [27] = { -- Switch Alliance and Horde Druid quest IDs #948
         [QuestieDB.questKeys.startedBy] = {{3033,},nil,nil,},
         [QuestieDB.questKeys.requiredRaces] = 32,
         [QuestieDB.questKeys.nextQuestInChain] = 28,
@@ -62,9 +70,8 @@ QuestieCorrections.questFixes = {
     [7070] = {
         [QuestieDB.questKeys.requiredLevel] = 39,
     },
-    -- Save Techbot's Brain does not need the Tinkmaster Overspark breadcrumb #687
     [2922] = {
-        [QuestieDB.questKeys.preQuestSingle] = {},
+        [QuestieDB.questKeys.preQuestSingle] = {}, -- Save Techbot's Brain doesn't need the Tinkmaster Overspark breadcrumb #687
     },
     [1276] = {
         [QuestieDB.questKeys.preQuestSingle] = {1323,1273,},
@@ -212,8 +219,6 @@ QuestieCorrections.questFixes = {
     [164] = {
         [QuestieDB.questKeys.exclusiveTo] = {95}, -- deliveries to sven is a breadcrumb
     },
-    -- this is a subquest
-    --[403] = {[QuestieDB.questKeys.exclusiveTo] = {311},}, -- completing the unguarded barrel quest prevents to do the optional guarded barrel prequest
     [428] = {
         [QuestieDB.questKeys.exclusiveTo] = {429}, -- lost deathstalkers breadcrumb
     },
