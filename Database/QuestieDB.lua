@@ -65,11 +65,11 @@ function QuestieDB:Initialize()
 end
 
 function QuestieDB:ItemLookup(ItemId)
-    itemName, itemLink = GetItemInfo(ItemId)
-    Item = {}
-    Item.Name = itemName
-    Item.Link = itemLink
-    return Item
+    local itemName, itemLink = GetItemInfo(ItemId)
+    local item = {}
+    item.name = itemName
+    item.link = itemLink
+    return item
 end
 
 
