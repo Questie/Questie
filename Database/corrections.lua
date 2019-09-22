@@ -52,6 +52,10 @@ QuestieCorrections.questFixes = {
         [QuestieDB.questKeys.requiredRaces] = 32,
         [QuestieDB.questKeys.nextQuestInChain] = 28,
     },
+    [33] = {
+        [QuestieDB.questKeys.preQuestSingle] = {},
+        [QuestieDB.questKeys.exclusiveTo] = {5261},
+    },
     [103] = {
         [QuestieDB.questKeys.requiredRaces] = 77, -- #1025
     },
@@ -181,9 +185,6 @@ QuestieCorrections.questFixes = {
     },
     [3903] = {
         [QuestieDB.questKeys.preQuestSingle] = {18},
-    },
-    [33] = {
-        [QuestieDB.questKeys.preQuestSingle] = {783},
     },
     [374] = {
         [QuestieDB.questKeys.preQuestSingle] = {427}, -- proof of demise requires at war with the scarlet crusade
