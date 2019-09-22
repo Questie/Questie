@@ -61,6 +61,15 @@ QuestieCorrections.questFixes = {
     [152] = {
         [QuestieDB.questKeys.requiredRaces] = 77, -- #1025
     },
+    [621] = {
+        [QuestieDB.questKeys.inGroupWith] = {}, -- #886
+    },
+    [1118] = {
+        [QuestieDB.questKeys.inGroupWith] = {}, -- #886
+    },
+    [1119] = {
+        [QuestieDB.questKeys.inGroupWith] = {}, -- #886
+    },
     [691] = {
         [QuestieDB.questKeys.preQuestSingle] = {},
     },
