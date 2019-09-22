@@ -1,8 +1,9 @@
 QuestieLocale = {};
 QuestieLocale.locale = {};
+LangItemLookup = {}
 LangNameLookup= {};
-LangQuestLookup = {};
 LangObjectLookup = {};
+LangQuestLookup = {};
 
 local locale = 'enUS';
 

@@ -116,7 +116,7 @@ function QuestieDB:GetItem(ItemID)
     local raw = CHANGEME_Questie4_ItemDB[ItemID]; -- TODO: use the good item db, I need to talk to Muehe about the format, this is a temporary fix
     if raw ~= nil then
         item.Id = ItemID;
-        item.Name = raw[1];
+        item.Name = LangItemLookup[ItemID] or raw[1];
         item.Sources = {};
         item.Hidden = QuestieCorrections.questItemBlacklist[ItemID]
         for k,v in pairs(raw[3]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
@@ -325,7 +325,8 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
 
                     obj.Name = CHANGEME_Questie4_ItemDB[obj.Id]
                     if obj.Name ~= nil then
-                        obj.Name = string.lower(obj.Name[1]);
+                        local name = LangItemLookup[obj.Id] or obj.Name[1]
+                        obj.Name = string.lower(name);
                     end
 
                     table.insert(QO.ObjectiveData, obj);
@@ -363,7 +364,8 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
 
                     obj.Name = CHANGEME_Questie4_ItemDB[obj.Id]
                     if obj.Name ~= nil then
-                        obj.Name = string.lower(obj.Name[1]);
+                        local name = LangItemLookup[obj.Id] or obj.Name[1]
+                        obj.Name = string.lower(name);
                     end
 
                     table.insert(QO.HiddenObjectiveData, obj);

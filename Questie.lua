@@ -47,8 +47,10 @@ local _optionsTimer = nil;
 local _QuestieOptions = {...};
 _QuestieOptions.configFrame = nil;
 
--- Initialize LangNameLookup & LangQuestLookup
+-- Initialize lookup tables for localization
+LangItemLookup = LangItemLookup[GetLocale()] or {}
 LangNameLookup = LangNameLookup[GetLocale()] or {}
+LangObjectLookup = LangObjectLookup[GetLocale()] or {}
 LangQuestLookup = LangQuestLookup[GetLocale()] or {}
 
 function _QuestieOptions:AvailableQuestRedraw()
