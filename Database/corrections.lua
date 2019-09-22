@@ -518,6 +518,8 @@ QuestieCorrections.itemFixes = {
     [11522] = {"Silver Totem of Aquementas",{4005},{},{148507}},
     [9595] = {"Hippogryph Muisek",{3124},{5300,5304,5305,5306},{}},
     [11954] = {"Filled Pure Sample Jar",{4513},{6556,6557,6559,},{}}, -- #1070
+    [12907] = {"Corrupted Moonwell Water",{5157},{},{176184}}, -- #1083
+    [12922] = {"Empty Canteen",{5157},{},{}}, -- #1083
 
     -- quest related herbs
     [2449] = {"Earthroot",{6123,6128},{},{1619,3726}},
