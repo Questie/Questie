@@ -5,14 +5,9 @@ local npFrames = {};
 local npUnusedFrames = {};
 local npFramesCount = 0;
 
-QuestieNameplate.GlobalFrame = nil;
-
 -- Initializer
 function QuestieNameplate:Initialize()
-    if QuestieNameplate.GlobalFrame == nil then
-        QuestieNameplate.GlobalFrame = CreateFrame("Frame");
-        QuestieNameplate.GlobalFrame:SetScript("OnUpdate", QuestieNameplate.UpdateNameplate);
-    end
+	Questie:RegisterMessage("QUESITE_ICON_ON_UPDATE",QuestieNameplate.UpdateNameplate)
 end
 
 -- Frame Management
