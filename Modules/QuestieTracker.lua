@@ -200,7 +200,7 @@ local function _ShowQuestLog(Quest)
             QuestLogExFrameMaximizeButton:GetScript("OnClick")(QuestLogExFrameMaximizeButton)
         end
     else
-        QuestLogFrame:Show()
+        ToggleQuestLog();
     end    
     SelectQuestLogEntry(GetQuestLogIndexByID(Quest.Id))
     QuestLog_UpdateQuestDetails()
