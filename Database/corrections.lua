@@ -508,6 +508,7 @@ QuestieCorrections.itemFixes = {
     [12283] = {"Broodling Essence",{4726},{7047,7048,7049,},{175264}},
     [11522] = {"Silver Totem of Aquementas",{4005},{},{148507}},
     [9595] = {"Hippogryph Muisek",{3124},{5300,5304,5305,5306},{}},
+    [11954] = {"Filled Pure Sample Jar",{4513},{6556,6557,6559,},{}}, -- #1070
 
     -- quest related herbs
     [2449] = {"Earthroot",{6123,6128},{},{1619,3726}},
