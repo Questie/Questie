@@ -33,6 +33,7 @@ Database\itemDB.lua
 Locale\QuestieLocale.lua
 Locale\enUS\locale.xml
 Locale\esES\locale.xml
+Locate\esMX\locate.xml
 Locale\deDE\locale.xml
 Locale\zhCN\locale.xml
 Locale\zhTW\locale.xml
