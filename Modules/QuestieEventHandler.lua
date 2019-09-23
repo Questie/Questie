@@ -29,9 +29,13 @@ for i = 1, 35 do
     questWatchFrames[i].refresh = false;
     questWatchFrames[i].accept = false;
     questWatchFrames[i].objectives = {}
-    questWatchFrames[i]:RegisterEvent("QUEST_LOG_UPDATE")--, QUEST_LOG_UPDATE
+    questWatchFrames[i]:RegisterEvent("UNIT_QUEST_LOG_CHANGED")--, UNIT_QUEST_LOG_CHANGED
     questWatchFrames[i]:SetScript("OnEvent", function(self, event, ...)
-        if (event == "QUEST_LOG_UPDATE") then
+        local unitId = select(1, ...);
+        if(unitId ~= "player") then
+            return;
+        end
+        if (event == "UNIT_QUEST_LOG_CHANGED") then
             C_Timer.After(1, function() 
                 if(self.refresh) then
                     --Get quest info
