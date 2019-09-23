@@ -9,9 +9,7 @@ QuestieNameplate.ticker = nil;
 
 -- Initializer
 function QuestieNameplate:Initialize()
-    if QuestieNameplate.ticker == nil then
-      QuestieNameplate.ticker = C_Timer.NewTicker(0.5, QuestieNameplate.UpdateNameplate);
-    end
+    QuestieNameplate.ticker = C_Timer.NewTicker(0.5, QuestieNameplate.UpdateNameplate);
 end
 
 -- Frame Management
@@ -100,10 +98,10 @@ function QuestieNameplate:NameplateCreated(token)
 
     -- we only need to use put this over creatures.
     -- to avoid running this code over Pet, Player, etc.
-    local unitType = strsplit("-", unitGUID);
+    local unitType, zero, server_id, instance_id, zone_uid, npc_id, spawn_uid = strsplit("-", unitGUID);
 
     if unitType == "Creature" then
-        local icon = _GetValidIcon(QuestieTooltips.tooltipLookup["u_" .. unitName]);
+        local icon = _GetValidIcon(QuestieTooltips.tooltipLookup["u_" .. npc_id]);
 
         if icon then
             activeGUIDs[unitGUID] = token;
@@ -133,10 +131,11 @@ function QuestieNameplate:UpdateNameplate(self)
     for guid, token in pairs(activeGUIDs) do
 
         local unitName, _ = UnitName(token);
+        local unitType, zero, server_id, instance_id, zone_uid, npc_id, spawn_uid = strsplit("-", guid);
 
-        if not unitName then return end
+        if not unitName or not npc_id then return end
 
-        local icon = _GetValidIcon(QuestieTooltips.tooltipLookup["u_" .. unitName]);
+        local icon = _GetValidIcon(QuestieTooltips.tooltipLookup["u_" .. npc_id]);
 
         if icon then
             local frame = QuestieNameplate:GetFrame(guid);
@@ -177,11 +176,11 @@ function QuestieNameplate:DrawTargetFrame()
         local unitName = UnitName("target");
 
         if unitName and unitGUID then 
-            local unitType = strsplit("-", unitGUID);
+            local unitType, zero, server_id, instance_id, zone_uid, npc_id, spawn_uid = strsplit("-", unitGUID);
 
             if unitType == "Creature" then
 
-                local icon = _GetValidIcon(QuestieTooltips.tooltipLookup["u_" .. unitName]);
+                local icon = _GetValidIcon(QuestieTooltips.tooltipLookup["u_" .. npc_id]);
 
                 if icon then
 
