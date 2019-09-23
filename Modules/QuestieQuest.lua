@@ -1013,12 +1013,11 @@ end
 
 --https://www.townlong-yak.com/framexml/live/Blizzard_APIDocumentation#C_QuestLog.GetQuestObjectives
 function _QuestieQuest:GetLeaderBoardDetails(objectiveIndex, questId)
-    local nrObjectives = C_QuestLog.GetNumQuestObjectives(questId)
+    DEFAULT_CHAT_FRAME:AddMessage("ID", questId);
     local questObjectives = C_QuestLog.GetQuestObjectives(questId);
-    if(objectiveIndex <= nrObjectives) then
+    if(questObjectives[objectiveIndex]) then
         local objective = questObjectives[objectiveIndex];
         objective.text = string.match(objective.text, "(.*)[：,:]");
-        DEFAULT_CHAT_FRAME:AddMessage("GetLeaderBoardDetails", objective.text, objective.numFulfilled, objective.numRequired, objective.finished,objective.type);
         return objective.type, objective.text, objective.numFulfilled, objective.numRequired, objective.finished;
     end
     return nil;
@@ -1028,6 +1027,7 @@ end
 function _QuestieQuest:DrawAvailableQuest(questObject) -- prevent recursion
     return _QuestieQuest:DrawAvailableQuest(questObject, false)
 end
+
 function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
 
     --If the object is nil we just return
