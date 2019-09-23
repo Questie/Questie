@@ -1013,7 +1013,6 @@ end
 
 --https://www.townlong-yak.com/framexml/live/Blizzard_APIDocumentation#C_QuestLog.GetQuestObjectives
 function _QuestieQuest:GetLeaderBoardDetails(objectiveIndex, questId)
-    DEFAULT_CHAT_FRAME:AddMessage("ID", questId);
     local questObjectives = C_QuestLog.GetQuestObjectives(questId);
     if(questObjectives[objectiveIndex]) then
         local objective = questObjectives[objectiveIndex];
