@@ -475,7 +475,7 @@ end
 
 
 --pins.updateFrame:SetScript("OnUpdate", OnUpdateHandler)
-pins.updateTimer = C_Timer.NewTicker(0.03, OnUpdateHandler)
+pins.updateTimer = C_Timer.NewTicker(0.05, OnUpdateHandler)
 pins.updateTimer = C_Timer.NewTicker(1, OnUpdateHandler2)
 
 local function OnEventHandler(frame, event, ...)
