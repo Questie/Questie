@@ -10,7 +10,7 @@ QuestieNameplate.ticker = nil;
 -- Initializer
 function QuestieNameplate:Initialize()
     if QuestieNameplate.ticker == nil then
-      QuestieNameplate.ticker = C_Timer.NewTicker(0.1, QuestieNameplate.UpdateNameplate);
+      QuestieNameplate.ticker = C_Timer.NewTicker(0.5, QuestieNameplate.UpdateNameplate);
     end
 end
 

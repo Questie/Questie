@@ -105,7 +105,8 @@ function QuestieFramePool:GetFrame()
     end
     
     if f.BaseOnUpdate then
-        f:SetScript("OnUpdate", f.BaseOnUpdate)
+        --f:SetScript("OnUpdate", f.BaseOnUpdate)
+        f.glowLogicTimer = C_Timer.NewTicker(1, f.BaseOnUpdate);
     else
         f:SetScript("OnUpdate", nil)
     end
@@ -333,6 +334,9 @@ function _QuestieFramePool:QuestieCreateFrame()
         self:SetScript("OnUpdate", nil)
         if(self.fadeLogicTimer) then
           self.fadeLogicTimer:Cancel();
+        end
+        if(self.glowLogicTimer) then
+          self.glowLogicTimer:Cancel();
         end
         self:Hide()
         self.glow:Hide()
