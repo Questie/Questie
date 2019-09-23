@@ -98,10 +98,10 @@ local function TooltipShowing_item(self)
     local name, link = self:GetItem()
     local _, _, _, _, itemId, _, _, _, _, _, _, _, _, itemName = string.find(link, "|?c?f?f?(%x*)|?H?([^:]*):?(%d+):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%-?%d*):?(%-?%d*):?(%d*):?(%d*):?(%-?%d*)|?h?%[?([^%[%]]*)%]?|?h?|?r?")
     
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieTooltip] Item Id on hover : ", itemId);
     if name and itemId and (name ~= QuestieTooltips.lastGametooltipItem or (not QuestieTooltips.lastGametooltipCount) or _QuestieTooltips:CountTooltip() < QuestieTooltips.lastGametooltipCount) then
         QuestieTooltips.lastGametooltipItem = name
-        --local tooltipData = QuestieTooltips:GetTooltip("i_" .. itemId);
+        --Questie:Debug(DEBUG_DEVELOP, "[QuestieTooltip] Item Id on hover : ", itemId);
+        local tooltipData = QuestieTooltips:GetTooltip("i_" .. itemId);
         if tooltipData then
             for _, v in pairs (tooltipData) do
                 GameTooltip:AddLine(v)
