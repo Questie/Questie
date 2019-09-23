@@ -46,6 +46,7 @@ function Questie:OnInitialize()
     Questie:RegisterEvent("PLAYER_LEVEL_UP", QuestieEventHandler.PLAYER_LEVEL_UP);
     Questie:RegisterEvent("QUEST_LOG_UPDATE", QuestieEventHandler.QUEST_LOG_UPDATE);
     Questie:RegisterEvent("MODIFIER_STATE_CHANGED", QuestieEventHandler.MODIFIER_STATE_CHANGED);
+    Questie:RegisterEvent("QUEST_LOOT_RECEIVED", QuestieEventHandler.QUEST_LOOT_RECEIVED);
 
     -- Trade skill event to update a players profession
     Questie:RegisterEvent("CHAT_MSG_SKILL", QuestieEventHandler.CHAT_MSG_SKILL)

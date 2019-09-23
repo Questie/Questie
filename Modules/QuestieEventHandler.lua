@@ -29,13 +29,9 @@ for i = 1, 35 do
     questWatchFrames[i].refresh = false;
     questWatchFrames[i].accept = false;
     questWatchFrames[i].objectives = {}
-    questWatchFrames[i]:RegisterEvent("UNIT_QUEST_LOG_CHANGED")--, UNIT_QUEST_LOG_CHANGED
+    questWatchFrames[i]:RegisterEvent("QUEST_LOG_UPDATE")--, QUEST_LOG_UPDATE
     questWatchFrames[i]:SetScript("OnEvent", function(self, event, ...)
-        local unitId = select(1, ...);
-        if(unitId ~= "player") then
-            return;
-        end
-        if (event == "UNIT_QUEST_LOG_CHANGED") then
+        if (event == "QUEST_LOG_UPDATE") then
             C_Timer.After(1, function() 
                 if(self.refresh) then
                     --Get quest info
@@ -335,6 +331,10 @@ function QuestieEventHandler:QUEST_WATCH_UPDATE(QuestLogIndex)
             end
         end, 1)
     end)]]--
+end
+
+function QuestieEventHandler:QUEST_LOOT_RECEIVED(questId, itemLink, quantity)
+    DEFAULT_CHAT_FRAME:AddMessage("QUEST_LOOT_RECEIVED", questId, itemLink, ":", quantity);
 end
 
 function QuestieEventHandler:QUEST_LOG_CRITERIA_UPDATE(questID, specificTreeID, description, numFulfilled, numRequired)
