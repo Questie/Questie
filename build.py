@@ -82,6 +82,8 @@ def setArgs():
     return versionDir, addonDir, zipName
 
 def main():
+    # Setup pre-commit script.
+    setHookfolder()
     # set up pathes and handle command line arguments
     versionDir, addonDir, zipName = setArgs()
     # check that nothing is overwritten
@@ -129,7 +131,11 @@ def setVersion():
             
         with open('QuestieDev-master.toc', "w") as toc:
             toc.write(tocData);
-    
+
+def setHookfolder():
+    if is_tool("git"):
+        scriptDir = os.path.dirname(os.path.realpath(__file__));
+        p = subprocess.check_output(["git", "config", "core.hooksPath", ".githooks"], cwd=scriptDir);
 
 def getVersion():
     if is_tool("git"):
