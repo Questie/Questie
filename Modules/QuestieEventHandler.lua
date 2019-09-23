@@ -281,13 +281,16 @@ function QuestieEventHandler:QUEST_LOG_UPDATE()
 
     for questId, data in pairs(updateQuestId) do
         local objectives = C_QuestLog.GetQuestObjectives(questId);
-        if(objectives.text ~= nil) then
+        if(objectives ~= nil) then
             local hash = libC:fcs32init();
             hash = libC:fcs32update(hash, libS:Serialize(objectives));
             hash = libC:fcs32final(hash);
             if(data.hash ~= hash) then
-                DEFAULT_CHAT_FRAME:AddMessage("Change detected!");
+                Questie:Print("Change detected! Id:", questId, hash)
+                QuestieQuest:UpdateQuest(questId);
                 updateQuestId[questId] = nil;
+            else
+                Questie:Print("No change detected! Hash:", hash, ":", data.hash, "-", questId)
             end
         end
     end
@@ -296,7 +299,7 @@ end
 function QuestieEventHandler:QUEST_WATCH_UPDATE(QuestLogIndex)
     Questie:Debug(DEBUG_INFO, "QUEST_WATCH_UPDATE", QuestLogIndex)
     --When a quest gets updated, wait until next QUEST_LOG_UPDATE before updating.
-    questWatchFrames[QuestLogIndex].refresh = true
+    --questWatchFrames[QuestLogIndex].refresh = true
 
     local _, _, _, _, _, _, _, questId = GetQuestLogTitle(QuestLogIndex)
     local data = {}
@@ -306,6 +309,7 @@ function QuestieEventHandler:QUEST_WATCH_UPDATE(QuestLogIndex)
     hash = libC:fcs32update(hash, libS:Serialize(data.objectives))
     hash = libC:fcs32final(hash)
     data.hash = hash;
+    Questie:Print("Register Change", questId, hash);
     updateQuestId[questId] = data;
 
 
