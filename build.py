@@ -120,6 +120,7 @@ def setVersion():
         tagString = str(p).rstrip("\\n'").lstrip("b'");
         #versiontag (v4.1.1) from git, number of additional commits on top of the tagged object and most recent commit.
         versionTag, nrOfCommits, recentCommit = tagString.split("-");
+        recentCommit = recentCommit.lstrip("g"); # There is a "g" before all the commits.
         tocData = None;
         # Replace the toc data with git information.
         with open('QuestieDev-master.toc') as toc:
@@ -144,6 +145,7 @@ def getVersion():
         tagString = str(p).rstrip("\\n'").lstrip("b'");
         #versiontag (v4.1.1) from git, number of additional commits on top of the tagged object and most recent commit.
         versionTag, nrOfCommits, recentCommit = tagString.split("-");
+        recentCommit = recentCommit.lstrip("g"); # There is a "g" before all the commits.
         return versionTag, nrOfCommits, recentCommit;
     else:
         print("Warning: Git not found on the computer, using fallback to get a version.")
