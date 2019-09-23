@@ -280,8 +280,8 @@ function QuestieEventHandler:QUEST_LOG_UPDATE()
     end
 
     for questId, data in pairs(updateQuestId) do
-        if(data.refresh == true) then
-            local objectives = C_QuestLog.GetQuestObjectives(questId);
+        local objectives = C_QuestLog.GetQuestObjectives(questId);
+        if(objectives.text ~= nil) then
             local hash = libC:fcs32init();
             hash = libC:fcs32update(hash, libS:Serialize(objectives));
             hash = libC:fcs32final(hash);
