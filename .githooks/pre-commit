@@ -1,5 +1,4 @@
 #!/bin/sh
-#!/usr/bin/env python
 echo "----> Running pre-commit script!";
 #Run build script".
 python build.py
