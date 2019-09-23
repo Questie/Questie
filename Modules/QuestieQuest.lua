@@ -1012,33 +1012,15 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
 end
 
 
---TODO Check that this resolves correctly in classic!
---/dump QuestieQuest:GetLeaderBoardDetails(1,1)
-function _QuestieQuest:GetLeaderBoardDetails(BoardIndex, QuestId)
-    Index = GetQuestLogIndexByID(QuestId)
-    if(Index == 0) then
-        Index = QuestId;
+function _QuestieQuest:GetLeaderBoardDetails(objectiveIndex, questId)
+    local nrObjectives = C_QuestLog.GetNumQuestObjectives(questId)
+    local questObjectives = C_QuestLog.GetQuestObjectives(questId);
+    if(objectiveIndex <= nrObjectives) then
+        local objective = questObjectives[objectiveIndex];
+        DEFAULT_CHAT_FRAME:AddMessage("GetLeaderBoardDetails", objective.text, objective.numFulfilled, objective.numRequired, objective.finished,objective.type);
+        return objective.type, objective.text, objective.numFulfilled, objective.numRequired, objective.finished;
     end
-
-    local description, objectiveType, isCompleted = GetQuestLogLeaderBoard(BoardIndex, Index);
-    if not description then return nil; end -- invalid board index (this has happened extremely rarely see issue 565)
-
-    --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Quest Details1:", description, objectiveType, isCompleted)
-    --Classic
-    local itemName, numItems, numNeeded = string.match(description, "(.*)[：,:]%s*([%d]+)%s*/%s*([%d]+)");
-    --Retail
-    if(itemName == nil or string.len(itemName) < 1) then --Just a figure... check if its not 0
-        numItems, numNeeded, itemName = string.match(description, "(%d+)\/(%d+)(.*)")
-    end
-    Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Quest Details2:", QuestId, itemName, numItems, numNeeded)
-
-    if (itemName) then
-        itemName = string.gsub(itemName, "slain", "")
-    else
-        itemName = description;
-    end
-
-    return objectiveType, strtrim(itemName), tonumber(numItems), tonumber(numNeeded), isCompleted;
+    return nil;
 end
 
 --Draw a single available quest, it is used by the DrawAllAvailableQuests function.
