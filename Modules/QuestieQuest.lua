@@ -1011,7 +1011,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
     return Quest.Objectives
 end
 
-
+--https://www.townlong-yak.com/framexml/live/Blizzard_APIDocumentation#C_QuestLog.GetQuestObjectives
 function _QuestieQuest:GetLeaderBoardDetails(objectiveIndex, questId)
     local nrObjectives = C_QuestLog.GetNumQuestObjectives(questId)
     local questObjectives = C_QuestLog.GetQuestObjectives(questId);
