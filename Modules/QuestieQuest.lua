@@ -1017,6 +1017,7 @@ function _QuestieQuest:GetLeaderBoardDetails(objectiveIndex, questId)
     local questObjectives = C_QuestLog.GetQuestObjectives(questId);
     if(objectiveIndex <= nrObjectives) then
         local objective = questObjectives[objectiveIndex];
+        objective.text = string.match(objective.text, "(.*)[：,:]");
         DEFAULT_CHAT_FRAME:AddMessage("GetLeaderBoardDetails", objective.text, objective.numFulfilled, objective.numRequired, objective.finished,objective.type);
         return objective.type, objective.text, objective.numFulfilled, objective.numRequired, objective.finished;
     end
