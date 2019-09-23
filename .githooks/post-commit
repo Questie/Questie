@@ -1,0 +1,7 @@
+#!/bin/sh
+echo "----> Running Post-Commit script!";
+#Run build script".
+python build.py
+echo "--> Adding the changed QuestieDev-master.toc!";
+git add -u QuestieDev-master.toc
+echo "----> Post-Commit script done!";

@@ -1,8 +1,0 @@
-#!/bin/sh
-echo "----> Running pre-commit script!";
-#Run build script".
-python build.py
-echo "--> Adding the changed QuestieDev-master.toc!";
-git add QuestieDev-master.toc
-git status
-echo "----> Pre-commit script done!";
