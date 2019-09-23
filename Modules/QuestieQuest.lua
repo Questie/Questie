@@ -916,7 +916,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                         -- TODO: use string distance to find closest, dont rely on exact match
 
                         -- Fetch the name of the objective
-                        local oName = ""
+                        local oName = nil;
                         if(objective.Type == "monster" and objective.Id) then
                             oName = string.lower(QuestieDB:GetNPC(objective.Id).name);
                         elseif(objective.Type == "object" and objective.Id) then
