@@ -355,7 +355,10 @@ function QuestieEventHandler:PLAYER_LEVEL_UP(level, hitpoints, manapoints, talen
     
     -- deferred update (possible desync fix?)
     C_Timer.After(3, function() 
-        qPlayerLevel = UnitLevel("player") 
+        local playerLevel = UnitLevel("player")
+        if(playerLevel > qPlayerLevel) then
+            qPlayerLevel = playerLevel
+        end
         QuestieQuest:CalculateAvailableQuests();
         QuestieQuest:DrawAllAvailableQuests();
     end)
