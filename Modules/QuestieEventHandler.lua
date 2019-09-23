@@ -359,10 +359,6 @@ function QuestieEventHandler:QUEST_WATCH_UPDATE(QuestLogIndex)
     end)]]--
 end
 
-function QuestieEventHandler:QUEST_LOOT_RECEIVED(questId, itemLink, quantity)
-    DEFAULT_CHAT_FRAME:AddMessage("QUEST_LOOT_RECEIVED", questId, itemLink, ":", quantity);
-end
-
 function QuestieEventHandler:QUEST_LOG_CRITERIA_UPDATE(questID, specificTreeID, description, numFulfilled, numRequired)
     Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_LOG_CRITERIA_UPDATE", questID, specificTreeID, description, numFulfilled, numRequired);
 end
