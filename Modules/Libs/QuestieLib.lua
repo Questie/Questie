@@ -4,7 +4,9 @@ QuestieLib = {};
 local _QuestieLib = {};
 
 -- Math functions are often run A LOT so lets keep these local
-local round = round;
+local function round(number, decimals)
+    return (("%%.%df"):format(decimals)):format(number)
+end
 local math_abs = math.abs;
 local math_sqrt = math.sqrt;
 local math_max = math.max;
@@ -33,7 +35,17 @@ function QuestieLib:ProfileFunction(functionReference, includeSubroutine)
     --Optional var
     if(not includeSubroutine) then includeSubroutine = true; end
     local time, count = GetFunctionCPUUsage(functionReference, includeSubroutine);
-    Questie:Print("[QuestieLib]", "Profiling Avg:", round(time/count, 6));
+    --Questie:Print("[QuestieLib]", "Profiling Avg:", round(time/count, 6));
+    return time, count;
+end
+
+function QuestieLib:ProfileFunctions()
+  for key, value in pairs(QuestieQuest) do
+    if(type(value) == "function") then
+      local time, count = QuestieLib:ProfileFunction(value, false);
+      Questie:Print("[QuestieLib] ", key, "Profiling Avg:", round(time/count, 6));
+    end
+  end
 end
 
 function QuestieLib:Euclid(x, y, i, e)
