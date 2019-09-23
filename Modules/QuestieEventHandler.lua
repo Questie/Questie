@@ -5,6 +5,10 @@ local function _Hack_prime_log() -- this seems to make it update the data much q
   end
 end
 
+local libS = LibStub:GetLibrary("AceSerializer-3.0")
+local libC = LibStub:GetLibrary("LibCompress")
+local updateQuestId = {};
+
 --- GLOBAL ---
 --This is needed for functions around the addon, due to UnitLevel("player") not returning actual level PLAYER_LEVEL_UP unless this is used.
 QuestieEventHandler = {}
@@ -274,13 +278,35 @@ function QuestieEventHandler:QUEST_LOG_UPDATE()
         end)
         playerEntered = nil;
     end
-    
+
+    for questId, data in pairs(updateQuestId) do
+        if(data.refresh == true) then
+            local objectives = C_QuestLog.GetQuestObjectives(questId);
+            local hash = libC:fcs32init();
+            hash = libC:fcs32update(hash, libS:Serialize(objectives));
+            hash = libC:fcs32final(hash);
+            if(data.hash ~= hash) then
+                DEFAULT_CHAT_FRAME:AddMessage("Change detected!");
+                updateQuestId[questId] = nil;
+            end
+        end
+    end
 end
 
 function QuestieEventHandler:QUEST_WATCH_UPDATE(QuestLogIndex)
     Questie:Debug(DEBUG_INFO, "QUEST_WATCH_UPDATE", QuestLogIndex)
     --When a quest gets updated, wait until next QUEST_LOG_UPDATE before updating.
     questWatchFrames[QuestLogIndex].refresh = true
+
+    local _, _, _, _, _, _, _, questId = GetQuestLogTitle(QuestLogIndex)
+    local data = {}
+    data.questId = questId;
+    data.objectives = C_QuestLog.GetQuestObjectives(questId);
+    local hash = libC:fcs32init()
+    hash = libC:fcs32update(hash, libS:Serialize(data.objectives))
+    hash = libC:fcs32final(hash)
+    data.hash = hash;
+    updateQuestId[questId] = data;
 
 
     --[[_hack_prime_log()
