@@ -4,14 +4,17 @@ _QuestieOptions.configFrame = nil;
 
 local AceGUI = LibStub("AceGUI-3.0")
 
--- Initialize LangNameLookup & LangQuestLookup & LangObjectLookup
+-- Initialize lookup tables for localization
+LangItemLookup = LangItemLookup[GetLocale()] or {};
 LangNameLookup = LangNameLookup[GetLocale()] or {};
 LangQuestLookup = LangQuestLookup[GetLocale()] or {};
-LangObjectIdLookup = LangObjectLookup[GetLocale()] or {};
-LangObjectLookup = {}
+LangObjectIdLookup = LangObjectLookup[GetLocale()] or {}; -- This table is String -> ID
+LangObjectLookup = {} -- This table is ID -> String
+--Create the ID -> String table!
 for k,v in pairs(LangObjectIdLookup) do
     LangObjectLookup[v]=k
 end
+-- Create the english String -> ID table.
 if(GetLocale() == "enUS" or GetLocale() == "enGB") then
     for id, data in pairs(QuestieDB.objectData) do
         LangObjectIdLookup[data[1]] = id;
