@@ -14,9 +14,9 @@ local math_max = math.max;
 function QuestieLib:PrintDifficultyColor(level, text)
 
     if level == -1 then
-        level = qPlayerLevel;
+        level = QuestiePlayer:GetPlayerLevel();
     end
-    local levelDiff = level - qPlayerLevel
+    local levelDiff = level - QuestiePlayer:GetPlayerLevel();
 
     if (levelDiff >= 5) then
         return "|cFFFF1A1A"..text.."|r"; -- Red

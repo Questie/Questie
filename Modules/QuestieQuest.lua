@@ -1144,7 +1144,7 @@ function QuestieQuest:DrawAllAvailableQuests()--All quests between
         end
         count = count + 1
     end
-    Questie:Debug(DEBUG_INFO, "[QuestieQuest]", QuestieLocale:GetUIString('DEBUG_DRAW', count, qPlayerLevel));
+    Questie:Debug(DEBUG_INFO, "[QuestieQuest]", QuestieLocale:GetUIString('DEBUG_DRAW', count, QuestiePlayer:GetPlayerLevel()));
 end
 
 function _QuestieQuest:IsDoable(questObject) -- we need to add reputation checks here
@@ -1225,7 +1225,7 @@ end
 
 --TODO Check that this function does what it is supposed to...
 function QuestieQuest:CalculateAvailableQuests()
-    local PlayerLevel = qPlayerLevel;
+    local PlayerLevel = QuestiePlayer:GetPlayerLevel();
 
     local MinLevel = PlayerLevel - Questie.db.global.minLevelFilter
     local MaxLevel = PlayerLevel + Questie.db.global.maxLevelFilter

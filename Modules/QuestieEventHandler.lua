@@ -12,7 +12,7 @@ local updateQuestId = {};
 --- GLOBAL ---
 --This is needed for functions around the addon, due to UnitLevel("player") not returning actual level PLAYER_LEVEL_UP unless this is used.
 QuestieEventHandler = {}
-qPlayerLevel = -1
+
 
 __UPDATEFIX_IDX = 1; -- temporary bad fix
 
@@ -88,7 +88,7 @@ function QuestieEventHandler:PLAYER_ENTERING_WORLD()
         -- We want the framerate to be HIGH!!!
         QuestieMap:InitializeQueue();
         _Hack_prime_log()
-        qPlayerLevel = UnitLevel("player")
+        QuestiePlayer:Initialize();
         QuestieQuest:Initialize()
         QuestieQuest:GetAllQuestIdsNoObjectives()
         QuestieQuest:CalculateAvailableQuests()
@@ -375,16 +375,14 @@ end
 function QuestieEventHandler:PLAYER_LEVEL_UP(level, hitpoints, manapoints, talentpoints, ...)
     Questie:Debug(DEBUG_DEVELOP, "EVENT: PLAYER_LEVEL_UP", level);
     
-    qPlayerLevel = level;
+    QuestiePlayer:SetPlayerLevel(level);
     --QuestieQuest:CalculateAvailableQuests();
     --QuestieQuest:DrawAllAvailableQuests();
     
     -- deferred update (possible desync fix?)
     C_Timer.After(3, function() 
-        local playerLevel = UnitLevel("player")
-        if(playerLevel > qPlayerLevel) then
-            qPlayerLevel = playerLevel
-        end
+        QuestiePlayer:SetPlayerLevel(level);
+
         QuestieQuest:CalculateAvailableQuests();
         QuestieQuest:DrawAllAvailableQuests();
     end)
