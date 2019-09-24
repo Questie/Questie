@@ -532,6 +532,8 @@ QuestieCorrections.itemFixes = {
     [11954] = {"Filled Pure Sample Jar",{4513},{6556,6557,6559,},{}}, -- #1070
     [12907] = {"Corrupted Moonwell Water",{5157},{},{176184}}, -- #1083
     [12922] = {"Empty Canteen",{5157},{},{}}, -- #1083
+    [7268] = {"Xavian Water Sample",{1944},{},{174797}}, -- #1097
+    [7269] = {"Deino's Flask",{1944},{},{}}, -- #1097
 
     -- quest related herbs
     [2449] = {"Earthroot",{6123,6128},{},{1619,3726}},
