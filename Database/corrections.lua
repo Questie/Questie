@@ -318,6 +318,9 @@ QuestieCorrections.questFixes = {
     [579] = {
         [QuestieDB.questKeys.parentQuest] = {578},
     },
+    [1085] = {
+        [QuestieDB.questKeys.preQuestSingle] = {1070},
+    }
 }
 
 QuestieCorrections.npcFixes = {
