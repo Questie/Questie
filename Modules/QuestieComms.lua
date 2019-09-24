@@ -463,9 +463,9 @@ QuestieComms.packets = {
     [QC_ID_SEND_QUESTSLIST] = {
         write = function(self)
             local count = 0;
-            for _ in pairs(qCurrentQuestlog) do count = count + 1; end -- why does lua suck
+            for _ in pairs(QuestiePlayer.currentQuestlog) do count = count + 1; end -- why does lua suck
             self.stream:WriteByte(count)
-            for id,_ in pairs(qCurrentQuestlog) do
+            for id,_ in pairs(QuestiePlayer.currentQuestlog) do
                 self.stream:WriteShort(id)
             end
         end,
@@ -474,7 +474,7 @@ QuestieComms.packets = {
             qRemoteQuestLogs[self.player] = {self.stream:ReadShorts(count)}
             local toAsk = {}
             for _,id in pairs(qRemoteQuestLogs[self.player]) do
-                if qCurrentQuestlog[id] then
+                if QuestiePlayer.currentQuestlog[id] then
                     table.insert(toAsk, id)
                 end
             end

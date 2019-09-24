@@ -4,7 +4,6 @@ local _QuestieQuest = {...}
 
 QuestieQuest.availableQuests = {} --Gets populated at PLAYER_ENTERED_WORLD
 
-qCurrentQuestlog = {} --Gets populated by QuestieQuest:GetAllQuestIds(), this is either an object to the quest in question, or the ID if the object doesn't exist.
 
 
 function QuestieQuest:Initialize()
@@ -68,7 +67,7 @@ end
 
 
 function QuestieQuest:ClearAllNotes()
-    for quest in pairs (qCurrentQuestlog) do
+    for quest in pairs (QuestiePlayer.currentQuestlog) do
         local Quest = QuestieDB:GetQuest(quest)
 
         -- Clear user-specifc data from quest object (maybe we should refactor into Quest.session.* so we can do Quest.session = nil to reset easier
@@ -116,7 +115,7 @@ function QuestieQuest:AddAllNotes()
     QuestieQuest:DrawAllAvailableQuests()
 
     -- draw quests
-    for quest in pairs (qCurrentQuestlog) do
+    for quest in pairs (QuestiePlayer.currentQuestlog) do
         QuestieQuest:UpdateQuest(quest)
         _UpdateSpecials(quest)
     end
@@ -127,7 +126,7 @@ function QuestieQuest:Reset()
     QuestieQuest:ClearAllNotes()
 
     -- reset quest log and tooltips
-    qCurrentQuestlog = {}
+    QuestiePlayer.currentQuestlog = {}
     QuestieTooltips.tooltipLookup = {}
 
     -- make sure complete db is correct
@@ -143,7 +142,7 @@ function QuestieQuest:SmoothReset() -- use timers to reset progressively instead
         QuestieQuest.ClearAllNotes,
         function()
             -- reset quest log and tooltips
-            qCurrentQuestlog = {}
+            QuestiePlayer.currentQuestlog = {}
             QuestieTooltips.tooltipLookup = {}
 
             -- make sure complete db is correct
@@ -159,7 +158,7 @@ function QuestieQuest:SmoothReset() -- use timers to reset progressively instead
         function()
             -- bit of a hack here too
             local mod = 0
-            for quest in pairs (qCurrentQuestlog) do
+            for quest in pairs (QuestiePlayer.currentQuestlog) do
                 C_Timer.After(mod, function() QuestieQuest:UpdateQuest(quest) _UpdateSpecials(quest) end)
                 mod = mod + 0.2
             end
@@ -256,15 +255,15 @@ end
 
 -- some plebs dont have beta, i need diz
 function LOGONDEBUG_ADDQUEST(QuestId)
-    --qCurrentQuestlog[QuestId] = QuestieDB:GetQuest(QuestId);
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ADD_QUEST', QuestId, qCurrentQuestlog[QuestId]));
+    --QuestiePlayer.currentQuestlog[QuestId] = QuestieDB:GetQuest(QuestId);
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ADD_QUEST', QuestId, QuestiePlayer.currentQuestlog[QuestId]));
     QuestieQuest:AcceptQuest(QuestId);
     --QuestieQuest:TrackQuest(QuestId)
 end
 
 function LOGONDEBUG_REMOVEQUEST(QuestId)
     QuestieQuest:AbandonedQuest(QuestId);
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_REMOVE_QUEST', QuestId, qCurrentQuestlog[QuestId]));
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_REMOVE_QUEST', QuestId, QuestiePlayer.currentQuestlog[QuestId]));
 end
 
 function QuestieQuest:AcceptQuest(questId)
@@ -284,9 +283,9 @@ function QuestieQuest:AcceptQuest(questId)
         QuestieMap.MapCache_ClutterFix = {};
         QuestieQuest:PopulateQuestLogInfo(Quest)
         QuestieQuest:PopulateObjectiveNotes(Quest)
-        qCurrentQuestlog[questId] = Quest
+        QuestiePlayer.currentQuestlog[questId] = Quest
     else
-        qCurrentQuestlog[questId] = questId
+        QuestiePlayer.currentQuestlog[questId] = questId
     end
 
 
@@ -307,7 +306,7 @@ function QuestieQuest:AcceptQuest(questId)
 end
 
 function QuestieQuest:CompleteQuest(QuestId)
-    qCurrentQuestlog[QuestId] = nil;
+    QuestiePlayer.currentQuestlog[QuestId] = nil;
     Questie.db.char.complete[QuestId] = true --can we use some other relevant info here?
     QuestieMap:UnloadQuestFrames(QuestId);
     QuestieTooltips:RemoveQuest(QuestId)
@@ -326,8 +325,8 @@ end
 
 function QuestieQuest:AbandonedQuest(QuestId)
     QuestieTooltips:RemoveQuest(QuestId)
-    if(qCurrentQuestlog[QuestId]) then
-        qCurrentQuestlog[QuestId] = nil
+    if(QuestiePlayer.currentQuestlog[QuestId]) then
+        QuestiePlayer.currentQuestlog[QuestId] = nil
 
         --Unload all the quest frames from the map.
         QuestieMap:UnloadQuestFrames(QuestId);
@@ -375,7 +374,7 @@ end
 function QuestieQuest:GetAllQuestIds()
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_GET_QUEST'));
     local numEntries, numQuests = GetNumQuestLogEntries();
-    qCurrentQuestlog = {}
+    QuestiePlayer.currentQuestlog = {}
     for index = 1, numEntries do
         local title, level, _, isHeader, _, isComplete, _, questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
         if(not isHeader) then
@@ -384,14 +383,14 @@ function QuestieQuest:GetAllQuestIds()
             if(Quest ~= nil) then
                 QuestieQuest:PopulateQuestLogInfo(Quest)
                 QuestieQuest:PopulateObjectiveNotes(Quest)
-                qCurrentQuestlog[questId] = Quest
+                QuestiePlayer.currentQuestlog[questId] = Quest
                 if title and strlen(title) > 1 then
                     Quest.LocalizedName = title
                 end
             else
-                qCurrentQuestlog[questId] = questId
+                QuestiePlayer.currentQuestlog[questId] = questId
             end
-            Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ADD_QUEST', questId, qCurrentQuestlog[questId]));
+            Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ADD_QUEST', questId, QuestiePlayer.currentQuestlog[questId]));
         end
     end
     QuestieTracker:Update()
@@ -400,18 +399,18 @@ end
 function QuestieQuest:GetAllQuestIdsNoObjectives()
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_GET_QUEST'));
     local numEntries, numQuests = GetNumQuestLogEntries();
-    qCurrentQuestlog = {}
+    QuestiePlayer.currentQuestlog = {}
     for index = 1, numEntries do
         local title, level, _, isHeader, _, isComplete, _, questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
         if(not isHeader) then
             --Keep the object in the questlog to save searching
             local Quest = QuestieDB:GetQuest(questId)
             if(Quest ~= nil) then
-                qCurrentQuestlog[questId] = Quest
+                QuestiePlayer.currentQuestlog[questId] = Quest
             else
-                qCurrentQuestlog[questId] = questId
+                QuestiePlayer.currentQuestlog[questId] = questId
             end
-            Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ADD_QUEST', questId, qCurrentQuestlog[questId]));
+            Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ADD_QUEST', questId, QuestiePlayer.currentQuestlog[questId]));
         end
     end
 end
@@ -1159,7 +1158,7 @@ function _QuestieQuest:IsDoable(questObject) -- we need to add reputation checks
         return false;
     end
     if questObject.NextQuestInChain then
-        if Questie.db.char.complete[questObject.NextQuestInChain] or qCurrentQuestlog[questObject.NextQuestInChain] then
+        if Questie.db.char.complete[questObject.NextQuestInChain] or QuestiePlayer.currentQuestlog[questObject.NextQuestInChain] then
             return false
         end
     end
@@ -1167,13 +1166,13 @@ function _QuestieQuest:IsDoable(questObject) -- we need to add reputation checks
     --Run though the requiredQuests
     if questObject.ExclusiveQuestGroup then -- fix (DO NOT REVERT, tested thoroughly)
         for k, v in pairs(questObject.ExclusiveQuestGroup) do
-            if Questie.db.char.complete[v] or qCurrentQuestlog[v] then
+            if Questie.db.char.complete[v] or QuestiePlayer.currentQuestlog[v] then
                 return false
             end
         end
     end
     if questObject.parentQuest then
-        if not qCurrentQuestlog[questObject.parentQuest] then
+        if not QuestiePlayer.currentQuestlog[questObject.parentQuest] then
             return false
         end
     end
@@ -1212,7 +1211,7 @@ function _QuestieQuest:IsDoable(questObject) -- we need to add reputation checks
         end
 
         --If one of the quests are in the log, return false
-        if preQuest and qCurrentQuestlog[preQuest.Id] then
+        if preQuest and QuestiePlayer.currentQuestlog[preQuest.Id] then
             return false
         end
     end
@@ -1239,7 +1238,7 @@ function QuestieQuest:CalculateAvailableQuests()
         local QuestID = i;
         --Check if we've already completed the quest and that it is not "manually" hidden and that the quest is not currently in the questlog.
 
-        if((not Questie.db.char.complete[QuestID]) and (not QuestieCorrections.hiddenQuests[QuestID]) and (not qCurrentQuestlog[QuestID])) then --Should be not qCurrentQuestlog[QuestID]
+        if((not Questie.db.char.complete[QuestID]) and (not QuestieCorrections.hiddenQuests[QuestID]) and (not QuestiePlayer.currentQuestlog[QuestID])) then --Should be not QuestiePlayer.currentQuestlog[QuestID]
             local Quest = QuestieDB:GetQuest(QuestID);
             if (Quest.Level >= MinLevel or Questie.db.char.lowlevel) and Quest.Level <= MaxLevel and Quest.MinLevel <= PlayerLevel then
                 if _QuestieQuest:IsDoable(Quest) then

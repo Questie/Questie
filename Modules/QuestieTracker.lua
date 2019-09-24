@@ -209,7 +209,7 @@ end
 
 local function _UnFocus() -- reset HideIcons to match savedvariable state
     if not Questie.db.char.TrackerFocus then return; end
-    for quest in pairs (qCurrentQuestlog) do
+    for quest in pairs (QuestiePlayer.currentQuestlog) do
         local Quest = QuestieDB:GetQuest(quest)
         Quest.FadeIcons = nil
         if Quest.Objectives then
@@ -250,7 +250,7 @@ local function _FocusObjective(TargetQuest, TargetObjective, isSpecial)
         _UnFocus()
     end
     Questie.db.char.TrackerFocus = tostring(TargetQuest.Id) .. " " .. tostring(TargetObjective.Index)
-    for quest in pairs (qCurrentQuestlog) do
+    for quest in pairs (QuestiePlayer.currentQuestlog) do
         local Quest = QuestieDB:GetQuest(quest)
         if Quest.Objectives then
             if quest == TargetQuest.Id then
@@ -286,7 +286,7 @@ local function _FocusQuest(TargetQuest)
         _UnFocus()
     end
     Questie.db.char.TrackerFocus = TargetQuest.Id
-    for quest in pairs (qCurrentQuestlog) do
+    for quest in pairs (QuestiePlayer.currentQuestlog) do
         local Quest = QuestieDB:GetQuest(quest)
         if quest == TargetQuest.Id then
             Quest.HideIcons = nil
@@ -992,7 +992,7 @@ function QuestieTracker:Update()
 
     local order = {}
     local questCompletePercent = {}
-    for quest in pairs (qCurrentQuestlog) do
+    for quest in pairs (QuestiePlayer.currentQuestlog) do
         local Quest = QuestieDB:GetQuest(quest)
         if QuestieQuest:IsComplete(Quest) or not Quest.Objectives then
             questCompletePercent[Quest.Id] = 1
@@ -1096,7 +1096,7 @@ function QuestieTracker:Update()
 
     if _QuestieTracker.IsFirstRun then
         _QuestieTracker.IsFirstRun = nil
-        for quest in pairs (qCurrentQuestlog) do
+        for quest in pairs (QuestiePlayer.currentQuestlog) do
             local Quest = QuestieDB:GetQuest(quest)
             if Quest then
                 if Questie.db.char.TrackerHiddenQuests[quest] then
@@ -1216,7 +1216,7 @@ function QuestieTracker:HookBaseTracker()
             return Questie.db.char.TrackedQuests[select(8,GetQuestLogTitle(index)) or -1]
         else
             local qid = select(8,GetQuestLogTitle(index))
-            return qid and qCurrentQuestlog[qid] and not Questie.db.char.AutoUntrackedQuests[qid]
+            return qid and QuestiePlayer.currentQuestlog[qid] and not Questie.db.char.AutoUntrackedQuests[qid]
         end
     end
     GetNumQuestWatches = function()
