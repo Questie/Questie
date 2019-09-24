@@ -1,11 +1,11 @@
 QuestieFramePool = {...} -- GLobal Functions
 local _QuestieFramePool = {...} --Local Functions
-qNumberOfFrames = 0
+_QuestieFramePool.numberOfFrames = 0
 
-local unusedframes = {}
-local usedFrames = {};
+_QuestieFramePool.unusedFrames = {}
+_QuestieFramePool.usedFrames = {};
 
-local allframes = {}
+_QuestieFramePool.allFrames = {}
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
@@ -58,17 +58,17 @@ StaticPopupDialogs["QUESTIE_CONFIRMHIDE"] = {
 
 -- Global Functions --
 function QuestieFramePool:GetFrame()
-    local f = nil--tremove(unusedframes)
+    local f = nil--tremove(_QuestieFramePool.unusedFrames)
     
-    -- im not sure its this, but using string keys for the table prevents double-adding to unusedframes, calling unload() twice could double-add it maybe?
-    for k,v in pairs(unusedframes) do -- yikes (why is tremove broken? is there a better to get the first key of a non-indexed table?)
+    -- im not sure its this, but using string keys for the table prevents double-adding to _QuestieFramePool.unusedFrames, calling unload() twice could double-add it maybe?
+    for k,v in pairs(_QuestieFramePool.unusedFrames) do -- yikes (why is tremove broken? is there a better to get the first key of a non-indexed table?)
         f = v
-        unusedframes[k] = nil
+        _QuestieFramePool.unusedFrames[k] = nil
         break
     end
     
     
-    if f and f.GetName and usedFrames[f:GetName()] then
+    if f and f.GetName and _QuestieFramePool.usedFrames[f:GetName()] then
         -- something went horribly wrong (desync bug?) don't use this frame since its already in use
         f = nil
     end
@@ -115,11 +115,11 @@ function QuestieFramePool:GetFrame()
         f:SetScript("OnHide", f.BaseOnHide)
     end
     
-    usedFrames[f:GetName()] = f
+    _QuestieFramePool.usedFrames[f:GetName()] = f
     return f
 end
 
---for i, frame in ipairs(allframes) do
+--for i, frame in ipairs(_QuestieFramePool.allFrames) do
 --    if(frame.loaded == nil)then
 --        return frame
 --    end
@@ -127,8 +127,8 @@ end
 
 function QuestieFramePool:UnloadAll()
 
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieFramePool] ".. QuestieLocale:GetUIString('DEBUG_UNLOAD_ALL', #allframes))
-    for i, frame in ipairs(allframes) do
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieFramePool] ".. QuestieLocale:GetUIString('DEBUG_UNLOAD_ALL', #_QuestieFramePool.allFrames))
+    for i, frame in ipairs(_QuestieFramePool.allFrames) do
         --_QuestieFramePool:UnloadFrame(frame);
         frame:Unload()
     end
@@ -137,13 +137,13 @@ end
 
 function QuestieFramePool:UpdateGlowConfig(mini, mode)
     if mode then
-        for _, icon in pairs(usedFrames) do
+        for _, icon in pairs(_QuestieFramePool.usedFrames) do
             if (((mini and icon.miniMapIcon) or not mini) and icon.glow) and icon.IsShown and icon:IsShown() then
                 icon:GetScript("OnShow")(icon) -- forces a glow update
             end
         end
     else
-        for _, icon in pairs(usedFrames) do
+        for _, icon in pairs(_QuestieFramePool.usedFrames) do
             if ((mini and icon.miniMapIcon) or (not mini and not icon.miniMapIcon)) and icon.glow then
                 icon.glow:Hide()
             end
@@ -153,7 +153,7 @@ end
 
 function QuestieFramePool:UpdateColorConfig(mini, enable)
     if enable then
-        for _, icon in pairs(usedFrames) do
+        for _, icon in pairs(_QuestieFramePool.usedFrames) do
             if (mini and icon.miniMapIcon) or not mini then
                 local colors = {1, 1, 1}
                 if icon.data.IconColor ~= nil then
@@ -163,7 +163,7 @@ function QuestieFramePool:UpdateColorConfig(mini, enable)
             end
         end
     else
-        for _, icon in pairs(usedFrames) do
+        for _, icon in pairs(_QuestieFramePool.usedFrames) do
             if (mini and icon.miniMapIcon) or not mini then
                 icon.texture:SetVertexColor(1, 1, 1, 1)
             end
@@ -180,16 +180,16 @@ function _QuestieFramePool:UnloadFrame(frame)
   HBDPins:RemoveWorldMapIcon(Questie, frame);
   frame.data = nil; -- Just to be safe
   frame.loaded = nil;
-    table.insert(unusedframes, frame)
+    table.insert(_QuestieFramePool.unusedFrames, frame)
 end]]--
 function _QuestieFramePool:QuestieCreateFrame()
-    qNumberOfFrames = qNumberOfFrames + 1
-    local f = CreateFrame("Button", "QuestieFrame"..qNumberOfFrames, nil)
-    if(qNumberOfFrames > 5000) then
-        Questie:Debug(DEBUG_CRITICAL, "[QuestieFramePool] Over 5000 frames... maybe there is a leak?", qNumberOfFrames)
+    _QuestieFramePool.numberOfFrames = _QuestieFramePool.numberOfFrames + 1
+    local f = CreateFrame("Button", "QuestieFrame".._QuestieFramePool.numberOfFrames, nil)
+    if(_QuestieFramePool.numberOfFrames > 5000) then
+        Questie:Debug(DEBUG_CRITICAL, "[QuestieFramePool] Over 5000 frames... maybe there is a leak?", _QuestieFramePool.numberOfFrames)
     end
 
-    f.glow = CreateFrame("Button", "QuestieFrame"..qNumberOfFrames.."Glow", f) -- glow frame
+    f.glow = CreateFrame("Button", "QuestieFrame".._QuestieFramePool.numberOfFrames.."Glow", f) -- glow frame
     f.glow:SetFrameStrata("TOOLTIP");
     f.glow:SetWidth(18) -- Set these to whatever height/width is needed
     f.glow:SetHeight(18)
@@ -344,9 +344,9 @@ function _QuestieFramePool:QuestieCreateFrame()
         self.data = nil -- Just to be safe
         self.loaded = nil
         self.x = nil;self.y = nil;self.AreaID = nil
-        if usedFrames[self:GetName()] then
-            usedFrames[self:GetName()] = nil
-            unusedframes[self:GetName()] = self--table.insert(unusedframes, self)
+        if _QuestieFramePool.usedFrames[self:GetName()] then
+            _QuestieFramePool.usedFrames[self:GetName()] = nil
+            _QuestieFramePool.unusedFrames[self:GetName()] = self--table.insert(_QuestieFramePool.unusedFrames, self)
         end
     end
     f.data = {}
@@ -408,7 +408,7 @@ function _QuestieFramePool:QuestieCreateFrame()
         end
     end
     --f.glow:Hide()
-    table.insert(allframes, f)
+    table.insert(_QuestieFramePool.allFrames, f)
     return f
 end
 
@@ -483,7 +483,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
     local npcOrder = {};
     local questOrder = {};
     if 1 then
-        for _, icon in pairs(usedFrames) do -- I added "usedFrames" because I think its a bit more efficient than using _G but I might be wrong
+        for _, icon in pairs(_QuestieFramePool.usedFrames) do -- I added "_QuestieFramePool.usedFrames" because I think its a bit more efficient than using _G but I might be wrong
             if icon and icon.data and icon.x and icon.AreaID == self.AreaID then
                 local dist = QuestieLib:Maxdist(icon.x, icon.y, self.x, self.y);
                 if dist < maxDistCluster then
