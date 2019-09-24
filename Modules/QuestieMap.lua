@@ -2,7 +2,7 @@ QuestieMap = {...}
 QuestieMap.ICON_MAP_TYPE = "MAP";
 QuestieMap.ICON_MINIMAP_TYPE = "MINIMAP";
 
-qQuestIdFrames = {}
+QuestieMap.questIdFrames = {}
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
@@ -22,8 +22,8 @@ end
 function QuestieMap:GetFramesForQuest(QuestId)
     local frames = {}
     --If no frames exists or if the quest does not exist we just return an empty list
-    if (qQuestIdFrames[QuestId]) then
-        for i, name in ipairs(qQuestIdFrames[QuestId]) do
+    if (QuestieMap.questIdFrames[QuestId]) then
+        for i, name in ipairs(QuestieMap.questIdFrames[QuestId]) do
             table.insert(frames, _G[name])
         end
     end
@@ -31,17 +31,17 @@ function QuestieMap:GetFramesForQuest(QuestId)
 end
 
 function QuestieMap:UnloadQuestFrames(QuestId)
-    if(qQuestIdFrames[QuestId]) then
+    if(QuestieMap.questIdFrames[QuestId]) then
         for index, frame in ipairs(QuestieMap:GetFramesForQuest(QuestId)) do
             frame:Unload();
         end
-        qQuestIdFrames[QuestId] = nil;
+        QuestieMap.questIdFrames[QuestId] = nil;
         Questie:Debug(DEBUG_DEVELOP, "[QuestieMap]: ".. QuestieLocale:GetUIString('DEBUG_UNLOAD_QFRAMES', QuestId))
     end
 end
 
 function QuestieMap:RescaleIcons()
-    for qId, framelist in pairs(qQuestIdFrames) do
+    for qId, framelist in pairs(QuestieMap.questIdFrames) do
         for i, frameName in ipairs(framelist) do
             local frame = _G[frameName]
             if frame and frame.data then
@@ -263,12 +263,12 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
             QuestieMap:QueueDraw(QuestieMap.ICON_MAP_TYPE, Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, showFlag);
             --HBDPins:AddWorldMapIconMap(Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, showFlag)
         end
-        if(qQuestIdFrames[data.Id] == nil) then
-            qQuestIdFrames[data.Id] = {}
+        if(QuestieMap.questIdFrames[data.Id] == nil) then
+            QuestieMap.questIdFrames[data.Id] = {}
         end
 
-        table.insert(qQuestIdFrames[data.Id], icon:GetName())
-        table.insert(qQuestIdFrames[data.Id], iconMinimap:GetName())
+        table.insert(QuestieMap.questIdFrames[data.Id], icon:GetName())
+        table.insert(QuestieMap.questIdFrames[data.Id], iconMinimap:GetName())
 
         -- preset hidden state when needed (logic from QuestieQuest:UpdateHiddenNotes
         -- we should add all this code to something like obj:CheckHide() instead of copying it

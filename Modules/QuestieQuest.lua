@@ -39,7 +39,7 @@ function QuestieQuest:ToggleNotes(desiredValue)
     end
     if QuestieQuest.NotesHidden then
         Questie_Toggle:SetText(QuestieLocale:GetUIString('QUESTIE_MAP_BUTTON_HIDE'));
-        for questId, framelist in pairs(qQuestIdFrames) do
+        for questId, framelist in pairs(QuestieMap.questIdFrames) do
             for index, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
                 local icon = _G[frameName];
                 if icon ~= nil and icon.hidden and not ((((not Questie.db.global.enableObjectives) and (icon.data.Type == "monster" or icon.data.Type == "object" or icon.data.Type == "event" or icon.data.Type == "item"))
@@ -53,7 +53,7 @@ function QuestieQuest:ToggleNotes(desiredValue)
         end
     else
         Questie_Toggle:SetText(QuestieLocale:GetUIString('QUESTIE_MAP_BUTTON_SHOW'));
-        for questId, framelist in pairs(qQuestIdFrames) do
+        for questId, framelist in pairs(QuestieMap.questIdFrames) do
             for index, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
                 local icon = _G[frameName];
                 if icon ~= nil and icon.IsShown ~= nil and (not icon.hidden) then -- check for function to make sure its a frame
@@ -80,7 +80,7 @@ function QuestieQuest:ClearAllNotes()
         Quest.SpecialObjectives = nil
     end
 
-    for questId, framelist in pairs(qQuestIdFrames) do
+    for questId, framelist in pairs(QuestieMap.questIdFrames) do
         for index, frameName in ipairs(framelist) do
             local icon = _G[frameName]
             if icon and icon.Unload then
@@ -88,7 +88,7 @@ function QuestieQuest:ClearAllNotes()
             end
         end
     end
-    qQuestIdFrames = {}
+    QuestieMap.questIdFrames = {}
     QuestieMap.MapCache_ClutterFix = {}
 end
 
@@ -179,7 +179,7 @@ function QuestieQuest:UpdateHiddenNotes()
         QuestieQuest:DrawAllAvailableQuests();
     end
 
-    for questId, framelist in pairs(qQuestIdFrames) do
+    for questId, framelist in pairs(QuestieMap.questIdFrames) do
         for index, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
             local icon = _G[frameName];
             if icon ~= nil and icon.data then
@@ -1138,7 +1138,7 @@ function QuestieQuest:DrawAllAvailableQuests()--All quests between
     local count = 0
     for questid, qid in pairs(qAvailableQuests) do
         --If the quest is not drawn draw the quest, otherwise skip.
-        if(not qQuestIdFrames[questid]) then
+        if(not QuestieMap.questIdFrames[questid]) then
             local Quest = QuestieDB:GetQuest(questid)
             --Draw a specific quest through the function
             _QuestieQuest:DrawAvailableQuest(Quest)

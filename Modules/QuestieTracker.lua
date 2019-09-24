@@ -303,7 +303,7 @@ local function _FlashObjectiveByTexture(Objective) -- really terrible animation 
     if Objective.AlreadySpawned then
         local toFlash = {}
         -- ugly code
-        for questId, framelist in pairs(qQuestIdFrames) do
+        for questId, framelist in pairs(QuestieMap.questIdFrames) do
             for index, frameName in ipairs(framelist) do
                 local icon = _G[frameName];
                 if not icon.miniMapIcon then
@@ -370,7 +370,7 @@ local function _FlashObjectiveByTexture(Objective) -- really terrible animation 
         --    end
         --end)
         C_Timer.After(6*0.28+0.7, function()
-            for questId, framelist in pairs(qQuestIdFrames) do
+            for questId, framelist in pairs(QuestieMap.questIdFrames) do
                 for index, frameName in ipairs(framelist) do
                     local icon = _G[frameName];
                     if icon._hidden_by_flash then
@@ -387,7 +387,7 @@ local function _FlashObjective(Objective) -- really terrible animation code, sor
     if Objective.AlreadySpawned then
         local toFlash = {}
         -- ugly code
-        for questId, framelist in pairs(qQuestIdFrames) do
+        for questId, framelist in pairs(QuestieMap.questIdFrames) do
             for index, frameName in ipairs(framelist) do
                 local icon = _G[frameName];
                 if not icon.miniMapIcon then
@@ -449,7 +449,7 @@ local function _FlashObjective(Objective) -- really terrible animation code, sor
                                 end
                             end)
                             C_Timer.After(0.5, function()
-                                for questId, framelist in pairs(qQuestIdFrames) do
+                                for questId, framelist in pairs(QuestieMap.questIdFrames) do
                                     for index, frameName in ipairs(framelist) do
                                         local icon = _G[frameName];
                                         if icon._hidden_by_flash then
@@ -471,7 +471,7 @@ end
 local function _FlashFinisher(Quest) -- really terrible animation copypasta, sorry guys
     local toFlash = {}
     -- ugly code
-    for questId, framelist in pairs(qQuestIdFrames) do
+    for questId, framelist in pairs(QuestieMap.questIdFrames) do
         if questId ~= Quest.Id then
             for index, frameName in ipairs(framelist) do
                 local icon = _G[frameName];
@@ -528,7 +528,7 @@ local function _FlashFinisher(Quest) -- really terrible animation copypasta, sor
                             end
                         end)
                         C_Timer.After(0.5, function()
-                            for questId, framelist in pairs(qQuestIdFrames) do
+                            for questId, framelist in pairs(QuestieMap.questIdFrames) do
                                 for index, frameName in ipairs(framelist) do
                                     local icon = _G[frameName];
                                     if icon._hidden_by_flash then

@@ -132,7 +132,7 @@ function QuestieFramePool:UnloadAll()
         --_QuestieFramePool:UnloadFrame(frame);
         frame:Unload()
     end
-    qQuestIdFrames = {}
+    QuestieMap.questIdFrames = {}
 end
 
 function QuestieFramePool:UpdateGlowConfig(mini, mode)
