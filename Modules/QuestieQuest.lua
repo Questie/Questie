@@ -2,7 +2,7 @@ QuestieQuest = {...}
 local _QuestieQuest = {...}
 
 
-qAvailableQuests = {} --Gets populated at PLAYER_ENTERED_WORLD
+QuestieQuest.availableQuests = {} --Gets populated at PLAYER_ENTERED_WORLD
 
 qCurrentQuestlog = {} --Gets populated by QuestieQuest:GetAllQuestIds(), this is either an object to the quest in question, or the ID if the object doesn't exist.
 
@@ -108,7 +108,7 @@ local function _UpdateSpecials(quest)
 end
 
 function QuestieQuest:AddAllNotes()
-    qAvailableQuests = {} -- reset available quest db
+    QuestieQuest.availableQuests = {} -- reset available quest db
 
     -- draw available quests
     QuestieQuest:GetAllQuestIdsNoObjectives()
@@ -149,7 +149,7 @@ function QuestieQuest:SmoothReset() -- use timers to reset progressively instead
             -- make sure complete db is correct
             Questie.db.char.complete = GetQuestsCompleted()
             QuestieProfessions:Update()
-            qAvailableQuests = {} -- reset available quest db
+            QuestieQuest.availableQuests = {} -- reset available quest db
 
             -- draw available quests
             QuestieQuest:GetAllQuestIdsNoObjectives()
@@ -290,7 +290,7 @@ function QuestieQuest:AcceptQuest(questId)
     end
 
 
-    for k,v in pairs(qAvailableQuests) do
+    for k,v in pairs(QuestieQuest.availableQuests) do
         if not _QuestieQuest:IsDoable(QuestieDB:GetQuest(k)) then
             QuestieMap:UnloadQuestFrames(k);
         end
@@ -339,7 +339,7 @@ function QuestieQuest:AbandonedQuest(QuestId)
         --_QuestieQuest:DrawAvailableQuest(quest)
 
         -- yes we do, since abandoning can unlock more than 1 quest, or remove unlocked quests
-        for k,v in pairs(qAvailableQuests) do
+        for k,v in pairs(QuestieQuest.availableQuests) do
             if not _QuestieQuest:IsDoable(QuestieDB:GetQuest(k)) then
                 QuestieMap:UnloadQuestFrames(k);
             end
@@ -1136,7 +1136,7 @@ function QuestieQuest:DrawAllAvailableQuests()--All quests between
     --QuestieFramePool:UnloadAll()
 
     local count = 0
-    for questid, qid in pairs(qAvailableQuests) do
+    for questid, qid in pairs(QuestieQuest.availableQuests) do
         --If the quest is not drawn draw the quest, otherwise skip.
         if(not QuestieMap.questIdFrames[questid]) then
             local Quest = QuestieDB:GetQuest(questid)
@@ -1233,7 +1233,7 @@ function QuestieQuest:CalculateAvailableQuests()
 
     --DEFAULT_CHAT_FRAME:AddMessage(" minlevel/maxlevel: " .. MinLevel .. "/" .. MaxLevel);
 
-    qAvailableQuests = {}
+    QuestieQuest.availableQuests = {}
 
     for i, v in pairs(QuestieDB.questData) do
         local QuestID = i;
@@ -1243,7 +1243,7 @@ function QuestieQuest:CalculateAvailableQuests()
             local Quest = QuestieDB:GetQuest(QuestID);
             if (Quest.Level >= MinLevel or Questie.db.char.lowlevel) and Quest.Level <= MaxLevel and Quest.MinLevel <= PlayerLevel then
                 if _QuestieQuest:IsDoable(Quest) then
-                    qAvailableQuests[QuestID] = QuestID
+                    QuestieQuest.availableQuests[QuestID] = QuestID
                 end
             else
                 --If the quests are not within level range we want to unload them

@@ -1,10 +1,10 @@
 ## Interface: 11302
 #Do not modify the title manually, create a new version by doing "git tag vX.X.X"
-## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v4.1.2_1aae6e4|r|cFFFF0000 BETA|r
+## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v4.1.2_3457e53|r|cFFFF0000 BETA|r
 ## Author: Aero/Logon/Muehe/Dyaxler/Schaka/Zoey/Everyone else
 ## Notes: A standalone Classic QuestHelper
 #Do not modify the version manually, create a new version by doing "git tag vX.X.X"
-## Version: 4.1.2 BETA 33 1aae6e4
+## Version: 4.1.2 BETA 34 3457e53
 ## RequiredDeps:
 ## OptionalDeps: Ace3, LibDataBroker-1.1, LibCompress
 ## SavedVariables: QuestieConfig
@@ -43,9 +43,12 @@ Locale\koKR\locale.xml
 Locale\ptBR\locale.xml
 Locale\ruRU\locale.xml
 
-#Modules
+##Libs
 Modules\Libs\QuestieLib.lua
 #Modules\Libs\QuestieCompress.lua
+Modules\Libs\QuestiePlayer.lua
+
+##Modules
 Modules\QuestieTooltips.lua
 Modules\QuestieEventHandler.lua
 Modules\QuestieFramePool.lua
