@@ -290,7 +290,11 @@ function QuestieEventHandler:QUEST_LOG_UPDATE()
         playerEntered = nil;
     end
 
-    for questId, data in pairs(updateQuestId) do
+    QuestieEventHandler:UpdateQuests();
+end
+
+function QuestieEventHandler:UpdateQuests()
+  for questId, data in pairs(updateQuestId) do
         local objectives = C_QuestLog.GetQuestObjectives(questId);
         if(objectives ~= nil) then
             local hash = libC:fcs32init();
