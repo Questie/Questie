@@ -1,6 +1,8 @@
 QuestieQuest = {...}
 local _QuestieQuest = {...}
 
+--For debugging
+dumpVar = nil;
 
 QuestieQuest.availableQuests = {} --Gets populated at PLAYER_ENTERED_WORLD
 
@@ -870,13 +872,13 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                     if(obj.type) then
                         -- fixes for api bug
                         if not obj.numFulfilled then obj.numFulfilled = 0; end
-                        if not obj.numNeeded then obj.numNeeded = 0; end
+                        if not obj.numRequired then obj.numRequired = 0; end
                         if not obj.finished then obj.finished = false; end -- ensure its boolean false and not nil (hack)
 
                         self.Type = obj.type;
                         self.Description = obj.text;
                         self.Collected = tonumber(obj.numFulfilled);
-                        self.Needed = tonumber(obj.numNeeded);
+                        self.Needed = tonumber(obj.numRequired);
                         self.Completed = (self.Needed == self.Collected and self.Needed > 0) or (obj.finished and (self.Needed == 0 or (not self.Needed))) -- some objectives get removed on PLAYER_LOGIN because isComplete is set to true at random????
                     end
                 end
