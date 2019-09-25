@@ -39,7 +39,7 @@ function QuestieMap:UnloadQuestFrames(questId, iconType)
             QuestieMap.questIdFrames[questId] = nil;
         else
             for index, frame in ipairs(QuestieMap:GetFramesForQuest(questId)) do
-                if(frame.data.Icon == iconType) then
+                if(frame and frame.data and frame.data.Icon == iconType) then
                     frame:Unload();
                 end
             end
