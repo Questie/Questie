@@ -178,6 +178,9 @@ QuestieCorrections.questFixes = {
         [QuestieDB.questKeys.exclusiveTo] = {1470}, -- #999
     },
     -- Profession quests
+    [90] = {
+        [QuestieDB.questKeys.requiredSkill] = {185, 50}
+    },
     [769] = {
         [QuestieDB.questKeys.requiredSkill] = {165,10},
     },
@@ -315,6 +318,9 @@ QuestieCorrections.questFixes = {
     [579] = {
         [QuestieDB.questKeys.parentQuest] = {578},
     },
+    [1085] = {
+        [QuestieDB.questKeys.preQuestSingle] = {1070},
+    }
 }
 
 QuestieCorrections.npcFixes = {
@@ -447,6 +453,13 @@ QuestieCorrections.objectFixes = {
     [148516] = {"Tablet of Beth'Amara",nil,nil,{[16]={{34.1,50.5},{34.3,55.2},{35.19,58.02},{36,57.6},{36.8,60.5},{37.07,51.86},{38.4,60.3},{38.91,53.46},{39.54,64.32},{39.6,48.14},},},16,},
     [177241] = {"Araj's Phylactery",nil,nil,{[28]={{45.27,69.21},},},28,},
     [179908] = {"Slagtree's Lost Tools",nil,nil,{[47]={{53.3,38.8},{57.4,42.6},{57.5,42.6},{66.4,44.8},{71,48.6},{72.6,52.9},},},47,},
+    [2744] = {
+        [QuestieDB.objectKeys.spawns] = {[33]={{23.6,23.4},{23.6,23.5},{23.7,27.2},{23.7,29.8},{23.8,29.1},{24,25.4},{24,25.5},{24.4,28},{24.8,29.5},{24.9,29.1},{25.2,26.9},{25.3,25},{25.3,26.4},{25.3,27.5},{25.4,22.7},{25.4,24.1},{25.7,22.9},{25.7,25.3},{25.8,24.4},{25.8,28.3},{25.9,29.4},{25.9,30.4},{26.1,30.6},{26.3,26.1},{26.4,27.1},{26.5,29.4},{26.5,29.5},{26.6,24.5},{26.8,30.8},{27.1,23.1},{27.1,26.5},{27.2,26.3},{27.3,24},{27.3,27.9},{27.5,24.2},{27.6,25.6},{27.6,29.2},{27.8,23},{27.8,25.3},{27.8,27.7},{28,26.7},},},
+    },
+    [178227] = {
+        [QuestieDB.objectKeys.spawns] = {[331]={{56,63}}},
+        [QuestieDB.objectKeys.zoneID] = 331,
+    },
 }
 
 -- [item ID] = {"name",{objective of},{dropped by},{contained in/gathered from/mined from}}
@@ -523,6 +536,8 @@ QuestieCorrections.itemFixes = {
     [11954] = {"Filled Pure Sample Jar",{4513},{6556,6557,6559,},{}}, -- #1070
     [12907] = {"Corrupted Moonwell Water",{5157},{},{176184}}, -- #1083
     [12922] = {"Empty Canteen",{5157},{},{}}, -- #1083
+    [7268] = {"Xavian Water Sample",{1944},{},{174797}}, -- #1097
+    [7269] = {"Deino's Flask",{1944},{},{}}, -- #1097
 
     -- quest related herbs
     [2449] = {"Earthroot",{6123,6128},{},{1619,3726}},
