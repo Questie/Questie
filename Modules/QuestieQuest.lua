@@ -227,8 +227,8 @@ function QuestieQuest:GetRawLeaderBoardDetails(QuestLogIndex)
     quest.isComplete = isComplete;
 
     quest.Objectives = {}
-    local objectiveList  = C_QuestLog.GetQuestObjectives(questId);
-    for objectiveIndex, objective in ipairs(objectiveList) do
+    local objectiveList  = C_QuestLog.GetQuestObjectives(questId) or {};
+    for objectiveIndex, objective in pairs(objectiveList) do
         quest.Objectives[objectiveIndex] = {}
         quest.Objectives[objectiveIndex].description = objective.text;
         quest.Objectives[objectiveIndex].objectiveType = objective.type;
@@ -837,7 +837,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
     local logCount = Counthack(questObjectives);
     local dbCount = Counthack(Quest.ObjectiveData);
 
-    for objectiveIndex, objective in ipairs(questObjectives) do
+    for objectiveIndex, objective in pairs(questObjectives) do
         if(objective.type) then
             if Quest.Objectives[objectiveIndex] == nil then
                 Quest.Objectives[objectiveIndex] = {}
@@ -995,7 +995,7 @@ end
 
 --https://www.townlong-yak.com/framexml/live/Blizzard_APIDocumentation#C_QuestLog.GetQuestObjectives
 function _QuestieQuest:GetLeaderBoardDetails(objectiveIndex, questId)
-    local questObjectives = C_QuestLog.GetQuestObjectives(questId);
+    local questObjectives = C_QuestLog.GetQuestObjectives(questId)-- or {};
     if(questObjectives[objectiveIndex]) then
         local objective = questObjectives[objectiveIndex];
         objective.text = string.match(objective.text, "(.*)[：,:]");
@@ -1005,9 +1005,9 @@ function _QuestieQuest:GetLeaderBoardDetails(objectiveIndex, questId)
 end
 
 function _QuestieQuest:GetAllLeaderBoardDetails(questId)
-    local questObjectives = C_QuestLog.GetQuestObjectives(questId);
+    local questObjectives = C_QuestLog.GetQuestObjectives(questId)-- or {};
 
-    for objectiveIndex, objective in ipairs(questObjectives) do
+    for objectiveIndex, objective in pairs(questObjectives) do
         if(objective.text) then
             objective.text = string.match(objective.text, "(.*)[：,:]");
         else
