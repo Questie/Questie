@@ -138,12 +138,23 @@ function QuestieEventHandler:PLAYER_ENTERING_WORLD()
 end
 
 --Fires when a quest is accepted in anyway.
-function QuestieEventHandler:QUEST_ACCEPTED(QuestLogIndex, QuestId)
-    Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_ACCEPTED", "QLogIndex: "..QuestLogIndex,  "QuestID: "..QuestId);
+function QuestieEventHandler:QUEST_ACCEPTED(questLogIndex, questId)
+    Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_ACCEPTED", "QLogIndex: "..questLogIndex,  "QuestID: "..questId);
     _Hack_prime_log()
 
     --Update the information on next QUEST_LOG_UPDATE
-    questWatchFrames[QuestLogIndex].accept = true;
+    questWatchFrames[questLogIndex].accept = true;
+
+    local data = {}
+    data.questId = questId;
+    data.objectives = C_QuestLog.GetQuestObjectives(questId);
+    local hash = libC:fcs32init()
+    hash = libC:fcs32update(hash, libS:Serialize(data.objectives))
+    hash = libC:fcs32final(hash)
+    data.hash = hash;
+    data.type = "accept";
+    Questie:Print("Register Change", questId, hash);
+    updateQuestId[questId] = data;
 
 
     --[[C_Timer.After(2, function ()
@@ -159,7 +170,7 @@ function QuestieEventHandler:QUEST_ACCEPTED(QuestLogIndex, QuestId)
     local data = {};
     data.Event = "Quest";
     data.SubType = "Accept";
-    data.Quest = QuestId;
+    data.Quest = questId;
     data.Level = UnitLevel("player");
     data.Timestamp = time();
     data.Party = {};
@@ -286,8 +297,11 @@ function QuestieEventHandler:QUEST_LOG_UPDATE()
             hash = libC:fcs32update(hash, libS:Serialize(objectives));
             hash = libC:fcs32final(hash);
             if(data.hash ~= hash) then
-                Questie:Print("Change detected! Id:", questId, hash)
-                QuestieQuest:UpdateQuest(questId);
+                Questie:Print("Change detected! Id:", questId, hash, data.type)
+                if(data.type == "accept") then
+                    QuestieQuest:AcceptQuest(questId)
+                end
+                QuestieQuest:UpdateQuest(questId)
                 updateQuestId[questId] = nil;
             else
                 Questie:Print("No change detected! Hash:", hash, ":", data.hash, "-", questId)
@@ -309,6 +323,7 @@ function QuestieEventHandler:QUEST_WATCH_UPDATE(QuestLogIndex)
     hash = libC:fcs32update(hash, libS:Serialize(data.objectives))
     hash = libC:fcs32final(hash)
     data.hash = hash;
+    data.type = "update";
     Questie:Print("Register Change", questId, hash);
     updateQuestId[questId] = data;
 
