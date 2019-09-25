@@ -215,55 +215,31 @@ function QuestieQuest:UnhideQuest(id)
 end
 
 function QuestieQuest:GetRawLeaderBoardDetails(QuestLogIndex)
+    -- Old Select code, is this still needed?
+    local old = GetQuestLogSelection()
+    SelectQuestLogEntry(QuestLogIndex);
+    --
     local quest = {}
     local title, level, _, isHeader, _, isComplete, _, questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(QuestLogIndex)
     quest.title = title;
     quest.level = level;
+    quest.Id = questId
     quest.isComplete = isComplete;
-    local old = GetQuestLogSelection()
-    SelectQuestLogEntry(QuestLogIndex);
-    local numQuestLogLeaderBoards = GetNumQuestLeaderBoards()
 
     quest.Objectives = {}
-    quest.compareString = ""
-    for BoardIndex = 1, numQuestLogLeaderBoards do
-        local description, objectiveType, isCompleted = GetQuestLogLeaderBoard(BoardIndex, QuestLogIndex);
-        quest.Objectives[BoardIndex] = {}
-        quest.Objectives[BoardIndex].description = description;
-        quest.Objectives[BoardIndex].objectiveType = objectiveType;
-        quest.Objectives[BoardIndex].isCompleted = isCompleted;
-        quest.compareString = quest.compareString
-        if quest.compareString and description then
-            quest.compareString = quest.compareString .. description
-        end
-        if quest.compareString and objectiveType then
-            quest.compareString = quest.compareString .. objectiveType
-        end
-        if quest.compareString then
-            if isCompleted then
-                quest.compareString = quest.compareString .."true";
-            else
-                quest.compareString = quest.compareString .."false";
-            end
-        end
-        --quest.compareString = string.format("%s%s%s%s", quest.compareString, description, objectiveType, isCompleted);
+    local objectiveList  = C_QuestLog.GetQuestObjectives(questId);
+    for objectiveIndex, objective in ipairs(objectiveList) do
+        quest.Objectives[objectiveIndex] = {}
+        quest.Objectives[objectiveIndex].description = objective.text;
+        quest.Objectives[objectiveIndex].objectiveType = objective.type;
+        quest.Objectives[objectiveIndex].isCompleted = objective.finished;
+        quest.Objectives[objectiveIndex].numFulfilled = objective.numFulfilled;
+        quest.Objectives[objectiveIndex].numRequired = objective.numRequired;
     end
-    quest.Id = questId
+    -- Old select code, is this still needed?
     if old then SelectQuestLogEntry(old); end
+    --
     return quest;
-end
-
--- some plebs dont have beta, i need diz
-function LOGONDEBUG_ADDQUEST(QuestId)
-    --QuestiePlayer.currentQuestlog[QuestId] = QuestieDB:GetQuest(QuestId);
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ADD_QUEST', QuestId, QuestiePlayer.currentQuestlog[QuestId]));
-    QuestieQuest:AcceptQuest(QuestId);
-    --QuestieQuest:TrackQuest(QuestId)
-end
-
-function LOGONDEBUG_REMOVEQUEST(QuestId)
-    QuestieQuest:AbandonedQuest(QuestId);
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_REMOVE_QUEST', QuestId, QuestiePlayer.currentQuestlog[QuestId]));
 end
 
 function QuestieQuest:AcceptQuest(questId)
