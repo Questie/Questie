@@ -30,12 +30,20 @@ function QuestieMap:GetFramesForQuest(QuestId)
     return frames
 end
 
-function QuestieMap:UnloadQuestFrames(QuestId)
-    if(QuestieMap.questIdFrames[QuestId]) then
-        for index, frame in ipairs(QuestieMap:GetFramesForQuest(QuestId)) do
-            frame:Unload();
+function QuestieMap:UnloadQuestFrames(questId, iconType)
+    if(QuestieMap.questIdFrames[questId]) then
+        if(iconType == nil) then
+            for index, frame in ipairs(QuestieMap:GetFramesForQuest(questId)) do
+                frame:Unload();
+            end
+            QuestieMap.questIdFrames[questId] = nil;
+        else
+            for index, frame in ipairs(QuestieMap:GetFramesForQuest(questId)) do
+                if(frame.data.Icon == iconType) then
+                    frame:Unload();
+                end
+            end
         end
-        QuestieMap.questIdFrames[QuestId] = nil;
         Questie:Debug(DEBUG_DEVELOP, "[QuestieMap]: ".. QuestieLocale:GetUIString('DEBUG_UNLOAD_QFRAMES', QuestId))
     end
 end

@@ -274,8 +274,8 @@ function QuestieQuest:AcceptQuest(questId)
     if(Quest ~= nil) then
         -- we also need to remove exclusivegroup icons (TESTED)
         if Quest.ExclusiveQuestGroup then
-            for k, v in pairs(Quest.ExclusiveQuestGroup) do
-                QuestieMap:UnloadQuestFrames(v);
+            for k, questId in pairs(Quest.ExclusiveQuestGroup) do
+                QuestieMap:UnloadQuestFrames(questId);
             end
         end
 
@@ -289,9 +289,9 @@ function QuestieQuest:AcceptQuest(questId)
     end
 
 
-    for k,v in pairs(QuestieQuest.availableQuests) do
-        if not _QuestieQuest:IsDoable(QuestieDB:GetQuest(k)) then
-            QuestieMap:UnloadQuestFrames(k);
+    for questId, alsoQuestId in pairs(QuestieQuest.availableQuests) do
+        if not _QuestieQuest:IsDoable(QuestieDB:GetQuest(questId)) then
+            QuestieMap:UnloadQuestFrames(questId, ICON_TYPE_AVAILABLE);
         end
     end
 
