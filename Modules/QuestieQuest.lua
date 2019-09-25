@@ -997,6 +997,19 @@ function _QuestieQuest:GetLeaderBoardDetails(objectiveIndex, questId)
     return nil;
 end
 
+function _QuestieQuest:GetAllLeaderBoardDetails(questId)
+    local questObjectives = C_QuestLog.GetQuestObjectives(questId);
+
+    for objectiveIndex, objective in ipairs(questObjectives) do
+        if(objective.text) then
+            objective.text = string.match(objective.text, "(.*)[：,:]");
+        else
+            DEFAULT_CHAT_FRAME:AddMessage("ERROR! Something went wrong in GetAllLeaderBoardDetails"..tostring(questId).." - "..tostring(objective.text));
+        end
+    end
+    return questObjectives;
+end
+
 --Draw a single available quest, it is used by the DrawAllAvailableQuests function.
 function _QuestieQuest:DrawAvailableQuest(questObject) -- prevent recursion
     return _QuestieQuest:DrawAvailableQuest(questObject, false)
