@@ -114,12 +114,13 @@ function QuestieEventHandler:QUEST_ACCEPTED(questLogIndex, questId)
     local data = {}
     data.questId = questId;
     data.objectives = C_QuestLog.GetQuestObjectives(questId);
+    -- Do we even need to do this hash?
     local hash = libC:fcs32init()
     hash = libC:fcs32update(hash, libS:Serialize(data.objectives))
     hash = libC:fcs32final(hash)
     data.hash = hash;
     data.type = "accept";
-    Questie:Print("Register Change", questId, hash);
+    Questie:Print("Register Accept Change", questId, hash);
     updateQuestId[questId] = data;
 
     -- Add quest accept journey note.
@@ -232,6 +233,7 @@ function QuestieEventHandler:QUEST_LOG_UPDATE()
         playerEntered = nil;
     end
 
+    -- Run the new change detection system.
     QuestieEventHandler:UpdateQuests();
 end
 
@@ -244,11 +246,23 @@ function QuestieEventHandler:UpdateQuests()
             hash = libC:fcs32final(hash);
             if(data.hash ~= hash) then
                 Questie:Print("Change detected! Id:", questId, hash, data.type)
+                -- I think the accept is a dead path, the hash will always be the same for hash... TODO: Remove, probably.
                 if(data.type == "accept") then
                     QuestieQuest:AcceptQuest(questId)
                 end
+                --
+
                 QuestieQuest:UpdateQuest(questId)
+
+                -- Maybe this should just be a straight call rather than a message.
+                Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId);
+
                 updateQuestId[questId] = nil;
+            elseif(data.type =="accept" and data.hash == hash) then
+                Questie:Print("Change not detected! ACCEPT Id:", questId, hash, data.type)
+                QuestieQuest:AcceptQuest(questId)
+                QuestieQuest:UpdateQuest(questId)
+
             else
                 Questie:Print("No change detected! Hash:", hash, ":", data.hash, "-", questId)
             end
@@ -270,7 +284,7 @@ function QuestieEventHandler:QUEST_WATCH_UPDATE(QuestLogIndex)
     hash = libC:fcs32final(hash)
     data.hash = hash;
     data.type = "update";
-    Questie:Print("Register Change", questId, hash);
+    Questie:Print("Register Update Change", questId, hash);
     updateQuestId[questId] = data;
 end
 

@@ -1,5 +1,5 @@
 
-Questie = LibStub("AceAddon-3.0"):NewAddon("Questie", "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0", "AceComm-3.0", "AceSerializer-3.0")
+Questie = LibStub("AceAddon-3.0"):NewAddon("Questie", "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0", "AceComm-3.0", "AceSerializer-3.0", "AceBucket-3.0")
 _Questie = {...}
 if not QuestieConfigCharacter then
     QuestieConfigCharacter = {}
@@ -44,14 +44,16 @@ function Questie:OnInitialize()
     Questie:RegisterEvent("QUEST_TURNED_IN", QuestieEventHandler.QUEST_TURNED_IN)
     Questie:RegisterEvent("QUEST_REMOVED", QuestieEventHandler.QUEST_REMOVED)
     Questie:RegisterEvent("PLAYER_LEVEL_UP", QuestieEventHandler.PLAYER_LEVEL_UP);
-    Questie:RegisterEvent("QUEST_LOG_UPDATE", QuestieEventHandler.QUEST_LOG_UPDATE);
+    -- Use bucket for QUEST_LOG_UPDATE to let information propagate through to the blizzard API
+    -- Might be able to change this to 0.5 seconds instead, further testing needed.
+    Questie:RegisterBucketEvent("QUEST_LOG_UPDATE", 1, QuestieEventHandler.QUEST_LOG_UPDATE);
     Questie:RegisterEvent("MODIFIER_STATE_CHANGED", QuestieEventHandler.MODIFIER_STATE_CHANGED);
 
     -- Trade skill event to update a players profession
     Questie:RegisterEvent("CHAT_MSG_SKILL", QuestieEventHandler.CHAT_MSG_SKILL);
 
-    -- Party join event for QuestieComms
-    Questie:RegisterEvent("PARTY_MEMBERS_CHANGED", QuestieEventHandler.PARTY_MEMBERS_CHANGED);
+    -- Party join event for QuestieComms, Use bucket to hinder this from spamming (Ex someone using a raid invite addon etc)
+    Questie:RegisterBucketEvent("PARTY_MEMBERS_CHANGED", 1, QuestieEventHandler.PARTY_MEMBERS_CHANGED);
 
     --TODO: QUEST_QUERY_COMPLETE Will get all quests the character has finished, need to be implemented!
 
