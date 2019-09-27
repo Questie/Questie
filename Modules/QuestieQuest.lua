@@ -245,41 +245,44 @@ function QuestieQuest:GetRawLeaderBoardDetails(QuestLogIndex)
 end
 
 function QuestieQuest:AcceptQuest(questId)
-    --Get all the Frames for the quest and unload them, the available quest icon for example.
-    QuestieMap:UnloadQuestFrames(questId);
+    if(QuestiePlayer.currentQuestlog[questId] == nil) then
+        Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ACCEPT_QUEST', questId));
+        --Get all the Frames for the quest and unload them, the available quest icon for example.
+        QuestieMap:UnloadQuestFrames(questId);
 
-    Quest = QuestieDB:GetQuest(questId)
-    if(Quest ~= nil) then
-        -- we also need to remove exclusivegroup icons (TESTED)
-        if Quest.ExclusiveQuestGroup then
-            for k, questId in pairs(Quest.ExclusiveQuestGroup) do
-                QuestieMap:UnloadQuestFrames(questId);
+        Quest = QuestieDB:GetQuest(questId)
+        if(Quest ~= nil) then
+            -- we also need to remove exclusivegroup icons (TESTED)
+            if Quest.ExclusiveQuestGroup then
+                for k, questId in pairs(Quest.ExclusiveQuestGroup) do
+                    QuestieMap:UnloadQuestFrames(questId);
+                end
+            end
+
+            --Reset the clustering for the map
+            QuestieMap.MapCache_ClutterFix = {};
+            QuestieQuest:PopulateQuestLogInfo(Quest)
+            QuestieQuest:PopulateObjectiveNotes(Quest)
+            QuestiePlayer.currentQuestlog[questId] = Quest
+        else
+            QuestiePlayer.currentQuestlog[questId] = questId
+        end
+
+
+        for questId, alsoQuestId in pairs(QuestieQuest.availableQuests) do
+            if not _QuestieQuest:IsDoable(QuestieDB:GetQuest(questId)) then
+                QuestieMap:UnloadQuestFrames(questId, ICON_TYPE_AVAILABLE);
             end
         end
 
-        --Reset the clustering for the map
-        QuestieMap.MapCache_ClutterFix = {};
-        QuestieQuest:PopulateQuestLogInfo(Quest)
-        QuestieQuest:PopulateObjectiveNotes(Quest)
-        QuestiePlayer.currentQuestlog[questId] = Quest
+        QuestieQuest:CalculateAvailableQuests()
+        QuestieQuest:DrawAllAvailableQuests()
+
+        --TODO: Insert call to drawing objective logic here!
+        --QuestieQuest:TrackQuest(questId);
     else
-        QuestiePlayer.currentQuestlog[questId] = questId
+        Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ACCEPT_QUEST', questId), " Warning: Quest already existed, not adding");
     end
-
-
-    for questId, alsoQuestId in pairs(QuestieQuest.availableQuests) do
-        if not _QuestieQuest:IsDoable(QuestieDB:GetQuest(questId)) then
-            QuestieMap:UnloadQuestFrames(questId, ICON_TYPE_AVAILABLE);
-        end
-    end
-
-    QuestieQuest:CalculateAvailableQuests()
-    QuestieQuest:DrawAllAvailableQuests()
-
-    --TODO: Insert call to drawing objective logic here!
-    --QuestieQuest:TrackQuest(questId);
-
-    Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ACCEPT_QUEST', questId));
 
 end
 

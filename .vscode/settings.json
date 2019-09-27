@@ -2498,6 +2498,7 @@
         "strlen",
         "strtrim",
         "strlower",
+        "strfind",
         "--> LUA - Time",
         "time",
         "date",
