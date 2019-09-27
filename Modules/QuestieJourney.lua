@@ -1749,3 +1749,111 @@ function QuestieJourney:GetLevelDifficultyRanges(questLevel, questMinLevel)
 
     return red, orange, yellow, green, gray;
 end
+
+function QuestieJourney:PlayerLevelUp(level)
+    -- Complete Quest added to Journey
+    local data = {};
+    data.Event = "Level";
+    data.NewLevel = level;
+    data.Timestamp = time();
+    data.Party = {};
+
+   if GetHomePartyInfo() then
+        data.Party = {};
+        local p = {};
+        for i, v in pairs(GetHomePartyInfo()) do
+            p.Name = v;
+            p.Class, _, _ = UnitClass(v);
+            p.Level = UnitLevel(v);
+            table.insert(data.Party, p);
+        end
+    end 
+    
+    table.insert(Questie.db.char.journey, data);
+end
+
+function QuestieJourney:AcceptQuest(questId)
+    -- Add quest accept journey note.
+    local data = {};
+    data.Event = "Quest";
+    data.SubType = "Accept";
+    data.Quest = questId;
+    data.Level = UnitLevel("player");
+    data.Timestamp = time();
+    data.Party = {};
+
+    if GetHomePartyInfo() then
+        data.Party = {};
+        local p = {};
+        for i, v in pairs(GetHomePartyInfo()) do
+            p.Name = v;
+            p.Class,_ ,_ = UnitClass(v);
+            p.Level = UnitLevel(v);
+            table.insert(data.Party, p);
+        end
+    end
+    
+    table.insert(Questie.db.char.journey, data);
+end
+
+function QuestieJourney:AbandonQuest(questId)
+    -- Abandon Quest added to Journey
+    -- first check to see if the quest has been completed already or not
+    local skipAbandon = false;
+    for i in ipairs(Questie.db.char.journey) do
+
+        local entry = Questie.db.char.journey[i];
+        if entry.Event == "Quest" then
+            if entry.Quest == questId then
+                if entry.SubType == "Complete" then
+                    skipAbandon = true;
+                end
+            end
+        end
+    end
+
+    if not skipAbandon then
+        local data = {};
+        data.Event = "Quest";
+        data.SubType = "Abandon";
+        data.Quest = questId;
+        data.Level = UnitLevel("player");
+        data.Timestamp = time()
+        data.Party = {};
+
+        if GetHomePartyInfo() then
+            local p = {};
+            for i, v in pairs(GetHomePartyInfo()) do
+                p.Name = v;
+                p.Class, _, _ = UnitClass(v);
+                p.Level = UnitLevel(v);
+                table.insert(data.Party, p);
+            end
+        end
+        
+        table.insert(Questie.db.char.journey, data);
+    end
+end
+
+function QuestieJourney:CompleteQuest(questId)
+     -- Complete Quest added to Journey
+    local data = {};
+    data.Event = "Quest";
+    data.SubType = "Complete";
+    data.Quest = questId;
+    data.Level = UnitLevel("player");
+    data.Timestamp = time();
+    data.Party = {};
+
+    if GetHomePartyInfo() then
+        local p = {};
+        for i, v in pairs(GetHomePartyInfo()) do
+            p.Name = v;
+            p.Class, _, _ = UnitClass(v);
+            p.Level = UnitLevel(v);
+            table.insert(data.Party, p);
+        end
+    end
+        
+    table.insert(Questie.db.char.journey, data);
+end
