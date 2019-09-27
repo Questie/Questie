@@ -25,3 +25,14 @@ function QuestiePlayer:GetPlayerLevel()
     local level = UnitLevel("player");
     return math_max(_QuestiePlayer.playerLevel, level);
 end
+
+
+function QuestiePlayer:GetGroupType()
+    if(UnitInRaid("player")) then
+        return "raid";
+    elseif(UnitInParty("player")) then
+        return "party";
+    else
+        return nil;
+    end
+end

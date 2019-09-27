@@ -263,6 +263,8 @@ function QuestieEventHandler:UpdateQuests()
                 QuestieQuest:AcceptQuest(questId)
                 QuestieQuest:UpdateQuest(questId)
 
+                -- Maybe this should just be a straight call rather than a message.
+                Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId);
             else
                 Questie:Print("No change detected! Hash:", hash, ":", data.hash, "-", questId)
             end

@@ -5,6 +5,9 @@ _QuestieComms.prefix = "questie";
 -- List of all players questlog private to prevent modification from the outside.
 _QuestieComms.remoteQuestLogs = {};
 
+--Not used, contains a list of hashes for quest, used to compare change.
+--_QuestieComms.questHashes = {};
+
 --Channel types
 _QuestieComms.QC_WRITE_ALLGUILD = "GUILD"
 _QuestieComms.QC_WRITE_ALLGROUP = "PARTY"
@@ -40,12 +43,6 @@ function Questie:GetAddonVersionInfo()  -- todo: better place
 end
 
 
--- THIS SHOULD NOT BE HERE
-function QuestieQuest:ConvertDescription(description)
-  -- stub, return a converted datastream.
-end
-
-
 ---------
 -- Fetch quest information about a specific player.
 -- Params:
@@ -59,14 +56,12 @@ end
 function QuestieComms:GetQuest(playerName, questId)
   if(_QuestieComms.remoteQuestLogs[playerName]) then
     if(_QuestieComms.remoteQuestLogs[playerName][questId]) then
-      -- Create a copy of the object, other side should never be able to edit the underlying object.
-      local quest = {};
-      for key,value in pairs(_QuestieComms.remoteQuestLogs[playerName][questId]) do
-        if(key ~= "title" and key ~= "compareString") then --Trim title and compareString string, felt good, might add more late idk UwU.
-          quest[key] = value;
+        -- Create a copy of the object, other side should never be able to edit the underlying object.
+        local quest = {};
+        for key,value in pairs(_QuestieComms.remoteQuestLogs[playerName][questId]) do
+            quest[key] = value;
         end
-      end
-      return quest;
+        return quest;
     end
   end
   return nil;
@@ -77,76 +72,79 @@ function QuestieComms:Initialize()
   Questie:RegisterComm(_QuestieComms.prefix, _QuestieComms.OnCommReceived);
 
   -- Events to be used to broadcast updates to other people
-  Questie:RegisterEvent("QC_ID_BROADCAST_QUEST_UPDATE", _QuestieComms.BroadcastQuestUpdate);
-  Questie:RegisterEvent("QC_ID_BROADCAST_FULL_QUESTLIST", _QuestieComms.BroadcastQuestLog);
+  Questie:RegisterMessage("QC_ID_BROADCAST_QUEST_UPDATE", _QuestieComms.BroadcastQuestUpdate);
+  Questie:RegisterMessage("QC_ID_BROADCAST_FULL_QUESTLIST", _QuestieComms.BroadcastQuestLog);
 end
 
 -- Local Functions --
 
-function _QuestieComms:BroadcastQuestUpdate(eventName, quest) -- broadcast quest update to group or raid
-  if(quest) then
-    local raid = UnitInRaid("player")
-    local party = UnitInParty("player")
-    if raid or party then
-      --Do we really need to make this?
-      local questPacket = _QuestieComms:createPacket(_QuestieComms.QC_ID_BROADCAST_QUEST_UPDATE)
-      --Trim these
-      quest.compareString = nil;
-      quest.title = nil;
+function _QuestieComms:BroadcastQuestUpdate(eventName, questId) -- broadcast quest update to group or raid
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieComms] Message", eventName, tostring(questId));
+    if(questId) then
+        local partyType = QuestiePlayer:GetGroupType()
+        Questie:Debug(DEBUG_DEVELOP, "[QuestieComms] partyType", tostring(partyType));
+        if partyType then
+            --Do we really need to make this?
+            local questPacket = _QuestieComms:createPacket(_QuestieComms.QC_ID_BROADCAST_QUEST_UPDATE)
+            local quest = {};
+            quest.id = questId;
+            quest.objectives = QuestieQuest:GetAllLeaderBoardDetails(questId);
+            Questie:Debug(DEBUG_DEVELOP, "[QuestieComms] questPacket made: Objectivetable:", quest.objectives);
 
-      questPacket.data.quest = quest
-      questPacket.data.priority = "NORMAL";
-      if raid then
-        questPacket.data.writeMode = _QuestieComms.QC_WRITE_ALLRAID
-      else
-        questPacket.data.writeMode = _QuestieComms.QC_WRITE_ALLGROUP
-      end
-      questPacket:write()
+            questPacket.data.quest = quest
+            questPacket.data.priority = "NORMAL";
+            if partyType == "raid" then
+                questPacket.data.writeMode = _QuestieComms.QC_WRITE_ALLRAID
+            else
+                questPacket.data.writeMode = _QuestieComms.QC_WRITE_ALLGROUP
+            end
+            questPacket:write()
+        end
     end
-  end
 end
 
 function _QuestieComms:BroadcastQuestLog(eventName) -- broadcast quest update to group or raid
-  local raid = UnitInRaid("player")
-  local party = UnitInParty("player")
-  if raid or party then
-    local rawQuestList = {}
-    -- Maybe this should be its own function in QuestieQuest...
-    local numEntries, numQuests = GetNumQuestLogEntries();
-    for index = 1, numEntries do
-      local title, level, _, isHeader, _, isComplete, _, questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
-      if(not isHeader) then
-        local quest = QuestieQuest:GetRawLeaderBoardDetails(index);
-        --Trim these
-        quest.compareString = nil;
-        quest.title = nil;
+    local partyType = QuestiePlayer:GetGroupType()
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieComms] Message", eventName, "partyType:", tostring(partyType));
+    if partyType then
+        local rawQuestList = {}
+        -- Maybe this should be its own function in QuestieQuest...
+        local numEntries, numQuests = GetNumQuestLogEntries();
+        for index = 1, numEntries do
+            local _, _, _, isHeader, _, _, _, questId, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
+            if(not isHeader) then
+                -- The id is not needed due to it being used as a key, but send it anyway to keep the same structure.
+                local quest = {};
+                quest.id = questId;
+                quest.objectives = QuestieQuest:GetAllLeaderBoardDetails(questId);
 
-        rawQuestList[quest.Id] = quest;
-      end
+                rawQuestList[quest.id] = quest;
+            end
+        end
+
+        --Do we really need to make this?
+        local questPacket = _QuestieComms:createPacket(_QuestieComms.QC_ID_BROADCAST_FULL_QUESTLIST);
+        questPacket.data.rawQuestList = rawQuestList;
+
+        -- We might aswell send the current version to the party member.
+        questPacket.data.version = table.pack(Questie:GetAddonVersionInfo());
+        if partyType == "raid" then
+            questPacket.data.writeMode = _QuestieComms.QC_WRITE_ALLRAID;
+            questPacket.data.priority = "BULK";
+        else
+            questPacket.data.writeMode = _QuestieComms.QC_WRITE_ALLGROUP;
+            questPacket.data.priority = "NORMAL";
+        end
+        questPacket:write();
     end
-
-    --Do we really need to make this?
-    local questPacket = _QuestieComms:createPacket(_QuestieComms.QC_ID_BROADCAST_FULL_QUESTLIST);
-    questPacket.data.rawQuestList = rawQuestList;
-
-    -- We might aswell send the current version to the party member.
-    questPacket.data.version = table.pack(Questie:GetAddonVersionInfo());
-    if raid then
-      questPacket.data.writeMode = _QuestieComms.QC_WRITE_ALLRAID;
-      questPacket.data.priority = "BULK";
-    else
-      questPacket.data.writeMode = _QuestieComms.QC_WRITE_ALLGROUP;
-      questPacket.data.priority = "NORMAL";
-    end
-    questPacket:write();
-  end
 end
 
 _QuestieComms.packets = {
   [_QuestieComms.QC_ID_BROADCAST_QUEST_UPDATE] = {
       write = function(self)
-          self.data.playerName = UnitName("player");
-          _QuestieComms:broadcast(self.data);
+        -- Write the sending players name into the data.
+        self.data.playerName = UnitName("player");
+        _QuestieComms:broadcast(self.data);
       end,
       read = function(self, remoteQuestPacket)
         --These are not strictly needed but helps readability.
@@ -158,35 +156,38 @@ _QuestieComms.packets = {
               _QuestieComms.remoteQuestLogs[playerName] = {}
           end
           -- Create empty quests.
-          if not _QuestieComms.remoteQuestLogs[playerName][quest.Id] then
-              _QuestieComms.remoteQuestLogs[playerName][quest.Id] = {}
+          if not _QuestieComms.remoteQuestLogs[playerName][quest.id] then
+              _QuestieComms.remoteQuestLogs[playerName][quest.id] = {}
           end
-          _QuestieComms.remoteQuestLogs[playerName][quest.Id] = quest;
+          _QuestieComms.remoteQuestLogs[playerName][quest.id] = quest.objectives;
         end
       end
   },
   [_QuestieComms.QC_ID_BROADCAST_FULL_QUESTLIST] = {
       write = function(self)
-          self.data.playerName = UnitName("player");
-          _QuestieComms:broadcast(self.data);
+        -- Write the sending players name into the data.
+        self.data.playerName = UnitName("player");
+        _QuestieComms:broadcast(self.data);
       end,
-      read = function(self, remoteQuestPacket)
+      read = function(self, remoteQuestList)
         --These are not strictly needed but helps readability.
-        local playerName = remoteQuestPacket.playerName;
-        local quest = remoteQuestPacket.quest;
-        
+        local playerName = remoteQuestList.playerName;
+        local questList = remoteQuestList.rawQuestList;
+
         -- Maybe we shouldn't send this here?
-        local major, minor, patch = table.unpack(remoteQuestPacket.version);
-        if quest then
-          -- Create empty player.
-          if not _QuestieComms.remoteQuestLogs[playerName] then
-              _QuestieComms.remoteQuestLogs[playerName] = {}
-          end
-          -- Create empty quests.
-          if not _QuestieComms.remoteQuestLogs[playerName][quest.Id] then
-              _QuestieComms.remoteQuestLogs[playerName][quest.Id] = {}
-          end
-          _QuestieComms.remoteQuestLogs[playerName][quest.Id] = quest;
+        local major, minor, patch = table.unpack(remoteQuestList.version);
+        if questList then
+            -- Create empty player.
+            if not _QuestieComms.remoteQuestLogs[playerName] then
+                _QuestieComms.remoteQuestLogs[playerName] = {}
+            end
+            for questId, questData in pairs(questList) do
+                -- Create empty quests.
+                if not _QuestieComms.remoteQuestLogs[playerName][questData.id] then
+                    _QuestieComms.remoteQuestLogs[playerName][questData.id] = {}
+                end
+                _QuestieComms.remoteQuestLogs[playerName][questData.id] = questData.objectives;
+            end
         end
       end
   },
@@ -237,6 +238,27 @@ function _QuestieComms:createPacket(messageId)
     end
     return pkt
 end
+
+--[[ not used!
+function _QuestieComms:isNewHash(questData)
+    if(questData.id) then
+        if(_QuestieComms.questHashes[questData.id]) then
+            local hash = libC:fcs32init();
+            hash = libC:fcs32update(hash, libS:Serialize(objectives));
+            hash = libC:fcs32final(hash);
+            if(hash == _QuestieComms.questHashes[questData.id]) then
+                return nil;
+            else
+                --Update old hash to new one.
+                _QuestieComms.questHashes[questData.id] = hash;
+                return true;
+            end
+        else
+            --Previous data did not even exist, return true
+            return true;
+        end
+    end
+end]]--
 
 
 
