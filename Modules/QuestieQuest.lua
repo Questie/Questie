@@ -939,7 +939,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                             Quest.Objectives[objectiveIndex].Id = objectiveDB.Id;
                             Quest.Objectives[objectiveIndex].Coordinates = objectiveDB.Coordinates;
                             objectiveDB.ObjectiveRef = Quest.Objectives[objectiveIndex];
-                        elseif(GetLocale() ~= "enUS" and GetLocale() ~= "enGB") then
+                        elseif(Quest.Objectives[i].Id == nil and GetLocale() ~= "enUS" and GetLocale() ~= "enGB") then
                             Quest.Objectives[objectiveIndex].Id = objectiveDB.Id;
                         end
                     end
