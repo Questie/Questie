@@ -99,6 +99,7 @@ for i = 1, 35 do
                         end
                         --Update the quest
                         --C_Timer.After(1, function ()
+                        Questie:Print("Old change system: REFRESH EXECUTE", QuestInfo.Id);
                         QuestieQuest:UpdateQuest(QuestInfo.Id)
                         --end)
                         --QuestieQuest:UpdateQuest(QuestInfo.Id);
@@ -116,6 +117,7 @@ for i = 1, 35 do
                         QuestieQuest:UpdateQuest(QuestInfo.Id)
                         --end)
                         
+                        Questie:Print("Old change system: ACCEPT EXECUTE", QuestInfo.Id);
                         -- deferred update (possible desync fix)
                         C_Timer.After(2, function()
                             QuestieQuest:PopulateObjectiveNotes(QuestieDB:GetQuest(QuestInfo.Id))

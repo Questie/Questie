@@ -2477,6 +2477,7 @@
         "ZoomOut",
         "C_ChatInfo",
         "C_Timer",
+        "C_QuestLog",
         "----> JSONCOMMENT - WoW Functions Above",
 
         "----> LUA - Below",
@@ -2516,6 +2517,7 @@
 
         "----> QuestieClasses - Below",
         "QuestieLib",
+        "QuestiePlayer",
         "----> QuestieClasses - Above",
 
         "----> QuestieGlobals - Generic Below",
