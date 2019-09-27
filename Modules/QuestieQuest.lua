@@ -261,9 +261,9 @@ function QuestieQuest:AcceptQuest(questId)
 
             --Reset the clustering for the map
             QuestieMap.MapCache_ClutterFix = {};
+            QuestiePlayer.currentQuestlog[questId] = Quest
             QuestieQuest:PopulateQuestLogInfo(Quest)
             QuestieQuest:PopulateObjectiveNotes(Quest)
-            QuestiePlayer.currentQuestlog[questId] = Quest
         else
             QuestiePlayer.currentQuestlog[questId] = questId
         end
@@ -374,9 +374,9 @@ function QuestieQuest:GetAllQuestIds()
             --Keep the object in the questlog to save searching
             local Quest = QuestieDB:GetQuest(questId)
             if(Quest ~= nil) then
+                QuestiePlayer.currentQuestlog[questId] = Quest
                 QuestieQuest:PopulateQuestLogInfo(Quest)
                 QuestieQuest:PopulateObjectiveNotes(Quest)
-                QuestiePlayer.currentQuestlog[questId] = Quest
                 if title and strlen(title) > 1 then
                     Quest.LocalizedName = title
                 end
@@ -446,39 +446,41 @@ function QuestieQuest:UpdateObjectiveNotes(Quest)
 end
 
 function QuestieQuest:AddFinisher(Quest)
-    local finisher = nil
-    if Quest.Finisher ~= nil then
-        if Quest.Finisher.Type == "monster" then
-            finisher = QuestieDB:GetNPC(Quest.Finisher.Id)
-        elseif Quest.Finisher.Type == "object" then
-            finisher = QuestieDB:GetObject(Quest.Finisher.Id)
+    if(QuestiePlayer.currentQuestlog[Quest.Id]) then
+        local finisher = nil
+        if Quest.Finisher ~= nil then
+            if Quest.Finisher.Type == "monster" then
+                finisher = QuestieDB:GetNPC(Quest.Finisher.Id)
+            elseif Quest.Finisher.Type == "object" then
+                finisher = QuestieDB:GetObject(Quest.Finisher.Id)
+            else
+                Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_UNHANDLE_FINISH', Quest.Finisher.Type, Quest.Id, Quest.Name))
+            end
         else
-            Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_UNHANDLE_FINISH', Quest.Finisher.Type, Quest.Id, Quest.Name))
+            Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_NO_FINISH', Quest.Id, Quest.Name))
         end
-    else
-        Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_NO_FINISH', Quest.Id, Quest.Name))
-    end
-    if(finisher ~= nil and finisher.spawns ~= nil) then
-        for Zone, Spawns in pairs(finisher.spawns) do
-            if(Zone ~= nil and Spawns ~= nil) then
-                for _, coords in ipairs(Spawns) do
-                    local data = {}
-                    data.Id = Quest.Id;
-                    data.Icon = ICON_TYPE_COMPLETE;
-                    data.GetIconScale = function() return Questie.db.global.availableScale or 1.3 end
-                    data.IconScale = data:GetIconScale();
-                    data.Type = "complete";
-                    data.QuestData = Quest;
-                    data.Name = finisher.name
-                    data.IsObjectiveNote = false
-                    if(coords[1] == -1 or coords[2] == -1) then
-                        if(instanceData[Zone] ~= nil) then
-                            for index, value in ipairs(instanceData[Zone]) do
-                                QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
+        if(finisher ~= nil and finisher.spawns ~= nil) then
+            for Zone, Spawns in pairs(finisher.spawns) do
+                if(Zone ~= nil and Spawns ~= nil) then
+                    for _, coords in ipairs(Spawns) do
+                        local data = {}
+                        data.Id = Quest.Id;
+                        data.Icon = ICON_TYPE_COMPLETE;
+                        data.GetIconScale = function() return Questie.db.global.availableScale or 1.3 end
+                        data.IconScale = data:GetIconScale();
+                        data.Type = "complete";
+                        data.QuestData = Quest;
+                        data.Name = finisher.name
+                        data.IsObjectiveNote = false
+                        if(coords[1] == -1 or coords[2] == -1) then
+                            if(instanceData[Zone] ~= nil) then
+                                for index, value in ipairs(instanceData[Zone]) do
+                                    QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
+                                end
                             end
+                        else
+                            QuestieMap:DrawWorldIcon(data, Zone, coords[1], coords[2])
                         end
-                    else
-                        QuestieMap:DrawWorldIcon(data, Zone, coords[1], coords[2])
                     end
                 end
             end
