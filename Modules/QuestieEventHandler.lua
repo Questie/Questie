@@ -33,7 +33,8 @@ for i = 1, 35 do
     questWatchFrames[i].refresh = false;
     questWatchFrames[i].accept = false;
     questWatchFrames[i].objectives = {}
-    questWatchFrames[i]:RegisterEvent("QUEST_LOG_UPDATE")--, QUEST_LOG_UPDATE
+    -- Stop the event registration.
+    -- questWatchFrames[i]:RegisterEvent("QUEST_LOG_UPDATE")--, QUEST_LOG_UPDATE
     questWatchFrames[i]:SetScript("OnEvent", function(self, event, ...)
         if (event == "QUEST_LOG_UPDATE") then
             C_Timer.After(1, function() 
@@ -78,6 +79,54 @@ for i = 1, 35 do
             end)
         end
     end)
+
+    --Run as questWatchFrames[i]:updateScript();
+    questWatchFrames[i].update = function(self)
+            -- If we arn't updating anything don't start a timer...
+            if(self.refresh == false and self.accept == false) then
+                Questie:Print("Old change system: DETECTED", self.questLogIndex, "Refresh:", self.refresh, "Accept:",self.accept)
+                C_Timer.After(1, function() 
+                    if(self.refresh) then
+                        --Get quest info
+                        local QuestInfo = QuestieQuest:GetRawLeaderBoardDetails(self.questLogIndex)
+
+                        --No need to run this unless we have to.
+                        if(Questie.db.global.debugEnabled) then
+                            Questie:Debug(DEBUG_DEVELOP, "QLU", "Updating index", self.questLogIndex, "Title:", QuestInfo.title, "Id:", QuestInfo.Id)
+                            for index, objective in pairs(QuestInfo.Objectives) do
+                                Questie:Debug(DEBUG_DEVELOP, "-------->", objective.description);
+                            end
+                        end
+                        --Update the quest
+                        --C_Timer.After(1, function ()
+                        QuestieQuest:UpdateQuest(QuestInfo.Id)
+                        --end)
+                        --QuestieQuest:UpdateQuest(QuestInfo.Id);
+                        self.refresh = false;
+                    end
+                    if(self.accept) then
+                        local QuestInfo = QuestieQuest:GetRawLeaderBoardDetails(self.questLogIndex)
+                        Questie:Debug(DEBUG_DEVELOP, "QLU", "Accepted quest", self.questLogIndex, "Title:", QuestInfo.title, "Id:", QuestInfo.Id)
+
+                        --Accept the quest.
+                        QuestieQuest:AcceptQuest(QuestInfo.Id)
+                        --Delay the update by 1 second to let everything propagate, should not be needed...
+                        --C_Timer.After(1, function ()
+                        Questie:Debug(DEBUG_DEVELOP, "QLU", "Updated quest", self.questLogIndex, "Title:", QuestInfo.title, "Id:", QuestInfo.Id)
+                        QuestieQuest:UpdateQuest(QuestInfo.Id)
+                        --end)
+                        
+                        -- deferred update (possible desync fix)
+                        C_Timer.After(2, function()
+                            QuestieQuest:PopulateObjectiveNotes(QuestieDB:GetQuest(QuestInfo.Id))
+                            QuestieQuest:UpdateQuest(QuestInfo.Id)
+                        end)
+                        
+                        self.accept = false;
+                    end
+                end)
+            end
+        end
 end
 
 function QuestieEventHandler:PLAYER_ENTERING_WORLD()
@@ -158,6 +207,11 @@ function QuestieEventHandler:QUEST_LOG_UPDATE()
         end)
         playerEntered = nil;
     end
+
+    -- Run the old change detection system.
+    for index, questWatchFrame in pairs(questWatchFrames) do
+        questWatchFrame:update();
+    end 
 
     -- Run the new change detection system.
     QuestieEventHandler:UpdateQuests();
