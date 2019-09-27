@@ -48,7 +48,10 @@ function Questie:OnInitialize()
     Questie:RegisterEvent("MODIFIER_STATE_CHANGED", QuestieEventHandler.MODIFIER_STATE_CHANGED);
 
     -- Trade skill event to update a players profession
-    Questie:RegisterEvent("CHAT_MSG_SKILL", QuestieEventHandler.CHAT_MSG_SKILL)
+    Questie:RegisterEvent("CHAT_MSG_SKILL", QuestieEventHandler.CHAT_MSG_SKILL);
+
+    -- Party join event for QuestieComms
+    Questie:RegisterEvent("PARTY_MEMBERS_CHANGED", QuestieEventHandler.PARTY_MEMBERS_CHANGED);
 
     --TODO: QUEST_QUERY_COMPLETE Will get all quests the character has finished, need to be implemented!
 

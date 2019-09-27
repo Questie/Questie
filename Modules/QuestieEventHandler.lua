@@ -463,3 +463,17 @@ function QuestieEventHandler:CHAT_MSG_SKILL()
     Questie:Debug(DEBUG_DEVELOP, "CHAT_MSG_SKILL")
     QuestieProfessions:Update()
 end
+
+local numOfMembers = -1;
+function QuestieEventHandler:PARTY_MEMBERS_CHANGED()
+  local currentMembers = GetNumGroupMembers();
+  -- Only want to do logic when number increases, not decreases.
+  if(numOfMembers < currentMembers) then
+    -- Tell comms to send information to members.
+    Questie:SendMessage("QC_ID_BROADCAST_FULL_QUESTLIST");
+    numOfMembers = currentMembers;
+  else
+    -- We do however always want the local to be the current number to allow up and down.
+    numOfMembers = currentMembers;
+  end
+end
