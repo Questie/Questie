@@ -1778,7 +1778,7 @@ function QuestieJourney:AcceptQuest(questId)
     data.Event = "Quest";
     data.SubType = "Accept";
     data.Quest = questId;
-    data.Level = UnitLevel("player");
+    data.Level = QuestiePlayer:GetPlayerLevel();
     data.Timestamp = time();
     data.Party = {};
 
@@ -1817,7 +1817,7 @@ function QuestieJourney:AbandonQuest(questId)
         data.Event = "Quest";
         data.SubType = "Abandon";
         data.Quest = questId;
-        data.Level = UnitLevel("player");
+        data.Level = QuestiePlayer:GetPlayerLevel();
         data.Timestamp = time()
         data.Party = {};
 
@@ -1841,7 +1841,7 @@ function QuestieJourney:CompleteQuest(questId)
     data.Event = "Quest";
     data.SubType = "Complete";
     data.Quest = questId;
-    data.Level = UnitLevel("player");
+    data.Level = QuestiePlayer:GetPlayerLevel();
     data.Timestamp = time();
     data.Party = {};
 

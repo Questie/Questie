@@ -10,7 +10,6 @@ local libC = LibStub:GetLibrary("LibCompress")
 local updateQuestId = {};
 
 --- GLOBAL ---
---This is needed for functions around the addon, due to UnitLevel("player") not returning actual level PLAYER_LEVEL_UP unless this is used.
 QuestieEventHandler = {}
 
 
