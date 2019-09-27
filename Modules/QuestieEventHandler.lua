@@ -83,7 +83,7 @@ for i = 1, 35 do
     --Run as questWatchFrames[i]:updateScript();
     questWatchFrames[i].update = function(self)
             -- If we arn't updating anything don't start a timer...
-            if(self.refresh == false and self.accept == false) then
+            if(self.refresh or self.accept) then
                 Questie:Print("Old change system: DETECTED", self.questLogIndex, "Refresh:", self.refresh, "Accept:",self.accept)
                 C_Timer.After(1, function() 
                     if(self.refresh) then
