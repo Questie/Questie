@@ -83,7 +83,7 @@ for i = 1, 35 do
     questWatchFrames[i].update = function(self)
             -- If we arn't updating anything don't start a timer...
             if(self.refresh or self.accept) then
-                Questie:Print("Old change system: DETECTED", self.questLogIndex, "Refresh:", self.refresh, "Accept:",self.accept)
+                Questie:Debug(DEBUG_DEVELOP, "Old change system: DETECTED", self.questLogIndex, "Refresh:", self.refresh, "Accept:",self.accept)
                 C_Timer.After(1, function() 
                     if(self.refresh) then
                         --Get quest info
@@ -98,7 +98,7 @@ for i = 1, 35 do
                         end
                         --Update the quest
                         --C_Timer.After(1, function ()
-                        Questie:Print("Old change system: REFRESH EXECUTE", QuestInfo.Id);
+                        Questie:Debug(DEBUG_DEVELOP,"Old change system: REFRESH EXECUTE", QuestInfo.Id);
                         QuestieQuest:UpdateQuest(QuestInfo.Id)
                         --end)
                         --QuestieQuest:UpdateQuest(QuestInfo.Id);
@@ -116,7 +116,7 @@ for i = 1, 35 do
                         QuestieQuest:UpdateQuest(QuestInfo.Id)
                         --end)
                         
-                        Questie:Print("Old change system: ACCEPT EXECUTE", QuestInfo.Id);
+                        Questie:Debug(DEBUG_DEVELOP,"Old change system: ACCEPT EXECUTE", QuestInfo.Id);
                         -- deferred update (possible desync fix)
                         C_Timer.After(2, function()
                             QuestieQuest:PopulateObjectiveNotes(QuestieDB:GetQuest(QuestInfo.Id))
@@ -170,7 +170,7 @@ function QuestieEventHandler:QUEST_ACCEPTED(questLogIndex, questId)
     hash = libC:fcs32final(hash)
     data.hash = hash;
     data.type = "accept";
-    Questie:Print("Register Accept Change", questId, hash);
+    Questie:Debug(DEBUG_DEVELOP,"Register Accept Change", questId, hash);
     updateQuestId[questId] = data;
 
     QuestieJourney:AbandonQuest(questId);
@@ -227,7 +227,7 @@ function QuestieEventHandler:UpdateQuests()
             hash = libC:fcs32final(hash);
             local fullyComplete = QuestieQuest:isCompleteByQuestId(questId);
             if(data.hash ~= hash or fullyComplete) then
-                Questie:Print("Change detected! Id:", questId, hash, data.type)
+                Questie:Debug(DEBUG_DEVELOP,"Change detected! Id:", questId, hash, data.type)
                 -- I think the accept is a dead path, the hash will always be the same for hash... TODO: Remove, probably.
                 if(data.type == "accept") then
                     QuestieQuest:AcceptQuest(questId)
@@ -241,7 +241,7 @@ function QuestieEventHandler:UpdateQuests()
 
                 updateQuestId[questId] = nil;
             elseif(data.type =="accept" and data.hash == hash) then
-                Questie:Print("Change not detected! ACCEPT Id:", questId, hash, data.type)
+                Questie:Debug(DEBUG_DEVELOP,"Change not detected! ACCEPT Id:", questId, hash, data.type)
                 QuestieQuest:AcceptQuest(questId)
                 QuestieQuest:UpdateQuest(questId)
 
@@ -250,7 +250,7 @@ function QuestieEventHandler:UpdateQuests()
                 
                 updateQuestId[questId] = nil;
             else
-                Questie:Print("No change detected! Hash:", hash, ":", data.hash, "-", questId)
+                Questie:Debug(DEBUG_DEVELOP,"No change detected! Hash:", hash, ":", data.hash, "-", questId)
             end
         end
     end
@@ -270,7 +270,7 @@ function QuestieEventHandler:QUEST_WATCH_UPDATE(QuestLogIndex)
     hash = libC:fcs32final(hash)
     data.hash = hash;
     data.type = "update";
-    Questie:Print("Register Update Change", questId, hash);
+    Questie:Debug(DEBUG_DEVELOP,"Register Update Change", questId, hash);
     updateQuestId[questId] = data;
 end
 
