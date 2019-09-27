@@ -1003,7 +1003,11 @@ function _QuestieQuest:GetLeaderBoardDetails(objectiveIndex, questId)
     local questObjectives = C_QuestLog.GetQuestObjectives(questId)-- or {};
     if(questObjectives[objectiveIndex]) then
         local objective = questObjectives[objectiveIndex];
-        objective.text = string.match(objective.text, "(.*)[：,:]");
+        local text = string.match(objective.text, "(.*)[：,:]");
+        -- If nothing is matched, we should just add the text as is.
+        if(text ~= nil) then
+            objective.text = text;
+        end
         return objective.type, objective.text, objective.numFulfilled, objective.numRequired, objective.finished;
     end
     return nil;
@@ -1014,7 +1018,11 @@ function QuestieQuest:GetAllLeaderBoardDetails(questId)
 
     for objectiveIndex, objective in pairs(questObjectives) do
         if(objective.text) then
-            objective.text = string.match(objective.text, "(.*)[：,:]");
+            local text = string.match(objective.text, "(.*)[：,:]");
+            -- If nothing is matched, we should just add the text as is.
+            if(text ~= nil) then
+                objective.text = text;
+            end
         else
             DEFAULT_CHAT_FRAME:AddMessage("ERROR! Something went wrong in GetAllLeaderBoardDetails"..tostring(questId).." - "..tostring(objective.text));
         end
