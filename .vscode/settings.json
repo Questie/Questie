@@ -2283,6 +2283,7 @@
         "ToggleSelfHighlight",
         "ToggleSheath",
         "ToggleSpellAutocast",
+        "ToggleQuestLog",
         "ToggleWindowed",
         "TriggerTutorial",
         "TurnInGuildCharter",

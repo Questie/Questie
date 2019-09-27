@@ -201,7 +201,7 @@ local function _ShowQuestLog(Quest)
         end
     else
         ToggleQuestLog();
-    end    
+    end
     SelectQuestLogEntry(GetQuestLogIndexByID(Quest.Id))
     QuestLog_UpdateQuestDetails()
     QuestLog_Update()
@@ -1050,7 +1050,7 @@ function QuestieTracker:Update()
                 questString = "[" .. Quest.Level .. "] " .. questString
             end
             if complete then
-                questString  = questString .. QuestieLocale:GetUIString('TOOLTIP_QUEST_COMPLETE')
+                questString  = questString .. " " .. QuestieLocale:GetUIString('TOOLTIP_QUEST_COMPLETE')
             end
             line.label:SetText(QuestieLib:PrintDifficultyColor(Quest.Level, questString))
             
