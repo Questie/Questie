@@ -352,7 +352,7 @@ function QuestieQuest:UpdateQuest(QuestId)
         QuestieQuest:PopulateQuestLogInfo(quest)
         QuestieQuest:GetAllQuestObjectives(quest) -- update quest log values in quest object
         QuestieQuest:UpdateObjectiveNotes(quest)
-        if QuestieQuest:IsComplete(quest) then
+        if QuestieQuest:IsComplete(quest) or QuestieQuest:isCompleteByQuestId(QuestId) then
             --DEFAULT_CHAT_FRAME:AddMessage("Finished " .. QuestId);
             QuestieMap:UnloadQuestFrames(QuestId);
             QuestieQuest:AddFinisher(quest)
