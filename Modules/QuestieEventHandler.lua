@@ -225,7 +225,8 @@ function QuestieEventHandler:UpdateQuests()
             local hash = libC:fcs32init();
             hash = libC:fcs32update(hash, libS:Serialize(objectives));
             hash = libC:fcs32final(hash);
-            if(data.hash ~= hash) then
+            local fullyComplete = QuestieQuest:isCompleteByQuestId(questId);
+            if(data.hash ~= hash or fullyComplete) then
                 Questie:Print("Change detected! Id:", questId, hash, data.type)
                 -- I think the accept is a dead path, the hash will always be the same for hash... TODO: Remove, probably.
                 if(data.type == "accept") then

@@ -429,6 +429,25 @@ function QuestieQuest:_IsCompleteHack(Quest) -- adding this because I hit my thr
     end
 end
 
+function QuestieQuest:isCompleteByQuestId(questId)
+    local logID = GetQuestLogIndexByID(questId);
+    local _, _, _, _, _, isComplete, _, questID, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(logID)
+
+    local allComplete = true;
+    local numQuestLogLeaderBoards = GetNumQuestLeaderBoards(questId)
+    for index=1, numQuestLogLeaderBoards do
+        local desc, type, done = GetQuestLogLeaderBoard(index, questId)
+        if(done == false) then
+            allComplete = false;
+        end
+    end
+    if(isComplete == 1 and allComplete == true) then
+        return true;
+    else
+        return nil;
+    end
+end
+
 function QuestieQuest:IsComplete(Quest)
     return Quest.Objectives == nil or Counthack(Quest.Objectives) == 0 or Quest.isComplete or QuestieQuest:_IsCompleteHack(Quest);
 end
