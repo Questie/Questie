@@ -835,7 +835,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
         Questie:Debug(DEBUG_CRITICAL, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_OBJ_TABLE'));
     end
 
-    local questObjectives = _QuestieQuest:GetAllLeaderBoardDetails(Quest.Id);
+    local questObjectives = QuestieQuest:GetAllLeaderBoardDetails(Quest.Id);
     local logCount = Counthack(questObjectives);
     local dbCount = Counthack(Quest.ObjectiveData);
 
@@ -865,7 +865,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                 self._lastUpdate = now
                 
                 -- Use different variable names from above to avoid confusion.
-                local qObjectives = _QuestieQuest:GetAllLeaderBoardDetails(self.QuestId);
+                local qObjectives = QuestieQuest:GetAllLeaderBoardDetails(self.QuestId);
 
                 if qObjectives and qObjectives[self.Index] then
                     local obj = qObjectives[self.Index];
@@ -1006,7 +1006,7 @@ function _QuestieQuest:GetLeaderBoardDetails(objectiveIndex, questId)
     return nil;
 end
 
-function _QuestieQuest:GetAllLeaderBoardDetails(questId)
+function QuestieQuest:GetAllLeaderBoardDetails(questId)
     local questObjectives = C_QuestLog.GetQuestObjectives(questId)-- or {};
 
     for objectiveIndex, objective in pairs(questObjectives) do
