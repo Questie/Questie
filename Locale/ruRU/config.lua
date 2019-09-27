@@ -120,6 +120,7 @@ QuestieLocale.locale['ruRU'] = {
     ['TOOLTIP_QUEST_COMPLETE'] = "(Выполнено)",
     ['TOOLTIP_QUEST_AVAILABLE'] = "(Доступный)",
     ['TOOLTIP_QUEST_ACTIVE'] = "(Активный)",
+    ['TOOLTIP_QUEST_REPEATABLE'] = "(Repeatable)",
 
 
     -- Slash Commands
