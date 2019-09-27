@@ -156,9 +156,10 @@ _QuestieOptions.defaults = {
       nameplateTargetFrameScale = 1.7,
       questieLocale = 'enUS',
       questieLocaleDiff = false,
-      alwaysGlowMap = false,
+      alwaysGlowMap = true,
       alwaysGlowMinimap = false,
       questObjectiveColors = false,
+      questMinimapObjectiveColors = false,
       enableObjectives = true,
       enableTurnins = true,
       enableAvailable = true,
@@ -470,6 +471,18 @@ _QuestieOptions.optionsGUI = {
                     set = function (info, value)
                         SetGlobalOptionLocal(info, value)
                         QuestieFramePool:UpdateGlowConfig(true, value)
+                    end,
+                },
+                questMinimapObjectiveColors = {
+                    type = "toggle",
+                    order = 1.8,
+                    name = function() return QuestieLocale:GetUIString('MAP_QUEST_COLORS') end,
+                    desc = function() return QuestieLocale:GetUIString('MAP_QUEST_COLORS_DESC') end,
+                    width = "full",
+                    get = GetGlobalOptionLocal,
+                    set = function (info, value)
+                        SetGlobalOptionLocal(info, value)
+                        QuestieFramePool:UpdateColorConfig(true, value)
                     end,
                 },
                 Spacer_A = _QuestieOptions:Spacer(2),

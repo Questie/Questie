@@ -154,7 +154,7 @@ end
 function QuestieFramePool:UpdateColorConfig(mini, enable)
     if enable then
         for _, icon in pairs(_QuestieFramePool.usedFrames) do
-            if (mini and icon.miniMapIcon) or not mini then
+            if (mini and icon.miniMapIcon) or (not mini and not icon.miniMapIcon) then
                 local colors = {1, 1, 1}
                 if icon.data.IconColor ~= nil then
                     colors = icon.data.IconColor
@@ -164,7 +164,7 @@ function QuestieFramePool:UpdateColorConfig(mini, enable)
         end
     else
         for _, icon in pairs(_QuestieFramePool.usedFrames) do
-            if (mini and icon.miniMapIcon) or not mini then
+            if (mini and icon.miniMapIcon) or (not mini and not icon.miniMapIcon) then
                 icon.texture:SetVertexColor(1, 1, 1, 1)
             end
         end
