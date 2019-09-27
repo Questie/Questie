@@ -323,7 +323,7 @@ QuestieCorrections.questFixes = {
     },
     [4496] = {
         [QuestieDB.questKeys.preQuestGroup] = {4493, 4494},
-    },    
+    }
 }
 
 QuestieCorrections.npcFixes = {
