@@ -270,15 +270,6 @@ function QuestieEventHandler:QUEST_WATCH_UPDATE(QuestLogIndex)
     updateQuestId[questId] = data;
 end
 
-function QuestieEventHandler:QUEST_LOG_CRITERIA_UPDATE(questID, specificTreeID, description, numFulfilled, numRequired)
-    Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_LOG_CRITERIA_UPDATE", questID, specificTreeID, description, numFulfilled, numRequired);
-end
-
-function QuestieEventHandler:CUSTOM_QUEST_COMPLETE()
-    local numEntries, numQuests = GetNumQuestLogEntries();
-    --Questie:Debug(DEBUG_CRITICAL, "CUSTOM_QUEST_COMPLETE", "Quests: "..numQuests);
-end
-
 function QuestieEventHandler:PLAYER_LEVEL_UP(level, hitpoints, manapoints, talentpoints, ...)
     Questie:Debug(DEBUG_DEVELOP, "EVENT: PLAYER_LEVEL_UP", level);
     
@@ -292,26 +283,6 @@ function QuestieEventHandler:PLAYER_LEVEL_UP(level, hitpoints, manapoints, talen
         QuestieQuest:DrawAllAvailableQuests();
     end)
     QuestieJourney:PlayerLevelUp(level);
-end
-
---Old stuff
-
---This is used to see if they acually completed the quest or just fucking with us...
-local NumberOfQuestInLog = -1
-
-function QuestieEventHandler:QUEST_COMPLETE()
-    local numEntries, numQuests = GetNumQuestLogEntries();
-    NumberOfQuestInLog = numQuests;
-    --Questie:Debug(DEBUG_CRITICAL, "EVENT: QUEST_COMPLETE", "Quests: "..numQuests);
-end
-
-function QuestieEventHandler:QUEST_FINISHED()
-    local numEntries, numQuests = GetNumQuestLogEntries();
-    if (NumberOfQuestInLog ~= numQuests) then
-        --Questie:Debug(DEBUG_CRITICAL, "EVENT: QUEST_FINISHED", "CHANGE");
-        NumberOfQuestInLog = -1
-    end
-    --Questie:Debug(DEBUG_CRITICAL, "EVENT: QUEST_FINISHED", "NO CHANGE");
 end
 
 function QuestieEventHandler:MODIFIER_STATE_CHANGED(key, down)
@@ -344,3 +315,35 @@ function QuestieEventHandler:PARTY_MEMBERS_CHANGED()
     numOfMembers = currentMembers;
   end
 end
+
+
+--Old unused code
+
+--This is used to see if they acually completed the quest or just fucking with us...
+local NumberOfQuestInLog = -1
+
+function QuestieEventHandler:QUEST_COMPLETE()
+    local numEntries, numQuests = GetNumQuestLogEntries();
+    NumberOfQuestInLog = numQuests;
+    --Questie:Debug(DEBUG_CRITICAL, "EVENT: QUEST_COMPLETE", "Quests: "..numQuests);
+end
+
+function QuestieEventHandler:QUEST_FINISHED()
+    local numEntries, numQuests = GetNumQuestLogEntries();
+    if (NumberOfQuestInLog ~= numQuests) then
+        --Questie:Debug(DEBUG_CRITICAL, "EVENT: QUEST_FINISHED", "CHANGE");
+        NumberOfQuestInLog = -1
+    end
+    --Questie:Debug(DEBUG_CRITICAL, "EVENT: QUEST_FINISHED", "NO CHANGE");
+end
+
+function QuestieEventHandler:QUEST_LOG_CRITERIA_UPDATE(questID, specificTreeID, description, numFulfilled, numRequired)
+    Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_LOG_CRITERIA_UPDATE", questID, specificTreeID, description, numFulfilled, numRequired);
+end
+
+function QuestieEventHandler:CUSTOM_QUEST_COMPLETE()
+    local numEntries, numQuests = GetNumQuestLogEntries();
+    --Questie:Debug(DEBUG_CRITICAL, "CUSTOM_QUEST_COMPLETE", "Quests: "..numQuests);
+end
+
+-- DO NOT PUT CODE UNDER HERE!!!!!

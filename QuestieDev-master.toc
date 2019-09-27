@@ -1,10 +1,10 @@
 ## Interface: 11302
 #Do not modify the title manually, create a new version by doing "git tag vX.X.X"
-## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v4.2.0_c904ecc|r|cFFFF0000 BETA|r
+## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v4.2.0_38ee5f7|r|cFFFF0000 BETA|r
 ## Author: Aero/Logon/Muehe/Dyaxler/Schaka/Zoey/Everyone else
 ## Notes: A standalone Classic QuestHelper
 #Do not modify the version manually, create a new version by doing "git tag vX.X.X"
-## Version: 4.2.0 BETA 4 c904ecc
+## Version: 4.2.0 BETA 5 38ee5f7
 ## RequiredDeps:
 ## OptionalDeps: Ace3, LibDataBroker-1.1, LibCompress
 ## SavedVariables: QuestieConfig
