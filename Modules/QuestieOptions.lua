@@ -414,7 +414,7 @@ _QuestieOptions.optionsGUI = {
                     get = GetGlobalOptionLocal,
                     set = function (info, value)
                                 SetGlobalOptionLocal(info, value)
-                                _QuestieOptions:Delay(0.3, _QuestieOptions.AvailableQuestRedraw, QuestieLocale:GetUIString('DEBUIG_MINLEVEL', value))
+                                _QuestieOptions:Delay(0.3, _QuestieOptions.AvailableQuestRedraw, QuestieLocale:GetUIString('DEBUG_MINLEVEL', value))
                             end,
                 },
                 maxLevelFilter = {
