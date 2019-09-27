@@ -53,7 +53,7 @@ function Questie:OnInitialize()
     Questie:RegisterEvent("CHAT_MSG_SKILL", QuestieEventHandler.CHAT_MSG_SKILL);
 
     -- Party join event for QuestieComms, Use bucket to hinder this from spamming (Ex someone using a raid invite addon etc)
-    Questie:RegisterBucketEvent("PARTY_MEMBERS_CHANGED", 1, QuestieEventHandler.PARTY_MEMBERS_CHANGED);
+    Questie:RegisterBucketEvent("GROUP_ROSTER_UPDATE", 1, QuestieEventHandler.GROUP_ROSTER_UPDATE);
 
     --TODO: QUEST_QUERY_COMPLETE Will get all quests the character has finished, need to be implemented!
 

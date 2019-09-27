@@ -305,7 +305,7 @@ function QuestieEventHandler:CHAT_MSG_SKILL()
 end
 
 local numOfMembers = -1;
-function QuestieEventHandler:PARTY_MEMBERS_CHANGED()
+function QuestieEventHandler:GROUP_ROSTER_UPDATE()
   local currentMembers = GetNumGroupMembers();
   -- Only want to do logic when number increases, not decreases.
   if(numOfMembers < currentMembers) then
