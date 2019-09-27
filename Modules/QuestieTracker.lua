@@ -1243,7 +1243,7 @@ function QuestieTracker:CreateBaseFrame()
 
     if Questie.db.char.TrackerLocation then
         -- we need to pcall this because it can error if something like MoveAnything is used to move the tracker
-        result, error = pcall(frm.SetPoint, frm, unpack(Questie.db.char.TrackerLocation))
+        local result, error = pcall(frm.SetPoint, frm, unpack(Questie.db.char.TrackerLocation))
         if not result then
             Questie.db.char.TrackerLocation = nil
             print(QuestieLocale:GetUIString('TRACKER_INVALID_LOCATION'))
@@ -1254,7 +1254,7 @@ function QuestieTracker:CreateBaseFrame()
             end
         end
     else
-        result, error = pcall(frm.SetPoint, frm, unpack({QuestWatchFrame:GetPoint()}))
+        local result, error = pcall(frm.SetPoint, frm, unpack({QuestWatchFrame:GetPoint()}))
         if not result then
             Questie.db.char.TrackerLocation = nil
             print(QuestieLocale:GetUIString('TRACKER_INVALID_LOCATION'))
