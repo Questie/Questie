@@ -38,7 +38,7 @@ function Questie:GetAddonVersionInfo()  -- todo: better place
     if(reason == "MISSING") then
       _, title = GetAddOnInfo("Questie");
     end
-    local major, minor, patch = string.match(title, "v(%d+)\.(%d+)\.(%d+)");
+    local major, minor, patch = string.match(title, "v(%d+)%.(%d+)%.(%d+)");
     return tonumber(major), tonumber(minor), tonumber(patch);
 end
 
