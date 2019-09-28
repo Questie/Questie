@@ -48,16 +48,16 @@ addonDir = 'Questie'
 
 def setArgs():
     #set defaults
-    global releaseType;
-    global addonDir;
+    global releaseType
+    global addonDir
     version, nrOfCommits, recentCommit = getVersion()
-    versionDir = None;
+    versionDir = None
     print("Tag: " + version)
     if version != None and nrOfCommits == None and recentCommit == None:
         versionDir = version.replace(' ', '_')
         zipName = '%s-v%s' % (addonDir, versionDir)
     else:
-        versionDir = "%s_%s-%s-%s" % (version, releaseType, nrOfCommits, recentCommit);
+        versionDir = "%s_%s-%s-%s" % (version, releaseType, nrOfCommits, recentCommit)
         print("Number of commits since tag: " + nrOfCommits)
         print("Most Recent commit: " + recentCommit)
         zipName = '%s-%s' % (addonDir, versionDir)
@@ -95,7 +95,7 @@ def main():
     for dir in ['Database', 'Icons', 'Libs', 'Locale', 'Modules']:
         shutil.copytree(dir, '%s/%s' % (destination, dir))
     # modify files
-    setVersion();
+    setVersion()
     # copy files
     for file in ['embeds.xml', 'Questie.lua', 'README.md']:
         shutil.copy2(file, '%s/%s' % (destination, file))
@@ -113,40 +113,40 @@ def main():
 
 def setVersion():
     if is_tool("git"):
-        global addonDir;
-        global releaseType;
-        scriptDir = os.path.dirname(os.path.realpath(__file__));
-        p = subprocess.check_output(["git", "describe", "--tags", "--long"], cwd=scriptDir);
-        tagString = str(p).rstrip("\\n'").lstrip("b'");
+        global addonDir
+        global releaseType
+        scriptDir = os.path.dirname(os.path.realpath(__file__))
+        p = subprocess.check_output(["git", "describe", "--tags", "--long"], cwd=scriptDir)
+        tagString = str(p).rstrip("\\n'").lstrip("b'")
         #versiontag (v4.1.1) from git, number of additional commits on top of the tagged object and most recent commit.
-        versionTag, nrOfCommits, recentCommit = tagString.split("-");
-        recentCommit = recentCommit.lstrip("g"); # There is a "g" before all the commits.
-        tocData = None;
+        versionTag, nrOfCommits, recentCommit = tagString.split("-")
+        recentCommit = recentCommit.lstrip("g") # There is a "g" before all the commits.
+        tocData = None
         # Replace the toc data with git information.
         with open('QuestieDev-master.toc') as toc:
-            tocData = toc.read();
+            tocData = toc.read()
             ## Version: 4.1.1 BETA
             tocData = re.sub(r"## Title:.*", "## Title: |cFFFFFFFF%s|r|cFF00FF00 %s_%s|r|cFFFF0000 %s|r" % (addonDir, versionTag, recentCommit, releaseType), tocData)
             ## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v4.1.1|r|cFFFF0000 Beta|r
             tocData = re.sub(r"## Version:.*", "## Version: %s %s %s %s" % (versionTag.lstrip("v"), releaseType, nrOfCommits, recentCommit), tocData)
             
         with open('QuestieDev-master.toc', "w") as toc:
-            toc.write(tocData);
+            toc.write(tocData)
 
 def setHookfolder():
     if is_tool("git"):
-        scriptDir = os.path.dirname(os.path.realpath(__file__));
-        p = subprocess.check_output(["git", "config", "core.hooksPath", ".githooks"], cwd=scriptDir);
+        scriptDir = os.path.dirname(os.path.realpath(__file__))
+        p = subprocess.check_output(["git", "config", "core.hooksPath", ".githooks"], cwd=scriptDir)
 
 def getVersion():
     if is_tool("git"):
-        scriptDir = os.path.dirname(os.path.realpath(__file__));
-        p = subprocess.check_output(["git", "describe", "--tags", "--long"], cwd=scriptDir);
-        tagString = str(p).rstrip("\\n'").lstrip("b'");
+        scriptDir = os.path.dirname(os.path.realpath(__file__))
+        p = subprocess.check_output(["git", "describe", "--tags", "--long"], cwd=scriptDir)
+        tagString = str(p).rstrip("\\n'").lstrip("b'")
         #versiontag (v4.1.1) from git, number of additional commits on top of the tagged object and most recent commit.
-        versionTag, nrOfCommits, recentCommit = tagString.split("-");
-        recentCommit = recentCommit.lstrip("g"); # There is a "g" before all the commits.
-        return versionTag, nrOfCommits, recentCommit;
+        versionTag, nrOfCommits, recentCommit = tagString.split("-")
+        recentCommit = recentCommit.lstrip("g") # There is a "g" before all the commits.
+        return versionTag, nrOfCommits, recentCommit
     else:
         print("Warning: Git not found on the computer, using fallback to get a version.")
 
