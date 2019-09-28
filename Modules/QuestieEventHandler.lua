@@ -8,6 +8,7 @@ end
 local libS = LibStub:GetLibrary("AceSerializer-3.0")
 local libC = LibStub:GetLibrary("LibCompress")
 local updateQuestId = {};
+local qwuTriggered = false
 
 --- GLOBAL ---
 QuestieEventHandler = {}
@@ -66,13 +67,13 @@ for i = 1, 35 do
                     Questie:Debug(DEBUG_DEVELOP, event, "Updated quest", self.questLogIndex, "Title:", QuestInfo.title, "Id:", QuestInfo.Id)
                     QuestieQuest:UpdateQuest(QuestInfo.Id)
                     --end)
-                    
+
                     -- deferred update (possible desync fix)
                     C_Timer.After(2, function()
                         QuestieQuest:PopulateObjectiveNotes(QuestieDB:GetQuest(QuestInfo.Id))
                         QuestieQuest:UpdateQuest(QuestInfo.Id)
                     end)
-                    
+
                     self.accept = false;
                 end
             end)
@@ -115,14 +116,14 @@ for i = 1, 35 do
                         Questie:Debug(DEBUG_DEVELOP, "QLU", "Updated quest", self.questLogIndex, "Title:", QuestInfo.title, "Id:", QuestInfo.Id)
                         QuestieQuest:UpdateQuest(QuestInfo.Id)
                         --end)
-                        
+
                         Questie:Debug(DEBUG_DEVELOP,"Old change system: ACCEPT EXECUTE", QuestInfo.Id);
                         -- deferred update (possible desync fix)
                         C_Timer.After(2, function()
                             QuestieQuest:PopulateObjectiveNotes(QuestieDB:GetQuest(QuestInfo.Id))
                             QuestieQuest:UpdateQuest(QuestInfo.Id)
                         end)
-                        
+
                         self.accept = false;
                     end
                 end)
@@ -174,7 +175,6 @@ function QuestieEventHandler:QUEST_ACCEPTED(questLogIndex, questId)
     updateQuestId[questId] = data;
 
     QuestieJourney:AbandonQuest(questId);
-
 end
 
 --Fires when a quest is removed from the questlog, this includes turning it in!
@@ -212,14 +212,15 @@ function QuestieEventHandler:QUEST_LOG_UPDATE()
     -- Run the old change detection system.
     for index, questWatchFrame in pairs(questWatchFrames) do
         questWatchFrame:update();
-    end 
+    end
 
     -- Run the new change detection system.
     QuestieEventHandler:UpdateQuests();
 end
 
+
 function QuestieEventHandler:UpdateQuests()
-  for questId, data in pairs(updateQuestId) do
+    for questId, data in pairs(updateQuestId) do
         local objectives = C_QuestLog.GetQuestObjectives(questId);
         if(objectives ~= nil) then
             local hash = libC:fcs32init();
@@ -232,7 +233,6 @@ function QuestieEventHandler:UpdateQuests()
                 if(data.type == "accept") then
                     QuestieQuest:AcceptQuest(questId)
                 end
-                --
 
                 QuestieQuest:UpdateQuest(questId)
 
@@ -247,7 +247,7 @@ function QuestieEventHandler:UpdateQuests()
 
                 -- Maybe this should just be a straight call rather than a message.
                 Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId);
-                
+
                 updateQuestId[questId] = nil;
             else
                 Questie:Debug(DEBUG_DEVELOP,"No change detected! Hash:", hash, ":", data.hash, "-", questId)
@@ -260,6 +260,7 @@ function QuestieEventHandler:QUEST_WATCH_UPDATE(QuestLogIndex)
     Questie:Debug(DEBUG_INFO, "QUEST_WATCH_UPDATE", QuestLogIndex)
     --When a quest gets updated, wait until next QUEST_LOG_UPDATE before updating.
     --questWatchFrames[QuestLogIndex].refresh = true
+    qwuTriggered = true
 
     local _, _, _, _, _, _, _, questId = GetQuestLogTitle(QuestLogIndex)
     local data = {}
@@ -274,13 +275,26 @@ function QuestieEventHandler:QUEST_WATCH_UPDATE(QuestLogIndex)
     updateQuestId[questId] = data;
 end
 
+function QuestieEventHandler:UNIT_QUEST_LOG_CHANGED(unitTarget)
+    if unitTarget == "player" then
+        Questie:Debug(DEBUG_DEVELOP, "UNIT_QUEST_LOG_CHANGED: player")
+
+        if qwuTriggered then
+            Questie:Debug(DEBUG_DEVELOP, "QWU got triggered. No need to get all quests")
+            qwuTriggered = false
+            return
+        end
+        QuestieQuest:GetAllQuestIds()
+    end
+end
+
 function QuestieEventHandler:PLAYER_LEVEL_UP(level, hitpoints, manapoints, talentpoints, ...)
     Questie:Debug(DEBUG_DEVELOP, "EVENT: PLAYER_LEVEL_UP", level);
-    
+
     QuestiePlayer:SetPlayerLevel(level);
-    
+
     -- deferred update (possible desync fix?)
-    C_Timer.After(3, function() 
+    C_Timer.After(3, function()
         QuestiePlayer:SetPlayerLevel(level);
 
         QuestieQuest:CalculateAvailableQuests();
@@ -308,16 +322,16 @@ end
 
 local numOfMembers = -1;
 function QuestieEventHandler:GROUP_ROSTER_UPDATE()
-  local currentMembers = GetNumGroupMembers();
-  -- Only want to do logic when number increases, not decreases.
-  if(numOfMembers < currentMembers) then
-    -- Tell comms to send information to members.
-    Questie:SendMessage("QC_ID_BROADCAST_FULL_QUESTLIST");
-    numOfMembers = currentMembers;
-  else
-    -- We do however always want the local to be the current number to allow up and down.
-    numOfMembers = currentMembers;
-  end
+    local currentMembers = GetNumGroupMembers();
+    -- Only want to do logic when number increases, not decreases.
+    if(numOfMembers < currentMembers) then
+        -- Tell comms to send information to members.
+        Questie:SendMessage("QC_ID_BROADCAST_FULL_QUESTLIST");
+        numOfMembers = currentMembers;
+    else
+        -- We do however always want the local to be the current number to allow up and down.
+        numOfMembers = currentMembers;
+    end
 end
 
 
