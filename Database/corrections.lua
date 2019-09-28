@@ -39,6 +39,10 @@ QuestieCorrections.questFixes = {
     [369] = {
         [QuestieDB.questKeys.requiredRaces] = 178, -- #888
     },
+    [841] = {
+        [QuestieDB.questKeys.specialFlags] = 1,
+        [QuestieDB.questKeys.exclusiveTo] = {654},
+    },
     [3090] = {
         [QuestieDB.questKeys.requiredRaces] = 256, -- #813
     },
