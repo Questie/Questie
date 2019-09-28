@@ -545,6 +545,8 @@ QuestieCorrections.itemFixes = {
     [12922] = {"Empty Canteen",{5157},{},{}}, -- #1083
     [7268] = {"Xavian Water Sample",{1944},{},{174797}}, -- #1097
     [7269] = {"Deino's Flask",{1944},{},{}}, -- #1097
+    [11412] = {"Nagmara's Vial",{4201},{},{}}, -- #1136
+    [11413] = {"Nagmara's Filled Vial",{4201},{},{165678}}, -- #1136
 
     -- quest related herbs
     [2449] = {"Earthroot",{6123,6128},{},{1619,3726}},
