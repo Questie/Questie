@@ -551,6 +551,7 @@ QuestieCorrections.itemFixes = {
     [7269] = {"Deino's Flask",{1944},{},{}}, -- #1097
     [11412] = {"Nagmara's Vial",{4201},{},{}}, -- #1136
     [11413] = {"Nagmara's Filled Vial",{4201},{},{165678}}, -- #1136
+    [15874] = {"Soft-shelled Clam",{6142},{12347},{177784}},
 
     -- quest related herbs
     [2449] = {"Earthroot",{6123,6128},{},{1619,3726}},
