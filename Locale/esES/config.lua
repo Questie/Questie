@@ -129,6 +129,7 @@ QuestieLocale.locale['esES'] = {
     ['TOOLTIP_QUEST_COMPLETE'] = "(Completada)",
     ['TOOLTIP_QUEST_AVAILABLE'] = "(Disponible)",
     ['TOOLTIP_QUEST_ACTIVE'] = "(Activa)",
+    ['TOOLTIP_QUEST_REPEATABLE'] = "(Repeatable)",
 
     -- Slash Commands
     ['SLASH_INVALID'] = "Comando inválido. Para una lista de comandos escribe: ",

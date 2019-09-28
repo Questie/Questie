@@ -52,9 +52,9 @@ QuestieDB._ObjectCache = {};
 QuestieDB._ZoneCache = {};
 
 function QuestieDB:Initialize()
-    QuestieDBZone:zoneCreateConvertion()
+    QuestieDBZone:ZoneCreateConversion()
     QuestieDB:HideClassAndRaceQuests()
-    QuestieDB:deleteGatheringNodes()
+    QuestieDB:DeleteGatheringNodes()
 
     -- data has been corrected, ensure cache is empty (something might have accessed the api before questie initialized)
     QuestieDB._QuestCache = {};
@@ -116,7 +116,7 @@ function QuestieDB:GetItem(ItemID)
     local raw = CHANGEME_Questie4_ItemDB[ItemID]; -- TODO: use the good item db, I need to talk to Muehe about the format, this is a temporary fix
     if raw ~= nil then
         item.Id = ItemID;
-        item.Name = raw[1];
+        item.Name = LangItemLookup[ItemID] or raw[1];
         item.Sources = {};
         item.Hidden = QuestieCorrections.questItemBlacklist[ItemID]
         for k,v in pairs(raw[3]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
@@ -137,7 +137,12 @@ function QuestieDB:GetItem(ItemID)
 end
 
 local function _GetColoredQuestName(self)
-    return QuestieTooltips:PrintDifficultyColor(self.Level, "[" .. self.Level .. "] " .. (self.LocalizedName or self.Name))
+    local questString = (self.LocalizedName or self.Name)
+    if Questie.db.global.enableTooltipsQuestLevel then
+        questString = "[" .. self.Level .. "] " .. " " .. questString
+    end
+
+    return QuestieLib:PrintDifficultyColor(self.Level, questString)
 end
 
 function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
@@ -284,13 +289,6 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
                     obj.Id = _v[1]
                     obj.Text = _v[2];
 
-                    -- this speeds up lookup
-                    obj.Name = QuestieDB.npcData[obj.Id]
-                    if obj.Name ~= nil then
-                        local name = LangNameLookup[obj.Id] or obj.Name[1]
-                        obj.Name = string.lower(name);
-                    end
-
                     table.insert(QO.ObjectiveData, obj);
 
                 end
@@ -305,11 +303,6 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
                     obj.Id = _v[1]
                     obj.Text = _v[2]
 
-                    obj.Name = QuestieDB.objectData[obj.Id]
-                    if obj.Name ~= nil then
-                        obj.Name = string.lower(obj.Name[1]);
-                    end
-
                     table.insert(QO.ObjectiveData, obj);
 
                 end
@@ -322,11 +315,6 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
                     obj.Type = "item"
                     obj.Id = _v[1]
                     obj.Text = _v[2]
-
-                    obj.Name = CHANGEME_Questie4_ItemDB[obj.Id]
-                    if obj.Name ~= nil then
-                        obj.Name = string.lower(obj.Name[1]);
-                    end
 
                     table.insert(QO.ObjectiveData, obj);
                 end
@@ -363,7 +351,8 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
 
                     obj.Name = CHANGEME_Questie4_ItemDB[obj.Id]
                     if obj.Name ~= nil then
-                        obj.Name = string.lower(obj.Name[1]);
+                        local name = LangItemLookup[obj.Id] or obj.Name[1]
+                        obj.Name = string.lower(name);
                     end
 
                     table.insert(QO.HiddenObjectiveData, obj);
@@ -397,16 +386,16 @@ function QuestieDB:_GetSpecialNPC(NPCID)
     if rawdata then
         local NPC = {}
         NPC.id = NPCID
-        QuestieStreamLib:load(rawdata)
-        NPC.name = QuestieStreamLib:readTinyString()
+        QuestieStreamLib:Load(rawdata)
+        NPC.name = QuestieStreamLib:ReadTinyString()
         NPC.type = "monster"
         NPC.newFormatSpawns = {}; -- spawns should be stored like this: {{x, y, uimapid}, ...} so im creating a 2nd var to aid with moving to the new format
         NPC.spawns = {};
-        local count = QuestieStreamLib:readByte()
+        local count = QuestieStreamLib:ReadByte()
         for i=1,count do
-            local x = QuestieStreamLib:readShort() / 655.35
-            local y = QuestieStreamLib:readShort() / 655.35
-            local m = QuestieStreamLib:readByte() + 1400
+            local x = QuestieStreamLib:ReadShort() / 655.35
+            local y = QuestieStreamLib:ReadShort() / 655.35
+            local m = QuestieStreamLib:ReadByte() + 1400
             table.insert(NPC.newFormatSpawns, {x, y, m});
             local om = m;
             m = zoneDataUiMapIDToAreaID[m];
@@ -605,7 +594,7 @@ end
 
 ---------------------------------------------------------------------------------------------------
 -- Modifications to objectDB
-function QuestieDB:deleteGatheringNodes()
+function QuestieDB:DeleteGatheringNodes()
     local prune = { -- gathering nodes
         1617,1618,1619,1620,1621,1622,1623,1624,1628, -- herbs
 
@@ -619,7 +608,7 @@ end
 ---------------------------------------------------------------------------------------------------
 -- Modifications to questDB
 
-function unpackBinary(val)
+function UnpackBinary(val)
     local ret = {};
     for q=0,16 do
         if bit.band(bit.rshift(val,q), 1) == 1 then
