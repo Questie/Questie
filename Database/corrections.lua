@@ -338,6 +338,9 @@ QuestieCorrections.questFixes = {
     [861] = {
         [QuestieDB.questKeys.exclusiveTo] = {860,844}, -- #1109
     },
+    [5122] = {
+        [QuestieDB.questKeys.specialFlags] = 1, -- #1140
+    },
     --Wool/Silk/Mageweave/Runecloth donation
     [7791] = {
         [QuestieDB.questKeys.specialFlags] = 1,
