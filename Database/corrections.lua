@@ -671,6 +671,7 @@ QuestieCorrections.itemFixes = {
     [11412] = {"Nagmara's Vial",{4201},{},{}}, -- #1136
     [11413] = {"Nagmara's Filled Vial",{4201},{},{165678}}, -- #1136
     [15874] = {"Soft-shelled Clam",{6142},{12347},{177784}},
+    [12885] = {"Pamela's Doll",{5149},{},{}}, -- #1148
 
     -- quest related herbs
     [2449] = {"Earthroot",{6123,6128},{},{1619,3726}},
