@@ -27,9 +27,6 @@ QuestieCorrections.questFixes = {
     [5721] = {
         [QuestieDB.questKeys.requiredSourceItems] = {177528,}, -- 857
     },
-    [858] = {
-        [QuestieDB.questKeys.requiredRaces] = 178,
-    },
     [367] = {
         [QuestieDB.questKeys.requiredRaces] = 178, -- #888
     },
