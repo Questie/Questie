@@ -332,6 +332,103 @@ QuestieCorrections.questFixes = {
     [2994] = {
         [QuestieDB.questKeys.questLevel] = 51, -- #1129
     },
+    --Wool/Silk/Mageweave/Runecloth donation
+    [7791] = {
+        [QuestieDB.questKeys.specialFlags] = 1,
+    },
+    [7808] = {
+        [QuestieDB.questKeys.specialFlags] = 1,
+    },
+    [7835] = {
+        [QuestieDB.questKeys.specialFlags] = 1,
+    },
+    [7834] = {
+        [QuestieDB.questKeys.specialFlags] = 1,
+    },
+    [7831] = {
+        [QuestieDB.questKeys.specialFlags] = 1,
+    },
+    [7827] = {
+        [QuestieDB.questKeys.specialFlags] = 1,
+    },
+    [7824] = {
+        [QuestieDB.questKeys.specialFlags] = 1,
+    },
+    [7823] = {
+        [QuestieDB.questKeys.specialFlags] = 1,
+    },
+    [7822] = {
+        [QuestieDB.questKeys.specialFlags] = 1,
+    },
+    [7821] = {
+        [QuestieDB.questKeys.specialFlags] = 1,
+    },
+    [7818] = {
+        [QuestieDB.questKeys.specialFlags] = 1,
+    },
+    [7817] = {
+        [QuestieDB.questKeys.specialFlags] = 1,
+    },
+    [7814] = {
+        [QuestieDB.questKeys.specialFlags] = 1,
+    },
+    [7811] = {
+        [QuestieDB.questKeys.specialFlags] = 1,
+    },
+    [7809] = {
+        [QuestieDB.questKeys.specialFlags] = 1,
+    },
+    [7805] = {
+        [QuestieDB.questKeys.specialFlags] = 1,
+    },
+    [7792] = {
+        [QuestieDB.questKeys.specialFlags] = 1,
+    },
+    [7804] = {
+        [QuestieDB.questKeys.specialFlags] = 1,
+    },
+    [7803] = {
+        [QuestieDB.questKeys.specialFlags] = 1,
+    },
+    [7800] = {
+        [QuestieDB.questKeys.specialFlags] = 1,
+    },
+    [7799] = {
+        [QuestieDB.questKeys.specialFlags] = 1,
+    },
+    [7798] = {
+        [QuestieDB.questKeys.specialFlags] = 1,
+    },
+    [7795] = {
+        [QuestieDB.questKeys.specialFlags] = 1,
+    },
+    [7794] = {
+        [QuestieDB.questKeys.specialFlags] = 1,
+    },
+    [7793] = {
+        [QuestieDB.questKeys.specialFlags] = 1,
+    },
+    [7833] = {
+        [QuestieDB.questKeys.specialFlags] = 1,
+    },
+    [7826] = {
+        [QuestieDB.questKeys.specialFlags] = 1,
+    },
+    [7820] = {
+        [QuestieDB.questKeys.specialFlags] = 1,
+    },
+    [7813] = {
+        [QuestieDB.questKeys.specialFlags] = 1,
+    },
+    [7807] = {
+        [QuestieDB.questKeys.specialFlags] = 1,
+    },
+    [7802] = {
+        [QuestieDB.questKeys.specialFlags] = 1,
+    },
+    [7836] = {
+        [QuestieDB.questKeys.specialFlags] = 1,
+    },
 }
 
 QuestieCorrections.npcFixes = {
@@ -991,39 +1088,6 @@ QuestieCorrections.hiddenQuests = {
   [7664] = true,
   [7672] = true,
   [7676] = true,
-  --Wool/Silk/Mageweave/Runecloth donation
-  [7791] = true,
-  [7808] = true,
-  [7835] = true,
-  [7834] = true,
-  [7831] = true,
-  [7827] = true,
-  [7824] = true,
-  [7823] = true,
-  [7822] = true,
-  [7821] = true,
-  [7818] = true,
-  [7817] = true,
-  [7814] = true,
-  [7811] = true,
-  [7809] = true,
-  [7805] = true,
-  [7792] = true,
-  [7804] = true,
-  [7803] = true,
-  [7800] = true,
-  [7799] = true,
-  [7798] = true,
-  [7795] = true,
-  [7794] = true,
-  [7793] = true,
-  [7833] = true,
-  [7826] = true,
-  [7820] = true,
-  [7813] = true,
-  [7807] = true,
-  [7802] = true,
-  [7836] = true,
   --The Alliance Needs Your Help! shown for horde (aq40 quest in city. Maybe not needed?)
   [8795] = true,
   [8796] = true,
