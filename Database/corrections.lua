@@ -332,6 +332,9 @@ QuestieCorrections.questFixes = {
     [2994] = {
         [QuestieDB.questKeys.questLevel] = 51, -- #1129
     },
+    [3791] = {
+        [QuestieDB.questKeys.preQuestSingle] = {3788}, -- #885
+    },
     --Wool/Silk/Mageweave/Runecloth donation
     [7791] = {
         [QuestieDB.questKeys.specialFlags] = 1,
