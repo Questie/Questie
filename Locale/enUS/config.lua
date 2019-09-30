@@ -25,13 +25,13 @@ QuestieLocale.locale['enUS'] = {
     ['ENABLE_AVAILABLE_DESC'] = "When this is enabled, the available quest locations will be shown on the map/minimap",
     ['ENABLE_TOOLTIPS'] = "Enable Tooltips",
     ['ENABLE_TOOLTIPS_DESC'] = "When this is enabled, quest info will be added to relevant mob/item tooltips",
+    ['ENABLE_TOOLTIPS_QUEST_LEVEL'] = "Show Quest Level in Tooltips",
+    ['ENABLE_TOOLTIPS_QUEST_LEVEL_DESC'] = "When this is checked, the level of quests will show in the tooltips",
     ['ICON_TYPE_HEADER'] = "Icon Types",
     ['ENABLE_MAP_ICONS'] = "Enable Map Icons",
     ['ENABLE_MAP_ICONS_DESC'] = "Show/hide all icons from the main map",
     ['ENABLE_MINIMAP_ICONS'] = "Enable Minimap Icons",
     ['ENABLE_MINIMAP_ICONS_DESC'] = "Show/hide all icons from the minimap",
-    ['HIDE_UNEXPLORED_ICONS'] = "Hide unexplored area icons",
-    ['HIDE_UNEXPLORED_ICONS_DESC'] = "Hide icons from unexplored area",
 
     ['MINIMAP_TAB'] = "Minimap",
     ['MINIMAP_HEADER'] = "Mini-Map Note Options",
@@ -135,6 +135,7 @@ QuestieLocale.locale['enUS'] = {
     ['TOOLTIP_QUEST_COMPLETE'] = "(Complete)",
     ['TOOLTIP_QUEST_AVAILABLE'] = "(Available)",
     ['TOOLTIP_QUEST_ACTIVE'] = "(Active)",
+    ['TOOLTIP_QUEST_REPEATABLE'] = "(Repeatable)",
 
     -- Slash Commands
     ['SLASH_INVALID'] = "Invalid command. For a list of options please type: ",
@@ -146,7 +147,7 @@ QuestieLocale.locale['enUS'] = {
 
     -- Tracker
     ['TRACKER_TAB'] = "Tracker",
-    ['TRACKER_HEAD'] = "Quest Tracker Options",
+    ['TRACKER_HEAD'] = "Questie Tracker Options",
     ['TRACKER_ENABLED'] = "Enable the Questie Tracker",
     ['TRACKER_ENABLED_DESC'] = "When this is checked, the default blizzard quest tracker is replaced with the Questie tracker",
     ['TRACKER_ENABLE_AUTOTRACK'] = "Automatically Track All Quests",
@@ -154,14 +155,16 @@ QuestieLocale.locale['enUS'] = {
     ['TRACKER_RESET_LOCATION'] = "Reset Tracker Position",
     ['TRACKER_RESET_LOCATION_DESC'] = "If the Questie tracker is stuck offscreen or lost, you can reset it's location to the center of the screen with this button (may require /reload)",
     ['TRACKER_ENABLE_HOOKS'] = "Enable Tracker Hooks",
-    ['TRACKER_ENABLE_HOOKS_DESC'] = "Enable hooking the Blizzard quest tracker. This is required for some features of the Questie tracker, and to integrate with other addons. If you are having issues with quest tracking you may need to disable this (requres /reload)",
+    ['TRACKER_ENABLE_HOOKS_DESC'] = "Enable hooking the Blizzard quest tracker. This is required for some features of the Questie tracker, and to integrate with other addons. If you are having issues with quest tracking you may need to disable this (requires /reload)",
     ['TRACKER_SHOW_COMPLETE'] = "Show Complete Quests",
-    ['TRACKER_SHOW_COMPLETE_DESC'] = "When this is checked, completed quests will show in the quest tracker",
+    ['TRACKER_SHOW_COMPLETE_DESC'] = "When this is checked, completed quests will show in the Questie tracker",
+    ['TRACKER_SHOW_QUEST_LEVEL'] = "Show Quest Level",
+    ['TRACKER_SHOW_QUEST_LEVEL_DESC'] = "When this is checked, the level of quests will show in the Questie tracker",
     ['TRACKER_COLOR_OBJECTIVES'] = "Objective Color",
     ['TRACKER_COLOR_OBJECTIVES_DESC'] = "Change the color of objectives in the tracker by how complete they are",
     ['TRACKER_COLOR_WHITE'] = "White",
-    ['TRACKER_COLOR_WHITE_TO_GREEN'] = "White to Green",
-    ['TRACKER_COLOR_RED_TO_GREEN'] = "Red to Green",
+    ['TRACKER_COLOR_WHITE_TO_GREEN'] = "White to Green", 
+    ['TRACKER_COLOR_RED_TO_GREEN'] = "Red to Green", 
     ['TRACKER_FONT_HEADER'] = "Font Size for Quest Names",
     ['TRACKER_FONT_HEADER_DESC'] = "The font size the tracker uses for quest names",
     ['TRACKER_FONT_LINE'] = "Font Size for Objectives",
@@ -170,7 +173,7 @@ QuestieLocale.locale['enUS'] = {
     ['TRACKER_QUEST_PADDING_DESC'] = "The amount of padding between quests in the tracker",
     ['TRACKER_INVALID_LOCATION'] = "Error: Questie tracker in invalid location, resetting...",
     ['TRACKER_SORT_OBJECTIVES'] = "Objective Sorting",
-    ['TRACKER_SORT_OBJECTIVES_DESC'] = "How objectives are sorted in the tracker",
+    ['TRACKER_SORT_OBJECTIVES_DESC'] = "How objectives are sorted in the tracker", 
     ['TRACKER_SORT_BY_COMPLETE'] = "By %% Completed",
     ['TRACKER_SORT_BY_LEVEL'] = "By Level",
     ['TRACKER_SORT_BY_LEVEL_REVERSED'] = "By Level (Reversed)",
@@ -184,6 +187,7 @@ QuestieLocale.locale['enUS'] = {
     ['TRACKER_SHORTCUT'] = " Shortcut",
     ['TRACKER_SET_TOMTOM_DESC'] = "The tracker shortcut to open TomTom",
     ['TRACKER_SHOW_QUESTLOG_DESC'] = "The tracker shortcut to show the quest in the quest log",
+
     -- tracker right click menu
     ['TRACKER_UNFOCUS'] = "Unfocus", -- focus makes only that quest/objective show on map
     ['TRACKER_FOCUS_OBJECTIVE'] = "Focus Objective",
@@ -198,6 +202,7 @@ QuestieLocale.locale['enUS'] = {
     ['TRACKER_SHOW_ON_MAP'] = "Show on Map",
     ['TRACKER_UNLOCK'] = "Unlock Tracker",
     ['TRACKER_LOCK'] = "Lock Tracker",
+
     -- Journey Window
     ['JOURNEY_TITLE'] = "%s's Journey",
     ['JOUNREY_TAB'] = "My Journey",

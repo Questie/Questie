@@ -16,7 +16,7 @@ https://github.com/AeroScripts/QuestieDev/releases/latest
 *Some features are missing, but its all being ported in slowly. Keep an eye on discord! (linked below)*
 
 [![Downloads](https://img.shields.io/github/downloads/AeroScripts/QuestieDev/total.svg)](https://github.com/AeroScripts/QuestieDev/releases/)
-[![Downloads Latest](https://img.shields.io/github/downloads/AeroScripts/QuestieDev/v4.0.18/total.svg)](https://github.com/AeroScripts/QuestieDev/releases/latest)
+[![Downloads Latest](https://img.shields.io/github/downloads/AeroScripts/QuestieDev/v4.1.1/total.svg)](https://github.com/AeroScripts/QuestieDev/releases/latest)
 [![Date Latest](https://img.shields.io/github/release-date/AeroScripts/QuestieDev.svg)](https://github.com/AeroScripts/QuestieDev/releases/latest)
 [![Commits Since Latest](https://img.shields.io/github/commits-since/AeroScripts/QuestieDev/latest.svg)](https://github.com/AeroScripts/QuestieDev/commits/master)
 
