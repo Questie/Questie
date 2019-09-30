@@ -352,7 +352,7 @@ function QuestieQuest:UpdateQuest(QuestId)
         QuestieQuest:PopulateQuestLogInfo(quest)
         QuestieQuest:GetAllQuestObjectives(quest) -- update quest log values in quest object
         QuestieQuest:UpdateObjectiveNotes(quest)
-        if QuestieQuest:IsComplete(quest) or QuestieQuest:isCompleteByQuestId(QuestId) then
+        if QuestieQuest:IsComplete(quest) or QuestieQuest:isCompleteByQuestId(QuestId) or IsQuestComplete(QuestId) then
             --DEFAULT_CHAT_FRAME:AddMessage("Finished " .. QuestId);
             QuestieMap:UnloadQuestFrames(QuestId);
             QuestieQuest:AddFinisher(quest)
@@ -466,7 +466,7 @@ end
 
 function QuestieQuest:AddFinisher(Quest)
     --We should never ever add the quest if IsQuestFlaggedComplete true.
-    if(QuestiePlayer.currentQuestlog[Quest.Id] and IsQuestFlaggedCompleted(Quest.Id) == false) then
+    if(QuestiePlayer.currentQuestlog[Quest.Id] and IsQuestFlaggedCompleted(Quest.Id) == false and IsUnitOnQuestByQuestID(Quest.Id, "player")) then
         local finisher = nil
         if Quest.Finisher ~= nil then
             if Quest.Finisher.Type == "monster" then
