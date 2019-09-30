@@ -44,7 +44,7 @@ function QuestieEventHandler:QUEST_ACCEPTED(questLogIndex, questId)
     _Hack_prime_log()
 
     QuestieQuest:AcceptQuest(questId)
-    QuestieJourney:AbandonQuest(questId)
+    QuestieJourney:AcceptQuest(questId)
 end
 
 --Fires when a quest is removed from the questlog, this includes turning it in!
