@@ -1,5 +1,7 @@
 QuestieQuest = {...}
 local _QuestieQuest = {...}
+local libS = LibStub:GetLibrary("AceSerializer-3.0")
+local libC = LibStub:GetLibrary("LibCompress")
 
 --For debugging
 dumpVar = nil;
@@ -18,6 +20,9 @@ function QuestieQuest:Initialize()
     if MBB_Ignore then
         table.insert(MBB_Ignore, "QuestieFrameGroup")
     end
+
+    _QuestieQuest.questLogHashes = QuestieQuest:GetQuestLogHashes()
+
     --local db = {}
     --GetQuestsCompleted(db)
 
@@ -249,6 +254,7 @@ function QuestieQuest:AcceptQuest(questId)
         Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ACCEPT_QUEST', questId));
         --Get all the Frames for the quest and unload them, the available quest icon for example.
         QuestieMap:UnloadQuestFrames(questId);
+        QuestieQuest:AddNewQuestHash(questId)
 
         Quest = QuestieDB:GetQuest(questId)
         if(Quest ~= nil) then
@@ -289,15 +295,11 @@ end
 function QuestieQuest:CompleteQuest(QuestId)
     QuestiePlayer.currentQuestlog[QuestId] = nil;
     Questie.db.char.complete[QuestId] = true --can we use some other relevant info here?
-    -- We really want to unload the frames, why do these even exist?
-    --[[
-    for i=1, 5 do
-        if(QuestieMap.questIdFrames[QuestId]) then
-            QuestieMap:UnloadQuestFrames(QuestId);
-        else
-            break;
-        end
-    end]]--
+
+    --This should probably be done first, because DrawAllAvailableQuests looks at QuestieMap.questIdFrames[QuestId] to add available
+    QuestieQuest:CalculateAvailableQuests()
+    QuestieQuest:DrawAllAvailableQuests();
+
     QuestieMap:UnloadQuestFrames(QuestId);
     if(QuestieMap.questIdFrames[QuestId]) then
         Questie:Print("ERROR: Just removed all frames but the framelist seems to still be there!", QuestId);
@@ -306,9 +308,6 @@ function QuestieQuest:CompleteQuest(QuestId)
     --Unload all the quest frames from the map.
     --QuestieMap:UnloadQuestFrames(QuestId); --We are currently redrawing everything so we might as well not use this now
 
-    --TODO: This can probably be done better?
-    QuestieQuest:CalculateAvailableQuests()
-    QuestieQuest:DrawAllAvailableQuests();
 
     QuestieTracker:QuestRemoved(QuestId)
     QuestieTracker:Update()
@@ -320,6 +319,7 @@ function QuestieQuest:AbandonedQuest(QuestId)
     QuestieTooltips:RemoveQuest(QuestId)
     if(QuestiePlayer.currentQuestlog[QuestId]) then
         QuestiePlayer.currentQuestlog[QuestId] = nil
+        QuestieQuest:RemoveQuestHash(QuestId)
 
         --Unload all the quest frames from the map.
         QuestieMap:UnloadQuestFrames(QuestId);
@@ -352,7 +352,7 @@ function QuestieQuest:UpdateQuest(QuestId)
         QuestieQuest:PopulateQuestLogInfo(quest)
         QuestieQuest:GetAllQuestObjectives(quest) -- update quest log values in quest object
         QuestieQuest:UpdateObjectiveNotes(quest)
-        if QuestieQuest:IsComplete(quest) or QuestieQuest:isCompleteByQuestId(QuestId) then
+        if QuestieQuest:IsComplete(quest) or QuestieQuest:isCompleteByQuestId(QuestId) or IsQuestComplete(QuestId) then
             --DEFAULT_CHAT_FRAME:AddMessage("Finished " .. QuestId);
             QuestieMap:UnloadQuestFrames(QuestId);
             QuestieQuest:AddFinisher(quest)
@@ -465,7 +465,8 @@ function QuestieQuest:UpdateObjectiveNotes(Quest)
 end
 
 function QuestieQuest:AddFinisher(Quest)
-    if(QuestiePlayer.currentQuestlog[Quest.Id]) then
+    --We should never ever add the quest if IsQuestFlaggedComplete true.
+    if(QuestiePlayer.currentQuestlog[Quest.Id] and IsQuestFlaggedCompleted(Quest.Id) == false and IsQuestComplete(Quest.Id)) then
         local finisher = nil
         if Quest.Finisher ~= nil then
             if Quest.Finisher.Type == "monster" then
@@ -1029,6 +1030,78 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
     end
 
     return Quest.Objectives;
+end
+
+function QuestieQuest:GetQuestHash(questId, isComplete)
+    local hash = libC:fcs32init()
+    local data = {}
+    data.questId = questId
+    data.isComplete = isComplete
+    data.questObjectives = C_QuestLog.GetQuestObjectives(questId)
+
+    hash = libC:fcs32update(hash, libS:Serialize(data))
+    hash = libC:fcs32final(hash)
+    return hash
+end
+
+function QuestieQuest:GetQuestLogHashes()
+    local questLogHashes = {}
+    ExpandQuestHeader(0) -- Expand all headers
+
+    local numEntries, _ = GetNumQuestLogEntries()
+    for questLogIndex=1, numEntries do
+        local _, _, _, isHeader, isCollapsed, isComplete, _, questId = GetQuestLogTitle(questLogIndex)
+        if isHeader then
+            if isCollapsed then
+                -- TODO
+            end
+        else
+            local hash = QuestieQuest:GetQuestHash(questId, isComplete)
+            table.insert(questLogHashes, questId, hash)
+        end
+    end
+    return questLogHashes
+end
+
+function QuestieQuest:AddNewQuestHash(questId)
+    Questie:Debug(DEBUG_DEVELOP, "AddNewQuestHash:", questId)
+    local hash = QuestieQuest:GetQuestHash(questId, false)
+
+    _QuestieQuest.questLogHashes[questId] = hash
+end
+
+function QuestieQuest:GetCurrentHashes()
+    return _QuestieQuest.questLogHashes
+end
+
+function QuestieQuest:RemoveQuestHash(questId)
+    Questie:Debug(DEBUG_DEVELOP, "RemoveQuestHash:", questId)
+    _QuestieQuest.questLogHashes[questId] = nil
+end
+
+function QuestieQuest:CompareQuestHashes()
+    ExpandQuestHeader(0) -- Expand all headers
+
+    local numEntries, _ = GetNumQuestLogEntries()
+    for questLogIndex=1, numEntries do
+        local _, _, _, isHeader, isCollapsed, isComplete, _, questId = GetQuestLogTitle(questLogIndex)
+        if isHeader then
+            if isCollapsed then
+                -- TODO
+            end
+        else
+            local oldhash = _QuestieQuest.questLogHashes[questId]
+            if oldhash ~= nil then
+                local newHash = QuestieQuest:GetQuestHash(questId, isComplete)
+
+                if oldhash ~= newHash then
+                    Questie:Debug(DEBUG_DEVELOP, "CompareQuestHashes: Hash changed for questId:", questId)
+                    QuestieQuest:UpdateQuest(questId)
+                    _QuestieQuest.questLogHashes[questId] = newHash
+                end
+            end
+        end
+    end
 end
 
 --https://www.townlong-yak.com/framexml/live/Blizzard_APIDocumentation#C_QuestLog.GetQuestObjectives

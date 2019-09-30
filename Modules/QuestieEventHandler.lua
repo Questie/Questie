@@ -5,130 +5,15 @@ local function _Hack_prime_log() -- this seems to make it update the data much q
   end
 end
 
-local libS = LibStub:GetLibrary("AceSerializer-3.0")
-local libC = LibStub:GetLibrary("LibCompress")
-local updateQuestId = {};
-
 --- GLOBAL ---
 QuestieEventHandler = {}
-
-
 __UPDATEFIX_IDX = 1; -- temporary bad fix
 
 --- LOCAL ---
-local QuestWatchTimers = {
-    cancelTimer = nil,
-    repeatTimer = nil
-}
-local lastState = {}
 --False -> true -> nil
 local playerEntered = false;
 local hasFirstQLU = false;
-
-local questWatchFrames = {}
-for i = 1, 35 do
-    questWatchFrames[i] = CreateFrame("Frame", "QuestWatchFrame"..i)
-    questWatchFrames[i].questLogIndex = i;
-    questWatchFrames[i].refresh = false;
-    questWatchFrames[i].accept = false;
-    questWatchFrames[i].objectives = {}
-    -- Stop the event registration.
-    -- questWatchFrames[i]:RegisterEvent("QUEST_LOG_UPDATE")--, QUEST_LOG_UPDATE
-    questWatchFrames[i]:SetScript("OnEvent", function(self, event, ...)
-        if (event == "QUEST_LOG_UPDATE") then
-            C_Timer.After(1, function() 
-                if(self.refresh) then
-                    --Get quest info
-                    local QuestInfo = QuestieQuest:GetRawLeaderBoardDetails(self.questLogIndex)
-
-                    --No need to run this unless we have to.
-                    if(Questie.db.global.debugEnabled) then
-                        Questie:Debug(DEBUG_DEVELOP, event, "Updating index", self.questLogIndex, "Title:", QuestInfo.title, "Id:", QuestInfo.Id)
-                        for index, objective in pairs(QuestInfo.Objectives) do
-                            Questie:Debug(DEBUG_DEVELOP, "-------->", objective.description);
-                        end
-                    end
-                    --Update the quest
-                    --C_Timer.After(1, function ()
-                    QuestieQuest:UpdateQuest(QuestInfo.Id)
-                    --end)
-                    --QuestieQuest:UpdateQuest(QuestInfo.Id);
-                    self.refresh = false;
-                end
-                if(self.accept) then
-                    local QuestInfo = QuestieQuest:GetRawLeaderBoardDetails(self.questLogIndex)
-                    Questie:Debug(DEBUG_DEVELOP, event, "Accepted quest", self.questLogIndex, "Title:", QuestInfo.title, "Id:", QuestInfo.Id)
-
-                    --Accept the quest.
-                    QuestieQuest:AcceptQuest(QuestInfo.Id)
-                    --Delay the update by 1 second to let everything propagate, should not be needed...
-                    --C_Timer.After(1, function ()
-                    Questie:Debug(DEBUG_DEVELOP, event, "Updated quest", self.questLogIndex, "Title:", QuestInfo.title, "Id:", QuestInfo.Id)
-                    QuestieQuest:UpdateQuest(QuestInfo.Id)
-                    --end)
-                    
-                    -- deferred update (possible desync fix)
-                    C_Timer.After(2, function()
-                        QuestieQuest:PopulateObjectiveNotes(QuestieDB:GetQuest(QuestInfo.Id))
-                        QuestieQuest:UpdateQuest(QuestInfo.Id)
-                    end)
-                    
-                    self.accept = false;
-                end
-            end)
-        end
-    end)
-
-    --Run as questWatchFrames[i]:updateScript();
-    questWatchFrames[i].update = function(self)
-            -- If we arn't updating anything don't start a timer...
-            if(self.refresh or self.accept) then
-                Questie:Debug(DEBUG_DEVELOP, "Old change system: DETECTED", self.questLogIndex, "Refresh:", self.refresh, "Accept:",self.accept)
-                C_Timer.After(1, function() 
-                    if(self.refresh) then
-                        --Get quest info
-                        local QuestInfo = QuestieQuest:GetRawLeaderBoardDetails(self.questLogIndex)
-
-                        --No need to run this unless we have to.
-                        if(Questie.db.global.debugEnabled) then
-                            Questie:Debug(DEBUG_DEVELOP, "QLU", "Updating index", self.questLogIndex, "Title:", QuestInfo.title, "Id:", QuestInfo.Id)
-                            for index, objective in pairs(QuestInfo.Objectives) do
-                                Questie:Debug(DEBUG_DEVELOP, "-------->", objective.description);
-                            end
-                        end
-                        --Update the quest
-                        --C_Timer.After(1, function ()
-                        Questie:Debug(DEBUG_DEVELOP,"Old change system: REFRESH EXECUTE", QuestInfo.Id);
-                        QuestieQuest:UpdateQuest(QuestInfo.Id)
-                        --end)
-                        --QuestieQuest:UpdateQuest(QuestInfo.Id);
-                        self.refresh = false;
-                    end
-                    if(self.accept) then
-                        local QuestInfo = QuestieQuest:GetRawLeaderBoardDetails(self.questLogIndex)
-                        Questie:Debug(DEBUG_DEVELOP, "QLU", "Accepted quest", self.questLogIndex, "Title:", QuestInfo.title, "Id:", QuestInfo.Id)
-
-                        --Accept the quest.
-                        QuestieQuest:AcceptQuest(QuestInfo.Id)
-                        --Delay the update by 1 second to let everything propagate, should not be needed...
-                        --C_Timer.After(1, function ()
-                        Questie:Debug(DEBUG_DEVELOP, "QLU", "Updated quest", self.questLogIndex, "Title:", QuestInfo.title, "Id:", QuestInfo.Id)
-                        QuestieQuest:UpdateQuest(QuestInfo.Id)
-                        --end)
-                        
-                        Questie:Debug(DEBUG_DEVELOP,"Old change system: ACCEPT EXECUTE", QuestInfo.Id);
-                        -- deferred update (possible desync fix)
-                        C_Timer.After(2, function()
-                            QuestieQuest:PopulateObjectiveNotes(QuestieDB:GetQuest(QuestInfo.Id))
-                            QuestieQuest:UpdateQuest(QuestInfo.Id)
-                        end)
-                        
-                        self.accept = false;
-                    end
-                end)
-            end
-        end
-end
+local runQLU = false
 
 function QuestieEventHandler:PLAYER_ENTERING_WORLD()
     C_Timer.After(1, function()
@@ -158,47 +43,100 @@ function QuestieEventHandler:QUEST_ACCEPTED(questLogIndex, questId)
     Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_ACCEPTED", "QLogIndex: "..questLogIndex,  "QuestID: "..questId);
     _Hack_prime_log()
 
-    --Update the information on next QUEST_LOG_UPDATE
-    questWatchFrames[questLogIndex].accept = true;
-
-    local data = {}
-    data.questId = questId;
-    data.objectives = C_QuestLog.GetQuestObjectives(questId);
-    -- Do we even need to do this hash?
-    local hash = libC:fcs32init()
-    hash = libC:fcs32update(hash, libS:Serialize(data.objectives))
-    hash = libC:fcs32final(hash)
-    data.hash = hash;
-    data.type = "accept";
-    Questie:Debug(DEBUG_DEVELOP,"Register Accept Change", questId, hash);
-    updateQuestId[questId] = data;
-
-    QuestieJourney:AcceptQuest(questId);
-
+    QuestieQuest:AcceptQuest(questId)
+    QuestieJourney:AcceptQuest(questId)
 end
 
 --Fires when a quest is removed from the questlog, this includes turning it in!
 function QuestieEventHandler:QUEST_REMOVED(QuestId)
-    _Hack_prime_log()
     Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_REMOVED", QuestId);
-    QuestieQuest:AbandonedQuest(QuestId)
+    _Hack_prime_log()
 
-    QuestieJourney:AbandonQuest(QuestId);
+    QuestieQuest:AbandonedQuest(QuestId)
+    QuestieJourney:AbandonQuest(QuestId)
 end
+
+--For debugging!
+completeData = {};
 
 --Fires when a quest is turned in.
 function QuestieEventHandler:QUEST_TURNED_IN(questID, xpReward, moneyReward)
+    Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_TURNED_IN", questID, xpReward, moneyReward)
     _Hack_prime_log()
-    Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_TURNED_IN", questID, xpReward, moneyReward);
-    QuestieQuest:CompleteQuest(questID)
 
-   QuestieJourney:CompleteQuest(questID);
+
+    -- Test code!
+    completeData = {};
+
+    local questLogIndex = GetQuestLogIndexByID(questID);
+    local _, _, _, _, _, isComplete, _, _, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(questLogIndex)
+    completeData["GetQuestLogTitle"] = isComplete;
+    completeData["IsQuestComplete"] = IsQuestComplete(questID);
+    local objectiveData = C_QuestLog.GetQuestObjectives(questID);
+    completeData["CQuestLogGetQuestObjectives"] = {}
+    for qIndex, objective in pairs(objectiveData) do
+        completeData["CQuestLogGetQuestObjectives"][qIndex] = objective;
+    end
+    completeData["CanAbandonQuest"] = not CanAbandonQuest(questID); -- Reverse, we want to know if we CAN'T abandon to see if it is done (keep it in line with isComplete)
+    completeData["IsUnitOnQuest"] = not IsUnitOnQuest(questLogIndex, "player"); --Reverse, we want to keep true / false the same if isComplete is true, this should be true.
+    completeData["IsUnitOnQuestByQuestID"] = not IsUnitOnQuestByQuestID(questID, "player"); --Reverse, we want to keep true / false the same if isComplete is true, this should be true.
+    --What is this? HaveQuestData(questId);
+    --We should also use IsQuestCompletable
+    if(HaveQuestData) then
+        Questie:Debug(DEBUG_DEVELOP, "[QuestieEventHandler]", "----EVENT: QUEST_TURNED_IN HaveQuestData");
+        Questie:Debug(DEBUG_DEVELOP, "[QuestieEventHandler]", "value:" , tostring(HaveQuestData(questID)));
+        Questie:Debug(DEBUG_DEVELOP, "[QuestieEventHandler]", "----");
+    end
+
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieEventHandler]", "EVENT: QUEST_TURNED_IN - API responses:");
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieEventHandler]", "GetQuestLogTitle:", tostring(completeData["GetQuestLogTitle"]));
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieEventHandler]", "IsQuestComplete:", tostring(completeData["IsQuestComplete"]));
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieEventHandler]", "reversed CanAbandonQuest:", tostring(completeData["CanAbandonQuest"]));
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieEventHandler]", "reversed IsUnitOnQuest", tostring(completeData["IsUnitOnQuest"]));
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieEventHandler]", "reversed IsUnitOnQuestByQuestID  ", tostring(completeData["IsUnitOnQuestByQuestID"]));
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieEventHandler]", "----C_QuestLog.GetQuestObjectives")
+    for qIndex, objective in pairs(completeData["CQuestLogGetQuestObjectives"]) do
+        if(objective) then
+            Questie:Debug(DEBUG_DEVELOP, "[QuestieEventHandler]", "-- i:", qIndex, "finished:", tostring(objective.finished));
+        end
+    end
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieEventHandler]", "----")
+    local total = 0;
+    local complete = 0;
+    for api, value in pairs(completeData) do
+        if(type(value) ~= "table") then
+            if(value) then
+                complete = complete + 1;
+            end
+            total = total + 1;
+        end
+    end
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieEventHandler]", "The functions show complete/total :", complete, "/", total, " resolve isComplete:", tostring((total-complete) < complete));
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieEventHandler]", "IsQuestFlaggedCompleted:", tostring(IsQuestFlaggedCompleted(questID)));
+    -- These functions should be more afterwards.
+    --completeData["IsQuestFlaggedCompleted"] = IsQuestFlaggedCompleted(questID);
+
+    --end of test code
+
+    --This is all test code! We should probably not use a timer!
+    --As with everything else this should probably happen on the next QLU
+    --The timer is very expensive, but complete quest is a function not used often so i think i would be fine.
+    local timer = nil;
+    timer = C_Timer.NewTicker(0.5, function() 
+        local isComp = IsQuestFlaggedCompleted(questID);
+        Questie:Debug(DEBUG_DEVELOP, "[QuestieEventHandler]", "IsQuestFlaggedCompleted:", isComp, "HaveQuestData:", tostring(HaveQuestData(questID)));
+        if(isComp) then
+            QuestieQuest:CompleteQuest(questID)
+            QuestieJourney:CompleteQuest(questID)
+            timer:Cancel();
+        end
+    end);
 end
 
 function QuestieEventHandler:QUEST_LOG_UPDATE()
     Questie:Debug(DEBUG_DEVELOP, "QUEST_LOG_UPDATE")
     hasFirstQLU = true
-    if(playerEntered)then
+    if playerEntered then
         Questie:Debug(DEBUG_DEVELOP, "---> Player entered world, START.")
         C_Timer.After(1, function ()
             Questie:Debug(DEBUG_DEVELOP, "---> Player entered world, DONE.")
@@ -209,78 +147,27 @@ function QuestieEventHandler:QUEST_LOG_UPDATE()
         playerEntered = nil;
     end
 
-    -- Run the old change detection system.
-    for index, questWatchFrame in pairs(questWatchFrames) do
-        questWatchFrame:update();
-    end 
-
-    -- Run the new change detection system.
-    QuestieEventHandler:UpdateQuests();
-end
-
-function QuestieEventHandler:UpdateQuests()
-  for questId, data in pairs(updateQuestId) do
-        local objectives = C_QuestLog.GetQuestObjectives(questId);
-        if(objectives ~= nil) then
-            local hash = libC:fcs32init();
-            hash = libC:fcs32update(hash, libS:Serialize(objectives));
-            hash = libC:fcs32final(hash);
-            local fullyComplete = QuestieQuest:isCompleteByQuestId(questId);
-            if(data.hash ~= hash or fullyComplete) then
-                Questie:Debug(DEBUG_DEVELOP,"Change detected! Id:", questId, hash, data.type)
-                -- I think the accept is a dead path, the hash will always be the same for hash... TODO: Remove, probably.
-                if(data.type == "accept") then
-                    QuestieQuest:AcceptQuest(questId)
-                end
-                --
-
-                QuestieQuest:UpdateQuest(questId)
-
-                -- Maybe this should just be a straight call rather than a message.
-                Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId);
-
-                updateQuestId[questId] = nil;
-            elseif(data.type =="accept" and data.hash == hash) then
-                Questie:Debug(DEBUG_DEVELOP,"Change not detected! ACCEPT Id:", questId, hash, data.type)
-                QuestieQuest:AcceptQuest(questId)
-                QuestieQuest:UpdateQuest(questId)
-
-                -- Maybe this should just be a straight call rather than a message.
-                Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId);
-                
-                updateQuestId[questId] = nil;
-            else
-                Questie:Debug(DEBUG_DEVELOP,"No change detected! Hash:", hash, ":", data.hash, "-", questId)
-            end
-        end
+    if runQLU then
+        QuestieQuest:CompareQuestHashes()
+        runQLU = false
     end
 end
 
-function QuestieEventHandler:QUEST_WATCH_UPDATE(QuestLogIndex)
-    Questie:Debug(DEBUG_INFO, "QUEST_WATCH_UPDATE", QuestLogIndex)
-    --When a quest gets updated, wait until next QUEST_LOG_UPDATE before updating.
-    --questWatchFrames[QuestLogIndex].refresh = true
+function QuestieEventHandler:UNIT_QUEST_LOG_CHANGED(unitTarget)
+    if unitTarget == "player" then
+        Questie:Debug(DEBUG_DEVELOP, "UNIT_QUEST_LOG_CHANGED: player")
 
-    local _, _, _, _, _, _, _, questId = GetQuestLogTitle(QuestLogIndex)
-    local data = {}
-    data.questId = questId;
-    data.objectives = C_QuestLog.GetQuestObjectives(questId);
-    local hash = libC:fcs32init()
-    hash = libC:fcs32update(hash, libS:Serialize(data.objectives))
-    hash = libC:fcs32final(hash)
-    data.hash = hash;
-    data.type = "update";
-    Questie:Debug(DEBUG_DEVELOP,"Register Update Change", questId, hash);
-    updateQuestId[questId] = data;
+        runQLU = true
+    end
 end
 
 function QuestieEventHandler:PLAYER_LEVEL_UP(level, hitpoints, manapoints, talentpoints, ...)
     Questie:Debug(DEBUG_DEVELOP, "EVENT: PLAYER_LEVEL_UP", level);
-    
+
     QuestiePlayer:SetPlayerLevel(level);
-    
+
     -- deferred update (possible desync fix?)
-    C_Timer.After(3, function() 
+    C_Timer.After(3, function()
         QuestiePlayer:SetPlayerLevel(level);
 
         QuestieQuest:CalculateAvailableQuests();
@@ -308,16 +195,16 @@ end
 
 local numOfMembers = -1;
 function QuestieEventHandler:GROUP_ROSTER_UPDATE()
-  local currentMembers = GetNumGroupMembers();
-  -- Only want to do logic when number increases, not decreases.
-  if(numOfMembers < currentMembers) then
-    -- Tell comms to send information to members.
-    Questie:SendMessage("QC_ID_BROADCAST_FULL_QUESTLIST");
-    numOfMembers = currentMembers;
-  else
-    -- We do however always want the local to be the current number to allow up and down.
-    numOfMembers = currentMembers;
-  end
+    local currentMembers = GetNumGroupMembers();
+    -- Only want to do logic when number increases, not decreases.
+    if(numOfMembers < currentMembers) then
+        -- Tell comms to send information to members.
+        Questie:SendMessage("QC_ID_BROADCAST_FULL_QUESTLIST");
+        numOfMembers = currentMembers;
+    else
+        -- We do however always want the local to be the current number to allow up and down.
+        numOfMembers = currentMembers;
+    end
 end
 
 
