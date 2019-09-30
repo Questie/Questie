@@ -1,5 +1,5 @@
 QuestieLocale.locale['frFR'] = {
-	-- Trad by Pgmbru (V.4.5)
+	-- Trad by Pgmbru (V.5)
 	-- Configuration Windows
 	['OPTIONS_TAB'] = "Options",
 	['QUESTIE_HEADER'] = "Options Générales",
@@ -25,7 +25,9 @@ QuestieLocale.locale['frFR'] = {
 	['ENABLE_AVAILABLE'] = "Activer les icônes de quête disponibles",
 	['ENABLE_AVAILABLE_DESC'] = "Lorsque cette option est activée, les lieux d'activation de la quête seront affichés sur la carte / la mini-carte",
 	['ENABLE_TOOLTIPS'] = "Activer les info-bulles",
-	['ENABLE_TOOLTIPS_DESC'] = "Si cela est activé, les informations de quête seront ajoutées aux info-bulles mob / item pertinentes",
+	['ENABLE_TOOLTIPS_DESC'] = "Si cela est activé, les informations de quête seront ajoutées à info-bulles Mob/Item",
+	['ENABLE_TOOLTIPS_QUEST_LEVEL'] = "Afficher le niveau de quête dans l'info-bulles",
+	['ENABLE_TOOLTIPS_QUEST_LEVEL_DESC'] = "Lorsque cette case est cochée, le niveau des quêtes apparaîtra dans l'info-bulles",
 	['ICON_TYPE_HEADER'] = "Types d'icônes",
 	['ENABLE_MAP_ICONS'] = "Activer les icônes de la carte",
 	['ENABLE_MAP_ICONS_DESC'] = "Afficher / Masquer toutes les icônes de la carte principale",
@@ -134,7 +136,7 @@ QuestieLocale.locale['frFR'] = {
 	['TOOLTIP_QUEST_COMPLETE'] = "(Complète)",
 	['TOOLTIP_QUEST_AVAILABLE'] = "(Disponible)",
 	['TOOLTIP_QUEST_ACTIVE'] = "(Actif)",
-    ['TOOLTIP_QUEST_REPEATABLE'] = "(Repeatable)",
+	['TOOLTIP_QUEST_REPEATABLE'] = "(Répétable)",
 	
 	-- Slash Commandes
 	['SLASH_INVALID'] = "Commande invalide. Pour obtenir une liste d'options, veuillez taper:",
@@ -159,6 +161,8 @@ QuestieLocale.locale['frFR'] = {
 	['TRACKER_SHOW_COMPLETE_DESC'] = "Lorsque cette case est cochée, les quêtes terminées apparaissent dans l'outil de suivi des quêtes",
 	['TRACKER_COLOR_OBJECTIVES'] = "Couleur de l'objectif",
 	['TRACKER_COLOR_OBJECTIVES_DESC'] = "Changer la couleur des objectifs dans le Traqueur en fonction de leur complétude",
+	['TRACKER_SHOW_QUEST_LEVEL'] = "Afficher le niveau de la quête",
+	['TRACKER_SHOW_QUEST_LEVEL_DESC'] = "Lorsque cette case est cochée, le niveau des quêtes apparaîtra dans le traqueur de Questie",
 	['TRACKER_COLOR_WHITE'] = "Blanc",
 	['TRACKER_COLOR_WHITE_TO_GREEN'] = "Blanc à vert",
 	['TRACKER_COLOR_RED_TO_GREEN'] = "Rouge à vert",
