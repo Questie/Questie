@@ -110,6 +110,25 @@ end
 --coordinates need to be 0-1 instead of 0-100
 --showFlag isn't required but may want to be Modified
 function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
+    local worldMapId = zoneDataAreaIDToUiMapID[AreaID]
+    local isExplored = false
+
+    if worldMapId then
+        local exploredAreaIDs = C_MapExplorationInfo.GetExploredAreaIDsAtPosition(worldMapId, CreateVector2D(x / 100, y / 100));
+        if exploredAreaIDs then isExplored = true              -- Explored
+        elseif (worldMapId == 1453) then isExplored = true     -- Stormwind
+        elseif (worldMapId == 1455) then isExplored = true     -- Ironforge
+        elseif (worldMapId == 1457) then isExplored = true     -- Darnassus
+        elseif (worldMapId == 1458) then isExplored = true     -- Undercity
+        elseif (worldMapId == 1454) then isExplored = true     -- Orgrimmar
+        elseif (worldMapId == 1456) then isExplored = true     -- Thunder Bluff
+        end
+    end
+
+    if ((Questie.db.global.hideUnexploredMapIcons) and (isExplored == false)) then
+        return nil, nil
+    end
+
     if type(data) ~= "table" then
         error(MAJOR..": AddWorldMapIconMap: must have some data")
     end
