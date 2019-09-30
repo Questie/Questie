@@ -295,15 +295,11 @@ end
 function QuestieQuest:CompleteQuest(QuestId)
     QuestiePlayer.currentQuestlog[QuestId] = nil;
     Questie.db.char.complete[QuestId] = true --can we use some other relevant info here?
-    -- We really want to unload the frames, why do these even exist?
-    --[[
-    for i=1, 5 do
-        if(QuestieMap.questIdFrames[QuestId]) then
-            QuestieMap:UnloadQuestFrames(QuestId);
-        else
-            break;
-        end
-    end]]--
+
+    --This should probably be done first, because DrawAllAvailableQuests looks at QuestieMap.questIdFrames[QuestId] to add available
+    QuestieQuest:CalculateAvailableQuests()
+    QuestieQuest:DrawAllAvailableQuests();
+
     QuestieMap:UnloadQuestFrames(QuestId);
     if(QuestieMap.questIdFrames[QuestId]) then
         Questie:Print("ERROR: Just removed all frames but the framelist seems to still be there!", QuestId);
@@ -312,9 +308,6 @@ function QuestieQuest:CompleteQuest(QuestId)
     --Unload all the quest frames from the map.
     --QuestieMap:UnloadQuestFrames(QuestId); --We are currently redrawing everything so we might as well not use this now
 
-    --TODO: This can probably be done better?
-    QuestieQuest:CalculateAvailableQuests()
-    QuestieQuest:DrawAllAvailableQuests();
 
     QuestieTracker:QuestRemoved(QuestId)
     QuestieTracker:Update()
