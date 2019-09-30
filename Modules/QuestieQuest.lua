@@ -472,7 +472,8 @@ function QuestieQuest:UpdateObjectiveNotes(Quest)
 end
 
 function QuestieQuest:AddFinisher(Quest)
-    if(QuestiePlayer.currentQuestlog[Quest.Id]) then
+    --We should never ever add the quest if IsQuestFlaggedComplete true.
+    if(QuestiePlayer.currentQuestlog[Quest.Id] and IsQuestFlaggedCompleted(Quest.Id) == false) then
         local finisher = nil
         if Quest.Finisher ~= nil then
             if Quest.Finisher.Type == "monster" then
