@@ -173,7 +173,7 @@ function QuestieEventHandler:QUEST_ACCEPTED(questLogIndex, questId)
     Questie:Debug(DEBUG_DEVELOP,"Register Accept Change", questId, hash);
     updateQuestId[questId] = data;
 
-    QuestieJourney:AbandonQuest(questId);
+    QuestieJourney:AcceptQuest(questId);
 
 end
 
