@@ -466,7 +466,7 @@ end
 
 function QuestieQuest:AddFinisher(Quest)
     --We should never ever add the quest if IsQuestFlaggedComplete true.
-    if(QuestiePlayer.currentQuestlog[Quest.Id] and IsQuestFlaggedCompleted(Quest.Id) == false and IsUnitOnQuestByQuestID(Quest.Id, "player")) then
+    if(QuestiePlayer.currentQuestlog[Quest.Id] and IsQuestFlaggedCompleted(Quest.Id) == false and IsQuestComplete(Quest.Id)) then
         local finisher = nil
         if Quest.Finisher ~= nil then
             if Quest.Finisher.Type == "monster" then
