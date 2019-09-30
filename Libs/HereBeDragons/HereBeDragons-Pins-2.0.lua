@@ -465,18 +465,18 @@ local function UpdateWorldMap()
     worldmapProvider:RefreshAllData()
 end
 
-local last_update = 0
-local function OnUpdateHandler(frame, elapsed)
-    last_update = last_update + elapsed
-    if last_update > 1 or queueFullUpdate then
-        UpdateMinimapPins(queueFullUpdate)
-        last_update = 0
-        queueFullUpdate = false
-    else
-        UpdateMinimapIconPosition()
-    end
+local function OnUpdateHandler()
+    UpdateMinimapIconPosition()
 end
-pins.updateFrame:SetScript("OnUpdate", OnUpdateHandler)
+local function OnUpdateHandler2()
+    UpdateMinimapPins(queueFullUpdate)
+    queueFullUpdate = false
+end
+
+
+--pins.updateFrame:SetScript("OnUpdate", OnUpdateHandler)
+pins.updateTimer = C_Timer.NewTicker(0.05, OnUpdateHandler)
+pins.updateTimer = C_Timer.NewTicker(1, OnUpdateHandler2)
 
 local function OnEventHandler(frame, event, ...)
     if event == "CVAR_UPDATE" then
