@@ -1079,6 +1079,10 @@ function QuestieQuest:RemoveQuestHash(questId)
 end
 
 function QuestieQuest:CompareQuestHashes()
+    Questie:Debug(DEBUG_DEVELOP, "CompareQuestHashes")
+    if _QuestieQuest.questLogHashes == nil then
+        return
+    end
     ExpandQuestHeader(0) -- Expand all headers
 
     local numEntries, _ = GetNumQuestLogEntries()
