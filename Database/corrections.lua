@@ -499,6 +499,9 @@ QuestieCorrections.npcFixes = {
     [12369] = {
         [QuestieDB.npcKeys.spawns] = {[405]={{28.6,7.4}}}, -- #901
     },
+    [2431] = {
+        [QuestieDB.npcKeys.spawns] = {[36]={{62.40,63.14,43.42},},},
+    },
     -- Remove wrong patrolling zones on those two (found while investigating #903)
     [446] = {
         [QuestieDB.npcKeys.waypoints] = {},
