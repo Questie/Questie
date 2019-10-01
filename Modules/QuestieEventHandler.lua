@@ -47,9 +47,9 @@ function QuestieEventHandler:QUEST_ACCEPTED(questLogIndex, questId)
     QuestieJourney:AcceptQuest(questId)
 end
 
---Fires on WORLD_MAP_UPDATE.
-function QuestieEventHandler:WORLD_MAP_UPDATE()
-    Questie:Debug(DEBUG_DEVELOP, "EVENT: WORLD_MAP_UPDATE");
+--Fires on MAP_EXPLORATION_UPDATED.
+function QuestieEventHandler:MAP_EXPLORATION_UPDATED()
+    Questie:Debug(DEBUG_DEVELOP, "EVENT: MAP_EXPLORATION_UPDATED");
     _Hack_prime_log()
 
     if Questie.db.global.hideUnexploredMapIcons then
