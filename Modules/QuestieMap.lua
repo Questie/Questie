@@ -125,10 +125,6 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
         end
     end
 
-    if ((Questie.db.global.hideUnexploredMapIcons) and (isExplored == false)) then
-        return nil, nil
-    end
-
     if type(data) ~= "table" then
         error(MAJOR..": AddWorldMapIconMap: must have some data")
     end
@@ -297,8 +293,10 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
             --HBDPins:AddMinimapIconMap(Questie, iconMinimap, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, true, floatOnEdge)
         end
         if Questie.db.global.enableMapIcons then
-            QuestieMap:QueueDraw(QuestieMap.ICON_MAP_TYPE, Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, showFlag);
-            --HBDPins:AddWorldMapIconMap(Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, showFlag)
+            if not ((Questie.db.global.hideUnexploredMapIcons) and (isExplored == false)) then
+                QuestieMap:QueueDraw(QuestieMap.ICON_MAP_TYPE, Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, showFlag);
+                --HBDPins:AddWorldMapIconMap(Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, showFlag)
+            end
         end
         if(QuestieMap.questIdFrames[data.Id] == nil) then
             QuestieMap.questIdFrames[data.Id] = {}
