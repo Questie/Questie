@@ -31,7 +31,7 @@ QuestieLocale.locale['ruRU'] = {
     ['ENABLE_MINIMAP_ICONS'] = "Ключить иконки на миникарте",
     ['ENABLE_MINIMAP_ICONS_DESC'] = "Показать/скрыть все иконки на миникарте",
     ['HIDE_UNEXPLORED_ICONS'] = "Скрывать иконки на неразведанных зонах",
-    ['HIDE_UNEXPLORED_ICONS_DESC'] = "Показать/скрыть иконки на неразведанных зонах",
+    ['HIDE_UNEXPLORED_ICONS_DESC'] = "Скрыть/показать иконки на неразведанных зонах",
 
     ['MINIMAP_TAB'] = "Миникарта",
     ['MINIMAP_HEADER'] = "Настройки миникарты",
