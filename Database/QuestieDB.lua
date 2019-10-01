@@ -324,6 +324,8 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
         --QO.Objectives["GameObject"] = rawdata[10][2] --{GOID, Different name of NPC or object}
         --QO.Objectives["Item"] = rawdata[10][3]
         --QO.SrcItemId = rawdata[11] --A quest item given by a questgiver of some kind.
+
+        -- 
         if(rawdata[12] ~= nil and rawdata[13] ~= nil) then
             Questie:Debug(DEBUG_CRITICAL, "ERRRRORRRRRRR not mutually exclusive!")
         end
