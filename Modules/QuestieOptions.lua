@@ -272,10 +272,10 @@ _QuestieOptions.optionsGUI = {
                             desc = function() return QuestieLocale:GetUIString('HIDE_UNEXPLORED_ICONS_DESC') end,
                             width = "full",
                             disabled = function() return (not Questie.db.char.enabled) end,
-                            get =    function ()
+                            get = function()
                                 return Questie.db.global.hideUnexploredMapIcons;
                             end,
-                            set =    function (info, value)
+                            set = function(info, value)
                                 Questie.db.global.hideUnexploredMapIcons = value
                                 QuestieQuest:Reset();
                             end,

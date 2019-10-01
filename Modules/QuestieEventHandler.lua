@@ -47,6 +47,16 @@ function QuestieEventHandler:QUEST_ACCEPTED(questLogIndex, questId)
     QuestieJourney:AcceptQuest(questId)
 end
 
+--Fires on WORLD_MAP_UPDATE.
+function QuestieEventHandler:WORLD_MAP_UPDATE()
+    Questie:Debug(DEBUG_DEVELOP, "EVENT: WORLD_MAP_UPDATE");
+    _Hack_prime_log()
+
+    if Questie.db.global.hideUnexploredMapIcons then
+        QuestieQuest:Reset();
+    end
+end
+
 --Fires when a quest is removed from the questlog, this includes turning it in!
 function QuestieEventHandler:QUEST_REMOVED(QuestId)
     Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_REMOVED", QuestId);
