@@ -72,7 +72,6 @@ function QuestieDB:ItemLookup(ItemId)
     return Item
 end
 
-
 function QuestieDB:GetObject(ObjectID)
     if ObjectID == nil then
         return nil
@@ -137,7 +136,7 @@ function QuestieDB:GetItem(ItemID)
 end
 
 local function _GetColoredQuestName(self)
-    return QuestieTooltips:PrintDifficultyColor(self.Level, "[" .. self.Level .. "] " .. (self.LocalizedName or self.Name))
+    return QuestieTooltips:PrintDifficultyColor(self.Level, "[" .. self.Level .. "] " .. (self.LocalizedName or self.Name)  .. " - XP: " .. tostring(self.Xp))
 end
 
 function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
@@ -206,6 +205,7 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
             QO.Description = localizedQuest[3] or QO.Description
         end
 
+        QO.Xp = QuestieDB.questXpData[QuestID];
         --QO.Ends["NPC"] = rawdata[3][1]
         --QO.Ends["GameObject"] = rawdata[3][2]
 
