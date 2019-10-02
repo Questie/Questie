@@ -326,14 +326,15 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
         --QO.SrcItemId = rawdata[11] --A quest item given by a questgiver of some kind.
 
         if(rawdata[12] ~= nil and rawdata[13] ~= nil) then
-            Questie:Debug(DEBUG_CRITICAL, "ERRRRORRRRRRR not mutually exclusive!")
+            Questie:Debug(DEBUG_CRITICAL, "ERRRRORRRRRRR not mutually exclusive for questID:", QuestID)
         end
         if(rawdata[12] ~= nil) then
             QO.RequiredQuestGroup = rawdata[12]
         else
             QO.RequiredQuestSingle = rawdata[13]
         end
-        QO.SubQuests = rawdata[14] --Quests that give questitems that are used in later quests (See STV manual)
+        QO.ChildQuests = rawdata[14] --Quests that give questitems that are used in later quests (See STV manual)
+        QO.ParentQuest = rawdata[25] -- The parent quest (applies if this quest is a child quest)
         QO.QuestGroup = rawdata[15] --Quests that are part of the same group, example complete this group of quests to open the next one.
         QO.ExclusiveQuestGroup = rawdata[16]
         QO.NextQuestInChain = rawdata[22]

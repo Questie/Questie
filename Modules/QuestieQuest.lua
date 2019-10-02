@@ -1371,30 +1371,41 @@ end
 
 --TODO Check that this function does what it is supposed to...
 function QuestieQuest:CalculateAvailableQuests()
-    local PlayerLevel = QuestiePlayer:GetPlayerLevel();
-
-    local MinLevel = PlayerLevel - Questie.db.global.minLevelFilter
-    local MaxLevel = PlayerLevel + Questie.db.global.maxLevelFilter
-
-    --DEFAULT_CHAT_FRAME:AddMessage(" minlevel/maxlevel: " .. MinLevel .. "/" .. MaxLevel);
-
+    local playerLevel = QuestiePlayer:GetPlayerLevel()
+    local minLevel = playerLevel - Questie.db.global.minLevelFilter
+    local maxLevel = playerLevel + Questie.db.global.maxLevelFilter
     QuestieQuest.availableQuests = {}
 
-    for i, v in pairs(QuestieDB.questData) do
-        local QuestID = i;
+    for questID, v in pairs(QuestieDB.questData) do
         --Check if we've already completed the quest and that it is not "manually" hidden and that the quest is not currently in the questlog.
 
-        if((not Questie.db.char.complete[QuestID]) and (not QuestieCorrections.hiddenQuests[QuestID]) and (not QuestiePlayer.currentQuestlog[QuestID])) then --Should be not QuestiePlayer.currentQuestlog[QuestID]
-            local Quest = QuestieDB:GetQuest(QuestID);
-            if (Quest.Level >= MinLevel or Questie.db.char.lowlevel) and Quest.Level <= MaxLevel and Quest.MinLevel <= PlayerLevel then
-                if _QuestieQuest:IsDoable(Quest) then
-                    QuestieQuest.availableQuests[QuestID] = QuestID
+        if((not Questie.db.char.complete[questID]) and (not QuestieCorrections.hiddenQuests[questID]) and (not QuestiePlayer.currentQuestlog[questID])) then
+            local quest = QuestieDB:GetQuest(questID)
+
+            if _QuestieQuest:LevelRequirementsFulfilled(quest, playerLevel, minLevel, maxLevel) or _QuestieQuest:IsParentQuestActive(quest.ParentQuest) then
+                if _QuestieQuest:IsDoable(quest) then
+                    QuestieQuest.availableQuests[questID] = questID
                 end
             else
                 --If the quests are not within level range we want to unload them
                 --(This is for when people level up or change settings etc)
-                QuestieMap:UnloadQuestFrames(QuestID);
+                QuestieMap:UnloadQuestFrames(questID);
             end
         end
     end
+end
+
+function _QuestieQuest:LevelRequirementsFulfilled(quest, playerLevel, minLevel, maxLevel)
+    return (quest.Level >= minLevel or Questie.db.char.lowlevel) and quest.Level <= maxLevel and quest.MinLevel <= playerLevel
+end
+
+-- We always want to show a quest if it is a childQuest and its parent is in the quest log
+function _QuestieQuest:IsParentQuestActive(parentID)
+    if parentID == nil or parentID == 0 then
+        return false
+    end
+    if QuestiePlayer.currentQuestlog[parentID] then
+        return true
+    end
+    return false
 end
