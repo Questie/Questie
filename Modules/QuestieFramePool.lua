@@ -17,19 +17,18 @@ HBDPins.MinimapGroup = CreateFrame("Frame", "QuestieFrameGroup", Minimap)
 --HBDPins:SetMinimapObject(_CreateMinimapParent())
 
 
-_QuestieFramePool.addonPath = "Interface\\Addons\\QuestieDev-master\\"
-
 --TODO: Add all types (we gotta stop using globals, needs refactoring)
-ICON_TYPE_AVAILABLE =  _QuestieFramePool.addonPath.."Icons\\available.blp"
-ICON_TYPE_SLAY =  _QuestieFramePool.addonPath.."Icons\\slay.blp"
-ICON_TYPE_COMPLETE =  _QuestieFramePool.addonPath.."Icons\\complete.blp"
-ICON_TYPE_ITEM =  _QuestieFramePool.addonPath.."Icons\\item.blp"
-ICON_TYPE_LOOT =  _QuestieFramePool.addonPath.."Icons\\loot.blp"
-ICON_TYPE_EVENT =  _QuestieFramePool.addonPath.."Icons\\event.blp"
-ICON_TYPE_OBJECT =  _QuestieFramePool.addonPath.."Icons\\object.blp"
-ICON_TYPE_GLOW = _QuestieFramePool.addonPath.."Icons\\glow.blp"
-ICON_TYPE_BLACK = _QuestieFramePool.addonPath.."Icons\\black.blp"
-ICON_TYPE_REPEATABLE =  _QuestieFramePool.addonPath.."Icons\\repeatable.blp"
+ICON_TYPE_AVAILABLE =  QuestieLib.AddonPath.."Icons\\available.blp"
+ICON_TYPE_SLAY =  QuestieLib.AddonPath.."Icons\\slay.blp"
+ICON_TYPE_COMPLETE =  QuestieLib.AddonPath.."Icons\\complete.blp"
+ICON_TYPE_ITEM =  QuestieLib.AddonPath.."Icons\\item.blp"
+ICON_TYPE_LOOT =  QuestieLib.AddonPath.."Icons\\loot.blp"
+ICON_TYPE_EVENT =  QuestieLib.AddonPath.."Icons\\event.blp"
+ICON_TYPE_OBJECT =  QuestieLib.AddonPath.."Icons\\object.blp"
+ICON_TYPE_GLOW = QuestieLib.AddonPath.."Icons\\glow.blp"
+ICON_TYPE_BLACK = QuestieLib.AddonPath.."Icons\\black.blp"
+ICON_TYPE_REPEATABLE =  QuestieLib.AddonPath.."Icons\\repeatable.blp"
+
 
 StaticPopupDialogs["QUESTIE_CONFIRMHIDE"] = {
     text = "", -- set before showing

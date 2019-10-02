@@ -32,17 +32,6 @@ _QuestieComms.QC_ID_BROADCAST_FULL_QUESTLIST = 10
 --- Global Functions --
 
 
---Move to Questie.lua after QuestieOptions move.
-function Questie:GetAddonVersionInfo()  -- todo: better place
-    local _, title, _, _, _, reason = GetAddOnInfo("QuestieDev-master");
-    if(reason == "MISSING") then
-      _, title = GetAddOnInfo("Questie");
-    end
-    local major, minor, patch = string.match(title, "v(%d+)%.(%d+)%.(%d+)");
-    return tonumber(major), tonumber(minor), tonumber(patch);
-end
-
-
 ---------
 -- Fetch quest information about a specific player.
 -- Params:
