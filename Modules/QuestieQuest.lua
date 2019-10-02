@@ -1232,13 +1232,72 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                                 if(instanceData[Zone] ~= nil) then
                                     for index, value in ipairs(instanceData[Zone]) do
                                         --Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[value[1]])
-                                        QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
+                                        local icon, minimapIcon = QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
+                                        
+                                        Questie:Print("teststuff", NPC.waypoints)
+                                        if(NPC.waypoints and NPC.waypoints[Zone]) then
+                                          local lastPos = nil
+                                          for index, waypoint in pairs(NPC.waypoints[Zone]) do
+                                            if(index == 1) then
+                                              lastPos = waypoint;
+                                            else
+                                              QuestieFramePool:DrawLine(icon, lastPos[1], lastPos[2], waypoint[1], waypoint[2], 1.5, {1,0.72,0,0.5})
+                                            end
+                                          end
+                                        end
                                     end
                                 end
                             else
                                 --Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[Zone])
-                                --HBDPins:AddWorldMapIconMap(Questie, Note, zoneDataAreaIDToUiMapID[Zone], coords[1]/100, coords[2]/100, HBD_PINS_WORLDMAP_SHOW_WORLD)
-                                QuestieMap:DrawWorldIcon(data, Zone, coords[1], coords[2])
+                                local x = coords[1];
+                                local y = coords[2];
+                                if(NPC.waypoints and NPC.waypoints[Zone]) then
+                                  local distanceList = {}
+                                  local lastPos = nil
+                                  local totalDistance = 0;
+                                  for index, waypoint in pairs(NPC.waypoints[Zone]) do
+                                    if(lastPos == nil) then
+                                      lastPos = waypoint;
+                                    else
+                                      local distance = QuestieLib:Euclid(lastPos[1], lastPos[2], waypoint[1], waypoint[2]);
+                                      totalDistance = totalDistance + distance;
+                                      distanceList[distance] = index;
+                                    end
+                                  end
+                                  --reset the last pos
+                                  local ranDistance = 0;
+                                  lastPos = nil
+                                  for distance, index in pairs(distanceList) do
+                                    if(lastPos == nil) then
+                                      lastPos = index;
+                                    else
+                                      ranDistance = ranDistance + distance;
+                                      if(ranDistance > totalDistance/2) then
+                                        local firstMiddle = NPC.waypoints[Zone][lastPos];
+                                        local secondMiddle = NPC.waypoints[Zone][index];
+                                        x = ((firstMiddle[1] + secondMiddle[1])/2)
+                                        y = ((firstMiddle[2] + secondMiddle[2])/2)
+                                        Questie:Print(x, y);
+                                        break;
+                                      end
+                                    end
+                                  end
+                                end
+                                
+                                local icon, minimapIcon = QuestieMap:DrawWorldIcon(data, Zone, x, y)
+
+                                
+                                if(NPC.waypoints and NPC.waypoints[Zone]) then
+                                  local lastPos = nil
+                                  for index, waypoint in pairs(NPC.waypoints[Zone]) do
+                                    if(lastPos == nil) then
+                                      lastPos = waypoint;
+                                    else
+                                      local frame = QuestieFramePool:DrawLine(icon, lastPos[1], lastPos[2], waypoint[1], waypoint[2], 1.5, {1,0.72,0,0.5})
+                                      lastPos = waypoint;
+                                    end
+                                  end
+                                end
                             end
                         end
                     end

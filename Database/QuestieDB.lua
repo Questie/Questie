@@ -441,6 +441,10 @@ function QuestieDB:GetNPC(NPCID)
         if NPC.spawns == nil and Questie_SpecialNPCs[NPCID] then -- get spawns from script spawns list
             NPC.spawns = QuestieDB:_GetSpecialNPC(NPCID).spawns
         end
+        if NPC.waypoints == nil and rawdata[QuestieDB.npcKeys.waypoints] then
+          Questie:Print("NPC", NPC.name)
+          NPC.waypoints = rawdata[QuestieDB.npcKeys.waypoints]
+        end
 
         if rawdata[DB_NPC_FRIENDLY] then
             if rawdata[DB_NPC_FRIENDLY] == "AH" then

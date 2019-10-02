@@ -440,6 +440,92 @@ function _QuestieFramePool:IsMinimapInside()
     end
 end
 
+
+local lineFrames = 1;
+local tinsert = table.insert;
+local tpack = table.pack;
+local tremove = table.remove;
+local tunpack = unpack;
+
+-- sx,sy    - Coordinate of start of line
+-- ex,ey    - Coordinate of end of line
+-- w        - Width of line
+-- color    - Vector 255, 255, 255, 255
+function QuestieFramePool:DrawLine(iconFrame, sx, sy, ex, ey, w, color)
+
+	if not QuestieFramePool.Routes_Lines then
+		QuestieFramePool.Routes_Lines={}
+		QuestieFramePool.Routes_Lines_Used={}
+    end
+    local frameName = "questieLineFrame"..lineFrames;
+    local lineFrame = tremove(QuestieFramePool.Routes_Lines) or CreateFrame("Frame", frameName, iconFrame);
+
+    local width = WorldMapFrame:GetCanvas():GetWidth();
+    local height = WorldMapFrame:GetCanvas():GetHeight();
+    
+    lineFrame:SetHeight(width);
+    lineFrame:SetWidth(height);
+    lineFrame:SetPoint("TOPLEFT", WorldMapFrame:GetCanvas(), "TOPLEFT", 0, 0)
+    lineFrame:SetFrameLevel(iconFrame:GetFrameLevel()-1)
+    lineFrame:SetFrameStrata("DIALOG");
+
+    lineFrame.type = "line"
+    lineFrame.Unload = function(self)
+        lineFrame:Hide();
+        lineFrame.iconFrame = nil;
+        QuestieFramePool.Routes_Lines_Used[self:GetName()] = nil;
+        tinsert(QuestieFramePool.Routes_Lines, lineFrame);
+    end
+    local line = lineFrame.line or lineFrame:CreateLine();
+    lineFrame.line = line;
+
+    if(iconFrame.data.lineFrames == nil) then
+        iconFrame.data.lineFrames = {};
+    end
+    tinsert(iconFrame.data.lineFrames, lineFrame);
+    lineFrame.iconFrame = iconFrame;
+    
+    --tinsert(QuestieFramePool.Routes_Lines_Used,F)
+    QuestieFramePool.Routes_Lines_Used[frameName] = lineFrame;
+
+    line:SetColorTexture(color[1],color[2],color[3],color[4]);
+
+    -- Set texture coordinates and anchors
+    --line:ClearAllPoints();
+
+    local calcX = width/100;
+    local calcY = height/100;
+    
+
+        --line:SetTexCoord( TLx, TLy, BLx, BLy, TRx, TRy, BRx, BRy )
+        --line:SetPoint("BOTTOMLEFT", F, relPoint, cx - Bwid, cy - Bhgt);
+    --line:SetPoint("TOPRIGHT",   F, relPoint, cx + Bwid, cy + Bhgt);
+    line:SetDrawLayer("ARTWORK")
+    line:SetStartPoint("TOPLEFT", sx*calcX, (sy*calcY)*-1)
+    line:SetEndPoint("TOPLEFT", ex*calcX, (ey*calcY)*-1)
+    line:SetThickness(w);
+    lineFrames = lineFrames + 1;
+
+    lineFrame:Show();
+    line:Show();
+
+    --For safety we check this here too.
+    if(QuestieMap.questIdFrames[lineFrame.iconFrame.data.Id] == nil) then
+        QuestieMap.questIdFrames[lineFrame.iconFrame.data.Id] = {}
+    end
+    tinsert(QuestieMap.questIdFrames[lineFrame.iconFrame.data.Id], lineFrame);
+	return lineFrame
+end
+
+function _QuestieFramePool:Questie_Tooltip_line(self)
+    local Tooltip = GameTooltip;
+    Tooltip:SetOwner(self, "ANCHOR_CURSOR"); --"ANCHOR_CURSOR" or (self, self)
+    Tooltip:AddLine("Test");
+    Tooltip:SetFrameStrata("TOOLTIP");
+    Tooltip:Show();
+    --_QuestieFramePool:Questie_Tooltip(self.iconFrame)
+end
+
 function _QuestieFramePool:Questie_Tooltip(self)
     if GetTime() - _QuestieFramePool.lastTooltipShowHack < 0.05 and GameTooltip:IsShown() then
         return
