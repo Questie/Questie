@@ -99,6 +99,7 @@ local function _OnDragStop()
     _QuestieTracker._start_drag_anchor[4] = _QuestieTracker._start_drag_anchor[4] + xMoved
     _QuestieTracker._start_drag_anchor[5] = _QuestieTracker._start_drag_anchor[5] + yMoved
     
+    _QuestieTracker.baseFrame:ClearAllPoints()
     _QuestieTracker.baseFrame:SetPoint(unpack(_QuestieTracker._start_drag_anchor))
     Questie.db.char.TrackerLocation = {_QuestieTracker.baseFrame:GetPoint()}
     if Questie.db.char.TrackerLocation[2] and type(Questie.db.char.TrackerLocation[2]) == "table" and Questie.db.char.TrackerLocation[2].GetName then
@@ -1245,7 +1246,8 @@ end
 function QuestieTracker:ResetLocation()
     Questie.db.char.TrackerLocation = nil
     if _QuestieTracker.baseFrame then
-        _QuestieTracker.baseFrame:SetPoint("CENTER",0,0)
+        _QuestieTracker.baseFrame:ClearAllPoints()
+        _QuestieTracker.baseFrame:SetPoint("TOPLEFT", UIParent, "CENTER", 0,0)
         _QuestieTracker.baseFrame:Show()
     end
 end
