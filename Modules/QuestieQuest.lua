@@ -1313,12 +1313,12 @@ function _QuestieQuest:IsDoable(questObject) -- we need to add reputation checks
     end
 
     -- Check the preQuestGroup field where every required quest has to be complete for a quest to show up
-    if questObject.RequiredQuestGroup ~= nil then
+    if questObject.RequiredQuestGroup ~= nil and next(questObject.RequiredQuestGroup) ~= nil then
         return _QuestieQuest:IsPreQuestGroupFulfilled(questObject.RequiredQuestGroup)
     end
 
     -- Check the preQuestSingle field where just one of the required quests has to be complete for a quest to show up
-    if questObject.RequiredQuestSingle ~= nil then
+    if questObject.RequiredQuestSingle ~= nil and next(questObject.RequiredQuestSingle) ~= nil then
         return _QuestieQuest:IsPreQuestSingleFulfilled(questObject.RequiredQuestSingle)
     end
 

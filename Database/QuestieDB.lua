@@ -179,7 +179,7 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
     -- 15 DB_QUEST_GROUP
     -- 16 DB_EXCLUSIVE_QUEST_GROUP]]--
     if QuestieCorrections.questFixes[QuestID] then
-        for k,v in pairs(QuestieCorrections.questFixes[QuestID]) do
+        for k, v in pairs(QuestieCorrections.questFixes[QuestID]) do
             QuestieDB.questData[QuestID][k] = v
         end
     end
@@ -325,7 +325,7 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
         --QO.Objectives["Item"] = rawdata[10][3]
         --QO.SrcItemId = rawdata[11] --A quest item given by a questgiver of some kind.
 
-        if(rawdata[12] ~= nil and rawdata[13] ~= nil) then
+        if(rawdata[12] ~= nil and next(rawdata[12]) ~= nil and rawdata[13] ~= nil and next(rawdata[13]) ~= nil) then
             Questie:Debug(DEBUG_CRITICAL, "ERRRRORRRRRRR not mutually exclusive for questID:", QuestID)
         end
         if(rawdata[12] ~= nil) then

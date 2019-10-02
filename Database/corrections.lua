@@ -54,7 +54,7 @@ QuestieCorrections.questFixes = {
         [QuestieDB.questKeys.nextQuestInChain] = 28,
     },
     [33] = {
-        [QuestieDB.questKeys.preQuestSingle] = nil,
+        [QuestieDB.questKeys.preQuestSingle] = {},
         [QuestieDB.questKeys.exclusiveTo] = {5261},
     },
     [535] = {
@@ -73,7 +73,7 @@ QuestieCorrections.questFixes = {
         [QuestieDB.questKeys.preQuestSingle] = {678}, -- #1062
     },
     [691] = {
-        [QuestieDB.questKeys.preQuestSingle] = nil,
+        [QuestieDB.questKeys.preQuestSingle] = {},
     },
     [7068] = {
         [QuestieDB.questKeys.requiredLevel] = 39,
@@ -82,16 +82,17 @@ QuestieCorrections.questFixes = {
         [QuestieDB.questKeys.requiredLevel] = 39,
     },
     [2922] = {
-        [QuestieDB.questKeys.preQuestSingle] = nil, -- Save Techbot's Brain doesn't need the Tinkmaster Overspark breadcrumb #687
+        [QuestieDB.questKeys.preQuestSingle] = {}, -- Save Techbot's Brain doesn't need the Tinkmaster Overspark breadcrumb #687
     },
     [1276] = {
         [QuestieDB.questKeys.preQuestGroup] = {1323,1273,},
+        [QuestieDB.questKeys.preQuestSingle] = {},
     },
     [4641] = {
         [QuestieDB.questKeys.requiredRaces] = 178, -- #877
     },
     [1204] = {
-        [QuestieDB.questKeys.preQuestSingle] = nil, -- #938
+        [QuestieDB.questKeys.preQuestSingle] = {}, -- #938
     },
     [4494] = {
         [QuestieDB.questKeys.preQuestSingle] = {82}, -- #942
@@ -107,7 +108,7 @@ QuestieCorrections.questFixes = {
         [QuestieDB.questKeys.childQuests] = {1127}, -- #1084
     },
     [1275] = {
-        [QuestieDB.questKeys.preQuestSingle] = nil, -- #973 -- #745 prequest is not required in Classic
+        [QuestieDB.questKeys.preQuestSingle] = {}, -- #973 -- #745 prequest is not required in Classic
     },
     [1718] = {
         [QuestieDB.questKeys.startedBy] = {{3041,3354,4595,5113,5479,},nil,nil,}, -- #1034
@@ -126,7 +127,7 @@ QuestieCorrections.questFixes = {
         [QuestieDB.questKeys.preQuestSingle] = {7632},
     },
     [5211] = {
-        [QuestieDB.questKeys.preQuestSingle] = nil, -- #983
+        [QuestieDB.questKeys.preQuestSingle] = {}, -- #983
         [QuestieDB.questKeys.objectives] = {{{11064,"Darrowshire Spirits Freed"},{8530,"Darrowshire Spirits Freed"},{8531,"Darrowshire Spirits Freed"},{8532,"Darrowshire Spirits Freed"},},nil,nil,nil,},
     },
     [5059] = {
@@ -152,13 +153,13 @@ QuestieCorrections.questFixes = {
         [QuestieDB.questKeys.preQuestSingle] = {918,919}, -- #971
     },
     [1131] = {
-        [QuestieDB.questKeys.preQuestSingle] = nil, -- #1065
+        [QuestieDB.questKeys.preQuestSingle] = {}, -- #1065
     },
     [1282] = {
         [QuestieDB.questKeys.exclusiveTo] = {}, -- #875
     },
     [1302] = {
-        [QuestieDB.questKeys.preQuestSingle] = nil, -- #889
+        [QuestieDB.questKeys.preQuestSingle] = {}, -- #889
         [QuestieDB.questKeys.exclusiveTo] = {}, -- #875
     },
     [1598] = {
@@ -209,7 +210,7 @@ QuestieCorrections.questFixes = {
         [QuestieDB.questKeys.exclusiveTo] = {411}, -- #752
     },
     [364] = {
-        [QuestieDB.questKeys.preQuestSingle] = nil, -- #882
+        [QuestieDB.questKeys.preQuestSingle] = {}, -- #882
     },
     [473] = {
         [QuestieDB.questKeys.preQuestSingle] = {455}, -- #809
