@@ -71,7 +71,9 @@ end
 
 local function _OnDragStart(self, button)
     if IsControlKeyDown() or not Questie.db.global.trackerLocked then
+        _QuestieTracker._start_drag_anchor = {_QuestieTracker.baseFrame:GetPoint()}
         _QuestieTracker.baseFrame:StartMoving()
+        _QuestieTracker._start_drag_pos = {_QuestieTracker.baseFrame:GetPoint()}
     else
         if not IsMouselooking() then-- this is a HORRIBLE solution, why does MouselookStart have to break OnMouseUp (is there a MOUSE_RELEASED event that always fires?)
             MouselookStart() -- unfortunately, even though we only want to catch right click for a context menu
@@ -84,6 +86,24 @@ local function _OnDragStart(self, button)
                 end
             end)
         end
+    end
+end
+
+local function _OnDragStop()
+    _QuestieTracker._end_drag_pos = {_QuestieTracker.baseFrame:GetPoint()}
+    _QuestieTracker.baseFrame:StopMovingOrSizing()
+    
+    local xMoved = _QuestieTracker._end_drag_pos[4] - _QuestieTracker._start_drag_pos[4]
+    local yMoved = _QuestieTracker._end_drag_pos[5] - _QuestieTracker._start_drag_pos[5]
+    
+    _QuestieTracker._start_drag_anchor[4] = _QuestieTracker._start_drag_anchor[4] + xMoved
+    _QuestieTracker._start_drag_anchor[5] = _QuestieTracker._start_drag_anchor[5] + yMoved
+    
+    _QuestieTracker.baseFrame:ClearAllPoints()
+    _QuestieTracker.baseFrame:SetPoint(unpack(_QuestieTracker._start_drag_anchor))
+    Questie.db.char.TrackerLocation = {_QuestieTracker.baseFrame:GetPoint()}
+    if Questie.db.char.TrackerLocation[2] and type(Questie.db.char.TrackerLocation[2]) == "table" and Questie.db.char.TrackerLocation[2].GetName then
+        Questie.db.char.TrackerLocation[2] = Questie.db.char.TrackerLocation[2]:GetName()
     end
 end
 
@@ -200,8 +220,8 @@ local function _ShowQuestLog(Quest)
             QuestLogExFrameMaximizeButton:GetScript("OnClick")(QuestLogExFrameMaximizeButton)
         end
     else
-        QuestLogFrame:Show()
-    end    
+        ToggleQuestLog();
+    end
     SelectQuestLogEntry(GetQuestLogIndexByID(Quest.Id))
     QuestLog_UpdateQuestDetails()
     QuestLog_Update()
@@ -209,7 +229,7 @@ end
 
 local function _UnFocus() -- reset HideIcons to match savedvariable state
     if not Questie.db.char.TrackerFocus then return; end
-    for quest in pairs (qCurrentQuestlog) do
+    for quest in pairs (QuestiePlayer.currentQuestlog) do
         local Quest = QuestieDB:GetQuest(quest)
         Quest.FadeIcons = nil
         if Quest.Objectives then
@@ -250,7 +270,7 @@ local function _FocusObjective(TargetQuest, TargetObjective, isSpecial)
         _UnFocus()
     end
     Questie.db.char.TrackerFocus = tostring(TargetQuest.Id) .. " " .. tostring(TargetObjective.Index)
-    for quest in pairs (qCurrentQuestlog) do
+    for quest in pairs (QuestiePlayer.currentQuestlog) do
         local Quest = QuestieDB:GetQuest(quest)
         if Quest.Objectives then
             if quest == TargetQuest.Id then
@@ -286,7 +306,7 @@ local function _FocusQuest(TargetQuest)
         _UnFocus()
     end
     Questie.db.char.TrackerFocus = TargetQuest.Id
-    for quest in pairs (qCurrentQuestlog) do
+    for quest in pairs (QuestiePlayer.currentQuestlog) do
         local Quest = QuestieDB:GetQuest(quest)
         if quest == TargetQuest.Id then
             Quest.HideIcons = nil
@@ -303,7 +323,7 @@ local function _FlashObjectiveByTexture(Objective) -- really terrible animation 
     if Objective.AlreadySpawned then
         local toFlash = {}
         -- ugly code
-        for questId, framelist in pairs(qQuestIdFrames) do
+        for questId, framelist in pairs(QuestieMap.questIdFrames) do
             for index, frameName in ipairs(framelist) do
                 local icon = _G[frameName];
                 if not icon.miniMapIcon then
@@ -370,7 +390,7 @@ local function _FlashObjectiveByTexture(Objective) -- really terrible animation 
         --    end
         --end)
         C_Timer.After(6*0.28+0.7, function()
-            for questId, framelist in pairs(qQuestIdFrames) do
+            for questId, framelist in pairs(QuestieMap.questIdFrames) do
                 for index, frameName in ipairs(framelist) do
                     local icon = _G[frameName];
                     if icon._hidden_by_flash then
@@ -387,7 +407,7 @@ local function _FlashObjective(Objective) -- really terrible animation code, sor
     if Objective.AlreadySpawned then
         local toFlash = {}
         -- ugly code
-        for questId, framelist in pairs(qQuestIdFrames) do
+        for questId, framelist in pairs(QuestieMap.questIdFrames) do
             for index, frameName in ipairs(framelist) do
                 local icon = _G[frameName];
                 if not icon.miniMapIcon then
@@ -449,7 +469,7 @@ local function _FlashObjective(Objective) -- really terrible animation code, sor
                                 end
                             end)
                             C_Timer.After(0.5, function()
-                                for questId, framelist in pairs(qQuestIdFrames) do
+                                for questId, framelist in pairs(QuestieMap.questIdFrames) do
                                     for index, frameName in ipairs(framelist) do
                                         local icon = _G[frameName];
                                         if icon._hidden_by_flash then
@@ -471,7 +491,7 @@ end
 local function _FlashFinisher(Quest) -- really terrible animation copypasta, sorry guys
     local toFlash = {}
     -- ugly code
-    for questId, framelist in pairs(qQuestIdFrames) do
+    for questId, framelist in pairs(QuestieMap.questIdFrames) do
         if questId ~= Quest.Id then
             for index, frameName in ipairs(framelist) do
                 local icon = _G[frameName];
@@ -528,7 +548,7 @@ local function _FlashFinisher(Quest) -- really terrible animation copypasta, sor
                             end
                         end)
                         C_Timer.After(0.5, function()
-                            for questId, framelist in pairs(qQuestIdFrames) do
+                            for questId, framelist in pairs(QuestieMap.questIdFrames) do
                                 for index, frameName in ipairs(framelist) do
                                     local icon = _G[frameName];
                                     if icon._hidden_by_flash then
@@ -548,7 +568,7 @@ end
 
 local function _ShowObjectiveOnMap(Objective)
     -- calculate nearest spawn
-    spawn, zone, name = _GetNearestSpawn(Objective)
+    local spawn, zone, name = _GetNearestSpawn(Objective)
     if spawn then
         --print("Found best spawn: " .. name .. " in zone " .. tostring(zone) .. " at " .. tostring(spawn[1]) .. " " .. tostring(spawn[2]))
         WorldMapFrame:Show()
@@ -559,7 +579,7 @@ end
 
 local function _ShowFinisherOnMap(Quest)
     -- calculate nearest spawn
-    spawn, zone, name = _GetNearestQuestSpawn(Quest)
+    local spawn, zone, name = _GetNearestQuestSpawn(Quest)
     if spawn then
         --print("Found best spawn: " .. name .. " in zone " .. tostring(zone) .. " at " .. tostring(spawn[1]) .. " " .. tostring(spawn[2]))
         WorldMapFrame:Show()
@@ -601,7 +621,7 @@ local function _BuildMenu(Quest)
         end
         table.insert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_SET_TOMTOM'), func = function()
             LQuestie_CloseDropDownMenus()
-            spawn, zone, name = _GetNearestSpawn(Objective)
+            local spawn, zone, name = _GetNearestSpawn(Objective)
             if spawn then
                 _SetTomTomTarget(name, zone, spawn[1], spawn[2])
             end
@@ -656,7 +676,7 @@ local function _BuildMenu(Quest)
             end
             table.insert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_SET_TOMTOM'), func = function()
                 LQuestie_CloseDropDownMenus()
-                spawn, zone, name = _GetNearestSpawn(Objective)
+                local spawn, zone, name = _GetNearestSpawn(Objective)
                 if spawn then
                     _SetTomTomTarget(name, zone, spawn[1], spawn[2])
                 end
@@ -720,7 +740,7 @@ local function _BuildMenu(Quest)
     end
     table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_SET_TOMTOM'), func = function()
         LQuestie_CloseDropDownMenus()
-        spawn, zone, name = _GetNearestQuestSpawn(Quest)
+        local spawn, zone, name = _GetNearestQuestSpawn(Quest)
         if spawn then
             _SetTomTomTarget(name, zone, spawn[1], spawn[2])
         end
@@ -760,7 +780,8 @@ end
 
 local function _OnClick(self, button)
     if _IsBindTrue(Questie.db.global.trackerbindSetTomTom, button) then
-        spawn, zone, name = _GetNearestQuestSpawn(self.Quest)
+        local spawn, zone, name = _GetNearestQuestSpawn(self.Quest)
+
         if spawn then
             _SetTomTomTarget(name, zone, spawn[1], spawn[2])
         end
@@ -777,10 +798,6 @@ local function _OnClick(self, button)
     --end
 end
 
-local function _OnDragStop()
-    _QuestieTracker.baseFrame:StopMovingOrSizing()
-    Questie.db.char.TrackerLocation = {_QuestieTracker.baseFrame:GetPoint()}
-end
 
 local function _OnEnter()
     _QuestieTracker.FadeTickerDirection = true
@@ -924,19 +941,19 @@ local function RGBToHex(r, g, b)
     if b > 255 then b = 255; end
     return string.format("|cFF%02x%02x%02x", r, g, b);
 end
-local function fRGBToHex(r, g, b)
+local function FloatRGBToHex(r, g, b)
     return RGBToHex(r*254, g*254, b*254);
 end
-function _QuestieTracker:getRGBForObjective(Objective)
+function _QuestieTracker:GetRGBForObjective(Objective)
     if not Objective.Collected or type(Objective.Collected) ~= "number" then return 0.8,0.8,0.8; end
     local float = Objective.Collected / Objective.Needed
 
     if Questie.db.global.trackerColorObjectives == "whiteToGreen" then
-        return fRGBToHex(0.8-float/2, 0.8+float/3, 0.8-float/2);
+        return FloatRGBToHex(0.8-float/2, 0.8+float/3, 0.8-float/2);
     else
-        if float < .49 then return fRGBToHex(1, 0+float/.5, 0); end
-        if float == .50 then return fRGBToHex(1, 1, 0); end
-        if float > .50 then return fRGBToHex(1-float/2, 1, 0); end
+        if float < .49 then return FloatRGBToHex(1, 0+float/.5, 0); end
+        if float == .50 then return FloatRGBToHex(1, 1, 0); end
+        if float > .50 then return FloatRGBToHex(1-float/2, 1, 0); end
     end
     --return fRGBToHex(0.8-float/2, 0.8+float/3, 0.8-float/2);
 
@@ -991,7 +1008,7 @@ function QuestieTracker:Update()
 
     local order = {}
     local questCompletePercent = {}
-    for quest in pairs (qCurrentQuestlog) do
+    for quest in pairs (QuestiePlayer.currentQuestlog) do
         local Quest = QuestieDB:GetQuest(quest)
         if QuestieQuest:IsComplete(Quest) or not Quest.Objectives then
             questCompletePercent[Quest.Id] = 1
@@ -1043,11 +1060,16 @@ function QuestieTracker:Update()
             line:SetMode("header")
             line:SetQuest(Quest)
             line:SetObjective(nil)
-            if complete then
-                line.label:SetText(QuestieTooltips:PrintDifficultyColor(Quest.Level, "[" .. Quest.Level .. "] " .. (Quest.LocalizedName or Quest.Name) .. " " .. QuestieLocale:GetUIString('TOOLTIP_QUEST_COMPLETE')))
-            else
-                line.label:SetText(Quest:GetColoredQuestName())
+
+            local questString = (Quest.LocalizedName or Quest.Name)
+            if Questie.db.global.trackerShowQuestLevel then
+                questString = "[" .. Quest.Level .. "] " .. questString
             end
+            if complete then
+                questString  = questString .. " " .. QuestieLocale:GetUIString('TOOLTIP_QUEST_COMPLETE')
+            end
+            line.label:SetText(QuestieLib:PrintDifficultyColor(Quest.Level, questString))
+            
             line.label:Show()
             trackerWidth = math.max(trackerWidth, line.label:GetWidth())
             --
@@ -1064,7 +1086,7 @@ function QuestieTracker:Update()
                         lineEnding = tostring(Objective.Collected) .. "/" .. tostring(Objective.Needed)
                     end
                     if (Questie.db.global.trackerColorObjectives and Questie.db.global.trackerColorObjectives ~= "white") and Objective.Collected and type(Objective.Collected) == "number" then
-                        line.label:SetText("    " .. _QuestieTracker:getRGBForObjective(Objective) .. Objective.Description .. ": " .. lineEnding)
+                        line.label:SetText("    " .. _QuestieTracker:GetRGBForObjective(Objective) .. Objective.Description .. ": " .. lineEnding)
                     else
                         line.label:SetText("    |cFFEEEEEE" .. Objective.Description .. ": " .. lineEnding)
                     end
@@ -1090,7 +1112,7 @@ function QuestieTracker:Update()
 
     if _QuestieTracker.IsFirstRun then
         _QuestieTracker.IsFirstRun = nil
-        for quest in pairs (qCurrentQuestlog) do
+        for quest in pairs (QuestiePlayer.currentQuestlog) do
             local Quest = QuestieDB:GetQuest(quest)
             if Quest then
                 if Questie.db.char.TrackerHiddenQuests[quest] then
@@ -1210,7 +1232,7 @@ function QuestieTracker:HookBaseTracker()
             return Questie.db.char.TrackedQuests[select(8,GetQuestLogTitle(index)) or -1]
         else
             local qid = select(8,GetQuestLogTitle(index))
-            return qid and qCurrentQuestlog[qid] and not Questie.db.char.AutoUntrackedQuests[qid]
+            return qid and QuestiePlayer.currentQuestlog[qid] and not Questie.db.char.AutoUntrackedQuests[qid]
         end
     end
     GetNumQuestWatches = function()
@@ -1224,7 +1246,8 @@ end
 function QuestieTracker:ResetLocation()
     Questie.db.char.TrackerLocation = nil
     if _QuestieTracker.baseFrame then
-        _QuestieTracker.baseFrame:SetPoint("CENTER",0,0)
+        _QuestieTracker.baseFrame:ClearAllPoints()
+        _QuestieTracker.baseFrame:SetPoint("TOPLEFT", UIParent, "CENTER", 0,0)
         _QuestieTracker.baseFrame:Show()
     end
 end
@@ -1243,7 +1266,7 @@ function QuestieTracker:CreateBaseFrame()
 
     if Questie.db.char.TrackerLocation then
         -- we need to pcall this because it can error if something like MoveAnything is used to move the tracker
-        result, error = pcall(frm.SetPoint, frm, unpack(Questie.db.char.TrackerLocation))
+        local result, error = pcall(frm.SetPoint, frm, unpack(Questie.db.char.TrackerLocation))
         if not result then
             Questie.db.char.TrackerLocation = nil
             print(QuestieLocale:GetUIString('TRACKER_INVALID_LOCATION'))
@@ -1254,7 +1277,7 @@ function QuestieTracker:CreateBaseFrame()
             end
         end
     else
-        result, error = pcall(frm.SetPoint, frm, unpack({QuestWatchFrame:GetPoint()}))
+        local result, error = pcall(frm.SetPoint, frm, unpack({QuestWatchFrame:GetPoint()}))
         if not result then
             Questie.db.char.TrackerLocation = nil
             print(QuestieLocale:GetUIString('TRACKER_INVALID_LOCATION'))
