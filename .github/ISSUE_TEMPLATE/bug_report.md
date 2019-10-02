@@ -13,4 +13,4 @@ labels: "bug"
 
 
 ## Questie version
-<!-- Which version of Questie are you using? You can find it by typing "/dump QuestieGetVersionString()" in the ingame chat or look at your "Addons" list. -->
+<!-- Which version of Questie are you using? You can find it by typing "/dump QuestieLib.GetAddonVersionInfo()" in the ingame chat or look at your "Addons" list. -->
