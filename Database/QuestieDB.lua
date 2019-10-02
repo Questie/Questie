@@ -139,7 +139,7 @@ end
 local function _GetColoredQuestName(self)
     local questString = (self.LocalizedName or self.Name)
     if Questie.db.global.enableTooltipsQuestLevel then
-        questString = "[" .. self.Level .. "]" .. " " .. questString
+        questString = "[" .. self.Level .. "]" .. " " .. questString  .. " - XP: " .. tostring(self.Xp)
     end
 
     return QuestieLib:PrintDifficultyColor(self.Level, questString)
@@ -210,6 +210,7 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
             QO.Name = localizedQuest[1] or QO.Name
             QO.Description = localizedQuest[3] or QO.Description
         end
+        QO.Xp = QuestieDB.questXpData[QuestID];
 
         --QO.Ends["NPC"] = rawdata[3][1]
         --QO.Ends["GameObject"] = rawdata[3][2]
