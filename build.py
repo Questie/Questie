@@ -101,7 +101,7 @@ def main():
         shutil.copy2(file, '%s/%s' % (destination, file))
     shutil.copy2('QuestieDev-master.toc', '%s/%s.toc' % (destination, addonDir))
     # replace path references
-    for file in ['QuestieComms.lua', 'Libs/QuestieLib.lua']:
+    for file in ['QuestieComms.lua', 'QuestieFramePool.lua']:
         replacePath('%s/Modules/%s' % (destination, file), 'QuestieDev-master', addonDir)
     # package files
     root = os.getcwd()

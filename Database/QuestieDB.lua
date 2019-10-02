@@ -324,13 +324,14 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
         --QO.Objectives["GameObject"] = rawdata[10][2] --{GOID, Different name of NPC or object}
         --QO.Objectives["Item"] = rawdata[10][3]
         --QO.SrcItemId = rawdata[11] --A quest item given by a questgiver of some kind.
+
         if(rawdata[12] ~= nil and rawdata[13] ~= nil) then
             Questie:Debug(DEBUG_CRITICAL, "ERRRRORRRRRRR not mutually exclusive!")
         end
         if(rawdata[12] ~= nil) then
-            QO.RequiredQuest = rawdata[12]
+            QO.RequiredQuestGroup = rawdata[12]
         else
-            QO.RequiredQuest = rawdata[13]
+            QO.RequiredQuestSingle = rawdata[13]
         end
         QO.SubQuests = rawdata[14] --Quests that give questitems that are used in later quests (See STV manual)
         QO.QuestGroup = rawdata[15] --Quests that are part of the same group, example complete this group of quests to open the next one.

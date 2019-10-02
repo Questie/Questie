@@ -865,7 +865,6 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
     local logId = GetQuestLogIndexByID(Quest.Id)
     local old = GetQuestLogSelection()
     SelectQuestLogEntry(logId)
-    --
 
     if Quest.Objectives == nil then
         Quest.Objectives = {}; -- TODO: remove after api bug is fixed!!!
@@ -1080,6 +1079,10 @@ function QuestieQuest:RemoveQuestHash(questId)
 end
 
 function QuestieQuest:CompareQuestHashes()
+    Questie:Debug(DEBUG_DEVELOP, "CompareQuestHashes")
+    if _QuestieQuest.questLogHashes == nil then
+        return
+    end
     ExpandQuestHeader(0) -- Expand all headers
 
     local numEntries, _ = GetNumQuestLogEntries()
@@ -1277,7 +1280,6 @@ function _QuestieQuest:IsDoable(questObject) -- we need to add reputation checks
             return false
         end
     end
-    local allFinished = true
     --Run though the requiredQuests
     if questObject.ExclusiveQuestGroup then -- fix (DO NOT REVERT, tested thoroughly)
         for k, v in pairs(questObject.ExclusiveQuestGroup) do
@@ -1310,32 +1312,61 @@ function _QuestieQuest:IsDoable(questObject) -- we need to add reputation checks
         return false
     end
 
-    if questObject.RequiredQuest == nil or questObject.RequiredQuest == 0 then
-        return true
-    end
-    for index, preQuestId in pairs(questObject.RequiredQuest) do
-
-        local preQuest = QuestieDB:GetQuest(preQuestId);
-
-        --If a quest is not complete not all are finished, we need to check group
-        if not Questie.db.char.complete[preQuestId] then
-            allFinished = false
-            --If one of the quests in the group is done we return true
-        elseif preQuest and preQuest.ExclusiveQuestGroup then
-            return true
-        end
-
-        --If one of the quests are in the log, return false
-        if preQuest and QuestiePlayer.currentQuestlog[preQuest.Id] then
-            return false
-        end
+    -- Check the preQuestGroup field where every required quest has to be complete for a quest to show up
+    if questObject.RequiredQuestGroup ~= nil then
+        return _QuestieQuest:IsPreQuestGroupFulfilled(questObject.RequiredQuestGroup)
     end
 
-    return allFinished
+    -- Check the preQuestSingle field where just one of the required quests has to be complete for a quest to show up
+    if questObject.RequiredQuestSingle ~= nil then
+        return _QuestieQuest:IsPreQuestSingleFulfilled(questObject.RequiredQuestSingle)
+    end
+
+    return true
 end
 
-function _QuestieQuest:CheckExclusivity(questObject)
+function _QuestieQuest:IsPreQuestGroupFulfilled(preQuestGroup)
+    for _, preQuestId in pairs(preQuestGroup) do
+        -- If a quest is not complete and no exlusive quest is complete, the requirement is not fulfilled
+        if not Questie.db.char.complete[preQuestId] then
+            local preQuest = QuestieDB:GetQuest(preQuestId);
+            if preQuest.ExclusiveQuestGroup == nil then
+                return false
+            end
 
+            local anyExlusiveFinished = false
+            for _, v in pairs(preQuest.ExclusiveQuestGroup) do
+                if Questie.db.char.complete[v] then
+                    anyExlusiveFinished = true
+                end
+            end
+            if not anyExlusiveFinished then
+                return false
+            end
+        end
+    end
+    -- All preQuests are complete
+    return true
+end
+
+function _QuestieQuest:IsPreQuestSingleFulfilled(preQuestSingle)
+    for _, preQuestId in pairs(preQuestSingle) do
+        local preQuest = QuestieDB:GetQuest(preQuestId);
+
+        -- If a quest is complete the requirement is fulfilled
+        if Questie.db.char.complete[preQuestId] then
+            return true
+        -- If one of the quests in the exclusive group is complete the requirement is fulfilled
+        elseif preQuest and preQuest.ExclusiveQuestGroup then
+            for _, v in pairs(preQuest.ExclusiveQuestGroup) do
+                if Questie.db.char.complete[v] then
+                    return true
+                end
+            end
+        end
+    end
+    -- No preQuest is complete
+    return false
 end
 
 --TODO Check that this function does what it is supposed to...

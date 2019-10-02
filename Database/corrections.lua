@@ -54,20 +54,11 @@ QuestieCorrections.questFixes = {
         [QuestieDB.questKeys.nextQuestInChain] = 28,
     },
     [33] = {
-        [QuestieDB.questKeys.preQuestSingle] = {},
+        [QuestieDB.questKeys.preQuestSingle] = nil,
         [QuestieDB.questKeys.exclusiveTo] = {5261},
     },
     [535] = {
         [QuestieDB.questKeys.exclusiveTo] = {533}, -- #1134
-    },
-    [103] = {
-        [QuestieDB.questKeys.requiredRaces] = 77, -- #1025
-    },
-    [104] = {
-        [QuestieDB.questKeys.requiredRaces] = 77, -- #1025
-    },
-    [152] = {
-        [QuestieDB.questKeys.requiredRaces] = 77, -- #1025
     },
     [621] = {
         [QuestieDB.questKeys.inGroupWith] = {}, -- #886
@@ -82,7 +73,7 @@ QuestieCorrections.questFixes = {
         [QuestieDB.questKeys.preQuestSingle] = {678}, -- #1062
     },
     [691] = {
-        [QuestieDB.questKeys.preQuestSingle] = {},
+        [QuestieDB.questKeys.preQuestSingle] = nil,
     },
     [7068] = {
         [QuestieDB.questKeys.requiredLevel] = 39,
@@ -91,16 +82,16 @@ QuestieCorrections.questFixes = {
         [QuestieDB.questKeys.requiredLevel] = 39,
     },
     [2922] = {
-        [QuestieDB.questKeys.preQuestSingle] = {}, -- Save Techbot's Brain doesn't need the Tinkmaster Overspark breadcrumb #687
+        [QuestieDB.questKeys.preQuestSingle] = nil, -- Save Techbot's Brain doesn't need the Tinkmaster Overspark breadcrumb #687
     },
     [1276] = {
-        [QuestieDB.questKeys.preQuestSingle] = {1323,1273,},
+        [QuestieDB.questKeys.preQuestGroup] = {1323,1273,},
     },
     [4641] = {
         [QuestieDB.questKeys.requiredRaces] = 178, -- #877
     },
     [1204] = {
-        [QuestieDB.questKeys.preQuestSingle] = {}, -- #938
+        [QuestieDB.questKeys.preQuestSingle] = nil, -- #938
     },
     [4494] = {
         [QuestieDB.questKeys.preQuestSingle] = {82}, -- #942
@@ -116,7 +107,7 @@ QuestieCorrections.questFixes = {
         [QuestieDB.questKeys.childQuests] = {1127}, -- #1084
     },
     [1275] = {
-        [QuestieDB.questKeys.preQuestSingle] = {}, -- #973 -- #745 prequest is not required in Classic
+        [QuestieDB.questKeys.preQuestSingle] = nil, -- #973 -- #745 prequest is not required in Classic
     },
     [1718] = {
         [QuestieDB.questKeys.startedBy] = {{3041,3354,4595,5113,5479,},nil,nil,}, -- #1034
@@ -135,7 +126,7 @@ QuestieCorrections.questFixes = {
         [QuestieDB.questKeys.preQuestSingle] = {7632},
     },
     [5211] = {
-        [QuestieDB.questKeys.preQuestSingle] = {}, -- #983
+        [QuestieDB.questKeys.preQuestSingle] = nil, -- #983
         [QuestieDB.questKeys.objectives] = {{{11064,"Darrowshire Spirits Freed"},{8530,"Darrowshire Spirits Freed"},{8531,"Darrowshire Spirits Freed"},{8532,"Darrowshire Spirits Freed"},},nil,nil,nil,},
     },
     [5059] = {
@@ -161,13 +152,13 @@ QuestieCorrections.questFixes = {
         [QuestieDB.questKeys.preQuestSingle] = {918,919}, -- #971
     },
     [1131] = {
-        [QuestieDB.questKeys.preQuestSingle] = {}, -- #1065
+        [QuestieDB.questKeys.preQuestSingle] = nil, -- #1065
     },
     [1282] = {
         [QuestieDB.questKeys.exclusiveTo] = {}, -- #875
     },
     [1302] = {
-        [QuestieDB.questKeys.preQuestSingle] = {}, -- #889
+        [QuestieDB.questKeys.preQuestSingle] = nil, -- #889
         [QuestieDB.questKeys.exclusiveTo] = {}, -- #875
     },
     [1598] = {
@@ -218,7 +209,7 @@ QuestieCorrections.questFixes = {
         [QuestieDB.questKeys.exclusiveTo] = {411}, -- #752
     },
     [364] = {
-        [QuestieDB.questKeys.preQuestSingle] = {}, -- #882
+        [QuestieDB.questKeys.preQuestSingle] = nil, -- #882
     },
     [473] = {
         [QuestieDB.questKeys.preQuestSingle] = {455}, -- #809
@@ -442,6 +433,15 @@ QuestieCorrections.questFixes = {
 
 QuestieCorrections.npcFixes = {
     [4360] = {'Mirefin Warrior',1208,1257,37,39,0,{},nil,15,nil,nil}, -- TODO: remove this after the db is fixed!!! This is just to fix tooltips
+    [11625] = {
+        [QuestieDB.npcKeys.spawns] = {[405]={{67,37},},},
+    },
+    [11626] = {
+        [QuestieDB.npcKeys.spawns] = {[405]={{45,76},},},
+    },
+    [11627] = {
+        [QuestieDB.npcKeys.spawns] = {[405]={{51.41,58.29},{49.45,59.73},{52.42,62.2},{53.94,60.99},{52.61,57.46},{50.51,56.63},{48.29,60.25},{52.24,60.64},{50.82,61.17},{53.65,56.69},{51.95,56.1},{58.03,34.84},{58.63,34.44},{58.93,34.32},{49.36,41.23},{49.37,40.48},{49.37,40.17},{57.76,71.05},{56.74,82.06},{56.79,82.99},{56.94,82.97},{51.47,59.16},{47.0,58.86},{48.52,56.9},{53.65,58.03},{49.13,55.62},{49.57,58.32},{46.48,60.66},{50.3,58.31},{54.97,58.23},{54.27,63.24},{58.42,34.24},{55.68,62.65},{49.49,40.82},{54.2,61},{60.4,62},{60.6,62},},},
+    },
     [11937] = {
         [QuestieDB.npcKeys.spawns] = {[405]={{49.4,76},{49.6,76},{49.8,77},{50,74.6},{50,77.6},{50.2,74.4},{50.4,70.4},{50.4,70.6},{50.6,70.4},{50.6,70.6},{50.8,81},{51.4,71.6},{52.2,80.2},{52.4,81.2},{52.4,81.6},{52.6,77.4},{52.6,81.6},{52.8,81.4},{53,80},{53,83.4},{53,83.8},{54,79.2},{55,79.2},{55,79.6},{55.2,71.6},{55.4,71.2},},}, -- #1047
         [QuestieDB.npcKeys.zoneID] = 405,
@@ -498,6 +498,9 @@ QuestieCorrections.npcFixes = {
     },
     [12369] = {
         [QuestieDB.npcKeys.spawns] = {[405]={{28.6,7.4}}}, -- #901
+    },
+    [2431] = {
+        [QuestieDB.npcKeys.spawns] = {[36]={{62.40,63.14,43.42},},},
     },
     -- Remove wrong patrolling zones on those two (found while investigating #903)
     [446] = {
