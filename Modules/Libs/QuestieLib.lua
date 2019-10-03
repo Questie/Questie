@@ -34,6 +34,48 @@ function QuestieLib:PrintDifficultyColor(level, text)
     end
 end
 
+---@param waypointTable table<integer, Point> @A table containing waypoints {{X, Y}, ...}
+---@return integer @X coordinate, 0-100
+---@return integer @Y coordinate, 0-100
+function QuestieLib:CalculateWaypointMidPoint(waypointTable)
+    if(waypointTable) then
+        local x = nil;
+        local y = nil;
+        local distanceList = {}
+        local lastPos = nil
+        local totalDistance = 0;
+        for index, waypoint in pairs(waypointTable) do
+            if(lastPos == nil) then
+                lastPos = waypoint;
+            else
+                local distance = QuestieLib:Euclid(lastPos[1], lastPos[2], waypoint[1], waypoint[2]);
+                totalDistance = totalDistance + distance;
+                distanceList[distance] = index;
+            end
+        end
+
+        --reset the last pos
+        local ranDistance = 0;
+        lastPos = nil
+        for distance, index in pairs(distanceList) do
+            if(lastPos == nil) then
+                lastPos = index;
+            else
+                ranDistance = ranDistance + distance;
+                if(ranDistance > totalDistance/2) then
+                    local firstMiddle = waypointTable[lastPos];
+                    local secondMiddle = waypointTable[index];
+                    x = ((firstMiddle[1] + secondMiddle[1])/2)
+                    y = ((firstMiddle[2] + secondMiddle[2])/2)
+                    break;
+                end
+            end
+        end
+        return x, y;
+    end
+    return nil, nil;
+end
+
 function QuestieLib:ProfileFunction(functionReference, includeSubroutine)
     --Optional var
     if(not includeSubroutine) then includeSubroutine = true; end

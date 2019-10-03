@@ -1232,71 +1232,53 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                                 if(instanceData[Zone] ~= nil) then
                                     for index, value in ipairs(instanceData[Zone]) do
                                         --Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[value[1]])
-                                        local icon, minimapIcon = QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
-                                        
-                                        Questie:Print("teststuff", NPC.waypoints)
-                                        if(NPC.waypoints and NPC.waypoints[Zone]) then
-                                          local lastPos = nil
-                                          for index, waypoint in pairs(NPC.waypoints[Zone]) do
-                                            if(index == 1) then
-                                              lastPos = waypoint;
-                                            else
-                                              QuestieFramePool:DrawLine(icon, lastPos[1], lastPos[2], waypoint[1], waypoint[2], 1.5, {1,0.72,0,0.5})
-                                            end
-                                          end
+                                        --local icon, minimapIcon = QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
+                                        local z = value[1];
+                                        local x = value[2];
+                                        local y = value[3];
+
+                                        -- Calculate mid point if waypoints exist, we need to do this before drawing the lines
+                                        -- as we need the icon handle for the lines.
+                                        if(NPC.waypoints and NPC.waypoints[z]) then
+                                            local midX, midY = QuestieLib:CalculateWaypointMidPoint(NPC.waypoints[z]);
+                                            x = midX or x;
+                                            y = midY or y;
+                                            -- The above code should do the same... remove this after testing it.
+                                            --if(midX and midY) then
+                                            --    x = midX;
+                                            --    y = midY;
+                                            --end
                                         end
+
+                                        local icon, minimapIcon = QuestieMap:DrawWorldIcon(data, z, x, y)
+
+                                        if(NPC.waypoints and NPC.waypoints[z]) then
+                                        QuestieFramePool:DrawWaypoints(icon, NPC.waypoints[z]);
+                                        end
+
                                     end
                                 end
                             else
-                                --Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[Zone])
                                 local x = coords[1];
                                 local y = coords[2];
+
+                                -- Calculate mid point if waypoints exist, we need to do this before drawing the lines
+                                -- as we need the icon handle for the lines.
                                 if(NPC.waypoints and NPC.waypoints[Zone]) then
-                                  local distanceList = {}
-                                  local lastPos = nil
-                                  local totalDistance = 0;
-                                  for index, waypoint in pairs(NPC.waypoints[Zone]) do
-                                    if(lastPos == nil) then
-                                      lastPos = waypoint;
-                                    else
-                                      local distance = QuestieLib:Euclid(lastPos[1], lastPos[2], waypoint[1], waypoint[2]);
-                                      totalDistance = totalDistance + distance;
-                                      distanceList[distance] = index;
-                                    end
-                                  end
-                                  --reset the last pos
-                                  local ranDistance = 0;
-                                  lastPos = nil
-                                  for distance, index in pairs(distanceList) do
-                                    if(lastPos == nil) then
-                                      lastPos = index;
-                                    else
-                                      ranDistance = ranDistance + distance;
-                                      if(ranDistance > totalDistance/2) then
-                                        local firstMiddle = NPC.waypoints[Zone][lastPos];
-                                        local secondMiddle = NPC.waypoints[Zone][index];
-                                        x = ((firstMiddle[1] + secondMiddle[1])/2)
-                                        y = ((firstMiddle[2] + secondMiddle[2])/2)
-                                        Questie:Print(x, y);
-                                        break;
-                                      end
-                                    end
-                                  end
+                                    local midX, midY = QuestieLib:CalculateWaypointMidPoint(NPC.waypoints[Zone]);
+                                    x = midX or x;
+                                    y = midY or y;
+                                    -- The above code should do the same... remove this after testing it.
+                                    --if(midX and midY) then
+                                    --    x = midX;
+                                    --    y = midY;
+                                    --end
                                 end
-                                
+
                                 local icon, minimapIcon = QuestieMap:DrawWorldIcon(data, Zone, x, y)
 
-                                
                                 if(NPC.waypoints and NPC.waypoints[Zone]) then
-                                  local lastPos = nil
-                                  for index, waypoint in pairs(NPC.waypoints[Zone]) do
-                                    if(lastPos == nil) then
-                                      lastPos = waypoint;
-                                    else
-                                      local frame = QuestieFramePool:DrawLine(icon, lastPos[1], lastPos[2], waypoint[1], waypoint[2], 1.5, {1,0.72,0,0.5})
-                                      lastPos = waypoint;
-                                    end
-                                  end
+                                  QuestieFramePool:DrawWaypoints(icon, NPC.waypoints[Zone]);
                                 end
                             end
                         end
