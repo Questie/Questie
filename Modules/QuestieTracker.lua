@@ -1246,10 +1246,14 @@ end
 function QuestieTracker:ResetLocation()
     Questie.db.char.TrackerLocation = nil
     if _QuestieTracker.baseFrame then
-        _QuestieTracker.baseFrame:ClearAllPoints()
-        _QuestieTracker.baseFrame:SetPoint("TOPLEFT", UIParent, "CENTER", 0,0)
+        _QuestieTracker:SetSafePoint(_QuestieTracker.baseFrame)
         _QuestieTracker.baseFrame:Show()
     end
+end
+
+function _QuestieTracker:SetSafePoint(frm)
+    frm:ClearAllPoints();
+    frm:SetPoint("TOPLEFT", UIParent, "CENTER", 0,0)
 end
 
 function QuestieTracker:CreateBaseFrame()
@@ -1263,25 +1267,43 @@ function QuestieTracker:CreateBaseFrame()
     t:SetVertexColor(1,1,1,0)
     t:SetAllPoints(frm)
     frm.texture = t
-
+    
+    if Questie.db.char.TrackerLocation and Questie.db.char.TrackerLocation[1] and Questie.db.char.TrackerLocation[1] ~= "TOPRIGHT" and Questie.db.char.TrackerLocation[1] ~= "TOPLEFT" then
+        print(QuestieLocale:GetUIString('TRACKER_INVALID_LOCATION') .. " (2)")
+        Questie.db.char.TrackerLocation = nil
+        --if Questie.db.char.TrackerLocation[1] == "LEFT" then
+        --    Questie.db.char.TrackerLocation[1] = "TOPLEFT"
+        --else -- its either right or center
+        --    Questie.db.char.TrackerLocation[1] = "TOPRIGHT"
+        --end
+    end
+    
     if Questie.db.char.TrackerLocation then
         -- we need to pcall this because it can error if something like MoveAnything is used to move the tracker
         local result, error = pcall(frm.SetPoint, frm, unpack(Questie.db.char.TrackerLocation))
         if not result then
             Questie.db.char.TrackerLocation = nil
             print(QuestieLocale:GetUIString('TRACKER_INVALID_LOCATION'))
-            result, error = pcall(frm.SetPoint, frm, unpack({QuestWatchFrame:GetPoint()}))
-            if not result then
-                Questie.db.char.TrackerLocation = nil
-                frm:SetPoint("CENTER",0,0)
+            if QuestWatchFrame then
+                result, error = pcall(frm.SetPoint, frm, unpack({QuestWatchFrame:GetPoint()}))
+                if not result then
+                    Questie.db.char.TrackerLocation = nil
+                    _QuestieTracker:SetSafePoint(frm)
+                end
+            else
+                _QuestieTracker:SetSafePoint(frm)
             end
         end
     else
-        local result, error = pcall(frm.SetPoint, frm, unpack({QuestWatchFrame:GetPoint()}))
-        if not result then
-            Questie.db.char.TrackerLocation = nil
-            print(QuestieLocale:GetUIString('TRACKER_INVALID_LOCATION'))
-            frm:SetPoint("CENTER",0,0)
+        if QuestWatchFrame then
+            local result, error = pcall(frm.SetPoint, frm, unpack({QuestWatchFrame:GetPoint()}))
+            if not result then
+                Questie.db.char.TrackerLocation = nil
+                print(QuestieLocale:GetUIString('TRACKER_INVALID_LOCATION'))
+                _QuestieTracker:SetSafePoint(frm)
+            end
+        else
+            _QuestieTracker:SetSafePoint(frm)
         end
     end
 
