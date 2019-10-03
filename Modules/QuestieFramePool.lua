@@ -198,6 +198,9 @@ function _QuestieFramePool:QuestieCreateFrame()
     f:SetFrameStrata("TOOLTIP");
     f:SetWidth(16) -- Set these to whatever height/width is needed
     f:SetHeight(16) -- for your Texture
+    f:SetPoint("CENTER", -8, -8)
+    f:EnableMouse(true)--f:EnableMouse()
+
     local t = f:CreateTexture(nil, "TOOLTIP")
     --t:SetTexture("Interface\\Icons\\INV_Misc_Eye_02.blp")
     --t:SetTexture("Interface\\Addons\\!Questie\\Icons\\available.blp")
@@ -216,10 +219,8 @@ function _QuestieFramePool:QuestieCreateFrame()
     f.glowTexture = glowt
     f.glowTexture:SetTexture(ICON_TYPE_GLOW)
     f.glow:Hide()
-    f:SetPoint("CENTER", 0, 0)
-    f.glow:SetPoint("CENTER", - 1, - 1) -- 2 pixels bigger than normal icon
+    f.glow:SetPoint("CENTER", -9, -9) -- 2 pixels bigger than normal icon
     f.glow:EnableMouse(false)
-    f:EnableMouse(true)--f:EnableMouse()
 
     --f.mouseIsOver = false;
     --f:SetScript("OnUpdate", function()
