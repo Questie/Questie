@@ -199,7 +199,7 @@ function QuestieEventHandler:GROUP_ROSTER_UPDATE()
     -- Only want to do logic when number increases, not decreases.
     if(numOfMembers < currentMembers) then
         -- Tell comms to send information to members.
-        Questie:SendMessage("QC_ID_BROADCAST_FULL_QUESTLIST");
+        --Questie:SendMessage("QC_ID_BROADCAST_FULL_QUESTLIST");
         numOfMembers = currentMembers;
     else
         -- We do however always want the local to be the current number to allow up and down.

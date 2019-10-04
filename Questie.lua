@@ -73,6 +73,8 @@ function Questie:OnInitialize()
     -- Initialize Journey Window
     QuestieJourney.Initialize();
 
+    -- Disable QuestieComms
+    QuestieComms = nil;
     -- Initialize Questie Comms
     if(QuestieComms) then
         QuestieComms:Initialize();
