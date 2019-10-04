@@ -11,7 +11,7 @@ local HBD = LibStub("HereBeDragonsQuestie-2.0")
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 local HBDMigrate = LibStub("HereBeDragonsQuestie-Migrate")
 
--- set pins parent to QuestieFrameGroup for easier compatibility with other addons 
+-- set pins parent to QuestieFrameGroup for easier compatibility with other addons
 -- cant use this because it fucks with everything, but we gotta stick with HereBeDragonsQuestie anyway
 HBDPins.MinimapGroup = CreateFrame("Frame", "QuestieFrameGroup", Minimap)
 --HBDPins:SetMinimapObject(_CreateMinimapParent())
@@ -41,7 +41,7 @@ StaticPopupDialogs["QUESTIE_CONFIRMHIDE"] = {
     SetQuest = function(self, id)
         self.QuestID = id
         self.text = QuestieLocale:GetUIString("CONFIRM_HIDE_QUEST", QuestieDB:GetQuest(self.QuestID):GetColoredQuestName())
-        
+
         -- locale might not be loaded when this is first created (this does happen almost always)
         self.button1 = QuestieLocale:GetUIString("CONFIRM_HIDE_YES")
         self.button2 = QuestieLocale:GetUIString("CONFIRM_HIDE_NO")
@@ -58,15 +58,15 @@ StaticPopupDialogs["QUESTIE_CONFIRMHIDE"] = {
 -- Global Functions --
 function QuestieFramePool:GetFrame()
     local f = nil--tremove(_QuestieFramePool.unusedFrames)
-    
+
     -- im not sure its this, but using string keys for the table prevents double-adding to _QuestieFramePool.unusedFrames, calling unload() twice could double-add it maybe?
     for k,v in pairs(_QuestieFramePool.unusedFrames) do -- yikes (why is tremove broken? is there a better to get the first key of a non-indexed table?)
         f = v
         _QuestieFramePool.unusedFrames[k] = nil
         break
     end
-    
-    
+
+
     if f and f.GetName and _QuestieFramePool.usedFrames[f:GetName()] then
         -- something went horribly wrong (desync bug?) don't use this frame since its already in use
         f = nil
@@ -91,29 +91,29 @@ function QuestieFramePool:GetFrame()
     f.x = nil;f.y = nil;f.AreaID = nil;
     f:Hide();
     --end
-    
+
     if f.texture then
         f.texture:SetVertexColor(1, 1, 1, 1)
     end
     f.loaded = true
     f.shouldBeShowing = nil
     f.hidden = nil
-    
+
     if f.BaseOnShow then
         f:SetScript("OnShow", f.BaseOnShow)
     end
-    
+
     if f.BaseOnUpdate then
         --f:SetScript("OnUpdate", f.BaseOnUpdate)
         f.glowLogicTimer = C_Timer.NewTicker(1, f.BaseOnUpdate);
     else
         f:SetScript("OnUpdate", nil)
     end
-    
+
     if f.BaseOnHide then
         f:SetScript("OnHide", f.BaseOnHide)
     end
-    
+
     _QuestieFramePool.usedFrames[f:GetName()] = f
     return f
 end
@@ -132,6 +132,7 @@ function QuestieFramePool:UnloadAll()
         frame:Unload()
     end
     QuestieMap.questIdFrames = {}
+    QuestieMap.manualFrames = {}
 end
 
 function QuestieFramePool:UpdateGlowConfig(mini, mode)
@@ -242,7 +243,6 @@ function _QuestieFramePool:QuestieCreateFrame()
         --_QuestieFramePool:Questie_Click(self)
         if self and self.data and self.data.UiMapID and WorldMapFrame and WorldMapFrame:IsShown() then
             if button == "RightButton" then
-                -- zoom out if possible
                 local currentMapParent = WorldMapFrame:GetMapID()
                 if currentMapParent then
                     currentMapParent = QuestieZoneToParentTable[currentMapParent];
@@ -257,10 +257,9 @@ function _QuestieFramePool:QuestieCreateFrame()
             end
             if self.data.Type == "available" and IsShiftKeyDown() then
                 StaticPopupDialogs["QUESTIE_CONFIRMHIDE"]:SetQuest(self.data.QuestData.Id)
-                --WorldMapFrame:Hide()
-                --StaticPopup:SetFrameStrata("TOOLTIP")
                 StaticPopup_Show ("QUESTIE_CONFIRMHIDE")
-                
+            --TODO elseif self.data.type == "manual" and IsShiftKeyDown() then
+                --QuestieMap:UnloadManualFrames(self.data.id)
             end
         end
         if self and self.data and self.data.UiMapID and IsControlKeyDown() and TomTom and TomTom.AddWaypoint then
@@ -313,7 +312,7 @@ function _QuestieFramePool:QuestieCreateFrame()
         self:SetScript("OnUpdate", nil)
         self:SetScript("OnShow", nil)
         self:SetScript("OnHide", nil)
-        
+
         --We are reseting the frames, making sure that no data is wrong.
         if self ~= nil and self.hidden and self._show ~= nil and self._hide ~= nil then -- restore state to normal (toggle questie)
             self.hidden = false
@@ -351,7 +350,7 @@ function _QuestieFramePool:QuestieCreateFrame()
     end
     f.data = {}
     f:Hide()
-    
+
     -- functions for fake hide/unhide
     function f:FadeOut()
         if not self.faded then
@@ -366,7 +365,7 @@ function _QuestieFramePool:QuestieCreateFrame()
             end
         end
     end
-    
+
     function f:FadeIn()
         if self.faded then
             self.faded = nil
@@ -471,8 +470,12 @@ function _QuestieFramePool:Questie_Tooltip(self)
     local footers = {};
     local contents = {};
 
-    -- TODO: change how the logic works, so this can be nil
-    if self.data.ObjectiveIndex == nil then -- it is nil on some notes like starters/finishers, because its for objectives. However, it needs to be an integer here for duplicate checks
+    -- FIXME: `data` can be nil here which leads to an error, will have to debug:
+    -- https://discordapp.com/channels/263036731165638656/263040777658171392/627808795715960842
+    -- happens when a note doesn't get removed after a quest has been finished, see #1170
+    -- TODO: change how the logic works, so this [ObjectiveIndex?] can be nil
+    -- it is nil on some notes like starters/finishers, because its for objectives. However, it needs to be an integer here for duplicate checks
+    if self.data.ObjectiveIndex == nil then
         self.data.ObjectiveIndex = 0
     end
 

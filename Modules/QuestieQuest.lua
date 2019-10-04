@@ -44,7 +44,9 @@ function QuestieQuest:ToggleNotes(desiredValue)
         return -- we already have the desired state
     end
     if QuestieQuest.NotesHidden then
+        -- change map button
         Questie_Toggle:SetText(QuestieLocale:GetUIString('QUESTIE_MAP_BUTTON_HIDE'));
+        -- show quest notes
         for questId, framelist in pairs(QuestieMap.questIdFrames) do
             for index, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
                 local icon = _G[frameName];
@@ -57,8 +59,20 @@ function QuestieQuest:ToggleNotes(desiredValue)
                 end
             end
         end
+        -- show manual notes
+        -- TODO probably this whole function should be moved to QuestieMap, now that it handles manualFrames
+        for _, frameList in pairs(QuestieMap.manualFrames) do
+            for _, frameName in pairs(frameList) do
+                local icon = _G[frameName];
+                if icon ~= nil and icon.IsShown ~= nil and (not icon.hidden) then -- check for function to make sure its a frame
+                    icon:FakeUnide()
+                end
+            end
+        end
     else
+        -- change map button
         Questie_Toggle:SetText(QuestieLocale:GetUIString('QUESTIE_MAP_BUTTON_SHOW'));
+        -- hide quest notes
         for questId, framelist in pairs(QuestieMap.questIdFrames) do
             for index, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
                 local icon = _G[frameName];
@@ -67,7 +81,17 @@ function QuestieQuest:ToggleNotes(desiredValue)
                 end
             end
         end
+        -- hide manual notes
+        for _, frameList in pairs(QuestieMap.manualFrames) do
+            for _, frameName in pairs(frameList) do
+                local icon = _G[frameName];
+                if icon ~= nil and icon.IsShown ~= nil and (not icon.hidden) then -- check for function to make sure its a frame
+                    icon:FakeHide()
+                end
+            end
+        end
     end
+    -- update config
     QuestieQuest.NotesHidden = not QuestieQuest.NotesHidden
     Questie.db.char.enabled = not QuestieQuest.NotesHidden
 end
@@ -900,7 +924,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                     return {self.Collected, self.Needed, self.Completed} -- updated too recently
                 end
                 self._lastUpdate = now
-                
+
                 -- Use different variable names from above to avoid confusion.
                 local qObjectives = QuestieQuest:GetAllLeaderBoardDetails(self.QuestId);
 
@@ -980,7 +1004,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                 end
             end
         end
-        
+
         if (not Quest.Objectives[objectiveIndex]) or (not Quest.Objectives[objectiveIndex].Id) then
             Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ENTRY_ID', objective.type, objective.text))
         end
