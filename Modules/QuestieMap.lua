@@ -57,6 +57,29 @@ function QuestieMap:UnloadQuestFrames(questId, iconType)
     end
 end
 
+--Get the frames for manual note, this returns all of the frames/spawns
+---@param id integer @The ID of the NPC (>0) or object (<0)
+function QuestieMap:GetManualFrames(id)
+    local frames = {}
+    --If no frames exists or if the quest does not exist we just return an empty list
+    if (QuestieMap.manualFrames[id]) then
+        for _, name in pairs(QuestieMap.manualFrames[id]) do
+            table.insert(frames, _G[name])
+        end
+    end
+    return frames
+end
+
+---@param id integer @The ID of the NPC (>0) or object (<0)
+function QuestieMap:UnloadManualFrames(id)
+    if(QuestieMap.manualFrames[id]) then
+        for index, frame in ipairs(QuestieMap:GetManualFrames(id)) do
+            frame:Unload();
+        end
+        QuestieMap.manualFrames[id] = nil;
+    end
+end
+
 -- Rescale a single icon
 ---@param frameName string @The global name of the icon frame, e.g. "QuestieFrame1"
 local function rescaleIcon(frameName)

@@ -258,8 +258,8 @@ function _QuestieFramePool:QuestieCreateFrame()
             if self.data.Type == "available" and IsShiftKeyDown() then
                 StaticPopupDialogs["QUESTIE_CONFIRMHIDE"]:SetQuest(self.data.QuestData.Id)
                 StaticPopup_Show ("QUESTIE_CONFIRMHIDE")
-            --TODO elseif self.data.type == "manual" and IsShiftKeyDown() then
-                --QuestieMap:UnloadManualFrames(self.data.id)
+            elseif self.data.Type == "manual" and IsShiftKeyDown() then
+                QuestieMap:UnloadManualFrames(self.data.id)
             end
         end
         if self and self.data and self.data.UiMapID and IsControlKeyDown() and TomTom and TomTom.AddWaypoint then
