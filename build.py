@@ -60,6 +60,10 @@ def setArgs():
         versionDir = "%s_%s-%s-%s" % (version, releaseType, nrOfCommits, recentCommit)
         print("Number of commits since tag: " + nrOfCommits)
         print("Most Recent commit: " + recentCommit)
+        branch = getBranch()
+        if branch != "master":
+            versionDir += "-%s" % branch
+        print("Current branch: " + branch)
         zipName = '%s-%s' % (addonDir, versionDir)
 
     # overwrite with command line arguments, if provided
@@ -156,6 +160,14 @@ def getVersion():
         return result.group(1), None, None
     else:
         raise RuntimeError('toc file or version number not found')
+
+def getBranch():
+    if is_tool("git"):
+        scriptDir = os.path.dirname(os.path.realpath(__file__))
+        p = subprocess.check_output(["git", "branch", "--show-current"], cwd=scriptDir)
+        branch = str(p).rstrip("\\n'").lstrip("b'")
+        return branch
+
 
 def replacePath(filePath, oldPath, newPath):
     with open(filePath, 'r') as file:
