@@ -145,6 +145,7 @@ end
 
 function QuestieQuest:SmoothReset() -- use timers to reset progressively instead of all at once
     -- bit of a hack (there has to be a better way to do logic like this
+    QuestieDBMIntegration:ClearAll()
     local stepTable = {
         QuestieQuest.ClearAllNotes,
         function()

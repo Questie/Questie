@@ -326,6 +326,7 @@ function _QuestieFramePool:QuestieCreateFrame()
         self.faded = nil
         HBDPins:RemoveMinimapIcon(Questie, self)
         HBDPins:RemoveWorldMapIcon(Questie, self)
+        QuestieDBMIntegration:UnregisterHudQuestIcon(tostring(self))
         if(self.texture) then
             self.texture:SetVertexColor(1, 1, 1, 1)
         end
