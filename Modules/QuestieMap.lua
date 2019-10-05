@@ -4,7 +4,7 @@ QuestieMap.ICON_MINIMAP_TYPE = "MINIMAP";
 
 -- List of frames sorted by quest ID (automatic notes)
 -- E.g. {[questId] = {[frameName] = frame, ...}, ...}
--- For details about frame see calls to QuestieMap.DrawWorldIcon
+-- For details about frame.data see calls to QuestieMap.DrawWorldIcon
 QuestieMap.questIdFrames = {}
 -- List of frames sorted by NPC/object ID (manual notes)
 -- id > 0: NPC
