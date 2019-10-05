@@ -169,6 +169,19 @@ function QuestieMap:ShowNPC(npcID)
     data.npcData = npc
     data.Name = npc.name
     data.IsObjectiveNote = false
+    data.ManualTooltipData = {}
+    data.ManualTooltipData.Title = npc.name.." (NPC)"
+    local level = tostring(npc.minLevel)
+    local health = tostring(npc.minLevelHealth)
+    if npc.minLevel ~= npc.maxLevel then
+        level = level..'-'..tostring(npc.maxLevel)
+        health = health..'-'..tostring(npc.maxLevelHealth)
+    end
+    data.ManualTooltipData.Body = {
+        {'ID:', tostring(npc.id)},
+        {'Level:', level},
+        {'Health:', health},
+    }
 
     -- draw the notes
     for zone, spawns in pairs(npc.spawns) do
@@ -209,6 +222,11 @@ function QuestieMap:ShowObject(objectID)
     data.objectData = object
     data.Name = object.name
     data.IsObjectiveNote = false
+    data.ManualTooltipData = {}
+    data.ManualTooltipData.Title = object.name.." (object)"
+    data.ManualTooltipData.Body = {
+        {'ID:', tostring(object.id)},
+    }
 
     -- draw the notes
     for zone, spawns in pairs(object.spawns) do

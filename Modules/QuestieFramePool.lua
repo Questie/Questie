@@ -485,6 +485,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
 
     local npcOrder = {};
     local questOrder = {};
+    local manualOrder = {};
     if 1 then
         for _, icon in pairs(_QuestieFramePool.usedFrames) do -- I added "_QuestieFramePool.usedFrames" because I think its a bit more efficient than using _G but I might be wrong
             if icon and icon.data and icon.x and icon.AreaID == self.AreaID then
@@ -532,6 +533,8 @@ function _QuestieFramePool:Questie_Tooltip(self)
                         end
                     elseif icon.data.CustomTooltipData then
                         questOrder[icon.data.CustomTooltipData.Title] = icon.data.CustomTooltipData.Body
+                    elseif icon.data.ManualTooltipData then
+                        manualOrder[icon.data.ManualTooltipData.Title] = icon.data.ManualTooltipData.Body
                     end
                 end
             end
@@ -540,6 +543,8 @@ function _QuestieFramePool:Questie_Tooltip(self)
 
     Tooltip.npcOrder = npcOrder
     Tooltip.questOrder = questOrder
+    Tooltip.manualOrder = manualOrder
+    Tooltip.miniMapIcon = self.miniMapIcon
     Tooltip._Rebuild = function(self)
         local shift = IsShiftKeyDown()
         local haveGiver = false -- hack
@@ -586,6 +591,20 @@ function _QuestieFramePool:Questie_Tooltip(self)
                 for k2, v2 in pairs(v) do
                     self:AddLine("   |cFF33FF33" .. k2);
                 end
+            end
+        end
+        for title, body in pairs(self.manualOrder) do
+            self:AddLine(title)
+            for _, stringOrTable in ipairs(body) do
+                local dataType = type(stringOrTable)
+                if dataType == "string" then
+                    self:AddLine(stringOrTable)
+                elseif dataType == "table" then
+                    self:AddDoubleLine(stringOrTable[1], '|cFFffffff'..stringOrTable[2]..'|r') --normal, white
+                end
+            end
+            if self.miniMapIcon == false then
+                self:AddLine('|cFFa6a6a6Shift-click to hide|r') -- grey
             end
         end
     end
