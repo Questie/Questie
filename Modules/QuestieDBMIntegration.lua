@@ -27,15 +27,20 @@ local QuestieHUDEnabled = false
 --Adds icons to actual hud display
 local function AddHudQuestIcon(tableString, icon, AreaID, x, y, r, g, b)
 	if tableString and not AddedHudIds[tableString] then
+		--Icon based filters, if icon is disabled, return without adding
+		if not Questie.db.global.dbmHUDShowSlay and icon:find("slay") or not Questie.db.global.dbmHUDShowQuest and (icon:find("complete") or icon:find("available")) or not Questie.db.global.dbmHUDShowInteract and icon:find("object") or not Questie.db.global.dbmHUDShowLoot and icon:find("loot") then return end
 		if not DBMHudMap.HUDEnabled then
-			--Force an initial fixed zoom, if one is not set, hudmap tries to zoom out until all registered icons fit, that's no good for world wide quest icons
-			--If an option is added to control zoom level, we can load that variable instead, and on option changed use ChangeZoomLevel function
-			DBMHudMap:SetFixedZoom(100)
+			--Force a fixed zoom, if one is not set, hudmap tries to zoom out until all registered icons fit, that's no good for world wide quest icons
+			DBMHudMap:SetFixedZoom(Questie.db.global.DBMHUDZoom or 100)
 		end
 		--uniqueID, name, texture, x, y, radius, duration, r, g, b, a, blend, useLocalMap, LocalMapId
-		DBMHudMap:RegisterPositionMarker(tableString, "Questie", icon, x, y, 3, nil, r, g, b, 1, nil, true, AreaID):Appear():RegisterForAlerts()
+		if Questie.db.global.dbmHUDShowAlert then
+			DBMHudMap:RegisterPositionMarker(tableString, "Questie", icon, x, y, Questie.db.global.dbmHUDRadius or 3, nil, r, g, b, 1, nil, true, AreaID):Appear():RegisterForAlerts()
+		else
+			DBMHudMap:RegisterPositionMarker(tableString, "Questie", icon, x, y, Questie.db.global.dbmHUDRadius or 3, nil, r, g, b, 1, nil, true, AreaID):Appear()
+		end
 		AddedHudIds[tableString] = true
-		print("Adding "..tableString)
+		--print("Adding "..tableString)
 	end
 end
 
@@ -52,7 +57,7 @@ end
 --  Event/Enable/Disable Handlers  --
 -------------------------------------
 do
-	local eventFrame
+	local eventFrame = CreateFrame("frame", "QuestieDBMIntegration", UIParent)
 	local GetInstanceInfo, IsInInstance = GetInstanceInfo, IsInInstance
 		
 	local function CleanupPoints(keepInstance)
@@ -78,6 +83,18 @@ do
 			end
 		end--]]
 	end
+	
+	local function ReAddHudIcons()
+		if LastInstanceMapID == 0 then--It means we are now in Eastern Kingdoms (but weren't before)
+			for tableString, points in pairs(EKPoints) do
+				AddHudQuestIcon(tableString, points.icon, points.AreaID, points.x, points.y, points.r, points.g, points.b)
+			end
+		elseif LastInstanceMapID == 1 then--It means we are now in Kalimdor (but weren't before)
+			for tableString, points in pairs(KalimdorPoints) do
+				AddHudQuestIcon(tableString, points.icon, points.AreaID, points.x, points.y, points.r, points.g, points.b)
+			end
+		end
+	end
 		
 	local function DelayedMapCheck()
 		--Only run stuff if map actually changes
@@ -89,15 +106,7 @@ do
 				AddedHudIds = {}
 			else
 				CleanupPoints(LastInstanceMapID)
-				if LastInstanceMapID == 0 then--It means we are now in Eastern Kingdoms (but weren't before)
-					for tableString, points in pairs(EKPoints) do
-						AddHudQuestIcon(tableString, points.icon, points.AreaID, points.x, points.y, points.r, points.g, points.b)
-					end
-				elseif LastInstanceMapID == 1 then--It means we are now in Kalimdor (but weren't before)
-					for tableString, points in pairs(KalimdorPoints) do
-						AddHudQuestIcon(tableString, points.icon, points.AreaID, points.x, points.y, points.r, points.g, points.b)
-					end
-				end
+				ReAddHudIcons()
 			end
 		--else
 			--print("No action taken because mapID hasn't changed since last check")
@@ -108,12 +117,17 @@ do
 	function QuestieDBMIntegration:EnableHUD()
 		if DBMHudMap and not QuestieHUDEnabled then
 			QuestieHUDEnabled = true
-			if not eventFrame then
-				eventFrame = CreateFrame("frame", "QuestieDBMIntegration", UIParent)
-			end
 			eventFrame:RegisterEvent("LOADING_SCREEN_DISABLED")
 			DelayedMapCheck()
 			DBM:Schedule(1, DelayedMapCheck)
+		end
+	end
+	
+	function QuestieDBMIntegration:SoftReset()
+		--Needed for when Icon sizes, or icon filters are changed
+		if DBMHudMap and QuestieHUDEnabled then
+			CleanupPoints(9999)--Wipes all the added markers
+			ReAddHudIcons()--Re-Add all icons
 		end
 	end
 		
@@ -130,13 +144,12 @@ do
 			--Also used onClick for GUI option to turn feature off, of course, just pass disable arg
 			if disable then
 				QuestieHUDEnabled = false
-				eventFrame:UnregisterEvent("LOADING_SCREEN_DISABLED")
+				if eventFrame then
+					eventFrame:UnregisterEvent("LOADING_SCREEN_DISABLED")
+				end
+				DBM:Unschedule(DelayedMapCheck)
 			end
 		end
-	end
-	
-	if DBMHudMap then--TODO, add questie option check so this can fire onload and do initial enable
-		QuestieDBMIntegration:EnableHUD()
 	end
 	
 	eventFrame:SetScript("OnEvent", function(self, event, ...)

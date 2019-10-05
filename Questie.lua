@@ -110,6 +110,9 @@ function Questie:OnInitialize()
     else
         Questie_Toggle:Hide();
     end
+	if Questie.db.global.dbmHUDEnable then
+		QuestieDBMIntegration:EnableHUD()
+	end
 end
 
 function Questie:OnUpdate()
