@@ -1481,10 +1481,17 @@ local function FillQuestDetailsFrame(details, id)
     local hiddenByUser = AceGUI:Create("CheckBox")
     hiddenByUser.id = id
     hiddenByUser:SetLabel("Hidden by user")
+    if Questie.db.char.hidden[id] ~= nil then
+        hiddenByUser:SetValue(true)
+    else
+        hiddenByUser:SetValue(false)
+    end
     hiddenByUser:SetCallback("OnValueChanged", function(frame)
         if Questie.db.char.hidden[frame.id] ~= nil then
+            frame:SetValue(false)
             QuestieQuest:UnhideQuest(frame.id)
         else
+            frame:SetValue(true)
             QuestieQuest:HideQuest(frame.id)
         end
     end)
