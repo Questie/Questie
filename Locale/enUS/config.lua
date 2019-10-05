@@ -280,9 +280,6 @@ QuestieLocale.locale['enUS'] = {
     ['JOURNEY_SEARCH_EXE'] = "Search",
     ['JOURNEY_SEARCH_RESULTS'] = "Search Results",
     ['JOURNEY_SEARCH_NOMATCH'] = "No Match for Search Results: %s",
-    -- TODO finally switch all keys to this style for code readability:
-    ['Show on Map'] = "Show on Map",
-    ['Remove from Map'] = "Remove from Map",
 
     -- Debug Messages
     ['DEBUG_LOWLEVEL'] = "Gray Quests toggled to:",
@@ -308,5 +305,13 @@ QuestieLocale.locale['enUS'] = {
     ['DEBUG_UNLOAD_ALL'] = "Unloading all frames, count: %s",
     ['QUESTIE_ACCEPT_NIL'] = "|cFFFF0000Questie ERROR:|r Attempt to accept nil quest! You may need to run /questie reload", 
     ['QUESTIE_UPDATED_RESTART'] = "|cFFFF0000WARNING!|r You have updated questie without restarting the game, this will likely cause problems. Please restart the game before continuing",
+
+    -- TODO finally switch all keys to this style for code readability:
+    ['Show on Map'] = "Show on Map",
+    ['Remove from Map'] = "Remove from Map",
+    ['Starts the following quests:'] = "Starts the following quests:",
+    ['Ends the following quests:'] = "Ends the following quests:",
+    ['No quests to list.'] = "No quests to list.",
+    ['No spawn data available.'] = "No spawn data available.",
 
 };
