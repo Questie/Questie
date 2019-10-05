@@ -210,6 +210,7 @@ function QuestieQuest:UpdateHiddenNotes()
         QuestieQuest:DrawAllAvailableQuests();
     end
 
+    -- Update hidden status of quest notes
     for questId, framelist in pairs(QuestieMap.questIdFrames) do
         for index, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
             local icon = _G[frameName];
@@ -231,8 +232,23 @@ function QuestieQuest:UpdateHiddenNotes()
             end
         end
     end
-    -- hack to hide already-added notes of unwanted type
-
+    -- Update hidden status of manual notes
+    -- TODO maybe move the function to QuestieMap?
+    for id, frameList in pairs(QuestieMap.manualFrames) do
+        for _, frameName in ipairs(frameList) do
+            local icon = _G[frameName]
+            if icon ~= nil and icon.data then
+                if  QuestieQuest.NotesHidden or
+                    ((not Questie.db.global.enableMapIcons) and (not icon.miniMapIcon)) or
+                    ((not Questie.db.global.enableMiniMapIcons) and (icon.miniMapIcon))
+                then
+                    icon:FakeHide()
+                else
+                    icon:FakeUnhide()
+                end 
+            end
+        end
+    end
 end
 
 function QuestieQuest:HideQuest(id)
