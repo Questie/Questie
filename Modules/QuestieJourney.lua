@@ -658,11 +658,42 @@ end
 local zoneTreeFrame = nil;
 local selectedContinent = 0;
 
+-- Create a button for showing/hiding manual notes of NPCs/objects
+local function CreateShowHideButton(id)
+    -- Initialise button
+    local button = AceGUI:Create('Button')
+    button.id = id
+    if not QuestieMap.manualFrames[id] then
+        button:SetText(QuestieLocale:GetUIString('Show on Map'))
+        button:SetCallback('OnClick', function(self) self:ShowOnMap(self) end)
+    else
+        button:SetText(QuestieLocale:GetUIString('Remove from Map'))
+        button:SetCallback('OnClick', function(self) self:RemoveFromMap(self) end)
+    end
+    -- Functions for showing/hiding and switching behaviour afterwards
+    function button:RemoveFromMap(self)
+        QuestieMap:UnloadManualFrames(self.id)
+        self:SetText(QuestieLocale:GetUIString('Show on Map'))
+        self:SetCallback('OnClick', function(self) self:ShowOnMap(self) end)
+    end
+    function button:ShowOnMap(self)
+        if self.id > 0 then
+            QuestieMap:ShowNPC(self.id)
+        elseif self.id < 0 then
+            QuestieMap:ShowObject(-self.id)
+        end
+        self:SetText(QuestieLocale:GetUIString('Remove from Map'))
+        self:SetCallback('OnClick', function(self) self:RemoveFromMap(self) end)
+    end
+    return button
+end
+
 local function NpcFrame(f, npc)
     local header = AceGUI:Create("Heading");
     header:SetFullWidth(true);
     header:SetText(npc.name);
     f:AddChild(header);
+    f:AddChild(CreateShowHideButton(npc.id))
 
     Spacer(f);
 

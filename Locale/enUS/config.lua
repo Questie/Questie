@@ -280,6 +280,9 @@ QuestieLocale.locale['enUS'] = {
     ['JOURNEY_SEARCH_EXE'] = "Search",
     ['JOURNEY_SEARCH_RESULTS'] = "Search Results",
     ['JOURNEY_SEARCH_NOMATCH'] = "No Match for Search Results: %s",
+    -- TODO finally switch all keys to this style for code readability:
+    ['Show on Map'] = "Show on Map",
+    ['Remove from Map'] = "Remove from Map",
 
     -- Debug Messages
     ['DEBUG_LOWLEVEL'] = "Gray Quests toggled to:",
