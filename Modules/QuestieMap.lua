@@ -279,6 +279,7 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
         end
         if Questie.db.global.enableMapIcons then
             QuestieMap:QueueDraw(QuestieMap.ICON_MAP_TYPE, Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, showFlag);
+            QuestieDBMIntegration:RegisterHudQuestIcon(tostring(icon), data.Icon, zoneDataAreaIDToUiMapID[AreaID], x, y, colors[1], colors[2], colors[3])
             --HBDPins:AddWorldMapIconMap(Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, showFlag)
         end
         if(QuestieMap.questIdFrames[data.Id] == nil) then
