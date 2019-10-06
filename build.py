@@ -45,13 +45,14 @@ the '5.0.0' directory already exists.
 '''
 releaseType = 'BETA'
 addonDir = 'Questie'
+versionDir = None
 
 def setArgs():
     #set defaults
     global releaseType
     global addonDir
+    global versionDir
     version, nrOfCommits, recentCommit = getVersion()
-    versionDir = None
     print("Tag: " + version)
     if version != None and nrOfCommits == None and recentCommit == None:
         versionDir = version.replace(' ', '_')
@@ -94,20 +95,19 @@ def main():
     # copy directories
     for dir in ['Database', 'Icons', 'Libs', 'Locale', 'Modules']:
         shutil.copytree(dir, '%s/%s' % (destination, dir))
-    # modify files
-    setVersion()
     # copy files
     for file in ['embeds.xml', 'Questie.lua', 'README.md']:
         shutil.copy2(file, '%s/%s' % (destination, file))
     shutil.copy2('QuestieDev-master.toc', '%s/%s.toc' % (destination, addonDir))
+    # modify toc
+    setVersion()
     # replace path references
     for file in ['QuestieComms.lua', 'QuestieFramePool.lua']:
         replacePath('%s/Modules/%s' % (destination, file), 'QuestieDev-master', addonDir)
     # package files
     root = os.getcwd()
     os.chdir('releases/%s' % (versionDir))
-    with open(os.devnull, 'w') as fp:
-        shutil.make_archive(zipName, "zip", ".", addonDir)
+    shutil.make_archive(zipName, "zip", ".", addonDir)
     os.chdir(root)
     print('New release "%s" created successfully' % (versionDir))
 
@@ -115,6 +115,7 @@ def setVersion():
     if is_tool("git"):
         global addonDir
         global releaseType
+        global versionDir
         scriptDir = os.path.dirname(os.path.realpath(__file__))
         p = subprocess.check_output(["git", "describe", "--tags", "--long"], cwd=scriptDir)
         tagString = str(p).rstrip("\\n'").lstrip("b'")
@@ -130,7 +131,7 @@ def setVersion():
             ## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v4.1.1|r|cFFFF0000 Beta|r
             tocData = re.sub(r"## Version:.*", "## Version: %s %s %s %s" % (versionTag.lstrip("v"), releaseType, nrOfCommits, recentCommit), tocData)
             
-        with open('QuestieDev-master.toc', "w") as toc:
+        with open('releases/%s/%s/%s.toc' % (versionDir, addonDir, addonDir), "w") as toc:
             toc.write(tocData)
 
 def setHookfolder():
