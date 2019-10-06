@@ -47,13 +47,18 @@ function QuestieEventHandler:QUEST_ACCEPTED(questLogIndex, questId)
     QuestieJourney:AcceptQuest(questId)
 end
 
+-- needed to prevent "abandoning" finished quests
+local finishedEventReceived = false
 --Fires when a quest is removed from the questlog, this includes turning it in!
-function QuestieEventHandler:QUEST_REMOVED(QuestId)
-    Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_REMOVED", QuestId);
+function QuestieEventHandler:QUEST_REMOVED(questID)
+    Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_REMOVED", questID);
     _Hack_prime_log()
-
-    QuestieQuest:AbandonedQuest(QuestId)
-    QuestieJourney:AbandonQuest(QuestId)
+    if finishedEventReceived == questID then
+        finishedEventReceived = false
+        return
+    end
+    QuestieQuest:AbandonedQuest(questID)
+    QuestieJourney:AbandonQuest(questID)
 end
 
 --For debugging!
@@ -62,6 +67,7 @@ completeData = {};
 --Fires when a quest is turned in.
 function QuestieEventHandler:QUEST_TURNED_IN(questID, xpReward, moneyReward)
     Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_TURNED_IN", questID, xpReward, moneyReward)
+    finishedEventReceived = questID
     _Hack_prime_log()
 
 
