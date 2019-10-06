@@ -1288,15 +1288,11 @@ function CollectZoneQuests(container, zoneid)
 
             -- see if it's supposed to be a hidden quest
             if QuestieCorrections.hiddenQuests and not QuestieCorrections.hiddenQuests[qid] then
-
-                -- remove any breadcrumb quests too
-                if QuestieCorrections.questExclusiveGroupFixes and not QuestieCorrections.questExclusiveGroupFixes[qid] then
-                    temp.value = qid;
-                    temp.text = q:GetColoredQuestName();
-                    table.insert(zoneTree[1].children, temp);
-                    temp = {}; -- Weird Lua bug requires this to be reset?
-                    availableCounter = availableCounter + 1;
-                end
+                temp.value = qid;
+                temp.text = q:GetColoredQuestName();
+                table.insert(zoneTree[1].children, temp);
+                temp = {}; -- Weird Lua bug requires this to be reset?
+                availableCounter = availableCounter + 1;
             end
         end
     end
@@ -1314,7 +1310,7 @@ function CollectZoneQuests(container, zoneid)
     end
 
     local totalCounter = availableCounter + completedCounter;
-    zoneTree[1].text = zoneTree[1].text .. ' [ '..  availableCounter .. ' ]';
+    zoneTree[1].text = zoneTree[1].text .. ' [ '..  availableCounter ..'/'.. totalCounter ..' ]';
     zoneTree[2].text = zoneTree[2].text .. ' [ '..  completedCounter ..'/'.. totalCounter ..' ]';
 
     -- Build Tree
