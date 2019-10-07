@@ -57,13 +57,18 @@ function QuestieEventHandler:MAP_EXPLORATION_UPDATED()
     end
 end
 
+-- needed to prevent "abandoning" finished quests
+local finishedEventReceived = false
 --Fires when a quest is removed from the questlog, this includes turning it in!
-function QuestieEventHandler:QUEST_REMOVED(QuestId)
-    Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_REMOVED", QuestId);
+function QuestieEventHandler:QUEST_REMOVED(questID)
+    Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_REMOVED", questID);
     _Hack_prime_log()
-
-    QuestieQuest:AbandonedQuest(QuestId)
-    QuestieJourney:AbandonQuest(QuestId)
+    if finishedEventReceived == questID then
+        finishedEventReceived = false
+        return
+    end
+    QuestieQuest:AbandonedQuest(questID)
+    QuestieJourney:AbandonQuest(questID)
 end
 
 --For debugging!
@@ -72,6 +77,7 @@ completeData = {};
 --Fires when a quest is turned in.
 function QuestieEventHandler:QUEST_TURNED_IN(questID, xpReward, moneyReward)
     Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_TURNED_IN", questID, xpReward, moneyReward)
+    finishedEventReceived = questID
     _Hack_prime_log()
 
 
@@ -209,7 +215,7 @@ function QuestieEventHandler:GROUP_ROSTER_UPDATE()
     -- Only want to do logic when number increases, not decreases.
     if(numOfMembers < currentMembers) then
         -- Tell comms to send information to members.
-        Questie:SendMessage("QC_ID_BROADCAST_FULL_QUESTLIST");
+        --Questie:SendMessage("QC_ID_BROADCAST_FULL_QUESTLIST");
         numOfMembers = currentMembers;
     else
         -- We do however always want the local to be the current number to allow up and down.

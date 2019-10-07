@@ -60,15 +60,6 @@ QuestieCorrections.questFixes = {
     [535] = {
         [QuestieDB.questKeys.exclusiveTo] = {533}, -- #1134
     },
-    [103] = {
-        [QuestieDB.questKeys.requiredRaces] = 77, -- #1025
-    },
-    [104] = {
-        [QuestieDB.questKeys.requiredRaces] = 77, -- #1025
-    },
-    [152] = {
-        [QuestieDB.questKeys.requiredRaces] = 77, -- #1025
-    },
     [621] = {
         [QuestieDB.questKeys.inGroupWith] = {}, -- #886
     },
@@ -94,7 +85,8 @@ QuestieCorrections.questFixes = {
         [QuestieDB.questKeys.preQuestSingle] = {}, -- Save Techbot's Brain doesn't need the Tinkmaster Overspark breadcrumb #687
     },
     [1276] = {
-        [QuestieDB.questKeys.preQuestSingle] = {1323,1273,},
+        [QuestieDB.questKeys.preQuestGroup] = {1323,1273,},
+        [QuestieDB.questKeys.preQuestSingle] = {},
     },
     [4641] = {
         [QuestieDB.questKeys.requiredRaces] = 178, -- #877
@@ -341,6 +333,9 @@ QuestieCorrections.questFixes = {
     [2861] = {
         [QuestieDB.questKeys.startedBy] = {{4568,5144,5497,5885,},nil,nil,}, -- #1152
     },
+    [5421] = {
+        [QuestieDB.questKeys.questLevel] = 25,
+    },
     --Wool/Silk/Mageweave/Runecloth donation
     [7791] = {
         [QuestieDB.questKeys.specialFlags] = 1,
@@ -442,6 +437,15 @@ QuestieCorrections.questFixes = {
 
 QuestieCorrections.npcFixes = {
     [4360] = {'Mirefin Warrior',1208,1257,37,39,0,{},nil,15,nil,nil}, -- TODO: remove this after the db is fixed!!! This is just to fix tooltips
+    [11625] = {
+        [QuestieDB.npcKeys.spawns] = {[405]={{67,37},},},
+    },
+    [11626] = {
+        [QuestieDB.npcKeys.spawns] = {[405]={{45,76},},},
+    },
+    [11627] = {
+        [QuestieDB.npcKeys.spawns] = {[405]={{51.41,58.29},{49.45,59.73},{52.42,62.2},{53.94,60.99},{52.61,57.46},{50.51,56.63},{48.29,60.25},{52.24,60.64},{50.82,61.17},{53.65,56.69},{51.95,56.1},{58.03,34.84},{58.63,34.44},{58.93,34.32},{49.36,41.23},{49.37,40.48},{49.37,40.17},{57.76,71.05},{56.74,82.06},{56.79,82.99},{56.94,82.97},{51.47,59.16},{47.0,58.86},{48.52,56.9},{53.65,58.03},{49.13,55.62},{49.57,58.32},{46.48,60.66},{50.3,58.31},{54.97,58.23},{54.27,63.24},{58.42,34.24},{55.68,62.65},{49.49,40.82},{54.2,61},{60.4,62},{60.6,62},},},
+    },
     [11937] = {
         [QuestieDB.npcKeys.spawns] = {[405]={{49.4,76},{49.6,76},{49.8,77},{50,74.6},{50,77.6},{50.2,74.4},{50.4,70.4},{50.4,70.6},{50.6,70.4},{50.6,70.6},{50.8,81},{51.4,71.6},{52.2,80.2},{52.4,81.2},{52.4,81.6},{52.6,77.4},{52.6,81.6},{52.8,81.4},{53,80},{53,83.4},{53,83.8},{54,79.2},{55,79.2},{55,79.6},{55.2,71.6},{55.4,71.2},},}, -- #1047
         [QuestieDB.npcKeys.zoneID] = 405,
@@ -498,6 +502,9 @@ QuestieCorrections.npcFixes = {
     },
     [12369] = {
         [QuestieDB.npcKeys.spawns] = {[405]={{28.6,7.4}}}, -- #901
+    },
+    [2431] = {
+        [QuestieDB.npcKeys.spawns] = {[36]={{62.40,63.14,43.42},},},
     },
     -- Remove wrong patrolling zones on those two (found while investigating #903)
     [446] = {

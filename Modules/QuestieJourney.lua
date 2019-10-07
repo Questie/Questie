@@ -658,59 +658,105 @@ end
 local zoneTreeFrame = nil;
 local selectedContinent = 0;
 
-local function NpcFrame(f, npc)
+-- Create a button for showing/hiding manual notes of NPCs/objects
+local function CreateShowHideButton(id)
+    -- Initialise button
+    local button = AceGUI:Create('Button')
+    button.id = id
+    if not QuestieMap.manualFrames[id] then
+        button:SetText(QuestieLocale:GetUIString('Show on Map'))
+        button:SetCallback('OnClick', function(self) self:ShowOnMap(self) end)
+    else
+        button:SetText(QuestieLocale:GetUIString('Remove from Map'))
+        button:SetCallback('OnClick', function(self) self:RemoveFromMap(self) end)
+    end
+    -- Functions for showing/hiding and switching behaviour afterwards
+    function button:RemoveFromMap(self)
+        QuestieMap:UnloadManualFrames(self.id)
+        self:SetText(QuestieLocale:GetUIString('Show on Map'))
+        self:SetCallback('OnClick', function(self) self:ShowOnMap(self) end)
+    end
+    function button:ShowOnMap(self)
+        if self.id > 0 then
+            QuestieMap:ShowNPC(self.id)
+        elseif self.id < 0 then
+            QuestieMap:ShowObject(-self.id)
+        end
+        self:SetText(QuestieLocale:GetUIString('Remove from Map'))
+        self:SetCallback('OnClick', function(self) self:RemoveFromMap(self) end)
+    end
+    return button
+end
+
+local function SpawnFrame(f, spawn, spawnType)
     local header = AceGUI:Create("Heading");
     header:SetFullWidth(true);
-    header:SetText(npc.name);
+    header:SetText(spawn.name);
     f:AddChild(header);
+    local id = 0
+    local typeLabel = ''
+    if spawnType == 'npc' then
+        id = spawn.id
+        typeLabel = 'NPC'
+    elseif spawnType == 'object' then
+        id = -spawn.id
+        typeLabel = 'Object'
+    end
 
     Spacer(f);
 
-    local npcZone = AceGUI:Create("Label");
-    local startindex = 0;
-    for i in pairs(npc.spawns) do
-        startindex = i;
-    end
+    local spawnID = AceGUI:Create("Label");
+    spawnID:SetText(typeLabel..' ID: '..spawn.id);
+    spawnID:SetFullWidth(true);
+    f:AddChild(spawnID);
 
-    local continent = 'UNKNOWN ZONE';
-    for i, v in ipairs(zoneTable) do
-        if v[startindex] then
-            continent = zoneTable[i][startindex];
+    Spacer(f);
+
+    local spawnZone = AceGUI:Create("Label");
+    if spawn.spawns then
+        f:AddChild(CreateShowHideButton(id))
+        local startindex = 0;
+        for i in pairs(spawn.spawns) do
+            startindex = i;
         end
+
+        local continent = 'UNKNOWN ZONE';
+        for i, v in ipairs(zoneTable) do
+            if v[startindex] then
+                continent = zoneTable[i][startindex];
+            end
+        end
+
+        spawnZone:SetText(continent);
+        spawnZone:SetFullWidth(true);
+        f:AddChild(spawnZone);
+
+        local startx = spawn.spawns[startindex][1][1];
+        local starty = spawn.spawns[startindex][1][2];
+
+        if (startx ~= -1 or starty ~= -1) then
+            local spawnLoc = AceGUI:Create("Label");
+            spawnLoc:SetText("X: ".. startx .." || Y: ".. starty);
+            spawnLoc:SetFullWidth(true);
+            f:AddChild(spawnLoc);
+        end
+    else
+        spawnZone:SetText(QuestieLocale:GetUIString('No spawn data available.'))
+        spawnZone:SetFullWidth(true);
+        f:AddChild(spawnZone);
     end
-
-    npcZone:SetText(continent);
-    npcZone:SetFullWidth(true);
-    f:AddChild(npcZone);
-
-    local startx = npc.spawns[startindex][1][1];
-    local starty = npc.spawns[startindex][1][2];
-
-    if (startx ~= -1 or starty ~= -1) then
-        local npcLoc = AceGUI:Create("Label");
-        npcLoc:SetText("X: ".. startx .." || Y: ".. starty);
-        npcLoc:SetFullWidth(true);
-        f:AddChild(npcLoc);
-    end
-
-    local npcID = AceGUI:Create("Label");
-    npcID:SetText("NPC ID: ".. npc.id);
-    npcID:SetFullWidth(true);
-    f:AddChild(npcID);
-
-    Spacer(f);
 
     -- Also Starts
-    if npc.questStarts then
+    if spawn.questStarts then
         local startGroup = AceGUI:Create("InlineGroup");
         startGroup:SetFullWidth(true);
         startGroup:SetLayout("flow");
-        startGroup:SetTitle(QuestieLocale:GetUIString('JOURNEY_ALSO_STARTS'));
+        startGroup:SetTitle(QuestieLocale:GetUIString('Starts the following quests:'));
         f:AddChild(startGroup);
 
         local startQuests = {};
         local counter = 1;
-        for i, v in pairs(npc.questStarts) do
+        for i, v in pairs(spawn.questStarts) do
             startQuests[counter] = {};
             startQuests[counter].frame = AceGUI:Create("InteractiveLabel");
             startQuests[counter].quest = QuestieDB:GetQuest(v);
@@ -726,7 +772,7 @@ local function NpcFrame(f, npc)
 
         if #startQuests == 0 then
             local noquest = AceGUI:Create("Label");
-            noquest:SetText(QuestieLocale:GetUIString('JOURNEY_NO_QUEST'));
+            noquest:SetText(QuestieLocale:GetUIString('No quests to list.'));
             noquest:SetFullWidth(true);
             startGroup:AddChild(noquest);
         end
@@ -734,18 +780,17 @@ local function NpcFrame(f, npc)
 
     Spacer(f);
 
-     -- Also ends
-     if npc.questEnds then
-
+    -- Also ends
+    if spawn.questEnds then
         local endGroup = AceGUI:Create("InlineGroup");
         endGroup:SetFullWidth(true);
         endGroup:SetLayout("flow");
-        endGroup:SetTitle(QuestieLocale:GetUIString('JOURNEY_ALSO_ENDS'));
+        endGroup:SetTitle(QuestieLocale:GetUIString('Ends the following quests:'));
         f:AddChild(endGroup);
 
         local endQuests = {};
         local counter = 1;
-        for i, v in ipairs(npc.questEnds) do
+        for i, v in ipairs(spawn.questEnds) do
             endQuests[counter] = {};
             endQuests[counter].frame = AceGUI:Create("InteractiveLabel");
             endQuests[counter].quest = QuestieDB:GetQuest(v);
@@ -761,7 +806,7 @@ local function NpcFrame(f, npc)
 
         if #endQuests == 0 then
             local noquest = AceGUI:Create("Label");
-            noquest:SetText(QuestieLocale:GetUIString('JOURNEY_NO_QUEST'));
+            noquest:SetText(QuestieLocale:GetUIString('No quests to list.'));
             noquest:SetFullWidth(true);
             endGroup:AddChild(noquest);
         end
@@ -1243,15 +1288,11 @@ function CollectZoneQuests(container, zoneid)
 
             -- see if it's supposed to be a hidden quest
             if QuestieCorrections.hiddenQuests and not QuestieCorrections.hiddenQuests[qid] then
-
-                -- remove any breadcrumb quests too
-                if QuestieCorrections.questExclusiveGroupFixes and not QuestieCorrections.questExclusiveGroupFixes[qid] then
-                    temp.value = qid;
-                    temp.text = q:GetColoredQuestName();
-                    table.insert(zoneTree[1].children, temp);
-                    temp = {}; -- Weird Lua bug requires this to be reset?
-                    availableCounter = availableCounter + 1;
-                end
+                temp.value = qid;
+                temp.text = q:GetColoredQuestName();
+                table.insert(zoneTree[1].children, temp);
+                temp = {}; -- Weird Lua bug requires this to be reset?
+                availableCounter = availableCounter + 1;
             end
         end
     end
@@ -1269,7 +1310,7 @@ function CollectZoneQuests(container, zoneid)
     end
 
     local totalCounter = availableCounter + completedCounter;
-    zoneTree[1].text = zoneTree[1].text .. ' [ '..  availableCounter .. ' ]';
+    zoneTree[1].text = zoneTree[1].text .. ' [ '..  availableCounter ..'/'.. totalCounter ..' ]';
     zoneTree[2].text = zoneTree[2].text .. ' [ '..  completedCounter ..'/'.. totalCounter ..' ]';
 
     -- Build Tree
@@ -1481,10 +1522,17 @@ local function FillQuestDetailsFrame(details, id)
     local hiddenByUser = AceGUI:Create("CheckBox")
     hiddenByUser.id = id
     hiddenByUser:SetLabel("Hidden by user")
+    if Questie.db.char.hidden[id] ~= nil then
+        hiddenByUser:SetValue(true)
+    else
+        hiddenByUser:SetValue(false)
+    end
     hiddenByUser:SetCallback("OnValueChanged", function(frame)
         if Questie.db.char.hidden[frame.id] ~= nil then
+            frame:SetValue(false)
             QuestieQuest:UnhideQuest(frame.id)
         else
+            frame:SetValue(true)
             QuestieQuest:HideQuest(frame.id)
         end
     end)
@@ -1618,8 +1666,9 @@ function DrawResultTab(container, group)
         elseif lastOpenSearch == "npc" then
             -- NPCs
             local npc = QuestieDB:GetNPC(id);
-            NpcFrame(details, npc);
-
+            SpawnFrame(details, npc, 'npc');
+        elseif lastOpenSearch == "object" then
+            SpawnFrame(details, QuestieDB:GetObject(id), 'object')
         end
     end);
 

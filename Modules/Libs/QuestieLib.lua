@@ -3,6 +3,9 @@
 QuestieLib = {};
 local _QuestieLib = {};
 
+--Is set in QuestieLib.lua
+QuestieLib.AddonPath = "Interface\\Addons\\QuestieDev-master\\";
+
 -- Math functions are often run A LOT so lets keep these local
 local function round(number, decimals)
     return (("%%.%df"):format(decimals)):format(number)
@@ -60,4 +63,27 @@ end
 
 function QuestieLib:Remap(value, low1, high1, low2, high2)
     return low2 + (value - low1) * (high2 - low2) / (high1 - low1);
+end
+
+--Move to Questie.lua after QuestieOptions move.
+function QuestieLib:GetAddonVersionInfo()  -- todo: better place
+    local name, title, _, _, reason = GetAddOnInfo("QuestieDev-master");
+    if(reason == "MISSING") then
+      _, title = GetAddOnInfo("Questie");
+    end
+    --%d = digit, %p = punctuation character, %x = hexadecimal digits.
+    local major, minor, patch, commit = string.match(title, "(%d+)%p(%d+)%p(%d+)_(%x+)");
+    return tonumber(major), tonumber(minor), tonumber(patch), commit;
+end
+
+--Search for just Addon\\ at the front since the interface part often gets trimmed
+--Code Credit Author(s): Cryect (cryect@gmail.com), Xinhuan and their LibGraph-2.0 
+do
+	local path = string.match(debugstack(1, 1, 0), "AddOns\\(.+)Modules\\Libs\\QuestieLib.lua")
+	if path then
+		QuestieLib.AddonPath = "Interface\\AddOns\\"..path
+  else
+    local major, minor, patch, commit = QuestieLib:GetAddonVersionInfo();
+		error("v"..major.."."..minor.."."..patch.."_"..commit.." cannot determine the folder it is located in because the path is too long and got truncated in the debugstack(1, 1, 0) function call")
+  end
 end
