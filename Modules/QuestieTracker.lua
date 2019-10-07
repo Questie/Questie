@@ -1070,6 +1070,7 @@ function QuestieTracker:Update()
             end
             line.label:SetText(QuestieLib:PrintDifficultyColor(Quest.Level, questString))
             
+            line:Show()
             line.label:Show()
             trackerWidth = math.max(trackerWidth, line.label:GetWidth())
             --
@@ -1090,6 +1091,7 @@ function QuestieTracker:Update()
                     else
                         line.label:SetText("    |cFFEEEEEE" .. Objective.Description .. ": " .. lineEnding)
                     end
+                    line:Show()
                     line.label:Show()
                     trackerWidth = math.max(trackerWidth, line.label:GetWidth())
                 end
@@ -1100,7 +1102,7 @@ function QuestieTracker:Update()
 
     -- hide remaining lines
     for i=index+1,trackerLineCount do
-        _QuestieTracker.LineFrames[i].label:Hide()
+        _QuestieTracker.LineFrames[i]:Hide()
     end
 
     -- adjust base frame size for dragging
