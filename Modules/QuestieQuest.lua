@@ -224,7 +224,7 @@ function QuestieQuest:UpdateHiddenNotes()
                 else
                     icon:FakeUnhide()
                 end
-                if icon.data.QuestData.FadeIcons or (icon.data.ObjectiveData and icon.data.ObjectiveData.FadeIcons) then
+                if (icon.data.QuestData.FadeIcons or (icon.data.ObjectiveData and icon.data.ObjectiveData.FadeIcons)) and icon.data.Type ~= "complete" then
                     icon:FadeOut()
                 else
                     icon:FadeIn()
