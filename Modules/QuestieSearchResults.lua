@@ -103,7 +103,7 @@ local function GetRacesString(raceMask)
     end
 end--]]
 
-local function FillQuestDetailsFrame(details, id)
+function QuestieSearchResults:QuestDetailsFrame(details, id)
     local quest = QuestieDB.questData[id]
     -- header
     local title = AceGUI:Create("Heading")
@@ -195,7 +195,7 @@ local function FillQuestDetailsFrame(details, id)
     AddLine(details, "")
 end
 
-local function SpawnFrame(f, spawn, spawnType)
+function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
     local header = AceGUI:Create("Heading");
     header:SetFullWidth(true);
     header:SetText(spawn.name);
@@ -270,7 +270,7 @@ local function SpawnFrame(f, spawn, spawnType)
             startQuests[counter].frame:SetText(startQuests[counter].quest:GetColoredQuestName());
             startQuests[counter].frame:SetUserData('id', v);
             startQuests[counter].frame:SetUserData('name', startQuests[counter].quest.Name);
-            startQuests[counter].frame:SetCallback("OnClick", JumpToSearch);
+            startQuests[counter].frame:SetCallback("OnClick", JumpToQuest);
             startQuests[counter].frame:SetCallback("OnEnter", ShowJourneyTooltip);
             startQuests[counter].frame:SetCallback("OnLeave", HideJourneyTooltip);
             startGroup:AddChild(startQuests[counter].frame);
@@ -304,7 +304,7 @@ local function SpawnFrame(f, spawn, spawnType)
             endQuests[counter].frame:SetText(endQuests[counter].quest:GetColoredQuestName());
             endQuests[counter].frame:SetUserData('id', v);
             endQuests[counter].frame:SetUserData('name', endQuests[counter].quest.Name);
-            endQuests[counter].frame:SetCallback("OnClick", JumpToSearch);
+            endQuests[counter].frame:SetCallback("OnClick", JumpToQuest);
             endQuests[counter].frame:SetCallback("OnEnter", ShowJourneyTooltip);
             endQuests[counter].frame:SetCallback("OnLeave", HideJourneyTooltip);
             endGroup:AddChild(endQuests[counter].frame);
@@ -326,6 +326,7 @@ local function SpawnFrame(f, spawn, spawnType)
 end
 
 -- draws a list of results of a certain type, e.g. "quest"
+local searchTreeFrame = nil
 function QuestieSearchResults:DrawResultTab(container, resultType)
     -- probably already done by `JourneySelectTabGroup`, doesn't hurt to be safe though
     container:ReleaseChildren();
@@ -383,18 +384,19 @@ function QuestieSearchResults:DrawResultTab(container, resultType)
         local id = tonumber(sel);
 
         if lastOpenSearch == "quest" then
-            FillQuestDetailsFrame(details, id);
+            QuestieSearchResults:QuestDetailsFrame(details, id);
         elseif lastOpenSearch == "npc" then
             -- NPCs
             local npc = QuestieDB:GetNPC(id);
-            SpawnFrame(details, npc, 'npc');
+            QuestieSearchResults:SpawnDetailsFrame(details, npc, 'npc');
         elseif lastOpenSearch == "object" then
-            SpawnFrame(details, QuestieDB:GetObject(id), 'object')
+            QuestieSearchResults:SpawnDetailsFrame(details, QuestieDB:GetObject(id), 'object')
         end
     end);
 
     resultFrame:AddChild(resultTree)
     container:AddChild(resultFrame);
+    searchTreeFrame = resultFrame
 end
 
 local function SelectTabGroup(container, event, resultType)
@@ -471,7 +473,7 @@ function QuestieSearchResults:DrawSearchResultTab(searchGroup, searchType, query
     end
 end
 
--- Advanced Search Tab
+-- The "Advanced Search" tab
 local typeDropdown = nil;
 local searchBox = nil;
 local searchGroup = nil;
@@ -534,18 +536,19 @@ function QuestieSearchResults:DrawSearchTab(container)
     container:AddChild(searchGroup);
 end
 
-function JumpToSearch(button)
-    local qid = button:GetUserData('id');
-    local qname = button:GetUserData('name');
+function QuestieSearchResults:JumpToQuest(button)
+    local id = button:GetUserData('id');
+    local name = button:GetUserData('name');
 
     if not (lastOpenWindow == 'search') then
-        tabGroup:SelectTab('search');
+        QuestieJourney.tabGroup:SelectTab('search');
     end
 
-    typeDropdown:SetValue(1);
-    searchBox:SetText(qname);
-    QuestieSearchResults:DrawSearchResultTab(searchGroup, 1, qname);
-    searchTreeFrame:SelectByValue(qid);
-
-    HideJourneyTooltip();
+    if Questie.db.char.searchType == 1 then
+        searchBox:SetText(name)
+        QuestieSearchResults:DrawSearchResultTab(searchGroup, Questie.db.char.searchType, name)
+    else
+        searchBox:SetText(id)
+        QuestieSearchResults:DrawSearchResultTab(searchGroup, Questie.db.char.searchType, id)
+    end
 end

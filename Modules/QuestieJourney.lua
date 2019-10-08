@@ -6,6 +6,11 @@ local isWindowShown = false;
 local lastOpenWindow = "journey";
 local containerCache = nil;
 
+function JumpToQuest(button)
+    QuestieSearchResults:JumpToQuest(button)
+    HideJourneyTooltip()
+ end
+
 local function Spacer(container, size)
     local spacer = AceGUI:Create("Label");
     spacer:SetFullWidth(true);
@@ -773,7 +778,7 @@ local function QuestFrame(f, quest)
                     startQuests[counter].frame:SetText(startQuests[counter].quest:GetColoredQuestName());
                     startQuests[counter].frame:SetUserData('id', v);
                     startQuests[counter].frame:SetUserData('name', startQuests[counter].quest.Name);
-                    startQuests[counter].frame:SetCallback("OnClick", JumpToSearch);
+                    startQuests[counter].frame:SetCallback("OnClick", JumpToQuest);
                     startQuests[counter].frame:SetCallback("OnEnter", ShowJourneyTooltip);
                     startQuests[counter].frame:SetCallback("OnLeave", HideJourneyTooltip);
                     startNPCGroup:AddChild(startQuests[counter].frame);
@@ -867,7 +872,7 @@ local function QuestFrame(f, quest)
                         startQuests[counter].frame:SetText(startQuests[counter].quest:GetColoredQuestName());
                         startQuests[counter].frame:SetUserData('id', v);
                         startQuests[counter].frame:SetUserData('name', startQuests[counter].quest.Name);
-                        startQuests[counter].frame:SetCallback("OnClick", JumpToSearch);
+                        startQuests[counter].frame:SetCallback("OnClick", JumpToQuest);
                         startQuests[counter].frame:SetCallback("OnEnter", ShowJourneyTooltip);
                         startQuests[counter].frame:SetCallback("OnLeave", HideJourneyTooltip);
                         startGOGroup:AddChild(startQuests[counter].frame);
@@ -959,7 +964,7 @@ local function QuestFrame(f, quest)
                     endQuests[counter].frame:SetText(endQuests[counter].quest:GetColoredQuestName());
                     endQuests[counter].frame:SetUserData('id', v);
                     endQuests[counter].frame:SetUserData('name', endQuests[counter].quest.Name);
-                    endQuests[counter].frame:SetCallback("OnClick", JumpToSearch);
+                    endQuests[counter].frame:SetCallback("OnClick", JumpToQuest);
                     endQuests[counter].frame:SetCallback("OnEnter", ShowJourneyTooltip);
                     endQuests[counter].frame:SetCallback("OnLeave", HideJourneyTooltip);
                     endNPCGroup:AddChild(endQuests[counter].frame);
@@ -1160,7 +1165,7 @@ function JourneySelectTabGroup(container, event, group)
     end
 end
 
-local tabGroup = nil;
+QuestieJourney.tabGroup = nil;
 function QuestieJourney:Initialize()
 
     journeyFrame.frame = AceGUI:Create("Frame");
@@ -1168,9 +1173,9 @@ function QuestieJourney:Initialize()
     journeyFrame.frame:SetTitle(QuestieLocale:GetUIString('JOURNEY_TITLE', UnitName("player")));
     journeyFrame.frame:SetLayout("Fill");
 
-    tabGroup = AceGUI:Create("TabGroup")
-    tabGroup:SetLayout("Flow");
-    tabGroup:SetTabs({
+    QuestieJourney.tabGroup = AceGUI:Create("TabGroup")
+    QuestieJourney.tabGroup:SetLayout("Flow");
+    QuestieJourney.tabGroup:SetTabs({
         {
             text = QuestieLocale:GetUIString('JOUNREY_TAB'),
             value="journey"
@@ -1184,10 +1189,10 @@ function QuestieJourney:Initialize()
             value="search"
         }
     });
-    tabGroup:SetCallback("OnGroupSelected", JourneySelectTabGroup);
-    tabGroup:SelectTab("journey");
+    QuestieJourney.tabGroup:SetCallback("OnGroupSelected", JourneySelectTabGroup);
+    QuestieJourney.tabGroup:SelectTab("journey");
 
-    journeyFrame.frame:AddChild(tabGroup);
+    journeyFrame.frame:AddChild(QuestieJourney.tabGroup);
 
     journeyFrame.frame:SetCallback("OnClose", function()
         isWindowShown = false;
