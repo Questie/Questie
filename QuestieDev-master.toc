@@ -58,6 +58,7 @@ Modules\QuestieNameplate.lua
 Modules\QuestieCoordinates.lua
 Modules\QuestieJourney.lua
 #Modules\QuestieComms.lua
+Modules\QuestieSearchResults.lua
 Modules\QuestieSearch.lua
 Modules\QuestieTracker.lua
 Modules\QuestieOptions.lua
