@@ -294,4 +294,12 @@ QuestieLocale.locale['frFR'] = {
 	['MINIMAP_AVAILABLE_SCALE'] = "Echelle des icônes complètes et disponibles pour la mini-carte", -- En Attente
 	['MINIMAP_AVAILABLE_SCALE_DESC'] = "Quelle est la taille des icônes complètes et disponibles pour la mini-carte. (Par défaut: %s)", -- En Attente
 	['MINIMAP_FADE'] = "Fading des notes de la mini-carte", -- En Attente
+	
+	-- TODO Finalement basculé toutes les clés sur ce style pour avoir une lisibilité du code:
+	['Show on Map'] = "Afficher sur la carte",
+	['Remove from Map'] = "Supprimer de la carte",
+	['Starts the following quests:'] = "Commence les quêtes suivantes:",
+	['Ends the following quests:'] = "Termine les quêtes suivantes:",
+	['No quests to list.'] = "Aucune quête à répertorier.",
+	['No spawn data available.'] = "Aucune donnée de spawn disponible.",
 };
