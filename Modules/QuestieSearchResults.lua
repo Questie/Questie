@@ -147,25 +147,7 @@ function QuestieSearchResults:QuestDetailsFrame(details, id)
     local hiddenQuests = AceGUI:Create("CheckBox")
     hiddenQuests:SetValue(QuestieCorrections.hiddenQuests[id] ~= nil)
     hiddenQuests:SetLabel("Hidden by Questie")
-    hiddenQuests:SetCallback("OnEnter", function()
-        if GameTooltip:IsShown() then
-            return;
-        end
-        GameTooltip:SetOwner(_G["QuestieJourneyFrame"], "ANCHOR_CURSOR");
-        GameTooltip:AddLine("Quests hidden by Questie");
-        GameTooltip:AddLine("\nCertain quests, like world/holiday/class/etc. are hidden.\n\nWe will eventually show more of these once we can properly check their conditions.\n\nSome are intentionally hidden and will always stay that way though (like CLUCK!).", 1, 1, 1, true);
-        GameTooltip:SetFrameStrata("TOOLTIP");
-        GameTooltip:Show();
-    end)
-    hiddenQuests:SetCallback("OnLeave", function()
-        if GameTooltip:IsShown() then
-            GameTooltip:Hide();
-        end
-    end)
-    hiddenQuests:SetCallback("OnValueChanged", function(frame)
-        frame:SetValue(not frame:GetValue())
-    end)
-    --hiddenQuests:SetDisabled(true)
+    hiddenQuests:SetDisabled(true)
     details:AddChild(hiddenQuests)
     -- general info
     AddLine(details, yellow .. "Quest ID:|r " .. id)
@@ -549,10 +531,8 @@ function QuestieSearchResults:JumpToQuest(button)
 
     if Questie.db.char.searchType == 1 then
         searchBox:SetText(name)
-        QuestieSearchResults:DrawSearchResultTab(searchGroup, Questie.db.char.searchType, name)
     else
         searchBox:SetText(id)
-        QuestieSearchResults:DrawSearchResultTab(searchGroup, Questie.db.char.searchType, id)
     end
 end
 
