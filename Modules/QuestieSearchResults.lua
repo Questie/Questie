@@ -540,6 +540,9 @@ function QuestieSearchResults:JumpToQuest(button)
     local id = button:GetUserData('id');
     local name = button:GetUserData('name');
 
+    if not QuestieJourney:IsShown() then
+        QuestieJourney:ToggleJourneyWindow()
+    end
     if not (lastOpenWindow == 'search') then
         QuestieJourney.tabGroup:SelectTab('search');
     end
