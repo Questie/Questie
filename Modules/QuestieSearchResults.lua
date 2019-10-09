@@ -270,7 +270,7 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
             startQuests[counter].frame:SetText(startQuests[counter].quest:GetColoredQuestName());
             startQuests[counter].frame:SetUserData('id', v);
             startQuests[counter].frame:SetUserData('name', startQuests[counter].quest.Name);
-            startQuests[counter].frame:SetCallback("OnClick", JumpToQuest);
+            startQuests[counter].frame:SetCallback("OnClick", function(self) QuestieSearchResults:GetDetailFrame('quest', v) end)
             startQuests[counter].frame:SetCallback("OnEnter", ShowJourneyTooltip);
             startQuests[counter].frame:SetCallback("OnLeave", HideJourneyTooltip);
             startGroup:AddChild(startQuests[counter].frame);
@@ -304,7 +304,7 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
             endQuests[counter].frame:SetText(endQuests[counter].quest:GetColoredQuestName());
             endQuests[counter].frame:SetUserData('id', v);
             endQuests[counter].frame:SetUserData('name', endQuests[counter].quest.Name);
-            endQuests[counter].frame:SetCallback("OnClick", JumpToQuest);
+            endQuests[counter].frame:SetCallback("OnClick", function(self) QuestieSearchResults:GetDetailFrame('quest', v) end);
             endQuests[counter].frame:SetCallback("OnEnter", ShowJourneyTooltip);
             endQuests[counter].frame:SetCallback("OnLeave", HideJourneyTooltip);
             endGroup:AddChild(endQuests[counter].frame);
@@ -551,4 +551,25 @@ function QuestieSearchResults:JumpToQuest(button)
         searchBox:SetText(id)
         QuestieSearchResults:DrawSearchResultTab(searchGroup, Questie.db.char.searchType, id)
     end
+end
+
+function QuestieSearchResults:GetDetailFrame(detailType, id)
+    local frame = AceGUI:Create("Frame")
+    frame:SetHeight(300)
+    frame:SetWidth(300)
+    if detailType == 'quest' then
+        QuestieSearchResults:QuestDetailsFrame(frame, id)
+        frame:SetTitle('Quest Details')
+    elseif detailType == 'npc' then
+        QuestieSearchResults:SpawnDetailsFrame(frame, QuestieDB:GetNPC(id), detailType)
+        frame:SetTitle('NPC Details')
+    elseif detailType == 'object' then
+        QuestieSearchResults:SpawnDetailsFrame(frame, QuestieDB:GetObject(id), detailType)
+        frame:SetTitle('Object Details')
+    -- TODO elseif detailType == 'item' then
+    else
+        frame:ReleaseChildren()
+        return
+    end
+    frame:Show()
 end
