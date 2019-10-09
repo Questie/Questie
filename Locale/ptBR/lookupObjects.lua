@@ -1,4 +1,3 @@
-
 LangObjectLookup['ptBR'] = {
 ["Baú Afundado"] = 32,
 ["Velho Garrafão"] = 34,
