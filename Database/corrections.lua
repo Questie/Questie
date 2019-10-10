@@ -336,6 +336,11 @@ QuestieCorrections.questFixes = {
     [5421] = {
         [QuestieDB.questKeys.questLevel] = 25,
     },
+    -- fix two "The Hunter's Path" quests being started by "Sian'dur" in Orgrimmar
+    -- this one is now started by "Kary Thunderhorn" in Thunder Bluff
+    [6070] = {
+        [QuestieDB.questKeys.startedBy] = {{3038,},nil,nil,},
+    }
 }
 
 QuestieCorrections.npcFixes = {
