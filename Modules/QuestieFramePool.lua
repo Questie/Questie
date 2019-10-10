@@ -342,7 +342,6 @@ function _QuestieFramePool:QuestieCreateFrame()
         --Unload potential waypoint frames that are used for pathing.
         if(self.data.lineFrames) then
             for index, lineFrame in pairs(self.data.lineFrames) do
-                HBDPins:RemoveWorldMapIcon(Questie, lineFrame)
                 lineFrame:Unload();
             end
         end
@@ -547,6 +546,7 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
         if(not debugFoundSelf) then
             Questie:Error("lineFrame unload failed, could not find self in used frames when unloaded...", self:GetName());
         end
+        HBDPins:RemoveWorldMapIcon(Questie, self)
         tinsert(QuestieFramePool.Routes_Lines, self);
     end
     local line = lineFrame.line or lineFrame:CreateLine();
