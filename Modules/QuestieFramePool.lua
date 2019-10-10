@@ -342,6 +342,7 @@ function _QuestieFramePool:QuestieCreateFrame()
         --Unload potential waypoint frames that are used for pathing.
         if(self.data.lineFrames) then
             for index, lineFrame in pairs(self.data.lineFrames) do
+                HBDPins:RemoveWorldMapIcon(Questie, lineFrame)
                 lineFrame:Unload();
             end
         end
