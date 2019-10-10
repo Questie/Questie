@@ -509,7 +509,11 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     lineFrame:SetHeight(width);
     lineFrame:SetWidth(height);
     lineFrame:SetPoint("TOPLEFT", WorldMapFrame:GetCanvas(), "TOPLEFT", 0, 0)
-    lineFrame:SetFrameLevel(iconFrame:GetFrameLevel()-1)
+    local frameLevel = iconFrame:GetFrameLevel();
+    if(frameLevel > 1) then
+        frameLevel = frameLevel - 1;
+    end
+    lineFrame:SetFrameLevel(frameLevel)
     lineFrame:SetFrameStrata("DIALOG");
 
     --How to identify what the frame actually contains, this is not used atm could easily be changed.
