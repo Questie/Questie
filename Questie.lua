@@ -73,6 +73,8 @@ function Questie:OnInitialize()
     -- Initialize Journey Window
     QuestieJourney.Initialize();
 
+    -- Disable QuestieComms
+    QuestieComms = nil;
     -- Initialize Questie Comms
     if(QuestieComms) then
         QuestieComms:Initialize();
@@ -108,6 +110,9 @@ function Questie:OnInitialize()
     else
         Questie_Toggle:Hide();
     end
+	if Questie.db.global.dbmHUDEnable then
+		QuestieDBMIntegration:EnableHUD()
+	end
 end
 
 function Questie:OnUpdate()
