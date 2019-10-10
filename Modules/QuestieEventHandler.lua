@@ -47,98 +47,35 @@ function QuestieEventHandler:QUEST_ACCEPTED(questLogIndex, questId)
     QuestieJourney:AcceptQuest(questId)
 end
 
--- needed to prevent "abandoning" finished quests
+-- Needed to distinguish finished quests from abandoned quests
 local finishedEventReceived = false
---Fires when a quest is removed from the questlog, this includes turning it in!
+
+-- Fires when a quest is removed from the questlog, this includes turning it in
+-- and abandoning it.
 function QuestieEventHandler:QUEST_REMOVED(questID)
     Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_REMOVED", questID);
     _Hack_prime_log()
     if finishedEventReceived == questID then
         finishedEventReceived = false
+        runQLU = true
+        QuestieQuest:CompleteQuest(questID)
+        QuestieJourney:CompleteQuest(questID)
         return
     end
     QuestieQuest:AbandonedQuest(questID)
     QuestieJourney:AbandonQuest(questID)
 end
 
---For debugging!
-completeData = {};
-
---Fires when a quest is turned in.
+-- Fires when a quest is turned in, but before it is remove from the quest log.
+-- We need to save the ID of the finished quest to check it in QR event.
 function QuestieEventHandler:QUEST_TURNED_IN(questID, xpReward, moneyReward)
     Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_TURNED_IN", questID, xpReward, moneyReward)
-    finishedEventReceived = questID
     _Hack_prime_log()
-
-
-    -- Test code!
-    completeData = {};
-
-    local questLogIndex = GetQuestLogIndexByID(questID);
-    local _, _, _, _, _, isComplete, _, _, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(questLogIndex)
-    completeData["GetQuestLogTitle"] = isComplete;
-    completeData["IsQuestComplete"] = IsQuestComplete(questID);
-    local objectiveData = C_QuestLog.GetQuestObjectives(questID);
-    completeData["CQuestLogGetQuestObjectives"] = {}
-    for qIndex, objective in pairs(objectiveData) do
-        completeData["CQuestLogGetQuestObjectives"][qIndex] = objective;
-    end
-    completeData["CanAbandonQuest"] = not CanAbandonQuest(questID); -- Reverse, we want to know if we CAN'T abandon to see if it is done (keep it in line with isComplete)
-    completeData["IsUnitOnQuest"] = not IsUnitOnQuest(questLogIndex, "player"); --Reverse, we want to keep true / false the same if isComplete is true, this should be true.
-    completeData["IsUnitOnQuestByQuestID"] = not IsUnitOnQuestByQuestID(questID, "player"); --Reverse, we want to keep true / false the same if isComplete is true, this should be true.
-    --What is this? HaveQuestData(questId);
-    --We should also use IsQuestCompletable
-    if(HaveQuestData) then
-        Questie:Debug(DEBUG_DEVELOP, "[QuestieEventHandler]", "----EVENT: QUEST_TURNED_IN HaveQuestData");
-        Questie:Debug(DEBUG_DEVELOP, "[QuestieEventHandler]", "value:" , tostring(HaveQuestData(questID)));
-        Questie:Debug(DEBUG_DEVELOP, "[QuestieEventHandler]", "----");
-    end
-
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieEventHandler]", "EVENT: QUEST_TURNED_IN - API responses:");
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieEventHandler]", "GetQuestLogTitle:", tostring(completeData["GetQuestLogTitle"]));
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieEventHandler]", "IsQuestComplete:", tostring(completeData["IsQuestComplete"]));
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieEventHandler]", "reversed CanAbandonQuest:", tostring(completeData["CanAbandonQuest"]));
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieEventHandler]", "reversed IsUnitOnQuest", tostring(completeData["IsUnitOnQuest"]));
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieEventHandler]", "reversed IsUnitOnQuestByQuestID  ", tostring(completeData["IsUnitOnQuestByQuestID"]));
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieEventHandler]", "----C_QuestLog.GetQuestObjectives")
-    for qIndex, objective in pairs(completeData["CQuestLogGetQuestObjectives"]) do
-        if(objective) then
-            Questie:Debug(DEBUG_DEVELOP, "[QuestieEventHandler]", "-- i:", qIndex, "finished:", tostring(objective.finished));
-        end
-    end
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieEventHandler]", "----")
-    local total = 0;
-    local complete = 0;
-    for api, value in pairs(completeData) do
-        if(type(value) ~= "table") then
-            if(value) then
-                complete = complete + 1;
-            end
-            total = total + 1;
-        end
-    end
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieEventHandler]", "The functions show complete/total :", complete, "/", total, " resolve isComplete:", tostring((total-complete) < complete));
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieEventHandler]", "IsQuestFlaggedCompleted:", tostring(IsQuestFlaggedCompleted(questID)));
-    -- These functions should be more afterwards.
-    --completeData["IsQuestFlaggedCompleted"] = IsQuestFlaggedCompleted(questID);
-
-    --end of test code
-
-    --This is all test code! We should probably not use a timer!
-    --As with everything else this should probably happen on the next QLU
-    --The timer is very expensive, but complete quest is a function not used often so i think i would be fine.
-    -- local timer = nil;
-    -- timer = C_Timer.NewTicker(0.5, function() 
-    --     local isComp = IsQuestFlaggedCompleted(questID);
-    --     Questie:Debug(DEBUG_DEVELOP, "[QuestieEventHandler]", "IsQuestFlaggedCompleted:", isComp, "HaveQuestData:", tostring(HaveQuestData(questID)));
-    --     if(isComp) then
-    --         QuestieQuest:CompleteQuest(questID)
-    --         QuestieJourney:CompleteQuest(questID)
-    --         timer:Cancel();
-    --     end
-    -- end);
+    finishedEventReceived = questID
 end
 
+-- Fires when the quest log changes. That includes visual changes and
+-- client/server communication, so not every event really updates the log data.
 function QuestieEventHandler:QUEST_LOG_UPDATE()
     Questie:Debug(DEBUG_DEVELOP, "QUEST_LOG_UPDATE")
     hasFirstQLU = true
@@ -153,16 +90,20 @@ function QuestieEventHandler:QUEST_LOG_UPDATE()
         playerEntered = nil;
     end
 
+    -- QR or UQLC events have set the flag, so we need to update Questie state.
     if runQLU then
         QuestieQuest:CompareQuestHashes()
         runQLU = false
     end
 end
 
+-- Fired before data for quest log changes, including other players.
 function QuestieEventHandler:UNIT_QUEST_LOG_CHANGED(unitTarget)
+    -- If the unitTarget is "player" the changed log is from "our" player and
+    -- we need to tell the next QLU event to check the quest log for updated
+    -- data.
     if unitTarget == "player" then
         Questie:Debug(DEBUG_DEVELOP, "UNIT_QUEST_LOG_CHANGED: player")
-
         runQLU = true
     end
 end
