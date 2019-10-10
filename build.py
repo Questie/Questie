@@ -127,16 +127,22 @@ def setVersion():
         versionTag, nrOfCommits, recentCommit = tagString.split("-")
         recentCommit = recentCommit.lstrip("g") # There is a "g" before all the commits.
         tocData = None
+        cleanData = None
         # Replace the toc data with git information.
         with open('QuestieDev-master.toc') as toc:
             tocData = toc.read()
+            cleanData = tocData;
             ## Version: 4.1.1 BETA
             tocData = re.sub(r"## Title:.*", "## Title: |cFFFFFFFF%s|r|cFF00FF00 %s_%s|r|cFFFF0000 %s|r" % (addonDir, versionTag, recentCommit, releaseType), tocData)
             ## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v4.1.1|r|cFFFF0000 Beta|r
             tocData = re.sub(r"## Version:.*", "## Version: %s %s %s %s" % (versionTag.lstrip("v"), releaseType, nrOfCommits, recentCommit), tocData)
-            
+            cleanData = re.sub(r"\d+\.\d+\.\d+", versionTag.lstrip("v"), cleanData)
+
         with open('releases/%s/%s/%s.toc' % (versionDir, addonDir, addonDir), "w") as toc:
             toc.write(tocData)
+        
+        with open('QuestieDev-master.toc', "w") as toc:
+            toc.write(cleanData)
 
 def setHookfolder():
     if is_tool("git"):
