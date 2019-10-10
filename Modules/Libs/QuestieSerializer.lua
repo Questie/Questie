@@ -82,11 +82,19 @@ local function intBitsToFloat(int)
     return n
 end
 
+local function _ReadObject(self)
+	local typ = self.stream:ReadByte();
+	if typ > 23 then
+		return typ - 24
+	end
+	return QuestieSerializer.ReaderTable[typ](self);
+end
+
 local function _ReadTable(self, entryCount)
     local ret = {}
     for i=1,entryCount do
-        local key = QuestieSerializer.ReaderTable[self.stream:ReadByte()](self)
-        local value = QuestieSerializer.ReaderTable[self.stream:ReadByte()](self)
+        local key = _ReadObject(self)
+        local value = _ReadObject(self)
         ret[key] = value
     end
     return ret
@@ -113,6 +121,7 @@ QuestieSerializer.ReaderTable = {
    
    [16] = function(self) return false end,
    [17] = function(self) return true end,
+   --up to 23
    
 }
 
@@ -130,6 +139,8 @@ QuestieSerializer.WriterTable = {
             if value > 2147483646 then
                 self.stream:WriteByte(4 + sign) 
                 self.stream:WriteLong(value)
+			elseif not sign and value < 230 then
+				self.stream:WriteByte(24 + value) -- encoded in type byte
             elseif value < 250 then
                 self.stream:WriteByte(12 + sign) 
                 self.stream:WriteByte(value)
