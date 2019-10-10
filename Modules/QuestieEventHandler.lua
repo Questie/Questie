@@ -127,16 +127,16 @@ function QuestieEventHandler:QUEST_TURNED_IN(questID, xpReward, moneyReward)
     --This is all test code! We should probably not use a timer!
     --As with everything else this should probably happen on the next QLU
     --The timer is very expensive, but complete quest is a function not used often so i think i would be fine.
-    local timer = nil;
-    timer = C_Timer.NewTicker(0.5, function() 
-        local isComp = IsQuestFlaggedCompleted(questID);
-        Questie:Debug(DEBUG_DEVELOP, "[QuestieEventHandler]", "IsQuestFlaggedCompleted:", isComp, "HaveQuestData:", tostring(HaveQuestData(questID)));
-        if(isComp) then
-            QuestieQuest:CompleteQuest(questID)
-            QuestieJourney:CompleteQuest(questID)
-            timer:Cancel();
-        end
-    end);
+    -- local timer = nil;
+    -- timer = C_Timer.NewTicker(0.5, function() 
+    --     local isComp = IsQuestFlaggedCompleted(questID);
+    --     Questie:Debug(DEBUG_DEVELOP, "[QuestieEventHandler]", "IsQuestFlaggedCompleted:", isComp, "HaveQuestData:", tostring(HaveQuestData(questID)));
+    --     if(isComp) then
+    --         QuestieQuest:CompleteQuest(questID)
+    --         QuestieJourney:CompleteQuest(questID)
+    --         timer:Cancel();
+    --     end
+    -- end);
 end
 
 function QuestieEventHandler:QUEST_LOG_UPDATE()
@@ -197,6 +197,12 @@ end
 function QuestieEventHandler:CHAT_MSG_SKILL()
     Questie:Debug(DEBUG_DEVELOP, "CHAT_MSG_SKILL")
     QuestieProfessions:Update()
+end
+
+-- Fired when some chat messages about reputations are displayed
+function QuestieEventHandler:CHAT_MSG_COMBAT_FACTION_CHANGE()
+    Questie:Debug(DEBUG_DEVELOP, "CHAT_MSG_COMBAT_FACTION_CHANGE")
+    QuestieReputation:Update()
 end
 
 local numOfMembers = -1;
