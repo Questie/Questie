@@ -83,11 +83,11 @@ local function intBitsToFloat(int)
 end
 
 local function _ReadObject(self)
-	local typ = self.stream:ReadByte();
-	if typ > 23 then
-		return typ - 24
-	end
-	return QuestieSerializer.ReaderTable[typ](self);
+    local typ = self.stream:ReadByte();
+    if typ > 23 then -- this isnt actually a type but a number value
+        return typ - 24
+    end
+    return QuestieSerializer.ReaderTable[typ](self);
 end
 
 local function _ReadTable(self, entryCount)
@@ -139,13 +139,13 @@ QuestieSerializer.WriterTable = {
             if value > 2147483646 then
                 self.stream:WriteByte(4 + sign) 
                 self.stream:WriteLong(value)
-			elseif not sign and value < 230 then
-				self.stream:WriteByte(24 + value) -- encoded in type byte
+            elseif value < 230 and sign == 0 then
+                self.stream:WriteByte(24 + value) -- encoded in type byte
             elseif value < 250 then
                 self.stream:WriteByte(12 + sign) 
                 self.stream:WriteByte(value)
             elseif value < 65530 then
-                self.stream:WriteByte(14 + sign) 
+                self.stream:WriteByte(14 + sign)
                 self.stream:WriteShort(value)
             else
                 self.stream:WriteByte(2 + sign) 
