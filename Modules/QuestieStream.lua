@@ -99,10 +99,10 @@ function QuestieStreamLib:_WriteByte_b89(e)
     end
 end
 
-local _1short_control = 126
+local _1short_control = 241
 
 local _1short_control_table = {
-    126, 0, 10, 13, 124
+    241, 0
 }
 
 local _1short_control_table_reversed = {};

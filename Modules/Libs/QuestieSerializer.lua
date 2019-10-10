@@ -210,17 +210,17 @@ end
 function QuestieSerializer:Serialize(tab)
     QuestieSerializer:SetupStream()
     self.objectCount = 0
-    QuestieSerializer:WriteKeyValuePair("meta", {protocolVersion = 1, mode="1short"})
-    QuestieSerializer:WriteKeyValuePair("data", tab)
+    --QuestieSerializer:WriteKeyValuePair("meta", {protocolVersion = 1, mode="1short"})
+    QuestieSerializer:WriteKeyValuePair(1, tab)
     return self.stream:Save()
 end
 
 function QuestieSerializer:Deserialize(data)
     QuestieSerializer:SetupStream()
     self.stream:Load(data)
-    local meta = _ReadTable(self, 1)
+    --local meta = _ReadTable(self, 1)
     local data = _ReadTable(self, 1)
-    return data["data"]
+    return data[1]
 end
 local _libAS = LibStub("AceSerializer-3.0")
 local _libCP = LibStub("LibCompress")
@@ -228,35 +228,78 @@ function QuestieSerializer:Test()
     --Questie.db.char.HashTable = QuestieSerializer.SerializerHashDB
     --self.stream = QuestieStreamLib:GetStream("1short")
     local testtable = {}
-            local rawQuestList = {}
+    local rawQuestList = {}
         -- Maybe this should be its own function in QuestieQuest...
-        local numEntries, numQuests = GetNumQuestLogEntries();
-        for index = 1, numEntries do
-            local _, _, _, isHeader, _, _, _, questId, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
-            if(not isHeader) then
-                -- The id is not needed due to it being used as a key, but send it anyway to keep the same structure.
-                local quest = {};
-                quest.id = questId;
-                quest.objectives = QuestieQuest:GetAllLeaderBoardDetails(questId);
+    local numEntries, numQuests = GetNumQuestLogEntries();
+    for index = 1, numEntries do
+        local _, _, _, isHeader, _, _, _, questId, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
+        if(not isHeader) then
+            -- The id is not needed due to it being used as a key, but send it anyway to keep the same structure.
+            local quest = {};
+            quest.id = questId;
+            quest.objectives = QuestieQuest:GetAllLeaderBoardDetails(questId);
 
-                rawQuestList[quest.id] = quest;
-            end
+            rawQuestList[quest.id] = quest;
         end
-        testtable = rawQuestList
+    end
+    testtable = rawQuestList
     local serQ = QuestieSerializer:Serialize(testtable)
-    local serA = _libAS:Serialize({["meta"]={protocolVersion = 1, mode="1short"},["data"]=testtable});
+    local serA = _libAS:Serialize({[1]=testtable});
+    
     Questie.db.char.WriteTest = serQ
-    print("Done!QuestieCompress:\n" .. serQ)
-    print("len: " .. string.len(serQ));
-    print("lenCompressedHuffman: " .. string.len(_libCP:CompressHuffman(serQ)));
-    print("lenCompressedLZW: " .. string.len(_libCP:CompressLZW(serQ)));
-    print("lenCompressed: " .. string.len(_libCP:Compress(serQ)));
+    
+    print("QuestieCompress:")
+    QuestieSerializer:PrintChunk(serQ)
+    print("  len: " .. string.len(serQ));
+    print("  lenCompressedHuffman: " .. string.len(_libCP:CompressHuffman(serQ)));
+    print("  lenCompressedLZW: " .. string.len(_libCP:CompressLZW(serQ)));
+    print("  lenCompressed: " .. string.len(_libCP:Compress(serQ)));
     print(" ")
-    print("Done!    AceCompress:\n" .. serA)
-    print("len: " .. string.len(serA))
-    print("lenCompressedHuffman: " .. string.len(_libCP:CompressHuffman(serA)));
-    print("lenCompressedLZW: " .. string.len(_libCP:CompressLZW(serA)));
-    print("lenCompressed: " .. string.len(_libCP:Compress(serA)));
+    
+    
+    print("AceCompress:")
+    QuestieSerializer:PrintChunk(serA)
+    print("  len: " .. string.len(serA))
+    print("  lenCompressedHuffman: " .. string.len(_libCP:CompressHuffman(serA)));
+    print("  lenCompressedLZW: " .. string.len(_libCP:CompressLZW(serA)));
+    print("  lenCompressed: " .. string.len(_libCP:Compress(serA)));
     --self.stream = QuestieStreamLib:GetStream("b89")
     --print(self.stream:Save())
+end
+
+local _testfloats = nil
+
+function QuestieSerializer:SendTestMessage(player)
+    if player then
+        local testtable = {["test"] = "testing"}
+        testtable.testfloats = {}
+        for i=1,10 do
+            testtable.testfloats[i] = math.random()
+        end
+        _testfloats = testtable.testfloats
+        C_ChatInfo.SendAddonMessage("questie", QuestieSerializer:Serialize(testtable), "WHISPER", player)
+    end
+end
+
+function QuestieSerializer:MessageReceivedTest(channel, msg)
+    if channel == "questie" then
+        print("Message received! ")
+        QuestieSerializer:PrintChunk(msg)
+        Questie.db.char.WriteRecv = QuestieSerializer:Deserialize(msg)
+        local totalDrift = 0
+        for i=1,10 do
+            print("  " .. tostring(_testfloats[i]) .. " " .. tostring(Questie.db.char.WriteRecv.testfloats[i]))
+            totalDrift = totalDrift + math.abs(_testfloats[i] - Questie.db.char.WriteRecv.testfloats[i])
+        end
+        print("total drift for testfloats: " .. string.format("%.6f", totalDrift))
+    end
+end
+
+function QuestieSerializer:PrintChunk(data)
+    local idx = 0
+    while idx + 70 < string.len(data) do
+        print(string.sub(data, idx, idx+69))
+        idx = idx + 70
+    end
+    print(string.sub(data, idx))
 end
