@@ -99,10 +99,11 @@ function QuestieStreamLib:_WriteByte_b89(e)
     end
 end
 
-local _1short_control = 241
+local _1short_control = 237
+local _1short_zero = 238
 
 local _1short_control_table = {
-    241, 0
+    _1short_control, _1short_zero
 }
 
 local _1short_control_table_reversed = {};
@@ -112,6 +113,8 @@ function QuestieStreamLib:_WriteByte_1short(e)
     if _1short_control_table_reversed[e] then
         self._bin = self._bin .. string.char(_1short_control)
         self._bin = self._bin .. string.char(_1short_control_table_reversed[e])
+    elseif e == 0 then
+        self._bin = self._bin .. string.char(_1short_zero)
     else
         self._bin = self._bin .. string.char(e)
     end
@@ -120,7 +123,9 @@ end
 function QuestieStreamLib:_ReadByte_1short()
     local v = string.byte(self._bin, self._pointer)
     self._pointer = self._pointer + 1
-    if v == _1short_control then
+    if v == _1short_zero then
+        return 0
+    elseif v == _1short_control then
         v = string.byte(self._bin, self._pointer)
         self._pointer = self._pointer + 1
         return _1short_control_table[v]
