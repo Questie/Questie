@@ -112,6 +112,7 @@ local function _ReadTable(self, entryCount)
 end
 
 QuestieSerializer.ReaderTable = {
+    [1] = function(self) return nil end,
     [2] = function(self) return self.stream:ReadInt() end,
     [3] = function(self) return -self.stream:ReadInt() end,
     [4] = function(self) return self.stream:ReadLong() end,
@@ -206,6 +207,9 @@ QuestieSerializer.WriterTable = {
         else
             self.stream:WriteByte(16)
         end
+    end,
+    ["function"] = function(self, value)
+        self.stream:WriteByte(1) -- nil
     end
 }
 
@@ -276,12 +280,18 @@ function QuestieSerializer:Test()
         end
     end
     testtable = rawQuestList
+    --testtable.quest = QuestieDB:GetQuest(1642)
+    --testtable.npc1 = QuestieDB:GetNPC(5513)
+    --testtable.npc2 = QuestieDB:GetNPC(3141)
+    --testtable.npc3 = QuestieDB:GetNPC(2141)
+    --testtable.npc4 = QuestieDB:GetNPC(1141)
+    --testtable.npc5 = QuestieDB:GetNPC(1411)
     local serQ = QuestieSerializer:Serialize(testtable)
     local serA = _libAS:Serialize({[1]=testtable});
     
     Questie.db.char.WriteTest = serQ
     
-    print("QuestieCompress:")
+    print("QuestieSerializer:")
     QuestieSerializer:PrintChunk(serQ)
     print("  len: " .. string.len(serQ));
     print("  lenCompressedHuffman: " .. string.len(_CPTable:Encode(_libCP:CompressHuffman(serQ))));
@@ -290,7 +300,7 @@ function QuestieSerializer:Test()
     print(" ")
     
     
-    print("AceCompress:")
+    print("AceSerializer:")
     QuestieSerializer:PrintChunk(serA)
     print("  len: " .. string.len(serA))
     print("  lenCompressedHuffman: " .. string.len(_CPTable:Encode(_libCP:CompressHuffman(serA))));
