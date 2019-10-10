@@ -398,6 +398,12 @@ function worldmapProvider:HandlePin(icon, data)
                 while parentMapID and HBD.mapData[parentMapID] do
                     if parentMapID == uiMapID then
                         local parentMapType = HBD.mapData[parentMapID].mapType
+                        if(data.worldMapShowFlag == -1) then
+                          DEFAULT_CHAT_FRAME:AddMessage("bogoo");
+                          icon:Hide();
+                          show = false
+                          break
+                        end
                         -- show on any parent zones if they are normal zones
                         if data.worldMapShowFlag >= HBD_PINS_WORLDMAP_SHOW_PARENT and
                             (parentMapType == Enum.UIMapType.Zone or parentMapType == Enum.UIMapType.Dungeon or parentMapType == Enum.UIMapType.Micro) then
@@ -415,6 +421,11 @@ function worldmapProvider:HandlePin(icon, data)
                 end
 
                 if not show then return end
+            end
+        else
+           if(data.worldMapShowFlag == -1) then
+              DEFAULT_CHAT_FRAME:AddMessage("bogoo2");
+              icon:Show();
             end
         end
 

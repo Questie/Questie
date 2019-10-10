@@ -1185,6 +1185,8 @@ function _QuestieQuest:DrawAvailableQuest(questObject) -- prevent recursion
     return _QuestieQuest:DrawAvailableQuest(questObject, false)
 end
 
+local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
+
 function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
 
     --If the object is nil we just return
@@ -1319,7 +1321,10 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                                 local icon, minimapIcon = QuestieMap:DrawWorldIcon(data, Zone, x, y)
 
                                 if(NPC.waypoints and NPC.waypoints[Zone]) then
-                                  QuestieFramePool:DrawWaypoints(icon, NPC.waypoints[Zone]);
+                                  local lineFrames = QuestieFramePool:DrawWaypoints(icon, NPC.waypoints[Zone]);
+                                  for index, lineFrame in ipairs(lineFrames) do
+                                    HBDPins:AddWorldMapIconMap(Questie, lineFrame, zoneDataAreaIDToUiMapID[Zone], x, y, -1)
+                                  end
                                 end
                             end
                         end

@@ -561,8 +561,6 @@ function QuestieFramePool:DrawLine(iconFrame, startX, startY, endX, endY, lineWi
     line:SetEndPoint("TOPLEFT", endX*calcX, (endY*calcY)*-1) -- We do by *-1 due to using the top left point
     line:SetThickness(lineWidth);
 
-    lineFrame:Show();
-    line:Show();
 
     --Should we keep these frames in the questIdFrames? Currently it is also a child of the icon.
     --Maybe the unload of the parent should just unload the children.
