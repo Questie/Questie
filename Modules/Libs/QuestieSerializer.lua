@@ -110,6 +110,10 @@ QuestieSerializer.ReaderTable = {
    [13] = function(self) return -self.stream:ReadByte() end,
    [14] = function(self) return self.stream:ReadShort() end,
    [15] = function(self) return -self.stream:ReadShort() end,
+   
+   [16] = function(self) return false end,
+   [17] = function(self) return true end,
+   
 }
 
 QuestieSerializer.WriterTable = {
@@ -175,11 +179,10 @@ QuestieSerializer.WriterTable = {
         end
     end,
     ["boolean"] = function(self, value)
-        self.stream:WriteByte(12)
         if value then
-            self.stream:WriteByte(1)
+            self.stream:WriteByte(17)
         else
-            self.stream:WriteByte(0)
+            self.stream:WriteByte(16)
         end
     end
 }
@@ -224,6 +227,7 @@ function QuestieSerializer:Deserialize(data)
 end
 local _libAS = LibStub("AceSerializer-3.0")
 local _libCP = LibStub("LibCompress")
+local _CPTable = _libCP:GetAddonEncodeTable()
 function QuestieSerializer:Test()
     --Questie.db.char.HashTable = QuestieSerializer.SerializerHashDB
     --self.stream = QuestieStreamLib:GetStream("1short")
@@ -251,18 +255,18 @@ function QuestieSerializer:Test()
     print("QuestieCompress:")
     QuestieSerializer:PrintChunk(serQ)
     print("  len: " .. string.len(serQ));
-    print("  lenCompressedHuffman: " .. string.len(_libCP:CompressHuffman(serQ)));
-    print("  lenCompressedLZW: " .. string.len(_libCP:CompressLZW(serQ)));
-    print("  lenCompressed: " .. string.len(_libCP:Compress(serQ)));
+    print("  lenCompressedHuffman: " .. string.len(_CPTable:Encode(_libCP:CompressHuffman(serQ))));
+    print("  lenCompressedLZW: " .. string.len(_CPTable:Encode(_libCP:CompressLZW(serQ))));
+    print("  lenCompressed: " .. string.len(_CPTable:Encode(_libCP:Compress(serQ))));
     print(" ")
     
     
     print("AceCompress:")
     QuestieSerializer:PrintChunk(serA)
     print("  len: " .. string.len(serA))
-    print("  lenCompressedHuffman: " .. string.len(_libCP:CompressHuffman(serA)));
-    print("  lenCompressedLZW: " .. string.len(_libCP:CompressLZW(serA)));
-    print("  lenCompressed: " .. string.len(_libCP:Compress(serA)));
+    print("  lenCompressedHuffman: " .. string.len(_CPTable:Encode(_libCP:CompressHuffman(serA))));
+    print("  lenCompressedLZW: " .. string.len(_CPTable:Encode(_libCP:CompressLZW(serA))));
+    print("  lenCompressed: " .. string.len(_CPTable:Encode(_libCP:Compress(serA))));
     --self.stream = QuestieStreamLib:GetStream("b89")
     --print(self.stream:Save())
 end
@@ -288,7 +292,7 @@ function QuestieSerializer:MessageReceivedTest(channel, msg)
         Questie.db.char.WriteRecv = QuestieSerializer:Deserialize(msg)
         local totalDrift = 0
         for i=1,10 do
-            print("  " .. tostring(_testfloats[i]) .. " " .. tostring(Questie.db.char.WriteRecv.testfloats[i]))
+            print("  " .. string.format("%.6f", _testfloats[i]) .. " " .. string.format("%.6f", Questie.db.char.WriteRecv.testfloats[i]))
             totalDrift = totalDrift + math.abs(_testfloats[i] - Questie.db.char.WriteRecv.testfloats[i])
         end
         print("total drift for testfloats: " .. string.format("%.6f", totalDrift))
