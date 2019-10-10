@@ -536,11 +536,64 @@ function QuestieQuest:AddFinisher(Quest)
                         if(coords[1] == -1 or coords[2] == -1) then
                             if(instanceData[Zone] ~= nil) then
                                 for index, value in ipairs(instanceData[Zone]) do
-                                    QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
+                                    --QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
+                                    --Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[value[1]])
+                                    --local icon, minimapIcon = QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
+                                    local z = value[1];
+                                    local x = value[2];
+                                    local y = value[3];
+
+                                    -- Calculate mid point if waypoints exist, we need to do this before drawing the lines
+                                    -- as we need the icon handle for the lines.
+                                    if(finisher.waypoints and finisher.waypoints[z]) then
+                                        local midX, midY = QuestieLib:CalculateWaypointMidPoint(finisher.waypoints[z]);
+                                        x = midX or x;
+                                        y = midY or y;
+                                        -- The above code should do the same... remove this after testing it.
+                                        --if(midX and midY) then
+                                        --    x = midX;
+                                        --    y = midY;
+                                        --end
+                                    end
+
+                                    local icon, minimapIcon = QuestieMap:DrawWorldIcon(data, z, x, y)
+
+                                    if(finisher.waypoints and finisher.waypoints[z]) then
+                                        local lineFrames = QuestieFramePool:CreateWaypoints(icon, finisher.waypoints[z]);
+                                        for index, lineFrame in ipairs(lineFrames) do
+                                            QuestieMap:DrawLineIcon(lineFrame, z, x, y);
+                                            --HBDPins:AddWorldMapIconMap(Questie, lineFrame, zoneDataAreaIDToUiMapID[z], x, y, HBD_PINS_WORLDMAP_SHOW_CURRENT)
+                                        end
+                                    end
                                 end
                             end
                         else
-                            QuestieMap:DrawWorldIcon(data, Zone, coords[1], coords[2])
+                            --QuestieMap:DrawWorldIcon(data, Zone, coords[1], coords[2])
+                            local x = coords[1];
+                            local y = coords[2];
+
+                            -- Calculate mid point if waypoints exist, we need to do this before drawing the lines
+                            -- as we need the icon handle for the lines.
+                            if(finisher.waypoints and finisher.waypoints[Zone]) then
+                                local midX, midY = QuestieLib:CalculateWaypointMidPoint(finisher.waypoints[Zone]);
+                                x = midX or x;
+                                y = midY or y;
+                                -- The above code should do the same... remove this after testing it.
+                                --if(midX and midY) then
+                                --    x = midX;
+                                --    y = midY;
+                                --end
+                            end
+
+                            local icon, minimapIcon = QuestieMap:DrawWorldIcon(data, Zone, x, y)
+
+                            if(finisher.waypoints and finisher.waypoints[Zone]) then
+                                local lineFrames = QuestieFramePool:CreateWaypoints(icon, finisher.waypoints[Zone]);
+                                for index, lineFrame in ipairs(lineFrames) do
+                                    QuestieMap:DrawLineIcon(lineFrame, Zone, x, y);
+                                    --HBDPins:AddWorldMapIconMap(Questie, lineFrame, zoneDataAreaIDToUiMapID[Zone], x, y, HBD_PINS_WORLDMAP_SHOW_CURRENT)
+                                end
+                            end
                         end
                     end
                 end
