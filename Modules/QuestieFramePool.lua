@@ -459,7 +459,7 @@ local tunpack = unpack;
 ---@param lineWidth integer @Width of the line.
 ---@param color integer[] @A table consisting of 4 variable {1, 1, 1, 1} RGB-Opacity
 ---@return LineFrame[]
-function QuestieFramePool:DrawWaypoints(iconFrame, waypointTable, lineWidth, color)
+function QuestieFramePool:CreateWaypoints(iconFrame, waypointTable, lineWidth, color)
     local lineFrameList = {}
     local lastPos = nil
     --Set defaults if needed.
@@ -470,7 +470,7 @@ function QuestieFramePool:DrawWaypoints(iconFrame, waypointTable, lineWidth, col
         if(lastPos == nil) then
             lastPos = waypoint;
         else
-            local lineFrame = QuestieFramePool:DrawLine(iconFrame, lastPos[1], lastPos[2], waypoint[1], waypoint[2], lWidth, col)
+            local lineFrame = QuestieFramePool:CreateLine(iconFrame, lastPos[1], lastPos[2], waypoint[1], waypoint[2], lWidth, col)
             tinsert(lineFrameList, lineFrame);
             lastPos = waypoint;
         end
@@ -488,7 +488,7 @@ end
 ---@return LineFrame
 ---@class LineFrame @A frame that contains the line used in waypoints.
 local lineFrames = 1;
-function QuestieFramePool:DrawLine(iconFrame, startX, startY, endX, endY, lineWidth, color)
+function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, lineWidth, color)
 
     --Create the framepool for lines if it does not already exist.
 	if not QuestieFramePool.Routes_Lines then

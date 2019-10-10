@@ -1185,8 +1185,6 @@ function _QuestieQuest:DrawAvailableQuest(questObject) -- prevent recursion
     return _QuestieQuest:DrawAvailableQuest(questObject, false)
 end
 
-local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
-
 function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
 
     --If the object is nil we just return
@@ -1296,7 +1294,11 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                                         local icon, minimapIcon = QuestieMap:DrawWorldIcon(data, z, x, y)
 
                                         if(NPC.waypoints and NPC.waypoints[z]) then
-                                        QuestieFramePool:DrawWaypoints(icon, NPC.waypoints[z]);
+                                            local lineFrames = QuestieFramePool:CreateWaypoints(icon, NPC.waypoints[z]);
+                                            for index, lineFrame in ipairs(lineFrames) do
+                                                QuestieMap:DrawLineIcon(lineFrame, z, x, y);
+                                                --HBDPins:AddWorldMapIconMap(Questie, lineFrame, zoneDataAreaIDToUiMapID[z], x, y, HBD_PINS_WORLDMAP_SHOW_CURRENT)
+                                            end
                                         end
 
                                     end
@@ -1321,9 +1323,10 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                                 local icon, minimapIcon = QuestieMap:DrawWorldIcon(data, Zone, x, y)
 
                                 if(NPC.waypoints and NPC.waypoints[Zone]) then
-                                  local lineFrames = QuestieFramePool:DrawWaypoints(icon, NPC.waypoints[Zone]);
+                                  local lineFrames = QuestieFramePool:CreateWaypoints(icon, NPC.waypoints[Zone]);
                                   for index, lineFrame in ipairs(lineFrames) do
-                                    HBDPins:AddWorldMapIconMap(Questie, lineFrame, zoneDataAreaIDToUiMapID[Zone], x, y, -1)
+                                    QuestieMap:DrawLineIcon(lineFrame, Zone, x, y);
+                                    --HBDPins:AddWorldMapIconMap(Questie, lineFrame, zoneDataAreaIDToUiMapID[Zone], x, y, HBD_PINS_WORLDMAP_SHOW_CURRENT)
                                   end
                                 end
                             end

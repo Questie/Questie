@@ -398,12 +398,6 @@ function worldmapProvider:HandlePin(icon, data)
                 while parentMapID and HBD.mapData[parentMapID] do
                     if parentMapID == uiMapID then
                         local parentMapType = HBD.mapData[parentMapID].mapType
-                        if(data.worldMapShowFlag == -1) then
-                          DEFAULT_CHAT_FRAME:AddMessage("bogoo");
-                          icon:Hide();
-                          show = false
-                          break
-                        end
                         -- show on any parent zones if they are normal zones
                         if data.worldMapShowFlag >= HBD_PINS_WORLDMAP_SHOW_PARENT and
                             (parentMapType == Enum.UIMapType.Zone or parentMapType == Enum.UIMapType.Dungeon or parentMapType == Enum.UIMapType.Micro) then
@@ -412,6 +406,11 @@ function worldmapProvider:HandlePin(icon, data)
                         elseif data.worldMapShowFlag >= HBD_PINS_WORLDMAP_SHOW_CONTINENT and
                             parentMapType == Enum.UIMapType.Continent then
                             show = true
+                        elseif data.worldMapShowFlag == HBD_PINS_WORLDMAP_SHOW_CURRENT then
+                            -- Questie modifications!
+                            show = false
+                            -- We hide it when it is not part of the current map.
+                            icon:Hide();
                         end
                         break
                         -- worldmap is handled above already
@@ -423,9 +422,10 @@ function worldmapProvider:HandlePin(icon, data)
                 if not show then return end
             end
         else
-           if(data.worldMapShowFlag == -1) then
-              DEFAULT_CHAT_FRAME:AddMessage("bogoo2");
-              icon:Show();
+            -- Questie modifications!
+            if(data.worldMapShowFlag == HBD_PINS_WORLDMAP_SHOW_CURRENT) then
+                -- We show the icon when the mapid corresponds.
+                icon:Show();
             end
         end
 
@@ -635,6 +635,8 @@ function pins:SetMinimapObject(minimapObject)
 end
 
 -- world map constants
+-- show worldmap pin only on zone map (Questie modification)
+HBD_PINS_WORLDMAP_SHOW_CURRENT   = -1
 -- show worldmap pin on its parent zone map (if any)
 HBD_PINS_WORLDMAP_SHOW_PARENT    = 1
 -- show worldmap pin on the continent map
