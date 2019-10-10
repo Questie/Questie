@@ -388,16 +388,19 @@ function QuestieDB:_GetSpecialNPC(NPCID)
     if rawdata then
         local NPC = {}
         NPC.id = NPCID
-        QuestieStreamLib:Load(rawdata)
-        NPC.name = QuestieStreamLib:ReadTinyString()
+        if not QuestieDB._stream then -- bad code
+            QuestieDB._stream = QuestieStreamLib:GetStream("b89")
+        end
+        QuestieDB._stream:Load(rawdata)
+        NPC.name = QuestieDB._stream:ReadTinyString()
         NPC.type = "monster"
         NPC.newFormatSpawns = {}; -- spawns should be stored like this: {{x, y, uimapid}, ...} so im creating a 2nd var to aid with moving to the new format
         NPC.spawns = {};
-        local count = QuestieStreamLib:ReadByte()
+        local count = QuestieDB._stream:ReadByte()
         for i=1,count do
-            local x = QuestieStreamLib:ReadShort() / 655.35
-            local y = QuestieStreamLib:ReadShort() / 655.35
-            local m = QuestieStreamLib:ReadByte() + 1400
+            local x = QuestieDB._stream:ReadShort() / 655.35
+            local y = QuestieDB._stream:ReadShort() / 655.35
+            local m = QuestieDB._stream:ReadByte() + 1400
             table.insert(NPC.newFormatSpawns, {x, y, m});
             local om = m;
             m = zoneDataUiMapIDToAreaID[m];
