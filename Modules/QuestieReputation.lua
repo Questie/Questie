@@ -1,8 +1,6 @@
 QuestieReputation = {...}
 local playerReputations = {}
 
-UnitLevel = function() return 60; end
-
 function QuestieReputation:Update()
     Questie:Debug(DEBUG_DEVELOP, "QuestieReputation: Update")
     ExpandFactionHeader(0) -- Expand all header
