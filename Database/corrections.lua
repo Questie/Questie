@@ -345,6 +345,9 @@ QuestieCorrections.questFixes = {
 
 QuestieCorrections.npcFixes = {
     [4360] = {'Mirefin Warrior',1208,1257,37,39,0,{},nil,15,nil,nil}, -- TODO: remove this after the db is fixed!!! This is just to fix tooltips
+    [5955] = {
+        [QuestieDB.npcKeys.spawns] = {[440]={{31.8,74.15},{29.48,60.51},},},
+    },
     [11625] = {
         [QuestieDB.npcKeys.spawns] = {[405]={{67,37},},},
     },
