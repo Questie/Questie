@@ -36,7 +36,7 @@ function Questie:OnInitialize()
     end
 
     Questie:Debug(DEBUG_CRITICAL, "Questie addon loaded")
-    Questie:RegisterEvent("PLAYER_ENTERING_WORLD", QuestieEventHandler.PLAYER_ENTERING_WORLD)
+    Questie:RegisterEvent("PLAYER_LOGIN", QuestieEventHandler.PLAYER_LOGIN)
 
     --Accepted Events
     Questie:RegisterEvent("QUEST_ACCEPTED", QuestieEventHandler.QUEST_ACCEPTED)
