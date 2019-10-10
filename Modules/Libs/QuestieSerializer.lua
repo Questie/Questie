@@ -11,7 +11,7 @@ function QuestieSerializer:Hash(value)
     return h
 end
 
-QuestieSerializer.SerializerHashDB = { -- todo: move this to a savedvariable
+QuestieSerializer.SerializerHashDB = {
 }
 QuestieSerializer.SerializerHashDBReversed = {
 }
@@ -20,6 +20,11 @@ local function addHash(str)
     local hash = QuestieSerializer:Hash(str)
     QuestieSerializer.SerializerHashDB[str] = hash
     QuestieSerializer.SerializerHashDBReversed[hash] = str
+end
+
+local function clearHashes()
+    QuestieSerializer.SerializerHashDB = {}
+    QuestieSerializer.SerializerHashDBReversed = {}
 end
 
 
@@ -94,7 +99,13 @@ local function _ReadTable(self, entryCount)
     local ret = {}
     for i=1,entryCount do
         local key = _ReadObject(self)
+        if type(key) == "string" then
+            addHash(key)
+        end
         local value = _ReadObject(self)
+        if type(value) == "string" then
+            addHash(value)
+        end
         ret[key] = value
     end
     return ret
@@ -158,7 +169,7 @@ QuestieSerializer.WriterTable = {
         self.stream:WriteInt(floatBitsToInt(value))
     end,
     ["string"] = function(self, value)
-        if QuestieSerializer.SerializerHashDB[value] then
+        if QuestieSerializer.SerializerHashDB[value] and string.len(value) > 4 then
             self.stream:WriteByte(9)
             self.stream:WriteInt(QuestieSerializer.SerializerHashDB[value])
         elseif string.len(value) > 254 then
@@ -209,7 +220,13 @@ function QuestieSerializer:WriteKeyValuePair(key, value, depth)
         --print("QuestieSerializer Error: Unhandled type: " .. type(value))
     else
         QuestieSerializer.WriterTable[type(key)](self, key, depth)
+        if type(key) == "string" then
+            addHash(key)
+        end
         QuestieSerializer.WriterTable[type(value)](self, value, depth)
+        if type(value) == "string" then
+            addHash(value)
+        end
     end
 end
 
@@ -219,6 +236,7 @@ function QuestieSerializer:SetupStream()
     else
         self.stream = QuestieStreamLib:GetStream("1short")
     end
+    clearHashes()
 end
 
 function QuestieSerializer:Serialize(tab)
@@ -298,7 +316,7 @@ end
 
 function QuestieSerializer:MessageReceivedTest(channel, msg)
     if channel == "questie" then
-        print("Message received! ")
+        print("Message received! " .. string.len(msg))
         QuestieSerializer:PrintChunk(msg)
         Questie.db.char.WriteRecv = QuestieSerializer:Deserialize(msg)
         local totalDrift = 0
