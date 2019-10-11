@@ -79,6 +79,9 @@ local function TooltipShowing_unit(self)
     local name, unitToken = self:GetUnit();
     if not unitToken then return end
     local guid = UnitGUID(unitToken);
+    if(guid == nil) then
+      guid = UnitGUID("mouseover");
+    end
     local type, zero, server_id, instance_id, zone_uid, npc_id, spawn_uid = strsplit("-",guid or "");
     if name and type=="Creature" and (name ~= QuestieTooltips.lastGametooltipUnit or (not QuestieTooltips.lastGametooltipCount) or _QuestieTooltips:CountTooltip() < QuestieTooltips.lastGametooltipCount) then
         --Questie:Debug(DEBUG_DEVELOP, "[QuestieTooltip] Unit Id on hover : ", npc_id);
