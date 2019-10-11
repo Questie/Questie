@@ -790,6 +790,20 @@ local function _OnClick(self, button)
         end
     elseif _IsBindTrue(Questie.db.global.trackerbindOpenQuestLog, button) then
         _ShowQuestLog(self.Quest)
+    elseif button == "LeftButton" then
+      -- Priority order first check if addon exist otherwise default to original
+      local questFrame = QuestLogExFrame or QuestLogFrame;
+      HideUIPanel(questFrame);
+      local questLogIndex = GetQuestLogIndexByID(self.Quest.Id);
+      SelectQuestLogEntry(questLogIndex)
+      ShowUIPanel(questFrame);
+
+      --Addon specific behaviors
+      if(QuestLogEx) then
+        QuestLogEx:Maximize();
+      end
+
+      --Questie:Print(self.Quest.Id, questLogIndex, questFrame:IsVisible());
     elseif button == "RightButton" then
         _BuildMenu(self.Quest)
     end
