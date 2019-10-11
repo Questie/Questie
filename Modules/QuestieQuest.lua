@@ -1208,7 +1208,7 @@ function QuestieQuest:CompareQuestHashes()
 end
 
 --https://www.townlong-yak.com/framexml/live/Blizzard_APIDocumentation#C_QuestLog.GetQuestObjectives
-function _QuestieQuest:GetLeaderBoardDetails(objectiveIndex, questId)
+--[[function _QuestieQuest:GetLeaderBoardDetails(objectiveIndex, questId)
     local questObjectives = C_QuestLog.GetQuestObjectives(questId)-- or {};
     if(questObjectives[objectiveIndex]) then
         local objective = questObjectives[objectiveIndex];
@@ -1220,28 +1220,45 @@ function _QuestieQuest:GetLeaderBoardDetails(objectiveIndex, questId)
         return objective.type, objective.text, objective.numFulfilled, objective.numRequired, objective.finished;
     end
     return nil;
-end
+end]]--
 
+local slainText = {
+    enGB = "slain",
+    enUS = "slain",
+    deDE = "getötet",
+    esES = "matado",
+    esMX = "matado",
+    frFR = "tué",
+    itIT = "ucciso",
+    ptBR = "morto",
+    ruRU = "убито",
+    koKR = "처치",
+    zhCN = "消灭",
+    zhTW = "消灭",
+}
+-- Link contains test bench for regex in lua.
+-- https://hastebin.com/anodilisuw.bash
 function QuestieQuest:GetAllLeaderBoardDetails(questId)
     local questObjectives = C_QuestLog.GetQuestObjectives(questId)-- or {};
+    local locale = GetLocale();
+    local slain = slainText[locale];
 
     for objectiveIndex, objective in pairs(questObjectives) do
         if(objective.text) then
             local text = objective.text;
-            --Only for monster
-            if(objective.type == "monster") then
-                --English first, chinese after
-                --Capital %W is required due to chinese not being alphanumerical
-                text = string.match(objective.text, '^(.*)%s+%w+:%s') or string.match(objective.text, '%s：%W+%s(.+)$');
-            else
-                --English first, chinese after
-                text = string.match(objective.text, "^(.*):%s") or string.match(objective.text, "%s：(.*)$");
-            end
+            -- This looks complicated but isn't
+            -- We first try and find a string with "slain" in it, if we can find it we can assume the position of the data
+            -- If no slain is found we revert to look for the data relative to the colon.
+            text = string.match(text, "(.*)"..slain.."%W*%d+/%d+") or --English (slain), Left-to-right
+                string.match(text, "%d+/%d+%W*"..slain.."(.*)") or --Chinese (slain), Right-to-left
+                string.match(text, "^(.*):%s") or --English colon, Left-to-right
+                string.match(text, "%s：(.*)$") or -- Chinese colon, Right-to-left
+                objective.text; -- Default
             -- If nothing is matched, we should just add the text as is.
             if(text ~= nil) then
                 objective.text = string.trim(text);
             else
-                Questie:Debug(DEBUG_CRITICAL, "[QuestieQuest] ----->", "Could not split out the objective out of the objective text!", questId, objective.text)
+                Questie:Print("WARNING! [QuestieQuest]", "Could not split out the objective out of the objective text! Please report the error!", questId, objective.text)
             end
         else
             DEFAULT_CHAT_FRAME:AddMessage("ERROR! Something went wrong in GetAllLeaderBoardDetails"..tostring(questId).." - "..tostring(objective.text));
@@ -1249,6 +1266,19 @@ function QuestieQuest:GetAllLeaderBoardDetails(questId)
     end
     return questObjectives;
 end
+--[[  KEEP THIS FOR NOW
+
+            -- Look if it contains "slain"
+            if(string.match(text, slain)) then
+                --English first, chinese after
+                text = string.match(objective.text, "(.*)"..slain.."%W*%d+/%d+") or string.match(objective.text, "%d+/%d+%W*"..slain.."(.*)")
+                --Capital %W is required due to chinese not being alphanumerical
+                --text = string.match(objective.text, '^(.*)%s+%w+:%s') or string.match(objective.text, '%s：%W+%s(.+)$');
+            else
+                --English first, chinese after
+                text = string.match(objective.text, "^(.*):%s") or string.match(objective.text, "%s：(.*)$");
+            end
+]]--
 
 --Draw a single available quest, it is used by the DrawAllAvailableQuests function.
 function _QuestieQuest:DrawAvailableQuest(questObject) -- prevent recursion
