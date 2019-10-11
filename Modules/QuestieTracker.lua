@@ -224,7 +224,7 @@ local function _ShowQuestLog(Quest)
         end
     else
         ToggleQuestLog();
-    end   
+    end
     SelectQuestLogEntry(GetQuestLogIndexByID(Quest.Id))
     QuestLog_UpdateQuestDetails()
     QuestLog_Update()
