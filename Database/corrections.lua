@@ -153,11 +153,11 @@ QuestieCorrections.questFixes = {
         [QuestieDB.questKeys.preQuestSingle] = {}, -- #1065
     },
     [1282] = {
-        [QuestieDB.questKeys.exclusiveTo] = {}, -- #875
+        [QuestieDB.questKeys.exclusiveTo] = {1302}, -- #This makes it so 1282[They Call Me Sterling Jim] Disables 1302[James Hyal]
     },
     [1302] = {
         [QuestieDB.questKeys.preQuestSingle] = {}, -- #889
-        [QuestieDB.questKeys.exclusiveTo] = {}, -- #875
+        [QuestieDB.questKeys.exclusiveTo] = {1282}, -- #This makes it so 1302[James Hyal] Disables 1282[They Call Me Sterling Jim] 
     },
     [1598] = {
         [QuestieDB.questKeys.exclusiveTo] = {1599}, -- #999
