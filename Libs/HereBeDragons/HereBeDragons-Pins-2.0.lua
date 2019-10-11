@@ -374,6 +374,12 @@ function worldmapProvider:HandlePin(icon, data)
 
     local x, y
     if uiMapID == WORLD_MAP_ID then
+        -- Questie modifications!
+        if(data.worldMapShowFlag == HBD_PINS_WORLDMAP_SHOW_CURRENT) then
+            -- We show the icon when the mapid corresponds.
+            icon:Hide();
+        end
+
         -- should this pin show on the world map?
         if uiMapID ~= data.uiMapID and data.worldMapShowFlag ~= HBD_PINS_WORLDMAP_SHOW_WORLD then return end
 
