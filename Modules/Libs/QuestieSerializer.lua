@@ -18,10 +18,10 @@ QuestieSerializer.SerializerHashDBReversed = {
 
 local function addHash(str)
     local hash = QuestieSerializer:Hash(str)
-	if QuestieSerializer.SerializerHashDBReversed[hash] then
-		-- dont add, also prevents collissions 
-		return
-	end
+    if QuestieSerializer.SerializerHashDBReversed[hash] then
+        -- dont add, also prevents collissions 
+        return
+    end
     QuestieSerializer.SerializerHashDB[str] = hash
     QuestieSerializer.SerializerHashDBReversed[hash] = str
 end
@@ -222,38 +222,38 @@ QuestieSerializer.WriterTable = {
         for key, v in pairs(value) do -- bad
             if key and v then count = count + 1; end
         end
-		if isArray(value) then
-			if count > 254 then
-				self.stream:WriteByte(20) -- small array
-				self.stream:WriteByte(count)
-			else
-				self.stream:WriteByte(21) -- big array
-				self.stream:WriteShort(count)
-			end
-			for _, v in pairs(value) do
-				if not QuestieSerializer.WriterTable[type(v)] then
-					print("QuestieSerializer Error: Unhandled type: " .. type(value))
-				else
-					QuestieSerializer.WriterTable[type(v)](self, v, depth)
-					if type(v) == "string" then
-						addHash(v)
-					end
-				end
-			end
-		else
-			if count > 254 then
-				self.stream:WriteByte(10) -- small table
-				self.stream:WriteByte(count)
-			else
-				self.stream:WriteByte(11) -- big table
-				self.stream:WriteShort(count)
-			end
-			for key, v in pairs(value) do
-				if key and v then
-					QuestieSerializer:WriteKeyValuePair(key, v, depth + 1)
-				end
-			end
-		end
+        if isArray(value) then
+            if count > 254 then
+                self.stream:WriteByte(20) -- small array
+                self.stream:WriteByte(count)
+            else
+                self.stream:WriteByte(21) -- big array
+                self.stream:WriteShort(count)
+            end
+            for _, v in pairs(value) do
+                if not QuestieSerializer.WriterTable[type(v)] then
+                    print("QuestieSerializer Error: Unhandled type: " .. type(value))
+                else
+                    QuestieSerializer.WriterTable[type(v)](self, v, depth)
+                    if type(v) == "string" then
+                        addHash(v)
+                    end
+                end
+            end
+        else
+            if count > 254 then
+                self.stream:WriteByte(10) -- small table
+                self.stream:WriteByte(count)
+            else
+                self.stream:WriteByte(11) -- big table
+                self.stream:WriteShort(count)
+            end
+            for key, v in pairs(value) do
+                if key and v then
+                    QuestieSerializer:WriteKeyValuePair(key, v, depth + 1)
+                end
+            end
+        end
     end,
     ["boolean"] = function(self, value)
         if value then
@@ -334,50 +334,67 @@ function QuestieSerializer:Test()
         end
     end
     testtable = rawQuestList
+    testtable.npcs = {}
+    for i=1,10 do
+        testtable.npcs[i] = QuestieDB:GetNPC(3100 + i)
+    end
     --testtable.quest = QuestieDB:GetQuest(1642)
     --testtable.npc1 = QuestieDB:GetNPC(5513)
     --testtable.npc2 = QuestieDB:GetNPC(3141)
     --testtable.npc3 = QuestieDB:GetNPC(2141)
     --testtable.npc4 = QuestieDB:GetNPC(1141)
     --testtable.npc5 = QuestieDB:GetNPC(1411)
+    
+    local now = GetTime()
     local serQ = QuestieSerializer:Serialize(testtable)
     local serQR = QuestieSerializer.stream:SaveRaw()
-    local serA = _libAS:Serialize(testtable)
+    
     
     Questie.db.char.WriteTest = serQ
     
     
     --QuestieSerializer:PrintChunk(serQ)
     print("QuestieSerializer:")
-    print("  len(raw): " .. string.len(serQR) .. "  len(1short encoded):" .. string.len(serQ) .. "  len(ace encoded):" .. string.len(_CPTable:Encode(serQR)))
-    print("  lenCompressedHuffman: " .. string.len(_CPTable:Encode(_libCP:CompressHuffman(serQR))));
-    print("  lenCompressedLZW: " .. string.len(_CPTable:Encode(_libCP:CompressLZW(serQR))));
-    print("  lenCompressed: " .. string.len(_CPTable:Encode(_libCP:Compress(serQR))));
+    print("  len  raw:" .. string.len(serQR) .. "  1short:" .. string.len(serQ) .. "  ace:" .. string.len(_CPTable:Encode(serQR)))
     
     QuestieSerializer:SetupStream()
     QuestieSerializer.stream:WriteShortString(_libCP:CompressHuffman(serQR))
     
     -- it does -2 here because WriteShortString adds 2 bytes, its a hack to get the 1short encoded length
-    print("  lenCompressedHuffman1short: " .. (string.len(QuestieSerializer.stream:Save())-2));
-    print(" ")
+    print("  CompressedHuffman: ace:" .. string.len(_CPTable:Encode(_libCP:CompressHuffman(serQR))) .. "  1short:" .. (string.len(QuestieSerializer.stream:Save())-2))
     
+    QuestieSerializer:SetupStream()
+    QuestieSerializer.stream:WriteShortString(_libCP:CompressLZW(serQR))
+    
+    -- it does -2 here because WriteShortString adds 2 bytes, its a hack to get the 1short encoded length
+    print("  CompressedLZW: ace:" .. string.len(_CPTable:Encode(_libCP:CompressLZW(serQR))) .. "  1short:" .. (string.len(QuestieSerializer.stream:Save())-2))
+    print(" Took: " .. (GetTime() - now))
+    print(" ")
+    now = GetTime()
+    
+    
+    local serA = _libAS:Serialize(testtable)
     
     print("AceSerializer:")
     QuestieSerializer:SetupStream()
     QuestieSerializer.stream:WriteShortString(serA)
     --QuestieSerializer:PrintChunk(serA)
     -- it does -2 here because WriteShortString adds 2 bytes, its a hack to get the 1short encoded length
-    print("  len(raw): " .. string.len(serA) .. "  len(1short encoded):" .. (string.len(QuestieSerializer.stream:Save())-2).. "  len(ace encoded):" .. string.len(_CPTable:Encode(serA)))
-    print("  lenCompressedHuffman: " .. string.len(_CPTable:Encode(_libCP:CompressHuffman(serA))));
-    print("  lenCompressedLZW: " .. string.len(_CPTable:Encode(_libCP:CompressLZW(serA))));
-    print("  lenCompressed: " .. string.len(_CPTable:Encode(_libCP:Compress(serA))));
+    print("  len  raw:" .. string.len(serA) .. "  1short:" .. (string.len(QuestieSerializer.stream:Save())-2).. "  ace:" .. string.len(_CPTable:Encode(serA)))
     
     QuestieSerializer:SetupStream()
     QuestieSerializer.stream:WriteShortString(_libCP:CompressHuffman(serA))
 
     -- it does -2 here because WriteShortString adds 2 bytes, its a hack to get the 1short encoded length
-    print("  lenCompressedHuffman1short: " .. (string.len(QuestieSerializer.stream:Save())-2));
-    print(" ")
+    print("  CompressedHuffman: ace:" .. string.len(_CPTable:Encode(_libCP:CompressHuffman(serA))) .. "  1short:" .. (string.len(QuestieSerializer.stream:Save())-2));
+    
+    QuestieSerializer:SetupStream()
+    QuestieSerializer.stream:WriteShortString(_libCP:CompressLZW(serA))
+    
+    -- it does -2 here because WriteShortString adds 2 bytes, its a hack to get the 1short encoded length
+    print("  CompressedLZW: ace:" .. string.len(_CPTable:Encode(_libCP:CompressLZW(serA))) .. "  1short:" .. (string.len(QuestieSerializer.stream:Save())-2))
+    
+    print(" Took: " .. (GetTime() - now))
     --self.stream = QuestieStreamLib:GetStream("b89")
     --print(self.stream:Save())
 end

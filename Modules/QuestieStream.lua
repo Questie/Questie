@@ -260,11 +260,38 @@ function QuestieStreamLib:WriteShortString(val)
     end
 end
 
+local unpack_limit = 4096 -- wow api limits unpack to somewhere between 7000-8000
+
 function QuestieStreamLib:Save()
+    if self._pointer-1 > unpack_limit then
+        local ret = string.char(unpack(self._bin, 1, unpack_limit))
+        for i=unpack_limit,self._pointer+unpack_limit,unpack_limit do
+            local ending = (i+unpack_limit)-1
+            if ending >= self._pointer-1 then
+                ending = self._pointer-2
+            end
+            if ending - i < 1 then break end
+            ret = ret .. string.char(unpack(self._bin, i, ending))
+        end
+        return ret
+    end
     return string.char(unpack(self._bin))
 end
 
 function QuestieStreamLib:SaveRaw()
+    if self._rawptr-1 > unpack_limit then
+        --print("Attempting to save too much data for unpack: " .. self._rawptr)
+        local ret = string.char(unpack(self._raw_bin, 1, unpack_limit))
+        for i=unpack_limit,self._rawptr+unpack_limit,unpack_limit do
+            local ending = (i+unpack_limit)-1
+            if ending >= self._rawptr-1 then
+                ending = self._rawptr-2
+            end
+            if ending - i < 1 then break end
+            ret = ret .. string.char(unpack(self._raw_bin, i, ending))
+        end
+        return ret
+    end
     return string.char(unpack(self._raw_bin))
 end
 
