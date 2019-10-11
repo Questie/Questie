@@ -1031,6 +1031,9 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                     if objective.type == objectiveDB.Type then
                         -- TODO: use string distance to find closest, dont rely on exact match
 
+                        local rawText, objectiveType, finished = GetQuestObjectiveInfo(Quest.Id, Quest.Objectives[objectiveIndexDB].Index, true);
+                        DEFAULT_CHAT_FRAME:AddMessage(rawText);
+                        
                         -- Fetch the name of the objective
                         local oName = nil;
                         if(objectiveDB.Type == "monster" and objectiveDB.Id) then
@@ -1224,10 +1227,21 @@ function QuestieQuest:GetAllLeaderBoardDetails(questId)
 
     for objectiveIndex, objective in pairs(questObjectives) do
         if(objective.text) then
-            local text = string.match(objective.text, "(.*)[：,:]");
+            local text = objective.text;
+            --Only for monster
+            if(objective.type == "monster") then
+                --English first, chinese after
+                --Capital %W is required due to chinese not being alphanumerical
+                text = string.match(objective.text, '^(.*)%s+%w+:%s') or string.match(objective.text, '%s：%W+%s(.+)$');
+            else
+                --English first, chinese after
+                text = string.match(objective.text, "^(.*):%s") or string.match(objective.text, "%s：(.*)$");
+            end
             -- If nothing is matched, we should just add the text as is.
             if(text ~= nil) then
                 objective.text = string.trim(text);
+            else
+                Questie:Debug(DEBUG_CRITICAL, "[QuestieQuest] ----->", "Could not split out the objective out of the objective text!", questId, objective.text)
             end
         else
             DEFAULT_CHAT_FRAME:AddMessage("ERROR! Something went wrong in GetAllLeaderBoardDetails"..tostring(questId).." - "..tostring(objective.text));
