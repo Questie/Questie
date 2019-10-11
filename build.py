@@ -171,7 +171,8 @@ def getVersion():
 def getBranch():
     if is_tool("git"):
         scriptDir = os.path.dirname(os.path.realpath(__file__))
-        p = subprocess.check_output(["git", "branch", "--show-current"], cwd=scriptDir)
+        #git rev-parse --abbrev-ref HEAD
+        p = subprocess.check_output(["git", "rev-parse", "--abbrev-ref", "HEAD"], cwd=scriptDir)
         branch = str(p).rstrip("\\n'").lstrip("b'")
         return branch
 
