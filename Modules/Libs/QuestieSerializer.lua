@@ -224,11 +224,11 @@ QuestieSerializer.WriterTable = {
         end
         if isArray(value) then
             if count > 254 then
-                self.stream:WriteByte(20) -- small array
-                self.stream:WriteByte(count)
-            else
                 self.stream:WriteByte(21) -- big array
                 self.stream:WriteShort(count)
+            else
+                self.stream:WriteByte(20) -- small array
+                self.stream:WriteByte(count)
             end
             for _, v in pairs(value) do
                 if not QuestieSerializer.WriterTable[type(v)] then
@@ -242,11 +242,11 @@ QuestieSerializer.WriterTable = {
             end
         else
             if count > 254 then
-                self.stream:WriteByte(10) -- small table
-                self.stream:WriteByte(count)
-            else
                 self.stream:WriteByte(11) -- big table
                 self.stream:WriteShort(count)
+            else
+                self.stream:WriteByte(10) -- small table
+                self.stream:WriteByte(count)
             end
             for key, v in pairs(value) do
                 if key and v then
