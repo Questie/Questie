@@ -461,7 +461,7 @@ local tunpack = unpack;
 ---@return LineFrame[]
 function QuestieFramePool:CreateWaypoints(iconFrame, waypointTable, lineWidth, color)
     local lineFrameList = {}
-    local lastPos = nil
+    --[[local lastPos = nil
     --Set defaults if needed.
     local lWidth = lineWidth or 1.5;
     local col = color or {1,0.72,0,0.5};
@@ -476,7 +476,7 @@ function QuestieFramePool:CreateWaypoints(iconFrame, waypointTable, lineWidth, c
         end
     end
     local lineFrame = QuestieFramePool:CreateLine(iconFrame, lastPos[1], lastPos[2], waypointTable[1][1], waypointTable[1][2], lWidth, col)
-    tinsert(lineFrameList, lineFrame);
+    tinsert(lineFrameList, lineFrame);]]--
     return lineFrameList;
 end
 
