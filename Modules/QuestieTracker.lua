@@ -90,6 +90,9 @@ local function _OnDragStart(self, button)
 end
 
 local function _OnDragStop()
+    if not IsControlKeyDown() or not _QuestieTracker._start_drag_pos then
+        return
+    end
     _QuestieTracker._end_drag_pos = {_QuestieTracker.baseFrame:GetPoint()}
     _QuestieTracker.baseFrame:StopMovingOrSizing()
     

@@ -63,6 +63,7 @@ Modules\QuestieSearch.lua
 Modules\QuestieTracker.lua
 Modules\QuestieOptions.lua
 Modules\QuestieProfessions.lua
+Modules\QuestieReputation.lua
 Modules\QuestieDBMIntegration.lua
 
 #Main

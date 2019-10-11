@@ -21,9 +21,6 @@ QuestieCorrections.questFixes = {
     [4763] = {
         [QuestieDB.questKeys.requiredSourceItems] = {12347,12341,12342,12343,}, -- #798
     },
-    [6132] = {
-        [QuestieDB.questKeys.requiredRaces] = 77,
-    },
     [5721] = {
         [QuestieDB.questKeys.requiredSourceItems] = {177528,}, -- 857
     },
@@ -336,10 +333,18 @@ QuestieCorrections.questFixes = {
     [5421] = {
         [QuestieDB.questKeys.questLevel] = 25,
     },
+    -- fix two "The Hunter's Path" quests being started by "Sian'dur" in Orgrimmar
+    -- this one is now started by "Kary Thunderhorn" in Thunder Bluff
+    [6070] = {
+        [QuestieDB.questKeys.startedBy] = {{3038,},nil,nil,},
+    }
 }
 
 QuestieCorrections.npcFixes = {
     [4360] = {'Mirefin Warrior',1208,1257,37,39,0,{},nil,15,nil,nil}, -- TODO: remove this after the db is fixed!!! This is just to fix tooltips
+    [5955] = {
+        [QuestieDB.npcKeys.spawns] = {[440]={{31.8,74.15},{29.48,60.51},},},
+    },
     [11625] = {
         [QuestieDB.npcKeys.spawns] = {[405]={{67,37},},},
     },

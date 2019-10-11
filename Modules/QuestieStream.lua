@@ -36,11 +36,15 @@ function QuestieStreamLib:GetStream(mode) -- returns a new stream
         stream[k] = v
     end
     stream._pointer = 1
-    stream._bin = ""
+    stream._bin = {}
+    stream._raw_bin = {}
+    stream._rawptr = 1
     stream._level = 0
     stream.reset = function(self)
         self._pointer = 1
-        self._bin = ""
+        self._bin = {}
+        self._raw_bin = {}
+        self._rawptr = 1
         self._level = 0
     end
     stream.finished = function(self) -- its best to call this (not required) when done using the stream
@@ -50,30 +54,43 @@ function QuestieStreamLib:GetStream(mode) -- returns a new stream
     if mode then
         if mode == "1short" then
             stream.ReadByte = QuestieStreamLib._ReadByte_1short
-            stream.WriteByte = QuestieStreamLib._WriteByte_1short
+            stream._WriteByte = QuestieStreamLib._WriteByte_1short
         else
             stream.ReadByte = QuestieStreamLib._ReadByte_b89
-            stream.WriteByte = QuestieStreamLib._WriteByte_b89
+            stream._WriteByte = QuestieStreamLib._WriteByte_b89
         end
     else
         stream.ReadByte = QuestieStreamLib._ReadByte_b89
-        stream.WriteByte = QuestieStreamLib._WriteByte_b89
+        stream._WriteByte = QuestieStreamLib._WriteByte_b89
     end
     return stream
 end
 
+function QuestieStreamLib:_writeByte(val)
+    self._bin[self._pointer] = val
+    self._pointer = self._pointer + 1
+end
+
+function QuestieStreamLib:_readByte()
+    self._pointer = self._pointer + 1
+    return self._bin[self._pointer-1]
+end
+
+function QuestieStreamLib:WriteByte(val)
+    self:_WriteByte(val)
+    self._raw_bin[self._rawptr] = val
+    self._rawptr = self._rawptr + 1
+end
 
 function QuestieStreamLib:SetPointer(pointer)
     self._pointer = pointer;
 end
 
 function QuestieStreamLib:_ReadByte_b89()
-    local v = string.byte(self._bin, self._pointer)
-    self._pointer = self._pointer + 1
+    local v = self:_readByte()
     if QSL_dltab[v] then
         self._level = QSL_dltab[v];
-        v = string.byte(self._bin, self._pointer)
-        self._pointer = self._pointer + 1
+        v = self:_readByte()
     end
     if QSL_dttab[v] then
         return self._level * 86 + QSL_dttab[v];
@@ -89,13 +106,13 @@ function QuestieStreamLib:_WriteByte_b89(e)
     local level = math.floor(e / 86);
     if not (self._level == level) then
         self._level = level
-        self._bin = self._bin .. QSL_ltab[level]
+        self:_writeByte(QSL_ltab[level])
     end
     local chr = mod(e, 86) + 33
     if QSL_ttab[chr] then
-        self._bin = self._bin .. string.char(QSL_ttab[chr])
+        self:_writeByte(QSL_ttab[chr])
     else
-        self._bin = self._bin .. string.char(chr)
+        self:_writeByte(chr)
     end
 end
 
@@ -111,23 +128,21 @@ for k,v in pairs(_1short_control_table) do _1short_control_table_reversed[v] = k
 
 function QuestieStreamLib:_WriteByte_1short(e)
     if _1short_control_table_reversed[e] then
-        self._bin = self._bin .. string.char(_1short_control)
-        self._bin = self._bin .. string.char(_1short_control_table_reversed[e])
+        self:_writeByte(_1short_control)
+        self:_writeByte(_1short_control_table_reversed[e])
     elseif e == 0 then
-        self._bin = self._bin .. string.char(_1short_zero)
+        self:_writeByte(_1short_zero)
     else
-        self._bin = self._bin .. string.char(e)
+        self:_writeByte(e)
     end
 end
 
 function QuestieStreamLib:_ReadByte_1short()
-    local v = string.byte(self._bin, self._pointer)
-    self._pointer = self._pointer + 1
+    local v = self:_readByte()
     if v == _1short_zero then
         return 0
     elseif v == _1short_control then
-        v = string.byte(self._bin, self._pointer)
-        self._pointer = self._pointer + 1
+        v = self:_readByte()
         return _1short_control_table[v]
     else
         return v
@@ -245,12 +260,43 @@ function QuestieStreamLib:WriteShortString(val)
     end
 end
 
+local unpack_limit = 4096 -- wow api limits unpack to somewhere between 7000-8000
+
 function QuestieStreamLib:Save()
-    return self._bin
+    if self._pointer-1 > unpack_limit then
+        local ret = string.char(unpack(self._bin, 1, unpack_limit))
+        for i=unpack_limit,self._pointer+unpack_limit,unpack_limit do
+            local ending = (i+unpack_limit)-1
+            if ending >= self._pointer-1 then
+                ending = self._pointer-2
+            end
+            if ending - i < 1 then break end
+            ret = ret .. string.char(unpack(self._bin, i, ending))
+        end
+        return ret
+    end
+    return string.char(unpack(self._bin))
+end
+
+function QuestieStreamLib:SaveRaw()
+    if self._rawptr-1 > unpack_limit then
+        --print("Attempting to save too much data for unpack: " .. self._rawptr)
+        local ret = string.char(unpack(self._raw_bin, 1, unpack_limit))
+        for i=unpack_limit,self._rawptr+unpack_limit,unpack_limit do
+            local ending = (i+unpack_limit)-1
+            if ending >= self._rawptr-1 then
+                ending = self._rawptr-2
+            end
+            if ending - i < 1 then break end
+            ret = ret .. string.char(unpack(self._raw_bin, i, ending))
+        end
+        return ret
+    end
+    return string.char(unpack(self._raw_bin))
 end
 
 function QuestieStreamLib:Load(bin)
     self._pointer = 1
-    self._bin = bin
+    self._bin = {string.byte(bin, 1, -1)}
     self._level = 0
 end
