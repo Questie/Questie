@@ -1,5 +1,7 @@
 QuestieQuest = {...}
 local _QuestieQuest = {...}
+local libS = LibStub:GetLibrary("AceSerializer-3.0")
+local libC = LibStub:GetLibrary("LibCompress")
 
 --For debugging
 dumpVar = nil;
@@ -13,11 +15,15 @@ function QuestieQuest:Initialize()
     --GetQuestsCompleted(Questie.db.char.complete)
     Questie.db.char.complete = GetQuestsCompleted()
     QuestieProfessions:Update()
+    QuestieReputation:Update()
 
     -- this inserts the Questie Icons to the MinimapButtonBag ignore list
     if MBB_Ignore then
         table.insert(MBB_Ignore, "QuestieFrameGroup")
     end
+
+    _QuestieQuest.questLogHashes = QuestieQuest:GetQuestLogHashes()
+
     --local db = {}
     --GetQuestsCompleted(db)
 
@@ -39,7 +45,9 @@ function QuestieQuest:ToggleNotes(desiredValue)
         return -- we already have the desired state
     end
     if QuestieQuest.NotesHidden then
+        -- change map button
         Questie_Toggle:SetText(QuestieLocale:GetUIString('QUESTIE_MAP_BUTTON_HIDE'));
+        -- show quest notes
         for questId, framelist in pairs(QuestieMap.questIdFrames) do
             for index, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
                 local icon = _G[frameName];
@@ -52,8 +60,20 @@ function QuestieQuest:ToggleNotes(desiredValue)
                 end
             end
         end
+        -- show manual notes
+        -- TODO probably this whole function should be moved to QuestieMap, now that it handles manualFrames
+        for _, frameList in pairs(QuestieMap.manualFrames) do
+            for _, frameName in pairs(frameList) do
+                local icon = _G[frameName];
+                if icon ~= nil and icon.IsShown ~= nil and (not icon.hidden) then -- check for function to make sure its a frame
+                    icon:FakeUnide()
+                end
+            end
+        end
     else
+        -- change map button
         Questie_Toggle:SetText(QuestieLocale:GetUIString('QUESTIE_MAP_BUTTON_SHOW'));
+        -- hide quest notes
         for questId, framelist in pairs(QuestieMap.questIdFrames) do
             for index, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
                 local icon = _G[frameName];
@@ -62,7 +82,17 @@ function QuestieQuest:ToggleNotes(desiredValue)
                 end
             end
         end
+        -- hide manual notes
+        for _, frameList in pairs(QuestieMap.manualFrames) do
+            for _, frameName in pairs(frameList) do
+                local icon = _G[frameName];
+                if icon ~= nil and icon.IsShown ~= nil and (not icon.hidden) then -- check for function to make sure its a frame
+                    icon:FakeHide()
+                end
+            end
+        end
     end
+    -- update config
     QuestieQuest.NotesHidden = not QuestieQuest.NotesHidden
     Questie.db.char.enabled = not QuestieQuest.NotesHidden
 end
@@ -134,12 +164,14 @@ function QuestieQuest:Reset()
     -- make sure complete db is correct
     Questie.db.char.complete = GetQuestsCompleted()
     QuestieProfessions:Update()
+    QuestieReputation:Update()
 
     QuestieQuest:AddAllNotes()
 end
 
 function QuestieQuest:SmoothReset() -- use timers to reset progressively instead of all at once
     -- bit of a hack (there has to be a better way to do logic like this
+    QuestieDBMIntegration:ClearAll()
     local stepTable = {
         QuestieQuest.ClearAllNotes,
         function()
@@ -150,6 +182,7 @@ function QuestieQuest:SmoothReset() -- use timers to reset progressively instead
             -- make sure complete db is correct
             Questie.db.char.complete = GetQuestsCompleted()
             QuestieProfessions:Update()
+            QuestieReputation:Update()
             QuestieQuest.availableQuests = {} -- reset available quest db
 
             -- draw available quests
@@ -180,6 +213,7 @@ function QuestieQuest:UpdateHiddenNotes()
         QuestieQuest:DrawAllAvailableQuests();
     end
 
+    -- Update hidden status of quest notes
     for questId, framelist in pairs(QuestieMap.questIdFrames) do
         for index, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
             local icon = _G[frameName];
@@ -193,7 +227,7 @@ function QuestieQuest:UpdateHiddenNotes()
                 else
                     icon:FakeUnhide()
                 end
-                if icon.data.QuestData.FadeIcons or (icon.data.ObjectiveData and icon.data.ObjectiveData.FadeIcons) then
+                if (icon.data.QuestData.FadeIcons or (icon.data.ObjectiveData and icon.data.ObjectiveData.FadeIcons)) and icon.data.Type ~= "complete" then
                     icon:FadeOut()
                 else
                     icon:FadeIn()
@@ -201,8 +235,23 @@ function QuestieQuest:UpdateHiddenNotes()
             end
         end
     end
-    -- hack to hide already-added notes of unwanted type
-
+    -- Update hidden status of manual notes
+    -- TODO maybe move the function to QuestieMap?
+    for id, frameList in pairs(QuestieMap.manualFrames) do
+        for _, frameName in ipairs(frameList) do
+            local icon = _G[frameName]
+            if icon ~= nil and icon.data then
+                if  QuestieQuest.NotesHidden or
+                    ((not Questie.db.global.enableMapIcons) and (not icon.miniMapIcon)) or
+                    ((not Questie.db.global.enableMiniMapIcons) and (icon.miniMapIcon))
+                then
+                    icon:FakeHide()
+                else
+                    icon:FakeUnhide()
+                end 
+            end
+        end
+    end
 end
 
 function QuestieQuest:HideQuest(id)
@@ -249,6 +298,7 @@ function QuestieQuest:AcceptQuest(questId)
         Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ACCEPT_QUEST', questId));
         --Get all the Frames for the quest and unload them, the available quest icon for example.
         QuestieMap:UnloadQuestFrames(questId);
+        QuestieQuest:AddNewQuestHash(questId)
 
         Quest = QuestieDB:GetQuest(questId)
         if(Quest ~= nil) then
@@ -289,15 +339,11 @@ end
 function QuestieQuest:CompleteQuest(QuestId)
     QuestiePlayer.currentQuestlog[QuestId] = nil;
     Questie.db.char.complete[QuestId] = true --can we use some other relevant info here?
-    -- We really want to unload the frames, why do these even exist?
-    --[[
-    for i=1, 5 do
-        if(QuestieMap.questIdFrames[QuestId]) then
-            QuestieMap:UnloadQuestFrames(QuestId);
-        else
-            break;
-        end
-    end]]--
+
+    --This should probably be done first, because DrawAllAvailableQuests looks at QuestieMap.questIdFrames[QuestId] to add available
+    QuestieQuest:CalculateAvailableQuests()
+    QuestieQuest:DrawAllAvailableQuests();
+
     QuestieMap:UnloadQuestFrames(QuestId);
     if(QuestieMap.questIdFrames[QuestId]) then
         Questie:Print("ERROR: Just removed all frames but the framelist seems to still be there!", QuestId);
@@ -306,9 +352,6 @@ function QuestieQuest:CompleteQuest(QuestId)
     --Unload all the quest frames from the map.
     --QuestieMap:UnloadQuestFrames(QuestId); --We are currently redrawing everything so we might as well not use this now
 
-    --TODO: This can probably be done better?
-    QuestieQuest:CalculateAvailableQuests()
-    QuestieQuest:DrawAllAvailableQuests();
 
     QuestieTracker:QuestRemoved(QuestId)
     QuestieTracker:Update()
@@ -320,6 +363,7 @@ function QuestieQuest:AbandonedQuest(QuestId)
     QuestieTooltips:RemoveQuest(QuestId)
     if(QuestiePlayer.currentQuestlog[QuestId]) then
         QuestiePlayer.currentQuestlog[QuestId] = nil
+        QuestieQuest:RemoveQuestHash(QuestId)
 
         --Unload all the quest frames from the map.
         QuestieMap:UnloadQuestFrames(QuestId);
@@ -352,7 +396,7 @@ function QuestieQuest:UpdateQuest(QuestId)
         QuestieQuest:PopulateQuestLogInfo(quest)
         QuestieQuest:GetAllQuestObjectives(quest) -- update quest log values in quest object
         QuestieQuest:UpdateObjectiveNotes(quest)
-        if QuestieQuest:IsComplete(quest) or QuestieQuest:isCompleteByQuestId(QuestId) then
+        if QuestieQuest:IsComplete(quest) or QuestieQuest:isCompleteByQuestId(QuestId) or IsQuestComplete(QuestId) then
             --DEFAULT_CHAT_FRAME:AddMessage("Finished " .. QuestId);
             QuestieMap:UnloadQuestFrames(QuestId);
             QuestieQuest:AddFinisher(quest)
@@ -465,7 +509,8 @@ function QuestieQuest:UpdateObjectiveNotes(Quest)
 end
 
 function QuestieQuest:AddFinisher(Quest)
-    if(QuestiePlayer.currentQuestlog[Quest.Id]) then
+    --We should never ever add the quest if IsQuestFlaggedComplete true.
+    if(QuestiePlayer.currentQuestlog[Quest.Id] and IsQuestFlaggedCompleted(Quest.Id) == false and IsQuestComplete(Quest.Id)) then
         local finisher = nil
         if Quest.Finisher ~= nil then
             if Quest.Finisher.Type == "monster" then
@@ -864,7 +909,6 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
     local logId = GetQuestLogIndexByID(Quest.Id)
     local old = GetQuestLogSelection()
     SelectQuestLogEntry(logId)
-    --
 
     if Quest.Objectives == nil then
         Quest.Objectives = {}; -- TODO: remove after api bug is fixed!!!
@@ -899,7 +943,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                     return {self.Collected, self.Needed, self.Completed} -- updated too recently
                 end
                 self._lastUpdate = now
-                
+
                 -- Use different variable names from above to avoid confusion.
                 local qObjectives = QuestieQuest:GetAllLeaderBoardDetails(self.QuestId);
 
@@ -957,7 +1001,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
 
                         local correctObjective = false;
                         if(oName and oDesc) then
-                            -- Does regular ch  eck work good? or Regex mayhaps?
+                            -- Does regular check work good? or Regex mayhaps?
                             if((oName == oDesc) or strfind(oDesc, oName, 1, true)) then
                                 correctObjective = true;
                             elseif(oText == oDesc or strfind(oDesc, oName, 1, true)) then
@@ -967,7 +1011,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                             correctObjective = true;
                         end
 
-                        --Is this objective the same as the object description
+                        -- Is this objective the same as the object description
                         if(correctObjective) then
                             Quest.Objectives[objectiveIndex].Id = objectiveDB.Id;
                             Quest.Objectives[objectiveIndex].Coordinates = objectiveDB.Coordinates;
@@ -979,7 +1023,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                 end
             end
         end
-        
+
         if (not Quest.Objectives[objectiveIndex]) or (not Quest.Objectives[objectiveIndex].Id) then
             Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ENTRY_ID', objective.type, objective.text))
         end
@@ -1031,6 +1075,82 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
     return Quest.Objectives;
 end
 
+function QuestieQuest:GetQuestHash(questId, isComplete)
+    local hash = libC:fcs32init()
+    local data = {}
+    data.questId = questId
+    data.isComplete = isComplete
+    data.questObjectives = C_QuestLog.GetQuestObjectives(questId)
+
+    hash = libC:fcs32update(hash, libS:Serialize(data))
+    hash = libC:fcs32final(hash)
+    return hash
+end
+
+function QuestieQuest:GetQuestLogHashes()
+    local questLogHashes = {}
+    ExpandQuestHeader(0) -- Expand all headers
+
+    local numEntries, _ = GetNumQuestLogEntries()
+    for questLogIndex=1, numEntries do
+        local _, _, _, isHeader, isCollapsed, isComplete, _, questId = GetQuestLogTitle(questLogIndex)
+        if isHeader then
+            if isCollapsed then
+                -- TODO
+            end
+        else
+            local hash = QuestieQuest:GetQuestHash(questId, isComplete)
+            table.insert(questLogHashes, questId, hash)
+        end
+    end
+    return questLogHashes
+end
+
+function QuestieQuest:AddNewQuestHash(questId)
+    Questie:Debug(DEBUG_DEVELOP, "AddNewQuestHash:", questId)
+    local hash = QuestieQuest:GetQuestHash(questId, false)
+
+    _QuestieQuest.questLogHashes[questId] = hash
+end
+
+function QuestieQuest:GetCurrentHashes()
+    return _QuestieQuest.questLogHashes
+end
+
+function QuestieQuest:RemoveQuestHash(questId)
+    Questie:Debug(DEBUG_DEVELOP, "RemoveQuestHash:", questId)
+    _QuestieQuest.questLogHashes[questId] = nil
+end
+
+function QuestieQuest:CompareQuestHashes()
+    Questie:Debug(DEBUG_DEVELOP, "CompareQuestHashes")
+    if _QuestieQuest.questLogHashes == nil then
+        return
+    end
+    ExpandQuestHeader(0) -- Expand all headers
+
+    local numEntries, _ = GetNumQuestLogEntries()
+    for questLogIndex=1, numEntries do
+        local _, _, _, isHeader, isCollapsed, isComplete, _, questId = GetQuestLogTitle(questLogIndex)
+        if isHeader then
+            if isCollapsed then
+                -- TODO
+            end
+        else
+            local oldhash = _QuestieQuest.questLogHashes[questId]
+            if oldhash ~= nil then
+                local newHash = QuestieQuest:GetQuestHash(questId, isComplete)
+
+                if oldhash ~= newHash then
+                    Questie:Debug(DEBUG_DEVELOP, "CompareQuestHashes: Hash changed for questId:", questId)
+                    QuestieQuest:UpdateQuest(questId)
+                    _QuestieQuest.questLogHashes[questId] = newHash
+                end
+            end
+        end
+    end
+end
+
 --https://www.townlong-yak.com/framexml/live/Blizzard_APIDocumentation#C_QuestLog.GetQuestObjectives
 function _QuestieQuest:GetLeaderBoardDetails(objectiveIndex, questId)
     local questObjectives = C_QuestLog.GetQuestObjectives(questId)-- or {};
@@ -1054,7 +1174,7 @@ function QuestieQuest:GetAllLeaderBoardDetails(questId)
             local text = string.match(objective.text, "(.*)[：,:]");
             -- If nothing is matched, we should just add the text as is.
             if(text ~= nil) then
-                objective.text = text;
+                objective.text = string.trim(text);
             end
         else
             DEFAULT_CHAT_FRAME:AddMessage("ERROR! Something went wrong in GetAllLeaderBoardDetails"..tostring(questId).." - "..tostring(objective.text));
@@ -1189,7 +1309,7 @@ function QuestieQuest:DrawAllAvailableQuests()--All quests between
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]", QuestieLocale:GetUIString('DEBUG_DRAW', count, QuestiePlayer:GetPlayerLevel()));
 end
 
-function _QuestieQuest:IsDoable(questObject) -- we need to add reputation checks here
+function _QuestieQuest:IsDoable(questObject)
     if not questObject then
         return false;
     end
@@ -1204,7 +1324,6 @@ function _QuestieQuest:IsDoable(questObject) -- we need to add reputation checks
             return false
         end
     end
-    local allFinished = true
     --Run though the requiredQuests
     if questObject.ExclusiveQuestGroup then -- fix (DO NOT REVERT, tested thoroughly)
         for k, v in pairs(questObject.ExclusiveQuestGroup) do
@@ -1237,60 +1356,104 @@ function _QuestieQuest:IsDoable(questObject) -- we need to add reputation checks
         return false
     end
 
-    if questObject.RequiredQuest == nil or questObject.RequiredQuest == 0 then
-        return true
-    end
-    for index, preQuestId in pairs(questObject.RequiredQuest) do
-
-        local preQuest = QuestieDB:GetQuest(preQuestId);
-
-        --If a quest is not complete not all are finished, we need to check group
-        if not Questie.db.char.complete[preQuestId] then
-            allFinished = false
-            --If one of the quests in the group is done we return true
-        elseif preQuest and preQuest.ExclusiveQuestGroup then
-            return true
-        end
-
-        --If one of the quests are in the log, return false
-        if preQuest and QuestiePlayer.currentQuestlog[preQuest.Id] then
-            return false
-        end
+    if QuestieProfessions:HasReputation(questObject.requiredMinRep) == false then
+        return false
     end
 
-    return allFinished
+    -- Check the preQuestGroup field where every required quest has to be complete for a quest to show up
+    if questObject.RequiredQuestGroup ~= nil and next(questObject.RequiredQuestGroup) ~= nil then
+        return _QuestieQuest:IsPreQuestGroupFulfilled(questObject.RequiredQuestGroup)
+    end
+
+    -- Check the preQuestSingle field where just one of the required quests has to be complete for a quest to show up
+    if questObject.RequiredQuestSingle ~= nil and next(questObject.RequiredQuestSingle) ~= nil then
+        return _QuestieQuest:IsPreQuestSingleFulfilled(questObject.RequiredQuestSingle)
+    end
+
+    return true
 end
 
-function _QuestieQuest:CheckExclusivity(questObject)
+function _QuestieQuest:IsPreQuestGroupFulfilled(preQuestGroup)
+    for _, preQuestId in pairs(preQuestGroup) do
+        -- If a quest is not complete and no exlusive quest is complete, the requirement is not fulfilled
+        if not Questie.db.char.complete[preQuestId] then
+            local preQuest = QuestieDB:GetQuest(preQuestId);
+            if preQuest.ExclusiveQuestGroup == nil then
+                return false
+            end
 
+            local anyExlusiveFinished = false
+            for _, v in pairs(preQuest.ExclusiveQuestGroup) do
+                if Questie.db.char.complete[v] then
+                    anyExlusiveFinished = true
+                end
+            end
+            if not anyExlusiveFinished then
+                return false
+            end
+        end
+    end
+    -- All preQuests are complete
+    return true
+end
+
+function _QuestieQuest:IsPreQuestSingleFulfilled(preQuestSingle)
+    for _, preQuestId in pairs(preQuestSingle) do
+        local preQuest = QuestieDB:GetQuest(preQuestId);
+
+        -- If a quest is complete the requirement is fulfilled
+        if Questie.db.char.complete[preQuestId] then
+            return true
+        -- If one of the quests in the exclusive group is complete the requirement is fulfilled
+        elseif preQuest and preQuest.ExclusiveQuestGroup then
+            for _, v in pairs(preQuest.ExclusiveQuestGroup) do
+                if Questie.db.char.complete[v] then
+                    return true
+                end
+            end
+        end
+    end
+    -- No preQuest is complete
+    return false
 end
 
 --TODO Check that this function does what it is supposed to...
 function QuestieQuest:CalculateAvailableQuests()
-    local PlayerLevel = QuestiePlayer:GetPlayerLevel();
-
-    local MinLevel = PlayerLevel - Questie.db.global.minLevelFilter
-    local MaxLevel = PlayerLevel + Questie.db.global.maxLevelFilter
-
-    --DEFAULT_CHAT_FRAME:AddMessage(" minlevel/maxlevel: " .. MinLevel .. "/" .. MaxLevel);
-
+    local playerLevel = QuestiePlayer:GetPlayerLevel()
+    local minLevel = playerLevel - Questie.db.global.minLevelFilter
+    local maxLevel = playerLevel + Questie.db.global.maxLevelFilter
     QuestieQuest.availableQuests = {}
 
-    for i, v in pairs(QuestieDB.questData) do
-        local QuestID = i;
+    for questID, v in pairs(QuestieDB.questData) do
         --Check if we've already completed the quest and that it is not "manually" hidden and that the quest is not currently in the questlog.
 
-        if((not Questie.db.char.complete[QuestID]) and (not QuestieCorrections.hiddenQuests[QuestID]) and (not QuestiePlayer.currentQuestlog[QuestID])) then --Should be not QuestiePlayer.currentQuestlog[QuestID]
-            local Quest = QuestieDB:GetQuest(QuestID);
-            if (Quest.Level >= MinLevel or Questie.db.char.lowlevel) and Quest.Level <= MaxLevel and Quest.MinLevel <= PlayerLevel then
-                if _QuestieQuest:IsDoable(Quest) then
-                    QuestieQuest.availableQuests[QuestID] = QuestID
+        if((not Questie.db.char.complete[questID]) and (not QuestieCorrections.hiddenQuests[questID]) and (not QuestiePlayer.currentQuestlog[questID])) then
+            local quest = QuestieDB:GetQuest(questID)
+
+            if _QuestieQuest:LevelRequirementsFulfilled(quest, playerLevel, minLevel, maxLevel) or _QuestieQuest:IsParentQuestActive(quest.ParentQuest) then
+                if _QuestieQuest:IsDoable(quest) then
+                    QuestieQuest.availableQuests[questID] = questID
                 end
             else
                 --If the quests are not within level range we want to unload them
                 --(This is for when people level up or change settings etc)
-                QuestieMap:UnloadQuestFrames(QuestID);
+                QuestieMap:UnloadQuestFrames(questID);
             end
         end
     end
+end
+
+function _QuestieQuest:LevelRequirementsFulfilled(quest, playerLevel, minLevel, maxLevel)
+    return (quest.Level >= minLevel or Questie.db.char.lowlevel) and quest.Level <= maxLevel and quest.MinLevel <= playerLevel
+end
+
+-- We always want to show a quest if it is a childQuest and its parent is in the quest log
+function _QuestieQuest:IsParentQuestActive(parentID)
+    if parentID == nil or parentID == 0 then
+        return false
+    end
+    if QuestiePlayer.currentQuestlog[parentID] then
+        return true
+    end
+    return false
 end

@@ -2,7 +2,16 @@ QuestieMap = {...}
 QuestieMap.ICON_MAP_TYPE = "MAP";
 QuestieMap.ICON_MINIMAP_TYPE = "MINIMAP";
 
+-- List of frames sorted by quest ID (automatic notes)
+-- E.g. {[questId] = {[frameName] = frame, ...}, ...}
+-- For details about frame.data see calls to QuestieMap.DrawWorldIcon
 QuestieMap.questIdFrames = {}
+-- List of frames sorted by NPC/object ID (manual notes)
+-- id > 0: NPC
+-- id < 0: object
+-- E.g. {[-objectId] = {[frameName] = frame, ...}, ...}
+-- For details about frame.data see QuestieMap.ShowNPC and QuestieMap.ShowObject
+QuestieMap.manualFrames = {}
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
@@ -48,32 +57,66 @@ function QuestieMap:UnloadQuestFrames(questId, iconType)
     end
 end
 
-function QuestieMap:RescaleIcons()
-    for qId, framelist in pairs(QuestieMap.questIdFrames) do
-        for i, frameName in ipairs(framelist) do
-            local frame = _G[frameName]
-            if frame and frame.data then
-                if(frame.data.GetIconScale) then
-                    frame.data.IconScale = frame.data:GetIconScale();
-                    local scale = nil
-                    if(frame.miniMapIcon) then
-                        scale = 16 * (frame.data.IconScale or 1) * (Questie.db.global.globalMiniMapScale or 0.7);
-                    else
-                        scale = 16 * (frame.data.IconScale or 1) * (Questie.db.global.globalScale or 0.7);
-                    end
+--Get the frames for manual note, this returns all of the frames/spawns
+---@param id integer @The ID of the NPC (>0) or object (<0)
+function QuestieMap:GetManualFrames(id)
+    local frames = {}
+    --If no frames exists or if the quest does not exist we just return an empty list
+    if (QuestieMap.manualFrames[id]) then
+        for _, name in pairs(QuestieMap.manualFrames[id]) do
+            table.insert(frames, _G[name])
+        end
+    end
+    return frames
+end
 
-                    if scale > 1 then
-                        frame:SetWidth(scale)
-                        frame:SetHeight(scale)
-                    end
-                else
-                    Questie:Error("A frame is lacking the GetIconScale function for resizing!", frame.data.Id);
-                end
+---@param id integer @The ID of the NPC (>0) or object (<0)
+function QuestieMap:UnloadManualFrames(id)
+    if(QuestieMap.manualFrames[id]) then
+        for index, frame in ipairs(QuestieMap:GetManualFrames(id)) do
+            frame:Unload();
+        end
+        QuestieMap.manualFrames[id] = nil;
+    end
+end
+
+-- Rescale a single icon
+---@param frameName string @The global name of the icon frame, e.g. "QuestieFrame1"
+local function rescaleIcon(frameName)
+    local frame = _G[frameName]
+    if frame and frame.data then
+        if(frame.data.GetIconScale) then
+            frame.data.IconScale = frame.data:GetIconScale();
+            local scale = nil
+            if(frame.miniMapIcon) then
+                scale = 16 * (frame.data.IconScale or 1) * (Questie.db.global.globalMiniMapScale or 0.7);
+            else
+                scale = 16 * (frame.data.IconScale or 1) * (Questie.db.global.globalScale or 0.7);
             end
+
+            if scale > 1 then
+                frame:SetWidth(scale)
+                frame:SetHeight(scale)
+            end
+        else
+            Questie:Error("A frame is lacking the GetIconScale function for resizing!", frame.data.Id);
         end
     end
 end
 
+-- Rescale all the icons
+function QuestieMap:RescaleIcons()
+    for _, framelist in pairs(QuestieMap.questIdFrames) do
+        for _, frameName in ipairs(framelist) do
+            rescaleIcon(frameName)
+        end
+    end
+    for _, framelist in pairs(QuestieMap.manualFrames) do
+        for _, frameName in ipairs(framelist) do
+            rescaleIcon(frameName)
+        end
+    end
+end
 
 local tinsert = table.insert;
 local tpack = table.pack;
@@ -104,7 +147,185 @@ function QuestieMap:ProcessQueue()
     HBDPins:AddMinimapIconMap(tunpack(minimapDrawCall));
   end
 end
---(Questie, Note, zoneDataAreaIDToUiMapID[Zone], coords[1]/100, coords[2]/100, HBD_PINS_WORLDMAP_SHOW_WORLD)
+
+-- Show NPC on map
+-- This function does the same for manualFrames as similar functions in
+-- QuestieQuest do for questIdFrames
+---@param npcID integer @The ID of the NPC
+function QuestieMap:ShowNPC(npcID)
+    if type(npcID) ~= "number" then return end
+    -- get the NPC data
+    local npc = QuestieDB:GetNPC(npcID)
+    if npc == nil then return end
+
+    -- create the icon data
+    local data = {}
+    data.id = npc.id
+    data.Icon = "Interface\\WorldMap\\WorldMapPartyIcon"
+    data.GetIconScale = function() return Questie.db.global.manualScale or 0.7 end
+    data.IconScale = data:GetIconScale()
+    data.Type = "manual"
+    data.spawnType = "monster"
+    data.npcData = npc
+    data.Name = npc.name
+    data.IsObjectiveNote = false
+    data.ManualTooltipData = {}
+    data.ManualTooltipData.Title = npc.name.." (NPC)"
+    local level = tostring(npc.minLevel)
+    local health = tostring(npc.minLevelHealth)
+    if npc.minLevel ~= npc.maxLevel then
+        level = level..'-'..tostring(npc.maxLevel)
+        health = health..'-'..tostring(npc.maxLevelHealth)
+    end
+    data.ManualTooltipData.Body = {
+        {'ID:', tostring(npc.id)},
+        {'Level:', level},
+        {'Health:', health},
+    }
+
+    -- draw the notes
+    for zone, spawns in pairs(npc.spawns) do
+        if(zone ~= nil and spawns ~= nil) then
+            for _, coords in ipairs(spawns) do
+                -- instance spawn, draw entrance on map
+                if (instanceData[zone] ~= nil) then
+                    for index, value in ipairs(instanceData[zone]) do
+                        QuestieMap:DrawManualIcon(data, value[1], value[2], value[3])
+                    end
+                -- world spawn
+                else
+                    QuestieMap:DrawManualIcon(data, zone, coords[1], coords[2])
+                end
+            end
+        end
+    end
+end
+
+-- Show object on map
+-- This function does the same for manualFrames as similar functions in
+-- QuestieQuest do for questIdFrames
+---@param objectID integer
+function QuestieMap:ShowObject(objectID)
+    if type(objectID) ~= "number" then return end
+    -- get the gameobject data
+    local object = QuestieDB:GetObject(objectID)
+    if object == nil then return end
+
+    -- create the icon data
+    local data = {}
+    data.id = -object.id
+    data.Icon = "Interface\\WorldMap\\WorldMapPartyIcon"
+    data.GetIconScale = function() return Questie.db.global.manualScale or 0.7 end
+    data.IconScale = data:GetIconScale()
+    data.Type = "manual"
+    data.spawnType = "object"
+    data.objectData = object
+    data.Name = object.name
+    data.IsObjectiveNote = false
+    data.ManualTooltipData = {}
+    data.ManualTooltipData.Title = object.name.." (object)"
+    data.ManualTooltipData.Body = {
+        {'ID:', tostring(object.id)},
+    }
+
+    -- draw the notes
+    for zone, spawns in pairs(object.spawns) do
+        if(zone ~= nil and spawns ~= nil) then
+            for _, coords in ipairs(spawns) do
+                -- instance spawn, draw entrance on map
+                if (instanceData[zone] ~= nil) then
+                    for index, value in ipairs(instanceData[zone]) do
+                        QuestieMap:DrawManualIcon(data, value[1], value[2], value[3])
+                    end
+                -- world spawn
+                else
+                    QuestieMap:DrawManualIcon(data, zone, coords[1], coords[2])
+                end
+            end
+        end
+    end
+end
+
+-- Draw manually added NPC/object notes
+-- TODO: item and custom notes
+--@param data table<...> @A table created by the calling function, must contain `id`, `Name`, `GetIconScale()`, and `Type`
+--@param AreaID integer @The zone ID from the raw data
+--@param x float @The X coordinate in 0-100 format
+--@param y float @The Y coordinate in 0-100 format
+function QuestieMap:DrawManualIcon(data, AreaID, x, y)
+    if type(data) ~= "table" then
+        error(MAJOR..": AddWorldMapIconMap: must have some data")
+    end
+    if type(AreaID) ~= "number" or type(x) ~= "number" or type(y) ~= "number" then
+        error(MAJOR..": AddWorldMapIconMap: 'AreaID', 'x' and 'y' must be numbers "..AreaID.." "..x.." "..y)
+    end
+    if type(data.id) ~= "number" or type(data.id) ~= "number"then
+        error(MAJOR.."Data.id must be set to the NPC or object ID!")
+    end
+    if zoneDataAreaIDToUiMapID[AreaID] == nil then
+        --Questie:Error("No UiMapID for ("..tostring(zoneDataClassic[AreaID])..") :".. AreaID .. tostring(data.Name))
+        return nil, nil
+    end
+    -- set the icon
+    local texture = "Interface\\WorldMap\\WorldMapPartyIcon"
+    -- Save new zone ID format, used in QuestieFramePool
+    data.UiMapID = zoneDataAreaIDToUiMapID[AreaID]
+    -- create a list for all frames belonging to a NPC (id > 0) or an object (id < 0)
+    if(QuestieMap.manualFrames[data.id] == nil) then
+        QuestieMap.manualFrames[data.id] = {}
+    end
+
+    -- create the map icon
+    local icon = QuestieFramePool:GetFrame()
+    icon.data = data
+    icon.x = x
+    icon.y = y
+    icon.AreaID = AreaID -- used by QuestieFramePool
+    icon.miniMapIcon = false;
+    icon.texture:SetTexture(texture)
+    icon:SetWidth(16 * (data:GetIconScale() or 0.7))
+    icon:SetHeight(16 * (data:GetIconScale() or 0.7))
+
+    -- add the map icon
+    QuestieMap:QueueDraw(QuestieMap.ICON_MAP_TYPE, Questie, icon, data.UiMapID, x/100, y/100, 3) -- showFlag)
+    table.insert(QuestieMap.manualFrames[data.id], icon:GetName())
+
+    -- create the minimap icon
+    local iconMinimap = QuestieFramePool:GetFrame()
+    local colorsMinimap = {1, 1, 1}
+    if data.IconColor ~= nil and Questie.db.global.questMinimapObjectiveColors then
+        colorsMinimap = data.IconColor
+    end
+    iconMinimap:SetWidth(16 * ((data:GetIconScale() or 1) * (Questie.db.global.globalMiniMapScale or 0.7)))
+    iconMinimap:SetHeight(16 * ((data:GetIconScale() or 1) * (Questie.db.global.globalMiniMapScale or 0.7)))
+    iconMinimap.data = data
+    iconMinimap.x = x
+    iconMinimap.y = y
+    iconMinimap.AreaID = AreaID -- used by QuestieFramePool
+    iconMinimap.texture:SetTexture(texture)
+    iconMinimap.texture:SetVertexColor(colorsMinimap[1], colorsMinimap[2], colorsMinimap[3], 1);
+    iconMinimap.miniMapIcon = true;
+
+    -- add the minimap icon
+    QuestieMap:QueueDraw(QuestieMap.ICON_MINIMAP_TYPE, Questie, iconMinimap, data.UiMapID, x / 100, y / 100, true, true);
+    table.insert(QuestieMap.manualFrames[data.id], iconMinimap:GetName())
+
+    -- make sure notes are only shown when they are supposed to
+    if (QuestieQuest.NotesHidden) then -- TODO: or (not Questie.db.global.manualNotes)
+        icon:FakeHide()
+        iconMinimap:FakeHide()
+    else
+        if (not Questie.db.global.enableMapIcons) then
+            icon:FakeHide()
+        end
+        if (not Questie.db.global.enableMiniMapIcons) then
+            iconMinimap:FakeHide()
+        end
+    end
+
+    -- return the frames in case they need to be stored seperately from QuestieMap.manualFrames
+    return icon, iconMinimap;
+end
 
 --A layer to keep the area convertion away from the other parts of the code
 --coordinates need to be 0-1 instead of 0-100
@@ -279,6 +500,7 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
         end
         if Questie.db.global.enableMapIcons then
             QuestieMap:QueueDraw(QuestieMap.ICON_MAP_TYPE, Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, showFlag);
+            QuestieDBMIntegration:RegisterHudQuestIcon(tostring(icon), data.Icon, zoneDataAreaIDToUiMapID[AreaID], x, y, colors[1], colors[2], colors[3])
             --HBDPins:AddWorldMapIconMap(Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, showFlag)
         end
         if(QuestieMap.questIdFrames[data.Id] == nil) then

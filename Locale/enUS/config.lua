@@ -77,6 +77,26 @@ QuestieLocale.locale['enUS'] = {
     ['OBJECT_ICON_SCALE_DESC'] = "How large the object icons are.  ( Default: %s )",
     ['EVENT_ICON_SCALE'] = "Scale for Event Icons",
     ['EVENT_ICON_SCALE_DESC'] = "How large the event icons are.  ( Default: %s )",
+    
+    ['DBM_HUD_TAB'] = "DBM HUD",
+    ['ENABLE_DBM_HUD'] = "Show DBM HUD",
+    ['ENABLE_DBM_HUD_DESC'] = "Enable or disable the DBM Heads Up Display (HUD) overlay for showing map objects.",
+    ['DBM_HUD_ICON_ALERT'] = "Enable proximity visual for HUD icons",
+    ['DBM_HUD_ICON_ALERT_DESC'] = "Changes the color of a HUD icon to red when you are near it",
+    ['DBM_HUD_SCALE_OPTIONS'] = "Size & Scale Options",
+    ['DBM_HUD_ZOOM'] = "Global zoom level for HUD Icons",
+    ['DBM_HUD_ZOOM_DESC'] = "Adjusts the zoom level for HUD Icons which affects how close in or how far out you see them  ( Default: %s )",
+    ['DBM_HUD_RADIUS'] = "Global radius/size for HUD Icons",
+    ['DBM_HUD_RADIUS_DESC'] = "Adjusts the size of the icons that appear on the HUD  ( Default: %s )",
+    ['DBM_HUD_FILTER_OPTIONS'] = "Filter Options",
+    ['DBM_HUD_FILTER_QUEST'] = "Show quest giver icons",
+    ['DBM_HUD_FILTER_QUEST_DESC'] = "Toggles whether or not available/complete quest icons appear on HUD ( Default: %s )",
+    ['DBM_HUD_FILTER_KILL'] = "Show quest slay icons",
+    ['DBM_HUD_FILTER_KILL_DESC'] = "Toggles whether or not slay icons appear on HUD ( Default: %s )",
+    ['DBM_HUD_FILTER_LOOT'] = "Show quest loot icons",
+    ['DBM_HUD_FILTER_LOOT_DESC'] = "Toggles whether or not loot icons appear on HUD ( Default: %s )",
+    ['DBM_HUD_FILTER_INTERACT'] = "Show quest objective icons",
+    ['DBM_HUD_FILTER_INTERACT_DESC'] = "Toggles whether or not objective icons appear on HUD ( Default: %s )",
 
     ['NAMEPLATE_TAB'] = "Nameplates",
     ['NAMEPLATE_HEAD'] = "Nameplate Icon Options",
@@ -285,5 +305,13 @@ QuestieLocale.locale['enUS'] = {
     ['DEBUG_UNLOAD_ALL'] = "Unloading all frames, count: %s",
     ['QUESTIE_ACCEPT_NIL'] = "|cFFFF0000Questie ERROR:|r Attempt to accept nil quest! You may need to run /questie reload", 
     ['QUESTIE_UPDATED_RESTART'] = "|cFFFF0000WARNING!|r You have updated questie without restarting the game, this will likely cause problems. Please restart the game before continuing",
+
+    -- TODO finally switch all keys to this style for code readability:
+    ['Show on Map'] = "Show on Map",
+    ['Remove from Map'] = "Remove from Map",
+    ['Starts the following quests:'] = "Starts the following quests:",
+    ['Ends the following quests:'] = "Ends the following quests:",
+    ['No quests to list.'] = "No quests to list.",
+    ['No spawn data available.'] = "No spawn data available.",
 
 };

@@ -18,4 +18,4 @@ labels: "quest issue"
 
 
 ## Questie version
-<!-- Which version of Questie are you using? You can find it by typing "/dump QuestieGetVersionString()" in the ingame chat or look at your "Addons" list. -->
+<!-- Which version of Questie are you using? You can find it by looking at your Questie.toc file (open it with any text editor). It looks something like this: "## Version: 4.1.2 BETA 104 1c8ba0a". -->

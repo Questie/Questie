@@ -4,8 +4,12 @@ local AceGUI = LibStub("AceGUI-3.0");
 local journeyFrame = {};
 local isWindowShown = false;
 local lastOpenWindow = "journey";
-local lastOpenSearch = "quest";
 local containerCache = nil;
+
+function JumpToQuest(button)
+    QuestieSearchResults:JumpToQuest(button)
+    HideJourneyTooltip()
+ end
 
 local function Spacer(container, size)
     local spacer = AceGUI:Create("Label");
@@ -20,7 +24,6 @@ local function Spacer(container, size)
     end
     container:AddChild(spacer);
 end
-
 
 local journeyTreeFrame = nil;
 local treeCache = nil;
@@ -448,7 +451,7 @@ local continentTable = {
 };
 
 
-local zoneTable = {
+QuestieJourney.zoneTable = {
     [1] = {
         [36] = "Alterac Mountains",
         [45] = "Arathi Highlands",
@@ -524,7 +527,7 @@ local zoneTable = {
 };
 
 if (GetLocale() == "deDE") then
-	zoneTable = {
+	QuestieJourney.zoneTable = {
 		[1] = {
 			[36] = "Alteracgebirge",
 			[45] = "Arathihochland",
@@ -600,22 +603,6 @@ if (GetLocale() == "deDE") then
 	};
 end	
 
-function JumpToSearch(button)
-    local qid = button:GetUserData('id');
-    local qname = button:GetUserData('name');
-
-    if not (lastOpenWindow == 'search') then
-        tabGroup:SelectTab('search');
-    end
-
-    typeDropdown:SetValue(1);
-    searchBox:SetText(qname);
-    DrawSearchResultTab(searchGroup, 1, qname);
-    searchTreeFrame:SelectByValue(qid);
-
-    HideJourneyTooltip();
-end
-
 function ShowJourneyTooltip(button)
     if GameTooltip:IsShown() then
         return;
@@ -658,121 +645,6 @@ end
 local zoneTreeFrame = nil;
 local selectedContinent = 0;
 
-local function NpcFrame(f, npc)
-    local header = AceGUI:Create("Heading");
-    header:SetFullWidth(true);
-    header:SetText(npc.name);
-    f:AddChild(header);
-
-    Spacer(f);
-
-    local npcZone = AceGUI:Create("Label");
-    local startindex = 0;
-    for i in pairs(npc.spawns) do
-        startindex = i;
-    end
-
-    local continent = 'UNKNOWN ZONE';
-    for i, v in ipairs(zoneTable) do
-        if v[startindex] then
-            continent = zoneTable[i][startindex];
-        end
-    end
-
-    npcZone:SetText(continent);
-    npcZone:SetFullWidth(true);
-    f:AddChild(npcZone);
-
-    local startx = npc.spawns[startindex][1][1];
-    local starty = npc.spawns[startindex][1][2];
-
-    if (startx ~= -1 or starty ~= -1) then
-        local npcLoc = AceGUI:Create("Label");
-        npcLoc:SetText("X: ".. startx .." || Y: ".. starty);
-        npcLoc:SetFullWidth(true);
-        f:AddChild(npcLoc);
-    end
-
-    local npcID = AceGUI:Create("Label");
-    npcID:SetText("NPC ID: ".. npc.id);
-    npcID:SetFullWidth(true);
-    f:AddChild(npcID);
-
-    Spacer(f);
-
-    -- Also Starts
-    if npc.questStarts then
-        local startGroup = AceGUI:Create("InlineGroup");
-        startGroup:SetFullWidth(true);
-        startGroup:SetLayout("flow");
-        startGroup:SetTitle(QuestieLocale:GetUIString('JOURNEY_ALSO_STARTS'));
-        f:AddChild(startGroup);
-
-        local startQuests = {};
-        local counter = 1;
-        for i, v in pairs(npc.questStarts) do
-            startQuests[counter] = {};
-            startQuests[counter].frame = AceGUI:Create("InteractiveLabel");
-            startQuests[counter].quest = QuestieDB:GetQuest(v);
-            startQuests[counter].frame:SetText(startQuests[counter].quest:GetColoredQuestName());
-            startQuests[counter].frame:SetUserData('id', v);
-            startQuests[counter].frame:SetUserData('name', startQuests[counter].quest.Name);
-            startQuests[counter].frame:SetCallback("OnClick", JumpToSearch);
-            startQuests[counter].frame:SetCallback("OnEnter", ShowJourneyTooltip);
-            startQuests[counter].frame:SetCallback("OnLeave", HideJourneyTooltip);
-            startGroup:AddChild(startQuests[counter].frame);
-            counter = counter + 1;
-        end
-
-        if #startQuests == 0 then
-            local noquest = AceGUI:Create("Label");
-            noquest:SetText(QuestieLocale:GetUIString('JOURNEY_NO_QUEST'));
-            noquest:SetFullWidth(true);
-            startGroup:AddChild(noquest);
-        end
-    end
-
-    Spacer(f);
-
-     -- Also ends
-     if npc.questEnds then
-
-        local endGroup = AceGUI:Create("InlineGroup");
-        endGroup:SetFullWidth(true);
-        endGroup:SetLayout("flow");
-        endGroup:SetTitle(QuestieLocale:GetUIString('JOURNEY_ALSO_ENDS'));
-        f:AddChild(endGroup);
-
-        local endQuests = {};
-        local counter = 1;
-        for i, v in ipairs(npc.questEnds) do
-            endQuests[counter] = {};
-            endQuests[counter].frame = AceGUI:Create("InteractiveLabel");
-            endQuests[counter].quest = QuestieDB:GetQuest(v);
-            endQuests[counter].frame:SetText(endQuests[counter].quest:GetColoredQuestName());
-            endQuests[counter].frame:SetUserData('id', v);
-            endQuests[counter].frame:SetUserData('name', endQuests[counter].quest.Name);
-            endQuests[counter].frame:SetCallback("OnClick", JumpToSearch);
-            endQuests[counter].frame:SetCallback("OnEnter", ShowJourneyTooltip);
-            endQuests[counter].frame:SetCallback("OnLeave", HideJourneyTooltip);
-            endGroup:AddChild(endQuests[counter].frame);
-            counter = counter + 1;
-        end
-
-        if #endQuests == 0 then
-            local noquest = AceGUI:Create("Label");
-            noquest:SetText(QuestieLocale:GetUIString('JOURNEY_NO_QUEST'));
-            noquest:SetFullWidth(true);
-            endGroup:AddChild(noquest);
-        end
-    end
-
-    Spacer(f);
-
-    -- Fix for sometimes the scroll content will max out and not show everything until window is resized
-    f.content:SetHeight(10000);
-
-end
 -- TODO remove again once the call in manageZoneTree was removed
 local function QuestFrame(f, quest)
     local header = AceGUI:Create("Heading");
@@ -860,9 +732,9 @@ local function QuestFrame(f, quest)
         end
 
         local continent = 'UNKNOWN ZONE';
-        for i, v in ipairs(zoneTable) do
+        for i, v in ipairs(QuestieJourney.zoneTable) do
             if v[startindex] then
-                continent = zoneTable[i][startindex];
+                continent = QuestieJourney.zoneTable[i][startindex];
             end
         end
 
@@ -906,7 +778,7 @@ local function QuestFrame(f, quest)
                     startQuests[counter].frame:SetText(startQuests[counter].quest:GetColoredQuestName());
                     startQuests[counter].frame:SetUserData('id', v);
                     startQuests[counter].frame:SetUserData('name', startQuests[counter].quest.Name);
-                    startQuests[counter].frame:SetCallback("OnClick", JumpToSearch);
+                    startQuests[counter].frame:SetCallback("OnClick", JumpToQuest);
                     startQuests[counter].frame:SetCallback("OnEnter", ShowJourneyTooltip);
                     startQuests[counter].frame:SetCallback("OnLeave", HideJourneyTooltip);
                     startNPCGroup:AddChild(startQuests[counter].frame);
@@ -954,9 +826,9 @@ local function QuestFrame(f, quest)
             end
 
             local continent = 'UNKNOWN ZONE';
-            for i, v in ipairs(zoneTable) do
+            for i, v in ipairs(QuestieJourney.zoneTable) do
                 if v[startindex] then
-                    continent = zoneTable[i][startindex];
+                    continent = QuestieJourney.zoneTable[i][startindex];
                 end
             end
 
@@ -1000,7 +872,7 @@ local function QuestFrame(f, quest)
                         startQuests[counter].frame:SetText(startQuests[counter].quest:GetColoredQuestName());
                         startQuests[counter].frame:SetUserData('id', v);
                         startQuests[counter].frame:SetUserData('name', startQuests[counter].quest.Name);
-                        startQuests[counter].frame:SetCallback("OnClick", JumpToSearch);
+                        startQuests[counter].frame:SetCallback("OnClick", JumpToQuest);
                         startQuests[counter].frame:SetCallback("OnEnter", ShowJourneyTooltip);
                         startQuests[counter].frame:SetCallback("OnLeave", HideJourneyTooltip);
                         startGOGroup:AddChild(startQuests[counter].frame);
@@ -1047,9 +919,9 @@ local function QuestFrame(f, quest)
         end
 
         local continent = 'UNKNOWN ZONE';
-        for i, v in ipairs(zoneTable) do
+        for i, v in ipairs(QuestieJourney.zoneTable) do
             if v[endindex] then
-                continent = zoneTable[i][endindex];
+                continent = QuestieJourney.zoneTable[i][endindex];
             end
         end
 
@@ -1092,7 +964,7 @@ local function QuestFrame(f, quest)
                     endQuests[counter].frame:SetText(endQuests[counter].quest:GetColoredQuestName());
                     endQuests[counter].frame:SetUserData('id', v);
                     endQuests[counter].frame:SetUserData('name', endQuests[counter].quest.Name);
-                    endQuests[counter].frame:SetCallback("OnClick", JumpToSearch);
+                    endQuests[counter].frame:SetCallback("OnClick", JumpToQuest);
                     endQuests[counter].frame:SetCallback("OnEnter", ShowJourneyTooltip);
                     endQuests[counter].frame:SetCallback("OnLeave", HideJourneyTooltip);
                     endNPCGroup:AddChild(endQuests[counter].frame);
@@ -1186,7 +1058,7 @@ local function DrawZoneQuestTab(container)
     CDropdown:SetCallback("OnValueChanged", function(key, checked)
         -- set the zone table to be used.
         selectedContinent = key.value;
-        zDropdown:SetList(zoneTable[key.value]);
+        zDropdown:SetList(QuestieJourney.zoneTable[key.value]);
         zDropdown:SetText(QuestieLocale:GetUIString('JOURNEY_SELECT_ZONE'));
         zDropdown:SetDisabled(false);
     end)
@@ -1243,15 +1115,11 @@ function CollectZoneQuests(container, zoneid)
 
             -- see if it's supposed to be a hidden quest
             if QuestieCorrections.hiddenQuests and not QuestieCorrections.hiddenQuests[qid] then
-
-                -- remove any breadcrumb quests too
-                if QuestieCorrections.questExclusiveGroupFixes and not QuestieCorrections.questExclusiveGroupFixes[qid] then
-                    temp.value = qid;
-                    temp.text = q:GetColoredQuestName();
-                    table.insert(zoneTree[1].children, temp);
-                    temp = {}; -- Weird Lua bug requires this to be reset?
-                    availableCounter = availableCounter + 1;
-                end
+                temp.value = qid;
+                temp.text = q:GetColoredQuestName();
+                table.insert(zoneTree[1].children, temp);
+                temp = {}; -- Weird Lua bug requires this to be reset?
+                availableCounter = availableCounter + 1;
             end
         end
     end
@@ -1269,363 +1137,14 @@ function CollectZoneQuests(container, zoneid)
     end
 
     local totalCounter = availableCounter + completedCounter;
-    zoneTree[1].text = zoneTree[1].text .. ' [ '..  availableCounter .. ' ]';
+    zoneTree[1].text = zoneTree[1].text .. ' [ '..  availableCounter ..'/'.. totalCounter ..' ]';
     zoneTree[2].text = zoneTree[2].text .. ' [ '..  completedCounter ..'/'.. totalCounter ..' ]';
 
     -- Build Tree
     ManageZoneTree(container, zoneTree);
 end
 
--- Draw search results from advanced search tab
-local searchResultTabs = nil;
-function DrawSearchResultTab(searchGroup, searchType, query)
-    if not searchResultTabs then
-        searchGroup:ReleaseChildren();
-        if searchType == 1 then
-            QuestieSearch:ByName(query)
-        elseif searchType == 2 then
-            QuestieSearch:ByID(query)
-        end
-        local results = QuestieSearch.LastResult;
-        local resultTypes = {
-            ["quest"] = "Quests",
-            ["npc"] = "Mobs",
-            ["object"] = "Objects",
-            ["item"] = "Items",
-        }
-        local resultCountTotal = 0
-        local resultCounts = {}
-        resultCounts.total = 0
-        resultCounts.quest = 0
-        resultCounts.npc = 0
-        resultCounts.object = 0
-        resultCounts.item = 0
-        for type,_ in pairs(resultTypes) do
-            for _,_ in pairs(results[type]) do
-                resultCountTotal = resultCountTotal + 1
-                resultCounts[type] = resultCounts[type] + 1
-            end
-        end
-        if (resultCountTotal == 0) then
-            local noresults = AceGUI:Create("Label");
-            noresults:SetText(Questie:Colorize(QuestieLocale:GetUIString('JOURNEY_SEARCH_NOMATCH', query), 'yellow'));
-            noresults:SetFullWidth(true);
-            searchGroup:AddChild(noresults);
-            return;
-        end
-        searchResultTabs = AceGUI:Create("TabGroup");
-        searchResultTabs:SetFullWidth(true);
-        searchResultTabs:SetFullHeight(true);
-        searchResultTabs:SetLayout("Flow");
-        searchResultTabs:SetTabs({
-            {
-                text = "Quests ("..resultCounts.quest..")",
-                value = "quest",
-            },
-            {
-                text = "Mobs ("..resultCounts.npc..")",
-                value = "npc",
-            },
-            {
-                text = "Objects ("..resultCounts.object..")",
-                value = "object",
-            },
-            {
-                text = "Items ("..resultCounts.item..")",
-                value = "item",
-            },
-        })
-        searchResultTabs:SetCallback("OnGroupSelected",SearchSelectTabGroup)
-        searchResultTabs:SelectTab("quest");
-        searchGroup:AddChild(searchResultTabs);
-    else
-        searchGroup:ReleaseChildren();
-        searchResultTabs = nil;
-        DrawSearchResultTab(searchGroup, searchType, query);
-    end
-end
-
--- Advanced Search Tab
-local typeDropdown = nil;
-local searchBox = nil;
-local searchGroup = nil;
-local function DrawSearchTab(container)
-    -- Header
-    local header = AceGUI:Create("Heading");
-    header:SetText(QuestieLocale:GetUIString('JOURNEY_SEARCH_HEAD'));
-    header:SetFullWidth(true);
-    container:AddChild(header);
-    Spacer(container);
-    -- Declare scopes
-    typeDropdown = AceGUI:Create("LQDropdown");
-    searchBox = AceGUI:Create("EditBox");
-    searchGroup = AceGUI:Create("SimpleGroup");
-    local searchBtn = AceGUI:Create("Button");
-    -- switching between search types
-    typeDropdown:SetList({
-        [1] = QuestieLocale:GetUIString('JOURNEY_SEARCH_BY_NAME'),
-        [2] = QuestieLocale:GetUIString('JOURNEY_SEARCH_BY_ID'),
-    });
-    typeDropdown:SetValue(Questie.db.char.searchType);
-    typeDropdown:SetCallback("OnValueChanged", function(key, checked)
-        Questie.db.char.searchType = key.value;
-        searchGroup:ReleaseChildren();
-        searchBox:HighlightText();
-        searchBox:SetFocus();
-    end)
-    container:AddChild(typeDropdown);
-    -- search input field
-    searchBox:SetFocus();
-    searchBox:SetRelativeWidth(0.6);
-    searchBox:SetLabel(QuestieLocale:GetUIString('JOURNEY_SEARCH_TAB'));
-    searchBox:DisableButton(true);
-    searchBox:SetCallback("OnTextChanged", function()
-        if not (searchBox:GetText() == '') then
-            searchBtn:SetDisabled(false);
-        else
-            searchBtn:SetDisabled(true);
-        end
-    end);
-    searchBox:SetCallback("OnEnterPressed", function()
-        if not (searchBox:GetText() == '') then
-            local text = string.trim(searchBox:GetText(), " \n\r\t[]");
-            DrawSearchResultTab(searchGroup, Questie.db.char.searchType, text);
-        end
-    end);
-    container:AddChild(searchBox);
-    -- search button
-    searchBtn:SetText(QuestieLocale:GetUIString('JOURNEY_SEARCH_EXE'));
-    searchBtn:SetDisabled(true);
-    searchBtn:SetCallback("OnClick", function()
-        local text = string.trim(searchBox:GetText(), " \n\r\t[]");
-        DrawSearchResultTab(searchGroup, Questie.db.char.searchType, text);
-    end);
-    container:AddChild(searchBtn);
-    -- search results
-    searchGroup:SetFullHeight(true);
-    searchGroup:SetFullWidth(true);
-    searchGroup:SetLayout("fill");
-    container:AddChild(searchGroup);
-end
-
-function SearchSelectTabGroup(container, event, group)
-    DrawResultTab(container, group);
-    lastOpenSearch = group
-end
-
 local yellow = "|cFFFFFF00"
-
--- TODO move to QuestieDB
-local function GetRacesString(raceMask)
-    if not raceMask then return "" end
-    if (raceMask == 0) or (raceMask == 255) then
-        return "None"
-    elseif (raceMask == 77) then
-        return "Alliance"
-    elseif (raceMask == 178) then
-        return "Horde"
-    else
-        local raceString = ""
-        local raceTable = UnpackBinary(raceMask)
-        local stringTable = {
-            'Human',
-            'Orc',
-            'Dwarf',
-            'Nightelf',
-            'Undead',
-            'Tauren',
-            'Gnome',
-            'Troll',
-            'Goblin'
-        }
-        local firstRun = true
-        for k,v in pairs(raceTable) do
-            if v then
-                if firstRun then
-                    firstRun = false
-                else
-                    raceString = raceString .. ", "
-                end
-                raceString = raceString .. stringTable[k]
-            end
-        end
-        return raceString
-    end
-end--]]
-
-local function AddLine(frame, text)
-    local label = AceGUI:Create("Label")
-    label:SetFullWidth(true);
-    label:SetText(text)
-    label:SetFontObject(GameFontNormal)
-    frame:AddChild(label)
-end
-
-local function AddParagraph(frame, lookupObject, firstKey, secondKey, header, lookupDB, lookupKey)
-    if lookupObject[firstKey][secondKey] then
-        AddLine(frame,  yellow .. header .. "|r")
-        for _,id in pairs(lookupObject[firstKey][secondKey]) do
-            AddLine(frame, lookupDB[id][lookupKey].." ("..id..")")
-        end
-    end
-end
-
-local function FillQuestDetailsFrame(details, id)
-    local quest = QuestieDB.questData[id]
-    -- header
-    local title = AceGUI:Create("Heading")
-    title:SetFullWidth(true);
-    title:SetText(quest[QuestieDB.questKeys.name])
-    details:AddChild(title)
-    -- hidden states
-    local hiddenByUser = AceGUI:Create("CheckBox")
-    hiddenByUser.id = id
-    hiddenByUser:SetLabel("Hidden by user")
-    hiddenByUser:SetCallback("OnValueChanged", function(frame)
-        if Questie.db.char.hidden[frame.id] ~= nil then
-            QuestieQuest:UnhideQuest(frame.id)
-        else
-            QuestieQuest:HideQuest(frame.id)
-        end
-    end)
-    hiddenByUser:SetCallback("OnEnter", function()
-        if GameTooltip:IsShown() then
-            return;
-        end
-        GameTooltip:SetOwner(_G["QuestieJourneyFrame"], "ANCHOR_CURSOR");
-        GameTooltip:AddLine("Quests hidden by the user.")
-        GameTooltip:AddLine("\nWhen selected, hides the quest from the map, even if it is active.\n\nHiding a quest is also possible by Shift-clicking it on the map.", 1, 1, 1, true);
-        GameTooltip:SetFrameStrata("TOOLTIP");
-        GameTooltip:Show();
-    end)
-    hiddenByUser:SetCallback("OnLeave", function()
-        if GameTooltip:IsShown() then
-            GameTooltip:Hide();
-        end
-    end)
-    details:AddChild(hiddenByUser)
-    local hiddenQuests = AceGUI:Create("CheckBox")
-    hiddenQuests:SetValue(QuestieCorrections.hiddenQuests[id] ~= nil)
-    hiddenQuests:SetLabel("Hidden by Questie")
-    hiddenQuests:SetCallback("OnEnter", function()
-        if GameTooltip:IsShown() then
-            return;
-        end
-        GameTooltip:SetOwner(_G["QuestieJourneyFrame"], "ANCHOR_CURSOR");
-        GameTooltip:AddLine("Quests hidden by Questie");
-        GameTooltip:AddLine("\nCertain quests, like world/holiday/class/etc. are hidden.\n\nWe will eventually show more of these once we can properly check their conditions.\n\nSome are intentionally hidden and will always stay that way though (like CLUCK!).", 1, 1, 1, true);
-        GameTooltip:SetFrameStrata("TOOLTIP");
-        GameTooltip:Show();
-    end)
-    hiddenQuests:SetCallback("OnLeave", function()
-        if GameTooltip:IsShown() then
-            GameTooltip:Hide();
-        end
-    end)
-    hiddenQuests:SetCallback("OnValueChanged", function(frame)
-        frame:SetValue(not frame:GetValue())
-    end)
-    --hiddenQuests:SetDisabled(true)
-    details:AddChild(hiddenQuests)
-    -- general info
-    AddLine(details, yellow .. "Quest ID:|r " .. id)
-    AddLine(details,  yellow .. "Quest Level:|r " .. quest[QuestieDB.questKeys.questLevel])
-    AddLine(details,  yellow .. "Required Level:|r " .. quest[QuestieDB.questKeys.requiredLevel])
-    local reqRaces = GetRacesString(quest[QuestieDB.questKeys.requiredRaces])
-    if (reqRaces ~= "None") then
-        AddLine(details, yellow .. "Required Races:|r " .. reqRaces)
-    end
-    -- objectives text
-    if quest[QuestieDB.questKeys.objectivesText] then
-        AddLine(details, "")
-        AddLine(details,  yellow .. "Quest Objectives:|r")
-        for k,v in pairs(quest[QuestieDB.questKeys.objectivesText]) do
-            AddLine(details, v)
-        end
-    end
-    -- quest starters
-    AddLine(details, "")
-    AddParagraph(details, quest, QuestieDB.questKeys.startedBy, QuestieDB.questKeys.creatureStart, "Creatures starting this quest:", QuestieDB.npcData, QuestieDB.npcKeys.name)
-    AddParagraph(details, quest, QuestieDB.questKeys.startedBy, QuestieDB.questKeys.objectStart, "Objects starting this quest:", QuestieDB.objectData, QuestieDB.objectKeys.name)
-    AddParagraph(details, quest, QuestieDB.questKeys.startedBy, QuestieDB.questKeys.itemStart, "Items starting this quest:", QuestieDB.itemData, QuestieDB.itemKeys.name)
-    -- quest finishers
-    AddLine(details, "")
-    AddParagraph(details, quest, QuestieDB.questKeys.finishedBy, QuestieDB.questKeys.creatureEnd, "Creatures finishing this quest:", QuestieDB.npcData, QuestieDB.npcKeys.name)
-    AddParagraph(details, quest, QuestieDB.questKeys.finishedBy, QuestieDB.questKeys.objectEnd, "Objects finishing this quest:", QuestieDB.objectData, QuestieDB.objectKeys.name)
-    AddLine(details, "")
-end
-
-function DrawResultTab(container, group)
-    if not containerCache then
-        containerCache = container;
-    end
-    container:ReleaseChildren();
-
-    local results = {}
-    local database
-    local key
-    if group == "quest" then
-        database = QuestieDB.questData
-        key = QuestieDB.questKeys.name
-    elseif group == "npc" then
-        database = QuestieDB.npcData
-        key = QuestieDB.npcKeys.name
-    elseif group == "object" then
-        database = QuestieDB.objectData
-        key = QuestieDB.objectKeys.name
-    elseif group == "item" then
-        database = QuestieDB.itemData
-        key = QuestieDB.itemKeys.name
-    else
-        return
-    end
-    for k,_ in pairs(QuestieSearch.LastResult[group]) do
-        if database[k] ~= nil and database[k][key] ~= nil then
-            table.insert(results, {
-                ["text"] = database[k][key],
-                ["value"] = tonumber(k)
-            })
-        end
-    end
-    local resultFrame = AceGUI:Create("SimpleGroup");
-    resultFrame:SetLayout("Fill");
-    resultFrame:SetFullWidth(true);
-    resultFrame:SetFullHeight(true);
-
-    local resultTree = AceGUI:Create("TreeGroup");
-    resultTree:SetFullWidth(true);
-    resultTree:SetFullHeight(true);
-    resultTree.treeframe:SetWidth(260);
-    resultTree:SetTree(results);
-    resultTree:SetCallback("OnGroupSelected", function(group)
-        -- if they clicked on the header, don't do anything
-        local sel = group.localstatus.selected;
-
-        -- get master frame and create scroll frame inside
-        local master = group.frame.obj;
-        master:ReleaseChildren();
-        master:SetLayout("Fill");
-        master:SetFullWidth(true);
-        master:SetFullHeight(true);
-
-        local details = AceGUI:Create("ScrollFrame");
-        details:SetLayout("Flow");
-        master:AddChild(details);
-        local id = tonumber(sel);
-
-        if lastOpenSearch == "quest" then
-            FillQuestDetailsFrame(details, id);
-        elseif lastOpenSearch == "npc" then
-            -- NPCs
-            local npc = QuestieDB:GetNPC(id);
-            NpcFrame(details, npc);
-
-        end
-    end);
-
-    resultFrame:AddChild(resultTree)
-    container:AddChild(resultFrame);
-end
 
 function JourneySelectTabGroup(container, event, group)
     if not containerCache then
@@ -1641,12 +1160,12 @@ function JourneySelectTabGroup(container, event, group)
         DrawZoneQuestTab(container);
         lastOpenWindow = "zone";
     elseif group == "search" then
-        DrawSearchTab(container);
-       lastOpenWindow = "search";
+        QuestieSearchResults:DrawSearchTab(container);
+        lastOpenWindow = "search";
     end
 end
 
-local tabGroup = nil;
+QuestieJourney.tabGroup = nil;
 function QuestieJourney:Initialize()
 
     journeyFrame.frame = AceGUI:Create("Frame");
@@ -1654,9 +1173,9 @@ function QuestieJourney:Initialize()
     journeyFrame.frame:SetTitle(QuestieLocale:GetUIString('JOURNEY_TITLE', UnitName("player")));
     journeyFrame.frame:SetLayout("Fill");
 
-    tabGroup = AceGUI:Create("TabGroup")
-    tabGroup:SetLayout("Flow");
-    tabGroup:SetTabs({
+    QuestieJourney.tabGroup = AceGUI:Create("TabGroup")
+    QuestieJourney.tabGroup:SetLayout("Flow");
+    QuestieJourney.tabGroup:SetTabs({
         {
             text = QuestieLocale:GetUIString('JOUNREY_TAB'),
             value="journey"
@@ -1670,10 +1189,10 @@ function QuestieJourney:Initialize()
             value="search"
         }
     });
-    tabGroup:SetCallback("OnGroupSelected", JourneySelectTabGroup);
-    tabGroup:SelectTab("journey");
+    QuestieJourney.tabGroup:SetCallback("OnGroupSelected", JourneySelectTabGroup);
+    QuestieJourney.tabGroup:SelectTab("journey");
 
-    journeyFrame.frame:AddChild(tabGroup);
+    journeyFrame.frame:AddChild(QuestieJourney.tabGroup);
 
     journeyFrame.frame:SetCallback("OnClose", function()
         isWindowShown = false;

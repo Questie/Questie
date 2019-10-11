@@ -76,8 +76,9 @@ local function TooltipShowing_unit(self)
     if self.IsForbidden and self:IsForbidden() then return; end
     if not Questie.db.global.enableTooltips then return; end
     --QuestieTooltips.lastTooltipTime = GetTime()
-    local name, unitId = self:GetUnit()
-    local guid = UnitGUID("mouseover");
+    local name, unitToken = self:GetUnit();
+    if not unitToken then return end
+    local guid = UnitGUID(unitToken);
     local type, zero, server_id, instance_id, zone_uid, npc_id, spawn_uid = strsplit("-",guid or "");
     if name and type=="Creature" and (name ~= QuestieTooltips.lastGametooltipUnit or (not QuestieTooltips.lastGametooltipCount) or _QuestieTooltips:CountTooltip() < QuestieTooltips.lastGametooltipCount) then
         --Questie:Debug(DEBUG_DEVELOP, "[QuestieTooltip] Unit Id on hover : ", npc_id);

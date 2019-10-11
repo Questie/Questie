@@ -1,0 +1,5 @@
+#!/bin/sh
+echo "----> Running Post-Commit script!";
+# Run build script
+python build.py
+echo "----> Post-Commit script done!";

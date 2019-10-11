@@ -4,23 +4,14 @@ local professionTable = {}
 
 function QuestieProfessions:Update()
     Questie:Debug(DEBUG_DEVELOP, "QuestieProfession: Update")
+    ExpandSkillHeader(0) -- Expand all header
 
     for i=1, GetNumSkillLines() do
         if i > 14 then break; end -- We don't have to go through all the weapon skills
 
         local skillName, isHeader, isExpanded, skillRank, _, _, _, _, _, _, _, _, _ = GetSkillLineInfo(i)
-        if isHeader == 1 and isExpanded == nil then
-            Questie:Debug(DEBUG_DEVELOP, "QuestieProfession: Expanding header")
-            ExpandSkillHeader(i)
-        end
-
         if isHeader == nil and professionTable[skillName] then
             playerProfessions[professionTable[skillName]] = skillRank
-        end
-
-        if isHeader == 1 and isExpanded == nil then
-            Questie:Debug(DEBUG_DEVELOP, "QuestieProfession: Collapsing header")
-            CollapseSkillHeader(i)
         end
     end
 end
