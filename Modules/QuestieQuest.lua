@@ -1068,7 +1068,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                         end
 
                         -- Is this objective the same as the object description
-                        if(correctObjective and Quest.Objectives[objectiveIndex].Id == nil) then
+                        if(correctObjective) then
                             Quest.Objectives[objectiveIndex].Id = objectiveDB.Id;
                             Quest.Objectives[objectiveIndex].Coordinates = objectiveDB.Coordinates;
                             objectiveDB.ObjectiveRef = Quest.Objectives[objectiveIndex];
