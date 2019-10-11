@@ -65,8 +65,8 @@ function QuestieLib:CalculateWaypointMidPoint(waypointTable)
                 if(ranDistance > totalDistance/2) then
                     local firstMiddle = waypointTable[lastPos];
                     local secondMiddle = waypointTable[index];
-                    x = ((firstMiddle[1] + secondMiddle[1])/2)
-                    y = ((firstMiddle[2] + secondMiddle[2])/2)
+                    x = firstMiddle[1];--(firstMiddle[1] + secondMiddle[1])/2
+                    y = firstMiddle[2]--(firstMiddle[2] + secondMiddle[2])/2
                     break;
                 end
             end

@@ -340,7 +340,7 @@ function _QuestieFramePool:QuestieCreateFrame()
           self.glowLogicTimer:Cancel();
         end
         --Unload potential waypoint frames that are used for pathing.
-        if(self.data.lineFrames) then
+        if(self.data and self.data.lineFrames) then
             for index, lineFrame in pairs(self.data.lineFrames) do
                 lineFrame:Unload();
             end
@@ -475,6 +475,8 @@ function QuestieFramePool:CreateWaypoints(iconFrame, waypointTable, lineWidth, c
             lastPos = waypoint;
         end
     end
+    local lineFrame = QuestieFramePool:CreateLine(iconFrame, lastPos[1], lastPos[2], waypointTable[1][1], waypointTable[1][2], lWidth, col)
+    tinsert(lineFrameList, lineFrame);
     return lineFrameList;
 end
 
