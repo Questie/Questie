@@ -566,6 +566,9 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     line:SetEndPoint("TOPLEFT", endX*calcX, (endY*calcY)*-1) -- We do by *-1 due to using the top left point
     line:SetThickness(lineWidth);
 
+    --line:Hide()
+    lineFrame:Hide();
+
 
     --Should we keep these frames in the questIdFrames? Currently it is also a child of the icon.
     --Maybe the unload of the parent should just unload the children.

@@ -1242,10 +1242,14 @@ function QuestieQuest:GetAllLeaderBoardDetails(questId)
     local questObjectives = C_QuestLog.GetQuestObjectives(questId)-- or {};
     local locale = GetLocale();
     local slain = slainText[locale];
-
+    Questie:Print("QUEST ID ---------", questId)
     for objectiveIndex, objective in pairs(questObjectives) do
         if(objective.text) then
             local text = objective.text;
+            Questie:Print("(.*)\"..slain..\"%W*%d+/%d+", string.match(text, "(.*)"..slain.."%W*%d+/%d+"));
+            Questie:Print("%d+/%d+%W*\"..slain..\"(.*)", string.match(text, "%d+/%d+%W*"..slain.."(.*)"));
+            Questie:Print("^(.*):%s", string.match(text, "^(.*):%s"));
+            Questie:Print("%s：(.*)$", string.match(text, "%s：(.*)$"));
             -- This looks complicated but isn't
             -- We first try and find a string with "slain" in it, if we can find it we can assume the position of the data
             -- If no slain is found we revert to look for the data relative to the colon.
