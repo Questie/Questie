@@ -173,12 +173,8 @@ QuestieCorrections.questFixes = {
     [1131] = {
         [QuestieDB.questKeys.preQuestSingle] = {}, -- #1065
     },
-    [1282] = {
-        [QuestieDB.questKeys.exclusiveTo] = {}, -- #875
-    },
     [1302] = {
         [QuestieDB.questKeys.preQuestSingle] = {}, -- #889
-        [QuestieDB.questKeys.exclusiveTo] = {}, -- #875
     },
     [1598] = {
         [QuestieDB.questKeys.exclusiveTo] = {1599}, -- #999
