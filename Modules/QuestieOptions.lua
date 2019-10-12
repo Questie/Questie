@@ -783,6 +783,7 @@ _QuestieOptions.optionsGUI = {
 		dbm_hud_tab = {
             name = function() return QuestieLocale:GetUIString('DBM_HUD_TAB') end,
             type = "group",
+            disabled = function() if DBMHudMap then return false else return true end end,
             order = 13.2,
             args = {
                 hud_options = {
