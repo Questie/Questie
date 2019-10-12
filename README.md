@@ -28,12 +28,13 @@ https://github.com/AeroScripts/QuestieDev/releases/latest
 - objective notes
 - quest start/turn-in points
 - mob/item tooltips (for multiple languages!)
+- tracker
 - arrow (requires TomTom)
+- DBM HUD (requires the DBM addon)
 
 
 ### What is missing
 - some quests may incorrectly show as available when they aren't, or not show when they are. Please report this if you see it
-- tracker (from v4.0.17 onwards a the first WIP portation of the tracker is included)
 - polygon/cluster objective display (instead of many points) and other display modes
 
 Trust us it's (Good)!
