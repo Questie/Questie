@@ -132,9 +132,9 @@ QuestieCorrections.questFixes = {
         [QuestieDB.questKeys.startedBy] = {nil,{142122,150075,},nil,}, -- #1081
     },
     [3449] = {
-        [QuestieDB.questKeys.childQuests] = {3451}, -- #1008
+        [QuestieDB.questKeys.childQuests] = {3483}, -- #1008
     },
-    [3451] = {
+    [3483] = {
         [QuestieDB.questKeys.parentQuest] = {3449}, -- #1008
         [QuestieDB.questKeys.specialFlags] = 1, -- #1131
     },
