@@ -1359,13 +1359,13 @@ function _QuestieQuest:IsDoable(questObject)
     end
 
     -- Check the preQuestGroup field where every required quest has to be complete for a quest to show up
-    if questObject.RequiredQuestGroup ~= nil and next(questObject.RequiredQuestGroup) ~= nil then
-        return _QuestieQuest:IsPreQuestGroupFulfilled(questObject.RequiredQuestGroup)
+    if questObject.preQuestGroup ~= nil and next(questObject.preQuestGroup) ~= nil then
+        return _QuestieQuest:IsPreQuestGroupFulfilled(questObject.preQuestGroup)
     end
 
     -- Check the preQuestSingle field where just one of the required quests has to be complete for a quest to show up
-    if questObject.RequiredQuestSingle ~= nil and next(questObject.RequiredQuestSingle) ~= nil then
-        return _QuestieQuest:IsPreQuestSingleFulfilled(questObject.RequiredQuestSingle)
+    if questObject.preQuestSingle ~= nil and next(questObject.preQuestSingle) ~= nil then
+        return _QuestieQuest:IsPreQuestSingleFulfilled(questObject.preQuestSingle)
     end
 
     return true
@@ -1428,7 +1428,7 @@ function QuestieQuest:CalculateAvailableQuests()
         if((not Questie.db.char.complete[questID]) and (not QuestieCorrections.hiddenQuests[questID]) and (not QuestiePlayer.currentQuestlog[questID])) then
             local quest = QuestieDB:GetQuest(questID)
 
-            if _QuestieQuest:LevelRequirementsFulfilled(quest, playerLevel, minLevel, maxLevel) or _QuestieQuest:IsParentQuestActive(quest.ParentQuest) then
+            if _QuestieQuest:LevelRequirementsFulfilled(quest, playerLevel, minLevel, maxLevel) or _QuestieQuest:IsParentQuestActive(quest.parentQuest) then
                 if _QuestieQuest:IsDoable(quest) then
                     QuestieQuest.availableQuests[questID] = questID
                 end
@@ -1442,7 +1442,7 @@ function QuestieQuest:CalculateAvailableQuests()
 end
 
 function _QuestieQuest:LevelRequirementsFulfilled(quest, playerLevel, minLevel, maxLevel)
-    return (quest.Level >= minLevel or Questie.db.char.lowlevel) and quest.Level <= maxLevel and quest.MinLevel <= playerLevel
+    return (quest.Level >= minLevel or Questie.db.char.lowlevel) and quest.Level <= maxLevel and quest.requiredLevel <= playerLevel
 end
 
 -- We always want to show a quest if it is a childQuest and its parent is in the quest log

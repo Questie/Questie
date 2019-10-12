@@ -261,18 +261,14 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
             end
         end
 
-        QO.MinLevel = rawdata[4]
         QO.Level = rawdata[5]
-        QO.RequiredRaces = rawdata[6]
-        QO.RequiredClasses = rawdata[7]
-        QO.ObjectiveText = rawdata[8]
         QO.Triggers = rawdata[9] --List of coordinates
         QO.ObjectiveData = {} -- to differentiate from the current quest log info
         --    type
         --String - could be the following things: "item", "object", "monster", "reputation", "log", or "event". (from wow api)
 
         if QO.Triggers ~= nil then
-            for k,v in pairs(QO.Triggers) do
+            for k, v in pairs(QO.Triggers) do
                 local obj = {};
                 obj.Type = "event"
                 obj.Coordinates = v
@@ -333,8 +329,6 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
         else
             QO.RequiredQuestSingle = rawdata[13]
         end
-        QO.ChildQuests = rawdata[14] --Quests that give questitems that are used in later quests (See STV manual)
-        QO.ParentQuest = rawdata[25] -- The parent quest (applies if this quest is a child quest)
         QO.QuestGroup = rawdata[15] --Quests that are part of the same group, example complete this group of quests to open the next one.
         QO.ExclusiveQuestGroup = rawdata[16]
         QO.NextQuestInChain = rawdata[22]
