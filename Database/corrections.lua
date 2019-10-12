@@ -54,6 +54,15 @@ QuestieCorrections.questFixes = {
         [QuestieDB.questKeys.preQuestSingle] = {},
         [QuestieDB.questKeys.exclusiveTo] = {5261},
     },
+    [1638] = {
+        [QuestieDB.questKeys.exclusiveTo] = {},
+    },
+    [1679] = {
+        [QuestieDB.questKeys.exclusiveTo] = {},
+    },
+    [1684] = {
+        [QuestieDB.questKeys.exclusiveTo] = {},
+    },
     [535] = {
         [QuestieDB.questKeys.exclusiveTo] = {533}, -- #1134
     },
