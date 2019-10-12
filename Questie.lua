@@ -118,6 +118,7 @@ function Questie:OnInitialize()
     -- init config frame
     if not QuestieConfigFrame then
         QuestieOptions.configFrame = AceGUI:Create("Frame");
+        LibStub("AceConfigDialogQuestie-3.0"):SetDefaultSize("Questie", 625, 700)
         LibStub("AceConfigDialogQuestie-3.0"):Open("Questie", QuestieOptions.configFrame)
         QuestieOptions.configFrame:Hide();                
         _G["QuestieConfigFrame"] = QuestieOptions.configFrame.frame;
