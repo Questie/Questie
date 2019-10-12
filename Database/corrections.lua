@@ -397,6 +397,9 @@ QuestieCorrections.npcFixes = {
         [QuestieDB.npcKeys.spawns] = {[1537]={{69.5,50.6},},}, -- #708
         [QuestieDB.npcKeys.zoneID] = 1537, -- #708
     },
+    [4967] = {
+        [QuestieDB.npcKeys.spawns] = {[1537]={{45.2,24.4},{59.6,41.2},{66.4,49.2},},},
+    },
     -- Copy spawns of unzapped mobs to zapped ones to fix #892
     [14603] = {
         [QuestieDB.npcKeys.spawns] = {[357]={{34.54,33.98},{42.52,46.88},{38.25,34.95},{36.47,35.75},{36.42,36.53},{45.46,62.32},{44.15,50.09},{45.9,57.9},{46.49,59.58},},},
