@@ -33,7 +33,7 @@ This program accepts two command line options:
 
 -r releaseType      If provided changes the releasetype from BETA, (Release/Alpha etc)
 
-                    Default: 'BETA'
+                    Default: ''
 
 Example usage:
 
@@ -43,7 +43,7 @@ This will create a new release in 'releases/5.0.0/QuestieDev-featureX', unless
 the '5.0.0' directory already exists.
 
 '''
-releaseType = 'BETA'
+releaseType = ''
 addonDir = 'Questie'
 versionDir = None
 
@@ -58,7 +58,11 @@ def setArgs():
         versionDir = version.replace(' ', '_')
         zipName = '%s-v%s' % (addonDir, versionDir)
     else:
-        versionDir = "%s_%s-%s-%s" % (version, releaseType, nrOfCommits, recentCommit)
+        if releaseType:
+            versionDir = "%s_%s-%s-%s" % (version, releaseType, nrOfCommits, recentCommit)
+        else:
+            versionDir = "%s_%s-%s" % (version, nrOfCommits, recentCommit)
+
         print("Number of commits since tag: " + nrOfCommits)
         print("Most Recent commit: " + recentCommit)
         zipName = '%s-%s' % (addonDir, versionDir)
