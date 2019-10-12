@@ -37,20 +37,11 @@ end
 
 -- Open the configuration window
 function QuestieOptions:OpenConfigWindow()
-
-    if not _QuestieOptions.configFrame then
-        _QuestieOptions.configFrame = AceGUI:Create("Frame");
-        _QuestieOptions.configFrame:Hide();
-
-        _G["QuestieConfigFrame"] = _QuestieOptions.configFrame.frame;
-        table.insert(UISpecialFrames, "QuestieConfigFrame");
-    end
-
-    if not _QuestieOptions.configFrame:IsShown() then
-        PlaySound(882);
-        LibStub("AceConfigDialogQuestie-3.0"):Open("Questie", _QuestieOptions.configFrame)
+    if not QuestieConfigFrame:IsShown() then
+        PlaySound(882)
+        QuestieConfigFrame:Show()
     else
-        _QuestieOptions.configFrame:Hide();
+        QuestieConfigFrame:Hide()
     end
 end
 
