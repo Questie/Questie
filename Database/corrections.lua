@@ -16,7 +16,7 @@ QuestieCorrections.questFixes = {
         [QuestieDB.questKeys.childQuests] = {3375},
     },
     [3375] = {
-        [QuestieDB.questKeys.parentQuest] = {2201},
+        [QuestieDB.questKeys.parentQuest] = 2201,
     },
     [4763] = {
         [QuestieDB.questKeys.requiredSourceItems] = {12347,12341,12342,12343,}, -- #798
@@ -37,7 +37,7 @@ QuestieCorrections.questFixes = {
         [QuestieDB.questKeys.childQuests] = {403},
     },
     [403] = {
-        [QuestieDB.questKeys.parentQuest] = {310},
+        [QuestieDB.questKeys.parentQuest] = 310,
     },
     [841] = {
         [QuestieDB.questKeys.specialFlags] = 1,
@@ -117,7 +117,7 @@ QuestieCorrections.questFixes = {
     },
     [1127] = {
         [QuestieDB.questKeys.specialFlags] = 1, -- #884
-        [QuestieDB.questKeys.parentQuest] = {1119}, -- #1084
+        [QuestieDB.questKeys.parentQuest] = 1119, -- #1084
     },
     [1119] = {
         [QuestieDB.questKeys.childQuests] = {1127}, -- #1084
@@ -158,13 +158,13 @@ QuestieCorrections.questFixes = {
         [QuestieDB.questKeys.childQuests] = {1442,1655},
     },
     [1442] = {
-        [QuestieDB.questKeys.parentQuest] = {1654},
+        [QuestieDB.questKeys.parentQuest] = 1654,
     },
     [1655] = {
-        [QuestieDB.questKeys.parentQuest] = {1654},
+        [QuestieDB.questKeys.parentQuest] = 1654,
     },
     [926] = {
-        [QuestieDB.questKeys.parentQuest] = {924}, -- #806
+        [QuestieDB.questKeys.parentQuest] = 924, -- #806
         [QuestieDB.questKeys.preQuestSingle] = {809}, --#606
     },
     [930] = {
@@ -331,7 +331,7 @@ QuestieCorrections.questFixes = {
         [QuestieDB.questKeys.childQuests] = {579},
     },
     [579] = {
-        [QuestieDB.questKeys.parentQuest] = {578},
+        [QuestieDB.questKeys.parentQuest] = 578,
     },
     [1085] = {
         [QuestieDB.questKeys.preQuestSingle] = {1070},
