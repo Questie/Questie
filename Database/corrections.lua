@@ -145,6 +145,9 @@ QuestieCorrections.questFixes = {
     [5060] = {
         [QuestieDB.questKeys.preQuestSingle] = {5059}, -- #922
     },
+    [6609] = {
+        [QuestieDB.questKeys.exclusiveTo] = {6607}, -- #1154
+    },
     [1654] = {
         [QuestieDB.questKeys.childQuests] = {1442,1655},
     },
