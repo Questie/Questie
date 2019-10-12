@@ -1332,10 +1332,8 @@ function _QuestieQuest:IsDoable(questObject)
             end
         end
     end
-    if questObject.parentQuest then
-        if not QuestiePlayer.currentQuestlog[questObject.parentQuest] then
-            return false
-        end
+    if questObject.parentQuest and not _QuestieQuest:IsParentQuestActive(questObject.parentQuest) then
+        return false
     end
 
     -- check if npc is friendly
