@@ -12,6 +12,9 @@
 QuestieCorrections = {}
 
 QuestieCorrections.questFixes = {
+    [5] = {
+        [QuestieDB.questKeys.preQuestSingle] = {}, -- #1198
+    },
     [2201] = {
         [QuestieDB.questKeys.childQuests] = {3375},
     },
