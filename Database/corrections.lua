@@ -1518,6 +1518,7 @@ QuestieCorrections.hiddenQuests = {
   [9063] = true,
   [8410] = true,
   [8419] = true,
+  [8420] = true,
   [8056] = true,
   [8057] = true,
   [8064] = true,
