@@ -120,6 +120,7 @@ do
 			eventFrame:RegisterEvent("LOADING_SCREEN_DISABLED")
 			DelayedMapCheck()
 			DBM:Schedule(1, DelayedMapCheck)
+			DBM:AddMsg("Questie has activated DBM HUD overlay. For more options, visit DBM HUD in questie options")
 		end
 	end
 	
