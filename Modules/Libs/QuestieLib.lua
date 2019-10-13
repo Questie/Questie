@@ -25,7 +25,7 @@ function QuestieLib:PrintDifficultyColor(level, text)
         return "|cFFFF1A1A"..text.."|r"; -- Red
     elseif (levelDiff >= 3) then
         return "|cFFFF8040"..text.."|r"; -- Orange
-    elseif (levelDiff >= -4) then
+    elseif (levelDiff > -3) then
         return "|cFFFFFF00"..text.."|r"; -- Yellow
     elseif (-levelDiff <= GetQuestGreenRange()) then
         return "|cFF40C040"..text.."|r"; -- Green
