@@ -1390,6 +1390,18 @@ _QuestieOptions.optionsGUI = {
                                 Questie.db.global.debugEnabledPrint = value
                             end,
                 },
+                showQuestIDs = {
+                    type = "toggle",
+                    order = 7,
+                    name = function() return QuestieLocale:GetUIString('ENABLE_TOOLTIPS_QUEST_IDS') end,
+                    desc = function() return QuestieLocale:GetUIString('ENABLE_TOOLTIPS_QUEST_LEVEL_IDS') end,
+                    width = "full",
+                    get = function() return Questie.db.global.enableTooltipsQuestID end,
+                    set = function (info, value)
+                        Questie.db.global.enableTooltipsQuestID = value
+                        QuestieTracker:Update()
+                    end
+                },
 
                 Spacer_A = _QuestieOptions:Spacer(10),
                 locale_header = {

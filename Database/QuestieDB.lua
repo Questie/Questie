@@ -142,6 +142,10 @@ local function _GetColoredQuestName(self)
         questString = "[" .. self.Level .. "]" .. " " .. questString
     end
 
+    if Questie.db.global.enableTooltipsQuestID then
+        questString = questString .. " (" .. self.Id .. ")"
+    end
+
     return QuestieLib:PrintDifficultyColor(self.Level, questString)
 end
 
