@@ -819,6 +819,7 @@ QuestieCorrections.questItemBlacklist = {
     [14047] = true, -- runecloth
     [2997] = true, -- bolt of wool
     [14048] = true, -- bolt of runecloth
+    [2842] = true, -- Silver Bar
     [1529] = true, -- jade
     [12363] = true, -- arcane crystal
     [12800] = true, -- azerothian diamond
