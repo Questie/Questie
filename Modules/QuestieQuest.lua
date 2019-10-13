@@ -1064,11 +1064,11 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                             if(distance < bestDistance) then
                                 bestDistance = distance;
                                 bestIndex = objectiveIndexDB;
-                                tempName = oName;
+                                tempName = oName; --For debugging
                             end
                         elseif((oName == nil or oDesc == nil) and objectiveDB.Type ~= "item" and objectiveDB.Type ~= "monster") then
                             bestIndex = objectiveIndexDB;
-                            tempName = oName;
+                            tempName = oName; --For debugging
                             --We set the distance to 0 because otherwise other objectives might be closer...
                             bestDistance = 0;
                         end
