@@ -108,6 +108,7 @@ local function _OnDragStop()
     if Questie.db.char.TrackerLocation[2] and type(Questie.db.char.TrackerLocation[2]) == "table" and Questie.db.char.TrackerLocation[2].GetName then
         Questie.db.char.TrackerLocation[2] = Questie.db.char.TrackerLocation[2]:GetName()
     end
+    _QuestieTracker._start_drag_pos = nil
 end
 
 local function _GetNearestSpawn(Objective)
