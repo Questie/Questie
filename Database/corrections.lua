@@ -755,6 +755,7 @@ QuestieCorrections.itemFixes = {
     [7206] = {"Mirror Lake Water Sample",{1860},{},{174794}}, -- #1286
     [7207] = {"Jennea's Flask",{1860},{},{}}, -- #1286
     [10575] = {"Black Dragonflight Molt",{4022,4023},{},{10569}}, -- #1216
+    [9594] = {"Wildkin Muisek",{3123},{2927,2928,2929,},{}}, -- #1227
 
     -- quest related herbs
     [2449] = {"Earthroot",{6123,6128},{},{1619,3726}},
