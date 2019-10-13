@@ -1055,9 +1055,9 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                         local correctObjective = false;
                         if(oName and oDesc) then
                             -- Does regular check work good? or Regex mayhaps?
-                            if((oName == oDesc)) then -- or strfind(oDesc, oName, 1, true)) then
+                            if((oName == oDesc) or strfind(oDesc, oName, 1, true)) then
                                 correctObjective = true;
-                            elseif(oText == oDesc) then -- or strfind(oDesc, oName, 1, true)) then
+                            elseif(oText == oDesc or strfind(oDesc, oName, 1, true)) then
                                 correctObjective = true;
                             end
                         elseif((oName == nil or oDesc == nil) and objectiveDB.Type ~= "item" and objectiveDB.Type ~= "monster") then
@@ -1228,7 +1228,7 @@ local slainText = {
     frFR = "tué", --Known good
     itIT = "ucciso",
     ptBR = "morto",
-    ruRU = "убито",
+    ruRU = "– убито",
     koKR = "처치",
     zhCN = "已消灭", --Confirmed with chinese, not tested...
     zhTW = "消滅",
