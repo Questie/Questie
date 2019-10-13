@@ -718,6 +718,7 @@ QuestieCorrections.itemFixes = {
     [5798] = {"Rocket Car Parts",{1110},{},{19868,19869,19870,19871,19872,19873}},
     [16974] = {"Empty Water Vial",{5247},{},{}}, -- #1156
     [16973] = {"Vial of Dire Water",{5247},{},{178224}}, -- #1156
+    [7134] = {"Sturdy Dragonmaw Shinbone",{1846},{1034,1035,1036,1038,1057,},{}}, -- #1163
 
     -- quest related herbs
     [2449] = {"Earthroot",{6123,6128},{},{1619,3726}},
