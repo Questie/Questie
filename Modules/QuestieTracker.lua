@@ -1069,6 +1069,9 @@ function QuestieTracker:Update()
             if Questie.db.global.trackerShowQuestLevel then
                 questString = "[" .. Quest.Level .. "] " .. questString
             end
+            if Questie.db.global.enableTooltipsQuestID then
+                questString = questString .. " (" .. Quest.Id .. ")"
+            end
             if complete then
                 questString  = questString .. " " .. QuestieLocale:GetUIString('TOOLTIP_QUEST_COMPLETE')
             end
