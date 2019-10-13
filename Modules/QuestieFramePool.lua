@@ -182,6 +182,7 @@ function _QuestieFramePool:UnloadFrame(frame)
   frame.loaded = nil;
     table.insert(_QuestieFramePool.unusedFrames, frame)
 end]]--
+---@class IconFrame
 function _QuestieFramePool:QuestieCreateFrame()
     _QuestieFramePool.numberOfFrames = _QuestieFramePool.numberOfFrames + 1
     local f = CreateFrame("Button", "QuestieFrame".._QuestieFramePool.numberOfFrames, nil)
@@ -198,6 +199,9 @@ function _QuestieFramePool:QuestieCreateFrame()
     f:SetFrameStrata("TOOLTIP");
     f:SetWidth(16) -- Set these to whatever height/width is needed
     f:SetHeight(16) -- for your Texture
+    f:SetPoint("CENTER", -8, -8)
+    f:EnableMouse(true)--f:EnableMouse()
+
     local t = f:CreateTexture(nil, "TOOLTIP")
     --t:SetTexture("Interface\\Icons\\INV_Misc_Eye_02.blp")
     --t:SetTexture("Interface\\Addons\\!Questie\\Icons\\available.blp")
@@ -216,10 +220,8 @@ function _QuestieFramePool:QuestieCreateFrame()
     f.glowTexture = glowt
     f.glowTexture:SetTexture(ICON_TYPE_GLOW)
     f.glow:Hide()
-    f:SetPoint("CENTER", 0, 0)
-    f.glow:SetPoint("CENTER", - 1, - 1) -- 2 pixels bigger than normal icon
+    f.glow:SetPoint("CENTER", -9, -9) -- 2 pixels bigger than normal icon
     f.glow:EnableMouse(false)
-    f:EnableMouse(true)--f:EnableMouse()
 
     --f.mouseIsOver = false;
     --f:SetScript("OnUpdate", function()
@@ -337,6 +339,12 @@ function _QuestieFramePool:QuestieCreateFrame()
         if(self.glowLogicTimer) then
           self.glowLogicTimer:Cancel();
         end
+        --Unload potential waypoint frames that are used for pathing.
+        if(self.data and self.data.lineFrames) then
+            for index, lineFrame in pairs(self.data.lineFrames) do
+                lineFrame:Unload();
+            end
+        end
         self:Hide()
         self.glow:Hide()
         --self.glow:Hide()
@@ -438,6 +446,152 @@ function _QuestieFramePool:IsMinimapInside()
         Minimap:SetZoom(Minimap:GetZoom() + tempzoom);
         return false
     end
+end
+
+
+local tinsert = table.insert;
+local tpack = table.pack;
+local tremove = table.remove;
+local tunpack = unpack;
+
+---@param iconFrame IconFrame @The parent frame for the current line.
+---@param waypointTable table<integer, Point> @A table containing waypoints {{X, Y}, ...}
+---@param lineWidth integer @Width of the line.
+---@param color integer[] @A table consisting of 4 variable {1, 1, 1, 1} RGB-Opacity
+---@return LineFrame[]
+function QuestieFramePool:CreateWaypoints(iconFrame, waypointTable, lineWidth, color)
+    local lineFrameList = {}
+    --[[local lastPos = nil
+    --Set defaults if needed.
+    local lWidth = lineWidth or 1.5;
+    local col = color or {1,0.72,0,0.5};
+
+    for index, waypoint in pairs(waypointTable) do
+        if(lastPos == nil) then
+            lastPos = waypoint;
+        else
+            local lineFrame = QuestieFramePool:CreateLine(iconFrame, lastPos[1], lastPos[2], waypoint[1], waypoint[2], lWidth, col)
+            tinsert(lineFrameList, lineFrame);
+            lastPos = waypoint;
+        end
+    end
+    local lineFrame = QuestieFramePool:CreateLine(iconFrame, lastPos[1], lastPos[2], waypointTable[1][1], waypointTable[1][2], lWidth, col)
+    tinsert(lineFrameList, lineFrame);]]--
+    return lineFrameList;
+end
+
+---@param iconFrame IconFrame @The parent frame for the current line.
+---@param startX integer @A value between 0-100
+---@param startY integer @A value between 0-100
+---@param endX integer @A value between 0-100
+---@param endY integer @A value between 0-100
+---@param lineWidth integer @Width of the line.
+---@param color integer[] @A table consisting of 4 variable {1, 1, 1, 1} RGB-Opacity
+---@return LineFrame
+---@class LineFrame @A frame that contains the line used in waypoints.
+local lineFrames = 1;
+function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, lineWidth, color)
+
+    --Create the framepool for lines if it does not already exist.
+	if not QuestieFramePool.Routes_Lines then
+		QuestieFramePool.Routes_Lines={}
+		QuestieFramePool.Routes_Lines_Used={}
+    end
+    --Names are not stricktly needed, but it is nice for debugging.
+    local frameName = "questieLineFrame"..lineFrames;
+
+    --tremove default always picks the last element, however counting arrays is kinda bugged? So just get index 1 instead.
+    local lineFrame = tremove(QuestieFramePool.Routes_Lines, 1) or CreateFrame("Frame", frameName, iconFrame);
+
+    local width = WorldMapFrame:GetCanvas():GetWidth();
+    local height = WorldMapFrame:GetCanvas():GetHeight();
+    
+    --Setting the parent is required to get the correct frame levels.
+    lineFrame:SetParent(iconFrame);
+    lineFrame:SetHeight(width);
+    lineFrame:SetWidth(height);
+    lineFrame:SetPoint("TOPLEFT", WorldMapFrame:GetCanvas(), "TOPLEFT", 0, 0)
+    local frameLevel = iconFrame:GetFrameLevel();
+    if(frameLevel > 1) then
+        frameLevel = frameLevel - 1;
+    end
+    lineFrame:SetFrameLevel(frameLevel)
+    lineFrame:SetFrameStrata("DIALOG");
+
+    --How to identify what the frame actually contains, this is not used atm could easily be changed.
+    lineFrame.type = "line"
+
+    --Include the line in the iconFrame.
+    if(iconFrame.data.lineFrames == nil) then
+        iconFrame.data.lineFrames = {};
+    end
+    tinsert(iconFrame.data.lineFrames, lineFrame);
+    lineFrame.iconFrame = iconFrame;
+    
+    --Set the line as used.
+    tinsert(QuestieFramePool.Routes_Lines_Used, lineFrame)
+    --QuestieFramePool.Routes_Lines_Used[lineFrame:GetName()] = lineFrame;
+
+
+    function lineFrame:Unload()
+        self:Hide();
+        self.iconFrame = nil;
+        local debugFoundSelf = false;
+        for index, lineFrame in pairs(QuestieFramePool.Routes_Lines_Used) do
+            if(lineFrame:GetName() == self:GetName()) then
+                debugFoundSelf = true;
+                --Remove it from used frames...
+                QuestieFramePool.Routes_Lines_Used[index] = nil;
+                break;
+            end
+        end
+        if(not debugFoundSelf) then
+            Questie:Error("lineFrame unload failed, could not find self in used frames when unloaded...", self:GetName());
+        end
+        HBDPins:RemoveWorldMapIcon(Questie, self)
+        tinsert(QuestieFramePool.Routes_Lines, self);
+    end
+    local line = lineFrame.line or lineFrame:CreateLine();
+    lineFrame.line = line;
+
+
+    line:SetColorTexture(color[1],color[2],color[3],color[4]);
+
+    -- Set texture coordinates and anchors
+    --line:ClearAllPoints();
+
+    local calcX = width/100;
+    local calcY = height/100;
+    
+    line:SetDrawLayer("ARTWORK")
+    line:SetStartPoint("TOPLEFT", startX*calcX, (startY*calcY)*-1) -- We do by *-1 due to using the top left point
+    line:SetEndPoint("TOPLEFT", endX*calcX, (endY*calcY)*-1) -- We do by *-1 due to using the top left point
+    line:SetThickness(lineWidth);
+
+    --line:Hide()
+    lineFrame:Hide();
+
+
+    --Should we keep these frames in the questIdFrames? Currently it is also a child of the icon.
+    --Maybe the unload of the parent should just unload the children.
+    --For safety we check this here too.
+    --if(QuestieMap.questIdFrames[lineFrame.iconFrame.data.Id] == nil) then
+    --    QuestieMap.questIdFrames[lineFrame.iconFrame.data.Id] = {}
+    --end
+    --tinsert(QuestieMap.questIdFrames[lineFrame.iconFrame.data.Id], lineFrame:GetName());
+    
+    --Keep a total lineFrame count for names.
+    lineFrames = lineFrames + 1;
+	return lineFrame
+end
+
+function _QuestieFramePool:Questie_Tooltip_line(self)
+    local Tooltip = GameTooltip;
+    Tooltip:SetOwner(self, "ANCHOR_CURSOR"); --"ANCHOR_CURSOR" or (self, self)
+    Tooltip:AddLine("Test");
+    Tooltip:SetFrameStrata("TOOLTIP");
+    Tooltip:Show();
+    --_QuestieFramePool:Questie_Tooltip(self.iconFrame)
 end
 
 function _QuestieFramePool:Questie_Tooltip(self)

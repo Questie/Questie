@@ -186,8 +186,8 @@ _QuestieOptions.defaults = {
           lowlevel = false,
           journey = {},
           searchType = 1,
-          --autoaccept = false,
-          --autocomplete = false
+          autoaccept = false,
+          autocomplete = false
       },
       profile = {
           minimap = {
@@ -378,6 +378,34 @@ _QuestieOptions.optionsGUI = {
                             QuestieTracker:Update()
                         end
                     end
+                },
+                autoaccept = {
+                    type = "toggle",
+                    order = 8.1,
+                    name = "Auto Accept Quests",
+                    desc = "Enable or disable Questie auto-accepting quests.",
+                    width = "full",
+                    get =	function ()
+                                return Questie.db.char.autoaccept
+                            end,
+                    set =	function (info, value)
+                                Questie.db.char.autoaccept = value
+                                Questie:debug(DEBUG_DEVELOP, "Auto Accept toggled to:", value)
+                            end,
+                },
+                autocomplete = {
+                    type = "toggle",
+                    order = 8.1,
+                    name = "Auto Complete",
+                    desc = "Enable or disable Questie auto-complete quests.",
+                    width = "full",
+                    get =	function ()
+                                return Questie.db.char.autocomplete
+                            end,
+                    set =	function (info, value)
+                                Questie.db.char.autocomplete = value
+                                Questie:debug(DEBUG_DEVELOP, "Auto Complete toggled to:", value)
+                            end,
                 },
                 --Spacer_A = _QuestieOptions:Spacer(9),
                 quest_options = {

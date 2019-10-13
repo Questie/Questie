@@ -47,6 +47,7 @@ Modules\Libs\QuestieLib.lua
 Modules\Libs\QuestiePlayer.lua
 
 ##Modules
+Modules\QuestieAuto.lua
 Modules\QuestieTooltips.lua
 Modules\QuestieEventHandler.lua
 Modules\QuestieFramePool.lua

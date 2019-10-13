@@ -15,7 +15,7 @@ local playerEntered = false;
 local hasFirstQLU = false;
 local runQLU = false
 
-function QuestieEventHandler:PLAYER_ENTERING_WORLD()
+function QuestieEventHandler:PLAYER_LOGIN()
     C_Timer.After(1, function()
         QuestieDB:Initialize()
     end)

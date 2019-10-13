@@ -65,6 +65,10 @@ def setArgs():
 
         print("Number of commits since tag: " + nrOfCommits)
         print("Most Recent commit: " + recentCommit)
+        branch = getBranch()
+        if branch != "master":
+            versionDir += "-%s" % branch
+        print("Current branch: " + branch)
         zipName = '%s-%s' % (addonDir, versionDir)
 
     # overwrite with command line arguments, if provided
@@ -127,16 +131,22 @@ def setVersion():
         versionTag, nrOfCommits, recentCommit = tagString.split("-")
         recentCommit = recentCommit.lstrip("g") # There is a "g" before all the commits.
         tocData = None
+        cleanData = None
         # Replace the toc data with git information.
         with open('QuestieDev-master.toc') as toc:
             tocData = toc.read()
+            cleanData = tocData;
             ## Version: 4.1.1 BETA
             tocData = re.sub(r"## Title:.*", "## Title: |cFFFFFFFF%s|r|cFF00FF00 %s_%s|r" % (addonDir, versionTag, recentCommit), tocData)
             ## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v4.1.1|r|cFFFF0000 Beta|r
+            cleanData = re.sub(r"\d+\.\d+\.\d+", versionTag.lstrip("v"), cleanData)
             tocData = re.sub(r"## Version:.*", "## Version: %s %s %s" % (versionTag.lstrip("v"), nrOfCommits, recentCommit), tocData)
 
         with open('releases/%s/%s/%s.toc' % (versionDir, addonDir, addonDir), "w") as toc:
             toc.write(tocData)
+        
+        with open('QuestieDev-master.toc', "w") as toc:
+            toc.write(cleanData)
 
 def setHookfolder():
     if is_tool("git"):
@@ -161,6 +171,15 @@ def getVersion():
         return result.group(1), None, None
     else:
         raise RuntimeError('toc file or version number not found')
+
+def getBranch():
+    if is_tool("git"):
+        scriptDir = os.path.dirname(os.path.realpath(__file__))
+        #git rev-parse --abbrev-ref HEAD
+        p = subprocess.check_output(["git", "rev-parse", "--abbrev-ref", "HEAD"], cwd=scriptDir)
+        branch = str(p).rstrip("\\n'").lstrip("b'")
+        return branch
+
 
 def replacePath(filePath, oldPath, newPath):
     with open(filePath, 'r') as file:

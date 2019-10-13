@@ -37,7 +37,7 @@ function Questie:OnInitialize()
     end
 
     Questie:Debug(DEBUG_CRITICAL, "Questie addon loaded")
-    Questie:RegisterEvent("PLAYER_ENTERING_WORLD", QuestieEventHandler.PLAYER_ENTERING_WORLD)
+    Questie:RegisterEvent("PLAYER_LOGIN", QuestieEventHandler.PLAYER_LOGIN)
 
     --Accepted Events
     Questie:RegisterEvent("QUEST_ACCEPTED", QuestieEventHandler.QUEST_ACCEPTED)
@@ -61,11 +61,24 @@ function Questie:OnInitialize()
 
     -- Nameplate / Tar5get Frame Objective Events
     Questie:RegisterEvent("NAME_PLATE_UNIT_ADDED", QuestieNameplate.NameplateCreated);
-    Questie:RegisterEvent("NAME_PLATE_UNIT_REMOVED", QuestieNameplate.NameplateDestroyed);
-    Questie:RegisterEvent("PLAYER_TARGET_CHANGED", QuestieNameplate.DrawTargetFrame);
+	Questie:RegisterEvent("NAME_PLATE_UNIT_REMOVED", QuestieNameplate.NameplateDestroyed);
+	Questie:RegisterEvent("PLAYER_TARGET_CHANGED", QuestieNameplate.DrawTargetFrame);
 
-    -- Initialize Coordinates
-    QuestieCoords.Initialize();
+	--When the quest is presented!
+	Questie:RegisterEvent("QUEST_DETAIL", QuestieAuto.QUEST_DETAIL)
+	--???
+	Questie:RegisterEvent("QUEST_PROGRESS", QuestieAuto.QUEST_PROGRESS)
+	--Gossip??
+	Questie:RegisterEvent("GOSSIP_SHOW", QuestieAuto.GOSSIP_SHOW)
+	--The window when multiple quest from a NPC
+	Questie:RegisterEvent("QUEST_GREETING", QuestieAuto.QUEST_GREETING)
+	--If an escort quest is taken by people close by
+	Questie:RegisterEvent("QUEST_ACCEPT_CONFIRM", QuestieAuto.QUEST_ACCEPT_CONFIRM)
+	--When complete window shows
+	Questie:RegisterEvent("QUEST_COMPLETE", QuestieAuto.QUEST_COMPLETE)
+
+	-- Initialize Coordinates
+	QuestieCoords.Initialize();
 
     -- Initialize questiecomms
     --C_ChatInfo.RegisterAddonMessagePrefix("questie")

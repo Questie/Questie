@@ -246,6 +246,15 @@ function QuestieMap:ShowObject(objectID)
     end
 end
 
+function QuestieMap:DrawLineIcon(lineFrame, AreaID, x, y)
+    if type(AreaID) ~= "number" or type(x) ~= "number" or type(y) ~= "number" then
+        error(MAJOR..": AddWorldMapIconMap: 'AreaID', 'x' and 'y' must be numbers "..AreaID.." "..x.." "..y)
+    end
+
+    HBDPins:AddWorldMapIconMap(Questie, lineFrame, zoneDataAreaIDToUiMapID[AreaID], x, y, HBD_PINS_WORLDMAP_SHOW_CURRENT)
+end
+
+
 -- Draw manually added NPC/object notes
 -- TODO: item and custom notes
 --@param data table<...> @A table created by the calling function, must contain `id`, `Name`, `GetIconScale()`, and `Type`

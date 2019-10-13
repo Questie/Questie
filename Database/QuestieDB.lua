@@ -443,6 +443,14 @@ function QuestieDB:GetNPC(NPCID)
             NPC.spawns = QuestieDB:_GetSpecialNPC(NPCID).spawns
         end
 
+        ---@class Point
+        ---@class Zone
+        if NPC.waypoints == nil and rawdata[QuestieDB.npcKeys.waypoints] then
+            Questie:Debug(DEBUG_DEVELOP, "Got waypoints! NPC", NPC.name, NPC.id)
+            ---@type table<Zone, table<Point, Point>>
+            NPC.waypoints = rawdata[QuestieDB.npcKeys.waypoints];
+        end
+
         if rawdata[DB_NPC_FRIENDLY] then
             if rawdata[DB_NPC_FRIENDLY] == "AH" then
                 NPC.friendly = true
