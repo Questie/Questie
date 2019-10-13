@@ -33,7 +33,7 @@ This program accepts two command line options:
 
 -r releaseType      If provided changes the releasetype from BETA, (Release/Alpha etc)
 
-                    Default: 'BETA'
+                    Default: ''
 
 Example usage:
 
@@ -43,7 +43,7 @@ This will create a new release in 'releases/5.0.0/QuestieDev-featureX', unless
 the '5.0.0' directory already exists.
 
 '''
-releaseType = 'BETA'
+releaseType = ''
 addonDir = 'Questie'
 versionDir = None
 
@@ -58,7 +58,11 @@ def setArgs():
         versionDir = version.replace(' ', '_')
         zipName = '%s-v%s' % (addonDir, versionDir)
     else:
-        versionDir = "%s_%s-%s-%s" % (version, releaseType, nrOfCommits, recentCommit)
+        if releaseType:
+            versionDir = "%s_%s-%s-%s" % (version, releaseType, nrOfCommits, recentCommit)
+        else:
+            versionDir = "%s_%s-%s" % (version, nrOfCommits, recentCommit)
+
         print("Number of commits since tag: " + nrOfCommits)
         print("Most Recent commit: " + recentCommit)
         branch = getBranch()
@@ -133,10 +137,10 @@ def setVersion():
             tocData = toc.read()
             cleanData = tocData;
             ## Version: 4.1.1 BETA
-            tocData = re.sub(r"## Title:.*", "## Title: |cFFFFFFFF%s|r|cFF00FF00 %s_%s|r|cFFFF0000 %s|r" % (addonDir, versionTag, recentCommit, releaseType), tocData)
+            tocData = re.sub(r"## Title:.*", "## Title: |cFFFFFFFF%s|r|cFF00FF00 %s_%s|r" % (addonDir, versionTag, recentCommit), tocData)
             ## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v4.1.1|r|cFFFF0000 Beta|r
-            tocData = re.sub(r"## Version:.*", "## Version: %s %s %s %s" % (versionTag.lstrip("v"), releaseType, nrOfCommits, recentCommit), tocData)
             cleanData = re.sub(r"\d+\.\d+\.\d+", versionTag.lstrip("v"), cleanData)
+            tocData = re.sub(r"## Version:.*", "## Version: %s %s %s" % (versionTag.lstrip("v"), nrOfCommits, recentCommit), tocData)
 
         with open('releases/%s/%s/%s.toc' % (versionDir, addonDir, addonDir), "w") as toc:
             toc.write(tocData)

@@ -90,7 +90,7 @@ local function _OnDragStart(self, button)
 end
 
 local function _OnDragStop()
-    if not IsControlKeyDown() or not _QuestieTracker._start_drag_pos then
+    if not _QuestieTracker._start_drag_pos then
         return
     end
     _QuestieTracker._end_drag_pos = {_QuestieTracker.baseFrame:GetPoint()}
@@ -108,6 +108,7 @@ local function _OnDragStop()
     if Questie.db.char.TrackerLocation[2] and type(Questie.db.char.TrackerLocation[2]) == "table" and Questie.db.char.TrackerLocation[2].GetName then
         Questie.db.char.TrackerLocation[2] = Questie.db.char.TrackerLocation[2]:GetName()
     end
+    _QuestieTracker._start_drag_pos = nil
 end
 
 local function _GetNearestSpawn(Objective)
@@ -1081,6 +1082,9 @@ function QuestieTracker:Update()
             local questString = (Quest.LocalizedName or Quest.Name)
             if Questie.db.global.trackerShowQuestLevel then
                 questString = "[" .. Quest.Level .. "] " .. questString
+            end
+            if Questie.db.global.enableTooltipsQuestID then
+                questString = questString .. " (" .. Quest.Id .. ")"
             end
             if complete then
                 questString  = questString .. " " .. QuestieLocale:GetUIString('TOOLTIP_QUEST_COMPLETE')

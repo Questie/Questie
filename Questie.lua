@@ -1,6 +1,7 @@
 
 Questie = LibStub("AceAddon-3.0"):NewAddon("Questie", "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0", "AceComm-3.0", "AceSerializer-3.0", "AceBucket-3.0")
 _Questie = {...}
+local AceGUI = LibStub("AceGUI-3.0")
 if not QuestieConfigCharacter then
     QuestieConfigCharacter = {}
 end
@@ -124,9 +125,18 @@ function Questie:OnInitialize()
     else
         Questie_Toggle:Hide();
     end
-	if Questie.db.global.dbmHUDEnable then
-		QuestieDBMIntegration:EnableHUD()
-	end
+    if Questie.db.global.dbmHUDEnable then
+        QuestieDBMIntegration:EnableHUD()
+    end
+    -- init config frame
+    if not QuestieConfigFrame then
+        QuestieOptions.configFrame = AceGUI:Create("Frame");
+        LibStub("AceConfigDialogQuestie-3.0"):SetDefaultSize("Questie", 625, 700)
+        LibStub("AceConfigDialogQuestie-3.0"):Open("Questie", QuestieOptions.configFrame)
+        QuestieOptions.configFrame:Hide();                
+        _G["QuestieConfigFrame"] = QuestieOptions.configFrame.frame;
+        table.insert(UISpecialFrames, "QuestieConfigFrame");
+    end
 end
 
 function Questie:OnUpdate()

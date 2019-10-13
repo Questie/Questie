@@ -37,20 +37,11 @@ end
 
 -- Open the configuration window
 function QuestieOptions:OpenConfigWindow()
-
-    if not _QuestieOptions.configFrame then
-        _QuestieOptions.configFrame = AceGUI:Create("Frame");
-        _QuestieOptions.configFrame:Hide();
-
-        _G["QuestieConfigFrame"] = _QuestieOptions.configFrame.frame;
-        table.insert(UISpecialFrames, "QuestieConfigFrame");
-    end
-
-    if not _QuestieOptions.configFrame:IsShown() then
-        PlaySound(882);
-        LibStub("AceConfigDialogQuestie-3.0"):Open("Questie", _QuestieOptions.configFrame)
+    if not QuestieConfigFrame:IsShown() then
+        PlaySound(882)
+        QuestieConfigFrame:Show()
     else
-        _QuestieOptions.configFrame:Hide();
+        QuestieConfigFrame:Hide()
     end
 end
 
@@ -811,6 +802,7 @@ _QuestieOptions.optionsGUI = {
 		dbm_hud_tab = {
             name = function() return QuestieLocale:GetUIString('DBM_HUD_TAB') end,
             type = "group",
+            disabled = function() if DBMHudMap then return false else return true end end,
             order = 13.2,
             args = {
                 hud_options = {
@@ -1425,6 +1417,18 @@ _QuestieOptions.optionsGUI = {
                     set =    function (info, value)
                                 Questie.db.global.debugEnabledPrint = value
                             end,
+                },
+                showQuestIDs = {
+                    type = "toggle",
+                    order = 7,
+                    name = function() return QuestieLocale:GetUIString('ENABLE_TOOLTIPS_QUEST_IDS') end,
+                    desc = function() return QuestieLocale:GetUIString('ENABLE_TOOLTIPS_QUEST_LEVEL_IDS') end,
+                    width = "full",
+                    get = function() return Questie.db.global.enableTooltipsQuestID end,
+                    set = function (info, value)
+                        Questie.db.global.enableTooltipsQuestID = value
+                        QuestieTracker:Update()
+                    end
                 },
 
                 Spacer_A = _QuestieOptions:Spacer(10),

@@ -674,13 +674,13 @@ local function QuestFrame(f, quest)
     f:AddChild(level);
 
     local minLevel = AceGUI:Create("Label");
-    minLevel:SetText(Questie:Colorize(QuestieLocale:GetUIString('JOURNEY_QUEST_MINLEVEL'), 'yellow') .. quest.MinLevel);
+    minLevel:SetText(Questie:Colorize(QuestieLocale:GetUIString('JOURNEY_QUEST_MINLEVEL'), 'yellow') .. quest.requiredLevel);
     minLevel:SetFullWidth(true);
     f:AddChild(minLevel);
 
     local diff = AceGUI:Create("Label");
     diff:SetFullWidth(true);
-    local red, orange, yellow, green, gray = QuestieJourney:GetLevelDifficultyRanges(quest.Level, quest.MinLevel);
+    local red, orange, yellow, green, gray = QuestieJourney:GetLevelDifficultyRanges(quest.Level, quest.requiredLevel);
     local diffStr = '';
 
     if red then
