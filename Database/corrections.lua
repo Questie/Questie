@@ -754,6 +754,7 @@ QuestieCorrections.itemFixes = {
     [12324] = {"Forged Seal of Ascension",{4743},{10321},{}}, -- #1175
     [7206] = {"Mirror Lake Water Sample",{1860},{},{174794}}, -- #1286
     [7207] = {"Jennea's Flask",{1860},{},{}}, -- #1286
+    [10575] = {"Black Dragonflight Molt",{4022,4023},{},{10569}}, -- #1216
 
     -- quest related herbs
     [2449] = {"Earthroot",{6123,6128},{},{1619,3726}},
