@@ -1026,6 +1026,13 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
             if logCount == 1 and dbCount == 1 then
                 Quest.Objectives[objectiveIndex].Id = Quest.ObjectiveData[1].Id
             elseif Quest.ObjectiveData ~= nil then
+
+                local bestIndex = -1;
+                local bestDistance = 99999;
+
+                --Debug var
+                local tempName = "";
+                --
                 -- try to find npc/item/object/event ID
                 for objectiveIndexDB, objectiveDB in pairs(Quest.ObjectiveData) do
                     if objective.type == objectiveDB.Type then
@@ -1050,29 +1057,41 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                         -- To lower the questlog objective text
                         local oDesc = string.lower(objective.text) or nil;
                         -- This is whaaaat?
-                        local oText = string.lower(objectiveDB.Text or "");
+                        -- local oText = string.lower(objectiveDB.Text or "");
 
-                        local correctObjective = false;
                         if(oName and oDesc) then
-                            -- Does regular check work good? or Regex mayhaps?
-                            if((oName == oDesc) or strfind(oDesc, oName, 1, true)) then
-                                correctObjective = true;
-                            elseif(oText == oDesc or strfind(oDesc, oName, 1, true)) then
-                                correctObjective = true;
+                            local distance = QuestieDB:Levenshtein(oDesc, oName);
+                            if(distance < bestDistance) then
+                                bestDistance = distance;
+                                bestIndex = objectiveIndexDB;
+                                tempName = oName;
                             end
                         elseif((oName == nil or oDesc == nil) and objectiveDB.Type ~= "item" and objectiveDB.Type ~= "monster") then
-                            correctObjective = true;
+                            bestIndex = objectiveIndexDB;
+                            tempName = oName;
+                            --We set the distance to 0 because otherwise other objectives might be closer...
+                            bestDistance = 0;
                         end
 
-                        -- Is this objective the same as the object description
-                        if(correctObjective) then
-                            Quest.Objectives[objectiveIndex].Id = objectiveDB.Id;
-                            Quest.Objectives[objectiveIndex].Coordinates = objectiveDB.Coordinates;
-                            objectiveDB.ObjectiveRef = Quest.Objectives[objectiveIndex];
-                        elseif(Quest.Objectives[objectiveIndex].Id == nil and GetLocale() ~= "enUS" and GetLocale() ~= "enGB") then
+                        -- Old
+                        if(Quest.Objectives[objectiveIndex].Id == nil and GetLocale() ~= "enUS" and GetLocale() ~= "enGB") then
                             Quest.Objectives[objectiveIndex].Id = objectiveDB.Id;
                         end
+                        -- ~OldQ
                     end
+                end
+
+                local objectiveDB = Quest.ObjectiveData[bestIndex]
+                --Debug var
+                local oDesc = string.lower(objective.text) or nil
+                --
+                Questie:Debug(DEBUG_DEVELOP, "----> ID", objectiveDB.Id, "Dist:", bestDistance)
+                Questie:Debug(DEBUG_DEVELOP, "-->Description:", oDesc)
+                Questie:Debug(DEBUG_DEVELOP, "-->Found:", tempName)
+                if(bestIndex ~= -1) then
+                    Quest.Objectives[objectiveIndex].Id = objectiveDB.Id;
+                    Quest.Objectives[objectiveIndex].Coordinates = objectiveDB.Coordinates;
+                    objectiveDB.ObjectiveRef = Quest.Objectives[objectiveIndex];
                 end
             end
         end
@@ -1238,7 +1257,7 @@ local slainText = {
 function QuestieQuest:GetAllLeaderBoardDetails(questId)
     local questObjectives = C_QuestLog.GetQuestObjectives(questId)-- or {};
     local locale = GetLocale();
-    local slain = slainText[locale];
+    local slain = slainText[locale] or "randomstringwohooooo";
 
     --Questie:Print(questId)
     for objectiveIndex, objective in pairs(questObjectives) do
