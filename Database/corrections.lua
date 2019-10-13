@@ -354,7 +354,93 @@ QuestieCorrections.questFixes = {
     -- this one is now started by "Kary Thunderhorn" in Thunder Bluff
     [6070] = {
         [QuestieDB.questKeys.startedBy] = {{3038,},nil,nil,},
-    }
+    },
+    -- Salve via Hunting/Mining/Gathering/Skinning/Disenchanting quests
+    -- Alliance repeatable
+    [4103] = {
+        [QuestieDB.questKeys.preQuestSingle] = {5882,5883,5884,5885,5886,},
+        [QuestieDB.questKeys.specialFlags] = 1,
+    },
+    [4104] = {
+        [QuestieDB.questKeys.preQuestSingle] = {5882,5883,5884,5885,5886,},
+        [QuestieDB.questKeys.specialFlags] = 1,
+    },
+    [4105] = {
+        [QuestieDB.questKeys.preQuestSingle] = {5882,5883,5884,5885,5886,},
+        [QuestieDB.questKeys.specialFlags] = 1,
+    },
+    [4106] = {
+        [QuestieDB.questKeys.preQuestSingle] = {5882,5883,5884,5885,5886,},
+        [QuestieDB.questKeys.specialFlags] = 1,
+    },
+    [4107] = {
+        [QuestieDB.questKeys.preQuestSingle] = {5882,5883,5884,5885,5886,},
+        [QuestieDB.questKeys.specialFlags] = 1,
+    },
+    -- Horde repeatable
+    [4108] = {
+        [QuestieDB.questKeys.requiredRaces] = 178,
+        [QuestieDB.questKeys.preQuestSingle] = {5887,5888,5889,5890,5891,},
+    },
+    [4109] = {
+        [QuestieDB.questKeys.requiredRaces] = 178,
+        [QuestieDB.questKeys.preQuestSingle] = {5887,5888,5889,5890,5891,},
+    },
+    [4110] = {
+        [QuestieDB.questKeys.requiredRaces] = 178,
+        [QuestieDB.questKeys.preQuestSingle] = {5887,5888,5889,5890,5891,},
+    },
+    [4111] = {
+        [QuestieDB.questKeys.requiredRaces] = 178,
+        [QuestieDB.questKeys.preQuestSingle] = {5887,5888,5889,5890,5891,},
+    },
+    [4112] = {
+        [QuestieDB.questKeys.requiredRaces] = 178,
+        [QuestieDB.questKeys.preQuestSingle] = {5887,5888,5889,5890,5891,},
+    },
+    -- Alliance non repeatable
+    [5882] = {
+        [QuestieDB.questKeys.requiredRaces] = 77,
+        [QuestieDB.questKeys.exclusiveTo] = {5883,5884,5885,5886,},
+    },
+    [5883] = {
+        [QuestieDB.questKeys.requiredRaces] = 77,
+        [QuestieDB.questKeys.exclusiveTo] = {5882,5884,5885,5886,},
+    },
+    [5884] = {
+        [QuestieDB.questKeys.requiredRaces] = 77,
+        [QuestieDB.questKeys.exclusiveTo] = {5882,5883,5885,5886,},
+    },
+    [5885] = {
+        [QuestieDB.questKeys.requiredRaces] = 77,
+        [QuestieDB.questKeys.exclusiveTo] = {5882,5883,5884,5886,},
+    },
+    [5886] = {
+        [QuestieDB.questKeys.requiredRaces] = 77,
+        [QuestieDB.questKeys.exclusiveTo] = {5882,5883,5884,5885,},
+    },
+    -- Horde non repeatable
+    [5887] = {
+        [QuestieDB.questKeys.exclusiveTo] = {5888,5889,5890,5891,},
+        [QuestieDB.questKeys.specialFlags] = 0,
+    },
+    [5888] = {
+        [QuestieDB.questKeys.exclusiveTo] = {5887,5889,5890,5891,},
+        [QuestieDB.questKeys.specialFlags] = 0,
+    },
+    [5889] = {
+        [QuestieDB.questKeys.exclusiveTo] = {5887,5888,5890,5891,},
+        [QuestieDB.questKeys.specialFlags] = 0,
+    },
+    [5890] = {
+        [QuestieDB.questKeys.exclusiveTo] = {5887,5888,5889,5891,},
+        [QuestieDB.questKeys.specialFlags] = 0,
+    },
+    [5891] = {
+        [QuestieDB.questKeys.exclusiveTo] = {5887,5888,5889,5890,},
+        [QuestieDB.questKeys.specialFlags] = 0,
+    },
+    ------------
 }
 
 QuestieCorrections.npcFixes = {
