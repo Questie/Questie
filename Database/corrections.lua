@@ -746,6 +746,8 @@ QuestieCorrections.itemFixes = {
     [16973] = {"Vial of Dire Water",{5247},{},{178224}}, -- #1156
     [7134] = {"Sturdy Dragonmaw Shinbone",{1846},{1034,1035,1036,1038,1057,},{}}, -- #1163
     [12324] = {"Forged Seal of Ascension",{4743},{10321},{}}, -- #1175
+    [7206] = {"Mirror Lake Water Sample",{1860},{},{174794}}, -- #1286
+    [7207] = {"Jennea's Flask",{1860},{},{}}, -- #1286
 
     -- quest related herbs
     [2449] = {"Earthroot",{6123,6128},{},{1619,3726}},
