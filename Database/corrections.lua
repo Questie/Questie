@@ -448,6 +448,10 @@ QuestieCorrections.npcFixes = {
     [5955] = {
         [QuestieDB.npcKeys.spawns] = {[440]={{31.8,74.15},{29.48,60.51},},},
     },
+    [13301] = {
+        [QuestieDB.npcKeys.spawns] = {[1377]={{60.2,52.4},{60.2,52.6},},},
+        [QuestieDB.npcKeys.zoneID] = 1377,
+    },
     [11625] = {
         [QuestieDB.npcKeys.spawns] = {[405]={{67,37},},},
     },
