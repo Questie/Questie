@@ -33,6 +33,12 @@ QuestieCorrections.questFixes = {
     [369] = {
         [QuestieDB.questKeys.requiredRaces] = 178, -- #888
     },
+    [165] = {
+        [QuestieDB.questKeys.exclusiveTo] = {148}, --#1173
+    },
+    [148] = {
+        [QuestieDB.questKeys.preQuestSingle] = {}, -- #1173
+    },
     [310] = {
         [QuestieDB.questKeys.childQuests] = {403},
     },
