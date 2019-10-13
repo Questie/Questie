@@ -142,6 +142,7 @@ _QuestieOptions.defaults = {
       mapCoordinatePrecision = 1,
       dbmHUDEnable = true,
       dbmHUDShowAlert = true,
+      DBMHUDRefresh = 0.03,
       DBMHUDZoom = 100,
       dbmHUDRadius = 3,
       dbmHUDShowQuest = true,
@@ -841,6 +842,22 @@ _QuestieOptions.optionsGUI = {
                         SetGlobalOptionLocal(info, value)
                         QuestieDBMIntegration:SoftReset()
                     end,
+                },
+                DBMHUDRefresh = {
+                    type = "range",
+                    disabled = function() if DBMHudMap and not DBMHudMap.Version then return true else return false end end,
+                    order = 4,
+                    name = function() return QuestieLocale:GetUIString('DBM_HUD_REFRESH') end,
+                    desc = function() return QuestieLocale:GetUIString('DBM_HUD_REFRESH_DESC', _QuestieOptions.defaults.global.DBMHUDRefresh) end,
+                    width = "double",
+                    min = 0.01,
+                    max = 0.05,
+                    step = 0.01,
+                    get = GetGlobalOptionLocal,
+                    set = function (info, value)
+                                SetGlobalOptionLocal(info, value)
+                                QuestieDBMIntegration:ChangeRefreshRate(value)
+                            end,
                 },
                 Spacer_A = _QuestieOptions:Spacer(6),
                 mapnote_options = {
