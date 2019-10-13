@@ -14,6 +14,13 @@ local math_abs = math.abs;
 local math_sqrt = math.sqrt;
 local math_max = math.max;
 
+--[[
+    Red: 5+ level above player
+    Orange: 3 - 4 level above player
+    Yellow: max 2 level below/above player
+    Green: 3 - GetQuestGreenRange() level below player (GetQuestGreenRange() changes on specific player levels)
+    Gray: More than GetQuestGreenRange() below player
+--]]
 function QuestieLib:PrintDifficultyColor(level, text)
 
     if level == -1 then
@@ -25,7 +32,7 @@ function QuestieLib:PrintDifficultyColor(level, text)
         return "|cFFFF1A1A"..text.."|r"; -- Red
     elseif (levelDiff >= 3) then
         return "|cFFFF8040"..text.."|r"; -- Orange
-    elseif (levelDiff > -3) then
+    elseif (levelDiff >= -2) then
         return "|cFFFFFF00"..text.."|r"; -- Yellow
     elseif (-levelDiff <= GetQuestGreenRange()) then
         return "|cFF40C040"..text.."|r"; -- Green
