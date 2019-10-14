@@ -136,3 +136,29 @@ do
 		error("v"..major.."."..minor.."."..patch.."_"..commit.." cannot determine the folder it is located in because the path is too long and got truncated in the debugstack(1, 1, 0) function call")
   end
 end
+
+
+-- Credits to Shagu, why reinvent the wheel.
+-- https://github.com/shagu/pfQuest/commit/01177f2eb2926336a1ad741a6082affe78ae7c20
+function QuestieLib:SanitizePattern(pattern, excludeNumberCapture)
+  -- escape brackets
+  pattern = gsub(pattern, "%(", "%%(")
+  pattern = gsub(pattern, "%)", "%%)")
+
+  -- remove bad capture indexes
+  pattern = gsub(pattern, "%d%$s","s") -- %1$s to %s
+  pattern = gsub(pattern, "%d%$d","d") -- %1$d to %d
+  pattern = gsub(pattern, "%ds","s") -- %2s to %s
+
+  -- add capture to all findings
+  pattern = gsub(pattern, "%%s", "(.+)")
+
+  --We might only want to capture the name itself and not numbers.
+  if(not excludeNumberCapture) then
+    pattern = gsub(pattern, "%%d", "(%%d+)")
+  else
+    pattern = gsub(pattern, "%%d", "%%d+")
+  end
+
+  return pattern
+end
