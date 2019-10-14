@@ -281,7 +281,7 @@ function _QuestieComms:broadcast(packet)
 end
 
 function _QuestieComms:OnCommReceived(prefix, message, distribution, sender)
-    Questie:Debug(DEBUG_DEVELOP, "recv(|cFF22FF22" .. message .. "|r)")
+    Questie:Debug(DEBUG_DEVELOP, "recv(|cFF22FF22", message, "|r)", "sender:", sender, "prefix:", prefix, "distribution:", distribution)
     if prefix == _QuestieComms.prefix and sender then
       local decompressedData = QuestieSerializer:Deserialize(message);--QuestieCompress:Decompress(message);
       _QuestieComms.packets[decompressedData.messageId].read(decompressedData);
