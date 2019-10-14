@@ -36,20 +36,31 @@ _QuestieComms.QC_ID_REQUEST_FULL_QUESTLIST = 11
 ---------
 -- Fetch quest information about a specific player.
 -- Params:
---  playerName (string)
 --  questId (int)
+--  playerName (string) OPTIONAL
 -- Return:
 --  Similar object as QuestieQuest:GetRawLeaderBoardDetails()
 --  Quest.(Id|level|isComplete) --title is trimmed to save space
 --  Quest.Objectives[index].(description|objectiveType|isCompleted)
 ---------
-function QuestieComms:GetQuest(playerName, questId)
-  if(_QuestieComms.remoteQuestLogs[playerName]) then
-    if(_QuestieComms.remoteQuestLogs[playerName][questId]) then
+--Only questid gets all players with that quest and their progress
+--Both name and questid returns a specific players progress if one exist.
+function QuestieComms:GetQuest(questId, playerName)
+  if(_QuestieComms.remoteQuestLogs[questId]) then
+    if(playerName) then
+        if(_QuestieComms.remoteQuestLogs[questId][playerName]) then
+            -- Create a copy of the object, other side should never be able to edit the underlying object.
+            local quest = {};
+            for key,value in pairs(_QuestieComms.remoteQuestLogs[questId][playerName]) do
+                quest[key] = value;
+            end
+            return quest;
+        end
+    else
         -- Create a copy of the object, other side should never be able to edit the underlying object.
         local quest = {};
-        for key,value in pairs(_QuestieComms.remoteQuestLogs[playerName][questId]) do
-            quest[key] = value;
+        for playerName, objectivesData in pairs(_QuestieComms.remoteQuestLogs[questId]) do
+            quest[playerName] = objectivesData;
         end
         return quest;
     end
@@ -187,15 +198,15 @@ _QuestieComms.packets = {
         Questie:Debug(DEBUG_DEVELOP, "[QuestieComms]", "Received: QC_ID_BROADCAST_QUEST_UPDATE", "Player:", playerName)
 
         if quest then
-          -- Create empty player.
-          if not _QuestieComms.remoteQuestLogs[playerName] then
-              _QuestieComms.remoteQuestLogs[playerName] = {}
-          end
-          -- Create empty quests.
-          if not _QuestieComms.remoteQuestLogs[playerName][quest.id] then
-              _QuestieComms.remoteQuestLogs[playerName][quest.id] = {}
-          end
-          _QuestieComms.remoteQuestLogs[playerName][quest.id] = quest.objectives;
+            -- Create empty quest.
+            if not _QuestieComms.remoteQuestLogs[quest.id] then
+                _QuestieComms.remoteQuestLogs[quest.id] = {}
+            end
+            -- Create empty player.
+            if not _QuestieComms.remoteQuestLogs[quest.id][playerName] then
+                _QuestieComms.remoteQuestLogs[quest.id][playerName] = {}
+            end
+            _QuestieComms.remoteQuestLogs[quest.id][playerName] = quest.objectives;
         end
       end
   },
@@ -217,16 +228,16 @@ _QuestieComms.packets = {
         Questie:Debug(DEBUG_DEVELOP, "[QuestieComms]", "Received: QC_ID_BROADCAST_FULL_QUESTLIST", "Player:", playerName)
 
         if questList then
-            -- Create empty player.
-            if not _QuestieComms.remoteQuestLogs[playerName] then
-                _QuestieComms.remoteQuestLogs[playerName] = {}
-            end
             for questId, questData in pairs(questList) do
-                -- Create empty quests.
-                if not _QuestieComms.remoteQuestLogs[playerName][questData.id] then
-                    _QuestieComms.remoteQuestLogs[playerName][questData.id] = {}
+                -- Create empty quest.
+                if not _QuestieComms.remoteQuestLogs[questData.id] then
+                    _QuestieComms.remoteQuestLogs[questData.id] = {}
                 end
-                _QuestieComms.remoteQuestLogs[playerName][questData.id] = questData.objectives;
+                -- Create empty player.
+                if not _QuestieComms.remoteQuestLogs[questData.id][playerName] then
+                    _QuestieComms.remoteQuestLogs[questData.id][playerName] = {}
+                end
+                _QuestieComms.remoteQuestLogs[questData.id][playerName] = questData.objectives;
             end
         end
       end
