@@ -295,6 +295,7 @@ function _QuestieComms:createPacket(messageId)
     for k,v in pairs(_QuestieComms.packets[messageId]) do
         pkt[k] = v
     end
+    pkt.data = {}
     -- Set messageId
     pkt.data.messageId = messageId
     -- Some messages initialize
