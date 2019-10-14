@@ -101,7 +101,6 @@ function _QuestieComms:BroadcastQuestUpdate(questId) -- broadcast quest update t
             quest.objectives = {}
             for objectiveIndex, objective in pairs(rawObjectives) do
                 quest.objectives[objectiveIndex] = {};
-                quest.objectives[objectiveIndex].type = objective.type;
                 quest.objectives[objectiveIndex].finished = objective.finished;
                 quest.objectives[objectiveIndex].fulfilled = objective.numFulfilled;
                 quest.objectives[objectiveIndex].required = objective.numRequired;
@@ -137,7 +136,7 @@ function _QuestieComms:BroadcastQuestLog(eventName) -- broadcast quest update to
                 quest.objectives = {}
                 for objectiveIndex, objective in pairs(rawObjectives) do
                     quest.objectives[objectiveIndex] = {};
-                    quest.objectives[objectiveIndex].type = objective.type;
+  
                     quest.objectives[objectiveIndex].finished = objective.finished;
                     quest.objectives[objectiveIndex].fulfilled = objective.numFulfilled;
                     quest.objectives[objectiveIndex].required = objective.numRequired;
