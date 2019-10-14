@@ -330,7 +330,7 @@ function QuestieQuest:AcceptQuest(questId)
 
         --TODO: Insert call to drawing objective logic here!
         --QuestieQuest:TrackQuest(questId);
-        Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", QuestId);
+        Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId);
     else
         Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ACCEPT_QUEST', questId), " Warning: Quest already existed, not adding");
     end
@@ -776,6 +776,9 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
 
     Objective:Update() -- update qlog data
     local completed = Objective.Completed
+
+    --Set the objective index
+    Objective.index = ObjectiveIndex;
 
     if not Objective.Color then -- todo: move to a better place
         QuestieQuest:Math_randomseed(Quest.Id + 32768 * ObjectiveIndex)

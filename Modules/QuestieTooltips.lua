@@ -42,10 +42,46 @@ function QuestieTooltips:GetTooltip(key)
             QuestieTooltips.tooltipLookup[key][k] = nil
         else
             table.insert(tip, tooltip.Objective.QuestData:GetColoredQuestName());
+            local text = nil;
             if tooltip.Objective.Needed then
-                table.insert(tip, "   |cFF33FF33" .. tostring(tooltip.Objective.Collected) .. "/" .. tostring(tooltip.Objective.Needed) .. " " .. tostring(tooltip.Objective.Description));
+                text = "   |cFF33FF33" .. tostring(tooltip.Objective.Collected) .. "/" .. tostring(tooltip.Objective.Needed) .. " " .. tostring(tooltip.Objective.Description);
             else
-                table.insert(tip, "   |cFF33FF33" .. tostring(tooltip.Objective.Description));
+                text = "   |cFF33FF33" .. tostring(tooltip.Objective.Description);
+            end
+            if(QuestieComms) then
+                local anotherPlayer = false;
+                for playerName, objectiveData in pairs(QuestieComms:GetQuest(tooltip.Objective.QuestData.Id) or {}) do
+                    --[[
+                        -.type = objective.type;
+                        -.finished = objective.finished;
+                        -.fulfilled = objective.numFulfilled;
+                        -.required = objective.numRequired;  
+                    ]]
+                    local playerInfo = QuestieLib:PlayerInGroup(playerName);
+                    if(playerInfo) then
+                        local fulfilled = objectiveData[tooltip.Objective.index].fulfilled;
+                        local required = objectiveData[tooltip.Objective.index].required;
+                        local colorizedPlayerName = " (|c"..playerInfo.colorHex..playerName.."|r|cFF33FF33)|r";
+                        local remoteText = tostring(tooltip.Objective.Description);
+                        if tooltip.Objective.Needed then
+                            remoteText = "   |cFF33FF33" .. tostring(fulfilled) .. "/" .. tostring(required) .. " " .. remoteText .. colorizedPlayerName;
+                        end
+                        table.insert(tip, remoteText);
+                        anotherPlayer = true;
+                    end
+                end
+                if(anotherPlayer) then
+                    local name = UnitName("player");
+                    local className, classFilename = UnitClass("player");
+                    local rPerc, gPerc, bPerc, argbHex = GetClassColor(classFilename)
+                    name = " (|c"..argbHex..name.."|r|cFF33FF33)|r";
+                    text = text .. name;
+                end
+            end
+            if tooltip.Objective.Needed then
+                table.insert(tip, text);
+            else
+                table.insert(tip, text);
             end
         end
     end

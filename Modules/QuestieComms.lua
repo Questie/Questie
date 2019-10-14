@@ -18,7 +18,8 @@ _QuestieComms.QC_WRITE_CHANNEL = "CHANNEL"
 --Message types.
 _QuestieComms.QC_ID_BROADCAST_QUEST_UPDATE = 1 -- send quest_log_update status to party/raid members
 -- NYI ->
-_QuestieComms.QC_ID_BROADCAST_QUESTIE_GETVERSION = 2 -- ask anyone for the newest questie version
+--[[
+  _QuestieComms.QC_ID_BROADCAST_QUESTIE_GETVERSION = 2 -- ask anyone for the newest questie version
 _QuestieComms.QC_ID_BROADCAST_QUESTIE_VERSION = 3 -- broadcast the current questie version
 _QuestieComms.QC_ID_ASK_CHANGELOG = 4 -- ask a player for the changelog
 _QuestieComms.QC_ID_SEND_CHANGELOG = 5
@@ -26,6 +27,7 @@ _QuestieComms.QC_ID_ASK_QUESTS = 6 -- ask a player for their quest progress on s
 _QuestieComms.QC_ID_SEND_QUESTS = 7
 _QuestieComms.QC_ID_ASK_QUESTSLIST = 8 -- ask a player for their current quest log as a list of quest IDs
 _QuestieComms.QC_ID_SEND_QUESTSLIST = 9
+]]--
 -- <-- NYI
 _QuestieComms.QC_ID_BROADCAST_FULL_QUESTLIST = 10
 _QuestieComms.QC_ID_REQUEST_FULL_QUESTLIST = 11
