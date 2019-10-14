@@ -684,7 +684,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
                                 questOrder[key][text][icon.data.Name] = true
                             end
                             if(QuestieComms) then
-                                for playerName, objectiveData in pairs(QuestieComms:GetQuest(icon.data.Id)) do
+                                for playerName, objectiveData in pairs(QuestieComms:GetQuest(icon.data.Id) or {}) do
                                     --[[
                                         -.type = objective.type;
                                         -.finished = objective.finished;
