@@ -284,7 +284,7 @@ function _QuestieComms:OnCommReceived(prefix, message, distribution, sender)
     Questie:Debug(DEBUG_DEVELOP, "recv(|cFF22FF22" .. message .. "|r)")
     if prefix == _QuestieComms.prefix and sender then
       local decompressedData = QuestieSerializer:Deserialize(message);--QuestieCompress:Decompress(message);
-      QuestieComms.packets[decompressedData.messageId].read(decompressedData);
+      _QuestieComms.packets[decompressedData.messageId].read(decompressedData);
     end
 end
 
@@ -292,7 +292,7 @@ end
 function _QuestieComms:createPacket(messageId)
     -- Duplicate the object.
     local pkt = {};
-    for k,v in pairs(QuestieComms.packets[messageId]) do
+    for k,v in pairs(_QuestieComms.packets[messageId]) do
         pkt[k] = v
     end
     -- Set messageId
@@ -332,7 +332,7 @@ function QuestieComms:MessageReceived(channel, message, type, source) -- pcall t
     Questie:Debug(DEBUG_DEVELOP, "recv(|cFF22FF22" .. message .. "|r)")
     if channel == "questie" and source then
       local decompressedData = QuestieCompress:decompress(message);
-      QuestieComms.packets[message.messageId].read(decompressedData);
+      _QuestieComms.packets[message.messageId].read(decompressedData);
     end
 end
 
@@ -369,7 +369,7 @@ function QuestieGetVersionInfo() -- todo: better place
     return tonumber(major), tonumber(minor), tonumber(patch)
 end
 
-QuestieComms.packets = {
+_QuestieComms.packets = {
     [QC_ID_BROADCAST_QUEST_UPDATE] = {
         write = function(self)
             local count = 0;
@@ -586,7 +586,7 @@ end
 function QuestieComms:read(rawPacket, sourceType, source)
     local stream = QuestieStreamLib:GetStream()
     stream:Load(rawPacket)
-    local packetProcessor = QuestieComms.packets[stream:ReadByte()];
+    local packetProcessor = _QuestieComms.packets[stream:ReadByte()];
     if (not packetProcessor) or (not packetProcessor.read) then
         -- invalid packet id, error or something
         return
@@ -603,7 +603,7 @@ end
 
 function QuestieComms:GetPacket(id)
     local pkt = {};
-    for k,v in pairs(QuestieComms.packets[id]) do
+    for k,v in pairs(_QuestieComms.packets[id]) do
         pkt[k] = v
     end
     pkt.stream = QuestieStreamLib:GetStream()
