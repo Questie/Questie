@@ -319,9 +319,9 @@ function QuestieQuest:AcceptQuest(questId)
         end
 
 
-        for questId, alsoQuestId in pairs(QuestieQuest.availableQuests) do
-            if not _QuestieQuest:IsDoable(QuestieDB:GetQuest(questId)) then
-                QuestieMap:UnloadQuestFrames(questId, ICON_TYPE_AVAILABLE);
+        for availableQuestId, alsoQuestId in pairs(QuestieQuest.availableQuests) do
+            if not _QuestieQuest:IsDoable(QuestieDB:GetQuest(availableQuestId)) then
+                QuestieMap:UnloadQuestFrames(availableQuestId, ICON_TYPE_AVAILABLE);
             end
         end
 
