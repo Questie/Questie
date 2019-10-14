@@ -28,6 +28,7 @@ _QuestieComms.QC_ID_ASK_QUESTSLIST = 8 -- ask a player for their current quest l
 _QuestieComms.QC_ID_SEND_QUESTSLIST = 9
 -- <-- NYI
 _QuestieComms.QC_ID_BROADCAST_FULL_QUESTLIST = 10
+_QuestieComms.QC_ID_REQUEST_FULL_QUESTLIST = 11
 
 --- Global Functions --
 
@@ -62,7 +63,11 @@ function QuestieComms:Initialize()
 
   -- Events to be used to broadcast updates to other people
   Questie:RegisterMessage("QC_ID_BROADCAST_QUEST_UPDATE", _QuestieComms.BroadcastQuestUpdate);
-  Questie:RegisterMessage("QC_ID_BROADCAST_FULL_QUESTLIST", _QuestieComms.BroadcastQuestLog);
+  -- Bucket for 2 seconds to prevent spamming.
+  Questie:RegisterBucketMessage("QC_ID_BROADCAST_FULL_QUESTLIST", 2, _QuestieComms.BroadcastQuestLog);
+
+  -- Responds to the "hi" event from others.
+  Questie:RegisterMessage("QC_ID_REQUEST_FULL_QUESTLIST", _QuestieComms.RequestQuestLog);
 end
 
 -- Local Functions --
@@ -77,7 +82,15 @@ function _QuestieComms:BroadcastQuestUpdate(eventName, questId) -- broadcast que
             local questPacket = _QuestieComms:createPacket(_QuestieComms.QC_ID_BROADCAST_QUEST_UPDATE)
             local quest = {};
             quest.id = questId;
-            quest.objectives = QuestieQuest:GetAllLeaderBoardDetails(questId);
+            local rawObjectives = QuestieQuest:GetAllLeaderBoardDetails(questId);
+            quest.objectives = {}
+            for objectiveIndex, objective in rawObjectives do
+                quest.objectives[objectiveIndex] = {};
+                quest.objectives[objectiveIndex].type = objective.type;
+                quest.objectives[objectiveIndex].finished = objective.finished;
+                quest.objectives[objectiveIndex].fulfilled = objective.numFulfilled;
+                quest.objectives[objectiveIndex].required = objective.numRequired;
+            end
             Questie:Debug(DEBUG_DEVELOP, "[QuestieComms] questPacket made: Objectivetable:", quest.objectives);
 
             questPacket.data.quest = quest
@@ -105,7 +118,15 @@ function _QuestieComms:BroadcastQuestLog(eventName) -- broadcast quest update to
                 -- The id is not needed due to it being used as a key, but send it anyway to keep the same structure.
                 local quest = {};
                 quest.id = questId;
-                quest.objectives = QuestieQuest:GetAllLeaderBoardDetails(questId);
+                local rawObjectives = QuestieQuest:GetAllLeaderBoardDetails(questId);
+                quest.objectives = {}
+                for objectiveIndex, objective in rawObjectives do
+                    quest.objectives[objectiveIndex] = {};
+                    quest.objectives[objectiveIndex].type = objective.type;
+                    quest.objectives[objectiveIndex].finished = objective.finished;
+                    quest.objectives[objectiveIndex].fulfilled = objective.numFulfilled;
+                    quest.objectives[objectiveIndex].required = objective.numRequired;
+                end
 
                 rawQuestList[quest.id] = quest;
             end
@@ -128,17 +149,43 @@ function _QuestieComms:BroadcastQuestLog(eventName) -- broadcast quest update to
     end
 end
 
+-- The "Hi" of questie, request others to send their questlog.
+function _QuestieComms:RequestQuestLog(eventName) -- broadcast quest update to group or raid
+    local partyType = QuestiePlayer:GetGroupType()
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieComms] Message", eventName, "partyType:", tostring(partyType));
+    if partyType then
+        --Do we really need to make this?
+        local questPacket = _QuestieComms:createPacket(_QuestieComms.QC_ID_REQUEST_FULL_QUESTLIST);
+
+        if partyType == "raid" then
+            questPacket.data.writeMode = _QuestieComms.QC_WRITE_ALLRAID;
+            questPacket.data.priority = "NORMAL";
+        else
+            questPacket.data.writeMode = _QuestieComms.QC_WRITE_ALLGROUP;
+            questPacket.data.priority = "NORMAL";
+        end
+        questPacket:write();
+    end
+end
+
 _QuestieComms.packets = {
   [_QuestieComms.QC_ID_BROADCAST_QUEST_UPDATE] = {
       write = function(self)
         -- Write the sending players name into the data.
         self.data.playerName = UnitName("player");
+        Questie:Debug(DEBUG_DEVELOP, "[QuestieComms]", "Sending: QC_ID_BROADCAST_QUEST_UPDATE")
         _QuestieComms:broadcast(self.data);
       end,
       read = function(self, remoteQuestPacket)
+        if(remoteQuestPacket == nil) then
+           Questie:Error("[QuestieComms]", "QC_ID_BROADCAST_QUEST_UPDATE", "remoteQuestPacket = nil");
+        end
         --These are not strictly needed but helps readability.
         local playerName = remoteQuestPacket.playerName;
         local quest = remoteQuestPacket.quest;
+
+        Questie:Debug(DEBUG_DEVELOP, "[QuestieComms]", "Received: QC_ID_BROADCAST_QUEST_UPDATE", "Player:", playerName)
+
         if quest then
           -- Create empty player.
           if not _QuestieComms.remoteQuestLogs[playerName] then
@@ -156,15 +203,19 @@ _QuestieComms.packets = {
       write = function(self)
         -- Write the sending players name into the data.
         self.data.playerName = UnitName("player");
+        Questie:Debug(DEBUG_DEVELOP, "[QuestieComms]", "Sending: QC_ID_BROADCAST_FULL_QUESTLIST")
         _QuestieComms:broadcast(self.data);
       end,
       read = function(self, remoteQuestList)
+        if(remoteQuestList == nil) then
+           Questie:Error("[QuestieComms]", "QC_ID_BROADCAST_FULL_QUESTLIST", "remoteQuestList = nil");
+        end
         --These are not strictly needed but helps readability.
         local playerName = remoteQuestList.playerName;
         local questList = remoteQuestList.rawQuestList;
 
-        -- Maybe we shouldn't send this here?
-        local major, minor, patch = table.unpack(remoteQuestList.version);
+        Questie:Debug(DEBUG_DEVELOP, "[QuestieComms]", "Received: QC_ID_BROADCAST_FULL_QUESTLIST", "Player:", playerName)
+
         if questList then
             -- Create empty player.
             if not _QuestieComms.remoteQuestLogs[playerName] then
@@ -180,6 +231,18 @@ _QuestieComms.packets = {
         end
       end
   },
+  [_QuestieComms.QC_ID_REQUEST_FULL_QUESTLIST] = {
+      write = function(self)
+        -- Write the sending players name into the data.
+        self.data.playerName = UnitName("player");
+        Questie:Debug(DEBUG_DEVELOP, "[QuestieComms]", "Sending: QC_ID_REQUEST_FULL_QUESTLIST")
+        _QuestieComms:broadcast(self.data);
+      end,
+      read = function(self)
+        Questie:Debug(DEBUG_DEVELOP, "[QuestieComms]", "Received: QC_ID_REQUEST_FULL_QUESTLIST")
+        Questie:SendMessage("QC_ID_BROADCAST_FULL_QUESTLIST");
+      end
+  },
 }
 
 -- Renamed Write function
@@ -188,7 +251,9 @@ function _QuestieComms:broadcast(packet)
     if(not packet.priority) then
       packet.priority = "BULK";
     end
-    local compressedData = QuestieCompress:Compress(packet);
+    
+    local compressedData = QuestieSerializer:Serialize(packet);--QuestieCompress:Compress(packet);
+    Questie:Debug(DEBUG_DEVELOP,"[QuestieComms]", "Packet length", string.len(compressedData));
     if packet.writeMode == _QuestieComms.QC_WRITE_WHISPER then
         Questie:Debug(DEBUG_DEVELOP,"send(|cFFFF2222" .. compressedData .. "|r)")
         Questie:SendCommMessage(_QuestieComms.prefix, compressedData, packet.writeMode, packet.target, packet.priority)
@@ -207,8 +272,8 @@ end
 function _QuestieComms:OnCommReceived(prefix, message, distribution, sender)
     Questie:Debug(DEBUG_DEVELOP, "recv(|cFF22FF22" .. message .. "|r)")
     if prefix == _QuestieComms.prefix and sender then
-      local decompressedData = QuestieCompress:Decompress(message);
-      QuestieComms.packets[message.messageId].read(decompressedData);
+      local decompressedData = QuestieSerializer:Deserialize(message);--QuestieCompress:Decompress(message);
+      QuestieComms.packets[decompressedData.messageId].read(decompressedData);
     end
 end
 

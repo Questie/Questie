@@ -45,6 +45,7 @@ Locale\ruRU\locale.xml
 Modules\Libs\QuestieLib.lua
 #Modules\Libs\QuestieCompress.lua
 Modules\Libs\QuestiePlayer.lua
+Modules\Libs\QuestieSerializer.lua
 
 ##Modules
 Modules\QuestieAuto.lua
@@ -56,7 +57,7 @@ Modules\QuestieQuest.lua
 Modules\QuestieNameplate.lua
 Modules\QuestieCoordinates.lua
 Modules\QuestieJourney.lua
-#Modules\QuestieComms.lua
+Modules\QuestieComms.lua
 Modules\QuestieSearchResults.lua
 Modules\QuestieSearch.lua
 Modules\QuestieTracker.lua

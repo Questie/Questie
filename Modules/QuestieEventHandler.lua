@@ -160,6 +160,29 @@ function QuestieEventHandler:GROUP_ROSTER_UPDATE()
     end
 end
 
+function QuestieEventHandler:GROUP_JOINED()
+    Questie:Debug(DEBUG_DEVELOP, "GROUP_JOINED")
+    --Request other players log.
+    --Questie:SendMessage("QC_ID_REQUEST_FULL_QUESTLIST");
+    local checkTimer = nil;
+    --We want this to be fairly quick.
+    checkTimer = C_Timer.NewTicker(0.1, function()
+        local partyPending = UnitInParty("player");
+        local inParty = UnitInParty("party1");
+        local inRaid = UnitInRaid("raid1");
+        if(partyPending) then
+            if(inParty or inRaid) then
+                Questie:Debug(DEBUG_DEVELOP, "[QuestieEventHandler]", "Player joined party/raid, ask for questlogs");
+                Questie:SendMessage("QC_ID_REQUEST_FULL_QUESTLIST");
+                checkTimer:Cancel();
+            end
+        else
+            Questie:Debug(DEBUG_DEVELOP, "[QuestieEventHandler]", "Player no longer in a party or pending invite. Cancel timer");
+            checkTimer:Cancel();
+        end
+    end)
+end
+
 
 --Old unused code
 
