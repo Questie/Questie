@@ -221,6 +221,9 @@ QuestieCorrections.questFixes = {
     [1708] = {
         [QuestieDB.questKeys.preQuestSingle] = {}, -- #1230
     },
+    [1710] = {
+        [QuestieDB.questKeys.preQuestSingle] = {}, -- #1231
+    },
     -- Profession quests
     [90] = {
         [QuestieDB.questKeys.requiredSkill] = {185, 50}
