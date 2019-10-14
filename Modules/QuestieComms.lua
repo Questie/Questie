@@ -185,7 +185,7 @@ _QuestieComms.packets = {
         Questie:Debug(DEBUG_DEVELOP, "[QuestieComms]", "Sending: QC_ID_BROADCAST_QUEST_UPDATE")
         _QuestieComms:broadcast(self.data);
       end,
-      read = function(self, remoteQuestPacket)
+      read = function(remoteQuestPacket)
         if(remoteQuestPacket == nil) then
            Questie:Error("[QuestieComms]", "QC_ID_BROADCAST_QUEST_UPDATE", "remoteQuestPacket = nil");
         end
@@ -215,7 +215,7 @@ _QuestieComms.packets = {
         Questie:Debug(DEBUG_DEVELOP, "[QuestieComms]", "Sending: QC_ID_BROADCAST_FULL_QUESTLIST")
         _QuestieComms:broadcast(self.data);
       end,
-      read = function(self, remoteQuestList)
+      read = function(remoteQuestList)
         if(remoteQuestList == nil) then
            Questie:Error("[QuestieComms]", "QC_ID_BROADCAST_FULL_QUESTLIST", "remoteQuestList = nil");
         end
