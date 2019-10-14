@@ -1241,25 +1241,24 @@ end]]--
 
 -- Link contains test bench for regex in lua.
 -- https://hastebin.com/anodilisuw.bash
-local QUEST_MONSTERS_KILLED = QuestieLib:SanitizePattern(QUEST_MONSTERS_KILLED, true)
-local QUEST_ITEMS_NEEDED = QuestieLib:SanitizePattern(QUEST_ITEMS_NEEDED, true)
-local QUEST_OBJECTS_FOUND = QuestieLib:SanitizePattern(QUEST_OBJECTS_FOUND, true)
+local L_QUEST_MONSTERS_KILLED = QuestieLib:SanitizePattern(QUEST_MONSTERS_KILLED, true)
+local L_QUEST_ITEMS_NEEDED = QuestieLib:SanitizePattern(QUEST_ITEMS_NEEDED, true)
+local L_QUEST_OBJECTS_FOUND = QuestieLib:SanitizePattern(QUEST_OBJECTS_FOUND, true)
 function QuestieQuest:GetAllLeaderBoardDetails(questId)
     local questObjectives = C_QuestLog.GetQuestObjectives(questId)-- or {};
-    local locale = GetLocale();
 
     --Questie:Print(questId)
     for objectiveIndex, objective in pairs(questObjectives) do
         if(objective.text) then
             local text = objective.text;
             if(objective.type == "monster") then
-                local i, j, monsterName = strfind(text, QUEST_MONSTERS_KILLED)
+                local i, j, monsterName = strfind(text, L_QUEST_MONSTERS_KILLED)
                 text = monsterName;
             elseif(objective.type == "item") then
-                local i, j, itemName = strfind(text, QUEST_ITEMS_NEEDED)
+                local i, j, itemName = strfind(text, L_QUEST_ITEMS_NEEDED)
                 text = itemName;
             elseif(objective.type == "object") then
-                local i, j, objectName = strfind(text, QUEST_OBJECTS_FOUND)
+                local i, j, objectName = strfind(text, L_QUEST_OBJECTS_FOUND)
                 text = objectName;
             end
             if(text ~= nil) then
