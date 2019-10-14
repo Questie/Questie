@@ -1086,10 +1086,10 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                 local oDesc = string.lower(objective.text) or nil
                 --
                 if(bestIndex ~= -1 and objectiveDB) then
-                    Questie:Debug(DEBUG_DEVELOP, "----> Objective", objective.text, "Dist:", bestDistance)
-                    Questie:Debug(DEBUG_DEVELOP, "-->ID:", objectiveDB.Id)
-                    Questie:Debug(DEBUG_DEVELOP, "-->Description:", oDesc)
-                    Questie:Debug(DEBUG_DEVELOP, "-->Found:", tempName)
+                    Questie:Debug(DEBUG_SPAM, "----> Objective", objective.text, "Dist:", bestDistance)
+                    Questie:Debug(DEBUG_SPAM, "-->ID:", objectiveDB.Id)
+                    Questie:Debug(DEBUG_SPAM, "-->Description:", oDesc)
+                    Questie:Debug(DEBUG_SPAM, "-->Found:", tempName)
                     Quest.Objectives[objectiveIndex].Id = objectiveDB.Id;
                     Quest.Objectives[objectiveIndex].Coordinates = objectiveDB.Coordinates;
                     objectiveDB.ObjectiveRef = Quest.Objectives[objectiveIndex];
