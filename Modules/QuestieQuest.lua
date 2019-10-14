@@ -1241,9 +1241,9 @@ end]]--
 
 -- Link contains test bench for regex in lua.
 -- https://hastebin.com/anodilisuw.bash
-local L_QUEST_MONSTERS_KILLED = QuestieLib:SanitizePattern(QUEST_MONSTERS_KILLED, true)
-local L_QUEST_ITEMS_NEEDED = QuestieLib:SanitizePattern(QUEST_ITEMS_NEEDED, true)
-local L_QUEST_OBJECTS_FOUND = QuestieLib:SanitizePattern(QUEST_OBJECTS_FOUND, true)
+local L_QUEST_MONSTERS_KILLED = QuestieLib:SanitizePattern(QUEST_MONSTERS_KILLED)
+local L_QUEST_ITEMS_NEEDED = QuestieLib:SanitizePattern(QUEST_ITEMS_NEEDED)
+local L_QUEST_OBJECTS_FOUND = QuestieLib:SanitizePattern(QUEST_OBJECTS_FOUND)
 function QuestieQuest:GetAllLeaderBoardDetails(questId)
     local questObjectives = C_QuestLog.GetQuestObjectives(questId)-- or {};
 
@@ -1252,7 +1252,7 @@ function QuestieQuest:GetAllLeaderBoardDetails(questId)
         if(objective.text) then
             local text = objective.text;
             if(objective.type == "monster") then
-                local i, j, monsterName = strfind(text, L_QUEST_MONSTERS_KILLED)                
+                local i, j, monsterName = strfind(text, L_QUEST_MONSTERS_KILLED)
                 text = monsterName;
             elseif(objective.type == "item") then
                 local i, j, itemName = strfind(text, L_QUEST_ITEMS_NEEDED)

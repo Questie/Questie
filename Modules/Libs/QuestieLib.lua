@@ -170,9 +170,31 @@ function QuestieLib:PlayerInGroup(playerName)
     return nil;
 end
 
--- Credits to Shagu, why reinvent the wheel.
+-- Credits to Shagu and pfQuest, why reinvent the wheel.
+-- https://gitlab.com/shagu/pfQuest/blob/master/compat/pfUI.lua
+local sanitize_cache = {}
+function QuestieLib:SanitizePattern(pattern)
+  if not sanitize_cache[pattern] then
+    local ret = pattern
+    -- escape magic characters
+    ret = gsub(ret, "([%+%-%*%(%)%?%[%]%^])", "%%%1")
+    -- remove capture indexes
+    ret = gsub(ret, "%d%$","")
+    -- catch all characters
+    ret = gsub(ret, "(%%%a)","%(%1+%)")
+    -- convert all %s to .+
+    ret = gsub(ret, "%%s%+",".+")
+    -- set priority to numbers over strings
+    ret = gsub(ret, "%(.%+%)%(%%d%+%)","%(.-%)%(%%d%+%)")
+    -- cache it
+    sanitize_cache[pattern] = ret
+  end
+
+  return sanitize_cache[pattern]
+end
 -- https://github.com/shagu/pfQuest/commit/01177f2eb2926336a1ad741a6082affe78ae7c20
-function QuestieLib:SanitizePattern(pattern, excludeNumberCapture)
+--[[
+    function QuestieLib:SanitizePattern(pattern, excludeNumberCapture)
   -- escape brackets
   pattern = gsub(pattern, "%(", "%%(")
   pattern = gsub(pattern, "%)", "%%)")
@@ -194,3 +216,4 @@ function QuestieLib:SanitizePattern(pattern, excludeNumberCapture)
 
   return pattern
 end
+]]--
