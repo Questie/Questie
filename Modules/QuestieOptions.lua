@@ -37,20 +37,11 @@ end
 
 -- Open the configuration window
 function QuestieOptions:OpenConfigWindow()
-
-    if not _QuestieOptions.configFrame then
-        _QuestieOptions.configFrame = AceGUI:Create("Frame");
-        _QuestieOptions.configFrame:Hide();
-
-        _G["QuestieConfigFrame"] = _QuestieOptions.configFrame.frame;
-        table.insert(UISpecialFrames, "QuestieConfigFrame");
-    end
-
-    if not _QuestieOptions.configFrame:IsShown() then
-        PlaySound(882);
-        LibStub("AceConfigDialogQuestie-3.0"):Open("Questie", _QuestieOptions.configFrame)
+    if not QuestieConfigFrame:IsShown() then
+        PlaySound(882)
+        QuestieConfigFrame:Show()
     else
-        _QuestieOptions.configFrame:Hide();
+        QuestieConfigFrame:Hide()
     end
 end
 
@@ -151,6 +142,7 @@ _QuestieOptions.defaults = {
       mapCoordinatePrecision = 1,
       dbmHUDEnable = true,
       dbmHUDShowAlert = true,
+      DBMHUDRefresh = 0.03,
       DBMHUDZoom = 100,
       dbmHUDRadius = 3,
       dbmHUDShowQuest = true,
@@ -196,8 +188,8 @@ _QuestieOptions.defaults = {
           lowlevel = false,
           journey = {},
           searchType = 1,
-          --autoaccept = false,
-          --autocomplete = false
+          autoaccept = false,
+          autocomplete = false
       },
       profile = {
           minimap = {
@@ -403,6 +395,34 @@ _QuestieOptions.optionsGUI = {
                             QuestieTracker:Update()
                         end
                     end
+                },
+                autoaccept = {
+                    type = "toggle",
+                    order = 8.1,
+                    name = "Auto Accept Quests",
+                    desc = "Enable or disable Questie auto-accepting quests.",
+                    width = "full",
+                    get =	function ()
+                                return Questie.db.char.autoaccept
+                            end,
+                    set =	function (info, value)
+                                Questie.db.char.autoaccept = value
+                                Questie:debug(DEBUG_DEVELOP, "Auto Accept toggled to:", value)
+                            end,
+                },
+                autocomplete = {
+                    type = "toggle",
+                    order = 8.1,
+                    name = "Auto Complete",
+                    desc = "Enable or disable Questie auto-complete quests.",
+                    width = "full",
+                    get =	function ()
+                                return Questie.db.char.autocomplete
+                            end,
+                    set =	function (info, value)
+                                Questie.db.char.autocomplete = value
+                                Questie:debug(DEBUG_DEVELOP, "Auto Complete toggled to:", value)
+                            end,
                 },
                 --Spacer_A = _QuestieOptions:Spacer(9),
                 quest_options = {
@@ -799,6 +819,7 @@ _QuestieOptions.optionsGUI = {
 		dbm_hud_tab = {
             name = function() return QuestieLocale:GetUIString('DBM_HUD_TAB') end,
             type = "group",
+            disabled = function() if DBMHudMap then return false else return true end end,
             order = 13.2,
             args = {
                 hud_options = {
@@ -837,6 +858,22 @@ _QuestieOptions.optionsGUI = {
                         SetGlobalOptionLocal(info, value)
                         QuestieDBMIntegration:SoftReset()
                     end,
+                },
+                DBMHUDRefresh = {
+                    type = "range",
+                    disabled = function() if DBMHudMap and not DBMHudMap.Version then return true else return false end end,
+                    order = 4,
+                    name = function() return QuestieLocale:GetUIString('DBM_HUD_REFRESH') end,
+                    desc = function() return QuestieLocale:GetUIString('DBM_HUD_REFRESH_DESC', _QuestieOptions.defaults.global.DBMHUDRefresh) end,
+                    width = "double",
+                    min = 0.01,
+                    max = 0.05,
+                    step = 0.01,
+                    get = GetGlobalOptionLocal,
+                    set = function (info, value)
+                                SetGlobalOptionLocal(info, value)
+                                QuestieDBMIntegration:ChangeRefreshRate(value)
+                            end,
                 },
                 Spacer_A = _QuestieOptions:Spacer(6),
                 mapnote_options = {
@@ -1413,6 +1450,18 @@ _QuestieOptions.optionsGUI = {
                     set =    function (info, value)
                                 Questie.db.global.debugEnabledPrint = value
                             end,
+                },
+                showQuestIDs = {
+                    type = "toggle",
+                    order = 7,
+                    name = function() return QuestieLocale:GetUIString('ENABLE_TOOLTIPS_QUEST_IDS') end,
+                    desc = function() return QuestieLocale:GetUIString('ENABLE_TOOLTIPS_QUEST_LEVEL_IDS') end,
+                    width = "full",
+                    get = function() return Questie.db.global.enableTooltipsQuestID end,
+                    set = function (info, value)
+                        Questie.db.global.enableTooltipsQuestID = value
+                        QuestieTracker:Update()
+                    end
                 },
 
                 Spacer_A = _QuestieOptions:Spacer(10),

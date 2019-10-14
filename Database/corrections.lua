@@ -12,17 +12,20 @@
 QuestieCorrections = {}
 
 QuestieCorrections.questFixes = {
+    [5] = {
+        [QuestieDB.questKeys.preQuestSingle] = {}, -- #1198
+    },
+    [639] = {
+        [QuestieDB.questKeys.preQuestSingle] = {}, -- #1205
+    },
     [2201] = {
         [QuestieDB.questKeys.childQuests] = {3375},
     },
     [3375] = {
-        [QuestieDB.questKeys.parentQuest] = {2201},
+        [QuestieDB.questKeys.parentQuest] = 2201,
     },
     [4763] = {
         [QuestieDB.questKeys.requiredSourceItems] = {12347,12341,12342,12343,}, -- #798
-    },
-    [6132] = {
-        [QuestieDB.questKeys.requiredRaces] = 77,
     },
     [5721] = {
         [QuestieDB.questKeys.requiredSourceItems] = {177528,}, -- 857
@@ -35,6 +38,18 @@ QuestieCorrections.questFixes = {
     },
     [369] = {
         [QuestieDB.questKeys.requiredRaces] = 178, -- #888
+    },
+    [165] = {
+        [QuestieDB.questKeys.exclusiveTo] = {148}, --#1173
+    },
+    [148] = {
+        [QuestieDB.questKeys.preQuestSingle] = {}, -- #1173
+    },
+    [310] = {
+        [QuestieDB.questKeys.childQuests] = {403},
+    },
+    [403] = {
+        [QuestieDB.questKeys.parentQuest] = 310,
     },
     [841] = {
         [QuestieDB.questKeys.specialFlags] = 1,
@@ -56,6 +71,15 @@ QuestieCorrections.questFixes = {
     [33] = {
         [QuestieDB.questKeys.preQuestSingle] = {},
         [QuestieDB.questKeys.exclusiveTo] = {5261},
+    },
+    [1638] = {
+        [QuestieDB.questKeys.exclusiveTo] = {},
+    },
+    [1679] = {
+        [QuestieDB.questKeys.exclusiveTo] = {},
+    },
+    [1684] = {
+        [QuestieDB.questKeys.exclusiveTo] = {},
     },
     [535] = {
         [QuestieDB.questKeys.exclusiveTo] = {533}, -- #1134
@@ -97,12 +121,15 @@ QuestieCorrections.questFixes = {
     [4494] = {
         [QuestieDB.questKeys.preQuestSingle] = {82}, -- #942
     },
+    [4496] = {
+        [QuestieDB.questKeys.preQuestSingle] = {4493,4494},
+    },
     [282] = {
         [QuestieDB.questKeys.exclusiveTo] = {287}, -- #881
     },
     [1127] = {
         [QuestieDB.questKeys.specialFlags] = 1, -- #884
-        [QuestieDB.questKeys.parentQuest] = {1119}, -- #1084
+        [QuestieDB.questKeys.parentQuest] = 1119, -- #1084
     },
     [1119] = {
         [QuestieDB.questKeys.childQuests] = {1127}, -- #1084
@@ -117,10 +144,10 @@ QuestieCorrections.questFixes = {
         [QuestieDB.questKeys.startedBy] = {nil,{142122,150075,},nil,}, -- #1081
     },
     [3449] = {
-        [QuestieDB.questKeys.childQuests] = {3451}, -- #1008
+        [QuestieDB.questKeys.childQuests] = {3483}, -- #1008
     },
-    [3451] = {
-        [QuestieDB.questKeys.parentQuest] = {3449}, -- #1008
+    [3483] = {
+        [QuestieDB.questKeys.parentQuest] = 3449, -- #1008
         [QuestieDB.questKeys.specialFlags] = 1, -- #1131
     },
     [7633] = {
@@ -136,17 +163,35 @@ QuestieCorrections.questFixes = {
     [5060] = {
         [QuestieDB.questKeys.preQuestSingle] = {5059}, -- #922
     },
+    [6609] = {
+        [QuestieDB.questKeys.exclusiveTo] = {6607}, -- #1154
+    },
+    [6608] = {
+        [QuestieDB.questKeys.exclusiveTo] = {6607}, -- #1186
+    },
+    [1879] = {
+        [QuestieDB.questKeys.exclusiveTo] = {}, -- #1192
+    },
+    [1860] = {
+        [QuestieDB.questKeys.exclusiveTo] = {}, -- #1192
+    },
+    [1880] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1861}, -- #1192
+    },
+    [1861] = {
+        [QuestieDB.questKeys.exclusiveTo] = {1880}, -- #1192
+    },
     [1654] = {
         [QuestieDB.questKeys.childQuests] = {1442,1655},
     },
     [1442] = {
-        [QuestieDB.questKeys.parentQuest] = {1654},
+        [QuestieDB.questKeys.parentQuest] = 1654,
     },
     [1655] = {
-        [QuestieDB.questKeys.parentQuest] = {1654},
+        [QuestieDB.questKeys.parentQuest] = 1654,
     },
     [926] = {
-        [QuestieDB.questKeys.parentQuest] = {924}, -- #806
+        [QuestieDB.questKeys.parentQuest] = 924, -- #806
         [QuestieDB.questKeys.preQuestSingle] = {809}, --#606
     },
     [930] = {
@@ -155,18 +200,17 @@ QuestieCorrections.questFixes = {
     [1131] = {
         [QuestieDB.questKeys.preQuestSingle] = {}, -- #1065
     },
-    [1282] = {
-        [QuestieDB.questKeys.exclusiveTo] = {}, -- #875
-    },
     [1302] = {
         [QuestieDB.questKeys.preQuestSingle] = {}, -- #889
-        [QuestieDB.questKeys.exclusiveTo] = {}, -- #875
     },
     [1598] = {
         [QuestieDB.questKeys.exclusiveTo] = {1599}, -- #999
     },
     [1599] = {
         [QuestieDB.questKeys.exclusiveTo] = {1598}, -- #999
+    },
+    [1559] = {
+        [QuestieDB.questKeys.preQuestSingle] = {705}, -- #1164
     },
     [1470] = {
         [QuestieDB.questKeys.exclusiveTo] = {1485}, -- #999
@@ -313,7 +357,7 @@ QuestieCorrections.questFixes = {
         [QuestieDB.questKeys.childQuests] = {579},
     },
     [579] = {
-        [QuestieDB.questKeys.parentQuest] = {578},
+        [QuestieDB.questKeys.parentQuest] = 578,
     },
     [1085] = {
         [QuestieDB.questKeys.preQuestSingle] = {1070},
@@ -336,107 +380,108 @@ QuestieCorrections.questFixes = {
     [5421] = {
         [QuestieDB.questKeys.questLevel] = 25,
     },
-    --Wool/Silk/Mageweave/Runecloth donation
-    [7791] = {
+    -- fix two "The Hunter's Path" quests being started by "Sian'dur" in Orgrimmar
+    -- this one is now started by "Kary Thunderhorn" in Thunder Bluff
+    [6070] = {
+        [QuestieDB.questKeys.startedBy] = {{3038,},nil,nil,},
+    },
+    -- Salve via Hunting/Mining/Gathering/Skinning/Disenchanting quests
+    -- Alliance repeatable
+    [4103] = {
+        [QuestieDB.questKeys.preQuestSingle] = {5882,5883,5884,5885,5886,},
         [QuestieDB.questKeys.specialFlags] = 1,
     },
-    [7808] = {
+    [4104] = {
+        [QuestieDB.questKeys.preQuestSingle] = {5882,5883,5884,5885,5886,},
         [QuestieDB.questKeys.specialFlags] = 1,
     },
-    [7835] = {
+    [4105] = {
+        [QuestieDB.questKeys.preQuestSingle] = {5882,5883,5884,5885,5886,},
         [QuestieDB.questKeys.specialFlags] = 1,
     },
-    [7834] = {
+    [4106] = {
+        [QuestieDB.questKeys.preQuestSingle] = {5882,5883,5884,5885,5886,},
         [QuestieDB.questKeys.specialFlags] = 1,
     },
-    [7831] = {
+    [4107] = {
+        [QuestieDB.questKeys.preQuestSingle] = {5882,5883,5884,5885,5886,},
         [QuestieDB.questKeys.specialFlags] = 1,
     },
-    [7827] = {
-        [QuestieDB.questKeys.specialFlags] = 1,
+    -- Horde repeatable
+    [4108] = {
+        [QuestieDB.questKeys.requiredRaces] = 178,
+        [QuestieDB.questKeys.preQuestSingle] = {5887,5888,5889,5890,5891,},
     },
-    [7824] = {
-        [QuestieDB.questKeys.specialFlags] = 1,
+    [4109] = {
+        [QuestieDB.questKeys.requiredRaces] = 178,
+        [QuestieDB.questKeys.preQuestSingle] = {5887,5888,5889,5890,5891,},
     },
-    [7823] = {
-        [QuestieDB.questKeys.specialFlags] = 1,
+    [4110] = {
+        [QuestieDB.questKeys.requiredRaces] = 178,
+        [QuestieDB.questKeys.preQuestSingle] = {5887,5888,5889,5890,5891,},
     },
-    [7822] = {
-        [QuestieDB.questKeys.specialFlags] = 1,
+    [4111] = {
+        [QuestieDB.questKeys.requiredRaces] = 178,
+        [QuestieDB.questKeys.preQuestSingle] = {5887,5888,5889,5890,5891,},
     },
-    [7821] = {
-        [QuestieDB.questKeys.specialFlags] = 1,
+    [4112] = {
+        [QuestieDB.questKeys.requiredRaces] = 178,
+        [QuestieDB.questKeys.preQuestSingle] = {5887,5888,5889,5890,5891,},
     },
-    [7818] = {
-        [QuestieDB.questKeys.specialFlags] = 1,
+    -- Alliance non repeatable
+    [5882] = {
+        [QuestieDB.questKeys.requiredRaces] = 77,
+        [QuestieDB.questKeys.exclusiveTo] = {5883,5884,5885,5886,},
     },
-    [7817] = {
-        [QuestieDB.questKeys.specialFlags] = 1,
+    [5883] = {
+        [QuestieDB.questKeys.requiredRaces] = 77,
+        [QuestieDB.questKeys.exclusiveTo] = {5882,5884,5885,5886,},
     },
-    [7814] = {
-        [QuestieDB.questKeys.specialFlags] = 1,
+    [5884] = {
+        [QuestieDB.questKeys.requiredRaces] = 77,
+        [QuestieDB.questKeys.exclusiveTo] = {5882,5883,5885,5886,},
     },
-    [7811] = {
-        [QuestieDB.questKeys.specialFlags] = 1,
+    [5885] = {
+        [QuestieDB.questKeys.requiredRaces] = 77,
+        [QuestieDB.questKeys.exclusiveTo] = {5882,5883,5884,5886,},
     },
-    [7809] = {
-        [QuestieDB.questKeys.specialFlags] = 1,
+    [5886] = {
+        [QuestieDB.questKeys.requiredRaces] = 77,
+        [QuestieDB.questKeys.exclusiveTo] = {5882,5883,5884,5885,},
     },
-    [7805] = {
-        [QuestieDB.questKeys.specialFlags] = 1,
+    -- Horde non repeatable
+    [5887] = {
+        [QuestieDB.questKeys.exclusiveTo] = {5888,5889,5890,5891,},
+        [QuestieDB.questKeys.specialFlags] = 0,
     },
-    [7792] = {
-        [QuestieDB.questKeys.specialFlags] = 1,
+    [5888] = {
+        [QuestieDB.questKeys.exclusiveTo] = {5887,5889,5890,5891,},
+        [QuestieDB.questKeys.specialFlags] = 0,
     },
-    [7804] = {
-        [QuestieDB.questKeys.specialFlags] = 1,
+    [5889] = {
+        [QuestieDB.questKeys.exclusiveTo] = {5887,5888,5890,5891,},
+        [QuestieDB.questKeys.specialFlags] = 0,
     },
-    [7803] = {
-        [QuestieDB.questKeys.specialFlags] = 1,
+    [5890] = {
+        [QuestieDB.questKeys.exclusiveTo] = {5887,5888,5889,5891,},
+        [QuestieDB.questKeys.specialFlags] = 0,
     },
-    [7800] = {
-        [QuestieDB.questKeys.specialFlags] = 1,
+    [5891] = {
+        [QuestieDB.questKeys.exclusiveTo] = {5887,5888,5889,5890,},
+        [QuestieDB.questKeys.specialFlags] = 0,
     },
-    [7799] = {
-        [QuestieDB.questKeys.specialFlags] = 1,
-    },
-    [7798] = {
-        [QuestieDB.questKeys.specialFlags] = 1,
-    },
-    [7795] = {
-        [QuestieDB.questKeys.specialFlags] = 1,
-    },
-    [7794] = {
-        [QuestieDB.questKeys.specialFlags] = 1,
-    },
-    [7793] = {
-        [QuestieDB.questKeys.specialFlags] = 1,
-    },
-    [7833] = {
-        [QuestieDB.questKeys.specialFlags] = 1,
-    },
-    [7826] = {
-        [QuestieDB.questKeys.specialFlags] = 1,
-    },
-    [7820] = {
-        [QuestieDB.questKeys.specialFlags] = 1,
-    },
-    [7813] = {
-        [QuestieDB.questKeys.specialFlags] = 1,
-    },
-    [7807] = {
-        [QuestieDB.questKeys.specialFlags] = 1,
-    },
-    [7802] = {
-        [QuestieDB.questKeys.specialFlags] = 1,
-    },
-    [7836] = {
-        [QuestieDB.questKeys.specialFlags] = 1,
-    },
+    ------------
 }
 
 QuestieCorrections.npcFixes = {
     [4360] = {'Mirefin Warrior',1208,1257,37,39,0,{},nil,15,nil,nil}, -- TODO: remove this after the db is fixed!!! This is just to fix tooltips
+    [5955] = {
+        [QuestieDB.npcKeys.spawns] = {[440]={{31.8,74.15},{29.48,60.51},},},
+    },
+    [13301] = {
+        [QuestieDB.npcKeys.spawns] = {[1377]={{60.2,52.4},{60.2,52.6},},},
+        [QuestieDB.npcKeys.zoneID] = 1377,
+    },
     [11625] = {
         [QuestieDB.npcKeys.spawns] = {[405]={{67,37},},},
     },
@@ -471,6 +516,9 @@ QuestieCorrections.npcFixes = {
     [6569] = {
         [QuestieDB.npcKeys.spawns] = {[1537]={{69.5,50.6},},}, -- #708
         [QuestieDB.npcKeys.zoneID] = 1537, -- #708
+    },
+    [4967] = {
+        [QuestieDB.npcKeys.spawns] = {[15]={{45.2,24.4},{59.6,41.2},{66.4,49.2},},},
     },
     -- Copy spawns of unzapped mobs to zapped ones to fix #892
     [14603] = {
@@ -582,7 +630,6 @@ QuestieCorrections.objectFixes = {
     [167] = {"Abercrombie's Crate",nil,nil,{[10]={{33.42,76.35}}},10},
     [19021] = {"Rusty Chest",nil,nil,{[331]={{69.04,84.77},{77.03,73.8},{79.08,74.48},{70.53,73.58},{70.68,85.06},{69.29,82.67},{71.29,83.83},{77.97,65.82},{77.38,69.77},{77.06,68.3},{69.87,74.11},{78.3,73.6},{76.22,67.48},{76.62,70.67},{76.77,72.19},{78.31,69.73},{68.24,77.68},{77.68,72.63},{74.77,69.6},{78.26,64.58},{70.72,75.24},{74.23,69.47},{74.36,70.21},{75.88,73.52},{75.87,69.99},{69.89,85.32},{74.34,77.92},{70.1,76.08},{74.58,77.19},{74.67,75.39},{76.67,68.46},{68.94,84.86},{74.41,73.38},{74.46,75.56},{73.09,73.23},{71.04,73.8},{71.45,76.97},{73.68,76.95},{72.63,76.86},{70.77,75.99},{72.51,75.12}}},331},
     [2867] = {"Excavation Supply Crate",nil,nil,{[3]={{66.6,22}}},3}, -- position was slightly off
-    [154357] = {"Glinting Mud",nil,nil,{[44]={{38.04,54.49},{19.16,51.74},{34.13,53.37},{29.52,53.72},{21.79,53.17},},},44,},
     [144052] = {"Sandsorrow Watch Water Hole",nil,nil,{[440]={{39,29}}},440,},
     [148513] = {"Tablet of Jin'yael",nil,nil,{[16]={{34,59.9},{35.5,49.5},{36.3,60.6},{36.44,54.05},{36.26,62.2},{37.43,60.66},{38.32,53.41},{38.4,53.5},{38.7,63.3},{42.24,64.63},},},16,},
     [148514] = {"Tablet of Markri",nil,nil,{[16]={{34.2,57.8},{34.65,55.61},{35.7,56.51},{35.9,59},{36.2,52.6},{37.92,47.75},{39.3,57.6},{39.8,48.8},{39.84,45.88},{39.99,64.19},{40.2,45},},},16,},
@@ -590,6 +637,9 @@ QuestieCorrections.objectFixes = {
     [148516] = {"Tablet of Beth'Amara",nil,nil,{[16]={{34.1,50.5},{34.3,55.2},{35.19,58.02},{36,57.6},{36.8,60.5},{37.07,51.86},{38.4,60.3},{38.91,53.46},{39.54,64.32},{39.6,48.14},},},16,},
     [177241] = {"Araj's Phylactery",nil,nil,{[28]={{45.27,69.21},},},28,},
     [179908] = {"Slagtree's Lost Tools",nil,nil,{[47]={{53.3,38.8},{57.4,42.6},{57.5,42.6},{66.4,44.8},{71,48.6},{72.6,52.9},},},47,},
+    [154357] = {
+        [QuestieDB.objectKeys.spawns] = {[44]={{19.3,51.8},{21.9,53.2},{24.1,54.6},{25.9,54.1},{26.4,51.3},{26.6,51.4},{28,56},{27.83,56.07},{30.8,54.3},{33.6,55.2},{36.8,54.3},{37.9,54.5},},{38.04,54.49},{19.16,51.74},{34.13,53.37},{29.52,53.72},{21.79,53.17},}, -- #1176
+    },
     [2744] = {
         [QuestieDB.objectKeys.spawns] = {[33]={{23.6,23.4},{23.6,23.5},{23.7,27.2},{23.7,29.8},{23.8,29.1},{24,25.4},{24,25.5},{24.4,28},{24.8,29.5},{24.9,29.1},{25.2,26.9},{25.3,25},{25.3,26.4},{25.3,27.5},{25.4,22.7},{25.4,24.1},{25.7,22.9},{25.7,25.3},{25.8,24.4},{25.8,28.3},{25.9,29.4},{25.9,30.4},{26.1,30.6},{26.3,26.1},{26.4,27.1},{26.5,29.4},{26.5,29.5},{26.6,24.5},{26.8,30.8},{27.1,23.1},{27.1,26.5},{27.2,26.3},{27.3,24},{27.3,27.9},{27.5,24.2},{27.6,25.6},{27.6,29.2},{27.8,23},{27.8,25.3},{27.8,27.7},{28,26.7},},},
     },
@@ -599,6 +649,19 @@ QuestieCorrections.objectFixes = {
     },
     [177784] = {
         [QuestieDB.objectKeys.spawns] = {[405]={{24.6,44.1},{25.4,47.8},{25.7,38.9},{26.2,36.7},{28.2,34.1},{29.7,36.7},{30,26.1},{30.1,29.1},{30.6,31.9},{30.6,34.3},{30.8,24.4},{32,30.5},{32.7,25.4},{32.8,35.2},{33,28.6},{33.9,33.2},{34.1,27.5},{34.1,30.6},{34.2,27.4},{34.3,23.2},{35.2,34.7},{35.4,25},{35.5,25},{34.11,30.7},{35.26,34.72},{32.8,35.3},{30.54,34.21},{34.15,27.46},{31.93,30.58},{32.94,28.58},{35.37,25.02},{32.69,25.26},{30.84,24.33},{34.32,23.12},{33.88,33.29},},},
+    },
+    [19869] = {
+        [QuestieDB.objectKeys.spawns] = {[400]={{88.42,81.04},{87.27,73.47},{86.89,70.01},{87.86,76.59},{88.0,79.88},{83.75,86.66},{88.22,65.57},{78.4,89.97},{76.31,89.51},{75.39,56.37},{71.01,56.34},{69.6,61.3},{69.9,59},{70,78.4},{70,78.5},{70.1,60.2},{70.1,61.8},{70.1,63.1},{70.1,64.2},{70.2,57.2},{70.2,58},{70.3,66.2},{70.5,59.1},{70.6,77.1},{70.9,79.1},{71,56.4},{71,74.4},{71,74.5},{71.1,72},{71.4,57},{71.4,64.4},{71.4,64.5},{71.6,64.4},{71.6,64.5},{71.6,66.7},{71.6,78},{71.7,68.4},{71.7,68.7},{71.7,80.1},{72.3,56.5},{72.3,62.8},{72.3,70.3},{72.3,76.9},{72.4,56.4},{72.4,72.3},{72.4,74.4},{72.4,74.6},{72.4,80.7},{72.5,72.2},{72.5,72.5},{72.5,80.7},{73.1,55.6},{73.1,59.8},{73.2,55.4},{73.2,68.5},{73.4,57.9},{73.5,57.9},{74,61.1},{74.2,63.7},{74.4,55.4},{74.5,55.4},{74.6,59.6},{75.3,54},{75.4,56.2},{75.4,56.5},{75.5,54},{75.5,56.4},{75.9,55.3},{76.2,86.9},{76.3,89.4},{76.3,89.6},{76.8,84.3},{76.8,85.1},{77,53.2},{77.3,86.4},{77.3,86.5},{77.4,90.4},{77.4,90.5},{77.5,90.6},{77.6,54.1},{77.7,51.8},{77.9,84.2},{77.9,85.3},{78,85.5},{78.3,53},{78.4,55.1},{78.4,89.8},{78.5,90},{79,54.1},{79.2,56.2},{79.4,85.3},{79.4,85.5},{79.4,86.7},{79.5,59},{79.5,85.3},{79.8,55.1},{80,87.9},{80.7,54.3},{80.7,56.3},{80.7,89},{81.4,86.3},{81.5,86.3},{81.9,87.2},{81.9,87.5},{82.2,56.2},{82.2,90},{82.8,85.4},{82.8,85.5},{82.8,87.9},{82.9,55.3},{82.9,64.7},{83.6,56.3},{83.7,86.6},{85.3,58.4},{85.3,58.5},{85.6,61.6},{85.7,61.4},{85.8,62.5},{85.9,57.4},{86,59.7},{86.2,68.6},{86.2,74.4},{86.2,74.6},{86.6,63.5},{86.6,64.7},{86.7,58.3},{86.7,58.5},{86.7,63.4},{86.8,60.9},{86.8,67.9},{86.9,70.1},{86.9,72.3},{87,75.4},{87.1,75.5},{87.2,73.5},{87.3,66.9},{87.3,73.4},{87.6,62.9},{87.6,71.3},{87.7,78},{87.8,76.5},{87.9,60.9},{88,80},{88.1,67.8},{88.2,65.4},{88.2,65.7},{88.2,74.9},{88.4,80.9},{88.6,76.8},{88.8,66.4},{88.8,66.6},},},
+    },
+    [19870] = {
+        [QuestieDB.objectKeys.spawns] = {[400]={{87.75,78.07},{88.18,67.74},{85.64,61.5},{79.38,85.41},{77.96,85.39},{78.35,55.15},{73.44,57.79},{73.97,61.17},{70.6,59.13},{72.34,62.76},{69.7,61.1},{69.9,59},{70,63.1},{70,78.4},{70,78.5},{70.1,64.4},{70.1,64.5},{70.2,60.1},{70.2,62},{70.3,57.1},{70.3,58},{70.3,66.3},{70.5,59.2},{70.7,76.9},{70.8,79.2},{71,56.4},{71,71.9},{71,74.4},{71,74.6},{71.4,57},{71.4,64.4},{71.4,64.5},{71.5,64.4},{71.5,64.5},{71.6,66.5},{71.6,78.2},{71.6,80},{71.7,68.5},{72.3,56.6},{72.3,70.2},{72.3,74.4},{72.3,76.7},{72.4,56.4},{72.4,62.7},{72.4,74.6},{72.5,72.4},{72.5,80.7},{73.1,55.4},{73.1,59.6},{73.2,55.6},{73.2,68.7},{73.4,57.8},{73.5,57.7},{74,61.1},{74.2,63.7},{74.4,55.3},{74.5,55.4},{74.7,59.7},{75.4,54},{75.4,56.3},{75.5,53.9},{76,55.3},{76.1,87},{76.2,89.5},{76.3,89.4},{76.8,84.3},{76.8,85.1},{77,53.2},{77.3,86.5},{77.4,86.4},{77.4,90.4},{77.4,90.6},{77.5,54},{77.5,90.4},{77.5,90.5},{77.6,51.8},{77.8,84.3},{77.9,85.5},{78,85.3},{78.3,53},{78.4,55.2},{79.1,54.1},{79.3,56.2},{79.3,86.5},{79.4,85.3},{79.4,85.5},{79.5,59.1},{79.8,55.3},{79.9,88},{80.7,54.2},{80.7,56.3},{80.8,89.2},{81.4,86.2},{81.5,86.3},{81.9,87.3},{81.9,87.5},{82.2,56.2},{82.3,90},{82.8,55.3},{82.8,85.4},{82.8,85.5},{82.8,87.9},{82.9,64.6},{83.6,56.2},{83.7,86.6},{85.3,58.4},{85.3,58.5},{85.6,61.4},{85.7,61.5},{85.7,62.5},{85.9,57.4},{86,59.7},{86.1,68.7},{86.1,74.4},{86.2,74.5},{86.6,63.3},{86.6,63.5},{86.6,64.7},{86.7,58.4},{86.7,58.5},{86.7,60.9},{86.8,67.9},{86.9,70.1},{86.9,72.3},{87,75.4},{87.1,75.5},{87.2,73.5},{87.3,66.9},{87.3,73.4},{87.5,71.3},{87.6,62.9},{87.8,78},{87.9,60.9},{87.9,76.5},{88,79.8},{88.1,67.8},{88.3,65.6},{88.3,75.1},{88.4,81},{88.6,76.8},{88.8,66.4},{88.8,66.5},},},
+    },
+    [178224] = {
+        [QuestieDB.objectKeys.spawns] = {[357]={{42.71,68,62},},}, -- #1156
+    },
+    [144064] = {
+        [QuestieDB.objectKeys.spawns] = {[357]={{74.3,29},{74.6,30.2},{75.1,32.4},{75.1,32.5},{75.3,28.2},{75.3,33.7},{75.5,30.4},{75.5,30.5},{76,29},{76.3,34.4},{76.4,33.1},{76.4,34.5},{76.5,33.1},{76.7,33.8},{76.9,29.7},{77.5,35.1},{78.4,34},{78.5,34},{79.2,34.9},{80.4,34.3},{80.4,36},{80.5,34.2},{81,35.4},{81,35.5},{81.6,35},},}, -- #1160
+        [QuestieDB.objectKeys.zoneID] = 357,
     },
 }
 
@@ -672,7 +735,9 @@ QuestieCorrections.itemFixes = {
     [11470] = {"Tablet Transcript",{4296},{},{169294}},
     [12283] = {"Broodling Essence",{4726},{7047,7048,7049,},{175264}},
     [11522] = {"Silver Totem of Aquementas",{4005},{},{148507}},
+    [9593] = {"Treant Muisek",{3126},{7584},{}}, -- #1184
     [9595] = {"Hippogryph Muisek",{3124},{5300,5304,5305,5306},{}},
+    [9596] = {"Faerie Dragon Muisek",{3125},{5276,5276},{}}, -- #1184
     [11954] = {"Filled Pure Sample Jar",{4513},{6556,6557,6559,},{}}, -- #1070
     [12907] = {"Corrupted Moonwell Water",{5157},{},{176184}}, -- #1083
     [12922] = {"Empty Canteen",{5157},{},{}}, -- #1083
@@ -682,6 +747,15 @@ QuestieCorrections.itemFixes = {
     [11413] = {"Nagmara's Filled Vial",{4201},{},{165678}}, -- #1136
     [15874] = {"Soft-shelled Clam",{6142},{12347},{177784}},
     [12885] = {"Pamela's Doll",{5149},{},{}}, -- #1148
+    [5798] = {"Rocket Car Parts",{1110},{},{19868,19869,19870,19871,19872,19873}},
+    [16974] = {"Empty Water Vial",{5247},{},{}}, -- #1156
+    [16973] = {"Vial of Dire Water",{5247},{},{178224}}, -- #1156
+    [7134] = {"Sturdy Dragonmaw Shinbone",{1846},{1034,1035,1036,1038,1057,},{}}, -- #1163
+    [12324] = {"Forged Seal of Ascension",{4743},{10321},{}}, -- #1175
+    [7206] = {"Mirror Lake Water Sample",{1860},{},{174794}}, -- #1286
+    [7207] = {"Jennea's Flask",{1860},{},{}}, -- #1286
+    [10575] = {"Black Dragonflight Molt",{4022,4023},{},{10569}}, -- #1216
+    [9594] = {"Wildkin Muisek",{3123},{2927,2928,2929,},{}}, -- #1227
 
     -- quest related herbs
     [2449] = {"Earthroot",{6123,6128},{},{1619,3726}},
@@ -750,6 +824,7 @@ QuestieCorrections.questItemBlacklist = {
     [14047] = true, -- runecloth
     [2997] = true, -- bolt of wool
     [14048] = true, -- bolt of runecloth
+    [2842] = true, -- Silver Bar
     [1529] = true, -- jade
     [12363] = true, -- arcane crystal
     [12800] = true, -- azerothian diamond
@@ -1088,9 +1163,6 @@ QuestieCorrections.hiddenQuests = {
   [8899] = true,
   --Rocknot's Ale instance quest shown in SG/BS at lvl 1
   [4295] = true,
-  --The Gordok Ogre Suit dire maul isntance quest
-  [5518] = true,
-  [5519] = true,
   --aq40 raid quest
   [8595] = true,
   [8579] = true,
@@ -1459,35 +1531,6 @@ QuestieCorrections.hiddenQuests = {
   [4447] = true,
   [4448] = true,
   [4462] = true,
-  --Phase 2 - Dire Maul
-  [7494] = true,
-  [7441] = true,
-  [7492] = true,
-  [7581] = true,
-  [1193] = true,
-  [1318] = true,
-  [5518] = true,
-  [5519] = true,
-  [5525] = true,
-  [5528] = true,
-  [7429] = true,
-  [7461] = true,
-  [7462] = true,
-  [7463] = true,
-  [7463] = true,
-  [7483] = true,
-  [7484] = true,
-  [7485] = true,
-  [7507] = true,
-  [7508] = true,
-  [7509] = true,
-  [7649] = true,
-  [7650] = true,
-  [7651] = true,
-  [7481] = true,
-  [7482] = true,
-  [7703] = true,
-  [7877] = true,
 --Phase 4 - Zul'Gurub
   [8250] = true,
   [8417] = true,
@@ -1498,6 +1541,7 @@ QuestieCorrections.hiddenQuests = {
   [9063] = true,
   [8410] = true,
   [8419] = true,
+  [8420] = true,
   [8056] = true,
   [8057] = true,
   [8064] = true,

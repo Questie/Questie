@@ -15,6 +15,7 @@ function QuestieQuest:Initialize()
     --GetQuestsCompleted(Questie.db.char.complete)
     Questie.db.char.complete = GetQuestsCompleted()
     QuestieProfessions:Update()
+    QuestieReputation:Update()
 
     -- this inserts the Questie Icons to the MinimapButtonBag ignore list
     if MBB_Ignore then
@@ -163,6 +164,7 @@ function QuestieQuest:Reset()
     -- make sure complete db is correct
     Questie.db.char.complete = GetQuestsCompleted()
     QuestieProfessions:Update()
+    QuestieReputation:Update()
 
     QuestieQuest:AddAllNotes()
 end
@@ -180,6 +182,7 @@ function QuestieQuest:SmoothReset() -- use timers to reset progressively instead
             -- make sure complete db is correct
             Questie.db.char.complete = GetQuestsCompleted()
             QuestieProfessions:Update()
+            QuestieReputation:Update()
             QuestieQuest.availableQuests = {} -- reset available quest db
 
             -- draw available quests
@@ -224,7 +227,7 @@ function QuestieQuest:UpdateHiddenNotes()
                 else
                     icon:FakeUnhide()
                 end
-                if icon.data.QuestData.FadeIcons or (icon.data.ObjectiveData and icon.data.ObjectiveData.FadeIcons) then
+                if (icon.data.QuestData.FadeIcons or (icon.data.ObjectiveData and icon.data.ObjectiveData.FadeIcons)) and icon.data.Type ~= "complete" then
                     icon:FadeOut()
                 else
                     icon:FadeIn()
@@ -536,11 +539,64 @@ function QuestieQuest:AddFinisher(Quest)
                         if(coords[1] == -1 or coords[2] == -1) then
                             if(instanceData[Zone] ~= nil) then
                                 for index, value in ipairs(instanceData[Zone]) do
-                                    QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
+                                    --QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
+                                    --Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[value[1]])
+                                    --local icon, minimapIcon = QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
+                                    local z = value[1];
+                                    local x = value[2];
+                                    local y = value[3];
+
+                                    -- Calculate mid point if waypoints exist, we need to do this before drawing the lines
+                                    -- as we need the icon handle for the lines.
+                                    if(finisher.waypoints and finisher.waypoints[z]) then
+                                        local midX, midY = QuestieLib:CalculateWaypointMidPoint(finisher.waypoints[z]);
+                                        x = midX or x;
+                                        y = midY or y;
+                                        -- The above code should do the same... remove this after testing it.
+                                        --if(midX and midY) then
+                                        --    x = midX;
+                                        --    y = midY;
+                                        --end
+                                    end
+
+                                    local icon, minimapIcon = QuestieMap:DrawWorldIcon(data, z, x, y)
+
+                                    if(finisher.waypoints and finisher.waypoints[z]) then
+                                        local lineFrames = QuestieFramePool:CreateWaypoints(icon, finisher.waypoints[z]);
+                                        for index, lineFrame in ipairs(lineFrames) do
+                                            QuestieMap:DrawLineIcon(lineFrame, z, x, y);
+                                            --HBDPins:AddWorldMapIconMap(Questie, lineFrame, zoneDataAreaIDToUiMapID[z], x, y, HBD_PINS_WORLDMAP_SHOW_CURRENT)
+                                        end
+                                    end
                                 end
                             end
                         else
-                            QuestieMap:DrawWorldIcon(data, Zone, coords[1], coords[2])
+                            --QuestieMap:DrawWorldIcon(data, Zone, coords[1], coords[2])
+                            local x = coords[1];
+                            local y = coords[2];
+
+                            -- Calculate mid point if waypoints exist, we need to do this before drawing the lines
+                            -- as we need the icon handle for the lines.
+                            if(finisher.waypoints and finisher.waypoints[Zone]) then
+                                local midX, midY = QuestieLib:CalculateWaypointMidPoint(finisher.waypoints[Zone]);
+                                x = midX or x;
+                                y = midY or y;
+                                -- The above code should do the same... remove this after testing it.
+                                --if(midX and midY) then
+                                --    x = midX;
+                                --    y = midY;
+                                --end
+                            end
+
+                            local icon, minimapIcon = QuestieMap:DrawWorldIcon(data, Zone, x, y)
+
+                            if(finisher.waypoints and finisher.waypoints[Zone]) then
+                                local lineFrames = QuestieFramePool:CreateWaypoints(icon, finisher.waypoints[Zone]);
+                                for index, lineFrame in ipairs(lineFrames) do
+                                    QuestieMap:DrawLineIcon(lineFrame, Zone, x, y);
+                                    --HBDPins:AddWorldMapIconMap(Questie, lineFrame, zoneDataAreaIDToUiMapID[Zone], x, y, HBD_PINS_WORLDMAP_SHOW_CURRENT)
+                                end
+                            end
                         end
                     end
                 end
@@ -970,11 +1026,18 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
             if logCount == 1 and dbCount == 1 then
                 Quest.Objectives[objectiveIndex].Id = Quest.ObjectiveData[1].Id
             elseif Quest.ObjectiveData ~= nil then
+
+                local bestIndex = -1;
+                local bestDistance = 99999;
+
+                --Debug var
+                local tempName = "";
+                --
                 -- try to find npc/item/object/event ID
                 for objectiveIndexDB, objectiveDB in pairs(Quest.ObjectiveData) do
                     if objective.type == objectiveDB.Type then
                         -- TODO: use string distance to find closest, dont rely on exact match
-
+                        
                         -- Fetch the name of the objective
                         local oName = nil;
                         if(objectiveDB.Type == "monster" and objectiveDB.Id) then
@@ -994,29 +1057,42 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                         -- To lower the questlog objective text
                         local oDesc = string.lower(objective.text) or nil;
                         -- This is whaaaat?
-                        local oText = string.lower(objectiveDB.Text or "");
+                        -- local oText = string.lower(objectiveDB.Text or "");
 
-                        local correctObjective = false;
                         if(oName and oDesc) then
-                            -- Does regular ch  eck work good? or Regex mayhaps?
-                            if((oName == oDesc) or strfind(oDesc, oName, 1, true)) then
-                                correctObjective = true;
-                            elseif(oText == oDesc or strfind(oDesc, oName, 1, true)) then
-                                correctObjective = true;
+                            local distance = QuestieDB:Levenshtein(oDesc, oName);
+                            if(distance < bestDistance) then
+                                bestDistance = distance;
+                                bestIndex = objectiveIndexDB;
+                                tempName = oName; --For debugging
                             end
                         elseif((oName == nil or oDesc == nil) and objectiveDB.Type ~= "item" and objectiveDB.Type ~= "monster") then
-                            correctObjective = true;
+                            bestIndex = objectiveIndexDB;
+                            tempName = oName; --For debugging
+                            --We set the distance to 0 because otherwise other objectives might be closer...
+                            bestDistance = 0;
                         end
 
-                        --Is this objective the same as the object description
-                        if(correctObjective) then
-                            Quest.Objectives[objectiveIndex].Id = objectiveDB.Id;
-                            Quest.Objectives[objectiveIndex].Coordinates = objectiveDB.Coordinates;
-                            objectiveDB.ObjectiveRef = Quest.Objectives[objectiveIndex];
-                        elseif(Quest.Objectives[objectiveIndex].Id == nil and GetLocale() ~= "enUS" and GetLocale() ~= "enGB") then
+                        -- Old
+                        if(Quest.Objectives[objectiveIndex].Id == nil and GetLocale() ~= "enUS" and GetLocale() ~= "enGB") then
                             Quest.Objectives[objectiveIndex].Id = objectiveDB.Id;
                         end
+                        -- ~OldQ
                     end
+                end
+
+                local objectiveDB = Quest.ObjectiveData[bestIndex]
+                --Debug var
+                local oDesc = string.lower(objective.text) or nil
+                --
+                if(bestIndex ~= -1 and objectiveDB) then
+                    Questie:Debug(DEBUG_DEVELOP, "----> Objective", objective.text, "Dist:", bestDistance)
+                    Questie:Debug(DEBUG_DEVELOP, "-->ID:", objectiveDB.Id)
+                    Questie:Debug(DEBUG_DEVELOP, "-->Description:", oDesc)
+                    Questie:Debug(DEBUG_DEVELOP, "-->Found:", tempName)
+                    Quest.Objectives[objectiveIndex].Id = objectiveDB.Id;
+                    Quest.Objectives[objectiveIndex].Coordinates = objectiveDB.Coordinates;
+                    objectiveDB.ObjectiveRef = Quest.Objectives[objectiveIndex];
                 end
             end
         end
@@ -1149,7 +1225,7 @@ function QuestieQuest:CompareQuestHashes()
 end
 
 --https://www.townlong-yak.com/framexml/live/Blizzard_APIDocumentation#C_QuestLog.GetQuestObjectives
-function _QuestieQuest:GetLeaderBoardDetails(objectiveIndex, questId)
+--[[function _QuestieQuest:GetLeaderBoardDetails(objectiveIndex, questId)
     local questObjectives = C_QuestLog.GetQuestObjectives(questId)-- or {};
     if(questObjectives[objectiveIndex]) then
         local objective = questObjectives[objectiveIndex];
@@ -1161,17 +1237,54 @@ function _QuestieQuest:GetLeaderBoardDetails(objectiveIndex, questId)
         return objective.type, objective.text, objective.numFulfilled, objective.numRequired, objective.finished;
     end
     return nil;
-end
+end]]--
 
+local slainText = {
+    enGB = "slain", --Known good
+    enUS = "slain", --Known good
+    deDE = "getötet", --Known good
+    esES = "Muertes de", --Known good
+    esMX = "matado",
+    frFR = "tué", --Known good
+    itIT = "ucciso",
+    ptBR = "morto",
+    ruRU = "– убито",
+    koKR = "처치",
+    zhCN = "已消灭", --Confirmed with chinese, not tested...
+    zhTW = "消滅",
+}
+-- Link contains test bench for regex in lua.
+-- https://hastebin.com/anodilisuw.bash
 function QuestieQuest:GetAllLeaderBoardDetails(questId)
     local questObjectives = C_QuestLog.GetQuestObjectives(questId)-- or {};
+    local locale = GetLocale();
+    local slain = slainText[locale] or "randomstringwohooooo";
 
+    --Questie:Print(questId)
     for objectiveIndex, objective in pairs(questObjectives) do
         if(objective.text) then
-            local text = string.match(objective.text, "(.*)[：,:]");
+            local text = objective.text;
+            --Questie:Print("1 (.*)\"..slain..\"%W*%d+/%d+", string.match(text, "(.*)"..slain.."%W*%d+/%d+"));
+            --Questie:Print("2 slain..(.*)%W%s%d+/%d+", string.match(text, slain.."(.*)%W%s%d+/%d+"));
+            --Questie:Print("3 %d+/%d+%W*\"..slain..\"(.*)", string.match(text, "%d+/%d+%W*"..slain.."(.*)"));
+            --Questie:Print("4 ^(.*):%s", string.match(text, "^(.*):%s"));
+            --Questie:Print("5 %s：(.*)$", string.match(text, "%s：(.*)$"));
+            -- This looks complicated but isn't
+            -- We first try and find a string with "slain" in it, if we can find it we can assume the position of the data
+            -- If no slain is found we revert to look for the data relative to the colon.
+            text = string.match(text, "(.*)"..slain.."%W*%d+/%d+") or --English (slain), Left-to-right
+                string.match(text, slain.."(.*)%W%s%d+/%d+") or --Spanish / Chinese (slain), Left-to-right
+                string.match(text, "%d+/%d+%W*"..slain.."(.*)") or --Chinese (slain), Right-to-left --Probably never true.
+                string.match(text, "^(.*):%s") or --English colon, Left-to-right
+                string.match(text, "%s：(.*)$") or -- Chinese colon, Right-to-left
+                objective.text; -- Default
+            
             -- If nothing is matched, we should just add the text as is.
             if(text ~= nil) then
-                objective.text = text;
+                objective.text = string.trim(text);
+                --Questie:Print("2'"..string.trim(text).."'");
+            else
+                Questie:Print("WARNING! [QuestieQuest]", "Could not split out the objective out of the objective text! Please report the error!", questId, objective.text)
             end
         else
             DEFAULT_CHAT_FRAME:AddMessage("ERROR! Something went wrong in GetAllLeaderBoardDetails"..tostring(questId).." - "..tostring(objective.text));
@@ -1179,6 +1292,19 @@ function QuestieQuest:GetAllLeaderBoardDetails(questId)
     end
     return questObjectives;
 end
+--[[  KEEP THIS FOR NOW
+
+            -- Look if it contains "slain"
+            if(string.match(text, slain)) then
+                --English first, chinese after
+                text = string.match(objective.text, "(.*)"..slain.."%W*%d+/%d+") or string.match(objective.text, "%d+/%d+%W*"..slain.."(.*)")
+                --Capital %W is required due to chinese not being alphanumerical
+                --text = string.match(objective.text, '^(.*)%s+%w+:%s') or string.match(objective.text, '%s：%W+%s(.+)$');
+            else
+                --English first, chinese after
+                text = string.match(objective.text, "^(.*):%s") or string.match(objective.text, "%s：(.*)$");
+            end
+]]--
 
 --Draw a single available quest, it is used by the DrawAllAvailableQuests function.
 function _QuestieQuest:DrawAvailableQuest(questObject) -- prevent recursion
@@ -1273,13 +1399,62 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                                 if(instanceData[Zone] ~= nil) then
                                     for index, value in ipairs(instanceData[Zone]) do
                                         --Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[value[1]])
-                                        QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
+                                        --local icon, minimapIcon = QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
+                                        local z = value[1];
+                                        local x = value[2];
+                                        local y = value[3];
+
+                                        -- Calculate mid point if waypoints exist, we need to do this before drawing the lines
+                                        -- as we need the icon handle for the lines.
+                                        if(NPC.waypoints and NPC.waypoints[z]) then
+                                            local midX, midY = QuestieLib:CalculateWaypointMidPoint(NPC.waypoints[z]);
+                                            x = midX or x;
+                                            y = midY or y;
+                                            -- The above code should do the same... remove this after testing it.
+                                            --if(midX and midY) then
+                                            --    x = midX;
+                                            --    y = midY;
+                                            --end
+                                        end
+
+                                        local icon, minimapIcon = QuestieMap:DrawWorldIcon(data, z, x, y)
+
+                                        if(NPC.waypoints and NPC.waypoints[z]) then
+                                            local lineFrames = QuestieFramePool:CreateWaypoints(icon, NPC.waypoints[z]);
+                                            for index, lineFrame in ipairs(lineFrames) do
+                                                QuestieMap:DrawLineIcon(lineFrame, z, x, y);
+                                                --HBDPins:AddWorldMapIconMap(Questie, lineFrame, zoneDataAreaIDToUiMapID[z], x, y, HBD_PINS_WORLDMAP_SHOW_CURRENT)
+                                            end
+                                        end
+
                                     end
                                 end
                             else
-                                --Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[Zone])
-                                --HBDPins:AddWorldMapIconMap(Questie, Note, zoneDataAreaIDToUiMapID[Zone], coords[1]/100, coords[2]/100, HBD_PINS_WORLDMAP_SHOW_WORLD)
-                                QuestieMap:DrawWorldIcon(data, Zone, coords[1], coords[2])
+                                local x = coords[1];
+                                local y = coords[2];
+
+                                -- Calculate mid point if waypoints exist, we need to do this before drawing the lines
+                                -- as we need the icon handle for the lines.
+                                if(NPC.waypoints and NPC.waypoints[Zone]) then
+                                    local midX, midY = QuestieLib:CalculateWaypointMidPoint(NPC.waypoints[Zone]);
+                                    x = midX or x;
+                                    y = midY or y;
+                                    -- The above code should do the same... remove this after testing it.
+                                    --if(midX and midY) then
+                                    --    x = midX;
+                                    --    y = midY;
+                                    --end
+                                end
+
+                                local icon, minimapIcon = QuestieMap:DrawWorldIcon(data, Zone, x, y)
+
+                                if(NPC.waypoints and NPC.waypoints[Zone]) then
+                                  local lineFrames = QuestieFramePool:CreateWaypoints(icon, NPC.waypoints[Zone]);
+                                  for index, lineFrame in ipairs(lineFrames) do
+                                    QuestieMap:DrawLineIcon(lineFrame, Zone, x, y);
+                                    --HBDPins:AddWorldMapIconMap(Questie, lineFrame, zoneDataAreaIDToUiMapID[Zone], x, y, HBD_PINS_WORLDMAP_SHOW_CURRENT)
+                                  end
+                                end
                             end
                         end
                     end
@@ -1306,7 +1481,7 @@ function QuestieQuest:DrawAllAvailableQuests()--All quests between
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]", QuestieLocale:GetUIString('DEBUG_DRAW', count, QuestiePlayer:GetPlayerLevel()));
 end
 
-function _QuestieQuest:IsDoable(questObject) -- we need to add reputation checks here
+function _QuestieQuest:IsDoable(questObject)
     if not questObject then
         return false;
     end
@@ -1329,10 +1504,8 @@ function _QuestieQuest:IsDoable(questObject) -- we need to add reputation checks
             end
         end
     end
-    if questObject.parentQuest then
-        if not QuestiePlayer.currentQuestlog[questObject.parentQuest] then
-            return false
-        end
+    if questObject.parentQuest and not _QuestieQuest:IsParentQuestActive(questObject.parentQuest) then
+        return false
     end
 
     -- check if npc is friendly
@@ -1353,14 +1526,18 @@ function _QuestieQuest:IsDoable(questObject) -- we need to add reputation checks
         return false
     end
 
+    if QuestieProfessions:HasReputation(questObject.requiredMinRep) == false then
+        return false
+    end
+
     -- Check the preQuestGroup field where every required quest has to be complete for a quest to show up
-    if questObject.RequiredQuestGroup ~= nil and next(questObject.RequiredQuestGroup) ~= nil then
-        return _QuestieQuest:IsPreQuestGroupFulfilled(questObject.RequiredQuestGroup)
+    if questObject.preQuestGroup ~= nil and next(questObject.preQuestGroup) ~= nil then
+        return _QuestieQuest:IsPreQuestGroupFulfilled(questObject.preQuestGroup)
     end
 
     -- Check the preQuestSingle field where just one of the required quests has to be complete for a quest to show up
-    if questObject.RequiredQuestSingle ~= nil and next(questObject.RequiredQuestSingle) ~= nil then
-        return _QuestieQuest:IsPreQuestSingleFulfilled(questObject.RequiredQuestSingle)
+    if questObject.preQuestSingle ~= nil and next(questObject.preQuestSingle) ~= nil then
+        return _QuestieQuest:IsPreQuestSingleFulfilled(questObject.preQuestSingle)
     end
 
     return true
@@ -1423,7 +1600,7 @@ function QuestieQuest:CalculateAvailableQuests()
         if((not Questie.db.char.complete[questID]) and (not QuestieCorrections.hiddenQuests[questID]) and (not QuestiePlayer.currentQuestlog[questID])) then
             local quest = QuestieDB:GetQuest(questID)
 
-            if _QuestieQuest:LevelRequirementsFulfilled(quest, playerLevel, minLevel, maxLevel) or _QuestieQuest:IsParentQuestActive(quest.ParentQuest) then
+            if _QuestieQuest:LevelRequirementsFulfilled(quest, playerLevel, minLevel, maxLevel) or _QuestieQuest:IsParentQuestActive(quest.parentQuest) then
                 if _QuestieQuest:IsDoable(quest) then
                     QuestieQuest.availableQuests[questID] = questID
                 end
@@ -1437,7 +1614,7 @@ function QuestieQuest:CalculateAvailableQuests()
 end
 
 function _QuestieQuest:LevelRequirementsFulfilled(quest, playerLevel, minLevel, maxLevel)
-    return (quest.Level >= minLevel or Questie.db.char.lowlevel) and quest.Level <= maxLevel and quest.MinLevel <= playerLevel
+    return (quest.Level >= minLevel or Questie.db.char.lowlevel) and quest.Level <= maxLevel and quest.requiredLevel <= playerLevel
 end
 
 -- We always want to show a quest if it is a childQuest and its parent is in the quest log

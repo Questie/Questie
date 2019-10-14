@@ -1,9 +1,4 @@
 --DBM HudMap integration written by MysticalOS
---Edit1: Add Modules\QuestieDBMIntegration.lua to TOC
---Edit2: Copy QuestieDBMIntegration.lua into /Modules
---Edit3: add QuestieDBMIntegration:RegisterHudQuestIcon(tostring(icon), data.Icon, zoneDataAreaIDToUiMapID[AreaID], x, y, colors[1], colors[2], colors[3]) under if Questie.db.global.enableMapIcons then in QuestieMap
---Edit4: Add QuestieDBMIntegration:UnregisterHudQuestIcon(tostring(self)) under HBDPins:RemoveWorldMapIcon(Questie, self) in QuestieFramePool
---Edit5: Add QuestieDBMIntegration:ClearAll() to QuestieQuest:SmoothReset() function in QuestieQuest (and maybe QuestieQuest:Reset()?)
 --All code here executes functions from https://github.com/DeadlyBossMods/DBM-Classic/blob/master/DBM-Core/DBM-HudMap.lua
 ----------------------
 --  Globals/Locals  --
@@ -32,6 +27,7 @@ local function AddHudQuestIcon(tableString, icon, AreaID, x, y, r, g, b)
 		if not DBMHudMap.HUDEnabled then
 			--Force a fixed zoom, if one is not set, hudmap tries to zoom out until all registered icons fit, that's no good for world wide quest icons
 			DBMHudMap:SetFixedZoom(Questie.db.global.DBMHUDZoom or 100)
+			QuestieDBMIntegration:ChangeRefreshRate(Questie.db.global.DBMHUDRefresh or 0.03)
 		end
 		--uniqueID, name, texture, x, y, radius, duration, r, g, b, a, blend, useLocalMap, LocalMapId
 		if Questie.db.global.dbmHUDShowAlert then
@@ -59,6 +55,7 @@ end
 do
 	local eventFrame = CreateFrame("frame", "QuestieDBMIntegration", UIParent)
 	local GetInstanceInfo, IsInInstance = GetInstanceInfo, IsInInstance
+	local warningShown = false
 		
 	local function CleanupPoints(keepInstance)
 		if keepInstance ~= 0 then
@@ -120,6 +117,10 @@ do
 			eventFrame:RegisterEvent("LOADING_SCREEN_DISABLED")
 			DelayedMapCheck()
 			DBM:Schedule(1, DelayedMapCheck)
+			if not warningShown then
+				DBM:AddMsg("Questie has activated DBM HUD overlay. For more options, visit DBM HUD tab in Questie options")
+				warningShown = true
+			end
 		end
 	end
 	
@@ -229,6 +230,13 @@ function QuestieDBMIntegration:ChangeZoomLevel(zoom)
 	end
 end
 
+function QuestieDBMIntegration:ChangeRefreshRate(rate)
+	if DBMHudMap and QuestieHUDEnabled and DBMHudMap.Version then
+		if rate < 0.01 then rate = 0.01 end--just to protect against a user who might try to hack their config file
+		DBMHudMap:SetFixedUpdateRate(rate)
+	end
+end
+
 --Creates a line between player and a specific point
 function QuestieDBMIntegration:EdgeTo(tableString)
 	if DBMHudMap and tableString then
@@ -259,10 +267,9 @@ end
 
 --TODO
 ----HUD
---HuD Configuration settings, so users can actually turn feature on and off, adjust icon size, zoom level, enable/disable certain icon types (maybe show quest pickup/turnin icons but not kill/loot icons, etc)
 --more fancy functions similar to drawing lines/arrows to objectives. Current edge code works, but there are still more cool things HUD can do
 --possibly pulsing or other icon effects for specific objectives to make specific things stand out more, such as a click/interact objective in middle of a bunch of loot/kill ones
---Much more memory efficient table management (especially since I'm just REALLY bad at tables). Maybe a way to just pull info from existing map Pins from questie or HBD instead of literally storing local tables of all objects here as well
+--Much more memory efficient table management? (especially since I'm just REALLY bad at tables). Maybe a way to just pull info from existing map Pins from questie or HBD instead of literally storing local tables of all objects here as well
 --Move a bunch of this to DBM-Core's HUDMAP module and expand api to support more mods such as handynotes, gathermate, etc
 ----ARROW?
 --Arrow functions?, since DBM also has a regular waypoint arrow as well. DBM arrow api is https://github.com/DeadlyBossMods/DBM-Classic/blob/master/DBM-Core/DBM-Arrow.lua

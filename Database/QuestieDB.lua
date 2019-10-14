@@ -142,6 +142,10 @@ local function _GetColoredQuestName(self)
         questString = "[" .. self.Level .. "]" .. " " .. questString
     end
 
+    if Questie.db.global.enableTooltipsQuestID then
+        questString = questString .. " (" .. self.Id .. ")"
+    end
+
     return QuestieLib:PrintDifficultyColor(self.Level, questString)
 end
 
@@ -261,18 +265,14 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
             end
         end
 
-        QO.MinLevel = rawdata[4]
         QO.Level = rawdata[5]
-        QO.RequiredRaces = rawdata[6]
-        QO.RequiredClasses = rawdata[7]
-        QO.ObjectiveText = rawdata[8]
         QO.Triggers = rawdata[9] --List of coordinates
         QO.ObjectiveData = {} -- to differentiate from the current quest log info
         --    type
         --String - could be the following things: "item", "object", "monster", "reputation", "log", or "event". (from wow api)
 
         if QO.Triggers ~= nil then
-            for k,v in pairs(QO.Triggers) do
+            for k, v in pairs(QO.Triggers) do
                 local obj = {};
                 obj.Type = "event"
                 obj.Coordinates = v
@@ -333,8 +333,6 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
         else
             QO.RequiredQuestSingle = rawdata[13]
         end
-        QO.ChildQuests = rawdata[14] --Quests that give questitems that are used in later quests (See STV manual)
-        QO.ParentQuest = rawdata[25] -- The parent quest (applies if this quest is a child quest)
         QO.QuestGroup = rawdata[15] --Quests that are part of the same group, example complete this group of quests to open the next one.
         QO.ExclusiveQuestGroup = rawdata[16]
         QO.NextQuestInChain = rawdata[22]
@@ -388,16 +386,19 @@ function QuestieDB:_GetSpecialNPC(NPCID)
     if rawdata then
         local NPC = {}
         NPC.id = NPCID
-        QuestieStreamLib:Load(rawdata)
-        NPC.name = QuestieStreamLib:ReadTinyString()
+        if not QuestieDB._stream then -- bad code
+            QuestieDB._stream = QuestieStreamLib:GetStream("b89")
+        end
+        QuestieDB._stream:Load(rawdata)
+        NPC.name = QuestieDB._stream:ReadTinyString()
         NPC.type = "monster"
         NPC.newFormatSpawns = {}; -- spawns should be stored like this: {{x, y, uimapid}, ...} so im creating a 2nd var to aid with moving to the new format
         NPC.spawns = {};
-        local count = QuestieStreamLib:ReadByte()
+        local count = QuestieDB._stream:ReadByte()
         for i=1,count do
-            local x = QuestieStreamLib:ReadShort() / 655.35
-            local y = QuestieStreamLib:ReadShort() / 655.35
-            local m = QuestieStreamLib:ReadByte() + 1400
+            local x = QuestieDB._stream:ReadShort() / 655.35
+            local y = QuestieDB._stream:ReadShort() / 655.35
+            local m = QuestieDB._stream:ReadByte() + 1400
             table.insert(NPC.newFormatSpawns, {x, y, m});
             local om = m;
             m = zoneDataUiMapIDToAreaID[m];
@@ -440,6 +441,14 @@ function QuestieDB:GetNPC(NPCID)
         end
         if NPC.spawns == nil and Questie_SpecialNPCs[NPCID] then -- get spawns from script spawns list
             NPC.spawns = QuestieDB:_GetSpecialNPC(NPCID).spawns
+        end
+
+        ---@class Point
+        ---@class Zone
+        if NPC.waypoints == nil and rawdata[QuestieDB.npcKeys.waypoints] then
+            Questie:Debug(DEBUG_DEVELOP, "Got waypoints! NPC", NPC.name, NPC.id)
+            ---@type table<Zone, table<Point, Point>>
+            NPC.waypoints = rawdata[QuestieDB.npcKeys.waypoints];
         end
 
         if rawdata[DB_NPC_FRIENDLY] then

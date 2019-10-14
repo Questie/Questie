@@ -1,6 +1,7 @@
 
 Questie = LibStub("AceAddon-3.0"):NewAddon("Questie", "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0", "AceComm-3.0", "AceSerializer-3.0", "AceBucket-3.0")
 _Questie = {...}
+local AceGUI = LibStub("AceGUI-3.0")
 if not QuestieConfigCharacter then
     QuestieConfigCharacter = {}
 end
@@ -36,7 +37,7 @@ function Questie:OnInitialize()
     end
 
     Questie:Debug(DEBUG_CRITICAL, "Questie addon loaded")
-    Questie:RegisterEvent("PLAYER_ENTERING_WORLD", QuestieEventHandler.PLAYER_ENTERING_WORLD)
+    Questie:RegisterEvent("PLAYER_LOGIN", QuestieEventHandler.PLAYER_LOGIN)
 
     --Accepted Events
     Questie:RegisterEvent("QUEST_ACCEPTED", QuestieEventHandler.QUEST_ACCEPTED)
@@ -50,8 +51,9 @@ function Questie:OnInitialize()
     Questie:RegisterBucketEvent("QUEST_LOG_UPDATE", 1, QuestieEventHandler.QUEST_LOG_UPDATE);
     Questie:RegisterEvent("MODIFIER_STATE_CHANGED", QuestieEventHandler.MODIFIER_STATE_CHANGED);
 
-    -- Trade skill event to update a players profession
-    Questie:RegisterEvent("CHAT_MSG_SKILL", QuestieEventHandler.CHAT_MSG_SKILL);
+    -- Events to update a players professions and reputations
+    Questie:RegisterEvent("CHAT_MSG_SKILL", QuestieEventHandler.CHAT_MSG_SKILL)
+    Questie:RegisterEvent("CHAT_MSG_COMBAT_FACTION_CHANGE", QuestieEventHandler.CHAT_MSG_COMBAT_FACTION_CHANGE)
 
     -- Party join event for QuestieComms, Use bucket to hinder this from spamming (Ex someone using a raid invite addon etc)
     Questie:RegisterBucketEvent("GROUP_ROSTER_UPDATE", 1, QuestieEventHandler.GROUP_ROSTER_UPDATE);
@@ -60,11 +62,24 @@ function Questie:OnInitialize()
 
     -- Nameplate / Tar5get Frame Objective Events
     Questie:RegisterEvent("NAME_PLATE_UNIT_ADDED", QuestieNameplate.NameplateCreated);
-    Questie:RegisterEvent("NAME_PLATE_UNIT_REMOVED", QuestieNameplate.NameplateDestroyed);
-    Questie:RegisterEvent("PLAYER_TARGET_CHANGED", QuestieNameplate.DrawTargetFrame);
+	Questie:RegisterEvent("NAME_PLATE_UNIT_REMOVED", QuestieNameplate.NameplateDestroyed);
+	Questie:RegisterEvent("PLAYER_TARGET_CHANGED", QuestieNameplate.DrawTargetFrame);
 
-    -- Initialize Coordinates
-    QuestieCoords.Initialize();
+	--When the quest is presented!
+	Questie:RegisterEvent("QUEST_DETAIL", QuestieAuto.QUEST_DETAIL)
+	--???
+	Questie:RegisterEvent("QUEST_PROGRESS", QuestieAuto.QUEST_PROGRESS)
+	--Gossip??
+	Questie:RegisterEvent("GOSSIP_SHOW", QuestieAuto.GOSSIP_SHOW)
+	--The window when multiple quest from a NPC
+	Questie:RegisterEvent("QUEST_GREETING", QuestieAuto.QUEST_GREETING)
+	--If an escort quest is taken by people close by
+	Questie:RegisterEvent("QUEST_ACCEPT_CONFIRM", QuestieAuto.QUEST_ACCEPT_CONFIRM)
+	--When complete window shows
+	Questie:RegisterEvent("QUEST_COMPLETE", QuestieAuto.QUEST_COMPLETE)
+
+	-- Initialize Coordinates
+	QuestieCoords.Initialize();
 
     -- Initialize questiecomms
     --C_ChatInfo.RegisterAddonMessagePrefix("questie")
@@ -111,9 +126,18 @@ function Questie:OnInitialize()
     else
         Questie_Toggle:Hide();
     end
-	if Questie.db.global.dbmHUDEnable then
-		QuestieDBMIntegration:EnableHUD()
-	end
+    if Questie.db.global.dbmHUDEnable then
+        QuestieDBMIntegration:EnableHUD()
+    end
+    -- init config frame
+    if not QuestieConfigFrame then
+        QuestieOptions.configFrame = AceGUI:Create("Frame");
+        LibStub("AceConfigDialogQuestie-3.0"):SetDefaultSize("Questie", 625, 700)
+        LibStub("AceConfigDialogQuestie-3.0"):Open("Questie", QuestieOptions.configFrame)
+        QuestieOptions.configFrame:Hide();                
+        _G["QuestieConfigFrame"] = QuestieOptions.configFrame.frame;
+        table.insert(UISpecialFrames, "QuestieConfigFrame");
+    end
 end
 
 function Questie:OnUpdate()

@@ -90,6 +90,9 @@ local function _OnDragStart(self, button)
 end
 
 local function _OnDragStop()
+    if not _QuestieTracker._start_drag_pos then
+        return
+    end
     _QuestieTracker._end_drag_pos = {_QuestieTracker.baseFrame:GetPoint()}
     _QuestieTracker.baseFrame:StopMovingOrSizing()
     
@@ -105,6 +108,7 @@ local function _OnDragStop()
     if Questie.db.char.TrackerLocation[2] and type(Questie.db.char.TrackerLocation[2]) == "table" and Questie.db.char.TrackerLocation[2].GetName then
         Questie.db.char.TrackerLocation[2] = Questie.db.char.TrackerLocation[2]:GetName()
     end
+    _QuestieTracker._start_drag_pos = nil
 end
 
 local function _GetNearestSpawn(Objective)
@@ -787,6 +791,20 @@ local function _OnClick(self, button)
         end
     elseif _IsBindTrue(Questie.db.global.trackerbindOpenQuestLog, button) then
         _ShowQuestLog(self.Quest)
+    elseif button == "LeftButton" then
+      -- Priority order first check if addon exist otherwise default to original
+      local questFrame = QuestLogExFrame or QuestLogFrame;
+      HideUIPanel(questFrame);
+      local questLogIndex = GetQuestLogIndexByID(self.Quest.Id);
+      SelectQuestLogEntry(questLogIndex)
+      ShowUIPanel(questFrame);
+
+      --Addon specific behaviors
+      if(QuestLogEx) then
+        QuestLogEx:Maximize();
+      end
+
+      --Questie:Print(self.Quest.Id, questLogIndex, questFrame:IsVisible());
     elseif button == "RightButton" then
         _BuildMenu(self.Quest)
     end
@@ -1065,11 +1083,15 @@ function QuestieTracker:Update()
             if Questie.db.global.trackerShowQuestLevel then
                 questString = "[" .. Quest.Level .. "] " .. questString
             end
+            if Questie.db.global.enableTooltipsQuestID then
+                questString = questString .. " (" .. Quest.Id .. ")"
+            end
             if complete then
                 questString  = questString .. " " .. QuestieLocale:GetUIString('TOOLTIP_QUEST_COMPLETE')
             end
             line.label:SetText(QuestieLib:PrintDifficultyColor(Quest.Level, questString))
             
+            line:Show()
             line.label:Show()
             trackerWidth = math.max(trackerWidth, line.label:GetWidth())
             --
@@ -1090,6 +1112,7 @@ function QuestieTracker:Update()
                     else
                         line.label:SetText("    |cFFEEEEEE" .. Objective.Description .. ": " .. lineEnding)
                     end
+                    line:Show()
                     line.label:Show()
                     trackerWidth = math.max(trackerWidth, line.label:GetWidth())
                 end
@@ -1100,7 +1123,7 @@ function QuestieTracker:Update()
 
     -- hide remaining lines
     for i=index+1,trackerLineCount do
-        _QuestieTracker.LineFrames[i].label:Hide()
+        _QuestieTracker.LineFrames[i]:Hide()
     end
 
     -- adjust base frame size for dragging

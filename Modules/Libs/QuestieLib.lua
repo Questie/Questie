@@ -14,6 +14,13 @@ local math_abs = math.abs;
 local math_sqrt = math.sqrt;
 local math_max = math.max;
 
+--[[
+    Red: 5+ level above player
+    Orange: 3 - 4 level above player
+    Yellow: max 2 level below/above player
+    Green: 3 - GetQuestGreenRange() level below player (GetQuestGreenRange() changes on specific player levels)
+    Gray: More than GetQuestGreenRange() below player
+--]]
 function QuestieLib:PrintDifficultyColor(level, text)
 
     if level == -1 then
@@ -25,13 +32,55 @@ function QuestieLib:PrintDifficultyColor(level, text)
         return "|cFFFF1A1A"..text.."|r"; -- Red
     elseif (levelDiff >= 3) then
         return "|cFFFF8040"..text.."|r"; -- Orange
-    elseif (levelDiff >= -4) then
+    elseif (levelDiff >= -2) then
         return "|cFFFFFF00"..text.."|r"; -- Yellow
     elseif (-levelDiff <= GetQuestGreenRange()) then
         return "|cFF40C040"..text.."|r"; -- Green
     else
         return "|cFFC0C0C0"..text.."|r"; -- Grey
     end
+end
+
+---@param waypointTable table<integer, Point> @A table containing waypoints {{X, Y}, ...}
+---@return integer @X coordinate, 0-100
+---@return integer @Y coordinate, 0-100
+function QuestieLib:CalculateWaypointMidPoint(waypointTable)
+    if(waypointTable) then
+        local x = nil;
+        local y = nil;
+        local distanceList = {}
+        local lastPos = nil
+        local totalDistance = 0;
+        for index, waypoint in pairs(waypointTable) do
+            if(lastPos == nil) then
+                lastPos = waypoint;
+            else
+                local distance = QuestieLib:Euclid(lastPos[1], lastPos[2], waypoint[1], waypoint[2]);
+                totalDistance = totalDistance + distance;
+                distanceList[distance] = index;
+            end
+        end
+
+        --reset the last pos
+        local ranDistance = 0;
+        lastPos = nil
+        for distance, index in pairs(distanceList) do
+            if(lastPos == nil) then
+                lastPos = index;
+            else
+                ranDistance = ranDistance + distance;
+                if(ranDistance > totalDistance/2) then
+                    local firstMiddle = waypointTable[lastPos];
+                    local secondMiddle = waypointTable[index];
+                    x = firstMiddle[1];--(firstMiddle[1] + secondMiddle[1])/2
+                    y = firstMiddle[2]--(firstMiddle[2] + secondMiddle[2])/2
+                    break;
+                end
+            end
+        end
+        return x, y;
+    end
+    return nil, nil;
 end
 
 function QuestieLib:ProfileFunction(functionReference, includeSubroutine)
