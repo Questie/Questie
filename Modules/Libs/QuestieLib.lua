@@ -138,6 +138,38 @@ do
 end
 
 
+function QuestieLib:PlayerInGroup(playerName)
+    if(UnitInParty("player") or UnitInRaid("player")) then
+        local player = {}
+        for index=1, 40 do
+            local name = nil
+            local className, classFilename = nil;
+            if(UnitInRaid("player")) then
+                name = UnitName("raid"..index);
+                className, classFilename = UnitClass("raid"..index);
+            end
+            if(not name) then
+                name = UnitName("party"..index);
+                className, classFilename = UnitClass("party"..index);
+            end
+            if(name == playerName) then
+                player.name = playerName;
+                player.class = classFilename;
+                local rPerc, gPerc, bPerc, argbHex = GetClassColor(classFilename)
+                player.r = rPerc;
+                player.g = gPerc;
+                player.b = bPerc;
+                player.colorHex = argbHex;
+                return player;
+            end
+            if(index > 6 and not UnitInRaid("player")) then
+                break;
+            end
+        end
+    end
+    return nil;
+end
+
 -- Credits to Shagu, why reinvent the wheel.
 -- https://github.com/shagu/pfQuest/commit/01177f2eb2926336a1ad741a6082affe78ae7c20
 function QuestieLib:SanitizePattern(pattern, excludeNumberCapture)

@@ -683,6 +683,32 @@ function _QuestieFramePool:Questie_Tooltip(self)
                             if icon.data.Name then
                                 questOrder[key][text][icon.data.Name] = true
                             end
+                            if(QuestieComms) then
+                                for playerName, objectiveData in pairs(QuestieComms:GetQuest(icon.data.Id)) do
+                                    --[[
+                                        -.type = objective.type;
+                                        -.finished = objective.finished;
+                                        -.fulfilled = objective.numFulfilled;
+                                        -.required = objective.numRequired;  
+                                    ]]
+                                    local playerInfo = QuestieLib:PlayerInGroup(playerName);
+                                    if(playerInfo) then
+                                        local fulfilled = objectiveData[icon.data.ObjectiveIndex].fulfilled;
+                                        local required = objectiveData[icon.data.ObjectiveIndex].required;
+                                        local colorizedPlayerName = "|c"..playerInfo.colorHex..playerName.."|r";
+                                        local remoteText = icon.data.ObjectiveData.Description;
+                                        if icon.data.ObjectiveData.Needed then
+                                            remoteText = tostring(fulfilled) .. "/" .. tostring(required) .. " " .. remoteText .. " : " .. colorizedPlayerName;
+                                        end
+                                        if not questOrder[key][remoteText] then
+                                            questOrder[key][remoteText] = {}
+                                        end
+                                        if icon.data.Name then
+                                            questOrder[key][remoteText][icon.data.Name] = true
+                                        end
+                                    end
+                                end
+                            end
                             --table.insert(questOrder[key], text);--questOrder[key][icon.data.ObjectiveData.Description] = tostring(icon.data.ObjectiveData.Collected) .. "/" .. tostring(icon.data.ObjectiveData.Needed) .. " " .. icon.data.ObjectiveData.Description--table.insert(questOrder[key], tostring(icon.data.ObjectiveData.Collected) .. "/" .. tostring(icon.data.ObjectiveData.Needed) .. " " .. icon.data.ObjectiveData.Description);
                         end
                     elseif icon.data.CustomTooltipData then
