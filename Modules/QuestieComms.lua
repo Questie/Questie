@@ -147,8 +147,6 @@ function _QuestieComms:BroadcastQuestLog(eventName) -- broadcast quest update to
         local questPacket = _QuestieComms:createPacket(_QuestieComms.QC_ID_BROADCAST_FULL_QUESTLIST);
         questPacket.data.rawQuestList = rawQuestList;
 
-        -- We might aswell send the current version to the party member.
-        questPacket.data.version = table.pack(Questie:GetAddonVersionInfo());
         if partyType == "raid" then
             questPacket.data.writeMode = _QuestieComms.QC_WRITE_ALLRAID;
             questPacket.data.priority = "BULK";
