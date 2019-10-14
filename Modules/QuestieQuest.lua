@@ -1252,14 +1252,14 @@ function QuestieQuest:GetAllLeaderBoardDetails(questId)
         if(objective.text) then
             local text = objective.text;
             if(objective.type == "monster") then
-                local i, j, monsterName = strfind(text, L_QUEST_MONSTERS_KILLED)
-                text = monsterName;
+                local i, j, monsterName = strfind(text, L_QUEST_MONSTERS_KILLED)                
+                text = monsterName or string.match(text, "^(.*):%s") or string.match(text, "%s：(.*)$") or string.match(text, "^(.*)：%s") or objective.text;
             elseif(objective.type == "item") then
                 local i, j, itemName = strfind(text, L_QUEST_ITEMS_NEEDED)
-                text = itemName;
+                text = itemName or string.match(text, "^(.*):%s") or string.match(text, "%s：(.*)$") or string.match(text, "^(.*)：%s") or objective.text;
             elseif(objective.type == "object") then
                 local i, j, objectName = strfind(text, L_QUEST_OBJECTS_FOUND)
-                text = objectName;
+                text = objectName or string.match(text, "^(.*):%s") or string.match(text, "%s：(.*)$") or string.match(text, "^(.*)：%s") or objective.text;
             end
             if(text ~= nil) then
                 objective.text = string.trim(text);
