@@ -1253,14 +1253,20 @@ function QuestieQuest:GetAllLeaderBoardDetails(questId)
             local text = objective.text;
             if(objective.type == "monster") then
                 local i, j, monsterName = strfind(text, L_QUEST_MONSTERS_KILLED)                
-                text = monsterName or string.match(text, "^(.*):%s") or string.match(text, "%s：(.*)$") or string.match(text, "^(.*)：%s") or objective.text;
+                text = monsterName;
             elseif(objective.type == "item") then
                 local i, j, itemName = strfind(text, L_QUEST_ITEMS_NEEDED)
-                text = itemName or string.match(text, "^(.*):%s") or string.match(text, "%s：(.*)$") or string.match(text, "^(.*)：%s") or objective.text;
+                text = itemName;
             elseif(objective.type == "object") then
                 local i, j, objectName = strfind(text, L_QUEST_OBJECTS_FOUND)
-                text = objectName or string.match(text, "^(.*):%s") or string.match(text, "%s：(.*)$") or string.match(text, "^(.*)：%s") or objective.text;
+                text = objectName;
             end
+            -- If the functions above do not give a good answer fall back to older regex to get something.
+            if(text == nil) then
+                text = string.match(objective.text, "^(.*):%s") or string.match(objective.text, "%s：(.*)$") or string.match(objective.text, "^(.*)：%s") or objective.text;
+            end
+
+            --If objective.text is nil, this will be nil, throw error!
             if(text ~= nil) then
                 objective.text = string.trim(text);
             else
