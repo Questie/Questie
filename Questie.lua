@@ -98,10 +98,7 @@ function Questie:OnInitialize()
     -- Initialize Journey Window
     QuestieJourney.Initialize();
 
-    -- Initialize Questie Comms
-    if(QuestieComms) then
-        QuestieComms:Initialize();
-    end
+
 
 
     -- Register Slash Commands

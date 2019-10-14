@@ -677,13 +677,8 @@ function _QuestieFramePool:Questie_Tooltip(self)
                             if icon.data.ObjectiveData.Needed then
                                 text = tostring(icon.data.ObjectiveData.Collected) .. "/" .. tostring(icon.data.ObjectiveData.Needed) .. " " .. text
                             end
-                            if not questOrder[key][text] then
-                                questOrder[key][text] = {}
-                            end
-                            if icon.data.Name then
-                                questOrder[key][text][icon.data.Name] = true
-                            end
                             if(QuestieComms) then
+                                local anotherPlayer = false;
                                 for playerName, objectiveData in pairs(QuestieComms:GetQuest(icon.data.Id) or {}) do
                                     --[[
                                         -.type = objective.type;
@@ -695,10 +690,10 @@ function _QuestieFramePool:Questie_Tooltip(self)
                                     if(playerInfo) then
                                         local fulfilled = objectiveData[icon.data.ObjectiveIndex].fulfilled;
                                         local required = objectiveData[icon.data.ObjectiveIndex].required;
-                                        local colorizedPlayerName = "|c"..playerInfo.colorHex..playerName.."|r";
+                                        local colorizedPlayerName = " (|c"..playerInfo.colorHex..playerName.."|r|cFF33FF33)|r";
                                         local remoteText = icon.data.ObjectiveData.Description;
                                         if icon.data.ObjectiveData.Needed then
-                                            remoteText = tostring(fulfilled) .. "/" .. tostring(required) .. " " .. remoteText .. " : " .. colorizedPlayerName;
+                                            remoteText = tostring(fulfilled) .. "/" .. tostring(required) .. " " .. remoteText .. colorizedPlayerName;
                                         end
                                         if not questOrder[key][remoteText] then
                                             questOrder[key][remoteText] = {}
@@ -706,8 +701,23 @@ function _QuestieFramePool:Questie_Tooltip(self)
                                         if icon.data.Name then
                                             questOrder[key][remoteText][icon.data.Name] = true
                                         end
+                                        anotherPlayer = true;
                                     end
                                 end
+                                if(anotherPlayer) then
+                                    local name = UnitName("player");
+                                    local className, classFilename = UnitClass("player");
+                                    local rPerc, gPerc, bPerc, argbHex = GetClassColor(classFilename)
+                                    name = " (|c"..argbHex..name.."|r|cFF33FF33)|r";
+                                    text = text .. name;
+                                end
+                            end
+                            
+                            if not questOrder[key][text] then
+                                questOrder[key][text] = {}
+                            end
+                            if icon.data.Name then
+                                questOrder[key][text][icon.data.Name] = true
                             end
                             --table.insert(questOrder[key], text);--questOrder[key][icon.data.ObjectiveData.Description] = tostring(icon.data.ObjectiveData.Collected) .. "/" .. tostring(icon.data.ObjectiveData.Needed) .. " " .. icon.data.ObjectiveData.Description--table.insert(questOrder[key], tostring(icon.data.ObjectiveData.Collected) .. "/" .. tostring(icon.data.ObjectiveData.Needed) .. " " .. icon.data.ObjectiveData.Description);
                         end

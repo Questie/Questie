@@ -86,6 +86,10 @@ function QuestieEventHandler:QUEST_LOG_UPDATE()
             QuestieQuest:GetAllQuestIds()
             QuestieTracker:Initialize()
             QuestieTracker:Update()
+            -- Initialize Questie Comms
+            if(QuestieComms) then
+                QuestieComms:Initialize();
+            end
         end)
         playerEntered = nil;
     end

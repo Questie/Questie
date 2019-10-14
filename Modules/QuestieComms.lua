@@ -3,7 +3,7 @@ local _QuestieComms = {...};
 -- Addon message prefix
 _QuestieComms.prefix = "questie";
 -- List of all players questlog private to prevent modification from the outside.
-_QuestieComms.remoteQuestLogs = {};
+QuestieComms.remoteQuestLogs = {};
 
 --Not used, contains a list of hashes for quest, used to compare change.
 --_QuestieComms.questHashes = {};
@@ -46,12 +46,12 @@ _QuestieComms.QC_ID_REQUEST_FULL_QUESTLIST = 11
 --Only questid gets all players with that quest and their progress
 --Both name and questid returns a specific players progress if one exist.
 function QuestieComms:GetQuest(questId, playerName)
-  if(_QuestieComms.remoteQuestLogs[questId]) then
+  if(QuestieComms.remoteQuestLogs[questId]) then
     if(playerName) then
-        if(_QuestieComms.remoteQuestLogs[questId][playerName]) then
+        if(QuestieComms.remoteQuestLogs[questId][playerName]) then
             -- Create a copy of the object, other side should never be able to edit the underlying object.
             local quest = {};
-            for key,value in pairs(_QuestieComms.remoteQuestLogs[questId][playerName]) do
+            for key,value in pairs(QuestieComms.remoteQuestLogs[questId][playerName]) do
                 quest[key] = value;
             end
             return quest;
@@ -59,7 +59,7 @@ function QuestieComms:GetQuest(questId, playerName)
     else
         -- Create a copy of the object, other side should never be able to edit the underlying object.
         local quest = {};
-        for playerName, objectivesData in pairs(_QuestieComms.remoteQuestLogs[questId]) do
+        for playerName, objectivesData in pairs(QuestieComms.remoteQuestLogs[questId]) do
             quest[playerName] = objectivesData;
         end
         return quest;
@@ -79,12 +79,14 @@ function QuestieComms:Initialize()
 
   -- Responds to the "hi" event from others.
   Questie:RegisterMessage("QC_ID_REQUEST_FULL_QUESTLIST", _QuestieComms.RequestQuestLog);
+
+  QuestieEventHandler:GROUP_JOINED()
 end
 
 -- Local Functions --
 
-function _QuestieComms:BroadcastQuestUpdate(eventName, questId) -- broadcast quest update to group or raid
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieComms] Message", eventName, tostring(questId));
+function _QuestieComms:BroadcastQuestUpdate(questId) -- broadcast quest update to group or raid
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieComms] Questid", questId, tostring(questId));
     if(questId) then
         local partyType = QuestiePlayer:GetGroupType()
         Questie:Debug(DEBUG_DEVELOP, "[QuestieComms] partyType", tostring(partyType));
@@ -95,7 +97,7 @@ function _QuestieComms:BroadcastQuestUpdate(eventName, questId) -- broadcast que
             quest.id = questId;
             local rawObjectives = QuestieQuest:GetAllLeaderBoardDetails(questId);
             quest.objectives = {}
-            for objectiveIndex, objective in rawObjectives do
+            for objectiveIndex, objective in pairs(rawObjectives) do
                 quest.objectives[objectiveIndex] = {};
                 quest.objectives[objectiveIndex].type = objective.type;
                 quest.objectives[objectiveIndex].finished = objective.finished;
@@ -131,7 +133,7 @@ function _QuestieComms:BroadcastQuestLog(eventName) -- broadcast quest update to
                 quest.id = questId;
                 local rawObjectives = QuestieQuest:GetAllLeaderBoardDetails(questId);
                 quest.objectives = {}
-                for objectiveIndex, objective in rawObjectives do
+                for objectiveIndex, objective in pairs(rawObjectives) do
                     quest.objectives[objectiveIndex] = {};
                     quest.objectives[objectiveIndex].type = objective.type;
                     quest.objectives[objectiveIndex].finished = objective.finished;
@@ -197,14 +199,14 @@ _QuestieComms.packets = {
 
         if quest then
             -- Create empty quest.
-            if not _QuestieComms.remoteQuestLogs[quest.id] then
-                _QuestieComms.remoteQuestLogs[quest.id] = {}
+            if not QuestieComms.remoteQuestLogs[quest.id] then
+                QuestieComms.remoteQuestLogs[quest.id] = {}
             end
             -- Create empty player.
-            if not _QuestieComms.remoteQuestLogs[quest.id][playerName] then
-                _QuestieComms.remoteQuestLogs[quest.id][playerName] = {}
+            if not QuestieComms.remoteQuestLogs[quest.id][playerName] then
+                QuestieComms.remoteQuestLogs[quest.id][playerName] = {}
             end
-            _QuestieComms.remoteQuestLogs[quest.id][playerName] = quest.objectives;
+            QuestieComms.remoteQuestLogs[quest.id][playerName] = quest.objectives;
         end
       end
   },
@@ -223,19 +225,19 @@ _QuestieComms.packets = {
         local playerName = remoteQuestList.playerName;
         local questList = remoteQuestList.rawQuestList;
 
-        Questie:Debug(DEBUG_DEVELOP, "[QuestieComms]", "Received: QC_ID_BROADCAST_FULL_QUESTLIST", "Player:", playerName)
+        Questie:Debug(DEBUG_DEVELOP, "[QuestieComms]", "Received: QC_ID_BROADCAST_FULL_QUESTLIST", "Player:", playerName, questList)
 
         if questList then
             for questId, questData in pairs(questList) do
                 -- Create empty quest.
-                if not _QuestieComms.remoteQuestLogs[questData.id] then
-                    _QuestieComms.remoteQuestLogs[questData.id] = {}
+                if not QuestieComms.remoteQuestLogs[questData.id] then
+                    QuestieComms.remoteQuestLogs[questData.id] = {}
                 end
                 -- Create empty player.
-                if not _QuestieComms.remoteQuestLogs[questData.id][playerName] then
-                    _QuestieComms.remoteQuestLogs[questData.id][playerName] = {}
+                if not QuestieComms.remoteQuestLogs[questData.id][playerName] then
+                    QuestieComms.remoteQuestLogs[questData.id][playerName] = {}
                 end
-                _QuestieComms.remoteQuestLogs[questData.id][playerName] = questData.objectives;
+                QuestieComms.remoteQuestLogs[questData.id][playerName] = questData.objectives;
             end
         end
       end
@@ -279,11 +281,11 @@ function _QuestieComms:broadcast(packet)
 end
 
 function _QuestieComms:OnCommReceived(message, distribution, sender)
-    Questie:Debug(DEBUG_DEVELOP, "recv(|cFF22FF22", message, "|r)", "sender:", sender, "distribution:", distribution)
+    Questie:Debug(DEBUG_DEVELOP, "|cFF22FF22", "sender:", "|r", sender, "distribution:", distribution, "Packet length:",string.len(message), message)
     if message and sender then
       local decompressedData = QuestieSerializer:Deserialize(message);--QuestieCompress:Decompress(message);
       if(decompressedData and decompressedData.messageId and _QuestieComms.packets[decompressedData.messageId]) then
-        Questie:Debug(DEBUG_DEVELOP, "Executing message ID: ", decompressedData.messageId)
+        Questie:Debug(DEBUG_DEVELOP, "Executing message ID: ", decompressedData.messageId, "From: ", sender)
         _QuestieComms.packets[decompressedData.messageId].read(decompressedData);
       end
     end

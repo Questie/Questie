@@ -330,6 +330,7 @@ function QuestieQuest:AcceptQuest(questId)
 
         --TODO: Insert call to drawing objective logic here!
         --QuestieQuest:TrackQuest(questId);
+        Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", QuestId);
     else
         Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ACCEPT_QUEST', questId), " Warning: Quest already existed, not adding");
     end
@@ -405,6 +406,7 @@ function QuestieQuest:UpdateQuest(QuestId)
             --DEFAULT_CHAT_FRAME:AddMessage("Still not finished " .. QuestId);
         end
         QuestieTracker:Update()
+        Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", QuestId);
     end
 end
 --Run this if you want to update the entire table
