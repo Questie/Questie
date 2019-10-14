@@ -59,8 +59,8 @@ function QuestieTooltips:GetTooltip(key)
                     ]]
                     local playerInfo = QuestieLib:PlayerInGroup(playerName);
                     if(playerInfo) then
-                        local fulfilled = objectiveData[tooltip.Objective.index].fulfilled;
-                        local required = objectiveData[tooltip.Objective.index].required;
+                        local fulfilled = objectiveData[tooltip.Objective.Index].fulfilled;
+                        local required = objectiveData[tooltip.Objective.Index].required;
                         local colorizedPlayerName = " (|c"..playerInfo.colorHex..playerName.."|r|cFF33FF33)|r";
                         local remoteText = tostring(tooltip.Objective.Description);
                         if tooltip.Objective.Needed then
