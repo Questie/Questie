@@ -31,57 +31,131 @@ function QuestieTooltips:RemoveTooltip(key)
 end
 
 function QuestieTooltips:GetTooltip(key)
-    if key == nil or QuestieTooltips.tooltipLookup[key] == nil then
+    if key == nil then
         return nil
     end
-    local tip = {};
-    for k, tooltip in pairs(QuestieTooltips.tooltipLookup[key]) do
-        tooltip.Objective:Update() -- update progress
-
-        if not QuestiePlayer.currentQuestlog[tooltip.Objective.QuestData.Id] then 
-            QuestieTooltips.tooltipLookup[key][k] = nil
-        else
-            table.insert(tip, tooltip.Objective.QuestData:GetColoredQuestName());
-            local text = nil;
-            if tooltip.Objective.Needed then
-                text = "   |cFF33FF33" .. tostring(tooltip.Objective.Collected) .. "/" .. tostring(tooltip.Objective.Needed) .. " " .. tostring(tooltip.Objective.Description);
-            else
-                text = "   |cFF33FF33" .. tostring(tooltip.Objective.Description);
+    --[[tooltipdata[questId] = {
+        title = coloredTitle,
+        objectivesText = {
+            [objectiveIndex] = {
+                [playerName] = text
+            }
+        }
+    }]]--
+    local name = UnitName("player");
+    local tooltipData = {}
+    if(QuestieTooltips.tooltipLookup[key]) then
+        for k, tooltip in pairs(QuestieTooltips.tooltipLookup[key]) do
+            tooltip.Objective:Update() -- update progress
+            local questId = tooltip.Objective.QuestData.Id; --Short hand to make it more readable.
+            local objectiveIndex = tooltip.Objective.Index;
+            if(not tooltipData[questId]) then
+                tooltipData[questId] = {}
+                tooltipData[questId].title = tooltip.Objective.QuestData:GetColoredQuestName();
             end
-            if(QuestieComms) then
-                local anotherPlayer = false;
-                for playerName, objectiveData in pairs(QuestieComms:GetQuest(tooltip.Objective.QuestData.Id) or {}) do
-                    --[[
-                        -.type = objective.type;
-                        -.finished = objective.finished;
-                        -.fulfilled = objective.numFulfilled;
-                        -.required = objective.numRequired;  
-                    ]]
-                    local playerInfo = QuestieLib:PlayerInGroup(playerName);
-                    if(playerInfo) then
-                        local fulfilled = objectiveData[tooltip.Objective.Index].fulfilled;
-                        local required = objectiveData[tooltip.Objective.Index].required;
-                        local colorizedPlayerName = " (|c"..playerInfo.colorHex..playerName.."|r|cFF33FF33)|r";
-                        local remoteText = tostring(tooltip.Objective.Description);
-                        if tooltip.Objective.Needed then
-                            remoteText = "   |cFF33FF33" .. tostring(fulfilled) .. "/" .. tostring(required) .. " " .. remoteText .. colorizedPlayerName;
+
+            if not QuestiePlayer.currentQuestlog[questId] then
+                QuestieTooltips.tooltipLookup[key][k] = nil
+            else
+                if(not tooltipData[questId].objectivesText) then
+                    tooltipData[questId].objectivesText = {}
+                end
+                if(not tooltipData[questId].objectivesText[objectiveIndex]) then
+                    tooltipData[questId].objectivesText[objectiveIndex] = {}
+                end
+                if(not tooltipData[questId].objectivesText[objectiveIndex][name]) then
+                    tooltipData[questId].objectivesText[objectiveIndex][name] = {}
+                end
+
+                local text = nil;
+                if tooltip.Objective.Needed then
+                    text = "   |cFF33FF33" .. tostring(tooltip.Objective.Collected) .. "/" .. tostring(tooltip.Objective.Needed) .. " " .. tostring(tooltip.Objective.Description);
+                else
+                    text = "   |cFF33FF33" .. tostring(tooltip.Objective.Description);
+                end
+                
+                --Reduntant if 
+                if tooltip.Objective.Needed then
+                    tooltipData[questId].objectivesText[objectiveIndex][name] = text;
+                else
+                    tooltipData[questId].objectivesText[objectiveIndex][name] = text;
+                end
+            end
+        end
+    end
+    local anotherPlayer = false;
+    if(QuestieComms and QuestieComms.data:KeyExists(key)) then
+        ---@tooltipData @tooltipData[questId][playerName][objectiveIndex].text
+        local tooltipData = QuestieComms.data:GetTooltip(key);
+        for questId, playerList in pairs(tooltipData) do
+            if(not tooltipData[questId]) then
+                local quest = QuestieDB:GetQuest(questId);
+                tooltipData[questId] = {}
+                tooltipData[questId].title = quest:GetColoredQuestName();
+            end
+            for playerName, objectives in pairs(playerList) do
+                local playerInfo = QuestieLib:PlayerInGroup(playerName);
+                if(playerInfo) then
+                    anotherPlayer = true;
+                    for objectiveIndex, objective in pairs(objectives) do
+                        if(not tooltipData[questId].objectivesText) then
+                            tooltipData[questId].objectivesText = {}
                         end
-                        table.insert(tip, remoteText);
-                        anotherPlayer = true;
+                        if(not tooltipData[questId].objectivesText[objectiveIndex]) then
+                            tooltipData[questId].objectivesText[objectiveIndex] = {}
+                        end
+                        if(not tooltipData[questId].objectivesText[objectiveIndex][playerName]) then
+                            tooltipData[questId].objectivesText[objectiveIndex][playerName] = {}
+                        end
+
+                        local text = nil;
+                        if objective.required then
+                            text = "   |cFF33FF33" .. tostring(objective.fulfilled) .. "/" .. tostring(objective.required) .. " " .. objective.text;
+                        else
+                            text = "   |cFF33FF33" .. objective.text;
+                        end
+                        
+                        tooltipData[questId].objectivesText[objectiveIndex][playerName] = text;
                     end
                 end
-                if(anotherPlayer) then
-                    local name = UnitName("player");
-                    local className, classFilename = UnitClass("player");
-                    local rPerc, gPerc, bPerc, argbHex = GetClassColor(classFilename)
-                    name = " (|c"..argbHex..name.."|r|cFF33FF33)|r";
-                    text = text .. name;
-                end
             end
-            if tooltip.Objective.Needed then
-                table.insert(tip, text);
-            else
-                table.insert(tip, text);
+        end
+    end
+    local tip = nil;
+    --[[tooltipdata[questId] = {
+    title = coloredTitle,
+    objectivesText = {
+        [objectiveIndex] = {
+            [playerName] = text
+        }
+    }
+    }]]--
+    for questId, questData in pairs(tooltipData) do
+        --Initialize it here to return nil if tooltipData is empty.
+        if(tip == nil) then
+            tip = {}
+        end
+        table.insert(tip, questData.title);
+        for objectiveIndex, playerList in pairs(questData.objectivesText) do
+            for playerName, objectiveText in pairs(playerList) do
+                local playerInfo = QuestieLib:PlayerInGroup(playerName);
+                local useName = "";
+                if(playerName == name and anotherPlayer) then
+                    local _, classFilename = UnitClass("player");
+                    local _, _, _, argbHex = GetClassColor(classFilename)
+                    useName = " (|c"..argbHex..name.."|r|cFF33FF33)|r";
+                elseif(playerInfo and playerName ~= name) then
+                    useName = " (|c"..playerInfo.colorHex..playerName.."|r|cFF33FF33)|r";
+                end
+                if(anotherPlayer) then
+                    objectiveText = objectiveText..useName;
+                end
+                -- We want the player to be on top.
+                if(playerName == name) then
+                    table.insert(tip, 1, objectiveText);
+                else
+                    table.insert(tip, objectiveText);
+                end
             end
         end
     end
