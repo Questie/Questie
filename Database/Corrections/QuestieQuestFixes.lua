@@ -5,6 +5,9 @@ function QuestieQuestFixes:Load()
         [5] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #1198
         },
+        [598] = {
+            [QuestieDB.questKeys.preQuestGroup] = {596,629,}
+        },
         [639] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #1205
         },
