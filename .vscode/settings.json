@@ -2628,6 +2628,17 @@
         "QuestLogExFrameMaximizeButton"
     ],
     "Lua.workspace.ignoreDir": [
-        "Libs/**"
+        "Libs/**",
+        "Database/corrections.lua",
+        "Database/graves.lua",
+        "Database/itemDB.lua",
+        "Database/objectDB.lua",
+        "Database/questDB.lua",
+        "Database/spawnDB.lua",
+        "Database/specialspawns.lua",
+        "Database/TEMP_questie2events.lua",
+        "Database/TEMP_questie4items.lua",
+        "Database/TEMP_repprof.lua",
+        "Database/zoneDB.lua",
     ]
 }
