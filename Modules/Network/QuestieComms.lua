@@ -260,8 +260,6 @@ end
 _QuestieComms.packets = {
     [_QuestieComms.QC_ID_BROADCAST_QUEST_UPDATE] = { --1
         write = function(self)
-            -- Write the sending players name into the data.
-            self.data.playerName = UnitName("player");
             Questie:Debug(DEBUG_DEVELOP, "[QuestieComms]", "Sending: QC_ID_BROADCAST_QUEST_UPDATE")
             _QuestieComms:broadcast(self.data);
         end,
@@ -280,8 +278,6 @@ _QuestieComms.packets = {
     },
     [_QuestieComms.QC_ID_BROADCAST_QUEST_REMOVE] = { --2
       write = function(self)
-        -- Write the sending players name into the data.
-        self.data.playerName = UnitName("player");
         Questie:Debug(DEBUG_DEVELOP, "[QuestieComms]", "Sending: QC_ID_BROADCAST_QUEST_REMOVE")
         _QuestieComms:broadcast(self.data);
       end,
@@ -302,8 +298,6 @@ _QuestieComms.packets = {
     },
     [_QuestieComms.QC_ID_BROADCAST_FULL_QUESTLIST] = { --10
         write = function(self)
-            -- Write the sending players name into the data.
-            self.data.playerName = UnitName("player");
             Questie:Debug(DEBUG_DEVELOP, "[QuestieComms]", "Sending: QC_ID_BROADCAST_FULL_QUESTLIST")
             _QuestieComms:broadcast(self.data);
         end,
@@ -327,8 +321,6 @@ _QuestieComms.packets = {
     },
     [_QuestieComms.QC_ID_REQUEST_FULL_QUESTLIST] = { --11
         write = function(self)
-            -- Write the sending players name into the data.
-            self.data.playerName = UnitName("player");
             Questie:Debug(DEBUG_DEVELOP, "[QuestieComms]", "Sending: QC_ID_REQUEST_FULL_QUESTLIST")
             _QuestieComms:broadcast(self.data);
         end,
@@ -369,6 +361,7 @@ function _QuestieComms:OnCommReceived(message, distribution, sender)
       local decompressedData = QuestieSerializer:Deserialize(message);--QuestieCompress:Decompress(message);
       if(decompressedData and decompressedData.messageId and _QuestieComms.packets[decompressedData.messageId]) then
         Questie:Debug(DEBUG_DEVELOP, "Executing message ID: ", decompressedData.messageId, "From: ", sender)
+        decompressedData.playerName = sender;
         _QuestieComms.packets[decompressedData.messageId].read(decompressedData);
       end
     end
