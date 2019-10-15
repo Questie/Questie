@@ -668,9 +668,14 @@ function _QuestieFramePool:Questie_Tooltip(self)
                         if not questOrder[key] then
                             questOrder[key] = {};
                         end
+                        local order = {}
                         icon.data.ObjectiveData:Update(); -- update progress info
                         if icon.data.Type == "event" then
-                            questOrder[key][icon.data.ObjectiveData.Description] = true
+                            local t = {
+                                [icon.data.ObjectiveData.Description] = true,
+                            }
+                            table.insert(order, t);
+                            --questOrder[key][icon.data.ObjectiveData.Description] = true
                         else
                             --dat.subData = icon.data.ObjectiveData
                             local text = icon.data.ObjectiveData.Description
@@ -695,13 +700,21 @@ function _QuestieFramePool:Questie_Tooltip(self)
                                         if icon.data.ObjectiveData.Needed then
                                             remoteText = tostring(fulfilled) .. "/" .. tostring(required) .. " " .. remoteText .. colorizedPlayerName;
                                         end
-                                        if not questOrder[key][remoteText] then
-                                            questOrder[key][remoteText] = {}
-                                        end
+                                        local t = {
+                                            [remoteText] = {},
+                                        }
                                         if icon.data.Name then
-                                            questOrder[key][remoteText][icon.data.Name] = true
+                                            t[remoteText][icon.data.Name] = true;
                                         end
+                                        table.insert(order, t);
                                         anotherPlayer = true;
+
+                                        --if not questOrder[key][remoteText] then
+                                        --    questOrder[key][remoteText] = {}
+                                        --end
+                                        --if icon.data.Name then
+                                        --    questOrder[key][remoteText][icon.data.Name] = true
+                                        --end
                                     end
                                 end
                                 if(anotherPlayer) then
@@ -712,13 +725,24 @@ function _QuestieFramePool:Questie_Tooltip(self)
                                     text = text .. name;
                                 end
                             end
-                            
-                            if not questOrder[key][text] then
-                                questOrder[key][text] = {}
-                            end
+
+                            local t = {
+                                [text] = {},
+                            }
                             if icon.data.Name then
-                                questOrder[key][text][icon.data.Name] = true
+                                t[text][icon.data.Name] = true;
                             end
+                            table.insert(order, 1, t);
+                            for index, data in pairs(order) do
+                                questOrder[key][index] = data;
+                            end
+
+                            --if not questOrder[key][text] then
+                            --    questOrder[key][text] = {}
+                            --end
+                            --if icon.data.Name then
+                            --    questOrder[key][text][icon.data.Name] = true
+                            --end
                             --table.insert(questOrder[key], text);--questOrder[key][icon.data.ObjectiveData.Description] = tostring(icon.data.ObjectiveData.Collected) .. "/" .. tostring(icon.data.ObjectiveData.Needed) .. " " .. icon.data.ObjectiveData.Description--table.insert(questOrder[key], tostring(icon.data.ObjectiveData.Collected) .. "/" .. tostring(icon.data.ObjectiveData.Needed) .. " " .. icon.data.ObjectiveData.Description);
                         end
                     elseif icon.data.CustomTooltipData then
@@ -757,29 +781,33 @@ function _QuestieFramePool:Questie_Tooltip(self)
                 end
             end
         end
-        for k, v in pairs(self.questOrder) do -- this logic really needs to be improved
+        for questTitle, textList in pairs(self.questOrder) do -- this logic really needs to be improved
             if haveGiver then
                 self:AddLine(" ")
-                self:AddDoubleLine(k, QuestieLocale:GetUIString("TOOLTIP_QUEST_ACTIVE"));
+                self:AddDoubleLine(questTitle, QuestieLocale:GetUIString("TOOLTIP_QUEST_ACTIVE"));
                 haveGiver = false -- looks better when only the first one shows (active)
             else
-                self:AddLine(k);
+                self:AddLine(questTitle);
             end
             if shift then
-                for k2, v2 in pairs(v) do
-                    local dataType = type(v2)
-                    if dataType == "table" then
-                        for k3 in pairs(v2) do
-                            self:AddLine("   |cFFDDDDDD" .. k3);
+                for index, textData in pairs(textList) do
+                    for k2, v2 in pairs(textData) do
+                        local dataType = type(v2)
+                        if dataType == "table" then
+                            for k3 in pairs(v2) do
+                                self:AddLine("   |cFFDDDDDD" .. k3);
+                            end
+                        elseif dataType == "string" then
+                            self:AddLine("   |cFFDDDDDD" .. v2);
                         end
-                    elseif dataType == "string" then
-                        self:AddLine("   |cFFDDDDDD" .. v2);
+                        self:AddLine("      |cFF33FF33" .. k2);
                     end
-                    self:AddLine("      |cFF33FF33" .. k2);
                 end
             else
-                for k2, v2 in pairs(v) do
-                    self:AddLine("   |cFF33FF33" .. k2);
+                for index, textData in pairs(textList) do
+                    for k2, v2 in pairs(textData) do
+                        self:AddLine("   |cFF33FF33" .. k2);
+                    end
                 end
             end
         end
