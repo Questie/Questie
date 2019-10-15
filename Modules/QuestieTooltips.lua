@@ -136,6 +136,7 @@ function QuestieTooltips:GetTooltip(key)
             tip = {}
         end
         table.insert(tip, questData.title);
+        local tempObjectives = {}
         for objectiveIndex, playerList in pairs(questData.objectivesText) do
             for playerName, objectiveText in pairs(playerList) do
                 local playerInfo = QuestieLib:PlayerInGroup(playerName);
@@ -152,11 +153,14 @@ function QuestieTooltips:GetTooltip(key)
                 end
                 -- We want the player to be on top.
                 if(playerName == name) then
-                    table.insert(tip, 1, objectiveText);
+                    table.insert(tempObjectives, 1, objectiveText);
                 else
-                    table.insert(tip, objectiveText);
+                    table.insert(tempObjectives, objectiveText);
                 end
             end
+        end
+        for index, text in pairs(tempObjectives) do
+            table.insert(tip, text);
         end
     end
     return tip
