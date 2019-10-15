@@ -216,11 +216,11 @@ function QuestieComms:CreateQuestDataPacket(questId)
     quest.objectives = {}
     for objectiveIndex, objective in pairs(rawObjectives) do
         quest.objectives[objectiveIndex] = {};
-        quest.objectives[objectiveIndex][_QuestieComms.idLookup["id"]] = questObject.Objectives[objectiveIndex].Id;
-        quest.objectives[objectiveIndex][_QuestieComms.idLookup["type"]] = string.sub(objective.type, 1, 1);-- Get the first char only.
-        quest.objectives[objectiveIndex][_QuestieComms.idLookup["finished"]] = objective.finished;
-        quest.objectives[objectiveIndex][_QuestieComms.idLookup["fulfilled"]] = objective.numFulfilled;
-        quest.objectives[objectiveIndex][_QuestieComms.idLookup["required"]] = objective.numRequired;
+        quest.objectives[objectiveIndex].id = questObject.Objectives[objectiveIndex].Id;--[_QuestieComms.idLookup["id"]] = questObject.Objectives[objectiveIndex].Id;
+        quest.objectives[objectiveIndex].typ = string.sub(objective.type, 1, 1);-- Get the first char only.--[_QuestieComms.idLookup["type"]] = string.sub(objective.type, 1, 1);-- Get the first char only.
+        quest.objectives[objectiveIndex].fin = objective.finished;--[_QuestieComms.idLookup["finished"]] = objective.finished;
+        quest.objectives[objectiveIndex].ful = objective.numFulfilled;--[_QuestieComms.idLookup["fulfilled"]] = objective.numFulfilled;
+        quest.objectives[objectiveIndex].req = objective.numRequired;--[_QuestieComms.idLookup["required"]] = objective.numRequired;
     end
     Questie:Debug(DEBUG_DEVELOP, "[QuestieComms] questPacket made: Objectivetable:", quest.objectives);
     return quest;
@@ -242,11 +242,11 @@ function QuestieComms:InsertQuestDataPacket(questPacket, playerName)
         local objectives = {}
         for objectiveIndex, objectiveData in pairs(questPacket.objectives) do
             objectives[objectiveIndex] = {};
-            objectives[objectiveIndex].id = objectiveData[_QuestieComms.idLookup["id"]];
-            objectives[objectiveIndex].type = objectiveData[_QuestieComms.idLookup["type"]];
-            objectives[objectiveIndex].finished = objectiveData[_QuestieComms.idLookup["finished"]];
-            objectives[objectiveIndex].fulfilled = objectiveData[_QuestieComms.idLookup["fulfilled"]];
-            objectives[objectiveIndex].required = objectiveData[_QuestieComms.idLookup["required"]];
+            objectives[objectiveIndex].id = objectiveData.id--[_QuestieComms.idLookup["id"]];
+            objectives[objectiveIndex].type = objectiveData.typ--[_QuestieComms.idLookup["type"]];
+            objectives[objectiveIndex].finished = objectiveData.fin--[_QuestieComms.idLookup["finished"]];
+            objectives[objectiveIndex].fulfilled = objectiveData.ful--[_QuestieComms.idLookup["fulfilled"]];
+            objectives[objectiveIndex].required = objectiveData.req--[_QuestieComms.idLookup["required"]];
         end
         QuestieComms.remoteQuestLogs[questPacket.id][playerName] = objectives;
 
@@ -359,6 +359,7 @@ function _QuestieComms:OnCommReceived(message, distribution, sender)
     Questie:Debug(DEBUG_DEVELOP, "|cFF22FF22", "sender:", "|r", sender, "distribution:", distribution, "Packet length:",string.len(message), message)
     if message and sender then
       local decompressedData = QuestieSerializer:Deserialize(message);--QuestieCompress:Decompress(message);
+      decompressedData.playerName = sender;
       if(decompressedData and decompressedData.messageId and _QuestieComms.packets[decompressedData.messageId]) then
         Questie:Debug(DEBUG_DEVELOP, "Executing message ID: ", decompressedData.messageId, "From: ", sender)
         decompressedData.playerName = sender;
