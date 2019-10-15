@@ -45,6 +45,7 @@ function QuestieEventHandler:QUEST_ACCEPTED(questLogIndex, questId)
 
     QuestieQuest:AcceptQuest(questId)
     QuestieJourney:AcceptQuest(questId)
+
 end
 
 -- Needed to distinguish finished quests from abandoned quests
@@ -64,6 +65,9 @@ function QuestieEventHandler:QUEST_REMOVED(questID)
     end
     QuestieQuest:AbandonedQuest(questID)
     QuestieJourney:AbandonQuest(questID)
+
+    --Broadcast our removal!
+    Questie:SendMessage("QC_ID_BROADCAST_QUEST_REMOVE");
 end
 
 -- Fires when a quest is turned in, but before it is remove from the quest log.
@@ -166,8 +170,6 @@ end
 
 function QuestieEventHandler:GROUP_JOINED()
     Questie:Debug(DEBUG_DEVELOP, "GROUP_JOINED")
-    --Request other players log.
-    --Questie:SendMessage("QC_ID_REQUEST_FULL_QUESTLIST");
     local checkTimer = nil;
     --We want this to be fairly quick.
     checkTimer = C_Timer.NewTicker(0.1, function()
@@ -177,6 +179,7 @@ function QuestieEventHandler:GROUP_JOINED()
         if(partyPending) then
             if(inParty or inRaid) then
                 Questie:Debug(DEBUG_DEVELOP, "[QuestieEventHandler]", "Player joined party/raid, ask for questlogs");
+                --Request other players log.
                 Questie:SendMessage("QC_ID_REQUEST_FULL_QUESTLIST");
                 checkTimer:Cancel();
             end

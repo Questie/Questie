@@ -17,6 +17,7 @@ _QuestieComms.QC_WRITE_CHANNEL = "CHANNEL"
 
 --Message types.
 _QuestieComms.QC_ID_BROADCAST_QUEST_UPDATE = 1 -- send quest_log_update status to party/raid members
+_QuestieComms.QC_ID_BROADCAST_QUEST_REMOVE = 2 -- send quest remove status to party/raid members
 -- NYI ->
 --[[
   _QuestieComms.QC_ID_BROADCAST_QUESTIE_GETVERSION = 2 -- ask anyone for the newest questie version
@@ -27,10 +28,29 @@ _QuestieComms.QC_ID_ASK_QUESTS = 6 -- ask a player for their quest progress on s
 _QuestieComms.QC_ID_SEND_QUESTS = 7
 _QuestieComms.QC_ID_ASK_QUESTSLIST = 8 -- ask a player for their current quest log as a list of quest IDs
 _QuestieComms.QC_ID_SEND_QUESTSLIST = 9
+
+        quest.objectives[objectiveIndex].id = questObject.Objectives[objectiveIndex].Id;
+        quest.objectives[objectiveIndex].typ = objective.type;
+        quest.objectives[objectiveIndex].fin = objective.finished;
+        quest.objectives[objectiveIndex].ful = objective.numFulfilled;
+        quest.objectives[objectiveIndex].req = objective.numRequired;
 ]]--
 -- <-- NYI
 _QuestieComms.QC_ID_BROADCAST_FULL_QUESTLIST = 10
 _QuestieComms.QC_ID_REQUEST_FULL_QUESTLIST = 11
+
+-- stringLookup it built from idLookup!
+_QuestieComms.stringLookup = {}
+_QuestieComms.idLookup = {
+    ["id"] = 1,
+    ["type"] = 2,
+    ["finished"] = 3,
+    ["fulfilled"] = 4,
+    ["required"] = 5,
+}
+for string, int in pairs(_QuestieComms.idLookup) do
+    _QuestieComms.stringLookup[int] = string;
+end
 
 --- Global Functions --
 
@@ -76,6 +96,8 @@ function QuestieComms:Initialize()
 
   -- Events to be used to broadcast updates to other people
   Questie:RegisterMessage("QC_ID_BROADCAST_QUEST_UPDATE", _QuestieComms.BroadcastQuestUpdate);
+  Questie:RegisterMessage("QC_ID_BROADCAST_QUEST_REMOVE", _QuestieComms.BroadcastQuestRemove);
+
   -- Bucket for 2 seconds to prevent spamming.
   Questie:RegisterBucketMessage("QC_ID_BROADCAST_FULL_QUESTLIST", 2, _QuestieComms.BroadcastQuestLog);
 
@@ -95,17 +117,8 @@ function _QuestieComms:BroadcastQuestUpdate(questId) -- broadcast quest update t
         if partyType then
             --Do we really need to make this?
             local questPacket = _QuestieComms:createPacket(_QuestieComms.QC_ID_BROADCAST_QUEST_UPDATE)
-            local quest = {};
-            quest.id = questId;
-            local rawObjectives = QuestieQuest:GetAllLeaderBoardDetails(questId);
-            quest.objectives = {}
-            for objectiveIndex, objective in pairs(rawObjectives) do
-                quest.objectives[objectiveIndex] = {};
-                quest.objectives[objectiveIndex].finished = objective.finished;
-                quest.objectives[objectiveIndex].fulfilled = objective.numFulfilled;
-                quest.objectives[objectiveIndex].required = objective.numRequired;
-            end
-            Questie:Debug(DEBUG_DEVELOP, "[QuestieComms] questPacket made: Objectivetable:", quest.objectives);
+
+            local quest = QuestieComms:CreateQuestDataPacket(questId);
 
             questPacket.data.quest = quest
             questPacket.data.priority = "NORMAL";
@@ -116,6 +129,27 @@ function _QuestieComms:BroadcastQuestUpdate(questId) -- broadcast quest update t
             end
             questPacket:write()
         end
+    end
+end
+
+-- Removes the quest from everyones external quest-log
+function _QuestieComms:BroadcastQuestRemove(questId) -- broadcast quest update to group or raid
+    local partyType = QuestiePlayer:GetGroupType()
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieComms] QuestID:", questId, "partyType:", tostring(partyType));
+    if partyType then
+        --Do we really need to make this?
+        local questPacket = _QuestieComms:createPacket(_QuestieComms.QC_ID_BROADCAST_QUEST_REMOVE);
+
+        questPacket.data.id = questId;
+
+        --This is important!
+        questPacket.data.priority = "ALERT";
+        if partyType == "raid" then
+            questPacket.data.writeMode = _QuestieComms.QC_WRITE_ALLRAID;
+        else
+            questPacket.data.writeMode = _QuestieComms.QC_WRITE_ALLGROUP;
+        end
+        questPacket:write();
     end
 end
 
@@ -130,17 +164,7 @@ function _QuestieComms:BroadcastQuestLog(eventName) -- broadcast quest update to
             local _, _, _, isHeader, _, _, _, questId, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
             if(not isHeader) then
                 -- The id is not needed due to it being used as a key, but send it anyway to keep the same structure.
-                local quest = {};
-                quest.id = questId;
-                local rawObjectives = QuestieQuest:GetAllLeaderBoardDetails(questId);
-                quest.objectives = {}
-                for objectiveIndex, objective in pairs(rawObjectives) do
-                    quest.objectives[objectiveIndex] = {};
-  
-                    quest.objectives[objectiveIndex].finished = objective.finished;
-                    quest.objectives[objectiveIndex].fulfilled = objective.numFulfilled;
-                    quest.objectives[objectiveIndex].required = objective.numRequired;
-                end
+                local quest = QuestieComms:CreateQuestDataPacket(questId);
 
                 rawQuestList[quest.id] = quest;
             end
@@ -180,81 +204,139 @@ function _QuestieComms:RequestQuestLog(eventName) -- broadcast quest update to g
     end
 end
 
+---@param questId integer @QuestID
+---@return QuestPacket
+function QuestieComms:CreateQuestDataPacket(questId)
+    local questObject = QuestieDB:GetQuest(questId);
+
+    ---@class QuestPacket
+    local quest = {};
+    quest.id = questId;
+    local rawObjectives = QuestieQuest:GetAllLeaderBoardDetails(questId);
+    quest.objectives = {}
+    for objectiveIndex, objective in pairs(rawObjectives) do
+        quest.objectives[objectiveIndex] = {};
+        quest.objectives[objectiveIndex][_QuestieComms.idLookup["id"]] = questObject.Objectives[objectiveIndex].Id;
+        quest.objectives[objectiveIndex][_QuestieComms.idLookup["type"]] = string.sub(objective.type, 1, 1);-- Get the first char only.
+        quest.objectives[objectiveIndex][_QuestieComms.idLookup["finished"]] = objective.finished;
+        quest.objectives[objectiveIndex][_QuestieComms.idLookup["fulfilled"]] = objective.numFulfilled;
+        quest.objectives[objectiveIndex][_QuestieComms.idLookup["required"]] = objective.numRequired;
+    end
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieComms] questPacket made: Objectivetable:", quest.objectives);
+    return quest;
+end
+
+---@param questPacket QuestPacket @A packet created from the CreateQuestDataPacket function
+---@param playerName string @The player said package should be added to.
+function QuestieComms:InsertQuestDataPacket(questPacket, playerName)
+    --We don't want to insert our own quest data.
+    if questPacket and playerName ~= UnitName("player") then
+        -- Create empty quest.
+        if not QuestieComms.remoteQuestLogs[questPacket.id] then
+            QuestieComms.remoteQuestLogs[questPacket.id] = {}
+        end
+        -- Create empty player.
+        if not QuestieComms.remoteQuestLogs[questPacket.id][playerName] then
+            QuestieComms.remoteQuestLogs[questPacket.id][playerName] = {}
+        end
+        local objectives = {}
+        for objectiveIndex, objectiveData in pairs(questPacket.objectives) do
+            objectives[objectiveIndex] = {};
+            objectives[objectiveIndex].id = objectiveData[_QuestieComms.idLookup["id"]];
+            objectives[objectiveIndex].type = objectiveData[_QuestieComms.idLookup["type"]];
+            objectives[objectiveIndex].finished = objectiveData[_QuestieComms.idLookup["finished"]];
+            objectives[objectiveIndex].fulfilled = objectiveData[_QuestieComms.idLookup["fulfilled"]];
+            objectives[objectiveIndex].required = objectiveData[_QuestieComms.idLookup["required"]];
+        end
+        QuestieComms.remoteQuestLogs[questPacket.id][playerName] = objectives;
+
+
+        --Write to tooltip data
+        --TODO
+
+    end
+end
+
 _QuestieComms.packets = {
-  [_QuestieComms.QC_ID_BROADCAST_QUEST_UPDATE] = {
+    [_QuestieComms.QC_ID_BROADCAST_QUEST_UPDATE] = { --1
+        write = function(self)
+            -- Write the sending players name into the data.
+            self.data.playerName = UnitName("player");
+            Questie:Debug(DEBUG_DEVELOP, "[QuestieComms]", "Sending: QC_ID_BROADCAST_QUEST_UPDATE")
+            _QuestieComms:broadcast(self.data);
+        end,
+        read = function(remoteQuestPacket)
+            if(remoteQuestPacket == nil) then
+            Questie:Error("[QuestieComms]", "QC_ID_BROADCAST_QUEST_UPDATE", "remoteQuestPacket = nil");
+            end
+            --These are not strictly needed but helps readability.
+            local playerName = remoteQuestPacket.playerName;
+            local quest = remoteQuestPacket.quest;
+
+            Questie:Debug(DEBUG_DEVELOP, "[QuestieComms]", "Received: QC_ID_BROADCAST_QUEST_UPDATE", "Player:", playerName)
+
+            QuestieComms:InsertQuestDataPacket(quest, playerName);
+        end
+    },
+    [_QuestieComms.QC_ID_BROADCAST_QUEST_REMOVE] = { --2
       write = function(self)
         -- Write the sending players name into the data.
         self.data.playerName = UnitName("player");
-        Questie:Debug(DEBUG_DEVELOP, "[QuestieComms]", "Sending: QC_ID_BROADCAST_QUEST_UPDATE")
+        Questie:Debug(DEBUG_DEVELOP, "[QuestieComms]", "Sending: QC_ID_BROADCAST_QUEST_REMOVE")
         _QuestieComms:broadcast(self.data);
       end,
       read = function(remoteQuestPacket)
         if(remoteQuestPacket == nil) then
-           Questie:Error("[QuestieComms]", "QC_ID_BROADCAST_QUEST_UPDATE", "remoteQuestPacket = nil");
+            Questie:Error("[QuestieComms]", "QC_ID_BROADCAST_QUEST_REMOVE", "remoteQuestPacket = nil");
         end
-        --These are not strictly needed but helps readability.
+        Questie:Debug(DEBUG_DEVELOP, "[QuestieComms]", "Received: QC_ID_BROADCAST_QUEST_REMOVE")
+
         local playerName = remoteQuestPacket.playerName;
-        local quest = remoteQuestPacket.quest;
+        local questId = remoteQuestPacket.id;
 
-        Questie:Debug(DEBUG_DEVELOP, "[QuestieComms]", "Received: QC_ID_BROADCAST_QUEST_UPDATE", "Player:", playerName)
-
-        if quest then
-            -- Create empty quest.
-            if not QuestieComms.remoteQuestLogs[quest.id] then
-                QuestieComms.remoteQuestLogs[quest.id] = {}
-            end
-            -- Create empty player.
-            if not QuestieComms.remoteQuestLogs[quest.id][playerName] then
-                QuestieComms.remoteQuestLogs[quest.id][playerName] = {}
-            end
-            QuestieComms.remoteQuestLogs[quest.id][playerName] = quest.objectives;
+        if(QuestieComms.remoteQuestLogs[questId] and QuestieComms.remoteQuestLogs[questId][playerName]) then
+            Questie:Debug(DEBUG_DEVELOP, "[QuestieComms]", "Removed quest:", questId, "for player:", playerName);
+            QuestieComms.remoteQuestLogs[questId][playerName] = nil;
         end
       end
-  },
-  [_QuestieComms.QC_ID_BROADCAST_FULL_QUESTLIST] = {
-      write = function(self)
-        -- Write the sending players name into the data.
-        self.data.playerName = UnitName("player");
-        Questie:Debug(DEBUG_DEVELOP, "[QuestieComms]", "Sending: QC_ID_BROADCAST_FULL_QUESTLIST")
-        _QuestieComms:broadcast(self.data);
-      end,
-      read = function(remoteQuestList)
-        if(remoteQuestList == nil) then
-           Questie:Error("[QuestieComms]", "QC_ID_BROADCAST_FULL_QUESTLIST", "remoteQuestList = nil");
-        end
-        --These are not strictly needed but helps readability.
-        local playerName = remoteQuestList.playerName;
-        local questList = remoteQuestList.rawQuestList;
+    },
+    [_QuestieComms.QC_ID_BROADCAST_FULL_QUESTLIST] = { --10
+        write = function(self)
+            -- Write the sending players name into the data.
+            self.data.playerName = UnitName("player");
+            Questie:Debug(DEBUG_DEVELOP, "[QuestieComms]", "Sending: QC_ID_BROADCAST_FULL_QUESTLIST")
+            _QuestieComms:broadcast(self.data);
+        end,
+        read = function(remoteQuestList)
+            if(remoteQuestList == nil) then
+                Questie:Error("[QuestieComms]", "QC_ID_BROADCAST_FULL_QUESTLIST", "remoteQuestList = nil");
+            end
+            --These are not strictly needed but helps readability.
+            local playerName = remoteQuestList.playerName;
+            local questList = remoteQuestList.rawQuestList;
 
-        Questie:Debug(DEBUG_DEVELOP, "[QuestieComms]", "Received: QC_ID_BROADCAST_FULL_QUESTLIST", "Player:", playerName, questList)
+            Questie:Debug(DEBUG_DEVELOP, "[QuestieComms]", "Received: QC_ID_BROADCAST_FULL_QUESTLIST", "Player:", playerName, questList)
 
-        if questList then
-            for questId, questData in pairs(questList) do
-                -- Create empty quest.
-                if not QuestieComms.remoteQuestLogs[questData.id] then
-                    QuestieComms.remoteQuestLogs[questData.id] = {}
+            --Don't save our own quests.
+            if questList then
+                for questId, questData in pairs(questList) do
+                    QuestieComms:InsertQuestDataPacket(questData, playerName);
                 end
-                -- Create empty player.
-                if not QuestieComms.remoteQuestLogs[questData.id][playerName] then
-                    QuestieComms.remoteQuestLogs[questData.id][playerName] = {}
-                end
-                QuestieComms.remoteQuestLogs[questData.id][playerName] = questData.objectives;
             end
         end
-      end
-  },
-  [_QuestieComms.QC_ID_REQUEST_FULL_QUESTLIST] = {
-      write = function(self)
-        -- Write the sending players name into the data.
-        self.data.playerName = UnitName("player");
-        Questie:Debug(DEBUG_DEVELOP, "[QuestieComms]", "Sending: QC_ID_REQUEST_FULL_QUESTLIST")
-        _QuestieComms:broadcast(self.data);
-      end,
-      read = function(self)
-        Questie:Debug(DEBUG_DEVELOP, "[QuestieComms]", "Received: QC_ID_REQUEST_FULL_QUESTLIST")
-        Questie:SendMessage("QC_ID_BROADCAST_FULL_QUESTLIST");
-      end
-  },
+    },
+    [_QuestieComms.QC_ID_REQUEST_FULL_QUESTLIST] = { --11
+        write = function(self)
+            -- Write the sending players name into the data.
+            self.data.playerName = UnitName("player");
+            Questie:Debug(DEBUG_DEVELOP, "[QuestieComms]", "Sending: QC_ID_REQUEST_FULL_QUESTLIST")
+            _QuestieComms:broadcast(self.data);
+        end,
+        read = function(self)
+            Questie:Debug(DEBUG_DEVELOP, "[QuestieComms]", "Received: QC_ID_REQUEST_FULL_QUESTLIST")
+            Questie:SendMessage("QC_ID_BROADCAST_FULL_QUESTLIST");
+        end
+    },
 }
 
 -- Renamed Write function
