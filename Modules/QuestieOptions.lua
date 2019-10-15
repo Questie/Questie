@@ -179,6 +179,7 @@ _QuestieOptions.defaults = {
       trackerbindSetTomTom = 'ctrlleft',
       iconFadeLevel = 0.3,
       trackerLocked = true,
+      hideUnexploredMapIcons = false,
     },
       char = {
           complete = {},
@@ -264,14 +265,29 @@ _QuestieOptions.optionsGUI = {
                                         QuestieQuest:UpdateHiddenNotes();
                                     end,
                         },
+                        hideUnexploredMapIconsToggle = {
+                            type = "toggle",
+                            order = 3,
+                            name = function() return QuestieLocale:GetUIString('HIDE_UNEXPLORED_ICONS') end,
+                            desc = function() return QuestieLocale:GetUIString('HIDE_UNEXPLORED_ICONS_DESC') end,
+                            width = "full",
+                            disabled = function() return (not Questie.db.char.enabled) end,
+                            get = function()
+                                return Questie.db.global.hideUnexploredMapIcons;
+                            end,
+                            set = function(info, value)
+                                Questie.db.global.hideUnexploredMapIcons = value
+                                QuestieQuest:Reset();
+                            end,
+                        },
                         seperatingHeader = {
                             type = "header",
-                            order = 3,
+                            order = 4,
                             name = "",
                         },
                         enableObjectivesToggle = {
                             type = "toggle",
-                            order = 4,
+                            order = 5,
                             name = function() return QuestieLocale:GetUIString('ENABLE_OBJECTIVES') end,
                             desc = function() return QuestieLocale:GetUIString('ENABLE_OBJECTIVES_DESC') end,
                             width = "full",
@@ -286,7 +302,7 @@ _QuestieOptions.optionsGUI = {
                         },
                         enableTurninsToggle = {
                             type = "toggle",
-                            order = 5,
+                            order = 6,
                             name = function() return QuestieLocale:GetUIString('ENABLE_TURNINS') end,
                             desc = function() return QuestieLocale:GetUIString('ENABLE_TURNINS_DESC') end,
                             width = "full",
@@ -301,7 +317,7 @@ _QuestieOptions.optionsGUI = {
                         },
                         enableAvailableToggle = {
                             type = "toggle",
-                            order = 6,
+                            order = 7,
                             name = function() return QuestieLocale:GetUIString('ENABLE_AVAILABLE') end,
                             desc = function() return QuestieLocale:GetUIString('ENABLE_AVAILABLE_DESC') end,
                             width = "full",
