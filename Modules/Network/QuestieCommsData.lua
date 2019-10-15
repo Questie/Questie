@@ -1,12 +1,12 @@
 QuestieComms.data = {}
 
 --[i_1337][playerName][questId] = objective
-local commsTooltipLookup = {}
+commsTooltipLookup = {}
 
 --[playerName] = {
     --[questId] = {["i_1337"]=true,["o_1338"]=true,}
 --}
-local playerRegisteredTooltips = {}
+playerRegisteredTooltips = {}
 
 ---@param tooltipKey string @A key in the form of "i_1337"
 ---@return boolean @true if exist nil if not
@@ -68,7 +68,16 @@ function QuestieComms.data:RegisterTooltip(questId, playerName, objectives)
     end
     for objectiveIndex, objective in pairs(objectives) do
         local lookupKey = objective.type.."_"..objective.id;
-        if(not commsTooltipLookup[lookupKey]) then
+        if(objective.type == "i") then
+          local item = QuestieDB:GetItem(objective.id);
+          for index, source in pairs(item.Sources) do
+            local sourceType = string.sub(source.Type, 1, 1);
+            local sourceId = source.Id;
+            local sourceLookupKey = sourceType.."_"..sourceId;
+            QuestieComms.data:AddTooltip(playerName, questId, sourceLookupKey, objectiveIndex, objective);
+          end
+        end
+        --[[if(not commsTooltipLookup[lookupKey]) then
             commsTooltipLookup[lookupKey] = {}
         end
         if(not commsTooltipLookup[lookupKey][playerName]) then
@@ -78,7 +87,25 @@ function QuestieComms.data:RegisterTooltip(questId, playerName, objectives)
             commsTooltipLookup[lookupKey][playerName][questId] = {};
         end
         commsTooltipLookup[lookupKey][playerName][questId][objectiveIndex] = objective;
+        
+        playerRegisteredTooltips[playerName][questId][lookupKey] = true;]]--
+        QuestieComms.data:AddTooltip(playerName, questId, lookupKey, objectiveIndex, objective);
     end
+end
+
+function QuestieComms.data:AddTooltip(playerName, questId, lookupKey, objectiveIndex, data)
+    if(not commsTooltipLookup[lookupKey]) then
+        commsTooltipLookup[lookupKey] = {}
+    end
+    if(not commsTooltipLookup[lookupKey][playerName]) then
+        commsTooltipLookup[lookupKey][playerName] = {};
+    end
+    if(not commsTooltipLookup[lookupKey][playerName][questId]) then
+        commsTooltipLookup[lookupKey][playerName][questId] = {};
+    end
+    commsTooltipLookup[lookupKey][playerName][questId][objectiveIndex] = data;
+    
+    playerRegisteredTooltips[playerName][questId][lookupKey] = true;
 end
 
 --Totally removes a player from the tooltip lookups
