@@ -791,7 +791,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
             end
             if shift then
                 for index, textData in pairs(textList) do
-                    for k2, v2 in pairs(textData) do
+                    for textLine, v2 in pairs(textData) do
                         local dataType = type(v2)
                         if dataType == "table" then
                             for k3 in pairs(v2) do
@@ -800,13 +800,13 @@ function _QuestieFramePool:Questie_Tooltip(self)
                         elseif dataType == "string" then
                             self:AddLine("   |cFFDDDDDD" .. v2);
                         end
-                        self:AddLine("      |cFF33FF33" .. k2);
+                        self:AddLine("      |cFF33FF33" .. textLine);
                     end
                 end
             else
                 for index, textData in pairs(textList) do
-                    for k2, v2 in pairs(textData) do
-                        self:AddLine("   |cFF33FF33" .. k2);
+                    for textLine, v2 in pairs(textData) do
+                        self:AddLine("   |cFF33FF33" .. textLine);
                     end
                 end
             end

@@ -294,6 +294,7 @@ _QuestieComms.packets = {
             Questie:Debug(DEBUG_DEVELOP, "[QuestieComms]", "Removed quest:", questId, "for player:", playerName);
             QuestieComms.remoteQuestLogs[questId][playerName] = nil;
         end
+        QuestieComms.data:RemoveQuestFromPlayer(questId, playerName);
       end
     },
     [_QuestieComms.QC_ID_BROADCAST_FULL_QUESTLIST] = { --10
