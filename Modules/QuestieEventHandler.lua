@@ -88,6 +88,8 @@ function QuestieEventHandler:QUEST_TURNED_IN(questID, xpReward, moneyReward)
     Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_TURNED_IN", questID, xpReward, moneyReward)
     _Hack_prime_log()
     finishedEventReceived = questID
+    --Broadcast our removal!
+    Questie:SendMessage("QC_ID_BROADCAST_QUEST_REMOVE", questID);
 end
 
 -- Fires when the quest log changes. That includes visual changes and
@@ -131,8 +133,6 @@ function QuestieEventHandler:UNIT_QUEST_LOG_CHANGED(unitTarget)
             runQLU = true
             QuestieQuest:CompleteQuest(questID)
             QuestieJourney:CompleteQuest(questID)
-            --Broadcast our removal!
-            Questie:SendMessage("QC_ID_BROADCAST_QUEST_REMOVE", questID);
         end
     end
 end
