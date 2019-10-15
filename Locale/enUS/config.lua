@@ -32,6 +32,8 @@ QuestieLocale.locale['enUS'] = {
     ['ENABLE_MAP_ICONS_DESC'] = "Show/hide all icons from the main map",
     ['ENABLE_MINIMAP_ICONS'] = "Enable Minimap Icons",
     ['ENABLE_MINIMAP_ICONS_DESC'] = "Show/hide all icons from the minimap",
+    ['HIDE_UNEXPLORED_ICONS'] = "Hide unexplored area Icons",
+    ['HIDE_UNEXPLORED_ICONS_DESC'] = "Hide icons in unexplored areas",
 
     ['MINIMAP_TAB'] = "Minimap",
     ['MINIMAP_HEADER'] = "Mini-Map Note Options",

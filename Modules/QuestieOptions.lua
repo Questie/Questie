@@ -179,6 +179,7 @@ _QuestieOptions.defaults = {
       trackerbindSetTomTom = 'ctrlleft',
       iconFadeLevel = 0.3,
       trackerLocked = true,
+      hideUnexploredMapIcons = false,
     },
       char = {
           complete = {},
@@ -264,14 +265,29 @@ _QuestieOptions.optionsGUI = {
                                         QuestieQuest:UpdateHiddenNotes();
                                     end,
                         },
+                        hideUnexploredMapIconsToggle = {
+                            type = "toggle",
+                            order = 3,
+                            name = function() return QuestieLocale:GetUIString('HIDE_UNEXPLORED_ICONS') end,
+                            desc = function() return QuestieLocale:GetUIString('HIDE_UNEXPLORED_ICONS_DESC') end,
+                            width = "full",
+                            disabled = function() return (not Questie.db.char.enabled) end,
+                            get = function()
+                                return Questie.db.global.hideUnexploredMapIcons;
+                            end,
+                            set = function(info, value)
+                                Questie.db.global.hideUnexploredMapIcons = value
+                                QuestieQuest:Reset();
+                            end,
+                        },
                         seperatingHeader = {
                             type = "header",
-                            order = 3,
+                            order = 4,
                             name = "",
                         },
                         enableObjectivesToggle = {
                             type = "toggle",
-                            order = 4,
+                            order = 5,
                             name = function() return QuestieLocale:GetUIString('ENABLE_OBJECTIVES') end,
                             desc = function() return QuestieLocale:GetUIString('ENABLE_OBJECTIVES_DESC') end,
                             width = "full",
@@ -286,7 +302,7 @@ _QuestieOptions.optionsGUI = {
                         },
                         enableTurninsToggle = {
                             type = "toggle",
-                            order = 5,
+                            order = 6,
                             name = function() return QuestieLocale:GetUIString('ENABLE_TURNINS') end,
                             desc = function() return QuestieLocale:GetUIString('ENABLE_TURNINS_DESC') end,
                             width = "full",
@@ -301,7 +317,7 @@ _QuestieOptions.optionsGUI = {
                         },
                         enableAvailableToggle = {
                             type = "toggle",
-                            order = 6,
+                            order = 7,
                             name = function() return QuestieLocale:GetUIString('ENABLE_AVAILABLE') end,
                             desc = function() return QuestieLocale:GetUIString('ENABLE_AVAILABLE_DESC') end,
                             width = "full",
@@ -386,10 +402,10 @@ _QuestieOptions.optionsGUI = {
                     name = "Auto Accept Quests",
                     desc = "Enable or disable Questie auto-accepting quests.",
                     width = "full",
-                    get =	function ()
+                    get =    function ()
                                 return Questie.db.char.autoaccept
                             end,
-                    set =	function (info, value)
+                    set =    function (info, value)
                                 Questie.db.char.autoaccept = value
                                 Questie:debug(DEBUG_DEVELOP, "Auto Accept toggled to:", value)
                             end,
@@ -400,10 +416,10 @@ _QuestieOptions.optionsGUI = {
                     name = "Auto Complete",
                     desc = "Enable or disable Questie auto-complete quests.",
                     width = "full",
-                    get =	function ()
+                    get =    function ()
                                 return Questie.db.char.autocomplete
                             end,
-                    set =	function (info, value)
+                    set =    function (info, value)
                                 Questie.db.char.autocomplete = value
                                 Questie:debug(DEBUG_DEVELOP, "Auto Complete toggled to:", value)
                             end,
@@ -797,10 +813,10 @@ _QuestieOptions.optionsGUI = {
                 }
             },
         },
-        
+
         --TODO, hid hud tab if DBMHudMap global doesn't exist? Or at very least gray out options?
         --dbmHUDEnable, dbmHUDShowAlert, DBMHUDZoom, dbmHUDRadius, dbmHUDShowQuest, dbmHUDShowSlay, dbmHUDShowLoot, dbmHUDShowInteract
-		dbm_hud_tab = {
+        dbm_hud_tab = {
             name = function() return QuestieLocale:GetUIString('DBM_HUD_TAB') end,
             type = "group",
             disabled = function() if DBMHudMap then return false else return true end end,
@@ -822,9 +838,9 @@ _QuestieOptions.optionsGUI = {
                                 SetGlobalOptionLocal(info, value)
 
                                 if value then
-                                	QuestieDBMIntegration:EnableHUD()
-                                	--Hud Integration is completely innert when disabled, so QuestieDBMIntegration:SoftReset() cannot be used since it has no local tables
-                                	--Questies SmoothReset must be used after enabling hud so that HUD can build it's own tables when initial icons get added
+                                    QuestieDBMIntegration:EnableHUD()
+                                    --Hud Integration is completely innert when disabled, so QuestieDBMIntegration:SoftReset() cannot be used since it has no local tables
+                                    --Questies SmoothReset must be used after enabling hud so that HUD can build it's own tables when initial icons get added
                                     QuestieQuest:SmoothReset()
                                 else
                                     QuestieDBMIntegration:ClearAll(true)--Passing true unregisters events and completely disables HUD activity after the ClearAll
