@@ -637,6 +637,8 @@ function _QuestieFramePool:Questie_Tooltip(self)
     --Tooltip:AddLine(v);
     --end
 
+    local usedText = {}
+
     local npcOrder = {};
     local questOrder = {};
     local manualOrder = {};
@@ -664,6 +666,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
                         npcOrder[icon.data.Name][dat.title] = dat
                         --table.insert(npcOrder[icon.data.Name], dat);
                     elseif icon.data.ObjectiveData and icon.data.ObjectiveData.Description then
+                        --Questie:Print("Close icon", icon:GetName(), icon.data.QuestData:GetColoredQuestName())
                         local key = icon.data.QuestData:GetColoredQuestName();
                         if not questOrder[key] then
                             questOrder[key] = {};
@@ -734,7 +737,14 @@ function _QuestieFramePool:Questie_Tooltip(self)
                             end
                             table.insert(order, 1, t);
                             for index, data in pairs(order) do
-                                questOrder[key][index] = data;
+                              --Questie:Print("1",index, data)
+                                for text, v in pairs(data) do
+                                  --Questie:Print("2",text, v)
+                                  if(usedText[text] == nil) then
+                                    table.insert(questOrder[key], text);
+                                    usedText[text] = true;
+                                  end
+                                end
                             end
 
                             --if not questOrder[key][text] then
@@ -746,7 +756,8 @@ function _QuestieFramePool:Questie_Tooltip(self)
                             --table.insert(questOrder[key], text);--questOrder[key][icon.data.ObjectiveData.Description] = tostring(icon.data.ObjectiveData.Collected) .. "/" .. tostring(icon.data.ObjectiveData.Needed) .. " " .. icon.data.ObjectiveData.Description--table.insert(questOrder[key], tostring(icon.data.ObjectiveData.Collected) .. "/" .. tostring(icon.data.ObjectiveData.Needed) .. " " .. icon.data.ObjectiveData.Description);
                         end
                     elseif icon.data.CustomTooltipData then
-                        questOrder[icon.data.CustomTooltipData.Title] = icon.data.CustomTooltipData.Body
+                        questOrder[icon.data.CustomTooltipData.Title] = {}
+                        table.insert(questOrder[icon.data.CustomTooltipData.Title], icon.data.CustomTooltipData.Body);
                     elseif icon.data.ManualTooltipData then
                         manualOrder[icon.data.ManualTooltipData.Title] = icon.data.ManualTooltipData.Body
                     end
@@ -782,6 +793,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
             end
         end
         for questTitle, textList in pairs(self.questOrder) do -- this logic really needs to be improved
+          testt = textList
             if haveGiver then
                 self:AddLine(" ")
                 self:AddDoubleLine(questTitle, QuestieLocale:GetUIString("TOOLTIP_QUEST_ACTIVE"));
@@ -805,9 +817,10 @@ function _QuestieFramePool:Questie_Tooltip(self)
                 end
             else
                 for index, textData in pairs(textList) do
-                    for textLine, v2 in pairs(textData) do
-                        self:AddLine("   |cFF33FF33" .. textLine);
-                    end
+                    self:AddLine("   |cFF33FF33" .. textData);
+                    --for textLine, v2 in pairs(textData) do
+                    --    self:AddLine("   |cFF33FF33" .. textLine);
+                    --end
                 end
             end
         end
