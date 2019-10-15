@@ -242,6 +242,7 @@ function QuestieComms:InsertQuestDataPacket(questPacket, playerName)
         local objectives = {}
         for objectiveIndex, objectiveData in pairs(questPacket.objectives) do
             objectives[objectiveIndex] = {};
+            objectives[objectiveIndex].index = objectiveIndex;
             objectives[objectiveIndex].id = objectiveData.id--[_QuestieComms.idLookup["id"]];
             objectives[objectiveIndex].type = objectiveData.typ--[_QuestieComms.idLookup["type"]];
             objectives[objectiveIndex].finished = objectiveData.fin--[_QuestieComms.idLookup["finished"]];

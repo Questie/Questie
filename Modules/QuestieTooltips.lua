@@ -86,8 +86,8 @@ function QuestieTooltips:GetTooltip(key)
     local anotherPlayer = false;
     if(QuestieComms and QuestieComms.data:KeyExists(key)) then
         ---@tooltipData @tooltipData[questId][playerName][objectiveIndex].text
-        local tooltipData = QuestieComms.data:GetTooltip(key);
-        for questId, playerList in pairs(tooltipData) do
+        local tooltipDataExternal = QuestieComms.data:GetTooltip(key);
+        for questId, playerList in pairs(tooltipDataExternal) do
             if(not tooltipData[questId]) then
                 local quest = QuestieDB:GetQuest(questId);
                 tooltipData[questId] = {}
