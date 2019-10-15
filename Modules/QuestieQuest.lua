@@ -626,7 +626,7 @@ ObjectiveSpawnListCallTable = {
         mon.Id = id
         mon.GetIconScale = function() return Questie.db.global.monsterScale or 1 end
         mon.IconScale = mon:GetIconScale();
-        mon.TooltipKey = "u_" .. id -- todo: use ID based keys
+        mon.TooltipKey = "m_" .. id -- todo: use ID based keys
 
         ret[id] = mon;
         return ret
