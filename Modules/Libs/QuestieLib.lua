@@ -170,6 +170,12 @@ function QuestieLib:PlayerInGroup(playerName)
     return nil;
 end
 
+function QuestieLib:Count(table) -- according to stack overflow, # and table.getn arent reliable (I've experienced this? not sure whats up)
+    local count = 0
+    for k, v in pairs(table) do count = count + 1; end
+    return count
+end
+
 -- Credits to Shagu and pfQuest, why reinvent the wheel.
 -- https://gitlab.com/shagu/pfQuest/blob/master/compat/pfUI.lua
 local sanitize_cache = {}

@@ -57,7 +57,11 @@ Modules\QuestieQuest.lua
 Modules\QuestieNameplate.lua
 Modules\QuestieCoordinates.lua
 Modules\QuestieJourney.lua
-Modules\QuestieComms.lua
+
+#Network
+Modules\Network\QuestieComms.lua
+Modules\Network\QuestieCommsData.lua
+
 Modules\QuestieSearchResults.lua
 Modules\QuestieSearch.lua
 Modules\QuestieTracker.lua
