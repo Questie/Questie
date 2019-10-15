@@ -53,7 +53,7 @@ function QuestieLib:IsResponseCorrect(questId)
         else
           for objectiveIndex, objective in pairs(objectiveList) do
               if(objective.text == nil or objective.text == "" or QuestieDB:Levenshtein(": 0/1", objective.text) < 5) then
-                  Questie:Print(count, " : Objective text is strange!", "'", objective.text, "'", " distance", QuestieDB:Levenshtein(": 0/1", objective.text));
+                  Questie:Debug(DEBUG_SPAM, count, " : Objective text is strange!", "'", objective.text, "'", " distance", QuestieDB:Levenshtein(": 0/1", objective.text));
                   good = false;
                   break;
               end
@@ -78,7 +78,7 @@ function QuestieLib:GetQuestObjectives(questId)
         else
           for objectiveIndex, objective in pairs(objectiveList) do
               if(objective.text == nil or objective.text == "" or QuestieDB:Levenshtein(": 0/1", objective.text) < 5) then
-                  Questie:Print(count, " : Objective text is strange!", "'", objective.text, "'", " distance", QuestieDB:Levenshtein(": 0/1", objective.text));
+                  Questie:Debug(DEBUG_SPAM, count, " : Objective text is strange!", "'", objective.text, "'", " distance", QuestieDB:Levenshtein(": 0/1", objective.text));
                   good = false;
                   break;
               end
