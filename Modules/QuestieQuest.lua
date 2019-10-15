@@ -278,26 +278,14 @@ function QuestieQuest:GetRawLeaderBoardDetails(QuestLogIndex)
     quest.isComplete = isComplete;
 
     quest.Objectives = {}
-    while (true) do
-        local bad = false;
-        local objectiveList  = C_QuestLog.GetQuestObjectives(questId) or {};
-        for objectiveIndex, objective in pairs(objectiveList) do
-            if(objective.text == nil or objective.text == "" or QuestieDB:Levenshtein(": 0/1", objective.text) < 5) then
-                Questie:Print("Objective text is strange!", "'", objective.text, "'");
-                bad = true;
-                break;
-            else
-                quest.Objectives[objectiveIndex] = {}
-                quest.Objectives[objectiveIndex].description = objective.text;
-                quest.Objectives[objectiveIndex].objectiveType = objective.type;
-                quest.Objectives[objectiveIndex].isCompleted = objective.finished;
-                quest.Objectives[objectiveIndex].numFulfilled = objective.numFulfilled;
-                quest.Objectives[objectiveIndex].numRequired = objective.numRequired;
-            end
-        end
-        if(not bad) then
-            break;
-        end
+    local objectiveList  = C_QuestLog.GetQuestObjectives(questId) or {};
+    for objectiveIndex, objective in pairs(objectiveList) do
+        quest.Objectives[objectiveIndex] = {}
+        quest.Objectives[objectiveIndex].description = objective.text;
+        quest.Objectives[objectiveIndex].objectiveType = objective.type;
+        quest.Objectives[objectiveIndex].isCompleted = objective.finished;
+        quest.Objectives[objectiveIndex].numFulfilled = objective.numFulfilled;
+        quest.Objectives[objectiveIndex].numRequired = objective.numRequired;
     end
     -- Old select code, is this still needed?
     if old then SelectQuestLogEntry(old); end
@@ -1170,22 +1158,7 @@ function QuestieQuest:GetQuestHash(questId, isComplete)
     local data = {}
     data.questId = questId
     data.isComplete = isComplete
-    while (true) do
-        local bad = false;
-        local objectiveList  = C_QuestLog.GetQuestObjectives(questId) or {};
-        for objectiveIndex, objective in pairs(objectiveList) do
-            if(objective.text == nil or objective.text == "" or QuestieDB:Levenshtein(": 0/1", objective.text) < 5) then
-                Questie:Print("Objective text is strange!", "'", objective.text, "'");
-                bad = true;
-                break;
-            end
-        end
-        if(not bad) then
-            data.questObjectives = objectiveList;
-            break;
-        end
-    end
-    
+    data.questObjectives = QuestieLib:GetQuestObjectives(questId);
 
     hash = libC:fcs32update(hash, libS:Serialize(data))
     hash = libC:fcs32final(hash)
@@ -1248,8 +1221,17 @@ function QuestieQuest:CompareQuestHashes()
 
                 if oldhash ~= newHash then
                     Questie:Debug(DEBUG_DEVELOP, "CompareQuestHashes: Hash changed for questId:", questId)
-                    QuestieQuest:UpdateQuest(questId)
-                    _QuestieQuest.questLogHashes[questId] = newHash
+                    local timer = nil;
+                    timer = C_Timer.NewTicker(0.5, function()
+                        if(QuestieLib:IsResponseCorrect(questId)) then
+                            QuestieQuest:UpdateQuest(questId)
+                            _QuestieQuest.questLogHashes[questId] = newHash
+                            timer:Cancel();
+                            Questie:Debug(DEBUG_DEVELOP, "Accept seems correct, cancel timer");
+                        else   
+                            Questie:Debug(DEBUG_CRITICAL, "Response is wrong for quest, waiting with timer");
+                        end
+                    end)
                 end
             end
         end
@@ -1277,22 +1259,7 @@ local L_QUEST_MONSTERS_KILLED = QuestieLib:SanitizePattern(QUEST_MONSTERS_KILLED
 local L_QUEST_ITEMS_NEEDED = QuestieLib:SanitizePattern(QUEST_ITEMS_NEEDED)
 local L_QUEST_OBJECTS_FOUND = QuestieLib:SanitizePattern(QUEST_OBJECTS_FOUND)
 function QuestieQuest:GetAllLeaderBoardDetails(questId)
-    local questObjectives = nil
-    while (true) do
-        local bad = false;
-        local objectiveList  = C_QuestLog.GetQuestObjectives(questId);
-        for objectiveIndex, objective in pairs(objectiveList) do
-            if(objective.text == nil or objective.text == "" or QuestieDB:Levenshtein(": 0/1", objective.text) < 5) then
-                Questie:Print("Objective text is strange!", "'", objective.text, "'");
-                bad = true;
-                break;
-            end
-        end
-        if(not bad) then
-            questObjectives = objectiveList;
-            break;
-        end
-    end
+    local questObjectives = QuestieLib:GetQuestObjectives(questId);
 
     --Questie:Print(questId)
     for objectiveIndex, objective in pairs(questObjectives) do

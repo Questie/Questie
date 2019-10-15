@@ -42,9 +42,17 @@ end
 function QuestieEventHandler:QUEST_ACCEPTED(questLogIndex, questId)
     Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_ACCEPTED", "QLogIndex: "..questLogIndex,  "QuestID: "..questId);
     _Hack_prime_log()
-
-    QuestieQuest:AcceptQuest(questId)
-    QuestieJourney:AcceptQuest(questId)
+    local timer = nil;
+    timer = C_Timer.NewTicker(0.5, function()
+        if(QuestieLib:IsResponseCorrect(questId)) then
+            QuestieQuest:AcceptQuest(questId)
+            QuestieJourney:AcceptQuest(questId)
+            timer:Cancel();
+            Questie:Debug(DEBUG_DEVELOP, "Accept seems correct, cancel timer");
+        else   
+            Questie:Debug(DEBUG_CRITICAL, "Response is wrong for quest, waiting with timer");
+        end
+    end)
 
 end
 

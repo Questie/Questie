@@ -41,6 +41,57 @@ function QuestieLib:PrintDifficultyColor(level, text)
     end
 end
 
+function QuestieLib:IsResponseCorrect(questId)
+    local count = 0;
+    local objectiveList = nil;
+    local good = true;
+    while (true and count < 50) do
+        good = true;
+        objectiveList = C_QuestLog.GetQuestObjectives(questId);
+        if(objectiveList == nil) then
+          good = false;
+        else
+          for objectiveIndex, objective in pairs(objectiveList) do
+              if(objective.text == nil or objective.text == "" or QuestieDB:Levenshtein(": 0/1", objective.text) < 5) then
+                  Questie:Print(count, " : Objective text is strange!", "'", objective.text, "'", " distance", QuestieDB:Levenshtein(": 0/1", objective.text));
+                  good = false;
+                  break;
+              end
+          end
+        end
+        if(good) then
+            break;
+        end
+        count = count + 1;
+    end
+    return good;
+end
+
+function QuestieLib:GetQuestObjectives(questId)
+    local count = 0;
+    local objectiveList = nil;
+    while (true and count < 50) do
+        local good = true;
+        objectiveList = C_QuestLog.GetQuestObjectives(questId);
+        if(objectiveList == nil) then
+          good = false;
+        else
+          for objectiveIndex, objective in pairs(objectiveList) do
+              if(objective.text == nil or objective.text == "" or QuestieDB:Levenshtein(": 0/1", objective.text) < 5) then
+                  Questie:Print(count, " : Objective text is strange!", "'", objective.text, "'", " distance", QuestieDB:Levenshtein(": 0/1", objective.text));
+                  good = false;
+                  break;
+              end
+          end
+        end
+        if(good) then
+            break;
+        end
+        count = count + 1;
+    end
+    return objectiveList;
+end
+
 ---@param waypointTable table<integer, Point> @A table containing waypoints {{X, Y}, ...}
 ---@return integer @X coordinate, 0-100
 ---@return integer @Y coordinate, 0-100
