@@ -74,7 +74,15 @@ local finishedEventReceived = false
 function QuestieEventHandler:QUEST_REMOVED(questID)
     Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_REMOVED", questID);
     _Hack_prime_log()
-
+    if finishedEventReceived == questID then
+        finishedEventReceived = false
+        runQLU = true
+        QuestieQuest:CompleteQuest(questID)
+        QuestieJourney:CompleteQuest(questID)
+        --Broadcast our removal!
+        Questie:SendMessage("QC_ID_BROADCAST_QUEST_REMOVE", questID);
+        return
+    end
     QuestieQuest:AbandonedQuest(questID)
     QuestieJourney:AbandonQuest(questID)
 
@@ -88,8 +96,6 @@ function QuestieEventHandler:QUEST_TURNED_IN(questID, xpReward, moneyReward)
     Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_TURNED_IN", questID, xpReward, moneyReward)
     _Hack_prime_log()
     finishedEventReceived = questID
-    --Broadcast our removal!
-    Questie:SendMessage("QC_ID_BROADCAST_QUEST_REMOVE", questID);
 end
 
 -- Fires when the quest log changes. That includes visual changes and
@@ -127,13 +133,6 @@ function QuestieEventHandler:UNIT_QUEST_LOG_CHANGED(unitTarget)
     if unitTarget == "player" then
         Questie:Debug(DEBUG_DEVELOP, "UNIT_QUEST_LOG_CHANGED: player")
         runQLU = true
-        if finishedEventReceived then
-            local questID = finishedEventReceived;
-            finishedEventReceived = nil;
-            runQLU = true
-            QuestieQuest:CompleteQuest(questID)
-            QuestieJourney:CompleteQuest(questID)
-        end
     end
 end
 
