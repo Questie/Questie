@@ -8,6 +8,18 @@ local commsTooltipLookup = {}
 --}
 local playerRegisteredTooltips = {}
 
+---@param tooltipKey string @A key in the form of "i_1337"
+---@return boolean @true if exist nil if not
+function QuestieComms.data:KeyExists(tooltipKey)
+    if(commsTooltipLookup[tooltipKey]) then
+        return true;
+    else
+        return nil;
+    end
+end
+
+---@param tooltipKey string @A key in the form of "i_1337"
+---@return table @tooltipData[questId][playerName][objectiveIndex].text
 function QuestieComms.data:GetTooltip(tooltipKey)
     local tooltipData = {}
     for playerName, questData in pairs(commsTooltipLookup[tooltipKey]) do
@@ -44,6 +56,9 @@ function QuestieComms.data:GetTooltip(tooltipKey)
     return tooltipData;
 end
 
+---@param questId integer
+---@param playerName string
+---@param objectives table @Contains objectives o[index].text
 function QuestieComms.data:RegisterTooltip(questId, playerName, objectives)
     if(not playerRegisteredTooltips[playerName]) then
         playerRegisteredTooltips[playerName] = {}

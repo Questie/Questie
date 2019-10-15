@@ -252,7 +252,7 @@ function QuestieComms:InsertQuestDataPacket(questPacket, playerName)
 
 
         --Write to tooltip data
-        --TODO
+        QuestieComms.data:RegisterTooltip(questPacket.id, playerName, objectives);
 
     end
 end
