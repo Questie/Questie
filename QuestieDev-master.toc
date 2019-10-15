@@ -26,8 +26,16 @@ Database\zoneDB.lua
 Database\TEMP_questie4items.lua
 Database\TEMP_repprof.lua
 Database\specialspawns.lua
-Database\corrections.lua
 Database\itemDB.lua
+
+#Corrections
+Database\Corrections\QuestieCorrections.lua
+Database\Corrections\QuestieItemBlacklist.lua
+Database\Corrections\QuestieItemFixes.lua
+Database\Corrections\QuestieNPCFixes.lua
+Database\Corrections\QuestieObjectFixes.lua
+Database\Corrections\QuestieQuestBlacklist.lua
+Database\Corrections\QuestieQuestFixes.lua
 
 #Localization
 Locale\QuestieLocale.lua

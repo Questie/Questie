@@ -112,8 +112,13 @@ function QuestieDB:GetItem(ItemID)
     if QuestieDB._ItemCache[ItemID] ~= nil then
         return QuestieDB._ItemCache[ItemID];
     end
-    local item = {};
+    if QuestieCorrections.itemFixes[ItemID] then
+        for k,v in pairs(QuestieCorrections.itemFixes[ItemID]) do
+            CHANGEME_Questie4_ItemDB[ItemID][k] = v
+        end
+    end
     local raw = CHANGEME_Questie4_ItemDB[ItemID]; -- TODO: use the good item db, I need to talk to Muehe about the format, this is a temporary fix
+    local item = {};
     if raw ~= nil then
         item.Id = ItemID;
         item.Name = LangItemLookup[ItemID] or raw[1];
@@ -339,7 +344,7 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
 
         QO.HiddenObjectiveData = {}
 
-        local hidden = QuestieCorrections.questHiddenFixes[QuestID] or rawdata[21]
+        local hidden = rawdata[21]
 
         if hidden ~= nil then --required source items
             for _,Id in pairs(hidden) do
