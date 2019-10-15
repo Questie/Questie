@@ -190,6 +190,9 @@ QuestieCorrections.questFixes = {
     [1655] = {
         [QuestieDB.questKeys.parentQuest] = 1654,
     },
+    [677] = {
+        [QuestieDB.questKeys.preQuestSingle] = {}, --#1162
+    },
     [926] = {
         [QuestieDB.questKeys.parentQuest] = 924, -- #806
         [QuestieDB.questKeys.preQuestSingle] = {809}, --#606
