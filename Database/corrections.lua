@@ -112,6 +112,9 @@ QuestieCorrections.questFixes = {
         [QuestieDB.questKeys.preQuestGroup] = {1323,1273,},
         [QuestieDB.questKeys.preQuestSingle] = {},
     },
+    [3374] = {
+        [QuestieDB.questKeys.startedBy] = {{5353},nil,{10589,},}, -- #1233
+    },
     [4641] = {
         [QuestieDB.questKeys.requiredRaces] = 178, -- #877
     },
