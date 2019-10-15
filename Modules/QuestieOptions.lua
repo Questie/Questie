@@ -386,10 +386,10 @@ _QuestieOptions.optionsGUI = {
                     name = "Auto Accept Quests",
                     desc = "Enable or disable Questie auto-accepting quests.",
                     width = "full",
-                    get =	function ()
+                    get =    function ()
                                 return Questie.db.char.autoaccept
                             end,
-                    set =	function (info, value)
+                    set =    function (info, value)
                                 Questie.db.char.autoaccept = value
                                 Questie:debug(DEBUG_DEVELOP, "Auto Accept toggled to:", value)
                             end,
@@ -400,10 +400,10 @@ _QuestieOptions.optionsGUI = {
                     name = "Auto Complete",
                     desc = "Enable or disable Questie auto-complete quests.",
                     width = "full",
-                    get =	function ()
+                    get =    function ()
                                 return Questie.db.char.autocomplete
                             end,
-                    set =	function (info, value)
+                    set =    function (info, value)
                                 Questie.db.char.autocomplete = value
                                 Questie:debug(DEBUG_DEVELOP, "Auto Complete toggled to:", value)
                             end,
@@ -797,10 +797,10 @@ _QuestieOptions.optionsGUI = {
                 }
             },
         },
-        
+
         --TODO, hid hud tab if DBMHudMap global doesn't exist? Or at very least gray out options?
         --dbmHUDEnable, dbmHUDShowAlert, DBMHUDZoom, dbmHUDRadius, dbmHUDShowQuest, dbmHUDShowSlay, dbmHUDShowLoot, dbmHUDShowInteract
-		dbm_hud_tab = {
+        dbm_hud_tab = {
             name = function() return QuestieLocale:GetUIString('DBM_HUD_TAB') end,
             type = "group",
             disabled = function() if DBMHudMap then return false else return true end end,
@@ -822,9 +822,9 @@ _QuestieOptions.optionsGUI = {
                                 SetGlobalOptionLocal(info, value)
 
                                 if value then
-                                	QuestieDBMIntegration:EnableHUD()
-                                	--Hud Integration is completely innert when disabled, so QuestieDBMIntegration:SoftReset() cannot be used since it has no local tables
-                                	--Questies SmoothReset must be used after enabling hud so that HUD can build it's own tables when initial icons get added
+                                    QuestieDBMIntegration:EnableHUD()
+                                    --Hud Integration is completely innert when disabled, so QuestieDBMIntegration:SoftReset() cannot be used since it has no local tables
+                                    --Questies SmoothReset must be used after enabling hud so that HUD can build it's own tables when initial icons get added
                                     QuestieQuest:SmoothReset()
                                 else
                                     QuestieDBMIntegration:ClearAll(true)--Passing true unregisters events and completely disables HUD activity after the ClearAll

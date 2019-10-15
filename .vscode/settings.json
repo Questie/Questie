@@ -2480,7 +2480,6 @@
         "C_Timer",
         "C_QuestLog",
         "----> JSONCOMMENT - WoW Functions Above",
-
         "----> LUA - Below",
         "--> LUA - Math",
         "wipe",
@@ -2507,7 +2506,6 @@
         "unpack",
         "tremove",
         "----> LUA - Above",
-
         "----> Libs - Library globals Below",
         "LibStub",
         "LQuestie_Create_UIDropDownMenu",
@@ -2516,12 +2514,10 @@
         "LQuestie_EasyMenu",
         "LQuestie_Create_UIDropDownMenu",
         "----> Libs - Library globals Above",
-
         "----> QuestieClasses - Below",
         "QuestieLib",
         "QuestiePlayer",
         "----> QuestieClasses - Above",
-
         "----> QuestieGlobals - Generic Below",
         "hooksecurefunc",
         "QuestWatchFrame",
@@ -2625,7 +2621,10 @@
         "GetSkillLineInfo",
         "ExpandSkillHeader",
         "CollapseSkillHeader",
-        "QuestLogExFrameMaximizeButton"
+        "QuestLogExFrameMaximizeButton",
+        "DBMHudMap",
+        "DBM",
+        "hudDuration"
     ],
     "Lua.workspace.ignoreDir": [
         "Libs/**"
