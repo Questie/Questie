@@ -8,6 +8,61 @@ local commsTooltipLookup = {}
 --}
 local playerRegisteredTooltips = {}
 
+function QuestieComms.data:GetTooltip(tooltipKey)
+    local tooltipData = {}
+    for playerName, questData in pairs(commsTooltipLookup[tooltipKey]) do
+        for questId, objectives in pairs(questData) do
+            if(not tooltipData[questId]) then
+                tooltipData[questId] = {};
+            end
+            if(not tooltipData[questId][playerName]) then
+                tooltipData[questId][playerName] = {};
+            end
+            for objectiveIndex, objective in pairs(objectives) do
+                if(not tooltipData[questId][playerName][objectiveIndex]) then
+                    tooltipData[questId][playerName][objectiveIndex] = {};
+                end
+                local oName = "";
+                if((objective.type == "monster" or objective.type == "m") and objective.id) then
+                    oName = QuestieDB:GetNPC(objective.id).name;
+                elseif((objective.type == "object" or objective.type == "o") and objective.id) then
+                    oName = QuestieDB:GetObject(objective.id).name;
+                elseif((objective.type == "item" or objective.type == "i") and objective.id) then
+                    local item = QuestieDB:GetItem(objective.id);
+                    if(item and item.Name) then
+                        oName = item.Name;-- this is capital letters for some reason...
+                    else
+                        oName = nil;
+                    end
+                end
+                tooltipData[questId][playerName][objectiveIndex].text = oName
+                tooltipData[questId][playerName][objectiveIndex].fulfilled = objective.fulfilled;
+                tooltipData[questId][playerName][objectiveIndex].required = objective.required;
+            end
+        end
+    end
+    return tooltipData;
+end
+
+function QuestieComms.data:RegisterTooltip(questId, playerName, objectives)
+    if(not playerRegisteredTooltips[playerName]) then
+        playerRegisteredTooltips[playerName] = {}
+    end
+    if(not playerRegisteredTooltips[playerName][questId]) then
+        playerRegisteredTooltips[playerName][questId] = {}
+    end
+    for objectiveIndex, objective in pairs(objectives) do
+        local lookupKey = objective.type.."_"..objective.id;
+        if(not commsTooltipLookup[lookupKey]) then
+            commsTooltipLookup[lookupKey] = {}
+        end
+        if(not commsTooltipLookup[lookupKey][playerName]) then
+            commsTooltipLookup[lookupKey][playerName] = {};
+        end
+        commsTooltipLookup[lookupKey][playerName][questId] = objectives;
+    end
+end
+
 --Totally removes a player from the tooltip lookups
 function QuestieComms.data:RemovePlayer(playerName)
     for questId, tooltipList in pairs(playerRegisteredTooltips[playerName] or {}) do
