@@ -47,6 +47,21 @@ function QuestieQuestFixes:Load()
         [4763] = {
             [QuestieDB.questKeys.requiredSourceItems] = {12347,12341,12342,12343,}, -- #798
         },
+        [5063] = {
+            [QuestieDB.questKeys.specialFlags] = 1, -- #1335
+        },
+        [5067] = {
+            [QuestieDB.questKeys.specialFlags] = 1, -- #1335
+        },
+        [5068] = {
+            [QuestieDB.questKeys.specialFlags] = 1, -- #1335
+        },
+        [5166] = {
+            [QuestieDB.questKeys.specialFlags] = 1, -- #1335
+        },
+        [5167] = {
+            [QuestieDB.questKeys.specialFlags] = 1, -- #1335
+        },
         [5721] = {
             [QuestieDB.questKeys.requiredSourceItems] = {177528,}, -- 857
         },
