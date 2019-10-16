@@ -142,16 +142,8 @@ function QuestieDB:GetItem(ItemID)
 end
 
 local function _GetColoredQuestName(self)
-    local questString = (self.LocalizedName or self.Name)
-    if Questie.db.global.enableTooltipsQuestLevel then
-        questString = "[" .. self.Level .. "]" .. " " .. questString
-    end
-
-    if Questie.db.global.enableTooltipsQuestID then
-        questString = questString .. " (" .. self.Id .. ")"
-    end
-
-    return QuestieLib:PrintDifficultyColor(self.Level, questString)
+    local questName = (self.LocalizedName or self.Name)
+    return QuestieLib:GetColoredQuestName(self.Id, questName, self.Level, Questie.db.global.enableTooltipsQuestLevel, false)
 end
 
 function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)

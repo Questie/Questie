@@ -454,9 +454,10 @@ _QuestieOptions.optionsGUI = {
                     name = function() return QuestieLocale:GetUIString('LOWLEVEL_BELOW') end,
                     desc = function() return QuestieLocale:GetUIString('LOWLEVEL_BELOW_DESC', _QuestieOptions.defaults.global.minLevelFilter) end,
                     width = "normal",
-                    min = 1,
-                    max = 10,
+                    min = 0,
+                    max = QuestiePlayer:GetPlayerLevel() - 1,
                     step = 1,
+                    disabled = function() return Questie.db.char.lowlevel; end,
                     get = GetGlobalOptionLocal,
                     set = function (info, value)
                                 SetGlobalOptionLocal(info, value)
@@ -469,9 +470,10 @@ _QuestieOptions.optionsGUI = {
                     name = function() return QuestieLocale:GetUIString('LOWLEVEL_ABOVE') end,
                     desc = function() return QuestieLocale:GetUIString('LOWLEVEL_ABOVE_DESC', _QuestieOptions.defaults.global.maxLevelFilter) end,
                     width = "normal",
-                    min = 1,
-                    max = 10,
+                    min = 0,
+                    max = 60 - QuestiePlayer:GetPlayerLevel(),
                     step = 1,
+                    disabled = function() return QuestiePlayer:GetPlayerLevel() == 60; end,
                     get = GetGlobalOptionLocal,
                     set = function (info, value)
                                 SetGlobalOptionLocal(info, value)

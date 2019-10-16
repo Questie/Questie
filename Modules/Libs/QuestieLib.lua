@@ -74,15 +74,15 @@ function QuestieLib:GetQuestObjectives(questId)
         local good = true;
         objectiveList = C_QuestLog.GetQuestObjectives(questId);
         if(objectiveList == nil) then
-          good = false;
+            good = false;
         else
-          for objectiveIndex, objective in pairs(objectiveList) do
-              if(objective.text == nil or objective.text == "" or QuestieDB:Levenshtein(": 0/1", objective.text) < 5) then
-                  Questie:Debug(DEBUG_SPAM, count, " : Objective text is strange!", "'", objective.text, "'", " distance", QuestieDB:Levenshtein(": 0/1", objective.text));
-                  good = false;
-                  break;
-              end
-          end
+            for objectiveIndex, objective in pairs(objectiveList) do
+                if(objective.text == nil or objective.text == "" or QuestieDB:Levenshtein(": 0/1", objective.text) < 5) then
+                    Questie:Debug(DEBUG_SPAM, count, " : Objective text is strange!", "'", objective.text, "'", " distance", QuestieDB:Levenshtein(": 0/1", objective.text));
+                    good = false;
+                    break;
+                end
+            end
         end
         if(good) then
             break;
@@ -90,6 +90,38 @@ function QuestieLib:GetQuestObjectives(questId)
         count = count + 1;
     end
     return objectiveList;
+end
+
+---@param id integer @The quest ID
+---@param name string @The (localized) name of the quest
+---@param level integer @The quest level
+---@param showLevel integer @Wheather the quest level should be included
+---@param isComplete boolean @Wheather the quest is complete
+function QuestieLib:GetColoredQuestName(id, name, level, showLevel, isComplete)
+    if showLevel then
+        local questType = GetQuestTagInfo(id)
+        if questType then
+            if questType == 1 then
+                name = "[" .. level .. "+] " .. name -- Elite quest
+            elseif questType == 81 then
+                name = "[" .. level .. "D] " .. name -- Dungeon quest
+            elseif questType == 62 then
+                name = "[" .. level .. "R] " .. name -- Raid quest
+            else
+                name = "[" .. level .. "] " .. name -- Some other irrelevant type
+            end
+        else
+            name = "[" .. level .. "] " .. name
+        end
+    end
+    if Questie.db.global.enableTooltipsQuestID then
+        name = name .. " (" .. id .. ")"
+    end
+    if isComplete then
+        name  = name .. " " .. QuestieLocale:GetUIString('TOOLTIP_QUEST_COMPLETE')
+    end
+
+    return QuestieLib:PrintDifficultyColor(level, name)
 end
 
 ---@param waypointTable table<integer, Point> @A table containing waypoints {{X, Y}, ...}
