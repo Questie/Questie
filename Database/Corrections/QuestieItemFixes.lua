@@ -94,6 +94,8 @@ function QuestieItemFixes:Load()
         [9594] = {"Wildkin Muisek",{3123},{2927,2928,2929,},{}}, -- #1227
         [2894] = {"Rhapsody Malt",{384},{1247},{}}, -- #1285
         [12813] = {"Flask of Mystery Goo",{5085},{},{}}, -- #1313
+        [11947] = {"Filled Cursed Ooze Jar",{4512},{7086},{}}, -- #1315
+        [11949] = {"Filled Tainted Ooze Jar",{4512},{7092},{}}, -- #1315
 
         -- quest related herbs
         [2449] = {"Earthroot",{6123,6128},{},{1619,3726}},
