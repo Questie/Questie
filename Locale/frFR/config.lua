@@ -33,7 +33,7 @@ QuestieLocale.locale['frFR'] = {
 	['ENABLE_MAP_ICONS_DESC'] = "Active l'affichage de toutes les icônes sur la carte.",
 	['ENABLE_MINIMAP_ICONS'] = "Activer les icônes sur la mini-carte",
 	['ENABLE_MINIMAP_ICONS_DESC'] = "Active l'affichage de toutes les icônes sur la mini-carte.",
-	
+
 	['MINIMAP_TAB'] = "Mini-carte",
 	['MINIMAP_HEADER'] = "Options des icônes sur la mini-carte",
 	['MINIMAP_GLOBAL_SCALE'] = "Échelle des icônes sur la mini-carte",
@@ -51,7 +51,7 @@ QuestieLocale.locale['frFR'] = {
 	['ENABLE_COORDS_DESC'] = "Indique les coordonnées du joueur dans le titre de la mini-carte.",
 	['MINIMAP_ALWAYS_GLOW_TOGGLE'] = "Surbrillance des icônes sur la mini-carte",
 	['MINIMAP_ALWAYS_GLOW_TOGGLE_DESC'] = "Active un effet de surbrillance autour des icônes sur la mini-carte, colorié différemment pour chaque quête.",
-	
+
 	['MAP_TAB'] = "Carte du monde",
 	['ENABLE_MAP_BUTTON'] = "Afficher le bouton Questie sur la carte",
 	['ENABLE_MAP_BUTTON_DESC'] = "Active l'affichage du bouton Afficher / Masquer Questie sur la carte. (peut corriger certaines interactions avec des add-ons modifiant la carte)",
@@ -67,7 +67,7 @@ QuestieLocale.locale['frFR'] = {
 	['MAP_ALWAYS_GLOW_TOGGLE_DESC'] = "Active un effet de surbrillance autour des icônes sur la carte, colorié différemment pour chaque quête.",
 	['MAP_QUEST_COLORS'] = "Attribuer des couleurs aux icônes des quêtes",
 	['MAP_QUEST_COLORS_DESC'] = "Attribue des couleurs aléatoires aux icônes en fonction de l'ID des quêtes.",
-	
+
 	['AVAILABLE_ICON_SCALE'] = "Échelle des icônes de quête disponible/terminée",
 	['AVAILABLE_ICON_SCALE_DESC'] = "Définis la taille des icônes de quête disponible/terminée. (Par défaut : %s)",
 	['LOOT_ICON_SCALE'] = "Échelle des icônes de fouille",
@@ -78,7 +78,7 @@ QuestieLocale.locale['frFR'] = {
 	['OBJECT_ICON_SCALE_DESC'] = "Définis la taille des icônes d'objet. (Par défaut : %s)",
 	['EVENT_ICON_SCALE'] = "Échelle des icônes d'événement",
 	['EVENT_ICON_SCALE_DESC'] = "Définis la taille des icônes d'événement. (Par défaut : %s)",
-	
+
 	['NAMEPLATE_TAB'] = "Barres de vie",
 	['NAMEPLATE_HEAD'] = "Options des icônes sur les barres de vie flottantes",
 	['NAMEPLATE_TOGGLE'] = "Activer l'affichage des icônes sur les barres de vie flottantes",
@@ -116,7 +116,7 @@ QuestieLocale.locale['frFR'] = {
 	['RESET_QUESTIE_BTN'] = "Réinitialiser Questie",
 	['RESET_QUESTIE_BTN_DESC'] = "Réinitialiser Questie aux valeurs par défaut pour tous les paramètres.",
 	['QUESTIE_DEV_MESSAGE'] = "Questie est en cours de développement pour World of Warcraft: Classic. Veuillez consulter GitHub pour connaître les dernières versions alpha ou signaler des problèmes. Ou rejoignez nous sur notre discord ! ((https://github.com/AeroScripts/QuestieDev/)) ",
-	
+
 	-- Éléments d'interface utilisateur
 	['QUESTIE_MAP_BUTTON_SHOW'] = "Afficher Questie",
 	['QUESTIE_MAP_BUTTON_HIDE'] = "Masquer Questie",
@@ -137,7 +137,7 @@ QuestieLocale.locale['frFR'] = {
 	['TOOLTIP_QUEST_AVAILABLE'] = "(Disponible)",
 	['TOOLTIP_QUEST_ACTIVE'] = "(Active)",
 	['TOOLTIP_QUEST_REPEATABLE'] = "(Répétable)",
-	
+
 	-- Slash Commandes
 	['SLASH_INVALID'] = "Commande invalide. Pour obtenir une liste d'options, veuillez taper :",
 	['SLASH_HEAD'] = "Commandes de Questie",
@@ -145,7 +145,7 @@ QuestieLocale.locale['frFR'] = {
 	['SLASH_TOGGLE_Questie'] = "/questie toggle - Active ou désactive l'affichage de Questie sur la carte et la mini-carte",
 	['SLASH_JOURNEY'] = "/questie journey - Ouvre la fenêtre Mon voyage.",
 	['SLASH_MINIMAP'] = "/questie minimap - Affiche ou désactive le bouton Questie autour de la mini-carte.",
-	
+
 	-- Traqueur
 	['TRACKER_TAB'] = "Suivi",
 	['TRACKER_HEAD'] = "Options du Suivi des quêtes",
@@ -188,7 +188,7 @@ QuestieLocale.locale['frFR'] = {
 	['TRACKER_SHORTCUT'] = " Raccourci",
 	['TRACKER_SET_TOMTOM_DESC'] = "Définis le raccourci servant à ouvrir TomTom.",
 	['TRACKER_SHOW_QUESTLOG_DESC'] = "Définis le raccourci servant à afficher la quête dans le journal des quêtes.",
-	
+
 	-- Menu contextuel du Traqueur
 	['TRACKER_UNFOCUS'] = "Ne plus prioriser cette quête",
 	['TRACKER_FOCUS_OBJECTIVE'] = "Objectif prioritaire", -- le focus permet d'afficher uniquement cette quête/cet objectif sur la carte
@@ -203,7 +203,7 @@ QuestieLocale.locale['frFR'] = {
 	['TRACKER_SHOW_ON_MAP'] = "Afficher sur la carte",
 	['TRACKER_UNLOCK'] = "Déverrouiller la fenêtre du suivi",
 	['TRACKER_LOCK'] = "Verrouiller la fenêtre du suivi",
-	
+
 	-- Voyage Commandes
 	['JOURNEY_TITLE'] = "Le voyage de %s",
 	['JOUNREY_TAB'] = "Mon voyage",
@@ -234,7 +234,7 @@ QuestieLocale.locale['frFR'] = {
 	['JOURNEY_NOTE_CREATED'] = "Vous avez créé une nouvelle note intitulée : %s",
 	['JOURNEY_LEVELUP'] = "Félicitations ! Vous avez atteint %s !",
 	['JOURNEY_LEVELNUM'] = "Niveau %s",
-	['JOURNEY_LEVELREACH'] = "Vous avez atteint le niveau %s",
+	['JOURNEY_LEVELREACH'] = "Vous avez atteint le %s",
 	['JOURNEY_QUEST_ACCEPT'] = "Vous avez débuté la quête %s",
 	['JOURNEY_QUEST_ABANDON'] = "Vous avez abandonné la quête %s",
 	['JOURNEY_QUEST_COMPLETE'] = "Vous avez terminé la quête %s",
@@ -262,7 +262,7 @@ QuestieLocale.locale['frFR'] = {
 	['JOURNEY_SEARCH_EXE'] = "Rechercher",
 	['JOURNEY_SEARCH_RESULTS'] = "Résultats de la recherche",
 	['JOURNEY_SEARCH_NOMATCH'] = "Aucune correspondance trouvée pour : %s",
-	
+
 	-- Debug Messages
 	['DEBUG_LOWLEVEL'] = "Les quêtes grises sont basculées sur :",
 	['DEBUG_MINLEVEL'] = "minLevelFilter défini sur %s",
@@ -286,8 +286,8 @@ QuestieLocale.locale['frFR'] = {
 	['DEBUG_UNLOAD_QFRAMES'] = "Vidage du cadres des quêtes : %s",
 	['DEBUG_UNLOAD_ALL'] = "Vidage de tous les cadres, montant : %s",
 	['QUESTIE_ACCEPT_NIL'] = "|cFFFF0000ERREUR :|r Tentative d'acceptation d'une quête vide! Vous devrez peut-être exécuter un /questie reload.", --à vérifier
-	['QUESTIE_UPDATED_RESTART'] = "|cFFFF0000ATTENTION !|r Vous avez mis à jour Questie sans redémarrer le jeu, cela risque de poser problème. Veuillez redémarrer le jeu avant de continuer",	
-	
+	['QUESTIE_UPDATED_RESTART'] = "|cFFFF0000ATTENTION !|r Vous avez mis à jour Questie sans redémarrer le jeu, cela risque de poser problème. Veuillez redémarrer le jeu avant de continuer",
+
 	-- EN ATTENTE
 	['MINIMAP_OBJECTIVE_SCALE'] = "Échelle des icônes d'objectif sur la mini-carte", -- En Attente
 	['MINIMAP_OBJECTIVE_SCALE_DESC'] = "Définis la taille des icônes d'objectif sur la mini-carte. (Par défaut : %s)", -- En Attente

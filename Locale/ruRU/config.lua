@@ -154,7 +154,7 @@ QuestieLocale.locale['ruRU'] = {
     ['DEBUG_DRAW'] = "%s доступные задания обозначены. Уровень персонажа = %s",
     ['DEBUG_UNLOAD_QFRAMES'] = "Выгрузка окон заданий: %s",
     ['DEBUG_UNLOAD_ALL'] = "Выгрузка всех окон, количество: %s",
-	
+
 
     -- Journey Window
     ['JOURNEY_TITLE'] = "%s's Путешествие",
@@ -181,13 +181,13 @@ QuestieLocale.locale['ruRU'] = {
     ['JOURNEY_QUEST_MINLEVEL'] = "Минимально необходимый уровень для задания: ",
     ['JOURNEY_QUEST_ID'] = "ID задания: ",
     ['JOURNEY_DIFFICULTY'] = "Диапазон сложности: %s",
-	-- не совсем понятен контекст  
+	-- не совсем понятен контекст
     ['JOURNEY_AUTO_QUEST'] = "Это задание выпоняется автоматически и не содержит цели.",
     ['JOURNEY_RECENT_EVENTS'] = "Ваша недавняя история",
     ['JOURNEY_NOTE_CREATED'] = "Вы создали новую заметку под названием: %s",
     ['JOURNEY_LEVELUP'] = "Поздравляем! Вы достигли %s !",
     ['JOURNEY_LEVELNUM'] = "Уровень %s",
-    ['JOURNEY_LEVELREACH'] = "Вы достигли уровня %s",
+    ['JOURNEY_LEVELREACH'] = "Вы достигли %s",
     ['JOURNEY_QUEST_ACCEPT'] = "Вы взяли задание %s",
     ['JOURNEY_QUEST_ABANDON'] = "Вы отказались от задания %s",
     ['JOURNEY_QUEST_COMPLETE'] = "Вы выполнили задание %s",

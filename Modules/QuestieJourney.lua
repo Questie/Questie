@@ -72,11 +72,11 @@ local function SplitJourneyByDate()
             for idx, e in pairs(dateTable[i][mon]) do
 
                 local entry = e.value;
-
-
                 local entryText = '';
+                local level = QuestieLocale:GetUIString('JOURNEY_LEVELNUM', entry.NewLevel)
+
                 if entry.Event == "Level" then
-                    entryText = QuestieLocale:GetUIString('JOURNEY_LEVELREACH', entry.NewLevel);
+                    entryText = QuestieLocale:GetUIString('JOURNEY_LEVELREACH', level);
                 elseif entry.Event == "Note" then
                     entryText = QuestieLocale:GetUIString('JOURNEY_TABLE_NOTE', entry.Title);
                 elseif entry.Event == "Quest" then
@@ -157,6 +157,7 @@ local function ManageJourneyTree(container)
                 local day = CALENDAR_WEEKDAY_NAMES[ tonumber(date('%w', entry.Timestamp)) + 1 ];
                 local month = CALENDAR_FULLDATE_MONTH_NAMES[ tonumber(date('%m', entry.Timestamp)) ];
                 local timestamp = Questie:Colorize(date( day ..', '.. month ..' %d @ %H:%M' , entry.Timestamp), 'blue');
+                local level = QuestieLocale:GetUIString('JOURNEY_LEVELNUM', entry.NewLevel)
 
                 if entry.Event == "Note" then
 
@@ -173,10 +174,10 @@ local function ManageJourneyTree(container)
 
                 elseif entry.Event == "Level" then
 
-                    header:SetText(QuestieLocale:GetUIString('JOURNEY_LEVELREACH', entry.NewLevel));
+                    header:SetText(QuestieLocale:GetUIString('JOURNEY_LEVELREACH', level));
 
                     local congrats = AceGUI:Create("Label");
-                    congrats:SetText(QuestieLocale:GetUIString('JOURNEY_LEVELUP', entry.NewLevel));
+                    congrats:SetText(QuestieLocale:GetUIString('JOURNEY_LEVELUP', level));
                     congrats:SetFullWidth(true);
                     f:AddChild(congrats);
 
@@ -601,7 +602,7 @@ if (GetLocale() == "deDE") then
 			[2057] = "Scholomance",
 		}
 	};
-end	
+end
 
 function ShowJourneyTooltip(button)
     if GameTooltip:IsShown() then
@@ -1286,8 +1287,8 @@ function QuestieJourney:PlayerLevelUp(level)
             p.Level = UnitLevel(v);
             table.insert(data.Party, p);
         end
-    end 
-    
+    end
+
     table.insert(Questie.db.char.journey, data);
 end
 
@@ -1311,7 +1312,7 @@ function QuestieJourney:AcceptQuest(questId)
             table.insert(data.Party, p);
         end
     end
-    
+
     table.insert(Questie.db.char.journey, data);
 end
 
@@ -1349,7 +1350,7 @@ function QuestieJourney:AbandonQuest(questId)
                 table.insert(data.Party, p);
             end
         end
-        
+
         table.insert(Questie.db.char.journey, data);
     end
 end
@@ -1373,6 +1374,6 @@ function QuestieJourney:CompleteQuest(questId)
             table.insert(data.Party, p);
         end
     end
-        
+
     table.insert(Questie.db.char.journey, data);
 end

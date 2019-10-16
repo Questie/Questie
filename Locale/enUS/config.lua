@@ -79,7 +79,7 @@ QuestieLocale.locale['enUS'] = {
     ['OBJECT_ICON_SCALE_DESC'] = "How large the object icons are.  ( Default: %s )",
     ['EVENT_ICON_SCALE'] = "Scale for Event Icons",
     ['EVENT_ICON_SCALE_DESC'] = "How large the event icons are.  ( Default: %s )",
-    
+
     ['DBM_HUD_TAB'] = "DBM HUD",
     ['ENABLE_DBM_HUD'] = "Show DBM HUD",
     ['ENABLE_DBM_HUD_DESC'] = "Enable or disable the DBM Heads Up Display (HUD) overlay for showing map objects.",
@@ -189,8 +189,8 @@ QuestieLocale.locale['enUS'] = {
     ['TRACKER_COLOR_OBJECTIVES'] = "Objective Color",
     ['TRACKER_COLOR_OBJECTIVES_DESC'] = "Change the color of objectives in the tracker by how complete they are",
     ['TRACKER_COLOR_WHITE'] = "White",
-    ['TRACKER_COLOR_WHITE_TO_GREEN'] = "White to Green", 
-    ['TRACKER_COLOR_RED_TO_GREEN'] = "Red to Green", 
+    ['TRACKER_COLOR_WHITE_TO_GREEN'] = "White to Green",
+    ['TRACKER_COLOR_RED_TO_GREEN'] = "Red to Green",
     ['TRACKER_FONT_HEADER'] = "Font Size for Quest Names",
     ['TRACKER_FONT_HEADER_DESC'] = "The font size the tracker uses for quest names",
     ['TRACKER_FONT_LINE'] = "Font Size for Objectives",
@@ -199,7 +199,7 @@ QuestieLocale.locale['enUS'] = {
     ['TRACKER_QUEST_PADDING_DESC'] = "The amount of padding between quests in the tracker",
     ['TRACKER_INVALID_LOCATION'] = "Error: Questie tracker in invalid location, resetting...",
     ['TRACKER_SORT_OBJECTIVES'] = "Objective Sorting",
-    ['TRACKER_SORT_OBJECTIVES_DESC'] = "How objectives are sorted in the tracker", 
+    ['TRACKER_SORT_OBJECTIVES_DESC'] = "How objectives are sorted in the tracker",
     ['TRACKER_SORT_BY_COMPLETE'] = "By %% Completed",
     ['TRACKER_SORT_BY_LEVEL'] = "By Level",
     ['TRACKER_SORT_BY_LEVEL_REVERSED'] = "By Level (Reversed)",
@@ -258,7 +258,7 @@ QuestieLocale.locale['enUS'] = {
     ['JOURNEY_RECENT_EVENTS'] = "Your Recent History",
     ['JOURNEY_LEVELUP'] = "Congratulations! You reached %s !",
     ['JOURNEY_LEVELNUM'] = "Level %s",
-    ['JOURNEY_LEVELREACH'] = "You Reached Level %s",
+    ['JOURNEY_LEVELREACH'] = "You Reached %s",
     ['JOURNEY_QUEST_ACCEPT'] = "You Accepted the quest %s",
     ['JOURNEY_QUEST_ABANDON'] = "You Abandoned the quest %s",
     ['JOURNEY_QUEST_COMPLETE'] = "You Completed the quest %s",
@@ -309,7 +309,7 @@ QuestieLocale.locale['enUS'] = {
     ['DEBUG_DRAW'] = "%s available quests drawn. PlayerLevel = %s",
     ['DEBUG_UNLOAD_QFRAMES'] = "Unloading quest frames: %s",
     ['DEBUG_UNLOAD_ALL'] = "Unloading all frames, count: %s",
-    ['QUESTIE_ACCEPT_NIL'] = "|cFFFF0000Questie ERROR:|r Attempt to accept nil quest! You may need to run /questie reload", 
+    ['QUESTIE_ACCEPT_NIL'] = "|cFFFF0000Questie ERROR:|r Attempt to accept nil quest! You may need to run /questie reload",
     ['QUESTIE_UPDATED_RESTART'] = "|cFFFF0000WARNING!|r You have updated questie without restarting the game, this will likely cause problems. Please restart the game before continuing",
 
     -- TODO finally switch all keys to this style for code readability:
