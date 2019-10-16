@@ -23,6 +23,9 @@ function QuestieQuestFixes:Load()
         [3375] = {
             [QuestieDB.questKeys.parentQuest] = 2201,
         },
+        [4224] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Ragged John's Story",{[46]={{64,23},},},},
+        },
         [4285] = {
             [QuestieDB.questKeys.triggerEnd] = {"Discover and examine the Northern Crystal Pylon",{[490]={{56,12},},},},
         },
