@@ -17,6 +17,9 @@ function QuestieQuestFixes:Load()
         [1026] = {
             [QuestieDB.questKeys.requiredSourceItems] = {5475},
         },
+        [1100] = {
+            [QuestieDB.questKeys.startedBy] = {nil,{1981},{5791},}, -- #1189
+        },
         [2201] = {
             [QuestieDB.questKeys.childQuests] = {3375},
         },
