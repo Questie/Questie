@@ -17,6 +17,7 @@ function QuestieCorrections:Initialize()
     QuestieCorrections.questItemBlacklist = QuestieItemBlacklist:Load()
     QuestieCorrections.npcFixes = QuestieNPCFixes:Load()
     QuestieCorrections.objectFixes = QuestieObjectFixes:Load()
+    QuestieObjectFixes:LoadFactionFixes()
     QuestieCorrections.questFixes = QuestieQuestFixes:Load()
     QuestieCorrections.hiddenQuests = QuestieQuestBlacklist:Load()
 end
