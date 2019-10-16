@@ -23,6 +23,15 @@ function QuestieQuestFixes:Load()
         [3375] = {
             [QuestieDB.questKeys.parentQuest] = 2201,
         },
+        [4285] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Discover and examine the Northern Crystal Pylon",{[490]={{56,12},},},},
+        },
+        [4287] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Discover and examine the Eastern Crystal Pylon",{[490]={{77,50},},},},
+        },
+        [4288] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Discover and examine the Western Crystal Pylon",{[490]={{23,59},},},},
+        },
         [4763] = {
             [QuestieDB.questKeys.requiredSourceItems] = {12347,12341,12342,12343,}, -- #798
         },
