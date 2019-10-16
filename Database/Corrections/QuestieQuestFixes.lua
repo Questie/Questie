@@ -44,6 +44,9 @@ function QuestieQuestFixes:Load()
         [5721] = {
             [QuestieDB.questKeys.requiredSourceItems] = {177528,}, -- 857
         },
+        [7541] = {
+            [QuestieDB.questKeys.questLevel] = 40, -- #1320
+        },
         [367] = {
             [QuestieDB.questKeys.requiredRaces] = 178, -- #888
         },
