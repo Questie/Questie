@@ -793,7 +793,6 @@ function _QuestieFramePool:Questie_Tooltip(self)
             end
         end
         for questTitle, textList in pairs(self.questOrder) do -- this logic really needs to be improved
-          testt = textList
             if haveGiver then
                 self:AddLine(" ")
                 self:AddDoubleLine(questTitle, QuestieLocale:GetUIString("TOOLTIP_QUEST_ACTIVE"));
@@ -812,7 +811,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
                         elseif dataType == "string" then
                             self:AddLine("   |cFFDDDDDD" .. v2);
                         end
-                        self:AddLine("      |cFF33FF33" .. textLine);
+                        self:AddLine("      |cFF33FF33" .. textData);
                     end
                 end
             else
