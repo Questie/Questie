@@ -112,6 +112,9 @@ QuestieCorrections.questFixes = {
         [QuestieDB.questKeys.preQuestGroup] = {1323,1273,},
         [QuestieDB.questKeys.preQuestSingle] = {},
     },
+    [3374] = {
+        [QuestieDB.questKeys.startedBy] = {{5353},nil,{10589,},}, -- #1233
+    },
     [4641] = {
         [QuestieDB.questKeys.requiredRaces] = 178, -- #877
     },
@@ -190,6 +193,9 @@ QuestieCorrections.questFixes = {
     [1655] = {
         [QuestieDB.questKeys.parentQuest] = 1654,
     },
+    [677] = {
+        [QuestieDB.questKeys.preQuestSingle] = {}, --#1162
+    },
     [926] = {
         [QuestieDB.questKeys.parentQuest] = 924, -- #806
         [QuestieDB.questKeys.preQuestSingle] = {809}, --#606
@@ -217,6 +223,12 @@ QuestieCorrections.questFixes = {
     },
     [1485] = {
         [QuestieDB.questKeys.exclusiveTo] = {1470}, -- #999
+    },
+    [1708] = {
+        [QuestieDB.questKeys.preQuestSingle] = {}, -- #1230
+    },
+    [1710] = {
+        [QuestieDB.questKeys.preQuestSingle] = {}, -- #1231
     },
     -- Profession quests
     [90] = {
@@ -554,6 +566,9 @@ QuestieCorrections.npcFixes = {
     [2431] = {
         [QuestieDB.npcKeys.spawns] = {[36]={{62.40,63.14,43.42},},},
     },
+    [4479] = {
+        [QuestieDB.npcKeys.spawns] = {[45]={{56.55,38.7},{54.8,38.2},},},
+    },
     -- Remove wrong patrolling zones on those two (found while investigating #903)
     [446] = {
         [QuestieDB.npcKeys.waypoints] = {},
@@ -637,6 +652,9 @@ QuestieCorrections.objectFixes = {
     [148516] = {"Tablet of Beth'Amara",nil,nil,{[16]={{34.1,50.5},{34.3,55.2},{35.19,58.02},{36,57.6},{36.8,60.5},{37.07,51.86},{38.4,60.3},{38.91,53.46},{39.54,64.32},{39.6,48.14},},},16,},
     [177241] = {"Araj's Phylactery",nil,nil,{[28]={{45.27,69.21},},},28,},
     [179908] = {"Slagtree's Lost Tools",nil,nil,{[47]={{53.3,38.8},{57.4,42.6},{57.5,42.6},{66.4,44.8},{71,48.6},{72.6,52.9},},},47,},
+    [2712] = {
+        [QuestieDB.objectKeys.spawns] = {[45]={{17.6,88.8},{19.4,90.2},{19.6,84.8},{20.6,87.2},{21.1,90.2},{21.1,92.2},{22.4,83.8},{22.4,90},{22.5,83.7},{22.5,90},{22.7,88.4},{22.7,88.6},{22.9,92.1},{23.6,87.4},{23.9,88.4},{23.9,88.5},{24.3,84.6},{24.4,86.4},{24.5,86.4},{24.6,86.5},{24.9,89.3},{24.9,89.5},{25.2,90.6},},},
+    },
     [154357] = {
         [QuestieDB.objectKeys.spawns] = {[44]={{21.9,53.2},{24.1,54.6},{25.9,54.1},{26.4,51.3},{28,56},{30.8,54.3},{33.6,55.2},{36.8,54.3},{37.9,54.5},{19.16,51.74},{34.13,53.37},{29.52,53.72},},}, -- #1176
     },
