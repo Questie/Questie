@@ -5,11 +5,23 @@ function QuestieQuestFixes:Load()
         [5] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #1198
         },
+        [551] = {
+            [QuestieDB.questKeys.startedBy] = {nil,{1765},{3706},}, -- #1245
+        },
+        [598] = {
+            [QuestieDB.questKeys.preQuestGroup] = {596,629,}
+        },
         [639] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #1205
         },
         [1026] = {
             [QuestieDB.questKeys.requiredSourceItems] = {5475},
+        },
+        [1100] = {
+            [QuestieDB.questKeys.startedBy] = {nil,{1981},{5791},}, -- #1189
+        },
+        [1920] = {
+            [QuestieDB.questKeys.preQuestSingle] = {}, -- #1328
         },
         [2201] = {
             [QuestieDB.questKeys.childQuests] = {3375},
@@ -17,11 +29,44 @@ function QuestieQuestFixes:Load()
         [3375] = {
             [QuestieDB.questKeys.parentQuest] = 2201,
         },
+        [4083] = {
+            [QuestieDB.questKeys.requiredSkill] = {186,230}, -- #1293
+        },
+        [4224] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Ragged John's Story",{[46]={{64,23},},},},
+        },
+        [4285] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Discover and examine the Northern Crystal Pylon",{[490]={{56,12},},},},
+        },
+        [4287] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Discover and examine the Eastern Crystal Pylon",{[490]={{77,50},},},},
+        },
+        [4288] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Discover and examine the Western Crystal Pylon",{[490]={{23,59},},},},
+        },
         [4763] = {
             [QuestieDB.questKeys.requiredSourceItems] = {12347,12341,12342,12343,}, -- #798
         },
+        [5063] = {
+            [QuestieDB.questKeys.specialFlags] = 1, -- #1335
+        },
+        [5067] = {
+            [QuestieDB.questKeys.specialFlags] = 1, -- #1335
+        },
+        [5068] = {
+            [QuestieDB.questKeys.specialFlags] = 1, -- #1335
+        },
+        [5166] = {
+            [QuestieDB.questKeys.specialFlags] = 1, -- #1335
+        },
+        [5167] = {
+            [QuestieDB.questKeys.specialFlags] = 1, -- #1335
+        },
         [5721] = {
             [QuestieDB.questKeys.requiredSourceItems] = {177528,}, -- 857
+        },
+        [7541] = {
+            [QuestieDB.questKeys.questLevel] = 40, -- #1320
         },
         [367] = {
             [QuestieDB.questKeys.requiredRaces] = 178, -- #888
@@ -92,6 +137,9 @@ function QuestieQuestFixes:Load()
         [691] = {
             [QuestieDB.questKeys.preQuestSingle] = {},
         },
+        [738] = {
+            [QuestieDB.questKeys.preQuestSingle] = {}, -- #1289
+        },
         [7068] = {
             [QuestieDB.questKeys.requiredLevel] = 39,
         },
@@ -119,9 +167,6 @@ function QuestieQuestFixes:Load()
         },
         [4496] = {
             [QuestieDB.questKeys.preQuestSingle] = {4493,4494},
-        },
-        [282] = {
-            [QuestieDB.questKeys.exclusiveTo] = {287}, -- #881
         },
         [1127] = {
             [QuestieDB.questKeys.specialFlags] = 1, -- #884
