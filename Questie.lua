@@ -46,6 +46,7 @@ function Questie:OnInitialize()
     end
 
     Questie:Debug(DEBUG_CRITICAL, "Questie addon loaded")
+    QuestieCorrections:Initialize()
     Questie:RegisterEvent("PLAYER_LOGIN", QuestieEventHandler.PLAYER_LOGIN)
 
     --Accepted Events
