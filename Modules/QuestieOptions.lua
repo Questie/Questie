@@ -87,7 +87,9 @@ function _QuestieOptions:AvailableQuestRedraw()
 end
 
 function _QuestieOptions:ClusterRedraw()
+    Questie:Debug(DEBUG_INFO, "Clustering changed, redrawing!")
     --Redraw clusters here
+    QuestieQuest:SmoothReset();
 end
 
 local _optionsTimer = nil;
@@ -487,8 +489,8 @@ _QuestieOptions.optionsGUI = {
                   step = 0.01,
                   get = GetGlobalOptionLocal,
                   set = function (info, value)
-                        _QuestieOptions:Delay(0.5, _QuestieOptions.ClusterRedraw, QuestieLocale:GetUIString('DEBUG_CLUSTER', value))
                         QUESTIE_NOTES_CLUSTERMUL_HACK = value;
+                        _QuestieOptions:Delay(0.5, _QuestieOptions.ClusterRedraw, QuestieLocale:GetUIString('DEBUG_CLUSTER', value))
                         SetGlobalOptionLocal(info, value)
                         end,
                 },
