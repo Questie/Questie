@@ -2624,7 +2624,13 @@
         "QuestLogExFrameMaximizeButton",
         "DBMHudMap",
         "DBM",
-        "hudDuration"
+        "hudDuration",
+        "QuestieDBZone",
+        "gsub",
+        "GetClassColor",
+        "debugstack",
+        "QuestLogEx",
+        "zoneDataAreaIDToUiMapID"
     ],
     "Lua.workspace.ignoreDir": [
         "Libs/**",
@@ -2638,6 +2644,6 @@
         "Database/TEMP_questie2events.lua",
         "Database/TEMP_questie4items.lua",
         "Database/TEMP_repprof.lua",
-        "Database/zoneDB.lua",
+        "Database/zoneDB.lua"
     ]
 }
