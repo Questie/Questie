@@ -92,6 +92,7 @@ function QuestieItemFixes:Load()
         [7207] = {"Jennea's Flask",{1860},{},{}}, -- #1286
         [10575] = {"Black Dragonflight Molt",{4022,4023},{},{10569}}, -- #1216
         [9594] = {"Wildkin Muisek",{3123},{2927,2928,2929,},{}}, -- #1227
+        [2894] = {"Rhapsody Malt",{384},{1247},{}}, -- #1285
 
         -- quest related herbs
         [2449] = {"Earthroot",{6123,6128},{},{1619,3726}},
