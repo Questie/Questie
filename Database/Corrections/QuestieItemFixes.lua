@@ -136,13 +136,13 @@ function QuestieItemFixes:LoadFactionFixes()
     local itemFixesHorde = {
         [15882] = {"Half Pendant of Aquatic Endurance",{30,272},{},{177790}},
         [15883] = {"Half Pendant of Aquatic Agility",{30,272},{},{177794}},
-        [3713] = {"Soothing Spices",{},{2397,8307},{}},
+        [3713] = {"Soothing Spices",{7321,1218,},{2397,8307},{}},
     }
 
     local itemFixesAlliance = {
         [15882] = {"Half Pendant of Aquatic Endurance",{30,272},{},{177844}},
         [15883] = {"Half Pendant of Aquatic Agility",{30,272},{},{177792}},
-        [3713] = {"Soothing Spices",{},{2381,4897},{}},
+        [3713] = {"Soothing Spices",{555,1218,},{2381,4897},{}},
     }
 
     if UnitFactionGroup("Player") == "Horde" then
