@@ -107,6 +107,9 @@ function QuestieQuestFixes:Load()
         [691] = {
             [QuestieDB.questKeys.preQuestSingle] = {},
         },
+        [738] = {
+            [QuestieDB.questKeys.preQuestSingle] = {}, -- #1289
+        },
         [7068] = {
             [QuestieDB.questKeys.requiredLevel] = 39,
         },
