@@ -455,6 +455,7 @@ _QuestieOptions.optionsGUI = {
                     min = 1,
                     max = 10,
                     step = 1,
+                    disabled = function() return Questie.db.char.lowlevel; end,
                     get = GetGlobalOptionLocal,
                     set = function (info, value)
                                 SetGlobalOptionLocal(info, value)
@@ -470,6 +471,7 @@ _QuestieOptions.optionsGUI = {
                     min = 1,
                     max = 10,
                     step = 1,
+                    disabled = function() return QuestiePlayer:GetPlayerLevel() == 60; end,
                     get = GetGlobalOptionLocal,
                     set = function (info, value)
                                 SetGlobalOptionLocal(info, value)
