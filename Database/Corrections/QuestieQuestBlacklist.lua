@@ -9,6 +9,7 @@ function QuestieQuestBlacklist:Load()
         [7726] = true, -- Repeatable version of 7721 - Fixing #891
         [2358] = true, -- Horns of Nez'ra is not in the game at this point. See #921
         [787] = true, -- The New Horde is not in the game. See #830
+        [6606] = true, -- Quest is not in the game. See #1338
         --Stray quests
         [3861] = true, --CLUCK!
         --World event quests
