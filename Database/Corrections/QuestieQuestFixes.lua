@@ -20,6 +20,9 @@ function QuestieQuestFixes:Load()
         [1100] = {
             [QuestieDB.questKeys.startedBy] = {nil,{1981},{5791},}, -- #1189
         },
+        [1920] = {
+            [QuestieDB.questKeys.preQuestSingle] = {}, -- #1328
+        },
         [2201] = {
             [QuestieDB.questKeys.childQuests] = {3375},
         },
