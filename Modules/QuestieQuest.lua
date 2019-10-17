@@ -777,13 +777,11 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
         Objective.spawnList = ObjectiveSpawnListCallTable[Objective.Type](Objective.Id, Objective);
     end
 
-    local maxPerType = 0
+    local maxPerType = 300
     if Questie.db.global.enableIconLimit then
         maxPerType = Questie.db.global.iconLimit
     end
 
-    local playerX, playerY, instance = HBD:GetPlayerWorldPosition();
-    local playerZone = HBD:GetPlayerWorldPosition();
     local closestStarter = QuestieMap:FindClosestStarter()
 
     local iconsToDraw = {}
@@ -854,16 +852,18 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
 
                     for zone, spawns in pairs(spawnData.Spawns) do
                         for _, spawn in pairs(spawns) do
-                            local drawIcon = {};
-                            drawIcon.AlreadySpawnedId = id;
-                            drawIcon.data = data;
-                            drawIcon.zone = zone;
-                            drawIcon.areaId = zone;
-                            drawIcon.x = spawn[1];
-                            drawIcon.y = spawn[2];
-                            local x, y, instance = HBD:GetWorldCoordinatesFromZone(drawIcon.x/100, drawIcon.y/100, zoneDataAreaIDToUiMapID[zone])
-                            local distance = QuestieLib:Euclid(closestStarter[Quest.Id].x, closestStarter[Quest.Id].y, x, y);
-                            iconsToDraw[Quest.Id][floor(distance)] = drawIcon;
+                            if(spawn[1] and spawn[2]) then
+                                local drawIcon = {};
+                                drawIcon.AlreadySpawnedId = id;
+                                drawIcon.data = data;
+                                drawIcon.zone = zone;
+                                drawIcon.areaId = zone;
+                                drawIcon.x = spawn[1];
+                                drawIcon.y = spawn[2];
+                                local x, y, instance = HBD:GetWorldCoordinatesFromZone(drawIcon.x/100, drawIcon.y/100, zoneDataAreaIDToUiMapID[zone])
+                                local distance = QuestieLib:Euclid(closestStarter[Quest.Id].x, closestStarter[Quest.Id].y, x or 0, y or 0);
+                                iconsToDraw[Quest.Id][floor(distance)] = drawIcon;
+                            end
                             --maxCount = maxCount + 1
                             --if maxPerType > 0 and maxCount > maxPerType then break; end
                         end

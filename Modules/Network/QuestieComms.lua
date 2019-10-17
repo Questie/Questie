@@ -358,7 +358,7 @@ function _QuestieComms:broadcast(packet)
 end
 
 function _QuestieComms:OnCommReceived(message, distribution, sender)
-    Questie:Debug(DEBUG_DEVELOP, "|cFF22FF22", "sender:", "|r", sender, "distribution:", distribution, "Packet length:",string.len(message), message)
+    Questie:Debug(DEBUG_DEVELOP, "|cFF22FF22", "sender:", "|r", sender, "distribution:", distribution, "Packet length:",string.len(message))
     if message and sender then
       local decompressedData = QuestieSerializer:Deserialize(message);--QuestieCompress:Decompress(message);
       decompressedData.playerName = sender;
