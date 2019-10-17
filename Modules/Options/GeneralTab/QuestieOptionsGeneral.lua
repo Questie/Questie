@@ -165,6 +165,7 @@ function QuestieOptions.tabs.general:Initialize()
                 name = function() return QuestieLocale:GetUIString('ENABLE_TOOLTIPS_QUEST_LEVEL'); end,
                 desc = function() return QuestieLocale:GetUIString('ENABLE_TOOLTIPS_QUEST_LEVEL_DESC'); end,
                 width = "full",
+                disabled = function() return not Questie.db.global.enableTooltips; end,
                 get = function() return Questie.db.global.enableTooltipsQuestLevel; end,
                 set = function (info, value)
                     Questie.db.global.enableTooltipsQuestLevel = value
