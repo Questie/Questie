@@ -69,6 +69,9 @@ function QuestieQuestFixes:Load()
         [7541] = {
             [QuestieDB.questKeys.questLevel] = 40, -- #1320
         },
+        [7562] = {
+            [QuestieDB.questKeys.startedBy] = {{5520,5815,6382,},nil,nil,}, -- #1343
+        },
         [367] = {
             [QuestieDB.questKeys.requiredRaces] = 178, -- #888
         },
