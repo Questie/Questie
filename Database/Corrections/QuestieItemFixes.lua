@@ -133,7 +133,7 @@ function QuestieItemFixes:Load()
         [14048] = {"Bolt of Runecloth",{8782,8808,9237,9238,9239,9240,5518,5519},{},{}},
     }
 
-    for k,v in pairs(QuestieCorrections.itemFixes) do
+    for k,v in pairs(itemFixes) do
         CHANGEME_Questie4_ItemDB[k]=v
     end
 
