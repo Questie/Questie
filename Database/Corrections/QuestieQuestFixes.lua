@@ -459,43 +459,53 @@ function QuestieQuestFixes:Load()
         },
         -- Horde repeatable
         [4108] = {
+            [QuestieDB.questKeys.startedBy] = {{9529,},nil,nil,},
             [QuestieDB.questKeys.requiredRaces] = 178,
             [QuestieDB.questKeys.preQuestSingle] = {5887,5888,5889,5890,5891,},
         },
         [4109] = {
+            [QuestieDB.questKeys.startedBy] = {{9529,},nil,nil,},
             [QuestieDB.questKeys.requiredRaces] = 178,
             [QuestieDB.questKeys.preQuestSingle] = {5887,5888,5889,5890,5891,},
         },
         [4110] = {
+            [QuestieDB.questKeys.startedBy] = {{9529,},nil,nil,},
             [QuestieDB.questKeys.requiredRaces] = 178,
             [QuestieDB.questKeys.preQuestSingle] = {5887,5888,5889,5890,5891,},
         },
         [4111] = {
+            [QuestieDB.questKeys.startedBy] = {{9529,},nil,nil,},
             [QuestieDB.questKeys.requiredRaces] = 178,
             [QuestieDB.questKeys.preQuestSingle] = {5887,5888,5889,5890,5891,},
         },
         [4112] = {
+            [QuestieDB.questKeys.startedBy] = {{9529,},nil,nil,},
             [QuestieDB.questKeys.requiredRaces] = 178,
             [QuestieDB.questKeys.preQuestSingle] = {5887,5888,5889,5890,5891,},
         },
         -- Alliance non repeatable
         [5882] = {
+            [QuestieDB.questKeys.startedBy] = {{9528,},nil,nil,},
             [QuestieDB.questKeys.requiredRaces] = 77,
             [QuestieDB.questKeys.exclusiveTo] = {5883,5884,5885,5886,},
         },
         [5883] = {
+            [QuestieDB.questKeys.startedBy] = {{9528,},nil,nil,},
             [QuestieDB.questKeys.requiredRaces] = 77,
             [QuestieDB.questKeys.exclusiveTo] = {5882,5884,5885,5886,},
         },
         [5884] = {
+            [QuestieDB.questKeys.startedBy] = {{9528,},nil,nil,},
             [QuestieDB.questKeys.requiredRaces] = 77,
             [QuestieDB.questKeys.exclusiveTo] = {5882,5883,5885,5886,},
         },
         [5885] = {
+            [QuestieDB.questKeys.startedBy] = {{9528,},nil,nil,},
             [QuestieDB.questKeys.requiredRaces] = 77,
             [QuestieDB.questKeys.exclusiveTo] = {5882,5883,5884,5886,},
         },
         [5886] = {
+            [QuestieDB.questKeys.startedBy] = {{9528,},nil,nil,},
             [QuestieDB.questKeys.requiredRaces] = 77,
             [QuestieDB.questKeys.exclusiveTo] = {5882,5883,5884,5885,},
         },
