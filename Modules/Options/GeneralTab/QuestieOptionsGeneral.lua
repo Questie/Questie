@@ -261,8 +261,8 @@ function QuestieOptionsGeneral:Initialize()
                 step = 0.01,
                 get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
                 set = function (info, value)
-                    QuestieOptionsUtils:Delay(0.5, QuestieOptions.ClusterRedraw, QuestieLocale:GetUIString('DEBUG_CLUSTER', value))
                     QUESTIE_NOTES_CLUSTERMUL_HACK = value;
+                    QuestieOptionsUtils:Delay(0.5, QuestieOptions.ClusterRedraw, QuestieLocale:GetUIString('DEBUG_CLUSTER', value))
                     QuestieOptions:SetGlobalOptionValue(info, value)
                 end,
             },
