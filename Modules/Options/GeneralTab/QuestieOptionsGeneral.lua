@@ -1,8 +1,8 @@
-QuestieOptionsGeneral = {...}
+QuestieOptions.tabs.general = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
 
 
-function QuestieOptionsGeneral:Initialize()
+function QuestieOptions.tabs.general:Initialize()
     return {
         name = function() return QuestieLocale:GetUIString('OPTIONS_TAB'); end,
         type = "group",

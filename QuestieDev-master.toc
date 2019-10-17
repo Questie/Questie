@@ -78,6 +78,7 @@ Modules\QuestieReputation.lua
 Modules\QuestieDBMIntegration.lua
 
 #Options
+Modules\Options\QuestieOptions.lua
 Modules\Options\QuestieOptionsDefaults.lua
 Modules\Options\QuestieOptionsUtils.lua
 Modules\Options\QuestieOptionsMinimapIcon.lua
@@ -88,7 +89,6 @@ Modules\Options\MapTab\QuestieOptionsMap.lua
 Modules\Options\MinimapTab\QuestieOptionsMinimap.lua
 Modules\Options\NameplateTab\QuestieOptionsNameplate.lua
 Modules\Options\TrackerTab\QuestieOptionsTracker.lua
-Modules\Options\QuestieOptions.lua
 
 #Main
 Questie.lua

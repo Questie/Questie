@@ -1,8 +1,8 @@
-QuestieOptionsAdvanced = {...}
+QuestieOptions.tabs.advanced = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
 
 
-function QuestieOptionsAdvanced:Initalize()
+function QuestieOptions.tabs.advanced:Initalize()
     return {
         name = function() return QuestieLocale:GetUIString('ADV_TAB'); end,
         type = "group",
