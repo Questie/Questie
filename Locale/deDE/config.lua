@@ -34,7 +34,8 @@ QuestieLocale.locale['deDE'] = {
     ['ENABLE_MINIMAP_ICONS_DESC'] = "Aktiviert/Deaktiviert alle Icons auf der Minimap",
 
     ['MINIMAP_TAB'] = "Minimap-Einstellungen",
-    ['MINIMAP_HEADER'] = "Minimap-Notiz-Einstellungen",
+    ['MINIMAP_HEADER'] = "Minimap-Einstellungen",
+    ['MINIMAP_NOTES'] = "Minimap-Notiz-Einstellungen",
     ['MINIMAP_GLOBAL_SCALE'] = "Globale Skalierung der Minimap-Icons",
     ['MINIMAP_GLOBAL_SCALE_DESC'] = "Skaliert wie groß die Minimap-Icons sind. ( Standard: %s )",
     ['MINIMAP_FADING'] = "Distanz der verblassenden Ziele",

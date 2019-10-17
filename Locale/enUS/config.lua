@@ -37,7 +37,8 @@ QuestieLocale.locale['enUS'] = {
 
     -- Minimap tab
     ['MINIMAP_TAB'] = "Minimap",
-    ['MINIMAP_HEADER'] = "Minimap Note Options",
+    ['MINIMAP_HEADER'] = "Minimap Options",
+    ['MINIMAP_NOTES'] = "Minimap Note Options",
     ['MINIMAP_GLOBAL_SCALE'] = "Global Scale for Minimap Icons",
     ['MINIMAP_GLOBAL_SCALE_DESC'] = "How large the Minimap icons are. ( Default: %s )",
     ['MINIMAP_FADING'] = "Fade objective distance",
