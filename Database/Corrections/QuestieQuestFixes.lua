@@ -194,6 +194,20 @@ function QuestieQuestFixes:Load()
         [7633] = {
             [QuestieDB.questKeys.preQuestSingle] = {7632},
         },
+        [7668] = { -- #1344
+            [QuestieDB.questKeys.name] = "The Darkreaver Menace",
+            [QuestieDB.questKeys.startedBy] = {{13417},nil,nil,},
+            [QuestieDB.questKeys.finishedBy] = {{13417},nil,},
+            [QuestieDB.questKeys.requiredLevel] = 58,
+            [QuestieDB.questKeys.questLevel] = 60,
+            [QuestieDB.questKeys.requiredRaces] = 178,
+            [QuestieDB.questKeys.requiredClasses] = 64,
+            [QuestieDB.questKeys.objectivesText] = {"Bring Darkreaver's Head to Sagorne Creststrider in the Valley of Wisdom, Orgrimmar."},
+            [QuestieDB.questKeys.objectives] = {nil,nil,{18880},nil,},
+            [QuestieDB.questKeys.sourceItemId] = 18746,
+            [QuestieDB.questKeys.zoneOrSort] = 1637,
+
+        },
         [5211] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #983
             [QuestieDB.questKeys.objectives] = {{{11064,"Darrowshire Spirits Freed"},{8530,"Darrowshire Spirits Freed"},{8531,"Darrowshire Spirits Freed"},{8532,"Darrowshire Spirits Freed"},},nil,nil,nil,},

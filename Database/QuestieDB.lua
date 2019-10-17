@@ -149,6 +149,7 @@ end
 
 function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
     if QuestID == nil then
+        Questie:Debug(DEBUG_CRITICAL, "[QuestieDB:GetQuest] Expected questID but received nil!")
         return nil
     end
     if QuestieDB._QuestCache[QuestID] ~= nil then
@@ -370,6 +371,7 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
         QuestieDB._QuestCache[QuestID] = QO
         return QO
     else
+        Questie:Debug(DEBUG_CRITICAL, "[QuestieDB:GetQuest] rawdata is nil for questID:", QuestID)
         return nil
     end
 end
