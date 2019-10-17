@@ -9,6 +9,7 @@ dumpVar = nil;
 QuestieQuest.availableQuests = {} --Gets populated at PLAYER_ENTERED_WORLD
 
 
+local HBD = LibStub("HereBeDragonsQuestie-2.0")
 
 function QuestieQuest:Initialize()
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_GET_QUEST_COMP'))
@@ -781,6 +782,12 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
         maxPerType = Questie.db.global.iconLimit
     end
 
+    local playerX, playerY, instance = HBD:GetPlayerWorldPosition();
+    local playerZone = HBD:GetPlayerWorldPosition();
+    local closestStarter = QuestieMap:FindClosestStarter()
+
+    local iconsToDraw = {}
+
     Objective:Update() -- update qlog data
     local completed = Objective.Completed
 
@@ -820,6 +827,9 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                     -- temporary fix for "special objectives" to not double-spawn (we need to fix the objective detection logic)
                     Quest.AlreadySpawned[Objective.Type .. tostring(ObjectiveIndex)][spawnData.Id] = true
                     local maxCount = 0
+                    if(not iconsToDraw[Quest.Id]) then
+                        iconsToDraw[Quest.Id] = {}
+                    end
                     local data = {}
                     data.Id = Quest.Id
                     data.ObjectiveIndex = ObjectiveIndex
@@ -844,15 +854,20 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
 
                     for zone, spawns in pairs(spawnData.Spawns) do
                         for _, spawn in pairs(spawns) do
-                            local iconMap, iconMini = QuestieMap:DrawWorldIcon(data, zone, spawn[1], spawn[2]) -- clustering code takes care of duplicates as long as mindist is more than 0
-                            if iconMap and iconMini then
-                                table.insert(Objective.AlreadySpawned[id].mapRefs, iconMap);
-                                table.insert(Objective.AlreadySpawned[id].minimapRefs, iconMini);
-                            end
-                            maxCount = maxCount + 1
-                            if maxPerType > 0 and maxCount > maxPerType then break; end
+                            local drawIcon = {};
+                            drawIcon.AlreadySpawnedId = id;
+                            drawIcon.data = data;
+                            drawIcon.zone = zone;
+                            drawIcon.areaId = zone;
+                            drawIcon.x = spawn[1];
+                            drawIcon.y = spawn[2];
+                            local x, y, instance = HBD:GetWorldCoordinatesFromZone(drawIcon.x/100, drawIcon.y/100, zoneDataAreaIDToUiMapID[zone])
+                            local distance = QuestieLib:Euclid(closestStarter[Quest.Id].x, closestStarter[Quest.Id].y, x, y);
+                            iconsToDraw[Quest.Id][floor(distance)] = drawIcon;
+                            --maxCount = maxCount + 1
+                            --if maxPerType > 0 and maxCount > maxPerType then break; end
                         end
-                        if maxPerType > 0 and maxCount > maxPerType then break; end
+                        --if maxPerType > 0 and maxCount > maxPerType then break; end
                     end
                 end
             elseif completed and Objective.AlreadySpawned then -- unregister notes
@@ -865,6 +880,40 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                     end
                     spawn.mapRefs = {}
                     spawn.minimapRefs = {}
+                end
+            end
+        end
+        local spawnedIcons = {}
+        for questId, icons in pairs(iconsToDraw) do
+            if(not spawnedIcons[questId]) then
+                spawnedIcons[questId] = 0;
+            end
+
+            local tkeys = {}
+            -- populate the table that holds the keys
+            for k in pairs(icons) do table.insert(tkeys, k) end
+            -- sort the keys
+            table.sort(tkeys)
+            -- use the keys to retrieve the values in the sorted order
+            for _, distance in ipairs(tkeys) do
+                if(spawnedIcons[questId] > maxPerType) then
+                    Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]", "Too many icons for quest:", questId)
+                    break;
+                end
+                local icon = icons[distance];
+                local xcell = math.floor((icon.x * (QUESTIE_NOTES_CLUSTERMUL_HACK)));
+                local ycell = math.floor((icon.y * (QUESTIE_NOTES_CLUSTERMUL_HACK)));
+                if QuestieMap.MapCache_ClutterFix[icon.areaId] == nil then QuestieMap.MapCache_ClutterFix[icon.areaId] = {}; end
+                if QuestieMap.MapCache_ClutterFix[icon.areaId][xcell] == nil then QuestieMap.MapCache_ClutterFix[icon.areaId][xcell] = {}; end
+                if QuestieMap.MapCache_ClutterFix[icon.areaId][xcell][ycell] == nil then QuestieMap.MapCache_ClutterFix[icon.areaId][xcell][ycell] = {}; end
+                if((not icon.data.ClusterId) or (not QuestieMap.MapCache_ClutterFix[icon.areaId][xcell][ycell][icon.data.ClusterId])) then
+                    --Questie:Print(questId, distance);
+                    local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, icon.zone, icon.x, icon.y) -- clustering code takes care of duplicates as long as mindist is more than 0
+                    if iconMap and iconMini then
+                        table.insert(Objective.AlreadySpawned[icon.AlreadySpawnedId].mapRefs, iconMap);
+                        table.insert(Objective.AlreadySpawned[icon.AlreadySpawnedId].minimapRefs, iconMini);
+                    end
+                    spawnedIcons[questId] = spawnedIcons[questId] + 1;
                 end
             end
         end

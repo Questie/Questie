@@ -546,7 +546,7 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
             end
         end
         if(not debugFoundSelf) then
-            Questie:Error("lineFrame unload failed, could not find self in used frames when unloaded...", self:GetName());
+            --Questie:Error("lineFrame unload failed, could not find self in used frames when unloaded...", self:GetName());
         end
         HBDPins:RemoveWorldMapIcon(Questie, self)
         tinsert(QuestieFramePool.Routes_Lines, self);
