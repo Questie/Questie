@@ -121,7 +121,7 @@ function QuestieOptions.tabs.general:Initialize()
                 order = 5,
                 name = function() return QuestieLocale:GetUIString('ENABLE_ICON'); end,
                 desc = function() return QuestieLocale:GetUIString('ENABLE_ICON_DESC'); end,
-                width = "full",
+                width = 1.5,
                 get = function () return not Questie.db.profile.minimap.hide; end,
                 set = function (info, value)
                     Questie.db.profile.minimap.hide = not value;
@@ -138,7 +138,7 @@ function QuestieOptions.tabs.general:Initialize()
                 order = 6,
                 name = function() return QuestieLocale:GetUIString('ENABLE_INSTANT'); end,
                 desc = function() return QuestieLocale:GetUIString('ENABLE_INSTANT_DESC'); end,
-                width = "full",
+                width = 1.5,
                 get = function () if GetCVar("instantQuestText") == '1' then return true; else return false; end; end,
                 set = function (info, value)
                     if value then
@@ -153,7 +153,7 @@ function QuestieOptions.tabs.general:Initialize()
                 order = 7,
                 name = function() return QuestieLocale:GetUIString('ENABLE_TOOLTIPS'); end,
                 desc = function() return QuestieLocale:GetUIString('ENABLE_TOOLTIPS_DESC'); end,
-                width = "full",
+                width = 1.5,
                 get = function () return Questie.db.global.enableTooltips; end,
                 set = function (info, value)
                     Questie.db.global.enableTooltips = value
@@ -164,7 +164,7 @@ function QuestieOptions.tabs.general:Initialize()
                 order = 8,
                 name = function() return QuestieLocale:GetUIString('ENABLE_TOOLTIPS_QUEST_LEVEL'); end,
                 desc = function() return QuestieLocale:GetUIString('ENABLE_TOOLTIPS_QUEST_LEVEL_DESC'); end,
-                width = "full",
+                width = 1.5,
                 disabled = function() return not Questie.db.global.enableTooltips; end,
                 get = function() return Questie.db.global.enableTooltipsQuestLevel; end,
                 set = function (info, value)
@@ -180,7 +180,7 @@ function QuestieOptions.tabs.general:Initialize()
                 order = 8.1,
                 name = "Auto Accept Quests",
                 desc = "Enable or disable Questie auto-accepting quests.",
-                width = "full",
+                width = 1.5,
                 get = function () return Questie.db.char.autoaccept; end,
                 set = function (info, value)
                     Questie.db.char.autoaccept = value
@@ -192,7 +192,7 @@ function QuestieOptions.tabs.general:Initialize()
                 order = 8.1,
                 name = "Auto Complete",
                 desc = "Enable or disable Questie auto-complete quests.",
-                width = "full",
+                width = 1.5,
                 get = function () return Questie.db.char.autocomplete; end,
                 set = function (info, value)
                     Questie.db.char.autocomplete = value
