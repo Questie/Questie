@@ -96,6 +96,7 @@ function QuestieItemFixes:Load()
         [12813] = {"Flask of Mystery Goo",{5085},{},{}}, -- #1313
         [11947] = {"Filled Cursed Ooze Jar",{4512},{7086},{}}, -- #1315
         [11949] = {"Filled Tainted Ooze Jar",{4512},{7092},{}}, -- #1315
+        [18605] = {"Imprisoned Doomguard",{7583},{12396},{179644}}, -- #7583
 
         -- quest related herbs
         [2449] = {"Earthroot",{6123,6128},{},{1619,3726}},
