@@ -112,11 +112,12 @@ function QuestieDB:GetItem(ItemID)
     if QuestieDB._ItemCache[ItemID] ~= nil then
         return QuestieDB._ItemCache[ItemID];
     end
-    if QuestieCorrections.itemFixes[ItemID] then
-        for k,v in pairs(QuestieCorrections.itemFixes[ItemID]) do
-            CHANGEME_Questie4_ItemDB[ItemID][k] = v
-        end
-    end
+    -- TODO make itemFixes be accessable by field as well
+    -- if QuestieCorrections.itemFixes[ItemID] then
+    --     for k,v in pairs(QuestieCorrections.itemFixes[ItemID]) do
+    --         CHANGEME_Questie4_ItemDB[ItemID][k] = v
+    --     end
+    -- end
     local raw = CHANGEME_Questie4_ItemDB[ItemID]; -- TODO: use the good item db, I need to talk to Muehe about the format, this is a temporary fix
     local item = {};
     if raw ~= nil then
