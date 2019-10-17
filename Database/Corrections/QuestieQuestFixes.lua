@@ -9,6 +9,7 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.startedBy] = {nil,{1765},{3706},}, -- #1245
         },
         [598] = {
+            [QuestieDB.questKeys.preQuestSingle] = {},
             [QuestieDB.questKeys.preQuestGroup] = {596,629,}
         },
         [639] = {
