@@ -34,6 +34,10 @@ QuestieLocale.locale['enUS'] = {
     ['ENABLE_MINIMAP_ICONS_DESC'] = "Show/hide all icons from the minimap.",
     ['HIDE_UNEXPLORED_ICONS'] = "Hide unexplored area Icons",
     ['HIDE_UNEXPLORED_ICONS_DESC'] = "Hide icons in unexplored areas.",
+    ['ENABLE_ICON_LIMIT'] = "Enable Icon Limit",
+    ['ENABLE_ICON_LIMIT_DESC'] = "Enable the limit of icons drawn per type.",
+    ['ICON_LIMIT'] = "Icon Limit",
+    ['ICON_LIMIT_DESC'] = "Limits the amount of icons drawn per type. ( Default: %s )",
 
     -- Minimap tab
     ['MINIMAP_TAB'] = "Minimap",
@@ -299,6 +303,7 @@ QuestieLocale.locale['enUS'] = {
     ['DEBUG_MINLEVEL'] = "minLevelFilter set to %s",
     ['DEBUG_MAXLEVEL'] = "maxLevelFilter set to %s",
     ['DEBUG_CLUSTER'] = "Setting clustering value, clusterLevel set to %s : Redrawing!",
+    ['DEBUG_ICON_LIMIT'] = "Setting icon limit value to %s : Redrawing!",
     ['DEBUG_ADD_QUEST'] = "Adding the quest %s %s",
     ['DEBUG_REMOVE_QUEST'] = "Removed the quest %s %s",
     ['DEBUG_ACCEPT_QUEST'] = "Accepted Quest: %s",

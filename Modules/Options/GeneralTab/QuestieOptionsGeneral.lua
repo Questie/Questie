@@ -70,7 +70,7 @@ function QuestieOptions.tabs.general:Initialize()
                             QuestieQuest:Reset();
                         end,
                     },
-                    seperatingHeader = {
+                    seperatingHeader1 = {
                         type = "header",
                         order = 4,
                         name = "",
@@ -112,6 +112,39 @@ function QuestieOptions.tabs.general:Initialize()
                         set = function (info, value)
                             Questie.db.global.enableAvailable = value
                             QuestieQuest:UpdateHiddenNotes();
+                        end,
+                    },
+                    seperatingHeader2 = {
+                        type = "header",
+                        order = 8,
+                        name = "",
+                    },
+                    enableIconLimit = {
+                        type = "toggle",
+                        order = 8.1,
+                        name = function() return QuestieLocale:GetUIString('ENABLE_ICON_LIMIT'); end,
+                        desc = function() return QuestieLocale:GetUIString('ENABLE_ICON_LIMIT_DESC'); end,
+                        width = "full",
+                        get = function (info) return QuestieOptions:GetGlobalOptionValue(info); end,
+                        set = function (info, value)
+                            QuestieOptions:SetGlobalOptionValue(info, value)
+                            QuestieOptionsUtils:Delay(0.5, QuestieQuest.SmoothReset, QuestieLocale:GetUIString('DEBUG_ICON_LIMIT', value))
+                        end,
+                    },
+                    iconLimit = {
+                        type = "range",
+                        order = 8.2,
+                        name = function() return QuestieLocale:GetUIString('ICON_LIMIT'); end,
+                        desc = function() return QuestieLocale:GetUIString('ICON_LIMIT_DESC', optionsDefaults.global.iconLimit); end,
+                        width = "double",
+                        min = 10,
+                        max = 500,
+                        step = 10,
+                        disabled = function() return (not Questie.db.global.enableIconLimit); end,
+                        get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
+                        set = function (info, value)
+                            QuestieOptions:SetGlobalOptionValue(info, value)
+                            QuestieOptionsUtils:Delay(0.5, QuestieQuest.SmoothReset, QuestieLocale:GetUIString('DEBUG_ICON_LIMIT', value))
                         end,
                     },
                 },

@@ -6,6 +6,8 @@ function QuestieOptionsDefaults:Load()
             maxLevelFilter = 7,
             minLevelFilter = 5, -- Raised the default to allow more quests to be shown
             clusterLevel = 1,
+            enableIconLimit = false,
+            iconLimit = 200,
             availableScale = 1.3,
             eventScale = 1.35,
             lootScale = 1,

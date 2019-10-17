@@ -762,6 +762,7 @@ function QuestieQuest:ForceToMap(type, id, label, customScale)
 end
 
 function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockItemTooltips) -- must be pcalled
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:PopulateObjective]")
     if not Objective.AlreadySpawned then
         Objective.AlreadySpawned = {};
     end
@@ -774,8 +775,11 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
     if ObjectiveSpawnListCallTable[Objective.Type] and (not Objective.spawnList) then
         Objective.spawnList = ObjectiveSpawnListCallTable[Objective.Type](Objective.Id, Objective);
     end
-    local maxPerType = 200
-    local maxPerObjectiveOutsideZone = 100
+
+    local maxPerType = 0
+    if Questie.db.global.enableIconLimit then
+        maxPerType = Questie.db.global.iconLimit
+    end
 
     Objective:Update() -- update qlog data
     local completed = Objective.Completed
@@ -840,22 +844,15 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
 
                     for zone, spawns in pairs(spawnData.Spawns) do
                         for _, spawn in pairs(spawns) do
-                            if maxPerObjectiveOutsideZone > 0 or ((not Quest.Zone) or Quest.Zone == zone) then -- still add the note if its in the current zone
-                                local iconMap, iconMini = QuestieMap:DrawWorldIcon(data, zone, spawn[1], spawn[2]) -- clustering code takes care of duplicates as long as mindist is more than 0
-                                if iconMap and iconMini then
-                                    table.insert(Objective.AlreadySpawned[id].mapRefs, iconMap);
-                                    table.insert(Objective.AlreadySpawned[id].minimapRefs, iconMini);
-                                end
+                            local iconMap, iconMini = QuestieMap:DrawWorldIcon(data, zone, spawn[1], spawn[2]) -- clustering code takes care of duplicates as long as mindist is more than 0
+                            if iconMap and iconMini then
+                                table.insert(Objective.AlreadySpawned[id].mapRefs, iconMap);
+                                table.insert(Objective.AlreadySpawned[id].minimapRefs, iconMini);
                             end
                             maxCount = maxCount + 1
-                            if Quest.Zone then
-                                if zone ~= Quest.Zone then
-                                    maxPerObjectiveOutsideZone = maxPerObjectiveOutsideZone - 1
-                                end
-                            end
-                            if maxCount > maxPerType then break; end
+                            if maxPerType > 0 and maxCount > maxPerType then break; end
                         end
-                        if maxCount > maxPerType then break; end
+                        if maxPerType > 0 and maxCount > maxPerType then break; end
                     end
                 end
             elseif completed and Objective.AlreadySpawned then -- unregister notes
