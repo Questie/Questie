@@ -36,7 +36,7 @@ end
 
 
 function Questie:OnInitialize()
-    self.db = LibStub("AceDB-3.0"):New("QuestieConfig", QuestieOptions:GetDefaults(), true)
+    self.db = LibStub("AceDB-3.0"):New("QuestieConfig", QuestieOptionsDefaults:Load(), true)
 
     -- Set proper locale. Either default to client Locale or override based on user.
     if Questie.db.global.questieLocaleDiff then
@@ -47,6 +47,8 @@ function Questie:OnInitialize()
 
     Questie:Debug(DEBUG_CRITICAL, "Questie addon loaded")
     QuestieCorrections:Initialize()
+    QuestieLocale:Initialize()
+
     Questie:RegisterEvent("PLAYER_LOGIN", QuestieEventHandler.PLAYER_LOGIN)
 
     --Accepted Events
@@ -116,7 +118,7 @@ function Questie:OnInitialize()
 
     -- Creating the minimap config icon
     Questie.minimapConfigIcon = LibStub("LibDBIcon-1.0");
-    Questie.minimapConfigIcon:Register("MinimapIcon", QuestieOptions:GetMinimapIconLDB(), Questie.db.profile.minimap);
+    Questie.minimapConfigIcon:Register("MinimapIcon", QuestieOptionsMinimapIcon:Get(), Questie.db.profile.minimap);
 
     -- Update the default text on the map show/hide button for localization
     if Questie.db.char.enabled then
@@ -134,15 +136,6 @@ function Questie:OnInitialize()
     end
     if Questie.db.global.dbmHUDEnable then
         QuestieDBMIntegration:EnableHUD()
-    end
-    -- init config frame
-    if not QuestieConfigFrame then
-        QuestieOptions.configFrame = AceGUI:Create("Frame");
-        LibStub("AceConfigDialogQuestie-3.0"):SetDefaultSize("Questie", 625, 700)
-        LibStub("AceConfigDialogQuestie-3.0"):Open("Questie", QuestieOptions.configFrame)
-        QuestieOptions.configFrame:Hide();                
-        _G["QuestieConfigFrame"] = QuestieOptions.configFrame.frame;
-        table.insert(UISpecialFrames, "QuestieConfigFrame");
     end
 end
 

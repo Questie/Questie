@@ -2,7 +2,7 @@ QuestieItemFixes = {...}
 
 -- [item ID] = {"name",{objective of},{dropped by},{contained in/gathered from/mined from}}
 function QuestieItemFixes:Load()
-    return {
+    local itemFixes = {
         [5475] = {"Wooden Key",{},{3919,3834},{}},
         [5519] = {"Iron Pommel",{1027},{3928},{}},
         [4611] = {"Blue Pearl",{705},{},{2744}},
@@ -96,6 +96,7 @@ function QuestieItemFixes:Load()
         [12813] = {"Flask of Mystery Goo",{5085},{},{}}, -- #1313
         [11947] = {"Filled Cursed Ooze Jar",{4512},{7086},{}}, -- #1315
         [11949] = {"Filled Tainted Ooze Jar",{4512},{7092},{}}, -- #1315
+        [18746] = {"Divination Scryer",{7666,7669,8258,},{},{}}, -- #1344
 
         -- quest related herbs
         [2449] = {"Earthroot",{6123,6128},{},{1619,3726}},
@@ -132,6 +133,12 @@ function QuestieItemFixes:Load()
         [14047] = {"Runecloth",{9266,5218,5221,5224,5227,6031,7642,7795,7796,7800,7801,7805,7806,7811,7812,7818,7819,7823,7824,7825,7832,7836,7837},{},{}},
         [14048] = {"Bolt of Runecloth",{8782,8808,9237,9238,9239,9240,5518,5519},{},{}},
     }
+
+    for k,v in pairs(itemFixes) do
+        CHANGEME_Questie4_ItemDB[k]=v
+    end
+
+    return CHANGEME_Questie4_ItemDB
 end
 
 -- some quest items are shared across factions but require different sources for each faction (not sure if there is a better way to implement this)

@@ -1,6 +1,8 @@
 QuestieQuestFixes = {...}
 
 function QuestieQuestFixes:Load()
+    table.insert(QuestieDB.questData, 7668, {}) -- Add missing quest index
+
     return {
         [5] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #1198
@@ -193,6 +195,19 @@ function QuestieQuestFixes:Load()
         },
         [7633] = {
             [QuestieDB.questKeys.preQuestSingle] = {7632},
+        },
+        [7668] = { -- #1344
+            [QuestieDB.questKeys.name] = "The Darkreaver Menace",
+            [QuestieDB.questKeys.startedBy] = {{13417},nil,nil,},
+            [QuestieDB.questKeys.finishedBy] = {{13417},nil,},
+            [QuestieDB.questKeys.requiredLevel] = 58,
+            [QuestieDB.questKeys.questLevel] = 60,
+            [QuestieDB.questKeys.requiredRaces] = 178,
+            [QuestieDB.questKeys.requiredClasses] = 64,
+            [QuestieDB.questKeys.objectivesText] = {"Bring Darkreaver's Head to Sagorne Creststrider in the Valley of Wisdom, Orgrimmar."},
+            [QuestieDB.questKeys.objectives] = {nil,nil,{{18880,nil},},nil,},
+            [QuestieDB.questKeys.sourceItemId] = 18746,
+            [QuestieDB.questKeys.zoneOrSort] = 1637,
         },
         [5211] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #983

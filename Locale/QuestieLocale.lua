@@ -8,6 +8,28 @@ LangQuestLookup = {};
 
 local locale = 'enUS';
 
+-- Initialize lookup tables for localization
+function QuestieLocale:Initialize()
+    local lang = GetLocale()
+
+    LangItemLookup = LangItemLookup[lang] or {};
+    LangNameLookup = LangNameLookup[lang] or {};
+    LangQuestLookup = LangQuestLookup[lang] or {};
+    LangObjectIdLookup = LangObjectLookup[lang] or {}; -- This table is String -> ID
+    LangObjectLookup = {} -- This table is ID -> String
+
+    --Create the ID -> String table!
+    for k, v in pairs(LangObjectIdLookup) do
+        LangObjectLookup[v]=k
+    end
+    -- Create the english String -> ID table.
+    if(lang == "enUS" or lang == "enGB") then
+        for id, data in pairs(QuestieDB.objectData) do
+            LangObjectIdLookup[data[1]] = id;
+        end
+    end
+end
+
 function QuestieLocale:FallbackLocale(lang)
 
     if not lang then
