@@ -241,10 +241,11 @@ function QuestieLib:PlayerInGroup(playerName)
         for index=1, 40 do
             local name = nil
             local className, classFilename = nil;
-            if(UnitInRaid("player")) then
-                name = UnitName("raid"..index);
-                className, classFilename = UnitClass("raid"..index);
-            end
+            --This disables raid check for players.
+            --if(UnitInRaid("player")) then
+            --    name = UnitName("raid"..index);
+            --    className, classFilename = UnitClass("raid"..index);
+            --end
             if(not name) then
                 name = UnitName("party"..index);
                 className, classFilename = UnitClass("party"..index);
