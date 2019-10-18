@@ -386,7 +386,7 @@ function _QuestieComms:OnCommReceived(message, distribution, sender)
             if(suggestUpdate) then
                 local major, minor, patch = strsplit(".", decompressedData.ver);
                 local majorOwn, minorOwn, patchOwn = QuestieLib:GetAddonVersionInfo();
-                if((tonumber(majorOwn) < tonumber(major) or tonumber(minorOwn) < tonumber(minor)) and not UnitAffectingCombat("player")) then
+                if((majorOwn < tonumber(major) or minorOwn < tonumber(minor)) and not UnitAffectingCombat("player")) then
                     suggestUpdate = false;
                     if(majorOwn < major) then
                         Questie:Print("A Major patch for Questie exist! Please update as soon as possible!");
