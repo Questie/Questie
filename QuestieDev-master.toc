@@ -60,7 +60,11 @@ Modules\QuestieAuto.lua
 Modules\QuestieTooltips.lua
 Modules\QuestieEventHandler.lua
 Modules\QuestieFramePool.lua
+
+#Map
 Modules\QuestieMap.lua
+Modules\QuestieMapUtils.lua
+
 Modules\QuestieQuest.lua
 Modules\QuestieNameplate.lua
 Modules\QuestieCoordinates.lua
