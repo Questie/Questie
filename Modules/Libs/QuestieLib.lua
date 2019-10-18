@@ -219,8 +219,8 @@ function QuestieLib:GetAddonVersionInfo()  -- todo: better place
         cachedTitle = title;
     end
     --%d = digit, %p = punctuation character, %x = hexadecimal digits.
-    local major, minor, patch, commit = string.match(cachedTitle, "(%d+)%p(%d+)%p(%d+)_(%x+)");
-    return tonumber(major), tonumber(minor), tonumber(patch), commit;
+    local major, minor, patch, commit = string.match(cachedTitle, "(%d+)%p(%d+)%p(%d+)");
+    return tonumber(major), tonumber(minor), tonumber(patch);
 end
 
 --Search for just Addon\\ at the front since the interface part often gets trimmed

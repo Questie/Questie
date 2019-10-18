@@ -386,7 +386,7 @@ function _QuestieComms:OnCommReceived(message, distribution, sender)
             if(suggestUpdate) then
                 local major, minor, patch = strsplit(".", decompressedData.ver);
                 local majorOwn, minorOwn, patchOwn = QuestieLib:GetAddonVersionInfo();
-                if((majorOwn < major or minorOwn < minor) and not UnitAffectingCombat("player")) then
+                if((tonumber(majorOwn) < tonumber(major) or tonumber(minorOwn) < tonumber(minor)) and not UnitAffectingCombat("player")) then
                     suggestUpdate = false;
                     if(majorOwn < major) then
                         Questie:Print("A Major patch for Questie exist! Please update as soon as possible!");
@@ -402,7 +402,7 @@ function _QuestieComms:OnCommReceived(message, distribution, sender)
             _QuestieComms.packets[decompressedData.msgId].read(decompressedData);
         else
             Questie:Debug(DEBUG_INFO, "[QuestieComms]", decompressedData, decompressedData.msgId, _QuestieComms.packets[decompressedData.msgId])
-            Questie:Error("Error reading QuestieComm message (If it persist try updating) Player:", sender, "PacketLength:", string.len(message));
+            --Questie:Error("Error reading QuestieComm message (If it persist try updating) Player:", sender, "PacketLength:", string.len(message));
         end
     end
 end
