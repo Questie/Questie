@@ -746,9 +746,19 @@ function _QuestieFramePool:Questie_Tooltip(self)
                                   --Questie:Print("2",text, v)
                                   local data = {}
                                   data[text] = nameTable;
+                                  --Add the data for the first time
                                   if(usedText[text] == nil) then
                                     table.insert(questOrder[key], data);
                                     usedText[text] = true;
+                                  else
+                                    --We want to add more NPCs as possible candidates when shift is pressed.
+                                    if(icon.data.Name) then
+                                      for dataIndex, data in pairs(questOrder[key]) do
+                                        if(questOrder[key][dataIndex][text]) then
+                                          questOrder[key][dataIndex][text][icon.data.Name] = true;
+                                        end
+                                      end
+                                    end
                                   end
                                 end
                             end
