@@ -210,6 +210,10 @@ function QuestieEventHandler:GROUP_JOINED()
     end)
 end
 
+function QuestieEventHandler:GROUP_LEFT()
+    --Resets both QuestieComms.remoteQuestLog and QuestieComms.data
+    QuestieComms:ResetAll();
+end
 
 --Old unused code
 

@@ -146,3 +146,9 @@ function QuestieComms.data:RemoveQuestFromPlayer(questId, playerName)
         playerRegisteredTooltips[playerName][questId] = nil;
     end
 end
+
+-- Resets everything.
+function QuestieComms.data:ResetAll()
+    commsTooltipLookup = {}
+    playerRegisteredTooltips = {}
+end

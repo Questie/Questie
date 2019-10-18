@@ -426,6 +426,11 @@ function _QuestieComms:createPacket(messageId)
     return pkt
 end
 
+function QuestieComms:ResetAll()
+    QuestieComms.data:ResetAll();
+    QuestieComms.remoteQuestLogs = {};
+end
+
 --[[ not used!
 function _QuestieComms:isNewHash(questData)
     if(questData.id) then
