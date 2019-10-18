@@ -62,8 +62,8 @@ Modules\QuestieEventHandler.lua
 Modules\QuestieFramePool.lua
 
 #Map
-Modules\QuestieMap.lua
-Modules\QuestieMapUtils.lua
+Modules\Map\QuestieMap.lua
+Modules\Map\QuestieMapUtils.lua
 
 Modules\QuestieQuest.lua
 Modules\QuestieNameplate.lua
