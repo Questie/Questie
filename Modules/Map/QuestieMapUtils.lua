@@ -26,24 +26,20 @@ end
 ---@param rangeR integer @Range of the hotzones.
 ---@return table<integer, table<integer, Point>> @A table of hotzones
 function QuestieMap.utils:CalcHotzones(points, rangeR)
-	if(points == nil) then return nil; end
-    local allPoints = {};
+    if(points == nil) then return nil; end
     
-    for index, icon in pairs(points) do
-        allPoints[index] = icon;
-    end
     local range = rangeR or 10;
     local hotzones = {};
     local itt = 0;
     while(true) do
     	local FoundUntouched = nil;
-    	for index, point in pairs(allPoints) do
+    	for index, point in pairs(points) do
     		if(point.touched == nil) then
     			local notes = {};
     			FoundUntouched = true;
     			point.touched = true;
     			tinsert(notes, point);
-    			for index2, point2 in pairs(allPoints) do
+    			for index2, point2 in pairs(points) do
     				local times = 1;
 
     				if(point.x < 1.01 and point.y < 1.01) then times = 100; end
