@@ -17,15 +17,20 @@ local HBD = LibStub("HereBeDragonsQuestie-2.0")
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 local HBDMigrate = LibStub("HereBeDragonsQuestie-Migrate")
 
+--We should really try and squeeze out all the performance we can, especially in this.
+local tostring = tostring;
+local tinsert = table.insert;
+local pairs = pairs;
+local ipairs = ipairs;
+local tpack = table.pack;
+local tremove = table.remove;
+local tunpack = unpack;
+
 
 -- copypaste from old questie (clean up later)
 QUESTIE_NOTES_CLUSTERMUL_HACK = 0.2; -- smaller numbers = less icons on map
 QuestieMap.MapCache_ClutterFix = {};
 QuestieMap.drawTimer = nil;
-
-function QuestieMap:DrawWorldMap(QuestID)
-
-end
 
 --Get the frames for a quest, this returns all of the frames
 function QuestieMap:GetFramesForQuest(QuestId)
@@ -33,7 +38,7 @@ function QuestieMap:GetFramesForQuest(QuestId)
     --If no frames exists or if the quest does not exist we just return an empty list
     if (QuestieMap.questIdFrames[QuestId]) then
         for i, name in ipairs(QuestieMap.questIdFrames[QuestId]) do
-            table.insert(frames, _G[name])
+            tinsert(frames, _G[name])
         end
     end
     return frames
@@ -64,7 +69,7 @@ function QuestieMap:GetManualFrames(id)
     --If no frames exists or if the quest does not exist we just return an empty list
     if (QuestieMap.manualFrames[id]) then
         for _, name in pairs(QuestieMap.manualFrames[id]) do
-            table.insert(frames, _G[name])
+            tinsert(frames, _G[name])
         end
     end
     return frames
@@ -118,10 +123,6 @@ function QuestieMap:RescaleIcons()
     end
 end
 
-local tinsert = table.insert;
-local tpack = table.pack;
-local tremove = table.remove;
-local tunpack = unpack;
 local mapDrawQueue = {};
 local minimapDrawQueue = {};
 function QuestieMap:InitializeQueue()
@@ -297,7 +298,7 @@ function QuestieMap:DrawManualIcon(data, AreaID, x, y)
 
     -- add the map icon
     QuestieMap:QueueDraw(QuestieMap.ICON_MAP_TYPE, Questie, icon, data.UiMapID, x/100, y/100, 3) -- showFlag)
-    table.insert(QuestieMap.manualFrames[data.id], icon:GetName())
+    tinsert(QuestieMap.manualFrames[data.id], icon:GetName())
 
     -- create the minimap icon
     local iconMinimap = QuestieFramePool:GetFrame()
@@ -317,7 +318,7 @@ function QuestieMap:DrawManualIcon(data, AreaID, x, y)
 
     -- add the minimap icon
     QuestieMap:QueueDraw(QuestieMap.ICON_MINIMAP_TYPE, Questie, iconMinimap, data.UiMapID, x / 100, y / 100, true, true);
-    table.insert(QuestieMap.manualFrames[data.id], iconMinimap:GetName())
+    tinsert(QuestieMap.manualFrames[data.id], iconMinimap:GetName())
 
     -- make sure notes are only shown when they are supposed to
     if (QuestieQuest.NotesHidden) then -- TODO: or (not Questie.db.global.manualNotes)
@@ -535,8 +536,8 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
             QuestieMap.questIdFrames[data.Id] = {}
         end
 
-        table.insert(QuestieMap.questIdFrames[data.Id], icon:GetName())
-        table.insert(QuestieMap.questIdFrames[data.Id], iconMinimap:GetName())
+        tinsert(QuestieMap.questIdFrames[data.Id], icon:GetName())
+        tinsert(QuestieMap.questIdFrames[data.Id], iconMinimap:GetName())
 
         -- preset hidden state when needed (logic from QuestieQuest:UpdateHiddenNotes
         -- we should add all this code to something like obj:CheckHide() instead of copying it
@@ -556,7 +557,7 @@ end
 
 local closestStarter = {}
 function QuestieMap:FindClosestStarter()
-  local playerX, playerY, instance = HBD:GetPlayerWorldPosition();
+    local playerX, playerY, instance = HBD:GetPlayerWorldPosition();
     local playerZone = HBD:GetPlayerWorldPosition();
     for questId in pairs(QuestiePlayer.currentQuestlog) do
         if(not closestStarter[questId]) then

@@ -3,8 +3,16 @@ local _QuestieQuest = {...}
 local libS = LibStub:GetLibrary("AceSerializer-3.0")
 local libC = LibStub:GetLibrary("LibCompress")
 
---For debugging
-dumpVar = nil;
+
+--We should really try and squeeze out all the performance we can, especially in this.
+local tostring = tostring;
+local tinsert = table.insert;
+local pairs = pairs;
+local ipairs = ipairs;
+local strim = string.trim;
+local smatch = string.match;
+local strfind = string.find;
+local slower = string.lower;
 
 QuestieQuest.availableQuests = {} --Gets populated at PLAYER_ENTERED_WORLD
 
@@ -20,7 +28,7 @@ function QuestieQuest:Initialize()
 
     -- this inserts the Questie Icons to the MinimapButtonBag ignore list
     if MBB_Ignore then
-        table.insert(MBB_Ignore, "QuestieFrameGroup")
+        tinsert(MBB_Ignore, "QuestieFrameGroup")
     end
 
     _QuestieQuest.questLogHashes = QuestieQuest:GetQuestLogHashes()
@@ -676,7 +684,7 @@ ObjectiveSpawnListCallTable = {
                             end
                             local x = spawn[2] * 100;
                             local y = spawn[3] * 100;
-                            table.insert(ret[1].Spawns[zid], {x, y});
+                            tinsert(ret[1].Spawns[zid], {x, y});
                         end
                     end
                 end
@@ -717,7 +725,7 @@ ObjectiveSpawnListCallTable = {
                                         ret[id].Spawns[zone] = {};
                                     end
                                     for _, spawn in pairs(spawns) do
-                                        table.insert(ret[id].Spawns[zone], spawn);
+                                        tinsert(ret[id].Spawns[zone], spawn);
                                     end
                                 end
                             end
@@ -752,8 +760,8 @@ function QuestieQuest:ForceToMap(type, id, label, customScale)
                 for _, spawn in pairs(spawns) do
                     local iconMap, iconMini = QuestieMap:DrawWorldIcon(spawnData, zone, spawn[1], spawn[2])
                     if iconMap and iconMini then
-                        table.insert(mapRefs, iconMap);
-                        table.insert(miniRefs, iconMini);
+                        tinsert(mapRefs, iconMap);
+                        tinsert(miniRefs, iconMini);
                     end
                 end
             end
@@ -1094,23 +1102,23 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                         -- Fetch the name of the objective
                         local oName = nil;
                         if(objectiveDB.Type == "monster" and objectiveDB.Id) then
-                            oName = string.lower(QuestieDB:GetNPC(objectiveDB.Id).name);
+                            oName = slower(QuestieDB:GetNPC(objectiveDB.Id).name);
                         elseif(objectiveDB.Type == "object" and objectiveDB.Id) then
-                            oName = string.lower(QuestieDB:GetObject(objectiveDB.Id).name);
+                            oName = slower(QuestieDB:GetObject(objectiveDB.Id).name);
                         elseif(objectiveDB.Type == "item" and objectiveDB.Id) then
                             --testVar = CHANGEME_Questie4_ItemDB[objectiveDB.Id]
                             --DEFAULT_CHAT_FRAME:AddMessage(CHANGEME_Questie4_ItemDB[objectiveDB.Id][1][])
                             local item = QuestieDB:GetItem(objectiveDB.Id);
                             if(item and item.Name) then
-                                oName = string.lower(item.Name);-- this is capital letters for some reason...
+                                oName = slower(item.Name);-- this is capital letters for some reason...
                             else
                                 oName = nil;
                             end
                         end
                         -- To lower the questlog objective text
-                        local oDesc = string.lower(objective.text) or nil;
+                        local oDesc = slower(objective.text) or nil;
                         -- This is whaaaat?
-                        -- local oText = string.lower(objectiveDB.Text or "");
+                        -- local oText = slower(objectiveDB.Text or "");
 
                         if(oName and oDesc) then
                             local distance = QuestieDB:Levenshtein(oDesc, oName);
@@ -1136,7 +1144,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
 
                 local objectiveDB = Quest.ObjectiveData[bestIndex]
                 --Debug var
-                local oDesc = string.lower(objective.text) or nil
+                local oDesc = slower(objective.text) or nil
                 --
                 if(bestIndex ~= -1 and objectiveDB) then
                     Questie:Debug(DEBUG_SPAM, "----> Objective", objective.text, "Dist:", bestDistance)
@@ -1193,7 +1201,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                     objective.Index = 64 + index -- offset to not conflict with real objectives
                     Quest.SpecialObjectives[objective.Description] = objective
                 end
-                --table.insert(Quest.SpecialObjectives, objective);
+                --tinsert(Quest.SpecialObjectives, objective);
             end
         end
     end
@@ -1226,7 +1234,7 @@ function QuestieQuest:GetQuestLogHashes()
             end
         else
             local hash = QuestieQuest:GetQuestHash(questId, isComplete)
-            table.insert(questLogHashes, questId, hash)
+            tinsert(questLogHashes, questId, hash)
         end
     end
     return questLogHashes
@@ -1291,7 +1299,7 @@ end
     local questObjectives = C_QuestLog.GetQuestObjectives(questId)-- or {};
     if(questObjectives[objectiveIndex]) then
         local objective = questObjectives[objectiveIndex];
-        local text = string.match(objective.text, "(.*)[：,:]");
+        local text = smatch(objective.text, "(.*)[：,:]");
         -- If nothing is matched, we should just add the text as is.
         if(text ~= nil) then
             objective.text = text;
@@ -1325,12 +1333,12 @@ function QuestieQuest:GetAllLeaderBoardDetails(questId)
             end
             -- If the functions above do not give a good answer fall back to older regex to get something.
             if(text == nil) then
-                text = string.match(objective.text, "^(.*):%s") or string.match(objective.text, "%s：(.*)$") or string.match(objective.text, "^(.*)：%s") or objective.text;
+                text = smatch(objective.text, "^(.*):%s") or smatch(objective.text, "%s：(.*)$") or smatch(objective.text, "^(.*)：%s") or objective.text;
             end
 
             --If objective.text is nil, this will be nil, throw error!
             if(text ~= nil) then
-                objective.text = string.trim(text);
+                objective.text = strim(text);
             else
                 Questie:Print("WARNING! [QuestieQuest]", "Could not split out the objective out of the objective text! Please report the error!", questId, objective.text)
             end
@@ -1343,14 +1351,14 @@ end
 --[[  KEEP THIS FOR NOW
 
             -- Look if it contains "slain"
-            if(string.match(text, slain)) then
+            if(smatch(text, slain)) then
                 --English first, chinese after
-                text = string.match(objective.text, "(.*)"..slain.."%W*%d+/%d+") or string.match(objective.text, "%d+/%d+%W*"..slain.."(.*)")
+                text = smatch(objective.text, "(.*)"..slain.."%W*%d+/%d+") or smatch(objective.text, "%d+/%d+%W*"..slain.."(.*)")
                 --Capital %W is required due to chinese not being alphanumerical
-                --text = string.match(objective.text, '^(.*)%s+%w+:%s') or string.match(objective.text, '%s：%W+%s(.+)$');
+                --text = smatch(objective.text, '^(.*)%s+%w+:%s') or smatch(objective.text, '%s：%W+%s(.+)$');
             else
                 --English first, chinese after
-                text = string.match(objective.text, "^(.*):%s") or string.match(objective.text, "%s：(.*)$");
+                text = smatch(objective.text, "^(.*):%s") or smatch(objective.text, "%s：(.*)$");
             end
 ]]--
 
