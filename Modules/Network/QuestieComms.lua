@@ -250,25 +250,13 @@ function QuestieComms:InsertQuestDataPacket(questPacket, playerName)
             local objectives = {}
             for objectiveIndex, objectiveData in pairs(questPacket.objectives) do
                 --This is to check that all the data we require exist.
-                if(objectiveData.id and objectiveData.typ and objectiveData.fin and objectiveData.ful and objectiveData.req) then
-                    objectives[objectiveIndex] = {};
-                    objectives[objectiveIndex].index = objectiveIndex;
-                    objectives[objectiveIndex].id = objectiveData.id--[_QuestieComms.idLookup["id"]];
-                    objectives[objectiveIndex].type = objectiveData.typ--[_QuestieComms.idLookup["type"]];
-                    objectives[objectiveIndex].finished = objectiveData.fin--[_QuestieComms.idLookup["finished"]];
-                    objectives[objectiveIndex].fulfilled = objectiveData.ful--[_QuestieComms.idLookup["fulfilled"]];
-                    objectives[objectiveIndex].required = objectiveData.req--[_QuestieComms.idLookup["required"]];
-                else
-                    --We are broken, remove player from the remoteQuestlog
-                    QuestieComms.remoteQuestLogs[questPacket.id][playerName] = nil; -- Remove the quest from log.
-                    
-                    --Warn the user that they need to update.
-                    if(not warnedUpdate) then
-                        Questie:Error("Communication with another player has an invalid format, please update Questie!");
-                        warnedUpdate = true;
-                    end
-                    return;
-                end
+                objectives[objectiveIndex] = {};
+                objectives[objectiveIndex].index = objectiveIndex;
+                objectives[objectiveIndex].id = objectiveData.id--[_QuestieComms.idLookup["id"]];
+                objectives[objectiveIndex].type = objectiveData.typ--[_QuestieComms.idLookup["type"]];
+                objectives[objectiveIndex].finished = objectiveData.fin--[_QuestieComms.idLookup["finished"]];
+                objectives[objectiveIndex].fulfilled = objectiveData.ful--[_QuestieComms.idLookup["fulfilled"]];
+                objectives[objectiveIndex].required = objectiveData.req--[_QuestieComms.idLookup["required"]];
             end
             QuestieComms.remoteQuestLogs[questPacket.id][playerName] = objectives;
 
