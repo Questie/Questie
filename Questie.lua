@@ -1,4 +1,3 @@
-
 if(Questie) then
     C_Timer.After(4, function() 
         error("ERROR!! -> Questie already loaded! Please only have one Questie installed!")
@@ -8,6 +7,7 @@ if(Questie) then
     end);
     return nil;
 end
+
 Questie = LibStub("AceAddon-3.0"):NewAddon("Questie", "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0", "AceComm-3.0", "AceSerializer-3.0", "AceBucket-3.0")
 _Questie = {...}
 local AceGUI = LibStub("AceGUI-3.0")
@@ -24,12 +24,57 @@ DEBUG_SPAM = "|cffff8484[SPAM]|r"
 
 
 -- check if user has updated but not restarted the game (todo: add future new source files to this)
-if (not QuestieTracker) or (not LQuestie_EasyMenu) then
-    if QuestieLocale.locale['enUS'] and QuestieLocale.locale['enUS']['QUESTIE_UPDATED_RESTART'] then -- sometimes locale doesnt update without restarting also
-        print(QuestieLocale:GetUIString('QUESTIE_UPDATED_RESTART'))
-    else
-        print("|cFFFF0000WARNING!|r You have updated questie without restarting the game, this will likely cause problems. Please restart the game before continuing")
-    end
+if  (not LQuestie_EasyMenu) or
+    --Libs
+    (not QuestieLib) or
+    (not QuestiePlayer) or
+    (not QuestieSerializer) or
+    --Comms
+    (not QuestieComms) or
+    (not QuestieComms.data) or
+    --Options
+    (not QuestieOptions) or
+    (not QuestieOptionsDefaults) or
+    (not QuestieOptionsMinimapIcon) or
+    (not QuestieOptionsUtils) or
+    (not QuestieOptions.tabs) or
+    (not QuestieOptions.tabs.advanced) or
+    (not QuestieOptions.tabs.dbm) or
+    (not QuestieOptions.tabs.general) or
+    (not QuestieOptions.tabs.map) or
+    (not QuestieOptions.tabs.minimap) or
+    (not QuestieOptions.tabs.nameplate) or
+    (not QuestieOptions.tabs.tracker) or
+
+    (not QuestieAuto) or
+    (not QuestieCoords) or
+    (not QuestieEventHandler) or
+    (not QuestieFramePool) or
+    (not QuestieJourney) or
+    --Map
+    (not QuestieMap) or
+    (not QuestieMap.utils) or
+
+    (not QuestieNameplate) or
+    (not QuestieProfessions) or
+    (not QuestieQuest) or
+    (not QuestieReputation) or
+
+    (not QuestieSearch) or
+    (not QuestieSearchResults) or
+
+    (not QuestieStreamLib) or
+    (not QuestieTooltips) or
+    (not QuestieSearchResults) or
+    (not QuestieTracker) then
+    --Delay the warning.
+    C_Timer.After(8, function()
+        if QuestieLocale.locale['enUS'] and QuestieLocale.locale['enUS']['QUESTIE_UPDATED_RESTART'] then -- sometimes locale doesnt update without restarting also
+            print(QuestieLocale:GetUIString('QUESTIE_UPDATED_RESTART'))
+        else
+            print("|cFFFF0000WARNING!|r You have updated questie without restarting the game, this will likely cause problems. Please restart the game before continuing")
+        end
+    end)
 end
 
 
