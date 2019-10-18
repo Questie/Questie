@@ -29,7 +29,7 @@ function QuestieOptionsDefaults:Load()
             minimapCoordinatesEnabled = false,
             mapCoordinatesEnabled = true,
             mapCoordinatePrecision = 1,
-            dbmHUDEnable = true,
+            dbmHUDEnable = false,
             dbmHUDShowAlert = true,
             DBMHUDRefresh = 0.03,
             DBMHUDZoom = 100,
