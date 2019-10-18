@@ -2,7 +2,7 @@ if(Questie) then
     C_Timer.After(4, function() 
         error("ERROR!! -> Questie already loaded! Please only have one Questie installed!")
         for i=1, 10 do
-            DEFAULT_CHAT_FRAME:AddMessage("ERROR!! -> Questie already loaded! Please only have one Questie installed!")
+            DEFAULT_CHAT_FRAME:AddMessage("|cFFFF0000ERROR!!|r -> Questie already loaded! Please only have one Questie installed!")
         end
     end);
     return nil;
@@ -10,7 +10,7 @@ end
 
 Questie = LibStub("AceAddon-3.0"):NewAddon("Questie", "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0", "AceComm-3.0", "AceSerializer-3.0", "AceBucket-3.0")
 _Questie = {...}
-local AceGUI = LibStub("AceGUI-3.0")
+
 if not QuestieConfigCharacter then
     QuestieConfigCharacter = {}
 end
@@ -59,7 +59,7 @@ if  (not LQuestie_EasyMenu) or
     (not QuestieProfessions) or
     (not QuestieQuest) or
     (not QuestieReputation) or
-
+    --Search
     (not QuestieSearch) or
     (not QuestieSearchResults) or
 
