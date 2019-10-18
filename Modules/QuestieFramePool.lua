@@ -742,10 +742,12 @@ function _QuestieFramePool:Questie_Tooltip(self)
                             table.insert(order, 1, t);
                             for index, data in pairs(order) do
                               --Questie:Print("1",index, data)
-                                for text, v in pairs(data) do
+                                for text, nameTable in pairs(data) do
                                   --Questie:Print("2",text, v)
+                                  local data = {}
+                                  data[text] = nameTable;
                                   if(usedText[text] == nil) then
-                                    table.insert(questOrder[key], text);
+                                    table.insert(questOrder[key], data);
                                     usedText[text] = true;
                                   end
                                 end
@@ -806,24 +808,23 @@ function _QuestieFramePool:Questie_Tooltip(self)
             end
             if shift then
                 for index, textData in pairs(textList) do
-                    for textLine, v2 in pairs(textData) do
-                        local dataType = type(v2)
+                    for textLine, nameData in pairs(textData) do
+                        local dataType = type(nameData)
                         if dataType == "table" then
-                            for k3 in pairs(v2) do
-                                self:AddLine("   |cFFDDDDDD" .. k3);
+                            for name in pairs(nameData) do
+                                self:AddLine("   |cFFDDDDDD" .. name);
                             end
                         elseif dataType == "string" then
-                            self:AddLine("   |cFFDDDDDD" .. v2);
+                            self:AddLine("   |cFFDDDDDD" .. nameData);
                         end
-                        self:AddLine("      |cFF33FF33" .. textData);
+                        self:AddLine("      |cFF33FF33" .. textLine);
                     end
                 end
             else
                 for index, textData in pairs(textList) do
-                    self:AddLine("   |cFF33FF33" .. textData);
-                    --for textLine, v2 in pairs(textData) do
-                    --    self:AddLine("   |cFF33FF33" .. textLine);
-                    --end
+                    for textLine, v2 in pairs(textData) do
+                        self:AddLine("   |cFF33FF33" .. textLine);
+                    end
                 end
             end
         end
