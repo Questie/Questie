@@ -197,14 +197,18 @@ function QuestieLib:Remap(value, low1, high1, low2, high2)
     return low2 + (value - low1) * (high2 - low2) / (high1 - low1);
 end
 
+local cachedTitle = nil;
 --Move to Questie.lua after QuestieOptions move.
 function QuestieLib:GetAddonVersionInfo()  -- todo: better place
-    local name, title, _, _, reason = GetAddOnInfo("QuestieDev-master");
-    if(reason == "MISSING") then
-      _, title = GetAddOnInfo("Questie");
+    if(not cachedTitle) then
+        local name, title, _, _, reason = GetAddOnInfo("QuestieDev-master");
+        if(reason == "MISSING") then
+            _, title = GetAddOnInfo("Questie");
+        end
+        cachedTitle = title;
     end
     --%d = digit, %p = punctuation character, %x = hexadecimal digits.
-    local major, minor, patch, commit = string.match(title, "(%d+)%p(%d+)%p(%d+)_(%x+)");
+    local major, minor, patch, commit = string.match(cachedTitle, "(%d+)%p(%d+)%p(%d+)_(%x+)");
     return tonumber(major), tonumber(minor), tonumber(patch), commit;
 end
 
