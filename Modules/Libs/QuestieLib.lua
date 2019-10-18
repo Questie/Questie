@@ -101,11 +101,12 @@ end
 function QuestieLib:GetColoredQuestName(id, name, level, showLevel, isComplete, blizzLike)
     if showLevel then
         local questType, questTag = GetQuestTagInfo(id)
-        local char = "+"
-        if(not blizzLike) then
-            char = string.sub(questTag, 1, 1);
-        end
-        if questType then
+
+        if questType and questTag then
+            local char = "+"
+            if(not blizzLike) then
+                char = string.sub(questTag, 1, 1);
+            end
             if questType == 1 then
                 name = "[" .. level .. "+" .. "] " .. name -- Elite quest
             elseif questType == 81 then

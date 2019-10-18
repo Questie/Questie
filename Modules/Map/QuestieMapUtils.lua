@@ -14,8 +14,8 @@ function QuestieMap.utils:CenterPoint(points)
     center.y = 0;
     for index, point in pairs(points) do
         center.x = center.x + point.x
-    center.y = center.y + point.y
-    count = count + 1;
+        center.y = center.y + point.y
+        count = count + 1;
     end
     center.x = center.x / count;
     center.y = center.y / count;

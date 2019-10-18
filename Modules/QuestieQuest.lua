@@ -14,6 +14,9 @@ local smatch = string.match;
 local strfind = string.find;
 local slower = string.lower;
 
+--Change cluter method, "hotzone" or "cell"
+clusterMethod = "hotzone";
+
 QuestieQuest.availableQuests = {} --Gets populated at PLAYER_ENTERED_WORLD
 
 
@@ -771,7 +774,7 @@ function QuestieQuest:ForceToMap(type, id, label, customScale)
 end
 
 function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockItemTooltips) -- must be pcalled
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:PopulateObjective]")
+    Questie:Debug(DEBUG_SPAM, "[QuestieQuest:PopulateObjective]")
     if not Objective.AlreadySpawned then
         Objective.AlreadySpawned = {};
     end
@@ -899,50 +902,52 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                 spawnedIcons[questId] = 0;
             end
             
-            --This can be used to make distance ordered list..
-            local orderedList = {}
-            local tkeys = {}
-            -- populate the table that holds the keys
-            for k in pairs(icons) do tinsert(tkeys, k) end
-            -- sort the keys
-            table.sort(tkeys)
-            -- use the keys to retrieve the values in the sorted order
-            for _, distance in ipairs(tkeys) do
-                if(spawnedIcons[questId] > maxPerType) then
-                    Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]", "Too many icons for quest:", questId)
-                    break;
+            if(clusterMethod == "hotzone") then
+                --This can be used to make distance ordered list..
+                local orderedList = {}
+                local tkeys = {}
+                -- populate the table that holds the keys
+                for k in pairs(icons) do tinsert(tkeys, k) end
+                -- sort the keys
+                table.sort(tkeys)
+                -- use the keys to retrieve the values in the sorted order
+                for _, distance in ipairs(tkeys) do
+                    if(spawnedIcons[questId] > maxPerType) then
+                        Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]", "Too many icons for quest:", questId)
+                        break;
+                    end
+                    tinsert(orderedList, icons[distance]);
                 end
-                tinsert(orderedList, icons[distance]);
-            end
-
-            local hotzones = QuestieMap.utils:CalcHotzones(orderedList);
-
-            for index, hotzone in pairs(hotzones) do
-                if(spawnedIcons[questId] > maxPerType) then
-                    Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]", "Too many icons for quest:", questId)
-                    break;
-                end
-
-                --Any icondata will do because they are all the same
-                local icon = hotzone[1];
-                local range = 10;
-                if icon.Icon ~= ICON_TYPE_OBJECT then -- new clustering / limit code should prevent problems, always show all object notes
+                local range = QUESTIE_NOTES_CLUSTERMUL_HACK
+                if orderedList[1].Icon == ICON_TYPE_OBJECT then -- new clustering / limit code should prevent problems, always show all object notes
                     range = range * 0.2;  -- Only use 20% of the default range.
                 end
 
-                local midPoint = QuestieMap.utils.CenterPoint(hotzone);
-                --Disable old clustering.
-                icon.data.ClusterId = nil;
-                local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, icon.zone, midPoint.x, midPoint.y) -- clustering code takes care of duplicates as long as mindist is more than 0
-                if iconMap and iconMini then
-                    tinsert(Objective.AlreadySpawned[icon.AlreadySpawnedId].mapRefs, iconMap);
-                    tinsert(Objective.AlreadySpawned[icon.AlreadySpawnedId].minimapRefs, iconMini);
-                end
-                spawnedIcons[questId] = spawnedIcons[questId] + 1;
-            end
+                local hotzones = QuestieMap.utils:CalcHotzones(orderedList, range);
 
-            --Unused.
-            if(true == false) then
+                for index, hotzone in pairs(hotzones) do
+                    if(spawnedIcons[questId] > maxPerType) then
+                        Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]", "Too many icons for quest:", questId)
+                        break;
+                    end
+
+                    --Any icondata will do because they are all the same
+                    local icon = hotzone[1];
+
+
+                    local midPoint = QuestieMap.utils:CenterPoint(hotzone);
+                    --Disable old clustering.
+                    icon.data.ClusterId = nil;
+                    local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, icon.zone, midPoint.x, midPoint.y) -- clustering code takes care of duplicates as long as mindist is more than 0
+                    if iconMap and iconMini then
+                        tinsert(Objective.AlreadySpawned[icon.AlreadySpawnedId].mapRefs, iconMap);
+                        tinsert(Objective.AlreadySpawned[icon.AlreadySpawnedId].minimapRefs, iconMini);
+                    end
+                    spawnedIcons[questId] = spawnedIcons[questId] + 1;
+                end
+
+                --Unused.
+            else
                 local tkeys = {}
                 -- populate the table that holds the keys
                 for k in pairs(icons) do tinsert(tkeys, k) end

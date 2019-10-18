@@ -8,9 +8,6 @@ if(Questie) then
     return nil;
 end
 
-Questie = LibStub("AceAddon-3.0"):NewAddon("Questie", "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0", "AceComm-3.0", "AceSerializer-3.0", "AceBucket-3.0")
-_Questie = {...}
-
 if not QuestieConfigCharacter then
     QuestieConfigCharacter = {}
 end
@@ -22,6 +19,9 @@ DEBUG_INFO = "|cff00bc32[INFO]|r"
 DEBUG_DEVELOP = "|cff7c83ff[DEVELOP]|r"
 DEBUG_SPAM = "|cffff8484[SPAM]|r"
 
+
+--Initialized below
+Questie = {...}
 
 -- check if user has updated but not restarted the game (todo: add future new source files to this)
 if  (not LQuestie_EasyMenu) or
@@ -75,6 +75,10 @@ if  (not LQuestie_EasyMenu) or
             print("|cFFFF0000WARNING!|r You have updated questie without restarting the game, this will likely cause problems. Please restart the game before continuing")
         end
     end)
+  else
+    -- Initialize Questie
+    Questie = LibStub("AceAddon-3.0"):NewAddon("Questie", "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0", "AceComm-3.0", "AceSerializer-3.0", "AceBucket-3.0")
+    _Questie = {...}
 end
 
 
