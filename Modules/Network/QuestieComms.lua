@@ -5,6 +5,9 @@ _QuestieComms.prefix = "questie";
 -- List of all players questlog private to prevent modification from the outside.
 QuestieComms.remoteQuestLogs = {};
 
+local warnedUpdate = false;
+local suggestUpdate = true;
+
 --Not used, contains a list of hashes for quest, used to compare change.
 --_QuestieComms.questHashes = {};
 
@@ -39,6 +42,8 @@ _QuestieComms.QC_ID_SEND_QUESTSLIST = 9
 _QuestieComms.QC_ID_BROADCAST_FULL_QUESTLIST = 10
 _QuestieComms.QC_ID_REQUEST_FULL_QUESTLIST = 11
 
+
+-- NOT USED
 -- stringLookup it built from idLookup!
 _QuestieComms.stringLookup = {}
 _QuestieComms.idLookup = {
@@ -51,6 +56,7 @@ _QuestieComms.idLookup = {
 for string, int in pairs(_QuestieComms.idLookup) do
     _QuestieComms.stringLookup[int] = string;
 end
+-- !NOT USED
 
 --- Global Functions --
 
@@ -231,55 +237,70 @@ end
 function QuestieComms:InsertQuestDataPacket(questPacket, playerName)
     --We don't want to insert our own quest data.
     if questPacket and playerName ~= UnitName("player") then
-        -- Create empty quest.
-        if not QuestieComms.remoteQuestLogs[questPacket.id] then
-            QuestieComms.remoteQuestLogs[questPacket.id] = {}
-        end
-        -- Create empty player.
-        if not QuestieComms.remoteQuestLogs[questPacket.id][playerName] then
-            QuestieComms.remoteQuestLogs[questPacket.id][playerName] = {}
-        end
-        local objectives = {}
-        for objectiveIndex, objectiveData in pairs(questPacket.objectives) do
-            objectives[objectiveIndex] = {};
-            objectives[objectiveIndex].index = objectiveIndex;
-            objectives[objectiveIndex].id = objectiveData.id--[_QuestieComms.idLookup["id"]];
-            objectives[objectiveIndex].type = objectiveData.typ--[_QuestieComms.idLookup["type"]];
-            objectives[objectiveIndex].finished = objectiveData.fin--[_QuestieComms.idLookup["finished"]];
-            objectives[objectiveIndex].fulfilled = objectiveData.ful--[_QuestieComms.idLookup["fulfilled"]];
-            objectives[objectiveIndex].required = objectiveData.req--[_QuestieComms.idLookup["required"]];
-        end
-        QuestieComms.remoteQuestLogs[questPacket.id][playerName] = objectives;
+        --Does it contain id and objectives?
+        if(questPacket.objectives and questPacket.id) then
+            -- Create empty quest.
+            if not QuestieComms.remoteQuestLogs[questPacket.id] then
+                QuestieComms.remoteQuestLogs[questPacket.id] = {}
+            end
+            -- Create empty player.
+            if not QuestieComms.remoteQuestLogs[questPacket.id][playerName] then
+                QuestieComms.remoteQuestLogs[questPacket.id][playerName] = {}
+            end
+            local objectives = {}
+            for objectiveIndex, objectiveData in pairs(questPacket.objectives) do
+                --This is to check that all the data we require exist.
+                if(objectiveData.id and objectiveData.typ and objectiveData.fin and objectiveData.ful and objectiveData.req) then
+                    objectives[objectiveIndex] = {};
+                    objectives[objectiveIndex].index = objectiveIndex;
+                    objectives[objectiveIndex].id = objectiveData.id--[_QuestieComms.idLookup["id"]];
+                    objectives[objectiveIndex].type = objectiveData.typ--[_QuestieComms.idLookup["type"]];
+                    objectives[objectiveIndex].finished = objectiveData.fin--[_QuestieComms.idLookup["finished"]];
+                    objectives[objectiveIndex].fulfilled = objectiveData.ful--[_QuestieComms.idLookup["fulfilled"]];
+                    objectives[objectiveIndex].required = objectiveData.req--[_QuestieComms.idLookup["required"]];
+                else
+                    --We are broken, remove player from the remoteQuestlog
+                    QuestieComms.remoteQuestLogs[questPacket.id][playerName] = nil; -- Remove the quest from log.
+                    
+                    --Warn the user that they need to update.
+                    if(not warnedUpdate) then
+                        Questie:Error("Communication with another player has an invalid format, please update Questie!");
+                        warnedUpdate = true;
+                    end
+                    return;
+                end
+            end
+            QuestieComms.remoteQuestLogs[questPacket.id][playerName] = objectives;
 
 
-        --Write to tooltip data
-        QuestieComms.data:RegisterTooltip(questPacket.id, playerName, objectives);
-
+            --Write to tooltip data
+            QuestieComms.data:RegisterTooltip(questPacket.id, playerName, objectives);
+        end
     end
 end
 
 _QuestieComms.packets = {
     [_QuestieComms.QC_ID_BROADCAST_QUEST_UPDATE] = { --1
         write = function(self)
-            Questie:Debug(DEBUG_DEVELOP, "[QuestieComms]", "Sending: QC_ID_BROADCAST_QUEST_UPDATE")
+            Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Sending: QC_ID_BROADCAST_QUEST_UPDATE")
             _QuestieComms:broadcast(self.data);
         end,
         read = function(remoteQuestPacket)
             if(remoteQuestPacket == nil) then
-            Questie:Error("[QuestieComms]", "QC_ID_BROADCAST_QUEST_UPDATE", "remoteQuestPacket = nil");
+                Questie:Error("[QuestieComms]", "QC_ID_BROADCAST_QUEST_UPDATE", "remoteQuestPacket = nil");
             end
             --These are not strictly needed but helps readability.
             local playerName = remoteQuestPacket.playerName;
             local quest = remoteQuestPacket.quest;
 
-            Questie:Debug(DEBUG_DEVELOP, "[QuestieComms]", "Received: QC_ID_BROADCAST_QUEST_UPDATE", "Player:", playerName)
+            Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Received: QC_ID_BROADCAST_QUEST_UPDATE", "Player:", playerName)
 
             QuestieComms:InsertQuestDataPacket(quest, playerName);
         end
     },
     [_QuestieComms.QC_ID_BROADCAST_QUEST_REMOVE] = { --2
       write = function(self)
-        Questie:Debug(DEBUG_DEVELOP, "[QuestieComms]", "Sending: QC_ID_BROADCAST_QUEST_REMOVE")
+        Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Sending: QC_ID_BROADCAST_QUEST_REMOVE")
         _QuestieComms:broadcast(self.data);
       end,
       read = function(remoteQuestPacket)
@@ -292,7 +313,7 @@ _QuestieComms.packets = {
         local questId = remoteQuestPacket.id;
 
         if(QuestieComms.remoteQuestLogs[questId] and QuestieComms.remoteQuestLogs[questId][playerName]) then
-            Questie:Debug(DEBUG_DEVELOP, "[QuestieComms]", "Removed quest:", questId, "for player:", playerName);
+            Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Removed quest:", questId, "for player:", playerName);
             QuestieComms.remoteQuestLogs[questId][playerName] = nil;
         end
         QuestieComms.data:RemoveQuestFromPlayer(questId, playerName);
@@ -300,7 +321,7 @@ _QuestieComms.packets = {
     },
     [_QuestieComms.QC_ID_BROADCAST_FULL_QUESTLIST] = { --10
         write = function(self)
-            Questie:Debug(DEBUG_DEVELOP, "[QuestieComms]", "Sending: QC_ID_BROADCAST_FULL_QUESTLIST")
+            Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Sending: QC_ID_BROADCAST_FULL_QUESTLIST")
             _QuestieComms:broadcast(self.data);
         end,
         read = function(remoteQuestList)
@@ -311,7 +332,7 @@ _QuestieComms.packets = {
             local playerName = remoteQuestList.playerName;
             local questList = remoteQuestList.rawQuestList;
 
-            Questie:Debug(DEBUG_DEVELOP, "[QuestieComms]", "Received: QC_ID_BROADCAST_FULL_QUESTLIST", "Player:", playerName, questList)
+            Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Received: QC_ID_BROADCAST_FULL_QUESTLIST", "Player:", playerName, questList)
 
             --Don't save our own quests.
             if questList then
@@ -323,11 +344,11 @@ _QuestieComms.packets = {
     },
     [_QuestieComms.QC_ID_REQUEST_FULL_QUESTLIST] = { --11
         write = function(self)
-            Questie:Debug(DEBUG_DEVELOP, "[QuestieComms]", "Sending: QC_ID_REQUEST_FULL_QUESTLIST")
+            Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Sending: QC_ID_REQUEST_FULL_QUESTLIST")
             _QuestieComms:broadcast(self.data);
         end,
         read = function(self)
-            Questie:Debug(DEBUG_DEVELOP, "[QuestieComms]", "Received: QC_ID_REQUEST_FULL_QUESTLIST")
+            Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Received: QC_ID_REQUEST_FULL_QUESTLIST")
             Questie:SendMessage("QC_ID_BROADCAST_FULL_QUESTLIST");
         end
     },
@@ -341,17 +362,16 @@ function _QuestieComms:broadcast(packet)
     end
     
     local compressedData = QuestieSerializer:Serialize(packet);--QuestieCompress:Compress(packet);
-    Questie:Debug(DEBUG_DEVELOP,"[QuestieComms]", "Packet length", string.len(compressedData));
     if packet.writeMode == _QuestieComms.QC_WRITE_WHISPER then
-        Questie:Debug(DEBUG_DEVELOP,"send(|cFFFF2222" .. compressedData .. "|r)")
+        Questie:Debug(DEBUG_DEVELOP,"send(|cFFFF2222" .. compressedData .. "|r)", "Packet length", string.len(compressedData))
         Questie:SendCommMessage(_QuestieComms.prefix, compressedData, packet.writeMode, packet.target, packet.priority)
     elseif packet.writeMode == _QuestieComms.QC_WRITE_CHANNEL then
-        Questie:Debug(DEBUG_DEVELOP,"send(|cFFFF2222" .. compressedData .. "|r)")
+        Questie:Debug(DEBUG_DEVELOP,"send(|cFFFF2222" .. compressedData .. "|r)", "Packet length", string.len(compressedData))
         -- Always do channel messages as BULK priority
         Questie:SendCommMessage(_QuestieComms.prefix, compressedData, packet.writeMode, GetChannelName("questiecom"), "BULK")
         --OLD: C_ChatInfo.SendAddonMessage("questie", compressedData, "CHANNEL", GetChannelName("questiecom"))
     else
-        Questie:Debug(DEBUG_DEVELOP, "send(|cFFFF2222" .. compressedData .. "|r)")
+        Questie:Debug(DEBUG_DEVELOP, "send(|cFFFF2222" .. compressedData .. "|r)", "Packet length", string.len(compressedData))
         Questie:SendCommMessage(_QuestieComms.prefix, compressedData, packet.writeMode, nil, packet.priority)
         --OLD: C_ChatInfo.SendAddonMessage("questie", compressedData, packet.writeMode)
     end
@@ -360,13 +380,30 @@ end
 function _QuestieComms:OnCommReceived(message, distribution, sender)
     Questie:Debug(DEBUG_DEVELOP, "|cFF22FF22", "sender:", "|r", sender, "distribution:", distribution, "Packet length:",string.len(message))
     if message and sender then
-      local decompressedData = QuestieSerializer:Deserialize(message);--QuestieCompress:Decompress(message);
-      decompressedData.playerName = sender;
-      if(decompressedData and decompressedData.messageId and _QuestieComms.packets[decompressedData.messageId]) then
-        Questie:Debug(DEBUG_DEVELOP, "Executing message ID: ", decompressedData.messageId, "From: ", sender)
-        decompressedData.playerName = sender;
-        _QuestieComms.packets[decompressedData.messageId].read(decompressedData);
-      end
+        local decompressedData = QuestieSerializer:Deserialize(message);--QuestieCompress:Decompress(message);
+        if(decompressedData and decompressedData.msgId and _QuestieComms.packets[decompressedData.msgId]) then
+
+            if(suggestUpdate) then
+                local major, minor, patch = strsplit(".", decompressedData.ver);
+                local majorOwn, minorOwn, patchOwn = QuestieLib:GetAddonVersionInfo();
+                if((majorOwn < major or minorOwn < minor) and not UnitAffectingCombat("player")) then
+                    suggestUpdate = false;
+                    if(majorOwn < major) then
+                        Questie:Print("A Major patch for Questie exist! Please update as soon as possible!");
+                    elseif(majorOwn == major and minorOwn < minor) then
+                        Questie:Print("You have an outdated version of Questie! Please consider updating!");
+                    end
+                end
+            end
+
+            decompressedData.playerName = sender;
+            Questie:Debug(DEBUG_DEVELOP, "Executing message ID: ", decompressedData.msgId, "From: ", sender)
+            decompressedData.playerName = sender;
+            _QuestieComms.packets[decompressedData.msgId].read(decompressedData);
+        else
+            Questie:Debug(DEBUG_INFO, "[QuestieComms]", decompressedData, decompressedData.msgId, _QuestieComms.packets[decompressedData.msgId])
+            Questie:Error("Error reading QuestieComm message (If it persist try updating) Player:", sender, "PacketLength:", string.len(message));
+        end
     end
 end
 
@@ -379,7 +416,9 @@ function _QuestieComms:createPacket(messageId)
     end
     pkt.data = {}
     -- Set messageId
-    pkt.data.messageId = messageId
+    local major, minor, patch = QuestieLib:GetAddonVersionInfo();
+    pkt.data.ver = major.."."..minor.."."..patch;
+    pkt.data.msgId = messageId
     -- Some messages initialize
     if pkt.init then
         pkt:init()
@@ -415,7 +454,7 @@ function QuestieComms:MessageReceived(channel, message, type, source) -- pcall t
     Questie:Debug(DEBUG_DEVELOP, "recv(|cFF22FF22" .. message .. "|r)")
     if channel == "questie" and source then
       local decompressedData = QuestieCompress:decompress(message);
-      _QuestieComms.packets[message.messageId].read(decompressedData);
+      _QuestieComms.packets[message.msgId].read(decompressedData);
     end
 end
 
