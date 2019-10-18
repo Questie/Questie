@@ -655,13 +655,17 @@ function _QuestieFramePool:Questie_Tooltip(self)
                         if icon.data.Type == "complete" then
                             dat.type = QuestieLocale:GetUIString("TOOLTIP_QUEST_COMPLETE");
                         else
-                          if(icon.data.Icon == ICON_TYPE_REPEATABLE) then
-                            dat.type = QuestieLocale:GetUIString("TOOLTIP_QUEST_REPEATABLE");--"(Repeatable)"; --
-                          else
-                            dat.type = QuestieLocale:GetUIString("TOOLTIP_QUEST_AVAILABLE");
-                          end
+                            local questType, questTag = GetQuestTagInfo(icon.data.Id);
+                            if(icon.data.Icon == ICON_TYPE_REPEATABLE) then
+                                dat.type = QuestieLocale:GetUIString("TOOLTIP_QUEST_REPEATABLE");--"(Repeatable)"; --
+                            elseif(questType == 81 or questType == 83 or questType == 62 or questType == 41 or questType == 1) then
+                                -- Dungeon or Legendary or Raid or PvP or Group(Elite)
+                                dat.type = "("..questTag..")";
+                            else
+                                dat.type = QuestieLocale:GetUIString("TOOLTIP_QUEST_AVAILABLE");
+                            end
                         end
-                        dat.title = icon.data.QuestData:GetColoredQuestName()
+                        dat.title = icon.data.QuestData:GetColoredQuestName(true)
                         dat.subData = icon.data.QuestData.Description
                         npcOrder[icon.data.Name][dat.title] = dat
                         --table.insert(npcOrder[icon.data.Name], dat);

@@ -97,16 +97,26 @@ end
 ---@param level integer @The quest level
 ---@param showLevel integer @Wheather the quest level should be included
 ---@param isComplete boolean @Wheather the quest is complete
-function QuestieLib:GetColoredQuestName(id, name, level, showLevel, isComplete)
+---@param blizzLike boolean @True = [40+], false/nil = [40D/R]
+function QuestieLib:GetColoredQuestName(id, name, level, showLevel, isComplete, blizzLike)
     if showLevel then
-        local questType = GetQuestTagInfo(id)
+        local questType, questTag = GetQuestTagInfo(id)
+        local char = "+"
+        if(not blizzLike) then
+            char = string.sub(questTag, 1, 1);
+        end
         if questType then
             if questType == 1 then
-                name = "[" .. level .. "+] " .. name -- Elite quest
+                name = "[" .. level .. "+" .. "] " .. name -- Elite quest
             elseif questType == 81 then
-                name = "[" .. level .. "D] " .. name -- Dungeon quest
+                name = "[" .. level .. char .. "] " .. name -- Dungeon quest
             elseif questType == 62 then
-                name = "[" .. level .. "R] " .. name -- Raid quest
+                name = "[" .. level .. char .. "] " .. name -- Raid quest
+            elseif questType == 41 then
+                name = "[" .. level .. "] " .. name -- Which one? This is just default.
+                --name = "[" .. level .. questTag .. "] " .. name -- PvP quest
+            elseif questType == 83 then
+                name = "[" .. level .. "++" .. "] " .. name -- Legendary quest
             else
                 name = "[" .. level .. "] " .. name -- Some other irrelevant type
             end

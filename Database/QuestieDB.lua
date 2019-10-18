@@ -142,9 +142,9 @@ function QuestieDB:GetItem(ItemID)
     return item
 end
 
-local function _GetColoredQuestName(self)
+local function _GetColoredQuestName(self, blizzLike)
     local questName = (self.LocalizedName or self.Name)
-    return QuestieLib:GetColoredQuestName(self.Id, questName, self.Level, Questie.db.global.enableTooltipsQuestLevel, false)
+    return QuestieLib:GetColoredQuestName(self.Id, questName, self.Level, Questie.db.global.enableTooltipsQuestLevel, false, blizzLike)
 end
 
 function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
