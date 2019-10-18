@@ -11,12 +11,7 @@ function QuestieOptions.tabs.advanced:Initalize()
             map_options = {
                 type = "header",
                 order = 1,
-                name = function() return QuestieLocale:GetUIString('DEV_OPTIONS'); end,
-            },
-            seperatingHeader2 = {
-                type = "header",
-                order = 2,
-                name = "",
+                name = function() return "Advanced Settings"; end,
             },
             enableIconLimit = {
                 type = "toggle",
@@ -46,6 +41,11 @@ function QuestieOptions.tabs.advanced:Initalize()
                     QuestieOptionsUtils:Delay(0.5, QuestieQuest.SmoothReset, QuestieLocale:GetUIString('DEBUG_ICON_LIMIT', value))
                 end,
             },
+            seperatingHeader2 = {
+                type = "header",
+                order = 2.3,
+                name = QuestieLocale:GetUIString('DEV_OPTIONS'),
+            },
             debugEnabled = {
                 type = "toggle",
                 order = 4,
@@ -55,6 +55,7 @@ function QuestieOptions.tabs.advanced:Initalize()
                 get = function () return Questie.db.global.debugEnabled; end,
                 set = function (info, value)
                     Questie.db.global.debugEnabled = value
+                    QuestieConfigCharacter = {}
                 end,
             },
             debugLevel = {

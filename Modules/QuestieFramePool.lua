@@ -679,9 +679,26 @@ function _QuestieFramePool:Questie_Tooltip(self)
                         icon.data.ObjectiveData:Update(); -- update progress info
                         if icon.data.Type == "event" then
                             local t = {
-                                [icon.data.ObjectiveData.Description] = true,
+                                [icon.data.ObjectiveData.Description] = {},
                             }
-                            table.insert(order, t);
+                            if(icon.data.ObjectiveData.Index) then
+                                local objectiveDesc = icon.data.QuestData.Objectives[icon.data.ObjectiveData.Index].Description;
+                                t[icon.data.ObjectiveData.Description][objectiveDesc] = true;
+                            end
+
+                            --We need to check for duplicates.
+                            local add = true;
+                            for index, data in pairs(questOrder[key]) do
+                              for text, nameData in pairs(data) do
+                                if(text == icon.data.ObjectiveData.Description) then
+                                  add = false;
+                                  break;
+                                end
+                              end
+                            end
+                            if(add) then
+                              table.insert(questOrder[key], t);
+                            end
                             --questOrder[key][icon.data.ObjectiveData.Description] = true
                         else
                             --dat.subData = icon.data.ObjectiveData
