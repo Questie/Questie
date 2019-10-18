@@ -608,7 +608,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
     if mid == 947 then -- world
         maxDistCluster = 6
     elseif mid == 1415 or mid == 1414 then -- kalimdor/ek
-        maxDistCluster = 3
+        maxDistCluster = 4
     end
     if self.miniMapIcon then
         if _QuestieFramePool:IsMinimapInside() then
