@@ -191,18 +191,18 @@ function _QuestieFramePool:QuestieCreateFrame()
     end
 
     f.glow = CreateFrame("Button", "QuestieFrame".._QuestieFramePool.numberOfFrames.."Glow", f) -- glow frame
-    f.glow:SetFrameStrata("TOOLTIP");
+    f.glow:SetFrameStrata("FULLSCREEN");
     f.glow:SetWidth(18) -- Set these to whatever height/width is needed
     f.glow:SetHeight(18)
 
 
-    f:SetFrameStrata("TOOLTIP");
+    f:SetFrameStrata("FULLSCREEN");
     f:SetWidth(16) -- Set these to whatever height/width is needed
     f:SetHeight(16) -- for your Texture
     f:SetPoint("CENTER", -8, -8)
     f:EnableMouse(true)--f:EnableMouse()
 
-    local t = f:CreateTexture(nil, "TOOLTIP")
+    local t = f:CreateTexture(nil, "OVERLAY", nil, 0)
     --t:SetTexture("Interface\\Icons\\INV_Misc_Eye_02.blp")
     --t:SetTexture("Interface\\Addons\\!Questie\\Icons\\available.blp")
     t:SetWidth(16)
@@ -211,7 +211,7 @@ function _QuestieFramePool:QuestieCreateFrame()
     t:SetTexelSnappingBias(0)
     t:SetSnapToPixelGrid(false)
 
-    local glowt = f.glow:CreateTexture(nil, "TOOLTIP")
+    local glowt = f.glow:CreateTexture(nil, "OVERLAY", nil, -1)
     glowt:SetWidth(18)
     glowt:SetHeight(18)
     glowt:SetAllPoints(f.glow)
@@ -314,6 +314,8 @@ function _QuestieFramePool:QuestieCreateFrame()
         self:SetScript("OnUpdate", nil)
         self:SetScript("OnShow", nil)
         self:SetScript("OnHide", nil)
+        self:SetFrameStrata("FULLSCREEN");
+        self:SetFrameLevel(0);
 
         --We are reseting the frames, making sure that no data is wrong.
         if self ~= nil and self.hidden and self._show ~= nil and self._hide ~= nil then -- restore state to normal (toggle questie)

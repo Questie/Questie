@@ -5,6 +5,10 @@ QuestieMap.utils = {};
 local tinsert = table.insert;
 local pairs = pairs;
 
+function QuestieMap.utils:SetDrawOrder(frame, level)
+  frame.texture:SetDrawLayer("OVERLAY", level);
+end
+
 ---@param points table<integer, Point> @Pointlist {x=0, y=0}
 ---@return Point @{x=?, y=?}
 function QuestieMap.utils:CenterPoint(points)
