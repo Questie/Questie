@@ -468,46 +468,48 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
                     
                     if(playerX and playerY) then
                         local x, y, instance = HBD:GetWorldCoordinatesFromZone(self.x/100, self.y/100, self.data.UiMapID)
-                        local distance = QuestieLib:Euclid(playerX, playerY, x, y);
-                        --
+                        if(x and y) then
+                            local distance = QuestieLib:Euclid(playerX, playerY, x, y);
+                            --
 
-                        --Very small value before, hard to work with.
-                        distance = distance / 10
+                            --Very small value before, hard to work with.
+                            distance = distance / 10
 
-                        local NormalizedValue = 1/10; --Opacity / Distance to fade over
+                            local NormalizedValue = 1/10; --Opacity / Distance to fade over
 
-                        if(distance > Questie.db.global.fadeLevel) then
-                            local fade = 1-(math.min(10, (distance-Questie.db.global.fadeLevel))*NormalizedValue);
-                            local dr,dg,db = self.texture:GetVertexColor()
-                            self.texture:SetVertexColor(dr, dg, db, fade)
-                            if self.glowTexture and self.glowTexture.GetVertexColor then
-                                local r,g,b = self.glowTexture:GetVertexColor()
-                                self.glowTexture:SetVertexColor(r,g,b,fade)
-                            end
-                        elseif (distance < Questie.db.global.fadeOverPlayerDistance) and Questie.db.global.fadeOverPlayer then
-                            local fadeAmount = QuestieLib:Remap(distance, 0, Questie.db.global.fadeOverPlayerDistance, Questie.db.global.fadeOverPlayerLevel, 1);
-                           -- local fadeAmount = math.max(fadeAmount, 0.5);
-                            if self.faded and fadeAmount > Questie.db.global.iconFadeLevel then fadeAmount = Questie.db.global.iconFadeLevel end
-                            local dr,dg,db = self.texture:GetVertexColor()
-                            self.texture:SetVertexColor(dr, dg, db, fadeAmount)
-                            if self.glowTexture and self.glowTexture.GetVertexColor then
-                                local r,g,b = self.glowTexture:GetVertexColor()
-                                self.glowTexture:SetVertexColor(r,g,b,fadeAmount)
-                            end
-                        else
-                            if self.faded then
+                            if(distance > Questie.db.global.fadeLevel) then
+                                local fade = 1-(math.min(10, (distance-Questie.db.global.fadeLevel))*NormalizedValue);
                                 local dr,dg,db = self.texture:GetVertexColor()
-                                self.texture:SetVertexColor(dr, dg, db, Questie.db.global.iconFadeLevel)
+                                self.texture:SetVertexColor(dr, dg, db, fade)
                                 if self.glowTexture and self.glowTexture.GetVertexColor then
                                     local r,g,b = self.glowTexture:GetVertexColor()
-                                    self.glowTexture:SetVertexColor(r,g,b,Questie.db.global.iconFadeLevel)
+                                    self.glowTexture:SetVertexColor(r,g,b,fade)
+                                end
+                            elseif (distance < Questie.db.global.fadeOverPlayerDistance) and Questie.db.global.fadeOverPlayer then
+                                local fadeAmount = QuestieLib:Remap(distance, 0, Questie.db.global.fadeOverPlayerDistance, Questie.db.global.fadeOverPlayerLevel, 1);
+                                -- local fadeAmount = math.max(fadeAmount, 0.5);
+                                if self.faded and fadeAmount > Questie.db.global.iconFadeLevel then fadeAmount = Questie.db.global.iconFadeLevel end
+                                local dr,dg,db = self.texture:GetVertexColor()
+                                self.texture:SetVertexColor(dr, dg, db, fadeAmount)
+                                if self.glowTexture and self.glowTexture.GetVertexColor then
+                                    local r,g,b = self.glowTexture:GetVertexColor()
+                                    self.glowTexture:SetVertexColor(r,g,b,fadeAmount)
                                 end
                             else
-                                local dr,dg,db = self.texture:GetVertexColor()
-                                self.texture:SetVertexColor(dr, dg, db, 1)
-                                if self.glowTexture and self.glowTexture.GetVertexColor then
-                                    local r,g,b = self.glowTexture:GetVertexColor()
-                                    self.glowTexture:SetVertexColor(r,g,b,1)
+                                if self.faded then
+                                    local dr,dg,db = self.texture:GetVertexColor()
+                                    self.texture:SetVertexColor(dr, dg, db, Questie.db.global.iconFadeLevel)
+                                    if self.glowTexture and self.glowTexture.GetVertexColor then
+                                        local r,g,b = self.glowTexture:GetVertexColor()
+                                        self.glowTexture:SetVertexColor(r,g,b,Questie.db.global.iconFadeLevel)
+                                    end
+                                else
+                                    local dr,dg,db = self.texture:GetVertexColor()
+                                    self.texture:SetVertexColor(dr, dg, db, 1)
+                                    if self.glowTexture and self.glowTexture.GetVertexColor then
+                                        local r,g,b = self.glowTexture:GetVertexColor()
+                                        self.glowTexture:SetVertexColor(r,g,b,1)
+                                    end
                                 end
                             end
                         end
