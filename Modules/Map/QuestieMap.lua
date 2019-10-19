@@ -138,14 +138,35 @@ function QuestieMap:QueueDraw(drawType, ...)
   end
 end
 
+
 function QuestieMap:ProcessQueue()
   local mapDrawCall = tremove(mapDrawQueue, 1);
   if(mapDrawCall) then
     HBDPins:AddWorldMapIconMap(tunpack(mapDrawCall));
+
+    --The frame level stuff seems to need to happen after they have been drawn?
+    local frame = mapDrawCall[2];
+    if(frame.data.Icon == ICON_TYPE_AVAILABLE or frame.data.Icon == ICON_TYPE_REPEATABLE) then
+      QuestieMap.utils:SetDrawOrder(frame, 5);
+      --frame.texture:SetDrawLayer("OVERLAY", 5)
+    elseif(frame.data.Icon == ICON_TYPE_COMPLETE) then
+      QuestieMap.utils:SetDrawOrder(frame, 6);
+      --frame.texture:SetDrawLayer("OVERLAY", 6)
+    end
   end
   local minimapDrawCall = tremove(minimapDrawQueue, 1);
   if(minimapDrawCall) then
     HBDPins:AddMinimapIconMap(tunpack(minimapDrawCall));
+
+    --The frame level stuff seems to need to happen after they have been drawn?
+    local frame = mapDrawCall[2];
+    if(frame.data.Icon == ICON_TYPE_AVAILABLE or frame.data.Icon == ICON_TYPE_REPEATABLE) then
+      QuestieMap.utils:SetDrawOrder(frame, 5);
+      --frame.texture:SetDrawLayer("OVERLAY", 5)
+    elseif(frame.data.Icon == ICON_TYPE_COMPLETE) then
+      QuestieMap.utils:SetDrawOrder(frame, 6);
+      --frame.texture:SetDrawLayer("OVERLAY", 6)
+    end
   end
 end
 

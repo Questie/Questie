@@ -239,7 +239,15 @@ function _QuestieFramePool:QuestieCreateFrame()
     --f:SetScript('OnLeave', function() Questie:Print("Leave") end)
 
     f:SetScript("OnEnter", function(self) _QuestieFramePool:Questie_Tooltip(self) end); --Script Toolip
-    f:SetScript("OnLeave", function() if(WorldMapTooltip) then WorldMapTooltip:Hide(); WorldMapTooltip._rebuild = nil; end if(GameTooltip) then GameTooltip:Hide(); GameTooltip._Rebuild = nil; end end) --Script Exit Tooltip
+    f:SetScript("OnLeave", function(self) 
+      if(WorldMapTooltip) then WorldMapTooltip:Hide(); WorldMapTooltip._rebuild = nil; end 
+      if(GameTooltip) then GameTooltip:Hide(); GameTooltip._Rebuild = nil; end 
+
+      --Reset highlighting if it exists.
+      for k, lineFrame in pairs(self.data.lineFrames or {}) do
+        lineFrame.line:SetColorTexture(lineFrame.line.dR, lineFrame.line.dG, lineFrame.line.dB, lineFrame.line.dA)
+      end
+    end) --Script Exit Tooltip
     f:RegisterForClicks("RightButtonUp", "LeftButtonUp")
     f:SetScript("OnClick", function(self, button)
         --_QuestieFramePool:Questie_Click(self)
@@ -466,7 +474,7 @@ function QuestieFramePool:CreateWaypoints(iconFrame, waypointTable, lineWidth, c
     local lastPos = nil
     --Set defaults if needed.
     local lWidth = lineWidth or 1.5;
-    local col = color or {1,0.72,0,0.5};
+    local col = color or {1,0.72,0,0.4};
 
     for index, waypoint in pairs(waypointTable) do
         if(lastPos == nil) then
@@ -518,7 +526,7 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
         frameLevel = frameLevel - 1;
     end
     lineFrame:SetFrameLevel(frameLevel)
-    lineFrame:SetFrameStrata("DIALOG");
+    lineFrame:SetFrameStrata("FULLSCREEN");
 
     --How to identify what the frame actually contains, this is not used atm could easily be changed.
     lineFrame.type = "line"
@@ -557,6 +565,10 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     lineFrame.line = line;
 
 
+    line.dR = color[1];
+    line.dG = color[2];
+    line.dB = color[3];
+    line.dA = color[4];
     line:SetColorTexture(color[1],color[2],color[3],color[4]);
 
     -- Set texture coordinates and anchors
@@ -565,7 +577,7 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     local calcX = width/100;
     local calcY = height/100;
     
-    line:SetDrawLayer("ARTWORK")
+    line:SetDrawLayer("OVERLAY", -5)
     line:SetStartPoint("TOPLEFT", startX*calcX, (startY*calcY)*-1) -- We do by *-1 due to using the top left point
     line:SetEndPoint("TOPLEFT", endX*calcX, (endY*calcY)*-1) -- We do by *-1 due to using the top left point
     line:SetThickness(lineWidth);
@@ -625,6 +637,11 @@ function _QuestieFramePool:Questie_Tooltip(self)
     local headers = {};
     local footers = {};
     local contents = {};
+
+    --Highlight waypoints if they exist.
+    for k, lineFrame in pairs(self.data.lineFrames or {}) do
+      lineFrame.line:SetColorTexture(math.min(lineFrame.line.dR*1.3, 1), math.min(lineFrame.line.dG*1.3, 1), math.min(lineFrame.line.dB*1.3, 1), math.min(lineFrame.line.dA*1.3, 1))
+    end
 
     -- FIXME: `data` can be nil here which leads to an error, will have to debug:
     -- https://discordapp.com/channels/263036731165638656/263040777658171392/627808795715960842
