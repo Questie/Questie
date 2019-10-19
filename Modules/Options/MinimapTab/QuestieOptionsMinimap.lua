@@ -65,9 +65,9 @@ function QuestieOptions.tabs.minimap:Initalize()
                 name = function() return QuestieLocale:GetUIString('MINIMAP_FADING'); end,
                 desc = function() return QuestieLocale:GetUIString('MINIMAP_FADING_DESC', optionsDefaults.global.fadeLevel); end,
                 width = "double",
-                min = 0.01,
-                max = 5,
-                step = 0.01,
+                min = 10,
+                max = 100,
+                step = 1,
                 get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
                 set = function (info, value)
                     QuestieOptions:SetGlobalOptionValue(info, value)
@@ -91,9 +91,9 @@ function QuestieOptions.tabs.minimap:Initalize()
                 name = function() return QuestieLocale:GetUIString('MINIMAP_FADE_PLAYER_DIST'); end,
                 desc = function() return QuestieLocale:GetUIString('MINIMAP_FADE_PLAYER_DIST_DESC', optionsDefaults.global.fadeOverPlayerDistance); end,
                 width = "double",
-                min = 0.1,
-                max = 0.5,
-                step = 0.01,
+                min = 0,
+                max = 20,
+                step = 0.5,
                 get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
                 disabled = function() return (not Questie.db.global.fadeOverPlayer); end,
                 set = function (info, value)

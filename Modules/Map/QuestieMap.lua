@@ -463,23 +463,26 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
 
         if(not iconMinimap.FadeLogic) then
             function iconMinimap:FadeLogic()
-                if self.miniMapIcon and self.x and self.y and self.texture and self.texture.SetVertexColor and Questie and Questie.db and Questie.db.global and Questie.db.global.fadeLevel and HBD and HBD.GetPlayerZonePosition and QuestieLib and QuestieLib.Euclid then
-                    local playerX, playerY, playerInstanceID = HBD:GetPlayerZonePosition()
+                if self.miniMapIcon and self.x and self.y and self.texture and self.data.UiMapID and self.texture.SetVertexColor and Questie and Questie.db and Questie.db.global and Questie.db.global.fadeLevel and HBD and HBD.GetPlayerZonePosition and QuestieLib and QuestieLib.Euclid then
+                    local playerX, playerY, playerInstanceID = HBD:GetPlayerWorldPosition()
+                    
                     if(playerX and playerY) then
-                        local distance = QuestieLib:Euclid(playerX, playerY, self.x / 100, self.y / 100);
+                        local x, y, instance = HBD:GetWorldCoordinatesFromZone(self.x/100, self.y/100, self.data.UiMapID)
+                        local distance = QuestieLib:Euclid(playerX, playerY, x, y);
+                        --
 
                         --Very small value before, hard to work with.
-                        distance = distance * 10
-                        local NormalizedValue = 1 / (Questie.db.global.fadeLevel or 1.5);
+                        distance = distance / 10
 
-                        if(distance > 0.6) then
-                            local fadeAmount = (1 - NormalizedValue * distance) + 0.5
-                            if self.faded and fadeAmount > Questie.db.global.iconFadeLevel then fadeAmount = Questie.db.global.iconFadeLevel end
+                        local NormalizedValue = 1/10; --Opacity / Distance to fade over
+
+                        if(distance > Questie.db.global.fadeLevel) then
+                            local fade = 1-(math.min(10, (distance-Questie.db.global.fadeLevel))*NormalizedValue);
                             local dr,dg,db = self.texture:GetVertexColor()
-                            self.texture:SetVertexColor(dr, dg, db, fadeAmount)
+                            self.texture:SetVertexColor(dr, dg, db, fade)
                             if self.glowTexture and self.glowTexture.GetVertexColor then
                                 local r,g,b = self.glowTexture:GetVertexColor()
-                                self.glowTexture:SetVertexColor(r,g,b,fadeAmount)
+                                self.glowTexture:SetVertexColor(r,g,b,fade)
                             end
                         elseif (distance < Questie.db.global.fadeOverPlayerDistance) and Questie.db.global.fadeOverPlayer then
                             local fadeAmount = QuestieLib:Remap(distance, 0, Questie.db.global.fadeOverPlayerDistance, Questie.db.global.fadeOverPlayerLevel, 1);
