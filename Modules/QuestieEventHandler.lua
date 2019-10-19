@@ -77,8 +77,7 @@ function QuestieEventHandler:QUEST_REMOVED(questID)
     if finishedEventReceived == questID then
         finishedEventReceived = false
         runQLU = true
-        QuestieQuest:CompleteQuest(questID)
-        QuestieJourney:CompleteQuest(questID)
+        CompleteQuest(questID);
         --Broadcast our removal!
         Questie:SendMessage("QC_ID_BROADCAST_QUEST_REMOVE", questID);
         return
@@ -88,6 +87,22 @@ function QuestieEventHandler:QUEST_REMOVED(questID)
 
     --Broadcast our removal!
     Questie:SendMessage("QC_ID_BROADCAST_QUEST_REMOVE", questID);
+end
+
+local function CompleteQuest(questId, count)
+    if(not count) then
+        count = 1;
+    end
+    local quest = QuestieDB:GetQuest(questId);
+    if(IsQuestFlaggedCompleted(questId) or quest.Repeatable or count > 50) then
+        QuestieQuest:CompleteQuest(questId)
+        QuestieJourney:CompleteQuest(questId)
+    else
+        Questie:Debug(DEBUG_INFO, "[QuestieEventHandler]", questId, ":Quest not complete starting timer! IsQuestFlaggedCompleted", IsQuestFlaggedCompleted(questId), "Repeatable:", quest.Repeatable, "Count:", count);
+        C_Timer.After(0.1, function()
+            CompleteQuest(questId, count + 1)
+        end);
+    end
 end
 
 -- Fires when a quest is turned in, but before it is remove from the quest log.

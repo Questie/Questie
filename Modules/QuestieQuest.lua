@@ -308,6 +308,10 @@ end
 function QuestieQuest:AcceptQuest(questId)
     if(QuestiePlayer.currentQuestlog[questId] == nil) then
         Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ACCEPT_QUEST', questId));
+
+        QuestieQuest:CalculateAvailableQuests()
+        QuestieQuest:DrawAllAvailableQuests()
+
         --Get all the Frames for the quest and unload them, the available quest icon for example.
         QuestieMap:UnloadQuestFrames(questId);
         QuestieQuest:AddNewQuestHash(questId)
@@ -337,12 +341,11 @@ function QuestieQuest:AcceptQuest(questId)
             end
         end
 
-        QuestieQuest:CalculateAvailableQuests()
-        QuestieQuest:DrawAllAvailableQuests()
-
         --TODO: Insert call to drawing objective logic here!
         --QuestieQuest:TrackQuest(questId);
         
+        --For safety, remove all these icons.
+        QuestieMap:UnloadQuestFrames(questId, ICON_TYPE_AVAILABLE);
         --Broadcast an update.
         Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId);
     else
@@ -370,6 +373,9 @@ function QuestieQuest:CompleteQuest(QuestId)
 
     QuestieTracker:QuestRemoved(QuestId)
     QuestieTracker:Update()
+
+    --For safety, remove all these icons.
+    QuestieMap:UnloadQuestFrames(QuestId, ICON_TYPE_COMPLETE);
 
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_COMPLETE_QUEST', QuestId));
 end
