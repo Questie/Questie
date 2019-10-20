@@ -827,9 +827,15 @@ function _QuestieFramePool:Questie_Tooltip(self)
     Tooltip._Rebuild = function(self)
         local shift = IsShiftKeyDown()
         local haveGiver = false -- hack
-        for k, v in pairs(self.npcOrder) do -- this logic really needs to be improved
+        local firstLine = true;
+        for questTitle, v in pairs(self.npcOrder) do -- this logic really needs to be improved
             haveGiver = true
-            self:AddLine("|cFF33FF33"..k);
+            if(firstLine) then
+              self:AddDoubleLine(questTitle, QuestieLocale:GetUIString('ICON_SHIFT'), 0.2, 1, 0.2, 0.43, 0.43, 0.43); --"(Shift+click)"
+              firstLine = false;
+            else
+              self:AddLine(questTitle, 0.2, 1, 0.2);
+            end
             for k2, v2 in pairs(v) do
                 if v2.title ~= nil then
                     self:AddDoubleLine("   " .. v2.title, v2.type);
@@ -838,10 +844,11 @@ function _QuestieFramePool:Questie_Tooltip(self)
                     local dataType = type(v2.subData)
                     if dataType == "table" then
                         for _,line in pairs(v2.subData) do
-                            self:AddLine("      |cFFDDDDDD" .. line);
+                            self:AddLine("      " .. line, 0.86, 0.86, 0.86);
                         end
                     elseif dataType == "string" then
-                        self:AddLine("      |cFFDDDDDD" .. v2.subData);
+                        self:AddLine("      " .. v2.subData, 0.86, 0.86, 0.86);
+                        --self:AddLine("      |cFFDDDDDD" .. v2.subData);
                     end
                 end
             end
