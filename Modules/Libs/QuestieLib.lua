@@ -41,6 +41,31 @@ function QuestieLib:PrintDifficultyColor(level, text)
     end
 end
 
+function QuestieLib:GetDifficultyColorPercent(level)
+
+    if level == -1 then
+        level = QuestiePlayer:GetPlayerLevel();
+    end
+    local levelDiff = level - QuestiePlayer:GetPlayerLevel();
+
+    if (levelDiff >= 5) then
+        --return "|cFFFF1A1A"..text.."|r"; -- Red
+        return 1, 0.102, 0.102
+    elseif (levelDiff >= 3) then
+        --return "|cFFFF8040"..text.."|r"; -- Orange
+        return 1, 0.502, 0.251
+    elseif (levelDiff >= -2) then
+        --return "|cFFFFFF00"..text.."|r"; -- Yellow
+        return 1, 1, 0
+    elseif (-levelDiff <= GetQuestGreenRange()) then
+        --return "|cFF40C040"..text.."|r"; -- Green
+        return 0.251, 0.753, 0.251
+    else
+        --return "|cFFC0C0C0"..text.."|r"; -- Grey
+        return 0.753, 0.753, 0.753
+    end
+end
+
 function QuestieLib:IsResponseCorrect(questId)
     local count = 0;
     local objectiveList = nil;
