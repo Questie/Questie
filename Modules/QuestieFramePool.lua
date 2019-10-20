@@ -831,7 +831,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
         for questTitle, v in pairs(self.npcOrder) do -- this logic really needs to be improved
             haveGiver = true
             if(firstLine) then
-              self:AddDoubleLine(questTitle, QuestieLocale:GetUIString('ICON_SHIFT'), 0.2, 1, 0.2, 0.43, 0.43, 0.43); --"(Shift+click)"
+              self:AddDoubleLine(questTitle, "("..QuestieLocale:GetUIString('ICON_SHIFT_HOLD')..")", 0.2, 1, 0.2, 0.43, 0.43, 0.43); --"(Shift+click)"
               firstLine = false;
             else
               self:AddLine(questTitle, 0.2, 1, 0.2);
@@ -883,6 +883,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
                 end
             end
         end
+        local manualShift = false;
         for title, body in pairs(self.manualOrder) do
             self:AddLine(title)
             for _, stringOrTable in ipairs(body) do
@@ -895,7 +896,11 @@ function _QuestieFramePool:Questie_Tooltip(self)
             end
             if self.miniMapIcon == false then
                 self:AddLine('|cFFa6a6a6Shift-click to hide|r') -- grey
+                manualShift = true;
             end
+        end
+        if(shift and not manualShift) then
+            self:AddLine("(".."Click to hide"..")", 0.43, 0.43, 0.43)
         end
     end
     Tooltip:_Rebuild() -- we separate this so things like MODIFIER_STATE_CHANGED can redraw the tooltip
