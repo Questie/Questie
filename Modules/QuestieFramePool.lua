@@ -866,7 +866,8 @@ function _QuestieFramePool:Questie_Tooltip(self)
             local quest = QuestieDB:GetQuest(questId);
             local questTitle = quest:GetColoredQuestName();
             if haveGiver then
-                self:AddDoubleLine(questTitle, QuestieLocale:GetUIString("TOOLTIP_QUEST_ACTIVE"));
+                self:AddLine(" ");
+                self:AddDoubleLine(questTitle, QuestieLocale:GetUIString("TOOLTIP_QUEST_ACTIVE"), 1, 1, 1, 1, 1, 0);
                 haveGiver = false -- looks better when only the first one shows (active)
             else
                 if(shift and QuestiePlayer:GetPlayerLevel() ~= 60) then
