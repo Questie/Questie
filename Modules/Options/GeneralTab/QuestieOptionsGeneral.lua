@@ -257,9 +257,9 @@ function QuestieOptions.tabs.general:Initialize()
                 name = function() return QuestieLocale:GetUIString('CLUSTER'); end,
                 desc = function() return QuestieLocale:GetUIString('CLUSTER_DESC'); end,
                 width = "double",
-                min = 0.02,
-                max = 5,
-                step = 0.01,
+                min = 1,
+                max = 300,
+                step = 1,
                 get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
                 set = function (info, value)
                     QUESTIE_NOTES_CLUSTERMUL_HACK = value;

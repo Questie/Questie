@@ -1,5 +1,6 @@
 QuestieMap.utils = {};
 
+local HBD = LibStub("HereBeDragonsQuestie-2.0")
 
 -- ALl the speed we can get is worth it.
 local tinsert = table.insert;
@@ -32,7 +33,7 @@ end
 function QuestieMap.utils:CalcHotzones(points, rangeR)
     if(points == nil) then return nil; end
     
-    local range = rangeR or 10;
+    local range = rangeR or 100;
     local hotzones = {};
     local itt = 0;
     while(true) do
@@ -46,10 +47,13 @@ function QuestieMap.utils:CalcHotzones(points, rangeR)
     			for index2, point2 in pairs(points) do
     				local times = 1;
 
-    				if(point.x < 1.01 and point.y < 1.01) then times = 100; end
-    				local dX = (point.x*times) - (point2.x*times)
-    				local dY = (point.y*times) - (point2.y*times);
-    				if(dX*dX + dY * dY < (range*range) and point2.touched == nil and point.zone == point2.zone) then
+            if(point.x > 1 and point.y > 1) then times = 100; end
+            local aX, aY = HBD:GetWorldCoordinatesFromZone(point.x/times, point.y/times, point.UIMapId);
+            local bX, bY = HBD:GetWorldCoordinatesFromZone(point2.x/times, point2.y/times, point2.UIMapId);
+    				--local dX = (point.x*times) - (point2.x*times)
+            --local dY = (point.y*times) - (point2.y*times);
+            local distance = QuestieLib:Euclid(aX or 0, aY or 0, bX or 0, bY or 0);
+    				if(distance < range and point2.touched == nil and point.UIMapId == point2.UIMapId) then
     					point2.touched = true;
     					tinsert(notes, point2);
     				end

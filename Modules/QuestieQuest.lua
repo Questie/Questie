@@ -875,6 +875,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                                 drawIcon.data = data;
                                 drawIcon.zone = zone;
                                 drawIcon.areaId = zone;
+                                drawIcon.UIMapId = zoneDataAreaIDToUiMapID[zone];
                                 drawIcon.x = spawn[1];
                                 drawIcon.y = spawn[2];
                                 local x, y, instance = HBD:GetWorldCoordinatesFromZone(drawIcon.x/100, drawIcon.y/100, zoneDataAreaIDToUiMapID[zone])
