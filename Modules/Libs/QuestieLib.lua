@@ -129,7 +129,11 @@ function QuestieLib:GetColoredQuestName(id, name, level, showLevel, isComplete, 
         name = name .. " (" .. id .. ")"
     end
     if isComplete then
-        name  = name .. " " .. QuestieLocale:GetUIString('TOOLTIP_QUEST_COMPLETE')
+        if isComplete == -1 then
+            name = name .. " (" .. _G['FAILED'] .. ")"
+        else
+            name = name .. " (" .. _G['COMPLETE'] .. ")"
+        end
     end
 
     return QuestieLib:PrintDifficultyColor(level, name)
