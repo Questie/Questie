@@ -843,9 +843,9 @@ function _QuestieFramePool:Questie_Tooltip(self)
                 if questData.title ~= nil then
                     local quest = QuestieDB:GetQuest(questData.questId);
                     if(shift) then
-                        self:AddDoubleLine("   " .. questData.title, QuestieLib:PrintDifficultyColor(quest.Level, "("..GetQuestLogRewardXP(questData.questId).."xp)"));--..questData.type);
+                        self:AddDoubleLine("   " .. questData.title, QuestieLib:PrintDifficultyColor(quest.Level, "("..GetQuestLogRewardXP(questData.questId).."xp) ")..questData.type, 1, 1, 1, 1, 1, 0);
                     else
-                        self:AddDoubleLine("   " .. questData.title, questData.type);
+                        self:AddDoubleLine("   " .. questData.title, questData.type, 1, 1, 1, 1, 1, 0);
                     end
                 end
                 if questData.subData and shift then
