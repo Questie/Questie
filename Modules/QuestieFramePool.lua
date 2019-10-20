@@ -474,7 +474,7 @@ function QuestieFramePool:CreateWaypoints(iconFrame, waypointTable, lineWidth, c
     local lastPos = nil
     --Set defaults if needed.
     local lWidth = lineWidth or 1.5;
-    local col = color or {1,0.72,0,0.4};
+    local col = color or {1,0.72,0,0.3};
 
     for index, waypoint in pairs(waypointTable) do
         if(lastPos == nil) then
@@ -842,7 +842,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
             for k2, questData in pairs(quests) do
                 if questData.title ~= nil then
                     local quest = QuestieDB:GetQuest(questData.questId);
-                    if(shift) then
+                    if(shift and QuestiePlayer:GetPlayerLevel() ~= 60) then
                         self:AddDoubleLine("   " .. questData.title, QuestieLib:PrintDifficultyColor(quest.Level, "("..GetQuestLogRewardXP(questData.questId).."xp) ")..questData.type, 1, 1, 1, 1, 1, 0);
                     else
                         self:AddDoubleLine("   " .. questData.title, questData.type, 1, 1, 1, 1, 1, 0);
@@ -868,7 +868,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
                 self:AddDoubleLine(questTitle, QuestieLocale:GetUIString("TOOLTIP_QUEST_ACTIVE"));
                 haveGiver = false -- looks better when only the first one shows (active)
             else
-                if(shift) then
+                if(shift and QuestiePlayer:GetPlayerLevel() ~= 60) then
                     local r, g, b = QuestieLib:GetDifficultyColorPercent(quest.Level);
                     self:AddDoubleLine(questTitle, "("..GetQuestLogRewardXP(questId).."xp)", 0.2, 1, 0.2, r, g, b);
                     firstLine = false;
