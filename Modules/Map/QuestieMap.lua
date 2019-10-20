@@ -608,7 +608,7 @@ function QuestieMap:FindClosestStarter()
                                                         if(value[1] and value[2]) then
                                                             local x, y, instance = HBD:GetWorldCoordinatesFromZone(value[1]/100, value[2]/100, zoneDataAreaIDToUiMapID[value[3]])
                                                             if(x and y) then
-                                                                local distance = QuestieLib:Euclid(playerX, playerY, x, y);
+                                                                local distance = QuestieLib:Euclid(playerX or 0, playerY or 0, x, y);
                                                                 --Questie:Print(x, y, zoneDataAreaIDToUiMapID[Zone], distance)
                                                                 if(closestStarter[questId].distance > distance) then
                                                                     closestStarter[questId].distance = distance;
@@ -624,7 +624,7 @@ function QuestieMap:FindClosestStarter()
                                             else
                                                 local x, y, instance = HBD:GetWorldCoordinatesFromZone(coords[1]/100, coords[2]/100, zoneDataAreaIDToUiMapID[Zone])
                                                 if(x and y) then
-                                                    local distance = QuestieLib:Euclid(playerX, playerY, x, y);
+                                                    local distance = QuestieLib:Euclid(playerX or 0, playerY or 0, x, y);
                                                     --Questie:Print(x, y, zoneDataAreaIDToUiMapID[Zone], distance)
                                                     if(closestStarter[questId].distance > distance) then
                                                         closestStarter[questId].distance = distance;
@@ -653,7 +653,7 @@ function QuestieMap:FindClosestStarter()
                                                         if(value[1] and value[2]) then
                                                             local x, y, instance = HBD:GetWorldCoordinatesFromZone(value[1]/100, value[2]/100, zoneDataAreaIDToUiMapID[value[3]])
                                                             if(x and y) then
-                                                                local distance = QuestieLib:Euclid(playerX, playerY, x, y);
+                                                                local distance = QuestieLib:Euclid(playerX or 0, playerY or 0, x, y);
                                                                 --Questie:Print(x, y, zoneDataAreaIDToUiMapID[Zone], distance)
                                                                 if(closestStarter[questId].distance > distance) then
                                                                     closestStarter[questId].distance = distance;
@@ -669,7 +669,7 @@ function QuestieMap:FindClosestStarter()
                                             elseif(coords[1] and coords[2]) then
                                                 local x, y, instance = HBD:GetWorldCoordinatesFromZone(coords[1]/100, coords[2]/100, zoneDataAreaIDToUiMapID[Zone])
                                                 if(x and y) then
-                                                    local distance = QuestieLib:Euclid(playerX, playerY, x, y);
+                                                    local distance = QuestieLib:Euclid(playerX or 0, playerY or 0, x, y);
                                                     --Questie:Print(x, y, zoneDataAreaIDToUiMapID[Zone], distance)
                                                     if(closestStarter[questId].distance > distance) then
                                                         closestStarter[questId].distance = distance;
