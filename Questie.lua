@@ -162,8 +162,8 @@ function Questie:OnInitialize()
     QuestieOptions:Initialize();
 
     --Initialize the DB settings.
-    Questie:debug(DEBUG_DEVELOP, QuestieLocale:GetUIString('DEBUG_CLUSTER', Questie.db.global.clusterLevel))
-    QUESTIE_NOTES_CLUSTERMUL_HACK = Questie.db.global.clusterLevel;
+    Questie:debug(DEBUG_DEVELOP, QuestieLocale:GetUIString('DEBUG_CLUSTER', Questie.db.global.clusterLevelHotzone))
+    QUESTIE_NOTES_CLUSTERMUL_HACK = Questie.db.global.clusterLevelHotzone;
 
 
     -- Creating the minimap config icon

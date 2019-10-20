@@ -251,7 +251,7 @@ function QuestieOptions.tabs.general:Initialize()
                     QuestieOptionsUtils:Delay(0.3, QuestieOptions.AvailableQuestRedraw, QuestieLocale:GetUIString('DEBUG_MAXLEVEL', value))
                 end,
             },
-            clusterLevel = {
+            clusterLevelHotzone = {
                 type = "range",
                 order = 13,
                 name = function() return QuestieLocale:GetUIString('CLUSTER'); end,
