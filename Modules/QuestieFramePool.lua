@@ -859,7 +859,12 @@ function _QuestieFramePool:Questie_Tooltip(self)
                 self:AddDoubleLine(questTitle, QuestieLocale:GetUIString("TOOLTIP_QUEST_ACTIVE"));
                 haveGiver = false -- looks better when only the first one shows (active)
             else
-                self:AddLine(questTitle);
+                 if(firstLine) then
+                    self:AddDoubleLine(questTitle, "("..QuestieLocale:GetUIString('ICON_SHIFT_HOLD')..")", 0.2, 1, 0.2, 0.43, 0.43, 0.43); --"(Shift+click)"
+                    firstLine = false;
+                 else
+                    self:AddLine(questTitle);
+                 end
             end
             if shift then
                 for index, textData in pairs(textList) do
