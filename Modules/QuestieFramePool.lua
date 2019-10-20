@@ -855,7 +855,6 @@ function _QuestieFramePool:Questie_Tooltip(self)
         end
         for questTitle, textList in pairs(self.questOrder) do -- this logic really needs to be improved
             if haveGiver then
-                self:AddLine(" ")
                 self:AddDoubleLine(questTitle, QuestieLocale:GetUIString("TOOLTIP_QUEST_ACTIVE"));
                 haveGiver = false -- looks better when only the first one shows (active)
             else
