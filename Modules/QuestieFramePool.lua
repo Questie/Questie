@@ -833,8 +833,9 @@ function _QuestieFramePool:Questie_Tooltip(self)
             if(firstLine and not shift) then
                 self:AddDoubleLine(questTitle, "("..QuestieLocale:GetUIString('ICON_SHIFT_HOLD')..")", 0.2, 1, 0.2, 0.43, 0.43, 0.43); --"(Shift+click)"
                 firstLine = false;
-            elseif(firstLine) then
-                self:AddDoubleLine(questTitle, "(".."Click to hide"..")", 0.2, 1, 0.2, 0.43, 0.43, 0.43); --"(Shift+click)"
+            elseif(firstLine and shift) then
+                --self:AddDoubleLine(questTitle, "(".."Click to hide"..")", 0.2, 1, 0.2, 0.43, 0.43, 0.43); --"(Shift+click)"
+                self:AddLine(questTitle);
                 firstLine = false;
             else
               self:AddLine(questTitle, 0.2, 1, 0.2);
