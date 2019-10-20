@@ -133,7 +133,7 @@ QuestieLocale.locale['zhTW'] = {
     ['TOOLTIP_QUEST_COMPLETE'] = "（完成）",
     ['TOOLTIP_QUEST_AVAILABLE'] = "（可接）",
     ['TOOLTIP_QUEST_ACTIVE'] = "（已有）",
-    ['TOOLTIP_QUEST_REPEATABLE'] = "(Repeatable)",
+    ['TOOLTIP_QUEST_REPEATABLE'] = "(可重複)",
 
     -- Slash Commands
     ['SLASH_INVALID'] = "無效指令，要查看指令列表請輸入：",
