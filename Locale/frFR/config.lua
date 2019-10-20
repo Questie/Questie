@@ -1,6 +1,5 @@
-QuestieLocale.locale['frFR'] = {
-	-- Trad by Pgmbru (V.5)
-	-- Configuration Windows
+QuestieLocale.locale['frFR'] = {	
+	-- Configuration Windows -- Trad by Pgmbru (V.5)
 	['OPTIONS_TAB'] = "Options",
 	['QUESTIE_HEADER'] = "Options générales",
 	['ENABLE_QUESTIE'] = "Activer les icônes",
@@ -33,6 +32,8 @@ QuestieLocale.locale['frFR'] = {
 	['ENABLE_MAP_ICONS_DESC'] = "Active l'affichage de toutes les icônes sur la carte.",
 	['ENABLE_MINIMAP_ICONS'] = "Activer les icônes sur la mini-carte",
 	['ENABLE_MINIMAP_ICONS_DESC'] = "Active l'affichage de toutes les icônes sur la mini-carte.",
+	['HIDE_UNEXPLORED_ICONS'] = "Cacher les icônes des zones inexplorées",
+	['HIDE_UNEXPLORED_ICONS_DESC'] = "Désactive l'affichage des icônes dans les zones inexplorées.",
 	
 	['MINIMAP_TAB'] = "Mini-carte",
 	['MINIMAP_HEADER'] = "Options des icônes sur la mini-carte",
@@ -79,6 +80,28 @@ QuestieLocale.locale['frFR'] = {
 	['EVENT_ICON_SCALE'] = "Échelle des icônes d'événement",
 	['EVENT_ICON_SCALE_DESC'] = "Définis la taille des icônes d'événement. (Par défaut : %s)",
 	
+	['DBM_HUD_TAB'] = "DBM HUD",
+	['ENABLE_DBM_HUD'] = "Show DBM HUD",
+	['ENABLE_DBM_HUD_DESC'] = "Enable or disable the DBM Heads Up Display (HUD) overlay for showing map objects.",
+	['DBM_HUD_ICON_ALERT'] = "Enable proximity visual for HUD icons",
+	['DBM_HUD_ICON_ALERT_DESC'] = "Changes the color of a HUD icon to red when you are near it",
+	['DBM_HUD_REFRESH'] = "Refresh rate for HUD (Requires turning HUD off/on)",
+	['DBM_HUD_REFRESH_DESC'] = "Adjusts the fresh rate for HUD Icons which affects how often UI refreshes their position  ( Default: %s )",
+	['DBM_HUD_SCALE_OPTIONS'] = "Size & Scale Options",
+	['DBM_HUD_ZOOM'] = "Global zoom level for HUD Icons",
+	['DBM_HUD_ZOOM_DESC'] = "Adjusts the zoom level for HUD Icons which affects how close in or how far out you see them  ( Default: %s )",
+	['DBM_HUD_RADIUS'] = "Global radius/size for HUD Icons",
+	['DBM_HUD_RADIUS_DESC'] = "Adjusts the size of the icons that appear on the HUD  ( Default: %s )",
+	['DBM_HUD_FILTER_OPTIONS'] = "Filter Options",
+	['DBM_HUD_FILTER_QUEST'] = "Show quest giver icons",
+	['DBM_HUD_FILTER_QUEST_DESC'] = "Toggles whether or not available/complete quest icons appear on HUD ( Default: %s )",
+	['DBM_HUD_FILTER_KILL'] = "Show quest slay icons",
+	['DBM_HUD_FILTER_KILL_DESC'] = "Toggles whether or not slay icons appear on HUD ( Default: %s )",
+	['DBM_HUD_FILTER_LOOT'] = "Show quest loot icons",
+	['DBM_HUD_FILTER_LOOT_DESC'] = "Toggles whether or not loot icons appear on HUD ( Default: %s )",
+	['DBM_HUD_FILTER_INTERACT'] = "Show quest objective icons",
+	['DBM_HUD_FILTER_INTERACT_DESC'] = "Toggles whether or not objective icons appear on HUD ( Default: %s )",
+	
 	['NAMEPLATE_TAB'] = "Barres de vie",
 	['NAMEPLATE_HEAD'] = "Options des icônes sur les barres de vie flottantes",
 	['NAMEPLATE_TOGGLE'] = "Activer l'affichage des icônes sur les barres de vie flottantes",
@@ -109,6 +132,8 @@ QuestieLocale.locale['frFR'] = {
 	['ENABLE_DEBUG_DESC'] = "Active le mode debug.",
 	['DEBUG_LEVEL'] = "Niveau de debug",
 	['DEBUG_LEVEL_DESC'] = "Définis le niveau du mode debug : %s",
+	['ENABLE_TOOLTIPS_QUEST_IDS'] = "Afficher l'ID des quêtes",
+	['ENABLE_TOOLTIPS_QUEST_LEVEL_IDS'] = "Active l'affichage de l'ID des quêtes dans les info-bulles et le suivi des quêtes.",
 	['LOCALE'] = "Paramètre de localisation",
 	['LOCALE_DROP'] = "Sélection de la langue :",
 	['RESET_QUESTIE'] = "Réinitialisation",
