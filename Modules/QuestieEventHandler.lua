@@ -76,20 +76,21 @@ function QuestieEventHandler:QUEST_REMOVED(questID)
     _Hack_prime_log()
     if finishedEventReceived == questID then
         finishedEventReceived = false
-        runQLU = true
-        CompleteQuest(questID);
+        runQLU = false
+        QuestieEventHandler:CompleteQuest(questID);
         --Broadcast our removal!
         Questie:SendMessage("QC_ID_BROADCAST_QUEST_REMOVE", questID);
         return
     end
     QuestieQuest:AbandonedQuest(questID)
     QuestieJourney:AbandonQuest(questID)
+    runQLU = false
 
     --Broadcast our removal!
     Questie:SendMessage("QC_ID_BROADCAST_QUEST_REMOVE", questID);
 end
 
-local function CompleteQuest(questId, count)
+function QuestieEventHandler:CompleteQuest(questId, count)
     if(not count) then
         count = 1;
     end

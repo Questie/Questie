@@ -357,6 +357,7 @@ end
 function QuestieQuest:CompleteQuest(QuestId)
     QuestiePlayer.currentQuestlog[QuestId] = nil;
     Questie.db.char.complete[QuestId] = true --can we use some other relevant info here?
+    QuestieQuest:RemoveQuestHash(QuestId)
 
     --This should probably be done first, because DrawAllAvailableQuests looks at QuestieMap.questIdFrames[QuestId] to add available
     QuestieQuest:CalculateAvailableQuests()
@@ -413,7 +414,7 @@ end
 
 function QuestieQuest:UpdateQuest(QuestId)
     local quest = QuestieDB:GetQuest(QuestId);
-    if quest ~= nil then
+    if quest ~= nil and not Questie.db.char.complete[QuestId] then
         QuestieQuest:PopulateQuestLogInfo(quest)
         QuestieQuest:GetAllQuestObjectives(quest) -- update quest log values in quest object
         QuestieQuest:UpdateObjectiveNotes(quest)
@@ -533,7 +534,8 @@ end
 
 function QuestieQuest:AddFinisher(Quest)
     --We should never ever add the quest if IsQuestFlaggedComplete true.
-    if(QuestiePlayer.currentQuestlog[Quest.Id] and IsQuestFlaggedCompleted(Quest.Id) == false and IsQuestComplete(Quest.Id)) then
+    Questie:Debug(DEBUG_INFO, "[QuestieQuest]", "Adding finisher for quest ", Quest.Id)
+    if(QuestiePlayer.currentQuestlog[Quest.Id] and IsQuestFlaggedCompleted(Quest.Id) == false and IsQuestComplete(Quest.Id) and not Questie.db.char.complete[Quest.Id]) then
         local finisher = nil
         if Quest.Finisher ~= nil then
             if Quest.Finisher.Type == "monster" then
@@ -929,7 +931,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                 if orderedList[1].Icon == ICON_TYPE_OBJECT then -- new clustering / limit code should prevent problems, always show all object notes
                     range = range * 0.2;  -- Only use 20% of the default range.
                 end
-
+                
                 local hotzones = QuestieMap.utils:CalcHotzones(orderedList, range);
 
                 for index, hotzone in pairs(hotzones) do
@@ -1334,7 +1336,7 @@ function QuestieQuest:CompareQuestHashes()
 
                 if oldhash ~= newHash then
                     Questie:Debug(DEBUG_DEVELOP, "CompareQuestHashes: Hash changed for questId:", questId)
-                    local timer = nil;
+                    --[[local timer = nil;
                     timer = C_Timer.NewTicker(0.5, function()
                         if(QuestieLib:IsResponseCorrect(questId)) then
                             QuestieQuest:UpdateQuest(questId)
@@ -1344,9 +1346,30 @@ function QuestieQuest:CompareQuestHashes()
                         else   
                             Questie:Debug(DEBUG_CRITICAL, "Response is wrong for quest, waiting with timer");
                         end
-                    end)
+                    end)]]--
+                    QuestieQuest:SafeUpdateQuest(questId, newHash);
                 end
             end
+        end
+    end
+end
+
+function QuestieQuest:SafeUpdateQuest(questId, hash, count)
+    if(not count) then
+        count = 0;
+    end
+    if(QuestieLib:IsResponseCorrect(questId)) then
+        QuestieQuest:UpdateQuest(questId)
+        _QuestieQuest.questLogHashes[questId] = hash
+        Questie:Debug(DEBUG_DEVELOP, "Accept seems correct, cancel timer");
+    else
+        if(count < 50) then
+            Questie:Debug(DEBUG_CRITICAL, "Response is wrong for quest, waiting with timer");
+            C_Timer.After(0.1, function()
+                QuestieQuest:SafeUpdateQuest(questId, hash, count + 1);
+            end)
+        else
+            Questie:Debug(DEBUG_CRITICAL, "Didn't get a correct response after 50 tries, stopping");
         end
     end
 end
