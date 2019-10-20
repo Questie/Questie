@@ -835,7 +835,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
                 firstLine = false;
             elseif(firstLine and shift) then
                 --self:AddDoubleLine(questTitle, "(".."Click to hide"..")", 0.2, 1, 0.2, 0.43, 0.43, 0.43); --"(Shift+click)"
-                self:AddLine(questTitle);
+                self:AddLine(questTitle, 0.2, 1, 0.2);
                 firstLine = false;
             else
               self:AddLine(questTitle, 0.2, 1, 0.2);
@@ -873,7 +873,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
                     local r, g, b = QuestieLib:GetDifficultyColorPercent(quest.Level);
                     self:AddDoubleLine(questTitle, "("..GetQuestLogRewardXP(questId).."xp)", 0.2, 1, 0.2, r, g, b);
                     firstLine = false;
-                elseif(firstLine) then
+                elseif(firstLine and not shift) then
                     self:AddDoubleLine(questTitle, "("..QuestieLocale:GetUIString('ICON_SHIFT_HOLD')..")", 0.2, 1, 0.2, 0.43, 0.43, 0.43); --"(Shift+click)"
                     firstLine = false;
                 else
