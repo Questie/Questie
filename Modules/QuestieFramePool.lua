@@ -686,11 +686,12 @@ function _QuestieFramePool:Questie_Tooltip(self)
                         end
                         dat.title = icon.data.QuestData:GetColoredQuestName(true)
                         dat.subData = icon.data.QuestData.Description
+                        dat.questId = icon.data.Id;
                         npcOrder[icon.data.Name][dat.title] = dat
                         --table.insert(npcOrder[icon.data.Name], dat);
                     elseif icon.data.ObjectiveData and icon.data.ObjectiveData.Description then
                         --Questie:Print("Close icon", icon:GetName(), icon.data.QuestData:GetColoredQuestName())
-                        local key = icon.data.QuestData:GetColoredQuestName();
+                        local key = icon.data.Id--.QuestData:GetColoredQuestName();
                         if not questOrder[key] then
                             questOrder[key] = {};
                         end
@@ -819,7 +820,6 @@ function _QuestieFramePool:Questie_Tooltip(self)
             end
         end
     end
-    local questId = self.data.Id;
     Tooltip.npcOrder = npcOrder
     Tooltip.questOrder = questOrder
     Tooltip.manualOrder = manualOrder
@@ -841,10 +841,9 @@ function _QuestieFramePool:Questie_Tooltip(self)
             end
             for k2, questData in pairs(quests) do
                 if questData.title ~= nil then
-                    local quest = QuestieDB:GetQuest(questId);
-                    local r, g, b = QuestieLib:GetDifficultyColorPercent(quest.Level);
+                    local quest = QuestieDB:GetQuest(questData.questId);
                     if(shift) then
-                        self:AddDoubleLine("   " .. questData.title, QuestieLib:PrintDifficultyColor(quest.Level, "("..GetQuestLogRewardXP(questId).."xp)")..questData.type);
+                        self:AddDoubleLine("   " .. questData.title, QuestieLib:PrintDifficultyColor(quest.Level, "("..GetQuestLogRewardXP(questData.questId).."xp)"));--..questData.type);
                     else
                         self:AddDoubleLine("   " .. questData.title, questData.type);
                     end
@@ -862,13 +861,14 @@ function _QuestieFramePool:Questie_Tooltip(self)
                 end
             end
         end
-        for questTitle, textList in pairs(self.questOrder) do -- this logic really needs to be improved
+        for questId, textList in pairs(self.questOrder) do -- this logic really needs to be improved
+            local quest = QuestieDB:GetQuest(questId);
+            local questTitle = quest:GetColoredQuestName();
             if haveGiver then
                 self:AddDoubleLine(questTitle, QuestieLocale:GetUIString("TOOLTIP_QUEST_ACTIVE"));
                 haveGiver = false -- looks better when only the first one shows (active)
             else
-                if(firstLine and shift) then
-                    local quest = QuestieDB:GetQuest(questId);
+                if(shift) then
                     local r, g, b = QuestieLib:GetDifficultyColorPercent(quest.Level);
                     self:AddDoubleLine(questTitle, "("..GetQuestLogRewardXP(questId).."xp)", 0.2, 1, 0.2, r, g, b);
                     firstLine = false;
