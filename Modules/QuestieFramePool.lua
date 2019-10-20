@@ -736,12 +736,14 @@ function _QuestieFramePool:Questie_Tooltip(self)
                                     ]]
                                     local playerInfo = QuestieLib:PlayerInGroup(playerName);
                                     if(playerInfo) then
-                                        local fulfilled = objectiveData[icon.data.ObjectiveIndex].fulfilled;
-                                        local required = objectiveData[icon.data.ObjectiveIndex].required;
                                         local colorizedPlayerName = " (|c"..playerInfo.colorHex..playerName.."|r|cFF33FF33)|r";
                                         local remoteText = icon.data.ObjectiveData.Description;
-                                        if icon.data.ObjectiveData.Needed then
+                                        if objectiveData[icon.data.ObjectiveIndex] and objectiveData[icon.data.ObjectiveIndex].fulfilled and objectiveData[icon.data.ObjectiveIndex].required then
+                                            local fulfilled = objectiveData[icon.data.ObjectiveIndex].fulfilled;
+                                            local required = objectiveData[icon.data.ObjectiveIndex].required;
                                             remoteText = tostring(fulfilled) .. "/" .. tostring(required) .. " " .. remoteText .. colorizedPlayerName;
+                                        else
+                                            remoteText = remoteText .. colorizedPlayerName;
                                         end
                                         local t = {
                                             [remoteText] = {},

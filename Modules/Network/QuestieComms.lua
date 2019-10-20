@@ -228,7 +228,7 @@ function QuestieComms:CreateQuestDataPacket(questId)
         quest.objectives[objectiveIndex].ful = objective.numFulfilled;--[_QuestieComms.idLookup["fulfilled"]] = objective.numFulfilled;
         quest.objectives[objectiveIndex].req = objective.numRequired;--[_QuestieComms.idLookup["required"]] = objective.numRequired;
     end
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieComms] questPacket made: Objectivetable:", quest.objectives);
+    Questie:Debug(DEBUG_SPAM, "[QuestieComms] questPacket made: Objectivetable:", quest.objectives);
     return quest;
 end
 
@@ -351,15 +351,15 @@ function _QuestieComms:broadcast(packet)
     
     local compressedData = QuestieSerializer:Serialize(packet);--QuestieCompress:Compress(packet);
     if packet.writeMode == _QuestieComms.QC_WRITE_WHISPER then
-        Questie:Debug(DEBUG_DEVELOP,"send(|cFFFF2222" .. compressedData .. "|r)", "Packet length", string.len(compressedData))
+        Questie:Debug(DEBUG_DEVELOP,"send(|cFFFF2222" ..string.len(compressedData) .. "|r)")
         Questie:SendCommMessage(_QuestieComms.prefix, compressedData, packet.writeMode, packet.target, packet.priority)
     elseif packet.writeMode == _QuestieComms.QC_WRITE_CHANNEL then
-        Questie:Debug(DEBUG_DEVELOP,"send(|cFFFF2222" .. compressedData .. "|r)", "Packet length", string.len(compressedData))
+        Questie:Debug(DEBUG_DEVELOP,"send(|cFFFF2222" ..string.len(compressedData) .. "|r)")
         -- Always do channel messages as BULK priority
         Questie:SendCommMessage(_QuestieComms.prefix, compressedData, packet.writeMode, GetChannelName("questiecom"), "BULK")
         --OLD: C_ChatInfo.SendAddonMessage("questie", compressedData, "CHANNEL", GetChannelName("questiecom"))
     else
-        Questie:Debug(DEBUG_DEVELOP, "send(|cFFFF2222" .. compressedData .. "|r)", "Packet length", string.len(compressedData))
+        Questie:Debug(DEBUG_DEVELOP, "send(|cFFFF2222" ..string.len(compressedData) .. "|r)")
         Questie:SendCommMessage(_QuestieComms.prefix, compressedData, packet.writeMode, nil, packet.priority)
         --OLD: C_ChatInfo.SendAddonMessage("questie", compressedData, packet.writeMode)
     end

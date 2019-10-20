@@ -146,10 +146,10 @@ function QuestieMap:ProcessQueue()
 
     --The frame level stuff seems to need to happen after they have been drawn?
     local frame = mapDrawCall[2];
-    if(frame.data.Icon == ICON_TYPE_AVAILABLE or frame.data.Icon == ICON_TYPE_REPEATABLE) then
+    if(frame.data and (frame.data.Icon == ICON_TYPE_AVAILABLE or frame.data.Icon == ICON_TYPE_REPEATABLE)) then
       QuestieMap.utils:SetDrawOrder(frame, 5);
       --frame.texture:SetDrawLayer("OVERLAY", 5)
-    elseif(frame.data.Icon == ICON_TYPE_COMPLETE) then
+    elseif(frame.data and frame.data.Icon == ICON_TYPE_COMPLETE) then
       QuestieMap.utils:SetDrawOrder(frame, 6);
       --frame.texture:SetDrawLayer("OVERLAY", 6)
     end
