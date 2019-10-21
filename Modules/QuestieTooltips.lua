@@ -240,7 +240,7 @@ end
 local function TooltipShowing_maybeobject(name)
     if not Questie.db.global.enableTooltips then return; end
     if name then
-        for index, gameObjectId in pairs(LangObjectIdLookup[name] or {}) do
+        for index, gameObjectId in pairs(LangObjectNameLookup[name] or {}) do
             local tooltipData = QuestieTooltips:GetTooltip("o_" .. gameObjectId);
             if(type(gameObjectId)=="number" and tooltipData)then
                 --Questie:Debug(DEBUG_DEVELOP, "[QuestieTooltip] Object Id on hover : ", gameObjectId);
