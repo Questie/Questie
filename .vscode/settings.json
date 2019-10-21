@@ -2644,6 +2644,15 @@
         "Database/TEMP_questie2events.lua",
         "Database/TEMP_questie4items.lua",
         "Database/TEMP_repprof.lua",
-        "Database/zoneDB.lua"
+        "Database/zoneDB.lua",
+        "Locale/deDE/**",
+        "Locale/enUS/**",
+        "Locale/esES/**",
+        "Locale/frFR/**",
+        "Locale/koKR/**",
+        "Locale/ptBR/**",
+        "Locale/ruRU/**",
+        "Locale/zhCN/**",
+        "Locale/zhTW/**"
     ]
 }

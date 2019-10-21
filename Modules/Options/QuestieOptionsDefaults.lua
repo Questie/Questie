@@ -75,6 +75,7 @@ function QuestieOptionsDefaults:Load()
             hidden = {},
             enabled = true,
             lowlevel = false,
+            manualMinLevelOffset = false,
             journey = {},
             searchType = 1,
             autoaccept = false,

@@ -1726,8 +1726,15 @@ end
 --TODO Check that this function does what it is supposed to...
 function QuestieQuest:CalculateAvailableQuests()
     local playerLevel = QuestiePlayer:GetPlayerLevel()
+    
     local minLevel = playerLevel - Questie.db.global.minLevelFilter
     local maxLevel = playerLevel + Questie.db.global.maxLevelFilter
+
+    
+    if(not Questie.db.char.manualMinLevelOffset) then
+        minLevel = playerLevel - GetQuestGreenRange();
+    end
+
     QuestieQuest.availableQuests = {}
 
     for questID, v in pairs(QuestieDB.questData) do

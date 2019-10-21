@@ -26,12 +26,13 @@ function QuestieLocale:Initialize()
         table.insert(LangObjectNameLookup[name], id);
     end
     -- Create the english String -> ID table.
+    local DB_NAME = 1; --The Index of name in the DB, mostly for readability.
     if(lang == "enUS" or lang == "enGB") then
         for id, data in pairs(QuestieDB.objectData) do
-            if(not LangObjectNameLookup[data[1]]) then
-                LangObjectNameLookup[data[1]] = {};
+            if(not LangObjectNameLookup[data[DB_NAME]]) then
+                LangObjectNameLookup[data[DB_NAME]] = {};
             end
-            table.insert(LangObjectNameLookup[data[1]], id);
+            table.insert(LangObjectNameLookup[data[DB_NAME]], id);
         end
     end
 end
@@ -48,7 +49,7 @@ function QuestieLocale:FallbackLocale(lang)
         return 'enUS';
     elseif lang == 'enCN' then
         return 'zhCN';
-    elseif lang == 'enTW' then 
+    elseif lang == 'enTW' then
         return 'zhTW';
     elseif lang == 'esMX' then
         return 'esES';
