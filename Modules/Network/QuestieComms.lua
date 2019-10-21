@@ -394,7 +394,7 @@ function _QuestieComms:OnCommReceived(message, distribution, sender)
                 end
 
                 decompressedData.playerName = sender;
-                Questie:Debug(DEBUG_DEVELOP, "Executing message ID: ", decompressedData.msgId, "From: ", sender)
+                Questie:Debug(DEBUG_DEVELOP, "Executing message ID: ", decompressedData.msgId, "From: ", sender, "MessageVersion:", decompressedData.msgVer)
 
                 _QuestieComms.packets[decompressedData.msgId].read(decompressedData);
             else
@@ -404,7 +404,7 @@ function _QuestieComms:OnCommReceived(message, distribution, sender)
         elseif(decompressedData and not warnedUpdate and decompressedData.msgVer) then
             -- We want to know who actually is the one with the mismatched version!
             if(floor(commMessageVersion) < floor(decompressedData.msgVer)) then
-                Questie:Error("You have an incompatible QuestieComms message! Please update!", " Yours:", commMessageVersion, sender..":", decompressedData.msgVer);
+                Questie:Error("You have an incompatible QuestieComms message! Please update!", "  Yours: v", commMessageVersion, sender..": v", decompressedData.msgVer);
             elseif(floor(commMessageVersion) > floor(decompressedData.msgVer)) then
                 Questie:Print("|cFFFF0000WARNING!|r", sender, "has an incompatible Questie version, QuestieComms won't work!", " Yours:", commMessageVersion, sender..":", decompressedData.msgVer)
             end

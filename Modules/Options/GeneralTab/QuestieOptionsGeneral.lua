@@ -261,7 +261,7 @@ function QuestieOptions.tabs.general:Initialize()
                 desc = function() return QuestieLocale:GetUIString('LOWLEVEL_ABOVE_DESC', optionsDefaults.global.maxLevelFilter); end,
                 width = "normal",
                 min = 0,
-                max = 60 - QuestiePlayer:GetPlayerLevel(),
+                max = 60,
                 step = 1,
                 disabled = function() return QuestiePlayer:GetPlayerLevel() == 60; end,
                 get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,

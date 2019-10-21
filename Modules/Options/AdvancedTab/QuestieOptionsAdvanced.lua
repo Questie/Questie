@@ -76,6 +76,7 @@ function QuestieOptions.tabs.advanced:Initalize()
             debugEnabledPrint = {
                 type = "toggle",
                 order = 6,
+                disabled = function() return not Questie.db.global.debugEnabled; end,
                 name = function() return QuestieLocale:GetUIString('ENABLE_DEBUG').."-PRINT" end,
                 desc = function() return QuestieLocale:GetUIString('ENABLE_DEBUG_DESC').."-PRINT" end,
                 width = "full",
@@ -87,6 +88,7 @@ function QuestieOptions.tabs.advanced:Initalize()
             showQuestIDs = {
                 type = "toggle",
                 order = 7,
+                disabled = function() return not Questie.db.global.debugEnabled; end,
                 name = function() return QuestieLocale:GetUIString('ENABLE_TOOLTIPS_QUEST_IDS'); end,
                 desc = function() return QuestieLocale:GetUIString('ENABLE_TOOLTIPS_QUEST_LEVEL_IDS'); end,
                 width = "full",
