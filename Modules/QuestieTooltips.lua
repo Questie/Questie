@@ -34,6 +34,8 @@ function QuestieTooltips:GetTooltip(key)
     if key == nil then
         return nil
     end
+
+    --Do not remove! This is the datastrucutre for tooltipData!
     --[[tooltipdata[questId] = {
         title = coloredTitle,
         objectivesText = {
@@ -42,8 +44,10 @@ function QuestieTooltips:GetTooltip(key)
             }
         }
     }]]--
-    local name = UnitName("player");
     local tooltipData = {}
+
+    local name = UnitName("player");
+
     if(QuestieTooltips.tooltipLookup[key]) then
         for k, tooltip in pairs(QuestieTooltips.tooltipLookup[key]) do
             tooltip.Objective:Update() -- update progress
@@ -83,6 +87,9 @@ function QuestieTooltips:GetTooltip(key)
             end
         end
     end
+
+    -- This code is related to QuestieComms, here we fetch all the tooltip data that exist in QuestieCommsData
+    -- It uses a similar system like here with i_ID etc as keys.
     local anotherPlayer = false;
     if(QuestieComms and QuestieComms.data:KeyExists(key)) then
         ---@tooltipData @tooltipData[questId][playerName][objectiveIndex].text
@@ -98,6 +105,7 @@ function QuestieTooltips:GetTooltip(key)
                 if(playerInfo) then
                     anotherPlayer = true;
                     for objectiveIndex, objective in pairs(objectives) do
+                        --Setup data structures that might be missing.
                         if(not tooltipData[questId].objectivesText) then
                             tooltipData[questId].objectivesText = {}
                         end
@@ -232,16 +240,18 @@ end
 local function TooltipShowing_maybeobject(name)
     if not Questie.db.global.enableTooltips then return; end
     if name then
-        local gameObjectId = LangObjectIdLookup[name];
-        if(type(gameObjectId)=="number")then
-          --Questie:Debug(DEBUG_DEVELOP, "[QuestieTooltip] Object Id on hover : ", gameObjectId);
-          local tooltipData = QuestieTooltips:GetTooltip("o_" .. gameObjectId);
-          if tooltipData then
-              for _, v in pairs (tooltipData) do
-                  GameTooltip:AddLine(v)
-              end
-          end
-          QuestieTooltips.lastTooltipTime = GetTime()
+        for index, gameObjectId in pairs(LangObjectIdLookup[name] or {}) do
+            local tooltipData = QuestieTooltips:GetTooltip("o_" .. gameObjectId);
+            if(type(gameObjectId)=="number" and tooltipData)then
+                --Questie:Debug(DEBUG_DEVELOP, "[QuestieTooltip] Object Id on hover : ", gameObjectId);
+                if tooltipData then
+                    for _, v in pairs (tooltipData) do
+                        GameTooltip:AddLine(v)
+                    end
+                end
+                QuestieTooltips.lastTooltipTime = GetTime()
+                break;
+            end
         end
         GameTooltip:Show()
     end

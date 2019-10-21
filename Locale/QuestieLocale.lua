@@ -20,12 +20,18 @@ function QuestieLocale:Initialize()
 
     --Create the ID -> String table!
     for k, v in pairs(LangObjectIdLookup) do
-        LangObjectLookup[v]=k
+        if(not LangObjectLookup[v]) then
+            LangObjectLookup[v] = {};
+        end
+        table.insert(LangObjectLookup[v], k);
     end
     -- Create the english String -> ID table.
     if(lang == "enUS" or lang == "enGB") then
         for id, data in pairs(QuestieDB.objectData) do
-            LangObjectIdLookup[data[1]] = id;
+            if(not LangObjectLookup[data[1]]) then
+                LangObjectLookup[data[1]] = {};
+            end
+            table.insert(LangObjectLookup[data[1]], id);
         end
     end
 end
