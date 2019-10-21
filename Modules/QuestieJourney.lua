@@ -1057,14 +1057,14 @@ local function DrawZoneQuestTab(container)
 	
 	--Helper function to sort the zone list alphabetically 
 	function getKeysSortedByValue(tbl, sortFunction)
-	  local keys = {}
+	  local keys = {};
 	  for key in pairs(tbl) do
-		table.insert(keys, key)
+		table.insert(keys, key);
 	  end
 	  table.sort(keys, function(a, b)
-		return sortFunction(tbl[a], tbl[b])
+		return sortFunction(tbl[a], tbl[b]);
 	  end)
-	  return keys
+	  return keys;
 	end
 	
     CDropdown:SetCallback("OnValueChanged", function(key, checked)
