@@ -134,6 +134,7 @@ QuestieLocale.locale['ptBR'] = {
 	['TOOLTIP_QUEST_COMPLETE'] = "(Complèta)",
 	['TOOLTIP_QUEST_AVAILABLE'] = "(Disponivel)",
 	['TOOLTIP_QUEST_ACTIVE'] = "(Ativo)",
+  ['XP'] = "xp";
 	
 	--Ordens de barra
 	['SLASH_INVALID'] = "Comando inválido. Para uma lista de opções, digite:",

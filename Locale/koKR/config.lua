@@ -136,6 +136,7 @@ QuestieLocale.locale['koKR'] = {
     ['TOOLTIP_QUEST_AVAILABLE'] = "(수행가능)",
     ['TOOLTIP_QUEST_ACTIVE'] = "(활성화)",
     ['TOOLTIP_QUEST_REPEATABLE'] = "(반복가능)",
+    ['XP'] = "xp";
 
     -- Slash Commands
     ['SLASH_INVALID'] = "존재하지 않는 명렁어입니다. 전체 명령어를 확인하시려면 다음과 같이 입력해주세요: ",

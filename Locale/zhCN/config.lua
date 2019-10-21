@@ -134,6 +134,7 @@ QuestieLocale.locale['zhCN'] = {
     ['TOOLTIP_QUEST_AVAILABLE'] = "（可接）",
     ['TOOLTIP_QUEST_ACTIVE'] = "（已有）",
     ['TOOLTIP_QUEST_REPEATABLE'] = "(可重复)",
+    ['XP'] = "xp";
 
     -- Slash Commands
     ['SLASH_INVALID'] = "无效命令，要查看指令列表请输入：",

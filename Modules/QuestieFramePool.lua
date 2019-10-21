@@ -825,6 +825,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
     Tooltip.manualOrder = manualOrder
     Tooltip.miniMapIcon = self.miniMapIcon
     Tooltip._Rebuild = function(self)
+        local xpString = QuestieLocale:GetUIString('XP');
         local shift = IsShiftKeyDown()
         local haveGiver = false -- hack
         local firstLine = true;
@@ -844,7 +845,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
                 if questData.title ~= nil then
                     local quest = QuestieDB:GetQuest(questData.questId);
                     if(shift and QuestiePlayer:GetPlayerLevel() ~= 60) then
-                        self:AddDoubleLine("   " .. questData.title, QuestieLib:PrintDifficultyColor(quest.Level, "("..GetQuestLogRewardXP(questData.questId).."xp) ")..questData.type, 1, 1, 1, 1, 1, 0);
+                        self:AddDoubleLine("   " .. questData.title, QuestieLib:PrintDifficultyColor(quest.Level, "("..GetQuestLogRewardXP(questData.questId)..xpString..") ")..questData.type, 1, 1, 1, 1, 1, 0);
                     else
                         self:AddDoubleLine("   " .. questData.title, questData.type, 1, 1, 1, 1, 1, 0);
                     end
@@ -872,7 +873,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
             else
                 if(shift and QuestiePlayer:GetPlayerLevel() ~= 60) then
                     local r, g, b = QuestieLib:GetDifficultyColorPercent(quest.Level);
-                    self:AddDoubleLine(questTitle, "("..GetQuestLogRewardXP(questId).."xp)", 0.2, 1, 0.2, r, g, b);
+                    self:AddDoubleLine(questTitle, "("..GetQuestLogRewardXP(questId)..xpString..")", 0.2, 1, 0.2, r, g, b);
                     firstLine = false;
                 elseif(firstLine and not shift) then
                     self:AddDoubleLine(questTitle, "("..QuestieLocale:GetUIString('ICON_SHIFT_HOLD')..")", 0.2, 1, 0.2, 0.43, 0.43, 0.43); --"(Shift+click)"
