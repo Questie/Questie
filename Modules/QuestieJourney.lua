@@ -1072,6 +1072,7 @@ local function DrawZoneQuestTab(container)
         selectedContinent = key.value;
 		local sortedZoneList = getKeysSortedByValue(QuestieJourney.zoneTable[selectedContinent], 
 													function(a, b) return a < b end);
+		zDropdown:SetList(QuestieJourney.zoneTable[selectedContinent], sortedZoneList);
         zDropdown:SetText(QuestieLocale:GetUIString('JOURNEY_SELECT_ZONE'));
         zDropdown:SetDisabled(false);
     end)
