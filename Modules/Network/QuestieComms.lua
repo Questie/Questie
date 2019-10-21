@@ -5,6 +5,11 @@ _QuestieComms.prefix = "questie";
 -- List of all players questlog private to prevent modification from the outside.
 QuestieComms.remoteQuestLogs = {};
 
+-- The idea here is that all messages with the same "base number" are compatible
+-- New message versions increase the number by 0.1, and if the message becomes "incompatible" you increase with 1
+-- Say if the message is 1.5 it is valid as long as it is < 2. If it is 2.5 it is not compatible for example.
+local commMessageVersion = 5.0;
+
 local warnedUpdate = false;
 local suggestUpdate = true;
 
@@ -369,28 +374,41 @@ function _QuestieComms:OnCommReceived(message, distribution, sender)
     Questie:Debug(DEBUG_DEVELOP, "|cFF22FF22", "sender:", "|r", sender, "distribution:", distribution, "Packet length:",string.len(message))
     if message and sender then
         local decompressedData = QuestieSerializer:Deserialize(message);--QuestieCompress:Decompress(message);
-        if(decompressedData and decompressedData.msgId and _QuestieComms.packets[decompressedData.msgId]) then
+        
+        --Check if the message version is the same base value
+        if(decompressedData and decompressedData.msgVer and floor(decompressedData.msgVer) == floor(commMessageVersion)) then
+            if(decompressedData and decompressedData.msgId and _QuestieComms.packets[decompressedData.msgId]) then
 
-            if(suggestUpdate) then
-                local major, minor, patch = strsplit(".", decompressedData.ver);
-                local majorOwn, minorOwn, patchOwn = QuestieLib:GetAddonVersionInfo();
-                if((majorOwn < tonumber(major) or minorOwn < tonumber(minor)) and not UnitAffectingCombat("player")) then
-                    suggestUpdate = false;
-                    if(majorOwn < major) then
-                        Questie:Print("A Major patch for Questie exist! Please update as soon as possible!");
-                    elseif(majorOwn == major and minorOwn < minor) then
-                        Questie:Print("You have an outdated version of Questie! Please consider updating!");
+                --If a new version exist, tell them!
+                if(suggestUpdate) then
+                    local major, minor, patch = strsplit(".", decompressedData.ver);
+                    local majorOwn, minorOwn, patchOwn = QuestieLib:GetAddonVersionInfo();
+                    if((majorOwn < tonumber(major) or minorOwn < tonumber(minor)) and not UnitAffectingCombat("player")) then
+                        suggestUpdate = false;
+                        if(majorOwn < major) then
+                            Questie:Print("A Major patch for Questie exist! Please update as soon as possible!");
+                        elseif(majorOwn == major and minorOwn < minor) then
+                            Questie:Print("You have an outdated version of Questie! Please consider updating!");
+                        end
                     end
                 end
-            end
 
-            decompressedData.playerName = sender;
-            Questie:Debug(DEBUG_DEVELOP, "Executing message ID: ", decompressedData.msgId, "From: ", sender)
-            decompressedData.playerName = sender;
-            _QuestieComms.packets[decompressedData.msgId].read(decompressedData);
-        else
-            Questie:Debug(DEBUG_INFO, "[QuestieComms]", decompressedData, decompressedData.msgId, _QuestieComms.packets[decompressedData.msgId])
-            --Questie:Error("Error reading QuestieComm message (If it persist try updating) Player:", sender, "PacketLength:", string.len(message));
+                decompressedData.playerName = sender;
+                Questie:Debug(DEBUG_DEVELOP, "Executing message ID: ", decompressedData.msgId, "From: ", sender)
+
+                _QuestieComms.packets[decompressedData.msgId].read(decompressedData);
+            else
+                Questie:Debug(DEBUG_INFO, "[QuestieComms]", decompressedData, decompressedData.msgId, _QuestieComms.packets[decompressedData.msgId])
+                Questie:Error("Error reading QuestieComm message (If it persist try updating) Player:", sender, "PacketLength:", string.len(message));
+            end
+        elseif(decompressedData and not warnedUpdate and decompressedData.msgVer) then
+            -- We want to know who actually is the one with the mismatched version!
+            if(floor(commMessageVersion) < floor(decompressedData.msgVer)) then
+                Questie:Error("You have an incompatible QuestieComms message! Please update!", " Yours:", commMessageVersion, sender..":", decompressedData.msgVer);
+            elseif(floor(commMessageVersion) > floor(decompressedData.msgVer)) then
+                Questie:Print("|cFFFF0000WARNING!|r", sender, "has an incompatible Questie version, QuestieComms won't work!", " Yours:", commMessageVersion, sender..":", decompressedData.msgVer)
+            end
+            warnedUpdate = true;
         end
     end
 end
@@ -406,6 +424,7 @@ function _QuestieComms:createPacket(messageId)
     -- Set messageId
     local major, minor, patch = QuestieLib:GetAddonVersionInfo();
     pkt.data.ver = major.."."..minor.."."..patch;
+    pkt.data.msgVer = commMessageVersion;
     pkt.data.msgId = messageId
     -- Some messages initialize
     if pkt.init then
