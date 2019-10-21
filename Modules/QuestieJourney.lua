@@ -1054,11 +1054,24 @@ local function DrawZoneQuestTab(container)
 
     CDropdown:SetList(continentTable);
     CDropdown:SetText(QuestieLocale:GetUIString('JOURNEY_SELECT_CONT'));
-
+	
+	--Helper function to sort the zone list alphabetically 
+	function getKeysSortedByValue(tbl, sortFunction)
+	  local keys = {}
+	  for key in pairs(tbl) do
+		table.insert(keys, key)
+	  end
+	  table.sort(keys, function(a, b)
+		return sortFunction(tbl[a], tbl[b])
+	  end)
+	  return keys
+	end
+	
     CDropdown:SetCallback("OnValueChanged", function(key, checked)
         -- set the zone table to be used.
         selectedContinent = key.value;
-        zDropdown:SetList(QuestieJourney.zoneTable[key.value]);
+		local sortedZoneList = getKeysSortedByValue(QuestieJourney.zoneTable[selectedContinent], 
+													function(a, b) return a < b end);
         zDropdown:SetText(QuestieLocale:GetUIString('JOURNEY_SELECT_ZONE'));
         zDropdown:SetDisabled(false);
     end)
