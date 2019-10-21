@@ -52,7 +52,7 @@ local function floatBitsToInt(n)
     local mant, expo = frexp(n)
     if mant ~= mant then
         return _pack(0xFF, 0x88, 0x00, 0x00) -- nan
-    elseif mant == huge or expo > 0x80 then
+    elseif mant == math.huge or expo > 0x80 then
         if sign == 0 then
             return _pack(0x7F, 0x80, 0x00, 0x00) -- inf
         else
@@ -81,7 +81,7 @@ local function intBitsToFloat(int)
         n = sign * 0.0
     elseif expo == 0xFF then
         if mant == 0 then
-            n = sign * huge
+            n = sign * math.huge
         else
             n = 0.0/0.0
         end
