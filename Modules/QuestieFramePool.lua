@@ -680,6 +680,8 @@ function _QuestieFramePool:Questie_Tooltip(self)
                             elseif(questType == 81 or questType == 83 or questType == 62 or questType == 41 or questType == 1) then
                                 -- Dungeon or Legendary or Raid or PvP or Group(Elite)
                                 dat.type = "("..questTag..")";
+                            elseif(QuestieEvent and QuestieEvent.activeQuests[icon.data.Id]) then
+                                dat.type = QuestieLocale:GetUIString("TOOLTIP_QUEST_EVENT");--"(Event)";--QuestieLocale:GetUIString("TOOLTIP_QUEST_AVAILABLE");
                             else
                                 dat.type = QuestieLocale:GetUIString("TOOLTIP_QUEST_AVAILABLE");
                             end

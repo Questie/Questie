@@ -176,6 +176,7 @@ QuestieLocale.locale['enUS'] = {
     ['TOOLTIP_QUEST_AVAILABLE'] = "(Available)",
     ['TOOLTIP_QUEST_ACTIVE'] = "(Active)",
     ['TOOLTIP_QUEST_REPEATABLE'] = "(Repeatable)",
+    ['TOOLTIP_QUEST_EVENT'] = "(Event)",
     ['XP'] = "xp";
 
     -- Slash Commands

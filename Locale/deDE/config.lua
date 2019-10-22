@@ -139,6 +139,7 @@ QuestieLocale.locale['deDE'] = {
     ['TOOLTIP_QUEST_AVAILABLE'] = "(Verfügbar)",
     ['TOOLTIP_QUEST_ACTIVE'] = "(Aktiv)",
     ['TOOLTIP_QUEST_REPEATABLE'] = "(Wiederholbar)",
+    ['TOOLTIP_QUEST_EVENT'] = "(Event)",
     ['XP'] = "xp";
 
     -- Slash Commands

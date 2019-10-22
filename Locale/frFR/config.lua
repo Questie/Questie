@@ -138,6 +138,7 @@ QuestieLocale.locale['frFR'] = {
 	['TOOLTIP_QUEST_AVAILABLE'] = "(Disponible)",
 	['TOOLTIP_QUEST_ACTIVE'] = "(Active)",
 	['TOOLTIP_QUEST_REPEATABLE'] = "(Répétable)",
+  ['TOOLTIP_QUEST_EVENT'] = "(Event)",
   ['XP'] = "xp";
 	
 	-- Slash Commandes

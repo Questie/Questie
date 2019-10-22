@@ -267,22 +267,6 @@ local function TooltipShowing_maybeobject(name)
     QuestieTooltips.lastGametooltipType = "object";
 end
 
-function _QuestieTooltips:GetGUID()
-    local ret = {}
-    local guid = UnitGUID("mouseover");
-    local B = tonumber(guid:sub(5,5), 16);
-    local maskedB = B % 8; -- x % 8 has the same effect as x & 0x7 on numbers <= 0xf
-    local knownTypes = {[0]="player", [3]="NPC", [4]="pet", [5]="vehicle"};
-    local id = tonumber((guid):sub(-12, -9), 16);
-    local name = UnitName("mouseover")
-    ret.guid = guid;
-    ret.name = name;
-    ret.id = id;
-    ret.type = knownTypes[maskedB] or nil
-
-    return ret;
-end
-
 function _QuestieTooltips:CountTooltip()
     local tooltipcount = 0
     for i = 1, 25 do -- Should probably use GameTooltip:NumLines() instead.

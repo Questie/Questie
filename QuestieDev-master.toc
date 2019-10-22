@@ -36,6 +36,7 @@ Database\Corrections\QuestieNPCFixes.lua
 Database\Corrections\QuestieObjectFixes.lua
 Database\Corrections\QuestieQuestBlacklist.lua
 Database\Corrections\QuestieQuestFixes.lua
+Database\Corrections\QuestieEvent.lua
 
 #Localization
 Locale\QuestieLocale.lua

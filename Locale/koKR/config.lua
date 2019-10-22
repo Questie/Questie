@@ -137,6 +137,7 @@ QuestieLocale.locale['koKR'] = {
     ['TOOLTIP_QUEST_AVAILABLE'] = "(수행가능)",
     ['TOOLTIP_QUEST_ACTIVE'] = "(활성화)",
     ['TOOLTIP_QUEST_REPEATABLE'] = "(반복가능)",
+    ['TOOLTIP_QUEST_EVENT'] = "(Event)",
     ['XP'] = "xp";
 
     -- Slash Commands

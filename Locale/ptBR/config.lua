@@ -135,6 +135,7 @@ QuestieLocale.locale['ptBR'] = {
 	['TOOLTIP_QUEST_COMPLETE'] = "(Complèta)",
 	['TOOLTIP_QUEST_AVAILABLE'] = "(Disponivel)",
 	['TOOLTIP_QUEST_ACTIVE'] = "(Ativo)",
+  ['TOOLTIP_QUEST_EVENT'] = "(Event)",
   ['XP'] = "xp";
 	
 	--Ordens de barra

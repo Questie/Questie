@@ -135,6 +135,7 @@ QuestieLocale.locale['zhTW'] = {
     ['TOOLTIP_QUEST_AVAILABLE'] = "（可接）",
     ['TOOLTIP_QUEST_ACTIVE'] = "（已有）",
     ['TOOLTIP_QUEST_REPEATABLE'] = "(可重複)",
+    ['TOOLTIP_QUEST_EVENT'] = "(Event)",
     ['XP'] = "xp";
 
     -- Slash Commands

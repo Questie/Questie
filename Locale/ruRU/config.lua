@@ -124,6 +124,7 @@ QuestieLocale.locale['ruRU'] = {
     ['TOOLTIP_QUEST_AVAILABLE'] = "(Доступный)",
     ['TOOLTIP_QUEST_ACTIVE'] = "(Активный)",
     ['TOOLTIP_QUEST_REPEATABLE'] = "(Повторяемый)",
+    ['TOOLTIP_QUEST_EVENT'] = "(Event)",
     ['XP'] = "xp";
 
 
