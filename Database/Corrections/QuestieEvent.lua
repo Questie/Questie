@@ -38,6 +38,10 @@ QuestieEvent.activeQuests = {}
 function QuestieEvent:Load()
   local month = tonumber(date("%m"));
   local day = tonumber(date("%d"));
+  local year = date("%y");
+
+  --We want to replace the lunarharvest date with the date that we estimate
+  QuestieEvent.eventDates["LunarFestival"] = QuestieEvent.lunarHarvest[year];
 
   local activeEvents = {}
 
@@ -71,7 +75,7 @@ end
 
 --EUROPEAN FORMAT! NO FUCKING AMERICAN SHIDAZZLE FORMAT!
 QuestieEvent.eventDates = {
-  ["LunarFestival"] = {
+  ["LunarFestival"] = {-- WARNING THIS DATE VARIES!!!!
     startDate="24/1",
     endDate="7/2",
   },
@@ -79,7 +83,7 @@ QuestieEvent.eventDates = {
     startDate = "7/2",
     endDate = "20/2",
   },
-  ["Noblegarden"] = {
+  ["Noblegarden"] = {-- WARNING THIS DATE VARIES!!!!
     startDate = "13/5",
     endDate = "19/5",
   },
@@ -106,6 +110,50 @@ QuestieEvent.eventDates = {
   ["WinterVeil"] = {
     startDate = "15/12",
     endDate = "2/1",
+  },
+}
+
+QuestieEvent.lunarHarvest = {
+  ["19"] = {
+    startDate = "5/2",
+    endDate="19/2",
+  },
+  ["20"] = {
+    startDate = "24/1",
+    endDate="7/2",
+  },
+  --Below are estimates
+  ["21"] = {
+    startDate = "12/2",
+    endDate="26/2",
+  },
+  ["22"] = {
+    startDate = "1/2",
+    endDate="15/2",
+  },
+  ["23"] = {
+    startDate = "22/1",
+    endDate="5/2",
+  },
+  ["24"] = {
+    startDate = "10/2",
+    endDate="24/2",
+  },
+  ["25"] = {
+    startDate = "29/1",
+    endDate="12/2",
+  },
+  ["26"] = {
+    startDate = "17/2",
+    endDate="3/3",
+  },
+  ["27"] = {
+    startDate = "7/2",
+    endDate="21/2",
+  },
+  ["28"] = {
+    startDate = "27/1",
+    endDate="10/2",
   },
 }
 
