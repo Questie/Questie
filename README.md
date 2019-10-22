@@ -13,25 +13,50 @@ You can find the FAQ for Classic [here](https://github.com/AeroScripts/QuestieDe
 ## Download
 https://github.com/AeroScripts/QuestieDev/releases/latest
 
-*Some features are missing, but its all being ported in slowly. Keep an eye on discord! (linked below)*
-
 [![Downloads](https://img.shields.io/github/downloads/AeroScripts/QuestieDev/total.svg)](https://github.com/AeroScripts/QuestieDev/releases/)
 [![Downloads Latest](https://img.shields.io/github/downloads/AeroScripts/QuestieDev/v4.3.0/total.svg)](https://github.com/AeroScripts/QuestieDev/releases/latest)
 [![Date Latest](https://img.shields.io/github/release-date/AeroScripts/QuestieDev.svg)](https://github.com/AeroScripts/QuestieDev/releases/latest)
 [![Commits Since Latest](https://img.shields.io/github/commits-since/AeroScripts/QuestieDev/latest.svg)](https://github.com/AeroScripts/QuestieDev/commits/master)
 
+
+## Information
+- Come chat with us on [our Discord server](https://discord.gg/phKnHVu).
+- You can use the [issue tracker](https://github.com/AeroScripts/QuestieDev/issues) to report bugs and post feature requests (requires a Github account).
+- When creating an issue please follow the templated structure to speed up a possible fix.
+- If you get an error message from the WoW client, please include the **complete** text or a screenshot of it in your report.
+- If you wish to submit a bug fix or feature addition you made, you can create a Pull Request on Github. Please read [the rules](https://github.com/AeroScripts/QuestieDev/wiki/Pull-Request-Rules) first.
+
+Trust us it's (Good)!
+
 ## Features
 
+### Show quests on map
+- Show notes for quest start points, turn in points, and objectives.
+
+![Questie Quest Givers](https://i.imgur.com/4abi5yu.png)
+![Questie Complete](https://i.imgur.com/DgvBHyh.png)
+![Questie Tooltip](https://i.imgur.com/uPykHKC.png)
+
+### Quest Tracker
+- Improved quest tracker:
+    - Automatically tracks quests on accepting (instead of progressing)
+    - Can show all 20 quests from the log (instead of default 5)
+    - Left click quest to open quest log (configurable)
+    - Right-click for more options, e.g.:
+        - Focus quest (makes other quest icons translucent)
+        - Point arrow towards objective (requires TomTom addon)
+
+![QuestieTracker](https://user-images.githubusercontent.com/8838573/67285596-24dbab00-f4d8-11e9-9ae1-7dd6206b5e48.png)
+
 ### Quest Communication
- - You can see others progress on the tooltip.
- - The latest Questie version is required by everyone in the party for it to work, tell your friends to update!
+- You can see party members quest progress on the tooltip.
+- At least Questie version 5.0.0 is required by everyone in the party for it to work, tell your friends to update!
 
 ![QuestieComms](https://cdn.discordapp.com/attachments/263036731165638656/636099163460861962/unknown.png)
 
-### Tooltip
-#### Hold Shift
-- Shift hold  shows questXP information.
-- Shift hold while hovering over a map icon to display more information.
+### Tooltips
+- Show tooltips on map notes and quest NPCs/objects.
+- Holding Shift while hovering over a map icon displays more information, like quest XP.
 
 ![QuestXP](https://cdn.discordapp.com/attachments/579999220170227716/635540231306608641/unknown.png)
 
@@ -49,47 +74,25 @@ https://github.com/AeroScripts/QuestieDev/releases/latest
 
 ![Waypoints](https://cdn.discordapp.com/attachments/263040777658171392/632636371420577823/unknown.png)
 
+### Journey Log
+- Questie records the steps of your journey in the "My Journey" window. (right-click on minimap button to open)
 
-### What is working
-- map/minimap system (Currently using a port of HereBeDragons but that may change)
-- available quests (some bugs related to profession/class quests are being worked on)
-- objective notes
-- quest start/turn-in points
-- mob/item tooltips (for multiple languages!)
-- tracker
-- arrow (requires TomTom)
-- DBM HUD (requires the DBM addon)
+![Journey](https://user-images.githubusercontent.com/8838573/67285651-3cb32f00-f4d8-11e9-95d8-e8ceb2a8d871.png)
 
+### Quests by Zone
+- Questie lists all the quests of a zone divided between completed and available quest. Gotta complete 'em all. (right-click on minimap button to open)
 
-### What is missing
-- some quests may incorrectly show as available when they aren't, or not show when they are. Please report this if you see it
-- polygon/cluster objective display (instead of many points) and other display modes
+![QuestsByZone](https://user-images.githubusercontent.com/8838573/67285665-450b6a00-f4d8-11e9-9283-325d26c7c70d.png)
 
-Trust us it's (Good)!
+### Search
+- Questie's database can be searched. (right-click on minimap button to open)
 
+![Search](https://user-images.githubusercontent.com/8838573/67285691-4f2d6880-f4d8-11e9-8656-b3e37dce2f05.png)
 
-## Information
-**Notes:**
-- Come chat with us on [our Discord server](https://discord.gg/phKnHVu).
-- You can use the [issue tracker](https://github.com/AeroScripts/QuestieDev/issues) to report bugs and post feature requests (requires a Github account).
-- When creating an issue please follow the templated structure to speed up a possible fix.
-- If you get an error message from the WoW client, please include the **complete** text or a screenshot of it in your report.
-- If you wish to submit a bug fix or feature addition you made, you can create a Pull Request on Github. Please read [the rules](https://github.com/AeroScripts/QuestieDev/wiki/Pull-Request-Rules) first.
+### Configuration
+- Extensive configuration options. (left-click on minimap button to open)
 
-
-## Screenshots
-Here are some example images of what Questie can do:
-
-### Available quest givers and turn-in points
-<img src="https://i.imgur.com/4abi5yu.png" alt="Questie Quest Givers"/>
-<img src="https://i.imgur.com/DgvBHyh.png" alt="Questie Complete"/>
-
-### Objectives and tooltips shown on the map/minimap
-<img src="https://i.imgur.com/uPykHKC.png" alt="Questie Tooltip"/>
-
-### Tooltips on quest mobs
-<img src="https://i.imgur.com/z2OJoiu.png" alt="Questie Mobs"/>
-
+![config](https://user-images.githubusercontent.com/8838573/67285731-61a7a200-f4d8-11e9-9026-b1eeaad0d721.png)
 
 ## Donation
 If you'd like to support the development of Questie by donating, you can do so here:
