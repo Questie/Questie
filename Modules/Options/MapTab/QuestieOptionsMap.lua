@@ -1,8 +1,8 @@
-QuestieOptionsMap = {...}
+QuestieOptions.tabs.map = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
 
 
-function QuestieOptionsMap:Initialize()
+function QuestieOptions.tabs.map:Initialize()
     return {
         name = function() return QuestieLocale:GetUIString('MAP_TAB'); end,
         type = "group",

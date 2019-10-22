@@ -1,7 +1,7 @@
-QuestieOptionsTracker = {...}
+QuestieOptions.tabs.tracker = {...}
 
 
-function QuestieOptionsTracker:Initialize()
+function QuestieOptions.tabs.tracker:Initialize()
     return {
         name = function() return QuestieLocale:GetUIString('TRACKER_TAB'); end,
         type = "group",

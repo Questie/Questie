@@ -1,12 +1,17 @@
 QuestieOptions = {...}
+QuestieOptions.tabs = {...}
 QuestieConfigFrame = {...}
-local _QuestieOptions = {...}
 
 local AceGUI = LibStub("AceGUI-3.0")
 
+-- Forward declaration
+local _CreateGUI
+
 function QuestieOptions:Initialize()
     Questie:Debug(DEBUG_DEVELOP, "[QuestieOptions]: Initializing...")
-    LibStub("AceConfigQuestie-3.0"):RegisterOptionsTable("Questie", _QuestieOptions.optionsGUI)
+
+    local optionsGUI = _CreateGUI()
+    LibStub("AceConfigQuestie-3.0"):RegisterOptionsTable("Questie", optionsGUI)
     Questie.configFrame = LibStub("AceConfigDialogQuestie-3.0"):AddToBlizOptions("Questie", "Questie");
 
     local configFrame = AceGUI:Create("Frame");
@@ -56,22 +61,26 @@ function QuestieOptions:AvailableQuestRedraw()
 end
 
 function QuestieOptions:ClusterRedraw()
+    Questie:Debug(DEBUG_INFO, "Clustering changed, redrawing!")
     --Redraw clusters here
+    QuestieQuest:SmoothReset();
 end
 
 
-_QuestieOptions.optionsGUI = {
-    name = "Questie",
-    handler = Questie,
-    type = "group",
-    childGroups = "tab",
-    args = {
-        general_tab = QuestieOptionsGeneral:Initialize(),
-        minimap_tab = QuestieOptionsMinimap:Initalize(),
-        map_tab = QuestieOptionsMap:Initialize(),
-        dbm_hud_tab = QuestieOptionsDBM:Initalize(),
-        tracker_tab = QuestieOptionsTracker:Initialize(),
-        nameplate_tab = QuestieOptionsNameplate:Initialize(),
-        advanced_tab = QuestieOptionsAdvanced:Initalize(),
+_CreateGUI = function()
+    return {
+        name = "Questie",
+        handler = Questie,
+        type = "group",
+        childGroups = "tab",
+        args = {
+            general_tab = QuestieOptions.tabs.general:Initialize(),
+            minimap_tab = QuestieOptions.tabs.minimap:Initalize(),
+            map_tab = QuestieOptions.tabs.map:Initialize(),
+            dbm_hud_tab = QuestieOptions.tabs.dbm:Initalize(),
+            tracker_tab = QuestieOptions.tabs.tracker:Initialize(),
+            nameplate_tab = QuestieOptions.tabs.nameplate:Initialize(),
+            advanced_tab = QuestieOptions.tabs.advanced:Initalize(),
+        }
     }
-}
+end

@@ -1,7 +1,13 @@
+if(Questie) then
+    C_Timer.After(4, function() 
+        error("ERROR!! -> Questie already loaded! Please only have one Questie installed!")
+        for i=1, 10 do
+            DEFAULT_CHAT_FRAME:AddMessage("|cFFFF0000ERROR!!|r -> Questie already loaded! Please only have one Questie installed!")
+        end
+    end);
+    return nil;
+end
 
-Questie = LibStub("AceAddon-3.0"):NewAddon("Questie", "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0", "AceComm-3.0", "AceSerializer-3.0", "AceBucket-3.0")
-_Questie = {...}
-local AceGUI = LibStub("AceGUI-3.0")
 if not QuestieConfigCharacter then
     QuestieConfigCharacter = {}
 end
@@ -14,13 +20,65 @@ DEBUG_DEVELOP = "|cff7c83ff[DEVELOP]|r"
 DEBUG_SPAM = "|cffff8484[SPAM]|r"
 
 
+--Initialized below
+Questie = {...}
+
 -- check if user has updated but not restarted the game (todo: add future new source files to this)
-if (not QuestieTracker) or (not LQuestie_EasyMenu) then
-    if QuestieLocale.locale['enUS'] and QuestieLocale.locale['enUS']['QUESTIE_UPDATED_RESTART'] then -- sometimes locale doesnt update without restarting also
-        print(QuestieLocale:GetUIString('QUESTIE_UPDATED_RESTART'))
-    else
-        print("|cFFFF0000WARNING!|r You have updated questie without restarting the game, this will likely cause problems. Please restart the game before continuing")
-    end
+if  (not LQuestie_EasyMenu) or
+    --Libs
+    (not QuestieLib) or
+    (not QuestiePlayer) or
+    (not QuestieSerializer) or
+    --Comms
+    (not QuestieComms) or
+    (not QuestieComms.data) or
+    --Options
+    (not QuestieOptions) or
+    (not QuestieOptionsDefaults) or
+    (not QuestieOptionsMinimapIcon) or
+    (not QuestieOptionsUtils) or
+    (not QuestieOptions.tabs) or
+    (not QuestieOptions.tabs.advanced) or
+    (not QuestieOptions.tabs.dbm) or
+    (not QuestieOptions.tabs.general) or
+    (not QuestieOptions.tabs.map) or
+    (not QuestieOptions.tabs.minimap) or
+    (not QuestieOptions.tabs.nameplate) or
+    (not QuestieOptions.tabs.tracker) or
+
+    (not QuestieAuto) or
+    (not QuestieCoords) or
+    (not QuestieEventHandler) or
+    (not QuestieFramePool) or
+    (not QuestieJourney) or
+    --Map
+    (not QuestieMap) or
+    (not QuestieMap.utils) or
+
+    (not QuestieNameplate) or
+    (not QuestieProfessions) or
+    (not QuestieQuest) or
+    (not QuestieReputation) or
+    --Search
+    (not QuestieSearch) or
+    (not QuestieSearchResults) or
+
+    (not QuestieStreamLib) or
+    (not QuestieTooltips) or
+    (not QuestieSearchResults) or
+    (not QuestieTracker) then
+    --Delay the warning.
+    C_Timer.After(8, function()
+        if QuestieLocale.locale['enUS'] and QuestieLocale.locale['enUS']['QUESTIE_UPDATED_RESTART'] then -- sometimes locale doesnt update without restarting also
+            print(QuestieLocale:GetUIString('QUESTIE_UPDATED_RESTART'))
+        else
+            print("|cFFFF0000WARNING!|r You have updated questie without restarting the game, this will likely cause problems. Please restart the game before continuing")
+        end
+    end)
+  else
+    -- Initialize Questie
+    Questie = LibStub("AceAddon-3.0"):NewAddon("Questie", "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0", "AceComm-3.0", "AceSerializer-3.0", "AceBucket-3.0")
+    _Questie = {...}
 end
 
 
@@ -41,6 +99,7 @@ function Questie:OnInitialize()
     QuestieLocale:Initialize()
 
     Questie:RegisterEvent("PLAYER_LOGIN", QuestieEventHandler.PLAYER_LOGIN)
+
     --Accepted Events
     Questie:RegisterEvent("QUEST_ACCEPTED", QuestieEventHandler.QUEST_ACCEPTED)
     Questie:RegisterEvent("MAP_EXPLORATION_UPDATED", QuestieEventHandler.MAP_EXPLORATION_UPDATED)
@@ -59,6 +118,8 @@ function Questie:OnInitialize()
 
     -- Party join event for QuestieComms, Use bucket to hinder this from spamming (Ex someone using a raid invite addon etc)
     Questie:RegisterBucketEvent("GROUP_ROSTER_UPDATE", 1, QuestieEventHandler.GROUP_ROSTER_UPDATE);
+    Questie:RegisterEvent("GROUP_JOINED", QuestieEventHandler.GROUP_JOINED);
+    Questie:RegisterEvent("GROUP_LEFT", QuestieEventHandler.GROUP_LEFT);
 
     --TODO: QUEST_QUERY_COMPLETE Will get all quests the character has finished, need to be implemented!
 
@@ -91,12 +152,7 @@ function Questie:OnInitialize()
     -- Initialize Journey Window
     QuestieJourney.Initialize();
 
-    -- Disable QuestieComms
-    QuestieComms = nil;
-    -- Initialize Questie Comms
-    if(QuestieComms) then
-        QuestieComms:Initialize();
-    end
+
 
 
     -- Register Slash Commands
@@ -106,8 +162,8 @@ function Questie:OnInitialize()
     QuestieOptions:Initialize();
 
     --Initialize the DB settings.
-    Questie:debug(DEBUG_DEVELOP, QuestieLocale:GetUIString('DEBUG_CLUSTER', Questie.db.global.clusterLevel))
-    QUESTIE_NOTES_CLUSTERMUL_HACK = Questie.db.global.clusterLevel;
+    Questie:debug(DEBUG_DEVELOP, QuestieLocale:GetUIString('DEBUG_CLUSTER', Questie.db.global.clusterLevelHotzone))
+    QUESTIE_NOTES_CLUSTERMUL_HACK = Questie.db.global.clusterLevelHotzone;
 
 
     -- Creating the minimap config icon

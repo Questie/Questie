@@ -15,7 +15,7 @@ QuestieLocale.locale['ruRU'] = {
     ['LOWLEVEL_BELOW_DESC'] = "Установка минимального порога отображения заданий по уровню. ( По умолчанию: %s )",
     ['LOWLEVEL_ABOVE'] = "Показывать задания уровнем ниже >",
     ['LOWLEVEL_ABOVE_DESC'] = "Установка максимального порога отображения заданий по уровню. ( По умолчанию: %s )",
-    ['CLUSTER'] = "Группировать задачи  (Пока не реализовано)",
+    ['CLUSTER'] = "Группировать задачи",
     ['CLUSTER_DESC'] = "Установка минимального количества заданий, при котором они будут группироваться.",
     ['ENABLE_OBJECTIVES'] = "Включить значки целей",
     ['ENABLE_OBJECTIVES_DESC'] = "Когда включено, значки целей задания будут отображаться на карте/миникарте",
@@ -116,13 +116,16 @@ QuestieLocale.locale['ruRU'] = {
     ['ICON_TOGGLE_QUESTIE'] = "Показать/скрыть Questie",
     ['ICON_CTRLRIGHT_CLICK'] = "Ctrl + Правый клик",
     ['ICON_HIDE'] = "Скрыть иконку на миникарте",
+    ['ICON_SHIFT_HOLD'] = "Hold Shift";
     ['CONFIRM_HIDE_QUEST'] = "Вы уверены, что хотите скрыть задание \"%s\"?",
     ['CONFIRM_HIDE_YES'] = "Да",
     ['CONFIRM_HIDE_NO'] = "Нет",
     ['TOOLTIP_QUEST_COMPLETE'] = "(Выполнено)",
     ['TOOLTIP_QUEST_AVAILABLE'] = "(Доступный)",
     ['TOOLTIP_QUEST_ACTIVE'] = "(Активный)",
-    ['TOOLTIP_QUEST_REPEATABLE'] = "(Repeatable)",
+    ['TOOLTIP_QUEST_REPEATABLE'] = "(Повторяемый)",
+    ['TOOLTIP_QUEST_EVENT'] = "(Event)",
+    ['XP'] = "xp";
 
 
     -- Slash Commands
@@ -136,7 +139,7 @@ QuestieLocale.locale['ruRU'] = {
     ['DEBUG_LOWLEVEL'] = "Серым цветом отображаются, начиная с:",
     ['DEBUG_MINLEVEL'] = "Минимальный уровень установлен: %s",
     ['DEBUG_MAXLEVEL'] = "Максимальный уровень установлен: %s",
-    ['DEBUG_CLUSTER'] = "Ошибка группирования, значение группирования установлено в %s : Перерисовка!",
+    ['DEBUG_CLUSTER'] = "Ошибка группирования, значение группирования установлено в %s : Перерисовка! (Don't know russian, it is implemented!)",
     ['DEBUG_ADD_QUEST'] = "Задание добавлено: %s %s",
     ['DEBUG_REMOVE_QUEST'] = "Задание удалено: %s %s",
     ['DEBUG_ACCEPT_QUEST'] = "Задание получено: %s",

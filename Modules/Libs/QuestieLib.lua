@@ -41,21 +41,108 @@ function QuestieLib:PrintDifficultyColor(level, text)
     end
 end
 
+function QuestieLib:GetDifficultyColorPercent(level)
+
+    if level == -1 then
+        level = QuestiePlayer:GetPlayerLevel();
+    end
+    local levelDiff = level - QuestiePlayer:GetPlayerLevel();
+
+    if (levelDiff >= 5) then
+        --return "|cFFFF1A1A"..text.."|r"; -- Red
+        return 1, 0.102, 0.102
+    elseif (levelDiff >= 3) then
+        --return "|cFFFF8040"..text.."|r"; -- Orange
+        return 1, 0.502, 0.251
+    elseif (levelDiff >= -2) then
+        --return "|cFFFFFF00"..text.."|r"; -- Yellow
+        return 1, 1, 0
+    elseif (-levelDiff <= GetQuestGreenRange()) then
+        --return "|cFF40C040"..text.."|r"; -- Green
+        return 0.251, 0.753, 0.251
+    else
+        --return "|cFFC0C0C0"..text.."|r"; -- Grey
+        return 0.753, 0.753, 0.753
+    end
+end
+
+function QuestieLib:IsResponseCorrect(questId)
+    local count = 0;
+    local objectiveList = nil;
+    local good = true;
+    while (true and count < 50) do
+        good = true;
+        objectiveList = C_QuestLog.GetQuestObjectives(questId);
+        if(objectiveList == nil) then
+          good = false;
+        else
+          for objectiveIndex, objective in pairs(objectiveList) do
+              if(objective.text == nil or objective.text == "" or QuestieDB:Levenshtein(": 0/1", objective.text) < 5) then
+                  Questie:Debug(DEBUG_SPAM, count, " : Objective text is strange!", "'", objective.text, "'", " distance", QuestieDB:Levenshtein(": 0/1", objective.text));
+                  good = false;
+                  break;
+              end
+          end
+        end
+        if(good) then
+            break;
+        end
+        count = count + 1;
+    end
+    return good;
+end
+
+function QuestieLib:GetQuestObjectives(questId)
+    local count = 0;
+    local objectiveList = nil;
+    while (true and count < 50) do
+        local good = true;
+        objectiveList = C_QuestLog.GetQuestObjectives(questId);
+        if(objectiveList == nil) then
+            good = false;
+        else
+            for objectiveIndex, objective in pairs(objectiveList) do
+                if(objective.text == nil or objective.text == "" or QuestieDB:Levenshtein(": 0/1", objective.text) < 5) then
+                    Questie:Debug(DEBUG_SPAM, count, " : Objective text is strange!", "'", objective.text, "'", " distance", QuestieDB:Levenshtein(": 0/1", objective.text));
+                    good = false;
+                    break;
+                end
+            end
+        end
+        if(good) then
+            break;
+        end
+        count = count + 1;
+    end
+    return objectiveList;
+end
+
 ---@param id integer @The quest ID
 ---@param name string @The (localized) name of the quest
 ---@param level integer @The quest level
 ---@param showLevel integer @Wheather the quest level should be included
 ---@param isComplete boolean @Wheather the quest is complete
-function QuestieLib:GetColoredQuestName(id, name, level, showLevel, isComplete)
+---@param blizzLike boolean @True = [40+], false/nil = [40D/R]
+function QuestieLib:GetColoredQuestName(id, name, level, showLevel, isComplete, blizzLike)
     if showLevel then
-        local questType = GetQuestTagInfo(id)
-        if questType then
+        local questType, questTag = GetQuestTagInfo(id)
+
+        if questType and questTag then
+            local char = "+"
+            if(not blizzLike) then
+                char = string.sub(questTag, 1, 1);
+            end
             if questType == 1 then
-                name = "[" .. level .. "+] " .. name -- Elite quest
+                name = "[" .. level .. "+" .. "] " .. name -- Elite quest
             elseif questType == 81 then
-                name = "[" .. level .. "D] " .. name -- Dungeon quest
+                name = "[" .. level .. char .. "] " .. name -- Dungeon quest
             elseif questType == 62 then
-                name = "[" .. level .. "R] " .. name -- Raid quest
+                name = "[" .. level .. char .. "] " .. name -- Raid quest
+            elseif questType == 41 then
+                name = "[" .. level .. "] " .. name -- Which one? This is just default.
+                --name = "[" .. level .. questTag .. "] " .. name -- PvP quest
+            elseif questType == 83 then
+                name = "[" .. level .. "++" .. "] " .. name -- Legendary quest
             else
                 name = "[" .. level .. "] " .. name -- Some other irrelevant type
             end
@@ -67,7 +154,11 @@ function QuestieLib:GetColoredQuestName(id, name, level, showLevel, isComplete)
         name = name .. " (" .. id .. ")"
     end
     if isComplete then
-        name  = name .. " " .. QuestieLocale:GetUIString('TOOLTIP_QUEST_COMPLETE')
+        if isComplete == -1 then
+            name = name .. " (" .. _G['FAILED'] .. ")"
+        else
+            name = name .. " (" .. _G['COMPLETE'] .. ")"
+        end
     end
 
     return QuestieLib:PrintDifficultyColor(level, name)
@@ -146,15 +237,19 @@ function QuestieLib:Remap(value, low1, high1, low2, high2)
     return low2 + (value - low1) * (high2 - low2) / (high1 - low1);
 end
 
+local cachedTitle = nil;
 --Move to Questie.lua after QuestieOptions move.
 function QuestieLib:GetAddonVersionInfo()  -- todo: better place
-    local name, title, _, _, reason = GetAddOnInfo("QuestieDev-master");
-    if(reason == "MISSING") then
-      _, title = GetAddOnInfo("Questie");
+    if(not cachedTitle) then
+        local name, title, _, _, reason = GetAddOnInfo("QuestieDev-master");
+        if(reason == "MISSING") then
+            _, title = GetAddOnInfo("Questie");
+        end
+        cachedTitle = title;
     end
     --%d = digit, %p = punctuation character, %x = hexadecimal digits.
-    local major, minor, patch, commit = string.match(title, "(%d+)%p(%d+)%p(%d+)_(%x+)");
-    return tonumber(major), tonumber(minor), tonumber(patch), commit;
+    local major, minor, patch, commit = string.match(cachedTitle, "(%d+)%p(%d+)%p(%d+)");
+    return tonumber(major), tonumber(minor), tonumber(patch);
 end
 
 --Search for just Addon\\ at the front since the interface part often gets trimmed
@@ -168,3 +263,91 @@ do
 		error("v"..major.."."..minor.."."..patch.."_"..commit.." cannot determine the folder it is located in because the path is too long and got truncated in the debugstack(1, 1, 0) function call")
   end
 end
+
+
+function QuestieLib:PlayerInGroup(playerName)
+    if(UnitInParty("player") or UnitInRaid("player")) then
+        local player = {}
+        for index=1, 40 do
+            local name = nil
+            local className, classFilename = nil;
+            --This disables raid check for players.
+            --if(UnitInRaid("player")) then
+            --    name = UnitName("raid"..index);
+            --    className, classFilename = UnitClass("raid"..index);
+            --end
+            if(not name) then
+                name = UnitName("party"..index);
+                className, classFilename = UnitClass("party"..index);
+            end
+            if(name == playerName) then
+                player.name = playerName;
+                player.class = classFilename;
+                local rPerc, gPerc, bPerc, argbHex = GetClassColor(classFilename)
+                player.r = rPerc;
+                player.g = gPerc;
+                player.b = bPerc;
+                player.colorHex = argbHex;
+                return player;
+            end
+            if(index > 6 and not UnitInRaid("player")) then
+                break;
+            end
+        end
+    end
+    return nil;
+end
+
+function QuestieLib:Count(table) -- according to stack overflow, # and table.getn arent reliable (I've experienced this? not sure whats up)
+    local count = 0
+    for k, v in pairs(table) do count = count + 1; end
+    return count
+end
+
+-- Credits to Shagu and pfQuest, why reinvent the wheel.
+-- https://gitlab.com/shagu/pfQuest/blob/master/compat/pfUI.lua
+local sanitize_cache = {}
+function QuestieLib:SanitizePattern(pattern)
+  if not sanitize_cache[pattern] then
+    local ret = pattern
+    -- escape magic characters
+    ret = gsub(ret, "([%+%-%*%(%)%?%[%]%^])", "%%%1")
+    -- remove capture indexes
+    ret = gsub(ret, "%d%$","")
+    -- catch all characters
+    ret = gsub(ret, "(%%%a)","%(%1+%)")
+    -- convert all %s to .+
+    ret = gsub(ret, "%%s%+",".+")
+    -- set priority to numbers over strings
+    ret = gsub(ret, "%(.%+%)%(%%d%+%)","%(.-%)%(%%d%+%)")
+    -- cache it
+    sanitize_cache[pattern] = ret
+  end
+
+  return sanitize_cache[pattern]
+end
+-- https://github.com/shagu/pfQuest/commit/01177f2eb2926336a1ad741a6082affe78ae7c20
+--[[
+    function QuestieLib:SanitizePattern(pattern, excludeNumberCapture)
+  -- escape brackets
+  pattern = gsub(pattern, "%(", "%%(")
+  pattern = gsub(pattern, "%)", "%%)")
+
+  -- remove bad capture indexes
+  pattern = gsub(pattern, "%d%$s","s") -- %1$s to %s
+  pattern = gsub(pattern, "%d%$d","d") -- %1$d to %d
+  pattern = gsub(pattern, "%ds","s") -- %2s to %s
+
+  -- add capture to all findings
+  pattern = gsub(pattern, "%%s", "(.+)")
+
+  --We might only want to capture the name itself and not numbers.
+  if(not excludeNumberCapture) then
+    pattern = gsub(pattern, "%%d", "(%%d+)")
+  else
+    pattern = gsub(pattern, "%%d", "%%d+")
+  end
+
+  return pattern
+end
+]]--

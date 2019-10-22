@@ -2,7 +2,7 @@ QuestieLocale = {};
 QuestieLocale.locale = {};
 LangItemLookup = {}
 LangNameLookup= {};
-LangObjectIdLookup = {};
+LangObjectNameLookup = {};
 LangObjectLookup = {};
 LangQuestLookup = {};
 
@@ -15,17 +15,24 @@ function QuestieLocale:Initialize()
     LangItemLookup = LangItemLookup[lang] or {};
     LangNameLookup = LangNameLookup[lang] or {};
     LangQuestLookup = LangQuestLookup[lang] or {};
-    LangObjectIdLookup = LangObjectLookup[lang] or {}; -- This table is String -> ID
-    LangObjectLookup = {} -- This table is ID -> String
+    LangObjectLookup = LangObjectLookup[lang] or {}; -- This table is ID -> String
+    LangObjectNameLookup = {} -- This table is String -> {ID, }
 
-    --Create the ID -> String table!
-    for k, v in pairs(LangObjectIdLookup) do
-        LangObjectLookup[v]=k
+    --Create the String -> {ID, } table!
+    for id, name in pairs(LangObjectLookup) do
+        if(not LangObjectNameLookup[name]) then
+            LangObjectNameLookup[name] = {};
+        end
+        table.insert(LangObjectNameLookup[name], id);
     end
     -- Create the english String -> ID table.
+    local DB_NAME = 1; --The Index of name in the DB, mostly for readability.
     if(lang == "enUS" or lang == "enGB") then
         for id, data in pairs(QuestieDB.objectData) do
-            LangObjectIdLookup[data[1]] = id;
+            if(not LangObjectNameLookup[data[DB_NAME]]) then
+                LangObjectNameLookup[data[DB_NAME]] = {};
+            end
+            table.insert(LangObjectNameLookup[data[DB_NAME]], id);
         end
     end
 end
@@ -42,7 +49,7 @@ function QuestieLocale:FallbackLocale(lang)
         return 'enUS';
     elseif lang == 'enCN' then
         return 'zhCN';
-    elseif lang == 'enTW' then 
+    elseif lang == 'enTW' then
         return 'zhTW';
     elseif lang == 'esMX' then
         return 'esES';

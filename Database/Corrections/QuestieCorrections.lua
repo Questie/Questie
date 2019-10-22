@@ -20,4 +20,7 @@ function QuestieCorrections:Initialize()
     QuestieObjectFixes:LoadFactionFixes()
     QuestieCorrections.questFixes = QuestieQuestFixes:Load()
     QuestieCorrections.hiddenQuests = QuestieQuestBlacklist:Load()
+    if(QuestieEvent) then
+        QuestieEvent:Load();
+    end
 end

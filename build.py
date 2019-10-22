@@ -97,7 +97,9 @@ def main():
     versionDir, addonDir, zipName = setArgs()
     # check that nothing is overwritten
     if os.path.isdir('releases/%s' % (versionDir)):
-        raise RuntimeError('The directory releases/%s already exists' % (versionDir))
+        print("Warning: Folder already exists, removing!")
+        shutil.rmtree('releases/%s' % (versionDir))
+        #raise RuntimeError('The directory releases/%s already exists' % (versionDir))
     # define release folder
     destination = 'releases/%s/%s' % (versionDir, addonDir)
     # copy directories
@@ -110,7 +112,7 @@ def main():
     # modify toc
     setVersion()
     # replace path references
-    for file in ['QuestieComms.lua', 'QuestieFramePool.lua']:
+    for file in ['Network/QuestieComms.lua', 'QuestieFramePool.lua']:
         replacePath('%s/Modules/%s' % (destination, file), 'QuestieDev-master', addonDir)
     # package files
     root = os.getcwd()

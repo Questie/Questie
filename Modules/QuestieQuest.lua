@@ -3,12 +3,24 @@ local _QuestieQuest = {...}
 local libS = LibStub:GetLibrary("AceSerializer-3.0")
 local libC = LibStub:GetLibrary("LibCompress")
 
---For debugging
-dumpVar = nil;
+
+--We should really try and squeeze out all the performance we can, especially in this.
+local tostring = tostring;
+local tinsert = table.insert;
+local pairs = pairs;
+local ipairs = ipairs;
+local strim = string.trim;
+local smatch = string.match;
+local strfind = string.find;
+local slower = string.lower;
+
+--Change cluter method, "hotzone" or "cell"
+clusterMethod = "hotzone";
 
 QuestieQuest.availableQuests = {} --Gets populated at PLAYER_ENTERED_WORLD
 
 
+local HBD = LibStub("HereBeDragonsQuestie-2.0")
 
 function QuestieQuest:Initialize()
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_GET_QUEST_COMP'))
@@ -19,7 +31,7 @@ function QuestieQuest:Initialize()
 
     -- this inserts the Questie Icons to the MinimapButtonBag ignore list
     if MBB_Ignore then
-        table.insert(MBB_Ignore, "QuestieFrameGroup")
+        tinsert(MBB_Ignore, "QuestieFrameGroup")
     end
 
     _QuestieQuest.questLogHashes = QuestieQuest:GetQuestLogHashes()
@@ -296,6 +308,10 @@ end
 function QuestieQuest:AcceptQuest(questId)
     if(QuestiePlayer.currentQuestlog[questId] == nil) then
         Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ACCEPT_QUEST', questId));
+
+        QuestieQuest:CalculateAvailableQuests()
+        QuestieQuest:DrawAllAvailableQuests()
+
         --Get all the Frames for the quest and unload them, the available quest icon for example.
         QuestieMap:UnloadQuestFrames(questId);
         QuestieQuest:AddNewQuestHash(questId)
@@ -319,17 +335,19 @@ function QuestieQuest:AcceptQuest(questId)
         end
 
 
-        for questId, alsoQuestId in pairs(QuestieQuest.availableQuests) do
-            if not _QuestieQuest:IsDoable(QuestieDB:GetQuest(questId)) then
-                QuestieMap:UnloadQuestFrames(questId, ICON_TYPE_AVAILABLE);
+        for availableQuestId, alsoQuestId in pairs(QuestieQuest.availableQuests) do
+            if not _QuestieQuest:IsDoable(QuestieDB:GetQuest(availableQuestId)) then
+                QuestieMap:UnloadQuestFrames(availableQuestId, ICON_TYPE_AVAILABLE);
             end
         end
 
-        QuestieQuest:CalculateAvailableQuests()
-        QuestieQuest:DrawAllAvailableQuests()
-
         --TODO: Insert call to drawing objective logic here!
         --QuestieQuest:TrackQuest(questId);
+        
+        --For safety, remove all these icons.
+        QuestieMap:UnloadQuestFrames(questId, ICON_TYPE_AVAILABLE);
+        --Broadcast an update.
+        Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId);
     else
         Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ACCEPT_QUEST', questId), " Warning: Quest already existed, not adding");
     end
@@ -339,6 +357,7 @@ end
 function QuestieQuest:CompleteQuest(QuestId)
     QuestiePlayer.currentQuestlog[QuestId] = nil;
     Questie.db.char.complete[QuestId] = true --can we use some other relevant info here?
+    QuestieQuest:RemoveQuestHash(QuestId)
 
     --This should probably be done first, because DrawAllAvailableQuests looks at QuestieMap.questIdFrames[QuestId] to add available
     QuestieQuest:CalculateAvailableQuests()
@@ -355,6 +374,9 @@ function QuestieQuest:CompleteQuest(QuestId)
 
     QuestieTracker:QuestRemoved(QuestId)
     QuestieTracker:Update()
+
+    --For safety, remove all these icons.
+    QuestieMap:UnloadQuestFrames(QuestId, ICON_TYPE_COMPLETE);
 
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_COMPLETE_QUEST', QuestId));
 end
@@ -392,7 +414,7 @@ end
 
 function QuestieQuest:UpdateQuest(QuestId)
     local quest = QuestieDB:GetQuest(QuestId);
-    if quest ~= nil then
+    if quest ~= nil and not Questie.db.char.complete[QuestId] then
         QuestieQuest:PopulateQuestLogInfo(quest)
         QuestieQuest:GetAllQuestObjectives(quest) -- update quest log values in quest object
         QuestieQuest:UpdateObjectiveNotes(quest)
@@ -405,6 +427,8 @@ function QuestieQuest:UpdateQuest(QuestId)
             --DEFAULT_CHAT_FRAME:AddMessage("Still not finished " .. QuestId);
         end
         QuestieTracker:Update()
+
+        Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", QuestId);
     end
 end
 --Run this if you want to update the entire table
@@ -510,7 +534,8 @@ end
 
 function QuestieQuest:AddFinisher(Quest)
     --We should never ever add the quest if IsQuestFlaggedComplete true.
-    if(QuestiePlayer.currentQuestlog[Quest.Id] and IsQuestFlaggedCompleted(Quest.Id) == false and IsQuestComplete(Quest.Id)) then
+    Questie:Debug(DEBUG_INFO, "[QuestieQuest]", "Adding finisher for quest ", Quest.Id)
+    if(QuestiePlayer.currentQuestlog[Quest.Id] and IsQuestFlaggedCompleted(Quest.Id) == false and IsQuestComplete(Quest.Id) and not Questie.db.char.complete[Quest.Id]) then
         local finisher = nil
         if Quest.Finisher ~= nil then
             if Quest.Finisher.Type == "monster" then
@@ -621,7 +646,7 @@ ObjectiveSpawnListCallTable = {
         mon.Id = id
         mon.GetIconScale = function() return Questie.db.global.monsterScale or 1 end
         mon.IconScale = mon:GetIconScale();
-        mon.TooltipKey = "u_" .. id -- todo: use ID based keys
+        mon.TooltipKey = "m_" .. id -- todo: use ID based keys
 
         ret[id] = mon;
         return ret
@@ -670,7 +695,7 @@ ObjectiveSpawnListCallTable = {
                             end
                             local x = spawn[2] * 100;
                             local y = spawn[3] * 100;
-                            table.insert(ret[1].Spawns[zid], {x, y});
+                            tinsert(ret[1].Spawns[zid], {x, y});
                         end
                     end
                 end
@@ -711,7 +736,7 @@ ObjectiveSpawnListCallTable = {
                                         ret[id].Spawns[zone] = {};
                                     end
                                     for _, spawn in pairs(spawns) do
-                                        table.insert(ret[id].Spawns[zone], spawn);
+                                        tinsert(ret[id].Spawns[zone], spawn);
                                     end
                                 end
                             end
@@ -746,8 +771,8 @@ function QuestieQuest:ForceToMap(type, id, label, customScale)
                 for _, spawn in pairs(spawns) do
                     local iconMap, iconMini = QuestieMap:DrawWorldIcon(spawnData, zone, spawn[1], spawn[2])
                     if iconMap and iconMini then
-                        table.insert(mapRefs, iconMap);
-                        table.insert(miniRefs, iconMini);
+                        tinsert(mapRefs, iconMap);
+                        tinsert(miniRefs, iconMini);
                     end
                 end
             end
@@ -757,6 +782,7 @@ function QuestieQuest:ForceToMap(type, id, label, customScale)
 end
 
 function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockItemTooltips) -- must be pcalled
+    Questie:Debug(DEBUG_SPAM, "[QuestieQuest:PopulateObjective]")
     if not Objective.AlreadySpawned then
         Objective.AlreadySpawned = {};
     end
@@ -769,8 +795,15 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
     if ObjectiveSpawnListCallTable[Objective.Type] and (not Objective.spawnList) then
         Objective.spawnList = ObjectiveSpawnListCallTable[Objective.Type](Objective.Id, Objective);
     end
-    local maxPerType = 200
-    local maxPerObjectiveOutsideZone = 100
+
+    local maxPerType = 300
+    if Questie.db.global.enableIconLimit then
+        maxPerType = Questie.db.global.iconLimit
+    end
+
+    local closestStarter = QuestieMap:FindClosestStarter()
+
+    local iconsToDraw = {}
 
     Objective:Update() -- update qlog data
     local completed = Objective.Completed
@@ -811,6 +844,9 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                     -- temporary fix for "special objectives" to not double-spawn (we need to fix the objective detection logic)
                     Quest.AlreadySpawned[Objective.Type .. tostring(ObjectiveIndex)][spawnData.Id] = true
                     local maxCount = 0
+                    if(not iconsToDraw[Quest.Id]) then
+                        iconsToDraw[Quest.Id] = {}
+                    end
                     local data = {}
                     data.Id = Quest.Id
                     data.ObjectiveIndex = ObjectiveIndex
@@ -835,22 +871,25 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
 
                     for zone, spawns in pairs(spawnData.Spawns) do
                         for _, spawn in pairs(spawns) do
-                            if maxPerObjectiveOutsideZone > 0 or ((not Quest.Zone) or Quest.Zone == zone) then -- still add the note if its in the current zone
-                                local iconMap, iconMini = QuestieMap:DrawWorldIcon(data, zone, spawn[1], spawn[2]) -- clustering code takes care of duplicates as long as mindist is more than 0
-                                if iconMap and iconMini then
-                                    table.insert(Objective.AlreadySpawned[id].mapRefs, iconMap);
-                                    table.insert(Objective.AlreadySpawned[id].minimapRefs, iconMini);
-                                end
+                            if(spawn[1] and spawn[2]) then
+                                local drawIcon = {};
+                                drawIcon.AlreadySpawnedId = id;
+                                drawIcon.data = data;
+                                drawIcon.zone = zone;
+                                drawIcon.areaId = zone;
+                                drawIcon.UIMapId = zoneDataAreaIDToUiMapID[zone];
+                                drawIcon.x = spawn[1];
+                                drawIcon.y = spawn[2];
+                                local x, y, instance = HBD:GetWorldCoordinatesFromZone(drawIcon.x/100, drawIcon.y/100, zoneDataAreaIDToUiMapID[zone])
+                                -- There are instances when X and Y are not in the same map such as in dungeons etc, we default to 0 if it is not set
+                                -- This will create a distance of 0 but it doesn't matter.
+                                local distance = QuestieLib:Euclid(closestStarter[Quest.Id].x or 0, closestStarter[Quest.Id].y or 0, x or 0, y or 0);
+                                iconsToDraw[Quest.Id][floor(distance)] = drawIcon;
                             end
-                            maxCount = maxCount + 1
-                            if Quest.Zone then
-                                if zone ~= Quest.Zone then
-                                    maxPerObjectiveOutsideZone = maxPerObjectiveOutsideZone - 1
-                                end
-                            end
-                            if maxCount > maxPerType then break; end
+                            --maxCount = maxCount + 1
+                            --if maxPerType > 0 and maxCount > maxPerType then break; end
                         end
-                        if maxCount > maxPerType then break; end
+                        --if maxPerType > 0 and maxCount > maxPerType then break; end
                     end
                 end
             elseif completed and Objective.AlreadySpawned then -- unregister notes
@@ -863,6 +902,87 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                     end
                     spawn.mapRefs = {}
                     spawn.minimapRefs = {}
+                end
+            end
+        end
+        local spawnedIcons = {}
+        for questId, icons in pairs(iconsToDraw) do
+            if(not spawnedIcons[questId]) then
+                spawnedIcons[questId] = 0;
+            end
+            
+            if(clusterMethod == "hotzone") then
+                --This can be used to make distance ordered list..
+                local orderedList = {}
+                local tkeys = {}
+                -- populate the table that holds the keys
+                for k in pairs(icons) do tinsert(tkeys, k) end
+                -- sort the keys
+                table.sort(tkeys)
+                -- use the keys to retrieve the values in the sorted order
+                for _, distance in ipairs(tkeys) do
+                    if(spawnedIcons[questId] > maxPerType) then
+                        Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]", "Too many icons for quest:", questId)
+                        break;
+                    end
+                    tinsert(orderedList, icons[distance]);
+                end
+                local range = QUESTIE_NOTES_CLUSTERMUL_HACK
+                if orderedList[1].Icon == ICON_TYPE_OBJECT then -- new clustering / limit code should prevent problems, always show all object notes
+                    range = range * 0.2;  -- Only use 20% of the default range.
+                end
+                
+                local hotzones = QuestieMap.utils:CalcHotzones(orderedList, range);
+
+                for index, hotzone in pairs(hotzones) do
+                    if(spawnedIcons[questId] > maxPerType) then
+                        Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]", "Too many icons for quest:", questId)
+                        break;
+                    end
+
+                    --Any icondata will do because they are all the same
+                    local icon = hotzone[1];
+
+
+                    local midPoint = QuestieMap.utils:CenterPoint(hotzone);
+                    --Disable old clustering.
+                    icon.data.ClusterId = nil;
+                    local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, icon.zone, midPoint.x, midPoint.y) -- clustering code takes care of duplicates as long as mindist is more than 0
+                    if iconMap and iconMini then
+                        tinsert(Objective.AlreadySpawned[icon.AlreadySpawnedId].mapRefs, iconMap);
+                        tinsert(Objective.AlreadySpawned[icon.AlreadySpawnedId].minimapRefs, iconMini);
+                    end
+                    spawnedIcons[questId] = spawnedIcons[questId] + 1;
+                end
+
+                --Unused.
+            else
+                local tkeys = {}
+                -- populate the table that holds the keys
+                for k in pairs(icons) do tinsert(tkeys, k) end
+                -- sort the keys
+                table.sort(tkeys)
+                -- use the keys to retrieve the values in the sorted order
+                for _, distance in ipairs(tkeys) do
+                    if(spawnedIcons[questId] > maxPerType) then
+                        Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]", "Too many icons for quest:", questId)
+                        break;
+                    end
+                    local icon = icons[distance];
+                    local xcell = math.floor((icon.x * (QUESTIE_NOTES_CLUSTERMUL_HACK)));
+                    local ycell = math.floor((icon.y * (QUESTIE_NOTES_CLUSTERMUL_HACK)));
+                    if QuestieMap.MapCache_ClutterFix[icon.areaId] == nil then QuestieMap.MapCache_ClutterFix[icon.areaId] = {}; end
+                    if QuestieMap.MapCache_ClutterFix[icon.areaId][xcell] == nil then QuestieMap.MapCache_ClutterFix[icon.areaId][xcell] = {}; end
+                    if QuestieMap.MapCache_ClutterFix[icon.areaId][xcell][ycell] == nil then QuestieMap.MapCache_ClutterFix[icon.areaId][xcell][ycell] = {}; end
+                    if((not icon.data.ClusterId) or (not QuestieMap.MapCache_ClutterFix[icon.areaId][xcell][ycell][icon.data.ClusterId])) then
+                        --Questie:Print(questId, distance);
+                        local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, icon.zone, icon.x, icon.y) -- clustering code takes care of duplicates as long as mindist is more than 0
+                        if iconMap and iconMini then
+                            tinsert(Objective.AlreadySpawned[icon.AlreadySpawnedId].mapRefs, iconMap);
+                            tinsert(Objective.AlreadySpawned[icon.AlreadySpawnedId].minimapRefs, iconMini);
+                        end
+                        spawnedIcons[questId] = spawnedIcons[questId] + 1;
+                    end
                 end
             end
         end
@@ -1041,23 +1161,23 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                         -- Fetch the name of the objective
                         local oName = nil;
                         if(objectiveDB.Type == "monster" and objectiveDB.Id) then
-                            oName = string.lower(QuestieDB:GetNPC(objectiveDB.Id).name);
+                            oName = slower(QuestieDB:GetNPC(objectiveDB.Id).name);
                         elseif(objectiveDB.Type == "object" and objectiveDB.Id) then
-                            oName = string.lower(QuestieDB:GetObject(objectiveDB.Id).name);
+                            oName = slower(QuestieDB:GetObject(objectiveDB.Id).name);
                         elseif(objectiveDB.Type == "item" and objectiveDB.Id) then
                             --testVar = CHANGEME_Questie4_ItemDB[objectiveDB.Id]
                             --DEFAULT_CHAT_FRAME:AddMessage(CHANGEME_Questie4_ItemDB[objectiveDB.Id][1][])
                             local item = QuestieDB:GetItem(objectiveDB.Id);
                             if(item and item.Name) then
-                                oName = string.lower(item.Name);-- this is capital letters for some reason...
+                                oName = slower(item.Name);-- this is capital letters for some reason...
                             else
                                 oName = nil;
                             end
                         end
                         -- To lower the questlog objective text
-                        local oDesc = string.lower(objective.text) or nil;
+                        local oDesc = slower(objective.text) or nil;
                         -- This is whaaaat?
-                        -- local oText = string.lower(objectiveDB.Text or "");
+                        -- local oText = slower(objectiveDB.Text or "");
 
                         if(oName and oDesc) then
                             local distance = QuestieDB:Levenshtein(oDesc, oName);
@@ -1083,13 +1203,13 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
 
                 local objectiveDB = Quest.ObjectiveData[bestIndex]
                 --Debug var
-                local oDesc = string.lower(objective.text) or nil
+                local oDesc = slower(objective.text) or nil
                 --
                 if(bestIndex ~= -1 and objectiveDB) then
-                    Questie:Debug(DEBUG_DEVELOP, "----> Objective", objective.text, "Dist:", bestDistance)
-                    Questie:Debug(DEBUG_DEVELOP, "-->ID:", objectiveDB.Id)
-                    Questie:Debug(DEBUG_DEVELOP, "-->Description:", oDesc)
-                    Questie:Debug(DEBUG_DEVELOP, "-->Found:", tempName)
+                    Questie:Debug(DEBUG_SPAM, "----> Objective", objective.text, "Dist:", bestDistance)
+                    Questie:Debug(DEBUG_SPAM, "-->ID:", objectiveDB.Id)
+                    Questie:Debug(DEBUG_SPAM, "-->Description:", oDesc)
+                    Questie:Debug(DEBUG_SPAM, "-->Found:", tempName)
                     Quest.Objectives[objectiveIndex].Id = objectiveDB.Id;
                     Quest.Objectives[objectiveIndex].Coordinates = objectiveDB.Coordinates;
                     objectiveDB.ObjectiveRef = Quest.Objectives[objectiveIndex];
@@ -1140,7 +1260,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                     objective.Index = 64 + index -- offset to not conflict with real objectives
                     Quest.SpecialObjectives[objective.Description] = objective
                 end
-                --table.insert(Quest.SpecialObjectives, objective);
+                --tinsert(Quest.SpecialObjectives, objective);
             end
         end
     end
@@ -1153,7 +1273,7 @@ function QuestieQuest:GetQuestHash(questId, isComplete)
     local data = {}
     data.questId = questId
     data.isComplete = isComplete
-    data.questObjectives = C_QuestLog.GetQuestObjectives(questId)
+    data.questObjectives = QuestieLib:GetQuestObjectives(questId);
 
     hash = libC:fcs32update(hash, libS:Serialize(data))
     hash = libC:fcs32final(hash)
@@ -1173,7 +1293,7 @@ function QuestieQuest:GetQuestLogHashes()
             end
         else
             local hash = QuestieQuest:GetQuestHash(questId, isComplete)
-            table.insert(questLogHashes, questId, hash)
+            tinsert(questLogHashes, questId, hash)
         end
     end
     return questLogHashes
@@ -1216,10 +1336,40 @@ function QuestieQuest:CompareQuestHashes()
 
                 if oldhash ~= newHash then
                     Questie:Debug(DEBUG_DEVELOP, "CompareQuestHashes: Hash changed for questId:", questId)
-                    QuestieQuest:UpdateQuest(questId)
-                    _QuestieQuest.questLogHashes[questId] = newHash
+                    --[[local timer = nil;
+                    timer = C_Timer.NewTicker(0.5, function()
+                        if(QuestieLib:IsResponseCorrect(questId)) then
+                            QuestieQuest:UpdateQuest(questId)
+                            _QuestieQuest.questLogHashes[questId] = newHash
+                            timer:Cancel();
+                            Questie:Debug(DEBUG_DEVELOP, "Accept seems correct, cancel timer");
+                        else   
+                            Questie:Debug(DEBUG_CRITICAL, "Response is wrong for quest, waiting with timer");
+                        end
+                    end)]]--
+                    QuestieQuest:SafeUpdateQuest(questId, newHash);
                 end
             end
+        end
+    end
+end
+
+function QuestieQuest:SafeUpdateQuest(questId, hash, count)
+    if(not count) then
+        count = 0;
+    end
+    if(QuestieLib:IsResponseCorrect(questId)) then
+        QuestieQuest:UpdateQuest(questId)
+        _QuestieQuest.questLogHashes[questId] = hash
+        Questie:Debug(DEBUG_DEVELOP, "Accept seems correct, cancel timer");
+    else
+        if(count < 50) then
+            Questie:Debug(DEBUG_CRITICAL, "Response is wrong for quest, waiting with timer");
+            C_Timer.After(0.1, function()
+                QuestieQuest:SafeUpdateQuest(questId, hash, count + 1);
+            end)
+        else
+            Questie:Debug(DEBUG_CRITICAL, "Didn't get a correct response after 50 tries, stopping");
         end
     end
 end
@@ -1229,7 +1379,7 @@ end
     local questObjectives = C_QuestLog.GetQuestObjectives(questId)-- or {};
     if(questObjectives[objectiveIndex]) then
         local objective = questObjectives[objectiveIndex];
-        local text = string.match(objective.text, "(.*)[：,:]");
+        local text = smatch(objective.text, "(.*)[：,:]");
         -- If nothing is matched, we should just add the text as is.
         if(text ~= nil) then
             objective.text = text;
@@ -1239,50 +1389,36 @@ end
     return nil;
 end]]--
 
-local slainText = {
-    enGB = "slain", --Known good
-    enUS = "slain", --Known good
-    deDE = "getötet", --Known good
-    esES = "Muertes de", --Known good
-    esMX = "matado",
-    frFR = "tué", --Known good
-    itIT = "ucciso",
-    ptBR = "morto",
-    ruRU = "– убито",
-    koKR = "처치",
-    zhCN = "已消灭", --Confirmed with chinese, not tested...
-    zhTW = "消滅",
-}
 -- Link contains test bench for regex in lua.
 -- https://hastebin.com/anodilisuw.bash
+local L_QUEST_MONSTERS_KILLED = QuestieLib:SanitizePattern(QUEST_MONSTERS_KILLED)
+local L_QUEST_ITEMS_NEEDED = QuestieLib:SanitizePattern(QUEST_ITEMS_NEEDED)
+local L_QUEST_OBJECTS_FOUND = QuestieLib:SanitizePattern(QUEST_OBJECTS_FOUND)
 function QuestieQuest:GetAllLeaderBoardDetails(questId)
-    local questObjectives = C_QuestLog.GetQuestObjectives(questId)-- or {};
-    local locale = GetLocale();
-    local slain = slainText[locale] or "randomstringwohooooo";
+    local questObjectives = QuestieLib:GetQuestObjectives(questId);
 
     --Questie:Print(questId)
     for objectiveIndex, objective in pairs(questObjectives) do
         if(objective.text) then
             local text = objective.text;
-            --Questie:Print("1 (.*)\"..slain..\"%W*%d+/%d+", string.match(text, "(.*)"..slain.."%W*%d+/%d+"));
-            --Questie:Print("2 slain..(.*)%W%s%d+/%d+", string.match(text, slain.."(.*)%W%s%d+/%d+"));
-            --Questie:Print("3 %d+/%d+%W*\"..slain..\"(.*)", string.match(text, "%d+/%d+%W*"..slain.."(.*)"));
-            --Questie:Print("4 ^(.*):%s", string.match(text, "^(.*):%s"));
-            --Questie:Print("5 %s：(.*)$", string.match(text, "%s：(.*)$"));
-            -- This looks complicated but isn't
-            -- We first try and find a string with "slain" in it, if we can find it we can assume the position of the data
-            -- If no slain is found we revert to look for the data relative to the colon.
-            text = string.match(text, "(.*)"..slain.."%W*%d+/%d+") or --English (slain), Left-to-right
-                string.match(text, slain.."(.*)%W%s%d+/%d+") or --Spanish / Chinese (slain), Left-to-right
-                string.match(text, "%d+/%d+%W*"..slain.."(.*)") or --Chinese (slain), Right-to-left --Probably never true.
-                string.match(text, "^(.*):%s") or --English colon, Left-to-right
-                string.match(text, "%s：(.*)$") or -- Chinese colon, Right-to-left
-                objective.text; -- Default
-            
-            -- If nothing is matched, we should just add the text as is.
+            if(objective.type == "monster") then
+                local i, j, monsterName = strfind(text, L_QUEST_MONSTERS_KILLED)
+                text = monsterName;
+            elseif(objective.type == "item") then
+                local i, j, itemName = strfind(text, L_QUEST_ITEMS_NEEDED)
+                text = itemName;
+            elseif(objective.type == "object") then
+                local i, j, objectName = strfind(text, L_QUEST_OBJECTS_FOUND)
+                text = objectName;
+            end
+            -- If the functions above do not give a good answer fall back to older regex to get something.
+            if(text == nil) then
+                text = smatch(objective.text, "^(.*):%s") or smatch(objective.text, "%s：(.*)$") or smatch(objective.text, "^(.*)：%s") or objective.text;
+            end
+
+            --If objective.text is nil, this will be nil, throw error!
             if(text ~= nil) then
-                objective.text = string.trim(text);
-                --Questie:Print("2'"..string.trim(text).."'");
+                objective.text = strim(text);
             else
                 Questie:Print("WARNING! [QuestieQuest]", "Could not split out the objective out of the objective text! Please report the error!", questId, objective.text)
             end
@@ -1295,14 +1431,14 @@ end
 --[[  KEEP THIS FOR NOW
 
             -- Look if it contains "slain"
-            if(string.match(text, slain)) then
+            if(smatch(text, slain)) then
                 --English first, chinese after
-                text = string.match(objective.text, "(.*)"..slain.."%W*%d+/%d+") or string.match(objective.text, "%d+/%d+%W*"..slain.."(.*)")
+                text = smatch(objective.text, "(.*)"..slain.."%W*%d+/%d+") or smatch(objective.text, "%d+/%d+%W*"..slain.."(.*)")
                 --Capital %W is required due to chinese not being alphanumerical
-                --text = string.match(objective.text, '^(.*)%s+%w+:%s') or string.match(objective.text, '%s：%W+%s(.+)$');
+                --text = smatch(objective.text, '^(.*)%s+%w+:%s') or smatch(objective.text, '%s：%W+%s(.+)$');
             else
                 --English first, chinese after
-                text = string.match(objective.text, "^(.*):%s") or string.match(objective.text, "%s：(.*)$");
+                text = smatch(objective.text, "^(.*):%s") or smatch(objective.text, "%s：(.*)$");
             end
 ]]--
 
@@ -1590,8 +1726,15 @@ end
 --TODO Check that this function does what it is supposed to...
 function QuestieQuest:CalculateAvailableQuests()
     local playerLevel = QuestiePlayer:GetPlayerLevel()
+    
     local minLevel = playerLevel - Questie.db.global.minLevelFilter
     local maxLevel = playerLevel + Questie.db.global.maxLevelFilter
+
+    
+    if(not Questie.db.char.manualMinLevelOffset) then
+        minLevel = playerLevel - GetQuestGreenRange();
+    end
+
     QuestieQuest.availableQuests = {}
 
     for questID, v in pairs(QuestieDB.questData) do

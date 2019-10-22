@@ -4,8 +4,10 @@ function QuestieOptionsDefaults:Load()
     return {
         global = {
             maxLevelFilter = 7,
-            minLevelFilter = 5, -- Raised the default to allow more quests to be shown
-            clusterLevel = 1,
+            minLevelFilter = GetQuestGreenRange(), -- Raised the default to allow more quests to be shown
+            clusterLevelHotzone = 100,
+            enableIconLimit = false,
+            iconLimit = 200,
             availableScale = 1.3,
             eventScale = 1.35,
             lootScale = 1,
@@ -13,10 +15,10 @@ function QuestieOptionsDefaults:Load()
             objectScale = 1,
             globalScale = 0.7,
             globalMiniMapScale = 0.7,
-            fadeLevel = 1.5,
+            fadeLevel = 20,
             fadeOverPlayer = true,
             fadeOverPlayerLevel = 0.5,
-            fadeOverPlayerDistance = 0.2,
+            fadeOverPlayerDistance = 5,
             debugEnabled = false,
             debugEnabledPrint = false,
             debugLevel = 4,
@@ -73,6 +75,7 @@ function QuestieOptionsDefaults:Load()
             hidden = {},
             enabled = true,
             lowlevel = false,
+            manualMinLevelOffset = false,
             journey = {},
             searchType = 1,
             autoaccept = false,

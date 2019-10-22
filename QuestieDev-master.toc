@@ -1,8 +1,8 @@
 ## Interface: 11302
-## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v4.3.0|r
+## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v5.0.0|r
 ## Author: Aero/Logon/Muehe/Dyaxler/Schaka/Zoey/Everyone else
 ## Notes: A standalone Classic QuestHelper
-## Version: 4.3.0
+## Version: 5.0.0
 ## RequiredDeps:
 ## OptionalDeps: Ace3, LibDataBroker-1.1, LibCompress
 ## SavedVariables: QuestieConfig
@@ -36,6 +36,7 @@ Database\Corrections\QuestieNPCFixes.lua
 Database\Corrections\QuestieObjectFixes.lua
 Database\Corrections\QuestieQuestBlacklist.lua
 Database\Corrections\QuestieQuestFixes.lua
+Database\Corrections\QuestieEvent.lua
 
 #Localization
 Locale\QuestieLocale.lua
@@ -53,18 +54,27 @@ Locale\ruRU\locale.xml
 Modules\Libs\QuestieLib.lua
 #Modules\Libs\QuestieCompress.lua
 Modules\Libs\QuestiePlayer.lua
+Modules\Libs\QuestieSerializer.lua
 
 ##Modules
 Modules\QuestieAuto.lua
 Modules\QuestieTooltips.lua
 Modules\QuestieEventHandler.lua
 Modules\QuestieFramePool.lua
-Modules\QuestieMap.lua
+
+#Map
+Modules\Map\QuestieMap.lua
+Modules\Map\QuestieMapUtils.lua
+
 Modules\QuestieQuest.lua
 Modules\QuestieNameplate.lua
 Modules\QuestieCoordinates.lua
 Modules\QuestieJourney.lua
-#Modules\QuestieComms.lua
+
+#Network
+Modules\Network\QuestieComms.lua
+Modules\Network\QuestieCommsData.lua
+
 Modules\QuestieSearchResults.lua
 Modules\QuestieSearch.lua
 Modules\QuestieTracker.lua
@@ -73,6 +83,7 @@ Modules\QuestieReputation.lua
 Modules\QuestieDBMIntegration.lua
 
 #Options
+Modules\Options\QuestieOptions.lua
 Modules\Options\QuestieOptionsDefaults.lua
 Modules\Options\QuestieOptionsUtils.lua
 Modules\Options\QuestieOptionsMinimapIcon.lua
@@ -83,7 +94,6 @@ Modules\Options\MapTab\QuestieOptionsMap.lua
 Modules\Options\MinimapTab\QuestieOptionsMinimap.lua
 Modules\Options\NameplateTab\QuestieOptionsNameplate.lua
 Modules\Options\TrackerTab\QuestieOptionsTracker.lua
-Modules\Options\QuestieOptions.lua
 
 #Main
 Questie.lua

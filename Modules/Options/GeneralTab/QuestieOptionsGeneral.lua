@@ -1,8 +1,8 @@
-QuestieOptionsGeneral = {...}
+QuestieOptions.tabs.general = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
 
 
-function QuestieOptionsGeneral:Initialize()
+function QuestieOptions.tabs.general:Initialize()
     return {
         name = function() return QuestieLocale:GetUIString('OPTIONS_TAB'); end,
         type = "group",
@@ -70,7 +70,7 @@ function QuestieOptionsGeneral:Initialize()
                             QuestieQuest:Reset();
                         end,
                     },
-                    seperatingHeader = {
+                    seperatingHeader1 = {
                         type = "header",
                         order = 4,
                         name = "",
@@ -113,7 +113,7 @@ function QuestieOptionsGeneral:Initialize()
                             Questie.db.global.enableAvailable = value
                             QuestieQuest:UpdateHiddenNotes();
                         end,
-                    },
+                    }
                 },
             },
             iconEnabled = {
@@ -121,7 +121,7 @@ function QuestieOptionsGeneral:Initialize()
                 order = 5,
                 name = function() return QuestieLocale:GetUIString('ENABLE_ICON'); end,
                 desc = function() return QuestieLocale:GetUIString('ENABLE_ICON_DESC'); end,
-                width = "full",
+                width = 1.5,
                 get = function () return not Questie.db.profile.minimap.hide; end,
                 set = function (info, value)
                     Questie.db.profile.minimap.hide = not value;
@@ -138,7 +138,7 @@ function QuestieOptionsGeneral:Initialize()
                 order = 6,
                 name = function() return QuestieLocale:GetUIString('ENABLE_INSTANT'); end,
                 desc = function() return QuestieLocale:GetUIString('ENABLE_INSTANT_DESC'); end,
-                width = "full",
+                width = 1.5,
                 get = function () if GetCVar("instantQuestText") == '1' then return true; else return false; end; end,
                 set = function (info, value)
                     if value then
@@ -153,7 +153,7 @@ function QuestieOptionsGeneral:Initialize()
                 order = 7,
                 name = function() return QuestieLocale:GetUIString('ENABLE_TOOLTIPS'); end,
                 desc = function() return QuestieLocale:GetUIString('ENABLE_TOOLTIPS_DESC'); end,
-                width = "full",
+                width = 1.5,
                 get = function () return Questie.db.global.enableTooltips; end,
                 set = function (info, value)
                     Questie.db.global.enableTooltips = value
@@ -164,7 +164,8 @@ function QuestieOptionsGeneral:Initialize()
                 order = 8,
                 name = function() return QuestieLocale:GetUIString('ENABLE_TOOLTIPS_QUEST_LEVEL'); end,
                 desc = function() return QuestieLocale:GetUIString('ENABLE_TOOLTIPS_QUEST_LEVEL_DESC'); end,
-                width = "full",
+                width = 1.5,
+                disabled = function() return not Questie.db.global.enableTooltips; end,
                 get = function() return Questie.db.global.enableTooltipsQuestLevel; end,
                 set = function (info, value)
                     Questie.db.global.enableTooltipsQuestLevel = value
@@ -179,7 +180,7 @@ function QuestieOptionsGeneral:Initialize()
                 order = 8.1,
                 name = "Auto Accept Quests",
                 desc = "Enable or disable Questie auto-accepting quests.",
-                width = "full",
+                width = 1.5,
                 get = function () return Questie.db.char.autoaccept; end,
                 set = function (info, value)
                     Questie.db.char.autoaccept = value
@@ -191,7 +192,7 @@ function QuestieOptionsGeneral:Initialize()
                 order = 8.1,
                 name = "Auto Complete",
                 desc = "Enable or disable Questie auto-complete quests.",
-                width = "full",
+                width = 1.5,
                 get = function () return Questie.db.char.autocomplete; end,
                 set = function (info, value)
                     Questie.db.char.autocomplete = value
@@ -218,6 +219,19 @@ function QuestieOptionsGeneral:Initialize()
                     Questie:debug(DEBUG_DEVELOP, QuestieLocale:GetUIString('DEBUG_LOWLEVEL'), value)
                 end,
             },
+            manualMinLevelOffset = {
+                type = "toggle",
+                order = 10.9,
+                name = function() return QuestieLocale:GetUIString('ENABLE_MANUAL_OFFSET'); end,
+                desc = function() return QuestieLocale:GetUIString('ENABLE_MANUAL_OFFSET_DESC'); end,
+                width = 200,
+                get = function () return Questie.db.char.manualMinLevelOffset; end,
+                set = function (info, value)
+                    Questie.db.char.manualMinLevelOffset = value
+                    QuestieOptions.AvailableQuestRedraw();
+                    Questie:debug(DEBUG_DEVELOP, QuestieLocale:GetUIString('ENABLE_MANUAL_OFFSET'), value)
+                end,
+            },
             minLevelFilter = {
                 type = "range",
                 order = 11,
@@ -227,7 +241,13 @@ function QuestieOptionsGeneral:Initialize()
                 min = 0,
                 max = QuestiePlayer:GetPlayerLevel() - 1,
                 step = 1,
-                disabled = function() return Questie.db.char.lowlevel; end,
+                disabled = function() 
+                    if(Questie.db.char.manualMinLevelOffset and not Questie.db.char.lowlevel) then
+                        return false;
+                    else
+                        return true;
+                    end
+                end,
                 get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
                 set = function (info, value)
                     QuestieOptions:SetGlobalOptionValue(info, value)
@@ -241,7 +261,7 @@ function QuestieOptionsGeneral:Initialize()
                 desc = function() return QuestieLocale:GetUIString('LOWLEVEL_ABOVE_DESC', optionsDefaults.global.maxLevelFilter); end,
                 width = "normal",
                 min = 0,
-                max = 60 - QuestiePlayer:GetPlayerLevel(),
+                max = 60,
                 step = 1,
                 disabled = function() return QuestiePlayer:GetPlayerLevel() == 60; end,
                 get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
@@ -250,19 +270,19 @@ function QuestieOptionsGeneral:Initialize()
                     QuestieOptionsUtils:Delay(0.3, QuestieOptions.AvailableQuestRedraw, QuestieLocale:GetUIString('DEBUG_MAXLEVEL', value))
                 end,
             },
-            clusterLevel = {
+            clusterLevelHotzone = {
                 type = "range",
                 order = 13,
                 name = function() return QuestieLocale:GetUIString('CLUSTER'); end,
                 desc = function() return QuestieLocale:GetUIString('CLUSTER_DESC'); end,
                 width = "double",
-                min = 0.02,
-                max = 5,
-                step = 0.01,
+                min = 1,
+                max = 300,
+                step = 1,
                 get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
                 set = function (info, value)
-                    QuestieOptionsUtils:Delay(0.5, QuestieOptions.ClusterRedraw, QuestieLocale:GetUIString('DEBUG_CLUSTER', value))
                     QUESTIE_NOTES_CLUSTERMUL_HACK = value;
+                    QuestieOptionsUtils:Delay(0.5, QuestieOptions.ClusterRedraw, QuestieLocale:GetUIString('DEBUG_CLUSTER', value))
                     QuestieOptions:SetGlobalOptionValue(info, value)
                 end,
             },
