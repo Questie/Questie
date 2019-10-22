@@ -157,6 +157,7 @@ QuestieEvent.lunarHarvest = {
   },
 }
 
+--This variable will be cleared at the end of the load, do not use, use QuestieEvent.activeQuests.
 QuestieEvent.eventQuests = {}
 table.insert(QuestieEvent.eventQuests, {"HallowsEnd", 8373}) --The Power of Pine
 table.insert(QuestieEvent.eventQuests, {"HallowsEnd", 1658}) --Crashing the Wickerman Festival
