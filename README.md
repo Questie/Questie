@@ -55,7 +55,7 @@ Trust us it's (Good)!
 
 #### Quest Information
 
-![TooltipDungeon](https://cdn.discordapp.com/attachments/579999220170227716/634657475362160640/unknown.png)
+![TooltipDungeon](https://cdn.discordapp.com/attachments/579999220170227716/634656829619699712/unknown.png)
 
 - Event quests are shown when events are active!
 
