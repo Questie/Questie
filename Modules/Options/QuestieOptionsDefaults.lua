@@ -5,7 +5,7 @@ function QuestieOptionsDefaults:Load()
         global = {
             maxLevelFilter = 7,
             minLevelFilter = GetQuestGreenRange(), -- Raised the default to allow more quests to be shown
-            clusterLevelHotzone = 100,
+            clusterLevelHotzone = 70,
             enableIconLimit = false,
             iconLimit = 200,
             availableScale = 1.3,
