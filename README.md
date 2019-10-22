@@ -1,14 +1,7 @@
 # Questie
-**A quest helper for World of Warcraft: Classic**
-
 
 ## Installation Guide
 Follow the [Installation Guide](https://github.com/AeroScripts/QuestieDev/wiki/Installation-Guide) in the Wiki if you just want to get the latest version of Questie up and running.
-
-
-## FAQ for Classic (1.13)
-You can find the FAQ for Classic [here](https://github.com/AeroScripts/QuestieDev/wiki/FAQ-for-Classic-(1.13))!
-
 
 ## Download
 https://github.com/AeroScripts/QuestieDev/releases/latest
@@ -20,6 +13,7 @@ https://github.com/AeroScripts/QuestieDev/releases/latest
 
 
 ## Information
+- [Frequently Asked Questions](https://github.com/AeroScripts/QuestieDev/wiki/FAQ-for-Classic-(1.13))
 - Come chat with us on [our Discord server](https://discord.gg/phKnHVu).
 - You can use the [issue tracker](https://github.com/AeroScripts/QuestieDev/issues) to report bugs and post feature requests (requires a Github account).
 - When creating an issue please follow the templated structure to speed up a possible fix.
