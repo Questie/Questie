@@ -127,6 +127,7 @@ QuestieLocale.locale['zhTW'] = {
     ['ICON_RIGHT_CLICK'] = "右鍵",
     ['ICON_JOURNEY'] = "打開我的日誌",
 	['ICON_RELOAD'] = "重新載入Questie",
+    ['ICON_SHIFT_HOLD'] = "Hold Shift";
     ['CONFIRM_HIDE_QUEST'] = "你確定要隱藏任務： %s嗎？",
     ['CONFIRM_HIDE_YES'] = "是",
     ['CONFIRM_HIDE_NO'] = "否",

@@ -129,6 +129,7 @@ QuestieLocale.locale['koKR'] = {
     ['ICON_RIGHT_CLICK'] = "오른쪽 클릭",
     ['ICON_JOURNEY'] = "나의 여정 창 열기",
     ['ICON_RELOAD'] = "Questie 리로드",
+    ['ICON_SHIFT_HOLD'] = "Hold Shift";
     ['CONFIRM_HIDE_QUEST'] = "정말 \"%s\" 퀘스트를 숨길까요?\n만약 해당 퀘스트가 수행할 수 없는 퀘스트라면, 저희에게 알려주세요!",
     ['CONFIRM_HIDE_YES'] = "예",
     ['CONFIRM_HIDE_NO'] = "아니오",

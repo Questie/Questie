@@ -116,6 +116,7 @@ QuestieLocale.locale['ruRU'] = {
     ['ICON_TOGGLE_QUESTIE'] = "Показать/скрыть Questie",
     ['ICON_CTRLRIGHT_CLICK'] = "Ctrl + Правый клик",
     ['ICON_HIDE'] = "Скрыть иконку на миникарте",
+    ['ICON_SHIFT_HOLD'] = "Hold Shift";
     ['CONFIRM_HIDE_QUEST'] = "Вы уверены, что хотите скрыть задание \"%s\"?",
     ['CONFIRM_HIDE_YES'] = "Да",
     ['CONFIRM_HIDE_NO'] = "Нет",

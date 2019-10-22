@@ -120,6 +120,7 @@ QuestieLocale.locale['esES'] = {
     ['ICON_SHIFTLEFT_CLICK'] = "Shift + Click izq.",
     ['ICON_TOGGLE_QUESTIE'] = "Mostrar Questie",
     ['ICON_CTRLRIGHT_CLICK'] = "Ctrl + Click der.",
+    ['ICON_SHIFT_HOLD'] = "Hold Shift";
     ['ICON_HIDE'] = "Esconder icono del minimapa",
     ['ICON_RIGHT_CLICK'] = "Click der.",
     ['ICON_JOURNEY'] = "Mostrar Mi viaje",

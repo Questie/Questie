@@ -130,6 +130,7 @@ QuestieLocale.locale['frFR'] = {
 	['ICON_RIGHT_CLICK'] = "Clic Droit ",
 	['ICON_JOURNEY'] = "Mon voyage",
 	['ICON_RELOAD'] = "Recharger Questie",
+  ['ICON_SHIFT_HOLD'] = "Hold Shift";
 	['CONFIRM_HIDE_QUEST'] = "Êtes-vous sûr de vouloir masquer la quête \"%s\"?\n Si cette quête n'est pas réellement disponible, merci de nous la signaler !",
 	['CONFIRM_HIDE_YES'] = "Oui",
 	['CONFIRM_HIDE_NO'] = "Non",

@@ -128,6 +128,7 @@ QuestieLocale.locale['ptBR'] = {
 	['ICON_RIGHT_CLICK'] = "Clique Direito",
 	['ICON_JOURNEY'] = "Alternar minha viagem",
 	['ICON_RELOAD'] = "Carregar Questie",
+  ['ICON_SHIFT_HOLD'] = "Hold Shift";
 	['CONFIRM_HIDE_QUEST'] = "Tem certeza de que deseja ocultar a missão? Se essa missão não estiver realmente disponível, informe-nos!",
 	['CONFIRM_HIDE_YES'] = "Sim",
 	['CONFIRM_HIDE_NO'] = "Nâo",
