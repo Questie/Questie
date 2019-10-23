@@ -309,8 +309,6 @@ function QuestieQuest:AcceptQuest(questId)
     if(QuestiePlayer.currentQuestlog[questId] == nil) then
         Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ACCEPT_QUEST', questId));
 
-        QuestieQuest:CalculateAvailableQuests()
-        QuestieQuest:DrawAllAvailableQuests()
 
         --Get all the Frames for the quest and unload them, the available quest icon for example.
         QuestieMap:UnloadQuestFrames(questId);
@@ -343,6 +341,8 @@ function QuestieQuest:AcceptQuest(questId)
 
         --TODO: Insert call to drawing objective logic here!
         --QuestieQuest:TrackQuest(questId);
+        QuestieQuest:CalculateAvailableQuests()
+        QuestieQuest:DrawAllAvailableQuests()
         
         --For safety, remove all these icons.
         QuestieMap:UnloadQuestFrames(questId, ICON_TYPE_AVAILABLE);
@@ -1171,7 +1171,20 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                             if(item and item.Name) then
                                 oName = slower(item.Name);-- this is capital letters for some reason...
                             else
-                                oName = nil;
+                                local itemName = GetItemInfo(objectiveDB.Id)
+                                if(itemName) then
+                                    oName = itemName;
+                                else
+                                    oName = nil;
+                                    --[[
+                                    This is a good idea, but would require us to break out the objective identification code to a function
+                                    that runs a specific quest. I instead try to pre-cache the items in CacheAllItemNames
+                                    local item = Item:CreateFromItemID(objective.id)
+                                    item:ContinueOnItemLoad(function()
+                                        local itemName = GetItemInfo(objectiveDB.Id)
+                                        oName = itemName;
+                                    end)]]--
+                                end
                             end
                         end
                         -- To lower the questlog objective text

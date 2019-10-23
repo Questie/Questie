@@ -44,7 +44,18 @@ function QuestieComms.data:GetTooltip(tooltipKey)
                     if(item and item.Name) then
                         oName = item.Name;-- this is capital letters for some reason...
                     else
-                        oName = nil;
+                        local itemName = GetItemInfo(objective.id)
+                        if(itemName) then
+                            oName = itemName;
+                        else
+                            oName = "Item missing from DB, fetching from server!";
+                            local item = Item:CreateFromItemID(objective.id)
+                            item:ContinueOnItemLoad(function()
+                                local itemName = item:GetItemName();
+                                oName = itemName;
+                                tooltipData[questId][playerName][objectiveIndex].text = itemName;
+                            end)
+                        end
                     end
                 end
                 tooltipData[questId][playerName][objectiveIndex].text = oName

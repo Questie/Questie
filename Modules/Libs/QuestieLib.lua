@@ -223,6 +223,43 @@ function QuestieLib:ProfileFunctions()
   end
 end
 
+--To try and create a fix for errors regarding items that do not exist in our DB,
+--this function tries to prefetch all the items on startup and accept.
+function QuestieLib:CacheAllItemNames()
+    --[[
+        1 name
+        2 for quest
+        3 dropped by
+        [4103]={"Shackle Key",{630},{1559},{}},
+    ]]
+    local numEntries, numQuests = GetNumQuestLogEntries();
+    for index = 1, numEntries do
+        local title, level, _, isHeader, _, isComplete, _, questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
+        if(not isHeader) then
+            QuestieLib:CacheItemNames(questId);
+        end
+    end
+end
+
+function QuestieLib:CacheItemNames(questId)
+    local quest = QuestieDB:GetQuest(questId);
+    for objectiveIndexDB, objectiveDB in pairs(quest.ObjectiveData) do
+        if objectiveDB.Type == "item" then
+            if not CHANGEME_Questie4_ItemDB[objectiveDB.Id] then
+                Questie:Debug(DEBUG_DEVELOP, "Requesting item information for missing itemId:", objectiveDB.Id)
+                local item = Item:CreateFromItemID(objectiveDB.Id)
+                item:ContinueOnItemLoad(function()
+                    local itemName = item:GetItemName();
+                    --local itemName = GetItemInfo(objectiveDB.Id)
+                    --Create an empty item with the name itself but no drops.
+                    CHANGEME_Questie4_ItemDB[objectiveDB.Id] = {itemName,{questId},{},{}};
+                    Questie:Debug(DEBUG_DEVELOP, "Created item information for item:", itemName, ":", objectiveDB.Id);
+                end)
+            end
+        end
+    end
+end
+
 function QuestieLib:Euclid(x, y, i, e)
     local xd = math_abs(x - i);
     local yd = math_abs(y - e);

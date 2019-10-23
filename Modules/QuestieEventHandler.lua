@@ -18,6 +18,7 @@ local runQLU = false
 function QuestieEventHandler:PLAYER_LOGIN()
     C_Timer.After(1, function()
         QuestieDB:Initialize()
+        QuestieLib:CacheAllItemNames();
     end)
     C_Timer.After(4, function()
         -- We want the framerate to be HIGH!!!
@@ -41,6 +42,8 @@ end
 --Fires when a quest is accepted in anyway.
 function QuestieEventHandler:QUEST_ACCEPTED(questLogIndex, questId)
     Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_ACCEPTED", "QLogIndex: "..questLogIndex,  "QuestID: "..questId);
+    --Try and cache all the potential items required for the quest.
+    QuestieLib:CacheItemNames(questId)
     _Hack_prime_log()
     local timer = nil;
     timer = C_Timer.NewTicker(0.5, function()
