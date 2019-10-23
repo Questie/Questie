@@ -38,6 +38,9 @@ function QuestieQuestFixes:Load()
         [4083] = {
             [QuestieDB.questKeys.requiredSkill] = {186,230}, -- #1293
         },
+        [4122] = {
+            [QuestieDB.questKeys.preQuestSingle] = {4082}, -- #1349
+        },
         [4224] = {
             [QuestieDB.questKeys.triggerEnd] = {"Ragged John's Story",{[46]={{64,23},},},},
         },
