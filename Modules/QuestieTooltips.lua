@@ -147,7 +147,7 @@ function QuestieTooltips:GetTooltip(key)
         end
         table.insert(tip, questData.title);
         local tempObjectives = {}
-        for objectiveIndex, playerList in pairs(questData.objectivesText) do
+        for objectiveIndex, playerList in pairs(questData.objectivesText or {}) do -- Should we do or {} here?
             for playerName, objectiveText in pairs(playerList) do
                 local playerInfo = QuestieLib:PlayerInGroup(playerName);
                 local useName = "";
