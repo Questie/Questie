@@ -534,6 +534,7 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
             end
             iconMinimap.fadeLogicTimer = C_Timer.NewTicker(0.3, function()
                 --Only run if these two are true!
+                if (self.IsShown and not self:IsShown()) then return end
                 if (iconMinimap.FadeLogic and iconMinimap.miniMapIcon) then
                    iconMinimap:FadeLogic()
                 end
