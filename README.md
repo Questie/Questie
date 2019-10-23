@@ -55,7 +55,7 @@ Trust us it's (Good)!
 
 #### Quest Information
 
-![TooltipDungeon](https://cdn.discordapp.com/attachments/579999220170227716/634657475362160640/unknown.png)
+![TooltipDungeon](https://cdn.discordapp.com/attachments/579999220170227716/634656829619699712/unknown.png)
 
 - Event quests are shown when events are active!
 
@@ -65,7 +65,7 @@ Trust us it's (Good)!
 
 - Waypoint lines for quest givers showing their pathing.
 
-![Waypoints](https://cdn.discordapp.com/attachments/263040777658171392/632636371420577823/unknown.png)
+![Waypoints](https://cdn.discordapp.com/attachments/579999220170227716/636266368777584660/unknown.png)
 
 ### Journey Log
 - Questie records the steps of your journey in the "My Journey" window. (right-click on minimap button to open)
