@@ -470,20 +470,27 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
                         local x, y, instance = HBD:GetWorldCoordinatesFromZone(self.x/100, self.y/100, self.data.UiMapID)
                         if(x and y) then
                             local distance = QuestieLib:Euclid(playerX, playerY, x, y);
-                            --
 
                             --Very small value before, hard to work with.
                             distance = distance / 10
 
-                            local NormalizedValue = 1/10; --Opacity / Distance to fade over
+                            local fadeDistance = 10;
+
+                            local NormalizedValue = 1/fadeDistance; --Opacity / Distance to fade over
 
                             if(distance > Questie.db.global.fadeLevel) then
-                                local fade = 1-(math.min(10, (distance-Questie.db.global.fadeLevel))*NormalizedValue);
-                                local dr,dg,db = self.texture:GetVertexColor()
-                                self.texture:SetVertexColor(dr, dg, db, fade)
-                                if self.glowTexture and self.glowTexture.GetVertexColor then
-                                    local r,g,b = self.glowTexture:GetVertexColor()
-                                    self.glowTexture:SetVertexColor(r,g,b,fade)
+                                -- We don't want to reset the vertex color all the time.
+                                if(distance < Questie.db.global.fadeLevel+(fadeDistance*2)) then
+                                    local fade = 1-(math.min(10, (distance-Questie.db.global.fadeLevel))*NormalizedValue);
+                                    local dr,dg,db = self.texture:GetVertexColor()
+                                    self.texture:SetVertexColor(dr, dg, db, fade)
+                                    if self.glowTexture and self.glowTexture.GetVertexColor then
+                                        local r,g,b = self.glowTexture:GetVertexColor()
+                                        self.glowTexture:SetVertexColor(r,g,b,fade)
+                                    end
+                                else
+                                    --Hide the icon because it is very far away from the user.
+                                    --self:Hide();
                                 end
                             elseif (distance < Questie.db.global.fadeOverPlayerDistance) and Questie.db.global.fadeOverPlayer then
                                 local fadeAmount = QuestieLib:Remap(distance, 0, Questie.db.global.fadeOverPlayerDistance, Questie.db.global.fadeOverPlayerLevel, 1);

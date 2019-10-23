@@ -609,6 +609,10 @@ function _QuestieFramePool:Questie_Tooltip_line(self)
 end
 
 function _QuestieFramePool:Questie_Tooltip(self)
+    local r, g, b, a = self.texture:GetVertexColor();
+    if(a == 0) then
+        return
+    end
     if GetTime() - _QuestieFramePool.lastTooltipShowHack < 0.05 and GameTooltip:IsShown() then
         return
     end
