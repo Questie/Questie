@@ -1416,7 +1416,14 @@ function QuestieQuest:GetAllLeaderBoardDetails(questId)
             local text = objective.text;
             if(objective.type == "monster") then
                 local i, j, monsterName = strfind(text, L_QUEST_MONSTERS_KILLED)
-                text = monsterName;
+
+                if(strlen(monsterName) == strlen(objective.text)) then
+                    --The above doesn't seem to work with the chinese, the row below tries to remove the extra numbers.
+                    local cleanerText = smatch(monsterName or text, "(.*)：");
+                    text = cleanerText
+                else
+                    text = monsterName;
+                end
             elseif(objective.type == "item") then
                 local i, j, itemName = strfind(text, L_QUEST_ITEMS_NEEDED)
                 text = itemName;
