@@ -499,15 +499,12 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
                             local NormalizedValue = 1/fadeOverDistance; --Opacity / Distance to fade over
 
                             if(distance > Questie.db.global.fadeLevel) then
-                                -- We don't want to reset the vertex color all the time.
-                                if(distance < Questie.db.global.fadeLevel+(fadeOverDistance*2)) then
-                                    local fade = 1-(math.min(10, (distance-Questie.db.global.fadeLevel))*NormalizedValue);
-                                    local dr,dg,db = self.texture:GetVertexColor()
-                                    self.texture:SetVertexColor(dr, dg, db, fade)
-                                    if self.glowTexture and self.glowTexture.GetVertexColor then
-                                        local r,g,b = self.glowTexture:GetVertexColor()
-                                        self.glowTexture:SetVertexColor(r,g,b,fade)
-                                    end
+                                local fade = 1-(math.min(10, (distance-Questie.db.global.fadeLevel))*NormalizedValue);
+                                local dr,dg,db = self.texture:GetVertexColor()
+                                self.texture:SetVertexColor(dr, dg, db, fade)
+                                if self.glowTexture and self.glowTexture.GetVertexColor then
+                                    local r,g,b = self.glowTexture:GetVertexColor()
+                                    self.glowTexture:SetVertexColor(r,g,b,fade)
                                 end
                             elseif (distance < Questie.db.global.fadeOverPlayerDistance) and Questie.db.global.fadeOverPlayer then
                                 local fadeAmount = QuestieLib:Remap(distance, 0, Questie.db.global.fadeOverPlayerDistance, Questie.db.global.fadeOverPlayerLevel, 1);
