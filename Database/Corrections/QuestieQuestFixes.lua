@@ -23,6 +23,9 @@ function QuestieQuestFixes:Load()
         [1100] = {
             [QuestieDB.questKeys.startedBy] = {nil,{19861},{5791},}, -- #1189
         },
+        [1193] = {
+            [QuestieDB.questKeys.specialFlags] = 1, -- #1348
+        },
         [1920] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #1328
         },
