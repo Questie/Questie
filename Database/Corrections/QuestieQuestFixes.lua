@@ -21,7 +21,7 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.requiredSourceItems] = {5475},
         },
         [1100] = {
-            [QuestieDB.questKeys.startedBy] = {nil,{1981},{5791},}, -- #1189
+            [QuestieDB.questKeys.startedBy] = {nil,{19861},{5791},}, -- #1189
         },
         [1920] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #1328
