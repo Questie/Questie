@@ -329,15 +329,10 @@ function Questie:Debug(...)
         if(Questie.db.global.debugLevel < 2 and select(1, ...) == DEBUG_ELEVATED)then return; end
         if(Questie.db.global.debugLevel < 1 and select(1, ...) == DEBUG_CRITICAL)then return; end
         --Questie:Print(...)
-        if not Questie.debugSession then
-            Questie.debugSession = GetTime()
-            if not QuestieConfigCharacter.log then QuestieConfigCharacter.log = {} end
-            QuestieConfigCharacter.log[Questie.debugSession] = {};
+        if(QuestieConfigCharacter.log) then
+            QuestieConfigCharacter = {};
         end
-        local entry = {}
-        entry.time = GetTime()
-        entry.data = {...}
-        table.insert(QuestieConfigCharacter.log[Questie.debugSession], entry)
+        
         if Questie.db.global.debugEnabledPrint then
             Questie:Print(...)
         end
