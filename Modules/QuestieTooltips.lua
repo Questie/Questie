@@ -6,6 +6,7 @@ QuestieTooltips.lastTooltipTime = GetTime() -- hack for object tooltips
 QuestieTooltips.lastGametooltip = ""
 QuestieTooltips.lastGametooltipCount = -1;
 QuestieTooltips.lastGametooltipType = "";
+QuestieTooltips.lastFrameName = "";
 
 QuestieTooltips.tooltipLookup = {
     --["u_Grell"] = {questid, {"Line 1", "Line 2"}}
@@ -231,20 +232,23 @@ local function TooltipShowing_item(self)
         local _, _, _, _, id, _, _, _, _, _, _, _, _, itemName = string.find(link, "|?c?f?f?(%x*)|?H?([^:]*):?(%d+):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%-?%d*):?(%-?%d*):?(%d*):?(%d*):?(%-?%d*)|?h?%[?([^%[%]]*)%]?|?h?|?r?")
         itemId = id;
     end
-    if name and itemId and (name ~= QuestieTooltips.lastGametooltipItem or (not QuestieTooltips.lastGametooltipCount) or _QuestieTooltips:CountTooltip() < QuestieTooltips.lastGametooltipCount or QuestieTooltips.lastGametooltipType ~= "item" or lastItemId ~= itemId) then
+    if name and itemId and (name ~= QuestieTooltips.lastGametooltipItem or (not QuestieTooltips.lastGametooltipCount) or _QuestieTooltips:CountTooltip() < QuestieTooltips.lastGametooltipCount or QuestieTooltips.lastGametooltipType ~= "item" or lastItemId ~= itemId or QuestieTooltips.lastFrameName ~= self:GetName()) then
         QuestieTooltips.lastGametooltipItem = name
         --Questie:Debug(DEBUG_DEVELOP, "[QuestieTooltip] Item Id on hover : ", itemId);
         local tooltipData = QuestieTooltips:GetTooltip("i_" .. (itemId or 0));
         if tooltipData then
             for _, v in pairs (tooltipData) do
-                GameTooltip:AddLine(v)
+                self:AddLine(v)
             end
         end
         QuestieTooltips.lastGametooltipCount = _QuestieTooltips:CountTooltip()
     end
     lastItemId = itemId;
     QuestieTooltips.lastGametooltipType = "item";
+    QuestieTooltips.lastFrameName = self:GetName();
 end
+
+
 
 local function TooltipShowing_maybeobject(name)
     if not Questie.db.global.enableTooltips then return; end
@@ -281,6 +285,19 @@ function _QuestieTooltips:CountTooltip()
 end
 
 function QuestieTooltips:Init()
+    -- For the clicked item frame.
+    ItemRefTooltip:HookScript("OnTooltipSetItem", TooltipShowing_item)
+    ItemRefTooltip:HookScript("OnHide", function(self)
+        if (not self.IsForbidden) or (not self:IsForbidden()) then -- do we need this here also
+            QuestieTooltips.lastGametooltip = ""
+            QuestieTooltips.lastGametooltipItem = nil
+            QuestieTooltips.lastGametooltipUnit = nil
+            QuestieTooltips.lastGametooltipCount = 0
+            QuestieTooltips.lastFrameName = "";
+        end
+    end)
+
+    -- For the hover frame.
     GameTooltip:HookScript("OnTooltipSetUnit", TooltipShowing_unit)
     GameTooltip:HookScript("OnTooltipSetItem", TooltipShowing_item)
     GameTooltip:HookScript("OnShow", function(self)
@@ -288,6 +305,7 @@ function QuestieTooltips:Init()
             QuestieTooltips.lastGametooltipItem = nil
             QuestieTooltips.lastGametooltipUnit = nil
             QuestieTooltips.lastGametooltipCount = 0
+            QuestieTooltips.lastFrameName = "";
         end
         --local name, unit = self:GetUnit()
         --Questie:Debug(DEBUG_DEVELOP,"SHOW!", unit)
