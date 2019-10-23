@@ -928,13 +928,13 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                     tinsert(orderedList, icons[distance]);
                 end
                 local range = QUESTIE_NOTES_CLUSTERMUL_HACK
-                if orderedList[1].Icon == ICON_TYPE_OBJECT then -- new clustering / limit code should prevent problems, always show all object notes
+                if orderedList and orderedList[1] and orderedList[1].Icon == ICON_TYPE_OBJECT then -- new clustering / limit code should prevent problems, always show all object notes
                     range = range * 0.2;  -- Only use 20% of the default range.
                 end
                 
                 local hotzones = QuestieMap.utils:CalcHotzones(orderedList, range);
 
-                for index, hotzone in pairs(hotzones) do
+                for index, hotzone in pairs(hotzones or {}) do
                     if(spawnedIcons[questId] > maxPerType) then
                         Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]", "Too many icons for quest:", questId)
                         break;
