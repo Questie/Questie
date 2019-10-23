@@ -12,7 +12,7 @@ Follow the [Installation Guide](https://github.com/AeroScripts/QuestieDev/wiki/I
 
 
 ## Information
-- [Frequently Asked Questions](https://github.com/AeroScripts/QuestieDev/wiki/FAQ-for-Classic-(1.13))
+- [Frequently Asked Questions](https://github.com/AeroScripts/QuestieDev/wiki/FAQ)
 - Come chat with us on [our Discord server](https://discord.gg/phKnHVu).
 - You can use the [issue tracker](https://github.com/AeroScripts/QuestieDev/issues) to report bugs and post feature requests (requires a Github account).
 - When creating an issue please follow the templated structure to speed up a possible fix.
