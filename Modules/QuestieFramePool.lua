@@ -311,7 +311,10 @@ function _QuestieFramePool:QuestieCreateFrame()
             local _,_,_,alpha = self.texture:GetVertexColor()
             self.glowTexture:SetVertexColor(self.data.ObjectiveData.Color[1], self.data.ObjectiveData.Color[2], self.data.ObjectiveData.Color[3], alpha or 1);
             self.glow:Show()
-            self.glow:SetFrameLevel(self:GetFrameLevel() - 1)
+            local frameLevel = self:GetFrameLevel();
+            if(frameLevel > 0) then
+                self.glow:SetFrameLevel(frameLevel - 1)
+            end
         end
     end--end)
     f.BaseOnHide = function(self)--f:HookScript("OnHide", function(self)
