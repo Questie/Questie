@@ -182,6 +182,7 @@ function _QuestieFramePool:UnloadFrame(frame)
   frame.loaded = nil;
     table.insert(_QuestieFramePool.unusedFrames, frame)
 end]]--
+---@class IconFrame
 function _QuestieFramePool:QuestieCreateFrame()
     _QuestieFramePool.numberOfFrames = _QuestieFramePool.numberOfFrames + 1
     local f = CreateFrame("Button", "QuestieFrame".._QuestieFramePool.numberOfFrames, nil)
@@ -190,15 +191,18 @@ function _QuestieFramePool:QuestieCreateFrame()
     end
 
     f.glow = CreateFrame("Button", "QuestieFrame".._QuestieFramePool.numberOfFrames.."Glow", f) -- glow frame
-    f.glow:SetFrameStrata("TOOLTIP");
+    f.glow:SetFrameStrata("FULLSCREEN");
     f.glow:SetWidth(18) -- Set these to whatever height/width is needed
     f.glow:SetHeight(18)
 
 
-    f:SetFrameStrata("TOOLTIP");
+    f:SetFrameStrata("FULLSCREEN");
     f:SetWidth(16) -- Set these to whatever height/width is needed
     f:SetHeight(16) -- for your Texture
-    local t = f:CreateTexture(nil, "TOOLTIP")
+    f:SetPoint("CENTER", -8, -8)
+    f:EnableMouse(true)--f:EnableMouse()
+
+    local t = f:CreateTexture(nil, "OVERLAY", nil, 0)
     --t:SetTexture("Interface\\Icons\\INV_Misc_Eye_02.blp")
     --t:SetTexture("Interface\\Addons\\!Questie\\Icons\\available.blp")
     t:SetWidth(16)
@@ -207,7 +211,7 @@ function _QuestieFramePool:QuestieCreateFrame()
     t:SetTexelSnappingBias(0)
     t:SetSnapToPixelGrid(false)
 
-    local glowt = f.glow:CreateTexture(nil, "TOOLTIP")
+    local glowt = f.glow:CreateTexture(nil, "OVERLAY", nil, -1)
     glowt:SetWidth(18)
     glowt:SetHeight(18)
     glowt:SetAllPoints(f.glow)
@@ -216,28 +220,19 @@ function _QuestieFramePool:QuestieCreateFrame()
     f.glowTexture = glowt
     f.glowTexture:SetTexture(ICON_TYPE_GLOW)
     f.glow:Hide()
-    f:SetPoint("CENTER", 0, 0)
-    f.glow:SetPoint("CENTER", - 1, - 1) -- 2 pixels bigger than normal icon
+    f.glow:SetPoint("CENTER", -9, -9) -- 2 pixels bigger than normal icon
     f.glow:EnableMouse(false)
-    f:EnableMouse(true)--f:EnableMouse()
-
-    --f.mouseIsOver = false;
-    --f:SetScript("OnUpdate", function()
-    --  local mo = MouseIsOver(self); -- function exists in classic but crashes the game
-    --  if mo and (not f.mouseIsOver) then
-    --    f.mouseIsOver = true
-    --    _QuestieFramePool:Questie_Tooltip(self)
-    --  elseif (not mo) and f.mouseIsOver then
-    --    f.mouseIsOver = false
-    --    if(WorldMapTooltip) then WorldMapTooltip:Hide() end if(GameTooltip) then GameTooltip:Hide() end
-    --  end
-    --end)
-
-    --f:SetScript('OnEnter', function() Questie:Print("Enter") end)
-    --f:SetScript('OnLeave', function() Questie:Print("Leave") end)
 
     f:SetScript("OnEnter", function(self) _QuestieFramePool:Questie_Tooltip(self) end); --Script Toolip
-    f:SetScript("OnLeave", function() if(WorldMapTooltip) then WorldMapTooltip:Hide(); WorldMapTooltip._rebuild = nil; end if(GameTooltip) then GameTooltip:Hide(); GameTooltip._Rebuild = nil; end end) --Script Exit Tooltip
+    f:SetScript("OnLeave", function(self) 
+      if(WorldMapTooltip) then WorldMapTooltip:Hide(); WorldMapTooltip._rebuild = nil; end 
+      if(GameTooltip) then GameTooltip:Hide(); GameTooltip._Rebuild = nil; end 
+
+      --Reset highlighting if it exists.
+      for k, lineFrame in pairs(self.data.lineFrames or {}) do
+        lineFrame.line:SetColorTexture(lineFrame.line.dR, lineFrame.line.dG, lineFrame.line.dB, lineFrame.line.dA)
+      end
+    end) --Script Exit Tooltip
     f:RegisterForClicks("RightButtonUp", "LeftButtonUp")
     f:SetScript("OnClick", function(self, button)
         --_QuestieFramePool:Questie_Click(self)
@@ -301,7 +296,10 @@ function _QuestieFramePool:QuestieCreateFrame()
             local _,_,_,alpha = self.texture:GetVertexColor()
             self.glowTexture:SetVertexColor(self.data.ObjectiveData.Color[1], self.data.ObjectiveData.Color[2], self.data.ObjectiveData.Color[3], alpha or 1);
             self.glow:Show()
-            self.glow:SetFrameLevel(self:GetFrameLevel() - 1)
+            local frameLevel = self:GetFrameLevel();
+            if(frameLevel > 0) then
+                self.glow:SetFrameLevel(frameLevel - 1)
+            end
         end
     end--end)
     f.BaseOnHide = function(self)--f:HookScript("OnHide", function(self)
@@ -312,6 +310,12 @@ function _QuestieFramePool:QuestieCreateFrame()
         self:SetScript("OnUpdate", nil)
         self:SetScript("OnShow", nil)
         self:SetScript("OnHide", nil)
+        self:SetFrameStrata("FULLSCREEN");
+        self:SetFrameLevel(0);
+
+        if(QuestieMap.minimapFrames[self:GetName()]) then
+            QuestieMap.minimapFrames[self:GetName()] = nil;
+        end
 
         --We are reseting the frames, making sure that no data is wrong.
         if self ~= nil and self.hidden and self._show ~= nil and self._hide ~= nil then -- restore state to normal (toggle questie)
@@ -336,6 +340,12 @@ function _QuestieFramePool:QuestieCreateFrame()
         end
         if(self.glowLogicTimer) then
           self.glowLogicTimer:Cancel();
+        end
+        --Unload potential waypoint frames that are used for pathing.
+        if(self.data and self.data.lineFrames) then
+            for index, lineFrame in pairs(self.data.lineFrames) do
+                lineFrame:Unload();
+            end
         end
         self:Hide()
         self.glow:Hide()
@@ -440,7 +450,161 @@ function _QuestieFramePool:IsMinimapInside()
     end
 end
 
+
+local tinsert = table.insert;
+local tpack = table.pack;
+local tremove = table.remove;
+local tunpack = unpack;
+
+---@param iconFrame IconFrame @The parent frame for the current line.
+---@param waypointTable table<integer, Point> @A table containing waypoints {{X, Y}, ...}
+---@param lineWidth integer @Width of the line.
+---@param color integer[] @A table consisting of 4 variable {1, 1, 1, 1} RGB-Opacity
+---@return LineFrame[]
+function QuestieFramePool:CreateWaypoints(iconFrame, waypointTable, lineWidth, color)
+    local lineFrameList = {}
+    local lastPos = nil
+    --Set defaults if needed.
+    local lWidth = lineWidth or 1.5;
+    local col = color or {1,0.72,0,0.3};
+
+    for index, waypoint in pairs(waypointTable) do
+        if(lastPos == nil) then
+            lastPos = waypoint;
+        else
+            local lineFrame = QuestieFramePool:CreateLine(iconFrame, lastPos[1], lastPos[2], waypoint[1], waypoint[2], lWidth, col)
+            tinsert(lineFrameList, lineFrame);
+            lastPos = waypoint;
+        end
+    end
+    local lineFrame = QuestieFramePool:CreateLine(iconFrame, lastPos[1], lastPos[2], waypointTable[1][1], waypointTable[1][2], lWidth, col)
+    tinsert(lineFrameList, lineFrame);
+    return lineFrameList;
+end
+
+---@param iconFrame IconFrame @The parent frame for the current line.
+---@param startX integer @A value between 0-100
+---@param startY integer @A value between 0-100
+---@param endX integer @A value between 0-100
+---@param endY integer @A value between 0-100
+---@param lineWidth integer @Width of the line.
+---@param color integer[] @A table consisting of 4 variable {1, 1, 1, 1} RGB-Opacity
+---@return LineFrame
+---@class LineFrame @A frame that contains the line used in waypoints.
+local lineFrames = 1;
+function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, lineWidth, color)
+
+    --Create the framepool for lines if it does not already exist.
+	if not QuestieFramePool.Routes_Lines then
+		QuestieFramePool.Routes_Lines={}
+		QuestieFramePool.Routes_Lines_Used={}
+    end
+    --Names are not stricktly needed, but it is nice for debugging.
+    local frameName = "questieLineFrame"..lineFrames;
+
+    --tremove default always picks the last element, however counting arrays is kinda bugged? So just get index 1 instead.
+    local lineFrame = tremove(QuestieFramePool.Routes_Lines, 1) or CreateFrame("Frame", frameName, iconFrame);
+
+    local width = WorldMapFrame:GetCanvas():GetWidth();
+    local height = WorldMapFrame:GetCanvas():GetHeight();
+    
+    --Setting the parent is required to get the correct frame levels.
+    lineFrame:SetParent(iconFrame);
+    lineFrame:SetHeight(width);
+    lineFrame:SetWidth(height);
+    lineFrame:SetPoint("TOPLEFT", WorldMapFrame:GetCanvas(), "TOPLEFT", 0, 0)
+    local frameLevel = iconFrame:GetFrameLevel();
+    if(frameLevel > 1) then
+        frameLevel = frameLevel - 1;
+    end
+    lineFrame:SetFrameLevel(frameLevel)
+    lineFrame:SetFrameStrata("FULLSCREEN");
+
+    --How to identify what the frame actually contains, this is not used atm could easily be changed.
+    lineFrame.type = "line"
+
+    --Include the line in the iconFrame.
+    if(iconFrame.data.lineFrames == nil) then
+        iconFrame.data.lineFrames = {};
+    end
+    tinsert(iconFrame.data.lineFrames, lineFrame);
+    lineFrame.iconFrame = iconFrame;
+    
+    --Set the line as used.
+    tinsert(QuestieFramePool.Routes_Lines_Used, lineFrame)
+    --QuestieFramePool.Routes_Lines_Used[lineFrame:GetName()] = lineFrame;
+
+
+    function lineFrame:Unload()
+        self:Hide();
+        self.iconFrame = nil;
+        local debugFoundSelf = false;
+        for index, lineFrame in pairs(QuestieFramePool.Routes_Lines_Used) do
+            if(lineFrame:GetName() == self:GetName()) then
+                debugFoundSelf = true;
+                --Remove it from used frames...
+                QuestieFramePool.Routes_Lines_Used[index] = nil;
+                break;
+            end
+        end
+        if(not debugFoundSelf) then
+            --Questie:Error("lineFrame unload failed, could not find self in used frames when unloaded...", self:GetName());
+        end
+        HBDPins:RemoveWorldMapIcon(Questie, self)
+        tinsert(QuestieFramePool.Routes_Lines, self);
+    end
+    local line = lineFrame.line or lineFrame:CreateLine();
+    lineFrame.line = line;
+
+
+    line.dR = color[1];
+    line.dG = color[2];
+    line.dB = color[3];
+    line.dA = color[4];
+    line:SetColorTexture(color[1],color[2],color[3],color[4]);
+
+    -- Set texture coordinates and anchors
+    --line:ClearAllPoints();
+
+    local calcX = width/100;
+    local calcY = height/100;
+    
+    line:SetDrawLayer("OVERLAY", -5)
+    line:SetStartPoint("TOPLEFT", startX*calcX, (startY*calcY)*-1) -- We do by *-1 due to using the top left point
+    line:SetEndPoint("TOPLEFT", endX*calcX, (endY*calcY)*-1) -- We do by *-1 due to using the top left point
+    line:SetThickness(lineWidth);
+
+    --line:Hide()
+    lineFrame:Hide();
+
+
+    --Should we keep these frames in the questIdFrames? Currently it is also a child of the icon.
+    --Maybe the unload of the parent should just unload the children.
+    --For safety we check this here too.
+    --if(QuestieMap.questIdFrames[lineFrame.iconFrame.data.Id] == nil) then
+    --    QuestieMap.questIdFrames[lineFrame.iconFrame.data.Id] = {}
+    --end
+    --tinsert(QuestieMap.questIdFrames[lineFrame.iconFrame.data.Id], lineFrame:GetName());
+    
+    --Keep a total lineFrame count for names.
+    lineFrames = lineFrames + 1;
+	return lineFrame
+end
+
+function _QuestieFramePool:Questie_Tooltip_line(self)
+    local Tooltip = GameTooltip;
+    Tooltip:SetOwner(self, "ANCHOR_CURSOR"); --"ANCHOR_CURSOR" or (self, self)
+    Tooltip:AddLine("Test");
+    Tooltip:SetFrameStrata("TOOLTIP");
+    Tooltip:Show();
+    --_QuestieFramePool:Questie_Tooltip(self.iconFrame)
+end
+
 function _QuestieFramePool:Questie_Tooltip(self)
+    local r, g, b, a = self.texture:GetVertexColor();
+    if(a == 0) then
+        return
+    end
     if GetTime() - _QuestieFramePool.lastTooltipShowHack < 0.05 and GameTooltip:IsShown() then
         return
     end
@@ -454,7 +618,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
     if mid == 947 then -- world
         maxDistCluster = 6
     elseif mid == 1415 or mid == 1414 then -- kalimdor/ek
-        maxDistCluster = 3
+        maxDistCluster = 4
     end
     if self.miniMapIcon then
         if _QuestieFramePool:IsMinimapInside() then
@@ -470,6 +634,11 @@ function _QuestieFramePool:Questie_Tooltip(self)
     local footers = {};
     local contents = {};
 
+    --Highlight waypoints if they exist.
+    for k, lineFrame in pairs(self.data.lineFrames or {}) do
+      lineFrame.line:SetColorTexture(math.min(lineFrame.line.dR*1.3, 1), math.min(lineFrame.line.dG*1.3, 1), math.min(lineFrame.line.dB*1.3, 1), math.min(lineFrame.line.dA*1.3, 1))
+    end
+
     -- FIXME: `data` can be nil here which leads to an error, will have to debug:
     -- https://discordapp.com/channels/263036731165638656/263040777658171392/627808795715960842
     -- happens when a note doesn't get removed after a quest has been finished, see #1170
@@ -482,6 +651,8 @@ function _QuestieFramePool:Questie_Tooltip(self)
     --for k,v in pairs(self.data.tooltip) do
     --Tooltip:AddLine(v);
     --end
+
+    local usedText = {}
 
     local npcOrder = {};
     local questOrder = {};
@@ -499,40 +670,147 @@ function _QuestieFramePool:Questie_Tooltip(self)
                         if icon.data.Type == "complete" then
                             dat.type = QuestieLocale:GetUIString("TOOLTIP_QUEST_COMPLETE");
                         else
-                          if(icon.data.Icon == ICON_TYPE_REPEATABLE) then
-                            dat.type = QuestieLocale:GetUIString("TOOLTIP_QUEST_REPEATABLE");--"(Repeatable)"; --
-                          else
-                            dat.type = QuestieLocale:GetUIString("TOOLTIP_QUEST_AVAILABLE");
-                          end
+                            local questType, questTag = GetQuestTagInfo(icon.data.Id);
+                            if(icon.data.Icon == ICON_TYPE_REPEATABLE) then
+                                dat.type = QuestieLocale:GetUIString("TOOLTIP_QUEST_REPEATABLE");--"(Repeatable)"; --
+                            elseif(questType == 81 or questType == 83 or questType == 62 or questType == 41 or questType == 1) then
+                                -- Dungeon or Legendary or Raid or PvP or Group(Elite)
+                                dat.type = "("..questTag..")";
+                            elseif(QuestieEvent and QuestieEvent.activeQuests[icon.data.Id]) then
+                                dat.type = QuestieLocale:GetUIString("TOOLTIP_QUEST_EVENT");--"(Event)";--QuestieLocale:GetUIString("TOOLTIP_QUEST_AVAILABLE");
+                            else
+                                dat.type = QuestieLocale:GetUIString("TOOLTIP_QUEST_AVAILABLE");
+                            end
                         end
-                        dat.title = icon.data.QuestData:GetColoredQuestName()
+                        dat.title = icon.data.QuestData:GetColoredQuestName(true)
                         dat.subData = icon.data.QuestData.Description
+                        dat.questId = icon.data.Id;
                         npcOrder[icon.data.Name][dat.title] = dat
                         --table.insert(npcOrder[icon.data.Name], dat);
                     elseif icon.data.ObjectiveData and icon.data.ObjectiveData.Description then
-                        local key = icon.data.QuestData:GetColoredQuestName();
+                        --Questie:Print("Close icon", icon:GetName(), icon.data.QuestData:GetColoredQuestName())
+                        local key = icon.data.Id--.QuestData:GetColoredQuestName();
                         if not questOrder[key] then
                             questOrder[key] = {};
                         end
+                        local order = {}
                         icon.data.ObjectiveData:Update(); -- update progress info
                         if icon.data.Type == "event" then
-                            questOrder[key][icon.data.ObjectiveData.Description] = true
+                            local t = {
+                                [icon.data.ObjectiveData.Description] = {},
+                            }
+                            if(icon.data.ObjectiveData.Index) then
+                                local objectiveDesc = icon.data.QuestData.Objectives[icon.data.ObjectiveData.Index].Description;
+                                t[icon.data.ObjectiveData.Description][objectiveDesc] = true;
+                            end
+
+                            --We need to check for duplicates.
+                            local add = true;
+                            for index, data in pairs(questOrder[key]) do
+                              for text, nameData in pairs(data) do
+                                if(text == icon.data.ObjectiveData.Description) then
+                                  add = false;
+                                  break;
+                                end
+                              end
+                            end
+                            if(add) then
+                              table.insert(questOrder[key], t);
+                            end
+                            --questOrder[key][icon.data.ObjectiveData.Description] = true
                         else
                             --dat.subData = icon.data.ObjectiveData
                             local text = icon.data.ObjectiveData.Description
                             if icon.data.ObjectiveData.Needed then
                                 text = tostring(icon.data.ObjectiveData.Collected) .. "/" .. tostring(icon.data.ObjectiveData.Needed) .. " " .. text
                             end
-                            if not questOrder[key][text] then
-                                questOrder[key][text] = {}
+                            if(QuestieComms) then
+                                local anotherPlayer = false;
+                                for playerName, objectiveData in pairs(QuestieComms:GetQuest(icon.data.Id) or {}) do
+                                    --[[
+                                        -.type = objective.type;
+                                        -.finished = objective.finished;
+                                        -.fulfilled = objective.numFulfilled;
+                                        -.required = objective.numRequired;  
+                                    ]]
+                                    local playerInfo = QuestieLib:PlayerInGroup(playerName);
+                                    if(playerInfo) then
+                                        local colorizedPlayerName = " (|c"..playerInfo.colorHex..playerName.."|r|cFF33FF33)|r";
+                                        local remoteText = icon.data.ObjectiveData.Description;
+                                        if objectiveData[icon.data.ObjectiveIndex] and objectiveData[icon.data.ObjectiveIndex].fulfilled and objectiveData[icon.data.ObjectiveIndex].required then
+                                            local fulfilled = objectiveData[icon.data.ObjectiveIndex].fulfilled;
+                                            local required = objectiveData[icon.data.ObjectiveIndex].required;
+                                            remoteText = tostring(fulfilled) .. "/" .. tostring(required) .. " " .. remoteText .. colorizedPlayerName;
+                                        else
+                                            remoteText = remoteText .. colorizedPlayerName;
+                                        end
+                                        local t = {
+                                            [remoteText] = {},
+                                        }
+                                        if icon.data.Name then
+                                            t[remoteText][icon.data.Name] = true;
+                                        end
+                                        table.insert(order, t);
+                                        anotherPlayer = true;
+
+                                        --if not questOrder[key][remoteText] then
+                                        --    questOrder[key][remoteText] = {}
+                                        --end
+                                        --if icon.data.Name then
+                                        --    questOrder[key][remoteText][icon.data.Name] = true
+                                        --end
+                                    end
+                                end
+                                if(anotherPlayer) then
+                                    local name = UnitName("player");
+                                    local className, classFilename = UnitClass("player");
+                                    local rPerc, gPerc, bPerc, argbHex = GetClassColor(classFilename)
+                                    name = " (|c"..argbHex..name.."|r|cFF33FF33)|r";
+                                    text = text .. name;
+                                end
                             end
+
+                            local t = {
+                                [text] = {},
+                            }
                             if icon.data.Name then
-                                questOrder[key][text][icon.data.Name] = true
+                                t[text][icon.data.Name] = true;
                             end
+                            table.insert(order, 1, t);
+                            for index, data in pairs(order) do
+                              --Questie:Print("1",index, data)
+                                for text, nameTable in pairs(data) do
+                                  --Questie:Print("2",text, v)
+                                  local data = {}
+                                  data[text] = nameTable;
+                                  --Add the data for the first time
+                                  if(usedText[text] == nil) then
+                                    table.insert(questOrder[key], data);
+                                    usedText[text] = true;
+                                  else
+                                    --We want to add more NPCs as possible candidates when shift is pressed.
+                                    if(icon.data.Name) then
+                                      for dataIndex, data in pairs(questOrder[key]) do
+                                        if(questOrder[key][dataIndex][text]) then
+                                          questOrder[key][dataIndex][text][icon.data.Name] = true;
+                                        end
+                                      end
+                                    end
+                                  end
+                                end
+                            end
+
+                            --if not questOrder[key][text] then
+                            --    questOrder[key][text] = {}
+                            --end
+                            --if icon.data.Name then
+                            --    questOrder[key][text][icon.data.Name] = true
+                            --end
                             --table.insert(questOrder[key], text);--questOrder[key][icon.data.ObjectiveData.Description] = tostring(icon.data.ObjectiveData.Collected) .. "/" .. tostring(icon.data.ObjectiveData.Needed) .. " " .. icon.data.ObjectiveData.Description--table.insert(questOrder[key], tostring(icon.data.ObjectiveData.Collected) .. "/" .. tostring(icon.data.ObjectiveData.Needed) .. " " .. icon.data.ObjectiveData.Description);
                         end
                     elseif icon.data.CustomTooltipData then
-                        questOrder[icon.data.CustomTooltipData.Title] = icon.data.CustomTooltipData.Body
+                        questOrder[icon.data.CustomTooltipData.Title] = {}
+                        table.insert(questOrder[icon.data.CustomTooltipData.Title], icon.data.CustomTooltipData.Body);
                     elseif icon.data.ManualTooltipData then
                         manualOrder[icon.data.ManualTooltipData.Title] = icon.data.ManualTooltipData.Body
                     end
@@ -540,56 +818,87 @@ function _QuestieFramePool:Questie_Tooltip(self)
             end
         end
     end
-
     Tooltip.npcOrder = npcOrder
     Tooltip.questOrder = questOrder
     Tooltip.manualOrder = manualOrder
     Tooltip.miniMapIcon = self.miniMapIcon
     Tooltip._Rebuild = function(self)
+        local xpString = QuestieLocale:GetUIString('XP');
         local shift = IsShiftKeyDown()
         local haveGiver = false -- hack
-        for k, v in pairs(self.npcOrder) do -- this logic really needs to be improved
+        local firstLine = true;
+        for questTitle, quests in pairs(self.npcOrder) do -- this logic really needs to be improved
             haveGiver = true
-            self:AddLine("|cFF33FF33"..k);
-            for k2, v2 in pairs(v) do
-                if v2.title ~= nil then
-                    self:AddDoubleLine("   " .. v2.title, v2.type);
+            if(firstLine and not shift) then
+                self:AddDoubleLine(questTitle, "("..QuestieLocale:GetUIString('ICON_SHIFT_HOLD')..")", 0.2, 1, 0.2, 0.43, 0.43, 0.43); --"(Shift+click)"
+                firstLine = false;
+            elseif(firstLine and shift) then
+                --self:AddDoubleLine(questTitle, "(".."Click to hide"..")", 0.2, 1, 0.2, 0.43, 0.43, 0.43); --"(Shift+click)"
+                self:AddLine(questTitle, 0.2, 1, 0.2);
+                firstLine = false;
+            else
+              self:AddLine(questTitle, 0.2, 1, 0.2);
+            end
+            for k2, questData in pairs(quests) do
+                if questData.title ~= nil then
+                    local quest = QuestieDB:GetQuest(questData.questId);
+                    if(shift and QuestiePlayer:GetPlayerLevel() ~= 60) then
+                        self:AddDoubleLine("   " .. questData.title, QuestieLib:PrintDifficultyColor(quest.Level, "("..GetQuestLogRewardXP(questData.questId)..xpString..") ")..questData.type, 1, 1, 1, 1, 1, 0);
+                    else
+                        self:AddDoubleLine("   " .. questData.title, questData.type, 1, 1, 1, 1, 1, 0);
+                    end
                 end
-                if v2.subData and shift then
-                    local dataType = type(v2.subData)
+                if questData.subData and shift then
+                    local dataType = type(questData.subData)
                     if dataType == "table" then
-                        for _,line in pairs(v2.subData) do
-                            self:AddLine("      |cFFDDDDDD" .. line);
+                        for _,line in pairs(questData.subData) do
+                            self:AddLine("      " .. line, 0.86, 0.86, 0.86);
                         end
                     elseif dataType == "string" then
-                        self:AddLine("      |cFFDDDDDD" .. v2.subData);
+                        self:AddLine("      " .. questData.subData, 0.86, 0.86, 0.86);
+                        --self:AddLine("      |cFFDDDDDD" .. v2.subData);
                     end
                 end
             end
         end
-        for k, v in pairs(self.questOrder) do -- this logic really needs to be improved
+        for questId, textList in pairs(self.questOrder) do -- this logic really needs to be improved
+            local quest = QuestieDB:GetQuest(questId);
+            local questTitle = quest:GetColoredQuestName();
             if haveGiver then
-                self:AddLine(" ")
-                self:AddDoubleLine(k, QuestieLocale:GetUIString("TOOLTIP_QUEST_ACTIVE"));
+                self:AddLine(" ");
+                self:AddDoubleLine(questTitle, QuestieLocale:GetUIString("TOOLTIP_QUEST_ACTIVE"), 1, 1, 1, 1, 1, 0);
                 haveGiver = false -- looks better when only the first one shows (active)
             else
-                self:AddLine(k);
+                if(shift and QuestiePlayer:GetPlayerLevel() ~= 60) then
+                    local r, g, b = QuestieLib:GetDifficultyColorPercent(quest.Level);
+                    self:AddDoubleLine(questTitle, "("..GetQuestLogRewardXP(questId)..xpString..")", 0.2, 1, 0.2, r, g, b);
+                    firstLine = false;
+                elseif(firstLine and not shift) then
+                    self:AddDoubleLine(questTitle, "("..QuestieLocale:GetUIString('ICON_SHIFT_HOLD')..")", 0.2, 1, 0.2, 0.43, 0.43, 0.43); --"(Shift+click)"
+                    firstLine = false;
+                else
+                    self:AddLine(questTitle);
+                end
             end
             if shift then
-                for k2, v2 in pairs(v) do
-                    local dataType = type(v2)
-                    if dataType == "table" then
-                        for k3 in pairs(v2) do
-                            self:AddLine("   |cFFDDDDDD" .. k3);
+                for index, textData in pairs(textList) do
+                    for textLine, nameData in pairs(textData) do
+                        local dataType = type(nameData)
+                        if dataType == "table" then
+                            for name in pairs(nameData) do
+                                self:AddLine("   |cFFDDDDDD" .. name);
+                            end
+                        elseif dataType == "string" then
+                            self:AddLine("   |cFFDDDDDD" .. nameData);
                         end
-                    elseif dataType == "string" then
-                        self:AddLine("   |cFFDDDDDD" .. v2);
+                        self:AddLine("      |cFF33FF33" .. textLine);
                     end
-                    self:AddLine("      |cFF33FF33" .. k2);
                 end
             else
-                for k2, v2 in pairs(v) do
-                    self:AddLine("   |cFF33FF33" .. k2);
+                for index, textData in pairs(textList) do
+                    for textLine, v2 in pairs(textData) do
+                        self:AddLine("   |cFF33FF33" .. textLine);
+                    end
                 end
             end
         end

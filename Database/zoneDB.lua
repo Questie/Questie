@@ -97,8 +97,8 @@ local zoneDataClassicBetaHack = {
     ["Alterac Valley"] = {1459,947},
     ["Warsong Gulch"] = {1460,947},
     ["Arathi Basin"] = {1461,947},
-    ["Eastern Kingdoms"] = {1463,0},
-    ["Kalimdor"] = {1464,0}
+    --["Eastern Kingdoms"] = {1463,0},
+    --["Kalimdor"] = {1464,0}
 }
 
 
