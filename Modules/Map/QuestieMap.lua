@@ -13,6 +13,11 @@ QuestieMap.questIdFrames = {}
 -- For details about frame.data see QuestieMap.ShowNPC and QuestieMap.ShowObject
 QuestieMap.manualFrames = {}
 
+QuestieMap.minimapFrames = {}
+
+--Used in my fadelogic.
+local fadeOverDistance = 10;
+
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 local HBDMigrate = LibStub("HereBeDragonsQuestie-Migrate")
@@ -31,6 +36,7 @@ local tunpack = unpack;
 QUESTIE_NOTES_CLUSTERMUL_HACK = 0.2; -- smaller numbers = less icons on map
 QuestieMap.MapCache_ClutterFix = {};
 QuestieMap.drawTimer = nil;
+QuestieMap.fadeLogicTimerShown = nil;
 
 --Get the frames for a quest, this returns all of the frames
 function QuestieMap:GetFramesForQuest(QuestId)
@@ -128,6 +134,20 @@ local minimapDrawQueue = {};
 function QuestieMap:InitializeQueue()
     Questie:Debug(DEBUG_DEVELOP, "[QuestieMap] Starting draw queue timer!")
     QuestieMap.drawTimer = C_Timer.NewTicker(0.001, QuestieMap.ProcessQueue)
+    QuestieMap.fadeLogicTimerShown = C_Timer.NewTicker(0.3, QuestieMap.ProcessShownMinimapIcons);
+end
+
+function QuestieMap:ProcessShownMinimapIcons()
+    for frameName, minimapFrame in pairs(QuestieMap.minimapFrames) do
+        if (minimapFrame.IsShown and minimapFrame:IsShown()) then
+            if (minimapFrame.FadeLogic and minimapFrame.miniMapIcon) then
+                minimapFrame:FadeLogic()
+            end
+            if minimapFrame.glowUpdate then
+                minimapFrame:glowUpdate()
+            end 
+        end
+    end
 end
 
 function QuestieMap:QueueDraw(drawType, ...)
@@ -157,6 +177,7 @@ function QuestieMap:ProcessQueue()
   local minimapDrawCall = tremove(minimapDrawQueue, 1);
   if(minimapDrawCall) then
     HBDPins:AddMinimapIconMap(tunpack(minimapDrawCall));
+    
 
     --The frame level stuff seems to need to happen after they have been drawn?
     local frame = mapDrawCall[2];
@@ -474,13 +495,12 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
                             --Very small value before, hard to work with.
                             distance = distance / 10
 
-                            local fadeDistance = 10;
 
-                            local NormalizedValue = 1/fadeDistance; --Opacity / Distance to fade over
+                            local NormalizedValue = 1/fadeOverDistance; --Opacity / Distance to fade over
 
                             if(distance > Questie.db.global.fadeLevel) then
                                 -- We don't want to reset the vertex color all the time.
-                                if(distance < Questie.db.global.fadeLevel+(fadeDistance*2)) then
+                                if(distance < Questie.db.global.fadeLevel+(fadeOverDistance*2)) then
                                     local fade = 1-(math.min(10, (distance-Questie.db.global.fadeLevel))*NormalizedValue);
                                     local dr,dg,db = self.texture:GetVertexColor()
                                     self.texture:SetVertexColor(dr, dg, db, fade)
@@ -488,9 +508,6 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
                                         local r,g,b = self.glowTexture:GetVertexColor()
                                         self.glowTexture:SetVertexColor(r,g,b,fade)
                                     end
-                                else
-                                    --Hide the icon because it is very far away from the user.
-                                    --self:Hide();
                                 end
                             elseif (distance < Questie.db.global.fadeOverPlayerDistance) and Questie.db.global.fadeOverPlayer then
                                 local fadeAmount = QuestieLib:Remap(distance, 0, Questie.db.global.fadeOverPlayerDistance, Questie.db.global.fadeOverPlayerLevel, 1);
@@ -539,16 +556,6 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
                     end
                 end
             end
-            iconMinimap.fadeLogicTimer = C_Timer.NewTicker(0.3, function()
-                --Only run if these two are true!
-                if (self.IsShown and not self:IsShown()) then return end
-                if (iconMinimap.FadeLogic and iconMinimap.miniMapIcon) then
-                   iconMinimap:FadeLogic()
-                end
-                if iconMinimap.glowUpdate then
-                    iconMinimap:glowUpdate()
-                end
-            end);
             -- We do not want to hook the OnUpdate again!
             -- iconMinimap:SetScript("OnUpdate", )
         end
@@ -556,6 +563,7 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
         if Questie.db.global.enableMiniMapIcons then
             if not ((Questie.db.global.hideUnexploredMapIcons) and (isExplored == false)) then
                 QuestieMap:QueueDraw(QuestieMap.ICON_MINIMAP_TYPE, Questie, iconMinimap, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, true, floatOnEdge);
+                QuestieMap.minimapFrames[iconMinimap:GetName()] = iconMinimap;
                 --HBDPins:AddMinimapIconMap(Questie, iconMinimap, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, true, floatOnEdge)
             end
         end
