@@ -56,6 +56,14 @@ function QuestieQuestFixes:Load()
         [4763] = {
             [QuestieDB.questKeys.requiredSourceItems] = {12347,12341,12342,12343,}, -- #798
         },
+        [4784] = {
+            [QuestieDB.questKeys.childQuests] = {4785}, -- #1367
+        },
+        [4785] = {
+            [QuestieDB.questKeys.preQuestSingle] = {}, -- #1367
+            [QuestieDB.questKeys.parentQuest] = 4784, -- #1367
+            [QuestieDB.questKeys.specialFlags] = 1, -- #1367
+        },
         [5063] = {
             [QuestieDB.questKeys.specialFlags] = 1, -- #1335
         },
