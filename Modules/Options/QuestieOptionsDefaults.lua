@@ -64,7 +64,7 @@ function QuestieOptionsDefaults:Load()
             trackerColorObjectives = 'white',
             trackerQuestPadding = 2,
             trackerSortObjectives = 'byComplete',
-            trackerbindOpenQuestLog = 'shiftleft',
+            trackerbindOpenQuestLog = 'left',
             trackerbindSetTomTom = 'ctrlleft',
             iconFadeLevel = 0.3,
             trackerLocked = true,
