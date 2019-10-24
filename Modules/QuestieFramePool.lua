@@ -318,6 +318,37 @@ function _QuestieFramePool:QuestieCreateFrame()
         self.glow:Hide()
     end--end)
     --f.Unload = function(frame) _QuestieFramePool:UnloadFrame(frame) end;
+
+    function f:UpdateTexture(texture)
+        --Different settings depending on noteType
+        local globalScale = 0.7
+        local objectiveColor = false;
+        if(self.miniMapIcon) then
+            globalScale = Questie.db.global.globalMiniMapScale;
+            objectiveColor = Questie.db.global.questMinimapObjectiveColors;
+        else
+            globalScale = Questie.db.global.globalScale;
+            objectiveColor = Questie.db.global.questObjectiveColors;
+        end
+
+        self.texture:SetTexture(texture)
+        self.data.Icon = texture;
+        local colors = {1, 1, 1}
+        if self.data.IconColor ~= nil and objectiveColor then
+            colors = self.data.IconColor
+        end
+        self.texture:SetVertexColor(colors[1], colors[2], colors[3], 1);
+        
+        if self.data.IconScale then
+            local scale = 16 * ((self.data:GetIconScale() or 1)*(globalScale or 0.7));
+            self:SetWidth(scale)
+            self:SetHeight(scale)
+        else
+            self:SetWidth(16)
+            self:SetHeight(16)
+        end
+    end
+
     function f:Unload()
         self:SetScript("OnUpdate", nil)
         self:SetScript("OnShow", nil)
@@ -683,7 +714,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
                             dat.type = QuestieLocale:GetUIString("TOOLTIP_QUEST_COMPLETE");
                         else
                             local questType, questTag = GetQuestTagInfo(icon.data.Id);
-                            if(icon.data.Icon == ICON_TYPE_REPEATABLE) then
+                            if(icon.data.QuestData.Repeatable) then
                                 dat.type = QuestieLocale:GetUIString("TOOLTIP_QUEST_REPEATABLE");--"(Repeatable)"; --
                             elseif(questType == 81 or questType == 83 or questType == 62 or questType == 41 or questType == 1) then
                                 -- Dungeon or Legendary or Raid or PvP or Group(Elite)

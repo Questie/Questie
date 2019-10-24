@@ -437,50 +437,30 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
         if data.ClusterId then
             QuestieMap.MapCache_ClutterFix[AreaID][xcell][ycell][data.ClusterId] = true
         end
-        --QuestieMap.MapCache_ClutterFix[AreaID][xcell][ycell][data.ObjectiveTargetId] = true
+
+        if AreaID then
+            data.UiMapID = zoneDataAreaIDToUiMapID[AreaID];
+        end
+        
         local icon = QuestieFramePool:GetFrame()
         icon.data = data
         icon.x = x
         icon.y = y
         icon.AreaID = AreaID
         icon.miniMapIcon = false;
-        if AreaID then
-            data.UiMapID = zoneDataAreaIDToUiMapID[AreaID];
-        end
 
-
-        icon.texture:SetTexture(data.Icon) -- todo: implement .GlowIcon
-        local colors = {1, 1, 1}
-        if data.IconColor ~= nil and Questie.db.global.questObjectiveColors then
-            colors = data.IconColor
-        end
-        icon.texture:SetVertexColor(colors[1], colors[2], colors[3], 1);
-        -- because of how frames work, I cant seem to set the glow as being behind the note. So for now things are draw in reverse.
-        if data.IconScale then
-            local scale = 16 * (data:GetIconScale()*(Questie.db.global.globalScale or 0.7));
-            icon:SetWidth(scale)
-            icon:SetHeight(scale)
-        else
-            icon:SetWidth(16)
-            icon:SetHeight(16)
-        end
+        icon:UpdateTexture(data.Icon);
 
         local iconMinimap = QuestieFramePool:GetFrame()
-        local colorsMinimap = {1, 1, 1}
-        if data.IconColor ~= nil and Questie.db.global.questMinimapObjectiveColors then
-            colorsMinimap = data.IconColor
-        end
-        iconMinimap:SetWidth(16 * ((data:GetIconScale() or 1) * (Questie.db.global.globalMiniMapScale or 0.7)))
-        iconMinimap:SetHeight(16 * ((data:GetIconScale() or 1) * (Questie.db.global.globalMiniMapScale or 0.7)))
         iconMinimap.data = data
         iconMinimap.x = x
         iconMinimap.y = y
         iconMinimap.AreaID = AreaID
         --data.refMiniMap = iconMinimap -- used for removing
-        iconMinimap.texture:SetTexture(data.Icon)
-        iconMinimap.texture:SetVertexColor(colorsMinimap[1], colorsMinimap[2], colorsMinimap[3], 1);
         --Are we a minimap note?
         iconMinimap.miniMapIcon = true;
+        iconMinimap:UpdateTexture(data.Icon);
+
 
         if(not iconMinimap.FadeLogic) then
             function iconMinimap:FadeLogic()

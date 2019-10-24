@@ -1498,7 +1498,9 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                         for _, coords in ipairs(Spawns) do
                             local data = {}
                             data.Id = questObject.Id;
-                            if questObject.Repeatable then
+                            if questObject.requiredLevel > QuestiePlayer.GetPlayerLevel() then
+                                data.Icon = ICON_TYPE_AVAILABLE_GRAY
+                            elseif questObject.Repeatable then
                                 data.Icon = ICON_TYPE_REPEATABLE
                             else
                                 data.Icon = ICON_TYPE_AVAILABLE
@@ -1537,7 +1539,9 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                             --Questie:Debug("Coords", coords[1], coords[2])
                             local data = {}
                             data.Id = questObject.Id;
-                            if questObject.Repeatable then
+                            if questObject.requiredLevel > QuestiePlayer.GetPlayerLevel() then
+                                data.Icon = ICON_TYPE_AVAILABLE_GRAY
+                            elseif questObject.Repeatable then
                                 data.Icon = ICON_TYPE_REPEATABLE
                             else
                                 data.Icon = ICON_TYPE_AVAILABLE
@@ -1624,13 +1628,31 @@ function QuestieQuest:DrawAllAvailableQuests()--All quests between
     --This should probably be called somewhere else!
     --QuestieFramePool:UnloadAll()
 
+    local playerLevel = QuestiePlayer:GetPlayerLevel();
+
     local count = 0
-    for questid, qid in pairs(QuestieQuest.availableQuests) do
+    for questId, qid in pairs(QuestieQuest.availableQuests) do
+
         --If the quest is not drawn draw the quest, otherwise skip.
-        if(not QuestieMap.questIdFrames[questid]) then
-            local Quest = QuestieDB:GetQuest(questid)
+        if(not QuestieMap.questIdFrames[questId]) then
+            local Quest = QuestieDB:GetQuest(questId)
             --Draw a specific quest through the function
             _QuestieQuest:DrawAvailableQuest(Quest)
+        else
+            --We want to change from a gray icon to a nongray.
+            for index, frame in ipairs(QuestieMap:GetFramesForQuest(questId)) do
+                --Only run on gray frames.
+                if(frame and frame.data and frame.data.Icon == ICON_TYPE_AVAILABLE_GRAY) then
+                    --Check the min level of the quest against playerLevel
+                    if(frame.data.QuestData.requiredLevel <= playerLevel) then
+                        if(frame.data.QuestData.Repeatable) then
+                            frame:UpdateTexture(ICON_TYPE_REPEATABLE)
+                        else
+                            frame:UpdateTexture(ICON_TYPE_AVAILABLE)
+                        end
+                    end
+                end
+            end
         end
         count = count + 1
     end
