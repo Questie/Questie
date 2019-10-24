@@ -31,6 +31,8 @@ QuestieLocale.locale['frFR'] = {
 	['ICON_TYPE_HEADER'] = "Types d'icônes",
 	['ENABLE_MAP_ICONS'] = "Activer les icônes sur la carte",
 	['ENABLE_MAP_ICONS_DESC'] = "Active l'affichage de toutes les icônes sur la carte.",
+	['ENABLE_MAP_ICONS_MINIMALISTIC'] = "Enable Minimalistic Map Icons",
+	['ENABLE_MAP_ICONS_DESC_MINIMALISTIC'] = "A minimalistic version of the normal icons.",
 	['ENABLE_MINIMAP_ICONS'] = "Activer les icônes sur la mini-carte",
 	['ENABLE_MINIMAP_ICONS_DESC'] = "Active l'affichage de toutes les icônes sur la mini-carte.",
 	

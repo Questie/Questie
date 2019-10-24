@@ -28,6 +28,8 @@ QuestieLocale.locale['zhCN'] = {
     ['ICON_TYPE_HEADER'] = "图标类别",
     ['ENABLE_MAP_ICONS'] = "启用大地图注记",
     ['ENABLE_MAP_ICONS_DESC'] = "启用或停用大地图上的所有图标",
+    ['ENABLE_MAP_ICONS_MINIMALISTIC'] = "Enable Minimalistic Map Icons",
+    ['ENABLE_MAP_ICONS_DESC_MINIMALISTIC'] = "A minimalistic version of the normal icons.",
     ['ENABLE_MINIMAP_ICONS'] = "启用小地图标记",
     ['ENABLE_MINIMAP_ICONS_DESC'] = "启用或停用小地图上的所有图标",
 

@@ -16,18 +16,30 @@ local HBDMigrate = LibStub("HereBeDragonsQuestie-Migrate")
 HBDPins.MinimapGroup = CreateFrame("Frame", "QuestieFrameGroup", Minimap)
 --HBDPins:SetMinimapObject(_CreateMinimapParent())
 
+do
+    QuestieFramePool:SetIcons()
+end
 
---TODO: Add all types (we gotta stop using globals, needs refactoring)
-ICON_TYPE_AVAILABLE =  QuestieLib.AddonPath.."Icons\\available.blp"
-ICON_TYPE_SLAY =  QuestieLib.AddonPath.."Icons\\slay.blp"
-ICON_TYPE_COMPLETE =  QuestieLib.AddonPath.."Icons\\complete.blp"
-ICON_TYPE_ITEM =  QuestieLib.AddonPath.."Icons\\item.blp"
-ICON_TYPE_LOOT =  QuestieLib.AddonPath.."Icons\\loot.blp"
-ICON_TYPE_EVENT =  QuestieLib.AddonPath.."Icons\\event.blp"
-ICON_TYPE_OBJECT =  QuestieLib.AddonPath.."Icons\\object.blp"
-ICON_TYPE_GLOW = QuestieLib.AddonPath.."Icons\\glow.blp"
-ICON_TYPE_BLACK = QuestieLib.AddonPath.."Icons\\black.blp"
-ICON_TYPE_REPEATABLE =  QuestieLib.AddonPath.."Icons\\repeatable.blp"
+function QuestieFramePool:SetIcons()
+    if(Questie.db.char.enableMinimalisticIcons) then
+        ICON_TYPE_SLAY =  QuestieLib.AddonPath.."Icons\\slay_tiny.blp"
+        ICON_TYPE_LOOT =  QuestieLib.AddonPath.."Icons\\loot_tiny.blp"
+        ICON_TYPE_EVENT =  QuestieLib.AddonPath.."Icons\\event_tiny.blp"
+        ICON_TYPE_OBJECT =  QuestieLib.AddonPath.."Icons\\object_tiny.blp"
+    else
+        ICON_TYPE_SLAY =  QuestieLib.AddonPath.."Icons\\slay.blp"
+        ICON_TYPE_LOOT =  QuestieLib.AddonPath.."Icons\\loot.blp"
+        ICON_TYPE_EVENT =  QuestieLib.AddonPath.."Icons\\event.blp"
+        ICON_TYPE_OBJECT =  QuestieLib.AddonPath.."Icons\\object.blp"
+    end
+    --TODO: Add all types (we gotta stop using globals, needs refactoring)
+    ICON_TYPE_AVAILABLE =  QuestieLib.AddonPath.."Icons\\available.blp"
+    ICON_TYPE_AVAILABLE_GRAY =  QuestieLib.AddonPath.."Icons\\available_gray.blp"
+    ICON_TYPE_COMPLETE =  QuestieLib.AddonPath.."Icons\\complete.blp"
+    ICON_TYPE_GLOW = QuestieLib.AddonPath.."Icons\\glow.blp"
+    ICON_TYPE_BLACK = QuestieLib.AddonPath.."Icons\\black.blp"
+    ICON_TYPE_REPEATABLE =  QuestieLib.AddonPath.."Icons\\repeatable.blp"
+end
 
 
 StaticPopupDialogs["QUESTIE_CONFIRMHIDE"] = {
