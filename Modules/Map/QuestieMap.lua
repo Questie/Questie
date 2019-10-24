@@ -14,6 +14,7 @@ QuestieMap.questIdFrames = {}
 QuestieMap.manualFrames = {}
 
 QuestieMap.minimapFrames = {}
+QuestieMap.minimapFramesShown = {} -- I would do minimapFrames.shown but that would break the logic below
 
 --Used in my fadelogic.
 local fadeOverDistance = 10;
@@ -162,14 +163,12 @@ function QuestieMap:UpdateZoomScale()
 end
 
 function QuestieMap:ProcessShownMinimapIcons()
-    for frameName, minimapFrame in pairs(QuestieMap.minimapFrames) do
-        if (minimapFrame.IsShown and minimapFrame:IsShown()) then
-            if (minimapFrame.FadeLogic and minimapFrame.miniMapIcon) then
-                minimapFrame:FadeLogic()
-            end
-            if minimapFrame.glowUpdate then
-                minimapFrame:glowUpdate()
-            end 
+    for frameName, minimapFrame in pairs(QuestieMap.minimapFramesShown) do
+        if (minimapFrame.FadeLogic and minimapFrame.miniMapIcon) then
+            minimapFrame:FadeLogic()
+        end
+        if minimapFrame.glowUpdate then
+            minimapFrame:glowUpdate()
         end
     end
 end
@@ -381,6 +380,14 @@ function QuestieMap:DrawManualIcon(data, AreaID, x, y)
     iconMinimap.texture:SetTexture(texture)
     iconMinimap.texture:SetVertexColor(colorsMinimap[1], colorsMinimap[2], colorsMinimap[3], 1);
     iconMinimap.miniMapIcon = true;
+    
+    iconMinimap.OnShow = function()
+        QuestieMap.minimapFramesShown[self:GetName()] = self
+    end
+    
+    iconMinimap.OnHide = function()
+        QuestieMap.minimapFramesShown[self:GetName()] = nil
+    end
 
     -- add the minimap icon
     QuestieMap:QueueDraw(QuestieMap.ICON_MINIMAP_TYPE, Questie, iconMinimap, data.UiMapID, x / 100, y / 100, true, true);

@@ -387,6 +387,10 @@ function _QuestieFramePool:QuestieCreateFrame()
                 lineFrame:Unload();
             end
         end
+        
+        if self.OnHide then self:OnHide() end -- the event might trigger after OnHide=nil even if its set after self:Hide()
+        self.OnHide = nil
+        self.OnShow = nil
         self:Hide()
         self.glow:Hide()
         --self.glow:Hide()
@@ -456,6 +460,9 @@ function _QuestieFramePool:QuestieCreateFrame()
             end
         end
     end
+    f:HookScript("OnHide", function() if self.OnHide then self:OnHide() end end)
+    f:HookScript("OnShow", function() if self.OnShow then self:OnShow() end end)
+    
     --f.glow:Hide()
     table.insert(_QuestieFramePool.allFrames, f)
     return f
@@ -535,9 +542,9 @@ local lineFrames = 1;
 function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, lineWidth, color)
 
     --Create the framepool for lines if it does not already exist.
-	if not QuestieFramePool.Routes_Lines then
-		QuestieFramePool.Routes_Lines={}
-		QuestieFramePool.Routes_Lines_Used={}
+    if not QuestieFramePool.Routes_Lines then
+        QuestieFramePool.Routes_Lines={}
+        QuestieFramePool.Routes_Lines_Used={}
     end
     --Names are not stricktly needed, but it is nice for debugging.
     local frameName = "questieLineFrame"..lineFrames;
@@ -628,7 +635,7 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     
     --Keep a total lineFrame count for names.
     lineFrames = lineFrames + 1;
-	return lineFrame
+    return lineFrame
 end
 
 function _QuestieFramePool:Questie_Tooltip_line(self)
