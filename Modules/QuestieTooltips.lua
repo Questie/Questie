@@ -225,6 +225,7 @@ end
 local lastItemId = 0;
 local function TooltipShowing_item(self)
     if self.IsForbidden and self:IsForbidden() then return; end
+    if not Questie.db.global.enableTooltips then return; end
     --QuestieTooltips.lastTooltipTime = GetTime()
     local name, link = self:GetItem()
     local itemId = nil;
