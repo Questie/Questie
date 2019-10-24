@@ -93,7 +93,8 @@ end
 
 -- Rescale a single icon
 ---@param frameName string @The global name of the icon frame, e.g. "QuestieFrame1"
-local function rescaleIcon(frameName)
+local function rescaleIcon(frameName, modifier)
+    local zoomModifier = modifier or 1;
     local frame = _G[frameName]
     if frame and frame.data then
         if(frame.data.GetIconScale) then
@@ -106,8 +107,8 @@ local function rescaleIcon(frameName)
             end
 
             if scale > 1 then
-                frame:SetWidth(scale)
-                frame:SetHeight(scale)
+                frame:SetWidth(scale*zoomModifier)
+                frame:SetHeight(scale*zoomModifier)
             end
         else
             Questie:Error("A frame is lacking the GetIconScale function for resizing!", frame.data.Id);
@@ -116,15 +117,15 @@ local function rescaleIcon(frameName)
 end
 
 -- Rescale all the icons
-function QuestieMap:RescaleIcons()
+function QuestieMap:RescaleIcons(modifier)
     for _, framelist in pairs(QuestieMap.questIdFrames) do
         for _, frameName in ipairs(framelist) do
-            rescaleIcon(frameName)
+            rescaleIcon(frameName, modifier)
         end
     end
     for _, framelist in pairs(QuestieMap.manualFrames) do
         for _, frameName in ipairs(framelist) do
-            rescaleIcon(frameName)
+            rescaleIcon(frameName, modifier)
         end
     end
 end
@@ -135,6 +136,29 @@ function QuestieMap:InitializeQueue()
     Questie:Debug(DEBUG_DEVELOP, "[QuestieMap] Starting draw queue timer!")
     QuestieMap.drawTimer = C_Timer.NewTicker(0.001, QuestieMap.ProcessQueue)
     QuestieMap.fadeLogicTimerShown = C_Timer.NewTicker(0.3, QuestieMap.ProcessShownMinimapIcons);
+
+    --Reduce the size of the icons on the map depending on zoom
+    hooksecurefunc(WorldMapFrame, "ProcessCanvasClickHandlers", 
+    function(self, button, cursorX, cursorY)
+        --print(button.." clicked at ["..cursorX..", "..cursorY.."] ")
+        QuestieMap:UpdateZoomScale()
+    end)
+end
+
+function QuestieMap:UpdateZoomScale()
+    --["Azeroth"] = {947,0},
+    --["Kalimdor"] = {1414,947},
+    --["Eastern Kingdoms"] = {1415,947},
+    C_Timer.After(0.01, function()
+        local mapId = WorldMapFrame:GetMapID();
+        if(mapId == 947) then
+            QuestieMap:RescaleIcons(0.85);
+        elseif(mapId == 1414 or mapId == 1415) then
+            QuestieMap:RescaleIcons(0.9);
+        else
+            QuestieMap:RescaleIcons(1);
+        end
+    end)
 end
 
 function QuestieMap:ProcessShownMinimapIcons()
@@ -547,7 +571,8 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
         if Questie.db.global.enableMapIcons then
             if not ((Questie.db.global.hideUnexploredMapIcons) and (isExplored == false)) then
                 QuestieMap:QueueDraw(QuestieMap.ICON_MAP_TYPE, Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, showFlag);
-                QuestieDBMIntegration:RegisterHudQuestIcon(tostring(icon), data.Icon, zoneDataAreaIDToUiMapID[AreaID], x, y, colors[1], colors[2], colors[3])
+                local r, g, b = iconMinimap.texture:GetVertexColor()
+                QuestieDBMIntegration:RegisterHudQuestIcon(tostring(icon), data.Icon, zoneDataAreaIDToUiMapID[AreaID], x, y, r, g, b)
                 --HBDPins:AddWorldMapIconMap(Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, showFlag)
             end
         end

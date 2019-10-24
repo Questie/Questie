@@ -16,9 +16,6 @@ local HBDMigrate = LibStub("HereBeDragonsQuestie-Migrate")
 HBDPins.MinimapGroup = CreateFrame("Frame", "QuestieFrameGroup", Minimap)
 --HBDPins:SetMinimapObject(_CreateMinimapParent())
 
-do
-    QuestieFramePool:SetIcons()
-end
 
 function QuestieFramePool:SetIcons()
     if(Questie.db.char.enableMinimalisticIcons) then

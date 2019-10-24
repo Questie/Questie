@@ -209,6 +209,8 @@ function QuestieQuest:SmoothReset() -- use timers to reset progressively instead
                 C_Timer.After(mod, function() QuestieQuest:UpdateQuest(quest) _UpdateSpecials(quest) end)
                 mod = mod + 0.2
             end
+            --After a smooth reset we should scale stuff.
+            QuestieMap:UpdateZoomScale()
         end
     }
     local step = 1
