@@ -97,17 +97,17 @@ function QuestieTooltips:GetTooltip(key)
         ---@tooltipData @tooltipData[questId][playerName][objectiveIndex].text
         local tooltipDataExternal = QuestieComms.data:GetTooltip(key);
         for questId, playerList in pairs(tooltipDataExternal) do
-            if(not tooltipData[questId]) then
-                local quest = QuestieDB:GetQuest(questId);
-                tooltipData[questId] = {}
-                tooltipData[questId].title = quest:GetColoredQuestName();
-            end
             for playerName, objectives in pairs(playerList) do
                 local playerInfo = QuestieLib:PlayerInGroup(playerName);
                 if(playerInfo) then
                     anotherPlayer = true;
                     for objectiveIndex, objective in pairs(objectives) do
                         --Setup data structures that might be missing.
+                        if(not tooltipData[questId]) then
+                            local quest = QuestieDB:GetQuest(questId);
+                            tooltipData[questId] = {}
+                            tooltipData[questId].title = quest:GetColoredQuestName();
+                        end
                         if(not tooltipData[questId].objectivesText) then
                             tooltipData[questId].objectivesText = {}
                         end
@@ -147,7 +147,7 @@ function QuestieTooltips:GetTooltip(key)
         end
         table.insert(tip, questData.title);
         local tempObjectives = {}
-        for objectiveIndex, playerList in pairs(questData.objectivesText or {}) do -- Should we do or {} here?
+        for objectiveIndex, playerList in pairs(questData.objectivesText) do
             for playerName, objectiveText in pairs(playerList) do
                 local playerInfo = QuestieLib:PlayerInGroup(playerName);
                 local useName = "";
