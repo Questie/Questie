@@ -31,6 +31,20 @@ function QuestieOptions.tabs.general:Initialize()
                 inline = true,
                 name = function() return QuestieLocale:GetUIString('ICON_TYPE_HEADER'); end,
                 args = {
+                    enableMinimalisticIcons = {
+                        type = "toggle",
+                        order = 0.9,
+                        name = function() return "(VERY VERY WORK IN PROGRESS!!!)"..QuestieLocale:GetUIString('ENABLE_MAP_ICONS_MINIMALISTIC'); end,
+                        desc = function() return "(VERY VERY WORK IN PROGRESS!!!)"..QuestieLocale:GetUIString('ENABLE_MAP_ICONS_DESC_MINIMALISTIC'); end,
+                        width = "full",
+                        disabled = function() return (not Questie.db.char.enabled); end,
+                        get = function () return Questie.db.char.enableMinimalisticIcons; end,
+                        set = function (info, value)
+                            Questie.db.char.enableMinimalisticIcons = value
+                            QuestieFramePool:SetIcons();
+                            QuestieQuest:SmoothReset();
+                        end,
+                    },
                     enableMapToggle = {
                         type = "toggle",
                         order = 1,

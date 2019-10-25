@@ -30,6 +30,8 @@ QuestieLocale.locale['koKR'] = {
     ['ICON_TYPE_HEADER'] = "아이콘 종류",
     ['ENABLE_MAP_ICONS'] = "지도 아이콘 활성화",
     ['ENABLE_MAP_ICONS_DESC'] = "세계 지도에 퀘스트 아이콘을 표시합니다.",
+    ['ENABLE_MAP_ICONS_MINIMALISTIC'] = "Enable Minimalistic Map Icons",
+    ['ENABLE_MAP_ICONS_DESC_MINIMALISTIC'] = "A minimalistic version of the normal icons.",
     ['ENABLE_MINIMAP_ICONS'] = "미니맵 아이콘 활성화",
     ['ENABLE_MINIMAP_ICONS_DESC'] = "미니맵에 퀘스트 아이콘을 표시합니다.",
 

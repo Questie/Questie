@@ -17,17 +17,26 @@ HBDPins.MinimapGroup = CreateFrame("Frame", "QuestieFrameGroup", Minimap)
 --HBDPins:SetMinimapObject(_CreateMinimapParent())
 
 
---TODO: Add all types (we gotta stop using globals, needs refactoring)
-ICON_TYPE_AVAILABLE =  QuestieLib.AddonPath.."Icons\\available.blp"
-ICON_TYPE_SLAY =  QuestieLib.AddonPath.."Icons\\slay.blp"
-ICON_TYPE_COMPLETE =  QuestieLib.AddonPath.."Icons\\complete.blp"
-ICON_TYPE_ITEM =  QuestieLib.AddonPath.."Icons\\item.blp"
-ICON_TYPE_LOOT =  QuestieLib.AddonPath.."Icons\\loot.blp"
-ICON_TYPE_EVENT =  QuestieLib.AddonPath.."Icons\\event.blp"
-ICON_TYPE_OBJECT =  QuestieLib.AddonPath.."Icons\\object.blp"
-ICON_TYPE_GLOW = QuestieLib.AddonPath.."Icons\\glow.blp"
-ICON_TYPE_BLACK = QuestieLib.AddonPath.."Icons\\black.blp"
-ICON_TYPE_REPEATABLE =  QuestieLib.AddonPath.."Icons\\repeatable.blp"
+function QuestieFramePool:SetIcons()
+    if(Questie.db.char.enableMinimalisticIcons) then
+        ICON_TYPE_SLAY =  QuestieLib.AddonPath.."Icons\\slay_tiny.blp"
+        ICON_TYPE_LOOT =  QuestieLib.AddonPath.."Icons\\loot_tiny.blp"
+        ICON_TYPE_EVENT =  QuestieLib.AddonPath.."Icons\\event_tiny.blp"
+        ICON_TYPE_OBJECT =  QuestieLib.AddonPath.."Icons\\object_tiny.blp"
+    else
+        ICON_TYPE_SLAY =  QuestieLib.AddonPath.."Icons\\slay.blp"
+        ICON_TYPE_LOOT =  QuestieLib.AddonPath.."Icons\\loot.blp"
+        ICON_TYPE_EVENT =  QuestieLib.AddonPath.."Icons\\event.blp"
+        ICON_TYPE_OBJECT =  QuestieLib.AddonPath.."Icons\\object.blp"
+    end
+    --TODO: Add all types (we gotta stop using globals, needs refactoring)
+    ICON_TYPE_AVAILABLE =  QuestieLib.AddonPath.."Icons\\available.blp"
+    ICON_TYPE_AVAILABLE_GRAY =  QuestieLib.AddonPath.."Icons\\available_gray.blp"
+    ICON_TYPE_COMPLETE =  QuestieLib.AddonPath.."Icons\\complete.blp"
+    ICON_TYPE_GLOW = QuestieLib.AddonPath.."Icons\\glow.blp"
+    ICON_TYPE_BLACK = QuestieLib.AddonPath.."Icons\\black.blp"
+    ICON_TYPE_REPEATABLE =  QuestieLib.AddonPath.."Icons\\repeatable.blp"
+end
 
 
 StaticPopupDialogs["QUESTIE_CONFIRMHIDE"] = {
@@ -186,6 +195,8 @@ end]]--
 function _QuestieFramePool:QuestieCreateFrame()
     _QuestieFramePool.numberOfFrames = _QuestieFramePool.numberOfFrames + 1
     local f = CreateFrame("Button", "QuestieFrame".._QuestieFramePool.numberOfFrames, nil)
+    f.frameId = _QuestieFramePool.numberOfFrames;
+    
     if(_QuestieFramePool.numberOfFrames > 5000) then
         Questie:Debug(DEBUG_CRITICAL, "[QuestieFramePool] Over 5000 frames... maybe there is a leak?", _QuestieFramePool.numberOfFrames)
     end
@@ -306,6 +317,37 @@ function _QuestieFramePool:QuestieCreateFrame()
         self.glow:Hide()
     end--end)
     --f.Unload = function(frame) _QuestieFramePool:UnloadFrame(frame) end;
+
+    function f:UpdateTexture(texture)
+        --Different settings depending on noteType
+        local globalScale = 0.7
+        local objectiveColor = false;
+        if(self.miniMapIcon) then
+            globalScale = Questie.db.global.globalMiniMapScale;
+            objectiveColor = Questie.db.global.questMinimapObjectiveColors;
+        else
+            globalScale = Questie.db.global.globalScale;
+            objectiveColor = Questie.db.global.questObjectiveColors;
+        end
+
+        self.texture:SetTexture(texture)
+        self.data.Icon = texture;
+        local colors = {1, 1, 1}
+        if self.data.IconColor ~= nil and objectiveColor then
+            colors = self.data.IconColor
+        end
+        self.texture:SetVertexColor(colors[1], colors[2], colors[3], 1);
+        
+        if self.data.IconScale then
+            local scale = 16 * ((self.data:GetIconScale() or 1)*(globalScale or 0.7));
+            self:SetWidth(scale)
+            self:SetHeight(scale)
+        else
+            self:SetWidth(16)
+            self:SetHeight(16)
+        end
+    end
+
     function f:Unload()
         self:SetScript("OnUpdate", nil)
         self:SetScript("OnShow", nil)
@@ -347,6 +389,10 @@ function _QuestieFramePool:QuestieCreateFrame()
                 lineFrame:Unload();
             end
         end
+        
+        if self.OnHide then self:OnHide() end -- the event might trigger after OnHide=nil even if its set after self:Hide()
+        self.OnHide = nil
+        self.OnShow = nil
         self:Hide()
         self.glow:Hide()
         --self.glow:Hide()
@@ -416,6 +462,9 @@ function _QuestieFramePool:QuestieCreateFrame()
             end
         end
     end
+    f:HookScript("OnHide", function() if self.OnHide then self:OnHide() end end)
+    f:HookScript("OnShow", function() if self.OnShow then self:OnShow() end end)
+    
     --f.glow:Hide()
     table.insert(_QuestieFramePool.allFrames, f)
     return f
@@ -495,9 +544,9 @@ local lineFrames = 1;
 function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, lineWidth, color)
 
     --Create the framepool for lines if it does not already exist.
-	if not QuestieFramePool.Routes_Lines then
-		QuestieFramePool.Routes_Lines={}
-		QuestieFramePool.Routes_Lines_Used={}
+    if not QuestieFramePool.Routes_Lines then
+        QuestieFramePool.Routes_Lines={}
+        QuestieFramePool.Routes_Lines_Used={}
     end
     --Names are not stricktly needed, but it is nice for debugging.
     local frameName = "questieLineFrame"..lineFrames;
@@ -588,7 +637,7 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     
     --Keep a total lineFrame count for names.
     lineFrames = lineFrames + 1;
-	return lineFrame
+    return lineFrame
 end
 
 function _QuestieFramePool:Questie_Tooltip_line(self)
@@ -671,7 +720,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
                             dat.type = QuestieLocale:GetUIString("TOOLTIP_QUEST_COMPLETE");
                         else
                             local questType, questTag = GetQuestTagInfo(icon.data.Id);
-                            if(icon.data.Icon == ICON_TYPE_REPEATABLE) then
+                            if(icon.data.QuestData.Repeatable) then
                                 dat.type = QuestieLocale:GetUIString("TOOLTIP_QUEST_REPEATABLE");--"(Repeatable)"; --
                             elseif(questType == 81 or questType == 83 or questType == 62 or questType == 41 or questType == 1) then
                                 -- Dungeon or Legendary or Raid or PvP or Group(Elite)

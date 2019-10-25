@@ -28,6 +28,8 @@ QuestieLocale.locale['zhTW'] = {
     ['ICON_TYPE_HEADER'] = "圖示類別",
     ['ENABLE_MAP_ICONS'] = "啟用大地圖註記",
     ['ENABLE_MAP_ICONS_DESC'] = "啟用或停用大地圖上的所有註記",
+    ['ENABLE_MAP_ICONS_MINIMALISTIC'] = "Enable Minimalistic Map Icons",
+    ['ENABLE_MAP_ICONS_DESC_MINIMALISTIC'] = "A minimalistic version of the normal icons.",
     ['ENABLE_MINIMAP_ICONS'] = "啟用小地圖標記",
     ['ENABLE_MINIMAP_ICONS_DESC'] = "啟用或停用小地圖上的所有標記",
 

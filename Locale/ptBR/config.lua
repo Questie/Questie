@@ -29,6 +29,8 @@ QuestieLocale.locale['ptBR'] = {
 	['ICON_TYPE_HEADER'] = "Tipos de ícones",
 	['ENABLE_MAP_ICONS'] = "Ativar ícones do mapa",
 	['ENABLE_MAP_ICONS_DESC'] = "Mostrar / ocultar todos os ícones na carta principal",
+	['ENABLE_MAP_ICONS_MINIMALISTIC'] = "Enable Minimalistic Map Icons",
+	['ENABLE_MAP_ICONS_DESC_MINIMALISTIC'] = "A minimalistic version of the normal icons.",
 	['ENABLE_MINIMAP_ICONS'] = "Ativar ícones do Mini-mapa",
 	['ENABLE_MINIMAP_ICONS_DESC'] = "Mostrar / ocultar todos os ícones no mini-mapa",
 	

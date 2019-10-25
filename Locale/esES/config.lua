@@ -28,6 +28,8 @@ QuestieLocale.locale['esES'] = {
     ['ICON_TYPE_HEADER'] = "Tipos de icono",
     ['ENABLE_MAP_ICONS'] = "Habilitar iconos en el mapa",
     ['ENABLE_MAP_ICONS_DESC'] = "Mostrar/Esconder todos los iconos del mapa principal",
+    ['ENABLE_MAP_ICONS_MINIMALISTIC'] = "Enable Minimalistic Map Icons",
+    ['ENABLE_MAP_ICONS_DESC_MINIMALISTIC'] = "A minimalistic version of the normal icons.",
     ['ENABLE_MINIMAP_ICONS'] = "Habilitar iconos del minimapa",
     ['ENABLE_MINIMAP_ICONS_DESC'] = "Mostrar/Esconder todos los iconos del minimapa",
 

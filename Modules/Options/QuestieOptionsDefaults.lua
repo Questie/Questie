@@ -73,6 +73,7 @@ function QuestieOptionsDefaults:Load()
         char = {
             complete = {},
             hidden = {},
+            enableMinimalisticIcons = false,
             enabled = true,
             lowlevel = false,
             manualMinLevelOffset = false,

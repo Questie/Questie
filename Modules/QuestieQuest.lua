@@ -209,6 +209,8 @@ function QuestieQuest:SmoothReset() -- use timers to reset progressively instead
                 C_Timer.After(mod, function() QuestieQuest:UpdateQuest(quest) _UpdateSpecials(quest) end)
                 mod = mod + 0.2
             end
+            --After a smooth reset we should scale stuff.
+            QuestieMap:UpdateZoomScale()
         end
     }
     local step = 1
@@ -884,6 +886,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                                 -- There are instances when X and Y are not in the same map such as in dungeons etc, we default to 0 if it is not set
                                 -- This will create a distance of 0 but it doesn't matter.
                                 local distance = QuestieLib:Euclid(closestStarter[Quest.Id].x or 0, closestStarter[Quest.Id].y or 0, x or 0, y or 0);
+                                drawIcon.distance = distance or 0;
                                 iconsToDraw[Quest.Id][floor(distance)] = drawIcon;
                             end
                             --maxCount = maxCount + 1
@@ -1189,13 +1192,15 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                         end
                         -- To lower the questlog objective text
                         local oDesc = slower(objective.text) or nil;
-                        -- This is whaaaat?
-                        -- local oText = slower(objectiveDB.Text or "");
+                        -- This is used for quests where the objective text and object/NPC/whatever does not correspond with eachother
+                        -- examples https://classic.wowhead.com/quest=3463/set-them-ablaze - https://classic.wowhead.com/quest=2988/witherbark-cages
+                        local oText = slower(objectiveDB.Text or "");
 
-                        if(oName and oDesc) then
-                            local distance = QuestieDB:Levenshtein(oDesc, oName);
-                            if(distance < bestDistance) then
-                                bestDistance = distance;
+                        if((oName or (oText and oText ~= "")) and oDesc) then
+                            local nameDistance = QuestieDB:Levenshtein(oDesc, oName or "");
+                            local textDistance = QuestieDB:Levenshtein(oDesc, oText);
+                            if(math.min(nameDistance, textDistance) < bestDistance) then
+                                bestDistance = math.min(nameDistance, textDistance);
                                 bestIndex = objectiveIndexDB;
                                 tempName = oName; --For debugging
                             end
@@ -1417,7 +1422,7 @@ function QuestieQuest:GetAllLeaderBoardDetails(questId)
             if(objective.type == "monster") then
                 local i, j, monsterName = strfind(text, L_QUEST_MONSTERS_KILLED)
 
-                if(monsterName and objective.text and strlen(monsterName) == strlen(objective.text)) then
+                if((monsterName and objective.text and strlen(monsterName) == strlen(objective.text)) or not monsterName) then
                     --The above doesn't seem to work with the chinese, the row below tries to remove the extra numbers.
                     local cleanerText = smatch(monsterName or text, "(.*)：");
                     text = cleanerText
@@ -1498,7 +1503,11 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                         for _, coords in ipairs(Spawns) do
                             local data = {}
                             data.Id = questObject.Id;
-                            if questObject.Repeatable then
+                            if questObject.requiredLevel > QuestiePlayer.GetPlayerLevel() then
+                                data.Icon = ICON_TYPE_AVAILABLE_GRAY
+                            elseif(questObject:IsTrivial()) then
+                                data.Icon = ICON_TYPE_AVAILABLE_GRAY
+                            elseif questObject.Repeatable then
                                 data.Icon = ICON_TYPE_REPEATABLE
                             else
                                 data.Icon = ICON_TYPE_AVAILABLE
@@ -1537,7 +1546,11 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                             --Questie:Debug("Coords", coords[1], coords[2])
                             local data = {}
                             data.Id = questObject.Id;
-                            if questObject.Repeatable then
+                            if questObject.requiredLevel > QuestiePlayer.GetPlayerLevel() then
+                                data.Icon = ICON_TYPE_AVAILABLE_GRAY
+                            elseif(questObject:IsTrivial()) then
+                                data.Icon = ICON_TYPE_AVAILABLE_GRAY
+                            elseif questObject.Repeatable then
                                 data.Icon = ICON_TYPE_REPEATABLE
                             else
                                 data.Icon = ICON_TYPE_AVAILABLE
@@ -1624,13 +1637,33 @@ function QuestieQuest:DrawAllAvailableQuests()--All quests between
     --This should probably be called somewhere else!
     --QuestieFramePool:UnloadAll()
 
+    local playerLevel = QuestiePlayer:GetPlayerLevel();
+
     local count = 0
-    for questid, qid in pairs(QuestieQuest.availableQuests) do
+    for questId, qid in pairs(QuestieQuest.availableQuests) do
+
         --If the quest is not drawn draw the quest, otherwise skip.
-        if(not QuestieMap.questIdFrames[questid]) then
-            local Quest = QuestieDB:GetQuest(questid)
+        if(not QuestieMap.questIdFrames[questId]) then
+            local Quest = QuestieDB:GetQuest(questId)
             --Draw a specific quest through the function
             _QuestieQuest:DrawAvailableQuest(Quest)
+        else
+            --We want to change from a gray icon to a nongray.
+            for index, frame in ipairs(QuestieMap:GetFramesForQuest(questId)) do
+                --Only run on gray frames.
+                if(frame and frame.data and frame.data.Icon == ICON_TYPE_AVAILABLE_GRAY) then
+                    --Check the min level of the quest against playerLevel
+                    if(frame.data.QuestData.requiredLevel <= playerLevel and not frame.data.QuestData:IsTrivial()) then
+                        if(frame.data.QuestData.Repeatable) then
+                            frame:UpdateTexture(ICON_TYPE_REPEATABLE)
+                        else
+                            frame:UpdateTexture(ICON_TYPE_AVAILABLE)
+                        end
+                    end
+                elseif(frame and frame.data and frame.data.QuestData:IsTrivial() and  frame.data.Icon ~= ICON_TYPE_AVAILABLE_GRAY) then
+                    frame:UpdateTexture(ICON_TYPE_AVAILABLE_GRAY);
+                end
+            end
         end
         count = count + 1
     end

@@ -13,7 +13,9 @@ QuestieMap.questIdFrames = {}
 -- For details about frame.data see QuestieMap.ShowNPC and QuestieMap.ShowObject
 QuestieMap.manualFrames = {}
 
-QuestieMap.minimapFrames = {}
+QuestieMap.mapFramesShown = {};
+
+QuestieMap.minimapFramesShown = {} -- I would do minimapFrames.shown but that would break the logic below
 
 --Used in my fadelogic.
 local fadeOverDistance = 10;
@@ -93,7 +95,8 @@ end
 
 -- Rescale a single icon
 ---@param frameName string @The global name of the icon frame, e.g. "QuestieFrame1"
-local function rescaleIcon(frameName)
+local function rescaleIcon(frameName, modifier)
+    local zoomModifier = modifier or 1;
     local frame = _G[frameName]
     if frame and frame.data then
         if(frame.data.GetIconScale) then
@@ -105,9 +108,13 @@ local function rescaleIcon(frameName)
                 scale = 16 * (frame.data.IconScale or 1) * (Questie.db.global.globalScale or 0.7);
             end
 
+            if(frame.miniMapIcon) then
+                zoomModifier = 1;
+            end
+
             if scale > 1 then
-                frame:SetWidth(scale)
-                frame:SetHeight(scale)
+                frame:SetWidth(scale*zoomModifier)
+                frame:SetHeight(scale*zoomModifier)
             end
         else
             Questie:Error("A frame is lacking the GetIconScale function for resizing!", frame.data.Id);
@@ -116,15 +123,15 @@ local function rescaleIcon(frameName)
 end
 
 -- Rescale all the icons
-function QuestieMap:RescaleIcons()
+function QuestieMap:RescaleIcons(modifier)
     for _, framelist in pairs(QuestieMap.questIdFrames) do
         for _, frameName in ipairs(framelist) do
-            rescaleIcon(frameName)
+            rescaleIcon(frameName, modifier)
         end
     end
     for _, framelist in pairs(QuestieMap.manualFrames) do
         for _, frameName in ipairs(framelist) do
-            rescaleIcon(frameName)
+            rescaleIcon(frameName, modifier)
         end
     end
 end
@@ -135,17 +142,50 @@ function QuestieMap:InitializeQueue()
     Questie:Debug(DEBUG_DEVELOP, "[QuestieMap] Starting draw queue timer!")
     QuestieMap.drawTimer = C_Timer.NewTicker(0.001, QuestieMap.ProcessQueue)
     QuestieMap.fadeLogicTimerShown = C_Timer.NewTicker(0.3, QuestieMap.ProcessShownMinimapIcons);
+
+    --Reduce the size of the icons on the map depending on zoom
+    hooksecurefunc(WorldMapFrame, "ProcessCanvasClickHandlers", 
+    function(self, button, cursorX, cursorY)
+        --print(button.." clicked at ["..cursorX..", "..cursorY.."] ")
+        QuestieMap:UpdateZoomScale()
+    end)
+
+    --We should probably reset this when the map opens.
+    WorldMapFrame:HookScript("OnShow", QuestieMap.UpdateZoomScale);
+end
+
+function QuestieMap:UpdateZoomScale()
+    --["Azeroth"] = {947,0},
+    --["Kalimdor"] = {1414,947},
+    --["Eastern Kingdoms"] = {1415,947},
+    --This time is required because GetMapID does not return the correct ID without it.
+    C_Timer.After(0.01, function()
+        local mapId = WorldMapFrame:GetMapID();
+        local scaling = 1;
+        if(mapId == 947) then
+            if(Questie.db.char.enableMinimalisticIcons) then
+                scaling = 0.4
+            else
+                scaling = 0.85
+            end
+        elseif(mapId == 1414 or mapId == 1415) then
+            if(Questie.db.char.enableMinimalisticIcons) then
+                scaling = 0.5
+            else
+                scaling = 0.9
+            end
+        end
+        QuestieMap:RescaleIcons(scaling);
+    end)
 end
 
 function QuestieMap:ProcessShownMinimapIcons()
-    for frameName, minimapFrame in pairs(QuestieMap.minimapFrames) do
-        if (minimapFrame.IsShown and minimapFrame:IsShown()) then
-            if (minimapFrame.FadeLogic and minimapFrame.miniMapIcon) then
-                minimapFrame:FadeLogic()
-            end
-            if minimapFrame.glowUpdate then
-                minimapFrame:glowUpdate()
-            end 
+    for frameName, minimapFrame in pairs(QuestieMap.minimapFramesShown) do
+        if (minimapFrame.FadeLogic and minimapFrame.miniMapIcon) then
+            minimapFrame:FadeLogic()
+        end
+        if minimapFrame.glowUpdate then
+            minimapFrame:glowUpdate()
         end
     end
 end
@@ -357,6 +397,14 @@ function QuestieMap:DrawManualIcon(data, AreaID, x, y)
     iconMinimap.texture:SetTexture(texture)
     iconMinimap.texture:SetVertexColor(colorsMinimap[1], colorsMinimap[2], colorsMinimap[3], 1);
     iconMinimap.miniMapIcon = true;
+    
+    iconMinimap.OnShow = function()
+        QuestieMap.minimapFramesShown[self.frameId] = self
+    end
+    
+    iconMinimap.OnHide = function()
+        QuestieMap.minimapFramesShown[self.frameId] = nil
+    end
 
     -- add the minimap icon
     QuestieMap:QueueDraw(QuestieMap.ICON_MINIMAP_TYPE, Questie, iconMinimap, data.UiMapID, x / 100, y / 100, true, true);
@@ -383,21 +431,6 @@ end
 --coordinates need to be 0-1 instead of 0-100
 --showFlag isn't required but may want to be Modified
 function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
-    local worldMapId = zoneDataAreaIDToUiMapID[AreaID]
-    local isExplored = false
-
-    if worldMapId then
-        local exploredAreaIDs = C_MapExplorationInfo.GetExploredAreaIDsAtPosition(worldMapId, CreateVector2D(x / 100, y / 100));
-        if exploredAreaIDs then isExplored = true              -- Explored
-        elseif (worldMapId == 1453) then isExplored = true     -- Stormwind
-        elseif (worldMapId == 1455) then isExplored = true     -- Ironforge
-        elseif (worldMapId == 1457) then isExplored = true     -- Darnassus
-        elseif (worldMapId == 1458) then isExplored = true     -- Undercity
-        elseif (worldMapId == 1454) then isExplored = true     -- Orgrimmar
-        elseif (worldMapId == 1456) then isExplored = true     -- Thunder Bluff
-        end
-    end
-
     if type(data) ~= "table" then
         error(MAJOR..": AddWorldMapIconMap: must have some data")
     end
@@ -437,50 +470,43 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
         if data.ClusterId then
             QuestieMap.MapCache_ClutterFix[AreaID][xcell][ycell][data.ClusterId] = true
         end
-        --QuestieMap.MapCache_ClutterFix[AreaID][xcell][ycell][data.ObjectiveTargetId] = true
+
+        if AreaID then
+            data.UiMapID = zoneDataAreaIDToUiMapID[AreaID];
+        end
+        
         local icon = QuestieFramePool:GetFrame()
         icon.data = data
         icon.x = x
         icon.y = y
         icon.AreaID = AreaID
         icon.miniMapIcon = false;
-        if AreaID then
-            data.UiMapID = zoneDataAreaIDToUiMapID[AreaID];
+        icon:UpdateTexture(data.Icon);
+        icon.OnShow = function()
+            QuestieMap.mapFramesShown[self.frameId] = self
         end
-
-
-        icon.texture:SetTexture(data.Icon) -- todo: implement .GlowIcon
-        local colors = {1, 1, 1}
-        if data.IconColor ~= nil and Questie.db.global.questObjectiveColors then
-            colors = data.IconColor
-        end
-        icon.texture:SetVertexColor(colors[1], colors[2], colors[3], 1);
-        -- because of how frames work, I cant seem to set the glow as being behind the note. So for now things are draw in reverse.
-        if data.IconScale then
-            local scale = 16 * (data:GetIconScale()*(Questie.db.global.globalScale or 0.7));
-            icon:SetWidth(scale)
-            icon:SetHeight(scale)
-        else
-            icon:SetWidth(16)
-            icon:SetHeight(16)
+        
+        icon.OnHide = function()
+            QuestieMap.mapFramesShown[self.frameId] = nil
         end
 
         local iconMinimap = QuestieFramePool:GetFrame()
-        local colorsMinimap = {1, 1, 1}
-        if data.IconColor ~= nil and Questie.db.global.questMinimapObjectiveColors then
-            colorsMinimap = data.IconColor
-        end
-        iconMinimap:SetWidth(16 * ((data:GetIconScale() or 1) * (Questie.db.global.globalMiniMapScale or 0.7)))
-        iconMinimap:SetHeight(16 * ((data:GetIconScale() or 1) * (Questie.db.global.globalMiniMapScale or 0.7)))
         iconMinimap.data = data
         iconMinimap.x = x
         iconMinimap.y = y
         iconMinimap.AreaID = AreaID
         --data.refMiniMap = iconMinimap -- used for removing
-        iconMinimap.texture:SetTexture(data.Icon)
-        iconMinimap.texture:SetVertexColor(colorsMinimap[1], colorsMinimap[2], colorsMinimap[3], 1);
         --Are we a minimap note?
         iconMinimap.miniMapIcon = true;
+        iconMinimap:UpdateTexture(data.Icon);
+        iconMinimap.OnShow = function()
+            QuestieMap.minimapFramesShown[self.frameId] = self
+        end
+        
+        iconMinimap.OnHide = function()
+            QuestieMap.minimapFramesShown[self.frameId] = nil
+        end
+
 
         if(not iconMinimap.FadeLogic) then
             function iconMinimap:FadeLogic()
@@ -558,18 +584,14 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
         end
 
         if Questie.db.global.enableMiniMapIcons then
-            if not ((Questie.db.global.hideUnexploredMapIcons) and (isExplored == false)) then
-                QuestieMap:QueueDraw(QuestieMap.ICON_MINIMAP_TYPE, Questie, iconMinimap, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, true, floatOnEdge);
-                QuestieMap.minimapFrames[iconMinimap:GetName()] = iconMinimap;
-                --HBDPins:AddMinimapIconMap(Questie, iconMinimap, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, true, floatOnEdge)
-            end
+            QuestieMap:QueueDraw(QuestieMap.ICON_MINIMAP_TYPE, Questie, iconMinimap, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, true, floatOnEdge);
+            --HBDPins:AddMinimapIconMap(Questie, iconMinimap, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, true, floatOnEdge)
         end
         if Questie.db.global.enableMapIcons then
-            if not ((Questie.db.global.hideUnexploredMapIcons) and (isExplored == false)) then
-                QuestieMap:QueueDraw(QuestieMap.ICON_MAP_TYPE, Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, showFlag);
-                QuestieDBMIntegration:RegisterHudQuestIcon(tostring(icon), data.Icon, zoneDataAreaIDToUiMapID[AreaID], x, y, colors[1], colors[2], colors[3])
-                --HBDPins:AddWorldMapIconMap(Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, showFlag)
-            end
+            QuestieMap:QueueDraw(QuestieMap.ICON_MAP_TYPE, Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, showFlag);
+            local r, g, b = iconMinimap.texture:GetVertexColor()
+            QuestieDBMIntegration:RegisterHudQuestIcon(tostring(icon), data.Icon, zoneDataAreaIDToUiMapID[AreaID], x, y, r, g, b)
+            --HBDPins:AddWorldMapIconMap(Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, showFlag)
         end
         if(QuestieMap.questIdFrames[data.Id] == nil) then
             QuestieMap.questIdFrames[data.Id] = {}
@@ -577,6 +599,13 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
 
         tinsert(QuestieMap.questIdFrames[data.Id], icon:GetName())
         tinsert(QuestieMap.questIdFrames[data.Id], iconMinimap:GetName())
+
+
+        --Hide unexplored logic
+        if(not QuestieMap.utils:IsExplored(icon.UiMapID, icon.x, icon.y) and Questie.db.global.hideUnexploredMapIcons) then
+            icon:FakeHide()
+            iconMinimap:FakeHide()
+        end
 
         -- preset hidden state when needed (logic from QuestieQuest:UpdateHiddenNotes
         -- we should add all this code to something like obj:CheckHide() instead of copying it
