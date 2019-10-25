@@ -13,6 +13,8 @@ QuestieMap.questIdFrames = {}
 -- For details about frame.data see QuestieMap.ShowNPC and QuestieMap.ShowObject
 QuestieMap.manualFrames = {}
 
+QuestieMap.mapFramesShown = {};
+
 QuestieMap.minimapFrames = {}
 QuestieMap.minimapFramesShown = {} -- I would do minimapFrames.shown but that would break the logic below
 
@@ -476,8 +478,14 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
         icon.y = y
         icon.AreaID = AreaID
         icon.miniMapIcon = false;
-
         icon:UpdateTexture(data.Icon);
+        icon.OnShow = function()
+            QuestieMap.mapFramesShown[self:GetName()] = self
+        end
+        
+        icon.OnHide = function()
+            QuestieMap.mapFramesShown[self:GetName()] = nil
+        end
 
         local iconMinimap = QuestieFramePool:GetFrame()
         iconMinimap.data = data
@@ -488,6 +496,13 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
         --Are we a minimap note?
         iconMinimap.miniMapIcon = true;
         iconMinimap:UpdateTexture(data.Icon);
+        iconMinimap.OnShow = function()
+            QuestieMap.minimapFramesShown[self:GetName()] = self
+        end
+        
+        iconMinimap.OnHide = function()
+            QuestieMap.minimapFramesShown[self:GetName()] = nil
+        end
 
 
         if(not iconMinimap.FadeLogic) then
