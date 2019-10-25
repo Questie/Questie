@@ -108,6 +108,10 @@ local function rescaleIcon(frameName, modifier)
                 scale = 16 * (frame.data.IconScale or 1) * (Questie.db.global.globalScale or 0.7);
             end
 
+            if(frame.miniMapIcon) then
+                zoomModifier = 1;
+            end
+
             if scale > 1 then
                 frame:SetWidth(scale*zoomModifier)
                 frame:SetHeight(scale*zoomModifier)
