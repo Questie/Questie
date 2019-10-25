@@ -15,7 +15,6 @@ QuestieMap.manualFrames = {}
 
 QuestieMap.mapFramesShown = {};
 
-QuestieMap.minimapFrames = {}
 QuestieMap.minimapFramesShown = {} -- I would do minimapFrames.shown but that would break the logic below
 
 --Used in my fadelogic.
@@ -582,7 +581,6 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
 
         if Questie.db.global.enableMiniMapIcons then
             QuestieMap:QueueDraw(QuestieMap.ICON_MINIMAP_TYPE, Questie, iconMinimap, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, true, floatOnEdge);
-            QuestieMap.minimapFrames[iconMinimap:GetName()] = iconMinimap;
             --HBDPins:AddMinimapIconMap(Questie, iconMinimap, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, true, floatOnEdge)
         end
         if Questie.db.global.enableMapIcons then
