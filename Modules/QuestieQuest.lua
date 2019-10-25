@@ -1502,7 +1502,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                             data.Id = questObject.Id;
                             if questObject.requiredLevel > QuestiePlayer.GetPlayerLevel() then
                                 data.Icon = ICON_TYPE_AVAILABLE_GRAY
-                            elseif(QuestieLib:IsTrivial(questObject.Level)) then
+                            elseif(questObject:IsTrivial()) then
                                 data.Icon = ICON_TYPE_AVAILABLE_GRAY
                             elseif questObject.Repeatable then
                                 data.Icon = ICON_TYPE_REPEATABLE
@@ -1545,7 +1545,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                             data.Id = questObject.Id;
                             if questObject.requiredLevel > QuestiePlayer.GetPlayerLevel() then
                                 data.Icon = ICON_TYPE_AVAILABLE_GRAY
-                            elseif(QuestieLib:IsTrivial(questObject.Level)) then
+                            elseif(questObject:IsTrivial()) then
                                 data.Icon = ICON_TYPE_AVAILABLE_GRAY
                             elseif questObject.Repeatable then
                                 data.Icon = ICON_TYPE_REPEATABLE
@@ -1650,13 +1650,13 @@ function QuestieQuest:DrawAllAvailableQuests()--All quests between
                 --Only run on gray frames.
                 if(frame and frame.data and frame.data.Icon == ICON_TYPE_AVAILABLE_GRAY) then
                     --Check the min level of the quest against playerLevel
-                    if(frame.data.QuestData.requiredLevel <= playerLevel and not QuestieLib:IsTrivial(frame.data.QuestData.Level)) then
+                    if(frame.data.QuestData.requiredLevel <= playerLevel and not frame.data.QuestData:IsTrivial()) then
                         if(frame.data.QuestData.Repeatable) then
                             frame:UpdateTexture(ICON_TYPE_REPEATABLE)
                         else
                             frame:UpdateTexture(ICON_TYPE_AVAILABLE)
                         end
-                    elseif(QuestieLib:IsTrivial(frame.data.QuestData.Level)) then
+                    elseif(frame.data.QuestData:IsTrivial()) then
                         frame:UpdateTexture(ICON_TYPE_AVAILABLE_GRAY);
                     end
                 end

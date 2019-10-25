@@ -368,6 +368,22 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
             end
         end
 
+        --- function
+        function QO:IsTrivial()
+            local levelDiff = self.Level - QuestiePlayer:GetPlayerLevel();
+            if (levelDiff >= 5) then
+                return false -- Red
+            elseif (levelDiff >= 3) then
+                return false -- Orange
+            elseif (levelDiff >= -2) then
+                return false -- Yellow
+            elseif (-levelDiff <= GetQuestGreenRange()) then
+                return false -- Green
+            else
+                return true -- Grey
+            end
+        end
+
         QuestieDB._QuestCache[QuestID] = QO
         return QO
     else

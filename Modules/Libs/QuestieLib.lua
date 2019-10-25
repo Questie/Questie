@@ -41,31 +41,6 @@ function QuestieLib:PrintDifficultyColor(level, text)
     end
 end
 
-function QuestieLib:IsTrivial(level)
-
-    if level == -1 then
-        level = QuestiePlayer:GetPlayerLevel();
-    end
-    local levelDiff = level - QuestiePlayer:GetPlayerLevel();
-
-    if (levelDiff >= 5) then
-        --return "|cFFFF1A1A"..text.."|r"; -- Red
-        return false
-    elseif (levelDiff >= 3) then
-        --return "|cFFFF8040"..text.."|r"; -- Orange
-        return false
-    elseif (levelDiff >= -2) then
-        --return "|cFFFFFF00"..text.."|r"; -- Yellow
-        return false
-    elseif (-levelDiff <= GetQuestGreenRange()) then
-        --return "|cFF40C040"..text.."|r"; -- Green
-        return false
-    else
-        --return "|cFFC0C0C0"..text.."|r"; -- Grey
-        return true
-    end
-end
-
 function QuestieLib:GetDifficultyColorPercent(level)
 
     if level == -1 then
@@ -388,6 +363,25 @@ function QuestieLib:SanitizePattern(pattern)
 
   return sanitize_cache[pattern]
 end
+
+--[[function QuestieLib:IsTrivial(level)
+    if level == -1 then
+        level = QuestiePlayer:GetPlayerLevel();
+    end
+    local levelDiff = level - QuestiePlayer:GetPlayerLevel();
+    if (levelDiff >= 5) then
+        return false -- Red
+    elseif (levelDiff >= 3) then
+        return false -- Orange
+    elseif (levelDiff >= -2) then
+        return false -- Yellow
+    elseif (-levelDiff <= GetQuestGreenRange()) then
+        return false -- Green
+    else
+        return true -- Grey
+    end
+end]]--
+
 -- https://github.com/shagu/pfQuest/commit/01177f2eb2926336a1ad741a6082affe78ae7c20
 --[[
     function QuestieLib:SanitizePattern(pattern, excludeNumberCapture)
