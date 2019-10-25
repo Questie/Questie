@@ -68,3 +68,31 @@ function QuestieMap.utils:CalcHotzones(points, rangeR)
     end
     return hotzones;
 end
+
+function QuestieMap.utils:IsExplored(uiMapId, x, y)
+  if uiMapId then
+      local exploredAreaIDs = C_MapExplorationInfo.GetExploredAreaIDsAtPosition(uiMapId, CreateVector2D(x / 100, y / 100));
+      if exploredAreaIDs then return true              -- Explored
+      elseif (uiMapId == 1453) then return true     -- Stormwind
+      elseif (uiMapId == 1455) then return true     -- Ironforge
+      elseif (uiMapId == 1457) then return true     -- Darnassus
+      elseif (uiMapId == 1458) then return true     -- Undercity
+      elseif (uiMapId == 1454) then return true     -- Orgrimmar
+      elseif (uiMapId == 1456) then return true     -- Thunder Bluff
+      end
+  end
+  return false;
+end
+
+function QuestieMap.utils:MapExplorationUpdate()
+  for questId, frameList in pairs(QuestieMap.questIdFrames) do
+      for _, frameName in ipairs(frameList) do
+          local frame = _G[frameName];
+          if(frame and frame.x and frame.y and frame.UiMapID and frame.hidden) then
+            if(QuestieMap.utils:IsExplored(frame.UiMapID, frame.x, frame.y)) then
+              frame:FakeUnhide();
+            end
+          end
+      end
+  end
+end
