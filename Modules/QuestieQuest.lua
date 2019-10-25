@@ -1656,9 +1656,9 @@ function QuestieQuest:DrawAllAvailableQuests()--All quests between
                         else
                             frame:UpdateTexture(ICON_TYPE_AVAILABLE)
                         end
-                    elseif(frame.data.QuestData:IsTrivial()) then
-                        frame:UpdateTexture(ICON_TYPE_AVAILABLE_GRAY);
                     end
+                elseif(frame and frame.data and frame.data.QuestData:IsTrivial() and  frame.data.Icon ~= ICON_TYPE_AVAILABLE_GRAY) then
+                    frame:UpdateTexture(ICON_TYPE_AVAILABLE_GRAY);
                 end
             end
         end
