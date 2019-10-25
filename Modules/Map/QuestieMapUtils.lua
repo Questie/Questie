@@ -44,19 +44,32 @@ function QuestieMap.utils:CalcHotzones(points, rangeR)
     			FoundUntouched = true;
     			point.touched = true;
     			tinsert(notes, point);
-    			for index2, point2 in pairs(points) do
-    				local times = 1;
+          for index2, point2 in pairs(points) do
+            --We only want to cluster icons that are on the same map.
+            if(point.UIMapId == point2.UIMapId) then
+              local times = 1;
+              
+              --We want things further away to be clustered more
+              local movingRange = range;
+              if(point.distance and point.distance < 1000) then
+                movingRange = movingRange * 1;
+              elseif(point.distance and point.distance < 1500) then
+                movingRange = movingRange * 1.5;
+              elseif(point.distance and point.distance > 2000) then
+                movingRange = movingRange * 2;
+              end
 
-            if(point.x > 1 and point.y > 1) then times = 100; end
-            local aX, aY = HBD:GetWorldCoordinatesFromZone(point.x/times, point.y/times, point.UIMapId);
-            local bX, bY = HBD:GetWorldCoordinatesFromZone(point2.x/times, point2.y/times, point2.UIMapId);
-    				--local dX = (point.x*times) - (point2.x*times)
-            --local dY = (point.y*times) - (point2.y*times);
-            local distance = QuestieLib:Euclid(aX or 0, aY or 0, bX or 0, bY or 0);
-    				if(distance < range and point2.touched == nil and point.UIMapId == point2.UIMapId) then
-    					point2.touched = true;
-    					tinsert(notes, point2);
-    				end
+              if(point.x > 1 and point.y > 1) then times = 100; end
+              local aX, aY = HBD:GetWorldCoordinatesFromZone(point.x/times, point.y/times, point.UIMapId);
+              local bX, bY = HBD:GetWorldCoordinatesFromZone(point2.x/times, point2.y/times, point2.UIMapId);
+              --local dX = (point.x*times) - (point2.x*times)
+              --local dY = (point.y*times) - (point2.y*times);
+              local distance = QuestieLib:Euclid(aX or 0, aY or 0, bX or 0, bY or 0);
+              if(distance < movingRange and point2.touched == nil) then
+                point2.touched = true;
+                tinsert(notes, point2);
+              end
+            end
     			end
     			tinsert(hotzones, notes);
     		end

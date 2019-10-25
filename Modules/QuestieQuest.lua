@@ -886,6 +886,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                                 -- There are instances when X and Y are not in the same map such as in dungeons etc, we default to 0 if it is not set
                                 -- This will create a distance of 0 but it doesn't matter.
                                 local distance = QuestieLib:Euclid(closestStarter[Quest.Id].x or 0, closestStarter[Quest.Id].y or 0, x or 0, y or 0);
+                                drawIcon.distance = distance or 0;
                                 iconsToDraw[Quest.Id][floor(distance)] = drawIcon;
                             end
                             --maxCount = maxCount + 1
