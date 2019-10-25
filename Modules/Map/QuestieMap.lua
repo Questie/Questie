@@ -144,21 +144,33 @@ function QuestieMap:InitializeQueue()
         --print(button.." clicked at ["..cursorX..", "..cursorY.."] ")
         QuestieMap:UpdateZoomScale()
     end)
+
+    --We should probably reset this when the map opens.
+    WorldMapFrame:HookScript("OnShow", QuestieMap.UpdateZoomScale);
 end
 
 function QuestieMap:UpdateZoomScale()
     --["Azeroth"] = {947,0},
     --["Kalimdor"] = {1414,947},
     --["Eastern Kingdoms"] = {1415,947},
+    --This time is required because GetMapID does not return the correct ID without it.
     C_Timer.After(0.01, function()
         local mapId = WorldMapFrame:GetMapID();
+        local scaling = 1;
         if(mapId == 947) then
-            QuestieMap:RescaleIcons(0.85);
+            if(Questie.db.char.enableMinimalisticIcons) then
+                scaling = 0.4
+            else
+                scaling = 0.85
+            end
         elseif(mapId == 1414 or mapId == 1415) then
-            QuestieMap:RescaleIcons(0.9);
-        else
-            QuestieMap:RescaleIcons(1);
+            if(Questie.db.char.enableMinimalisticIcons) then
+                scaling = 0.5
+            else
+                scaling = 0.9
+            end
         end
+        QuestieMap:RescaleIcons(scaling);
     end)
 end
 
