@@ -355,8 +355,12 @@ function _QuestieFramePool:QuestieCreateFrame()
         self:SetFrameStrata("FULLSCREEN");
         self:SetFrameLevel(0);
 
-        if(QuestieMap.minimapFrames[self:GetName()]) then
-            QuestieMap.minimapFrames[self:GetName()] = nil;
+        if(QuestieMap.minimapFramesShown[self.frameId]) then
+            QuestieMap.minimapFrames[self.frameId] = nil;
+        end
+
+        if(QuestieMap.mapFramesShown[self.frameId]) then
+            QuestieMap.mapFramesShown[self.frameId] = nil;
         end
 
         --We are reseting the frames, making sure that no data is wrong.
@@ -462,8 +466,20 @@ function _QuestieFramePool:QuestieCreateFrame()
             end
         end
     end
-    f:HookScript("OnHide", function() if self.OnHide then self:OnHide() end end)
-    f:HookScript("OnShow", function() if self.OnShow then self:OnShow() end end)
+    hooksecurefunc(f, "Hide", function() 
+        if f.OnHide then
+            f:OnHide()
+        end
+    end)
+    hooksecurefunc(f, "Show", function()
+        --For the love of god don't remove this.
+        QuestieMap.utils:SetDrawOrder(f);
+        if f.OnShow then
+            f:OnShow()
+        end
+    end)
+    --f:HookScript("OnHide", function() if self.OnHide then self:OnHide() end end)
+    --f:HookScript("OnShow", function() if self.OnShow then self:OnShow() end end)
     
     --f.glow:Hide()
     table.insert(_QuestieFramePool.allFrames, f)

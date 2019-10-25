@@ -6,8 +6,29 @@ local HBD = LibStub("HereBeDragonsQuestie-2.0")
 local tinsert = table.insert;
 local pairs = pairs;
 
-function QuestieMap.utils:SetDrawOrder(frame, level)
-  frame.texture:SetDrawLayer("OVERLAY", level);
+function QuestieMap.utils:SetDrawOrder(frame)
+  --This is all fixes to always be on top of HandyNotes notes Let the frame level wars begin.
+  if frame.miniMapIcon then
+      local frameLevel = Minimap:GetFrameLevel() + 7
+      local frameStrata = Minimap:GetFrameStrata()
+      frame:SetParent(Minimap)
+      frame:SetFrameStrata(frameStrata)
+      frame:SetFrameLevel(frameLevel)
+  else            
+      local frameLevel = WorldMapFrame:GetFrameLevel() + 7
+      local frameStrata = WorldMapFrame:GetFrameStrata()
+      frame:SetParent(WorldMapFrame)
+      frame:SetFrameStrata(frameStrata)
+      frame:SetFrameLevel(frameLevel)
+  end
+
+  if(frame.data and (frame.data.Icon == ICON_TYPE_AVAILABLE or frame.data.Icon == ICON_TYPE_REPEATABLE)) then
+    frame.texture:SetDrawLayer("OVERLAY", 5);
+  elseif(frame.data and frame.data.Icon == ICON_TYPE_COMPLETE) then
+    frame.texture:SetDrawLayer("OVERLAY", 6);
+  else
+    frame.texture:SetDrawLayer("OVERLAY", 0);
+  end
 end
 
 ---@param points table<integer, Point> @Pointlist {x=0, y=0}

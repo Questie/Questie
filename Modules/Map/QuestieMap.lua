@@ -203,31 +203,10 @@ function QuestieMap:ProcessQueue()
   local mapDrawCall = tremove(mapDrawQueue, 1);
   if(mapDrawCall) then
     HBDPins:AddWorldMapIconMap(tunpack(mapDrawCall));
-
-    --The frame level stuff seems to need to happen after they have been drawn?
-    local frame = mapDrawCall[2];
-    if(frame.data and (frame.data.Icon == ICON_TYPE_AVAILABLE or frame.data.Icon == ICON_TYPE_REPEATABLE)) then
-      QuestieMap.utils:SetDrawOrder(frame, 5);
-      --frame.texture:SetDrawLayer("OVERLAY", 5)
-    elseif(frame.data and frame.data.Icon == ICON_TYPE_COMPLETE) then
-      QuestieMap.utils:SetDrawOrder(frame, 6);
-      --frame.texture:SetDrawLayer("OVERLAY", 6)
-    end
   end
   local minimapDrawCall = tremove(minimapDrawQueue, 1);
   if(minimapDrawCall) then
     HBDPins:AddMinimapIconMap(tunpack(minimapDrawCall));
-    
-
-    --The frame level stuff seems to need to happen after they have been drawn?
-    local frame = mapDrawCall[2];
-    if(frame.data.Icon == ICON_TYPE_AVAILABLE or frame.data.Icon == ICON_TYPE_REPEATABLE) then
-      QuestieMap.utils:SetDrawOrder(frame, 5);
-      --frame.texture:SetDrawLayer("OVERLAY", 5)
-    elseif(frame.data.Icon == ICON_TYPE_COMPLETE) then
-      QuestieMap.utils:SetDrawOrder(frame, 6);
-      --frame.texture:SetDrawLayer("OVERLAY", 6)
-    end
   end
 end
 
@@ -399,11 +378,13 @@ function QuestieMap:DrawManualIcon(data, AreaID, x, y)
     iconMinimap.miniMapIcon = true;
     
     iconMinimap.OnShow = function()
-        QuestieMap.minimapFramesShown[self.frameId] = self
+        QuestieMap.minimapFramesShown[iconMinimap.frameId] = iconMinimap
     end
     
     iconMinimap.OnHide = function()
-        QuestieMap.minimapFramesShown[self.frameId] = nil
+        if(QuestieMap.minimapFramesShown[iconMinimap.frameId]) then
+            QuestieMap.minimapFramesShown[iconMinimap.frameId] = nil
+        end
     end
 
     -- add the minimap icon
@@ -483,11 +464,13 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
         icon.miniMapIcon = false;
         icon:UpdateTexture(data.Icon);
         icon.OnShow = function()
-            QuestieMap.mapFramesShown[self.frameId] = self
+            QuestieMap.mapFramesShown[icon.frameId] = icon
         end
         
         icon.OnHide = function()
-            QuestieMap.mapFramesShown[self.frameId] = nil
+            if(QuestieMap.mapFramesShown[icon.frameId]) then
+                QuestieMap.mapFramesShown[icon.frameId] = nil
+            end
         end
 
         local iconMinimap = QuestieFramePool:GetFrame()
@@ -500,11 +483,13 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
         iconMinimap.miniMapIcon = true;
         iconMinimap:UpdateTexture(data.Icon);
         iconMinimap.OnShow = function()
-            QuestieMap.minimapFramesShown[self.frameId] = self
+            --QuestieMap.minimapFramesShown[iconMinimap.frameId] = iconMinimap
         end
         
         iconMinimap.OnHide = function()
-            QuestieMap.minimapFramesShown[self.frameId] = nil
+            if(QuestieMap.minimapFramesShown[iconMinimap.frameId]) then
+                QuestieMap.minimapFramesShown[iconMinimap.frameId] = nil
+            end
         end
 
 
@@ -602,7 +587,7 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
 
 
         --Hide unexplored logic
-        if(not QuestieMap.utils:IsExplored(icon.UiMapID, icon.x, icon.y) and Questie.db.global.hideUnexploredMapIcons) then
+        if(not QuestieMap.utils:IsExplored(icon.data.UiMapID, x, y) and Questie.db.global.hideUnexploredMapIcons) then
             icon:FakeHide()
             iconMinimap:FakeHide()
         end
