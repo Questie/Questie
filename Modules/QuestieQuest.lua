@@ -1192,7 +1192,8 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                         end
                         -- To lower the questlog objective text
                         local oDesc = slower(objective.text) or nil;
-                        -- This is whaaaat?
+                        -- This is used for quests where the objective text and object/NPC/whatever does not correspond with eachother
+                        -- examples https://classic.wowhead.com/quest=3463/set-them-ablaze - https://classic.wowhead.com/quest=2988/witherbark-cages
                         local oText = slower(objectiveDB.Text or "");
 
                         if((oName or (oText and oText ~= "")) and oDesc) then
