@@ -396,11 +396,11 @@ function QuestieMap:DrawManualIcon(data, AreaID, x, y)
     iconMinimap.miniMapIcon = true;
     
     iconMinimap.OnShow = function()
-        QuestieMap.minimapFramesShown[self:GetName()] = self
+        QuestieMap.minimapFramesShown[self.frameId] = self
     end
     
     iconMinimap.OnHide = function()
-        QuestieMap.minimapFramesShown[self:GetName()] = nil
+        QuestieMap.minimapFramesShown[self.frameId] = nil
     end
 
     -- add the minimap icon
@@ -480,11 +480,11 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
         icon.miniMapIcon = false;
         icon:UpdateTexture(data.Icon);
         icon.OnShow = function()
-            QuestieMap.mapFramesShown[self:GetName()] = self
+            QuestieMap.mapFramesShown[self.frameId] = self
         end
         
         icon.OnHide = function()
-            QuestieMap.mapFramesShown[self:GetName()] = nil
+            QuestieMap.mapFramesShown[self.frameId] = nil
         end
 
         local iconMinimap = QuestieFramePool:GetFrame()
@@ -497,11 +497,11 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
         iconMinimap.miniMapIcon = true;
         iconMinimap:UpdateTexture(data.Icon);
         iconMinimap.OnShow = function()
-            QuestieMap.minimapFramesShown[self:GetName()] = self
+            QuestieMap.minimapFramesShown[self.frameId] = self
         end
         
         iconMinimap.OnHide = function()
-            QuestieMap.minimapFramesShown[self:GetName()] = nil
+            QuestieMap.minimapFramesShown[self.frameId] = nil
         end
 
 

@@ -195,6 +195,8 @@ end]]--
 function _QuestieFramePool:QuestieCreateFrame()
     _QuestieFramePool.numberOfFrames = _QuestieFramePool.numberOfFrames + 1
     local f = CreateFrame("Button", "QuestieFrame".._QuestieFramePool.numberOfFrames, nil)
+    f.frameId = _QuestieFramePool.numberOfFrames;
+    
     if(_QuestieFramePool.numberOfFrames > 5000) then
         Questie:Debug(DEBUG_CRITICAL, "[QuestieFramePool] Over 5000 frames... maybe there is a leak?", _QuestieFramePool.numberOfFrames)
     end
