@@ -1810,7 +1810,7 @@ function QuestieQuest:CalculateAvailableQuests()
 end
 
 function _QuestieQuest:LevelRequirementsFulfilled(quest, playerLevel, minLevel, maxLevel)
-    return (quest.Level >= minLevel or Questie.db.char.lowlevel) and quest.Level <= maxLevel and quest.requiredLevel <= maxLevel
+    return (quest.Level >= minLevel or Questie.db.char.lowlevel) and quest.Level <= maxLevel and quest.requiredLevel <= playerLevel
 end
 
 -- We always want to show a quest if it is a childQuest and its parent is in the quest log
