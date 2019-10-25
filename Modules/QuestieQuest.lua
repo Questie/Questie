@@ -1193,12 +1193,13 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                         -- To lower the questlog objective text
                         local oDesc = slower(objective.text) or nil;
                         -- This is whaaaat?
-                        -- local oText = slower(objectiveDB.Text or "");
+                        local oText = slower(objectiveDB.Text or "");
 
-                        if(oName and oDesc) then
-                            local distance = QuestieDB:Levenshtein(oDesc, oName);
-                            if(distance < bestDistance) then
-                                bestDistance = distance;
+                        if((oName or (oText and oText ~= "")) and oDesc) then
+                            local nameDistance = QuestieDB:Levenshtein(oDesc, oName or "");
+                            local textDistance = QuestieDB:Levenshtein(oDesc, oText);
+                            if(math.min(nameDistance, textDistance) < bestDistance) then
+                                bestDistance = math.min(nameDistance, textDistance);
                                 bestIndex = objectiveIndexDB;
                                 tempName = oName; --For debugging
                             end
