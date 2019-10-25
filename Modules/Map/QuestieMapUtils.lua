@@ -83,18 +83,19 @@ function QuestieMap.utils:CalcHotzones(points, rangeR)
 end
 
 function QuestieMap.utils:IsExplored(uiMapId, x, y)
+  local IsExplored = false;
   if uiMapId then
       local exploredAreaIDs = C_MapExplorationInfo.GetExploredAreaIDsAtPosition(uiMapId, CreateVector2D(x / 100, y / 100));
-      if exploredAreaIDs then return true              -- Explored
-      elseif (uiMapId == 1453) then return true     -- Stormwind
-      elseif (uiMapId == 1455) then return true     -- Ironforge
-      elseif (uiMapId == 1457) then return true     -- Darnassus
-      elseif (uiMapId == 1458) then return true     -- Undercity
-      elseif (uiMapId == 1454) then return true     -- Orgrimmar
-      elseif (uiMapId == 1456) then return true     -- Thunder Bluff
+      if exploredAreaIDs then IsExplored = true              -- Explored
+      elseif (uiMapId == 1453) then IsExplored = true     -- Stormwind
+      elseif (uiMapId == 1455) then IsExplored = true     -- Ironforge
+      elseif (uiMapId == 1457) then IsExplored = true     -- Darnassus
+      elseif (uiMapId == 1458) then IsExplored = true     -- Undercity
+      elseif (uiMapId == 1454) then IsExplored = true     -- Orgrimmar
+      elseif (uiMapId == 1456) then IsExplored = true     -- Thunder Bluff
       end
   end
-  return false;
+  return IsExplored;
 end
 
 function QuestieMap.utils:MapExplorationUpdate()
