@@ -243,18 +243,20 @@ end
 
 function QuestieLib:CacheItemNames(questId)
     local quest = QuestieDB:GetQuest(questId);
-    for objectiveIndexDB, objectiveDB in pairs(quest.ObjectiveData) do
-        if objectiveDB.Type == "item" then
-            if not CHANGEME_Questie4_ItemDB[objectiveDB.Id] then
-                Questie:Debug(DEBUG_DEVELOP, "Requesting item information for missing itemId:", objectiveDB.Id)
-                local item = Item:CreateFromItemID(objectiveDB.Id)
-                item:ContinueOnItemLoad(function()
-                    local itemName = item:GetItemName();
-                    --local itemName = GetItemInfo(objectiveDB.Id)
-                    --Create an empty item with the name itself but no drops.
-                    CHANGEME_Questie4_ItemDB[objectiveDB.Id] = {itemName,{questId},{},{}};
-                    Questie:Debug(DEBUG_DEVELOP, "Created item information for item:", itemName, ":", objectiveDB.Id);
-                end)
+    if(quest and quest.ObjectiveData) then
+        for objectiveIndexDB, objectiveDB in pairs(quest.ObjectiveData) do
+            if objectiveDB.Type == "item" then
+                if not CHANGEME_Questie4_ItemDB[objectiveDB.Id] then
+                    Questie:Debug(DEBUG_DEVELOP, "Requesting item information for missing itemId:", objectiveDB.Id)
+                    local item = Item:CreateFromItemID(objectiveDB.Id)
+                    item:ContinueOnItemLoad(function()
+                        local itemName = item:GetItemName();
+                        --local itemName = GetItemInfo(objectiveDB.Id)
+                        --Create an empty item with the name itself but no drops.
+                        CHANGEME_Questie4_ItemDB[objectiveDB.Id] = {itemName,{questId},{},{}};
+                        Questie:Debug(DEBUG_DEVELOP, "Created item information for item:", itemName, ":", objectiveDB.Id);
+                    end)
+                end
             end
         end
     end
