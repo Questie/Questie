@@ -886,6 +886,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                                 -- There are instances when X and Y are not in the same map such as in dungeons etc, we default to 0 if it is not set
                                 -- This will create a distance of 0 but it doesn't matter.
                                 local distance = QuestieLib:Euclid(closestStarter[Quest.Id].x or 0, closestStarter[Quest.Id].y or 0, x or 0, y or 0);
+                                drawIcon.distance = distance or 0;
                                 iconsToDraw[Quest.Id][floor(distance)] = drawIcon;
                             end
                             --maxCount = maxCount + 1
@@ -1191,13 +1192,15 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                         end
                         -- To lower the questlog objective text
                         local oDesc = slower(objective.text) or nil;
-                        -- This is whaaaat?
-                        -- local oText = slower(objectiveDB.Text or "");
+                        -- This is used for quests where the objective text and object/NPC/whatever does not correspond with eachother
+                        -- examples https://classic.wowhead.com/quest=3463/set-them-ablaze - https://classic.wowhead.com/quest=2988/witherbark-cages
+                        local oText = slower(objectiveDB.Text or "");
 
-                        if(oName and oDesc) then
-                            local distance = QuestieDB:Levenshtein(oDesc, oName);
-                            if(distance < bestDistance) then
-                                bestDistance = distance;
+                        if((oName or (oText and oText ~= "")) and oDesc) then
+                            local nameDistance = QuestieDB:Levenshtein(oDesc, oName or "");
+                            local textDistance = QuestieDB:Levenshtein(oDesc, oText);
+                            if(math.min(nameDistance, textDistance) < bestDistance) then
+                                bestDistance = math.min(nameDistance, textDistance);
                                 bestIndex = objectiveIndexDB;
                                 tempName = oName; --For debugging
                             end
@@ -1502,7 +1505,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                             data.Id = questObject.Id;
                             if questObject.requiredLevel > QuestiePlayer.GetPlayerLevel() then
                                 data.Icon = ICON_TYPE_AVAILABLE_GRAY
-                            elseif(QuestieLib:IsTrivial(questObject.Level)) then
+                            elseif(questObject:IsTrivial()) then
                                 data.Icon = ICON_TYPE_AVAILABLE_GRAY
                             elseif questObject.Repeatable then
                                 data.Icon = ICON_TYPE_REPEATABLE
@@ -1545,7 +1548,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                             data.Id = questObject.Id;
                             if questObject.requiredLevel > QuestiePlayer.GetPlayerLevel() then
                                 data.Icon = ICON_TYPE_AVAILABLE_GRAY
-                            elseif(QuestieLib:IsTrivial(questObject.Level)) then
+                            elseif(questObject:IsTrivial()) then
                                 data.Icon = ICON_TYPE_AVAILABLE_GRAY
                             elseif questObject.Repeatable then
                                 data.Icon = ICON_TYPE_REPEATABLE
@@ -1650,15 +1653,15 @@ function QuestieQuest:DrawAllAvailableQuests()--All quests between
                 --Only run on gray frames.
                 if(frame and frame.data and frame.data.Icon == ICON_TYPE_AVAILABLE_GRAY) then
                     --Check the min level of the quest against playerLevel
-                    if(frame.data.QuestData.requiredLevel <= playerLevel and not QuestieLib:IsTrivial(frame.data.QuestData.Level)) then
+                    if(frame.data.QuestData.requiredLevel <= playerLevel and not frame.data.QuestData:IsTrivial()) then
                         if(frame.data.QuestData.Repeatable) then
                             frame:UpdateTexture(ICON_TYPE_REPEATABLE)
                         else
                             frame:UpdateTexture(ICON_TYPE_AVAILABLE)
                         end
-                    elseif(QuestieLib:IsTrivial(frame.data.QuestData.Level)) then
-                        frame:UpdateTexture(ICON_TYPE_AVAILABLE_GRAY);
                     end
+                elseif(frame and frame.data and frame.data.QuestData:IsTrivial() and  frame.data.Icon ~= ICON_TYPE_AVAILABLE_GRAY) then
+                    frame:UpdateTexture(ICON_TYPE_AVAILABLE_GRAY);
                 end
             end
         end
@@ -1807,7 +1810,7 @@ function QuestieQuest:CalculateAvailableQuests()
 end
 
 function _QuestieQuest:LevelRequirementsFulfilled(quest, playerLevel, minLevel, maxLevel)
-    return (quest.Level >= minLevel or Questie.db.char.lowlevel) and quest.Level <= maxLevel and quest.requiredLevel <= maxLevel
+    return (quest.Level >= minLevel or Questie.db.char.lowlevel) and quest.Level <= maxLevel and quest.requiredLevel <= playerLevel
 end
 
 -- We always want to show a quest if it is a childQuest and its parent is in the quest log

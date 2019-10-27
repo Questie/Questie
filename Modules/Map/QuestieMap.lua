@@ -13,7 +13,8 @@ QuestieMap.questIdFrames = {}
 -- For details about frame.data see QuestieMap.ShowNPC and QuestieMap.ShowObject
 QuestieMap.manualFrames = {}
 
-QuestieMap.minimapFrames = {}
+QuestieMap.mapFramesShown = {};
+
 QuestieMap.minimapFramesShown = {} -- I would do minimapFrames.shown but that would break the logic below
 
 --Used in my fadelogic.
@@ -107,6 +108,10 @@ local function rescaleIcon(frameName, modifier)
                 scale = 16 * (frame.data.IconScale or 1) * (Questie.db.global.globalScale or 0.7);
             end
 
+            if(frame.miniMapIcon) then
+                zoomModifier = 1;
+            end
+
             if scale > 1 then
                 frame:SetWidth(scale*zoomModifier)
                 frame:SetHeight(scale*zoomModifier)
@@ -144,21 +149,33 @@ function QuestieMap:InitializeQueue()
         --print(button.." clicked at ["..cursorX..", "..cursorY.."] ")
         QuestieMap:UpdateZoomScale()
     end)
+
+    --We should probably reset this when the map opens.
+    WorldMapFrame:HookScript("OnShow", QuestieMap.UpdateZoomScale);
 end
 
 function QuestieMap:UpdateZoomScale()
     --["Azeroth"] = {947,0},
     --["Kalimdor"] = {1414,947},
     --["Eastern Kingdoms"] = {1415,947},
+    --This time is required because GetMapID does not return the correct ID without it.
     C_Timer.After(0.01, function()
         local mapId = WorldMapFrame:GetMapID();
+        local scaling = 1;
         if(mapId == 947) then
-            QuestieMap:RescaleIcons(0.85);
+            if(Questie.db.char.enableMinimalisticIcons) then
+                scaling = 0.4
+            else
+                scaling = 0.85
+            end
         elseif(mapId == 1414 or mapId == 1415) then
-            QuestieMap:RescaleIcons(0.9);
-        else
-            QuestieMap:RescaleIcons(1);
+            if(Questie.db.char.enableMinimalisticIcons) then
+                scaling = 0.5
+            else
+                scaling = 0.9
+            end
         end
+        QuestieMap:RescaleIcons(scaling);
     end)
 end
 
@@ -186,31 +203,10 @@ function QuestieMap:ProcessQueue()
   local mapDrawCall = tremove(mapDrawQueue, 1);
   if(mapDrawCall) then
     HBDPins:AddWorldMapIconMap(tunpack(mapDrawCall));
-
-    --The frame level stuff seems to need to happen after they have been drawn?
-    local frame = mapDrawCall[2];
-    if(frame.data and (frame.data.Icon == ICON_TYPE_AVAILABLE or frame.data.Icon == ICON_TYPE_REPEATABLE)) then
-      QuestieMap.utils:SetDrawOrder(frame, 5);
-      --frame.texture:SetDrawLayer("OVERLAY", 5)
-    elseif(frame.data and frame.data.Icon == ICON_TYPE_COMPLETE) then
-      QuestieMap.utils:SetDrawOrder(frame, 6);
-      --frame.texture:SetDrawLayer("OVERLAY", 6)
-    end
   end
   local minimapDrawCall = tremove(minimapDrawQueue, 1);
   if(minimapDrawCall) then
     HBDPins:AddMinimapIconMap(tunpack(minimapDrawCall));
-    
-
-    --The frame level stuff seems to need to happen after they have been drawn?
-    local frame = mapDrawCall[2];
-    if(frame.data.Icon == ICON_TYPE_AVAILABLE or frame.data.Icon == ICON_TYPE_REPEATABLE) then
-      QuestieMap.utils:SetDrawOrder(frame, 5);
-      --frame.texture:SetDrawLayer("OVERLAY", 5)
-    elseif(frame.data.Icon == ICON_TYPE_COMPLETE) then
-      QuestieMap.utils:SetDrawOrder(frame, 6);
-      --frame.texture:SetDrawLayer("OVERLAY", 6)
-    end
   end
 end
 
@@ -382,11 +378,13 @@ function QuestieMap:DrawManualIcon(data, AreaID, x, y)
     iconMinimap.miniMapIcon = true;
     
     iconMinimap.OnShow = function()
-        QuestieMap.minimapFramesShown[self:GetName()] = self
+        QuestieMap.minimapFramesShown[iconMinimap.frameId] = iconMinimap
     end
     
     iconMinimap.OnHide = function()
-        QuestieMap.minimapFramesShown[self:GetName()] = nil
+        if(QuestieMap.minimapFramesShown[iconMinimap.frameId]) then
+            QuestieMap.minimapFramesShown[iconMinimap.frameId] = nil
+        end
     end
 
     -- add the minimap icon
@@ -414,21 +412,6 @@ end
 --coordinates need to be 0-1 instead of 0-100
 --showFlag isn't required but may want to be Modified
 function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
-    local worldMapId = zoneDataAreaIDToUiMapID[AreaID]
-    local isExplored = false
-
-    if worldMapId then
-        local exploredAreaIDs = C_MapExplorationInfo.GetExploredAreaIDsAtPosition(worldMapId, CreateVector2D(x / 100, y / 100));
-        if exploredAreaIDs then isExplored = true              -- Explored
-        elseif (worldMapId == 1453) then isExplored = true     -- Stormwind
-        elseif (worldMapId == 1455) then isExplored = true     -- Ironforge
-        elseif (worldMapId == 1457) then isExplored = true     -- Darnassus
-        elseif (worldMapId == 1458) then isExplored = true     -- Undercity
-        elseif (worldMapId == 1454) then isExplored = true     -- Orgrimmar
-        elseif (worldMapId == 1456) then isExplored = true     -- Thunder Bluff
-        end
-    end
-
     if type(data) ~= "table" then
         error(MAJOR..": AddWorldMapIconMap: must have some data")
     end
@@ -479,8 +462,16 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
         icon.y = y
         icon.AreaID = AreaID
         icon.miniMapIcon = false;
-
         icon:UpdateTexture(data.Icon);
+        icon.OnShow = function()
+            QuestieMap.mapFramesShown[icon.frameId] = icon
+        end
+        
+        icon.OnHide = function()
+            if(QuestieMap.mapFramesShown[icon.frameId]) then
+                QuestieMap.mapFramesShown[icon.frameId] = nil
+            end
+        end
 
         local iconMinimap = QuestieFramePool:GetFrame()
         iconMinimap.data = data
@@ -491,6 +482,15 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
         --Are we a minimap note?
         iconMinimap.miniMapIcon = true;
         iconMinimap:UpdateTexture(data.Icon);
+        iconMinimap.OnShow = function()
+            --QuestieMap.minimapFramesShown[iconMinimap.frameId] = iconMinimap
+        end
+        
+        iconMinimap.OnHide = function()
+            if(QuestieMap.minimapFramesShown[iconMinimap.frameId]) then
+                QuestieMap.minimapFramesShown[iconMinimap.frameId] = nil
+            end
+        end
 
 
         if(not iconMinimap.FadeLogic) then
@@ -569,19 +569,14 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
         end
 
         if Questie.db.global.enableMiniMapIcons then
-            if not ((Questie.db.global.hideUnexploredMapIcons) and (isExplored == false)) then
-                QuestieMap:QueueDraw(QuestieMap.ICON_MINIMAP_TYPE, Questie, iconMinimap, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, true, floatOnEdge);
-                QuestieMap.minimapFrames[iconMinimap:GetName()] = iconMinimap;
-                --HBDPins:AddMinimapIconMap(Questie, iconMinimap, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, true, floatOnEdge)
-            end
+            QuestieMap:QueueDraw(QuestieMap.ICON_MINIMAP_TYPE, Questie, iconMinimap, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, true, floatOnEdge);
+            --HBDPins:AddMinimapIconMap(Questie, iconMinimap, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, true, floatOnEdge)
         end
         if Questie.db.global.enableMapIcons then
-            if not ((Questie.db.global.hideUnexploredMapIcons) and (isExplored == false)) then
-                QuestieMap:QueueDraw(QuestieMap.ICON_MAP_TYPE, Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, showFlag);
-                local r, g, b = iconMinimap.texture:GetVertexColor()
-                QuestieDBMIntegration:RegisterHudQuestIcon(tostring(icon), data.Icon, zoneDataAreaIDToUiMapID[AreaID], x, y, r, g, b)
-                --HBDPins:AddWorldMapIconMap(Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, showFlag)
-            end
+            QuestieMap:QueueDraw(QuestieMap.ICON_MAP_TYPE, Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, showFlag);
+            local r, g, b = iconMinimap.texture:GetVertexColor()
+            QuestieDBMIntegration:RegisterHudQuestIcon(tostring(icon), data.Icon, zoneDataAreaIDToUiMapID[AreaID], x, y, r, g, b)
+            --HBDPins:AddWorldMapIconMap(Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, showFlag)
         end
         if(QuestieMap.questIdFrames[data.Id] == nil) then
             QuestieMap.questIdFrames[data.Id] = {}
@@ -589,6 +584,13 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
 
         tinsert(QuestieMap.questIdFrames[data.Id], icon:GetName())
         tinsert(QuestieMap.questIdFrames[data.Id], iconMinimap:GetName())
+
+
+        --Hide unexplored logic
+        if(not QuestieMap.utils:IsExplored(icon.data.UiMapID, x, y) and Questie.db.global.hideUnexploredMapIcons) then
+            icon:FakeHide()
+            iconMinimap:FakeHide()
+        end
 
         -- preset hidden state when needed (logic from QuestieQuest:UpdateHiddenNotes
         -- we should add all this code to something like obj:CheckHide() instead of copying it

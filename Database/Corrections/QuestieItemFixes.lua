@@ -98,6 +98,10 @@ function QuestieItemFixes:Load()
         [11949] = {"Filled Tainted Ooze Jar",{4512},{7092},{}}, -- #1315
         [18746] = {"Divination Scryer",{7666,7669,8258,},{},{}}, -- #1344
         [18605] = {"Imprisoned Doomguard",{7583},{12396},{179644}}, -- #7583
+        [10691] = {"Filled Vial Labeled #1",{3568},{},{152598}}, -- #1396
+        [10692] = {"Filled Vial Labeled #2",{3568},{},{152604}}, -- #1396
+        [10693] = {"Filled Vial Labeled #3",{3568},{},{152605}}, -- #1396
+        [10694] = {"Filled Vial Labeled #4",{3568},{},{152606}}, -- #1396
 
         -- quest related herbs
         [2449] = {"Earthroot",{6123,6128},{},{1619,3726}},
