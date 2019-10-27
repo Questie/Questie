@@ -32,6 +32,8 @@ QuestieLocale.locale['zhCN'] = {
     ['ENABLE_MAP_ICONS_DESC_MINIMALISTIC'] = "A minimalistic version of the normal icons.",
     ['ENABLE_MINIMAP_ICONS'] = "启用小地图标记",
     ['ENABLE_MINIMAP_ICONS_DESC'] = "启用或停用小地图上的所有图标",
+    ['ENABLE_REPEATABLE_QUEST_ICONS'] = "Show repeatable quests on map",
+    ['ENABLE_REPEATABLE_QUEST_ICONS_DESC'] = "Choose whether repeatable quests should be visible on the map and minimap.",
 
     ['MINIMAP_TAB'] = "小地图选项",
     ['MINIMAP_HEADER'] = "小地图标记选项",
@@ -147,7 +149,7 @@ QuestieLocale.locale['zhCN'] = {
     ['SLASH_TOGGLE_QUESTIE'] = "/questie toggle -- 在地图上显示Questie提示",
     ['SLASH_JOURNEY'] = "/questie journey -- 打开日志窗口",
     ['SLASH_MINIMAP'] = "/questie minimap -- 切换显示或隐藏Questie小地图图标",
-	
+
 	-- Tracker
     ['TRACKER_TAB'] = "追踪",
     ['TRACKER_HEAD'] = "任务追踪选项",
@@ -164,8 +166,8 @@ QuestieLocale.locale['zhCN'] = {
     ['TRACKER_COLOR_OBJECTIVES'] = "目标着色",
     ['TRACKER_COLOR_OBJECTIVES_DESC'] = "按照任务目标的进度，对踪框的任务目标文字染色。",
     ['TRACKER_COLOR_WHITE'] = "白色",
-    ['TRACKER_COLOR_WHITE_TO_GREEN'] = "由白至绿", 
-    ['TRACKER_COLOR_RED_TO_GREEN'] = "由红至绿", 
+    ['TRACKER_COLOR_WHITE_TO_GREEN'] = "由白至绿",
+    ['TRACKER_COLOR_RED_TO_GREEN'] = "由红至绿",
     ['TRACKER_FONT_HEADER'] = "任务名字的字号",
     ['TRACKER_FONT_HEADER_DESC'] = "任务追踪框中，任务名字的字号",
     ['TRACKER_FONT_LINE'] = "任务目标的字号",
@@ -174,7 +176,7 @@ QuestieLocale.locale['zhCN'] = {
     ['TRACKER_QUEST_PADDING_DESC'] = "追踪列表中，每个任务的间距",
     ['TRACKER_INVALID_LOCATION'] = "错误：Questie任务追踪的框架跑到奇怪的地方去了，重置一下......",
     ['TRACKER_SORT_OBJECTIVES'] = "目标排序",
-    ['TRACKER_SORT_OBJECTIVES_DESC'] = "追踪列表中的任务要如何排序", 
+    ['TRACKER_SORT_OBJECTIVES_DESC'] = "追踪列表中的任务要如何排序",
     ['TRACKER_SORT_BY_COMPLETE'] = "根据进度百分比",
     ['TRACKER_SORT_BY_LEVEL'] = "根据等级正序排列",
     ['TRACKER_SORT_BY_LEVEL_REVERSED'] = "根据等级反序排列",
@@ -188,7 +190,7 @@ QuestieLocale.locale['zhCN'] = {
     ['TRACKER_SHORTCUT'] = " 快捷键",
     ['TRACKER_SET_TOMTOM_DESC'] = "在任务追踪上开启TomTom的快捷键",
     ['TRACKER_SHOW_QUESTLOG_DESC'] = "在任务追踪上开启任务日志的快捷键",
-	
+
 	-- tracker right click menu
     ['TRACKER_UNFOCUS'] = "停止关注", -- focus makes only that quest/objective show on map
     ['TRACKER_FOCUS_OBJECTIVE'] = "关注目标",
@@ -284,6 +286,6 @@ QuestieLocale.locale['zhCN'] = {
     ['DEBUG_DRAW'] = "%s available quests drawn. PlayerLevel = %s",
     ['DEBUG_UNLOAD_QFRAMES'] = "Unloading quest frames: %s",
     ['DEBUG_UNLOAD_ALL'] = "Unloading all frames, count: %s",
-	['QUESTIE_ACCEPT_NIL'] = "|cFFFF0000Questie错误：|r你尝试接受任务时返回空值，请输入 /questie reload 重新载入Quesite。", 
+	['QUESTIE_ACCEPT_NIL'] = "|cFFFF0000Questie错误：|r你尝试接受任务时返回空值，请输入 /questie reload 重新载入Quesite。",
     ['QUESTIE_UPDATED_RESTART'] = "|cFFFF0000警告！|r你没有重开游戏就更新了Questie，这可能会使Questie出现某些错误。请完全关闭魔兽世界再重新启动游戏，确保Questie能正常运作。",
 };

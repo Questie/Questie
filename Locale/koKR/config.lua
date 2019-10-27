@@ -34,6 +34,8 @@ QuestieLocale.locale['koKR'] = {
     ['ENABLE_MAP_ICONS_DESC_MINIMALISTIC'] = "A minimalistic version of the normal icons.",
     ['ENABLE_MINIMAP_ICONS'] = "미니맵 아이콘 활성화",
     ['ENABLE_MINIMAP_ICONS_DESC'] = "미니맵에 퀘스트 아이콘을 표시합니다.",
+    ['ENABLE_REPEATABLE_QUEST_ICONS'] = "Show repeatable quests on map",
+    ['ENABLE_REPEATABLE_QUEST_ICONS_DESC'] = "Choose whether repeatable quests should be visible on the map and minimap.",
 
     ['MINIMAP_TAB'] = "미니맵",
     ['MINIMAP_HEADER'] = "미니맵 아이콘 설정",
@@ -168,8 +170,8 @@ QuestieLocale.locale['koKR'] = {
     ['TRACKER_COLOR_OBJECTIVES'] = "퀘스트 목표 색상",
     ['TRACKER_COLOR_OBJECTIVES_DESC'] = "퀘스트 추적기에서 퀘스트 진행도에 따라 퀘스트 목표 색상을 변경합니다.",
     ['TRACKER_COLOR_WHITE'] = "하얀색",
-    ['TRACKER_COLOR_WHITE_TO_GREEN'] = "하얀색에서 초록색", 
-    ['TRACKER_COLOR_RED_TO_GREEN'] = "빨간색에서 초록색", 
+    ['TRACKER_COLOR_WHITE_TO_GREEN'] = "하얀색에서 초록색",
+    ['TRACKER_COLOR_RED_TO_GREEN'] = "빨간색에서 초록색",
     ['TRACKER_FONT_HEADER'] = "퀘스트 이름 글자 크기 설정",
     ['TRACKER_FONT_HEADER_DESC'] = "퀘스트 이름의 글자 크기를 설정합니다.",
     ['TRACKER_FONT_LINE'] = "퀘스트 목표 글자 크기 설정",
@@ -178,7 +180,7 @@ QuestieLocale.locale['koKR'] = {
     ['TRACKER_QUEST_PADDING_DESC'] = "추적기에서 퀘스트간 간격을 설정합니다.",
     ['TRACKER_INVALID_LOCATION'] = "에러: Questie 추적기가 허용되지 않은 위치에 있습니다, 재설정 중...",
     ['TRACKER_SORT_OBJECTIVES'] = "퀘스트 목표 정렬",
-    ['TRACKER_SORT_OBJECTIVES_DESC'] = "추적기에서 퀘스트 목표를 어떻게 정렬해서 보여줄지 설정합니다.", 
+    ['TRACKER_SORT_OBJECTIVES_DESC'] = "추적기에서 퀘스트 목표를 어떻게 정렬해서 보여줄지 설정합니다.",
     ['TRACKER_SORT_BY_COMPLETE'] = "완료한 %% 순서",
     ['TRACKER_SORT_BY_LEVEL'] = "레벨 순서",
     ['TRACKER_SORT_BY_LEVEL_REVERSED'] = "레벨 순서 (역순)",
@@ -288,7 +290,7 @@ QuestieLocale.locale['koKR'] = {
     ['DEBUG_DRAW'] = "%s available quests drawn. PlayerLevel = %s",
     ['DEBUG_UNLOAD_QFRAMES'] = "Unloading quest frames: %s",
     ['DEBUG_UNLOAD_ALL'] = "Unloading all frames, count: %s",
-    ['QUESTIE_ACCEPT_NIL'] = "|cFFFF0000Questie 오류:|r 유효하지 않은 퀘스트를 수락했습니다! /questie reload 를 시도해보세요", 
+    ['QUESTIE_ACCEPT_NIL'] = "|cFFFF0000Questie 오류:|r 유효하지 않은 퀘스트를 수락했습니다! /questie reload 를 시도해보세요",
     ['QUESTIE_UPDATED_RESTART'] = "|cFFFF0000경고!|r 게임을 재실행하지 않고 Questie를 업데이트했습니다. 이는 문제를 야기할 수 있습니다. 계속하시기 전에 게임을 재실행해주세요.",
 
 

@@ -38,6 +38,8 @@ QuestieLocale.locale['deDE'] = {
     ['ENABLE_ICON_LIMIT_DESC'] = "Aktiviert/Deaktiviert, ob die Menge an Icons pro Typ limitiert wird.",
     ['ICON_LIMIT'] = "Icon Limit",
     ['ICON_LIMIT_DESC'] = "Wie viele Icons pro Type gezeigt werden sollen. ( Standard: %s )",
+    ['ENABLE_REPEATABLE_QUEST_ICONS'] = "Show repeatable quests on map",
+    ['ENABLE_REPEATABLE_QUEST_ICONS_DESC'] = "Choose whether repeatable quests should be visible on the map and minimap.",
 
     ['MINIMAP_TAB'] = "Minimap-Einstellungen",
     ['MINIMAP_HEADER'] = "Minimap-Einstellungen",

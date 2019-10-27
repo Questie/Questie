@@ -262,7 +262,7 @@ function QuestieQuest:UpdateHiddenNotes()
                     icon:FakeHide()
                 else
                     icon:FakeUnhide()
-                end 
+                end
             end
         end
     end
@@ -345,7 +345,7 @@ function QuestieQuest:AcceptQuest(questId)
         --QuestieQuest:TrackQuest(questId);
         QuestieQuest:CalculateAvailableQuests()
         QuestieQuest:DrawAllAvailableQuests()
-        
+
         --For safety, remove all these icons.
         QuestieMap:UnloadQuestFrames(questId, ICON_TYPE_AVAILABLE);
         --Broadcast an update.
@@ -913,7 +913,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
             if(not spawnedIcons[questId]) then
                 spawnedIcons[questId] = 0;
             end
-            
+
             if(clusterMethod == "hotzone") then
                 --This can be used to make distance ordered list..
                 local orderedList = {}
@@ -934,7 +934,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                 if orderedList and orderedList[1] and orderedList[1].Icon == ICON_TYPE_OBJECT then -- new clustering / limit code should prevent problems, always show all object notes
                     range = range * 0.2;  -- Only use 20% of the default range.
                 end
-                
+
                 local hotzones = QuestieMap.utils:CalcHotzones(orderedList, range);
 
                 for index, hotzone in pairs(hotzones or {}) do
@@ -1160,7 +1160,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                 for objectiveIndexDB, objectiveDB in pairs(Quest.ObjectiveData) do
                     if objective.type == objectiveDB.Type then
                         -- TODO: use string distance to find closest, dont rely on exact match
-                        
+
                         -- Fetch the name of the objective
                         local oName = nil;
                         if(objectiveDB.Type == "monster" and objectiveDB.Id) then
@@ -1361,7 +1361,7 @@ function QuestieQuest:CompareQuestHashes()
                             _QuestieQuest.questLogHashes[questId] = newHash
                             timer:Cancel();
                             Questie:Debug(DEBUG_DEVELOP, "Accept seems correct, cancel timer");
-                        else   
+                        else
                             Questie:Debug(DEBUG_CRITICAL, "Response is wrong for quest, waiting with timer");
                         end
                     end)]]--
@@ -1674,8 +1674,8 @@ function _QuestieQuest:IsDoable(questObject)
     if not questObject then
         return false;
     end
-    if questObject.Hidden then
-        return false;
+    if questObject.Hidden and not questObject.Repeatable then
+        return false; -- repeatable quests are filtered out elsewhere, repeatablility should not affect doability.
     end
     if Questie.db.char.hidden[questObject.Id] then
         return false;
@@ -1779,11 +1779,12 @@ end
 --TODO Check that this function does what it is supposed to...
 function QuestieQuest:CalculateAvailableQuests()
     local playerLevel = QuestiePlayer:GetPlayerLevel()
-    
+
     local minLevel = playerLevel - Questie.db.global.minLevelFilter
     local maxLevel = playerLevel + Questie.db.global.maxLevelFilter
 
-    
+    local mapRepeatable = Questie.db.global.mapRepeatableQuests
+
     if(not Questie.db.char.manualMinLevelOffset) then
         minLevel = playerLevel - GetQuestGreenRange();
     end
@@ -1793,8 +1794,14 @@ function QuestieQuest:CalculateAvailableQuests()
     for questID, v in pairs(QuestieDB.questData) do
         --Check if we've already completed the quest and that it is not "manually" hidden and that the quest is not currently in the questlog.
 
-        if((not Questie.db.char.complete[questID]) and (not QuestieCorrections.hiddenQuests[questID]) and (not QuestiePlayer.currentQuestlog[questID])) then
-            local quest = QuestieDB:GetQuest(questID)
+        local quest = QuestieDB:GetQuest(questID)
+        local questShowHiddenAndComplete = quest.Repeatable and mapRepeatable
+
+        --if((not Questie.db.char.complete[questID]) and (not QuestieCorrections.hiddenQuests[questID]) and (not QuestiePlayer.currentQuestlog[questID])) then
+        if(
+            ((not Questie.db.char.complete[questID]) or questShowHiddenAndComplete) -- show completed quests when they are repeatable, and repeatable quests are enabled
+            and ((not QuestieCorrections.hiddenQuests[questID]) or questShowHiddenAndComplete) -- same for  hidden quests. (repeatable quests are  on the blacklist)
+            and (not QuestiePlayer.currentQuestlog[questID])) then
 
             if _QuestieQuest:LevelRequirementsFulfilled(quest, playerLevel, minLevel, maxLevel) or _QuestieQuest:IsParentQuestActive(quest.parentQuest) then
                 if _QuestieQuest:IsDoable(quest) then

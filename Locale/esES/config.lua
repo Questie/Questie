@@ -32,6 +32,8 @@ QuestieLocale.locale['esES'] = {
     ['ENABLE_MAP_ICONS_DESC_MINIMALISTIC'] = "A minimalistic version of the normal icons.",
     ['ENABLE_MINIMAP_ICONS'] = "Habilitar iconos del minimapa",
     ['ENABLE_MINIMAP_ICONS_DESC'] = "Mostrar/Esconder todos los iconos del minimapa",
+    ['ENABLE_REPEATABLE_QUEST_ICONS'] = "Show repeatable quests on map",
+    ['ENABLE_REPEATABLE_QUEST_ICONS_DESC'] = "Choose whether repeatable quests should be visible on the map and minimap.",
 
     ['MINIMAP_TAB'] = "Opciones de minimapa",
     ['MINIMAP_HEADER'] = "Opciones de las notas del minimapa",

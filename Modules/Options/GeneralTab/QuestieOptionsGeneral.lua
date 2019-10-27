@@ -94,7 +94,7 @@ function QuestieOptions.tabs.general:Initialize()
                         order = 5,
                         name = function() return QuestieLocale:GetUIString('ENABLE_OBJECTIVES'); end,
                         desc = function() return QuestieLocale:GetUIString('ENABLE_OBJECTIVES_DESC'); end,
-                        width = "full",
+                        width = 1.5,
                         disabled = function() return (not Questie.db.char.enabled); end,
                         get = function () return Questie.db.global.enableObjectives; end,
                         set = function (info, value)
@@ -107,7 +107,7 @@ function QuestieOptions.tabs.general:Initialize()
                         order = 6,
                         name = function() return QuestieLocale:GetUIString('ENABLE_TURNINS'); end,
                         desc = function() return QuestieLocale:GetUIString('ENABLE_TURNINS_DESC'); end,
-                        width = "full",
+                        width = 1.5,
                         disabled = function() return (not Questie.db.char.enabled); end,
                         get = function () return Questie.db.global.enableTurnins; end,
                         set = function (info, value)
@@ -120,14 +120,26 @@ function QuestieOptions.tabs.general:Initialize()
                         order = 7,
                         name = function() return QuestieLocale:GetUIString('ENABLE_AVAILABLE'); end,
                         desc = function() return QuestieLocale:GetUIString('ENABLE_AVAILABLE_DESC'); end,
-                        width = "full",
+                        width = 1.5,
                         disabled = function() return (not Questie.db.char.enabled); end,
                         get = function () return Questie.db.global.enableAvailable; end,
                         set = function (info, value)
                             Questie.db.global.enableAvailable = value
                             QuestieQuest:UpdateHiddenNotes();
                         end,
-                    }
+                    },
+                    mapRepeatableQuests = {
+                        type = "toggle",
+                        order = 8,
+                        name = function() return QuestieLocale:GetUIString('ENABLE_REPEATABLE_QUEST_ICONS'); end,
+                        desc = function() return QuestieLocale:GetUIString('ENABLE_REPEATABLE_QUEST_ICONS_DESC'); end,
+                        width = 1.5,
+                        get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
+                        set = function (info, value)
+                            QuestieOptions:SetGlobalOptionValue(info, value)
+                            QuestieQuest:Reset();
+                        end,
+                    },
                 },
             },
             iconEnabled = {
@@ -255,7 +267,7 @@ function QuestieOptions.tabs.general:Initialize()
                 min = 0,
                 max = QuestiePlayer:GetPlayerLevel() - 1,
                 step = 1,
-                disabled = function() 
+                disabled = function()
                     if(Questie.db.char.manualMinLevelOffset and not Questie.db.char.lowlevel) then
                         return false;
                     else

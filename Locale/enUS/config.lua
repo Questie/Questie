@@ -42,6 +42,8 @@ QuestieLocale.locale['enUS'] = {
     ['ENABLE_ICON_LIMIT_DESC'] = "Enable the limit of icons drawn per type.",
     ['ICON_LIMIT'] = "Icon Limit",
     ['ICON_LIMIT_DESC'] = "Limits the amount of icons drawn per type. ( Default: %s )",
+    ['ENABLE_REPEATABLE_QUEST_ICONS'] = "Show repeatable quests on map",
+    ['ENABLE_REPEATABLE_QUEST_ICONS_DESC'] = "Choose whether repeatable quests should be visible on the map and minimap.",
 
     -- Minimap tab
     ['MINIMAP_TAB'] = "Minimap",
@@ -328,7 +330,7 @@ QuestieLocale.locale['enUS'] = {
     ['DEBUG_DRAW'] = "%s available quests drawn. PlayerLevel = %s",
     ['DEBUG_UNLOAD_QFRAMES'] = "Unloading quest frames: %s",
     ['DEBUG_UNLOAD_ALL'] = "Unloading all frames, count: %s",
-    ['QUESTIE_ACCEPT_NIL'] = "|cFFFF0000Questie ERROR:|r Attempt to accept nil quest! You may need to run /questie reload", 
+    ['QUESTIE_ACCEPT_NIL'] = "|cFFFF0000Questie ERROR:|r Attempt to accept nil quest! You may need to run /questie reload",
     ['QUESTIE_UPDATED_RESTART'] = "|cFFFF0000WARNING!|r You have updated questie without restarting the game, this will likely cause problems. Please restart the game before continuing",
 
     -- TODO finally switch all keys to this style for code readability:

@@ -33,7 +33,9 @@ QuestieLocale.locale['ptBR'] = {
 	['ENABLE_MAP_ICONS_DESC_MINIMALISTIC'] = "A minimalistic version of the normal icons.",
 	['ENABLE_MINIMAP_ICONS'] = "Ativar ícones do Mini-mapa",
 	['ENABLE_MINIMAP_ICONS_DESC'] = "Mostrar / ocultar todos os ícones no mini-mapa",
-	
+    ['ENABLE_REPEATABLE_QUEST_ICONS'] = "Show repeatable quests on map",
+    ['ENABLE_REPEATABLE_QUEST_ICONS_DESC'] = "Choose whether repeatable quests should be visible on the map and minimap.",
+
 	['MINIMAP_TAB'] = "Opções de mini-carta",
 	['MINIMAP_HEADER'] = "Opções de notas com mini-cartas",
 	['MINIMAP_GLOBAL_SCALE'] = "Escala global de ícones da mini-carta",
@@ -51,7 +53,7 @@ QuestieLocale.locale['ptBR'] = {
 	['ENABLE_COORDS_DESC'] = "Coloque as coordenadas do jogador no título do mini-mapa.",
 	['MINIMAP_ALWAYS_GLOW_TOGGLE'] = "Sempre visível atrás dos ícones do mini-mapa",
 	['MINIMAP_ALWAYS_GLOW_TOGGLE_DESC'] = "Desenhe uma textura luminescente por trás dos ícones mínimos do mapa, com cores exclusivas para cada missão",
-	
+
 	['MAP_TAB'] = "Carta",
 	['ENABLE_MAP_BUTTON'] = "Mostrar o botão no cartão Questie",
 	['ENABLE_MAP_BUTTON_DESC'] = "Ative ou desative o botão Mostrar / Ocultar Questie no mapa (pode corrigir algumas interações com o Mapa de Complementos)",
@@ -67,7 +69,7 @@ QuestieLocale.locale['ptBR'] = {
 	['MAP_ALWAYS_GLOW_TOGGLE_DESC'] = "Desenhe uma textura luminescente atrás dos ícones do mapa, com cores exclusivas para cada missão",
 	['MAP_QUEST_COLORS'] = "Cor diferente do ícone do mapa para cada missão",
 	['MAP_QUEST_COLORS_DESC'] = "Exibir ícones do mapa com cores geradas de maneira aleatoriamente com base no ID da missão",
-	
+
 	['AVAILABLE_ICON_SCALE'] = "Saldo para ícones disponíveis / completos",
 	['AVAILABLE_ICON_SCALE_DESC'] = "Qual é o tamanho dos ícones disponíveis / completos (Por defeito: %s)",
 	['LOOT_ICON_SCALE'] = "Saldo para ícones de pilhagem",
@@ -78,7 +80,7 @@ QuestieLocale.locale['ptBR'] = {
 	['OBJECT_ICON_SCALE_DESC'] = "Qual é o tamanho dos ícones de objeto. (Por defeito: %s)",
 	['EVENT_ICON_SCALE'] = "Escala de ícones de eventos",
 	['EVENT_ICON_SCALE_DESC'] = "Qual é o tamanho dos ícones do evento. (Por defeito: %s)",
-	
+
 	['NAMEPLATE_TAB'] = "Opções de nome da placa",
 	['NAMEPLATE_HEAD'] = "Opções do ícone nomes da placa",
 	['NAMEPLATE_TOGGLE'] = "Ativar objetivos da missão nomes da placa",
@@ -116,7 +118,7 @@ QuestieLocale.locale['ptBR'] = {
 	['RESET_QUESTIE_BTN'] = "Reset Questie",
 	['RESET_QUESTIE_BTN_DESC'] = "Redefina a Questie para valores para todas as configurações.",
 	['QUESTIE_DEV_MESSAGE'] = "Questie está em desenvolvimento para World of Warcraft: Classic. Verifique o GitHub para obter as versões mais recentes ou relatar problemas. Ou junte-se a nós em nossa discórdia!(( https://github.com/AeroScripts/QuestieDev/ )) ",
-	
+
 	--Elementos da interface do utilisador
 	['QUESTIE_MAP_BUTTON_SHOW'] = "Ver Questie",
 	['QUESTIE_MAP_BUTTON_HIDE'] = "Ocultar Questie",
@@ -139,7 +141,7 @@ QuestieLocale.locale['ptBR'] = {
 	['TOOLTIP_QUEST_ACTIVE'] = "(Ativo)",
   ['TOOLTIP_QUEST_EVENT'] = "(Event)",
   ['XP'] = "xp";
-	
+
 	--Ordens de barra
 	['SLASH_INVALID'] = "Comando inválido. Para uma lista de opções, digite:",
 	['SLASH_HEAD'] = "Comandos da Questie",
@@ -147,7 +149,7 @@ QuestieLocale.locale['ptBR'] = {
 	['SLASH_TOGGLE_Questie'] = "Questie Alternar - Ativar / Desativar a exibição da Questie sobre o mapa e no mapa ",
 	['SLASH_JOURNEY'] = "/questie journey - Alterne a janela Minha viagem",
 	['SLASH_MINIMAP'] = "/questie minimap - Alterne o botão na miniplaca para Questie",
-	
+
 	--Perseguidor
 	['TRACKER_TAB'] = "Perseguidor",
 	['TRACKER_HEAD'] = "Opções do persiguidor para missões",
@@ -188,7 +190,7 @@ QuestieLocale.locale['ptBR'] = {
 	['TRACKER_SHORTCUT'] = " Atalho",
 	['TRACKER_SET_TOMTOM_DESC'] = "Atalho para abrir TomTom",
 	['TRACKER_SHOW_QUESTLOG_DESC'] = "O atalho para exibir a missão de missões",
-	
+
 	--Menu contextual do rastreador
 	['TRACKER_UNFOCUS'] = "Não concentre mais essa missão",
 	['TRACKER_FOCUS_OBJECTIVE'] = "Objetivo do foco ", --o foco permite exibir apenas esta missão /objetivo no mapa
@@ -203,7 +205,7 @@ QuestieLocale.locale['ptBR'] = {
 	['TRACKER_SHOW_ON_MAP'] = "Mostrar no mapa",
 	['TRACKER_UNLOCK'] = "Desbloqueado o rastreador",
 	['TRACKER_LOCK'] =  "Bloqueado o rastreador",
-	
+
 	--Ordens de Viagem
 	['JOURNEY_TITLE'] = "A Viagem de %s",
 	['JOUNREY_TAB'] = "Minha Viagem",
@@ -262,7 +264,7 @@ QuestieLocale.locale['ptBR'] = {
 	['JOURNEY_SEARCH_EXE'] = "Pesquisar",
 	['JOURNEY_SEARCH_RESULTS'] = "Resultados da pesquisa",
 	['JOURNEY_SEARCH_NOMATCH'] = "Nenhuma correspondência para os resultados da pesquisa: %s",
-	
+
 	--Mensagens de depuração
 	['DEBUG_LOWLEVEL'] = "Missões cinzentas são trocadas para:",
 	['DEBUG_MINLEVEL'] = "minLevelFilter definido como %s",
@@ -286,8 +288,8 @@ QuestieLocale.locale['ptBR'] = {
 	['DEBUG_UNLOAD_QFRAMES'] = "Descarregando quadros de missões: %s",
 	['DEBUG_UNLOAD_ALL'] = "Descarregando todos os quadros, conta: %s",
 	['QUESTIE_ACCEPT_NIL'] = "|cFFFF0000ERREUR Questie:|rTente aceitar missões vazias! Pode ser necessário executar um / recarregar para a missão",
-	['QUESTIE_UPDATED_RESTART'] = "|cFFFF0000ATTENTION !|r Você atualizou o Questie sem reiniciar o jogo, isso pode representar um problema. Por favor, reinicie o jogo antes de continuar",	
-	
+	['QUESTIE_UPDATED_RESTART'] = "|cFFFF0000ATTENTION !|r Você atualizou o Questie sem reiniciar o jogo, isso pode representar um problema. Por favor, reinicie o jogo antes de continuar",
+
 	--ESPERANDO
 	['MINIMAP_OBJECTIVE_SCALE'] = "Escala de ícones objetivos de mini-mapa", --Esperando
 	['MINIMAP_OBJECTIVE_SCALE_DESC'] = "Qual é o tamanho dos ícones dos objectivos Mini-Map. (Por defeito: %s)", --ESPERANDO
