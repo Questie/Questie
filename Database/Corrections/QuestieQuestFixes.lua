@@ -304,6 +304,24 @@ function QuestieQuestFixes:Load()
         [1710] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #1231
         },
+        [1478] = {
+            [QuestieDB.questKeys.exclusiveTo] = {1506}, -- #1427
+        },
+        [1506] = {
+            [QuestieDB.questKeys.exclusiveTo] = {1478}, -- #1427
+        },
+        [1501] = {
+            [QuestieDB.questKeys.exclusiveTo] = {1473}, -- #1427
+        },
+        [1473] = {
+            [QuestieDB.questKeys.exclusiveTo] = {1501}, -- #1427
+        },
+        [1504] = {
+            [QuestieDB.questKeys.exclusiveTo] = {1471}, -- #1427 - The Binding
+        },
+        [1471] = {
+            [QuestieDB.questKeys.exclusiveTo] = {1504}, -- #1427 - The Binding
+        },
         -- Profession quests
         [90] = {
             [QuestieDB.questKeys.requiredSkill] = {185, 50}
