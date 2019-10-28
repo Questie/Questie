@@ -97,8 +97,8 @@ local zoneDataClassicBetaHack = {
     ["Alterac Valley"] = {1459,947},
     ["Warsong Gulch"] = {1460,947},
     ["Arathi Basin"] = {1461,947},
-    ["Eastern Kingdoms"] = {1463,0},
-    ["Kalimdor"] = {1464,0}
+    --["Eastern Kingdoms"] = {1463,0},
+    --["Kalimdor"] = {1464,0}
 }
 
 
@@ -429,7 +429,7 @@ instanceData = {
 
 
 
-function QuestieDBZone:zoneCreateConvertion()
+function QuestieDBZone:ZoneCreateConversion()
   Questie:Debug(DEBUG_DEVELOP, "[QuestieDBZone] Converting ZoneIds")
     for index, Data in ipairs(zoneDataClassicDemo) do
         local buildNr = select(4, GetBuildInfo())
@@ -450,7 +450,7 @@ function QuestieDBZone:zoneCreateConvertion()
         end
 
         if(UiMapID == nil) then
-            Questie:Error("Map convertion failed! : ", "DataName("..tostring(Data[1])..")","UiMapID("..tostring(UiMapID)..")", "AreaID("..tostring(Data[3])..")", "MapID("..tostring(Data[4])..")")
+            Questie:Debug(DEBUG_CRITICAL, "Map convertion failed! : ", "DataName("..tostring(Data[1])..")","UiMapID("..tostring(UiMapID)..")", "AreaID("..tostring(Data[3])..")", "MapID("..tostring(Data[4])..")")
         elseif(UiMapID ~= nil) then
             zoneDataAreaIDToMapID[Data[3]] = Data[4]
             zoneDataAreaIDToUiMapID[Data[3]] = UiMapID
