@@ -72,12 +72,8 @@ function QuestieMap.utils:CalcHotzones(points, rangeR)
               
               --We want things further away to be clustered more
               local movingRange = range;
-              if(point.distance and point.distance < 1000) then
-                movingRange = movingRange * 1;
-              elseif(point.distance and point.distance < 1500) then
-                movingRange = movingRange * 1.5;
-              elseif(point.distance and point.distance > 2000) then
-                movingRange = movingRange * 2;
+              if(point.distance and point.distance > 1000) then
+                movingRange = movingRange * (point.distance/1000);
               end
 
               if(point.x > 1 and point.y > 1) then times = 100; end
