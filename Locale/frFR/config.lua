@@ -334,8 +334,8 @@ QuestieLocale.locale['frFR'] = {
   -- TODO finally switch all keys to this style for code readability:
   ['Show on Map'] = "Afficher sur la carte",
   ['Remove from Map'] = "Retirer de la carte",
-  ['Starts the following quests:'] = "Débute les quêtes suivantes :",
+  ['Starts the following quests:'] = "Commence les quêtes suivantes :",
   ['Ends the following quests:'] = "Termine les quêtes suivantes :",
-  ['No quests to list.'] = "Aucune quête à lister.",
-  ['No spawn data available.'] = "Aucune information sur l'apparition", --Hantunaar: may not be accurate
+  ['No quests to list.'] = "Aucune quête à répertorier.",
+  ['No spawn data available.'] = "Aucune donnée de spawn disponible.",
 };
