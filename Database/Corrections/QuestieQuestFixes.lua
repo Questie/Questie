@@ -579,6 +579,6 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.nextQuestInChain] = 7637,
             [QuestieDB.questKeys.exclusiveTo] = {7638,},
             [QuestieDB.questKeys.zoneOrSort] = -141
-    },
+        },
     }
 end
