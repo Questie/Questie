@@ -1452,7 +1452,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
     end
 
     --If we have it in the questlog already, we should not draw any available icons for that shidazzle.
-    if QuestieQuest.currentQuestlog and QuestieQuest.currentQuestlog[questObject.Id] then
+    if QuestiePlayer.currentQuestlog and QuestiePlayer.currentQuestlog[questObject.Id] then
         return false;
     end
 
