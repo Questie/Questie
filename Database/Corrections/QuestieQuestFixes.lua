@@ -242,7 +242,7 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.finishedBy] = {{14733},nil,},
             [QuestieDB.questKeys.requiredLevel] = 10,               -- All info repeats, but quest has different levels for level of player
             [QuestieDB.questKeys.questLevel] = 15,
-            [QuestieDB.questKeys.requiredRaces] = 0,                -- All races can partake in quest
+            [QuestieDB.questKeys.requiredRaces] = 77,                -- All races can partake in quest
             [QuestieDB.questKeys.zoneOrSort] = 2597,                -- >0: AreaTable.dbc ID; <0
             [QuestieDB.questKeys.specialFlags] = 1,                 -- Quest is repeatable
             
@@ -264,7 +264,7 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.finishedBy] = {{14733},nil,},
             [QuestieDB.questKeys.requiredLevel] = 30,
             [QuestieDB.questKeys.questLevel] = 35,
-            [QuestieDB.questKeys.requiredRaces] = 0,
+            [QuestieDB.questKeys.requiredRaces] = 77,
             [QuestieDB.questKeys.zoneOrSort] = 2597,
             [QuestieDB.questKeys.specialFlags] = 1,
             
@@ -275,7 +275,7 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.finishedBy] = {{14733},nil,},
             [QuestieDB.questKeys.requiredLevel] = 40,
             [QuestieDB.questKeys.questLevel] = 45,
-            [QuestieDB.questKeys.requiredRaces] = 0,
+            [QuestieDB.questKeys.requiredRaces] = 77,
             [QuestieDB.questKeys.zoneOrSort] = 2597,
             [QuestieDB.questKeys.specialFlags] = 1,
             
@@ -286,7 +286,7 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.finishedBy] = {{14733},nil,},
             [QuestieDB.questKeys.requiredLevel] = 50,
             [QuestieDB.questKeys.questLevel] = 55,
-            [QuestieDB.questKeys.requiredRaces] = 0,
+            [QuestieDB.questKeys.requiredRaces] = 77,
             [QuestieDB.questKeys.zoneOrSort] = 2597,
             [QuestieDB.questKeys.specialFlags] = 1,
             
@@ -297,7 +297,7 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.finishedBy] = {{14733},nil,},
             [QuestieDB.questKeys.requiredLevel] = 60,
             [QuestieDB.questKeys.questLevel] = 60,
-            [QuestieDB.questKeys.requiredRaces] = 0,
+            [QuestieDB.questKeys.requiredRaces] = 77,
             [QuestieDB.questKeys.zoneOrSort] = 2597,
             [QuestieDB.questKeys.specialFlags] = 1,
             
