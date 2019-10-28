@@ -112,6 +112,7 @@ function QuestieOptions.tabs.advanced:Initalize()
                 values = {
                     ['enUS'] = 'English',
                     ['esES'] = 'Español',
+                    ['esMX'] = 'Español (México)',
                     ['ptBR'] = 'Português',
                     ['frFR'] = 'Français',
                     ['deDE'] = 'Deutsch',
