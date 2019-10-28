@@ -568,7 +568,7 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.specialFlags] = 0,
         },
         [7670] = { -- #1432
-        [QuestieDB.questKeys.name] = "Lord Grayson Shadowbreaker",
+            [QuestieDB.questKeys.name] = "Lord Grayson Shadowbreaker",
         [QuestieDB.questKeys.startedBy] = {{5149},nil,nil,},
         [QuestieDB.questKeys.finishedBy] = {{928},nil,},
         [QuestieDB.questKeys.requiredLevel] = 60,
