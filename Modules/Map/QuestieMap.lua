@@ -483,7 +483,7 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
         iconMinimap.miniMapIcon = true;
         iconMinimap:UpdateTexture(data.Icon);
         iconMinimap.OnShow = function()
-            --QuestieMap.minimapFramesShown[iconMinimap.frameId] = iconMinimap
+            QuestieMap.minimapFramesShown[iconMinimap.frameId] = iconMinimap
         end
         
         iconMinimap.OnHide = function()

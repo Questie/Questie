@@ -356,7 +356,7 @@ function _QuestieFramePool:QuestieCreateFrame()
         self:SetFrameLevel(0);
 
         if(QuestieMap.minimapFramesShown[self.frameId]) then
-            QuestieMap.minimapFrames[self.frameId] = nil;
+            QuestieMap.minimapFramesShown[self.frameId] = nil;
         end
 
         if(QuestieMap.mapFramesShown[self.frameId]) then
@@ -723,7 +723,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
     local questOrder = {};
     local manualOrder = {};
     if 1 then
-        for _, icon in pairs(_QuestieFramePool.usedFrames) do -- I added "_QuestieFramePool.usedFrames" because I think its a bit more efficient than using _G but I might be wrong
+        for _, icon in pairs(QuestieMap.mapFramesShown) do -- I added "_QuestieFramePool.usedFrames" because I think its a bit more efficient than using _G but I might be wrong
             if icon and icon.data and icon.x and icon.AreaID == self.AreaID then
                 local dist = QuestieLib:Maxdist(icon.x, icon.y, self.x, self.y);
                 if dist < maxDistCluster then
