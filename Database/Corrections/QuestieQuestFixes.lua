@@ -2,6 +2,7 @@ QuestieQuestFixes = {...}
 
 function QuestieQuestFixes:Load()
     table.insert(QuestieDB.questData, 7668, {}) -- Add missing quest index
+    table.insert(QuestieDB.questData, 7669, {})
 
     return {
         [5] = {
@@ -229,6 +230,17 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.objectives] = {nil,nil,{{18880,nil},},nil,},
             [QuestieDB.questKeys.sourceItemId] = 18746,
             [QuestieDB.questKeys.zoneOrSort] = 1637,
+        },
+        [7669] = { --#1449
+            [QuestieDB.questKeys.name] = "Again Into the Great Ossuary",
+            [QuestieDB.questKeys.startedBy] = {{928,},nil,nil,},
+            [QuestieDB.questKeys.finishedBy] = {{928,},nil,nil,},
+            [QuestieDB.questKeys.requiredLevel] = 58,
+            [QuestieDB.questKeys.questLevel] = 60,
+            [QuestieDB.questKeys.requiredRaces] = 178,
+            [QuestieDB.questKeys.requiredClasses] = 64,
+            [QuestieDB.questKeys.zoneOrSort] = -141,
+            [QuestieDB.questKeys.specialFlags] = 1,
         },
         [5211] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #983
