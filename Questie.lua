@@ -144,6 +144,11 @@ function Questie:OnInitialize()
 	--When complete window shows
 	Questie:RegisterEvent("QUEST_COMPLETE", QuestieAuto.QUEST_COMPLETE)
 
+    
+
+    -- todo move this call into loader
+    QuestieTooltips:Initialize()
+
 	-- Initialize Coordinates
 	QuestieCoords.Initialize();
 
@@ -166,7 +171,7 @@ function Questie:OnInitialize()
 
     --Initialize the DB settings.
     Questie:debug(DEBUG_DEVELOP, QuestieLocale:GetUIString('DEBUG_CLUSTER', Questie.db.global.clusterLevelHotzone))
-    QUESTIE_NOTES_CLUSTERMUL_HACK = Questie.db.global.clusterLevelHotzone;
+    QUESTIE_CLUSTER_DISTANCE = Questie.db.global.clusterLevelHotzone;
 
 
     -- Creating the minimap config icon

@@ -8,13 +8,14 @@ local pairs = pairs;
 
 function QuestieMap.utils:SetDrawOrder(frame)
   --This is all fixes to always be on top of HandyNotes notes Let the frame level wars begin.
+  --HandyNotes uses GetFrameLevel + 6, so we use +7
   if frame.miniMapIcon then
       local frameLevel = Minimap:GetFrameLevel() + 7
       local frameStrata = Minimap:GetFrameStrata()
       frame:SetParent(Minimap)
       frame:SetFrameStrata(frameStrata)
       frame:SetFrameLevel(frameLevel)
-  else            
+  else
       local frameLevel = WorldMapFrame:GetFrameLevel() + 7
       local frameStrata = WorldMapFrame:GetFrameStrata()
       frame:SetParent(WorldMapFrame)
@@ -22,6 +23,7 @@ function QuestieMap.utils:SetDrawOrder(frame)
       frame:SetFrameLevel(frameLevel)
   end
 
+  --Draw layer is between -8 and 7, please leave some number above so we don't paint ourselves into a corner...
   if(frame.data and (frame.data.Icon == ICON_TYPE_AVAILABLE or frame.data.Icon == ICON_TYPE_REPEATABLE)) then
     frame.texture:SetDrawLayer("OVERLAY", 5);
   elseif(frame.data and frame.data.Icon == ICON_TYPE_COMPLETE) then

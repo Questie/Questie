@@ -285,7 +285,7 @@ function _QuestieTooltips:CountTooltip()
     return tooltipcount
 end
 
-function QuestieTooltips:Init()
+function QuestieTooltips:Initialize()
     -- For the clicked item frame.
     ItemRefTooltip:HookScript("OnTooltipSetItem", TooltipShowing_item)
     ItemRefTooltip:HookScript("OnHide", function(self)
@@ -308,11 +308,6 @@ function QuestieTooltips:Init()
             QuestieTooltips.lastGametooltipCount = 0
             QuestieTooltips.lastFrameName = "";
         end
-        --local name, unit = self:GetUnit()
-        --Questie:Debug(DEBUG_DEVELOP,"SHOW!", unit)
-        --if name == nil and unit == nil  then
-        --    TooltipShowing_maybeobject(GameTooltipTextLeft1:GetText())
-        --nd
     end)
     GameTooltip:HookScript("OnHide", function(self)
         if (not self.IsForbidden) or (not self:IsForbidden()) then -- do we need this here also
@@ -325,6 +320,7 @@ function QuestieTooltips:Init()
 
     GameTooltip:HookScript("OnUpdate", function(self)
         if (not self.IsForbidden) or (not self:IsForbidden()) then
+            --Because this is an OnUpdate we need to check that it is actually not a Unit or Item to think its a
             local uName, unit = self:GetUnit()
             local iName, link = self:GetItem()
             if((uName == nil and unit == nil and iName == nil and link == nil) and (QuestieTooltips.lastGametooltip ~= GameTooltipTextLeft1:GetText() or (not QuestieTooltips.lastGametooltipCount) or _QuestieTooltips:CountTooltip() < QuestieTooltips.lastGametooltipCount  or QuestieTooltips.lastGametooltipType ~= "object")) then
@@ -335,6 +331,3 @@ function QuestieTooltips:Init()
         end
     end)
 end
-
--- todo move this call into loader
-QuestieTooltips:Init()

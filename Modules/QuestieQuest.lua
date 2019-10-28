@@ -14,9 +14,6 @@ local smatch = string.match;
 local strfind = string.find;
 local slower = string.lower;
 
---Change cluter method, "hotzone" or "cell"
-clusterMethod = "hotzone";
-
 QuestieQuest.availableQuests = {} --Gets populated at PLAYER_ENTERED_WORLD
 
 
@@ -132,7 +129,6 @@ function QuestieQuest:ClearAllNotes()
         end
     end
     QuestieMap.questIdFrames = {}
-    QuestieMap.MapCache_ClutterFix = {}
 end
 
 -- this is only needed for reset, normally special objectives don't need to update
@@ -325,8 +321,6 @@ function QuestieQuest:AcceptQuest(questId)
                 end
             end
 
-            --Reset the clustering for the map
-            QuestieMap.MapCache_ClutterFix = {};
             QuestiePlayer.currentQuestlog[questId] = Quest
             QuestieQuest:PopulateQuestLogInfo(Quest)
             QuestieQuest:PopulateObjectiveNotes(Quest)
@@ -862,10 +856,6 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                     data.Type = Objective.Type
                     data.ObjectiveTargetId = spawnData.Id
 
-                    if spawnData.Icon ~= ICON_TYPE_OBJECT then -- new clustering / limit code should prevent problems, always show all object notes
-                        data.ClusterId = tostring(spawnData.Id) .. tostring(Quest.Id) .. ObjectiveIndex
-                    end
-
                     Objective.AlreadySpawned[id] = {};
                     Objective.AlreadySpawned[id].data = data;
                     Objective.AlreadySpawned[id].minimapRefs = {};
@@ -914,79 +904,47 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                 spawnedIcons[questId] = 0;
             end
             
-            if(clusterMethod == "hotzone") then
-                --This can be used to make distance ordered list..
-                local orderedList = {}
-                local tkeys = {}
-                -- populate the table that holds the keys
-                for k in pairs(icons) do tinsert(tkeys, k) end
-                -- sort the keys
-                table.sort(tkeys)
-                -- use the keys to retrieve the values in the sorted order
-                for _, distance in ipairs(tkeys) do
-                    if(spawnedIcons[questId] > maxPerType) then
-                        Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]", "Too many icons for quest:", questId)
-                        break;
-                    end
-                    tinsert(orderedList, icons[distance]);
+            --This can be used to make distance ordered list..
+            local orderedList = {}
+            local tkeys = {}
+            -- populate the table that holds the keys
+            for k in pairs(icons) do tinsert(tkeys, k) end
+            -- sort the keys
+            table.sort(tkeys)
+            -- use the keys to retrieve the values in the sorted order
+            for _, distance in ipairs(tkeys) do
+                if(spawnedIcons[questId] > maxPerType) then
+                    Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]", "Too many icons for quest:", questId)
+                    break;
                 end
-                local range = QUESTIE_NOTES_CLUSTERMUL_HACK
-                if orderedList and orderedList[1] and orderedList[1].Icon == ICON_TYPE_OBJECT then -- new clustering / limit code should prevent problems, always show all object notes
-                    range = range * 0.2;  -- Only use 20% of the default range.
-                end
-                
-                local hotzones = QuestieMap.utils:CalcHotzones(orderedList, range);
+                tinsert(orderedList, icons[distance]);
+            end
+            local range = QUESTIE_CLUSTER_DISTANCE
+            if orderedList and orderedList[1] and orderedList[1].Icon == ICON_TYPE_OBJECT then -- new clustering / limit code should prevent problems, always show all object notes
+                range = range * 0.2;  -- Only use 20% of the default range.
+            end
+            
+            local hotzones = QuestieMap.utils:CalcHotzones(orderedList, range);
 
-                for index, hotzone in pairs(hotzones or {}) do
-                    if(spawnedIcons[questId] > maxPerType) then
-                        Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]", "Too many icons for quest:", questId)
-                        break;
-                    end
-
-                    --Any icondata will do because they are all the same
-                    local icon = hotzone[1];
-
-
-                    local midPoint = QuestieMap.utils:CenterPoint(hotzone);
-                    --Disable old clustering.
-                    icon.data.ClusterId = nil;
-                    local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, icon.zone, midPoint.x, midPoint.y) -- clustering code takes care of duplicates as long as mindist is more than 0
-                    if iconMap and iconMini then
-                        tinsert(Objective.AlreadySpawned[icon.AlreadySpawnedId].mapRefs, iconMap);
-                        tinsert(Objective.AlreadySpawned[icon.AlreadySpawnedId].minimapRefs, iconMini);
-                    end
-                    spawnedIcons[questId] = spawnedIcons[questId] + 1;
+            for index, hotzone in pairs(hotzones or {}) do
+                if(spawnedIcons[questId] > maxPerType) then
+                    Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]", "Too many icons for quest:", questId)
+                    break;
                 end
 
-                --Unused.
-            else
-                local tkeys = {}
-                -- populate the table that holds the keys
-                for k in pairs(icons) do tinsert(tkeys, k) end
-                -- sort the keys
-                table.sort(tkeys)
-                -- use the keys to retrieve the values in the sorted order
-                for _, distance in ipairs(tkeys) do
-                    if(spawnedIcons[questId] > maxPerType) then
-                        Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]", "Too many icons for quest:", questId)
-                        break;
-                    end
-                    local icon = icons[distance];
-                    local xcell = math.floor((icon.x * (QUESTIE_NOTES_CLUSTERMUL_HACK)));
-                    local ycell = math.floor((icon.y * (QUESTIE_NOTES_CLUSTERMUL_HACK)));
-                    if QuestieMap.MapCache_ClutterFix[icon.areaId] == nil then QuestieMap.MapCache_ClutterFix[icon.areaId] = {}; end
-                    if QuestieMap.MapCache_ClutterFix[icon.areaId][xcell] == nil then QuestieMap.MapCache_ClutterFix[icon.areaId][xcell] = {}; end
-                    if QuestieMap.MapCache_ClutterFix[icon.areaId][xcell][ycell] == nil then QuestieMap.MapCache_ClutterFix[icon.areaId][xcell][ycell] = {}; end
-                    if((not icon.data.ClusterId) or (not QuestieMap.MapCache_ClutterFix[icon.areaId][xcell][ycell][icon.data.ClusterId])) then
-                        --Questie:Print(questId, distance);
-                        local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, icon.zone, icon.x, icon.y) -- clustering code takes care of duplicates as long as mindist is more than 0
-                        if iconMap and iconMini then
-                            tinsert(Objective.AlreadySpawned[icon.AlreadySpawnedId].mapRefs, iconMap);
-                            tinsert(Objective.AlreadySpawned[icon.AlreadySpawnedId].minimapRefs, iconMini);
-                        end
-                        spawnedIcons[questId] = spawnedIcons[questId] + 1;
-                    end
+                --Any icondata will do because they are all the same
+                local icon = hotzone[1];
+
+
+                local midPoint = QuestieMap.utils:CenterPoint(hotzone);
+                --Disable old clustering.
+                icon.data.ClusterId = nil;
+                local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, icon.zone, midPoint.x, midPoint.y) -- clustering code takes care of duplicates as long as mindist is more than 0
+                if iconMap and iconMini then
+                    tinsert(Objective.AlreadySpawned[icon.AlreadySpawnedId].mapRefs, iconMap);
+                    tinsert(Objective.AlreadySpawned[icon.AlreadySpawnedId].minimapRefs, iconMini);
                 end
+                spawnedIcons[questId] = spawnedIcons[questId] + 1;
             end
         end
         if not hasSpawnHack then-- used to check if we have bad data due to API delay. Remove this check once the API bug is dealt with properly
@@ -1041,7 +999,9 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
         SelectQuestLogEntry(v.Index)
         local result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, Quest, k, v, false);
         if not result then
-            Questie:Error("[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_POPULATE_ERR', Quest.Name or "No quest name", Quest.Id or "No quest id", k or "No objective", err or "No error"));
+            local major, minor, patch = QuestieLib:GetAddonVersionInfo();
+            local version = "v"..(major or "").."."..(minor or "").."."..(patch or "");--Doing it this way to keep it 100% safe.
+            Questie:Error("[QuestieQuest]: " .. version .. " - " .. QuestieLocale:GetUIString('DEBUG_POPULATE_ERR', Quest.Name or "No quest name", Quest.Id or "No quest id", k or "No objective", err or "No error"));
         end
     end
 
