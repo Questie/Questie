@@ -328,17 +328,16 @@ function QuestieQuest:AcceptQuest(questId)
             QuestiePlayer.currentQuestlog[questId] = questId
         end
 
+        --TODO: Insert call to drawing objective logic here!
+        --QuestieQuest:TrackQuest(questId);
+        QuestieQuest:CalculateAvailableQuests()
+        QuestieQuest:DrawAllAvailableQuests()
 
         for availableQuestId, alsoQuestId in pairs(QuestieQuest.availableQuests) do
             if not _QuestieQuest:IsDoable(QuestieDB:GetQuest(availableQuestId)) then
                 QuestieMap:UnloadQuestFrames(availableQuestId, ICON_TYPE_AVAILABLE);
             end
         end
-
-        --TODO: Insert call to drawing objective logic here!
-        --QuestieQuest:TrackQuest(questId);
-        QuestieQuest:CalculateAvailableQuests()
-        QuestieQuest:DrawAllAvailableQuests()
         
         --For safety, remove all these icons.
         QuestieMap:UnloadQuestFrames(questId, ICON_TYPE_AVAILABLE);
@@ -1450,6 +1449,11 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                 _QuestieQuest:DrawAvailableQuest(quest, true);
             end
         end
+    end
+
+    --If we have it in the questlog already, we should not draw any available icons for that shidazzle.
+    if QuestieQuest.currentQuestlog[questObject.Id] then
+        return false;
     end
 
 
