@@ -374,7 +374,7 @@ function QuestieQuestFixes:Load()
         [308] = {
             [QuestieDB.questKeys.exclusiveTo] = {311}, -- distracting jarven can't be completed once you get the followup
         },
-    
+
         -- Tome of Divinity starting quests for dwarfs #703
         [1645] = { -- This is repeatable giving an item starting 1646
             [QuestieDB.questKeys.exclusiveTo] = {1642,1646,2997,2998,2999,3000,3681},
@@ -391,7 +391,7 @@ function QuestieQuestFixes:Load()
         [3000] = {
             [QuestieDB.questKeys.exclusiveTo] = {1642,1646,2997,2998,2999,3681},
         },
-    
+
         -- Tome of Divinity starting quests for humans #703
         [1641] = { -- This is repeatable giving an item starting 1642
             [QuestieDB.questKeys.exclusiveTo] = {1642,1646,2997,2998,2999,3000,3681},
@@ -405,7 +405,7 @@ function QuestieQuestFixes:Load()
         [3681] = {
             [QuestieDB.questKeys.exclusiveTo] = {1642,1646,2997,2998,2999,3000},
         },
-    
+
         -- Tome of Valor repeatable starting quests #742
         [1793] = {
             [QuestieDB.questKeys.exclusiveTo] = {1649},
@@ -413,7 +413,7 @@ function QuestieQuestFixes:Load()
         [1794] = {
             [QuestieDB.questKeys.exclusiveTo] = {1649},
         },
-    
+
         -- Tome of Nobility quests #1661
         [1661] = {
             [QuestieDB.questKeys.exclusiveTo] = {4485,4486},
@@ -424,7 +424,7 @@ function QuestieQuestFixes:Load()
         [4486] = {
             [QuestieDB.questKeys.exclusiveTo] = {1661,4485},
         },
-    
+
         -- Voidwalker questline for horde
         [1473] = {
             [QuestieDB.questKeys.exclusiveTo] = {1501},
@@ -432,7 +432,7 @@ function QuestieQuestFixes:Load()
         [1501] = {
             [QuestieDB.questKeys.exclusiveTo] = {1473},
         },
-    
+
         [163] = {
             [QuestieDB.questKeys.exclusiveTo] = {5}, -- Raven Hill breadcrumb
         },
@@ -565,6 +565,9 @@ function QuestieQuestFixes:Load()
         [5891] = {
             [QuestieDB.questKeys.exclusiveTo] = {5887,5888,5889,5890,},
             [QuestieDB.questKeys.specialFlags] = 0,
+        },
+        [467] = {
+            [QuestieDB.questKeys.startedBy] = {{1340,2092,},nil,nil,}, -- #1379
         },
     }
 end
