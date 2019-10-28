@@ -253,7 +253,7 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.finishedBy] = {{14733},nil,},
             [QuestieDB.questKeys.requiredLevel] = 20,
             [QuestieDB.questKeys.questLevel] = 25,
-            [QuestieDB.questKeys.requiredRaces] = 0,
+            [QuestieDB.questKeys.requiredRaces] = 77,
             [QuestieDB.questKeys.zoneOrSort] = 2597,
             [QuestieDB.questKeys.specialFlags] = 1,
             
