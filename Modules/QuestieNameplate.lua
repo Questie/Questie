@@ -5,18 +5,15 @@ local npFrames = {};
 local npUnusedFrames = {};
 local npFramesCount = 0;
 
-QuestieNameplate.GlobalFrame = nil;
+QuestieNameplate.ticker = nil;
 
 -- Initializer
 function QuestieNameplate:Initialize()
-    if QuestieNameplate.GlobalFrame == nil then
-        QuestieNameplate.GlobalFrame = CreateFrame("Frame");
-        QuestieNameplate.GlobalFrame:SetScript("OnUpdate", QuestieNameplate.UpdateNameplate);
-    end
+    QuestieNameplate.ticker = C_Timer.NewTicker(0.5, QuestieNameplate.UpdateNameplate);
 end
 
 -- Frame Management
-function QuestieNameplate:getFrame(guid)
+function QuestieNameplate:GetFrame(guid)
 
     if npFrames[guid] and npFrames[guid] ~= nil then
         return npFrames[guid];
@@ -51,7 +48,7 @@ function QuestieNameplate:getFrame(guid)
     return frame;
 end
 
-function QuestieNameplate:redrawIcons()
+function QuestieNameplate:RedrawIcons()
     for index, frame in pairs(npFrames) do
         local iconScale = Questie.db.global.nameplateScale;
 
@@ -61,7 +58,7 @@ function QuestieNameplate:redrawIcons()
     end
 end
 
-function QuestieNameplate:removeFrame(guid)
+function QuestieNameplate:RemoveFrame(guid)
     if npFrames[guid] then
         table.insert(npUnusedFrames, npFrames[guid])
         npFrames[guid].Icon:SetTexture(nil); -- fix for overlapping icons
@@ -70,7 +67,7 @@ function QuestieNameplate:removeFrame(guid)
     end
 end
 
-function _getValidIcon(tooltip) -- helper function to get the first valid (incomplete) icon from the specified tooltip, or nil if there is none
+local function _GetValidIcon(tooltip) -- helper function to get the first valid (incomplete) icon from the specified tooltip, or nil if there is none
     if tooltip then
         for _,Quest in pairs(tooltip) do
             if Quest.Objective and Quest.Objective.Update then
@@ -101,15 +98,15 @@ function QuestieNameplate:NameplateCreated(token)
 
     -- we only need to use put this over creatures.
     -- to avoid running this code over Pet, Player, etc.
-    local unitType = strsplit("-", unitGUID);
+    local unitType, zero, server_id, instance_id, zone_uid, npc_id, spawn_uid = strsplit("-", unitGUID);
 
     if unitType == "Creature" then
-        local icon = _getValidIcon(QuestieTooltips.tooltipLookup["u_" .. unitName]);
+        local icon = _GetValidIcon(QuestieTooltips.tooltipLookup["m_" .. npc_id]);
 
         if icon then
             activeGUIDs[unitGUID] = token;
 
-            local f = QuestieNameplate:getFrame(unitGUID);
+            local f = QuestieNameplate:GetFrame(unitGUID);
             f.Icon:SetTexture(icon)
             f.lastIcon = icon -- this is used to prevent updating the texture when it's already what it needs to be
             f:Show();
@@ -123,7 +120,7 @@ function QuestieNameplate:NameplateDestroyed(token)
 
     if unitGUID and activeGUIDs[unitGUID] then
         activeGUIDs[unitGUID] = nil;
-        QuestieNameplate:removeFrame(unitGUID);
+        QuestieNameplate:RemoveFrame(unitGUID);
     end
 
 end
@@ -133,14 +130,15 @@ function QuestieNameplate:UpdateNameplate(self)
 
     for guid, token in pairs(activeGUIDs) do
 
-        unitName, _ = UnitName(token);
+        local unitName, _ = UnitName(token);
+        local unitType, zero, server_id, instance_id, zone_uid, npc_id, spawn_uid = strsplit("-", guid);
 
-        if not unitName then return end
+        if not unitName or not npc_id then return end
 
-        local icon = _getValidIcon(QuestieTooltips.tooltipLookup["u_" .. unitName]);
+        local icon = _GetValidIcon(QuestieTooltips.tooltipLookup["m_" .. npc_id]);
 
         if icon then
-            local frame = QuestieNameplate:getFrame(guid);
+            local frame = QuestieNameplate:GetFrame(guid);
             -- check if the texture needs to be changed
             if (not frame.lastIcon) or icon ~= frame.lastIcon then
                 frame.lastIcon = icon
@@ -150,7 +148,7 @@ function QuestieNameplate:UpdateNameplate(self)
         else
             -- tooltip removed but we still have the frame active, remove it
             activeGUIDs[guid] = nil;
-            QuestieNameplate:removeFrame(guid);
+            QuestieNameplate:RemoveFrame(guid);
         end
     end
 end
@@ -158,7 +156,7 @@ end
 function QuestieNameplate:HideCurrentFrames()
         for guid, token in pairs(activeGUIDs) do
             activeGUIDs[guid] = nil;
-            QuestieNameplate:removeFrame(guid);
+            QuestieNameplate:RemoveFrame(guid);
         end
 end
 
@@ -178,11 +176,11 @@ function QuestieNameplate:DrawTargetFrame()
         local unitName = UnitName("target");
 
         if unitName and unitGUID then 
-            local unitType = strsplit("-", unitGUID);
+            local unitType, zero, server_id, instance_id, zone_uid, npc_id, spawn_uid = strsplit("-", unitGUID);
 
             if unitType == "Creature" then
 
-                local icon = _getValidIcon(QuestieTooltips.tooltipLookup["u_" .. unitName]);
+                local icon = _GetValidIcon(QuestieTooltips.tooltipLookup["m_" .. npc_id]);
 
                 if icon then
 
@@ -222,7 +220,7 @@ function QuestieNameplate:HideCurrentTargetFrame()
 end
 
 
-function QuestieNameplate:redrawFrameIcon()
+function QuestieNameplate:RedrawFrameIcon()
     if Questie.db.global.nameplateTargetFrameEnabled then
         if activeTargetFrame then
             local iconScale = Questie.db.global.nameplateTargetFrameScale;

@@ -374,6 +374,12 @@ function worldmapProvider:HandlePin(icon, data)
 
     local x, y
     if uiMapID == WORLD_MAP_ID then
+        -- Questie modifications!
+        if(data.worldMapShowFlag == HBD_PINS_WORLDMAP_SHOW_CURRENT) then
+            -- We show the icon when the mapid corresponds.
+            icon:Hide();
+        end
+
         -- should this pin show on the world map?
         if uiMapID ~= data.uiMapID and data.worldMapShowFlag ~= HBD_PINS_WORLDMAP_SHOW_WORLD then return end
 
@@ -406,6 +412,11 @@ function worldmapProvider:HandlePin(icon, data)
                         elseif data.worldMapShowFlag >= HBD_PINS_WORLDMAP_SHOW_CONTINENT and
                             parentMapType == Enum.UIMapType.Continent then
                             show = true
+                        elseif data.worldMapShowFlag == HBD_PINS_WORLDMAP_SHOW_CURRENT then
+                            -- Questie modifications!
+                            show = false
+                            -- We hide it when it is not part of the current map.
+                            icon:Hide();
                         end
                         break
                         -- worldmap is handled above already
@@ -415,6 +426,12 @@ function worldmapProvider:HandlePin(icon, data)
                 end
 
                 if not show then return end
+            end
+        else
+            -- Questie modifications!
+            if(data.worldMapShowFlag == HBD_PINS_WORLDMAP_SHOW_CURRENT) then
+                -- We show the icon when the mapid corresponds.
+                icon:Show();
             end
         end
 
@@ -465,18 +482,18 @@ local function UpdateWorldMap()
     worldmapProvider:RefreshAllData()
 end
 
-local last_update = 0
-local function OnUpdateHandler(frame, elapsed)
-    last_update = last_update + elapsed
-    if last_update > 1 or queueFullUpdate then
-        UpdateMinimapPins(queueFullUpdate)
-        last_update = 0
-        queueFullUpdate = false
-    else
-        UpdateMinimapIconPosition()
-    end
+local function OnUpdateHandler()
+    UpdateMinimapIconPosition()
 end
-pins.updateFrame:SetScript("OnUpdate", OnUpdateHandler)
+local function OnUpdateHandler2()
+    UpdateMinimapPins(queueFullUpdate)
+    queueFullUpdate = false
+end
+
+
+--pins.updateFrame:SetScript("OnUpdate", OnUpdateHandler)
+pins.updateTimer = C_Timer.NewTicker(0.05, OnUpdateHandler)
+pins.updateTimer = C_Timer.NewTicker(1, OnUpdateHandler2)
 
 local function OnEventHandler(frame, event, ...)
     if event == "CVAR_UPDATE" then
@@ -624,6 +641,8 @@ function pins:SetMinimapObject(minimapObject)
 end
 
 -- world map constants
+-- show worldmap pin only on zone map (Questie modification)
+HBD_PINS_WORLDMAP_SHOW_CURRENT   = -1
 -- show worldmap pin on its parent zone map (if any)
 HBD_PINS_WORLDMAP_SHOW_PARENT    = 1
 -- show worldmap pin on the continent map
