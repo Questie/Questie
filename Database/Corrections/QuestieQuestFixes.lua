@@ -656,7 +656,8 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.objectivesText] = {"Speak with Lord Grayson Shadowbreaker in Stormwind's Cathedral District."},
             [QuestieDB.questKeys.nextQuestInChain] = 7637,
             [QuestieDB.questKeys.exclusiveTo] = {7638,},
-            [QuestieDB.questKeys.zoneOrSort] = -141
+            [QuestieDB.questKeys.zoneOrSort] = -141,
+        },
         [467] = {
             [QuestieDB.questKeys.startedBy] = {{1340,2092,},nil,nil,}, -- #1379
         },
