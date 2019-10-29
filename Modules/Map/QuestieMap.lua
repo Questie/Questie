@@ -544,16 +544,11 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
         -- iconMinimap:SetScript("OnUpdate", )
     end
 
-    if Questie.db.global.enableMiniMapIcons then
-        QuestieMap:QueueDraw(QuestieMap.ICON_MINIMAP_TYPE, Questie, iconMinimap, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, true, floatOnEdge);
-        --HBDPins:AddMinimapIconMap(Questie, iconMinimap, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, true, floatOnEdge)
-    end
-    if Questie.db.global.enableMapIcons then
-        QuestieMap:QueueDraw(QuestieMap.ICON_MAP_TYPE, Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, showFlag);
-        local r, g, b = iconMinimap.texture:GetVertexColor()
-        QuestieDBMIntegration:RegisterHudQuestIcon(tostring(icon), data.Icon, zoneDataAreaIDToUiMapID[AreaID], x, y, r, g, b)
-        --HBDPins:AddWorldMapIconMap(Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, showFlag)
-    end
+    QuestieMap:QueueDraw(QuestieMap.ICON_MINIMAP_TYPE, Questie, iconMinimap, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, true, floatOnEdge)
+    QuestieMap:QueueDraw(QuestieMap.ICON_MAP_TYPE, Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, showFlag)
+    local r, g, b = iconMinimap.texture:GetVertexColor()
+    QuestieDBMIntegration:RegisterHudQuestIcon(tostring(icon), data.Icon, zoneDataAreaIDToUiMapID[AreaID], x, y, r, g, b)
+
     if(QuestieMap.questIdFrames[data.Id] == nil) then
         QuestieMap.questIdFrames[data.Id] = {}
     end
