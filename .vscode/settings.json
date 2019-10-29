@@ -2623,6 +2623,7 @@
         "GameFontHighlightSmall",
         "GameFontHighlight",
         "UISpecialFrames",
+        "DEFAULT_CHAT_FRAME",
         "------> Project Specific",
         "LibStub",
         "CHANGEME_Questie4_ItemDB",
@@ -2633,7 +2634,10 @@
         "QuestLogExFrame",
         "LQuestie_CloseDropDownMenus",
         "QuestLogEx",
-        "zoneDataAreaIDToUiMapID"
+        "zoneDataAreaIDToUiMapID",
+        "zoneDataUiMapIDToAreaID",
+        "Questie_Toggle",
+        "LQuestie_EasyMenu",
     ],
     "Lua.workspace.ignoreDir": [
         "Libs/**",
