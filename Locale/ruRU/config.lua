@@ -25,7 +25,7 @@ QuestieLocale.locale['ruRU'] = {
     ['ENABLE_AVAILABLE_DESC'] = "Когда включено, доступные места заданий будут отображаться на карте/миникарте",
     ['ENABLE_TOOLTIPS'] = "Включить подсказки",
     ['ENABLE_TOOLTIPS_DESC'] = "Когда включено, информация о задании будет добавлена ??в соответствующие подсказки моба / предмета.",
-	['ICON_TYPE_HEADER'] = "Типы иконок",
+    ['ICON_TYPE_HEADER'] = "Типы иконок",
     ['ENABLE_MAP_ICONS'] = "Включить иконки на карте",
     ['ENABLE_MAP_ICONS_DESC'] = "Показать/скрыть все иконки на главной карте",
     ['ENABLE_MAP_ICONS_MINIMALISTIC'] = "Enable Minimalistic Map Icons",
@@ -53,7 +53,6 @@ QuestieLocale.locale['ruRU'] = {
     ['MINMAP_COORDS'] = "Координаты на миникарте",
     ['ENABLE_COORDS'] = "Координаты персонажа на миникарте",
     ['ENABLE_COORDS_DESC'] = "Отображать координаты персонажа на миникарте.",
-
 
     ['MAP_TAB'] = "Карта",
     ['ENABLE_MAP_BUTTON'] = "Отображать кнопку Questie на карте",
@@ -93,7 +92,6 @@ QuestieLocale.locale['ruRU'] = {
     ['TARGET_RESET_BTN'] = "Сбросить настройки отображения целей",
     ['TARGET_RESET_BTN_DESC'] = "Сбросить значения размеров и расположения иконок на значках цели.",
 
-
     ['ADV_TAB'] = "Дополнительно",
     ['DEV_OPTIONS'] = "Настройки разработчика",
     ['ENABLE_DEBUG'] = "Включить режим отладки",
@@ -107,7 +105,6 @@ QuestieLocale.locale['ruRU'] = {
     ['RESET_QUESTIE_BTN'] = "Сбросить Questie",
     ['RESET_QUESTIE_BTN_DESC'] = "Сбросить настройки аддона к настройкам по умолчанию.",
     ['QUESTIE_DEV_MESSAGE'] = "Questie находится в стадии активной разработки для World of Warcraft: Classic. Проверяйте наличие обновлений на нашем гитхабе или присоединяйтесь к нашему серверу в дискорде: (( https://github.com/AeroScripts/QuestieDev/ ))",
-
 
     -- UI Elements
     ['QUESTIE_MAP_BUTTON_SHOW'] = "Показать Questie",
@@ -129,13 +126,11 @@ QuestieLocale.locale['ruRU'] = {
     ['TOOLTIP_QUEST_EVENT'] = "(Event)",
     ['XP'] = "xp";
 
-
     -- Slash Commands
     ['SLASH_INVALID'] = "Такой команды нет. Для отображения списка команд наберите: ",
     ['SLASH_HEAD'] = "Команды Questie",
     ['SLASH_CONFIG'] = "/questie — Показать/скрыть окно настроек",
     ['SLASH_TOGGLE_QUESTIE'] = "/questie toggle — Показать/скрыть Questie на карте и миникарте",
-
 
     -- Debug Messages
     ['DEBUG_LOWLEVEL'] = "Серым цветом отображаются, начиная с:",
@@ -159,7 +154,6 @@ QuestieLocale.locale['ruRU'] = {
     ['DEBUG_DRAW'] = "%s доступные задания обозначены. Уровень персонажа = %s",
     ['DEBUG_UNLOAD_QFRAMES'] = "Выгрузка окон заданий: %s",
     ['DEBUG_UNLOAD_ALL'] = "Выгрузка всех окон, количество: %s",
-	
 
     -- Journey Window
     ['JOURNEY_TITLE'] = "%s's Путешествие",
@@ -187,7 +181,7 @@ QuestieLocale.locale['ruRU'] = {
     ['JOURNEY_QUEST_MINLEVEL'] = "Минимально необходимый уровень для задания: ",
     ['JOURNEY_QUEST_ID'] = "ID задания: ",
     ['JOURNEY_DIFFICULTY'] = "Диапазон сложности: %s",
-	-- не совсем понятен контекст  
+    -- не совсем понятен контекст  
     ['JOURNEY_AUTO_QUEST'] = "Это задание выпоняется автоматически и не содержит цели.",
     ['JOURNEY_RECENT_EVENTS'] = "Ваша недавняя история",
     ['JOURNEY_NOTE_CREATED'] = "Вы создали новую заметку под названием: %s",
@@ -246,5 +240,4 @@ QuestieLocale.locale['ruRU'] = {
     ['MINIMAP_GLOBAL_SCALE_DESC'] = "Размер значков миникарты. ( По умолчанию: %s )",
     ['MINIMAP_ALWAYS_GLOW_TOGGLE'] = "Подсветка значков на миникарте",
     ['MINIMAP_ALWAYS_GLOW_TOGGLE_DESC'] = "Подсвечивать значки на миникарте (свой цвет для каждого задания)"
-
 };

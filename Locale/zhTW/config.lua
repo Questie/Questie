@@ -35,7 +35,7 @@ QuestieLocale.locale['zhTW'] = {
 
     ['MINIMAP_TAB'] = "小地圖選項",
     ['MINIMAP_HEADER'] = "小地圖標記選項",
-	['MINIMAP_GLOBAL_SCALE'] = "小地圖標記的全局大小",
+    ['MINIMAP_GLOBAL_SCALE'] = "小地圖標記的全局大小",
     ['MINIMAP_GLOBAL_SCALE_DESC'] = "調整小度圖標記圖示的縮放比例（預設：%s）",
     ['MINIMAP_FADING'] = "遠離目標的漸隱距離",
     ['MINIMAP_FADING_DESC'] = "目標物件距離離你多遠以後，將小地圖標記漸隱（預設：%s）",
@@ -64,7 +64,7 @@ QuestieLocale.locale['zhTW'] = {
     ['MAP_COORDS_PRECISION_DESC'] = "大地圖的座標要顯示到小數點後幾位（預設：%s）",
     ['MAP_ALWAYS_GLOW_TOGGLE'] = "總是使大地圖標記高亮",
     ['MAP_ALWAYS_GLOW_TOGGLE_DESC'] = "替大地圖標記顯示一圈光暈，且不同任務有不同的顏色",
-	['MAP_QUEST_COLORS'] = "為每個任務的大地圖標記使用不同顏色",
+    ['MAP_QUEST_COLORS'] = "為每個任務的大地圖標記使用不同顏色",
     ['MAP_QUEST_COLORS_DESC'] = "基於任務ID，為每個任務記隨機生成不同顏色的大地圖標記。",
 
     ['AVAILABLE_ICON_SCALE'] = "2. 可取得與可完成的圖示大小",
@@ -124,11 +124,11 @@ QuestieLocale.locale['zhTW'] = {
     ['ICON_SHIFTLEFT_CLICK'] = "Shift + 左鍵",
     ['ICON_TOGGLE_QUESTIE'] = "打開Questie",
     ['ICON_CTRLRIGHT_CLICK'] = "Ctrl + 右鍵",
-	['ICON_CTRLLEFT_CLICK'] = "Ctrl + 左鍵",
+    ['ICON_CTRLLEFT_CLICK'] = "Ctrl + 左鍵",
     ['ICON_HIDE'] = "隱藏小地圖圖示",
     ['ICON_RIGHT_CLICK'] = "右鍵",
     ['ICON_JOURNEY'] = "打開我的日誌",
-	['ICON_RELOAD'] = "重新載入Questie",
+    ['ICON_RELOAD'] = "重新載入Questie",
     ['ICON_SHIFT_HOLD'] = "Hold Shift";
     ['CONFIRM_HIDE_QUEST'] = "你確定要隱藏任務： %s嗎？",
     ['CONFIRM_HIDE_YES'] = "是",
@@ -148,7 +148,7 @@ QuestieLocale.locale['zhTW'] = {
     ['SLASH_JOURNEY'] = "/questie journey -- 打開日誌視窗",
     ['SLASH_MINIMAP'] = "/questie minimap -- 切換顯示或隱藏Questie小地圖圖示",
 
-	-- Tracker
+    -- Tracker
     ['TRACKER_TAB'] = "追蹤",
     ['TRACKER_HEAD'] = "任務追蹤選項",
     ['TRACKER_ENABLED'] = "啟用Questie任務追蹤",
@@ -179,7 +179,7 @@ QuestieLocale.locale['zhTW'] = {
     ['TRACKER_SORT_BY_LEVEL'] = "根據等級正序排列",
     ['TRACKER_SORT_BY_LEVEL_REVERSED'] = "根據等級反序排列",
     ['TRACKER_DONT_SORT'] = "不排序",
-	['TRACKER_LEFT_CLICK'] = "左鍵點擊",
+    ['TRACKER_LEFT_CLICK'] = "左鍵點擊",
     ['TRACKER_RIGHT_CLICK'] = "右鍵點擊",
     ['TRACKER_SHIFT'] = "Shift + ",
     ['TRACKER_CTRL'] = "Ctrl + ",
@@ -188,8 +188,8 @@ QuestieLocale.locale['zhTW'] = {
     ['TRACKER_SHORTCUT'] = " 快捷鍵",
     ['TRACKER_SET_TOMTOM_DESC'] = "在任務追蹤上開啟TomTom的快捷鍵",
     ['TRACKER_SHOW_QUESTLOG_DESC'] = "在任務追蹤上開啟任務日誌的快捷鍵",
-	
-	-- tracker right click menu
+
+    -- tracker right click menu
     ['TRACKER_UNFOCUS'] = "停止關注", -- focus makes only that quest/objective show on map
     ['TRACKER_FOCUS_OBJECTIVE'] = "關注目標",
     ['TRACKER_FOCUS_QUEST'] = "關注任務",
@@ -203,7 +203,7 @@ QuestieLocale.locale['zhTW'] = {
     ['TRACKER_SHOW_ON_MAP'] = "顯示於地圖",
     ['TRACKER_UNLOCK'] = "解鎖框架",
     ['TRACKER_LOCK'] = "鎖定框架",
-	
+
     -- Journey Window
     ['JOURNEY_TITLE'] = "%s的任務歷程",
     ['JOUNREY_TAB'] = "我的任務歷程",
@@ -231,7 +231,7 @@ QuestieLocale.locale['zhTW'] = {
     ['JOURNEY_QUEST_ID'] = "任務ID： ",
     ['JOURNEY_DIFFICULTY'] = "難度級距：%s",
     ['JOURNEY_AUTO_QUEST'] = "這個任務自動完成，所以沒有目標。",
-    ['JOURNEY_RECENT_EVENTS'] = "近期紀錄",	
+    ['JOURNEY_RECENT_EVENTS'] = "近期紀錄",    
     ['JOURNEY_LEVELUP'] = "恭喜你達到了%s！",
     ['JOURNEY_LEVELNUM'] = "等級%s",
     ['JOURNEY_LEVELREACH'] = "你達到了等級%s",
@@ -285,6 +285,6 @@ QuestieLocale.locale['zhTW'] = {
     ['DEBUG_DRAW'] = "%s available quests drawn. PlayerLevel = %s",
     ['DEBUG_UNLOAD_QFRAMES'] = "Unloading quest frames: %s",
     ['DEBUG_UNLOAD_ALL'] = "Unloading all frames, count: %s",
-	['QUESTIE_ACCEPT_NIL'] = "|cFFFF0000Questie錯誤：|r你嘗試接受任務時返回空值，請輸入 /questie reload 重新載入Quesite。", 
+    ['QUESTIE_ACCEPT_NIL'] = "|cFFFF0000Questie錯誤：|r你嘗試接受任務時返回空值，請輸入 /questie reload 重新載入Quesite。", 
     ['QUESTIE_UPDATED_RESTART'] = "|cFFFF0000警告！|r你沒有重開遊戲就更新了Questie，這可能會使Questie出現某些錯誤。請完全關閉魔獸世界再重新啟動遊戲，確保Questie能正常運作。",
 };

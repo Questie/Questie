@@ -13,13 +13,11 @@ if not QuestieConfigCharacter then
     QuestieConfigCharacter = {}
 end
 
-
 DEBUG_CRITICAL = "|cff00f2e6[CRITICAL]|r"
 DEBUG_ELEVATED = "|cffebf441[ELEVATED]|r"
 DEBUG_INFO = "|cff00bc32[INFO]|r"
 DEBUG_DEVELOP = "|cff7c83ff[DEVELOP]|r"
 DEBUG_SPAM = "|cffff8484[SPAM]|r"
-
 
 --Initialized below
 Questie = {...}
@@ -127,29 +125,27 @@ function Questie:OnInitialize()
 
     -- Nameplate / Tar5get Frame Objective Events
     Questie:RegisterEvent("NAME_PLATE_UNIT_ADDED", QuestieNameplate.NameplateCreated);
-	Questie:RegisterEvent("NAME_PLATE_UNIT_REMOVED", QuestieNameplate.NameplateDestroyed);
-	Questie:RegisterEvent("PLAYER_TARGET_CHANGED", QuestieNameplate.DrawTargetFrame);
+    Questie:RegisterEvent("NAME_PLATE_UNIT_REMOVED", QuestieNameplate.NameplateDestroyed);
+    Questie:RegisterEvent("PLAYER_TARGET_CHANGED", QuestieNameplate.DrawTargetFrame);
 
-	--When the quest is presented!
-	Questie:RegisterEvent("QUEST_DETAIL", QuestieAuto.QUEST_DETAIL)
-	--???
-	Questie:RegisterEvent("QUEST_PROGRESS", QuestieAuto.QUEST_PROGRESS)
-	--Gossip??
-	Questie:RegisterEvent("GOSSIP_SHOW", QuestieAuto.GOSSIP_SHOW)
-	--The window when multiple quest from a NPC
-	Questie:RegisterEvent("QUEST_GREETING", QuestieAuto.QUEST_GREETING)
-	--If an escort quest is taken by people close by
-	Questie:RegisterEvent("QUEST_ACCEPT_CONFIRM", QuestieAuto.QUEST_ACCEPT_CONFIRM)
-	--When complete window shows
-	Questie:RegisterEvent("QUEST_COMPLETE", QuestieAuto.QUEST_COMPLETE)
-
-    
+    --When the quest is presented!
+    Questie:RegisterEvent("QUEST_DETAIL", QuestieAuto.QUEST_DETAIL)
+    --???
+    Questie:RegisterEvent("QUEST_PROGRESS", QuestieAuto.QUEST_PROGRESS)
+    --Gossip??
+    Questie:RegisterEvent("GOSSIP_SHOW", QuestieAuto.GOSSIP_SHOW)
+    --The window when multiple quest from a NPC
+    Questie:RegisterEvent("QUEST_GREETING", QuestieAuto.QUEST_GREETING)
+    --If an escort quest is taken by people close by
+    Questie:RegisterEvent("QUEST_ACCEPT_CONFIRM", QuestieAuto.QUEST_ACCEPT_CONFIRM)
+    --When complete window shows
+    Questie:RegisterEvent("QUEST_COMPLETE", QuestieAuto.QUEST_COMPLETE)
 
     -- todo move this call into loader
     QuestieTooltips:Initialize()
 
-	-- Initialize Coordinates
-	QuestieCoords.Initialize();
+    -- Initialize Coordinates
+    QuestieCoords.Initialize();
 
     -- Initialize questiecomms
     --C_ChatInfo.RegisterAddonMessagePrefix("questie")
@@ -158,9 +154,6 @@ function Questie:OnInitialize()
 
     -- Initialize Journey Window
     QuestieJourney.Initialize();
-
-
-
 
     -- Register Slash Commands
     Questie:RegisterChatCommand("questieclassic", "QuestieSlash")
@@ -171,7 +164,6 @@ function Questie:OnInitialize()
     --Initialize the DB settings.
     Questie:debug(DEBUG_DEVELOP, QuestieLocale:GetUIString('DEBUG_CLUSTER', Questie.db.global.clusterLevelHotzone))
     QUESTIE_CLUSTER_DISTANCE = Questie.db.global.clusterLevelHotzone;
-
 
     -- Creating the minimap config icon
     Questie.minimapConfigIcon = LibStub("LibDBIcon-1.0");
@@ -240,7 +232,7 @@ function Questie:QuestieSlash(input)
         QuestieOptions:HideFrame();
         return;
     end
-    
+
     if input == "reload" then
         QuestieQuest:SmoothReset()
         return
@@ -339,7 +331,7 @@ function Questie:Debug(...)
         if(QuestieConfigCharacter.log) then
             QuestieConfigCharacter = {};
         end
-        
+
         if Questie.db.global.debugEnabledPrint then
             Questie:Print(...)
         end

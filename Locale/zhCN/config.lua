@@ -35,7 +35,7 @@ QuestieLocale.locale['zhCN'] = {
 
     ['MINIMAP_TAB'] = "小地图选项",
     ['MINIMAP_HEADER'] = "小地图标记选项",
-	['MINIMAP_GLOBAL_SCALE'] = "小地图标记的全局大小",
+    ['MINIMAP_GLOBAL_SCALE'] = "小地图标记的全局大小",
     ['MINIMAP_GLOBAL_SCALE_DESC'] = "调整小度图标记图标的缩放比例（预设：%s）",
     ['MINIMAP_FADING'] = "远离目标的淡出隐距离",
     ['MINIMAP_FADING_DESC'] = "目标物件离你多远以后，将其标记淡出（预设：%s）",
@@ -64,7 +64,7 @@ QuestieLocale.locale['zhCN'] = {
     ['MAP_COORDS_PRECISION_DESC'] = "大地图的座标要显示到小数点后几位（默认：%s）",
     ['MAP_ALWAYS_GLOW_TOGGLE'] = "总是使大地图标记高亮",
     ['MAP_ALWAYS_GLOW_TOGGLE_DESC'] = "替大地图标记显示一圈光晕，且不同任务有不同的颜色",
-	['MAP_QUEST_COLORS'] = "为每个任务的大地图注记使用不同颜色",
+    ['MAP_QUEST_COLORS'] = "为每个任务的大地图注记使用不同颜色",
     ['MAP_QUEST_COLORS_DESC'] = "基于任务ID，为每个任务的大地图注记随机生成不同颜色的图标。",
 
     ['AVAILABLE_ICON_SCALE'] = "2. 可取得与可完成的图标大小",
@@ -124,11 +124,11 @@ QuestieLocale.locale['zhCN'] = {
     ['ICON_SHIFTLEFT_CLICK'] = "Shift + 左键",
     ['ICON_TOGGLE_QUESTIE'] = "打开Questie",
     ['ICON_CTRLRIGHT_CLICK'] = "Ctrl + 右键",
-	['ICON_CTRLLEFT_CLICK'] = "Ctrl + 右键",
+    ['ICON_CTRLLEFT_CLICK'] = "Ctrl + 右键",
     ['ICON_HIDE'] = "隐藏小地图图标",
     ['ICON_RIGHT_CLICK'] = "右键",
     ['ICON_JOURNEY'] = "打开我的日志",
-	['ICON_RELOAD'] = "重载Questie",
+    ['ICON_RELOAD'] = "重载Questie",
     ['ICON_SHIFT_HOLD'] = "Hold Shift";
     ['CONFIRM_HIDE_QUEST'] = "你确定要隐藏任务： %s吗？",
     ['CONFIRM_HIDE_YES'] = "是",
@@ -147,8 +147,8 @@ QuestieLocale.locale['zhCN'] = {
     ['SLASH_TOGGLE_QUESTIE'] = "/questie toggle -- 在地图上显示Questie提示",
     ['SLASH_JOURNEY'] = "/questie journey -- 打开日志窗口",
     ['SLASH_MINIMAP'] = "/questie minimap -- 切换显示或隐藏Questie小地图图标",
-	
-	-- Tracker
+
+    -- Tracker
     ['TRACKER_TAB'] = "追踪",
     ['TRACKER_HEAD'] = "任务追踪选项",
     ['TRACKER_ENABLED'] = "启用Questie任务追踪",
@@ -179,7 +179,7 @@ QuestieLocale.locale['zhCN'] = {
     ['TRACKER_SORT_BY_LEVEL'] = "根据等级正序排列",
     ['TRACKER_SORT_BY_LEVEL_REVERSED'] = "根据等级反序排列",
     ['TRACKER_DONT_SORT'] = "不排序",
-	['TRACKER_LEFT_CLICK'] = "左键点击",
+    ['TRACKER_LEFT_CLICK'] = "左键点击",
     ['TRACKER_RIGHT_CLICK'] = "右键点击",
     ['TRACKER_SHIFT'] = "Shift + ",
     ['TRACKER_CTRL'] = "Ctrl + ",
@@ -188,8 +188,8 @@ QuestieLocale.locale['zhCN'] = {
     ['TRACKER_SHORTCUT'] = " 快捷键",
     ['TRACKER_SET_TOMTOM_DESC'] = "在任务追踪上开启TomTom的快捷键",
     ['TRACKER_SHOW_QUESTLOG_DESC'] = "在任务追踪上开启任务日志的快捷键",
-	
-	-- tracker right click menu
+
+    -- tracker right click menu
     ['TRACKER_UNFOCUS'] = "停止关注", -- focus makes only that quest/objective show on map
     ['TRACKER_FOCUS_OBJECTIVE'] = "关注目标",
     ['TRACKER_FOCUS_QUEST'] = "关注任务",
@@ -201,7 +201,7 @@ QuestieLocale.locale['zhCN'] = {
     ['TRACKER_HIDE_ICONS'] = "隐藏标记",
     ['TRACKER_OBJECTIVES'] = "目标",
     ['TRACKER_SHOW_ON_MAP'] = "显示于地图",
-	['TRACKER_UNLOCK'] = "解锁框体",
+    ['TRACKER_UNLOCK'] = "解锁框体",
     ['TRACKER_LOCK'] = "锁定框体",
 
     -- Journey Window
@@ -285,6 +285,6 @@ QuestieLocale.locale['zhCN'] = {
     ['DEBUG_DRAW'] = "%s available quests drawn. PlayerLevel = %s",
     ['DEBUG_UNLOAD_QFRAMES'] = "Unloading quest frames: %s",
     ['DEBUG_UNLOAD_ALL'] = "Unloading all frames, count: %s",
-	['QUESTIE_ACCEPT_NIL'] = "|cFFFF0000Questie错误：|r你尝试接受任务时返回空值，请输入 /questie reload 重新载入Quesite。", 
+    ['QUESTIE_ACCEPT_NIL'] = "|cFFFF0000Questie错误：|r你尝试接受任务时返回空值，请输入 /questie reload 重新载入Quesite。", 
     ['QUESTIE_UPDATED_RESTART'] = "|cFFFF0000警告！|r你没有重开游戏就更新了Questie，这可能会使Questie出现某些错误。请完全关闭魔兽世界再重新启动游戏，确保Questie能正常运作。",
 };
