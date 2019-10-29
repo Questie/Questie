@@ -433,11 +433,6 @@ function QuestieDB:GetNPC(NPCID)
     if(QuestieDB._NPCCache[NPCID]) then
         return QuestieDB._NPCCache[NPCID]
     end
-    if QuestieCorrections.npcFixes[NPCID] then
-        for k,v in pairs(QuestieCorrections.npcFixes[NPCID]) do
-            QuestieDB.npcData[NPCID][k] = v
-        end
-    end
     local rawdata = QuestieDB.npcData[NPCID]
     if(rawdata)then
         local NPC = {}
