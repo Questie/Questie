@@ -366,6 +366,21 @@ function QuestieLib:SanitizePattern(pattern)
   return sanitize_cache[pattern]
 end
 
+function QuestieLib:SortQuestsByLevel(quests)
+    local sortedQuestsByLevel = {}
+
+    local function compareTablesByIndex(a, b)
+        return a[1] < b[1]
+    end
+
+    for _, q in pairs(quests) do
+        table.insert(sortedQuestsByLevel, {q.questLevel, q})
+    end
+    table.sort(sortedQuestsByLevel, compareTablesByIndex)
+
+    return sortedQuestsByLevel
+end
+
 --[[function QuestieLib:IsTrivial(level)
     if level == -1 then
         level = QuestiePlayer:GetPlayerLevel();

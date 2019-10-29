@@ -1192,15 +1192,20 @@ function CollectZoneQuests(container, zoneid)
         }
     };
 
+    local sortedQuestByLevel = QuestieLib:SortQuestsByLevel(quests)
+
     -- populate available non complete quests
     local availableCounter = 0;
-    for qid, q in pairs(quests) do
-        if not Questie.db.char.complete[qid] and not q.Hidden then
+    for _, levelAndQuest in pairs(sortedQuestByLevel) do
+        local quest = levelAndQuest[2]
+        local qId = quest.Id
+
+        if not Questie.db.char.complete[qId] and not quest.Hidden then
 
             -- see if it's supposed to be a hidden quest
-            if QuestieCorrections.hiddenQuests and not QuestieCorrections.hiddenQuests[qid] then
-                temp.value = qid;
-                temp.text = q:GetColoredQuestName();
+            if QuestieCorrections.hiddenQuests and not QuestieCorrections.hiddenQuests[qId] then
+                temp.value = qId;
+                temp.text = quest:GetColoredQuestName();
                 table.insert(zoneTree[1].children, temp);
                 temp = {}; -- Weird Lua bug requires this to be reset?
                 availableCounter = availableCounter + 1;
