@@ -181,11 +181,6 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
     -- 14 DB_SUB_QUESTS
     -- 15 DB_QUEST_GROUP
     -- 16 DB_EXCLUSIVE_QUEST_GROUP]]--
-    if QuestieCorrections.questFixes[QuestID] then
-        for k, v in pairs(QuestieCorrections.questFixes[QuestID]) do
-            QuestieDB.questData[QuestID][k] = v
-        end
-    end
     local rawdata = QuestieDB.questData[QuestID];
     if(rawdata)then
         local QO = {}
@@ -657,14 +652,6 @@ function QuestieDB:HideClassAndRaceQuests()
         raceIndex = math.pow(2, raceIndex-1)
         local questKeys = QuestieDB.questKeys
         for key, entry in pairs(QuestieDB.questData) do
-            -- load corrections into QuestieDB.questData
-            local correction = QuestieCorrections.questFixes[key]
-            if correction and correction[questKeys.requiredClasses] then
-                entry[questKeys.requiredClasses] = correction[questKeys.requiredClasses]
-            end
-            if correction and correction[questKeys.requiredRaces] then
-                entry[questKeys.requiredRaces] = correction[questKeys.requiredRaces]
-            end
             -- check requirements, set hidden flag if not met
             local requiredClasses = entry[questKeys.requiredClasses]
             if (requiredClasses) and (requiredClasses ~= 0) then

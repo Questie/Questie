@@ -18,7 +18,11 @@ function QuestieCorrections:Initialize()
     QuestieCorrections.npcFixes = QuestieNPCFixes:Load()
     QuestieCorrections.objectFixes = QuestieObjectFixes:Load()
     QuestieObjectFixes:LoadFactionFixes()
-    QuestieCorrections.questFixes = QuestieQuestFixes:Load()
+    for id, data in pairs(QuestieQuestFixes:Load()) do
+        for key, value in pairs(data) do
+            QuestieDB.questData[id][key] = value
+        end
+    end
     QuestieCorrections.hiddenQuests = QuestieQuestBlacklist:Load()
     if(QuestieEvent) then
         QuestieEvent:Load();
