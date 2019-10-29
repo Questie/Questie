@@ -17,6 +17,8 @@ local QuestieDBMIntegration = QuestieLoader:ImportModule("QuestieDBMIntegration"
 local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool");
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
 
 local _QuestieQuest = {...}
 local libS = LibStub:GetLibrary("AceSerializer-3.0")
