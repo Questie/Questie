@@ -1679,7 +1679,7 @@ function _QuestieQuest:IsDoable(questObject)
         return false
     end
 
-    if QuestieProfessions:HasReputation(questObject.requiredMinRep) == false then
+    if QuestieProfessions:HasReputation(questObject.requiredMinRep, questObject.requiredMaxRep) == false then
         return false
     end
 
