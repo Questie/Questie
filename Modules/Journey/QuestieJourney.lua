@@ -74,9 +74,8 @@ local function SplitJourneyByDate()
             for idx, e in pairs(dateTable[i][mon]) do
 
                 local entry = e.value;
-
-
                 local entryText = '';
+
                 if entry.Event == "Level" then
                     entryText = QuestieLocale:GetUIString('JOURNEY_LEVELREACH', entry.NewLevel);
                 elseif entry.Event == "Note" then
@@ -543,8 +542,6 @@ local function QuestFrame(f, quest)
     f:AddChild(id);
     Spacer(f);
 
-
-
     -- Get Quest Start NPC
     if quest.Starts and quest.Starts.NPC then
         local startNPCGroup = AceGUI:Create("InlineGroup");
@@ -647,7 +644,6 @@ local function QuestFrame(f, quest)
 
         Spacer(startGOGroup);
 
-        local startObjects = {}
         for i, oid in pairs(quest.Starts.GameObject) do
             local startobj = QuestieDB:GetObject(oid);
 
@@ -925,7 +921,6 @@ local function DrawZoneQuestTab(container)
     treegroup:SetFullWidth(true);
     treegroup:SetLayout("fill");
     container:AddChild(treegroup);
-
 end
 
 -- populate the available and complteded quests for the given zone
@@ -986,8 +981,6 @@ function CollectZoneQuests(container, zoneid)
     -- Build Tree
     ManageZoneTree(container, zoneTree);
 end
-
-local yellow = "|cFFFFFF00"
 
 function JourneySelectTabGroup(container, event, group)
     if not containerCache then
@@ -1130,8 +1123,8 @@ function QuestieJourney:PlayerLevelUp(level)
             p.Level = UnitLevel(v);
             table.insert(data.Party, p);
         end
-    end 
-    
+    end
+
     table.insert(Questie.db.char.journey, data);
 end
 
@@ -1155,7 +1148,7 @@ function QuestieJourney:AcceptQuest(questId)
             table.insert(data.Party, p);
         end
     end
-    
+
     table.insert(Questie.db.char.journey, data);
 end
 
@@ -1193,7 +1186,7 @@ function QuestieJourney:AbandonQuest(questId)
                 table.insert(data.Party, p);
             end
         end
-        
+
         table.insert(Questie.db.char.journey, data);
     end
 end
@@ -1217,6 +1210,6 @@ function QuestieJourney:CompleteQuest(questId)
             table.insert(data.Party, p);
         end
     end
-        
+
     table.insert(Questie.db.char.journey, data);
 end
