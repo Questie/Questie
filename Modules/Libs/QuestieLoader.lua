@@ -20,7 +20,7 @@ function QuestieLoader:CreateBlankModule()
 end
 
 ---@param name string @Module name
----@param newModule Module @Module reference
+---@return Module @Module reference
 function QuestieLoader:CreateModule(name)
   if (not modules[name]) then
     modules[name] = QuestieLoader:CreateBlankModule()
