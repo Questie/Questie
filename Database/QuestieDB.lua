@@ -278,44 +278,45 @@ function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
                 table.insert(QO.ObjectiveData, obj);
             end
         end
+        if rawdata[10] ~= nil then
+            if rawdata[10][1] ~= nil then
+                for _k,_v in pairs(rawdata[10][1]) do
+                    if _v ~= nil then
 
-        if rawdata[10][1] ~= nil then
-            for _k,_v in pairs(rawdata[10][1]) do
-                if _v ~= nil then
+                        local obj = {};
+                        obj.Type = "monster"
+                        obj.Id = _v[1]
+                        obj.Text = _v[2];
 
-                    local obj = {};
-                    obj.Type = "monster"
-                    obj.Id = _v[1]
-                    obj.Text = _v[2];
+                        table.insert(QO.ObjectiveData, obj);
 
-                    table.insert(QO.ObjectiveData, obj);
-
+                    end
                 end
             end
-        end
-        if rawdata[10][2] ~= nil then
-            for _k,_v in pairs(rawdata[10][2]) do
-                if _v ~= nil then
+            if rawdata[10][2] ~= nil then
+                for _k,_v in pairs(rawdata[10][2]) do
+                    if _v ~= nil then
 
-                    local obj = {};
-                    obj.Type = "object"
-                    obj.Id = _v[1]
-                    obj.Text = _v[2]
+                        local obj = {};
+                        obj.Type = "object"
+                        obj.Id = _v[1]
+                        obj.Text = _v[2]
 
-                    table.insert(QO.ObjectiveData, obj);
+                        table.insert(QO.ObjectiveData, obj);
 
+                    end
                 end
             end
-        end
-        if rawdata[10][3] ~= nil then
-            for _k,_v in pairs(rawdata[10][3]) do
-                if _v ~= nil then
-                    local obj = {};
-                    obj.Type = "item"
-                    obj.Id = _v[1]
-                    obj.Text = _v[2]
+            if rawdata[10][3] ~= nil then
+                for _k,_v in pairs(rawdata[10][3]) do
+                    if _v ~= nil then
+                        local obj = {};
+                        obj.Type = "item"
+                        obj.Id = _v[1]
+                        obj.Text = _v[2]
 
-                    table.insert(QO.ObjectiveData, obj);
+                        table.insert(QO.ObjectiveData, obj);
+                    end
                 end
             end
         end
