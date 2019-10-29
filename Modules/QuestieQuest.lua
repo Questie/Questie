@@ -904,6 +904,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
             end
             
             --This can be used to make distance ordered list..
+            local iconCount = 0;
             local orderedList = {}
             local tkeys = {}
             -- populate the table that holds the keys
@@ -916,6 +917,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                     Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]", "Too many icons for quest:", questId)
                     break;
                 end
+                iconCount = iconCount + 1;
                 tinsert(orderedList, icons[distance]);
             end
             local range = QUESTIE_CLUSTER_DISTANCE
@@ -923,7 +925,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                 range = range * 0.2;  -- Only use 20% of the default range.
             end
             
-            local hotzones = QuestieMap.utils:CalcHotzones(orderedList, range);
+            local hotzones = QuestieMap.utils:CalcHotzones(orderedList, range, iconCount);
 
             for index, hotzone in pairs(hotzones or {}) do
                 if(spawnedIcons[questId] > maxPerType) then

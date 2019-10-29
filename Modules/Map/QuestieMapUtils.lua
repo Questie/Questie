@@ -52,10 +52,17 @@ end
 
 ---@param points table<integer, Point> @A simple pointlist with {x=0, y=0, zone=0}
 ---@param rangeR integer @Range of the hotzones.
+---@param count integer @Optional, used to allow more notes if far away from the quest giver.
 ---@return table<integer, table<integer, Point>> @A table of hotzones
-function QuestieMap.utils:CalcHotzones(points, rangeR)
+function QuestieMap.utils:CalcHotzones(points, rangeR, count)
     if(points == nil) then return nil; end
-    
+
+    --If count isn't set we want to distance clustering to still work,
+    --to simplify the logic we just use a big number.
+    if not count then
+      count = 99999;
+    end
+
     local range = rangeR or 100;
     local hotzones = {};
     local itt = 0;
@@ -74,7 +81,7 @@ function QuestieMap.utils:CalcHotzones(points, rangeR)
               
               --We want things further away to be clustered more
               local movingRange = range;
-              if(point.distance and point.distance > 1000) then
+              if(point.distance and point.distance > 1000 and count > 100) then
                 movingRange = movingRange * (point.distance/1000);
               end
 
