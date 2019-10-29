@@ -12,7 +12,11 @@ zoneDataAreaIDToUiMapID = {}
 local uiMapIDToAreaID = {} --You should really never need the MapIDs, but you can convert back using all 3 variables.
 
 function QuestieDBZone:GetAreaIdByUIMapID(uiMapId)
-    return uiMapIDToAreaID[uiMapId]
+    local areaId = 0
+    if uiMapIDToAreaID[uiMapId] ~= nil then
+        areaId = uiMapIDToAreaID[uiMapId]
+    end
+    return areaId
 end
 
 local zoneLookupHack = {

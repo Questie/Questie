@@ -882,13 +882,18 @@ local function DrawZoneQuestTab(container)
     container:AddChild(header);
     Spacer(container);
 
-    -- Dropdown for Continent
     local CDropdown = AceGUI:Create("LQDropdown");
     local zDropdown = AceGUI:Create("LQDropdown");
     local treegroup = AceGUI:Create("SimpleGroup");
 
+    -- Dropdown for Continent
     CDropdown:SetList(QuestieJourney.continents);
     CDropdown:SetText(QuestieLocale:GetUIString('JOURNEY_SELECT_CONT'));
+
+    local currentContinentId = QuestiePlayer:GetCurrentContinentId()
+    if currentContinentId > 0 then
+        CDropdown:SetValue(currentContinentId)
+    end
 
     CDropdown:SetCallback("OnValueChanged", function(key, checked)
         local sortedZones = QuestieJourneyUtils:GetSortedZoneKeys(QuestieJourney.zones[key.value])
@@ -900,7 +905,16 @@ local function DrawZoneQuestTab(container)
 
     -- Dropdown for Zone
     zDropdown:SetText(QuestieLocale:GetUIString('JOURNEY_SELECT_ZONE'));
-    zDropdown:SetDisabled(true);
+
+    local currentZoneId = QuestiePlayer:GetCurrentZoneId()
+    if currentZoneId > 0 then
+        local sortedZones = QuestieJourneyUtils:GetSortedZoneKeys(QuestieJourney.zones[currentContinentId])
+        zDropdown:SetList(QuestieJourney.zones[currentContinentId], sortedZones);
+        zDropdown:SetValue(currentZoneId)
+        CollectZoneQuests(treegroup, currentZoneId)
+    else
+        zDropdown:SetDisabled(true);
+    end
 
     zDropdown:SetCallback("OnValueChanged", function(key, checked)
         -- Create Tree View
