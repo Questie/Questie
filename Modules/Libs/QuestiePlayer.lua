@@ -1,6 +1,5 @@
 ---@class QuestiePlayer|Module
-local QuestiePlayer = {...};
-QuestieLoader:AddModule("QuestiePlayer", QuestiePlayer);
+local QuestiePlayer = QuestieLoader:CreateModule("QuestiePlayer");
 
 local _QuestiePlayer = {...};
 

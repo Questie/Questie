@@ -14,7 +14,7 @@ Libs\HereBeDragons\HereBeDragons-Pins-2.0.lua
 Libs\HereBeDragons\HereBeDragons-Migrate.lua
 
 #Loader module
-Libs\QuestieLoader.lua
+Modules\Libs\QuestieLoader.lua
 
 #stream module (used by DB)
 Modules\QuestieStream.lua
