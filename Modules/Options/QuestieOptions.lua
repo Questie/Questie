@@ -1,6 +1,5 @@
 ---@class QuestieOptions|Module
-local QuestieOptions = {...};
-QuestieLoader:AddModule("QuestieOptions", QuestieOptions);
+local QuestieOptions = QuestieLoader:CreateModule("QuestieOptions");
 -------------------------
 --Import modules.
 -------------------------

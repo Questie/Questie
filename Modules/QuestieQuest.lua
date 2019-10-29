@@ -1,6 +1,5 @@
 ---@class QuestieQuest|Module
-local QuestieQuest = {...}
-QuestieLoader:AddModule("QuestieQuest", QuestieQuest);
+local QuestieQuest = QuestieLoader:CreateModule("QuestieQuest");
 -------------------------
 --Import modules.
 -------------------------

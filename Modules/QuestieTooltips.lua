@@ -1,8 +1,7 @@
 
 -- todo: move this in to a proper global
 ---@class QuestieTooltips|Module
-local QuestieTooltips = {};
-QuestieLoader:AddModule("QuestieTooltips", QuestieTooltips);
+local QuestieTooltips = QuestieLoader:CreateModule("QuestieTooltips");
 -------------------------
 --Import modules.
 -------------------------

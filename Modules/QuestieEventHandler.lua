@@ -1,7 +1,6 @@
 --- GLOBAL ---
 ---@class QuestieEventHandler|Module
-local QuestieEventHandler = {}
-QuestieLoader:AddModule("QuestieEventHandler", QuestieEventHandler);
+local QuestieEventHandler = QuestieLoader:CreateModule("QuestieEventHandler");
 
 -------------------------
 --Import modules.

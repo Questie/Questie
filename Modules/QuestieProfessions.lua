@@ -1,6 +1,5 @@
 ---@class QuestieProfessions|Module
-local QuestieProfessions = {...}
-QuestieLoader:AddModule("QuestieProfessions", QuestieProfessions);
+local QuestieProfessions = QuestieLoader:CreateModule("QuestieProfessions");
 local playerProfessions = {}
 local professionTable = {}
 

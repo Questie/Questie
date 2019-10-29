@@ -1,6 +1,5 @@
 ---@class QuestieMap|Module
-local QuestieMap = {...}
-QuestieLoader:AddModule("QuestieMap", QuestieMap);
+local QuestieMap = QuestieLoader:CreateModule("QuestieMap");
 
 -------------------------
 --Import modules.

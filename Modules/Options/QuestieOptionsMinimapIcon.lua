@@ -1,6 +1,5 @@
 ---@class QuestieOptionsMinimapIcon|Module
-local QuestieOptionsMinimapIcon = {...};
-QuestieLoader:AddModule("QuestieOptionsMinimapIcon", QuestieOptionsMinimapIcon);
+local QuestieOptionsMinimapIcon = QuestieLoader:CreateModule("QuestieOptionsMinimapIcon");
 -------------------------
 --Import modules.
 -------------------------

@@ -1,6 +1,5 @@
 ---@class QuestieCoords|Module
-local QuestieCoords = {};
-QuestieLoader:AddModule("QuestieCoords", QuestieCoords);
+local QuestieCoords = QuestieLoader:CreateModule("QuestieCoords");
 
 local posX = 0;
 local posY = 0;

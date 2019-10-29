@@ -1,6 +1,5 @@
 ---@class QuestieReputation|Module
-local QuestieReputation = {...}
-QuestieLoader:AddModule("QuestieReputation", QuestieReputation);
+local QuestieReputation = QuestieLoader:CreateModule("QuestieReputation");
 -------------------------
 --Import modules.
 -------------------------

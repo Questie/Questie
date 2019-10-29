@@ -1,6 +1,5 @@
 ---@class QuestieJourney|Module
-local QuestieJourney = {};
-QuestieLoader:AddModule("QuestieJourney", QuestieJourney);
+local QuestieJourney = QuestieLoader:CreateModule("QuestieJourney");
 -------------------------
 --Import modules.
 -------------------------

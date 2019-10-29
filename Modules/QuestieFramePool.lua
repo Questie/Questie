@@ -1,6 +1,5 @@
 ---@class QuestieFramePool|Module
-local QuestieFramePool = {...} -- GLobal Functions
-QuestieLoader:AddModule("QuestieFramePool", QuestieFramePool);
+local QuestieFramePool = QuestieLoader:CreateModule("QuestieFramePool");
 -------------------------
 --Import modules.
 -------------------------

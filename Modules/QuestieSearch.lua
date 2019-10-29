@@ -1,6 +1,5 @@
 ---@class QuestieSearch|Module
-local QuestieSearch = {} -- Global Functions
-QuestieLoader:AddModule("QuestieSearch", QuestieSearch);
+local QuestieSearch = QuestieLoader:CreateModule("QuestieSearch");
 
 QuestieSearch.types = {"npc", "object", "item", "quest"}
 

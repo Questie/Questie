@@ -1,6 +1,5 @@
 ---@class QuestieNameplate|Module
-local QuestieNameplate = {};
-QuestieLoader:AddModule("QuestieNameplate", QuestieNameplate);
+local QuestieNameplate = QuestieLoader:CreateModule("QuestieNameplate");
 -------------------------
 --Import modules.
 -------------------------

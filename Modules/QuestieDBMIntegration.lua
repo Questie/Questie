@@ -4,8 +4,7 @@
 --  Globals/Locals  --
 ----------------------
 ---@class QuestieDBMIntegration|Module
-local QuestieDBMIntegration = {...} -- Global Functions
-QuestieLoader:AddModule("QuestieDBMIntegration", QuestieDBMIntegration);
+local QuestieDBMIntegration = QuestieLoader:CreateModule("QuestieDBMIntegration");
 
 --Libs
 local HBD = LibStub("HereBeDragonsQuestie-2.0")

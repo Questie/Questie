@@ -1,6 +1,5 @@
 ---@class QuestieComms|Module
-local QuestieComms = {...};
-QuestieLoader:AddModule("QuestieComms", QuestieComms);
+local QuestieComms = QuestieLoader:CreateModule("QuestieComms");
 -------------------------
 --Import modules.
 -------------------------

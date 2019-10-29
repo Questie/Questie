@@ -1,6 +1,5 @@
 ---@class QuestieSearchResults|Module
-local QuestieSearchResults = {} -- Global Functions
-QuestieLoader:AddModule("QuestieSearchResults", QuestieSearchResults);
+local QuestieSearchResults = QuestieLoader:CreateModule("QuestieSearchResults");
 -------------------------
 --Import modules.
 -------------------------
