@@ -70,11 +70,14 @@ Modules\Map\QuestieMapUtils.lua
 Modules\QuestieQuest.lua
 Modules\QuestieNameplate.lua
 Modules\QuestieCoordinates.lua
-Modules\QuestieJourney.lua
 
 #Network
 Modules\Network\QuestieComms.lua
 Modules\Network\QuestieCommsData.lua
+
+#Journey
+Modules\Journey\QuestieJourney.lua
+Modules\Journey\QuestieJourneyUtils.lua
 
 Modules\QuestieSearchResults.lua
 Modules\QuestieSearch.lua

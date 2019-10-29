@@ -5,18 +5,22 @@ LangNameLookup= {};
 LangObjectNameLookup = {};
 LangObjectLookup = {};
 LangQuestLookup = {};
+LangContinentLookup = {}
+LangZoneLookup = {}
 
 local locale = 'enUS';
 
 -- Initialize lookup tables for localization
 function QuestieLocale:Initialize()
-    local lang = GetLocale()
+    local lang = QuestieLocale:FallbackLocale(GetLocale())
 
     LangItemLookup = LangItemLookup[lang] or {};
     LangNameLookup = LangNameLookup[lang] or {};
     LangQuestLookup = LangQuestLookup[lang] or {};
     LangObjectLookup = LangObjectLookup[lang] or {}; -- This table is ID -> String
     LangObjectNameLookup = {} -- This table is String -> {ID, }
+    LangContinentLookup = LangContinentLookup[lang] or LangContinentLookup["enUS"] or {}
+    LangZoneLookup = LangZoneLookup[lang] or LangZoneLookup["enUS"] or {}
 
     --Create the String -> {ID, } table!
     for id, name in pairs(LangObjectLookup) do

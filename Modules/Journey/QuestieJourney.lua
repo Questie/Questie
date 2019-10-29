@@ -441,252 +441,6 @@ function NotePopup()
     end
 end
 
-
-local continentTable = {
-    [1] = "Eastern Kingdoms",
-    [2] = "Kalimdor",
-    [3] = "Dungeons",
-  --  [4] = "Raids",
-  --  [5] = "Battle Grounds"
-};
-
-
-QuestieJourney.zoneTable = {
-    [1] = {
-        [36] = "Alterac Mountains",
-        [45] = "Arathi Highlands",
-        [3] = "Badlands",
-        [4] = "Blasted Lands",
-        [46] = "Burning Steppes",
-        [41] = "Deadwind Pass",
-        [2257] = "Deeprun Tram",
-        [1] = "Dun Morogh",
-        [10] = "Duskwood",
-        [139] = "Eastern Plaguelands",
-        [12] = "Elwynn Forest",
-        [267] = "Hillsbrad Foothills",
-        [1537] = "Ironforge",
-        [38] = "Loch Modan",
-        [44] = "Redridge Mountains",
-        [51] = "Searing Gorge",
-        [130] = "Silverpine Forest",
-        [1519] = "Stormwind City",
-        [33] = "Stranglethorn Vale",
-        [8] = "Swamp of Sorrows",
-        [47] = "The Hinterlands",
-        [85] = "Tirisfal Glade",
-        [1497] = "Undercity",
-        [28] = "Western Plaguelands",
-        [40] = "Westfall",
-        [11] = "Wetlands"
-    },
-    [2] = {
-        [331] = "Ashenvale",
-        [16] = "Azshara",
-        [148] = "Darkshore",
-        [1657] = "Darnassus",
-        [405] = "Desolace",
-        [14] = "Durotar",
-        [15] = "Dustwallow Marsh",
-        [361] = "Felwood",
-        [357] = "Feralas",
-        [493] = "Moonglade",
-        [215] = "Mulgore",
-        [1637] = "Orgrimmar",
-        [1377] = "Silithus",
-        [406] = "Stonetalon Mountains",
-        [440] = "Tanaris",
-        [141] = "Teldrassil",
-        [17] = "The Barrens",
-        [400] = "Thousand Needles",
-        [1638] = "Thunder Bluff",
-        [490] = "Un'Goro Crater",
-        [618] = "Winterspring"
-    },
-    [3] = {
-        [2437] = "Ragefire Chasm",
-        [1581] = "The Deadmines",
-        [718] = "Wailing Caverns",
-        [209] = "Shadowfang Keep",
-        [719] = "Blackfathom Deeps",
-        [717] = "The Stockades",
-        [721] = "Gnomeregan",
-        [491] = "Razorfen Kraul",
-        [796] = "Scarlet Monastery",
-        [722] = "Razorfen Downs",
-        [1337] = "Uldaman",
-        [2100] = "Maraudon",
-        [1176] = "Zul'Farrak",
-        [1477] = "The Temple of Atal'Hakkar",
-        [1584] = "Blackrock Depths",
-        [1583] = "Blackrock Spire",
-        [2017] = "Stratholme",
-        [2557] = "Dire Maul",
-        [2057] = "Scholomance",
-    }
-};
-
-if (GetLocale() == "deDE") then
-	QuestieJourney.zoneTable = {
-		[1] = {
-			[36] = "Alteracgebirge",
-			[45] = "Arathihochland",
-			[3] = "Ödland",
-			[4] = "Verwüstete Lande",
-			[46] = "Brennende Steppe",
-			[41] = "Gebirgspass der Totenwinde",
-			[2257] = "Tiefenbahn",
-			[1] = "Dun Morogh",
-			[10] = "Dämmerwald",
-			[139] = "Östliche Pestländer",
-			[12] = "Wald von Elwynn",
-			[267] = "Vorgebirge von Hillsbrad",
-			[1537] = "Ironforge",
-			[38] = "Loch Modan",
-			[44] = "Rotkammgebirge",
-			[51] = "Sengende Schlucht",
-			[130] = "Silberwald",
-			[1519] = "Stormwind Stadt",
-			[33] = "Schlingendorntal",
-			[8] = "Sümpfe des Elends",
-			[47] = "Die Hinterlande",
-			[85] = "Tirisfal",
-			[1497] = "Undercity",
-			[28] = "Westliche Pestländer",
-			[40] = "Westfall",
-			[11] = "Sumpfland"
-		},
-		[2] = {
-			[331] = "Eschental",
-			[16] = "Azshara",
-			[148] = "Dunkelküste",
-			[1657] = "Darnassus",
-			[405] = "Desolace",
-			[14] = "Durotar",
-			[15] = "Düstermarschen",
-			[361] = "Teufelswald",
-			[357] = "Feralas",
-			[493] = "Moonglade",
-			[215] = "Mulgore",
-			[1637] = "Orgrimmar",
-			[1377] = "Silithus",
-			[406] = "Steinkrallengebirge",
-			[440] = "Tanaris",
-			[141] = "Teldrassil",
-			[17] = "Brachland",
-			[400] = "Tausend Nadeln",
-			[1638] = "Thunder Bluff",
-			[490] = "Un'Goro Krater",
-			[618] = "Winterquell"
-		},
-		[3] = {
-			[2437] = "Flammenschlund",
-			[1581] = "Die Todesminen",
-			[718] = "Die Höhlen des Wehklagens",
-			[209] = "Burg Shadowfang",
-			[719] = "Tiefschwarze Grotte",
-			[717] = "Das Verlies",
-			[721] = "Gnomeregan",
-			[491] = "Der Kral von Razorfen",
-			[796] = "Das Scharlachrote Kloster",
-			[722] = "Die Hügel von Razorfen",
-			[1337] = "Uldaman",
-			[2100] = "Maraudon",
-			[1176] = "Zul'Farrak",
-			[1477] = "Der Tempel von Atal'Hakkar",
-			[1584] = "Blackrock Tiefen",
-			[1583] = "Blackrock Spitze",
-			[2017] = "Stratholme",
-			[2557] = "Düsterbruch",
-			[2057] = "Scholomance",
-		}
-	};
-end
-
-if (GetLocale() == "koKR") then
-    continentTable = {
-        [1] = "동부 왕국",
-        [2] = "칼림도어",
-        [3] = "던전",
-      --  [4] = "공격대",
-      --  [5] = "전장"
-    };
-	QuestieJourney.zoneTable = {
-        [1] = {
-            [36] = "알터랙 산맥",
-            [45] = "아라시 고원",
-            [3] = "황야의 땅",
-            [4] = "저주받은 땅",
-            [46] = "불타는 평원",
-            [41] = "죽음의 고개",
-            [2257] = "깊은굴 지하철",
-            [1] = "던 모로",
-            [10] = "그늘숲",
-            [139] = "동부 역병지대",
-            [12] = "엘윈 숲",
-            [267] = "힐스브래드 구릉지",
-            [1537] = "아이언포지",
-            [38] = "모단 호수",
-            [44] = "붉은마루 산맥",
-            [51] = "이글거리는 협곡",
-            [130] = "은빛소나무 숲",
-            [1519] = "스톰윈드",
-            [33] = "가시덤불 골짜기",
-            [8] = "슬픔의 늪",
-            [47] = "동부 내륙지",
-            [85] = "티리스팔 숲",
-            [1497] = "언더시티",
-            [28] = "서부 역병지대",
-            [40] = "서부 몰락지대",
-            [11] = "저습지"
-        },
-        [2] = {
-            [331] = "잿빛 골짜기",
-            [16] = "아즈샤라",
-            [148] = "어둠의 해안",
-            [1657] = "다르나서스",
-            [405] = "잊혀진 땅",
-            [14] = "듀로타",
-            [15] = "먼지진흙 슾지대",
-            [361] = "악령의 숲",
-            [357] = "페랄라스",
-            [493] = "달의 숲",
-            [215] = "멀고어",
-            [1637] = "오그리마",
-            [1377] = "실리더스",
-            [406] = "돌발톱 산맥",
-            [440] = "타나리스",
-            [141] = "텔드랏실",
-            [17] = "불모의 땅",
-            [400] = "버섯구름 봉우리",
-            [1638] = "썬더 블러프",
-            [490] = "운고로 분화구",
-            [618] = "여명의 설원"
-        },
-        [3] = {
-            [2437] = "성난불길 협곡",
-            [1581] = "죽음의 폐광",
-            [718] = "통곡의 동굴",
-            [209] = "그림자송곳니 성채",
-            [719] = "검은심연의 나락",
-            [717] = "스톰윈드 지하감옥",
-            [721] = "놈리건",
-            [491] = "가시덩굴 우리",
-            [796] = "붉은십자군 수도원",
-            [722] = "가시덩굴 구릉",
-            [1337] = "울다만",
-            [2100] = "마라우돈",
-            [1176] = "줄파락",
-            [1477] = "아탈학카르 신전",
-            [1584] = "검은바위 나락",
-            [1583] = "검은바위 첨탑",
-            [2017] = "스트라솔룸",
-            [2557] = "혈투의 전장",
-            [2057] = "스칼로맨스",
-        }
-	};
-end
-
 function ShowJourneyTooltip(button)
     if GameTooltip:IsShown() then
         return;
@@ -816,9 +570,9 @@ local function QuestFrame(f, quest)
         end
 
         local continent = 'UNKNOWN ZONE';
-        for i, v in ipairs(QuestieJourney.zoneTable) do
+        for i, v in ipairs(QuestieJourney.zones) do
             if v[startindex] then
-                continent = QuestieJourney.zoneTable[i][startindex];
+                continent = QuestieJourney.zones[i][startindex];
             end
         end
 
@@ -910,9 +664,9 @@ local function QuestFrame(f, quest)
             end
 
             local continent = 'UNKNOWN ZONE';
-            for i, v in ipairs(QuestieJourney.zoneTable) do
+            for i, v in ipairs(QuestieJourney.zones) do
                 if v[startindex] then
-                    continent = QuestieJourney.zoneTable[i][startindex];
+                    continent = QuestieJourney.zones[i][startindex];
                 end
             end
 
@@ -1003,9 +757,9 @@ local function QuestFrame(f, quest)
         end
 
         local continent = 'UNKNOWN ZONE';
-        for i, v in ipairs(QuestieJourney.zoneTable) do
+        for i, v in ipairs(QuestieJourney.zones) do
             if v[endindex] then
-                continent = QuestieJourney.zoneTable[i][endindex];
+                continent = QuestieJourney.zones[i][endindex];
             end
         end
 
@@ -1136,13 +890,13 @@ local function DrawZoneQuestTab(container)
     local zDropdown = AceGUI:Create("LQDropdown");
     local treegroup = AceGUI:Create("SimpleGroup");
 
-    CDropdown:SetList(continentTable);
+    CDropdown:SetList(QuestieJourney.continents);
     CDropdown:SetText(QuestieLocale:GetUIString('JOURNEY_SELECT_CONT'));
 
     CDropdown:SetCallback("OnValueChanged", function(key, checked)
         -- set the zone table to be used.
         selectedContinent = key.value;
-        zDropdown:SetList(QuestieJourney.zoneTable[key.value]);
+        zDropdown:SetList(QuestieJourney.zones[key.value]);
         zDropdown:SetText(QuestieLocale:GetUIString('JOURNEY_SELECT_ZONE'));
         zDropdown:SetDisabled(false);
     end)
@@ -1256,6 +1010,8 @@ end
 
 QuestieJourney.tabGroup = nil;
 function QuestieJourney:Initialize()
+    QuestieJourney.zones = LangZoneLookup
+    QuestieJourney.continents = LangContinentLookup
 
     journeyFrame.frame = AceGUI:Create("Frame");
 
