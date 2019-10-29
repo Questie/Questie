@@ -531,30 +531,34 @@ function QuestieDB:GetNPCsByName(npcName)
     return returnTable;
 end
 
-function QuestieDB:GetQuestsByZoneId(zoneid)
+function QuestieDB:GetQuestsByZoneId(zoneId)
 
-    if not zoneid then
+    if not zoneId then
         return nil;
     end
 
     -- in in cache return that
-    if QuestieDB._ZoneCache[zoneid] then
-        return QuestieDB._ZoneCache[zoneid]
+    if QuestieDB._ZoneCache[zoneId] then
+        return QuestieDB._ZoneCache[zoneId]
     end
 
-    local zoneTable = {};
+    local zoneQuests = {};
     -- loop over all quests to populate a zone
     for qid, _ in pairs(QuestieDB.questData) do
         local quest = QuestieDB:GetQuest(qid);
 
-        if quest and quest.Starts then
+        if quest then
+            if quest.zoneOrSort > 0 and quest.zoneOrSort == zoneId then
+                zoneQuests[qid] = quest;
+            end
+
             if quest.Starts.NPC then
                 local npc = QuestieDB:GetNPC(quest.Starts.NPC[1]);
 
                 if npc and npc.spawns then
                     for zone, _ in pairs(npc.spawns) do
-                        if zone == zoneid then
-                            zoneTable[qid] = quest;
+                        if zone == zoneId then
+                            zoneQuests[qid] = quest;
                         end
                     end
                 end
@@ -565,20 +569,17 @@ function QuestieDB:GetQuestsByZoneId(zoneid)
 
                 if obj and obj.spawns then
                     for zone, _ in pairs(obj.spawns) do
-                        if zone == zoneid then
-                            zoneTable[qid] = quest;
+                        if zone == zoneId then
+                            zoneQuests[qid] = quest;
                         end
                     end
                 end
             end
-
         end
     end
 
-    QuestieDB._ZoneCache[zoneid] = zoneTable;
-
-    return zoneTable;
-
+    QuestieDB._ZoneCache[zoneId] = zoneQuests;
+    return zoneQuests;
 end
 
 ---------------------------------------------------------------------------------------------------
