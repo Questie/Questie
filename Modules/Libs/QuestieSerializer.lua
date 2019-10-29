@@ -1,4 +1,14 @@
-QuestieSerializer = {}
+---@class QuestieSerializer|Module
+local QuestieSerializer = {}
+QuestieLoader:AddModule("QuestieSerializer", QuestieSerializer);
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieStreamLib
+local QuestieStreamLib = QuestieLoader:ImportModule("QuestieStreamLib");
+---@type QuestieQuest
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
+
 
 function QuestieSerializer:Hash(value)
     if not value or type(value) ~= "string" or (string.len(value) <= 0) then

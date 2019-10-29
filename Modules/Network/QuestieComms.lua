@@ -1,4 +1,18 @@
-QuestieComms = {...};
+---@class QuestieComms|Module
+local QuestieComms = {...};
+QuestieLoader:AddModule("QuestieComms", QuestieComms);
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieQuest
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
+---@type QuestieEventHandler
+local QuestieEventHandler = QuestieLoader:ImportModule("QuestieEventHandler");
+---@type QuestieSerializer
+local QuestieSerializer = QuestieLoader:ImportModule("QuestieSerializer");
+---@type QuestieCompress
+--local QuestieCompress = QuestieLoader:ImportModule("QuestieCompress");
+
 local _QuestieComms = {...};
 -- Addon message prefix
 _QuestieComms.prefix = "questie";
@@ -461,7 +475,7 @@ end]]--
 
 
 
--- NOT USED
+--[[ NOT USED
 function QuestieComms:MessageReceived(channel, message, type, source) -- pcall this
     Questie:Debug(DEBUG_DEVELOP, "recv(|cFF22FF22" .. message .. "|r)")
     if channel == "questie" and source then
@@ -469,7 +483,7 @@ function QuestieComms:MessageReceived(channel, message, type, source) -- pcall t
       _QuestieComms.packets[message.msgId].read(decompressedData);
     end
 end
-
+]]--
 --AeroScripts comms module, do not remove!!! Everything is still a WIP!!!
 --[[QuestieComms = {};
 

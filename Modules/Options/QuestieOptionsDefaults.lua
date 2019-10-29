@@ -1,4 +1,6 @@
-QuestieOptionsDefaults = {...}
+---@class QuestieOptionsDefaults|Module
+local QuestieOptionsDefaults = {...};
+QuestieLoader:AddModule("QuestieOptionsDefaults", QuestieOptionsDefaults);
 
 function QuestieOptionsDefaults:Load()
     return {

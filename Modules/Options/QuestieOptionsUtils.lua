@@ -1,4 +1,6 @@
-QuestieOptionsUtils = {...}
+---@class QuestieOptionsUtils|Module
+local QuestieOptionsUtils = {...}
+QuestieLoader:AddModule("QuestieOptionsUtils", QuestieOptionsUtils);
 
 function QuestieOptionsUtils:Spacer(o, height)
     return {

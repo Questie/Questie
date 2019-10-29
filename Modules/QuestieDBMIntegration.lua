@@ -3,7 +3,10 @@
 ----------------------
 --  Globals/Locals  --
 ----------------------
-QuestieDBMIntegration = {...} -- Global Functions
+---@class QuestieDBMIntegration|Module
+local QuestieDBMIntegration = {...} -- Global Functions
+QuestieLoader:AddModule("QuestieDBMIntegration", QuestieDBMIntegration);
+
 --Libs
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 --Local Variables

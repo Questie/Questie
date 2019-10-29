@@ -1,4 +1,9 @@
 QuestieDB = {...}
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieStreamLib
+local QuestieStreamLib = QuestieLoader:ImportModule("QuestieStreamLib");
 
 -- DB keys
 local DB_NAME, DB_NPC, NOTE_TITLE = 1, 1, 1;

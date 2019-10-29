@@ -1,4 +1,12 @@
-QuestieJourney = {};
+---@class QuestieJourney|Module
+local QuestieJourney = {};
+QuestieLoader:AddModule("QuestieJourney", QuestieJourney);
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieSearchResults
+local QuestieSearchResults = QuestieLoader:ImportModule("QuestieSearchResults");
+
 local AceGUI = LibStub("AceGUI-3.0");
 
 local journeyFrame = {};

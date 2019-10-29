@@ -1,4 +1,11 @@
-QuestieNameplate = {};
+---@class QuestieNameplate|Module
+local QuestieNameplate = {};
+QuestieLoader:AddModule("QuestieNameplate", QuestieNameplate);
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieTooltips
+local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips");
 
 local activeGUIDs = {};
 local npFrames = {};

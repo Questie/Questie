@@ -1,4 +1,17 @@
-QuestieMap = {...}
+---@class QuestieMap|Module
+local QuestieMap = {...}
+QuestieLoader:AddModule("QuestieMap", QuestieMap);
+
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieQuest
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
+---@type QuestieFramePool
+local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool");
+---@type QuestieDBMIntegration
+local QuestieDBMIntegration = QuestieLoader:ImportModule("QuestieDBMIntegration");
+
 QuestieMap.ICON_MAP_TYPE = "MAP";
 QuestieMap.ICON_MINIMAP_TYPE = "MINIMAP";
 

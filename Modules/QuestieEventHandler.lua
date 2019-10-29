@@ -1,12 +1,28 @@
-local function _Hack_prime_log() -- this seems to make it update the data much quicker
-  for i=1,GetNumQuestLogEntries()+1 do
-    GetQuestLogTitle(i)
-    QuestieQuest:GetRawLeaderBoardDetails(i)
-  end
-end
-
 --- GLOBAL ---
-QuestieEventHandler = {}
+---@class QuestieEventHandler|Module
+local QuestieEventHandler = {}
+QuestieLoader:AddModule("QuestieEventHandler", QuestieEventHandler);
+
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieQuest
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
+---@type QuestieJourney
+local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney");
+---@type QuestieComms
+local QuestieComms = QuestieLoader:ImportModule("QuestieComms");
+---@type QuestieProfessions
+local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions");
+---@type QuestieTracker
+local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker");
+---@type QuestieReputation
+local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation");
+---@type QuestieNameplate
+local QuestieNameplate = QuestieLoader:ImportModule("QuestieNameplate");
+---@type QuestieMap
+local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
+
 __UPDATEFIX_IDX = 1; -- temporary bad fix
 
 --- LOCAL ---
@@ -14,6 +30,14 @@ __UPDATEFIX_IDX = 1; -- temporary bad fix
 local playerEntered = false;
 local hasFirstQLU = false;
 local runQLU = false
+
+
+local function _Hack_prime_log() -- this seems to make it update the data much quicker
+  for i=1,GetNumQuestLogEntries()+1 do
+    GetQuestLogTitle(i)
+    QuestieQuest:GetRawLeaderBoardDetails(i)
+  end
+end
 
 function QuestieEventHandler:PLAYER_LOGIN()
     C_Timer.After(1, function()
@@ -231,6 +255,7 @@ function QuestieEventHandler:GROUP_LEFT()
     --Resets both QuestieComms.remoteQuestLog and QuestieComms.data
     QuestieComms:ResetAll();
 end
+
 
 --Old unused code
 

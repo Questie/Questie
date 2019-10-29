@@ -1,4 +1,20 @@
-QuestieFramePool = {...} -- GLobal Functions
+---@class QuestieFramePool|Module
+local QuestieFramePool = {...} -- GLobal Functions
+QuestieLoader:AddModule("QuestieFramePool", QuestieFramePool);
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieQuest
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
+---@type QuestieDBMIntegration
+local QuestieDBMIntegration = QuestieLoader:ImportModule("QuestieDBMIntegration");
+---@type QuestieComms
+local QuestieComms = QuestieLoader:ImportModule("QuestieComms");
+---@type QuestieTooltips
+local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips");
+---@type QuestieMap
+local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
+
 local _QuestieFramePool = {...} --Local Functions
 _QuestieFramePool.numberOfFrames = 0
 

@@ -1,4 +1,24 @@
-QuestieQuest = {...}
+---@class QuestieQuest|Module
+local QuestieQuest = {...}
+QuestieLoader:AddModule("QuestieQuest", QuestieQuest);
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieProfessions
+local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions");
+---@type QuestieReputation
+local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation");
+---@type QuestieTooltips
+local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips");
+---@type QuestieTracker
+local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker");
+---@type QuestieDBMIntegration
+local QuestieDBMIntegration = QuestieLoader:ImportModule("QuestieDBMIntegration");
+---@type QuestieFramePool
+local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool");
+---@type QuestieMap
+local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
+
 local _QuestieQuest = {...}
 local libS = LibStub:GetLibrary("AceSerializer-3.0")
 local libC = LibStub:GetLibrary("LibCompress")

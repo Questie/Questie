@@ -1,4 +1,15 @@
-QuestieOptions = {...}
+---@class QuestieOptions|Module
+local QuestieOptions = {...};
+QuestieLoader:AddModule("QuestieOptions", QuestieOptions);
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieQuest
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
+---@type QuestieOptionsMinimapIcon
+local QuestieOptionsMinimapIcon = QuestieLoader:ImportModule("QuestieOptionsMinimapIcon");
+
+
 QuestieOptions.tabs = {...}
 QuestieConfigFrame = {...}
 

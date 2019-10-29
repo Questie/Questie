@@ -1,3 +1,6 @@
+---@type QuestieComms|Module
+local QuestieComms = QuestieLoader:ImportModule("QuestieComms");
+
 QuestieComms.data = {}
 
 --[i_1337][playerName][questId] = objective

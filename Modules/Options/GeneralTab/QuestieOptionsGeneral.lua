@@ -1,3 +1,19 @@
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieQuest
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
+---@type QuestieOptions
+local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions");
+---@type QuestieOptionsDefaults
+local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults");
+---@type QuestieOptionsUtils
+local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils");
+---@type QuestieTracker
+local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker");
+---@type QuestieFramePool
+local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool");
+
 QuestieOptions.tabs.general = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
 

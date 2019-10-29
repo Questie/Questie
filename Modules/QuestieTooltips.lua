@@ -1,6 +1,14 @@
 
 -- todo: move this in to a proper global
-QuestieTooltips = {};
+---@class QuestieTooltips|Module
+local QuestieTooltips = {};
+QuestieLoader:AddModule("QuestieTooltips", QuestieTooltips);
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieComms
+local QuestieComms = QuestieLoader:ImportModule("QuestieComms");
+
 local _QuestieTooltips = {};
 QuestieTooltips.lastTooltipTime = GetTime() -- hack for object tooltips
 QuestieTooltips.lastGametooltip = ""
