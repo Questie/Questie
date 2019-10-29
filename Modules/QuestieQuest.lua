@@ -683,7 +683,7 @@ ObjectiveSpawnListCallTable = {
                 for i, spawn in pairs(questie2data["locations"]) do
                     local zid = Questie2ZoneTableInverse[spawn[1]];
                     if zid then
-                        zid = zoneDataUiMapIDToAreaID[zid]
+                        zid = QuestieDBZone:GetAreaIdByUIMapID(zid)
                         if zid then
                             if not ret[1].Spawns[zid] then
                                 ret[1].Spawns[zid] = {};

@@ -418,7 +418,7 @@ function QuestieDB:_GetSpecialNPC(NPCID)
             local m = QuestieDB._stream:ReadByte() + 1400
             table.insert(NPC.newFormatSpawns, {x, y, m});
             local om = m;
-            m = zoneDataUiMapIDToAreaID[m];
+            m = QuestieDBZone:GetAreaIdByUIMapID(m)
             if m then
                 if not NPC.spawns[m] then
                     NPC.spawns[m] = {};
