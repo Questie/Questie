@@ -24,6 +24,10 @@ function QuestieQuestFixes:Load()
         [639] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #1205
         },
+        [715] = {
+            [QuestieDB.questKeys.preQuestGroup] = {712,714,},
+            [QuestieDB.questKeys.requiredSkill] = {},
+        },
         [1026] = {
             [QuestieDB.questKeys.requiredSourceItems] = {5475},
         },
