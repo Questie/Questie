@@ -377,6 +377,12 @@ function QuestieQuestFixes:Load()
         [1710] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #1231
         },
+        [1478] = {
+            [QuestieDB.questKeys.exclusiveTo] = {1506}, -- #1427
+        },
+        [1506] = {
+            [QuestieDB.questKeys.exclusiveTo] = {1478}, -- #1427
+        },
         -- Profession quests
         [90] = {
             [QuestieDB.questKeys.requiredSkill] = {185, 50}
