@@ -981,9 +981,11 @@ function QuestieQuest:Math_random(low_or_high_arg, high_arg)
 end
 
 function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to PopulateNotes as it also handles finishers now
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:PopulateObjectiveNotes]", "Populating objectives for:", Quest.Id)
     if not Quest then return; end
     if QuestieQuest:IsComplete(Quest) then
         QuestieQuest:AddFinisher(Quest)
+        return
     end
 
     if not Quest.Color then -- todo: move to a better place
