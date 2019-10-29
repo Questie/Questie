@@ -1,4 +1,4 @@
----@class QuestieAuto|Module
+---@class QuestieAuto
 local QuestieAuto = QuestieLoader:CreateModule("QuestieAuto");
 
 function QuestieAuto:QUEST_PROGRESS(event, ...)

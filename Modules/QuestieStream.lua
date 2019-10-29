@@ -1,5 +1,5 @@
 -- small binary stream library with "base 89" decoder (credit to Aero for the algorithm)
----@class QuestieStreamLib|Module
+---@class QuestieStreamLib
 local QuestieStreamLib = QuestieLoader:CreateModule("QuestieStreamLib");
 
 -- shift level table

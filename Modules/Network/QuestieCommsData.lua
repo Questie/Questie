@@ -1,5 +1,7 @@
----@type QuestieComms|Module
+---@type QuestieComms
 local QuestieComms = QuestieLoader:ImportModule("QuestieComms");
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
 
 QuestieComms.data = {}
 

@@ -1,4 +1,4 @@
----@class QuestieSearch|Module
+---@class QuestieSearch
 local QuestieSearch = QuestieLoader:CreateModule("QuestieSearch");
 
 QuestieSearch.types = {"npc", "object", "item", "quest"}

@@ -1,4 +1,4 @@
----@class QuestieTracker|Module
+---@class QuestieTracker
 local QuestieTracker = QuestieLoader:CreateModule("QuestieTracker");
 -------------------------
 --Import modules.
@@ -7,6 +7,10 @@ local QuestieTracker = QuestieLoader:CreateModule("QuestieTracker");
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
+---@type QuestiePlayer
+local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 
 local _QuestieTracker = {}
 _QuestieTracker.LineFrames = {}

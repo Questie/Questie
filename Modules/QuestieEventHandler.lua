@@ -1,5 +1,5 @@
 --- GLOBAL ---
----@class QuestieEventHandler|Module
+---@class QuestieEventHandler
 local QuestieEventHandler = QuestieLoader:CreateModule("QuestieEventHandler");
 
 -------------------------
@@ -21,6 +21,10 @@ local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation");
 local QuestieNameplate = QuestieLoader:ImportModule("QuestieNameplate");
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
+---@type QuestiePlayer
+local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 
 __UPDATEFIX_IDX = 1; -- temporary bad fix
 

@@ -2519,8 +2519,6 @@
         "LQuestie_Create_UIDropDownMenu",
         "----> Libs - Library globals Above",
         "----> QuestieClasses - Below",
-        "QuestieLib",
-        "QuestiePlayer",
         "----> QuestieClasses - Above",
         "----> QuestieGlobals - Generic Below",
         "hooksecurefunc",

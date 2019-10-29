@@ -1,4 +1,4 @@
----@class QuestieFramePool|Module
+---@class QuestieFramePool
 local QuestieFramePool = QuestieLoader:CreateModule("QuestieFramePool");
 -------------------------
 --Import modules.
@@ -13,6 +13,10 @@ local QuestieComms = QuestieLoader:ImportModule("QuestieComms");
 local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips");
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
+---@type QuestiePlayer
+local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 
 local _QuestieFramePool = {...} --Local Functions
 _QuestieFramePool.numberOfFrames = 0

@@ -1,4 +1,4 @@
----@class QuestieComms|Module
+---@class QuestieComms
 local QuestieComms = QuestieLoader:CreateModule("QuestieComms");
 -------------------------
 --Import modules.
@@ -11,6 +11,10 @@ local QuestieEventHandler = QuestieLoader:ImportModule("QuestieEventHandler");
 local QuestieSerializer = QuestieLoader:ImportModule("QuestieSerializer");
 ---@type QuestieCompress
 --local QuestieCompress = QuestieLoader:ImportModule("QuestieCompress");
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
+---@type QuestiePlayer
+local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 
 local _QuestieComms = {...};
 -- Addon message prefix

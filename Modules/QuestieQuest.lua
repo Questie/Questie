@@ -1,4 +1,4 @@
----@class QuestieQuest|Module
+---@class QuestieQuest
 local QuestieQuest = QuestieLoader:CreateModule("QuestieQuest");
 -------------------------
 --Import modules.
@@ -19,6 +19,8 @@ local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool");
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
+---@type QuestiePlayer
+local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 
 local _QuestieQuest = {...}
 local libS = LibStub:GetLibrary("AceSerializer-3.0")

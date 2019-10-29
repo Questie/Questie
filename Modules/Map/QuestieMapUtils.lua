@@ -1,6 +1,9 @@
----@type QuestieMap|Module
+---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
 QuestieMap.utils = {};
+
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 

@@ -13,6 +13,8 @@ local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils");
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker");
 ---@type QuestieFramePool
 local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool");
+---@type QuestiePlayer
+local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 
 QuestieOptions.tabs.general = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()

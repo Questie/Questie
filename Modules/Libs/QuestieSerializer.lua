@@ -1,4 +1,4 @@
----@class QuestieSerializer|Module
+---@class QuestieSerializer
 local QuestieSerializer = QuestieLoader:CreateModule("QuestieSerializer");
 -------------------------
 --Import modules.

@@ -1,4 +1,4 @@
----@class QuestieSearchResults|Module
+---@class QuestieSearchResults
 local QuestieSearchResults = QuestieLoader:CreateModule("QuestieSearchResults");
 -------------------------
 --Import modules.

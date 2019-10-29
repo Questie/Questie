@@ -1,6 +1,9 @@
 -- Contains library functions that do not have a logical place.
----@class QuestieLib|Module
+---@class QuestieLib
 local QuestieLib = QuestieLoader:CreateModule("QuestieLib");
+
+---@type QuestiePlayer
+local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 
 local _QuestieLib = {};
 

@@ -1,4 +1,4 @@
----@class QuestieCompress|Module
+---@class QuestieCompress
 local QuestieCompress = {...};
 QuestieLoader:AddModule("QuestieCompress", QuestieCompress);
 

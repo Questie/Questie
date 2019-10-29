@@ -1,4 +1,4 @@
----@class QuestieMap|Module
+---@class QuestieMap
 local QuestieMap = QuestieLoader:CreateModule("QuestieMap");
 
 -------------------------

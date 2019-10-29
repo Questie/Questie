@@ -1,10 +1,12 @@
----@class QuestieJourney|Module
+---@class QuestieJourney
 local QuestieJourney = QuestieLoader:CreateModule("QuestieJourney");
 -------------------------
 --Import modules.
 -------------------------
 ---@type QuestieSearchResults
 local QuestieSearchResults = QuestieLoader:ImportModule("QuestieSearchResults");
+---@type QuestiePlayer
+local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 
 local AceGUI = LibStub("AceGUI-3.0");
 

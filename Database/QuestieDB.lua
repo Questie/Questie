@@ -4,6 +4,10 @@ QuestieDB = {...}
 -------------------------
 ---@type QuestieStreamLib
 local QuestieStreamLib = QuestieLoader:ImportModule("QuestieStreamLib");
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
+---@type QuestiePlayer
+local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 
 -- DB keys
 local DB_NAME, DB_NPC, NOTE_TITLE = 1, 1, 1;

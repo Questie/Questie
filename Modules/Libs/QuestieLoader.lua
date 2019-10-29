@@ -1,5 +1,5 @@
 -- The only public class except for Questie
----@class QuestieLoader|Module
+---@class QuestieLoader
 QuestieLoader = {}
 
 local alreadyExist = false;

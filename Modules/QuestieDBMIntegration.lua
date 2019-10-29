@@ -3,7 +3,7 @@
 ----------------------
 --  Globals/Locals  --
 ----------------------
----@class QuestieDBMIntegration|Module
+---@class QuestieDBMIntegration
 local QuestieDBMIntegration = QuestieLoader:CreateModule("QuestieDBMIntegration");
 
 --Libs
