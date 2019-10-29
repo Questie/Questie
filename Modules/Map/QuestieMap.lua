@@ -160,13 +160,13 @@ function QuestieMap:UpdateZoomScale()
     C_Timer.After(0.01, function()
         local mapId = WorldMapFrame:GetMapID();
         local scaling = 1;
-        if(mapId == 947) then
+        if(mapId == 947) then --Azeroth
             if(Questie.db.char.enableMinimalisticIcons) then
                 scaling = 0.4
             else
                 scaling = 0.85
             end
-        elseif(mapId == 1414 or mapId == 1415) then
+        elseif(mapId == 1414 or mapId == 1415) then -- EK and Kalimdor
             if(Questie.db.char.enableMinimalisticIcons) then
                 scaling = 0.5
             else
@@ -198,14 +198,20 @@ end
 
 
 function QuestieMap:ProcessQueue()
-  local mapDrawCall = tremove(mapDrawQueue, 1);
-  if(mapDrawCall) then
-    HBDPins:AddWorldMapIconMap(tunpack(mapDrawCall));
-  end
-  local minimapDrawCall = tremove(minimapDrawQueue, 1);
-  if(minimapDrawCall) then
-    HBDPins:AddMinimapIconMap(tunpack(minimapDrawCall));
-  end
+    --Use a for loop to increase the draw speed.
+    for i=0, 2 do
+        local mapDrawCall = tremove(mapDrawQueue, 1);
+        if(mapDrawCall) then
+            HBDPins:AddWorldMapIconMap(tunpack(mapDrawCall));
+        end
+        local minimapDrawCall = tremove(minimapDrawQueue, 1);
+        if(minimapDrawCall) then
+            HBDPins:AddMinimapIconMap(tunpack(minimapDrawCall));
+        end
+        if(not mapDrawCall and not minimapDrawCall) then
+            break;
+        end
+    end
 end
 
 -- Show NPC on map
