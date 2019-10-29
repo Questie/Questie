@@ -293,4 +293,6 @@ QuestieLocale.locale['deDE'] = {
     ['DEBUG_DRAW'] = "%s verfügbare Quests gezeichnet. SpielerLevel = %s",
     ['DEBUG_UNLOAD_QFRAMES'] = "Entferne Questfenster: %s",
     ['DEBUG_UNLOAD_ALL'] = "Entferne alle Fenster. Anzahl: %s",
+    ['QUESTIE_ACCEPT_NIL'] = "|cFFFF0000Questie ERROR:|r Eine nil Quest wurde angenommen! Du musst eventuell \"/questie reload\" ausführen.", 
+    ['QUESTIE_UPDATED_RESTART'] = "|cFFFF0000WARNING!|r Du hast Questie aktualisiert ohne WoW neuzustarten, was zu Problemen führen wird! Bitte starte den WoW Client neu, bevor du fortfährst.",
 };

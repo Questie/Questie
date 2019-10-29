@@ -71,7 +71,7 @@ if  (not LQuestie_EasyMenu) or
         if QuestieLocale.locale['enUS'] and QuestieLocale.locale['enUS']['QUESTIE_UPDATED_RESTART'] then -- sometimes locale doesnt update without restarting also
             print(QuestieLocale:GetUIString('QUESTIE_UPDATED_RESTART'))
         else
-            print("|cFFFF0000WARNING!|r You have updated questie without restarting the game, this will likely cause problems. Please restart the game before continuing")
+            print("|cFFFF0000WARNING!|r You have updated Questie without restarting the game, this will likely cause problems. Please restart the game before continuing")
         end
     end)
   else
