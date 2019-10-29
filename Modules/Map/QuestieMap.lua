@@ -380,16 +380,6 @@ function QuestieMap:DrawManualIcon(data, AreaID, x, y)
     iconMinimap.texture:SetTexture(texture)
     iconMinimap.texture:SetVertexColor(colorsMinimap[1], colorsMinimap[2], colorsMinimap[3], 1);
     iconMinimap.miniMapIcon = true;
-    
-    iconMinimap.OnShow = function()
-        QuestieMap.minimapFramesShown[iconMinimap.frameId] = iconMinimap
-    end
-    
-    iconMinimap.OnHide = function()
-        if(QuestieMap.minimapFramesShown[iconMinimap.frameId]) then
-            QuestieMap.minimapFramesShown[iconMinimap.frameId] = nil
-        end
-    end
 
     -- add the minimap icon
     QuestieMap:QueueDraw(QuestieMap.ICON_MINIMAP_TYPE, Questie, iconMinimap, data.UiMapID, x / 100, y / 100, true, true);
@@ -445,15 +435,6 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
     icon.AreaID = AreaID
     icon.miniMapIcon = false;
     icon:UpdateTexture(data.Icon);
-    icon.OnShow = function()
-        QuestieMap.mapFramesShown[icon.frameId] = icon
-    end
-    
-    icon.OnHide = function()
-        if(QuestieMap.mapFramesShown[icon.frameId]) then
-            QuestieMap.mapFramesShown[icon.frameId] = nil
-        end
-    end
 
     local iconMinimap = QuestieFramePool:GetFrame()
     iconMinimap.data = data
@@ -464,15 +445,6 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
     --Are we a minimap note?
     iconMinimap.miniMapIcon = true;
     iconMinimap:UpdateTexture(data.Icon);
-    iconMinimap.OnShow = function()
-        QuestieMap.minimapFramesShown[iconMinimap.frameId] = iconMinimap
-    end
-    
-    iconMinimap.OnHide = function()
-        if(QuestieMap.minimapFramesShown[iconMinimap.frameId]) then
-            QuestieMap.minimapFramesShown[iconMinimap.frameId] = nil
-        end
-    end
 
 
     if(not iconMinimap.FadeLogic) then
