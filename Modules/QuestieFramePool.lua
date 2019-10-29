@@ -416,8 +416,8 @@ function _QuestieFramePool:QuestieCreateFrame()
         end
         
         if self.OnHide then self:OnHide() end -- the event might trigger after OnHide=nil even if its set after self:Hide()
-        self.OnHide = nil
-        self.OnShow = nil
+        --self.OnHide = nil
+        --self.OnShow = nil
         self:Hide()
         self.glow:Hide()
         --self.glow:Hide()
