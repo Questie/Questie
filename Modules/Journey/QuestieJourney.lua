@@ -570,9 +570,9 @@ local function QuestFrame(f, quest)
         end
 
         local continent = 'UNKNOWN ZONE';
-        for i, v in ipairs(QuestieJourney.zones) do
+        for i, v in ipairs(LangZoneLookup) do
             if v[startindex] then
-                continent = QuestieJourney.zones[i][startindex];
+                continent = LangZoneLookup[i][startindex];
             end
         end
 
@@ -664,9 +664,9 @@ local function QuestFrame(f, quest)
             end
 
             local continent = 'UNKNOWN ZONE';
-            for i, v in ipairs(QuestieJourney.zones) do
+            for i, v in ipairs(LangZoneLookup) do
                 if v[startindex] then
-                    continent = QuestieJourney.zones[i][startindex];
+                    continent = LangZoneLookup[i][startindex];
                 end
             end
 
@@ -757,9 +757,9 @@ local function QuestFrame(f, quest)
         end
 
         local continent = 'UNKNOWN ZONE';
-        for i, v in ipairs(QuestieJourney.zones) do
+        for i, v in ipairs(LangZoneLookup) do
             if v[endindex] then
-                continent = QuestieJourney.zones[i][endindex];
+                continent = LangZoneLookup[i][endindex];
             end
         end
 
@@ -890,13 +890,13 @@ local function DrawZoneQuestTab(container)
     local zDropdown = AceGUI:Create("LQDropdown");
     local treegroup = AceGUI:Create("SimpleGroup");
 
-    CDropdown:SetList(QuestieJourney.continents);
+    CDropdown:SetList(LangContinentLookup);
     CDropdown:SetText(QuestieLocale:GetUIString('JOURNEY_SELECT_CONT'));
 
     CDropdown:SetCallback("OnValueChanged", function(key, checked)
         -- set the zone table to be used.
         selectedContinent = key.value;
-        zDropdown:SetList(QuestieJourney.zones[key.value]);
+        zDropdown:SetList(LangZoneLookup[key.value]);
         zDropdown:SetText(QuestieLocale:GetUIString('JOURNEY_SELECT_ZONE'));
         zDropdown:SetDisabled(false);
     end)
@@ -1010,9 +1010,6 @@ end
 
 QuestieJourney.tabGroup = nil;
 function QuestieJourney:Initialize()
-    QuestieJourney.zones = LangZoneLookup
-    QuestieJourney.continents = LangContinentLookup
-
     journeyFrame.frame = AceGUI:Create("Frame");
 
     journeyFrame.frame:SetTitle(QuestieLocale:GetUIString('JOURNEY_TITLE', UnitName("player")));

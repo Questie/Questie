@@ -88,7 +88,6 @@ end
 function Questie:OnInitialize()
     self.db = LibStub("AceDB-3.0"):New("QuestieConfig", QuestieOptionsDefaults:Load(), true)
     QuestieFramePool:SetIcons()
-    
 
     -- Set proper locale. Either default to client Locale or override based on user.
     if Questie.db.global.questieLocaleDiff then
