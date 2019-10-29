@@ -2556,6 +2556,7 @@
         "GameTooltip_AddNormalLine",
         "GameTooltip_AddColoredLine",
         "GameTooltip_AddNewbieTip",
+        "ItemRefTooltip",
         "StaticPopupDialogs",
         "NORMAL_FONT_COLOR",
         "NORMAL_FONT_COLOR_CODE",

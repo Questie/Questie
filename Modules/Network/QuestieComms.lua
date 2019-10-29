@@ -385,9 +385,9 @@ function _QuestieComms:OnCommReceived(message, distribution, sender)
                     local majorOwn, minorOwn, patchOwn = QuestieLib:GetAddonVersionInfo();
                     if((majorOwn < tonumber(major) or minorOwn < tonumber(minor)) and not UnitAffectingCombat("player")) then
                         suggestUpdate = false;
-                        if(majorOwn < major) then
+                        if(majorOwn < tonumber(major)) then
                             Questie:Print("A Major patch for Questie exist! Please update as soon as possible!");
-                        elseif(majorOwn == major and minorOwn < minor) then
+                        elseif(majorOwn == tonumber(major) and minorOwn < tonumber(minor)) then
                             Questie:Print("You have an outdated version of Questie! Please consider updating!");
                         end
                     end

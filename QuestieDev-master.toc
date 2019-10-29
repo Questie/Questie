@@ -42,6 +42,7 @@ Database\Corrections\QuestieEvent.lua
 Locale\QuestieLocale.lua
 Locale\enUS\locale.xml
 Locale\esES\locale.xml
+Locale\esMX\locale.xml
 Locale\deDE\locale.xml
 Locale\zhCN\locale.xml
 Locale\zhTW\locale.xml

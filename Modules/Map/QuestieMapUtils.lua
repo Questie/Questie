@@ -8,13 +8,14 @@ local pairs = pairs;
 
 function QuestieMap.utils:SetDrawOrder(frame)
   --This is all fixes to always be on top of HandyNotes notes Let the frame level wars begin.
+  --HandyNotes uses GetFrameLevel + 6, so we use +7
   if frame.miniMapIcon then
       local frameLevel = Minimap:GetFrameLevel() + 7
       local frameStrata = Minimap:GetFrameStrata()
       frame:SetParent(Minimap)
       frame:SetFrameStrata(frameStrata)
       frame:SetFrameLevel(frameLevel)
-  else            
+  else
       local frameLevel = WorldMapFrame:GetFrameLevel() + 7
       local frameStrata = WorldMapFrame:GetFrameStrata()
       frame:SetParent(WorldMapFrame)
@@ -22,6 +23,7 @@ function QuestieMap.utils:SetDrawOrder(frame)
       frame:SetFrameLevel(frameLevel)
   end
 
+  --Draw layer is between -8 and 7, please leave some number above so we don't paint ourselves into a corner...
   if(frame.data and (frame.data.Icon == ICON_TYPE_AVAILABLE or frame.data.Icon == ICON_TYPE_REPEATABLE)) then
     frame.texture:SetDrawLayer("OVERLAY", 5);
   elseif(frame.data and frame.data.Icon == ICON_TYPE_COMPLETE) then
@@ -72,12 +74,8 @@ function QuestieMap.utils:CalcHotzones(points, rangeR)
               
               --We want things further away to be clustered more
               local movingRange = range;
-              if(point.distance and point.distance < 1000) then
-                movingRange = movingRange * 1;
-              elseif(point.distance and point.distance < 1500) then
-                movingRange = movingRange * 1.5;
-              elseif(point.distance and point.distance > 2000) then
-                movingRange = movingRange * 2;
+              if(point.distance and point.distance > 1000) then
+                movingRange = movingRange * (point.distance/1000);
               end
 
               if(point.x > 1 and point.y > 1) then times = 100; end

@@ -2,6 +2,7 @@ QuestieQuestFixes = {...}
 
 function QuestieQuestFixes:Load()
     table.insert(QuestieDB.questData, 7668, {}) -- Add missing quest index
+    table.insert(QuestieDB.questData, 7670, {}) -- Add missing quest index #1432
     table.insert(QuestieDB.questData, 8289, {}) -- ^
     table.insert(QuestieDB.questData, 7921, {}) -- ^
     table.insert(QuestieDB.questData, 7887, {}) -- ^
@@ -238,17 +239,17 @@ function QuestieQuestFixes:Load()
         },
         [8289] = { -- #1435
             [QuestieDB.questKeys.name] = "Talismans of Merit",
-            [QuestieDB.questKeys.startedBy] = {{14733},nil,nil},    --Quest starts and ends with Sentinel Farsong
+            [QuestieDB.questKeys.startedBy] = {{14733},nil,nil},
             [QuestieDB.questKeys.finishedBy] = {{14733},nil,},
-            [QuestieDB.questKeys.requiredLevel] = 10,               -- All info repeats, but quest has different levels for level of player
+            [QuestieDB.questKeys.requiredLevel] = 10,
             [QuestieDB.questKeys.questLevel] = 15,
-            [QuestieDB.questKeys.requiredRaces] = 77,                -- All races can partake in quest
-            [QuestieDB.questKeys.zoneOrSort] = 2597,                -- >0: AreaTable.dbc ID; <0
-            [QuestieDB.questKeys.specialFlags] = 1,                 -- Quest is repeatable
+            [QuestieDB.questKeys.requiredRaces] = 77,
+            [QuestieDB.questKeys.zoneOrSort] = 2597,
+            [QuestieDB.questKeys.specialFlags] = 1,
             
         },
         [7921] = { -- #1435
-            [QuestieDB.questKeys.name] = "Talismans of Merit",  -- Check [8289] for comments with more information
+            [QuestieDB.questKeys.name] = "Talismans of Merit",
             [QuestieDB.questKeys.startedBy] = {{14733},nil,nil},
             [QuestieDB.questKeys.finishedBy] = {{14733},nil,},
             [QuestieDB.questKeys.requiredLevel] = 20,
@@ -259,7 +260,7 @@ function QuestieQuestFixes:Load()
             
         },
         [7887] = { -- #1435
-            [QuestieDB.questKeys.name] = "Talismans of Merit",  -- Check [8289] for comments with more information
+            [QuestieDB.questKeys.name] = "Talismans of Merit",
             [QuestieDB.questKeys.startedBy] = {{14733},nil,nil},
             [QuestieDB.questKeys.finishedBy] = {{14733},nil,},
             [QuestieDB.questKeys.requiredLevel] = 30,
@@ -270,7 +271,7 @@ function QuestieQuestFixes:Load()
             
         },
         [7888] = { -- #1435
-            [QuestieDB.questKeys.name] = "Talismans of Merit",  -- Check [8289] for comments with more information
+            [QuestieDB.questKeys.name] = "Talismans of Merit",
             [QuestieDB.questKeys.startedBy] = {{14733},nil,nil},
             [QuestieDB.questKeys.finishedBy] = {{14733},nil,},
             [QuestieDB.questKeys.requiredLevel] = 40,
@@ -281,7 +282,7 @@ function QuestieQuestFixes:Load()
             
         },
         [7886] = { -- #1435
-            [QuestieDB.questKeys.name] = "Talismans of Merit",  -- Check [8289] for comments with more information
+            [QuestieDB.questKeys.name] = "Talismans of Merit",
             [QuestieDB.questKeys.startedBy] = {{14733},nil,nil},
             [QuestieDB.questKeys.finishedBy] = {{14733},nil,},
             [QuestieDB.questKeys.requiredLevel] = 50,
@@ -292,7 +293,7 @@ function QuestieQuestFixes:Load()
             
         },
         [8289] = { -- #1435
-            [QuestieDB.questKeys.name] = "Talismans of Merit",  -- Check [8289] for comments with more information
+            [QuestieDB.questKeys.name] = "Talismans of Merit",
             [QuestieDB.questKeys.startedBy] = {{14733},nil,nil},
             [QuestieDB.questKeys.finishedBy] = {{14733},nil,},
             [QuestieDB.questKeys.requiredLevel] = 60,
@@ -446,7 +447,7 @@ function QuestieQuestFixes:Load()
         [308] = {
             [QuestieDB.questKeys.exclusiveTo] = {311}, -- distracting jarven can't be completed once you get the followup
         },
-    
+
         -- Tome of Divinity starting quests for dwarfs #703
         [1645] = { -- This is repeatable giving an item starting 1646
             [QuestieDB.questKeys.exclusiveTo] = {1642,1646,2997,2998,2999,3000,3681},
@@ -463,7 +464,7 @@ function QuestieQuestFixes:Load()
         [3000] = {
             [QuestieDB.questKeys.exclusiveTo] = {1642,1646,2997,2998,2999,3681},
         },
-    
+
         -- Tome of Divinity starting quests for humans #703
         [1641] = { -- This is repeatable giving an item starting 1642
             [QuestieDB.questKeys.exclusiveTo] = {1642,1646,2997,2998,2999,3000,3681},
@@ -477,7 +478,7 @@ function QuestieQuestFixes:Load()
         [3681] = {
             [QuestieDB.questKeys.exclusiveTo] = {1642,1646,2997,2998,2999,3000},
         },
-    
+
         -- Tome of Valor repeatable starting quests #742
         [1793] = {
             [QuestieDB.questKeys.exclusiveTo] = {1649},
@@ -485,7 +486,7 @@ function QuestieQuestFixes:Load()
         [1794] = {
             [QuestieDB.questKeys.exclusiveTo] = {1649},
         },
-    
+
         -- Tome of Nobility quests #1661
         [1661] = {
             [QuestieDB.questKeys.exclusiveTo] = {4485,4486},
@@ -496,7 +497,7 @@ function QuestieQuestFixes:Load()
         [4486] = {
             [QuestieDB.questKeys.exclusiveTo] = {1661,4485},
         },
-    
+
         -- Voidwalker questline for horde
         [1473] = {
             [QuestieDB.questKeys.exclusiveTo] = {1501},
@@ -504,7 +505,7 @@ function QuestieQuestFixes:Load()
         [1501] = {
             [QuestieDB.questKeys.exclusiveTo] = {1473},
         },
-    
+
         [163] = {
             [QuestieDB.questKeys.exclusiveTo] = {5}, -- Raven Hill breadcrumb
         },
@@ -637,6 +638,21 @@ function QuestieQuestFixes:Load()
         [5891] = {
             [QuestieDB.questKeys.exclusiveTo] = {5887,5888,5889,5890,},
             [QuestieDB.questKeys.specialFlags] = 0,
+        },
+        [7670] = { -- #1432
+            [QuestieDB.questKeys.name] = "Lord Grayson Shadowbreaker",
+            [QuestieDB.questKeys.startedBy] = {{5149},nil,nil,},
+            [QuestieDB.questKeys.finishedBy] = {{928},nil,},
+            [QuestieDB.questKeys.requiredLevel] = 60,
+            [QuestieDB.questKeys.questLevel] = 60,
+            [QuestieDB.questKeys.requiredRaces] = 77,
+            [QuestieDB.questKeys.requiredClasses] = 2,
+            [QuestieDB.questKeys.objectivesText] = {"Speak with Lord Grayson Shadowbreaker in Stormwind's Cathedral District."},
+            [QuestieDB.questKeys.nextQuestInChain] = 7637,
+            [QuestieDB.questKeys.exclusiveTo] = {7638,},
+            [QuestieDB.questKeys.zoneOrSort] = -141
+        [467] = {
+            [QuestieDB.questKeys.startedBy] = {{1340,2092,},nil,nil,}, -- #1379
         },
     }
 end

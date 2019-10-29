@@ -34,9 +34,7 @@ local tremove = table.remove;
 local tunpack = unpack;
 
 
--- copypaste from old questie (clean up later)
-QUESTIE_NOTES_CLUSTERMUL_HACK = 0.2; -- smaller numbers = less icons on map
-QuestieMap.MapCache_ClutterFix = {};
+QUESTIE_CLUSTER_DISTANCE = 70; -- smaller numbers = more icons on the map
 QuestieMap.drawTimer = nil;
 QuestieMap.fadeLogicTimerShown = nil;
 
@@ -429,183 +427,159 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
     -- if(floatOnEdge == nil) then floatOnEdge = true; end
     local floatOnEdge = true
 
-    -- check toggles (not anymore, we need to add then hide)
-    --if data.Type then
-    --   if (((not Questie.db.global.enableObjectives) and (data.Type == "monster" or data.Type == "object" or data.Type == "event" or data.Type == "item"))
-    --     or ((not Questie.db.global.enableTurnins) and data.Type == "complete")
-    --     or ((not Questie.db.global.enableAvailable) and data.Type == "available")) then
-    --        return -- dont add icon
-    --    end
-    --end
 
-    -- check clustering
-    local xcell = math.floor((x * (QUESTIE_NOTES_CLUSTERMUL_HACK)));
-    local ycell = math.floor((y * (QUESTIE_NOTES_CLUSTERMUL_HACK)));
+    if AreaID then
+        data.UiMapID = zoneDataAreaIDToUiMapID[AreaID];
+    end
 
-    if QuestieMap.MapCache_ClutterFix[AreaID] == nil then QuestieMap.MapCache_ClutterFix[AreaID] = {}; end
-    if QuestieMap.MapCache_ClutterFix[AreaID][xcell] == nil then QuestieMap.MapCache_ClutterFix[AreaID][xcell] = {}; end
-    if QuestieMap.MapCache_ClutterFix[AreaID][xcell][ycell] == nil then QuestieMap.MapCache_ClutterFix[AreaID][xcell][ycell] = {}; end
-
-
-    if (not data.ClusterId) or (not QuestieMap.MapCache_ClutterFix[AreaID][xcell][ycell][data.ClusterId]) then -- the reason why we only prevent adding to HBD is so its easy to "unhide" if we need to, and so the refs still exist
-        if data.ClusterId then
-            QuestieMap.MapCache_ClutterFix[AreaID][xcell][ycell][data.ClusterId] = true
+    local icon = QuestieFramePool:GetFrame()
+    icon.data = data
+    icon.x = x
+    icon.y = y
+    icon.AreaID = AreaID
+    icon.miniMapIcon = false;
+    icon:UpdateTexture(data.Icon);
+    icon.OnShow = function()
+        QuestieMap.mapFramesShown[icon.frameId] = icon
+    end
+    
+    icon.OnHide = function()
+        if(QuestieMap.mapFramesShown[icon.frameId]) then
+            QuestieMap.mapFramesShown[icon.frameId] = nil
         end
+    end
 
-        if AreaID then
-            data.UiMapID = zoneDataAreaIDToUiMapID[AreaID];
+    local iconMinimap = QuestieFramePool:GetFrame()
+    iconMinimap.data = data
+    iconMinimap.x = x
+    iconMinimap.y = y
+    iconMinimap.AreaID = AreaID
+    --data.refMiniMap = iconMinimap -- used for removing
+    --Are we a minimap note?
+    iconMinimap.miniMapIcon = true;
+    iconMinimap:UpdateTexture(data.Icon);
+    iconMinimap.OnShow = function()
+        QuestieMap.minimapFramesShown[iconMinimap.frameId] = iconMinimap
+    end
+    
+    iconMinimap.OnHide = function()
+        if(QuestieMap.minimapFramesShown[iconMinimap.frameId]) then
+            QuestieMap.minimapFramesShown[iconMinimap.frameId] = nil
         end
-        
-        local icon = QuestieFramePool:GetFrame()
-        icon.data = data
-        icon.x = x
-        icon.y = y
-        icon.AreaID = AreaID
-        icon.miniMapIcon = false;
-        icon:UpdateTexture(data.Icon);
-        icon.OnShow = function()
-            QuestieMap.mapFramesShown[icon.frameId] = icon
-        end
-        
-        icon.OnHide = function()
-            if(QuestieMap.mapFramesShown[icon.frameId]) then
-                QuestieMap.mapFramesShown[icon.frameId] = nil
-            end
-        end
-
-        local iconMinimap = QuestieFramePool:GetFrame()
-        iconMinimap.data = data
-        iconMinimap.x = x
-        iconMinimap.y = y
-        iconMinimap.AreaID = AreaID
-        --data.refMiniMap = iconMinimap -- used for removing
-        --Are we a minimap note?
-        iconMinimap.miniMapIcon = true;
-        iconMinimap:UpdateTexture(data.Icon);
-        iconMinimap.OnShow = function()
-            --QuestieMap.minimapFramesShown[iconMinimap.frameId] = iconMinimap
-        end
-        
-        iconMinimap.OnHide = function()
-            if(QuestieMap.minimapFramesShown[iconMinimap.frameId]) then
-                QuestieMap.minimapFramesShown[iconMinimap.frameId] = nil
-            end
-        end
+    end
 
 
-        if(not iconMinimap.FadeLogic) then
-            function iconMinimap:FadeLogic()
-                if self.miniMapIcon and self.x and self.y and self.texture and self.data.UiMapID and self.texture.SetVertexColor and Questie and Questie.db and Questie.db.global and Questie.db.global.fadeLevel and HBD and HBD.GetPlayerZonePosition and QuestieLib and QuestieLib.Euclid then
-                    local playerX, playerY, playerInstanceID = HBD:GetPlayerWorldPosition()
-                    
-                    if(playerX and playerY) then
-                        local x, y, instance = HBD:GetWorldCoordinatesFromZone(self.x/100, self.y/100, self.data.UiMapID)
-                        if(x and y) then
-                            local distance = QuestieLib:Euclid(playerX, playerY, x, y);
+    if(not iconMinimap.FadeLogic) then
+        function iconMinimap:FadeLogic()
+            if self.miniMapIcon and self.x and self.y and self.texture and self.data.UiMapID and self.texture.SetVertexColor and Questie and Questie.db and Questie.db.global and Questie.db.global.fadeLevel and HBD and HBD.GetPlayerZonePosition and QuestieLib and QuestieLib.Euclid then
+                local playerX, playerY, playerInstanceID = HBD:GetPlayerWorldPosition()
+                
+                if(playerX and playerY) then
+                    local x, y, instance = HBD:GetWorldCoordinatesFromZone(self.x/100, self.y/100, self.data.UiMapID)
+                    if(x and y) then
+                        local distance = QuestieLib:Euclid(playerX, playerY, x, y);
 
-                            --Very small value before, hard to work with.
-                            distance = distance / 10
+                        --Very small value before, hard to work with.
+                        distance = distance / 10
 
 
-                            local NormalizedValue = 1/fadeOverDistance; --Opacity / Distance to fade over
+                        local NormalizedValue = 1/fadeOverDistance; --Opacity / Distance to fade over
 
-                            if(distance > Questie.db.global.fadeLevel) then
-                                local fade = 1-(math.min(10, (distance-Questie.db.global.fadeLevel))*NormalizedValue);
+                        if(distance > Questie.db.global.fadeLevel) then
+                            local fade = 1-(math.min(10, (distance-Questie.db.global.fadeLevel))*NormalizedValue);
+                            local dr,dg,db = self.texture:GetVertexColor()
+                            self.texture:SetVertexColor(dr, dg, db, fade)
+                            if self.glowTexture and self.glowTexture.GetVertexColor then
+                                local r,g,b = self.glowTexture:GetVertexColor()
+                                self.glowTexture:SetVertexColor(r,g,b,fade)
+                            end
+                        elseif (distance < Questie.db.global.fadeOverPlayerDistance) and Questie.db.global.fadeOverPlayer then
+                            local fadeAmount = QuestieLib:Remap(distance, 0, Questie.db.global.fadeOverPlayerDistance, Questie.db.global.fadeOverPlayerLevel, 1);
+                            -- local fadeAmount = math.max(fadeAmount, 0.5);
+                            if self.faded and fadeAmount > Questie.db.global.iconFadeLevel then fadeAmount = Questie.db.global.iconFadeLevel end
+                            local dr,dg,db = self.texture:GetVertexColor()
+                            self.texture:SetVertexColor(dr, dg, db, fadeAmount)
+                            if self.glowTexture and self.glowTexture.GetVertexColor then
+                                local r,g,b = self.glowTexture:GetVertexColor()
+                                self.glowTexture:SetVertexColor(r,g,b,fadeAmount)
+                            end
+                        else
+                            if self.faded then
                                 local dr,dg,db = self.texture:GetVertexColor()
-                                self.texture:SetVertexColor(dr, dg, db, fade)
+                                self.texture:SetVertexColor(dr, dg, db, Questie.db.global.iconFadeLevel)
                                 if self.glowTexture and self.glowTexture.GetVertexColor then
                                     local r,g,b = self.glowTexture:GetVertexColor()
-                                    self.glowTexture:SetVertexColor(r,g,b,fade)
-                                end
-                            elseif (distance < Questie.db.global.fadeOverPlayerDistance) and Questie.db.global.fadeOverPlayer then
-                                local fadeAmount = QuestieLib:Remap(distance, 0, Questie.db.global.fadeOverPlayerDistance, Questie.db.global.fadeOverPlayerLevel, 1);
-                                -- local fadeAmount = math.max(fadeAmount, 0.5);
-                                if self.faded and fadeAmount > Questie.db.global.iconFadeLevel then fadeAmount = Questie.db.global.iconFadeLevel end
-                                local dr,dg,db = self.texture:GetVertexColor()
-                                self.texture:SetVertexColor(dr, dg, db, fadeAmount)
-                                if self.glowTexture and self.glowTexture.GetVertexColor then
-                                    local r,g,b = self.glowTexture:GetVertexColor()
-                                    self.glowTexture:SetVertexColor(r,g,b,fadeAmount)
+                                    self.glowTexture:SetVertexColor(r,g,b,Questie.db.global.iconFadeLevel)
                                 end
                             else
-                                if self.faded then
-                                    local dr,dg,db = self.texture:GetVertexColor()
-                                    self.texture:SetVertexColor(dr, dg, db, Questie.db.global.iconFadeLevel)
-                                    if self.glowTexture and self.glowTexture.GetVertexColor then
-                                        local r,g,b = self.glowTexture:GetVertexColor()
-                                        self.glowTexture:SetVertexColor(r,g,b,Questie.db.global.iconFadeLevel)
-                                    end
-                                else
-                                    local dr,dg,db = self.texture:GetVertexColor()
-                                    self.texture:SetVertexColor(dr, dg, db, 1)
-                                    if self.glowTexture and self.glowTexture.GetVertexColor then
-                                        local r,g,b = self.glowTexture:GetVertexColor()
-                                        self.glowTexture:SetVertexColor(r,g,b,1)
-                                    end
+                                local dr,dg,db = self.texture:GetVertexColor()
+                                self.texture:SetVertexColor(dr, dg, db, 1)
+                                if self.glowTexture and self.glowTexture.GetVertexColor then
+                                    local r,g,b = self.glowTexture:GetVertexColor()
+                                    self.glowTexture:SetVertexColor(r,g,b,1)
                                 end
                             end
                         end
+                    end
+                else
+                    if self.faded then
+                        local dr,dg,db = self.texture:GetVertexColor()
+                        self.texture:SetVertexColor(dr, dg, db, Questie.db.global.iconFadeLevel)
+                        if self.glowTexture and self.glowTexture.GetVertexColor then
+                            local r,g,b = self.glowTexture:GetVertexColor()
+                            self.glowTexture:SetVertexColor(r,g,b,Questie.db.global.iconFadeLevel)
+                        end
                     else
-                        if self.faded then
-                            local dr,dg,db = self.texture:GetVertexColor()
-                            self.texture:SetVertexColor(dr, dg, db, Questie.db.global.iconFadeLevel)
-                            if self.glowTexture and self.glowTexture.GetVertexColor then
-                                local r,g,b = self.glowTexture:GetVertexColor()
-                                self.glowTexture:SetVertexColor(r,g,b,Questie.db.global.iconFadeLevel)
-                            end
-                        else
-                            local dr,dg,db = self.texture:GetVertexColor()
-                            self.texture:SetVertexColor(dr, dg, db, 1)
-                            if self.glowTexture and self.glowTexture.GetVertexColor then
-                                local r,g,b = self.glowTexture:GetVertexColor()
-                                self.glowTexture:SetVertexColor(r,g,b,1)
-                            end
+                        local dr,dg,db = self.texture:GetVertexColor()
+                        self.texture:SetVertexColor(dr, dg, db, 1)
+                        if self.glowTexture and self.glowTexture.GetVertexColor then
+                            local r,g,b = self.glowTexture:GetVertexColor()
+                            self.glowTexture:SetVertexColor(r,g,b,1)
                         end
                     end
                 end
             end
-            -- We do not want to hook the OnUpdate again!
-            -- iconMinimap:SetScript("OnUpdate", )
         end
-
-        if Questie.db.global.enableMiniMapIcons then
-            QuestieMap:QueueDraw(QuestieMap.ICON_MINIMAP_TYPE, Questie, iconMinimap, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, true, floatOnEdge);
-            --HBDPins:AddMinimapIconMap(Questie, iconMinimap, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, true, floatOnEdge)
-        end
-        if Questie.db.global.enableMapIcons then
-            QuestieMap:QueueDraw(QuestieMap.ICON_MAP_TYPE, Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, showFlag);
-            local r, g, b = iconMinimap.texture:GetVertexColor()
-            QuestieDBMIntegration:RegisterHudQuestIcon(tostring(icon), data.Icon, zoneDataAreaIDToUiMapID[AreaID], x, y, r, g, b)
-            --HBDPins:AddWorldMapIconMap(Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, showFlag)
-        end
-        if(QuestieMap.questIdFrames[data.Id] == nil) then
-            QuestieMap.questIdFrames[data.Id] = {}
-        end
-
-        tinsert(QuestieMap.questIdFrames[data.Id], icon:GetName())
-        tinsert(QuestieMap.questIdFrames[data.Id], iconMinimap:GetName())
-
-
-        --Hide unexplored logic
-        if(not QuestieMap.utils:IsExplored(icon.data.UiMapID, x, y) and Questie.db.global.hideUnexploredMapIcons) then
-            icon:FakeHide()
-            iconMinimap:FakeHide()
-        end
-
-        -- preset hidden state when needed (logic from QuestieQuest:UpdateHiddenNotes
-        -- we should add all this code to something like obj:CheckHide() instead of copying it
-        if (QuestieQuest.NotesHidden or (((not Questie.db.global.enableObjectives) and (icon.data.Type == "monster" or icon.data.Type == "object" or icon.data.Type == "event" or icon.data.Type == "item"))
-                 or ((not Questie.db.global.enableTurnins) and icon.data.Type == "complete")
-                 or ((not Questie.db.global.enableAvailable) and icon.data.Type == "available"))
-                 or ((not Questie.db.global.enableMapIcons) and (not icon.miniMapIcon))
-                 or ((not Questie.db.global.enableMiniMapIcons) and (icon.miniMapIcon))) or (icon.data.ObjectiveData and icon.data.ObjectiveData.HideIcons) or (icon.data.QuestData and icon.data.QuestData.HideIcons and icon.data.Type ~= "complete") then
-            icon:FakeHide()
-            iconMinimap:FakeHide()
-        end
-
-        return icon, iconMinimap;
+        -- We do not want to hook the OnUpdate again!
+        -- iconMinimap:SetScript("OnUpdate", )
     end
-    return nil, nil
+
+    if Questie.db.global.enableMiniMapIcons then
+        QuestieMap:QueueDraw(QuestieMap.ICON_MINIMAP_TYPE, Questie, iconMinimap, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, true, floatOnEdge);
+        --HBDPins:AddMinimapIconMap(Questie, iconMinimap, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, true, floatOnEdge)
+    end
+    if Questie.db.global.enableMapIcons then
+        QuestieMap:QueueDraw(QuestieMap.ICON_MAP_TYPE, Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, showFlag);
+        local r, g, b = iconMinimap.texture:GetVertexColor()
+        QuestieDBMIntegration:RegisterHudQuestIcon(tostring(icon), data.Icon, zoneDataAreaIDToUiMapID[AreaID], x, y, r, g, b)
+        --HBDPins:AddWorldMapIconMap(Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, showFlag)
+    end
+    if(QuestieMap.questIdFrames[data.Id] == nil) then
+        QuestieMap.questIdFrames[data.Id] = {}
+    end
+
+    tinsert(QuestieMap.questIdFrames[data.Id], icon:GetName())
+    tinsert(QuestieMap.questIdFrames[data.Id], iconMinimap:GetName())
+
+
+    --Hide unexplored logic
+    if(not QuestieMap.utils:IsExplored(icon.data.UiMapID, x, y) and Questie.db.global.hideUnexploredMapIcons) then
+        icon:FakeHide()
+        iconMinimap:FakeHide()
+    end
+
+    -- preset hidden state when needed (logic from QuestieQuest:UpdateHiddenNotes
+    -- we should add all this code to something like obj:CheckHide() instead of copying it
+    if (QuestieQuest.NotesHidden or (((not Questie.db.global.enableObjectives) and (icon.data.Type == "monster" or icon.data.Type == "object" or icon.data.Type == "event" or icon.data.Type == "item"))
+                or ((not Questie.db.global.enableTurnins) and icon.data.Type == "complete")
+                or ((not Questie.db.global.enableAvailable) and icon.data.Type == "available"))
+                or ((not Questie.db.global.enableMapIcons) and (not icon.miniMapIcon))
+                or ((not Questie.db.global.enableMiniMapIcons) and (icon.miniMapIcon))) or (icon.data.ObjectiveData and icon.data.ObjectiveData.HideIcons) or (icon.data.QuestData and icon.data.QuestData.HideIcons and icon.data.Type ~= "complete") then
+        icon:FakeHide()
+        iconMinimap:FakeHide()
+    end
+
+    return icon, iconMinimap;
 end
 
 local closestStarter = {}
