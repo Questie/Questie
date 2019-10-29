@@ -10,6 +10,10 @@ local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
 local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool");
 ---@type QuestieDBMIntegration
 local QuestieDBMIntegration = QuestieLoader:ImportModule("QuestieDBMIntegration");
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
+---@type QuestiePlayer
+local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 
 QuestieMap.ICON_MAP_TYPE = "MAP";
 QuestieMap.ICON_MINIMAP_TYPE = "MINIMAP";
