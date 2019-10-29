@@ -129,6 +129,8 @@ QuestieLocale.locale['esMX'] = {
     ['TOOLTIP_QUEST_COMPLETE'] = "(Completada)",
     ['TOOLTIP_QUEST_AVAILABLE'] = "(Disponible)",
     ['TOOLTIP_QUEST_ACTIVE'] = "(Activa)",
+    ['TOOLTIP_QUEST_REPEATABLE'] = "(Repetible)",
+    ['TOOLTIP_QUEST_EVENT'] = "(Event)",
 
     -- Slash Commands
     ['SLASH_INVALID'] = "Comando inválido. Para una lista de comandos escribe: ",
@@ -145,6 +147,7 @@ QuestieLocale.locale['esMX'] = {
     ['JOURNEY_SEARCH_TAB'] = "Busqueda avanzada",
     ['JOURNEY_AVAILABLE_TITLE'] = "Misiones disponibles",
     ['JOURNEY_COMPLETE_TITLE'] = "Misiones completadas",
+    ['JOURNEY_REPEATABLE_TITLE'] = "Misiones repetible",
     ['JOURNEY_SELECT_HEAD'] = "Selecciona tu continente y zona",
     ['JOURNEY_SELECT_CONT'] = "Selecciona tu continente",
     ['JOURNEY_SELECT_ZONE'] = "Selecciona tu zona",

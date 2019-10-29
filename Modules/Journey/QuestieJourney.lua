@@ -952,6 +952,11 @@ function CollectZoneQuests(container, zoneid)
             value = "c",
             text = QuestieLocale:GetUIString('JOURNEY_COMPLETE_TITLE'),
             children = {}
+        },
+        [3] = {
+            value = "r",
+            text = QuestieLocale:GetUIString('JOURNEY_REPEATABLE_TITLE'),
+            children = {},
         }
     };
 
@@ -959,6 +964,7 @@ function CollectZoneQuests(container, zoneid)
 
     -- populate available non complete quests
     local availableCounter = 0;
+    local repeatableCounter = 0
     for _, levelAndQuest in pairs(sortedQuestByLevel) do
         local quest = levelAndQuest[2]
         local qId = quest.Id
@@ -969,9 +975,14 @@ function CollectZoneQuests(container, zoneid)
             if QuestieCorrections.hiddenQuests and not QuestieCorrections.hiddenQuests[qId] then
                 temp.value = qId;
                 temp.text = quest:GetColoredQuestName();
-                table.insert(zoneTree[1].children, temp);
+                if quest.specialFlags == 1 then
+                    table.insert(zoneTree[3].children, temp);
+                    repeatableCounter = repeatableCounter + 1
+                else
+                    table.insert(zoneTree[1].children, temp);
+                    availableCounter = availableCounter + 1;
+                end
                 temp = {}; -- Weird Lua bug requires this to be reset?
-                availableCounter = availableCounter + 1;
             end
         end
     end
@@ -991,6 +1002,7 @@ function CollectZoneQuests(container, zoneid)
     local totalCounter = availableCounter + completedCounter;
     zoneTree[1].text = zoneTree[1].text .. ' [ '..  availableCounter ..'/'.. totalCounter ..' ]';
     zoneTree[2].text = zoneTree[2].text .. ' [ '..  completedCounter ..'/'.. totalCounter ..' ]';
+    zoneTree[3].text = zoneTree[3].text .. ' [ '..  repeatableCounter ..' ]';
 
     -- Build Tree
     ManageZoneTree(container, zoneTree);

@@ -168,6 +168,7 @@ QuestieLocale.locale['ruRU'] = {
     ['JOURNEY_SEARCH_TAB'] = "Расширенный поиск",
     ['JOURNEY_AVAILABLE_TITLE'] = "Доступные задания",
     ['JOURNEY_COMPLETE_TITLE'] = "Выполненные задания",
+    ['JOURNEY_REPEATABLE_TITLE'] = "Repeatable Quests",
     ['JOURNEY_SELECT_HEAD'] = "Выберите свой континент и локацию",
     ['JOURNEY_SELECT_CONT'] = "Выберите свой континент",
     ['JOURNEY_SELECT_ZONE'] = "Выберите вашу локацию",

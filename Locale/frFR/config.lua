@@ -254,6 +254,7 @@ QuestieLocale.locale['frFR'] = {
   ['JOURNEY_SEARCH_TAB'] = "Recherche avancée",
   ['JOURNEY_AVAILABLE_TITLE'] = "Quêtes disponibles",
   ['JOURNEY_COMPLETE_TITLE'] = "Quêtes terminées",
+  ['JOURNEY_REPEATABLE_TITLE'] = "Quêtes répétable",
   ['JOURNEY_SELECT_HEAD'] = "Sélectionnez votre continent et votre zone",
   ['JOURNEY_SELECT_CONT'] = "Sélectionnez votre continent",
   ['JOURNEY_SELECT_ZONE'] = "Sélectionnez votre zone",

@@ -211,6 +211,7 @@ QuestieLocale.locale['zhCN'] = {
     ['JOURNEY_SEARCH_TAB'] = "进阶搜询",
     ['JOURNEY_AVAILABLE_TITLE'] = "可接受",
     ['JOURNEY_COMPLETE_TITLE'] = "已完成",
+    ['JOURNEY_REPEATABLE_TITLE'] = "Repeatable Quests",
     ['JOURNEY_SELECT_HEAD'] = "选择大陆与区域",
     ['JOURNEY_SELECT_CONT'] = "选择大陆",
     ['JOURNEY_SELECT_ZONE'] = "选择区域",
