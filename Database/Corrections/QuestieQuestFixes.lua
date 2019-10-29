@@ -2,6 +2,7 @@ QuestieQuestFixes = {...}
 
 function QuestieQuestFixes:Load()
     table.insert(QuestieDB.questData, 7668, {}) -- Add missing quest index
+    table.insert(QuestieDB.questData, 7670, {}) -- Add missing quest index #1432
 
     return {
         [5] = {
@@ -566,6 +567,18 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.exclusiveTo] = {5887,5888,5889,5890,},
             [QuestieDB.questKeys.specialFlags] = 0,
         },
+        [7670] = { -- #1432
+            [QuestieDB.questKeys.name] = "Lord Grayson Shadowbreaker",
+            [QuestieDB.questKeys.startedBy] = {{5149},nil,nil,},
+            [QuestieDB.questKeys.finishedBy] = {{928},nil,},
+            [QuestieDB.questKeys.requiredLevel] = 60,
+            [QuestieDB.questKeys.questLevel] = 60,
+            [QuestieDB.questKeys.requiredRaces] = 77,
+            [QuestieDB.questKeys.requiredClasses] = 2,
+            [QuestieDB.questKeys.objectivesText] = {"Speak with Lord Grayson Shadowbreaker in Stormwind's Cathedral District."},
+            [QuestieDB.questKeys.nextQuestInChain] = 7637,
+            [QuestieDB.questKeys.exclusiveTo] = {7638,},
+            [QuestieDB.questKeys.zoneOrSort] = -141
         [467] = {
             [QuestieDB.questKeys.startedBy] = {{1340,2092,},nil,nil,}, -- #1379
         },
