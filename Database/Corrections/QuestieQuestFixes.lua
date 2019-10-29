@@ -3,6 +3,12 @@ QuestieQuestFixes = {...}
 function QuestieQuestFixes:Load()
     table.insert(QuestieDB.questData, 7668, {}) -- Add missing quest index
     table.insert(QuestieDB.questData, 7670, {}) -- Add missing quest index #1432
+    table.insert(QuestieDB.questData, 8289, {}) -- ^
+    table.insert(QuestieDB.questData, 7921, {}) -- ^
+    table.insert(QuestieDB.questData, 7887, {}) -- ^
+    table.insert(QuestieDB.questData, 7888, {}) -- ^
+    table.insert(QuestieDB.questData, 7886, {}) -- ^
+    table.insert(QuestieDB.questData, 8292, {}) -- ^
 
     return {
         [5] = {
@@ -230,6 +236,72 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.objectives] = {nil,nil,{{18880,nil},},nil,},
             [QuestieDB.questKeys.sourceItemId] = 18746,
             [QuestieDB.questKeys.zoneOrSort] = 1637,
+        },
+        [8289] = { -- #1435
+            [QuestieDB.questKeys.name] = "Talismans of Merit",
+            [QuestieDB.questKeys.startedBy] = {{14733},nil,nil},
+            [QuestieDB.questKeys.finishedBy] = {{14733},nil,},
+            [QuestieDB.questKeys.requiredLevel] = 10,
+            [QuestieDB.questKeys.questLevel] = 15,
+            [QuestieDB.questKeys.requiredRaces] = 77,
+            [QuestieDB.questKeys.zoneOrSort] = 2597,
+            [QuestieDB.questKeys.specialFlags] = 1,
+            
+        },
+        [7921] = { -- #1435
+            [QuestieDB.questKeys.name] = "Talismans of Merit",
+            [QuestieDB.questKeys.startedBy] = {{14733},nil,nil},
+            [QuestieDB.questKeys.finishedBy] = {{14733},nil,},
+            [QuestieDB.questKeys.requiredLevel] = 20,
+            [QuestieDB.questKeys.questLevel] = 25,
+            [QuestieDB.questKeys.requiredRaces] = 77,
+            [QuestieDB.questKeys.zoneOrSort] = 2597,
+            [QuestieDB.questKeys.specialFlags] = 1,
+            
+        },
+        [7887] = { -- #1435
+            [QuestieDB.questKeys.name] = "Talismans of Merit",
+            [QuestieDB.questKeys.startedBy] = {{14733},nil,nil},
+            [QuestieDB.questKeys.finishedBy] = {{14733},nil,},
+            [QuestieDB.questKeys.requiredLevel] = 30,
+            [QuestieDB.questKeys.questLevel] = 35,
+            [QuestieDB.questKeys.requiredRaces] = 77,
+            [QuestieDB.questKeys.zoneOrSort] = 2597,
+            [QuestieDB.questKeys.specialFlags] = 1,
+            
+        },
+        [7888] = { -- #1435
+            [QuestieDB.questKeys.name] = "Talismans of Merit",
+            [QuestieDB.questKeys.startedBy] = {{14733},nil,nil},
+            [QuestieDB.questKeys.finishedBy] = {{14733},nil,},
+            [QuestieDB.questKeys.requiredLevel] = 40,
+            [QuestieDB.questKeys.questLevel] = 45,
+            [QuestieDB.questKeys.requiredRaces] = 77,
+            [QuestieDB.questKeys.zoneOrSort] = 2597,
+            [QuestieDB.questKeys.specialFlags] = 1,
+            
+        },
+        [7886] = { -- #1435
+            [QuestieDB.questKeys.name] = "Talismans of Merit",
+            [QuestieDB.questKeys.startedBy] = {{14733},nil,nil},
+            [QuestieDB.questKeys.finishedBy] = {{14733},nil,},
+            [QuestieDB.questKeys.requiredLevel] = 50,
+            [QuestieDB.questKeys.questLevel] = 55,
+            [QuestieDB.questKeys.requiredRaces] = 77,
+            [QuestieDB.questKeys.zoneOrSort] = 2597,
+            [QuestieDB.questKeys.specialFlags] = 1,
+            
+        },
+        [8289] = { -- #1435
+            [QuestieDB.questKeys.name] = "Talismans of Merit",
+            [QuestieDB.questKeys.startedBy] = {{14733},nil,nil},
+            [QuestieDB.questKeys.finishedBy] = {{14733},nil,},
+            [QuestieDB.questKeys.requiredLevel] = 60,
+            [QuestieDB.questKeys.questLevel] = 60,
+            [QuestieDB.questKeys.requiredRaces] = 77,
+            [QuestieDB.questKeys.zoneOrSort] = 2597,
+            [QuestieDB.questKeys.specialFlags] = 1,
+            
         },
         [5211] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #983
