@@ -1,12 +1,12 @@
 QuestieComms.data = {}
 
 --[i_1337][playerName][questId] = objective
-commsTooltipLookup = {}
+local commsTooltipLookup = {}
 
 --[playerName] = {
     --[questId] = {["i_1337"]=true,["o_1338"]=true,}
 --}
-playerRegisteredTooltips = {}
+local playerRegisteredTooltips = {}
 
 ---@param tooltipKey string @A key in the form of "i_1337"
 ---@return boolean @true if exist nil if not
