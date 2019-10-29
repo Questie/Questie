@@ -8,7 +8,7 @@ function QuestieQuestFixes:Load()
     table.insert(QuestieDB.questData, 7887, {}) -- ^
     table.insert(QuestieDB.questData, 7888, {}) -- ^
     table.insert(QuestieDB.questData, 7886, {}) -- ^
-    table.insert(QuestieDB.questData, 8292, {}) -- ^
+    table.insert(QuestieDB.questData, 8289, {}) -- ^
 
     return {
         [5] = {
@@ -246,7 +246,6 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.requiredRaces] = 77,
             [QuestieDB.questKeys.zoneOrSort] = 2597,
             [QuestieDB.questKeys.specialFlags] = 1,
-            
         },
         [7921] = { -- #1435
             [QuestieDB.questKeys.name] = "Talismans of Merit",
@@ -257,7 +256,6 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.requiredRaces] = 77,
             [QuestieDB.questKeys.zoneOrSort] = 2597,
             [QuestieDB.questKeys.specialFlags] = 1,
-            
         },
         [7887] = { -- #1435
             [QuestieDB.questKeys.name] = "Talismans of Merit",
@@ -268,7 +266,6 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.requiredRaces] = 77,
             [QuestieDB.questKeys.zoneOrSort] = 2597,
             [QuestieDB.questKeys.specialFlags] = 1,
-            
         },
         [7888] = { -- #1435
             [QuestieDB.questKeys.name] = "Talismans of Merit",
@@ -279,7 +276,6 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.requiredRaces] = 77,
             [QuestieDB.questKeys.zoneOrSort] = 2597,
             [QuestieDB.questKeys.specialFlags] = 1,
-            
         },
         [7886] = { -- #1435
             [QuestieDB.questKeys.name] = "Talismans of Merit",
@@ -290,7 +286,6 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.requiredRaces] = 77,
             [QuestieDB.questKeys.zoneOrSort] = 2597,
             [QuestieDB.questKeys.specialFlags] = 1,
-            
         },
         [8289] = { -- #1435
             [QuestieDB.questKeys.name] = "Talismans of Merit",
@@ -301,7 +296,6 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.requiredRaces] = 77,
             [QuestieDB.questKeys.zoneOrSort] = 2597,
             [QuestieDB.questKeys.specialFlags] = 1,
-            
         },
         [5211] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #983
