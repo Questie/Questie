@@ -13,6 +13,9 @@ Libs\HereBeDragons\HereBeDragons-2.0.lua
 Libs\HereBeDragons\HereBeDragons-Pins-2.0.lua
 Libs\HereBeDragons\HereBeDragons-Migrate.lua
 
+#Loader module
+Modules\Libs\QuestieLoader.lua
+
 #stream module (used by DB)
 Modules\QuestieStream.lua
 
@@ -42,6 +45,7 @@ Database\Corrections\QuestieEvent.lua
 Locale\QuestieLocale.lua
 Locale\enUS\locale.xml
 Locale\esES\locale.xml
+Locale\esMX\locale.xml
 Locale\deDE\locale.xml
 Locale\zhCN\locale.xml
 Locale\zhTW\locale.xml
@@ -69,14 +73,17 @@ Modules\Map\QuestieMapUtils.lua
 Modules\QuestieQuest.lua
 Modules\QuestieNameplate.lua
 Modules\QuestieCoordinates.lua
-Modules\QuestieJourney.lua
 
 #Network
 Modules\Network\QuestieComms.lua
 Modules\Network\QuestieCommsData.lua
 
-Modules\QuestieSearchResults.lua
-Modules\QuestieSearch.lua
+#Journey
+Modules\Journey\QuestieJourney.lua
+Modules\Journey\QuestieJourneyUtils.lua
+Modules\Journey\QuestieSearch.lua
+Modules\Journey\QuestieSearchResults.lua
+
 Modules\QuestieTracker.lua
 Modules\QuestieProfessions.lua
 Modules\QuestieReputation.lua

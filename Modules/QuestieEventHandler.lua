@@ -1,12 +1,33 @@
-local function _Hack_prime_log() -- this seems to make it update the data much quicker
-  for i=1,GetNumQuestLogEntries()+1 do
-    GetQuestLogTitle(i)
-    QuestieQuest:GetRawLeaderBoardDetails(i)
-  end
-end
-
 --- GLOBAL ---
-QuestieEventHandler = {}
+---@class QuestieEventHandler
+local QuestieEventHandler = QuestieLoader:CreateModule("QuestieEventHandler");
+
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieQuest
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
+---@type QuestieJourney
+local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney");
+---@type QuestieComms
+local QuestieComms = QuestieLoader:ImportModule("QuestieComms");
+---@type QuestieProfessions
+local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions");
+---@type QuestieTracker
+local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker");
+---@type QuestieReputation
+local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation");
+---@type QuestieNameplate
+local QuestieNameplate = QuestieLoader:ImportModule("QuestieNameplate");
+---@type QuestieMap
+local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
+---@type QuestiePlayer
+local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
+
 __UPDATEFIX_IDX = 1; -- temporary bad fix
 
 --- LOCAL ---
@@ -14,6 +35,14 @@ __UPDATEFIX_IDX = 1; -- temporary bad fix
 local playerEntered = false;
 local hasFirstQLU = false;
 local runQLU = false
+
+
+local function _Hack_prime_log() -- this seems to make it update the data much quicker
+  for i=1,GetNumQuestLogEntries()+1 do
+    GetQuestLogTitle(i)
+    QuestieQuest:GetRawLeaderBoardDetails(i)
+  end
+end
 
 function QuestieEventHandler:PLAYER_LOGIN()
     C_Timer.After(1, function()
@@ -96,6 +125,9 @@ function QuestieEventHandler:CompleteQuest(questId, count)
         count = 1;
     end
     local quest = QuestieDB:GetQuest(questId);
+    if not quest then
+        return
+    end
     if(IsQuestFlaggedCompleted(questId) or quest.Repeatable or count > 50) then
         QuestieQuest:CompleteQuest(questId)
         QuestieJourney:CompleteQuest(questId)
@@ -231,6 +263,7 @@ function QuestieEventHandler:GROUP_LEFT()
     --Resets both QuestieComms.remoteQuestLog and QuestieComms.data
     QuestieComms:ResetAll();
 end
+
 
 --Old unused code
 

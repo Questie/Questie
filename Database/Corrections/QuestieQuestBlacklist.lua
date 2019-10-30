@@ -580,7 +580,6 @@ function QuestieQuestBlacklist:Load()
         [7867] = true,
         [7868] = true,
       
-      
         -- corrupted windblossom
         [2523] = true,
         [2878] = true,
@@ -627,6 +626,7 @@ function QuestieQuestBlacklist:Load()
         [8254] = true,
         [9063] = true,
         [8410] = true,
+        [8411] = true,
         [8419] = true,
         [8420] = true,
         [8056] = true,

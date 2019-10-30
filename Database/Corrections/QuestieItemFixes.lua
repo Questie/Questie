@@ -1,5 +1,8 @@
 QuestieItemFixes = {...}
 
+-- Further information on how to use this can be found at the wiki
+-- https://github.com/AeroScripts/QuestieDev/wiki/Corrections
+
 -- [item ID] = {"name",{objective of},{dropped by},{contained in/gathered from/mined from}}
 function QuestieItemFixes:Load()
     local itemFixes = {

@@ -1,3 +1,9 @@
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
+
 QuestieDB.questKeys = {
     ['name'] = 1, -- string
     ['startedBy'] = 2, -- table
