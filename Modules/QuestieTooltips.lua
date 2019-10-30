@@ -1,6 +1,19 @@
 
 -- todo: move this in to a proper global
-QuestieTooltips = {};
+---@class QuestieTooltips
+local QuestieTooltips = QuestieLoader:CreateModule("QuestieTooltips");
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieComms
+local QuestieComms = QuestieLoader:ImportModule("QuestieComms");
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
+---@type QuestiePlayer
+local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
+
 local _QuestieTooltips = {};
 QuestieTooltips.lastTooltipTime = GetTime() -- hack for object tooltips
 QuestieTooltips.lastGametooltip = ""
@@ -99,8 +112,10 @@ function QuestieTooltips:GetTooltip(key)
         for questId, playerList in pairs(tooltipDataExternal) do
             if(not tooltipData[questId]) then
                 local quest = QuestieDB:GetQuest(questId);
-                tooltipData[questId] = {}
-                tooltipData[questId].title = quest:GetColoredQuestName();
+                if quest then
+                    tooltipData[questId] = {}
+                    tooltipData[questId].title = quest:GetColoredQuestName();
+                end
             end
             for playerName, objectives in pairs(playerList) do
                 local playerInfo = QuestieLib:PlayerInGroup(playerName);
@@ -285,7 +300,7 @@ function _QuestieTooltips:CountTooltip()
     return tooltipcount
 end
 
-function QuestieTooltips:Init()
+function QuestieTooltips:Initialize()
     -- For the clicked item frame.
     ItemRefTooltip:HookScript("OnTooltipSetItem", TooltipShowing_item)
     ItemRefTooltip:HookScript("OnHide", function(self)
@@ -308,11 +323,6 @@ function QuestieTooltips:Init()
             QuestieTooltips.lastGametooltipCount = 0
             QuestieTooltips.lastFrameName = "";
         end
-        --local name, unit = self:GetUnit()
-        --Questie:Debug(DEBUG_DEVELOP,"SHOW!", unit)
-        --if name == nil and unit == nil  then
-        --    TooltipShowing_maybeobject(GameTooltipTextLeft1:GetText())
-        --nd
     end)
     GameTooltip:HookScript("OnHide", function(self)
         if (not self.IsForbidden) or (not self:IsForbidden()) then -- do we need this here also
@@ -325,8 +335,10 @@ function QuestieTooltips:Init()
 
     GameTooltip:HookScript("OnUpdate", function(self)
         if (not self.IsForbidden) or (not self:IsForbidden()) then
-            local name, unit = self:GetUnit()
-            if( name == nil and unit == nil and (QuestieTooltips.lastGametooltip ~= GameTooltipTextLeft1:GetText() or (not QuestieTooltips.lastGametooltipCount) or _QuestieTooltips:CountTooltip() < QuestieTooltips.lastGametooltipCount  or QuestieTooltips.lastGametooltipType ~= "object")) then
+            --Because this is an OnUpdate we need to check that it is actually not a Unit or Item to think its a
+            local uName, unit = self:GetUnit()
+            local iName, link = self:GetItem()
+            if((uName == nil and unit == nil and iName == nil and link == nil) and (QuestieTooltips.lastGametooltip ~= GameTooltipTextLeft1:GetText() or (not QuestieTooltips.lastGametooltipCount) or _QuestieTooltips:CountTooltip() < QuestieTooltips.lastGametooltipCount  or QuestieTooltips.lastGametooltipType ~= "object")) then
                 TooltipShowing_maybeobject(GameTooltipTextLeft1:GetText())
                 QuestieTooltips.lastGametooltipCount = _QuestieTooltips:CountTooltip()
             end
@@ -334,6 +346,3 @@ function QuestieTooltips:Init()
         end
     end)
 end
-
--- todo move this call into loader
-QuestieTooltips:Init()

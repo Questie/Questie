@@ -5,6 +5,8 @@ if(Questie) then
             DEFAULT_CHAT_FRAME:AddMessage("|cFFFF0000ERROR!!|r -> Questie already loaded! Please only have one Questie installed!")
         end
     end);
+    error("ERROR!! -> Questie already loaded! Please only have one Questie installed!")
+    DEFAULT_CHAT_FRAME:AddMessage("|cFFFF0000ERROR!!|r -> Questie already loaded! Please only have one Questie installed!")
     Questie = {}
     return nil;
 end
@@ -13,16 +15,67 @@ if not QuestieConfigCharacter then
     QuestieConfigCharacter = {}
 end
 
-
 DEBUG_CRITICAL = "|cff00f2e6[CRITICAL]|r"
 DEBUG_ELEVATED = "|cffebf441[ELEVATED]|r"
 DEBUG_INFO = "|cff00bc32[INFO]|r"
 DEBUG_DEVELOP = "|cff7c83ff[DEVELOP]|r"
 DEBUG_SPAM = "|cffff8484[SPAM]|r"
 
-
 --Initialized below
+---@class Questie
 Questie = {...}
+
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieSerializer
+local QuestieSerializer = QuestieLoader:ImportModule("QuestieSerializer");
+---@type QuestieComms
+local QuestieComms = QuestieLoader:ImportModule("QuestieComms");
+---@type QuestieOptions
+local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions");
+---@type QuestieOptionsDefaults
+local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults");
+---@type QuestieOptionsMinimapIcon
+local QuestieOptionsMinimapIcon = QuestieLoader:ImportModule("QuestieOptionsMinimapIcon");
+---@type QuestieOptionsUtils
+local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils");
+---@type QuestieAuto
+local QuestieAuto = QuestieLoader:ImportModule("QuestieAuto");
+---@type QuestieCoords
+local QuestieCoords = QuestieLoader:ImportModule("QuestieCoords");
+---@type QuestieEventHandler
+local QuestieEventHandler = QuestieLoader:ImportModule("QuestieEventHandler");
+---@type QuestieFramePool
+local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool");
+---@type QuestieJourney
+local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney");
+---@type QuestieMap
+local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
+---@type QuestieNameplate
+local QuestieNameplate = QuestieLoader:ImportModule("QuestieNameplate");
+---@type QuestieProfessions
+local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions");
+---@type QuestieQuest
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
+---@type QuestieReputation
+local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation");
+---@type QuestieSearch
+local QuestieSearch = QuestieLoader:ImportModule("QuestieSearch");
+---@type QuestieSearchResults
+local QuestieSearchResults = QuestieLoader:ImportModule("QuestieSearchResults");
+---@type QuestieStreamLib
+local QuestieStreamLib = QuestieLoader:ImportModule("QuestieStreamLib");
+---@type QuestieTooltips
+local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips");
+---@type QuestieTracker
+local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker");
+---@type QuestieDBMIntegration
+local QuestieDBMIntegration = QuestieLoader:ImportModule("QuestieDBMIntegration");
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
+---@type QuestiePlayer
+local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 
 -- check if user has updated but not restarted the game (todo: add future new source files to this)
 if  (not LQuestie_EasyMenu) or
@@ -73,7 +126,7 @@ if  (not LQuestie_EasyMenu) or
         if QuestieLocale.locale['enUS'] and QuestieLocale.locale['enUS']['QUESTIE_UPDATED_RESTART'] then -- sometimes locale doesnt update without restarting also
             print(QuestieLocale:GetUIString('QUESTIE_UPDATED_RESTART'))
         else
-            print("|cFFFF0000WARNING!|r You have updated questie without restarting the game, this will likely cause problems. Please restart the game before continuing")
+            print("|cFFFF0000WARNING!|r You have updated Questie without restarting the game, this will likely cause problems. Please restart the game before continuing")
         end
     end)
   else
@@ -88,7 +141,6 @@ end
 function Questie:OnInitialize()
     self.db = LibStub("AceDB-3.0"):New("QuestieConfig", QuestieOptionsDefaults:Load(), true)
     QuestieFramePool:SetIcons()
-    
 
     -- Set proper locale. Either default to client Locale or override based on user.
     if Questie.db.global.questieLocaleDiff then
@@ -128,24 +180,27 @@ function Questie:OnInitialize()
 
     -- Nameplate / Tar5get Frame Objective Events
     Questie:RegisterEvent("NAME_PLATE_UNIT_ADDED", QuestieNameplate.NameplateCreated);
-	Questie:RegisterEvent("NAME_PLATE_UNIT_REMOVED", QuestieNameplate.NameplateDestroyed);
-	Questie:RegisterEvent("PLAYER_TARGET_CHANGED", QuestieNameplate.DrawTargetFrame);
+    Questie:RegisterEvent("NAME_PLATE_UNIT_REMOVED", QuestieNameplate.NameplateDestroyed);
+    Questie:RegisterEvent("PLAYER_TARGET_CHANGED", QuestieNameplate.DrawTargetFrame);
 
-	--When the quest is presented!
-	Questie:RegisterEvent("QUEST_DETAIL", QuestieAuto.QUEST_DETAIL)
-	--???
-	Questie:RegisterEvent("QUEST_PROGRESS", QuestieAuto.QUEST_PROGRESS)
-	--Gossip??
-	Questie:RegisterEvent("GOSSIP_SHOW", QuestieAuto.GOSSIP_SHOW)
-	--The window when multiple quest from a NPC
-	Questie:RegisterEvent("QUEST_GREETING", QuestieAuto.QUEST_GREETING)
-	--If an escort quest is taken by people close by
-	Questie:RegisterEvent("QUEST_ACCEPT_CONFIRM", QuestieAuto.QUEST_ACCEPT_CONFIRM)
-	--When complete window shows
-	Questie:RegisterEvent("QUEST_COMPLETE", QuestieAuto.QUEST_COMPLETE)
+    --When the quest is presented!
+    Questie:RegisterEvent("QUEST_DETAIL", QuestieAuto.QUEST_DETAIL)
+    --???
+    Questie:RegisterEvent("QUEST_PROGRESS", QuestieAuto.QUEST_PROGRESS)
+    --Gossip??
+    Questie:RegisterEvent("GOSSIP_SHOW", QuestieAuto.GOSSIP_SHOW)
+    --The window when multiple quest from a NPC
+    Questie:RegisterEvent("QUEST_GREETING", QuestieAuto.QUEST_GREETING)
+    --If an escort quest is taken by people close by
+    Questie:RegisterEvent("QUEST_ACCEPT_CONFIRM", QuestieAuto.QUEST_ACCEPT_CONFIRM)
+    --When complete window shows
+    Questie:RegisterEvent("QUEST_COMPLETE", QuestieAuto.QUEST_COMPLETE)
 
-	-- Initialize Coordinates
-	QuestieCoords.Initialize();
+    -- todo move this call into loader
+    QuestieTooltips:Initialize()
+
+    -- Initialize Coordinates
+    QuestieCoords.Initialize();
 
     -- Initialize questiecomms
     --C_ChatInfo.RegisterAddonMessagePrefix("questie")
@@ -155,9 +210,6 @@ function Questie:OnInitialize()
     -- Initialize Journey Window
     QuestieJourney.Initialize();
 
-
-
-
     -- Register Slash Commands
     Questie:RegisterChatCommand("questieclassic", "QuestieSlash")
     Questie:RegisterChatCommand("questie", "QuestieSlash")
@@ -166,8 +218,7 @@ function Questie:OnInitialize()
 
     --Initialize the DB settings.
     Questie:debug(DEBUG_DEVELOP, QuestieLocale:GetUIString('DEBUG_CLUSTER', Questie.db.global.clusterLevelHotzone))
-    QUESTIE_NOTES_CLUSTERMUL_HACK = Questie.db.global.clusterLevelHotzone;
-
+    QUESTIE_CLUSTER_DISTANCE = Questie.db.global.clusterLevelHotzone;
 
     -- Creating the minimap config icon
     Questie.minimapConfigIcon = LibStub("LibDBIcon-1.0");
@@ -236,7 +287,7 @@ function Questie:QuestieSlash(input)
         QuestieOptions:HideFrame();
         return;
     end
-    
+
     if input == "reload" then
         QuestieQuest:SmoothReset()
         return
@@ -335,7 +386,7 @@ function Questie:Debug(...)
         if(QuestieConfigCharacter.log) then
             QuestieConfigCharacter = {};
         end
-        
+
         if Questie.db.global.debugEnabledPrint then
             Questie:Print(...)
         end

@@ -1,4 +1,14 @@
-QuestieOptionsMinimapIcon = {...}
+---@class QuestieOptionsMinimapIcon
+local QuestieOptionsMinimapIcon = QuestieLoader:CreateModule("QuestieOptionsMinimapIcon");
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieQuest
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
+---@type QuestieOptions
+local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions");
+---@type QuestieJourney
+local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney");
 
 local minimapIconLDB = nil
 

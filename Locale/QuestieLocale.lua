@@ -5,18 +5,20 @@ LangNameLookup= {};
 LangObjectNameLookup = {};
 LangObjectLookup = {};
 LangQuestLookup = {};
+LangContinentLookup = {}
+LangZoneLookup = {}
+
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 
 local locale = 'enUS';
 
 -- Initialize lookup tables for localization
 function QuestieLocale:Initialize()
-    local lang = GetLocale()
-
-    LangItemLookup = LangItemLookup[lang] or {};
-    LangNameLookup = LangNameLookup[lang] or {};
-    LangQuestLookup = LangQuestLookup[lang] or {};
-    LangObjectLookup = LangObjectLookup[lang] or {}; -- This table is ID -> String
-    LangObjectNameLookup = {} -- This table is String -> {ID, }
+    QuestieLocale:InitLookupData(locale)
 
     --Create the String -> {ID, } table!
     for id, name in pairs(LangObjectLookup) do
@@ -27,7 +29,7 @@ function QuestieLocale:Initialize()
     end
     -- Create the english String -> ID table.
     local DB_NAME = 1; --The Index of name in the DB, mostly for readability.
-    if(lang == "enUS" or lang == "enGB") then
+    if(locale == "enUS" or locale == "enGB") then
         for id, data in pairs(QuestieDB.objectData) do
             if(not LangObjectNameLookup[data[DB_NAME]]) then
                 LangObjectNameLookup[data[DB_NAME]] = {};
@@ -35,6 +37,16 @@ function QuestieLocale:Initialize()
             table.insert(LangObjectNameLookup[data[DB_NAME]], id);
         end
     end
+end
+
+function QuestieLocale:InitLookupData(lang)
+    LangItemLookup = LangItemLookup[lang] or {};
+    LangNameLookup = LangNameLookup[lang] or {};
+    LangQuestLookup = LangQuestLookup[lang] or {};
+    LangObjectLookup = LangObjectLookup[lang] or {}; -- This table is ID -> String
+    LangObjectNameLookup = {} -- This table is String -> {ID, }
+    LangContinentLookup = LangContinentLookup[lang] or LangContinentLookup["enUS"] or {}
+    LangZoneLookup = LangZoneLookup[lang] or LangZoneLookup["enUS"] or {}
 end
 
 function QuestieLocale:FallbackLocale(lang)
