@@ -9,6 +9,8 @@ local QuestieStreamLib = QuestieLoader:ImportModule("QuestieStreamLib");
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
+---@type QuestieDBZone
+local QuestieDBZone = QuestieLoader:ImportModule("QuestieDBZone")
 
 -- DB keys
 local DB_NAME, DB_NPC, NOTE_TITLE = 1, 1, 1;

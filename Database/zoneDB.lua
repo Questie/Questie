@@ -1,5 +1,6 @@
 
-QuestieDBZone = {...}
+---@class QuestieDBZone
+local QuestieDBZone = QuestieLoader:CreateModule("QuestieDBZone");
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")

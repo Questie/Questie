@@ -23,6 +23,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
+---@type QuestieDBZone
+local QuestieDBZone = QuestieLoader:ImportModule("QuestieDBZone")
 
 local _QuestieQuest = {...}
 local libS = LibStub:GetLibrary("AceSerializer-3.0")

@@ -1,5 +1,10 @@
 ---@class QuestiePlayer
 local QuestiePlayer = QuestieLoader:CreateModule("QuestiePlayer");
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieDBZone
+local QuestieDBZone = QuestieLoader:ImportModule("QuestieDBZone")
 
 local _QuestiePlayer = {...};
 
