@@ -13,7 +13,7 @@ QuestieLocale.locale['esES'] = {
     ['ENABLE_LOWLEVEL_DESC'] = "Habilita o deshabilita que se muestren misiones de bajo nivel en el mapa.",
     ['ENABLE_MANUAL_OFFSET'] = "Enable manual minimum level offset",
     ['ENABLE_MANUAL_OFFSET_DESC'] = "Enable manual minimum level offset instead of the automatic GetQuestGreenLevel function.",
-        ['LOWLEVEL_BELOW'] = "< Niveles por debajo",
+    ['LOWLEVEL_BELOW'] = "< Niveles por debajo",
     ['LOWLEVEL_BELOW_DESC'] = "Cuantos niveles por debajo de tu personaje. ( Por defecto: %s )",
     ['LOWLEVEL_ABOVE'] = "Niveles por encima >",
     ['LOWLEVEL_ABOVE_DESC'] = "Cuantos niveles por encima de tu personaje. ( Por defecto: %s )",
@@ -231,6 +231,7 @@ QuestieLocale.locale['esES'] = {
     ['TRACKER_SHORTCUT'] = " Shortcut",
     ['TRACKER_SET_TOMTOM_DESC'] = "The tracker shortcut to open TomTom",
     ['TRACKER_SHOW_QUESTLOG_DESC'] = "The tracker shortcut to show the quest in the quest log.",
+    ['TRACKER_ACTIVE_QUESTS'] = "Misiones Activas: ",
 
     -- tracker right click menu
     ['TRACKER_UNFOCUS'] = "Unfocus", -- focus makes only that quest/objective show on map

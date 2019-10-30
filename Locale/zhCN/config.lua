@@ -230,6 +230,7 @@ QuestieLocale.locale['zhCN'] = {
     ['TRACKER_SHORTCUT'] = " 快捷键",
     ['TRACKER_SET_TOMTOM_DESC'] = "在任务追踪上开启TomTom的快捷键",
     ['TRACKER_SHOW_QUESTLOG_DESC'] = "在任务追踪上开启任务日志的快捷键",
+    ['TRACKER_ACTIVE_QUESTS'] = "主动任务: ",
 
     -- tracker right click menu
     ['TRACKER_UNFOCUS'] = "停止关注", -- focus makes only that quest/objective show on map

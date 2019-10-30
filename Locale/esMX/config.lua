@@ -231,6 +231,7 @@ QuestieLocale.locale['esMX'] = {
     ['TRACKER_SHORTCUT'] = " Shortcut",
     ['TRACKER_SET_TOMTOM_DESC'] = "The tracker shortcut to open TomTom",
     ['TRACKER_SHOW_QUESTLOG_DESC'] = "The tracker shortcut to show the quest in the quest log.",
+    ['TRACKER_ACTIVE_QUESTS'] = "Misiones Activas: ",
 
     -- tracker right click menu
     ['TRACKER_UNFOCUS'] = "Unfocus", -- focus makes only that quest/objective show on map

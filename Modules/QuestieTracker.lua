@@ -111,13 +111,13 @@ local function _OnDragStop()
     end
     _QuestieTracker._end_drag_pos = {_QuestieTracker.baseFrame:GetPoint()}
     _QuestieTracker.baseFrame:StopMovingOrSizing()
-    
+
     local xMoved = _QuestieTracker._end_drag_pos[4] - _QuestieTracker._start_drag_pos[4]
     local yMoved = _QuestieTracker._end_drag_pos[5] - _QuestieTracker._start_drag_pos[5]
-    
+
     _QuestieTracker._start_drag_anchor[4] = _QuestieTracker._start_drag_anchor[4] + xMoved
     _QuestieTracker._start_drag_anchor[5] = _QuestieTracker._start_drag_anchor[5] + yMoved
-    
+
     _QuestieTracker.baseFrame:ClearAllPoints()
     _QuestieTracker.baseFrame:SetPoint(unpack(_QuestieTracker._start_drag_anchor))
     Questie.db.char.TrackerLocation = {_QuestieTracker.baseFrame:GetPoint()}
@@ -867,6 +867,7 @@ function QuestieTracker:Initialize()
         Questie.db.char.AutoUntrackedQuests = {} -- the reason why we separate this from TrackedQuests is so that users can switch between auto/manual without losing their manual tracking selection
     end
     _QuestieTracker.baseFrame = QuestieTracker:CreateBaseFrame()
+    _QuestieTracker.counterFrame = _QuestieTracker:CreateActiveQuestsFrame()
     _QuestieTracker.menuFrame = LQuestie_Create_UIDropDownMenu("QuestieTrackerMenuFrame", UIParent)
 
     if Questie.db.global.hookTracking then
@@ -875,7 +876,7 @@ function QuestieTracker:Initialize()
 
     -- this number is static, I doubt it will ever need more
     local lastFrame = nil
-    for i=1,trackerLineCount do
+    for i=1, trackerLineCount do
         local frm = CreateFrame("Button", nil, _QuestieTracker.baseFrame)
         frm.label = frm:CreateFontString(nil, "ARTWORK", "GameFontNormal")
         function frm:SetMode(mode)
@@ -935,7 +936,7 @@ function QuestieTracker:Initialize()
         if lastFrame then
             frm:SetPoint("TOPLEFT", lastFrame, "BOTTOMLEFT", 0,0)
         else
-            frm:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerBackgroundPadding, -trackerBackgroundPadding)
+            frm:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerBackgroundPadding, -(trackerBackgroundPadding + _QuestieTracker.counterFrame:GetHeight())) 
         end
         frm:SetWidth(1)
         frm:SetMode("header")
@@ -943,6 +944,7 @@ function QuestieTracker:Initialize()
         _QuestieTracker.LineFrames[i] = frm
         lastFrame = frm
     end
+
     QuestieTracker.started = true
 end
 
@@ -1022,12 +1024,15 @@ function QuestieTracker:Update()
     Questie:Debug(DEBUG_DEVELOP, "QuestieTracker: Update")
 
     if (not QuestieTracker.started) then return; end
-    
+
     if (not Questie.db.global.trackerEnabled) then
         -- tracker has started but not enabled
         _QuestieTracker.baseFrame:Hide()
         return
     end
+
+    _QuestieTracker.counterFrame:Update()
+
     index = 0 -- zero because it simplifies GetNextLine()
     -- populate tracker
     local trackerWidth = 0
@@ -1243,7 +1248,7 @@ end
 function QuestieTracker:HookBaseTracker()
     if _QuestieTracker._alreadyHooked then return; end
     QuestieTracker._disableHooks = nil
-    
+
     if not QuestieTracker._alreadyHookedSecure then
         hooksecurefunc("AutoQuestWatch_Insert", _AQW_Insert)
         hooksecurefunc("AddQuestWatch", _AQW_Insert)
@@ -1286,6 +1291,34 @@ function _QuestieTracker:SetSafePoint(frm)
     frm:SetPoint("TOPLEFT", UIParent, "CENTER", 0,0)
 end
 
+function _QuestieTracker:CreateActiveQuestsFrame()
+    local _, numQuests = GetNumQuestLogEntries()
+    local frm = CreateFrame("Button", nil, _QuestieTracker.baseFrame)
+
+    frm.label = frm:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+    frm.label:SetText(QuestieLocale:GetUIString("TRACKER_ACTIVE_QUESTS") .. tostring(numQuests) .. "/20")
+    frm.label:SetFont(frm.label:GetFont(), Questie.db.global.trackerFontSizeHeader)
+    frm.label:SetPoint("TOP", _QuestieTracker.baseFrame)
+
+    frm:SetHeight(Questie.db.global.trackerFontSizeHeader)
+    frm:SetWidth(1)
+
+    -- hack for click-through
+    frm:SetScript("OnDragStart", _OnDragStart)
+    frm:SetScript("OnClick", _OnClick)
+    frm:SetScript("OnDragStop", _OnDragStop)
+    frm:SetScript("OnEnter", _OnEnter)
+    frm:SetScript("OnLeave", _OnLeave)
+
+    frm.Update = function(self)
+        local _, activeQuests = GetNumQuestLogEntries()
+        self.label:SetText(QuestieLocale:GetUIString("TRACKER_ACTIVE_QUESTS") .. tostring(activeQuests) .. "/20")
+    end
+
+    frm:Show()
+    return frm
+end
+
 function QuestieTracker:CreateBaseFrame()
     local frm = CreateFrame("Frame", nil, UIParent)
 
@@ -1297,7 +1330,7 @@ function QuestieTracker:CreateBaseFrame()
     t:SetVertexColor(1,1,1,0)
     t:SetAllPoints(frm)
     frm.texture = t
-    
+
     if Questie.db.char.TrackerLocation and Questie.db.char.TrackerLocation[1] and Questie.db.char.TrackerLocation[1] ~= "TOPRIGHT" and Questie.db.char.TrackerLocation[1] ~= "TOPLEFT" then
         print(QuestieLocale:GetUIString('TRACKER_INVALID_LOCATION') .. " (2)")
         Questie.db.char.TrackerLocation = nil
@@ -1307,7 +1340,7 @@ function QuestieTracker:CreateBaseFrame()
         --    Questie.db.char.TrackerLocation[1] = "TOPRIGHT"
         --end
     end
-    
+
     if Questie.db.char.TrackerLocation then
         -- we need to pcall this because it can error if something like MoveAnything is used to move the tracker
         local result, error = pcall(frm.SetPoint, frm, unpack(Questie.db.char.TrackerLocation))
