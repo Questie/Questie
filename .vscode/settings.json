@@ -2666,8 +2666,6 @@
         "LQuestie_Create_UIDropDownMenu"
     ],
     "Lua.workspace.ignoreDir": [
-        "Libs/**",
-        "Database/corrections.lua",
         "Database/graves.lua",
         "Database/itemDB.lua",
         "Database/objectDB.lua",
