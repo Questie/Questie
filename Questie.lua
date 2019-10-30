@@ -5,6 +5,8 @@ if(Questie) then
             DEFAULT_CHAT_FRAME:AddMessage("|cFFFF0000ERROR!!|r -> Questie already loaded! Please only have one Questie installed!")
         end
     end);
+    error("ERROR!! -> Questie already loaded! Please only have one Questie installed!")
+    DEFAULT_CHAT_FRAME:AddMessage("|cFFFF0000ERROR!!|r -> Questie already loaded! Please only have one Questie installed!")
     Questie = {}
     return nil;
 end

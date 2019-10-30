@@ -330,7 +330,7 @@ end
 
 function QuestieMap:DrawLineIcon(lineFrame, AreaID, x, y)
     if type(AreaID) ~= "number" or type(x) ~= "number" or type(y) ~= "number" then
-        error(MAJOR..": AddWorldMapIconMap: 'AreaID', 'x' and 'y' must be numbers "..AreaID.." "..x.." "..y)
+        error("Questie"..": AddWorldMapIconMap: 'AreaID', 'x' and 'y' must be numbers "..AreaID.." "..x.." "..y)
     end
 
     HBDPins:AddWorldMapIconMap(Questie, lineFrame, zoneDataAreaIDToUiMapID[AreaID], x, y, HBD_PINS_WORLDMAP_SHOW_CURRENT)
@@ -345,13 +345,13 @@ end
 --@param y float @The Y coordinate in 0-100 format
 function QuestieMap:DrawManualIcon(data, AreaID, x, y)
     if type(data) ~= "table" then
-        error(MAJOR..": AddWorldMapIconMap: must have some data")
+        error("Questie"..": AddWorldMapIconMap: must have some data")
     end
     if type(AreaID) ~= "number" or type(x) ~= "number" or type(y) ~= "number" then
-        error(MAJOR..": AddWorldMapIconMap: 'AreaID', 'x' and 'y' must be numbers "..AreaID.." "..x.." "..y)
+        error("Questie"..": AddWorldMapIconMap: 'AreaID', 'x' and 'y' must be numbers "..AreaID.." "..x.." "..y)
     end
     if type(data.id) ~= "number" or type(data.id) ~= "number"then
-        error(MAJOR.."Data.id must be set to the NPC or object ID!")
+        error("Questie".."Data.id must be set to the NPC or object ID!")
     end
     if zoneDataAreaIDToUiMapID[AreaID] == nil then
         --Questie:Error("No UiMapID for ("..tostring(zoneDataClassic[AreaID])..") :".. AreaID .. tostring(data.Name))
@@ -423,13 +423,13 @@ end
 --showFlag isn't required but may want to be Modified
 function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
     if type(data) ~= "table" then
-        error(MAJOR..": AddWorldMapIconMap: must have some data")
+        error("Questie"..": AddWorldMapIconMap: must have some data")
     end
     if type(AreaID) ~= "number" or type(x) ~= "number" or type(y) ~= "number" then
-        error(MAJOR..": AddWorldMapIconMap: 'AreaID', 'x' and 'y' must be numbers "..AreaID.." "..x.." "..y.." "..showFlag)
+        error("Questie"..": AddWorldMapIconMap: 'AreaID', 'x' and 'y' must be numbers "..AreaID.." "..x.." "..y.." "..showFlag)
     end
     if type(data.Id) ~= "number" or type(data.Id) ~= "number"then
-        error(MAJOR.."Data.Id must be set to the quests ID!")
+        error("Questie".."Data.Id must be set to the quests ID!")
     end
     if zoneDataAreaIDToUiMapID[AreaID] == nil then
         --Questie:Error("No UiMapID for ("..tostring(zoneDataClassic[AreaID])..") :".. AreaID .. tostring(data.Name))
@@ -693,7 +693,7 @@ end
 --    HBDPins:RemoveWorldMapIcon(Questie, ref)
 --end
 
-
+--[[
 --DOES NOT WORK
 --Temporary functions, will probably need to ge redone.
 function QuestieMap:GetZoneDBMapIDFromRetail(Zoneid)
@@ -730,3 +730,4 @@ function GetWorldContinentFromZone(ZoneID)
         return 1
     end
 end
+]]--
