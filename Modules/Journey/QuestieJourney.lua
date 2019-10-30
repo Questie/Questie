@@ -1022,7 +1022,7 @@ function CollectZoneQuests(zoneId)
                     end
                 end
                 -- Repeatable quests
-                if quest.specialFlags == 1 then
+                if quest.Repeatable == 1 then
                     table.insert(zoneTree[3].children, temp)
                     repeatableCounter = repeatableCounter + 1
                 -- Available quests
