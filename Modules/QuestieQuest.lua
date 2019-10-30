@@ -1674,8 +1674,10 @@ function _QuestieQuest:IsDoable(questObject)
     if not questObject then
         return false;
     end
-    if questObject.Hidden and not questObject.Repeatable then
-        return false; -- repeatable quests are filtered out elsewhere, repeatablility should not affect doability.
+    if questObject.Hidden and not (questObject.Repeatable and Questie.db.global.mapRepeatableQuests) then
+        -- CalculateAvailableQuests filters out repeatable quests as well, however to avoid unexpected behavior changes
+        -- IsDoable will continue to filter out all hidden quests (inclucing repeatable) unless repeatable quests are enabled.
+        return false;
     end
     if Questie.db.char.hidden[questObject.Id] then
         return false;
@@ -1797,7 +1799,6 @@ function QuestieQuest:CalculateAvailableQuests()
         local quest = QuestieDB:GetQuest(questID)
         local questShowHiddenAndComplete = quest.Repeatable and mapRepeatable
 
-        --if((not Questie.db.char.complete[questID]) and (not QuestieCorrections.hiddenQuests[questID]) and (not QuestiePlayer.currentQuestlog[questID])) then
         if(
             ((not Questie.db.char.complete[questID]) or questShowHiddenAndComplete) -- show completed quests when they are repeatable, and repeatable quests are enabled
             and ((not QuestieCorrections.hiddenQuests[questID]) or questShowHiddenAndComplete) -- same for  hidden quests. (repeatable quests are  on the blacklist)
