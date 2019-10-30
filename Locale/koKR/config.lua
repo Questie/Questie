@@ -74,17 +74,17 @@ QuestieLocale.locale['koKR'] = {
     ['MAP_QUEST_COLORS_DESC'] = "각 퀘스트별로 각각 다른 아이콘 색상을 사용할지 설정합니다.",
 
     ['MAP_GLOBAL_SCALE'] = "지도 아이콘 크기 설정",
-    ['MAP_GLOBAL_SCALE_DESC'] = "지도 아이콘의 크기를 설정합니다.  ( 기본값: %s )",
+    ['MAP_GLOBAL_SCALE_DESC'] = "지도 아이콘의 크기를 설정합니다. ( 기본값: %s )",
     ['AVAILABLE_ICON_SCALE'] = "수행가능/완료 퀘스트 아이콘 크기",
-    ['AVAILABLE_ICON_SCALE_DESC'] = "수행가능/완료 퀘스트 아이콘의 크기를 설정합니다.  ( 기본값: %s )",
+    ['AVAILABLE_ICON_SCALE_DESC'] = "수행가능/완료 퀘스트 아이콘의 크기를 설정합니다. ( 기본값: %s )",
     ['LOOT_ICON_SCALE'] = "수집 아이콘 크기",
-    ['LOOT_ICON_SCALE_DESC'] = "수집 아이콘의 크기를 설정합니다.  ( 기본값: %s )",
+    ['LOOT_ICON_SCALE_DESC'] = "수집 아이콘의 크기를 설정합니다. ( 기본값: %s )",
     ['MONSTER_ICON_SCALE'] = "처치 아이콘 크기",
-    ['MONSTER_ICON_SCALE_DESC'] = "처치 아이콘의 크기를 설정합니다.  ( 기본값: %s )",
+    ['MONSTER_ICON_SCALE_DESC'] = "처치 아이콘의 크기를 설정합니다. ( 기본값: %s )",
     ['OBJECT_ICON_SCALE'] = "오브젝트 아이콘 크기",
-    ['OBJECT_ICON_SCALE_DESC'] = "오브젝트 아이콘의 크기를 설정합니다.  ( 기본값: %s )",
+    ['OBJECT_ICON_SCALE_DESC'] = "오브젝트 아이콘의 크기를 설정합니다. ( 기본값: %s )",
     ['EVENT_ICON_SCALE'] = "이벤트 아이콘 크기",
-    ['EVENT_ICON_SCALE_DESC'] = "이벤트 아이콘의 크기를 설정합니다.  ( 기본값: %s )",
+    ['EVENT_ICON_SCALE_DESC'] = "이벤트 아이콘의 크기를 설정합니다. ( 기본값: %s )",
 
     ['MAP_COORDS'] = "지도 및 커서 좌표",
     ['ENABLE_MAP_COORDS'] = "플레이어 및 커서 좌표 표시",
@@ -136,7 +136,7 @@ QuestieLocale.locale['koKR'] = {
     ['TARGET_Y'] = "아이콘 위치 Y",
     ['TARGET_Y_DESC'] = "대상 프레임에 표시할 아이콘의 Y좌표를 설정합니다. ( 기본값: %s )",
     ['TARGET_SCALE'] = "대상 프레임 아이콘 크기",
-    ['TARGET_SCALE_DESC'] = "퀘스트 목표 대상 프레임에 표시할 아이콘의 크기를 설정합니다.  ( 기본값: %s )",
+    ['TARGET_SCALE_DESC'] = "퀘스트 목표 대상 프레임에 표시할 아이콘의 크기를 설정합니다. ( 기본값: %s )",
     ['TARGET_RESET_BTN'] = "대상 프레임 초기화",
     ['TARGET_RESET_BTN_DESC'] = "대상 프레임 아이콘 위치와 크기를 기본값으로 초기화합니다.",
 
@@ -231,6 +231,7 @@ QuestieLocale.locale['koKR'] = {
     ['TRACKER_SHORTCUT'] = " 단축키",
     ['TRACKER_SET_TOMTOM_DESC'] = "추적기에서 TomTom 애드온을 여는 단축키를 설정합니다.",
     ['TRACKER_SHOW_QUESTLOG_DESC'] = "추적기가 퀘스트를 퀘스트 목록에서 여는 단축키를 설정합니다.",
+    ['TRACKER_ACTIVE_QUESTS'] = "활성 퀘스트: ",
 
     -- tracker right click menu
     ['TRACKER_UNFOCUS'] = "집중 해제", -- focus makes only that quest/objective show on map
@@ -255,6 +256,7 @@ QuestieLocale.locale['koKR'] = {
     ['JOURNEY_AVAILABLE_TITLE'] = "수행가능한 퀘스트",
     ['JOURNEY_COMPLETE_TITLE'] = "완료한 퀘스트",
     ['JOURNEY_REPEATABLE_TITLE'] = "Repeatable Quests",
+    ['JOURNEY_UNAVAILABLE_TITLE'] = "Uncompletable Quests",
     ['JOURNEY_SELECT_HEAD'] = "대륙과 지역을 선택해주세요",
     ['JOURNEY_SELECT_CONT'] = "대륙 선택",
     ['JOURNEY_SELECT_ZONE'] = "지역 선택",
