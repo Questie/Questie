@@ -14,6 +14,9 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
     Most of the corrections can be done by accessing a specific key instead of copying the
     whole object over and change it.
     You can find the keys at the beginning of each file (e.g. 'questKeys' are at the beginning of 'questDB.lua').
+
+    Further information on how to use this can be found at the wiki
+    https://github.com/AeroScripts/QuestieDev/wiki/Corrections
 --]]
 
 function QuestieCorrections:Initialize()

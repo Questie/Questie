@@ -5,6 +5,9 @@ QuestieQuestFixes = {...}
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 
+-- Further information on how to use this can be found at the wiki
+-- https://github.com/AeroScripts/QuestieDev/wiki/Corrections
+
 function QuestieQuestFixes:Load()
     table.insert(QuestieDB.questData, 7668, {}) -- Add missing quest index
     table.insert(QuestieDB.questData, 7670, {}) -- Add missing quest index #1432

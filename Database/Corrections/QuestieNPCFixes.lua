@@ -5,6 +5,9 @@ QuestieNPCFixes = {...}
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 
+-- Further information on how to use this can be found at the wiki
+-- https://github.com/AeroScripts/QuestieDev/wiki/Corrections
+
 function QuestieNPCFixes:Load()
     return {
         [728] = {

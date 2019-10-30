@@ -5,6 +5,9 @@ QuestieObjectFixes = {...}
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 
+-- Further information on how to use this can be found at the wiki
+-- https://github.com/AeroScripts/QuestieDev/wiki/Corrections
+
 function QuestieObjectFixes:Load()
     return {
         [92423] = {"Damaged Chest",nil,nil,{[400]={{43.4, 32.7}},[17]={{49.02,96.77}}},400},
