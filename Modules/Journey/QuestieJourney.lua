@@ -853,7 +853,7 @@ local function ManageZoneTree(container, zt)
 
             -- if they clicked on the header, don't do anything
             local sel = group.localstatus.selected;
-            if sel == "a" or sel == "c" then
+            if sel == "a" or sel == "c" or sel == "r" or sel == "u" then
                 return;
             end
 
