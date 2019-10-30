@@ -1,4 +1,20 @@
-QuestieMap = {...}
+---@class QuestieMap
+local QuestieMap = QuestieLoader:CreateModule("QuestieMap");
+
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieQuest
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
+---@type QuestieFramePool
+local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool");
+---@type QuestieDBMIntegration
+local QuestieDBMIntegration = QuestieLoader:ImportModule("QuestieDBMIntegration");
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
+---@type QuestiePlayer
+local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
+
 QuestieMap.ICON_MAP_TYPE = "MAP";
 QuestieMap.ICON_MINIMAP_TYPE = "MINIMAP";
 
@@ -160,13 +176,13 @@ function QuestieMap:UpdateZoomScale()
     C_Timer.After(0.01, function()
         local mapId = WorldMapFrame:GetMapID();
         local scaling = 1;
-        if(mapId == 947) then
+        if(mapId == 947) then --Azeroth
             if(Questie.db.char.enableMinimalisticIcons) then
                 scaling = 0.4
             else
                 scaling = 0.85
             end
-        elseif(mapId == 1414 or mapId == 1415) then
+        elseif(mapId == 1414 or mapId == 1415) then -- EK and Kalimdor
             if(Questie.db.char.enableMinimalisticIcons) then
                 scaling = 0.5
             else
@@ -198,14 +214,20 @@ end
 
 
 function QuestieMap:ProcessQueue()
-  local mapDrawCall = tremove(mapDrawQueue, 1);
-  if(mapDrawCall) then
-    HBDPins:AddWorldMapIconMap(tunpack(mapDrawCall));
-  end
-  local minimapDrawCall = tremove(minimapDrawQueue, 1);
-  if(minimapDrawCall) then
-    HBDPins:AddMinimapIconMap(tunpack(minimapDrawCall));
-  end
+    --Use a for loop to increase the draw speed.
+    for i=0, 2 do
+        local mapDrawCall = tremove(mapDrawQueue, 1);
+        if(mapDrawCall) then
+            HBDPins:AddWorldMapIconMap(tunpack(mapDrawCall));
+        end
+        local minimapDrawCall = tremove(minimapDrawQueue, 1);
+        if(minimapDrawCall) then
+            HBDPins:AddMinimapIconMap(tunpack(minimapDrawCall));
+        end
+        if(not mapDrawCall and not minimapDrawCall) then
+            break;
+        end
+    end
 end
 
 -- Show NPC on map
@@ -374,16 +396,6 @@ function QuestieMap:DrawManualIcon(data, AreaID, x, y)
     iconMinimap.texture:SetTexture(texture)
     iconMinimap.texture:SetVertexColor(colorsMinimap[1], colorsMinimap[2], colorsMinimap[3], 1);
     iconMinimap.miniMapIcon = true;
-    
-    iconMinimap.OnShow = function()
-        QuestieMap.minimapFramesShown[iconMinimap.frameId] = iconMinimap
-    end
-    
-    iconMinimap.OnHide = function()
-        if(QuestieMap.minimapFramesShown[iconMinimap.frameId]) then
-            QuestieMap.minimapFramesShown[iconMinimap.frameId] = nil
-        end
-    end
 
     -- add the minimap icon
     QuestieMap:QueueDraw(QuestieMap.ICON_MINIMAP_TYPE, Questie, iconMinimap, data.UiMapID, x / 100, y / 100, true, true);
@@ -439,15 +451,6 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
     icon.AreaID = AreaID
     icon.miniMapIcon = false;
     icon:UpdateTexture(data.Icon);
-    icon.OnShow = function()
-        QuestieMap.mapFramesShown[icon.frameId] = icon
-    end
-    
-    icon.OnHide = function()
-        if(QuestieMap.mapFramesShown[icon.frameId]) then
-            QuestieMap.mapFramesShown[icon.frameId] = nil
-        end
-    end
 
     local iconMinimap = QuestieFramePool:GetFrame()
     iconMinimap.data = data
@@ -458,15 +461,6 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
     --Are we a minimap note?
     iconMinimap.miniMapIcon = true;
     iconMinimap:UpdateTexture(data.Icon);
-    iconMinimap.OnShow = function()
-        QuestieMap.minimapFramesShown[iconMinimap.frameId] = iconMinimap
-    end
-    
-    iconMinimap.OnHide = function()
-        if(QuestieMap.minimapFramesShown[iconMinimap.frameId]) then
-            QuestieMap.minimapFramesShown[iconMinimap.frameId] = nil
-        end
-    end
 
 
     if(not iconMinimap.FadeLogic) then

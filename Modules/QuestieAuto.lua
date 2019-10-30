@@ -1,4 +1,5 @@
-QuestieAuto = {...}
+---@class QuestieAuto
+local QuestieAuto = QuestieLoader:CreateModule("QuestieAuto");
 
 function QuestieAuto:QUEST_PROGRESS(event, ...)
     Questie:Debug(DEBUG_DEVELOP, "PROGRESS", event, ...)

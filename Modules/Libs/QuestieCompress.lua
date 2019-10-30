@@ -1,4 +1,7 @@
-QuestieCompress = {...};
+---@class QuestieCompress
+local QuestieCompress = {...};
+QuestieLoader:AddModule("QuestieCompress", QuestieCompress);
+
 local _QuestieCompress = {...};
 local libS = LibStub:GetLibrary("AceSerializer-3.0")
 local libC = LibStub:GetLibrary("LibCompress")

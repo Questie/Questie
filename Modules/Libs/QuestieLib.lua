@@ -1,6 +1,10 @@
 -- Contains library functions that do not have a logical place.
+---@class QuestieLib
+local QuestieLib = QuestieLoader:CreateModule("QuestieLib");
 
-QuestieLib = {};
+---@type QuestiePlayer
+local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
+
 local _QuestieLib = {};
 
 --Is set in QuestieLib.lua
@@ -212,15 +216,6 @@ function QuestieLib:ProfileFunction(functionReference, includeSubroutine)
     local time, count = GetFunctionCPUUsage(functionReference, includeSubroutine);
     --Questie:Print("[QuestieLib]", "Profiling Avg:", round(time/count, 6));
     return time, count;
-end
-
-function QuestieLib:ProfileFunctions()
-  for key, value in pairs(QuestieQuest) do
-    if(type(value) == "function") then
-      local time, count = QuestieLib:ProfileFunction(value, false);
-      Questie:Print("[QuestieLib] ", key, "Profiling Avg:", round(time/count, 6));
-    end
-  end
 end
 
 --To try and create a fix for errors regarding items that do not exist in our DB,

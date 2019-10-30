@@ -1,4 +1,27 @@
-QuestieQuest = {...}
+---@class QuestieQuest
+local QuestieQuest = QuestieLoader:CreateModule("QuestieQuest");
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieProfessions
+local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions");
+---@type QuestieReputation
+local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation");
+---@type QuestieTooltips
+local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips");
+---@type QuestieTracker
+local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker");
+---@type QuestieDBMIntegration
+local QuestieDBMIntegration = QuestieLoader:ImportModule("QuestieDBMIntegration");
+---@type QuestieFramePool
+local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool");
+---@type QuestieMap
+local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
+---@type QuestiePlayer
+local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
+
 local _QuestieQuest = {...}
 local libS = LibStub:GetLibrary("AceSerializer-3.0")
 local libC = LibStub:GetLibrary("LibCompress")
@@ -904,6 +927,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
             end
             
             --This can be used to make distance ordered list..
+            local iconCount = 0;
             local orderedList = {}
             local tkeys = {}
             -- populate the table that holds the keys
@@ -916,6 +940,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                     Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]", "Too many icons for quest:", questId)
                     break;
                 end
+                iconCount = iconCount + 1;
                 tinsert(orderedList, icons[distance]);
             end
             local range = QUESTIE_CLUSTER_DISTANCE
@@ -923,7 +948,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                 range = range * 0.2;  -- Only use 20% of the default range.
             end
             
-            local hotzones = QuestieMap.utils:CalcHotzones(orderedList, range);
+            local hotzones = QuestieMap.utils:CalcHotzones(orderedList, range, iconCount);
 
             for index, hotzone in pairs(hotzones or {}) do
                 if(spawnedIcons[questId] > maxPerType) then

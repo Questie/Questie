@@ -1,4 +1,11 @@
-QuestieReputation = {...}
+---@class QuestieReputation
+local QuestieReputation = QuestieLoader:CreateModule("QuestieReputation");
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieProfessions
+local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions");
+
 local playerReputations = {}
 
 function QuestieReputation:Update()

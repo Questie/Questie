@@ -1,4 +1,6 @@
-QuestieSearch = {} -- Global Functions
+---@class QuestieSearch
+local QuestieSearch = QuestieLoader:CreateModule("QuestieSearch");
+
 QuestieSearch.types = {"npc", "object", "item", "quest"}
 
 -- Save search results, so the next search has a smaller set to search

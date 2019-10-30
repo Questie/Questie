@@ -1,4 +1,9 @@
-QuestieMap.utils = {}
+---@type QuestieMap
+local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
+QuestieMap.utils = {};
+
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 
@@ -54,41 +59,48 @@ end
 
 ---@param points table<integer, Point> @A simple pointlist with {x=0, y=0, zone=0}
 ---@param rangeR integer @Range of the hotzones.
+---@param count integer @Optional, used to allow more notes if far away from the quest giver.
 ---@return table<integer, table<integer, Point>> @A table of hotzones
-function QuestieMap.utils:CalcHotzones(points, rangeR)
-    if (points == nil) then return nil end
+function QuestieMap.utils:CalcHotzones(points, rangeR, count)
+    if(points == nil) then return nil; end
 
-    local range = rangeR or 100
-    local hotzones = {}
-    local itt = 0
-    while (true) do
-        local FoundUntouched = nil
-        for index, point in pairs(points) do
-            if (point.touched == nil) then
-                local notes = {}
-                FoundUntouched = true
-                point.touched = true
-                tinsert(notes, point)
+    --If count isn't set we want to distance clustering to still work,
+    --to simplify the logic we just use a big number.
+    if not count then
+      count = 99999;
+    end
+
+    local range = rangeR or 100;
+    local hotzones = {};
+    local itt = 0;
+    while(true) do
+    	local FoundUntouched = nil;
+    	for index, point in pairs(points) do
+    		if(point.touched == nil) then
+    			local notes = {};
+    			FoundUntouched = true;
+    			point.touched = true;
+    			tinsert(notes, point);
                 for index2, point2 in pairs(points) do
-                    -- We only want to cluster icons that are on the same map.
-                    if (point.UIMapId == point2.UIMapId) then
-                        local times = 1
-
-                        -- We want things further away to be clustered more
-                        local movingRange = range
-                        if (point.distance and point.distance > 1000) then
-                            movingRange = movingRange * (point.distance / 1000)
+                    --We only want to cluster icons that are on the same map.
+                    if(point.UIMapId == point2.UIMapId) then
+                        local times = 1;
+                        
+                        --We want things further away to be clustered more
+                        local movingRange = range;
+                        if(point.distance and point.distance > 1000 and count > 100) then
+                            movingRange = movingRange * (point.distance/1000);
                         end
 
                         if (point.x > 1 and point.y > 1) then
                             times = 100
                         end
                         local aX, aY = HBD:GetWorldCoordinatesFromZone(
-                                           point.x / times, point.y / times,
-                                           point.UIMapId)
+                                            point.x / times, point.y / times,
+                                            point.UIMapId)
                         local bX, bY = HBD:GetWorldCoordinatesFromZone(
-                                           point2.x / times, point2.y / times,
-                                           point2.UIMapId)
+                                            point2.x / times, point2.y / times,
+                                            point2.UIMapId)
                         -- local dX = (point.x*times) - (point2.x*times)
                         -- local dY = (point.y*times) - (point2.y*times);
                         local distance =

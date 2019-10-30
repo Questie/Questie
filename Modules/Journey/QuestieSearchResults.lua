@@ -1,4 +1,17 @@
-QuestieSearchResults = {} -- Global Functions
+---@class QuestieSearchResults
+local QuestieSearchResults = QuestieLoader:CreateModule("QuestieSearchResults");
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieQuest
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
+---@type QuestieJourney
+local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney");
+---@type QuestieSearch
+local QuestieSearch = QuestieLoader:ImportModule("QuestieSearch");
+---@type QuestieMap
+local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
+
 local AceGUI = LibStub("AceGUI-3.0");
 
 local lastOpenSearch = "quest";
