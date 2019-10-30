@@ -11,7 +11,9 @@ QuestieLocale.locale['ptBR'] = {
     ['LEVEL_HEADER'] = "Opções de nível de missão",
     ['ENABLE_LOWLEVEL'] = "Veja todas as missões abaixo (missões de nível inferior)",
     ['ENABLE_LOWLEVEL_DESC'] = "Ative ou desative a exibição das missões de baixo nível exibidas no mapa.",
-    ['LOWLEVEL_BELOW'] = "<Mostrar o nível abaixo do nível>",
+    ['ENABLE_MANUAL_OFFSET'] = "Enable manual minimum level offset",
+    ['ENABLE_MANUAL_OFFSET_DESC'] = "Enable manual minimum level offset instead of the automatic GetQuestGreenLevel function.",
+        ['LOWLEVEL_BELOW'] = "<Mostrar o nível abaixo do nível>",
     ['LOWLEVEL_BELOW_DESC'] = "Quantos níveis sobre o seu personagem para exibir. (Por defeito: %s",
     ['LOWLEVEL_ABOVE'] = "<Ver o próximo nível>",
     ['LOWLEVEL_ABOVE_DESC'] = "Quantos níveis acima do seu personagem serão exibidos. (Por defeito: %s",
@@ -25,6 +27,8 @@ QuestieLocale.locale['ptBR'] = {
     ['ENABLE_AVAILABLE_DESC'] = "Quando esta opção está ativada, os locais de ativação da missão serão exibidos no mapa / mini mapa",
     ['ENABLE_TOOLTIPS'] = "Ativar dicas de ferramentas (informaçâo)",
     ['ENABLE_TOOLTIPS_DESC'] = "Se ativada, as informações da missão serão adicionadas às dicas relevantes de mob / item",
+    ['ENABLE_TOOLTIPS_QUEST_LEVEL'] = "Show Quest Level in Tooltips",
+    ['ENABLE_TOOLTIPS_QUEST_LEVEL_DESC'] = "When this is checked, the level of quests will show in the tooltips.",
     ['ICON_TYPE_HEADER'] = "Tipos de ícones",
     ['ENABLE_MAP_ICONS'] = "Ativar ícones do mapa",
     ['ENABLE_MAP_ICONS_DESC'] = "Mostrar / ocultar todos os ícones na carta principal",
@@ -32,9 +36,17 @@ QuestieLocale.locale['ptBR'] = {
     ['ENABLE_MAP_ICONS_DESC_MINIMALISTIC'] = "A minimalistic version of the normal icons.",
     ['ENABLE_MINIMAP_ICONS'] = "Ativar ícones do Mini-mapa",
     ['ENABLE_MINIMAP_ICONS_DESC'] = "Mostrar / ocultar todos os ícones no mini-mapa",
+    ['HIDE_UNEXPLORED_ICONS'] = "Hide unexplored area Icons",
+    ['HIDE_UNEXPLORED_ICONS_DESC'] = "Hide icons in unexplored areas.",
+    ['ENABLE_ICON_LIMIT'] = "Enable Icon Limit",
+    ['ENABLE_ICON_LIMIT_DESC'] = "Enable the limit of icons drawn per type.",
+    ['ICON_LIMIT'] = "Icon Limit",
+    ['ICON_LIMIT_DESC'] = "Limits the amount of icons drawn per type. ( Default: %s )",
 
+    -- Minimap tab
     ['MINIMAP_TAB'] = "Opções de mini-carta",
     ['MINIMAP_HEADER'] = "Opções de notas com mini-cartas",
+    ['MINIMAP_NOTES'] = "Minimap Note Options",
     ['MINIMAP_GLOBAL_SCALE'] = "Escala global de ícones da mini-carta",
     ['MINIMAP_GLOBAL_SCALE_DESC'] = "Qual é o tamanho dos ícones da mini-carta. (Por defeito: %s)",
     ['MINIMAP_FADING'] = "Distância objetiva do fundo",
@@ -51,22 +63,18 @@ QuestieLocale.locale['ptBR'] = {
     ['MINIMAP_ALWAYS_GLOW_TOGGLE'] = "Sempre visível atrás dos ícones do mini-mapa",
     ['MINIMAP_ALWAYS_GLOW_TOGGLE_DESC'] = "Desenhe uma textura luminescente por trás dos ícones mínimos do mapa, com cores exclusivas para cada missão",
 
+    -- Map tab
     ['MAP_TAB'] = "Carta",
     ['ENABLE_MAP_BUTTON'] = "Mostrar o botão no cartão Questie",
     ['ENABLE_MAP_BUTTON_DESC'] = "Ative ou desative o botão Mostrar / Ocultar Questie no mapa (pode corrigir algumas interações com o Mapa de Complementos)",
     ['MAP_NOTES'] = "Opções de anotação de mapa",
-    ['MAP_GLOBAL_SCALE'] = "Escala global de ícones do mapa",
-    ['MAP_GLOBAL_SCALE_DESC'] = "Qual é o tamanho dos ícones do mapa. (Por defeito: %s)",
-    ['MAP_COORDS'] = "Coordenadas do mapa e cursor",
-    ['ENABLE_MAP_COORDS'] = "Coordenadas do jogador e do cursor",
-    ['ENABLE_MAP_COORDS_DESC'] = "Coloque as coordenadas do jogador e as do cursor no título do cartão.",
-    ['MAP_COORDS_PRECISION'] = "Precisão decimal das coordenadas do mapa",
-    ['MAP_COORDS_PRECISION_DESC'] = "Número de casas decimais a serem incluídas na precisão do mapa para as coordenadas do jogador e do cursor. (Por defeito: %s)",
     ['MAP_ALWAYS_GLOW_TOGGLE'] = "Sempre visível atrás dos ícones do mapa",
     ['MAP_ALWAYS_GLOW_TOGGLE_DESC'] = "Desenhe uma textura luminescente atrás dos ícones do mapa, com cores exclusivas para cada missão",
     ['MAP_QUEST_COLORS'] = "Cor diferente do ícone do mapa para cada missão",
     ['MAP_QUEST_COLORS_DESC'] = "Exibir ícones do mapa com cores geradas de maneira aleatoriamente com base no ID da missão",
 
+    ['MAP_GLOBAL_SCALE'] = "Escala global de ícones do mapa",
+    ['MAP_GLOBAL_SCALE_DESC'] = "Qual é o tamanho dos ícones do mapa. (Por defeito: %s)",
     ['AVAILABLE_ICON_SCALE'] = "Saldo para ícones disponíveis / completos",
     ['AVAILABLE_ICON_SCALE_DESC'] = "Qual é o tamanho dos ícones disponíveis / completos (Por defeito: %s)",
     ['LOOT_ICON_SCALE'] = "Saldo para ícones de pilhagem",
@@ -77,7 +85,37 @@ QuestieLocale.locale['ptBR'] = {
     ['OBJECT_ICON_SCALE_DESC'] = "Qual é o tamanho dos ícones de objeto. (Por defeito: %s)",
     ['EVENT_ICON_SCALE'] = "Escala de ícones de eventos",
     ['EVENT_ICON_SCALE_DESC'] = "Qual é o tamanho dos ícones do evento. (Por defeito: %s)",
+            
+    ['MAP_COORDS'] = "Coordenadas do mapa e cursor",
+    ['ENABLE_MAP_COORDS'] = "Coordenadas do jogador e do cursor",
+    ['ENABLE_MAP_COORDS_DESC'] = "Coloque as coordenadas do jogador e as do cursor no título do cartão.",
+    ['MAP_COORDS_PRECISION'] = "Precisão decimal das coordenadas do mapa",
+    ['MAP_COORDS_PRECISION_DESC'] = "Número de casas decimais a serem incluídas na precisão do mapa para as coordenadas do jogador e do cursor. (Por defeito: %s)",
 
+    -- DBM HUD tab
+    ['DBM_HUD_TAB'] = "DBM HUD",
+    ['ENABLE_DBM_HUD'] = "Show DBM HUD",
+    ['ENABLE_DBM_HUD_DESC'] = "Enable or disable the DBM Heads Up Display (HUD) overlay for showing map objects.",
+    ['DBM_HUD_ICON_ALERT'] = "Enable proximity visual for HUD icons",
+    ['DBM_HUD_ICON_ALERT_DESC'] = "Changes the color of a HUD icon to red when you are near it.",
+    ['DBM_HUD_REFRESH'] = "Refresh rate for HUD (Requires turning HUD off/on)",
+    ['DBM_HUD_REFRESH_DESC'] = "Adjusts the fresh rate for HUD Icons which affects how often UI refreshes their position. ( Default: %s )",
+    ['DBM_HUD_SCALE_OPTIONS'] = "Size & Scale Options",
+    ['DBM_HUD_ZOOM'] = "Global zoom level for HUD Icons",
+    ['DBM_HUD_ZOOM_DESC'] = "Adjusts the zoom level for HUD Icons which affects how close in or how far out you see them. ( Default: %s )",
+    ['DBM_HUD_RADIUS'] = "Global radius/size for HUD Icons",
+    ['DBM_HUD_RADIUS_DESC'] = "Adjusts the size of the icons that appear on the HUD. ( Default: %s )",
+    ['DBM_HUD_FILTER_OPTIONS'] = "Filter Options",
+    ['DBM_HUD_FILTER_QUEST'] = "Show quest giver icons",
+    ['DBM_HUD_FILTER_QUEST_DESC'] = "Toggles whether or not available/complete quest icons appear on HUD. ( Default: %s )",
+    ['DBM_HUD_FILTER_KILL'] = "Show quest slay icons",
+    ['DBM_HUD_FILTER_KILL_DESC'] = "Toggles whether or not slay icons appear on HUD. ( Default: %s )",
+    ['DBM_HUD_FILTER_LOOT'] = "Show quest loot icons",
+    ['DBM_HUD_FILTER_LOOT_DESC'] = "Toggles whether or not loot icons appear on HUD. ( Default: %s )",
+    ['DBM_HUD_FILTER_INTERACT'] = "Show quest objective icons",
+    ['DBM_HUD_FILTER_INTERACT_DESC'] = "Toggles whether or not objective icons appear on HUD ( Default: %s )",
+
+    -- Nameplate tab
     ['NAMEPLATE_TAB'] = "Opções de nome da placa",
     ['NAMEPLATE_HEAD'] = "Opções do ícone nomes da placa",
     ['NAMEPLATE_TOGGLE'] = "Ativar objetivos da missão nomes da placa",
@@ -102,12 +140,15 @@ QuestieLocale.locale['ptBR'] = {
     ['TARGET_RESET_BTN'] = "Redefinir o quadro de destino",
     ['TARGET_RESET_BTN_DESC'] = "Redefinir as posições e a escala do quadro de destino por defeito",
 
+    -- Advanced tab
     ['ADV_TAB'] = "Avançar",
     ['DEV_OPTIONS'] = "Opções do desenvolvedor",
     ['ENABLE_DEBUG'] = "Ativar depuração",
     ['ENABLE_DEBUG_DESC'] = "Ativar ou desativar o recurso de depuração.",
     ['DEBUG_LEVEL'] = "Nível de depuração para impressão",
     ['DEBUG_LEVEL_DESC'] = "Em que nível de depuração para imprimir: %s",
+    ['ENABLE_TOOLTIPS_QUEST_IDS'] = "Show Quest IDs",
+    ['ENABLE_TOOLTIPS_QUEST_LEVEL_IDS'] = "When this is checked, the ID of quests will show in the tooltips and the tracker.",
     ['LOCALE'] = "Configurações de localização",
     ['LOCALE_DROP'] = "Selecione a interface do utilizador",
     ['RESET_QUESTIE'] = "Reset Questie",
@@ -136,6 +177,7 @@ QuestieLocale.locale['ptBR'] = {
     ['TOOLTIP_QUEST_COMPLETE'] = "(Complèta)",
     ['TOOLTIP_QUEST_AVAILABLE'] = "(Disponivel)",
     ['TOOLTIP_QUEST_ACTIVE'] = "(Ativo)",
+    ['TOOLTIP_QUEST_REPEATABLE'] = "(Repeatable)",
     ['TOOLTIP_QUEST_EVENT'] = "(Event)",
     ['XP'] = "xp";
 
@@ -160,6 +202,8 @@ QuestieLocale.locale['ptBR'] = {
     ['TRACKER_ENABLE_HOOKS_DESC'] = "Ative o snap do rastreamento de missões da Blizzard. Isso é necessário para alguns recursos do Questie Tracker e para integração com outros complementos. Se você tiver problemas com o Rastreador de missões, pode ser necessário desativar esta opção.)",
     ['TRACKER_SHOW_COMPLETE'] = "Ver missões completas",
     ['TRACKER_SHOW_COMPLETE_DESC'] = "Quando esta caixa está marcada, as missões concluídas são exibidas na ferramenta de rastreamento de missões",
+    ['TRACKER_SHOW_QUEST_LEVEL'] = "Show Quest Level",
+    ['TRACKER_SHOW_QUEST_LEVEL_DESC'] = "When this is checked, the level of quests will show in the Questie tracker.",
     ['TRACKER_COLOR_OBJECTIVES'] = "Cor do objectivo",
     ['TRACKER_COLOR_OBJECTIVES_DESC'] = "Altere a cor dos objetivos no Rastreador de acordo com a integridade",
     ['TRACKER_COLOR_WHITE'] = "Branco",
@@ -187,6 +231,7 @@ QuestieLocale.locale['ptBR'] = {
     ['TRACKER_SHORTCUT'] = " Atalho",
     ['TRACKER_SET_TOMTOM_DESC'] = "Atalho para abrir TomTom",
     ['TRACKER_SHOW_QUESTLOG_DESC'] = "O atalho para exibir a missão de missões",
+    ['TRACKER_ACTIVE_QUESTS'] = "Missões Ativas : ",
 
     --Menu contextual do rastreador
     ['TRACKER_UNFOCUS'] = "Não concentre mais essa missão",
@@ -268,6 +313,7 @@ QuestieLocale.locale['ptBR'] = {
     ['DEBUG_MINLEVEL'] = "minLevelFilter definido como %s",
     ['DEBUG_MAXLEVEL'] = "maxLevelFilter definido como %s",
     ['DEBUG_CLUSTER'] = "Valor de cluster dos parâmetros da, clusterLevelHotzone definido como% s: Redrawing!",
+    ['DEBUG_ICON_LIMIT'] = "Setting icon limit value to %s : Redrawing!",
     ['DEBUG_ADD_QUEST'] = "Adicionando a missão %s %s",
     ['DEBUG_REMOVE_QUEST'] = "Excluindo a missão %s %s",
     ['DEBUG_ACCEPT_QUEST'] = "Missâo Aceite: %s",
@@ -288,10 +334,11 @@ QuestieLocale.locale['ptBR'] = {
     ['QUESTIE_ACCEPT_NIL'] = "|cFFFF0000ERREUR Questie:|rTente aceitar missões vazias! Pode ser necessário executar um / recarregar para a missão",
     ['QUESTIE_UPDATED_RESTART'] = "|cFFFF0000ATTENTION !|r Você atualizou o Questie sem reiniciar o jogo, isso pode representar um problema. Por favor, reinicie o jogo antes de continuar",    
 
-    --ESPERANDO
-    ['MINIMAP_OBJECTIVE_SCALE'] = "Escala de ícones objetivos de mini-mapa", --Esperando
-    ['MINIMAP_OBJECTIVE_SCALE_DESC'] = "Qual é o tamanho dos ícones dos objectivos Mini-Map. (Por defeito: %s)", --ESPERANDO
-    ['MINIMAP_AVAILABLE_SCALE'] = "Escala de ícones completos e disponíveis para o mini-mapa", --ESPERANDO
-    ['MINIMAP_AVAILABLE_SCALE_DESC'] = "Qual é o tamanho dos ícones completos e disponíveis para o mini-mapa. (Por defeito: %s)", --ESPERANDO
-    ['MINIMAP_FADE'] = "Fading Notas do mini-mapa", --ESPERANDO
+    -- TODO finally switch all keys to this style for code readability:
+    ['Show on Map'] = "Show on Map",
+    ['Remove from Map'] = "Remove from Map",
+    ['Starts the following quests:'] = "Starts the following quests:",
+    ['Ends the following quests:'] = "Ends the following quests:",
+    ['No quests to list.'] = "No quests to list.",
+    ['No spawn data available.'] = "No spawn data available.",
 };
