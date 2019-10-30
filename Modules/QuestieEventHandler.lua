@@ -125,6 +125,9 @@ function QuestieEventHandler:CompleteQuest(questId, count)
         count = 1;
     end
     local quest = QuestieDB:GetQuest(questId);
+    if not quest then
+        return
+    end
     if(IsQuestFlaggedCompleted(questId) or quest.Repeatable or count > 50) then
         QuestieQuest:CompleteQuest(questId)
         QuestieJourney:CompleteQuest(questId)

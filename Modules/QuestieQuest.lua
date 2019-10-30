@@ -135,16 +135,19 @@ end
 
 
 function QuestieQuest:ClearAllNotes()
-    for quest in pairs (QuestiePlayer.currentQuestlog) do
-        local Quest = QuestieDB:GetQuest(quest)
+    for questId in pairs (QuestiePlayer.currentQuestlog) do
+        local quest = QuestieDB:GetQuest(questId)
+        if not quest then
+            return
+        end
 
         -- Clear user-specifc data from quest object (maybe we should refactor into Quest.session.* so we can do Quest.session = nil to reset easier
-        Quest.AlreadySpawned = nil
-        Quest.Objectives = nil
+        quest.AlreadySpawned = nil
+        quest.Objectives = nil
 
         -- reference is still held elswhere
-        if Quest.SpecialObjectives then for _,s in pairs(Quest.SpecialObjectives) do s.AlreadySpawned = nil end end
-        Quest.SpecialObjectives = nil
+        if quest.SpecialObjectives then for _,s in pairs(quest.SpecialObjectives) do s.AlreadySpawned = nil end end
+        quest.SpecialObjectives = nil
     end
 
     for questId, framelist in pairs(QuestieMap.questIdFrames) do
@@ -159,14 +162,14 @@ function QuestieQuest:ClearAllNotes()
 end
 
 -- this is only needed for reset, normally special objectives don't need to update
-local function _UpdateSpecials(quest)
-    local Quest = QuestieDB:GetQuest(quest)
-    if Quest and Quest.SpecialObjectives then
-        if Quest.SpecialObjectives then
-            for _, objective in pairs(Quest.SpecialObjectives) do
-                local result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, Quest, 0, objective, true);
+local function _UpdateSpecials(questId)
+    local quest = QuestieDB:GetQuest(questId)
+    if quest and quest.SpecialObjectives then
+        if quest.SpecialObjectives then
+            for _, objective in pairs(quest.SpecialObjectives) do
+                local result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, quest, 0, objective, true);
                 if not result then
-                    Questie:Error("[QuestieQuest]: [SpecialObjectives] ".. QuestieLocale:GetUIString('DEBUG_POPULATE_ERR', Quest.Name or "No quest name", Quest.Id or "No quest id", 0 or "No objective", err or "No error"));
+                    Questie:Error("[QuestieQuest]: [SpecialObjectives] ".. QuestieLocale:GetUIString('DEBUG_POPULATE_ERR', quest.Name or "No quest name", quest.Id or "No quest id", 0 or "No objective", err or "No error"));
                 end
             end
         end
@@ -339,18 +342,18 @@ function QuestieQuest:AcceptQuest(questId)
         QuestieMap:UnloadQuestFrames(questId);
         QuestieQuest:AddNewQuestHash(questId)
 
-        Quest = QuestieDB:GetQuest(questId)
-        if(Quest ~= nil) then
+        local quest = QuestieDB:GetQuest(questId)
+        if quest then
             -- we also need to remove exclusivegroup icons (TESTED)
-            if Quest.ExclusiveQuestGroup then
-                for k, questId in pairs(Quest.ExclusiveQuestGroup) do
-                    QuestieMap:UnloadQuestFrames(questId);
+            if quest.ExclusiveQuestGroup then
+                for k, qId in pairs(quest.ExclusiveQuestGroup) do
+                    QuestieMap:UnloadQuestFrames(qId);
                 end
             end
 
-            QuestiePlayer.currentQuestlog[questId] = Quest
-            QuestieQuest:PopulateQuestLogInfo(Quest)
-            QuestieQuest:PopulateObjectiveNotes(Quest)
+            QuestiePlayer.currentQuestlog[questId] = quest
+            QuestieQuest:PopulateQuestLogInfo(quest)
+            QuestieQuest:PopulateObjectiveNotes(quest)
         else
             QuestiePlayer.currentQuestlog[questId] = questId
         end
@@ -365,7 +368,7 @@ function QuestieQuest:AcceptQuest(questId)
                 QuestieMap:UnloadQuestFrames(availableQuestId, ICON_TYPE_AVAILABLE);
             end
         end
-        
+
         --For safety, remove all these icons.
         QuestieMap:UnloadQuestFrames(questId, ICON_TYPE_AVAILABLE);
         --Broadcast an update.
@@ -403,23 +406,25 @@ function QuestieQuest:CompleteQuest(QuestId)
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_COMPLETE_QUEST', QuestId));
 end
 
-function QuestieQuest:AbandonedQuest(QuestId)
-    QuestieTooltips:RemoveQuest(QuestId)
-    if(QuestiePlayer.currentQuestlog[QuestId]) then
-        QuestiePlayer.currentQuestlog[QuestId] = nil
-        QuestieQuest:RemoveQuestHash(QuestId)
+function QuestieQuest:AbandonedQuest(questId)
+    QuestieTooltips:RemoveQuest(questId)
+    if(QuestiePlayer.currentQuestlog[questId]) then
+        QuestiePlayer.currentQuestlog[questId] = nil
+        QuestieQuest:RemoveQuestHash(questId)
 
         --Unload all the quest frames from the map.
-        QuestieMap:UnloadQuestFrames(QuestId);
+        QuestieMap:UnloadQuestFrames(questId);
 
-        local quest = QuestieDB:GetQuest(QuestId);
-        quest.Objectives = nil;
-        quest.AlreadySpawned = nil; -- temporary fix for "special objectives" remove later
+        local quest = QuestieDB:GetQuest(questId);
+        if quest then
+            quest.Objectives = nil;
+            quest.AlreadySpawned = nil; -- temporary fix for "special objectives" remove later
+        end
         --The old data for notes are still there, we don't need to recalulate data.
         --_QuestieQuest:DrawAvailableQuest(quest)
 
         -- yes we do, since abandoning can unlock more than 1 quest, or remove unlocked quests
-        for k,v in pairs(QuestieQuest.availableQuests) do
+        for k, v in pairs(QuestieQuest.availableQuests) do
             if not _QuestieQuest:IsDoable(QuestieDB:GetQuest(k)) then
                 QuestieMap:UnloadQuestFrames(k);
             end
@@ -427,16 +432,16 @@ function QuestieQuest:AbandonedQuest(QuestId)
         QuestieQuest:CalculateAvailableQuests()
         QuestieQuest:DrawAllAvailableQuests()
 
-        QuestieTracker:QuestRemoved(QuestId)
+        QuestieTracker:QuestRemoved(questId)
         QuestieTracker:Update()
 
-        Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ABANDON_QUEST', QuestId));
+        Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ABANDON_QUEST', questId));
     end
 end
 
 function QuestieQuest:UpdateQuest(QuestId)
     local quest = QuestieDB:GetQuest(QuestId);
-    if quest ~= nil and not Questie.db.char.complete[QuestId] then
+    if quest and not Questie.db.char.complete[QuestId] then
         QuestieQuest:PopulateQuestLogInfo(quest)
         QuestieQuest:GetAllQuestObjectives(quest) -- update quest log values in quest object
         QuestieQuest:UpdateObjectiveNotes(quest)
@@ -462,13 +467,13 @@ function QuestieQuest:GetAllQuestIds()
         local title, level, _, isHeader, _, isComplete, _, questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
         if(not isHeader) then
             --Keep the object in the questlog to save searching
-            local Quest = QuestieDB:GetQuest(questId)
-            if(Quest ~= nil) then
-                QuestiePlayer.currentQuestlog[questId] = Quest
-                QuestieQuest:PopulateQuestLogInfo(Quest)
-                QuestieQuest:PopulateObjectiveNotes(Quest)
+            local quest = QuestieDB:GetQuest(questId)
+            if quest then
+                QuestiePlayer.currentQuestlog[questId] = quest
+                QuestieQuest:PopulateQuestLogInfo(quest)
+                QuestieQuest:PopulateObjectiveNotes(quest)
                 if title and strlen(title) > 1 then
-                    Quest.LocalizedName = title
+                    quest.LocalizedName = title
                 end
             else
                 QuestiePlayer.currentQuestlog[questId] = questId
@@ -487,9 +492,9 @@ function QuestieQuest:GetAllQuestIdsNoObjectives()
         local title, level, _, isHeader, _, isComplete, _, questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
         if(not isHeader) then
             --Keep the object in the questlog to save searching
-            local Quest = QuestieDB:GetQuest(questId)
-            if(Quest ~= nil) then
-                QuestiePlayer.currentQuestlog[questId] = Quest
+            local quest = QuestieDB:GetQuest(questId)
+            if quest then
+                QuestiePlayer.currentQuestlog[questId] = quest
             else
                 QuestiePlayer.currentQuestlog[questId] = questId
             end
@@ -1639,9 +1644,9 @@ function QuestieQuest:DrawAllAvailableQuests()--All quests between
 
         --If the quest is not drawn draw the quest, otherwise skip.
         if(not QuestieMap.questIdFrames[questId]) then
-            local Quest = QuestieDB:GetQuest(questId)
+            local quest = QuestieDB:GetQuest(questId)
             --Draw a specific quest through the function
-            _QuestieQuest:DrawAvailableQuest(Quest)
+            _QuestieQuest:DrawAvailableQuest(quest)
         else
             --We want to change from a gray icon to a nongray.
             for index, frame in ipairs(QuestieMap:GetFramesForQuest(questId)) do
@@ -1732,7 +1737,7 @@ function _QuestieQuest:IsPreQuestGroupFulfilled(preQuestGroup)
         -- If a quest is not complete and no exlusive quest is complete, the requirement is not fulfilled
         if not Questie.db.char.complete[preQuestId] then
             local preQuest = QuestieDB:GetQuest(preQuestId);
-            if preQuest.ExclusiveQuestGroup == nil then
+            if preQuest == nil or preQuest.ExclusiveQuestGroup == nil then
                 return false
             end
 
@@ -1791,7 +1796,7 @@ function QuestieQuest:CalculateAvailableQuests()
         if((not Questie.db.char.complete[questID]) and (not QuestieCorrections.hiddenQuests[questID]) and (not QuestiePlayer.currentQuestlog[questID])) then
             local quest = QuestieDB:GetQuest(questID)
 
-            if _QuestieQuest:LevelRequirementsFulfilled(quest, playerLevel, minLevel, maxLevel) or _QuestieQuest:IsParentQuestActive(quest.parentQuest) then
+            if quest and _QuestieQuest:LevelRequirementsFulfilled(quest, playerLevel, minLevel, maxLevel) or _QuestieQuest:IsParentQuestActive(quest.parentQuest) then
                 if _QuestieQuest:IsDoable(quest) then
                     QuestieQuest.availableQuests[questID] = questID
                 end

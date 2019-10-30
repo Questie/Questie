@@ -213,14 +213,16 @@ local function ManageJourneyTree(container)
                     end
 
                     local quest = QuestieDB:GetQuest(entry.Quest)
-                    local qName = quest.Name;
-                    header:SetText(QuestieLocale:GetUIString('JOURNEY_TABLE_QUEST', state, qName));
+                    if quest then
+                        local qName = quest.Name;
+                        header:SetText(QuestieLocale:GetUIString('JOURNEY_TABLE_QUEST', state, qName));
 
 
-                    local obj = AceGUI:Create("Label");
-                    obj:SetFullWidth(true);
-                    obj:SetText(CreateObjectiveText(quest.Description));
-                    f:AddChild(obj);
+                        local obj = AceGUI:Create("Label");
+                        obj:SetFullWidth(true);
+                        obj:SetText(CreateObjectiveText(quest.Description));
+                        f:AddChild(obj);
+                    end
 
                     Spacer(f);
 
@@ -464,12 +466,13 @@ function ShowJourneyTooltip(button)
 
     local qid = button:GetUserData('id');
     local quest = QuestieDB:GetQuest(tonumber(qid));
-
-    GameTooltip:SetOwner(_G["QuestieJourneyFrame"], "ANCHOR_CURSOR");
-    GameTooltip:AddLine("[".. quest.Level .."] ".. quest.Name);
-    GameTooltip:AddLine("|cFFFFFFFF" .. CreateObjectiveText(quest.Description))
-    GameTooltip:SetFrameStrata("TOOLTIP");
-    GameTooltip:Show();
+    if quest then
+        GameTooltip:SetOwner(_G["QuestieJourneyFrame"], "ANCHOR_CURSOR");
+        GameTooltip:AddLine("[".. quest.Level .."] ".. quest.Name);
+        GameTooltip:AddLine("|cFFFFFFFF" .. CreateObjectiveText(quest.Description))
+        GameTooltip:SetFrameStrata("TOOLTIP");
+        GameTooltip:Show();
+    end
 end
 
 function HideJourneyTooltip()
@@ -874,8 +877,9 @@ local function ManageZoneTree(container, zt)
 
             -- TODO replace with fillQuestDetailsFrame and remove the questFrame function
             local quest = QuestieDB:GetQuest(qid);
-            QuestFrame(f, quest);
-
+            if quest then
+                QuestFrame(f, quest);
+            end
         end);
 
         container:AddChild(zoneTreeFrame);

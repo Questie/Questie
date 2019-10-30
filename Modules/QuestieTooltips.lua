@@ -112,8 +112,10 @@ function QuestieTooltips:GetTooltip(key)
         for questId, playerList in pairs(tooltipDataExternal) do
             if(not tooltipData[questId]) then
                 local quest = QuestieDB:GetQuest(questId);
-                tooltipData[questId] = {}
-                tooltipData[questId].title = quest:GetColoredQuestName();
+                if quest then
+                    tooltipData[questId] = {}
+                    tooltipData[questId].title = quest:GetColoredQuestName();
+                end
             end
             for playerName, objectives in pairs(playerList) do
                 local playerInfo = QuestieLib:PlayerInGroup(playerName);

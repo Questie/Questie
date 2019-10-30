@@ -159,245 +159,213 @@ local function _GetColoredQuestName(self, blizzLike)
     return QuestieLib:GetColoredQuestName(self.Id, questName, self.Level, Questie.db.global.enableTooltipsQuestLevel, false, blizzLike)
 end
 
-function QuestieDB:GetQuest(QuestID) -- /dump QuestieDB:GetQuest(867)
-    if QuestID == nil then
+---@param questID integer @The quest ID
+---@return table|nil @The quest object or nil if the quest is missing
+function QuestieDB:GetQuest(questID) -- /dump QuestieDB:GetQuest(867)
+    if questID == nil then
         Questie:Debug(DEBUG_CRITICAL, "[QuestieDB:GetQuest] Expected questID but received nil!")
         return nil
     end
-    if QuestieDB._QuestCache[QuestID] ~= nil then
-        return QuestieDB._QuestCache[QuestID];
+    if QuestieDB._QuestCache[questID] ~= nil then
+        return QuestieDB._QuestCache[questID];
     end
-    --[[     [916] = {"Webwood Venom",{{2082,},nil,nil,},{{2082,},nil,},3,4,"A",nil,nil,nil,{nil,nil,{{5166,nil},},},nil,nil,nil,nil,nil,nil,},
-    --key
-    --name = 1
-    --starts = 2
-    --npc = starts1
-    --obj = starts2
-    --itm = starts3
-    --ends = 3
-    --npc = ends1
-    --obj = ends2
-    --minLevel = 4
-    --level = 5
-    --RequiredRaces = 6
-    --RequiredClasses = 7
-    --objectives = 8
-    --trigger = 9
-    --ReqCreatureOrGOOrItm = 10
-    --npc = ReqCreatureOrGOOrItm1
-    --obj = ReqCreatureOrGOOrItm2
-    --itm = ReqCreatureOrGOOrItm3
-    --SrcItemId = 11
-    -- 12 DB_PRE_QUEST_GROUP
-    -- 13 DB_PRE_QUEST_SINGLE
-    -- 14 DB_SUB_QUESTS
-    -- 15 DB_QUEST_GROUP
-    -- 16 DB_EXCLUSIVE_QUEST_GROUP]]--
-    local rawdata = QuestieDB.questData[QuestID];
-    if(rawdata)then
-        local QO = {}
-        QO.GetColoredQuestName = _GetColoredQuestName
-        QO.Id = QuestID --Key
-        for stringKey, intKey in pairs(QuestieDB.questKeys) do
-            QO[stringKey] = rawdata[intKey]
-        end
-        QO.Name = rawdata[1] --Name - 1
-        QO.Starts = {} --Starts - 2
-        QO.Starts["NPC"] = rawdata[2][1] --2.1
-        QO.Starts["GameObject"] = rawdata[2][2] --2.2
-        QO.Starts["Item"] = rawdata[2][3] --2.3
-        QO.Ends = {} --ends 3
-        QO.Hidden = rawdata.hidden or QuestieCorrections.hiddenQuests[QuestID]
-        QO.Description = rawdata[8] --
-        QO.SpecialFlags = rawdata[DB_SPECIAL_FLAGS]
-        if QO.SpecialFlags then
-            QO.Repeatable = mod(QO.SpecialFlags, 2) == 1
-        end
 
-        -- Do localization
-        local localizedQuest = LangQuestLookup[QuestID]
-        if localizedQuest ~=nil then
-            QO.Name = localizedQuest[1] or QO.Name
-            QO.Description = localizedQuest[3] or QO.Description
-        end
-
-        --QO.Ends["NPC"] = rawdata[3][1]
-        --QO.Ends["GameObject"] = rawdata[3][2]
-
-        --[4495] = {"A Good Friend",{{8583,},nil,nil,},{{8584,},nil,}
-        --QO.Finisher = {};
-        -- reorganize to match wow api
-        if rawdata[3][1] ~= nil then
-            for k,v in pairs(rawdata[3][1]) do
-                --if _v ~= nil then
-                --for k,v in pairs(_v) do
-                if v ~= nil then
-                    local obj = {};
-                    obj.Type = "monster"
-                    obj.Id = v
-
-                    -- this speeds up lookup
-                    obj.Name = QuestieDB.npcData[v]
-                    if obj.Name ~= nil then
-                        local name = LangNameLookup[v] or obj.Name[1]
-                        obj.Name = string.lower(name);
-                    end
-
-                    QO.Finisher = obj; -- there is only 1 finisher --table.insert(QO.Finisher, obj);
-                end
-                --end
-                --end
-            end
-        end
-        if rawdata[3][2] ~= nil then
-            for k,v in pairs(rawdata[3][2]) do
-                --if _v ~= nil then
-                --for k,v in pairs(_v) do
-                if v ~= nil then
-                    local obj = {};
-                    obj.Type = "object"
-                    obj.Id = v
-
-                    -- this speeds up lookup
-                    obj.Name = QuestieDB.objectData[v]
-                    if obj.Name ~= nil then
-                        obj.Name = string.lower(obj.Name[1]);
-                    end
-
-                    QO.Finisher = obj; -- there is only 1 finisher
-                end
-                --end
-                --end
-            end
-        end
-
-        QO.Level = rawdata[5]
-        QO.Triggers = rawdata[9] --List of coordinates
-        QO.ObjectiveData = {} -- to differentiate from the current quest log info
-        --    type
-        --String - could be the following things: "item", "object", "monster", "reputation", "log", or "event". (from wow api)
-
-        if QO.Triggers ~= nil then
-            for k, v in pairs(QO.Triggers) do
-                local obj = {};
-                obj.Type = "event"
-                obj.Coordinates = v
-                table.insert(QO.ObjectiveData, obj);
-            end
-        end
-        if rawdata[10] ~= nil then
-            if rawdata[10][1] ~= nil then
-                for _k,_v in pairs(rawdata[10][1]) do
-                    if _v ~= nil then
-
-                        local obj = {};
-                        obj.Type = "monster"
-                        obj.Id = _v[1]
-                        obj.Text = _v[2];
-
-                        table.insert(QO.ObjectiveData, obj);
-
-                    end
-                end
-            end
-            if rawdata[10][2] ~= nil then
-                for _k,_v in pairs(rawdata[10][2]) do
-                    if _v ~= nil then
-
-                        local obj = {};
-                        obj.Type = "object"
-                        obj.Id = _v[1]
-                        obj.Text = _v[2]
-
-                        table.insert(QO.ObjectiveData, obj);
-
-                    end
-                end
-            end
-            if rawdata[10][3] ~= nil then
-                for _k,_v in pairs(rawdata[10][3]) do
-                    if _v ~= nil then
-                        local obj = {};
-                        obj.Type = "item"
-                        obj.Id = _v[1]
-                        obj.Text = _v[2]
-
-                        table.insert(QO.ObjectiveData, obj);
-                    end
-                end
-            end
-        end
-        --QO.Objectives["NPC"] = rawdata[10][1] --{NPCID, Different name of NPC or object}
-        --QO.Objectives["GameObject"] = rawdata[10][2] --{GOID, Different name of NPC or object}
-        --QO.Objectives["Item"] = rawdata[10][3]
-        --QO.SrcItemId = rawdata[11] --A quest item given by a questgiver of some kind.
-
-        if(rawdata[12] ~= nil and next(rawdata[12]) ~= nil and rawdata[13] ~= nil and next(rawdata[13]) ~= nil) then
-            Questie:Debug(DEBUG_CRITICAL, "ERRRRORRRRRRR not mutually exclusive for questID:", QuestID)
-        end
-        if(rawdata[12] ~= nil) then
-            QO.RequiredQuestGroup = rawdata[12]
-        else
-            QO.RequiredQuestSingle = rawdata[13]
-        end
-        QO.QuestGroup = rawdata[15] --Quests that are part of the same group, example complete this group of quests to open the next one.
-        QO.ExclusiveQuestGroup = rawdata[16]
-        QO.NextQuestInChain = rawdata[22]
-
-        QO.HiddenObjectiveData = {}
-
-        local hidden = rawdata[21]
-
-        if hidden ~= nil then --required source items
-            for _,Id in pairs(hidden) do
-                if Id ~= nil then
-
-                    local obj = {};
-                    obj.Type = "item"
-                    obj.Id = Id
-
-                    obj.Name = CHANGEME_Questie4_ItemDB[obj.Id]
-                    if obj.Name ~= nil then
-                        local name = LangItemLookup[obj.Id] or obj.Name[1]
-                        obj.Name = string.lower(name);
-                    end
-
-                    table.insert(QO.HiddenObjectiveData, obj);
-                end
-            end
-        end
-
-        local zos = rawdata[17]
-        if zos and zos ~= 0 then
-            if zos > 0 then
-                QO.Zone = zos
-            else
-                QO.Sort = -zos
-            end
-        end
-
-        --- function
-        function QO:IsTrivial()
-            local levelDiff = self.Level - QuestiePlayer:GetPlayerLevel();
-            if (levelDiff >= 5) then
-                return false -- Red
-            elseif (levelDiff >= 3) then
-                return false -- Orange
-            elseif (levelDiff >= -2) then
-                return false -- Yellow
-            elseif (-levelDiff <= GetQuestGreenRange()) then
-                return false -- Green
-            else
-                return true -- Grey
-            end
-        end
-
-        QuestieDB._QuestCache[QuestID] = QO
-        return QO
-    else
-        Questie:Debug(DEBUG_CRITICAL, "[QuestieDB:GetQuest] rawdata is nil for questID:", QuestID)
+    local rawdata = QuestieDB.questData[questID];
+    if not rawdata then
+        Questie:Debug(DEBUG_CRITICAL, "[QuestieDB:GetQuest] rawdata is nil for questID:", questID)
         return nil
     end
+
+    local QO = {}
+    QO.GetColoredQuestName = _GetColoredQuestName
+    QO.Id = questID --Key
+    for stringKey, intKey in pairs(QuestieDB.questKeys) do
+        QO[stringKey] = rawdata[intKey]
+    end
+    QO.Name = rawdata[1] --Name - 1
+    QO.Starts = {} --Starts - 2
+    QO.Starts["NPC"] = rawdata[2][1] --2.1
+    QO.Starts["GameObject"] = rawdata[2][2] --2.2
+    QO.Starts["Item"] = rawdata[2][3] --2.3
+    QO.Ends = {} --ends 3
+    QO.Hidden = rawdata.hidden or QuestieCorrections.hiddenQuests[questID]
+    QO.Description = rawdata[8] --
+    QO.SpecialFlags = rawdata[DB_SPECIAL_FLAGS]
+    if QO.SpecialFlags then
+        QO.Repeatable = mod(QO.SpecialFlags, 2) == 1
+    end
+
+    -- Do localization
+    local localizedQuest = LangQuestLookup[questID]
+    if localizedQuest ~=nil then
+        QO.Name = localizedQuest[1] or QO.Name
+        QO.Description = localizedQuest[3] or QO.Description
+    end
+
+    -- reorganize to match wow api
+    if rawdata[3][1] ~= nil then
+        for k,v in pairs(rawdata[3][1]) do
+            --if _v ~= nil then
+            --for k,v in pairs(_v) do
+            if v ~= nil then
+                local obj = {};
+                obj.Type = "monster"
+                obj.Id = v
+
+                -- this speeds up lookup
+                obj.Name = QuestieDB.npcData[v]
+                if obj.Name ~= nil then
+                    local name = LangNameLookup[v] or obj.Name[1]
+                    obj.Name = string.lower(name);
+                end
+
+                QO.Finisher = obj; -- there is only 1 finisher --table.insert(QO.Finisher, obj);
+            end
+            --end
+            --end
+        end
+    end
+    if rawdata[3][2] ~= nil then
+        for k,v in pairs(rawdata[3][2]) do
+            --if _v ~= nil then
+            --for k,v in pairs(_v) do
+            if v ~= nil then
+                local obj = {};
+                obj.Type = "object"
+                obj.Id = v
+
+                -- this speeds up lookup
+                obj.Name = QuestieDB.objectData[v]
+                if obj.Name ~= nil then
+                    obj.Name = string.lower(obj.Name[1]);
+                end
+
+                QO.Finisher = obj; -- there is only 1 finisher
+            end
+            --end
+            --end
+        end
+    end
+
+    QO.Level = rawdata[5]
+    QO.Triggers = rawdata[9] --List of coordinates
+    QO.ObjectiveData = {} -- to differentiate from the current quest log info
+    --    type
+    --String - could be the following things: "item", "object", "monster", "reputation", "log", or "event". (from wow api)
+
+    if QO.Triggers ~= nil then
+        for k, v in pairs(QO.Triggers) do
+            local obj = {};
+            obj.Type = "event"
+            obj.Coordinates = v
+            table.insert(QO.ObjectiveData, obj);
+        end
+    end
+    if rawdata[10] ~= nil then
+        if rawdata[10][1] ~= nil then
+            for _k,_v in pairs(rawdata[10][1]) do
+                if _v ~= nil then
+
+                    local obj = {};
+                    obj.Type = "monster"
+                    obj.Id = _v[1]
+                    obj.Text = _v[2];
+
+                    table.insert(QO.ObjectiveData, obj);
+
+                end
+            end
+        end
+        if rawdata[10][2] ~= nil then
+            for _k,_v in pairs(rawdata[10][2]) do
+                if _v ~= nil then
+
+                    local obj = {};
+                    obj.Type = "object"
+                    obj.Id = _v[1]
+                    obj.Text = _v[2]
+
+                    table.insert(QO.ObjectiveData, obj);
+
+                end
+            end
+        end
+        if rawdata[10][3] ~= nil then
+            for _k,_v in pairs(rawdata[10][3]) do
+                if _v ~= nil then
+                    local obj = {};
+                    obj.Type = "item"
+                    obj.Id = _v[1]
+                    obj.Text = _v[2]
+
+                    table.insert(QO.ObjectiveData, obj);
+                end
+            end
+        end
+    end
+
+    if(rawdata[12] ~= nil and next(rawdata[12]) ~= nil and rawdata[13] ~= nil and next(rawdata[13]) ~= nil) then
+        Questie:Debug(DEBUG_CRITICAL, "ERRRRORRRRRRR not mutually exclusive for questID:", questID)
+    end
+    if(rawdata[12] ~= nil) then
+        QO.RequiredQuestGroup = rawdata[12]
+    else
+        QO.RequiredQuestSingle = rawdata[13]
+    end
+    QO.QuestGroup = rawdata[15] --Quests that are part of the same group, example complete this group of quests to open the next one.
+    QO.ExclusiveQuestGroup = rawdata[16]
+    QO.NextQuestInChain = rawdata[22]
+
+    QO.HiddenObjectiveData = {}
+
+    local hidden = rawdata[21]
+
+    if hidden ~= nil then --required source items
+        for _,Id in pairs(hidden) do
+            if Id ~= nil then
+
+                local obj = {};
+                obj.Type = "item"
+                obj.Id = Id
+
+                obj.Name = CHANGEME_Questie4_ItemDB[obj.Id]
+                if obj.Name ~= nil then
+                    local name = LangItemLookup[obj.Id] or obj.Name[1]
+                    obj.Name = string.lower(name);
+                end
+
+                table.insert(QO.HiddenObjectiveData, obj);
+            end
+        end
+    end
+
+    local zos = rawdata[17]
+    if zos and zos ~= 0 then
+        if zos > 0 then
+            QO.Zone = zos
+        else
+            QO.Sort = -zos
+        end
+    end
+
+    --- function
+    function QO:IsTrivial()
+        local levelDiff = self.Level - QuestiePlayer:GetPlayerLevel();
+        if (levelDiff >= 5) then
+            return false -- Red
+        elseif (levelDiff >= 3) then
+            return false -- Orange
+        elseif (levelDiff >= -2) then
+            return false -- Yellow
+        elseif (-levelDiff <= GetQuestGreenRange()) then
+            return false -- Green
+        else
+            return true -- Grey
+        end
+    end
+
+    QuestieDB._QuestCache[questID] = QO
+    return QO
 end
 
 QuestieDB.FactionGroup = UnitFactionGroup("player")

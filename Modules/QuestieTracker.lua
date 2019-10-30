@@ -252,34 +252,36 @@ end
 
 local function _UnFocus() -- reset HideIcons to match savedvariable state
     if not Questie.db.char.TrackerFocus then return; end
-    for quest in pairs (QuestiePlayer.currentQuestlog) do
-        local Quest = QuestieDB:GetQuest(quest)
-        Quest.FadeIcons = nil
-        if Quest.Objectives then
-            if Questie.db.char.TrackerHiddenQuests[Quest.Id] then
-                Quest.HideIcons = true
-                Quest.FadeIcons = nil
-            else
-                Quest.HideIcons = nil
-                Quest.FadeIcons = nil
-            end
-            for _,Objective in pairs(Quest.Objectives) do
-                if Questie.db.char.TrackerHiddenObjectives[tostring(quest) .. " " .. tostring(Objective.Index)] then
-                    Objective.HideIcons = true
-                    Objective.FadeIcons = nil
+    for questId in pairs (QuestiePlayer.currentQuestlog) do
+        local quest = QuestieDB:GetQuest(questId)
+        if quest then
+            quest.FadeIcons = nil
+            if quest.Objectives then
+                if Questie.db.char.TrackerHiddenQuests[quest.Id] then
+                    quest.HideIcons = true
+                    quest.FadeIcons = nil
                 else
-                    Objective.HideIcons = nil
-                    Objective.FadeIcons = nil
+                    quest.HideIcons = nil
+                    quest.FadeIcons = nil
                 end
-            end
-            if Quest.SpecialObjectives then
-                for _,Objective in pairs(Quest.SpecialObjectives) do
-                    if Questie.db.char.TrackerHiddenObjectives[tostring(quest) .. " " .. tostring(Objective.Index)] then
+                for _,Objective in pairs(quest.Objectives) do
+                    if Questie.db.char.TrackerHiddenObjectives[tostring(questId) .. " " .. tostring(Objective.Index)] then
                         Objective.HideIcons = true
                         Objective.FadeIcons = nil
                     else
                         Objective.HideIcons = nil
                         Objective.FadeIcons = nil
+                    end
+                end
+                if quest.SpecialObjectives then
+                    for _,Objective in pairs(quest.SpecialObjectives) do
+                        if Questie.db.char.TrackerHiddenObjectives[tostring(questId) .. " " .. tostring(Objective.Index)] then
+                            Objective.HideIcons = true
+                            Objective.FadeIcons = nil
+                        else
+                            Objective.HideIcons = nil
+                            Objective.FadeIcons = nil
+                        end
                     end
                 end
             end
@@ -293,13 +295,13 @@ local function _FocusObjective(TargetQuest, TargetObjective, isSpecial)
         _UnFocus()
     end
     Questie.db.char.TrackerFocus = tostring(TargetQuest.Id) .. " " .. tostring(TargetObjective.Index)
-    for quest in pairs (QuestiePlayer.currentQuestlog) do
-        local Quest = QuestieDB:GetQuest(quest)
-        if Quest.Objectives then
-            if quest == TargetQuest.Id then
-                Quest.HideIcons = nil
-                Quest.FadeIcons = nil
-                for _,Objective in pairs(Quest.Objectives) do
+    for questId in pairs (QuestiePlayer.currentQuestlog) do
+        local quest = QuestieDB:GetQuest(questId)
+        if quest and quest.Objectives then
+            if questId == TargetQuest.Id then
+                quest.HideIcons = nil
+                quest.FadeIcons = nil
+                for _,Objective in pairs(quest.Objectives) do
                     if Objective.Index == TargetObjective.Index then
                         Objective.HideIcons = nil
                         Objective.FadeIcons = nil
@@ -307,8 +309,8 @@ local function _FocusObjective(TargetQuest, TargetObjective, isSpecial)
                         Objective.FadeIcons = true
                     end
                 end
-                if Quest.SpecialObjectives then
-                    for _,Objective in pairs(Quest.SpecialObjectives) do
+                if quest.SpecialObjectives then
+                    for _,Objective in pairs(quest.SpecialObjectives) do
                         if Objective.Index == TargetObjective.Index then
                             Objective.HideIcons = nil
                             Objective.FadeIcons = nil
@@ -318,7 +320,7 @@ local function _FocusObjective(TargetQuest, TargetObjective, isSpecial)
                     end
                 end
             else
-                Quest.FadeIcons = true
+                quest.FadeIcons = true
             end
         end
     end
@@ -329,15 +331,17 @@ local function _FocusQuest(TargetQuest)
         _UnFocus()
     end
     Questie.db.char.TrackerFocus = TargetQuest.Id
-    for quest in pairs (QuestiePlayer.currentQuestlog) do
-        local Quest = QuestieDB:GetQuest(quest)
-        if quest == TargetQuest.Id then
-            Quest.HideIcons = nil
-            Quest.FadeIcons = nil
-        else
-            -- if hideOnFocus
-            --Quest.HideIcons = true
-            Quest.FadeIcons = true
+    for questId in pairs (QuestiePlayer.currentQuestlog) do
+        local quest = QuestieDB:GetQuest(questId)
+        if quest then
+            if questId == TargetQuest.Id then
+                quest.HideIcons = nil
+                quest.FadeIcons = nil
+            else
+                -- if hideOnFocus
+                --Quest.HideIcons = true
+                quest.FadeIcons = true
+            end
         end
     end
 end
@@ -1031,72 +1035,80 @@ function QuestieTracker:Update()
 
     local order = {}
     local questCompletePercent = {}
-    for quest in pairs (QuestiePlayer.currentQuestlog) do
-        local Quest = QuestieDB:GetQuest(quest)
-        if QuestieQuest:IsComplete(Quest) or not Quest.Objectives then
-            questCompletePercent[Quest.Id] = 1
-        else
-            local percent = 0
-            local count = 0;
-            for _,Objective in pairs(Quest.Objectives) do
-                percent = percent + (Objective.Collected / Objective.Needed)
-                count = count + 1
+    for questId in pairs (QuestiePlayer.currentQuestlog) do
+        local quest = QuestieDB:GetQuest(questId)
+        if quest then
+            if QuestieQuest:IsComplete(quest) or not quest.Objectives then
+                questCompletePercent[quest.Id] = 1
+            else
+                local percent = 0
+                local count = 0;
+                for _,Objective in pairs(quest.Objectives) do
+                    percent = percent + (Objective.Collected / Objective.Needed)
+                    count = count + 1
+                end
+                percent = percent / count
+                questCompletePercent[quest.Id] = percent
             end
-            percent = percent / count
-            questCompletePercent[Quest.Id] = percent
+            table.insert(order, questId)
         end
-        table.insert(order, quest)
     end
     if Questie.db.global.trackerSortObjectives == "byComplete" then
         table.sort(order, function(a, b)
             local vA, vB = questCompletePercent[a], questCompletePercent[b]
             if vA == vB then
-                return QuestieDB:GetQuest(a).Level < QuestieDB:GetQuest(b).Level
+                local qA = QuestieDB:GetQuest(a)
+                local qB = QuestieDB:GetQuest(b)
+                return qA and qB and qA.Level < qB.Level
             end
             return vB < vA
         end)
     elseif Questie.db.global.trackerSortObjectives == "byLevel" then
         table.sort(order, function(a, b)
-            return QuestieDB:GetQuest(a).Level < QuestieDB:GetQuest(b).Level
+            local qA = QuestieDB:GetQuest(a)
+            local qB = QuestieDB:GetQuest(b)
+            return qA and qB and qA.Level < qB.Level
         end)
     elseif Questie.db.global.trackerSortObjectives == "byLevelReversed" then
         table.sort(order, function(a, b)
-            return QuestieDB:GetQuest(a).Level > QuestieDB:GetQuest(b).Level
+            local qA = QuestieDB:GetQuest(a)
+            local qB = QuestieDB:GetQuest(b)
+            return qA and qB and qA.Level > qB.Level
         end)
     end
     local hasQuest = false
-    for _,quest in pairs (order) do
+    for _, questId in pairs (order) do
         -- if quest.userData.tracked
-        local Quest = QuestieDB:GetQuest(quest)
+        local quest = QuestieDB:GetQuest(questId)
         -- make sure objective data is up to date
-        if Quest.Objectives then
-            for _,Objective in pairs(Quest.Objectives) do
+        if quest and quest.Objectives then
+            for _,Objective in pairs(quest.Objectives) do
                 if Objective.Update then Objective:Update() end
             end
         end
 
 
-        local complete = QuestieQuest:IsComplete(Quest)
-        if ((not complete) or Questie.db.global.trackerShowCompleteQuests) and ((GetCVar("autoQuestWatch") == "1" and not Questie.db.char.AutoUntrackedQuests[quest]) or (GetCVar("autoQuestWatch") == "0" and Questie.db.char.TrackedQuests[quest]))  then -- maybe have an option to display quests in the list with (Complete!) in the title
+        local complete = QuestieQuest:IsComplete(quest)
+        if ((not complete) or Questie.db.global.trackerShowCompleteQuests) and ((GetCVar("autoQuestWatch") == "1" and not Questie.db.char.AutoUntrackedQuests[questId]) or (GetCVar("autoQuestWatch") == "0" and Questie.db.char.TrackedQuests[questId]))  then -- maybe have an option to display quests in the list with (Complete!) in the title
             hasQuest = true
             line = _QuestieTracker:GetNextLine()
             line:SetMode("header")
-            line:SetQuest(Quest)
+            line:SetQuest(quest)
             line:SetObjective(nil)
 
-            local questName = (Quest.LocalizedName or Quest.Name)
-            local coloredQuestName = QuestieLib:GetColoredQuestName(Quest.Id, questName, Quest.Level, Questie.db.global.trackerShowQuestLevel, complete)
+            local questName = (quest.LocalizedName or quest.Name)
+            local coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, questName, quest.Level, Questie.db.global.trackerShowQuestLevel, complete)
             line.label:SetText(coloredQuestName)
 
             line:Show()
             line.label:Show()
             trackerWidth = math.max(trackerWidth, line.label:GetWidth())
 
-            if Quest.Objectives and not complete then
-                for _,Objective in pairs(Quest.Objectives) do
+            if quest.Objectives and not complete then
+                for _,Objective in pairs(quest.Objectives) do
                     line = _QuestieTracker:GetNextLine()
                     line:SetMode("line")
-                    line:SetQuest(Quest)
+                    line:SetQuest(quest)
                     line:SetObjective(Objective)
                     local lineEnding = "" -- initialize because its not set if Needed is 0
                     if Objective.Needed > 0 then
@@ -1130,34 +1142,34 @@ function QuestieTracker:Update()
 
     if _QuestieTracker.IsFirstRun then
         _QuestieTracker.IsFirstRun = nil
-        for quest in pairs (QuestiePlayer.currentQuestlog) do
-            local Quest = QuestieDB:GetQuest(quest)
-            if Quest then
-                if Questie.db.char.TrackerHiddenQuests[quest] then
-                    Quest.HideIcons = true
+        for questId in pairs (QuestiePlayer.currentQuestlog) do
+            local quest = QuestieDB:GetQuest(questId)
+            if quest then
+                if Questie.db.char.TrackerHiddenQuests[questId] then
+                    quest.HideIcons = true
                 end
                 if Questie.db.char.TrackerFocus then
-                    if Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "number" and Questie.db.char.TrackerFocus == Quest.Id then -- quest focus
-                        _FocusQuest(Quest)
+                    if Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "number" and Questie.db.char.TrackerFocus == quest.Id then -- quest focus
+                        _FocusQuest(quest)
                     end
                 end
-                if Quest.Objectives then
-                    for _,Objective in pairs(Quest.Objectives) do
-                        if Questie.db.char.TrackerHiddenObjectives[tostring(quest) .. " " .. tostring(Objective.Index)] then
+                if quest.Objectives then
+                    for _,Objective in pairs(quest.Objectives) do
+                        if Questie.db.char.TrackerHiddenObjectives[tostring(questId) .. " " .. tostring(Objective.Index)] then
                             Objective.HideIcons = true
                         end
-                        if  Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus == tostring(Quest.Id) .. " " .. tostring(Objective.Index) then
-                            _FocusObjective(Quest, Objective)
+                        if  Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus == tostring(quest.Id) .. " " .. tostring(Objective.Index) then
+                            _FocusObjective(quest, Objective)
                         end
                     end
                 end
-                if Quest.SpecialObjectives then
-                    for _,Objective in pairs(Quest.SpecialObjectives) do
-                        if Questie.db.char.TrackerHiddenObjectives[tostring(quest) .. " " .. tostring(Objective.Index)] then
+                if quest.SpecialObjectives then
+                    for _,Objective in pairs(quest.SpecialObjectives) do
+                        if Questie.db.char.TrackerHiddenObjectives[tostring(questId) .. " " .. tostring(Objective.Index)] then
                             Objective.HideIcons = true
                         end
-                        if  Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus == tostring(Quest.Id) .. " " .. tostring(Objective.Index) then
-                            _FocusObjective(Quest, Objective)
+                        if  Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus == tostring(quest.Id) .. " " .. tostring(Objective.Index) then
+                            _FocusObjective(quest, Objective)
                         end
                     end
                 end
