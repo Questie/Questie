@@ -2649,6 +2649,7 @@
         "GetQuestLogRewardXP",
         "DBM",
         "DBMHudMap",
+        "hudDuration",//This is some DBM stuff, dunno what
         "TomTom",
         "LQuestie_EasyMenu",
         "LibStub",
@@ -2660,6 +2661,9 @@
         "zoneDataAreaIDToUiMapID",
         "zoneDataUiMapIDToAreaID",
         "Questie_Toggle",
+        "Questie_SpecialNPCs",
+        "TEMP_Questie2Events",
+        "LQuestie_Create_UIDropDownMenu"
     ],
     "Lua.workspace.ignoreDir": [
         "Libs/**",
