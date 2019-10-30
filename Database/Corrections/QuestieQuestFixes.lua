@@ -84,6 +84,9 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.parentQuest] = 4784, -- #1367
             [QuestieDB.questKeys.specialFlags] = 1, -- #1367
         },
+        [4811] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Locate the large, red crystal on Darkshore's eastern mountain range",{[148]={{47.24,48.68},},},}, -- #1373
+        },
         [5063] = {
             [QuestieDB.questKeys.specialFlags] = 1, -- #1335
         },
