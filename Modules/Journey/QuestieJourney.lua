@@ -20,7 +20,7 @@ local AceGUI = LibStub("AceGUI-3.0");
 
 local journeyFrame = {};
 local isWindowShown = false;
-local lastOpenWindow = "journey";
+QuestieJourney.lastOpenWindow = "journey";
 local containerCache = nil;
 
 function JumpToQuest(button)
@@ -1049,13 +1049,13 @@ function JourneySelectTabGroup(container, event, group)
 
     if group == "journey" then
         DrawJourneyTab(container);
-        lastOpenWindow = "journey";
+        QuestieJourney.lastOpenWindow = "journey";
     elseif group == "zone" then
         DrawZoneQuestTab(container);
-        lastOpenWindow = "zone";
+        QuestieJourney.lastOpenWindow = "zone";
     elseif group == "search" then
         QuestieSearchResults:DrawSearchTab(container);
-        lastOpenWindow = "search";
+        QuestieJourney.lastOpenWindow = "search";
     end
 end
 
@@ -1109,7 +1109,7 @@ function QuestieJourney:ToggleJourneyWindow()
     if not isWindowShown then
         PlaySound(882);
 
-        JourneySelectTabGroup(containerCache, nil, lastOpenWindow);
+        JourneySelectTabGroup(containerCache, nil, QuestieJourney.lastOpenWindow);
 
         journeyFrame.frame:Show();
         isWindowShown = true;

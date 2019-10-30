@@ -540,7 +540,7 @@ function QuestieSearchResults:JumpToQuest(button)
     if not QuestieJourney:IsShown() then
         QuestieJourney:ToggleJourneyWindow()
     end
-    if not (lastOpenWindow == 'search') then
+    if not (QuestieJourney.lastOpenWindow == 'search') then
         QuestieJourney.tabGroup:SelectTab('search');
     end
 
