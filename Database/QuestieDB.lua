@@ -1,5 +1,5 @@
 ---@class QuestieDB
-local QuestieDB = QuestieLoader:AddModule("QuestieDB");
+local QuestieDB = QuestieLoader:CreateModule("QuestieDB");
 -------------------------
 --Import modules.
 -------------------------
