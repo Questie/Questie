@@ -218,6 +218,7 @@ QuestieLocale.locale['deDE'] = {
     ['JOURNEY_AVAILABLE_TITLE'] = "Verfügbare Quests",
     ['JOURNEY_COMPLETE_TITLE'] = "Abgeschlossene Quests",
     ['JOURNEY_REPEATABLE_TITLE'] = "Wiederholbare Quests",
+    ['JOURNEY_UNAVAILABLE_TITLE'] = "Nicht abschließbare Quests",
     ['JOURNEY_SELECT_HEAD'] = "Wähle deinen Kontinent und deine Zone",
     ['JOURNEY_SELECT_CONT'] = "Wähle deinen Kontinent",
     ['JOURNEY_SELECT_ZONE'] = "Wähle deine Zone",

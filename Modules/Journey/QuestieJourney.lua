@@ -911,14 +911,18 @@ local function DrawZoneQuestTab(container)
         local sortedZones = QuestieJourneyUtils:GetSortedZoneKeys(QuestieJourney.zones[currentContinentId])
         zDropdown:SetList(QuestieJourney.zones[currentContinentId], sortedZones);
         zDropdown:SetValue(currentZoneId)
-        CollectZoneQuests(treegroup, currentZoneId)
+        local zoneTree = CollectZoneQuests(currentZoneId)
+        -- Build Tree
+        ManageZoneTree(treegroup, zoneTree);
     else
         zDropdown:SetDisabled(true);
     end
 
     zDropdown:SetCallback("OnValueChanged", function(key, checked)
         -- Create Tree View
-        CollectZoneQuests(treegroup, key.value);
+        local zoneTree = CollectZoneQuests(key.value);
+        -- Build Tree
+        ManageZoneTree(treegroup, zoneTree);
     end);
     container:AddChild(zDropdown);
 
@@ -937,10 +941,13 @@ local function DrawZoneQuestTab(container)
     container:AddChild(treegroup);
 end
 
--- populate the available and complteded quests for the given zone
-function CollectZoneQuests(container, zoneid)
-    local quests = QuestieDB:GetQuestsByZoneId(zoneid);
-    local temp = {};
+-- Get all the available/completed/repeatable/unavailable quests
+
+---@param zoneId integer @The zone ID (Check `zoneDataClassic`)
+---@return table<integer,any> @The zoneTree table which represents the list of all the different quests
+function CollectZoneQuests(zoneId)
+    local quests = QuestieDB:GetQuestsByZoneId(zoneId)
+    local temp = {}
 
     local zoneTree = {
         [1] = {
@@ -957,45 +964,55 @@ function CollectZoneQuests(container, zoneid)
             value = "r",
             text = QuestieLocale:GetUIString('JOURNEY_REPEATABLE_TITLE'),
             children = {},
+        },
+        [4] = {
+            value = "u",
+            text = QuestieLocale:GetUIString('JOURNEY_UNAVAILABLE_TITLE'),
+            children = {},
         }
-    };
+    }
 
     local sortedQuestByLevel = QuestieLib:SortQuestsByLevel(quests)
 
-    -- populate available non complete quests
-    local availableCounter = 0;
+    local availableCounter = 0
+    local completedCounter = 0
+    local unavilableCounter = 0
     local repeatableCounter = 0
+
     for _, levelAndQuest in pairs(sortedQuestByLevel) do
         local quest = levelAndQuest[2]
         local qId = quest.Id
 
-        if not Questie.db.char.complete[qId] and not quest.Hidden then
+        -- Only show quests which are not hidden
+        if not quest.Hidden and QuestieCorrections.hiddenQuests and not QuestieCorrections.hiddenQuests[qId] then
+            temp.value = qId
+            temp.text = quests[qId]:GetColoredQuestName()
 
-            -- see if it's supposed to be a hidden quest
-            if QuestieCorrections.hiddenQuests and not QuestieCorrections.hiddenQuests[qId] then
-                temp.value = qId;
-                temp.text = quest:GetColoredQuestName();
+            -- Completed quests
+            if Questie.db.char.complete[qId] then
+                table.insert(zoneTree[2].children, temp)
+                completedCounter = completedCounter + 1
+            else
+                -- Unavailable quests
+                if quest.exclusiveTo then
+                    for _, exId in pairs(quest.exclusiveTo) do
+                        if Questie.db.char.complete[exId] and zoneTree[4].children[qId] == nil then
+                            table.insert(zoneTree[4].children, temp)
+                            unavilableCounter = unavilableCounter + 1
+                        end
+                    end
+                end
+                -- Repeatable quests
                 if quest.specialFlags == 1 then
-                    table.insert(zoneTree[3].children, temp);
+                    table.insert(zoneTree[3].children, temp)
                     repeatableCounter = repeatableCounter + 1
+                -- Available quests
                 else
-                    table.insert(zoneTree[1].children, temp);
+                    table.insert(zoneTree[1].children, temp)
                     availableCounter = availableCounter + 1;
                 end
-                temp = {}; -- Weird Lua bug requires this to be reset?
             end
-        end
-    end
-
-    -- populate complete quests
-    local completedCounter = 0;
-    for qid, _ in pairs(Questie.db.char.complete) do
-        if quests[qid] then
-            temp.value = qid;
-            temp.text = quests[qid]:GetColoredQuestName();
-            table.insert(zoneTree[2].children, temp);
-            temp = {}; -- Weird Lua bug requires this to be reset?
-            completedCounter = completedCounter + 1;
+            temp = {}
         end
     end
 
@@ -1003,9 +1020,9 @@ function CollectZoneQuests(container, zoneid)
     zoneTree[1].text = zoneTree[1].text .. ' [ '..  availableCounter ..'/'.. totalCounter ..' ]';
     zoneTree[2].text = zoneTree[2].text .. ' [ '..  completedCounter ..'/'.. totalCounter ..' ]';
     zoneTree[3].text = zoneTree[3].text .. ' [ '..  repeatableCounter ..' ]';
+    zoneTree[4].text = zoneTree[4].text .. ' [ '..  unavilableCounter ..' ]';
 
-    -- Build Tree
-    ManageZoneTree(container, zoneTree);
+    return zoneTree
 end
 
 function JourneySelectTabGroup(container, event, group)
