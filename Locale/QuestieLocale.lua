@@ -8,6 +8,12 @@ LangQuestLookup = {};
 LangContinentLookup = {}
 LangZoneLookup = {}
 
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
+
 local locale = 'enUS';
 
 -- Initialize lookup tables for localization

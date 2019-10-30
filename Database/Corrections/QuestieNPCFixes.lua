@@ -1,4 +1,9 @@
 QuestieNPCFixes = {...}
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 
 function QuestieNPCFixes:Load()
     return {

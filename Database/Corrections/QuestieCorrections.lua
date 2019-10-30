@@ -1,4 +1,9 @@
 QuestieCorrections = {...}
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 
 --[[
     This file load the corrections of the database files.

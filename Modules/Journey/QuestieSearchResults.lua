@@ -11,6 +11,8 @@ local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney");
 local QuestieSearch = QuestieLoader:ImportModule("QuestieSearch");
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 
 local AceGUI = LibStub("AceGUI-3.0");
 

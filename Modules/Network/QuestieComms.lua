@@ -15,6 +15,8 @@ local QuestieSerializer = QuestieLoader:ImportModule("QuestieSerializer");
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 
 local _QuestieComms = {...};
 -- Addon message prefix

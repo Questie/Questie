@@ -7,6 +7,8 @@ local QuestieSerializer = QuestieLoader:CreateModule("QuestieSerializer");
 local QuestieStreamLib = QuestieLoader:ImportModule("QuestieStreamLib");
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 
 
 function QuestieSerializer:Hash(value)

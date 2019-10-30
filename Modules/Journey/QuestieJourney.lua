@@ -10,6 +10,8 @@ local QuestieSearchResults = QuestieLoader:ImportModule("QuestieSearchResults");
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 
 QuestieJourney.continents = {}
 QuestieJourney.zones = {}

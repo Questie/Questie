@@ -1,5 +1,10 @@
 ---@class QuestieSearch
 local QuestieSearch = QuestieLoader:CreateModule("QuestieSearch");
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 
 QuestieSearch.types = {"npc", "object", "item", "quest"}
 

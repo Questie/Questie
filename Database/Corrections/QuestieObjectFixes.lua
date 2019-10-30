@@ -1,4 +1,9 @@
 QuestieObjectFixes = {...}
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 
 function QuestieObjectFixes:Load()
     return {

@@ -25,6 +25,8 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 
 __UPDATEFIX_IDX = 1; -- temporary bad fix
 

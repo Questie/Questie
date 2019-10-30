@@ -1,3 +1,8 @@
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 ---@type QuestieComms
 local QuestieComms = QuestieLoader:ImportModule("QuestieComms");
 ---@type QuestieLib
