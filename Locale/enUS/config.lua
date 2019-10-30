@@ -233,6 +233,7 @@ QuestieLocale.locale['enUS'] = {
     ['TRACKER_SHORTCUT'] = " Shortcut",
     ['TRACKER_SET_TOMTOM_DESC'] = "The tracker shortcut to open TomTom",
     ['TRACKER_SHOW_QUESTLOG_DESC'] = "The tracker shortcut to show the quest in the quest log.",
+    ['TRACKER_ACTIVE_QUESTS'] = "Active Quests: ",
 
     -- tracker right click menu
     ['TRACKER_UNFOCUS'] = "Unfocus", -- focus makes only that quest/objective show on map
@@ -256,6 +257,8 @@ QuestieLocale.locale['enUS'] = {
     ['JOURNEY_SEARCH_TAB'] = "Advanced Search",
     ['JOURNEY_AVAILABLE_TITLE'] = "Available Quests",
     ['JOURNEY_COMPLETE_TITLE'] = "Completed Quests",
+    ['JOURNEY_REPEATABLE_TITLE'] = "Repeatable Quests",
+    ['JOURNEY_UNAVAILABLE_TITLE'] = "Uncompletable Quests",
     ['JOURNEY_SELECT_HEAD'] = "Select Your Continent and Zone",
     ['JOURNEY_SELECT_CONT'] = "Select Your Continent",
     ['JOURNEY_SELECT_ZONE'] = "Select Your Zone",
@@ -331,7 +334,7 @@ QuestieLocale.locale['enUS'] = {
     ['DEBUG_UNLOAD_QFRAMES'] = "Unloading quest frames: %s",
     ['DEBUG_UNLOAD_ALL'] = "Unloading all frames, count: %s",
     ['QUESTIE_ACCEPT_NIL'] = "|cFFFF0000Questie ERROR:|r Attempt to accept nil quest! You may need to run /questie reload",
-    ['QUESTIE_UPDATED_RESTART'] = "|cFFFF0000WARNING!|r You have updated questie without restarting the game, this will likely cause problems. Please restart the game before continuing",
+    ['QUESTIE_UPDATED_RESTART'] = "|cFFFF0000WARNING!|r You have updated Questie without restarting the game, this will likely cause problems. Please restart the game before continuing",
 
     -- TODO finally switch all keys to this style for code readability:
     ['Show on Map'] = "Show on Map",

@@ -1,4 +1,31 @@
-QuestieQuest = {...}
+---@class QuestieQuest
+local QuestieQuest = QuestieLoader:CreateModule("QuestieQuest");
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieProfessions
+local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions");
+---@type QuestieReputation
+local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation");
+---@type QuestieTooltips
+local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips");
+---@type QuestieTracker
+local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker");
+---@type QuestieDBMIntegration
+local QuestieDBMIntegration = QuestieLoader:ImportModule("QuestieDBMIntegration");
+---@type QuestieFramePool
+local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool");
+---@type QuestieMap
+local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
+---@type QuestiePlayer
+local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
+---@type QuestieDBZone
+local QuestieDBZone = QuestieLoader:ImportModule("QuestieDBZone")
+
 local _QuestieQuest = {...}
 local libS = LibStub:GetLibrary("AceSerializer-3.0")
 local libC = LibStub:GetLibrary("LibCompress")
@@ -13,9 +40,6 @@ local strim = string.trim;
 local smatch = string.match;
 local strfind = string.find;
 local slower = string.lower;
-
---Change cluter method, "hotzone" or "cell"
-clusterMethod = "hotzone";
 
 QuestieQuest.availableQuests = {} --Gets populated at PLAYER_ENTERED_WORLD
 
@@ -111,16 +135,19 @@ end
 
 
 function QuestieQuest:ClearAllNotes()
-    for quest in pairs (QuestiePlayer.currentQuestlog) do
-        local Quest = QuestieDB:GetQuest(quest)
+    for questId in pairs (QuestiePlayer.currentQuestlog) do
+        local quest = QuestieDB:GetQuest(questId)
+        if not quest then
+            return
+        end
 
         -- Clear user-specifc data from quest object (maybe we should refactor into Quest.session.* so we can do Quest.session = nil to reset easier
-        Quest.AlreadySpawned = nil
-        Quest.Objectives = nil
+        quest.AlreadySpawned = nil
+        quest.Objectives = nil
 
         -- reference is still held elswhere
-        if Quest.SpecialObjectives then for _,s in pairs(Quest.SpecialObjectives) do s.AlreadySpawned = nil end end
-        Quest.SpecialObjectives = nil
+        if quest.SpecialObjectives then for _,s in pairs(quest.SpecialObjectives) do s.AlreadySpawned = nil end end
+        quest.SpecialObjectives = nil
     end
 
     for questId, framelist in pairs(QuestieMap.questIdFrames) do
@@ -132,18 +159,17 @@ function QuestieQuest:ClearAllNotes()
         end
     end
     QuestieMap.questIdFrames = {}
-    QuestieMap.MapCache_ClutterFix = {}
 end
 
 -- this is only needed for reset, normally special objectives don't need to update
-local function _UpdateSpecials(quest)
-    local Quest = QuestieDB:GetQuest(quest)
-    if Quest and Quest.SpecialObjectives then
-        if Quest.SpecialObjectives then
-            for _, objective in pairs(Quest.SpecialObjectives) do
-                local result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, Quest, 0, objective, true);
+local function _UpdateSpecials(questId)
+    local quest = QuestieDB:GetQuest(questId)
+    if quest and quest.SpecialObjectives then
+        if quest.SpecialObjectives then
+            for _, objective in pairs(quest.SpecialObjectives) do
+                local result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, quest, 0, objective, true);
                 if not result then
-                    Questie:Error("[QuestieQuest]: [SpecialObjectives] ".. QuestieLocale:GetUIString('DEBUG_POPULATE_ERR', Quest.Name or "No quest name", Quest.Id or "No quest id", 0 or "No objective", err or "No error"));
+                    Questie:Error("[QuestieQuest]: [SpecialObjectives] ".. QuestieLocale:GetUIString('DEBUG_POPULATE_ERR', quest.Name or "No quest name", quest.Id or "No quest id", 0 or "No objective", err or "No error"));
                 end
             end
         end
@@ -316,35 +342,32 @@ function QuestieQuest:AcceptQuest(questId)
         QuestieMap:UnloadQuestFrames(questId);
         QuestieQuest:AddNewQuestHash(questId)
 
-        Quest = QuestieDB:GetQuest(questId)
-        if(Quest ~= nil) then
+        local quest = QuestieDB:GetQuest(questId)
+        if quest then
             -- we also need to remove exclusivegroup icons (TESTED)
-            if Quest.ExclusiveQuestGroup then
-                for k, questId in pairs(Quest.ExclusiveQuestGroup) do
-                    QuestieMap:UnloadQuestFrames(questId);
+            if quest.ExclusiveQuestGroup then
+                for k, qId in pairs(quest.ExclusiveQuestGroup) do
+                    QuestieMap:UnloadQuestFrames(qId);
                 end
             end
 
-            --Reset the clustering for the map
-            QuestieMap.MapCache_ClutterFix = {};
-            QuestiePlayer.currentQuestlog[questId] = Quest
-            QuestieQuest:PopulateQuestLogInfo(Quest)
-            QuestieQuest:PopulateObjectiveNotes(Quest)
+            QuestiePlayer.currentQuestlog[questId] = quest
+            QuestieQuest:PopulateQuestLogInfo(quest)
+            QuestieQuest:PopulateObjectiveNotes(quest)
         else
             QuestiePlayer.currentQuestlog[questId] = questId
-        end
-
-
-        for availableQuestId, alsoQuestId in pairs(QuestieQuest.availableQuests) do
-            if not _QuestieQuest:IsDoable(QuestieDB:GetQuest(availableQuestId)) then
-                QuestieMap:UnloadQuestFrames(availableQuestId, ICON_TYPE_AVAILABLE);
-            end
         end
 
         --TODO: Insert call to drawing objective logic here!
         --QuestieQuest:TrackQuest(questId);
         QuestieQuest:CalculateAvailableQuests()
         QuestieQuest:DrawAllAvailableQuests()
+
+        for availableQuestId, alsoQuestId in pairs(QuestieQuest.availableQuests) do
+            if not _QuestieQuest:IsDoable(QuestieDB:GetQuest(availableQuestId)) then
+                QuestieMap:UnloadQuestFrames(availableQuestId, ICON_TYPE_AVAILABLE);
+            end
+        end
 
         --For safety, remove all these icons.
         QuestieMap:UnloadQuestFrames(questId, ICON_TYPE_AVAILABLE);
@@ -383,23 +406,25 @@ function QuestieQuest:CompleteQuest(QuestId)
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_COMPLETE_QUEST', QuestId));
 end
 
-function QuestieQuest:AbandonedQuest(QuestId)
-    QuestieTooltips:RemoveQuest(QuestId)
-    if(QuestiePlayer.currentQuestlog[QuestId]) then
-        QuestiePlayer.currentQuestlog[QuestId] = nil
-        QuestieQuest:RemoveQuestHash(QuestId)
+function QuestieQuest:AbandonedQuest(questId)
+    QuestieTooltips:RemoveQuest(questId)
+    if(QuestiePlayer.currentQuestlog[questId]) then
+        QuestiePlayer.currentQuestlog[questId] = nil
+        QuestieQuest:RemoveQuestHash(questId)
 
         --Unload all the quest frames from the map.
-        QuestieMap:UnloadQuestFrames(QuestId);
+        QuestieMap:UnloadQuestFrames(questId);
 
-        local quest = QuestieDB:GetQuest(QuestId);
-        quest.Objectives = nil;
-        quest.AlreadySpawned = nil; -- temporary fix for "special objectives" remove later
+        local quest = QuestieDB:GetQuest(questId);
+        if quest then
+            quest.Objectives = nil;
+            quest.AlreadySpawned = nil; -- temporary fix for "special objectives" remove later
+        end
         --The old data for notes are still there, we don't need to recalulate data.
         --_QuestieQuest:DrawAvailableQuest(quest)
 
         -- yes we do, since abandoning can unlock more than 1 quest, or remove unlocked quests
-        for k,v in pairs(QuestieQuest.availableQuests) do
+        for k, v in pairs(QuestieQuest.availableQuests) do
             if not _QuestieQuest:IsDoable(QuestieDB:GetQuest(k)) then
                 QuestieMap:UnloadQuestFrames(k);
             end
@@ -407,16 +432,16 @@ function QuestieQuest:AbandonedQuest(QuestId)
         QuestieQuest:CalculateAvailableQuests()
         QuestieQuest:DrawAllAvailableQuests()
 
-        QuestieTracker:QuestRemoved(QuestId)
+        QuestieTracker:QuestRemoved(questId)
         QuestieTracker:Update()
 
-        Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ABANDON_QUEST', QuestId));
+        Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ABANDON_QUEST', questId));
     end
 end
 
 function QuestieQuest:UpdateQuest(QuestId)
     local quest = QuestieDB:GetQuest(QuestId);
-    if quest ~= nil and not Questie.db.char.complete[QuestId] then
+    if quest and not Questie.db.char.complete[QuestId] then
         QuestieQuest:PopulateQuestLogInfo(quest)
         QuestieQuest:GetAllQuestObjectives(quest) -- update quest log values in quest object
         QuestieQuest:UpdateObjectiveNotes(quest)
@@ -442,13 +467,13 @@ function QuestieQuest:GetAllQuestIds()
         local title, level, _, isHeader, _, isComplete, _, questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
         if(not isHeader) then
             --Keep the object in the questlog to save searching
-            local Quest = QuestieDB:GetQuest(questId)
-            if(Quest ~= nil) then
-                QuestiePlayer.currentQuestlog[questId] = Quest
-                QuestieQuest:PopulateQuestLogInfo(Quest)
-                QuestieQuest:PopulateObjectiveNotes(Quest)
+            local quest = QuestieDB:GetQuest(questId)
+            if quest then
+                QuestiePlayer.currentQuestlog[questId] = quest
+                QuestieQuest:PopulateQuestLogInfo(quest)
+                QuestieQuest:PopulateObjectiveNotes(quest)
                 if title and strlen(title) > 1 then
-                    Quest.LocalizedName = title
+                    quest.LocalizedName = title
                 end
             else
                 QuestiePlayer.currentQuestlog[questId] = questId
@@ -467,9 +492,9 @@ function QuestieQuest:GetAllQuestIdsNoObjectives()
         local title, level, _, isHeader, _, isComplete, _, questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
         if(not isHeader) then
             --Keep the object in the questlog to save searching
-            local Quest = QuestieDB:GetQuest(questId)
-            if(Quest ~= nil) then
-                QuestiePlayer.currentQuestlog[questId] = Quest
+            local quest = QuestieDB:GetQuest(questId)
+            if quest then
+                QuestiePlayer.currentQuestlog[questId] = quest
             else
                 QuestiePlayer.currentQuestlog[questId] = questId
             end
@@ -690,7 +715,7 @@ ObjectiveSpawnListCallTable = {
                 for i, spawn in pairs(questie2data["locations"]) do
                     local zid = Questie2ZoneTableInverse[spawn[1]];
                     if zid then
-                        zid = zoneDataUiMapIDToAreaID[zid]
+                        zid = QuestieDBZone:GetAreaIdByUIMapID(zid)
                         if zid then
                             if not ret[1].Spawns[zid] then
                                 ret[1].Spawns[zid] = {};
@@ -862,10 +887,6 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                     data.Type = Objective.Type
                     data.ObjectiveTargetId = spawnData.Id
 
-                    if spawnData.Icon ~= ICON_TYPE_OBJECT then -- new clustering / limit code should prevent problems, always show all object notes
-                        data.ClusterId = tostring(spawnData.Id) .. tostring(Quest.Id) .. ObjectiveIndex
-                    end
-
                     Objective.AlreadySpawned[id] = {};
                     Objective.AlreadySpawned[id].data = data;
                     Objective.AlreadySpawned[id].minimapRefs = {};
@@ -914,79 +935,49 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                 spawnedIcons[questId] = 0;
             end
 
-            if(clusterMethod == "hotzone") then
-                --This can be used to make distance ordered list..
-                local orderedList = {}
-                local tkeys = {}
-                -- populate the table that holds the keys
-                for k in pairs(icons) do tinsert(tkeys, k) end
-                -- sort the keys
-                table.sort(tkeys)
-                -- use the keys to retrieve the values in the sorted order
-                for _, distance in ipairs(tkeys) do
-                    if(spawnedIcons[questId] > maxPerType) then
-                        Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]", "Too many icons for quest:", questId)
-                        break;
-                    end
-                    tinsert(orderedList, icons[distance]);
+            --This can be used to make distance ordered list..
+            local iconCount = 0;
+            local orderedList = {}
+            local tkeys = {}
+            -- populate the table that holds the keys
+            for k in pairs(icons) do tinsert(tkeys, k) end
+            -- sort the keys
+            table.sort(tkeys)
+            -- use the keys to retrieve the values in the sorted order
+            for _, distance in ipairs(tkeys) do
+                if(spawnedIcons[questId] > maxPerType) then
+                    Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]", "Too many icons for quest:", questId)
+                    break;
                 end
-                local range = QUESTIE_NOTES_CLUSTERMUL_HACK
-                if orderedList and orderedList[1] and orderedList[1].Icon == ICON_TYPE_OBJECT then -- new clustering / limit code should prevent problems, always show all object notes
-                    range = range * 0.2;  -- Only use 20% of the default range.
-                end
+                iconCount = iconCount + 1;
+                tinsert(orderedList, icons[distance]);
+            end
+            local range = QUESTIE_CLUSTER_DISTANCE
+            if orderedList and orderedList[1] and orderedList[1].Icon == ICON_TYPE_OBJECT then -- new clustering / limit code should prevent problems, always show all object notes
+                range = range * 0.2;  -- Only use 20% of the default range.
+            end
 
-                local hotzones = QuestieMap.utils:CalcHotzones(orderedList, range);
+            local hotzones = QuestieMap.utils:CalcHotzones(orderedList, range, iconCount);
 
-                for index, hotzone in pairs(hotzones or {}) do
-                    if(spawnedIcons[questId] > maxPerType) then
-                        Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]", "Too many icons for quest:", questId)
-                        break;
-                    end
-
-                    --Any icondata will do because they are all the same
-                    local icon = hotzone[1];
-
-
-                    local midPoint = QuestieMap.utils:CenterPoint(hotzone);
-                    --Disable old clustering.
-                    icon.data.ClusterId = nil;
-                    local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, icon.zone, midPoint.x, midPoint.y) -- clustering code takes care of duplicates as long as mindist is more than 0
-                    if iconMap and iconMini then
-                        tinsert(Objective.AlreadySpawned[icon.AlreadySpawnedId].mapRefs, iconMap);
-                        tinsert(Objective.AlreadySpawned[icon.AlreadySpawnedId].minimapRefs, iconMini);
-                    end
-                    spawnedIcons[questId] = spawnedIcons[questId] + 1;
+            for index, hotzone in pairs(hotzones or {}) do
+                if(spawnedIcons[questId] > maxPerType) then
+                    Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]", "Too many icons for quest:", questId)
+                    break;
                 end
 
-                --Unused.
-            else
-                local tkeys = {}
-                -- populate the table that holds the keys
-                for k in pairs(icons) do tinsert(tkeys, k) end
-                -- sort the keys
-                table.sort(tkeys)
-                -- use the keys to retrieve the values in the sorted order
-                for _, distance in ipairs(tkeys) do
-                    if(spawnedIcons[questId] > maxPerType) then
-                        Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]", "Too many icons for quest:", questId)
-                        break;
-                    end
-                    local icon = icons[distance];
-                    local xcell = math.floor((icon.x * (QUESTIE_NOTES_CLUSTERMUL_HACK)));
-                    local ycell = math.floor((icon.y * (QUESTIE_NOTES_CLUSTERMUL_HACK)));
-                    if QuestieMap.MapCache_ClutterFix[icon.areaId] == nil then QuestieMap.MapCache_ClutterFix[icon.areaId] = {}; end
-                    if QuestieMap.MapCache_ClutterFix[icon.areaId][xcell] == nil then QuestieMap.MapCache_ClutterFix[icon.areaId][xcell] = {}; end
-                    if QuestieMap.MapCache_ClutterFix[icon.areaId][xcell][ycell] == nil then QuestieMap.MapCache_ClutterFix[icon.areaId][xcell][ycell] = {}; end
-                    if((not icon.data.ClusterId) or (not QuestieMap.MapCache_ClutterFix[icon.areaId][xcell][ycell][icon.data.ClusterId])) then
-                        --Questie:Print(questId, distance);
-                        local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, icon.zone, icon.x, icon.y) -- clustering code takes care of duplicates as long as mindist is more than 0
-                        if iconMap and iconMini then
-                            tinsert(Objective.AlreadySpawned[icon.AlreadySpawnedId].mapRefs, iconMap);
-                            tinsert(Objective.AlreadySpawned[icon.AlreadySpawnedId].minimapRefs, iconMini);
-                        end
-                        spawnedIcons[questId] = spawnedIcons[questId] + 1;
-                    end
+                --Any icondata will do because they are all the same
+                local icon = hotzone[1];
+
+
+                local midPoint = QuestieMap.utils:CenterPoint(hotzone);
+                --Disable old clustering.
+                icon.data.ClusterId = nil;
+                local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, icon.zone, midPoint.x, midPoint.y) -- clustering code takes care of duplicates as long as mindist is more than 0
+                if iconMap and iconMini then
+                    tinsert(Objective.AlreadySpawned[icon.AlreadySpawnedId].mapRefs, iconMap);
+                    tinsert(Objective.AlreadySpawned[icon.AlreadySpawnedId].minimapRefs, iconMini);
                 end
+                spawnedIcons[questId] = spawnedIcons[questId] + 1;
             end
         end
         if not hasSpawnHack then-- used to check if we have bad data due to API delay. Remove this check once the API bug is dealt with properly
@@ -1024,9 +1015,11 @@ function QuestieQuest:Math_random(low_or_high_arg, high_arg)
 end
 
 function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to PopulateNotes as it also handles finishers now
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:PopulateObjectiveNotes]", "Populating objectives for:", Quest.Id)
     if not Quest then return; end
     if QuestieQuest:IsComplete(Quest) then
         QuestieQuest:AddFinisher(Quest)
+        return
     end
 
     if not Quest.Color then -- todo: move to a better place
@@ -1041,7 +1034,9 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
         SelectQuestLogEntry(v.Index)
         local result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, Quest, k, v, false);
         if not result then
-            Questie:Error("[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_POPULATE_ERR', Quest.Name or "No quest name", Quest.Id or "No quest id", k or "No objective", err or "No error"));
+            local major, minor, patch = QuestieLib:GetAddonVersionInfo();
+            local version = "v"..(major or "").."."..(minor or "").."."..(patch or "");--Doing it this way to keep it 100% safe.
+            Questie:Error("[QuestieQuest]: " .. version .. " - " .. QuestieLocale:GetUIString('DEBUG_POPULATE_ERR', Quest.Name or "No quest name", Quest.Id or "No quest id", k or "No objective", err or "No error"));
         end
     end
 
@@ -1492,6 +1487,11 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
         end
     end
 
+    --If we have it in the questlog already, we should not draw any available icons for that shidazzle.
+    if QuestiePlayer.currentQuestlog and QuestiePlayer.currentQuestlog[questObject.Id] then
+        return false;
+    end
+
 
     --TODO More logic here, currently only shows NPC quest givers.
     if questObject.Starts["GameObject"] ~= nil then
@@ -1644,9 +1644,9 @@ function QuestieQuest:DrawAllAvailableQuests()--All quests between
 
         --If the quest is not drawn draw the quest, otherwise skip.
         if(not QuestieMap.questIdFrames[questId]) then
-            local Quest = QuestieDB:GetQuest(questId)
+            local quest = QuestieDB:GetQuest(questId)
             --Draw a specific quest through the function
-            _QuestieQuest:DrawAvailableQuest(Quest)
+            _QuestieQuest:DrawAvailableQuest(quest)
         else
             --We want to change from a gray icon to a nongray.
             for index, frame in ipairs(QuestieMap:GetFramesForQuest(questId)) do
@@ -1715,7 +1715,7 @@ function _QuestieQuest:IsDoable(questObject)
         return false
     end
 
-    if QuestieProfessions:HasReputation(questObject.requiredMinRep) == false then
+    if QuestieProfessions:HasReputation(questObject.requiredMinRep, questObject.requiredMaxRep) == false then
         return false
     end
 
@@ -1737,7 +1737,7 @@ function _QuestieQuest:IsPreQuestGroupFulfilled(preQuestGroup)
         -- If a quest is not complete and no exlusive quest is complete, the requirement is not fulfilled
         if not Questie.db.char.complete[preQuestId] then
             local preQuest = QuestieDB:GetQuest(preQuestId);
-            if preQuest.ExclusiveQuestGroup == nil then
+            if preQuest == nil or preQuest.ExclusiveQuestGroup == nil then
                 return false
             end
 
@@ -1803,7 +1803,7 @@ function QuestieQuest:CalculateAvailableQuests()
             and ((not QuestieCorrections.hiddenQuests[questID]) or questShowHiddenAndComplete) -- same for  hidden quests. (repeatable quests are  on the blacklist)
             and (not QuestiePlayer.currentQuestlog[questID])) then
 
-            if _QuestieQuest:LevelRequirementsFulfilled(quest, playerLevel, minLevel, maxLevel) or _QuestieQuest:IsParentQuestActive(quest.parentQuest) then
+            if quest and _QuestieQuest:LevelRequirementsFulfilled(quest, playerLevel, minLevel, maxLevel) or _QuestieQuest:IsParentQuestActive(quest.parentQuest) then
                 if _QuestieQuest:IsDoable(quest) then
                     QuestieQuest.availableQuests[questID] = questID
                 end
