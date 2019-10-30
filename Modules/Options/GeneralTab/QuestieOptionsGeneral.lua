@@ -49,7 +49,7 @@ function QuestieOptions.tabs.general:Initialize()
                 inline = true,
                 name = function() return QuestieLocale:GetUIString('ICON_TYPE_HEADER'); end,
                 args = {
-                    enableMinimalisticIcons = {
+                    --[[enableMinimalisticIcons = {
                         type = "toggle",
                         order = 0.9,
                         name = function() return "(VERY VERY WORK IN PROGRESS!!!)"..QuestieLocale:GetUIString('ENABLE_MAP_ICONS_MINIMALISTIC'); end,
@@ -62,7 +62,7 @@ function QuestieOptions.tabs.general:Initialize()
                             QuestieFramePool:SetIcons();
                             QuestieQuest:SmoothReset();
                         end,
-                    },
+                    },]]--
                     enableMapToggle = {
                         type = "toggle",
                         order = 1,
