@@ -11,11 +11,10 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 function QuestieQuestFixes:Load()
     table.insert(QuestieDB.questData, 7668, {}) -- Add missing quest index
     table.insert(QuestieDB.questData, 7670, {}) -- Add missing quest index #1432
-    table.insert(QuestieDB.questData, 8289, {}) -- ^
-    table.insert(QuestieDB.questData, 7921, {}) -- ^
+    table.insert(QuestieDB.questData, 7886, {}) -- ^
     table.insert(QuestieDB.questData, 7887, {}) -- ^
     table.insert(QuestieDB.questData, 7888, {}) -- ^
-    table.insert(QuestieDB.questData, 7886, {}) -- ^
+    table.insert(QuestieDB.questData, 7921, {}) -- ^
     table.insert(QuestieDB.questData, 8289, {}) -- ^
 
     return {
