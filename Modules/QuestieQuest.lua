@@ -1781,10 +1781,8 @@ end
 --TODO Check that this function does what it is supposed to...
 function QuestieQuest:CalculateAvailableQuests()
     local playerLevel = QuestiePlayer:GetPlayerLevel()
-
     local minLevel = playerLevel - Questie.db.global.minLevelFilter
     local maxLevel = playerLevel + Questie.db.global.maxLevelFilter
-
     local mapRepeatable = Questie.db.global.mapRepeatableQuests
 
     if(not Questie.db.char.manualMinLevelOffset) then
@@ -1794,11 +1792,10 @@ function QuestieQuest:CalculateAvailableQuests()
     QuestieQuest.availableQuests = {}
 
     for questID, v in pairs(QuestieDB.questData) do
-        --Check if we've already completed the quest and that it is not "manually" hidden and that the quest is not currently in the questlog.
-
         local quest = QuestieDB:GetQuest(questID)
         local questShowHiddenAndComplete = quest.Repeatable and mapRepeatable
 
+        --Check if we've already completed the quest and that it is not "manually" hidden and that the quest is not currently in the questlog.
         if( ((not Questie.db.char.complete[questID]) or questShowHiddenAndComplete) and -- show completed quests when they are repeatable, and repeatable quests are enabled
             ((not QuestieCorrections.hiddenQuests[questID]) or questShowHiddenAndComplete) and -- same for  hidden quests. (repeatable quests are  on the blacklist)
             (not QuestiePlayer.currentQuestlog[questID]) ) then
