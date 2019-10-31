@@ -446,18 +446,22 @@ function QuestieSearchResults:DrawSearchResultTab(searchGroup, searchType, query
             {
                 text = "Quests ("..resultCounts.quest..")",
                 value = "quest",
+                disabled = resultCounts.quest == 0,
             },
             {
                 text = "Mobs ("..resultCounts.npc..")",
                 value = "npc",
+                disabled = resultCounts.npc == 0,
             },
             {
                 text = "Objects ("..resultCounts.object..")",
                 value = "object",
+                disabled = resultCounts.object == 0,
             },
             {
                 text = "Items ("..resultCounts.item..")",
                 value = "item",
+                disabled = resultCounts.item == 0,
             },
         })
         searchResultTabs:SetCallback("OnGroupSelected", SelectTabGroup)
