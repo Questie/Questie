@@ -18,6 +18,8 @@ local AceGUI = LibStub("AceGUI-3.0");
 
 local lastOpenSearch = "quest";
 local yellow = "|cFFFFFF00"
+local BY_NAME = 1
+local BY_ID = 2
 
 local function AddLine(frame, text)
     local label = AceGUI:Create("Label")
@@ -406,9 +408,9 @@ local searchResultTabs = nil;
 function QuestieSearchResults:DrawSearchResultTab(searchGroup, searchType, query)
     if not searchResultTabs then
         searchGroup:ReleaseChildren();
-        if searchType == 1 then
+        if searchType == BY_NAME then
             QuestieSearch:ByName(query)
-        elseif searchType == 2 then
+        elseif searchType == BY_ID then
             QuestieSearch:ByID(query)
         end
         local results = QuestieSearch.LastResult;
