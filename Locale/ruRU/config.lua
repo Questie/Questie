@@ -153,6 +153,7 @@ QuestieLocale.locale['ruRU'] = {
     ['ENABLE_TOOLTIPS_QUEST_LEVEL_IDS'] = "When this is checked, the ID of quests will show in the tooltips and the tracker.",
     ['LOCALE'] = "Настройки языка:",
     ['LOCALE_DROP'] = "Выберите язык",
+    ['LOCALE_DROP_AUTOMATIC'] = "Automatic", -- TODO
     ['RESET_QUESTIE'] = "Сброс Questie",
     ['RESET_QUESTIE_DESC'] = "Нажатие этой кнопки приведёт к сбросу всех настроек аддона (За исключением языка)",
     ['RESET_QUESTIE_BTN'] = "Сбросить Questie",

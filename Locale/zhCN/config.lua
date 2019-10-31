@@ -152,6 +152,7 @@ QuestieLocale.locale['zhCN'] = {
     ['ENABLE_TOOLTIPS_QUEST_LEVEL_IDS'] = "When this is checked, the ID of quests will show in the tooltips and the tracker.",
     ['LOCALE'] = "本地化设置",
     ['LOCALE_DROP'] = "选择UI的本地化语言",
+    ['LOCALE_DROP_AUTOMATIC'] = "Automatic", -- TODO
     ['RESET_QUESTIE'] = "重置Questie",
     ['RESET_QUESTIE_DESC'] = "点击这个按钮将会使Questie除了本地化以外的所有设置重置为默认值。",
     ['RESET_QUESTIE_BTN'] = "重置",
