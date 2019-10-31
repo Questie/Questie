@@ -1,3 +1,23 @@
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieQuest
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
+---@type QuestieOptions
+local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions");
+---@type QuestieOptionsDefaults
+local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults");
+---@type QuestieOptionsUtils
+local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils");
+---@type QuestieTracker
+local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker");
+---@type QuestieCoords
+local QuestieCoords = QuestieLoader:ImportModule("QuestieCoords");
+---@type QuestieNameplate
+local QuestieNameplate = QuestieLoader:ImportModule("QuestieNameplate");
+---@type QuestieMap
+local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
+
 QuestieOptions.tabs.advanced = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
 
@@ -110,8 +130,10 @@ function QuestieOptions.tabs.advanced:Initalize()
                 type = "select",
                 order = 13,
                 values = {
+                    ['auto'] = QuestieLocale:GetUIString('LOCALE_DROP_AUTOMATIC'),
                     ['enUS'] = 'English',
                     ['esES'] = 'Español',
+                    ['esMX'] = 'Español (México)',
                     ['ptBR'] = 'Português',
                     ['frFR'] = 'Français',
                     ['deDE'] = 'Deutsch',
@@ -122,8 +144,21 @@ function QuestieOptions.tabs.advanced:Initalize()
                 },
                 style = 'dropdown',
                 name = function() return QuestieLocale:GetUIString('LOCALE_DROP'); end,
-                get = function() return QuestieLocale:GetUILocale(); end,
+                get = function()
+                    if not Questie.db.global.questieLocaleDiff then
+                        return 'auto'
+                    else
+                        return QuestieLocale:GetUILocale(); 
+                    end
+                end,
                 set = function(input, lang)
+                    if lang == 'auto' then
+                        local clientLocale = GetLocale()
+                        QuestieLocale:SetUILocale(clientLocale)
+                        Questie.db.global.questieLocale = clientLocale
+                        Questie.db.global.questieLocaleDiff = false
+                        return
+                    end
                     QuestieLocale:SetUILocale(lang);
                     Questie.db.global.questieLocale = lang;
                     Questie.db.global.questieLocaleDiff = true;

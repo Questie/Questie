@@ -1,5 +1,5 @@
 QuestieLocale.locale['deDE'] = {
-    -- Config Windows
+    -- General tab
     ['OPTIONS_TAB'] = "Einstellungen",
     ['QUESTIE_HEADER'] = "Questie-Einstellungen",
     ['ENABLE_QUESTIE'] = "Icons aktivieren",
@@ -11,6 +11,8 @@ QuestieLocale.locale['deDE'] = {
     ['LEVEL_HEADER'] = "Questlevel-Einstellungen",
     ['ENABLE_LOWLEVEL'] = "Zeige niedrigstufige Quests",
     ['ENABLE_LOWLEVEL_DESC'] = "Aktiviert/Deaktiviert niedrigstufige Quests auf der Karte",
+    ['ENABLE_MANUAL_OFFSET'] = "Manuelles Minimallevel aktivieren",
+    ['ENABLE_MANUAL_OFFSET_DESC'] = "Aktiviert/Deaktiviert das manuelle Setzen eines Minimallevels anstatt die GetQuestGreenLevel zu verwenden.",
     ['LOWLEVEL_BELOW'] = "< Zeige unter Level",
     ['LOWLEVEL_BELOW_DESC'] = "Quests bis X Level unter deinem eigenen anzeigen. ( Standard: %s )",
     ['LOWLEVEL_ABOVE'] = "Zeige über Level >",
@@ -30,15 +32,18 @@ QuestieLocale.locale['deDE'] = {
     ['ICON_TYPE_HEADER'] = "Icon-Arten",
     ['ENABLE_MAP_ICONS'] = "Karten-Icons anzeigen",
     ['ENABLE_MAP_ICONS_DESC'] = "Aktiviert/Deaktiviert alle Icons auf der Karte",
-    ['ENABLE_MAP_ICONS_MINIMALISTIC'] = "Enable Minimalistic Map Icons",
-    ['ENABLE_MAP_ICONS_DESC_MINIMALISTIC'] = "A minimalistic version of the normal icons.",
+    ['ENABLE_MAP_ICONS_MINIMALISTIC'] = "Minimalistische Map Icons verwenden",
+    ['ENABLE_MAP_ICONS_DESC_MINIMALISTIC'] = "Aktiviert/Deaktiviert minimalistische Versionen der normalen Icons.",
     ['ENABLE_MINIMAP_ICONS'] = "Minimap-Icons anzeigen",
     ['ENABLE_MINIMAP_ICONS_DESC'] = "Aktiviert/Deaktiviert alle Icons auf der Minimap",
+    ['HIDE_UNEXPLORED_ICONS'] = "Icons in nicht entdeckten Gebieten verbergen",
+    ['HIDE_UNEXPLORED_ICONS_DESC'] = "Verbirgt die Questie Icons in nicht entdeckten Gebieten.",
     ['ENABLE_ICON_LIMIT'] = "Icons limitieren",
     ['ENABLE_ICON_LIMIT_DESC'] = "Aktiviert/Deaktiviert, ob die Menge an Icons pro Typ limitiert wird.",
     ['ICON_LIMIT'] = "Icon Limit",
     ['ICON_LIMIT_DESC'] = "Wie viele Icons pro Type gezeigt werden sollen. ( Standard: %s )",
 
+    -- Minimap tab
     ['MINIMAP_TAB'] = "Minimap-Einstellungen",
     ['MINIMAP_HEADER'] = "Minimap-Einstellungen",
     ['MINIMAP_NOTES'] = "Minimap-Notiz-Einstellungen",
@@ -58,20 +63,18 @@ QuestieLocale.locale['deDE'] = {
     ['MINIMAP_ALWAYS_GLOW_TOGGLE'] = "Minimap-Icons immer leuchten lassen",
     ['MINIMAP_ALWAYS_GLOW_TOGGLE_DESC'] = "Zeichnet eine leuchtende Textur hinter die Minimap-Icons. Farblich einzigartig für jede Quest.",
 
+    -- Map tab
     ['MAP_TAB'] = "Weltkarten-Einstellungen",
     ['ENABLE_MAP_BUTTON'] = "Zeige Questie-Button an der Weltkarte",
     ['ENABLE_MAP_BUTTON_DESC'] = "Aktiviert/Deaktiviert den Zeigen/Verstecken-Button an der Weltkarte (repariert möglicherweise Karten-Addon Interaktionen).",
     ['MAP_NOTES'] = "Weltkarten-Notiz-Einstellungen",
-    ['MAP_GLOBAL_SCALE'] = "Gloable Skalierung der Weltkarten-Icons",
-    ['MAP_GLOBAL_SCALE_DESC'] = "Skaliert die Größe aller Weltkarten-Icons. ( Standard: %s )",
-    ['MAP_COORDS'] = "Karten- und Zeiger-Koordinaten",
-    ['ENABLE_MAP_COORDS'] = "Spieler- und Zeiger-Koordinaten aktivieren",
-    ['ENABLE_MAP_COORDS_DESC'] = "Koordinaten von Spieler- und Mauszeiger-Koordinaten an der Weltkarte.",
-    ['MAP_COORDS_PRECISION'] = "Dezimalpunkt-Genauigkeit der Koordinaten",
-    ['MAP_COORDS_PRECISION_DESC'] = "Wie viele Nachkommastellen in die Genauigkeit für Spieler- und Mauszeiger-Koordinanten einfließen sollen. ( Standard: %s )",
     ['MAP_ALWAYS_GLOW_TOGGLE'] = "Weltkarten-Icons immer leuchten lassen",
     ['MAP_ALWAYS_GLOW_TOGGLE_DESC'] = "Zeichnet eine leuchtende Textur hinter die Weltkarten-Icons. Farblich einzigartig für jede Quest.",
+    ['MAP_QUEST_COLORS'] = "Karten-Icons für jede Quest unterschiedlich färben",
+    ['MAP_QUEST_COLORS_DESC'] = "Zeigt Karten-Icons mit zufälligen Farben für jede Quest.",
 
+    ['MAP_GLOBAL_SCALE'] = "Gloable Skalierung der Weltkarten-Icons",
+    ['MAP_GLOBAL_SCALE_DESC'] = "Skaliert die Größe aller Weltkarten-Icons. ( Standard: %s )",
     ['AVAILABLE_ICON_SCALE'] = "Skalierung der Icons für verfügbare/abgeschlossene Quests",
     ['AVAILABLE_ICON_SCALE_DESC'] = "Skaliert die Icons der verfügbaren/abgeschlossenen Quests. ( Standard: %s )",
     ['LOOT_ICON_SCALE'] = "Skalierung der Loot-Icons",
@@ -83,6 +86,36 @@ QuestieLocale.locale['deDE'] = {
     ['EVENT_ICON_SCALE'] = "Skalierung der Event-Icons",
     ['EVENT_ICON_SCALE_DESC'] = "Skaliert wie groß die Event-Icons sind. ( Standard: %s )",
 
+    ['MAP_COORDS'] = "Karten- und Zeiger-Koordinaten",
+    ['ENABLE_MAP_COORDS'] = "Spieler- und Zeiger-Koordinaten aktivieren",
+    ['ENABLE_MAP_COORDS_DESC'] = "Koordinaten von Spieler- und Mauszeiger-Koordinaten an der Weltkarte.",
+    ['MAP_COORDS_PRECISION'] = "Dezimalpunkt-Genauigkeit der Koordinaten",
+    ['MAP_COORDS_PRECISION_DESC'] = "Wie viele Nachkommastellen in die Genauigkeit für Spieler- und Mauszeiger-Koordinanten einfließen sollen. ( Standard: %s )",
+
+    -- DBM HUD tab
+    ['DBM_HUD_TAB'] = "DBM HUD",
+    ['ENABLE_DBM_HUD'] = "Show DBM HUD",
+    ['ENABLE_DBM_HUD_DESC'] = "Enable or disable the DBM Heads Up Display (HUD) overlay for showing map objects.",
+    ['DBM_HUD_ICON_ALERT'] = "Enable proximity visual for HUD icons",
+    ['DBM_HUD_ICON_ALERT_DESC'] = "Changes the color of a HUD icon to red when you are near it.",
+    ['DBM_HUD_REFRESH'] = "Refresh rate for HUD (Requires turning HUD off/on)",
+    ['DBM_HUD_REFRESH_DESC'] = "Adjusts the fresh rate for HUD Icons which affects how often UI refreshes their position. ( Default: %s )",
+    ['DBM_HUD_SCALE_OPTIONS'] = "Size & Scale Options",
+    ['DBM_HUD_ZOOM'] = "Global zoom level for HUD Icons",
+    ['DBM_HUD_ZOOM_DESC'] = "Adjusts the zoom level for HUD Icons which affects how close in or how far out you see them. ( Default: %s )",
+    ['DBM_HUD_RADIUS'] = "Global radius/size for HUD Icons",
+    ['DBM_HUD_RADIUS_DESC'] = "Adjusts the size of the icons that appear on the HUD. ( Default: %s )",
+    ['DBM_HUD_FILTER_OPTIONS'] = "Filter Options",
+    ['DBM_HUD_FILTER_QUEST'] = "Show quest giver icons",
+    ['DBM_HUD_FILTER_QUEST_DESC'] = "Toggles whether or not available/complete quest icons appear on HUD. ( Default: %s )",
+    ['DBM_HUD_FILTER_KILL'] = "Show quest slay icons",
+    ['DBM_HUD_FILTER_KILL_DESC'] = "Toggles whether or not slay icons appear on HUD. ( Default: %s )",
+    ['DBM_HUD_FILTER_LOOT'] = "Show quest loot icons",
+    ['DBM_HUD_FILTER_LOOT_DESC'] = "Toggles whether or not loot icons appear on HUD. ( Default: %s )",
+    ['DBM_HUD_FILTER_INTERACT'] = "Show quest objective icons",
+    ['DBM_HUD_FILTER_INTERACT_DESC'] = "Toggles whether or not objective icons appear on HUD ( Default: %s )",
+
+    -- Nameplate tab
     ['NAMEPLATE_TAB'] = "Namensplaketten-Einstellungen",
     ['NAMEPLATE_HEAD'] = "Namensplaketten-Icon-Einstellungen",
     ['NAMEPLATE_TOGGLE'] = "Zeige Questziele an Namensplaketten",
@@ -107,14 +140,18 @@ QuestieLocale.locale['deDE'] = {
     ['TARGET_RESET_BTN'] = "Zielanzeige zurücksetzen",
     ['TARGET_RESET_BTN_DESC'] = "Setzt die Position und Skalierung der Icons am anvisierten Ziel zurück.",
 
+    -- Advanced tab
     ['ADV_TAB'] = "Erweitert",
     ['DEV_OPTIONS'] = "Entwickler-Einstellungen",
     ['ENABLE_DEBUG'] = "Debugging aktivieren",
     ['ENABLE_DEBUG_DESC'] = "Aktiviert/Deaktiviert die Debugging Funktion.",
     ['DEBUG_LEVEL'] = "Debug-Level",
     ['DEBUG_LEVEL_DESC'] = "Das Debug-Level, das ausgegeben werden soll: %s",
+    ['ENABLE_TOOLTIPS_QUEST_IDS'] = "Zeige Quest-IDs",
+    ['ENABLE_TOOLTIPS_QUEST_LEVEL_IDS'] = "Aktiviert/Deaktiviert, dass die Quest-ID in den Tooltips und dem Tracker angezeigt werden.",
     ['LOCALE'] = "Spracheinstellungen",
     ['LOCALE_DROP'] = "Interface-Sprache wählen",
+    ['LOCALE_DROP_AUTOMATIC'] = "Automatisch",
     ['RESET_QUESTIE'] = "Questie zurücksetzen",
     ['RESET_QUESTIE_DESC'] = "Setzt alle Einstellungen von Questie auf den Standardwert zurück (Lokalisierung ausgeschlossen).",
     ['RESET_QUESTIE_BTN'] = "Questie zurücksetzen",
@@ -134,6 +171,7 @@ QuestieLocale.locale['deDE'] = {
     ['ICON_RIGHT_CLICK'] = "Rechtsklick",
     ['ICON_JOURNEY'] = "Meine Reise zeigen/verstecken",
     ['ICON_RELOAD'] = "Questie neu laden",
+    ['ICON_SHIFT_HOLD'] = "Shift halten";
     ['CONFIRM_HIDE_QUEST'] = "Bist du sicher, dass du die Quest \"%s\" verstecken möchtest?",
     ['CONFIRM_HIDE_YES'] = "Ja",
     ['CONFIRM_HIDE_NO'] = "Nein",
@@ -194,6 +232,7 @@ QuestieLocale.locale['deDE'] = {
     ['TRACKER_SHORTCUT'] = " Shortcut",
     ['TRACKER_SET_TOMTOM_DESC'] = "Der Tracker-Shortcut, um TomTom zu öffnen The tracker shortcut to open TomTom.",
     ['TRACKER_SHOW_QUESTLOG_DESC'] = "Der Tracker-Shortcut, um eine Quest im Questlog anzuzeigen.",
+    ['TRACKER_ACTIVE_QUESTS'] = "Aktive Quests: ",
 
     -- tracker right click menu
     ['TRACKER_UNFOCUS'] = "Fokus entfernen", -- focus makes only that quest/objective show on map
@@ -217,6 +256,8 @@ QuestieLocale.locale['deDE'] = {
     ['JOURNEY_SEARCH_TAB'] = "Erweiterte Suche",
     ['JOURNEY_AVAILABLE_TITLE'] = "Verfügbare Quests",
     ['JOURNEY_COMPLETE_TITLE'] = "Abgeschlossene Quests",
+    ['JOURNEY_REPEATABLE_TITLE'] = "Wiederholbare Quests",
+    ['JOURNEY_UNAVAILABLE_TITLE'] = "Nicht abschließbare Quests",
     ['JOURNEY_SELECT_HEAD'] = "Wähle deinen Kontinent und deine Zone",
     ['JOURNEY_SELECT_CONT'] = "Wähle deinen Kontinent",
     ['JOURNEY_SELECT_ZONE'] = "Wähle deine Zone",
@@ -237,7 +278,6 @@ QuestieLocale.locale['deDE'] = {
     ['JOURNEY_DIFFICULTY'] = "Schwierigkeitsgrad: %s",
     ['JOURNEY_AUTO_QUEST'] = "Diese Quest schließt sich automatisch ab und beinhaltet keinerlei Ziele.",
     ['JOURNEY_RECENT_EVENTS'] = "Deine aktuelle Historie",
-    ['JOURNEY_NOTE_CREATED'] = "Du hast eine neue Notiz mit dem Titel '%s' erstellt",
     ['JOURNEY_LEVELUP'] = "Herzlichen Glückwunsch! Du hast Level %s erreicht!",
     ['JOURNEY_LEVELNUM'] = "Level %s",
     ['JOURNEY_LEVELREACH'] = "Du hast Level %s erreicht",
@@ -292,4 +332,14 @@ QuestieLocale.locale['deDE'] = {
     ['DEBUG_DRAW'] = "%s verfügbare Quests gezeichnet. SpielerLevel = %s",
     ['DEBUG_UNLOAD_QFRAMES'] = "Entferne Questfenster: %s",
     ['DEBUG_UNLOAD_ALL'] = "Entferne alle Fenster. Anzahl: %s",
+    ['QUESTIE_ACCEPT_NIL'] = "|cFFFF0000Questie ERROR:|r Eine nil Quest wurde angenommen! Du musst eventuell \"/questie reload\" ausführen.", 
+    ['QUESTIE_UPDATED_RESTART'] = "|cFFFF0000WARNING!|r Du hast Questie aktualisiert ohne WoW neuzustarten, was zu Problemen führen wird! Bitte starte den WoW Client neu, bevor du fortfährst.",
+
+    -- TODO finally switch all keys to this style for code readability:
+    ['Show on Map'] = "Show on Map",
+    ['Remove from Map'] = "Remove from Map",
+    ['Starts the following quests:'] = "Starts the following quests:",
+    ['Ends the following quests:'] = "Ends the following quests:",
+    ['No quests to list.'] = "No quests to list.",
+    ['No spawn data available.'] = "No spawn data available.",
 };

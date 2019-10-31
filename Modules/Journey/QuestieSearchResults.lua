@@ -1,4 +1,19 @@
-QuestieSearchResults = {} -- Global Functions
+---@class QuestieSearchResults
+local QuestieSearchResults = QuestieLoader:CreateModule("QuestieSearchResults");
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieQuest
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
+---@type QuestieJourney
+local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney");
+---@type QuestieSearch
+local QuestieSearch = QuestieLoader:ImportModule("QuestieSearch");
+---@type QuestieMap
+local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
+
 local AceGUI = LibStub("AceGUI-3.0");
 
 local lastOpenSearch = "quest";
@@ -210,9 +225,9 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
         end
 
         local continent = 'UNKNOWN ZONE';
-        for i, v in ipairs(QuestieJourney.zoneTable) do
+        for i, v in ipairs(QuestieJourney.zoneList) do
             if v[startindex] then
-                continent = QuestieJourney.zoneTable[i][startindex];
+                continent = QuestieJourney.zoneList[i][startindex];
             end
         end
 
@@ -525,7 +540,7 @@ function QuestieSearchResults:JumpToQuest(button)
     if not QuestieJourney:IsShown() then
         QuestieJourney:ToggleJourneyWindow()
     end
-    if not (lastOpenWindow == 'search') then
+    if not (QuestieJourney.lastOpenWindow == 'search') then
         QuestieJourney.tabGroup:SelectTab('search');
     end
 

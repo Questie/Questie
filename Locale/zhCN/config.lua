@@ -1,5 +1,5 @@
 QuestieLocale.locale['zhCN'] = {
-    -- Config Windows
+    -- General tab
     ['OPTIONS_TAB'] = "选项",
     ['QUESTIE_HEADER'] = "Questie选项",
     ['ENABLE_QUESTIE'] = "启用Questie",
@@ -11,6 +11,8 @@ QuestieLocale.locale['zhCN'] = {
     ['LEVEL_HEADER'] = "任务等级选项",
     ['ENABLE_LOWLEVEL'] = "显示所有低等级任务",
     ['ENABLE_LOWLEVEL_DESC'] = "启用后，在地图上显示低等级任务。",
+    ['ENABLE_MANUAL_OFFSET'] = "Enable manual minimum level offset",
+    ['ENABLE_MANUAL_OFFSET_DESC'] = "Enable manual minimum level offset instead of the automatic GetQuestGreenLevel function.",
     ['LOWLEVEL_BELOW'] = "< 低于等级",
     ['LOWLEVEL_BELOW_DESC'] = "显示比你低了多少级的任务（默认：%s）",
     ['LOWLEVEL_ABOVE'] = "高于等级 >",
@@ -25,6 +27,8 @@ QuestieLocale.locale['zhCN'] = {
     ['ENABLE_AVAILABLE_DESC'] = "若启用，在地图上标记可取得任务的地点",
     ['ENABLE_TOOLTIPS'] = "启用鼠标提示",
     ['ENABLE_TOOLTIPS_DESC'] = "若启用，在目标或物品的鼠标提示显示任务资讯",
+    ['ENABLE_TOOLTIPS_QUEST_LEVEL'] = "Show Quest Level in Tooltips",
+    ['ENABLE_TOOLTIPS_QUEST_LEVEL_DESC'] = "When this is checked, the level of quests will show in the tooltips.",
     ['ICON_TYPE_HEADER'] = "图标类别",
     ['ENABLE_MAP_ICONS'] = "启用大地图注记",
     ['ENABLE_MAP_ICONS_DESC'] = "启用或停用大地图上的所有图标",
@@ -32,10 +36,17 @@ QuestieLocale.locale['zhCN'] = {
     ['ENABLE_MAP_ICONS_DESC_MINIMALISTIC'] = "A minimalistic version of the normal icons.",
     ['ENABLE_MINIMAP_ICONS'] = "启用小地图标记",
     ['ENABLE_MINIMAP_ICONS_DESC'] = "启用或停用小地图上的所有图标",
+    ['HIDE_UNEXPLORED_ICONS'] = "Hide unexplored area Icons",
+    ['HIDE_UNEXPLORED_ICONS_DESC'] = "Hide icons in unexplored areas.",
+    ['ENABLE_ICON_LIMIT'] = "Enable Icon Limit",
+    ['ENABLE_ICON_LIMIT_DESC'] = "Enable the limit of icons drawn per type.",
+    ['ICON_LIMIT'] = "Icon Limit",
+    ['ICON_LIMIT_DESC'] = "Limits the amount of icons drawn per type. ( Default: %s )",
 
+    -- Minimap tab
     ['MINIMAP_TAB'] = "小地图选项",
     ['MINIMAP_HEADER'] = "小地图标记选项",
-	['MINIMAP_GLOBAL_SCALE'] = "小地图标记的全局大小",
+    ['MINIMAP_GLOBAL_SCALE'] = "小地图标记的全局大小",
     ['MINIMAP_GLOBAL_SCALE_DESC'] = "调整小度图标记图标的缩放比例（预设：%s）",
     ['MINIMAP_FADING'] = "远离目标的淡出隐距离",
     ['MINIMAP_FADING_DESC'] = "目标物件离你多远以后，将其标记淡出（预设：%s）",
@@ -51,22 +62,18 @@ QuestieLocale.locale['zhCN'] = {
     ['MINIMAP_ALWAYS_GLOW_TOGGLE'] = "总是使小地图标记高亮",
     ['MINIMAP_ALWAYS_GLOW_TOGGLE_DESC'] = "替小地图标记显示一圈光晕，且不同任务有不同的颜色",
 
+    -- Map tab
     ['MAP_TAB'] = "大地图选项",
     ['ENABLE_MAP_BUTTON'] = "大地图显示Questie按钮",
     ['ENABLE_MAP_BUTTON_DESC'] = "启用或停用大地图上的Questie切换按钮（可以解决某些地图插件的冲突）",
     ['MAP_NOTES'] = "大地图注记",
-    ['MAP_GLOBAL_SCALE'] = "1. 大地图注记的全局大小",
-    ['MAP_GLOBAL_SCALE_DESC'] = "调整大地图注记图标的缩放比例（默认：%s）",
-    ['MAP_COORDS'] = "大地图座标",
-    ['ENABLE_MAP_COORDS'] = "显示玩家与鼠标的座标",
-    ['ENABLE_MAP_COORDS_DESC'] = "在大地图标题上显示玩家与鼠标指向位置的座标",
-    ['MAP_COORDS_PRECISION'] = "座标数值精确度",
-    ['MAP_COORDS_PRECISION_DESC'] = "大地图的座标要显示到小数点后几位（默认：%s）",
     ['MAP_ALWAYS_GLOW_TOGGLE'] = "总是使大地图标记高亮",
     ['MAP_ALWAYS_GLOW_TOGGLE_DESC'] = "替大地图标记显示一圈光晕，且不同任务有不同的颜色",
-	['MAP_QUEST_COLORS'] = "为每个任务的大地图注记使用不同颜色",
+    ['MAP_QUEST_COLORS'] = "为每个任务的大地图注记使用不同颜色",
     ['MAP_QUEST_COLORS_DESC'] = "基于任务ID，为每个任务的大地图注记随机生成不同颜色的图标。",
 
+    ['MAP_GLOBAL_SCALE'] = "1. 大地图注记的全局大小",
+    ['MAP_GLOBAL_SCALE_DESC'] = "调整大地图注记图标的缩放比例（默认：%s）",
     ['AVAILABLE_ICON_SCALE'] = "2. 可取得与可完成的图标大小",
     ['AVAILABLE_ICON_SCALE_DESC'] = "调整可取得与可完成的缩放比例（默认：%s）",
     ['LOOT_ICON_SCALE'] = "3. 十取图标大小",
@@ -78,6 +85,36 @@ QuestieLocale.locale['zhCN'] = {
     ['EVENT_ICON_SCALE'] = "4. 事件图标大小",
     ['EVENT_ICON_SCALE_DESC'] = "调整事件图标的缩放比例（默认：%s）",
 
+    ['MAP_COORDS'] = "大地图座标",
+    ['ENABLE_MAP_COORDS'] = "显示玩家与鼠标的座标",
+    ['ENABLE_MAP_COORDS_DESC'] = "在大地图标题上显示玩家与鼠标指向位置的座标",
+    ['MAP_COORDS_PRECISION'] = "座标数值精确度",
+    ['MAP_COORDS_PRECISION_DESC'] = "大地图的座标要显示到小数点后几位（默认：%s）",
+
+    -- DBM HUD tab
+    ['DBM_HUD_TAB'] = "DBM HUD",
+    ['ENABLE_DBM_HUD'] = "Show DBM HUD",
+    ['ENABLE_DBM_HUD_DESC'] = "Enable or disable the DBM Heads Up Display (HUD) overlay for showing map objects.",
+    ['DBM_HUD_ICON_ALERT'] = "Enable proximity visual for HUD icons",
+    ['DBM_HUD_ICON_ALERT_DESC'] = "Changes the color of a HUD icon to red when you are near it.",
+    ['DBM_HUD_REFRESH'] = "Refresh rate for HUD (Requires turning HUD off/on)",
+    ['DBM_HUD_REFRESH_DESC'] = "Adjusts the fresh rate for HUD Icons which affects how often UI refreshes their position. ( Default: %s )",
+    ['DBM_HUD_SCALE_OPTIONS'] = "Size & Scale Options",
+    ['DBM_HUD_ZOOM'] = "Global zoom level for HUD Icons",
+    ['DBM_HUD_ZOOM_DESC'] = "Adjusts the zoom level for HUD Icons which affects how close in or how far out you see them. ( Default: %s )",
+    ['DBM_HUD_RADIUS'] = "Global radius/size for HUD Icons",
+    ['DBM_HUD_RADIUS_DESC'] = "Adjusts the size of the icons that appear on the HUD. ( Default: %s )",
+    ['DBM_HUD_FILTER_OPTIONS'] = "Filter Options",
+    ['DBM_HUD_FILTER_QUEST'] = "Show quest giver icons",
+    ['DBM_HUD_FILTER_QUEST_DESC'] = "Toggles whether or not available/complete quest icons appear on HUD. ( Default: %s )",
+    ['DBM_HUD_FILTER_KILL'] = "Show quest slay icons",
+    ['DBM_HUD_FILTER_KILL_DESC'] = "Toggles whether or not slay icons appear on HUD. ( Default: %s )",
+    ['DBM_HUD_FILTER_LOOT'] = "Show quest loot icons",
+    ['DBM_HUD_FILTER_LOOT_DESC'] = "Toggles whether or not loot icons appear on HUD. ( Default: %s )",
+    ['DBM_HUD_FILTER_INTERACT'] = "Show quest objective icons",
+    ['DBM_HUD_FILTER_INTERACT_DESC'] = "Toggles whether or not objective icons appear on HUD ( Default: %s )",
+
+    -- Nameplate tab
     ['NAMEPLATE_TAB'] = "姓名板选项",
     ['NAMEPLATE_HEAD'] = "姓名板图标选项",
     ['NAMEPLATE_TOGGLE'] = "启用姓名板标记",
@@ -102,14 +139,18 @@ QuestieLocale.locale['zhCN'] = {
     ['TARGET_RESET_BTN'] = "重设",
     ['TARGET_RESET_BTN_DESC'] = "重设目标图标的位置和大小",
 
+    -- Advanced tab
     ['ADV_TAB'] = "进阶",
     ['DEV_OPTIONS'] = "开发选项",
     ['ENABLE_DEBUG'] = "启用除错",
     ['ENABLE_DEBUG_DESC'] = "启用或停用除错功能",
     ['DEBUG_LEVEL'] = "除错等级",
     ['DEBUG_LEVEL_DESC'] = "输出除错报告的等级：%s",
+    ['ENABLE_TOOLTIPS_QUEST_IDS'] = "Show Quest IDs",
+    ['ENABLE_TOOLTIPS_QUEST_LEVEL_IDS'] = "When this is checked, the ID of quests will show in the tooltips and the tracker.",
     ['LOCALE'] = "本地化设置",
     ['LOCALE_DROP'] = "选择UI的本地化语言",
+    ['LOCALE_DROP_AUTOMATIC'] = "Automatic", -- TODO
     ['RESET_QUESTIE'] = "重置Questie",
     ['RESET_QUESTIE_DESC'] = "点击这个按钮将会使Questie除了本地化以外的所有设置重置为默认值。",
     ['RESET_QUESTIE_BTN'] = "重置",
@@ -124,11 +165,11 @@ QuestieLocale.locale['zhCN'] = {
     ['ICON_SHIFTLEFT_CLICK'] = "Shift + 左键",
     ['ICON_TOGGLE_QUESTIE'] = "打开Questie",
     ['ICON_CTRLRIGHT_CLICK'] = "Ctrl + 右键",
-	['ICON_CTRLLEFT_CLICK'] = "Ctrl + 右键",
+    ['ICON_CTRLLEFT_CLICK'] = "Ctrl + 右键",
     ['ICON_HIDE'] = "隐藏小地图图标",
     ['ICON_RIGHT_CLICK'] = "右键",
     ['ICON_JOURNEY'] = "打开我的日志",
-	['ICON_RELOAD'] = "重载Questie",
+    ['ICON_RELOAD'] = "重载Questie",
     ['ICON_SHIFT_HOLD'] = "Hold Shift";
     ['CONFIRM_HIDE_QUEST'] = "你确定要隐藏任务： %s吗？",
     ['CONFIRM_HIDE_YES'] = "是",
@@ -147,8 +188,8 @@ QuestieLocale.locale['zhCN'] = {
     ['SLASH_TOGGLE_QUESTIE'] = "/questie toggle -- 在地图上显示Questie提示",
     ['SLASH_JOURNEY'] = "/questie journey -- 打开日志窗口",
     ['SLASH_MINIMAP'] = "/questie minimap -- 切换显示或隐藏Questie小地图图标",
-	
-	-- Tracker
+
+    -- Tracker
     ['TRACKER_TAB'] = "追踪",
     ['TRACKER_HEAD'] = "任务追踪选项",
     ['TRACKER_ENABLED'] = "启用Questie任务追踪",
@@ -161,6 +202,8 @@ QuestieLocale.locale['zhCN'] = {
     ['TRACKER_ENABLE_HOOKS_DESC'] = "启用后，Questie会以钩子（Hook）钩起暴雪的任务追踪函数，接管它的功能，这对Questie任务追踪的某些功能来说是必要的，可以使追踪的状态正确更新，同时还可以与其他插件整合。如果你的任务追踪出现了奇怪的错误，可能就要停用这项功能；停用需要重载界面（/reload）",
     ['TRACKER_SHOW_COMPLETE'] = "显示已完成的任务",
     ['TRACKER_SHOW_COMPLETE_DESC'] = "启用后，完成的任务会持续显示在任务追踪列表中。",
+    ['TRACKER_SHOW_QUEST_LEVEL'] = "Show Quest Level",
+    ['TRACKER_SHOW_QUEST_LEVEL_DESC'] = "When this is checked, the level of quests will show in the Questie tracker.",
     ['TRACKER_COLOR_OBJECTIVES'] = "目标着色",
     ['TRACKER_COLOR_OBJECTIVES_DESC'] = "按照任务目标的进度，对踪框的任务目标文字染色。",
     ['TRACKER_COLOR_WHITE'] = "白色",
@@ -179,7 +222,7 @@ QuestieLocale.locale['zhCN'] = {
     ['TRACKER_SORT_BY_LEVEL'] = "根据等级正序排列",
     ['TRACKER_SORT_BY_LEVEL_REVERSED'] = "根据等级反序排列",
     ['TRACKER_DONT_SORT'] = "不排序",
-	['TRACKER_LEFT_CLICK'] = "左键点击",
+    ['TRACKER_LEFT_CLICK'] = "左键点击",
     ['TRACKER_RIGHT_CLICK'] = "右键点击",
     ['TRACKER_SHIFT'] = "Shift + ",
     ['TRACKER_CTRL'] = "Ctrl + ",
@@ -188,8 +231,9 @@ QuestieLocale.locale['zhCN'] = {
     ['TRACKER_SHORTCUT'] = " 快捷键",
     ['TRACKER_SET_TOMTOM_DESC'] = "在任务追踪上开启TomTom的快捷键",
     ['TRACKER_SHOW_QUESTLOG_DESC'] = "在任务追踪上开启任务日志的快捷键",
-	
-	-- tracker right click menu
+    ['TRACKER_ACTIVE_QUESTS'] = "主动任务: ",
+
+    -- tracker right click menu
     ['TRACKER_UNFOCUS'] = "停止关注", -- focus makes only that quest/objective show on map
     ['TRACKER_FOCUS_OBJECTIVE'] = "关注目标",
     ['TRACKER_FOCUS_QUEST'] = "关注任务",
@@ -201,7 +245,7 @@ QuestieLocale.locale['zhCN'] = {
     ['TRACKER_HIDE_ICONS'] = "隐藏标记",
     ['TRACKER_OBJECTIVES'] = "目标",
     ['TRACKER_SHOW_ON_MAP'] = "显示于地图",
-	['TRACKER_UNLOCK'] = "解锁框体",
+    ['TRACKER_UNLOCK'] = "解锁框体",
     ['TRACKER_LOCK'] = "锁定框体",
 
     -- Journey Window
@@ -211,6 +255,8 @@ QuestieLocale.locale['zhCN'] = {
     ['JOURNEY_SEARCH_TAB'] = "进阶搜询",
     ['JOURNEY_AVAILABLE_TITLE'] = "可接受",
     ['JOURNEY_COMPLETE_TITLE'] = "已完成",
+    ['JOURNEY_REPEATABLE_TITLE'] = "Repeatable Quests",
+    ['JOURNEY_UNAVAILABLE_TITLE'] = "Uncompletable Quests",
     ['JOURNEY_SELECT_HEAD'] = "选择大陆与区域",
     ['JOURNEY_SELECT_CONT'] = "选择大陆",
     ['JOURNEY_SELECT_ZONE'] = "选择区域",
@@ -267,6 +313,7 @@ QuestieLocale.locale['zhCN'] = {
     ['DEBUG_MINLEVEL'] = "minLevelFilter set to %s",
     ['DEBUG_MAXLEVEL'] = "maxLevelFilter set to %s",
     ['DEBUG_CLUSTER'] = "Setting clustering value, clusterLevelHotzone set to %s : Redrawing!",
+    ['DEBUG_ICON_LIMIT'] = "Setting icon limit value to %s : Redrawing!",
     ['DEBUG_ADD_QUEST'] = "添加任务 %s %s",
     ['DEBUG_REMOVE_QUEST'] = "删除任务 %s %s",
     ['DEBUG_ACCEPT_QUEST'] = "接受任务：%s",
@@ -284,6 +331,14 @@ QuestieLocale.locale['zhCN'] = {
     ['DEBUG_DRAW'] = "%s available quests drawn. PlayerLevel = %s",
     ['DEBUG_UNLOAD_QFRAMES'] = "Unloading quest frames: %s",
     ['DEBUG_UNLOAD_ALL'] = "Unloading all frames, count: %s",
-	['QUESTIE_ACCEPT_NIL'] = "|cFFFF0000Questie错误：|r你尝试接受任务时返回空值，请输入 /questie reload 重新载入Quesite。", 
+    ['QUESTIE_ACCEPT_NIL'] = "|cFFFF0000Questie错误：|r你尝试接受任务时返回空值，请输入 /questie reload 重新载入Quesite。", 
     ['QUESTIE_UPDATED_RESTART'] = "|cFFFF0000警告！|r你没有重开游戏就更新了Questie，这可能会使Questie出现某些错误。请完全关闭魔兽世界再重新启动游戏，确保Questie能正常运作。",
+
+    -- TODO finally switch all keys to this style for code readability:
+    ['Show on Map'] = "Show on Map",
+    ['Remove from Map'] = "Remove from Map",
+    ['Starts the following quests:'] = "Starts the following quests:",
+    ['Ends the following quests:'] = "Ends the following quests:",
+    ['No quests to list.'] = "No quests to list.",
+    ['No spawn data available.'] = "No spawn data available.",
 };

@@ -1,3 +1,13 @@
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieOptions
+local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions");
+---@type QuestieOptionsUtils
+local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils");
+---@type QuestieTracker
+local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker");
+
 QuestieOptions.tabs.tracker = {...}
 
 

@@ -12,3 +12,4 @@
 *.temporary
 
 releases/
+*__pycache__/
