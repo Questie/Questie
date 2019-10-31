@@ -227,9 +227,9 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
         end
 
         local continent = 'UNKNOWN ZONE';
-        for i, v in ipairs(QuestieJourney.zoneList) do
+        for i, v in ipairs(QuestieJourney.zones) do
             if v[startindex] then
-                continent = QuestieJourney.zoneList[i][startindex];
+                continent = QuestieJourney.zones[i][startindex];
             end
         end
 
