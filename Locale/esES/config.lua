@@ -151,6 +151,7 @@ QuestieLocale.locale['esES'] = {
     ['ENABLE_TOOLTIPS_QUEST_LEVEL_IDS'] = "When this is checked, the ID of quests will show in the tooltips and the tracker.",
     ['LOCALE'] = "Opciones de idioma",
     ['LOCALE_DROP'] = "Seleccionar idioma de interfaz",
+    ['LOCALE_DROP_AUTOMATIC'] = "Automatic", -- TODO
     ['RESET_QUESTIE'] = "Reiniciar Questie",
     ['RESET_QUESTIE_DESC'] = "Clicar este botón reiniciará toda la configuración de Questie a los parametros por defecto. (Menos el idioma)",
     ['RESET_QUESTIE_BTN'] = "Reiniciar Questie",

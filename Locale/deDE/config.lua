@@ -151,6 +151,7 @@ QuestieLocale.locale['deDE'] = {
     ['ENABLE_TOOLTIPS_QUEST_LEVEL_IDS'] = "Aktiviert/Deaktiviert, dass die Quest-ID in den Tooltips und dem Tracker angezeigt werden.",
     ['LOCALE'] = "Spracheinstellungen",
     ['LOCALE_DROP'] = "Interface-Sprache wählen",
+    ['LOCALE_DROP_AUTOMATIC'] = "Automatisch",
     ['RESET_QUESTIE'] = "Questie zurücksetzen",
     ['RESET_QUESTIE_DESC'] = "Setzt alle Einstellungen von Questie auf den Standardwert zurück (Lokalisierung ausgeschlossen).",
     ['RESET_QUESTIE_BTN'] = "Questie zurücksetzen",

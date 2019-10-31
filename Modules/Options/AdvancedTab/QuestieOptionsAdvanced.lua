@@ -130,6 +130,7 @@ function QuestieOptions.tabs.advanced:Initalize()
                 type = "select",
                 order = 13,
                 values = {
+                    ['auto'] = QuestieLocale:GetUIString('LOCALE_DROP_AUTOMATIC'),
                     ['enUS'] = 'English',
                     ['esES'] = 'Español',
                     ['esMX'] = 'Español (México)',
@@ -143,8 +144,21 @@ function QuestieOptions.tabs.advanced:Initalize()
                 },
                 style = 'dropdown',
                 name = function() return QuestieLocale:GetUIString('LOCALE_DROP'); end,
-                get = function() return QuestieLocale:GetUILocale(); end,
+                get = function()
+                    if not Questie.db.global.questieLocaleDiff then
+                        return 'auto'
+                    else
+                        return QuestieLocale:GetUILocale(); 
+                    end
+                end,
                 set = function(input, lang)
+                    if lang == 'auto' then
+                        local clientLocale = GetLocale()
+                        QuestieLocale:SetUILocale(clientLocale)
+                        Questie.db.global.questieLocale = clientLocale
+                        Questie.db.global.questieLocaleDiff = false
+                        return
+                    end
                     QuestieLocale:SetUILocale(lang);
                     Questie.db.global.questieLocale = lang;
                     Questie.db.global.questieLocaleDiff = true;

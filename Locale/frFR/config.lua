@@ -151,6 +151,7 @@ QuestieLocale.locale['frFR'] = {
     ['ENABLE_TOOLTIPS_QUEST_LEVEL_IDS'] = "Active l'affichage de l'ID des quêtes dans les info-bulles et le suivi des quêtes.",
     ['LOCALE'] = "Paramètre de localisation",
     ['LOCALE_DROP'] = "Sélection de la langue :",
+    ['LOCALE_DROP_AUTOMATIC'] = "Automatic", -- TODO
     ['RESET_QUESTIE'] = "Réinitialisation",
     ['RESET_QUESTIE_DESC'] = "Activer ce bouton réinitialisera tous les paramètres de Questie à leurs valeurs par défaut. (sauf choix de la langue)",
     ['RESET_QUESTIE_BTN'] = "Réinitialiser Questie",
