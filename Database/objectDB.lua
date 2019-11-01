@@ -1,3 +1,5 @@
+-- AUTO GENERATED FILE! DO NOT EDIT!
+
 -------------------------
 --Import modules.
 -------------------------
