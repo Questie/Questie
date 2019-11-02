@@ -849,8 +849,8 @@ function _QuestieFramePool:Questie_Tooltip(self)
                                         if objectiveData[icon.data.ObjectiveIndex] and objectiveData[icon.data.ObjectiveIndex].fulfilled and objectiveData[icon.data.ObjectiveIndex].required then
                                             local fulfilled = objectiveData[icon.data.ObjectiveIndex].fulfilled;
                                             local required = objectiveData[icon.data.ObjectiveIndex].required;
-                                            local colorOther = fulfilled == required  and "|cFF33FF33" or "|cFFFFFF00"
-											colorizedPlayerName = " (|c"..playerInfo.colorHex..playerName.."|r"..colorOther..")|r";
+                                            local colorOther = fulfilled == required and "|cFF33FF33" or "|cFFFFFF00"
+                                            colorizedPlayerName = " (|c"..playerInfo.colorHex..playerName.."|r"..colorOther..")|r";
                                             remoteText = colorOther .. tostring(fulfilled) .. "/" .. tostring(required) .. " " .. remoteText .. colorizedPlayerName;
                                         else
                                             remoteText = remoteText .. colorizedPlayerName;
