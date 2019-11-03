@@ -4,6 +4,8 @@ local QuestieJourney = QuestieLoader:CreateModule("QuestieJourney");
 -------------------------
 --Import modules.
 -------------------------
+---@type QuestieJourneyUtils
+local QuestieJourneyUtils = QuestieLoader:ImportModule("QuestieJourneyUtils");
 ---@type QuestieSearchResults
 local QuestieSearchResults = QuestieLoader:ImportModule("QuestieSearchResults");
 ---@type QuestiePlayer
@@ -27,20 +29,6 @@ function JumpToQuest(button)
     QuestieSearchResults:JumpToQuest(button)
     HideJourneyTooltip()
  end
-
-local function Spacer(container, size)
-    local spacer = AceGUI:Create("Label");
-    spacer:SetFullWidth(true);
-    spacer:SetText(" ");
-    if size and size == "large" then
-        spacer:SetFontObject(GameFontHighlightLarge);
-    elseif size and size == "small" then
-        spacer:SetFontObject(GameFontHighlightSmall);
-    else
-        spacer:SetFontObject(GameFontHighlight);
-    end
-    container:AddChild(spacer);
-end
 
 local journeyTreeFrame = nil;
 local treeCache = nil;
@@ -163,7 +151,7 @@ local function ManageJourneyTree(container)
                 header:SetFullWidth(true);
                 f:AddChild(header);
 
-                Spacer(f);
+                QuestieJourneyUtils:Spacer(f);
 
                 local created = AceGUI:Create("Label");
                 created:SetFullWidth(true);
@@ -182,7 +170,7 @@ local function ManageJourneyTree(container)
                     note:SetFullWidth(true);
                     note:SetText(Questie:Colorize( entry.Note , 'yellow'));
                     f:AddChild(note);
-                    Spacer(f);
+                    QuestieJourneyUtils:Spacer(f);
 
                     created:SetText(QuestieLocale:GetUIString('JOURNEY_NOTE_CREATED', timestamp));
                     f:AddChild(created);
@@ -224,7 +212,7 @@ local function ManageJourneyTree(container)
                         f:AddChild(obj);
                     end
 
-                    Spacer(f);
+                    QuestieJourneyUtils:Spacer(f);
 
                     -- Only show party members if you weren't alone
                     if #entry.Party > 0 then
@@ -245,7 +233,7 @@ local function ManageJourneyTree(container)
                             partyFrame:AddChild(pf);
                         end
 
-                        Spacer(f);
+                        QuestieJourneyUtils:Spacer(f);
                     end
 
 
@@ -274,7 +262,7 @@ local function DrawJourneyTab(container)
     head:SetText(QuestieLocale:GetUIString('JOURNEY_RECENT_EVENTS'));
     head:SetFullWidth(true);
     container:AddChild(head);
-    Spacer(container);
+    QuestieJourneyUtils:Spacer(container);
 
     -- get last 5 elements from table for history
     local counter = #Questie.db.char.journey;
@@ -325,7 +313,7 @@ local function DrawJourneyTab(container)
         container:AddChild(justdoit);
     end
 
-    Spacer(container);
+    QuestieJourneyUtils:Spacer(container);
 
     local treeHead = AceGUI:Create("Heading");
     treeHead:SetText(QuestieLocale:GetUIString('JOURNEY_TITLE', UnitName("player")));
@@ -338,7 +326,7 @@ local function DrawJourneyTab(container)
     noteBtn:SetCallback("OnClick", NotePopup);
     container:AddChild(noteBtn);
 
-    Spacer(container);
+    QuestieJourneyUtils:Spacer(container);
 
     local treeGroup = AceGUI:Create("SimpleGroup");
     treeGroup:SetLayout("fill");
@@ -393,7 +381,7 @@ function NotePopup()
         desc:SetFullWidth(true);
         frame:AddChild(desc);
 
-        Spacer(frame);
+        QuestieJourneyUtils:Spacer(frame);
 
 
         local titleBox = AceGUI:Create("EditBox");
@@ -508,7 +496,7 @@ local function QuestFrame(f, quest)
     header:SetText(quest.Name);
     f:AddChild(header);
 
-    Spacer(f);
+    QuestieJourneyUtils:Spacer(f);
 
     local obj = AceGUI:Create("Label");
     obj:SetText(CreateObjectiveText(quest.Description));
@@ -516,7 +504,7 @@ local function QuestFrame(f, quest)
 
     obj:SetFullWidth(true);
     f:AddChild(obj);
-    Spacer(f);
+    QuestieJourneyUtils:Spacer(f);
 
     local questinfo = AceGUI:Create("Heading");
     questinfo:SetFullWidth(true);
@@ -558,7 +546,7 @@ local function QuestFrame(f, quest)
     id:SetText(Questie:Colorize(QuestieLocale:GetUIString('JOURNEY_QUEST_ID'), 'yellow') .. quest.Id);
     id:SetFullWidth(true);
     f:AddChild(id);
-    Spacer(f);
+    QuestieJourneyUtils:Spacer(f);
 
     -- Get Quest Start NPC
     if quest.Starts and quest.Starts.NPC then
@@ -568,7 +556,7 @@ local function QuestFrame(f, quest)
         startNPCGroup:SetFullWidth(true);
         f:AddChild(startNPCGroup);
 
-        Spacer(startNPCGroup);
+        QuestieJourneyUtils:Spacer(startNPCGroup);
 
         local startnpc = QuestieDB:GetNPC(quest.Starts.NPC[1]);
 
@@ -610,7 +598,7 @@ local function QuestFrame(f, quest)
         startNPCID:SetFullWidth(true);
         startNPCGroup:AddChild(startNPCID);
 
-        Spacer(startNPCGroup);
+        QuestieJourneyUtils:Spacer(startNPCGroup);
 
         -- Also Starts
         if startnpc.questStarts then
@@ -648,7 +636,7 @@ local function QuestFrame(f, quest)
             end
         end
 
-        Spacer(startNPCGroup);
+        QuestieJourneyUtils:Spacer(startNPCGroup);
 
     end
 
@@ -660,7 +648,7 @@ local function QuestFrame(f, quest)
         startGOGroup:SetFullWidth(true);
         f:AddChild(startGOGroup);
 
-        Spacer(startGOGroup);
+        QuestieJourneyUtils:Spacer(startGOGroup);
 
         for i, oid in pairs(quest.Starts.GameObject) do
             local startobj = QuestieDB:GetObject(oid);
@@ -703,7 +691,7 @@ local function QuestFrame(f, quest)
             startGOID:SetFullWidth(true);
             startGOGroup:AddChild(startGOID);
 
-            Spacer(startGOGroup);
+            QuestieJourneyUtils:Spacer(startGOGroup);
 
             -- Also Starts
             if startobj.questStarts then
@@ -741,11 +729,11 @@ local function QuestFrame(f, quest)
                 end
             end
 
-            Spacer(startGOGroup);
+            QuestieJourneyUtils:Spacer(startGOGroup);
         end
     end
 
-    Spacer(f);
+    QuestieJourneyUtils:Spacer(f);
 
     -- Get Quest Turnin NPC
     if quest.Finisher and quest.Finisher.Name and quest.Finisher.Type == "monster" then
@@ -754,7 +742,7 @@ local function QuestFrame(f, quest)
         endNPCGroup:SetTitle(QuestieLocale:GetUIString('JOURNEY_END_NPC'));
         endNPCGroup:SetFullWidth(true);
         f:AddChild(endNPCGroup);
-        Spacer(endNPCGroup);
+        QuestieJourneyUtils:Spacer(endNPCGroup);
 
         local endnpc = QuestieDB:GetNPC(quest.Finisher.Id);
 
@@ -796,7 +784,7 @@ local function QuestFrame(f, quest)
         endNPCID:SetFullWidth(true);
         endNPCGroup:AddChild(endNPCID);
 
-        Spacer(endNPCGroup);
+        QuestieJourneyUtils:Spacer(endNPCGroup);
 
         -- Also ends
         if endnpc.endQuests then
@@ -834,7 +822,7 @@ local function QuestFrame(f, quest)
 
         end
 
-        Spacer(endNPCGroup);
+        QuestieJourneyUtils:Spacer(endNPCGroup);
 
         -- Fix for sometimes the scroll content will max out and not show everything until window is resized
         f.content:SetHeight(10000);
@@ -899,7 +887,7 @@ local function DrawZoneQuestTab(container)
     header:SetText(QuestieLocale:GetUIString('JOURNEY_SELECT_HEAD'));
     header:SetFullWidth(true);
     container:AddChild(header);
-    Spacer(container);
+    QuestieJourneyUtils:Spacer(container);
 
     local CDropdown = AceGUI:Create("LQDropdown");
     local zDropdown = AceGUI:Create("LQDropdown");
@@ -945,14 +933,14 @@ local function DrawZoneQuestTab(container)
     end);
     container:AddChild(zDropdown);
 
-    Spacer(container);
+    QuestieJourneyUtils:Spacer(container);
 
     header = AceGUI:Create("Heading");
     header:SetText(QuestieLocale:GetUIString('JOURNEY_QUESTS'));
     header:SetFullWidth(true);
     container:AddChild(header);
 
-    Spacer(container);
+    QuestieJourneyUtils:Spacer(container);
 
     treegroup:SetFullHeight(true);
     treegroup:SetFullWidth(true);
