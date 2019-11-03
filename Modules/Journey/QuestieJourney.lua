@@ -983,7 +983,7 @@ function CollectZoneQuests(zoneId)
 
     local availableCounter = 0
     local completedCounter = 0
-    local unavilableCounter = 0
+    local unoptainableCounter = 0
     local repeatableCounter = 0
 
     for _, levelAndQuest in pairs(sortedQuestByLevel) do
@@ -1000,12 +1000,12 @@ function CollectZoneQuests(zoneId)
                 table.insert(zoneTree[2].children, temp)
                 completedCounter = completedCounter + 1
             else
-                -- Unavailable quests
+                -- Unoptainable quests
                 if quest.exclusiveTo then
                     for _, exId in pairs(quest.exclusiveTo) do
                         if Questie.db.char.complete[exId] and zoneTree[4].children[qId] == nil then
                             table.insert(zoneTree[4].children, temp)
-                            unavilableCounter = unavilableCounter + 1
+                            unoptainableCounter = unoptainableCounter + 1
                         end
                     end
                 end
@@ -1027,7 +1027,7 @@ function CollectZoneQuests(zoneId)
     zoneTree[1].text = zoneTree[1].text .. ' [ '..  availableCounter ..'/'.. totalCounter ..' ]';
     zoneTree[2].text = zoneTree[2].text .. ' [ '..  completedCounter ..'/'.. totalCounter ..' ]';
     zoneTree[3].text = zoneTree[3].text .. ' [ '..  repeatableCounter ..' ]';
-    zoneTree[4].text = zoneTree[4].text .. ' [ '..  unavilableCounter ..' ]';
+    zoneTree[4].text = zoneTree[4].text .. ' [ '..  unoptainableCounter ..' ]';
 
     return zoneTree
 end
