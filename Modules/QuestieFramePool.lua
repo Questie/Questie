@@ -950,7 +950,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
                 if questData.title ~= nil then
                     local quest = QuestieDB:GetQuest(questData.questId);
                     if(quest and shift and QuestiePlayer:GetPlayerLevel() ~= 60) then
-                        self:AddDoubleLine("   " .. questData.title, QuestieLib:PrintDifficultyColor(quest.Level, "("..GetQuestLogRewardXP(questData.questId)..xpString..") ")..questData.type, 1, 1, 1, 1, 1, 0);
+                        self:AddDoubleLine("   " .. questData.title, QuestieLib:PrintDifficultyColor(quest.level, "("..GetQuestLogRewardXP(questData.questId)..xpString..") ")..questData.type, 1, 1, 1, 1, 1, 0);
                     else
                         self:AddDoubleLine("   " .. questData.title, questData.type, 1, 1, 1, 1, 1, 0);
                     end
@@ -977,7 +977,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
                 haveGiver = false -- looks better when only the first one shows (active)
             else
                 if(quest and shift and QuestiePlayer:GetPlayerLevel() ~= 60) then
-                    local r, g, b = QuestieLib:GetDifficultyColorPercent(quest.Level);
+                    local r, g, b = QuestieLib:GetDifficultyColorPercent(quest.level);
                     self:AddDoubleLine(questTitle, "("..GetQuestLogRewardXP(questId)..xpString..")", 0.2, 1, 0.2, r, g, b);
                     firstLine = false;
                 elseif(firstLine and not shift) then

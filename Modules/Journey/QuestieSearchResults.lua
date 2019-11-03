@@ -268,7 +268,7 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
             startQuests[counter].quest = QuestieDB:GetQuest(v);
             startQuests[counter].frame:SetText(startQuests[counter].quest:GetColoredQuestName());
             startQuests[counter].frame:SetUserData('id', v);
-            startQuests[counter].frame:SetUserData('name', startQuests[counter].quest.Name);
+            startQuests[counter].frame:SetUserData('name', startQuests[counter].quest.name);
             startQuests[counter].frame:SetCallback("OnClick", function(self) QuestieSearchResults:GetDetailFrame('quest', v) end)
             startQuests[counter].frame:SetCallback("OnEnter", ShowJourneyTooltip);
             startQuests[counter].frame:SetCallback("OnLeave", HideJourneyTooltip);
@@ -302,7 +302,7 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
             endQuests[counter].quest = QuestieDB:GetQuest(v);
             endQuests[counter].frame:SetText(endQuests[counter].quest:GetColoredQuestName());
             endQuests[counter].frame:SetUserData('id', v);
-            endQuests[counter].frame:SetUserData('name', endQuests[counter].quest.Name);
+            endQuests[counter].frame:SetUserData('name', endQuests[counter].quest.name);
             endQuests[counter].frame:SetCallback("OnClick", function(self) QuestieSearchResults:GetDetailFrame('quest', v) end);
             endQuests[counter].frame:SetCallback("OnEnter", ShowJourneyTooltip);
             endQuests[counter].frame:SetCallback("OnLeave", HideJourneyTooltip);

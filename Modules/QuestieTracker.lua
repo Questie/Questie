@@ -1064,7 +1064,7 @@ function QuestieTracker:Update()
             if vA == vB then
                 local qA = QuestieDB:GetQuest(a)
                 local qB = QuestieDB:GetQuest(b)
-                return qA and qB and qA.Level < qB.Level
+                return qA and qB and qA.level < qB.level
             end
             return vB < vA
         end)
@@ -1072,13 +1072,13 @@ function QuestieTracker:Update()
         table.sort(order, function(a, b)
             local qA = QuestieDB:GetQuest(a)
             local qB = QuestieDB:GetQuest(b)
-            return qA and qB and qA.Level < qB.Level
+            return qA and qB and qA.level < qB.level
         end)
     elseif Questie.db.global.trackerSortObjectives == "byLevelReversed" then
         table.sort(order, function(a, b)
             local qA = QuestieDB:GetQuest(a)
             local qB = QuestieDB:GetQuest(b)
-            return qA and qB and qA.Level > qB.Level
+            return qA and qB and qA.level > qB.level
         end)
     end
     local hasQuest = false
@@ -1101,8 +1101,8 @@ function QuestieTracker:Update()
             line:SetQuest(quest)
             line:SetObjective(nil)
 
-            local questName = (quest.LocalizedName or quest.Name)
-            local coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, questName, quest.Level, Questie.db.global.trackerShowQuestLevel, complete)
+            local questName = (quest.LocalizedName or quest.name)
+            local coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, questName, quest.level, Questie.db.global.trackerShowQuestLevel, complete)
             line.label:SetText(coloredQuestName)
 
             line:Show()

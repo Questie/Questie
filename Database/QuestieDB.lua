@@ -158,8 +158,8 @@ function QuestieDB:GetItem(ItemID)
 end
 
 local function _GetColoredQuestName(self, blizzLike)
-    local questName = (self.LocalizedName or self.Name)
-    return QuestieLib:GetColoredQuestName(self.Id, questName, self.Level, Questie.db.global.enableTooltipsQuestLevel, false, blizzLike)
+    local questName = (self.LocalizedName or self.name)
+    return QuestieLib:GetColoredQuestName(self.Id, questName, self.level, Questie.db.global.enableTooltipsQuestLevel, false, blizzLike)
 end
 
 ---@param questID integer @The quest ID
@@ -185,7 +185,6 @@ function QuestieDB:GetQuest(questID) -- /dump QuestieDB:GetQuest(867)
     for stringKey, intKey in pairs(QuestieDB.questKeys) do
         QO[stringKey] = rawdata[intKey]
     end
-    QO.Name = rawdata[1] --Name - 1
     QO.Starts = {} --Starts - 2
     QO.Starts["NPC"] = rawdata[2][1] --2.1
     QO.Starts["GameObject"] = rawdata[2][2] --2.2
@@ -193,9 +192,8 @@ function QuestieDB:GetQuest(questID) -- /dump QuestieDB:GetQuest(867)
     QO.Ends = {} --ends 3
     QO.Hidden = rawdata.hidden or QuestieCorrections.hiddenQuests[questID]
     QO.Description = rawdata[8] --
-    QO.SpecialFlags = rawdata[DB_SPECIAL_FLAGS]
-    if QO.SpecialFlags then
-        QO.Repeatable = mod(QO.SpecialFlags, 2) == 1
+    if QO.specialFlags then
+        QO.Repeatable = mod(QO.specialFlags, 2) == 1
     end
 
     -- reorganize to match wow api
@@ -243,7 +241,7 @@ function QuestieDB:GetQuest(questID) -- /dump QuestieDB:GetQuest(867)
         end
     end
 
-    QO.Level = rawdata[5]
+    QO.level = rawdata[5]
     QO.Triggers = rawdata[9] --List of coordinates
     QO.ObjectiveData = {} -- to differentiate from the current quest log info
     --    type
@@ -303,14 +301,8 @@ function QuestieDB:GetQuest(questID) -- /dump QuestieDB:GetQuest(867)
     if(rawdata[12] ~= nil and next(rawdata[12]) ~= nil and rawdata[13] ~= nil and next(rawdata[13]) ~= nil) then
         Questie:Debug(DEBUG_CRITICAL, "ERRRRORRRRRRR not mutually exclusive for questID:", questID)
     end
-    if(rawdata[12] ~= nil) then
-        QO.RequiredQuestGroup = rawdata[12]
-    else
-        QO.RequiredQuestSingle = rawdata[13]
-    end
     QO.QuestGroup = rawdata[15] --Quests that are part of the same group, example complete this group of quests to open the next one.
     QO.ExclusiveQuestGroup = rawdata[16]
-    QO.NextQuestInChain = rawdata[22]
 
     QO.HiddenObjectiveData = {}
 
@@ -346,7 +338,7 @@ function QuestieDB:GetQuest(questID) -- /dump QuestieDB:GetQuest(867)
 
     --- function
     function QO:IsTrivial()
-        local levelDiff = self.Level - QuestiePlayer:GetPlayerLevel();
+        local levelDiff = self.level - QuestiePlayer:GetPlayerLevel();
         if (levelDiff >= 5) then
             return false -- Red
         elseif (levelDiff >= 3) then
