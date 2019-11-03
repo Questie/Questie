@@ -118,7 +118,7 @@ function QuestieTooltips:GetTooltip(key)
                 end
             end
             for playerName, objectives in pairs(playerList) do
-                local playerInfo = QuestieLib:PlayerInGroup(playerName);
+                local playerInfo = QuestiePlayer:GetPartyMemberByName(playerName);
                 if(playerInfo) then
                     anotherPlayer = true;
                     for objectiveIndex, objective in pairs(objectives) do
@@ -164,7 +164,7 @@ function QuestieTooltips:GetTooltip(key)
         local tempObjectives = {}
         for objectiveIndex, playerList in pairs(questData.objectivesText or {}) do -- Should we do or {} here?
             for playerName, objectiveText in pairs(playerList) do
-                local playerInfo = QuestieLib:PlayerInGroup(playerName);
+                local playerInfo = QuestiePlayer:GetPartyMemberByName(playerName);
                 local useName = "";
                 if(playerName == name and anotherPlayer) then
                     local _, classFilename = UnitClass("player");

@@ -840,7 +840,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
                                         -.fulfilled = objective.numFulfilled;
                                         -.required = objective.numRequired;  
                                     ]]
-                                    local playerInfo = QuestieLib:PlayerInGroup(playerName);
+                                    local playerInfo = QuestiePlayer:GetPartyMemberByName(playerName);
                                     if(playerInfo) then
                                         local colorizedPlayerName = " (|c"..playerInfo.colorHex..playerName.."|r|cFF33FF33)|r";
                                         local remoteText = icon.data.ObjectiveData.Description;
