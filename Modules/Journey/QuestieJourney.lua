@@ -986,7 +986,7 @@ function CollectZoneQuests(zoneId)
         },
         [4] = {
             value = "u",
-            text = QuestieLocale:GetUIString('JOURNEY_UNAVAILABLE_TITLE'),
+            text = QuestieLocale:GetUIString('JOURNEY_UNOPTAINABLE_TITLE'),
             children = {},
         }
     }
