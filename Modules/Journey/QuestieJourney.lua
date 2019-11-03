@@ -962,7 +962,7 @@ end
 
 -- Get all the available/completed/repeatable/unavailable quests
 
----@param zoneId integer @The zone ID (Check `zoneDataClassic`)
+---@param zoneId integer @The zone ID (Check `LangZoneLookup`)
 ---@return table<integer,any> @The zoneTree table which represents the list of all the different quests
 function CollectZoneQuests(zoneId)
     local quests = QuestieDB:GetQuestsByZoneId(zoneId)

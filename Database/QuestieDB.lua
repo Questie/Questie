@@ -488,6 +488,14 @@ function QuestieDB:GetNPCsByName(npcName)
     return returnTable;
 end
 
+--[[
+    https://github.com/cmangos/issues/wiki/AreaTable.dbc
+    Example to differentiate between Dungeon and Zone infront of a Dungeon:
+    1337 Uldaman = The Dungeon (MapID ~= 0, AreaID = 0)
+    1517 Uldaman = Cave infront of the Dungeon (MapID = 0, AreaID = 3 (Badlands))
+
+    Check `LangZoneLookup` for the available IDs
+]]
 function QuestieDB:GetQuestsByZoneId(zoneId)
 
     if not zoneId then
@@ -509,7 +517,7 @@ function QuestieDB:GetQuestsByZoneId(zoneId)
                 zoneQuests[qid] = quest;
             end
 
-            if quest.Starts.NPC then
+            if quest.Starts.NPC and zoneQuests[qid] == nil then
                 local npc = QuestieDB:GetNPC(quest.Starts.NPC[1]);
 
                 if npc and npc.spawns then
@@ -521,7 +529,7 @@ function QuestieDB:GetQuestsByZoneId(zoneId)
                 end
             end
 
-            if quest.Starts.GameObject then
+            if quest.Starts.GameObject and zoneQuests[qid] == nil then
                 local obj = QuestieDB:GetObject(quest.Starts.GameObject[1]);
 
                 if obj and obj.spawns then
