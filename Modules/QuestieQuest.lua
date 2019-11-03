@@ -592,7 +592,7 @@ function QuestieQuest:AddFinisher(Quest)
                             if(instanceData[Zone] ~= nil) then
                                 for index, value in ipairs(instanceData[Zone]) do
                                     --QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
-                                    --Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[value[1]])
+                                    --Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", ZoneDataAreaIDToUiMapID[value[1]])
                                     --local icon, minimapIcon = QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
                                     local z = value[1];
                                     local x = value[2];
@@ -617,7 +617,7 @@ function QuestieQuest:AddFinisher(Quest)
                                         local lineFrames = QuestieFramePool:CreateWaypoints(icon, finisher.waypoints[z]);
                                         for index, lineFrame in ipairs(lineFrames) do
                                             QuestieMap:DrawLineIcon(lineFrame, z, x, y);
-                                            --HBDPins:AddWorldMapIconMap(Questie, lineFrame, zoneDataAreaIDToUiMapID[z], x, y, HBD_PINS_WORLDMAP_SHOW_CURRENT)
+                                            --HBDPins:AddWorldMapIconMap(Questie, lineFrame, ZoneDataAreaIDToUiMapID[z], x, y, HBD_PINS_WORLDMAP_SHOW_CURRENT)
                                         end
                                     end
                                 end
@@ -646,7 +646,7 @@ function QuestieQuest:AddFinisher(Quest)
                                 local lineFrames = QuestieFramePool:CreateWaypoints(icon, finisher.waypoints[Zone]);
                                 for index, lineFrame in ipairs(lineFrames) do
                                     QuestieMap:DrawLineIcon(lineFrame, Zone, x, y);
-                                    --HBDPins:AddWorldMapIconMap(Questie, lineFrame, zoneDataAreaIDToUiMapID[Zone], x, y, HBD_PINS_WORLDMAP_SHOW_CURRENT)
+                                    --HBDPins:AddWorldMapIconMap(Questie, lineFrame, ZoneDataAreaIDToUiMapID[Zone], x, y, HBD_PINS_WORLDMAP_SHOW_CURRENT)
                                 end
                             end
                         end
@@ -900,10 +900,10 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                                 drawIcon.data = data;
                                 drawIcon.zone = zone;
                                 drawIcon.areaId = zone;
-                                drawIcon.UIMapId = zoneDataAreaIDToUiMapID[zone];
+                                drawIcon.UIMapId = ZoneDataAreaIDToUiMapID[zone];
                                 drawIcon.x = spawn[1];
                                 drawIcon.y = spawn[2];
-                                local x, y, instance = HBD:GetWorldCoordinatesFromZone(drawIcon.x/100, drawIcon.y/100, zoneDataAreaIDToUiMapID[zone])
+                                local x, y, instance = HBD:GetWorldCoordinatesFromZone(drawIcon.x/100, drawIcon.y/100, ZoneDataAreaIDToUiMapID[zone])
                                 -- There are instances when X and Y are not in the same map such as in dungeons etc, we default to 0 if it is not set
                                 -- This will create a distance of 0 but it doesn't matter.
                                 local distance = QuestieLib:Euclid(closestStarter[Quest.Id].x or 0, closestStarter[Quest.Id].y or 0, x or 0, y or 0);
@@ -1567,7 +1567,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                             if(coords[1] == -1 or coords[2] == -1) then
                                 if(instanceData[Zone] ~= nil) then
                                     for index, value in ipairs(instanceData[Zone]) do
-                                        --Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[value[1]])
+                                        --Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", ZoneDataAreaIDToUiMapID[value[1]])
                                         --local icon, minimapIcon = QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
                                         local z = value[1];
                                         local x = value[2];
@@ -1592,7 +1592,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                                             local lineFrames = QuestieFramePool:CreateWaypoints(icon, NPC.waypoints[z]);
                                             for index, lineFrame in ipairs(lineFrames) do
                                                 QuestieMap:DrawLineIcon(lineFrame, z, x, y);
-                                                --HBDPins:AddWorldMapIconMap(Questie, lineFrame, zoneDataAreaIDToUiMapID[z], x, y, HBD_PINS_WORLDMAP_SHOW_CURRENT)
+                                                --HBDPins:AddWorldMapIconMap(Questie, lineFrame, ZoneDataAreaIDToUiMapID[z], x, y, HBD_PINS_WORLDMAP_SHOW_CURRENT)
                                             end
                                         end
 
@@ -1621,7 +1621,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                                   local lineFrames = QuestieFramePool:CreateWaypoints(icon, NPC.waypoints[Zone]);
                                   for index, lineFrame in ipairs(lineFrames) do
                                     QuestieMap:DrawLineIcon(lineFrame, Zone, x, y);
-                                    --HBDPins:AddWorldMapIconMap(Questie, lineFrame, zoneDataAreaIDToUiMapID[Zone], x, y, HBD_PINS_WORLDMAP_SHOW_CURRENT)
+                                    --HBDPins:AddWorldMapIconMap(Questie, lineFrame, ZoneDataAreaIDToUiMapID[Zone], x, y, HBD_PINS_WORLDMAP_SHOW_CURRENT)
                                   end
                                 end
                             end

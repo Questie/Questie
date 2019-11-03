@@ -335,7 +335,7 @@ function QuestieMap:DrawLineIcon(lineFrame, AreaID, x, y)
         error("Questie"..": AddWorldMapIconMap: 'AreaID', 'x' and 'y' must be numbers "..AreaID.." "..x.." "..y)
     end
 
-    HBDPins:AddWorldMapIconMap(Questie, lineFrame, zoneDataAreaIDToUiMapID[AreaID], x, y, HBD_PINS_WORLDMAP_SHOW_CURRENT)
+    HBDPins:AddWorldMapIconMap(Questie, lineFrame, ZoneDataAreaIDToUiMapID[AreaID], x, y, HBD_PINS_WORLDMAP_SHOW_CURRENT)
 end
 
 
@@ -355,14 +355,14 @@ function QuestieMap:DrawManualIcon(data, AreaID, x, y)
     if type(data.id) ~= "number" or type(data.id) ~= "number"then
         error("Questie".."Data.id must be set to the NPC or object ID!")
     end
-    if zoneDataAreaIDToUiMapID[AreaID] == nil then
+    if ZoneDataAreaIDToUiMapID[AreaID] == nil then
         --Questie:Error("No UiMapID for ("..tostring(zoneDataClassic[AreaID])..") :".. AreaID .. tostring(data.Name))
         return nil, nil
     end
     -- set the icon
     local texture = "Interface\\WorldMap\\WorldMapPartyIcon"
     -- Save new zone ID format, used in QuestieFramePool
-    data.UiMapID = zoneDataAreaIDToUiMapID[AreaID]
+    data.UiMapID = ZoneDataAreaIDToUiMapID[AreaID]
     -- create a list for all frames belonging to a NPC (id > 0) or an object (id < 0)
     if(QuestieMap.manualFrames[data.id] == nil) then
         QuestieMap.manualFrames[data.id] = {}
@@ -433,7 +433,7 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
     if type(data.Id) ~= "number" or type(data.Id) ~= "number"then
         error("Questie".."Data.Id must be set to the quests ID!")
     end
-    if zoneDataAreaIDToUiMapID[AreaID] == nil then
+    if ZoneDataAreaIDToUiMapID[AreaID] == nil then
         --Questie:Error("No UiMapID for ("..tostring(zoneDataClassic[AreaID])..") :".. AreaID .. tostring(data.Name))
         return nil, nil
     end
@@ -443,7 +443,7 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
 
 
     if AreaID then
-        data.UiMapID = zoneDataAreaIDToUiMapID[AreaID];
+        data.UiMapID = ZoneDataAreaIDToUiMapID[AreaID];
     end
 
     local icon = QuestieFramePool:GetFrame()
@@ -540,10 +540,10 @@ function QuestieMap:DrawWorldIcon(data, AreaID, x, y, showFlag)
         -- iconMinimap:SetScript("OnUpdate", )
     end
 
-    QuestieMap:QueueDraw(QuestieMap.ICON_MINIMAP_TYPE, Questie, iconMinimap, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, true, floatOnEdge)
-    QuestieMap:QueueDraw(QuestieMap.ICON_MAP_TYPE, Questie, icon, zoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, showFlag)
+    QuestieMap:QueueDraw(QuestieMap.ICON_MINIMAP_TYPE, Questie, iconMinimap, ZoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, true, floatOnEdge)
+    QuestieMap:QueueDraw(QuestieMap.ICON_MAP_TYPE, Questie, icon, ZoneDataAreaIDToUiMapID[AreaID], x / 100, y / 100, showFlag)
     local r, g, b = iconMinimap.texture:GetVertexColor()
-    QuestieDBMIntegration:RegisterHudQuestIcon(tostring(icon), data.Icon, zoneDataAreaIDToUiMapID[AreaID], x, y, r, g, b)
+    QuestieDBMIntegration:RegisterHudQuestIcon(tostring(icon), data.Icon, ZoneDataAreaIDToUiMapID[AreaID], x, y, r, g, b)
 
     if(QuestieMap.questIdFrames[data.Id] == nil) then
         QuestieMap.questIdFrames[data.Id] = {}
@@ -599,15 +599,15 @@ function QuestieMap:FindClosestStarter()
                                                     if(instanceData[Zone] ~= nil) then
                                                         for index, value in ipairs(instanceData[Zone]) do
                                                             if(value[1] and value[2]) then
-                                                                local x, y, instance = HBD:GetWorldCoordinatesFromZone(value[1]/100, value[2]/100, zoneDataAreaIDToUiMapID[value[3]])
+                                                                local x, y, instance = HBD:GetWorldCoordinatesFromZone(value[1]/100, value[2]/100, ZoneDataAreaIDToUiMapID[value[3]])
                                                                 if(x and y) then
                                                                     local distance = QuestieLib:Euclid(playerX or 0, playerY or 0, x, y);
-                                                                    --Questie:Print(x, y, zoneDataAreaIDToUiMapID[Zone], distance)
+                                                                    --Questie:Print(x, y, ZoneDataAreaIDToUiMapID[Zone], distance)
                                                                     if(closestStarter[questId].distance > distance) then
                                                                         closestStarter[questId].distance = distance;
                                                                         closestStarter[questId].x = x;
                                                                         closestStarter[questId].y = y;
-                                                                        closestStarter[questId].zone = zoneDataAreaIDToUiMapID[Zone];
+                                                                        closestStarter[questId].zone = ZoneDataAreaIDToUiMapID[Zone];
                                                                         closestStarter[questId].type = "GameObject - " .. obj.name;
                                                                     end
                                                                 end
@@ -615,15 +615,15 @@ function QuestieMap:FindClosestStarter()
                                                         end
                                                     end
                                                 else
-                                                    local x, y, instance = HBD:GetWorldCoordinatesFromZone(coords[1]/100, coords[2]/100, zoneDataAreaIDToUiMapID[Zone])
+                                                    local x, y, instance = HBD:GetWorldCoordinatesFromZone(coords[1]/100, coords[2]/100, ZoneDataAreaIDToUiMapID[Zone])
                                                     if(x and y) then
                                                         local distance = QuestieLib:Euclid(playerX or 0, playerY or 0, x, y);
-                                                        --Questie:Print(x, y, zoneDataAreaIDToUiMapID[Zone], distance)
+                                                        --Questie:Print(x, y, ZoneDataAreaIDToUiMapID[Zone], distance)
                                                         if(closestStarter[questId].distance > distance) then
                                                             closestStarter[questId].distance = distance;
                                                             closestStarter[questId].x = x;
                                                             closestStarter[questId].y = y;
-                                                            closestStarter[questId].zone = zoneDataAreaIDToUiMapID[Zone];
+                                                            closestStarter[questId].zone = ZoneDataAreaIDToUiMapID[Zone];
                                                             closestStarter[questId].type = "GameObject - " .. obj.name;
                                                         end
                                                     end
@@ -644,15 +644,15 @@ function QuestieMap:FindClosestStarter()
                                                     if(instanceData[Zone] ~= nil) then
                                                         for index, value in ipairs(instanceData[Zone]) do
                                                             if(value[1] and value[2]) then
-                                                                local x, y, instance = HBD:GetWorldCoordinatesFromZone(value[1]/100, value[2]/100, zoneDataAreaIDToUiMapID[value[3]])
+                                                                local x, y, instance = HBD:GetWorldCoordinatesFromZone(value[1]/100, value[2]/100, ZoneDataAreaIDToUiMapID[value[3]])
                                                                 if(x and y) then
                                                                     local distance = QuestieLib:Euclid(playerX or 0, playerY or 0, x, y);
-                                                                    --Questie:Print(x, y, zoneDataAreaIDToUiMapID[Zone], distance)
+                                                                    --Questie:Print(x, y, ZoneDataAreaIDToUiMapID[Zone], distance)
                                                                     if(closestStarter[questId].distance > distance) then
                                                                         closestStarter[questId].distance = distance;
                                                                         closestStarter[questId].x = x;
                                                                         closestStarter[questId].y = y;
-                                                                        closestStarter[questId].zone = zoneDataAreaIDToUiMapID[Zone];
+                                                                        closestStarter[questId].zone = ZoneDataAreaIDToUiMapID[Zone];
                                                                         closestStarter[questId].type = "NPC - ".. NPC.name;
                                                                     end
                                                                 end
@@ -660,15 +660,15 @@ function QuestieMap:FindClosestStarter()
                                                         end
                                                     end
                                                 elseif(coords[1] and coords[2]) then
-                                                    local x, y, instance = HBD:GetWorldCoordinatesFromZone(coords[1]/100, coords[2]/100, zoneDataAreaIDToUiMapID[Zone])
+                                                    local x, y, instance = HBD:GetWorldCoordinatesFromZone(coords[1]/100, coords[2]/100, ZoneDataAreaIDToUiMapID[Zone])
                                                     if(x and y) then
                                                         local distance = QuestieLib:Euclid(playerX or 0, playerY or 0, x, y);
-                                                        --Questie:Print(x, y, zoneDataAreaIDToUiMapID[Zone], distance)
+                                                        --Questie:Print(x, y, ZoneDataAreaIDToUiMapID[Zone], distance)
                                                         if(closestStarter[questId].distance > distance) then
                                                             closestStarter[questId].distance = distance;
                                                             closestStarter[questId].x = x;
                                                             closestStarter[questId].y = y;
-                                                            closestStarter[questId].zone = zoneDataAreaIDToUiMapID[Zone];
+                                                            closestStarter[questId].zone = ZoneDataAreaIDToUiMapID[Zone];
                                                             closestStarter[questId].type = "NPC - ".. NPC.name;
                                                         end
                                                     end
