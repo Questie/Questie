@@ -1192,8 +1192,8 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                         local oText = slower(objectiveDB.Text or "");
 
                         if((oName or (oText and oText ~= "")) and oDesc) then
-                            local nameDistance = QuestieDB:Levenshtein(oDesc, oName or "");
-                            local textDistance = QuestieDB:Levenshtein(oDesc, oText);
+                            local nameDistance = QuestieLib:Levenshtein(oDesc, oName or "");
+                            local textDistance = QuestieLib:Levenshtein(oDesc, oText);
                             if(math.min(nameDistance, textDistance) < bestDistance) then
                                 bestDistance = math.min(nameDistance, textDistance);
                                 bestIndex = objectiveIndexDB;
