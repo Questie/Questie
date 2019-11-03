@@ -290,6 +290,11 @@ function QuestieLib:GetAddonVersionInfo()  -- todo: better place
     return tonumber(major), tonumber(minor), tonumber(patch);
 end
 
+function QuestieLib:GetAddonVersionString()
+    local major, minor, patch = QuestieLib:GetAddonVersionInfo()
+    return "v" .. tostring(major) .. "." .. tostring(minor) .. "." .. tostring(patch)
+end
+
 --Search for just Addon\\ at the front since the interface part often gets trimmed
 --Code Credit Author(s): Cryect (cryect@gmail.com), Xinhuan and their LibGraph-2.0 
 do

@@ -9,6 +9,8 @@ local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
 local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions");
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney");
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
 
 local minimapIconLDB = nil
 
@@ -54,7 +56,7 @@ function QuestieOptionsMinimapIcon:Initalize()
         end,
 
         OnTooltipShow = function (tooltip)
-            tooltip:AddLine("Questie", 1, 1, 1);
+            tooltip:AddLine("Questie ".. QuestieLib:GetAddonVersionString(), 1, 1, 1);
             tooltip:AddLine(Questie:Colorize(QuestieLocale:GetUIString('ICON_LEFT_CLICK') , 'gray') .. ": ".. QuestieLocale:GetUIString('ICON_TOGGLE'));
             tooltip:AddLine(Questie:Colorize(QuestieLocale:GetUIString('ICON_SHIFTLEFT_CLICK') , 'gray') .. ": ".. QuestieLocale:GetUIString('ICON_TOGGLE_QUESTIE'));
             tooltip:AddLine(Questie:Colorize(QuestieLocale:GetUIString('ICON_RIGHT_CLICK') , 'gray') .. ": ".. QuestieLocale:GetUIString('ICON_JOURNEY'));
