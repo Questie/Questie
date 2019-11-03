@@ -29,3 +29,11 @@ function QuestieJourneyUtils:Spacer(container, size)
     end
     container:AddChild(spacer);
 end
+
+function QuestieJourneyUtils:AddLine(frame, text)
+    local label = AceGUI:Create("Label")
+    label:SetFullWidth(true);
+    label:SetText(text)
+    label:SetFontObject(GameFontNormal)
+    frame:AddChild(label)
+end

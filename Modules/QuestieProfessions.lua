@@ -18,7 +18,7 @@ function QuestieProfessions:Update()
 end
 
 -- This function is just for debugging purpose
--- These is no need to access the playerProfessions table somewhere else
+-- There is no need to access the playerProfessions table somewhere else
 function QuestieProfessions:GetPlayerProfessions()
     return playerProfessions
 end

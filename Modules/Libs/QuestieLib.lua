@@ -9,15 +9,9 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 
-local _QuestieLib = {};
-
 --Is set in QuestieLib.lua
 QuestieLib.AddonPath = "Interface\\Addons\\QuestieDev-master\\";
 
--- Math functions are often run A LOT so lets keep these local
-local function round(number, decimals)
-    return (("%%.%df"):format(decimals)):format(number)
-end
 local math_abs = math.abs;
 local math_sqrt = math.sqrt;
 local math_max = math.max;
@@ -389,47 +383,3 @@ function QuestieLib:Levenshtein(str1, str2)
     -- return the last value - this is the Levenshtein distance
     return matrix[len1][len2]
 end
-
---[[function QuestieLib:IsTrivial(level)
-    if level == -1 then
-        level = QuestiePlayer:GetPlayerLevel();
-    end
-    local levelDiff = level - QuestiePlayer:GetPlayerLevel();
-    if (levelDiff >= 5) then
-        return false -- Red
-    elseif (levelDiff >= 3) then
-        return false -- Orange
-    elseif (levelDiff >= -2) then
-        return false -- Yellow
-    elseif (-levelDiff <= GetQuestGreenRange()) then
-        return false -- Green
-    else
-        return true -- Grey
-    end
-end]]--
-
--- https://github.com/shagu/pfQuest/commit/01177f2eb2926336a1ad741a6082affe78ae7c20
---[[
-    function QuestieLib:SanitizePattern(pattern, excludeNumberCapture)
-  -- escape brackets
-  pattern = gsub(pattern, "%(", "%%(")
-  pattern = gsub(pattern, "%)", "%%)")
-
-  -- remove bad capture indexes
-  pattern = gsub(pattern, "%d%$s","s") -- %1$s to %s
-  pattern = gsub(pattern, "%d%$d","d") -- %1$d to %d
-  pattern = gsub(pattern, "%ds","s") -- %2s to %s
-
-  -- add capture to all findings
-  pattern = gsub(pattern, "%%s", "(.+)")
-
-  --We might only want to capture the name itself and not numbers.
-  if(not excludeNumberCapture) then
-    pattern = gsub(pattern, "%%d", "(%%d+)")
-  else
-    pattern = gsub(pattern, "%%d", "%%d+")
-  end
-
-  return pattern
-end
-]]--

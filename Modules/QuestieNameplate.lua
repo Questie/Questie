@@ -160,10 +160,10 @@ function QuestieNameplate:UpdateNameplate(self)
 end
 
 function QuestieNameplate:HideCurrentFrames()
-        for guid, token in pairs(activeGUIDs) do
-            activeGUIDs[guid] = nil;
-            QuestieNameplate:RemoveFrame(guid);
-        end
+    for guid, token in pairs(activeGUIDs) do
+        activeGUIDs[guid] = nil;
+        QuestieNameplate:RemoveFrame(guid);
+    end
 end
 
 
