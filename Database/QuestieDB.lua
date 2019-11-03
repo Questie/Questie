@@ -63,6 +63,14 @@ QuestieDB._NPCCache = {};
 QuestieDB._ObjectCache = {};
 QuestieDB._ZoneCache = {};
 
+QuestieDB.tempItemKeys = {
+    ['name'] = 1, -- string
+    ['related_quests'] = 2, -- table {questID(int),,...}
+    ['npc_drops'] = 3, -- table {npcID(int),...}
+    ['object_drops'] = 4, -- table {objectID(int),...}
+}
+
+
 function QuestieDB:Initialize()
     QuestieDBZone:ZoneCreateConversion()
     QuestieDB:HideClassAndRaceQuests()
@@ -105,11 +113,6 @@ function QuestieDB:GetObject(ObjectID)
         for stringKey, intKey in pairs(QuestieDB.objectKeys) do
             obj[stringKey] = raw[intKey]
         end
-        -- Do localization
-        local localizedName = LangObjectLookup[ObjectID]
-        if localizedName ~= nil then
-            obj.name = localizedName or obj.name
-        end
         QuestieDB._ObjectCache[ObjectID] = obj;
         return obj;
     else
@@ -134,7 +137,7 @@ function QuestieDB:GetItem(ItemID)
     local item = {};
     if raw ~= nil then
         item.Id = ItemID;
-        item.Name = LangItemLookup[ItemID] or raw[1];
+        item.Name = raw[QuestieDB.tempItemKeys.name];
         item.Sources = {};
         item.Hidden = QuestieCorrections.questItemBlacklist[ItemID]
         for k,v in pairs(raw[3]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
@@ -195,13 +198,6 @@ function QuestieDB:GetQuest(questID) -- /dump QuestieDB:GetQuest(867)
         QO.Repeatable = mod(QO.SpecialFlags, 2) == 1
     end
 
-    -- Do localization
-    local localizedQuest = LangQuestLookup[questID]
-    if localizedQuest ~=nil then
-        QO.Name = localizedQuest[1] or QO.Name
-        QO.Description = localizedQuest[3] or QO.Description
-    end
-
     -- reorganize to match wow api
     if rawdata[3][1] ~= nil then
         for k,v in pairs(rawdata[3][1]) do
@@ -215,7 +211,7 @@ function QuestieDB:GetQuest(questID) -- /dump QuestieDB:GetQuest(867)
                 -- this speeds up lookup
                 obj.Name = QuestieDB.npcData[v]
                 if obj.Name ~= nil then
-                    local name = LangNameLookup[v] or obj.Name[1]
+                    local name = obj.Name[QuestieDB.npcKeys.name]
                     obj.Name = string.lower(name);
                 end
 
@@ -330,7 +326,7 @@ function QuestieDB:GetQuest(questID) -- /dump QuestieDB:GetQuest(867)
 
                 obj.Name = CHANGEME_Questie4_ItemDB[obj.Id]
                 if obj.Name ~= nil then
-                    local name = LangItemLookup[obj.Id] or obj.Name[1]
+                    local name = obj.Name[QuestieDB.tempItemKeys.name]
                     obj.Name = string.lower(name);
                 end
 
@@ -421,11 +417,6 @@ function QuestieDB:GetNPC(NPCID)
         for stringKey, intKey in pairs(QuestieDB.npcKeys) do
             NPC[stringKey] = rawdata[intKey]
         end
-        -- Do localization
-        local localizedName = LangNameLookup[NPCID]
-        if localizedName ~=nil then
-            NPC.name = localizedName or NPC.name
-        end
         if NPC.spawns == nil and Questie_SpecialNPCs[NPCID] then -- get spawns from script spawns list
             NPC.spawns = QuestieDB:_GetSpecialNPC(NPCID).spawns
         end
@@ -468,10 +459,6 @@ function QuestieDB:GetQuestsByName(questName)
     for index, quest in pairs(QuestieDB.questData) do
         local needle = string.lower(questName);
         local haystack = quest[1]
-        local localizedQuest = LangQuestLookup[index]
-        if localizedQuest ~=nil then
-            haystack = localizedQuest[1] or quest[1]
-        end
         local lowerHaystack = string.lower(haystack);
         if string.find(lowerHaystack, needle) then
             table.insert(returnTable, index);
@@ -490,7 +477,7 @@ function QuestieDB:GetNPCsByName(npcName)
 
     for index, npc in pairs(QuestieDB.npcData) do
         local needle = string.lower(npcName);
-        local haystack =  LangNameLookup[index] or npc[1]
+        local haystack = npc[QuestieDB.questKeys.name]
         local lowerHaystack = string.lower(haystack);
 
         if string.find(lowerHaystack, needle) then

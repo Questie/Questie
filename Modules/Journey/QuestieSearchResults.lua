@@ -18,6 +18,8 @@ local AceGUI = LibStub("AceGUI-3.0");
 
 local lastOpenSearch = "quest";
 local yellow = "|cFFFFFF00"
+local BY_NAME = 1
+local BY_ID = 2
 
 local function AddLine(frame, text)
     local label = AceGUI:Create("Label")
@@ -225,9 +227,9 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
         end
 
         local continent = 'UNKNOWN ZONE';
-        for i, v in ipairs(QuestieJourney.zoneList) do
+        for i, v in ipairs(QuestieJourney.zones) do
             if v[startindex] then
-                continent = QuestieJourney.zoneList[i][startindex];
+                continent = QuestieJourney.zones[i][startindex];
             end
         end
 
@@ -406,9 +408,9 @@ local searchResultTabs = nil;
 function QuestieSearchResults:DrawSearchResultTab(searchGroup, searchType, query)
     if not searchResultTabs then
         searchGroup:ReleaseChildren();
-        if searchType == 1 then
+        if searchType == BY_NAME then
             QuestieSearch:ByName(query)
-        elseif searchType == 2 then
+        elseif searchType == BY_ID then
             QuestieSearch:ByID(query)
         end
         local results = QuestieSearch.LastResult;
@@ -446,18 +448,22 @@ function QuestieSearchResults:DrawSearchResultTab(searchGroup, searchType, query
             {
                 text = "Quests ("..resultCounts.quest..")",
                 value = "quest",
+                disabled = resultCounts.quest == 0,
             },
             {
                 text = "Mobs ("..resultCounts.npc..")",
                 value = "npc",
+                disabled = resultCounts.npc == 0,
             },
             {
                 text = "Objects ("..resultCounts.object..")",
                 value = "object",
+                disabled = resultCounts.object == 0,
             },
             {
                 text = "Items ("..resultCounts.item..")",
                 value = "item",
+                disabled = resultCounts.item == 0,
             },
         })
         searchResultTabs:SetCallback("OnGroupSelected", SelectTabGroup)

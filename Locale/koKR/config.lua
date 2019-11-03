@@ -151,6 +151,7 @@ QuestieLocale.locale['koKR'] = {
     ['ENABLE_TOOLTIPS_QUEST_LEVEL_IDS'] = "퀘스트의 ID를 툴팁과 추적기에 표시합니다.",
     ['LOCALE'] = "언어 설정",
     ['LOCALE_DROP'] = "UI 언어 설정",
+    ['LOCALE_DROP_AUTOMATIC'] = "Automatic", -- TODO
     ['RESET_QUESTIE'] = "Questie 초기화",
     ['RESET_QUESTIE_DESC'] = "이 버튼을 누르면 모든 Questie 설정이 기본값으로 초기화됩니다. (언어 설정 제외)",
     ['RESET_QUESTIE_BTN'] = "Quetie 초기화",
