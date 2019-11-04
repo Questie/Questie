@@ -145,6 +145,11 @@ function QuestieEventHandler:QUEST_TURNED_IN(questID, xpReward, moneyReward)
     Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_TURNED_IN", questID, xpReward, moneyReward)
     _Hack_prime_log()
     finishedEventReceived = questID
+
+    local quest = QuestieDB:GetQuest(questID)
+    if quest and quest.parentQuest and quest.Repeatable then
+        runQLU = true
+    end
 end
 
 -- Fires when the quest log changes. That includes visual changes and
