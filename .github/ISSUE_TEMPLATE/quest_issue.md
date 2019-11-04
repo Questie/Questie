@@ -18,4 +18,9 @@ labels: "quest issue"
 
 
 ## Questie version
-<!-- Which version of Questie are you using? You can find it by looking at your Questie.toc file (open it with any text editor). It looks something like this: "## Version: 4.1.2 BETA 104 1c8ba0a". -->
+<!--
+Which version of Questie are you using? You can find it by:
+- 1. Hovering over the Questie Minimap Icon
+- 2. looking at your Questie.toc file (open it with any text editor).
+It looks something like this: "v5.0.2" or "## Version: 5.0.2".
+-->

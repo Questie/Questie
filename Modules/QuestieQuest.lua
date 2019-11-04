@@ -169,7 +169,7 @@ local function _UpdateSpecials(questId)
             for _, objective in pairs(quest.SpecialObjectives) do
                 local result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, quest, 0, objective, true);
                 if not result then
-                    Questie:Error("[QuestieQuest]: [SpecialObjectives] ".. QuestieLocale:GetUIString('DEBUG_POPULATE_ERR', quest.Name or "No quest name", quest.Id or "No quest id", 0 or "No objective", err or "No error"));
+                    Questie:Error("[QuestieQuest]: [SpecialObjectives] ".. QuestieLocale:GetUIString('DEBUG_POPULATE_ERR', quest.name or "No quest name", quest.Id or "No quest id", 0 or "No objective", err or "No error"));
                 end
             end
         end
@@ -547,52 +547,52 @@ function QuestieQuest:IsComplete(Quest)
     return Quest.Objectives == nil or Counthack(Quest.Objectives) == 0 or Quest.isComplete or QuestieQuest:_IsCompleteHack(Quest);
 end
 -- iterate all notes, update / remove as needed
-function QuestieQuest:UpdateObjectiveNotes(Quest)
-    Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: UpdateObjectiveNotes:", Quest.Id)
-    if Quest.Objectives then
-        for k, v in pairs(Quest.Objectives) do
-            local result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, Quest, k, v);
+function QuestieQuest:UpdateObjectiveNotes(quest)
+    Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: UpdateObjectiveNotes:", quest.Id)
+    if quest.Objectives then
+        for k, v in pairs(quest.Objectives) do
+            local result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, quest, k, v);
             if not result then
-                Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_POP_ERROR', Quest.Name, Quest.Id, k, err));
+                Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_POP_ERROR', quest.name, quest.Id, k, err));
             end
         end
     end
 end
 
-function QuestieQuest:AddFinisher(Quest)
+function QuestieQuest:AddFinisher(quest)
     --We should never ever add the quest if IsQuestFlaggedComplete true.
-    Questie:Debug(DEBUG_INFO, "[QuestieQuest]", "Adding finisher for quest ", Quest.Id)
-    if(QuestiePlayer.currentQuestlog[Quest.Id] and IsQuestFlaggedCompleted(Quest.Id) == false and IsQuestComplete(Quest.Id) and not Questie.db.char.complete[Quest.Id]) then
+    Questie:Debug(DEBUG_INFO, "[QuestieQuest]", "Adding finisher for quest ", quest.Id)
+    if(QuestiePlayer.currentQuestlog[quest.Id] and IsQuestFlaggedCompleted(quest.Id) == false and IsQuestComplete(quest.Id) and not Questie.db.char.complete[quest.Id]) then
         local finisher = nil
-        if Quest.Finisher ~= nil then
-            if Quest.Finisher.Type == "monster" then
-                finisher = QuestieDB:GetNPC(Quest.Finisher.Id)
-            elseif Quest.Finisher.Type == "object" then
-                finisher = QuestieDB:GetObject(Quest.Finisher.Id)
+        if quest.Finisher ~= nil then
+            if quest.Finisher.Type == "monster" then
+                finisher = QuestieDB:GetNPC(quest.Finisher.Id)
+            elseif quest.Finisher.Type == "object" then
+                finisher = QuestieDB:GetObject(quest.Finisher.Id)
             else
-                Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_UNHANDLE_FINISH', Quest.Finisher.Type, Quest.Id, Quest.Name))
+                Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_UNHANDLE_FINISH', quest.Finisher.Type, quest.Id, quest.name))
             end
         else
-            Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_NO_FINISH', Quest.Id, Quest.Name))
+            Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_NO_FINISH', quest.Id, quest.name))
         end
         if(finisher ~= nil and finisher.spawns ~= nil) then
             for Zone, Spawns in pairs(finisher.spawns) do
                 if(Zone ~= nil and Spawns ~= nil) then
                     for _, coords in ipairs(Spawns) do
                         local data = {}
-                        data.Id = Quest.Id;
+                        data.Id = quest.Id;
                         data.Icon = ICON_TYPE_COMPLETE;
                         data.GetIconScale = function() return Questie.db.global.availableScale or 1.3 end
                         data.IconScale = data:GetIconScale();
                         data.Type = "complete";
-                        data.QuestData = Quest;
+                        data.QuestData = quest;
                         data.Name = finisher.name
                         data.IsObjectiveNote = false
                         if(coords[1] == -1 or coords[2] == -1) then
                             if(instanceData[Zone] ~= nil) then
                                 for index, value in ipairs(instanceData[Zone]) do
                                     --QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
-                                    --Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[value[1]])
+                                    --Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", ZoneDataAreaIDToUiMapID[value[1]])
                                     --local icon, minimapIcon = QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
                                     local z = value[1];
                                     local x = value[2];
@@ -617,7 +617,7 @@ function QuestieQuest:AddFinisher(Quest)
                                         local lineFrames = QuestieFramePool:CreateWaypoints(icon, finisher.waypoints[z]);
                                         for index, lineFrame in ipairs(lineFrames) do
                                             QuestieMap:DrawLineIcon(lineFrame, z, x, y);
-                                            --HBDPins:AddWorldMapIconMap(Questie, lineFrame, zoneDataAreaIDToUiMapID[z], x, y, HBD_PINS_WORLDMAP_SHOW_CURRENT)
+                                            --HBDPins:AddWorldMapIconMap(Questie, lineFrame, ZoneDataAreaIDToUiMapID[z], x, y, HBD_PINS_WORLDMAP_SHOW_CURRENT)
                                         end
                                     end
                                 end
@@ -646,7 +646,7 @@ function QuestieQuest:AddFinisher(Quest)
                                 local lineFrames = QuestieFramePool:CreateWaypoints(icon, finisher.waypoints[Zone]);
                                 for index, lineFrame in ipairs(lineFrames) do
                                     QuestieMap:DrawLineIcon(lineFrame, Zone, x, y);
-                                    --HBDPins:AddWorldMapIconMap(Questie, lineFrame, zoneDataAreaIDToUiMapID[Zone], x, y, HBD_PINS_WORLDMAP_SHOW_CURRENT)
+                                    --HBDPins:AddWorldMapIconMap(Questie, lineFrame, ZoneDataAreaIDToUiMapID[Zone], x, y, HBD_PINS_WORLDMAP_SHOW_CURRENT)
                                 end
                             end
                         end
@@ -900,10 +900,10 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                                 drawIcon.data = data;
                                 drawIcon.zone = zone;
                                 drawIcon.areaId = zone;
-                                drawIcon.UIMapId = zoneDataAreaIDToUiMapID[zone];
+                                drawIcon.UIMapId = ZoneDataAreaIDToUiMapID[zone];
                                 drawIcon.x = spawn[1];
                                 drawIcon.y = spawn[2];
-                                local x, y, instance = HBD:GetWorldCoordinatesFromZone(drawIcon.x/100, drawIcon.y/100, zoneDataAreaIDToUiMapID[zone])
+                                local x, y, instance = HBD:GetWorldCoordinatesFromZone(drawIcon.x/100, drawIcon.y/100, ZoneDataAreaIDToUiMapID[zone])
                                 -- There are instances when X and Y are not in the same map such as in dungeons etc, we default to 0 if it is not set
                                 -- This will create a distance of 0 but it doesn't matter.
                                 local distance = QuestieLib:Euclid(closestStarter[Quest.Id].x or 0, closestStarter[Quest.Id].y or 0, x or 0, y or 0);
@@ -1014,38 +1014,38 @@ function QuestieQuest:Math_random(low_or_high_arg, high_arg)
     return low + math.floor(rand * high)
 end
 
-function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to PopulateNotes as it also handles finishers now
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:PopulateObjectiveNotes]", "Populating objectives for:", Quest.Id)
-    if not Quest then return; end
-    if QuestieQuest:IsComplete(Quest) then
-        QuestieQuest:AddFinisher(Quest)
+function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to PopulateNotes as it also handles finishers now
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:PopulateObjectiveNotes]", "Populating objectives for:", quest.Id)
+    if not quest then return; end
+    if QuestieQuest:IsComplete(quest) then
+        QuestieQuest:AddFinisher(quest)
         return
     end
 
-    if not Quest.Color then -- todo: move to a better place
-        QuestieQuest:Math_randomseed(Quest.Id)
-        Quest.Color = {0.45 + QuestieQuest:Math_random() / 2, 0.45 + QuestieQuest:Math_random() / 2, 0.45 + QuestieQuest:Math_random() / 2}
+    if not quest.Color then -- todo: move to a better place
+        QuestieQuest:Math_randomseed(quest.Id)
+        quest.Color = {0.45 + QuestieQuest:Math_random() / 2, 0.45 + QuestieQuest:Math_random() / 2, 0.45 + QuestieQuest:Math_random() / 2}
     end
 
     -- we've already checked the objectives table by doing IsComplete
     -- if that changes, check it here
     local old = GetQuestLogSelection()
-    for k, v in pairs(Quest.Objectives) do
+    for k, v in pairs(quest.Objectives) do
         SelectQuestLogEntry(v.Index)
-        local result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, Quest, k, v, false);
+        local result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, quest, k, v, false);
         if not result then
             local major, minor, patch = QuestieLib:GetAddonVersionInfo();
             local version = "v"..(major or "").."."..(minor or "").."."..(patch or "");--Doing it this way to keep it 100% safe.
-            Questie:Error("[QuestieQuest]: " .. version .. " - " .. QuestieLocale:GetUIString('DEBUG_POPULATE_ERR', Quest.Name or "No quest name", Quest.Id or "No quest id", k or "No objective", err or "No error"));
+            Questie:Error("[QuestieQuest]: " .. version .. " - " .. QuestieLocale:GetUIString('DEBUG_POPULATE_ERR', quest.name or "No quest name", quest.Id or "No quest id", k or "No objective", err or "No error"));
         end
     end
 
     -- check for special (unlisted) DB objectives
-    if Quest.SpecialObjectives then
-        for _, objective in pairs(Quest.SpecialObjectives) do
-            local result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, Quest, 0, objective, true);
+    if quest.SpecialObjectives then
+        for _, objective in pairs(quest.SpecialObjectives) do
+            local result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, quest, 0, objective, true);
             if not result then
-                Questie:Error("[QuestieQuest]: [SpecialObjectives] ".. QuestieLocale:GetUIString('DEBUG_POPULATE_ERR', Quest.Name or "No quest name", Quest.Id or "No quest id", 0 or "No objective", err or "No error"));
+                Questie:Error("[QuestieQuest]: [SpecialObjectives] ".. QuestieLocale:GetUIString('DEBUG_POPULATE_ERR', quest.name or "No quest name", quest.Id or "No quest id", 0 or "No objective", err or "No error"));
             end
         end
     end
@@ -1054,23 +1054,23 @@ function QuestieQuest:PopulateObjectiveNotes(Quest) -- this should be renamed to
     end
 
 end
-function QuestieQuest:PopulateQuestLogInfo(Quest)
+function QuestieQuest:PopulateQuestLogInfo(quest)
     --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: PopulateMeta1:", Quest.Id, Quest.Name)
-    if Quest.Objectives == nil then
+    if quest.Objectives == nil then
         Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: PopulateQuestLogInfo: ".. QuestieLocale:GetUIString('DEBUG_POPTABLE'))
-        Quest.Objectives = {};
+        quest.Objectives = {};
     end
-    local logID = GetQuestLogIndexByID(Quest.Id);
+    local logID = GetQuestLogIndexByID(quest.Id);
     if logID ~= 0 then
-        _, _, _, _, _, Quest.isComplete, _, _, _, _, _, _, _, _, _, Quest.isHidden = GetQuestLogTitle(logID)
-        if Quest.isComplete ~= nil and Quest.isComplete == 1 then
-            Quest.isComplete = true
+        _, _, _, _, _, quest.isComplete, _, _, _, _, _, _, _, _, _, quest.isHidden = GetQuestLogTitle(logID)
+        if quest.isComplete ~= nil and quest.isComplete == 1 then
+            quest.isComplete = true
         end
-        Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: PopulateMeta:", Quest.isComplete, Quest.Name)
+        Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: PopulateMeta:", quest.isComplete, quest.name)
     else
-        Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Error: No logid:", Quest.Name, Quest.Id )
+        Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Error: No logid:", quest.name, quest.Id )
     end
-    QuestieQuest:GetAllQuestObjectives(Quest)
+    QuestieQuest:GetAllQuestObjectives(quest)
 end
 
 --Use the category order to draw the quests and trust the database order.
@@ -1192,8 +1192,8 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                         local oText = slower(objectiveDB.Text or "");
 
                         if((oName or (oText and oText ~= "")) and oDesc) then
-                            local nameDistance = QuestieDB:Levenshtein(oDesc, oName or "");
-                            local textDistance = QuestieDB:Levenshtein(oDesc, oText);
+                            local nameDistance = QuestieLib:Levenshtein(oDesc, oName or "");
+                            local textDistance = QuestieLib:Levenshtein(oDesc, oText);
                             if(math.min(nameDistance, textDistance) < bestDistance) then
                                 bestDistance = math.min(nameDistance, textDistance);
                                 bestIndex = objectiveIndexDB;
@@ -1567,7 +1567,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                             if(coords[1] == -1 or coords[2] == -1) then
                                 if(instanceData[Zone] ~= nil) then
                                     for index, value in ipairs(instanceData[Zone]) do
-                                        --Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", zoneDataAreaIDToUiMapID[value[1]])
+                                        --Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", ZoneDataAreaIDToUiMapID[value[1]])
                                         --local icon, minimapIcon = QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
                                         local z = value[1];
                                         local x = value[2];
@@ -1592,7 +1592,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                                             local lineFrames = QuestieFramePool:CreateWaypoints(icon, NPC.waypoints[z]);
                                             for index, lineFrame in ipairs(lineFrames) do
                                                 QuestieMap:DrawLineIcon(lineFrame, z, x, y);
-                                                --HBDPins:AddWorldMapIconMap(Questie, lineFrame, zoneDataAreaIDToUiMapID[z], x, y, HBD_PINS_WORLDMAP_SHOW_CURRENT)
+                                                --HBDPins:AddWorldMapIconMap(Questie, lineFrame, ZoneDataAreaIDToUiMapID[z], x, y, HBD_PINS_WORLDMAP_SHOW_CURRENT)
                                             end
                                         end
 
@@ -1621,7 +1621,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                                   local lineFrames = QuestieFramePool:CreateWaypoints(icon, NPC.waypoints[Zone]);
                                   for index, lineFrame in ipairs(lineFrames) do
                                     QuestieMap:DrawLineIcon(lineFrame, Zone, x, y);
-                                    --HBDPins:AddWorldMapIconMap(Questie, lineFrame, zoneDataAreaIDToUiMapID[Zone], x, y, HBD_PINS_WORLDMAP_SHOW_CURRENT)
+                                    --HBDPins:AddWorldMapIconMap(Questie, lineFrame, ZoneDataAreaIDToUiMapID[Zone], x, y, HBD_PINS_WORLDMAP_SHOW_CURRENT)
                                   end
                                 end
                             end
@@ -1682,8 +1682,8 @@ function _QuestieQuest:IsDoable(questObject)
     if Questie.db.char.hidden[questObject.Id] then
         return false;
     end
-    if questObject.NextQuestInChain then
-        if Questie.db.char.complete[questObject.NextQuestInChain] or QuestiePlayer.currentQuestlog[questObject.NextQuestInChain] then
+    if questObject.nextQuestInChain then
+        if Questie.db.char.complete[questObject.nextQuestInChain] or QuestiePlayer.currentQuestlog[questObject.nextQuestInChain] then
             return false
         end
     end
@@ -1814,7 +1814,7 @@ function QuestieQuest:CalculateAvailableQuests()
 end
 
 function _QuestieQuest:LevelRequirementsFulfilled(quest, playerLevel, minLevel, maxLevel)
-    return (quest.Level >= minLevel or Questie.db.char.lowlevel) and quest.Level <= maxLevel and quest.requiredLevel <= playerLevel
+    return (quest.level >= minLevel or Questie.db.char.lowlevel) and quest.level <= maxLevel and quest.requiredLevel <= playerLevel
 end
 
 -- We always want to show a quest if it is a childQuest and its parent is in the quest log

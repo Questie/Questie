@@ -1,4 +1,4 @@
-LangItemLookup["esES"] = {
+LangItemLookup["esMX"] = {
 [159] = "Agua de manantial refrescante",
 [182] = "Cabeza de Garrick",
 [723] = "Hígado de Dentosangre",

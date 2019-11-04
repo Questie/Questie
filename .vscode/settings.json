@@ -2658,7 +2658,7 @@
         "CHANGEME_Questie4_ItemDB",
         "instanceData",
         "LQuestie_CloseDropDownMenus",
-        "zoneDataAreaIDToUiMapID",
+        "ZoneDataAreaIDToUiMapID",
         "zoneDataUiMapIDToAreaID",
         "Questie_Toggle",
         "Questie_SpecialNPCs",

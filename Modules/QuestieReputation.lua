@@ -21,7 +21,7 @@ function QuestieReputation:Update()
 end
 
 -- This function is just for debugging purpose
--- These is no need to access the playerReputations table somewhere else
+-- There is no need to access the playerReputations table somewhere else
 function QuestieReputation:GetPlayerReputations()
     return playerReputations
 end
