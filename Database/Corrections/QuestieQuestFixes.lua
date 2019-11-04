@@ -282,12 +282,14 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.exclusiveTo] = {}, -- #1192
         },
         [1861] = {
+            [QuestieDB.questKeys.preQuestSingle] = {1860,1879}, -- #1380
             [QuestieDB.questKeys.exclusiveTo] = {1880}, -- #1192
         },
         [1879] = {
             [QuestieDB.questKeys.exclusiveTo] = {}, -- #1192
         },
         [1880] = {
+            [QuestieDB.questKeys.preQuestSingle] = {1860,1879}, -- #1380
             [QuestieDB.questKeys.exclusiveTo] = {1861}, -- #1192
         },
         [1920] = {

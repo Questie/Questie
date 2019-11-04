@@ -59,19 +59,6 @@ function QuestieQuest:Initialize()
     end
 
     _QuestieQuest.questLogHashes = QuestieQuest:GetQuestLogHashes()
-
-    --local db = {}
-    --GetQuestsCompleted(db)
-
-    -- maintain additional data added to db.char.complete, but remove quests that are no longer complete
-    --for k,v in pairs(db) do
-    --    if not Questie.db.char.complete[k] then Questie.db.char.complete[k] = true; end
-    --end
-    --for k,v in pairs(Questie.db.char.complete) do
-    --    if not db[k] then
-    --        Questie.db.char.complete[k] = nil
-    --    end
-    --end
 end
 
 QuestieQuest.NotesHidden = false
@@ -1779,11 +1766,10 @@ end
 --TODO Check that this function does what it is supposed to...
 function QuestieQuest:CalculateAvailableQuests()
     local playerLevel = QuestiePlayer:GetPlayerLevel()
-    
+
     local minLevel = playerLevel - Questie.db.global.minLevelFilter
     local maxLevel = playerLevel + Questie.db.global.maxLevelFilter
 
-    
     if(not Questie.db.char.manualMinLevelOffset) then
         minLevel = playerLevel - GetQuestGreenRange();
     end
