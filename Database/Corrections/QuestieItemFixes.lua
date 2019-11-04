@@ -111,6 +111,7 @@ function QuestieItemFixes:Load()
         [3421] = {"Simple Wildflowers",{2609},{1302,1303},{}}, -- #1476
         [3372] = {"Leaded Vial",{2609},{1286,1313,1326,1257,1325,5503,},{}}, -- #1476
         [4371] = {"Bronze Tube",{174,2609},{3495,5519,5175,},{}}, -- #1476
+        [4639] = {"Enchanted Sea Kelp",{736},{4363},{}},
 
         -- quest related herbs
         [2449] = {"Earthroot",{6123,6128},{},{1619,3726}},
