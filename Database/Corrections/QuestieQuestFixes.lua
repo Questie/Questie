@@ -310,6 +310,15 @@ function QuestieQuestFixes:Load()
         [2201] = {
             [QuestieDB.questKeys.childQuests] = {3375},
         },
+        [2205] = {
+            [QuestieDB.questKeys.exclusiveTo] = {}, -- #1466
+        },
+        [2218] = {
+            [QuestieDB.questKeys.exclusiveTo] = {}, -- #1466
+        },
+        [2241] = {
+            [QuestieDB.questKeys.exclusiveTo] = {}, -- #1466
+        },
         [2781] = {
             [QuestieDB.questKeys.startedBy] = {nil,{142122,150075,},nil,}, -- #1081
         },
