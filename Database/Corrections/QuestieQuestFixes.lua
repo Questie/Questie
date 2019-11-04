@@ -10,6 +10,7 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 
 function QuestieQuestFixes:Load()
     table.insert(QuestieDB.questData, 7668, {}) -- Add missing quest index
+    table.insert(QuestieDB.questData, 7669, {}) -- Add missing quest index
     table.insert(QuestieDB.questData, 7670, {}) -- Add missing quest index #1432
 
     return {
@@ -572,6 +573,16 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.objectives] = {nil,nil,{{18880,nil},},nil,},
             [QuestieDB.questKeys.sourceItemId] = 18746,
             [QuestieDB.questKeys.zoneOrSort] = 1637,
+        },
+        [7669] = { --#1449
+            [QuestieDB.questKeys.name] = "Again Into the Great Ossuary",
+            [QuestieDB.questKeys.startedBy] = {{13417,},nil,nil,},            -- Quest is started by Lord Grayson Shadowbreaker
+            [QuestieDB.questKeys.finishedBy] = {{13417,},nil,nil,},           --       & ended*
+            [QuestieDB.questKeys.requiredLevel] = 58,
+            [QuestieDB.questKeys.questLevel] = 60,
+            [QuestieDB.questKeys.requiredRaces] = 178,                      -- Any race can take on quest
+            [QuestieDB.questKeys.requiredClasses] = 64,                     -- This quest is for the Shaman class
+            [QuestieDB.questKeys.zoneOrSort] = -141,                        -- <0: QuestSort.dbc ID
         },
         [7670] = { -- #1432
             [QuestieDB.questKeys.name] = "Lord Grayson Shadowbreaker",
