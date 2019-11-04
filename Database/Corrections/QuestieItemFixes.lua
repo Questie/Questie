@@ -76,7 +76,7 @@ function QuestieItemFixes:Load()
         [11522] = {"Silver Totem of Aquementas",{4005},{},{148507}},
         [9593] = {"Treant Muisek",{3126},{7584},{}}, -- #1184
         [9595] = {"Hippogryph Muisek",{3124},{5300,5304,5305,5306},{}},
-        [9596] = {"Faerie Dragon Muisek",{3125},{5276,5276},{}}, -- #1184
+        [9596] = {"Faerie Dragon Muisek",{3125},{5276,5278},{}}, -- #1184
         [11954] = {"Filled Pure Sample Jar",{4513},{6556,6557,6559,},{}}, -- #1070
         [12907] = {"Corrupted Moonwell Water",{5157},{},{176184}}, -- #1083
         [12922] = {"Empty Canteen",{5157},{},{}}, -- #1083
