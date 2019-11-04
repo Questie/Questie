@@ -58,9 +58,9 @@ function QuestieItemFixes:Load()
         [16642] = {"Shredder Operating Manual - Chapter 1",{6504},{},{}},
         [16643] = {"Shredder Operating Manual - Chapter 2",{6504},{},{}},
         [16644] = {"Shredder Operating Manual - Chapter 3",{6504},{},{}},
-        [16764] = {"Warsong Scout Update",{6543},{},{}},
-        [16763] = {"Warsong Runner Update",{6543},{},{}},
-        [16765] = {"Warsong Outrider Update",{6543},{},{}},
+        [16764] = {"Warsong Scout Update",{6543,6547},{},{}},
+        [16763] = {"Warsong Runner Update",{6543,6545},{},{}},
+        [16765] = {"Warsong Outrider Update",{6543,6546},{},{}},
         [1013] = {"Iron Rivet",{89},{426,430,446,580},{}}, -- Remove rare mob #903
         [2856] = {"Iron Pike",{89},{426,430,446,580},{}}, -- Remove rare mob #903
         [11131] = {"Hive Wall Sample",{3883},{},{174793}},
