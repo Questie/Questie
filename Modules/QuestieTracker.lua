@@ -1,4 +1,20 @@
-QuestieTracker = {}
+---@class QuestieTracker
+local QuestieTracker = QuestieLoader:CreateModule("QuestieTracker");
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieQuest
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
+---@type QuestieMap
+local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
+---@type QuestiePlayer
+local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
+
+
 local _QuestieTracker = {}
 _QuestieTracker.LineFrames = {}
 
@@ -95,13 +111,13 @@ local function _OnDragStop()
     end
     _QuestieTracker._end_drag_pos = {_QuestieTracker.baseFrame:GetPoint()}
     _QuestieTracker.baseFrame:StopMovingOrSizing()
-    
+
     local xMoved = _QuestieTracker._end_drag_pos[4] - _QuestieTracker._start_drag_pos[4]
     local yMoved = _QuestieTracker._end_drag_pos[5] - _QuestieTracker._start_drag_pos[5]
-    
+
     _QuestieTracker._start_drag_anchor[4] = _QuestieTracker._start_drag_anchor[4] + xMoved
     _QuestieTracker._start_drag_anchor[5] = _QuestieTracker._start_drag_anchor[5] + yMoved
-    
+
     _QuestieTracker.baseFrame:ClearAllPoints()
     _QuestieTracker.baseFrame:SetPoint(unpack(_QuestieTracker._start_drag_anchor))
     Questie.db.char.TrackerLocation = {_QuestieTracker.baseFrame:GetPoint()}
@@ -119,8 +135,8 @@ local function _GetNearestSpawn(Objective)
         for id, spawnData in pairs(Objective.spawnList) do
             for zone, spawns in pairs(spawnData.Spawns) do
                 for _,spawn in pairs(spawns) do
-                    local dX, dY, dInstance = HBD:GetWorldCoordinatesFromZone(spawn[1]/100.0, spawn[2]/100.0, zoneDataAreaIDToUiMapID[zone])
-                    --print (" " .. tostring(dX) .. " " .. tostring(dY) .. " " .. zoneDataAreaIDToUiMapID[zone])
+                    local dX, dY, dInstance = HBD:GetWorldCoordinatesFromZone(spawn[1]/100.0, spawn[2]/100.0, ZoneDataAreaIDToUiMapID[zone])
+                    --print (" " .. tostring(dX) .. " " .. tostring(dY) .. " " .. ZoneDataAreaIDToUiMapID[zone])
                     local dist = HBD:GetWorldDistance(dInstance, playerX, playerY, dX, dY)
                     if dist then
                         if dInstance ~= playerI then
@@ -158,8 +174,8 @@ local function _GetNearestQuestSpawn(Quest)
             local bestSpawn, bestSpawnZone, bestSpawnId, bestSpawnType, bestSpawnName
             for zone, spawns in pairs(finisher.spawns) do
                 for _, spawn in pairs(spawns) do
-                    local dX, dY, dInstance = HBD:GetWorldCoordinatesFromZone(spawn[1]/100.0, spawn[2]/100.0, zoneDataAreaIDToUiMapID[zone])
-                    --print (" " .. tostring(dX) .. " " .. tostring(dY) .. " " .. zoneDataAreaIDToUiMapID[zone])
+                    local dX, dY, dInstance = HBD:GetWorldCoordinatesFromZone(spawn[1]/100.0, spawn[2]/100.0, ZoneDataAreaIDToUiMapID[zone])
+                    --print (" " .. tostring(dX) .. " " .. tostring(dY) .. " " .. ZoneDataAreaIDToUiMapID[zone])
                     local dist = HBD:GetWorldDistance(dInstance, playerX, playerY, dX, dY)
                     if dist then
                         if dInstance ~= playerI then
@@ -213,7 +229,7 @@ local function _SetTomTomTarget(title, zone, x, y)
         if Questie.db.char._tom_waypoint and TomTom.RemoveWaypoint then -- remove old waypoint
             TomTom:RemoveWaypoint(Questie.db.char._tom_waypoint)
         end
-        Questie.db.char._tom_waypoint = TomTom:AddWaypoint(zoneDataAreaIDToUiMapID[zone], x/100, y/100,  {title = title, crazy = true})
+        Questie.db.char._tom_waypoint = TomTom:AddWaypoint(ZoneDataAreaIDToUiMapID[zone], x/100, y/100,  {title = title, crazy = true})
     end
 end
 
@@ -236,34 +252,36 @@ end
 
 local function _UnFocus() -- reset HideIcons to match savedvariable state
     if not Questie.db.char.TrackerFocus then return; end
-    for quest in pairs (QuestiePlayer.currentQuestlog) do
-        local Quest = QuestieDB:GetQuest(quest)
-        Quest.FadeIcons = nil
-        if Quest.Objectives then
-            if Questie.db.char.TrackerHiddenQuests[Quest.Id] then
-                Quest.HideIcons = true
-                Quest.FadeIcons = nil
-            else
-                Quest.HideIcons = nil
-                Quest.FadeIcons = nil
-            end
-            for _,Objective in pairs(Quest.Objectives) do
-                if Questie.db.char.TrackerHiddenObjectives[tostring(quest) .. " " .. tostring(Objective.Index)] then
-                    Objective.HideIcons = true
-                    Objective.FadeIcons = nil
+    for questId in pairs (QuestiePlayer.currentQuestlog) do
+        local quest = QuestieDB:GetQuest(questId)
+        if quest then
+            quest.FadeIcons = nil
+            if quest.Objectives then
+                if Questie.db.char.TrackerHiddenQuests[quest.Id] then
+                    quest.HideIcons = true
+                    quest.FadeIcons = nil
                 else
-                    Objective.HideIcons = nil
-                    Objective.FadeIcons = nil
+                    quest.HideIcons = nil
+                    quest.FadeIcons = nil
                 end
-            end
-            if Quest.SpecialObjectives then
-                for _,Objective in pairs(Quest.SpecialObjectives) do
-                    if Questie.db.char.TrackerHiddenObjectives[tostring(quest) .. " " .. tostring(Objective.Index)] then
+                for _,Objective in pairs(quest.Objectives) do
+                    if Questie.db.char.TrackerHiddenObjectives[tostring(questId) .. " " .. tostring(Objective.Index)] then
                         Objective.HideIcons = true
                         Objective.FadeIcons = nil
                     else
                         Objective.HideIcons = nil
                         Objective.FadeIcons = nil
+                    end
+                end
+                if quest.SpecialObjectives then
+                    for _,Objective in pairs(quest.SpecialObjectives) do
+                        if Questie.db.char.TrackerHiddenObjectives[tostring(questId) .. " " .. tostring(Objective.Index)] then
+                            Objective.HideIcons = true
+                            Objective.FadeIcons = nil
+                        else
+                            Objective.HideIcons = nil
+                            Objective.FadeIcons = nil
+                        end
                     end
                 end
             end
@@ -277,13 +295,13 @@ local function _FocusObjective(TargetQuest, TargetObjective, isSpecial)
         _UnFocus()
     end
     Questie.db.char.TrackerFocus = tostring(TargetQuest.Id) .. " " .. tostring(TargetObjective.Index)
-    for quest in pairs (QuestiePlayer.currentQuestlog) do
-        local Quest = QuestieDB:GetQuest(quest)
-        if Quest.Objectives then
-            if quest == TargetQuest.Id then
-                Quest.HideIcons = nil
-                Quest.FadeIcons = nil
-                for _,Objective in pairs(Quest.Objectives) do
+    for questId in pairs (QuestiePlayer.currentQuestlog) do
+        local quest = QuestieDB:GetQuest(questId)
+        if quest and quest.Objectives then
+            if questId == TargetQuest.Id then
+                quest.HideIcons = nil
+                quest.FadeIcons = nil
+                for _,Objective in pairs(quest.Objectives) do
                     if Objective.Index == TargetObjective.Index then
                         Objective.HideIcons = nil
                         Objective.FadeIcons = nil
@@ -291,8 +309,8 @@ local function _FocusObjective(TargetQuest, TargetObjective, isSpecial)
                         Objective.FadeIcons = true
                     end
                 end
-                if Quest.SpecialObjectives then
-                    for _,Objective in pairs(Quest.SpecialObjectives) do
+                if quest.SpecialObjectives then
+                    for _,Objective in pairs(quest.SpecialObjectives) do
                         if Objective.Index == TargetObjective.Index then
                             Objective.HideIcons = nil
                             Objective.FadeIcons = nil
@@ -302,7 +320,7 @@ local function _FocusObjective(TargetQuest, TargetObjective, isSpecial)
                     end
                 end
             else
-                Quest.FadeIcons = true
+                quest.FadeIcons = true
             end
         end
     end
@@ -313,15 +331,17 @@ local function _FocusQuest(TargetQuest)
         _UnFocus()
     end
     Questie.db.char.TrackerFocus = TargetQuest.Id
-    for quest in pairs (QuestiePlayer.currentQuestlog) do
-        local Quest = QuestieDB:GetQuest(quest)
-        if quest == TargetQuest.Id then
-            Quest.HideIcons = nil
-            Quest.FadeIcons = nil
-        else
-            -- if hideOnFocus
-            --Quest.HideIcons = true
-            Quest.FadeIcons = true
+    for questId in pairs (QuestiePlayer.currentQuestlog) do
+        local quest = QuestieDB:GetQuest(questId)
+        if quest then
+            if questId == TargetQuest.Id then
+                quest.HideIcons = nil
+                quest.FadeIcons = nil
+            else
+                -- if hideOnFocus
+                --Quest.HideIcons = true
+                quest.FadeIcons = true
+            end
         end
     end
 end
@@ -579,7 +599,7 @@ local function _ShowObjectiveOnMap(Objective)
     if spawn then
         --print("Found best spawn: " .. name .. " in zone " .. tostring(zone) .. " at " .. tostring(spawn[1]) .. " " .. tostring(spawn[2]))
         WorldMapFrame:Show()
-        WorldMapFrame:SetMapID(zoneDataAreaIDToUiMapID[zone])
+        WorldMapFrame:SetMapID(ZoneDataAreaIDToUiMapID[zone])
         _FlashObjective(Objective)
     end
 end
@@ -590,7 +610,7 @@ local function _ShowFinisherOnMap(Quest)
     if spawn then
         --print("Found best spawn: " .. name .. " in zone " .. tostring(zone) .. " at " .. tostring(spawn[1]) .. " " .. tostring(spawn[2]))
         WorldMapFrame:Show()
-        WorldMapFrame:SetMapID(zoneDataAreaIDToUiMapID[zone])
+        WorldMapFrame:SetMapID(ZoneDataAreaIDToUiMapID[zone])
         _FlashFinisher(Quest)
     end
 end
@@ -847,6 +867,7 @@ function QuestieTracker:Initialize()
         Questie.db.char.AutoUntrackedQuests = {} -- the reason why we separate this from TrackedQuests is so that users can switch between auto/manual without losing their manual tracking selection
     end
     _QuestieTracker.baseFrame = QuestieTracker:CreateBaseFrame()
+    _QuestieTracker.counterFrame = _QuestieTracker:CreateActiveQuestsFrame()
     _QuestieTracker.menuFrame = LQuestie_Create_UIDropDownMenu("QuestieTrackerMenuFrame", UIParent)
 
     if Questie.db.global.hookTracking then
@@ -855,7 +876,7 @@ function QuestieTracker:Initialize()
 
     -- this number is static, I doubt it will ever need more
     local lastFrame = nil
-    for i=1,trackerLineCount do
+    for i=1, trackerLineCount do
         local frm = CreateFrame("Button", nil, _QuestieTracker.baseFrame)
         frm.label = frm:CreateFontString(nil, "ARTWORK", "GameFontNormal")
         function frm:SetMode(mode)
@@ -915,7 +936,7 @@ function QuestieTracker:Initialize()
         if lastFrame then
             frm:SetPoint("TOPLEFT", lastFrame, "BOTTOMLEFT", 0,0)
         else
-            frm:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerBackgroundPadding, -trackerBackgroundPadding)
+            frm:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerBackgroundPadding, -(trackerBackgroundPadding + _QuestieTracker.counterFrame:GetHeight())) 
         end
         frm:SetWidth(1)
         frm:SetMode("header")
@@ -923,6 +944,7 @@ function QuestieTracker:Initialize()
         _QuestieTracker.LineFrames[i] = frm
         lastFrame = frm
     end
+
     QuestieTracker.started = true
 end
 
@@ -1002,12 +1024,15 @@ function QuestieTracker:Update()
     Questie:Debug(DEBUG_DEVELOP, "QuestieTracker: Update")
 
     if (not QuestieTracker.started) then return; end
-    
+
     if (not Questie.db.global.trackerEnabled) then
         -- tracker has started but not enabled
         _QuestieTracker.baseFrame:Hide()
         return
     end
+
+    _QuestieTracker.counterFrame:Update()
+
     index = 0 -- zero because it simplifies GetNextLine()
     -- populate tracker
     local trackerWidth = 0
@@ -1015,72 +1040,80 @@ function QuestieTracker:Update()
 
     local order = {}
     local questCompletePercent = {}
-    for quest in pairs (QuestiePlayer.currentQuestlog) do
-        local Quest = QuestieDB:GetQuest(quest)
-        if QuestieQuest:IsComplete(Quest) or not Quest.Objectives then
-            questCompletePercent[Quest.Id] = 1
-        else
-            local percent = 0
-            local count = 0;
-            for _,Objective in pairs(Quest.Objectives) do
-                percent = percent + (Objective.Collected / Objective.Needed)
-                count = count + 1
+    for questId in pairs (QuestiePlayer.currentQuestlog) do
+        local quest = QuestieDB:GetQuest(questId)
+        if quest then
+            if QuestieQuest:IsComplete(quest) or not quest.Objectives then
+                questCompletePercent[quest.Id] = 1
+            else
+                local percent = 0
+                local count = 0;
+                for _,Objective in pairs(quest.Objectives) do
+                    percent = percent + (Objective.Collected / Objective.Needed)
+                    count = count + 1
+                end
+                percent = percent / count
+                questCompletePercent[quest.Id] = percent
             end
-            percent = percent / count
-            questCompletePercent[Quest.Id] = percent
+            table.insert(order, questId)
         end
-        table.insert(order, quest)
     end
     if Questie.db.global.trackerSortObjectives == "byComplete" then
         table.sort(order, function(a, b)
             local vA, vB = questCompletePercent[a], questCompletePercent[b]
             if vA == vB then
-                return QuestieDB:GetQuest(a).Level < QuestieDB:GetQuest(b).Level
+                local qA = QuestieDB:GetQuest(a)
+                local qB = QuestieDB:GetQuest(b)
+                return qA and qB and qA.level < qB.level
             end
             return vB < vA
         end)
     elseif Questie.db.global.trackerSortObjectives == "byLevel" then
         table.sort(order, function(a, b)
-            return QuestieDB:GetQuest(a).Level < QuestieDB:GetQuest(b).Level
+            local qA = QuestieDB:GetQuest(a)
+            local qB = QuestieDB:GetQuest(b)
+            return qA and qB and qA.level < qB.level
         end)
     elseif Questie.db.global.trackerSortObjectives == "byLevelReversed" then
         table.sort(order, function(a, b)
-            return QuestieDB:GetQuest(a).Level > QuestieDB:GetQuest(b).Level
+            local qA = QuestieDB:GetQuest(a)
+            local qB = QuestieDB:GetQuest(b)
+            return qA and qB and qA.level > qB.level
         end)
     end
     local hasQuest = false
-    for _,quest in pairs (order) do
+    for _, questId in pairs (order) do
         -- if quest.userData.tracked
-        local Quest = QuestieDB:GetQuest(quest)
+        local quest = QuestieDB:GetQuest(questId)
         -- make sure objective data is up to date
-        if Quest.Objectives then
-            for _,Objective in pairs(Quest.Objectives) do
+        if quest and quest.Objectives then
+            for _,Objective in pairs(quest.Objectives) do
                 if Objective.Update then Objective:Update() end
             end
         end
 
 
-        local complete = QuestieQuest:IsComplete(Quest)
-        if ((not complete) or Questie.db.global.trackerShowCompleteQuests) and ((GetCVar("autoQuestWatch") == "1" and not Questie.db.char.AutoUntrackedQuests[quest]) or (GetCVar("autoQuestWatch") == "0" and Questie.db.char.TrackedQuests[quest]))  then -- maybe have an option to display quests in the list with (Complete!) in the title
+        local complete = QuestieQuest:IsComplete(quest)
+        if ((not complete) or Questie.db.global.trackerShowCompleteQuests) and ((GetCVar("autoQuestWatch") == "1" and not Questie.db.char.AutoUntrackedQuests[questId]) or (GetCVar("autoQuestWatch") == "0" and Questie.db.char.TrackedQuests[questId]))  then -- maybe have an option to display quests in the list with (Complete!) in the title
             hasQuest = true
             line = _QuestieTracker:GetNextLine()
             line:SetMode("header")
-            line:SetQuest(Quest)
+            line:SetQuest(quest)
             line:SetObjective(nil)
 
-            local questName = (Quest.LocalizedName or Quest.Name)
-            local coloredQuestName = QuestieLib:GetColoredQuestName(Quest.Id, questName, Quest.Level, Questie.db.global.trackerShowQuestLevel, complete)
+            local questName = (quest.LocalizedName or quest.name)
+            local coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, questName, quest.level, Questie.db.global.trackerShowQuestLevel, complete)
             line.label:SetText(coloredQuestName)
 
             line:Show()
             line.label:Show()
             trackerWidth = math.max(trackerWidth, line.label:GetWidth())
 
-            if Quest.Objectives and not complete then
-                for _,Objective in pairs(Quest.Objectives) do
+            if quest.Objectives and not complete then
+                for _,Objective in pairs(quest.Objectives) do
                     line = _QuestieTracker:GetNextLine()
                     line:SetMode("line")
-                    line:SetQuest(Quest)
+                    line:SetQuest(quest)
                     line:SetObjective(Objective)
                     local lineEnding = "" -- initialize because its not set if Needed is 0
                     if Objective.Needed > 0 then
@@ -1114,34 +1147,34 @@ function QuestieTracker:Update()
 
     if _QuestieTracker.IsFirstRun then
         _QuestieTracker.IsFirstRun = nil
-        for quest in pairs (QuestiePlayer.currentQuestlog) do
-            local Quest = QuestieDB:GetQuest(quest)
-            if Quest then
-                if Questie.db.char.TrackerHiddenQuests[quest] then
-                    Quest.HideIcons = true
+        for questId in pairs (QuestiePlayer.currentQuestlog) do
+            local quest = QuestieDB:GetQuest(questId)
+            if quest then
+                if Questie.db.char.TrackerHiddenQuests[questId] then
+                    quest.HideIcons = true
                 end
                 if Questie.db.char.TrackerFocus then
-                    if Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "number" and Questie.db.char.TrackerFocus == Quest.Id then -- quest focus
-                        _FocusQuest(Quest)
+                    if Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "number" and Questie.db.char.TrackerFocus == quest.Id then -- quest focus
+                        _FocusQuest(quest)
                     end
                 end
-                if Quest.Objectives then
-                    for _,Objective in pairs(Quest.Objectives) do
-                        if Questie.db.char.TrackerHiddenObjectives[tostring(quest) .. " " .. tostring(Objective.Index)] then
+                if quest.Objectives then
+                    for _,Objective in pairs(quest.Objectives) do
+                        if Questie.db.char.TrackerHiddenObjectives[tostring(questId) .. " " .. tostring(Objective.Index)] then
                             Objective.HideIcons = true
                         end
-                        if  Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus == tostring(Quest.Id) .. " " .. tostring(Objective.Index) then
-                            _FocusObjective(Quest, Objective)
+                        if  Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus == tostring(quest.Id) .. " " .. tostring(Objective.Index) then
+                            _FocusObjective(quest, Objective)
                         end
                     end
                 end
-                if Quest.SpecialObjectives then
-                    for _,Objective in pairs(Quest.SpecialObjectives) do
-                        if Questie.db.char.TrackerHiddenObjectives[tostring(quest) .. " " .. tostring(Objective.Index)] then
+                if quest.SpecialObjectives then
+                    for _,Objective in pairs(quest.SpecialObjectives) do
+                        if Questie.db.char.TrackerHiddenObjectives[tostring(questId) .. " " .. tostring(Objective.Index)] then
                             Objective.HideIcons = true
                         end
-                        if  Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus == tostring(Quest.Id) .. " " .. tostring(Objective.Index) then
-                            _FocusObjective(Quest, Objective)
+                        if  Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus == tostring(quest.Id) .. " " .. tostring(Objective.Index) then
+                            _FocusObjective(quest, Objective)
                         end
                     end
                 end
@@ -1215,7 +1248,7 @@ end
 function QuestieTracker:HookBaseTracker()
     if _QuestieTracker._alreadyHooked then return; end
     QuestieTracker._disableHooks = nil
-    
+
     if not QuestieTracker._alreadyHookedSecure then
         hooksecurefunc("AutoQuestWatch_Insert", _AQW_Insert)
         hooksecurefunc("AddQuestWatch", _AQW_Insert)
@@ -1258,6 +1291,34 @@ function _QuestieTracker:SetSafePoint(frm)
     frm:SetPoint("TOPLEFT", UIParent, "CENTER", 0,0)
 end
 
+function _QuestieTracker:CreateActiveQuestsFrame()
+    local _, numQuests = GetNumQuestLogEntries()
+    local frm = CreateFrame("Button", nil, _QuestieTracker.baseFrame)
+
+    frm.label = frm:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+    frm.label:SetText(QuestieLocale:GetUIString("TRACKER_ACTIVE_QUESTS") .. tostring(numQuests) .. "/20")
+    frm.label:SetFont(frm.label:GetFont(), Questie.db.global.trackerFontSizeHeader)
+    frm.label:SetPoint("TOP", _QuestieTracker.baseFrame)
+
+    frm:SetHeight(Questie.db.global.trackerFontSizeHeader)
+    frm:SetWidth(1)
+
+    -- hack for click-through
+    frm:SetScript("OnDragStart", _OnDragStart)
+    frm:SetScript("OnClick", _OnClick)
+    frm:SetScript("OnDragStop", _OnDragStop)
+    frm:SetScript("OnEnter", _OnEnter)
+    frm:SetScript("OnLeave", _OnLeave)
+
+    frm.Update = function(self)
+        local _, activeQuests = GetNumQuestLogEntries()
+        self.label:SetText(QuestieLocale:GetUIString("TRACKER_ACTIVE_QUESTS") .. tostring(activeQuests) .. "/20")
+    end
+
+    frm:Show()
+    return frm
+end
+
 function QuestieTracker:CreateBaseFrame()
     local frm = CreateFrame("Frame", nil, UIParent)
 
@@ -1269,7 +1330,7 @@ function QuestieTracker:CreateBaseFrame()
     t:SetVertexColor(1,1,1,0)
     t:SetAllPoints(frm)
     frm.texture = t
-    
+
     if Questie.db.char.TrackerLocation and Questie.db.char.TrackerLocation[1] and Questie.db.char.TrackerLocation[1] ~= "TOPRIGHT" and Questie.db.char.TrackerLocation[1] ~= "TOPLEFT" then
         print(QuestieLocale:GetUIString('TRACKER_INVALID_LOCATION') .. " (2)")
         Questie.db.char.TrackerLocation = nil
@@ -1279,7 +1340,7 @@ function QuestieTracker:CreateBaseFrame()
         --    Questie.db.char.TrackerLocation[1] = "TOPRIGHT"
         --end
     end
-    
+
     if Questie.db.char.TrackerLocation then
         -- we need to pcall this because it can error if something like MoveAnything is used to move the tracker
         local result, error = pcall(frm.SetPoint, frm, unpack(Questie.db.char.TrackerLocation))

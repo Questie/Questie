@@ -1,4 +1,15 @@
-QuestieSerializer = {}
+---@class QuestieSerializer
+local QuestieSerializer = QuestieLoader:CreateModule("QuestieSerializer");
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieStreamLib
+local QuestieStreamLib = QuestieLoader:ImportModule("QuestieStreamLib");
+---@type QuestieQuest
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
+
 
 function QuestieSerializer:Hash(value)
     if not value or type(value) ~= "string" or (string.len(value) <= 0) then
@@ -134,30 +145,30 @@ QuestieSerializer.ReaderTable = {
     [4] = function(self) return self.stream:ReadLong() end,
     [5] = function(self) return -self.stream:ReadLong() end,
     [6] = function(self) return intBitsToFloat(self.stream:ReadInt()) end,
-    
+
     [7] = function(self) return self.stream:ReadTinyString() end,
     [8] = function(self) return self.stream:ReadShortString() end,
     [9] = function(self) return QuestieSerializer.SerializerHashDBReversed[self.stream:ReadInt()] end,
-    
+
    [10] = function(self) return _ReadTable(self, self.stream:ReadByte()) end,
    [11] = function(self) return _ReadTable(self, self.stream:ReadShort()) end,
-   
+
    [12] = function(self) return self.stream:ReadByte() end,
    [13] = function(self) return -self.stream:ReadByte() end,
    [14] = function(self) return self.stream:ReadShort() end,
    [15] = function(self) return -self.stream:ReadShort() end,
-   
+
    [16] = function(self) return false end,
    [17] = function(self) return true end,
-   
+
    [18] = function(self) return nil end,
    [19] = function(self) return nil end,
-   
+
    [20] = function(self) return _ReadArray(self, self.stream:ReadByte()) end,
    [21] = function(self) return _ReadArray(self, self.stream:ReadShort()) end,
-   
+
    --up to 31
-   
+
 }
 
 local function isArray(arr)
@@ -344,56 +355,53 @@ function QuestieSerializer:Test()
     --testtable.npc3 = QuestieDB:GetNPC(2141)
     --testtable.npc4 = QuestieDB:GetNPC(1141)
     --testtable.npc5 = QuestieDB:GetNPC(1411)
-    
+
     local now = GetTime()
     local serQ = QuestieSerializer:Serialize(testtable)
     local serQR = QuestieSerializer.stream:SaveRaw()
-    
-    
+
     Questie.db.char.WriteTest = serQ
-    
-    
+
     --QuestieSerializer:PrintChunk(serQ)
     print("QuestieSerializer:")
     print("  len  raw:" .. string.len(serQR) .. "  1short:" .. string.len(serQ) .. "  ace:" .. string.len(_CPTable:Encode(serQR)))
-    
+
     QuestieSerializer:SetupStream()
     QuestieSerializer.stream:WriteShortString(_libCP:CompressHuffman(serQR))
-    
+
     -- it does -2 here because WriteShortString adds 2 bytes, its a hack to get the 1short encoded length
     print("  CompressedHuffman: ace:" .. string.len(_CPTable:Encode(_libCP:CompressHuffman(serQR))) .. "  1short:" .. (string.len(QuestieSerializer.stream:Save())-2))
-    
+
     QuestieSerializer:SetupStream()
     QuestieSerializer.stream:WriteShortString(_libCP:CompressLZW(serQR))
-    
+
     -- it does -2 here because WriteShortString adds 2 bytes, its a hack to get the 1short encoded length
     print("  CompressedLZW: ace:" .. string.len(_CPTable:Encode(_libCP:CompressLZW(serQR))) .. "  1short:" .. (string.len(QuestieSerializer.stream:Save())-2))
     print(" Took: " .. (GetTime() - now))
     print(" ")
     now = GetTime()
-    
-    
+
     local serA = _libAS:Serialize(testtable)
-    
+
     print("AceSerializer:")
     QuestieSerializer:SetupStream()
     QuestieSerializer.stream:WriteShortString(serA)
     --QuestieSerializer:PrintChunk(serA)
     -- it does -2 here because WriteShortString adds 2 bytes, its a hack to get the 1short encoded length
     print("  len  raw:" .. string.len(serA) .. "  1short:" .. (string.len(QuestieSerializer.stream:Save())-2).. "  ace:" .. string.len(_CPTable:Encode(serA)))
-    
+
     QuestieSerializer:SetupStream()
     QuestieSerializer.stream:WriteShortString(_libCP:CompressHuffman(serA))
 
     -- it does -2 here because WriteShortString adds 2 bytes, its a hack to get the 1short encoded length
     print("  CompressedHuffman: ace:" .. string.len(_CPTable:Encode(_libCP:CompressHuffman(serA))) .. "  1short:" .. (string.len(QuestieSerializer.stream:Save())-2));
-    
+
     QuestieSerializer:SetupStream()
     QuestieSerializer.stream:WriteShortString(_libCP:CompressLZW(serA))
-    
+
     -- it does -2 here because WriteShortString adds 2 bytes, its a hack to get the 1short encoded length
     print("  CompressedLZW: ace:" .. string.len(_CPTable:Encode(_libCP:CompressLZW(serA))) .. "  1short:" .. (string.len(QuestieSerializer.stream:Save())-2))
-    
+
     print(" Took: " .. (GetTime() - now))
     --self.stream = QuestieStreamLib:GetStream("b89")
     --print(self.stream:Save())

@@ -1,4 +1,25 @@
-QuestieFramePool = {...} -- GLobal Functions
+---@class QuestieFramePool
+local QuestieFramePool = QuestieLoader:CreateModule("QuestieFramePool");
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieQuest
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
+---@type QuestieDBMIntegration
+local QuestieDBMIntegration = QuestieLoader:ImportModule("QuestieDBMIntegration");
+---@type QuestieComms
+local QuestieComms = QuestieLoader:ImportModule("QuestieComms");
+---@type QuestieTooltips
+local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips");
+---@type QuestieMap
+local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
+---@type QuestiePlayer
+local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
+
 local _QuestieFramePool = {...} --Local Functions
 _QuestieFramePool.numberOfFrames = 0
 
@@ -66,65 +87,67 @@ StaticPopupDialogs["QUESTIE_CONFIRMHIDE"] = {
 
 -- Global Functions --
 function QuestieFramePool:GetFrame()
-    local f = nil--tremove(_QuestieFramePool.unusedFrames)
+    local returnFrame = nil--tremove(_QuestieFramePool.unusedFrames)
 
     -- im not sure its this, but using string keys for the table prevents double-adding to _QuestieFramePool.unusedFrames, calling unload() twice could double-add it maybe?
-    for k,v in pairs(_QuestieFramePool.unusedFrames) do -- yikes (why is tremove broken? is there a better to get the first key of a non-indexed table?)
-        f = v
-        _QuestieFramePool.unusedFrames[k] = nil
+    for frameId, frame in pairs(_QuestieFramePool.unusedFrames) do -- yikes (why is tremove broken? is there a better to get the first key of a non-indexed table?)
+        returnFrame = frame
+        _QuestieFramePool.unusedFrames[frameId] = nil
         break
     end
 
 
-    if f and f.GetName and _QuestieFramePool.usedFrames[f:GetName()] then
+    if returnFrame and returnFrame.frameId and _QuestieFramePool.usedFrames[returnFrame.frameId] then
         -- something went horribly wrong (desync bug?) don't use this frame since its already in use
-        f = nil
+        returnFrame = nil
     end
-    if not f then
-        f = _QuestieFramePool:QuestieCreateFrame()
+    if not returnFrame then
+        returnFrame = _QuestieFramePool:QuestieCreateFrame()
     end
-    if f ~= nil and f.hidden and f._show ~= nil and f._hide ~= nil then -- restore state to normal (toggle questie)
-        f.hidden = false
-        f.Show = f._show;
-        f.Hide = f._hide;
-        f._show = nil
-        f._hide = nil
+    if returnFrame ~= nil and returnFrame.hidden and returnFrame._show ~= nil and returnFrame._hide ~= nil then -- restore state to normal (toggle questie)
+        returnFrame.hidden = false
+        returnFrame.Show = returnFrame._show;
+        returnFrame.Hide = returnFrame._hide;
+        returnFrame._show = nil
+        returnFrame._hide = nil
     end
-    f.FadeLogic = nil
-    f.faded = nil
-    f.miniMapIcon = nil
-    f._hidden_toggle_hack = nil -- TODO: this will be removed later, see QuestieQuest:UpdateHiddenNotes()
+    returnFrame.FadeLogic = nil
+    returnFrame.faded = nil
+    returnFrame.miniMapIcon = nil
+    returnFrame._hidden_toggle_hack = nil -- TODO: this will be removed later, see QuestieQuest:UpdateHiddenNotes()
 
     --if f.IsShowing ~= nil and f:IsShowing() then
-    f.data = {} -- this should probably be nil but QuestieCreateFrame sets it to an empty table for some reason
-    f.x = nil;f.y = nil;f.AreaID = nil;
-    f:Hide();
+    returnFrame.data = {} -- this should probably be nil but QuestieCreateFrame sets it to an empty table for some reason
+    returnFrame.x = nil;
+    returnFrame.y = nil;
+    returnFrame.AreaID = nil;
+    returnFrame:Hide();
     --end
 
-    if f.texture then
-        f.texture:SetVertexColor(1, 1, 1, 1)
+    if returnFrame.texture then
+        returnFrame.texture:SetVertexColor(1, 1, 1, 1)
     end
-    f.loaded = true
-    f.shouldBeShowing = nil
-    f.hidden = nil
+    returnFrame.loaded = true
+    returnFrame.shouldBeShowing = nil
+    returnFrame.hidden = nil
 
-    if f.BaseOnShow then
-        f:SetScript("OnShow", f.BaseOnShow)
+    if returnFrame.BaseOnShow then
+        returnFrame:SetScript("OnShow", returnFrame.BaseOnShow)
     end
 
-    if f.BaseOnUpdate then
+    if returnFrame.BaseOnUpdate then
         --f:SetScript("OnUpdate", f.BaseOnUpdate)
-        f.glowLogicTimer = C_Timer.NewTicker(1, f.BaseOnUpdate);
+        returnFrame.glowLogicTimer = C_Timer.NewTicker(1, returnFrame.BaseOnUpdate);
     else
-        f:SetScript("OnUpdate", nil)
+        returnFrame:SetScript("OnUpdate", nil)
     end
 
-    if f.BaseOnHide then
-        f:SetScript("OnHide", f.BaseOnHide)
+    if returnFrame.BaseOnHide then
+        returnFrame:SetScript("OnHide", returnFrame.BaseOnHide)
     end
 
-    _QuestieFramePool.usedFrames[f:GetName()] = f
-    return f
+    _QuestieFramePool.usedFrames[returnFrame.frameId] = returnFrame
+    return returnFrame
 end
 
 --for i, frame in ipairs(_QuestieFramePool.allFrames) do
@@ -194,48 +217,48 @@ end]]--
 ---@class IconFrame
 function _QuestieFramePool:QuestieCreateFrame()
     _QuestieFramePool.numberOfFrames = _QuestieFramePool.numberOfFrames + 1
-    local f = CreateFrame("Button", "QuestieFrame".._QuestieFramePool.numberOfFrames, nil)
-    f.frameId = _QuestieFramePool.numberOfFrames;
-    
+    local newFrame = CreateFrame("Button", "QuestieFrame".._QuestieFramePool.numberOfFrames, nil)
+    newFrame.frameId = _QuestieFramePool.numberOfFrames;
+
     if(_QuestieFramePool.numberOfFrames > 5000) then
         Questie:Debug(DEBUG_CRITICAL, "[QuestieFramePool] Over 5000 frames... maybe there is a leak?", _QuestieFramePool.numberOfFrames)
     end
 
-    f.glow = CreateFrame("Button", "QuestieFrame".._QuestieFramePool.numberOfFrames.."Glow", f) -- glow frame
-    f.glow:SetFrameStrata("FULLSCREEN");
-    f.glow:SetWidth(18) -- Set these to whatever height/width is needed
-    f.glow:SetHeight(18)
+    newFrame.glow = CreateFrame("Button", "QuestieFrame".._QuestieFramePool.numberOfFrames.."Glow", newFrame) -- glow frame
+    newFrame.glow:SetFrameStrata("FULLSCREEN");
+    newFrame.glow:SetWidth(18) -- Set these to whatever height/width is needed
+    newFrame.glow:SetHeight(18)
 
 
-    f:SetFrameStrata("FULLSCREEN");
-    f:SetWidth(16) -- Set these to whatever height/width is needed
-    f:SetHeight(16) -- for your Texture
-    f:SetPoint("CENTER", -8, -8)
-    f:EnableMouse(true)--f:EnableMouse()
+    newFrame:SetFrameStrata("FULLSCREEN");
+    newFrame:SetWidth(16) -- Set these to whatever height/width is needed
+    newFrame:SetHeight(16) -- for your Texture
+    newFrame:SetPoint("CENTER", -8, -8)
+    newFrame:EnableMouse(true)--f:EnableMouse()
 
-    local t = f:CreateTexture(nil, "OVERLAY", nil, 0)
+    local newTexture = newFrame:CreateTexture(nil, "OVERLAY", nil, 0)
     --t:SetTexture("Interface\\Icons\\INV_Misc_Eye_02.blp")
     --t:SetTexture("Interface\\Addons\\!Questie\\Icons\\available.blp")
-    t:SetWidth(16)
-    t:SetHeight(16)
-    t:SetAllPoints(f)
-    t:SetTexelSnappingBias(0)
-    t:SetSnapToPixelGrid(false)
+    newTexture:SetWidth(16)
+    newTexture:SetHeight(16)
+    newTexture:SetAllPoints(newFrame)
+    newTexture:SetTexelSnappingBias(0)
+    newTexture:SetSnapToPixelGrid(false)
 
-    local glowt = f.glow:CreateTexture(nil, "OVERLAY", nil, -1)
+    local glowt = newFrame.glow:CreateTexture(nil, "OVERLAY", nil, -1)
     glowt:SetWidth(18)
     glowt:SetHeight(18)
-    glowt:SetAllPoints(f.glow)
+    glowt:SetAllPoints(newFrame.glow)
 
-    f.texture = t;
-    f.glowTexture = glowt
-    f.glowTexture:SetTexture(ICON_TYPE_GLOW)
-    f.glow:Hide()
-    f.glow:SetPoint("CENTER", -9, -9) -- 2 pixels bigger than normal icon
-    f.glow:EnableMouse(false)
+    newFrame.texture = newTexture;
+    newFrame.glowTexture = glowt
+    newFrame.glowTexture:SetTexture(ICON_TYPE_GLOW)
+    newFrame.glow:Hide()
+    newFrame.glow:SetPoint("CENTER", -9, -9) -- 2 pixels bigger than normal icon
+    newFrame.glow:EnableMouse(false)
 
-    f:SetScript("OnEnter", function(self) _QuestieFramePool:Questie_Tooltip(self) end); --Script Toolip
-    f:SetScript("OnLeave", function(self) 
+    newFrame:SetScript("OnEnter", function(self) _QuestieFramePool:Questie_Tooltip(self) end); --Script Toolip
+    newFrame:SetScript("OnLeave", function(self) 
       if(WorldMapTooltip) then WorldMapTooltip:Hide(); WorldMapTooltip._rebuild = nil; end 
       if(GameTooltip) then GameTooltip:Hide(); GameTooltip._Rebuild = nil; end 
 
@@ -244,8 +267,8 @@ function _QuestieFramePool:QuestieCreateFrame()
         lineFrame.line:SetColorTexture(lineFrame.line.dR, lineFrame.line.dG, lineFrame.line.dB, lineFrame.line.dA)
       end
     end) --Script Exit Tooltip
-    f:RegisterForClicks("RightButtonUp", "LeftButtonUp")
-    f:SetScript("OnClick", function(self, button)
+    newFrame:RegisterForClicks("RightButtonUp", "LeftButtonUp")
+    newFrame:SetScript("OnClick", function(self, button)
         --_QuestieFramePool:Questie_Click(self)
         if self and self.data and self.data.UiMapID and WorldMapFrame and WorldMapFrame:IsShown() then
             if button == "RightButton" then
@@ -279,7 +302,7 @@ function _QuestieFramePool:QuestieCreateFrame()
             Minimap:PingLocation(x, y)
         end
     end);
-    f.GlowUpdate = function(self)--f:HookScript("OnUpdate", function(self)
+    newFrame.GlowUpdate = function(self)--f:HookScript("OnUpdate", function(self)
         if self.glow and self.glow.IsShown and self.glow:IsShown() then
             self.glow:SetWidth(self:GetWidth()*1.13)
             self.glow:SetHeight(self:GetHeight()*1.13)
@@ -291,12 +314,12 @@ function _QuestieFramePool:QuestieCreateFrame()
         end
         --self.glow:SetPoint("BOTTOMLEFT", self, 1, 1)
     end--end)
-    f.BaseOnUpdate = function(self)
+    newFrame.BaseOnUpdate = function(self)
         if self.GlowUpdate then
             self:GlowUpdate()
         end
     end
-    f.BaseOnShow = function(self)--f:SetScript("OnShow", function(self)
+    newFrame.BaseOnShow = function(self)--f:SetScript("OnShow", function(self)
         if self.data and self.data.Type and self.data.Type == "complete" then
             self:SetFrameLevel(self:GetFrameLevel() + 1)
         end
@@ -313,12 +336,12 @@ function _QuestieFramePool:QuestieCreateFrame()
             end
         end
     end--end)
-    f.BaseOnHide = function(self)--f:HookScript("OnHide", function(self)
+    newFrame.BaseOnHide = function(self)--f:HookScript("OnHide", function(self)
         self.glow:Hide()
     end--end)
     --f.Unload = function(frame) _QuestieFramePool:UnloadFrame(frame) end;
 
-    function f:UpdateTexture(texture)
+    function newFrame:UpdateTexture(texture)
         --Different settings depending on noteType
         local globalScale = 0.7
         local objectiveColor = false;
@@ -348,7 +371,7 @@ function _QuestieFramePool:QuestieCreateFrame()
         end
     end
 
-    function f:Unload()
+    function newFrame:Unload()
         self:SetScript("OnUpdate", nil)
         self:SetScript("OnShow", nil)
         self:SetScript("OnHide", nil)
@@ -356,7 +379,7 @@ function _QuestieFramePool:QuestieCreateFrame()
         self:SetFrameLevel(0);
 
         if(QuestieMap.minimapFramesShown[self.frameId]) then
-            QuestieMap.minimapFrames[self.frameId] = nil;
+            QuestieMap.minimapFramesShown[self.frameId] = nil;
         end
 
         if(QuestieMap.mapFramesShown[self.frameId]) then
@@ -395,24 +418,24 @@ function _QuestieFramePool:QuestieCreateFrame()
         end
         
         if self.OnHide then self:OnHide() end -- the event might trigger after OnHide=nil even if its set after self:Hide()
-        self.OnHide = nil
-        self.OnShow = nil
+        --self.OnHide = nil
+        --self.OnShow = nil
         self:Hide()
         self.glow:Hide()
         --self.glow:Hide()
         self.data = nil -- Just to be safe
         self.loaded = nil
         self.x = nil;self.y = nil;self.AreaID = nil
-        if _QuestieFramePool.usedFrames[self:GetName()] then
-            _QuestieFramePool.usedFrames[self:GetName()] = nil
-            _QuestieFramePool.unusedFrames[self:GetName()] = self--table.insert(_QuestieFramePool.unusedFrames, self)
+        if _QuestieFramePool.usedFrames[self.frameId] then
+            _QuestieFramePool.usedFrames[self.frameId] = nil
+            _QuestieFramePool.unusedFrames[self.frameId] = self--table.insert(_QuestieFramePool.unusedFrames, self)
         end
     end
-    f.data = {}
-    f:Hide()
+    newFrame.data = {}
+    newFrame:Hide()
 
     -- functions for fake hide/unhide
-    function f:FadeOut()
+    function newFrame:FadeOut()
         if not self.faded then
             self.faded = true
             if self.texture then
@@ -426,7 +449,7 @@ function _QuestieFramePool:QuestieCreateFrame()
         end
     end
 
-    function f:FadeIn()
+    function newFrame:FadeIn()
         if self.faded then
             self.faded = nil
             if self.texture then
@@ -439,7 +462,7 @@ function _QuestieFramePool:QuestieCreateFrame()
             end
         end
     end
-    function f:FakeHide()
+    function newFrame:FakeHide()
         if not self.hidden then
             self.shouldBeShowing = self:IsShown();
             self._show = self.Show;
@@ -454,7 +477,7 @@ function _QuestieFramePool:QuestieCreateFrame()
             self.hidden = true
         end
     end
-    function f:FakeUnhide()
+    function newFrame:FakeUnhide()
         if self.hidden then
             self.hidden = false
             self.Show = self._show;
@@ -466,24 +489,40 @@ function _QuestieFramePool:QuestieCreateFrame()
             end
         end
     end
-    hooksecurefunc(f, "Hide", function() 
-        if f.OnHide then
-            f:OnHide()
+
+    function newFrame:OnShow()
+        if(self.miniMapIcon) then
+            QuestieMap.minimapFramesShown[self.frameId] = self
+        else
+            QuestieMap.mapFramesShown[self.frameId] = self
+        end
+    end
+    function newFrame:OnHide()
+        if(self.miniMapIcon) then
+            QuestieMap.minimapFramesShown[self.frameId] = nil
+        else
+            QuestieMap.mapFramesShown[self.frameId] = nil
+        end
+    end
+
+    hooksecurefunc(newFrame, "Hide", function() 
+        if newFrame.OnHide then
+            newFrame:OnHide()
         end
     end)
-    hooksecurefunc(f, "Show", function()
+    hooksecurefunc(newFrame, "Show", function()
         --For the love of god don't remove this.
-        QuestieMap.utils:SetDrawOrder(f);
-        if f.OnShow then
-            f:OnShow()
+        QuestieMap.utils:SetDrawOrder(newFrame);
+        if newFrame.OnShow then
+            newFrame:OnShow()
         end
     end)
     --f:HookScript("OnHide", function() if self.OnHide then self:OnHide() end end)
     --f:HookScript("OnShow", function() if self.OnShow then self:OnShow() end end)
     
     --f.glow:Hide()
-    table.insert(_QuestieFramePool.allFrames, f)
-    return f
+    table.insert(_QuestieFramePool.allFrames, newFrame)
+    return newFrame
 end
 
 
@@ -569,6 +608,9 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
 
     --tremove default always picks the last element, however counting arrays is kinda bugged? So just get index 1 instead.
     local lineFrame = tremove(QuestieFramePool.Routes_Lines, 1) or CreateFrame("Frame", frameName, iconFrame);
+    if not lineFrame.frameId then
+        lineFrame.frameId = lineFrames;
+    end
 
     local width = WorldMapFrame:GetCanvas():GetWidth();
     local height = WorldMapFrame:GetCanvas():GetHeight();
@@ -723,7 +765,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
     local questOrder = {};
     local manualOrder = {};
     if 1 then
-        for _, icon in pairs(_QuestieFramePool.usedFrames) do -- I added "_QuestieFramePool.usedFrames" because I think its a bit more efficient than using _G but I might be wrong
+        for _, icon in pairs(QuestieMap.mapFramesShown) do -- I added "_QuestieFramePool.usedFrames" because I think its a bit more efficient than using _G but I might be wrong
             if icon and icon.data and icon.x and icon.AreaID == self.AreaID then
                 local dist = QuestieLib:Maxdist(icon.x, icon.y, self.x, self.y);
                 if dist < maxDistCluster then
@@ -798,7 +840,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
                                         -.fulfilled = objective.numFulfilled;
                                         -.required = objective.numRequired;  
                                     ]]
-                                    local playerInfo = QuestieLib:PlayerInGroup(playerName);
+                                    local playerInfo = QuestiePlayer:GetPartyMemberByName(playerName);
                                     if(playerInfo) then
                                         local colorizedPlayerName = " (|c"..playerInfo.colorHex..playerName.."|r|cFF33FF33)|r";
                                         local remoteText = icon.data.ObjectiveData.Description;
@@ -907,8 +949,8 @@ function _QuestieFramePool:Questie_Tooltip(self)
             for k2, questData in pairs(quests) do
                 if questData.title ~= nil then
                     local quest = QuestieDB:GetQuest(questData.questId);
-                    if(shift and QuestiePlayer:GetPlayerLevel() ~= 60) then
-                        self:AddDoubleLine("   " .. questData.title, QuestieLib:PrintDifficultyColor(quest.Level, "("..GetQuestLogRewardXP(questData.questId)..xpString..") ")..questData.type, 1, 1, 1, 1, 1, 0);
+                    if(quest and shift and QuestiePlayer:GetPlayerLevel() ~= 60) then
+                        self:AddDoubleLine("   " .. questData.title, QuestieLib:PrintDifficultyColor(quest.level, "("..GetQuestLogRewardXP(questData.questId)..xpString..") ")..questData.type, 1, 1, 1, 1, 1, 0);
                     else
                         self:AddDoubleLine("   " .. questData.title, questData.type, 1, 1, 1, 1, 1, 0);
                     end
@@ -934,8 +976,8 @@ function _QuestieFramePool:Questie_Tooltip(self)
                 self:AddDoubleLine(questTitle, QuestieLocale:GetUIString("TOOLTIP_QUEST_ACTIVE"), 1, 1, 1, 1, 1, 0);
                 haveGiver = false -- looks better when only the first one shows (active)
             else
-                if(shift and QuestiePlayer:GetPlayerLevel() ~= 60) then
-                    local r, g, b = QuestieLib:GetDifficultyColorPercent(quest.Level);
+                if(quest and shift and QuestiePlayer:GetPlayerLevel() ~= 60) then
+                    local r, g, b = QuestieLib:GetDifficultyColorPercent(quest.level);
                     self:AddDoubleLine(questTitle, "("..GetQuestLogRewardXP(questId)..xpString..")", 0.2, 1, 0.2, r, g, b);
                     firstLine = false;
                 elseif(firstLine and not shift) then

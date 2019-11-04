@@ -1,3 +1,11 @@
+-- AUTO GENERATED FILE! DO NOT EDIT!
+
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
+
 QuestieDB.itemKeys = {
     ['npc_drops'] = 1, -- table {{npcID(int), dropChance(float)},...}
     ['object_drops'] = 2, -- table {{objectID(int), dropChance(float)},...}

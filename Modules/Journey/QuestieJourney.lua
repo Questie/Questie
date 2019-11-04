@@ -1,29 +1,34 @@
-QuestieJourney = {};
+
+---@class QuestieJourney
+local QuestieJourney = QuestieLoader:CreateModule("QuestieJourney");
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieJourneyUtils
+local QuestieJourneyUtils = QuestieLoader:ImportModule("QuestieJourneyUtils");
+---@type QuestieSearchResults
+local QuestieSearchResults = QuestieLoader:ImportModule("QuestieSearchResults");
+---@type QuestiePlayer
+local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
+
+QuestieJourney.continents = {}
+QuestieJourney.zones = {}
+
 local AceGUI = LibStub("AceGUI-3.0");
 
 local journeyFrame = {};
 local isWindowShown = false;
-local lastOpenWindow = "journey";
+QuestieJourney.lastOpenWindow = "journey";
 local containerCache = nil;
 
 function JumpToQuest(button)
     QuestieSearchResults:JumpToQuest(button)
     HideJourneyTooltip()
  end
-
-local function Spacer(container, size)
-    local spacer = AceGUI:Create("Label");
-    spacer:SetFullWidth(true);
-    spacer:SetText(" ");
-    if size and size == "large" then
-        spacer:SetFontObject(GameFontHighlightLarge);
-    elseif size and size == "small" then
-        spacer:SetFontObject(GameFontHighlightSmall);
-    else
-        spacer:SetFontObject(GameFontHighlight);
-    end
-    container:AddChild(spacer);
-end
 
 local journeyTreeFrame = nil;
 local treeCache = nil;
@@ -72,9 +77,8 @@ local function SplitJourneyByDate()
             for idx, e in pairs(dateTable[i][mon]) do
 
                 local entry = e.value;
-
-
                 local entryText = '';
+
                 if entry.Event == "Level" then
                     entryText = QuestieLocale:GetUIString('JOURNEY_LEVELREACH', entry.NewLevel);
                 elseif entry.Event == "Note" then
@@ -92,7 +96,7 @@ local function SplitJourneyByDate()
                     end
                     local quest = QuestieDB:GetQuest(entry.Quest)
                     if quest then
-                        local qName = quest.Name;
+                        local qName = quest.name;
                         entryText = QuestieLocale:GetUIString('JOURNEY_TABLE_QUEST', state, qName);
                     else
                         entryText = QuestieLocale:GetUIString('JOURNEY_MISSING_QUEST');
@@ -147,7 +151,7 @@ local function ManageJourneyTree(container)
                 header:SetFullWidth(true);
                 f:AddChild(header);
 
-                Spacer(f);
+                QuestieJourneyUtils:Spacer(f);
 
                 local created = AceGUI:Create("Label");
                 created:SetFullWidth(true);
@@ -166,7 +170,7 @@ local function ManageJourneyTree(container)
                     note:SetFullWidth(true);
                     note:SetText(Questie:Colorize( entry.Note , 'yellow'));
                     f:AddChild(note);
-                    Spacer(f);
+                    QuestieJourneyUtils:Spacer(f);
 
                     created:SetText(QuestieLocale:GetUIString('JOURNEY_NOTE_CREATED', timestamp));
                     f:AddChild(created);
@@ -197,16 +201,18 @@ local function ManageJourneyTree(container)
                     end
 
                     local quest = QuestieDB:GetQuest(entry.Quest)
-                    local qName = quest.Name;
-                    header:SetText(QuestieLocale:GetUIString('JOURNEY_TABLE_QUEST', state, qName));
+                    if quest then
+                        local qName = quest.name;
+                        header:SetText(QuestieLocale:GetUIString('JOURNEY_TABLE_QUEST', state, qName));
 
 
-                    local obj = AceGUI:Create("Label");
-                    obj:SetFullWidth(true);
-                    obj:SetText(CreateObjectiveText(quest.Description));
-                    f:AddChild(obj);
+                        local obj = AceGUI:Create("Label");
+                        obj:SetFullWidth(true);
+                        obj:SetText(CreateObjectiveText(quest.Description));
+                        f:AddChild(obj);
+                    end
 
-                    Spacer(f);
+                    QuestieJourneyUtils:Spacer(f);
 
                     -- Only show party members if you weren't alone
                     if #entry.Party > 0 then
@@ -227,7 +233,7 @@ local function ManageJourneyTree(container)
                             partyFrame:AddChild(pf);
                         end
 
-                        Spacer(f);
+                        QuestieJourneyUtils:Spacer(f);
                     end
 
 
@@ -256,7 +262,7 @@ local function DrawJourneyTab(container)
     head:SetText(QuestieLocale:GetUIString('JOURNEY_RECENT_EVENTS'));
     head:SetFullWidth(true);
     container:AddChild(head);
-    Spacer(container);
+    QuestieJourneyUtils:Spacer(container);
 
     -- get last 5 elements from table for history
     local counter = #Questie.db.char.journey;
@@ -279,7 +285,7 @@ local function DrawJourneyTab(container)
         if Questie.db.char.journey[i].Event == "Quest" then
             local quest = QuestieDB:GetQuest(Questie.db.char.journey[i].Quest);
             if quest then
-                local qName = Questie:Colorize(quest.Name, 'gray');
+                local qName = Questie:Colorize(quest.name, 'gray');
 
                 if Questie.db.char.journey[i].SubType == "Accept" then
                     recentEvents[i]:SetText( timestamp .. Questie:Colorize( QuestieLocale:GetUIString('JOURNEY_QUEST_ACCEPT', qName) , 'yellow')  );
@@ -307,7 +313,7 @@ local function DrawJourneyTab(container)
         container:AddChild(justdoit);
     end
 
-    Spacer(container);
+    QuestieJourneyUtils:Spacer(container);
 
     local treeHead = AceGUI:Create("Heading");
     treeHead:SetText(QuestieLocale:GetUIString('JOURNEY_TITLE', UnitName("player")));
@@ -320,7 +326,7 @@ local function DrawJourneyTab(container)
     noteBtn:SetCallback("OnClick", NotePopup);
     container:AddChild(noteBtn);
 
-    Spacer(container);
+    QuestieJourneyUtils:Spacer(container);
 
     local treeGroup = AceGUI:Create("SimpleGroup");
     treeGroup:SetLayout("fill");
@@ -375,7 +381,7 @@ function NotePopup()
         desc:SetFullWidth(true);
         frame:AddChild(desc);
 
-        Spacer(frame);
+        QuestieJourneyUtils:Spacer(frame);
 
 
         local titleBox = AceGUI:Create("EditBox");
@@ -441,168 +447,6 @@ function NotePopup()
     end
 end
 
-
-local continentTable = {
-    [1] = "Eastern Kingdoms",
-    [2] = "Kalimdor",
-    [3] = "Dungeons",
-  --  [4] = "Raids",
-  --  [5] = "Battle Grounds"
-};
-
-
-QuestieJourney.zoneTable = {
-    [1] = {
-        [36] = "Alterac Mountains",
-        [45] = "Arathi Highlands",
-        [3] = "Badlands",
-        [4] = "Blasted Lands",
-        [46] = "Burning Steppes",
-        [41] = "Deadwind Pass",
-        [2257] = "Deeprun Tram",
-        [1] = "Dun Morogh",
-        [10] = "Duskwood",
-        [139] = "Eastern Plaguelands",
-        [12] = "Elwynn Forest",
-        [267] = "Hillsbrad Foothills",
-        [1537] = "Ironforge",
-        [38] = "Loch Modan",
-        [44] = "Redridge Mountains",
-        [51] = "Searing Gorge",
-        [130] = "Silverpine Forest",
-        [1519] = "Stormwind City",
-        [33] = "Stranglethorn Vale",
-        [8] = "Swamp of Sorrows",
-        [47] = "The Hinterlands",
-        [85] = "Tirisfal Glade",
-        [1497] = "Undercity",
-        [28] = "Western Plaguelands",
-        [40] = "Westfall",
-        [11] = "Wetlands"
-    },
-    [2] = {
-        [331] = "Ashenvale",
-        [16] = "Azshara",
-        [148] = "Darkshore",
-        [1657] = "Darnassus",
-        [405] = "Desolace",
-        [14] = "Durotar",
-        [15] = "Dustwallow Marsh",
-        [361] = "Felwood",
-        [357] = "Feralas",
-        [493] = "Moonglade",
-        [215] = "Mulgore",
-        [1637] = "Orgrimmar",
-        [1377] = "Silithus",
-        [406] = "Stonetalon Mountains",
-        [440] = "Tanaris",
-        [141] = "Teldrassil",
-        [17] = "The Barrens",
-        [400] = "Thousand Needles",
-        [1638] = "Thunder Bluff",
-        [490] = "Un'Goro Crater",
-        [618] = "Winterspring"
-    },
-    [3] = {
-        [2437] = "Ragefire Chasm",
-        [1581] = "The Deadmines",
-        [718] = "Wailing Caverns",
-        [209] = "Shadowfang Keep",
-        [719] = "Blackfathom Deeps",
-        [717] = "The Stockades",
-        [721] = "Gnomeregan",
-        [491] = "Razorfen Kraul",
-        [796] = "Scarlet Monastery",
-        [722] = "Razorfen Downs",
-        [1337] = "Uldaman",
-        [2100] = "Maraudon",
-        [1176] = "Zul'Farrak",
-        [1477] = "The Temple of Atal'Hakkar",
-        [1584] = "Blackrock Depths",
-        [1583] = "Blackrock Spire",
-        [2017] = "Stratholme",
-        [2557] = "Dire Maul",
-        [2057] = "Scholomance",
-    }
-};
-
-if (GetLocale() == "deDE") then
-	QuestieJourney.zoneTable = {
-		[1] = {
-			[36] = "Alteracgebirge",
-			[45] = "Arathihochland",
-			[3] = "Ödland",
-			[4] = "Verwüstete Lande",
-			[46] = "Brennende Steppe",
-			[41] = "Gebirgspass der Totenwinde",
-			[2257] = "Tiefenbahn",
-			[1] = "Dun Morogh",
-			[10] = "Dämmerwald",
-			[139] = "Östliche Pestländer",
-			[12] = "Wald von Elwynn",
-			[267] = "Vorgebirge von Hillsbrad",
-			[1537] = "Ironforge",
-			[38] = "Loch Modan",
-			[44] = "Rotkammgebirge",
-			[51] = "Sengende Schlucht",
-			[130] = "Silberwald",
-			[1519] = "Stormwind Stadt",
-			[33] = "Schlingendorntal",
-			[8] = "Sümpfe des Elends",
-			[47] = "Die Hinterlande",
-			[85] = "Tirisfal",
-			[1497] = "Undercity",
-			[28] = "Westliche Pestländer",
-			[40] = "Westfall",
-			[11] = "Sumpfland"
-		},
-		[2] = {
-			[331] = "Eschental",
-			[16] = "Azshara",
-			[148] = "Dunkelküste",
-			[1657] = "Darnassus",
-			[405] = "Desolace",
-			[14] = "Durotar",
-			[15] = "Düstermarschen",
-			[361] = "Teufelswald",
-			[357] = "Feralas",
-			[493] = "Moonglade",
-			[215] = "Mulgore",
-			[1637] = "Orgrimmar",
-			[1377] = "Silithus",
-			[406] = "Steinkrallengebirge",
-			[440] = "Tanaris",
-			[141] = "Teldrassil",
-			[17] = "Brachland",
-			[400] = "Tausend Nadeln",
-			[1638] = "Thunder Bluff",
-			[490] = "Un'Goro Krater",
-			[618] = "Winterquell"
-		},
-		[3] = {
-			[2437] = "Flammenschlund",
-			[1581] = "Die Todesminen",
-			[718] = "Die Höhlen des Wehklagens",
-			[209] = "Burg Shadowfang",
-			[719] = "Tiefschwarze Grotte",
-			[717] = "Das Verlies",
-			[721] = "Gnomeregan",
-			[491] = "Der Kral von Razorfen",
-			[796] = "Das Scharlachrote Kloster",
-			[722] = "Die Hügel von Razorfen",
-			[1337] = "Uldaman",
-			[2100] = "Maraudon",
-			[1176] = "Zul'Farrak",
-			[1477] = "Der Tempel von Atal'Hakkar",
-			[1584] = "Blackrock Tiefen",
-			[1583] = "Blackrock Spitze",
-			[2017] = "Stratholme",
-			[2557] = "Düsterbruch",
-			[2057] = "Scholomance",
-		}
-	};
-end	
-
 function ShowJourneyTooltip(button)
     if GameTooltip:IsShown() then
         return;
@@ -610,12 +454,13 @@ function ShowJourneyTooltip(button)
 
     local qid = button:GetUserData('id');
     local quest = QuestieDB:GetQuest(tonumber(qid));
-
-    GameTooltip:SetOwner(_G["QuestieJourneyFrame"], "ANCHOR_CURSOR");
-    GameTooltip:AddLine("[".. quest.Level .."] ".. quest.Name);
-    GameTooltip:AddLine("|cFFFFFFFF" .. CreateObjectiveText(quest.Description))
-    GameTooltip:SetFrameStrata("TOOLTIP");
-    GameTooltip:Show();
+    if quest then
+        GameTooltip:SetOwner(_G["QuestieJourneyFrame"], "ANCHOR_CURSOR");
+        GameTooltip:AddLine("[".. quest.level .."] ".. quest.name);
+        GameTooltip:AddLine("|cFFFFFFFF" .. CreateObjectiveText(quest.Description))
+        GameTooltip:SetFrameStrata("TOOLTIP");
+        GameTooltip:Show();
+    end
 end
 
 function HideJourneyTooltip()
@@ -643,16 +488,15 @@ function CreateObjectiveText(desc)
 end
 
 local zoneTreeFrame = nil;
-local selectedContinent = 0;
 
 -- TODO remove again once the call in manageZoneTree was removed
 local function QuestFrame(f, quest)
     local header = AceGUI:Create("Heading");
     header:SetFullWidth(true);
-    header:SetText(quest.Name);
+    header:SetText(quest.name);
     f:AddChild(header);
 
-    Spacer(f);
+    QuestieJourneyUtils:Spacer(f);
 
     local obj = AceGUI:Create("Label");
     obj:SetText(CreateObjectiveText(quest.Description));
@@ -660,7 +504,7 @@ local function QuestFrame(f, quest)
 
     obj:SetFullWidth(true);
     f:AddChild(obj);
-    Spacer(f);
+    QuestieJourneyUtils:Spacer(f);
 
     local questinfo = AceGUI:Create("Heading");
     questinfo:SetFullWidth(true);
@@ -669,7 +513,7 @@ local function QuestFrame(f, quest)
 
     -- Generic Quest Information
     local level = AceGUI:Create("Label");
-    level:SetText(Questie:Colorize(QuestieLocale:GetUIString('JOURNEY_QUEST_LEVEL'), 'yellow') .. quest.Level);
+    level:SetText(Questie:Colorize(QuestieLocale:GetUIString('JOURNEY_QUEST_LEVEL'), 'yellow') .. quest.level);
     level:SetFullWidth(true);
     f:AddChild(level);
 
@@ -680,7 +524,7 @@ local function QuestFrame(f, quest)
 
     local diff = AceGUI:Create("Label");
     diff:SetFullWidth(true);
-    local red, orange, yellow, green, gray = QuestieJourney:GetLevelDifficultyRanges(quest.Level, quest.requiredLevel);
+    local red, orange, yellow, green, gray = QuestieJourney:GetLevelDifficultyRanges(quest.level, quest.requiredLevel);
     local diffStr = '';
 
     if red then
@@ -702,9 +546,7 @@ local function QuestFrame(f, quest)
     id:SetText(Questie:Colorize(QuestieLocale:GetUIString('JOURNEY_QUEST_ID'), 'yellow') .. quest.Id);
     id:SetFullWidth(true);
     f:AddChild(id);
-    Spacer(f);
-
-
+    QuestieJourneyUtils:Spacer(f);
 
     -- Get Quest Start NPC
     if quest.Starts and quest.Starts.NPC then
@@ -714,7 +556,7 @@ local function QuestFrame(f, quest)
         startNPCGroup:SetFullWidth(true);
         f:AddChild(startNPCGroup);
 
-        Spacer(startNPCGroup);
+        QuestieJourneyUtils:Spacer(startNPCGroup);
 
         local startnpc = QuestieDB:GetNPC(quest.Starts.NPC[1]);
 
@@ -732,9 +574,9 @@ local function QuestFrame(f, quest)
         end
 
         local continent = 'UNKNOWN ZONE';
-        for i, v in ipairs(QuestieJourney.zoneTable) do
+        for i, v in ipairs(QuestieJourney.zones) do
             if v[startindex] then
-                continent = QuestieJourney.zoneTable[i][startindex];
+                continent = QuestieJourney.zones[i][startindex];
             end
         end
 
@@ -756,7 +598,7 @@ local function QuestFrame(f, quest)
         startNPCID:SetFullWidth(true);
         startNPCGroup:AddChild(startNPCID);
 
-        Spacer(startNPCGroup);
+        QuestieJourneyUtils:Spacer(startNPCGroup);
 
         -- Also Starts
         if startnpc.questStarts then
@@ -777,7 +619,7 @@ local function QuestFrame(f, quest)
                     startQuests[counter].quest = QuestieDB:GetQuest(v);
                     startQuests[counter].frame:SetText(startQuests[counter].quest:GetColoredQuestName());
                     startQuests[counter].frame:SetUserData('id', v);
-                    startQuests[counter].frame:SetUserData('name', startQuests[counter].quest.Name);
+                    startQuests[counter].frame:SetUserData('name', startQuests[counter].quest.name);
                     startQuests[counter].frame:SetCallback("OnClick", JumpToQuest);
                     startQuests[counter].frame:SetCallback("OnEnter", ShowJourneyTooltip);
                     startQuests[counter].frame:SetCallback("OnLeave", HideJourneyTooltip);
@@ -794,7 +636,7 @@ local function QuestFrame(f, quest)
             end
         end
 
-        Spacer(startNPCGroup);
+        QuestieJourneyUtils:Spacer(startNPCGroup);
 
     end
 
@@ -806,9 +648,8 @@ local function QuestFrame(f, quest)
         startGOGroup:SetFullWidth(true);
         f:AddChild(startGOGroup);
 
-        Spacer(startGOGroup);
+        QuestieJourneyUtils:Spacer(startGOGroup);
 
-        local startObjects = {}
         for i, oid in pairs(quest.Starts.GameObject) do
             local startobj = QuestieDB:GetObject(oid);
 
@@ -826,9 +667,9 @@ local function QuestFrame(f, quest)
             end
 
             local continent = 'UNKNOWN ZONE';
-            for i, v in ipairs(QuestieJourney.zoneTable) do
+            for i, v in ipairs(QuestieJourney.zones) do
                 if v[startindex] then
-                    continent = QuestieJourney.zoneTable[i][startindex];
+                    continent = QuestieJourney.zones[i][startindex];
                 end
             end
 
@@ -850,7 +691,7 @@ local function QuestFrame(f, quest)
             startGOID:SetFullWidth(true);
             startGOGroup:AddChild(startGOID);
 
-            Spacer(startGOGroup);
+            QuestieJourneyUtils:Spacer(startGOGroup);
 
             -- Also Starts
             if startobj.questStarts then
@@ -871,7 +712,7 @@ local function QuestFrame(f, quest)
                         startQuests[counter].quest = QuestieDB:GetQuest(v);
                         startQuests[counter].frame:SetText(startQuests[counter].quest:GetColoredQuestName());
                         startQuests[counter].frame:SetUserData('id', v);
-                        startQuests[counter].frame:SetUserData('name', startQuests[counter].quest.Name);
+                        startQuests[counter].frame:SetUserData('name', startQuests[counter].quest.name);
                         startQuests[counter].frame:SetCallback("OnClick", JumpToQuest);
                         startQuests[counter].frame:SetCallback("OnEnter", ShowJourneyTooltip);
                         startQuests[counter].frame:SetCallback("OnLeave", HideJourneyTooltip);
@@ -888,11 +729,11 @@ local function QuestFrame(f, quest)
                 end
             end
 
-            Spacer(startGOGroup);
+            QuestieJourneyUtils:Spacer(startGOGroup);
         end
     end
 
-    Spacer(f);
+    QuestieJourneyUtils:Spacer(f);
 
     -- Get Quest Turnin NPC
     if quest.Finisher and quest.Finisher.Name and quest.Finisher.Type == "monster" then
@@ -901,7 +742,7 @@ local function QuestFrame(f, quest)
         endNPCGroup:SetTitle(QuestieLocale:GetUIString('JOURNEY_END_NPC'));
         endNPCGroup:SetFullWidth(true);
         f:AddChild(endNPCGroup);
-        Spacer(endNPCGroup);
+        QuestieJourneyUtils:Spacer(endNPCGroup);
 
         local endnpc = QuestieDB:GetNPC(quest.Finisher.Id);
 
@@ -919,9 +760,9 @@ local function QuestFrame(f, quest)
         end
 
         local continent = 'UNKNOWN ZONE';
-        for i, v in ipairs(QuestieJourney.zoneTable) do
+        for i, v in ipairs(QuestieJourney.zones) do
             if v[endindex] then
-                continent = QuestieJourney.zoneTable[i][endindex];
+                continent = QuestieJourney.zones[i][endindex];
             end
         end
 
@@ -943,7 +784,7 @@ local function QuestFrame(f, quest)
         endNPCID:SetFullWidth(true);
         endNPCGroup:AddChild(endNPCID);
 
-        Spacer(endNPCGroup);
+        QuestieJourneyUtils:Spacer(endNPCGroup);
 
         -- Also ends
         if endnpc.endQuests then
@@ -963,7 +804,7 @@ local function QuestFrame(f, quest)
                     endQuests[counter].quest = QuestieDB:GetQuest(v);
                     endQuests[counter].frame:SetText(endQuests[counter].quest:GetColoredQuestName());
                     endQuests[counter].frame:SetUserData('id', v);
-                    endQuests[counter].frame:SetUserData('name', endQuests[counter].quest.Name);
+                    endQuests[counter].frame:SetUserData('name', endQuests[counter].quest.name);
                     endQuests[counter].frame:SetCallback("OnClick", JumpToQuest);
                     endQuests[counter].frame:SetCallback("OnEnter", ShowJourneyTooltip);
                     endQuests[counter].frame:SetCallback("OnLeave", HideJourneyTooltip);
@@ -981,7 +822,7 @@ local function QuestFrame(f, quest)
 
         end
 
-        Spacer(endNPCGroup);
+        QuestieJourneyUtils:Spacer(endNPCGroup);
 
         -- Fix for sometimes the scroll content will max out and not show everything until window is resized
         f.content:SetHeight(10000);
@@ -1003,7 +844,7 @@ local function ManageZoneTree(container, zt)
 
             -- if they clicked on the header, don't do anything
             local sel = group.localstatus.selected;
-            if sel == "a" or sel == "c" then
+            if sel == "a" or sel == "c" or sel == "r" or sel == "u" then
                 return;
             end
 
@@ -1024,8 +865,9 @@ local function ManageZoneTree(container, zt)
 
             -- TODO replace with fillQuestDetailsFrame and remove the questFrame function
             local quest = QuestieDB:GetQuest(qid);
-            QuestFrame(f, quest);
-
+            if quest then
+                QuestFrame(f, quest);
+            end
         end);
 
         container:AddChild(zoneTreeFrame);
@@ -1045,20 +887,24 @@ local function DrawZoneQuestTab(container)
     header:SetText(QuestieLocale:GetUIString('JOURNEY_SELECT_HEAD'));
     header:SetFullWidth(true);
     container:AddChild(header);
-    Spacer(container);
+    QuestieJourneyUtils:Spacer(container);
 
-    -- Dropdown for Continent
     local CDropdown = AceGUI:Create("LQDropdown");
     local zDropdown = AceGUI:Create("LQDropdown");
     local treegroup = AceGUI:Create("SimpleGroup");
 
-    CDropdown:SetList(continentTable);
+    -- Dropdown for Continent
+    CDropdown:SetList(QuestieJourney.continents);
     CDropdown:SetText(QuestieLocale:GetUIString('JOURNEY_SELECT_CONT'));
 
+    local currentContinentId = QuestiePlayer:GetCurrentContinentId()
+    if currentContinentId > 0 then
+        CDropdown:SetValue(currentContinentId)
+    end
+
     CDropdown:SetCallback("OnValueChanged", function(key, checked)
-        -- set the zone table to be used.
-        selectedContinent = key.value;
-        zDropdown:SetList(QuestieJourney.zoneTable[key.value]);
+        local sortedZones = QuestieJourneyUtils:GetSortedZoneKeys(QuestieJourney.zones[key.value])
+        zDropdown:SetList(QuestieJourney.zones[key.value], sortedZones);
         zDropdown:SetText(QuestieLocale:GetUIString('JOURNEY_SELECT_ZONE'));
         zDropdown:SetDisabled(false);
     end)
@@ -1066,34 +912,49 @@ local function DrawZoneQuestTab(container)
 
     -- Dropdown for Zone
     zDropdown:SetText(QuestieLocale:GetUIString('JOURNEY_SELECT_ZONE'));
-    zDropdown:SetDisabled(true);
+
+    local currentZoneId = QuestiePlayer:GetCurrentZoneId()
+    if currentZoneId > 0 then
+        local sortedZones = QuestieJourneyUtils:GetSortedZoneKeys(QuestieJourney.zones[currentContinentId])
+        zDropdown:SetList(QuestieJourney.zones[currentContinentId], sortedZones);
+        zDropdown:SetValue(currentZoneId)
+        local zoneTree = CollectZoneQuests(currentZoneId)
+        -- Build Tree
+        ManageZoneTree(treegroup, zoneTree);
+    else
+        zDropdown:SetDisabled(true);
+    end
 
     zDropdown:SetCallback("OnValueChanged", function(key, checked)
         -- Create Tree View
-        CollectZoneQuests(treegroup, key.value);
+        local zoneTree = CollectZoneQuests(key.value);
+        -- Build Tree
+        ManageZoneTree(treegroup, zoneTree);
     end);
     container:AddChild(zDropdown);
 
-    Spacer(container);
+    QuestieJourneyUtils:Spacer(container);
 
     header = AceGUI:Create("Heading");
     header:SetText(QuestieLocale:GetUIString('JOURNEY_QUESTS'));
     header:SetFullWidth(true);
     container:AddChild(header);
 
-    Spacer(container);
+    QuestieJourneyUtils:Spacer(container);
 
     treegroup:SetFullHeight(true);
     treegroup:SetFullWidth(true);
     treegroup:SetLayout("fill");
     container:AddChild(treegroup);
-
 end
 
--- populate the available and complteded quests for the given zone
-function CollectZoneQuests(container, zoneid)
-    local quests = QuestieDB:GetQuestsByZoneId(zoneid);
-    local temp = {};
+-- Get all the available/completed/repeatable/unavailable quests
+
+---@param zoneId integer @The zone ID (Check `LangZoneLookup`)
+---@return table<integer,any> @The zoneTree table which represents the list of all the different quests
+function CollectZoneQuests(zoneId)
+    local quests = QuestieDB:GetQuestsByZoneId(zoneId)
+    local temp = {}
 
     local zoneTree = {
         [1] = {
@@ -1105,46 +966,71 @@ function CollectZoneQuests(container, zoneid)
             value = "c",
             text = QuestieLocale:GetUIString('JOURNEY_COMPLETE_TITLE'),
             children = {}
+        },
+        [3] = {
+            value = "r",
+            text = QuestieLocale:GetUIString('JOURNEY_REPEATABLE_TITLE'),
+            children = {},
+        },
+        [4] = {
+            value = "u",
+            text = QuestieLocale:GetUIString('JOURNEY_UNOPTAINABLE_TITLE'),
+            children = {},
         }
-    };
+    }
 
-    -- populate available non complete quests
-    local availableCounter = 0;
-    for qid, q in pairs(quests) do
-        if not Questie.db.char.complete[qid] and not q.Hidden then
+    local sortedQuestByLevel = QuestieLib:SortQuestsByLevel(quests)
 
-            -- see if it's supposed to be a hidden quest
-            if QuestieCorrections.hiddenQuests and not QuestieCorrections.hiddenQuests[qid] then
-                temp.value = qid;
-                temp.text = q:GetColoredQuestName();
-                table.insert(zoneTree[1].children, temp);
-                temp = {}; -- Weird Lua bug requires this to be reset?
-                availableCounter = availableCounter + 1;
+    local availableCounter = 0
+    local completedCounter = 0
+    local unoptainableCounter = 0
+    local repeatableCounter = 0
+
+    for _, levelAndQuest in pairs(sortedQuestByLevel) do
+        local quest = levelAndQuest[2]
+        local qId = quest.Id
+
+        -- Only show quests which are not hidden
+        if not quest.Hidden and QuestieCorrections.hiddenQuests and not QuestieCorrections.hiddenQuests[qId] then
+            temp.value = qId
+            temp.text = quests[qId]:GetColoredQuestName()
+
+            -- Completed quests
+            if Questie.db.char.complete[qId] then
+                table.insert(zoneTree[2].children, temp)
+                completedCounter = completedCounter + 1
+            else
+                -- Unoptainable quests
+                if quest.exclusiveTo then
+                    for _, exId in pairs(quest.exclusiveTo) do
+                        if Questie.db.char.complete[exId] and zoneTree[4].children[qId] == nil then
+                            table.insert(zoneTree[4].children, temp)
+                            unoptainableCounter = unoptainableCounter + 1
+                        end
+                    end
+                end
+                -- Repeatable quests
+                if quest.Repeatable == 1 then
+                    table.insert(zoneTree[3].children, temp)
+                    repeatableCounter = repeatableCounter + 1
+                -- Available quests
+                else
+                    table.insert(zoneTree[1].children, temp)
+                    availableCounter = availableCounter + 1;
+                end
             end
-        end
-    end
-
-    -- populate complete quests
-    local completedCounter = 0;
-    for qid, _ in pairs(Questie.db.char.complete) do
-        if quests[qid] then
-            temp.value = qid;
-            temp.text = quests[qid]:GetColoredQuestName();
-            table.insert(zoneTree[2].children, temp);
-            temp = {}; -- Weird Lua bug requires this to be reset?
-            completedCounter = completedCounter + 1;
+            temp = {}
         end
     end
 
     local totalCounter = availableCounter + completedCounter;
     zoneTree[1].text = zoneTree[1].text .. ' [ '..  availableCounter ..'/'.. totalCounter ..' ]';
     zoneTree[2].text = zoneTree[2].text .. ' [ '..  completedCounter ..'/'.. totalCounter ..' ]';
+    zoneTree[3].text = zoneTree[3].text .. ' [ '..  repeatableCounter ..' ]';
+    zoneTree[4].text = zoneTree[4].text .. ' [ '..  unoptainableCounter ..' ]';
 
-    -- Build Tree
-    ManageZoneTree(container, zoneTree);
+    return zoneTree
 end
-
-local yellow = "|cFFFFFF00"
 
 function JourneySelectTabGroup(container, event, group)
     if not containerCache then
@@ -1155,19 +1041,20 @@ function JourneySelectTabGroup(container, event, group)
 
     if group == "journey" then
         DrawJourneyTab(container);
-        lastOpenWindow = "journey";
+        QuestieJourney.lastOpenWindow = "journey";
     elseif group == "zone" then
         DrawZoneQuestTab(container);
-        lastOpenWindow = "zone";
+        QuestieJourney.lastOpenWindow = "zone";
     elseif group == "search" then
         QuestieSearchResults:DrawSearchTab(container);
-        lastOpenWindow = "search";
+        QuestieJourney.lastOpenWindow = "search";
     end
 end
 
 QuestieJourney.tabGroup = nil;
 function QuestieJourney:Initialize()
-
+    QuestieJourney.continents = LangContinentLookup
+    QuestieJourney.zones = LangZoneLookup
     journeyFrame.frame = AceGUI:Create("Frame");
 
     journeyFrame.frame:SetTitle(QuestieLocale:GetUIString('JOURNEY_TITLE', UnitName("player")));
@@ -1214,7 +1101,7 @@ function QuestieJourney:ToggleJourneyWindow()
     if not isWindowShown then
         PlaySound(882);
 
-        JourneySelectTabGroup(containerCache, nil, lastOpenWindow);
+        JourneySelectTabGroup(containerCache, nil, QuestieJourney.lastOpenWindow);
 
         journeyFrame.frame:Show();
         isWindowShown = true;
@@ -1286,8 +1173,8 @@ function QuestieJourney:PlayerLevelUp(level)
             p.Level = UnitLevel(v);
             table.insert(data.Party, p);
         end
-    end 
-    
+    end
+
     table.insert(Questie.db.char.journey, data);
 end
 
@@ -1311,7 +1198,7 @@ function QuestieJourney:AcceptQuest(questId)
             table.insert(data.Party, p);
         end
     end
-    
+
     table.insert(Questie.db.char.journey, data);
 end
 
@@ -1349,7 +1236,7 @@ function QuestieJourney:AbandonQuest(questId)
                 table.insert(data.Party, p);
             end
         end
-        
+
         table.insert(Questie.db.char.journey, data);
     end
 end
@@ -1373,6 +1260,6 @@ function QuestieJourney:CompleteQuest(questId)
             table.insert(data.Party, p);
         end
     end
-        
+
     table.insert(Questie.db.char.journey, data);
 end

@@ -3,7 +3,9 @@
 ----------------------
 --  Globals/Locals  --
 ----------------------
-QuestieDBMIntegration = {...} -- Global Functions
+---@class QuestieDBMIntegration
+local QuestieDBMIntegration = QuestieLoader:CreateModule("QuestieDBMIntegration");
+
 --Libs
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 --Local Variables
@@ -166,7 +168,7 @@ end
 --  Global Functions  --
 ------------------------
 --Called in QuestieMap in DrawWorldIcon function right after QuestieMap:QueueDraw
---QuestieDBMIntegration:RegisterHudQuestIcon(tostring(icon), data.Icon, zoneDataAreaIDToUiMapID[AreaID], x, y, colors[1], colors[2], colors[3])
+--QuestieDBMIntegration:RegisterHudQuestIcon(tostring(icon), data.Icon, ZoneDataAreaIDToUiMapID[AreaID], x, y, colors[1], colors[2], colors[3])
 --Take note of x, y. do not /100 the coords sent to this itegration, since HudMap expects unmodified values
 function QuestieDBMIntegration:RegisterHudQuestIcon(tableString, icon, AreaID, x, y, r, g, b)
     if DBMHudMap and QuestieHUDEnabled and tableString then

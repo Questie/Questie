@@ -1,4 +1,5 @@
-QuestieProfessions = {...}
+---@class QuestieProfessions
+local QuestieProfessions = QuestieLoader:CreateModule("QuestieProfessions");
 local playerProfessions = {}
 local professionTable = {}
 
@@ -17,17 +18,17 @@ function QuestieProfessions:Update()
 end
 
 -- This function is just for debugging purpose
--- These is no need to access the playerProfessions table somewhere else
+-- There is no need to access the playerProfessions table somewhere else
 function QuestieProfessions:GetPlayerProfessions()
     return playerProfessions
 end
 
 local function HasProfession(prof)
-    return prof ~= nil and playerProfessions[prof] ~= nil
+    return prof == nil or playerProfessions[prof] ~= nil
 end
 
-local function HasProfessionSkill(prof, reqSkill)
-    return reqSkill ~= nil and playerProfessions[prof] >= reqSkill
+local function HasProfessionSkill(prof, skillLevel)
+    return skillLevel == nil or playerProfessions[prof] >= skillLevel
 end
 
 function QuestieProfessions:HasProfessionAndSkill(reqSkill)

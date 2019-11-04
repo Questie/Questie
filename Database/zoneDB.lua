@@ -1,5 +1,6 @@
 
-QuestieDBZone = {...}
+---@class QuestieDBZone
+local QuestieDBZone = QuestieLoader:CreateModule("QuestieDBZone");
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
@@ -7,9 +8,17 @@ local HBDMigrate = LibStub("HereBeDragonsQuestie-Migrate")
 
 
 --Use these to convert your MapIds!
-zoneDataAreaIDToMapID = { } --Databaseareaids (Vanilla) to MapID(This is not UiMapID!)
-zoneDataAreaIDToUiMapID = { }
-zoneDataUiMapIDToAreaID = { } --You should really never need the MapIDs, but you can convert back using all 3 variables.
+local zoneDataAreaIDToMapID = {} --Databaseareaids (Vanilla) to MapID(This is not UiMapID!)
+local uiMapIDToAreaID = {} --You should really never need the MapIDs, but you can convert back using all 3 variables.
+ZoneDataAreaIDToUiMapID = {}
+
+function QuestieDBZone:GetAreaIdByUIMapID(uiMapId)
+    local areaId = 0
+    if uiMapIDToAreaID[uiMapId] ~= nil then
+        areaId = uiMapIDToAreaID[uiMapId]
+    end
+    return areaId
+end
 
 local zoneLookupHack = {
     ["Barrens"] = "The Barrens",
@@ -102,7 +111,7 @@ local zoneDataClassicBetaHack = {
 }
 
 
-zoneDataClassic = { --AreaTable IDs --Aka AreaID
+local zoneDataClassic = { --AreaTable IDs --Aka AreaID
     [1] = 'Dun Morogh',
     [3] = 'Badlands',
     [4] = 'Blasted Lands',
@@ -450,11 +459,11 @@ function QuestieDBZone:ZoneCreateConversion()
         end
 
         if(UiMapID == nil) then
-            Questie:Error("Map convertion failed! : ", "DataName("..tostring(Data[1])..")","UiMapID("..tostring(UiMapID)..")", "AreaID("..tostring(Data[3])..")", "MapID("..tostring(Data[4])..")")
+            Questie:Debug(DEBUG_CRITICAL, "Map convertion failed! : ", "DataName("..tostring(Data[1])..")","UiMapID("..tostring(UiMapID)..")", "AreaID("..tostring(Data[3])..")", "MapID("..tostring(Data[4])..")")
         elseif(UiMapID ~= nil) then
             zoneDataAreaIDToMapID[Data[3]] = Data[4]
-            zoneDataAreaIDToUiMapID[Data[3]] = UiMapID
-            zoneDataUiMapIDToAreaID[UiMapID] = Data[3]
+            ZoneDataAreaIDToUiMapID[Data[3]] = UiMapID
+            uiMapIDToAreaID[UiMapID] = Data[3]
             --Questie:Debug(DEBUG_SPAM, "[QuestieDBZone]", Data[1], Data[3], Data[4], UiMapID)
         end
     end
