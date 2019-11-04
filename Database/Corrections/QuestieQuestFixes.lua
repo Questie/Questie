@@ -102,8 +102,14 @@ function QuestieQuestFixes:Load()
         [535] = {
             [QuestieDB.questKeys.exclusiveTo] = {533}, -- #1134
         },
+        [549] = {
+            [QuestieDB.questKeys.nextQuestInChain] = 566, -- #1134
+        },
         [551] = {
             [QuestieDB.questKeys.startedBy] = {nil,{1765},{3706},}, -- #1245
+        },
+        [566] = {
+            [QuestieDB.questKeys.preQuestSingle] = {549}, -- #1484
         },
         [578] = {
             [QuestieDB.questKeys.childQuests] = {579},
