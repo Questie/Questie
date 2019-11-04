@@ -384,26 +384,31 @@ function QuestieQuestFixes:Load()
         -- Horde
         [4108] = {
             [QuestieDB.questKeys.startedBy] = {{9529,},nil,nil,},
+            [QuestieDB.questKeys.finishedBy] = {{9529,},nil,},
             [QuestieDB.questKeys.requiredRaces] = 178,
             [QuestieDB.questKeys.preQuestSingle] = {5887,5888,5889,5890,5891,},
         },
         [4109] = {
             [QuestieDB.questKeys.startedBy] = {{9529,},nil,nil,},
+            [QuestieDB.questKeys.finishedBy] = {{9529,},nil,},
             [QuestieDB.questKeys.requiredRaces] = 178,
             [QuestieDB.questKeys.preQuestSingle] = {5887,5888,5889,5890,5891,},
         },
         [4110] = {
             [QuestieDB.questKeys.startedBy] = {{9529,},nil,nil,},
+            [QuestieDB.questKeys.finishedBy] = {{9529,},nil,},
             [QuestieDB.questKeys.requiredRaces] = 178,
             [QuestieDB.questKeys.preQuestSingle] = {5887,5888,5889,5890,5891,},
         },
         [4111] = {
             [QuestieDB.questKeys.startedBy] = {{9529,},nil,nil,},
+            [QuestieDB.questKeys.finishedBy] = {{9529,},nil,},
             [QuestieDB.questKeys.requiredRaces] = 178,
             [QuestieDB.questKeys.preQuestSingle] = {5887,5888,5889,5890,5891,},
         },
         [4112] = {
             [QuestieDB.questKeys.startedBy] = {{9529,},nil,nil,},
+            [QuestieDB.questKeys.finishedBy] = {{9529,},nil,},
             [QuestieDB.questKeys.requiredRaces] = 178,
             [QuestieDB.questKeys.preQuestSingle] = {5887,5888,5889,5890,5891,},
         },
@@ -490,47 +495,62 @@ function QuestieQuestFixes:Load()
         -- Alliance
         [5882] = {
             [QuestieDB.questKeys.startedBy] = {{9528,},nil,nil,},
+            [QuestieDB.questKeys.finishedBy] = {{9528,},nil,},
             [QuestieDB.questKeys.requiredRaces] = 77,
+            [QuestieDB.questKeys.preQuestSingle] = {4101},
             [QuestieDB.questKeys.exclusiveTo] = {5883,5884,5885,5886,},
         },
         [5883] = {
             [QuestieDB.questKeys.startedBy] = {{9528,},nil,nil,},
+            [QuestieDB.questKeys.finishedBy] = {{9528,},nil,},
             [QuestieDB.questKeys.requiredRaces] = 77,
+            [QuestieDB.questKeys.preQuestSingle] = {4101},
             [QuestieDB.questKeys.exclusiveTo] = {5882,5884,5885,5886,},
         },
         [5884] = {
             [QuestieDB.questKeys.startedBy] = {{9528,},nil,nil,},
+            [QuestieDB.questKeys.finishedBy] = {{9528,},nil,},
             [QuestieDB.questKeys.requiredRaces] = 77,
+            [QuestieDB.questKeys.preQuestSingle] = {4101},
             [QuestieDB.questKeys.exclusiveTo] = {5882,5883,5885,5886,},
         },
         [5885] = {
             [QuestieDB.questKeys.startedBy] = {{9528,},nil,nil,},
+            [QuestieDB.questKeys.finishedBy] = {{9528,},nil,},
             [QuestieDB.questKeys.requiredRaces] = 77,
+            [QuestieDB.questKeys.preQuestSingle] = {4101},
             [QuestieDB.questKeys.exclusiveTo] = {5882,5883,5884,5886,},
         },
         [5886] = {
             [QuestieDB.questKeys.startedBy] = {{9528,},nil,nil,},
+            [QuestieDB.questKeys.finishedBy] = {{9528,},nil,},
             [QuestieDB.questKeys.requiredRaces] = 77,
+            [QuestieDB.questKeys.preQuestSingle] = {4101},
             [QuestieDB.questKeys.exclusiveTo] = {5882,5883,5884,5885,},
         },
         -- Horde
         [5887] = {
+            [QuestieDB.questKeys.preQuestSingle] = {4102},
             [QuestieDB.questKeys.exclusiveTo] = {5888,5889,5890,5891,},
             [QuestieDB.questKeys.specialFlags] = 0,
         },
         [5888] = {
+            [QuestieDB.questKeys.preQuestSingle] = {4102},
             [QuestieDB.questKeys.exclusiveTo] = {5887,5889,5890,5891,},
             [QuestieDB.questKeys.specialFlags] = 0,
         },
         [5889] = {
+            [QuestieDB.questKeys.preQuestSingle] = {4102},
             [QuestieDB.questKeys.exclusiveTo] = {5887,5888,5890,5891,},
             [QuestieDB.questKeys.specialFlags] = 0,
         },
         [5890] = {
+            [QuestieDB.questKeys.preQuestSingle] = {4102},
             [QuestieDB.questKeys.exclusiveTo] = {5887,5888,5889,5891,},
             [QuestieDB.questKeys.specialFlags] = 0,
         },
         [5891] = {
+            [QuestieDB.questKeys.preQuestSingle] = {4102},
             [QuestieDB.questKeys.exclusiveTo] = {5887,5888,5889,5890,},
             [QuestieDB.questKeys.specialFlags] = 0,
         },
