@@ -238,6 +238,15 @@ function Questie:OnInitialize()
     else
         Questie_Toggle:Hide();
     end
+
+    -- Change position of Map button when continent dropdown is hidden
+    C_Timer.After(1, function()
+        if not WorldMapContinentDropDown:IsShown() then
+            Questie_Toggle:ClearAllPoints();
+            Questie_Toggle:SetPoint('RIGHT', WorldMapFrameCloseButton, 'LEFT', 0, 0);
+        end
+    end);
+
     if Questie.db.global.dbmHUDEnable then
         QuestieDBMIntegration:EnableHUD()
     end
