@@ -9,15 +9,9 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 
-local _QuestieLib = {};
-
 --Is set in QuestieLib.lua
 QuestieLib.AddonPath = "Interface\\Addons\\QuestieDev-master\\";
 
--- Math functions are often run A LOT so lets keep these local
-local function round(number, decimals)
-    return (("%%.%df"):format(decimals)):format(number)
-end
 local math_abs = math.abs;
 local math_sqrt = math.sqrt;
 local math_max = math.max;
@@ -85,8 +79,8 @@ function QuestieLib:IsResponseCorrect(questId)
           good = false;
         else
           for objectiveIndex, objective in pairs(objectiveList) do
-              if(objective.text == nil or objective.text == "" or QuestieDB:Levenshtein(": 0/1", objective.text) < 5) then
-                  Questie:Debug(DEBUG_SPAM, count, " : Objective text is strange!", "'", objective.text, "'", " distance", QuestieDB:Levenshtein(": 0/1", objective.text));
+              if(objective.text == nil or objective.text == "" or QuestieLib:Levenshtein(": 0/1", objective.text) < 5) then
+                  Questie:Debug(DEBUG_SPAM, count, " : Objective text is strange!", "'", objective.text, "'", " distance", QuestieLib:Levenshtein(": 0/1", objective.text));
                   good = false;
                   break;
               end
@@ -110,8 +104,8 @@ function QuestieLib:GetQuestObjectives(questId)
             good = false;
         else
             for objectiveIndex, objective in pairs(objectiveList) do
-                if(objective.text == nil or objective.text == "" or QuestieDB:Levenshtein(": 0/1", objective.text) < 5) then
-                    Questie:Debug(DEBUG_SPAM, count, " : Objective text is strange!", "'", objective.text, "'", " distance", QuestieDB:Levenshtein(": 0/1", objective.text));
+                if(objective.text == nil or objective.text == "" or QuestieLib:Levenshtein(": 0/1", objective.text) < 5) then
+                    Questie:Debug(DEBUG_SPAM, count, " : Objective text is strange!", "'", objective.text, "'", " distance", QuestieLib:Levenshtein(": 0/1", objective.text));
                     good = false;
                     break;
                 end
@@ -290,6 +284,11 @@ function QuestieLib:GetAddonVersionInfo()  -- todo: better place
     return tonumber(major), tonumber(minor), tonumber(patch);
 end
 
+function QuestieLib:GetAddonVersionString()
+    local major, minor, patch = QuestieLib:GetAddonVersionInfo()
+    return "v" .. tostring(major) .. "." .. tostring(minor) .. "." .. tostring(patch)
+end
+
 --Search for just Addon\\ at the front since the interface part often gets trimmed
 --Code Credit Author(s): Cryect (cryect@gmail.com), Xinhuan and their LibGraph-2.0 
 do
@@ -300,40 +299,6 @@ do
     local major, minor, patch, commit = QuestieLib:GetAddonVersionInfo();
         error("v"..major.."."..minor.."."..patch.."_"..commit.." cannot determine the folder it is located in because the path is too long and got truncated in the debugstack(1, 1, 0) function call")
   end
-end
-
-
-function QuestieLib:PlayerInGroup(playerName)
-    if(UnitInParty("player") or UnitInRaid("player")) then
-        local player = {}
-        for index=1, 40 do
-            local name = nil
-            local className, classFilename = nil;
-            --This disables raid check for players.
-            --if(UnitInRaid("player")) then
-            --    name = UnitName("raid"..index);
-            --    className, classFilename = UnitClass("raid"..index);
-            --end
-            if(not name) then
-                name = UnitName("party"..index);
-                className, classFilename = UnitClass("party"..index);
-            end
-            if(name == playerName) then
-                player.name = playerName;
-                player.class = classFilename;
-                local rPerc, gPerc, bPerc, argbHex = GetClassColor(classFilename)
-                player.r = rPerc;
-                player.g = gPerc;
-                player.b = bPerc;
-                player.colorHex = argbHex;
-                return player;
-            end
-            if(index > 6 and not UnitInRaid("player")) then
-                break;
-            end
-        end
-    end
-    return nil;
 end
 
 function QuestieLib:Count(table) -- according to stack overflow, # and table.getn arent reliable (I've experienced this? not sure whats up)
@@ -380,46 +345,41 @@ function QuestieLib:SortQuestsByLevel(quests)
     return sortedQuestsByLevel
 end
 
---[[function QuestieLib:IsTrivial(level)
-    if level == -1 then
-        level = QuestiePlayer:GetPlayerLevel();
+---------------------------------------------------------------------------------------------------
+-- Returns the Levenshtein distance between the two given strings
+-- credit to https://gist.github.com/Badgerati/3261142
+function QuestieLib:Levenshtein(str1, str2)
+    local len1 = string.len(str1)
+    local len2 = string.len(str2)
+    local matrix = {}
+    local cost = 0
+    -- quick cut-offs to save time
+    if (len1 == 0) then
+        return len2
+    elseif (len2 == 0) then
+        return len1
+    elseif (str1 == str2) then
+        return 0
     end
-    local levelDiff = level - QuestiePlayer:GetPlayerLevel();
-    if (levelDiff >= 5) then
-        return false -- Red
-    elseif (levelDiff >= 3) then
-        return false -- Orange
-    elseif (levelDiff >= -2) then
-        return false -- Yellow
-    elseif (-levelDiff <= GetQuestGreenRange()) then
-        return false -- Green
-    else
-        return true -- Grey
+    -- initialise the base matrix values
+    for i = 0, len1, 1 do
+        matrix[i] = {}
+        matrix[i][0] = i
     end
-end]]--
-
--- https://github.com/shagu/pfQuest/commit/01177f2eb2926336a1ad741a6082affe78ae7c20
---[[
-    function QuestieLib:SanitizePattern(pattern, excludeNumberCapture)
-  -- escape brackets
-  pattern = gsub(pattern, "%(", "%%(")
-  pattern = gsub(pattern, "%)", "%%)")
-
-  -- remove bad capture indexes
-  pattern = gsub(pattern, "%d%$s","s") -- %1$s to %s
-  pattern = gsub(pattern, "%d%$d","d") -- %1$d to %d
-  pattern = gsub(pattern, "%ds","s") -- %2s to %s
-
-  -- add capture to all findings
-  pattern = gsub(pattern, "%%s", "(.+)")
-
-  --We might only want to capture the name itself and not numbers.
-  if(not excludeNumberCapture) then
-    pattern = gsub(pattern, "%%d", "(%%d+)")
-  else
-    pattern = gsub(pattern, "%%d", "%%d+")
-  end
-
-  return pattern
+    for j = 0, len2, 1 do
+        matrix[0][j] = j
+    end
+    -- actual Levenshtein algorithm
+    for i = 1, len1, 1 do
+        for j = 1, len2, 1 do
+            if (string.byte(str1,i) == string.byte(str2,j)) then
+                cost = 0
+            else
+                cost = 1
+            end
+            matrix[i][j] = math.min(matrix[i-1][j] + 1, matrix[i][j-1] + 1, matrix[i-1][j-1] + cost)
+        end
+    end
+    -- return the last value - this is the Levenshtein distance
+    return matrix[len1][len2]
 end
-]]--

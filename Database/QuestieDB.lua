@@ -158,8 +158,8 @@ function QuestieDB:GetItem(ItemID)
 end
 
 local function _GetColoredQuestName(self, blizzLike)
-    local questName = (self.LocalizedName or self.Name)
-    return QuestieLib:GetColoredQuestName(self.Id, questName, self.Level, Questie.db.global.enableTooltipsQuestLevel, false, blizzLike)
+    local questName = (self.LocalizedName or self.name)
+    return QuestieLib:GetColoredQuestName(self.Id, questName, self.level, Questie.db.global.enableTooltipsQuestLevel, false, blizzLike)
 end
 
 ---@param questID integer @The quest ID
@@ -185,7 +185,6 @@ function QuestieDB:GetQuest(questID) -- /dump QuestieDB:GetQuest(867)
     for stringKey, intKey in pairs(QuestieDB.questKeys) do
         QO[stringKey] = rawdata[intKey]
     end
-    QO.Name = rawdata[1] --Name - 1
     QO.Starts = {} --Starts - 2
     QO.Starts["NPC"] = rawdata[2][1] --2.1
     QO.Starts["GameObject"] = rawdata[2][2] --2.2
@@ -193,9 +192,8 @@ function QuestieDB:GetQuest(questID) -- /dump QuestieDB:GetQuest(867)
     QO.Ends = {} --ends 3
     QO.Hidden = rawdata.hidden or QuestieCorrections.hiddenQuests[questID]
     QO.Description = rawdata[8] --
-    QO.SpecialFlags = rawdata[DB_SPECIAL_FLAGS]
-    if QO.SpecialFlags then
-        QO.Repeatable = mod(QO.SpecialFlags, 2) == 1
+    if QO.specialFlags then
+        QO.Repeatable = mod(QO.specialFlags, 2) == 1
     end
 
     -- reorganize to match wow api
@@ -243,7 +241,7 @@ function QuestieDB:GetQuest(questID) -- /dump QuestieDB:GetQuest(867)
         end
     end
 
-    QO.Level = rawdata[5]
+    QO.level = rawdata[5]
     QO.Triggers = rawdata[9] --List of coordinates
     QO.ObjectiveData = {} -- to differentiate from the current quest log info
     --    type
@@ -303,14 +301,8 @@ function QuestieDB:GetQuest(questID) -- /dump QuestieDB:GetQuest(867)
     if(rawdata[12] ~= nil and next(rawdata[12]) ~= nil and rawdata[13] ~= nil and next(rawdata[13]) ~= nil) then
         Questie:Debug(DEBUG_CRITICAL, "ERRRRORRRRRRR not mutually exclusive for questID:", questID)
     end
-    if(rawdata[12] ~= nil) then
-        QO.RequiredQuestGroup = rawdata[12]
-    else
-        QO.RequiredQuestSingle = rawdata[13]
-    end
     QO.QuestGroup = rawdata[15] --Quests that are part of the same group, example complete this group of quests to open the next one.
     QO.ExclusiveQuestGroup = rawdata[16]
-    QO.NextQuestInChain = rawdata[22]
 
     QO.HiddenObjectiveData = {}
 
@@ -346,7 +338,7 @@ function QuestieDB:GetQuest(questID) -- /dump QuestieDB:GetQuest(867)
 
     --- function
     function QO:IsTrivial()
-        local levelDiff = self.Level - QuestiePlayer:GetPlayerLevel();
+        local levelDiff = self.level - QuestiePlayer:GetPlayerLevel();
         if (levelDiff >= 5) then
             return false -- Red
         elseif (levelDiff >= 3) then
@@ -488,6 +480,14 @@ function QuestieDB:GetNPCsByName(npcName)
     return returnTable;
 end
 
+--[[
+    https://github.com/cmangos/issues/wiki/AreaTable.dbc
+    Example to differentiate between Dungeon and Zone infront of a Dungeon:
+    1337 Uldaman = The Dungeon (MapID ~= 0, AreaID = 0)
+    1517 Uldaman = Cave infront of the Dungeon (MapID = 0, AreaID = 3 (Badlands))
+
+    Check `LangZoneLookup` for the available IDs
+]]
 function QuestieDB:GetQuestsByZoneId(zoneId)
 
     if not zoneId then
@@ -509,7 +509,7 @@ function QuestieDB:GetQuestsByZoneId(zoneId)
                 zoneQuests[qid] = quest;
             end
 
-            if quest.Starts.NPC then
+            if quest.Starts.NPC and zoneQuests[qid] == nil then
                 local npc = QuestieDB:GetNPC(quest.Starts.NPC[1]);
 
                 if npc and npc.spawns then
@@ -521,7 +521,7 @@ function QuestieDB:GetQuestsByZoneId(zoneId)
                 end
             end
 
-            if quest.Starts.GameObject then
+            if quest.Starts.GameObject and zoneQuests[qid] == nil then
                 local obj = QuestieDB:GetObject(quest.Starts.GameObject[1]);
 
                 if obj and obj.spawns then
@@ -537,45 +537,6 @@ function QuestieDB:GetQuestsByZoneId(zoneId)
 
     QuestieDB._ZoneCache[zoneId] = zoneQuests;
     return zoneQuests;
-end
-
----------------------------------------------------------------------------------------------------
--- Returns the Levenshtein distance between the two given strings
--- credit to https://gist.github.com/Badgerati/3261142
-function QuestieDB:Levenshtein(str1, str2)
-    local len1 = string.len(str1)
-    local len2 = string.len(str2)
-    local matrix = {}
-    local cost = 0
-    -- quick cut-offs to save time
-    if (len1 == 0) then
-        return len2
-    elseif (len2 == 0) then
-        return len1
-    elseif (str1 == str2) then
-        return 0
-    end
-    -- initialise the base matrix values
-    for i = 0, len1, 1 do
-        matrix[i] = {}
-        matrix[i][0] = i
-    end
-    for j = 0, len2, 1 do
-        matrix[0][j] = j
-    end
-    -- actual Levenshtein algorithm
-    for i = 1, len1, 1 do
-        for j = 1, len2, 1 do
-            if (string.byte(str1,i) == string.byte(str2,j)) then
-                cost = 0
-            else
-                cost = 1
-            end
-            matrix[i][j] = math.min(matrix[i-1][j] + 1, matrix[i][j-1] + 1, matrix[i-1][j-1] + cost)
-        end
-    end
-    -- return the last value - this is the Levenshtein distance
-    return matrix[len1][len2]
 end
 
 ---------------------------------------------------------------------------------------------------

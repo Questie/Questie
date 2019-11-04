@@ -8,9 +8,9 @@ local HBDMigrate = LibStub("HereBeDragonsQuestie-Migrate")
 
 
 --Use these to convert your MapIds!
-zoneDataAreaIDToMapID = {} --Databaseareaids (Vanilla) to MapID(This is not UiMapID!)
-zoneDataAreaIDToUiMapID = {}
+local zoneDataAreaIDToMapID = {} --Databaseareaids (Vanilla) to MapID(This is not UiMapID!)
 local uiMapIDToAreaID = {} --You should really never need the MapIDs, but you can convert back using all 3 variables.
+ZoneDataAreaIDToUiMapID = {}
 
 function QuestieDBZone:GetAreaIdByUIMapID(uiMapId)
     local areaId = 0
@@ -111,7 +111,7 @@ local zoneDataClassicBetaHack = {
 }
 
 
-zoneDataClassic = { --AreaTable IDs --Aka AreaID
+local zoneDataClassic = { --AreaTable IDs --Aka AreaID
     [1] = 'Dun Morogh',
     [3] = 'Badlands',
     [4] = 'Blasted Lands',
@@ -462,7 +462,7 @@ function QuestieDBZone:ZoneCreateConversion()
             Questie:Debug(DEBUG_CRITICAL, "Map convertion failed! : ", "DataName("..tostring(Data[1])..")","UiMapID("..tostring(UiMapID)..")", "AreaID("..tostring(Data[3])..")", "MapID("..tostring(Data[4])..")")
         elseif(UiMapID ~= nil) then
             zoneDataAreaIDToMapID[Data[3]] = Data[4]
-            zoneDataAreaIDToUiMapID[Data[3]] = UiMapID
+            ZoneDataAreaIDToUiMapID[Data[3]] = UiMapID
             uiMapIDToAreaID[UiMapID] = Data[3]
             --Questie:Debug(DEBUG_SPAM, "[QuestieDBZone]", Data[1], Data[3], Data[4], UiMapID)
         end

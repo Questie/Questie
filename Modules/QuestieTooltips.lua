@@ -123,7 +123,7 @@ function QuestieTooltips:GetTooltip(key)
                 end
             end
             for playerName, objectives in pairs(playerList) do
-                local playerInfo = QuestieLib:PlayerInGroup(playerName);
+                local playerInfo = QuestiePlayer:GetPartyMemberByName(playerName);
                 if(playerInfo) then
                     anotherPlayer = true;
                     for objectiveIndex, objective in pairs(objectives) do
