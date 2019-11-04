@@ -105,6 +105,7 @@ function QuestieItemFixes:Load()
         [10692] = {"Filled Vial Labeled #2",{3568},{},{152604}}, -- #1396
         [10693] = {"Filled Vial Labeled #3",{3568},{},{152605}}, -- #1396
         [10694] = {"Filled Vial Labeled #4",{3568},{},{152606}}, -- #1396
+        [9597] = {"Mountain Giant Muisek",{3127},{5357,5358,5359,5360,5361,14603,14604,14638,14639,14640},{}}, -- #1461
 
         -- quest related herbs
         [2449] = {"Earthroot",{6123,6128},{},{1619,3726}},
