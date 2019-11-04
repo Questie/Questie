@@ -146,6 +146,8 @@ function QuestieEventHandler:QUEST_TURNED_IN(questID, xpReward, moneyReward)
     _Hack_prime_log()
     finishedEventReceived = questID
 
+    -- Some repeatable sub quests don't fire a UQLC event when they're completed.
+    -- Therefore we have to check here to make sure the next QLU updates the state.
     local quest = QuestieDB:GetQuest(questID)
     if quest and quest.parentQuest and quest.Repeatable then
         runQLU = true
