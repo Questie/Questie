@@ -852,6 +852,33 @@ function QuestieTracker:QuestRemoved(id)
     end
 end
 
+function _QuestieTracker:RepositionFrames() -- this is only for SetCounterEnabled, nothing else should be using this function
+    local lastFrame = nil
+    for i=1, trackerLineCount do
+        local frm = _QuestieTracker.LineFrames[i]
+        if lastFrame then
+            frm:SetPoint("TOPLEFT", lastFrame, "BOTTOMLEFT", 0,0)
+        else
+            if Questie.db.global.trackerCounterEnabled then
+                frm:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerBackgroundPadding, -(trackerBackgroundPadding + _QuestieTracker.counterFrame:GetHeight())) 
+            else
+                frm:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerBackgroundPadding, -trackerBackgroundPadding)
+            end
+        end
+        --frm:Show()
+        lastFrame = frm
+    end
+end
+
+function QuestieTracker:SetCounterEnabled(enabled)
+    if enabled then
+        _QuestieTracker.counterFrame:Show()
+    else
+        _QuestieTracker.counterFrame:Hide()
+    end
+    _QuestieTracker:RepositionFrames()
+end
+
 function QuestieTracker:Initialize()
     if QuestieTracker.started or (not Questie.db.global.trackerEnabled) then return; end
     if not Questie.db.char.TrackerHiddenQuests then
@@ -868,6 +895,9 @@ function QuestieTracker:Initialize()
     end
     _QuestieTracker.baseFrame = QuestieTracker:CreateBaseFrame()
     _QuestieTracker.counterFrame = _QuestieTracker:CreateActiveQuestsFrame()
+    if not Questie.db.global.trackerCounterEnabled then
+        _QuestieTracker.counterFrame:Hide()
+    end
     _QuestieTracker.menuFrame = LQuestie_Create_UIDropDownMenu("QuestieTrackerMenuFrame", UIParent)
 
     if Questie.db.global.hookTracking then
@@ -936,7 +966,11 @@ function QuestieTracker:Initialize()
         if lastFrame then
             frm:SetPoint("TOPLEFT", lastFrame, "BOTTOMLEFT", 0,0)
         else
-            frm:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerBackgroundPadding, -(trackerBackgroundPadding + _QuestieTracker.counterFrame:GetHeight())) 
+            if Questie.db.global.trackerCounterEnabled then
+                frm:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerBackgroundPadding, -(trackerBackgroundPadding + _QuestieTracker.counterFrame:GetHeight())) 
+            else
+                frm:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerBackgroundPadding, -trackerBackgroundPadding)
+            end
         end
         frm:SetWidth(1)
         frm:SetMode("header")
@@ -1030,8 +1064,9 @@ function QuestieTracker:Update()
         _QuestieTracker.baseFrame:Hide()
         return
     end
-
-    _QuestieTracker.counterFrame:Update()
+    if Questie.db.char.trackerCounterEnabled then
+        _QuestieTracker.counterFrame:Update()
+    end
 
     index = 0 -- zero because it simplifies GetNextLine()
     -- populate tracker

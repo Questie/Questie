@@ -69,7 +69,8 @@ function QuestieOptionsDefaults:Load()
             trackerbindSetTomTom = 'ctrlleft',
             iconFadeLevel = 0.3,
             trackerLocked = true,
-            hideUnexploredMapIcons = false
+            hideUnexploredMapIcons = false,
+            trackerCounterEnabled = true
         },
         char = {
             complete = {},
