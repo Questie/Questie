@@ -109,6 +109,20 @@ function QuestieOptions.tabs.tracker:Initialize()
                     QuestieTracker:Update()
                 end
             },
+            showCounter = {
+                type = "toggle",
+                order = 6.1,
+                width = 1.5,
+                name = function() return QuestieLocale:GetUIString('TRACKER_SHOW_QUEST_COUNTER'); end,
+                desc = function() return QuestieLocale:GetUIString('TRACKER_SHOW_QUEST_COUNTER_DESC'); end,
+                get = function() return Questie.db.global.trackerCounterEnabled; end,
+                set = function (info, value)
+                    Questie.db.global.trackerCounterEnabled = value
+                    QuestieTracker:SetCounterEnabled(value)
+                    QuestieTracker:Update()
+                end
+            },
+            Spacer_Q = QuestieOptionsUtils:Spacer(6.3, 0.001),
             showBlizzardQuestTimer = {
                 type = "toggle",
                 order = 7,
@@ -125,7 +139,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                     end
                 end
             },
-            Spacer_Q = QuestieOptionsUtils:Spacer(7.1,5),
+            Spacer_R = QuestieOptionsUtils:Spacer(7.3,5),
             --[[colorObjectives = {
                 type = "toggle",
                 order = 6,
