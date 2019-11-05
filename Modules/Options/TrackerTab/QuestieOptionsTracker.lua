@@ -7,6 +7,8 @@ local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions");
 local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils");
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker");
+---@type QuestieQuestTimers
+local QuestieQuestTimers = QuestieLoader:ImportModule("QuestieQuestTimers")
 
 QuestieOptions.tabs.tracker = {...}
 
@@ -36,9 +38,13 @@ function QuestieOptions.tabs.tracker:Initialize()
                         if Questie.db.global.hookTracking then
                             QuestieTracker:HookBaseTracker()
                         end
+                        QuestieQuestTimers:HideBlizzardTimer()
                         QuestieTracker:Initialize()
                     elseif Questie.db.global.hookTracking then
                         QuestieTracker:Unhook()
+                    end
+                    if not value then
+                        QuestieQuestTimers:ShowBlizzardTimer()
                     end
                     QuestieTracker:Update()
                 end
@@ -103,7 +109,23 @@ function QuestieOptions.tabs.tracker:Initialize()
                     QuestieTracker:Update()
                 end
             },
-            Spacer_Q = QuestieOptionsUtils:Spacer(6.1,5),
+            showBlizzardQuestTimer = {
+                type = "toggle",
+                order = 7,
+                width = 1.5,
+                name = function() return QuestieLocale:GetUIString('TRACKER_SHOW_BLIZZARD_QUEST_TIMER'); end,
+                desc = function() return QuestieLocale:GetUIString('TRACKER_SHOW_BLIZZARD_QUEST_TIMER_DESC'); end,
+                get = function() return Questie.db.global.showBlizzardQuestTimer; end,
+                set = function (info, value)
+                    Questie.db.global.showBlizzardQuestTimer = value
+                    if value then
+                        QuestieQuestTimers:ShowBlizzardTimer()
+                    else
+                        QuestieQuestTimers:HideBlizzardTimer()
+                    end
+                end
+            },
+            Spacer_Q = QuestieOptionsUtils:Spacer(7.1,5),
             --[[colorObjectives = {
                 type = "toggle",
                 order = 6,

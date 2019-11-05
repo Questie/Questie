@@ -13,6 +13,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
+---@type QuestieQuestTimers
+local QuestieQuestTimers = QuestieLoader:ImportModule("QuestieQuestTimers")
 
 
 local _QuestieTracker = {}
@@ -1108,6 +1110,21 @@ function QuestieTracker:Update()
             line:Show()
             line.label:Show()
             trackerWidth = math.max(trackerWidth, line.label:GetWidth())
+
+            -- Add quest timer
+            line = _QuestieTracker:GetNextLine()
+            local seconds = QuestieQuestTimers:GetQuestTimerByQuestId(questId, line)
+            if seconds then
+                line:SetMode("header")
+                line:SetQuest(quest)
+                line.label:SetPoint("TOPLEFT", line, 10, 0)
+                line.label:SetText(seconds)
+                line:Show()
+                line.label:Show()
+            else
+                -- No timer for this quest so we can reuse the line
+                index = index - 1
+            end
 
             if quest.Objectives and not complete then
                 for _,Objective in pairs(quest.Objectives) do

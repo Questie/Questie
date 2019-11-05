@@ -84,6 +84,7 @@ Modules\Journey\QuestieSearch.lua
 Modules\Journey\QuestieSearchResults.lua
 
 Modules\QuestieTracker.lua
+Modules\QuestieQuestTimers.lua
 Modules\QuestieProfessions.lua
 Modules\QuestieReputation.lua
 Modules\QuestieDBMIntegration.lua

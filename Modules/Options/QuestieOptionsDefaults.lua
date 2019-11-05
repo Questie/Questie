@@ -62,6 +62,7 @@ function QuestieOptionsDefaults:Load()
             hookTracking = true,
             trackerEnabled = true,
             trackerShowQuestLevel = true,
+            showBlizzardQuestTimer = false,
             trackerColorObjectives = 'white',
             trackerQuestPadding = 2,
             trackerSortObjectives = 'byComplete',
