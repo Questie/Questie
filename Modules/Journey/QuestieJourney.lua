@@ -415,21 +415,9 @@ function NotePopup()
             data.Note = messageBox:GetText();
             data.Title = titleBox:GetText();
             data.Timestamp = time();
-            data.Party = {};
-
-            if GetHomePartyInfo() then
-                data.Party = {};
-                local p = {};
-                for i, v in pairs(GetHomePartyInfo()) do
-                    p.Name = v;
-                    p.Class, _, _ = UnitClass(v);
-                    p.Level = UnitLevel(v);
-                    table.insert(data.Party, p);
-                end
-            end
+            data.Party = QuestiePlayer:GetPartyMembers()
 
             table.insert(Questie.db.char.journey, data);
-
 
             ManageJourneyTree(treeCache);
 
@@ -1162,18 +1150,7 @@ function QuestieJourney:PlayerLevelUp(level)
     data.Event = "Level";
     data.NewLevel = level;
     data.Timestamp = time();
-    data.Party = {};
-
-   if GetHomePartyInfo() then
-        data.Party = {};
-        local p = {};
-        for i, v in pairs(GetHomePartyInfo()) do
-            p.Name = v;
-            p.Class, _, _ = UnitClass(v);
-            p.Level = UnitLevel(v);
-            table.insert(data.Party, p);
-        end
-    end
+    data.Party = QuestiePlayer:GetPartyMembers()
 
     table.insert(Questie.db.char.journey, data);
 end
@@ -1186,18 +1163,7 @@ function QuestieJourney:AcceptQuest(questId)
     data.Quest = questId;
     data.Level = QuestiePlayer:GetPlayerLevel();
     data.Timestamp = time();
-    data.Party = {};
-
-    if GetHomePartyInfo() then
-        data.Party = {};
-        local p = {};
-        for i, v in pairs(GetHomePartyInfo()) do
-            p.Name = v;
-            p.Class,_ ,_ = UnitClass(v);
-            p.Level = UnitLevel(v);
-            table.insert(data.Party, p);
-        end
-    end
+    data.Party = QuestiePlayer:GetPartyMembers()
 
     table.insert(Questie.db.char.journey, data);
 end
@@ -1225,17 +1191,7 @@ function QuestieJourney:AbandonQuest(questId)
         data.Quest = questId;
         data.Level = QuestiePlayer:GetPlayerLevel();
         data.Timestamp = time()
-        data.Party = {};
-
-        if GetHomePartyInfo() then
-            local p = {};
-            for i, v in pairs(GetHomePartyInfo()) do
-                p.Name = v;
-                p.Class, _, _ = UnitClass(v);
-                p.Level = UnitLevel(v);
-                table.insert(data.Party, p);
-            end
-        end
+        data.Party = QuestiePlayer:GetPartyMembers()
 
         table.insert(Questie.db.char.journey, data);
     end
@@ -1249,17 +1205,7 @@ function QuestieJourney:CompleteQuest(questId)
     data.Quest = questId;
     data.Level = QuestiePlayer:GetPlayerLevel();
     data.Timestamp = time();
-    data.Party = {};
-
-    if GetHomePartyInfo() then
-        local p = {};
-        for i, v in pairs(GetHomePartyInfo()) do
-            p.Name = v;
-            p.Class, _, _ = UnitClass(v);
-            p.Level = UnitLevel(v);
-            table.insert(data.Party, p);
-        end
-    end
+    data.Party = QuestiePlayer:GetPartyMembers()
 
     table.insert(Questie.db.char.journey, data);
 end
