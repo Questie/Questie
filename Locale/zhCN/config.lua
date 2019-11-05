@@ -170,7 +170,7 @@ QuestieLocale.locale['zhCN'] = {
     ['ICON_RIGHT_CLICK'] = "右键",
     ['ICON_JOURNEY'] = "打开我的日志",
     ['ICON_RELOAD'] = "重载Questie",
-    ['ICON_SHIFT_HOLD'] = "Hold Shift";
+    ['ICON_SHIFT_HOLD'] = "按住Shift查看更多";
     ['CONFIRM_HIDE_QUEST'] = "你确定要隐藏任务： %s吗？",
     ['CONFIRM_HIDE_YES'] = "是",
     ['CONFIRM_HIDE_NO'] = "否",
@@ -179,7 +179,7 @@ QuestieLocale.locale['zhCN'] = {
     ['TOOLTIP_QUEST_ACTIVE'] = "（已有）",
     ['TOOLTIP_QUEST_REPEATABLE'] = "(可重复)",
     ['TOOLTIP_QUEST_EVENT'] = "(事件)",
-    ['XP'] = "xp";
+    ['XP'] = "经验";
 
     -- Slash Commands
     ['SLASH_INVALID'] = "无效命令，要查看指令列表请输入：",
