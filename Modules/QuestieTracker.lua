@@ -1253,6 +1253,25 @@ function QuestieTracker:HookBaseTracker()
         hooksecurefunc("AutoQuestWatch_Insert", _AQW_Insert)
         hooksecurefunc("AddQuestWatch", _AQW_Insert)
         hooksecurefunc("RemoveQuestWatch", _RemoveQuestWatch)
+        
+        -- completed/objectiveless tracking fix
+        -- blizzard quest tracker
+        local baseQLTB_OnClick = QuestLogTitleButton_OnClick
+        QuestLogTitleButton_OnClick = function(self, button) -- I wanted to use hooksecurefunc but this needs to be a pre-hook to work properly unfortunately
+            if (not self) or self.isHeader or not IsShiftKeyDown() then baseQLTB_OnClick(self, button) return end
+            index = self:GetID() + FauxScrollFrame_GetOffset(QuestLogListScrollFrame);
+            if GetNumQuestLeaderBoards(index) == 0 and not IsQuestWatched(index) then -- only call if we actually want to fix this quest (normal quests already call AQW_insert)
+                _AQW_Insert(index, QUEST_WATCH_NO_EXPIRE)
+                QuestWatch_Update()
+                QuestLog_SetSelection(index)
+                QuestLog_Update()
+            else
+                baseQLTB_OnClick(self, button)
+            end
+        end
+        -- other addons
+
+
         -- totally prevent the blizzard tracker frame from showing (BAD CODE, shouldn't be needed but some have had trouble)
         QuestWatchFrame:HookScript("OnShow", function(self) if QuestieTracker._disableHooks then return end self:Hide() end)
         QuestieTracker._alreadyHookedSecure = true
