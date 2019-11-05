@@ -199,6 +199,9 @@ function QuestieQuestFixes:Load()
         [1204] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #938
         },
+        [1265] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Sentry Point explored",{[15]={{59.92,40.9},}}},
+        },
         [1275] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #973 -- #745 prequest is not required in Classic
         },
