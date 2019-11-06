@@ -142,7 +142,6 @@ function QuestieTooltips:GetTooltip(key)
 			local color = QuestieLib:GetRGBForObjective(objective)
 			
                         if objective.required then
-                            color = objective.fulfilled == objective.required and "|cFF33FF33" or "|cFFFFFF00"
                             text = "   " .. color .. tostring(objective.fulfilled) .. "/" .. tostring(objective.required) .. " " .. objective.text;
                         else
                             text = "   " .. color .. objective.text;
