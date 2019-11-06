@@ -213,6 +213,7 @@ QuestieLocale.locale['esMX'] = {
     ['TRACKER_COLOR_OBJECTIVES_DESC'] = "Change the color of objectives in the tracker by how complete they are.",
     ['TRACKER_COLOR_WHITE'] = "White",
     ['TRACKER_COLOR_WHITE_TO_GREEN'] = "White to Green",
+	['TRACKER_COLOR_WHITE_AND_GREEN'] = "White and Green",
     ['TRACKER_COLOR_RED_TO_GREEN'] = "Red to Green",
     ['TRACKER_FONT_HEADER'] = "Font Size for Quest Names",
     ['TRACKER_FONT_HEADER_DESC'] = "The font size the tracker uses for quest names.",

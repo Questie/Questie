@@ -213,6 +213,7 @@ QuestieLocale.locale['koKR'] = {
     ['TRACKER_COLOR_OBJECTIVES_DESC'] = "퀘스트 추적기에서 퀘스트 진행도에 따라 퀘스트 목표 색상을 변경합니다.",
     ['TRACKER_COLOR_WHITE'] = "하얀색",
     ['TRACKER_COLOR_WHITE_TO_GREEN'] = "하얀색에서 초록색", 
+	['TRACKER_COLOR_WHITE_AND_GREEN'] = "White and Green",
     ['TRACKER_COLOR_RED_TO_GREEN'] = "빨간색에서 초록색", 
     ['TRACKER_FONT_HEADER'] = "퀘스트 이름 글자 크기 설정",
     ['TRACKER_FONT_HEADER_DESC'] = "퀘스트 이름의 글자 크기를 설정합니다.",

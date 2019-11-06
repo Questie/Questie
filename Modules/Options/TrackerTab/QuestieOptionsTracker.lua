@@ -159,7 +159,8 @@ function QuestieOptions.tabs.tracker:Initialize()
                 values = function() return {
                     ['white'] = QuestieLocale:GetUIString('TRACKER_COLOR_WHITE'),
                     ['whiteToGreen'] = QuestieLocale:GetUIString('TRACKER_COLOR_WHITE_TO_GREEN'),
-                    ['redToGreen'] = QuestieLocale:GetUIString('TRACKER_COLOR_RED_TO_GREEN'),
+                    ['whiteAndGreen'] = QuestieLocale:GetUIString('TRACKER_COLOR_WHITE_AND_GREEN'),
+                    ['redToGreen'] = QuestieLocale:GetUIString('TRACKER_COLOR_RED_TO_GREEN')
                 } end,
                 style = 'dropdown',
                 name = function() return QuestieLocale:GetUIString('TRACKER_COLOR_OBJECTIVES'); end,

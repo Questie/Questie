@@ -990,6 +990,10 @@ function _QuestieFramePool:Questie_Tooltip(self)
                     self:AddLine(questTitle);
                 end
             end
+			
+			-- Used if the quest have no items to collect
+			local defaultQuestColor = QuestieLib:GetRGBForObjective({})
+			
             if shift then
                 for index, textData in pairs(textList) do
                     for textLine, nameData in pairs(textData) do
@@ -1001,13 +1005,14 @@ function _QuestieFramePool:Questie_Tooltip(self)
                         elseif dataType == "string" then
                             self:AddLine("   |cFFDDDDDD" .. nameData);
                         end
-                        self:AddLine("      |cFF33FF33" .. textLine);
+						
+                        self:AddLine("      " .. defaultQuestColor .. textLine);
                     end
                 end
             else
                 for index, textData in pairs(textList) do
                     for textLine, v2 in pairs(textData) do
-                        self:AddLine("   |cFF33FF33" .. textLine);
+                        self:AddLine("   " .. defaultQuestColor .. textLine);
                     end
                 end
             end
