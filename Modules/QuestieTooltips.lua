@@ -90,12 +90,12 @@ function QuestieTooltips:GetTooltip(key)
                 end
 
                 local text = nil;
-                local color = "|cFF33FF33";
+                local color = QuestieLib:GetRGBForObjective(tooltip.Objective)
+				
                 if tooltip.Objective.Needed then
-                    color = tooltip.Objective.Collected == tooltip.Objective.Needed and "|cFF33FF33" or "|cFFFFFF00"
                     text = "   " .. color .. tostring(tooltip.Objective.Collected) .. "/" .. tostring(tooltip.Objective.Needed) .. " " .. tostring(tooltip.Objective.Description);
                 else
-                    text = "   |cFF33FF33" .. tostring(tooltip.Objective.Description);
+                    text = "   " .. color .. tostring(tooltip.Objective.Description);
                 end
                 
                 --Reduntant if 
@@ -139,12 +139,13 @@ function QuestieTooltips:GetTooltip(key)
                         end
 
                         local text = nil;
-						local color = "|cFF33FF33";
+			local color = QuestieLib:GetRGBForObjective(objective)
+			
                         if objective.required then
                             color = objective.fulfilled == objective.required and "|cFF33FF33" or "|cFFFFFF00"
                             text = "   " .. color .. tostring(objective.fulfilled) .. "/" .. tostring(objective.required) .. " " .. objective.text;
                         else
-                            text = "   |cFF33FF33" .. objective.text;
+                            text = "   " .. color .. objective.text;
                         end
                         
                         tooltipData[questId].objectivesText[objectiveIndex][playerName] = {["color"] = color, ["text"] = text};
