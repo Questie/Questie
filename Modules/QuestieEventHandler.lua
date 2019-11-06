@@ -38,7 +38,7 @@ local runQLU = false
 
 
 local function _Hack_prime_log() -- this seems to make it update the data much quicker
-  for i=1,GetNumQuestLogEntries()+1 do
+  for i=1, GetNumQuestLogEntries()+1 do
     GetQuestLogTitle(i)
     QuestieQuest:GetRawLeaderBoardDetails(i)
   end
@@ -145,6 +145,13 @@ function QuestieEventHandler:QUEST_TURNED_IN(questID, xpReward, moneyReward)
     Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_TURNED_IN", questID, xpReward, moneyReward)
     _Hack_prime_log()
     finishedEventReceived = questID
+
+    -- Some repeatable sub quests don't fire a UQLC event when they're completed.
+    -- Therefore we have to check here to make sure the next QLU updates the state.
+    local quest = QuestieDB:GetQuest(questID)
+    if quest and quest.parentQuest and quest.Repeatable then
+        runQLU = true
+    end
 end
 
 -- Fires when the quest log changes. That includes visual changes and

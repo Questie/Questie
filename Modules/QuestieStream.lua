@@ -166,7 +166,7 @@ end
 
 function QuestieStreamLib:ReadBytes(count)
     local ret = {};
-    for i=1,count do
+    for i=1, count do
         table.insert(ret, self:ReadByte());
     end
     return unpack(ret)
@@ -174,7 +174,7 @@ end
 
 function QuestieStreamLib:ReadShorts(count)
     local ret = {};
-    for i=1,count do
+    for i=1, count do
         table.insert(ret, self:ReadShort());
     end
     return unpack(ret)
@@ -248,14 +248,14 @@ end
 
 function QuestieStreamLib:WriteTinyString(val)
     self:WriteByte(string.len(val));
-    for i=1,string.len(val) do
+    for i=1, string.len(val) do
         self:WriteByte(string.byte(val, i));
     end
 end
 
 function QuestieStreamLib:WriteShortString(val)
     self:WriteShort(string.len(val));
-    for i=1,string.len(val) do
+    for i=1, string.len(val) do
         self:WriteByte(string.byte(val, i));
     end
 end

@@ -375,7 +375,7 @@ function QuestieDB:_GetSpecialNPC(NPCID)
         NPC.newFormatSpawns = {}; -- spawns should be stored like this: {{x, y, uimapid}, ...} so im creating a 2nd var to aid with moving to the new format
         NPC.spawns = {};
         local count = QuestieDB._stream:ReadByte()
-        for i=1,count do
+        for i=1, count do
             local x = QuestieDB._stream:ReadShort() / 655.35
             local y = QuestieDB._stream:ReadShort() / 655.35
             local m = QuestieDB._stream:ReadByte() + 1400
@@ -500,12 +500,13 @@ function QuestieDB:GetQuestsByZoneId(zoneId)
     end
 
     local zoneQuests = {};
+    local alternativeZoneID = QuestieDBZone:GetDungeonAlternative(zoneId)
     -- loop over all quests to populate a zone
     for qid, _ in pairs(QuestieDB.questData) do
         local quest = QuestieDB:GetQuest(qid);
 
         if quest then
-            if quest.zoneOrSort > 0 and quest.zoneOrSort == zoneId then
+            if quest.zoneOrSort > 0 and (quest.zoneOrSort == zoneId or (alternativeZoneID and quest.zoneOrSort == alternativeZoneID)) then
                 zoneQuests[qid] = quest;
             end
 
@@ -514,7 +515,7 @@ function QuestieDB:GetQuestsByZoneId(zoneId)
 
                 if npc and npc.spawns then
                     for zone, _ in pairs(npc.spawns) do
-                        if zone == zoneId then
+                        if zone == zoneId  or (alternativeZoneID and zone == alternativeZoneID) then
                             zoneQuests[qid] = quest;
                         end
                     end
@@ -526,7 +527,7 @@ function QuestieDB:GetQuestsByZoneId(zoneId)
 
                 if obj and obj.spawns then
                     for zone, _ in pairs(obj.spawns) do
-                        if zone == zoneId then
+                        if zone == zoneId  or (alternativeZoneID and zone == alternativeZoneID) then
                             zoneQuests[qid] = quest;
                         end
                     end

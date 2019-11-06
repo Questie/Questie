@@ -58,9 +58,9 @@ function QuestieItemFixes:Load()
         [16642] = {"Shredder Operating Manual - Chapter 1",{6504},{},{}},
         [16643] = {"Shredder Operating Manual - Chapter 2",{6504},{},{}},
         [16644] = {"Shredder Operating Manual - Chapter 3",{6504},{},{}},
-        [16764] = {"Warsong Scout Update",{6543},{},{}},
-        [16763] = {"Warsong Runner Update",{6543},{},{}},
-        [16765] = {"Warsong Outrider Update",{6543},{},{}},
+        [16764] = {"Warsong Scout Update",{6543,6547},{},{}},
+        [16763] = {"Warsong Runner Update",{6543,6545},{},{}},
+        [16765] = {"Warsong Outrider Update",{6543,6546},{},{}},
         [1013] = {"Iron Rivet",{89},{426,430,446,580},{}}, -- Remove rare mob #903
         [2856] = {"Iron Pike",{89},{426,430,446,580},{}}, -- Remove rare mob #903
         [11131] = {"Hive Wall Sample",{3883},{},{174793}},
@@ -76,7 +76,7 @@ function QuestieItemFixes:Load()
         [11522] = {"Silver Totem of Aquementas",{4005},{},{148507}},
         [9593] = {"Treant Muisek",{3126},{7584},{}}, -- #1184
         [9595] = {"Hippogryph Muisek",{3124},{5300,5304,5305,5306},{}},
-        [9596] = {"Faerie Dragon Muisek",{3125},{5276,5276},{}}, -- #1184
+        [9596] = {"Faerie Dragon Muisek",{3125},{5276,5278},{}}, -- #1184
         [11954] = {"Filled Pure Sample Jar",{4513},{6556,6557,6559,},{}}, -- #1070
         [12907] = {"Corrupted Moonwell Water",{5157},{},{176184}}, -- #1083
         [12922] = {"Empty Canteen",{5157},{},{}}, -- #1083
@@ -105,6 +105,16 @@ function QuestieItemFixes:Load()
         [10692] = {"Filled Vial Labeled #2",{3568},{},{152604}}, -- #1396
         [10693] = {"Filled Vial Labeled #3",{3568},{},{152605}}, -- #1396
         [10694] = {"Filled Vial Labeled #4",{3568},{},{152606}}, -- #1396
+        [9597] = {"Mountain Giant Muisek",{3127},{5357,5358,5359,5360,5361,14603,14604,14638,14639,14640},{}}, -- #1461
+        [7867] = {"Vessel of Dragon's Blood",{2203,2501},{2726},{}}, -- #1469
+        [18956] = {"Miniaturization Residue",{7003,7725},{5357,5358,5359,5360,5361,14603,14604,14638,14639,14640},{}}, -- #1470
+        [3421] = {"Simple Wildflowers",{2609},{1302,1303},{}}, -- #1476
+        [3372] = {"Leaded Vial",{2609},{1286,1313,1326,1257,1325,5503,},{}}, -- #1476
+        [4371] = {"Bronze Tube",{174,2609},{3495,5519,5175,},{}}, -- #1476
+        [4639] = {"Enchanted Sea Kelp",{736},{4363},{}},
+        [9306] = {"Stave of Equinex",{2879,2942},{},{144063}}, -- #1487
+        [5646] = {"Vial of Blessed Water",{4441},{},{138498}}, -- #1491
+        [6175] = {"Atal'ai Artifact",{1424},{},{30854,30855,30856}},
 
         -- quest related herbs
         [2449] = {"Earthroot",{6123,6128},{},{1619,3726}},

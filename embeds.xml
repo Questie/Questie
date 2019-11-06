@@ -36,7 +36,7 @@
 			self:SetFrameLevel(10);
 		</OnLoad>
 		<OnClick>
-			QuestieQuest:ToggleNotes();
+			QuestieLoader:ImportModule("QuestieQuest"):ToggleNotes();
 		</OnClick>
 	</Scripts>
   </Button>

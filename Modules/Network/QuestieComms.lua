@@ -611,7 +611,7 @@ _QuestieComms.packets = {
             local count = self.stream:ReadByte()
             local ver = self.stream:ReadShortString()
             local changes = {}
-            for i=1,count do
+            for i=1, count do
                 local str = self.stream:ReadShortString()
                 DEFAULT_CHAT_FRAME:AddMessage(str)
                 table.insert(changes, str)
@@ -638,7 +638,7 @@ _QuestieComms.packets = {
         read = function(self)
             local count = self.stream:ReadByte()
             local quests = {};
-            for i=1,count do
+            for i=1, count do
                 local qid = self.stream:ReadShort()
                 local quest = QuestieDB:GetQuest(qid)
                 if quest and quest.Objectives then
@@ -670,7 +670,7 @@ _QuestieComms.packets = {
         end,
         read = function(self)
             local count = self.stream:ReadByte()
-            for i=1,count do
+            for i=1, count do
                 local quest = QuestieDB:GetQuest(self.stream:ReadShort())
                 if not quest.RemoteObjectives then
                     quest.RemoteObjectives = {}
@@ -679,7 +679,7 @@ _QuestieComms.packets = {
                     quest.RemoteObjectives[self.player] = {}
                 end
                 local cnt = self.stream:ReadByte()
-                for i=1,cnt do
+                for i=1, cnt do
                     local index, needed, collected = self.stream:ReadBytes(3)
                     if not quest.RemoteObjectives[self.player][index] then
                         quest.RemoteObjectives[self.player][index] = {}
@@ -785,7 +785,7 @@ function _MakeSegments(packet)
     local ret = {};
     local count = math.ceil(packet.stream._size / 128.0)
     packet.stream:SetPointer(0)
-    for i=1,count do
+    for i=1, count do
         metaStream:SetPointer(0)
         metaStream:WriteByte(packet.id)
         metaStream:WriteByte(count)
@@ -858,7 +858,7 @@ function QuestieComms:MessageReceived(channel, message, type, source) -- pcall t
             --DEFAULT_CHAT_FRAME:AddMessage("Process packet!")
             local pkt = QuestieComms:GetPacket(packetid)
             pkt.stream:SetPointer(0)
-            for i=1,count do
+            for i=1, count do
                 pkt.stream:LoadPart(QuestieComms.packetReadQueue[source][packetid][i])
             end
             pkt.stream._pointer = 0;

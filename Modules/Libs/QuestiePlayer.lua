@@ -62,6 +62,22 @@ function QuestiePlayer:GetCurrentContinentId()
     return currentContinentId
 end
 
+function QuestiePlayer:GetPartyMembers()
+    local partyMembers = GetHomePartyInfo()
+    if partyMembers then
+        local party = {}
+        for _, v in pairs(partyMembers) do
+            local member = {}
+            member.Name = v;
+            member.Class, _, _ = UnitClass(v);
+            member.Level = UnitLevel(v);
+            table.insert(party, member);
+        end
+        return party
+    end
+    return nil
+end
+
 function QuestiePlayer:GetPartyMemberByName(playerName)
     if(UnitInParty("player") or UnitInRaid("player")) then
         local player = {}

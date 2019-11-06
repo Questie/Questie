@@ -693,45 +693,99 @@ function QuestieMap:FindClosestStarter()
     return closestStarter;
 end
 
---function QuestieMap:RemoveIcon(ref)
---    HBDPins:RemoveWorldMapIcon(Questie, ref)
---end
-
---[[
---DOES NOT WORK
---Temporary functions, will probably need to ge redone.
-function QuestieMap:GetZoneDBMapIDFromRetail(Zoneid)
-    --Need to manually fix the names above to match.
-    for continentID, Zone in pairs(Map) do
-        for ZoneIDClassic, NameClassic in pairs(zoneDataClassic) do
-            if(Zone[Zoneid] == NameClassic) then
-                return ZoneIDClassic
+function QuestieMap:GetNearestSpawn(Objective)
+    local playerX, playerY, playerI = HBD:GetPlayerWorldPosition()
+    local bestDistance = 999999999
+    local bestSpawn, bestSpawnZone, bestSpawnId, bestSpawnType, bestSpawnName
+    if Objective.spawnList then
+        for id, spawnData in pairs(Objective.spawnList) do
+            for zone, spawns in pairs(spawnData.Spawns) do
+                for _,spawn in pairs(spawns) do
+                    local dX, dY, dInstance = HBD:GetWorldCoordinatesFromZone(spawn[1]/100.0, spawn[2]/100.0, ZoneDataAreaIDToUiMapID[zone])
+                    --print (" " .. tostring(dX) .. " " .. tostring(dY) .. " " .. ZoneDataAreaIDToUiMapID[zone])
+                    local dist = HBD:GetWorldDistance(dInstance, playerX, playerY, dX, dY)
+                    if dist then
+                        if dInstance ~= playerI then
+                            dist = 500000 + dist * 100 -- hack
+                        end
+                        if dist < bestDistance then
+                            bestDistance = dist
+                            bestSpawn = spawn
+                            bestSpawnZone = zone
+                            bestSpawnId = id
+                            bestSpawnType = spawnData.Type
+                            bestSpawnName = spawnData.Name
+                        end
+                    end
+                end
             end
         end
     end
-    return nil --DunMorogh
+    return bestSpawn, bestSpawnZone, bestSpawnName, bestSpawnId, bestSpawnType, bestDistance
 end
 
---DOES NOT WORK
-function QuestieMap:GetRetailMapIDFromZoneDB(Zoneid)
-    --Need to manually fix the names above to match.
-    for continentID, Zones in pairs(Map) do
-        for ZoneIDRetail, NameRetail in pairs(Zones) do
-            if(zoneDataClassic[Zoneid] == nil) then return nil; end
-            if(NameRetail == zoneDataClassic[Zoneid]) then
-                return continentID, ZoneIDRetail
+function QuestieMap:GetNearestQuestSpawn(Quest)
+    if QuestieQuest:IsComplete(Quest) then
+        local finisher = nil
+        if Quest.Finisher ~= nil then
+            if Quest.Finisher.Type == "monster" then
+                finisher = QuestieDB:GetNPC(Quest.Finisher.Id)
+            elseif Quest.Finisher.Type == "object" then
+                finisher = QuestieDB:GetObject(Quest.Finisher.Id)
+            end
+        end
+        if finisher and finisher.spawns then -- redundant code
+            local bestDistance = 999999999
+            local playerX, playerY, playerI = HBD:GetPlayerWorldPosition()
+            local bestSpawn, bestSpawnZone, bestSpawnId, bestSpawnType, bestSpawnName
+            for zone, spawns in pairs(finisher.spawns) do
+                for _, spawn in pairs(spawns) do
+                    local dX, dY, dInstance = HBD:GetWorldCoordinatesFromZone(spawn[1]/100.0, spawn[2]/100.0, ZoneDataAreaIDToUiMapID[zone])
+                    --print (" " .. tostring(dX) .. " " .. tostring(dY) .. " " .. ZoneDataAreaIDToUiMapID[zone])
+                    local dist = HBD:GetWorldDistance(dInstance, playerX, playerY, dX, dY)
+                    if dist then
+                        if dInstance ~= playerI then
+                            dist = 500000 + dist * 100 -- hack
+                        end
+                        if dist < bestDistance then
+                            bestDistance = dist
+                            bestSpawn = spawn
+                            bestSpawnZone = zone
+                            bestSpawnType = Quest.Finisher.Type
+                            bestSpawnName = finisher.LocalizedName or finisher.name
+                        end
+                    end
+                end
+            end
+            return bestSpawn, bestSpawnZone, bestSpawnName, bestSpawnId, bestSpawnType, bestDistance
+        end
+        return nil
+    end
+    local bestDistance = 999999999
+    local bestSpawn, bestSpawnZone, bestSpawnId, bestSpawnType, bestSpawnName
+    for _,Objective in pairs(Quest.Objectives) do
+        local spawn, zone, Name, id, Type, dist = QuestieMap:GetNearestSpawn(Objective)
+        if spawn and dist < bestDistance and ((not Objective.Needed) or Objective.Needed ~= Objective.Collected) then
+            bestDistance = dist
+            bestSpawn = spawn
+            bestSpawnZone = zone
+            bestSpawnId = id
+            bestSpawnType = Type
+            bestSpawnName = Name
+        end
+    end
+    if Quest.SpecialObjectives then
+        for _,Objective in pairs(Quest.SpecialObjectives) do
+            local spawn, zone, Name, id, Type, dist = QuestieMap:GetNearestSpawn(Objective)
+            if spawn and dist < bestDistance and ((not Objective.Needed) or Objective.Needed ~= Objective.Collected) then
+                bestDistance = dist
+                bestSpawn = spawn
+                bestSpawnZone = zone
+                bestSpawnId = id
+                bestSpawnType = Type
+                bestSpawnName = Name
             end
         end
     end
-    return nil --DunMorogh
+    return bestSpawn, bestSpawnZone, bestSpawnName, bestSpawnId, bestSpawnType, bestDistance
 end
-
---DOES NOT WORK
-function GetWorldContinentFromZone(ZoneID)
-    if(Map[0][ZoneID] ~= nil)then
-        return 0
-    elseif(Map[1][ZoneID] ~= nil)then
-        return 1
-    end
-end
-]]--

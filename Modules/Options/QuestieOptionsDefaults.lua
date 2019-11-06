@@ -62,6 +62,7 @@ function QuestieOptionsDefaults:Load()
             hookTracking = true,
             trackerEnabled = true,
             trackerShowQuestLevel = true,
+            showBlizzardQuestTimer = false,
             trackerColorObjectives = 'white',
             trackerQuestPadding = 2,
             trackerSortObjectives = 'byComplete',
@@ -69,7 +70,8 @@ function QuestieOptionsDefaults:Load()
             trackerbindSetTomTom = 'ctrlleft',
             iconFadeLevel = 0.3,
             trackerLocked = true,
-            hideUnexploredMapIcons = false
+            hideUnexploredMapIcons = false,
+            trackerCounterEnabled = true
         },
         char = {
             complete = {},
