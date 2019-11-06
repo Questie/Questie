@@ -114,6 +114,7 @@ function QuestieItemFixes:Load()
         [4639] = {"Enchanted Sea Kelp",{736},{4363},{}},
         [9306] = {"Stave of Equinex",{2879,2942},{},{144063}}, -- #1487
         [5646] = {"Vial of Blessed Water",{4441},{},{138498}}, -- #1491
+        [6175] = {"Atal'ai Artifact",{1424},{},{30854,30855,30856}},
 
         -- quest related herbs
         [2449] = {"Earthroot",{6123,6128},{},{1619,3726}},
