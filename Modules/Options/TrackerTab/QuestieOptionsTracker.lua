@@ -149,7 +149,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.trackerColorObjectives end,
                 set = function (info, value)
                     Questie.db.global.trackerColorObjectives = value
-                    QuestieTracker:_ResetLinesForFontChange()
+                    QuestieTracker:ResetLinesForFontChange()
                     QuestieTracker:Update()
                 end
             },]]--
@@ -247,7 +247,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.trackerFontSizeHeader; end,
                 set = function (info, value)
                     Questie.db.global.trackerFontSizeHeader = value
-                    QuestieTracker:_ResetLinesForFontChange()
+                    QuestieTracker:ResetLinesForFontChange()
                     QuestieTracker:Update()
                 end,
             },
@@ -263,7 +263,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.trackerFontSizeLine; end,
                 set = function (info, value)
                     Questie.db.global.trackerFontSizeLine = value
-                    QuestieTracker:_ResetLinesForFontChange()
+                    QuestieTracker:ResetLinesForFontChange()
                     QuestieTracker:Update()
                 end,
             },
