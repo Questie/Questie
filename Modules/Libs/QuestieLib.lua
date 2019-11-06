@@ -68,6 +68,71 @@ function QuestieLib:GetDifficultyColorPercent(level)
     end
 end
 
+-- 1.12 color logic
+local function RGBToHex(r, g, b)
+    if r > 255 then r = 255; end
+    if g > 255 then g = 255; end
+    if b > 255 then b = 255; end
+    return string.format("|cFF%02x%02x%02x", r, g, b);
+end
+
+local function FloatRGBToHex(r, g, b)
+    return RGBToHex(r*254, g*254, b*254);
+end
+
+function QuestieLib:GetRGBForObjective(Objective)
+	if Objective.fulfilled ~= nil and Objective.Collected == nil then
+		Objective.Collected = Objective.fulfilled
+		Objective.Needed	= Objective.required
+	end
+	
+    if not Objective.Collected or type(Objective.Collected) ~= "number" then return 0.8,0.8,0.8; end
+    local float = Objective.Collected / Objective.Needed
+
+	if not Questie.db.global.trackerColorObjectives or Questie.db.global.trackerColorObjectives == "white" then
+		return "|cFFEEEEEE";
+    elseif Questie.db.global.trackerColorObjectives == "whiteToGreen" then
+        return FloatRGBToHex(0.8-float/2, 0.8+float/3, 0.8-float/2);
+    else
+        if float < .49 then return FloatRGBToHex(1, 0+float/.5, 0); end
+        if float == .50 then return FloatRGBToHex(1, 1, 0); end
+        if float > .50 then return FloatRGBToHex(1-float/2, 1, 0); end
+    end
+    --return fRGBToHex(0.8-float/2, 0.8+float/3, 0.8-float/2);
+
+    --[[if QuestieConfig.boldColors == false then
+        if not (type(objective) == "function") then
+            local lastIndex = findLast(objective, ":");
+            if not (lastIndex == nil) then
+                local progress = string.sub(objective, lastIndex+2);
+                local slash = findLast(progress, "/");
+                local have = tonumber(string.sub(progress, 0, slash-1));
+                local need = tonumber(string.sub(progress, slash+1));
+                if not have or not need then return 0.8, 0.8, 0.8; end
+                local float = have / need;
+                return 0.8-float/2, 0.8+float/3, 0.8-float/2;
+            end
+        end
+        return 0.3, 1, 0.3;
+    else
+        if not (type(objective) == "function") then
+            local lastIndex = findLast(objective, ":");
+            if not (lastIndex == nil) then
+                local progress = string.sub(objective, lastIndex+2);
+                local slash = findLast(progress, "/");
+                local have = tonumber(string.sub(progress, 0, slash-1));
+                local need = tonumber(string.sub(progress, slash+1));
+                if not have or not need then return 1, 0, 0; end
+                local float = have / need;
+                if float < .49 then return 1, 0+float/.5, 0; end
+                if float == .50 then return 1, 1, 0; end
+                if float > .50 then return 1-float/2, 1, 0; end
+            end
+        end
+        return 0, 1, 0;
+    end]]--
+end
+
 function QuestieLib:IsResponseCorrect(questId)
     local count = 0;
     local objectiveList = nil;
