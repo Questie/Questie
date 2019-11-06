@@ -215,7 +215,7 @@ local function ManageJourneyTree(container)
                     QuestieJourneyUtils:Spacer(f);
 
                     -- Only show party members if you weren't alone
-                    if #entry.Party > 0 then
+                    if entry.Party and #entry.Party > 0 then
 
                         -- Display Party Members
                         local partyFrame = AceGUI:Create("InlineGroup");
