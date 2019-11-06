@@ -828,9 +828,9 @@ function _QuestieFramePool:Questie_Tooltip(self)
                         else
                             --dat.subData = icon.data.ObjectiveData
                             local text = icon.data.ObjectiveData.Description
-                            local color = "|cFF33FF33"
+                            local color = QuestieLib:GetRGBForObjective(icon.data.ObjectiveData)
+                            
                             if icon.data.ObjectiveData.Needed then
-                                color = icon.data.ObjectiveData.Collected == icon.data.ObjectiveData.Needed  and "|cFF33FF33" or "|cFFFFFF00"
                                 text = color .. tostring(icon.data.ObjectiveData.Collected) .. "/" .. tostring(icon.data.ObjectiveData.Needed) .. " " .. text
                             end
                             if(QuestieComms) then
@@ -844,16 +844,15 @@ function _QuestieFramePool:Questie_Tooltip(self)
                                     ]]
                                     local playerInfo = QuestiePlayer:GetPartyMemberByName(playerName);
                                     if(playerInfo) then
-                                        local colorizedPlayerName = " (|c"..playerInfo.colorHex..playerName.."|r|cFF33FF33)|r";
+                                        local remoteColor = QuestieLib:GetRGBForObjective(objectiveData[icon.data.ObjectiveIndex])
+                                        local colorizedPlayerName = " (|c"..playerInfo.colorHex..playerName.."|r"..remoteColor..")|r";
                                         local remoteText = icon.data.ObjectiveData.Description;
                                         if objectiveData[icon.data.ObjectiveIndex] and objectiveData[icon.data.ObjectiveIndex].fulfilled and objectiveData[icon.data.ObjectiveIndex].required then
                                             local fulfilled = objectiveData[icon.data.ObjectiveIndex].fulfilled;
                                             local required = objectiveData[icon.data.ObjectiveIndex].required;
-                                            local colorPartyMember = fulfilled == required and "|cFF33FF33" or "|cFFFFFF00"
-                                            colorizedPlayerName = " (|c"..playerInfo.colorHex..playerName.."|r"..colorPartyMember..")|r";
-                                            remoteText = colorPartyMember .. tostring(fulfilled) .. "/" .. tostring(required) .. " " .. remoteText .. colorizedPlayerName;
+                                            remoteText = remoteColor .. tostring(fulfilled) .. "/" .. tostring(required) .. " " .. remoteText .. colorizedPlayerName;
                                         else
-                                            remoteText = remoteText .. colorizedPlayerName;
+                                            remoteText = remoteColor .. remoteText .. colorizedPlayerName;
                                         end
                                         local t = {
                                             [remoteText] = {},
