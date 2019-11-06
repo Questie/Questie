@@ -124,6 +124,9 @@ function QuestieQuestFixes:Load()
         [621] = {
             [QuestieDB.questKeys.inGroupWith] = {}, -- #886
         },
+        [624] = {
+            [QuestieDB.questKeys.startedBy] = {nil,{2554},{4056,},},
+        },
         [639] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #1205
         },
