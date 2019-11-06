@@ -67,7 +67,7 @@ function QuestieTrackerMove:RepositionFrames(trackerLineCount, lineFrames) -- th
         else
             local padding = QuestieTracker:GetBackgroundPadding()
             if Questie.db.global.trackerCounterEnabled then
-                frm:SetPoint("TOPLEFT", baseFrame, "TOPLEFT", padding, -(padding + QuestieTracker:GetCounterFrame():GetHeight()))
+                frm:SetPoint("TOPLEFT", baseFrame, "TOPLEFT", padding, -(padding + QuestieTracker:GetActiveQuestsFrame():GetHeight()))
             else
                 frm:SetPoint("TOPLEFT", baseFrame, "TOPLEFT", padding, -padding)
             end

@@ -211,9 +211,9 @@ end
 function QuestieLib:ProfileFunction(functionReference, includeSubroutine)
     --Optional var
     if(not includeSubroutine) then includeSubroutine = true; end
-    local time, count = GetFunctionCPUUsage(functionReference, includeSubroutine);
+    local now, count = GetFunctionCPUUsage(functionReference, includeSubroutine);
     --Questie:Print("[QuestieLib]", "Profiling Avg:", round(time/count, 6));
-    return time, count;
+    return now, count;
 end
 
 --To try and create a fix for errors regarding items that do not exist in our DB,

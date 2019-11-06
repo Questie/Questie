@@ -375,7 +375,7 @@ function QuestieDB:_GetSpecialNPC(NPCID)
         NPC.newFormatSpawns = {}; -- spawns should be stored like this: {{x, y, uimapid}, ...} so im creating a 2nd var to aid with moving to the new format
         NPC.spawns = {};
         local count = QuestieDB._stream:ReadByte()
-        for i=1,count do
+        for i=1, count do
             local x = QuestieDB._stream:ReadShort() / 655.35
             local y = QuestieDB._stream:ReadShort() / 655.35
             local m = QuestieDB._stream:ReadByte() + 1400

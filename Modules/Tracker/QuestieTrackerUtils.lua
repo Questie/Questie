@@ -218,6 +218,90 @@ function QuestieTrackerUtils:FlashFinisher(Quest) -- really terrible animation c
     end)
 end
 
+-- function QuestieTrackerUtils:FlashObjectiveByTexture(Objective) -- really terrible animation code, sorry guys
+--     if Objective.AlreadySpawned then
+--         local toFlash = {}
+--         -- ugly code
+--         for questId, framelist in pairs(QuestieMap.questIdFrames) do
+--             for index, frameName in ipairs(framelist) do
+--                 local icon = _G[frameName];
+--                 if not icon.miniMapIcon then
+
+--                     -- todo: move into frame.session
+--                     if icon:IsShown() then
+--                         icon._hidden_by_flash = true
+--                         icon:Hide()
+--                     end
+--                 end
+--             end
+--         end
+
+
+--         for _, spawn in pairs(Objective.AlreadySpawned) do
+--             if spawn.mapRefs then
+--                 for _, frame in pairs(spawn.mapRefs) do
+--                     if frame.data.ObjectiveData then
+--                         table.insert(toFlash, frame)
+--                         if frame._hidden_by_flash then
+--                             frame:Show()
+--                         end
+
+--                         -- todo: move into frame.session
+--                         frame._hidden_by_flash = nil
+--                         frame._size = frame:GetWidth()
+--                         frame._sizemul = 2
+--                         frame:SetWidth(frame._size * 2)
+--                         frame:SetHeight(frame._size * 2)
+--                     end
+--                 end
+--             end
+--         end
+--         local flashB = true
+--         _QuestieTracker._ObjectiveFlashTicker = C_Timer.NewTicker(0.28, function()
+--             if flashB then
+--                 flashB = false
+--                 for _, frame in pairs(toFlash) do
+--                     frame.texture:SetVertexColor(0.3,0.3,0.3,1)
+--                     frame.glowTexture:SetVertexColor(frame.data.ObjectiveData.Color[1]/3,frame.data.ObjectiveData.Color[2]/3,frame.data.ObjectiveData.Color[3]/3,1)
+--                 end
+--             else
+--                 flashB = true
+--                 for _, frame in pairs(toFlash) do
+--                     frame.texture:SetVertexColor(1,1,1,1)
+--                     frame.glowTexture:SetVertexColor(frame.data.ObjectiveData.Color[1],frame.data.ObjectiveData.Color[2],frame.data.ObjectiveData.Color[3],1)
+--                 end
+--             end
+--         end, 6)
+--         C_Timer.After(5*0.28, function()
+--             C_Timer.NewTicker(0.1, function()
+--                 for _, frame in pairs(toFlash) do
+--                     frame._sizemul = frame._sizemul - 0.2
+--                     frame:SetWidth(frame._size * frame._sizemul)
+--                     frame:SetHeight(frame._size  * frame._sizemul)
+--                 end
+--             end, 5)
+--         end)
+--         --C_Timer.After(6*0.3+0.1, function()
+--         --    for _, frame in pairs(toFlash) do
+--         --        frame:SetWidth(frame._size)
+--         --        frame:SetHeight(frame._size)
+--         --      frame._size = nil; frame._sizemul = nil
+--         --    end
+--         --end)
+--         C_Timer.After(6*0.28+0.7, function()
+--             for questId, framelist in pairs(QuestieMap.questIdFrames) do
+--                 for index, frameName in ipairs(framelist) do
+--                     local icon = _G[frameName];
+--                     if icon._hidden_by_flash then
+--                         icon._hidden_by_flash = nil
+--                         icon:Show()
+--                     end
+--                 end
+--             end
+--         end)
+--     end
+-- end
+
 local bindTruthTable = {
     ['left'] = function(button)
         return "LeftButton" == button
