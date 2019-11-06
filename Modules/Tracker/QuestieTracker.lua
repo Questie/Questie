@@ -34,36 +34,111 @@ _QuestieTracker.FadeTickerValue = 0
 _QuestieTracker.FadeTickerDirection = false -- true to fade in
 _QuestieTracker.IsFirstRun = true -- bad code
 
-local _BindTruthTable = {
-    ['left'] = function(button)
-        return "LeftButton" == button
-    end,
-    ['right'] = function(button)
-        return "RightButton" == button
-    end,
-    ['shiftleft'] = function(button)
-        return "LeftButton" == button and IsShiftKeyDown()
-    end,
-    ['shiftright'] = function(button)
-        return "RightButton" == button and IsShiftKeyDown()
-    end,
-    ['ctrlleft'] = function(button)
-        return "LeftButton" == button and IsControlKeyDown()
-    end,
-    ['ctrlright'] = function(button)
-        return "RightButton" == button and IsControlKeyDown()
-    end,
-    ['altleft'] = function(button)
-        return "LeftButton" == button and IsAltKeyDown()
-    end,
-    ['altright'] = function(button)
-        return "RightButton" == button and IsAltKeyDown()
-    end,
-    ['disabled'] = function() return false; end,
-}
+-- Forward declaration
+local _OnClick, _OnEnter, _OnLeave
 
-local function _IsBindTrue(bind, button)
-    return bind and button and _BindTruthTable[bind] and _BindTruthTable[bind](button)
+
+function QuestieTracker:Initialize()
+    if QuestieTracker.started or (not Questie.db.global.trackerEnabled) then return; end
+    if not Questie.db.char.TrackerHiddenQuests then
+        Questie.db.char.TrackerHiddenQuests = {}
+    end
+    if not Questie.db.char.TrackerHiddenObjectives then
+        Questie.db.char.TrackerHiddenObjectives = {}
+    end
+    if not Questie.db.char.TrackedQuests then
+        Questie.db.char.TrackedQuests = {}
+    end
+    if not Questie.db.char.AutoUntrackedQuests then
+        Questie.db.char.AutoUntrackedQuests = {} -- the reason why we separate this from TrackedQuests is so that users can switch between auto/manual without losing their manual tracking selection
+    end
+    _QuestieTracker.baseFrame = QuestieTracker:CreateBaseFrame()
+    _QuestieTracker.counterFrame = _QuestieTracker:CreateActiveQuestsFrame()
+    if not Questie.db.global.trackerCounterEnabled then
+        _QuestieTracker.counterFrame:Hide()
+    end
+    _QuestieTracker.menuFrame = LQuestie_Create_UIDropDownMenu("QuestieTrackerMenuFrame", UIParent)
+
+    if Questie.db.global.hookTracking then
+        QuestieTracker:HookBaseTracker()
+    end
+
+    -- this number is static, I doubt it will ever need more
+    local lastFrame = nil
+    for i=1, trackerLineCount do
+        local frm = CreateFrame("Button", nil, _QuestieTracker.baseFrame)
+        frm.label = frm:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+        function frm:SetMode(mode)
+            if mode ~= self.mode then
+                self.mode = mode
+                if mode == "header" then
+                    self.label:SetFont(self.label:GetFont(), Questie.db.global.trackerFontSizeHeader)
+                    self:SetHeight(Questie.db.global.trackerFontSizeHeader)
+                else
+                    self.label:SetFont(self.label:GetFont(), Questie.db.global.trackerFontSizeLine)
+                    self:SetHeight(Questie.db.global.trackerFontSizeLine)
+                end
+            end
+        end
+
+        function frm:SetQuest(Quest)
+            self.Quest = Quest
+        end
+
+        function frm:SetObjective(Objective)
+            self.Objective = Objective
+        end
+
+        function frm:SetVerticalPadding(amount)
+            if self.mode == "header" then
+                self:SetHeight(Questie.db.global.trackerFontSizeHeader + amount)
+            else
+                self:SetHeight(Questie.db.global.trackerFontSizeLine + amount)
+            end
+        end
+
+        frm.label:SetJustifyH("LEFT")
+        frm.label:SetPoint("TOPLEFT", frm)
+        frm.label:Hide()
+
+        -- autoadjust parent size for clicks
+        frm.label._SetText = frm.label.SetText
+        frm.label.frame = frm
+        frm.label.SetText = function(self, text)
+            self:_SetText(text)
+            self.frame:SetWidth(self:GetWidth())
+            self.frame:SetHeight(self:GetHeight())
+        end
+
+        frm:EnableMouse(true)
+        frm:RegisterForDrag("LeftButton", "RightButton")
+        frm:RegisterForClicks("RightButtonUp", "LeftButtonUp")
+
+        -- hack for click-through
+        frm:SetScript("OnDragStart", QuestieTrackerMove.OnDragStart)
+        frm:SetScript("OnClick", _OnClick)
+        frm:SetScript("OnDragStop", QuestieTrackerMove.OnDragStop)
+        frm:SetScript("OnEnter", _OnEnter)
+        frm:SetScript("OnLeave", _OnLeave)
+
+
+        if lastFrame then
+            frm:SetPoint("TOPLEFT", lastFrame, "BOTTOMLEFT", 0,0)
+        else
+            if Questie.db.global.trackerCounterEnabled then
+                frm:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerBackgroundPadding, -(trackerBackgroundPadding + _QuestieTracker.counterFrame:GetHeight()))
+            else
+                frm:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerBackgroundPadding, -trackerBackgroundPadding)
+            end
+        end
+        frm:SetWidth(1)
+        frm:SetMode("header")
+        --frm:Show()
+        _QuestieTracker.LineFrames[i] = frm
+        lastFrame = frm
+    end
+
+    QuestieTracker.started = true
 end
 
 function _QuestieTracker:StartFadeTicker()
@@ -270,14 +345,14 @@ end
 --     end
 -- end
 
-local function _OnClick(self, button)
-    if _IsBindTrue(Questie.db.global.trackerbindSetTomTom, button) then
+_OnClick = function(self, button)
+    if QuestieTrackerUtils:IsBindTrue(Questie.db.global.trackerbindSetTomTom, button) then
         local spawn, zone, name = QuestieMap:GetNearestQuestSpawn(self.Quest)
 
         if spawn then
             QuestieTrackerUtils:SetTomTomTarget(name, zone, spawn[1], spawn[2])
         end
-    elseif _IsBindTrue(Questie.db.global.trackerbindOpenQuestLog, button) then
+    elseif QuestieTrackerUtils:IsBindTrue(Questie.db.global.trackerbindOpenQuestLog, button) then
         QuestieTrackerUtils:ShowQuestLog(self.Quest)
     elseif button == "RightButton" then
         local menu = QuestieTrackerMenu:GetMenuForQuest(self.Quest)
@@ -285,23 +360,23 @@ local function _OnClick(self, button)
     end
 end
 
-local function _OnEnter()
+_OnEnter = function()
     _QuestieTracker.FadeTickerDirection = true
     _QuestieTracker:StartFadeTicker()
 end
 
-local function _OnLeave()
+_OnLeave = function()
     _QuestieTracker.FadeTickerDirection = false
     _QuestieTracker:StartFadeTicker()
 end
 
 function QuestieTracker:ResetLinesForFontChange()
-    for i=1,trackerLineCount do
+    for i=1, trackerLineCount do
         _QuestieTracker.LineFrames[i].mode = nil
     end
 end
 
-function QuestieTracker:QuestRemoved(id)
+function QuestieTracker:RemoveQuest(id)
     if Questie.db.char.TrackerFocus then
         if (type(Questie.db.char.TrackerFocus) == "number" and Questie.db.char.TrackerFocus == id)
         or (type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus:sub(1, #tostring(id)) == tostring(id)) then
@@ -320,180 +395,35 @@ function QuestieTracker:SetCounterEnabled(enabled)
     QuestieTrackerMove:RepositionFrames(trackerLineCount, _QuestieTracker.LineFrames)
 end
 
-function QuestieTracker:Initialize()
-    if QuestieTracker.started or (not Questie.db.global.trackerEnabled) then return; end
-    if not Questie.db.char.TrackerHiddenQuests then
-        Questie.db.char.TrackerHiddenQuests = {}
-    end
-    if not Questie.db.char.TrackerHiddenObjectives then
-        Questie.db.char.TrackerHiddenObjectives = {}
-    end
-    if not Questie.db.char.TrackedQuests then
-        Questie.db.char.TrackedQuests = {}
-    end
-    if not Questie.db.char.AutoUntrackedQuests then
-        Questie.db.char.AutoUntrackedQuests = {} -- the reason why we separate this from TrackedQuests is so that users can switch between auto/manual without losing their manual tracking selection
-    end
-    _QuestieTracker.baseFrame = QuestieTracker:CreateBaseFrame()
-    _QuestieTracker.counterFrame = _QuestieTracker:CreateActiveQuestsFrame()
-    if not Questie.db.global.trackerCounterEnabled then
-        _QuestieTracker.counterFrame:Hide()
-    end
-    _QuestieTracker.menuFrame = LQuestie_Create_UIDropDownMenu("QuestieTrackerMenuFrame", UIParent)
-
-    if Questie.db.global.hookTracking then
-        QuestieTracker:HookBaseTracker()
-    end
-
-    -- this number is static, I doubt it will ever need more
-    local lastFrame = nil
-    for i=1, trackerLineCount do
-        local frm = CreateFrame("Button", nil, _QuestieTracker.baseFrame)
-        frm.label = frm:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-        function frm:SetMode(mode)
-            if mode ~= self.mode then
-                self.mode = mode
-                if mode == "header" then
-                    self.label:SetFont(self.label:GetFont(), Questie.db.global.trackerFontSizeHeader)
-                    self:SetHeight(Questie.db.global.trackerFontSizeHeader)
-                else
-                    self.label:SetFont(self.label:GetFont(), Questie.db.global.trackerFontSizeLine)
-                    self:SetHeight(Questie.db.global.trackerFontSizeLine)
-                end
-            end
-        end
-
-        function frm:SetQuest(Quest)
-            self.Quest = Quest
-        end
-
-        function frm:SetObjective(Objective)
-            self.Objective = Objective
-        end
-
-        function frm:SetVerticalPadding(amount)
-            if self.mode == "header" then
-                self:SetHeight(Questie.db.global.trackerFontSizeHeader + amount)
-            else
-                self:SetHeight(Questie.db.global.trackerFontSizeLine + amount)
-            end
-        end
-
-        frm.label:SetJustifyH("LEFT")
-        frm.label:SetPoint("TOPLEFT", frm)
-        frm.label:Hide()
-
-        -- autoadjust parent size for clicks
-        frm.label._SetText = frm.label.SetText
-        frm.label.frame = frm
-        frm.label.SetText = function(self, text)
-            self:_SetText(text)
-            self.frame:SetWidth(self:GetWidth())
-            self.frame:SetHeight(self:GetHeight())
-        end
-
-        frm:EnableMouse(true)
-        frm:RegisterForDrag("LeftButton", "RightButton")
-        frm:RegisterForClicks("RightButtonUp", "LeftButtonUp")
-
-        -- hack for click-through
-        frm:SetScript("OnDragStart", QuestieTrackerMove.OnDragStart)
-        frm:SetScript("OnClick", _OnClick)
-        frm:SetScript("OnDragStop", QuestieTrackerMove.OnDragStop)
-        frm:SetScript("OnEnter", _OnEnter)
-        frm:SetScript("OnLeave", _OnLeave)
-
-
-        if lastFrame then
-            frm:SetPoint("TOPLEFT", lastFrame, "BOTTOMLEFT", 0,0)
-        else
-            if Questie.db.global.trackerCounterEnabled then
-                frm:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerBackgroundPadding, -(trackerBackgroundPadding + _QuestieTracker.counterFrame:GetHeight()))
-            else
-                frm:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerBackgroundPadding, -trackerBackgroundPadding)
-            end
-        end
-        frm:SetWidth(1)
-        frm:SetMode("header")
-        --frm:Show()
-        _QuestieTracker.LineFrames[i] = frm
-        lastFrame = frm
-    end
-
-    QuestieTracker.started = true
-end
-
 local index = 0
 function _QuestieTracker:GetNextLine()
     index = index + 1
     return _QuestieTracker.LineFrames[index]
 end
 
-_QuestieTracker.HexTableHack = {
+local hexTable = {
     '00','11','22','33','44','55','66','77','88','99','AA','BB','CC','DD','EE','FF'
 }
 function _QuestieTracker:PrintProgressColor(percent, text)
-    local hexGreen, hexRed, hexBlue =
-    _QuestieTracker.HexTableHack[5 + math.floor(percent * 10)], _QuestieTracker.HexTableHack[8 + math.floor((1-percent) * 6)], _QuestieTracker.HexTableHack[4 + math.floor(percent * 6)]
+    local hexGreen = hexTable[5 + math.floor(percent * 10)]
+    local hexRed = hexTable[8 + math.floor((1 - percent) * 6)]
+    local hexBlue = hexTable[4 + math.floor(percent * 6)]
+
     return "|cFF"..hexRed..hexGreen..hexBlue..text.."|r"
 end
 
--- 1.12 color logic
-local function RGBToHex(r, g, b)
-    if r > 255 then r = 255; end
-    if g > 255 then g = 255; end
-    if b > 255 then b = 255; end
-    return string.format("|cFF%02x%02x%02x", r, g, b);
-end
-local function FloatRGBToHex(r, g, b)
-    return RGBToHex(r*254, g*254, b*254);
-end
 function _QuestieTracker:GetRGBForObjective(Objective)
     if not Objective.Collected or type(Objective.Collected) ~= "number" then return 0.8,0.8,0.8; end
     local float = Objective.Collected / Objective.Needed
 
     if Questie.db.global.trackerColorObjectives == "whiteToGreen" then
-        return FloatRGBToHex(0.8-float/2, 0.8+float/3, 0.8-float/2);
+        return QuestieLib:FloatRGBToHex(0.8 - float / 2, 0.8 + float / 3, 0.8 - float / 2);
     else
-        if float < .49 then return FloatRGBToHex(1, 0+float/.5, 0); end
-        if float == .50 then return FloatRGBToHex(1, 1, 0); end
-        if float > .50 then return FloatRGBToHex(1-float/2, 1, 0); end
+        if float < .49 then return QuestieLib:FloatRGBToHex(1, 0 + float / .5, 0); end
+        if float == .50 then return QuestieLib:FloatRGBToHex(1, 1, 0); end
+        if float > .50 then return QuestieLib:FloatRGBToHex(1 - float / 2, 1, 0); end
     end
-    --return fRGBToHex(0.8-float/2, 0.8+float/3, 0.8-float/2);
-
-    --[[if QuestieConfig.boldColors == false then
-        if not (type(objective) == "function") then
-            local lastIndex = findLast(objective, ":");
-            if not (lastIndex == nil) then
-                local progress = string.sub(objective, lastIndex+2);
-                local slash = findLast(progress, "/");
-                local have = tonumber(string.sub(progress, 0, slash-1));
-                local need = tonumber(string.sub(progress, slash+1));
-                if not have or not need then return 0.8, 0.8, 0.8; end
-                local float = have / need;
-                return 0.8-float/2, 0.8+float/3, 0.8-float/2;
-            end
-        end
-        return 0.3, 1, 0.3;
-    else
-        if not (type(objective) == "function") then
-            local lastIndex = findLast(objective, ":");
-            if not (lastIndex == nil) then
-                local progress = string.sub(objective, lastIndex+2);
-                local slash = findLast(progress, "/");
-                local have = tonumber(string.sub(progress, 0, slash-1));
-                local need = tonumber(string.sub(progress, slash+1));
-                if not have or not need then return 1, 0, 0; end
-                local float = have / need;
-                if float < .49 then return 1, 0+float/.5, 0; end
-                if float == .50 then return 1, 1, 0; end
-                if float > .50 then return 1-float/2, 1, 0; end
-            end
-        end
-        return 0, 1, 0;
-    end]]--
 end
-
 
 function QuestieTracker:Update()
     Questie:Debug(DEBUG_DEVELOP, "QuestieTracker: Update")
@@ -568,7 +498,6 @@ function QuestieTracker:Update()
             end
         end
 
-
         local complete = QuestieQuest:IsComplete(quest)
         if ((not complete) or Questie.db.global.trackerShowCompleteQuests) and ((GetCVar("autoQuestWatch") == "1" and not Questie.db.char.AutoUntrackedQuests[questId]) or (GetCVar("autoQuestWatch") == "0" and Questie.db.char.TrackedQuests[questId]))  then -- maybe have an option to display quests in the list with (Complete!) in the title
             hasQuest = true
@@ -625,7 +554,7 @@ function QuestieTracker:Update()
     end
 
     -- hide remaining lines
-    for i=index+1,trackerLineCount do
+    for i=index+1, trackerLineCount do
         _QuestieTracker.LineFrames[i]:Hide()
     end
 

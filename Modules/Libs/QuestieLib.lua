@@ -383,3 +383,15 @@ function QuestieLib:Levenshtein(str1, str2)
     -- return the last value - this is the Levenshtein distance
     return matrix[len1][len2]
 end
+
+-- 1.12 color logic
+local function RGBToHex(r, g, b)
+    if r > 255 then r = 255; end
+    if g > 255 then g = 255; end
+    if b > 255 then b = 255; end
+    return string.format("|cFF%02x%02x%02x", r, g, b);
+end
+
+function QuestieLib:FloatRGBToHex(r, g, b)
+    return RGBToHex(r*254, g*254, b*254);
+end

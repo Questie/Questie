@@ -217,3 +217,35 @@ function QuestieTrackerUtils:FlashFinisher(Quest) -- really terrible animation c
         end
     end)
 end
+
+local bindTruthTable = {
+    ['left'] = function(button)
+        return "LeftButton" == button
+    end,
+    ['right'] = function(button)
+        return "RightButton" == button
+    end,
+    ['shiftleft'] = function(button)
+        return "LeftButton" == button and IsShiftKeyDown()
+    end,
+    ['shiftright'] = function(button)
+        return "RightButton" == button and IsShiftKeyDown()
+    end,
+    ['ctrlleft'] = function(button)
+        return "LeftButton" == button and IsControlKeyDown()
+    end,
+    ['ctrlright'] = function(button)
+        return "RightButton" == button and IsControlKeyDown()
+    end,
+    ['altleft'] = function(button)
+        return "LeftButton" == button and IsAltKeyDown()
+    end,
+    ['altright'] = function(button)
+        return "RightButton" == button and IsAltKeyDown()
+    end,
+    ['disabled'] = function() return false; end,
+}
+
+function QuestieTrackerUtils:IsBindTrue(bind, button)
+    return bind and button and bindTruthTable[bind] and bindTruthTable[bind](button)
+end
