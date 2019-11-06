@@ -27,8 +27,10 @@ function QuestieQuestTimers:HideBlizzardTimer()
 end
 
 function QuestieQuestTimers:ShowBlizzardTimer()
-    QuestTimerFrame:ClearAllPoints()
-    QuestTimerFrame:SetPoint(unpack(QuestieQuestTimers.defaultBlizzPoint))
+    if QuestieQuestTimers.defaultBlizzPoint[1] then
+        QuestTimerFrame:ClearAllPoints()
+        QuestTimerFrame:SetPoint(unpack(QuestieQuestTimers.defaultBlizzPoint))
+    end
 end
 
 function QuestieQuestTimers:GetQuestTimerByQuestId(questId, frame)
