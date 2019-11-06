@@ -89,8 +89,8 @@ function QuestieLib:GetRGBForObjective(Objective)
     if not Objective.Collected or type(Objective.Collected) ~= "number" then return 0.8,0.8,0.8; end
     local float = Objective.Collected / Objective.Needed
 
-	if not Questie.db.global.trackerColorObjectives or Questie.db.global.trackerColorObjectives == "white" then
-		return "|cFFEEEEEE";
+    if not Questie.db.global.trackerColorObjectives or Questie.db.global.trackerColorObjectives == "white" then
+        return "|cFFEEEEEE";
     elseif Questie.db.global.trackerColorObjectives == "whiteToGreen" then
         return FloatRGBToHex(0.8-float/2, 0.8+float/3, 0.8-float/2);
     else
