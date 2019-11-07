@@ -990,10 +990,9 @@ function _QuestieFramePool:Questie_Tooltip(self)
                     self:AddLine(questTitle);
                 end
             end
-			
-			-- Used to get the white color for the quests which don't have anything to collect
-			local defaultQuestColor = QuestieLib:GetRGBForObjective({})
-			
+
+            -- Used to get the white color for the quests which don't have anything to collect
+            local defaultQuestColor = QuestieLib:GetRGBForObjective({})
             if shift then
                 for index, textData in pairs(textList) do
                     for textLine, nameData in pairs(textData) do
@@ -1005,7 +1004,6 @@ function _QuestieFramePool:Questie_Tooltip(self)
                         elseif dataType == "string" then
                             self:AddLine("   |cFFDDDDDD" .. nameData);
                         end
-						
                         self:AddLine("      " .. defaultQuestColor .. textLine);
                     end
                 end

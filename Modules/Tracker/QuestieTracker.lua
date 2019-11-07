@@ -374,7 +374,6 @@ function QuestieTracker:Update()
                     if Objective.Needed > 0 then
                         lineEnding = tostring(Objective.Collected) .. "/" .. tostring(Objective.Needed)
                     end
-					
                     line.label:SetText("    " .. QuestieLib:GetRGBForObjective(Objective) .. Objective.Description .. ": " .. lineEnding)
                     line:Show()
                     line.label:Show()

@@ -56,7 +56,7 @@ function QuestieTooltips:GetTooltip(key)
         objectivesText = {
             [objectiveIndex] = {
                 [playerName] = {
-                    [color] = color
+                    [color] = color,
                     [text] = text
                 }
             }
@@ -91,7 +91,7 @@ function QuestieTooltips:GetTooltip(key)
 
                 local text = nil;
                 local color = QuestieLib:GetRGBForObjective(tooltip.Objective)
-				
+                
                 if tooltip.Objective.Needed then
                     text = "   " .. color .. tostring(tooltip.Objective.Collected) .. "/" .. tostring(tooltip.Objective.Needed) .. " " .. tostring(tooltip.Objective.Description);
                 else
@@ -139,8 +139,8 @@ function QuestieTooltips:GetTooltip(key)
                         end
 
                         local text = nil;
-			local color = QuestieLib:GetRGBForObjective(objective)
-			
+                        local color = QuestieLib:GetRGBForObjective(objective)
+
                         if objective.required then
                             text = "   " .. color .. tostring(objective.fulfilled) .. "/" .. tostring(objective.required) .. " " .. objective.text;
                         else
