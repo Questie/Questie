@@ -213,6 +213,7 @@ QuestieLocale.locale['frFR'] = {
     ['TRACKER_SHOW_BLIZZARD_QUEST_TIMER_DESC'] = "When this is checked, the default timer for quests will be shown.",
     ['TRACKER_COLOR_WHITE'] = "Blanc",
     ['TRACKER_COLOR_WHITE_TO_GREEN'] = "Blanc à vert",
+    ['TRACKER_COLOR_WHITE_AND_GREEN'] = "White and Green",
     ['TRACKER_COLOR_RED_TO_GREEN'] = "Rouge à vert",
     ['TRACKER_FONT_HEADER'] = "Taille de la police pour les noms des quêtes",
     ['TRACKER_FONT_HEADER_DESC'] = "Définis taille de la police utilisée pour les noms des quêtes dans le suivi.",

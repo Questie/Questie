@@ -374,11 +374,7 @@ function QuestieTracker:Update()
                     if Objective.Needed > 0 then
                         lineEnding = tostring(Objective.Collected) .. "/" .. tostring(Objective.Needed)
                     end
-                    if (Questie.db.global.trackerColorObjectives and Questie.db.global.trackerColorObjectives ~= "white") and Objective.Collected and type(Objective.Collected) == "number" then
-                        line.label:SetText("    " .. _QuestieTracker:GetRGBForObjective(Objective) .. Objective.Description .. ": " .. lineEnding)
-                    else
-                        line.label:SetText("    |cFFEEEEEE" .. Objective.Description .. ": " .. lineEnding)
-                    end
+                    line.label:SetText("    " .. QuestieLib:GetRGBForObjective(Objective) .. Objective.Description .. ": " .. lineEnding)
                     line:Show()
                     line.label:Show()
                     trackerWidth = math.max(trackerWidth, line.label:GetWidth())
@@ -691,19 +687,6 @@ function _QuestieTracker:PrintProgressColor(percent, text)
     local hexBlue = hexTable[4 + math.floor(percent * 6)]
 
     return "|cFF"..hexRed..hexGreen..hexBlue..text.."|r"
-end
-
-function _QuestieTracker:GetRGBForObjective(Objective)
-    if not Objective.Collected or type(Objective.Collected) ~= "number" then return 0.8,0.8,0.8; end
-    local float = Objective.Collected / Objective.Needed
-
-    if Questie.db.global.trackerColorObjectives == "whiteToGreen" then
-        return QuestieLib:FloatRGBToHex(0.8 - float / 2, 0.8 + float / 3, 0.8 - float / 2);
-    else
-        if float < .49 then return QuestieLib:FloatRGBToHex(1, 0 + float / .5, 0); end
-        if float == .50 then return QuestieLib:FloatRGBToHex(1, 1, 0); end
-        if float > .50 then return QuestieLib:FloatRGBToHex(1 - float / 2, 1, 0); end
-    end
 end
 
 _RemoveQuestWatch = function(index, isQuestie)

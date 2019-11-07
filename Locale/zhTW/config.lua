@@ -213,6 +213,7 @@ QuestieLocale.locale['zhTW'] = {
     ['TRACKER_COLOR_OBJECTIVES_DESC'] = "根據任務目標的進度，著色追蹤框的任務目標文字。",
     ['TRACKER_COLOR_WHITE'] = "白色",
     ['TRACKER_COLOR_WHITE_TO_GREEN'] = "由白至綠", 
+    ['TRACKER_COLOR_WHITE_AND_GREEN'] = "White and Green",
     ['TRACKER_COLOR_RED_TO_GREEN'] = "由紅至綠", 
     ['TRACKER_FONT_HEADER'] = "任務名字的字型大小",
     ['TRACKER_FONT_HEADER_DESC'] = "任務追蹤框中，任務名字的字型大小",

@@ -213,6 +213,7 @@ QuestieLocale.locale['deDE'] = {
     ['TRACKER_COLOR_OBJECTIVES_DESC'] = "Verändert die Farbe von Questzielen in Abhängigkeit zum Fortschritt.",
     ['TRACKER_COLOR_WHITE'] = "Weiß",
     ['TRACKER_COLOR_WHITE_TO_GREEN'] = "Weiß zu Grün",
+    ['TRACKER_COLOR_WHITE_AND_GREEN'] = "White and Green",
     ['TRACKER_COLOR_RED_TO_GREEN'] = "Rot zu Grün",
     ['TRACKER_FONT_HEADER'] = "Schriftgröße des Questnamens",
     ['TRACKER_FONT_HEADER_DESC'] = "Die Schriftgröße der Questnamen im Tracker.",
