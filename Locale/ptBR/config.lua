@@ -329,10 +329,10 @@ QuestieLocale.locale['ptBR'] = {
 	['DEBUG_ABANDON_QUEST'] = "Missão abandonada: %s",
 	['DEBUG_GET_QUEST'] = "Obter todas as missões",
 	['DEBUG_GET_QUEST_COMP'] = "Obtendo todas as missões concluídas",
-	['DEBUG_POP_ERROR'] = "Ocorreu um erro ao definir destinos para %s %s %s %s %s",
+	['DEBUG_POP_ERROR'] = "Ocorreu um erro ao definir destinos para %s %s %s %s",
 	['DEBUG_UNHANDLE_FINISH'] = "Tipo de finalizador não gerenciado: %s %s %s",
 	['DEBUG_NO_FINISH'] = "A missão não tem um finalizador: %s %s",
-	['DEBUG_POPULATE_ERR'] = "Ocorreu um erro ao definir destinos para %s %s %s %s %s",
+	['DEBUG_POPULATE_ERR'] = "Ocorreu um erro ao definir destinos para %s %s %s %s",
 	['DEBUG_POPTABLE'] = "Criando uma nova tabela de objetivos",
 	['DEBUG_OBJ_TABLE'] = "Erro: a tabela de objetivos não existe ao obter objetivos,isso nunca deve acontecer!",
 	['DEBUG_ENTRY_ID'] = "Erro ao procurar o ID da entrada para o objectivo %s %s",
@@ -340,7 +340,7 @@ QuestieLocale.locale['ptBR'] = {
 	['DEBUG_UNLOAD_QFRAMES'] = "Descarregando quadros de missões: %s",
 	['DEBUG_UNLOAD_ALL'] = "Descarregando todos os quadros, conta: %s",
 	['QUESTIE_ACCEPT_NIL'] = "|cFFFF0000ERREUR Questie:|rTente aceitar missões vazias! Pode ser necessário executar um / recarregar para a missão",
-	['QUESTIE_UPDATED_RESTART'] = "|cFFFF0000ATTENTION !|r Você atualizou o Questie sem reiniciar o jogo, isso pode representar um problema. Por favor, reinicie o jogo antes de continuar",
+	['QUESTIE_UPDATED_RESTART'] = "|cFFFF0000ATTENTION !|r Você atualizou o Questie sem reiniciar o jogo, isso pode representar um problema. Por favor, reinicie o jogo antes de continuar",    
 
 	-- TODO finally switch all keys to this style for code readability:
 	['Show on Map'] = "Show on Map",

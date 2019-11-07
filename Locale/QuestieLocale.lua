@@ -121,7 +121,7 @@ end
 function QuestieLocale:_GetUIString(key, ...)
     if key then
         -- convert all args to string
-        local arg = {...};        
+        local arg = {...}
         for i, v in ipairs(arg) do
             arg[i] = tostring(v);
         end
