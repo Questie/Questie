@@ -221,6 +221,10 @@ function QuestieNPCFixes:Load()
             [QuestieDB.npcKeys.spawns] = {[1377]={{60.2,52.4},{60.2,52.6},},},
             [QuestieDB.npcKeys.zoneID] = 1377,
         },
+        [14500] = {
+            [QuestieDB.npcKeys.spawns] = {[2057]= {-1, -1}}, -- #1506
+            [QuestieDB.npcKeys.zoneID] = 2057, -- #1506
+        },
         [14603] = {
             [QuestieDB.npcKeys.spawns] = {[357]={{34.54,33.98},{42.52,46.88},{38.25,34.95},{36.47,35.75},{36.42,36.53},{45.46,62.32},{44.15,50.09},{45.9,57.9},{46.49,59.58},},},
             [QuestieDB.npcKeys.zoneID] = 357,
