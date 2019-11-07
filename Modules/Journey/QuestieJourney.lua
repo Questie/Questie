@@ -557,6 +557,9 @@ local function QuestFrame(f, quest)
 
         local startNPCZone = AceGUI:Create("Label");
         local startindex = 0;
+        if not startnpc.spawns then
+            return
+        end
         for i in pairs(startnpc.spawns) do
             startindex = i;
         end
@@ -743,6 +746,9 @@ local function QuestFrame(f, quest)
 
         local endNPCZone = AceGUI:Create("Label");
         local endindex = 0;
+        if not endnpc.spawns then
+            return
+        end
         for i in pairs(endnpc.spawns) do
             endindex = i;
         end
@@ -996,9 +1002,8 @@ function CollectZoneQuests(zoneId)
                             unobtainableCounter = unobtainableCounter + 1
                         end
                     end
-                end
                 -- Repeatable quests
-                if quest.Repeatable then
+                elseif quest.Repeatable then
                     table.insert(zoneTree[3].children, temp)
                     repeatableCounter = repeatableCounter + 1
                 -- Available quests
