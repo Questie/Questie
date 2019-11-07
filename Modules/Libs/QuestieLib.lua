@@ -93,7 +93,7 @@ function QuestieLib:GetRGBForObjective(Objective)
     if not trackerColor or trackerColor == "white" then
         return "|cFFEEEEEE";
 	elseif trackerColor == "whiteAndGreen" then
-		return Objective.Collected == Objective.Needed and RGBToHex(76, 255, 76) or "|cFFEEEEEE"
+		return Objective.Collected == Objective.Needed and RGBToHex(76, 255, 76) or QuestieLib:FloatRGBToHex(0.8, 0.8, 0.8)
     elseif trackerColor == "whiteToGreen" then
         return QuestieLib:FloatRGBToHex(0.8 - float / 2, 0.8 + float / 3, 0.8 - float / 2);
     else

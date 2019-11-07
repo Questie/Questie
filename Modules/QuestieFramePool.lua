@@ -991,7 +991,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
                 end
             end
 			
-			-- Used if the quest have no items to collect
+			-- Used to get the white color for the quests which don't have anything to collect
 			local defaultQuestColor = QuestieLib:GetRGBForObjective({})
 			
             if shift then
