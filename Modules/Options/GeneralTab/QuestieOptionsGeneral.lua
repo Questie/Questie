@@ -146,7 +146,7 @@ function QuestieOptions.tabs.general:Initialize()
                             QuestieQuest:UpdateHiddenNotes();
                         end,
                     },
-                    mapRepeatableQuests = {
+                    showRepeatableQuests = {
                         type = "toggle",
                         order = 8,
                         name = function() return QuestieLocale:GetUIString('ENABLE_REPEATABLE_QUEST_ICONS'); end,
