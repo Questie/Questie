@@ -1674,7 +1674,7 @@ function _QuestieQuest:IsDoable(questObject)
     if not questObject then
         return false;
     end
-    if questObject.Hidden and not (questObject.Repeatable and Questie.db.global.mapRepeatableQuests) then
+    if questObject.Hidden and not (questObject.Repeatable and Questie.db.global.showRepeatableQuests) then
         -- CalculateAvailableQuests filters out repeatable quests as well, however to avoid unexpected behavior changes elsewhere
         -- IsDoable will continue to filter out all hidden quests (inclucing repeatable) unless repeatable quests are enabled.
         return false;
