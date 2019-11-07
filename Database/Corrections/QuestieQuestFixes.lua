@@ -10,6 +10,7 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 
 function QuestieQuestFixes:Load()
     table.insert(QuestieDB.questData, 7668, {}) -- Add missing quest index
+    table.insert(QuestieDB.questData, 7669, {}) -- Add missing quest index
     table.insert(QuestieDB.questData, 7670, {}) -- Add missing quest index #1432
 
     return {
@@ -101,8 +102,14 @@ function QuestieQuestFixes:Load()
         [535] = {
             [QuestieDB.questKeys.exclusiveTo] = {533}, -- #1134
         },
+        [549] = {
+            [QuestieDB.questKeys.nextQuestInChain] = 566, -- #1134
+        },
         [551] = {
             [QuestieDB.questKeys.startedBy] = {nil,{1765},{3706},}, -- #1245
+        },
+        [566] = {
+            [QuestieDB.questKeys.preQuestSingle] = {549}, -- #1484
         },
         [578] = {
             [QuestieDB.questKeys.childQuests] = {579},
@@ -116,6 +123,9 @@ function QuestieQuestFixes:Load()
         },
         [621] = {
             [QuestieDB.questKeys.inGroupWith] = {}, -- #886
+        },
+        [624] = {
+            [QuestieDB.questKeys.startedBy] = {nil,{2554},{4056,},},
         },
         [639] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #1205
@@ -133,6 +143,9 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.preQuestGroup] = {712,714,},
             [QuestieDB.questKeys.preQuestSingle] = {},
             [QuestieDB.questKeys.requiredSkill] = {},
+        },
+        [736] = {
+            [QuestieDB.questKeys.requiredSourceItems] = {4639},
         },
         [738] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #1289
@@ -189,6 +202,9 @@ function QuestieQuestFixes:Load()
         [1204] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #938
         },
+        [1265] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Sentry Point explored",{[15]={{59.92,40.9},}}},
+        },
         [1275] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #973 -- #745 prequest is not required in Classic
         },
@@ -203,6 +219,12 @@ function QuestieQuestFixes:Load()
         },
         [1339] = {
             [QuestieDB.questKeys.exclusiveTo] = {1338}, -- mountaineer stormpike's task cant be done if you have finished stormpike's order
+        },
+        [1427] = {
+            [QuestieDB.questKeys.nextQuestInChain] = 1428,
+        },
+        [1428] = {
+            [QuestieDB.questKeys.preQuestSingle] = {1427},
         },
         [1442] = {
             [QuestieDB.questKeys.parentQuest] = 1654,
@@ -281,12 +303,14 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.exclusiveTo] = {}, -- #1192
         },
         [1861] = {
+            [QuestieDB.questKeys.preQuestSingle] = {1860,1879}, -- #1380
             [QuestieDB.questKeys.exclusiveTo] = {1880}, -- #1192
         },
         [1879] = {
             [QuestieDB.questKeys.exclusiveTo] = {}, -- #1192
         },
         [1880] = {
+            [QuestieDB.questKeys.preQuestSingle] = {1860,1879}, -- #1380
             [QuestieDB.questKeys.exclusiveTo] = {1861}, -- #1192
         },
         [1920] = {
@@ -298,14 +322,27 @@ function QuestieQuestFixes:Load()
         [2201] = {
             [QuestieDB.questKeys.childQuests] = {3375},
         },
+        [2205] = {
+            [QuestieDB.questKeys.exclusiveTo] = {}, -- #1466
+        },
+        [2218] = {
+            [QuestieDB.questKeys.exclusiveTo] = {}, -- #1466
+        },
+        [2241] = {
+            [QuestieDB.questKeys.exclusiveTo] = {}, -- #1466
+        },
         [2781] = {
             [QuestieDB.questKeys.startedBy] = {nil,{142122,150075,},nil,}, -- #1081
         },
         [2861] = {
             [QuestieDB.questKeys.startedBy] = {{4568,5144,5497,5885,},nil,nil,}, -- #1152
+            [QuestieDB.questKeys.exclusiveTo] = {2846},
         },
         [2922] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- Save Techbot's Brain doesn't need the Tinkmaster Overspark breadcrumb #687
+        },
+        [2981] = {
+            [QuestieDB.questKeys.exclusiveTo] = {2975},
         },
         [2994] = {
             [QuestieDB.questKeys.questLevel] = 51, -- #1129
@@ -356,6 +393,9 @@ function QuestieQuestFixes:Load()
         [4083] = {
             [QuestieDB.questKeys.requiredSkill] = {186,230}, -- #1293
         },
+        [4084] = {
+            [QuestieDB.questKeys.questLevel] = 54, -- #1495
+        },
         -- Salve via Hunting/Mining/Gathering/Skinning/Disenchanting repeatable quests
         -- Alliance
         [4103] = {
@@ -381,26 +421,31 @@ function QuestieQuestFixes:Load()
         -- Horde
         [4108] = {
             [QuestieDB.questKeys.startedBy] = {{9529,},nil,nil,},
+            [QuestieDB.questKeys.finishedBy] = {{9529,},nil,},
             [QuestieDB.questKeys.requiredRaces] = 178,
             [QuestieDB.questKeys.preQuestSingle] = {5887,5888,5889,5890,5891,},
         },
         [4109] = {
             [QuestieDB.questKeys.startedBy] = {{9529,},nil,nil,},
+            [QuestieDB.questKeys.finishedBy] = {{9529,},nil,},
             [QuestieDB.questKeys.requiredRaces] = 178,
             [QuestieDB.questKeys.preQuestSingle] = {5887,5888,5889,5890,5891,},
         },
         [4110] = {
             [QuestieDB.questKeys.startedBy] = {{9529,},nil,nil,},
+            [QuestieDB.questKeys.finishedBy] = {{9529,},nil,},
             [QuestieDB.questKeys.requiredRaces] = 178,
             [QuestieDB.questKeys.preQuestSingle] = {5887,5888,5889,5890,5891,},
         },
         [4111] = {
             [QuestieDB.questKeys.startedBy] = {{9529,},nil,nil,},
+            [QuestieDB.questKeys.finishedBy] = {{9529,},nil,},
             [QuestieDB.questKeys.requiredRaces] = 178,
             [QuestieDB.questKeys.preQuestSingle] = {5887,5888,5889,5890,5891,},
         },
         [4112] = {
             [QuestieDB.questKeys.startedBy] = {{9529,},nil,nil,},
+            [QuestieDB.questKeys.finishedBy] = {{9529,},nil,},
             [QuestieDB.questKeys.requiredRaces] = 178,
             [QuestieDB.questKeys.preQuestSingle] = {5887,5888,5889,5890,5891,},
         },
@@ -480,6 +525,9 @@ function QuestieQuestFixes:Load()
         [5421] = {
             [QuestieDB.questKeys.questLevel] = 25,
         },
+        [5634] = {
+            [QuestieDB.questKeys.startedBy] = {{11401,},nil,nil,},
+        },
         [5721] = {
             [QuestieDB.questKeys.requiredSourceItems] = {177528,}, -- 857
         },
@@ -487,47 +535,62 @@ function QuestieQuestFixes:Load()
         -- Alliance
         [5882] = {
             [QuestieDB.questKeys.startedBy] = {{9528,},nil,nil,},
+            [QuestieDB.questKeys.finishedBy] = {{9528,},nil,},
             [QuestieDB.questKeys.requiredRaces] = 77,
+            [QuestieDB.questKeys.preQuestSingle] = {4101},
             [QuestieDB.questKeys.exclusiveTo] = {5883,5884,5885,5886,},
         },
         [5883] = {
             [QuestieDB.questKeys.startedBy] = {{9528,},nil,nil,},
+            [QuestieDB.questKeys.finishedBy] = {{9528,},nil,},
             [QuestieDB.questKeys.requiredRaces] = 77,
+            [QuestieDB.questKeys.preQuestSingle] = {4101},
             [QuestieDB.questKeys.exclusiveTo] = {5882,5884,5885,5886,},
         },
         [5884] = {
             [QuestieDB.questKeys.startedBy] = {{9528,},nil,nil,},
+            [QuestieDB.questKeys.finishedBy] = {{9528,},nil,},
             [QuestieDB.questKeys.requiredRaces] = 77,
+            [QuestieDB.questKeys.preQuestSingle] = {4101},
             [QuestieDB.questKeys.exclusiveTo] = {5882,5883,5885,5886,},
         },
         [5885] = {
             [QuestieDB.questKeys.startedBy] = {{9528,},nil,nil,},
+            [QuestieDB.questKeys.finishedBy] = {{9528,},nil,},
             [QuestieDB.questKeys.requiredRaces] = 77,
+            [QuestieDB.questKeys.preQuestSingle] = {4101},
             [QuestieDB.questKeys.exclusiveTo] = {5882,5883,5884,5886,},
         },
         [5886] = {
             [QuestieDB.questKeys.startedBy] = {{9528,},nil,nil,},
+            [QuestieDB.questKeys.finishedBy] = {{9528,},nil,},
             [QuestieDB.questKeys.requiredRaces] = 77,
+            [QuestieDB.questKeys.preQuestSingle] = {4101},
             [QuestieDB.questKeys.exclusiveTo] = {5882,5883,5884,5885,},
         },
         -- Horde
         [5887] = {
+            [QuestieDB.questKeys.preQuestSingle] = {4102},
             [QuestieDB.questKeys.exclusiveTo] = {5888,5889,5890,5891,},
             [QuestieDB.questKeys.specialFlags] = 0,
         },
         [5888] = {
+            [QuestieDB.questKeys.preQuestSingle] = {4102},
             [QuestieDB.questKeys.exclusiveTo] = {5887,5889,5890,5891,},
             [QuestieDB.questKeys.specialFlags] = 0,
         },
         [5889] = {
+            [QuestieDB.questKeys.preQuestSingle] = {4102},
             [QuestieDB.questKeys.exclusiveTo] = {5887,5888,5890,5891,},
             [QuestieDB.questKeys.specialFlags] = 0,
         },
         [5890] = {
+            [QuestieDB.questKeys.preQuestSingle] = {4102},
             [QuestieDB.questKeys.exclusiveTo] = {5887,5888,5889,5891,},
             [QuestieDB.questKeys.specialFlags] = 0,
         },
         [5891] = {
+            [QuestieDB.questKeys.preQuestSingle] = {4102},
             [QuestieDB.questKeys.exclusiveTo] = {5887,5888,5889,5890,},
             [QuestieDB.questKeys.specialFlags] = 0,
         },
@@ -572,6 +635,16 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.objectives] = {nil,nil,{{18880,nil},},nil,},
             [QuestieDB.questKeys.sourceItemId] = 18746,
             [QuestieDB.questKeys.zoneOrSort] = 1637,
+        },
+        [7669] = { --#1449
+            [QuestieDB.questKeys.name] = "Again Into the Great Ossuary",
+            [QuestieDB.questKeys.startedBy] = {{13417,},nil,nil,},            -- Quest is started by Lord Grayson Shadowbreaker
+            [QuestieDB.questKeys.finishedBy] = {{13417,},nil,nil,},           --       & ended*
+            [QuestieDB.questKeys.requiredLevel] = 58,
+            [QuestieDB.questKeys.questLevel] = 60,
+            [QuestieDB.questKeys.requiredRaces] = 178,                      -- Any race can take on quest
+            [QuestieDB.questKeys.requiredClasses] = 64,                     -- This quest is for the Shaman class
+            [QuestieDB.questKeys.zoneOrSort] = -141,                        -- <0: QuestSort.dbc ID
         },
         [7670] = { -- #1432
             [QuestieDB.questKeys.name] = "Lord Grayson Shadowbreaker",

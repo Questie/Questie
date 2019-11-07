@@ -195,6 +195,38 @@ local zoneDataClassic = { --AreaTable IDs --Aka AreaID
     [7307] = 'Upper Blacrock Spire',
 }
 
+-- [AreaID] = {"name", alternative AreaId (a sub zone)}
+local dungeons = {
+    [209] = {"Shadowfang Keep", 236},
+    [491] = {"Razorfen Kraul", 1717},
+    [717] = {"The Stockades", nil},
+    [718] = {"Wailing Caverns", nil},
+    [719] = {"Blackfathom Deeps", 2797},
+    [721] = {"Gnomeregan", 133},
+    [722] = {"Razorfen Downs", 1316},
+    [796] = {"Scarlet Monastery", nil},
+    [1176] = {"Zul'Farrak", 978},
+    [1337] = {"Uldaman", 1517},
+    [1477] = {"The Temple of Atal'Hakkar", nil},
+    [1581] = {"The Deadmines", nil},
+    [1583] = {"Blackrock Spire", nil},
+    [1584] = {"Blackrock Depths", nil},
+    [2017] = {"Stratholme", 2279},
+    [2057] = {"Scholomance", nil},
+    [2100] = {"Maraudon", nil},
+    [2437] = {"Ragefire Chasm", nil},
+    [2557] = {"Dire Maul", 2577},
+}
+
+function QuestieDBZone:GetDungeonAlternative(areaId)
+    local entry = dungeons[areaId]
+    if entry then
+        return entry[2]
+    end
+
+    return nil
+end
+
 
 --Exported IDs from Classic DEMO
 local zoneDataClassicDemo = {--AreaName, Continent, AreaID, mapID (Yes it is actually misspelled in the datafiles...)

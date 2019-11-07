@@ -55,7 +55,10 @@ function QuestieTooltips:GetTooltip(key)
         title = coloredTitle,
         objectivesText = {
             [objectiveIndex] = {
-                [playerName] = text
+                [playerName] = {
+                    [color] = color,
+                    [text] = text
+                }
             }
         }
     }]]--
@@ -87,17 +90,19 @@ function QuestieTooltips:GetTooltip(key)
                 end
 
                 local text = nil;
+                local color = QuestieLib:GetRGBForObjective(tooltip.Objective)
+                
                 if tooltip.Objective.Needed then
-                    text = "   |cFF33FF33" .. tostring(tooltip.Objective.Collected) .. "/" .. tostring(tooltip.Objective.Needed) .. " " .. tostring(tooltip.Objective.Description);
+                    text = "   " .. color .. tostring(tooltip.Objective.Collected) .. "/" .. tostring(tooltip.Objective.Needed) .. " " .. tostring(tooltip.Objective.Description);
                 else
-                    text = "   |cFF33FF33" .. tostring(tooltip.Objective.Description);
+                    text = "   " .. color .. tostring(tooltip.Objective.Description);
                 end
                 
                 --Reduntant if 
                 if tooltip.Objective.Needed then
-                    tooltipData[questId].objectivesText[objectiveIndex][name] = text;
+                    tooltipData[questId].objectivesText[objectiveIndex][name] = {["color"] = color, ["text"] = text};
                 else
-                    tooltipData[questId].objectivesText[objectiveIndex][name] = text;
+                    tooltipData[questId].objectivesText[objectiveIndex][name] = {["color"] = color, ["text"] = text};
                 end
             end
         end
@@ -134,13 +139,15 @@ function QuestieTooltips:GetTooltip(key)
                         end
 
                         local text = nil;
+                        local color = QuestieLib:GetRGBForObjective(objective)
+
                         if objective.required then
-                            text = "   |cFF33FF33" .. tostring(objective.fulfilled) .. "/" .. tostring(objective.required) .. " " .. objective.text;
+                            text = "   " .. color .. tostring(objective.fulfilled) .. "/" .. tostring(objective.required) .. " " .. objective.text;
                         else
-                            text = "   |cFF33FF33" .. objective.text;
+                            text = "   " .. color .. objective.text;
                         end
                         
-                        tooltipData[questId].objectivesText[objectiveIndex][playerName] = text;
+                        tooltipData[questId].objectivesText[objectiveIndex][playerName] = {["color"] = color, ["text"] = text};
                     end
                 end
             end
@@ -151,7 +158,10 @@ function QuestieTooltips:GetTooltip(key)
     title = coloredTitle,
     objectivesText = {
         [objectiveIndex] = {
-            [playerName] = text
+            [playerName] = {
+                [color] = color,
+                [text] = text
+            }
         }
     }
     }]]--
@@ -163,24 +173,24 @@ function QuestieTooltips:GetTooltip(key)
         table.insert(tip, questData.title);
         local tempObjectives = {}
         for objectiveIndex, playerList in pairs(questData.objectivesText or {}) do -- Should we do or {} here?
-            for playerName, objectiveText in pairs(playerList) do
+            for playerName, objectiveInfo in pairs(playerList) do
                 local playerInfo = QuestiePlayer:GetPartyMemberByName(playerName);
                 local useName = "";
                 if(playerName == name and anotherPlayer) then
                     local _, classFilename = UnitClass("player");
                     local _, _, _, argbHex = GetClassColor(classFilename)
-                    useName = " (|c"..argbHex..name.."|r|cFF33FF33)|r";
+                    useName = " (|c"..argbHex..name.."|r"..objectiveInfo.color..")|r";
                 elseif(playerInfo and playerName ~= name) then
-                    useName = " (|c"..playerInfo.colorHex..playerName.."|r|cFF33FF33)|r";
+                    useName = " (|c"..playerInfo.colorHex..playerName.."|r"..objectiveInfo.color..")|r";
                 end
                 if(anotherPlayer) then
-                    objectiveText = objectiveText..useName;
+                    objectiveInfo.text = objectiveInfo.text..useName;
                 end
                 -- We want the player to be on top.
                 if(playerName == name) then
-                    table.insert(tempObjectives, 1, objectiveText);
+                    table.insert(tempObjectives, 1, objectiveInfo.text);
                 else
-                    table.insert(tempObjectives, objectiveText);
+                    table.insert(tempObjectives, objectiveInfo.text);
                 end
             end
         end

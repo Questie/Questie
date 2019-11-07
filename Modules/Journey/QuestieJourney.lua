@@ -215,7 +215,7 @@ local function ManageJourneyTree(container)
                     QuestieJourneyUtils:Spacer(f);
 
                     -- Only show party members if you weren't alone
-                    if #entry.Party > 0 then
+                    if entry.Party and #entry.Party > 0 then
 
                         -- Display Party Members
                         local partyFrame = AceGUI:Create("InlineGroup");
@@ -415,21 +415,9 @@ function NotePopup()
             data.Note = messageBox:GetText();
             data.Title = titleBox:GetText();
             data.Timestamp = time();
-            data.Party = {};
-
-            if GetHomePartyInfo() then
-                data.Party = {};
-                local p = {};
-                for i, v in pairs(GetHomePartyInfo()) do
-                    p.Name = v;
-                    p.Class, _, _ = UnitClass(v);
-                    p.Level = UnitLevel(v);
-                    table.insert(data.Party, p);
-                end
-            end
+            data.Party = QuestiePlayer:GetPartyMembers()
 
             table.insert(Questie.db.char.journey, data);
-
 
             ManageJourneyTree(treeCache);
 
@@ -569,6 +557,9 @@ local function QuestFrame(f, quest)
 
         local startNPCZone = AceGUI:Create("Label");
         local startindex = 0;
+        if not startnpc.spawns then
+            return
+        end
         for i in pairs(startnpc.spawns) do
             startindex = i;
         end
@@ -755,6 +746,9 @@ local function QuestFrame(f, quest)
 
         local endNPCZone = AceGUI:Create("Label");
         local endindex = 0;
+        if not endnpc.spawns then
+            return
+        end
         for i in pairs(endnpc.spawns) do
             endindex = i;
         end
@@ -974,7 +968,7 @@ function CollectZoneQuests(zoneId)
         },
         [4] = {
             value = "u",
-            text = QuestieLocale:GetUIString('JOURNEY_UNOPTAINABLE_TITLE'),
+            text = QuestieLocale:GetUIString('JOURNEY_UNOBTAINABLE_TITLE'),
             children = {},
         }
     }
@@ -983,7 +977,7 @@ function CollectZoneQuests(zoneId)
 
     local availableCounter = 0
     local completedCounter = 0
-    local unoptainableCounter = 0
+    local unobtainableCounter = 0
     local repeatableCounter = 0
 
     for _, levelAndQuest in pairs(sortedQuestByLevel) do
@@ -1000,17 +994,16 @@ function CollectZoneQuests(zoneId)
                 table.insert(zoneTree[2].children, temp)
                 completedCounter = completedCounter + 1
             else
-                -- Unoptainable quests
+                -- Unobtainable quests
                 if quest.exclusiveTo then
                     for _, exId in pairs(quest.exclusiveTo) do
                         if Questie.db.char.complete[exId] and zoneTree[4].children[qId] == nil then
                             table.insert(zoneTree[4].children, temp)
-                            unoptainableCounter = unoptainableCounter + 1
+                            unobtainableCounter = unobtainableCounter + 1
                         end
                     end
-                end
                 -- Repeatable quests
-                if quest.Repeatable == 1 then
+                elseif quest.Repeatable then
                     table.insert(zoneTree[3].children, temp)
                     repeatableCounter = repeatableCounter + 1
                 -- Available quests
@@ -1027,7 +1020,7 @@ function CollectZoneQuests(zoneId)
     zoneTree[1].text = zoneTree[1].text .. ' [ '..  availableCounter ..'/'.. totalCounter ..' ]';
     zoneTree[2].text = zoneTree[2].text .. ' [ '..  completedCounter ..'/'.. totalCounter ..' ]';
     zoneTree[3].text = zoneTree[3].text .. ' [ '..  repeatableCounter ..' ]';
-    zoneTree[4].text = zoneTree[4].text .. ' [ '..  unoptainableCounter ..' ]';
+    zoneTree[4].text = zoneTree[4].text .. ' [ '..  unobtainableCounter ..' ]';
 
     return zoneTree
 end
@@ -1162,18 +1155,7 @@ function QuestieJourney:PlayerLevelUp(level)
     data.Event = "Level";
     data.NewLevel = level;
     data.Timestamp = time();
-    data.Party = {};
-
-   if GetHomePartyInfo() then
-        data.Party = {};
-        local p = {};
-        for i, v in pairs(GetHomePartyInfo()) do
-            p.Name = v;
-            p.Class, _, _ = UnitClass(v);
-            p.Level = UnitLevel(v);
-            table.insert(data.Party, p);
-        end
-    end
+    data.Party = QuestiePlayer:GetPartyMembers()
 
     table.insert(Questie.db.char.journey, data);
 end
@@ -1186,18 +1168,7 @@ function QuestieJourney:AcceptQuest(questId)
     data.Quest = questId;
     data.Level = QuestiePlayer:GetPlayerLevel();
     data.Timestamp = time();
-    data.Party = {};
-
-    if GetHomePartyInfo() then
-        data.Party = {};
-        local p = {};
-        for i, v in pairs(GetHomePartyInfo()) do
-            p.Name = v;
-            p.Class,_ ,_ = UnitClass(v);
-            p.Level = UnitLevel(v);
-            table.insert(data.Party, p);
-        end
-    end
+    data.Party = QuestiePlayer:GetPartyMembers()
 
     table.insert(Questie.db.char.journey, data);
 end
@@ -1225,17 +1196,7 @@ function QuestieJourney:AbandonQuest(questId)
         data.Quest = questId;
         data.Level = QuestiePlayer:GetPlayerLevel();
         data.Timestamp = time()
-        data.Party = {};
-
-        if GetHomePartyInfo() then
-            local p = {};
-            for i, v in pairs(GetHomePartyInfo()) do
-                p.Name = v;
-                p.Class, _, _ = UnitClass(v);
-                p.Level = UnitLevel(v);
-                table.insert(data.Party, p);
-            end
-        end
+        data.Party = QuestiePlayer:GetPartyMembers()
 
         table.insert(Questie.db.char.journey, data);
     end
@@ -1249,17 +1210,7 @@ function QuestieJourney:CompleteQuest(questId)
     data.Quest = questId;
     data.Level = QuestiePlayer:GetPlayerLevel();
     data.Timestamp = time();
-    data.Party = {};
-
-    if GetHomePartyInfo() then
-        local p = {};
-        for i, v in pairs(GetHomePartyInfo()) do
-            p.Name = v;
-            p.Class, _, _ = UnitClass(v);
-            p.Level = UnitLevel(v);
-            table.insert(data.Party, p);
-        end
-    end
+    data.Party = QuestiePlayer:GetPartyMembers()
 
     table.insert(Questie.db.char.journey, data);
 end

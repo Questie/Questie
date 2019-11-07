@@ -62,6 +62,7 @@ function QuestieOptionsDefaults:Load()
             hookTracking = true,
             trackerEnabled = true,
             trackerShowQuestLevel = true,
+            showBlizzardQuestTimer = false,
             trackerColorObjectives = 'white',
             trackerQuestPadding = 2,
             trackerSortObjectives = 'byComplete',
@@ -71,6 +72,7 @@ function QuestieOptionsDefaults:Load()
             trackerLocked = true,
             hideUnexploredMapIcons = false,
             showRepeatableQuests = true,
+            trackerCounterEnabled = true,
         },
         char = {
             complete = {},

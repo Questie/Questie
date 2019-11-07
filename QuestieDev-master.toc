@@ -1,8 +1,8 @@
 ## Interface: 11302
-## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v5.0.1|r
-## Author: Aero/Logon/Muehe/Dyaxler/Schaka/Zoey/Everyone else
+## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v5.1.0|r
+## Author: Aero/Logon/Muehe/TheCrux(BreakBB)/Dyaxler/Schaka/Zoey/Everyone else
 ## Notes: A standalone Classic QuestHelper
-## Version: 5.0.1
+## Version: 5.1.0
 ## RequiredDeps:
 ## OptionalDeps: Ace3, LibDataBroker-1.1, LibCompress
 ## SavedVariables: QuestieConfig
@@ -83,7 +83,13 @@ Modules\Journey\QuestieJourneyUtils.lua
 Modules\Journey\QuestieSearch.lua
 Modules\Journey\QuestieSearchResults.lua
 
-Modules\QuestieTracker.lua
+#Tracker
+Modules\Tracker\QuestieTracker.lua
+Modules\Tracker\QuestieTrackerUtils.lua
+Modules\Tracker\QuestieTrackerMenu.lua
+Modules\Tracker\QuestieTrackerMove.lua
+Modules\Tracker\QuestieQuestTimers.lua
+
 Modules\QuestieProfessions.lua
 Modules\QuestieReputation.lua
 Modules\QuestieDBMIntegration.lua

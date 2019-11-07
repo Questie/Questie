@@ -16,7 +16,7 @@ function QuestieSerializer:Hash(value)
         return 0
     end
     local h = 5381
-    for i=1,string.len(value) do
+    for i=1, string.len(value) do
         h = bit.band((31 * h + string.byte(value, i)), 4294967295)
     end
     return h
@@ -112,7 +112,7 @@ end
 
 local function _ReadTable(self, entryCount)
     local ret = {}
-    for i=1,entryCount do
+    for i=1, entryCount do
         local key = _ReadObject(self)
         if type(key) == "string" then
             addHash(key)
@@ -128,7 +128,7 @@ end
 
 local function _ReadArray(self, entryCount)
     local ret = {}
-    for i=1,entryCount do
+    for i=1, entryCount do
         local value = _ReadObject(self)
         if type(value) == "string" then
             addHash(value)
@@ -346,7 +346,7 @@ function QuestieSerializer:Test()
     end
     testtable = rawQuestList
     testtable.npcs = {}
-    for i=1,10 do
+    for i=1, 10 do
         testtable.npcs[i] = QuestieDB:GetNPC(3100 + i)
     end
     --testtable.quest = QuestieDB:GetQuest(1642)
@@ -413,7 +413,7 @@ function QuestieSerializer:SendTestMessage(player)
     if player then
         local testtable = {["test"] = "testing"}
         testtable.testfloats = {}
-        for i=1,10 do
+        for i=1, 10 do
             testtable.testfloats[i] = math.random()
         end
         _testfloats = testtable.testfloats
@@ -427,7 +427,7 @@ function QuestieSerializer:MessageReceivedTest(channel, msg)
         QuestieSerializer:PrintChunk(msg)
         Questie.db.char.WriteRecv = QuestieSerializer:Deserialize(msg)
         local totalDrift = 0
-        for i=1,10 do
+        for i=1, 10 do
             print("  " .. string.format("%.6f", _testfloats[i]) .. " " .. string.format("%.6f", Questie.db.char.WriteRecv.testfloats[i]))
             totalDrift = totalDrift + math.abs(_testfloats[i] - Questie.db.char.WriteRecv.testfloats[i])
         end

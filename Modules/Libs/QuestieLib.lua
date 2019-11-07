@@ -68,6 +68,41 @@ function QuestieLib:GetDifficultyColorPercent(level)
     end
 end
 
+-- 1.12 color logic
+local function RGBToHex(r, g, b)
+    if r > 255 then r = 255; end
+    if g > 255 then g = 255; end
+    if b > 255 then b = 255; end
+    return string.format("|cFF%02x%02x%02x", r, g, b);
+end
+
+local function FloatRGBToHex(r, g, b)
+    return RGBToHex(r*254, g*254, b*254);
+end
+
+function QuestieLib:GetRGBForObjective(Objective)
+    if Objective.fulfilled ~= nil and Objective.Collected == nil then
+        Objective.Collected = Objective.fulfilled
+        Objective.Needed = Objective.required
+    end
+
+    if not Objective.Collected or type(Objective.Collected) ~= "number" then return QuestieLib:FloatRGBToHex(0.8, 0.8, 0.8); end
+    local float = Objective.Collected / Objective.Needed
+    local trackerColor = Questie.db.global.trackerColorObjectives
+    
+    if not trackerColor or trackerColor == "white" then
+        return "|cFFEEEEEE";
+    elseif trackerColor == "whiteAndGreen" then
+        return Objective.Collected == Objective.Needed and RGBToHex(76, 255, 76) or QuestieLib:FloatRGBToHex(0.8, 0.8, 0.8)
+    elseif trackerColor == "whiteToGreen" then
+        return QuestieLib:FloatRGBToHex(0.8 - float / 2, 0.8 + float / 3, 0.8 - float / 2);
+    else
+        if float < .49 then return QuestieLib:FloatRGBToHex(1, 0 + float / .5, 0); end
+        if float == .50 then return QuestieLib:FloatRGBToHex(1, 1, 0); end
+        if float > .50 then return QuestieLib:FloatRGBToHex(1 - float / 2, 1, 0); end
+    end
+end
+
 function QuestieLib:IsResponseCorrect(questId)
     local count = 0;
     local objectiveList = nil;
@@ -211,9 +246,9 @@ end
 function QuestieLib:ProfileFunction(functionReference, includeSubroutine)
     --Optional var
     if(not includeSubroutine) then includeSubroutine = true; end
-    local time, count = GetFunctionCPUUsage(functionReference, includeSubroutine);
+    local now, count = GetFunctionCPUUsage(functionReference, includeSubroutine);
     --Questie:Print("[QuestieLib]", "Profiling Avg:", round(time/count, 6));
-    return time, count;
+    return now, count;
 end
 
 --To try and create a fix for errors regarding items that do not exist in our DB,
@@ -382,4 +417,16 @@ function QuestieLib:Levenshtein(str1, str2)
     end
     -- return the last value - this is the Levenshtein distance
     return matrix[len1][len2]
+end
+
+-- 1.12 color logic
+local function RGBToHex(r, g, b)
+    if r > 255 then r = 255; end
+    if g > 255 then g = 255; end
+    if b > 255 then b = 255; end
+    return string.format("|cFF%02x%02x%02x", r, g, b);
+end
+
+function QuestieLib:FloatRGBToHex(r, g, b)
+    return RGBToHex(r*254, g*254, b*254);
 end
