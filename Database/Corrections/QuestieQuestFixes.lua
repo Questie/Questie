@@ -393,6 +393,9 @@ function QuestieQuestFixes:Load()
         [4083] = {
             [QuestieDB.questKeys.requiredSkill] = {186,230}, -- #1293
         },
+        [4084] = {
+            [QuestieDB.questKeys.questLevel] = 54, -- #1495
+        },
         -- Salve via Hunting/Mining/Gathering/Skinning/Disenchanting repeatable quests
         -- Alliance
         [4103] = {
