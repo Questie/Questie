@@ -815,9 +815,10 @@ function _QuestieFramePool:Questie_Tooltip(self)
                         local add = true;
                         for index, data in pairs(questOrder[key]) do
                             for text, nameData in pairs(data) do
-                            if(text == icon.data.ObjectiveData.Description) then
-                                add = false;
-                                break;
+                                if(text == icon.data.ObjectiveData.Description) then
+                                    add = false;
+                                    break;
+                                end
                             end
                         end
                         if(add) then
@@ -893,17 +894,17 @@ function _QuestieFramePool:Questie_Tooltip(self)
                                 data[text] = nameTable;
                                 --Add the data for the first time
                                 if(usedText[text] == nil) then
-                                table.insert(questOrder[key], data);
-                                usedText[text] = true;
+                                    table.insert(questOrder[key], data);
+                                    usedText[text] = true;
                                 else
-                                --We want to add more NPCs as possible candidates when shift is pressed.
-                                if(icon.data.Name) then
-                                    for dataIndex, data in pairs(questOrder[key]) do
-                                    if(questOrder[key][dataIndex][text]) then
-                                        questOrder[key][dataIndex][text][icon.data.Name] = true;
+                                    --We want to add more NPCs as possible candidates when shift is pressed.
+                                    if(icon.data.Name) then
+                                        for dataIndex, data in pairs(questOrder[key]) do
+                                            if(questOrder[key][dataIndex][text]) then
+                                                questOrder[key][dataIndex][text][icon.data.Name] = true;
+                                            end
+                                        end
                                     end
-                                    end
-                                end
                                 end
                             end
                         end
