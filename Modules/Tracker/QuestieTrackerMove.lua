@@ -32,7 +32,7 @@ function QuestieTrackerMove:OnDragStart(self, button)
 end
 
 function QuestieTrackerMove:OnDragStop()
-    if not startDragPos then
+    if not startDragPos or not startDragAnchor then
         return
     end
     local baseFrame = QuestieTracker:GetBaseFrame()
