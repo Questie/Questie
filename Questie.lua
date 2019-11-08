@@ -15,6 +15,8 @@ if not QuestieConfigCharacter then
     QuestieConfigCharacter = {}
 end
 
+-- Global debug levels, see bottom of this file and `debugLevel` in QuestieOptionsAdvanced.lua for relevant code
+-- When adding a new level here it MUST be assigned a number and name in `debugLevel.values` as well added to Questie:Debug below
 DEBUG_CRITICAL = "|cff00f2e6[CRITICAL]|r"
 DEBUG_ELEVATED = "|cffebf441[ELEVATED]|r"
 DEBUG_INFO = "|cff00bc32[INFO]|r"
@@ -387,20 +389,19 @@ function Questie:error(...)
     Questie:Error(...)
 end
 
---debuglevel = 5 --1 Critical, 2 ELEVATED, 3 Info, 4, Develop, 5 SPAM THAT SHIT YO
---DEBUG_CRITICAL = "1DEBUG"
---DEBUG_ELEVATED = "2DEBUG"
---DEBUG_INFO = "3DEBUG"
---DEBUG_DEVELOP = "4DEBUG"
---DEBUG_SPAM = "5DEBUG"
-
 function Questie:Debug(...)
     if(Questie.db.global.debugEnabled) then
-        if(Questie.db.global.debugLevel < 5 and select(1, ...) == DEBUG_SPAM)then return; end
-        if(Questie.db.global.debugLevel < 4 and select(1, ...) == DEBUG_DEVELOP)then return; end
-        if(Questie.db.global.debugLevel < 3 and select(1, ...) == DEBUG_INFO)then return; end
-        if(Questie.db.global.debugLevel < 2 and select(1, ...) == DEBUG_ELEVATED)then return; end
-        if(Questie.db.global.debugLevel < 1 and select(1, ...) == DEBUG_CRITICAL)then return; end
+        -- Exponents are defined by `debugLevel.values` in QuestieOptionsAdvanced.lua
+        -- DEBUG_CRITICAL = 0
+        -- DEBUG_ELEVATED = 1
+        -- DEBUG_INFO = 2
+        -- DEBUG_DEVELOP = 3
+        -- DEBUG_SPAM = 4
+        if(bit.band(Questie.db.global.debugLevel, math.pow(2, 4)) == 0 and select(1, ...) == DEBUG_SPAM)then return; end
+        if(bit.band(Questie.db.global.debugLevel, math.pow(2, 3)) == 0 and select(1, ...) == DEBUG_DEVELOP)then return; end
+        if(bit.band(Questie.db.global.debugLevel, math.pow(2, 2)) == 0 and select(1, ...) == DEBUG_INFO)then return; end
+        if(bit.band(Questie.db.global.debugLevel, math.pow(2, 1)) == 0 and select(1, ...) == DEBUG_ELEVATED)then return; end
+        if(bit.band(Questie.db.global.debugLevel, math.pow(2, 0)) == 0 and select(1, ...) == DEBUG_CRITICAL)then return; end
         --Questie:Print(...)
         if(QuestieConfigCharacter.log) then
             QuestieConfigCharacter = {};

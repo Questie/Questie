@@ -78,24 +78,9 @@ function QuestieOptions.tabs.advanced:Initalize()
                     QuestieConfigCharacter = {}
                 end,
             },
-            debugLevel = {
-                type = "range",
-                order = 5,
-                name = function() return QuestieLocale:GetUIString('DEBUG_LEVEL'); end,
-                desc = function() return QuestieLocale:GetUIString('DEBUG_LEVEL_DESC', "\nDEBUG_CRITICAL = 1\nDEBUG_ELEVATED = 2\nDEBUG_INFO = 3\nDEBUG_DEVELOP = 4\nDEBUG_SPAM = 5"); end,
-                width = "normal",
-                min = 1,
-                max = 5,
-                step = 1,
-                disabled = function() return not Questie.db.global.debugEnabled; end,
-                get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
-                set = function (info, value)
-                    QuestieOptions:SetGlobalOptionValue(info, value)
-                end,
-            },
             debugEnabledPrint = {
                 type = "toggle",
-                order = 6,
+                order = 5,
                 disabled = function() return not Questie.db.global.debugEnabled; end,
                 name = function() return QuestieLocale:GetUIString('ENABLE_DEBUG').."-PRINT" end,
                 desc = function() return QuestieLocale:GetUIString('ENABLE_DEBUG_DESC').."-PRINT" end,
@@ -103,6 +88,37 @@ function QuestieOptions.tabs.advanced:Initalize()
                 get = function () return Questie.db.global.debugEnabledPrint; end,
                 set = function (info, value)
                     Questie.db.global.debugEnabledPrint = value
+                end,
+            },
+            debugLevel = {
+                type = "multiselect",
+                values = {
+                    [0] = "DEBUG_CRITICAL",
+                    [1] = "DEBUG_ELEVATED",
+                    [2] = "DEBUG_INFO",
+                    [3] = "DEBUG_DEVELOP",
+                    [4] = "DEBUG_SPAM",
+                },
+                order = 6,
+                name = function() return QuestieLocale:GetUIString('DEBUG_LEVEL'); end,
+                width = "normal",
+                disabled = function() return not Questie.db.global.debugEnabled; end,
+                get = function(state, key)
+                    --Questie:Debug(DEBUG_SPAM, "Debug Key:", key, math.pow(2, key), state.option.values[key])
+                    --Questie:Debug(DEBUG_SPAM, "Debug Level:", Questie.db.global.debugLevel, bit.band(Questie.db.global.debugLevel, math.pow(2, key)))
+                    return bit.band(Questie.db.global.debugLevel, math.pow(2, key)) > 0
+                end,
+                set = function (info, value)
+                    local currentValue = Questie.db.global.debugLevel
+                    local flag = math.pow(2, value)
+                    --Questie:Debug(DEBUG_SPAM, "Setting Debug:", currentValue, flag, bit.band(currentValue, flag)>0)
+                    -- When current debug level is active, remove it
+                    if (bit.band(currentValue, flag) > 0) then
+                        Questie.db.global.debugLevel = bit.bxor(flag, currentValue)
+                    -- When current debug level is inactive, add it
+                    else
+                        Questie.db.global.debugLevel = bit.bor(flag, currentValue)
+                    end
                 end,
             },
             showQuestIDs = {
