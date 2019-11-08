@@ -22,7 +22,7 @@ function QuestieOptionsDefaults:Load()
             fadeOverPlayerDistance = 5,
             debugEnabled = false,
             debugEnabledPrint = false,
-            debugLevel = 4,
+            debugLevel = 0,
             nameplateX = -17,
             nameplateY = -7,
             nameplateScale = 1,
