@@ -74,7 +74,9 @@ function QuestieTracker:Initialize()
         QuestieTracker:MoveDurabilityFrame()
     end
 
-    DurabilityFrame:SetScript("OnShow", function(self)
+    -- This is "OnEvent" rather than "OnShow", because the Frame can't be moved
+    -- on the latter event
+    DurabilityFrame:HookScript("OnEvent", function()
         if Questie.db.global.trackerEnabled then
             QuestieTracker:MoveDurabilityFrame()
         end
