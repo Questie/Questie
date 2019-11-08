@@ -53,11 +53,6 @@ function QuestieQuest:Initialize()
     QuestieProfessions:Update()
     QuestieReputation:Update()
 
-    -- this inserts the Questie Icons to the MinimapButtonBag ignore list
-    if MBB_Ignore then
-        tinsert(MBB_Ignore, "QuestieFrameGroup")
-    end
-
     _QuestieQuest.questLogHashes = QuestieQuest:GetQuestLogHashes()
 end
 

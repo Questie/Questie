@@ -217,9 +217,9 @@ end]]--
 ---@class IconFrame
 function _QuestieFramePool:QuestieCreateFrame()
     _QuestieFramePool.numberOfFrames = _QuestieFramePool.numberOfFrames + 1
-    local newFrame = CreateFrame("Button", "QuestieFrame".._QuestieFramePool.numberOfFrames, nil)
+    local newFrame = CreateFrame("Button", "QuestieFrame".._QuestieFramePool.numberOfFrames, HBDPins.MinimapGroup)
     newFrame.frameId = _QuestieFramePool.numberOfFrames;
-
+    tinsert(MBB_Ignore, newFrame:GetName())
     if(_QuestieFramePool.numberOfFrames > 5000) then
         Questie:Debug(DEBUG_CRITICAL, "[QuestieFramePool] Over 5000 frames... maybe there is a leak?", _QuestieFramePool.numberOfFrames)
     end
@@ -571,6 +571,11 @@ function QuestieFramePool:CreateWaypoints(iconFrame, waypointTable, lineWidth, c
     --Set defaults if needed.
     local lWidth = lineWidth or 1.5;
     local col = color or {1,0.72,0,0.3};
+    -- local col = color or {0,0.5,1,0.3};
+    -- local col = color or {0.06,0.31,0.55,0.3};
+    -- local col = color or {0.14,0.14,0.56,0.3};
+    -- local col = color or {0.4,0,0,0.3};
+    -- local col = color or {0.4,0.8,0,0.3};
 
     for index, waypoint in pairs(waypointTable) do
         if(lastPos == nil) then
