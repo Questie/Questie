@@ -108,7 +108,6 @@ function QuestieOptions.tabs.advanced:Initalize()
             showQuestIDs = {
                 type = "toggle",
                 order = 7,
-                disabled = function() return not Questie.db.global.debugEnabled; end,
                 name = function() return QuestieLocale:GetUIString('ENABLE_TOOLTIPS_QUEST_IDS'); end,
                 desc = function() return QuestieLocale:GetUIString('ENABLE_TOOLTIPS_QUEST_LEVEL_IDS'); end,
                 width = "full",
