@@ -40,11 +40,13 @@ function QuestieOptions.tabs.tracker:Initialize()
                         end
                         QuestieQuestTimers:HideBlizzardTimer()
                         QuestieTracker:Initialize()
+                        QuestieTracker:MoveDurabilityFrame()
                     elseif Questie.db.global.hookTracking then
                         QuestieTracker:Unhook()
                     end
                     if not value then
                         QuestieQuestTimers:ShowBlizzardTimer()
+                        QuestieTracker:ResetDurabilityFrame()
                     end
                     QuestieTracker:Update()
                 end

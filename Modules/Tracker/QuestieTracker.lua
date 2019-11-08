@@ -30,6 +30,7 @@ local trackerLineCount = 64 -- shouldnt need more than this
 local trackerBackgroundPadding = 4
 local lineIndex = 0
 local lastAQW = GetTime()
+local durabilityInitialPosition = nil
 
 -- used for fading the background of the tracker
 _QuestieTracker.FadeTickerValue = 0
@@ -64,6 +65,20 @@ function QuestieTracker:Initialize()
     if Questie.db.global.hookTracking then
         QuestieTracker:HookBaseTracker()
     end
+
+    -- Move the durability frame next to the tracker if shown
+    if not durabilityInitialPosition then
+        durabilityInitialPosition = {DurabilityFrame:GetPoint()}
+    end
+    if Questie.db.global.trackerEnabled and DurabilityFrame:IsShown() then
+        QuestieTracker:MoveDurabilityFrame()
+    end
+
+    DurabilityFrame:SetScript("OnShow", function(self)
+        if Questie.db.global.trackerEnabled then
+            QuestieTracker:MoveDurabilityFrame()
+        end
+    end)
 
     -- this number is static, I doubt it will ever need more
     local lastFrame = nil
@@ -149,6 +164,16 @@ function QuestieTracker:ResetLocation()
         _QuestieTracker:SetSafePoint(_QuestieTracker.baseFrame)
         _QuestieTracker.baseFrame:Show()
     end
+end
+
+function QuestieTracker:ResetDurabilityFrame()
+    DurabilityFrame:ClearAllPoints()
+    DurabilityFrame:SetPoint(unpack(durabilityInitialPosition))
+end
+
+function QuestieTracker:MoveDurabilityFrame()
+    DurabilityFrame:ClearAllPoints()
+    DurabilityFrame:SetPoint("RIGHT", _QuestieTracker.baseFrame, "LEFT", 0, 0)
 end
 
 function _QuestieTracker:SetSafePoint(frm)
