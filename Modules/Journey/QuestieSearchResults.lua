@@ -504,6 +504,10 @@ function QuestieSearchResults:DrawSearchTab(container)
             QuestieSearchResults:DrawSearchResultTab(searchGroup, Questie.db.char.searchType, text);
         end
     end);
+    -- Check for existence of previous search, if present use its text
+    if QuestieSearch.LastResult.query ~= '' then
+        searchBox:SetText(QuestieSearch.LastResult.query)
+    end
     container:AddChild(searchBox);
     -- search button
     searchBtn:SetText(QuestieLocale:GetUIString('JOURNEY_SEARCH_EXE'));
@@ -518,6 +522,12 @@ function QuestieSearchResults:DrawSearchTab(container)
     searchGroup:SetFullWidth(true);
     searchGroup:SetLayout("fill");
     container:AddChild(searchGroup);
+    -- Check for existence of previous search, if present use its result
+    if QuestieSearch.LastResult.query ~= '' then
+        searchBtn:SetDisabled(false)
+        local text = string.trim(searchBox:GetText(), " \n\r\t[]")
+        QuestieSearchResults:DrawSearchResultTab(searchGroup, Questie.db.char.searchType, text)
+    end
 end
 
 function QuestieSearchResults:JumpToQuest(button)
