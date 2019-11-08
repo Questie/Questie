@@ -42,6 +42,8 @@ QuestieLocale.locale['frFR'] = {
     ['ENABLE_ICON_LIMIT_DESC'] = "Active la limite au nombre d'icônes affichées d'un même type.",
     ['ICON_LIMIT'] = "Limite d'icônes",
     ['ICON_LIMIT_DESC'] = "Limite le nombre d'icônes affichées d'un même type. (Par défaut : %s)",
+    ['ENABLE_REPEATABLE_QUEST_ICONS'] = "Show repeatable quests on map",
+    ['ENABLE_REPEATABLE_QUEST_ICONS_DESC'] = "Choose whether repeatable quests should be visible on the map and minimap.",
 
     -- Onglet Mini-carte
     ['MINIMAP_TAB'] = "Mini-carte",
@@ -90,7 +92,7 @@ QuestieLocale.locale['frFR'] = {
     ['ENABLE_MAP_COORDS'] = "Coordonnées du joueur et du curseur",
     ['ENABLE_MAP_COORDS_DESC'] = "Active les coordonnées du joueur et celles du curseur dans le titre de la carte.",
     ['MAP_COORDS_PRECISION'] = "Précision des coordonnées sur la carte",
-    ['MAP_COORDS_PRECISION_DESC'] = "Définis combien de décimales sont à inclure dans les coordonnées du joueur et du curseur. (Par défaut : %s)",        
+    ['MAP_COORDS_PRECISION_DESC'] = "Définis combien de décimales sont à inclure dans les coordonnées du joueur et du curseur. (Par défaut : %s)",
 
     -- Onglet DBM HUD
     ['DBM_HUD_TAB'] = "DBM HUD",
@@ -318,7 +320,7 @@ QuestieLocale.locale['frFR'] = {
     ['DEBUG_LOWLEVEL'] = "Les quêtes grises sont basculées sur :",
     ['DEBUG_MINLEVEL'] = "minLevelFilter défini sur %s",
     ['DEBUG_MAXLEVEL'] = "maxLevelFilter défini sur %s",
-    ['DEBUG_CLUSTER'] = "Réglage de la valeur de fusionnement, clusterLevelHotzone réglée sur %s : réorganisation !", 
+    ['DEBUG_CLUSTER'] = "Réglage de la valeur de fusionnement, clusterLevelHotzone réglée sur %s : réorganisation !",
     ['DEBUG_ICON_LIMIT'] = "Setting icon limit value to %s : Redrawing!",
     ['DEBUG_ADD_QUEST'] = "Ajout de la quête %s %s",
     ['DEBUG_REMOVE_QUEST'] = "Suppression de la quête %s %s",
@@ -338,7 +340,7 @@ QuestieLocale.locale['frFR'] = {
     ['DEBUG_UNLOAD_QFRAMES'] = "Vidage du cadres des quêtes : %s",
     ['DEBUG_UNLOAD_ALL'] = "Vidage de tous les cadres, montant : %s",
     ['QUESTIE_ACCEPT_NIL'] = "|cFFFF0000ERREUR :|r Tentative d'acceptation d'une quête vide! Vous devrez peut-être exécuter un /questie reload.",
-    ['QUESTIE_UPDATED_RESTART'] = "|cFFFF0000ATTENTION !|r Vous avez mis à jour Questie sans redémarrer le jeu, cela risque de poser problème. Veuillez redémarrer le jeu avant de continuer",        
+    ['QUESTIE_UPDATED_RESTART'] = "|cFFFF0000ATTENTION !|r Vous avez mis à jour Questie sans redémarrer le jeu, cela risque de poser problème. Veuillez redémarrer le jeu avant de continuer",
 
     -- TODO finally switch all keys to this style for code readability:
     ['Show on Map'] = "Afficher sur la carte",

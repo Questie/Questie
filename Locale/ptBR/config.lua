@@ -42,6 +42,8 @@ QuestieLocale.locale['ptBR'] = {
     ['ENABLE_ICON_LIMIT_DESC'] = "Enable the limit of icons drawn per type.",
     ['ICON_LIMIT'] = "Icon Limit",
     ['ICON_LIMIT_DESC'] = "Limits the amount of icons drawn per type. ( Default: %s )",
+    ['ENABLE_REPEATABLE_QUEST_ICONS'] = "Show repeatable quests on map",
+    ['ENABLE_REPEATABLE_QUEST_ICONS_DESC'] = "Choose whether repeatable quests should be visible on the map and minimap.",
 
     -- Minimap tab
     ['MINIMAP_TAB'] = "Opções de mini-carta",
@@ -85,7 +87,7 @@ QuestieLocale.locale['ptBR'] = {
     ['OBJECT_ICON_SCALE_DESC'] = "Qual é o tamanho dos ícones de objeto. (Por defeito: %s)",
     ['EVENT_ICON_SCALE'] = "Escala de ícones de eventos",
     ['EVENT_ICON_SCALE_DESC'] = "Qual é o tamanho dos ícones do evento. (Por defeito: %s)",
-            
+
     ['MAP_COORDS'] = "Coordenadas do mapa e cursor",
     ['ENABLE_MAP_COORDS'] = "Coordenadas do jogador e do cursor",
     ['ENABLE_MAP_COORDS_DESC'] = "Coloque as coordenadas do jogador e as do cursor no título do cartão.",
@@ -338,7 +340,7 @@ QuestieLocale.locale['ptBR'] = {
     ['DEBUG_UNLOAD_QFRAMES'] = "Descarregando quadros de missões: %s",
     ['DEBUG_UNLOAD_ALL'] = "Descarregando todos os quadros, conta: %s",
     ['QUESTIE_ACCEPT_NIL'] = "|cFFFF0000ERREUR Questie:|rTente aceitar missões vazias! Pode ser necessário executar um / recarregar para a missão",
-    ['QUESTIE_UPDATED_RESTART'] = "|cFFFF0000ATTENTION !|r Você atualizou o Questie sem reiniciar o jogo, isso pode representar um problema. Por favor, reinicie o jogo antes de continuar",    
+    ['QUESTIE_UPDATED_RESTART'] = "|cFFFF0000ATTENTION !|r Você atualizou o Questie sem reiniciar o jogo, isso pode representar um problema. Por favor, reinicie o jogo antes de continuar",
 
     -- TODO finally switch all keys to this style for code readability:
     ['Show on Map'] = "Show on Map",

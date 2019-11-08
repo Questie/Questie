@@ -71,7 +71,8 @@ function QuestieOptionsDefaults:Load()
             iconFadeLevel = 0.3,
             trackerLocked = true,
             hideUnexploredMapIcons = false,
-            trackerCounterEnabled = true
+            showRepeatableQuests = true,
+            trackerCounterEnabled = true,
         },
         char = {
             complete = {},
