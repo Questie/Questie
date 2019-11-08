@@ -219,7 +219,13 @@ function _QuestieFramePool:QuestieCreateFrame()
     _QuestieFramePool.numberOfFrames = _QuestieFramePool.numberOfFrames + 1
     local newFrame = CreateFrame("Button", "QuestieFrame".._QuestieFramePool.numberOfFrames, HBDPins.MinimapGroup)
     newFrame.frameId = _QuestieFramePool.numberOfFrames;
-    tinsert(MBB_Ignore, newFrame:GetName())
+
+    -- Add the frames to the ignore list of the Minimap Button Bag (MBB) addon
+    -- This is quite ugly but the only thing we can do currently from our side
+    -- Check #1504
+    if MBB_Ignore then
+        tinsert(MBB_Ignore, newFrame:GetName())
+    end
     if(_QuestieFramePool.numberOfFrames > 5000) then
         Questie:Debug(DEBUG_CRITICAL, "[QuestieFramePool] Over 5000 frames... maybe there is a leak?", _QuestieFramePool.numberOfFrames)
     end
