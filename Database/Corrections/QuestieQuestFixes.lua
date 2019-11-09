@@ -374,6 +374,9 @@ function QuestieQuestFixes:Load()
         [3090] = {
             [QuestieDB.questKeys.requiredRaces] = 256, -- #813
         },
+        [3128] = {
+            [QuestieDB.questKeys.preQuestSingle] = {3122},
+        },
         [3374] = {
             [QuestieDB.questKeys.startedBy] = {{5353},nil,{10589,},}, -- #1233
         },
