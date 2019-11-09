@@ -12,7 +12,6 @@ function QuestieQuestTimers:Initialize()
     Questie:Debug(DEBUG_DEVELOP, "QuestieQuestTimers:Initialize")
 
     hooksecurefunc("QuestTimerFrame_Update", _UpdateTimerFrame)
-    -- hooksecurefunc("QuestTimerFrame_OnShow", _QuestieQuestTimers.CreateTimerFrames)
 
     QuestTimerFrame:HookScript("OnShow", function()
         QuestieQuestTimers.defaultBlizzPoint = {QuestTimerFrame:GetPoint()}

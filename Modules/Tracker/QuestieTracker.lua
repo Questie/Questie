@@ -72,12 +72,8 @@ function QuestieTracker:Initialize()
     end
     QuestieTracker:MoveDurabilityFrame()
 
-    -- This is "OnEvent" rather than "OnShow", because the Frame can't be moved
-    -- on the latter event
-    DurabilityFrame:HookScript("OnEvent", function()
-        Questie:Debug(DEBUG_DEVELOP, "OnEvent");
-        QuestieTracker:MoveDurabilityFrame()
-    end)
+    -- This is the best way to not check 19238192398 events which might reset the position of the DurabilityFrame
+    hooksecurefunc("UIParent_ManageFramePositions", QuestieTracker.MoveDurabilityFrame)
 
     -- this number is static, I doubt it will ever need more
     local lastFrame = nil
@@ -172,7 +168,6 @@ end
 
 function QuestieTracker:MoveDurabilityFrame()
     if Questie.db.global.trackerEnabled and DurabilityFrame:IsShown() then
-        Questie:Debug(DEBUG_DEVELOP, "QuestieTracker:MoveDurabilityFrame()");
         DurabilityFrame:ClearAllPoints()
         DurabilityFrame:SetPoint("RIGHT", _QuestieTracker.baseFrame, "LEFT", 0, 0)
     end

@@ -96,16 +96,6 @@ function QuestieEventHandler:MAP_EXPLORATION_UPDATED()
     end
 end
 
--- For some unknown reason the DurabilityFrame resets its position on ZONE_CHANGED
-function QuestieEventHandler:ZONE_CHANGED()
-    Questie:Debug(DEBUG_DEVELOP, "EVENT: ZONE_CHANGED");
-
-    -- The Timer is required, because the DurabilityFrame is moved around "the same time" the event fires
-    -- From the Docs: "Even with a duration of 0 or 1 ms, the earliest the callback will be called is on the next frame."
-    -- This will result in a small flicker, but there doens't seem to be another solution
-    C_Timer.After(0, QuestieTracker.MoveDurabilityFrame)
-end
-
 -- Needed to distinguish finished quests from abandoned quests
 local finishedEventReceived = false
 
