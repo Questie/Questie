@@ -99,6 +99,9 @@ function QuestieQuestFixes:Load()
         [510] = {
             [QuestieDB.questKeys.startedBy] = {nil,{1740},nil}, -- #1512
         },
+        [511] = {
+            [QuestieDB.questKeys.startedBy] = {nil,{1740},nil}, -- #1512
+        },
         [526] = {
             [QuestieDB.questKeys.exclusiveTo] = {322,324}, -- not 100% sure on this one but it seems lightforge ingots is optional, block it after completing subsequent steps (#587)
         },
