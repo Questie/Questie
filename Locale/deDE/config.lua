@@ -239,6 +239,7 @@ QuestieLocale.locale['deDE'] = {
     ['TRACKER_SHORTCUT'] = " Shortcut",
     ['TRACKER_SET_TOMTOM_DESC'] = "Der Tracker-Shortcut, um TomTom zu öffnen The tracker shortcut to open TomTom.",
     ['TRACKER_SHOW_QUESTLOG_DESC'] = "Der Tracker-Shortcut, um eine Quest im Questlog anzuzeigen.",
+    ['TRACKER_UNTRACK_DESC'] = "Der Tracker-Shortcut, um eine Quest vom Tracker zu entfernen.",
     ['TRACKER_ACTIVE_QUESTS'] = "Aktive Quests: ",
 
     -- tracker right click menu

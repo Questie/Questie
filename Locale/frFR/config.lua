@@ -239,6 +239,7 @@ QuestieLocale.locale['frFR'] = {
     ['TRACKER_SHORTCUT'] = " Raccourci",
     ['TRACKER_SET_TOMTOM_DESC'] = "Définis le raccourci servant à ouvrir TomTom.",
     ['TRACKER_SHOW_QUESTLOG_DESC'] = "Définis le raccourci servant à afficher la quête dans le journal des quêtes.",
+    ['TRACKER_UNTRACK_DESC'] = "Removes a quest from the Tracker.",
     ['TRACKER_ACTIVE_QUESTS'] = "Quête Actives : ",
 
     -- Menu Clic droit du suivi

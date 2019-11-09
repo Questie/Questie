@@ -159,12 +159,7 @@ function QuestieTrackerMenu:GetMenuForQuest(quest)
     end})
     table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_UNTRACK'), func = function()
         LQuestie_CloseDropDownMenus();
-        if GetCVar("autoQuestWatch") == "0" then
-            Questie.db.char.TrackedQuests[quest.Id] = nil
-        else
-            Questie.db.char.AutoUntrackedQuests[quest.Id] = true
-        end
-        QuestieTracker:Update()
+        QuestieTracker:Untrack(quest)
     end})
     if Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "number" and Questie.db.char.TrackerFocus == quest.Id then
         table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_UNFOCUS'), func = function() LQuestie_CloseDropDownMenus(); QuestieTracker:UnFocus(); QuestieQuest:UpdateHiddenNotes() end})

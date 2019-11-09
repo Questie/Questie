@@ -239,6 +239,7 @@ QuestieLocale.locale['zhTW'] = {
     ['TRACKER_SHORTCUT'] = " 快捷鍵",
     ['TRACKER_SET_TOMTOM_DESC'] = "在任務追蹤上開啟TomTom的快捷鍵",
     ['TRACKER_SHOW_QUESTLOG_DESC'] = "在任務追蹤上開啟任務日誌的快捷鍵",
+    ['TRACKER_UNTRACK_DESC'] = "Removes a quest from the Tracker.",
     ['TRACKER_ACTIVE_QUESTS'] = "Active Quests: ",
 
     -- tracker right click menu

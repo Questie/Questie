@@ -232,6 +232,7 @@ QuestieLocale.locale['esMX'] = {
     ['TRACKER_SHORTCUT'] = " Atajo",
     ['TRACKER_SET_TOMTOM_DESC'] = "El atajo del rastreador para abrir TomTom",
     ['TRACKER_SHOW_QUESTLOG_DESC'] = "El atajo del rastreador para mostrar la misión en el registro.",
+    ['TRACKER_UNTRACK_DESC'] = "Removes a quest from the Tracker.",
     ['TRACKER_ACTIVE_QUESTS'] = "Misiones Activas: ",
 
     -- tracker right click menu

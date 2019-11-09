@@ -239,6 +239,7 @@ QuestieLocale.locale['koKR'] = {
     ['TRACKER_SHORTCUT'] = " 단축키",
     ['TRACKER_SET_TOMTOM_DESC'] = "추적기에서 TomTom 애드온을 여는 단축키를 설정합니다.",
     ['TRACKER_SHOW_QUESTLOG_DESC'] = "추적기가 퀘스트를 퀘스트 목록에서 여는 단축키를 설정합니다.",
+    ['TRACKER_UNTRACK_DESC'] = "Removes a quest from the Tracker.",
     ['TRACKER_ACTIVE_QUESTS'] = "활성 퀘스트: ",
 
     -- tracker right click menu

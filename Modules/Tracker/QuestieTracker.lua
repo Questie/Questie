@@ -587,6 +587,15 @@ function QuestieTracker:FocusQuest(TargetQuest)
     end
 end
 
+function QuestieTracker:Untrack(quest)
+    if GetCVar("autoQuestWatch") == "0" then
+        Questie.db.char.TrackedQuests[quest.Id] = nil
+    else
+        Questie.db.char.AutoUntrackedQuests[quest.Id] = true
+    end
+    QuestieTracker:Update()
+end
+
 function QuestieTracker:Unhook()
     if not QuestieTracker._alreadyHooked then return; end
     QuestieTracker._disableHooks = true
@@ -657,6 +666,8 @@ _OnClick = function(self, button)
         if spawn then
             QuestieTrackerUtils:SetTomTomTarget(name, zone, spawn[1], spawn[2])
         end
+    elseif QuestieTrackerUtils:IsBindTrue(Questie.db.global.trackerbindUntrack, button) then
+        QuestieTracker:Untrack(self.Quest)
     elseif QuestieTrackerUtils:IsBindTrue(Questie.db.global.trackerbindOpenQuestLog, button) then
         QuestieTrackerUtils:ShowQuestLog(self.Quest)
     elseif button == "RightButton" then
