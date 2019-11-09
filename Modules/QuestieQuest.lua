@@ -1775,12 +1775,13 @@ function QuestieQuest:CalculateAvailableQuests()
 
     for questID, v in pairs(QuestieDB.questData) do
         local quest = QuestieDB:GetQuest(questID)
-        local questShowHiddenAndComplete = quest.Repeatable and showRepeatableQuests
 
         --Check if we've already completed the quest and that it is not "manually" hidden and that the quest is not currently in the questlog.
-        if( ((not Questie.db.char.complete[questID]) or questShowHiddenAndComplete) and -- show completed quests when they are repeatable, and repeatable quests are enabled
-            ((not QuestieCorrections.hiddenQuests[questID]) or questShowHiddenAndComplete) and -- same for  hidden quests. (repeatable quests are  on the blacklist)
-            (not QuestiePlayer.currentQuestlog[questID]) ) then
+        if(
+            (not Questie.db.char.complete[questID]) and -- Don't show completed quests
+            (not QuestiePlayer.currentQuestlog[questID]) and -- Don't show quests if they're already in the quest log
+            (not QuestieCorrections.hiddenQuests[questID]) and -- Don't show blacklisted quests
+            ((not quest.Repeatable) or (quest.Repeatable and showRepeatableQuests))) then -- Show repeatable quests if the quest is repeatable and the option is enabled
 
             if quest and _QuestieQuest:LevelRequirementsFulfilled(quest, playerLevel, minLevel, maxLevel) or _QuestieQuest:IsParentQuestActive(quest.parentQuest) then
                 if _QuestieQuest:IsDoable(quest) then
