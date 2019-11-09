@@ -70,16 +70,13 @@ function QuestieTracker:Initialize()
     if not durabilityInitialPosition then
         durabilityInitialPosition = {DurabilityFrame:GetPoint()}
     end
-    if Questie.db.global.trackerEnabled and DurabilityFrame:IsShown() then
-        QuestieTracker:MoveDurabilityFrame()
-    end
+    QuestieTracker:MoveDurabilityFrame()
 
     -- This is "OnEvent" rather than "OnShow", because the Frame can't be moved
     -- on the latter event
     DurabilityFrame:HookScript("OnEvent", function()
-        if Questie.db.global.trackerEnabled then
-            QuestieTracker:MoveDurabilityFrame()
-        end
+        Questie:Debug(DEBUG_DEVELOP, "OnEvent");
+        QuestieTracker:MoveDurabilityFrame()
     end)
 
     -- this number is static, I doubt it will ever need more
@@ -174,8 +171,11 @@ function QuestieTracker:ResetDurabilityFrame()
 end
 
 function QuestieTracker:MoveDurabilityFrame()
-    DurabilityFrame:ClearAllPoints()
-    DurabilityFrame:SetPoint("RIGHT", _QuestieTracker.baseFrame, "LEFT", 0, 0)
+    if Questie.db.global.trackerEnabled and DurabilityFrame:IsShown() then
+        Questie:Debug(DEBUG_DEVELOP, "QuestieTracker:MoveDurabilityFrame()");
+        DurabilityFrame:ClearAllPoints()
+        DurabilityFrame:SetPoint("RIGHT", _QuestieTracker.baseFrame, "LEFT", 0, 0)
+    end
 end
 
 function _QuestieTracker:SetSafePoint(frm)
