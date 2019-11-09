@@ -68,6 +68,7 @@ function QuestieOptionsDefaults:Load()
             trackerSortObjectives = 'byComplete',
             trackerbindOpenQuestLog = 'left',
             trackerbindSetTomTom = 'ctrlleft',
+            trackerbindUntrack = "shiftleft",
             iconFadeLevel = 0.3,
             trackerLocked = true,
             hideUnexploredMapIcons = false,
