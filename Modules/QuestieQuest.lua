@@ -1599,8 +1599,6 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
     end
 end
 
-function UnitLevel() return 60; end
-
 function QuestieQuest:DrawAllAvailableQuests()--All quests between
     --This should probably be called somewhere else!
     --QuestieFramePool:UnloadAll()
