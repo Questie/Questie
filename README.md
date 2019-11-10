@@ -65,7 +65,7 @@ Trust us it's (Good)!
 
 - Waypoint lines for quest givers showing their pathing.
 
-![Waypoints](https://cdn.discordapp.com/attachments/579999220170227716/636266368777584660/unknown.png)
+![Waypoints](https://media.discordapp.net/attachments/263040777658171392/643203302993035294/unknown.png)
 
 ### Journey Log
 - Questie records the steps of your journey in the "My Journey" window. (right-click on minimap button to open)
