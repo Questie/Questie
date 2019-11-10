@@ -35,7 +35,7 @@ end
 
 function QuestieTrackerUtils:ShowObjectiveOnMap(Objective)
     -- calculate nearest spawn
-    local spawn, zone, name = QuestieTrackerUtils:GetNearestSpawn(Objective)
+    local spawn, zone, name = QuestieMap:GetNearestSpawn(Objective)
     if spawn then
         --print("Found best spawn: " .. name .. " in zone " .. tostring(zone) .. " at " .. tostring(spawn[1]) .. " " .. tostring(spawn[2]))
         WorldMapFrame:Show()
