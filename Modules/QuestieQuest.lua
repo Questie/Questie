@@ -1487,10 +1487,10 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                             data.Id = questObject.Id;
                             if questObject.requiredLevel > QuestiePlayer.GetPlayerLevel() then
                                 data.Icon = ICON_TYPE_AVAILABLE_GRAY
-                            elseif(questObject:IsTrivial()) then
-                                data.Icon = ICON_TYPE_AVAILABLE_GRAY
                             elseif questObject.Repeatable then
                                 data.Icon = ICON_TYPE_REPEATABLE
+                            elseif(questObject:IsTrivial()) then
+                                data.Icon = ICON_TYPE_AVAILABLE_GRAY
                             else
                                 data.Icon = ICON_TYPE_AVAILABLE
                             end
