@@ -9,6 +9,11 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 -- https://github.com/AeroScripts/QuestieDev/wiki/Corrections
 
 function QuestieObjectFixes:Load()
+    table.insert(QuestieDB.objectData, 400000, {}) -- Adding fake IDs to show additional locations (e.g. Fishing for "Nat Pagle, Angler Extreme")
+    table.insert(QuestieDB.objectData, 400001, {})
+    table.insert(QuestieDB.objectData, 400002, {})
+    table.insert(QuestieDB.objectData, 400003, {})
+
     return {
         [167] = {
             [QuestieDB.objectKeys.spawns] = {[10]={{33.42,76.35}}},
@@ -110,6 +115,36 @@ function QuestieObjectFixes:Load()
         [178224] = {
             [QuestieDB.objectKeys.spawns] = {[2557]={{42.71,68.62},},}, -- #1156
             [QuestieDB.objectKeys.zoneID] = 2557,
+        },
+
+        -- Fake IDs
+        [400000] = {
+            [QuestieDB.objectKeys.name] = "Feralas Ahi Fishing Location",
+            [QuestieDB.objectKeys.questStarts] = {},
+            [QuestieDB.objectKeys.questEnds] = {},
+            [QuestieDB.objectKeys.spawns] = {[357]={{62.1,51.4},{62.2,49.9},{62.4,52.4},{62.4,52.5},{62.6,49.3},{62.6,50.2},{62.7,50.6},{62.8,51.5},{62.9,52.5},{63.5,53.6},{63.7,52.4},{64,53.2},},},
+            [QuestieDB.objectKeys.zoneID] = 357
+        },
+        [400001] = {
+            [QuestieDB.objectKeys.name] = "Misty Reed Mahi Mahi Fishing Location",
+            [QuestieDB.objectKeys.questStarts] = {},
+            [QuestieDB.objectKeys.questEnds] = {},
+            [QuestieDB.objectKeys.spawns] = {[8]={{74.4,3.7},{74.5,3.3},{74.5,3.8},{75.1,95.9},{76,95.4},{76.3,4.3},{77.4,4.3},{77.4,95.5},{78.7,5.3},{78.9,95.7},{79.1,94.7},{79.8,94.7},{80.2,94.2},{81.2,93.6},{82.1,94.2},{84.4,91.6},{84.5,92.9},{84.9,92.1},{85.6,89.2},{86.2,88},{86.4,86.4},{86.6,16.8},{86.6,85.6},{87.3,80.7},{87.4,82.1},{87.7,79.7},{87.7,81.9},{88.5,76.6},{89.1,20},{89.8,23},{89.9,74.5},{90.2,22.4},{90.3,73.4},{90.4,71.9},{90.4,73.6},{90.5,73.5},{90.6,73},{90.7,72.1},{91.1,82.2},{91.4,30.1},{91.5,82.1},{91.7,30.4},{91.8,82.9},{93.6,37.2},{93.8,66.5},{94,38.4},{94.2,40.6},{94.2,65.1},{94.3,39.3},{94.3,64.3},{94.8,41.6},{95,43.8},{95.1,45.2},{95.2,45.9},{95.3,56.2},{95.7,47.5},},},
+            [QuestieDB.objectKeys.zoneID] = 8
+        },
+        [400002] = {
+            [QuestieDB.objectKeys.name] = "Sar'theris Striker Fishing Location",
+            [QuestieDB.objectKeys.questStarts] = {},
+            [QuestieDB.objectKeys.questEnds] = {},
+            [QuestieDB.objectKeys.spawns] = {[405]={{22.2,87.6},{22.8,76.8},{24.3,82.5},{24.5,81.9},{24.9,81.3},{25.6,81},{25.8,77.4},{25.8,77.5},{25.9,78.7},{26,80.1},{26.2,75.4},{26.2,76.2},{27.2,42.9},{33,36.8},{35.3,31.7},{36.1,32.8},{36.1,34.8},{38.8,23.2},{40.1,22.1},},},
+            [QuestieDB.objectKeys.zoneID] = 405
+        },
+        [400003] = {
+            [QuestieDB.objectKeys.name] = "Savage Coast Blue Sailfin Fishing Location",
+            [QuestieDB.objectKeys.questStarts] = {},
+            [QuestieDB.objectKeys.questEnds] = {},
+            [QuestieDB.objectKeys.spawns] = {[33]={{13.5,15.7},{19.5,20.9},{22.2,19.8},{24.4,18.8},{24.5,65.7},{24.6,18.9},{25,58.3},{25.3,45.2},{25.4,49.3},{25.5,19.9},{25.7,66.9},{26.2,48.5},{26.3,67.8},{26.9,20.4},{27,39.7},{27.1,40.5},{27.3,68},{27.4,68.9},{27.7,21},{28.7,21.8},{29.2,23.2},{29.4,23.7},{29.4,24.6},{29.4,27.4},{29.4,27.7},{29.5,24.3},{29.5,25.1},{29.5,27.4},{29.5,27.7},{29.6,25.7},{31.9,32.1},{33,31.3},{33,32.1},{33.1,32.5},{34.2,32.4},{34.2,32.5},{34.2,34.7},{34.7,34.5},{34.8,33.7},{34.9,32.4},{35.1,35.6},},},
+            [QuestieDB.objectKeys.zoneID] = 3
         },
     }
 end
