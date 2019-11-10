@@ -1599,6 +1599,8 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
     end
 end
 
+function UnitLevel() return 60; end
+
 function QuestieQuest:DrawAllAvailableQuests()--All quests between
     --This should probably be called somewhere else!
     --QuestieFramePool:UnloadAll()
@@ -1614,20 +1616,13 @@ function QuestieQuest:DrawAllAvailableQuests()--All quests between
             --Draw a specific quest through the function
             _QuestieQuest:DrawAvailableQuest(quest)
         else
-            --We want to change from a gray icon to a nongray.
+            --We might have to update the icon in this situation (config changed/level up)
             for index, frame in ipairs(QuestieMap:GetFramesForQuest(questId)) do
-                --Only run on gray frames.
-                if(frame and frame.data and frame.data.Icon == ICON_TYPE_AVAILABLE_GRAY) then
-                    --Check the min level of the quest against playerLevel
-                    if(frame.data.QuestData.requiredLevel <= playerLevel and not frame.data.QuestData:IsTrivial()) then
-                        if(frame.data.QuestData.Repeatable) then
-                            frame:UpdateTexture(ICON_TYPE_REPEATABLE)
-                        else
-                            frame:UpdateTexture(ICON_TYPE_AVAILABLE)
-                        end
+                if frame and frame.data then
+                    local newIcon = _QuestieQuest:GetQuestIcon(frame.data.QuestData)
+                    if newIcon ~= frame.data.Icon then
+                        frame:UpdateTexture(newIcon)
                     end
-                elseif(frame and frame.data and frame.data.QuestData:IsTrivial() and  frame.data.Icon ~= ICON_TYPE_AVAILABLE_GRAY) then
-                    frame:UpdateTexture(ICON_TYPE_AVAILABLE_GRAY);
                 end
             end
         end
