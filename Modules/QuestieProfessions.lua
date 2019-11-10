@@ -19,12 +19,7 @@ function QuestieProfessions:Update()
             playerProfessions[professionTable[skillName]] = skillRank
         end
     end
-
-    -- This needs to be done to draw new quests that just came available
-    if isProfUpdate then
-        QuestieQuest:CalculateAvailableQuests()
-        QuestieQuest:DrawAllAvailableQuests()
-    end
+    return isProfUpdate
 end
 
 -- This function is just for debugging purpose

@@ -227,7 +227,12 @@ end
 -- Fired when some chat messages about reputations are displayed
 function QuestieEventHandler:CHAT_MSG_COMBAT_FACTION_CHANGE()
     Questie:Debug(DEBUG_DEVELOP, "CHAT_MSG_COMBAT_FACTION_CHANGE")
-    QuestieReputation:Update()
+    local isProfUpdate = QuestieReputation:Update()
+    -- This needs to be done to draw new quests that just came available
+    if isProfUpdate then
+        QuestieQuest:CalculateAvailableQuests()
+        QuestieQuest:DrawAllAvailableQuests()
+    end
 end
 
 local numOfMembers = -1;
