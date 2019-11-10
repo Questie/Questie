@@ -505,6 +505,9 @@ function QuestieQuestFixes:Load()
         [4641] = {
             [QuestieDB.questKeys.requiredRaces] = 178, -- #877
         },
+        [4661] = {
+            [QuestieDB.questKeys.requiredRaces] = 178, -- #1520
+        },
         [4763] = {
             [QuestieDB.questKeys.requiredSourceItems] = {12347,12341,12342,12343,}, -- #798
         },
