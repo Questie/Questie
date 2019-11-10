@@ -513,7 +513,7 @@ function QuestieDB:GetQuestsByZoneId(zoneId)
             if quest.Starts.NPC and zoneQuests[qid] == nil then
                 local npc = QuestieDB:GetNPC(quest.Starts.NPC[1]);
 
-                if npc and npc.spawns then
+                if npc and npc.friendly and npc.spawns then
                     for zone, _ in pairs(npc.spawns) do
                         if zone == zoneId  or (alternativeZoneID and zone == alternativeZoneID) then
                             zoneQuests[qid] = quest;
