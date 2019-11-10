@@ -1485,15 +1485,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                         for _, coords in ipairs(Spawns) do
                             local data = {}
                             data.Id = questObject.Id;
-                            if questObject.requiredLevel > QuestiePlayer.GetPlayerLevel() then
-                                data.Icon = ICON_TYPE_AVAILABLE_GRAY
-                            elseif questObject.Repeatable then
-                                data.Icon = ICON_TYPE_REPEATABLE
-                            elseif(questObject:IsTrivial()) then
-                                data.Icon = ICON_TYPE_AVAILABLE_GRAY
-                            else
-                                data.Icon = ICON_TYPE_AVAILABLE
-                            end
+                            data.Icon = _QuestieQuest:GetQuestIcon(questObject)
                             data.GetIconScale = function() return Questie.db.global.availableScale or 1.3 end
                             data.IconScale = data:GetIconScale()
                             data.Type = "available";
@@ -1528,15 +1520,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                             --Questie:Debug("Coords", coords[1], coords[2])
                             local data = {}
                             data.Id = questObject.Id;
-                            if questObject.requiredLevel > QuestiePlayer.GetPlayerLevel() then
-                                data.Icon = ICON_TYPE_AVAILABLE_GRAY
-                            elseif(questObject:IsTrivial()) then
-                                data.Icon = ICON_TYPE_AVAILABLE_GRAY
-                            elseif questObject.Repeatable then
-                                data.Icon = ICON_TYPE_REPEATABLE
-                            else
-                                data.Icon = ICON_TYPE_AVAILABLE
-                            end
+                            data.Icon = _QuestieQuest:GetQuestIcon(questObject)
                             data.GetIconScale = function() return Questie.db.global.availableScale or 1.3 end
                             data.IconScale = data.GetIconScale();
                             data.Type = "available";
@@ -1650,6 +1634,20 @@ function QuestieQuest:DrawAllAvailableQuests()--All quests between
         count = count + 1
     end
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]", QuestieLocale:GetUIString('DEBUG_DRAW', count, QuestiePlayer:GetPlayerLevel()));
+end
+
+function _QuestieQuest:GetQuestIcon(questObject)
+    local icon = {}
+    if questObject.requiredLevel > QuestiePlayer.GetPlayerLevel() then
+        icon = ICON_TYPE_AVAILABLE_GRAY
+    elseif questObject.Repeatable then
+        icon = ICON_TYPE_REPEATABLE
+    elseif(questObject:IsTrivial()) then
+        icon = ICON_TYPE_AVAILABLE_GRAY
+    else
+        icon = ICON_TYPE_AVAILABLE
+    end
+    return icon
 end
 
 function _QuestieQuest:IsDoable(questObject)
