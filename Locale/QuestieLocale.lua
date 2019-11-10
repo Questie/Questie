@@ -56,10 +56,12 @@ function QuestieLocale:Initialize()
     -- Create {['name'] = {ID, },} table for lookup of possible object IDs by name
     for id, data in pairs(QuestieDB.objectData) do
         local name = data[QuestieDB.objectKeys.name]
-        if (not LangObjectNameLookup[name]) then
-            LangObjectNameLookup[name] = {};
+        if name then -- We (meaning me, BreakBB) introduced Fake IDs for objects to show additional locations, so we need to check this
+            if not LangObjectNameLookup[name] then
+                LangObjectNameLookup[name] = {}
+            end
+            table.insert(LangObjectNameLookup[name], id)
         end
-        table.insert(LangObjectNameLookup[name], id);
     end
     -- Load continent and zone locales
     LangContinentLookup = LangContinentLookup[locale] or LangContinentLookup["enUS"] or {}
