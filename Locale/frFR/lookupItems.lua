@@ -1448,6 +1448,7 @@ LangItemLookup["frFR"] = {
 [20931] = "Peau du Grand ver des sables",
 [20932] = "Manchettes de domination qiraji",
 [20933] = "Carcasse du Dieu très ancien",
+[20951] = "Lunettes de divination de Narain",
 [21024] = "Filet de chimaerok",
 [21027] = "Carcasse de Lakmaeran",
 [21137] = "Fragment de sceptre bleu",
