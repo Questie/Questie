@@ -292,7 +292,7 @@ function QuestieTracker:Update()
         _QuestieTracker.baseFrame:Hide()
         return
     end
-    if Questie.db.char.trackerCounterEnabled then
+    if Questie.db.global.trackerCounterEnabled then
         _QuestieTracker.activeQuestsFrame:Update()
     end
 
