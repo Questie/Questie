@@ -4227,6 +4227,6 @@ LangQuestLookup["ptBR"] = {
 [9416] = {nil, nil, nil},
 [9419] = {"Limpeza do deserto", "Há pouco tempo atrás, ficamos sabendo que a Horda vem varrendo o deserto de Silithus à procura de recursos, mas nunca nos importamos com isso. Achávamos uma perda de tempo estocar tanta coisa nesse lugar sufocante. Entretanto, descobrimos a importância dos recursos e agora estamos brigando para não ficar para trás. Se puder me ajudar, gostaria que fosse ao deserto e trouxesse a silitista de volta para cá.", "Encontre e leve a Silitista até o Extrator de Silitista, então fale com o Marechal Murazul no acampamento da Aliança perto da Colme'Zora."},
 [9422] = {"Limpeza do deserto", "Já faz algum tempo que estamos coletando recursos cristalinos do deserto de Silithus. Até então, os únicos perigos que combatíamos eram as criaturas que vivem por aqui, além da areia, da poeira e do calor... Mas agora parece que a Aliança descobriu o que estamos fazendo. Estamos em uma corrida contra eles, coletando os recursos naturais e impedindo-os de fazer o mesmo. Preciso de toda ajuda disponível. Espero poder contar com você.", "Encontre e leve a Silitista até o Extrator de Silitista, então fale com a General Kyríala, no acampamento da Horda perto da Colme'Régia."},
-[9664] = {nil, nil, nil},
+[9664] = {"Establishing New Outposts", nil, nil},
 [9665] = {nil, nil, nil},
 }
