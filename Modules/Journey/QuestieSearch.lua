@@ -130,7 +130,7 @@ function QuestieSearch:Search(query, searchType, queryType)
             dbEntry = entryOrBoolean;
         end
         -- This condition does the actual comparison for the search
-        if  (dbEntry ~= nil)
+        if dbEntry and NAME_KEY and dbEntry[NAME_KEY]
             and
             (
                 ( -- text search
