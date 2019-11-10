@@ -182,6 +182,9 @@ function QuestieQuestFixes:Load()
         [930] = {
             [QuestieDB.questKeys.preQuestSingle] = {918,919}, -- #971
         },
+        [944] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Enter the Master's Glaive",{[148]={{38.48,86.45},},},},
+        },
         [961] = {
             [QuestieDB.questKeys.preQuestSingle] = {944}, -- #1517
             [QuestieDB.questKeys.exclusiveTo] = {950}, -- #1517
