@@ -14,6 +14,10 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
+---@type QuestieProfessions
+local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions");
+---@type QuestieReputation
+local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation");
 
 QuestieJourney.continents = {}
 QuestieJourney.zones = {}
@@ -1002,6 +1006,14 @@ function CollectZoneQuests(zoneId)
                             unobtainableCounter = unobtainableCounter + 1
                         end
                     end
+                -- Unoptainable profession quests
+                elseif not QuestieProfessions:HasProfessionAndSkill(quest.requiredSkill) then
+                    table.insert(zoneTree[4].children, temp)
+                    unobtainableCounter = unobtainableCounter + 1
+                -- Unoptainable reputation quests
+                elseif not QuestieProfessions:HasReputation(quest.requiredMinRep, quest.requiredMaxRep) then
+                    table.insert(zoneTree[4].children, temp)
+                    unobtainableCounter = unobtainableCounter + 1
                 -- Repeatable quests
                 elseif quest.Repeatable then
                     table.insert(zoneTree[3].children, temp)
