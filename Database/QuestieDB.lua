@@ -112,23 +112,27 @@ function QuestieDB:GetObject(ObjectID)
     end
 end
 
-function QuestieDB:GetItem(ItemID)
-    if ItemID == nil then
+function QuestieDB:GetItem(itemID)
+    if itemID == nil then
         return nil
     end
-    if QuestieDB._ItemCache[ItemID] ~= nil then
-        return QuestieDB._ItemCache[ItemID];
+    if QuestieDB._ItemCache[itemID] ~= nil then
+        return QuestieDB._ItemCache[itemID];
     end
-    local rawdata = QuestieDB.itemData[ItemID]; -- TODO: use the good item db, I need to talk to Muehe about the format, this is a temporary fix
+    local rawdata = QuestieDB.itemData[itemID]; -- TODO: use the good item db, I need to talk to Muehe about the format, this is a temporary fix
+    if not rawdata then
+        Questie:Debug(DEBUG_CRITICAL, "[QuestieDB:GetItem] rawdata is nil for itemID:", itemID)
+        return nil
+    end
     local item = {};
 
     for stringKey, intKey in pairs(QuestieDB.itemKeys) do
         item[stringKey] = rawdata[intKey]
     end
     if rawdata ~= nil then
-        item.Id = ItemID;
+        item.Id = itemID;
         item.Sources = {};
-        item.Hidden = QuestieCorrections.questItemBlacklist[ItemID]
+        item.Hidden = QuestieCorrections.questItemBlacklist[itemID]
         for k,v in pairs(rawdata[3]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
             local source = {};
             source.Type = "monster";
@@ -142,7 +146,7 @@ function QuestieDB:GetItem(ItemID)
             table.insert(item.Sources, source);
         end
     end
-    QuestieDB._ItemCache[ItemID] = item;
+    QuestieDB._ItemCache[itemID] = item;
     return item
 end
 

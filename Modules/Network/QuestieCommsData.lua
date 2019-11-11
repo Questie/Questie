@@ -93,6 +93,9 @@ function QuestieComms.data:RegisterTooltip(questId, playerName, objectives)
         --Questie:Debug(DEBUG_DEVELOP, "Adding tooltip lookup", lookupKey, questId, playerName);
         if(objective.type == "i") then
           local item = QuestieDB:GetItem(objective.id);
+          if not item then
+            return
+          end
           for index, source in pairs(item.Sources or {}) do
             local sourceType = string.sub(source.Type, 1, 1);
             local sourceId = source.Id;
