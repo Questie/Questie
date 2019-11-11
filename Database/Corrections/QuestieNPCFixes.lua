@@ -230,7 +230,7 @@ function QuestieNPCFixes:Load()
             [QuestieDB.npcKeys.zoneID] = 1377,
         },
         [14500] = {
-            [QuestieDB.npcKeys.spawns] = {[2057]= {-1, -1}}, -- #1506
+            [QuestieDB.npcKeys.spawns] = {[2057]= {{-1, -1},},}, -- #1506
             [QuestieDB.npcKeys.zoneID] = 2057, -- #1506
         },
         [14603] = {
