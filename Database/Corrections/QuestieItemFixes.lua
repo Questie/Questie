@@ -595,6 +595,12 @@ function QuestieItemFixes:Load()
         [6175] = {
             [QuestieDB.itemKeys.objectDrops] = {30854,30855,30856},
         },
+        [11040] = {
+            [QuestieDB.itemKeys.name] = "Morrowgrain",
+            [QuestieDB.itemKeys.relatedQuests] = {3785,3786,3803,3792,3804,3791},
+            [QuestieDB.itemKeys.npcDrops] = {},
+            [QuestieDB.itemKeys.objectDrops] = {},
+        },
         [16967] = {
             [QuestieDB.itemKeys.name] = "Feralas Ahi",
             [QuestieDB.itemKeys.relatedQuests] = {6607},
@@ -768,6 +774,7 @@ end
 _AddMissingItemIDs = function()
     local missingItemIDs = {
         5475,
+        11040,
         15843,
         15845,
         17124,
