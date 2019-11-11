@@ -169,11 +169,19 @@ function QuestieLib:GetColoredQuestName(id, name, level, showLevel, isComplete, 
             if(not blizzLike) then
                 char = string.sub(questTag, 1, 1);
             end
+
+            local langCode = QuestieLocale:GetUILocale() -- the string.sub above doesn't work for multi byte characters in Chinese
             if questType == 1 then
                 name = "[" .. level .. "+" .. "] " .. name -- Elite quest
             elseif questType == 81 then
+                if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" then
+                    char = "D"
+                end
                 name = "[" .. level .. char .. "] " .. name -- Dungeon quest
             elseif questType == 62 then
+                if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" then
+                    char = "R"
+                end
                 name = "[" .. level .. char .. "] " .. name -- Raid quest
             elseif questType == 41 then
                 name = "[" .. level .. "] " .. name -- Which one? This is just default.
