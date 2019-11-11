@@ -20,23 +20,37 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 --]]
 
 function QuestieCorrections:Initialize()
-    QuestieCorrections.itemFixes = QuestieItemFixes:Load()
-    QuestieItemFixes:LoadFactionFixes()
+    for id, data in pairs(QuestieItemFixes:Load()) do
+        for key, value in pairs(data) do
+            QuestieDB.itemData[id][key] = value
+        end
+    end
+
+    for id, data in pairs(QuestieItemFixes:LoadFactionFixes()) do
+        for key, value in pairs(data) do
+            QuestieDB.itemData[id][key] = value
+        end
+    end
     QuestieCorrections.questItemBlacklist = QuestieItemBlacklist:Load()
+
     for id, data in pairs(QuestieNPCFixes:Load()) do
         for key, value in pairs(data) do
             QuestieDB.npcData[id][key] = value
         end
     end
+
     QuestieCorrections.objectFixes = QuestieObjectFixes:Load()
     QuestieObjectFixes:LoadFactionFixes()
+
     for id, data in pairs(QuestieQuestFixes:Load()) do
         for key, value in pairs(data) do
             QuestieDB.questData[id][key] = value
         end
     end
+
     QuestieCorrections.hiddenQuests = QuestieQuestBlacklist:Load()
-    if(QuestieEvent) then
-        QuestieEvent:Load();
+
+    if QuestieEvent then
+        QuestieEvent:Load()
     end
 end

@@ -823,9 +823,9 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
     end
 
     if (not Objective.registeredItemTooltips) and Objective.Type == "item" and (not BlockItemTooltips) and Objective.Id then -- register item tooltip (special case)
-        local itm = QuestieDB:GetItem(Objective.Id);
-        if itm and itm.Name then
-            QuestieTooltips:RegisterTooltip(Quest.Id, "i_" .. itm.Id, Objective);
+        local item = QuestieDB:GetItem(Objective.Id);
+        if item and item.name then
+            QuestieTooltips:RegisterTooltip(Quest.Id, "i_" .. item.Id, Objective);
         end
         Objective.registeredItemTooltips = true
     end
@@ -1148,8 +1148,8 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                             --testVar = CHANGEME_Questie4_ItemDB[objectiveDB.Id]
                             --DEFAULT_CHAT_FRAME:AddMessage(CHANGEME_Questie4_ItemDB[objectiveDB.Id][1][])
                             local item = QuestieDB:GetItem(objectiveDB.Id);
-                            if(item and item.Name) then
-                                oName = slower(item.Name);-- this is capital letters for some reason...
+                            if(item and item.name) then
+                                oName = slower(item.name);-- this is capital letters for some reason...
                             else
                                 local itemName = GetItemInfo(objectiveDB.Id)
                                 if(itemName) then
@@ -1237,9 +1237,9 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                             objective.Description = npc.name
                         end
                     elseif objective.Type == "item" then
-                        local itm = QuestieDB:GetItem(objective.Id);
-                        if itm and itm.Name then
-                            objective.Description = itm.Name
+                        local item = QuestieDB:GetItem(objective.Id);
+                        if item and item.name then
+                            objective.Description = item.name
                         end
                     elseif objective.Type == "event" then
                         objective.Description = "Event Trigger"

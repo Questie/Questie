@@ -51,8 +51,8 @@ function QuestieComms.data:GetTooltip(tooltipKey)
                     oName = QuestieDB:GetObject(objective.id).name;
                 elseif((objective.type == "item" or objective.type == "i") and objective.id) then
                     local item = QuestieDB:GetItem(objective.id);
-                    if(item and item.Name) then
-                        oName = item.Name;-- this is capital letters for some reason...
+                    if(item and item.name) then
+                        oName = item.name;-- this is capital letters for some reason...
                     else
                         local itemName = GetItemInfo(objective.id)
                         if(itemName) then

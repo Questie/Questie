@@ -2664,7 +2664,6 @@
         "LibStub",
         "-----------------------------------------------------> Project Specific",
         "QuestieLoader",
-        "CHANGEME_Questie4_ItemDB",
         "instanceData",
         "LQuestie_CloseDropDownMenus",
         "ZoneDataAreaIDToUiMapID",

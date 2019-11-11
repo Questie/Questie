@@ -63,14 +63,6 @@ QuestieDB._NPCCache = {};
 QuestieDB._ObjectCache = {};
 QuestieDB._ZoneCache = {};
 
-QuestieDB.tempItemKeys = {
-    ['name'] = 1, -- string
-    ['related_quests'] = 2, -- table {questID(int),,...}
-    ['npc_drops'] = 3, -- table {npcID(int),...}
-    ['object_drops'] = 4, -- table {objectID(int),...}
-}
-
-
 function QuestieDB:Initialize()
     QuestieDBZone:ZoneCreateConversion()
     QuestieDB:HideClassAndRaceQuests()
@@ -127,26 +119,23 @@ function QuestieDB:GetItem(ItemID)
     if QuestieDB._ItemCache[ItemID] ~= nil then
         return QuestieDB._ItemCache[ItemID];
     end
-    -- TODO make itemFixes be accessable by field as well
-    -- if QuestieCorrections.itemFixes[ItemID] then
-    --     for k,v in pairs(QuestieCorrections.itemFixes[ItemID]) do
-    --         CHANGEME_Questie4_ItemDB[ItemID][k] = v
-    --     end
-    -- end
-    local raw = CHANGEME_Questie4_ItemDB[ItemID]; -- TODO: use the good item db, I need to talk to Muehe about the format, this is a temporary fix
+    local rawdata = QuestieDB.itemData[ItemID]; -- TODO: use the good item db, I need to talk to Muehe about the format, this is a temporary fix
     local item = {};
-    if raw ~= nil then
+
+    for stringKey, intKey in pairs(QuestieDB.itemKeys) do
+        item[stringKey] = rawdata[intKey]
+    end
+    if rawdata ~= nil then
         item.Id = ItemID;
-        item.Name = raw[QuestieDB.tempItemKeys.name];
         item.Sources = {};
         item.Hidden = QuestieCorrections.questItemBlacklist[ItemID]
-        for k,v in pairs(raw[3]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
+        for k,v in pairs(rawdata[3]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
             local source = {};
             source.Type = "monster";
             source.Id = v;
             table.insert(item.Sources, source);
         end
-        for k,v in pairs(raw[4]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
+        for k,v in pairs(rawdata[4]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
             local source = {};
             source.Type = "object";
             source.Id = v;
@@ -316,9 +305,9 @@ function QuestieDB:GetQuest(questID) -- /dump QuestieDB:GetQuest(867)
                 obj.Type = "item"
                 obj.Id = Id
 
-                obj.Name = CHANGEME_Questie4_ItemDB[obj.Id]
+                obj.Name = QuestieDB.itemData[obj.Id]
                 if obj.Name ~= nil then
-                    local name = obj.Name[QuestieDB.tempItemKeys.name]
+                    local name = obj.Name[QuestieDB.itemKeys.name]
                     obj.Name = string.lower(name);
                 end
 

@@ -26,7 +26,6 @@ Database\questDB.lua
 Database\objectDB.lua
 Database\spawnDB.lua
 Database\zoneDB.lua
-Database\TEMP_questie4items.lua
 Database\specialspawns.lua
 Database\itemDB.lua
 

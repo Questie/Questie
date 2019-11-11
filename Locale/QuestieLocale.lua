@@ -20,9 +20,6 @@ local locale = 'enUS';
 function QuestieLocale:Initialize()
     -- Load item locales
     for id, name in pairs(LangItemLookup[locale] or {}) do
-        if CHANGEME_Questie4_ItemDB[id] and name then
-            CHANGEME_Questie4_ItemDB[id][QuestieDB.tempItemKeys.name] = name
-        end
         if QuestieDB.itemData[id] and name then
             QuestieDB.itemData[id][QuestieDB.itemKeys.name] = name
         end
