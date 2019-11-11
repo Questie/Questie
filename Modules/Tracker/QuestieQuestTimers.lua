@@ -1,7 +1,7 @@
 ---@class QuestieQuestTimers
 local QuestieQuestTimers = QuestieLoader:CreateModule("QuestieQuestTimers")
 
-local _QuestieQuestTimers = {}
+local _QuestieQuestTimers = QuestieQuestTimers.private
 _QuestieQuestTimers.timers = {}
 QuestieQuestTimers.defaultBlizzPoint = {}
 

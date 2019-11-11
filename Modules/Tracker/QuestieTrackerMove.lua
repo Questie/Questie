@@ -1,7 +1,6 @@
----@class QuestieTrackerMove
-local QuestieTrackerMove = QuestieLoader:CreateModule("QuestieTrackerMove")
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+local _QuestieTracker = QuestieTracker.private
 
 local startDragAnchor = {}
 local startDragPos = {}
@@ -9,7 +8,7 @@ local endDragPos = {}
 
 local mouselookTicker = {}
 
-function QuestieTrackerMove:OnDragStart(self, button)
+function _QuestieTracker:OnDragStart(self, button)
     local baseFrame = QuestieTracker:GetBaseFrame()
 
     if IsControlKeyDown() or not Questie.db.global.trackerLocked then
@@ -31,7 +30,7 @@ function QuestieTrackerMove:OnDragStart(self, button)
     end
 end
 
-function QuestieTrackerMove:OnDragStop()
+function _QuestieTracker:OnDragStop()
     if not startDragPos or not startDragPos[4] or not startDragPos[5] or not endDragPos or not startDragAnchor then
         return
     end
@@ -56,7 +55,7 @@ function QuestieTrackerMove:OnDragStop()
     -- QuestieTracker:SetBaseFrame(baseFrame)
 end
 
-function QuestieTrackerMove:RepositionFrames(trackerLineCount, lineFrames) -- this is only for SetCounterEnabled, nothing else should be using this function
+function _QuestieTracker:RepositionFrames(trackerLineCount, lineFrames) -- this is only for SetCounterEnabled, nothing else should be using this function
     local lastFrame = nil
     local baseFrame = QuestieTracker:GetBaseFrame()
 

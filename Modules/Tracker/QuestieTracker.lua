@@ -17,12 +17,10 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 local QuestieQuestTimers = QuestieLoader:ImportModule("QuestieQuestTimers")
 ---@type QuestieTrackerMenu
 local QuestieTrackerMenu = QuestieLoader:ImportModule("QuestieTrackerMenu")
----@type QuestieTrackerMove
-local QuestieTrackerMove = QuestieLoader:ImportModule("QuestieTrackerMove")
 ---@type QuestieTrackerUtils
 local QuestieTrackerUtils = QuestieLoader:ImportModule("QuestieTrackerUtils")
 
-local _QuestieTracker = {}
+local _QuestieTracker = QuestieTracker.private
 _QuestieTracker.LineFrames = {}
 
 -- these should be configurable maybe
@@ -127,9 +125,9 @@ function QuestieTracker:Initialize()
         frm:RegisterForClicks("RightButtonUp", "LeftButtonUp")
 
         -- hack for click-through
-        frm:SetScript("OnDragStart", QuestieTrackerMove.OnDragStart)
+        frm:SetScript("OnDragStart", _QuestieTracker.OnDragStart)
         frm:SetScript("OnClick", _OnClick)
-        frm:SetScript("OnDragStop", QuestieTrackerMove.OnDragStop)
+        frm:SetScript("OnDragStop", _QuestieTracker.OnDragStop)
         frm:SetScript("OnEnter", _OnEnter)
         frm:SetScript("OnLeave", _OnLeave)
 
@@ -228,8 +226,8 @@ function QuestieTracker:CreateBaseFrame()
     frm:EnableMouse(true)
     frm:RegisterForDrag("LeftButton", "RightButton")
 
-    frm:SetScript("OnDragStart", QuestieTrackerMove.OnDragStart)
-    frm:SetScript("OnDragStop", QuestieTrackerMove.OnDragStop)
+    frm:SetScript("OnDragStart", _QuestieTracker.OnDragStart)
+    frm:SetScript("OnDragStop", _QuestieTracker.OnDragStop)
     frm:SetScript("OnEnter", _OnEnter)
     frm:SetScript("OnLeave", _OnLeave)
 
@@ -259,9 +257,9 @@ function _QuestieTracker:CreateActiveQuestsFrame()
     frm:SetWidth(1)
 
     -- hack for click-through
-    frm:SetScript("OnDragStart", QuestieTrackerMove.OnDragStart)
+    frm:SetScript("OnDragStart", _QuestieTracker.OnDragStart)
     frm:SetScript("OnClick", _OnClick)
-    frm:SetScript("OnDragStop", QuestieTrackerMove.OnDragStop)
+    frm:SetScript("OnDragStop", _QuestieTracker.OnDragStop)
     frm:SetScript("OnEnter", _OnEnter)
     frm:SetScript("OnLeave", _OnLeave)
 
@@ -708,7 +706,7 @@ function QuestieTracker:SetCounterEnabled(enabled)
     else
         _QuestieTracker.activeQuestsFrame:Hide()
     end
-    QuestieTrackerMove:RepositionFrames(trackerLineCount, _QuestieTracker.LineFrames)
+    _QuestieTracker:RepositionFrames(trackerLineCount, _QuestieTracker.LineFrames)
 end
 
 local hexTable = {

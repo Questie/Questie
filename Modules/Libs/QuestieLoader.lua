@@ -16,7 +16,9 @@ local modules = {}
 
 ---@return Module @Module reference
 function QuestieLoader:CreateBlankModule()
-  return {} -- todo: copy class template
+    local ret = {} -- todo: copy class template
+    ret.private = {} -- todo: copy class template
+    return ret
 end
 
 ---@param name string @Module name
@@ -25,7 +27,7 @@ function QuestieLoader:CreateModule(name)
   if (not modules[name]) then
     modules[name] = QuestieLoader:CreateBlankModule()
     return modules[name]
-  elseif(modules[name]) then
+  else
     return modules[name]
   end
 end
