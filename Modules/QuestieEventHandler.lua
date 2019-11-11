@@ -221,18 +221,18 @@ end
 -- Fired when some chat messages about skills are displayed
 function QuestieEventHandler:CHAT_MSG_SKILL()
     Questie:Debug(DEBUG_DEVELOP, "CHAT_MSG_SKILL")
-    QuestieProfessions:Update()
-end
-
--- Fired when some chat messages about reputations are displayed
-function QuestieEventHandler:CHAT_MSG_COMBAT_FACTION_CHANGE()
-    Questie:Debug(DEBUG_DEVELOP, "CHAT_MSG_COMBAT_FACTION_CHANGE")
-    local isProfUpdate = QuestieReputation:Update()
+    local isProfUpdate = QuestieProfessions:Update()
     -- This needs to be done to draw new quests that just came available
     if isProfUpdate then
         QuestieQuest:CalculateAvailableQuests()
         QuestieQuest:DrawAllAvailableQuests()
     end
+end
+
+-- Fired when some chat messages about reputations are displayed
+function QuestieEventHandler:CHAT_MSG_COMBAT_FACTION_CHANGE()
+    Questie:Debug(DEBUG_DEVELOP, "CHAT_MSG_COMBAT_FACTION_CHANGE")
+    QuestieReputation:Update()
 end
 
 local numOfMembers = -1;
