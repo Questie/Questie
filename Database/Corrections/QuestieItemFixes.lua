@@ -574,6 +574,9 @@ function QuestieItemFixes:Load()
         [4371] = {
             [QuestieDB.itemKeys.npcDrops] = {3495,5519,5175,}, -- #1476
         },
+        [4589] = {
+            [QuestieDB.itemKeys.npcDrops] = {2347,2657,2658,2659},
+        },
         [4639] = {
             [QuestieDB.itemKeys.name] = "Enchanted Sea Kelp",
             [QuestieDB.itemKeys.relatedQuests] = {736},
