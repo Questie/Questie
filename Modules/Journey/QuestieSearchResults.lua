@@ -355,8 +355,13 @@ function QuestieSearchResults:DrawResultTab(container, resultType)
             if Questie.db.char.complete[k] and resultType == "quest" then
                 complete = green .. '(' .. _G['COMPLETE'] .. ')|r '
             end
+            -- TODO rename option to "enabledIDs" or create separate ones for npcs/objects/items
+            local id = ''
+            if Questie.db.global.enableTooltipsQuestID then
+                id = ' (' .. k .. ')'
+            end
             table.insert(results, {
-                ["text"] = complete .. database[k][key],
+                ["text"] = complete .. database[k][key] .. id,
                 ["value"] = tonumber(k)
             })
         end
