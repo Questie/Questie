@@ -108,7 +108,7 @@ function QuestieSearchResults:QuestDetailsFrame(details, id)
     title:SetFullWidth(true);
     title:SetText(quest[QuestieDB.questKeys.name])
     details:AddChild(title)
-    -- hidden states
+    -- hidden by user
     local hiddenByUser = AceGUI:Create("CheckBox")
     hiddenByUser.id = id
     hiddenByUser:SetLabel("Hidden by user")
@@ -141,11 +141,15 @@ function QuestieSearchResults:QuestDetailsFrame(details, id)
             GameTooltip:Hide();
         end
     end)
+    -- reduce offset to next checkbox
+    hiddenByUser:SetHeight(16)
     details:AddChild(hiddenByUser)
+    -- hidden by Questie
     local hiddenQuests = AceGUI:Create("CheckBox")
-    hiddenQuests:SetValue(QuestieCorrections.hiddenQuests[id] ~= nil)
+    hiddenQuests:SetValue(QuestieCorrections.hiddenQuests[id])
     hiddenQuests:SetLabel("Hidden by Questie")
     hiddenQuests:SetDisabled(true)
+    -- do not reduce offset, as checbox is followed by text
     details:AddChild(hiddenQuests)
     -- general info
     QuestieJourneyUtils:AddLine(details, yellow .. "Quest ID:|r " .. id)
@@ -158,7 +162,7 @@ function QuestieSearchResults:QuestDetailsFrame(details, id)
     -- objectives text
     if quest[QuestieDB.questKeys.objectivesText] then
         QuestieJourneyUtils:AddLine(details, "")
-        QuestieJourneyUtils:AddLine(details,  yellow .. "Quest Objectives:|r")
+        QuestieJourneyUtils:AddLine(details,  yellow .. "Objectives:|r")
         for k,v in pairs(quest[QuestieDB.questKeys.objectivesText]) do
             QuestieJourneyUtils:AddLine(details, v)
         end
