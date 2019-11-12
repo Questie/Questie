@@ -601,6 +601,12 @@ function QuestieItemFixes:Load()
             [QuestieDB.itemKeys.npcDrops] = {},
             [QuestieDB.itemKeys.objectDrops] = {},
         },
+        [12236] = {
+            [QuestieDB.itemKeys.name] = "Pure Un'Goro Sample",
+            [QuestieDB.itemKeys.relatedQuests] = {4294},
+            [QuestieDB.itemKeys.npcDrops] = {},
+            [QuestieDB.itemKeys.objectDrops] = {},
+        },
         [16967] = {
             [QuestieDB.itemKeys.name] = "Feralas Ahi",
             [QuestieDB.itemKeys.relatedQuests] = {6607},
