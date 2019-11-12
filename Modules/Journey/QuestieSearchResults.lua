@@ -20,6 +20,7 @@ local AceGUI = LibStub("AceGUI-3.0");
 
 local lastOpenSearch = "quest";
 local yellow = "|cFFFFFF00"
+local green = "|cFF40C040"
 local BY_NAME = 1
 local BY_ID = 2
 
@@ -103,11 +104,22 @@ end--]]
 
 function QuestieSearchResults:QuestDetailsFrame(details, id)
     local quest = QuestieDB.questData[id]
+
     -- header
     local title = AceGUI:Create("Heading")
     title:SetFullWidth(true);
     title:SetText(quest[QuestieDB.questKeys.name])
     details:AddChild(title)
+
+    -- is quest finished by player
+    local finished = AceGUI:Create("CheckBox")
+    finished:SetValue(Questie.db.char.complete[id])
+    finished:SetLabel(_G['COMPLETE'])
+    finished:SetDisabled(true)
+    -- reduce offset to next checkbox
+    finished:SetHeight(16)
+    details:AddChild(finished)
+
     -- hidden by user
     local hiddenByUser = AceGUI:Create("CheckBox")
     hiddenByUser.id = id
@@ -144,13 +156,15 @@ function QuestieSearchResults:QuestDetailsFrame(details, id)
     -- reduce offset to next checkbox
     hiddenByUser:SetHeight(16)
     details:AddChild(hiddenByUser)
+
     -- hidden by Questie
     local hiddenQuests = AceGUI:Create("CheckBox")
     hiddenQuests:SetValue(QuestieCorrections.hiddenQuests[id])
     hiddenQuests:SetLabel("Hidden by Questie")
     hiddenQuests:SetDisabled(true)
-    -- do not reduce offset, as checbox is followed by text
+    -- do not reduce offset, as checkbox is followed by text
     details:AddChild(hiddenQuests)
+
     -- general info
     QuestieJourneyUtils:AddLine(details, yellow .. "Quest ID:|r " .. id)
     QuestieJourneyUtils:AddLine(details,  yellow .. "Quest Level:|r " .. quest[QuestieDB.questKeys.questLevel])
@@ -159,6 +173,7 @@ function QuestieSearchResults:QuestDetailsFrame(details, id)
     if (reqRaces ~= "None") then
         QuestieJourneyUtils:AddLine(details, yellow .. "Required Races:|r " .. reqRaces)
     end
+
     -- objectives text
     if quest[QuestieDB.questKeys.objectivesText] then
         QuestieJourneyUtils:AddLine(details, "")
@@ -167,6 +182,7 @@ function QuestieSearchResults:QuestDetailsFrame(details, id)
             QuestieJourneyUtils:AddLine(details, v)
         end
     end
+
     -- quest starters
     QuestieJourneyUtils:AddLine(details, "")
     AddParagraph(details, quest, QuestieDB.questKeys.startedBy, QuestieDB.questKeys.creatureStart, "Creatures starting this quest:", QuestieDB.npcData, QuestieDB.npcKeys.name)
@@ -335,8 +351,12 @@ function QuestieSearchResults:DrawResultTab(container, resultType)
     end
     for k,_ in pairs(QuestieSearch.LastResult[resultType]) do
         if database[k] ~= nil and database[k][key] ~= nil then
+            local complete = ''
+            if Questie.db.char.complete[k] and resultType == "quest" then
+                complete = green .. '(' .. _G['COMPLETE'] .. ')|r '
+            end
             table.insert(results, {
-                ["text"] = database[k][key],
+                ["text"] = complete .. database[k][key],
                 ["value"] = tonumber(k)
             })
         end
