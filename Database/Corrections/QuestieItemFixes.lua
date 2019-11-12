@@ -548,7 +548,7 @@ function QuestieItemFixes:Load()
         [9597] = { -- #1461
             [QuestieDB.itemKeys.name] = "Mountain Giant Muisek",
             [QuestieDB.itemKeys.relatedQuests] = {3127},
-            [QuestieDB.itemKeys.npcDrops] = {5357,5358,5359,5360,5361,14603,14604,14638,14639,14640},
+            [QuestieDB.itemKeys.npcDrops] = {5357,5358,14604,14640},
             [QuestieDB.itemKeys.objectDrops] = {},
         },
         [7867] = { -- #1469
