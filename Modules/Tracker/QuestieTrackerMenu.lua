@@ -1,17 +1,15 @@
----@class QuestieTrackerMenu
-local QuestieTrackerMenu = QuestieLoader:CreateModule("QuestieTrackerMenu")
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:CreateModule("QuestieTracker")
+QuestieTracker.menu = {}
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
----@type QuestieTrackerUtils
-local QuestieTrackerUtils = QuestieLoader:ImportModule("QuestieTrackerUtils")
+
 
 local tinsert = table.insert
 
-function QuestieTrackerMenu:GetMenuForQuest(quest)
+function QuestieTracker.menu:GetMenuForQuest(quest)
     local menu = {}
     local subMenu = {}
 
@@ -26,7 +24,7 @@ function QuestieTrackerMenu:GetMenuForQuest(quest)
             LQuestie_CloseDropDownMenus()
             local spawn, zone, name = QuestieMap:GetNearestSpawn(objective)
             if spawn then
-                QuestieTrackerUtils:SetTomTomTarget(name, zone, spawn[1], spawn[2])
+                QuestieTracker.utils:SetTomTomTarget(name, zone, spawn[1], spawn[2])
             end
         end})
         if objective.HideIcons then
@@ -62,7 +60,7 @@ function QuestieTrackerMenu:GetMenuForQuest(quest)
                 needHiddenUpdate = true
             end
             if needHiddenUpdate then QuestieQuest:UpdateHiddenNotes(); end
-            QuestieTrackerUtils:ShowObjectiveOnMap(objective)
+            QuestieTracker.utils:ShowObjectiveOnMap(objective)
         end})
 
         tinsert(subMenu, {text = objective.Description, hasArrow = true, menuList = objectiveMenu})
@@ -81,7 +79,7 @@ function QuestieTrackerMenu:GetMenuForQuest(quest)
                 LQuestie_CloseDropDownMenus()
                 local spawn, zone, name = QuestieMap:GetNearestSpawn(Objective)
                 if spawn then
-                    QuestieTrackerUtils:SetTomTomTarget(name, zone, spawn[1], spawn[2])
+                    QuestieTracker.utils:SetTomTomTarget(name, zone, spawn[1], spawn[2])
                 end
             end})
             if Objective.HideIcons then
@@ -117,7 +115,7 @@ function QuestieTrackerMenu:GetMenuForQuest(quest)
                     needHiddenUpdate = true
                 end
                 if needHiddenUpdate then QuestieQuest:UpdateHiddenNotes(); end
-                QuestieTrackerUtils:ShowObjectiveOnMap(Objective)
+                QuestieTracker.utils:ShowObjectiveOnMap(Objective)
             end})
 
             tinsert(subMenu, {text = Objective.Description, hasArrow = true, menuList = objectiveMenu})
@@ -145,18 +143,18 @@ function QuestieTrackerMenu:GetMenuForQuest(quest)
         LQuestie_CloseDropDownMenus()
         local spawn, zone, name = QuestieMap:GetNearestQuestSpawn(quest)
         if spawn then
-            QuestieTrackerUtils:SetTomTomTarget(name, zone, spawn[1], spawn[2])
+            QuestieTracker.utils:SetTomTomTarget(name, zone, spawn[1], spawn[2])
         end
     end})
     if QuestieQuest:IsComplete(quest) then
         tinsert(menu, {text = QuestieLocale:GetUIString('TRACKER_SHOW_ON_MAP'), func = function()
             LQuestie_CloseDropDownMenus()
-            QuestieTrackerUtils:ShowFinisherOnMap(quest)
+            QuestieTracker.utils:ShowFinisherOnMap(quest)
         end})
     end
     tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_SHOW_QUESTLOG'), func = function()
         LQuestie_CloseDropDownMenus()
-        QuestieTrackerUtils:ShowQuestLog(quest)
+        QuestieTracker.utils:ShowQuestLog(quest)
     end})
     tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_UNTRACK'), func = function()
         LQuestie_CloseDropDownMenus();

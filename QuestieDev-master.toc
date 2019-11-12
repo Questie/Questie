@@ -86,7 +86,7 @@ Modules\Journey\QuestieSearchResults.lua
 Modules\Tracker\QuestieTracker.lua
 Modules\Tracker\QuestieTrackerUtils.lua
 Modules\Tracker\QuestieTrackerMenu.lua
-Modules\Tracker\QuestieTrackerMove.lua
+Modules\Tracker\QuestieTrackerPrivates.lua
 Modules\Tracker\QuestieQuestTimers.lua
 
 Modules\QuestieProfessions.lua
