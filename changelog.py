@@ -4,7 +4,7 @@ import subprocess
 
 def getCommitChangelog():
     # get latest tag
-    lastTag = subprocess.run(["git", "describe", "--abbrev=0"], capture_output=True).stdout.decode().strip('\n')
+    lastTag = subprocess.run(["git", "describe", "--abbrev=0", "--tags"], capture_output=True).stdout.decode().strip('\n')
     # get array of the first line of the commit messages since last tag
     rawLog = subprocess.run(["git", "log", "--pretty=format:%s", f"{lastTag}..HEAD"], capture_output=True).stdout.decode().split('\n')
     # reverse it so it's chronological
