@@ -781,6 +781,7 @@ _AddMissingItemIDs = function()
     local missingItemIDs = {
         5475,
         11040,
+        12236,
         15843,
         15845,
         17124,
