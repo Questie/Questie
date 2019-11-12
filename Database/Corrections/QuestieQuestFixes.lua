@@ -623,6 +623,9 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.specialFlags] = 0,
         },
         -----------------------
+        [6069] = {
+            [QuestieDB.questKeys.startedBy] = {{11814,},nil,nil,}, -- #1523
+        },
         -- "The Hunter's Path" now started by "Kary Thunderhorn" in Thunder Bluff
         [6070] = {
             [QuestieDB.questKeys.startedBy] = {{3038,},nil,nil,},
