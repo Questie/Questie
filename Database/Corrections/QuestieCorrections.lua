@@ -31,7 +31,6 @@ function QuestieCorrections:Initialize()
             QuestieDB.itemData[id][key] = value
         end
     end
-    QuestieCorrections.questItemBlacklist = QuestieItemBlacklist:Load()
 
     for id, data in pairs(QuestieNPCFixes:Load()) do
         for key, value in pairs(data) do
@@ -39,8 +38,17 @@ function QuestieCorrections:Initialize()
         end
     end
 
-    QuestieCorrections.objectFixes = QuestieObjectFixes:Load()
-    QuestieObjectFixes:LoadFactionFixes()
+    for id, data in pairs(QuestieObjectFixes:Load()) do
+        for key, value in pairs(data) do
+            QuestieDB.objectData[id][key] = value
+        end
+    end
+
+    for id, data in pairs(QuestieObjectFixes:LoadFactionFixes()) do
+        for key, value in pairs(data) do
+            QuestieDB.objectData[id][key] = value
+        end
+    end
 
     for id, data in pairs(QuestieQuestFixes:Load()) do
         for key, value in pairs(data) do
@@ -48,6 +56,7 @@ function QuestieCorrections:Initialize()
         end
     end
 
+    QuestieCorrections.questItemBlacklist = QuestieItemBlacklist:Load()
     QuestieCorrections.hiddenQuests = QuestieQuestBlacklist:Load()
 
     if QuestieEvent then

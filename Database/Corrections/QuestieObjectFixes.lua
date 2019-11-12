@@ -174,12 +174,8 @@ function QuestieObjectFixes:LoadFactionFixes()
     }
 
     if UnitFactionGroup("Player") == "Horde" then
-        for index, fix in pairs(objectFixesHorde) do
-            QuestieCorrections.objectFixes[index] = fix
-        end
+        return objectFixesHorde
     else
-        for index, fix in pairs(objectFixesAlliance) do
-            QuestieCorrections.objectFixes[index] = fix
-        end
+        return objectFixesAlliance
     end
 end

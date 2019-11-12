@@ -76,8 +76,8 @@ function QuestieDB:Initialize()
     QuestieDB._ZoneCache = {};
 end
 
-function QuestieDB:ItemLookup(ItemId)
-    local itemName, itemLink = GetItemInfo(ItemId)
+function QuestieDB:ItemLookup(itemId)
+    local itemName, itemLink = GetItemInfo(itemId)
     local item = {}
     item.name = itemName
     item.link = itemLink
@@ -85,31 +85,29 @@ function QuestieDB:ItemLookup(ItemId)
 end
 
 
-function QuestieDB:GetObject(ObjectID)
-    if ObjectID == nil then
+function QuestieDB:GetObject(objectID)
+    if objectID == nil then
         return nil
     end
-    if QuestieDB._ObjectCache[ObjectID] ~= nil then
-        return QuestieDB._ObjectCache[ObjectID];
+    if QuestieDB._ObjectCache[objectID] ~= nil then
+        return QuestieDB._ObjectCache[objectID];
     end
-    if QuestieCorrections.objectFixes[ObjectID] then
-        for k,v in pairs(QuestieCorrections.objectFixes[ObjectID]) do
-            QuestieDB.objectData[ObjectID][k] = v
-        end
+
+    local rawdata = QuestieDB.objectData[objectID];
+    if not rawdata then
+        Questie:Debug(DEBUG_CRITICAL, "[QuestieDB:GetObject] rawdata is nil for objectID:", objectID)
+        return nil
     end
-    local raw = QuestieDB.objectData[ObjectID];
-    if raw ~= nil then
-        local obj = {};
-        obj.id = ObjectID
-        obj.type = "object"
-        for stringKey, intKey in pairs(QuestieDB.objectKeys) do
-            obj[stringKey] = raw[intKey]
-        end
-        QuestieDB._ObjectCache[ObjectID] = obj;
-        return obj;
-    else
-        Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: Missing container ", ObjectID)
+
+    local obj = {};
+
+    obj.id = objectID
+    obj.type = "object"
+    for stringKey, intKey in pairs(QuestieDB.objectKeys) do
+        obj[stringKey] = rawdata[intKey]
     end
+    QuestieDB._ObjectCache[objectID] = obj;
+    return obj;
 end
 
 function QuestieDB:GetItem(itemID)
@@ -119,33 +117,35 @@ function QuestieDB:GetItem(itemID)
     if QuestieDB._ItemCache[itemID] ~= nil then
         return QuestieDB._ItemCache[itemID];
     end
+
     local rawdata = QuestieDB.itemData[itemID]; -- TODO: use the good item db, I need to talk to Muehe about the format, this is a temporary fix
     if not rawdata then
         Questie:Debug(DEBUG_CRITICAL, "[QuestieDB:GetItem] rawdata is nil for itemID:", itemID)
         return nil
     end
+
     local item = {};
 
     for stringKey, intKey in pairs(QuestieDB.itemKeys) do
         item[stringKey] = rawdata[intKey]
     end
-    if rawdata ~= nil then
-        item.Id = itemID;
-        item.Sources = {};
-        item.Hidden = QuestieCorrections.questItemBlacklist[itemID]
-        for k,v in pairs(rawdata[3]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
-            local source = {};
-            source.Type = "monster";
-            source.Id = v;
-            table.insert(item.Sources, source);
-        end
-        for k,v in pairs(rawdata[4]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
-            local source = {};
-            source.Type = "object";
-            source.Id = v;
-            table.insert(item.Sources, source);
-        end
+
+    item.Id = itemID;
+    item.Sources = {};
+    item.Hidden = QuestieCorrections.questItemBlacklist[itemID]
+    for k,v in pairs(rawdata[3]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
+        local source = {};
+        source.Type = "monster";
+        source.Id = v;
+        table.insert(item.Sources, source);
     end
+    for k,v in pairs(rawdata[4]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
+        local source = {};
+        source.Type = "object";
+        source.Id = v;
+        table.insert(item.Sources, source);
+    end
+
     QuestieDB._ItemCache[itemID] = item;
     return item
 end
@@ -387,51 +387,54 @@ function QuestieDB:_GetSpecialNPC(NPCID)
     return nil
 end
 
-function QuestieDB:GetNPC(NPCID)
-    if NPCID == nil then
+function QuestieDB:GetNPC(npcID)
+    if npcID == nil then
         return nil
     end
-    if(QuestieDB._NPCCache[NPCID]) then
-        return QuestieDB._NPCCache[NPCID]
+    if(QuestieDB._NPCCache[npcID]) then
+        return QuestieDB._NPCCache[npcID]
     end
-    local rawdata = QuestieDB.npcData[NPCID]
-    if(rawdata)then
-        local NPC = {}
-        NPC.type = "monster"
-        NPC.id = NPCID
-        for stringKey, intKey in pairs(QuestieDB.npcKeys) do
-            NPC[stringKey] = rawdata[intKey]
-        end
-        if NPC.spawns == nil and Questie_SpecialNPCs[NPCID] then -- get spawns from script spawns list
-            NPC.spawns = QuestieDB:_GetSpecialNPC(NPCID).spawns
-        end
 
-        ---@class Point
-        ---@class Zone
-        if NPC.waypoints == nil and rawdata[QuestieDB.npcKeys.waypoints] then
-            Questie:Debug(DEBUG_DEVELOP, "Got waypoints! NPC", NPC.name, NPC.id)
-            ---@type table<Zone, table<Point, Point>>
-            NPC.waypoints = rawdata[QuestieDB.npcKeys.waypoints];
-        end
+    local rawdata = QuestieDB.npcData[npcID]    
+    if not rawdata then
+        Questie:Debug(DEBUG_CRITICAL, "[QuestieDB:GetNPC] rawdata is nil for npcID:", npcID)
+        return QuestieDB:_GetSpecialNPC(npcID)
+    end
 
-        if rawdata[DB_NPC_FRIENDLY] then
-            if rawdata[DB_NPC_FRIENDLY] == "AH" then
-                NPC.friendly = true
-            else
-                if QuestieDB.FactionGroup == "Horde" and rawdata[DB_NPC_FRIENDLY] == "H" then
-                    NPC.friendly = true
-                elseif QuestieDB.FactionGroup == "Alliance" and rawdata[DB_NPC_FRIENDLY] == "A" then
-                    NPC.friendly = true
-                end
-            end
+    local npc = {}
+    npc.type = "monster"
+    npc.id = npcID
+    for stringKey, intKey in pairs(QuestieDB.npcKeys) do
+        npc[stringKey] = rawdata[intKey]
+    end
+    if npc.spawns == nil and Questie_SpecialNPCs[npcID] then -- get spawns from script spawns list
+        npc.spawns = QuestieDB:_GetSpecialNPC(npcID).spawns
+    end
+
+    ---@class Point
+    ---@class Zone
+    if npc.waypoints == nil and rawdata[QuestieDB.npcKeys.waypoints] then
+        Questie:Debug(DEBUG_DEVELOP, "Got waypoints! NPC", npc.name, npc.id)
+        ---@type table<Zone, table<Point, Point>>
+        npc.waypoints = rawdata[QuestieDB.npcKeys.waypoints];
+    end
+
+    if rawdata[DB_NPC_FRIENDLY] then
+        if rawdata[DB_NPC_FRIENDLY] == "AH" then
+            npc.friendly = true
         else
-            NPC.friendly = true
+            if QuestieDB.FactionGroup == "Horde" and rawdata[DB_NPC_FRIENDLY] == "H" then
+                npc.friendly = true
+            elseif QuestieDB.FactionGroup == "Alliance" and rawdata[DB_NPC_FRIENDLY] == "A" then
+                npc.friendly = true
+            end
         end
-        QuestieDB._NPCCache[NPCID] = NPC
-        return NPC
     else
-        return QuestieDB:_GetSpecialNPC(NPCID)
+        npc.friendly = true
     end
+
+    QuestieDB._NPCCache[npcID] = npc
+    return npc
 end
 
 function QuestieDB:GetQuestsByName(questName)
