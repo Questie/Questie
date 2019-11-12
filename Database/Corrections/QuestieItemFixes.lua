@@ -8,6 +8,7 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 -- Further information on how to use this can be found at the wiki
 -- https://github.com/AeroScripts/QuestieDev/wiki/Corrections
 
+local tinsert = table.insert
 local _AddMissingItemIDs
 
 function QuestieItemFixes:Load()
@@ -873,6 +874,6 @@ _AddMissingItemIDs = function()
     }
 
     for _, id in pairs(missingItemIDs) do
-        table.insert(QuestieDB.itemData, id, {})
+        tinsert(QuestieDB.itemData, id, {})
     end
 end

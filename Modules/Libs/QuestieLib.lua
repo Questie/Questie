@@ -15,6 +15,7 @@ QuestieLib.AddonPath = "Interface\\Addons\\QuestieDev-master\\";
 local math_abs = math.abs;
 local math_sqrt = math.sqrt;
 local math_max = math.max;
+local tinsert = table.insert
 
 --[[
     Red: 5+ level above player
@@ -381,7 +382,7 @@ function QuestieLib:SortQuestsByLevel(quests)
     end
 
     for _, q in pairs(quests) do
-        table.insert(sortedQuestsByLevel, {q.questLevel, q})
+        tinsert(sortedQuestsByLevel, {q.questLevel, q})
     end
     table.sort(sortedQuestsByLevel, compareTablesByIndex)
 

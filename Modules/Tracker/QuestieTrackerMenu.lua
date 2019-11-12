@@ -9,6 +9,7 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type QuestieTrackerUtils
 local QuestieTrackerUtils = QuestieLoader:ImportModule("QuestieTrackerUtils")
 
+local tinsert = table.insert
 
 function QuestieTrackerMenu:GetMenuForQuest(quest)
     local menu = {}
@@ -17,11 +18,11 @@ function QuestieTrackerMenu:GetMenuForQuest(quest)
     for _, objective in pairs(quest.Objectives) do
         local objectiveMenu = {}
         if Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus == tostring(quest.Id) .. " " .. tostring(objective.Index) then
-            table.insert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_UNFOCUS'), func = function() LQuestie_CloseDropDownMenus(); QuestieTracker:UnFocus(); QuestieQuest:UpdateHiddenNotes() end})
+            tinsert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_UNFOCUS'), func = function() LQuestie_CloseDropDownMenus(); QuestieTracker:UnFocus(); QuestieQuest:UpdateHiddenNotes() end})
         else
-            table.insert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_FOCUS_OBJECTIVE'), func = function() LQuestie_CloseDropDownMenus(); QuestieTracker:FocusObjective(quest, objective); QuestieQuest:UpdateHiddenNotes() end})
+            tinsert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_FOCUS_OBJECTIVE'), func = function() LQuestie_CloseDropDownMenus(); QuestieTracker:FocusObjective(quest, objective); QuestieQuest:UpdateHiddenNotes() end})
         end
-        table.insert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_SET_TOMTOM'), func = function()
+        tinsert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_SET_TOMTOM'), func = function()
             LQuestie_CloseDropDownMenus()
             local spawn, zone, name = QuestieMap:GetNearestSpawn(objective)
             if spawn then
@@ -29,14 +30,14 @@ function QuestieTrackerMenu:GetMenuForQuest(quest)
             end
         end})
         if objective.HideIcons then
-            table.insert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_SHOW_ICONS'), func = function()
+            tinsert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_SHOW_ICONS'), func = function()
                 LQuestie_CloseDropDownMenus()
                 objective.HideIcons = nil;
                 QuestieQuest:UpdateHiddenNotes()
                 Questie.db.char.TrackerHiddenObjectives[tostring(quest.Id) .. " " .. tostring(objective.Index)] = nil
             end})
         else
-            table.insert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_HIDE_ICONS'), func = function()
+            tinsert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_HIDE_ICONS'), func = function()
                 LQuestie_CloseDropDownMenus()
                 objective.HideIcons = true;
                 QuestieQuest:UpdateHiddenNotes()
@@ -44,7 +45,7 @@ function QuestieTrackerMenu:GetMenuForQuest(quest)
             end})
         end
 
-        table.insert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_SHOW_ON_MAP'), func = function()
+        tinsert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_SHOW_ON_MAP'), func = function()
             LQuestie_CloseDropDownMenus()
             local needHiddenUpdate
             if (Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus ~= tostring(quest.Id) .. " " .. tostring(objective.Index))
@@ -64,7 +65,7 @@ function QuestieTrackerMenu:GetMenuForQuest(quest)
             QuestieTrackerUtils:ShowObjectiveOnMap(objective)
         end})
 
-        table.insert(subMenu, {text = objective.Description, hasArrow = true, menuList = objectiveMenu})
+        tinsert(subMenu, {text = objective.Description, hasArrow = true, menuList = objectiveMenu})
     end
 
     if quest.SpecialObjectives then
@@ -72,11 +73,11 @@ function QuestieTrackerMenu:GetMenuForQuest(quest)
             local objectiveMenu = {}
 
             if Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus == tostring(quest.Id) .. " " .. tostring(Objective.Index) then
-                table.insert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_UNFOCUS'), func = function() LQuestie_CloseDropDownMenus(); QuestieTracker:UnFocus(); QuestieQuest:UpdateHiddenNotes() end})
+                tinsert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_UNFOCUS'), func = function() LQuestie_CloseDropDownMenus(); QuestieTracker:UnFocus(); QuestieQuest:UpdateHiddenNotes() end})
             else
-                table.insert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_FOCUS_OBJECTIVE'), func = function() LQuestie_CloseDropDownMenus(); QuestieTracker:FocusObjective(quest, Objective, true); QuestieQuest:UpdateHiddenNotes() end})
+                tinsert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_FOCUS_OBJECTIVE'), func = function() LQuestie_CloseDropDownMenus(); QuestieTracker:FocusObjective(quest, Objective, true); QuestieQuest:UpdateHiddenNotes() end})
             end
-            table.insert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_SET_TOMTOM'), func = function()
+            tinsert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_SET_TOMTOM'), func = function()
                 LQuestie_CloseDropDownMenus()
                 local spawn, zone, name = QuestieMap:GetNearestSpawn(Objective)
                 if spawn then
@@ -84,14 +85,14 @@ function QuestieTrackerMenu:GetMenuForQuest(quest)
                 end
             end})
             if Objective.HideIcons then
-                table.insert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_SHOW_ICONS'), func = function()
+                tinsert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_SHOW_ICONS'), func = function()
                     LQuestie_CloseDropDownMenus()
                     Objective.HideIcons = nil;
                     QuestieQuest:UpdateHiddenNotes()
                     Questie.db.char.TrackerHiddenObjectives[tostring(quest.Id) .. " " .. tostring(Objective.Index)] = nil
                 end})
             else
-                table.insert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_HIDE_ICONS'), func = function()
+                tinsert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_HIDE_ICONS'), func = function()
                     LQuestie_CloseDropDownMenus()
                     Objective.HideIcons = true;
                     QuestieQuest:UpdateHiddenNotes()
@@ -99,7 +100,7 @@ function QuestieTrackerMenu:GetMenuForQuest(quest)
                 end})
             end
 
-            table.insert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_SHOW_ON_MAP'), func = function()
+            tinsert(objectiveMenu, {text = QuestieLocale:GetUIString('TRACKER_SHOW_ON_MAP'), func = function()
                 LQuestie_CloseDropDownMenus()
                 local needHiddenUpdate
                 if (Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus ~= tostring(quest.Id) .. " " .. tostring(Objective.Index))
@@ -119,28 +120,28 @@ function QuestieTrackerMenu:GetMenuForQuest(quest)
                 QuestieTrackerUtils:ShowObjectiveOnMap(Objective)
             end})
 
-            table.insert(subMenu, {text = Objective.Description, hasArrow = true, menuList = objectiveMenu})
+            tinsert(subMenu, {text = Objective.Description, hasArrow = true, menuList = objectiveMenu})
         end
     end
 
-    table.insert(menu, {text=quest:GetColoredQuestName(), isTitle = true})
+    tinsert(menu, {text=quest:GetColoredQuestName(), isTitle = true})
     if not QuestieQuest:IsComplete(quest) then
-        table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_OBJECTIVES'), hasArrow = true, menuList = subMenu})
+        tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_OBJECTIVES'), hasArrow = true, menuList = subMenu})
     end
     if quest.HideIcons then
-        table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_SHOW_ICONS'), func = function()
+        tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_SHOW_ICONS'), func = function()
             quest.HideIcons = nil
             QuestieQuest:UpdateHiddenNotes()
             Questie.db.char.TrackerHiddenQuests[quest.Id] = nil
         end})
     else
-        table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_HIDE_ICONS'), func = function()
+        tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_HIDE_ICONS'), func = function()
             quest.HideIcons = true
             QuestieQuest:UpdateHiddenNotes()
             Questie.db.char.TrackerHiddenQuests[quest.Id] = true
         end})
     end
-    table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_SET_TOMTOM'), func = function()
+    tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_SET_TOMTOM'), func = function()
         LQuestie_CloseDropDownMenus()
         local spawn, zone, name = QuestieMap:GetNearestQuestSpawn(quest)
         if spawn then
@@ -148,30 +149,30 @@ function QuestieTrackerMenu:GetMenuForQuest(quest)
         end
     end})
     if QuestieQuest:IsComplete(quest) then
-        table.insert(menu, {text = QuestieLocale:GetUIString('TRACKER_SHOW_ON_MAP'), func = function()
+        tinsert(menu, {text = QuestieLocale:GetUIString('TRACKER_SHOW_ON_MAP'), func = function()
             LQuestie_CloseDropDownMenus()
             QuestieTrackerUtils:ShowFinisherOnMap(quest)
         end})
     end
-    table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_SHOW_QUESTLOG'), func = function()
+    tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_SHOW_QUESTLOG'), func = function()
         LQuestie_CloseDropDownMenus()
         QuestieTrackerUtils:ShowQuestLog(quest)
     end})
-    table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_UNTRACK'), func = function()
+    tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_UNTRACK'), func = function()
         LQuestie_CloseDropDownMenus();
         QuestieTracker:Untrack(quest)
     end})
     if Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "number" and Questie.db.char.TrackerFocus == quest.Id then
-        table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_UNFOCUS'), func = function() LQuestie_CloseDropDownMenus(); QuestieTracker:UnFocus(); QuestieQuest:UpdateHiddenNotes() end})
+        tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_UNFOCUS'), func = function() LQuestie_CloseDropDownMenus(); QuestieTracker:UnFocus(); QuestieQuest:UpdateHiddenNotes() end})
     else
-        table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_FOCUS_QUEST'), func = function() LQuestie_CloseDropDownMenus(); QuestieTracker:FocusQuest(quest); QuestieQuest:UpdateHiddenNotes()  end})
+        tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_FOCUS_QUEST'), func = function() LQuestie_CloseDropDownMenus(); QuestieTracker:FocusQuest(quest); QuestieQuest:UpdateHiddenNotes()  end})
     end
     if Questie.db.global.trackerLocked then
-        table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_UNLOCK'), func = function() LQuestie_CloseDropDownMenus(); Questie.db.global.trackerLocked = false end})
+        tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_UNLOCK'), func = function() LQuestie_CloseDropDownMenus(); Questie.db.global.trackerLocked = false end})
     else
-        table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_LOCK'), func = function() LQuestie_CloseDropDownMenus(); Questie.db.global.trackerLocked = true end})
+        tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_LOCK'), func = function() LQuestie_CloseDropDownMenus(); Questie.db.global.trackerLocked = true end})
     end
-    table.insert(menu, {text=QuestieLocale:GetUIString('TRACKER_CANCEL'), func = function() end})
+    tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_CANCEL'), func = function() end})
 
     return menu
 end

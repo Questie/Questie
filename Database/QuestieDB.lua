@@ -12,6 +12,8 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 ---@type QuestieDBZone
 local QuestieDBZone = QuestieLoader:ImportModule("QuestieDBZone")
 
+local tinsert = table.insert
+
 -- DB keys
 local DB_NAME, DB_NPC, NOTE_TITLE = 1, 1, 1;
 local DB_STARTS, DB_OBJ, NOTE_COMMENT, DB_MIN_LEVEL_HEALTH = 2, 2, 2, 2;
@@ -137,13 +139,13 @@ function QuestieDB:GetItem(itemID)
         local source = {};
         source.Type = "monster";
         source.Id = v;
-        table.insert(item.Sources, source);
+        tinsert(item.Sources, source);
     end
     for k,v in pairs(rawdata[4]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
         local source = {};
         source.Type = "object";
         source.Id = v;
-        table.insert(item.Sources, source);
+        tinsert(item.Sources, source);
     end
 
     QuestieDB._ItemCache[itemID] = item;
@@ -206,7 +208,7 @@ function QuestieDB:GetQuest(questID) -- /dump QuestieDB:GetQuest(867)
                     obj.Name = string.lower(name);
                 end
 
-                QO.Finisher = obj; -- there is only 1 finisher --table.insert(QO.Finisher, obj);
+                QO.Finisher = obj; -- there is only 1 finisher --tinsert(QO.Finisher, obj);
             end
             --end
             --end
@@ -245,7 +247,7 @@ function QuestieDB:GetQuest(questID) -- /dump QuestieDB:GetQuest(867)
             local obj = {};
             obj.Type = "event"
             obj.Coordinates = v
-            table.insert(QO.ObjectiveData, obj);
+            tinsert(QO.ObjectiveData, obj);
         end
     end
     if rawdata[10] ~= nil then
@@ -258,7 +260,7 @@ function QuestieDB:GetQuest(questID) -- /dump QuestieDB:GetQuest(867)
                     obj.Id = _v[1]
                     obj.Text = _v[2];
 
-                    table.insert(QO.ObjectiveData, obj);
+                    tinsert(QO.ObjectiveData, obj);
 
                 end
             end
@@ -272,7 +274,7 @@ function QuestieDB:GetQuest(questID) -- /dump QuestieDB:GetQuest(867)
                     obj.Id = _v[1]
                     obj.Text = _v[2]
 
-                    table.insert(QO.ObjectiveData, obj);
+                    tinsert(QO.ObjectiveData, obj);
 
                 end
             end
@@ -285,7 +287,7 @@ function QuestieDB:GetQuest(questID) -- /dump QuestieDB:GetQuest(867)
                     obj.Id = _v[1]
                     obj.Text = _v[2]
 
-                    table.insert(QO.ObjectiveData, obj);
+                    tinsert(QO.ObjectiveData, obj);
                 end
             end
         end
@@ -315,7 +317,7 @@ function QuestieDB:GetQuest(questID) -- /dump QuestieDB:GetQuest(867)
                     obj.Name = string.lower(name);
                 end
 
-                table.insert(QO.HiddenObjectiveData, obj);
+                tinsert(QO.HiddenObjectiveData, obj);
             end
         end
     end
@@ -372,14 +374,14 @@ function QuestieDB:_GetSpecialNPC(NPCID)
             local x = QuestieDB._stream:ReadShort() / 655.35
             local y = QuestieDB._stream:ReadShort() / 655.35
             local m = QuestieDB._stream:ReadByte() + 1400
-            table.insert(NPC.newFormatSpawns, {x, y, m});
+            tinsert(NPC.newFormatSpawns, {x, y, m});
             local om = m;
             m = QuestieDBZone:GetAreaIdByUIMapID(m)
             if m then
                 if not NPC.spawns[m] then
                     NPC.spawns[m] = {};
                 end
-                table.insert(NPC.spawns[m], {x, y});
+                tinsert(NPC.spawns[m], {x, y});
             end
         end
         return NPC
@@ -449,7 +451,7 @@ function QuestieDB:GetQuestsByName(questName)
         local haystack = quest[1]
         local lowerHaystack = string.lower(haystack);
         if string.find(lowerHaystack, needle) then
-            table.insert(returnTable, index);
+            tinsert(returnTable, index);
         end
     end
 
@@ -469,7 +471,7 @@ function QuestieDB:GetNPCsByName(npcName)
         local lowerHaystack = string.lower(haystack);
 
         if string.find(lowerHaystack, needle) then
-            table.insert(returnTable, index);
+            tinsert(returnTable, index);
         end
     end
 
@@ -556,9 +558,9 @@ function UnpackBinary(val)
     local ret = {};
     for q=0,16 do
         if bit.band(bit.rshift(val,q), 1) == 1 then
-            table.insert(ret, true);
+            tinsert(ret, true);
         else
-            table.insert(ret, false);
+            tinsert(ret, false);
         end
     end
     return ret;

@@ -35,6 +35,8 @@ Feast of Winter Veil	15th Dec - 2nd Jan	Christmas
 QuestieEvent = {}
 QuestieEvent.activeQuests = {}
 
+local tinsert = table.insert
+
 function QuestieEvent:Load()
   local month = tonumber(date("%m"));
   local day = tonumber(date("%d"));
@@ -159,197 +161,197 @@ QuestieEvent.lunarHarvest = {
 
 --This variable will be cleared at the end of the load, do not use, use QuestieEvent.activeQuests.
 QuestieEvent.eventQuests = {}
-table.insert(QuestieEvent.eventQuests, {"HallowsEnd", 8373}) --The Power of Pine
-table.insert(QuestieEvent.eventQuests, {"HallowsEnd", 1658}) --Crashing the Wickerman Festival
-table.insert(QuestieEvent.eventQuests, {"HallowsEnd", 8311}) --Hallow's End Treats for Jesper!
-table.insert(QuestieEvent.eventQuests, {"HallowsEnd", 8312}) --Hallow's End Treats for Spoops!
-table.insert(QuestieEvent.eventQuests, {"HallowsEnd", 8322}) --Rotten Eggs
-table.insert(QuestieEvent.eventQuests, {"HallowsEnd", 1657}) --Stinking Up Southshore
-table.insert(QuestieEvent.eventQuests, {"HallowsEnd", 8409}) --Ruined Kegs
-table.insert(QuestieEvent.eventQuests, {"HallowsEnd", 8357}) --Dancing for Marzipan
-table.insert(QuestieEvent.eventQuests, {"HallowsEnd", 8355}) --Incoming Gumdrop
-table.insert(QuestieEvent.eventQuests, {"HallowsEnd", 8356}) --Flexing for Nougat
-table.insert(QuestieEvent.eventQuests, {"HallowsEnd", 8358}) --Incoming Gumdrop
-table.insert(QuestieEvent.eventQuests, {"HallowsEnd", 8353}) --Chicken Clucking for a Mint
-table.insert(QuestieEvent.eventQuests, {"HallowsEnd", 8359}) --Flexing for Nougat
-table.insert(QuestieEvent.eventQuests, {"HallowsEnd", 8354}) --Chicken Clucking for a Mint
-table.insert(QuestieEvent.eventQuests, {"HallowsEnd", 8360}) --Dancing for Marzipan
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7902}) --Vibrant Plumes
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7903}) --Evil Bat Eyes
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 8222}) --Glowing Scorpid Blood
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7901}) --Soft Bushy Tails
-table.insert(QuestieEvent.eventQuests, {"WinterVeil", 6983}) --You're a Mean One...
-table.insert(QuestieEvent.eventQuests, {"ChildrensWeek", 5502}) --A Warden of the Horde
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7899}) --Small Furry Paws
-table.insert(QuestieEvent.eventQuests, {"ChildrensWeek", 172}) --Children's Week
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7940}) --1200 Tickets - Orb of the Darkmoon
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7900}) --Torn Bear Pelts
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8684}) --Dreamseer the Elder
-table.insert(QuestieEvent.eventQuests, {"HarvestFestival", 8149}) --Honoring a Hero
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7907}) --Darkmoon Beast Deck
-table.insert(QuestieEvent.eventQuests, {"HarvestFestival", 8150}) --Honoring a Hero
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7929}) --Darkmoon Elementals Deck
-table.insert(QuestieEvent.eventQuests, {"WinterVeil", 7043}) --You're a Mean One...
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7928}) --Darkmoon Warlords Deck
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7946}) --Spawn of Jubjub
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7927}) --Darkmoon Portals Deck
-table.insert(QuestieEvent.eventQuests, {"ChildrensWeek", 171}) --A Warden of the Alliance
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 8223}) --More Glowing Scorpid Blood
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7934}) --50 Tickets - Darkmoon Storage Box
-table.insert(QuestieEvent.eventQuests, {"WinterVeil", 6984}) --A Smokywood Pastures' Thank You!
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7981}) --1200 Tickets - Amulet of the Darkmoon
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7943}) --More Bat Eyes
-table.insert(QuestieEvent.eventQuests, {"ChildrensWeek", 1468}) --Children's Week
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7898}) --Thorium Widget
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8635}) --Splitrock the Elder
-table.insert(QuestieEvent.eventQuests, {"WinterVeil", 7045}) --A Smokywood Pastures' Thank You!
-table.insert(QuestieEvent.eventQuests, {"WinterVeil", 7063}) --The Feast of Winter Veil
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8713}) --Starsong the Elder
-table.insert(QuestieEvent.eventQuests, {"ChildrensWeek", 1558}) --The Stonewrought Dam
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7885}) --Armor Kits
-table.insert(QuestieEvent.eventQuests, {"MidsummerFireFestival", 9388}) --Flickering Flames in Kalimdor
-table.insert(QuestieEvent.eventQuests, {"WinterVeil", 7061}) --The Feast of Winter Veil
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8883}) --Valadar Starsong
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7933}) --40 Tickets - Greater Darkmoon Prize
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7894}) --Copper Modulator
-table.insert(QuestieEvent.eventQuests, {"ChildrensWeek", 915}) --You Scream, I Scream...
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8867}) --Lunar Fireworks
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7942}) --More Thorium Widgets
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7883}) --The World's Largest Gnome!
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7892}) --Big Black Mace
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7937}) --Your Fortune Awaits You...
-table.insert(QuestieEvent.eventQuests, {"MidsummerFireFestival", 9365}) --A Thief's Reward
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7939}) --More Dense Grinding Stones
-table.insert(QuestieEvent.eventQuests, {"WinterVeil", 7025}) --Treats for Greatfather Winter
-table.insert(QuestieEvent.eventQuests, {"WinterVeil", 8828}) --Winter's Presents
-table.insert(QuestieEvent.eventQuests, {"WinterVeil", 6963}) --Stolen Winter Veil Treats
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7893}) --Rituals of Strength
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7891}) --Green Iron Bracers
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 9249}) --40 Tickets - Schematic: Steam Tonk Controller
-table.insert(QuestieEvent.eventQuests, {"ChildrensWeek", 4822}) --You Scream, I Scream...
-table.insert(QuestieEvent.eventQuests, {"WinterVeil", 8827}) --Winter's Presents
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 9339}) --A Thief's Reward
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7896}) --Green Fireworks
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8865}) --Festive Lunar Pant Suits
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 8571}) --<UNUSED> Armor Kits
-table.insert(QuestieEvent.eventQuests, {"MidsummerFireFestival", 9389}) --Flickering Flames in the Eastern Kingdoms
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7884}) --Crocolisk Boy and the Bearded Murloc
-table.insert(QuestieEvent.eventQuests, {"WinterVeil", 6962}) --Treats for Great-father Winter
-table.insert(QuestieEvent.eventQuests, {"ChildrensWeek", 1687}) --Spooky Lighthouse
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7895}) --Whirring Bronze Gizmo
-table.insert(QuestieEvent.eventQuests, {"WinterVeil", 6964}) --The Reason for the Season
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8642}) --Silvervein the Elder
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8866}) --Bronzebeard the Elder
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8643}) --Highpeak the Elder
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8864}) --Festive Lunar Dresses
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7882}) --Carnival Jerkins
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8678}) --Proudhorn the Elder
-table.insert(QuestieEvent.eventQuests, {"WinterVeil", 8763}) --The Hero of the Day
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7897}) --Mechanical Repair Kits
-table.insert(QuestieEvent.eventQuests, {"ChildrensWeek", 558}) --Jaina's Autograph
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8670}) --Runetotem the Elder
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8725}) --Riversong the Elder
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8683}) --Dawnstrider the Elder
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8879}) --Large Rockets
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7941}) --More Armor Kits
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7881}) --Carnival Boots
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8716}) --Starglade the Elder
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7890}) --Heavy Grinding Stone
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8650}) --Snowcrown the Elder
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8876}) --Small Rockets
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8874}) --The Lunar Festival
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8880}) --Cluster Rockets
-table.insert(QuestieEvent.eventQuests, {"WinterVeil", 8769}) --A Ticking Present
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8722}) --Meadowrun the Elder
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7945}) --Your Fortune Awaits You...
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7906}) --Darkmoon Cards - Beasts
-table.insert(QuestieEvent.eventQuests, {"WinterVeil", 8768}) --A Gaily Wrapped Present
-table.insert(QuestieEvent.eventQuests, {"MidsummerFireFestival", 9323}) --Wild Fires in the Eastern Kingdoms
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7889}) --Coarse Weightstone
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8652}) --Graveborn the Elder
---table.insert(QuestieEvent.eventQuests, {"-1006", 8861}) --New Year Celebrations!
-table.insert(QuestieEvent.eventQuests, {"WinterVeil", 6961}) --Great-father Winter is Here!
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8878}) --Festive Recipes
-table.insert(QuestieEvent.eventQuests, {"ChildrensWeek", 925}) --Cairne's Hoofprint
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8873}) --The Lunar Festival
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8720}) --Skygleam the Elder
-table.insert(QuestieEvent.eventQuests, {"WinterVeil", 7042}) --Stolen Winter Veil Treats
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8673}) --Bloodhoof the Elder
-table.insert(QuestieEvent.eventQuests, {"WinterVeil", 7021}) --Great-father Winter is Here!
-table.insert(QuestieEvent.eventQuests, {"WinterVeil", 7062}) --The Reason for the Season
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7935}) --10 Tickets - Last Month's Mutton
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7938}) --Your Fortune Awaits You...
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7944}) --Your Fortune Awaits You...
-table.insert(QuestieEvent.eventQuests, {"MidsummerFireFestival", 9319}) --A Light in Dark Places
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8875}) --The Lunar Festival
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7930}) --5 Tickets - Darkmoon Flower
-table.insert(QuestieEvent.eventQuests, {"WinterVeil", 8767}) --A Gently Shaken Gift
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8862}) --Elune's Candle
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8723}) --Nightwind the Elder
-table.insert(QuestieEvent.eventQuests, {"WinterVeil", 8799}) --The Hero of the Day
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8681}) --Thunderhorn the Elder
-table.insert(QuestieEvent.eventQuests, {"ChildrensWeek", 1479}) --The Bough of the Eternals
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8676}) --Wildmane the Elder
-table.insert(QuestieEvent.eventQuests, {"ChildrensWeek", 911}) --Gateway to the Frontier
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8651}) --Ironband the Elder
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8863}) --Festival Dumplings
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8672}) --Stonespire the Elder
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8871}) --The Lunar Festival
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8649}) --Stormbrow the Elder
-table.insert(QuestieEvent.eventQuests, {"ChildrensWeek", 1800}) --Lordaeron Throne Room
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8872}) --The Lunar Festival
-table.insert(QuestieEvent.eventQuests, {"WinterVeil", 8762}) --Metzen the Reindeer
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8726}) --Brightspear the Elder
-table.insert(QuestieEvent.eventQuests, {"MidsummerFireFestival", 9367}) --The Festival of Fire
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8877}) --Firework Launcher
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8718}) --Bladeswift the Elder
-table.insert(QuestieEvent.eventQuests, {"WinterVeil", 8803}) --A Festive Gift
-table.insert(QuestieEvent.eventQuests, {"WinterVeil", 7024}) --Great-father Winter is Here!
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8685}) --Mistwalker the Elder
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8653}) --Goldwell the Elder
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8671}) --Ragetotem the Elder
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8677}) --Darkhorn the Elder
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8882}) --Cluster Launcher
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8714}) --Moonstrike the Elder
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8645}) --Obsidian the Elder
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8717}) --Moonwarden the Elder
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8648}) --Darkcore the Elder
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7932}) --12 Tickets - Lesser Darkmoon Prize
-table.insert(QuestieEvent.eventQuests, {"WinterVeil", 8744}) --A Carefully Wrapped Present
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8715}) --Bladeleaf the Elder
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8646}) --Hammershout the Elder
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8724}) --Morningdew the Elder
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8727}) --Farwhisper the Elder
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8679}) --Grimtotem the Elder
-table.insert(QuestieEvent.eventQuests, {"MidsummerFireFestival", 9368}) --The Festival of Fire
-table.insert(QuestieEvent.eventQuests, {"WinterVeil", 8746}) --Metzen the Reindeer
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8647}) --Bellowrage the Elder
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8674}) --Winterhoof the Elder
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8680}) --Windtotem the Elder
-table.insert(QuestieEvent.eventQuests, {"MidsummerFireFestival", 9386}) --A Light in Dark Places
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7931}) --5 Tickets - Minor Darkmoon Prize
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8686}) --High Mountain the Elder
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8654}) --Primestone the Elder
---table.insert(QuestieEvent.eventQuests, {"-1006", 8860}) --New Year Celebrations!
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8721}) --Starweave the Elder
-table.insert(QuestieEvent.eventQuests, {"MidsummerFireFestival", 9324}) --Stealing Orgrimmar's Flame
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7904}) --<UNUSED>
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8881}) --Large Cluster Rockets
-table.insert(QuestieEvent.eventQuests, {"MidsummerFireFestival", 9331}) --Stealing Ironforge's Flame
-table.insert(QuestieEvent.eventQuests, {"WinterVeil", 7022}) --Greatfather Winter is Here!
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8619}) --Morndeep the Elder
-table.insert(QuestieEvent.eventQuests, {"MidsummerFireFestival", 9326}) --Stealing the Undercity's Flame
-table.insert(QuestieEvent.eventQuests, {"MidsummerFireFestival", 9332}) --Stealing Darnassus's Flame
-table.insert(QuestieEvent.eventQuests, {"WinterVeil", 7023}) --Greatfather Winter is Here!
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8688}) --Windrun the Elder
-table.insert(QuestieEvent.eventQuests, {"MidsummerFireFestival", 9330}) --Stealing Stormwind's Flame
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8682}) --Skyseer the Elder
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8636}) --Rumblerock the Elder
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8644}) --Stonefort the Elder
-table.insert(QuestieEvent.eventQuests, {"MidsummerFireFestival", 9322}) --Wild Fires in Kalimdor
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8675}) --Skychaser the Elder
-table.insert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7936}) --50 Tickets - Last Year's Mutton
-table.insert(QuestieEvent.eventQuests, {"ChildrensWeek", 910}) --Down at the Docks
-table.insert(QuestieEvent.eventQuests, {"LunarFestival", 8719}) --Bladesing the Elder
-table.insert(QuestieEvent.eventQuests, {"WinterVeil", 8788}) --A Gently Shaken Gift
-table.insert(QuestieEvent.eventQuests, {"MidsummerFireFestival", 9325}) --Stealing Thunder Bluff's Flame
+tinsert(QuestieEvent.eventQuests, {"HallowsEnd", 8373}) --The Power of Pine
+tinsert(QuestieEvent.eventQuests, {"HallowsEnd", 1658}) --Crashing the Wickerman Festival
+tinsert(QuestieEvent.eventQuests, {"HallowsEnd", 8311}) --Hallow's End Treats for Jesper!
+tinsert(QuestieEvent.eventQuests, {"HallowsEnd", 8312}) --Hallow's End Treats for Spoops!
+tinsert(QuestieEvent.eventQuests, {"HallowsEnd", 8322}) --Rotten Eggs
+tinsert(QuestieEvent.eventQuests, {"HallowsEnd", 1657}) --Stinking Up Southshore
+tinsert(QuestieEvent.eventQuests, {"HallowsEnd", 8409}) --Ruined Kegs
+tinsert(QuestieEvent.eventQuests, {"HallowsEnd", 8357}) --Dancing for Marzipan
+tinsert(QuestieEvent.eventQuests, {"HallowsEnd", 8355}) --Incoming Gumdrop
+tinsert(QuestieEvent.eventQuests, {"HallowsEnd", 8356}) --Flexing for Nougat
+tinsert(QuestieEvent.eventQuests, {"HallowsEnd", 8358}) --Incoming Gumdrop
+tinsert(QuestieEvent.eventQuests, {"HallowsEnd", 8353}) --Chicken Clucking for a Mint
+tinsert(QuestieEvent.eventQuests, {"HallowsEnd", 8359}) --Flexing for Nougat
+tinsert(QuestieEvent.eventQuests, {"HallowsEnd", 8354}) --Chicken Clucking for a Mint
+tinsert(QuestieEvent.eventQuests, {"HallowsEnd", 8360}) --Dancing for Marzipan
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7902}) --Vibrant Plumes
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7903}) --Evil Bat Eyes
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 8222}) --Glowing Scorpid Blood
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7901}) --Soft Bushy Tails
+tinsert(QuestieEvent.eventQuests, {"WinterVeil", 6983}) --You're a Mean One...
+tinsert(QuestieEvent.eventQuests, {"ChildrensWeek", 5502}) --A Warden of the Horde
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7899}) --Small Furry Paws
+tinsert(QuestieEvent.eventQuests, {"ChildrensWeek", 172}) --Children's Week
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7940}) --1200 Tickets - Orb of the Darkmoon
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7900}) --Torn Bear Pelts
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8684}) --Dreamseer the Elder
+tinsert(QuestieEvent.eventQuests, {"HarvestFestival", 8149}) --Honoring a Hero
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7907}) --Darkmoon Beast Deck
+tinsert(QuestieEvent.eventQuests, {"HarvestFestival", 8150}) --Honoring a Hero
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7929}) --Darkmoon Elementals Deck
+tinsert(QuestieEvent.eventQuests, {"WinterVeil", 7043}) --You're a Mean One...
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7928}) --Darkmoon Warlords Deck
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7946}) --Spawn of Jubjub
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7927}) --Darkmoon Portals Deck
+tinsert(QuestieEvent.eventQuests, {"ChildrensWeek", 171}) --A Warden of the Alliance
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 8223}) --More Glowing Scorpid Blood
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7934}) --50 Tickets - Darkmoon Storage Box
+tinsert(QuestieEvent.eventQuests, {"WinterVeil", 6984}) --A Smokywood Pastures' Thank You!
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7981}) --1200 Tickets - Amulet of the Darkmoon
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7943}) --More Bat Eyes
+tinsert(QuestieEvent.eventQuests, {"ChildrensWeek", 1468}) --Children's Week
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7898}) --Thorium Widget
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8635}) --Splitrock the Elder
+tinsert(QuestieEvent.eventQuests, {"WinterVeil", 7045}) --A Smokywood Pastures' Thank You!
+tinsert(QuestieEvent.eventQuests, {"WinterVeil", 7063}) --The Feast of Winter Veil
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8713}) --Starsong the Elder
+tinsert(QuestieEvent.eventQuests, {"ChildrensWeek", 1558}) --The Stonewrought Dam
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7885}) --Armor Kits
+tinsert(QuestieEvent.eventQuests, {"MidsummerFireFestival", 9388}) --Flickering Flames in Kalimdor
+tinsert(QuestieEvent.eventQuests, {"WinterVeil", 7061}) --The Feast of Winter Veil
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8883}) --Valadar Starsong
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7933}) --40 Tickets - Greater Darkmoon Prize
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7894}) --Copper Modulator
+tinsert(QuestieEvent.eventQuests, {"ChildrensWeek", 915}) --You Scream, I Scream...
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8867}) --Lunar Fireworks
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7942}) --More Thorium Widgets
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7883}) --The World's Largest Gnome!
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7892}) --Big Black Mace
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7937}) --Your Fortune Awaits You...
+tinsert(QuestieEvent.eventQuests, {"MidsummerFireFestival", 9365}) --A Thief's Reward
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7939}) --More Dense Grinding Stones
+tinsert(QuestieEvent.eventQuests, {"WinterVeil", 7025}) --Treats for Greatfather Winter
+tinsert(QuestieEvent.eventQuests, {"WinterVeil", 8828}) --Winter's Presents
+tinsert(QuestieEvent.eventQuests, {"WinterVeil", 6963}) --Stolen Winter Veil Treats
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7893}) --Rituals of Strength
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7891}) --Green Iron Bracers
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 9249}) --40 Tickets - Schematic: Steam Tonk Controller
+tinsert(QuestieEvent.eventQuests, {"ChildrensWeek", 4822}) --You Scream, I Scream...
+tinsert(QuestieEvent.eventQuests, {"WinterVeil", 8827}) --Winter's Presents
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 9339}) --A Thief's Reward
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7896}) --Green Fireworks
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8865}) --Festive Lunar Pant Suits
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 8571}) --<UNUSED> Armor Kits
+tinsert(QuestieEvent.eventQuests, {"MidsummerFireFestival", 9389}) --Flickering Flames in the Eastern Kingdoms
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7884}) --Crocolisk Boy and the Bearded Murloc
+tinsert(QuestieEvent.eventQuests, {"WinterVeil", 6962}) --Treats for Great-father Winter
+tinsert(QuestieEvent.eventQuests, {"ChildrensWeek", 1687}) --Spooky Lighthouse
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7895}) --Whirring Bronze Gizmo
+tinsert(QuestieEvent.eventQuests, {"WinterVeil", 6964}) --The Reason for the Season
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8642}) --Silvervein the Elder
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8866}) --Bronzebeard the Elder
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8643}) --Highpeak the Elder
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8864}) --Festive Lunar Dresses
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7882}) --Carnival Jerkins
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8678}) --Proudhorn the Elder
+tinsert(QuestieEvent.eventQuests, {"WinterVeil", 8763}) --The Hero of the Day
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7897}) --Mechanical Repair Kits
+tinsert(QuestieEvent.eventQuests, {"ChildrensWeek", 558}) --Jaina's Autograph
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8670}) --Runetotem the Elder
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8725}) --Riversong the Elder
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8683}) --Dawnstrider the Elder
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8879}) --Large Rockets
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7941}) --More Armor Kits
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7881}) --Carnival Boots
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8716}) --Starglade the Elder
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7890}) --Heavy Grinding Stone
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8650}) --Snowcrown the Elder
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8876}) --Small Rockets
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8874}) --The Lunar Festival
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8880}) --Cluster Rockets
+tinsert(QuestieEvent.eventQuests, {"WinterVeil", 8769}) --A Ticking Present
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8722}) --Meadowrun the Elder
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7945}) --Your Fortune Awaits You...
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7906}) --Darkmoon Cards - Beasts
+tinsert(QuestieEvent.eventQuests, {"WinterVeil", 8768}) --A Gaily Wrapped Present
+tinsert(QuestieEvent.eventQuests, {"MidsummerFireFestival", 9323}) --Wild Fires in the Eastern Kingdoms
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7889}) --Coarse Weightstone
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8652}) --Graveborn the Elder
+--tinsert(QuestieEvent.eventQuests, {"-1006", 8861}) --New Year Celebrations!
+tinsert(QuestieEvent.eventQuests, {"WinterVeil", 6961}) --Great-father Winter is Here!
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8878}) --Festive Recipes
+tinsert(QuestieEvent.eventQuests, {"ChildrensWeek", 925}) --Cairne's Hoofprint
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8873}) --The Lunar Festival
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8720}) --Skygleam the Elder
+tinsert(QuestieEvent.eventQuests, {"WinterVeil", 7042}) --Stolen Winter Veil Treats
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8673}) --Bloodhoof the Elder
+tinsert(QuestieEvent.eventQuests, {"WinterVeil", 7021}) --Great-father Winter is Here!
+tinsert(QuestieEvent.eventQuests, {"WinterVeil", 7062}) --The Reason for the Season
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7935}) --10 Tickets - Last Month's Mutton
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7938}) --Your Fortune Awaits You...
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7944}) --Your Fortune Awaits You...
+tinsert(QuestieEvent.eventQuests, {"MidsummerFireFestival", 9319}) --A Light in Dark Places
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8875}) --The Lunar Festival
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7930}) --5 Tickets - Darkmoon Flower
+tinsert(QuestieEvent.eventQuests, {"WinterVeil", 8767}) --A Gently Shaken Gift
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8862}) --Elune's Candle
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8723}) --Nightwind the Elder
+tinsert(QuestieEvent.eventQuests, {"WinterVeil", 8799}) --The Hero of the Day
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8681}) --Thunderhorn the Elder
+tinsert(QuestieEvent.eventQuests, {"ChildrensWeek", 1479}) --The Bough of the Eternals
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8676}) --Wildmane the Elder
+tinsert(QuestieEvent.eventQuests, {"ChildrensWeek", 911}) --Gateway to the Frontier
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8651}) --Ironband the Elder
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8863}) --Festival Dumplings
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8672}) --Stonespire the Elder
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8871}) --The Lunar Festival
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8649}) --Stormbrow the Elder
+tinsert(QuestieEvent.eventQuests, {"ChildrensWeek", 1800}) --Lordaeron Throne Room
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8872}) --The Lunar Festival
+tinsert(QuestieEvent.eventQuests, {"WinterVeil", 8762}) --Metzen the Reindeer
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8726}) --Brightspear the Elder
+tinsert(QuestieEvent.eventQuests, {"MidsummerFireFestival", 9367}) --The Festival of Fire
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8877}) --Firework Launcher
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8718}) --Bladeswift the Elder
+tinsert(QuestieEvent.eventQuests, {"WinterVeil", 8803}) --A Festive Gift
+tinsert(QuestieEvent.eventQuests, {"WinterVeil", 7024}) --Great-father Winter is Here!
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8685}) --Mistwalker the Elder
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8653}) --Goldwell the Elder
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8671}) --Ragetotem the Elder
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8677}) --Darkhorn the Elder
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8882}) --Cluster Launcher
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8714}) --Moonstrike the Elder
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8645}) --Obsidian the Elder
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8717}) --Moonwarden the Elder
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8648}) --Darkcore the Elder
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7932}) --12 Tickets - Lesser Darkmoon Prize
+tinsert(QuestieEvent.eventQuests, {"WinterVeil", 8744}) --A Carefully Wrapped Present
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8715}) --Bladeleaf the Elder
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8646}) --Hammershout the Elder
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8724}) --Morningdew the Elder
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8727}) --Farwhisper the Elder
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8679}) --Grimtotem the Elder
+tinsert(QuestieEvent.eventQuests, {"MidsummerFireFestival", 9368}) --The Festival of Fire
+tinsert(QuestieEvent.eventQuests, {"WinterVeil", 8746}) --Metzen the Reindeer
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8647}) --Bellowrage the Elder
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8674}) --Winterhoof the Elder
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8680}) --Windtotem the Elder
+tinsert(QuestieEvent.eventQuests, {"MidsummerFireFestival", 9386}) --A Light in Dark Places
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7931}) --5 Tickets - Minor Darkmoon Prize
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8686}) --High Mountain the Elder
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8654}) --Primestone the Elder
+--tinsert(QuestieEvent.eventQuests, {"-1006", 8860}) --New Year Celebrations!
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8721}) --Starweave the Elder
+tinsert(QuestieEvent.eventQuests, {"MidsummerFireFestival", 9324}) --Stealing Orgrimmar's Flame
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7904}) --<UNUSED>
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8881}) --Large Cluster Rockets
+tinsert(QuestieEvent.eventQuests, {"MidsummerFireFestival", 9331}) --Stealing Ironforge's Flame
+tinsert(QuestieEvent.eventQuests, {"WinterVeil", 7022}) --Greatfather Winter is Here!
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8619}) --Morndeep the Elder
+tinsert(QuestieEvent.eventQuests, {"MidsummerFireFestival", 9326}) --Stealing the Undercity's Flame
+tinsert(QuestieEvent.eventQuests, {"MidsummerFireFestival", 9332}) --Stealing Darnassus's Flame
+tinsert(QuestieEvent.eventQuests, {"WinterVeil", 7023}) --Greatfather Winter is Here!
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8688}) --Windrun the Elder
+tinsert(QuestieEvent.eventQuests, {"MidsummerFireFestival", 9330}) --Stealing Stormwind's Flame
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8682}) --Skyseer the Elder
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8636}) --Rumblerock the Elder
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8644}) --Stonefort the Elder
+tinsert(QuestieEvent.eventQuests, {"MidsummerFireFestival", 9322}) --Wild Fires in Kalimdor
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8675}) --Skychaser the Elder
+tinsert(QuestieEvent.eventQuests, {"DarkmoonFaire", 7936}) --50 Tickets - Last Year's Mutton
+tinsert(QuestieEvent.eventQuests, {"ChildrensWeek", 910}) --Down at the Docks
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8719}) --Bladesing the Elder
+tinsert(QuestieEvent.eventQuests, {"WinterVeil", 8788}) --A Gently Shaken Gift
+tinsert(QuestieEvent.eventQuests, {"MidsummerFireFestival", 9325}) --Stealing Thunder Bluff's Flame

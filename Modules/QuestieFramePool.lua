@@ -20,6 +20,8 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 
+local tinsert = table.insert
+local tremove = table.remove;
 local _QuestieFramePool = {...} --Local Functions
 _QuestieFramePool.numberOfFrames = 0
 
@@ -212,7 +214,7 @@ function _QuestieFramePool:UnloadFrame(frame)
   HBDPins:RemoveWorldMapIcon(Questie, frame);
   frame.data = nil; -- Just to be safe
   frame.loaded = nil;
-    table.insert(_QuestieFramePool.unusedFrames, frame)
+    tinsert(_QuestieFramePool.unusedFrames, frame)
 end]]--
 ---@class IconFrame
 function _QuestieFramePool:QuestieCreateFrame()
@@ -366,7 +368,7 @@ function _QuestieFramePool:QuestieCreateFrame()
             colors = self.data.IconColor
         end
         self.texture:SetVertexColor(colors[1], colors[2], colors[3], 1);
-        
+
         if self.data.IconScale then
             local scale = 16 * ((self.data:GetIconScale() or 1)*(globalScale or 0.7));
             self:SetWidth(scale)
@@ -422,7 +424,7 @@ function _QuestieFramePool:QuestieCreateFrame()
                 lineFrame:Unload();
             end
         end
-        
+
         if self.OnHide then self:OnHide() end -- the event might trigger after OnHide=nil even if its set after self:Hide()
         --self.OnHide = nil
         --self.OnShow = nil
@@ -434,7 +436,7 @@ function _QuestieFramePool:QuestieCreateFrame()
         self.x = nil;self.y = nil;self.AreaID = nil
         if _QuestieFramePool.usedFrames[self.frameId] then
             _QuestieFramePool.usedFrames[self.frameId] = nil
-            _QuestieFramePool.unusedFrames[self.frameId] = self--table.insert(_QuestieFramePool.unusedFrames, self)
+            _QuestieFramePool.unusedFrames[self.frameId] = self--tinsert(_QuestieFramePool.unusedFrames, self)
         end
     end
     newFrame.data = {}
@@ -527,7 +529,7 @@ function _QuestieFramePool:QuestieCreateFrame()
     --f:HookScript("OnShow", function() if self.OnShow then self:OnShow() end end)
     
     --f.glow:Hide()
-    table.insert(_QuestieFramePool.allFrames, newFrame)
+    tinsert(_QuestieFramePool.allFrames, newFrame)
     return newFrame
 end
 
@@ -559,12 +561,6 @@ function _QuestieFramePool:IsMinimapInside()
         return false
     end
 end
-
-
-local tinsert = table.insert;
-local tpack = table.pack;
-local tremove = table.remove;
-local tunpack = unpack;
 
 ---@param iconFrame IconFrame @The parent frame for the current line.
 ---@param waypointTable table<integer, Point> @A table containing waypoints {{X, Y}, ...}
@@ -625,7 +621,7 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
 
     local width = WorldMapFrame:GetCanvas():GetWidth();
     local height = WorldMapFrame:GetCanvas():GetHeight();
-    
+
     --Setting the parent is required to get the correct frame levels.
     lineFrame:SetParent(iconFrame);
     lineFrame:SetHeight(width);
@@ -647,7 +643,7 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     end
     tinsert(iconFrame.data.lineFrames, lineFrame);
     lineFrame.iconFrame = iconFrame;
-    
+
     --Set the line as used.
     tinsert(QuestieFramePool.Routes_Lines_Used, lineFrame)
     --QuestieFramePool.Routes_Lines_Used[lineFrame:GetName()] = lineFrame;
@@ -686,7 +682,7 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
 
     local calcX = width/100;
     local calcY = height/100;
-    
+
     line:SetDrawLayer("OVERLAY", -5)
     line:SetStartPoint("TOPLEFT", startX*calcX, (startY*calcY)*-1) -- We do by *-1 due to using the top left point
     line:SetEndPoint("TOPLEFT", endX*calcX, (endY*calcY)*-1) -- We do by *-1 due to using the top left point
@@ -703,7 +699,7 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     --    QuestieMap.questIdFrames[lineFrame.iconFrame.data.Id] = {}
     --end
     --tinsert(QuestieMap.questIdFrames[lineFrame.iconFrame.data.Id], lineFrame:GetName());
-    
+
     --Keep a total lineFrame count for names.
     lineFrames = lineFrames + 1;
     return lineFrame
@@ -787,7 +783,7 @@ function _QuestieFramePool:GetObjectiveTooltip(icon)
                 if icon.data.Name then
                     partyMemberTip[remoteText][icon.data.Name] = true;
                 end
-                table.insert(tooltips, partyMemberTip);
+                tinsert(tooltips, partyMemberTip);
                 anotherPlayer = true;
             end
         end
@@ -806,7 +802,7 @@ function _QuestieFramePool:GetObjectiveTooltip(icon)
     if icon.data.Name then
         t[text][icon.data.Name] = true;
     end
-    table.insert(tooltips, 1, t);
+    tinsert(tooltips, 1, t);
     return tooltips
 end
 
@@ -816,7 +812,7 @@ function _QuestieFramePool:AddTooltipsForQuest(icon, tip, quest, usedText)
         data[text] = nameTable;
         --Add the data for the first time
         if usedText[text] == nil then
-            table.insert(quest, data)
+            tinsert(quest, data)
             usedText[text] = true;
         else
             --We want to add more NPCs as possible candidates when shift is pressed.
@@ -921,7 +917,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
                     else
                         local tooltips = _QuestieFramePool:GetObjectiveTooltip(icon)
                         for _, tip in pairs(tooltips) do
-                            table.insert(orderedTooltips, 1, tip);
+                            tinsert(orderedTooltips, 1, tip);
                         end
                         for _, tip in pairs(orderedTooltips) do
                             local quest = questOrder[key]
@@ -930,7 +926,7 @@ function _QuestieFramePool:Questie_Tooltip(self)
                     end
                 elseif icon.data.CustomTooltipData then
                     questOrder[icon.data.CustomTooltipData.Title] = {}
-                    table.insert(questOrder[icon.data.CustomTooltipData.Title], icon.data.CustomTooltipData.Body);
+                    tinsert(questOrder[icon.data.CustomTooltipData.Title], icon.data.CustomTooltipData.Body);
                 elseif icon.data.ManualTooltipData then
                     manualOrder[icon.data.ManualTooltipData.Title] = icon.data.ManualTooltipData.Body
                 end

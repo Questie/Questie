@@ -19,6 +19,8 @@ local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions");
 ---@type QuestieReputation
 local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation");
 
+local tinsert = table.insert
+
 QuestieJourney.continents = {}
 QuestieJourney.zones = {}
 
@@ -59,7 +61,7 @@ local function SplitJourneyByDate()
         e.idx = i;
         e.value = v;
 
-        table.insert(dateTable[year][month], e);
+        tinsert(dateTable[year][month], e);
     end
 
     -- now take those sorted dates and create a tree table
@@ -112,13 +114,13 @@ local function SplitJourneyByDate()
                     text = entryText,
                 };
 
-                table.insert(monthView.children, entryView);
+                tinsert(monthView.children, entryView);
             end
 
-            table.insert(yearTable.children, monthView);
+            tinsert(yearTable.children, monthView);
         end
 
-        table.insert(returnTable, yearTable);
+        tinsert(returnTable, yearTable);
     end
 
     return returnTable;
@@ -421,7 +423,7 @@ function NotePopup()
             data.Timestamp = time();
             data.Party = QuestiePlayer:GetPartyMembers()
 
-            table.insert(Questie.db.char.journey, data);
+            tinsert(Questie.db.char.journey, data);
 
             ManageJourneyTree(treeCache);
 
@@ -995,32 +997,32 @@ function CollectZoneQuests(zoneId)
 
             -- Completed quests
             if Questie.db.char.complete[qId] then
-                table.insert(zoneTree[2].children, temp)
+                tinsert(zoneTree[2].children, temp)
                 completedCounter = completedCounter + 1
             else
                 -- Unobtainable quests
                 if quest.exclusiveTo then
                     for _, exId in pairs(quest.exclusiveTo) do
                         if Questie.db.char.complete[exId] and zoneTree[4].children[qId] == nil then
-                            table.insert(zoneTree[4].children, temp)
+                            tinsert(zoneTree[4].children, temp)
                             unobtainableCounter = unobtainableCounter + 1
                         end
                     end
                 -- Unoptainable profession quests
                 elseif not QuestieProfessions:HasProfessionAndSkill(quest.requiredSkill) then
-                    table.insert(zoneTree[4].children, temp)
+                    tinsert(zoneTree[4].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
                 -- Unoptainable reputation quests
                 elseif not QuestieProfessions:HasReputation(quest.requiredMinRep, quest.requiredMaxRep) then
-                    table.insert(zoneTree[4].children, temp)
+                    tinsert(zoneTree[4].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
                 -- Repeatable quests
                 elseif quest.Repeatable then
-                    table.insert(zoneTree[3].children, temp)
+                    tinsert(zoneTree[3].children, temp)
                     repeatableCounter = repeatableCounter + 1
                 -- Available quests
                 else
-                    table.insert(zoneTree[1].children, temp)
+                    tinsert(zoneTree[1].children, temp)
                     availableCounter = availableCounter + 1;
                 end
             end
@@ -1099,7 +1101,7 @@ function QuestieJourney:Initialize()
     journeyFrame.frame:Hide();
 
     _G["QuestieJourneyFrame"] = journeyFrame.frame.frame;
-    table.insert(UISpecialFrames, "QuestieJourneyFrame");
+    tinsert(UISpecialFrames, "QuestieJourneyFrame");
 end
 
 function QuestieJourney:ToggleJourneyWindow()
@@ -1169,7 +1171,7 @@ function QuestieJourney:PlayerLevelUp(level)
     data.Timestamp = time();
     data.Party = QuestiePlayer:GetPartyMembers()
 
-    table.insert(Questie.db.char.journey, data);
+    tinsert(Questie.db.char.journey, data);
 end
 
 function QuestieJourney:AcceptQuest(questId)
@@ -1182,7 +1184,7 @@ function QuestieJourney:AcceptQuest(questId)
     data.Timestamp = time();
     data.Party = QuestiePlayer:GetPartyMembers()
 
-    table.insert(Questie.db.char.journey, data);
+    tinsert(Questie.db.char.journey, data);
 end
 
 function QuestieJourney:AbandonQuest(questId)
@@ -1210,7 +1212,7 @@ function QuestieJourney:AbandonQuest(questId)
         data.Timestamp = time()
         data.Party = QuestiePlayer:GetPartyMembers()
 
-        table.insert(Questie.db.char.journey, data);
+        tinsert(Questie.db.char.journey, data);
     end
 end
 
@@ -1224,5 +1226,5 @@ function QuestieJourney:CompleteQuest(questId)
     data.Timestamp = time();
     data.Party = QuestiePlayer:GetPartyMembers()
 
-    table.insert(Questie.db.char.journey, data);
+    tinsert(Questie.db.char.journey, data);
 end

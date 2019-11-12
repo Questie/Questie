@@ -2,6 +2,8 @@
 ---@class QuestieStreamLib
 local QuestieStreamLib = QuestieLoader:CreateModule("QuestieStreamLib");
 
+local tinsert = table.insert
+
 -- shift level table
 QSL_dltab = {};
 QSL_dltab[string.byte("x")] = 0;
@@ -49,7 +51,7 @@ function QuestieStreamLib:GetStream(mode) -- returns a new stream
     end
     stream.finished = function(self) -- its best to call this (not required) when done using the stream
         self:reset()
-        table.insert(StreamPool, self)
+        tinsert(StreamPool, self)
     end
     if mode then
         if mode == "1short" then
@@ -167,7 +169,7 @@ end
 function QuestieStreamLib:ReadBytes(count)
     local ret = {};
     for i=1, count do
-        table.insert(ret, self:ReadByte());
+        tinsert(ret, self:ReadByte());
     end
     return unpack(ret)
 end
@@ -175,7 +177,7 @@ end
 function QuestieStreamLib:ReadShorts(count)
     local ret = {};
     for i=1, count do
-        table.insert(ret, self:ReadShort());
+        tinsert(ret, self:ReadShort());
     end
     return unpack(ret)
 end

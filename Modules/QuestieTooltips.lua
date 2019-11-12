@@ -14,6 +14,7 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 
+local tinsert = table.insert
 local _QuestieTooltips = {};
 QuestieTooltips.lastTooltipTime = GetTime() -- hack for object tooltips
 QuestieTooltips.lastGametooltip = ""
@@ -37,7 +38,7 @@ function QuestieTooltips:RegisterTooltip(questid, key, Objective)
     local tooltip = {};
     tooltip.QuestId = questid;
     tooltip.Objective = Objective
-    --table.insert(QuestieTooltips.tooltipLookup[key], tooltip);
+    --tinsert(QuestieTooltips.tooltipLookup[key], tooltip);
     QuestieTooltips.tooltipLookup[key][tostring(questid) .. " " .. Objective.Index] = tooltip
 end
 
@@ -170,7 +171,7 @@ function QuestieTooltips:GetTooltip(key)
         if(tip == nil) then
             tip = {}
         end
-        table.insert(tip, questData.title);
+        tinsert(tip, questData.title);
         local tempObjectives = {}
         for objectiveIndex, playerList in pairs(questData.objectivesText or {}) do -- Should we do or {} here?
             for playerName, objectiveInfo in pairs(playerList) do
@@ -188,14 +189,14 @@ function QuestieTooltips:GetTooltip(key)
                 end
                 -- We want the player to be on top.
                 if(playerName == name) then
-                    table.insert(tempObjectives, 1, objectiveInfo.text);
+                    tinsert(tempObjectives, 1, objectiveInfo.text);
                 else
-                    table.insert(tempObjectives, objectiveInfo.text);
+                    tinsert(tempObjectives, objectiveInfo.text);
                 end
             end
         end
         for index, text in pairs(tempObjectives) do
-            table.insert(tip, text);
+            tinsert(tip, text);
         end
     end
     return tip

@@ -5,6 +5,7 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 
 
 local objectiveFlashTicker = {}
+local tinsert = table.insert
 
 
 function QuestieTrackerUtils:ShowQuestLog(quest)
@@ -77,7 +78,7 @@ function QuestieTrackerUtils:FlashObjective(Objective) -- really terrible animat
         for _, spawn in pairs(Objective.AlreadySpawned) do
             if spawn.mapRefs then
                 for _, frame in pairs(spawn.mapRefs) do
-                    table.insert(toFlash, frame)
+                    tinsert(toFlash, frame)
                     if frame._hidden_by_flash then
                         frame:Show()
                     end
@@ -161,7 +162,7 @@ function QuestieTrackerUtils:FlashFinisher(Quest) -- really terrible animation c
                 local icon = _G[frameName];
                 if not icon.miniMapIcon then
                     icon._size = icon:GetWidth()
-                    table.insert(toFlash, icon)
+                    tinsert(toFlash, icon)
                 end
             end
         end
@@ -241,7 +242,7 @@ end
 --             if spawn.mapRefs then
 --                 for _, frame in pairs(spawn.mapRefs) do
 --                     if frame.data.ObjectiveData then
---                         table.insert(toFlash, frame)
+--                         tinsert(toFlash, frame)
 --                         if frame._hidden_by_flash then
 --                             frame:Show()
 --                         end
