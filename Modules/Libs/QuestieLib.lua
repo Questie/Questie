@@ -175,12 +175,12 @@ function QuestieLib:GetColoredQuestName(id, name, level, showLevel, isComplete, 
             if questType == 1 then
                 name = "[" .. level .. "+" .. "] " .. name -- Elite quest
             elseif questType == 81 then
-                if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" then
+                if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
                     char = "D"
                 end
                 name = "[" .. level .. char .. "] " .. name -- Dungeon quest
             elseif questType == 62 then
-                if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" then
+                if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
                     char = "R"
                 end
                 name = "[" .. level .. char .. "] " .. name -- Raid quest
