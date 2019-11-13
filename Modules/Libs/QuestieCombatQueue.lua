@@ -8,6 +8,7 @@ function QuestieCombatQueue:Initialize()
         local func = tremove(_Queue, 1)
         while func do
             func.func(func.obj)
+            if InCombatLockdown() then break end
             func = tremove(_Queue, 1)
         end
     end)
