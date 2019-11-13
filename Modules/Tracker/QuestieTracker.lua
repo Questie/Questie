@@ -461,8 +461,9 @@ function QuestieTracker:Update()
                             local height = 0 -- there has to be a better way of calculating this
                             local frame = self.line
                             while frame and frame ~= _QuestieTracker.baseFrame do
-                                height = height - (frame:GetHeight() - select(5, frame:GetPoint()))
-                                frame = select(2, frame:GetPoint())
+                                local _,parent,_,_,yOff = frame:GetPoint()
+                                height = height - (frame:GetHeight() - yOff)
+                                frame = parent
                             end
                             local linep = {self.line:GetPoint()}
                             self:SetPoint("TOPLEFT",_QuestieTracker.baseFrame, trackerBackgroundPadding-Questie.db.global.trackerFontSizeHeader * 1.8, height + Questie.db.global.trackerFontSizeHeader/1.3)
