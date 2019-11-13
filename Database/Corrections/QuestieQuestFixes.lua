@@ -37,8 +37,17 @@ function QuestieQuestFixes:Load()
         [90] = {
             [QuestieDB.questKeys.requiredSkill] = {185, 50}
         },
+        [103] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 77,
+        },
+        [104] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 77,
+        },
         [148] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #1173
+        },
+        [152] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 77,
         },
         [163] = {
             [QuestieDB.questKeys.exclusiveTo] = {5}, -- Raven Hill breadcrumb
@@ -269,6 +278,9 @@ function QuestieQuestFixes:Load()
         [1506] = {
             [QuestieDB.questKeys.exclusiveTo] = {1478}, -- #1427
         },
+        [1581] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 77,
+        },
         [1598] = {
             [QuestieDB.questKeys.exclusiveTo] = {1599}, -- #999
         },
@@ -356,6 +368,9 @@ function QuestieQuestFixes:Load()
         [2260] = {
             [QuestieDB.questKeys.preQuestSingle] = {},
         },
+        [2358] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 77,
+        },
         [2781] = {
             [QuestieDB.questKeys.startedBy] = {nil,{142122,150075,},nil,}, -- #1081
         },
@@ -408,6 +423,9 @@ function QuestieQuestFixes:Load()
         },
         [3681] = {
             [QuestieDB.questKeys.exclusiveTo] = {1642,1646,2997,2998,2999,3000},
+        },
+        [3741] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 77,
         },
         [3765] = {
             [QuestieDB.questKeys.exclusiveTo] = {1275}, -- corruption abroad breadcrumb
@@ -550,6 +568,9 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #983
             [QuestieDB.questKeys.objectives] = {{{11064,"Darrowshire Spirits Freed"},{8530,"Darrowshire Spirits Freed"},{8531,"Darrowshire Spirits Freed"},{8532,"Darrowshire Spirits Freed"},},nil,nil,nil,},
         },
+        [5234] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 178,
+        },
         [5421] = {
             [QuestieDB.questKeys.questLevel] = 25,
         },
@@ -648,6 +669,30 @@ function QuestieQuestFixes:Load()
         [7070] = {
             [QuestieDB.questKeys.requiredLevel] = 39,
         },
+        [7166] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 178,
+        },
+        [7167] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 178,
+        },
+        [7170] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 77,
+        },
+        [7171] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 77,
+        },
+        [7172] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 77,
+        },
+        [7426] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 77,
+        },
+        [7427] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 178,
+        },
+        [7428] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 77,
+        },
         [7489] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #1514
         },
@@ -715,11 +760,125 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.startedBy] = {{14733},nil,nil},
             [QuestieDB.questKeys.finishedBy] = {{14733},nil,},
         },
+        [8149] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 77,
+        },
+        [8150] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 178,
+        },
+        [8272] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 178,
+        },
         [8289] = { -- #1435
             [QuestieDB.questKeys.startedBy] = {{14733},nil,nil},
             [QuestieDB.questKeys.finishedBy] = {{14733},nil,},
             [QuestieDB.questKeys.requiredRaces] = 77,
             [QuestieDB.questKeys.specialFlags] = 1,
+        },
+        [8296] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 178,
+        },
+        [8493] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 77,
+        },
+        [8495] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 77,
+        },
+        [8504] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 77,
+        },
+        [8506] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 77,
+        },
+        [8510] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 77,
+        },
+        [8512] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 77,
+        },
+        [8514] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 77,
+        },
+        [8516] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 77,
+        },
+        [8518] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 77,
+        },
+        [8521] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 77,
+        },
+        [8523] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 77,
+        },
+        [8525] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 77,
+        },
+        [8527] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 77,
+        },
+        [8529] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 77,
+        },
+        [8533] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 178,
+        },
+        [8543] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 178,
+        },
+        [8546] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 178,
+        },
+        [8550] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 178,
+        },
+        [8581] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 178,
+        },
+        [8583] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 178,
+        },
+        [8589] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 178,
+        },
+        [8591] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 178,
+        },
+        [8601] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 178,
+        },
+        [8605] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 178,
+        },
+        [8608] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 178,
+        },
+        [8610] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 178,
+        },
+        [8612] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 178,
+        },
+        [8614] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 178,
+        },
+        [8616] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 178,
+        },
+        [8980] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 178,
+        },
+        [9026] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 77,
+        },
+        [9033] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 178,
+        },
+        [9261] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 77,
+        },
+        [9262] = { -- bad race data
+            [QuestieDB.questKeys.requiredRaces] = 77,
         },
     }
 end
