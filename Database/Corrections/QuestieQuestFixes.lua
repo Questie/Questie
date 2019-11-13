@@ -37,18 +37,18 @@ function QuestieQuestFixes:Load()
         [90] = {
             [QuestieDB.questKeys.requiredSkill] = {185, 50}
         },
-        [103] = { -- bad race data
-            [QuestieDB.questKeys.requiredRaces] = 77,
-        },
-        [104] = { -- bad race data
-            [QuestieDB.questKeys.requiredRaces] = 77,
-        },
+        --[103] = { -- bad race data (actually this is correct)
+        --    [QuestieDB.questKeys.requiredRaces] = 77,
+        --},
+        --[104] = { -- bad race data (actually this is correct)
+        --    [QuestieDB.questKeys.requiredRaces] = 77,
+        --},
         [148] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #1173
         },
-        [152] = { -- bad race data
-            [QuestieDB.questKeys.requiredRaces] = 77,
-        },
+        --[152] = { -- bad race data (actually this is correct)
+        --    [QuestieDB.questKeys.requiredRaces] = 77,
+        --},
         [163] = {
             [QuestieDB.questKeys.exclusiveTo] = {5}, -- Raven Hill breadcrumb
         },
@@ -424,9 +424,9 @@ function QuestieQuestFixes:Load()
         [3681] = {
             [QuestieDB.questKeys.exclusiveTo] = {1642,1646,2997,2998,2999,3000},
         },
-        [3741] = { -- bad race data
-            [QuestieDB.questKeys.requiredRaces] = 77,
-        },
+        --[3741] = { -- bad race data (actually this is correct)
+        --    [QuestieDB.questKeys.requiredRaces] = 77,
+        --},
         [3765] = {
             [QuestieDB.questKeys.exclusiveTo] = {1275}, -- corruption abroad breadcrumb
         },
