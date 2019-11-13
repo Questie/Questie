@@ -216,19 +216,13 @@ end
 
 
 function QuestieMap:ProcessQueue()
-    --Use a for loop to increase the draw speed.
-    for i=0, 2 do
-        local mapDrawCall = tremove(mapDrawQueue, 1);
-        if(mapDrawCall) then
-            HBDPins:AddWorldMapIconMap(tunpack(mapDrawCall));
-        end
-        local minimapDrawCall = tremove(minimapDrawQueue, 1);
-        if(minimapDrawCall) then
-            HBDPins:AddMinimapIconMap(tunpack(minimapDrawCall));
-        end
-        if(not mapDrawCall and not minimapDrawCall) then
-            break;
-        end
+    local mapDrawCall = tremove(mapDrawQueue, 1);
+    if(mapDrawCall) then
+        HBDPins:AddWorldMapIconMap(tunpack(mapDrawCall));
+    end
+    local minimapDrawCall = tremove(minimapDrawQueue, 1);
+    if(minimapDrawCall) then
+        HBDPins:AddMinimapIconMap(tunpack(minimapDrawCall));
     end
 end
 
