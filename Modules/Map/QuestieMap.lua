@@ -152,6 +152,15 @@ function QuestieMap:RescaleIcons(modifier)
     end
 end
 
+-- Rescale all the shown map icons
+function QuestieMap:RescaleShownMapIcons(modifier)
+    for _, framelist in pairs(QuestieMap.mapFramesShown) do
+        for _, frameName in ipairs(framelist) do
+            rescaleIcon(frameName, modifier)
+        end
+    end
+end
+
 local mapDrawQueue = {};
 local minimapDrawQueue = {};
 function QuestieMap:InitializeQueue()
@@ -191,7 +200,7 @@ function QuestieMap:UpdateZoomScale()
                 scaling = 0.9
             end
         end
-        QuestieMap:RescaleIcons(scaling);
+        QuestieMap:RescaleShownMapIcons(scaling);
     end)
 end
 
