@@ -1643,37 +1643,40 @@ function _QuestieQuest:GetQuestIcon(questObject)
     return icon
 end
 
-function _QuestieQuest:IsDoable(questObject)
-    if not questObject then
+function _QuestieQuest:IsDoable(quest)
+    if not quest then
         return false;
     end
-    if questObject.Hidden then
+    if quest.isHidden then
         return false;
     end
-    if Questie.db.char.hidden[questObject.Id] then
+    if Questie.db.char.hidden[quest.Id] then
         return false;
     end
-    if questObject.nextQuestInChain then
-        if Questie.db.char.complete[questObject.nextQuestInChain] or QuestiePlayer.currentQuestlog[questObject.nextQuestInChain] then
+    if quest.nextQuestInChain then
+        if Questie.db.char.complete[quest.nextQuestInChain] or QuestiePlayer.currentQuestlog[quest.nextQuestInChain] then
             return false
         end
     end
-    --Run though the requiredQuests
-    if questObject.ExclusiveQuestGroup then -- fix (DO NOT REVERT, tested thoroughly)
-        for k, v in pairs(questObject.ExclusiveQuestGroup) do
+    -- Check if a quest which is exclusive to the current has already been completed or accepted
+    -- If yes the current quest can't be accepted
+    if quest.ExclusiveQuestGroup then -- fix (DO NOT REVERT, tested thoroughly)
+        for k, v in pairs(quest.ExclusiveQuestGroup) do
             if Questie.db.char.complete[v] or QuestiePlayer.currentQuestlog[v] then
                 return false
             end
         end
     end
-    if questObject.parentQuest and not _QuestieQuest:IsParentQuestActive(questObject.parentQuest) then
-        return false
+    if quest.parentQuest then
+        -- If the quest has a parent quest then only show it if the
+        -- parent quest is in the quest log
+        return _QuestieQuest:IsParentQuestActive(quest.parentQuest)
     end
 
     -- check if npc is friendly
-    if questObject.Starts["NPC"] ~= nil then
+    if quest.Starts["NPC"] ~= nil then
         local hasValidNPC = false
-        for _, id in ipairs(questObject.Starts["NPC"]) do
+        for _, id in ipairs(quest.Starts["NPC"]) do
             if QuestieDB:GetNPC(id).friendly then
                 hasValidNPC = true
                 break
@@ -1684,22 +1687,22 @@ function _QuestieQuest:IsDoable(questObject)
         end
     end
 
-    if QuestieProfessions:HasProfessionAndSkill(questObject.requiredSkill) == false then
+    if not QuestieProfessions:HasProfessionAndSkill(quest.requiredSkill) then
         return false
     end
 
-    if QuestieProfessions:HasReputation(questObject.requiredMinRep, questObject.requiredMaxRep) == false then
+    if not QuestieProfessions:HasReputation(quest.requiredMinRep, quest.requiredMaxRep) then
         return false
     end
 
     -- Check the preQuestGroup field where every required quest has to be complete for a quest to show up
-    if questObject.preQuestGroup ~= nil and next(questObject.preQuestGroup) ~= nil then
-        return _QuestieQuest:IsPreQuestGroupFulfilled(questObject.preQuestGroup)
+    if quest.preQuestGroup ~= nil and next(quest.preQuestGroup) ~= nil then
+        return _QuestieQuest:IsPreQuestGroupFulfilled(quest.preQuestGroup)
     end
 
     -- Check the preQuestSingle field where just one of the required quests has to be complete for a quest to show up
-    if questObject.preQuestSingle ~= nil and next(questObject.preQuestSingle) ~= nil then
-        return _QuestieQuest:IsPreQuestSingleFulfilled(questObject.preQuestSingle)
+    if quest.preQuestSingle ~= nil and next(quest.preQuestSingle) ~= nil then
+        return _QuestieQuest:IsPreQuestSingleFulfilled(quest.preQuestSingle)
     end
 
     return true
@@ -1772,7 +1775,7 @@ function QuestieQuest:CalculateAvailableQuests()
             (not QuestieCorrections.hiddenQuests[questID]) and -- Don't show blacklisted quests
             ((not quest.Repeatable) or (quest.Repeatable and showRepeatableQuests))) then -- Show repeatable quests if the quest is repeatable and the option is enabled
 
-            if quest and _QuestieQuest:LevelRequirementsFulfilled(quest, playerLevel, minLevel, maxLevel) or _QuestieQuest:IsParentQuestActive(quest.parentQuest) then
+            if quest and _QuestieQuest:LevelRequirementsFulfilled(quest, playerLevel, minLevel, maxLevel) then
                 if _QuestieQuest:IsDoable(quest) then
                     QuestieQuest.availableQuests[questID] = questID
                 end

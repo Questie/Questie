@@ -991,7 +991,7 @@ function CollectZoneQuests(zoneId)
         local qId = quest.Id
 
         -- Only show quests which are not hidden
-        if not quest.Hidden and QuestieCorrections.hiddenQuests and not QuestieCorrections.hiddenQuests[qId] then
+        if not quest.isHidden and QuestieCorrections.hiddenQuests and not QuestieCorrections.hiddenQuests[qId] then
             temp.value = qId
             temp.text = quests[qId]:GetColoredQuestName()
 

@@ -185,7 +185,7 @@ function QuestieDB:GetQuest(questID) -- /dump QuestieDB:GetQuest(867)
     QO.Starts["GameObject"] = rawdata[2][2] --2.2
     QO.Starts["Item"] = rawdata[2][3] --2.3
     QO.Ends = {} --ends 3
-    QO.Hidden = rawdata.hidden or QuestieCorrections.hiddenQuests[questID]
+    QO.isHidden = rawdata.hidden or QuestieCorrections.hiddenQuests[questID]
     QO.Description = rawdata[8] --
     if QO.specialFlags then
         QO.Repeatable = mod(QO.specialFlags, 2) == 1
