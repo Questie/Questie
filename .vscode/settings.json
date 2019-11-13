@@ -2648,6 +2648,7 @@
         "QUEST_OBJECTS_FOUND",
         "QUEST_WATCH_NO_EXPIRE",
         "WORLD_MAP",
+        "CLOSE",
         "-----------------------------------------------------> External Addons",
         "AtlasToggleFromWorldMap",
         "QuestLogEx",

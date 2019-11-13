@@ -5,6 +5,8 @@ QuestieTracker.menu = {}
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
 
 local tinsert = table.insert
@@ -170,7 +172,50 @@ function QuestieTracker.menu:GetMenuForQuest(quest)
     else
         tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_LOCK'), func = function() LQuestie_CloseDropDownMenus(); Questie.db.global.trackerLocked = true end})
     end
+
+    tinsert(menu, {text="|cFF39c0edWowhead URL|r", func = function()
+        StaticPopup_Show("QUESTIE_WOWHEAD_URL", quest.Id)
+    end})
+
     tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_CANCEL'), func = function() end})
 
     return menu
 end
+
+-- Register the Wowhead popup dialog
+StaticPopupDialogs["QUESTIE_WOWHEAD_URL"] = {
+    text = "Wowhead URL",
+    button2 = CLOSE,
+    hasEditBox = true,
+    editBoxWidth = 280,
+
+    EditBoxOnEnterPressed = function(self)
+        self:GetParent():Hide()
+    end,
+
+    EditBoxOnEscapePressed = function(self)
+        self:GetParent():Hide()
+    end,
+
+    OnShow = function(self)
+        local questID = self.text.text_arg1;
+        local quest_wow = QuestieDB:GetQuest(questID);
+        local name = quest_wow.name;
+
+        -- self.text:SetText(self.text:GetText() .. "\n\n|cffff7f00" .. name .. "|r");
+        self.text:SetFont("GameFontNormal", 12)
+        -- self.text:SetText(self.text:GetText() .. "\n\n|c FFFFB9 00" .. name .. "|r");
+        self.text:SetText(self.text:GetText() .. Questie:Colorize("\n\n" .. name, "gold"));
+
+        local langShort = string.sub(QuestieLocale:GetUILocale(), 1, 2) .. "."
+        if langShort == "en." then
+            langShort = ""
+        end
+        self.editBox:SetText("https://" .. langShort .. "classic.wowhead.com/quest=" .. questID);
+        self.editBox:SetFocus();
+        self.editBox:HighlightText();
+    end,
+
+    whileDead = true,
+    hideOnEscape = true
+}
