@@ -86,29 +86,35 @@ local function createItemButton()
             self.itemID = id
             self:SetAttribute("item", "item:" .. tostring(id));
             self:SetNormalTexture(validTexture)
-            --self:SetHighlightTexture(validTexture)
             self:SetPushedTexture(validTexture)
-            self:SetSize(size-2, size-2)
-            -- not sure why NormalTexture needs manual readjustment like this but it does
-            self.NormalTexture:SetSize(size, size)
-            local pnt = {self.NormalTexture:GetPoint()}
-            pnt[5] = 0 -- this is default -1 for some reason which makes it weirdly offset with the other textures
-            self.NormalTexture:SetPoint(unpack(pnt))
+            self:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
+            self:SetSize(size, size)
+            self:SetScript("OnEnter", self.OnEnter)
+            self:SetScript("OnLeave", self.OnLeave)
+            self:RegisterForClicks("AnyUp")
             return true
         end -- else error?
         return false
     end
-    
-    btn:RegisterForClicks("AnyUp")
-    btn:SetScript("OnEnter", function(self)
+
+    btn.OnEnter = function(self)
         GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
         GameTooltip:SetHyperlink("item:"..tostring(self.itemID)..":0:0:0:0:0:0:0")
         GameTooltip:Show()
-    end)
-    btn:SetScript("OnLeave", function(self)
+    end
+    btn.OnLeave = function(self)
         GameTooltip:Hide()
-    end)
-
+    end
+    
+    btn.FakeHide = function(self)
+        self:RegisterForClicks(nil)
+        self:SetScript("OnEnter", nil)
+        self:SetScript("OnLeave", nil)
+        self:SetNormalTexture(nil)
+        self:SetPushedTexture(nil)
+        self:SetHighlightTexture(nil)
+    end
+    btn:FakeHide()
     --btn:SetParent(_QuestieTracker.baseFrame)
     --btn:SetPoint("Center",_QuestieTracker.baseFrame)
     --btn:SetItem(159, 24)
@@ -458,7 +464,7 @@ function QuestieTracker:Update()
                     button.fontSize = fontSizeCompare 
                     button.line = line
                     QuestieCombatQueue:Queue(function(self)
-                        if self:SetItem(quest.sourceItemId, Questie.db.global.trackerFontSizeHeader * 1.8) then
+                        if self:SetItem(quest.sourceItemId, Questie.db.global.trackerFontSizeHeader * 1.7) then
                             self:SetParent(_QuestieTracker.baseFrame)
                             local height = 0 -- there has to be a better way of calculating this
                             local frame = self.line
@@ -526,6 +532,7 @@ function QuestieTracker:Update()
     for i=buttonIndex+1, 20 do
         local button = _QuestieTracker.ItemButtons[i]
         if button.itemID then
+            button:FakeHide()
             button.itemID = nil -- immediately clear to prevent double-queue
             button.lineID = nil
             button.fontSize = nil
