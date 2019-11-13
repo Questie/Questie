@@ -451,10 +451,12 @@ function QuestieTracker:Update()
 
             if quest.sourceItemId and questCompletePercent[quest.Id] ~= 1 then
                 local button = _QuestieTracker:GetNextItemButton()
-                if lineIndex ~= button.lineID or quest.sourceItemId ~= button.itemID or Questie.db.global.trackerFontSizeHeader ~= button.fontSize then
+                local fontSizeCompare = Questie.db.global.trackerFontSizeHeader + Questie.db.global.trackerFontSizeLine + Questie.db.global.trackerQuestPadding -- hack to allow refreshing when changing font size
+                if lineIndex ~= button.lineID or quest.sourceItemId ~= button.itemID or fontSizeCompare ~= button.fontSize then
                     button.lineID = lineIndex -- immediately set to prevent double-queue
                     button.itemID = quest.sourceItemId
-                    button.fontSize = Questie.db.global.trackerFontSizeHeader -- hack to allow refreshing when changing font size
+                    button.fontSize = fontSizeCompare 
+                    button.line = line
                     QuestieCombatQueue:Queue(function(self)
                         if self:SetItem(quest.sourceItemId, Questie.db.global.trackerFontSizeHeader * 1.8) then
                             self:SetParent(_QuestieTracker.baseFrame)
@@ -599,9 +601,7 @@ end
 
 function _QuestieTracker:GetNextItemButton()
     buttonIndex = buttonIndex + 1
-    local button = _QuestieTracker.ItemButtons[buttonIndex]
-    button.line = _QuestieTracker.LineFrames[lineIndex]
-    return button
+    return _QuestieTracker.ItemButtons[buttonIndex]
 end
 
 function _QuestieTracker:StartFadeTicker()
