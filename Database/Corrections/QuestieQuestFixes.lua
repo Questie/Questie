@@ -257,6 +257,12 @@ function QuestieQuestFixes:Load()
         [1428] = {
             [QuestieDB.questKeys.preQuestSingle] = {1427},
         },
+        [1432] = {
+            [QuestieDB.questKeys.nextQuestInChain] = 1433,
+        },
+        [1434] = {
+            [QuestieDB.questKeys.preQuestSingle] = {1432}, -- #1536
+        },
         [1442] = {
             [QuestieDB.questKeys.parentQuest] = 1654,
         },
