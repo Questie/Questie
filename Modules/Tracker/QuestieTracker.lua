@@ -370,7 +370,11 @@ function QuestieTracker:Update()
 
     if (not Questie.db.global.trackerEnabled) then
         -- tracker has started but not enabled
-        _QuestieTracker.baseFrame:Hide()
+        if _QuestieTracker.baseFrame and _QuestieTracker.baseFrame:IsShown() then
+            QuestieCombatQueue:Queue(function() 
+                _QuestieTracker.baseFrame:Hide()
+            end)
+        end
         return
     end
     if Questie.db.global.trackerCounterEnabled then
@@ -453,8 +457,15 @@ function QuestieTracker:Update()
                     button.fontSize = Questie.db.global.trackerFontSizeHeader -- hack to allow refreshing when changing font size
                     QuestieCombatQueue:Queue(function(self)
                         if self:SetItem(quest.sourceItemId, Questie.db.global.trackerFontSizeHeader * 1.8) then
-                            self:SetParent(self.line)
-                            self:SetPoint("TOPLEFT",self.line, -Questie.db.global.trackerFontSizeHeader * 1.8, -Questie.db.global.trackerFontSizeHeader/5)
+                            self:SetParent(_QuestieTracker.baseFrame)
+                            local height = 0 -- there has to be a better way of calculating this
+                            local frame = self.line
+                            while frame and frame ~= _QuestieTracker.baseFrame do
+                                height = height - (frame:GetHeight() - select(5, frame:GetPoint()))
+                                frame = select(2, frame:GetPoint())
+                            end
+                            local linep = {self.line:GetPoint()}
+                            self:SetPoint("TOPLEFT",_QuestieTracker.baseFrame, trackerBackgroundPadding-Questie.db.global.trackerFontSizeHeader * 1.8, height + Questie.db.global.trackerFontSizeHeader/1.3)
                             self:Show()
                         else
                             self:Hide()
@@ -516,6 +527,7 @@ function QuestieTracker:Update()
             button.lineID = nil
             button.fontSize = nil
             QuestieCombatQueue:Queue(function(self)
+                self:SetParent(UIParent)
                 self:Hide()
             end, button)
         end
@@ -523,8 +535,10 @@ function QuestieTracker:Update()
 
     -- adjust base frame size for dragging
     if line then
-        _QuestieTracker.baseFrame:SetWidth(trackerWidth + trackerBackgroundPadding*2)
-        _QuestieTracker.baseFrame:SetHeight((_QuestieTracker.baseFrame:GetTop() - line:GetBottom()) + trackerBackgroundPadding*2 - Questie.db.global.trackerQuestPadding*2)
+        QuestieCombatQueue:Queue(function(line) 
+            _QuestieTracker.baseFrame:SetWidth(trackerWidth + trackerBackgroundPadding*2)
+            _QuestieTracker.baseFrame:SetHeight((_QuestieTracker.baseFrame:GetTop() - line:GetBottom()) + trackerBackgroundPadding*2 - Questie.db.global.trackerQuestPadding*2)
+        end, line)
     end
     -- make sure tracker is inside the screen
 
@@ -565,10 +579,15 @@ function QuestieTracker:Update()
         end
         QuestieQuest:UpdateHiddenNotes()
     end
+    
     if hasQuest then
-        _QuestieTracker.baseFrame:Show()
+        QuestieCombatQueue:Queue(function() 
+            _QuestieTracker.baseFrame:Show()
+        end)
     else
-        _QuestieTracker.baseFrame:Hide()
+        QuestieCombatQueue:Queue(function() 
+            _QuestieTracker.baseFrame:Hide()
+        end)
     end
 end
 
