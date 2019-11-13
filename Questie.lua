@@ -210,7 +210,7 @@ function Questie:OnInitialize()
     QuestieCoords.Initialize();
 
     QuestieQuestTimers:Initialize()
-    --QuestieCombatQueue:Initialize()
+    QuestieCombatQueue:Initialize()
 
     -- Initialize questiecomms
     --C_ChatInfo.RegisterAddonMessagePrefix("questie")
