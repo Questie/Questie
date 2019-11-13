@@ -80,6 +80,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 ---@type QuestieQuestTimers
 local QuestieQuestTimers = QuestieLoader:ImportModule("QuestieQuestTimers")
+---@type QuestieCombatQueue
+local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 
 -- check if user has updated but not restarted the game (todo: add future new source files to this)
 if  (not LQuestie_EasyMenu) or
@@ -124,6 +126,7 @@ if  (not LQuestie_EasyMenu) or
     (not QuestieStreamLib) or
     (not QuestieTooltips) or
     (not QuestieSearchResults) or
+    (not QuestieCombatQueue) or 
     (not QuestieTracker) then
     --Delay the warning.
     C_Timer.After(8, function()
@@ -207,6 +210,7 @@ function Questie:OnInitialize()
     QuestieCoords.Initialize();
 
     QuestieQuestTimers:Initialize()
+    --QuestieCombatQueue:Initialize()
 
     -- Initialize questiecomms
     --C_ChatInfo.RegisterAddonMessagePrefix("questie")

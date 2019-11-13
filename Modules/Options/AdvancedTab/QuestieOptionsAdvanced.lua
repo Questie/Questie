@@ -22,7 +22,7 @@ QuestieOptions.tabs.advanced = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
 
 
-function QuestieOptions.tabs.advanced:Initalize()
+function QuestieOptions.tabs.advanced:Initialize()
     return {
         name = function() return QuestieLocale:GetUIString('ADV_TAB'); end,
         type = "group",

@@ -14,7 +14,7 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
 
 local minimapIconLDB = nil
 
-function QuestieOptionsMinimapIcon:Initalize()
+function QuestieOptionsMinimapIcon:Initialize()
     minimapIconLDB = LibStub("LibDataBroker-1.1"):NewDataObject("MinimapIcon", {
         type = "data source",
         text = "Questie",

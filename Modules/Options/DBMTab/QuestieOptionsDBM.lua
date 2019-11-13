@@ -18,7 +18,7 @@ local optionsDefaults = QuestieOptionsDefaults:Load()
 
 --TODO, hid hud tab if DBMHudMap global doesn't exist? Or at very least gray out options?
 --dbmHUDEnable, dbmHUDShowAlert, DBMHUDZoom, dbmHUDRadius, dbmHUDShowQuest, dbmHUDShowSlay, dbmHUDShowLoot, dbmHUDShowInteract
-function QuestieOptions.tabs.dbm:Initalize()
+function QuestieOptions.tabs.dbm:Initialize()
     return {
         name = function() return QuestieLocale:GetUIString('DBM_HUD_TAB'); end,
         type = "group",

@@ -31,7 +31,7 @@ function QuestieOptions:Initialize()
     QuestieConfigFrame = configFrame.frame;
     table.insert(UISpecialFrames, "QuestieConfigFrame");
 
-    QuestieOptionsMinimapIcon:Initalize()
+    QuestieOptionsMinimapIcon:Initialize()
     Questie:Debug(DEBUG_DEVELOP, "[QuestieOptions]: Initialization done")
 end
 
@@ -85,12 +85,12 @@ _CreateGUI = function()
         childGroups = "tab",
         args = {
             general_tab = QuestieOptions.tabs.general:Initialize(),
-            minimap_tab = QuestieOptions.tabs.minimap:Initalize(),
+            minimap_tab = QuestieOptions.tabs.minimap:Initialize(),
             map_tab = QuestieOptions.tabs.map:Initialize(),
-            dbm_hud_tab = QuestieOptions.tabs.dbm:Initalize(),
+            dbm_hud_tab = QuestieOptions.tabs.dbm:Initialize(),
             tracker_tab = QuestieOptions.tabs.tracker:Initialize(),
             nameplate_tab = QuestieOptions.tabs.nameplate:Initialize(),
-            advanced_tab = QuestieOptions.tabs.advanced:Initalize(),
+            advanced_tab = QuestieOptions.tabs.advanced:Initialize(),
         }
     }
 end

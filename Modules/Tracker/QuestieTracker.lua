@@ -18,11 +18,13 @@ local QuestieQuestTimers = QuestieLoader:ImportModule("QuestieQuestTimers")
 
 local _QuestieTracker = QuestieTracker.private
 _QuestieTracker.LineFrames = {}
+_QuestieTracker.ItemButtons = {}
 
 -- these should be configurable maybe
 local trackerLineCount = 64 -- shouldnt need more than this
 local trackerBackgroundPadding = 4
 local lineIndex = 0
+local buttonIndex = 0
 local lastAQW = GetTime()
 local durabilityInitialPosition = nil
 
@@ -34,6 +36,82 @@ _QuestieTracker.IsFirstRun = true -- bad code
 -- Forward declaration
 local _OnClick, _OnEnter, _OnLeave, _AQW_Insert, _RemoveQuestWatch
 
+--[[function _TEST_F2()
+    local bag = CreateFrame("Frame", nil, UIParent)
+    local btn = CreateFrame("Button", nil, bag, "ContainerFrameItemButtonTemplate")
+    btn:SetSize(32, 32)
+    bag:SetSize(32, 32)
+    btn:SetPoint("Center",UIParent)
+    btn:SetID(3)
+    bag:SetID(0)
+    btn.Update = function(self)
+        local texture, count, locked, quality, _, _, link, filtered, _, id = GetContainerItemInfo(0, 3)
+        SetItemButtonTexture(self, texture)
+        --SetItemButtonQuality(self, quality, id)
+        SetItemButtonCount(self, count)
+        SetItemButtonDesaturated(self, locked)
+        --UpdateCooldown(self)
+    end
+    --local oldOnClick = btn:GetScript("OnClick")
+    --btn:RegisterForClicks("LeftButton")
+    btn:SetScript("OnClick", function(self)
+        ContainerFrameItemButton_OnClick(self, "RightButton")
+    end)
+    --btn:SetScript("OnClick", function(self, a, b, c, d, e, f)
+    --    oldOnClick(self, a, b, c, d, e, f)
+    --end)
+    btn:Update()
+    btn:Show()
+    return btn
+end]]--
+
+local function createItemButton()
+    local btn = CreateFrame("Button", nil, nil, "SecureActionButtonTemplate,ActionButtonTemplate")
+    btn:SetAttribute("type", "item");
+
+    btn.SetItem = function(self, id, size)
+        local validTexture = nil
+        for bag=0,5 do -- maybe keyring still acts like a bag
+            for slot=0,24 do
+                local texture, count, locked, quality, _, _, link, filtered, _, itemID = GetContainerItemInfo(bag, slot)
+                if id == itemID then
+                    validTexture = texture
+                    break
+                end
+            end
+        end
+        if validTexture then
+            self.itemID = id
+            self:SetAttribute("item", "item:" .. tostring(id));
+            self:SetNormalTexture(validTexture)
+            --self:SetHighlightTexture(validTexture)
+            self:SetPushedTexture(validTexture)
+            self:SetSize(size-2, size-2)
+            -- not sure why NormalTexture needs manual readjustment like this but it does
+            self.NormalTexture:SetSize(size, size)
+            local pnt = {self.NormalTexture:GetPoint()}
+            pnt[5] = 0 -- this is default -1 for some reason which makes it weirdly offset with the other textures
+            self.NormalTexture:SetPoint(unpack(pnt))
+        end -- else error?
+    end
+    
+    btn:RegisterForClicks("AnyUp")
+    btn:SetScript("OnEnter", function(self)
+        GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
+        GameTooltip:SetHyperlink("item:"..tostring(self.itemID)..":0:0:0:0:0:0:0")
+        GameTooltip:Show()
+    end)
+    btn:SetScript("OnLeave", function(self)
+        GameTooltip:Hide()
+    end)
+
+    --btn:SetParent(_QuestieTracker.baseFrame)
+    --btn:SetPoint("Center",_QuestieTracker.baseFrame)
+    --btn:SetItem(159, 24)
+    --btn:Show()
+
+    return btn
+end
 
 function QuestieTracker:Initialize()
     if QuestieTracker.started or (not Questie.db.global.trackerEnabled) then return; end
@@ -68,6 +146,11 @@ function QuestieTracker:Initialize()
 
     -- This is the best way to not check 19238192398 events which might reset the position of the DurabilityFrame
     hooksecurefunc("UIParent_ManageFramePositions", QuestieTracker.MoveDurabilityFrame)
+
+    -- create buttons for quest items
+    --for i=1,20 do
+    --    _QuestieTracker.ItemButtons[i] = createItemButton()
+    --end
 
     -- this number is static, I doubt it will ever need more
     local lastFrame = nil
@@ -357,6 +440,10 @@ function QuestieTracker:Update()
             line:SetQuest(quest)
             line:SetObjective(nil)
 
+            --if true then -- if quest.provided
+            --    local button = _QuestieTracker:GetNextItemButton()
+            --end
+
             local questName = (quest.LocalizedName or quest.name)
             local coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, questName, quest.level, Questie.db.global.trackerShowQuestLevel, complete)
             line.label:SetText(coloredQuestName)
@@ -366,18 +453,15 @@ function QuestieTracker:Update()
             trackerWidth = math.max(trackerWidth, line.label:GetWidth())
 
             -- Add quest timer
-            line = _QuestieTracker:GetNextLine()
             local seconds = QuestieQuestTimers:GetQuestTimerByQuestId(questId, line)
             if seconds then
+                line = _QuestieTracker:GetNextLine()
                 line:SetMode("header")
                 line:SetQuest(quest)
                 line.label:SetPoint("TOPLEFT", line, 10, 0)
                 line.label:SetText(seconds)
                 line:Show()
                 line.label:Show()
-            else
-                -- No timer for this quest so we can reuse the line
-                lineIndex = lineIndex - 1
             end
 
             if quest.Objectives and not complete then
@@ -459,6 +543,12 @@ end
 function _QuestieTracker:GetNextLine()
     lineIndex = lineIndex + 1
     return _QuestieTracker.LineFrames[lineIndex]
+end
+
+function _QuestieTracker:GetNextItemButton()
+    buttonIndex = buttonIndex + 1
+    local button = _QuestieTracker.ItemButtons[buttonIndex]
+    button.line = _QuestieTracker.LineFrames[lineIndex]
 end
 
 function _QuestieTracker:StartFadeTicker()

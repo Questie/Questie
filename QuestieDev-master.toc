@@ -57,6 +57,7 @@ Modules\Libs\QuestieLib.lua
 #Modules\Libs\QuestieCompress.lua
 Modules\Libs\QuestiePlayer.lua
 Modules\Libs\QuestieSerializer.lua
+Modules\Libs\QuestieCombatQueue.lua
 
 ##Modules
 Modules\QuestieAuto.lua

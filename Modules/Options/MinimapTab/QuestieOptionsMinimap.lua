@@ -18,7 +18,7 @@ QuestieOptions.tabs.minimap = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
 
 
-function QuestieOptions.tabs.minimap:Initalize()
+function QuestieOptions.tabs.minimap:Initialize()
     return {
         name = function() return QuestieLocale:GetUIString('MINIMAP_TAB'); end,
         type = "group",
