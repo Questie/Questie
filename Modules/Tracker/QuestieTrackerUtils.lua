@@ -15,6 +15,11 @@ function QuestieTracker.utils:ShowQuestLog(quest)
     HideUIPanel(questFrame);
     local questLogIndex = GetQuestLogIndexByID(quest.Id);
     SelectQuestLogEntry(questLogIndex)
+
+    -- Scroll to the quest in the quest log
+    local scrollSteps = QuestLogListScrollFrame.ScrollBar:GetValueStep()
+    QuestLogListScrollFrame.ScrollBar:SetValue(questLogIndex * scrollSteps - scrollSteps * 3);
+
     ShowUIPanel(questFrame);
 
     --Addon specific behaviors
