@@ -131,7 +131,7 @@ function QuestieEventHandler:CompleteQuest(questId, count)
         return
     end
     if(IsQuestFlaggedCompleted(questId) or quest.Repeatable or count > 50) then
-        QuestieQuest:CompleteQuest(questId)
+        QuestieQuest:CompleteQuest(quest)
         QuestieJourney:CompleteQuest(questId)
     else
         Questie:Debug(DEBUG_INFO, "[QuestieEventHandler]", questId, ":Quest not complete starting timer! IsQuestFlaggedCompleted", IsQuestFlaggedCompleted(questId), "Repeatable:", quest.Repeatable, "Count:", count);

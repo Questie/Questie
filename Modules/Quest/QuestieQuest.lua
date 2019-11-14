@@ -362,9 +362,10 @@ function QuestieQuest:AcceptQuest(questId)
 
 end
 
-function QuestieQuest:CompleteQuest(questId)
+function QuestieQuest:CompleteQuest(quest)
+    local questId = quest.Id
     QuestiePlayer.currentQuestlog[questId] = nil;
-    Questie.db.char.complete[questId] = true --can we use some other relevant info here?
+    Questie.db.char.complete[questId] = quest and not quest.Repeatable
     QuestieHash:RemoveQuestHash(questId)
 
     --This should probably be done first, because DrawAllAvailableQuests looks at QuestieMap.questIdFrames[QuestId] to add available
