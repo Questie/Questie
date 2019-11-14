@@ -94,7 +94,6 @@ function QuestieFramePool:GetFrame()
         break
     end
 
-
     if returnFrame and returnFrame.frameId and _QuestieFramePool.usedFrames[returnFrame.frameId] then
         -- something went horribly wrong (desync bug?) don't use this frame since its already in use
         returnFrame = nil
@@ -134,7 +133,6 @@ function QuestieFramePool:GetFrame()
     end
 
     if returnFrame.BaseOnUpdate then
-        --f:SetScript("OnUpdate", f.BaseOnUpdate)
         returnFrame.glowLogicTimer = C_Timer.NewTicker(1, returnFrame.BaseOnUpdate);
     else
         returnFrame:SetScript("OnUpdate", nil)
@@ -148,15 +146,9 @@ function QuestieFramePool:GetFrame()
     return returnFrame
 end
 
---for i, frame in ipairs(_QuestieFramePool.allFrames) do
---    if(frame.loaded == nil)then
---        return frame
---    end
---end
-
 function QuestieFramePool:UnloadAll()
-
     Questie:Debug(DEBUG_DEVELOP, "[QuestieFramePool] ".. QuestieLocale:GetUIString('DEBUG_UNLOAD_ALL', #_QuestieFramePool.allFrames))
+
     for i, frame in ipairs(_QuestieFramePool.allFrames) do
         --_QuestieFramePool:UnloadFrame(frame);
         frame:Unload()
@@ -344,7 +336,6 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     tinsert(QuestieFramePool.Routes_Lines_Used, lineFrame)
     --QuestieFramePool.Routes_Lines_Used[lineFrame:GetName()] = lineFrame;
 
-
     function lineFrame:Unload()
         self:Hide();
         self.iconFrame = nil;
@@ -365,7 +356,6 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     end
     local line = lineFrame.line or lineFrame:CreateLine();
     lineFrame.line = line;
-
 
     line.dR = color[1];
     line.dG = color[2];
@@ -447,56 +437,62 @@ end
 
 function _QuestieFramePool:GetObjectiveTooltip(icon)
     local tooltips = {}
-    local text = icon.data.ObjectiveData.Description
-    local color = QuestieLib:GetRGBForObjective(icon.data.ObjectiveData)
-    if icon.data.ObjectiveData.Needed then
-        text = color .. tostring(icon.data.ObjectiveData.Collected) .. "/" .. tostring(icon.data.ObjectiveData.Needed) .. " " .. text
+    local iconData = icon.data
+    local text = iconData.ObjectiveData.Description
+    local color = QuestieLib:GetRGBForObjective(iconData.ObjectiveData)
+    if iconData.ObjectiveData.Needed then
+        text = color .. tostring(iconData.ObjectiveData.Collected) .. "/" .. tostring(iconData.ObjectiveData.Needed) .. " " .. text
     end
     if QuestieComms then
         local anotherPlayer = false;
-        for playerName, objectiveData in pairs(QuestieComms:GetQuest(icon.data.Id) or {}) do
-            --[[
-                -.type = objective.type;
-                -.finished = objective.finished;
-                -.fulfilled = objective.numFulfilled;
-                -.required = objective.numRequired;
-            ]]
-            local playerInfo = QuestiePlayer:GetPartyMemberByName(playerName);
-            if playerInfo then
-                local remoteColor = QuestieLib:GetRGBForObjective(objectiveData[icon.data.ObjectiveIndex]);
-                local colorizedPlayerName = " (|c"..playerInfo.colorHex..playerName.."|r"..remoteColor..")|r";
-                local remoteText = icon.data.ObjectiveData.Description;
-                if objectiveData[icon.data.ObjectiveIndex] and objectiveData[icon.data.ObjectiveIndex].fulfilled and objectiveData[icon.data.ObjectiveIndex].required then
-                    local fulfilled = objectiveData[icon.data.ObjectiveIndex].fulfilled;
-                    local required = objectiveData[icon.data.ObjectiveIndex].required;
-                    remoteText = remoteColor .. tostring(fulfilled) .. "/" .. tostring(required) .. " " .. remoteText .. colorizedPlayerName;
-                else
-                    remoteText = remoteColor .. remoteText .. colorizedPlayerName;
+        local quest = QuestieComms:GetQuest(iconData.Id)
+        if quest then
+            for playerName, objectiveData in pairs(quest) do
+                --[[
+                    -.type = objective.type;
+                    -.finished = objective.finished;
+                    -.fulfilled = objective.numFulfilled;
+                    -.required = objective.numRequired;
+                ]]
+                local playerInfo = QuestiePlayer:GetPartyMemberByName(playerName)
+                if playerInfo then
+                    local objectiveEntry = objectiveData[iconData.ObjectiveIndex]
+                    local remoteColor = QuestieLib:GetRGBForObjective(objectiveEntry)
+                    local colorizedPlayerName = " (|c"..playerInfo.colorHex..playerName.."|r"..remoteColor..")|r"
+                    local remoteText = iconData.ObjectiveData.Description
+
+                    if objectiveEntry and objectiveEntry.fulfilled and objectiveEntry.required then
+                        local fulfilled = objectiveEntry.fulfilled;
+                        local required = objectiveEntry.required;
+                        remoteText = remoteColor .. tostring(fulfilled) .. "/" .. tostring(required) .. " " .. remoteText .. colorizedPlayerName;
+                    else
+                        remoteText = remoteColor .. remoteText .. colorizedPlayerName;
+                    end
+                    local partyMemberTip = {
+                        [remoteText] = {},
+                    }
+                    if iconData.Name then
+                        partyMemberTip[remoteText][iconData.Name] = true;
+                    end
+                    tinsert(tooltips, partyMemberTip);
+                    anotherPlayer = true;
                 end
-                local partyMemberTip = {
-                    [remoteText] = {},
-                }
-                if icon.data.Name then
-                    partyMemberTip[remoteText][icon.data.Name] = true;
-                end
-                tinsert(tooltips, partyMemberTip);
-                anotherPlayer = true;
             end
-        end
-        if anotherPlayer then
-            local name = UnitName("player");
-            local className, classFilename = UnitClass("player");
-            local rPerc, gPerc, bPerc, argbHex = GetClassColor(classFilename)
-            name = " (|c"..argbHex..name.."|r"..color..")|r";
-            text = text .. name;
+            if anotherPlayer then
+                local name = UnitName("player");
+                local className, classFilename = UnitClass("player");
+                local rPerc, gPerc, bPerc, argbHex = GetClassColor(classFilename)
+                name = " (|c"..argbHex..name.."|r"..color..")|r";
+                text = text .. name;
+            end
         end
     end
 
     local t = {
         [text] = {},
     }
-    if icon.data.Name then
-        t[text][icon.data.Name] = true;
+    if iconData.Name then
+        t[text][iconData.Name] = true;
     end
     tinsert(tooltips, 1, t);
     return tooltips
@@ -571,37 +567,38 @@ function _QuestieFramePool:Questie_Tooltip()
     --end
 
     local usedText = {}
-
     local npcOrder = {};
     local questOrder = {};
-    local manualOrder = {};
+    local manualOrder = {}
+
     for _, icon in pairs(_QuestieFramePool.usedFrames) do -- I added "_QuestieFramePool.usedFrames" because I think its a bit more efficient than using _G but I might be wrong
-        if icon and icon.data and icon.x and icon.AreaID == self.AreaID then
+        local iconData = icon.data
+        if icon and iconData and icon.x and icon.AreaID == self.AreaID then
             local dist = QuestieLib:Maxdist(icon.x, icon.y, self.x, self.y);
             if dist < maxDistCluster then
-                if icon.data.Type == "available" or icon.data.Type == "complete" then
-                    if npcOrder[icon.data.Name] == nil then
-                        npcOrder[icon.data.Name] = {};
+                if iconData.Type == "available" or iconData.Type == "complete" then
+                    if npcOrder[iconData.Name] == nil then
+                        npcOrder[iconData.Name] = {};
                     end
 
                     local tip = _QuestieFramePool:GetAvailableOrCompleteTooltip(icon)
-                    npcOrder[icon.data.Name][tip.title] = tip
-                elseif icon.data.ObjectiveData and icon.data.ObjectiveData.Description then
-                    local key = icon.data.Id--.QuestData:GetColoredQuestName();
+                    npcOrder[iconData.Name][tip.title] = tip
+                elseif iconData.ObjectiveData and iconData.ObjectiveData.Description then
+                    local key = iconData.Id--.QuestData:GetColoredQuestName();
                     if not questOrder[key] then
                         questOrder[key] = {};
                     end
 
                     local orderedTooltips = {}
-                    icon.data.ObjectiveData:Update(); -- update progress info
-                    if icon.data.Type == "event" then
+                    iconData.ObjectiveData:Update(); -- update progress info
+                    if iconData.Type == "event" then
                         local tip = _QuestieFramePool:GetEventObjectiveTooltip(icon)
 
                         -- We need to check for duplicates.
                         local add = true;
                         for index, data in pairs(questOrder[key]) do
                             for text, nameData in pairs(data) do
-                                if(text == icon.data.ObjectiveData.Description) then
+                                if(text == iconData.ObjectiveData.Description) then
                                     add = false;
                                     break;
                                 end
@@ -620,11 +617,11 @@ function _QuestieFramePool:Questie_Tooltip()
                             _QuestieFramePool:AddTooltipsForQuest(icon, tip, quest, usedText)
                         end
                     end
-                elseif icon.data.CustomTooltipData then
-                    questOrder[icon.data.CustomTooltipData.Title] = {}
-                    tinsert(questOrder[icon.data.CustomTooltipData.Title], icon.data.CustomTooltipData.Body);
-                elseif icon.data.ManualTooltipData then
-                    manualOrder[icon.data.ManualTooltipData.Title] = icon.data.ManualTooltipData.Body
+                elseif iconData.CustomTooltipData then
+                    questOrder[iconData.CustomTooltipData.Title] = {}
+                    tinsert(questOrder[iconData.CustomTooltipData.Title], iconData.CustomTooltipData.Body);
+                elseif iconData.ManualTooltipData then
+                    manualOrder[iconData.ManualTooltipData.Title] = iconData.ManualTooltipData.Body
                 end
             end
         end
