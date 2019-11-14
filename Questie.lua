@@ -232,7 +232,7 @@ function Questie:OnInitialize()
 
     -- Creating the minimap config icon
     Questie.minimapConfigIcon = LibStub("LibDBIcon-1.0");
-    Questie.minimapConfigIcon:Register("MinimapIcon", QuestieOptionsMinimapIcon:Get(), Questie.db.profile.minimap);
+    Questie.minimapConfigIcon:Register("Questie", QuestieOptionsMinimapIcon:Get(), Questie.db.profile.minimap);
 
     -- Update the default text on the map show/hide button for localization
     if Questie.db.char.enabled then
@@ -323,9 +323,9 @@ function Questie:QuestieSlash(input)
         Questie.db.profile.minimap.hide = not Questie.db.profile.minimap.hide;
 
         if Questie.db.profile.minimap.hide then
-            Questie.minimapConfigIcon:Hide("MinimapIcon");
+            Questie.minimapConfigIcon:Hide("Questie");
         else
-            Questie.minimapConfigIcon:Show("MinimapIcon");
+            Questie.minimapConfigIcon:Show("Questie");
         end
         return;
     end
