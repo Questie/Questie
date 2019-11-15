@@ -23,6 +23,8 @@ local QuestieNameplate = QuestieLoader:ImportModule("QuestieNameplate");
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
+---@type QuestieHash
+local QuestieHash = QuestieLoader:ImportModule("QuestieHash");
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 ---@type QuestieDB
@@ -176,7 +178,7 @@ function QuestieEventHandler:QUEST_LOG_UPDATE()
 
     -- QR or UQLC events have set the flag, so we need to update Questie state.
     if runQLU then
-        QuestieQuest:CompareQuestHashes()
+        QuestieHash:CompareQuestHashes()
         runQLU = false
     end
 end

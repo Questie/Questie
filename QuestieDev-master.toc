@@ -58,6 +58,7 @@ Modules\Libs\QuestieLib.lua
 Modules\Libs\QuestiePlayer.lua
 Modules\Libs\QuestieSerializer.lua
 Modules\Libs\QuestieCombatQueue.lua
+Modules\Libs\QuestieHash.lua
 
 ##Modules
 Modules\QuestieAuto.lua

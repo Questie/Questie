@@ -19,6 +19,8 @@ local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool");
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
+---@type QuestieHash
+local QuestieHash = QuestieLoader:ImportModule("QuestieHash");
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 ---@type QuestieDB
@@ -51,7 +53,7 @@ function QuestieQuest:Initialize()
     QuestieProfessions:Update()
     QuestieReputation:Update()
 
-    _QuestieQuest.questLogHashes = QuestieQuest:GetQuestLogHashes()
+    QuestieHash:LoadQuestLogHashes()
 end
 
 QuestieQuest.NotesHidden = false
@@ -321,7 +323,7 @@ function QuestieQuest:AcceptQuest(questId)
 
         --Get all the Frames for the quest and unload them, the available quest icon for example.
         QuestieMap:UnloadQuestFrames(questId);
-        QuestieQuest:AddNewQuestHash(questId)
+        QuestieHash:AddNewQuestHash(questId)
 
         local quest = QuestieDB:GetQuest(questId)
         if quest then
@@ -363,7 +365,7 @@ end
 function QuestieQuest:CompleteQuest(questId)
     QuestiePlayer.currentQuestlog[questId] = nil;
     Questie.db.char.complete[questId] = true --can we use some other relevant info here?
-    QuestieQuest:RemoveQuestHash(questId)
+    QuestieHash:RemoveQuestHash(questId)
 
     --This should probably be done first, because DrawAllAvailableQuests looks at QuestieMap.questIdFrames[QuestId] to add available
     QuestieQuest:CalculateAvailableQuests()
@@ -391,7 +393,7 @@ function QuestieQuest:AbandonedQuest(questId)
     QuestieTooltips:RemoveQuest(questId)
     if(QuestiePlayer.currentQuestlog[questId]) then
         QuestiePlayer.currentQuestlog[questId] = nil
-        QuestieQuest:RemoveQuestHash(questId)
+        QuestieHash:RemoveQuestHash(questId)
 
         --Unload all the quest frames from the map.
         QuestieMap:UnloadQuestFrames(questId);
@@ -1120,112 +1122,6 @@ function QuestieQuest:GetAllQuestObjectives(quest)
     end
 
     return quest.Objectives;
-end
-
-function QuestieQuest:GetQuestHash(questId, isComplete)
-    local hash = libC:fcs32init()
-    local data = {}
-    data.questId = questId
-    data.isComplete = isComplete
-    data.questObjectives = QuestieLib:GetQuestObjectives(questId);
-
-    hash = libC:fcs32update(hash, libS:Serialize(data))
-    hash = libC:fcs32final(hash)
-    return hash
-end
-
-function QuestieQuest:GetQuestLogHashes()
-    local questLogHashes = {}
-    ExpandQuestHeader(0) -- Expand all headers
-
-    local numEntries, _ = GetNumQuestLogEntries()
-    for questLogIndex=1, numEntries do
-        local _, _, _, isHeader, isCollapsed, isComplete, _, questId = GetQuestLogTitle(questLogIndex)
-        if isHeader then
-            if isCollapsed then
-                -- TODO
-            end
-        else
-            local hash = QuestieQuest:GetQuestHash(questId, isComplete)
-            tinsert(questLogHashes, questId, hash)
-        end
-    end
-    return questLogHashes
-end
-
-function QuestieQuest:AddNewQuestHash(questId)
-    Questie:Debug(DEBUG_DEVELOP, "AddNewQuestHash:", questId)
-    local hash = QuestieQuest:GetQuestHash(questId, false)
-
-    _QuestieQuest.questLogHashes[questId] = hash
-end
-
-function QuestieQuest:GetCurrentHashes()
-    return _QuestieQuest.questLogHashes
-end
-
-function QuestieQuest:RemoveQuestHash(questId)
-    Questie:Debug(DEBUG_DEVELOP, "RemoveQuestHash:", questId)
-    _QuestieQuest.questLogHashes[questId] = nil
-end
-
-function QuestieQuest:CompareQuestHashes()
-    Questie:Debug(DEBUG_DEVELOP, "CompareQuestHashes")
-    if _QuestieQuest.questLogHashes == nil then
-        return
-    end
-    ExpandQuestHeader(0) -- Expand all headers
-
-    local numEntries, _ = GetNumQuestLogEntries()
-    for questLogIndex=1, numEntries do
-        local _, _, _, isHeader, isCollapsed, isComplete, _, questId = GetQuestLogTitle(questLogIndex)
-        if isHeader then
-            if isCollapsed then
-                -- TODO
-            end
-        else
-            local oldhash = _QuestieQuest.questLogHashes[questId]
-            if oldhash ~= nil then
-                local newHash = QuestieQuest:GetQuestHash(questId, isComplete)
-
-                if oldhash ~= newHash then
-                    Questie:Debug(DEBUG_DEVELOP, "CompareQuestHashes: Hash changed for questId:", questId)
-                    --[[local timer = nil;
-                    timer = C_Timer.NewTicker(0.5, function()
-                        if(QuestieLib:IsResponseCorrect(questId)) then
-                            QuestieQuest:UpdateQuest(questId)
-                            _QuestieQuest.questLogHashes[questId] = newHash
-                            timer:Cancel();
-                            Questie:Debug(DEBUG_DEVELOP, "Accept seems correct, cancel timer");
-                        else
-                            Questie:Debug(DEBUG_CRITICAL, "Response is wrong for quest, waiting with timer");
-                        end
-                    end)]]--
-                    QuestieQuest:SafeUpdateQuest(questId, newHash);
-                end
-            end
-        end
-    end
-end
-
-function QuestieQuest:SafeUpdateQuest(questId, hash, count)
-    if(not count) then
-        count = 0;
-    end
-    if(QuestieLib:IsResponseCorrect(questId)) then
-        QuestieQuest:UpdateQuest(questId)
-        _QuestieQuest.questLogHashes[questId] = hash
-        Questie:Debug(DEBUG_DEVELOP, "Accept seems correct, cancel timer");
-    else
-        if(count < 50) then
-            Questie:Debug(DEBUG_CRITICAL, "Response is wrong for quest, waiting with timer");
-            C_Timer.After(0.1, function()
-                QuestieQuest:SafeUpdateQuest(questId, hash, count + 1);
-            end)
-        else
-            Questie:Debug(DEBUG_CRITICAL, "Didn't get a correct response after 50 tries, stopping");
-        end
-    end
 end
 
 --https://www.townlong-yak.com/framexml/live/Blizzard_APIDocumentation#C_QuestLog.GetQuestObjectives
