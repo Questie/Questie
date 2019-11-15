@@ -88,8 +88,8 @@ _QuestieQuest.objectiveSpawnListCallTable = {
         local item = QuestieDB:GetItem(id);
         if item ~= nil and item.Sources ~= nil then
             for _, source in pairs(item.Sources) do
-                if ObjectiveSpawnListCallTable[source.Type] and source.Type ~= "item" then -- anti-recursive-loop check, should never be possible but would be bad if it was
-                    local sourceList = ObjectiveSpawnListCallTable[source.Type](source.Id, Objective);
+                if _QuestieQuest.objectiveSpawnListCallTable[source.Type] and source.Type ~= "item" then -- anti-recursive-loop check, should never be possible but would be bad if it was
+                    local sourceList = _QuestieQuest.objectiveSpawnListCallTable[source.Type](source.Id, Objective);
                     if sourceList == nil then
                         -- log this
                     else
