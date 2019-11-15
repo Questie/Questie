@@ -439,3 +439,29 @@ end
 function QuestieLib:FloatRGBToHex(r, g, b)
     return RGBToHex(r*254, g*254, b*254);
 end
+
+local randomSeed = 0;
+function QuestieLib:MathRandomSeed(seed)
+    randomSeed = seed
+end
+
+function QuestieLib:MathRandom(low_or_high_arg, high_arg)
+    local low = nil
+    local high = nil
+    if low_or_high_arg ~= nil then
+        if high_arg ~= nil then
+            low = low_or_high_arg
+            high = high_arg
+        else
+            low = 1
+            high = low_or_high_arg
+        end
+    end
+
+    randomSeed = (randomSeed * 214013 + 2531011) % 2^32;
+    local rand = (math.floor(randomSeed / 2^16) % 2^15) / 0x7fff;
+    if high == nil then
+        return rand
+    end
+    return low + math.floor(rand * high)
+end

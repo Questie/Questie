@@ -702,8 +702,8 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
     local completed = Objective.Completed
 
     if not Objective.Color then -- todo: move to a better place
-        QuestieQuest:Math_randomseed(Quest.Id + 32768 * ObjectiveIndex)
-        Objective.Color = {0.45 + QuestieQuest:Math_random() / 2, 0.45 + QuestieQuest:Math_random() / 2, 0.45 + QuestieQuest:Math_random() / 2}
+        QuestieLib:MathRandomSeed(Quest.Id + 32768 * ObjectiveIndex)
+        Objective.Color = {0.45 + QuestieLib:MathRandom() / 2, 0.45 + QuestieLib:MathRandom() / 2, 0.45 + QuestieLib:MathRandom() / 2}
     end
 
     if (not Objective.registeredItemTooltips) and Objective.Type == "item" and (not BlockItemTooltips) and Objective.Id then -- register item tooltip (special case)
@@ -855,31 +855,6 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
     end
 end
 
-local _randomSeed = 0;
-function QuestieQuest:Math_randomseed(seed)
-    _randomSeed = seed
-end
-function QuestieQuest:Math_random(low_or_high_arg, high_arg)
-    local low = nil
-    local high = nil
-    if low_or_high_arg ~= nil then
-        if high_arg ~= nil then
-            low = low_or_high_arg
-            high = high_arg
-        else
-            low = 1
-            high = low_or_high_arg
-        end
-    end
-
-    _randomSeed = (_randomSeed * 214013 + 2531011) % 2^32;
-    local rand = (math.floor(_randomSeed / 2^16) % 2^15) / 0x7fff;
-    if high == nil then
-        return rand
-    end
-    return low + math.floor(rand * high)
-end
-
 function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to PopulateNotes as it also handles finishers now
     Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:PopulateObjectiveNotes]", "Populating objectives for:", quest.Id)
     if not quest then return; end
@@ -889,8 +864,8 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
     end
 
     if not quest.Color then -- todo: move to a better place
-        QuestieQuest:Math_randomseed(quest.Id)
-        quest.Color = {0.45 + QuestieQuest:Math_random() / 2, 0.45 + QuestieQuest:Math_random() / 2, 0.45 + QuestieQuest:Math_random() / 2}
+        QuestieLib:MathRandomSeed(quest.Id)
+        quest.Color = {0.45 + QuestieLib:MathRandom() / 2, 0.45 + QuestieLib:MathRandom() / 2, 0.45 + QuestieLib:MathRandom() / 2}
     end
 
     -- we've already checked the objectives table by doing IsComplete
@@ -941,34 +916,34 @@ end
 
 --Use the category order to draw the quests and trust the database order.
 --/dump QuestieQuest:GetAllQuestObjectives(24475)
-function QuestieQuest:GetAllQuestObjectives(Quest)
+function QuestieQuest:GetAllQuestObjectives(quest)
     -- Old Select Code, maybe remove?
-    local logId = GetQuestLogIndexByID(Quest.Id)
+    local logId = GetQuestLogIndexByID(quest.Id)
     local old = GetQuestLogSelection()
     SelectQuestLogEntry(logId)
 
-    if Quest.Objectives == nil then
-        Quest.Objectives = {}; -- TODO: remove after api bug is fixed!!!
+    if quest.Objectives == nil then
+        quest.Objectives = {}; -- TODO: remove after api bug is fixed!!!
         Questie:Debug(DEBUG_CRITICAL, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_OBJ_TABLE'));
     end
 
-    local questObjectives = QuestieQuest:GetAllLeaderBoardDetails(Quest.Id);
+    local questObjectives = QuestieQuest:GetAllLeaderBoardDetails(quest.Id);
     local logCount = Counthack(questObjectives);
-    local dbCount = Counthack(Quest.ObjectiveData);
+    local dbCount = Counthack(quest.ObjectiveData);
 
     for objectiveIndex, objective in pairs(questObjectives) do
         if(objective.type) then
-            if Quest.Objectives[objectiveIndex] == nil then
-                Quest.Objectives[objectiveIndex] = {}
+            if quest.Objectives[objectiveIndex] == nil then
+                quest.Objectives[objectiveIndex] = {}
             end
-            Quest.Objectives[objectiveIndex].Index = objectiveIndex
-            Quest.Objectives[objectiveIndex].QuestId = Quest.Id
-            Quest.Objectives[objectiveIndex].QuestLogId = logId
-            Quest.Objectives[objectiveIndex].QuestData = Quest
-            Quest.Objectives[objectiveIndex]._lastUpdate = 0;
-            Quest.Objectives[objectiveIndex].Description = objective.text;
+            quest.Objectives[objectiveIndex].Index = objectiveIndex
+            quest.Objectives[objectiveIndex].QuestId = quest.Id
+            quest.Objectives[objectiveIndex].QuestLogId = logId
+            quest.Objectives[objectiveIndex].QuestData = quest
+            quest.Objectives[objectiveIndex]._lastUpdate = 0;
+            quest.Objectives[objectiveIndex].Description = objective.text;
 
-            Quest.Objectives[objectiveIndex].Update = function(self)
+            quest.Objectives[objectiveIndex].Update = function(self)
                 -- Old select code, do we need it?
                 local old = GetQuestLogSelection()
                 SelectQuestLogEntry(self.QuestLogId)
@@ -1004,12 +979,12 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                 --
                 return {self.Collected, self.Needed, self.Completed}
             end
-            Quest.Objectives[objectiveIndex]:Update();
+            quest.Objectives[objectiveIndex]:Update();
 
             -- If both the log and the db only have one objective, we can safely assume they are the same.
             if logCount == 1 and dbCount == 1 then
-                Quest.Objectives[objectiveIndex].Id = Quest.ObjectiveData[1].Id
-            elseif Quest.ObjectiveData ~= nil then
+                quest.Objectives[objectiveIndex].Id = quest.ObjectiveData[1].Id
+            elseif quest.ObjectiveData ~= nil then
 
                 local bestIndex = -1;
                 local bestDistance = 99999;
@@ -1018,7 +993,7 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                 local tempName = "";
                 --
                 -- try to find npc/item/object/event ID
-                for objectiveIndexDB, objectiveDB in pairs(Quest.ObjectiveData) do
+                for objectiveIndexDB, objectiveDB in pairs(quest.ObjectiveData) do
                     if objective.type == objectiveDB.Type then
                         -- TODO: use string distance to find closest, dont rely on exact match
 
@@ -1073,14 +1048,14 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                         end
 
                         -- Old
-                        if(Quest.Objectives[objectiveIndex].Id == nil and GetLocale() ~= "enUS" and GetLocale() ~= "enGB") then
-                            Quest.Objectives[objectiveIndex].Id = objectiveDB.Id;
+                        if(quest.Objectives[objectiveIndex].Id == nil and GetLocale() ~= "enUS" and GetLocale() ~= "enGB") then
+                            quest.Objectives[objectiveIndex].Id = objectiveDB.Id;
                         end
                         -- ~OldQ
                     end
                 end
 
-                local objectiveDB = Quest.ObjectiveData[bestIndex]
+                local objectiveDB = quest.ObjectiveData[bestIndex]
                 --Debug var
                 local oDesc = slower(objective.text) or nil
                 --
@@ -1089,14 +1064,14 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                     Questie:Debug(DEBUG_SPAM, "-->ID:", objectiveDB.Id)
                     Questie:Debug(DEBUG_SPAM, "-->Description:", oDesc)
                     Questie:Debug(DEBUG_SPAM, "-->Found:", tempName)
-                    Quest.Objectives[objectiveIndex].Id = objectiveDB.Id;
-                    Quest.Objectives[objectiveIndex].Coordinates = objectiveDB.Coordinates;
-                    objectiveDB.ObjectiveRef = Quest.Objectives[objectiveIndex];
+                    quest.Objectives[objectiveIndex].Id = objectiveDB.Id;
+                    quest.Objectives[objectiveIndex].Coordinates = objectiveDB.Coordinates;
+                    objectiveDB.ObjectiveRef = quest.Objectives[objectiveIndex];
                 end
             end
         end
 
-        if (not Quest.Objectives[objectiveIndex]) or (not Quest.Objectives[objectiveIndex].Id) then
+        if (not quest.Objectives[objectiveIndex]) or (not quest.Objectives[objectiveIndex].Id) then
             Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ENTRY_ID', objective.type, objective.text))
         end
     end
@@ -1107,12 +1082,12 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
     -- find special unlisted objectives
     -- hack to remove misdetected unlisted (when qlog returns bad data for objective text on first try)
     local checkTime = GetTime();
-    if Quest.HiddenObjectiveData then
-        for index, objective in pairs(Quest.HiddenObjectiveData) do
+    if quest.HiddenObjectiveData then
+        for index, objective in pairs(quest.HiddenObjectiveData) do
             if not objective.ObjectiveRef then -- there was no qlog objective detected for this DB objective
                 -- hack
-                if not Quest.SpecialObjectives then
-                    Quest.SpecialObjectives = {};
+                if not quest.SpecialObjectives then
+                    quest.SpecialObjectives = {};
                 end
                 if objective.Type then
                     if objective.Type == "monster" then
@@ -1131,20 +1106,20 @@ function QuestieQuest:GetAllQuestObjectives(Quest)
                 end
                 if not objective.Description then objective.Description = "Hidden objective"; end
 
-                if not Quest.SpecialObjectives[objective.Description] then
-                    objective.QuestData = Quest
-                    objective.QuestId = Quest.Id
+                if not quest.SpecialObjectives[objective.Description] then
+                    objective.QuestData = quest
+                    objective.QuestId = quest.Id
                     objective.Update = function() end
                     objective.checkTime = checkTime
                     objective.Index = 64 + index -- offset to not conflict with real objectives
-                    Quest.SpecialObjectives[objective.Description] = objective
+                    quest.SpecialObjectives[objective.Description] = objective
                 end
                 --tinsert(Quest.SpecialObjectives, objective);
             end
         end
     end
 
-    return Quest.Objectives;
+    return quest.Objectives;
 end
 
 function QuestieQuest:GetQuestHash(questId, isComplete)

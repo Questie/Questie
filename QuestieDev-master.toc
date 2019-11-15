@@ -73,8 +73,8 @@ Modules\Map\QuestieMap.lua
 Modules\Map\QuestieMapUtils.lua
 
 #Quest
-Modules\QuestieQuest.lua
-Modules\QuestieQuestPrivates.lua
+Modules\Quest\QuestieQuest.lua
+Modules\Quest\QuestieQuestPrivates.lua
 
 Modules\QuestieNameplate.lua
 Modules\QuestieCoordinates.lua
