@@ -144,6 +144,7 @@ QuestieLocale.locale['deDE'] = {
 
     -- Advanced tab
     ['ADV_TAB'] = "Erweitert",
+    ['ADV_SET'] = "Advanced Settings",
     ['DEV_OPTIONS'] = "Entwickler-Einstellungen",
     ['ENABLE_DEBUG'] = "Debugging aktivieren",
     ['ENABLE_DEBUG_DESC'] = "Aktiviert/Deaktiviert die Debugging Funktion.",
