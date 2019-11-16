@@ -42,6 +42,11 @@ QuestieLocale.locale['zhCN'] = {
     ['ENABLE_ICON_LIMIT_DESC'] = "启用对每种类型绘制的图标的限制",
     ['ICON_LIMIT'] = "图标限制",
     ['ICON_LIMIT_DESC'] = "限制每种类型绘制的图标数量 ( 默认: %s )",
+    ['ENABLE_AUTO_ACCEPT_QUESTS'] = "Auto Accept Quests",
+    ['ENABLE_AUTO_ACCEPT_QUESTS_DESC'] = "Enable or disable Questie auto-accepting quests.",
+    ['ENABLE_AUTO_COMPLETE'] = "Auto Complete",
+    ['ENABLE_AUTO_COMPLETE_DESC'] = "Enable or disable Questie auto-complete quests.",
+    
 
     -- Minimap tab
     ['MINIMAP_TAB'] = "小地图选项",
@@ -141,6 +146,7 @@ QuestieLocale.locale['zhCN'] = {
 
     -- Advanced tab
     ['ADV_TAB'] = "进阶",
+    ['ADV_SET'] = "Advanced Settings",
     ['DEV_OPTIONS'] = "开发选项",
     ['ENABLE_DEBUG'] = "启用除错",
     ['ENABLE_DEBUG_DESC'] = "启用或停用除错功能",
