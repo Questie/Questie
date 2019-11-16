@@ -31,7 +31,7 @@ function QuestieOptions.tabs.advanced:Initialize()
             map_options = {
                 type = "header",
                 order = 1,
-                name = function() return "Advanced Settings"; end,
+                name = function() return QuestieLocale:GetUIString('ADV_SET'); end,
             },
             enableIconLimit = {
                 type = "toggle",
