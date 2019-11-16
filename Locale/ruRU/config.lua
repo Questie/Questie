@@ -44,6 +44,10 @@ QuestieLocale.locale['ruRU'] = {
     ['ICON_LIMIT_DESC'] = "Limits the amount of icons drawn per type. ( Default: %s )",
     ['ENABLE_REPEATABLE_QUEST_ICONS'] = "Show repeatable quests on map",
     ['ENABLE_REPEATABLE_QUEST_ICONS_DESC'] = "Choose whether repeatable quests should be visible on the map and minimap.",
+    ['ENABLE_AUTO_ACCEPT_QUESTS'] = "Автопринятие заданий",
+    ['ENABLE_AUTO_ACCEPT_QUESTS_DESC'] = "Вкл./выкл. Questie автопринятие заданий.",
+    ['ENABLE_AUTO_COMPLETE'] = "Автосдача заданий",
+    ['ENABLE_AUTO_COMPLETE_DESC'] = "Вкл./выкл. Questie автосдачу заданий.",
 
     -- Minimap tab
     ['MINIMAP_TAB'] = "Миникарта",
@@ -144,6 +148,7 @@ QuestieLocale.locale['ruRU'] = {
 
     -- Advanced tab
     ['ADV_TAB'] = "Дополнительно",
+    ['ADV_SET'] = "Расширенные настройки",
     ['DEV_OPTIONS'] = "Настройки разработчика",
     ['ENABLE_DEBUG'] = "Включить режим отладки",
     ['ENABLE_DEBUG_DESC'] = "Включение или отключение режима отладки.",
