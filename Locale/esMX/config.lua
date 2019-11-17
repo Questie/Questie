@@ -42,6 +42,10 @@ QuestieLocale.locale['esMX'] = {
     ['ENABLE_ICON_LIMIT_DESC'] = "Habilita el límite de iconos por tipo.",
     ['ICON_LIMIT'] = "Límite de icono",
     ['ICON_LIMIT_DESC'] = "Limita la cantidad de iconos por tipo. ( Predeterminado: %s)",
+    ['ENABLE_AUTO_ACCEPT_QUESTS'] = "Auto Accept Quests",
+    ['ENABLE_AUTO_ACCEPT_QUESTS_DESC'] = "Enable or disable Questie auto-accepting quests.",
+    ['ENABLE_AUTO_COMPLETE'] = "Auto Complete",
+    ['ENABLE_AUTO_COMPLETE_DESC'] = "Enable or disable Questie auto-complete quests.",
 
     -- Minimap tab
     ['MINIMAP_TAB'] = "Opciones de minimapa",
@@ -142,6 +146,7 @@ QuestieLocale.locale['esMX'] = {
 
     -- Advanced tab
     ['ADV_TAB'] = "Avanzado",
+    ['ADV_SET'] = "Advanced Settings",
     ['DEV_OPTIONS'] = "Opciones de desarrollador",
     ['ENABLE_DEBUG'] = "Habilitar debug",
     ['ENABLE_DEBUG_DESC'] = "Habilita o deshabilita el modo debug.",

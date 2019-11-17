@@ -44,6 +44,10 @@ QuestieLocale.locale['koKR'] = {
     ['ICON_LIMIT_DESC'] = "아이콘의 종류 별로 표시를 제한할 개수를 설정합니다. ( 기본값: %s )",
     ['ENABLE_REPEATABLE_QUEST_ICONS'] = "Show repeatable quests on map",
     ['ENABLE_REPEATABLE_QUEST_ICONS_DESC'] = "Choose whether repeatable quests should be visible on the map and minimap.",
+    ['ENABLE_AUTO_ACCEPT_QUESTS'] = "Auto Accept Quests",
+    ['ENABLE_AUTO_ACCEPT_QUESTS_DESC'] = "Enable or disable Questie auto-accepting quests.",
+    ['ENABLE_AUTO_COMPLETE'] = "Auto Complete",
+    ['ENABLE_AUTO_COMPLETE_DESC'] = "Enable or disable Questie auto-complete quests.",
 
     -- Minimap tab
     ['MINIMAP_TAB'] = "미니맵",
@@ -144,6 +148,7 @@ QuestieLocale.locale['koKR'] = {
 
     -- Advanced tab
     ['ADV_TAB'] = "고급",
+    ['ADV_SET'] = "Advanced Settings",
     ['DEV_OPTIONS'] = "개발자 설정",
     ['ENABLE_DEBUG'] = "디버그 활성화",
     ['ENABLE_DEBUG_DESC'] = "디버그 기능을 사용합니다.",

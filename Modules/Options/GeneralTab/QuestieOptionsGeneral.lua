@@ -222,8 +222,8 @@ function QuestieOptions.tabs.general:Initialize()
             autoaccept = {
                 type = "toggle",
                 order = 8.1,
-                name = "Auto Accept Quests",
-                desc = "Enable or disable Questie auto-accepting quests.",
+                name = function() return QuestieLocale:GetUIString('ENABLE_AUTO_ACCEPT_QUESTS'); end,
+                desc = function() return QuestieLocale:GetUIString('ENABLE_AUTO_ACCEPT_QUESTS_DESC'); end,
                 width = 1.5,
                 get = function () return Questie.db.char.autoaccept; end,
                 set = function (info, value)
@@ -234,8 +234,8 @@ function QuestieOptions.tabs.general:Initialize()
             autocomplete = {
                 type = "toggle",
                 order = 8.1,
-                name = "Auto Complete",
-                desc = "Enable or disable Questie auto-complete quests.",
+                name = function() return QuestieLocale:GetUIString('ENABLE_AUTO_COMPLETE'); end,
+                desc = function() return QuestieLocale:GetUIString('ENABLE_AUTO_COMPLETE_DESC'); end,
                 width = 1.5,
                 get = function () return Questie.db.char.autocomplete; end,
                 set = function (info, value)
