@@ -58,6 +58,7 @@ Modules\Libs\QuestieLib.lua
 Modules\Libs\QuestiePlayer.lua
 Modules\Libs\QuestieSerializer.lua
 Modules\Libs\QuestieCombatQueue.lua
+Modules\Libs\QuestieHash.lua
 
 ##Modules
 Modules\QuestieAuto.lua
@@ -72,7 +73,10 @@ Modules\FramePool\QuestieFrame.lua
 Modules\Map\QuestieMap.lua
 Modules\Map\QuestieMapUtils.lua
 
-Modules\QuestieQuest.lua
+#Quest
+Modules\Quest\QuestieQuest.lua
+Modules\Quest\QuestieQuestPrivates.lua
+
 Modules\QuestieNameplate.lua
 Modules\QuestieCoordinates.lua
 
