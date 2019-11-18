@@ -368,7 +368,9 @@ function worldmapProvider:RefreshAllData(fromOnShow)
         for icon, data in pairs(worldmapPins) do
             self:HandlePin(icon, data)
         end
+        --DEFAULT_CHAT_FRAME:AddMessage(mapId .. " - " .. lastUiMapId .. " : " .. tostring(worldmapProvider.forceUpdate));
         lastUiMapId = mapId;
+        worldmapProvider.forceUpdate = false;
     end
 end
 
