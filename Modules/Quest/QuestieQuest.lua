@@ -218,7 +218,7 @@ function QuestieQuest:SmoothReset() -- use timers to reset progressively instead
                 mod = mod + 0.2
             end
             --After a smooth reset we should scale stuff.
-            QuestieMap:UpdateZoomScale()
+            --QuestieMap:UpdateZoomScale()
         end
     }
     local step = 1

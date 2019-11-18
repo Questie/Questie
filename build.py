@@ -112,7 +112,7 @@ def main():
     # modify toc
     setVersion()
     # replace path references
-    for file in ['Network/QuestieComms.lua', 'QuestieFramePool.lua']:
+    for file in ['Network/QuestieComms.lua', 'FramePool/QuestieFramePool.lua']:
         replacePath('%s/Modules/%s' % (destination, file), 'QuestieDev-master', addonDir)
     # package files
     root = os.getcwd()
