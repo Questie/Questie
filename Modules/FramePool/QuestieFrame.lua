@@ -81,9 +81,18 @@ function QuestieFramePool.Qframe:New(frameId, OnEnter)
 
     newFrame.data = {}
     newFrame:Hide()
-    
-    newFrame:HookScript("OnHide", function() if self.OnHide then self:OnHide() end end)
-    newFrame:HookScript("OnShow", function() if self.OnShow then self:OnShow() end end)
+
+
+    hooksecurefunc(newFrame, "Hide", function()
+        if newFrame.OnHide then
+            newFrame:OnHide()
+        end
+    end)
+    hooksecurefunc(newFrame, "Show", function()
+        if newFrame.OnShow then
+            newFrame:OnShow()
+        end
+    end)
 
     return newFrame
 end
