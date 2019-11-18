@@ -447,6 +447,8 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
         data.UiMapID = ZoneDataAreaIDToUiMapID[areaID];
     end
 
+    local frameLevel = 8000;
+
     local iconMap = QuestieFramePool:GetFrame()
     iconMap.data = data
     iconMap.x = x
@@ -454,6 +456,18 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
     iconMap.AreaID = areaID
     iconMap.miniMapIcon = false;
     iconMap:UpdateTexture(data.Icon);
+
+    
+    -- Draw layer is between -8 and 7, please leave some number above so we don't paint ourselves into a corner...
+    if (iconMap.data and
+    (iconMap.data.Icon == ICON_TYPE_AVAILABLE or iconMap.data.Icon ==
+        ICON_TYPE_REPEATABLE)) then
+        frameLevel = 8051;
+    elseif (iconMap.data and iconMap.data.Icon == ICON_TYPE_COMPLETE) then
+        frameLevel = 8052;
+    else
+        frameLevel = 8050;
+    end
 
     local iconMinimap = QuestieFramePool:GetFrame()
     iconMinimap.data = data
@@ -543,8 +557,8 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
         -- iconMinimap:SetScript("OnUpdate", )
     end
 
-    QuestieMap:QueueDraw(QuestieMap.ICON_MINIMAP_TYPE, Questie, iconMinimap, ZoneDataAreaIDToUiMapID[areaID], x / 100, y / 100, true, floatOnEdge)
-    QuestieMap:QueueDraw(QuestieMap.ICON_MAP_TYPE, Questie, iconMap, ZoneDataAreaIDToUiMapID[areaID], x / 100, y / 100, showFlag)
+    QuestieMap:QueueDraw(QuestieMap.ICON_MINIMAP_TYPE, Questie, iconMinimap, ZoneDataAreaIDToUiMapID[areaID], x / 100, y / 100, true, floatOnEdge, frameLevel)
+    QuestieMap:QueueDraw(QuestieMap.ICON_MAP_TYPE, Questie, iconMap, ZoneDataAreaIDToUiMapID[areaID], x / 100, y / 100, showFlag, frameLevel)
     local r, g, b = iconMinimap.texture:GetVertexColor()
     QuestieDBMIntegration:RegisterHudQuestIcon(tostring(iconMap), data.Icon, ZoneDataAreaIDToUiMapID[areaID], x, y, r, g, b)
 
