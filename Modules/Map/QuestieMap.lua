@@ -232,7 +232,10 @@ function QuestieMap:ProcessQueue()
     if(minimapDrawCall) then
         local frame = minimapDrawCall[2];
         HBDPins:AddMinimapIconMap(tunpack(minimapDrawCall));
-        QuestieMap.utils:SetDrawOrder(frame);
+        
+        if (frame.data and (frame.data.Icon == ICON_TYPE_AVAILABLE or frame.data.Icon == ICON_TYPE_REPEATABLE or frame.data.Icon == ICON_TYPE_COMPLETE)) then
+            QuestieMap.utils:SetDrawOrder(frame);
+        end
     end
 end
 
