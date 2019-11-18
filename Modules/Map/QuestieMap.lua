@@ -160,12 +160,6 @@ function QuestieMap:RescaleIcons(modifier)
     end
 end
 
--- Rescale all the shown map icons
-function QuestieMap:RescaleShownMapIcons(modifier)
-    for pin in self:GetMap():EnumeratePinsByTemplate("HereBeDragonsPinsTemplateQuestie") do
-        rescaleIcon(pin.icon, modifier)
-    end
-end
 
 local mapDrawQueue = {};
 local minimapDrawQueue = {};
@@ -180,10 +174,10 @@ end
 --Override OnMapChanged from MapCanvasDataProviderMixin (https://www.townlong-yak.com/framexml/27101/Blizzard_MapCanvas/MapCanvas_DataProviderBase.lua#74)
 --This could in theory be skipped by instead using our own MapCanvasDataProviderMixin
 --The reason i don't is becauase i want the scaling to happen AFTER HBD has processed all the icons.
-local ORG_OnMapChanged = HBDPins.worldmapProvider.OnMapChanged;
+HBDPins.worldmapProvider.ORG_OnMapChanged = HBDPins.worldmapProvider.OnMapChanged;
 function HBDPins.worldmapProvider:OnMapChanged()
     --Call original one : https://www.townlong-yak.com/framexml/27101/Blizzard_MapCanvas/MapCanvas_DataProviderBase.lua#74
-    ORG_OnMapChanged();
+    HBDPins.worldmapProvider:ORG_OnMapChanged();
 
     local mapId = self:GetMap():GetMapID();
     local scaling = 1;
@@ -200,7 +194,11 @@ function HBDPins.worldmapProvider:OnMapChanged()
             scaling = 0.9
         end
     end
-    QuestieMap:RescaleShownMapIcons(scaling);
+    for pin in HBDPins.worldmapProvider:GetMap():EnumeratePinsByTemplate("HereBeDragonsPinsTemplateQuestie") do
+        local frame = pin.icon;
+        rescaleIcon(frame, scaling)
+        QuestieMap.utils:SetDrawOrder(frame);
+    end
 end
 
 function QuestieMap:ProcessShownMinimapIcons()
@@ -447,8 +445,6 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
         data.UiMapID = ZoneDataAreaIDToUiMapID[areaID];
     end
 
-    local frameLevel = 8000;
-
     local iconMap = QuestieFramePool:GetFrame()
     iconMap.data = data
     iconMap.x = x
@@ -457,17 +453,6 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
     iconMap.miniMapIcon = false;
     iconMap:UpdateTexture(data.Icon);
 
-    
-    -- Draw layer is between -8 and 7, please leave some number above so we don't paint ourselves into a corner...
-    if (iconMap.data and
-    (iconMap.data.Icon == ICON_TYPE_AVAILABLE or iconMap.data.Icon ==
-        ICON_TYPE_REPEATABLE)) then
-        frameLevel = 8051;
-    elseif (iconMap.data and iconMap.data.Icon == ICON_TYPE_COMPLETE) then
-        frameLevel = 8052;
-    else
-        frameLevel = 8050;
-    end
 
     local iconMinimap = QuestieFramePool:GetFrame()
     iconMinimap.data = data
@@ -557,8 +542,8 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
         -- iconMinimap:SetScript("OnUpdate", )
     end
 
-    QuestieMap:QueueDraw(QuestieMap.ICON_MINIMAP_TYPE, Questie, iconMinimap, ZoneDataAreaIDToUiMapID[areaID], x / 100, y / 100, true, floatOnEdge, frameLevel)
-    QuestieMap:QueueDraw(QuestieMap.ICON_MAP_TYPE, Questie, iconMap, ZoneDataAreaIDToUiMapID[areaID], x / 100, y / 100, showFlag, frameLevel)
+    QuestieMap:QueueDraw(QuestieMap.ICON_MINIMAP_TYPE, Questie, iconMinimap, ZoneDataAreaIDToUiMapID[areaID], x / 100, y / 100, true, floatOnEdge)
+    QuestieMap:QueueDraw(QuestieMap.ICON_MAP_TYPE, Questie, iconMap, ZoneDataAreaIDToUiMapID[areaID], x / 100, y / 100, showFlag)
     local r, g, b = iconMinimap.texture:GetVertexColor()
     QuestieDBMIntegration:RegisterHudQuestIcon(tostring(iconMap), data.Icon, ZoneDataAreaIDToUiMapID[areaID], x, y, r, g, b)
 
