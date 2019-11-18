@@ -197,7 +197,9 @@ function HBDPins.worldmapProvider:OnMapChanged()
     for pin in HBDPins.worldmapProvider:GetMap():EnumeratePinsByTemplate("HereBeDragonsPinsTemplateQuestie") do
         local frame = pin.icon;
         rescaleIcon(frame, scaling)
-        QuestieMap.utils:SetDrawOrder(frame);
+        if (frame.data and (frame.data.Icon == ICON_TYPE_AVAILABLE or frame.data.Icon == ICON_TYPE_REPEATABLE or frame.data.Icon == ICON_TYPE_COMPLETE)) then
+            QuestieMap.utils:SetDrawOrder(frame);
+        end
     end
 end
 
