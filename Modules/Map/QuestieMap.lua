@@ -20,6 +20,12 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 QuestieMap.ICON_MAP_TYPE = "MAP";
 QuestieMap.ICON_MINIMAP_TYPE = "MINIMAP";
 
+--Useful links.
+-- https://github.com/tomrus88/BlizzardInterfaceCode/blob/master/Interface/SharedXML/Pools.lua
+-- https://www.townlong-yak.com/framexml/27101/Blizzard_MapCanvas/Blizzard_MapCanvas.lua
+-- https://www.townlong-yak.com/framexml/27101/Blizzard_MapCanvas/MapCanvas_DataProviderBase.lua
+-- https://www.townlong-yak.com/framexml/27101/Blizzard_MapCanvas/MapCanvas_PinFrameLevelsManager.lua
+
 -- List of frames sorted by quest ID (automatic notes)
 -- E.g. {[questId] = {[frameName] = frame, ...}, ...}
 -- For details about frame.data see calls to QuestieMap.DrawWorldIcon
@@ -31,8 +37,7 @@ QuestieMap.questIdFrames = {}
 -- For details about frame.data see QuestieMap.ShowNPC and QuestieMap.ShowObject
 QuestieMap.manualFrames = {}
 
-QuestieMap.mapFramesShown = {};
-
+--We haven't got the same nice things for the minimap as we do on the main map.
 QuestieMap.minimapFramesShown = {} -- I would do minimapFrames.shown but that would break the logic below
 
 --Used in my fadelogic.
@@ -110,10 +115,13 @@ function QuestieMap:UnloadManualFrames(id)
 end
 
 -- Rescale a single icon
----@param frameName string @The global name of the icon frame, e.g. "QuestieFrame1"
-local function rescaleIcon(frameName, modifier)
+---@param frameRef string|IconFrame @The global name/iconRef of the icon frame, e.g. "QuestieFrame1"
+local function rescaleIcon(frameRef, modifier)
     local zoomModifier = modifier or 1;
-    local frame = _G[frameName]
+    local frame = frameRef;
+    if(type(frameRef) == "string") then
+        frame = _G[frameRef];
+    end
     if frame and frame.data then
         if(frame.data.GetIconScale) then
             frame.data.IconScale = frame.data:GetIconScale();
@@ -129,8 +137,8 @@ local function rescaleIcon(frameName, modifier)
             end
 
             if scale > 1 then
-                frame:SetWidth(scale*zoomModifier)
-                frame:SetHeight(scale*zoomModifier)
+                --frame:SetScale(zoomModifier)
+                frame:SetSize(scale*zoomModifier, scale*zoomModifier);
             end
         else
             Questie:Error("A frame is lacking the GetIconScale function for resizing!", frame.data.Id);
@@ -154,10 +162,8 @@ end
 
 -- Rescale all the shown map icons
 function QuestieMap:RescaleShownMapIcons(modifier)
-    for _, framelist in pairs(QuestieMap.mapFramesShown) do
-        for _, frameName in ipairs(framelist) do
-            rescaleIcon(frameName, modifier)
-        end
+    for pin in self:GetMap():EnumeratePinsByTemplate("HereBeDragonsPinsTemplateQuestie") do
+        rescaleIcon(pin.icon, modifier)
     end
 end
 
@@ -168,40 +174,33 @@ function QuestieMap:InitializeQueue()
     QuestieMap.drawTimer = C_Timer.NewTicker(0.005, QuestieMap.ProcessQueue)
     QuestieMap.fadeLogicTimerShown = C_Timer.NewTicker(0.3, QuestieMap.ProcessShownMinimapIcons);
 
-    --Reduce the size of the icons on the map depending on zoom
-    hooksecurefunc(WorldMapFrame, "ProcessCanvasClickHandlers", 
-    function(self, button, cursorX, cursorY)
-        --print(button.." clicked at ["..cursorX..", "..cursorY.."] ")
-        QuestieMap:UpdateZoomScale()
-    end)
-
-    --We should probably reset this when the map opens.
-    WorldMapFrame:HookScript("OnShow", QuestieMap.UpdateZoomScale);
 end
 
-function QuestieMap:UpdateZoomScale()
-    --["Azeroth"] = {947,0},
-    --["Kalimdor"] = {1414,947},
-    --["Eastern Kingdoms"] = {1415,947},
-    --This time is required because GetMapID does not return the correct ID without it.
-    C_Timer.After(0.01, function()
-        local mapId = WorldMapFrame:GetMapID();
-        local scaling = 1;
-        if(mapId == 947) then --Azeroth
-            if(Questie.db.char.enableMinimalisticIcons) then
-                scaling = 0.4
-            else
-                scaling = 0.85
-            end
-        elseif(mapId == 1414 or mapId == 1415) then -- EK and Kalimdor
-            if(Questie.db.char.enableMinimalisticIcons) then
-                scaling = 0.5
-            else
-                scaling = 0.9
-            end
+
+--Override OnMapChanged from MapCanvasDataProviderMixin (https://www.townlong-yak.com/framexml/27101/Blizzard_MapCanvas/MapCanvas_DataProviderBase.lua#74)
+--This could in theory be skipped by instead using our own MapCanvasDataProviderMixin
+--The reason i don't is becauase i want the scaling to happen AFTER HBD has processed all the icons.
+local ORG_OnMapChanged = HBDPins.worldmapProvider.OnMapChanged;
+function HBDPins.worldmapProvider:OnMapChanged()
+    --Call original one : https://www.townlong-yak.com/framexml/27101/Blizzard_MapCanvas/MapCanvas_DataProviderBase.lua#74
+    ORG_OnMapChanged();
+
+    local mapId = self:GetMap():GetMapID();
+    local scaling = 1;
+    if(mapId == 947) then --Azeroth
+        if(Questie.db.char.enableMinimalisticIcons) then
+            scaling = 0.4
+        else
+            scaling = 0.85
         end
-        QuestieMap:RescaleShownMapIcons(scaling);
-    end)
+    elseif(mapId == 1414 or mapId == 1415) then -- EK and Kalimdor
+        if(Questie.db.char.enableMinimalisticIcons) then
+            scaling = 0.5
+        else
+            scaling = 0.9
+        end
+    end
+    QuestieMap:RescaleShownMapIcons(scaling);
 end
 
 function QuestieMap:ProcessShownMinimapIcons()

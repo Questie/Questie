@@ -81,19 +81,9 @@ function QuestieFramePool.Qframe:New(frameId, OnEnter)
 
     newFrame.data = {}
     newFrame:Hide()
-
-    hooksecurefunc(newFrame, "Hide", function()
-        if newFrame.OnHide then
-            newFrame:OnHide()
-        end
-    end)
-    hooksecurefunc(newFrame, "Show", function()
-        --For the love of god don't remove this.
-        QuestieMap.utils:SetDrawOrder(newFrame);
-        if newFrame.OnShow then
-            newFrame:OnShow()
-        end
-    end)
+    
+    newFrame:HookScript("OnHide", function() if self.OnHide then self:OnHide() end end)
+    newFrame:HookScript("OnShow", function() if self.OnShow then self:OnShow() end end)
 
     return newFrame
 end
@@ -241,10 +231,6 @@ function _Qframe:Unload()
         QuestieMap.minimapFramesShown[self.frameId] = nil;
     end
 
-    if(QuestieMap.mapFramesShown[self.frameId]) then
-        QuestieMap.mapFramesShown[self.frameId] = nil;
-    end
-
     --We are reseting the frames, making sure that no data is wrong.
     if self ~= nil and self.hidden and self._show ~= nil and self._hide ~= nil then -- restore state to normal (toggle questie)
         self.hidden = false
@@ -347,15 +333,11 @@ end
 function _Qframe:OnShow()
     if self.miniMapIcon then
         QuestieMap.minimapFramesShown[self.frameId] = self
-    else
-        QuestieMap.mapFramesShown[self.frameId] = self
     end
 end
 
 function _Qframe:OnHide()
     if self.miniMapIcon then
         QuestieMap.minimapFramesShown[self.frameId] = nil
-    else
-        QuestieMap.mapFramesShown[self.frameId] = nil
     end
 end

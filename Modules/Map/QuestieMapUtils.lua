@@ -11,6 +11,7 @@ local HBD = LibStub("HereBeDragonsQuestie-2.0")
 local tinsert = table.insert
 local pairs = pairs
 
+--- Currently not in use.
 function QuestieMap.utils:SetDrawOrder(frame)
     -- This is all fixes to always be on top of HandyNotes notes Let the frame level wars begin.
     -- HandyNotes uses GetFrameLevel + 6, so we use +7
