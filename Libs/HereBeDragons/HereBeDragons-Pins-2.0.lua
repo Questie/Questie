@@ -358,11 +358,17 @@ function worldmapProvider:RemovePinsByRef(ref)
     end
 end
 
-function worldmapProvider:RefreshAllData(fromOnShow)
-    self:RemoveAllData()
 
-    for icon, data in pairs(worldmapPins) do
-        self:HandlePin(icon, data)
+local lastUiMapId = -1;
+function worldmapProvider:RefreshAllData(fromOnShow)
+    local mapId = self:GetMap():GetMapID()
+    if(lastUiMapId ~= mapId) then
+        self:RemoveAllData()
+        
+        for icon, data in pairs(worldmapPins) do
+            self:HandlePin(icon, data)
+        end
+        lastUiMapId = mapId;
     end
 end
 
