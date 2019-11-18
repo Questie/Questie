@@ -743,6 +743,8 @@ function pins:RemoveWorldMapIcon(ref, icon)
         worldmapPins[icon] = nil
     end
     worldmapProvider:RemovePinByIcon(icon)
+
+    worldmapProvider.forceUpdate = true;
 end
 
 --- Remove all worldmap icons belonging to your addon (as tracked by "ref")
@@ -755,6 +757,8 @@ function pins:RemoveAllWorldMapIcons(ref)
     end
     worldmapProvider:RemovePinsByRef(ref)
     wipe(worldmapPinRegistry[ref])
+
+    worldmapProvider.forceUpdate = true;
 end
 
 --- Return the angle and distance from the player to the specified pin
