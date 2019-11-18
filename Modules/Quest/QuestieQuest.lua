@@ -365,6 +365,7 @@ end
 function QuestieQuest:CompleteQuest(quest)
     local questId = quest.Id
     QuestiePlayer.currentQuestlog[questId] = nil;
+    -- Only quests that aren't repeatable should be marked complete, otherwise objectives for repeatable quests won't track correctly - #1433
     Questie.db.char.complete[questId] = not quest.Repeatable
     QuestieHash:RemoveQuestHash(questId)
 
