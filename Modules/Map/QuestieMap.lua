@@ -228,7 +228,9 @@ function QuestieMap:ProcessQueue()
     end
     local minimapDrawCall = tremove(minimapDrawQueue, 1);
     if(minimapDrawCall) then
+        local frame = minimapDrawCall[2];
         HBDPins:AddMinimapIconMap(tunpack(minimapDrawCall));
+        QuestieMap.utils:SetDrawOrder(frame);
     end
 end
 
