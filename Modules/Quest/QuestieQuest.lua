@@ -365,7 +365,7 @@ end
 function QuestieQuest:CompleteQuest(quest)
     local questId = quest.Id
     QuestiePlayer.currentQuestlog[questId] = nil;
-    Questie.db.char.complete[questId] = quest and not quest.Repeatable
+    Questie.db.char.complete[questId] = not quest.Repeatable
     QuestieHash:RemoveQuestHash(questId)
 
     --This should probably be done first, because DrawAllAvailableQuests looks at QuestieMap.questIdFrames[QuestId] to add available
