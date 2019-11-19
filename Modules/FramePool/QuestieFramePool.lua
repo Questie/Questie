@@ -457,6 +457,10 @@ function _QuestieFramePool:GetObjectiveTooltip(icon)
                 local playerInfo = QuestiePlayer:GetPartyMemberByName(playerName)
                 if playerInfo then
                     local objectiveEntry = objectiveData[iconData.ObjectiveIndex]
+                    if not objectiveEntry then
+                        Questie:Debug(DEBUG_DEVELOP, "[_QuestieFramePool:GetObjectiveTooltip]", "No objective data for quest", quest.Id)
+                        objectiveEntry = {} -- This will make "GetRGBForObjective" return default color
+                    end
                     local remoteColor = QuestieLib:GetRGBForObjective(objectiveEntry)
                     local colorizedPlayerName = " (|c"..playerInfo.colorHex..playerName.."|r"..remoteColor..")|r"
                     local remoteText = iconData.ObjectiveData.Description

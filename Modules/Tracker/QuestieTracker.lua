@@ -503,16 +503,16 @@ function QuestieTracker:Update()
             end
 
             if quest.Objectives and not complete then
-                for _,Objective in pairs(quest.Objectives) do
+                for _, objective in pairs(quest.Objectives) do
                     line = _QuestieTracker:GetNextLine()
                     line:SetMode("line")
                     line:SetQuest(quest)
-                    line:SetObjective(Objective)
+                    line:SetObjective(objective)
                     local lineEnding = "" -- initialize because its not set if Needed is 0
-                    if Objective.Needed > 0 then
-                        lineEnding = tostring(Objective.Collected) .. "/" .. tostring(Objective.Needed)
+                    if objective.Needed > 0 then
+                        lineEnding = tostring(objective.Collected) .. "/" .. tostring(objective.Needed)
                     end
-                    line.label:SetText("    " .. QuestieLib:GetRGBForObjective(Objective) .. Objective.Description .. ": " .. lineEnding)
+                    line.label:SetText("    " .. QuestieLib:GetRGBForObjective(objective) .. objective.Description .. ": " .. lineEnding)
                     line:Show()
                     line.label:Show()
                     trackerWidth = math.max(trackerWidth, line.label:GetWidth())
