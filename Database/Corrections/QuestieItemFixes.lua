@@ -599,6 +599,9 @@ function QuestieItemFixes:Load()
         [6175] = {
             [QuestieDB.itemKeys.objectDrops] = {30854,30855,30856},
         },
+        [8396] = {
+            [QuestieDB.itemKeys.npcDrops] = {5982},
+        },
         [11040] = {
             [QuestieDB.itemKeys.name] = "Morrowgrain",
             [QuestieDB.itemKeys.relatedQuests] = {3785,3786,3803,3792,3804,3791},
