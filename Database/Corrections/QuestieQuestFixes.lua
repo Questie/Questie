@@ -269,6 +269,9 @@ function QuestieQuestFixes:Load()
         [1470] = {
             [QuestieDB.questKeys.exclusiveTo] = {1485}, -- #999
         },
+        [1471] = {
+            [QuestieDB.questKeys.exclusiveTo] = {1504}, -- #1542
+        },
         [1473] = {
             [QuestieDB.questKeys.exclusiveTo] = {1501},
         },
@@ -280,6 +283,9 @@ function QuestieQuestFixes:Load()
         },
         [1501] = {
             [QuestieDB.questKeys.exclusiveTo] = {1473},
+        },
+        [1504] = {
+            [QuestieDB.questKeys.exclusiveTo] = {1471}, -- #1542
         },
         [1506] = {
             [QuestieDB.questKeys.exclusiveTo] = {1478}, -- #1427
