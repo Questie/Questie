@@ -362,9 +362,11 @@ function QuestieQuest:AcceptQuest(questId)
 
 end
 
-function QuestieQuest:CompleteQuest(questId)
+function QuestieQuest:CompleteQuest(quest)
+    local questId = quest.Id
     QuestiePlayer.currentQuestlog[questId] = nil;
-    Questie.db.char.complete[questId] = true --can we use some other relevant info here?
+    -- Only quests that aren't repeatable should be marked complete, otherwise objectives for repeatable quests won't track correctly - #1433
+    Questie.db.char.complete[questId] = not quest.Repeatable
     QuestieHash:RemoveQuestHash(questId)
 
     --This should probably be done first, because DrawAllAvailableQuests looks at QuestieMap.questIdFrames[QuestId] to add available
