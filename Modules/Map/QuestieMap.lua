@@ -490,8 +490,8 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
 
                         if(distance > questieGlobalDB.fadeLevel) then
                             local fade = 1 - (math.min(10, (distance-questieGlobalDB.fadeLevel)) * normalizedValue);
-                            local dr,dg,db = self.texture:GetVertexColor()
-                            self.texture:SetVertexColor(dr, dg, db, fade)
+                            
+                            self.texture:SetVertexColor(self.texture.r, self.texture.g, self.texture.b, fade)
                             if self.glowTexture and self.glowTexture.GetVertexColor then
                                 local r, g, b = self.glowTexture:GetVertexColor()
                                 self.glowTexture:SetVertexColor(r,g,b,fade)
@@ -502,23 +502,20 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
                             if self.faded and fadeAmount > questieGlobalDB.iconFadeLevel then
                                 fadeAmount = questieGlobalDB.iconFadeLevel
                             end
-                            local dr, dg, db = self.texture:GetVertexColor()
-                            self.texture:SetVertexColor(dr, dg, db, fadeAmount)
+                            self.texture:SetVertexColor(self.texture.r, self.texture.g, self.texture.b, fadeAmount)
                             if self.glowTexture and self.glowTexture.GetVertexColor then
                                 local r,g,b = self.glowTexture:GetVertexColor()
                                 self.glowTexture:SetVertexColor(r, g, b, fadeAmount)
                             end
                         else
                             if self.faded then
-                                local dr,dg,db = self.texture:GetVertexColor()
-                                self.texture:SetVertexColor(dr, dg, db, questieGlobalDB.iconFadeLevel)
+                                self.texture:SetVertexColor(self.texture.r, self.texture.g, self.texture.b, questieGlobalDB.iconFadeLevel)
                                 if self.glowTexture and self.glowTexture.GetVertexColor then
                                     local r, g, b = self.glowTexture:GetVertexColor()
                                     self.glowTexture:SetVertexColor(r, g, b, questieGlobalDB.iconFadeLevel)
                                 end
                             else
-                                local dr,dg,db = self.texture:GetVertexColor()
-                                self.texture:SetVertexColor(dr, dg, db, 1)
+                                self.texture:SetVertexColor(self.texture.r, self.texture.g, self.texture.b, 1)
                                 if self.glowTexture and self.glowTexture.GetVertexColor then
                                     local r, g, b = self.glowTexture:GetVertexColor()
                                     self.glowTexture:SetVertexColor(r, g, b, 1)
@@ -528,21 +525,26 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
                     end
                 else
                     if self.faded then
-                        local dr,dg,db = self.texture:GetVertexColor()
-                        self.texture:SetVertexColor(dr, dg, db, questieGlobalDB.iconFadeLevel)
+                        self.texture:SetVertexColor(self.texture.r, self.texture.g, self.texture.b, questieGlobalDB.iconFadeLevel)
                         if self.glowTexture and self.glowTexture.GetVertexColor then
                             local r, g, b = self.glowTexture:GetVertexColor()
                             self.glowTexture:SetVertexColor(r, g, b, questieGlobalDB.iconFadeLevel)
                         end
                     else
-                        local dr,dg,db = self.texture:GetVertexColor()
-                        self.texture:SetVertexColor(dr, dg, db, 1)
+                        self.texture:SetVertexColor(self.texture.r, self.texture.g, self.texture.b, 1)
                         if self.glowTexture and self.glowTexture.GetVertexColor then
                             local r, g, b = self.glowTexture:GetVertexColor()
                             self.glowTexture:SetVertexColor(r, g, b, 1)
                         end
                     end
                 end
+                --We want to save this to save performance in calls.
+                --It is used in HBD as well which looks at the alpha.
+                local r, g, b, a = self.texture:GetVertexColor()
+                self.texture.r = r;
+                self.texture.g = g;
+                self.texture.b = b;
+                self.texture.a = a;
             end
         end
         -- We do not want to hook the OnUpdate again!

@@ -201,13 +201,16 @@ function _Qframe:UpdateTexture(texture)
     --Different settings depending on noteType
     local globalScale = 0.7
     local objectiveColor = false
+    local alpha = 1;
 
     if(self.miniMapIcon) then
         globalScale = Questie.db.global.globalMiniMapScale;
         objectiveColor = Questie.db.global.questMinimapObjectiveColors;
+        alpha = 0;
     else
         globalScale = Questie.db.global.globalScale;
         objectiveColor = Questie.db.global.questObjectiveColors;
+        alpha = 1;
     end
 
     self.texture:SetTexture(texture)
@@ -217,7 +220,11 @@ function _Qframe:UpdateTexture(texture)
     if self.data.IconColor ~= nil and objectiveColor then
         colors = self.data.IconColor
     end
-    self.texture:SetVertexColor(colors[1], colors[2], colors[3], 1);
+    self.texture:SetVertexColor(colors[1], colors[2], colors[3], alpha);
+    self.texture.r = colors[1];
+    self.texture.g = colors[2];
+    self.texture.b = colors[3];
+    self.texture.a = alpha;
 
     if self.data.IconScale then
         local scale = 16 * ((self.data:GetIconScale() or 1)*(globalScale or 0.7));
