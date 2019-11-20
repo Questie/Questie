@@ -163,7 +163,7 @@ local mapDrawQueue = {};
 local minimapDrawQueue = {};
 function QuestieMap:InitializeQueue()
     Questie:Debug(DEBUG_DEVELOP, "[QuestieMap] Starting draw queue timer!")
-    QuestieMap.drawTimer = C_Timer.NewTicker(0.005, QuestieMap.ProcessQueue)
+    QuestieMap.drawTimer = C_Timer.NewTicker(0.008, QuestieMap.ProcessQueue)
     QuestieMap.fadeLogicTimerShown = C_Timer.NewTicker(0.3, QuestieMap.ProcessShownMinimapIcons);
 
 end
@@ -223,17 +223,21 @@ end
 
 
 function QuestieMap:ProcessQueue()
-    local mapDrawCall = tremove(mapDrawQueue, 1);
-    if(mapDrawCall) then
-        HBDPins:AddWorldMapIconMap(tunpack(mapDrawCall));
-    end
-    local minimapDrawCall = tremove(minimapDrawQueue, 1);
-    if(minimapDrawCall) then
-        local frame = minimapDrawCall[2];
-        HBDPins:AddMinimapIconMap(tunpack(minimapDrawCall));
-        
-        if (frame.data and (frame.data.Icon == ICON_TYPE_AVAILABLE or frame.data.Icon == ICON_TYPE_REPEATABLE or frame.data.Icon == ICON_TYPE_COMPLETE)) then
-            QuestieMap.utils:SetDrawOrder(frame);
+    if(#mapDrawQueue ~= 0 or #minimapDrawQueue ~= 0) then
+        for i = 1, math.min(10, math.max(#mapDrawQueue, #minimapDrawQueue)) do
+            local mapDrawCall = tremove(mapDrawQueue, 1);
+            if(mapDrawCall) then
+                HBDPins:AddWorldMapIconMap(tunpack(mapDrawCall));
+            end
+            local minimapDrawCall = tremove(minimapDrawQueue, 1);
+            if(minimapDrawCall) then
+                local frame = minimapDrawCall[2];
+                HBDPins:AddMinimapIconMap(tunpack(minimapDrawCall));
+
+                if (frame.data and (frame.data.Icon == ICON_TYPE_AVAILABLE or frame.data.Icon == ICON_TYPE_REPEATABLE or frame.data.Icon == ICON_TYPE_COMPLETE)) then
+                    QuestieMap.utils:SetDrawOrder(frame);
+                end
+            end
         end
     end
 end
