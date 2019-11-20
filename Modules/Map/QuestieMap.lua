@@ -202,6 +202,7 @@ function HBDPins.worldmapProvider:OnMapChanged()
 end
 
 function QuestieMap:ProcessShownMinimapIcons()
+    ---@param minimapFrame IconFrame
     for minimapFrame, data in pairs(HBDPins.activeMinimapPins) do
         if (minimapFrame.FadeLogic and minimapFrame.miniMapIcon) then
             minimapFrame:FadeLogic()
@@ -428,6 +429,7 @@ end
 --A layer to keep the area convertion away from the other parts of the code
 --coordinates need to be 0-1 instead of 0-100
 --showFlag isn't required but may want to be Modified
+---@return IconFrame, IconFrame
 function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
     if type(data) ~= "table" then
         error("Questie"..": AddWorldMapIconMap: must have some data")

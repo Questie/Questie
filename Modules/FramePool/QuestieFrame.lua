@@ -11,7 +11,9 @@ QuestieFramePool.Qframe = {}
 
 local _Qframe = {}
 
+---@return IconFrame
 function QuestieFramePool.Qframe:New(frameId, OnEnter)
+    ---@class IconFrame
     local newFrame = CreateFrame("Button", "QuestieFrame"..frameId)
     newFrame.frameId = frameId;
 
@@ -51,7 +53,14 @@ function QuestieFramePool.Qframe:New(frameId, OnEnter)
     glowt:SetHeight(18)
     glowt:SetAllPoints(newFrame.glow)
 
+    ---@class IconTexture
     newFrame.texture = newTexture;
+    --We save the colors to the texture object, this way we don't need to use GetVertexColor
+    local r, g, b, a = newFrame.texture:GetVertexColor();
+    newFrame.texture.r = r;
+    newFrame.texture.g = g;
+    newFrame.texture.b = b;
+    newFrame.texture.a = a;
     newFrame.glowTexture = glowt
     newFrame.glowTexture:SetTexture(ICON_TYPE_GLOW)
     newFrame.glow:Hide()

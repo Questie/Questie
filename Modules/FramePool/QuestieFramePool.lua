@@ -84,7 +84,9 @@ StaticPopupDialogs["QUESTIE_CONFIRMHIDE"] = {
 }
 
 -- Global Functions --
+---@return IconFrame
 function QuestieFramePool:GetFrame()
+    ---@type IconFrame
     local returnFrame = nil--tremove(_QuestieFramePool.unusedFrames)
 
     -- im not sure its this, but using string keys for the table prevents double-adding to _QuestieFramePool.unusedFrames, calling unload() twice could double-add it maybe?
@@ -212,7 +214,6 @@ function _QuestieFramePool:UnloadFrame(frame)
   frame.loaded = nil;
     tinsert(_QuestieFramePool.unusedFrames, frame)
 end]]--
----@class IconFrame
 function _QuestieFramePool:QuestieCreateFrame()
     _QuestieFramePool.numberOfFrames = _QuestieFramePool.numberOfFrames + 1
     local newFrame = QuestieFramePool.Qframe:New(_QuestieFramePool.numberOfFrames, _QuestieFramePool.Questie_Tooltip)
