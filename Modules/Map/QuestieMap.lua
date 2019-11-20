@@ -538,13 +538,6 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
                         end
                     end
                 end
-                --We want to save this to save performance in calls.
-                --It is used in HBD as well which looks at the alpha.
-                local r, g, b, a = self.texture:GetVertexColor()
-                self.texture.r = r;
-                self.texture.g = g;
-                self.texture.b = b;
-                self.texture.a = a;
             end
         end
         -- We do not want to hook the OnUpdate again!

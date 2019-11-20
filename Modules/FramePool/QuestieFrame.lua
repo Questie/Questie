@@ -55,13 +55,32 @@ function QuestieFramePool.Qframe:New(frameId, OnEnter)
 
     ---@class IconTexture
     newFrame.texture = newTexture;
+    newFrame.texture.OLDSetVertexColor = newFrame.texture.SetVertexColor;
+    function newFrame.texture:SetVertexColor(r, g, b, a)
+        self:OLDSetVertexColor(r,g,b,a);
+        --We save the colors to the texture object, this way we don't need to use GetVertexColor
+        self.r = r or 1;
+        self.g = g or 1;
+        self.b = b or 1;
+        self.a = a or 1;
+    end
     --We save the colors to the texture object, this way we don't need to use GetVertexColor
-    local r, g, b, a = newFrame.texture:GetVertexColor();
-    newFrame.texture.r = r;
-    newFrame.texture.g = g;
-    newFrame.texture.b = b;
-    newFrame.texture.a = a;
+    newFrame.texture:SetVertexColor(1,1,1,1);
+
     newFrame.glowTexture = glowt
+    newFrame.glowTexture.OLDSetVertexColor = newFrame.glowTexture.SetVertexColor;
+    function newFrame.glowTexture:SetVertexColor(r, g, b, a)
+        self:OLDSetVertexColor(r,g,b,a);
+        --We save the colors to the texture object, this way we don't need to use GetVertexColor
+        self.r = r or 1;
+        self.g = g or 1;
+        self.b = b or 1;
+        self.a = a or 1;
+    end
+
+    --We save the colors to the texture object, this way we don't need to use GetVertexColor
+    newFrame.glowTexture:SetVertexColor(1,1,1,1);
+    
     newFrame.glowTexture:SetTexture(ICON_TYPE_GLOW)
     newFrame.glow:Hide()
     newFrame.glow:SetPoint("CENTER", -9, -9) -- 2 pixels bigger than normal icon
@@ -150,12 +169,18 @@ end
 
 function _Qframe:GlowUpdate()
     if self.glow and self.glow.IsShown and self.glow:IsShown() then
-        self.glow:SetWidth(self:GetWidth() * 1.13)
-        self.glow:SetHeight(self:GetHeight() * 1.13)
-        self.glow:SetPoint("CENTER", self, 0, 0)
+        --Due to this always being 1:1 we can assume that if one isn't correct, the other isn't either
+        --We can also assume that both change at the same time so we only check one.
+        if(self.glow:GetWidth() ~= self:GetWidth() * 1.13) then ---self.glow:GetHeight() ~= self:GetHeight() * 1.13
+            self.glow:SetSize(self:GetWidth() * 1.13, self:GetHeight() * 1.13)
+            self.glow:SetPoint("CENTER", self, 0, 0)
+        end
         if self.data and self.data.ObjectiveData and self.data.ObjectiveData.Color and self.glowTexture then
-            local _, _, _, alpha = self.texture:GetVertexColor()
-            self.glowTexture:SetVertexColor(self.data.ObjectiveData.Color[1], self.data.ObjectiveData.Color[2], self.data.ObjectiveData.Color[3], alpha or 1)
+            --Due to us now saving the alpha inside of the texture we don't need to check the main texture anymore.
+            --The question is is it faster to get and compare or just set straight up?
+            if(self.glowTexture.r ~= self.data.ObjectiveData.Color[1] or self.glowTexture.g ~= self.data.ObjectiveData.Color[2] or self.glowTexture.b ~= self.data.ObjectiveData.Color[3] or self.texture.a ~= self.glowTexture.a) then
+                self.glowTexture:SetVertexColor(self.data.ObjectiveData.Color[1], self.data.ObjectiveData.Color[2], self.data.ObjectiveData.Color[3], self.texture.a or 1)
+            end
         end
     end
 end
@@ -218,11 +243,6 @@ function _Qframe:UpdateTexture(texture)
         colors = self.data.IconColor
     end
     self.texture:SetVertexColor(colors[1], colors[2], colors[3], alpha);
-    --We save the colors to the texture object, this way we don't need to use GetVertexColor
-    self.texture.r = colors[1];
-    self.texture.g = colors[2];
-    self.texture.b = colors[3];
-    self.texture.a = alpha;
 
     if self.data.IconScale then
         local scale = 16 * ((self.data:GetIconScale() or 1)*(globalScale or 0.7));
