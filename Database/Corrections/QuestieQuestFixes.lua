@@ -377,6 +377,9 @@ function QuestieQuestFixes:Load()
         [2358] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 77,
         },
+        [2501] = {
+            [QuestieDB.questKeys.preQuestGroup] = {2500,17}, -- #1541
+        },
         [2781] = {
             [QuestieDB.questKeys.startedBy] = {nil,{142122,150075,},nil,}, -- #1081
         },
