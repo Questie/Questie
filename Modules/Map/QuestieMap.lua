@@ -204,7 +204,7 @@ function HBDPins.worldmapProvider:OnMapChanged()
 end
 
 function QuestieMap:ProcessShownMinimapIcons()
-    for _, minimapFrame in pairs(QuestieMap.minimapFramesShown) do
+    for minimapFrame, data in pairs(HBDPins.activeMinimapPins) do
         if (minimapFrame.FadeLogic and minimapFrame.miniMapIcon) then
             minimapFrame:FadeLogic()
         end

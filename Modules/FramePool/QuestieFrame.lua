@@ -82,18 +82,6 @@ function QuestieFramePool.Qframe:New(frameId, OnEnter)
     newFrame.data = {}
     newFrame:Hide()
 
-
-    hooksecurefunc(newFrame, "Hide", function()
-        if newFrame.OnHide then
-            newFrame:OnHide()
-        end
-    end)
-    hooksecurefunc(newFrame, "Show", function()
-        if newFrame.OnShow then
-            newFrame:OnShow()
-        end
-    end)
-
     return newFrame
 end
 
@@ -221,6 +209,7 @@ function _Qframe:UpdateTexture(texture)
         colors = self.data.IconColor
     end
     self.texture:SetVertexColor(colors[1], colors[2], colors[3], alpha);
+    --We save the colors to the texture object, this way we don't need to use GetVertexColor
     self.texture.r = colors[1];
     self.texture.g = colors[2];
     self.texture.b = colors[3];
@@ -242,10 +231,6 @@ function _Qframe:Unload()
     self:SetScript("OnHide", nil)
     self:SetFrameStrata("FULLSCREEN");
     self:SetFrameLevel(0);
-
-    if(QuestieMap.minimapFramesShown[self.frameId]) then
-        QuestieMap.minimapFramesShown[self.frameId] = nil;
-    end
 
     --We are reseting the frames, making sure that no data is wrong.
     if self ~= nil and self.hidden and self._show ~= nil and self._hide ~= nil then -- restore state to normal (toggle questie)
@@ -343,17 +328,5 @@ function _Qframe:FakeUnhide()
         if self.shouldBeShowing then
             self:Show();
         end
-    end
-end
-
-function _Qframe:OnShow()
-    if self.miniMapIcon then
-        QuestieMap.minimapFramesShown[self.frameId] = self
-    end
-end
-
-function _Qframe:OnHide()
-    if self.miniMapIcon then
-        QuestieMap.minimapFramesShown[self.frameId] = nil
     end
 end
