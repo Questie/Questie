@@ -37,8 +37,6 @@ QuestieMap.questIdFrames = {}
 -- For details about frame.data see QuestieMap.ShowNPC and QuestieMap.ShowObject
 QuestieMap.manualFrames = {}
 
---We haven't got the same nice things for the minimap as we do on the main map.
-QuestieMap.minimapFramesShown = {} -- I would do minimapFrames.shown but that would break the logic below
 
 --Used in my fadelogic.
 local fadeOverDistance = 10;
