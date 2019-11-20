@@ -48,6 +48,7 @@ function QuestieItemBlacklist:Load()
         [8839] = true, -- blindweed
         [8845] = true, -- ghost mushroom
         [8846] = true, -- gromsblood
+        [10561] = true, -- Mithril Casing
         [13464] = true, -- golden sansam
         [13463] = true, -- dreamfoil
         [13465] = true, --mountain silversage
