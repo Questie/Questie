@@ -393,6 +393,12 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.startedBy] = {{4568,5144,5497,5885,},nil,nil,}, -- #1152
             [QuestieDB.questKeys.exclusiveTo] = {2846},
         },
+        [2872] = {
+            [QuestieDB.questKeys.exclusiveTo] = {2873}, -- #1566
+        },
+        [2873] = {
+            [QuestieDB.questKeys.preQuestSingle] = {}, -- #1566
+        },
         [2922] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- Save Techbot's Brain doesn't need the Tinkmaster Overspark breadcrumb #687
         },
