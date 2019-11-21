@@ -681,6 +681,9 @@ function QuestieQuestFixes:Load()
         [6144] = {
             [QuestieDB.questKeys.preQuestSingle] = {6135,6136}, -- #1572
         },
+        [6603] = {
+            [QuestieDB.questKeys.exclusiveTo] = {5082},
+        },
         [6608] = {
             [QuestieDB.questKeys.exclusiveTo] = {6607}, -- #1186
         },
