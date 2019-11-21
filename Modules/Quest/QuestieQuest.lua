@@ -320,7 +320,6 @@ function QuestieQuest:AcceptQuest(questId)
     if(QuestiePlayer.currentQuestlog[questId] == nil) then
         Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ACCEPT_QUEST', questId));
 
-
         --Get all the Frames for the quest and unload them, the available quest icon for example.
         QuestieMap:UnloadQuestFrames(questId);
         QuestieHash:AddNewQuestHash(questId)
@@ -367,6 +366,7 @@ function QuestieQuest:CompleteQuest(quest)
     QuestiePlayer.currentQuestlog[questId] = nil;
     -- Only quests that aren't repeatable should be marked complete, otherwise objectives for repeatable quests won't track correctly - #1433
     Questie.db.char.complete[questId] = not quest.Repeatable
+
     QuestieHash:RemoveQuestHash(questId)
 
     --This should probably be done first, because DrawAllAvailableQuests looks at QuestieMap.questIdFrames[QuestId] to add available
@@ -395,6 +395,7 @@ function QuestieQuest:AbandonedQuest(questId)
     QuestieTooltips:RemoveQuest(questId)
     if(QuestiePlayer.currentQuestlog[questId]) then
         QuestiePlayer.currentQuestlog[questId] = nil
+
         QuestieHash:RemoveQuestHash(questId)
 
         --Unload all the quest frames from the map.
@@ -600,8 +601,7 @@ function QuestieQuest:AddFinisher(quest)
 
                                     local icon, _ = QuestieMap:DrawWorldIcon(data, zone, x, y)
 
-                                    if(finisher.waypoints and finisher.waypoints[zone] and not QuestieFramePool:HasWaypoints(finisher.name)) then
-                                        QuestieFramePool:SetHasWaypoints(finisher.name)
+                                    if(finisher.waypoints and finisher.waypoints[zone]) then
                                         QuestieMap:DrawWaypoints(icon, finisher.waypoints[zone], zone, x, y)
                                     end
                                 end
@@ -626,8 +626,7 @@ function QuestieQuest:AddFinisher(quest)
 
                             local icon, _ = QuestieMap:DrawWorldIcon(data, finisherZone, x, y)
 
-                            if(finisher.waypoints and finisher.waypoints[finisherZone] and not QuestieFramePool:HasWaypoints(finisher.name)) then
-                                QuestieFramePool:SetHasWaypoints(finisher.name)
+                            if(finisher.waypoints and finisher.waypoints[finisherZone]) then
                                 QuestieMap:DrawWaypoints(icon, finisher.waypoints[finisherZone], finisherZone, x, y)
                             end
                         end
@@ -1304,8 +1303,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
 
                                         local icon, _ = QuestieMap:DrawWorldIcon(data, zone, x, y)
 
-                                        if(NPC.waypoints and NPC.waypoints[zone] and not QuestieFramePool:HasWaypoints(NPC.name)) then
-                                            QuestieFramePool:SetHasWaypoints(NPC.name)
+                                        if(NPC.waypoints and NPC.waypoints[zone]) then
                                             QuestieMap:DrawWaypoints(icon, NPC.waypoints[zone], zone, x, y)
                                         end
                                     end
@@ -1329,8 +1327,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
 
                                 local icon, _ = QuestieMap:DrawWorldIcon(data, npcZone, x, y)
 
-                                if(NPC.waypoints and NPC.waypoints[npcZone] and not QuestieFramePool:HasWaypoints(NPC.name)) then
-                                    QuestieFramePool:SetHasWaypoints(NPC.name)
+                                if(NPC.waypoints and NPC.waypoints[npcZone]) then
                                     QuestieMap:DrawWaypoints(icon, NPC.waypoints[npcZone], npcZone, x, y)
                                 end
                             end
@@ -1346,10 +1343,8 @@ function QuestieQuest:DrawAllAvailableQuests()--All quests between
     --This should probably be called somewhere else!
     --QuestieFramePool:UnloadAll()
 
-    local playerLevel = QuestiePlayer:GetPlayerLevel();
-
     local count = 0
-    for questId, qid in pairs(QuestieQuest.availableQuests) do
+    for questId, _ in pairs(QuestieQuest.availableQuests) do
 
         --If the quest is not drawn draw the quest, otherwise skip.
         if(not QuestieMap.questIdFrames[questId]) then
@@ -1358,7 +1353,7 @@ function QuestieQuest:DrawAllAvailableQuests()--All quests between
             _QuestieQuest:DrawAvailableQuest(quest)
         else
             --We might have to update the icon in this situation (config changed/level up)
-            for index, frame in ipairs(QuestieMap:GetFramesForQuest(questId)) do
+            for _, frame in ipairs(QuestieMap:GetFramesForQuest(questId)) do
                 if frame and frame.data then
                     local newIcon = _QuestieQuest:GetQuestIcon(frame.data.QuestData)
                     if newIcon ~= frame.data.Icon then

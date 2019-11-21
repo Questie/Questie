@@ -28,18 +28,8 @@ _QuestieFramePool.usedFrames = {};
 
 _QuestieFramePool.allFrames = {}
 
-_QuestieFramePool.waypointSources = {}
-_QuestieFramePool.wayPointColor = {0,0.5,1,0.3}
-_QuestieFramePool.wayPointColorHover = {0,0,0.58,0.5}
-
-
-function QuestieFramePool:SetHasWaypoints(source)
-    _QuestieFramePool.waypointSources[source] = true
-end
-
-function QuestieFramePool:HasWaypoints(source)
-    return _QuestieFramePool.waypointSources[source] ~= nil
-end
+_QuestieFramePool.wayPointColor = {1,0.72,0,0.5}
+_QuestieFramePool.wayPointColorHover = {0.93,0.46,0.13,0.8}
 
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 
@@ -274,13 +264,9 @@ function QuestieFramePool:CreateWaypoints(iconFrame, waypointTable, lineWidth, c
     local lastPos = nil
     --Set defaults if needed.
     local lWidth = lineWidth or 1.5;
-    -- local col = color or {1,0.72,0,0.3};
     local col = color or _QuestieFramePool.wayPointColor
-    -- local col = color or {0,0.24,1,0.3};
-    -- local col = color or {0.06,0.31,0.55,0.3};
-    -- local col = color or {0.14,0.14,0.56,0.3};
 
-    for index, waypoint in pairs(waypointTable) do
+    for _, waypoint in pairs(waypointTable) do
         if(lastPos == nil) then
             lastPos = waypoint;
         else
