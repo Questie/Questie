@@ -28,6 +28,19 @@ _QuestieFramePool.usedFrames = {};
 
 _QuestieFramePool.allFrames = {}
 
+_QuestieFramePool.waypointSources = {}
+_QuestieFramePool.wayPointColor = {0,0.5,1,0.3}
+_QuestieFramePool.wayPointColorHover = {0,0,0.58,0.5}
+
+
+function QuestieFramePool:SetHasWaypoints(source)
+    _QuestieFramePool.waypointSources[source] = true
+end
+
+function QuestieFramePool:HasWaypoints(source)
+    return _QuestieFramePool.waypointSources[source] ~= nil
+end
+
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 
 -- set pins parent to QuestieFrameGroup for easier compatibility with other addons
@@ -261,12 +274,11 @@ function QuestieFramePool:CreateWaypoints(iconFrame, waypointTable, lineWidth, c
     local lastPos = nil
     --Set defaults if needed.
     local lWidth = lineWidth or 1.5;
-    local col = color or {1,0.72,0,0.3};
-    -- local col = color or {0,0.5,1,0.3};
+    -- local col = color or {1,0.72,0,0.3};
+    local col = color or _QuestieFramePool.wayPointColor
+    -- local col = color or {0,0.24,1,0.3};
     -- local col = color or {0.06,0.31,0.55,0.3};
     -- local col = color or {0.14,0.14,0.56,0.3};
-    -- local col = color or {0.4,0,0,0.3};
-    -- local col = color or {0.4,0.8,0,0.3};
 
     for index, waypoint in pairs(waypointTable) do
         if(lastPos == nil) then
@@ -390,15 +402,6 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     --Keep a total lineFrame count for names.
     lineFrames = lineFrames + 1;
     return lineFrame
-end
-
-function _QuestieFramePool:Questie_Tooltip_line(self)
-    local Tooltip = GameTooltip;
-    Tooltip:SetOwner(self, "ANCHOR_CURSOR"); --"ANCHOR_CURSOR" or (self, self)
-    Tooltip:AddLine("Test");
-    Tooltip:SetFrameStrata("TOOLTIP");
-    Tooltip:Show();
-    --_QuestieFramePool:Questie_Tooltip(self.iconFrame)
 end
 
 function _QuestieFramePool:GetAvailableOrCompleteTooltip(icon)
@@ -555,7 +558,10 @@ function _QuestieFramePool:Questie_Tooltip()
 
     --Highlight waypoints if they exist.
     for k, lineFrame in pairs(self.data.lineFrames or {}) do
-      lineFrame.line:SetColorTexture(math.min(lineFrame.line.dR*1.3, 1), math.min(lineFrame.line.dG*1.3, 1), math.min(lineFrame.line.dB*1.3, 1), math.min(lineFrame.line.dA*1.3, 1))
+      lineFrame.line:SetColorTexture(
+        unpack(_QuestieFramePool.wayPointColorHover)
+        --   math.min(lineFrame.line.dR*1.4, 1), math.min(lineFrame.line.dG*1.4, 1), math.min(lineFrame.line.dB*1.4, 1), math.min(lineFrame.line.dA*1.4, 1)
+        )
     end
 
     -- FIXME: `data` can be nil here which leads to an error, will have to debug:

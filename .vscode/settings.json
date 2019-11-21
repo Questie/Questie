@@ -2665,7 +2665,7 @@
         "LibStub",
         "-----------------------------------------------------> Project Specific",
         "QuestieLoader",
-        "instanceData",
+        "InstanceLocations",
         "LQuestie_CloseDropDownMenus",
         "ZoneDataAreaIDToUiMapID",
         "zoneDataUiMapIDToAreaID",

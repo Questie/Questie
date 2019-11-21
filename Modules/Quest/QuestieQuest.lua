@@ -563,9 +563,9 @@ function QuestieQuest:AddFinisher(quest)
             Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_NO_FINISH', questId, quest.name))
         end
         if(finisher ~= nil and finisher.spawns ~= nil) then
-            for Zone, Spawns in pairs(finisher.spawns) do
-                if(Zone ~= nil and Spawns ~= nil) then
-                    for _, coords in ipairs(Spawns) do
+            for finisherZone, spawns in pairs(finisher.spawns) do
+                if(finisherZone ~= nil and spawns ~= nil) then
+                    for _, coords in ipairs(spawns) do
                         local data = {}
                         data.Id = questId;
                         data.Icon = ICON_TYPE_COMPLETE;
@@ -576,19 +576,19 @@ function QuestieQuest:AddFinisher(quest)
                         data.Name = finisher.name
                         data.IsObjectiveNote = false
                         if(coords[1] == -1 or coords[2] == -1) then
-                            if(instanceData[Zone] ~= nil) then
-                                for index, value in ipairs(instanceData[Zone]) do
+                            if(InstanceLocations[finisherZone] ~= nil) then
+                                for _, value in ipairs(InstanceLocations[finisherZone]) do
                                     --QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
                                     --Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", ZoneDataAreaIDToUiMapID[value[1]])
                                     --local icon, minimapIcon = QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
-                                    local z = value[1];
+                                    local zone = value[1];
                                     local x = value[2];
                                     local y = value[3];
 
                                     -- Calculate mid point if waypoints exist, we need to do this before drawing the lines
                                     -- as we need the icon handle for the lines.
-                                    if(finisher.waypoints and finisher.waypoints[z]) then
-                                        local midX, midY = QuestieLib:CalculateWaypointMidPoint(finisher.waypoints[z]);
+                                    if(finisher.waypoints and finisher.waypoints[zone]) then
+                                        local midX, midY = QuestieLib:CalculateWaypointMidPoint(finisher.waypoints[zone]);
                                         x = midX or x;
                                         y = midY or y;
                                         -- The above code should do the same... remove this after testing it.
@@ -598,14 +598,11 @@ function QuestieQuest:AddFinisher(quest)
                                         --end
                                     end
 
-                                    local icon, minimapIcon = QuestieMap:DrawWorldIcon(data, z, x, y)
+                                    local icon, _ = QuestieMap:DrawWorldIcon(data, zone, x, y)
 
-                                    if(finisher.waypoints and finisher.waypoints[z]) then
-                                        local lineFrames = QuestieFramePool:CreateWaypoints(icon, finisher.waypoints[z]);
-                                        for index, lineFrame in ipairs(lineFrames) do
-                                            QuestieMap:DrawLineIcon(lineFrame, z, x, y);
-                                            --HBDPins:AddWorldMapIconMap(Questie, lineFrame, ZoneDataAreaIDToUiMapID[z], x, y, HBD_PINS_WORLDMAP_SHOW_CURRENT)
-                                        end
+                                    if(finisher.waypoints and finisher.waypoints[zone] and not QuestieFramePool:HasWaypoints(finisher.name)) then
+                                        QuestieFramePool:SetHasWaypoints(finisher.name)
+                                        QuestieMap:DrawWaypoints(icon, finisher.waypoints[zone], zone, x, y)
                                     end
                                 end
                             end
@@ -616,8 +613,8 @@ function QuestieQuest:AddFinisher(quest)
 
                             -- Calculate mid point if waypoints exist, we need to do this before drawing the lines
                             -- as we need the icon handle for the lines.
-                            if(finisher.waypoints and finisher.waypoints[Zone]) then
-                                local midX, midY = QuestieLib:CalculateWaypointMidPoint(finisher.waypoints[Zone]);
+                            if(finisher.waypoints and finisher.waypoints[finisherZone]) then
+                                local midX, midY = QuestieLib:CalculateWaypointMidPoint(finisher.waypoints[finisherZone]);
                                 x = midX or x;
                                 y = midY or y;
                                 -- The above code should do the same... remove this after testing it.
@@ -627,14 +624,11 @@ function QuestieQuest:AddFinisher(quest)
                                 --end
                             end
 
-                            local icon, minimapIcon = QuestieMap:DrawWorldIcon(data, Zone, x, y)
+                            local icon, _ = QuestieMap:DrawWorldIcon(data, finisherZone, x, y)
 
-                            if(finisher.waypoints and finisher.waypoints[Zone]) then
-                                local lineFrames = QuestieFramePool:CreateWaypoints(icon, finisher.waypoints[Zone]);
-                                for index, lineFrame in ipairs(lineFrames) do
-                                    QuestieMap:DrawLineIcon(lineFrame, Zone, x, y);
-                                    --HBDPins:AddWorldMapIconMap(Questie, lineFrame, ZoneDataAreaIDToUiMapID[Zone], x, y, HBD_PINS_WORLDMAP_SHOW_CURRENT)
-                                end
+                            if(finisher.waypoints and finisher.waypoints[finisherZone] and not QuestieFramePool:HasWaypoints(finisher.name)) then
+                                QuestieFramePool:SetHasWaypoints(finisher.name)
+                                QuestieMap:DrawWaypoints(icon, finisher.waypoints[finisherZone], finisherZone, x, y)
                             end
                         end
                     end
@@ -643,7 +637,6 @@ function QuestieQuest:AddFinisher(quest)
         end
     end
 end
-
 
 
 -- this is for forcing specific things on to the map (That aren't quest related)
@@ -1251,8 +1244,8 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
 
                             data.IsObjectiveNote = false
                             if(coords[1] == -1 or coords[2] == -1) then
-                                if(instanceData[Zone] ~= nil) then
-                                    for index, value in ipairs(instanceData[Zone]) do
+                                if(InstanceLocations[Zone] ~= nil) then
+                                    for index, value in ipairs(InstanceLocations[Zone]) do
                                         QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
                                     end
                                 end
@@ -1269,8 +1262,8 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
             local NPC = QuestieDB:GetNPC(NPCID)
             if (NPC ~= nil and NPC.spawns ~= nil and NPC.friendly) then
                 --Questie:Debug(DEBUG_DEVELOP,"Adding Quest:", questObject.Id, "StarterNPC:", NPC.Id)
-                for Zone, Spawns in pairs(NPC.spawns) do
-                    if(Zone ~= nil and Spawns ~= nil) then
+                for npcZone, Spawns in pairs(NPC.spawns) do
+                    if(npcZone ~= nil and Spawns ~= nil) then
                         --Questie:Debug("Zone", Zone)
                         --Questie:Debug("Qid:", questid)
                         for _, coords in ipairs(Spawns) do
@@ -1288,18 +1281,18 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                             --    return {QuestieLib:PrintDifficultyColor(data.QuestData.Level, "[" .. data.QuestData.Level .. "] " .. data.QuestData.Name), "|cFFFFFFFFStarted by: |r|cFF22FF22" .. data.QuestData.NPCName, "QuestId:"..data.QuestData.Id}
                             --end
                             if(coords[1] == -1 or coords[2] == -1) then
-                                if(instanceData[Zone] ~= nil) then
-                                    for index, value in ipairs(instanceData[Zone]) do
+                                if(InstanceLocations[npcZone] ~= nil) then
+                                    for _, value in ipairs(InstanceLocations[npcZone]) do
                                         --Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", ZoneDataAreaIDToUiMapID[value[1]])
                                         --local icon, minimapIcon = QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
-                                        local z = value[1];
+                                        local zone = value[1];
                                         local x = value[2];
                                         local y = value[3];
 
                                         -- Calculate mid point if waypoints exist, we need to do this before drawing the lines
                                         -- as we need the icon handle for the lines.
-                                        if(NPC.waypoints and NPC.waypoints[z]) then
-                                            local midX, midY = QuestieLib:CalculateWaypointMidPoint(NPC.waypoints[z]);
+                                        if(NPC.waypoints and NPC.waypoints[zone]) then
+                                            local midX, midY = QuestieLib:CalculateWaypointMidPoint(NPC.waypoints[zone]);
                                             x = midX or x;
                                             y = midY or y;
                                             -- The above code should do the same... remove this after testing it.
@@ -1309,16 +1302,12 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                                             --end
                                         end
 
-                                        local icon, minimapIcon = QuestieMap:DrawWorldIcon(data, z, x, y)
+                                        local icon, _ = QuestieMap:DrawWorldIcon(data, zone, x, y)
 
-                                        if(NPC.waypoints and NPC.waypoints[z]) then
-                                            local lineFrames = QuestieFramePool:CreateWaypoints(icon, NPC.waypoints[z]);
-                                            for index, lineFrame in ipairs(lineFrames) do
-                                                QuestieMap:DrawLineIcon(lineFrame, z, x, y);
-                                                --HBDPins:AddWorldMapIconMap(Questie, lineFrame, ZoneDataAreaIDToUiMapID[z], x, y, HBD_PINS_WORLDMAP_SHOW_CURRENT)
-                                            end
+                                        if(NPC.waypoints and NPC.waypoints[zone] and not QuestieFramePool:HasWaypoints(NPC.name)) then
+                                            QuestieFramePool:SetHasWaypoints(NPC.name)
+                                            QuestieMap:DrawWaypoints(icon, NPC.waypoints[zone], zone, x, y)
                                         end
-
                                     end
                                 end
                             else
@@ -1327,8 +1316,8 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
 
                                 -- Calculate mid point if waypoints exist, we need to do this before drawing the lines
                                 -- as we need the icon handle for the lines.
-                                if(NPC.waypoints and NPC.waypoints[Zone]) then
-                                    local midX, midY = QuestieLib:CalculateWaypointMidPoint(NPC.waypoints[Zone]);
+                                if(NPC.waypoints and NPC.waypoints[npcZone]) then
+                                    local midX, midY = QuestieLib:CalculateWaypointMidPoint(NPC.waypoints[npcZone]);
                                     x = midX or x;
                                     y = midY or y;
                                     -- The above code should do the same... remove this after testing it.
@@ -1338,14 +1327,11 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                                     --end
                                 end
 
-                                local icon, minimapIcon = QuestieMap:DrawWorldIcon(data, Zone, x, y)
+                                local icon, _ = QuestieMap:DrawWorldIcon(data, npcZone, x, y)
 
-                                if(NPC.waypoints and NPC.waypoints[Zone]) then
-                                  local lineFrames = QuestieFramePool:CreateWaypoints(icon, NPC.waypoints[Zone]);
-                                  for index, lineFrame in ipairs(lineFrames) do
-                                    QuestieMap:DrawLineIcon(lineFrame, Zone, x, y);
-                                    --HBDPins:AddWorldMapIconMap(Questie, lineFrame, ZoneDataAreaIDToUiMapID[Zone], x, y, HBD_PINS_WORLDMAP_SHOW_CURRENT)
-                                  end
+                                if(NPC.waypoints and NPC.waypoints[npcZone] and not QuestieFramePool:HasWaypoints(NPC.name)) then
+                                    QuestieFramePool:SetHasWaypoints(NPC.name)
+                                    QuestieMap:DrawWaypoints(icon, NPC.waypoints[npcZone], npcZone, x, y)
                                 end
                             end
                         end

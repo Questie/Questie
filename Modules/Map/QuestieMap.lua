@@ -282,8 +282,8 @@ function QuestieMap:ShowNPC(npcID)
         if(zone ~= nil and spawns ~= nil) then
             for _, coords in ipairs(spawns) do
                 -- instance spawn, draw entrance on map
-                if (instanceData[zone] ~= nil) then
-                    for index, value in ipairs(instanceData[zone]) do
+                if (InstanceLocations[zone] ~= nil) then
+                    for index, value in ipairs(InstanceLocations[zone]) do
                         QuestieMap:DrawManualIcon(data, value[1], value[2], value[3])
                     end
                 -- world spawn
@@ -327,8 +327,8 @@ function QuestieMap:ShowObject(objectID)
         if(zone ~= nil and spawns ~= nil) then
             for _, coords in ipairs(spawns) do
                 -- instance spawn, draw entrance on map
-                if (instanceData[zone] ~= nil) then
-                    for _, value in ipairs(instanceData[zone]) do
+                if (InstanceLocations[zone] ~= nil) then
+                    for _, value in ipairs(InstanceLocations[zone]) do
                         QuestieMap:DrawManualIcon(data, value[1], value[2], value[3])
                     end
                 -- world spawn
@@ -464,7 +464,6 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
     iconMap.miniMapIcon = false;
     iconMap:UpdateTexture(data.Icon);
 
-
     local iconMinimap = QuestieFramePool:GetFrame()
     iconMinimap.data = data
     iconMinimap.x = x
@@ -494,7 +493,7 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
 
                         if(distance > questieGlobalDB.fadeLevel) then
                             local fade = 1 - (math.min(10, (distance-questieGlobalDB.fadeLevel)) * normalizedValue);
-                            
+
                             self.texture:SetVertexColor(self.texture.r, self.texture.g, self.texture.b, fade)
                             if self.glowTexture and self.glowTexture.GetVertexColor then
                                 local r, g, b = self.glowTexture:GetVertexColor()
@@ -604,8 +603,8 @@ function QuestieMap:FindClosestStarter()
                                         if(Zone ~= nil and Spawns ~= nil) then
                                             for _, coords in ipairs(Spawns) do
                                                 if(coords[1] == -1 or coords[2] == -1) then
-                                                    if(instanceData[Zone] ~= nil) then
-                                                        for index, value in ipairs(instanceData[Zone]) do
+                                                    if(InstanceLocations[Zone] ~= nil) then
+                                                        for index, value in ipairs(InstanceLocations[Zone]) do
                                                             if(value[1] and value[2]) then
                                                                 local x, y, instance = HBD:GetWorldCoordinatesFromZone(value[1]/100, value[2]/100, ZoneDataAreaIDToUiMapID[value[3]])
                                                                 if(x and y) then
@@ -649,8 +648,8 @@ function QuestieMap:FindClosestStarter()
                                         if(Zone ~= nil and Spawns ~= nil) then
                                             for _, coords in ipairs(Spawns) do
                                                 if(coords[1] == -1 or coords[2] == -1) then
-                                                    if(instanceData[Zone] ~= nil) then
-                                                        for index, value in ipairs(instanceData[Zone]) do
+                                                    if(InstanceLocations[Zone] ~= nil) then
+                                                        for index, value in ipairs(InstanceLocations[Zone]) do
                                                             if(value[1] and value[2]) then
                                                                 local x, y, instance = HBD:GetWorldCoordinatesFromZone(value[1]/100, value[2]/100, ZoneDataAreaIDToUiMapID[value[3]])
                                                                 if(x and y) then
@@ -796,4 +795,13 @@ function QuestieMap:GetNearestQuestSpawn(quest)
         end
     end
     return bestSpawn, bestSpawnZone, bestSpawnName, bestSpawnId, bestSpawnType, bestDistance
+end
+
+function QuestieMap:DrawWaypoints(icon, waypoints, zone, x, y)
+    local lineFrames = QuestieFramePool:CreateWaypoints(icon, waypoints)
+
+    for _, lineFrame in ipairs(lineFrames) do
+        QuestieMap:DrawLineIcon(lineFrame, zone, x, y)
+    end
+
 end
