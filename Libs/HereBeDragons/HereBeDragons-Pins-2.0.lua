@@ -385,7 +385,10 @@ function worldmapProvider:HandlePin(icon, data)
 
     --Questie Modification
     if(uiMapID ~= data.uiMapID and data.worldMapShowFlag == HBD_PINS_WORLDMAP_SHOW_CURRENT) then
+        icon:Hide();
         return;
+    elseif(uiMapID == data.uiMapID and data.worldMapShowFlag == HBD_PINS_WORLDMAP_SHOW_CURRENT) then
+        icon:Show();
     end
 
     local x, y
