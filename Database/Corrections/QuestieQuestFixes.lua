@@ -236,11 +236,17 @@ function QuestieQuestFixes:Load()
         [1265] = {
             [QuestieDB.questKeys.triggerEnd] = {"Sentry Point explored",{[15]={{59.92,40.9},}}},
         },
+        [1268] = {
+            [QuestieDB.questKeys.startedBy] = {nil,{21015,21016,},nil,}, -- #1574
+        },
         [1275] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #973 -- #745 prequest is not required in Classic
         },
         [1276] = {
-            [QuestieDB.questKeys.preQuestSingle] = {1273,},
+            [QuestieDB.questKeys.preQuestSingle] = {1273,}, -- #1574
+        },
+        [1284] = {
+            [QuestieDB.questKeys.startedBy] = {nil,{21015,21016,},nil,},
         },
         [1301] = {
             [QuestieDB.questKeys.exclusiveTo] = {1302}, -- breadcrumb of James Hyal #917
