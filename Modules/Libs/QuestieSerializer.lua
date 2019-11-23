@@ -166,6 +166,7 @@ QuestieSerializer.ReaderTable = {
 
    [20] = function(self) return _ReadArray(self, self.stream:ReadByte()) end,
    [21] = function(self) return _ReadArray(self, self.stream:ReadShort()) end,
+   [22] = function(self) return _ReadArray(self, self.stream:ReadInt()) end,
 
    --up to 31
 
@@ -234,7 +235,10 @@ QuestieSerializer.WriterTable = {
             if key and v then count = count + 1; end
         end
         if isArray(value) then
-            if count > 254 then
+            if count > 65530 then
+                self.stream:WriteByte(22) -- chungus array
+                self.stream:WriteInt(count)
+            elseif count > 254 then
                 self.stream:WriteByte(21) -- big array
                 self.stream:WriteShort(count)
             else
