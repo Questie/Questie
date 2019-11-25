@@ -4,6 +4,8 @@ local QuestieStreamLib = QuestieLoader:CreateModule("QuestieStreamLib");
 
 local tinsert = table.insert
 
+local unpack_limit = 4096 -- wow api limits unpack to somewhere between 7000-8000
+
 -- shift level table
 QSL_dltab = {};
 QSL_dltab[string.byte("x")] = 0;
@@ -209,21 +211,27 @@ function QuestieStreamLib:ReadLong()
 end
 
 function QuestieStreamLib:ReadTinyString()
-    local length = self:ReadByte();
+    local length = self:ReadByte()
     local ret = {};
     for i = 1, length do
         tinsert(ret, self:ReadByte()) -- slightly better lua code is slightly better
     end
-    return string.char(unpack(ret));
+    return string.char(unpack(ret))
 end
 
 function QuestieStreamLib:ReadShortString()
     local length = self:ReadShort()
     local ret = {};
-    for i = 1, length do
-        tinsert(ret, self:ReadByte()) -- slightly better lua code is slightly better
+    if length > unpack_limit then
+        for i = 1, length do
+            tinsert(ret, string.char(self:ReadByte()))
+        end
+        return table.concat(ret)
+    else
+        for i = 1, length do
+            tinsert(ret, self:ReadByte()) -- slightly better lua code is slightly better
+        end
     end
-    return string.char(unpack(ret));
 end
 
 function QuestieStreamLib:WriteBytes(...)
@@ -276,7 +284,7 @@ function QuestieStreamLib:WriteShortString(val)
     end
 end
 
-local unpack_limit = 4096 -- wow api limits unpack to somewhere between 7000-8000
+
 
 function QuestieStreamLib:Save()
     if self._pointer-1 > unpack_limit then
