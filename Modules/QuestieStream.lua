@@ -231,6 +231,7 @@ function QuestieStreamLib:ReadShortString()
         for i = 1, length do
             tinsert(ret, self:ReadByte()) -- slightly better lua code is slightly better
         end
+        return string.char(unpack(ret))
     end
 end
 
