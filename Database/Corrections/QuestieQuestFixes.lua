@@ -347,6 +347,9 @@ function QuestieQuestFixes:Load()
         },
         --------------------
         -- questExclusiveGroupFixes
+        [1418] = {
+            [QuestieDB.questKeys.exclusiveTo] = {1419,1420}, -- #1594
+        },
         [463] = {
             [QuestieDB.questKeys.exclusiveTo] = {276}, --greenwarden cant be completed if you have trampling paws
         },
