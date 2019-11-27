@@ -617,6 +617,7 @@ function QuestieQuestBlacklist:Load()
         [4448] = true,
         [4462] = true,
       --Phase 4 - Zul'Gurub
+        [8423] = true,
         [636] = true,
         [8250] = true,
         [8417] = true,
