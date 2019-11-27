@@ -789,6 +789,9 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.exclusiveTo] = {7638,},
             [QuestieDB.questKeys.zoneOrSort] = -141,
         },
+        [7838] = {
+            [QuestieDB.questKeys.specialFlags] = 1, -- #1589
+        },
         [7886] = { -- #1435
             [QuestieDB.questKeys.startedBy] = {{14733},nil,nil},
             [QuestieDB.questKeys.finishedBy] = {{14733},nil,},
