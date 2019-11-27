@@ -2,6 +2,7 @@ QuestieQuestBlacklist = {...}
 
 function QuestieQuestBlacklist:Load()
     return {
+        [7462] = true,
         --[1878] = true, -- Repeatable version of 1707 - Fixing #775
         --[2881] = true, -- Repeatable version of 2880
         [5663] = true, -- Touch of Weakness of Dark Cleric Beryl - Fixing #730
