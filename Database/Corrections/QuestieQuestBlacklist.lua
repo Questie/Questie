@@ -2,12 +2,8 @@ QuestieQuestBlacklist = {...}
 
 function QuestieQuestBlacklist:Load()
     return {
-        [7462] = true,
-        --[1878] = true, -- Repeatable version of 1707 - Fixing #775
-        --[2881] = true, -- Repeatable version of 2880
+        [7462] = true, -- Duplicate of 7877. See #1583
         [5663] = true, -- Touch of Weakness of Dark Cleric Beryl - Fixing #730
-        --[7725] = true, -- Repeatable version of 7003 - Fixing #891
-        --[7726] = true, -- Repeatable version of 7721 - Fixing #891
         [2358] = true, -- Horns of Nez'ra is not in the game at this point. See #921
         [787] = true, -- The New Horde is not in the game. See #830
         [6606] = true, -- Quest is not in the game. See #1338
