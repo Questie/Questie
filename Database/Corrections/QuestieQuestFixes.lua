@@ -160,6 +160,9 @@ function QuestieQuestFixes:Load()
         [680] = {
             [QuestieDB.questKeys.preQuestSingle] = {678}, -- #1062
         },
+        [690] = {
+            [QuestieDB.questKeys.exclusiveTo] = {691}, -- #1587
+        },
         [691] = {
             [QuestieDB.questKeys.preQuestSingle] = {},
         },
