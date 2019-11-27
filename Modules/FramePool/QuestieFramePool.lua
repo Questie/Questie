@@ -647,8 +647,19 @@ function _QuestieFramePool:Questie_Tooltip()
             for k2, questData in pairs(quests) do
                 if questData.title ~= nil then
                     local quest = QuestieDB:GetQuest(questData.questId);
-                    if(quest and shift and QuestiePlayer:GetPlayerLevel() ~= 60) then
-                        self:AddDoubleLine("   " .. questData.title, QuestieLib:PrintDifficultyColor(quest.level, "("..GetQuestLogRewardXP(questData.questId)..xpString..") ")..questData.type, 1, 1, 1, 1, 1, 0);
+                    if(quest and shift) then
+                        local rewardString = GetQuestLogRewardXP(questData.questId)
+                        if rewardString == 0 then -- Quest rewards no XP
+                            local moneyReward = GetQuestLogRewardMoney(questData.questId)
+                            if moneyReward > 0 then -- Quest rewards money
+                                rewardString = Questie:Colorize("("..GetCoinTextureString(moneyReward)..") ", "white")
+                            else -- Quest has no reward as all
+                                rewardString = ""
+                            end
+                        else -- Quest has XP reward
+                            rewardString = QuestieLib:PrintDifficultyColor(quest.level, "("..rewardString .. xpString..") ")
+                        end
+                        self:AddDoubleLine("   " .. questData.title, rewardString .. questData.type, 1, 1, 1, 1, 1, 0);
                     else
                         self:AddDoubleLine("   " .. questData.title, questData.type, 1, 1, 1, 1, 1, 0);
                     end
@@ -656,7 +667,7 @@ function _QuestieFramePool:Questie_Tooltip()
                 if questData.subData and shift then
                     local dataType = type(questData.subData)
                     if dataType == "table" then
-                        for _,line in pairs(questData.subData) do
+                        for _, line in pairs(questData.subData) do
                             self:AddLine("      " .. line, 0.86, 0.86, 0.86);
                         end
                     elseif dataType == "string" then
