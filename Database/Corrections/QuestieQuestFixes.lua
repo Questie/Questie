@@ -457,6 +457,15 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.parentQuest] = 3449, -- #1008
             [QuestieDB.questKeys.specialFlags] = 1, -- #1131
         },
+        [3639] = {
+            [QuestieDB.questKeys.exclusiveTo] = {3643,3641},
+        },
+        [3641] = {
+            [QuestieDB.questKeys.exclusiveTo] = {3639},
+        },
+        [3643] = {
+            [QuestieDB.questKeys.exclusiveTo] = {3639},
+        },
         [3681] = {
             [QuestieDB.questKeys.exclusiveTo] = {1642,1646,2997,2998,2999,3000},
         },
