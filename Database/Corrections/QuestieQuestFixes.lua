@@ -532,6 +532,9 @@ function QuestieQuestFixes:Load()
         [4122] = {
             [QuestieDB.questKeys.preQuestSingle] = {4082}, -- #1349
         },
+        [4144] = {
+            [QuestieDB.questKeys.specialFlags] = 1, -- #1590
+        },
         [4224] = {
             [QuestieDB.questKeys.triggerEnd] = {"Ragged John's Story",{[46]={{64,23},},},},
         },
