@@ -2,6 +2,8 @@
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 
+local zoneCache = {}
+
 
 local texturePool = CreateTexturePool(WorldMapFrame:GetCanvas());
 texturePool.creationFunc = function(texPool)
@@ -15,6 +17,7 @@ texturePool.creationFunc = function(texPool)
       self.b = b or 1;
       self.a = a or 1;
   end
+  texture:SetTexture(136235); --Samwise is our god.
   --We save the colors to the texture object, this way we don't need to use GetVertexColor
   texture:SetVertexColor(1,1,1,1);
   texture:SetTexelSnappingBias(0)
@@ -24,8 +27,9 @@ texturePool.creationFunc = function(texPool)
 end
 
 texturePool.resetterFunc = function(texPool, texture)
-  TexturePool_HideAndClearAnchors(texPool, texture)
+  texture:SetTexture(136235)
   texture:SetVertexColor(1,1,1,1);
+  TexturePool_HideAndClearAnchors(texPool, texture)
 end
 
 
