@@ -17,6 +17,7 @@
   
   <Script file="Libs\LibDataBroker-1.1\LibDataBroker-1.1.lua"/>
   <Script file="Libs\LibCompress\LibCompress.lua"/>
+  <Script file="Libs\LibDeflate\LibDeflate.lua"/>
   <Script file="Libs\LibDBIcon-1.0\LibDBIcon-1.0.lua"/>
   
   

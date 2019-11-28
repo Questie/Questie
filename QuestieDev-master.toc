@@ -28,6 +28,7 @@ Database\spawnDB.lua
 Database\zoneDB.lua
 Database\specialspawns.lua
 Database\itemDB.lua
+Database\Heightmaps\test.lua
 
 #Corrections
 Database\Corrections\QuestieCorrections.lua
@@ -59,6 +60,7 @@ Modules\Libs\QuestiePlayer.lua
 Modules\Libs\QuestieSerializer.lua
 Modules\Libs\QuestieCombatQueue.lua
 Modules\Libs\QuestieHash.lua
+Modules\Libs\QuestieHeightmaps.lua
 
 ##Modules
 Modules\QuestieAuto.lua
