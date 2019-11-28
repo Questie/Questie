@@ -118,6 +118,10 @@ function QuestieMap.utils:CalcHotzones(points, rangeR, count)
         if (FoundUntouched == nil) then break end
         itt = itt + 1
     end
+
+    for index, point in pairs(points) do
+        point.touched = nil;
+    end
     return hotzones
 end
 

@@ -2685,6 +2685,7 @@
         "Database/TEMP_questie4items.lua",
         "Database/TEMP_repprof.lua",
         "Database/zoneDB.lua",
+        "Libs/**",
         "Locale/deDE/**",
         "Locale/enUS/**",
         "Locale/esES/**",

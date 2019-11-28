@@ -1206,6 +1206,11 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
         return false;
     end
 
+    if(questObject.starterLocations == nil) then
+        questObject.starterLocations = {};
+    end
+
+
     -- recheck IsDoable (shouldn't be needed)
     if not _QuestieQuest:IsDoable(questObject) then return false; end
 
@@ -1220,10 +1225,13 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
     end
 
     --If we have it in the questlog already, we should not draw any available icons for that shidazzle.
-    if QuestieDB:GetQuest(questObject.Id) then
+    if QuestiePlayer:GetQuest(questObject.Id) then
         return false;
     end
 
+    if(not questObject.starterLocations) then
+        questObject.starterLocations = {}
+    end
 
     --TODO More logic here, currently only shows NPC quest givers.
     if questObject.Starts["GameObject"] ~= nil then
@@ -1241,6 +1249,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                             data.Type = "available";
                             data.QuestData = questObject;
                             data.Name = obj.name
+
 
                             data.IsObjectiveNote = false
                             if(coords[1] == -1 or coords[2] == -1) then
@@ -1280,6 +1289,8 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                             --data.updateTooltip = function(data)
                             --    return {QuestieLib:PrintDifficultyColor(data.QuestData.Level, "[" .. data.QuestData.Level .. "] " .. data.QuestData.Name), "|cFFFFFFFFStarted by: |r|cFF22FF22" .. data.QuestData.NPCName, "QuestId:"..data.QuestData.Id}
                             --end
+                        
+
                             if(coords[1] == -1 or coords[2] == -1) then
                                 if(InstanceLocations[npcZone] ~= nil) then
                                     for _, value in ipairs(InstanceLocations[npcZone]) do
@@ -1301,6 +1312,14 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                                             --    y = midY;
                                             --end
                                         end
+
+                                        local loc = {}
+                                        loc.x = x;
+                                        loc.y = y;
+                                        loc.UIMapId = ZoneDataAreaIDToUiMapID[zone];
+                                        loc.pinType = "available";
+                                        loc.questId = questObject.Id;
+                                        table.insert(questObject.starterLocations, loc)
 
                                         local icon, _ = QuestieMap:DrawWorldIcon(data, zone, x, y)
 
@@ -1325,6 +1344,14 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                                     --    y = midY;
                                     --end
                                 end
+
+                                local loc = {}
+                                loc.x = x;
+                                loc.y = y;
+                                loc.UIMapId = ZoneDataAreaIDToUiMapID[npcZone];
+                                loc.pinType = "available";
+                                loc.questId = questObject.Id;
+                                table.insert(questObject.starterLocations, loc);
 
                                 local icon, _ = QuestieMap:DrawWorldIcon(data, npcZone, x, y)
 
