@@ -646,18 +646,17 @@ function _QuestieFramePool:Questie_Tooltip()
             end
             for k2, questData in pairs(quests) do
                 if questData.title ~= nil then
-                    local quest = QuestieDB:GetQuest(questData.questId);
+                    local quest = QuestieDB:GetQuest(questData.questId)
                     if(quest and shift) then
-                        local rewardString = GetQuestLogRewardXP(questData.questId)
-                        if rewardString == 0 then -- Quest rewards no XP
-                            local moneyReward = GetQuestLogRewardMoney(questData.questId)
-                            if moneyReward > 0 then -- Quest rewards money
-                                rewardString = Questie:Colorize("("..GetCoinTextureString(moneyReward)..") ", "white")
-                            else -- Quest has no reward as all
-                                rewardString = ""
-                            end
-                        else -- Quest has XP reward
-                            rewardString = QuestieLib:PrintDifficultyColor(quest.level, "("..rewardString .. xpString..") ")
+                        local rewardString = ""
+                        local rewardXP = GetQuestLogRewardXP(questData.questId)
+                        if rewardXP > 0 then -- Quest rewards XP
+                            rewardString = QuestieLib:PrintDifficultyColor(quest.level, "(".. rewardXP .. xpString .. ") ")
+                        end
+
+                        local moneyReward = GetQuestLogRewardMoney(questData.questId)
+                        if moneyReward > 0 then -- Quest rewards money
+                            rewardString = rewardString .. Questie:Colorize("("..GetCoinTextureString(moneyReward)..") ", "white")
                         end
                         self:AddDoubleLine("   " .. questData.title, rewardString .. questData.type, 1, 1, 1, 1, 1, 0);
                     else
