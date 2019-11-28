@@ -669,7 +669,7 @@ function QuestieQuest:ForceToMap(type, id, label, customScale)
         return mapRefs, miniRefs
     end
 end
-
+dumpvarr = {}
 function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockItemTooltips) -- must be pcalled
     Questie:Debug(DEBUG_SPAM, "[QuestieQuest:PopulateObjective]")
     if not Objective.AlreadySpawned then
@@ -684,6 +684,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
     if _QuestieQuest.objectiveSpawnListCallTable[Objective.Type] and (not Objective.spawnList) then
         Objective.spawnList = _QuestieQuest.objectiveSpawnListCallTable[Objective.Type](Objective.Id, Objective);
     end
+    local questData = {}
 
     local maxPerType = 300
     if Questie.db.global.enableIconLimit then
@@ -736,6 +737,12 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                     if(not iconsToDraw[Quest.Id]) then
                         iconsToDraw[Quest.Id] = {}
                     end
+                    if(not questData[Quest.Id]) then
+                        questData[Quest.Id] = {};
+                    end
+                    if(not questData[Quest.Id][ObjectiveIndex]) then
+                        questData[Quest.Id][ObjectiveIndex] = {};
+                    end
                     local data = {}
                     data.Id = Quest.Id
                     data.ObjectiveIndex = ObjectiveIndex
@@ -757,6 +764,16 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                     for zone, spawns in pairs(spawnData.Spawns) do
                         for _, spawn in pairs(spawns) do
                             if(spawn[1] and spawn[2]) then
+                                local loc = {}
+                                loc.x = spawn[1];
+                                loc.y = spawn[2];
+                                loc.UIMapId = ZoneDataAreaIDToUiMapID[zone];
+                                loc.pinType = Objective.Type;
+                                loc.questId = Quest.Id;
+                                loc.objectiveIndex = ObjectiveIndex;
+                                loc.targetId = spawnData.Id;
+                                table.insert(questData[Quest.Id][ObjectiveIndex], loc);
+
                                 local drawIcon = {};
                                 drawIcon.AlreadySpawnedId = id;
                                 drawIcon.data = data;
@@ -790,6 +807,13 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                     spawn.minimapRefs = {}
                 end
             end
+        end
+        
+        for questId, objectiveTable in pairs(questData) do
+            local quest = QuestieDB:GetQuest(questId);
+            quest.objectiveIcons = objectiveTable
+            table.insert(dumpvarr, quest.objectiveIcons)
+            --table.insert(dumpvarr, questData[questId])
         end
         local spawnedIcons = {}
         for questId, icons in pairs(iconsToDraw) do
