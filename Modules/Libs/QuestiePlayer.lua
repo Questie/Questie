@@ -8,12 +8,11 @@ local QuestieDBZone = QuestieLoader:ImportModule("QuestieDBZone")
 
 local _QuestiePlayer = {...};
 
-local currentQuestlog = {} --Gets populated by QuestieQuest:GetAllQuestIds(), this is either an object to the quest in question, or the ID if the object doesn't exist.
+QuestiePlayer.currentQuestlog = {} --Gets populated by QuestieQuest:GetAllQuestIds(), this is either an object to the quest in question, or the ID if the object doesn't exist.
 _QuestiePlayer.playerLevel = -1
 
 -- Optimizations
 local math_max = math.max;
-local pairs = pairs;
 
 function QuestiePlayer:Initialize()
     _QuestiePlayer.playerLevel = UnitLevel("player")
@@ -31,37 +30,6 @@ function QuestiePlayer:GetPlayerLevel()
     local level = UnitLevel("player");
     return math_max(_QuestiePlayer.playerLevel, level);
 end
-
------ Current questlog functions
----@param questId QuestId @Quest id for the quest
----@param data table|QuestId @Data reference for quest or questId
-function QuestiePlayer:SetQuest(questId, data)
-    if(currentQuestlog) then
-        currentQuestlog = {}
-    end
-    currentQuestlog[questId] = data;
-end
-
----@param questId QuestId @QuestId to fetch from the questlog
----@return table @Returns the reference to the quest
-function QuestiePlayer:GetQuest(questId)
-    if(currentQuestlog) then
-        return currentQuestlog[questId];
-    else
-        return nil;
-    end
-end
-
---Clears the current questlog
-function QuestiePlayer:ClearQuestlog()
-    currentQuestlog = {};
-end
-
----@return table @Returns a pairs(currentQuestlog) usage "for k, v in QuestiePlayer:EnumarateQuestlog() do"
-function QuestiePlayer:EnumerateQuestlog()
-    return pairs(currentQuestlog or {})
-end
------ END
 
 function QuestiePlayer:GetGroupType()
     if(UnitInRaid("player")) then

@@ -117,7 +117,7 @@ end
 
 
 function QuestieQuest:ClearAllNotes()
-    for questId in QuestiePlayer:EnumerateQuestlog() do
+    for questId in pairs (QuestiePlayer.currentQuestlog) do
         local quest = QuestieDB:GetQuest(questId)
         if not quest then
             return
@@ -167,7 +167,7 @@ function QuestieQuest:AddAllNotes()
     QuestieQuest:DrawAllAvailableQuests()
 
     -- draw quests
-    for quest in QuestiePlayer:EnumerateQuestlog() do
+    for quest in pairs (QuestiePlayer.currentQuestlog) do
         QuestieQuest:UpdateQuest(quest)
         _UpdateSpecials(quest)
     end
@@ -178,7 +178,7 @@ function QuestieQuest:Reset()
     QuestieQuest:ClearAllNotes()
 
     -- reset quest log and tooltips
-    QuestiePlayer:ClearQuestlog();
+    QuestiePlayer.currentQuestlog = {}
     QuestieTooltips.tooltipLookup = {}
 
     -- make sure complete db is correct
@@ -196,7 +196,7 @@ function QuestieQuest:SmoothReset() -- use timers to reset progressively instead
         QuestieQuest.ClearAllNotes,
         function()
             -- reset quest log and tooltips
-            QuestiePlayer:ClearQuestlog();
+            QuestiePlayer.currentQuestlog = {}
             QuestieTooltips.tooltipLookup = {}
 
             -- make sure complete db is correct
@@ -213,7 +213,7 @@ function QuestieQuest:SmoothReset() -- use timers to reset progressively instead
         function()
             -- bit of a hack here too
             local mod = 0
-            for quest in QuestiePlayer:EnumerateQuestlog() do
+            for quest in pairs (QuestiePlayer.currentQuestlog) do
                 C_Timer.After(mod, function() QuestieQuest:UpdateQuest(quest) _UpdateSpecials(quest) end)
                 mod = mod + 0.2
             end
@@ -317,7 +317,7 @@ function QuestieQuest:GetRawLeaderBoardDetails(QuestLogIndex)
 end
 
 function QuestieQuest:AcceptQuest(questId)
-    if(QuestiePlayer:GetQuest(questId) == nil) then
+    if(QuestiePlayer.currentQuestlog[questId] == nil) then
         Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ACCEPT_QUEST', questId));
 
         --Get all the Frames for the quest and unload them, the available quest icon for example.
@@ -333,11 +333,11 @@ function QuestieQuest:AcceptQuest(questId)
                 end
             end
 
-            QuestiePlayer:SetQuest(questId, quest);
+            QuestiePlayer.currentQuestlog[questId] = quest
             QuestieQuest:PopulateQuestLogInfo(quest)
             QuestieQuest:PopulateObjectiveNotes(quest)
         else
-            QuestiePlayer:SetQuest(questId, questId);
+            QuestiePlayer.currentQuestlog[questId] = questId
         end
 
         --TODO: Insert call to drawing objective logic here!
@@ -363,8 +363,7 @@ end
 
 function QuestieQuest:CompleteQuest(quest)
     local questId = quest.Id
-    QuestiePlayer:SetQuest(questId, nil);
-
+    QuestiePlayer.currentQuestlog[questId] = nil;
     -- Only quests that aren't repeatable should be marked complete, otherwise objectives for repeatable quests won't track correctly - #1433
     Questie.db.char.complete[questId] = not quest.Repeatable
 
@@ -394,8 +393,8 @@ end
 
 function QuestieQuest:AbandonedQuest(questId)
     QuestieTooltips:RemoveQuest(questId)
-    if(QuestiePlayer:GetQuest(questId)) then
-        QuestiePlayer:SetQuest(questId, nil);
+    if(QuestiePlayer.currentQuestlog[questId]) then
+        QuestiePlayer.currentQuestlog[questId] = nil
 
         QuestieHash:RemoveQuestHash(questId)
 
@@ -449,23 +448,23 @@ end
 function QuestieQuest:GetAllQuestIds()
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_GET_QUEST'));
     local numEntries, numQuests = GetNumQuestLogEntries();
-    QuestiePlayer:ClearQuestlog();
+    QuestiePlayer.currentQuestlog = {}
     for index = 1, numEntries do
         local title, level, _, isHeader, _, isComplete, _, questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
         if(not isHeader) then
             --Keep the object in the questlog to save searching
             local quest = QuestieDB:GetQuest(questId)
             if quest then
-                QuestiePlayer:SetQuest(questId, quest);
+                QuestiePlayer.currentQuestlog[questId] = quest
                 QuestieQuest:PopulateQuestLogInfo(quest)
                 QuestieQuest:PopulateObjectiveNotes(quest)
                 if title and strlen(title) > 1 then
                     quest.LocalizedName = title
                 end
             else
-                QuestiePlayer:SetQuest(questId, questId);
+                QuestiePlayer.currentQuestlog[questId] = questId
             end
-            Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ADD_QUEST', questId, QuestiePlayer:GetQuest(questId)));
+            Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ADD_QUEST', questId, QuestiePlayer.currentQuestlog[questId]));
         end
     end
     QuestieTracker:Update()
@@ -474,18 +473,18 @@ end
 function QuestieQuest:GetAllQuestIdsNoObjectives()
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_GET_QUEST'));
     local numEntries, numQuests = GetNumQuestLogEntries();
-    QuestiePlayer:ClearQuestlog();
+    QuestiePlayer.currentQuestlog = {}
     for index = 1, numEntries do
         local title, level, _, isHeader, _, isComplete, _, questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
         if(not isHeader) then
             --Keep the object in the questlog to save searching
             local quest = QuestieDB:GetQuest(questId)
             if quest then
-                QuestiePlayer:SetQuest(questId, quest);
+                QuestiePlayer.currentQuestlog[questId] = quest
             else
-                QuestiePlayer:SetQuest(questId, questId);
+                QuestiePlayer.currentQuestlog[questId] = questId
             end
-            Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ADD_QUEST', questId, QuestieDB:GetQuest(questId)));
+            Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ADD_QUEST', questId, QuestiePlayer.currentQuestlog[questId]));
         end
     end
 end
@@ -551,7 +550,7 @@ function QuestieQuest:AddFinisher(quest)
     local questId = quest.Id
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]", "Adding finisher for quest ", questId)
 
-    if(QuestieDB:GetQuest(questId) and IsQuestFlaggedCompleted(questId) == false and IsQuestComplete(questId) and not Questie.db.char.complete[questId]) then
+    if(QuestiePlayer.currentQuestlog[questId] and IsQuestFlaggedCompleted(questId) == false and IsQuestComplete(questId) and not Questie.db.char.complete[questId]) then
         local finisher = nil
         if quest.Finisher ~= nil then
             if quest.Finisher.Type == "monster" then
@@ -1225,7 +1224,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
     end
 
     --If we have it in the questlog already, we should not draw any available icons for that shidazzle.
-    if QuestiePlayer:GetQuest(questObject.Id) then
+    if QuestiePlayer.currentQuestlog and QuestiePlayer.currentQuestlog[questObject.Id] then
         return false;
     end
 
@@ -1420,7 +1419,7 @@ function _QuestieQuest:IsDoable(quest)
         return false;
     end
     if quest.nextQuestInChain then
-        if Questie.db.char.complete[quest.nextQuestInChain] or QuestiePlayer:GetQuest(quest.nextQuestInChain) then
+        if Questie.db.char.complete[quest.nextQuestInChain] or QuestiePlayer.currentQuestlog[quest.nextQuestInChain] then
             return false
         end
     end
@@ -1428,7 +1427,7 @@ function _QuestieQuest:IsDoable(quest)
     -- If yes the current quest can't be accepted
     if quest.ExclusiveQuestGroup then -- fix (DO NOT REVERT, tested thoroughly)
         for k, v in pairs(quest.ExclusiveQuestGroup) do
-            if Questie.db.char.complete[v] or QuestiePlayer:GetQuest(v) then
+            if Questie.db.char.complete[v] or QuestiePlayer.currentQuestlog[v] then
                 return false
             end
         end
@@ -1537,7 +1536,7 @@ function QuestieQuest:CalculateAvailableQuests()
         --Check if we've already completed the quest and that it is not "manually" hidden and that the quest is not currently in the questlog.
         if(
             (not Questie.db.char.complete[questID]) and -- Don't show completed quests
-            (not QuestiePlayer:GetQuest(questID)) and -- Don't show quests if they're already in the quest log
+            (not QuestiePlayer.currentQuestlog[questID]) and -- Don't show quests if they're already in the quest log
             (not QuestieCorrections.hiddenQuests[questID]) and -- Don't show blacklisted quests
             ((not quest.Repeatable) or (quest.Repeatable and showRepeatableQuests))) then -- Show repeatable quests if the quest is repeatable and the option is enabled
 

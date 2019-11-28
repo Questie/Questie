@@ -138,7 +138,7 @@ function _QuestieQuest:IsParentQuestActive(parentID)
     if parentID == nil or parentID == 0 then
         return false
     end
-    if QuestiePlayer:GetQuest(parentID) then
+    if QuestiePlayer.currentQuestlog[parentID] then
         return true
     end
     return false

@@ -77,7 +77,7 @@ function QuestieTooltips:GetTooltip(key)
                 tooltipData[questId].title = tooltip.Objective.QuestData:GetColoredQuestName();
             end
 
-            if not QuestiePlayer:GetQuest(questId) then
+            if not QuestiePlayer.currentQuestlog[questId] then
                 QuestieTooltips.tooltipLookup[key][k] = nil
             else
                 if(not tooltipData[questId].objectivesText) then
