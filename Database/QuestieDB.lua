@@ -176,6 +176,7 @@ function QuestieDB:GetQuest(questID) -- /dump QuestieDB:GetQuest(867)
 
     local QO = {}
     QO.GetColoredQuestName = _GetColoredQuestName
+    ---@class QuestId
     QO.Id = questID --Key
     for stringKey, intKey in pairs(QuestieDB.questKeys) do
         QO[stringKey] = rawdata[intKey]
