@@ -11,6 +11,26 @@ local LibDeflate = LibStub:GetLibrary("LibDeflate")
 
 
 
+-- info about the heightmap data format (each number is 1 byte)
+-- [head metadata]
+--    XX XX          chunkSize (16 bit)
+--    XX             chunkResDivisor (8 bit)
+--
+-- [data block] 
+--    00           (reserved)
+--    01 XX XX     value = XXXX  (16 bit)
+--    02 XX XX     value = -XXXX (16 bit)
+--    03           invert isInside
+--    04 XX        next XX entries are for the current x,y location
+--    05 XX        lastValue is repeated XX times
+--    above 05     value = lastValue + ((value-5)-120)
+--        ... (repeats until map is filled)
+--
+-- [foot metadata]
+--    XX XX XX XX    CRC value (32 bit)
+
+
+
 local QuestieSerializer = false
 --[[local function SetupSerializer() -- use :Clone("raw")
     -- copy and override stream behavior
