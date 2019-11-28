@@ -160,6 +160,9 @@ function QuestieQuestFixes:Load()
         [680] = {
             [QuestieDB.questKeys.preQuestSingle] = {678}, -- #1062
         },
+        [690] = {
+            [QuestieDB.questKeys.exclusiveTo] = {691}, -- #1587
+        },
         [691] = {
             [QuestieDB.questKeys.preQuestSingle] = {},
         },
@@ -236,11 +239,17 @@ function QuestieQuestFixes:Load()
         [1265] = {
             [QuestieDB.questKeys.triggerEnd] = {"Sentry Point explored",{[15]={{59.92,40.9},}}},
         },
+        [1268] = {
+            [QuestieDB.questKeys.startedBy] = {nil,{21015,21016,},nil,}, -- #1574
+        },
         [1275] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #973 -- #745 prequest is not required in Classic
         },
         [1276] = {
-            [QuestieDB.questKeys.preQuestSingle] = {1273,},
+            [QuestieDB.questKeys.preQuestSingle] = {1273,}, -- #1574
+        },
+        [1284] = {
+            [QuestieDB.questKeys.startedBy] = {nil,{21015,21016,},nil,},
         },
         [1301] = {
             [QuestieDB.questKeys.exclusiveTo] = {1302}, -- breadcrumb of James Hyal #917
@@ -250,6 +259,9 @@ function QuestieQuestFixes:Load()
         },
         [1339] = {
             [QuestieDB.questKeys.exclusiveTo] = {1338}, -- mountaineer stormpike's task cant be done if you have finished stormpike's order
+        },
+        [1418] = {
+            [QuestieDB.questKeys.exclusiveTo] = {1419,1420}, -- #1594
         },
         [1427] = {
             [QuestieDB.questKeys.nextQuestInChain] = 1428,
@@ -269,6 +281,9 @@ function QuestieQuestFixes:Load()
         [1470] = {
             [QuestieDB.questKeys.exclusiveTo] = {1485}, -- #999
         },
+        [1471] = {
+            [QuestieDB.questKeys.exclusiveTo] = {1504}, -- #1542
+        },
         [1473] = {
             [QuestieDB.questKeys.exclusiveTo] = {1501},
         },
@@ -280,6 +295,9 @@ function QuestieQuestFixes:Load()
         },
         [1501] = {
             [QuestieDB.questKeys.exclusiveTo] = {1473},
+        },
+        [1504] = {
+            [QuestieDB.questKeys.exclusiveTo] = {1471}, -- #1542
         },
         [1506] = {
             [QuestieDB.questKeys.exclusiveTo] = {1478}, -- #1427
@@ -377,6 +395,9 @@ function QuestieQuestFixes:Load()
         [2358] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 77,
         },
+        [2501] = {
+            [QuestieDB.questKeys.preQuestGroup] = {2500,17}, -- #1541
+        },
         [2781] = {
             [QuestieDB.questKeys.startedBy] = {nil,{142122,150075,},nil,}, -- #1081
         },
@@ -384,8 +405,17 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.startedBy] = {{4568,5144,5497,5885,},nil,nil,}, -- #1152
             [QuestieDB.questKeys.exclusiveTo] = {2846},
         },
+        [2872] = {
+            [QuestieDB.questKeys.exclusiveTo] = {2873}, -- #1566
+        },
+        [2873] = {
+            [QuestieDB.questKeys.preQuestSingle] = {}, -- #1566
+        },
         [2922] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- Save Techbot's Brain doesn't need the Tinkmaster Overspark breadcrumb #687
+        },
+        [2978] = {
+            [QuestieDB.questKeys.startedBy] = {nil,{143980},{9370,},}, -- #1596
         },
         [2981] = {
             [QuestieDB.questKeys.exclusiveTo] = {2975},
@@ -426,6 +456,15 @@ function QuestieQuestFixes:Load()
         [3483] = {
             [QuestieDB.questKeys.parentQuest] = 3449, -- #1008
             [QuestieDB.questKeys.specialFlags] = 1, -- #1131
+        },
+        [3639] = {
+            [QuestieDB.questKeys.exclusiveTo] = {3643,3641},
+        },
+        [3641] = {
+            [QuestieDB.questKeys.exclusiveTo] = {3639},
+        },
+        [3643] = {
+            [QuestieDB.questKeys.exclusiveTo] = {3639},
         },
         [3681] = {
             [QuestieDB.questKeys.exclusiveTo] = {1642,1646,2997,2998,2999,3000},
@@ -504,6 +543,9 @@ function QuestieQuestFixes:Load()
         -----------------------
         [4122] = {
             [QuestieDB.questKeys.preQuestSingle] = {4082}, -- #1349
+        },
+        [4144] = {
+            [QuestieDB.questKeys.specialFlags] = 1, -- #1590
         },
         [4224] = {
             [QuestieDB.questKeys.triggerEnd] = {"Ragged John's Story",{[46]={{64,23},},},},
@@ -660,6 +702,15 @@ function QuestieQuestFixes:Load()
         [6073] = {
             [QuestieDB.questKeys.startedBy] = {{5515,},nil,nil,},
         },
+        [6136] = {
+            [QuestieDB.questKeys.preQuestSingle] = {6133}, -- #1572
+        },
+        [6144] = {
+            [QuestieDB.questKeys.preQuestSingle] = {6135,6136}, -- #1572
+        },
+        [6603] = {
+            [QuestieDB.questKeys.exclusiveTo] = {5082},
+        },
         [6608] = {
             [QuestieDB.questKeys.exclusiveTo] = {6607}, -- #1186
         },
@@ -689,6 +740,9 @@ function QuestieQuestFixes:Load()
         },
         [7172] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 77,
+        },
+        [7201] = {
+            [QuestieDB.questKeys.preQuestSingle] = {3906},
         },
         [7426] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 77,
@@ -749,6 +803,9 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.nextQuestInChain] = 7637,
             [QuestieDB.questKeys.exclusiveTo] = {7638,},
             [QuestieDB.questKeys.zoneOrSort] = -141,
+        },
+        [7838] = {
+            [QuestieDB.questKeys.specialFlags] = 1, -- #1589
         },
         [7886] = { -- #1435
             [QuestieDB.questKeys.startedBy] = {{14733},nil,nil},
@@ -837,6 +894,9 @@ function QuestieQuestFixes:Load()
         },
         [8550] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 178,
+        },
+        [8552] = {
+            [QuestieDB.questKeys.startedBy] = {{1493},nil,{3985,},},
         },
         [8581] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 178,

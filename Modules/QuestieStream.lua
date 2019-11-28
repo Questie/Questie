@@ -4,6 +4,8 @@ local QuestieStreamLib = QuestieLoader:CreateModule("QuestieStreamLib");
 
 local tinsert = table.insert
 
+local unpack_limit = 4096 -- wow api limits unpack to somewhere between 7000-8000
+
 -- shift level table
 QSL_dltab = {};
 QSL_dltab[string.byte("x")] = 0;
@@ -54,7 +56,10 @@ function QuestieStreamLib:GetStream(mode) -- returns a new stream
         tinsert(StreamPool, self)
     end
     if mode then
-        if mode == "1short" then
+        if mode == "raw" then
+            stream.ReadByte = QuestieStreamLib._ReadByte_raw
+            stream._WriteByte = QuestieStreamLib._WriteByte_raw
+        elseif mode == "1short" then
             stream.ReadByte = QuestieStreamLib._ReadByte_1short
             stream._WriteByte = QuestieStreamLib._WriteByte_1short
         else
@@ -152,6 +157,17 @@ function QuestieStreamLib:_ReadByte_1short()
     return -1
 end
 
+function QuestieStreamLib:_WriteByte_raw(e)
+    self:_writeByte(e)
+end
+
+function QuestieStreamLib:_ReadByte_raw()
+    local val = string.byte(self._bin, self._pointer)
+    self._pointer = self._pointer + 1
+    return val
+    --return self:_readByte()
+end
+
 -- this is now set in GetStream based on type
 --function QuestieStreamLib:ReadByte()
 --    local r = self._buffer[self._pointer];
@@ -195,21 +211,28 @@ function QuestieStreamLib:ReadLong()
 end
 
 function QuestieStreamLib:ReadTinyString()
-    local length = self:ReadByte();
-    local ret = "";
+    local length = self:ReadByte()
+    local ret = {};
     for i = 1, length do
-        ret = ret .. string.char(self:ReadByte()) -- bad lua code is bad
+        tinsert(ret, self:ReadByte()) -- slightly better lua code is slightly better
     end
-    return ret;
+    return string.char(unpack(ret))
 end
 
 function QuestieStreamLib:ReadShortString()
-    local length = self:ReadShort();
-    local ret = "";
-    for i = 1, length do
-        ret = ret .. string.char(self:ReadByte()) -- bad lua code is bad
+    local length = self:ReadShort()
+    local ret = {};
+    if length > unpack_limit then
+        for i = 1, length do
+            tinsert(ret, string.char(self:ReadByte()))
+        end
+        return table.concat(ret)
+    else
+        for i = 1, length do
+            tinsert(ret, self:ReadByte()) -- slightly better lua code is slightly better
+        end
+        return string.char(unpack(ret))
     end
-    return ret;
 end
 
 function QuestieStreamLib:WriteBytes(...)
@@ -262,37 +285,24 @@ function QuestieStreamLib:WriteShortString(val)
     end
 end
 
-local unpack_limit = 4096 -- wow api limits unpack to somewhere between 7000-8000
+
 
 function QuestieStreamLib:Save()
     if self._pointer-1 > unpack_limit then
-        local ret = string.char(unpack(self._bin, 1, unpack_limit))
-        for i=unpack_limit,self._pointer+unpack_limit,unpack_limit do
-            local ending = (i+unpack_limit)-1
-            if ending >= self._pointer-1 then
-                ending = self._pointer-2
-            end
-            if ending - i < 1 then break end
-            ret = ret .. string.char(unpack(self._bin, i, ending))
+        for i=1,self._pointer-1 do
+            self._bin[i] = string.char(self._bin[i])
         end
-        return ret
+        return table.concat(self._bin)
     end
     return string.char(unpack(self._bin))
 end
 
 function QuestieStreamLib:SaveRaw()
     if self._rawptr-1 > unpack_limit then
-        --print("Attempting to save too much data for unpack: " .. self._rawptr)
-        local ret = string.char(unpack(self._raw_bin, 1, unpack_limit))
-        for i=unpack_limit,self._rawptr+unpack_limit,unpack_limit do
-            local ending = (i+unpack_limit)-1
-            if ending >= self._rawptr-1 then
-                ending = self._rawptr-2
-            end
-            if ending - i < 1 then break end
-            ret = ret .. string.char(unpack(self._raw_bin, i, ending))
+        for i=1,self._rawptr-1 do
+            self._raw_bin[i] = string.char(self._raw_bin[i])
         end
-        return ret
+        return table.concat(self._raw_bin)
     end
     return string.char(unpack(self._raw_bin))
 end
@@ -300,5 +310,11 @@ end
 function QuestieStreamLib:Load(bin)
     self._pointer = 1
     self._bin = {string.byte(bin, 1, -1)}
+    self._level = 0
+end
+
+function QuestieStreamLib:LoadRaw(bin)
+    self._pointer = 1
+    self._bin = bin
     self._level = 0
 end

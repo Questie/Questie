@@ -353,6 +353,8 @@ function Questie:Colorize(str, color)
         c = '|cB900FFFF';
     elseif color == 'yellow' then
         c = '|cFFFFB900';
+    elseif color == "white" then
+        c = '|cFFFFFFFF';
     elseif color == "gold" then
         c = "|cffffd100" -- this is the default game font
     end

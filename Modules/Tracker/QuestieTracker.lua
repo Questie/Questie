@@ -224,11 +224,11 @@ function QuestieTracker:Initialize()
         if lastFrame then
             frm:SetPoint("TOPLEFT", lastFrame, "BOTTOMLEFT", 0,0)
         else
-            if Questie.db.global.trackerCounterEnabled then
-                frm:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerBackgroundPadding, -(trackerBackgroundPadding + _QuestieTracker.activeQuestsFrame:GetHeight()))
-            else
+            --if Questie.db.global.trackerCounterEnabled then
+            --    frm:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerBackgroundPadding, -(trackerBackgroundPadding + _QuestieTracker.activeQuestsFrame:GetHeight()))
+            --else
                 frm:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerBackgroundPadding, -trackerBackgroundPadding)
-            end
+            --end
         end
         frm:SetWidth(1)
         frm:SetMode("header")
@@ -339,10 +339,6 @@ function _QuestieTracker:CreateActiveQuestsFrame()
 
     frm.label = frm:CreateFontString(nil, "ARTWORK", "GameFontNormal")
     frm.label:SetText(QuestieLocale:GetUIString("TRACKER_ACTIVE_QUESTS") .. tostring(numQuests) .. "/20")
-    frm.label:SetFont(frm.label:GetFont(), Questie.db.global.trackerFontSizeHeader)
-    frm.label:SetPoint("TOP", _QuestieTracker.baseFrame)
-
-    frm:SetHeight(Questie.db.global.trackerFontSizeHeader)
     frm:SetWidth(1)
 
     -- hack for click-through
@@ -354,7 +350,10 @@ function _QuestieTracker:CreateActiveQuestsFrame()
 
     frm.Update = function(self)
         local _, activeQuests = GetNumQuestLogEntries()
+        self.label:SetFont(self.label:GetFont(), Questie.db.global.trackerFontSizeHeader)
         self.label:SetText(QuestieLocale:GetUIString("TRACKER_ACTIVE_QUESTS") .. tostring(activeQuests) .. "/20")
+        self.label:SetPoint("TOP", _QuestieTracker.baseFrame, "TOP", 0, Questie.db.global.trackerFontSizeHeader)
+        self:SetHeight(Questie.db.global.trackerFontSizeHeader)
     end
 
     frm:Show()
@@ -474,7 +473,7 @@ function QuestieTracker:Update()
                                 frame = parent
                             end
                             local linep = {self.line:GetPoint()}
-                            self:SetPoint("TOPLEFT",_QuestieTracker.baseFrame, trackerBackgroundPadding-Questie.db.global.trackerFontSizeHeader * 1.8, height + Questie.db.global.trackerFontSizeHeader/1.3)
+                            self:SetPoint("TOPLEFT",_QuestieTracker.baseFrame, trackerBackgroundPadding-Questie.db.global.trackerFontSizeHeader * 1.75, height + Questie.db.global.trackerFontSizeHeader/1.2)
                             self:Show()
                         else
                             self:Hide()
@@ -504,16 +503,16 @@ function QuestieTracker:Update()
             end
 
             if quest.Objectives and not complete then
-                for _,Objective in pairs(quest.Objectives) do
+                for _, objective in pairs(quest.Objectives) do
                     line = _QuestieTracker:GetNextLine()
                     line:SetMode("line")
                     line:SetQuest(quest)
-                    line:SetObjective(Objective)
+                    line:SetObjective(objective)
                     local lineEnding = "" -- initialize because its not set if Needed is 0
-                    if Objective.Needed > 0 then
-                        lineEnding = tostring(Objective.Collected) .. "/" .. tostring(Objective.Needed)
+                    if objective.Needed > 0 then
+                        lineEnding = tostring(objective.Collected) .. "/" .. tostring(objective.Needed)
                     end
-                    line.label:SetText("    " .. QuestieLib:GetRGBForObjective(Objective) .. Objective.Description .. ": " .. lineEnding)
+                    line.label:SetText("    " .. QuestieLib:GetRGBForObjective(objective) .. objective.Description .. ": " .. lineEnding)
                     line:Show()
                     line.label:Show()
                     trackerWidth = math.max(trackerWidth, line.label:GetWidth())
@@ -612,7 +611,7 @@ function _QuestieTracker:GetNextItemButton()
 end
 
 function _QuestieTracker:StartFadeTicker()
-    if not _QuestieTracker.FadeTicker then
+    if not _QuestieTracker.FadeTicker and Questie.db.char.trackerBackgroundEnabled then
         _QuestieTracker.FadeTicker = C_Timer.NewTicker(0.02, function()
             if _QuestieTracker.FadeTickerDirection then
                 if _QuestieTracker.FadeTickerValue < 0.3 then
@@ -852,7 +851,7 @@ function QuestieTracker:SetCounterEnabled(enabled)
     else
         _QuestieTracker.activeQuestsFrame:Hide()
     end
-    _QuestieTracker:RepositionFrames(trackerLineCount, _QuestieTracker.LineFrames)
+    --_QuestieTracker:RepositionFrames(trackerLineCount, _QuestieTracker.LineFrames)
 end
 
 local hexTable = {

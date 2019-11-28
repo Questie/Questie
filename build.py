@@ -112,7 +112,7 @@ def main():
     # modify toc
     setVersion()
     # replace path references
-    for file in ['Network/QuestieComms.lua', 'QuestieFramePool.lua']:
+    for file in ['Network/QuestieComms.lua', 'Libs/QuestieLib.lua']:
         replacePath('%s/Modules/%s' % (destination, file), 'QuestieDev-master', addonDir)
     # package files
     root = os.getcwd()
@@ -134,6 +134,7 @@ def setVersion():
         recentCommit = recentCommit.lstrip("g") # There is a "g" before all the commits.
         tocData = None
         cleanData = None
+        readmeData = None
         # Replace the toc data with git information.
         with open('QuestieDev-master.toc') as toc:
             tocData = toc.read()
@@ -147,6 +148,13 @@ def setVersion():
         with open('releases/%s/%s/%s.toc' % (versionDir, addonDir, addonDir), "w") as toc:
             toc.write(tocData)
         
+        with open("README.md") as readme:
+            readmeData = readme.read()
+            readmeData = re.sub(r"QuestieDev\/(.+)\/total\.svg", "QuestieDev/%s/total.svg" % versionTag, readmeData)
+
+        with open('README.md', "w") as readme:
+            readme.write(readmeData)
+
         with open('QuestieDev-master.toc', "w") as toc:
             toc.write(cleanData)
 

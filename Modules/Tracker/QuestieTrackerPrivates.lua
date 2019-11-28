@@ -55,7 +55,7 @@ function _QuestieTracker:OnDragStop()
     -- QuestieTracker:SetBaseFrame(baseFrame)
 end
 
-function _QuestieTracker:RepositionFrames(trackerLineCount, lineFrames) -- this is only for SetCounterEnabled, nothing else should be using this function
+--[[function _QuestieTracker:RepositionFrames(trackerLineCount, lineFrames) -- this is only for SetCounterEnabled, nothing else should be using this function
     local lastFrame = nil
     local baseFrame = QuestieTracker:GetBaseFrame()
 
@@ -74,4 +74,4 @@ function _QuestieTracker:RepositionFrames(trackerLineCount, lineFrames) -- this 
         --frm:Show()
         lastFrame = frm
     end
-end
+end]]--

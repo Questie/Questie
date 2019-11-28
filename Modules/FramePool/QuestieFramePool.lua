@@ -28,6 +28,9 @@ _QuestieFramePool.usedFrames = {};
 
 _QuestieFramePool.allFrames = {}
 
+_QuestieFramePool.wayPointColor = {1,0.72,0,0.5}
+_QuestieFramePool.wayPointColorHover = {0.93,0.46,0.13,0.8}
+
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 
 -- set pins parent to QuestieFrameGroup for easier compatibility with other addons
@@ -84,7 +87,9 @@ StaticPopupDialogs["QUESTIE_CONFIRMHIDE"] = {
 }
 
 -- Global Functions --
+---@return IconFrame
 function QuestieFramePool:GetFrame()
+    ---@type IconFrame
     local returnFrame = nil--tremove(_QuestieFramePool.unusedFrames)
 
     -- im not sure its this, but using string keys for the table prevents double-adding to _QuestieFramePool.unusedFrames, calling unload() twice could double-add it maybe?
@@ -212,7 +217,6 @@ function _QuestieFramePool:UnloadFrame(frame)
   frame.loaded = nil;
     tinsert(_QuestieFramePool.unusedFrames, frame)
 end]]--
----@class IconFrame
 function _QuestieFramePool:QuestieCreateFrame()
     _QuestieFramePool.numberOfFrames = _QuestieFramePool.numberOfFrames + 1
     local newFrame = QuestieFramePool.Qframe:New(_QuestieFramePool.numberOfFrames, _QuestieFramePool.Questie_Tooltip)
@@ -260,14 +264,9 @@ function QuestieFramePool:CreateWaypoints(iconFrame, waypointTable, lineWidth, c
     local lastPos = nil
     --Set defaults if needed.
     local lWidth = lineWidth or 1.5;
-    local col = color or {1,0.72,0,0.3};
-    -- local col = color or {0,0.5,1,0.3};
-    -- local col = color or {0.06,0.31,0.55,0.3};
-    -- local col = color or {0.14,0.14,0.56,0.3};
-    -- local col = color or {0.4,0,0,0.3};
-    -- local col = color or {0.4,0.8,0,0.3};
+    local col = color or _QuestieFramePool.wayPointColor
 
-    for index, waypoint in pairs(waypointTable) do
+    for _, waypoint in pairs(waypointTable) do
         if(lastPos == nil) then
             lastPos = waypoint;
         else
@@ -391,15 +390,6 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     return lineFrame
 end
 
-function _QuestieFramePool:Questie_Tooltip_line(self)
-    local Tooltip = GameTooltip;
-    Tooltip:SetOwner(self, "ANCHOR_CURSOR"); --"ANCHOR_CURSOR" or (self, self)
-    Tooltip:AddLine("Test");
-    Tooltip:SetFrameStrata("TOOLTIP");
-    Tooltip:Show();
-    --_QuestieFramePool:Questie_Tooltip(self.iconFrame)
-end
-
 function _QuestieFramePool:GetAvailableOrCompleteTooltip(icon)
     local tip = {};
     if icon.data.Type == "complete" then
@@ -457,6 +447,10 @@ function _QuestieFramePool:GetObjectiveTooltip(icon)
                 local playerInfo = QuestiePlayer:GetPartyMemberByName(playerName)
                 if playerInfo then
                     local objectiveEntry = objectiveData[iconData.ObjectiveIndex]
+                    if not objectiveEntry then
+                        Questie:Debug(DEBUG_DEVELOP, "[_QuestieFramePool:GetObjectiveTooltip]", "No objective data for quest", quest.Id)
+                        objectiveEntry = {} -- This will make "GetRGBForObjective" return default color
+                    end
                     local remoteColor = QuestieLib:GetRGBForObjective(objectiveEntry)
                     local colorizedPlayerName = " (|c"..playerInfo.colorHex..playerName.."|r"..remoteColor..")|r"
                     local remoteText = iconData.ObjectiveData.Description
@@ -550,7 +544,10 @@ function _QuestieFramePool:Questie_Tooltip()
 
     --Highlight waypoints if they exist.
     for k, lineFrame in pairs(self.data.lineFrames or {}) do
-      lineFrame.line:SetColorTexture(math.min(lineFrame.line.dR*1.3, 1), math.min(lineFrame.line.dG*1.3, 1), math.min(lineFrame.line.dB*1.3, 1), math.min(lineFrame.line.dA*1.3, 1))
+      lineFrame.line:SetColorTexture(
+        unpack(_QuestieFramePool.wayPointColorHover)
+        --   math.min(lineFrame.line.dR*1.4, 1), math.min(lineFrame.line.dG*1.4, 1), math.min(lineFrame.line.dB*1.4, 1), math.min(lineFrame.line.dA*1.4, 1)
+        )
     end
 
     -- FIXME: `data` can be nil here which leads to an error, will have to debug:
@@ -649,9 +646,19 @@ function _QuestieFramePool:Questie_Tooltip()
             end
             for k2, questData in pairs(quests) do
                 if questData.title ~= nil then
-                    local quest = QuestieDB:GetQuest(questData.questId);
-                    if(quest and shift and QuestiePlayer:GetPlayerLevel() ~= 60) then
-                        self:AddDoubleLine("   " .. questData.title, QuestieLib:PrintDifficultyColor(quest.level, "("..GetQuestLogRewardXP(questData.questId)..xpString..") ")..questData.type, 1, 1, 1, 1, 1, 0);
+                    local quest = QuestieDB:GetQuest(questData.questId)
+                    if(quest and shift) then
+                        local rewardString = ""
+                        local rewardXP = GetQuestLogRewardXP(questData.questId)
+                        if rewardXP > 0 then -- Quest rewards XP
+                            rewardString = QuestieLib:PrintDifficultyColor(quest.level, "(".. rewardXP .. xpString .. ") ")
+                        end
+
+                        local moneyReward = GetQuestLogRewardMoney(questData.questId)
+                        if moneyReward > 0 then -- Quest rewards money
+                            rewardString = rewardString .. Questie:Colorize("("..GetCoinTextureString(moneyReward)..") ", "white")
+                        end
+                        self:AddDoubleLine("   " .. questData.title, rewardString .. questData.type, 1, 1, 1, 1, 1, 0);
                     else
                         self:AddDoubleLine("   " .. questData.title, questData.type, 1, 1, 1, 1, 1, 0);
                     end
@@ -659,7 +666,7 @@ function _QuestieFramePool:Questie_Tooltip()
                 if questData.subData and shift then
                     local dataType = type(questData.subData)
                     if dataType == "table" then
-                        for _,line in pairs(questData.subData) do
+                        for _, line in pairs(questData.subData) do
                             self:AddLine("      " .. line, 0.86, 0.86, 0.86);
                         end
                     elseif dataType == "string" then

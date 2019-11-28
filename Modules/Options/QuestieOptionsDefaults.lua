@@ -74,6 +74,7 @@ function QuestieOptionsDefaults:Load()
             hideUnexploredMapIcons = false,
             showRepeatableQuests = true,
             trackerCounterEnabled = true,
+            trackerBackgroundEnabled = false,
         },
         char = {
             complete = {},

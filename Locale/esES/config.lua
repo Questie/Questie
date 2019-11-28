@@ -42,10 +42,10 @@ QuestieLocale.locale['esES'] = {
     ['ENABLE_ICON_LIMIT_DESC'] = "Habilita el límite de iconos por tipo.",
     ['ICON_LIMIT'] = "Límite de icono",
     ['ICON_LIMIT_DESC'] = "Limita la cantidad de iconos por tipo. ( Predeterminado: %s)",
-    ['ENABLE_AUTO_ACCEPT_QUESTS'] = "Auto Accept Quests",
-    ['ENABLE_AUTO_ACCEPT_QUESTS_DESC'] = "Enable or disable Questie auto-accepting quests.",
-    ['ENABLE_AUTO_COMPLETE'] = "Auto Complete",
-    ['ENABLE_AUTO_COMPLETE_DESC'] = "Enable or disable Questie auto-complete quests.",
+    ['ENABLE_AUTO_ACCEPT_QUESTS'] = "Aceptar misiones automáticamente",
+    ['ENABLE_AUTO_ACCEPT_QUESTS_DESC'] = "Habilita o deshabilita aceptar misiones automáticamente.",
+    ['ENABLE_AUTO_COMPLETE'] = "Completar misiones automáticamente",
+    ['ENABLE_AUTO_COMPLETE_DESC'] = "Habilita o deshabilita completar misiones automáticamente.",
 
     -- Minimap tab
     ['MINIMAP_TAB'] = "Opciones de minimapa",

@@ -11,7 +11,9 @@ QuestieFramePool.Qframe = {}
 
 local _Qframe = {}
 
+---@return IconFrame
 function QuestieFramePool.Qframe:New(frameId, OnEnter)
+    ---@class IconFrame
     local newFrame = CreateFrame("Button", "QuestieFrame"..frameId)
     newFrame.frameId = frameId;
 
@@ -51,8 +53,34 @@ function QuestieFramePool.Qframe:New(frameId, OnEnter)
     glowt:SetHeight(18)
     glowt:SetAllPoints(newFrame.glow)
 
+    ---@class IconTexture
     newFrame.texture = newTexture;
+    newFrame.texture.OLDSetVertexColor = newFrame.texture.SetVertexColor;
+    function newFrame.texture:SetVertexColor(r, g, b, a)
+        self:OLDSetVertexColor(r,g,b,a);
+        --We save the colors to the texture object, this way we don't need to use GetVertexColor
+        self.r = r or 1;
+        self.g = g or 1;
+        self.b = b or 1;
+        self.a = a or 1;
+    end
+    --We save the colors to the texture object, this way we don't need to use GetVertexColor
+    newFrame.texture:SetVertexColor(1,1,1,1);
+
     newFrame.glowTexture = glowt
+    newFrame.glowTexture.OLDSetVertexColor = newFrame.glowTexture.SetVertexColor;
+    function newFrame.glowTexture:SetVertexColor(r, g, b, a)
+        self:OLDSetVertexColor(r,g,b,a);
+        --We save the colors to the texture object, this way we don't need to use GetVertexColor
+        self.r = r or 1;
+        self.g = g or 1;
+        self.b = b or 1;
+        self.a = a or 1;
+    end
+
+    --We save the colors to the texture object, this way we don't need to use GetVertexColor
+    newFrame.glowTexture:SetVertexColor(1,1,1,1);
+    
     newFrame.glowTexture:SetTexture(ICON_TYPE_GLOW)
     newFrame.glow:Hide()
     newFrame.glow:SetPoint("CENTER", -9, -9) -- 2 pixels bigger than normal icon
@@ -81,9 +109,6 @@ function QuestieFramePool.Qframe:New(frameId, OnEnter)
 
     newFrame.data = {}
     newFrame:Hide()
-    
-    newFrame:HookScript("OnHide", function() if self.OnHide then self:OnHide() end end)
-    newFrame:HookScript("OnShow", function() if self.OnShow then self:OnShow() end end)
 
     return newFrame
 end
@@ -144,12 +169,18 @@ end
 
 function _Qframe:GlowUpdate()
     if self.glow and self.glow.IsShown and self.glow:IsShown() then
-        self.glow:SetWidth(self:GetWidth() * 1.13)
-        self.glow:SetHeight(self:GetHeight() * 1.13)
-        self.glow:SetPoint("CENTER", self, 0, 0)
+        --Due to this always being 1:1 we can assume that if one isn't correct, the other isn't either
+        --We can also assume that both change at the same time so we only check one.
+        if(self.glow:GetWidth() ~= self:GetWidth() * 1.13) then ---self.glow:GetHeight() ~= self:GetHeight() * 1.13
+            self.glow:SetSize(self:GetWidth() * 1.13, self:GetHeight() * 1.13)
+            self.glow:SetPoint("CENTER", self, 0, 0)
+        end
         if self.data and self.data.ObjectiveData and self.data.ObjectiveData.Color and self.glowTexture then
-            local _, _, _, alpha = self.texture:GetVertexColor()
-            self.glowTexture:SetVertexColor(self.data.ObjectiveData.Color[1], self.data.ObjectiveData.Color[2], self.data.ObjectiveData.Color[3], alpha or 1)
+            --Due to us now saving the alpha inside of the texture we don't need to check the main texture anymore.
+            --The question is is it faster to get and compare or just set straight up?
+            if(self.glowTexture.r ~= self.data.ObjectiveData.Color[1] or self.glowTexture.g ~= self.data.ObjectiveData.Color[2] or self.glowTexture.b ~= self.data.ObjectiveData.Color[3] or self.texture.a ~= self.glowTexture.a) then
+                self.glowTexture:SetVertexColor(self.data.ObjectiveData.Color[1], self.data.ObjectiveData.Color[2], self.data.ObjectiveData.Color[3], self.texture.a or 1)
+            end
         end
     end
 end
@@ -192,13 +223,16 @@ function _Qframe:UpdateTexture(texture)
     --Different settings depending on noteType
     local globalScale = 0.7
     local objectiveColor = false
+    local alpha = 1;
 
     if(self.miniMapIcon) then
         globalScale = Questie.db.global.globalMiniMapScale;
         objectiveColor = Questie.db.global.questMinimapObjectiveColors;
+        alpha = 0;
     else
         globalScale = Questie.db.global.globalScale;
         objectiveColor = Questie.db.global.questObjectiveColors;
+        alpha = 1;
     end
 
     self.texture:SetTexture(texture)
@@ -208,7 +242,7 @@ function _Qframe:UpdateTexture(texture)
     if self.data.IconColor ~= nil and objectiveColor then
         colors = self.data.IconColor
     end
-    self.texture:SetVertexColor(colors[1], colors[2], colors[3], 1);
+    self.texture:SetVertexColor(colors[1], colors[2], colors[3], alpha);
 
     if self.data.IconScale then
         local scale = 16 * ((self.data:GetIconScale() or 1)*(globalScale or 0.7));
@@ -226,10 +260,6 @@ function _Qframe:Unload()
     self:SetScript("OnHide", nil)
     self:SetFrameStrata("FULLSCREEN");
     self:SetFrameLevel(0);
-
-    if(QuestieMap.minimapFramesShown[self.frameId]) then
-        QuestieMap.minimapFramesShown[self.frameId] = nil;
-    end
 
     --We are reseting the frames, making sure that no data is wrong.
     if self ~= nil and self.hidden and self._show ~= nil and self._hide ~= nil then -- restore state to normal (toggle questie)
@@ -327,17 +357,5 @@ function _Qframe:FakeUnhide()
         if self.shouldBeShowing then
             self:Show();
         end
-    end
-end
-
-function _Qframe:OnShow()
-    if self.miniMapIcon then
-        QuestieMap.minimapFramesShown[self.frameId] = self
-    end
-end
-
-function _Qframe:OnHide()
-    if self.miniMapIcon then
-        QuestieMap.minimapFramesShown[self.frameId] = nil
     end
 end

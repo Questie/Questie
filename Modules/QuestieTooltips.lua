@@ -92,14 +92,14 @@ function QuestieTooltips:GetTooltip(key)
 
                 local text = nil;
                 local color = QuestieLib:GetRGBForObjective(tooltip.Objective)
-                
+
                 if tooltip.Objective.Needed then
                     text = "   " .. color .. tostring(tooltip.Objective.Collected) .. "/" .. tostring(tooltip.Objective.Needed) .. " " .. tostring(tooltip.Objective.Description);
                 else
                     text = "   " .. color .. tostring(tooltip.Objective.Description);
                 end
-                
-                --Reduntant if 
+
+                --Reduntant if
                 if tooltip.Objective.Needed then
                     tooltipData[questId].objectivesText[objectiveIndex][name] = {["color"] = color, ["text"] = text};
                 else
@@ -125,9 +125,12 @@ function QuestieTooltips:GetTooltip(key)
             end
             for playerName, objectives in pairs(playerList) do
                 local playerInfo = QuestiePlayer:GetPartyMemberByName(playerName);
-                if(playerInfo) then
+                if playerInfo then
                     anotherPlayer = true;
                     for objectiveIndex, objective in pairs(objectives) do
+                        if not objective then
+                            objective = {}
+                        end
                         --Setup data structures that might be missing.
                         if(not tooltipData[questId].objectivesText) then
                             tooltipData[questId].objectivesText = {}
@@ -147,7 +150,7 @@ function QuestieTooltips:GetTooltip(key)
                         else
                             text = "   " .. color .. objective.text;
                         end
-                        
+
                         tooltipData[questId].objectivesText[objectiveIndex][playerName] = {["color"] = color, ["text"] = text};
                     end
                 end
