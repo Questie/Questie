@@ -125,9 +125,9 @@ end
 _QHM = QuestieHeightmaps
 function HM_read(serial, length)
     local tileSize = serial:ReadShort()
-    local divisor = serial:ReadByte()
     local tileX = serial:ReadShort() + 32760
     local tileY = serial:ReadShort() + 32760
+    local divisor = serial:ReadByte()
     local map = {}
     local crc = 5381
     local lastValue = 0
@@ -251,9 +251,68 @@ local function compressNext2(LibDeflate)
             
             pointer = pointer + size
         end
+        
+        print("Recalculating keys...");
+        local minX = 999999
+        local minY = 999999
+        local maxX = -999999
+        local maxY = -999999
+
+        local width = 0
+
+        for key in pairs(pointers) do
+            QuestieHeightmaps.stream:LoadRaw(QuestieHeightmaps.compressedHeightmaps[key])
+            local tileSize = QuestieHeightmaps.stream:ReadShort()
+            local tileX = QuestieHeightmaps.stream:ReadShort() - 32760
+            local tileY = QuestieHeightmaps.stream:ReadShort() - 32760
+            if tileX < minX then
+                minX = tileX
+            end
+            if tileX > maxX then
+                maxX = tileX
+            end
+            if tileY < minY then
+                minY = tileY
+            end
+            if tileY > maxY then
+                maxY = tileY
+            end
+        end
+        
+        print("Detected ranges: " .. minX .. " -> " .. maxX)
+        print("Detected ranges: " .. minY .. " -> " .. maxY)
+        local offsetX = minX
+        local offsetY = minY
+        maxX = maxX + -minX
+        minX = 0
+        maxY = maxY + -minY
+        minY = 0
+
+        -- todo: make this not hardcoded
+        local divisor = 4
+        local res = 64
+
+        -- fix pointers
+        maxY = maxY / (res*divisor)
+        local newPointers = {}
+        for key, val in pairs(pointers) do
+            QuestieHeightmaps.stream:LoadRaw(QuestieHeightmaps.compressedHeightmaps[key])
+            local tileSize = QuestieHeightmaps.stream:ReadShort()
+            local tileX = QuestieHeightmaps.stream:ReadShort() - 32760
+            local tileY = QuestieHeightmaps.stream:ReadShort() - 32760
+            tileX = (tileX - offsetX) / (res*divisor)
+            tileY = (tileY - offsetY) / (res*divisor)
+            newPointers[tileX * maxY + tileY] = val
+        end
+        pointers = newPointers
 
         CompressedHeightmaps.data = map
         CompressedHeightmaps.pointers = QuestieSerializer:Serialize(pointers)
+        CompressedHeightmaps.offsetX = offsetX
+        CompressedHeightmaps.offsetY = offsetY
+        CompressedHeightmaps.tileResDivisor = divisor
+        CompressedHeightmaps.res = res
+
 
         return
     end
@@ -261,7 +320,7 @@ local function compressNext2(LibDeflate)
     print("Compressing " .. zone)
     C_Timer.After(0.1, function()
         local zone = __compress_map[__compress_index]
-        Questie.db.char.compressedHeightmaps[zone] = LibDeflate:CompressDeflate(QuestieHeightmaps.compressedHeightmaps[zone], configs)
+        Questie.db.char.compressedHeightmaps[zone] = LibDeflate:CompressDeflate(QuestieHeightmaps.compressedHeightmaps[zone])
         __compress_index = __compress_index + 1
         print("   result: " .. tostring(string.len(QuestieHeightmaps.compressedHeightmaps[zone])) .. " bytes -> " .. tostring(string.len(Questie.db.char.compressedHeightmaps[zone])) .. " bytes")
         compressNext2(LibDeflate)
@@ -273,14 +332,24 @@ __compress_index = 0
 __compress_map = {}
 function HM_ActuallyCompress()
 
-    local HM_toEncode = {}
+    --local HM_toEncode = {}
+
+
 
     -- convert to strings
     for index, block in pairs(HM_toEncode) do
+        local count = 0
         for index2, val in pairs(block) do
             block[index2] = string.char(val)
+            count = count + 1
         end
-        HM_toEncode[index] = table.concat(block)
+        -- check for empty cells by CRC value
+        if (not (block[count]==5 and block[count-1]==0x15 and block[count-2]==0xE2 and block[count-3]==0x24)) and (not (block[count]==5 and block[count-1]==0x15 and block[count-2]==0x39 and block[count-3]==0x58)) then
+            HM_toEncode[index] = table.concat(block)
+        else
+            print("Excluded empty tile: " .. index)
+            HM_toEncode[index] = nil
+        end
     end
 
     QuestieHeightmaps.compressedHeightmaps = HM_toEncode
