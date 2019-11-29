@@ -396,6 +396,7 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.requiredRaces] = 77,
         },
         [2501] = {
+            [QuestieDB.questKeys.preQuestSingle] = {}, -- #1541
             [QuestieDB.questKeys.preQuestGroup] = {2500,17}, -- #1541
         },
         [2781] = {
