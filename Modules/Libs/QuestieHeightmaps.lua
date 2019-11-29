@@ -51,26 +51,26 @@ QuestieHeightmaps.tileResDivisor = 4
 function _QuestieHeightmaps:DecompressTile(index)
     if (not x) or (not y) or (not QuestieHeightmaps.rawHeightmaps[x]) or not QuestieHeightmaps.rawHeightmaps[x][y] then
         return -- error?
-	end
-	
+    end
+    
 end
 function _QuestieHeightmaps:LoadTile(index)
     if (not index) or (not QuestieHeightmaps.heightmapPointers[index]) then
         return -- error?
-	end 
-	local pointers = QuestieHeightmaps.heightmapPointers[index]
+    end 
+    local pointers = QuestieHeightmaps.heightmapPointers[index]
     QuestieHeightmaps.stream:LoadRaw(LibDeflate:DecompressDeflate(string.sub(QuestieHeightmaps.heightmapData, pointers[1], pointers[2] + pointers[1])))
-	local tile = HM_read(QuestieHeightmaps.stream, string.len(QuestieHeightmaps.stream._bin)) -- refactor
-	QuestieHeightmaps.loadedTiles[index] = tile
-	_QuestieHeightmaps:UnloadFarthestTile()
+    local tile = HM_read(QuestieHeightmaps.stream, string.len(QuestieHeightmaps.stream._bin)) -- refactor
+    QuestieHeightmaps.loadedTiles[index] = tile
+    _QuestieHeightmaps:UnloadFarthestTile()
 end
 
 function _QuestieHeightmaps:RequestLoadTile(x, y)
-	local index = _QuestieHeightmaps:TileToIndex(x, y)
-	if QuestieHeightmaps.queuedToLoad[index] or QuestieHeightmaps.loadedTiles[index] then
-		return
-	end
-	QuestieHeightmaps.queuedToLoad[index] = index
+    local index = _QuestieHeightmaps:TileToIndex(x, y)
+    if QuestieHeightmaps.queuedToLoad[index] or QuestieHeightmaps.loadedTiles[index] then
+        return
+    end
+    QuestieHeightmaps.queuedToLoad[index] = index
 end
 
 function _QuestieHeightmaps:UnloadFarthestTile()
@@ -78,40 +78,40 @@ function _QuestieHeightmaps:UnloadFarthestTile()
 end
 
 function _QuestieHeightmaps:TileToIndex(x, y)
-	return string.format("%d,%d", x, y) -- todo: convert this to a 1D numeric index (ex. index = x * width + y)
+    return string.format("%d,%d", x, y) -- todo: convert this to a 1D numeric index (ex. index = x * width + y)
 end
 
 function _QuestieHeightmaps:WorldToTile(x, y)
-	return x / QuestieHeightmaps.tileResDivisor, y / QuestieHeightmaps.tileResDivisor
+    return x / QuestieHeightmaps.tileResDivisor, y / QuestieHeightmaps.tileResDivisor
 end
 
 -- called periodically while the player is moving, it doesn't need to be called very often (once every 10+ seconds)
 -- this is used to update the currently loaded tiles
 function QuestieHeightmaps:Update()
-	local playerX, playerY, _, map = UnitPosition("Player")
-	if playerX and playerY and map and map >= 0 and map < 2 then -- we only have data for kalimdor and eastern kingdoms 
-		local tileX, tileY = _QuestieHeightmaps:WorldToTile(playerX, playerY)
+    local playerX, playerY, _, map = UnitPosition("Player")
+    if playerX and playerY and map and map >= 0 and map < 2 then -- we only have data for kalimdor and eastern kingdoms 
+        local tileX, tileY = _QuestieHeightmaps:WorldToTile(playerX, playerY)
 
-		-- this checks if the tile is loaded (or queued for load) and if not queues them
-		_QuestieHeightmaps:RequestLoadTile(tileX, tileY)
-		_QuestieHeightmaps:RequestLoadTile(tileX-1, tileY-1)
-		_QuestieHeightmaps:RequestLoadTile(tileX, tileY-1)
-		_QuestieHeightmaps:RequestLoadTile(tileX+1, tileY-1)
-		_QuestieHeightmaps:RequestLoadTile(tileX-1, tileY)
-		_QuestieHeightmaps:RequestLoadTile(tileX+1, tileY)
-		_QuestieHeightmaps:RequestLoadTile(tileX-1, tileY+1)
-		_QuestieHeightmaps:RequestLoadTile(tileX, tileY+1)
-		_QuestieHeightmaps:RequestLoadTile(tileX+1, tileY+1)
-	end
+        -- this checks if the tile is loaded (or queued for load) and if not queues them
+        _QuestieHeightmaps:RequestLoadTile(tileX, tileY)
+        _QuestieHeightmaps:RequestLoadTile(tileX-1, tileY-1)
+        _QuestieHeightmaps:RequestLoadTile(tileX, tileY-1)
+        _QuestieHeightmaps:RequestLoadTile(tileX+1, tileY-1)
+        _QuestieHeightmaps:RequestLoadTile(tileX-1, tileY)
+        _QuestieHeightmaps:RequestLoadTile(tileX+1, tileY)
+        _QuestieHeightmaps:RequestLoadTile(tileX-1, tileY+1)
+        _QuestieHeightmaps:RequestLoadTile(tileX, tileY+1)
+        _QuestieHeightmaps:RequestLoadTile(tileX+1, tileY+1)
+    end
 end
 
 function QuestieHeightmaps:Initialize()
     C_Timer.NewTicker(1, function() -- we need this in order to only load small chunks of data instead of everything at once
         local index = tremove(QuestieHeightmaps.queuedToLoad, 1)
-		if index then
-			print("Loading tile " .. index)
-			_QuestieHeightmaps:LoadTile(index)
-		end
+        if index then
+            print("Loading tile " .. index)
+            _QuestieHeightmaps:LoadTile(index)
+        end
     end)
 end
 
@@ -125,9 +125,9 @@ end
 _QHM = QuestieHeightmaps
 function HM_read(serial, length)
     local tileSize = serial:ReadShort()
-	local divisor = serial:ReadByte()
-	local tileX = serial:ReadShort() + 32760
-	local tileY = serial:ReadShort() + 32760
+    local divisor = serial:ReadByte()
+    local tileX = serial:ReadShort() + 32760
+    local tileY = serial:ReadShort() + 32760
     local map = {}
     local crc = 5381
     local lastValue = 0
@@ -148,12 +148,15 @@ function HM_read(serial, length)
         else
             isSubgroup = ""
         end
+        if context.isInside then
+            isSubgroup = isSubgroup .. " (Inside)"
+        end
         if op == 3 then
             op = serial:ReadByte()
             print(isSubgroup.."swapping isinside: " .. tostring(context.isInside))
             context.isInside = not context.isInside
         end
-        print(isSubgroup.."readop " .. tostring(op) .. " @ " .. context.i .. "/" .. tostring(context.entryCount) .. " (" .. tostring(serial._pointer-1) .. "/"..tostring(context.length))
+        --print(isSubgroup.."readop " .. tostring(op) .. " @ " .. context.i .. "/" .. tostring(context.entryCount) .. " (" .. tostring(serial._pointer-1) .. "/"..tostring(context.length))
         if op == 1 then
             context.lastValue = serial:ReadShort()
             --[[crc]]--context.crc = doCRC(context.crc, context.lastValue)
@@ -170,7 +173,7 @@ function HM_read(serial, length)
         --    return readOne(serial, context)
         elseif op == 4 then
             local subCount = serial:ReadByte()
-            print("Doing subgroup size: " .. tostring(subCount))
+            --print("Doing subgroup size: " .. tostring(subCount))
             local ret = {}
             while subCount > 0 do
                 subCount = subCount - 1
@@ -213,10 +216,10 @@ function HM_read(serial, length)
     end
     local storedCRC = serial:ReadInt()
     print("Finished reading "..tostring(tileSize*tileSize).." values with CRC: " .. tostring(readerContext.crc) .. " " .. tostring(storedCRC).. " (" .. tostring(serial._pointer-1) .. "/"..tostring(readerContext.length))
-	local tile = {}
-	tile.map = readerContext.map
-	
-	return tile
+    local tile = {}
+    tile.map = readerContext.map
+    
+    return tile
 end
 
 function doCRC(crc, values)
@@ -233,24 +236,24 @@ end
 local function compressNext2(LibDeflate)
     if __compress_index >= __comperss_end then
         print("Finished compressing!")
-		CompressedHeightmaps = {} -- TODO: remove
-		
-		-- merge strings and calculate pointer map
-		local map = ""
-		local pointers = {}
-		local pointer = 1
+        CompressedHeightmaps = {} -- TODO: remove
+        
+        -- merge strings and calculate pointer map
+        local map = ""
+        local pointers = {}
+        local pointer = 1
 
-		for key, blob in pairs(Questie.db.char.compressedHeightmaps) do
-			local size = string.len(blob)
-			local pointerData = {pointer, size}
-			pointers[key] = pointerData
-			map = map .. blob
-			
-			pointer = pointer + size
-		end
+        for key, blob in pairs(Questie.db.char.compressedHeightmaps) do
+            local size = string.len(blob)
+            local pointerData = {pointer, size}
+            pointers[key] = pointerData
+            map = map .. blob
+            
+            pointer = pointer + size
+        end
 
-		CompressedHeightmaps.data = map
-		CompressedHeightmaps.pointers = QuestieSerializer:Serialize(pointers)
+        CompressedHeightmaps.data = map
+        CompressedHeightmaps.pointers = QuestieSerializer:Serialize(pointers)
 
         return
     end
@@ -270,17 +273,17 @@ __compress_index = 0
 __compress_map = {}
 function HM_ActuallyCompress()
 
-	local HM_toEncode = {}
+    local HM_toEncode = {}
 
-	-- convert to strings
-	for index, block in pairs(HM_toEncode) do
-		for index2, val in pairs(block) do
-			block[index2] = string.char(val)
-		end
-		HM_toEncode[index] = table.concat(block)
-	end
+    -- convert to strings
+    for index, block in pairs(HM_toEncode) do
+        for index2, val in pairs(block) do
+            block[index2] = string.char(val)
+        end
+        HM_toEncode[index] = table.concat(block)
+    end
 
-	QuestieHeightmaps.compressedHeightmaps = HM_toEncode
+    QuestieHeightmaps.compressedHeightmaps = HM_toEncode
 
 
     local idx = 1
@@ -307,7 +310,108 @@ function HM_Test()
 end
 
 
+function HM_CreateDisplay() -- really bad code for debugging the heightmap tiles
+    local key = "-8708,767"
 
+    pcall(_QHM.SetMap, _QHM, 0)
+    pcall(_QHM.private.LoadTile, _QHM.private, key)
+
+    -- test data
+    --local bin = nil
+    
+    --for i,v in pairs(bin) do
+    --    bin[i] = string.char(v)
+    --end
+    --bin = table.concat(bin)
+    --QuestieHeightmaps.stream:LoadRaw(bin)
+    --local tile = HM_read(QuestieHeightmaps.stream, string.len(QuestieHeightmaps.stream._bin))
+    --_QHM.loadedTiles[key] = tile
+
+    
+    local frame = CreateFrame("Frame", UIParent)
+    frame:SetWidth(10)
+    frame:SetHeight(10)
+    frame:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
+    local grayscale = false
+    if grayscale then
+        for x=1,64 do
+            for y=1,64 do
+                local tex = frame:CreateTexture(nil, "BACKGROUND")
+                local idx = (64-y) * 64 + (x)
+                local bright = 0
+                local brightc = 0
+                local hmcell = _QHM.loadedTiles[key].map[idx]
+                
+                if hmcell and type(hmcell[1]) == "table" then
+                    for _, height in pairs(hmcell) do
+                        bright = bright + height[1]
+                        brightc = brightc + 1
+                    end
+                elseif hmcell then
+                    bright = hmcell[1]
+                    brightc = 1
+                end
+                bright = bright / brightc
+                bright = bright / 256
+
+                tex:SetWidth(2)
+                tex:SetHeight(2)
+                tex:SetPoint("CENTER", UIParent, "CENTER", x*2, y*2)
+                tex:SetColorTexture(bright, bright, bright, 1)
+            end
+        end
+    else
+        for x=1,64 do
+            for y=1,64 do
+                local tex = frame:CreateTexture(nil, "BACKGROUND")
+                local idx = (64-y) * 64 + (x)
+                local bright_inside = 0
+                local brightc_inside = 0
+                local bright_outside = 0
+                local brightc_outside = 0
+                local hmcell = _QHM.loadedTiles[key].map[idx]
+                
+                if hmcell and type(hmcell[1]) == "table" then
+                    for _, height in pairs(hmcell) do
+                        if height[2] then
+                            bright_inside = bright_inside + height[1]
+                            brightc_inside = brightc_inside + 1
+                        else
+                            bright_outside = bright_outside + height[1]
+                            brightc_outside = brightc_outside + 1
+                        end
+                    end
+                elseif hmcell then
+                    if hmcell[2] then
+                        bright_inside = hmcell[1]
+                        brightc_inside = 1
+                    else
+                        bright_outside = hmcell[1]
+                        brightc_outside = 1
+                    end
+                end
+                bright_outside = bright_outside / brightc_outside
+                bright_outside = bright_outside / 256
+                bright_inside = bright_inside / brightc_inside
+                bright_inside = bright_inside / 256
+                
+                tex:SetWidth(2)
+                tex:SetHeight(2)
+                tex:SetPoint("CENTER", UIParent, "CENTER", x*2, y*2)
+                tex:SetColorTexture(bright_inside, bright_outside, 0, 1)
+            end
+        end    
+    end
+
+
+    --local tex = frame:CreateTexture(nil, "BACKGROUND")
+    --tex:SetWidth(5)
+    ---tex:SetHeight(5)
+    --tex:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
+    --tex:SetColorTexture(1.0, 0.0, 0.0, 0.5)
+
+    frame:Show()
+end
 
 
 
@@ -328,19 +432,19 @@ function QuestieHeightmaps:GetHeights(x, y)
 
 end
 
-function QuestieHeightmaps:EstimatePlayerHeight()
+function QuestieHeightmaps:EstimatePlayerHeight() -- this should prioritize the height value that is closest to the player's last known height value
 
 end
 
 function QuestieHeightmaps:SetMap(map) -- 0=eastern kingdoms, 1=kalimdor (map.dbc)
-	if not map or map ~= QuestieHeightmaps.map then
-		-- todo: actually implement maps (this is just elwynn test data)
-		--end heightmapData
-		--local pointers = QuestieHeightmaps.heightmapPointers[index]
-		QuestieHeightmaps.heightmapData = QuestieHeightmaps.compressedHeightmaps.data
-		QuestieHeightmaps.heightmapPointers = QuestieSerializer:Deserialize(QuestieHeightmaps.compressedHeightmaps.pointers)
-		QuestieHeightmaps.map = map
+    if not map or map ~= QuestieHeightmaps.map then
+        -- todo: actually implement maps (this is just elwynn test data)
+        --end heightmapData
+        --local pointers = QuestieHeightmaps.heightmapPointers[index]
+        QuestieHeightmaps.heightmapData = QuestieHeightmaps.compressedHeightmaps.data
+        QuestieHeightmaps.heightmapPointers = QuestieSerializer:Deserialize(QuestieHeightmaps.compressedHeightmaps.pointers)
+        QuestieHeightmaps.map = map
 
-	end
+    end
 end
 
