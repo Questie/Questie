@@ -302,11 +302,13 @@ function worldmapProvider:RefreshAllData(fromOnShow)
     if(type(questData) == "number") then
       quest = QuestieDB:GetQuest(questId);
     end
-    for index, position in pairs(quest.finisherLocations or {}) do
-      if(closeZones[position.UIMapId]) then
-        local x, y = HBD:TranslateZoneCoordinates(position.x/100, position.y/100, position.UIMapId, mapId);
-        if(x and y) then
-          table.insert(allPins, position);
+    if(quest.finisherLocations) then
+      for index, position in pairs(quest.finisherLocations) do
+        if(closeZones[position.UIMapId]) then
+          local x, y = HBD:TranslateZoneCoordinates(position.x/100, position.y/100, position.UIMapId, mapId);
+          if(x and y) then
+            table.insert(allPins, position);
+          end
         end
       end
     end
@@ -319,14 +321,16 @@ function worldmapProvider:RefreshAllData(fromOnShow)
     if(type(questData) == "number") then
       quest = QuestieDB:GetQuest(questId);
     end
-    for objectiveIndex, spawnData in pairs(quest.objectiveIcons or {}) do
-      Questie:Print("---->", objectiveIndex)
-      for index, spawn in pairs(spawnData) do
-        if(closeZones[spawn.UIMapId]) then
-          local x, y = HBD:TranslateZoneCoordinates(spawn.x/100, spawn.y/100, spawn.UIMapId, mapId);
-          if(x and y) then
-            Questie:Print("------->ADDED PIN:", x,y);
-            table.insert(allPins, spawn);
+    if(quest.objectiveIcons) then
+      for objectiveIndex, spawnData in pairs(quest.objectiveIcons) do
+        Questie:Print("---->", objectiveIndex)
+        for index, spawn in pairs(spawnData) do
+          if(closeZones[spawn.UIMapId]) then
+            local x, y = HBD:TranslateZoneCoordinates(spawn.x/100, spawn.y/100, spawn.UIMapId, mapId);
+            if(x and y) then
+              Questie:Print("------->ADDED PIN:", x,y);
+              table.insert(allPins, spawn);
+            end
           end
         end
       end
