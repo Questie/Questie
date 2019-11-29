@@ -161,7 +161,7 @@ local function AcquireTextures(frame)
         local glowPos = 0;
         if(count > 1) then
           iconPos = ((count * (16/2))*-1)+(count * (16/2))*iconIndex;
-          glowPos = ((count * (18/2))*-1)+(count * (18/2))*iconIndex;
+          glowPos = (((count * (16/2))*-1)+(count * (16/2))*iconIndex)-1;
         else
           iconPos = 0;
           glowPos = 0;
@@ -274,6 +274,9 @@ function worldmapProvider:RefreshAllData(fromOnShow)
   local mapId = self:GetMap():GetMapID()
   self:RemoveAllData()
 
+  --Map icons are disabled.
+  if(not Questie.db.global.enableMapIcons) then return; end
+
   --temporary should be moved.
   if(not QuestieFrameNew.utils.zoneList) then
     QuestieFrameNew.utils:GenerateCloseZones();
@@ -284,26 +287,10 @@ function worldmapProvider:RefreshAllData(fromOnShow)
   local allPins = {};
 
   --Available quests
-  for questId, _ in pairs(QuestieQuest.availableQuests) do
-    local quest = QuestieDB:GetQuest(questId);
-    for index, position in pairs(quest.starterLocations) do
-      if(closeZones[position.UIMapId]) then
-        local x, y = HBD:TranslateZoneCoordinates(position.x/100, position.y/100, position.UIMapId, mapId);
-        if(x and y) then
-          table.insert(allPins, position);
-        end
-      end
-    end
-  end
-
-  --Complete quests
-  for questId, questData in pairs(QuestiePlayer.currentQuestlog) do
-    local quest = questData;
-    if(type(questData) == "number") then
-      quest = QuestieDB:GetQuest(questId);
-    end
-    if(quest.finisherLocations) then
-      for index, position in pairs(quest.finisherLocations) do
+  if (Questie.db.global.enableAvailable) then
+    for questId, _ in pairs(QuestieQuest.availableQuests) do
+      local quest = QuestieDB:GetQuest(questId);
+      for index, position in pairs(quest.starterLocations) do
         if(closeZones[position.UIMapId]) then
           local x, y = HBD:TranslateZoneCoordinates(position.x/100, position.y/100, position.UIMapId, mapId);
           if(x and y) then
@@ -314,22 +301,44 @@ function worldmapProvider:RefreshAllData(fromOnShow)
     end
   end
 
-  --Objectives
-  for questId, questData in pairs(QuestiePlayer.currentQuestlog) do
-    Questie:Print("--Adding quest -> ", questId)
-    local quest = questData;
-    if(type(questData) == "number") then
-      quest = QuestieDB:GetQuest(questId);
-    end
-    if(quest.objectiveIcons) then
-      for objectiveIndex, spawnData in pairs(quest.objectiveIcons) do
-        Questie:Print("---->", objectiveIndex)
-        for index, spawn in pairs(spawnData) do
-          if(closeZones[spawn.UIMapId]) then
-            local x, y = HBD:TranslateZoneCoordinates(spawn.x/100, spawn.y/100, spawn.UIMapId, mapId);
+  --Complete quests
+  if (Questie.db.global.enableTurnins) then
+    for questId, questData in pairs(QuestiePlayer.currentQuestlog) do
+      local quest = questData;
+      if(type(questData) == "number") then
+        quest = QuestieDB:GetQuest(questId);
+      end
+      if(quest.finisherLocations) then
+        for index, position in pairs(quest.finisherLocations) do
+          if(closeZones[position.UIMapId]) then
+            local x, y = HBD:TranslateZoneCoordinates(position.x/100, position.y/100, position.UIMapId, mapId);
             if(x and y) then
-              Questie:Print("------->ADDED PIN:", x,y);
-              table.insert(allPins, spawn);
+              table.insert(allPins, position);
+            end
+          end
+        end
+      end
+    end
+  end
+
+  --Objectives
+  if(Questie.db.global.enableObjectives) then
+    for questId, questData in pairs(QuestiePlayer.currentQuestlog) do
+      Questie:Print("--Adding quest -> ", questId)
+      local quest = questData;
+      if(type(questData) == "number") then
+        quest = QuestieDB:GetQuest(questId);
+      end
+      if(quest.objectiveIcons) then
+        for objectiveIndex, spawnData in pairs(quest.objectiveIcons) do
+          Questie:Print("---->", objectiveIndex)
+          for index, spawn in pairs(spawnData) do
+            if(closeZones[spawn.UIMapId]) then
+              local x, y = HBD:TranslateZoneCoordinates(spawn.x/100, spawn.y/100, spawn.UIMapId, mapId);
+              if(x and y) then
+                Questie:Print("------->ADDED PIN:", x,y);
+                table.insert(allPins, spawn);
+              end
             end
           end
         end
@@ -355,8 +364,14 @@ function worldmapProvider:RefreshAllData(fromOnShow)
       local x, y = HBD:TranslateZoneCoordinates(center.x/100, center.y/100, positions[1].UIMapId, mapId);
 
       if(x and y) then
-      Questie:Print(x, y, center.x/100, center.y/100, positions[1].UIMapId);
-        self:GetMap():AcquirePin("PinsTemplateQuestie", "NotUsed", questData, x, y);--data.frameLevelType)
+
+        Questie:Print(x, y, center.x/100, center.y/100, positions[1].UIMapId, mapId);
+        --Hide unexplored logic
+        if(not QuestieMap.utils:IsExplored(mapId, x, y) and Questie.db.global.hideUnexploredMapIcons) then
+          self:GetMap():AcquirePin("PinsTemplateQuestie", "NotUsed", questData, x, y);--data.frameLevelType)
+        elseif(not Questie.db.global.hideUnexploredMapIcons) then
+          self:GetMap():AcquirePin("PinsTemplateQuestie", "NotUsed", questData, x, y);--data.frameLevelType)
+        end
       end
   end
 
