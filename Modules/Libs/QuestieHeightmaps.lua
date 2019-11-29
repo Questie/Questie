@@ -1,168 +1,133 @@
 -- heightmap is a word
 ---@class QuestieHeightmaps
 local QuestieHeightmaps = QuestieLoader:CreateModule("Heightmaps")
-local _QuestieHeightmaps = QuestieHeightmaps
+local _QuestieHeightmaps = QuestieHeightmaps.private
 ---@type QuestieStreamLib
 local QuestieStreamLib = QuestieLoader:ImportModule("QuestieStreamLib")
 ---@type QuestieSerializer
-local _QuestieSerializer = QuestieLoader:ImportModule("QuestieSerializer")
+local QuestieSerializer = QuestieLoader:ImportModule("QuestieSerializer"):Clone("raw")
 
 local LibDeflate = LibStub:GetLibrary("LibDeflate")
 
+QuestieHeightmaps.stream = QuestieLoader:ImportModule("QuestieStreamLib"):GetStream("raw")
 
 
 -- info about the heightmap data format (each number is 1 byte)
 -- [head metadata]
---    XX XX          chunkSize (16 bit)
---    XX             chunkResDivisor (8 bit)
+--    XX XX          tileSize (16 bit)
+--    XX             tileResDivisor (8 bit)
+--    XX XX          tileX+32760 (16bit)
+--    XX XX          tileY+32760 (16bit)
 --
--- [data block] 
---    00           (reserved)
---    01 XX XX     value = XXXX  (16 bit)
---    02 XX XX     value = -XXXX (16 bit)
---    03           invert isInside
---    04 XX        next XX entries are for the current x,y location
---    05 XX        lastValue is repeated XX times
---    above 05     value = lastValue + ((value-5)-120)
+-- [data block]
+--  (1 of the following)
+--    00             (reserved)
+--    01 XX XX       value = XXXX  (16 bit)
+--    02 XX XX       value = -XXXX (16 bit)
+--    03             invert isInside
+--    04 XX          next XX entries are for the current x,y location
+--    05 XX          lastValue is repeated XX times
+--    above 05       value = lastValue + ((value-5)-120)
 --        ... (repeats until map is filled)
 --
 -- [foot metadata]
 --    XX XX XX XX    CRC value (32 bit)
 
 
-
-local QuestieSerializer = false
---[[local function SetupSerializer() -- use :Clone("raw")
-    -- copy and override stream behavior
-    QuestieSerializer = {}
-    for k, v in pairs(_QuestieSerializer) do
-        QuestieSerializer[k] = v
-    end
-    QuestieSerializer.stream = nil
-    function QuestieSerializer:SetupStream()
-        if self.stream then
-            self.stream:reset()
-        else
-            self.stream = QuestieStreamLib:GetStream("raw")
-            self.stream.Load = self.stream.LoadRaw
-        end
-        QuestieSerializer.SerializerHashDB = {}
-        QuestieSerializer.SerializerHashDBReversed = {}
-    end
-    QuestieSerializer:SetupStream()
-end]]
-
-
-
 QuestieHeightmaps.rawHeightmaps = {}
-_QuestieHeightmaps.heightmapIsDecompressed = {} -- used to tell if rawHeightmap is a Deflate compressed string or a raw QuestieSerializer string
 
 -- map[index] = {3, false} or {{-33, false}, {4, true}, {76, false}}. [1] is the height value, [2] is IsInside (!IsOutdoors)
 QuestieHeightmaps.loadedTiles = {}
+QuestieHeightmaps.queuedToLoad = {}
 
+QuestieHeightmaps.map = -1 -- use QuestieHeightmaps:SetMap
 
-
-
-function QuestieHeightmaps:Test()
-    local configs = {
-        level = 8,
-        strategy = "dynamic",
-    }
-    Questie.db.char.ElwyTestData = LibDeflate:CompressDeflate(QuestieHeightmaps.rawHeightmaps["Elwynn"], configs)
-    local decomp = LibDeflate:DecompressDeflate(Questie.db.char.ElwyTestData)
-    print("vals: " .. tostring(string.len(QuestieHeightmaps.rawHeightmaps["Elwynn"])) .. " " .. tostring(string.len(Questie.db.char.ElwyTestData)) .. " " .. tostring(string.len(decomp)))
-end
-
-function QuestieHeightmaps:Test2()
-    if not QuestieSerializer then SetupSerializer() end
-    --print(QuestieSerializer:Deserialize("aa"))
-    --local a, err = pcall(QuestieSerializer.Deserialize, QuestieSerializer, QuestieHeightmaps.rawHeightmaps["Elwynn"])
-    --print(a)
-    --print(err)
-    local curmap = QuestieSerializer:Deserialize(LibDeflate:DecompressDeflate(Questie.db.char.ElwyTestData))
-    for k,v in pairs(curmap) do 
-        print(tostring(k) .. " = " .. type(v))
-    end
-end
-
-function QuestieHeightmaps:SetZone(zone) -- this should decode the heightmap progressively (1 row at a time) instead of the all rows*colums at once
-    if not zone then return end
-    local raw = QuestieHeightmaps.rawHeightmaps[zone]
-    if raw then
-        local decompressed, status = LibDeflate:DecompressDeflate(raw)
-        if decompressed then
-            print("Decompressed size: " .. tostring(string.len(decompressed)))
-            return QuestieSerializer:Deserialize(decompressed)
-        else
-            print("Error decompressing!")
-            print(status)
-        end
-    end
-end
-
---[[
--- accepts float coordinate values (0...1)
-function QuestieHeightmaps:CoordinateToIndex(x, y)
-    if not QuestieHeightmaps.currentZone or not QuestieHeightmaps.currentZone.resolution then
-        return
-    end
-    return x * QuestieHeightmaps.currentZone.resolutionSquared + y * QuestieHeightmaps.currentZone.resolution
-end]]--
-
+-- we need to know this value ahead of time so the index can properly be calculated
+-- change this if the heightmap data has been regenerated with a different value
+-- we could also do load(tiles[0]).tileResDivisor but this is fine for now
+QuestieHeightmaps.tileResDivisor = 4
 
 -- io
-function _QuestieHeightmaps:DecompressTile(x, y)
+function _QuestieHeightmaps:DecompressTile(index)
     if (not x) or (not y) or (not QuestieHeightmaps.rawHeightmaps[x]) or not QuestieHeightmaps.rawHeightmaps[x][y] then
         return -- error?
-    end
-    QuestieHeightmaps.rawHeightmaps[x][y] = LibDeflate:DecompressDeflate(QuestieHeightmaps.rawHeightmaps[x][y])
-    if not _QuestieHeightmaps.heightmapIsDecompressed[x] then
-        _QuestieHeightmaps.heightmapIsDecompressed[x] = {}
-    end
-    _QuestieHeightmaps.heightmapIsDecompressed[x][y] = true
+	end
+	
 end
-function _QuestieHeightmaps:LoadTile(x, y)
-    if (not x) or (not y) or (not QuestieHeightmaps.rawHeightmaps[x]) or not QuestieHeightmaps.rawHeightmaps[x][y] then
+function _QuestieHeightmaps:LoadTile(index)
+    if (not index) or (not QuestieHeightmaps.heightmapPointers[index]) then
         return -- error?
-    end
-    
-    if (not _QuestieHeightmaps.heightmapIsDecompressed[x]) or not (_QuestieHeightmaps.heightmapIsDecompressed[x][y]) then
-        _QuestieHeightmaps:DecompressTile(x, y)
-    end
-
-    if not QuestieSerializer then
-        SetupSerializer()
-    end
-
-    local data = QuestieSerializer:Deserialize(QuestieHeightmaps.rawHeightmaps[x][y])
-    local tile = {}
-    local tilex, tiley, divisor, heightOffset = unpack(data[1])
-    tile.x = tilex
-    tile.y = tiley
-    tile.divisor = divisor
-    tile.heightOffset = heightOffset -- the average height in the tile, subtract this from the map value to get the true value (optimization)
-    tile.map = data[2]
-    tile.resolution = math.sqrt(#tile.map)
-
-    tinsert(QuestieHeightmaps.loadedTiles, tile)
-
+	end 
+	local pointers = QuestieHeightmaps.heightmapPointers[index]
+    QuestieHeightmaps.stream:LoadRaw(LibDeflate:DecompressDeflate(string.sub(QuestieHeightmaps.heightmapData, pointers[1], pointers[2] + pointers[1])))
+	local tile = HM_read(QuestieHeightmaps.stream, string.len(QuestieHeightmaps.stream._bin)) -- refactor
+	QuestieHeightmaps.loadedTiles[index] = tile
+	_QuestieHeightmaps:UnloadFarthestTile()
 end
 
 function _QuestieHeightmaps:RequestLoadTile(x, y)
-
+	local index = _QuestieHeightmaps:TileToIndex(x, y)
+	if QuestieHeightmaps.queuedToLoad[index] or QuestieHeightmaps.loadedTiles[index] then
+		return
+	end
+	QuestieHeightmaps.queuedToLoad[index] = index
 end
 
 function _QuestieHeightmaps:UnloadFarthestTile()
 
 end
 
+function _QuestieHeightmaps:TileToIndex(x, y)
+	return string.format("%d,%d", x, y) -- todo: convert this to a 1D numeric index (ex. index = x * width + y)
+end
+
+function _QuestieHeightmaps:WorldToTile(x, y)
+	return x / QuestieHeightmaps.tileResDivisor, y / QuestieHeightmaps.tileResDivisor
+end
+
+-- called periodically while the player is moving, it doesn't need to be called very often (once every 10+ seconds)
+-- this is used to update the currently loaded tiles
+function QuestieHeightmaps:Update()
+	local playerX, playerY, _, map = UnitPosition("Player")
+	if playerX and playerY and map and map >= 0 and map < 2 then -- we only have data for kalimdor and eastern kingdoms 
+		local tileX, tileY = _QuestieHeightmaps:WorldToTile(playerX, playerY)
+
+		-- this checks if the tile is loaded (or queued for load) and if not queues them
+		_QuestieHeightmaps:RequestLoadTile(tileX, tileY)
+		_QuestieHeightmaps:RequestLoadTile(tileX-1, tileY-1)
+		_QuestieHeightmaps:RequestLoadTile(tileX, tileY-1)
+		_QuestieHeightmaps:RequestLoadTile(tileX+1, tileY-1)
+		_QuestieHeightmaps:RequestLoadTile(tileX-1, tileY)
+		_QuestieHeightmaps:RequestLoadTile(tileX+1, tileY)
+		_QuestieHeightmaps:RequestLoadTile(tileX-1, tileY+1)
+		_QuestieHeightmaps:RequestLoadTile(tileX, tileY+1)
+		_QuestieHeightmaps:RequestLoadTile(tileX+1, tileY+1)
+	end
+end
+
+function QuestieHeightmaps:Initialize()
+    C_Timer.NewTicker(1, function() -- we need this in order to only load small chunks of data instead of everything at once
+        local index = tremove(QuestieHeightmaps.queuedToLoad, 1)
+		if index then
+			print("Loading tile " .. index)
+			_QuestieHeightmaps:LoadTile(index)
+		end
+    end)
+end
+
+
+
+
 
 
 
 -- testing globals (todo: REFACTOR/REMOVE!!) (see: HM_Test)
+_QHM = QuestieHeightmaps
 function HM_read(serial, length)
-    local chunkSize = serial:ReadShort()
-    local divisor = serial:ReadByte()
+    local tileSize = serial:ReadShort()
+	local divisor = serial:ReadByte()
+	local tileX = serial:ReadShort() + 32760
+	local tileY = serial:ReadShort() + 32760
     local map = {}
     local crc = 5381
     local lastValue = 0
@@ -174,9 +139,9 @@ function HM_read(serial, length)
     readerContext.isInside = isInside
     readerContext.length = length
     readerContext.i = 1
-    readerContext.entryCount = chunkSize*chunkSize
+    readerContext.entryCount = tileSize*tileSize
     
-    function readOne(serial, context, isSubgroup)
+    local function readOne(serial, context, isSubgroup)
         local op = serial:ReadByte()
         if isSubgroup then
             isSubgroup = "(subgroup) "
@@ -228,7 +193,7 @@ function HM_read(serial, length)
             return {context.lastValue, context.isInside}
         end
     end
-    while readerContext.i <= chunkSize*chunkSize do
+    while readerContext.i <= tileSize*tileSize do
         local val = readOne(serial, readerContext)
         if val then
             readerContext.map[readerContext.i] = val
@@ -247,8 +212,11 @@ function HM_read(serial, length)
         end
     end
     local storedCRC = serial:ReadInt()
-    print("Finished reading "..tostring(chunkSize*chunkSize).." values with CRC: " .. tostring(readerContext.crc) .. " " .. tostring(storedCRC).. " (" .. tostring(serial._pointer-1) .. "/"..tostring(readerContext.length))
-    return readerContext.map
+    print("Finished reading "..tostring(tileSize*tileSize).." values with CRC: " .. tostring(readerContext.crc) .. " " .. tostring(storedCRC).. " (" .. tostring(serial._pointer-1) .. "/"..tostring(readerContext.length))
+	local tile = {}
+	tile.map = readerContext.map
+	
+	return tile
 end
 
 function doCRC(crc, values)
@@ -265,15 +233,34 @@ end
 local function compressNext2(LibDeflate)
     if __compress_index >= __comperss_end then
         print("Finished compressing!")
+		CompressedHeightmaps = {} -- TODO: remove
+		
+		-- merge strings and calculate pointer map
+		local map = ""
+		local pointers = {}
+		local pointer = 1
+
+		for key, blob in pairs(Questie.db.char.compressedHeightmaps) do
+			local size = string.len(blob)
+			local pointerData = {pointer, size}
+			pointers[key] = pointerData
+			map = map .. blob
+			
+			pointer = pointer + size
+		end
+
+		CompressedHeightmaps.data = map
+		CompressedHeightmaps.pointers = QuestieSerializer:Serialize(pointers)
+
         return
     end
     local zone = __compress_map[__compress_index]
     print("Compressing " .. zone)
-    C_Timer.After(2, function()
+    C_Timer.After(0.1, function()
         local zone = __compress_map[__compress_index]
         Questie.db.char.compressedHeightmaps[zone] = LibDeflate:CompressDeflate(QuestieHeightmaps.compressedHeightmaps[zone], configs)
         __compress_index = __compress_index + 1
-        print("   result: " .. tostring(string.len(QuestieHeightmaps.compressedHeightmaps[zone])/1024) .. "kb -> " .. tostring(string.len(CompressedHeightmaps[zone])/1024) .. "kb")
+        print("   result: " .. tostring(string.len(QuestieHeightmaps.compressedHeightmaps[zone])) .. " bytes -> " .. tostring(string.len(Questie.db.char.compressedHeightmaps[zone])) .. " bytes")
         compressNext2(LibDeflate)
     end)
 end
@@ -282,6 +269,20 @@ __comperss_end = 0
 __compress_index = 0
 __compress_map = {}
 function HM_ActuallyCompress()
+
+	local HM_toEncode = {}
+
+	-- convert to strings
+	for index, block in pairs(HM_toEncode) do
+		for index2, val in pairs(block) do
+			block[index2] = string.char(val)
+		end
+		HM_toEncode[index] = table.concat(block)
+	end
+
+	QuestieHeightmaps.compressedHeightmaps = HM_toEncode
+
+
     local idx = 1
     local crc = 5381
     __compress_index = 1
@@ -292,13 +293,13 @@ function HM_ActuallyCompress()
     end
     __comperss_end = idx - 1
     local LibDeflate = LibStub:GetLibrary("LibDeflate")
-    
+    Questie.db.char.compressedHeightmaps = {}
     compressNext2(LibDeflate)
 end
 
 function HM_Test()
     -- re-inflated string from heightmap table (test-uncompressed.lua)
-    local toRead = "\000\064\004\003\127\005\255\005\255\005\255\005\255\005\255\005\255\005\255\005\255\005\007\003\002\001\244\005\255\005\255\005\255\005\255\005\255\005\255\005\255\005\255\005\007\237\056\029\005"
+    local toRead = "\000\064\000\000\000\000\004\003\127\005\255\005\255\005\255\005\255\005\255\005\255\005\255\005\255\005\007\003\002\001\244\005\255\005\255\005\255\005\255\005\255\005\255\005\255\005\255\005\007\237\056\029\005"
     local serial = QuestieLoader:ImportModule("QuestieStreamLib"):GetStream("raw")
     serial:LoadRaw(toRead)
     print("Loaded stream")
@@ -330,3 +331,16 @@ end
 function QuestieHeightmaps:EstimatePlayerHeight()
 
 end
+
+function QuestieHeightmaps:SetMap(map) -- 0=eastern kingdoms, 1=kalimdor (map.dbc)
+	if not map or map ~= QuestieHeightmaps.map then
+		-- todo: actually implement maps (this is just elwynn test data)
+		--end heightmapData
+		--local pointers = QuestieHeightmaps.heightmapPointers[index]
+		QuestieHeightmaps.heightmapData = QuestieHeightmaps.compressedHeightmaps.data
+		QuestieHeightmaps.heightmapPointers = QuestieSerializer:Deserialize(QuestieHeightmaps.compressedHeightmaps.pointers)
+		QuestieHeightmaps.map = map
+
+	end
+end
+
