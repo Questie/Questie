@@ -302,7 +302,7 @@ function worldmapProvider:RefreshAllData(fromOnShow)
     if(type(questData) == "number") then
       quest = QuestieDB:GetQuest(questId);
     end
-    for index, position in pairs(quest.finisherLocations) do
+    for index, position in pairs(quest.finisherLocations or {}) do
       if(closeZones[position.UIMapId]) then
         local x, y = HBD:TranslateZoneCoordinates(position.x/100, position.y/100, position.UIMapId, mapId);
         if(x and y) then

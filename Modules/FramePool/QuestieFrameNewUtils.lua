@@ -6,6 +6,7 @@ QuestieFrameNew.utils.zoneList = nil
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 function QuestieFrameNew.utils:GenerateCloseZones()
+  QuestieFrameNew.utils.zoneList = {}
   local WORLD_MAP_ID = 947;
   local Kalimdor = 1414;
   local EK = 1415;
