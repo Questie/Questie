@@ -425,23 +425,25 @@ function QuestieQuest:AbandonedQuest(questId)
     end
 end
 
-function QuestieQuest:UpdateQuest(QuestId)
-    local quest = QuestieDB:GetQuest(QuestId);
-    if quest and not Questie.db.char.complete[QuestId] then
+function QuestieQuest:UpdateQuest(questId)
+    local quest = QuestieDB:GetQuest(questId)
+    if quest and not Questie.db.char.complete[questId] then
         QuestieQuest:PopulateQuestLogInfo(quest)
         QuestieQuest:GetAllQuestObjectives(quest) -- update quest log values in quest object
         QuestieQuest:UpdateObjectiveNotes(quest)
-        if QuestieQuest:IsComplete(quest) or QuestieQuest:isCompleteByQuestId(QuestId) or IsQuestComplete(QuestId) then
-            --DEFAULT_CHAT_FRAME:AddMessage("Finished " .. QuestId);
-            QuestieMap:UnloadQuestFrames(QuestId);
+        local isComplete = QuestieQuest:IsComplete(quest)
+        if isComplete == 1 then -- Quest is complete
+            QuestieMap:UnloadQuestFrames(questId)
             QuestieQuest:AddFinisher(quest)
-
+        elseif isComplete == -1 then -- Failed quests should be shown as available again
+            QuestieMap:UnloadQuestFrames(questId)
+            _QuestieQuest:DrawAvailableQuest(quest)
         else
             --DEFAULT_CHAT_FRAME:AddMessage("Still not finished " .. QuestId);
         end
         QuestieTracker:Update()
 
-        Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", QuestId);
+        Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
     end
 end
 --Run this if you want to update the entire table
@@ -500,38 +502,25 @@ local function Counthack(tab) -- according to stack overflow, # and table.getn a
     return count
 end
 
-function QuestieQuest:_IsCompleteHack(Quest) -- adding this because I hit my threshold of 3 hours trying to debug why .isComplete isnt working properly-- we can fix this later
-    local logID = GetQuestLogIndexByID(Quest.Id);
-    if logID ~= 0 then
-        _, _, _, _, _, Quest.isComplete, _, _, _, _, _, _, _, _, _, Quest.isHidden = GetQuestLogTitle(logID)
-        if Quest.isComplete and Quest.isComplete == 1 then
-            return true;
-        end
+--@param quest QuestieQuest @The quest to check for completion
+--@return integer @Complete = 1, Failed = -1, Incomplete = 0
+function QuestieQuest:IsComplete(quest)
+    local questId = quest.Id
+    local questLogIndex = GetQuestLogIndexByID(questId)
+    local _, _, _, _, _, isComplete, _, _, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(questLogIndex)
+
+    if isComplete ~= nil then
+        return isComplete -- 1 if the quest is completed, -1 if the quest is failed
     end
+
+    isComplete = IsQuestComplete(questId) -- true if the quest is both in the quest log and complete, false otherwise
+    if isComplete then
+        return 1
+    end
+
+    return 0
 end
 
-function QuestieQuest:isCompleteByQuestId(questId)
-    local logID = GetQuestLogIndexByID(questId);
-    local _, _, _, _, _, isComplete, _, questID, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(logID)
-
-    local allComplete = true;
-    local numQuestLogLeaderBoards = GetNumQuestLeaderBoards(questId)
-    for index=1, numQuestLogLeaderBoards do
-        local desc, type, done = GetQuestLogLeaderBoard(index, questId)
-        if(done == false) then
-            allComplete = false;
-        end
-    end
-    if(isComplete == 1 and allComplete == true) then
-        return true;
-    else
-        return nil;
-    end
-end
-
-function QuestieQuest:IsComplete(Quest)
-    return Quest.Objectives == nil or Counthack(Quest.Objectives) == 0 or Quest.isComplete or QuestieQuest:_IsCompleteHack(Quest);
-end
 -- iterate all notes, update / remove as needed
 function QuestieQuest:UpdateObjectiveNotes(quest)
     Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: UpdateObjectiveNotes:", quest.Id)
@@ -854,7 +843,7 @@ end
 function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to PopulateNotes as it also handles finishers now
     Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:PopulateObjectiveNotes]", "Populating objectives for:", quest.Id)
     if not quest then return; end
-    if QuestieQuest:IsComplete(quest) then
+    if QuestieQuest:IsComplete(quest) == 1 then
         QuestieQuest:AddFinisher(quest)
         return
     end
@@ -1195,34 +1184,6 @@ end
 
 --Draw a single available quest, it is used by the DrawAllAvailableQuests function.
 function _QuestieQuest:DrawAvailableQuest(questObject) -- prevent recursion
-    return _QuestieQuest:DrawAvailableQuest(questObject, false)
-end
-
-function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
-
-    --If the object is nil we just return
-    if (questObject == nil) then
-        return false;
-    end
-
-    -- recheck IsDoable (shouldn't be needed)
-    if not _QuestieQuest:IsDoable(questObject) then return false; end
-
-    -- where applicable, make the exclusivegroup quests available again (TESTED)
-    if questObject.ExclusiveQuestGroup and (not noChildren) then
-        for k, v in pairs(questObject.ExclusiveQuestGroup) do
-            local quest = QuestieDB:GetQuest(v)
-            if _QuestieQuest:IsDoable(quest) then
-                _QuestieQuest:DrawAvailableQuest(quest, true);
-            end
-        end
-    end
-
-    --If we have it in the questlog already, we should not draw any available icons for that shidazzle.
-    if QuestiePlayer.currentQuestlog and QuestiePlayer.currentQuestlog[questObject.Id] then
-        return false;
-    end
-
 
     --TODO More logic here, currently only shows NPC quest givers.
     if questObject.Starts["GameObject"] ~= nil then
@@ -1509,7 +1470,7 @@ function QuestieQuest:CalculateAvailableQuests()
         --Check if we've already completed the quest and that it is not "manually" hidden and that the quest is not currently in the questlog.
         if(
             (not Questie.db.char.complete[questID]) and -- Don't show completed quests
-            (not QuestiePlayer.currentQuestlog[questID]) and -- Don't show quests if they're already in the quest log
+            ((not QuestiePlayer.currentQuestlog[questID]) or QuestieQuest:IsComplete(quest) == -1) and -- Don't show quests if they're already in the quest log
             (not QuestieCorrections.hiddenQuests[questID]) and -- Don't show blacklisted quests
             ((not quest.Repeatable) or (quest.Repeatable and showRepeatableQuests))) then -- Show repeatable quests if the quest is repeatable and the option is enabled
 

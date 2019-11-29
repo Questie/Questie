@@ -732,7 +732,7 @@ function QuestieMap:GetNearestSpawn(objective)
 end
 
 function QuestieMap:GetNearestQuestSpawn(quest)
-    if QuestieQuest:IsComplete(quest) then
+    if QuestieQuest:IsComplete(quest) == 1 then
         local finisher = nil
         if quest.Finisher ~= nil then
             if quest.Finisher.Type == "monster" then
