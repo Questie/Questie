@@ -491,15 +491,17 @@ function QuestieTracker:Update()
             trackerWidth = math.max(trackerWidth, line.label:GetWidth())
 
             -- Add quest timer
+            line = _QuestieTracker:GetNextLine() -- We need to get the potential next line, so the correct line is updated
             local seconds = QuestieQuestTimers:GetQuestTimerByQuestId(questId, line)
             if seconds then
-                line = _QuestieTracker:GetNextLine()
                 line:SetMode("header")
                 line:SetQuest(quest)
                 line.label:SetPoint("TOPLEFT", line, 10, 0)
                 line.label:SetText(seconds)
                 line:Show()
                 line.label:Show()
+            else
+                _QuestieTracker:ResetPreviousLine() -- the quest doesn't have a timer so we can reuse the line
             end
 
             if quest.Objectives and not complete then
@@ -603,6 +605,10 @@ end
 function _QuestieTracker:GetNextLine()
     lineIndex = lineIndex + 1
     return _QuestieTracker.LineFrames[lineIndex]
+end
+
+function _QuestieTracker:ResetPreviousLine()
+    lineIndex = lineIndex - 1
 end
 
 function _QuestieTracker:GetNextItemButton()
