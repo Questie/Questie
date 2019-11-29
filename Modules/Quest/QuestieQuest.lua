@@ -563,6 +563,9 @@ function QuestieQuest:AddFinisher(quest)
         else
             Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_NO_FINISH', questId, quest.name))
         end
+        if(not quest.finisherLocations) then
+            quest.finisherLocations = {}
+        end
         if(finisher ~= nil and finisher.spawns ~= nil) then
             for finisherZone, spawns in pairs(finisher.spawns) do
                 if(finisherZone ~= nil and spawns ~= nil) then
@@ -600,6 +603,13 @@ function QuestieQuest:AddFinisher(quest)
                                     end
 
                                     local icon, _ = QuestieMap:DrawWorldIcon(data, zone, x, y)
+                                    local loc = {}
+                                    loc.x = x;
+                                    loc.y = y;
+                                    loc.UIMapId = ZoneDataAreaIDToUiMapID[zone];
+                                    loc.pinType = "complete";
+                                    loc.questId = quest.Id;
+                                    table.insert(quest.finisherLocations, loc)
 
                                     if(finisher.waypoints and finisher.waypoints[zone]) then
                                         QuestieMap:DrawWaypoints(icon, finisher.waypoints[zone], zone, x, y)
@@ -625,6 +635,13 @@ function QuestieQuest:AddFinisher(quest)
                             end
 
                             local icon, _ = QuestieMap:DrawWorldIcon(data, finisherZone, x, y)
+                            local loc = {}
+                            loc.x = x;
+                            loc.y = y;
+                            loc.UIMapId = ZoneDataAreaIDToUiMapID[finisherZone];
+                            loc.pinType = "complete";
+                            loc.questId = quest.Id;
+                            table.insert(quest.finisherLocations, loc)
 
                             if(finisher.waypoints and finisher.waypoints[finisherZone]) then
                                 QuestieMap:DrawWaypoints(icon, finisher.waypoints[finisherZone], finisherZone, x, y)
@@ -669,7 +686,7 @@ function QuestieQuest:ForceToMap(type, id, label, customScale)
         return mapRefs, miniRefs
     end
 end
-dumpvarr = {}
+
 function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockItemTooltips) -- must be pcalled
     Questie:Debug(DEBUG_SPAM, "[QuestieQuest:PopulateObjective]")
     if not Objective.AlreadySpawned then
@@ -764,16 +781,6 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                     for zone, spawns in pairs(spawnData.Spawns) do
                         for _, spawn in pairs(spawns) do
                             if(spawn[1] and spawn[2]) then
-                                local loc = {}
-                                loc.x = spawn[1];
-                                loc.y = spawn[2];
-                                loc.UIMapId = ZoneDataAreaIDToUiMapID[zone];
-                                loc.pinType = Objective.Type;
-                                loc.questId = Quest.Id;
-                                loc.objectiveIndex = ObjectiveIndex;
-                                loc.targetId = spawnData.Id;
-                                table.insert(questData[Quest.Id][ObjectiveIndex], loc);
-
                                 local drawIcon = {};
                                 drawIcon.AlreadySpawnedId = id;
                                 drawIcon.data = data;
@@ -788,6 +795,22 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                                 local distance = QuestieLib:Euclid(closestStarter[Quest.Id].x or 0, closestStarter[Quest.Id].y or 0, x or 0, y or 0);
                                 drawIcon.distance = distance or 0;
                                 iconsToDraw[Quest.Id][floor(distance)] = drawIcon;
+
+                                local loc = {}
+                                loc.x = spawn[1];
+                                loc.y = spawn[2];
+                                loc.UIMapId = ZoneDataAreaIDToUiMapID[zone];
+                                if(data.Icon == ICON_TYPE_OBJECT) then
+                                    loc.pinType = "object";
+                                else
+                                    loc.pinType = Objective.Type;
+                                end
+                                loc.questId = Quest.Id;
+                                loc.objectiveIndex = ObjectiveIndex;
+                                loc.targetId = spawnData.Id;
+                                loc.distance = distance or 0;
+
+                                table.insert(questData[Quest.Id][ObjectiveIndex], loc);
                             end
                             --maxCount = maxCount + 1
                             --if maxPerType > 0 and maxCount > maxPerType then break; end
@@ -811,8 +834,15 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
         
         for questId, objectiveTable in pairs(questData) do
             local quest = QuestieDB:GetQuest(questId);
+            --[[for objectiveIndex, locations in pairs(objectiveTable) do
+                local range = QUESTIE_CLUSTER_DISTANCE
+                --if orderedList and orderedList[1] and orderedList[1].Icon == ICON_TYPE_OBJECT then -- new clustering / limit code should prevent problems, always show all object notes
+                --    range = range * 0.2;  -- Only use 20% of the default range.
+                --end
+                local hotzones = QuestieMap.utils:CalcHotzones(locations, range, #locations);
+                objectiveTable[objectiveIndex] = hotzones;
+            end]]--
             quest.objectiveIcons = objectiveTable
-            table.insert(dumpvarr, quest.objectiveIcons)
             --table.insert(dumpvarr, questData[questId])
         end
         local spawnedIcons = {}
@@ -1279,10 +1309,24 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                                 if(InstanceLocations[Zone] ~= nil) then
                                     for index, value in ipairs(InstanceLocations[Zone]) do
                                         QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
+                                        local loc = {}
+                                        loc.x = value[2];
+                                        loc.y = value[3];
+                                        loc.UIMapId = ZoneDataAreaIDToUiMapID[value[1]];
+                                        loc.pinType = "available";
+                                        loc.questId = questObject.Id;
+                                        table.insert(questObject.starterLocations, loc)
                                     end
                                 end
                             else
                                 QuestieMap:DrawWorldIcon(data, Zone, coords[1], coords[2])
+                                local loc = {}
+                                loc.x = coords[1];
+                                loc.y = coords[2];
+                                loc.UIMapId = ZoneDataAreaIDToUiMapID[Zone];
+                                loc.pinType = "available";
+                                loc.questId = questObject.Id;
+                                table.insert(questObject.starterLocations, loc)
                             end
                         end
                     end
