@@ -42,6 +42,11 @@ QuestieHeightmaps.queuedToLoad = {}
 
 QuestieHeightmaps.map = -1 -- use QuestieHeightmaps:SetMap
 
+-- used for debugging
+_QuestieHeightmaps.goodCRC = 0
+_QuestieHeightmaps.badCRC = 0
+_QuestieHeightmaps.badCRCList = {}
+
 -- we need to know this value ahead of time so the index can properly be calculated
 -- change this if the heightmap data has been regenerated with a different value
 -- we could also do load(tiles[0]).tileResDivisor but this is fine for now
@@ -60,7 +65,16 @@ function _QuestieHeightmaps:LoadTile(index)
     end 
     local pointers = QuestieHeightmaps.heightmapPointers[index]
     QuestieHeightmaps.stream:LoadRaw(LibDeflate:DecompressDeflate(string.sub(QuestieHeightmaps.heightmapData, pointers[1], pointers[2] + pointers[1])))
-    local tile = HM_read(QuestieHeightmaps.stream, string.len(QuestieHeightmaps.stream._bin)) -- refactor
+    local tile, crcMatched = HM_read(QuestieHeightmaps.stream, string.len(QuestieHeightmaps.stream._bin)) -- refactor
+
+    if crcMatched then
+        _QuestieHeightmaps.goodCRC = _QuestieHeightmaps.goodCRC + 1
+    else
+        _QuestieHeightmaps.badCRC = _QuestieHeightmaps.badCRC + 1
+        tinsert(_QuestieHeightmaps.badCRCList, tostring(tile.tileY) .. ".".. tostring(tile.tileX))
+        print("BAD CRC DETECTED! " .. tostring(index) .. "(" .. tostring(tile.tileY) .. ".".. tostring(tile.tileX) .. ")")
+    end
+
     QuestieHeightmaps.loadedTiles[index] = tile
     _QuestieHeightmaps:UnloadFarthestTile()
 end
@@ -117,6 +131,45 @@ end
 
 
 
+-- tests
+function _QuestieHeightmaps:VerifyNext()
+    -- todo: remove
+    QuestieHeightmaps.loadedTiles = {}
+    C_Timer.After(0.001, function()
+        _QuestieHeightmaps.verifyIndex = _QuestieHeightmaps.verifyIndex + 1
+        if _QuestieHeightmaps.verifyList[_QuestieHeightmaps.verifyIndex] then
+            pcall(_QHM.private.LoadTile, _QHM.private, _QuestieHeightmaps.verifyList[_QuestieHeightmaps.verifyIndex])
+            HM_SetDisplay(_QuestieHeightmaps.verifyList[_QuestieHeightmaps.verifyIndex])
+            _QuestieHeightmaps:VerifyNext()
+        else
+            print("Finished verify! .. good:" .. _QuestieHeightmaps.goodCRC .. " bad:" .. _QuestieHeightmaps.badCRC)
+            Questie.db.char.badCRCList = _QuestieHeightmaps.badCRCList
+        end
+    end)
+end
+function _QuestieHeightmaps:Verify(map)
+    if not map or map < 0 or map > 1 then
+        return
+    end
+    QuestieHeightmaps:SetMap(map)
+    _QuestieHeightmaps.verifyList = {}
+    
+    --todo: remove
+    Questie.db.char.compressedHeightmaps = {}
+
+    local index = 1
+    for key in pairs(QuestieHeightmaps.heightmapPointers) do
+        _QuestieHeightmaps.verifyList[index] = key
+        index = index + 1
+    end
+    _QuestieHeightmaps.verifyIndex = 0
+    _QuestieHeightmaps:VerifyNext()
+end
+
+
+
+
+
 
 
 
@@ -125,8 +178,8 @@ end
 _QHM = QuestieHeightmaps
 function HM_read(serial, length)
     local tileSize = serial:ReadShort()
-    local tileX = serial:ReadShort() + 32760
-    local tileY = serial:ReadShort() + 32760
+    local tileX = serial:ReadShort() - 32760
+    local tileY = serial:ReadShort() - 32760
     local divisor = serial:ReadByte()
     local map = {}
     local crc = 5381
@@ -153,7 +206,7 @@ function HM_read(serial, length)
         end
         if op == 3 then
             op = serial:ReadByte()
-            print(isSubgroup.."swapping isinside: " .. tostring(context.isInside))
+            --print(isSubgroup.."swapping isinside: " .. tostring(context.isInside))
             context.isInside = not context.isInside
         end
         --print(isSubgroup.."readop " .. tostring(op) .. " @ " .. context.i .. "/" .. tostring(context.entryCount) .. " (" .. tostring(serial._pointer-1) .. "/"..tostring(context.length))
@@ -182,7 +235,7 @@ function HM_read(serial, length)
             return ret
         elseif op == 5 then
             local rleCount = serial:ReadByte()
-            print("RLEing: " .. tostring(rleCount))
+            --print("RLEing: " .. tostring(rleCount))
             while rleCount > 0 do
                 context.map[context.i] = {context.lastValue, context.isInside}
                 context.i = context.i + 1
@@ -218,8 +271,10 @@ function HM_read(serial, length)
     print("Finished reading "..tostring(tileSize*tileSize).." values with CRC: " .. tostring(readerContext.crc) .. " " .. tostring(storedCRC).. " (" .. tostring(serial._pointer-1) .. "/"..tostring(readerContext.length))
     local tile = {}
     tile.map = readerContext.map
+    tile.tileX = tileX
+    tile.tileY = tileY
     
-    return tile
+    return tile, storedCRC == readerContext.crc
 end
 
 function doCRC(crc, values)
@@ -302,6 +357,10 @@ local function compressNext2(LibDeflate)
             local tileY = QuestieHeightmaps.stream:ReadShort() - 32760
             tileX = (tileX - offsetX) / (res*divisor)
             tileY = (tileY - offsetY) / (res*divisor)
+            if newPointers[tileX * maxY + tileY] then
+                print("BadMathError!")
+            end
+            print(key .. " -> " .. tostring(tileX * maxY + tileY))
             newPointers[tileX * maxY + tileY] = val
         end
         pointers = newPointers
@@ -334,23 +393,34 @@ function HM_ActuallyCompress()
 
     --local HM_toEncode = {}
 
+    local HM_exclude = { -- autogenerated using java tool
+    }
 
 
     -- convert to strings
-    for index, block in pairs(HM_toEncode) do
+    local excluded = 0
+    local included = 0
+    for index, block in pairs(HM_toEncode) do -- HM_toEncode is set in a separate addon to keep VSCode from lagging
         local count = 0
         for index2, val in pairs(block) do
             block[index2] = string.char(val)
             count = count + 1
         end
         -- check for empty cells by CRC value
-        if (not (block[count]==5 and block[count-1]==0x15 and block[count-2]==0xE2 and block[count-3]==0x24)) and (not (block[count]==5 and block[count-1]==0x15 and block[count-2]==0x39 and block[count-3]==0x58)) then
+        --if (not (block[count]==5 and block[count-1]==0x15 and block[count-2]==0xE2 and block[count-3]==0x24)) and (not (block[count]==5 and block[count-1]==0x15 and block[count-2]==0x39 and block[count-3]==0x58)) then
+        -- check for empty cells by file size --if count > 49 then
+        -- check for empty cells by exclude
+        if not HM_exclude[index] then
             HM_toEncode[index] = table.concat(block)
+            included = included + 1
         else
             print("Excluded empty tile: " .. index)
             HM_toEncode[index] = nil
+            excluded = excluded + 1
         end
     end
+
+    print("Compressing " .. tostring(included) .. " tiles (excluded " .. tostring(excluded) ..")")
 
     QuestieHeightmaps.compressedHeightmaps = HM_toEncode
 
@@ -360,8 +430,10 @@ function HM_ActuallyCompress()
     __compress_index = 1
     CompressedHeightmaps = {}
     for k,v in pairs(QuestieHeightmaps.compressedHeightmaps) do
-        __compress_map[idx] = k
-        idx = idx + 1
+        if v then
+            __compress_map[idx] = k
+            idx = idx + 1
+        end
     end
     __comperss_end = idx - 1
     local LibDeflate = LibStub:GetLibrary("LibDeflate")
@@ -379,8 +451,8 @@ function HM_Test()
 end
 
 
-function HM_CreateDisplay() -- really bad code for debugging the heightmap tiles
-    local key = "-8708,767"
+function HM_CreateDisplay_old(_key) -- really bad code for debugging the heightmap tiles
+    local key=_key or 2805--key = "-8708,767"
 
     pcall(_QHM.SetMap, _QHM, 0)
     pcall(_QHM.private.LoadTile, _QHM.private, key)
@@ -482,6 +554,75 @@ function HM_CreateDisplay() -- really bad code for debugging the heightmap tiles
     frame:Show()
 end
 
+function HM_SetDisplay(key)
+    if not _QuestieHeightmaps.debugDisplay then
+        HM_CreateDisplay()
+    end
+    if not QuestieHeightmaps.loadedTiles[key] then
+        pcall(QuestieHeightmaps.SetMap, QuestieHeightmaps, 0)
+        pcall(QuestieHeightmaps.private.LoadTile, QuestieHeightmaps.private, key)
+    end
+    for x=1,64 do
+        for y=1,64 do
+            local tex = _QuestieHeightmaps.debugDisplay.textures[x*64+y]
+            local idx = (64-y) * 64 + (x)
+            local bright_inside = 0
+            local brightc_inside = 0
+            local bright_outside = 0
+            local brightc_outside = 0
+            local hmcell = QuestieHeightmaps.loadedTiles[key].map[idx]
+            
+            if hmcell and type(hmcell[1]) == "table" then
+                for _, height in pairs(hmcell) do
+                    if height[2] then
+                        bright_inside = bright_inside + height[1]
+                        brightc_inside = brightc_inside + 1
+                    else
+                        bright_outside = bright_outside + height[1]
+                        brightc_outside = brightc_outside + 1
+                    end
+                end
+            elseif hmcell then
+                if hmcell[2] then
+                    bright_inside = hmcell[1]
+                    brightc_inside = 1
+                else
+                    bright_outside = hmcell[1]
+                    brightc_outside = 1
+                end
+            end
+            bright_outside = bright_outside / brightc_outside
+            bright_outside = bright_outside / 256
+            bright_inside = bright_inside / brightc_inside
+            bright_inside = bright_inside / 256
+            
+            tex:SetColorTexture(bright_inside, bright_outside, 0, 1)
+        end
+    end
+end
+
+function HM_CreateDisplay() -- really bad code for debugging the heightmap tiles
+    
+    local frame = CreateFrame("Frame", UIParent)
+    frame:SetWidth(10)
+    frame:SetHeight(10)
+    frame:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
+    frame.textures = {}
+
+    for x=1,64 do
+        for y=1,64 do
+            local tex = frame:CreateTexture(nil, "BACKGROUND")
+            tex:SetWidth(4)
+            tex:SetHeight(4)
+            tex:SetPoint("CENTER", UIParent, "CENTER", x*4, y*4)
+            tex:SetColorTexture(0, 0, 0, 1)
+            frame.textures[x*64 + y] = tex
+        end
+    end
+
+    frame:Show()
+    _QuestieHeightmaps.debugDisplay = frame
+end
 
 
 
@@ -510,9 +651,15 @@ function QuestieHeightmaps:SetMap(map) -- 0=eastern kingdoms, 1=kalimdor (map.db
         -- todo: actually implement maps (this is just elwynn test data)
         --end heightmapData
         --local pointers = QuestieHeightmaps.heightmapPointers[index]
-        QuestieHeightmaps.heightmapData = QuestieHeightmaps.compressedHeightmaps.data
-        QuestieHeightmaps.heightmapPointers = QuestieSerializer:Deserialize(QuestieHeightmaps.compressedHeightmaps.pointers)
+        --azerothData=eastern kingdoms
+        --kalimdorData=kalimdor
+        QuestieHeightmaps.heightmapData = QuestieHeightmaps.kalimdorData.data
+        QuestieHeightmaps.heightmapPointers = QuestieSerializer:Deserialize(QuestieHeightmaps.kalimdorData.pointers)
         QuestieHeightmaps.map = map
+        print("Set map!")
+        for key in pairs(QuestieHeightmaps.heightmapPointers) do
+            print(tostring(key))
+        end
 
     end
 end

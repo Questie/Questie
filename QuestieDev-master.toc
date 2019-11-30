@@ -29,6 +29,8 @@ Database\zoneDB.lua
 Database\specialspawns.lua
 Database\itemDB.lua
 Database\Heightmaps\test.lua
+Database\Heightmaps\Azeroth.lua
+Database\Heightmaps\Kalimdor.lua
 
 #Corrections
 Database\Corrections\QuestieCorrections.lua
