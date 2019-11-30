@@ -92,11 +92,15 @@ function _QuestieHeightmaps:UnloadFarthestTile()
 end
 
 function _QuestieHeightmaps:TileToIndex(x, y)
-    --return x * 
+    --return (math.floor((math.floor(x)-QuestieHeightmaps.tileOffsetX)/QuestieHeightmaps.tileIndexDivisor)) * QuestieHeightmaps.tileMaxY + math.floor((math.floor(y)-QuestieHeightmaps.tileOffsetY)/QuestieHeightmaps.tileIndexDivisor)
+    return (x+1) * QuestieHeightmaps.tileMaxY + y + 1
+    
+    
+    --return (math.floor((math.floor(y+0.5)-QuestieHeightmaps.tileOffsetY)/QuestieHeightmaps.tileIndexDivisor)) * QuestieHeightmaps.tileMaxY + math.floor((math.floor(x+0.5)-QuestieHeightmaps.tileOffsetX)/QuestieHeightmaps.tileIndexDivisor) + 2
 end
 
 function _QuestieHeightmaps:WorldToTile(x, y)
-    return x / QuestieHeightmaps.tileResDivisor, y / QuestieHeightmaps.tileResDivisor
+    return math.floor(x / QuestieHeightmaps.tileResDivisor + 0.5), math.floor(y / QuestieHeightmaps.tileResDivisor + 0.5)
 end
 
 -- called periodically while the player is moving, it doesn't need to be called very often (once every 10+ seconds)
@@ -555,7 +559,21 @@ function HM_CreateDisplay_old(_key) -- really bad code for debugging the heightm
     frame:Show()
 end
 
+function HM_StartDisplayTimer()
+    C_Timer.NewTicker(0.5, HM_SetDisplayHere)
+end
+
+function HM_SetDisplayHere() -- set the display to the current tile (debug)
+    local x, y, _, map = UnitPosition("Player")
+    QuestieHeightmaps:SetMap(map)
+    --HM_SetDisplay(_QuestieHeightmaps:TileToIndex(x, y))
+    HM_SetDisplay(_QuestieHeightmaps:TileToIndex(math.floor((x-QuestieHeightmaps.tileOffsetX) / QuestieHeightmaps.tileIndexDivisor), math.floor((y-QuestieHeightmaps.tileOffsetY) / QuestieHeightmaps.tileIndexDivisor)))
+end
+
 function HM_SetDisplay(key)
+    if not key or key == _HM_LastDisplay then return end
+    _HM_LastDisplay = key
+    print("Setting display to " .. key)
     if not _QuestieHeightmaps.debugDisplay then
         HM_CreateDisplay()
     end
@@ -563,6 +581,9 @@ function HM_SetDisplay(key)
         pcall(QuestieHeightmaps.SetMap, QuestieHeightmaps, 0)
         pcall(QuestieHeightmaps.private.LoadTile, QuestieHeightmaps.private, key)
     end
+    print("Tile location: " .. tostring(QuestieHeightmaps.loadedTiles[key].tileX) .. "," .. tostring(QuestieHeightmaps.loadedTiles[key].tileY+QuestieHeightmaps.tileIndexDivisor) .. " to " .. tostring(QuestieHeightmaps.loadedTiles[key].tileX+QuestieHeightmaps.tileIndexDivisor) .. "," .. tostring(QuestieHeightmaps.loadedTiles[key].tileY))
+    local px, py = UnitPosition("Player")
+    print("Player location: " .. tostring(px) .. "," .. tostring(py))
     for x=1,64 do
         for y=1,64 do
             local tex = _QuestieHeightmaps.debugDisplay.textures[x*64+y]
@@ -592,9 +613,12 @@ function HM_SetDisplay(key)
                     brightc_outside = 1
                 end
             end
+
             bright_outside = bright_outside / brightc_outside
+            --bright_outside = bright_outside - 400
             bright_outside = bright_outside / 256
             bright_inside = bright_inside / brightc_inside
+            --bright_inside = bright_inside - 400
             bright_inside = bright_inside / 256
             
             tex:SetColorTexture(bright_inside, bright_outside, 0, 1)
@@ -609,6 +633,7 @@ function HM_CreateDisplay() -- really bad code for debugging the heightmap tiles
     frame:SetHeight(10)
     frame:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
     frame.textures = {}
+    
 
     for x=1,64 do
         for y=1,64 do
@@ -620,9 +645,34 @@ function HM_CreateDisplay() -- really bad code for debugging the heightmap tiles
             frame.textures[x*64 + y] = tex
         end
     end
+    
+    _QuestieHeightmaps.debugDisplay = frame
+
+    local tex = frame:CreateTexture(nil, "TOOLTIP")
+    tex:SetWidth(4)
+    tex:SetHeight(4)
+    tex:SetPoint("CENTER", UIParent, "CENTER", 4, 4)
+    tex:SetColorTexture(1, 1, 1, 0.7)
+    frame.blink = tex
+    C_Timer.NewTicker(0.1, function() -- TODO: remove
+        HM_SetDisplayHere()
+        local p_x, p_y = UnitPosition("Player")
+        p_x, p_y = _QuestieHeightmaps:WorldToTile(p_x, p_y)
+
+        local t_x, t_y = _QuestieHeightmaps:WorldToTile(QuestieHeightmaps.loadedTiles[_HM_LastDisplay].tileX, QuestieHeightmaps.loadedTiles[_HM_LastDisplay].tileY)
+        p_x = p_x - (t_x-QuestieHeightmaps.heightmapRes)
+        p_y = p_y - (t_y-QuestieHeightmaps.heightmapRes)
+        tex:SetPoint("CENTER", UIParent, "CENTER", 4*(64-p_y), 4*p_x)
+        if _QuestieHeightmaps.debugDisplay.bright then
+            _QuestieHeightmaps.debugDisplay.bright = false
+            _QuestieHeightmaps.debugDisplay.blink:SetColorTexture(1, 1, 1, 0.7)
+        else
+            _QuestieHeightmaps.debugDisplay.bright = true
+            _QuestieHeightmaps.debugDisplay.blink:SetColorTexture(1, 1, 1, 1)
+        end
+    end)
 
     frame:Show()
-    _QuestieHeightmaps.debugDisplay = frame
 end
 
 
@@ -654,13 +704,15 @@ function QuestieHeightmaps:SetMap(map) -- 0=eastern kingdoms, 1=kalimdor (map.db
         --local pointers = QuestieHeightmaps.heightmapPointers[index]
         --azerothData=eastern kingdoms
         --kalimdorData=kalimdor
-        QuestieHeightmaps.heightmapData = QuestieHeightmaps.kalimdorData.data
-        QuestieHeightmaps.heightmapRes = QuestieHeightmaps.kalimdorData.res
-        QuestieHeightmaps.tileResDivisor = QuestieHeightmaps.kalimdorData.tileResDivisor
-        QuestieHeightmaps.tileOffsetX = QuestieHeightmaps.kalimdorData.offsetX
-        QuestieHeightmaps.tileOffsetY = QuestieHeightmaps.kalimdorData.offsetY
+        QuestieHeightmaps.heightmapData = QuestieHeightmaps.azerothData.data
+        QuestieHeightmaps.heightmapRes = QuestieHeightmaps.azerothData.res
+        QuestieHeightmaps.tileResDivisor = QuestieHeightmaps.azerothData.tileResDivisor
+        QuestieHeightmaps.tileOffsetX = QuestieHeightmaps.azerothData.offsetX
+        QuestieHeightmaps.tileOffsetY = QuestieHeightmaps.azerothData.offsetY
+        QuestieHeightmaps.tileMaxY = QuestieHeightmaps.azerothData.maxY
+        QuestieHeightmaps.tileIndexDivisor = QuestieHeightmaps.heightmapRes * QuestieHeightmaps.tileResDivisor
         
-        QuestieHeightmaps.heightmapPointers = QuestieSerializer:Deserialize(QuestieHeightmaps.kalimdorData.pointers)
+        QuestieHeightmaps.heightmapPointers = QuestieSerializer:Deserialize(QuestieHeightmaps.azerothData.pointers)
         QuestieHeightmaps.map = map
         print("Set map!")
         for key in pairs(QuestieHeightmaps.heightmapPointers) do
