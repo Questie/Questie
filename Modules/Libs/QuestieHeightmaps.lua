@@ -653,19 +653,73 @@ function HM_CreateDisplay() -- really bad code for debugging the heightmap tiles
     tex:SetHeight(4)
     tex:SetPoint("CENTER", UIParent, "CENTER", 4, 4)
     tex:SetColorTexture(1, 1, 1, 0.7)
+
+    frame.labels = {}
+
+    for i=1,28 do 
+        frame.labels[i] = frame:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
+        frame.labels[i]:SetJustifyH("LEFT")
+        frame.labels[i]:SetPoint("LEFT", UIParent, "LEFT", 686, 9*29-i*9)
+        frame.labels[i]:SetText("|cFFFFFFFFTest!")
+        frame.labels[i]:SetAlpha(0.6)
+        frame.labels[i]:Hide()
+    end 
+    frame.labels[1]:Show()
+    frame.labels[2]:Show()
+    frame.labels[3]:Show()
+    frame.labels[4]:Show()
+
     frame.blink = tex
     C_Timer.NewTicker(0.1, function() -- TODO: remove
         HM_SetDisplayHere()
         local p_x, p_y = UnitPosition("Player")
+        frame.labels[1]:SetText("|cFFFFFFFFPlayer pos: " .. tostring(math.floor(p_x)) .. ", " .. tostring(math.floor(p_y)))
+        frame.labels[4]:SetText("|cFFFFFFFFTile: " .. tostring(QuestieHeightmaps.loadedTiles[_HM_LastDisplay].tileX) .. ", " .. tostring(QuestieHeightmaps.loadedTiles[_HM_LastDisplay].tileY))
         p_x, p_y = _QuestieHeightmaps:WorldToTile(p_x, p_y)
 
         local t_x, t_y = _QuestieHeightmaps:WorldToTile(QuestieHeightmaps.loadedTiles[_HM_LastDisplay].tileX, QuestieHeightmaps.loadedTiles[_HM_LastDisplay].tileY)
         p_x = p_x - (t_x-QuestieHeightmaps.heightmapRes)
         p_y = p_y - (t_y-QuestieHeightmaps.heightmapRes)
+
+        local p_index = math.floor((64-p_x) * 64 + (64-p_y))
+
+
+        frame.labels[2]:SetText("|cFFFFFFFFPlayer tile pos: " .. tostring(math.floor(p_x)) .. ", " .. tostring(math.floor(p_y)))
+        frame.labels[3]:SetText("|cFFFFFFFFPlayer tile index: " .. tostring(p_index))
+
+
+        local i = 5
+
+        local heights = QuestieHeightmaps.loadedTiles[_HM_LastDisplay].map[p_index]
+        if heights then
+            __HM_LH = heights
+
+            if type(heights[1]) == "table" then
+                for _, height in pairs(heights) do
+                    frame.labels[i]:SetText("Height["..tostring(i-4).."] = {".. tostring(height[1]) .. ", " .. tostring(height[2]) .. "}")--frame.labels[i]:SetText("Height["..tostring(idx).."] = {" .. tostring(height[1]) .. ", " .. tostring(height[2]) .. "}")
+                    frame.labels[i]:Show()
+                    i = i + 1
+                end
+            else
+                frame.labels[i]:SetText("Height[1] = {" .. tostring(heights[1]) .. ", " .. tostring(heights[2]) .. "}")
+                frame.labels[i]:Show()
+                i = 6
+            end
+
+            while i < 28 do
+                frame.labels[i]:Hide()
+                i = i + 1
+            end
+        else
+            for i=5,28 do
+                frame.labels[i]:Hide()
+            end 
+        end
+
         tex:SetPoint("CENTER", UIParent, "CENTER", 4*(64-p_y), 4*p_x)
         if _QuestieHeightmaps.debugDisplay.bright then
             _QuestieHeightmaps.debugDisplay.bright = false
-            _QuestieHeightmaps.debugDisplay.blink:SetColorTexture(1, 1, 1, 0.7)
+            _QuestieHeightmaps.debugDisplay.blink:SetColorTexture(1, 1, 1, 0.6)
         else
             _QuestieHeightmaps.debugDisplay.bright = true
             _QuestieHeightmaps.debugDisplay.blink:SetColorTexture(1, 1, 1, 1)
