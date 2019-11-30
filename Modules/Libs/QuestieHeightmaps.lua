@@ -92,7 +92,7 @@ function _QuestieHeightmaps:UnloadFarthestTile()
 end
 
 function _QuestieHeightmaps:TileToIndex(x, y)
-    return string.format("%d,%d", x, y) -- todo: convert this to a 1D numeric index (ex. index = x * width + y)
+    --return x * 
 end
 
 function _QuestieHeightmaps:WorldToTile(x, y)
@@ -369,6 +369,7 @@ local function compressNext2(LibDeflate)
         CompressedHeightmaps.pointers = QuestieSerializer:Serialize(pointers)
         CompressedHeightmaps.offsetX = offsetX
         CompressedHeightmaps.offsetY = offsetY
+        CompressedHeightmaps.maxY = maxY
         CompressedHeightmaps.tileResDivisor = divisor
         CompressedHeightmaps.res = res
 
@@ -654,6 +655,11 @@ function QuestieHeightmaps:SetMap(map) -- 0=eastern kingdoms, 1=kalimdor (map.db
         --azerothData=eastern kingdoms
         --kalimdorData=kalimdor
         QuestieHeightmaps.heightmapData = QuestieHeightmaps.kalimdorData.data
+        QuestieHeightmaps.heightmapRes = QuestieHeightmaps.kalimdorData.res
+        QuestieHeightmaps.tileResDivisor = QuestieHeightmaps.kalimdorData.tileResDivisor
+        QuestieHeightmaps.tileOffsetX = QuestieHeightmaps.kalimdorData.offsetX
+        QuestieHeightmaps.tileOffsetY = QuestieHeightmaps.kalimdorData.offsetY
+        
         QuestieHeightmaps.heightmapPointers = QuestieSerializer:Deserialize(QuestieHeightmaps.kalimdorData.pointers)
         QuestieHeightmaps.map = map
         print("Set map!")
