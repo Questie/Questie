@@ -609,6 +609,8 @@ function QuestieQuest:AddFinisher(quest)
                                     loc.UIMapId = ZoneDataAreaIDToUiMapID[zone];
                                     loc.pinType = "complete";
                                     loc.questId = quest.Id;
+                                    loc.targetType = quest.Finisher.Type;
+                                    loc.targetId = finisher.id;
                                     table.insert(quest.finisherLocations, loc)
 
                                     if(finisher.waypoints and finisher.waypoints[zone]) then
@@ -641,6 +643,8 @@ function QuestieQuest:AddFinisher(quest)
                             loc.UIMapId = ZoneDataAreaIDToUiMapID[finisherZone];
                             loc.pinType = "complete";
                             loc.questId = quest.Id;
+                            loc.targetType = quest.Finisher.Type;
+                            loc.targetId = finisher.id;
                             table.insert(quest.finisherLocations, loc)
 
                             if(finisher.waypoints and finisher.waypoints[finisherZone]) then
@@ -807,6 +811,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                                 end
                                 loc.questId = Quest.Id;
                                 loc.objectiveIndex = ObjectiveIndex;
+                                loc.targetType = spawnData.Type;
                                 loc.targetId = spawnData.Id;
                                 loc.distance = distance or 0;
 
@@ -1315,6 +1320,8 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                                         loc.UIMapId = ZoneDataAreaIDToUiMapID[value[1]];
                                         loc.pinType = "available";
                                         loc.questId = questObject.Id;
+                                        loc.targetType = "object";
+                                        loc.targetId = ObjectID;
                                         table.insert(questObject.starterLocations, loc)
                                     end
                                 end
@@ -1326,6 +1333,8 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                                 loc.UIMapId = ZoneDataAreaIDToUiMapID[Zone];
                                 loc.pinType = "available";
                                 loc.questId = questObject.Id;
+                                loc.targetType = "object";
+                                loc.targetId = ObjectID;
                                 table.insert(questObject.starterLocations, loc)
                             end
                         end
@@ -1386,6 +1395,8 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                                         loc.UIMapId = ZoneDataAreaIDToUiMapID[zone];
                                         loc.pinType = "available";
                                         loc.questId = questObject.Id;
+                                        loc.targetType = "monster";
+                                        loc.targetId = NPCID;
                                         table.insert(questObject.starterLocations, loc)
 
                                         local icon, _ = QuestieMap:DrawWorldIcon(data, zone, x, y)
@@ -1418,6 +1429,8 @@ function _QuestieQuest:DrawAvailableQuest(questObject, noChildren)
                                 loc.UIMapId = ZoneDataAreaIDToUiMapID[npcZone];
                                 loc.pinType = "available";
                                 loc.questId = questObject.Id;
+                                loc.targetType = "monster";
+                                loc.targetId = NPCID;
                                 table.insert(questObject.starterLocations, loc);
 
                                 local icon, _ = QuestieMap:DrawWorldIcon(data, npcZone, x, y)
