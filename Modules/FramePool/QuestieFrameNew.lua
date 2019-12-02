@@ -117,6 +117,7 @@ texturePool.creationFunc = function(texPool)
 end
 
 texturePool.resetterFunc = function(texPool, texture)
+  texture.textureData = nil;
   texture:SetTexture(136235)
   texture:SetVertexColor(1,1,1,1);
   TexturePool_HideAndClearAnchors(texPool, texture)
@@ -130,9 +131,16 @@ local function AcquireTextures(frame)
 
     --Count the number of pins to place them in the correct place.
     local count = 0;
-    for pinType, questIds in pairs(frame.questData) do
-      count = count + 1;
+    
+    for pinType, typeData in pairs(frame.questData) do
+      for index, questData in pairs(typeData) do
+        --This count is used for positioning of the icons later.
+        count = count + 1;
+      end
     end
+
+    --Increase the width to match the number of icons.
+    frame:SetWidth(16+(count*(16/2)));
 
     --What icon are we currently drawing.
     local iconIndex = 0;
@@ -142,37 +150,55 @@ local function AcquireTextures(frame)
       local textures = {}
       for index, questData in pairs(typeData) do
         --Fetch the color used for the objective.
-        local color = {1, 1, 1, 1};
+        local textureData = {}
+
+        --Populate data for the texture
+        textureData.pinType = pinType;
+        textureData.questId = questData.questId;
+        textureData.texture = typeLookup[pinType]:GetIcon(questData.questId);
+
+
         if(questData.objectiveIndex) then
+          --Fetch the generated color
           local quest = QuestieDB:GetQuest(questData.questId);
-          if(quest and quest.Objectives[questData.objectiveIndex].Color) then
-            color = quest.Objectives[questData.objectiveIndex].Color;
+          if(quest and quest.Objectives and quest.Objectives[questData.objectiveIndex].Color) then
+            textureData.color = quest.Objectives[questData.objectiveIndex].Color;
+          else
+            textureData.color = {1, 1, 1, 1};
+          end
+
+          --We do this because tooltip needs this data to generate.
+          textureData.objectiveIndex = questData.objectiveIndex;
+          if(questData.targetId) then
+            textureData.targetId = questData.targetId;
           end
         end
-        textures[typeLookup[pinType]:GetIcon(questData.questId)] = color;
+        textures[textureData.questId] = textureData;
       end
 
       --Here we draw all the textures that exist on the icon.
-      for texture, color in pairs(textures) do
+      for questId, textureData in pairs(textures) do
           --- Textures
         local newTexture = texturePool:Acquire();
+        
 
         local iconPos = 0
         local glowPos = 0;
         if(count > 1) then
           iconPos = ((count * (16/2))*-1)+(count * (16/2))*iconIndex;
-          glowPos = (((count * (16/2))*-1)+(count * (16/2))*iconIndex)-1;
+          glowPos = (((count * (16/2))*-1)+(count * (16/2))*iconIndex);
         else
           iconPos = 0;
           glowPos = 0;
         end
+        newTexture.textureData = textureData;
 
-        newTexture:SetTexture(texture);
+        newTexture:SetTexture(textureData.texture);
         newTexture:SetParent(frame);
         newTexture:SetDrawLayer("OVERLAY", typeLookup[pinType]:GetDrawLayer())
         newTexture:SetPoint("CENTER", frame, "CENTER", iconPos, 0);
         if(Questie.db.global.questObjectiveColors) then
-          newTexture:SetVertexColor(unpack(color));
+          newTexture:SetVertexColor(unpack(textureData.color));
         end
         newTexture:SetSize((16 * typeLookup[pinType]:GetIconScale())*globalScale, (16 * typeLookup[pinType]:GetIconScale())*globalScale)
         newTexture:Show();
@@ -180,14 +206,14 @@ local function AcquireTextures(frame)
         if(pinType ~= "available" and pinType ~= "complete" and Questie.db.global.alwaysGlowMap) then
           local glowt = texturePool:Acquire();
           glowt:SetTexture(ICON_TYPE_GLOW)
-          glowt:SetVertexColor(unpack(color));
+          glowt:SetVertexColor(unpack(textureData.color));
           glowt:SetDrawLayer("OVERLAY", -1)
           glowt:SetParent(frame);
           glowt:SetPoint("CENTER", frame, "CENTER", glowPos, 0);
           glowt:SetSize((18 * typeLookup[pinType]:GetIconScale())*globalScale, (18 * typeLookup[pinType]:GetIconScale())*globalScale)
           glowt:Show();
 
-          frame.glowTexture = glowt
+          newTexture.glowTexture = glowt
         end
 
         iconIndex = iconIndex +1;
@@ -209,6 +235,9 @@ local function ReleaseTextures(frame)
   end
   if(frame.textures) then
     for index, tex in pairs(frame.textures) do
+      if(tex.glowTexture) then
+        texturePool:Release(tex.glowTexture);
+      end
       texturePool:Release(tex);
     end
     frame.textures = {};
@@ -277,6 +306,10 @@ function worldmapProvider:RefreshAllData(fromOnShow)
   --Map icons are disabled.
   if(not Questie.db.global.enableMapIcons) then return; end
 
+  local enableAvailable = Questie.db.global.enableAvailable;
+  local enableTurnins = Questie.db.global.enableTurnins;
+  local enableObjectives = Questie.db.global.enableObjectives;
+
   --temporary should be moved.
   if(not QuestieFrameNew.utils.zoneList) then
     QuestieFrameNew.utils:GenerateCloseZones();
@@ -287,7 +320,7 @@ function worldmapProvider:RefreshAllData(fromOnShow)
   local allPins = {};
 
   --Available quests
-  if (Questie.db.global.enableAvailable) then
+  if (enableAvailable) then
     for questId, _ in pairs(QuestieQuest.availableQuests) do
       local quest = QuestieDB:GetQuest(questId);
       for index, position in pairs(quest.starterLocations) do
@@ -301,34 +334,29 @@ function worldmapProvider:RefreshAllData(fromOnShow)
     end
   end
 
-  --Complete quests
-  if (Questie.db.global.enableTurnins) then
-    for questId, questData in pairs(QuestiePlayer.currentQuestlog) do
-      local quest = questData;
-      if(type(questData) == "number") then
-        quest = QuestieDB:GetQuest(questId);
-      end
-      if(quest.finisherLocations) then
-        for index, position in pairs(quest.finisherLocations) do
-          if(closeZones[position.UIMapId]) then
-            local x, y = HBD:TranslateZoneCoordinates(position.x/100, position.y/100, position.UIMapId, mapId);
-            if(x and y) then
-              table.insert(allPins, position);
+  for questId, questData in pairs(QuestiePlayer.currentQuestlog) do
+    Questie:Print("--Adding quest -> ", questId)
+    local quest = questData;
+    if(type(questData) == "number") then
+      quest = QuestieDB:GetQuest(questId);
+    end
+
+    --Complete quests
+    if (enableTurnins) then
+        if(quest.finisherLocations) then
+          for index, position in pairs(quest.finisherLocations) do
+            if(closeZones[position.UIMapId]) then
+              local x, y = HBD:TranslateZoneCoordinates(position.x/100, position.y/100, position.UIMapId, mapId);
+              if(x and y) then
+                table.insert(allPins, position);
+              end
             end
           end
         end
-      end
     end
-  end
 
-  --Objectives
-  if(Questie.db.global.enableObjectives) then
-    for questId, questData in pairs(QuestiePlayer.currentQuestlog) do
-      Questie:Print("--Adding quest -> ", questId)
-      local quest = questData;
-      if(type(questData) == "number") then
-        quest = QuestieDB:GetQuest(questId);
-      end
+    --Objectives
+    if(enableObjectives) then
       if(quest.objectiveIcons) then
         for objectiveIndex, spawnData in pairs(quest.objectiveIcons) do
           Questie:Print("---->", objectiveIndex)
@@ -347,6 +375,7 @@ function worldmapProvider:RefreshAllData(fromOnShow)
   end
 
   Questie:Print("--------------------------------------------------------------------")
+  Questie:Debug(DEBUG_ELEVATED, "Drawing icons, current size of icon list:", #allPins);
   local hotzones = QuestieMap.utils:CalcHotzones(allPins, 70, #allPins);
 
   for _, positions in pairs(hotzones) do
@@ -390,7 +419,8 @@ function worldmapProviderPin:OnAcquired(pinType, questData, x, y, frameLevelType
     self:UseFrameLevelType(frameLevelType or "PIN_FRAME_LEVEL_AREA_POI")
     self:SetPosition(x, y)
     self.questData = questData;
-    self.pinType = pinType;
+    self.pinType = pinType; --not used or correct
+    self.position = {x=x, y=y, z=nil}; --Insert heightmap
 
     AcquireTextures(self);
 
@@ -401,6 +431,9 @@ function worldmapProviderPin:OnReleased()
   Questie:Debug(DEBUG_DEVELOP, "[QuestieFrameNew] OnReleased");
   self.questData = {};
   self.pinType = "";
+  self.poisition = nil;
+  --Reset the width incase we've previously been a combined icon.
+  self:SetWidth(16);
   ReleaseTextures(self);
   if self.icon then
       --self.icon:Hide()

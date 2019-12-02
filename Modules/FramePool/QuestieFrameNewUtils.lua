@@ -15,6 +15,7 @@ function QuestieFrameNew.utils:GenerateCloseZones()
       QuestieFrameNew.utils.zoneList[UIMapId] = {}
     end
 
+    --Calculate close zones.
     for UIMapId2, zoneData2 in pairs(HBD.mapData) do
       if(UIMapId == WORLD_MAP_ID) then
         QuestieFrameNew.utils.zoneList[UIMapId][UIMapId2] = true;
