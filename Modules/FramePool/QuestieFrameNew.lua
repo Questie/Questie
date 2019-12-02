@@ -9,15 +9,30 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
+---@type QuestieSerializer
+local QuestieSerializer = QuestieLoader:ImportModule("QuestieSerializer");
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 
-local zoneCache = {}
+local enumerator = 0; -- DO EDIT.
+QuestieFrameNew.stringEnum = setmetatable({}, {
+  __index = function(stringEnum, key)
+     if not stringEnum[key] then
+        DEFAULT_CHAT_FRAME:AddMessage("stringEnum settings enum:"..key.. " enumID:".. enumerator);
+        rawset(stringEnum, key, enumerator);
+        rawset(stringEnum, enumerator, key);
+        enumerator = enumerator + 1;
+        return stringEnum[key]
+     else
+        return stringEnum[key]
+     end
+  end
+})
 
 
 local typeLookup = {}
-typeLookup["available"] = {};
-function typeLookup.available:GetIcon(questId)
+typeLookup[QuestieFrameNew.stringEnum["available"]] = {};
+typeLookup[QuestieFrameNew.stringEnum["available"]].GetIcon = function(questId)
   local questObject = QuestieDB:GetQuest(questId);
   if(questObject) then
     if questObject.requiredLevel > QuestiePlayer.GetPlayerLevel() then
@@ -32,65 +47,65 @@ function typeLookup.available:GetIcon(questId)
   end
   return ICON_TYPE_AVAILABLE;
 end
-function typeLookup.available:GetIconScale()
+typeLookup[QuestieFrameNew.stringEnum["available"]].GetIconScale = function()
   return Questie.db.global.availableScale or 1.3;
 end
-function typeLookup.available:GetDrawLayer()
+typeLookup[QuestieFrameNew.stringEnum["available"]].GetDrawLayer = function()
   return 1;
 end
 
-typeLookup["complete"] = {};
-function typeLookup.complete:GetIcon()
+typeLookup[QuestieFrameNew.stringEnum["complete"]] = {};
+typeLookup[QuestieFrameNew.stringEnum["complete"]].GetIcon = function()
   return ICON_TYPE_COMPLETE;
 end
-function typeLookup.complete:GetIconScale()
+typeLookup[QuestieFrameNew.stringEnum["complete"]].GetIconScale = function()
   return Questie.db.global.availableScale or 1.3;
 end
-function typeLookup.complete:GetDrawLayer()
+typeLookup[QuestieFrameNew.stringEnum["complete"]].GetDrawLayer = function()
   return 2;
 end
 
-typeLookup["event"] = {};
-function typeLookup.event:GetIcon()
+typeLookup[QuestieFrameNew.stringEnum["event"]] = {};
+typeLookup[QuestieFrameNew.stringEnum["event"]].GetIcon = function()
   return ICON_TYPE_EVENT;
 end
-function typeLookup.event:GetIconScale()
+typeLookup[QuestieFrameNew.stringEnum["event"]].GetIconScale = function()
   return Questie.db.global.eventScale or 1.3;
 end
-function typeLookup.event:GetDrawLayer()
+typeLookup[QuestieFrameNew.stringEnum["event"]].GetDrawLayer = function()
   return 0;
 end
 
-typeLookup["item"] = {};
-function typeLookup.item:GetIcon()
+typeLookup[QuestieFrameNew.stringEnum["item"]] = {};
+typeLookup[QuestieFrameNew.stringEnum["item"]].GetIcon = function()
   return ICON_TYPE_LOOT;
 end
-function typeLookup.item:GetIconScale()
+typeLookup[QuestieFrameNew.stringEnum["item"]].GetIconScale = function()
   return Questie.db.global.lootScale or 1.3;
 end
-function typeLookup.item:GetDrawLayer()
+typeLookup[QuestieFrameNew.stringEnum["item"]].GetDrawLayer = function()
   return 0;
 end
 
-typeLookup["monster"] = {};
-function typeLookup.monster:GetIcon()
+typeLookup[QuestieFrameNew.stringEnum["monster"]] = {};
+typeLookup[QuestieFrameNew.stringEnum["monster"]].GetIcon = function()
   return ICON_TYPE_SLAY;
 end
-function typeLookup.monster:GetIconScale()
+typeLookup[QuestieFrameNew.stringEnum["monster"]].GetIconScale = function()
   return Questie.db.global.monsterScale or 1.3;
 end
-function typeLookup.monster:GetDrawLayer()
+typeLookup[QuestieFrameNew.stringEnum["monster"]].GetDrawLayer = function()
   return 0;
 end
 
-typeLookup["object"] = {};
-function typeLookup.object:GetIcon()
+typeLookup[QuestieFrameNew.stringEnum["object"]] = {};
+typeLookup[QuestieFrameNew.stringEnum["object"]].GetIcon = function()
   return ICON_TYPE_OBJECT;
 end
-function typeLookup.object:GetIconScale()
+typeLookup[QuestieFrameNew.stringEnum["object"]].GetIconScale = function()
   return Questie.db.global.objectScale or 1.3;
 end
-function typeLookup.object:GetDrawLayer()
+typeLookup[QuestieFrameNew.stringEnum["object"]].GetDrawLayer = function()
   return 0;
 end
 
@@ -145,17 +160,19 @@ local function AcquireTextures(frame)
     --What icon are we currently drawing.
     local iconIndex = 0;
 
-    for pinType, typeData in pairs(frame.questData) do
+    for rawPinType, typeData in pairs(frame.questData) do
       --Here we fetch the texture for each used pinType
       local textures = {}
       for index, questData in pairs(typeData) do
         --Fetch the color used for the objective.
+        ---@class TextureData
         local textureData = {}
 
         --Populate data for the texture
-        textureData.pinType = pinType;
+        textureData.pinTypeId = QuestieFrameNew.stringEnum[rawPinType];
         textureData.questId = questData.questId;
-        textureData.texture = typeLookup[pinType]:GetIcon(questData.questId);
+
+        textureData.textureId = QuestieFrameNew.stringEnum[typeLookup[textureData.pinTypeId]:GetIcon(questData.questId)];
 
 
         if(questData.objectiveIndex) then
@@ -169,56 +186,86 @@ local function AcquireTextures(frame)
 
           --We do this because tooltip needs this data to generate.
           textureData.objectiveIndex = questData.objectiveIndex;
-          if(questData.targetId) then
-            textureData.targetId = questData.targetId;
-          end
         end
-        textures[textureData.questId] = textureData;
+
+        if(questData.targetType) then
+          textureData.targetType = questData.targetType;
+        end
+        if(questData.targetId) then
+          textureData.targetId = questData.targetId;
+        end
+        if(not textures[textureData.questId]) then
+          textures[textureData.questId] = {}
+        end
+        if(questData.objectiveIndex) then
+          textures[textureData.questId][questData.objectiveIndex] = textureData;
+        else
+          textures[textureData.questId][0] = textureData;
+        end
       end
 
       --Here we draw all the textures that exist on the icon.
-      for questId, textureData in pairs(textures) do
+      for questId, questDataList in pairs(textures) do
+        ---@param textureData TextureData
+        for objectiveIndex, textureData in pairs(questDataList) do
           --- Textures
-        local newTexture = texturePool:Acquire();
-        
+          --We want the textureData to be Serialized to save space.
+          ---@class IconTextureNew
+          local newTexture = setmetatable(texturePool:Acquire(), {
+            __index = function(textureTable, key)
+              if key == "textureData" and textureTable[key] then
+                  return QuestieSerializer:Deserialize(textureTable[key]);
+              else
+                  return textureTable[key]
+              end
+            end,
+            __newindex = function(textureTable, key, value)
+              if(key == "textureData") then
+                rawset(textureTable, key, QuestieSerializer:Serialize(value))
+              else
+                rawset(textureTable, key, value)
+              end
+            end
+          })
+          newTexture.textureData = textureData;
 
-        local iconPos = 0
-        local glowPos = 0;
-        if(count > 1) then
-          iconPos = ((count * (16/2))*-1)+(count * (16/2))*iconIndex;
-          glowPos = (((count * (16/2))*-1)+(count * (16/2))*iconIndex);
-        else
-          iconPos = 0;
-          glowPos = 0;
+
+          local iconPos = 0
+          local glowPos = 0;
+          if(count > 1) then
+            iconPos = ((count * (16/2))*-1)+(count * (16/2))*iconIndex;
+            glowPos = (((count * (16/2))*-1)+(count * (16/2))*iconIndex);
+          else
+            iconPos = 0;
+            glowPos = 0;
+          end
+
+          newTexture:SetTexture(typeLookup[textureData.pinTypeId]:GetIcon(textureData.questId));
+          newTexture:SetParent(frame);
+          newTexture:SetDrawLayer("OVERLAY", typeLookup[textureData.pinTypeId]:GetDrawLayer())
+          newTexture:SetPoint("CENTER", frame, "CENTER", iconPos, 0);
+          if(Questie.db.global.questObjectiveColors) then
+            newTexture:SetVertexColor(unpack(textureData.color));
+          end
+          newTexture:SetSize((16 * typeLookup[textureData.pinTypeId]:GetIconScale())*globalScale, (16 * typeLookup[textureData.pinTypeId]:GetIconScale())*globalScale)
+          newTexture:Show();
+
+          if(textureData.pinTypeId ~= QuestieFrameNew.stringEnum["available"] and textureData.pinTypeId ~= QuestieFrameNew.stringEnum["complete"] and Questie.db.global.alwaysGlowMap) then
+            local glowt = texturePool:Acquire();
+            glowt:SetTexture(ICON_TYPE_GLOW)
+            glowt:SetVertexColor(unpack(textureData.color));
+            glowt:SetDrawLayer("OVERLAY", -1)
+            glowt:SetParent(frame);
+            glowt:SetPoint("CENTER", frame, "CENTER", glowPos, 0);
+            glowt:SetSize((18 * typeLookup[textureData.pinTypeId]:GetIconScale())*globalScale, (18 * typeLookup[textureData.pinTypeId]:GetIconScale())*globalScale)
+            glowt:Show();
+
+            newTexture.glowTexture = glowt
+          end
+
+          iconIndex = iconIndex +1;
+          table.insert(frame.textures, newTexture);
         end
-        newTexture.textureData = textureData;
-
-        newTexture:SetTexture(textureData.texture);
-        newTexture:SetParent(frame);
-        newTexture:SetDrawLayer("OVERLAY", typeLookup[pinType]:GetDrawLayer())
-        newTexture:SetPoint("CENTER", frame, "CENTER", iconPos, 0);
-        if(Questie.db.global.questObjectiveColors) then
-          newTexture:SetVertexColor(unpack(textureData.color));
-        end
-        newTexture:SetSize((16 * typeLookup[pinType]:GetIconScale())*globalScale, (16 * typeLookup[pinType]:GetIconScale())*globalScale)
-        newTexture:Show();
-
-        if(pinType ~= "available" and pinType ~= "complete" and Questie.db.global.alwaysGlowMap) then
-          local glowt = texturePool:Acquire();
-          glowt:SetTexture(ICON_TYPE_GLOW)
-          glowt:SetVertexColor(unpack(textureData.color));
-          glowt:SetDrawLayer("OVERLAY", -1)
-          glowt:SetParent(frame);
-          glowt:SetPoint("CENTER", frame, "CENTER", glowPos, 0);
-          glowt:SetSize((18 * typeLookup[pinType]:GetIconScale())*globalScale, (18 * typeLookup[pinType]:GetIconScale())*globalScale)
-          glowt:Show();
-
-          newTexture.glowTexture = glowt
-        end
-
-        iconIndex = iconIndex +1;
-        ---@class IconTexture
-        table.insert(frame.textures, newTexture);
       end
     end
 
@@ -447,11 +494,124 @@ function worldmapProviderPin:OnClick(button)
   -- Override in your mixin, called when this pin is clicked
   Questie:Print(DEBUG_DEVELOP, "[QuestieFrameNew] OnClick", button);
 end
+
+---@param textureData TextureData
+---@return string
+local function GetName(textureData)
+  if(textureData and textureData.targetId) then
+    if(textureData.targetType == "monster") then
+      return QuestieDB:GetNPC(textureData.targetId).name;
+    elseif(textureData.targetType == "item") then
+      return QuestieDB:GetItem(textureData.targetId).name;
+    elseif(textureData.targetType == "object") then
+      return QuestieDB:GetObject(textureData.targetId).name;
+    elseif(textureData.targetType == "event") then
+      return QuestieDB:GetQuest(textureData.questId).Objectives[textureData.objectiveIndex].Description or "Event Trigger";
+    end
+  end
+  return "TYPE NOT IMPLEMENTED?";
+end
+
 function worldmapProviderPin:OnMouseEnter()
 	-- Override in your mixin, called when the mouse enters this pin
   Questie:Print(DEBUG_DEVELOP, "[QuestieFrameNew] OnMouseEnter", self.questData[1].Id, self.questData[1].name);
 
+  
+  local tooltips = {};
+  ---@param texture IconTextureNew
+  for _, texture in pairs(self.textures) do
+    ---@type TextureData
+    local textureData = texture.textureData;
+    if(QuestieFrameNew.stringEnum["available"] == textureData.pinTypeId) then
+      local name = GetName(textureData);
+      if(not tooltips[QuestieFrameNew.stringEnum[textureData.pinTypeId]][name]) then
+        tooltips[QuestieFrameNew.stringEnum[textureData.pinTypeId]][name] = {}
+      end
+      ---@type AvailableTooltip
+      local tooltipData = GetAvailableOrCompleteTooltip(textureData);
+      table.insert(tooltips[QuestieFrameNew.stringEnum[textureData.pinTypeId]][name], tooltipData);
+    end
+  end
+
+  --[[for rawPinType, typeData in pairs(self.questData) do
+    if(not tooltips[rawPinType]) then
+      tooltips[rawPinType] = {}
+    end
+    if(rawPinType == "available" or rawPinType == "complete") then
+      for index, questData in pairs(typeData) do
+        local name = questData:GetName();
+        if(not tooltips[rawPinType][name]) then
+          tooltips[rawPinType][name] = {}
+        end
+        ---@type AvailableTooltip
+        local tooltipData = GetAvailableOrCompleteTooltip(questData);
+        table.insert(tooltips[rawPinType][name], GetAvailableOrCompleteTooltip(questData));
+      end
+    end
+  end]]--
+
+  local Tooltip = GameTooltip;
+  Tooltip._owner = self;
+  Tooltip:SetOwner(self, "ANCHOR_CURSOR"); --"ANCHOR_CURSOR" or (self, self)
+  function Tooltip:_Rebuild()
+    local xpString = QuestieLocale:GetUIString('XP');
+    local shift = IsShiftKeyDown()
+    for name, tooltipData in pairs(tooltips["available"] or {}) do
+      self:AddLine(name);
+      ---@param questInfo AvailableTooltip
+      for _, questInfo in pairs(tooltipData) do
+        self:AddDoubleLine(questInfo.title, questInfo.type);
+        if(shift) then
+          self:AddLine(questInfo.description)
+        end
+      end
+    end
+  end
+
 end
+
+--Available / Complete
+--local loc = {}
+--loc.x = x;
+--loc.y = y;
+--loc.UIMapId = ZoneDataAreaIDToUiMapID[zone];
+--loc.pinType = "available" / "complete";
+--loc.questId = quest.Id;
+--loc.targetType = "monster" / "object"
+--loc.targetId = finisher.id;
+--function loc:GetName()
+
+---@param textureData TextureData
+function GetAvailableOrCompleteTooltip(textureData)
+  ---@class AvailableTooltip
+  local tip = {};
+  local quest = QuestieDB:GetQuest(textureData.questId);
+  if(quest) then
+
+    if textureData.pinTypeId == QuestieFrameNew.stringEnum["complete"] then
+        tip.type = QuestieLocale:GetUIString("TOOLTIP_QUEST_COMPLETE");
+    else
+        local questType, questTag = GetQuestTagInfo(textureData.questId);
+        if(quest.Repeatable) then
+            tip.type = QuestieLocale:GetUIString("TOOLTIP_QUEST_REPEATABLE");--"(Repeatable)"; --
+        elseif(questType == 81 or questType == 83 or questType == 62 or questType == 41 or questType == 1) then
+            -- Dungeon or Legendary or Raid or PvP or Group(Elite)
+            tip.type = "("..questTag..")";
+        elseif(QuestieEvent and QuestieEvent.activeQuests[quest.Id]) then
+            tip.type = QuestieLocale:GetUIString("TOOLTIP_QUEST_EVENT");--"(Event)";--QuestieLocale:GetUIString("TOOLTIP_QUEST_AVAILABLE");
+        else
+            tip.type = QuestieLocale:GetUIString("TOOLTIP_QUEST_AVAILABLE");
+        end
+    end
+    tip.type = QuestieFrameNew.stringEnum[textureData.pinTypeId];
+    tip.title = quest:GetColoredQuestName(true)
+    tip.description = quest.Description
+    tip.questId = quest.Id;
+  end
+
+  return tip;
+end
+
 function worldmapProviderPin:OnMouseLeave()
 	-- Override in your mixin, called when the mouse leaves this pin
   Questie:Print(DEBUG_DEVELOP, "[QuestieFrameNew] OnMouseLeave", self);
