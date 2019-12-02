@@ -397,7 +397,7 @@ function QuestieTracker:Update()
     for questId in pairs (QuestiePlayer.currentQuestlog) do
         local quest = QuestieDB:GetQuest(questId)
         if quest then
-            if QuestieQuest:IsComplete(quest) or not quest.Objectives then
+            if QuestieQuest:IsComplete(quest) == 1 or not quest.Objectives then
                 questCompletePercent[quest.Id] = 1
             else
                 local percent = 0
@@ -446,8 +446,8 @@ function QuestieTracker:Update()
             end
         end
 
-        local complete = QuestieQuest:IsComplete(quest)
-        if ((not complete) or Questie.db.global.trackerShowCompleteQuests) and ((GetCVar("autoQuestWatch") == "1" and not Questie.db.char.AutoUntrackedQuests[questId]) or (GetCVar("autoQuestWatch") == "0" and Questie.db.char.TrackedQuests[questId]))  then -- maybe have an option to display quests in the list with (Complete!) in the title
+        local isComplete = QuestieQuest:IsComplete(quest)
+        if ((isComplete ~= 1) or Questie.db.global.trackerShowCompleteQuests) and ((GetCVar("autoQuestWatch") == "1" and not Questie.db.char.AutoUntrackedQuests[questId]) or (GetCVar("autoQuestWatch") == "0" and Questie.db.char.TrackedQuests[questId]))  then -- maybe have an option to display quests in the list with (Complete!) in the title
             hasQuest = true
             line = _QuestieTracker:GetNextLine()
             line:SetMode("header")
@@ -483,7 +483,7 @@ function QuestieTracker:Update()
             end
 
             local questName = (quest.LocalizedName or quest.name)
-            local coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, questName, quest.level, Questie.db.global.trackerShowQuestLevel, complete)
+            local coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, questName, quest.level, Questie.db.global.trackerShowQuestLevel, isComplete)
             line.label:SetText(coloredQuestName)
 
             line:Show()
@@ -491,18 +491,19 @@ function QuestieTracker:Update()
             trackerWidth = math.max(trackerWidth, line.label:GetWidth())
 
             -- Add quest timer
+            line = _QuestieTracker:GetNextLine() -- We need to get the potential next line, so the correct line is updated
             local seconds = QuestieQuestTimers:GetQuestTimerByQuestId(questId, line)
             if seconds then
-                line = _QuestieTracker:GetNextLine()
                 line:SetMode("header")
                 line:SetQuest(quest)
-                line.label:SetPoint("TOPLEFT", line, 10, 0)
-                line.label:SetText(seconds)
+                line.label:SetText("    " .. seconds)
                 line:Show()
                 line.label:Show()
+            else
+                _QuestieTracker:ResetPreviousLine() -- the quest doesn't have a timer so we can reuse the line
             end
 
-            if quest.Objectives and not complete then
+            if quest.Objectives and isComplete == 0 then
                 for _, objective in pairs(quest.Objectives) do
                     line = _QuestieTracker:GetNextLine()
                     line:SetMode("line")
@@ -603,6 +604,10 @@ end
 function _QuestieTracker:GetNextLine()
     lineIndex = lineIndex + 1
     return _QuestieTracker.LineFrames[lineIndex]
+end
+
+function _QuestieTracker:ResetPreviousLine()
+    lineIndex = lineIndex - 1
 end
 
 function _QuestieTracker:GetNextItemButton()

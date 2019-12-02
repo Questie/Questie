@@ -125,7 +125,7 @@ function QuestieTracker.menu:GetMenuForQuest(quest)
     end
 
     tinsert(menu, {text=quest:GetColoredQuestName(), isTitle = true})
-    if not QuestieQuest:IsComplete(quest) then
+    if QuestieQuest:IsComplete(quest) == 0 then
         tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_OBJECTIVES'), hasArrow = true, menuList = subMenu})
     end
     if quest.HideIcons then
@@ -148,7 +148,7 @@ function QuestieTracker.menu:GetMenuForQuest(quest)
             QuestieTracker.utils:SetTomTomTarget(name, zone, spawn[1], spawn[2])
         end
     end})
-    if QuestieQuest:IsComplete(quest) then
+    if QuestieQuest:IsComplete(quest) == 1 then
         tinsert(menu, {text = QuestieLocale:GetUIString('TRACKER_SHOW_ON_MAP'), func = function()
             LQuestie_CloseDropDownMenus()
             QuestieTracker.utils:ShowFinisherOnMap(quest)

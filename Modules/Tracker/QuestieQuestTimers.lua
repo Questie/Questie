@@ -62,7 +62,7 @@ _UpdateTimerFrame = function()
     if questTimers then
         for i, timer in pairs(_QuestieQuestTimers.timers) do
             local seconds = select(i, questTimers)
-            timer.label:SetText(SecondsToTime(seconds))
+            timer.label:SetText("    " .. SecondsToTime(seconds))
         end
     else
         _QuestieQuestTimers.timers = {}
