@@ -24,6 +24,7 @@ _QuestieQuest.objectiveSpawnListCallTable = {
         mon.Spawns = npc.spawns
         mon.Icon = ICON_TYPE_SLAY
         mon.Id = id
+        mon.Type = "monster";
         mon.GetIconScale = function() return Questie.db.global.monsterScale or 1 end
         mon.IconScale = mon:GetIconScale();
         mon.TooltipKey = "m_" .. id -- todo: use ID based keys
@@ -43,6 +44,7 @@ _QuestieQuest.objectiveSpawnListCallTable = {
         obj.Name = object.name
         obj.Spawns = object.spawns
         obj.Icon = ICON_TYPE_LOOT
+        obj.Type = "object";
         obj.GetIconScale = function() return Questie.db.global.objectScale or 1 end
         obj.IconScale = obj:GetIconScale()
         obj.TooltipKey = "o_" .. id
@@ -59,6 +61,7 @@ _QuestieQuest.objectiveSpawnListCallTable = {
         ret[1].GetIconScale = function() return Questie.db.global.eventScale or 1.35 end
         ret[1].IconScale = ret[1]:GetIconScale();
         ret[1].Id = id or 0
+        ret[1].Type = "event";
         if Objective.Coordinates then
             ret[1].Spawns = Objective.Coordinates
         elseif Objective.Description then-- we need to fall back to old questie data, some events are missing in the new DB
@@ -109,6 +112,7 @@ _QuestieQuest.objectiveSpawnListCallTable = {
                                 end
                                 ret[id].TooltipKey = sourceData.TooltipKey
                                 ret[id].Id = id
+                                ret[id].Type = source.Type;
                             end
                             if sourceData.Spawns and not item.Hidden then
                                 for zone, spawns in pairs(sourceData.Spawns) do
