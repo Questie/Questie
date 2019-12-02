@@ -112,6 +112,8 @@ function QuestieDB:GetObject(objectID)
     return obj;
 end
 
+---@param itemID integer
+---@return Item
 function QuestieDB:GetItem(itemID)
     if itemID == nil then
         return nil
@@ -126,6 +128,11 @@ function QuestieDB:GetItem(itemID)
         return nil
     end
 
+    ---@class Item
+    ---@field public name string
+    ---@field public npcDrops table
+    ---@field public objectDrops table
+    ---@field public relatedQuests table
     local item = {};
 
     for stringKey, intKey in pairs(QuestieDB.itemKeys) do
