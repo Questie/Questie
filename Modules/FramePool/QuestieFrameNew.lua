@@ -56,6 +56,9 @@ end
 typeLookup[QuestieFrameNew.stringEnum["available"]].GetDrawLayer = function()
   return 1;
 end
+typeLookup[QuestieFrameNew.stringEnum["available"]].GetPixelDistance = function()
+  return 3;
+end
 
 typeLookup[QuestieFrameNew.stringEnum["complete"]] = {};
 typeLookup[QuestieFrameNew.stringEnum["complete"]].GetIcon = function()
@@ -66,6 +69,9 @@ typeLookup[QuestieFrameNew.stringEnum["complete"]].GetIconScale = function()
 end
 typeLookup[QuestieFrameNew.stringEnum["complete"]].GetDrawLayer = function()
   return 2;
+end
+typeLookup[QuestieFrameNew.stringEnum["complete"]].GetPixelDistance = function()
+  return 6;
 end
 
 typeLookup[QuestieFrameNew.stringEnum["event"]] = {};
@@ -78,6 +84,9 @@ end
 typeLookup[QuestieFrameNew.stringEnum["event"]].GetDrawLayer = function()
   return 0;
 end
+typeLookup[QuestieFrameNew.stringEnum["event"]].GetPixelDistance = function()
+  return 8;
+end
 
 typeLookup[QuestieFrameNew.stringEnum["item"]] = {};
 typeLookup[QuestieFrameNew.stringEnum["item"]].GetIcon = function()
@@ -88,6 +97,9 @@ typeLookup[QuestieFrameNew.stringEnum["item"]].GetIconScale = function()
 end
 typeLookup[QuestieFrameNew.stringEnum["item"]].GetDrawLayer = function()
   return 0;
+end
+typeLookup[QuestieFrameNew.stringEnum["item"]].GetPixelDistance = function()
+  return 4;
 end
 
 typeLookup[QuestieFrameNew.stringEnum["monster"]] = {};
@@ -100,6 +112,9 @@ end
 typeLookup[QuestieFrameNew.stringEnum["monster"]].GetDrawLayer = function()
   return 0;
 end
+typeLookup[QuestieFrameNew.stringEnum["monster"]].GetPixelDistance = function()
+  return 8;
+end
 
 typeLookup[QuestieFrameNew.stringEnum["object"]] = {};
 typeLookup[QuestieFrameNew.stringEnum["object"]].GetIcon = function()
@@ -110,6 +125,9 @@ typeLookup[QuestieFrameNew.stringEnum["object"]].GetIconScale = function()
 end
 typeLookup[QuestieFrameNew.stringEnum["object"]].GetDrawLayer = function()
   return 0;
+end
+typeLookup[QuestieFrameNew.stringEnum["object"]].GetPixelDistance = function()
+  return 8;
 end
 
 
@@ -164,6 +182,11 @@ local function AcquireTextures(frame)
         local textureData = {}
 
         --Populate data for the texture
+        textureData.position = {}
+        textureData.position.x = questData.x;
+        textureData.position.y = questData.y;
+
+        Questie:Print(questData.x/100, questData.y/100, " : ", frame.position.x, frame.position.y, questData.UIMapId, frame.position.UIMapId)
         ---@type integer
         textureData.pinTypeId = QuestieFrameNew.stringEnum[rawPinType];
         ---@type QuestId
@@ -243,7 +266,6 @@ local function AcquireTextures(frame)
 
               newTexture:SetTexture(typeLookup[textureData.pinTypeId].GetIcon(textureData.questId));
               newTexture:SetParent(frame);
-              newTexture:SetDrawLayer("OVERLAY", typeLookup[textureData.pinTypeId]:GetDrawLayer())
               --newTexture:SetPoint("CENTER", frame, "CENTER", iconPos, 0);
               if(Questie.db.global.questObjectiveColors) then
                 newTexture:SetVertexColor(unpack(textureData.color));
@@ -258,7 +280,7 @@ local function AcquireTextures(frame)
                 glowt:SetDrawLayer("OVERLAY", -1)
                 glowt:SetParent(frame);
                 --glowt:SetPoint("CENTER", frame, "CENTER", glowPos, 0);
-                glowt:SetSize((18 * typeLookup[textureData.pinTypeId]:GetIconScale())*globalScale, (18 * typeLookup[textureData.pinTypeId]:GetIconScale())*globalScale)
+                glowt:SetSize((18  *globalScale), (18 * globalScale));
                 --glowt:Show();
 
                 ---@type IconTextureNew
@@ -278,26 +300,49 @@ local function AcquireTextures(frame)
       end
     end
 
+    local function compare(a,b)
+        Questie:Print(a.textureData.position.x, b.textureData.position.x, a.textureData.position.x < b.textureData.position.x)
+        return a.textureData.position.x < b.textureData.position.x
+    end
+    table.sort(frame.textures, compare)
+
+    local coordsToPixelsY = (WorldMapFrame:GetCanvas():GetHeight()*WorldMapFrame:GetCanvas():GetEffectiveScale());
     local drawnTextures = 0;
-    for iconIndex, texture in pairs(frame.textures) do
+    for _, texture in ipairs(frame.textures) do
       if(not texture.textureData.fakeTexture) then
         local iconPos = 0
         local glowPos = 0;
         if(totalTextures > 1) then
-          iconPos = ((count * (16/2))*-1)+(count * (16/2))*iconIndex;
-          iconPos = ((-3*totalTextures)/totalTextures)+(3*drawnTextures);
-          glowPos = (((count * (16/2))*-1)+(count * (16/2))*iconIndex);
-          glowPos = 16*iconIndex;
+          iconPos = ((count * (16/2))*-1)+(count * (16/2))*drawnTextures;
+          iconPos = (((typeLookup[texture.textureData.pinTypeId]:GetPixelDistance()*1)*totalTextures)/totalTextures)+(typeLookup[texture.textureData.pinTypeId]:GetPixelDistance()*drawnTextures);
+          glowPos = (((count * (16/2))*-1)+(count * (16/2))*drawnTextures);
+          glowPos = 16*drawnTextures;
         else
           iconPos = 0;
           glowPos = 0;
         end
 
         if(texture.glowTexture) then
-          texture.glowTexture:SetPoint("CENTER", frame, "CENTER", glowPos, 0);
+          texture.glowTexture:SetDrawLayer("OVERLAY", (totalTextures*-1)+(1*drawnTextures))
+          texture.glowTexture:SetPoint("CENTER", texture, "CENTER", 0, 0);
           texture.glowTexture:Show();
         end
-        texture:SetPoint("CENTER", frame, "CENTER", iconPos, 0);
+
+        --To make them not seem so similar we use their respective Y pos to move them.
+        --local xDiff = frame.position.x-texture.textureData.position.x/100;
+        local yDiff = frame.position.y-texture.textureData.position.y/100;
+        local mapId = WorldMapFrame:GetMapID()
+        if(mapId ~= frame.position.UIMapId) then
+          local x, y = HBD:TranslateZoneCoordinates(texture.textureData.position.x/100, texture.textureData.position.y/100, frame.position.UIMapId, mapId)
+          --xDiff = frame.position.x-x;
+          yDiff = frame.position.y-y;
+        end
+        if(QuestieFrameNew.stringEnum["available"] ~= texture.textureData.pinTypeId) then
+          yDiff = 0;
+        end
+
+        texture:SetDrawLayer("OVERLAY", typeLookup[texture.textureData.pinTypeId]:GetDrawLayer()+drawnTextures);
+        texture:SetPoint("CENTER", frame, "CENTER", iconPos, yDiff*coordsToPixelsY);
         texture:Show();
         drawnTextures = drawnTextures + 1;
       end
@@ -521,13 +566,13 @@ function worldmapProvider:RefreshAllData(fromOnShow)
 
     if(zoneCache[mapId].completeCacheDirty) then
       Questie:Debug(DEBUG_ELEVATED, "[QuestieFrameNew]", "completeCache dirty recalculating hotzones");
-      zoneCache[mapId].completeCache = QuestieMap.utils:CalcHotzones(zoneCache[mapId].completeCache, 20, #zoneCache[mapId].completeCache);
+      zoneCache[mapId].completeCache = QuestieMap.utils:CalcHotzones(zoneCache[mapId].completeCache, 10, #zoneCache[mapId].completeCache);
       zoneCache[mapId].completeCacheDirty = false;
     end
 
     if(zoneCache[mapId].availableCacheDirty) then
       Questie:Debug(DEBUG_ELEVATED, "[QuestieFrameNew]", "availableCache dirty recalculating hotzones");
-      zoneCache[mapId].availableCache = QuestieMap.utils:CalcHotzones(zoneCache[mapId].availableCache, 30, #zoneCache[mapId].availableCache);
+      zoneCache[mapId].availableCache = QuestieMap.utils:CalcHotzones(zoneCache[mapId].availableCache, 15, #zoneCache[mapId].availableCache);
       zoneCache[mapId].availableCacheDirty = false;
     end
     for _, positions in pairs(zoneCache[mapId].objectiveCache) do
@@ -580,13 +625,13 @@ function worldmapProviderPin:OnLoad()
   self:SetScalingLimits(1, 1.0, 1.2)
 end
 
-function worldmapProviderPin:OnAcquired(pinType, questData, x, y, UIMapId, frameLevelType)
+function worldmapProviderPin:OnAcquired(pinType, questData, x, y, UIMapIdd, frameLevelType)
     Questie:Debug(DEBUG_DEVELOP, "[QuestieFrameNew] OnAcquired", pinType, x, y, questData);
     self:UseFrameLevelType(frameLevelType or "PIN_FRAME_LEVEL_AREA_POI")
     self:SetPosition(x, y)
     self.questData = questData;
     self.pinType = pinType; --not used or correct
-    self.position = {x=x, y=y, z=nil, UIMapId=UIMapId}; --Insert heightmap
+    self.position = {x=x, y=y, z=nil, UIMapId=UIMapIdd}; --Insert heightmap
 
     AcquireTextures(self);
 
@@ -594,7 +639,7 @@ function worldmapProviderPin:OnAcquired(pinType, questData, x, y, UIMapId, frame
 end
 
 function worldmapProviderPin:OnReleased()
-  Questie:Debug(DEBUG_DEVELOP, "[QuestieFrameNew] OnReleased");
+  --Questie:Debug(DEBUG_DEVELOP, "[QuestieFrameNew] OnReleased");
   self.questData = {};
   self.pinType = "";
   self.poisition = nil;

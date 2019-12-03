@@ -92,6 +92,9 @@ function QuestieMap.utils:CalcHotzones(points, rangeR, count)
                         if(point.distance and point.distance > 1000 and count > 100) then
                             movingRange = movingRange * (point.distance/1000);
                         end
+                        if(point.pinType == "object") then
+                            movingRange = movingRange * 0.2
+                        end
 
                         if (point.x > 1 and point.y > 1) then
                             times = 100
