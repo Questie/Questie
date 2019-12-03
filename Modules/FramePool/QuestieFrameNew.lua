@@ -15,16 +15,18 @@ local QuestieSerializer = QuestieLoader:ImportModule("QuestieSerializer");
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 
 local enumerator = 0; -- DO EDIT.
+QuestieFrameNew.stringEnumBackingTable = {}
 QuestieFrameNew.stringEnum = setmetatable({}, {
   __index = function(stringEnum, key)
-     if not stringEnum[key] then
+     local rawValue = rawget(stringEnum, key)
+     if not rawValue then
         DEFAULT_CHAT_FRAME:AddMessage("stringEnum settings enum:"..key.. " enumID:".. enumerator);
         rawset(stringEnum, key, enumerator);
         rawset(stringEnum, enumerator, key);
         enumerator = enumerator + 1;
-        return stringEnum[key]
+        return rawget(stringEnum, key)
      else
-        return stringEnum[key]
+        return rawValue
      end
   end
 })
@@ -211,7 +213,8 @@ local function AcquireTextures(frame)
           --- Textures
           --We want the textureData to be Serialized to save space.
           ---@class IconTextureNew
-          local newTexture = setmetatable(texturePool:Acquire(), {
+          local newTexture = texturePool:Acquire()
+          --[[setmetatable(texturePool:Acquire(), {
             __index = function(textureTable, key)
               if key == "textureData" and textureTable[key] then
                   return QuestieSerializer:Deserialize(textureTable[key]);
@@ -226,7 +229,7 @@ local function AcquireTextures(frame)
                 rawset(textureTable, key, value)
               end
             end
-          })
+          })]]--
           newTexture.textureData = textureData;
 
 
@@ -351,7 +354,7 @@ function worldmapProvider:RefreshAllData(fromOnShow)
   self:RemoveAllData()
 
   --Map icons are disabled.
-  if(not Questie.db.global.enableMapIcons) then return; end
+  --if(not Questie.db.global.enableMapIcons) then return; end
 
   local enableAvailable = Questie.db.global.enableAvailable;
   local enableTurnins = Questie.db.global.enableTurnins;
@@ -514,7 +517,7 @@ end
 
 function worldmapProviderPin:OnMouseEnter()
 	-- Override in your mixin, called when the mouse enters this pin
-  Questie:Print(DEBUG_DEVELOP, "[QuestieFrameNew] OnMouseEnter", self.questData[1].Id, self.questData[1].name);
+  --Questie:Print(DEBUG_DEVELOP, "[QuestieFrameNew] OnMouseEnter", self.questData[1].Id, self.questData[1].name);
 
   
   local tooltips = {};
@@ -524,6 +527,9 @@ function worldmapProviderPin:OnMouseEnter()
     local textureData = texture.textureData;
     if(QuestieFrameNew.stringEnum["available"] == textureData.pinTypeId) then
       local name = GetName(textureData);
+      if(not tooltips[QuestieFrameNew.stringEnum[textureData.pinTypeId]]) then
+        tooltips[QuestieFrameNew.stringEnum[textureData.pinTypeId]] = {}
+      end
       if(not tooltips[QuestieFrameNew.stringEnum[textureData.pinTypeId]][name]) then
         tooltips[QuestieFrameNew.stringEnum[textureData.pinTypeId]][name] = {}
       end
@@ -566,7 +572,9 @@ function worldmapProviderPin:OnMouseEnter()
         end
       end
     end
+    self:Show();
   end
+  Tooltip:_Rebuild();
 
 end
 
