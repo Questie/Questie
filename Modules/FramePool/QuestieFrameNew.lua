@@ -476,7 +476,7 @@ function worldmapProvider:RefreshAllData(fromOnShow)
   if (enableAvailable) then
     for questId, _ in pairs(QuestieQuest.availableQuests) do
       local quest = QuestieDB:GetQuest(questId);
-      if(quest.starterDirty[mapId]) then
+      if(quest.starterDirty[mapId] or true) then --TODO: Figure out why this doesn't work without true
         Questie:Debug(DEBUG_ELEVATED, "[QuestieFrameNew]", "Starter dirty", mapId);
         --Map is dirty we reset the cache
         if(not availableCacheReset) then

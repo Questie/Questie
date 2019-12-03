@@ -1,7 +1,8 @@
 ---@type QuestieFrameNew
 local QuestieFrameNew = QuestieLoader:ImportModule("QuestieFrameNew");
 QuestieFrameNew.utils = {}
-
+--QuestieLoader:ImportModule("QuestieFrameNew").utils.zoneList
+--QuestieLoader:ImportModule("QuestieFrameNew").utils:GenerateCloseZones()
 QuestieFrameNew.utils.zoneList = nil
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
@@ -21,13 +22,13 @@ function QuestieFrameNew.utils:GenerateCloseZones()
         QuestieFrameNew.utils.zoneList[UIMapId][UIMapId2] = true;
       else
         if(zoneData.instance == zoneData2.instance) then
-          if(UIMapId == Kalimdor or UIMapId == EK or UIMapId == UIMapId2) then
+          if(UIMapId == Kalimdor or UIMapId == EK) then
             QuestieFrameNew.utils.zoneList[UIMapId][UIMapId2] = true;
           else
             local x, y, instanceID = HBD:GetWorldCoordinatesFromZone(0.5, 0.5, UIMapId)
             local x2, y2, instanceID2 = HBD:GetWorldCoordinatesFromZone(0.5, 0.5, UIMapId2);
             local distance = HBD:GetWorldDistance(instanceID, x, y, x2, y2);
-            if(distance < 1000) then
+            if(distance < 3000) then
               QuestieFrameNew.utils.zoneList[UIMapId][UIMapId2] = true;
             end
           end
@@ -47,6 +48,9 @@ function QuestieFrameNew.utils:RecursiveDirty(dirtyTable, UIMapId)
     for i=0, 20 do
         local parent = HBD.mapData[mapId].parent;
         dirtyTable[parent] = true;
+        if(QuestieZoneToParentTable[mapId]) then
+          QuestieZoneToParentTable[mapId] = true;
+        end
         mapId = parent;
         if(parent == 0) then
             break;
