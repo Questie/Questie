@@ -11,11 +11,12 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 ---@type QuestieSerializer
 local QuestieSerializer = QuestieLoader:ImportModule("QuestieSerializer");
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 
 local enumerator = 0; -- DO EDIT.
-QuestieFrameNew.stringEnumBackingTable = {}
 QuestieFrameNew.stringEnum = setmetatable({}, {
   __index = function(stringEnum, key)
      local rawValue = rawget(stringEnum, key)
@@ -159,11 +160,9 @@ local function AcquireTextures(frame)
     --Increase the width to match the number of icons.
     frame:SetWidth(16+(count*(16/2)));
 
-    --What icon are we currently drawing.
-    local iconIndex = 0;
-
     for rawPinType, typeData in pairs(frame.questData) do
       --Here we fetch the texture for each used pinType
+      ---@type table<QuestId, table<ObjectiveIndex, TextureData>>
       local textures = {}
       for index, questData in pairs(typeData) do
         --Fetch the color used for the objective.
@@ -171,9 +170,11 @@ local function AcquireTextures(frame)
         local textureData = {}
 
         --Populate data for the texture
+        ---@type integer
         textureData.pinTypeId = QuestieFrameNew.stringEnum[rawPinType];
+        ---@type QuestId
         textureData.questId = questData.questId;
-
+        ---@type integer
         textureData.textureId = QuestieFrameNew.stringEnum[typeLookup[textureData.pinTypeId]:GetIcon(questData.questId)];
 
 
@@ -187,13 +188,16 @@ local function AcquireTextures(frame)
           end
 
           --We do this because tooltip needs this data to generate.
+          ---@type ObjectiveIndex
           textureData.objectiveIndex = questData.objectiveIndex;
         end
 
         if(questData.targetType) then
+          ---@type string
           textureData.targetType = questData.targetType;
         end
         if(questData.targetId) then
+          ---@type integer
           textureData.targetId = questData.targetId;
         end
         if(not textures[textureData.questId]) then
@@ -207,6 +211,7 @@ local function AcquireTextures(frame)
       end
 
       --Here we draw all the textures that exist on the icon.
+      ---@param questDataList table<ObjectiveIndex, TextureData>
       for questId, questDataList in pairs(textures) do
         ---@param textureData TextureData
         for objectiveIndex, textureData in pairs(questDataList) do
@@ -216,10 +221,11 @@ local function AcquireTextures(frame)
           local newTexture = texturePool:Acquire()
           --[[setmetatable(texturePool:Acquire(), {
             __index = function(textureTable, key)
-              if key == "textureData" and textureTable[key] then
-                  return QuestieSerializer:Deserialize(textureTable[key]);
+              local rawData = rawget(textureTable, key);
+              if key == "textureData" and rawData then
+                  return QuestieSerializer:Deserialize(rawData);
               else
-                  return textureTable[key]
+                  return rawData
               end
             end,
             __newindex = function(textureTable, key, value)
@@ -233,25 +239,16 @@ local function AcquireTextures(frame)
           newTexture.textureData = textureData;
 
 
-          local iconPos = 0
-          local glowPos = 0;
-          if(count > 1) then
-            iconPos = ((count * (16/2))*-1)+(count * (16/2))*iconIndex;
-            glowPos = (((count * (16/2))*-1)+(count * (16/2))*iconIndex);
-          else
-            iconPos = 0;
-            glowPos = 0;
-          end
 
           newTexture:SetTexture(typeLookup[textureData.pinTypeId]:GetIcon(textureData.questId));
           newTexture:SetParent(frame);
           newTexture:SetDrawLayer("OVERLAY", typeLookup[textureData.pinTypeId]:GetDrawLayer())
-          newTexture:SetPoint("CENTER", frame, "CENTER", iconPos, 0);
+          --newTexture:SetPoint("CENTER", frame, "CENTER", iconPos, 0);
           if(Questie.db.global.questObjectiveColors) then
             newTexture:SetVertexColor(unpack(textureData.color));
           end
           newTexture:SetSize((16 * typeLookup[textureData.pinTypeId]:GetIconScale())*globalScale, (16 * typeLookup[textureData.pinTypeId]:GetIconScale())*globalScale)
-          newTexture:Show();
+          --newTexture:Show();
 
           if(textureData.pinTypeId ~= QuestieFrameNew.stringEnum["available"] and textureData.pinTypeId ~= QuestieFrameNew.stringEnum["complete"] and Questie.db.global.alwaysGlowMap) then
             local glowt = texturePool:Acquire();
@@ -259,17 +256,39 @@ local function AcquireTextures(frame)
             glowt:SetVertexColor(unpack(textureData.color));
             glowt:SetDrawLayer("OVERLAY", -1)
             glowt:SetParent(frame);
-            glowt:SetPoint("CENTER", frame, "CENTER", glowPos, 0);
+            --glowt:SetPoint("CENTER", frame, "CENTER", glowPos, 0);
             glowt:SetSize((18 * typeLookup[textureData.pinTypeId]:GetIconScale())*globalScale, (18 * typeLookup[textureData.pinTypeId]:GetIconScale())*globalScale)
-            glowt:Show();
+            --glowt:Show();
 
+            ---@type IconTextureNew
             newTexture.glowTexture = glowt
           end
 
-          iconIndex = iconIndex +1;
           table.insert(frame.textures, newTexture);
         end
       end
+    end
+
+
+    for iconIndex, texture in pairs(frame.textures) do
+      local iconPos = 0
+      local glowPos = 0;
+      if(count > 1) then
+        iconPos = ((count * (16/2))*-1)+(count * (16/2))*iconIndex;
+        iconPos = 16*iconIndex;
+        glowPos = (((count * (16/2))*-1)+(count * (16/2))*iconIndex);
+        glowPos = 16*iconIndex;
+      else
+        iconPos = 0;
+        glowPos = 0;
+      end
+
+      if(texture.glowTexture) then
+        texture.glowTexture:SetPoint("CENTER", frame, "CENTER", glowPos, 0);
+        texture.glowTexture:Show();
+      end
+      texture:SetPoint("CENTER", frame, "CENTER", iconPos, 0);
+      texture:Show();
     end
 
 end
@@ -287,6 +306,7 @@ local function ReleaseTextures(frame)
     for index, tex in pairs(frame.textures) do
       if(tex.glowTexture) then
         texturePool:Release(tex.glowTexture);
+        tex.glowTexture = nil;
       end
       texturePool:Release(tex);
     end
@@ -348,6 +368,9 @@ function worldmapProvider:RemovePinByIcon(icon)
   end
 end
 
+---@type table<integer, table> @UiMapId and note Info
+local zoneCache = {}
+
 function worldmapProvider:RefreshAllData(fromOnShow)
   Questie:Debug(DEBUG_DEVELOP, "[QuestieFrameNew] RefreshAllData : ", fromOnShow);
   local mapId = self:GetMap():GetMapID()
@@ -360,6 +383,9 @@ function worldmapProvider:RefreshAllData(fromOnShow)
   local enableTurnins = Questie.db.global.enableTurnins;
   local enableObjectives = Questie.db.global.enableObjectives;
 
+  --This will make it rerun the hotzones if needed.
+  local dirty = false;
+
   --temporary should be moved.
   if(not QuestieFrameNew.utils.zoneList) then
     QuestieFrameNew.utils:GenerateCloseZones();
@@ -369,23 +395,51 @@ function worldmapProvider:RefreshAllData(fromOnShow)
 
   local allPins = {};
 
+  --We only want to reset it once
+  local availableCacheReset = false;
+  local completeCacheReset = false;
+  local objectiveCacheReset = false;
+
+  if(not zoneCache[mapId]) then
+    zoneCache[mapId] = {}
+    zoneCache[mapId].availableCache = {}
+    zoneCache[mapId].availableCacheDirty = false
+
+    zoneCache[mapId].completeCache = {}
+    zoneCache[mapId].completeCacheDirty = false
+
+    zoneCache[mapId].objectiveCache = {}
+    zoneCache[mapId].objectiveCacheDirty = false
+  end
+
   --Available quests
   if (enableAvailable) then
     for questId, _ in pairs(QuestieQuest.availableQuests) do
       local quest = QuestieDB:GetQuest(questId);
-      for index, position in pairs(quest.starterLocations) do
-        if(closeZones[position.UIMapId]) then
-          local x, y = HBD:TranslateZoneCoordinates(position.x/100, position.y/100, position.UIMapId, mapId);
-          if(x and y) then
-            table.insert(allPins, position);
+      if(quest.starterDirty[mapId]) then
+        Questie:Debug(DEBUG_ELEVATED, "[QuestieFrameNew]", "Starter dirty", mapId);
+        --Map is dirty we reset the cache
+        if(not availableCacheReset) then
+          zoneCache[mapId].availableCache = {}
+          availableCacheReset = true;
+        end
+        for index, position in pairs(quest.starterLocations) do
+          if(closeZones[position.UIMapId]) then
+            local x, y = HBD:TranslateZoneCoordinates(position.x/100, position.y/100, position.UIMapId, mapId);
+            if(x and y) then
+              table.insert(zoneCache[mapId].availableCache, position)
+              zoneCache[mapId].availableCacheDirty = true;
+            end
           end
         end
+        dirty = true;
+        quest.starterDirty[mapId] = false;
       end
     end
   end
 
   for questId, questData in pairs(QuestiePlayer.currentQuestlog) do
-    Questie:Print("--Adding quest -> ", questId)
+    --Questie:Print("--Adding quest -> ", questId)
     local quest = questData;
     if(type(questData) == "number") then
       quest = QuestieDB:GetQuest(questId);
@@ -393,44 +447,91 @@ function worldmapProvider:RefreshAllData(fromOnShow)
 
     --Complete quests
     if (enableTurnins) then
-        if(quest.finisherLocations) then
+        if(quest.finisherLocations and quest.finisherDirty[mapId]) then
+          Questie:Debug(DEBUG_ELEVATED, "[QuestieFrameNew]", "Finisher dirty", mapId);
+          if(not completeCacheReset) then
+            zoneCache[mapId].completeCache = {}
+            completeCacheReset = true;
+          end
           for index, position in pairs(quest.finisherLocations) do
             if(closeZones[position.UIMapId]) then
               local x, y = HBD:TranslateZoneCoordinates(position.x/100, position.y/100, position.UIMapId, mapId);
               if(x and y) then
-                table.insert(allPins, position);
+                table.insert(zoneCache[mapId].completeCache, position)
+                zoneCache[mapId].completeCacheDirty = true
               end
             end
           end
+          dirty = true;
+          quest.finisherDirty[mapId] = false;
         end
     end
 
     --Objectives
     if(enableObjectives) then
-      if(quest.objectiveIcons) then
+      if(quest.objectiveIcons and quest.objectiveDirty[mapId]) then
+        Questie:Debug(DEBUG_ELEVATED, "[QuestieFrameNew]", "Objective dirty", mapId);
+        if(not objectiveCacheReset) then
+          zoneCache[mapId].objectiveCache = {}
+          objectiveCacheReset = true;
+        end
         for objectiveIndex, spawnData in pairs(quest.objectiveIcons) do
-          Questie:Print("---->", objectiveIndex)
+          --Questie:Print("---->", objectiveIndex)
           for index, spawn in pairs(spawnData) do
             if(closeZones[spawn.UIMapId]) then
               local x, y = HBD:TranslateZoneCoordinates(spawn.x/100, spawn.y/100, spawn.UIMapId, mapId);
               if(x and y) then
-                Questie:Print("------->ADDED PIN:", x,y);
-                table.insert(allPins, spawn);
+                --Questie:Print("------->ADDED PIN:", x,y);
+                table.insert(zoneCache[mapId].objectiveCache, spawn)
+                zoneCache[mapId].objectiveCacheDirty = true
               end
             end
           end
         end
+        dirty = true;
+        quest.objectiveDirty[mapId] = false;
       end
     end
   end
 
   Questie:Print("--------------------------------------------------------------------")
-  Questie:Debug(DEBUG_ELEVATED, "Drawing icons, current size of icon list:", #allPins);
-  local hotzones = QuestieMap.utils:CalcHotzones(allPins, 70, #allPins);
+  Questie:Debug(DEBUG_ELEVATED, "Drawing icons, current size of icon list:", #zoneCache[mapId].objectiveCache+#zoneCache[mapId].completeCache+#zoneCache[mapId].availableCache);
+  if(dirty or not zoneCache[mapId].hotzones) then
+    zoneCache[mapId].hotzones = {}
+    if(zoneCache[mapId].objectiveCacheDirty) then
+      Questie:Debug(DEBUG_ELEVATED, "[QuestieFrameNew]", "objectiveCache dirty recalculating hotzones");
+      zoneCache[mapId].objectiveCache = QuestieMap.utils:CalcHotzones(zoneCache[mapId].objectiveCache, 70, #zoneCache[mapId].objectiveCache);
+      zoneCache[mapId].objectiveCacheDirty = false;
+    end
 
-  for _, positions in pairs(hotzones) do
+    if(zoneCache[mapId].completeCacheDirty) then
+      Questie:Debug(DEBUG_ELEVATED, "[QuestieFrameNew]", "completeCache dirty recalculating hotzones");
+      zoneCache[mapId].completeCache = QuestieMap.utils:CalcHotzones(zoneCache[mapId].completeCache, 5, #zoneCache[mapId].completeCache);
+      zoneCache[mapId].completeCacheDirty = false;
+    end
+
+    if(zoneCache[mapId].availableCacheDirty) then
+      Questie:Debug(DEBUG_ELEVATED, "[QuestieFrameNew]", "availableCache dirty recalculating hotzones");
+      zoneCache[mapId].availableCache = QuestieMap.utils:CalcHotzones(zoneCache[mapId].availableCache, 10, #zoneCache[mapId].availableCache);
+      zoneCache[mapId].availableCacheDirty = false;
+    end
+    for _, positions in pairs(zoneCache[mapId].objectiveCache) do
+      table.insert(zoneCache[mapId].hotzones, positions);
+    end
+    for _, positions in pairs(zoneCache[mapId].completeCache) do
+      table.insert(zoneCache[mapId].hotzones, positions);
+    end
+    for _, positions in pairs(zoneCache[mapId].availableCache) do
+      table.insert(zoneCache[mapId].hotzones, positions);
+    end
+  end
+
+  Questie:Debug(DEBUG_ELEVATED, "[QuestieFrameNew]", "Number of hotzones", #zoneCache[mapId].hotzones);
+  --If hotzones are set we set it to that or the zoneCache if hotzones is nil
+  for _, positions in pairs(zoneCache[mapId].hotzones) do
       local center = QuestieMap.utils:CenterPoint(positions)
 
+      ---@type table<string, table<string, table>
       local questData = {}
       for _, positionData in pairs(positions) do
         --Questie:Print(positionData.pinType, positionData)
@@ -447,9 +548,9 @@ function worldmapProvider:RefreshAllData(fromOnShow)
         Questie:Print(x, y, center.x/100, center.y/100, positions[1].UIMapId, mapId);
         --Hide unexplored logic
         if(not QuestieMap.utils:IsExplored(mapId, x, y) and Questie.db.global.hideUnexploredMapIcons) then
-          self:GetMap():AcquirePin("PinsTemplateQuestie", "NotUsed", questData, x, y);--data.frameLevelType)
+          self:GetMap():AcquirePin("PinsTemplateQuestie", "NotUsed", questData, x, y, positions[1].UIMapId);--data.frameLevelType)
         elseif(not Questie.db.global.hideUnexploredMapIcons) then
-          self:GetMap():AcquirePin("PinsTemplateQuestie", "NotUsed", questData, x, y);--data.frameLevelType)
+          self:GetMap():AcquirePin("PinsTemplateQuestie", "NotUsed", questData, x, y, positions[1].UIMapId);--data.frameLevelType)
         end
       end
   end
@@ -464,13 +565,13 @@ function worldmapProviderPin:OnLoad()
   self:SetScalingLimits(1, 1.0, 1.2)
 end
 
-function worldmapProviderPin:OnAcquired(pinType, questData, x, y, frameLevelType)
+function worldmapProviderPin:OnAcquired(pinType, questData, x, y, UIMapId, frameLevelType)
     Questie:Debug(DEBUG_DEVELOP, "[QuestieFrameNew] OnAcquired", pinType, x, y, questData);
     self:UseFrameLevelType(frameLevelType or "PIN_FRAME_LEVEL_AREA_POI")
     self:SetPosition(x, y)
     self.questData = questData;
     self.pinType = pinType; --not used or correct
-    self.position = {x=x, y=y, z=nil}; --Insert heightmap
+    self.position = {x=x, y=y, z=nil, UIMapId=UIMapId}; --Insert heightmap
 
     AcquireTextures(self);
 
@@ -494,8 +595,35 @@ function worldmapProviderPin:OnReleased()
 end
 
 function worldmapProviderPin:OnClick(button)
-  -- Override in your mixin, called when this pin is clicked
-  Questie:Print(DEBUG_DEVELOP, "[QuestieFrameNew] OnClick", button);
+    -- Override in your mixin, called when this pin is clicked
+    Questie:Print(DEBUG_DEVELOP, "[QuestieFrameNew] OnClick", button);
+    --_QuestieFramePool:Questie_Click(self)
+    if self and self.position.UIMapId and WorldMapFrame and WorldMapFrame:IsShown() then
+      if button == "RightButton" then
+          local currentMapParent = WorldMapFrame:GetMapID()
+          if currentMapParent then
+              currentMapParent = QuestieZoneToParentTable[currentMapParent];
+              if currentMapParent and currentMapParent > 0 then
+                  WorldMapFrame:SetMapID(currentMapParent)
+              end
+          end
+      else
+          if self.position.UIMapId ~= WorldMapFrame:GetMapID() then
+              WorldMapFrame:SetMapID(self.position.UIMapId);
+          end
+      end
+  end
+  --TODO: Fix tomtom integration
+  --[[if self and self.data and self.position.UIMapId and IsControlKeyDown() and TomTom and TomTom.AddWaypoint then
+      -- tomtom integration (needs more work, will come with tracker
+      if Questie.db.char._tom_waypoint and TomTom.RemoveWaypoint then -- remove old waypoint
+          TomTom:RemoveWaypoint(Questie.db.char._tom_waypoint)
+      end
+      Questie.db.char._tom_waypoint = TomTom:AddWaypoint(self.position.UIMapId, self.x/100, self.y/100, {title = self.data.Name, crazy = true})
+  elseif self.miniMapIcon then
+      local _, _, _, x, y = self:GetPoint()
+      Minimap:PingLocation(x, y)
+  end]]--
 end
 
 ---@param textureData TextureData
@@ -519,7 +647,7 @@ function worldmapProviderPin:OnMouseEnter()
 	-- Override in your mixin, called when the mouse enters this pin
   --Questie:Print(DEBUG_DEVELOP, "[QuestieFrameNew] OnMouseEnter", self.questData[1].Id, self.questData[1].name);
 
-  
+
   local tooltips = {};
   ---@param texture IconTextureNew
   for _, texture in pairs(self.textures) do
@@ -560,15 +688,49 @@ function worldmapProviderPin:OnMouseEnter()
   Tooltip._owner = self;
   Tooltip:SetOwner(self, "ANCHOR_CURSOR"); --"ANCHOR_CURSOR" or (self, self)
   function Tooltip:_Rebuild()
+    local firstLine = true;
     local xpString = QuestieLocale:GetUIString('XP');
     local shift = IsShiftKeyDown()
+    -- Print Available quests into the tooltip
     for name, tooltipData in pairs(tooltips["available"] or {}) do
-      self:AddLine(name);
+      if(firstLine and not shift) then
+          self:AddDoubleLine(name, "("..QuestieLocale:GetUIString('ICON_SHIFT_HOLD')..")", 0.2, 1, 0.2, 0.43, 0.43, 0.43); --"(Shift+click)"
+          firstLine = false;
+      elseif(firstLine and shift) then
+          self:AddLine(name, 0.2, 1, 0.2);
+          firstLine = false;
+      else
+          self:AddLine(name, 0.2, 1, 0.2);
+      end
       ---@param questInfo AvailableTooltip
       for _, questInfo in pairs(tooltipData) do
-        self:AddDoubleLine(questInfo.title, questInfo.type);
-        if(shift) then
-          self:AddLine(questInfo.description)
+        if questInfo.title ~= nil then
+            local quest = QuestieDB:GetQuest(questInfo.questId)
+            if(quest and shift) then
+                local rewardString = ""
+                local rewardXP = GetQuestLogRewardXP(questInfo.questId)
+                if rewardXP > 0 then -- Quest rewards XP
+                    rewardString = QuestieLib:PrintDifficultyColor(quest.level, "(".. rewardXP .. xpString .. ") ")
+                end
+
+                local moneyReward = GetQuestLogRewardMoney(questInfo.questId)
+                if moneyReward > 0 then -- Quest rewards money
+                    rewardString = rewardString .. Questie:Colorize("("..GetCoinTextureString(moneyReward)..") ", "white")
+                end
+                self:AddDoubleLine("   " .. questInfo.title, rewardString .. questInfo.type, 1, 1, 1, 1, 1, 0);
+            else
+                self:AddDoubleLine("   " .. questInfo.title, questInfo.type, 1, 1, 1, 1, 1, 0);
+            end
+        end
+        if questInfo.description and shift then
+            local dataType = type(questInfo.description)
+            if dataType == "table" then
+                for _, line in pairs(questInfo.description) do
+                    self:AddLine("      " .. line, 0.86, 0.86, 0.86);
+                end
+            elseif dataType == "string" then
+                self:AddLine("      " .. questInfo.description, 0.86, 0.86, 0.86);
+            end
         end
       end
     end
@@ -587,7 +749,6 @@ end
 --loc.questId = quest.Id;
 --loc.targetType = "monster" / "object"
 --loc.targetId = finisher.id;
---function loc:GetName()
 
 ---@param textureData TextureData
 function GetAvailableOrCompleteTooltip(textureData)
@@ -623,6 +784,14 @@ end
 function worldmapProviderPin:OnMouseLeave()
 	-- Override in your mixin, called when the mouse leaves this pin
   Questie:Print(DEBUG_DEVELOP, "[QuestieFrameNew] OnMouseLeave", self);
+  if WorldMapTooltip then
+      WorldMapTooltip:Hide()
+      WorldMapTooltip._rebuild = nil
+  end
+  if GameTooltip then
+      GameTooltip:Hide()
+      GameTooltip._Rebuild = nil
+  end
 end
 
 -- register with the world map

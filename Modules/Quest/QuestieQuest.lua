@@ -25,6 +25,8 @@ local QuestieHash = QuestieLoader:ImportModule("QuestieHash");
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
+---@type QuestieFrameNew
+local QuestieFrameNew = QuestieLoader:ImportModule("QuestieFrameNew");
 
 local _QuestieQuest = QuestieQuest.private
 local libS = LibStub:GetLibrary("AceSerializer-3.0")
@@ -538,6 +540,10 @@ function QuestieQuest:AddFinisher(quest)
     --We should never ever add the quest if IsQuestFlaggedComplete true.
     local questId = quest.Id
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]", "Adding finisher for quest ", questId)
+    
+    if(not quest.finisherDirty) then
+        quest.finisherDirty = {}
+    end
 
     if(QuestiePlayer.currentQuestlog[questId] and IsQuestFlaggedCompleted(questId) == false and IsQuestComplete(questId) and not Questie.db.char.complete[questId]) then
         local finisher = nil
@@ -552,10 +558,9 @@ function QuestieQuest:AddFinisher(quest)
         else
             Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_NO_FINISH', questId, quest.name))
         end
-        if(not quest.finisherLocations) then
-            quest.finisherLocations = {}
-        end
+
         if(finisher ~= nil and finisher.spawns ~= nil) then
+            quest.finisherLocations = {}
             for finisherZone, spawns in pairs(finisher.spawns) do
                 if(finisherZone ~= nil and spawns ~= nil) then
                     for _, coords in ipairs(spawns) do
@@ -600,6 +605,8 @@ function QuestieQuest:AddFinisher(quest)
                                     loc.questId = quest.Id;
                                     loc.targetType = quest.Finisher.Type;
                                     loc.targetId = finisher.id;
+                                    QuestieFrameNew.utils:RecursiveDirty(quest.finisherDirty, loc.UIMapId);
+
                                     table.insert(quest.finisherLocations, loc)
 
                                     if(finisher.waypoints and finisher.waypoints[zone]) then
@@ -634,6 +641,7 @@ function QuestieQuest:AddFinisher(quest)
                             loc.questId = quest.Id;
                             loc.targetType = quest.Finisher.Type;
                             loc.targetId = finisher.id;
+                            QuestieFrameNew.utils:RecursiveDirty(quest.finisherDirty, loc.UIMapId);
                             table.insert(quest.finisherLocations, loc)
 
                             if(finisher.waypoints and finisher.waypoints[finisherZone]) then
@@ -720,6 +728,9 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
         end
         Objective.registeredItemTooltips = true
     end
+    if(not Quest.objectiveDirty) then
+        Quest.objectiveDirty = {}
+    end
     if Objective.spawnList then
         local hasSpawnHack = false -- used to check if we have bad data due to API delay. Remove this check once the API bug is dealt with properly
         local hasTooltipHack = false
@@ -803,6 +814,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                                 loc.targetType = spawnData.Type;
                                 loc.targetId = spawnData.Id;
                                 loc.distance = distance or 0;
+                                QuestieFrameNew.utils:RecursiveDirty(Quest.objectiveDirty, loc.UIMapId);
 
                                 table.insert(questData[Quest.Id][ObjectiveIndex], loc);
                             end
@@ -1243,6 +1255,10 @@ end
 
 --Draw a single available quest, it is used by the DrawAllAvailableQuests function.
 function _QuestieQuest:DrawAvailableQuest(questObject) -- prevent recursion
+    questObject.starterLocations = {}
+    if(not questObject.starterDirty) then
+        questObject.starterDirty = {}
+    end
 
     --TODO More logic here, currently only shows NPC quest givers.
     if questObject.Starts["GameObject"] ~= nil then
@@ -1275,6 +1291,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject) -- prevent recursion
                                         loc.questId = questObject.Id;
                                         loc.targetType = "object";
                                         loc.targetId = ObjectID;
+                                        QuestieFrameNew.utils:RecursiveDirty(questObject.starterDirty, loc.UIMapId);
                                         table.insert(questObject.starterLocations, loc)
                                     end
                                 end
@@ -1288,6 +1305,8 @@ function _QuestieQuest:DrawAvailableQuest(questObject) -- prevent recursion
                                 loc.questId = questObject.Id;
                                 loc.targetType = "object";
                                 loc.targetId = ObjectID;
+                                QuestieFrameNew.utils:RecursiveDirty(questObject.starterDirty, loc.UIMapId);
+
                                 table.insert(questObject.starterLocations, loc)
                             end
                         end
@@ -1350,6 +1369,8 @@ function _QuestieQuest:DrawAvailableQuest(questObject) -- prevent recursion
                                         loc.questId = questObject.Id;
                                         loc.targetType = "monster";
                                         loc.targetId = NPCID;
+                                        QuestieFrameNew.utils:RecursiveDirty(questObject.starterDirty, loc.UIMapId);
+
                                         table.insert(questObject.starterLocations, loc)
 
                                         local icon, _ = QuestieMap:DrawWorldIcon(data, zone, x, y)
@@ -1384,6 +1405,8 @@ function _QuestieQuest:DrawAvailableQuest(questObject) -- prevent recursion
                                 loc.questId = questObject.Id;
                                 loc.targetType = "monster";
                                 loc.targetId = NPCID;
+                                QuestieFrameNew.utils:RecursiveDirty(questObject.starterDirty, loc.UIMapId);
+
                                 table.insert(questObject.starterLocations, loc);
 
                                 local icon, _ = QuestieMap:DrawWorldIcon(data, npcZone, x, y)

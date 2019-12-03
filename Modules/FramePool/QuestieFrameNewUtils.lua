@@ -21,7 +21,7 @@ function QuestieFrameNew.utils:GenerateCloseZones()
         QuestieFrameNew.utils.zoneList[UIMapId][UIMapId2] = true;
       else
         if(zoneData.instance == zoneData2.instance) then
-          if(UIMapId == Kalimdor or UIMapId == EK) then
+          if(UIMapId == Kalimdor or UIMapId == EK or UIMapId == UIMapId2) then
             QuestieFrameNew.utils.zoneList[UIMapId][UIMapId2] = true;
           else
             local x, y, instanceID = HBD:GetWorldCoordinatesFromZone(0.5, 0.5, UIMapId)
@@ -33,6 +33,24 @@ function QuestieFrameNew.utils:GenerateCloseZones()
           end
         end
       end
+    end
+  end
+end
+
+
+function QuestieFrameNew.utils:RecursiveDirty(dirtyTable, UIMapId)
+  if(dirtyTable and UIMapId) then
+    local mapId = UIMapId;
+    dirtyTable[mapId] = true;
+    --Loop up in the tree
+    --Could use while, but safer to do a for loop.
+    for i=0, 20 do
+        local parent = HBD.mapData[mapId].parent;
+        dirtyTable[parent] = true;
+        mapId = parent;
+        if(parent == 0) then
+            break;
+        end
     end
   end
 end
