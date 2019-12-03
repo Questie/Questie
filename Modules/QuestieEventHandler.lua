@@ -47,27 +47,21 @@ local function _Hack_prime_log() -- this seems to make it update the data much q
 end
 
 function QuestieEventHandler:PLAYER_LOGIN()
-    C_Timer.After(1, function()
-        QuestieDB:Initialize()
-        QuestieLib:CacheAllItemNames();
-    end)
-    C_Timer.After(4, function()
-        -- We want the framerate to be HIGH!!!
-        QuestieMap:InitializeQueue();
-        _Hack_prime_log()
-        QuestiePlayer:Initialize();
-        QuestieQuest:Initialize()
-        QuestieQuest:GetAllQuestIdsNoObjectives()
-        QuestieQuest:CalculateAvailableQuests()
-        QuestieQuest:DrawAllAvailableQuests()
-        QuestieNameplate:Initialize();
-        Questie:Debug(DEBUG_ELEVATED, "PLAYER_ENTERED_WORLD")
-        playerEntered = true
-        -- manually fire QLU since enter has been delayed past the first QLU
-        if hasFirstQLU then
-            QuestieEventHandler:QUEST_LOG_UPDATE()
-        end
-    end)
+    QuestieDB:Initialize()
+    QuestieLib:CacheAllItemNames();
+    QuestieMap:InitializeQueue();
+    QuestiePlayer:Initialize();
+    QuestieQuest:Initialize()
+    QuestieQuest:GetAllQuestIdsNoObjectives()
+    QuestieQuest:CalculateAvailableQuests()
+    QuestieQuest:DrawAllAvailableQuests()
+    QuestieNameplate:Initialize();
+    Questie:Debug(DEBUG_ELEVATED, "PLAYER_ENTERED_WORLD")
+    playerEntered = true
+    -- manually fire QLU since enter has been delayed past the first QLU
+    if hasFirstQLU then
+        QuestieEventHandler:QUEST_LOG_UPDATE()
+    end
 end
 
 --Fires when a quest is accepted in anyway.
@@ -163,16 +157,14 @@ function QuestieEventHandler:QUEST_LOG_UPDATE()
     hasFirstQLU = true
     if playerEntered then
         Questie:Debug(DEBUG_DEVELOP, "---> Player entered world, START.")
-        C_Timer.After(1, function ()
-            Questie:Debug(DEBUG_DEVELOP, "---> Player entered world, DONE.")
-            QuestieQuest:GetAllQuestIds()
-            QuestieTracker:Initialize()
-            QuestieTracker:Update()
-            -- Initialize Questie Comms
-            if(QuestieComms) then
-                QuestieComms:Initialize();
-            end
-        end)
+        Questie:Debug(DEBUG_DEVELOP, "---> Player entered world, DONE.")
+        QuestieQuest:GetAllQuestIds()
+        QuestieTracker:Initialize()
+        QuestieTracker:Update()
+        -- Initialize Questie Comms
+        if(QuestieComms) then
+            QuestieComms:Initialize();
+        end
         playerEntered = nil;
     end
 

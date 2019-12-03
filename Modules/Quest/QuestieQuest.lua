@@ -452,6 +452,7 @@ end
 function QuestieQuest:GetAllQuestIds()
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_GET_QUEST'));
     local numEntries, numQuests = GetNumQuestLogEntries();
+    local processedQuests = 0;
     QuestiePlayer.currentQuestlog = {}
     for index = 1, numEntries do
         local title, level, _, isHeader, _, isComplete, _, questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
@@ -459,12 +460,25 @@ function QuestieQuest:GetAllQuestIds()
             --Keep the object in the questlog to save searching
             local quest = QuestieDB:GetQuest(questId)
             if quest then
-                QuestiePlayer.currentQuestlog[questId] = quest
-                QuestieQuest:PopulateQuestLogInfo(quest)
-                QuestieQuest:PopulateObjectiveNotes(quest)
-                if title and strlen(title) > 1 then
-                    quest.LocalizedName = title
+                local updateFunc = nil;
+                updateFunc = function()
+                    if(QuestieLib:IsResponseCorrect(questId)) then
+                        QuestiePlayer.currentQuestlog[questId] = quest
+                        QuestieQuest:PopulateQuestLogInfo(quest)
+                        QuestieQuest:PopulateObjectiveNotes(quest)
+                        if title and strlen(title) > 1 then
+                            quest.LocalizedName = title
+                        end
+                        processedQuests = processedQuests + 1;
+                        if(processedQuests == numQuests) then
+                            QuestieTracker:Update()
+                        end
+                    else
+                        Questie:Debug(DEBUG_CRITICAL, "[QuestieQuest]", "Response incorrect, launching timer", questId, ":", quest.name);
+                        C_Timer.After(0.1, updateFunc);
+                    end
                 end
+                updateFunc();
             else
                 QuestiePlayer.currentQuestlog[questId] = questId
             end
