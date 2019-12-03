@@ -148,17 +148,11 @@ local function AcquireTextures(frame)
     local globalScale = Questie.db.global.globalScale or 0.7
 
     --Count the number of pins to place them in the correct place.
+    -- not used
     local count = 0;
-    
-    for pinType, typeData in pairs(frame.questData) do
-      for index, questData in pairs(typeData) do
-        --This count is used for positioning of the icons later.
-        count = count + 1;
-      end
-    end
 
-    --Increase the width to match the number of icons.
-    frame:SetWidth(16+(count*(16/2)));
+    --Number of drawn textures
+    local totalTextures = 0;
 
     for rawPinType, typeData in pairs(frame.questData) do
       --Here we fetch the texture for each used pinType
@@ -200,96 +194,117 @@ local function AcquireTextures(frame)
           ---@type integer
           textureData.targetId = questData.targetId;
         end
-        if(not textures[textureData.questId]) then
-          textures[textureData.questId] = {}
+        local targetTypeIdTexture = textureData.targetType..":"..textureData.targetId..":"..textureData.textureId;
+        if(not textures[targetTypeIdTexture]) then
+          textures[targetTypeIdTexture] = {};
+        end
+        if(not textures[targetTypeIdTexture][textureData.questId]) then
+          textures[targetTypeIdTexture][textureData.questId] = {}
         end
         if(questData.objectiveIndex) then
-          textures[textureData.questId][questData.objectiveIndex] = textureData;
+          textures[targetTypeIdTexture][textureData.questId][questData.objectiveIndex] = textureData;
         else
-          textures[textureData.questId][0] = textureData;
+          textures[targetTypeIdTexture][textureData.questId][0] = textureData;
         end
       end
-
       --Here we draw all the textures that exist on the icon.
-      ---@param questDataList table<ObjectiveIndex, TextureData>
-      for questId, questDataList in pairs(textures) do
-        ---@param textureData TextureData
-        for objectiveIndex, textureData in pairs(questDataList) do
-          --- Textures
-          --We want the textureData to be Serialized to save space.
-          ---@class IconTextureNew
-          local newTexture = texturePool:Acquire()
-          --[[setmetatable(texturePool:Acquire(), {
-            __index = function(textureTable, key)
-              local rawData = rawget(textureTable, key);
-              if key == "textureData" and rawData then
-                  return QuestieSerializer:Deserialize(rawData);
-              else
-                  return rawData
+      for targetTypeIdTexture, questList in pairs(textures) do
+        local textureExists = false;
+        ---@param questDataList table<ObjectiveIndex, TextureData>
+        for questId, questDataList in pairs(questList) do
+          ---@param textureData TextureData
+          for objectiveIndex, textureData in pairs(questDataList) do
+            --[[setmetatable(texturePool:Acquire(), {
+              __index = function(textureTable, key)
+                local rawData = rawget(textureTable, key);
+                if key == "textureData" and rawData then
+                    return QuestieSerializer:Deserialize(rawData);
+                else
+                    return rawData
+                end
+              end,
+              __newindex = function(textureTable, key, value)
+                if(key == "textureData") then
+                  rawset(textureTable, key, QuestieSerializer:Serialize(value))
+                else
+                  rawset(textureTable, key, value)
+                end
               end
-            end,
-            __newindex = function(textureTable, key, value)
-              if(key == "textureData") then
-                rawset(textureTable, key, QuestieSerializer:Serialize(value))
-              else
-                rawset(textureTable, key, value)
+            })]]--
+            --- Textures
+            --We want the textureData to be Serialized to save space.
+            ---@class IconTextureNew
+            local newTexture = nil;
+            if(not textureExists) then
+              newTexture = texturePool:Acquire()
+              newTexture.textureData = textureData;
+
+
+
+              newTexture:SetTexture(typeLookup[textureData.pinTypeId].GetIcon(textureData.questId));
+              newTexture:SetParent(frame);
+              newTexture:SetDrawLayer("OVERLAY", typeLookup[textureData.pinTypeId]:GetDrawLayer())
+              --newTexture:SetPoint("CENTER", frame, "CENTER", iconPos, 0);
+              if(Questie.db.global.questObjectiveColors) then
+                newTexture:SetVertexColor(unpack(textureData.color));
               end
+              newTexture:SetSize((16 * typeLookup[textureData.pinTypeId]:GetIconScale())*globalScale, (16 * typeLookup[textureData.pinTypeId]:GetIconScale())*globalScale)
+              --newTexture:Show();
+
+              if(textureData.pinTypeId ~= QuestieFrameNew.stringEnum["available"] and textureData.pinTypeId ~= QuestieFrameNew.stringEnum["complete"] and Questie.db.global.alwaysGlowMap) then
+                local glowt = texturePool:Acquire();
+                glowt:SetTexture(ICON_TYPE_GLOW)
+                glowt:SetVertexColor(unpack(textureData.color));
+                glowt:SetDrawLayer("OVERLAY", -1)
+                glowt:SetParent(frame);
+                --glowt:SetPoint("CENTER", frame, "CENTER", glowPos, 0);
+                glowt:SetSize((18 * typeLookup[textureData.pinTypeId]:GetIconScale())*globalScale, (18 * typeLookup[textureData.pinTypeId]:GetIconScale())*globalScale)
+                --glowt:Show();
+
+                ---@type IconTextureNew
+                newTexture.glowTexture = glowt
+              end
+              totalTextures = totalTextures + 1;
+              textureExists = true;
+            else
+              newTexture = {}
+              textureData.fakeTexture = true;
+              newTexture.textureData = textureData;
             end
-          })]]--
-          newTexture.textureData = textureData;
 
-
-
-          newTexture:SetTexture(typeLookup[textureData.pinTypeId]:GetIcon(textureData.questId));
-          newTexture:SetParent(frame);
-          newTexture:SetDrawLayer("OVERLAY", typeLookup[textureData.pinTypeId]:GetDrawLayer())
-          --newTexture:SetPoint("CENTER", frame, "CENTER", iconPos, 0);
-          if(Questie.db.global.questObjectiveColors) then
-            newTexture:SetVertexColor(unpack(textureData.color));
+            table.insert(frame.textures, newTexture);
           end
-          newTexture:SetSize((16 * typeLookup[textureData.pinTypeId]:GetIconScale())*globalScale, (16 * typeLookup[textureData.pinTypeId]:GetIconScale())*globalScale)
-          --newTexture:Show();
-
-          if(textureData.pinTypeId ~= QuestieFrameNew.stringEnum["available"] and textureData.pinTypeId ~= QuestieFrameNew.stringEnum["complete"] and Questie.db.global.alwaysGlowMap) then
-            local glowt = texturePool:Acquire();
-            glowt:SetTexture(ICON_TYPE_GLOW)
-            glowt:SetVertexColor(unpack(textureData.color));
-            glowt:SetDrawLayer("OVERLAY", -1)
-            glowt:SetParent(frame);
-            --glowt:SetPoint("CENTER", frame, "CENTER", glowPos, 0);
-            glowt:SetSize((18 * typeLookup[textureData.pinTypeId]:GetIconScale())*globalScale, (18 * typeLookup[textureData.pinTypeId]:GetIconScale())*globalScale)
-            --glowt:Show();
-
-            ---@type IconTextureNew
-            newTexture.glowTexture = glowt
-          end
-
-          table.insert(frame.textures, newTexture);
         end
       end
     end
 
-
+    local drawnTextures = 0;
     for iconIndex, texture in pairs(frame.textures) do
-      local iconPos = 0
-      local glowPos = 0;
-      if(count > 1) then
-        iconPos = ((count * (16/2))*-1)+(count * (16/2))*iconIndex;
-        iconPos = 16*iconIndex;
-        glowPos = (((count * (16/2))*-1)+(count * (16/2))*iconIndex);
-        glowPos = 16*iconIndex;
-      else
-        iconPos = 0;
-        glowPos = 0;
-      end
+      if(not texture.textureData.fakeTexture) then
+        local iconPos = 0
+        local glowPos = 0;
+        if(totalTextures > 1) then
+          iconPos = ((count * (16/2))*-1)+(count * (16/2))*iconIndex;
+          iconPos = ((-3*totalTextures)/totalTextures)+(3*drawnTextures);
+          glowPos = (((count * (16/2))*-1)+(count * (16/2))*iconIndex);
+          glowPos = 16*iconIndex;
+        else
+          iconPos = 0;
+          glowPos = 0;
+        end
 
-      if(texture.glowTexture) then
-        texture.glowTexture:SetPoint("CENTER", frame, "CENTER", glowPos, 0);
-        texture.glowTexture:Show();
+        if(texture.glowTexture) then
+          texture.glowTexture:SetPoint("CENTER", frame, "CENTER", glowPos, 0);
+          texture.glowTexture:Show();
+        end
+        texture:SetPoint("CENTER", frame, "CENTER", iconPos, 0);
+        texture:Show();
+        drawnTextures = drawnTextures + 1;
       end
-      texture:SetPoint("CENTER", frame, "CENTER", iconPos, 0);
-      texture:Show();
     end
+
+    --Increase the width to match the number of icons.
+    frame:SetWidth(16+(drawnTextures*(16/2)));
 
 end
 
@@ -506,13 +521,13 @@ function worldmapProvider:RefreshAllData(fromOnShow)
 
     if(zoneCache[mapId].completeCacheDirty) then
       Questie:Debug(DEBUG_ELEVATED, "[QuestieFrameNew]", "completeCache dirty recalculating hotzones");
-      zoneCache[mapId].completeCache = QuestieMap.utils:CalcHotzones(zoneCache[mapId].completeCache, 5, #zoneCache[mapId].completeCache);
+      zoneCache[mapId].completeCache = QuestieMap.utils:CalcHotzones(zoneCache[mapId].completeCache, 20, #zoneCache[mapId].completeCache);
       zoneCache[mapId].completeCacheDirty = false;
     end
 
     if(zoneCache[mapId].availableCacheDirty) then
       Questie:Debug(DEBUG_ELEVATED, "[QuestieFrameNew]", "availableCache dirty recalculating hotzones");
-      zoneCache[mapId].availableCache = QuestieMap.utils:CalcHotzones(zoneCache[mapId].availableCache, 10, #zoneCache[mapId].availableCache);
+      zoneCache[mapId].availableCache = QuestieMap.utils:CalcHotzones(zoneCache[mapId].availableCache, 30, #zoneCache[mapId].availableCache);
       zoneCache[mapId].availableCacheDirty = false;
     end
     for _, positions in pairs(zoneCache[mapId].objectiveCache) do
