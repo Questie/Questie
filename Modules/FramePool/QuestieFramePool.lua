@@ -568,8 +568,18 @@ function _QuestieFramePool:Questie_Tooltip()
     local questOrder = {};
     local manualOrder = {}
 
-    for _, icon in pairs(_QuestieFramePool.usedFrames) do -- I added "_QuestieFramePool.usedFrames" because I think its a bit more efficient than using _G but I might be wrong
+    self.data.touchedPins = {};
+    for pin in HBDPins.worldmapProvider:GetMap():EnumeratePinsByTemplate("HereBeDragonsPinsTemplateQuestie") do -- I added "_QuestieFramePool.usedFrames" because I think its a bit more efficient than using _G but I might be wrong
+        ---@type IconFrame
+        local icon = pin.icon;
         local iconData = icon.data
+        if(self.data.Id == iconData.Id) then
+            local entry = {}
+            entry.color = {icon.texture.r, icon.texture.g, icon.texture.b, icon.texture.a};
+            entry.icon = icon;
+            icon.texture:SetVertexColor(1, 0.98, 0.44, icon.texture.a);
+            tinsert(self.data.touchedPins, entry);
+        end
         if icon and iconData and icon.x and icon.AreaID == self.AreaID then
             local dist = QuestieLib:Maxdist(icon.x, icon.y, self.x, self.y);
             if dist < maxDistCluster then

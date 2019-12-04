@@ -130,6 +130,12 @@ function _Qframe:OnLeave()
             line:SetColorTexture(line.dR, line.dG, line.dB, line.dA)
         end
     end
+
+    for _, entry in pairs(self.data.touchedPins) do
+        local icon = entry.icon;
+        icon.texture:SetVertexColor(unpack(entry.color));
+    end
+    self.data.touchedPins = nil;
 end
 
 function _Qframe:OnClick(button)
