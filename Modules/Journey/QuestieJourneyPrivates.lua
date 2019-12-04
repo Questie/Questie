@@ -47,6 +47,9 @@ function _QuestieJourney:GetMonthAndYearOfLatestEntry()
     for year, _ in pairs(journeyEntries) do
         table.insert(years, year)
     end
+    if not next(years) then
+        return nil, nil
+    end
     local maxYear = math.max(unpack(years))
 
     for month, _ in pairs(journeyEntries[maxYear]) do

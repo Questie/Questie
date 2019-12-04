@@ -127,7 +127,9 @@ local function ManageJourneyTree(container)
         journeyTree = GetJourneyHistory();
         journeyTreeFrame:SetTree(journeyTree);
         local latestMonth, latestYear = _QuestieJourney:GetMonthAndYearOfLatestEntry()
-        journeyTreeFrame:SelectByPath(latestYear, latestMonth)
+        if latestMonth and latestYear then
+            journeyTreeFrame:SelectByPath(latestYear, latestMonth)
+        end
         journeyTreeFrame:SetCallback("OnGroupSelected", function(group)
             Questie:Debug(DEBUG_DEVELOP, "[Journey] OnGroupSelected - Path:", group.localstatus.selected)
 
