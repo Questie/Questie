@@ -267,6 +267,9 @@ function QuestieQuestFixes:Load()
         [1339] = {
             [QuestieDB.questKeys.exclusiveTo] = {1338}, -- mountaineer stormpike's task cant be done if you have finished stormpike's order
         },
+        [1361] = {
+            [QuestieDB.questKeys.exclusiveTo] = {1362},
+        },
         [1418] = {
             [QuestieDB.questKeys.exclusiveTo] = {1419,1420}, -- #1594
         },
