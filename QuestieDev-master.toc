@@ -86,6 +86,7 @@ Modules\Network\QuestieCommsData.lua
 
 #Journey
 Modules\Journey\QuestieJourney.lua
+Modules\Journey\QuestieJourneyPrivates.lua
 Modules\Journey\QuestieJourneyUtils.lua
 Modules\Journey\QuestieSearch.lua
 Modules\Journey\QuestieSearchResults.lua

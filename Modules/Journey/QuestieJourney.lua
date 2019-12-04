@@ -1,6 +1,7 @@
 
 ---@class QuestieJourney
 local QuestieJourney = QuestieLoader:CreateModule("QuestieJourney");
+local _QuestieJourney = QuestieJourney.private
 -------------------------
 --Import modules.
 -------------------------
@@ -39,91 +40,78 @@ function JumpToQuest(button)
 local journeyTreeFrame = nil;
 local treeCache = nil;
 
-local function SplitJourneyByDate()
+local function GetJourneyHistory()
 
-    local dateTable = {};
-
-    -- Sort all of the entries by year and month
-    for i, v in ipairs(Questie.db.char.journey) do
-        local year = date('%Y', v.Timestamp);
-
-        if not dateTable[year] then
-            dateTable[year] = {};
-        end
-
-        local month = date('%m', v.Timestamp);
-
-        if not dateTable[year][month] then
-            dateTable[year][month] = {};
-        end
-
-        local e = {};
-        e.idx = i;
-        e.value = v;
-
-        tinsert(dateTable[year][month], e);
+    local journeyEntries = _QuestieJourney:GetJourneyEntries()
+    local years = {}
+    for k in pairs(journeyEntries) do
+        table.insert(years, k)
     end
+    table.sort(years)
 
-    -- now take those sorted dates and create a tree table
-    local returnTable = {};
-    for i, v in pairs(dateTable) do
+    local history = {};
+    for _, year in pairs(years) do
         local yearTable = {
-            value = i,
-            text = QuestieLocale:GetUIString('JOURNEY_TABLE_YEAR', i),
+            value = year,
+            text = QuestieLocale:GetUIString('JOURNEY_TABLE_YEAR', year),
             children = {},
         };
 
-        for mon, entries in pairs(dateTable[i]) do
-            local monthView = {
-                value = mon,
-                text = CALENDAR_FULLDATE_MONTH_NAMES[tonumber(mon)] .. ' '.. i,
-                children = {},
-            };
-
-            for idx, e in pairs(dateTable[i][mon]) do
-
-                local entry = e.value;
-                local entryText = '';
-
-                if entry.Event == "Level" then
-                    entryText = QuestieLocale:GetUIString('JOURNEY_LEVELREACH', entry.NewLevel);
-                elseif entry.Event == "Note" then
-                    entryText = QuestieLocale:GetUIString('JOURNEY_TABLE_NOTE', entry.Title);
-                elseif entry.Event == "Quest" then
-                    local state = '';
-                    if entry.SubType == "Accept" then
-                        state = QuestieLocale:GetUIString('JOURNEY_ACCEPT');
-                    elseif entry.SubType == "Complete" then
-                        state = QuestieLocale:GetUIString('JOUNREY_COMPLETE');
-                    elseif entry.SubType == "Abandon" then
-                        state = QuestieLocale:GetUIString('JOURNEY_ABADON');
-                    else
-                        state = "ERROR!!";
-                    end
-                    local quest = QuestieDB:GetQuest(entry.Quest)
-                    if quest then
-                        local qName = quest.name;
-                        entryText = QuestieLocale:GetUIString('JOURNEY_TABLE_QUEST', state, qName);
-                    else
-                        entryText = QuestieLocale:GetUIString('JOURNEY_MISSING_QUEST');
-                    end
-                end
-
-                local entryView = {
-                    value = e.idx,
-                    text = entryText,
+        for month=12, 1, -1 do -- Iterate the month from last to newest
+            if journeyEntries[year][month] then -- Only check month with events
+                local monthView = {
+                    value = month,
+                    text = CALENDAR_FULLDATE_MONTH_NAMES[month] .. ' '.. year,
+                    children = {},
                 };
 
-                tinsert(monthView.children, entryView);
-            end
+                for entryIndex=#journeyEntries[year][month], 1, -1 do -- Iterate backwards to show newest first
 
-            tinsert(yearTable.children, monthView);
+                    ---@type JourneyEntry
+                    local e = journeyEntries[year][month][entryIndex]
+                    local entry = e.value;
+                    local entryText = '';
+
+                    if entry.Event == "Level" then
+                        entryText = QuestieLocale:GetUIString('JOURNEY_LEVELREACH', entry.NewLevel);
+                    elseif entry.Event == "Note" then
+                        entryText = QuestieLocale:GetUIString('JOURNEY_TABLE_NOTE', entry.Title);
+                    elseif entry.Event == "Quest" then
+                        local state = '';
+                        if entry.SubType == "Accept" then
+                            state = QuestieLocale:GetUIString('JOURNEY_ACCEPT');
+                        elseif entry.SubType == "Complete" then
+                            state = QuestieLocale:GetUIString('JOUNREY_COMPLETE');
+                        elseif entry.SubType == "Abandon" then
+                            state = QuestieLocale:GetUIString('JOURNEY_ABADON');
+                        else
+                            state = "ERROR!!";
+                        end
+                        local quest = QuestieDB:GetQuest(entry.Quest)
+                        if quest then
+                            local qName = quest.name;
+                            entryText = QuestieLocale:GetUIString('JOURNEY_TABLE_QUEST', state, qName);
+                        else
+                            entryText = QuestieLocale:GetUIString('JOURNEY_MISSING_QUEST');
+                        end
+                    end
+
+                    local entryView = {
+                        value = e.idx,
+                        text = entryText,
+                    };
+
+                    tinsert(monthView.children, entryView);
+                end
+
+                tinsert(yearTable.children, monthView);
+            end
         end
 
-        tinsert(returnTable, yearTable);
+        tinsert(history, yearTable);
     end
 
-    return returnTable;
+    return history;
 end
 
 -- manage the journey tree
@@ -136,9 +124,12 @@ local function ManageJourneyTree(container)
         journeyTreeFrame.treeframe:SetWidth(220);
 
         local journeyTree = {};
-        journeyTree = SplitJourneyByDate();
+        journeyTree = GetJourneyHistory();
         journeyTreeFrame:SetTree(journeyTree);
+        local latestMonth, latestYear = _QuestieJourney:GetMonthAndYearOfLatestEntry()
+        journeyTreeFrame:SelectByPath(latestYear, latestMonth)
         journeyTreeFrame:SetCallback("OnGroupSelected", function(group)
+            Questie:Debug(DEBUG_DEVELOP, "[Journey] OnGroupSelected - Path:", group.localstatus.selected)
 
             local _, _, e = strsplit("\001", group.localstatus.selected);
 
@@ -254,7 +245,6 @@ local function ManageJourneyTree(container)
         end);
 
         container:AddChild(journeyTreeFrame);
-
     else
         container:ReleaseChildren();
         journeyTreeFrame = nil;
@@ -1165,26 +1155,28 @@ end
 
 function QuestieJourney:PlayerLevelUp(level)
     -- Complete Quest added to Journey
-    local data = {};
-    data.Event = "Level";
-    data.NewLevel = level;
-    data.Timestamp = time();
-    data.Party = QuestiePlayer:GetPartyMembers()
+    ---@type JourneyEntry
+    local entry = {};
+    entry.Event = "Level";
+    entry.NewLevel = level;
+    entry.Timestamp = time();
+    entry.Party = QuestiePlayer:GetPartyMembers()
 
-    tinsert(Questie.db.char.journey, data);
+    tinsert(Questie.db.char.journey, entry);
 end
 
 function QuestieJourney:AcceptQuest(questId)
     -- Add quest accept journey note.
-    local data = {};
-    data.Event = "Quest";
-    data.SubType = "Accept";
-    data.Quest = questId;
-    data.Level = QuestiePlayer:GetPlayerLevel();
-    data.Timestamp = time();
-    data.Party = QuestiePlayer:GetPartyMembers()
+    ---@type JourneyEntry
+    local entry = {};
+    entry.Event = "Quest";
+    entry.SubType = "Accept";
+    entry.Quest = questId;
+    entry.Level = QuestiePlayer:GetPlayerLevel();
+    entry.Timestamp = time();
+    entry.Party = QuestiePlayer:GetPartyMembers()
 
-    tinsert(Questie.db.char.journey, data);
+    tinsert(Questie.db.char.journey, entry);
 end
 
 function QuestieJourney:AbandonQuest(questId)
@@ -1204,27 +1196,29 @@ function QuestieJourney:AbandonQuest(questId)
     end
 
     if not skipAbandon then
-        local data = {};
-        data.Event = "Quest";
-        data.SubType = "Abandon";
-        data.Quest = questId;
-        data.Level = QuestiePlayer:GetPlayerLevel();
-        data.Timestamp = time()
-        data.Party = QuestiePlayer:GetPartyMembers()
+        ---@type JourneyEntry
+        local entry = {};
+        entry.Event = "Quest";
+        entry.SubType = "Abandon";
+        entry.Quest = questId;
+        entry.Level = QuestiePlayer:GetPlayerLevel();
+        entry.Timestamp = time()
+        entry.Party = QuestiePlayer:GetPartyMembers()
 
-        tinsert(Questie.db.char.journey, data);
+        tinsert(Questie.db.char.journey, entry);
     end
 end
 
 function QuestieJourney:CompleteQuest(questId)
-     -- Complete Quest added to Journey
-    local data = {};
-    data.Event = "Quest";
-    data.SubType = "Complete";
-    data.Quest = questId;
-    data.Level = QuestiePlayer:GetPlayerLevel();
-    data.Timestamp = time();
-    data.Party = QuestiePlayer:GetPartyMembers()
+    -- Complete Quest added to Journey
+    ---@class JourneyEntry
+    local entry = {};
+    entry.Event = "Quest";
+    entry.SubType = "Complete";
+    entry.Quest = questId;
+    entry.Level = QuestiePlayer:GetPlayerLevel();
+    entry.Timestamp = time();
+    entry.Party = QuestiePlayer:GetPartyMembers()
 
-    tinsert(Questie.db.char.journey, data);
+    tinsert(Questie.db.char.journey, entry);
 end
