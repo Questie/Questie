@@ -68,8 +68,9 @@ Modules\QuestieEventHandler.lua
 #FramePool
 Modules\FramePool\QuestieFramePool.lua
 Modules\FramePool\QuestieFrame.lua
-Modules\FramePool\QuestieFrameNew.lua
 Modules\FramePool\QuestieFrameNewUtils.lua
+Modules\FramePool\QuestieFrameNew.lua
+Modules\FramePool\QuestieFrameNewMinimap.lua
 
 #Map
 Modules\Map\QuestieMap.lua
