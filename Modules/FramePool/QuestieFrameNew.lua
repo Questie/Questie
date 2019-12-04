@@ -160,6 +160,261 @@ texturePool.resetterFunc = function(texPool, texture)
 end
 
 
+local iconPool = CreateFramePool("BUTTON");
+local worldmapProvider     = CreateFromMixins(MapCanvasDataProviderMixin)
+local worldmapProviderPin  = CreateFromMixins(MapCanvasPinMixin)
+
+-------------------------------------------------------------------------------------------
+-- WorldMap data provider
+local frameId = 0;
+-- setup pin pool
+--AcquirePin runs framepool:Acquire which runs this function
+iconPool.parent = WorldMapFrame:GetCanvas()
+iconPool.creationFunc = function(framePool)
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieFrameNew] Creating frame from pool");
+    local frame = CreateFrame(framePool.frameType, nil, framePool.parent)
+    frame:SetSize(16,16);
+    frame.frameId = frameId;
+
+    --- Data members
+    frame.questData = {}
+    frame.textures = {}
+
+    ---Functions
+
+
+
+    frameId = frameId + 1;
+    return Mixin(frame, worldmapProviderPin)
+end
+
+iconPool.resetterFunc = function(pinPool, pin)
+    FramePool_HideAndClearAnchors(pinPool, pin)
+    pin:OnReleased()
+
+    pin.pinTemplate = nil
+    pin.owningMap = nil
+end
+
+-- register pin pool with the world map
+WorldMapFrame.pinPools["PinsTemplateQuestie"] = iconPool
+
+-- provider base API
+function worldmapProvider:RemoveAllData()
+  Questie:Debug(DEBUG_DEVELOP, "[QuestieFrameNew] RemoveAllData");
+  self:GetMap():RemoveAllPinsByTemplate("PinsTemplateQuestie")
+end
+
+function worldmapProvider:RemovePinByIcon(icon)
+  for pin in self:GetMap():EnumeratePinsByTemplate("PinsTemplateQuestie") do
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieFrameNew]", pin);
+    --self:GetMap():RemovePin(pin)
+  end
+end
+
+---@type table<integer, table> @UiMapId and note Info
+local zoneCache = {}
+
+function worldmapProvider:RefreshAllData(fromOnShow)
+  Questie:Debug(DEBUG_DEVELOP, "[QuestieFrameNew] RefreshAllData : ", fromOnShow);
+  local mapId = self:GetMap():GetMapID()
+  self:RemoveAllData()
+
+  --Map icons are disabled.
+  --if(not Questie.db.global.enableMapIcons) then return; end
+
+  local enableAvailable = Questie.db.global.enableAvailable;
+  local enableTurnins = Questie.db.global.enableTurnins;
+  local enableObjectives = Questie.db.global.enableObjectives;
+
+  --This will make it rerun the hotzones if needed.
+  local dirty = false;
+
+  --temporary should be moved.
+  if(not QuestieFrameNew.utils.zoneList) then
+    QuestieFrameNew.utils:GenerateCloseZones();
+  end
+
+  local closeZones = QuestieFrameNew.utils.zoneList[mapId];
+
+  local allPins = {};
+
+  --We only want to reset it once
+  local availableCacheReset = false;
+  local completeCacheReset = false;
+  local objectiveCacheReset = false;
+
+  if(not zoneCache[mapId]) then
+    zoneCache[mapId] = {}
+    zoneCache[mapId].availableCache = {}
+    zoneCache[mapId].availableCacheDirty = false
+
+    zoneCache[mapId].completeCache = {}
+    zoneCache[mapId].completeCacheDirty = false
+
+    zoneCache[mapId].objectiveCache = {}
+    zoneCache[mapId].objectiveCacheDirty = false
+  end
+
+  --A generic function to check if anything related to the object is dirty.
+  local function checkDirty(dirtyObject, mapId)
+    if(dirtyObject[mapId]) then
+      return true;
+    else
+      for UIMapId, _ in pairs(closeZones[mapId] or {}) do
+        if(dirtyObject[mapId]) then
+          return true;
+        end
+      end
+    end
+    return false;
+  end
+
+  --Available quests
+  if (enableAvailable) then
+    for questId, _ in pairs(QuestieQuest.availableQuests) do
+      local quest = QuestieDB:GetQuest(questId);
+      if(checkDirty(quest.starterDirty, mapId)) then --TODO: Figure out why this doesn't work without true
+        Questie:Debug(DEBUG_ELEVATED, "[QuestieFrameNew]", "Starter dirty", mapId);
+        --Map is dirty we reset the cache
+        if(not availableCacheReset) then
+          zoneCache[mapId].availableCache = {}
+          availableCacheReset = true;
+        end
+        for index, position in pairs(quest.starterLocations) do
+          if(closeZones[position.UIMapId]) then
+            local x, y = HBD:TranslateZoneCoordinates(position.x/100, position.y/100, position.UIMapId, mapId);
+            if(x and y) then
+              table.insert(zoneCache[mapId].availableCache, position)
+              zoneCache[mapId].availableCacheDirty = true;
+            end
+          end
+        end
+        dirty = true;
+        quest.starterDirty[mapId] = false;
+      end
+    end
+  end
+
+  for questId, questData in pairs(QuestiePlayer.currentQuestlog) do
+    --Questie:Print("--Adding quest -> ", questId)
+    local quest = questData;
+    if(type(questData) == "number") then
+      quest = QuestieDB:GetQuest(questId);
+    end
+
+    --Complete quests
+    if (enableTurnins) then
+        if(quest.finisherLocations and checkDirty(quest.finisherDirty, mapId)) then
+          Questie:Debug(DEBUG_ELEVATED, "[QuestieFrameNew]", "Finisher dirty", mapId);
+          if(not completeCacheReset) then
+            zoneCache[mapId].completeCache = {}
+            completeCacheReset = true;
+          end
+          for index, position in pairs(quest.finisherLocations) do
+            if(closeZones[position.UIMapId]) then
+              local x, y = HBD:TranslateZoneCoordinates(position.x/100, position.y/100, position.UIMapId, mapId);
+              if(x and y) then
+                table.insert(zoneCache[mapId].completeCache, position)
+                zoneCache[mapId].completeCacheDirty = true
+              end
+            end
+          end
+          dirty = true;
+          quest.finisherDirty[mapId] = false;
+        end
+    end
+
+    --Objectives
+    if(enableObjectives) then
+      if(quest.objectiveIcons and checkDirty(quest.objectiveDirty, mapId)) then
+        Questie:Debug(DEBUG_ELEVATED, "[QuestieFrameNew]", "Objective dirty", mapId);
+        if(not objectiveCacheReset) then
+          zoneCache[mapId].objectiveCache = {}
+          objectiveCacheReset = true;
+        end
+        for objectiveIndex, spawnData in pairs(quest.objectiveIcons) do
+          --Questie:Print("---->", objectiveIndex)
+          for index, spawn in pairs(spawnData) do
+            if(closeZones[spawn.UIMapId]) then
+              local x, y = HBD:TranslateZoneCoordinates(spawn.x/100, spawn.y/100, spawn.UIMapId, mapId);
+              if(x and y) then
+                --Questie:Print("------->ADDED PIN:", x,y);
+                table.insert(zoneCache[mapId].objectiveCache, spawn)
+                zoneCache[mapId].objectiveCacheDirty = true
+              end
+            end
+          end
+        end
+        dirty = true;
+        quest.objectiveDirty[mapId] = false;
+      end
+    end
+  end
+
+  Questie:Print("--------------------------------------------------------------------")
+  Questie:Debug(DEBUG_ELEVATED, "Drawing icons, current size of icon list:", #zoneCache[mapId].objectiveCache+#zoneCache[mapId].completeCache+#zoneCache[mapId].availableCache);
+  if(dirty or not zoneCache[mapId].hotzones) then
+    zoneCache[mapId].hotzones = {}
+    if(zoneCache[mapId].objectiveCacheDirty) then
+      Questie:Debug(DEBUG_ELEVATED, "[QuestieFrameNew]", "objectiveCache dirty recalculating hotzones");
+      zoneCache[mapId].objectiveCache = QuestieMap.utils:CalcHotzones(zoneCache[mapId].objectiveCache, 70, #zoneCache[mapId].objectiveCache);
+      zoneCache[mapId].objectiveCacheDirty = false;
+    end
+
+    if(zoneCache[mapId].completeCacheDirty) then
+      Questie:Debug(DEBUG_ELEVATED, "[QuestieFrameNew]", "completeCache dirty recalculating hotzones");
+      zoneCache[mapId].completeCache = QuestieMap.utils:CalcHotzones(zoneCache[mapId].completeCache, 10, #zoneCache[mapId].completeCache);
+      zoneCache[mapId].completeCacheDirty = false;
+    end
+
+    if(zoneCache[mapId].availableCacheDirty) then
+      Questie:Debug(DEBUG_ELEVATED, "[QuestieFrameNew]", "availableCache dirty recalculating hotzones");
+      zoneCache[mapId].availableCache = QuestieMap.utils:CalcHotzones(zoneCache[mapId].availableCache, 15, #zoneCache[mapId].availableCache);
+      zoneCache[mapId].availableCacheDirty = false;
+    end
+    for _, positions in pairs(zoneCache[mapId].objectiveCache) do
+      table.insert(zoneCache[mapId].hotzones, positions);
+    end
+    for _, positions in pairs(zoneCache[mapId].completeCache) do
+      table.insert(zoneCache[mapId].hotzones, positions);
+    end
+    for _, positions in pairs(zoneCache[mapId].availableCache) do
+      table.insert(zoneCache[mapId].hotzones, positions);
+    end
+  end
+
+  Questie:Debug(DEBUG_ELEVATED, "[QuestieFrameNew]", "Number of hotzones", #zoneCache[mapId].hotzones);
+  --If hotzones are set we set it to that or the zoneCache if hotzones is nil
+  for _, positions in pairs(zoneCache[mapId].hotzones) do
+      local center = QuestieMap.utils:CenterPoint(positions)
+
+      ---@type table<string, table<string, table>
+      local questData = {}
+      for _, positionData in pairs(positions) do
+        --Questie:Print(positionData.pinType, positionData)
+        if(not questData[positionData.pinType] ) then
+          questData[positionData.pinType] = {}
+        end
+        table.insert(questData[positionData.pinType], positionData);
+      end
+
+      local x, y = HBD:TranslateZoneCoordinates(center.x/100, center.y/100, positions[1].UIMapId, mapId);
+
+      if(x and y) then
+
+        Questie:Print(x, y, center.x/100, center.y/100, positions[1].UIMapId, mapId);
+        --Hide unexplored logic
+        if(not QuestieMap.utils:IsExplored(mapId, x, y) and Questie.db.global.hideUnexploredMapIcons) then
+          self:GetMap():AcquirePin("PinsTemplateQuestie", "NotUsed", questData, x, y, positions[1].UIMapId);--data.frameLevelType)
+        elseif(not Questie.db.global.hideUnexploredMapIcons) then
+          self:GetMap():AcquirePin("PinsTemplateQuestie", "NotUsed", questData, x, y, positions[1].UIMapId);--data.frameLevelType)
+        end
+      end
+  end
+end
+
+
 local function AcquireTextures(frame)
 
     --Different settings depending on noteType
@@ -374,249 +629,6 @@ local function ReleaseTextures(frame)
   end
 end
 
-
-
-local iconPool = CreateFramePool("BUTTON");
-local worldmapProvider     = CreateFromMixins(MapCanvasDataProviderMixin)
-local worldmapProviderPin  = CreateFromMixins(MapCanvasPinMixin)
-
--------------------------------------------------------------------------------------------
--- WorldMap data provider
-local frameId = 0;
--- setup pin pool
---AcquirePin runs framepool:Acquire which runs this function
-iconPool.parent = WorldMapFrame:GetCanvas()
-iconPool.creationFunc = function(framePool)
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieFrameNew] Creating frame from pool");
-    local frame = CreateFrame(framePool.frameType, nil, framePool.parent)
-    frame:SetSize(16,16);
-    frame.frameId = frameId;
-
-    --- Data members
-    frame.questData = {}
-    frame.textures = {}
-
-    ---Functions
-
-
-
-    frameId = frameId + 1;
-    return Mixin(frame, worldmapProviderPin)
-end
-
-iconPool.resetterFunc = function(pinPool, pin)
-    FramePool_HideAndClearAnchors(pinPool, pin)
-    pin:OnReleased()
-
-    pin.pinTemplate = nil
-    pin.owningMap = nil
-end
-
--- register pin pool with the world map
-WorldMapFrame.pinPools["PinsTemplateQuestie"] = iconPool
-
--- provider base API
-function worldmapProvider:RemoveAllData()
-  Questie:Debug(DEBUG_DEVELOP, "[QuestieFrameNew] RemoveAllData");
-  self:GetMap():RemoveAllPinsByTemplate("PinsTemplateQuestie")
-end
-
-function worldmapProvider:RemovePinByIcon(icon)
-  for pin in self:GetMap():EnumeratePinsByTemplate("PinsTemplateQuestie") do
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieFrameNew]", pin);
-    --self:GetMap():RemovePin(pin)
-  end
-end
-
----@type table<integer, table> @UiMapId and note Info
-local zoneCache = {}
-
-function worldmapProvider:RefreshAllData(fromOnShow)
-  Questie:Debug(DEBUG_DEVELOP, "[QuestieFrameNew] RefreshAllData : ", fromOnShow);
-  local mapId = self:GetMap():GetMapID()
-  self:RemoveAllData()
-
-  --Map icons are disabled.
-  --if(not Questie.db.global.enableMapIcons) then return; end
-
-  local enableAvailable = Questie.db.global.enableAvailable;
-  local enableTurnins = Questie.db.global.enableTurnins;
-  local enableObjectives = Questie.db.global.enableObjectives;
-
-  --This will make it rerun the hotzones if needed.
-  local dirty = false;
-
-  --temporary should be moved.
-  if(not QuestieFrameNew.utils.zoneList) then
-    QuestieFrameNew.utils:GenerateCloseZones();
-  end
-
-  local closeZones = QuestieFrameNew.utils.zoneList[mapId];
-
-  local allPins = {};
-
-  --We only want to reset it once
-  local availableCacheReset = false;
-  local completeCacheReset = false;
-  local objectiveCacheReset = false;
-
-  if(not zoneCache[mapId]) then
-    zoneCache[mapId] = {}
-    zoneCache[mapId].availableCache = {}
-    zoneCache[mapId].availableCacheDirty = false
-
-    zoneCache[mapId].completeCache = {}
-    zoneCache[mapId].completeCacheDirty = false
-
-    zoneCache[mapId].objectiveCache = {}
-    zoneCache[mapId].objectiveCacheDirty = false
-  end
-
-  --Available quests
-  if (enableAvailable) then
-    for questId, _ in pairs(QuestieQuest.availableQuests) do
-      local quest = QuestieDB:GetQuest(questId);
-      if(quest.starterDirty[mapId] or true) then --TODO: Figure out why this doesn't work without true
-        Questie:Debug(DEBUG_ELEVATED, "[QuestieFrameNew]", "Starter dirty", mapId);
-        --Map is dirty we reset the cache
-        if(not availableCacheReset) then
-          zoneCache[mapId].availableCache = {}
-          availableCacheReset = true;
-        end
-        for index, position in pairs(quest.starterLocations) do
-          if(closeZones[position.UIMapId]) then
-            local x, y = HBD:TranslateZoneCoordinates(position.x/100, position.y/100, position.UIMapId, mapId);
-            if(x and y) then
-              table.insert(zoneCache[mapId].availableCache, position)
-              zoneCache[mapId].availableCacheDirty = true;
-            end
-          end
-        end
-        dirty = true;
-        quest.starterDirty[mapId] = false;
-      end
-    end
-  end
-
-  for questId, questData in pairs(QuestiePlayer.currentQuestlog) do
-    --Questie:Print("--Adding quest -> ", questId)
-    local quest = questData;
-    if(type(questData) == "number") then
-      quest = QuestieDB:GetQuest(questId);
-    end
-
-    --Complete quests
-    if (enableTurnins) then
-        if(quest.finisherLocations and quest.finisherDirty[mapId]) then
-          Questie:Debug(DEBUG_ELEVATED, "[QuestieFrameNew]", "Finisher dirty", mapId);
-          if(not completeCacheReset) then
-            zoneCache[mapId].completeCache = {}
-            completeCacheReset = true;
-          end
-          for index, position in pairs(quest.finisherLocations) do
-            if(closeZones[position.UIMapId]) then
-              local x, y = HBD:TranslateZoneCoordinates(position.x/100, position.y/100, position.UIMapId, mapId);
-              if(x and y) then
-                table.insert(zoneCache[mapId].completeCache, position)
-                zoneCache[mapId].completeCacheDirty = true
-              end
-            end
-          end
-          dirty = true;
-          quest.finisherDirty[mapId] = false;
-        end
-    end
-
-    --Objectives
-    if(enableObjectives) then
-      if(quest.objectiveIcons and quest.objectiveDirty[mapId]) then
-        Questie:Debug(DEBUG_ELEVATED, "[QuestieFrameNew]", "Objective dirty", mapId);
-        if(not objectiveCacheReset) then
-          zoneCache[mapId].objectiveCache = {}
-          objectiveCacheReset = true;
-        end
-        for objectiveIndex, spawnData in pairs(quest.objectiveIcons) do
-          --Questie:Print("---->", objectiveIndex)
-          for index, spawn in pairs(spawnData) do
-            if(closeZones[spawn.UIMapId]) then
-              local x, y = HBD:TranslateZoneCoordinates(spawn.x/100, spawn.y/100, spawn.UIMapId, mapId);
-              if(x and y) then
-                --Questie:Print("------->ADDED PIN:", x,y);
-                table.insert(zoneCache[mapId].objectiveCache, spawn)
-                zoneCache[mapId].objectiveCacheDirty = true
-              end
-            end
-          end
-        end
-        dirty = true;
-        quest.objectiveDirty[mapId] = false;
-      end
-    end
-  end
-
-  Questie:Print("--------------------------------------------------------------------")
-  Questie:Debug(DEBUG_ELEVATED, "Drawing icons, current size of icon list:", #zoneCache[mapId].objectiveCache+#zoneCache[mapId].completeCache+#zoneCache[mapId].availableCache);
-  if(dirty or not zoneCache[mapId].hotzones) then
-    zoneCache[mapId].hotzones = {}
-    if(zoneCache[mapId].objectiveCacheDirty) then
-      Questie:Debug(DEBUG_ELEVATED, "[QuestieFrameNew]", "objectiveCache dirty recalculating hotzones");
-      zoneCache[mapId].objectiveCache = QuestieMap.utils:CalcHotzones(zoneCache[mapId].objectiveCache, 70, #zoneCache[mapId].objectiveCache);
-      zoneCache[mapId].objectiveCacheDirty = false;
-    end
-
-    if(zoneCache[mapId].completeCacheDirty) then
-      Questie:Debug(DEBUG_ELEVATED, "[QuestieFrameNew]", "completeCache dirty recalculating hotzones");
-      zoneCache[mapId].completeCache = QuestieMap.utils:CalcHotzones(zoneCache[mapId].completeCache, 10, #zoneCache[mapId].completeCache);
-      zoneCache[mapId].completeCacheDirty = false;
-    end
-
-    if(zoneCache[mapId].availableCacheDirty) then
-      Questie:Debug(DEBUG_ELEVATED, "[QuestieFrameNew]", "availableCache dirty recalculating hotzones");
-      zoneCache[mapId].availableCache = QuestieMap.utils:CalcHotzones(zoneCache[mapId].availableCache, 15, #zoneCache[mapId].availableCache);
-      zoneCache[mapId].availableCacheDirty = false;
-    end
-    for _, positions in pairs(zoneCache[mapId].objectiveCache) do
-      table.insert(zoneCache[mapId].hotzones, positions);
-    end
-    for _, positions in pairs(zoneCache[mapId].completeCache) do
-      table.insert(zoneCache[mapId].hotzones, positions);
-    end
-    for _, positions in pairs(zoneCache[mapId].availableCache) do
-      table.insert(zoneCache[mapId].hotzones, positions);
-    end
-  end
-
-  Questie:Debug(DEBUG_ELEVATED, "[QuestieFrameNew]", "Number of hotzones", #zoneCache[mapId].hotzones);
-  --If hotzones are set we set it to that or the zoneCache if hotzones is nil
-  for _, positions in pairs(zoneCache[mapId].hotzones) do
-      local center = QuestieMap.utils:CenterPoint(positions)
-
-      ---@type table<string, table<string, table>
-      local questData = {}
-      for _, positionData in pairs(positions) do
-        --Questie:Print(positionData.pinType, positionData)
-        if(not questData[positionData.pinType] ) then
-          questData[positionData.pinType] = {}
-        end
-        table.insert(questData[positionData.pinType], positionData);
-      end
-
-      local x, y = HBD:TranslateZoneCoordinates(center.x/100, center.y/100, positions[1].UIMapId, mapId);
-
-      if(x and y) then
-
-        Questie:Print(x, y, center.x/100, center.y/100, positions[1].UIMapId, mapId);
-        --Hide unexplored logic
-        if(not QuestieMap.utils:IsExplored(mapId, x, y) and Questie.db.global.hideUnexploredMapIcons) then
-          self:GetMap():AcquirePin("PinsTemplateQuestie", "NotUsed", questData, x, y, positions[1].UIMapId);--data.frameLevelType)
-        elseif(not Questie.db.global.hideUnexploredMapIcons) then
-          self:GetMap():AcquirePin("PinsTemplateQuestie", "NotUsed", questData, x, y, positions[1].UIMapId);--data.frameLevelType)
-        end
-      end
-  end
-
-  --self:GetMap():AcquirePin("PinsTemplateQuestie", "objective", {}, 0.5, 0.5);--data.frameLevelType)
-end
 
 --  map pin base API
 function worldmapProviderPin:OnLoad()
