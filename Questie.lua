@@ -203,6 +203,10 @@ function Questie:OnInitialize()
     --When complete window shows
     Questie:RegisterEvent("QUEST_COMPLETE", QuestieAuto.QUEST_COMPLETE)
 
+    Questie:RegisterEvent("ZONE_CHANGED", QuestieEventHandler.ALL_ZONE_CHANGED);
+    Questie:RegisterEvent("ZONE_CHANGED_INDOORS", QuestieEventHandler.ALL_ZONE_CHANGED);
+    Questie:RegisterEvent("ZONE_CHANGED_NEW_AREA", QuestieEventHandler.ALL_ZONE_CHANGED);
+
     -- todo move this call into loader
     QuestieTooltips:Initialize()
 

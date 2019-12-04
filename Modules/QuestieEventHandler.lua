@@ -29,6 +29,8 @@ local QuestieHash = QuestieLoader:ImportModule("QuestieHash");
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
+---@type QuestieFrameNew
+local QuestieFrameNew = QuestieLoader:ImportModule("QuestieFrameNew");
 
 __UPDATEFIX_IDX = 1; -- temporary bad fix
 
@@ -44,6 +46,12 @@ local function _Hack_prime_log() -- this seems to make it update the data much q
     GetQuestLogTitle(i)
     QuestieQuest:GetRawLeaderBoardDetails(i)
   end
+end
+
+function QuestieEventHandler:ALL_ZONE_CHANGED()
+    local UIMapId = C_Map.GetBestMapForUnit("player");
+    Questie:Debug(DEBUG_DEVELOP, "EVENT: ALL_ZONE_CHANGED : New UIMapId", UIMapId);
+    QuestieFrameNew.worldmapProvider:RefreshAllData(nil, UIMapId);
 end
 
 function QuestieEventHandler:PLAYER_LOGIN()
