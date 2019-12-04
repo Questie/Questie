@@ -202,7 +202,7 @@ function QuestieFrameNewMinimap:RefreshAllData(iconListData)
       miniDataObject.x = x;
       miniDataObject.y = y;
       miniDataObject.UIMapId = UIMapId;
-      miniDataObject.newIcon = true;
+      miniDataObject.newDataObject = true;
       miniDataObject.index = index;
       iconsToAdd[index] = miniDataObject;
     else
@@ -222,7 +222,7 @@ function QuestieFrameNewMinimap:RefreshAllData(iconListData)
   --Add the new icons to the minimap
   ---@param frame IconMinimap|miniDataObject
   for iconIndex, frame in pairs(iconsToAdd) do
-    if(frame.newIcon) then
+    if(frame.newDataObject) then
       --In here its a miniDataObject not a IconMinimap
       --The reason for this is because we want to acquire the pins AFTER we destroyed the previous ones
       --This lowers the amount of frames in use.
@@ -231,8 +231,8 @@ function QuestieFrameNewMinimap:RefreshAllData(iconListData)
       HBDPins:AddMinimapIconMap(Questie, newFrame, newFrame.position.UIMapId, newFrame.position.x, newFrame.position.y, true, true);
       --newFrame:Show();
       --None of these should actually need to be set... but it would break hard if it was left so lets be safe.
-      frame.newFrame = nil;
-      newFrame.newIcon = nil;
+      frame.newDataObject = nil;
+      newFrame.newDataObject = nil;
       QuestieFrameNewMinimap.allMinimapIcons[iconIndex] = newFrame;
     end
   end

@@ -446,6 +446,10 @@ function QuestieQuest:UpdateQuest(questId)
         QuestieTracker:Update()
 
         Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
+        --Update the map
+        local UIMapId = C_Map.GetBestMapForUnit("player");
+        Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest] UpdateQuest -> Update map:", UIMapId);
+        QuestieFrameNew.worldmapProvider:RefreshAllData(nil, UIMapId);
     end
 end
 --Run this if you want to update the entire table
@@ -471,6 +475,9 @@ function QuestieQuest:GetAllQuestIds()
                         end
                         processedQuests = processedQuests + 1;
                         if(processedQuests == numQuests) then
+                            local UIMapId = C_Map.GetBestMapForUnit("player");
+                            Questie:Debug(DEBUG_DEVELOP, "EVENT: GetAllQuestIds : Full map refresh", UIMapId);
+                            QuestieFrameNew.worldmapProvider:RefreshAllData(nil, UIMapId);
                             QuestieTracker:Update()
                         end
                     else
@@ -963,7 +970,6 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
     if old then
         SelectQuestLogEntry(old)
     end
-
 end
 function QuestieQuest:PopulateQuestLogInfo(quest)
     --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: PopulateMeta1:", Quest.Id, Quest.Name)
@@ -1462,6 +1468,11 @@ function QuestieQuest:DrawAllAvailableQuests()--All quests between
         end
         count = count + 1
     end
+    --Update the map
+    local UIMapId = C_Map.GetBestMapForUnit("player");
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest] DrawAvailableQuests -> Update map:", UIMapId);
+    QuestieFrameNew.worldmapProvider:RefreshAllData(nil, UIMapId);
+
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]", QuestieLocale:GetUIString('DEBUG_DRAW', count, QuestiePlayer:GetPlayerLevel()));
 end
 

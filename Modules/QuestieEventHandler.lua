@@ -173,6 +173,9 @@ function QuestieEventHandler:QUEST_LOG_UPDATE()
         if(QuestieComms) then
             QuestieComms:Initialize();
         end
+        local UIMapId = C_Map.GetBestMapForUnit("player");
+        Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_LOG_UPDATE : First Map Refresh", UIMapId);
+        QuestieFrameNew.worldmapProvider:RefreshAllData(nil, UIMapId);
         playerEntered = nil;
     end
 
