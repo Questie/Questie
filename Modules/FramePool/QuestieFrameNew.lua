@@ -420,6 +420,18 @@ local function AcquireTextures(frame)
     --Different settings depending on noteType
     local globalScale = Questie.db.global.globalScale or 0.7
 
+    local mapId = WorldMapFrame:GetMapID()
+
+    local frameWidthPixels = 0;
+
+    --We want to scale depending on zoom level.
+    local frameScaling = 1;
+    if(mapId == 947) then --Azeroth
+        frameScaling = 0.85
+    elseif(mapId == 1414 or mapId == 1415) then -- EK and Kalimdor
+        frameScaling = 0.9
+    end
+
     --Count the number of pins to place them in the correct place.
     -- not used
     local count = 0;
@@ -527,6 +539,7 @@ local function AcquireTextures(frame)
               end
               newTexture:SetSize((16 * typeLookup[textureData.pinTypeId]:GetIconScale())*globalScale, (16 * typeLookup[textureData.pinTypeId]:GetIconScale())*globalScale)
               --newTexture:Show();
+              frameWidthPixels = frameWidthPixels + typeLookup[textureData.pinTypeId]:GetPixelDistance();
 
               if(textureData.pinTypeId ~= QuestieFrameNew.stringEnum["available"] and textureData.pinTypeId ~= QuestieFrameNew.stringEnum["complete"] and Questie.db.global.alwaysGlowMap) then
                 local glowt = texturePool:Acquire();
@@ -586,7 +599,6 @@ local function AcquireTextures(frame)
         --To make them not seem so similar we use their respective Y pos to move them.
         --local xDiff = frame.position.x-texture.textureData.position.x/100;
         local yDiff = frame.position.y-texture.textureData.position.y/100;
-        local mapId = WorldMapFrame:GetMapID()
         if(mapId ~= frame.position.UIMapId) then
           local x, y = HBD:TranslateZoneCoordinates(texture.textureData.position.x/100, texture.textureData.position.y/100, frame.position.UIMapId, mapId)
           --xDiff = frame.position.x-x;
@@ -604,7 +616,8 @@ local function AcquireTextures(frame)
     end
 
     --Increase the width to match the number of icons.
-    frame:SetWidth(16+(drawnTextures*(16/2)));
+    frame:SetWidth(math.max(16, frameWidthPixels));
+    frame:SetScale(frameScaling);
 
 end
 
