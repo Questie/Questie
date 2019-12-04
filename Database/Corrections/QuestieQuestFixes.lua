@@ -184,7 +184,11 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.specialFlags] = 1,
             [QuestieDB.questKeys.exclusiveTo] = {654},
         },
+        [860] = {
+            [QuestieDB.questKeys.exclusiveTo] = {844},
+        },
         [861] = {
+            [QuestieDB.questKeys.nextQuestInChain] = {860},
             [QuestieDB.questKeys.exclusiveTo] = {860,844}, -- #1109
         },
         [862] = {
