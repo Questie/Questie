@@ -194,6 +194,9 @@ function QuestieQuestFixes:Load()
         [862] = {
             [QuestieDB.questKeys.requiredSkill] = {185,76}, -- You need to be a Journeyman for this quest
         },
+        [886] = {
+            [QuestieDB.questKeys.exclusiveTo] = {870},
+        },
         [926] = {
             [QuestieDB.questKeys.parentQuest] = 924, -- #806
             [QuestieDB.questKeys.preQuestSingle] = {809}, --#606
