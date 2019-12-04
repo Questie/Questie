@@ -202,6 +202,15 @@ function QuestieStreamLib:ReadShort()
     return bit.lshift(self:ReadByte(), 8) + self:ReadByte();
 end
 
+function QuestieStreamLib:ReadInt12Pair()
+    local a = self:ReadByte()
+    return self:ReadByte() + bit.lshift(bit.band(a, 15), 8), self:ReadByte() + bit.lshift(bit.band(a, 240), 4)
+end
+
+function QuestieStreamLib:ReadInt24()
+    return bit.lshift(self:ReadByte(), 16) + bit.lshift(self:ReadByte(), 8) + self:ReadByte();
+end
+
 function QuestieStreamLib:ReadInt()
     return bit.lshift(self:ReadByte(), 24) + bit.lshift(self:ReadByte(), 16) + bit.lshift(self:ReadByte(), 8) + self:ReadByte();
 end
@@ -258,6 +267,18 @@ function QuestieStreamLib:WriteInt(val)
     self:WriteByte(mod(bit.rshift(val, 16), 256));
     self:WriteByte(mod(bit.rshift(val, 8), 256));
     self:WriteByte(mod(val, 256));
+end
+
+function QuestieStreamLib:WriteInt24(val)
+    self:WriteByte(mod(bit.rshift(val, 16), 256));
+    self:WriteByte(mod(bit.rshift(val, 8), 256));
+    self:WriteByte(mod(val, 256));
+end
+
+function QuestieStreamLib:WriteInt12Pair(val1, val2)
+    self:WriteByte(bit.band(bit.rshift(val1, 8), 15) + bit.lshift(bit.band(bit.rshift(val2, 8), 15), 4))
+    self:WriteByte(mod(val1, 256))
+    self:WriteByte(mod(val2, 256))
 end
 
 function QuestieStreamLib:WriteLong(val)

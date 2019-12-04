@@ -27,19 +27,19 @@ QuestieSerializer.SerializerHashDB = {
 QuestieSerializer.SerializerHashDBReversed = {
 }
 
-local function addHash(str)
-    local hash = QuestieSerializer:Hash(str)
-    if QuestieSerializer.SerializerHashDBReversed[hash] then
+local function addHash(self, str)
+    local hash = self:Hash(str)
+    if self.SerializerHashDBReversed[hash] then
         -- dont add, also prevents collissions 
         return
     end
-    QuestieSerializer.SerializerHashDB[str] = hash
-    QuestieSerializer.SerializerHashDBReversed[hash] = str
+    self.SerializerHashDB[str] = hash
+    self.SerializerHashDBReversed[hash] = str
 end
 
-local function clearHashes()
-    QuestieSerializer.SerializerHashDB = {}
-    QuestieSerializer.SerializerHashDBReversed = {}
+local function clearHashes(self)
+    self.SerializerHashDB = {}
+    self.SerializerHashDBReversed = {}
 end
 
 
@@ -102,24 +102,27 @@ local function intBitsToFloat(int)
     return n
 end
 
-local function _ReadObject(self)
+function QuestieSerializer:ReadObject()
     local typ = self.stream:ReadByte();
     if typ > 31 then -- this isnt actually a type but a number value
         return typ - 32
     end
-    return QuestieSerializer.ReaderTable[typ](self);
+    --print("Reading " .. tostring(typ))
+    return self.ReaderTable[typ](self);
 end
+
+
 
 local function _ReadTable(self, entryCount)
     local ret = {}
     for i=1, entryCount do
-        local key = _ReadObject(self)
+        local key = self:ReadObject(self)
         if type(key) == "string" then
-            addHash(key)
+            addHash(self, key)
         end
-        local value = _ReadObject(self)
+        local value = self:ReadObject(self)
         if type(value) == "string" then
-            addHash(value)
+            addHash(self, value)
         end
         ret[key] = value
     end
@@ -129,9 +132,9 @@ end
 local function _ReadArray(self, entryCount)
     local ret = {}
     for i=1, entryCount do
-        local value = _ReadObject(self)
+        local value = self:ReadObject(self)
         if type(value) == "string" then
-            addHash(value)
+            addHash(self, value)
         end
         ret[i] = value
     end
@@ -148,7 +151,7 @@ QuestieSerializer.ReaderTable = {
 
     [7] = function(self) return self.stream:ReadTinyString() end,
     [8] = function(self) return self.stream:ReadShortString() end,
-    [9] = function(self) return QuestieSerializer.SerializerHashDBReversed[self.stream:ReadInt()] end,
+    [9] = function(self) return self.SerializerHashDBReversed[self.stream:ReadInt()] end,
 
    [10] = function(self) return _ReadTable(self, self.stream:ReadByte()) end,
    [11] = function(self) return _ReadTable(self, self.stream:ReadShort()) end,
@@ -187,7 +190,7 @@ QuestieSerializer.WriterTable = {
     ["number"] = function(self, value)
         local _, fract = math.modf(value)
         if fract > 0 then
-            QuestieSerializer.WriterTable["float"](self, value)
+            self.WriterTable["float"](self, value)
         else
             local sign = 0
             if value < 0 then
@@ -216,9 +219,9 @@ QuestieSerializer.WriterTable = {
         self.stream:WriteInt(floatBitsToInt(value))
     end,
     ["string"] = function(self, value)
-        if QuestieSerializer.SerializerHashDB[value] and string.len(value) > 4 then
+        if self.SerializerHashDB[value] and string.len(value) > 4 then
             self.stream:WriteByte(9)
-            self.stream:WriteInt(QuestieSerializer.SerializerHashDB[value])
+            self.stream:WriteInt(self.SerializerHashDB[value])
         elseif string.len(value) > 254 then
             self.stream:WriteByte(8)
             self.stream:WriteShortString(value)
@@ -246,12 +249,12 @@ QuestieSerializer.WriterTable = {
                 self.stream:WriteByte(count)
             end
             for _, v in pairs(value) do
-                if not QuestieSerializer.WriterTable[type(v)] then
+                if not self.WriterTable[type(v)] then
                     print("QuestieSerializer Error: Unhandled type: " .. type(value))
                 else
-                    QuestieSerializer.WriterTable[type(v)](self, v, depth)
+                    self.WriterTable[type(v)](self, v, depth)
                     if type(v) == "string" then
-                        addHash(v)
+                        addHash(self, v)
                     end
                 end
             end
@@ -265,7 +268,7 @@ QuestieSerializer.WriterTable = {
             end
             for key, v in pairs(value) do
                 if key and v then
-                    QuestieSerializer:WriteKeyValuePair(key, v, depth + 1)
+                    self:WriteKeyValuePair(key, v, depth + 1)
                 end
             end
         end
@@ -287,18 +290,18 @@ function QuestieSerializer:WriteKeyValuePair(key, value, depth)
     if not depth then
         depth = 0
     end
-    if self.objectCount > 8192 then print("[QuestieSerializer] Too many objects in input table!") return end
+    --if self.objectCount > 8192 then print("[QuestieSerializer] Too many objects in input table!") return end
     self.objectCount = self.objectCount + 1
-    if not QuestieSerializer.WriterTable[type(value)] or not QuestieSerializer.WriterTable[type(key)] then
+    if not self.WriterTable[type(value)] or not self.WriterTable[type(key)] then
         print("QuestieSerializer Error: Unhandled type: " .. type(key) .. "  " .. type(value))
     else
-        QuestieSerializer.WriterTable[type(key)](self, key, depth)
+        self.WriterTable[type(key)](self, key, depth)
         if type(key) == "string" then
-            addHash(key)
+            addHash(self, key)
         end
-        QuestieSerializer.WriterTable[type(value)](self, value, depth)
+        self.WriterTable[type(value)](self, value, depth)
         if type(value) == "string" then
-            addHash(value)
+            addHash(self, value)
         end
     end
 end
@@ -309,24 +312,45 @@ function QuestieSerializer:SetupStream()
     else
         self.stream = QuestieStreamLib:GetStream("1short")
     end
-    clearHashes()
+    clearHashes(self)
 end
 
 function QuestieSerializer:Serialize(tab)
-    QuestieSerializer:SetupStream()
+    self:SetupStream()
     self.objectCount = 0
     --QuestieSerializer:WriteKeyValuePair("meta", {protocolVersion = 1, mode="1short"})
-    QuestieSerializer:WriteKeyValuePair(1, tab)
+    self:WriteKeyValuePair(1, tab)
     return self.stream:Save()
 end
 
 function QuestieSerializer:Deserialize(data)
-    QuestieSerializer:SetupStream()
+    self:SetupStream()
     self.stream:Load(data)
     --local meta = _ReadTable(self, 1)
     local data = _ReadTable(self, 1)
     return data[1]
 end
+
+function QuestieSerializer:Clone(mode)
+    local clone = {}
+    for k, v in pairs(self) do
+        clone[k] = v;
+    end
+    clearHashes(clone)
+    if (not mode) or "1short" == mode then
+        clone.stream = QuestieStreamLib:GetStream("1short") -- make sure we don't give the clone our stream
+    elseif mode and mode == "1short-raw" then
+        clone.stream = QuestieStreamLib:GetStream("1short")
+        clone.stream.Load = clone.stream.LoadRaw
+        clone.stream._readByte = clone.stream._ReadByte_raw
+    elseif mode and mode == "raw" then
+        clone.stream = QuestieStreamLib:GetStream("raw")
+        clone.stream.Load = clone.stream.LoadRaw
+    end
+    
+    return clone
+end
+
 local _libAS = LibStub("AceSerializer-3.0")
 local _libCP = LibStub("LibCompress")
 local _CPTable = _libCP:GetAddonEncodeTable()
@@ -361,8 +385,8 @@ function QuestieSerializer:Test()
     --testtable.npc5 = QuestieDB:GetNPC(1411)
 
     local now = GetTime()
-    local serQ = QuestieSerializer:Serialize(testtable)
-    local serQR = QuestieSerializer.stream:SaveRaw()
+    local serQ = self:Serialize(testtable)
+    local serQR = self.stream:SaveRaw()
 
     Questie.db.char.WriteTest = serQ
 
@@ -370,17 +394,17 @@ function QuestieSerializer:Test()
     print("QuestieSerializer:")
     print("  len  raw:" .. string.len(serQR) .. "  1short:" .. string.len(serQ) .. "  ace:" .. string.len(_CPTable:Encode(serQR)))
 
-    QuestieSerializer:SetupStream()
-    QuestieSerializer.stream:WriteShortString(_libCP:CompressHuffman(serQR))
+    self:SetupStream()
+    self.stream:WriteShortString(_libCP:CompressHuffman(serQR))
 
     -- it does -2 here because WriteShortString adds 2 bytes, its a hack to get the 1short encoded length
-    print("  CompressedHuffman: ace:" .. string.len(_CPTable:Encode(_libCP:CompressHuffman(serQR))) .. "  1short:" .. (string.len(QuestieSerializer.stream:Save())-2))
+    print("  CompressedHuffman: ace:" .. string.len(_CPTable:Encode(_libCP:CompressHuffman(serQR))) .. "  1short:" .. (string.len(self.stream:Save())-2))
 
-    QuestieSerializer:SetupStream()
-    QuestieSerializer.stream:WriteShortString(_libCP:CompressLZW(serQR))
+    self:SetupStream()
+    self.stream:WriteShortString(_libCP:CompressLZW(serQR))
 
     -- it does -2 here because WriteShortString adds 2 bytes, its a hack to get the 1short encoded length
-    print("  CompressedLZW: ace:" .. string.len(_CPTable:Encode(_libCP:CompressLZW(serQR))) .. "  1short:" .. (string.len(QuestieSerializer.stream:Save())-2))
+    print("  CompressedLZW: ace:" .. string.len(_CPTable:Encode(_libCP:CompressLZW(serQR))) .. "  1short:" .. (string.len(self.stream:Save())-2))
     print(" Took: " .. (GetTime() - now))
     print(" ")
     now = GetTime()
@@ -388,23 +412,23 @@ function QuestieSerializer:Test()
     local serA = _libAS:Serialize(testtable)
 
     print("AceSerializer:")
-    QuestieSerializer:SetupStream()
-    QuestieSerializer.stream:WriteShortString(serA)
+    self:SetupStream()
+    self.stream:WriteShortString(serA)
     --QuestieSerializer:PrintChunk(serA)
     -- it does -2 here because WriteShortString adds 2 bytes, its a hack to get the 1short encoded length
-    print("  len  raw:" .. string.len(serA) .. "  1short:" .. (string.len(QuestieSerializer.stream:Save())-2).. "  ace:" .. string.len(_CPTable:Encode(serA)))
+    print("  len  raw:" .. string.len(serA) .. "  1short:" .. (string.len(self.stream:Save())-2).. "  ace:" .. string.len(_CPTable:Encode(serA)))
 
-    QuestieSerializer:SetupStream()
-    QuestieSerializer.stream:WriteShortString(_libCP:CompressHuffman(serA))
-
-    -- it does -2 here because WriteShortString adds 2 bytes, its a hack to get the 1short encoded length
-    print("  CompressedHuffman: ace:" .. string.len(_CPTable:Encode(_libCP:CompressHuffman(serA))) .. "  1short:" .. (string.len(QuestieSerializer.stream:Save())-2));
-
-    QuestieSerializer:SetupStream()
-    QuestieSerializer.stream:WriteShortString(_libCP:CompressLZW(serA))
+    self:SetupStream()
+    self.stream:WriteShortString(_libCP:CompressHuffman(serA))
 
     -- it does -2 here because WriteShortString adds 2 bytes, its a hack to get the 1short encoded length
-    print("  CompressedLZW: ace:" .. string.len(_CPTable:Encode(_libCP:CompressLZW(serA))) .. "  1short:" .. (string.len(QuestieSerializer.stream:Save())-2))
+    print("  CompressedHuffman: ace:" .. string.len(_CPTable:Encode(_libCP:CompressHuffman(serA))) .. "  1short:" .. (string.len(self.stream:Save())-2));
+
+    self:SetupStream()
+    self.stream:WriteShortString(_libCP:CompressLZW(serA))
+
+    -- it does -2 here because WriteShortString adds 2 bytes, its a hack to get the 1short encoded length
+    print("  CompressedLZW: ace:" .. string.len(_CPTable:Encode(_libCP:CompressLZW(serA))) .. "  1short:" .. (string.len(self.stream:Save())-2))
 
     print(" Took: " .. (GetTime() - now))
     --self.stream = QuestieStreamLib:GetStream("b89")
@@ -421,15 +445,15 @@ function QuestieSerializer:SendTestMessage(player)
             testtable.testfloats[i] = math.random()
         end
         _testfloats = testtable.testfloats
-        C_ChatInfo.SendAddonMessage("questie", QuestieSerializer:Serialize(testtable), "WHISPER", player)
+        C_ChatInfo.SendAddonMessage("questie", self:Serialize(testtable), "WHISPER", player)
     end
 end
 
 function QuestieSerializer:MessageReceivedTest(channel, msg)
     if channel == "questie" then
         print("Message received! " .. string.len(msg))
-        QuestieSerializer:PrintChunk(msg)
-        Questie.db.char.WriteRecv = QuestieSerializer:Deserialize(msg)
+        self:PrintChunk(msg)
+        Questie.db.char.WriteRecv = self:Deserialize(msg)
         local totalDrift = 0
         for i=1, 10 do
             print("  " .. string.format("%.6f", _testfloats[i]) .. " " .. string.format("%.6f", Questie.db.char.WriteRecv.testfloats[i]))
