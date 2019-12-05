@@ -83,6 +83,7 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.preQuestSingle] = {427}, -- proof of demise requires at war with the scarlet crusade
         },
         [403] = {
+            [QuestieDB.questKeys.specialFlags] = 1,
             [QuestieDB.questKeys.parentQuest] = 310,
         },
         [410] = { -- the dormant shade
