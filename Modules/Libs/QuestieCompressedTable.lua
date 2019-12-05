@@ -8,6 +8,38 @@
 local QuestieCompressedTable = QuestieLoader:CreateModule("CompressedTable")
 local QuestieSerializer = QuestieLoader:ImportModule("QuestieSerializer"):Clone("raw")
 
+function QuestieCompressedTable:LoadFunction(data, pointers)
+    local ret = {}
+    local serial = QuestieSerializer:Clone("raw")
+    serial.stream._bin = data
+    serial.stream._pointer = 1
+    ret.serial = serial
+    ret.stream = serial.stream
+    
+    if type(pointers) == "string" then
+        QuestieSerializer:SetupStream()
+        ret.pointers = QuestieSerializer:Deserialize(pointers)
+        local cnt = 0
+        for k,v in pairs(ret.pointers) do
+            cnt = cnt + 1
+        end
+    else
+        ret.pointers = pointers
+    end
+
+    return function(id, key) -- key is optional
+        if not id then return nil end
+        if not ret.pointers[id] then return nil end
+        ret.stream._pointer = ret.pointers[key]
+        local val = ret.serial:ReadObject()
+        if key then
+            return val[key]
+        else
+            return val
+        end
+    end
+end
+
 function QuestieCompressedTable:Load(data, pointers)
     local ret = {}
     local serial = QuestieSerializer:Clone("raw")
@@ -29,6 +61,10 @@ function QuestieCompressedTable:Load(data, pointers)
 
     ret.GetTable = function(self)
         local meta = setmetatable({}, {
+            -- "This is a very commonly used and versatile metamethod, it lets you run a custom function or use a "fallback" table if a 
+            --   key in a table doesn't exist. If a function is used, its first parameter will be the table that the lookup failed on, 
+            --   and the second parameter will be the key. If a fallback table is used, remember that it can trigger an 
+            --   __index metamethod on it if it has one, so you can create long chains of fallback tables."
             __index = function(table, key) 
                 if not key then return nil end
                 if self.pointers[key] then 
@@ -36,6 +72,13 @@ function QuestieCompressedTable:Load(data, pointers)
                     local val = self.serial:ReadObject()
                     rawset(table, key, val)
                     return val
+                    --[[local pointer = ret.pointers[key]
+                    return setmetatable({}, {
+                        __index = function(self, key)
+                            ret.stream._pointer = pointer
+                            return ret.serial:ReadObject()
+                        end
+                    })]]--
                 else 
                     return nil
                 end
@@ -72,13 +115,18 @@ local function table_eq(table1, table2, nmtm)
     if (not table1) or not table2 then 
         local cnt = 0
         if not table1 then 
+            --print("table1 is nil !") 
+            --print("table2:")
+            
             for k,v in pairs(table2) do 
                 print(tostring(k) .. " = " .. tostring(v))
                 cnt = cnt + 1
             end
         else
+            --print("table2 is nil !") 
+            --print("table1:")
             for k,v in pairs(table1) do 
-                print(tostring(k) .. " = " .. tostring(v))
+                --print(tostring(k) .. " = " .. tostring(v))
                 cnt = cnt + 1
             end
         end
@@ -93,8 +141,13 @@ local function table_eq(table1, table2, nmtm)
     return true  
 end 
 
+
 function __test_serial()
-    --local data, pointers = QuestieCompressedTable:Compile(npcData) -- serializer
+    local data, pointers = QuestieCompressedTable:CompileQuests(questData)
+end
+
+function __test_serial_npc()
+    --local data, pointers = QuestieCompressedTable:Compile(npcData)
     local data, pointers = QuestieCompressedTable:CompileNPCs(npcData)
     local decoded = QuestieCompressedTable:Load(data, pointers)
     CompressedHeightmaps = {}
@@ -121,6 +174,13 @@ function __test_serial()
     for key, value in pairs(npcData) do
         local decVal = decoded[key]
         local result = table_eq(value, decVal)
+        --[[for k,v in pairs(value) do 
+            if decVal[k] ~= v then
+                print("Doesnt match: " .. k)
+                result = false
+                break
+            end
+        end]]
         if not result then
             print("Checked " .. tostring(key) .. " " .. tostring(result))
         end
@@ -129,7 +189,139 @@ end
 
 
 
+
+
+
+
+
+
+
+
 -- custom io functions for questie db efficiency
+function QuestieCompressedTable:CompileQuests(toCompile)
+    local serial = QuestieSerializer:Clone("raw")
+    serial.objectCount = 0 
+    serial:SetupStream()
+    serial:AddHash("creatureStart")
+    serial:AddHash("objectStart")
+    serial:AddHash("itemStart")
+    serial:AddHash("creatureEnd")
+    serial:AddHash("objectEnd")
+    serial:AddHash("creatureObjective")
+    serial:AddHash("objectObjective")
+    serial:AddHash("itemObjective")
+    serial:AddHash("reputationObjective")
+    serial:AddHash("NPC")
+    serial:AddHash("Object")
+    serial:AddHash("Item")
+    local pointerMap = {}
+
+    local questKeys = {
+        --[[done]]['name'] = 1, -- string
+        --[[done]]['startedBy'] = 2, -- table
+            --['creatureStart'] = 1, -- table {creature(int),...}
+            --['objectStart'] = 2, -- table {object(int),...}
+            --['itemStart'] = 3, -- table {item(int),...}
+        --[[done]]['finishedBy'] = 3, -- table
+            --['creatureEnd'] = 1, -- table {creature(int),...}
+            --['objectEnd'] = 2, -- table {object(int),...}
+        --[[done]]['requiredLevel'] = 4, -- int
+        --[[done]]['questLevel'] = 5, -- int
+        --[[done]]['requiredRaces'] = 6, -- bitmask
+        --[[done]]['requiredClasses'] = 7, -- bitmask
+        --[[done]]['objectivesText'] = 8, -- table: {string,...}, Description of the quest. Auto-complete if nil.
+        --[[done]]['triggerEnd'] = 9, -- table: {text, {[zoneID] = {coordPair,...},...}}
+        --[[done]]['objectives'] = 10, -- table
+            --['creatureObjective'] = 1, -- table {{creature(int), text(string)},...}, If text is nil the default "<Name> slain x/y" is used
+            --['objectObjective'] = 2, -- table {{object(int), text(string)},...}
+            --['itemObjective'] = 3, -- table {{item(int), text(string)},...}
+            --['reputationObjective'] = 4, -- table: {faction(int), value(int)}
+        --[[done]]['sourceItemId'] = 11, -- int, item provided by quest starter
+        --[[done]]['preQuestGroup'] = 12, -- table: {quest(int)}
+        --[[done]]['preQuestSingle'] = 13, -- table: {quest(int)}
+        --[[done]]['childQuests'] = 14, -- table: {quest(int)}
+        --[[done]]['inGroupWith'] = 15, -- table: {quest(int)}
+        --[[done]]['exclusiveTo'] = 16, -- table: {quest(int)}
+        --[[done]]['zoneOrSort'] = 17, -- int, >0: AreaTable.dbc ID; <0: QuestSort.dbc ID
+        --[[done]]['requiredSkill'] = 18, -- table: {skill(int), value(int)}
+        --[[done]]['requiredMinRep'] = 19, -- table: {faction(int), value(int)}
+        --[[done]]['requiredMaxRep'] = 20, -- table: {faction(int), value(int)}
+        --[[done]]['requiredSourceItems'] = 21, -- table: {item(int), ...} Items that are not an objective but still needed for the quest.
+        --[[done]]['nextQuestInChain'] = 22, -- int: if this quest is active/finished, the current quest is not available anymore
+        --[[done]]['questFlags'] = 23, -- bitmask: see https://github.com/cmangos/issues/wiki/Quest_template#questflags
+        --[[done]]['specialFlags'] = 24, -- bitmask: 1 = Repeatable, 2 = Needs event, 4 = Monthly reset (req. 1). See https://github.com/cmangos/issues/wiki/Quest_template#specialflags
+        --[[done]]['parentQuest'] = 25, -- int, the ID of the parent quest that needs to be active for the current one to be available. See also 'childQuests' (field 14)
+    }
+
+    local addressTable = {
+        [questKeys['requiredLevel']] = 0,
+        [questKeys['questLevel']] = 1,
+        [questKeys['requiredRaces']] = 2, 
+        [questKeys['requiredClasses']] = 3, 
+        [questKeys['sourceItemId']] = 4, 
+        [questKeys['zoneOrSort']] = 6, 
+        [questKeys['nextQuestInChain']] = 8, 
+        [questKeys['questFlags']] = 10, 
+        [questKeys['specialFlags']] = 12, 
+        [questKeys['parentQuest']] = 13,
+    }
+
+    local writeSerializerChunk = function(serial, value)
+        local stream = serial.stream
+        stream:WriteShort(0) -- placeholder (hack)
+        local start = stream._pointer
+        if value then
+            serial.WriterTable[type(value)](serial, value, 1)--serial:WriteObject(value)
+        else
+            stream:WriteByte(1) -- serializer "nil"
+        end
+        local finish = stream._pointer
+        local len = finish - start
+        stream._pointer = start-2
+        stream:WriteShort(len)
+        stream._pointer = finish
+    end
+
+    local write = function(serial, value)
+        local stream = serial.stream
+        stream:WriteByte(value[questKeys['requiredLevel']] or 0)
+        stream:WriteByte(value[questKeys['questLevel']] or 0)
+        stream:WriteByte(value[questKeys['requiredRaces']] or 0)
+        stream:WriteByte(value[questKeys['requiredClasses']] or 0)
+        stream:WriteShort(value[questKeys['sourceItemId']] or 0)
+        stream:WriteShort(32760 + (value[questKeys['zoneOrSort']] or 0))
+        stream:WriteShort(value[questKeys['nextQuestInChain']] or 0)
+        stream:WriteShort(value[questKeys['questFlags']] or 0)
+        stream:WriteByte(value[questKeys['specialFlags']] or 0)
+        stream:WriteShort(value[questKeys['parentQuest']] or 0)
+        stream:WriteTinyString(value[questKeys['name']] or 0 or "") -- 15
+        
+        writeSerializerChunk(serial, value[questKeys['startedBy']])
+        writeSerializerChunk(serial, value[questKeys['finishedBy']])
+        writeSerializerChunk(serial, value[questKeys['objectivesText']])
+        writeSerializerChunk(serial, value[questKeys['triggerEnd']])
+        writeSerializerChunk(serial, value[questKeys['objectives']])
+        writeSerializerChunk(serial, value[questKeys['preQuestGroup']])
+        writeSerializerChunk(serial, value[questKeys['preQuestSingle']])
+        writeSerializerChunk(serial, value[questKeys['childQuests']])
+        writeSerializerChunk(serial, value[questKeys['inGroupWith']])
+        writeSerializerChunk(serial, value[questKeys['exclusiveTo']])
+        writeSerializerChunk(serial, value[questKeys['requiredSkill']])
+        writeSerializerChunk(serial, value[questKeys['requiredMinRep']])
+        writeSerializerChunk(serial, value[questKeys['requiredMaxRep']])
+        writeSerializerChunk(serial, value[questKeys['requiredSourceItems']])
+    end
+
+    for key, value in pairs(toCompile) do
+        pointerMap[key] = serial.stream._pointer
+        write(serial, value)
+    end
+
+    local data = serial.stream:Save()
+    serial:SetupStream()
+    return data, serial:Serialize(pointerMap)
+
+end
 function QuestieCompressedTable:CompileNPCs(toCompile)
     local serial = QuestieSerializer:Clone("raw")
     serial.objectCount = 0 
@@ -257,7 +449,8 @@ end
 
 
 
-function QuestieCompressedTable:GetNPCsTable()
+function QuestieCompressedTable:GetNPCsTable(doFunction)
+    print("getNPCsTable")
     local npcKeys = {
         ['name'] = 1, -- string
         ['minLevelHealth'] = 2, -- int
@@ -401,40 +594,48 @@ function QuestieCompressedTable:GetNPCsTable()
             end
         end
     end
-    --UIParentLoadAddOn("Blizzard_DebugTools")
-    local meta = setmetatable({}, {
-        -- "This is a very commonly used and versatile metamethod, it lets you run a custom function or use a "fallback" table if a 
-        --   key in a table doesn't exist. If a function is used, its first parameter will be the table that the lookup failed on, 
-        --   and the second parameter will be the key. If a fallback table is used, remember that it can trigger an 
-        --   __index metamethod on it if it has one, so you can create long chains of fallback tables."
-        __index = function(table, key) 
-            if not key then return nil end
-            if self.pointers[key] then 
-                local ret = setmetatable({}, {
-                    __index = function(subTable, subKey)
-                        self.stream._pointer = self.pointers[key]
-                        local val = readVal(self, subKey)
-                        if type(val) == "table" then 
-                            --print("Got " .. subKey .. ": " )
-                            --___DEBUG_GLOBAL = val
-                            --DevTools_DumpCommand("___DEBUG_GLOBAL")
-                        else
-                            --print("Got " .. subKey .. ": " .. tostring(val))
-                        end
-                        
-                        rawset(subTable, subKey, val)
-                        return val
-                    end
-                })
-                rawset(table, key, ret)
-                return ret
-            else 
-                return nil
-            end
+    if doFunction then
+        return function(id, key) 
+            if not id then return nil end
+            if not self.pointers[id] then return nil end
+            self.stream._pointer = self.pointers[id]
+            return readVal(self, key)
         end
-    })
-    
-    return meta
+    else
+        local meta = setmetatable({}, {
+            -- "This is a very commonly used and versatile metamethod, it lets you run a custom function or use a "fallback" table if a 
+            --   key in a table doesn't exist. If a function is used, its first parameter will be the table that the lookup failed on, 
+            --   and the second parameter will be the key. If a fallback table is used, remember that it can trigger an 
+            --   __index metamethod on it if it has one, so you can create long chains of fallback tables."
+            __index = function(table, key) 
+                if not key then return nil end
+                if self.pointers[key] then 
+                    local ret = setmetatable({}, {
+                        __index = function(subTable, subKey)
+                            self.stream._pointer = self.pointers[key]
+                            local val = readVal(self, subKey)
+                            if type(val) == "table" then 
+                                --print("Got " .. subKey .. ": " )
+                                --___DEBUG_GLOBAL = val
+                                --DevTools_DumpCommand("___DEBUG_GLOBAL")
+                            else
+                                --print("Got " .. subKey .. ": " .. tostring(val))
+                            end
+                            
+                            rawset(subTable, subKey, val)
+                            return val
+                        end
+                    })
+                    rawset(table, key, ret)
+                    return ret
+                else 
+                    return nil
+                end
+            end
+        })
+        
+        return meta
+    end
 end
 
 
