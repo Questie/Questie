@@ -50,7 +50,7 @@ function _QuestieJourney.questsByZone:DrawTab(container)
         local sortedZones = QuestieJourneyUtils:GetSortedZoneKeys(QuestieJourney.zones[currentContinentId])
         zDropdown:SetList(QuestieJourney.zones[currentContinentId], sortedZones)
         zDropdown:SetValue(currentZoneId)
-        local zoneTree = CollectZoneQuests(currentZoneId)
+        local zoneTree = _QuestieJourney.questsByZone:CollectZoneQuests(currentZoneId)
         -- Build Tree
         _QuestieJourney.questsByZone:ManageTree(treegroup, zoneTree)
     else
@@ -59,7 +59,7 @@ function _QuestieJourney.questsByZone:DrawTab(container)
 
     zDropdown:SetCallback("OnValueChanged", function(key, checked)
         -- Create Tree View
-        local zoneTree = CollectZoneQuests(key.value)
+        local zoneTree = _QuestieJourney.questsByZone:CollectZoneQuests(key.value)
         -- Build Tree
         _QuestieJourney.questsByZone:ManageTree(treegroup, zoneTree)
     end)

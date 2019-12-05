@@ -23,7 +23,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
     QuestieJourneyUtils:Spacer(container)
 
     local obj = AceGUI:Create("Label")
-    obj:SetText(CreateObjectiveText(quest.Description))
+    obj:SetText(_QuestieJourney:CreateObjectiveText(quest.Description))
 
 
     obj:SetFullWidth(true)
@@ -149,7 +149,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
                     startQuests[counter].frame:SetUserData('name', startQuests[counter].quest.name)
                     startQuests[counter].frame:SetCallback("OnClick", JumpToQuest)
                     startQuests[counter].frame:SetCallback("OnEnter", ShowJourneyTooltip)
-                    startQuests[counter].frame:SetCallback("OnLeave", HideJourneyTooltip)
+                    startQuests[counter].frame:SetCallback("OnLeave", _QuestieJourney.HideJourneyTooltip)
                     startNPCGroup:AddChild(startQuests[counter].frame)
                     counter = counter + 1
                 end
@@ -242,7 +242,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
                         startQuests[counter].frame:SetUserData('name', startQuests[counter].quest.name)
                         startQuests[counter].frame:SetCallback("OnClick", JumpToQuest)
                         startQuests[counter].frame:SetCallback("OnEnter", ShowJourneyTooltip)
-                        startQuests[counter].frame:SetCallback("OnLeave", HideJourneyTooltip)
+                        startQuests[counter].frame:SetCallback("OnLeave", _QuestieJourney.HideJourneyTooltip)
                         startGOGroup:AddChild(startQuests[counter].frame)
                         counter = counter + 1
                     end
@@ -337,7 +337,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
                     endQuests[counter].frame:SetUserData('name', endQuests[counter].quest.name)
                     endQuests[counter].frame:SetCallback("OnClick", JumpToQuest)
                     endQuests[counter].frame:SetCallback("OnEnter", ShowJourneyTooltip)
-                    endQuests[counter].frame:SetCallback("OnLeave", HideJourneyTooltip)
+                    endQuests[counter].frame:SetCallback("OnLeave", _QuestieJourney.HideJourneyTooltip)
                     endNPCGroup:AddChild(endQuests[counter].frame)
                     counter = counter + 1
                 end
