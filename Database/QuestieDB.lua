@@ -157,8 +157,8 @@ local function _GetColoredQuestName(self, blizzLike)
     return QuestieLib:GetColoredQuestName(self.Id, questName, self.level, Questie.db.global.enableTooltipsQuestLevel, false, blizzLike)
 end
 
----@param questID integer @The quest ID
----@return table|nil @The quest object or nil if the quest is missing
+---@param questID QuestId @The quest ID
+---@return Quest|nil @The quest object or nil if the quest is missing
 function QuestieDB:GetQuest(questID) -- /dump QuestieDB:GetQuest(867)
     if questID == nil then
         Questie:Debug(DEBUG_CRITICAL, "[QuestieDB:GetQuest] Expected questID but received nil!")
@@ -173,6 +173,34 @@ function QuestieDB:GetQuest(questID) -- /dump QuestieDB:GetQuest(867)
         Questie:Debug(DEBUG_CRITICAL, "[QuestieDB:GetQuest] rawdata is nil for questID:", questID)
         return nil
     end
+
+    ---@class ObjectiveIndex
+    ---@class QuestId
+
+    ---@class Quest
+    ---@field public childQuests any
+    ---@field public exclusiveTo any
+    ---@field public finishedBy any
+    ---@field public inGroupWith any
+    ---@field public name string
+    ---@field public nextQuestInChain any
+    ---@field public objectives any
+    ---@field public objectivesText any
+    ---@field public parentQuest any
+    ---@field public preQuestGroup any
+    ---@field public preQuestSingle any
+    ---@field public questLevel any
+    ---@field public requiredClasses any
+    ---@field public requiredLevel any
+    ---@field public requiredMinRep any
+    ---@field public requiredRaces any
+    ---@field public requiredSkill any
+    ---@field public requiredSourceItems any
+    ---@field public sourceItemId any
+    ---@field public specialFlags any
+    ---@field public startedBy any
+    ---@field public triggerEnd any
+    ---@field public zoneOrSort any
 
     local QO = {}
     QO.GetColoredQuestName = _GetColoredQuestName
