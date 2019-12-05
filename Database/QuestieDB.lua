@@ -164,6 +164,42 @@ local function _GetColoredQuestName(self, blizzLike)
     return QuestieLib:GetColoredQuestName(self.Id, questName, self.level, Questie.db.global.enableTooltipsQuestLevel, false, blizzLike)
 end
 
+
+--@return integer @Complete = 1, Failed = -1, Incomplete = 0
+local function _IsComplete(self)
+    local questId = self.Id;
+    local questLogIndex = GetQuestLogIndexByID(questId);
+    local isComplete = select(6,GetQuestLogTitle(questLogIndex));
+
+    if isComplete ~= nil then
+        return isComplete -- 1 if the quest is completed, -1 if the quest is failed
+    end
+
+    isComplete = IsQuestComplete(questId) -- true if the quest is both in the quest log and complete, false otherwise
+    if isComplete then
+        return 1
+    end
+
+    return 0
+end
+
+--- function
+---@return boolean @true = trivial and false = non-trivial
+function _IsTrivial(self)
+    local levelDiff = self.level - QuestiePlayer:GetPlayerLevel();
+    if (levelDiff >= 5) then
+        return false -- Red
+    elseif (levelDiff >= 3) then
+        return false -- Orange
+    elseif (levelDiff >= -2) then
+        return false -- Yellow
+    elseif (-levelDiff <= GetQuestGreenRange()) then
+        return false -- Green
+    else
+        return true -- Grey
+    end
+end
+
 ---@param questID QuestId @The quest ID
 ---@return Quest|nil @The quest object or nil if the quest is missing
 function QuestieDB:GetQuest(questID) -- /dump QuestieDB:GetQuest(867)
@@ -209,7 +245,11 @@ function QuestieDB:GetQuest(questID) -- /dump QuestieDB:GetQuest(867)
     ---@field public triggerEnd any
     ---@field public zoneOrSort any
     local QO = {}
-    QO.GetColoredQuestName = _GetColoredQuestName
+    --Functions
+    QO.GetColoredQuestName = _GetColoredQuestName;
+    QO.IsComplete = _IsComplete;
+    QO.IsTrivial = _IsTrivial;
+
     ---@type QuestId
     QO.Id = questID --Key
     for stringKey, intKey in pairs(QuestieDB.questKeys) do
@@ -366,21 +406,6 @@ function QuestieDB:GetQuest(questID) -- /dump QuestieDB:GetQuest(867)
         end
     end
 
-    --- function
-    function QO:IsTrivial()
-        local levelDiff = self.level - QuestiePlayer:GetPlayerLevel();
-        if (levelDiff >= 5) then
-            return false -- Red
-        elseif (levelDiff >= 3) then
-            return false -- Orange
-        elseif (levelDiff >= -2) then
-            return false -- Yellow
-        elseif (-levelDiff <= GetQuestGreenRange()) then
-            return false -- Green
-        else
-            return true -- Grey
-        end
-    end
 
     QuestieDB._QuestCache[questID] = QO
     return QO

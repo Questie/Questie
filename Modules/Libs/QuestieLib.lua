@@ -270,7 +270,7 @@ function QuestieLib:CacheAllItemNames()
     ]]
     local numEntries, numQuests = GetNumQuestLogEntries();
     for index = 1, numEntries do
-        local title, level, _, isHeader, _, isComplete, _, questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
+        local _, _, _, isHeader, _, _, _, questId, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
         if(not isHeader) then
             QuestieLib:CacheItemNames(questId);
         end

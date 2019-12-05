@@ -61,8 +61,7 @@ function QuestieEventHandler:PLAYER_LOGIN()
     QuestiePlayer:Initialize();
     QuestieQuest:Initialize()
     QuestieQuest:GetAllQuestIdsNoObjectives()
-    QuestieQuest:CalculateAvailableQuests()
-    QuestieQuest:DrawAllAvailableQuests()
+    QuestieQuest:RefreshAllAvailableQuests()
     QuestieNameplate:Initialize();
     Questie:Debug(DEBUG_ELEVATED, "PLAYER_ENTERED_WORLD")
     playerEntered = true
@@ -206,8 +205,7 @@ function QuestieEventHandler:PLAYER_LEVEL_UP(level, hitpoints, manapoints, talen
     C_Timer.After(3, function()
         QuestiePlayer:SetPlayerLevel(level);
 
-        QuestieQuest:CalculateAvailableQuests();
-        QuestieQuest:DrawAllAvailableQuests();
+        QuestieQuest:RefreshAllAvailableQuests();
     end)
     QuestieJourney:PlayerLevelUp(level);
 end
@@ -229,8 +227,7 @@ function QuestieEventHandler:CHAT_MSG_SKILL()
     local isProfUpdate = QuestieProfessions:Update()
     -- This needs to be done to draw new quests that just came available
     if isProfUpdate then
-        QuestieQuest:CalculateAvailableQuests()
-        QuestieQuest:DrawAllAvailableQuests()
+        QuestieQuest:RefreshAllAvailableQuests()
     end
 end
 

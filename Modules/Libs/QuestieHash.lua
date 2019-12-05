@@ -19,7 +19,7 @@ function QuestieHash:LoadQuestLogHashes()
 
     local numEntries, _ = GetNumQuestLogEntries()
     for questLogIndex=1, numEntries do
-        local _, _, _, isHeader, isCollapsed, isComplete, _, questId = GetQuestLogTitle(questLogIndex)
+        local _, _, _, isHeader, _, isComplete, _, questId = GetQuestLogTitle(questLogIndex)
         if not isHeader then
             local hash = QuestieHash:GetQuestHash(questId, isComplete)
             tinsert(questLogHashes, questId, hash)
@@ -60,7 +60,7 @@ function QuestieHash:CompareQuestHashes()
 
     local numEntries, _ = GetNumQuestLogEntries()
     for questLogIndex=1, numEntries do
-        local _, _, _, isHeader, isCollapsed, isComplete, _, questId = GetQuestLogTitle(questLogIndex)
+        local _, _, _, isHeader, _, isComplete, _, questId = GetQuestLogTitle(questLogIndex)
         if not isHeader then
             local oldhash = questLogHashes[questId]
             if oldhash ~= nil then
