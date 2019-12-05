@@ -63,6 +63,7 @@ function QuestieQuestFixes:Load()
         },
         [308] = {
             [QuestieDB.questKeys.exclusiveTo] = {311}, -- distracting jarven can't be completed once you get the followup
+            [QuestieDB.questKeys.specialFlags] = 1,
         },
         [310] = {
             [QuestieDB.questKeys.childQuests] = {403},
