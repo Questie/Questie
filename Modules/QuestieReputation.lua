@@ -1,10 +1,5 @@
 ---@class QuestieReputation
-local QuestieReputation = QuestieLoader:CreateModule("QuestieReputation");
--------------------------
---Import modules.
--------------------------
----@type QuestieProfessions
-local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions");
+local QuestieReputation = QuestieLoader:CreateModule("QuestieReputation")
 
 local playerReputations = {}
 
@@ -13,7 +8,7 @@ function QuestieReputation:Update()
     ExpandFactionHeader(0) -- Expand all header
 
     for i=1, GetNumFactions() do
-        local _, _, _, _, _, barValue, _, _, isHeader, isCollapsed, _, _, _, factionID, _, _ = GetFactionInfo(i)
+        local _, _, _, _, _, barValue, _, _, isHeader, _, _, _, _, factionID, _, _ = GetFactionInfo(i)
         if isHeader == nil or isHeader == false then
             playerReputations[factionID] = barValue
         end
@@ -26,7 +21,7 @@ function QuestieReputation:GetPlayerReputations()
     return playerReputations
 end
 
-function QuestieProfessions:HasReputation(requiredMinRep, requiredMaxRep)
+function QuestieReputation:HasReputation(requiredMinRep, requiredMaxRep)
     local hasMinRep = true -- the player has reached the min required reputation value
     local hasMaxRep = true -- the player has not reached the max allowed reputation value
 
