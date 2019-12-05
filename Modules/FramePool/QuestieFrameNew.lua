@@ -173,7 +173,7 @@ local frameId = 0;
 --AcquirePin runs framepool:Acquire which runs this function
 QuestieFrameNew.iconPool.parent = WorldMapFrame:GetCanvas()
 QuestieFrameNew.iconPool.creationFunc = function(framePool)
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieFrameNew] Creating frame from pool");
+    --Questie:Debug(DEBUG_DEVELOP, "[QuestieFrameNew] Creating frame from pool");
     local frame = CreateFrame(framePool.frameType, nil, framePool.parent)
     frame:SetSize(16,16);
     frame.frameId = frameId;
@@ -241,8 +241,6 @@ function QuestieFrameNew.worldmapProvider:RefreshAllData(fromOnShow, customMapId
 
   local closeZones = QuestieFrameNew.utils.zoneList[mapId];
 
-  local allPins = {};
-
   --We only want to reset it once
   local availableCacheReset = false;
   local completeCacheReset = false;
@@ -264,14 +262,8 @@ function QuestieFrameNew.worldmapProvider:RefreshAllData(fromOnShow, customMapId
   local function checkDirty(dirtyObject, mapId)
     if(dirtyObject[mapId]) then
       return true;
-    else
-      for UIMapId, _ in pairs(closeZones or {}) do
-        if(dirtyObject[UIMapId]) then
-          return true;
-        end
-      end
     end
-    return false;
+    return nil;
   end
 
   --Available quests
@@ -331,6 +323,7 @@ function QuestieFrameNew.worldmapProvider:RefreshAllData(fromOnShow, customMapId
 
     --Objectives
     if(enableObjectives) then
+      --Questie:Print(quest.Id, " - Dirty:", quest.objectiveDirty[mapId], mapId);
       if(quest.objectiveIcons and checkDirty(quest.objectiveDirty, mapId)) then
         --Questie:Debug(DEBUG_ELEVATED, "[QuestieFrameNew]", "Objective dirty", questId);
         if(not objectiveCacheReset) then
@@ -413,7 +406,7 @@ function QuestieFrameNew.worldmapProvider:RefreshAllData(fromOnShow, customMapId
         table.insert(minimapData, {questData, center.x, center.y, x, y, positions[1].UIMapId});
       end
 
-      Questie:Print(x, y, center.x/100, center.y/100, positions[1].UIMapId, mapId);
+      ---Questie:Print(x, y, center.x/100, center.y/100, positions[1].UIMapId, mapId);
       --Hide unexplored logic
       if(WorldMapFrame:IsShown()) then
         if(not Questie.db.global.hideUnexploredMapIcons or (QuestieMap.utils:IsExplored(mapId, x, y) and Questie.db.global.hideUnexploredMapIcons)) then
@@ -424,7 +417,7 @@ function QuestieFrameNew.worldmapProvider:RefreshAllData(fromOnShow, customMapId
   end
 
   --We only want to refresh it when the mapId corresponds.
-  if(playerUIMapId == mapId) then
+  if(playerUIMapId == mapId and dirty) then
     --Refresh the minimap
     QuestieFrameNewMinimap:RefreshAllData(minimapData);
   end
@@ -469,7 +462,7 @@ local function AcquireTextures(frame)
         textureData.position.x = questData.x;
         textureData.position.y = questData.y;
 
-        Questie:Print(questData.x/100, questData.y/100, " : ", frame.position.x, frame.position.y, questData.UIMapId, frame.position.UIMapId)
+        --Questie:Print(questData.x/100, questData.y/100, " : ", frame.position.x, frame.position.y, questData.UIMapId, frame.position.UIMapId)
         ---@type integer
         textureData.pinTypeId = QuestieFrameNew.stringEnum[rawPinType];
         ---@type QuestId
@@ -585,7 +578,7 @@ local function AcquireTextures(frame)
     end
 
     local function compare(a,b)
-        Questie:Print(a.textureData.position.x, b.textureData.position.x, a.textureData.position.x < b.textureData.position.x)
+        --Questie:Print(a.textureData.position.x, b.textureData.position.x, a.textureData.position.x < b.textureData.position.x)
         return a.textureData.position.x < b.textureData.position.x
     end
     table.sort(frame.textures, compare)
@@ -661,13 +654,13 @@ end
 
 --  map pin base API
 function QuestieFrameNew.worldmapProviderPin:OnLoad()
-  Questie:Debug(DEBUG_DEVELOP, "[QuestieFrameNew] OnLoad");
+  --Questie:Debug(DEBUG_DEVELOP, "[QuestieFrameNew] OnLoad");
   self:UseFrameLevelType("PIN_FRAME_LEVEL_AREA_POI")
   self:SetScalingLimits(1, 1.0, 1.2)
 end
 
 function QuestieFrameNew.worldmapProviderPin:OnAcquired(pinType, questData, x, y, UIMapIdd, frameLevelType)
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieFrameNew] OnAcquired", pinType, x, y, questData);
+    --Questie:Debug(DEBUG_DEVELOP, "[QuestieFrameNew] OnAcquired", pinType, x, y, questData);
     self:UseFrameLevelType(frameLevelType or "PIN_FRAME_LEVEL_AREA_POI")
     self:SetPosition(x, y)
     self.questData = questData;
@@ -695,12 +688,14 @@ function QuestieFrameNew.worldmapProviderPin:OnClick(button)
     --_QuestieFramePool:Questie_Click(self)
     if self and self.position.UIMapId and WorldMapFrame and WorldMapFrame:IsShown() then
       if button == "RightButton" then
-          local currentMapParent = WorldMapFrame:GetMapID()
+          local currentMapParent = HBD.mapData[WorldMapFrame:GetMapID()].parent;
+          
           if currentMapParent then
-              currentMapParent = QuestieZoneToParentTable[currentMapParent];
-              if currentMapParent and type(currentMapParent) == "number" and currentMapParent > 0 then
-                  WorldMapFrame:SetMapID(currentMapParent)
-              end
+              --currentMapParent = QuestieZoneToParentTable[currentMapParent];
+              --if currentMapParent and type(currentMapParent) == "number" and currentMapParent > 0 then
+              --    WorldMapFrame:SetMapID(currentMapParent)
+              --end
+              WorldMapFrame:SetMapID(currentMapParent)
           end
       else
           if self.position.UIMapId ~= WorldMapFrame:GetMapID() then

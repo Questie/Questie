@@ -455,7 +455,7 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
     if areaID then
         data.UiMapID = ZoneDataAreaIDToUiMapID[areaID];
     end
-
+    
     local iconMap = QuestieFramePool:GetFrame()
     iconMap.data = data
     iconMap.x = x
@@ -547,7 +547,7 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
         -- iconMinimap:SetScript("OnUpdate", )
     end
 
-    QuestieMap:QueueDraw(QuestieMap.ICON_MINIMAP_TYPE, Questie, iconMinimap, ZoneDataAreaIDToUiMapID[areaID], x / 100, y / 100, true, floatOnEdge)
+    --QuestieMap:QueueDraw(QuestieMap.ICON_MINIMAP_TYPE, Questie, iconMinimap, ZoneDataAreaIDToUiMapID[areaID], x / 100, y / 100, true, floatOnEdge)
     --QuestieMap:QueueDraw(QuestieMap.ICON_MAP_TYPE, Questie, iconMap, ZoneDataAreaIDToUiMapID[areaID], x / 100, y / 100, showFlag)
     local r, g, b = iconMinimap.texture:GetVertexColor()
     QuestieDBMIntegration:RegisterHudQuestIcon(tostring(iconMap), data.Icon, ZoneDataAreaIDToUiMapID[areaID], x, y, r, g, b)

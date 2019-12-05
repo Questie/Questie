@@ -98,7 +98,7 @@ QuestieFrameNewMinimap.iconPool.creationFunc = function(framePool)
 
     --Fade logic 
     function frame:FadeLogic()
-      Questie:Print(self.minimapFrame, self.position.x, self.position.y, self.textures, self.position.UIMapId, HBD, HBD.GetPlayerWorldPosition, QuestieLib, QuestieLib.Euclid)
+      ---Questie:Print(self.minimapFrame, self.position.x, self.position.y, self.textures, self.position.UIMapId, HBD, HBD.GetPlayerWorldPosition, QuestieLib, QuestieLib.Euclid)
         if self.minimapFrame and self.position.x and self.position.y and self.textures and self.position.UIMapId and HBD and HBD.GetPlayerWorldPosition and QuestieLib and QuestieLib.Euclid then
             local playerX, playerY, playerInstanceID = HBD:GetPlayerWorldPosition()
             if(playerX and playerY) then
@@ -193,7 +193,7 @@ function QuestieFrameNewMinimap:RefreshAllData(iconListData)
     local index = math.floor(centerX*precision) * (precision/100) + math.floor(centerY*precision)
 
     if(not QuestieFrameNewMinimap.allMinimapIcons[index]) then
-      Questie:Debug(DEBUG_ELEVATED, "[QuestieFrameNewMinimap]", "Adding icon:", index, x, y);
+      --Questie:Debug(DEBUG_ELEVATED, "[QuestieFrameNewMinimap]", "Adding icon:", index, x, y);
       ---@class miniDataObject
       local miniDataObject = {}
       miniDataObject.questData = questData;
@@ -206,7 +206,7 @@ function QuestieFrameNewMinimap:RefreshAllData(iconListData)
       miniDataObject.index = index;
       iconsToAdd[index] = miniDataObject;
     else
-      Questie:Debug(DEBUG_ELEVATED, "[QuestieFrameNewMinimap]", "Existing icon:",index, x, y);
+      --Questie:Debug(DEBUG_ELEVATED, "[QuestieFrameNewMinimap]", "Existing icon:",index, x, y);
       iconsToAdd[index] = QuestieFrameNewMinimap.allMinimapIcons[index];
       QuestieFrameNewMinimap.allMinimapIcons[index] = nil;
     end
@@ -214,7 +214,7 @@ function QuestieFrameNewMinimap:RefreshAllData(iconListData)
   --Icons that should be removed.
   ---@param frame IconMinimap
   for iconIndex, frame in pairs(QuestieFrameNewMinimap.allMinimapIcons) do
-    Questie:Debug(DEBUG_ELEVATED, "[QuestieFrameNewMinimap]", "Removing icon:", frame.index);
+    --Questie:Debug(DEBUG_ELEVATED, "[QuestieFrameNewMinimap]", "Removing icon:", frame.index);
     HBDPins:RemoveMinimapIcon(Questie, frame);
     QuestieFrameNewMinimap.iconPool:Release(frame);
     QuestieFrameNewMinimap.allMinimapIcons[iconIndex] = nil;
@@ -227,7 +227,9 @@ function QuestieFrameNewMinimap:RefreshAllData(iconListData)
       --The reason for this is because we want to acquire the pins AFTER we destroyed the previous ones
       --This lowers the amount of frames in use.
       local newFrame = QuestieFrameNewMinimap:AcquirePin(frame.questData, frame.centerX, frame.centerY, frame.x, frame.y, frame.UIMapId);
-      Questie:Debug(DEBUG_ELEVATED, "[QuestieFrameNewMinimap]", "Spawning icon:", frame.index, frame.position.x, frame.position.y, frame.position.UIMapId);
+      newFrame.index = frame.index;
+
+      --Questie:Debug(DEBUG_ELEVATED, "[QuestieFrameNewMinimap]", "Spawning icon:", newFrame.index, newFrame.position.x, newFrame.position.y, newFrame.position.UIMapId);
       HBDPins:AddMinimapIconMap(Questie, newFrame, newFrame.position.UIMapId, newFrame.position.x, newFrame.position.y, true, true);
       --newFrame:Show();
       --None of these should actually need to be set... but it would break hard if it was left so lets be safe.
@@ -260,6 +262,7 @@ function QuestieFrameNewMinimap:AcquirePin(questData, centerX, centerY, x, y, UI
   --newTexture.textureData = textureData;
 
   --newTexture:SetTexture(typeLookup[textureData.pinTypeId].GetIcon(textureData.questId));
+  newTexture:SetVertexColor(1,1,1,0);-- set to 0
   newTexture:SetParent(frame);
   newTexture:SetPoint("CENTER", frame, "CENTER", 0, 0);
   --if(Questie.db.global.questObjectiveColors) then
