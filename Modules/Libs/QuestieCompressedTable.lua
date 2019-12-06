@@ -8,6 +8,9 @@
 local QuestieCompressedTable = QuestieLoader:CreateModule("CompressedTable")
 local QuestieSerializer = QuestieLoader:ImportModule("QuestieSerializer"):Clone("raw")
 
+---@param data DataStream
+---@param pointers PointerMap
+---@return function
 function QuestieCompressedTable:LoadFunction(data, pointers)
     local ret = {}
     local serial = QuestieSerializer:Clone("raw")
@@ -91,11 +94,14 @@ function QuestieCompressedTable:Load(data, pointers)
 end
 
 
-
+---@param toCompile table
+---@return DataStream
+---@return PointerMap
 function QuestieCompressedTable:Compile(toCompile)
     local serial = QuestieSerializer:Clone("raw")
     serial.objectCount = 0 
     serial:SetupStream()
+    ---@class PointerMap
     local pointerMap = {}
 
     for key, value in pairs(toCompile) do
@@ -103,6 +109,7 @@ function QuestieCompressedTable:Compile(toCompile)
         serial.WriterTable[type(value)](serial, value)
     end
 
+    ---@class DataStream
     local data = serial.stream:Save()
     serial:SetupStream()
     return data, serial:Serialize(pointerMap)
@@ -198,6 +205,9 @@ end
 
 
 -- custom io functions for questie db efficiency
+---@param toCompile table
+---@return DataStream
+---@return PointerMap
 function QuestieCompressedTable:CompileQuests(toCompile)
     local serial = QuestieSerializer:Clone("raw")
     serial.objectCount = 0 
@@ -322,6 +332,10 @@ function QuestieCompressedTable:CompileQuests(toCompile)
     return data, serial:Serialize(pointerMap)
 
 end
+
+---@param toCompile table
+---@return DataStream
+---@return PointerMap
 function QuestieCompressedTable:CompileNPCs(toCompile)
     local serial = QuestieSerializer:Clone("raw")
     serial.objectCount = 0 
@@ -448,7 +462,8 @@ end
 
 
 
-
+---@param doFunction boolean @Return a function if true and a metatable if false
+---@return function|table @table = metatable
 function QuestieCompressedTable:GetNPCsTable(doFunction)
     print("getNPCsTable")
     local npcKeys = {
