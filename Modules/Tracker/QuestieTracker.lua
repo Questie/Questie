@@ -341,9 +341,8 @@ function _QuestieTracker:CreateActiveQuestsFrame()
     frm:RegisterForDrag("LeftButton", "RightButton")
 
     -- hack for click-through
-    frm:SetScript("OnDragStart", function(button) Questie:Debug(DEBUG_CRITICAL, "DRAGGGIN active counter"); _QuestieTracker:OnDragStart(button) end)
+    frm:SetScript("OnDragStart", _QuestieTracker.OnDragStart)
     frm:SetScript("OnDragStop", _QuestieTracker.OnDragStop)
-    frm:SetScript("OnMouseDown", function(button) Questie:Debug(DEBUG_CRITICAL, "MOUSE DOWN!") end)
     frm:SetScript("OnEnter", _OnEnter)
     frm:SetScript("OnLeave", _OnLeave)
 
