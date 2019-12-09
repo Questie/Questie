@@ -105,7 +105,7 @@ local function createItemButton()
     btn.OnLeave = function(self)
         GameTooltip:Hide()
     end
-    
+
     btn.FakeHide = function(self)
         self:RegisterForClicks(nil)
         self:SetScript("OnEnter", nil)
@@ -215,8 +215,8 @@ function QuestieTracker:Initialize()
 
         -- hack for click-through
         frm:SetScript("OnDragStart", _QuestieTracker.OnDragStart)
-        frm:SetScript("OnClick", _OnClick)
         frm:SetScript("OnDragStop", _QuestieTracker.OnDragStop)
+        frm:SetScript("OnClick", _OnClick)
         frm:SetScript("OnEnter", _OnEnter)
         frm:SetScript("OnLeave", _OnLeave)
 
@@ -224,11 +224,7 @@ function QuestieTracker:Initialize()
         if lastFrame then
             frm:SetPoint("TOPLEFT", lastFrame, "BOTTOMLEFT", 0,0)
         else
-            --if Questie.db.global.trackerCounterEnabled then
-            --    frm:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerBackgroundPadding, -(trackerBackgroundPadding + _QuestieTracker.activeQuestsFrame:GetHeight()))
-            --else
-                frm:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerBackgroundPadding, -trackerBackgroundPadding)
-            --end
+            frm:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerBackgroundPadding, -trackerBackgroundPadding)
         end
         frm:SetWidth(1)
         frm:SetMode("header")
@@ -335,16 +331,19 @@ end
 
 function _QuestieTracker:CreateActiveQuestsFrame()
     local _, numQuests = GetNumQuestLogEntries()
-    local frm = CreateFrame("Button", nil, _QuestieTracker.baseFrame)
+    local frm = CreateFrame("Button", "TrackerActiveQuestsFrame", _QuestieTracker.baseFrame)
 
     frm.label = frm:CreateFontString(nil, "ARTWORK", "GameFontNormal")
     frm.label:SetText(QuestieLocale:GetUIString("TRACKER_ACTIVE_QUESTS") .. tostring(numQuests) .. "/20")
-    frm:SetWidth(1)
+    frm:SetWidth(frm.label:GetWidth())
+
+    frm:EnableMouse(true)
+    frm:RegisterForDrag("LeftButton", "RightButton")
 
     -- hack for click-through
-    frm:SetScript("OnDragStart", _QuestieTracker.OnDragStart)
-    frm:SetScript("OnClick", _OnClick)
+    frm:SetScript("OnDragStart", function(button) Questie:Debug(DEBUG_CRITICAL, "DRAGGGIN active counter"); _QuestieTracker:OnDragStart(button) end)
     frm:SetScript("OnDragStop", _QuestieTracker.OnDragStop)
+    frm:SetScript("OnMouseDown", function(button) Questie:Debug(DEBUG_CRITICAL, "MOUSE DOWN!") end)
     frm:SetScript("OnEnter", _OnEnter)
     frm:SetScript("OnLeave", _OnLeave)
 
@@ -353,13 +352,14 @@ function _QuestieTracker:CreateActiveQuestsFrame()
         self.label:SetFont(self.label:GetFont(), Questie.db.global.trackerFontSizeHeader)
         self.label:SetText(QuestieLocale:GetUIString("TRACKER_ACTIVE_QUESTS") .. tostring(activeQuests) .. "/20")
         self.label:SetPoint("TOP", _QuestieTracker.baseFrame, "TOP", 0, Questie.db.global.trackerFontSizeHeader)
+        self:SetPoint("TOP", _QuestieTracker.baseFrame, "TOP", 0, Questie.db.global.trackerFontSizeHeader)
         self:SetHeight(Questie.db.global.trackerFontSizeHeader)
     end
 
     frm:Show()
     return frm
 end
-
+-- /dump QuestieLoader:ImportModule("QuestieTracker"):GetActiveQuestsFrame()
 function QuestieTracker:GetActiveQuestsFrame()
     return _QuestieTracker.activeQuestsFrame
 end
