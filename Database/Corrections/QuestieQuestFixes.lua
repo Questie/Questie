@@ -947,5 +947,76 @@ function QuestieQuestFixes:Load()
         [9262] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 77,
         },
+        [6564] = {
+            [QuestieDB.questKeys.startedBy] = {{4802},ni,{16790}},
+        },
+
+        [1392] = {
+            [QuestieDB.questKeys.startedBy] = {{5477},ni,{6196}},
+        },
+        [23] = {
+            [QuestieDB.questKeys.startedBy] = {{12678},ni,{16303}},
+        },
+        [24] = {
+            [QuestieDB.questKeys.startedBy] = {{12677},ni,{16304}},
+        },
+        [3513] = {
+            [QuestieDB.questKeys.startedBy] = {{5797},ni,{10621}},
+        },
+        [7761] = {
+            [QuestieDB.questKeys.startedBy] = {{9046},ni,{18987}},
+        },
+        [3181] = {
+            [QuestieDB.questKeys.startedBy] = {{5833},ni,{10000}},
+        },
+        [2] = {
+            [QuestieDB.questKeys.startedBy] = {{12676},ni,{16305}},
+        },
+
+        [1918] = {
+            [QuestieDB.questKeys.startedBy] = {{12759},ni,{16408}},
+        },
+        [883] = {
+            [QuestieDB.questKeys.startedBy] = {{3474},ni,{5099}},
+        },
+        [522] = {
+            [QuestieDB.questKeys.startedBy] = {{2434},ni,{3668}},
+        },
+        [885] = {
+            [QuestieDB.questKeys.startedBy] = {{3472},ni,{5103}},
+        },
+        [5123] = {
+            [QuestieDB.questKeys.startedBy] = {{10738},ni,{12842}},
+        },
+        [897] = {
+            [QuestieDB.questKeys.startedBy] = {{3253},ni,{5138}},
+        },
+        [884] = {
+            [QuestieDB.questKeys.startedBy] = {{3473},ni,{5102}},
+        },
+        [770] = {
+            [QuestieDB.questKeys.startedBy] = {{3056},ni,{4854}},
+        },
+        [939] = {
+            [QuestieDB.questKeys.startedBy] = {{10648},ni,{11668}},
+        },
+        [4881] = {
+            [QuestieDB.questKeys.startedBy] = {{10617},ni,{12564}},
+        },
+        [927] = {
+            [QuestieDB.questKeys.startedBy] = {{3535},ni,{5179}},
+        },
+        [781] = {
+            [QuestieDB.questKeys.startedBy] = {nil,{3076},{4851,},},
+        },
+        [830] = {
+            [QuestieDB.questKeys.startedBy] = {nil,{3239},{4881,},},
+        },
+        [1423] = {
+            [QuestieDB.questKeys.startedBy] = {nil,{28604},{6172,},},
+        },
+        [819] = {
+            [QuestieDB.questKeys.startedBy] = {nil,{3238},{4926,},},
+        },
     }
 end
