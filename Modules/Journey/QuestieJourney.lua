@@ -209,47 +209,6 @@ function QuestieJourney:ToggleJourneyWindow()
     end
 end
 
-
-function QuestieJourney:GetLevelDifficultyRanges(questLevel, questMinLevel)
-
-    local red, orange, yellow, green, gray = 0,0,0,0,0
-
-    -- Calculate Base Values
-    red = questMinLevel
-    orange = questLevel - 4
-    yellow = questLevel - 2
-    green = questLevel + 3
-
-    -- Gray Level based on level range.
-    if (questLevel <= 13) then
-        gray =  questLevel + 6
-    elseif (questLevel <= 39) then
-        gray = (questLevel + math.ceil(questLevel / 10) + 5)
-    else
-        gray = (questLevel + math.ceil(questLevel / 5) + 1)
-    end
-
-    -- Double check for negative values
-    if yellow <= 0 then
-        yellow = questMinLevel
-    end
-
-    if orange < questMinLevel then
-        orange = questMinLevel
-    end
-
-    if orange == yellow then
-        orange = nil
-    end
-
-    if red == orange or not orange then
-        red = nil
-    end
-
-
-    return red, orange, yellow, green, gray
-end
-
 function QuestieJourney:PlayerLevelUp(level)
     -- Complete Quest added to Journey
     ---@type JourneyEntry

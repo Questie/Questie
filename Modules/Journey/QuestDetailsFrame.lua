@@ -48,7 +48,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
 
     local diff = AceGUI:Create("Label")
     diff:SetFullWidth(true)
-    local red, orange, yellow, green, gray = QuestieJourney:GetLevelDifficultyRanges(quest.level, quest.requiredLevel)
+    local red, orange, yellow, green, gray = _QuestieJourney:GetLevelDifficultyRanges(quest.level, quest.requiredLevel)
     local diffStr = ''
 
     if red then
