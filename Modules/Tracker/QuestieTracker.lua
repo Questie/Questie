@@ -400,8 +400,8 @@ function _QuestieTracker:CreateActiveQuestsFrame()
         local _, activeQuests = GetNumQuestLogEntries()
         self.label:SetFont(self.label:GetFont(), Questie.db.global.trackerFontSizeHeader)
         self.label:SetText(QuestieLocale:GetUIString("TRACKER_ACTIVE_QUESTS") .. tostring(activeQuests) .. "/20")
-        self.label:SetPoint("TOP", _QuestieTracker.baseFrame, "TOP", 0, Questie.db.global.trackerFontSizeHeader)
-        self:SetPoint("TOP", _QuestieTracker.baseFrame, "TOP", 0, Questie.db.global.trackerFontSizeHeader)
+        self.label:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", 26, Questie.db.global.trackerFontSizeHeader + 2)
+        self:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", 26, Questie.db.global.trackerFontSizeHeader  + 2)
         self:SetHeight(Questie.db.global.trackerFontSizeHeader)
     end
 
