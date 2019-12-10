@@ -499,7 +499,7 @@ function QuestieTracker:Update()
         if ((complete ~= 1) or Questie.db.global.trackerShowCompleteQuests) and ((GetCVar("autoQuestWatch") == "1" and not Questie.db.char.AutoUntrackedQuests[questId]) or (GetCVar("autoQuestWatch") == "0" and Questie.db.char.TrackedQuests[questId]))  then -- maybe have an option to display quests in the list with (Complete!) in the title
             hasQuest = true
             line = _QuestieTracker:GetNextLine()
-            
+
             line:SetMode("header")
             line:SetQuest(quest)
             line:SetObjective(nil)
@@ -539,6 +539,8 @@ function QuestieTracker:Update()
             else
                 line.expandButton:SetMode(1)
             end
+            line.expandButton:SetWidth(Questie.db.global.trackerFontSizeHeader)
+            line.expandButton:SetHeight(Questie.db.global.trackerFontSizeHeader)
             line.expandButton:Show()
 
             local questName = (quest.LocalizedName or quest.name)
