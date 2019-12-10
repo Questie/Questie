@@ -573,11 +573,15 @@ function _QuestieFramePool:Questie_Tooltip()
         ---@type IconFrame
         local icon = pin.icon;
         local iconData = icon.data
-        if(self.data.Id == iconData.Id) then
+        if(self.data.Id == iconData.Id) then -- Recolor hovered icons
             local entry = {}
             entry.color = {icon.texture.r, icon.texture.g, icon.texture.b, icon.texture.a};
             entry.icon = icon;
-            icon.texture:SetVertexColor(1, 0.98, 0.44, icon.texture.a);
+            if Questie.db.global.questObjectiveColors then
+                icon.texture:SetVertexColor(1, 1, 1, 1); -- If different colors are active simply change it to the regular icon color
+            else
+                icon.texture:SetVertexColor(0.6, 1, 1, 1); -- Without colors make it blueish
+            end
             tinsert(self.data.touchedPins, entry);
         end
         if icon and iconData and icon.x and icon.AreaID == self.AreaID then
