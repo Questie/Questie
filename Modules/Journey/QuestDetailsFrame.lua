@@ -15,61 +15,36 @@ local AceGUI = LibStub("AceGUI-3.0")
 ---@param container ScrollFrame
 ---@param quest Quest
 function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
-    local header = AceGUI:Create("Heading")
-    header:SetFullWidth(true)
-    header:SetText(quest.name)
-    container:AddChild(header)
+    local questNameHeader = _QuestieJourney:CreateHeading(quest.name, true)
+    container:AddChild(questNameHeader)
 
     QuestieJourneyUtils:Spacer(container)
 
     local obj = AceGUI:Create("Label")
     obj:SetText(_QuestieJourney:CreateObjectiveText(quest.Description))
-
-
     obj:SetFullWidth(true)
     container:AddChild(obj)
+
     QuestieJourneyUtils:Spacer(container)
 
-    local questinfo = AceGUI:Create("Heading")
-    questinfo:SetFullWidth(true)
-    questinfo:SetText(QuestieLocale:GetUIString('JOURNEY_QUESTINFO'))
-    container:AddChild(questinfo)
+    local questInfoHeader = _QuestieJourney:CreateHeading(QuestieLocale:GetUIString('JOURNEY_QUESTINFO'), true)
+    container:AddChild(questInfoHeader)
 
     -- Generic Quest Information
-    local level = AceGUI:Create("Label")
-    level:SetText(Questie:Colorize(QuestieLocale:GetUIString('JOURNEY_QUEST_LEVEL'), 'yellow') .. quest.level)
-    level:SetFullWidth(true)
-    container:AddChild(level)
 
-    local minLevel = AceGUI:Create("Label")
-    minLevel:SetText(Questie:Colorize(QuestieLocale:GetUIString('JOURNEY_QUEST_MINLEVEL'), 'yellow') .. quest.requiredLevel)
-    minLevel:SetFullWidth(true)
-    container:AddChild(minLevel)
+    local levelLabel = _QuestieJourney:CreateLabel(Questie:Colorize(QuestieLocale:GetUIString('JOURNEY_QUEST_LEVEL'), 'yellow') .. quest.level, true)
+    container:AddChild(levelLabel)
 
-    local diff = AceGUI:Create("Label")
-    diff:SetFullWidth(true)
-    local red, orange, yellow, green, gray = _QuestieJourney:GetLevelDifficultyRanges(quest.level, quest.requiredLevel)
-    local diffStr = ''
+    local minLevelLabel = _QuestieJourney:CreateLabel(Questie:Colorize(QuestieLocale:GetUIString('JOURNEY_QUEST_MINLEVEL'), 'yellow') .. quest.requiredLevel, true)
+    container:AddChild(minLevelLabel)
 
-    if red then
-        diffStr = diffStr .. "|cFFFF1A1A[".. red .."]|r "
-    end
+    local levelDiffString = _QuestieJourney:GetDifficultyString(quest.level, quest.requiredLevel)
+    local levelDiffLabel = _QuestieJourney:CreateLabel(levelDiffString, true)
+    container:AddChild(levelDiffLabel)
 
-    if orange then
-        diffStr = diffStr .. "|cFFFF8040[".. orange .."]|r "
-    end
+    local questIdLabel = _QuestieJourney:CreateLabel(Questie:Colorize(QuestieLocale:GetUIString('JOURNEY_QUEST_ID'), 'yellow') .. quest.Id, true)
+    container:AddChild(questIdLabel)
 
-    diffStr = diffStr .. "|cFFFFFF00[".. yellow .."]|r "
-    diffStr = diffStr .. "|cFF40C040[".. green .."]|r "
-    diffStr = diffStr .. "|cFFC0C0C0[".. gray .."]|r "
-
-    diff:SetText(Questie:Colorize(QuestieLocale:GetUIString('JOURNEY_DIFFICULTY', diffStr), 'yellow'))
-    container:AddChild(diff)
-
-    local id = AceGUI:Create("Label")
-    id:SetText(Questie:Colorize(QuestieLocale:GetUIString('JOURNEY_QUEST_ID'), 'yellow') .. quest.Id)
-    id:SetFullWidth(true)
-    container:AddChild(id)
     QuestieJourneyUtils:Spacer(container)
 
     -- Get Quest Start NPC
@@ -84,12 +59,10 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
 
         local startnpc = QuestieDB:GetNPC(quest.Starts.NPC[1])
 
-        local startNPCName = AceGUI:Create("Label")
-        startNPCName:SetText(startnpc.name)
-        startNPCName:SetFontObject(GameFontHighlight)
-        startNPCName:SetColor(255, 165, 0)
-        startNPCName:SetFullWidth(true)
-        startNPCGroup:AddChild(startNPCName)
+        local startNPCNameLabel = _QuestieJourney:CreateLabel(startnpc.name, true)
+        startNPCNameLabel:SetFontObject(GameFontHighlight)
+        startNPCNameLabel:SetColor(255, 165, 0)
+        startNPCGroup:AddChild(startNPCNameLabel)
 
         local startNPCZone = AceGUI:Create("Label")
         local startindex = 0
@@ -357,4 +330,50 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         -- Fix for sometimes the scroll content will max out and not show everything until window is resized
         container.content:SetHeight(10000)
     end
+end
+
+---@param text string
+---@param fullWidth boolean
+---@return AceHeader
+function _QuestieJourney:CreateHeading(text, fullWidth)
+    ---@class AceHeader
+    local header = AceGUI:Create("Heading")
+    header:SetFullWidth(fullWidth)
+    header:SetText(text)
+
+    return header
+end
+
+---@param text string
+---@param fullWidth boolean
+---@return AceLabel
+function _QuestieJourney:CreateLabel(text, fullWidth)
+    ---@class AceLabel
+    local header = AceGUI:Create("Label")
+    header:SetFullWidth(fullWidth)
+    header:SetText(text)
+
+    return header
+end
+
+---@param questLevel integer
+---@param questMinLevel integer
+---@return string
+function _QuestieJourney:GetDifficultyString(questLevel, questMinLevel)
+    local red, orange, yellow, green, gray = _QuestieJourney:GetLevelDifficultyRanges(questLevel, questMinLevel)
+    local diffStr = ''
+
+    if red then
+        diffStr = diffStr .. "|cFFFF1A1A[".. red .."]|r "
+    end
+
+    if orange then
+        diffStr = diffStr .. "|cFFFF8040[".. orange .."]|r "
+    end
+
+    diffStr = diffStr .. "|cFFFFFF00[".. yellow .."]|r "
+    diffStr = diffStr .. "|cFF40C040[".. green .."]|r "
+    diffStr = diffStr .. "|cFFC0C0C0[".. gray .."]|r "
+
+    return Questie:Colorize(QuestieLocale:GetUIString('JOURNEY_DIFFICULTY', diffStr), 'yellow')
 end
