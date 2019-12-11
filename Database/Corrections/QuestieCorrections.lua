@@ -37,7 +37,8 @@ function QuestieCorrections:Initialize()
             QuestieDB.npcData[id][key] = value
         end
     end
-
+-- /run QuestieLoader:ImportModule("QuestieQuest"):AcceptQuest(7122)
+-- /run WorldMapFrame:SetMapID(1459)
     for id, data in pairs(QuestieNPCFixes:LoadFactionFixes()) do
         for key, value in pairs(data) do
             QuestieDB.npcData[id][key] = value

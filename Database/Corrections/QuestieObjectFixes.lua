@@ -144,7 +144,12 @@ function QuestieObjectFixes:Load()
             [QuestieDB.objectKeys.spawns] = {[2557]={{42.71,68.62},},}, -- #1156
             [QuestieDB.objectKeys.zoneID] = 2557,
         },
-
+        [179024] = {
+            [QuestieDB.objectKeys.spawns] = {[2597]={{42.9,37.1},},},
+        },
+        [179025] = {
+            [QuestieDB.objectKeys.spawns] = {[2597]={{50,93},},},
+        },
         -- Fake IDs
         [400000] = {
             [QuestieDB.objectKeys.name] = "Feralas Ahi Fishing Location",
