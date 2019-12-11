@@ -754,6 +754,18 @@ function QuestieQuestFixes:Load()
         [6609] = {
             [QuestieDB.questKeys.exclusiveTo] = {6607}, -- #1154
         },
+        [6861] = {
+            [QuestieDB.questKeys.objectivesText] = {},
+        },
+        [6862] = {
+            [QuestieDB.questKeys.objectivesText] = {},
+        },
+        [7002] = {
+            [QuestieDB.questKeys.objectivesText] = {},
+        },
+        [7026] = {
+            [QuestieDB.questKeys.objectivesText] = {},
+        },
         [7028] = {
             [QuestieDB.questKeys.objectivesText] = {"Collect 25 Theradric Crystal Carvings for Willow in Desolace.",},
         },
@@ -789,6 +801,12 @@ function QuestieQuestFixes:Load()
         },
         [7241] = {
             [QuestieDB.questKeys.exclusiveTo] = {7161},
+        },
+        [7385] = {
+            [QuestieDB.questKeys.objectivesText] = {},
+        },
+        [7386] = {
+            [QuestieDB.questKeys.objectivesText] = {},
         },
         [7426] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 77,
