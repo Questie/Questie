@@ -21,6 +21,10 @@ _QuestieQuest.objectiveSpawnListCallTable = {
         local mon = {};
 
         mon.Name = npc.name
+        if not npc.spawns then
+            Questie:Debug(DEBUG_CRITICAL, "Spawn data missing for NPC:", npc.id)
+            npc.spawns = {}
+        end
         mon.Spawns = npc.spawns
         mon.Icon = ICON_TYPE_SLAY
         mon.Id = id
@@ -41,6 +45,10 @@ _QuestieQuest.objectiveSpawnListCallTable = {
         local obj = {}
 
         obj.Name = object.name
+        if not object.spawns then
+            Questie:Debug(DEBUG_CRITICAL, "Spawn data missing for NPC:", object.id)
+            object.spawns = {}
+        end
         obj.Spawns = object.spawns
         obj.Icon = ICON_TYPE_LOOT
         obj.GetIconScale = function() return Questie.db.global.objectScale or 1 end
