@@ -425,8 +425,39 @@ function QuestieQuestBlacklist:Load()
         [8169] = true,
         [8170] = true,
         [8171] = true,
-
-        [8001] = true, -- Warsong Outriders (Related to Talsman of Merit)
+        -- Warsong Gulch - Quests are not in the game anymore
+        -- Vanquish the Invaders
+        [7788] = true,
+        [7871] = true,
+        [7872] = true,
+        [7873] = true,
+        [8290] = true,
+        [8291] = true,
+        -- Talisman of Merit
+        [7886] = true,
+        [7887] = true,
+        [7888] = true,
+        [7921] = true,
+        [8567] = true,
+        [8289] = true,
+        [8292] = true,
+        [8001] = true,
+        -- Quell the Silverwing Usurpers
+        [7789] = true,
+        [7874] = true,
+        [7875] = true,
+        [7876] = true,
+        [8294] = true,
+        [8295] = true,
+        -- Mark of Honor
+        [7922] = true,
+        [7923] = true,
+        [7924] = true,
+        [7925] = true,
+        [8293] = true,
+        [8296] = true,
+        [8568] = true,
+        [8002] = true,
 
         -- corrupted windblossom
         [2523] = true,
