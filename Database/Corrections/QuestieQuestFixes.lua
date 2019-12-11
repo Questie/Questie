@@ -764,10 +764,10 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.requiredLevel] = 39,
         },
         [7141] = {
-            [QuestieDB.questKeys.triggerEnd] = {"Defeat Drek'thar.",{[2597]={{-1,-1},},},},
+            [QuestieDB.questKeys.triggerEnd] = {"Defeat Drek'thar.",{[2597]={{47.1,87.6},},},},
         },
         [7142] = {
-            [QuestieDB.questKeys.triggerEnd] = {"Defeat Vanndar Stormpike.",{[2597]={{-1,-1},},},},
+            [QuestieDB.questKeys.triggerEnd] = {"Defeat Vanndar Stormpike.",{[2597]={{41.9,13.3},},},},
         },
         [7166] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 178,
