@@ -144,6 +144,9 @@ function QuestieObjectFixes:Load()
             [QuestieDB.objectKeys.spawns] = {[2557]={{42.71,68.62},},}, -- #1156
             [QuestieDB.objectKeys.zoneID] = 2557,
         },
+        [178784] = {
+            [QuestieDB.objectKeys.spawns] = {[2597]={{45.9,72.9},{44.8,71.1},{45.7,67.7},{44.8,68.5},{44,68.5},{43.8,68.5},{42.6,68.3},{43.1,70.5},},},
+        },
         [179024] = {
             [QuestieDB.objectKeys.spawns] = {[2597]={{42.9,37.1},},},
         },
