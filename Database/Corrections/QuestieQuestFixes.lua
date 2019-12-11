@@ -763,6 +763,9 @@ function QuestieQuestFixes:Load()
         [7070] = {
             [QuestieDB.questKeys.requiredLevel] = 39,
         },
+        [7142] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Defeat Vanndar Stormpike.",{[2597]={{-1,-1},},},},
+        },
         [7166] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 178,
         },

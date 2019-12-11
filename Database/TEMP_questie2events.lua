@@ -11,16 +11,6 @@ TEMP_Questie2Events = {
     },
     ["locationCount"] = 1
   },
-  ["Defeat Vanndar Stormpike."] = {
-    ["locations"] = {
-      [1] = {26.0, 0.6677, 0.5177, 100.0},
-      [5] = {45.0, 0.5666, 0.8649, 2.0},
-      [3] = {43.0, 0.6264, 0.5958, 41.0},
-      [4] = {48.0, 0.6147, 0.2038, 28.0},
-      [2] = {60.0, 0.6656, 0.5655, 46.0}
-    },
-    ["locationCount"] = 5
-  },
   ["Captured Protectorate Vanguard Escorted"] = {
     ["locations"] = {
       [1] = {59.0, 0.589, 0.3243, 100.0}
