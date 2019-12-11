@@ -775,6 +775,9 @@ function QuestieQuestFixes:Load()
         [7070] = {
             [QuestieDB.questKeys.requiredLevel] = 39,
         },
+        [7123] = {
+            [QuestieDB.questKeys.exclusiveTo] = {7124},
+        },
         [7141] = {
             [QuestieDB.questKeys.triggerEnd] = {"Defeat Drek'thar.",{[2597]={{47.22,86.95},},},},
         },
