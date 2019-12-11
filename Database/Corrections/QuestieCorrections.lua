@@ -38,6 +38,12 @@ function QuestieCorrections:Initialize()
         end
     end
 
+    for id, data in pairs(QuestieNPCFixes:LoadFactionFixes()) do
+        for key, value in pairs(data) do
+            QuestieDB.npcData[id][key] = value
+        end
+    end
+
     for id, data in pairs(QuestieObjectFixes:Load()) do
         for key, value in pairs(data) do
             QuestieDB.objectData[id][key] = value

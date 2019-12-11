@@ -255,15 +255,11 @@ function QuestieNPCFixes:Load()
             [QuestieDB.npcKeys.zoneID] = 1377,
         },
         [13756] = {
-            [QuestieDB.npcKeys.spawns] = {[2597]={{-1,-1},},},
-            [QuestieDB.npcKeys.zoneID] = 2597,
-        },
-        [13778] = {
-            [QuestieDB.npcKeys.spawns] = {[2597]={{-1,-1},},},
+            [QuestieDB.npcKeys.spawns] = {[2597]={{49.3,88.5},{49.3,76.7},{51.6,57.1},{44.8,45.5},{51.8,36},{49.2,14.8},{42.4,15.6},},},
             [QuestieDB.npcKeys.zoneID] = 2597,
         },
         [13796] = {
-            [QuestieDB.npcKeys.spawns] = {[2597]={{-1,-1},},},
+            [QuestieDB.npcKeys.spawns] = {[2597]={{44.3,67.9},{52.5,7.6},},},
             [QuestieDB.npcKeys.zoneID] = 2597,
         },
         [14500] = {
@@ -311,4 +307,27 @@ function QuestieNPCFixes:Load()
             [QuestieDB.npcKeys.zoneID] = 3358,
         },
     }
+end
+
+-- some quest items are shared across factions but require different sources for each faction (not sure if there is a better way to implement this)
+function QuestieNPCFixes:LoadFactionFixes()
+    local npcFixesHorde = {
+        [13778] = {
+            [QuestieDB.npcKeys.spawns] = {[2597]={{52.8,44},{50.8,30.8},{45.2,14.6},{44,18.1},},},
+            [QuestieDB.npcKeys.zoneID] = 2597,
+        },
+    }
+
+    local npcFixesAlliance = {
+        [13778] = {
+            [QuestieDB.npcKeys.spawns] = {[2597]={{48.5,58.3},{50.2,65.3},{49.3,84.4},{48.3,84.3},},},
+            [QuestieDB.npcKeys.zoneID] = 2597,
+        },
+    }
+
+    if UnitFactionGroup("Player") == "Horde" then
+        return npcFixesHorde
+    else
+        return npcFixesAlliance
+    end
 end
