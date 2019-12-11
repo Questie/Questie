@@ -131,11 +131,13 @@ function _Qframe:OnLeave()
         end
     end
 
-    for _, entry in pairs(self.data.touchedPins) do
-        local icon = entry.icon;
-        icon.texture:SetVertexColor(unpack(entry.color));
+    if self.data.touchedPins then
+        for _, entry in pairs(self.data.touchedPins) do
+            local icon = entry.icon;
+            icon.texture:SetVertexColor(unpack(entry.color));
+        end
+        self.data.touchedPins = nil;
     end
-    self.data.touchedPins = nil;
 end
 
 function _Qframe:OnClick(button)
