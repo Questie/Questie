@@ -884,6 +884,24 @@ function QuestieQuestFixes:Load()
         [8368] = {
             [QuestieDB.questKeys.exclusiveTo] = {8426,8427,8428,8429,8430},
         },
+        [8372] = {
+            [QuestieDB.questKeys.exclusiveTo] = {8399,8400,8401,8402,8403},
+        },
+        [8399] = {
+            [QuestieDB.questKeys.exclusiveTo] = {8372,8400,8401,8402,8403},
+        },
+        [8400] = {
+            [QuestieDB.questKeys.exclusiveTo] = {8372,8399,8401,8402,8403},
+        },
+        [8401] = {
+            [QuestieDB.questKeys.exclusiveTo] = {8372,8399,8400,8402,8403},
+        },
+        [8402] = {
+            [QuestieDB.questKeys.exclusiveTo] = {8372,8399,8400,8401,8403},
+        },
+        [8403] = {
+            [QuestieDB.questKeys.exclusiveTo] = {8372,8399,8400,8401,8402},
+        },
         [8426] = {
             [QuestieDB.questKeys.exclusiveTo] = {8368,8427,8428,8429,8430},
         },
