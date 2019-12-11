@@ -878,6 +878,24 @@ function QuestieQuestFixes:Load()
         [8296] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 178,
         },
+        [8368] = {
+            [QuestieDB.questKeys.exclusiveTo] = {8426,8427,8428,8429,8430},
+        },
+        [8426] = {
+            [QuestieDB.questKeys.exclusiveTo] = {8368,8427,8428,8429,8430},
+        },
+        [8427] = {
+            [QuestieDB.questKeys.exclusiveTo] = {8368,8426,8428,8429,8430},
+        },
+        [8428] = {
+            [QuestieDB.questKeys.exclusiveTo] = {8368,8426,8427,8429,8430},
+        },
+        [8429] = {
+            [QuestieDB.questKeys.exclusiveTo] = {8368,8426,8427,8428,8430},
+        },
+        [8430] = {
+            [QuestieDB.questKeys.exclusiveTo] = {8368,8426,8427,8428,8429},
+        },
         [8493] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 77,
         },
