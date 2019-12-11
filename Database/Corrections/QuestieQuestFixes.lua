@@ -802,6 +802,9 @@ function QuestieQuestFixes:Load()
         [7241] = {
             [QuestieDB.questKeys.exclusiveTo] = {7161},
         },
+        [7261] = {
+            [QuestieDB.questKeys.exclusiveTo] = {7162},
+        },
         [7385] = {
             [QuestieDB.questKeys.objectivesText] = {},
         },
