@@ -763,6 +763,9 @@ function QuestieQuestFixes:Load()
         [7070] = {
             [QuestieDB.questKeys.requiredLevel] = 39,
         },
+        [7141] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Defeat Drek'thar.",{[2597]={{-1,-1},},},},
+        },
         [7142] = {
             [QuestieDB.questKeys.triggerEnd] = {"Defeat Vanndar Stormpike.",{[2597]={{-1,-1},},},},
         },
