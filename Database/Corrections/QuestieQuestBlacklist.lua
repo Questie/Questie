@@ -362,7 +362,9 @@ function QuestieQuestBlacklist:Load()
         [8758] = true,
         [8759] = true,
         [8760] = true,
-        --All PVP Quests
+        -- Arathi Basin Quests
+        [8438] = true,
+        [8384] = true,
         [8080] = true,
         [8154] = true,
         [8155] = true,
@@ -393,7 +395,6 @@ function QuestieQuestBlacklist:Load()
         [8443] = true,
         [8115] = true,
         [8114] = true,
-        [7386] = true,
         [8123] = true,
         [8160] = true,
         [8161] = true,
@@ -402,10 +403,6 @@ function QuestieQuestBlacklist:Load()
         [8265] = true,
         [8263] = true,
         [8264] = true,
-        [8404] = true,
-        [8405] = true,
-        [8406] = true,
-        [8408] = true,
         [8367] = true,
         [8388] = true,
         [8081] = true,
@@ -428,16 +425,8 @@ function QuestieQuestBlacklist:Load()
         [8169] = true,
         [8170] = true,
         [8171] = true,
-        [8001] = true,
-        --More pvp quests ?? strange Ones
-        [8387] = true,
-        [8375] = true,
-        [8383] = true,
-        [8438] = true,
-        [8384] = true,
-        [7863] = true,
-        [7864] = true,
-        [7865] = true,
+
+        [8001] = true, -- Warsong Outriders (Related to Talsman of Merit)
 
         -- corrupted windblossom
         [2523] = true,
