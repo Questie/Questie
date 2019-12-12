@@ -425,7 +425,7 @@ function QuestieQuestBlacklist:Load()
         [8169] = true,
         [8170] = true,
         [8171] = true,
-        -- Warsong Gulch - Quests are not in the game anymore
+        -- PvP Quests which are not in the game anymore
         -- Vanquish the Invaders
         [7788] = true,
         [7871] = true,
@@ -458,6 +458,9 @@ function QuestieQuestBlacklist:Load()
         [8296] = true,
         [8568] = true,
         [8002] = true,
+        -- Master Ryson's All Seeing Eye
+        [6847] = true,
+        [6848] = true,
 
         -- corrupted windblossom
         [2523] = true,
