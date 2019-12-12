@@ -775,6 +775,12 @@ function QuestieQuestFixes:Load()
         [7070] = {
             [QuestieDB.questKeys.requiredLevel] = 39,
         },
+        [7081] = {
+            [QuestieDB.questKeys.specialFlags] = 0,
+        },
+        [7082] = {
+            [QuestieDB.questKeys.specialFlags] = 0,
+        },
         [7123] = {
             [QuestieDB.questKeys.exclusiveTo] = {7124},
         },
