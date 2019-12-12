@@ -11,7 +11,7 @@ local tinsert = table.insert
 
 function QuestieTracker.utils:ShowQuestLog(quest)
     -- Priority order first check if addon exist otherwise default to original
-    local questFrame = QuestLogExFrame or QuestLogFrame;
+    local questFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame;
     HideUIPanel(questFrame);
     local questLogIndex = GetQuestLogIndexByID(quest.Id);
     SelectQuestLogEntry(questLogIndex)
