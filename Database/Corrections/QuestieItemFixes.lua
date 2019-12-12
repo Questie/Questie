@@ -15,6 +15,9 @@ function QuestieItemFixes:Load()
     _AddMissingItemIDs()
 
     return {
+        [3173] = {
+            [QuestieDB.itemKeys.npcDrops] = {2163,2164,1188,1189,1186,2165,1797,1778},
+        },
         [5475] = {
             [QuestieDB.itemKeys.name] = "Wooden Key",
             [QuestieDB.itemKeys.relatedQuests] = {},
