@@ -11,6 +11,7 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
 local AceGUI = LibStub("AceGUI-3.0")
 
+
 -- TODO remove again once the call in manageZoneTree was removed
 ---@param container ScrollFrame
 ---@param quest Quest
@@ -47,27 +48,23 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
 
     QuestieJourneyUtils:Spacer(container)
 
-    local prequestInlineGroup = AceGUI:Create("InlineGroup")
+    local preQuestInlineGroup = AceGUI:Create("InlineGroup")
     local preQuestCounter = 1
     local preQuests = {}
 
-    prequestInlineGroup:SetLayout("List")
-    prequestInlineGroup:SetTitle(QuestieLocale:GetUIString('JOURNEY_PREQUEST'))
-    prequestInlineGroup:SetFullWidth(true)
+    preQuestInlineGroup:SetLayout("List")
+    preQuestInlineGroup:SetTitle(QuestieLocale:GetUIString('JOURNEY_PREQUEST'))
+    preQuestInlineGroup:SetFullWidth(true)
 
     if (quest.preQuestSingle and next(quest.preQuestSingle)) then
         for _, v in pairs(quest.preQuestSingle) do
             if not (v == quest.Id) then
                 preQuests[preQuestCounter] = {}
-                preQuests[preQuestCounter].frame = AceGUI:Create("InteractiveLabel")
-                preQuests[preQuestCounter].quest = QuestieDB:GetQuest(v)
-                preQuests[preQuestCounter].frame:SetText(preQuests[preQuestCounter].quest:GetColoredQuestName())
-                preQuests[preQuestCounter].frame:SetUserData('id', v)
-                preQuests[preQuestCounter].frame:SetUserData('name', preQuests[preQuestCounter].quest.name)
-                preQuests[preQuestCounter].frame:SetCallback("OnClick", _QuestieJourney.JumpToQuest)
-                preQuests[preQuestCounter].frame:SetCallback("OnEnter", _QuestieJourney.ShowJourneyTooltip)
-                preQuests[preQuestCounter].frame:SetCallback("OnLeave", _QuestieJourney.HideJourneyTooltip)
-                prequestInlineGroup:AddChild(preQuests[preQuestCounter].frame)
+                local preQuest = QuestieDB:GetQuest(v)
+                local label = _QuestieJourney:GetInteractiveQuestLabel(preQuest)
+                preQuests[preQuestCounter].frame = label
+                preQuests[preQuestCounter].quest = preQuest
+                preQuestInlineGroup:AddChild(label)
                 preQuestCounter = preQuestCounter + 1
             end
         end
@@ -77,15 +74,11 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         for _, v in pairs(quest.preQuestGroup) do
             if not (v == quest.Id) then
                 preQuests[preQuestCounter] = {}
-                preQuests[preQuestCounter].frame = AceGUI:Create("InteractiveLabel")
-                preQuests[preQuestCounter].quest = QuestieDB:GetQuest(v)
-                preQuests[preQuestCounter].frame:SetText(preQuests[preQuestCounter].quest:GetColoredQuestName())
-                preQuests[preQuestCounter].frame:SetUserData('id', v)
-                preQuests[preQuestCounter].frame:SetUserData('name', preQuests[preQuestCounter].quest.name)
-                preQuests[preQuestCounter].frame:SetCallback("OnClick", _QuestieJourney.JumpToQuest)
-                preQuests[preQuestCounter].frame:SetCallback("OnEnter", _QuestieJourney.ShowJourneyTooltip)
-                preQuests[preQuestCounter].frame:SetCallback("OnLeave", _QuestieJourney.HideJourneyTooltip)
-                prequestInlineGroup:AddChild(preQuests[preQuestCounter].frame)
+                local preQuest = QuestieDB:GetQuest(v)
+                local label = _QuestieJourney:GetInteractiveQuestLabel(preQuest)
+                preQuests[preQuestCounter].frame = label
+                preQuests[preQuestCounter].quest = preQuest
+                preQuestInlineGroup:AddChild(label)
                 preQuestCounter = preQuestCounter + 1
             end
         end
@@ -93,9 +86,9 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
 
 
     if preQuestCounter > 1 then
-        QuestieJourneyUtils:Spacer(prequestInlineGroup)
+        QuestieJourneyUtils:Spacer(preQuestInlineGroup)
 
-        container:AddChild(prequestInlineGroup)
+        container:AddChild(preQuestInlineGroup)
     end
 
 
@@ -168,15 +161,11 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
             for i, v in pairs(startnpc.questStarts) do
                 if not (v == quest.Id) then
                     startQuests[counter] = {}
-                    startQuests[counter].frame = AceGUI:Create("InteractiveLabel")
-                    startQuests[counter].quest = QuestieDB:GetQuest(v)
-                    startQuests[counter].frame:SetText(startQuests[counter].quest:GetColoredQuestName())
-                    startQuests[counter].frame:SetUserData('id', v)
-                    startQuests[counter].frame:SetUserData('name', startQuests[counter].quest.name)
-                    startQuests[counter].frame:SetCallback("OnClick", _QuestieJourney.JumpToQuest)
-                    startQuests[counter].frame:SetCallback("OnEnter", _QuestieJourney.ShowJourneyTooltip)
-                    startQuests[counter].frame:SetCallback("OnLeave", _QuestieJourney.HideJourneyTooltip)
-                    startNPCGroup:AddChild(startQuests[counter].frame)
+                    local startQuest = QuestieDB:GetQuest(v)
+                    local label = _QuestieJourney:GetInteractiveQuestLabel(startQuest)
+                    startQuests[counter].frame = label
+                    startQuests[counter].quest = startQuest
+                    startNPCGroup:AddChild(label)
                     counter = counter + 1
                 end
             end
@@ -261,15 +250,11 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
                 for i, v in pairs(startobj.questStarts) do
                     if not (v == quest.Id) then
                         startQuests[counter] = {}
-                        startQuests[counter].frame = AceGUI:Create("InteractiveLabel")
-                        startQuests[counter].quest = QuestieDB:GetQuest(v)
-                        startQuests[counter].frame:SetText(startQuests[counter].quest:GetColoredQuestName())
-                        startQuests[counter].frame:SetUserData('id', v)
-                        startQuests[counter].frame:SetUserData('name', startQuests[counter].quest.name)
-                        startQuests[counter].frame:SetCallback("OnClick", _QuestieJourney.JumpToQuest)
-                        startQuests[counter].frame:SetCallback("OnEnter", _QuestieJourney.ShowJourneyTooltip)
-                        startQuests[counter].frame:SetCallback("OnLeave", _QuestieJourney.HideJourneyTooltip)
-                        startGOGroup:AddChild(startQuests[counter].frame)
+                        local startQuest = QuestieDB:GetQuest(v)
+                        local label = _QuestieJourney:GetInteractiveQuestLabel(startQuest)
+                        startQuests[counter].frame = label
+                        startQuests[counter].quest = startQuest
+                        startGOGroup:AddChild(label)
                         counter = counter + 1
                     end
                 end
@@ -356,15 +341,11 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
             for i, v in ipairs(endnpc.endQuests) do
                 if not (v == quest.Id) then
                     endQuests[counter] = {}
-                    endQuests[counter].frame = AceGUI:Create("InteractiveLabel")
-                    endQuests[counter].quest = QuestieDB:GetQuest(v)
-                    endQuests[counter].frame:SetText(endQuests[counter].quest:GetColoredQuestName())
-                    endQuests[counter].frame:SetUserData('id', v)
-                    endQuests[counter].frame:SetUserData('name', endQuests[counter].quest.name)
-                    endQuests[counter].frame:SetCallback("OnClick", _QuestieJourney.JumpToQuest)
-                    endQuests[counter].frame:SetCallback("OnEnter", _QuestieJourney.ShowJourneyTooltip)
-                    endQuests[counter].frame:SetCallback("OnLeave", _QuestieJourney.HideJourneyTooltip)
-                    endNPCGroup:AddChild(endQuests[counter].frame)
+                    local endQuest = QuestieDB:GetQuest(v)
+                    local label = _QuestieJourney:GetInteractiveQuestLabel(endQuest)
+                    endQuests[counter].frame = label
+                    endQuests[counter].quest = endQuest
+                    endNPCGroup:AddChild(label)
                     counter = counter + 1
                 end
             end
@@ -429,4 +410,18 @@ function _QuestieJourney:GetDifficultyString(questLevel, questMinLevel)
     diffStr = diffStr .. "|cFFC0C0C0[".. gray .."]|r "
 
     return Questie:Colorize(QuestieLocale:GetUIString('JOURNEY_DIFFICULTY', diffStr), 'yellow')
+end
+
+---@param preQuest Quest
+function _QuestieJourney:GetInteractiveQuestLabel(preQuest)
+    local label = AceGUI:Create("InteractiveLabel")
+
+    label:SetText(preQuest:GetColoredQuestName())
+    label:SetUserData('id', preQuest.Id)
+    label:SetUserData('name', preQuest.name)
+    label:SetCallback("OnClick", _QuestieJourney.JumpToQuest)
+    label:SetCallback("OnEnter", _QuestieJourney.ShowJourneyTooltip)
+    label:SetCallback("OnLeave", _QuestieJourney.HideJourneyTooltip)
+
+    return label
 end
