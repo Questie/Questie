@@ -30,9 +30,7 @@ function _QuestieJourney.questsByZone:DrawTab(container)
     CDropdown:SetText(QuestieLocale:GetUIString('JOURNEY_SELECT_CONT'))
 
     local currentContinentId = QuestiePlayer:GetCurrentContinentId()
-    if currentContinentId > 0 then
-        CDropdown:SetValue(currentContinentId)
-    end
+    CDropdown:SetValue(currentContinentId)
 
     CDropdown:SetCallback("OnValueChanged", function(key, checked)
         local sortedZones = QuestieJourneyUtils:GetSortedZoneKeys(QuestieJourney.zones[key.value])

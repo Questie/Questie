@@ -48,10 +48,10 @@ end
 function QuestiePlayer:GetCurrentContinentId()
     local currentZoneId = QuestiePlayer:GetCurrentZoneId()
     if currentZoneId == 0 then
-        return 0
+        return 1 -- Default to Eastern Kingdom
     end
 
-    local currentContinentId = 0
+    local currentContinentId = 1 -- Default to Eastern Kingdom
     for cId, cont in pairs(LangZoneLookup) do
         for id, _ in pairs(cont) do
             if id == currentZoneId then
