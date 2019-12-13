@@ -360,6 +360,7 @@ function QuestieDB:GetQuest(questID) -- /dump QuestieDB:GetQuest(867)
     end
 
     --- function
+    ---@return boolean @Returns true if the quest should be grey, false otherwise
     function QO:IsTrivial()
         local levelDiff = self.level - QuestiePlayer:GetPlayerLevel();
         if (levelDiff >= 5) then
@@ -373,6 +374,60 @@ function QuestieDB:GetQuest(questID) -- /dump QuestieDB:GetQuest(867)
         else
             return true -- Grey
         end
+    end
+
+    ---@return boolean @Returns true if any pre quest has been completed or none is listed, false otherwise
+    function QO:IsPreQuestSingleFulfilled()
+        local preQuestSingle = self.preQuestSingle
+        if not preQuestSingle then
+            return true
+        end
+        for _, preQuestId in pairs(preQuestSingle) do
+            local preQuest = QuestieDB:GetQuest(preQuestId);
+
+            -- If a quest is complete the requirement is fulfilled
+            if Questie.db.char.complete[preQuestId] then
+                return true
+            -- If one of the quests in the exclusive group is complete the requirement is fulfilled
+            elseif preQuest and preQuest.ExclusiveQuestGroup then
+                for _, v in pairs(preQuest.ExclusiveQuestGroup) do
+                    if Questie.db.char.complete[v] then
+                        return true
+                    end
+                end
+            end
+        end
+        -- No preQuest is complete
+        return false
+    end
+
+    ---@return boolean @Returns true if all listed pre quests are complete or none is listed, false otherwise
+    function QO:IsPreQuestGroupFulfilled()
+        local preQuestGroup = self.preQuestGroup
+        if not preQuestGroup then
+            return true
+        end
+        for _, preQuestId in pairs(preQuestGroup) do
+            -- If a quest is not complete and no exlusive quest is complete, the requirement is not fulfilled
+            if not Questie.db.char.complete[preQuestId] then
+                local preQuest = QuestieDB:GetQuest(preQuestId);
+                if preQuest == nil or preQuest.ExclusiveQuestGroup == nil then
+                    return false
+                end
+
+                local anyExlusiveFinished = false
+                for _, v in pairs(preQuest.ExclusiveQuestGroup) do
+                    if Questie.db.char.complete[v] then
+                        anyExlusiveFinished = true
+                    end
+                end
+                if not anyExlusiveFinished then
+                    return false
+                end
+            end
+        end
+        -- All preQuests are complete
+        return true
     end
 
     QuestieDB._QuestCache[questID] = QO

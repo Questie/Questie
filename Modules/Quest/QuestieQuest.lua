@@ -1396,59 +1396,15 @@ function _QuestieQuest:IsDoable(quest)
 
     -- Check the preQuestGroup field where every required quest has to be complete for a quest to show up
     if quest.preQuestGroup ~= nil and next(quest.preQuestGroup) ~= nil then
-        return _QuestieQuest:IsPreQuestGroupFulfilled(quest.preQuestGroup)
+        return quest:IsPreQuestGroupFulfilled()
     end
 
     -- Check the preQuestSingle field where just one of the required quests has to be complete for a quest to show up
     if quest.preQuestSingle ~= nil and next(quest.preQuestSingle) ~= nil then
-        return _QuestieQuest:IsPreQuestSingleFulfilled(quest.preQuestSingle)
+        return quest:IsPreQuestSingleFulfilled()
     end
 
     return true
-end
-
-function _QuestieQuest:IsPreQuestGroupFulfilled(preQuestGroup)
-    for _, preQuestId in pairs(preQuestGroup) do
-        -- If a quest is not complete and no exlusive quest is complete, the requirement is not fulfilled
-        if not Questie.db.char.complete[preQuestId] then
-            local preQuest = QuestieDB:GetQuest(preQuestId);
-            if preQuest == nil or preQuest.ExclusiveQuestGroup == nil then
-                return false
-            end
-
-            local anyExlusiveFinished = false
-            for _, v in pairs(preQuest.ExclusiveQuestGroup) do
-                if Questie.db.char.complete[v] then
-                    anyExlusiveFinished = true
-                end
-            end
-            if not anyExlusiveFinished then
-                return false
-            end
-        end
-    end
-    -- All preQuests are complete
-    return true
-end
-
-function _QuestieQuest:IsPreQuestSingleFulfilled(preQuestSingle)
-    for _, preQuestId in pairs(preQuestSingle) do
-        local preQuest = QuestieDB:GetQuest(preQuestId);
-
-        -- If a quest is complete the requirement is fulfilled
-        if Questie.db.char.complete[preQuestId] then
-            return true
-        -- If one of the quests in the exclusive group is complete the requirement is fulfilled
-        elseif preQuest and preQuest.ExclusiveQuestGroup then
-            for _, v in pairs(preQuest.ExclusiveQuestGroup) do
-                if Questie.db.char.complete[v] then
-                    return true
-                end
-            end
-        end
-    end
-    -- No preQuest is complete
-    return false
 end
 
 --TODO Check that this function does what it is supposed to...
