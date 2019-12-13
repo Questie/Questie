@@ -3,7 +3,7 @@ LangContinentLookup['deDE']= {
     [2] = "Kalimdor",
     [3] = "Instanzen",
     -- [4] = "Schlachtzüge",
-    -- [5] = "Schlachtfelder",
+    [5] = "Schlachtfelder",
 }
 
 LangZoneLookup['deDE']= {
@@ -78,5 +78,10 @@ LangZoneLookup['deDE']= {
         [2017] = "Stratholme",
         [2557] = "Düsterbruch",
         [2057] = "Scholomance",
-    }
+    },
+    [5] = {
+        [2597] = "Alteractal",
+        [3277] = "Kriegshymnenschlucht",
+        [3358] = "Arathibecken"
+    },
 }

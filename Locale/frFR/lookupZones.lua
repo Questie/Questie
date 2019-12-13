@@ -3,7 +3,7 @@ LangContinentLookup['frFR']= {
     [2] = "Kalimdor",
     [3] = "Donjons",
     -- [4] = "Raids",
-    -- [5] = "Champs de bataille"
+    [5] = "Champs de bataille",
 }
 
 LangZoneLookup['frFR']= {
@@ -78,5 +78,10 @@ LangZoneLookup['frFR']= {
         [2017] = "Stratholme",
         [2557] = "Hache-tripes",
         [2057] = "Scholomance",
-    }
+    },
+    [5] = {
+        [2597] = "Vallée d'Alterac",
+        [3277] = "Goulet des Warsong",
+        [3358] = "Bassin d'Arathi"
+    },
 }
