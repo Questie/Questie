@@ -287,6 +287,7 @@ QuestieLocale.locale['esMX'] = {
     ['JOURNEY_QUEST_MINLEVEL'] = "Nivel minimo requerido para la misión: ",
     ['JOURNEY_QUEST_ID'] = "ID de misión: ",
     ['JOURNEY_DIFFICULTY'] = "Rango de dificultad: %s",
+    ['JOURNEY_PREQUEST'] = "Pre Quests",
     ['JOURNEY_AUTO_QUEST'] = "Esta misión se completa automaticamente y no contiene objetivos.",
     ['JOURNEY_RECENT_EVENTS'] = "Tu historial reciente",
     ['JOURNEY_LEVELUP'] = "¡Felicidades! has alcanzado %s !",

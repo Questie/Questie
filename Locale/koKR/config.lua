@@ -290,6 +290,7 @@ QuestieLocale.locale['koKR'] = {
     ['JOURNEY_QUEST_MINLEVEL'] = "수행가능한 최소 레벨: ",
     ['JOURNEY_QUEST_ID'] = "퀘스트 ID: ",
     ['JOURNEY_DIFFICULTY'] = "난이도 범위: %s",
+    ['JOURNEY_PREQUEST'] = "Pre Quests",
     ['JOURNEY_AUTO_QUEST'] = "이 퀘스트는 자동으로 완료되는 퀘스트라 표시할 퀘스트 목표가 없습니다.",
     ['JOURNEY_RECENT_EVENTS'] = "최근 기록",
     ['JOURNEY_LEVELUP'] = "축하합니다! %s 레벨을 달성했습니다!",

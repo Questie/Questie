@@ -290,6 +290,7 @@ QuestieLocale.locale['deDE'] = {
     ['JOURNEY_QUEST_MINLEVEL'] = "Benötigtes Mindestlevel für diese: ",
     ['JOURNEY_QUEST_ID'] = "Quest ID: ",
     ['JOURNEY_DIFFICULTY'] = "Schwierigkeitsgrad: %s",
+    ['JOURNEY_PREQUEST'] = "Pre-Quests",
     ['JOURNEY_AUTO_QUEST'] = "Diese Quest schließt sich automatisch ab und beinhaltet keinerlei Ziele.",
     ['JOURNEY_RECENT_EVENTS'] = "Deine aktuelle Historie",
     ['JOURNEY_LEVELUP'] = "Herzlichen Glückwunsch! Du hast Level %s erreicht!",

@@ -290,6 +290,7 @@ QuestieLocale.locale['frFR'] = {
     ['JOURNEY_QUEST_MINLEVEL'] = "Niveau minimum requis pour la quête : ",
     ['JOURNEY_QUEST_ID'] = "ID de quête : ",
     ['JOURNEY_DIFFICULTY'] = "Fourchette de difficulté : %s",
+    ['JOURNEY_PREQUEST'] = "Pre Quests",
     ['JOURNEY_AUTO_QUEST'] = "Cette quête est une quête d'achèvement automatique et ne contient pas d'objectif.",
     ['JOURNEY_RECENT_EVENTS'] = "Votre historique récent",
     ['JOURNEY_LEVELUP'] = "Félicitations ! Vous avez atteint %s !",

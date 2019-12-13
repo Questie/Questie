@@ -16,10 +16,33 @@ local AceGUI = LibStub("AceGUI-3.0")
 _QuestieJourney.containerCache = nil
 _QuestieJourney.treeChache = nil
 
+
+function _QuestieJourney:ShowJourneyTooltip()
+    if GameTooltip:IsShown() then
+        return
+    end
+    local button = self -- ACE is doing something stupid here. Don't add "self" as parameter, when you use it as "_QuestieJourney.ShowJourneyTooltip" as callback
+
+    local qid = button:GetUserData('id')
+    local quest = QuestieDB:GetQuest(tonumber(qid))
+    if quest then
+        GameTooltip:SetOwner(_G["QuestieJourneyFrame"], "ANCHOR_CURSOR")
+        GameTooltip:AddLine("[".. quest.level .."] ".. quest.name)
+        GameTooltip:AddLine("|cFFFFFFFF" .. _QuestieJourney:CreateObjectiveText(quest.Description))
+        GameTooltip:SetFrameStrata("TOOLTIP")
+        GameTooltip:Show()
+    end
+end
+
 function _QuestieJourney:HideJourneyTooltip()
     if GameTooltip:IsShown() then
         GameTooltip:Hide()
     end
+end
+
+function _QuestieJourney:JumpToQuest()
+    QuestieSearchResults:JumpToQuest(self)
+    _QuestieJourney:HideJourneyTooltip()
 end
 
 function _QuestieJourney:CreateObjectiveText(desc)

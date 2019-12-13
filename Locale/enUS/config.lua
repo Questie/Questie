@@ -290,6 +290,7 @@ QuestieLocale.locale['enUS'] = {
     ['JOURNEY_QUEST_MINLEVEL'] = "Minimum Required Level for Quest: ",
     ['JOURNEY_QUEST_ID'] = "Quest ID: ",
     ['JOURNEY_DIFFICULTY'] = "Difficulty Range: %s",
+    ['JOURNEY_PREQUEST'] = "Pre Quests",
     ['JOURNEY_AUTO_QUEST'] = "This quest is an automatic completion quest and does not contain an objective.",
     ['JOURNEY_RECENT_EVENTS'] = "Your Recent History",
     ['JOURNEY_LEVELUP'] = "Congratulations! You reached %s !",

@@ -290,6 +290,7 @@ QuestieLocale.locale['zhTW'] = {
     ['JOURNEY_QUEST_MINLEVEL'] = "最低等級：",
     ['JOURNEY_QUEST_ID'] = "任務ID： ",
     ['JOURNEY_DIFFICULTY'] = "難度級距：%s",
+    ['JOURNEY_PREQUEST'] = "Pre Quests",
     ['JOURNEY_AUTO_QUEST'] = "這個任務自動完成，所以沒有目標。",
     ['JOURNEY_RECENT_EVENTS'] = "近期紀錄",
     ['JOURNEY_LEVELUP'] = "恭喜你達到了%s！",

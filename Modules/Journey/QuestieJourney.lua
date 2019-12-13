@@ -27,10 +27,6 @@ local journeyFrame = {}
 local isWindowShown = false
 _QuestieJourney.lastOpenWindow = "journey"
 
-function JumpToQuest(button)
-    QuestieSearchResults:JumpToQuest(button)
-    _QuestieJourney:HideJourneyTooltip()
- end
 
 local notesPopupWin = nil
 local notesPopupWinIsOpen = false
@@ -124,22 +120,6 @@ function NotePopup()
         notesPopupWin:Hide()
         notesPopupWin = nil
         notesPopupWinIsOpen = false
-    end
-end
-
-function ShowJourneyTooltip(button)
-    if GameTooltip:IsShown() then
-        return
-    end
-
-    local qid = button:GetUserData('id')
-    local quest = QuestieDB:GetQuest(tonumber(qid))
-    if quest then
-        GameTooltip:SetOwner(_G["QuestieJourneyFrame"], "ANCHOR_CURSOR")
-        GameTooltip:AddLine("[".. quest.level .."] ".. quest.name)
-        GameTooltip:AddLine("|cFFFFFFFF" .. _QuestieJourney:CreateObjectiveText(quest.Description))
-        GameTooltip:SetFrameStrata("TOOLTIP")
-        GameTooltip:Show()
     end
 end
 

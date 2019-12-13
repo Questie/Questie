@@ -289,6 +289,7 @@ QuestieLocale.locale['ptBR'] = {
     ['JOURNEY_QUEST_MINLEVEL'] = "Nível mínimo necessário para a missão:",
     ['JOURNEY_QUEST_ID'] = "ID da missâo:",
     ['JOURNEY_DIFFICULTY'] = "Dficuldade: %s",
+    ['JOURNEY_PREQUEST'] = "Pre Quests",
     ['JOURNEY_AUTO_QUEST'] = "Essa missão é uma missão de conclusão automática e não contém um objectivo.",
     ['JOURNEY_RECENT_EVENTS'] = "Seu histórico recente",
     ['JOURNEY_NOTE_CREATED'] = "Você criou uma nova nota intitulada: %s",

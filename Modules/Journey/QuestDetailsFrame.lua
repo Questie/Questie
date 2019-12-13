@@ -47,6 +47,59 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
 
     QuestieJourneyUtils:Spacer(container)
 
+    local prequestInlineGroup = AceGUI:Create("InlineGroup")
+    local preQuestCounter = 1
+    local preQuests = {}
+
+    prequestInlineGroup:SetLayout("List")
+    prequestInlineGroup:SetTitle(QuestieLocale:GetUIString('JOURNEY_PREQUEST'))
+    prequestInlineGroup:SetFullWidth(true)
+
+    if (quest.preQuestSingle and next(quest.preQuestSingle)) then
+        for _, v in pairs(quest.preQuestSingle) do
+            if not (v == quest.Id) then
+                preQuests[preQuestCounter] = {}
+                preQuests[preQuestCounter].frame = AceGUI:Create("InteractiveLabel")
+                preQuests[preQuestCounter].quest = QuestieDB:GetQuest(v)
+                preQuests[preQuestCounter].frame:SetText(preQuests[preQuestCounter].quest:GetColoredQuestName())
+                preQuests[preQuestCounter].frame:SetUserData('id', v)
+                preQuests[preQuestCounter].frame:SetUserData('name', preQuests[preQuestCounter].quest.name)
+                preQuests[preQuestCounter].frame:SetCallback("OnClick", _QuestieJourney.JumpToQuest)
+                preQuests[preQuestCounter].frame:SetCallback("OnEnter", _QuestieJourney.ShowJourneyTooltip)
+                preQuests[preQuestCounter].frame:SetCallback("OnLeave", _QuestieJourney.HideJourneyTooltip)
+                prequestInlineGroup:AddChild(preQuests[preQuestCounter].frame)
+                preQuestCounter = preQuestCounter + 1
+            end
+        end
+    end
+
+    if (quest.preQuestGroup and next(quest.preQuestGroup)) then
+        for _, v in pairs(quest.preQuestGroup) do
+            if not (v == quest.Id) then
+                preQuests[preQuestCounter] = {}
+                preQuests[preQuestCounter].frame = AceGUI:Create("InteractiveLabel")
+                preQuests[preQuestCounter].quest = QuestieDB:GetQuest(v)
+                preQuests[preQuestCounter].frame:SetText(preQuests[preQuestCounter].quest:GetColoredQuestName())
+                preQuests[preQuestCounter].frame:SetUserData('id', v)
+                preQuests[preQuestCounter].frame:SetUserData('name', preQuests[preQuestCounter].quest.name)
+                preQuests[preQuestCounter].frame:SetCallback("OnClick", _QuestieJourney.JumpToQuest)
+                preQuests[preQuestCounter].frame:SetCallback("OnEnter", _QuestieJourney.ShowJourneyTooltip)
+                preQuests[preQuestCounter].frame:SetCallback("OnLeave", _QuestieJourney.HideJourneyTooltip)
+                prequestInlineGroup:AddChild(preQuests[preQuestCounter].frame)
+                preQuestCounter = preQuestCounter + 1
+            end
+        end
+    end
+
+
+    if preQuestCounter > 1 then
+        QuestieJourneyUtils:Spacer(prequestInlineGroup)
+
+        container:AddChild(prequestInlineGroup)
+    end
+
+
+
     -- Get Quest Start NPC
     if quest.Starts and quest.Starts.NPC then
         local startNPCGroup = AceGUI:Create("InlineGroup")
@@ -120,8 +173,8 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
                     startQuests[counter].frame:SetText(startQuests[counter].quest:GetColoredQuestName())
                     startQuests[counter].frame:SetUserData('id', v)
                     startQuests[counter].frame:SetUserData('name', startQuests[counter].quest.name)
-                    startQuests[counter].frame:SetCallback("OnClick", JumpToQuest)
-                    startQuests[counter].frame:SetCallback("OnEnter", ShowJourneyTooltip)
+                    startQuests[counter].frame:SetCallback("OnClick", _QuestieJourney.JumpToQuest)
+                    startQuests[counter].frame:SetCallback("OnEnter", _QuestieJourney.ShowJourneyTooltip)
                     startQuests[counter].frame:SetCallback("OnLeave", _QuestieJourney.HideJourneyTooltip)
                     startNPCGroup:AddChild(startQuests[counter].frame)
                     counter = counter + 1
@@ -213,8 +266,8 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
                         startQuests[counter].frame:SetText(startQuests[counter].quest:GetColoredQuestName())
                         startQuests[counter].frame:SetUserData('id', v)
                         startQuests[counter].frame:SetUserData('name', startQuests[counter].quest.name)
-                        startQuests[counter].frame:SetCallback("OnClick", JumpToQuest)
-                        startQuests[counter].frame:SetCallback("OnEnter", ShowJourneyTooltip)
+                        startQuests[counter].frame:SetCallback("OnClick", _QuestieJourney.JumpToQuest)
+                        startQuests[counter].frame:SetCallback("OnEnter", _QuestieJourney.ShowJourneyTooltip)
                         startQuests[counter].frame:SetCallback("OnLeave", _QuestieJourney.HideJourneyTooltip)
                         startGOGroup:AddChild(startQuests[counter].frame)
                         counter = counter + 1
@@ -308,8 +361,8 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
                     endQuests[counter].frame:SetText(endQuests[counter].quest:GetColoredQuestName())
                     endQuests[counter].frame:SetUserData('id', v)
                     endQuests[counter].frame:SetUserData('name', endQuests[counter].quest.name)
-                    endQuests[counter].frame:SetCallback("OnClick", JumpToQuest)
-                    endQuests[counter].frame:SetCallback("OnEnter", ShowJourneyTooltip)
+                    endQuests[counter].frame:SetCallback("OnClick", _QuestieJourney.JumpToQuest)
+                    endQuests[counter].frame:SetCallback("OnEnter", _QuestieJourney.ShowJourneyTooltip)
                     endQuests[counter].frame:SetCallback("OnLeave", _QuestieJourney.HideJourneyTooltip)
                     endNPCGroup:AddChild(endQuests[counter].frame)
                     counter = counter + 1

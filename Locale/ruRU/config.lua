@@ -290,6 +290,7 @@ QuestieLocale.locale['ruRU'] = {
     ['JOURNEY_QUEST_MINLEVEL'] = "Минимально необходимый уровень для задания: ",
     ['JOURNEY_QUEST_ID'] = "ИН задания: ",
     ['JOURNEY_DIFFICULTY'] = "Диапазон сложности: %s",
+    ['JOURNEY_PREQUEST'] = "Pre Quests",
     ['JOURNEY_AUTO_QUEST'] = "Это задание выполняется автоматически и не содержит цели.",
     ['JOURNEY_RECENT_EVENTS'] = "Ваша недавняя история",
     ['JOURNEY_LEVELUP'] = "Поздравляем! Вы достигли %s !",
