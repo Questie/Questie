@@ -3,7 +3,7 @@ LangContinentLookup['zhCN']= {
     [2] = "卡利姆多",
     [3] = "地下城",
     -- [4] = "Raids",
-    [5] = "Battle Grounds",
+    [5] = "战场",
 }
 
 LangZoneLookup['zhCN']= {
