@@ -269,6 +269,7 @@ QuestieLocale.locale['enUS'] = {
     ['JOURNEY_SEARCH_TAB'] = "Advanced Search",
     ['JOURNEY_AVAILABLE_TITLE'] = "Available Quests",
     ['JOURNEY_COMPLETE_TITLE'] = "Completed Quests",
+    ['JOURNEY_PREQUEST_TITLE'] = "Missing Pre Quest",
     ['JOURNEY_REPEATABLE_TITLE'] = "Repeatable Quests",
     ['JOURNEY_UNOBTAINABLE_TITLE'] = "Unobtainable Quests",
     ['JOURNEY_SELECT_HEAD'] = "Select Your Continent and Zone",

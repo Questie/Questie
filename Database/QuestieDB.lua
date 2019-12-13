@@ -379,7 +379,7 @@ function QuestieDB:GetQuest(questID) -- /dump QuestieDB:GetQuest(867)
     ---@return boolean @Returns true if any pre quest has been completed or none is listed, false otherwise
     function QO:IsPreQuestSingleFulfilled()
         local preQuestSingle = self.preQuestSingle
-        if not preQuestSingle then
+        if not preQuestSingle or not next(preQuestSingle) then
             return true
         end
         for _, preQuestId in pairs(preQuestSingle) do
@@ -404,7 +404,7 @@ function QuestieDB:GetQuest(questID) -- /dump QuestieDB:GetQuest(867)
     ---@return boolean @Returns true if all listed pre quests are complete or none is listed, false otherwise
     function QO:IsPreQuestGroupFulfilled()
         local preQuestGroup = self.preQuestGroup
-        if not preQuestGroup then
+        if not preQuestGroup  or not next(preQuestGroup) then
             return true
         end
         for _, preQuestId in pairs(preQuestGroup) do

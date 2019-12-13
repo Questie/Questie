@@ -268,6 +268,7 @@ QuestieLocale.locale['zhTW'] = {
     ['JOURNEY_ZONE_TAB'] = "按地區查尋",
     ['JOURNEY_SEARCH_TAB'] = "進階搜詢",
     ['JOURNEY_AVAILABLE_TITLE'] = "可接受",
+    ['JOURNEY_PREQUEST_TITLE'] = "Missing Pre Quest",
     ['JOURNEY_COMPLETE_TITLE'] = "已完成",
     ['JOURNEY_REPEATABLE_TITLE'] = "Repeatable Quests",
     ['JOURNEY_UNOBTAINABLE_TITLE'] = "Unobtainable Quests",

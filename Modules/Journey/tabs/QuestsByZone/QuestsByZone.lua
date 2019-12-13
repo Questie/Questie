@@ -37,7 +37,7 @@ function _QuestieJourney.questsByZone:ManageTree(container, zt)
 
         -- if they clicked on a header, don't do anything
         local sel = group.localstatus.selected
-        if sel == "a" or sel == "c" or sel == "r" or sel == "u" then
+        if sel == "a" or sel == "p" or sel == "c" or sel == "r" or sel == "u" then
             return
         end
 
@@ -82,16 +82,21 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
             children = {}
         },
         [2] = {
+            value = "p",
+            text = QuestieLocale:GetUIString('JOURNEY_PREQUEST_TITLE'),
+            children = {}
+        },
+        [3] = {
             value = "c",
             text = QuestieLocale:GetUIString('JOURNEY_COMPLETE_TITLE'),
             children = {}
         },
-        [3] = {
+        [4] = {
             value = "r",
             text = QuestieLocale:GetUIString('JOURNEY_REPEATABLE_TITLE'),
             children = {},
         },
-        [4] = {
+        [5] = {
             value = "u",
             text = QuestieLocale:GetUIString('JOURNEY_UNOBTAINABLE_TITLE'),
             children = {},
@@ -101,12 +106,15 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
     local sortedQuestByLevel = QuestieLib:SortQuestsByLevel(quests)
 
     local availableCounter = 0
+    local prequestMissingCounter = 0
     local completedCounter = 0
     local unobtainableCounter = 0
     local repeatableCounter = 0
 
     for _, levelAndQuest in pairs(sortedQuestByLevel) do
+        ---@type Quest
         local quest = levelAndQuest[2]
+        ---@type QuestId
         local qId = quest.Id
 
         -- Only show quests which are not hidden
@@ -116,29 +124,37 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
 
             -- Completed quests
             if Questie.db.char.complete[qId] then
-                tinsert(zoneTree[2].children, temp)
+                tinsert(zoneTree[3].children, temp)
                 completedCounter = completedCounter + 1
             else
-                -- Exclusive quests will never be available since another quests blocks them. Marking them as complete
-                -- should be the most satisfying solution for user
+                -- Exclusive quests will never be available since another quests permantly blocks them.
+                -- Marking them as complete should be the most satisfying solution for user
                 if quest.exclusiveTo then
                     for _, exId in pairs(quest.exclusiveTo) do
                         if Questie.db.char.complete[exId] and zoneTree[4].children[qId] == nil then
-                            tinsert(zoneTree[2].children, temp)
+                            tinsert(zoneTree[3].children, temp)
                             completedCounter = completedCounter + 1
                         end
                     end
+                -- A single pre Quest is missing
+                elseif not quest:IsPreQuestSingleFulfilled() then
+                    tinsert(zoneTree[2].children, temp)
+                    prequestMissingCounter = prequestMissingCounter + 1
+                    -- A single pre Quest is missing
+                elseif not quest:IsPreQuestGroupFulfilled() then
+                    tinsert(zoneTree[2].children, temp)
+                    prequestMissingCounter = prequestMissingCounter + 1
                 -- Unoptainable profession quests
                 elseif not QuestieProfessions:HasProfessionAndSkill(quest.requiredSkill) then
-                    tinsert(zoneTree[4].children, temp)
+                    tinsert(zoneTree[5].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
                 -- Unoptainable reputation quests
                 elseif not QuestieReputation:HasReputation(quest.requiredMinRep, quest.requiredMaxRep) then
-                    tinsert(zoneTree[4].children, temp)
+                    tinsert(zoneTree[5].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
                 -- Repeatable quests
                 elseif quest.Repeatable then
-                    tinsert(zoneTree[3].children, temp)
+                    tinsert(zoneTree[4].children, temp)
                     repeatableCounter = repeatableCounter + 1
                 -- Available quests
                 else
@@ -150,11 +166,12 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
         end
     end
 
-    local totalCounter = availableCounter + completedCounter
+    local totalCounter = availableCounter + completedCounter + prequestMissingCounter
     zoneTree[1].text = zoneTree[1].text .. ' [ '..  availableCounter ..'/'.. totalCounter ..' ]'
-    zoneTree[2].text = zoneTree[2].text .. ' [ '..  completedCounter ..'/'.. totalCounter ..' ]'
-    zoneTree[3].text = zoneTree[3].text .. ' [ '..  repeatableCounter ..' ]'
-    zoneTree[4].text = zoneTree[4].text .. ' [ '..  unobtainableCounter ..' ]'
+    zoneTree[2].text = zoneTree[2].text .. ' [ '..  prequestMissingCounter ..'/'.. totalCounter ..' ]'
+    zoneTree[3].text = zoneTree[3].text .. ' [ '..  completedCounter ..'/'.. totalCounter ..' ]'
+    zoneTree[4].text = zoneTree[4].text .. ' [ '..  repeatableCounter ..' ]'
+    zoneTree[5].text = zoneTree[5].text .. ' [ '..  unobtainableCounter ..' ]'
 
     return zoneTree
 end

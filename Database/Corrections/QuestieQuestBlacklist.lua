@@ -426,6 +426,7 @@ function QuestieQuestBlacklist:Load()
         [8170] = true,
         [8171] = true,
         -- PvP Quests which are not in the game anymore
+        -----------------------------------------------
         -- Vanquish the Invaders
         [7788] = true,
         [7871] = true,
@@ -449,7 +450,7 @@ function QuestieQuestBlacklist:Load()
         [7876] = true,
         [8294] = true,
         [8295] = true,
-        -- Mark of Honor
+        -- Warsong Mark of Honor
         [7922] = true,
         [7923] = true,
         [7924] = true,
@@ -457,10 +458,21 @@ function QuestieQuestBlacklist:Load()
         [8293] = true,
         [8296] = true,
         [8568] = true,
+        [8570] = true,
         [8002] = true,
+        -- Arathi Basin
+        [8565] = true,
+        [8566] = true,
+        -- Alterac Valley
         -- Master Ryson's All Seeing Eye
         [6847] = true,
         [6848] = true,
+        -- WANTED: Orcs and WANTED: Dwarves
+        [7402] = true,
+        [7428] = true,
+        [7401] = true,
+        [7427] = true,
+        -----------------------------------------------
 
         -- corrupted windblossom
         [2523] = true,

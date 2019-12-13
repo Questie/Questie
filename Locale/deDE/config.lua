@@ -268,6 +268,7 @@ QuestieLocale.locale['deDE'] = {
     ['JOURNEY_ZONE_TAB'] = "Quests pro Zone",
     ['JOURNEY_SEARCH_TAB'] = "Erweiterte Suche",
     ['JOURNEY_AVAILABLE_TITLE'] = "Verfügbare Quests",
+    ['JOURNEY_PREQUEST_TITLE'] = "Prequest fehlt",
     ['JOURNEY_COMPLETE_TITLE'] = "Abgeschlossene Quests",
     ['JOURNEY_REPEATABLE_TITLE'] = "Wiederholbare Quests",
     ['JOURNEY_UNOBTAINABLE_TITLE'] = "Nicht abschließbare Quests",

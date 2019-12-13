@@ -788,6 +788,7 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.triggerEnd] = {"Defeat Drek'thar.",{[2597]={{47.22,86.95},},},},
         },
         [7142] = {
+            [QuestieDB.questKeys.requiredRaces] = 178,
             [QuestieDB.questKeys.triggerEnd] = {"Defeat Vanndar Stormpike.",{[2597]={{42.29,12.85},},},},
         },
         [7166] = { -- bad race data
@@ -813,6 +814,12 @@ function QuestieQuestFixes:Load()
         },
         [7261] = {
             [QuestieDB.questKeys.exclusiveTo] = {7162},
+        },
+        [7281] = {
+            [QuestieDB.questKeys.requiredRaces] = 178,
+        },
+        [7282] = {
+            [QuestieDB.questKeys.requiredRaces] = 77,
         },
         [7385] = {
             [QuestieDB.questKeys.objectivesText] = {},
@@ -913,6 +920,9 @@ function QuestieQuestFixes:Load()
         },
         [8150] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 178,
+        },
+        [8271] = {
+            [QuestieDB.questKeys.requiredRaces] = 77,
         },
         [8272] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 178,

@@ -266,6 +266,7 @@ QuestieLocale.locale['zhCN'] = {
     ['JOURNEY_ZONE_TAB'] = "按地区查寻",
     ['JOURNEY_SEARCH_TAB'] = "进阶搜询",
     ['JOURNEY_AVAILABLE_TITLE'] = "可接受",
+    ['JOURNEY_PREQUEST_TITLE'] = "Missing Pre Quest",
     ['JOURNEY_COMPLETE_TITLE'] = "已完成",
     ['JOURNEY_REPEATABLE_TITLE'] = "可重复的任务",
     ['JOURNEY_UNOBTAINABLE_TITLE'] = "未完成的任务",

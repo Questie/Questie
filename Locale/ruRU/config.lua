@@ -268,6 +268,7 @@ QuestieLocale.locale['ruRU'] = {
     ['JOURNEY_ZONE_TAB'] = "Задания по локациям",
     ['JOURNEY_SEARCH_TAB'] = "Расширенный поиск",
     ['JOURNEY_AVAILABLE_TITLE'] = "Доступные задания",
+    ['JOURNEY_PREQUEST_TITLE'] = "Missing Pre Quest",
     ['JOURNEY_COMPLETE_TITLE'] = "Выполненные задания",
     ['JOURNEY_REPEATABLE_TITLE'] = "Задания повторяемые",
     ['JOURNEY_UNOBTAINABLE_TITLE'] = "Недоступные задания",

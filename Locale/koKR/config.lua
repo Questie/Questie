@@ -268,6 +268,7 @@ QuestieLocale.locale['koKR'] = {
     ['JOURNEY_ZONE_TAB'] = "지역 별 퀘스트",
     ['JOURNEY_SEARCH_TAB'] = "고급 검색",
     ['JOURNEY_AVAILABLE_TITLE'] = "수행가능한 퀘스트",
+    ['JOURNEY_PREQUEST_TITLE'] = "Missing Pre Quest",
     ['JOURNEY_COMPLETE_TITLE'] = "완료한 퀘스트",
     ['JOURNEY_REPEATABLE_TITLE'] = "Repeatable Quests",
     ['JOURNEY_UNOBTAINABLE_TITLE'] = "Unobtainable Quests",

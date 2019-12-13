@@ -268,6 +268,7 @@ QuestieLocale.locale['ptBR'] = {
     ['JOURNEY_ZONE_TAB'] = "Missôes por zonas",
     ['JOURNEY_SEARCH_TAB'] = "Pesquisa avançada",
     ['JOURNEY_AVAILABLE_TITLE'] = "Missôes disponiveis",
+    ['JOURNEY_PREQUEST_TITLE'] = "Missing Pre Quest",
     ['JOURNEY_COMPLETE_TITLE'] = "Missôes terminadas",
     ['JOURNEY_REPEATABLE_TITLE'] = "Repeatable Quests",
     ['JOURNEY_SELECT_HEAD'] = "Selecione seu continente e sua zona",

@@ -265,6 +265,7 @@ QuestieLocale.locale['esES'] = {
     ['JOURNEY_ZONE_TAB'] = "Misiones por zona",
     ['JOURNEY_SEARCH_TAB'] = "Búsqueda avanzada",
     ['JOURNEY_AVAILABLE_TITLE'] = "Misiones disponibles",
+    ['JOURNEY_PREQUEST_TITLE'] = "Missing Pre Quest",
     ['JOURNEY_COMPLETE_TITLE'] = "Misiones completadas",
     ['JOURNEY_REPEATABLE_TITLE'] = "Misiones repetibles",
     ['JOURNEY_UNAVAILABLE_TITLE'] = "Misiones no completables",

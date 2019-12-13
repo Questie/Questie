@@ -268,6 +268,7 @@ QuestieLocale.locale['frFR'] = {
     ['JOURNEY_ZONE_TAB'] = "Quêtes par zone",
     ['JOURNEY_SEARCH_TAB'] = "Recherche avancée",
     ['JOURNEY_AVAILABLE_TITLE'] = "Quêtes disponibles",
+    ['JOURNEY_PREQUEST_TITLE'] = "Missing Pre Quest",
     ['JOURNEY_COMPLETE_TITLE'] = "Quêtes terminées",
     ['JOURNEY_REPEATABLE_TITLE'] = "Quêtes répétable",
     ['JOURNEY_UNOBTAINABLE_TITLE'] = "Unobtainable Quests",
