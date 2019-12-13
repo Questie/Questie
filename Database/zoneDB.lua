@@ -13,7 +13,7 @@ local uiMapIDToAreaID = {} --You should really never need the MapIDs, but you ca
 ZoneDataAreaIDToUiMapID = {}
 
 function QuestieDBZone:GetAreaIdByUIMapID(uiMapId)
-    local areaId = 0
+    local areaId = 1 -- Default to Dun Morogh
     if uiMapIDToAreaID[uiMapId] ~= nil then
         areaId = uiMapIDToAreaID[uiMapId]
     end
