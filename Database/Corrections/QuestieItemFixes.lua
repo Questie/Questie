@@ -47,6 +47,12 @@ function QuestieItemFixes:Load()
             [QuestieDB.itemKeys.relatedQuests] = {713,1193},
             [QuestieDB.itemKeys.npcDrops] = {},
         },
+        [14645] = {
+            [QuestieDB.itemKeys.name] = "Unfinished Skeleton Key",
+            [QuestieDB.itemKeys.relatedQuests] = {5801,5802},
+            [QuestieDB.itemKeys.npcDrops] = {},
+            [QuestieDB.itemKeys.objectDrops] = {4004},
+        },
         [15843] = {
             [QuestieDB.itemKeys.name] = "Filled Dreadmist Peak Sampler",
             [QuestieDB.itemKeys.relatedQuests] = {6127},
@@ -887,6 +893,7 @@ _AddMissingItemIDs = function()
         16968,
         16969,
         3713,
+        14645,
     }
 
     for _, id in pairs(missingItemIDs) do
