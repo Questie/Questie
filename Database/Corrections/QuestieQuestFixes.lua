@@ -14,8 +14,17 @@ function QuestieQuestFixes:Load()
     table.insert(QuestieDB.questData, 7670, {}) -- Add missing quest index #1432
 
     return {
+        [2] = {
+            [QuestieDB.questKeys.startedBy] = {{12676},nil,{16305}},
+        },
         [5] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #1198
+        },
+        [23] = {
+            [QuestieDB.questKeys.startedBy] = {{12678},nil,{16303}},
+        },
+        [24] = {
+            [QuestieDB.questKeys.startedBy] = {{12677},nil,{16304}},
         },
         [26] = { -- Switch Alliance and Horde Druid quest IDs #948
             [QuestieDB.questKeys.startedBy] = {{4217,},nil,nil,},
@@ -119,6 +128,9 @@ function QuestieQuestFixes:Load()
         [511] = {
             [QuestieDB.questKeys.startedBy] = {nil,{1740},nil}, -- #1512
         },
+        [522] = {
+            [QuestieDB.questKeys.startedBy] = {{2434},nil,{3668}},
+        },
         [526] = {
             [QuestieDB.questKeys.exclusiveTo] = {322,324}, -- not 100% sure on this one but it seems lightforge ingots is optional, block it after completing subsequent steps (#587)
         },
@@ -185,6 +197,18 @@ function QuestieQuestFixes:Load()
         [769] = {
             [QuestieDB.questKeys.requiredSkill] = {165,10},
         },
+        [770] = {
+            [QuestieDB.questKeys.startedBy] = {{3056},nil,{4854}},
+        },
+        [781] = {
+            [QuestieDB.questKeys.startedBy] = {nil,{3076},{4851,},},
+        },
+        [819] = {
+            [QuestieDB.questKeys.startedBy] = {nil,{3238},{4926,},},
+        },
+        [830] = {
+            [QuestieDB.questKeys.startedBy] = {nil,{3239},{4881,},},
+        },
         [841] = {
             [QuestieDB.questKeys.specialFlags] = 1,
             [QuestieDB.questKeys.exclusiveTo] = {654},
@@ -199,15 +223,33 @@ function QuestieQuestFixes:Load()
         [862] = {
             [QuestieDB.questKeys.requiredSkill] = {185,76}, -- You need to be a Journeyman for this quest
         },
+        [883] = {
+            [QuestieDB.questKeys.startedBy] = {{3474},nil,{5099}},
+        },
+        [884] = {
+            [QuestieDB.questKeys.startedBy] = {{3473},nil,{5102}},
+        },
+        [885] = {
+            [QuestieDB.questKeys.startedBy] = {{3472},nil,{5103}},
+        },
         [886] = {
             [QuestieDB.questKeys.exclusiveTo] = {870},
+        },
+        [897] = {
+            [QuestieDB.questKeys.startedBy] = {{3253},nil,{5138}},
         },
         [926] = {
             [QuestieDB.questKeys.parentQuest] = 924, -- #806
             [QuestieDB.questKeys.preQuestSingle] = {809}, --#606
         },
+        [927] = {
+            [QuestieDB.questKeys.startedBy] = {{3535},nil,{5179}},
+        },
         [930] = {
             [QuestieDB.questKeys.preQuestSingle] = {918,919}, -- #971
+        },
+        [939] = {
+            [QuestieDB.questKeys.startedBy] = {{10648},nil,{11668}},
         },
         [944] = {
             [QuestieDB.questKeys.triggerEnd] = {"Enter the Master's Glaive",{[148]={{38.48,86.45},},},},
@@ -275,8 +317,14 @@ function QuestieQuestFixes:Load()
         [1361] = {
             [QuestieDB.questKeys.exclusiveTo] = {1362},
         },
+        [1392] = {
+            [QuestieDB.questKeys.startedBy] = {{5477},nil,{6196}},
+        },
         [1418] = {
             [QuestieDB.questKeys.exclusiveTo] = {1419,1420}, -- #1594
+        },
+        [1423] = {
+            [QuestieDB.questKeys.startedBy] = {nil,{28604},{6172,},},
         },
         [1427] = {
             [QuestieDB.questKeys.nextQuestInChain] = 1428,
@@ -386,6 +434,9 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.preQuestSingle] = {1860,1879}, -- #1380
             [QuestieDB.questKeys.exclusiveTo] = {1861}, -- #1192
         },
+        [1918] = {
+            [QuestieDB.questKeys.startedBy] = {{12759},nil,{16408}},
+        },
         [1920] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #1328
         },
@@ -464,6 +515,9 @@ function QuestieQuestFixes:Load()
         [3128] = {
             [QuestieDB.questKeys.preQuestSingle] = {3122},
         },
+        [3181] = {
+            [QuestieDB.questKeys.startedBy] = {{5833},nil,{10000}},
+        },
         [3374] = {
             [QuestieDB.questKeys.startedBy] = {{5353},nil,{10589,},}, -- #1233
         },
@@ -479,6 +533,9 @@ function QuestieQuestFixes:Load()
         [3483] = {
             [QuestieDB.questKeys.parentQuest] = 3449, -- #1008
             [QuestieDB.questKeys.specialFlags] = 1, -- #1131
+        },
+        [3513] = {
+            [QuestieDB.questKeys.startedBy] = {{5797},nil,{10621}},
         },
         [3639] = {
             [QuestieDB.questKeys.exclusiveTo] = {3643,3641},
@@ -625,6 +682,9 @@ function QuestieQuestFixes:Load()
         [4811] = {
             [QuestieDB.questKeys.triggerEnd] = {"Locate the large, red crystal on Darkshore's eastern mountain range",{[148]={{47.24,48.68},},},}, -- #1373
         },
+        [4881] = {
+            [QuestieDB.questKeys.startedBy] = {{10617},nil,{12564}},
+        },
         [5059] = {
             [QuestieDB.questKeys.preQuestSingle] = {5058}, -- #922
         },
@@ -642,6 +702,9 @@ function QuestieQuestFixes:Load()
         },
         [5122] = {
             [QuestieDB.questKeys.specialFlags] = 1, -- #1140
+        },
+        [5123] = {
+            [QuestieDB.questKeys.startedBy] = {{10738},nil,{12842}},
         },
         [5166] = {
             [QuestieDB.questKeys.specialFlags] = 1, -- #1335
@@ -744,6 +807,9 @@ function QuestieQuestFixes:Load()
         },
         [6144] = {
             [QuestieDB.questKeys.preQuestSingle] = {6135,6136}, -- #1572
+        },
+        [6564] = {
+            [QuestieDB.questKeys.startedBy] = {{4802},nil,{16790}},
         },
         [6603] = {
             [QuestieDB.questKeys.exclusiveTo] = {5082},
@@ -895,6 +961,9 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.nextQuestInChain] = 7637,
             [QuestieDB.questKeys.exclusiveTo] = {7638,},
             [QuestieDB.questKeys.zoneOrSort] = -141,
+        },
+        [7761] = {
+            [QuestieDB.questKeys.startedBy] = {{9046},nil,{18987}},
         },
         [7838] = {
             [QuestieDB.questKeys.specialFlags] = 1, -- #1589
