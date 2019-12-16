@@ -846,6 +846,9 @@ function QuestieQuestFixes:Load()
         [7028] = {
             [QuestieDB.questKeys.objectivesText] = {"Collect 25 Theradric Crystal Carvings for Willow in Desolace.",},
         },
+        [7062] = {
+            [QuestieDB.questKeys.startedBy] = {{1365,},nil,nil,},
+        },
         [7068] = {
             [QuestieDB.questKeys.requiredLevel] = 39,
         },
