@@ -826,8 +826,19 @@ function QuestieQuestFixes:Load()
         [6862] = {
             [QuestieDB.questKeys.objectivesText] = {},
         },
+        [6961] = {
+            [QuestieDB.questKeys.exclusiveTo] = {7021,7024},
+        },
         [7002] = {
             [QuestieDB.questKeys.objectivesText] = {},
+        },
+        [7021] = {
+            [QuestieDB.questKeys.finishedBy] = {{13445,},nil,},
+            [QuestieDB.questKeys.exclusiveTo] = {6961,7024},
+        },
+        [7024] = {
+            [QuestieDB.questKeys.finishedBy] = {{13445,},nil,},
+            [QuestieDB.questKeys.exclusiveTo] = {6961,7021},
         },
         [7026] = {
             [QuestieDB.questKeys.objectivesText] = {},
@@ -1130,6 +1141,12 @@ function QuestieQuestFixes:Load()
         },
         [8616] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 178,
+        },
+        [8767] = {
+            [QuestieDB.questKeys.requiredClasses] = 0,
+        },
+        [8788] = {
+            [QuestieDB.questKeys.requiredClasses] = 0,
         },
         [8980] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 178,
