@@ -727,7 +727,7 @@ function _QuestieFramePool:Questie_Tooltip()
                                     if minLevel == maxLevel then
                                         name = name .. " (" .. minLevel .. ")"
                                     else
-                                        name = name .. " (" .. minLevel .. " - " .. maxLevel .. ")"
+                                        name = name .. " (" .. minLevel .. "-" .. maxLevel .. ")"
                                     end
                                 end
                                 self:AddLine("   |cFFDDDDDD" .. name);
@@ -739,7 +739,7 @@ function _QuestieFramePool:Questie_Tooltip()
                                 if minLevel == maxLevel then
                                     nameData = nameData .. " (" .. minLevel .. ")"
                                 else
-                                    nameData = nameData .. " (" .. minLevel .. " - " .. maxLevel .. ")"
+                                    nameData = nameData .. " (" .. minLevel .. "-" .. maxLevel .. ")"
                                 end
                             end
                             self:AddLine("   |cFFDDDDDD" .. nameData);
