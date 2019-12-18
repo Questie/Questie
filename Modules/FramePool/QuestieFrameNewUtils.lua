@@ -36,19 +36,15 @@ local function calculateClosestCoords(oUIMapId, dUIMapId)
   return 1-intX, 1-intY;
 end]]--
 
-
----A+ programming!!!!!!!!
-local function distanceBetweenZones(UIMapId, UIMapId2)
+local function closeZone(UIMapId, UIMapId2)
   local coordsCheck = {}
-  --[[
   --This creates a grid
   for x=0, 1, 0.1 do
     for y=0, 1, 0.1 do
       table.insert(coordsCheck, {x, y});
     end
   end
-  ]]--
-  --This creates a box
+  --[[--This creates a box
   for x=0, 1, 0.1 do
     if(x == 0 or x == 1) then
       for y=0, 1, 0.1 do
@@ -59,6 +55,39 @@ local function distanceBetweenZones(UIMapId, UIMapId2)
       table.insert(coordsCheck, {x, 1});
     end
   end
+  ]]--
+
+  for _, dData in pairs(coordsCheck) do
+    local x2, y2, instanceID2 = HBD:GetWorldCoordinatesFromZone(dData[1], dData[2], UIMapId2);
+    local inX, inY = HBD:GetZoneCoordinatesFromWorld(x2, y2, UIMapId);
+    if(inX and inY) then
+      return true;
+    end
+  end
+  return nil;
+end
+
+---A+ programming!!!!!!!!
+local function distanceBetweenZones(UIMapId, UIMapId2)
+  local coordsCheck = {}
+  --This creates a grid
+  for x=0, 1, 0.1 do
+    for y=0, 1, 0.1 do
+      table.insert(coordsCheck, {x, y});
+    end
+  end
+  --[[--This creates a box
+  for x=0, 1, 0.1 do
+    if(x == 0 or x == 1) then
+      for y=0, 1, 0.1 do
+        table.insert(coordsCheck, {x, y});
+      end
+    else
+      table.insert(coordsCheck, {x, 0});
+      table.insert(coordsCheck, {x, 1});
+    end
+  end
+  ]]--
 
   local smallestDistance = 99999999;
   --GetWorldDistance(instanceID, oX, oY, dX, dY)
@@ -137,8 +166,11 @@ function QuestieFrameNew.utils:GenerateCloseZones()
             ]]--
             
 
-            local distance = distanceBetweenZones(UIMapId, UIMapId2);
-            if(distance < 200) then
+            --local distance = distanceBetweenZones(UIMapId, UIMapId2);
+            --if(distance < 200) then
+            --  QuestieFrameNew.utils.zoneList[UIMapId][UIMapId2] = true;
+            --end
+            if(closeZone(UIMapId, UIMapId2)) then
               QuestieFrameNew.utils.zoneList[UIMapId][UIMapId2] = true;
             end
           end
