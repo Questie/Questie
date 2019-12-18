@@ -791,6 +791,12 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.exclusiveTo] = {5887,5888,5889,5890,},
             [QuestieDB.questKeys.specialFlags] = 0,
         },
+        [5892] = {
+            [QuestieDB.questKeys.questLevel] = 55,
+        },
+        [5893] = {
+            [QuestieDB.questKeys.questLevel] = 55,
+        },
         -----------------------
         [6069] = {
             [QuestieDB.questKeys.startedBy] = {{11814,},nil,nil,}, -- #1523
@@ -828,6 +834,12 @@ function QuestieQuestFixes:Load()
         },
         [6961] = {
             [QuestieDB.questKeys.exclusiveTo] = {7021,7024},
+        },
+        [6982] = {
+            [QuestieDB.questKeys.questLevel] = 55,
+        },
+        [6985] = {
+            [QuestieDB.questKeys.questLevel] = 55,
         },
         [7002] = {
             [QuestieDB.questKeys.objectivesText] = {},
