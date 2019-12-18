@@ -157,7 +157,9 @@ function QuestieTracker:Initialize()
     if not durabilityInitialPosition then
         durabilityInitialPosition = {DurabilityFrame:GetPoint()}
     end
-    QuestieTracker:MoveDurabilityFrame()
+    if Questie.db.global.stickyDurabilityFrame then
+        QuestieTracker:MoveDurabilityFrame()
+    end
 
     -- This is the best way to not check 19238192398 events which might reset the position of the DurabilityFrame
     hooksecurefunc("UIParent_ManageFramePositions", QuestieTracker.MoveDurabilityFrame)
