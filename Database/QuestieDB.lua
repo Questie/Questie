@@ -450,8 +450,11 @@ function QuestieDB:GetCreatureLevels(quest)
 
     if quest.objectives then
         if quest.objectives[1] then -- Killing creatures
-            _CollectCreateLevels(quest.objectives[1])
-        elseif quest.objectives[3] then -- Looting items from creatures
+            for _, mobObjective in pairs(quest.objectives[1]) do
+                _CollectCreateLevels(mobObjective)
+            end
+        end
+        if quest.objectives[3] then -- Looting items from creatures
             for _, itemObjective in pairs(quest.objectives[3]) do
                 local item = QuestieDB:GetItem(itemObjective[1])
                 if item and item.npcDrops then
