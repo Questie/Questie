@@ -52,26 +52,4 @@ function _QuestieTracker:OnDragStop()
         Questie.db.char.TrackerLocation[2] = Questie.db.char.TrackerLocation[2]:GetName()
     end
     startDragPos = nil
-    -- QuestieTracker:SetBaseFrame(baseFrame)
 end
-
---[[function _QuestieTracker:RepositionFrames(trackerLineCount, lineFrames) -- this is only for SetCounterEnabled, nothing else should be using this function
-    local lastFrame = nil
-    local baseFrame = QuestieTracker:GetBaseFrame()
-
-    for i=1, trackerLineCount do
-        local frm = lineFrames[i]
-        if lastFrame then
-            frm:SetPoint("TOPLEFT", lastFrame, "BOTTOMLEFT", 0,0)
-        else
-            local padding = QuestieTracker:GetBackgroundPadding()
-            if Questie.db.global.trackerCounterEnabled then
-                frm:SetPoint("TOPLEFT", baseFrame, "TOPLEFT", padding, -(padding + QuestieTracker:GetActiveQuestsFrame():GetHeight()))
-            else
-                frm:SetPoint("TOPLEFT", baseFrame, "TOPLEFT", padding, -padding)
-            end
-        end
-        --frm:Show()
-        lastFrame = frm
-    end
-end]]--

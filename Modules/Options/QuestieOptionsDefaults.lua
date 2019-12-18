@@ -63,6 +63,7 @@ function QuestieOptionsDefaults:Load()
             trackerEnabled = true,
             trackerShowQuestLevel = true,
             showBlizzardQuestTimer = false,
+            stickyDurabilityFrame = true,
             trackerColorObjectives = 'white',
             trackerQuestPadding = 2,
             trackerSortObjectives = 'byComplete',
@@ -73,7 +74,6 @@ function QuestieOptionsDefaults:Load()
             trackerLocked = true,
             hideUnexploredMapIcons = false,
             showRepeatableQuests = true,
-            trackerCounterEnabled = true,
             trackerBackgroundEnabled = false,
         },
         char = {
@@ -86,7 +86,8 @@ function QuestieOptionsDefaults:Load()
             journey = {},
             searchType = 1,
             autoaccept = false,
-            autocomplete = false
+            autocomplete = false,
+            isTrackerExpanded = true,
         },
         profile = {minimap = {hide = false}}
     }
