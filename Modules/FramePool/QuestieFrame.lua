@@ -80,7 +80,7 @@ function QuestieFramePool.Qframe:New(frameId, OnEnter)
 
     --We save the colors to the texture object, this way we don't need to use GetVertexColor
     newFrame.glowTexture:SetVertexColor(1,1,1,1);
-    
+
     newFrame.glowTexture:SetTexture(ICON_TYPE_GLOW)
     newFrame.glow:Hide()
     newFrame.glow:SetPoint("CENTER", -9, -9) -- 2 pixels bigger than normal icon

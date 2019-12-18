@@ -434,6 +434,35 @@ function QuestieDB:GetQuest(questID) -- /dump QuestieDB:GetQuest(867)
     return QO
 end
 
+---@param quest Quest
+---@return table<string, table<integer, integer>> @List of creature names with their min-max level
+function QuestieDB:GetCreatureLevels(quest)
+    local creatureLevels = {}
+
+    local function _CollectCreateLevels(npcList)
+        for _, npcId in pairs(npcList) do
+            local npc = QuestieDB:GetNPC(npcId)
+            if npc and not creatureLevels[npc.name] then
+                creatureLevels[npc.name] = {npc.minLevel, npc.maxLevel}
+            end
+        end
+    end
+
+    if quest.objectives then
+        if quest.objectives[1] then -- Killing creatures
+            _CollectCreateLevels(quest.objectives[1])
+        elseif quest.objectives[3] then -- Looting items from creatures
+            for _, itemObjective in pairs(quest.objectives[3]) do
+                local item = QuestieDB:GetItem(itemObjective[1])
+                if item and item.npcDrops then
+                    _CollectCreateLevels(item.npcDrops)
+                end
+            end
+        end
+    end
+    return creatureLevels
+end
+
 QuestieDB.FactionGroup = UnitFactionGroup("player")
 
 function QuestieDB:_GetSpecialNPC(NPCID)
