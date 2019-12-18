@@ -438,13 +438,11 @@ function _QuestieTracker:CreateActiveQuestsFrame()
         if self.mode == 1 then
             self:SetMode(0)
              -- We store the last width so the position will be the same on /reload
-             Questie:Debug(DEBUG_CRITICAL, "old width:", trackerWidth)
             if Questie.db.char.lastTrackerWidth then
                 Questie.db.char.lastTrackerWidth = math.max(trackerWidth, (_QuestieTracker.baseFrame:GetWidth() - (trackerBackgroundPadding*2 + Questie.db.global.trackerFontSizeHeader*2)))
             else
                 Questie.db.char.lastTrackerWidth = _QuestieTracker.baseFrame:GetWidth() - (trackerBackgroundPadding*2 + Questie.db.global.trackerFontSizeHeader*2)
             end
-            Questie:Debug(DEBUG_CRITICAL, "new width:", Questie.db.char.lastTrackerWidth)
             Questie.db.char.isTrackerExpanded = false
         else
             self:SetMode(1)
@@ -568,7 +566,7 @@ function QuestieTracker:Update()
                 if lineIndex ~= button.lineID or quest.sourceItemId ~= button.itemID or fontSizeCompare ~= button.fontSize then
                     button.lineID = lineIndex -- immediately set to prevent double-queue
                     button.itemID = quest.sourceItemId
-                    button.fontSize = fontSizeCompare 
+                    button.fontSize = fontSizeCompare
                     button.line = line
                     QuestieCombatQueue:Queue(function(self)
                         if self:SetItem(quest.sourceItemId, Questie.db.global.trackerFontSizeHeader * 1.7) then
