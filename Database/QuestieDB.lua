@@ -406,9 +406,108 @@ function QuestieDB:GetQuest(questID) -- /dump QuestieDB:GetQuest(867)
         end
     end
 
+    --- function
+    ---@return boolean @Returns true if the quest should be grey, false otherwise
+    function QO:IsTrivial()
+        local levelDiff = self.level - QuestiePlayer:GetPlayerLevel();
+        if (levelDiff >= 5) then
+            return false -- Red
+        elseif (levelDiff >= 3) then
+            return false -- Orange
+        elseif (levelDiff >= -2) then
+            return false -- Yellow
+        elseif (-levelDiff <= GetQuestGreenRange()) then
+            return false -- Green
+        else
+            return true -- Grey
+        end
+    end
+
+    ---@return boolean @Returns true if any pre quest has been completed or none is listed, false otherwise
+    function QO:IsPreQuestSingleFulfilled()
+        local preQuestSingle = self.preQuestSingle
+        if not preQuestSingle or not next(preQuestSingle) then
+            return true
+        end
+        for _, preQuestId in pairs(preQuestSingle) do
+            local preQuest = QuestieDB:GetQuest(preQuestId);
+
+            -- If a quest is complete the requirement is fulfilled
+            if Questie.db.char.complete[preQuestId] then
+                return true
+            -- If one of the quests in the exclusive group is complete the requirement is fulfilled
+            elseif preQuest and preQuest.ExclusiveQuestGroup then
+                for _, v in pairs(preQuest.ExclusiveQuestGroup) do
+                    if Questie.db.char.complete[v] then
+                        return true
+                    end
+                end
+            end
+        end
+        -- No preQuest is complete
+        return false
+    end
+
+    ---@return boolean @Returns true if all listed pre quests are complete or none is listed, false otherwise
+    function QO:IsPreQuestGroupFulfilled()
+        local preQuestGroup = self.preQuestGroup
+        if not preQuestGroup  or not next(preQuestGroup) then
+            return true
+        end
+        for _, preQuestId in pairs(preQuestGroup) do
+            -- If a quest is not complete and no exlusive quest is complete, the requirement is not fulfilled
+            if not Questie.db.char.complete[preQuestId] then
+                local preQuest = QuestieDB:GetQuest(preQuestId);
+                if preQuest == nil or preQuest.ExclusiveQuestGroup == nil then
+                    return false
+                end
+
+                local anyExlusiveFinished = false
+                for _, v in pairs(preQuest.ExclusiveQuestGroup) do
+                    if Questie.db.char.complete[v] then
+                        anyExlusiveFinished = true
+                    end
+                end
+                if not anyExlusiveFinished then
+                    return false
+                end
+            end
+        end
+        -- All preQuests are complete
+        return true
+    end
 
     QuestieDB._QuestCache[questID] = QO
     return QO
+end
+
+---@param quest Quest
+---@return table<string, table<integer, integer>> @List of creature names with their min-max level
+function QuestieDB:GetCreatureLevels(quest)
+    local creatureLevels = {}
+
+    local function _CollectCreateLevels(npcList)
+        for _, npcId in pairs(npcList) do
+            local npc = QuestieDB:GetNPC(npcId)
+            if npc and not creatureLevels[npc.name] then
+                creatureLevels[npc.name] = {npc.minLevel, npc.maxLevel}
+            end
+        end
+    end
+
+    if quest.objectives then
+        if quest.objectives[1] then -- Killing creatures
+            _CollectCreateLevels(quest.objectives[1])
+        elseif quest.objectives[3] then -- Looting items from creatures
+            for _, itemObjective in pairs(quest.objectives[3]) do
+                local item = QuestieDB:GetItem(itemObjective[1])
+                if item and item.npcDrops then
+                    _CollectCreateLevels(item.npcDrops)
+                end
+            end
+        end
+    end
+    return creatureLevels
 end
 
 QuestieDB.FactionGroup = UnitFactionGroup("player")

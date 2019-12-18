@@ -143,6 +143,23 @@ function QuestieOptions.tabs.tracker:Initialize()
                 end
             },
             Spacer_R = QuestieOptionsUtils:Spacer(7.3,5),
+            stickyDurabilityFrame = {
+                type = "toggle",
+                order = 7,
+                width = 1.5,
+                name = function() return QuestieLocale:GetUIString('TRACKER_STICKY_DURABILITY_FRAME'); end,
+                desc = function() return QuestieLocale:GetUIString('TRACKER_STICKY_DURABILITY_FRAME_DESC'); end,
+                get = function() return Questie.db.global.stickyDurabilityFrame; end,
+                set = function (info, value)
+                    Questie.db.global.stickyDurabilityFrame = value
+                    if value then
+                        QuestieTracker:MoveDurabilityFrame()
+                    else
+                        QuestieTracker:ResetDurabilityFrame()
+                    end
+                end
+            },
+            Spacer_S = QuestieOptionsUtils:Spacer(7.3,5),
             --[[colorObjectives = {
                 type = "toggle",
                 order = 6,

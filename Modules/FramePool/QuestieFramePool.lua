@@ -567,17 +567,20 @@ function _QuestieFramePool:Questie_Tooltip()
     local npcOrder = {};
     local questOrder = {};
     local manualOrder = {}
-    
     self.data.touchedPins = {};
     for pin in HBDPins.worldmapProvider:GetMap():EnumeratePinsByTemplate("HereBeDragonsPinsTemplateQuestie") do -- I added "_QuestieFramePool.usedFrames" because I think its a bit more efficient than using _G but I might be wrong
         ---@type IconFrame
         local icon = pin.icon;
         local iconData = icon.data
-        if(self.data.Id == iconData.Id) then
+        if(self.data.Id == iconData.Id) then -- Recolor hovered icons
             local entry = {}
             entry.color = {icon.texture.r, icon.texture.g, icon.texture.b, icon.texture.a};
             entry.icon = icon;
-            icon.texture:SetVertexColor(1, 0.98, 0.44, icon.texture.a);
+            if Questie.db.global.questObjectiveColors then
+                icon.texture:SetVertexColor(1, 1, 1, 1); -- If different colors are active simply change it to the regular icon color
+            else
+                icon.texture:SetVertexColor(0.6, 1, 1, 1); -- Without colors make it blueish
+            end
             tinsert(self.data.touchedPins, entry);
         end
         if icon and iconData and icon.x and icon.AreaID == self.AreaID then
@@ -686,7 +689,9 @@ function _QuestieFramePool:Questie_Tooltip()
                 end
             end
         end
+        ---@param questId QuestId
         for questId, textList in pairs(self.questOrder) do -- this logic really needs to be improved
+            ---@type Quest
             local quest = QuestieDB:GetQuest(questId);
             local questTitle = quest:GetColoredQuestName();
             if haveGiver then
@@ -709,14 +714,33 @@ function _QuestieFramePool:Questie_Tooltip()
             -- Used to get the white color for the quests which don't have anything to collect
             local defaultQuestColor = QuestieLib:GetRGBForObjective({})
             if shift then
+                local creatureLevels = QuestieDB:GetCreatureLevels(quest) -- Data for min and max level
                 for index, textData in pairs(textList) do
                     for textLine, nameData in pairs(textData) do
                         local dataType = type(nameData)
                         if dataType == "table" then
                             for name in pairs(nameData) do
+                                if creatureLevels[name] then
+                                    local minLevel = creatureLevels[name][1]
+                                    local maxLevel = creatureLevels[name][2]
+                                    if minLevel == maxLevel then
+                                        name = name .. " (" .. minLevel .. ")"
+                                    else
+                                        name = name .. " (" .. minLevel .. " - " .. maxLevel .. ")"
+                                    end
+                                end
                                 self:AddLine("   |cFFDDDDDD" .. name);
                             end
                         elseif dataType == "string" then
+                            if creatureLevels[nameData] then
+                                local minLevel = creatureLevels[nameData][1]
+                                local maxLevel = creatureLevels[nameData][2]
+                                if minLevel == maxLevel then
+                                    nameData = nameData .. " (" .. minLevel .. ")"
+                                else
+                                    nameData = nameData .. " (" .. minLevel .. " - " .. maxLevel .. ")"
+                                end
+                            end
                             self:AddLine("   |cFFDDDDDD" .. nameData);
                         end
                         self:AddLine("      " .. defaultQuestColor .. textLine);

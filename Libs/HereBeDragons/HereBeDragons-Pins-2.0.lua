@@ -498,8 +498,8 @@ local function OnUpdateHandler2()
 end
 
 
---pins.updateFrame:SetScript("OnUpdate", OnUpdateHandler)
-pins.updateTimer = C_Timer.NewTicker(0.0009, OnUpdateHandler) -- Make rotating minimap look smoother
+local updateFrequency = 0.05
+pins.updateTimer = C_Timer.NewTicker(updateFrequency, OnUpdateHandler)
 pins.updateTimer = C_Timer.NewTicker(1, OnUpdateHandler2)
 
 local function OnEventHandler(frame, event, ...)
@@ -507,6 +507,14 @@ local function OnEventHandler(frame, event, ...)
         local cvar, value = ...
         if cvar == "ROTATE_MINIMAP" then
             rotateMinimap = (value == "1")
+            if rotateMinimap then
+                updateFrequency = 0.0009 -- Make rotating minimap look smoother
+            else
+                updateFrequency = 0.05 -- Minimap rotation is disabled so no need to update extremly fast
+            end
+
+            pins.updateTimer:Cancel()
+            pins.updateTimer = C_Timer.NewTicker(updateFrequency, OnUpdateHandler)
             queueFullUpdate = true
         end
     elseif event == "MINIMAP_UPDATE_ZOOM" then
@@ -514,6 +522,11 @@ local function OnEventHandler(frame, event, ...)
     elseif event == "PLAYER_LOGIN" then
         -- recheck cvars after login
         rotateMinimap = GetCVar("rotateMinimap") == "1"
+        if rotateMinimap then
+            updateFrequency = 0.0009 -- Make rotating minimap look smoother
+            pins.updateTimer:Cancel()
+            pins.updateTimer = C_Timer.NewTicker(updateFrequency, OnUpdateHandler)
+        end
     elseif event == "PLAYER_ENTERING_WORLD" then
         UpdateMinimap()
         UpdateWorldMap()

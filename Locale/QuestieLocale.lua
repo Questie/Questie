@@ -25,6 +25,7 @@ function QuestieLocale:Initialize()
         end
     end
     -- Load quest locales
+    -- data is {<questName>, {<questDescription>,...}, {<questObjective>,...}}
     for id, data in pairs(LangQuestLookup[locale] or {}) do
         if QuestieDB.questData[id] then
             if data[1] then
@@ -34,7 +35,7 @@ function QuestieLocale:Initialize()
             if data[3] then
                  -- needs to be saved as a table for tooltips to have lines
                  -- TODO: split string into ~80 char lines
-                QuestieDB.questData[id][QuestieDB.questKeys.objectivesText] = {data[3]}
+                QuestieDB.questData[id][QuestieDB.questKeys.objectivesText] = data[3]
             end
         end
     end

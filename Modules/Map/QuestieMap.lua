@@ -602,7 +602,7 @@ function QuestieMap:FindClosestStarter()
                                     for Zone, Spawns in pairs(obj.spawns) do
                                         if(Zone ~= nil and Spawns ~= nil) then
                                             for _, coords in ipairs(Spawns) do
-                                                if(coords[1] == -1 or coords[2] == -1) then
+                                                if(coords[1] == -1 or coords[2] == -1) then -- instace locations
                                                     if(InstanceLocations[Zone] ~= nil) then
                                                         for index, value in ipairs(InstanceLocations[Zone]) do
                                                             if(value[1] and value[2]) then

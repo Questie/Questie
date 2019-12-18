@@ -8,18 +8,19 @@ function QuestieAuto:QUEST_PROGRESS(event, ...)
     end
 end
 
+---@param _ any @
 function QuestieAuto:ACCEPT_QUEST_GOSSIP(...)
     local MOP_INDEX_CONST = 7 -- was '5' in Cataclysm
-    for i = 1, select("#", ...), MOP_INDEX_CONST do
-        local title = select(i, ...)
-        local isTrivial = select(i + 2, ...)
-        local isRepeatable = select(i + 4, ...) -- complete status
+    for i = select("#", ...), 1, -MOP_INDEX_CONST do
+        local title = select(i - 6, ...)
+        local isTrivial = select(i - 4, ...)
+        local isRepeatable = select(i - 2, ...) -- complete status
         Questie:Debug(DEBUG_DEVELOP, "Accepting quest, Title:", title,
                       "Trivial", isTrivial, "Repeatable", isRepeatable, "index",
                       i)
         if (not isTrivial) then
             Questie:Debug(DEBUG_INFO, "Accepting quest, ", title)
-            SelectGossipAvailableQuest(math.floor(i / MOP_INDEX_CONST) + 1)
+            SelectGossipAvailableQuest(math.floor(i / MOP_INDEX_CONST))
         end
     end
 end
