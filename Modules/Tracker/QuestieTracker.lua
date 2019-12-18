@@ -144,10 +144,6 @@ function QuestieTracker:Initialize()
         Questie.db.char.collapsedQuests = {}
     end
     _QuestieTracker.baseFrame = QuestieTracker:CreateBaseFrame()
-    if Questie.db.char.lastTrackerWidth then -- We have the width from before the last reload/restart
-        trackerWidth = Questie.db.char.lastTrackerWidth -- No padding here since that is added everywhere else
-        _QuestieTracker.baseFrame:SetWidth(trackerWidth + (trackerBackgroundPadding*2 + Questie.db.global.trackerFontSizeHeader*2))
-    end
     _QuestieTracker.activeQuestsFrame = _QuestieTracker:CreateActiveQuestsFrame()
 
     _QuestieTracker.menuFrame = LQuestie_Create_UIDropDownMenu("QuestieTrackerMenuFrame", UIParent)
@@ -437,12 +433,6 @@ function _QuestieTracker:CreateActiveQuestsFrame()
     expandButton:SetScript("OnClick", function(self)
         if self.mode == 1 then
             self:SetMode(0)
-             -- We store the last width so the position will be the same on /reload
-            if Questie.db.char.lastTrackerWidth then
-                Questie.db.char.lastTrackerWidth = math.max(trackerWidth, (_QuestieTracker.baseFrame:GetWidth() - (trackerBackgroundPadding*2 + Questie.db.global.trackerFontSizeHeader*2)))
-            else
-                Questie.db.char.lastTrackerWidth = _QuestieTracker.baseFrame:GetWidth() - (trackerBackgroundPadding*2 + Questie.db.global.trackerFontSizeHeader*2)
-            end
             Questie.db.char.isTrackerExpanded = false
         else
             self:SetMode(1)
@@ -483,14 +473,6 @@ function QuestieTracker:Update()
         return
     end
     _QuestieTracker.activeQuestsFrame:Update()
-
-    if not Questie.db.char.isTrackerExpanded then
-        for i=1, trackerLineCount do
-            _QuestieTracker.LineFrames[i]:Hide()
-            _QuestieTracker.LineFrames[i].expandButton:Hide()
-        end
-        return
-    end
 
     lineIndex = 0 -- zero because it simplifies GetNextLine()
     buttonIndex = 0
@@ -644,14 +626,21 @@ function QuestieTracker:Update()
     end
 
     _QuestieTracker.highestIndex = lineIndex
-    -- hide remaining lines
-    for i=lineIndex+1, trackerLineCount do
+
+    local startUnusedFrames = 1 -- Hide all frames
+    local startUnusedButtons = 1
+    if Questie.db.char.isTrackerExpanded then
+        startUnusedFrames = lineIndex + 1 -- Only hide unused frames
+        startUnusedButtons = buttonIndex + 1
+    end
+
+    for i=startUnusedFrames, trackerLineCount do
         _QuestieTracker.LineFrames[i]:Hide()
         _QuestieTracker.LineFrames[i].expandButton:Hide()
     end
 
     -- and remaining buttons
-    for i=buttonIndex+1, 20 do
+    for i=startUnusedButtons, 20 do
         local button = _QuestieTracker.ItemButtons[i]
         if button.itemID then
             button:FakeHide()
@@ -984,15 +973,6 @@ function QuestieTracker:RemoveQuest(id)
             QuestieQuest:UpdateHiddenNotes()
         end
     end
-end
-
-function QuestieTracker:SetCounterEnabled(enabled)
-    if enabled then
-        _QuestieTracker.activeQuestsFrame:Show()
-    else
-        _QuestieTracker.activeQuestsFrame:Hide()
-    end
-    --_QuestieTracker:RepositionFrames(trackerLineCount, _QuestieTracker.LineFrames)
 end
 
 local hexTable = {

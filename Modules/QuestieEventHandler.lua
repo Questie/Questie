@@ -160,7 +160,6 @@ end
 -- client/server communication, so not every event really updates the log data.
 function QuestieEventHandler:QUEST_LOG_UPDATE()
     Questie:Debug(DEBUG_DEVELOP, "QUEST_LOG_UPDATE")
-    hasFirstQLU = true
     if playerEntered then
         Questie:Debug(DEBUG_DEVELOP, "---> Player entered world, START.")
         C_Timer.After(1, function ()
