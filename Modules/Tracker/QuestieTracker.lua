@@ -618,7 +618,7 @@ function QuestieTracker:Update()
                 line.label:Show()
             end
 
-            if quest.Objectives and complete == 0 and (not Questie.db.char.collapsedQuests[quest.Id]) then
+            if quest.Objectives and complete == 0 then
                 for _, objective in pairs(quest.Objectives) do
                     line = _QuestieTracker:GetNextLine()
                     line:SetMode("line")
@@ -632,6 +632,11 @@ function QuestieTracker:Update()
                     line:Show()
                     line.label:Show()
                     trackerWidth = math.max(trackerWidth, line.label:GetWidth())
+                    if Questie.db.char.collapsedQuests[quest.Id] then
+                        lineIndex = lineIndex - 1;
+                        line:Hide()
+                        line.label:Hide()
+                    end
                 end
             end
             line:SetVerticalPadding(Questie.db.global.trackerQuestPadding)
