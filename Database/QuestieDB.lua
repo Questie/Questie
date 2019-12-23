@@ -435,7 +435,7 @@ function QuestieDB:GetQuest(questID) -- /dump QuestieDB:GetQuest(867)
 end
 
 ---@param quest Quest
----@return table<string, table<integer, integer>> @List of creature names with their min-max level
+---@return table<string, table> @List of creature names with their min-max level and rank
 function QuestieDB:GetCreatureLevels(quest)
     local creatureLevels = {}
 
@@ -443,7 +443,7 @@ function QuestieDB:GetCreatureLevels(quest)
         for _, npcId in pairs(npcList) do
             local npc = QuestieDB:GetNPC(npcId)
             if npc and not creatureLevels[npc.name] then
-                creatureLevels[npc.name] = {npc.minLevel, npc.maxLevel}
+                creatureLevels[npc.name] = {npc.minLevel, npc.maxLevel, npc.rank}
             end
         end
     end
