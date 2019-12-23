@@ -491,8 +491,7 @@ function QuestieItemFixes:Load()
             [QuestieDB.itemKeys.objectDrops] = {},
         },
         [10575] = {
-            [QuestieDB.itemKeys.npcDrops] = {}, -- #1216
-            [QuestieDB.itemKeys.objectDrops] = {10569},
+            [QuestieDB.itemKeys.npcDrops] = {9461}, -- #1216
         },
         [9594] = { -- #1227
             [QuestieDB.itemKeys.name] = "Wildkin Muisek",
