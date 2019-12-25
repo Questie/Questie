@@ -37,8 +37,6 @@ QuestieEvent.activeQuests = {}
 local tinsert = table.insert
 
 function QuestieEvent:Load()
-    local month = tonumber(date("%m"))
-    local day = tonumber(date("%d"))
     local year = date("%y")
 
     -- We want to replace the Lunar Festival date with the date that we estimate

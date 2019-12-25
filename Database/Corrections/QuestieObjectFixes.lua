@@ -186,27 +186,6 @@ function QuestieObjectFixes:LoadFactionFixes()
             [QuestieDB.objectKeys.spawns] = {[1497]={{52.7,73.5},{52.8,75.9},{53.3,74.5},{53.9,73.2},{54.4,71.1},{54.8,73.0},{55.0,70.2},{55.8,71.2},{57.3,66.1},{58.1,69.5},},}, -- #1328
         },
         [180743] = {
-            [QuestieDB.objectKeys.spawns] = {[1537]={{33.86,65.69},},},
-        },
-        [180746] = {
-            [QuestieDB.objectKeys.spawns] = {[1537]={{33.46,65.57},},},
-        },
-        [180747] = {
-            [QuestieDB.objectKeys.spawns] = {[1537]={{33.78,66.4},}},
-        },
-        [180748] = {
-            [QuestieDB.objectKeys.spawns] = {[1537]={{33.9,66.68},},},
-        },
-        [180793] = {
-            [QuestieDB.objectKeys.spawns] = {[1537]={{33.96,65.86},},},
-        },
-    }
-
-    local objectFixesAlliance = {
-        [105174] = {
-            [QuestieDB.objectKeys.spawns] = {[1519]={{39.6,86.5},{39.7,84.2},{40.3,91.8},{40.4,87.5},{40.4,90.3},{40.7,92.7},{41.3,90.4},{41.4,88.0},},}, -- #1328
-        },
-        [180743] = {
             [QuestieDB.objectKeys.spawns] = {[1637]={{52.39,69.52},},},
         },
         [180746] = {
@@ -220,6 +199,27 @@ function QuestieObjectFixes:LoadFactionFixes()
         },
         [180793] = {
             [QuestieDB.objectKeys.spawns] = {[1637]={{52.42,69.32},},},
+        },
+    }
+
+    local objectFixesAlliance = {
+        [105174] = {
+            [QuestieDB.objectKeys.spawns] = {[1519]={{39.6,86.5},{39.7,84.2},{40.3,91.8},{40.4,87.5},{40.4,90.3},{40.7,92.7},{41.3,90.4},{41.4,88.0},},}, -- #1328
+        },
+        [180743] = {
+            [QuestieDB.objectKeys.spawns] = {[1537]={{33.86,65.69},},},
+        },
+        [180746] = {
+            [QuestieDB.objectKeys.spawns] = {[1537]={{33.46,65.57},},},
+        },
+        [180747] = {
+            [QuestieDB.objectKeys.spawns] = {[1537]={{33.78,66.4},}},
+        },
+        [180748] = {
+            [QuestieDB.objectKeys.spawns] = {[1537]={{33.9,66.68},},},
+        },
+        [180793] = {
+            [QuestieDB.objectKeys.spawns] = {[1537]={{33.96,65.86},},},
         },
     }
 
