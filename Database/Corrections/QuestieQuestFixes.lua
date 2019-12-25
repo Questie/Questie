@@ -1165,9 +1165,11 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.requiredRaces] = 178,
         },
         [8767] = {
+            [QuestieDB.questKeys.requiredRaces] = 77,
             [QuestieDB.questKeys.requiredClasses] = 0,
         },
         [8788] = {
+            [QuestieDB.questKeys.requiredRaces] = 178,
             [QuestieDB.questKeys.requiredClasses] = 0,
         },
         [8980] = { -- bad race data
