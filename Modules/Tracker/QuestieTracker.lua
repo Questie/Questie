@@ -655,7 +655,9 @@ function QuestieTracker:Update()
     end
 
     -- adjust base frame size for dragging
-    if line then
+    if not Questie.db.char.isTrackerExpanded then
+        _QuestieTracker.baseFrame:SetHeight(1)
+    elseif line then
         QuestieCombatQueue:Queue(function(line)
             _QuestieTracker.baseFrame:SetWidth(trackerWidth + trackerBackgroundPadding*2 + Questie.db.global.trackerFontSizeHeader*2)
             _QuestieTracker.baseFrame:SetHeight((_QuestieTracker.baseFrame:GetTop() - line:GetBottom()) + trackerBackgroundPadding*2 - Questie.db.global.trackerQuestPadding*2)
@@ -702,11 +704,11 @@ function QuestieTracker:Update()
     end
 
     if hasQuest then
-        QuestieCombatQueue:Queue(function() 
+        QuestieCombatQueue:Queue(function()
             _QuestieTracker.baseFrame:Show()
         end)
     else
-        QuestieCombatQueue:Queue(function() 
+        QuestieCombatQueue:Queue(function()
             _QuestieTracker.baseFrame:Hide()
         end)
     end
