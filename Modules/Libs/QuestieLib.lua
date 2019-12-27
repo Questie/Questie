@@ -130,6 +130,8 @@ function QuestieLib:IsResponseCorrect(questId)
     return good;
 end
 
+---@param questId QuestId @The quest ID
+---@return table
 function QuestieLib:GetQuestObjectives(questId)
     local count = 0;
     local objectiveList = nil;
@@ -147,15 +149,16 @@ function QuestieLib:GetQuestObjectives(questId)
                 end
             end
         end
-        if(good) then
+        if good then
             break;
         end
         count = count + 1;
     end
+    Questie:Debug(DEBUG_INFO, "[QuestieLib:GetQuestObjectives]: Loaded", count, "quest objectives.")
     return objectiveList;
 end
 
----@param id integer @The quest ID
+---@param id QuestId @The quest ID
 ---@param name string @The (localized) name of the quest
 ---@param level integer @The quest level
 ---@param showLevel integer @Wheather the quest level should be included

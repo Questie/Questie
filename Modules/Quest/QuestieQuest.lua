@@ -1129,6 +1129,10 @@ local L_QUEST_ITEMS_NEEDED = QuestieLib:SanitizePattern(QUEST_ITEMS_NEEDED)
 local L_QUEST_OBJECTS_FOUND = QuestieLib:SanitizePattern(QUEST_OBJECTS_FOUND)
 function QuestieQuest:GetAllLeaderBoardDetails(questId)
     local questObjectives = QuestieLib:GetQuestObjectives(questId);
+    if not questObjectives then
+        -- Some quests just don't have a real objective e.g. 2744
+        return nil
+    end
 
     --Questie:Print(questId)
     for objectiveIndex, objective in pairs(questObjectives) do
