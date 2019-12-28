@@ -212,6 +212,12 @@ function QuestieQuestFixes:Load()
         [830] = {
             [QuestieDB.questKeys.startedBy] = {nil,{3239},{4881,},},
         },
+        [834] = {
+            [QuestieDB.questKeys.requiredRaces] = 255, -- #1665
+        },
+        [835] = {
+            [QuestieDB.questKeys.requiredRaces] = 255, -- #1665
+        },
         [841] = {
             [QuestieDB.questKeys.specialFlags] = 1,
             [QuestieDB.questKeys.exclusiveTo] = {654},
