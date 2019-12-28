@@ -572,7 +572,9 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
                 or ((not questieGlobalDB.enableTurnins) and iconMap.data.Type == "complete")
                 or ((not questieGlobalDB.enableAvailable) and iconMap.data.Type == "available"))
                 or ((not questieGlobalDB.enableMapIcons) and (not iconMap.miniMapIcon))
-                or ((not questieGlobalDB.enableMiniMapIcons) and (iconMap.miniMapIcon))) or (iconMap.data.ObjectiveData and iconMap.data.ObjectiveData.HideIcons) or (iconMap.data.QuestData and iconMap.data.QuestData.HideIcons and iconMap.data.Type ~= "complete") then
+                or ((not questieGlobalDB.enableMiniMapIcons) and (iconMinimap.miniMapIcon)))
+                or (iconMap.data.ObjectiveData and iconMap.data.ObjectiveData.HideIcons)
+                or (iconMap.data.QuestData and iconMap.data.QuestData.HideIcons and iconMap.data.Type ~= "complete") then
         iconMap:FakeHide()
         iconMinimap:FakeHide()
     end
