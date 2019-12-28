@@ -52,11 +52,6 @@ function QuestieQuestTimers:GetQuestTimerByQuestId(questId, frame)
     return nil
 end
 
--- /run QuestieLoader:ImportModule("QuestieQuestTimers")
--- /run QuestieLoader:ImportModule("QuestieQuestTimers"):HideBlizzardTimer()
--- /run QuestieLoader:ImportModule("QuestieQuestTimers"):ShowBlizzardTimer()
--- /dump QuestieLoader:ImportModule("QuestieQuestTimers").defaultBlizzPoint
-
 _UpdateTimerFrame = function()
     local questTimers = GetQuestTimers()
     if questTimers then

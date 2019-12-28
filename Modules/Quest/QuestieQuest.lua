@@ -1191,7 +1191,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject) -- prevent recursion
 
     --TODO More logic here, currently only shows NPC quest givers.
     if questObject.Starts["GameObject"] ~= nil then
-        for index, ObjectID in ipairs(questObject.Starts["GameObject"]) do
+        for _, ObjectID in ipairs(questObject.Starts["GameObject"]) do
             local obj = QuestieDB:GetObject(ObjectID)
             if(obj ~= nil and obj.spawns ~= nil) then
                 for Zone, Spawns in pairs(obj.spawns) do
@@ -1209,7 +1209,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject) -- prevent recursion
                             data.IsObjectiveNote = false
                             if(coords[1] == -1 or coords[2] == -1) then
                                 if(InstanceLocations[Zone] ~= nil) then
-                                    for index, value in ipairs(InstanceLocations[Zone]) do
+                                    for _, value in ipairs(InstanceLocations[Zone]) do
                                         QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
                                     end
                                 end
@@ -1222,7 +1222,7 @@ function _QuestieQuest:DrawAvailableQuest(questObject) -- prevent recursion
             end
         end
     elseif(questObject.Starts["NPC"] ~= nil)then
-        for index, NPCID in ipairs(questObject.Starts["NPC"]) do
+        for _, NPCID in ipairs(questObject.Starts["NPC"]) do
             local NPC = QuestieDB:GetNPC(NPCID)
             if (NPC ~= nil and NPC.spawns ~= nil and NPC.friendly) then
                 --Questie:Debug(DEBUG_DEVELOP,"Adding Quest:", questObject.Id, "StarterNPC:", NPC.Id)

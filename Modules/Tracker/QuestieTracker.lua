@@ -590,14 +590,17 @@ function QuestieTracker:Update()
             trackerWidth = math.max(trackerWidth, line.label:GetWidth())
 
             -- Add quest timer
+            line = _QuestieTracker:GetNextLine()
             local seconds = QuestieQuestTimers:GetQuestTimerByQuestId(questId, line)
             if seconds then
-                line = _QuestieTracker:GetNextLine()
                 line:SetMode("header")
                 line:SetQuest(quest)
                 line.label:SetText("    " .. seconds)
                 line:Show()
                 line.label:Show()
+            else
+                -- We didn't need the line so we can reuse it
+                lineIndex = lineIndex - 1
             end
 
             if quest.Objectives and complete == 0 then

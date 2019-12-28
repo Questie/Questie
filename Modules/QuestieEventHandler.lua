@@ -83,7 +83,7 @@ function QuestieEventHandler:QUEST_ACCEPTED(questLogIndex, questId)
             QuestieJourney:AcceptQuest(questId)
             timer:Cancel();
             Questie:Debug(DEBUG_DEVELOP, "Accept seems correct, cancel timer");
-        else   
+        else
             Questie:Debug(DEBUG_CRITICAL, "Response is wrong for quest, waiting with timer");
         end
     end)
