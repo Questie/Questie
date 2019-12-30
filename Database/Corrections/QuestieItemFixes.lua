@@ -658,6 +658,9 @@ function QuestieItemFixes:Load()
             [QuestieDB.itemKeys.npcDrops] = {},
             [QuestieDB.itemKeys.objectDrops] = {400003},
         },
+        [12366] = {
+            [QuestieDB.itemKeys.npcDrops] = {7457,7458},
+        },
 
         -- quest related herbs
         [2449] = {
