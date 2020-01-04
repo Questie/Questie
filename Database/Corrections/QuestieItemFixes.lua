@@ -574,6 +574,12 @@ function QuestieItemFixes:Load()
             [QuestieDB.itemKeys.npcDrops] = {2726},
             [QuestieDB.itemKeys.objectDrops] = {},
         },
+        [9254] = {
+            [QuestieDB.itemKeys.name] = "Cuergo's Treasure Map",
+            [QuestieDB.itemKeys.relatedQuests] = {2882},
+            [QuestieDB.itemKeys.npcDrops] = {},
+            [QuestieDB.itemKeys.objectDrops] = {},
+        },
         [17309] = {
             [QuestieDB.itemKeys.npcDrops] = {8519,8520,8521,8522,},
         },
@@ -809,6 +815,7 @@ end
 
 _AddMissingItemIDs = function()
     local missingItemIDs = {
+        9254,
         5475,
         11040,
         12567,
