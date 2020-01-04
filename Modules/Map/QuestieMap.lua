@@ -247,7 +247,10 @@ end
 -- QuestieQuest do for questIdFrames
 ---@param npcID integer @The ID of the NPC
 function QuestieMap:ShowNPC(npcID)
-    if type(npcID) ~= "number" then return end
+    if type(npcID) ~= "number" then
+        Questie:Debug(DEBUG_DEVELOP, "[QuestieMap:ShowNPC]", "Got <" .. type(npcID) .. "> instead of <number>")
+        return
+    end
     -- get the NPC data
     local npc = QuestieDB:GetNPC(npcID)
     if npc == nil then return end
