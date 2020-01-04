@@ -27,7 +27,7 @@ LangZoneLookup['esES']= {
         [130] = "Bosque de Argénteos",
         [1519] = "Ciudad de Ventormenta",
         [33] = "Vega de Tuercespina",
-        [8] = "Pantanos de las Penas",
+        [8] = "Pantano de las Penas",
         [47] = "Tierras del Interior",
         [85] = "Claros de Tirisfal",
         [1497] = "Entrañas",
@@ -60,7 +60,7 @@ LangZoneLookup['esES']= {
     },
     [3] = {
         [2437] = "Sima Ígnea",
-        [1581] = "Minas de la Muerte",
+        [1581] = "Las Minas de la Muerte",
         [718] = "Cuevas de los Lamentos",
         [209] = "Castillo de Colmillo Oscuro",
         [719] = "Cavernas de Brazanegra",
