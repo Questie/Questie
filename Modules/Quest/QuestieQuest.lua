@@ -913,6 +913,9 @@ function QuestieQuest:GetAllQuestObjectives(quest)
     end
 
     local questObjectives = QuestieQuest:GetAllLeaderBoardDetails(quest.Id);
+    if not questObjectives then
+        questObjectives = {}
+    end
     local logCount = Counthack(questObjectives);
     local dbCount = Counthack(quest.ObjectiveData);
 
