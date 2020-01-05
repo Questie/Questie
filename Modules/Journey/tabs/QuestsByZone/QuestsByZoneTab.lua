@@ -23,6 +23,7 @@ function _QuestieJourney.questsByZone:DrawTab(container)
 
     local CDropdown = AceGUI:Create("LQDropdown")
     local zDropdown = AceGUI:Create("LQDropdown")
+    ---@class AceSimpleGroup
     local treegroup = AceGUI:Create("SimpleGroup")
 
     -- Dropdown for Continent

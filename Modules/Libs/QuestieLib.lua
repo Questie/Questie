@@ -166,38 +166,7 @@ end
 ---@param blizzLike boolean @True = [40+], false/nil = [40D/R]
 function QuestieLib:GetColoredQuestName(id, name, level, showLevel, isComplete, blizzLike)
     if showLevel then
-        local questType, questTag = GetQuestTagInfo(id)
-
-        if questType and questTag then
-            local char = "+"
-            if(not blizzLike) then
-                char = string.sub(questTag, 1, 1);
-            end
-
-            local langCode = QuestieLocale:GetUILocale() -- the string.sub above doesn't work for multi byte characters in Chinese
-            if questType == 1 then
-                name = "[" .. level .. "+" .. "] " .. name -- Elite quest
-            elseif questType == 81 then
-                if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
-                    char = "D"
-                end
-                name = "[" .. level .. char .. "] " .. name -- Dungeon quest
-            elseif questType == 62 then
-                if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
-                    char = "R"
-                end
-                name = "[" .. level .. char .. "] " .. name -- Raid quest
-            elseif questType == 41 then
-                name = "[" .. level .. "] " .. name -- Which one? This is just default.
-                --name = "[" .. level .. questTag .. "] " .. name -- PvP quest
-            elseif questType == 83 then
-                name = "[" .. level .. "++" .. "] " .. name -- Legendary quest
-            else
-                name = "[" .. level .. "] " .. name -- Some other irrelevant type
-            end
-        else
-            name = "[" .. level .. "] " .. name
-        end
+        name = QuestieLib:GetQuestString(id, name, level, blizzLike)
     end
     if Questie.db.global.enableTooltipsQuestID then
         name = name .. " (" .. id .. ")"
@@ -210,6 +179,47 @@ function QuestieLib:GetColoredQuestName(id, name, level, showLevel, isComplete, 
     end
 
     return QuestieLib:PrintDifficultyColor(level, name)
+end
+
+---@param id QuestId @The quest ID
+---@param name string @The (localized) name of the quest
+---@param level integer @The quest level
+---@param blizzLike boolean @True = [40+], false/nil = [40D/R]
+function QuestieLib:GetQuestString(id, name, level, blizzLike)
+    local questType, questTag = GetQuestTagInfo(id)
+
+    if questType and questTag then
+        local char = "+"
+        if(not blizzLike) then
+            char = string.sub(questTag, 1, 1);
+        end
+
+        local langCode = QuestieLocale:GetUILocale() -- the string.sub above doesn't work for multi byte characters in Chinese
+        if questType == 1 then
+            name = "[" .. level .. "+" .. "] " .. name -- Elite quest
+        elseif questType == 81 then
+            if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
+                char = "D"
+            end
+            name = "[" .. level .. char .. "] " .. name -- Dungeon quest
+        elseif questType == 62 then
+            if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
+                char = "R"
+            end
+            name = "[" .. level .. char .. "] " .. name -- Raid quest
+        elseif questType == 41 then
+            name = "[" .. level .. "] " .. name -- Which one? This is just default.
+            --name = "[" .. level .. questTag .. "] " .. name -- PvP quest
+        elseif questType == 83 then
+            name = "[" .. level .. "++" .. "] " .. name -- Legendary quest
+        else
+            name = "[" .. level .. "] " .. name -- Some other irrelevant type
+        end
+    else
+        name = "[" .. level .. "] " .. name
+    end
+
+    return name
 end
 
 ---@param waypointTable table<integer, Point> @A table containing waypoints {{X, Y}, ...}

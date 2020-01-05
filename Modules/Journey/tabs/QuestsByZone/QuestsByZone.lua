@@ -17,27 +17,33 @@ local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 local AceGUI = LibStub("AceGUI-3.0")
 local zoneTreeFrame = nil
 
--- Manage the zone tree itself and the contents of the per-quest window
-function _QuestieJourney.questsByZone:ManageTree(container, zt)
+---Manage the zone tree itself and the contents of the per-quest window
+---@param container AceSimpleGroup @The container for the zone tree
+---@param zoneTree table @The zone tree table
+function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
     if zoneTreeFrame then
         container:ReleaseChildren()
         zoneTreeFrame = nil
-        _QuestieJourney.questsByZone:ManageTree(container, zt)
+        _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
         return
     end
 
     zoneTreeFrame = AceGUI:Create("TreeGroup")
     zoneTreeFrame:SetFullWidth(true)
     zoneTreeFrame:SetFullHeight(true)
-    zoneTreeFrame:SetTree(zt)
+    zoneTreeFrame:SetTree(zoneTree)
 
     zoneTreeFrame.treeframe:SetWidth(220)
+    zoneTreeFrame:SetCallback("OnClick", function(group, ...)
+        local treePath = {...}
 
-    zoneTreeFrame:SetCallback("OnGroupSelected", function(group)
-
+        if not treePath[2] then
+            Questie:Debug(DEBUG_CRITICAL, "[zoneTreeFrame:OnClick]", "No tree path given in Journey.")
+            return
+        end
         -- if they clicked on a header, don't do anything
-        local sel = group.localstatus.selected
-        if sel == "a" or sel == "p" or sel == "c" or sel == "r" or sel == "u" then
+        local sel, questId = strsplit("\001", treePath[2]) -- treePath[2] looks like "a?1234" for an available quest with ID 1234
+        if (sel == nil or sel == "a" or sel == "p" or sel == "c" or sel == "r" or sel == "u") and (not questId) then
             return
         end
 
@@ -54,21 +60,22 @@ function _QuestieJourney.questsByZone:ManageTree(container, zt)
         scrollFrame:SetFullHeight(true)
         master:AddChild(scrollFrame)
 
-        local _, qid = strsplit("\001", sel)
-        qid = tonumber(qid)
+        ---@type QuestId
+        questId = tonumber(questId)
+        local quest = QuestieDB:GetQuest(questId)
 
-        -- TODO replace with fillQuestDetailsFrame and remove the questFrame function
-        local quest = QuestieDB:GetQuest(qid)
-        if quest then
-            _QuestieJourney:DrawQuestDetailsFrame(scrollFrame, quest)
+        -- Add the quest to the open chat window if it was a shift click
+        if IsShiftKeyDown() and ChatFrame1EditBox then
+            ChatFrame1EditBox:SetText(ChatFrame1EditBox:GetText() .. "[" .. QuestieLib:GetQuestString(quest.Id, quest.name, quest.level, true) .. "]")
         end
+
+        _QuestieJourney:DrawQuestDetailsFrame(scrollFrame, quest)
     end)
 
     container:AddChild(zoneTreeFrame)
 end
 
--- Get all the available/completed/repeatable/unavailable quests
-
+---Get all the available/completed/repeatable/unavailable quests
 ---@param zoneId integer @The zone ID (Check `LangZoneLookup`)
 ---@return table<integer,any> @The zoneTree table which represents the list of all the different quests
 function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
