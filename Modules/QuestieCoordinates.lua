@@ -76,6 +76,14 @@ end
 function QuestieCoords:Initialize()
     --QuestieCoords.coordFrame = CreateFrame("Frame");
     --QuestieCoords.coordFrame:SetScript("OnUpdate", QuestieCoords.Update);
+    
+    -- Do not fight with Coordinates addon
+    if IsAddOnLoaded("Coordinates") and ((Questie.db.global.minimapCoordinatesEnabled) or (Questie.db.global.mapCoordinatesEnabled)) then
+        Questie:Print("|cFFFF0000WARNING!|r", "Coordinates addon is enabled and will cause buggy behavior. Disabling global map and mini map coordinates. These can be re-enabled in settings")
+        Questie.db.global.minimapCoordinatesEnabled = false
+        Questie.db.global.mapCoordinatesEnabled = false
+    end
+    
     C_Timer.NewTicker(QuestieCoords.updateInterval, QuestieCoords.Update)
 end
 
