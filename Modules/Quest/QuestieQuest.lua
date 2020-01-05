@@ -301,7 +301,7 @@ function QuestieQuest:GetRawLeaderBoardDetails(QuestLogIndex)
     quest.isComplete = isComplete;
 
     quest.Objectives = {}
-    local objectiveList  = C_QuestLog.GetQuestObjectives(questId) or {};
+    local objectiveList  = C_QuestLog.GetQuestObjectives(questId) or {}
     for objectiveIndex, objective in pairs(objectiveList) do
         quest.Objectives[objectiveIndex] = {}
         quest.Objectives[objectiveIndex].description = objective.text;
@@ -358,7 +358,6 @@ function QuestieQuest:AcceptQuest(questId)
     else
         Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ACCEPT_QUEST', questId), " Warning: Quest already existed, not adding");
     end
-
 end
 
 function QuestieQuest:CompleteQuest(quest)
