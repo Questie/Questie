@@ -159,6 +159,9 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.preQuestSingle] = {},
             [QuestieDB.questKeys.preQuestGroup] = {596,629,}
         },
+        [619] = {
+            [QuestieDB.questKeys.parentQuest] = 8554, -- #1691
+        },
         [621] = {
             [QuestieDB.questKeys.inGroupWith] = {}, -- #886
         },
