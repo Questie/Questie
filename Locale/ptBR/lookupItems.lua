@@ -864,6 +864,7 @@ LangItemLookup["ptBR"] = {
 [9246] = "Cabeça de Barbarruiva",
 [9247] = "Escama de Naga Cristafúria",
 [9248] = "Relíquia Misteriosa",
+[9254] = "Mapa do Tesouro do Cuergo",
 [9255] = "Essência Lahassa",
 [9256] = "Essência Imbel",
 [9257] = "Essência Samha",

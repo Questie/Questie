@@ -864,6 +864,7 @@ LangItemLookup["deDE"] = {
 [9246] = "Feuerbarts Kopf",
 [9247] = "Nagaschuppe der Hasskämme",
 [9248] = "Geheimnisvolles Relikt",
+[9254] = "Cuergos Schatzkarte",
 [9255] = "Lahassa-Essenz",
 [9256] = "Imbel-Essenz",
 [9257] = "Samha-Essenz",

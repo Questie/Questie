@@ -864,6 +864,7 @@ LangItemLookup["esES"] = {
 [9246] = "Cabeza de Barbafuego",
 [9247] = "Escama naga Crestafuria",
 [9248] = "Reliquia misteriosa",
+[9254] = "Mapa del tesoro de Cuergo",
 [9255] = "Esencia Lahassa",
 [9256] = "Esencia Imbel",
 [9257] = "Esencia samha",

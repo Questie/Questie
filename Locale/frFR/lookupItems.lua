@@ -864,6 +864,7 @@ LangItemLookup["frFR"] = {
 [9246] = "Tête de Barbe-en-feu",
 [9247] = "Ecaille de naga Hainecrête",
 [9248] = "Relique mystérieuse",
+[9254] = "Carte au trésor de Cuergo",
 [9255] = "Essence Lahassa",
 [9256] = "Essence Imbel",
 [9257] = "Essence Samha",
