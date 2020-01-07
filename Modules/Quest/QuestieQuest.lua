@@ -749,7 +749,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                                 drawIcon.AlreadySpawnedId = id;
                                 drawIcon.data = data;
                                 drawIcon.zone = zone;
-                                drawIcon.areaId = zone;
+                                drawIcon.AreaID = zone;
                                 drawIcon.UIMapId = ZoneDataAreaIDToUiMapID[zone];
                                 drawIcon.x = spawn[1];
                                 drawIcon.y = spawn[2];

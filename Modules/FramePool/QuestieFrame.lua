@@ -263,6 +263,7 @@ function _Qframe:UpdateTexture(texture)
 end
 
 function _Qframe:Unload()
+    Questie:Debug(DEBUG_SPAM, "[_Qframe:Unload]")
     self:SetScript("OnUpdate", nil)
     self:SetScript("OnShow", nil)
     self:SetScript("OnHide", nil)
@@ -307,7 +308,9 @@ function _Qframe:Unload()
     self.glow:Hide()
     self.data = nil -- Just to be safe
     self.loaded = nil
-    self.x = nil;self.y = nil;self.AreaID = nil
+    self.x = nil
+    self.y = nil
+    self.AreaID = nil
     QuestieFramePool:RecycleFrame(self)
 end
 

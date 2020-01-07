@@ -219,7 +219,7 @@ function _QuestieFramePool:UnloadFrame(frame)
 end]]--
 function _QuestieFramePool:QuestieCreateFrame()
     _QuestieFramePool.numberOfFrames = _QuestieFramePool.numberOfFrames + 1
-    local newFrame = QuestieFramePool.Qframe:New(_QuestieFramePool.numberOfFrames, _QuestieFramePool.Questie_Tooltip)
+    local newFrame = QuestieFramePool.Qframe:New(_QuestieFramePool.numberOfFrames, _QuestieFramePool.QuestieTooltip)
 
     tinsert(_QuestieFramePool.allFrames, newFrame)
     return newFrame
@@ -513,13 +513,15 @@ function _QuestieFramePool:AddTooltipsForQuest(icon, tip, quest, usedText)
     end
 end
 
-function _QuestieFramePool:Questie_Tooltip()
-    Questie:Debug(DEBUG_SPAM, "[_QuestieFramePool:Questie_Tooltip]")
+function _QuestieFramePool:QuestieTooltip()
+    Questie:Debug(DEBUG_DEVELOP, "[_QuestieFramePool:QuestieTooltip]", "minimapIcon = ", self.miniMapIcon)
     local r, g, b, a = self.texture:GetVertexColor();
     if(a == 0) then
+        Questie:Debug(DEBUG_DEVELOP, "[_QuestieFramePool:QuestieTooltip]", "Alpha of texture is 0, nothing to show")
         return
     end
     if GetTime() - _QuestieFramePool.lastTooltipShowHack < 0.05 and GameTooltip:IsShown() then
+        Questie:Debug(DEBUG_DEVELOP, "[_QuestieFramePool:QuestieTooltip]", "Call has been too fast, not showing again")
         return
     end
     _QuestieFramePool.lastTooltipShowHack = GetTime()
@@ -568,12 +570,11 @@ function _QuestieFramePool:Questie_Tooltip()
     local questOrder = {};
     local manualOrder = {}
 
-    self.data.touchedPins = {};
-    for pin in HBDPins.worldmapProvider:GetMap():EnumeratePinsByTemplate("HereBeDragonsPinsTemplateQuestie") do -- I added "_QuestieFramePool.usedFrames" because I think its a bit more efficient than using _G but I might be wrong
-        ---@type IconFrame
-        local icon = pin.icon;
+    self.data.touchedPins = {}
+    ---@param icon IconFrame
+    local function handleMapIcon(icon)
         local iconData = icon.data
-        if(self.data.Id == iconData.Id) then -- Recolor hovered icons
+        if self.data.Id == iconData.Id then -- Recolor hovered icons
             local entry = {}
             entry.color = {icon.texture.r, icon.texture.g, icon.texture.b, icon.texture.a};
             entry.icon = icon;
@@ -584,7 +585,7 @@ function _QuestieFramePool:Questie_Tooltip()
             end
             tinsert(self.data.touchedPins, entry);
         end
-        if icon and iconData and icon.x and icon.AreaID == self.AreaID then
+        if icon.x and icon.AreaID == self.AreaID then
             local dist = QuestieLib:Maxdist(icon.x, icon.y, self.x, self.y);
             if dist < maxDistCluster then
                 if iconData.Type == "available" or iconData.Type == "complete" then
@@ -637,11 +638,23 @@ function _QuestieFramePool:Questie_Tooltip()
             end
         end
     end
+
+    if self.miniMapIcon then
+        for icon, _ in pairs(HBDPins.activeMinimapPins) do
+            handleMapIcon(icon)
+        end
+    else
+        for pin in HBDPins.worldmapProvider:GetMap():EnumeratePinsByTemplate("HereBeDragonsPinsTemplateQuestie") do
+            handleMapIcon(pin.icon)
+        end
+    end
+
     Tooltip.npcOrder = npcOrder
     Tooltip.questOrder = questOrder
     Tooltip.manualOrder = manualOrder
     Tooltip.miniMapIcon = self.miniMapIcon
     Tooltip._Rebuild = function(self)
+        Questie:Debug(DEBUG_DEVELOP, "[Tooltip:_Rebuild]")
         local xpString = QuestieLocale:GetUIString('XP');
         local shift = IsShiftKeyDown()
         local haveGiver = false -- hack
