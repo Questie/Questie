@@ -140,7 +140,6 @@ function QuestieLib:GetQuestObjectives(questId)
     while (true and count < 50) do
         local good = true
         objectiveList = C_QuestLog.GetQuestObjectives(questId)
-        __TEST = objectiveList
         if not objectiveList then
             good = false
         else
