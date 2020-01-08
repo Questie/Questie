@@ -62,19 +62,27 @@ function QuestieQuest:ToggleNotes(desiredValue)
     if desiredValue ~= nil and desiredValue == (not QuestieQuest.NotesHidden) then
         return -- we already have the desired state
     end
+    local questieGlobalDB = Questie.db.global
+    local questieCharDB = Questie.db.char
     if QuestieQuest.NotesHidden then
         -- change map button
         Questie_Toggle:SetText(QuestieLocale:GetUIString('QUESTIE_MAP_BUTTON_HIDE'));
         -- show quest notes
+        local trackerHiddenQuests = questieCharDB.TrackerHiddenQuests
         for questId, framelist in pairs(QuestieMap.questIdFrames) do
-            for index, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
-                local icon = _G[frameName];
-                if icon ~= nil and icon.hidden and not ((((not Questie.db.global.enableObjectives) and (icon.data.Type == "monster" or icon.data.Type == "object" or icon.data.Type == "event" or icon.data.Type == "item"))
-                 or ((not Questie.db.global.enableTurnins) and icon.data.Type == "complete")
-                 or ((not Questie.db.global.enableAvailable) and icon.data.Type == "available"))
-                 or ((not Questie.db.global.enableMapIcons) and (not icon.miniMapIcon))
-                 or ((not Questie.db.global.enableMiniMapIcons) and (icon.miniMapIcon))) or (icon.data.ObjectiveData and icon.data.ObjectiveData.HideIcons) or (icon.data.QuestData and icon.data.QuestData.HideIcons and icon.data.Type ~= "complete") then
-                    icon:FakeUnhide()
+            if not trackerHiddenQuests[questId] then -- Skip quests which are completly hidden from the Tracker menu
+                for _, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
+                    local icon = _G[frameName];
+                    local objectiveString = tostring(questId) .. " " .. tostring(icon.data.ObjectiveIndex)
+                    if not questieCharDB.TrackerHiddenObjectives[objectiveString] then
+                        if icon ~= nil and icon.hidden and not ((((not questieGlobalDB.enableObjectives) and (icon.data.Type == "monster" or icon.data.Type == "object" or icon.data.Type == "event" or icon.data.Type == "item"))
+                            or ((not questieGlobalDB.enableTurnins) and icon.data.Type == "complete")
+                            or ((not questieGlobalDB.enableAvailable) and icon.data.Type == "available"))
+                            or ((not questieGlobalDB.enableMapIcons) and (not icon.miniMapIcon))
+                            or ((not questieGlobalDB.enableMiniMapIcons) and (icon.miniMapIcon))) or (icon.data.ObjectiveData and icon.data.ObjectiveData.HideIcons) or (icon.data.QuestData and icon.data.QuestData.HideIcons and icon.data.Type ~= "complete") then
+                                icon:FakeUnhide()
+                        end
+                    end
                 end
             end
         end
