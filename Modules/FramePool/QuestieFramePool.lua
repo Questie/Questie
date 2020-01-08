@@ -574,7 +574,7 @@ function _QuestieFramePool:QuestieTooltip()
     ---@param icon IconFrame
     local function handleMapIcon(icon)
         local iconData = icon.data
-        if self.data.Id == iconData.Id then -- Recolor hovered icons
+        if not icon.miniMapIcon and self.data.Id == iconData.Id then -- Recolor hovered icons
             local entry = {}
             entry.color = {icon.texture.r, icon.texture.g, icon.texture.b, icon.texture.a};
             entry.icon = icon;
