@@ -217,7 +217,7 @@ function QuestieTracker:Initialize()
         end
 
         frm:EnableMouse(true)
-        frm:RegisterForDrag("LeftButton", "RightButton")
+        frm:RegisterForDrag("LeftButton")
         frm:RegisterForClicks("RightButtonUp", "LeftButtonUp")
 
         -- hack for click-through
@@ -358,7 +358,7 @@ function QuestieTracker:CreateBaseFrame()
 
     frm:SetMovable(true)
     frm:EnableMouse(true)
-    frm:RegisterForDrag("LeftButton", "RightButton")
+    frm:RegisterForDrag("LeftButton")
 
     frm:SetScript("OnDragStart", _QuestieTracker.OnDragStart)
     frm:SetScript("OnDragStop", _QuestieTracker.OnDragStop)
@@ -386,8 +386,9 @@ function _QuestieTracker:CreateActiveQuestsFrame()
     frm.label:SetText(QuestieLocale:GetUIString("TRACKER_ACTIVE_QUESTS") .. tostring(numQuests) .. "/20")
     frm:SetWidth(frm.label:GetWidth())
 
+    frm:SetMovable(true)
     frm:EnableMouse(true)
-    frm:RegisterForDrag("LeftButton", "RightButton")
+    frm:RegisterForDrag("LeftButton")
 
     -- hack for click-through
     frm:SetScript("OnDragStart", _QuestieTracker.OnDragStart)
@@ -938,6 +939,11 @@ function QuestieTracker:HookBaseTracker()
 end
 
 _OnClick = function(self, button)
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieTracker:_OnClick]")
+    if _QuestieTracker.isMoving == true then
+        Questie:Debug(DEBUG_DEVELOP, "[QuestieTracker:_OnClick]", "Tracker is being dragged. Don't show the menu")
+        return
+    end
     if QuestieTracker.utils:IsBindTrue(Questie.db.global.trackerbindSetTomTom, button) then
         local spawn, zone, name = QuestieMap:GetNearestQuestSpawn(self.Quest)
 

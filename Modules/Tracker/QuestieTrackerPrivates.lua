@@ -8,8 +8,10 @@ local endDragPos = {}
 
 local mouselookTicker = {}
 
-function _QuestieTracker:OnDragStart(self, button)
+function _QuestieTracker:OnDragStart(button)
+    Questie:Debug(DEBUG_DEVELOP, "[_QuestieTracker:OnDragStart]", button)
     local baseFrame = QuestieTracker:GetBaseFrame()
+    _QuestieTracker.isMoving = true
 
     if IsControlKeyDown() or not Questie.db.global.trackerLocked then
         startDragAnchor = {baseFrame:GetPoint()}
@@ -31,10 +33,12 @@ function _QuestieTracker:OnDragStart(self, button)
 end
 
 function _QuestieTracker:OnDragStop()
+    Questie:Debug(DEBUG_DEVELOP, "[_QuestieTracker:OnDragStop]")
     if not startDragPos or not startDragPos[4] or not startDragPos[5] or not endDragPos or not startDragAnchor then
         return
     end
     local baseFrame = QuestieTracker:GetBaseFrame()
+    _QuestieTracker.isMoving = false
 
     endDragPos = {baseFrame:GetPoint()}
     baseFrame:StopMovingOrSizing()
