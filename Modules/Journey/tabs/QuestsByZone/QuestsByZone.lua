@@ -66,7 +66,7 @@ function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
 
         -- Add the quest to the open chat window if it was a shift click
         if IsShiftKeyDown() and ChatFrame1EditBox then
-            ChatFrame1EditBox:SetText(ChatFrame1EditBox:GetText() .. "[" .. QuestieLib:GetQuestString(quest.Id, quest.name, quest.level, true) .. "]")
+            ChatFrame1EditBox:SetText(ChatFrame1EditBox:GetText() .. QuestieLib:GetQuestString(quest.Id, quest.name, quest.level, true))
         end
 
         _QuestieJourney:DrawQuestDetailsFrame(scrollFrame, quest)
