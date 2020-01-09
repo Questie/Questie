@@ -70,7 +70,7 @@ function QuestieQuest:ToggleNotes(desiredValue)
         -- show quest notes
         local trackerHiddenQuests = questieCharDB.TrackerHiddenQuests
         for questId, framelist in pairs(QuestieMap.questIdFrames) do
-            if not trackerHiddenQuests[questId] then -- Skip quests which are completly hidden from the Tracker menu
+            if not trackerHiddenQuests or (not trackerHiddenQuests[questId]) then -- Skip quests which are completly hidden from the Tracker menu
                 for _, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
                     local icon = _G[frameName];
                     local objectiveString = tostring(questId) .. " " .. tostring(icon.data.ObjectiveIndex)
