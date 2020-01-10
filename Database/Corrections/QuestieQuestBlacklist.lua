@@ -462,9 +462,6 @@ function QuestieQuestBlacklist:Load()
         [7427] = true,
         -----------------------------------------------
 
-        -- Phase 3
-        [7761] = true,
-
         -- corrupted windblossom
         [2523] = true,
         [2878] = true,
