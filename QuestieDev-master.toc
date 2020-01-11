@@ -1,8 +1,8 @@
 ## Interface: 11303
-## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v5.5.0|r
+## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v5.5.1|r
 ## Author: Aero/Logon/Muehe/TheCrux(BreakBB)/Dyaxler/Schaka/Zoey/Everyone else
 ## Notes: A standalone Classic QuestHelper
-## Version: 5.5.0
+## Version: 5.5.1
 ## RequiredDeps:
 ## OptionalDeps: Ace3, LibDataBroker-1.1, LibCompress
 ## SavedVariables: QuestieConfig
