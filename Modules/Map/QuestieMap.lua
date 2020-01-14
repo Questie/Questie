@@ -808,5 +808,4 @@ function QuestieMap:DrawWaypoints(icon, waypoints, zone, x, y)
     for _, lineFrame in ipairs(lineFrames) do
         QuestieMap:DrawLineIcon(lineFrame, zone, x, y)
     end
-
 end
