@@ -726,7 +726,7 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.specialFlags] = 1, -- #1335
         },
         [5089] = {
-            [QuestieDB.questKeys.startedBy] = {9568,nil,12780},
+            [QuestieDB.questKeys.startedBy] = {{9568},nil,{12780}},
         },
         [5122] = {
             [QuestieDB.questKeys.specialFlags] = 1, -- #1140
