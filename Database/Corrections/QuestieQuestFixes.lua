@@ -93,7 +93,7 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.requiredRaces] = 178, -- #888
         },
         [373] = {
-            [QuestieDB.questKeys.startedBy] = {639,nil,2874},
+            [QuestieDB.questKeys.startedBy] = {{639},nil,{2874}},
         },
         [374] = {
             [QuestieDB.questKeys.preQuestSingle] = {427}, -- proof of demise requires at war with the scarlet crusade
