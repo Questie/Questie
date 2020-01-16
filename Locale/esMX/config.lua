@@ -176,7 +176,7 @@ QuestieLocale.locale['esMX'] = {
     ['ICON_CTRLLEFT_CLICK'] = "Ctrl + Click izq.",
     ['ICON_HIDE'] = "Esconder icono del minimapa",
     ['ICON_RIGHT_CLICK'] = "Click der.",
-    ['ICON_JOURNEY'] = "Mostrar Mi viaje",
+    ['ICON_JOURNEY'] = "Mostrar mi viaje",
     ['ICON_RELOAD'] = "Recargar Questie",
     ['ICON_SHIFT_HOLD'] = "Presiona Shift";
     ['CONFIRM_HIDE_QUEST'] = "¿Seguro que quieres ocultar la misión \"%s\"?\nSi la misión no está disponible, por favor informanos de ello!",
@@ -194,7 +194,7 @@ QuestieLocale.locale['esMX'] = {
     ['SLASH_HEAD'] = "Comandos de Questie",
     ['SLASH_CONFIG'] = "/questie -- Muestra la ventana de copnfiguración",
     ['SLASH_TOGGLE_QUESTIE'] = "/questie toggle -- Muestra Questie en el mapa y minimapa",
-    ['SLASH_JOURNEY'] = "/questie journey -- muestra la ventana de Mi viaje",
+    ['SLASH_JOURNEY'] = "/questie journey -- muestra la ventana de mi viaje",
     ['SLASH_MINIMAP'] = "/questie minimap -- Muestra el botón del minimapa para Questie",
 
     -- Tracker
