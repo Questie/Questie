@@ -755,6 +755,9 @@ function QuestieQuestFixes:Load()
         [5421] = {
             [QuestieDB.questKeys.questLevel] = 25,
         },
+        [5582] = {
+            [QuestieDB.questKeys.startedBy] = {{10678},nil,{13920}},
+        },
         [5634] = {
             [QuestieDB.questKeys.startedBy] = {{11401,},nil,nil,},
         },
