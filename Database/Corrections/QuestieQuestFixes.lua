@@ -869,7 +869,7 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.objectivesText] = {},
         },
         [6922] = {
-            [QuestieDB.questKeys.startedBy] = {12876,nil,16782},
+            [QuestieDB.questKeys.startedBy] = {{12876},nil,{16782}},
         },
         [6961] = {
             [QuestieDB.questKeys.exclusiveTo] = {7021,7024},
