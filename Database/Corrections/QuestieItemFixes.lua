@@ -562,6 +562,9 @@ function QuestieItemFixes:Load()
             [QuestieDB.itemKeys.npcDrops] = {10321}, -- #1175
             [QuestieDB.itemKeys.objectDrops] = {},
         },
+        [12334] = {
+            [QuestieDB.itemKeys.objectDrops] = {175324},
+        },
         [12347] = {
             [QuestieDB.itemKeys.name] = "Filled Cleansing Bowl",
             [QuestieDB.itemKeys.relatedQuests] = {},
