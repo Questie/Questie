@@ -872,7 +872,7 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.exclusiveTo] = {7021,7024},
         },
         [6981] = {
-            [QuestieDB.questKeys.startedBy] = {3654,nil,10441},
+            [QuestieDB.questKeys.startedBy] = {{3654},nil,{10441}},
         },
         [6982] = {
             [QuestieDB.questKeys.questLevel] = 55,
