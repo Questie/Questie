@@ -74,7 +74,7 @@ function QuestieQuest:ToggleNotes(desiredValue)
                 for _, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
                     local icon = _G[frameName];
                     local objectiveString = tostring(questId) .. " " .. tostring(icon.data.ObjectiveIndex)
-                    if (not questieCharDB.TrackerHiddenObjectives) or (not questieCharDB.TrackerHiddenObjectives[objectiveString]) then
+                    if (questieCharDB.TrackerHiddenObjectives == nil) or (questieCharDB.TrackerHiddenObjectives[objectiveString] == nil) then
                         if icon ~= nil and icon.hidden and not ((((not questieGlobalDB.enableObjectives) and (icon.data.Type == "monster" or icon.data.Type == "object" or icon.data.Type == "event" or icon.data.Type == "item"))
                             or ((not questieGlobalDB.enableTurnins) and icon.data.Type == "complete")
                             or ((not questieGlobalDB.enableAvailable) and icon.data.Type == "available"))
