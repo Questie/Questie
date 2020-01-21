@@ -38,7 +38,6 @@ function QuestieQuestFixes:Load()
         },
         [33] = {
             [QuestieDB.questKeys.preQuestSingle] = {},
-            [QuestieDB.questKeys.exclusiveTo] = {5261},
         },
         [46] = {
             [QuestieDB.questKeys.preQuestSingle] = {39},
@@ -754,6 +753,9 @@ function QuestieQuestFixes:Load()
         },
         [5234] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 178,
+        },
+        [5261] = {
+            [QuestieDB.questKeys.exclusiveTo] = {33}, -- #1726
         },
         [5262] = {
             [QuestieDB.questKeys.startedBy] = {{10813},nil,{13250}},
