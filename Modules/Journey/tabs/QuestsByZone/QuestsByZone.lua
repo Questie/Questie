@@ -143,6 +143,10 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                             completedCounter = completedCounter + 1
                         end
                     end
+                -- The parent quest has been completed
+                elseif quest.parentQuest and Questie.db.char.complete[quest.parentQuest] then
+                    tinsert(zoneTree[3].children, temp)
+                    completedCounter = completedCounter + 1
                 -- A single pre Quest is missing
                 elseif not quest:IsPreQuestSingleFulfilled() then
                     tinsert(zoneTree[2].children, temp)
