@@ -202,6 +202,14 @@ function Questie:OnInitialize()
     Questie:RegisterEvent("QUEST_ACCEPT_CONFIRM", QuestieAuto.QUEST_ACCEPT_CONFIRM)
     --When complete window shows
     Questie:RegisterEvent("QUEST_COMPLETE", QuestieAuto.QUEST_COMPLETE)
+    Questie:RegisterEvent("QUEST_FINISHED", QuestieEventHandler.QUEST_FINISHED)
+
+    -- Hooked when the Gossip Frame is closed so the shift
+    -- modifier is reset
+    GossipFrameGreetingPanel:HookScript("OnHide", function()
+        Questie:Debug(DEBUG_DEVELOP, "GossipFrameGreetingPanel:OnHide")
+        QuestieAuto:ResetShouldRunAuto()
+    end)
 
     -- todo move this call into loader
     QuestieTooltips:Initialize()

@@ -514,7 +514,7 @@ function _QuestieFramePool:AddTooltipsForQuest(icon, tip, quest, usedText)
 end
 
 function _QuestieFramePool:QuestieTooltip()
-    Questie:Debug(DEBUG_DEVELOP, "[_QuestieFramePool:QuestieTooltip]", "minimapIcon = ", self.miniMapIcon)
+    Questie:Debug(DEBUG_SPAM, "[_QuestieFramePool:QuestieTooltip]", "minimapIcon = ", self.miniMapIcon)
     local r, g, b, a = self.texture:GetVertexColor();
     if(a == 0) then
         Questie:Debug(DEBUG_DEVELOP, "[_QuestieFramePool:QuestieTooltip]", "Alpha of texture is 0, nothing to show")
@@ -654,7 +654,7 @@ function _QuestieFramePool:QuestieTooltip()
     Tooltip.manualOrder = manualOrder
     Tooltip.miniMapIcon = self.miniMapIcon
     Tooltip._Rebuild = function(self)
-        Questie:Debug(DEBUG_DEVELOP, "[Tooltip:_Rebuild]")
+        Questie:Debug(DEBUG_SPAM, "[Tooltip:_Rebuild]")
         local xpString = QuestieLocale:GetUIString('XP');
         local shift = IsShiftKeyDown()
         local haveGiver = false -- hack

@@ -1,14 +1,44 @@
 ---@class QuestieAuto
 local QuestieAuto = QuestieLoader:CreateModule("QuestieAuto");
 
+local shouldRunAuto = true
+local lastIndexTried = 0
+local _SelectAvailableQuest -- forward declaration
+
 function QuestieAuto:QUEST_PROGRESS(event, ...)
     Questie:Debug(DEBUG_DEVELOP, "PROGRESS", event, ...)
+    if not shouldRunAuto then
+        return
+    end
     if IsQuestCompletable() and Questie.db.char.autocomplete then
         CompleteQuest()
+        lastIndexTried = lastIndexTried - 1
+    elseif not IsQuestCompletable() then
+        Questie:Debug("Quest not completeable. Skipping to next quest. Index:", lastIndexTried)
+        if lastIndexTried == 0 then
+            lastIndexTried = 1
+        elseif lastIndexTried >= GetNumAvailableQuests() then
+            return
+        else
+            lastIndexTried = lastIndexTried + 1
+        end
+
+        -- Close the QuestFrame if no quest is completeable again
+        if QuestFrameGoodbyeButton then
+            _SelectAvailableQuest(lastIndexTried)
+            QuestFrameGoodbyeButton:Click()
+        end
     end
 end
 
----@param _ any @
+--- This function is run whenever the QuestFrame is closed so the shift modifier
+--- and the last tried questIndex is reset
+function QuestieAuto:ResetShouldRunAuto()
+    Questie:Debug(DEBUG_DEVELOP, "QuestieAuto:ResetShouldRunAuto")
+    shouldRunAuto = true
+    lastIndexTried = 0
+end
+
 function QuestieAuto:ACCEPT_QUEST_GOSSIP(...)
     local MOP_INDEX_CONST = 7 -- was '5' in Cataclysm
     for i = select("#", ...), 1, -MOP_INDEX_CONST do
@@ -42,6 +72,13 @@ end
 function QuestieAuto:GOSSIP_SHOW(event, ...)
     Questie:Debug(DEBUG_DEVELOP, "GOSSIP", event, ...)
 
+    shouldRunAuto = true
+    if IsShiftKeyDown() then
+        shouldRunAuto = false
+        Questie:Debug(DEBUG_DEVELOP, "Shift-Key down: Don't run auto accept/turn in")
+        return
+    end
+
     if Questie.db.char.autoaccept and QuestieAuto:IsBlocked() then
         Questie:Debug(DEBUG_DEVELOP, "GOSSIP", event, ...)
         QuestieAuto:ACCEPT_QUEST_GOSSIP(GetGossipAvailableQuests())
@@ -54,6 +91,13 @@ end
 
 function QuestieAuto:QUEST_GREETING(event, ...)
     Questie:Debug(DEBUG_DEVELOP, "GREETING", event, GetNumActiveQuests(), ...)
+
+    if IsShiftKeyDown() or (not shouldRunAuto) then
+        shouldRunAuto = false
+        Questie:Debug(DEBUG_DEVELOP, "Shift-Key down: Don't run auto accept/turn in")
+        return
+    end
+
     -- Quest already taken
     if (Questie.db.char.autocomplete) then
         for index = 1, GetNumActiveQuests() do
@@ -64,15 +108,20 @@ function QuestieAuto:QUEST_GREETING(event, ...)
     end
 
     if (Questie.db.char.autoaccept) then
-        for index = 1, GetNumAvailableQuests() do
-            -- local isTrivial, isDaily, isRepeatable, isIgnored = GetAvailableQuestInfo(index)
-            -- if (isIgnored) then return end -- Legion functionality
-            -- if( not isTrivial) then
-            local title = GetAvailableTitle(index)
-            SelectAvailableQuest(index)
-            -- end
+        if lastIndexTried == 0 then
+            lastIndexTried = 1
+        end
+        Questie:Debug(DEBUG_DEVELOP, "lastIndex:", lastIndexTried)
+        for index = lastIndexTried, GetNumAvailableQuests() do
+            _SelectAvailableQuest(index)
+            break
         end
     end
+end
+
+_SelectAvailableQuest = function (index)
+    Questie:Debug(DEBUG_DEVELOP, "Selecting the " .. index .. ". available quest")
+    SelectAvailableQuest(index)
 end
 
 function QuestieAuto:TurnInQuest(rewardIndex)
@@ -94,6 +143,13 @@ end
 
 function QuestieAuto:QUEST_DETAIL(event, ...)
     Questie:Debug(DEBUG_DEVELOP, "DETAIL", event, ...)
+
+    if IsShiftKeyDown() or (not shouldRunAuto) then
+        shouldRunAuto = false
+        Questie:Debug(DEBUG_DEVELOP, "Shift-Key down: Don't run auto accept/turn in")
+        return
+    end
+
     -- We really want to disable this in instances, mostly to prevent retards from ruining groups.
     if (Questie.db.char.autoaccept and QuestieAuto:IsBlocked()) then
         Questie:Debug(DEBUG_DEVELOP, "INSIDE", event, ...)
@@ -132,6 +188,10 @@ end
 -- I was forced to make decision on offhand, cloak and shields separate from armor but I can't pick up my mind about the reason...
 function QuestieAuto:QUEST_COMPLETE(event, ...)
     Questie:Debug(DEBUG_DEVELOP, "COMPLETE", event, ...)
+
+    if not shouldRunAuto then
+        return
+    end
     -- blasted Lands citadel wonderful NPC. They do not trigger any events except quest_complete.
     -- if not AllowedToHandle() then
     --    return
@@ -207,7 +267,7 @@ QuestieAuto.disallowedNPC = {
     -- Cloth
     [14729] = true, -- Ralston Farnsley (Undercity)
     [14728] = true, -- Rumstag Proudstrider (Thunder Bluff)
-    [14726] = true, -- Rashona Straglash (Orgrimmar)
+    -- [14726] = true, -- Rashona Straglash (Orgrimmar)
     [14727] = true, -- Vehena (Orgrimmar)
     [14724] = true, -- Bubulo Acerbus (Ironforge)
     [14722] = true, -- Clavicus Knavingham (Stormwind)

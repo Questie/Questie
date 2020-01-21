@@ -29,6 +29,8 @@ local QuestieHash = QuestieLoader:ImportModule("QuestieHash");
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
+---@type QuestieAuto
+local QuestieAuto = QuestieLoader:ImportModule("QuestieAuto");
 
 __UPDATEFIX_IDX = 1; -- temporary bad fix
 
@@ -290,10 +292,15 @@ function QuestieEventHandler:QUEST_COMPLETE()
 end
 
 function QuestieEventHandler:QUEST_FINISHED()
+    Questie:Debug(DEBUG_DEVELOP, "[EVENT] QUEST_FINISHED")
     local numEntries, numQuests = GetNumQuestLogEntries();
     if (NumberOfQuestInLog ~= numQuests) then
         --Questie:Debug(DEBUG_CRITICAL, "EVENT: QUEST_FINISHED", "CHANGE");
         NumberOfQuestInLog = -1
+    end
+
+    if QuestFrame and (not QuestFrame:IsShown()) then
+        QuestieAuto:ResetShouldRunAuto()
     end
     --Questie:Debug(DEBUG_CRITICAL, "EVENT: QUEST_FINISHED", "NO CHANGE");
 end
