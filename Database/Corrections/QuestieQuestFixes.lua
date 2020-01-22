@@ -433,7 +433,11 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.exclusiveTo] = {4485,4486},
         },
         [1679] = {
-            [QuestieDB.questKeys.exclusiveTo] = {},
+            [QuestieDB.questKeys.exclusiveTo] = {1680}, -- #1724
+        },
+        [1680] = {
+            [QuestieDB.questKeys.preQuestSingle] = {}, -- #1724
+            [QuestieDB.questKeys.exclusiveTo] = {1681}, -- #1724
         },
         [1684] = {
             [QuestieDB.questKeys.exclusiveTo] = {},
