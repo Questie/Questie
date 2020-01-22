@@ -121,8 +121,6 @@ function QuestieFramePool:GetFrame()
     returnFrame.x = nil;
     returnFrame.y = nil;
     returnFrame.AreaID = nil;
-    returnFrame:Hide();
-    --end
 
     if returnFrame.texture then
         returnFrame.texture:SetVertexColor(1, 1, 1, 1)
@@ -198,14 +196,8 @@ end
 
 function QuestieFramePool:RecycleFrame(frame)
     Questie:Debug(DEBUG_SPAM, "[QuestieFramePool:RecycleFrame]")
-    frame:Hide()
     _QuestieFramePool.usedFrames[frame.frameId] = nil
     tinsert(_QuestieFramePool.unusedFrames, frame)
-    -- local id = frame.frameId
-    -- if _QuestieFramePool.usedFrames[id] then
-    --     _QuestieFramePool.usedFrames[id] = nil
-    --     _QuestieFramePool.unusedFrames[id] = frame--tinsert(_QuestieFramePool.unusedFrames, self)
-    -- end
 end
 
 -- Local Functions --

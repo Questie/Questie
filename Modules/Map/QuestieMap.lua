@@ -459,7 +459,7 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
     -- if(floatOnEdge == nil) then floatOnEdge = true; end
     local floatOnEdge = true
 
-    data.UiMapID = areaID
+    data.UiMapID = ZoneDataAreaIDToUiMapID[areaID]
 
     local iconMap = QuestieFramePool:GetFrame()
     iconMap.data = data
