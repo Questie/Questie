@@ -204,6 +204,9 @@ function Questie:OnInitialize()
     Questie:RegisterEvent("QUEST_COMPLETE", QuestieAuto.QUEST_COMPLETE)
     Questie:RegisterEvent("QUEST_FINISHED", QuestieEventHandler.QUEST_FINISHED)
 
+    Questie:RegisterEvent("PLAYER_REGEN_DISABLED", QuestieEventHandler.PLAYER_REGEN_DISABLED)
+    Questie:RegisterEvent("PLAYER_REGEN_ENABLED", QuestieEventHandler.PLAYER_REGEN_ENABLED)
+
     -- Hooked when the Gossip Frame is closed so the shift
     -- modifier is reset
     GossipFrameGreetingPanel:HookScript("OnHide", function()

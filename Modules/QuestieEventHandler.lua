@@ -279,6 +279,19 @@ function QuestieEventHandler:GROUP_LEFT()
     QuestieComms:ResetAll();
 end
 
+function QuestieEventHandler:PLAYER_REGEN_DISABLED()
+    Questie:Debug(DEBUG_DEVELOP, "[EVENT] PLAYER_REGEN_DISABLED")
+    if Questie.db.global.hideTrackerInCombat then
+        QuestieTracker:Collapse()
+    end
+end
+
+function QuestieEventHandler:PLAYER_REGEN_ENABLED()
+    Questie:Debug(DEBUG_DEVELOP, "[EVENT] PLAYER_REGEN_ENABLED")
+    if Questie.db.global.hideTrackerInCombat then
+        QuestieTracker:Expand()
+    end
+end
 
 --Old unused code
 

@@ -54,7 +54,7 @@ function QuestieOptions.tabs.tracker:Initialize()
             },
             autoQuestTracking = {
                 type = "toggle",
-                order = 3,
+                order = 2.1,
                 width = 1.5,
                 name = function() return QuestieLocale:GetUIString('TRACKER_ENABLE_AUTOTRACK'); end,
                 desc = function() return QuestieLocale:GetUIString('TRACKER_ENABLE_AUTOTRACK_DESC'); end,
@@ -68,10 +68,10 @@ function QuestieOptions.tabs.tracker:Initialize()
                     QuestieTracker:Update()
                 end
             },
-            Spacer_F3 = QuestieOptionsUtils:Spacer(3.5, 0.001),
+            Spacer_F3 = QuestieOptionsUtils:Spacer(2.5, 0.001),
             hookBaseTracker = {
                 type = "toggle",
-                order = 4,
+                order = 3,
                 width = 1.5,
                 name = function() return QuestieLocale:GetUIString('TRACKER_ENABLE_HOOKS'); end,
                 desc = function() return QuestieLocale:GetUIString('TRACKER_ENABLE_HOOKS_DESC'); end,
@@ -89,7 +89,7 @@ function QuestieOptions.tabs.tracker:Initialize()
             },
             showCompleteQuests = {
                 type = "toggle",
-                order = 5,
+                order = 3.1,
                 width = 1.5,
                 name = function() return QuestieLocale:GetUIString('TRACKER_SHOW_COMPLETE'); end,
                 desc = function() return QuestieLocale:GetUIString('TRACKER_SHOW_COMPLETE_DESC'); end,
@@ -99,10 +99,10 @@ function QuestieOptions.tabs.tracker:Initialize()
                     QuestieTracker:Update()
                 end
             },
-            Spacer_F4 = QuestieOptionsUtils:Spacer(5.5, 0.001),
+            Spacer_F4 = QuestieOptionsUtils:Spacer(3.5, 0.001),
             showQuestLevels = {
                 type = "toggle",
-                order = 6,
+                order = 4,
                 width = 1.5,
                 name = function() return QuestieLocale:GetUIString('TRACKER_SHOW_QUEST_LEVEL'); end,
                 desc = function() return QuestieLocale:GetUIString('TRACKER_SHOW_QUEST_LEVEL_DESC'); end,
@@ -114,7 +114,7 @@ function QuestieOptions.tabs.tracker:Initialize()
             },
             showBlizzardQuestTimer = {
                 type = "toggle",
-                order = 7,
+                order = 4.1,
                 width = 1.5,
                 name = function() return QuestieLocale:GetUIString('TRACKER_SHOW_BLIZZARD_QUEST_TIMER'); end,
                 desc = function() return QuestieLocale:GetUIString('TRACKER_SHOW_BLIZZARD_QUEST_TIMER_DESC'); end,
@@ -128,10 +128,10 @@ function QuestieOptions.tabs.tracker:Initialize()
                     end
                 end
             },
-            Spacer_Q = QuestieOptionsUtils:Spacer(7.3,5),
+            Spacer_Q = QuestieOptionsUtils:Spacer(4.5,5),
             stickyDurabilityFrame = {
                 type = "toggle",
-                order = 7,
+                order = 5,
                 width = 1.5,
                 name = function() return QuestieLocale:GetUIString('TRACKER_STICKY_DURABILITY_FRAME'); end,
                 desc = function() return QuestieLocale:GetUIString('TRACKER_STICKY_DURABILITY_FRAME_DESC'); end,
@@ -145,7 +145,18 @@ function QuestieOptions.tabs.tracker:Initialize()
                     end
                 end
             },
-            Spacer_S = QuestieOptionsUtils:Spacer(7.3,5),
+            hideTrackerInCombat = {
+                type = "toggle",
+                order = 5.1,
+                width = 1.5,
+                name = function() return QuestieLocale:GetUIString('TRACKER_HIDE_IN_COMBAT'); end,
+                desc = function() return QuestieLocale:GetUIString('TRACKER_HIDE_IN_COMBAT_DESC'); end,
+                get = function() return Questie.db.global.hideTrackerInCombat; end,
+                set = function (info, value)
+                    Questie.db.global.hideTrackerInCombat = value
+                end
+            },
+            Spacer_S = QuestieOptionsUtils:Spacer(5.5,5),
             --[[colorObjectives = {
                 type = "toggle",
                 order = 6,

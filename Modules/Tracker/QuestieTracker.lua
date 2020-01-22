@@ -455,6 +455,18 @@ function QuestieTracker:GetActiveQuestsFrame()
     return _QuestieTracker.activeQuestsFrame
 end
 
+function QuestieTracker:Collapse()
+    if _QuestieTracker.expandButton and Questie.db.char.isTrackerExpanded then
+        _QuestieTracker.expandButton:Click()
+    end
+end
+
+function QuestieTracker:Expand()
+    if _QuestieTracker.expandButton and (not Questie.db.char.isTrackerExpanded) then
+        _QuestieTracker.expandButton:Click()
+    end
+end
+
 function QuestieTracker:GetBackgroundPadding()
     return trackerBackgroundPadding
 end
