@@ -451,13 +451,15 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
         error("No UiMapID for ("..tostring(ZoneDataAreaIDToUiMapID[areaID])..") :".. areaID .. tostring(data.Name))
         return nil, nil
     end
-    if(showFlag == nil) then showFlag = HBD_PINS_WORLDMAP_SHOW_WORLD; end
+
+    if(showFlag == nil) then
+        showFlag = HBD_PINS_WORLDMAP_SHOW_WORLD
+    end
+
     -- if(floatOnEdge == nil) then floatOnEdge = true; end
     local floatOnEdge = true
 
-    if areaID then
-        data.UiMapID = ZoneDataAreaIDToUiMapID[areaID];
-    end
+    data.UiMapID = areaID
 
     local iconMap = QuestieFramePool:GetFrame()
     iconMap.data = data

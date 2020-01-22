@@ -830,6 +830,26 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                 local midPoint = QuestieMap.utils:CenterPoint(hotzone);
                 --Disable old clustering.
                 icon.data.ClusterId = nil;
+
+                if InstanceLocations[icon.zone] and midPoint.x == -1 and midPoint.y == -1 then
+                    local instance = InstanceLocations[icon.zone]
+                    if instance[2] then -- We have more than 1 instance entrance (e.g. Blackrock dungeons)
+                        icon.zone = instance[2][1]
+                        midPoint.x = instance[2][2]
+                        midPoint.y = instance[2][3]
+
+                        local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, icon.zone, midPoint.x, midPoint.y) -- clustering code takes care of duplicates as long as mindist is more than 0
+                        if iconMap and iconMini then
+                            tinsert(Objective.AlreadySpawned[icon.AlreadySpawnedId].mapRefs, iconMap);
+                            tinsert(Objective.AlreadySpawned[icon.AlreadySpawnedId].minimapRefs, iconMini);
+                        end
+                        spawnedIcons[questId] = spawnedIcons[questId] + 1;
+                    end
+                    icon.zone = instance[1][1]
+                    midPoint.x = instance[1][2]
+                    midPoint.y = instance[1][3]
+                end
+
                 local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, icon.zone, midPoint.x, midPoint.y) -- clustering code takes care of duplicates as long as mindist is more than 0
                 if iconMap and iconMini then
                     tinsert(Objective.AlreadySpawned[icon.AlreadySpawnedId].mapRefs, iconMap);
