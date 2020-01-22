@@ -180,6 +180,7 @@ function QuestieEventHandler:QUEST_LOG_UPDATE()
     -- QR or UQLC events have set the flag, so we need to update Questie state.
     if runQLU then
         QuestieHash:CompareQuestHashes()
+        QuestieNameplate:UpdateNameplate()
         runQLU = false
     end
 end
