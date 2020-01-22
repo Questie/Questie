@@ -20,7 +20,7 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 
 local tinsert = table.insert
 local tremove = table.remove;
-local _QuestieFramePool = {...} --Local Functions
+local _QuestieFramePool = QuestieFramePool.private
 _QuestieFramePool.numberOfFrames = 0
 
 _QuestieFramePool.unusedFrames = {}
@@ -90,21 +90,20 @@ StaticPopupDialogs["QUESTIE_CONFIRMHIDE"] = {
 ---@return IconFrame
 function QuestieFramePool:GetFrame()
     ---@type IconFrame
-    local returnFrame = nil--tremove(_QuestieFramePool.unusedFrames)
+    -- local returnFrame = nil--tremove(_QuestieFramePool.unusedFrames)
+    Questie:Debug(DEBUG_SPAM, "[QuestieFramePool:GetFrame]")
 
-    -- im not sure its this, but using string keys for the table prevents double-adding to _QuestieFramePool.unusedFrames, calling unload() twice could double-add it maybe?
-    for frameId, frame in pairs(_QuestieFramePool.unusedFrames) do -- yikes (why is tremove broken? is there a better to get the first key of a non-indexed table?)
-        returnFrame = frame
-        _QuestieFramePool.unusedFrames[frameId] = nil
-        break
-    end
+    local returnFrame = tremove(_QuestieFramePool.unusedFrames)
 
     if returnFrame and returnFrame.frameId and _QuestieFramePool.usedFrames[returnFrame.frameId] then
         -- something went horribly wrong (desync bug?) don't use this frame since its already in use
+        Questie:Debug(DEBUG_SPAM, "[QuestieFramePool:GetFrame] Tried to reuse frame, but that frame is already in use")
         returnFrame = nil
     end
     if not returnFrame then
         returnFrame = _QuestieFramePool:QuestieCreateFrame()
+    else
+        Questie:Debug(DEBUG_SPAM, "[QuestieFramePool:GetFrame] Reusing frame")
     end
     if returnFrame ~= nil and returnFrame.hidden and returnFrame._show ~= nil and returnFrame._hide ~= nil then -- restore state to normal (toggle questie)
         returnFrame.hidden = false
@@ -198,11 +197,15 @@ function QuestieFramePool:UpdateColorConfig(mini, enable)
 end
 
 function QuestieFramePool:RecycleFrame(frame)
-    local id = frame.frameId
-    if _QuestieFramePool.usedFrames[id] then
-        _QuestieFramePool.usedFrames[id] = nil
-        _QuestieFramePool.unusedFrames[id] = frame--tinsert(_QuestieFramePool.unusedFrames, self)
-    end
+    Questie:Debug(DEBUG_SPAM, "[QuestieFramePool:RecycleFrame]")
+    frame:Hide()
+    _QuestieFramePool.usedFrames[frame.frameId] = nil
+    tinsert(_QuestieFramePool.unusedFrames, frame)
+    -- local id = frame.frameId
+    -- if _QuestieFramePool.usedFrames[id] then
+    --     _QuestieFramePool.usedFrames[id] = nil
+    --     _QuestieFramePool.unusedFrames[id] = frame--tinsert(_QuestieFramePool.unusedFrames, self)
+    -- end
 end
 
 -- Local Functions --
@@ -217,6 +220,7 @@ function _QuestieFramePool:UnloadFrame(frame)
     tinsert(_QuestieFramePool.unusedFrames, frame)
 end]]--
 function _QuestieFramePool:QuestieCreateFrame()
+    Questie:Debug(DEBUG_SPAM, "[QuestieFramePool:QuestieCreateFrame]")
     _QuestieFramePool.numberOfFrames = _QuestieFramePool.numberOfFrames + 1
     local newFrame = QuestieFramePool.Qframe:New(_QuestieFramePool.numberOfFrames, _QuestieFramePool.QuestieTooltip)
 
