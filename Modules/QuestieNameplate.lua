@@ -89,6 +89,7 @@ end
 
 -- Event Handlers
 function QuestieNameplate:NameplateCreated(token)
+    Questie:Debug(DEBUG_SPAM, "[QuestieNameplate:NameplateCreated]")
     -- if nameplates are disbaled, don't create new nameplates.
     if not Questie.db.global.nameplateEnabled then return end;
 

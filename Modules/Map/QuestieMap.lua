@@ -448,7 +448,7 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
         error("Questie".."Data.Id must be set to the quests ID!")
     end
     if ZoneDataAreaIDToUiMapID[areaID] == nil then
-        --Questie:Error("No UiMapID for ("..tostring(zoneDataClassic[AreaID])..") :".. AreaID .. tostring(data.Name))
+        error("No UiMapID for ("..tostring(ZoneDataAreaIDToUiMapID[areaID])..") :".. areaID .. tostring(data.Name))
         return nil, nil
     end
     if(showFlag == nil) then showFlag = HBD_PINS_WORLDMAP_SHOW_WORLD; end
