@@ -107,7 +107,7 @@ function QuestieFramePool.Qframe:New(frameId, OnEnter)
     newFrame.OnShow = _Qframe.OnShow
     newFrame.OnHide = _Qframe.OnHide
 
-    newFrame.data = {}
+    newFrame.data = nil
     newFrame:Hide()
 
     return newFrame

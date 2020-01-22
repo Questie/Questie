@@ -118,8 +118,7 @@ function QuestieFramePool:GetFrame()
     returnFrame.miniMapIcon = nil
     returnFrame._hidden_toggle_hack = nil -- TODO: this will be removed later, see QuestieQuest:UpdateHiddenNotes()
 
-    --if f.IsShowing ~= nil and f:IsShowing() then
-    returnFrame.data = {} -- this should probably be nil but QuestieCreateFrame sets it to an empty table for some reason
+    returnFrame.data = nil
     returnFrame.x = nil;
     returnFrame.y = nil;
     returnFrame.AreaID = nil;
