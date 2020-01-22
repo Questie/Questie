@@ -264,16 +264,6 @@ QuestieAuto.disallowedNPC = {
     [15515] = true, -- Skinner Jamani (Heavy Leather)
     [15532] = true, -- Stoneguard Clayhoof (Runecloth Bandage)
 
-    -- Cloth
-    [14729] = true, -- Ralston Farnsley (Undercity)
-    [14728] = true, -- Rumstag Proudstrider (Thunder Bluff)
-    -- [14726] = true, -- Rashona Straglash (Orgrimmar)
-    [14727] = true, -- Vehena (Orgrimmar)
-    [14724] = true, -- Bubulo Acerbus (Ironforge)
-    [14722] = true, -- Clavicus Knavingham (Stormwind)
-    [14723] = true, -- Mistina Steelshield (Ironforge)
-    [14725] = true, -- Raedon Duskstriker (Darnassus)
-
     -- Commendations
     [15764] = true, -- Officer Ironbeard (Ironforge Commendations)
     [15762] = true, -- Officer Lunalight (Darnassus Commendations)
