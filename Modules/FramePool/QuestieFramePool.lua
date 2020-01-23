@@ -89,10 +89,9 @@ StaticPopupDialogs["QUESTIE_CONFIRMHIDE"] = {
 -- Global Functions --
 ---@return IconFrame
 function QuestieFramePool:GetFrame()
-    ---@type IconFrame
-    -- local returnFrame = nil--tremove(_QuestieFramePool.unusedFrames)
     Questie:Debug(DEBUG_SPAM, "[QuestieFramePool:GetFrame]")
 
+    ---@type IconFrame
     local returnFrame = tremove(_QuestieFramePool.unusedFrames)
 
     if returnFrame and returnFrame.frameId and _QuestieFramePool.usedFrames[returnFrame.frameId] then
