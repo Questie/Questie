@@ -813,6 +813,36 @@ end
 
 _AddMissingItemIDs = function()
     local missingItemIDs = {
+        -- Small Rockets
+        21557,
+        21558,
+        21559,
+        21560,
+        21561,
+        21562,
+        -- Large Rockets
+        21589,
+        21590,
+        21591,
+        21592,
+        21593,
+        21595,
+        -- Rocket Cluster
+        21571,
+        21574,
+        21575,
+        21576,
+        21577,
+        21578,
+        21744,
+        -- Large Rocket Cluster
+        21714,
+        21716,
+        21717,
+        21718,
+        21719,
+        21720,
+        --
         9254,
         5475,
         11040,
