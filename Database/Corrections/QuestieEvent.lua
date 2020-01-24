@@ -146,7 +146,7 @@ tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8879}) -- Large Rockets
 tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8716}) -- Starglade the Elder
 tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8650}) -- Snowcrown the Elder
 tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8876}) -- Small Rockets
-tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8874}) -- The Lunar Festival
+-- tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8874}) -- The Lunar Festival
 tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8880}) -- Cluster Rockets
 tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8722}) -- Meadowrun the Elder
 tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8652}) -- Graveborn the Elder
@@ -154,7 +154,7 @@ tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8878}) -- Festive Recipes
 tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8873}) -- The Lunar Festival
 tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8720}) -- Skygleam the Elder
 tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8673}) -- Bloodhoof the Elder
-tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8875}) -- The Lunar Festival
+-- tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8875}) -- The Lunar Festival
 tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8862}) -- Elune's Candle
 tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8723}) -- Nightwind the Elder
 tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8681}) -- Thunderhorn the Elder

@@ -769,6 +769,12 @@ function QuestieItemFixes:Load()
         [18956] = {
             [QuestieDB.itemKeys.npcDrops] = {5357,5358,5359,5360,5361,14603,14604,14638,14639,14640}, -- #1470
         },
+        [21559] = {
+            [QuestieDB.itemKeys.name] = "Small Green Rocket",
+            [QuestieDB.itemKeys.relatedQuests] = {8867,},
+            [QuestieDB.itemKeys.npcDrops] = {15898},
+            [QuestieDB.itemKeys.objectDrops] = {},
+        },
     }
 end
 
