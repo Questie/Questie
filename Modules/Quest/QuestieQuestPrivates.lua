@@ -138,7 +138,7 @@ _QuestieQuest.objectiveSpawnListCallTable = {
 }
 
 function _QuestieQuest:LevelRequirementsFulfilled(quest, playerLevel, minLevel, maxLevel)
-    return (quest.level >= minLevel or Questie.db.char.lowlevel) and quest.level <= maxLevel and quest.requiredLevel <= playerLevel
+    return (quest.level == 60 and quest.requiredLevel == 1) or (quest.level >= minLevel or Questie.db.char.lowlevel) and quest.level <= maxLevel and quest.requiredLevel <= playerLevel
 end
 
 -- We always want to show a quest if it is a childQuest and its parent is in the quest log
