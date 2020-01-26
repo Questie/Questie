@@ -74,7 +74,7 @@ end
 
 --Fires when a quest is accepted in anyway.
 function QuestieEventHandler:QUEST_ACCEPTED(questLogIndex, questId)
-    Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_ACCEPTED", "QLogIndex: "..questLogIndex,  "QuestID: "..questId);
+    Questie:Debug(DEBUG_DEVELOP, "[EVENT] QUEST_ACCEPTED", "QLogIndex: "..questLogIndex,  "QuestID: "..questId);
     --Try and cache all the potential items required for the quest.
     QuestieLib:CacheItemNames(questId)
     _Hack_prime_log()
@@ -94,7 +94,7 @@ end
 
 --Fires on MAP_EXPLORATION_UPDATED.
 function QuestieEventHandler:MAP_EXPLORATION_UPDATED()
-    Questie:Debug(DEBUG_DEVELOP, "EVENT: MAP_EXPLORATION_UPDATED");
+    Questie:Debug(DEBUG_DEVELOP, "[EVENT] MAP_EXPLORATION_UPDATED");
     if Questie.db.global.hideUnexploredMapIcons then
         QuestieMap.utils:MapExplorationUpdate();
     end
@@ -106,7 +106,7 @@ local finishedEventReceived = false
 -- Fires when a quest is removed from the questlog, this includes turning it in
 -- and abandoning it.
 function QuestieEventHandler:QUEST_REMOVED(questID)
-    Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_REMOVED", questID);
+    Questie:Debug(DEBUG_DEVELOP, "[EVENT] QUEST_REMOVED", questID);
     _Hack_prime_log()
     if finishedEventReceived == questID then
         finishedEventReceived = false
@@ -146,14 +146,15 @@ end
 -- Fires when a quest is turned in, but before it is remove from the quest log.
 -- We need to save the ID of the finished quest to check it in QR event.
 function QuestieEventHandler:QUEST_TURNED_IN(questID, xpReward, moneyReward)
-    Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_TURNED_IN", questID, xpReward, moneyReward)
+    Questie:Debug(DEBUG_DEVELOP, "[EVENT] QUEST_TURNED_IN", questID, xpReward, moneyReward)
     _Hack_prime_log()
     finishedEventReceived = questID
 
     -- Some repeatable sub quests don't fire a UQLC event when they're completed.
     -- Therefore we have to check here to make sure the next QLU updates the state.
     local quest = QuestieDB:GetQuest(questID)
-    if quest and quest.parentQuest and quest.Repeatable then
+    if quest and ((quest.parentQuest and quest.Repeatable) or quest.Description == nil) then
+        Questie:Debug(DEBUG_DEVELOP, "Enabling runQLU")
         runQLU = true
     end
 end
@@ -161,7 +162,7 @@ end
 -- Fires when the quest log changes. That includes visual changes and
 -- client/server communication, so not every event really updates the log data.
 function QuestieEventHandler:QUEST_LOG_UPDATE()
-    Questie:Debug(DEBUG_DEVELOP, "QUEST_LOG_UPDATE")
+    Questie:Debug(DEBUG_DEVELOP, "[EVENT] QUEST_LOG_UPDATE")
     if playerEntered then
         Questie:Debug(DEBUG_DEVELOP, "---> Player entered world, START.")
         C_Timer.After(1, function ()
@@ -197,7 +198,7 @@ function QuestieEventHandler:UNIT_QUEST_LOG_CHANGED(unitTarget)
 end
 
 function QuestieEventHandler:PLAYER_LEVEL_UP(level, hitpoints, manapoints, talentpoints, ...)
-    Questie:Debug(DEBUG_DEVELOP, "EVENT: PLAYER_LEVEL_UP", level);
+    Questie:Debug(DEBUG_DEVELOP, "[EVENT] PLAYER_LEVEL_UP", level);
 
     QuestiePlayer:SetPlayerLevel(level);
 
@@ -302,25 +303,40 @@ local NumberOfQuestInLog = -1
 function QuestieEventHandler:QUEST_COMPLETE()
     local numEntries, numQuests = GetNumQuestLogEntries();
     NumberOfQuestInLog = numQuests;
-    --Questie:Debug(DEBUG_CRITICAL, "EVENT: QUEST_COMPLETE", "Quests: "..numQuests);
+    --Questie:Debug(DEBUG_CRITICAL, "[EVENT] QUEST_COMPLETE", "Quests: "..numQuests);
 end
 
 function QuestieEventHandler:QUEST_FINISHED()
     Questie:Debug(DEBUG_DEVELOP, "[EVENT] QUEST_FINISHED")
     local numEntries, numQuests = GetNumQuestLogEntries();
     if (NumberOfQuestInLog ~= numQuests) then
-        --Questie:Debug(DEBUG_CRITICAL, "EVENT: QUEST_FINISHED", "CHANGE");
+        --Questie:Debug(DEBUG_CRITICAL, "[EVENT] QUEST_FINISHED", "CHANGE");
         NumberOfQuestInLog = -1
+    end
+
+    -- Quests which are just turned in don't trigger QLU.
+    -- So runQLU is still active from QUEST_TURNED_IN
+    if runQLU then
+        Questie:Debug(DEBUG_DEVELOP, "runQLU still active")
+        if finishedEventReceived then
+            Questie:Debug(DEBUG_DEVELOP, "finishedEventReceived is questId")
+            local quest = QuestieDB:GetQuest(finishedEventReceived)
+            Questie:Debug(DEBUG_DEVELOP, "Completing automatic completion quest")
+            QuestieQuest:CompleteQuest(quest)
+        else
+            Questie:Debug(DEBUG_DEVELOP, "finishedEventReceived is false. Something is off?")
+        end
+        runQLU = false
     end
 
     if QuestFrame and (not QuestFrame:IsShown()) then
         QuestieAuto:ResetShouldRunAuto()
     end
-    --Questie:Debug(DEBUG_CRITICAL, "EVENT: QUEST_FINISHED", "NO CHANGE");
+    --Questie:Debug(DEBUG_CRITICAL, "[EVENT] QUEST_FINISHED", "NO CHANGE");
 end
 
 function QuestieEventHandler:QUEST_LOG_CRITERIA_UPDATE(questID, specificTreeID, description, numFulfilled, numRequired)
-    Questie:Debug(DEBUG_DEVELOP, "EVENT: QUEST_LOG_CRITERIA_UPDATE", questID, specificTreeID, description, numFulfilled, numRequired);
+    Questie:Debug(DEBUG_DEVELOP, "[EVENT] QUEST_LOG_CRITERIA_UPDATE", questID, specificTreeID, description, numFulfilled, numRequired);
 end
 
 function QuestieEventHandler:CUSTOM_QUEST_COMPLETE()

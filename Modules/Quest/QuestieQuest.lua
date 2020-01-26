@@ -432,7 +432,10 @@ function QuestieQuest:AbandonedQuest(questId)
     end
 end
 
+---@param questId QuestId
 function QuestieQuest:UpdateQuest(questId)
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest]", questId)
+    ---@type Quest
     local quest = QuestieDB:GetQuest(questId)
     if quest and not Questie.db.char.complete[questId] then
         QuestieQuest:PopulateQuestLogInfo(quest)
