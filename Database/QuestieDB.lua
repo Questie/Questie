@@ -332,7 +332,7 @@ function QuestieDB:GetQuest(questID) -- /dump QuestieDB:GetQuest(867)
     local hidden = rawdata[21]
 
     if hidden ~= nil then --required source items
-        for _,Id in pairs(hidden) do
+        for _, Id in pairs(hidden) do
             if Id ~= nil then
 
                 local obj = {};
@@ -440,7 +440,11 @@ function QuestieDB:GetCreatureLevels(quest)
     local creatureLevels = {}
 
     local function _CollectCreatureLevels(npcList)
-        for _, npcId in pairs(npcList) do
+        for index, npcId in pairs(npcList) do
+            -- Some objectives are {id, name} others are just {id}
+            if npcId == nil or type(npcId) == "string" then
+                npcId = index
+            end
             local npc = QuestieDB:GetNPC(npcId)
             if npc and not creatureLevels[npc.name] then
                 creatureLevels[npc.name] = {npc.minLevel, npc.maxLevel, npc.rank}

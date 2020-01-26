@@ -155,12 +155,10 @@ end
 local function _UpdateSpecials(questId)
     local quest = QuestieDB:GetQuest(questId)
     if quest and quest.SpecialObjectives then
-        if quest.SpecialObjectives then
-            for _, objective in pairs(quest.SpecialObjectives) do
-                local result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, quest, 0, objective, true);
-                if not result then
-                    Questie:Error("[QuestieQuest]: [SpecialObjectives] ".. QuestieLocale:GetUIString('DEBUG_POPULATE_ERR', quest.name or "No quest name", quest.Id or "No quest id", 0 or "No objective", err or "No error"));
-                end
+        for _, objective in pairs(quest.SpecialObjectives) do
+            local result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, quest, 0, objective, true);
+            if not result then
+                Questie:Error("[QuestieQuest]: [SpecialObjectives] ".. QuestieLocale:GetUIString('DEBUG_POPULATE_ERR', quest.name or "No quest name", quest.Id or "No quest id", 0 or "No objective", err or "No error"));
             end
         end
     end
@@ -898,11 +896,13 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
 
     -- check for special (unlisted) DB objectives
     if quest.SpecialObjectives then
+        local index = 0 -- SpecialObjectives is a string table, but we need a number
         for _, objective in pairs(quest.SpecialObjectives) do
-            local result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, quest, 0, objective, true);
+            local result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, quest, index, objective, true);
             if not result then
                 Questie:Error("[QuestieQuest]: [SpecialObjectives] ".. QuestieLocale:GetUIString('DEBUG_POPULATE_ERR', quest.name or "No quest name", quest.Id or "No quest id", 0 or "No objective", err or "No error"));
             end
+            index = index + 1
         end
     end
     if old then
@@ -1125,11 +1125,13 @@ function QuestieQuest:GetAllQuestObjectives(quest)
                 if not objective.Description then objective.Description = "Hidden objective"; end
 
                 if not quest.SpecialObjectives[objective.Description] then
+                    print(objective.Description)
                     objective.QuestData = quest
                     objective.QuestId = quest.Id
                     objective.Update = function() end
                     objective.checkTime = checkTime
                     objective.Index = 64 + index -- offset to not conflict with real objectives
+                    -- tinsert(quest.SpecialObjectives, objective)
                     quest.SpecialObjectives[objective.Description] = objective
                 end
                 --tinsert(Quest.SpecialObjectives, objective);
