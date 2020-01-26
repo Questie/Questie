@@ -769,8 +769,38 @@ function QuestieItemFixes:Load()
         [18956] = {
             [QuestieDB.itemKeys.npcDrops] = {5357,5358,5359,5360,5361,14603,14604,14638,14639,14640}, -- #1470
         },
+        [21557] = {
+            [QuestieDB.itemKeys.name] = "Small Red Rocket",
+            [QuestieDB.itemKeys.relatedQuests] = {8867,},
+            [QuestieDB.itemKeys.npcDrops] = {15898},
+            [QuestieDB.itemKeys.objectDrops] = {},
+        },
+        [21558] = {
+            [QuestieDB.itemKeys.name] = "Small Blue Rocket",
+            [QuestieDB.itemKeys.relatedQuests] = {8867,},
+            [QuestieDB.itemKeys.npcDrops] = {15898},
+            [QuestieDB.itemKeys.objectDrops] = {},
+        },
         [21559] = {
             [QuestieDB.itemKeys.name] = "Small Green Rocket",
+            [QuestieDB.itemKeys.relatedQuests] = {8867,},
+            [QuestieDB.itemKeys.npcDrops] = {15898},
+            [QuestieDB.itemKeys.objectDrops] = {},
+        },
+        [21571] = {
+            [QuestieDB.itemKeys.name] = "Blue Rocket Cluster",
+            [QuestieDB.itemKeys.relatedQuests] = {8867,},
+            [QuestieDB.itemKeys.npcDrops] = {15898},
+            [QuestieDB.itemKeys.objectDrops] = {},
+        },
+        [21574] = {
+            [QuestieDB.itemKeys.name] = "Green Rocket Cluster",
+            [QuestieDB.itemKeys.relatedQuests] = {8867,},
+            [QuestieDB.itemKeys.npcDrops] = {15898},
+            [QuestieDB.itemKeys.objectDrops] = {},
+        },
+        [21576] = {
+            [QuestieDB.itemKeys.name] = "Red Rocket Cluster",
             [QuestieDB.itemKeys.relatedQuests] = {8867,},
             [QuestieDB.itemKeys.npcDrops] = {15898},
             [QuestieDB.itemKeys.objectDrops] = {},
@@ -823,31 +853,10 @@ _AddMissingItemIDs = function()
         21557,
         21558,
         21559,
-        21560,
-        21561,
-        21562,
-        -- Large Rockets
-        21589,
-        21590,
-        21591,
-        21592,
-        21593,
-        21595,
         -- Rocket Cluster
         21571,
         21574,
-        21575,
         21576,
-        21577,
-        21578,
-        21744,
-        -- Large Rocket Cluster
-        21714,
-        21716,
-        21717,
-        21718,
-        21719,
-        21720,
         --
         9254,
         5475,
