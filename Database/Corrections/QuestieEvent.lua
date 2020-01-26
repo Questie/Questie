@@ -134,6 +134,7 @@ tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8883}) -- Valadar Starsong
 tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8713}) -- Starsong the Elder
 tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8867}) -- Lunar Fireworks
 tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8865}) -- Festive Lunar Pant Suits
+tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8868}) -- Elune's Blessing
 tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8642}) -- Silvervein the Elder
 tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8866}) -- Bronzebeard the Elder
 tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8643}) -- Highpeak the Elder
