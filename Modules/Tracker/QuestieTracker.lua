@@ -705,12 +705,12 @@ function QuestieTracker:Update()
                     end
                 end
                 if quest.SpecialObjectives then
-                    for _,Objective in pairs(quest.SpecialObjectives) do
-                        if Questie.db.char.TrackerHiddenObjectives[tostring(questId) .. " " .. tostring(Objective.Index)] then
-                            Objective.HideIcons = true
+                    for _, objective in pairs(quest.SpecialObjectives) do
+                        if Questie.db.char.TrackerHiddenObjectives[tostring(questId) .. " " .. tostring(objective.Index)] then
+                            objective.HideIcons = true
                         end
-                        if  Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus == tostring(quest.Id) .. " " .. tostring(Objective.Index) then
-                            QuestieTracker:FocusObjective(quest, Objective)
+                        if  Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus == tostring(quest.Id) .. " " .. tostring(objective.Index) then
+                            QuestieTracker:FocusObjective(quest, objective)
                         end
                     end
                 end
@@ -796,23 +796,23 @@ function QuestieTracker:UnFocus() -- reset HideIcons to match savedvariable stat
                     quest.HideIcons = nil
                     quest.FadeIcons = nil
                 end
-                for _,Objective in pairs(quest.Objectives) do
-                    if Questie.db.char.TrackerHiddenObjectives[tostring(questId) .. " " .. tostring(Objective.Index)] then
-                        Objective.HideIcons = true
-                        Objective.FadeIcons = nil
+                for _, objective in pairs(quest.Objectives) do
+                    if Questie.db.char.TrackerHiddenObjectives[tostring(questId) .. " " .. tostring(objective.Index)] then
+                        objective.HideIcons = true
+                        objective.FadeIcons = nil
                     else
-                        Objective.HideIcons = nil
-                        Objective.FadeIcons = nil
+                        objective.HideIcons = nil
+                        objective.FadeIcons = nil
                     end
                 end
                 if quest.SpecialObjectives then
-                    for _,Objective in pairs(quest.SpecialObjectives) do
-                        if Questie.db.char.TrackerHiddenObjectives[tostring(questId) .. " " .. tostring(Objective.Index)] then
-                            Objective.HideIcons = true
-                            Objective.FadeIcons = nil
+                    for _, objective in pairs(quest.SpecialObjectives) do
+                        if Questie.db.char.TrackerHiddenObjectives[tostring(questId) .. " " .. tostring(objective.Index)] then
+                            objective.HideIcons = true
+                            objective.FadeIcons = nil
                         else
-                            Objective.HideIcons = nil
-                            Objective.FadeIcons = nil
+                            objective.HideIcons = nil
+                            objective.FadeIcons = nil
                         end
                     end
                 end
@@ -842,12 +842,12 @@ function QuestieTracker:FocusObjective(TargetQuest, TargetObjective, isSpecial)
                     end
                 end
                 if quest.SpecialObjectives then
-                    for _,Objective in pairs(quest.SpecialObjectives) do
-                        if Objective.Index == TargetObjective.Index then
-                            Objective.HideIcons = nil
-                            Objective.FadeIcons = nil
+                    for _, objective in pairs(quest.SpecialObjectives) do
+                        if objective.Index == TargetObjective.Index then
+                            objective.HideIcons = nil
+                            objective.FadeIcons = nil
                         else
-                            Objective.FadeIcons = true
+                            objective.FadeIcons = true
                         end
                     end
                 end
