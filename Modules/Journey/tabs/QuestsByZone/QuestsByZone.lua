@@ -147,14 +147,6 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                 elseif quest.parentQuest and Questie.db.char.complete[quest.parentQuest] then
                     tinsert(zoneTree[3].children, temp)
                     completedCounter = completedCounter + 1
-                -- A single pre Quest is missing
-                elseif not quest:IsPreQuestSingleFulfilled() then
-                    tinsert(zoneTree[2].children, temp)
-                    prequestMissingCounter = prequestMissingCounter + 1
-                    -- A single pre Quest is missing
-                elseif not quest:IsPreQuestGroupFulfilled() then
-                    tinsert(zoneTree[2].children, temp)
-                    prequestMissingCounter = prequestMissingCounter + 1
                 -- Unoptainable profession quests
                 elseif not QuestieProfessions:HasProfessionAndSkill(quest.requiredSkill) then
                     tinsert(zoneTree[5].children, temp)
@@ -163,6 +155,14 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                 elseif not QuestieReputation:HasReputation(quest.requiredMinRep, quest.requiredMaxRep) then
                     tinsert(zoneTree[5].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
+                -- A single pre Quest is missing
+                elseif not quest:IsPreQuestSingleFulfilled() then
+                    tinsert(zoneTree[2].children, temp)
+                    prequestMissingCounter = prequestMissingCounter + 1
+                    -- A single pre Quest is missing
+                elseif not quest:IsPreQuestGroupFulfilled() then
+                    tinsert(zoneTree[2].children, temp)
+                    prequestMissingCounter = prequestMissingCounter + 1
                 -- Repeatable quests
                 elseif quest.Repeatable then
                     tinsert(zoneTree[4].children, temp)
