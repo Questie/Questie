@@ -1260,6 +1260,15 @@ function QuestieQuestFixes:Load()
         [8798] = {
             [QuestieDB.questKeys.requiredSkill] = {202,250},
         },
+        [8863] = {
+            [QuestieDB.questKeys.specialFlags] = 1,
+        },
+        [8864] = {
+            [QuestieDB.questKeys.specialFlags] = 1,
+        },
+        [8865] = {
+            [QuestieDB.questKeys.specialFlags] = 1,
+        },
         [8867] = {
             [QuestieDB.questKeys.requiredSourceItems] = {21557,21558,21559,21571,21574,21576,},
         },
@@ -1268,6 +1277,27 @@ function QuestieQuestFixes:Load()
         },
         [8873] = {
             [QuestieDB.questKeys.exclusiveTo] = {8867},
+        },
+        [8876] = {
+            [QuestieDB.questKeys.specialFlags] = 1,
+        },
+        [8877] = {
+            [QuestieDB.questKeys.specialFlags] = 1,
+        },
+        [8878] = {
+            [QuestieDB.questKeys.specialFlags] = 1,
+        },
+        [8879] = {
+            [QuestieDB.questKeys.specialFlags] = 1,
+        },
+        [8880] = {
+            [QuestieDB.questKeys.specialFlags] = 1,
+        },
+        [8881] = {
+            [QuestieDB.questKeys.specialFlags] = 1,
+        },
+        [8882] = {
+            [QuestieDB.questKeys.specialFlags] = 1,
         },
         [8980] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 178,
