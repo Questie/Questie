@@ -11,6 +11,7 @@ function QuestieQuestBlacklist:Load()
         [6072] = true, -- Ayanna Everstride doesn't start "Hunter's Path" (this quest is most likely simply not in the game) #700
         [618] = true, -- Duplicate of 8554
         [9378] = true, -- Naxxramas quest which doesn't seem to be in the game
+        [1318] = true, -- Duplicate of 7703 and not in the game
         --Stray quests
         [3861] = true, --CLUCK!
         --World event quests
