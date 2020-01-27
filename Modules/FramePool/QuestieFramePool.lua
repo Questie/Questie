@@ -570,6 +570,12 @@ function _QuestieFramePool:QuestieTooltip()
     ---@param icon IconFrame
     local function handleMapIcon(icon)
         local iconData = icon.data
+
+        if iconData == nil then
+            Questie:Error("[_QuestieFramePool:QuestieTooltip] handleMapIcon - iconData is nil! self.data.Id =", self.data.Id, "- Aborting!")
+            return
+        end
+
         if not icon.miniMapIcon and self.data.Id == iconData.Id then -- Recolor hovered icons
             local entry = {}
             entry.color = {icon.texture.r, icon.texture.g, icon.texture.b, icon.texture.a};
