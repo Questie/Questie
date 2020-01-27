@@ -249,6 +249,7 @@ function QuestieQuestBlacklist:Load()
         [8897] = true,
         [8898] = true,
         [8899] = true,
+        [9029] = true,
         --Rocknot's Ale instance quest shown in SG/BS at lvl 1
         [4295] = true,
         --aq40 raid quest

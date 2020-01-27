@@ -198,6 +198,8 @@ tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8644}) -- Stonefort the Elde
 tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8675}) -- Skychaser the Elder
 tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8719}) -- Bladesing the Elder
 
+tinsert(QuestieEvent.eventQuests, {"LoveIsInTheAir", 9029}) -- A Bubbling Cauldron
+
 tinsert(QuestieEvent.eventQuests, {"MidsummerFireFestival", 9388}) -- Flickering Flames in Kalimdor
 tinsert(QuestieEvent.eventQuests, {"MidsummerFireFestival", 9389}) -- Flickering Flames in the Eastern Kingdoms
 tinsert(QuestieEvent.eventQuests, {"MidsummerFireFestival", 9319}) -- A Light in Dark Places
