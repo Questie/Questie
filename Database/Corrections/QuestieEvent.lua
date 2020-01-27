@@ -163,6 +163,7 @@ tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8676}) -- Wildmane the Elder
 tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8651}) -- Ironband the Elder
 tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8863}) -- Festival Dumplings
 tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8672}) -- Stonespire the Elder
+-- tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8870}) -- The Lunar Festival
 tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8871}) -- The Lunar Festival
 tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8649}) -- Stormbrow the Elder
 -- tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8872}) -- The Lunar Festival

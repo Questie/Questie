@@ -1281,11 +1281,23 @@ function QuestieQuestFixes:Load()
         [8867] = {
             [QuestieDB.questKeys.requiredSourceItems] = {21557,21558,21559,21571,21574,21576,},
         },
+        [8870] = {
+            [QuestieDB.questKeys.exclusiveTo] = {8867,8871,8872},
+        },
         [8871] = {
-            [QuestieDB.questKeys.exclusiveTo] = {8867},
+            [QuestieDB.questKeys.exclusiveTo] = {8867,8870,8872},
+        },
+        [8872] = {
+            [QuestieDB.questKeys.exclusiveTo] = {8867,8870,8871},
         },
         [8873] = {
-            [QuestieDB.questKeys.exclusiveTo] = {8867},
+            [QuestieDB.questKeys.exclusiveTo] = {8867,8874,8875},
+        },
+        [8874] = {
+            [QuestieDB.questKeys.exclusiveTo] = {8867,8873,8875},
+        },
+        [8875] = {
+            [QuestieDB.questKeys.exclusiveTo] = {8867,8873,8874},
         },
         [8876] = {
             [QuestieDB.questKeys.specialFlags] = 1,
