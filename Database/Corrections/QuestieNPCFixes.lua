@@ -559,6 +559,9 @@ function QuestieNPCFixes:Load()
         [15565] = {
             [QuestieDB.npcKeys.spawns] = {[12]={{39.79,63.67},},},
         },
+        [15567] = {
+            [QuestieDB.npcKeys.spawns] = {[51]={{21.46,78.97},},},
+        },
         [15570] = {
             [QuestieDB.npcKeys.spawns] = {[1377]={{23.08,11.84},},},
         },
@@ -576,6 +579,12 @@ function QuestieNPCFixes:Load()
         },
         [15586] = {
             [QuestieDB.npcKeys.spawns] = {[440]={{51.47,27.85},},},
+        },
+        [15587] = {
+            [QuestieDB.npcKeys.spawns] = {[357]={{62.58,30.96},},},
+        },
+        [15594] = {
+            [QuestieDB.npcKeys.spawns] = {[28]={{69.18,73.45},},},
         },
         [15598] = {
             [QuestieDB.npcKeys.spawns] = {[1657]={{33.46,14.29},},},
