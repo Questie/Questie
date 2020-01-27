@@ -758,6 +758,9 @@ function QuestieQuestFixes:Load()
         [5123] = {
             [QuestieDB.questKeys.startedBy] = {{10738},nil,{12842}},
         },
+        [5124] = {
+            [QuestieDB.questKeys.requiredSkill] = {164,275},
+        },
         [5166] = {
             [QuestieDB.questKeys.specialFlags] = 1, -- #1335
         },
