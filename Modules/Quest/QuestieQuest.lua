@@ -374,26 +374,20 @@ function QuestieQuest:CompleteQuest(quest)
 
     QuestieHash:RemoveQuestHash(questId)
 
-    --This should probably be done first, because DrawAllAvailableQuests looks at QuestieMap.questIdFrames[QuestId] to add available
-    QuestieQuest:CalculateAvailableQuests()
-    QuestieQuest:DrawAllAvailableQuests();
-
-    QuestieMap:UnloadQuestFrames(questId);
+    QuestieMap:UnloadQuestFrames(questId)
     if(QuestieMap.questIdFrames[questId]) then
-        Questie:Print("ERROR: Just removed all frames but the framelist seems to still be there!", questId);
+        Questie:Print("ERROR: Just removed all frames but the framelist seems to still be there!", questId)
     end
+
     QuestieTooltips:RemoveQuest(questId)
-    --Unload all the quest frames from the map.
-    --QuestieMap:UnloadQuestFrames(QuestId); --We are currently redrawing everything so we might as well not use this now
-
-
     QuestieTracker:RemoveQuest(questId)
     QuestieTracker:Update()
 
-    --For safety, remove all these icons.
-    QuestieMap:UnloadQuestFrames(questId, ICON_TYPE_COMPLETE);
+    --This should probably be done first, because DrawAllAvailableQuests looks at QuestieMap.questIdFrames[QuestId] to add available
+    QuestieQuest:CalculateAvailableQuests()
+    QuestieQuest:DrawAllAvailableQuests()
 
-    Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_COMPLETE_QUEST', questId));
+    Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_COMPLETE_QUEST', questId))
 end
 
 function QuestieQuest:AbandonedQuest(questId)
