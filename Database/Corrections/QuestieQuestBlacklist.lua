@@ -272,8 +272,6 @@ function QuestieQuestBlacklist:Load()
         [8795] = true,
         [8796] = true,
         [8797] = true,
-        --Love Song for Narain //- Deep AQ scepter chain. Shown for all at 60
-        [8599] = true,
         --Steamwheedle / Bloodsail reputation quests
         [9266] = true,
         [9259] = true,
@@ -333,6 +331,8 @@ function QuestieQuestBlacklist:Load()
         [8918] = true,
         [8919] = true,
         [8920] = true,
+        [8921] = true,
+        [8923] = true,
 
         -- Arathi Basin Quests
         [8438] = true,
@@ -751,6 +751,9 @@ function QuestieQuestBlacklist:Load()
         [8581] = true,
         [8582] = true,
         [8583] = true,
+        [8584] = true,
+        [8585] = true,
+        [8586] = true,
         [8587] = true,
         [8588] = true,
         [8589] = true,
