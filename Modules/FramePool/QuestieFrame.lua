@@ -142,7 +142,7 @@ end
 
 function _Qframe:OnClick(button)
     --_QuestieFramePool:Questie_Click(self)
-    if self and self.data and self.data.UiMapID and WorldMapFrame and WorldMapFrame:IsShown() then
+    if self and self.UiMapID and WorldMapFrame and WorldMapFrame:IsShown() then
         if button == "RightButton" then
             local currentMapParent = WorldMapFrame:GetMapID()
             if currentMapParent then
@@ -152,8 +152,8 @@ function _Qframe:OnClick(button)
                 end
             end
         else
-            if self.data.UiMapID ~= WorldMapFrame:GetMapID() then
-                WorldMapFrame:SetMapID(self.data.UiMapID);
+            if self.UiMapID ~= WorldMapFrame:GetMapID() then
+                WorldMapFrame:SetMapID(self.UiMapID);
             end
         end
         if self.data.Type == "available" and IsShiftKeyDown() then
@@ -163,12 +163,12 @@ function _Qframe:OnClick(button)
             QuestieMap:UnloadManualFrames(self.data.id)
         end
     end
-    if self and self.data and self.data.UiMapID and IsControlKeyDown() and TomTom and TomTom.AddWaypoint then
+    if self and self.UiMapID and IsControlKeyDown() and TomTom and TomTom.AddWaypoint then
         -- tomtom integration (needs more work, will come with tracker
         if Questie.db.char._tom_waypoint and TomTom.RemoveWaypoint then -- remove old waypoint
             TomTom:RemoveWaypoint(Questie.db.char._tom_waypoint)
         end
-        Questie.db.char._tom_waypoint = TomTom:AddWaypoint(self.data.UiMapID, self.x/100, self.y/100, {title = self.data.Name, crazy = true})
+        Questie.db.char._tom_waypoint = TomTom:AddWaypoint(self.UiMapID, self.x/100, self.y/100, {title = self.data.Name, crazy = true})
     elseif self.miniMapIcon then
         local _, _, _, x, y = self:GetPoint()
         Minimap:PingLocation(x, y)
@@ -311,6 +311,7 @@ function _Qframe:Unload()
     self.x = nil
     self.y = nil
     self.AreaID = nil
+    self.UiMapID = nil
     QuestieFramePool:RecycleFrame(self)
 end
 

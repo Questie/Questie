@@ -471,8 +471,6 @@ InstanceLocations = {
     [7307] = {{51, 34.8, 84.8}, {46, 29.5, 38.2}},
 }
 
-
-
 function QuestieDBZone:ZoneCreateConversion()
   Questie:Debug(DEBUG_DEVELOP, "[QuestieDBZone] Converting ZoneIds")
     for index, Data in ipairs(zoneDataClassicDemo) do

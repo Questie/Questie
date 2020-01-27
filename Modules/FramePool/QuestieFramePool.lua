@@ -120,6 +120,7 @@ function QuestieFramePool:GetFrame()
     returnFrame.x = nil;
     returnFrame.y = nil;
     returnFrame.AreaID = nil;
+    returnFrame.UiMapID = nil
 
     if returnFrame.texture then
         returnFrame.texture:SetVertexColor(1, 1, 1, 1)
@@ -508,7 +509,8 @@ function _QuestieFramePool:AddTooltipsForQuest(icon, tip, quest, usedText)
 end
 
 function _QuestieFramePool:QuestieTooltip()
-    Questie:Debug(DEBUG_SPAM, "[_QuestieFramePool:QuestieTooltip]", "minimapIcon = ", self.miniMapIcon)
+    Questie:Debug(DEBUG_DEVELOP, "[_QuestieFramePool:QuestieTooltip]", "minimapIcon =", self.miniMapIcon)
+
     local r, g, b, a = self.texture:GetVertexColor();
     if(a == 0) then
         Questie:Debug(DEBUG_DEVELOP, "[_QuestieFramePool:QuestieTooltip]", "Alpha of texture is 0, nothing to show")

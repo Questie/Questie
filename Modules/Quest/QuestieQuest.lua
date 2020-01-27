@@ -759,7 +759,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                                 drawIcon.data = data;
                                 drawIcon.zone = zone;
                                 drawIcon.AreaID = zone;
-                                drawIcon.UIMapId = ZoneDataAreaIDToUiMapID[zone];
+                                drawIcon.UiMapID = ZoneDataAreaIDToUiMapID[zone];
                                 drawIcon.x = spawn[1];
                                 drawIcon.y = spawn[2];
                                 local x, y, instance = HBD:GetWorldCoordinatesFromZone(drawIcon.x/100, drawIcon.y/100, ZoneDataAreaIDToUiMapID[zone])
@@ -826,7 +826,6 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
 
                 --Any icondata will do because they are all the same
                 local icon = hotzone[1];
-
 
                 local midPoint = QuestieMap.utils:CenterPoint(hotzone);
                 --Disable old clustering.
