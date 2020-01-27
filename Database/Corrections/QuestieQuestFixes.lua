@@ -1261,8 +1261,13 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.requiredSkill] = {202,250},
         },
         [8867] = {
-            [QuestieDB.questKeys.exclusiveTo] = {8871,8873,},
             [QuestieDB.questKeys.requiredSourceItems] = {21557,21558,21559,21571,21574,21576,},
+        },
+        [8871] = {
+            [QuestieDB.questKeys.exclusiveTo] = {8867},
+        },
+        [8873] = {
+            [QuestieDB.questKeys.exclusiveTo] = {8867},
         },
         [8980] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 178,
