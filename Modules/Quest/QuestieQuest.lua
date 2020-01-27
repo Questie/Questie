@@ -404,9 +404,15 @@ function QuestieQuest:AbandonedQuest(questId)
         if quest then
             quest.Objectives = nil;
             quest.AlreadySpawned = nil; -- temporary fix for "special objectives" remove later
+
+            -- We also have to reset these stupid "AlreadySpawned" fields
+            for _, objective in pairs(quest.ObjectiveData) do
+                objective.AlreadySpawned = nil
+            end
+            for _, objective in pairs(quest.SpecialObjectives) do
+                objective.AlreadySpawned = nil
+            end
         end
-        --The old data for notes are still there, we don't need to recalulate data.
-        --_QuestieQuest:DrawAvailableQuest(quest)
 
         -- yes we do, since abandoning can unlock more than 1 quest, or remove unlocked quests
         for k, v in pairs(QuestieQuest.availableQuests) do
@@ -414,11 +420,12 @@ function QuestieQuest:AbandonedQuest(questId)
                 QuestieMap:UnloadQuestFrames(k);
             end
         end
-        QuestieQuest:CalculateAvailableQuests()
-        QuestieQuest:DrawAllAvailableQuests()
 
         QuestieTracker:RemoveQuest(questId)
         QuestieTracker:Update()
+
+        QuestieQuest:CalculateAvailableQuests()
+        QuestieQuest:DrawAllAvailableQuests()
 
         Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ABANDON_QUEST', questId));
     end
@@ -889,6 +896,7 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
 
     -- check for special (unlisted) DB objectives
     if quest.SpecialObjectives then
+        Questie:Debug("Adding special objectives")
         local index = 0 -- SpecialObjectives is a string table, but we need a number
         for _, objective in pairs(quest.SpecialObjectives) do
             local result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, quest, index, objective, true);
