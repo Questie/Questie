@@ -281,16 +281,19 @@ function QuestieEventHandler:GROUP_LEFT()
     QuestieComms:ResetAll();
 end
 
+local previousTrackerState = nil
+
 function QuestieEventHandler:PLAYER_REGEN_DISABLED()
     Questie:Debug(DEBUG_DEVELOP, "[EVENT] PLAYER_REGEN_DISABLED")
     if Questie.db.global.hideTrackerInCombat then
+        previousTrackerState = Questie.db.char.isTrackerExpanded
         QuestieTracker:Collapse()
     end
 end
 
 function QuestieEventHandler:PLAYER_REGEN_ENABLED()
     Questie:Debug(DEBUG_DEVELOP, "[EVENT] PLAYER_REGEN_ENABLED")
-    if Questie.db.global.hideTrackerInCombat then
+    if Questie.db.global.hideTrackerInCombat and (previousTrackerState == true) then
         QuestieTracker:Expand()
     end
 end
