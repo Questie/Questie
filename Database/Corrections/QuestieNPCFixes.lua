@@ -548,10 +548,46 @@ function QuestieNPCFixes:Load()
             [QuestieDB.npcKeys.zoneID] = 3358,
         },
         [15557] = {
-            [QuestieDB.npcKeys.spawns] = {[46]={{82.2,46.5},},},
+            [QuestieDB.npcKeys.spawns] = {[46]={{82.21,46.48},},},
+        },
+        [15558] = {
+            [QuestieDB.npcKeys.spawns] = {[38]={{33.33,46.54},},},
+        },
+        [15563] = {
+            [QuestieDB.npcKeys.spawns] = {[4]={{58.75,51.70},},},
+        },
+        [15565] = {
+            [QuestieDB.npcKeys.spawns] = {[12]={{39.79,63.67},},},
+        },
+        [15570] = {
+            [QuestieDB.npcKeys.spawns] = {[1377]={{23.08,11.84},},},
+        },
+        [15573] = {
+            [QuestieDB.npcKeys.spawns] = {[440]={{36.30,80.54},},},
+        },
+        [15575] = {
+            [QuestieDB.npcKeys.spawns] = {[215]={{48.41,53.44},},},
         },
         [15576] = {
-            [QuestieDB.npcKeys.spawns] = {[33]={{27.62,74.29},},},
+            [QuestieDB.npcKeys.spawns] = {[33]={{27.62,74.26},},},
+        },
+        [15584] = {
+            [QuestieDB.npcKeys.spawns] = {[400]={{45.43,50.08},},},
+        },
+        [15586] = {
+            [QuestieDB.npcKeys.spawns] = {[440]={{51.47,27.85},},},
+        },
+        [15598] = {
+            [QuestieDB.npcKeys.spawns] = {[1657]={{33.46,14.29},},},
+        },
+        [15603] = {
+            [QuestieDB.npcKeys.spawns] = {[361]={{37.72,53.01},},},
+        },
+        [15604] = {
+            [QuestieDB.npcKeys.spawns] = {[400]={{79.20,77.05},},},
+        },
+        [15605] = {
+            [QuestieDB.npcKeys.spawns] = {[331]={{34.54,48.91},},},
         },
         [15891] = {
             [QuestieDB.npcKeys.spawns] = {[1637]={{50.98,70.52},},[1638]={{38.37,63.42},},[1497]={{66.73,43.37},},},
