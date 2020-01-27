@@ -1124,7 +1124,6 @@ function QuestieQuest:GetAllQuestObjectives(quest)
                 if not objective.Description then objective.Description = "Hidden objective"; end
 
                 if not quest.SpecialObjectives[objective.Description] then
-                    print(objective.Description)
                     objective.QuestData = quest
                     objective.QuestId = quest.Id
                     objective.Update = function() end
