@@ -208,7 +208,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 order = 2.2,
                 values = _GetShortcuts(),
                 style = 'dropdown',
-                name = function() return QuestieLocale:GetUIString('TRACKER_SET_TOMTOM') .. QuestieLocale:GetUIString('TRACKER_SHORTCUT'); end,
+                name = function() return QuestieLocale:GetUIString('TRACKER_SET_TOMTOM') .. QuestieLocale:GetUIString('SHORTCUT'); end,
                 desc = function() return QuestieLocale:GetUIString('TRACKER_SET_TOMTOM_DESC'); end,
                 get = function() return Questie.db.global.trackerbindSetTomTom; end,
                 set = function(input, key)
@@ -220,7 +220,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 order = 2.3,
                 values = _GetShortcuts(),
                 style = 'dropdown',
-                name = function() return QuestieLocale:GetUIString('TRACKER_SHOW_QUESTLOG') .. QuestieLocale:GetUIString('TRACKER_SHORTCUT'); end,
+                name = function() return QuestieLocale:GetUIString('TRACKER_SHOW_QUESTLOG') .. QuestieLocale:GetUIString('SHORTCUT'); end,
                 desc = function() return QuestieLocale:GetUIString('TRACKER_SHOW_QUESTLOG_DESC'); end,
                 get = function() return Questie.db.global.trackerbindOpenQuestLog; end,
                 set = function(input, key)
@@ -232,7 +232,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 order = 2.3,
                 values = _GetShortcuts(),
                 style = 'dropdown',
-                name = function() return QuestieLocale:GetUIString('TRACKER_UNTRACK') .. QuestieLocale:GetUIString('TRACKER_SHORTCUT'); end,
+                name = function() return QuestieLocale:GetUIString('TRACKER_UNTRACK') .. QuestieLocale:GetUIString('SHORTCUT'); end,
                 desc = function() return QuestieLocale:GetUIString('TRACKER_UNTRACK_DESC'); end,
                 get = function() return Questie.db.global.trackerbindUntrack; end,
                 set = function(input, key)
@@ -305,14 +305,14 @@ end
 
 _GetShortcuts = function()
     return {
-        ['left'] = QuestieLocale:GetUIString('TRACKER_LEFT_CLICK'),
-        ['right'] = QuestieLocale:GetUIString('TRACKER_RIGHT_CLICK'),
-        ['shiftleft'] = QuestieLocale:GetUIString('TRACKER_SHIFT') .. QuestieLocale:GetUIString('TRACKER_LEFT_CLICK'),
-        ['shiftright'] = QuestieLocale:GetUIString('TRACKER_SHIFT') .. QuestieLocale:GetUIString('TRACKER_RIGHT_CLICK'),
-        ['ctrlleft'] = QuestieLocale:GetUIString('TRACKER_CTRL') .. QuestieLocale:GetUIString('TRACKER_LEFT_CLICK'),
-        ['ctrlright'] = QuestieLocale:GetUIString('TRACKER_CTRL') .. QuestieLocale:GetUIString('TRACKER_RIGHT_CLICK'),
-        ['altleft'] = QuestieLocale:GetUIString('TRACKER_ALT') .. QuestieLocale:GetUIString('TRACKER_LEFT_CLICK'),
-        ['altright'] = QuestieLocale:GetUIString('TRACKER_ALT') .. QuestieLocale:GetUIString('TRACKER_RIGHT_CLICK'),
-        ['disabled'] = QuestieLocale:GetUIString('TRACKER_DISABLED'),
+        ['left'] = QuestieLocale:GetUIString('LEFT_CLICK'),
+        ['right'] = QuestieLocale:GetUIString('RIGHT_CLICK'),
+        ['shiftleft'] = QuestieLocale:GetUIString('SHIFT_MODIFIER') .. " + " .. QuestieLocale:GetUIString('LEFT_CLICK'),
+        ['shiftright'] = QuestieLocale:GetUIString('SHIFT_MODIFIER') .. " + " .. QuestieLocale:GetUIString('RIGHT_CLICK'),
+        ['ctrlleft'] = QuestieLocale:GetUIString('CTRL_MODIFIER') .. " + " .. QuestieLocale:GetUIString('LEFT_CLICK'),
+        ['ctrlright'] = QuestieLocale:GetUIString('CTRL_MODIFIER') .. " + " .. QuestieLocale:GetUIString('RIGHT_CLICK'),
+        ['altleft'] = QuestieLocale:GetUIString('ALT_MODIFIER') .. " + " .. QuestieLocale:GetUIString('LEFT_CLICK'),
+        ['altright'] = QuestieLocale:GetUIString('ALT_MODIFIER') .. " + " .. QuestieLocale:GetUIString('RIGHT_CLICK'),
+        ['disabled'] = QuestieLocale:GetUIString('DISABLED'),
     }
 end

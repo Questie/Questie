@@ -4,6 +4,7 @@ local QuestieAuto = QuestieLoader:CreateModule("QuestieAuto");
 local shouldRunAuto = true
 local lastIndexTried = 0
 local _SelectAvailableQuest -- forward declaration
+local _IsBindTrue
 
 function QuestieAuto:QUEST_PROGRESS(event, ...)
     Questie:Debug(DEBUG_DEVELOP, "PROGRESS", event, ...)
@@ -73,7 +74,7 @@ function QuestieAuto:GOSSIP_SHOW(event, ...)
     Questie:Debug(DEBUG_DEVELOP, "GOSSIP", event, ...)
 
     shouldRunAuto = true
-    if IsShiftKeyDown() then
+    if _IsBindTrue(Questie.db.char.autoModifier) then
         shouldRunAuto = false
         Questie:Debug(DEBUG_DEVELOP, "Shift-Key down: Don't run auto accept/turn in")
         return
@@ -92,7 +93,7 @@ end
 function QuestieAuto:QUEST_GREETING(event, ...)
     Questie:Debug(DEBUG_DEVELOP, "GREETING", event, GetNumActiveQuests(), ...)
 
-    if IsShiftKeyDown() or (not shouldRunAuto) then
+    if _IsBindTrue(Questie.db.char.autoModifier) or (not shouldRunAuto) then
         shouldRunAuto = false
         Questie:Debug(DEBUG_DEVELOP, "Shift-Key down: Don't run auto accept/turn in")
         return
@@ -144,7 +145,7 @@ end
 function QuestieAuto:QUEST_DETAIL(event, ...)
     Questie:Debug(DEBUG_DEVELOP, "DETAIL", event, ...)
 
-    if IsShiftKeyDown() or (not shouldRunAuto) then
+    if _IsBindTrue(Questie.db.char.autoModifier) or (not shouldRunAuto) then
         shouldRunAuto = false
         Questie:Debug(DEBUG_DEVELOP, "Shift-Key down: Don't run auto accept/turn in")
         return
@@ -225,6 +226,25 @@ function QuestieAuto:QUEST_COMPLETE(event, ...)
         end
     end
 end
+
+
+local bindTruthTable = {
+    ['shift'] = function()
+        return IsShiftKeyDown()
+    end,
+    ['ctrl'] = function()
+        return IsControlKeyDown()
+    end,
+    ['alt'] = function()
+        return  IsAltKeyDown()
+    end,
+    ['disabled'] = function() return false; end,
+}
+
+_IsBindTrue = function(bind)
+    return bind and bindTruthTable[bind]()
+end
+
 
 -- NPC Id based.
 QuestieAuto.disallowedNPC = {

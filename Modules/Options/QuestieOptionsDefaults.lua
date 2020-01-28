@@ -87,6 +87,7 @@ function QuestieOptionsDefaults:Load()
             searchType = 1,
             autoaccept = false,
             autocomplete = false,
+            autoModifier = "shift",
             isTrackerExpanded = true,
         },
         profile = {minimap = {hide = false}}

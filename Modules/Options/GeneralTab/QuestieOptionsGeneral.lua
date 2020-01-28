@@ -19,6 +19,7 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 QuestieOptions.tabs.general = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
 
+local _GetShortcuts
 
 function QuestieOptions.tabs.general:Initialize()
     return {
@@ -245,7 +246,20 @@ function QuestieOptions.tabs.general:Initialize()
                     Questie:debug(DEBUG_DEVELOP, "Auto Complete toggled to:", value)
                 end,
             },
-            Spacer_B = QuestieOptionsUtils:Spacer(1.9),
+            autoModifier = {
+                type = "select",
+                order = 1.9,
+                values = _GetShortcuts(),
+                style = 'dropdown',
+                name = function() return QuestieLocale:GetUIString('AUTO_MODIFIER') end,
+                desc = function() return QuestieLocale:GetUIString('AUTO_MODIFIER_DESC'); end,
+                disabled = function() return (not Questie.db.char.autocomplete) and (not Questie.db.char.autoaccept) end,
+                get = function() return Questie.db.char.autoModifier; end,
+                set = function(input, key)
+                    Questie.db.char.autoModifier = key
+                end,
+            },
+            Spacer_B = QuestieOptionsUtils:Spacer(1.99),
             quest_options = {
                 type = "header",
                 order = 2,
@@ -333,5 +347,14 @@ function QuestieOptions.tabs.general:Initialize()
                 end,
             },
         },
+    }
+end
+
+_GetShortcuts = function()
+    return {
+        ['shift'] = QuestieLocale:GetUIString('SHIFT_MODIFIER'),
+        ['ctrl'] = QuestieLocale:GetUIString('CTRL_MODIFIER'),
+        ['alt'] = QuestieLocale:GetUIString('ALT_MODIFIER'),
+        ['disabled'] = QuestieLocale:GetUIString('DISABLED'),
     }
 end
