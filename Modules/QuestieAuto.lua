@@ -40,6 +40,16 @@ function QuestieAuto:ResetShouldRunAuto()
     lastIndexTried = 0
 end
 
+function QuestieAuto:DisableShouldRunAuto()
+    Questie:Debug(DEBUG_DEVELOP, "QuestieAuto:ResetShouldRunAuto")
+    shouldRunAuto = false
+end
+
+---@return boolean
+function QuestieAuto:GetShouldRunAuto()
+    return shouldRunAuto
+end
+
 function QuestieAuto:ACCEPT_QUEST_GOSSIP(...)
     local MOP_INDEX_CONST = 7 -- was '5' in Cataclysm
     for i = select("#", ...), 1, -MOP_INDEX_CONST do

@@ -207,11 +207,23 @@ function Questie:OnInitialize()
     Questie:RegisterEvent("PLAYER_REGEN_DISABLED", QuestieEventHandler.PLAYER_REGEN_DISABLED)
     Questie:RegisterEvent("PLAYER_REGEN_ENABLED", QuestieEventHandler.PLAYER_REGEN_ENABLED)
 
+    local pauseAuto = false
     -- Hooked when the Gossip Frame is closed so the shift
     -- modifier is reset
     GossipFrameGreetingPanel:HookScript("OnHide", function()
         Questie:Debug(DEBUG_DEVELOP, "GossipFrameGreetingPanel:OnHide")
+        if not QuestieAuto:GetShouldRunAuto() then
+            pauseAuto = true
+        end
         QuestieAuto:ResetShouldRunAuto()
+    end)
+
+    QuestFrameProgressPanel:HookScript("OnShow", function()
+        Questie:Debug(DEBUG_DEVELOP, "QuestFrameProgressPanel:OnShow")
+        if pauseAuto then
+            QuestieAuto:DisableShouldRunAuto()
+        end
+        pauseAuto = false
     end)
 
     -- todo move this call into loader
