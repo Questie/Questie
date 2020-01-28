@@ -214,6 +214,8 @@ function Questie:OnInitialize()
         Questie:Debug(DEBUG_DEVELOP, "GossipFrameGreetingPanel:OnHide")
         if not QuestieAuto:GetShouldRunAuto() then
             pauseAuto = true
+        else
+            pauseAuto = false
         end
         QuestieAuto:ResetShouldRunAuto()
     end)
