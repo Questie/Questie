@@ -1,11 +1,11 @@
 QuestieLocale.locale['ptBR'] = {
     --Configuração do Windows
-    ['OPTIONS_TAB'] = "Opções",
-    ['QUESTIE_HEADER'] = "Opções Generais",
-    ['ENABLE_QUESTIE'] = "Ativar os ícones",
-    ['ENABLE_QUESTIE_DESC'] = "Ativar ou desativar os ícones da Questie",
-    ['ENABLE_ICON'] = "Ative o botão da mini-carta",
-    ['ENABLE_ICON_DESC'] = "Ative ou desative o botão da mini-carta da missão. Você ainda pode acessar o menu de opções com o Questie",
+    ['GENERAL_TAB'] = "Opções",
+    ['GENERAL_OPTIONS_HEADER'] = "Opções Generais",
+    ['ENABLE_ICONS'] = "Ativar os ícones",
+    ['ENABLE_ICONS_DESC'] = "Ativar ou desativar os ícones da Questie",
+    ['ENABLE_MINIMAP_BUTTON'] = "Ative o botão da mini-carta",
+    ['ENABLE_MINIMAP_BUTTON_DESC'] = "Ative ou desative o botão da mini-carta da missão. Você ainda pode acessar o menu de opções com o Questie",
     ['ENABLE_INSTANT'] = "Ativar texto de pesquisa instantânea",
     ['ENABLE_INSTANT_DESC'] = "Ativa / desativa a opção Texto da missão instantânea. Este é apenas um atalho para a opção WoW na Interface",
     ['LEVEL_HEADER'] = "Opções de nível de missão",
@@ -51,8 +51,8 @@ QuestieLocale.locale['ptBR'] = {
 
     -- Minimap tab
     ['MINIMAP_TAB'] = "Opções de mini-carta",
-    ['MINIMAP_HEADER'] = "Opções de notas com mini-cartas",
-    ['MINIMAP_NOTES'] = "Minimap Note Options",
+    ['MINIMAP_OPTIONS_HEADER'] = "Opções de notas com mini-cartas",
+    ['MINIMAP_NOTES_HEADER'] = "Minimap Note Options",
     ['MINIMAP_GLOBAL_SCALE'] = "Escala global de ícones da mini-carta",
     ['MINIMAP_GLOBAL_SCALE_DESC'] = "Qual é o tamanho dos ícones da mini-carta. (Por defeito: %s)",
     ['MINIMAP_FADING'] = "Distância objetiva do fundo",
@@ -63,7 +63,7 @@ QuestieLocale.locale['ptBR'] = {
     ['MINIMAP_FADE_PLAYER_DIST_DESC'] = "A que distância do jogador os ícones começam a desaparecer. (Por defeito: %s)",
     ['MINIMAP_FADE_PLAYER_LEVEL'] = "Diminuir a quantidade do jogador",
     ['MINIMAP_FADE_PLAYER_LEVEL_DESC'] = "Quantos ícones ao redor do jogador devem desaparecer ? (Por defeito: %s)",
-    ['MINMAP_COORDS'] = "Coordenadas do mini-mapa",
+    ['MINMAP_COORDS_HEADER'] = "Coordenadas do mini-mapa",
     ['ENABLE_COORDS'] = "Detalhes de contato do jogador no mini-mapa",
     ['ENABLE_COORDS_DESC'] = "Coloque as coordenadas do jogador no título do mini-mapa.",
     ['MINIMAP_ALWAYS_GLOW_TOGGLE'] = "Sempre visível atrás dos ícones do mini-mapa",
@@ -71,6 +71,7 @@ QuestieLocale.locale['ptBR'] = {
 
     -- Map tab
     ['MAP_TAB'] = "Carta",
+    ['MAP_OPTIONS_HEADER'] = "Opções de notas com cartas",
     ['ENABLE_MAP_BUTTON'] = "Mostrar o botão no cartão Questie",
     ['ENABLE_MAP_BUTTON_DESC'] = "Ative ou desative o botão Mostrar / Ocultar Questie no mapa (pode corrigir algumas interações com o Mapa de Complementos)",
     ['MAP_NOTES'] = "Opções de anotação de mapa",
@@ -123,9 +124,9 @@ QuestieLocale.locale['ptBR'] = {
 
     -- Nameplate tab
     ['NAMEPLATE_TAB'] = "Opções de nome da placa",
-    ['NAMEPLATE_HEAD'] = "Opções do ícone nomes da placa",
-    ['NAMEPLATE_TOGGLE'] = "Ativar objetivos da missão nomes da placa",
-    ['NAMEPLATE_TOGGLE_DESC'] = "Ativar ou desativar os ícones dos objectivos de missão nas placas de identificação das criaturas.",
+    ['NAMEPLATE_OPTIONS_HEADER'] = "Opções do ícone nomes da placa",
+    ['ENABLE_NAMEPLATES'] = "Ativar objetivos da missão nomes da placa",
+    ['ENABLE_NAMEPLATES_DESC'] = "Ativar ou desativar os ícones dos objectivos de missão nas placas de identificação das criaturas.",
     ['NAMEPLATE_X'] = "Posição do ícone X",
     ['NAMEPLATE_X_DESC'] = "O ícone dos nomes da placa deve aparecer no ícone do nome da placa. (Por defeito: %s)",
     ['NAMEPLATE_Y'] = "Posição do ícone Y",
@@ -147,19 +148,19 @@ QuestieLocale.locale['ptBR'] = {
     ['TARGET_RESET_BTN_DESC'] = "Redefinir as posições e a escala do quadro de destino por defeito",
 
     -- Advanced tab
-    ['ADV_TAB'] = "Avançar",
-    ['ADV_SET'] = "Advanced Settings",
-    ['DEV_OPTIONS'] = "Opções do desenvolvedor",
+    ['ADVANCED_TAB'] = "Avançar",
+    ['ADVANCED_OPTIONS_HEADER'] = "Advanced Settings",
+    ['DEVELOPER_OPTIONS_HEADER'] = "Opções do desenvolvedor",
     ['ENABLE_DEBUG'] = "Ativar depuração",
     ['ENABLE_DEBUG_DESC'] = "Ativar ou desativar o recurso de depuração.",
     ['DEBUG_LEVEL'] = "Nível de depuração para impressão",
     ['DEBUG_LEVEL_DESC'] = "Em que nível de depuração para imprimir: %s",
     ['ENABLE_TOOLTIPS_QUEST_IDS'] = "Show Quest IDs",
     ['ENABLE_TOOLTIPS_QUEST_LEVEL_IDS'] = "When this is checked, the ID of quests will show in the tooltips and the tracker.",
-    ['LOCALE'] = "Configurações de localização",
+    ['LOCALE_HEADER'] = "Configurações de localização",
     ['LOCALE_DROP'] = "Selecione a interface do utilizador",
     ['LOCALE_DROP_AUTOMATIC'] = "Automatic", -- TODO
-    ['RESET_QUESTIE'] = "Reset Questie",
+    ['RESET_QUESTIE_HEADER'] = "Reset Questie",
     ['RESET_QUESTIE_DESC'] = "Se clicar nesse botão redefinirá todas as configurações do Questie para seus valores. (Não localização / tradução)",
     ['RESET_QUESTIE_BTN'] = "Reset Questie",
     ['RESET_QUESTIE_BTN_DESC'] = "Redefina a Questie para valores para todas as configurações.",
@@ -199,7 +200,7 @@ QuestieLocale.locale['ptBR'] = {
 
     --Perseguidor
     ['TRACKER_TAB'] = "Perseguidor",
-    ['TRACKER_HEAD'] = "Opções do persiguidor para missões",
+    ['TRACKER_OPTIONSHEADER'] = "Opções do persiguidor para missões",
     ['TRACKER_ENABLED'] = "Ativar o Persiguidor de Questie",
     ['TRACKER_ENABLED_DESC'] = "Quando esta caixa está marcada, o rastreamento padrão das missões blizard é substituído pelo Questie Tracker",
     ['TRACKER_ENABLE_AUTOTRACK'] = "Seguir automaticamente todas as missões",

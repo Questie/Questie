@@ -1,11 +1,11 @@
 QuestieLocale.locale['frFR'] = {
     -- Onglet Options
-    ['OPTIONS_TAB'] = "Options",
-    ['QUESTIE_HEADER'] = "Options générales",
-    ['ENABLE_QUESTIE'] = "Activer les icônes",
-    ['ENABLE_QUESTIE_DESC'] = "Active les icônes de Questie",
-    ['ENABLE_ICON'] = "Bouton autour de la mini-carte",
-    ['ENABLE_ICON_DESC'] = "Active le bouton Questie autour de la mini-carte. Le panneau de configuration reste accessible avec la commande /questie.",
+    ['GENERAL_TAB'] = "Options",
+    ['GENERAL_OPTIONS_HEADER'] = "Options générales",
+    ['ENABLE_ICONS'] = "Activer les icônes",
+    ['ENABLE_ICONS_DESC'] = "Active les icônes de Questie",
+    ['ENABLE_MINIMAP_BUTTON'] = "Bouton autour de la mini-carte",
+    ['ENABLE_MINIMAP_BUTTON_DESC'] = "Active le bouton Questie autour de la mini-carte. Le panneau de configuration reste accessible avec la commande /questie.",
     ['ENABLE_INSTANT'] = "Activer Texte instantané (quêtes)",
     ['ENABLE_INSTANT_DESC'] = "Active l'option Texte instantané (quêtes). Cela revient à cocher l'option du même nom dans Interface/Affichage.",
     ['LEVEL_HEADER'] = "Options du niveau des quêtes",
@@ -51,8 +51,8 @@ QuestieLocale.locale['frFR'] = {
 
     -- Onglet Mini-carte
     ['MINIMAP_TAB'] = "Mini-carte",
-    ['MINIMAP_HEADER'] = "Options de la mini-carte",
-    ['MINIMAP_NOTES'] = "Options des icônes sur la mini-carte",
+    ['MINIMAP_OPTIONS_HEADER'] = "Options de la mini-carte",
+    ['MINIMAP_NOTES_HEADER'] = "Options des icônes sur la mini-carte",
     ['MINIMAP_GLOBAL_SCALE'] = "Échelle des icônes sur la mini-carte",
     ['MINIMAP_GLOBAL_SCALE_DESC'] = "Définis la taille des icônes sur la mini-carte. (Par défaut : %s)",
     ['MINIMAP_FADING'] = "Affichage des objectifs lointains",
@@ -63,7 +63,7 @@ QuestieLocale.locale['frFR'] = {
     ['MINIMAP_FADE_PLAYER_DIST_DESC'] = "Définis la distance à partir de laquelle les icônes proches commencent à réapparaître. (Par défaut : %s)",
     ['MINIMAP_FADE_PLAYER_LEVEL'] = "Opacité des icônes proches",
     ['MINIMAP_FADE_PLAYER_LEVEL_DESC'] = "Définis l'opacité des icônes proches du joueur. (Par défaut : %s)",
-    ['MINMAP_COORDS'] = "Coordonnées",
+    ['MINMAP_COORDS_HEADER'] = "Coordonnées",
     ['ENABLE_COORDS'] = "Coordonnées du joueur sur la mini-carte",
     ['ENABLE_COORDS_DESC'] = "Indique les coordonnées du joueur dans le titre de la mini-carte.",
     ['MINIMAP_ALWAYS_GLOW_TOGGLE'] = "Surbrillance des icônes sur la mini-carte",
@@ -71,6 +71,7 @@ QuestieLocale.locale['frFR'] = {
 
     -- Onglet Carte
     ['MAP_TAB'] = "Carte du monde",
+    ['MAP_OPTIONS_HEADER'] = "Options de la carte du monde",
     ['ENABLE_MAP_BUTTON'] = "Afficher le bouton Questie sur la carte",
     ['ENABLE_MAP_BUTTON_DESC'] = "Active l'affichage du bouton Afficher / Masquer Questie sur la carte. (peut corriger certaines interactions avec des add-ons modifiant la carte)",
     ['MAP_NOTES'] = "Options des icônes sur la carte",
@@ -123,9 +124,9 @@ QuestieLocale.locale['frFR'] = {
 
     -- Onglet Barres de vie
     ['NAMEPLATE_TAB'] = "Barres de vie",
-    ['NAMEPLATE_HEAD'] = "Options des icônes sur les barres de vie flottantes",
-    ['NAMEPLATE_TOGGLE'] = "Afficher les icônes sur les barres de vie flottantes",
-    ['NAMEPLATE_TOGGLE_DESC'] = "Active l'affichage des icônes d'objectif de quête sur les barres de vie flottantes des monstres.",
+    ['NAMEPLATE_OPTIONS_HEADER'] = "Options des icônes sur les barres de vie flottantes",
+    ['ENABLE_NAMEPLATES'] = "Afficher les icônes sur les barres de vie flottantes",
+    ['ENABLE_NAMEPLATES_DESC'] = "Active l'affichage des icônes d'objectif de quête sur les barres de vie flottantes des monstres.",
     ['NAMEPLATE_X'] = "Décalage horizontal",
     ['NAMEPLATE_X_DESC'] = "Définis le décalage horizontal des icônes sur les barres de vie flottantes. (Par défaut : %s)",
     ['NAMEPLATE_Y'] = "Décalage vertical",
@@ -147,19 +148,19 @@ QuestieLocale.locale['frFR'] = {
     ['TARGET_RESET_BTN_DESC'] = "Réinitialise les positions et l'échelle des icônes sur la barre de vie de la cible à leurs valeurs par défaut.",
 
     -- Onglet Avancé
-    ['ADV_TAB'] = "Avancé",
-    ['ADV_SET'] = "Advanced Settings",
-    ['DEV_OPTIONS'] = "Options de développement",
+    ['ADVANCED_TAB'] = "Avancé",
+    ['ADVANCED_OPTIONS_HEADER'] = "Advanced Settings",
+    ['DEVELOPER_OPTIONS_HEADER'] = "Options de développement",
     ['ENABLE_DEBUG'] = "Mode debug",
     ['ENABLE_DEBUG_DESC'] = "Active le mode debug.",
     ['DEBUG_LEVEL'] = "Niveau de debug",
     ['DEBUG_LEVEL_DESC'] = "Définis le niveau du mode debug : %s",
     ['ENABLE_TOOLTIPS_QUEST_IDS'] = "Afficher l'ID des quêtes",
     ['ENABLE_TOOLTIPS_QUEST_LEVEL_IDS'] = "Active l'affichage de l'ID des quêtes dans les info-bulles et le suivi des quêtes.",
-    ['LOCALE'] = "Paramètre de localisation",
+    ['LOCALE_HEADER'] = "Paramètre de localisation",
     ['LOCALE_DROP'] = "Sélection de la langue :",
     ['LOCALE_DROP_AUTOMATIC'] = "Automatique",
-    ['RESET_QUESTIE'] = "Réinitialisation",
+    ['RESET_QUESTIE_HEADER'] = "Réinitialisation",
     ['RESET_QUESTIE_DESC'] = "Activer ce bouton réinitialisera tous les paramètres de Questie à leurs valeurs par défaut. (sauf choix de la langue)",
     ['RESET_QUESTIE_BTN'] = "Réinitialiser Questie",
     ['RESET_QUESTIE_BTN_DESC'] = "Réinitialiser Questie aux valeurs par défaut pour tous les paramètres.",
@@ -199,7 +200,7 @@ QuestieLocale.locale['frFR'] = {
 
     -- Traqueur
     ['TRACKER_TAB'] = "Suivi",
-    ['TRACKER_HEAD'] = "Options du Suivi des quêtes",
+    ['TRACKER_OPTIONSHEADER'] = "Options du Suivi des quêtes",
     ['TRACKER_ENABLED'] = "Activer le suivi",
     ['TRACKER_ENABLED_DESC'] = "Active le suivi des quêtes de Questie qui remplace alors celui de Blizzard.",
     ['TRACKER_ENABLE_AUTOTRACK'] = "Suivi automatique de quête",

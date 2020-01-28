@@ -1,11 +1,11 @@
 QuestieLocale.locale['koKR'] = {
     -- General tab
-    ['OPTIONS_TAB'] = "일반",
-    ['QUESTIE_HEADER'] = "일반 설정",
-    ['ENABLE_QUESTIE'] = "아이콘 활성화",
-    ['ENABLE_QUESTIE_DESC'] = "Questie 아이콘을 활성화합니다.",
-    ['ENABLE_ICON'] = "미니맵 버튼 활성화",
-    ['ENABLE_ICON_DESC'] = "Questie 미니맵 버튼을 사용합니다. /questie 명령어로도 설정 메뉴를 열 수 있습니다.",
+    ['GENERAL_TAB'] = "일반",
+    ['GENERAL_OPTIONS_HEADER'] = "일반 설정",
+    ['ENABLE_ICONS'] = "아이콘 활성화",
+    ['ENABLE_ICONS_DESC'] = "Questie 아이콘을 활성화합니다.",
+    ['ENABLE_MINIMAP_BUTTON'] = "미니맵 버튼 활성화",
+    ['ENABLE_MINIMAP_BUTTON_DESC'] = "Questie 미니맵 버튼을 사용합니다. /questie 명령어로도 설정 메뉴를 열 수 있습니다.",
     ['ENABLE_INSTANT'] = "퀘스트 내용 바로 표시",
     ['ENABLE_INSTANT_DESC'] = "퀘스트 지문이 한번에 표시됩니다. 이 설정은 게임설정의 '퀘스트 내용 바로 표시'와 동일합니다.",
     ['LEVEL_HEADER'] = "퀘스트 레벨 설정",
@@ -51,8 +51,8 @@ QuestieLocale.locale['koKR'] = {
 
     -- Minimap tab
     ['MINIMAP_TAB'] = "미니맵",
-    ['MINIMAP_HEADER'] = "미니맵 설정",
-    ['MINIMAP_NOTES'] = "미니맵 아이콘 설정",
+    ['MINIMAP_OPTIONS_HEADER'] = "미니맵 설정",
+    ['MINIMAP_NOTES_HEADER'] = "미니맵 아이콘 설정",
     ['MINIMAP_GLOBAL_SCALE'] = "미니맵 아이콘 크기 설정",
     ['MINIMAP_GLOBAL_SCALE_DESC'] = "미니맵 아이콘의 크기를 설정합니다. ( 기본값: %s )",
     ['MINIMAP_FADING'] = "퀘스트 아이콘 사라짐 거리 설정",
@@ -63,7 +63,7 @@ QuestieLocale.locale['koKR'] = {
     ['MINIMAP_FADE_PLAYER_DIST_DESC'] = "플레이어와 얼마나 멀리에 있는 퀘스트까지 흐릿하게 표시할지 설정합니다. ( 기본값: %s )",
     ['MINIMAP_FADE_PLAYER_LEVEL'] = "흐릿하게 표시하는 개수 설정",
     ['MINIMAP_FADE_PLAYER_LEVEL_DESC'] = "얼마나 많은 퀘스트 아이콘을 흐릿하게 표시할지 설정합니다. ( 기본값: %s )",
-    ['MINMAP_COORDS'] = "미니맵 좌표",
+    ['MINMAP_COORDS_HEADER'] = "미니맵 좌표",
     ['ENABLE_COORDS'] = "미니맵에 좌표 표시",
     ['ENABLE_COORDS_DESC'] = "미니맵 제목 영역에 플레이어의 좌표를 표시합니다.",
     ['MINIMAP_ALWAYS_GLOW_TOGGLE'] = "미니맵 아이콘 반짝임 사용",
@@ -71,6 +71,7 @@ QuestieLocale.locale['koKR'] = {
 
     -- Map tab
     ['MAP_TAB'] = "지도",
+    ['MAP_OPTIONS_HEADER'] = "Map Options",
     ['ENABLE_MAP_BUTTON'] = "Questie 지도 버튼 표시",
     ['ENABLE_MAP_BUTTON_DESC'] = "지도에 Questie 버튼을 표시합니다 (따로 지도 애드온을 사용할 경우 충돌할 수 있습니다)",
     ['MAP_NOTES'] = "지도 아이콘 설정",
@@ -123,9 +124,9 @@ QuestieLocale.locale['koKR'] = {
 
     -- Nameplate tab
     ['NAMEPLATE_TAB'] = "이름표",
-    ['NAMEPLATE_HEAD'] = "이름표 아이콘 설정",
-    ['NAMEPLATE_TOGGLE'] = "퀘스트 목표 이름표에 아이콘 표시",
-    ['NAMEPLATE_TOGGLE_DESC'] = "퀘스트 목표 이름표에 아이콘을 표시할지 설정합니다.",
+    ['NAMEPLATE_OPTIONS_HEADER'] = "이름표 아이콘 설정",
+    ['ENABLE_NAMEPLATES'] = "퀘스트 목표 이름표에 아이콘 표시",
+    ['ENABLE_NAMEPLATES_DESC'] = "퀘스트 목표 이름표에 아이콘을 표시할지 설정합니다.",
     ['NAMEPLATE_X'] ="아이콘 위치 X",
     ['NAMEPLATE_X_DESC'] = "이름표에 표시할 아이콘의 X좌표를 설정합니다. ( 기본값: %s )",
     ['NAMEPLATE_Y'] = "아이콘 위치 Y",
@@ -147,19 +148,19 @@ QuestieLocale.locale['koKR'] = {
     ['TARGET_RESET_BTN_DESC'] = "대상 프레임 아이콘 위치와 크기를 기본값으로 초기화합니다.",
 
     -- Advanced tab
-    ['ADV_TAB'] = "고급",
-    ['ADV_SET'] = "Advanced Settings",
-    ['DEV_OPTIONS'] = "개발자 설정",
+    ['ADVANCED_TAB'] = "고급",
+    ['ADVANCED_OPTIONS_HEADER'] = "Advanced Settings",
+    ['DEVELOPER_OPTIONS_HEADER'] = "개발자 설정",
     ['ENABLE_DEBUG'] = "디버그 활성화",
     ['ENABLE_DEBUG_DESC'] = "디버그 기능을 사용합니다.",
     ['DEBUG_LEVEL'] = "Debug level to print",
     ['DEBUG_LEVEL_DESC'] = "What debug level to print at : %s",
     ['ENABLE_TOOLTIPS_QUEST_IDS'] = "퀘스트 ID 표시",
     ['ENABLE_TOOLTIPS_QUEST_LEVEL_IDS'] = "퀘스트의 ID를 툴팁과 추적기에 표시합니다.",
-    ['LOCALE'] = "언어 설정",
+    ['LOCALE_HEADER'] = "언어 설정",
     ['LOCALE_DROP'] = "UI 언어 설정",
     ['LOCALE_DROP_AUTOMATIC'] = "Automatic", -- TODO
-    ['RESET_QUESTIE'] = "Questie 초기화",
+    ['RESET_QUESTIE_HEADER'] = "Questie 초기화",
     ['RESET_QUESTIE_DESC'] = "이 버튼을 누르면 모든 Questie 설정이 기본값으로 초기화됩니다. (언어 설정 제외)",
     ['RESET_QUESTIE_BTN'] = "Quetie 초기화",
     ['RESET_QUESTIE_BTN_DESC'] = "모든 Questie 설정을 기본값으로 초기화합니다.",
@@ -199,7 +200,7 @@ QuestieLocale.locale['koKR'] = {
 
     -- Tracker
     ['TRACKER_TAB'] = "추적기",
-    ['TRACKER_HEAD'] = "퀘스트 추적기 설정",
+    ['TRACKER_OPTIONSHEADER'] = "퀘스트 추적기 설정",
     ['TRACKER_ENABLED'] = "Questie 추적기 사용",
     ['TRACKER_ENABLED_DESC'] = "기본 블리자드 퀘스트 추적기 대신 Questie 추적기를 사용합니다.",
     ['TRACKER_ENABLE_AUTOTRACK'] = "모든 퀘스트 자동 추적",

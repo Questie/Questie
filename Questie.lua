@@ -126,7 +126,7 @@ if  (not LQuestie_EasyMenu) or
     (not QuestieStreamLib) or
     (not QuestieTooltips) or
     (not QuestieSearchResults) or
-    (not QuestieCombatQueue) or 
+    (not QuestieCombatQueue) or
     (not QuestieTracker) then
     --Delay the warning.
     C_Timer.After(8, function()

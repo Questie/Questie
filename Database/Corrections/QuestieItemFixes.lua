@@ -769,6 +769,12 @@ function QuestieItemFixes:Load()
         [18956] = {
             [QuestieDB.itemKeys.npcDrops] = {5357,5358,5359,5360,5361,14603,14604,14638,14639,14640}, -- #1470
         },
+        [19061]= {
+            [QuestieDB.itemKeys.name] = "Vessel of Rebirth",
+            [QuestieDB.itemKeys.relatedQuests] = {7785,},
+            [QuestieDB.itemKeys.npcDrops] = {14347},
+            [QuestieDB.itemKeys.objectDrops] = {},
+        },
         [21557] = {
             [QuestieDB.itemKeys.name] = "Small Red Rocket",
             [QuestieDB.itemKeys.relatedQuests] = {8867,},
@@ -858,6 +864,7 @@ _AddMissingItemIDs = function()
         21574,
         21576,
         --
+        19061,
         9254,
         5475,
         11040,

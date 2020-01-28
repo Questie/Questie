@@ -27,7 +27,7 @@ function QuestieOptions.tabs.minimap:Initialize()
             minimap_options = {
                 type = "header",
                 order = 1,
-                name = function() return QuestieLocale:GetUIString('MINIMAP_HEADER'); end,
+                name = function() return QuestieLocale:GetUIString('MINIMAP_OPTIONS_HEADER'); end,
             },
             alwaysGlowMinimap = {
                 type = "toggle",
@@ -57,7 +57,7 @@ function QuestieOptions.tabs.minimap:Initialize()
             mapnote_options = {
                 type = "header",
                 order = 2,
-                name = function() return QuestieLocale:GetUIString('MINIMAP_NOTES'); end,
+                name = function() return QuestieLocale:GetUIString('MINIMAP_NOTES_HEADER'); end,
             },
             Spacer_B = QuestieOptionsUtils:Spacer(2.1),
             globalMiniMapScale = {
@@ -89,7 +89,7 @@ function QuestieOptions.tabs.minimap:Initialize()
                     QuestieOptions:SetGlobalOptionValue(info, value)
                 end,
             },
-            Spacer_D = QuestieOptionsUtils:Spacer(13),
+            Spacer_D = QuestieOptionsUtils:Spacer(2.31),
             fadeOverPlayer = {
                 type = "toggle",
                 order = 2.4,
@@ -135,7 +135,7 @@ function QuestieOptions.tabs.minimap:Initialize()
             fade_options = {
                 type = "header",
                 order = 3,
-                name = function() return QuestieLocale:GetUIString('MINMAP_COORDS'); end,
+                name = function() return QuestieLocale:GetUIString('MINMAP_COORDS_HEADER'); end,
             },
             Spacer_F = QuestieOptionsUtils:Spacer(3.1),
             minimapCoordinatesEnabled = {
@@ -149,7 +149,7 @@ function QuestieOptions.tabs.minimap:Initialize()
                     QuestieOptions:SetGlobalOptionValue(info, value)
 
                     if not value then
-                        QuestieCoords.ResetMinimapText();
+                        QuestieCoords:ResetMinimapText();
                     end
                 end,
             },

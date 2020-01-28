@@ -1,11 +1,11 @@
 QuestieLocale.locale['ruRU'] = {
     -- Config Windows
-    ['OPTIONS_TAB'] = "Настройки",
-    ['QUESTIE_HEADER'] = "Настройки Questie",
-    ['ENABLE_QUESTIE'] = "Включить значки Questie",
-    ['ENABLE_QUESTIE_DESC'] = "Включение или выключение аддона",
-    ['ENABLE_ICON'] = "Отображать кнопку миникарты",
-    ['ENABLE_ICON_DESC'] = "Включение или выключение кнопки миникарты. Получить доступ к настройкам аддона можно также через команду /questie",
+    ['GENERAL_TAB'] = "Настройки",
+    ['GENERAL_OPTIONS_HEADER'] = "Настройки Questie",
+    ['ENABLE_ICONS'] = "Включить значки Questie",
+    ['ENABLE_ICONS_DESC'] = "Включение или выключение аддона",
+    ['ENABLE_MINIMAP_BUTTON'] = "Отображать кнопку миникарты",
+    ['ENABLE_MINIMAP_BUTTON_DESC'] = "Включение или выключение кнопки миникарты. Получить доступ к настройкам аддона можно также через команду /questie",
     ['ENABLE_INSTANT'] = "Мгновенное отображение текста заданий",
     ['ENABLE_INSTANT_DESC'] = "Управляет стандартной функцией мгновенного отображения текста заданий. Также доступна в настройках интерфейса.",
     ['LEVEL_HEADER'] = "Настройки уровней заданий",
@@ -51,8 +51,8 @@ QuestieLocale.locale['ruRU'] = {
 
     -- Minimap tab
     ['MINIMAP_TAB'] = "Миникарта",
-    ['MINIMAP_HEADER'] = "Настройки миникарты",
-    ['MINIMAP_NOTES'] = "Миникарта параметры подсказок",
+    ['MINIMAP_OPTIONS_HEADER'] = "Настройки миникарты",
+    ['MINIMAP_NOTES_HEADER'] = "Миникарта параметры подсказок",
     ['MINIMAP_GLOBAL_SCALE'] = "Глобальная шкала для значков миникарты",
     ['MINIMAP_GLOBAL_SCALE_DESC'] = "Размер значков миникарты. ( По умолчанию: %s )",
     ['MINIMAP_FADING'] = "Расстояние отключения значков",
@@ -63,7 +63,7 @@ QuestieLocale.locale['ruRU'] = {
     ['MINIMAP_FADE_PLAYER_DIST_DESC'] = "На каком расстоянии от персонажа значки должны быть спрятаны. ( По умолчанию: %s )",
     ['MINIMAP_FADE_PLAYER_LEVEL'] = "Количество значков около персонажа",
     ['MINIMAP_FADE_PLAYER_LEVEL_DESC'] = "Какое количество значков допускается для отображения рядом с персонажем. ( По умолчанию: %s )",
-    ['MINMAP_COORDS'] = "Координаты на миникарте",
+    ['MINMAP_COORDS_HEADER'] = "Координаты на миникарте",
     ['ENABLE_COORDS'] = "Координаты персонажа на миникарте",
     ['ENABLE_COORDS_DESC'] = "Отображать координаты персонажа на миникарте.",
     ['MINIMAP_ALWAYS_GLOW_TOGGLE'] = "Подсветка значков на миникарте",
@@ -71,6 +71,7 @@ QuestieLocale.locale['ruRU'] = {
 
     -- Map tab
     ['MAP_TAB'] = "Карта",
+    ['MAP_OPTIONS_HEADER'] = "Настройки Карта",
     ['ENABLE_MAP_BUTTON'] = "Отображать кнопку Questie на карте",
     ['ENABLE_MAP_BUTTON_DESC'] = "Включение/отключение отображения кнопки на карте (Может решить некоторые проблемы с аддонами карт)",
     ['MAP_NOTES'] = "Подсказки на карте",
@@ -123,9 +124,9 @@ QuestieLocale.locale['ruRU'] = {
 
     -- Nameplate tab
     ['NAMEPLATE_TAB'] = "Значки объектов",
-    ['NAMEPLATE_HEAD'] = "Отображение информации на рамках объектов",
-    ['NAMEPLATE_TOGGLE'] = "Отображать цель задачи на рамке объектов",
-    ['NAMEPLATE_TOGGLE_DESC'] = "Включение/отключение отображения целей задач на рамках объектов.",
+    ['NAMEPLATE_OPTIONS_HEADER'] = "Отображение информации на рамках объектов",
+    ['ENABLE_NAMEPLATES'] = "Отображать цель задачи на рамке объектов",
+    ['ENABLE_NAMEPLATES_DESC'] = "Включение/отключение отображения целей задач на рамках объектов.",
     ['NAMEPLATE_X'] = "Позиция по оси X",
     ['NAMEPLATE_X_DESC'] = "Где должна появляться информация на рамке объекта на оси X. ( По умолчанию: %s )",
     ['NAMEPLATE_Y'] = "Позиция по оси Y",
@@ -147,19 +148,19 @@ QuestieLocale.locale['ruRU'] = {
     ['TARGET_RESET_BTN_DESC'] = "Сбросить значения размеров и расположения значков на рамках цели.",
 
     -- Advanced tab
-    ['ADV_TAB'] = "Дополнительно",
-    ['ADV_SET'] = "Расширенные настройки",
-    ['DEV_OPTIONS'] = "Настройки разработчика",
+    ['ADVANCED_TAB'] = "Дополнительно",
+    ['ADVANCED_OPTIONS_HEADER'] = "Расширенные настройки",
+    ['DEVELOPER_OPTIONS_HEADER'] = "Настройки разработчика",
     ['ENABLE_DEBUG'] = "Включить режим отладки",
     ['ENABLE_DEBUG_DESC'] = "Включение или отключение режима отладки.",
     ['DEBUG_LEVEL'] = "Уровень отладки для вывода",
     ['DEBUG_LEVEL_DESC'] = "Уровень отладки для вывода: %s",
     ['ENABLE_TOOLTIPS_QUEST_IDS'] = "Показать ИН задания",
     ['ENABLE_TOOLTIPS_QUEST_LEVEL_IDS'] = "Когда это проверено, ИН заданий будет отображаться во всплывающих подсказках и окне отслеживания.",
-    ['LOCALE'] = "Настройки языка:",
+    ['LOCALE_HEADER'] = "Настройки языка:",
     ['LOCALE_DROP'] = "Выберите язык",
     ['LOCALE_DROP_AUTOMATIC'] = "Автоматический", -- TODO
-    ['RESET_QUESTIE'] = "Сброс Questie",
+    ['RESET_QUESTIE_HEADER'] = "Сброс Questie",
     ['RESET_QUESTIE_DESC'] = "Нажатие этой кнопки приведёт к сбросу всех настроек аддона (За исключением языка)",
     ['RESET_QUESTIE_BTN'] = "Сбросить Questie",
     ['RESET_QUESTIE_BTN_DESC'] = "Сбросить настройки аддона к настройкам по умолчанию.",
@@ -199,7 +200,7 @@ QuestieLocale.locale['ruRU'] = {
 
     -- Tracker
     ['TRACKER_TAB'] = "Окно отслеживания",
-    ['TRACKER_HEAD'] = "Параметры окна отслеживания Questie",
+    ['TRACKER_OPTIONSHEADER'] = "Параметры окна отслеживания Questie",
     ['TRACKER_ENABLED'] = "Включить окно отслеживания Questie",
     ['TRACKER_ENABLED_DESC'] = "Если отмечено, то стандартное окно отслеживания заданий от Blizzard заменяется окном отслеживания Questie.",
     ['TRACKER_ENABLE_AUTOTRACK'] = "Автоматически отслеживать все задания",

@@ -1,11 +1,11 @@
 QuestieLocale.locale['zhCN'] = {
     -- General tab
-    ['OPTIONS_TAB'] = "选项",
-    ['QUESTIE_HEADER'] = "Questie选项",
-    ['ENABLE_QUESTIE'] = "启用Questie",
-    ['ENABLE_QUESTIE_DESC'] = "启用或禁用Questie.",
-    ['ENABLE_ICON'] = "启用Questie的小地图按钮",
-    ['ENABLE_ICON_DESC'] = "启用小地图按钮；禁用后以 /questie 打开配置",
+    ['GENERAL_TAB'] = "选项",
+    ['GENERAL_OPTIONS_HEADER'] = "Questie选项",
+    ['ENABLE_ICONS'] = "启用Questie",
+    ['ENABLE_ICONS_DESC'] = "启用或禁用Questie.",
+    ['ENABLE_MINIMAP_BUTTON'] = "启用Questie的小地图按钮",
+    ['ENABLE_MINIMAP_BUTTON_DESC'] = "启用小地图按钮；禁用后以 /questie 打开配置",
     ['ENABLE_INSTANT'] = "立即显示任务文本",
     ['ENABLE_INSTANT_DESC'] = "使任务直接显示完整文本，这其实是一个暴雪原生自带的功能",
     ['LEVEL_HEADER'] = "任务等级选项",
@@ -50,7 +50,7 @@ QuestieLocale.locale['zhCN'] = {
 
     -- Minimap tab
     ['MINIMAP_TAB'] = "小地图选项",
-    ['MINIMAP_HEADER'] = "小地图标记选项",
+    ['MINIMAP_OPTIONS_HEADER'] = "小地图标记选项",
     ['MINIMAP_GLOBAL_SCALE'] = "小地图标记的全局大小",
     ['MINIMAP_GLOBAL_SCALE_DESC'] = "调整小度图标记图标的缩放比例（预设：%s）",
     ['MINIMAP_FADING'] = "远离目标的淡出隐距离",
@@ -61,7 +61,7 @@ QuestieLocale.locale['zhCN'] = {
     ['MINIMAP_FADE_PLAYER_DIST_DESC'] = "目标距离你多近时，开始将其标记淡出（预设：%s）",
     ['MINIMAP_FADE_PLAYER_LEVEL'] = "淡出透明度",
     ['MINIMAP_FADE_PLAYER_LEVEL_DESC'] = "靠近或与玩家重叠的标记，其淡出的透明度数值（预设：%s）",
-    ['MINMAP_COORDS'] = "小地图座标",
+    ['MINMAP_COORDS_HEADER'] = "小地图座标",
     ['ENABLE_COORDS'] = "启用小地图座标",
     ['ENABLE_COORDS_DESC'] = "在小地图标题上显示玩家座标。",
     ['MINIMAP_ALWAYS_GLOW_TOGGLE'] = "总是使小地图标记高亮",
@@ -69,6 +69,7 @@ QuestieLocale.locale['zhCN'] = {
 
     -- Map tab
     ['MAP_TAB'] = "大地图选项",
+    ['MAP_OPTIONS_HEADER'] = "Map Options",
     ['ENABLE_MAP_BUTTON'] = "大地图显示Questie按钮",
     ['ENABLE_MAP_BUTTON_DESC'] = "启用或停用大地图上的Questie切换按钮（可以解决某些地图插件的冲突）",
     ['MAP_NOTES'] = "大地图标记",
@@ -121,9 +122,9 @@ QuestieLocale.locale['zhCN'] = {
 
     -- Nameplate tab
     ['NAMEPLATE_TAB'] = "姓名板选项",
-    ['NAMEPLATE_HEAD'] = "姓名板图标选项",
-    ['NAMEPLATE_TOGGLE'] = "启用姓名板标记",
-    ['NAMEPLATE_TOGGLE_DESC'] = "启用或停用姓名板上的任务目标图标",
+    ['NAMEPLATE_OPTIONS_HEADER'] = "姓名板图标选项",
+    ['ENABLE_NAMEPLATES'] = "启用姓名板标记",
+    ['ENABLE_NAMEPLATES_DESC'] = "启用或停用姓名板上的任务目标图标",
     ['NAMEPLATE_X'] ="图标X座标",
     ['NAMEPLATE_X_DESC'] = "图标锚点于姓名板的X座标（默认：%s）",
     ['NAMEPLATE_Y'] = "图标Y座标",
@@ -145,19 +146,19 @@ QuestieLocale.locale['zhCN'] = {
     ['TARGET_RESET_BTN_DESC'] = "重设目标图标的位置和大小",
 
     -- Advanced tab
-    ['ADV_TAB'] = "进阶",
-    ['ADV_SET'] = "Advanced Settings",
-    ['DEV_OPTIONS'] = "开发选项",
+    ['ADVANCED_TAB'] = "进阶",
+    ['ADVANCED_OPTIONS_HEADER'] = "Advanced Settings",
+    ['DEVELOPER_OPTIONS_HEADER'] = "开发选项",
     ['ENABLE_DEBUG'] = "启用除错",
     ['ENABLE_DEBUG_DESC'] = "启用或停用除错功能",
     ['DEBUG_LEVEL'] = "除错等级",
     ['DEBUG_LEVEL_DESC'] = "输出除错报告的等级：%s",
     ['ENABLE_TOOLTIPS_QUEST_IDS'] = "显示任务ID",
     ['ENABLE_TOOLTIPS_QUEST_LEVEL_IDS'] = "勾选此选项后，任务ID将显示在鼠标提示和跟踪器中",
-    ['LOCALE'] = "本地化设置",
+    ['LOCALE_HEADER'] = "本地化设置",
     ['LOCALE_DROP'] = "选择UI的本地化语言",
     ['LOCALE_DROP_AUTOMATIC'] = "自动", -- TODO
-    ['RESET_QUESTIE'] = "重置Questie",
+    ['RESET_QUESTIE_HEADER'] = "重置Questie",
     ['RESET_QUESTIE_DESC'] = "点击这个按钮将会使Questie除了本地化以外的所有设置重置为默认值。",
     ['RESET_QUESTIE_BTN'] = "重置",
     ['RESET_QUESTIE_BTN_DESC'] = "将所有设置重置为默认值。",
@@ -197,7 +198,7 @@ QuestieLocale.locale['zhCN'] = {
 
     -- Tracker
     ['TRACKER_TAB'] = "追踪",
-    ['TRACKER_HEAD'] = "任务追踪选项",
+    ['TRACKER_OPTIONSHEADER'] = "任务追踪选项",
     ['TRACKER_ENABLED'] = "启用Questie任务追踪",
     ['TRACKER_ENABLED_DESC'] = "启用后，Questie任务追踪会取代暴雪内置的任务追踪框体。",
     ['TRACKER_ENABLE_AUTOTRACK'] = "自动追踪所有任务",

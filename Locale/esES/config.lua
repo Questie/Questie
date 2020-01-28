@@ -1,11 +1,11 @@
 QuestieLocale.locale['esES'] = {
     -- Config Windows
-    ['OPTIONS_TAB'] = "Opciones",
-    ['QUESTIE_HEADER'] = "Opciones de Questie",
-    ['ENABLE_QUESTIE'] = "Habilitar Iconos",
-    ['ENABLE_QUESTIE_DESC'] = "Habilitar iconos de Questie",
-    ['ENABLE_ICON'] = "Habilitar icono del minimapa",
-    ['ENABLE_ICON_DESC'] = "Habilita o deshabilita el icono del minimapa. Puedes seguir accediendo al menú de opciones con /questie",
+    ['GENERAL_TAB'] = "Opciones",
+    ['GENERAL_OPTIONS_HEADER'] = "Opciones de Questie",
+    ['ENABLE_ICONS'] = "Habilitar Iconos",
+    ['ENABLE_ICONS_DESC'] = "Habilitar iconos de Questie",
+    ['ENABLE_MINIMAP_BUTTON'] = "Habilitar icono del minimapa",
+    ['ENABLE_MINIMAP_BUTTON_DESC'] = "Habilita o deshabilita el icono del minimapa. Puedes seguir accediendo al menú de opciones con /questie",
     ['ENABLE_INSTANT'] = "Habilitar el texto automático de misiones",
     ['ENABLE_INSTANT_DESC'] = "Habilita el texto automático de misiones. Es simplemente un atajo a la opción de la interfaz de WoW",
     ['LEVEL_HEADER'] = "Opciones para el nivel de las misiones",
@@ -51,8 +51,8 @@ QuestieLocale.locale['esES'] = {
 
     -- Minimap tab
     ['MINIMAP_TAB'] = "Opciones de minimapa",
-    ['MINIMAP_HEADER'] = "Opciones de las notas del minimapa",
-    ['MINIMAP_NOTES'] = "Opciones de las notas del minimapa",
+    ['MINIMAP_OPTIONS_HEADER'] = "Opciones de las notas del minimapa",
+    ['MINIMAP_NOTES_HEADER'] = "Opciones de las notas del minimapa",
     ['MINIMAP_GLOBAL_SCALE'] = "Tamaño de los iconos en el minimapa",
     ['MINIMAP_GLOBAL_SCALE_DESC'] = "Especifíca la escala de los iconos en el minimapa. ( Por defecto: %s )",
     ['MINIMAP_FADING'] = "Transparencia con respecto distancia de objetivo",
@@ -63,7 +63,7 @@ QuestieLocale.locale['esES'] = {
     ['MINIMAP_FADE_PLAYER_DIST_DESC'] = "La distancia a la que tienen que estar los iconos del jugador para que se desvanezcan. ( Por defecto: %s )",
     ['MINIMAP_FADE_PLAYER_LEVEL'] = "Cantidad de transparencia sobre el jugador",
     ['MINIMAP_FADE_PLAYER_LEVEL_DESC'] = "Cuando deberian de desvancerse los iconos alrededor del jugador. ( Por defecto: %s )",
-    ['MINMAP_COORDS'] = "Coordenadas de minimapa",
+    ['MINMAP_COORDS_HEADER'] = "Coordenadas de minimapa",
     ['ENABLE_COORDS'] = "Coordenadas del jugador en el minimapa",
     ['ENABLE_COORDS_DESC'] = "Posiciona las coordenadas del jugador en el título del minimapa.",
     ['MINIMAP_ALWAYS_GLOW_TOGGLE'] = "Mostrar aura detrás de los iconos de minimapa",
@@ -71,6 +71,7 @@ QuestieLocale.locale['esES'] = {
 
     -- Map tab
     ['MAP_TAB'] = "Opciones de mapa",
+    ['MAP_OPTIONS_HEADER'] = "Opciones de las notas del mapa",
     ['ENABLE_MAP_BUTTON'] = "Mostrar el botón de Questie en el mapa",
     ['ENABLE_MAP_BUTTON_DESC'] = "Habilita o deshabilita el botón de mostrar/ocultar Questie en el mapa (Puede solucionar algunas interacciones con Addons de mapas)",
     ['MAP_NOTES'] = "Opciones de las notas de mapa",
@@ -123,9 +124,9 @@ QuestieLocale.locale['esES'] = {
 
     -- Nameplate tab
     ['NAMEPLATE_TAB'] = "Opciones de placas de nombre",
-    ['NAMEPLATE_HEAD'] = "Opciones de icono de placas de nombre",
-    ['NAMEPLATE_TOGGLE'] = "Habilitar objetivos de misión en placas de nombre",
-    ['NAMEPLATE_TOGGLE_DESC'] = "Habilita o deshabilita el icono de objetivo de misión en la placa de nombre de la criatura.",
+    ['NAMEPLATE_OPTIONS_HEADER'] = "Opciones de icono de placas de nombre",
+    ['ENABLE_NAMEPLATES'] = "Habilitar objetivos de misión en placas de nombre",
+    ['ENABLE_NAMEPLATES_DESC'] = "Habilita o deshabilita el icono de objetivo de misión en la placa de nombre de la criatura.",
     ['NAMEPLATE_X'] ="Posición X de icono",
     ['NAMEPLATE_X_DESC'] = "La posicion del eje X de la placa de nombre en la que debería estar el icono. ( Por defecto: %s )",
     ['NAMEPLATE_Y'] = "Posición Y de icono",
@@ -147,19 +148,19 @@ QuestieLocale.locale['esES'] = {
     ['TARGET_RESET_BTN_DESC'] = "Reinicia a valores por defecto el tamaño y la posición del marco de objetivo",
 
     -- Advanced tab
-    ['ADV_TAB'] = "Avanzado",
-    ['ADV_SET'] = "Configuración avanzada",
-    ['DEV_OPTIONS'] = "Opciones de desarrollador",
+    ['ADVANCED_TAB'] = "Avanzado",
+    ['ADVANCED_OPTIONS_HEADER'] = "Configuración avanzada",
+    ['DEVELOPER_OPTIONS_HEADER'] = "Opciones de desarrollador",
     ['ENABLE_DEBUG'] = "Habilitar debug",
     ['ENABLE_DEBUG_DESC'] = "Habilita o deshabilita el modo debug.",
     ['DEBUG_LEVEL'] = "Nivel de debug a mostrar",
     ['DEBUG_LEVEL_DESC'] = "Qué nivel de debug mostrar a : %s",
     ['ENABLE_TOOLTIPS_QUEST_IDS'] = "Mostrar ID de misión",
     ['ENABLE_TOOLTIPS_QUEST_LEVEL_IDS'] = "Si está marcado, la ID de misiones mostrará en los tooltips y el rastreador.",
-    ['LOCALE'] = "Opciones de idioma",
+    ['LOCALE_HEADER'] = "Opciones de idioma",
     ['LOCALE_DROP'] = "Seleccionar idioma de interfaz",
     ['LOCALE_DROP_AUTOMATIC'] = "Automático", -- TODO
-    ['RESET_QUESTIE'] = "Reiniciar Questie",
+    ['RESET_QUESTIE_HEADER'] = "Reiniciar Questie",
     ['RESET_QUESTIE_DESC'] = "Hacer clic este botón reiniciará toda la configuración de Questie a los parametros por defecto. (Menos el idioma)",
     ['RESET_QUESTIE_BTN'] = "Reiniciar Questie",
     ['RESET_QUESTIE_BTN_DESC'] = "Reinicia Questie a todos los valores por defecto.",
@@ -199,7 +200,7 @@ QuestieLocale.locale['esES'] = {
 
     -- Tracker
     ['TRACKER_TAB'] = "Rastreador",
-    ['TRACKER_HEAD'] = "Opciones del Rastreador",
+    ['TRACKER_OPTIONSHEADER'] = "Opciones del Rastreador",
     ['TRACKER_ENABLED'] = "Habilitar rastreador",
     ['TRACKER_ENABLED_DESC'] = "Si está marcado, el rastreador de blizzard se reemplaza con el rastreador de Questie.",
     ['TRACKER_ENABLE_AUTOTRACK'] = "Rastrear todas las misiónes automáticamente",
