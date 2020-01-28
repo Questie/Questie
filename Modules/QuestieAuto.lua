@@ -306,7 +306,6 @@ QuestieAuto.disallowedNPC = {
 
     -- Stray
     [15192] = true, -- Anachronos (Caverns of Time)
-    [3430] = true, -- Mangletooth (Blood Shard quests, Barrens)
     [12944] = true -- Lokhtos Darkbargainer (Thorium Brotherhood, Blackrock Depths)
 }
 
@@ -374,5 +373,12 @@ QuestieAuto.disallowedQuests = {
     [4781] = true,
     [4083] = true,
     [5166] = true,
-    [5167] = true
+    [5167] = true,
+    -- The Barrens Bloodshard quests
+    [889] = true,
+    [5042] = true,
+    [5043] = true,
+    [5044] = true,
+    [5945] = true,
+    --
 }
