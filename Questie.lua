@@ -220,8 +220,24 @@ function Questie:OnInitialize()
         QuestieAuto:ResetShouldRunAuto()
     end)
 
+    QuestFrameDetailPanel:HookScript("OnShow", function()
+        Questie:Debug(DEBUG_DEVELOP, "QuestFrameDetailPanel:OnShow")
+        if pauseAuto then
+            QuestieAuto:DisableShouldRunAuto()
+        end
+        pauseAuto = false
+    end)
+
     QuestFrameProgressPanel:HookScript("OnShow", function()
         Questie:Debug(DEBUG_DEVELOP, "QuestFrameProgressPanel:OnShow")
+        if pauseAuto then
+            QuestieAuto:DisableShouldRunAuto()
+        end
+        pauseAuto = false
+    end)
+
+    QuestFrameRewardPanel:HookScript("OnShow", function()
+        Questie:Debug(DEBUG_DEVELOP, "QuestFrameRewardPanel:OnShow")
         if pauseAuto then
             QuestieAuto:DisableShouldRunAuto()
         end
