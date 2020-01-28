@@ -405,12 +405,16 @@ function QuestieQuest:AbandonedQuest(questId)
             quest.Objectives = nil;
             quest.AlreadySpawned = nil; -- temporary fix for "special objectives" remove later
 
-            -- We also have to reset these stupid "AlreadySpawned" fields
-            for _, objective in pairs(quest.ObjectiveData) do
-                objective.AlreadySpawned = nil
+            if quest.ObjectiveData then
+                -- We also have to reset these stupid "AlreadySpawned" fields
+                for _, objective in pairs(quest.ObjectiveData) do
+                    objective.AlreadySpawned = nil
+                end
             end
-            for _, objective in pairs(quest.SpecialObjectives) do
-                objective.AlreadySpawned = nil
+            if quest.SpecialObjectives then
+                for _, objective in pairs(quest.SpecialObjectives) do
+                    objective.AlreadySpawned = nil
+                end
             end
         end
 
