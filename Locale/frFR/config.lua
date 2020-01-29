@@ -48,6 +48,8 @@ QuestieLocale.locale['frFR'] = {
     ['ENABLE_AUTO_ACCEPT_QUESTS_DESC'] = "Enable or disable Questie auto-accepting quests.",
     ['ENABLE_AUTO_COMPLETE'] = "Auto Complete",
     ['ENABLE_AUTO_COMPLETE_DESC'] = "Enable or disable Questie auto-complete quests.",
+    ['ENABLE_ACCEPT_TRIVIAL'] = "Accept trivial (low level) quests",
+    ['ENABLE_ACCEPT_TRIVIAL_DESC'] = "When this is enabled trivial (gray) quests will be auto accepted as well.",
     ['AUTO_MODIFIER'] = "Auto Modifier",
     ['AUTO_MODIFIER_DESC'] = "The modifier to NOT auto-accept/-complete quests when either option is enabled and you interact with a quest NPC.",
 

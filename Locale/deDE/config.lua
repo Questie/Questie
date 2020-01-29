@@ -48,6 +48,8 @@ QuestieLocale.locale['deDE'] = {
     ['ENABLE_AUTO_ACCEPT_QUESTS_DESC'] = "Aktiviert/Deaktiviert, ob Questie Quests automatisch annimmt.",
     ['ENABLE_AUTO_COMPLETE'] = "Quests automatisch abgeben",
     ['ENABLE_AUTO_COMPLETE_DESC'] = "Aktiviert/Deaktiviert, ob Questie Quests automatisch abgibt.",
+    ['ENABLE_ACCEPT_TRIVIAL'] = "Triviale (niedrigstufige) Quests annehmen",
+    ['ENABLE_ACCEPT_TRIVIAL_DESC'] = "Aktiviert/Deaktiviert, ob Questie triviale (graune) Quests automatisch annimmt.",
     ['AUTO_MODIFIER'] = "Auto Modifikator",
     ['AUTO_MODIFIER_DESC'] = "Die Taste, um Quests NICHT automatisch anzunehmen/abzugeben, wenn die jeweilige Einstellung aktiviert ist und mit einem Quest NPC interagiert wird.",
 

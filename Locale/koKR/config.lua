@@ -48,6 +48,8 @@ QuestieLocale.locale['koKR'] = {
     ['ENABLE_AUTO_ACCEPT_QUESTS_DESC'] = "퀘스티 자동 퀘스트 수락을 할지 말지 선택합니다.",
     ['ENABLE_AUTO_COMPLETE'] = "자동 완료",
     ['ENABLE_AUTO_COMPLETE_DESC'] = "퀘스트 자동 퀘스트 완료를 할지 말지 선택합니다.",
+    ['ENABLE_ACCEPT_TRIVIAL'] = "Accept trivial (low level) quests",
+    ['ENABLE_ACCEPT_TRIVIAL_DESC'] = "When this is enabled trivial (gray) quests will be auto accepted as well.",
     ['AUTO_MODIFIER'] = "Auto Modifier",
     ['AUTO_MODIFIER_DESC'] = "The modifier to NOT auto-accept/-complete quests when either option is enabled and you interact with a quest NPC.",
 

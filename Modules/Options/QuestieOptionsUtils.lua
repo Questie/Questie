@@ -1,6 +1,9 @@
 ---@class QuestieOptionsUtils
 local QuestieOptionsUtils = QuestieLoader:CreateModule("QuestieOptionsUtils");
 
+--- Creates a vertical spacer with the given height
+---@param o number
+---@param height number|nil
 function QuestieOptionsUtils:Spacer(o, height)
     return {
         type = "description",
@@ -8,6 +11,21 @@ function QuestieOptionsUtils:Spacer(o, height)
         name = " ",
         fontSize = "large",
         fontHeight = height
+    }
+end
+
+--- Creates a horizonal spacer with the given width.
+---@param o number
+---@param width number
+function QuestieOptionsUtils:HorizontalSpacer(o, width)
+    if not width then
+        width = 0.5
+    end
+    return {
+        type = "description",
+        order = o,
+        name = " ",
+        width = width
     }
 end
 

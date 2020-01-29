@@ -259,6 +259,19 @@ function QuestieOptions.tabs.general:Initialize()
                     Questie.db.char.autoModifier = key
                 end,
             },
+            Spacer_H = QuestieOptionsUtils:HorizontalSpacer(1.91, 0.5),
+            acceptTrivial = {
+                type = "toggle",
+                order = 1.92,
+                name = function() return QuestieLocale:GetUIString('ENABLE_ACCEPT_TRIVIAL'); end,
+                desc = function() return QuestieLocale:GetUIString('ENABLE_ACCEPT_TRIVIAL_DESC'); end,
+                disabled = function() return (not Questie.db.char.autoaccept) end,
+                width = 1.5,
+                get = function () return Questie.db.char.acceptTrivial; end,
+                set = function (info, value)
+                    Questie.db.char.acceptTrivial = value
+                end,
+            },
             Spacer_B = QuestieOptionsUtils:Spacer(1.99),
             quest_options = {
                 type = "header",
