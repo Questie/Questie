@@ -331,11 +331,6 @@ function QuestieEventHandler:QUEST_FINISHED()
         end
         runQLU = false
     end
-
-    if QuestFrame and (not QuestFrame:IsShown()) then
-        QuestieAuto:ResetShouldRunAuto()
-    end
-    --Questie:Debug(DEBUG_CRITICAL, "[EVENT] QUEST_FINISHED", "NO CHANGE");
 end
 
 function QuestieEventHandler:QUEST_LOG_CRITERIA_UPDATE(questID, specificTreeID, description, numFulfilled, numRequired)

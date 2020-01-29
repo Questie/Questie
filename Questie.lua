@@ -200,14 +200,14 @@ function Questie:OnInitialize()
     Questie:RegisterEvent("QUEST_GREETING", QuestieAuto.QUEST_GREETING)
     --If an escort quest is taken by people close by
     Questie:RegisterEvent("QUEST_ACCEPT_CONFIRM", QuestieAuto.QUEST_ACCEPT_CONFIRM)
+    -- Called twice when the stopping to talk to an NPC
+    Questie:RegisterEvent("GOSSIP_CLOSED", QuestieAuto.GOSSIP_CLOSED)
     --When complete window shows
     Questie:RegisterEvent("QUEST_COMPLETE", QuestieAuto.QUEST_COMPLETE)
     Questie:RegisterEvent("QUEST_FINISHED", QuestieEventHandler.QUEST_FINISHED)
 
     Questie:RegisterEvent("PLAYER_REGEN_DISABLED", QuestieEventHandler.PLAYER_REGEN_DISABLED)
     Questie:RegisterEvent("PLAYER_REGEN_ENABLED", QuestieEventHandler.PLAYER_REGEN_ENABLED)
-
-    QuestieAuto:RegisterFrameEvents()
 
     -- todo move this call into loader
     QuestieTooltips:Initialize()
