@@ -310,9 +310,11 @@ function QuestieEventHandler:QUEST_COMPLETE()
 end
 
 local function _AllQuestWindowsClosed()
-    if GossipFrame and (not GossipFrame:IsShown()) and QuestFrameDetailPanel and (not QuestFrameDetailPanel:IsShown())
-        and QuestFrameProgressPanel and (not QuestFrameProgressPanel:IsShown())
-        and QuestFrameRewardPanel and (not QuestFrameRewardPanel:IsShown()) then
+    if GossipFrame and (not GossipFrame:IsVisible())
+        and GossipFrameGreetingPanel and (not GossipFrameGreetingPanel:IsVisible())
+        and QuestFrameDetailPanel and (not QuestFrameDetailPanel:IsVisible())
+        and QuestFrameProgressPanel and (not QuestFrameProgressPanel:IsVisible())
+        and QuestFrameRewardPanel and (not QuestFrameRewardPanel:IsVisible()) then
         return true
     end
     return false

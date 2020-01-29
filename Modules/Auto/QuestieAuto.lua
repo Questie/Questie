@@ -80,6 +80,7 @@ function QuestieAuto:QUEST_PROGRESS(event, ...)
         Questie:Debug(DEBUG_DEVELOP, "shouldRunAuto = false")
         return
     end
+
     if Questie.db.char.autocomplete then
         if _QuestieAuto:IsAllowedNPC() and _QuestieAuto:IsAllowedQuest() then
             if IsQuestCompletable() then
@@ -90,13 +91,13 @@ function QuestieAuto:QUEST_PROGRESS(event, ...)
                 Questie:Debug("Quest not completeable. Skipping to next quest. Index:", lastIndexTried)
             end
         end
-    end
 
-    -- Close the QuestFrame if no quest is completeable again
-    if QuestFrameGoodbyeButton then
-        QuestFrameGoodbyeButton:Click()
+        -- Close the QuestFrame if no quest is completeable again
+        if QuestFrameGoodbyeButton then
+            QuestFrameGoodbyeButton:Click()
+        end
+        cameFromProgressEvent = true
     end
-    cameFromProgressEvent = true
 end
 
 _SelectAvailableQuest = function (index)
