@@ -309,8 +309,23 @@ function QuestieEventHandler:QUEST_COMPLETE()
     --Questie:Debug(DEBUG_CRITICAL, "[EVENT] QUEST_COMPLETE", "Quests: "..numQuests);
 end
 
+local function _AllQuestWindowsClosed()
+    if GossipFrame and (not GossipFrame:IsShown()) and QuestFrameDetailPanel and (not QuestFrameDetailPanel:IsShown())
+        and QuestFrameProgressPanel and (not QuestFrameProgressPanel:IsShown())
+        and QuestFrameRewardPanel and (not QuestFrameRewardPanel:IsShown()) then
+        return true
+    end
+    return false
+end
+
 function QuestieEventHandler:QUEST_FINISHED()
     Questie:Debug(DEBUG_DEVELOP, "[EVENT] QUEST_FINISHED")
+
+    if _AllQuestWindowsClosed() then
+        Questie:Debug(DEBUG_DEVELOP, "All quest windows closed! Resetting shouldRunAuto")
+        QuestieAuto:ResetModifier()
+    end
+
     local numEntries, numQuests = GetNumQuestLogEntries();
     if (NumberOfQuestInLog ~= numQuests) then
         --Questie:Debug(DEBUG_CRITICAL, "[EVENT] QUEST_FINISHED", "CHANGE");

@@ -9,7 +9,7 @@ function _QuestieAuto:AcceptQuestFromGossip(index, availableQuests, modulo)
     local isRepeatable = availableQuests[index + 4]
 
     if _QuestieAuto:IsAllowedQuest() and ((not isTrivial) or Questie.db.char.acceptTrivial) then
-        Questie:Debug(DEBUG_DEVELOP, "Accepting quest: \"" .. title .. "\"",
+        Questie:Debug(DEBUG_DEVELOP, "Checking available quest: \"" .. title .. "\"",
                         "isTrivial", isTrivial, "isRepeatable", isRepeatable, "index",
                         index)
         SelectGossipAvailableQuest(math.floor(index / modulo) + 1)
@@ -21,7 +21,7 @@ function _QuestieAuto:CompleteQuestFromGossip(index, availableQuests, modulo)
     local isComplete = availableQuests[index + 3]
 
     if _QuestieAuto:IsAllowedQuest() and isComplete then
-        Questie:Debug(DEBUG_DEVELOP, "Completing quest: \"" .. title .. "\"", "index", index)
+        Questie:Debug(DEBUG_DEVELOP, "Checking active quest: \"" .. title .. "\"", "index", index)
         SelectGossipActiveQuest(math.floor(index / modulo) + 1)
     else
         Questie:Debug(DEBUG_DEVELOP, "\"" .. title .. "\" is not complete. Index:", index)

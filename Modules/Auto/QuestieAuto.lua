@@ -51,7 +51,7 @@ function QuestieAuto:GOSSIP_SHOW(event, ...)
 
     if Questie.db.char.autoaccept and (not doneWithAccept) and isAllowedNPC then
         if lastIndexTried < #availableQuests then
-            Questie:Debug(DEBUG_DEVELOP, "Accepting quests from gossip")
+            Questie:Debug(DEBUG_DEVELOP, "Checking available quests from gossip")
             _QuestieAuto:AcceptQuestFromGossip(lastIndexTried, availableQuests, MOP_INDEX_AVAILABLE)
             return
         else
@@ -62,7 +62,7 @@ function QuestieAuto:GOSSIP_SHOW(event, ...)
     end
 
     if Questie.db.char.autocomplete and isAllowedNPC then
-        Questie:Debug(DEBUG_DEVELOP, "Completing quests from gossip")
+        Questie:Debug(DEBUG_DEVELOP, "Checking active quests from gossip")
         local completeQuests = {GetGossipActiveQuests()}
 
         for index=1, #completeQuests, MOP_INDEX_COMPLETE do
@@ -198,7 +198,7 @@ function QuestieAuto:QUEST_COMPLETE(event, ...)
         Questie:Debug(DEBUG_DEVELOP, event, questname, numOptions, ...)
 
         if numOptions > 1 then
-            Questie:Debug(DEBUG_INFO, "Multiple rewards (" .. numOptions .. "! Please choose appropriate reward!")
+            Questie:Debug(DEBUG_INFO, "Multiple rewards (" .. numOptions .. ")! Please choose appropriate reward!")
         else
             _QuestieAuto:TurnInQuest(1)
             Questie:Debug(DEBUG_DEVELOP, "Completed quest!")
@@ -214,9 +214,13 @@ function QuestieAuto:GOSSIP_CLOSED()
 
     if doneTalking then
         doneTalking = false
-        Questie:Debug(DEBUG_DEVELOP, "We are done talking to an NPC! Reseting shouldRunAuto")
+        Questie:Debug(DEBUG_DEVELOP, "We are done talking to an NPC! Resetting shouldRunAuto")
         shouldRunAuto = true
     else
         doneTalking = true
     end
+end
+
+function QuestieAuto:ResetModifier()
+    shouldRunAuto = true
 end
