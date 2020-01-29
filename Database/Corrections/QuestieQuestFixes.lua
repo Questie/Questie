@@ -72,6 +72,9 @@ function QuestieQuestFixes:Load()
         [165] = {
             [QuestieDB.questKeys.exclusiveTo] = {148}, --#1173
         },
+        [235] = {
+            [QuestieDB.questKeys.exclusiveTo] = {742,6382,6383,},
+        },
         [254] = {
             [QuestieDB.questKeys.parentQuest] = {253},
         },
@@ -204,6 +207,9 @@ function QuestieQuestFixes:Load()
         },
         [738] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #1289
+        },
+        [742] = {
+            [QuestieDB.questKeys.exclusiveTo] = {235,6382,6383,},
         },
         [769] = {
             [QuestieDB.questKeys.requiredSkill] = {165,10},
@@ -885,6 +891,13 @@ function QuestieQuestFixes:Load()
         },
         [6144] = {
             [QuestieDB.questKeys.preQuestSingle] = {6135,6136}, -- #1572
+        },
+        [6382] = {
+            [QuestieDB.questKeys.preQuestSingle] = {882},
+            [QuestieDB.questKeys.exclusiveTo] = {235,742,},
+        },
+        [6383] = {
+            [QuestieDB.questKeys.preQuestSingle] = {},
         },
         [6522] = {
             [QuestieDB.questKeys.startedBy] = {{4421},nil,{17008}},
