@@ -1055,6 +1055,12 @@ function QuestieQuestFixes:Load()
         [7507] = {
             [QuestieDB.questKeys.requiredClasses] = 3,
         },
+        [7508] = {
+            [QuestieDB.questKeys.requiredClasses] = 3,
+        },
+        [7509] = {
+            [QuestieDB.questKeys.requiredClasses] = 3,
+        },
         [7541] = {
             [QuestieDB.questKeys.questLevel] = 40, -- #1320
         },
