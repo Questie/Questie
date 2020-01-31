@@ -61,6 +61,7 @@ function QuestieOptionsDefaults:Load()
             trackerFontSizeLine = 11,
             hookTracking = true,
             trackerEnabled = true,
+            trackerShowCompleteQuests = true,
             trackerShowQuestLevel = true,
             showBlizzardQuestTimer = false,
             stickyDurabilityFrame = true,
