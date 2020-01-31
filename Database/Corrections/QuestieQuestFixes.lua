@@ -76,7 +76,7 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.exclusiveTo] = {742,6382,6383,},
         },
         [254] = {
-            [QuestieDB.questKeys.parentQuest] = {253},
+            [QuestieDB.questKeys.parentQuest] = 253,
         },
         [308] = {
             [QuestieDB.questKeys.exclusiveTo] = {311}, -- distracting jarven can't be completed once you get the followup
