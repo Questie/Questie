@@ -48,10 +48,10 @@ QuestieLocale.locale['esMX'] = {
     ['ENABLE_AUTO_ACCEPT_QUESTS_DESC'] = "Habilita o deshabilita aceptar misiones automáticamente.",
     ['ENABLE_AUTO_COMPLETE'] = "Completar misiones automáticamente",
     ['ENABLE_AUTO_COMPLETE_DESC'] = "Habilita o deshabilita completar misiones automáticamente.",
-    ['ENABLE_ACCEPT_TRIVIAL'] = "Accept trivial (low level) quests",
-    ['ENABLE_ACCEPT_TRIVIAL_DESC'] = "When this is enabled trivial (gray) quests will be auto accepted as well.",
-    ['AUTO_MODIFIER'] = "Auto Modifier",
-    ['AUTO_MODIFIER_DESC'] = "The modifier to NOT auto-accept/-complete quests when either option is enabled and you interact with a quest NPC.",
+    ['ENABLE_ACCEPT_TRIVIAL'] = "Aceptar misiones triviales (de bajo nivel)",
+    ['ENABLE_ACCEPT_TRIVIAL_DESC'] = "Si está habilitado, las misiones triviales (grises) también se aceptarán automáticamente.",
+    ['AUTO_MODIFIER'] = "Auto modificador",
+    ['AUTO_MODIFIER_DESC'] = "El modificador para NO aceptar/completar automáticamente las misiones cuando cualquiera de las opciones está habilitada e interactúas con un asignador de misión.",
 
     -- Minimap tab
     ['MINIMAP_TAB'] = "Opciones de minimapa",
