@@ -168,6 +168,20 @@ function QuestieAuto:QUEST_DETAIL(event, ...)
         ---@type Quest
         local quest = QuestieDB:GetQuest(questId)
 
+        if quest == nil then
+            Questie:Debug(DEBUG_DEVELOP, "quest == nil, retrying in 1 second")
+            C_Timer.After(1, function ()
+                questId = GetQuestID()
+                ---@type Quest
+                quest = QuestieDB:GetQuest(questId)
+                if (not quest:IsTrivial()) or Questie.db.char.acceptTrivial then
+                    Questie:Debug(DEBUG_INFO, "Questie Auto-Acceping quest")
+                    AcceptQuest()
+                end
+            end)
+            return
+        end
+
         if (not quest:IsTrivial()) or Questie.db.char.acceptTrivial then
             Questie:Debug(DEBUG_INFO, "Questie Auto-Acceping quest")
             AcceptQuest()
