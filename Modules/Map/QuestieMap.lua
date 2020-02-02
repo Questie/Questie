@@ -449,8 +449,12 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
         error("Questie".."Data.Id must be set to the quests ID!")
     end
     if ZoneDataAreaIDToUiMapID[areaID] == nil then
-        error("No UiMapID for ("..tostring(ZoneDataAreaIDToUiMapID[areaID])..") :".. areaID .. tostring(data.Name))
-        return nil, nil
+        if QuestieZoneToParentTable[areaID] == nil then
+            error("No UiMapID for ("..tostring(ZoneDataAreaIDToUiMapID[areaID])..") :".. areaID .. tostring(data.Name))
+            return nil, nil
+        else
+            areaID = QuestieZoneToParentTable[areaID]
+        end
     end
 
     if(showFlag == nil) then

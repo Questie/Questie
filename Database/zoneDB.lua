@@ -192,30 +192,30 @@ local zoneDataClassic = { --AreaTable IDs --Aka AreaID
     [3428] = 'Ahn\'Qiraj',
     [3429] = 'Ruins of Ahn\'Qiraj',
     [3456] = 'Naxxramas',
-    [7307] = 'Upper Blacrock Spire',
+    [7307] = 'Upper Blackrock Spire',
 }
 
--- [AreaID] = {"name", alternative AreaId (a sub zone)}
+-- [AreaID] = {"name", alternative AreaId (a sub zone), parentId}
 local dungeons = {
-    [209] = {"Shadowfang Keep", 236},
-    [491] = {"Razorfen Kraul", 1717},
-    [717] = {"The Stockades", nil},
-    [718] = {"Wailing Caverns", nil},
-    [719] = {"Blackfathom Deeps", 2797},
-    [721] = {"Gnomeregan", 133},
-    [722] = {"Razorfen Downs", 1316},
-    [796] = {"Scarlet Monastery", nil},
-    [1176] = {"Zul'Farrak", 978},
-    [1337] = {"Uldaman", 1517},
-    [1477] = {"The Temple of Atal'Hakkar", 1417},
-    [1581] = {"The Deadmines", nil},
-    [1583] = {"Blackrock Spire", nil},
-    [1584] = {"Blackrock Depths", nil},
-    [2017] = {"Stratholme", 2279},
-    [2057] = {"Scholomance", nil},
-    [2100] = {"Maraudon", nil},
-    [2437] = {"Ragefire Chasm", nil},
-    [2557] = {"Dire Maul", 2577},
+    [209] = {"Shadowfang Keep", 236, 130},
+    [491] = {"Razorfen Kraul", 1717, 17},
+    [717] = {"The Stockades", nil, 1519},
+    [718] = {"Wailing Caverns", nil, 17},
+    [719] = {"Blackfathom Deeps", 2797, 331},
+    [721] = {"Gnomeregan", 133, 1},
+    [722] = {"Razorfen Downs", 1316, 17},
+    [796] = {"Scarlet Monastery", nil, 85},
+    [1176] = {"Zul'Farrak", 978, 440},
+    [1337] = {"Uldaman", 1517, 3},
+    [1477] = {"The Temple of Atal'Hakkar", 1417, 8},
+    [1581] = {"The Deadmines", nil, 40},
+    [1583] = {"Blackrock Spire", nil, 51},
+    [1584] = {"Blackrock Depths", nil, 51},
+    [2017] = {"Stratholme", 2279, 139},
+    [2057] = {"Scholomance", nil, 28},
+    [2100] = {"Maraudon", nil, 405},
+    [2437] = {"Ragefire Chasm", nil, 1637},
+    [2557] = {"Dire Maul", 2577, 357},
 }
 
 function QuestieDBZone:GetDungeonAlternative(areaId)
@@ -358,6 +358,10 @@ QuestieZoneToParentTable = {}; -- is there an api function we can use for this?
 
 for _,v in pairs(zoneDataClassicBetaHack) do
     QuestieZoneToParentTable[v[1]] = v[2]
+end
+
+for k, v in pairs(dungeons) do
+    QuestieZoneToParentTable[k] = v[3]
 end
 
 -- fix cities
