@@ -26,6 +26,9 @@ function QuestieQuestFixes:Load()
         [24] = {
             [QuestieDB.questKeys.startedBy] = {{12677},nil,{16304}},
         },
+        [25] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Scout the gazebo on Mystral Lake that overlooks the nearby Alliance outpost.",{[331]={{48.92,69.56},},},},
+        },
         [26] = { -- Switch Alliance and Horde Druid quest IDs #948
             [QuestieDB.questKeys.startedBy] = {{4217,},nil,nil,},
             [QuestieDB.questKeys.requiredRaces] = 8,
