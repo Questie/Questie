@@ -500,7 +500,7 @@ end
 
 local updateFrequency = 0.05
 pins.updateTimer = C_Timer.NewTicker(updateFrequency, OnUpdateHandler)
-pins.updateTimer = C_Timer.NewTicker(1, OnUpdateHandler2)
+pins.updateTimer2 = C_Timer.NewTicker(1, OnUpdateHandler2)
 
 local function OnEventHandler(frame, event, ...)
     if event == "CVAR_UPDATE" then
