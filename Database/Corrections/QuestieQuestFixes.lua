@@ -127,6 +127,9 @@ function QuestieQuestFixes:Load()
         [463] = {
             [QuestieDB.questKeys.exclusiveTo] = {276}, --greenwarden cant be completed if you have trampling paws
         },
+        [464] = {
+            [QuestieDB.questKeys.preQuestSingle] = {}, -- #809
+        },
         [467] = {
             [QuestieDB.questKeys.startedBy] = {{1340,2092,},nil,nil,}, -- #1379
         },
@@ -134,7 +137,7 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.preQuestSingle] = {455}, -- #809
         },
         [484] = {
-            [QuestieDB.questKeys.requiredMinRep] = {}, -- #1501
+            [QuestieDB.questKeys.requiredMinRep] = nil, -- #1501
         },
         [510] = {
             [QuestieDB.questKeys.startedBy] = {nil,{1740},nil}, -- #1512
