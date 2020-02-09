@@ -611,7 +611,7 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.exclusiveTo] = {1275}, -- corruption abroad breadcrumb
         },
         [3791] = {
-            [QuestieDB.questKeys.preQuestSingle] = {3788}, -- #885
+            [QuestieDB.questKeys.preQuestSingle] = {3787,3788}, -- #885
         },
         [3903] = {
             [QuestieDB.questKeys.preQuestSingle] = {18},
