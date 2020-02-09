@@ -64,8 +64,10 @@ function QuestieMap:GetFramesForQuest(questId)
     local frames = {}
     --If no frames exists or if the quest does not exist we just return an empty list
     if (QuestieMap.questIdFrames[questId]) then
-        for i, name in ipairs(QuestieMap.questIdFrames[questId]) do
-            tinsert(frames, _G[name])
+        for i, name in pairs(QuestieMap.questIdFrames[questId]) do
+            if _G[name] then
+                frames[name] = _G[name]
+            end
         end
     end
     return frames
@@ -73,15 +75,17 @@ end
 
 function QuestieMap:UnloadQuestFrames(questId, iconType)
     if(QuestieMap.questIdFrames[questId]) then
-        if(iconType == nil) then
-            for _, frame in ipairs(QuestieMap:GetFramesForQuest(questId)) do
+        if iconType == nil then
+            for _, frame in pairs(QuestieMap:GetFramesForQuest(questId)) do
                 frame:Unload();
             end
             QuestieMap.questIdFrames[questId] = nil;
         else
-            for _, frame in ipairs(QuestieMap:GetFramesForQuest(questId)) do
-                if(frame and frame.data and frame.data.Icon == iconType) then
+            for name, frame in pairs(QuestieMap:GetFramesForQuest(questId)) do
+                if frame and frame.data and frame.data.Icon == iconType then
                     frame:Unload();
+                    QuestieMap.questIdFrames[questId][name] = nil
+                    _G[name] = nil
                 end
             end
         end
@@ -566,8 +570,10 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
         QuestieMap.questIdFrames[data.Id] = {}
     end
 
-    tinsert(QuestieMap.questIdFrames[data.Id], iconMap:GetName())
-    tinsert(QuestieMap.questIdFrames[data.Id], iconMinimap:GetName())
+    -- tinsert(QuestieMap.questIdFrames[data.Id], iconMap:GetName())
+    -- tinsert(QuestieMap.questIdFrames[data.Id], iconMinimap:GetName())
+    QuestieMap.questIdFrames[data.Id][iconMap:GetName()] = iconMap:GetName()
+    QuestieMap.questIdFrames[data.Id][iconMinimap:GetName()] = iconMinimap:GetName()
 
 
     --Hide unexplored logic

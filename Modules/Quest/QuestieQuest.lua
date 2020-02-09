@@ -70,17 +70,22 @@ function QuestieQuest:ToggleNotes(desiredValue)
         -- show quest notes
         local trackerHiddenQuests = questieCharDB.TrackerHiddenQuests
         for questId, framelist in pairs(QuestieMap.questIdFrames) do
-            if not trackerHiddenQuests or (not trackerHiddenQuests[questId]) then -- Skip quests which are completly hidden from the Tracker menu
+            if (trackerHiddenQuests == nil) or (trackerHiddenQuests[questId] == nil) then -- Skip quests which are completly hidden from the Tracker menu
                 for _, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
                     local icon = _G[frameName];
-                    local objectiveString = tostring(questId) .. " " .. tostring(icon.data.ObjectiveIndex)
-                    if (questieCharDB.TrackerHiddenObjectives == nil) or (questieCharDB.TrackerHiddenObjectives[objectiveString] == nil) then
-                        if icon ~= nil and icon.hidden and not ((((not questieGlobalDB.enableObjectives) and (icon.data.Type == "monster" or icon.data.Type == "object" or icon.data.Type == "event" or icon.data.Type == "item"))
-                            or ((not questieGlobalDB.enableTurnins) and icon.data.Type == "complete")
-                            or ((not questieGlobalDB.enableAvailable) and icon.data.Type == "available"))
-                            or ((not questieGlobalDB.enableMapIcons) and (not icon.miniMapIcon))
-                            or ((not questieGlobalDB.enableMiniMapIcons) and (icon.miniMapIcon))) or (icon.data.ObjectiveData and icon.data.ObjectiveData.HideIcons) or (icon.data.QuestData and icon.data.QuestData.HideIcons and icon.data.Type ~= "complete") then
-                                icon:FakeUnhide()
+                    if icon.data == nil then
+                        error("Desync! Icon has not been removed correctly, but has already been resetted. Skipping frame \"" .. frameName .. "\" for quest " .. questId)
+                        -- Questie:Debug(DEBUG_CRITICAL, "Desync! Icon has not been removed correctly, but has already been resetted. Skipping frame \"" .. frameName .. "\" for quest", questId)
+                    else
+                        local objectiveString = tostring(questId) .. " " .. tostring(icon.data.ObjectiveIndex)
+                        if (questieCharDB.TrackerHiddenObjectives == nil) or (questieCharDB.TrackerHiddenObjectives[objectiveString] == nil) then
+                            if icon ~= nil and icon.hidden and not ((((not questieGlobalDB.enableObjectives) and (icon.data.Type == "monster" or icon.data.Type == "object" or icon.data.Type == "event" or icon.data.Type == "item"))
+                                or ((not questieGlobalDB.enableTurnins) and icon.data.Type == "complete")
+                                or ((not questieGlobalDB.enableAvailable) and icon.data.Type == "available"))
+                                or ((not questieGlobalDB.enableMapIcons) and (not icon.miniMapIcon))
+                                or ((not questieGlobalDB.enableMiniMapIcons) and (icon.miniMapIcon))) or (icon.data.ObjectiveData and icon.data.ObjectiveData.HideIcons) or (icon.data.QuestData and icon.data.QuestData.HideIcons and icon.data.Type ~= "complete") then
+                                    icon:FakeUnhide()
+                            end
                         end
                     end
                 end
