@@ -905,7 +905,7 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
 
     -- check for special (unlisted) DB objectives
     if quest.SpecialObjectives then
-        Questie:Debug("Adding special objectives")
+        Questie:Debug(DEBUG_DEVELOP, "Adding special objectives")
         local index = 0 -- SpecialObjectives is a string table, but we need a number
         for _, objective in pairs(quest.SpecialObjectives) do
             local result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, quest, index, objective, true);
