@@ -1232,23 +1232,24 @@ end
 ]]--
 
 --Draw a single available quest, it is used by the DrawAllAvailableQuests function.
-function _QuestieQuest:DrawAvailableQuest(questObject) -- prevent recursion
+---@param quest Quest
+function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
 
     --TODO More logic here, currently only shows NPC quest givers.
-    if questObject.Starts["GameObject"] ~= nil then
-        for _, ObjectID in ipairs(questObject.Starts["GameObject"]) do
+    if quest.Starts["GameObject"] ~= nil then
+        for _, ObjectID in ipairs(quest.Starts["GameObject"]) do
             local obj = QuestieDB:GetObject(ObjectID)
             if(obj ~= nil and obj.spawns ~= nil) then
                 for Zone, Spawns in pairs(obj.spawns) do
                     if(Zone ~= nil and Spawns ~= nil) then
                         for _, coords in ipairs(Spawns) do
                             local data = {}
-                            data.Id = questObject.Id;
-                            data.Icon = _QuestieQuest:GetQuestIcon(questObject)
+                            data.Id = quest.Id;
+                            data.Icon = _QuestieQuest:GetQuestIcon(quest)
                             data.GetIconScale = function() return Questie.db.global.availableScale or 1.3 end
                             data.IconScale = data:GetIconScale()
                             data.Type = "available";
-                            data.QuestData = questObject;
+                            data.QuestData = quest;
                             data.Name = obj.name
 
                             data.IsObjectiveNote = false
@@ -1266,8 +1267,8 @@ function _QuestieQuest:DrawAvailableQuest(questObject) -- prevent recursion
                 end
             end
         end
-    elseif(questObject.Starts["NPC"] ~= nil)then
-        for _, NPCID in ipairs(questObject.Starts["NPC"]) do
+    elseif(quest.Starts["NPC"] ~= nil)then
+        for _, NPCID in ipairs(quest.Starts["NPC"]) do
             local NPC = QuestieDB:GetNPC(NPCID)
             if (NPC ~= nil and NPC.spawns ~= nil and NPC.friendly) then
                 --Questie:Debug(DEBUG_DEVELOP,"Adding Quest:", questObject.Id, "StarterNPC:", NPC.Id)
@@ -1278,12 +1279,12 @@ function _QuestieQuest:DrawAvailableQuest(questObject) -- prevent recursion
                         for _, coords in ipairs(Spawns) do
                             --Questie:Debug("Coords", coords[1], coords[2])
                             local data = {}
-                            data.Id = questObject.Id;
-                            data.Icon = _QuestieQuest:GetQuestIcon(questObject)
+                            data.Id = quest.Id;
+                            data.Icon = _QuestieQuest:GetQuestIcon(quest)
                             data.GetIconScale = function() return Questie.db.global.availableScale or 1.3 end
                             data.IconScale = data.GetIconScale();
                             data.Type = "available";
-                            data.QuestData = questObject;
+                            data.QuestData = quest;
                             data.Name = NPC.name
                             data.IsObjectiveNote = false
                             --data.updateTooltip = function(data)
@@ -1364,7 +1365,7 @@ function QuestieQuest:DrawAllAvailableQuests()--All quests between
         else
             --We might have to update the icon in this situation (config changed/level up)
             for _, frame in ipairs(QuestieMap:GetFramesForQuest(questId)) do
-                if frame and frame.data then
+                if frame and frame.data and frame.data.QuestData then
                     local newIcon = _QuestieQuest:GetQuestIcon(frame.data.QuestData)
                     if newIcon ~= frame.data.Icon then
                         frame:UpdateTexture(newIcon)
