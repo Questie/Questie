@@ -641,3 +641,56 @@ function QuestieNPCFixes:LoadFactionFixes()
         return npcFixesAlliance
     end
 end
+
+---Updates the NPC spawns to be either in Elwynn Forest or Mulgore
+---@param isInMulgore boolean
+---@return table<integer, any>
+function QuestieNPCFixes:LoadDarkmoonFixed(isInMulgore)
+    if isInMulgore then
+        return {
+            [14828] = {
+                [QuestieDB.npcKeys.spawns] = {[215]={{37.24,37.67},},},
+                [QuestieDB.npcKeys.zoneID] = 215,
+            },
+            [14829] = {
+                [QuestieDB.npcKeys.spawns] = {[215]={{37.47,39.56},},},
+                [QuestieDB.npcKeys.zoneID] = 215,
+            },
+            [14832] = {
+                [QuestieDB.npcKeys.spawns] = {[215]={{37.82,39.81},},},
+                [QuestieDB.npcKeys.zoneID] = 215,
+            },
+            [14833] = {
+                [QuestieDB.npcKeys.spawns] = {[215]={{36.17,35.15},},}, -- might be 37.2,37.7
+                [QuestieDB.npcKeys.zoneID] = 215,
+            },
+            [14841] = {
+                [QuestieDB.npcKeys.spawns] = {[215]={{37.09,37.17},},},
+                [QuestieDB.npcKeys.zoneID] = 215,
+            },
+        }
+    else
+        return {
+            [14828] = {
+                [QuestieDB.npcKeys.spawns] = {[12]={{41.5,68.87},},},
+                [QuestieDB.npcKeys.zoneID] = 12,
+            },
+            [14829] = {
+                [QuestieDB.npcKeys.spawns] = {[12]={{40.17,69.53},},},
+                [QuestieDB.npcKeys.zoneID] = 12,
+            },
+            [14832] = {
+                [QuestieDB.npcKeys.spawns] = {[12]={{40.49,69.93},},},
+                [QuestieDB.npcKeys.zoneID] = 12,
+            },
+            [14833] = {
+                [QuestieDB.npcKeys.spawns] = {[12]={{43.61,70.84},},}, -- might be 41.5,68.9
+                [QuestieDB.npcKeys.zoneID] = 12,
+            },
+            [14841] = {
+                [QuestieDB.npcKeys.spawns] = {[12]={{41.71,70.72},},},
+                [QuestieDB.npcKeys.zoneID] = 12,
+            },
+        }
+    end
+end

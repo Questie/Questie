@@ -17,6 +17,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
+---@type QuestieEvent
+local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent");
 
 local tinsert = table.insert
 local tremove = table.remove;

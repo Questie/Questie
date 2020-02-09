@@ -31,26 +31,37 @@ WoW's Anniversary    16th Nov - 30th Nov
 Pilgrim's Bounty    22nd Nov - 28th Nov    Thanksgiving
 Feast of Winter Veil    15th Dec - 2nd Jan    Christmas
 ]] --
-QuestieEvent = {}
+
+---@class QuestieEvent
+local QuestieEvent = QuestieLoader:CreateModule("QuestieEvent")
 QuestieEvent.activeQuests = {}
 
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+
+
 local tinsert = table.insert
+local _WithinDates, _LoadDarkmoonFaire
 
 function QuestieEvent:Load()
     local year = date("%y")
 
     -- We want to replace the Lunar Festival date with the date that we estimate
     QuestieEvent.eventDates["LunarFestival"] = QuestieEvent.lunarFestival[year]
-
     local activeEvents = {}
 
     for eventName, eventData in pairs(QuestieEvent.eventDates) do
         local startDay, startMonth = strsplit("/", eventData.startDate)
         local endDay, endMonth = strsplit("/", eventData.endDate)
 
+        startDay = tonumber(startDay)
+        startMonth = tonumber(startMonth)
+        endDay = tonumber(endDay)
+        endMonth = tonumber(endMonth)
+
         -- startDate = "15/12",
         -- endDate = "2/1",
-        if QuestieEvent:WithinDates(startDay, startMonth, endDay, endMonth) then
+        if _WithinDates(startDay, startMonth, endDay, endMonth) then
             Questie:Debug(DEBUG_INFO, "[QuestieEvent]", eventName,
                           "event is active!")
             activeEvents[eventName] = true
@@ -66,26 +77,85 @@ function QuestieEvent:Load()
         if questData[3] and questData[4] then
             startDay, startMonth = strsplit("/", questData[3])
             endDay, endMonth = strsplit("/", questData[4])
+            startDay = tonumber(startDay)
+            startMonth = tonumber(startMonth)
+            endDay = tonumber(endDay)
+            endMonth = tonumber(endMonth)
         end
 
-        if activeEvents[eventName] == true and QuestieEvent:WithinDates(startDay, startMonth, endDay, endMonth) then
+        if activeEvents[eventName] == true and _WithinDates(startDay, startMonth, endDay, endMonth) then
             QuestieCorrections.hiddenQuests[questId] = nil
             QuestieEvent.activeQuests[questId] = true
         end
     end
 
+    -- Darkmoon Faire is quite special because of its setup days where just two quests are available
+    _LoadDarkmoonFaire()
+
     -- Clear the quests to save memory
     QuestieEvent.eventQuests = nil
 end
 
-function QuestieEvent:WithinDates(startDay, startMonth, endDay, endMonth)
+--- https://classic.wowhead.com/guides/classic-darkmoon-faire#darkmoon-faire-location-and-schedule
+
+_LoadDarkmoonFaire = function()
+    local date = C_DateAndTime.GetTodaysDate()
+    local weekDay = date.weekDay
+    local day = date.day
+    local month = date.month
+
+    local isInMulgore = (month % 2) == 0
+
+    -- The 16 is the highest date the faire can possibly end
+    if day > 16 then
+        return
+    end
+
+    -- Darkmoon Faire starts its setup the first Friday of the month and will begin the following Monday.
+    -- The faire ends the sunday after it has begun.
+    -- Sunday is the first weekday
+    if (weekDay == 6 and day <= 7) or -- Friday
+        (weekDay == 7 and day <= 8 and day > 1) or -- Saturday
+        (weekDay == 1 and day <= 9 and day > 2) then -- Sunday
+        -- The faire is setting up right now
+        local annoucingQuestId = 7905 -- Alliance announcement quest
+        if isInMulgore then
+            annoucingQuestId = 7926 -- Horde announcement quest
+        end
+        QuestieCorrections.hiddenQuests[annoucingQuestId] = nil
+    else
+        -- The faire is up right now
+        for _, questData in pairs(QuestieEvent.eventQuests) do
+            if questData[1] == "DarkmoonFaire" then
+                local questId = questData[2]
+                QuestieCorrections.hiddenQuests[questId] = nil
+
+                -- Update the NPC spawns based on the place of the faire
+                for id, data in pairs(QuestieNPCFixes:LoadDarkmoonFixed(isInMulgore)) do
+                    for key, value in pairs(data) do
+                        QuestieDB.npcData[id][key] = value
+                    end
+                end
+            end
+        end
+    end
+end
+
+--- Checks wheather the current date is within the given date range
+---@param startDay number
+---@param startMonth number
+---@param endDay number
+---@param endMonth number
+---@return boolean @True if the current date is between the given, false otherwise
+_WithinDates = function(startDay, startMonth, endDay, endMonth)
     if (not startDay) and (not startMonth) and (not endDay) and (not endMonth) then
         return true
     end
-    local month = tonumber(date("%m"))
-    local day = tonumber(date("%d"))
-    if ((day >= tonumber(startDay) and month == tonumber(startMonth)) or
-        (day <= tonumber(endDay) and month == tonumber(endMonth))) then
+    local date = C_DateAndTime.GetTodaysDate()
+    local day = date.day
+    local month = date.month
+    if ((day >= startDay and month == startMonth) or
+        (day <= endDay and month == endMonth)) then
         return true
     else
         return false

@@ -4,6 +4,8 @@ QuestieCorrections = {...}
 -------------------------
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
+---@type QuestieEvent
+local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent");
 
 --[[
     This file load the corrections of the database files.

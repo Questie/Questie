@@ -317,6 +317,7 @@
         "C_Cursor.GetCursorCommunitiesStream",
         "C_Cursor.GetCursorItem",
         "C_Cursor.SetCursorCommunitiesStream",
+        "C_DateAndTime",
         "C_DeathInfo.GetCorpseMapPosition",
         "C_DeathInfo.GetDeathReleasePosition",
         "C_DeathInfo.GetGraveyardsForMap",
