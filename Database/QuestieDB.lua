@@ -219,6 +219,13 @@ function QuestieDB:GetQuest(questID) -- /dump QuestieDB:GetQuest(867)
         QO.Repeatable = mod(QO.specialFlags, 2) == 1
     end
 
+    local questType, questTag = GetQuestTagInfo(questID)
+    if questType == 81 then
+        QO.isDungeonQuest = true
+    elseif questType == 41 then
+        QO.isPvPQuest = true
+    end
+
     -- reorganize to match wow api
     if rawdata[3][1] ~= nil then
         for k,v in pairs(rawdata[3][1]) do

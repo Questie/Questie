@@ -92,6 +92,7 @@ function QuestieOptionsDefaults:Load()
             hideUnexploredMapIcons = false,
             showRepeatableQuests = true,
             showEventQuests = true,
+            showDungeonQuests = true,
         },
         profile = {minimap = {hide = false}}
     }

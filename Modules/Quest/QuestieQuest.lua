@@ -1464,6 +1464,7 @@ function QuestieQuest:CalculateAvailableQuests()
     local minLevel = playerLevel - Questie.db.global.minLevelFilter
     local maxLevel = playerLevel + Questie.db.global.maxLevelFilter
     local showRepeatableQuests = Questie.db.char.showRepeatableQuests
+    local showDungeonQuests = Questie.db.char.showDungeonQuests
 
     if(not Questie.db.char.manualMinLevelOffset) then
         minLevel = playerLevel - GetQuestGreenRange();
@@ -1479,7 +1480,9 @@ function QuestieQuest:CalculateAvailableQuests()
             (not Questie.db.char.complete[questID]) and -- Don't show completed quests
             ((not QuestiePlayer.currentQuestlog[questID]) or QuestieQuest:IsComplete(quest) == -1) and -- Don't show quests if they're already in the quest log
             (not QuestieCorrections.hiddenQuests[questID]) and -- Don't show blacklisted quests
-            ((not quest.Repeatable) or (quest.Repeatable and showRepeatableQuests))) then -- Show repeatable quests if the quest is repeatable and the option is enabled
+            ((not quest.Repeatable) or (quest.Repeatable and showRepeatableQuests)) and -- Show repeatable quests if the quest is repeatable and the option is enabled
+            ((not quest.isDungeonQuest) or (quest.isDungeonQuest and showDungeonQuests)) -- Show dungeon quests only with the option enabled
+        ) then
 
             if quest and _QuestieQuest:LevelRequirementsFulfilled(quest, playerLevel, minLevel, maxLevel) then
                 if _QuestieQuest:IsDoable(quest) then

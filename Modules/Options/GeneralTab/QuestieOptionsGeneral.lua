@@ -179,6 +179,19 @@ function QuestieOptions.tabs.general:Initialize()
                             QuestieQuest:Reset()
                         end,
                     },
+                    showDungeonQuests = {
+                        type = "toggle",
+                        order = 10,
+                        name = function() return QuestieLocale:GetUIString('ENABLE_DUNGEON_QUEST_ICONS'); end,
+                        desc = function() return QuestieLocale:GetUIString('ENABLE_DUNGEON_QUEST_ICONS_DESC'); end,
+                        width = 1.5,
+                        disabled = function() return (not Questie.db.char.enabled); end,
+                        get = function(info) return Questie.db.char.showDungeonQuests end,
+                        set = function (info, value)
+                            Questie.db.char.showDungeonQuests = value
+                            QuestieQuest:Reset()
+                        end,
+                    },
                 },
             },
             Spacer_A = QuestieOptionsUtils:Spacer(1.22),
