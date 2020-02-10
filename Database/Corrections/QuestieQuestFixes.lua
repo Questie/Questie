@@ -1137,6 +1137,9 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.startedBy] = {{14733},nil,nil},
             [QuestieDB.questKeys.finishedBy] = {{14733},nil,},
         },
+        [7946] = {
+            [QuestieDB.questKeys.questLevel] = 60,
+        },
         [8149] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 77,
         },
