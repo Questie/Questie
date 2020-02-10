@@ -59,6 +59,14 @@ function QuestieEvent:Load()
         endDay = tonumber(endDay)
         endMonth = tonumber(endMonth)
 
+        if eventName == "LunarFestival" then
+            print("OIAJSD")
+            print(startDay)
+            print(startMonth)
+            print(endDay)
+            print(endMonth)
+        end
+
         -- startDate = "15/12",
         -- endDate = "2/1",
         if _WithinDates(startDay, startMonth, endDay, endMonth) then
@@ -176,11 +184,13 @@ _WithinDates = function(startDay, startMonth, endDay, endMonth)
     local date = C_DateAndTime.GetTodaysDate()
     local day = date.day
     local month = date.month
-    if (day >= startDay and month == startMonth and -- start
-        day <= endDay and month == endMonth) then -- end
-        return true
-    else
+    if (month < startMonth) or -- Too early in the year
+        (month > endMonth) or -- Too late in the year
+        (month == startMonth and day < startDay) or -- Too early in the correct month
+        (month == endMonth and day > endDay) then -- Too late in the correct month
         return false
+    else
+        return true
     end
 end
 
@@ -205,7 +215,7 @@ QuestieEvent.eventDates = {
 
 QuestieEvent.lunarFestival = {
     ["19"] = {startDate = "5/2", endDate = "19/2"},
-    ["20"] = {startDate = "24/1", endDate = "7/2"},
+    ["20"] = {startDate = "23/1", endDate = "10/2"},
     -- Below are estimates
     ["21"] = {startDate = "12/2", endDate = "26/2"},
     ["22"] = {startDate = "1/2", endDate = "15/2"},
