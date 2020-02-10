@@ -295,6 +295,26 @@ tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8644}) -- Stonefort the Elde
 tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8675}) -- Skychaser the Elder
 tinsert(QuestieEvent.eventQuests, {"LunarFestival", 8719}) -- Bladesing the Elder
 
+tinsert(QuestieEvent.eventQuests, {"LoveIsInTheAir", 8897}) -- Dearest Colara
+tinsert(QuestieEvent.eventQuests, {"LoveIsInTheAir", 8898}) -- Dearest Colara
+tinsert(QuestieEvent.eventQuests, {"LoveIsInTheAir", 8899}) -- Dearest Colara
+tinsert(QuestieEvent.eventQuests, {"LoveIsInTheAir", 8900}) -- Dearest Elenia
+tinsert(QuestieEvent.eventQuests, {"LoveIsInTheAir", 8901}) -- Dearest Elenia
+tinsert(QuestieEvent.eventQuests, {"LoveIsInTheAir", 8902}) -- Dearest Elenia
+tinsert(QuestieEvent.eventQuests, {"LoveIsInTheAir", 8903}) -- Dangerous Love
+tinsert(QuestieEvent.eventQuests, {"LoveIsInTheAir", 8904}) -- Dangerous Love
+tinsert(QuestieEvent.eventQuests, {"LoveIsInTheAir", 8979}) -- Fenstad's Hunch
+tinsert(QuestieEvent.eventQuests, {"LoveIsInTheAir", 8980}) -- Zinge's Assessment
+tinsert(QuestieEvent.eventQuests, {"LoveIsInTheAir", 8981}) -- Gift Giving
+tinsert(QuestieEvent.eventQuests, {"LoveIsInTheAir", 8982}) -- Tracing the Source
+tinsert(QuestieEvent.eventQuests, {"LoveIsInTheAir", 8983}) -- Tracing the Source
+tinsert(QuestieEvent.eventQuests, {"LoveIsInTheAir", 8984}) -- The Source Revealed
+tinsert(QuestieEvent.eventQuests, {"LoveIsInTheAir", 8993}) -- Gift Giving
+tinsert(QuestieEvent.eventQuests, {"LoveIsInTheAir", 9024}) -- Aristan's Hunch
+tinsert(QuestieEvent.eventQuests, {"LoveIsInTheAir", 9025}) -- Morgan's Discovery
+tinsert(QuestieEvent.eventQuests, {"LoveIsInTheAir", 9026}) -- Tracing the Source
+tinsert(QuestieEvent.eventQuests, {"LoveIsInTheAir", 9027}) -- Tracing the Source
+tinsert(QuestieEvent.eventQuests, {"LoveIsInTheAir", 9028}) -- The Source Revealed
 tinsert(QuestieEvent.eventQuests, {"LoveIsInTheAir", 9029}) -- A Bubbling Cauldron
 
 tinsert(QuestieEvent.eventQuests, {"MidsummerFireFestival", 9388}) -- Flickering Flames in Kalimdor

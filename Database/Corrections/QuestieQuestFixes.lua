@@ -1348,6 +1348,30 @@ function QuestieQuestFixes:Load()
         [8882] = {
             [QuestieDB.questKeys.specialFlags] = 1,
         },
+        [8897] = {
+            [QuestieDB.questKeys.exclusiveTo] = {8898,8899,8903},
+        },
+        [8898] = {
+            [QuestieDB.questKeys.exclusiveTo] = {8897,8899,8903},
+        },
+        [8899] = {
+            [QuestieDB.questKeys.exclusiveTo] = {8897,8898,8903},
+        },
+        [8900] = {
+            [QuestieDB.questKeys.exclusiveTo] = {8901,8902,8904},
+        },
+        [8901] = {
+            [QuestieDB.questKeys.exclusiveTo] = {8900,8902,8904},
+        },
+        [8902] = {
+            [QuestieDB.questKeys.exclusiveTo] = {8900,8901,8904},
+        },
+        [8903] = {
+            [QuestieDB.questKeys.preQuestSingle] = {},
+        },
+        [8904] = {
+            [QuestieDB.questKeys.preQuestSingle] = {},
+        },
         [8980] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 178,
         },
