@@ -312,6 +312,7 @@ end
 local function _AllQuestWindowsClosed()
     if GossipFrame and (not GossipFrame:IsVisible())
         and GossipFrameGreetingPanel and (not GossipFrameGreetingPanel:IsVisible())
+        and QuestFrameGreetingPanel and (not QuestFrameGreetingPanel:IsVisible())
         and QuestFrameDetailPanel and (not QuestFrameDetailPanel:IsVisible())
         and QuestFrameProgressPanel and (not QuestFrameProgressPanel:IsVisible())
         and QuestFrameRewardPanel and (not QuestFrameRewardPanel:IsVisible()) then

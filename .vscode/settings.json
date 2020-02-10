@@ -2552,6 +2552,7 @@
         "PvPCommentator",
         "QuestFrame",
         "QuestFrameDetailPanel",
+        "QuestFrameGreetingPanel",
         "QuestFrameGoodbyeButton",
         "QuestFrameProgressPanel",
         "QuestFrameRewardPanel",

@@ -126,6 +126,12 @@ function QuestieAuto:QUEST_GREETING(event, ...)
         return
     end
 
+    if cameFromProgressEvent then
+        Questie:Debug(DEBUG_DEVELOP, "Last event was Progress")
+        cameFromProgressEvent = false
+        lastIndexTried = lastIndexTried + 1
+    end
+
     -- Quest already taken
     if (Questie.db.char.autocomplete) then
         for index = 1, GetNumActiveQuests() do
@@ -136,7 +142,7 @@ function QuestieAuto:QUEST_GREETING(event, ...)
     end
 
     if (Questie.db.char.autoaccept) then
-        if lastIndexTried == 0 then
+        if lastIndexTried == 0 or lastIndexTried > GetNumAvailableQuests() then
             lastIndexTried = 1
         end
         Questie:Debug(DEBUG_DEVELOP, "lastIndex:", lastIndexTried)
