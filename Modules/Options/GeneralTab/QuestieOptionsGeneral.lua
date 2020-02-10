@@ -154,9 +154,9 @@ function QuestieOptions.tabs.general:Initialize()
                         desc = function() return QuestieLocale:GetUIString('ENABLE_REPEATABLE_QUEST_ICONS_DESC'); end,
                         width = 1.5,
                         disabled = function() return (not Questie.db.char.enabled); end,
-                        get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
+                        get = function(info) return Questie.db.char.showRepeatableQuests end,
                         set = function (info, value)
-                            QuestieOptions:SetGlobalOptionValue(info, value)
+                            Questie.db.char.showRepeatableQuests = value
                             QuestieQuest:Reset();
                         end,
                     },

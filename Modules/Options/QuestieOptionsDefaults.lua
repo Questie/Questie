@@ -74,7 +74,6 @@ function QuestieOptionsDefaults:Load()
             iconFadeLevel = 0.3,
             trackerLocked = true,
             hideUnexploredMapIcons = false,
-            showRepeatableQuests = true,
             trackerBackgroundEnabled = false,
         },
         char = {
@@ -91,6 +90,7 @@ function QuestieOptionsDefaults:Load()
             autoModifier = "shift",
             acceptTrivial = false,
             isTrackerExpanded = true,
+            showRepeatableQuests = true,
             showEventQuests = true,
         },
         profile = {minimap = {hide = false}}

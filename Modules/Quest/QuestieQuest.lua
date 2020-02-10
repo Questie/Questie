@@ -1462,7 +1462,7 @@ function QuestieQuest:CalculateAvailableQuests()
     local playerLevel = QuestiePlayer:GetPlayerLevel()
     local minLevel = playerLevel - Questie.db.global.minLevelFilter
     local maxLevel = playerLevel + Questie.db.global.maxLevelFilter
-    local showRepeatableQuests = Questie.db.global.showRepeatableQuests
+    local showRepeatableQuests = Questie.db.char.showRepeatableQuests
 
     if(not Questie.db.char.manualMinLevelOffset) then
         minLevel = playerLevel - GetQuestGreenRange();
