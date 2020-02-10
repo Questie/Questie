@@ -645,7 +645,7 @@ end
 ---Updates the NPC spawns to be either in Elwynn Forest or Mulgore
 ---@param isInMulgore boolean
 ---@return table<integer, any>
-function QuestieNPCFixes:LoadDarkmoonFixed(isInMulgore)
+function QuestieNPCFixes:LoadDarkmoonFixes(isInMulgore)
     if isInMulgore then
         return {
             [14828] = {

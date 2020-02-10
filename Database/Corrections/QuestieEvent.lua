@@ -97,7 +97,9 @@ function QuestieEvent:Load()
 end
 
 --- https://classic.wowhead.com/guides/classic-darkmoon-faire#darkmoon-faire-location-and-schedule
-
+--- Darkmoon Faire starts its setup the first Friday of the month and will begin the following Monday.
+--- The faire ends the sunday after it has begun.
+--- Sunday is the first weekday
 _LoadDarkmoonFaire = function()
     local date = C_DateAndTime.GetTodaysDate()
     local weekDay = date.weekDay
@@ -107,23 +109,22 @@ _LoadDarkmoonFaire = function()
     local isInMulgore = (month % 2) == 0
 
     -- The 16 is the highest date the faire can possibly end
-    if day > 16 then
+    -- And on a Monday (weekDay == 2) the faire ended, when it's the second Monday after the first Friday of the month
+    if day > 16 or
+        (weekDay == 2 and (day >= 11 and day <= 17)) or
+        (weekDay ~= 6 and (day - weekDay < 1)) or
+        (weekDay ~= 6 and (day - weekDay == 1)) then
         return
     end
 
-    -- Darkmoon Faire starts its setup the first Friday of the month and will begin the following Monday.
-    -- The faire ends the sunday after it has begun.
-    -- Sunday is the first weekday
-    if (weekDay == 6 and day <= 7) or -- Friday
-        (weekDay == 7 and day <= 8 and day > 1) or -- Saturday
-        (weekDay == 1 and day <= 9 and day > 2) then -- Sunday
-        -- The faire is setting up right now
-        local annoucingQuestId = 7905 -- Alliance announcement quest
-        if isInMulgore then
-            annoucingQuestId = 7926 -- Horde announcement quest
-        end
-        QuestieCorrections.hiddenQuests[annoucingQuestId] = nil
-    else
+    -- The faire is setting up right now or is already up
+    local annoucingQuestId = 7905 -- Alliance announcement quest
+    if isInMulgore then
+        annoucingQuestId = 7926 -- Horde announcement quest
+    end
+    QuestieCorrections.hiddenQuests[annoucingQuestId] = nil
+
+    if (weekDay >= 2 and day >= 5) or (weekDay == 1 and day >= 10 and day <= 16) then
         -- The faire is up right now
         for _, questData in pairs(QuestieEvent.eventQuests) do
             if questData[1] == "DarkmoonFaire" then
@@ -131,7 +132,7 @@ _LoadDarkmoonFaire = function()
                 QuestieCorrections.hiddenQuests[questId] = nil
 
                 -- Update the NPC spawns based on the place of the faire
-                for id, data in pairs(QuestieNPCFixes:LoadDarkmoonFixed(isInMulgore)) do
+                for id, data in pairs(QuestieNPCFixes:LoadDarkmoonFixes(isInMulgore)) do
                     for key, value in pairs(data) do
                         QuestieDB.npcData[id][key] = value
                     end
@@ -139,6 +140,10 @@ _LoadDarkmoonFaire = function()
             end
         end
     end
+end
+
+_GetStartingDay = function(day, weekDay)
+
 end
 
 --- Checks wheather the current date is within the given date range
