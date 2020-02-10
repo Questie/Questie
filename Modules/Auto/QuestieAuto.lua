@@ -238,7 +238,9 @@ end
 
 --- The closingCounter needs to reach 1 for QuestieAuto to reset
 --- Whenever the gossip frame is closed this event is called once, HOWEVER
---- when totally stop talking to an NPC this event is called twice
+--- when totally stop talking to an NPC this event is called twice.
+--- Another special case is: If you run away from the NPC the event is called
+--- just once.
 function QuestieAuto:GOSSIP_CLOSED()
     Questie:Debug(DEBUG_DEVELOP, "[EVENT] GOSSIP_CLOSED")
     lastEvent = "GOSSIP_CLOSED"
@@ -247,6 +249,7 @@ function QuestieAuto:GOSSIP_CLOSED()
         doneTalking = false
         Questie:Debug(DEBUG_DEVELOP, "We are done talking to an NPC! Resetting shouldRunAuto")
         shouldRunAuto = true
+        lastEvent = nil
     else
         doneTalking = true
     end
