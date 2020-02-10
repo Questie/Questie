@@ -35,7 +35,7 @@ function QuestieAuto:GOSSIP_SHOW(event, ...)
     local availableQuests = {GetGossipAvailableQuests()}
     local currentNPC = UnitName("target")
     if lastNPCTalkedTo ~= currentNPC or #availableQuests ~= lastAmountOfAvailableQuests then
-        Questie:Debug("Greeted by a new NPC")
+        Questie:Debug(DEBUG_DEVELOP, "Greeted by a new NPC")
         lastNPCTalkedTo = currentNPC
         isAllowedNPC = _QuestieAuto:IsAllowedNPC()
         lastIndexTried = 1
@@ -44,7 +44,7 @@ function QuestieAuto:GOSSIP_SHOW(event, ...)
     end
 
     if cameFromProgressEvent then
-        Questie:Debug("Last event was Progress")
+        Questie:Debug(DEBUG_DEVELOP, "Last event was Progress")
         cameFromProgressEvent = false
         lastIndexTried = lastIndexTried + MOP_INDEX_AVAILABLE
     end
@@ -88,7 +88,7 @@ function QuestieAuto:QUEST_PROGRESS(event, ...)
                 -- lastIndexTried = lastIndexTried - 1
                 return
             else
-                Questie:Debug("Quest not completeable. Skipping to next quest. Index:", lastIndexTried)
+                Questie:Debug(DEBUG_DEVELOP, "Quest not completeable. Skipping to next quest. Index:", lastIndexTried)
             end
         end
 
