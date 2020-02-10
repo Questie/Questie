@@ -95,7 +95,7 @@ end
 --Fires on MAP_EXPLORATION_UPDATED.
 function QuestieEventHandler:MAP_EXPLORATION_UPDATED()
     Questie:Debug(DEBUG_DEVELOP, "[EVENT] MAP_EXPLORATION_UPDATED");
-    if Questie.db.global.hideUnexploredMapIcons then
+    if Questie.db.char.hideUnexploredMapIcons then
         QuestieMap.utils:MapExplorationUpdate();
     end
 end

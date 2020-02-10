@@ -577,7 +577,7 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
 
 
     --Hide unexplored logic
-    if(not QuestieMap.utils:IsExplored(iconMap.UiMapID, x, y) and questieGlobalDB.hideUnexploredMapIcons) then
+    if(not QuestieMap.utils:IsExplored(iconMap.UiMapID, x, y) and Questie.db.char.hideUnexploredMapIcons) then
         iconMap:FakeHide()
         iconMinimap:FakeHide()
     end

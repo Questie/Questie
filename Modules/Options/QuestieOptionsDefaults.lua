@@ -73,7 +73,6 @@ function QuestieOptionsDefaults:Load()
             trackerbindUntrack = "shiftleft",
             iconFadeLevel = 0.3,
             trackerLocked = true,
-            hideUnexploredMapIcons = false,
             trackerBackgroundEnabled = false,
         },
         char = {
@@ -90,6 +89,7 @@ function QuestieOptionsDefaults:Load()
             autoModifier = "shift",
             acceptTrivial = false,
             isTrackerExpanded = true,
+            hideUnexploredMapIcons = false,
             showRepeatableQuests = true,
             showEventQuests = true,
         },

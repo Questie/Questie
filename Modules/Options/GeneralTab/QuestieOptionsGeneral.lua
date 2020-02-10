@@ -97,10 +97,10 @@ function QuestieOptions.tabs.general:Initialize()
                         desc = function() return QuestieLocale:GetUIString('HIDE_UNEXPLORED_ICONS_DESC'); end,
                         width = 1.5,
                         disabled = function() return (not Questie.db.char.enabled); end,
-                        get = function() return Questie.db.global.hideUnexploredMapIcons; end,
+                        get = function() return Questie.db.char.hideUnexploredMapIcons; end,
                         set = function(info, value)
-                            Questie.db.global.hideUnexploredMapIcons = value
-                            QuestieQuest:Reset();
+                            Questie.db.char.hideUnexploredMapIcons = value
+                            QuestieQuest:Reset()
                         end,
                     },
                     seperatingHeader1 = {
