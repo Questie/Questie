@@ -151,7 +151,7 @@ end
 -- Rescale all the icons
 function QuestieMap:RescaleIcons(modifier)
     for _, framelist in pairs(QuestieMap.questIdFrames) do
-        for _, frameName in ipairs(framelist) do
+        for _, frameName in pairs(framelist) do
             rescaleIcon(frameName, modifier)
         end
     end

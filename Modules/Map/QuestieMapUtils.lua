@@ -150,7 +150,7 @@ end
 
 function QuestieMap.utils:MapExplorationUpdate()
     for questId, frameList in pairs(QuestieMap.questIdFrames) do
-        for _, frameName in ipairs(frameList) do
+        for _, frameName in pairs(frameList) do
             local frame = _G[frameName]
             if (frame and frame.x and frame.y and frame.UiMapID and frame.hidden) then
                 if (QuestieMap.utils:IsExplored(frame.UiMapID, frame.x, frame.y)) then

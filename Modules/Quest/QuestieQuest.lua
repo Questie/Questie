@@ -71,7 +71,7 @@ function QuestieQuest:ToggleNotes(desiredValue)
         local trackerHiddenQuests = questieCharDB.TrackerHiddenQuests
         for questId, framelist in pairs(QuestieMap.questIdFrames) do
             if (trackerHiddenQuests == nil) or (trackerHiddenQuests[questId] == nil) then -- Skip quests which are completly hidden from the Tracker menu
-                for _, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
+                for _, frameName in pairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
                     local icon = _G[frameName];
                     if icon.data == nil then
                         error("Desync! Icon has not been removed correctly, but has already been resetted. Skipping frame \"" .. frameName .. "\" for quest " .. questId)
@@ -106,7 +106,7 @@ function QuestieQuest:ToggleNotes(desiredValue)
         Questie_Toggle:SetText(QuestieLocale:GetUIString('QUESTIE_MAP_BUTTON_SHOW'));
         -- hide quest notes
         for questId, framelist in pairs(QuestieMap.questIdFrames) do
-            for index, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
+            for index, frameName in pairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
                 local icon = _G[frameName];
                 if icon ~= nil and icon.IsShown ~= nil and (not icon.hidden) then -- check for function to make sure its a frame
                     icon:FakeHide()
@@ -146,7 +146,7 @@ function QuestieQuest:ClearAllNotes()
     end
 
     for questId, framelist in pairs(QuestieMap.questIdFrames) do
-        for index, frameName in ipairs(framelist) do
+        for index, frameName in pairs(framelist) do
             local icon = _G[frameName]
             if icon and icon.Unload then
                 icon:Unload()
@@ -249,7 +249,7 @@ function QuestieQuest:UpdateHiddenNotes()
 
     -- Update hidden status of quest notes
     for questId, framelist in pairs(QuestieMap.questIdFrames) do
-        for index, frameName in ipairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
+        for index, frameName in pairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
             local icon = _G[frameName];
             if icon ~= nil and icon.data then
                 if (QuestieQuest.NotesHidden or (((not questieGlobalDB.enableObjectives) and (icon.data.Type == "monster" or icon.data.Type == "object" or icon.data.Type == "event" or icon.data.Type == "item"))
