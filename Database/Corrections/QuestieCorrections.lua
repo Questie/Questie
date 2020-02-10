@@ -67,7 +67,7 @@ function QuestieCorrections:Initialize()
     QuestieCorrections.questItemBlacklist = QuestieItemBlacklist:Load()
     QuestieCorrections.hiddenQuests = QuestieQuestBlacklist:Load()
 
-    if QuestieEvent then
+    if Questie.db.char.showEventQuests then
         QuestieEvent:Load()
     end
 end

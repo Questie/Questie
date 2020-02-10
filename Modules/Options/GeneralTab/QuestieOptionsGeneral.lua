@@ -11,10 +11,10 @@ local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefault
 local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils");
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker");
----@type QuestieFramePool
-local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool");
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
+---@type QuestieEvent
+local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent");
 
 QuestieOptions.tabs.general = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
@@ -69,7 +69,7 @@ function QuestieOptions.tabs.general:Initialize()
                         order = 1,
                         name = function() return QuestieLocale:GetUIString('ENABLE_MAP_ICONS'); end,
                         desc = function() return QuestieLocale:GetUIString('ENABLE_MAP_ICONS_DESC'); end,
-                        width = "full",
+                        width = 1.5,
                         disabled = function() return (not Questie.db.char.enabled); end,
                         get = function () return Questie.db.global.enableMapIcons; end,
                         set = function (info, value)
@@ -82,7 +82,7 @@ function QuestieOptions.tabs.general:Initialize()
                         order = 2,
                         name = function() return QuestieLocale:GetUIString('ENABLE_MINIMAP_ICONS'); end,
                         desc = function() return QuestieLocale:GetUIString('ENABLE_MINIMAP_ICONS_DESC'); end,
-                        width = "full",
+                        width = 1.5,
                         disabled = function() return (not Questie.db.char.enabled); end,
                         get = function () return Questie.db.global.enableMiniMapIcons; end,
                         set = function (info, value)
@@ -95,7 +95,7 @@ function QuestieOptions.tabs.general:Initialize()
                         order = 3,
                         name = function() return QuestieLocale:GetUIString('HIDE_UNEXPLORED_ICONS'); end,
                         desc = function() return QuestieLocale:GetUIString('HIDE_UNEXPLORED_ICONS_DESC'); end,
-                        width = "full",
+                        width = 1.5,
                         disabled = function() return (not Questie.db.char.enabled); end,
                         get = function() return Questie.db.global.hideUnexploredMapIcons; end,
                         set = function(info, value)
@@ -158,6 +158,25 @@ function QuestieOptions.tabs.general:Initialize()
                         set = function (info, value)
                             QuestieOptions:SetGlobalOptionValue(info, value)
                             QuestieQuest:Reset();
+                        end,
+                    },
+                    showEventQuests = {
+                        type = "toggle",
+                        order = 8,
+                        name = function() return QuestieLocale:GetUIString('ENABLE_EVENT_QUEST_ICONS'); end,
+                        desc = function() return QuestieLocale:GetUIString('ENABLE_EVENT_QUEST_ICONS_DESC'); end,
+                        width = 1.5,
+                        disabled = function() return (not Questie.db.char.enabled); end,
+                        get = function(info) return Questie.db.char.showEventQuests end,
+                        set = function (info, value)
+                            Questie.db.char.showEventQuests = value
+
+                            if value then
+                                QuestieEvent:Load()
+                            else
+                                QuestieEvent:Unload()
+                            end
+                            QuestieQuest:Reset()
                         end,
                     },
                 },

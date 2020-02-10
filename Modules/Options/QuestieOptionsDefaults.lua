@@ -91,6 +91,7 @@ function QuestieOptionsDefaults:Load()
             autoModifier = "shift",
             acceptTrivial = false,
             isTrackerExpanded = true,
+            showEventQuests = true,
         },
         profile = {minimap = {hide = false}}
     }

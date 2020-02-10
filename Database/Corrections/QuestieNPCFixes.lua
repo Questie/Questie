@@ -668,6 +668,10 @@ function QuestieNPCFixes:LoadDarkmoonFixes(isInMulgore)
                 [QuestieDB.npcKeys.spawns] = {[215]={{37.09,37.17},},},
                 [QuestieDB.npcKeys.zoneID] = 215,
             },
+            [14871] = {
+                [QuestieDB.npcKeys.spawns] = {[215]={{35.92,35.27},},},
+                [QuestieDB.npcKeys.zoneID] = 215,
+            },
         }
     else
         return {
@@ -689,6 +693,10 @@ function QuestieNPCFixes:LoadDarkmoonFixes(isInMulgore)
             },
             [14841] = {
                 [QuestieDB.npcKeys.spawns] = {[12]={{41.71,70.72},},},
+                [QuestieDB.npcKeys.zoneID] = 12,
+            },
+            [14871] = {
+                [QuestieDB.npcKeys.spawns] = {[12]={{43.34,70.28},},},
                 [QuestieDB.npcKeys.zoneID] = 12,
             },
         }
