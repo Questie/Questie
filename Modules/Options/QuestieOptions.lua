@@ -25,7 +25,7 @@ function QuestieOptions:Initialize()
     Questie.configFrame = LibStub("AceConfigDialogQuestie-3.0"):AddToBlizOptions("Questie", "Questie");
 
     local configFrame = AceGUI:Create("Frame");
-    LibStub("AceConfigDialogQuestie-3.0"):SetDefaultSize("Questie", 625, 700)
+    LibStub("AceConfigDialogQuestie-3.0"):SetDefaultSize("Questie", 625, 730)
     LibStub("AceConfigDialogQuestie-3.0"):Open("Questie", configFrame)
     configFrame:Hide();
     QuestieConfigFrame = configFrame.frame;
