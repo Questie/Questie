@@ -194,7 +194,7 @@ QuestieEvent.eventDates = {
         startDate = "24/1",
         endDate = "7/2"
     },
-    ["LoveIsInTheAir"] = {startDate = "7/2", endDate = "20/2"},
+    ["LoveIsInTheAir"] = {startDate = "11/2", endDate = "16/2"},
     ["Noblegarden"] = { -- WARNING THIS DATE VARIES!!!!
         startDate = "13/5",
         endDate = "19/5"
