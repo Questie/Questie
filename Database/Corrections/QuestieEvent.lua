@@ -86,8 +86,6 @@ function QuestieEvent:Load()
         if activeEvents[eventName] == true and _WithinDates(startDay, startMonth, endDay, endMonth) then
             QuestieCorrections.hiddenQuests[questId] = nil
             QuestieEvent.activeQuests[questId] = true
-            local quest = QuestieDB:GetQuest(questId)
-            quest.isHidden = false
         end
     end
 
@@ -106,8 +104,8 @@ function QuestieEvent:Unload()
     for questId, _ in pairs(QuestieEvent.activeQuests) do
         QuestieCorrections.hiddenQuests[questId] = true
         QuestieEvent.activeQuests[questId] = false
-        local quest = QuestieDB:GetQuest(questId)
-        quest.isHidden = true
+        -- local quest = QuestieDB:GetQuest(questId)
+        -- quest.isHidden = true
     end
 end
 
@@ -139,8 +137,6 @@ _LoadDarkmoonFaire = function()
     end
     QuestieCorrections.hiddenQuests[annoucingQuestId] = nil
     QuestieEvent.activeQuests[annoucingQuestId] = true
-    local quest = QuestieDB:GetQuest(annoucingQuestId)
-    quest.isHidden = false
 
     if (weekDay >= 2 and day >= 5) or (weekDay == 1 and day >= 10 and day <= 16) then
         -- The faire is up right now
@@ -149,8 +145,6 @@ _LoadDarkmoonFaire = function()
                 local questId = questData[2]
                 QuestieCorrections.hiddenQuests[questId] = nil
                 QuestieEvent.activeQuests[questId] = true
-                quest = QuestieDB:GetQuest(questId)
-                quest.isHidden = false
 
                 -- Update the NPC spawns based on the place of the faire
                 for id, data in pairs(QuestieNPCFixes:LoadDarkmoonFixes(isInMulgore)) do
@@ -192,7 +186,7 @@ QuestieEvent.eventDates = {
         startDate = "23/1",
         endDate = "10/2"
     },
-    ["LoveIsInTheAir"] = {startDate = "11/2", endDate = "16/2"},
+    ["LoveIsInTheAir"] = {startDate = "10/2", endDate = "16/2"},
     ["Noblegarden"] = { -- WARNING THIS DATE VARIES!!!!
         startDate = "13/5",
         endDate = "19/5"

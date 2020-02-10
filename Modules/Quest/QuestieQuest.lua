@@ -187,6 +187,7 @@ end
 function QuestieQuest:Reset()
     -- clear all notes
     QuestieQuest:ClearAllNotes()
+    QuestieCorrections:Initialize() -- Just to be sure all the right corrections are loaded
 
     -- reset quest log and tooltips
     QuestiePlayer.currentQuestlog = {}
