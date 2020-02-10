@@ -187,8 +187,8 @@ end
 -- EUROPEAN FORMAT! NO FUCKING AMERICAN SHIDAZZLE FORMAT!
 QuestieEvent.eventDates = {
     ["LunarFestival"] = { -- WARNING THIS DATE VARIES!!!!
-        startDate = "24/1",
-        endDate = "7/2"
+        startDate = "23/1",
+        endDate = "10/2"
     },
     ["LoveIsInTheAir"] = {startDate = "11/2", endDate = "16/2"},
     ["Noblegarden"] = { -- WARNING THIS DATE VARIES!!!!
