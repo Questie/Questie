@@ -140,7 +140,7 @@ _LoadDarkmoonFaire = function()
     QuestieCorrections.hiddenQuests[annoucingQuestId] = nil
     QuestieEvent.activeQuests[annoucingQuestId] = true
     local quest = QuestieDB:GetQuest(annoucingQuestId)
-    quest.isHidden = true
+    quest.isHidden = false
 
     if (weekDay >= 2 and day >= 5) or (weekDay == 1 and day >= 10 and day <= 16) then
         -- The faire is up right now
@@ -150,11 +150,7 @@ _LoadDarkmoonFaire = function()
                 QuestieCorrections.hiddenQuests[questId] = nil
                 QuestieEvent.activeQuests[questId] = true
                 quest = QuestieDB:GetQuest(questId)
-                if quest == nil then
-                    print("QUESTID " .. questId)
-                else
-                    quest.isHidden = false
-                end
+                quest.isHidden = false
 
                 -- Update the NPC spawns based on the place of the faire
                 for id, data in pairs(QuestieNPCFixes:LoadDarkmoonFixes(isInMulgore)) do
