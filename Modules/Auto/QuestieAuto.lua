@@ -95,7 +95,6 @@ function QuestieAuto:QUEST_PROGRESS(event, ...)
 
         -- Close the QuestFrame if no quest is completeable again
         if QuestFrameGoodbyeButton and lastEvent ~= nil then
-            print("LAST EVENT = " .. tostring(lastEvent))
             QuestFrameGoodbyeButton:Click()
         end
         cameFromProgressEvent = true
