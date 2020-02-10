@@ -324,10 +324,12 @@ end
 function QuestieEventHandler:QUEST_FINISHED()
     Questie:Debug(DEBUG_DEVELOP, "[EVENT] QUEST_FINISHED")
 
-    if _AllQuestWindowsClosed() then
-        Questie:Debug(DEBUG_DEVELOP, "All quest windows closed! Resetting shouldRunAuto")
-        QuestieAuto:ResetModifier()
-    end
+    C_Timer.After(0.5, function()
+        if _AllQuestWindowsClosed() then
+            Questie:Debug(DEBUG_DEVELOP, "All quest windows closed! Resetting shouldRunAuto")
+            QuestieAuto:ResetModifier()
+        end
+    end)
 
     local numEntries, numQuests = GetNumQuestLogEntries();
     if (NumberOfQuestInLog ~= numQuests) then
