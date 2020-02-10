@@ -13,6 +13,7 @@ local lastAmountOfAvailableQuests = 0
 local lastNPCTalkedTo = nil
 local doneWithAccept = false
 local lastIndexTried = 1
+local lastEvent = nil
 
 local MOP_INDEX_AVAILABLE = 7 -- was '5' in Cataclysm
 local MOP_INDEX_COMPLETE = 6 -- was '4' in Cataclysm
@@ -31,6 +32,7 @@ function QuestieAuto:GOSSIP_SHOW(event, ...)
         Questie:Debug(DEBUG_DEVELOP, "Modifier-Key down: Disabling QuestieAuto for now")
         return
     end
+    lastEvent = "GOSSIP_SHOW"
 
     local availableQuests = {GetGossipAvailableQuests()}
     local currentNPC = UnitName("target")
@@ -85,19 +87,20 @@ function QuestieAuto:QUEST_PROGRESS(event, ...)
         if _QuestieAuto:IsAllowedNPC() and _QuestieAuto:IsAllowedQuest() then
             if IsQuestCompletable() then
                 CompleteQuest()
-                -- lastIndexTried = lastIndexTried - 1
                 return
             else
-                Questie:Debug(DEBUG_DEVELOP, "Quest not completeable. Skipping to next quest. Index:", lastIndexTried)
+                Questie:Debug(DEBUG_DEVELOP, "Quest not completeable. Index", lastIndexTried)
             end
         end
 
         -- Close the QuestFrame if no quest is completeable again
-        if QuestFrameGoodbyeButton then
+        if QuestFrameGoodbyeButton and lastEvent ~= nil then
+            print("LAST EVENT = " .. tostring(lastEvent))
             QuestFrameGoodbyeButton:Click()
         end
         cameFromProgressEvent = true
     end
+    lastEvent = "QUEST_PROGRESS"
 end
 
 _SelectAvailableQuest = function (index)
@@ -107,6 +110,7 @@ end
 
 function QuestieAuto:QUEST_ACCEPT_CONFIRM(event, ...)
     Questie:Debug(DEBUG_DEVELOP, "[EVENT] QUEST_ACCEPT_CONFIRM", event, ...)
+    lastEvent = "QUEST_ACCEPT_CONFIRM"
     doneTalking = false
     -- Escort stuff
     if(Questie.db.char.autoaccept) then
@@ -116,6 +120,7 @@ end
 
 function QuestieAuto:QUEST_GREETING(event, ...)
     Questie:Debug(DEBUG_DEVELOP, "[EVENT] QUEST_GREETING", event, GetNumActiveQuests(), ...)
+    lastEvent = "QUEST_GREETING"
     doneTalking = false
 
     if (not shouldRunAuto) then
@@ -156,6 +161,7 @@ end
 
 function QuestieAuto:QUEST_DETAIL(event, ...)
     Questie:Debug(DEBUG_DEVELOP, "[EVENT] QUEST_DETAIL", event, ...)
+    lastEvent = "QUEST_DETAIL"
     doneTalking = false
 
     if (not shouldRunAuto) then
@@ -201,6 +207,7 @@ end
 -- I was forced to make decision on offhand, cloak and shields separate from armor but I can't pick up my mind about the reason...
 function QuestieAuto:QUEST_COMPLETE(event, ...)
     Questie:Debug(DEBUG_DEVELOP, "[EVENT] QUEST_COMPLETE", event, ...)
+    lastEvent = "QUEST_COMPLETE"
     doneTalking = false
 
     if (not shouldRunAuto) then
@@ -235,6 +242,7 @@ end
 --- when totally stop talking to an NPC this event is called twice
 function QuestieAuto:GOSSIP_CLOSED()
     Questie:Debug(DEBUG_DEVELOP, "[EVENT] GOSSIP_CLOSED")
+    lastEvent = "GOSSIP_CLOSED"
 
     if doneTalking then
         doneTalking = false
@@ -247,4 +255,5 @@ end
 
 function QuestieAuto:ResetModifier()
     shouldRunAuto = true
+    lastEvent = nil
 end
