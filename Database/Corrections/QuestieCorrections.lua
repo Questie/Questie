@@ -68,6 +68,8 @@ function QuestieCorrections:Initialize()
     QuestieCorrections.hiddenQuests = QuestieQuestBlacklist:Load()
 
     if Questie.db.char.showEventQuests then
-        QuestieEvent:Load()
+        C_Timer.After(1, function()
+            QuestieEvent:Load()
+        end)
     end
 end
