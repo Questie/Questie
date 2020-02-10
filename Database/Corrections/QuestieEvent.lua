@@ -59,14 +59,6 @@ function QuestieEvent:Load()
         endDay = tonumber(endDay)
         endMonth = tonumber(endMonth)
 
-        if eventName == "LunarFestival" then
-            print("OIAJSD")
-            print(startDay)
-            print(startMonth)
-            print(endDay)
-            print(endMonth)
-        end
-
         -- startDate = "15/12",
         -- endDate = "2/1",
         if _WithinDates(startDay, startMonth, endDay, endMonth) then
