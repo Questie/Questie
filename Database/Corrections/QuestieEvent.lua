@@ -59,6 +59,14 @@ function QuestieEvent:Load()
         endDay = tonumber(endDay)
         endMonth = tonumber(endMonth)
 
+        if eventName == "LoveIsInTheAir" then
+            print("OIAJSID")
+            print(startDay)
+            print(startMonth)
+            print(endDay)
+            print(endMonth)
+        end
+
         -- startDate = "15/12",
         -- endDate = "2/1",
         if _WithinDates(startDay, startMonth, endDay, endMonth) then
@@ -176,8 +184,8 @@ _WithinDates = function(startDay, startMonth, endDay, endMonth)
     local date = C_DateAndTime.GetTodaysDate()
     local day = date.day
     local month = date.month
-    if ((day >= startDay and month == startMonth) or
-        (day <= endDay and month == endMonth)) then
+    if (day >= startDay and month == startMonth and -- start
+        day <= endDay and month == endMonth) then -- end
         return true
     else
         return false
