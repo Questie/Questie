@@ -11,7 +11,18 @@ local _UpdateTimerFrame
 function QuestieQuestTimers:Initialize()
     Questie:Debug(DEBUG_DEVELOP, "QuestieQuestTimers:Initialize")
 
-    hooksecurefunc("QuestTimerFrame_Update", _UpdateTimerFrame)
+    if QuestTimerFrame_Update == nil then
+        Questie:Debug(DEBUG_CRITICAL, "QuestTimerFrame_Update is nil. Retrying to hooksecurefunc in 5 seconds.")
+        C_Timer.After(5, function()
+            if QuestTimerFrame_Update == nil then
+                Questie:Debug(DEBUG_CRITICAL, "QuestTimerFrame_Update is still nil. Something is strange.")
+                return
+            end
+            hooksecurefunc("QuestTimerFrame_Update", _UpdateTimerFrame)
+        end)
+    else
+        hooksecurefunc("QuestTimerFrame_Update", _UpdateTimerFrame)
+    end
 
     QuestTimerFrame:HookScript("OnShow", function()
         QuestieQuestTimers.defaultBlizzPoint = {QuestTimerFrame:GetPoint()}

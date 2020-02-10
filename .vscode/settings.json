@@ -1792,6 +1792,7 @@
         "QuestChooseRewardError",
         "QuestLogPushQuest",
         "Quit",
+        "QuestTimerFrame_Update",
         "RaidProfileExists",
         "RaidProfileHasUnsavedChanges",
         "RandomRoll",
