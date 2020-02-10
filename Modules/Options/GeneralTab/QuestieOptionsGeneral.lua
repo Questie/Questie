@@ -162,7 +162,7 @@ function QuestieOptions.tabs.general:Initialize()
                     },
                     showEventQuests = {
                         type = "toggle",
-                        order = 8,
+                        order = 9,
                         name = function() return QuestieLocale:GetUIString('ENABLE_EVENT_QUEST_ICONS'); end,
                         desc = function() return QuestieLocale:GetUIString('ENABLE_EVENT_QUEST_ICONS_DESC'); end,
                         width = 1.5,
