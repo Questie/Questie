@@ -463,9 +463,6 @@ function QuestieQuestFixes:Load()
         [1708] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #1230
         },
-        [1710] = {
-            [QuestieDB.questKeys.preQuestSingle] = {}, -- #1231
-        },
         [1718] = {
             [QuestieDB.questKeys.startedBy] = {{3041,3354,4595,5113,5479,},nil,nil,}, -- #1034
         },
