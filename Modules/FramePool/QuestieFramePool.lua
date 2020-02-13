@@ -395,8 +395,10 @@ function _QuestieFramePool:GetAvailableOrCompleteTooltip(icon)
         local questType, questTag = GetQuestTagInfo(icon.data.Id);
         if(icon.data.QuestData.Repeatable) then
             tip.type = QuestieLocale:GetUIString("TOOLTIP_QUEST_REPEATABLE");--"(Repeatable)"; --
-        elseif(questType == 81 or questType == 83 or questType == 62 or questType == 41 or questType == 1) then
-            -- Dungeon or Legendary or Raid or PvP or Group(Elite)
+        elseif(questType == 41 or QuestieQuestFixes:IsPvPQuest(icon.data.Id)) then
+            tip.type = "(PvP)"
+        elseif(questType == 81 or questType == 83 or questType == 62 or questType == 1) then
+            -- Dungeon or Legendary or Raid or Group(Elite)
             tip.type = "("..questTag..")";
         elseif(QuestieEvent and QuestieEvent.activeQuests[icon.data.Id]) then
             tip.type = QuestieLocale:GetUIString("TOOLTIP_QUEST_EVENT");--"(Event)";--QuestieLocale:GetUIString("TOOLTIP_QUEST_AVAILABLE");

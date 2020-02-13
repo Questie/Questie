@@ -1393,3 +1393,24 @@ function QuestieQuestFixes:Load()
         },
     }
 end
+
+local falselyMarkedPvPQuests = {}
+
+---Checks wheather a quest is a PvP quest or not. Some PvP
+--- quests are falsely marked by the Blizzard GetQuestTagInfo API
+--- and need to be checked by hand
+---@param questId QuestId
+---@return boolean @True if the quest is in the falselyMarkedPvPQuests list, false otherwise
+function QuestieQuestFixes:IsPvPQuest(questId)
+    if questId ~= nil and falselyMarkedPvPQuests[questId] ~= nil then
+        return true
+    end
+    return false
+end
+
+falselyMarkedPvPQuests = {
+    [8404] = true,
+    [8405] = true,
+    [8406] = true,
+    [8408] = true,
+}

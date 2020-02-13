@@ -157,20 +157,20 @@ local function _GetColoredQuestName(self, blizzLike)
     return QuestieLib:GetColoredQuestName(self.Id, questName, self.level, Questie.db.global.enableTooltipsQuestLevel, false, blizzLike)
 end
 
----@param questID QuestId @The quest ID
+---@param questId QuestId @The quest ID
 ---@return Quest|nil @The quest object or nil if the quest is missing
-function QuestieDB:GetQuest(questID) -- /dump QuestieDB:GetQuest(867)
-    if questID == nil then
+function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
+    if questId == nil then
         Questie:Debug(DEBUG_CRITICAL, "[QuestieDB:GetQuest] Expected questID but received nil!")
         return nil
     end
-    if QuestieDB._QuestCache[questID] ~= nil then
-        return QuestieDB._QuestCache[questID];
+    if QuestieDB._QuestCache[questId] ~= nil then
+        return QuestieDB._QuestCache[questId];
     end
 
-    local rawdata = QuestieDB.questData[questID];
+    local rawdata = QuestieDB.questData[questId];
     if not rawdata then
-        Questie:Debug(DEBUG_CRITICAL, "[QuestieDB:GetQuest] rawdata is nil for questID:", questID)
+        Questie:Debug(DEBUG_CRITICAL, "[QuestieDB:GetQuest] rawdata is nil for questID:", questId)
         return nil
     end
 
@@ -204,7 +204,7 @@ function QuestieDB:GetQuest(questID) -- /dump QuestieDB:GetQuest(867)
 
     local QO = {}
     QO.GetColoredQuestName = _GetColoredQuestName
-    QO.Id = questID --Key
+    QO.Id = questId --Key
     for stringKey, intKey in pairs(QuestieDB.questKeys) do
         QO[stringKey] = rawdata[intKey]
     end
@@ -213,16 +213,16 @@ function QuestieDB:GetQuest(questID) -- /dump QuestieDB:GetQuest(867)
     QO.Starts["GameObject"] = rawdata[2][2] --2.2
     QO.Starts["Item"] = rawdata[2][3] --2.3
     QO.Ends = {} --ends 3
-    QO.isHidden = rawdata.hidden or QuestieCorrections.hiddenQuests[questID]
+    QO.isHidden = rawdata.hidden or QuestieCorrections.hiddenQuests[questId]
     QO.Description = rawdata[8] --
     if QO.specialFlags then
         QO.Repeatable = mod(QO.specialFlags, 2) == 1
     end
 
-    local questType, questTag = GetQuestTagInfo(questID)
+    local questType, questTag = GetQuestTagInfo(questId)
     if questType == 81 then
         QO.isDungeonQuest = true
-    elseif questType == 41 then
+    elseif questType == 41 or QuestieQuestFixes:IsPvPQuest(questId) then
         QO.isPvPQuest = true
     end
 
@@ -329,7 +329,7 @@ function QuestieDB:GetQuest(questID) -- /dump QuestieDB:GetQuest(867)
     end
 
     if(rawdata[12] ~= nil and next(rawdata[12]) ~= nil and rawdata[13] ~= nil and next(rawdata[13]) ~= nil) then
-        Questie:Debug(DEBUG_CRITICAL, "ERRRRORRRRRRR not mutually exclusive for questID:", questID)
+        Questie:Debug(DEBUG_CRITICAL, "ERRRRORRRRRRR not mutually exclusive for questID:", questId)
     end
     QO.QuestGroup = rawdata[15] --Quests that are part of the same group, example complete this group of quests to open the next one.
     QO.ExclusiveQuestGroup = rawdata[16]
@@ -437,7 +437,7 @@ function QuestieDB:GetQuest(questID) -- /dump QuestieDB:GetQuest(867)
         return true
     end
 
-    QuestieDB._QuestCache[questID] = QO
+    QuestieDB._QuestCache[questId] = QO
     return QO
 end
 
