@@ -1136,6 +1136,7 @@ function QuestieQuestFixes:Load()
         },
         [7946] = {
             [QuestieDB.questKeys.questLevel] = 60,
+            [QuestieDB.questKeys.specialFlags] = 1,
         },
         [8149] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 77,
