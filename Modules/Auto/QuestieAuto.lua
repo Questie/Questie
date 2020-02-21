@@ -187,8 +187,7 @@ function QuestieAuto:QUEST_DETAIL(event, ...)
                 quest = QuestieDB:GetQuest(questId)
                 if quest == nil then
                     Questie:Debug(DEBUG_DEVELOP, "retry failed. Quest", questId, "might not be in the DB!")
-                end
-                if (not quest:IsTrivial()) or Questie.db.char.acceptTrivial then
+                elseif (not quest:IsTrivial()) or Questie.db.char.acceptTrivial then
                     Questie:Debug(DEBUG_INFO, "Questie Auto-Acceping quest")
                     AcceptQuest()
                 end
