@@ -448,7 +448,6 @@ function QuestieQuest:UpdateQuest(questId)
     local quest = QuestieDB:GetQuest(questId)
     if quest and not Questie.db.char.complete[questId] then
         QuestieQuest:PopulateQuestLogInfo(quest)
-        QuestieQuest:GetAllQuestObjectives(quest) -- update quest log values in quest object
         QuestieQuest:UpdateObjectiveNotes(quest)
         local isComplete = QuestieQuest:IsComplete(quest)
         if isComplete == 1 then -- Quest is complete
@@ -679,7 +678,7 @@ function QuestieQuest:ForceToMap(type, id, label, customScale)
 end
 
 function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockItemTooltips) -- must be pcalled
-    Questie:Debug(DEBUG_SPAM, "[QuestieQuest:PopulateObjective]")
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:PopulateObjective]")
     if not Objective.AlreadySpawned then
         Objective.AlreadySpawned = {};
     end
@@ -787,7 +786,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                     end
                 end
             elseif completed and Objective.AlreadySpawned then -- unregister notes
-                for id, spawn in pairs(Objective.AlreadySpawned) do
+                for _, spawn in pairs(Objective.AlreadySpawned) do
                     for _, note in pairs(spawn.mapRefs) do
                         note:Unload();
                     end

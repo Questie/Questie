@@ -270,6 +270,12 @@ function _Qframe:Unload()
     self:SetFrameStrata("FULLSCREEN");
     self:SetFrameLevel(0);
 
+    -- Reset questIdFrames so they won't be toggled again
+    local frameName = self:GetName()
+    if frameName and self.data.Id and QuestieMap.questIdFrames[self.data.Id] and QuestieMap.questIdFrames[self.data.Id][frameName] then
+        QuestieMap.questIdFrames[self.data.Id][frameName] = nil
+    end
+
     --We are reseting the frames, making sure that no data is wrong.
     if self ~= nil and self.hidden and self._show ~= nil and self._hide ~= nil then -- restore state to normal (toggle questie)
         self.hidden = false
