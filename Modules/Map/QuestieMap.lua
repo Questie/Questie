@@ -584,15 +584,21 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
 
     -- preset hidden state when needed (logic from QuestieQuest:UpdateHiddenNotes
     -- we should add all this code to something like obj:CheckHide() instead of copying it
-    if (QuestieQuest.NotesHidden or (((not questieGlobalDB.enableObjectives) and (iconMap.data.Type == "monster" or iconMap.data.Type == "object" or iconMap.data.Type == "event" or iconMap.data.Type == "item"))
+    if QuestieQuest.NotesHidden
+                or ((not questieGlobalDB.enableObjectives) and (iconMap.data.Type == "monster" or iconMap.data.Type == "object" or iconMap.data.Type == "event" or iconMap.data.Type == "item"))
                 or ((not questieGlobalDB.enableTurnins) and iconMap.data.Type == "complete")
-                or ((not questieGlobalDB.enableAvailable) and iconMap.data.Type == "available"))
+                or ((not questieGlobalDB.enableAvailable) and iconMap.data.Type == "available")
                 or ((not questieGlobalDB.enableMapIcons) and (not iconMap.miniMapIcon))
-                or ((not questieGlobalDB.enableMiniMapIcons) and (iconMinimap.miniMapIcon)))
+                or ((not questieGlobalDB.enableMiniMapIcons) and (iconMinimap.miniMapIcon))
                 or (iconMap.data.ObjectiveData and iconMap.data.ObjectiveData.HideIcons)
                 or (iconMap.data.QuestData and iconMap.data.QuestData.HideIcons and iconMap.data.Type ~= "complete") then
-        iconMap:FakeHide()
-        iconMinimap:FakeHide()
+        if ((not questieGlobalDB.enableMapIcons) and (not iconMap.miniMapIcon)) then
+            iconMap:FakeHide()
+        end
+
+        if ((not questieGlobalDB.enableMiniMapIcons) and (iconMinimap.miniMapIcon)) then
+            iconMinimap:FakeHide()
+        end
     end
 
     return iconMap, iconMinimap;
