@@ -1391,6 +1391,9 @@ function QuestieQuestFixes:Load()
         [9033] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 178,
         },
+        [9063] = {
+            [QuestieDB.questKeys.zoneOrSort] = 493,
+        },
         [9261] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 77,
         },
