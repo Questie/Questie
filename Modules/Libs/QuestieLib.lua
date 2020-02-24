@@ -158,8 +158,7 @@ function QuestieLib:GetQuestObjectives(questId)
         count = count + 1
         if good then break end
     end
-    Questie:Debug(DEBUG_SPAM, "[QuestieLib:GetQuestObjectives]: Loaded", count,
-                  "objective(s) for quest:", questId)
+    Questie:Debug(DEBUG_SPAM, "[QuestieLib:GetQuestObjectives]: Loaded objective(s) for quest:", questId)
     return objectiveList
 end
 
