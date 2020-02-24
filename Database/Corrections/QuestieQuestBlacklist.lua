@@ -272,14 +272,6 @@ function QuestieQuestBlacklist:Load()
         [8795] = true,
         [8796] = true,
         [8797] = true,
-        --Steamwheedle / Bloodsail reputation quests
-        [9266] = true,
-        [9259] = true,
-        [9267] = true,
-        [9272] = true,
-        [1036] = true,
-        [4621] = true,
-        [9268] = true,
         --fishing tournament
         [8194] = true,
         [8193] = true,

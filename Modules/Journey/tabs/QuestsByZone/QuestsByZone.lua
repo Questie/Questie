@@ -159,7 +159,7 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                 elseif not quest:IsPreQuestSingleFulfilled() then
                     tinsert(zoneTree[2].children, temp)
                     prequestMissingCounter = prequestMissingCounter + 1
-                    -- A single pre Quest is missing
+                -- Multiple pre Quests are missing
                 elseif not quest:IsPreQuestGroupFulfilled() then
                     tinsert(zoneTree[2].children, temp)
                     prequestMissingCounter = prequestMissingCounter + 1
