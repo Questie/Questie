@@ -429,6 +429,10 @@ function QuestieQuestBlacklist:Load()
         [8565] = true,
         [8566] = true,
         -- Alterac Valley
+        [7221] = true,
+        [7222] = true,
+        [7367] = true,
+        [7368] = true,
         -- Master Ryson's All Seeing Eye
         [6847] = true,
         [6848] = true,
