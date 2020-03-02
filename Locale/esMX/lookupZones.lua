@@ -1,7 +1,7 @@
 LangContinentLookup['esMX']= {
     [1] = "Reinos del Este",
     [2] = "Kalimdor",
-    [3] = "Calabozos",
+    [3] = "Mazmorras",
     -- [4] = "Bandas",
     [5] = "Campos de Batalla",
 }
