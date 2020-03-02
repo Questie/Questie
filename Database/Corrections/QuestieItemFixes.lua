@@ -24,8 +24,32 @@ function QuestieItemFixes:Load()
         [1206] = {
             [QuestieDB.itemKeys.npcDrops] = {},
         },
+        [1262] = {
+            [QuestieDB.itemKeys.name] = "Keg of Thunderbrew",
+            [QuestieDB.itemKeys.relatedQuests] = {116,117},
+            [QuestieDB.itemKeys.npcDrops] = {239},
+            [QuestieDB.itemKeys.objectDrops] = {},
+        },
         [1529] = {
             [QuestieDB.itemKeys.npcDrops] = {},
+        },
+        [1939] = {
+            [QuestieDB.itemKeys.name] = "Skin of Sweet Rum",
+            [QuestieDB.itemKeys.relatedQuests] = {116},
+            [QuestieDB.itemKeys.npcDrops] = {465},
+            [QuestieDB.itemKeys.objectDrops] = {},
+        },
+        [1941] = {
+            [QuestieDB.itemKeys.name] = "Cask of Merlot",
+            [QuestieDB.itemKeys.relatedQuests] = {116},
+            [QuestieDB.itemKeys.npcDrops] = {277},
+            [QuestieDB.itemKeys.objectDrops] = {},
+        },
+        [1942] = {
+            [QuestieDB.itemKeys.name] = "Bottle of Moonshine",
+            [QuestieDB.itemKeys.relatedQuests] = {116},
+            [QuestieDB.itemKeys.npcDrops] = {274},
+            [QuestieDB.itemKeys.objectDrops] = {},
         },
         [2318] = {
             [QuestieDB.itemKeys.npcDrops] = {},
@@ -858,6 +882,10 @@ end
 
 _AddMissingItemIDs = function()
     local missingItemIDs = {
+        1262,
+        1939,
+        1941,
+        1942,
         -- Small Rockets
         21557,
         21558,
