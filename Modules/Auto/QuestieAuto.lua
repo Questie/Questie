@@ -78,8 +78,11 @@ function QuestieAuto:QUEST_PROGRESS(event, ...)
     Questie:Debug(DEBUG_DEVELOP, "[EVENT] QUEST_PROGRESS", event, ...)
     doneTalking = false
 
-    if not shouldRunAuto then
-        Questie:Debug(DEBUG_DEVELOP, "shouldRunAuto = false")
+    if (not shouldRunAuto) then
+        return
+    elseif _QuestieAuto:IsBindTrue(Questie.db.char.autoModifier) then
+        shouldRunAuto = false
+        Questie:Debug(DEBUG_DEVELOP, "Modifier-Key down: Disabling QuestieAuto for now")
         return
     end
 
