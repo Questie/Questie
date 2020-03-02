@@ -118,6 +118,8 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
     local unobtainableCounter = 0
     local repeatableCounter = 0
 
+    local unobtainableQuestIds = {}
+
     for _, levelAndQuest in pairs(sortedQuestByLevel) do
         ---@type Quest
         local quest = levelAndQuest[2]
@@ -150,19 +152,36 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                 -- Unoptainable profession quests
                 elseif not QuestieProfessions:HasProfessionAndSkill(quest.requiredSkill) then
                     tinsert(zoneTree[5].children, temp)
+                    unobtainableQuestIds[qId] = true
                     unobtainableCounter = unobtainableCounter + 1
                 -- Unoptainable reputation quests
                 elseif not QuestieReputation:HasReputation(quest.requiredMinRep, quest.requiredMaxRep) then
                     tinsert(zoneTree[5].children, temp)
+                    unobtainableQuestIds[qId] = true
                     unobtainableCounter = unobtainableCounter + 1
                 -- A single pre Quest is missing
                 elseif not quest:IsPreQuestSingleFulfilled() then
-                    tinsert(zoneTree[2].children, temp)
-                    prequestMissingCounter = prequestMissingCounter + 1
+                    -- The pre Quest is unobtainable therefore this quest is it as well
+                    if unobtainableQuestIds[quest.preQuestSingle] ~= nil then
+                        tinsert(zoneTree[5].children, temp)
+                        unobtainableQuestIds[qId] = true
+                        unobtainableCounter = unobtainableCounter + 1
+                    else
+                        tinsert(zoneTree[2].children, temp)
+                        prequestMissingCounter = prequestMissingCounter + 1
+                    end
                 -- Multiple pre Quests are missing
                 elseif not quest:IsPreQuestGroupFulfilled() then
-                    tinsert(zoneTree[2].children, temp)
-                    prequestMissingCounter = prequestMissingCounter + 1
+                    for _, preQuestId in pairs(quest.preQuestGroup) do
+                        if unobtainableQuestIds[preQuestId] ~= nil then
+                            tinsert(zoneTree[5].children, temp)
+                            unobtainableQuestIds[qId] = true
+                            unobtainableCounter = unobtainableCounter + 1
+                        else
+                            tinsert(zoneTree[2].children, temp)
+                            prequestMissingCounter = prequestMissingCounter + 1
+                        end
+                    end
                 -- Repeatable quests
                 elseif quest.Repeatable then
                     tinsert(zoneTree[4].children, temp)
