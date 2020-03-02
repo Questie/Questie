@@ -437,6 +437,11 @@ function QuestieQuestBlacklist:Load()
         [7428] = true,
         [7401] = true,
         [7427] = true,
+        -- Ribbons of Sacrifice
+        [8266] = true,
+        [8267] = true,
+        [8268] = true,
+        [8269] = true,
         -----------------------------------------------
 
         -- corrupted windblossom
