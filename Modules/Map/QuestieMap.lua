@@ -468,6 +468,7 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
     -- if(floatOnEdge == nil) then floatOnEdge = true; end
     local floatOnEdge = true
 
+    ---@type IconFrame
     local iconMap = QuestieFramePool:GetFrame()
     iconMap.data = data
     iconMap.x = x
@@ -477,6 +478,7 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
     iconMap.miniMapIcon = false;
     iconMap:UpdateTexture(data.Icon);
 
+    ---@type IconFrame
     local iconMinimap = QuestieFramePool:GetFrame()
     iconMinimap.data = data
     iconMinimap.x = x
@@ -582,23 +584,12 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
         iconMinimap:FakeHide()
     end
 
-    -- preset hidden state when needed (logic from QuestieQuest:UpdateHiddenNotes
-    -- we should add all this code to something like obj:CheckHide() instead of copying it
-    if QuestieQuest.NotesHidden
-                or ((not questieGlobalDB.enableObjectives) and (iconMap.data.Type == "monster" or iconMap.data.Type == "object" or iconMap.data.Type == "event" or iconMap.data.Type == "item"))
-                or ((not questieGlobalDB.enableTurnins) and iconMap.data.Type == "complete")
-                or ((not questieGlobalDB.enableAvailable) and iconMap.data.Type == "available")
-                or ((not questieGlobalDB.enableMapIcons) and (not iconMap.miniMapIcon))
-                or ((not questieGlobalDB.enableMiniMapIcons) and (iconMinimap.miniMapIcon))
-                or (iconMap.data.ObjectiveData and iconMap.data.ObjectiveData.HideIcons)
-                or (iconMap.data.QuestData and iconMap.data.QuestData.HideIcons and iconMap.data.Type ~= "complete") then
-        if ((not questieGlobalDB.enableMapIcons) and (not iconMap.miniMapIcon)) then
-            iconMap:FakeHide()
-        end
+    if iconMap:ShouldBeHidden() then
+        iconMap:FakeHide()
+    end
 
-        if ((not questieGlobalDB.enableMiniMapIcons) and (iconMinimap.miniMapIcon)) then
-            iconMinimap:FakeHide()
-        end
+    if iconMinimap:ShouldBeHidden() then
+        iconMinimap:FakeHide()
     end
 
     return iconMap, iconMinimap;

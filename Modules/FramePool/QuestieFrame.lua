@@ -4,6 +4,8 @@ local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool");
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
 ---@type QuestieDBMIntegration
 local QuestieDBMIntegration = QuestieLoader:ImportModule("QuestieDBMIntegration");
+---@type QuestieQuest
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
 
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 
@@ -106,6 +108,7 @@ function QuestieFramePool.Qframe:New(frameId, OnEnter)
     newFrame.FakeUnhide = _Qframe.FakeUnhide
     newFrame.OnShow = _Qframe.OnShow
     newFrame.OnHide = _Qframe.OnHide
+    newFrame.ShouldBeHidden = _Qframe.ShouldBeHidden
 
     newFrame.data = nil
     newFrame:Hide()
@@ -376,4 +379,23 @@ function _Qframe:FakeUnhide()
             self:Show();
         end
     end
+end
+
+---Checks wheather the frame/icon should be hidden or not
+---@return boolean @True if the frame/icon should be hidden and :FakeHide should be called, false otherwise
+function _Qframe:ShouldBeHidden()
+    local questieGlobalDB = Questie.db.global
+    if QuestieQuest.NotesHidden
+        or ((not questieGlobalDB.enableObjectives) and (self.data.Type == "monster" or self.data.Type == "object" or self.data.Type == "event" or self.data.Type == "item"))
+        or ((not questieGlobalDB.enableTurnins) and self.data.Type == "complete")
+        or ((not questieGlobalDB.enableAvailable) and self.data.Type == "available")
+        or ((not questieGlobalDB.enableMapIcons) and (not self.miniMapIcon))
+        or ((not questieGlobalDB.enableMiniMapIcons) and (self.miniMapIcon))
+        or (self.data.ObjectiveData and self.data.ObjectiveData.HideIcons)
+        or (self.data.QuestData and self.data.QuestData.HideIcons and self.data.Type ~= "complete") then
+
+        return true
+    end
+
+    return false
 end
