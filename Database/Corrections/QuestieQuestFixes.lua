@@ -530,6 +530,9 @@ function QuestieQuestFixes:Load()
         [2873] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #1566
         },
+        [2882] = {
+            [QuestieDB.questKeys.zoneOrSort] = 440, -- #1780
+        },
         [2922] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- Save Techbot's Brain doesn't need the Tinkmaster Overspark breadcrumb #687
         },
