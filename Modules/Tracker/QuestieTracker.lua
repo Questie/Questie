@@ -497,12 +497,12 @@ function QuestieTracker:Update()
     for questId in pairs (QuestiePlayer.currentQuestlog) do
         local quest = QuestieDB:GetQuest(questId)
         if quest then
-            if QuestieQuest:IsComplete(quest) == 1 or not quest.Objectives then
+            if QuestieQuest:IsComplete(quest) == 1 or (not quest.Objectives) or (not next(quest.Objectives)) then
                 questCompletePercent[quest.Id] = 1
             else
                 local percent = 0
-                local count = 0;
-                for _,Objective in pairs(quest.Objectives) do
+                local count = 0
+                for _, Objective in pairs(quest.Objectives) do
                     percent = percent + (Objective.Collected / Objective.Needed)
                     count = count + 1
                 end
@@ -752,7 +752,7 @@ function _QuestieTracker:StartFadeTicker()
                         _QuestieTracker.baseFrame.texture:SetVertexColor(1,1,1,_QuestieTracker.FadeTickerValue)
                     end
                     if Questie.db.char.isTrackerExpanded then
-                        for i=1,_QuestieTracker.highestIndex do
+                        for i=1, _QuestieTracker.highestIndex do
                             _QuestieTracker.LineFrames[i].expandButton:SetAlpha(_QuestieTracker.FadeTickerValue*3.3)
                         end
                     end
@@ -768,7 +768,7 @@ function _QuestieTracker:StartFadeTicker()
                         _QuestieTracker.baseFrame.texture:SetVertexColor(1,1,1,math.max(0,_QuestieTracker.FadeTickerValue))
                     end
                     if Questie.db.char.isTrackerExpanded then
-                        for i=1,_QuestieTracker.highestIndex do
+                        for i=1, _QuestieTracker.highestIndex do
                             _QuestieTracker.LineFrames[i].expandButton:SetAlpha(_QuestieTracker.FadeTickerValue*3.3)
                         end
                     end
