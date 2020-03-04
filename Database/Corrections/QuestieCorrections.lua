@@ -1,11 +1,24 @@
-QuestieCorrections = {...}
+---@class QuestieCorrections
+local QuestieCorrections = QuestieLoader:CreateModule("QuestieCorrections")
 -------------------------
 --Import modules.
 -------------------------
 ---@type QuestieDB
-local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieEvent
-local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent");
+local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
+---@type QuestieQuestFixes
+local QuestieQuestFixes = QuestieLoader:ImportModule("QuestieQuestFixes")
+---@type QuestieQuestBlacklist
+local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
+---@type QuestieItemFixes
+local QuestieItemFixes = QuestieLoader:ImportModule("QuestieItemFixes")
+---@type QuestieItemBlacklist
+local QuestieItemBlacklist = QuestieLoader:ImportModule("QuestieItemBlacklist")
+---@type QuestieNPCFixes
+local QuestieNPCFixes = QuestieLoader:ImportModule("QuestieNPCFixes")
+---@type QuestieObjectFixes
+local QuestieObjectFixes = QuestieLoader:ImportModule("QuestieObjectFixes")
 
 --[[
     This file load the corrections of the database files.
@@ -63,6 +76,8 @@ function QuestieCorrections:Initialize()
             QuestieDB.questData[id][key] = value
         end
     end
+
+    QuestieQuestFixes:UnloadOtherFactionQuests()
 
     QuestieCorrections.questItemBlacklist = QuestieItemBlacklist:Load()
     QuestieCorrections.hiddenQuests = QuestieQuestBlacklist:Load()

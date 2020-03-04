@@ -1,4 +1,5 @@
-QuestieItemFixes = {...}
+---@class QuestieItemFixes
+local QuestieItemFixes = QuestieLoader:CreateModule("QuestieItemFixes")
 -------------------------
 --Import modules.
 -------------------------

@@ -1,4 +1,5 @@
-QuestieItemBlacklist = {...}
+---@class QuestieItemBlacklist
+local QuestieItemBlacklist = QuestieLoader:CreateModule("QuestieItemBlacklist")
 
 function QuestieItemBlacklist:Load()
     return {

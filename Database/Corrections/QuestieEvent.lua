@@ -38,6 +38,10 @@ QuestieEvent.activeQuests = {}
 
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type QuestieCorrections
+local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+---@type QuestieNPCFixes
+local QuestieNPCFixes = QuestieLoader:ImportModule("QuestieNPCFixes")
 
 
 local tinsert = table.insert

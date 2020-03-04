@@ -13,6 +13,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type QuestieReputation
 local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
+---@type QuestieCorrections
+local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 
 local AceGUI = LibStub("AceGUI-3.0")
 local zoneTreeFrame = nil

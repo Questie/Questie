@@ -1,16 +1,20 @@
 ---@class QuestieDB
-local QuestieDB = QuestieLoader:CreateModule("QuestieDB");
+local QuestieDB = QuestieLoader:CreateModule("QuestieDB")
 -------------------------
 --Import modules.
 -------------------------
 ---@type QuestieStreamLib
-local QuestieStreamLib = QuestieLoader:ImportModule("QuestieStreamLib");
+local QuestieStreamLib = QuestieLoader:ImportModule("QuestieStreamLib")
 ---@type QuestieLib
-local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestiePlayer
-local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
+local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestieDBZone
 local QuestieDBZone = QuestieLoader:ImportModule("QuestieDBZone")
+---@type QuestieCorrections
+local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+---@type QuestieQuestFixes
+local QuestieQuestFixes = QuestieLoader:ImportModule("QuestieQuestFixes")
 
 local tinsert = table.insert
 
@@ -222,7 +226,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     local questType, questTag = GetQuestTagInfo(questId)
     if questType == 81 then
         QO.isDungeonQuest = true
-    elseif questType == 41 or QuestieQuestFixes:IsPvPQuest(questId) then
+    elseif questType == 41 or QuestieDB:IsPvPQuest(questId) then
         QO.isPvPQuest = true
     end
 
@@ -714,4 +718,25 @@ function QuestieDB:HideClassAndRaceQuests()
         end
     end
     Questie:Debug(DEBUG_DEVELOP, "Other class and race quests hidden");
+end
+
+
+
+local falselyMarkedPvPQuests = {
+    [8404] = true,
+    [8405] = true,
+    [8406] = true,
+    [8408] = true,
+}
+
+---Checks wheather a quest is a PvP quest or not. Some PvP
+--- quests are falsely marked by the Blizzard GetQuestTagInfo API
+--- and need to be checked by hand
+---@param questId QuestId
+---@return boolean @True if the quest is in the falselyMarkedPvPQuests list, false otherwise
+function QuestieDB:IsPvPQuest(questId)
+    if questId ~= nil and falselyMarkedPvPQuests[questId] ~= nil then
+        return true
+    end
+    return false
 end
