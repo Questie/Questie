@@ -2703,5 +2703,11 @@
         "Locale/ruRU/**",
         "Locale/zhCN/**",
         "Locale/zhTW/**"
-    ]
+    ],
+    "files.exclude": {
+        "ExternalScripts(DONOTINCLUDEINRELEASE)": true,
+        "Libs/Ace*": true,
+        "Libs/CallbackHandler-1.0": true,
+        "Libs/Lib*": true
+    }
 }
