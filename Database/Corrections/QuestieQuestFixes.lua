@@ -309,6 +309,9 @@ function QuestieQuestFixes:Load()
         [1026] = {
             [QuestieDB.questKeys.requiredSourceItems] = {5475},
         },
+        [1061] = {
+            [QuestieDB.questKeys.exclusiveTo] = {1062}, -- #1803
+        },
         [1085] = {
             [QuestieDB.questKeys.preQuestSingle] = {1070},
         },
