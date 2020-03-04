@@ -1138,6 +1138,7 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.requiredRaces] = 178,                      -- Any race can take on quest
             [QuestieDB.questKeys.requiredClasses] = 64,                     -- This quest is for the Shaman class
             [QuestieDB.questKeys.zoneOrSort] = -141,                        -- <0: QuestSort.dbc ID
+            [QuestieDB.questKeys.specialFlags] = 1,
         },
         [7670] = { -- #1432
             [QuestieDB.questKeys.name] = "Lord Grayson Shadowbreaker",
