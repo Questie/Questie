@@ -1182,6 +1182,18 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.questLevel] = 60,
             [QuestieDB.questKeys.specialFlags] = 1,
         },
+        [8114] = {
+            [QuestieDB.questKeys.requiredMinRep] = {509,3000},
+        },
+        [8115] = {
+            [QuestieDB.questKeys.requiredMinRep] = {509,42000},
+        },
+        [8121] = {
+            [QuestieDB.questKeys.requiredMinRep] = {510,3000},
+        },
+        [8122] = {
+            [QuestieDB.questKeys.requiredMinRep] = {510,42000},
+        },
         [8149] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 77,
         },
