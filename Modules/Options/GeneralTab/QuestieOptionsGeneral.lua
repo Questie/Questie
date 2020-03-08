@@ -350,14 +350,40 @@ function QuestieOptions.tabs.general:Initialize()
                     Questie:debug(DEBUG_DEVELOP, QuestieLocale:GetUIString('ENABLE_MANUAL_OFFSET'), value)
                 end,
             },
+			manualMinLevelOffsetAbsolute = {
+                type = "toggle",
+                order = 2.4,
+                name = function() return QuestieLocale:GetUIString('ENABLE_MANUAL_OFFSET_ABSOLUTE'); end,
+                desc = function() return QuestieLocale:GetUIString('ENABLE_MANUAL_OFFSET_ABSOLUTE_DESC'); end,
+                width = 200,
+                disabled = function() return Questie.db.char.lowlevel; end,
+                get = function () return Questie.db.char.manualMinLevelOffsetAbsolute; end,
+                set = function (info, value)
+                    Questie.db.char.manualMinLevelOffsetAbsolute = value
+                    QuestieOptions.AvailableQuestRedraw();
+                    Questie:debug(DEBUG_DEVELOP, QuestieLocale:GetUIString('ENABLE_MANUAL_OFFSET_ABSOLUTE'), value)
+                end,
+            },
             minLevelFilter = {
                 type = "range",
-                order = 2.4,
-                name = function() return QuestieLocale:GetUIString('LOWLEVEL_BELOW'); end,
-                desc = function() return QuestieLocale:GetUIString('LOWLEVEL_BELOW_DESC', optionsDefaults.global.minLevelFilter); end,
+                order = 2.5,
+				name = function()
+					if(Questie.db.char.manualMinLevelOffsetAbsolute) then 
+						return QuestieLocale:GetUIString('LEVEL_FROM');
+					else
+						return QuestieLocale:GetUIString('LOWLEVEL_BELOW'); 
+						end
+				end,
+				desc = function()
+					if(Questie.db.char.manualMinLevelOffsetAbsolute) then
+						return QuestieLocale:GetUIString('LEVEL_FROM_DESC');
+					else
+						return QuestieLocale:GetUIString('LOWLEVEL_BELOW_DESC', optionsDefaults.global.minLevelFilter); 
+						end
+				end,
                 width = "normal",
                 min = 0,
-                max = QuestiePlayer:GetPlayerLevel() - 1,
+				max = 60,
                 step = 1,
                 disabled = function()
                     if(Questie.db.char.manualMinLevelOffset and not Questie.db.char.lowlevel) then
@@ -374,14 +400,26 @@ function QuestieOptions.tabs.general:Initialize()
             },
             maxLevelFilter = {
                 type = "range",
-                order = 2.5,
-                name = function() return QuestieLocale:GetUIString('LOWLEVEL_ABOVE'); end,
-                desc = function() return QuestieLocale:GetUIString('LOWLEVEL_ABOVE_DESC', optionsDefaults.global.maxLevelFilter); end,
+                order = 2.6,
+				name = function()
+					if(Questie.db.char.manualMinLevelOffsetAbsolute) then
+						return QuestieLocale:GetUIString('LEVEL_TO');
+					else
+						return QuestieLocale:GetUIString('LOWLEVEL_ABOVE'); 
+						end
+				end,
+                desc = function()
+					if(Questie.db.char.manualMinLevelOffsetAbsolute) then
+						return QuestieLocale:GetUIString('LEVEL_TO_DESC');
+					else
+						return QuestieLocale:GetUIString('LOWLEVEL_ABOVE_DESC', optionsDefaults.global.maxLevelFilter); 
+					end
+				end,
                 width = "normal",
                 min = 0,
                 max = 60,
                 step = 1,
-                disabled = function() return QuestiePlayer:GetPlayerLevel() == 60; end,
+                disabled = function() return QuestiePlayer:GetPlayerLevel() == 60 and not Questie.db.char.manualMinLevelOffsetAbsolute; end,
                 get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
                 set = function (info, value)
                     QuestieOptions:SetGlobalOptionValue(info, value)
@@ -390,7 +428,7 @@ function QuestieOptions.tabs.general:Initialize()
             },
             clusterLevelHotzone = {
                 type = "range",
-                order = 2.6,
+                order = 2.7,
                 name = function() return QuestieLocale:GetUIString('CLUSTER'); end,
                 desc = function() return QuestieLocale:GetUIString('CLUSTER_DESC'); end,
                 width = "double",
