@@ -441,6 +441,9 @@ function QuestieQuestFixes:Load()
         [1506] = {
             [QuestieDB.questKeys.exclusiveTo] = {1478}, -- #1427
         },
+        [1580] = {
+            [QuestieDB.questKeys.requiredSkill] = {356,30},
+        },
         [1581] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 77,
         },
