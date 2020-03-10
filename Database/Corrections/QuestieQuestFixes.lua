@@ -1188,11 +1188,17 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.questLevel] = 60,
             [QuestieDB.questKeys.specialFlags] = 1,
         },
+        [8105] = {
+            [QuestieDB.questKeys.specialFlags] = 0,
+        },
         [8114] = {
             [QuestieDB.questKeys.requiredMinRep] = {509,3000},
         },
         [8115] = {
             [QuestieDB.questKeys.requiredMinRep] = {509,42000},
+        },
+        [8120] = {
+            [QuestieDB.questKeys.specialFlags] = 0,
         },
         [8121] = {
             [QuestieDB.questKeys.requiredMinRep] = {510,3000},
@@ -1205,6 +1211,24 @@ function QuestieQuestFixes:Load()
         },
         [8150] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 178,
+        },
+        [8166] = {
+            [QuestieDB.questKeys.specialFlags] = 0,
+        },
+        [8167] = {
+            [QuestieDB.questKeys.specialFlags] = 0,
+        },
+        [8168] = {
+            [QuestieDB.questKeys.specialFlags] = 0,
+        },
+        [8169] = {
+            [QuestieDB.questKeys.specialFlags] = 0,
+        },
+        [8170] = {
+            [QuestieDB.questKeys.specialFlags] = 0,
+        },
+        [8171] = {
+            [QuestieDB.questKeys.specialFlags] = 0,
         },
         [8271] = {
             [QuestieDB.questKeys.requiredRaces] = 77,
