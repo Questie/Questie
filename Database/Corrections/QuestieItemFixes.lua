@@ -801,10 +801,7 @@ function QuestieItemFixes:Load()
             [QuestieDB.itemKeys.objectDrops] = {},
         },
         [20023] = {
-            [QuestieDB.itemKeys.name] = "Encoded Fragment",
-            [QuestieDB.itemKeys.relatedQuests] = {8235,},
             [QuestieDB.itemKeys.npcDrops] = {8766},
-            [QuestieDB.itemKeys.objectDrops] = {},
         },
         [21557] = {
             [QuestieDB.itemKeys.name] = "Small Red Rocket",
