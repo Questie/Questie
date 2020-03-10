@@ -354,6 +354,9 @@ function QuestieQuestFixes:Load()
         [1204] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #938
         },
+        [1260] = {
+            [QuestieDB.questKeys.exclusiveTo] = {1204},
+        },
         [1265] = {
             [QuestieDB.questKeys.triggerEnd] = {"Sentry Point explored",{[15]={{59.92,40.9},}}},
         },
