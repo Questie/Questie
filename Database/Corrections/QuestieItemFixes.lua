@@ -184,7 +184,7 @@ function QuestieItemFixes:Load()
         [4904] = {
             [QuestieDB.itemKeys.name] = "Venomtail Antidote",
             [QuestieDB.itemKeys.relatedQuests] = {812},
-            [QuestieDB.itemKeys.npcDrops] = {},
+            [QuestieDB.itemKeys.npcDrops] = {3189},
             [QuestieDB.itemKeys.objectDrops] = {},
         },
         [5051] = {
