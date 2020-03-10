@@ -73,7 +73,9 @@ function QuestieCorrections:Initialize()
 
     for id, data in pairs(QuestieQuestFixes:Load()) do
         for key, value in pairs(data) do
-            QuestieDB.questData[id][key] = value
+            if QuestieDB.questData[id] then
+                QuestieDB.questData[id][key] = value
+            end
         end
     end
 
