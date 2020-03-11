@@ -14,6 +14,7 @@ function QuestieQuestBlacklist:Load()
         [9378] = true, -- Naxxramas quest which doesn't seem to be in the game
         [1318] = true, -- Duplicate of 7703 and not in the game
         [7704] = true, -- Not in the game
+        [8258] = true, -- Not in the game (yet) -- #1805
         --Stray quests
         [3861] = true, --CLUCK!
         --World event quests
