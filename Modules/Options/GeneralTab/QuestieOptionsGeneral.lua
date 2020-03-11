@@ -328,7 +328,7 @@ function QuestieOptions.tabs.general:Initialize()
                 order = 2.2,
                 name = function() return QuestieLocale:GetUIString('ENABLE_LOWLEVEL'); end,
                 desc = function() return QuestieLocale:GetUIString('ENABLE_LOWLEVEL_DESC'); end,
-                width = 200,
+                width = "full",
                 get = function () return Questie.db.char.lowlevel; end,
                 set = function (info, value)
                     Questie.db.char.lowlevel = value
@@ -341,7 +341,7 @@ function QuestieOptions.tabs.general:Initialize()
                 order = 2.3,
                 name = function() return QuestieLocale:GetUIString('ENABLE_MANUAL_OFFSET'); end,
                 desc = function() return QuestieLocale:GetUIString('ENABLE_MANUAL_OFFSET_DESC'); end,
-                width = 200,
+                width = 1.5,
                 disabled = function() return Questie.db.char.lowlevel; end,
                 get = function () return Questie.db.char.manualMinLevelOffset; end,
                 set = function (info, value)
@@ -355,7 +355,7 @@ function QuestieOptions.tabs.general:Initialize()
                 order = 2.4,
                 name = function() return QuestieLocale:GetUIString('ENABLE_MANUAL_OFFSET_ABSOLUTE'); end,
                 desc = function() return QuestieLocale:GetUIString('ENABLE_MANUAL_OFFSET_ABSOLUTE_DESC'); end,
-                width = 200,
+                width = 1.5,
                 disabled = function() return Questie.db.char.lowlevel; end,
                 get = function () return Questie.db.char.manualMinLevelOffsetAbsolute; end,
                 set = function (info, value)
