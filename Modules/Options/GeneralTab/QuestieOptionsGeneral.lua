@@ -276,7 +276,7 @@ function QuestieOptions.tabs.general:Initialize()
                 get = function () return Questie.db.char.autoaccept; end,
                 set = function (info, value)
                     Questie.db.char.autoaccept = value
-                    Questie:debug(DEBUG_DEVELOP, "Auto Accept toggled to:", value)
+                    Questie:Debug(DEBUG_DEVELOP, "Auto Accept toggled to:", value)
                 end,
             },
             autocomplete = {
@@ -288,7 +288,7 @@ function QuestieOptions.tabs.general:Initialize()
                 get = function () return Questie.db.char.autocomplete; end,
                 set = function (info, value)
                     Questie.db.char.autocomplete = value
-                    Questie:debug(DEBUG_DEVELOP, "Auto Complete toggled to:", value)
+                    Questie:Debug(DEBUG_DEVELOP, "Auto Complete toggled to:", value)
                 end,
             },
             autoModifier = {
@@ -333,7 +333,7 @@ function QuestieOptions.tabs.general:Initialize()
                 set = function (info, value)
                     Questie.db.char.lowlevel = value
                     QuestieOptions.AvailableQuestRedraw();
-                    Questie:debug(DEBUG_DEVELOP, QuestieLocale:GetUIString('DEBUG_LOWLEVEL'), value)
+                    Questie:Debug(DEBUG_DEVELOP, QuestieLocale:GetUIString('DEBUG_LOWLEVEL'), value)
                 end,
             },
             manualMinLevelOffset = {
@@ -347,7 +347,7 @@ function QuestieOptions.tabs.general:Initialize()
                 set = function (info, value)
                     Questie.db.char.manualMinLevelOffset = value
                     QuestieOptions.AvailableQuestRedraw();
-                    Questie:debug(DEBUG_DEVELOP, QuestieLocale:GetUIString('ENABLE_MANUAL_OFFSET'), value)
+                    Questie:Debug(DEBUG_DEVELOP, QuestieLocale:GetUIString('ENABLE_MANUAL_OFFSET'), value)
                 end,
             },
             manualMinLevelOffsetAbsolute = {
