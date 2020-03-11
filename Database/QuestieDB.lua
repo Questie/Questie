@@ -723,6 +723,7 @@ end
 
 
 local falselyMarkedPvPQuests = {
+    [8105] = true,
     [8121] = true,
     [8122] = true,
     [8166] = true,
@@ -733,6 +734,7 @@ local falselyMarkedPvPQuests = {
     [8170] = true,
     [8171] = true,
     [8370] = true,
+    [8371] = true,
     [8374] = true,
     [8386] = true,
     [8389] = true,
@@ -740,6 +742,7 @@ local falselyMarkedPvPQuests = {
     [8393] = true,
     [8394] = true,
     [8395] = true,
+    [8396] = true,
     [8404] = true,
     [8405] = true,
     [8406] = true,
