@@ -1254,8 +1254,14 @@ function QuestieQuestFixes:Load()
         [8368] = {
             [QuestieDB.questKeys.exclusiveTo] = {8426,8427,8428,8429,8430},
         },
+        [8371] = {
+            [QuestieDB.questKeys.zoneOrSort] = 3358,
+        },
         [8372] = {
             [QuestieDB.questKeys.exclusiveTo] = {8399,8400,8401,8402,8403},
+        },
+        [8385] = {
+            [QuestieDB.questKeys.zoneOrSort] = 3358,
         },
         [8399] = {
             [QuestieDB.questKeys.exclusiveTo] = {8372,8400,8401,8402,8403},
