@@ -142,6 +142,10 @@ function QuestieObjectFixes:Load()
         [177785] = {
             [QuestieDB.objectKeys.spawns] = {[493]={{48,47.1},{50.1,50.6},{52.1,53.4},{52.1,53.5},{52.9,48.5},{53.1,48.4},{54.1,50.1},{54.3,55.6},{54.7,46.4},{54.7,46.5},{56.3,53.7},{58.5,50.8},{60.5,58.3},{60.5,58.5},},},
         },
+        [178224] = {
+            [QuestieDB.objectKeys.spawns] = {[2557]={{42.71,68.62},},}, -- #1156
+            [QuestieDB.objectKeys.zoneID] = 2557,
+        },
         [178227] = {
             [QuestieDB.objectKeys.spawns] = {[331]={{56,63}}},
             [QuestieDB.objectKeys.zoneID] = 331,
@@ -149,10 +153,6 @@ function QuestieObjectFixes:Load()
         [179908] = {
             [QuestieDB.objectKeys.spawns] = {[47]={{53.3,38.8},{57.4,42.6},{57.5,42.6},{66.4,44.8},{71,48.6},{72.6,52.9},},},
             [QuestieDB.objectKeys.zoneID] = 47,
-        },
-        [178224] = {
-            [QuestieDB.objectKeys.spawns] = {[2557]={{42.71,68.62},},}, -- #1156
-            [QuestieDB.objectKeys.zoneID] = 2557,
         },
         [190483] = {
             [QuestieDB.objectKeys.spawns] = {[400]={{33.76,39.99},},},
