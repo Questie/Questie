@@ -79,8 +79,6 @@ function QuestieCorrections:Initialize()
         end
     end
 
-    QuestieQuestFixes:UnloadOtherFactionQuests()
-
     QuestieCorrections.questItemBlacklist = QuestieItemBlacklist:Load()
     QuestieCorrections.hiddenQuests = QuestieQuestBlacklist:Load()
 

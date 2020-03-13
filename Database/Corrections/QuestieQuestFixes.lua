@@ -1494,21 +1494,3 @@ function QuestieQuestFixes:Load()
         },
     }
 end
-
-function QuestieQuestFixes:UnloadOtherFactionQuests()
-    local questsToUnload = {}
-    local isHorde = UnitFactionGroup("Player") == "Horde"
-    local flagToCheck = 178
-    if isHorde then
-        flagToCheck = 77 -- Remove Alliance when Horde
-    end
-    for questId, data in pairs(QuestieDB.questData) do
-        if data[QuestieDB.questKeys.requiredRaces] == flagToCheck then
-            table.insert(questsToUnload, questId)
-        end
-    end
-
-    for _, questId in ipairs(questsToUnload) do
-        QuestieDB.questData[questId] = nil
-    end
-end
