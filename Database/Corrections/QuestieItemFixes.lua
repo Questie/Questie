@@ -332,6 +332,24 @@ function QuestieItemFixes:Load()
             [QuestieDB.itemKeys.npcDrops] = {6909},
             [QuestieDB.itemKeys.objectDrops] = {},
         },
+        [7769] = {
+            [QuestieDB.itemKeys.name] = "Filled Brown Waterskin",
+            [QuestieDB.itemKeys.relatedQuests] = {1535},
+            [QuestieDB.itemKeys.npcDrops] = {},
+            [QuestieDB.itemKeys.objectDrops] = {107046},
+        },
+        [7770] = {
+            [QuestieDB.itemKeys.name] = "Filled Blue Waterskin",
+            [QuestieDB.itemKeys.relatedQuests] = {1534},
+            [QuestieDB.itemKeys.npcDrops] = {},
+            [QuestieDB.itemKeys.objectDrops] = {107047},
+        },
+        [7771] = {
+            [QuestieDB.itemKeys.name] = "Filled Red Waterskin",
+            [QuestieDB.itemKeys.relatedQuests] = {1536},
+            [QuestieDB.itemKeys.npcDrops] = {},
+            [QuestieDB.itemKeys.objectDrops] = {107045},
+        },
         [7867] = { -- #1469
             [QuestieDB.itemKeys.name] = "Vessel of Dragon's Blood",
             [QuestieDB.itemKeys.relatedQuests] = {2203,2501},
@@ -991,6 +1009,9 @@ _AddMissingItemIDs = function()
         16969,
         3713,
         14645,
+        7769,
+        7770,
+        7771,
     }
 
     for _, id in pairs(missingItemIDs) do
