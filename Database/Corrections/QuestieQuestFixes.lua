@@ -820,6 +820,9 @@ function QuestieQuestFixes:Load()
         [5068] = {
             [QuestieDB.questKeys.specialFlags] = 1, -- #1335
         },
+        [5082] = {
+            [QuestieDB.questKeys.preQuestSingle] = {}, -- #1824
+        },
         [5089] = {
             [QuestieDB.questKeys.startedBy] = {{9568},nil,{12780}},
         },
