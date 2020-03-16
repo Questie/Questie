@@ -412,6 +412,7 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.preQuestSingle] = {1432}, -- #1536
         },
         [1436] = {
+            [QuestieDB.questKeys.preQuestSingle] = {},
             [QuestieDB.questKeys.preQuestGroup] = {1434,1480},
         },
         [1442] = {
