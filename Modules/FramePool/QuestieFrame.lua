@@ -385,8 +385,7 @@ end
 ---@return boolean @True if the frame/icon should be hidden and :FakeHide should be called, false otherwise
 function _Qframe:ShouldBeHidden()
     local questieGlobalDB = Questie.db.global
-    if QuestieQuest.NotesHidden
-        or ((not questieGlobalDB.enableObjectives) and (self.data.Type == "monster" or self.data.Type == "object" or self.data.Type == "event" or self.data.Type == "item"))
+    if ((not questieGlobalDB.enableObjectives) and (self.data.Type == "monster" or self.data.Type == "object" or self.data.Type == "event" or self.data.Type == "item"))
         or ((not questieGlobalDB.enableTurnins) and self.data.Type == "complete")
         or ((not questieGlobalDB.enableAvailable) and self.data.Type == "available")
         or ((not questieGlobalDB.enableMapIcons) and (not self.miniMapIcon))
