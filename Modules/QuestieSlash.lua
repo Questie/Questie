@@ -42,6 +42,7 @@ function QuestieSlash:HandleCommands(input)
         print(Questie:Colorize(QuestieLocale:GetUIString('SLASH_TOGGLE_QUESTIE'), 'yellow'));
         print(Questie:Colorize(QuestieLocale:GetUIString('SLASH_MINIMAP'), 'yellow'));
         print(Questie:Colorize(QuestieLocale:GetUIString('SLASH_JOURNEY'), 'yellow'));
+        print(Questie:Colorize(QuestieLocale:GetUIString('SLASH_TRACKER'), 'yellow'));
         return;
     end
 

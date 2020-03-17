@@ -212,6 +212,7 @@ QuestieLocale.locale['esES'] = {
     ['SLASH_CONFIG'] = "/questie -- Muestra la ventana de copnfiguración",
     ['SLASH_TOGGLE_QUESTIE'] = "/questie toggle -- Muestra Questie en el mapa y minimapa",
     ['SLASH_JOURNEY'] = "/questie journey -- muestra la ventana de mi viaje",
+    ['SLASH_TRACKER'] = "/questie tracker [show/hide/reset] -- Toggles the Tracker. Add \"show\", \"hide\", \"reset\" to explicit show/hide or reset the Tracker",
     ['SLASH_MINIMAP'] = "/questie minimap -- Muestra el botón del minimapa para Questie",
 
     -- Tracker

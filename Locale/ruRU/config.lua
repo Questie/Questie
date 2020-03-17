@@ -212,6 +212,7 @@ QuestieLocale.locale['ruRU'] = {
     ['SLASH_CONFIG'] = "/questie — Показать/скрыть окно настроек",
     ['SLASH_TOGGLE_QUESTIE'] = "/questie toggle — Показать/скрыть Questie на карте и миникарте",
     ['SLASH_JOURNEY'] = "/questie journey -- Открывает окно «Мое приключение»",
+    ['SLASH_TRACKER'] = "/questie tracker [show/hide/reset] -- Toggles the Tracker. Add \"show\", \"hide\", \"reset\" to explicit show/hide or reset the Tracker",
     ['SLASH_MINIMAP'] = "/questie minimap -- Переключение кнопки миникарты для Questie",
 
     -- Tracker

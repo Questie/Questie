@@ -212,6 +212,7 @@ QuestieLocale.locale['ptBR'] = {
     ['SLASH_CONFIG'] = "Questie - Alternar a janela de configuração",
     ['SLASH_TOGGLE_Questie'] = "Questie Alternar - Ativar / Desativar a exibição da Questie sobre o mapa e no mapa ",
     ['SLASH_JOURNEY'] = "/questie journey - Alterne a janela Minha viagem",
+    ['SLASH_TRACKER'] = "/questie tracker [show/hide/reset] -- Toggles the Tracker. Add \"show\", \"hide\", \"reset\" to explicit show/hide or reset the Tracker",
     ['SLASH_MINIMAP'] = "/questie minimap - Alterne o botão na miniplaca para Questie",
 
     --Perseguidor

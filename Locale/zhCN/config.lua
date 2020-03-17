@@ -211,6 +211,7 @@ QuestieLocale.locale['zhCN'] = {
     ['SLASH_CONFIG'] = "/questie -- 打开设置窗口",
     ['SLASH_TOGGLE_QUESTIE'] = "/questie toggle -- 在地图上显示Questie提示",
     ['SLASH_JOURNEY'] = "/questie journey -- 打开日志窗口",
+    ['SLASH_TRACKER'] = "/questie tracker [show/hide/reset] -- Toggles the Tracker. Add \"show\", \"hide\", \"reset\" to explicit show/hide or reset the Tracker",
     ['SLASH_MINIMAP'] = "/questie minimap -- 切换显示或隐藏Questie小地图图标",
 
     -- Tracker
