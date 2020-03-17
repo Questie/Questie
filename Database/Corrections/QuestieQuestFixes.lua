@@ -805,6 +805,9 @@ function QuestieQuestFixes:Load()
         [4907] = {
             [QuestieDB.questKeys.exclusiveTo] = {4734},
         },
+        [5057] = {
+            [QuestieDB.questKeys.requiredRaces] = 178,
+        },
         [5059] = {
             [QuestieDB.questKeys.preQuestSingle] = {5058}, -- #922
         },
