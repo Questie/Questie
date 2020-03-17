@@ -1486,9 +1486,9 @@ function QuestieQuest:CalculateAvailableQuests()
             (not Questie.db.char.complete[questId]) and -- Don't show completed quests
             ((not QuestiePlayer.currentQuestlog[questId]) or QuestieQuest:IsComplete(quest) == -1) and -- Don't show quests if they're already in the quest log
             (not QuestieCorrections.hiddenQuests[questId]) and -- Don't show blacklisted quests
-            ((not quest.Repeatable) or (quest.Repeatable and showRepeatableQuests)) and -- Show repeatable quests if the quest is repeatable and the option is enabled
-            ((not quest:IsDungeonQuest()) or (quest:IsDungeonQuest() and showDungeonQuests)) and -- Show dungeon quests only with the option enabled
-            ((not quest:IsPvPQuest()) or (quest:IsPvPQuest() and showPvPQuests)) -- Show PvP quests only with the option enabled
+            (showRepeatableQuests or (not quest.Repeatable)) and  -- Show repeatable quests if the quest is repeatable and the option is enabled
+            (showDungeonQuests or (not quest:IsDungeonQuest())) and  -- Show dungeon quests only with the option enabled
+            (showPvPQuests or (not quest:IsPvPQuest())) -- Show PvP quests only with the option enabled
         ) then
 
             if quest and _QuestieQuest:LevelRequirementsFulfilled(quest, playerLevel, minLevel, maxLevel) then
