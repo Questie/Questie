@@ -84,6 +84,9 @@ local QuestieQuestTimers = QuestieLoader:ImportModule("QuestieQuestTimers")
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+---@type QuestieSlash
+local QuestieSlash = QuestieLoader:CreateModule("QuestieSlash")
+
 
 -- check if user has updated but not restarted the game (todo: add future new source files to this)
 if  (not LQuestie_EasyMenu) or
@@ -229,8 +232,8 @@ function Questie:OnInitialize()
     QuestieJourney.Initialize();
 
     -- Register Slash Commands
-    Questie:RegisterChatCommand("questieclassic", "QuestieSlash")
-    Questie:RegisterChatCommand("questie", "QuestieSlash")
+    Questie:RegisterChatCommand("questieclassic", "HandleSlash")
+    Questie:RegisterChatCommand("questie", "HandleSlash")
 
     QuestieOptions:Initialize();
 
@@ -288,64 +291,8 @@ function Questie:OnDisable()
     -- Called when the addon is disabled
 end
 
-function Questie:QuestieSlash(input)
-
-    input = string.trim(input, " ");
-
-    -- /questie
-    if input == "" or not input then
-        QuestieOptions:OpenConfigWindow();
-
-        if QuestieJourney:IsShown() then
-            QuestieJourney.ToggleJourneyWindow();
-        end
-        return ;
-    end
-
-    -- /questie help || /questie ?
-    if input == "help" or input == "?" then
-        print(Questie:Colorize(QuestieLocale:GetUIString('SLASH_HEAD'), 'yellow'));
-        print(Questie:Colorize(QuestieLocale:GetUIString('SLASH_CONFIG'), 'yellow'));
-        print(Questie:Colorize(QuestieLocale:GetUIString('SLASH_TOGGLE_QUESTIE'), 'yellow'));
-        print(Questie:Colorize(QuestieLocale:GetUIString('SLASH_MINIMAP'), 'yellow'));
-        print(Questie:Colorize(QuestieLocale:GetUIString('SLASH_JOURNEY'), 'yellow'));
-        return;
-    end
-
-    -- /questie toggle
-    if input == "toggle" then
-        QuestieQuest:ToggleNotes();
-
-        -- CLose config window if it's open to avoid desyncing the Checkbox
-        QuestieOptions:HideFrame();
-        return;
-    end
-
-    if input == "reload" then
-        QuestieQuest:SmoothReset()
-        return
-    end
-
-    -- /questie minimap
-    if input == "minimap" then
-        Questie.db.profile.minimap.hide = not Questie.db.profile.minimap.hide;
-
-        if Questie.db.profile.minimap.hide then
-            Questie.minimapConfigIcon:Hide("Questie");
-        else
-            Questie.minimapConfigIcon:Show("Questie");
-        end
-        return;
-    end
-
-    -- /questie journey
-    if input == "journey" then
-        QuestieJourney.ToggleJourneyWindow();
-        QuestieOptions:HideFrame();
-        return;
-    end
-
-    print(Questie:Colorize("[Questie] :: ", 'yellow') .. QuestieLocale:GetUIString('SLASH_INVALID') .. Questie:Colorize('/questie help', 'yellow'));
+function Questie:HandleSlash(input)
+    QuestieSlash:HandleCommands(input)
 end
 
 function Questie:Colorize(str, color)

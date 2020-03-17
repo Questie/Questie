@@ -33,23 +33,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 desc = function() return QuestieLocale:GetUIString('TRACKER_ENABLED_DESC'); end,
                 get = function() return Questie.db.global.trackerEnabled; end,
                 set = function (info, value)
-                    Questie.db.global.trackerEnabled = value
-                    if value then
-                        -- may not have been initialized yet
-                        if Questie.db.global.hookTracking then
-                            QuestieTracker:HookBaseTracker()
-                        end
-                        QuestieQuestTimers:HideBlizzardTimer()
-                        QuestieTracker:Initialize()
-                        QuestieTracker:MoveDurabilityFrame()
-                    elseif Questie.db.global.hookTracking then
-                        QuestieTracker:Unhook()
-                    end
-                    if not value then
-                        QuestieQuestTimers:ShowBlizzardTimer()
-                        QuestieTracker:ResetDurabilityFrame()
-                    end
-                    QuestieTracker:Update()
+                    QuestieTracker:Toggle(value)
                 end
             },
             autoQuestTracking = {

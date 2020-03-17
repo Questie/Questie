@@ -378,6 +378,41 @@ function QuestieTracker:SetBaseFrame(frm)
     _QuestieTracker.baseFrame = frm
 end
 
+function QuestieTracker:Enable()
+    Questie.db.global.trackerEnabled = true
+    -- may not have been initialized yet
+    if Questie.db.global.hookTracking then
+        QuestieTracker:HookBaseTracker()
+    end
+    QuestieQuestTimers:HideBlizzardTimer()
+    QuestieTracker:Initialize()
+    QuestieTracker:MoveDurabilityFrame()
+    QuestieTracker:Update()
+end
+
+function QuestieTracker:Disable()
+    Questie.db.global.trackerEnabled = false
+    if Questie.db.global.hookTracking then
+        QuestieTracker:Unhook()
+    end
+    QuestieQuestTimers:ShowBlizzardTimer()
+    QuestieTracker:ResetDurabilityFrame()
+    QuestieTracker:Update()
+end
+
+function QuestieTracker:Toggle(value)
+    if value == nil then
+        value = not Questie.db.global.trackerEnabled
+    end
+
+    Questie.db.global.trackerEnabled = value
+    if value then
+        QuestieTracker:Enable()
+    else
+        QuestieTracker:Disable()
+    end
+end
+
 function _QuestieTracker:CreateActiveQuestsFrame()
     local _, numQuests = GetNumQuestLogEntries()
     local frm = CreateFrame("Button", nil, _QuestieTracker.baseFrame)
