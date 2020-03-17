@@ -18,6 +18,8 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
 local AceGUI = LibStub("AceGUI-3.0");
 
@@ -95,7 +97,7 @@ local function GetRacesString(raceMask)
         return "Horde"
     else
         local raceString = ""
-        local raceTable = UnpackBinary(raceMask)
+        local raceTable = QuestieLib:UnpackBinary(raceMask)
         local stringTable = {
             'Human',
             'Orc',

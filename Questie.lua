@@ -371,7 +371,6 @@ function Questie:Colorize(str, color)
 end
 
 function Questie:GetClassColor(class)
-
     class = string.lower(class);
 
     if class == 'druid' then
@@ -399,10 +398,6 @@ end
 
 function Questie:Error(...)
     Questie:Print("|cffff0000[ERROR]|r", ...)
-end
-
-function Questie:error(...)
-    Questie:Error(...)
 end
 
 function Questie:Debug(...)

@@ -185,7 +185,7 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                         end
                     end
                 -- Repeatable quests
-                elseif quest.Repeatable then
+                elseif quest.IsRepeatable then
                     tinsert(zoneTree[4].children, temp)
                     repeatableCounter = repeatableCounter + 1
                 -- Available quests

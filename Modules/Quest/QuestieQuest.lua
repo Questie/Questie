@@ -372,7 +372,7 @@ function QuestieQuest:CompleteQuest(quest)
     local questId = quest.Id
     QuestiePlayer.currentQuestlog[questId] = nil;
     -- Only quests that aren't repeatable should be marked complete, otherwise objectives for repeatable quests won't track correctly - #1433
-    Questie.db.char.complete[questId] = not quest.Repeatable
+    Questie.db.char.complete[questId] = not quest.IsRepeatable
 
     QuestieHash:RemoveQuestHash(questId)
 
@@ -1384,7 +1384,7 @@ function _QuestieQuest:GetQuestIcon(questObject)
     local icon = {}
     if questObject.requiredLevel > QuestiePlayer.GetPlayerLevel() then
         icon = ICON_TYPE_AVAILABLE_GRAY
-    elseif questObject.Repeatable then
+    elseif questObject.IsRepeatable then
         icon = ICON_TYPE_REPEATABLE
     elseif(questObject:IsTrivial()) then
         icon = ICON_TYPE_AVAILABLE_GRAY
@@ -1486,7 +1486,7 @@ function QuestieQuest:CalculateAvailableQuests()
             (not Questie.db.char.complete[questId]) and -- Don't show completed quests
             ((not QuestiePlayer.currentQuestlog[questId]) or QuestieQuest:IsComplete(quest) == -1) and -- Don't show quests if they're already in the quest log
             (not QuestieCorrections.hiddenQuests[questId]) and -- Don't show blacklisted quests
-            (showRepeatableQuests or (not quest.Repeatable)) and  -- Show repeatable quests if the quest is repeatable and the option is enabled
+            (showRepeatableQuests or (not quest.IsRepeatable)) and  -- Show repeatable quests if the quest is repeatable and the option is enabled
             (showDungeonQuests or (not quest:IsDungeonQuest())) and  -- Show dungeon quests only with the option enabled
             (showPvPQuests or (not quest:IsPvPQuest())) -- Show PvP quests only with the option enabled
         ) then

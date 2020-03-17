@@ -132,11 +132,11 @@ function QuestieEventHandler:CompleteQuest(questId, count)
     if not quest then
         return
     end
-    if(IsQuestFlaggedCompleted(questId) or quest.Repeatable or count > 50) then
+    if(IsQuestFlaggedCompleted(questId) or quest.IsRepeatable or count > 50) then
         QuestieQuest:CompleteQuest(quest)
         QuestieJourney:CompleteQuest(questId)
     else
-        Questie:Debug(DEBUG_INFO, "[QuestieEventHandler]", questId, ":Quest not complete starting timer! IsQuestFlaggedCompleted", IsQuestFlaggedCompleted(questId), "Repeatable:", quest.Repeatable, "Count:", count);
+        Questie:Debug(DEBUG_INFO, "[QuestieEventHandler]", questId, ":Quest not complete starting timer! IsQuestFlaggedCompleted", IsQuestFlaggedCompleted(questId), "Repeatable:", quest.IsRepeatable, "Count:", count);
         C_Timer.After(0.1, function()
             CompleteQuest(questId, count + 1)
         end);
@@ -153,7 +153,7 @@ function QuestieEventHandler:QUEST_TURNED_IN(questID, xpReward, moneyReward)
     -- Some repeatable sub quests don't fire a UQLC event when they're completed.
     -- Therefore we have to check here to make sure the next QLU updates the state.
     local quest = QuestieDB:GetQuest(questID)
-    if quest and ((quest.parentQuest and quest.Repeatable) or quest.Description == nil) then
+    if quest and ((quest.parentQuest and quest.IsRepeatable) or quest.Description == nil) then
         Questie:Debug(DEBUG_DEVELOP, "Enabling runQLU")
         runQLU = true
     end

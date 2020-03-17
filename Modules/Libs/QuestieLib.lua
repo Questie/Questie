@@ -477,3 +477,15 @@ function QuestieLib:MathRandom(low_or_high_arg, high_arg)
     end
     return low + math.floor(rand * high)
 end
+
+function QuestieLib:UnpackBinary(val)
+    local ret = {}
+    for q=0, 16 do
+        if bit.band(bit.rshift(val,q), 1) == 1 then
+            tinsert(ret, true)
+        else
+            tinsert(ret, false)
+        end
+    end
+    return ret
+end

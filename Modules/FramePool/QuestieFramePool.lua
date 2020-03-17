@@ -393,7 +393,7 @@ function _QuestieFramePool:GetAvailableOrCompleteTooltip(icon)
         tip.type = QuestieLocale:GetUIString("TOOLTIP_QUEST_COMPLETE");
     else
         local questType, questTag = GetQuestTagInfo(icon.data.Id);
-        if(icon.data.QuestData.Repeatable) then
+        if(icon.data.QuestData.IsRepeatable) then
             tip.type = QuestieLocale:GetUIString("TOOLTIP_QUEST_REPEATABLE");--"(Repeatable)"; --
         elseif(questType == 41 or QuestieDB:IsPvPQuest(icon.data.Id)) then
             tip.type = "(PvP)"
