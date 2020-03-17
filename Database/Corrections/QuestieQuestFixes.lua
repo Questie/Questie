@@ -935,21 +935,47 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.questLevel] = 55,
         },
         -----------------------
+        [6065] = {
+            [QuestieDB.questKeys.exclusiveTo] = {6066,6067,6061},
+        },
+        [6066] = {
+            [QuestieDB.questKeys.exclusiveTo] = {6065,6067,6061},
+        },
+        [6067] = {
+            [QuestieDB.questKeys.exclusiveTo] = {6065,6066,6061},
+        },
+        [6068] = {
+            [QuestieDB.questKeys.exclusiveTo] = {6069,6070,6062}, -- #1795
+        },
         [6069] = {
             [QuestieDB.questKeys.startedBy] = {{11814,},nil,nil,}, -- #1523
+            [QuestieDB.questKeys.exclusiveTo] = {6068,6070,6062}, -- #1795
         },
         -- "The Hunter's Path" now started by "Kary Thunderhorn" in Thunder Bluff
         [6070] = {
             [QuestieDB.questKeys.startedBy] = {{3038,},nil,nil,},
+            [QuestieDB.questKeys.exclusiveTo] = {6068,6069,6062}, -- #1795
+        },
+        [6071] = {
+            [QuestieDB.questKeys.exclusiveTo] = {6072,6073,6721,6722,6063},
+        },
+        [6072] = {
+            [QuestieDB.questKeys.exclusiveTo] = {6071,6073,6721,6722,6063},
         },
         [6073] = {
             [QuestieDB.questKeys.startedBy] = {{5515,},nil,nil,},
+            [QuestieDB.questKeys.exclusiveTo] = {6071,6072,6721,6722,6063},
         },
         [6074] = {
             [QuestieDB.questKeys.startedBy] = {{5516,},nil,nil,},
+            [QuestieDB.questKeys.exclusiveTo] = {6075,6076,6064},
         },
         [6075] = {
             [QuestieDB.questKeys.startedBy] = {{11807,},nil,nil,},
+            [QuestieDB.questKeys.exclusiveTo] = {6074,6076,6064},
+        },
+        [6076] = {
+            [QuestieDB.questKeys.exclusiveTo] = {6074,6075,6064},
         },
         [6136] = {
             [QuestieDB.questKeys.preQuestSingle] = {6133}, -- #1572
@@ -990,9 +1016,11 @@ function QuestieQuestFixes:Load()
         },
         [6721] = {
             [QuestieDB.questKeys.startedBy] = {{5116},nil,nil},
+            [QuestieDB.questKeys.exclusiveTo] = {6071,6072,6073,6722,6063},
         },
         [6722] = {
             [QuestieDB.questKeys.startedBy] = {{1231},nil,nil},
+            [QuestieDB.questKeys.exclusiveTo] = {6071,6072,6073,6721,6063},
         },
         [6861] = {
             [QuestieDB.questKeys.objectivesText] = {},
