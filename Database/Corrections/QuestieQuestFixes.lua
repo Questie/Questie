@@ -1206,6 +1206,15 @@ function QuestieQuestFixes:Load()
         [7761] = {
             [QuestieDB.questKeys.startedBy] = {{9046},nil,{18987}},
         },
+        [7785] = {
+            [QuestieDB.questKeys.requiredClasses] = 15,
+        },
+        [7786] = {
+            [QuestieDB.questKeys.requiredClasses] = 15,
+        },
+        [7787] = {
+            [QuestieDB.questKeys.requiredClasses] = 15,
+        },
         [7838] = {
             [QuestieDB.questKeys.specialFlags] = 1, -- #1589
         },
