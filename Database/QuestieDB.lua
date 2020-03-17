@@ -1,5 +1,6 @@
 ---@class QuestieDB
 local QuestieDB = QuestieLoader:CreateModule("QuestieDB")
+local _QuestieDB = QuestieDB.private
 -------------------------
 --Import modules.
 -------------------------
@@ -74,12 +75,23 @@ function QuestieDB:Initialize()
     QuestieDB:HideClassAndRaceQuests()
     QuestieDB:DeleteGatheringNodes()
 
+    _QuestieDB:CacheQuestTags()
+
     -- data has been corrected, ensure cache is empty (something might have accessed the api before questie initialized)
     QuestieDB._QuestCache = {};
     QuestieDB._ItemCache = {};
     QuestieDB._NPCCache = {};
     QuestieDB._ObjectCache = {};
     QuestieDB._ZoneCache = {};
+end
+
+---Caches all quest tags. This is required when a quest hasn't been queried from
+--- the Blizzard servers before and therefore initially returns nil instead of the
+--- correct quest tag.
+function _QuestieDB:CacheQuestTags()
+    for questId, _ in pairs(QuestieDB.questData) do
+        local _, _ = GetQuestTagInfo(questId)
+    end
 end
 
 function QuestieDB:ItemLookup(itemId)
@@ -223,11 +235,14 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
         QO.Repeatable = mod(QO.specialFlags, 2) == 1
     end
 
-    local questType, questTag = GetQuestTagInfo(questId)
-    if questType == 81 then
-        QO.isDungeonQuest = true
-    elseif questType == 41 or QuestieDB:IsPvPQuest(questId) then
-        QO.isPvPQuest = true
+    function QO:IsDungeonQuest()
+        local questType, _ = GetQuestTagInfo(questId)
+        return questType == 81
+    end
+
+    function QO:IsPvPQuest()
+        local questType, _ = GetQuestTagInfo(questId)
+        return questType == 41
     end
 
     -- reorganize to match wow api

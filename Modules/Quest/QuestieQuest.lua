@@ -1478,27 +1478,27 @@ function QuestieQuest:CalculateAvailableQuests()
 
     QuestieQuest.availableQuests = {}
 
-    for questID, v in pairs(QuestieDB.questData) do
-        local quest = QuestieDB:GetQuest(questID)
+    for questId, _ in pairs(QuestieDB.questData) do
+        local quest = QuestieDB:GetQuest(questId)
 
         --Check if we've already completed the quest and that it is not "manually" hidden and that the quest is not currently in the questlog.
         if(
-            (not Questie.db.char.complete[questID]) and -- Don't show completed quests
-            ((not QuestiePlayer.currentQuestlog[questID]) or QuestieQuest:IsComplete(quest) == -1) and -- Don't show quests if they're already in the quest log
-            (not QuestieCorrections.hiddenQuests[questID]) and -- Don't show blacklisted quests
+            (not Questie.db.char.complete[questId]) and -- Don't show completed quests
+            ((not QuestiePlayer.currentQuestlog[questId]) or QuestieQuest:IsComplete(quest) == -1) and -- Don't show quests if they're already in the quest log
+            (not QuestieCorrections.hiddenQuests[questId]) and -- Don't show blacklisted quests
             ((not quest.Repeatable) or (quest.Repeatable and showRepeatableQuests)) and -- Show repeatable quests if the quest is repeatable and the option is enabled
-            ((not quest.isDungeonQuest) or (quest.isDungeonQuest and showDungeonQuests)) and -- Show dungeon quests only with the option enabled
-            ((not quest.isPvPQuest) or (quest.isPvPQuest and showPvPQuests)) -- Show PvP quests only with the option enabled
+            ((not quest:IsDungeonQuest()) or (quest:IsDungeonQuest() and showDungeonQuests)) and -- Show dungeon quests only with the option enabled
+            ((not quest:IsPvPQuest()) or (quest:IsPvPQuest() and showPvPQuests)) -- Show PvP quests only with the option enabled
         ) then
 
             if quest and _QuestieQuest:LevelRequirementsFulfilled(quest, playerLevel, minLevel, maxLevel) then
                 if _QuestieQuest:IsDoable(quest) then
-                    QuestieQuest.availableQuests[questID] = questID
+                    QuestieQuest.availableQuests[questId] = questId
                 end
             else
                 --If the quests are not within level range we want to unload them
                 --(This is for when people level up or change settings etc)
-                QuestieMap:UnloadQuestFrames(questID);
+                QuestieMap:UnloadQuestFrames(questId);
             end
         end
     end
