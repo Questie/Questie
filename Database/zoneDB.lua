@@ -110,7 +110,8 @@ local zoneDataClassicBetaHack = {
     --["Kalimdor"] = {1464,0}
 }
 
-
+-- Different source of zoneIds
+-- https://www.ownedcore.com/forums/world-of-warcraft/world-of-warcraft-emulator-servers/60411-zone-ids.html
 local zoneDataClassic = { --AreaTable IDs --Aka AreaID
     [1] = 'Dun Morogh',
     [3] = 'Badlands',
@@ -218,10 +219,25 @@ local dungeons = {
     [2557] = {"Dire Maul", 2577, 357},
 }
 
-function QuestieDBZone:GetDungeonAlternative(areaId)
+-- The starting zones have different zoneIDs which we don't want to handle seperatly
+local startingZoneParents = {
+    [12] = 9,
+    [1] = 132,
+    [85] = 154,
+    [141] = 188,
+    [215] = 220,
+    [14] = 363,
+}
+
+function QuestieDBZone:GetAlternativeZoneId(areaId)
     local entry = dungeons[areaId]
     if entry then
         return entry[2]
+    end
+
+    entry = startingZoneParents[areaId]
+    if entry then
+        return entry
     end
 
     return nil
@@ -389,54 +405,54 @@ for k,v in pairs(Questie2ZoneTable) do
   end
 end
 
-local zoneLevelList = {
-    {1, 1, 10},
-    {3, 35, 45},
-    {4, 45, 55},
-    {8, 35, 45},
-    {10, 18, 30},
-    {11, 20, 30},
-    {12, 1, 10},
-    {14, 1, 10},
-    {15, 35, 45},
-    {16, 45, 55},
-    {17, 10, 25},
-    {28, 51, 58},
-    {33, 30, 45},
-    {36, 30, 40},
-    {38, 10, 20},
-    {40, 10, 20},
-    {41, 55, 60},
-    {44, 15, 25},
-    {45, 30, 40},
-    {46, 50, 58},
-    {47, 40, 50},
-    {51, 45, 50},
-    {85, 1, 10},
-    {130, 10, 20},
-    {139, 53, 60},
-    {141, 1, 10},
-    {148, 10, 20},
-    {215, 1, 10},
-    {267, 20, 30},
-    {331, 18, 30},
-    {357, 40, 50},
-    {361, 48, 55},
-    {400, 25, 35},
-    {405, 30, 40},
-    {406, 15, 27},
-    {440, 40, 50},
-    {490, 48, 55},
-    {493, 55, 60},
-    {618, 53, 60},
-    {1377, 55, 60},
-    {1497, 1, 60},
-    {1519, 1, 60},
-    {1537, 1, 60},
-    {1637, 1, 60},
-    {1638, 1, 60},
-    {1657, 1, 60}
-}
+-- local zoneLevelList = {
+--     {1, 1, 10},
+--     {3, 35, 45},
+--     {4, 45, 55},
+--     {8, 35, 45},
+--     {10, 18, 30},
+--     {11, 20, 30},
+--     {12, 1, 10},
+--     {14, 1, 10},
+--     {15, 35, 45},
+--     {16, 45, 55},
+--     {17, 10, 25},
+--     {28, 51, 58},
+--     {33, 30, 45},
+--     {36, 30, 40},
+--     {38, 10, 20},
+--     {40, 10, 20},
+--     {41, 55, 60},
+--     {44, 15, 25},
+--     {45, 30, 40},
+--     {46, 50, 58},
+--     {47, 40, 50},
+--     {51, 45, 50},
+--     {85, 1, 10},
+--     {130, 10, 20},
+--     {139, 53, 60},
+--     {141, 1, 10},
+--     {148, 10, 20},
+--     {215, 1, 10},
+--     {267, 20, 30},
+--     {331, 18, 30},
+--     {357, 40, 50},
+--     {361, 48, 55},
+--     {400, 25, 35},
+--     {405, 30, 40},
+--     {406, 15, 27},
+--     {440, 40, 50},
+--     {490, 48, 55},
+--     {493, 55, 60},
+--     {618, 53, 60},
+--     {1377, 55, 60},
+--     {1497, 1, 60},
+--     {1519, 1, 60},
+--     {1537, 1, 60},
+--     {1637, 1, 60},
+--     {1638, 1, 60},
+--     {1657, 1, 60}
+-- }
 
 --Locations for instances in the world.
 InstanceLocations = {

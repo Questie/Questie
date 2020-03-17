@@ -547,7 +547,7 @@ function QuestieDB:GetQuestsByZoneId(zoneId)
     end
 
     local zoneQuests = {};
-    local alternativeZoneID = QuestieDBZone:GetDungeonAlternative(zoneId)
+    local alternativeZoneID = QuestieDBZone:GetAlternativeZoneId(zoneId)
     -- loop over all quests to populate a zone
     for qid, _ in pairs(QuestieDB.questData) do
         local quest = QuestieDB:GetQuest(qid);
