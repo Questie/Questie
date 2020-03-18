@@ -25,6 +25,7 @@ function QuestieOptions:Initialize()
     Questie.configFrame = LibStub("AceConfigDialogQuestie-3.0"):AddToBlizOptions("Questie", "Questie");
 
     local configFrame = AceGUI:Create("Frame");
+    QuestieOptions.configFrame = configFrame
     LibStub("AceConfigDialogQuestie-3.0"):SetDefaultSize("Questie", 625, 730)
     LibStub("AceConfigDialogQuestie-3.0"):Open("Questie", configFrame)
     configFrame:Hide();
@@ -46,7 +47,7 @@ end
 function QuestieOptions:OpenConfigWindow()
     if not QuestieConfigFrame:IsShown() then
         PlaySound(882)
-        QuestieConfigFrame:Show()
+        LibStub("AceConfigDialogQuestie-3.0"):Open("Questie", QuestieOptions.configFrame)
     else
         QuestieConfigFrame:Hide()
     end

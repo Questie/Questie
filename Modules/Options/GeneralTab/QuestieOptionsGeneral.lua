@@ -219,9 +219,9 @@ function QuestieOptions.tabs.general:Initialize()
                     Questie.db.profile.minimap.hide = not value;
 
                     if value then
-                        Questie.minimapConfigIcon:Show("MinimapIcon");
+                        Questie.minimapConfigIcon:Show("Questie");
                     else
-                        Questie.minimapConfigIcon:Hide("MinimapIcon");
+                        Questie.minimapConfigIcon:Hide("Questie");
                     end
                 end,
             },
