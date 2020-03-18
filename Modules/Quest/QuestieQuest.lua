@@ -1272,14 +1272,12 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
     elseif(quest.Starts["NPC"] ~= nil)then
         for _, NPCID in ipairs(quest.Starts["NPC"]) do
             local NPC = QuestieDB:GetNPC(NPCID)
-            if (NPC ~= nil and NPC.spawns ~= nil and NPC.friendly) then
+            if (NPC ~= nil and NPC.spawns ~= nil) then
                 --Questie:Debug(DEBUG_DEVELOP,"Adding Quest:", questObject.Id, "StarterNPC:", NPC.Id)
                 for npcZone, Spawns in pairs(NPC.spawns) do
                     if(npcZone ~= nil and Spawns ~= nil) then
-                        --Questie:Debug("Zone", Zone)
-                        --Questie:Debug("Qid:", questid)
+
                         for _, coords in ipairs(Spawns) do
-                            --Questie:Debug("Coords", coords[1], coords[2])
                             local data = {}
                             data.Id = quest.Id;
                             data.Icon = _QuestieQuest:GetQuestIcon(quest)
@@ -1422,20 +1420,6 @@ function _QuestieQuest:IsDoable(quest)
         -- If the quest has a parent quest then only show it if the
         -- parent quest is in the quest log
         return _QuestieQuest:IsParentQuestActive(quest.parentQuest)
-    end
-
-    -- check if npc is friendly
-    if quest.Starts["NPC"] ~= nil then
-        local hasValidNPC = false
-        for _, id in ipairs(quest.Starts["NPC"]) do
-            if QuestieDB:GetNPC(id).friendly then
-                hasValidNPC = true
-                break
-            end
-        end
-        if not hasValidNPC then
-            return false
-        end
     end
 
     if not QuestieProfessions:HasProfessionAndSkill(quest.requiredSkill) then
