@@ -7,6 +7,8 @@ local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
 
 local tinsert = table.insert
@@ -141,6 +143,17 @@ function QuestieTracker.menu:GetMenuForQuest(quest)
             Questie.db.char.TrackerHiddenQuests[quest.Id] = true
         end})
     end
+    tinsert(menu, {text = QuestieLocale:GetUIString('TRACKER_LINK_TO_CHAT'), func = function()
+        LQuestie_CloseDropDownMenus()
+
+        if ChatFrame1EditBox then
+            if not ChatFrame1EditBox:IsShown() then
+                ChatFrame1EditBox:Show()
+            end
+
+            ChatFrame1EditBox:SetText(ChatFrame1EditBox:GetText() .. QuestieLib:GetQuestString(quest.Id, quest.name, quest.level, true))
+        end
+    end})
     tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_SET_TOMTOM'), func = function()
         LQuestie_CloseDropDownMenus()
         local spawn, zone, name = QuestieMap:GetNearestQuestSpawn(quest)

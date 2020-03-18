@@ -279,6 +279,7 @@ QuestieLocale.locale['enUS'] = {
     ['TRACKER_SET_TOMTOM'] = "Set |cFF54e33bTomTom|r Target",
     ['TRACKER_SHOW_ICONS'] = "Show Icons",
     ['TRACKER_HIDE_ICONS'] = "Hide Icons",
+    ['TRACKER_LINK_TO_CHAT'] = "Link Quest to chat",
     ['TRACKER_OBJECTIVES'] = "Objectives",
     ['TRACKER_SHOW_ON_MAP'] = "Show on Map",
     ['TRACKER_UNLOCK'] = "Unlock Tracker",

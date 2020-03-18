@@ -279,6 +279,7 @@ QuestieLocale.locale['zhTW'] = {
     ['TRACKER_SET_TOMTOM'] = "顯示|cFF54e33bTomTom|r箭頭",
     ['TRACKER_SHOW_ICONS'] = "顯示標記",
     ['TRACKER_HIDE_ICONS'] = "隱藏標記",
+    ['TRACKER_LINK_TO_CHAT'] = "Link Quest to chat",
     ['TRACKER_OBJECTIVES'] = "目標",
     ['TRACKER_SHOW_ON_MAP'] = "顯示於地圖",
     ['TRACKER_UNLOCK'] = "解鎖框架",

@@ -279,6 +279,7 @@ QuestieLocale.locale['ruRU'] = {
     ['TRACKER_SET_TOMTOM'] = "Задать цель для |cFF54e33bTomTom|r ",
     ['TRACKER_SHOW_ICONS'] = "Показать значки",
     ['TRACKER_HIDE_ICONS'] = "Скрыть значки",
+    ['TRACKER_LINK_TO_CHAT'] = "Link Quest to chat",
     ['TRACKER_OBJECTIVES'] = "Объекты",
     ['TRACKER_SHOW_ON_MAP'] = "Показать на карте",
     ['TRACKER_UNLOCK'] = "Разблокировать окно отслеживания",

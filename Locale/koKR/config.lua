@@ -279,6 +279,7 @@ QuestieLocale.locale['koKR'] = {
     ['TRACKER_SET_TOMTOM'] = "|cFF54e33bTomTom|r 대상 설정",
     ['TRACKER_SHOW_ICONS'] = "아이콘 표시",
     ['TRACKER_HIDE_ICONS'] = "아이콘 가리기",
+    ['TRACKER_LINK_TO_CHAT'] = "Link Quest to chat",
     ['TRACKER_OBJECTIVES'] = "목표",
     ['TRACKER_SHOW_ON_MAP'] = "지도에서 보기",
     ['TRACKER_UNLOCK'] = "추적기 잠금해제",

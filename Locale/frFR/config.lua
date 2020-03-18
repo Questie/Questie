@@ -279,6 +279,7 @@ QuestieLocale.locale['frFR'] = {
     ['TRACKER_SET_TOMTOM'] = "Définir un point |cFF54e33bTomTom|r",
     ['TRACKER_SHOW_ICONS'] = "Afficher les icônes",
     ['TRACKER_HIDE_ICONS'] = "Masquer les icônes",
+    ['TRACKER_LINK_TO_CHAT'] = "Link Quest to chat",
     ['TRACKER_OBJECTIVES'] = "Objectifs",
     ['TRACKER_SHOW_ON_MAP'] = "Afficher sur la carte",
     ['TRACKER_UNLOCK'] = "Déverrouiller la fenêtre du suivi",

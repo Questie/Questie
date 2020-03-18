@@ -278,6 +278,7 @@ QuestieLocale.locale['zhCN'] = {
     ['TRACKER_SET_TOMTOM'] = "显示|cFF54e33bTomTom|r箭头",
     ['TRACKER_SHOW_ICONS'] = "显示标记",
     ['TRACKER_HIDE_ICONS'] = "隐藏标记",
+    ['TRACKER_LINK_TO_CHAT'] = "Link Quest to chat",
     ['TRACKER_OBJECTIVES'] = "目标",
     ['TRACKER_SHOW_ON_MAP'] = "显示于地图",
     ['TRACKER_UNLOCK'] = "解锁框体",
