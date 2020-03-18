@@ -15,6 +15,13 @@ function QuestieQuestBlacklist:Load()
         [1318] = true, -- Duplicate of 7703 and not in the game
         [7704] = true, -- Not in the game
         [8258] = true, -- Not in the game (yet) -- #1805
+        -- Welcome! quests (Collectors Edition)
+        [5805] = true,
+        [5841] = true,
+        [5842] = true,
+        [5843] = true,
+        [5844] = true,
+        [5847] = true,
         --Stray quests
         [3861] = true, --CLUCK!
         --World event quests
