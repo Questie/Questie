@@ -32,23 +32,12 @@ function QuestieDB:Initialize()
     _QuestieDB:HideClassAndRaceQuests()
     _QuestieDB:DeleteGatheringNodes()
 
-    _QuestieDB:CacheQuestTags()
-
     -- data has been corrected, ensure cache is empty (something might have accessed the api before questie initialized)
     _QuestieDB.questCache = {};
     _QuestieDB.itemCache = {};
     _QuestieDB.npcCache = {};
     _QuestieDB.objectCache = {};
     _QuestieDB.zoneCache = {};
-end
-
----Caches all quest tags. This is required when a quest hasn't been queried from
---- the Blizzard servers before and therefore initially returns nil instead of the
---- correct quest tag.
-function _QuestieDB:CacheQuestTags()
-    for questId, _ in pairs(QuestieDB.questData) do
-        local _, _ = GetQuestTagInfo(questId)
-    end
 end
 
 function QuestieDB:GetObject(objectId)

@@ -228,9 +228,6 @@ function Questie:OnInitialize()
     -- JoinTemporaryChannel("questie")
     --Questie:RegisterEvent("CHAT_MSG_ADDON", QuestieComms.MessageReceived)
 
-    -- Initialize Journey Window
-    QuestieJourney.Initialize();
-
     -- Register Slash Commands
     Questie:RegisterChatCommand("questieclassic", "HandleSlash")
     Questie:RegisterChatCommand("questie", "HandleSlash")
