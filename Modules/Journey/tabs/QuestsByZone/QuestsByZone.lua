@@ -142,9 +142,10 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                 -- Marking them as complete should be the most satisfying solution for user
                 if quest.exclusiveTo then
                     for _, exId in pairs(quest.exclusiveTo) do
-                        if Questie.db.char.complete[exId] and zoneTree[4].children[qId] == nil then
+                        if Questie.db.char.complete[exId] then
                             tinsert(zoneTree[3].children, temp)
                             completedCounter = completedCounter + 1
+                            break
                         end
                     end
                 -- The parent quest has been completed
@@ -174,15 +175,20 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                     end
                 -- Multiple pre Quests are missing
                 elseif not quest:IsPreQuestGroupFulfilled() then
+                    local hasUnobtainablePreQuest = false
                     for _, preQuestId in pairs(quest.preQuestGroup) do
                         if unobtainableQuestIds[preQuestId] ~= nil then
                             tinsert(zoneTree[5].children, temp)
                             unobtainableQuestIds[qId] = true
                             unobtainableCounter = unobtainableCounter + 1
-                        else
-                            tinsert(zoneTree[2].children, temp)
-                            prequestMissingCounter = prequestMissingCounter + 1
+                            hasUnobtainablePreQuest = true
+                            break
                         end
+                    end
+
+                    if not hasUnobtainablePreQuest then
+                        tinsert(zoneTree[2].children, temp)
+                        prequestMissingCounter = prequestMissingCounter + 1
                     end
                 -- Repeatable quests
                 elseif quest.IsRepeatable then
