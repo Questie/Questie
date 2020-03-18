@@ -716,6 +716,9 @@ function QuestieMap:FindClosestStarter()
 end
 
 function QuestieMap:GetNearestSpawn(objective)
+    if objective == nil then
+        return nil
+    end
     local playerX, playerY, playerI = HBD:GetPlayerWorldPosition()
     local bestDistance = 999999999
     local bestSpawn, bestSpawnZone, bestSpawnId, bestSpawnType, bestSpawnName
@@ -747,6 +750,9 @@ function QuestieMap:GetNearestSpawn(objective)
 end
 
 function QuestieMap:GetNearestQuestSpawn(quest)
+    if quest == nil then
+        return nil
+    end
     if QuestieQuest:IsComplete(quest) == 1 then
         local finisher = nil
         if quest.Finisher ~= nil then

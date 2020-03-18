@@ -859,7 +859,7 @@ function QuestieTracker:UnFocus() -- reset HideIcons to match savedvariable stat
     Questie.db.char.TrackerFocus = nil
 end
 
-function QuestieTracker:FocusObjective(TargetQuest, TargetObjective, isSpecial)
+function QuestieTracker:FocusObjective(TargetQuest, TargetObjective)
     if Questie.db.char.TrackerFocus and (type(Questie.db.char.TrackerFocus) ~= "string" or Questie.db.char.TrackerFocus ~= tostring(TargetQuest.Id) .. " " .. tostring(TargetObjective.Index)) then
         QuestieTracker:UnFocus()
     end
