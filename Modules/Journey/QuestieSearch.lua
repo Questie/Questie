@@ -31,7 +31,7 @@ end
 -- Execute a search by name for all types
 function QuestieSearch:ByName(query)
     QuestieSearch:ResetResults()
-    for k,type in pairs(QuestieSearch.types) do
+    for k, type in pairs(QuestieSearch.types) do
         QuestieSearch:Search(query, type)
     end
     return QuestieSearch.LastResult

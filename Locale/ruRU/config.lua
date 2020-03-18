@@ -213,6 +213,7 @@ QuestieLocale.locale['ruRU'] = {
     ['SLASH_TOGGLE_QUESTIE'] = "/questie toggle — Показать/скрыть Questie на карте и миникарте",
     ['SLASH_JOURNEY'] = "/questie journey -- Открывает окно «Мое приключение»",
     ['SLASH_TRACKER'] = "/questie tracker [show/hide/reset] -- Toggles the Tracker. Add \"show\", \"hide\", \"reset\" to explicit show/hide or reset the Tracker",
+    ['SLASH_TO_MAP'] = "/questie tomap [<npcId>/<npcName>/reset] -- Adds manual notes to the map for a given NPC ID or name. If the name is ambiguous multipe notes might be added. Without a second command the target will be added to the map. The \"reset\" command removes all notes",
     ['SLASH_MINIMAP'] = "/questie minimap -- Переключение кнопки миникарты для Questie",
 
     -- Tracker

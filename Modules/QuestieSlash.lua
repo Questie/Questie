@@ -12,9 +12,12 @@ local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+---@type QuestieSearch
+local QuestieSearch = QuestieLoader:ImportModule("QuestieSearch")
+---@type QuestieMap
+local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 
 function QuestieSlash:HandleCommands(input)
-    __TEST = input
     input = string.trim(input, " ");
 
     local commands = {}
@@ -40,6 +43,7 @@ function QuestieSlash:HandleCommands(input)
         print(Questie:Colorize(QuestieLocale:GetUIString('SLASH_HEAD'), 'yellow'));
         print(Questie:Colorize(QuestieLocale:GetUIString('SLASH_CONFIG'), 'yellow'));
         print(Questie:Colorize(QuestieLocale:GetUIString('SLASH_TOGGLE_QUESTIE'), 'yellow'));
+        print(Questie:Colorize(QuestieLocale:GetUIString('SLASH_TO_MAP'), 'yellow'));
         print(Questie:Colorize(QuestieLocale:GetUIString('SLASH_MINIMAP'), 'yellow'));
         print(Questie:Colorize(QuestieLocale:GetUIString('SLASH_JOURNEY'), 'yellow'));
         print(Questie:Colorize(QuestieLocale:GetUIString('SLASH_TRACKER'), 'yellow'));
@@ -90,6 +94,39 @@ function QuestieSlash:HandleCommands(input)
             QuestieTracker:Toggle()
         end
         return
+    end
+
+    if mainCommand == "tomap" then
+        if subCommand == nil then
+            subCommand = UnitName("target")
+        end
+
+        if subCommand ~= nil then
+            if subCommand == "reset" then
+                QuestieMap:ResetManualFrames()
+                return
+            end
+
+            local conversionTry = tonumber(subCommand)
+            if conversionTry then -- We've got an ID
+                subCommand = conversionTry
+                local result = QuestieSearch:Search(subCommand, "npc", "int")
+                if result then
+                    for npcId, _ in pairs(result) do
+                        QuestieMap:ShowNPC(npcId)
+                    end
+                end
+                return
+            elseif type(subCommand) == "string" then
+                local result = QuestieSearch:Search(subCommand, "npc")
+                if result then
+                    for npcId, _ in pairs(result) do
+                        QuestieMap:ShowNPC(npcId)
+                    end
+                end
+                return
+            end
+        end
     end
 
     print(Questie:Colorize("[Questie] :: ", 'yellow') .. QuestieLocale:GetUIString('SLASH_INVALID') .. Questie:Colorize('/questie help', 'yellow'));

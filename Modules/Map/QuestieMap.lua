@@ -116,6 +116,12 @@ function QuestieMap:UnloadManualFrames(id)
     end
 end
 
+function QuestieMap:ResetManualFrames()
+    for id, _ in pairs(QuestieMap.manualFrames) do
+        QuestieMap:UnloadManualFrames(id)
+    end
+end
+
 -- Rescale a single icon
 ---@param frameRef string|IconFrame @The global name/iconRef of the icon frame, e.g. "QuestieFrame1"
 local function rescaleIcon(frameRef, modifier)
@@ -257,7 +263,7 @@ function QuestieMap:ShowNPC(npcID)
     end
     -- get the NPC data
     local npc = QuestieDB:GetNPC(npcID)
-    if npc == nil then return end
+    if npc == nil or npc.spawns == nil then return end
 
     -- create the icon data
     local data = {}

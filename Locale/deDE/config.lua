@@ -213,6 +213,7 @@ QuestieLocale.locale['deDE'] = {
     ['SLASH_TOGGLE_QUESTIE'] = "/questie toggle -- Zeigen/Verstecken von Questie auf der Weltkarte und Minimap",
     ['SLASH_JOURNEY'] = "/questie journey --  Zeigen/Verstecken des 'Meine Reise'-Fensters",
     ['SLASH_TRACKER'] = "/questie tracker [show/hide/reset] -- Zeigen/Verstecken des Questie Trackers. Bei \"show\", \"hide\" oder \"reset\" wird der Tracker explizit gezeigt, versteckt oder zurückgesetzt",
+    ['SLASH_TO_MAP'] = "/questie tomap [<npcId>/<npcName>/reset] -- Fügt manuelle Notizen für die NPC-ID oder den NPC-Namen zur Karte hinzu. Ist der Name nicht eindeutig, können mehrere Notizen hinzugefügt werden. Ohne einen zweiten Befehl wird das aktuelle Ziel zur Karte hinzugefügt. Mit dem \"reset\" Befehl werden alle Notizen wieder entfernt",
     ['SLASH_MINIMAP'] = "/questie minimap -- Zeigen/Verstecken des Minimap-Buttons für Questie",
 
     -- Tracker

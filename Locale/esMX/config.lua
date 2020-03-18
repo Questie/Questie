@@ -212,6 +212,7 @@ QuestieLocale.locale['esMX'] = {
     ['SLASH_TOGGLE_QUESTIE'] = "/questie toggle -- Muestra Questie en el mapa y minimapa",
     ['SLASH_JOURNEY'] = "/questie journey -- muestra la ventana de mi viaje",
     ['SLASH_TRACKER'] = "/questie tracker [show/hide/reset] -- Toggles the Tracker. Add \"show\", \"hide\", \"reset\" to explicit show/hide or reset the Tracker",
+    ['SLASH_TO_MAP'] = "/questie tomap [<npcId>/<npcName>/reset] -- Adds manual notes to the map for a given NPC ID or name. If the name is ambiguous multipe notes might be added. Without a second command the target will be added to the map. The \"reset\" command removes all notes",
     ['SLASH_MINIMAP'] = "/questie minimap -- Muestra el botón del minimapa para Questie",
 
     -- Tracker
