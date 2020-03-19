@@ -165,54 +165,7 @@ function Questie:OnInitialize()
     QuestieCorrections:Initialize()
     QuestieLocale:Initialize()
 
-    Questie:RegisterEvent("PLAYER_LOGIN", QuestieEventHandler.PLAYER_LOGIN)
-
-    --Accepted Events
-    Questie:RegisterEvent("QUEST_ACCEPTED", QuestieEventHandler.QUEST_ACCEPTED)
-    Questie:RegisterEvent("MAP_EXPLORATION_UPDATED", QuestieEventHandler.MAP_EXPLORATION_UPDATED)
-    Questie:RegisterEvent("UNIT_QUEST_LOG_CHANGED", QuestieEventHandler.UNIT_QUEST_LOG_CHANGED);
-    Questie:RegisterEvent("QUEST_TURNED_IN", QuestieEventHandler.QUEST_TURNED_IN)
-    Questie:RegisterEvent("QUEST_REMOVED", QuestieEventHandler.QUEST_REMOVED)
-    Questie:RegisterEvent("PLAYER_LEVEL_UP", QuestieEventHandler.PLAYER_LEVEL_UP);
-    -- Use bucket for QUEST_LOG_UPDATE to let information propagate through to the blizzard API
-    -- Might be able to change this to 0.5 seconds instead, further testing needed.
-    Questie:RegisterBucketEvent("QUEST_LOG_UPDATE", 1, QuestieEventHandler.QUEST_LOG_UPDATE);
-    Questie:RegisterEvent("MODIFIER_STATE_CHANGED", QuestieEventHandler.MODIFIER_STATE_CHANGED);
-
-    -- Events to update a players professions and reputations
-    Questie:RegisterEvent("CHAT_MSG_SKILL", QuestieEventHandler.CHAT_MSG_SKILL)
-    Questie:RegisterEvent("CHAT_MSG_COMBAT_FACTION_CHANGE", QuestieEventHandler.CHAT_MSG_COMBAT_FACTION_CHANGE)
-
-    -- Party join event for QuestieComms, Use bucket to hinder this from spamming (Ex someone using a raid invite addon etc)
-    Questie:RegisterBucketEvent("GROUP_ROSTER_UPDATE", 1, QuestieEventHandler.GROUP_ROSTER_UPDATE);
-    Questie:RegisterEvent("GROUP_JOINED", QuestieEventHandler.GROUP_JOINED);
-    Questie:RegisterEvent("GROUP_LEFT", QuestieEventHandler.GROUP_LEFT);
-
-    --TODO: QUEST_QUERY_COMPLETE Will get all quests the character has finished, need to be implemented!
-
-    -- Nameplate / Tar5get Frame Objective Events
-    Questie:RegisterEvent("NAME_PLATE_UNIT_ADDED", QuestieNameplate.NameplateCreated);
-    Questie:RegisterEvent("NAME_PLATE_UNIT_REMOVED", QuestieNameplate.NameplateDestroyed);
-    Questie:RegisterEvent("PLAYER_TARGET_CHANGED", QuestieNameplate.DrawTargetFrame);
-
-    --When the quest is presented!
-    Questie:RegisterEvent("QUEST_DETAIL", QuestieAuto.QUEST_DETAIL)
-    --???
-    Questie:RegisterEvent("QUEST_PROGRESS", QuestieAuto.QUEST_PROGRESS)
-    --Gossip??
-    Questie:RegisterEvent("GOSSIP_SHOW", QuestieAuto.GOSSIP_SHOW)
-    --The window when multiple quest from a NPC
-    Questie:RegisterEvent("QUEST_GREETING", QuestieAuto.QUEST_GREETING)
-    --If an escort quest is taken by people close by
-    Questie:RegisterEvent("QUEST_ACCEPT_CONFIRM", QuestieAuto.QUEST_ACCEPT_CONFIRM)
-    -- Called twice when the stopping to talk to an NPC
-    Questie:RegisterEvent("GOSSIP_CLOSED", QuestieAuto.GOSSIP_CLOSED)
-    --When complete window shows
-    Questie:RegisterEvent("QUEST_COMPLETE", QuestieAuto.QUEST_COMPLETE)
-    Questie:RegisterEvent("QUEST_FINISHED", QuestieEventHandler.QUEST_FINISHED)
-
-    Questie:RegisterEvent("PLAYER_REGEN_DISABLED", QuestieEventHandler.PLAYER_REGEN_DISABLED)
-    Questie:RegisterEvent("PLAYER_REGEN_ENABLED", QuestieEventHandler.PLAYER_REGEN_ENABLED)
+    QuestieEventHandler:RegisterAllEvents()
 
     -- todo move this call into loader
     QuestieTooltips:Initialize()
