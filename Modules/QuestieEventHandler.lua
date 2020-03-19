@@ -308,7 +308,11 @@ end
 --- Fires when some chat messages about reputations are displayed
 _CHAT_MSG_COMBAT_FACTION_CHANGE = function()
     Questie:Debug(DEBUG_DEVELOP, "CHAT_MSG_COMBAT_FACTION_CHANGE")
-    QuestieReputation:Update()
+    local factionChanged = QuestieReputation:Update(false)
+    if factionChanged then
+        QuestieQuest:CalculateAvailableQuests()
+        QuestieQuest:DrawAllAvailableQuests()
+    end
 end
 
 local numOfMembers = -1

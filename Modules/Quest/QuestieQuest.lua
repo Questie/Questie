@@ -53,7 +53,7 @@ function QuestieQuest:Initialize()
     --GetQuestsCompleted(Questie.db.char.complete)
     Questie.db.char.complete = GetQuestsCompleted()
     QuestieProfessions:Update()
-    QuestieReputation:Update()
+    QuestieReputation:Update(true)
 
     QuestieHash:LoadQuestLogHashes()
 end
@@ -195,7 +195,7 @@ function QuestieQuest:Reset()
     -- make sure complete db is correct
     Questie.db.char.complete = GetQuestsCompleted()
     QuestieProfessions:Update()
-    QuestieReputation:Update()
+    QuestieReputation:Update(false)
 
     QuestieQuest:AddAllNotes()
 end
@@ -213,7 +213,7 @@ function QuestieQuest:SmoothReset() -- use timers to reset progressively instead
             -- make sure complete db is correct
             Questie.db.char.complete = GetQuestsCompleted()
             QuestieProfessions:Update()
-            QuestieReputation:Update()
+            QuestieReputation:Update(false)
             QuestieQuest.availableQuests = {} -- reset available quest db
 
             -- draw available quests
