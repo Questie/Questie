@@ -214,9 +214,9 @@ function QuestieOptions.tabs.advanced:Initialize()
 
                     -- update minimap icon to default
                     if not Questie.db.profile.minimap.hide then
-                        Questie.minimapConfigIcon:Show("MinimapIcon");
+                        Questie.minimapConfigIcon:Show("Questie");
                     else
-                        Questie.minimapConfigIcon:Hide("MinimapIcon");
+                        Questie.minimapConfigIcon:Hide("Questie");
                     end
 
                     -- update map / minimap coordinates reset
