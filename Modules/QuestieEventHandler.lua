@@ -124,13 +124,13 @@ _PLAYER_LOGIN = function()
         playerEntered = true
         -- manually fire QLU since enter has been delayed past the first QLU
         if hasFirstQLU then
-            QuestieEventHandler:QUEST_LOG_UPDATE()
+            _QUEST_LOG_UPDATE()
         end
     end)
 end
 
 --Fires when a quest is accepted in anyway.
-_QUEST_ACCEPTED = function(questLogIndex, questId)
+_QUEST_ACCEPTED = function(self, questLogIndex, questId)
     Questie:Debug(DEBUG_DEVELOP, "[EVENT] QUEST_ACCEPTED", "QLogIndex: "..questLogIndex,  "QuestID: "..questId)
     --Try and cache all the potential items required for the quest.
     QuestieLib:CacheItemNames(questId)
@@ -163,7 +163,7 @@ local finishedEventReceived = false
 --- Fires when a quest is removed from the questlog, this includes turning it in
 --- and abandoning it.
 ---@param questID QuestId
-_QUEST_REMOVED = function(questID)
+_QUEST_REMOVED = function(self, questID)
     Questie:Debug(DEBUG_DEVELOP, "[EVENT] QUEST_REMOVED", questID)
     _Hack_prime_log()
     if finishedEventReceived == questID then
@@ -209,7 +209,7 @@ end
 ---@param questID QuestId
 ---@param xpReward integer
 ---@param moneyReward integer
-_QUEST_TURNED_IN = function(questID, xpReward, moneyReward)
+_QUEST_TURNED_IN = function(self, questID, xpReward, moneyReward)
     Questie:Debug(DEBUG_DEVELOP, "[EVENT] QUEST_TURNED_IN", questID, xpReward, moneyReward)
     _Hack_prime_log()
     finishedEventReceived = questID
@@ -252,7 +252,8 @@ end
 
 --- Fired before data for quest log changes, including other players.
 ---@param unitTarget string @The unitTarget, e.g. "player"
-_UNIT_QUEST_LOG_CHANGED = function(unitTarget)
+_UNIT_QUEST_LOG_CHANGED = function(self, unitTarget)
+    Questie:Debug(DEBUG_DEVELOP, "[EVENT] UNIT_QUEST_LOG_CHANGED")
     -- If the unitTarget is "player" the changed log is from "our" player and
     -- we need to tell the next QLU event to check the quest log for updated
     -- data.
@@ -267,7 +268,7 @@ end
 ---@param hitpoints integer
 ---@param manapoints integer
 ---@param talentpoints integer
-_PLAYER_LEVEL_UP = function(level, hitpoints, manapoints, talentpoints, ...)
+_PLAYER_LEVEL_UP = function(self, level, hitpoints, manapoints, talentpoints, ...)
     Questie:Debug(DEBUG_DEVELOP, "[EVENT] PLAYER_LEVEL_UP", level)
 
     QuestiePlayer:SetPlayerLevel(level)
@@ -283,7 +284,7 @@ _PLAYER_LEVEL_UP = function(level, hitpoints, manapoints, talentpoints, ...)
 end
 
 --- Fires when a modifier key changed
-_MODIFIER_STATE_CHANGED = function(key, down)
+_MODIFIER_STATE_CHANGED = function(self, key, down)
     if GameTooltip and GameTooltip:IsShown() and GameTooltip._Rebuild then
         GameTooltip:Hide()
         GameTooltip:ClearLines()
