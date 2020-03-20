@@ -2,6 +2,9 @@
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 local _QuestieTracker = QuestieTracker.private
 
+---@type QuestieCombatQueue
+local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+
 local startDragAnchor = {}
 local startDragPos = {}
 local endDragPos = {}
@@ -48,12 +51,13 @@ function _QuestieTracker:OnDragStop()
 
     startDragAnchor[4] = startDragAnchor[4] + xMoved
     startDragAnchor[5] = startDragAnchor[5] + yMoved
-
-    baseFrame:ClearAllPoints()
-    baseFrame:SetPoint(unpack(startDragAnchor))
-    Questie.db.char.TrackerLocation = {baseFrame:GetPoint()}
-    if Questie.db.char.TrackerLocation[2] and type(Questie.db.char.TrackerLocation[2]) == "table" and Questie.db.char.TrackerLocation[2].GetName then
-        Questie.db.char.TrackerLocation[2] = Questie.db.char.TrackerLocation[2]:GetName()
-    end
-    startDragPos = nil
+    QuestieCombatQueue:Queue(function()
+        baseFrame:ClearAllPoints()
+        baseFrame:SetPoint(unpack(startDragAnchor))
+        Questie.db.char.TrackerLocation = {baseFrame:GetPoint()}
+        if Questie.db.char.TrackerLocation[2] and type(Questie.db.char.TrackerLocation[2]) == "table" and Questie.db.char.TrackerLocation[2].GetName then
+            Questie.db.char.TrackerLocation[2] = Questie.db.char.TrackerLocation[2]:GetName()
+        end
+        startDragPos = nil
+    end)
 end
