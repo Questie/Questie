@@ -113,7 +113,7 @@ function QuestieComms.data:RegisterTooltip(questId, playerName, objectives)
             commsTooltipLookup[lookupKey][playerName][questId] = {};
         end
         commsTooltipLookup[lookupKey][playerName][questId][objectiveIndex] = objective;
-        
+
         playerRegisteredTooltips[playerName][questId][lookupKey] = true;]]--
         QuestieComms.data:AddTooltip(playerName, questId, lookupKey, objectiveIndex, objective);
       end
