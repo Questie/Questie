@@ -404,12 +404,14 @@ function _QuestieComms:OnCommReceived(message, distribution, sender)
                 if(suggestUpdate) then
                     local major, minor, patch = strsplit(".", decompressedData.ver);
                     local majorOwn, minorOwn, patchOwn = QuestieLib:GetAddonVersionInfo();
-                    if((majorOwn < tonumber(major) or minorOwn < tonumber(minor)) and not UnitAffectingCombat("player")) then
+                    if((majorOwn < tonumber(major) or minorOwn < tonumber(minor)) or patchOwn < tonumber(patch) and (not UnitAffectingCombat("player"))) then
                         suggestUpdate = false;
                         if(majorOwn < tonumber(major)) then
-                            Questie:Print("A Major patch for Questie exist! Please update as soon as possible!");
-                        elseif(majorOwn == tonumber(major) and minorOwn < tonumber(minor)) then
-                            Questie:Print("You have an outdated version of Questie! Please consider updating!");
+                            Questie:Print("|cffff0000A Major patch for Questie exists!|r");
+                            Questie:Print("|cffff0000Please update as soon as possible!|r");
+                        else
+                            Questie:Print("|cffff0000You have an outdated version of Questie!|r");
+                            Questie:Print("|cffff0000Please consider updating!|r");
                         end
                     end
                 end
