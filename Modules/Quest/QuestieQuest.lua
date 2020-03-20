@@ -462,6 +462,7 @@ function QuestieQuest:UpdateQuest(questId)
         Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
     end
 end
+
 --Run this if you want to update the entire table
 function QuestieQuest:GetAllQuestIds()
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_GET_QUEST'));
@@ -879,10 +880,48 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
     end
 end
 
+local function _CallPopulateObjective(quest)
+    for k, v in pairs(quest.Objectives) do
+        SelectQuestLogEntry(v.Index)
+        local result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, quest, k, v, false);
+        if not result then
+            local major, minor, patch = QuestieLib:GetAddonVersionInfo();
+            local version = "v"..(major or "").."."..(minor or "").."."..(patch or "");--Doing it this way to keep it 100% safe.
+            Questie:Error("[QuestieQuest]: " .. version .. " - " .. QuestieLocale:GetUIString('DEBUG_POPULATE_ERR', quest.name or "No quest name", quest.Id or "No quest id", k or "No objective", err or "No error"));
+        end
+    end
+end
+
+local function _AddSourceItemObjective(quest)
+    if quest.sourceItemId then
+        local item = QuestieDB:GetItem(quest.sourceItemId);
+        if item and item.name then
+            -- We fake an objective for the sourceItems because this allows us
+            -- to simply reuse "QuestieTooltips:GetTooltip".
+            -- This should be all the data required for the tooltip
+            local fakeObjective = {
+                IsSourceItem = true,
+                QuestData = quest,
+                Index = 1,
+                Needed = 1,
+                Collected = 1,
+                text = item.name,
+                Description = item.name
+            }
+
+            QuestieTooltips:RegisterTooltip(quest.Id, "i_" .. item.Id, fakeObjective);
+        end
+    end
+end
+
 function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to PopulateNotes as it also handles finishers now
     Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:PopulateObjectiveNotes]", "Populating objectives for:", quest.Id)
     if not quest then return; end
     if QuestieQuest:IsComplete(quest) == 1 then
+
+        _CallPopulateObjective(quest)
+        _AddSourceItemObjective(quest)
+
         QuestieQuest:AddFinisher(quest)
         return
     end
@@ -895,15 +934,8 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
     -- we've already checked the objectives table by doing IsComplete
     -- if that changes, check it here
     local old = GetQuestLogSelection()
-    for k, v in pairs(quest.Objectives) do
-        SelectQuestLogEntry(v.Index)
-        local result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, quest, k, v, false);
-        if not result then
-            local major, minor, patch = QuestieLib:GetAddonVersionInfo();
-            local version = "v"..(major or "").."."..(minor or "").."."..(patch or "");--Doing it this way to keep it 100% safe.
-            Questie:Error("[QuestieQuest]: " .. version .. " - " .. QuestieLocale:GetUIString('DEBUG_POPULATE_ERR', quest.name or "No quest name", quest.Id or "No quest id", k or "No objective", err or "No error"));
-        end
-    end
+    _CallPopulateObjective(quest)
+    _AddSourceItemObjective(quest)
 
     -- check for special (unlisted) DB objectives
     if quest.SpecialObjectives then
