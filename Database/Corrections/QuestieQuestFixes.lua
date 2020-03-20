@@ -1562,3 +1562,35 @@ function QuestieQuestFixes:Load()
         },
     }
 end
+
+function QuestieQuestFixes:LoadFactionFixes()
+    local questFixesHorde = {
+        [2861] = {
+            [QuestieDB.questKeys.startedBy] = {{4568,5885,},nil,nil}
+        },
+        [5050] = {
+            [QuestieDB.questKeys.startedBy] = {{8403,},nil,nil}
+        },
+        [8417] = {
+            [QuestieDB.questKeys.startedBy] = {{3354,4593,},nil,nil,},
+        },
+    }
+
+    local questFixesAlliance = {
+        [2861] = {
+            [QuestieDB.questKeys.startedBy] = {{5144,5497,},nil,nil}
+        },
+        [5050] = {
+            [QuestieDB.questKeys.startedBy] = {{3520,},nil,nil}
+        },
+        [8417] = {
+            [QuestieDB.questKeys.startedBy] = {{5113,5479,},nil,nil,},
+        },
+    }
+
+    if UnitFactionGroup("Player") == "Horde" then
+        return questFixesHorde
+    else
+        return questFixesAlliance
+    end
+end

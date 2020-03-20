@@ -79,6 +79,14 @@ function QuestieCorrections:Initialize()
         end
     end
 
+    for id, data in pairs(QuestieQuestFixes:LoadFactionFixes()) do
+        for key, value in pairs(data) do
+            if QuestieDB.questData[id] then
+                QuestieDB.questData[id][key] = value
+            end
+        end
+    end
+
     QuestieCorrections.questItemBlacklist = QuestieItemBlacklist:Load()
     QuestieCorrections.hiddenQuests = QuestieQuestBlacklist:Load()
 
