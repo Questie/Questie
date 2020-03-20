@@ -1152,13 +1152,13 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.requiredRaces] = 77,
         },
         [7483] = {
-            [QuestieDB.questKeys.preQuestSingle] = {7481},
+            [QuestieDB.questKeys.preQuestSingle] = {7481,7482},
         },
         [7484] = {
-            [QuestieDB.questKeys.preQuestSingle] = {7481},
+            [QuestieDB.questKeys.preQuestSingle] = {7481,7482},
         },
         [7485] = {
-            [QuestieDB.questKeys.preQuestSingle] = {7481},
+            [QuestieDB.questKeys.preQuestSingle] = {7481,7482},
         },
         [7488] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #1740
