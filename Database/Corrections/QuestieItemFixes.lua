@@ -31,6 +31,9 @@ function QuestieItemFixes:Load()
             [QuestieDB.itemKeys.npcDrops] = {239},
             [QuestieDB.itemKeys.objectDrops] = {},
         },
+        [1524] = {
+            [QuestieDB.itemKeys.npcDrops] = {667,669,670,672,696,780,781,782,783,784,1059,1061,1062},
+        },
         [1529] = {
             [QuestieDB.itemKeys.npcDrops] = {},
         },
