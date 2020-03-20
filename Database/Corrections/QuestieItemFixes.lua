@@ -163,6 +163,12 @@ function QuestieItemFixes:Load()
         [4371] = {
             [QuestieDB.itemKeys.npcDrops] = {3495,5519,5175,}, -- #1476
         },
+        [4502] = {
+            [QuestieDB.itemKeys.name] = "Sample Elven Gem",
+            [QuestieDB.itemKeys.relatedQuests] = {669},
+            [QuestieDB.itemKeys.npcDrops] = {},
+            [QuestieDB.itemKeys.objectDrops] = {},
+        },
         [4589] = {
             [QuestieDB.itemKeys.npcDrops] = {2347,2651,2657,2658,2659},
         },
@@ -907,6 +913,7 @@ end
 
 _AddMissingItemIDs = function()
     local missingItemIDs = {
+        4502,
         1262,
         1939,
         1941,
