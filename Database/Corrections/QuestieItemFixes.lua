@@ -287,6 +287,12 @@ function QuestieItemFixes:Load()
         [6175] = {
             [QuestieDB.itemKeys.objectDrops] = {30854,30855,30856},
         },
+        [6193] = {
+            [QuestieDB.itemKeys.name] = "Bundle of Atal'ai Artifacts",
+            [QuestieDB.itemKeys.relatedQuests] = {1429},
+            [QuestieDB.itemKeys.npcDrops] = {},
+            [QuestieDB.itemKeys.objectDrops] = {},
+        },
         [6435] = {
             [QuestieDB.itemKeys.name] = "Infused Burning Gem",
             [QuestieDB.itemKeys.relatedQuests] = {1435},
@@ -913,6 +919,7 @@ end
 
 _AddMissingItemIDs = function()
     local missingItemIDs = {
+        6193,
         4502,
         1262,
         1939,
