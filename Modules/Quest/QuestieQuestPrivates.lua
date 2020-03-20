@@ -46,7 +46,7 @@ _QuestieQuest.objectiveSpawnListCallTable = {
 
         obj.Name = object.name
         if not object.spawns then
-            Questie:Debug(DEBUG_CRITICAL, "Spawn data missing for NPC:", object.id)
+            Questie:Debug(DEBUG_CRITICAL, "Spawn data missing for object:", object.id)
             object.spawns = {}
         end
         obj.Spawns = object.spawns
