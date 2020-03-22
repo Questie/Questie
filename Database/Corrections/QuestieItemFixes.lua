@@ -190,6 +190,12 @@ function QuestieItemFixes:Load()
             [QuestieDB.itemKeys.npcDrops] = {},
             [QuestieDB.itemKeys.objectDrops] = {2689},
         },
+        [4494] = {
+            [QuestieDB.itemKeys.name] = "Seahorn's Sealed Letter",
+            [QuestieDB.itemKeys.relatedQuests] = {670},
+            [QuestieDB.itemKeys.npcDrops] = {},
+            [QuestieDB.itemKeys.objectDrops] = {},
+        },
         [4904] = {
             [QuestieDB.itemKeys.name] = "Venomtail Antidote",
             [QuestieDB.itemKeys.relatedQuests] = {812},
@@ -919,6 +925,7 @@ end
 
 _AddMissingItemIDs = function()
     local missingItemIDs = {
+        4494,
         6193,
         4502,
         1262,
