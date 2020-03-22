@@ -878,7 +878,7 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.startedBy] = {{11401,},nil,nil,},
         },
         [5721] = {
-            [QuestieDB.questKeys.requiredSourceItems] = {177528,}, -- 857
+            [QuestieDB.questKeys.requiredSourceItems] = {15209,}, -- #857
         },
         -- Salve via Hunting/Mining/Gathering/Skinning/Disenchanting non repeatable quests
         -- Alliance
