@@ -131,6 +131,9 @@ function QuestieQuestFixes:Load()
         [437] = {
             [QuestieDB.questKeys.triggerEnd] = {"Enter the Dead Fields",{[130]={{45.91, 21.27},},},},
         },
+        [460] = {
+            [QuestieDB.questKeys.startedBy] = {{1939},nil,{3317,},},
+        },
         [463] = {
             [QuestieDB.questKeys.exclusiveTo] = {276}, --greenwarden cant be completed if you have trampling paws
         },
