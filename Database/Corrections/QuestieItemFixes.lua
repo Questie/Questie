@@ -284,6 +284,12 @@ function QuestieItemFixes:Load()
         [5798] = {
             [QuestieDB.itemKeys.objectDrops] = {19868,19869,19870,19871,19872,19873},
         },
+        [5804] = {
+            [QuestieDB.itemKeys.name] = "Goblin Rumors",
+            [QuestieDB.itemKeys.relatedQuests] = {1117},
+            [QuestieDB.itemKeys.npcDrops] = {},
+            [QuestieDB.itemKeys.objectDrops] = {},
+        },
         [5868] = {
             [QuestieDB.itemKeys.name] = "Filled Etched Phial",
             [QuestieDB.itemKeys.relatedQuests] = {1195},
@@ -925,6 +931,7 @@ end
 
 _AddMissingItemIDs = function()
     local missingItemIDs = {
+        5804,
         4494,
         6193,
         4502,
