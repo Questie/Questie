@@ -371,6 +371,12 @@ function QuestieItemFixes:Load()
             [QuestieDB.itemKeys.npcDrops] = {4663,4664,4665,4666,4667,4668,4705,13019},
             [QuestieDB.itemKeys.objectDrops] = {},
         },
+        [6462] = {
+            [QuestieDB.itemKeys.name] = "Secure Crate",
+            [QuestieDB.itemKeys.relatedQuests] = {1492},
+            [QuestieDB.itemKeys.npcDrops] = {},
+            [QuestieDB.itemKeys.objectDrops] = {},
+        },
         [7134] = { -- #1163
             [QuestieDB.itemKeys.name] = "Sturdy Dragonmaw Shinbone",
             [QuestieDB.itemKeys.relatedQuests] = {1846},
@@ -1022,6 +1028,7 @@ end
 _AddMissingItemIDs = function()
     local missingItemIDs = {
         6016,
+        6462,
         10283,
         16210,
         16209,
