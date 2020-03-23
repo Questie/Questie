@@ -102,6 +102,12 @@ function QuestieItemFixes:Load()
         [2997] = {
             [QuestieDB.itemKeys.npcDrops] = {},
         },
+        [3016] = {
+            [QuestieDB.itemKeys.name] = "Gunther's Spellbook",
+            [QuestieDB.itemKeys.relatedQuests] = {405},
+            [QuestieDB.itemKeys.npcDrops] = {},
+            [QuestieDB.itemKeys.objectDrops] = {},
+        },
         [3017] = {
             [QuestieDB.itemKeys.name] = "Sevren's Orders",
             [QuestieDB.itemKeys.relatedQuests] = {405},
@@ -973,6 +979,7 @@ end
 
 _AddMissingItemIDs = function()
     local missingItemIDs = {
+        3016,
         3460,
         3238,
         3017,
