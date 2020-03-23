@@ -468,6 +468,12 @@ function QuestieItemFixes:Load()
             [QuestieDB.itemKeys.npcDrops] = {},
             [QuestieDB.itemKeys.objectDrops] = {},
         },
+        [9574] = {
+            [QuestieDB.itemKeys.name] = "Glyphic Scroll",
+            [QuestieDB.itemKeys.relatedQuests] = {3098},
+            [QuestieDB.itemKeys.npcDrops] = {},
+            [QuestieDB.itemKeys.objectDrops] = {},
+        },
         [9593] = { -- #1184
             [QuestieDB.itemKeys.name] = "Treant Muisek",
             [QuestieDB.itemKeys.relatedQuests] = {3126},
@@ -932,6 +938,7 @@ end
 _AddMissingItemIDs = function()
     local missingItemIDs = {
         5804,
+        9574,
         4494,
         6193,
         4502,
