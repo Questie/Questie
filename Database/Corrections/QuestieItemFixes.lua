@@ -177,6 +177,12 @@ function QuestieItemFixes:Load()
             [QuestieDB.itemKeys.npcDrops] = {},
             [QuestieDB.itemKeys.objectDrops] = {},
         },
+        [3520] = {
+            [QuestieDB.itemKeys.name] = "Deathstalker Report",
+            [QuestieDB.itemKeys.relatedQuests] = {449},
+            [QuestieDB.itemKeys.npcDrops] = {},
+            [QuestieDB.itemKeys.objectDrops] = {},
+        },
         [3820] = {
             [QuestieDB.itemKeys.npcDrops] = {},
             [QuestieDB.itemKeys.objectDrops] = {2045},
@@ -986,6 +992,7 @@ end
 _AddMissingItemIDs = function()
     local missingItemIDs = {
         3018,
+        3252,
         3016,
         3460,
         3238,
