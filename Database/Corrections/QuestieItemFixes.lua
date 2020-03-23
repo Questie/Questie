@@ -117,6 +117,12 @@ function QuestieItemFixes:Load()
         [3173] = {
             [QuestieDB.itemKeys.npcDrops] = {2163,2164,1188,1189,1186,2165,1797,1778},
         },
+        [3238] = {
+            [QuestieDB.itemKeys.name] = "Johaan's Findings",
+            [QuestieDB.itemKeys.relatedQuests] = {407},
+            [QuestieDB.itemKeys.npcDrops] = {},
+            [QuestieDB.itemKeys.objectDrops] = {},
+        },
         [3340] = {
             [QuestieDB.itemKeys.npcDrops] = {},
             [QuestieDB.itemKeys.objectDrops] = {1610,1667},
@@ -961,6 +967,7 @@ end
 
 _AddMissingItemIDs = function()
     local missingItemIDs = {
+        3238,
         3017,
         2837,
         5804,
