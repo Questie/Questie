@@ -265,6 +265,12 @@ function QuestieItemFixes:Load()
         [5056] = {
             [QuestieDB.itemKeys.objectDrops] = {1619,3726,1618,3724,1620,3727},
         },
+        [5068] = {
+            [QuestieDB.itemKeys.name] = "Dried Seeds",
+            [QuestieDB.itemKeys.relatedQuests] = {877},
+            [QuestieDB.itemKeys.npcDrops] = {},
+            [QuestieDB.itemKeys.objectDrops] = {},
+        },
         [5184] = {
             [QuestieDB.itemKeys.name] = "Filled Crystal Phial",
             [QuestieDB.itemKeys.relatedQuests] = {921},
@@ -1027,6 +1033,7 @@ end
 
 _AddMissingItemIDs = function()
     local missingItemIDs = {
+        5068,
         6016,
         6462,
         10283,
