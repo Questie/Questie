@@ -126,6 +126,12 @@ function QuestieItemFixes:Load()
             [QuestieDB.itemKeys.npcDrops] = {},
             [QuestieDB.itemKeys.objectDrops] = {},
         },
+        [3165] = {
+            [QuestieDB.itemKeys.name] = "Quinn's Potion",
+            [QuestieDB.itemKeys.relatedQuests] = {430},
+            [QuestieDB.itemKeys.npcDrops] = {},
+            [QuestieDB.itemKeys.objectDrops] = {},
+        },
         [3173] = {
             [QuestieDB.itemKeys.npcDrops] = {2163,2164,1188,1189,1186,2165,1797,1778},
         },
@@ -991,6 +997,7 @@ end
 
 _AddMissingItemIDs = function()
     local missingItemIDs = {
+        3165,
         3018,
         3252,
         3016,
