@@ -153,6 +153,12 @@ function QuestieItemFixes:Load()
             [QuestieDB.itemKeys.npcDrops] = {1302,1303},
             [QuestieDB.itemKeys.objectDrops] = {},
         },
+        [3460] = {
+            [QuestieDB.itemKeys.name] = "Johaan's Special Drink",
+            [QuestieDB.itemKeys.relatedQuests] = {492},
+            [QuestieDB.itemKeys.npcDrops] = {},
+            [QuestieDB.itemKeys.objectDrops] = {},
+        },
         [3508] = {
             [QuestieDB.itemKeys.name] = "Mudsnout Mixture",
             [QuestieDB.itemKeys.relatedQuests] = {515},
@@ -967,6 +973,7 @@ end
 
 _AddMissingItemIDs = function()
     local missingItemIDs = {
+        3460,
         3238,
         3017,
         2837,
