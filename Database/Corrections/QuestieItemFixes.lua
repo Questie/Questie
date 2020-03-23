@@ -812,6 +812,12 @@ function QuestieItemFixes:Load()
             [QuestieDB.itemKeys.npcDrops] = {},
             [QuestieDB.itemKeys.objectDrops] = {},
         },
+        [16210] = {
+            [QuestieDB.itemKeys.name] = "Gordon's Crate",
+            [QuestieDB.itemKeys.relatedQuests] = {6321,6323},
+            [QuestieDB.itemKeys.npcDrops] = {},
+            [QuestieDB.itemKeys.objectDrops] = {},
+        },
         [16642] = {
             [QuestieDB.itemKeys.name] = "Shredder Operating Manual - Chapter 1",
             [QuestieDB.itemKeys.relatedQuests] = {6504},
@@ -1010,6 +1016,7 @@ end
 _AddMissingItemIDs = function()
     local missingItemIDs = {
         10283,
+        16210,
         16209,
         3520,
         3165,
