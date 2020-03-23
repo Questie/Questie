@@ -271,6 +271,12 @@ function QuestieItemFixes:Load()
             [QuestieDB.itemKeys.npcDrops] = {},
             [QuestieDB.itemKeys.objectDrops] = {},
         },
+        [5080] = {
+            [QuestieDB.itemKeys.name] = "Gazlowe's Ledger",
+            [QuestieDB.itemKeys.relatedQuests] = {890,892},
+            [QuestieDB.itemKeys.npcDrops] = {},
+            [QuestieDB.itemKeys.objectDrops] = {},
+        },
         [5088] = {
             [QuestieDB.itemKeys.name] = "Control Console Operating Manual",
             [QuestieDB.itemKeys.relatedQuests] = {894},
@@ -1045,6 +1051,7 @@ end
 
 _AddMissingItemIDs = function()
     local missingItemIDs = {
+        5080,
         10327,
         5088,
         5068,
