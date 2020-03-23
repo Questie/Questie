@@ -271,6 +271,12 @@ function QuestieItemFixes:Load()
             [QuestieDB.itemKeys.npcDrops] = {},
             [QuestieDB.itemKeys.objectDrops] = {},
         },
+        [5088] = {
+            [QuestieDB.itemKeys.name] = "Control Console Operating Manual",
+            [QuestieDB.itemKeys.relatedQuests] = {894},
+            [QuestieDB.itemKeys.npcDrops] = {},
+            [QuestieDB.itemKeys.objectDrops] = {},
+        },
         [5184] = {
             [QuestieDB.itemKeys.name] = "Filled Crystal Phial",
             [QuestieDB.itemKeys.relatedQuests] = {921},
@@ -1033,6 +1039,7 @@ end
 
 _AddMissingItemIDs = function()
     local missingItemIDs = {
+        5088,
         5068,
         6016,
         6462,
