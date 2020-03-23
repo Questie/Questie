@@ -564,6 +564,12 @@ function QuestieItemFixes:Load()
             [QuestieDB.itemKeys.npcDrops] = {5357,5358,14604,14640},
             [QuestieDB.itemKeys.objectDrops] = {},
         },
+        [10283] = {
+            [QuestieDB.itemKeys.name] = "Wolf Heart Samples",
+            [QuestieDB.itemKeys.relatedQuests] = {1359},
+            [QuestieDB.itemKeys.npcDrops] = {},
+            [QuestieDB.itemKeys.objectDrops] = {},
+        },
         [10575] = {
             [QuestieDB.itemKeys.npcDrops] = {9461}, -- #1216
         },
@@ -1003,6 +1009,7 @@ end
 
 _AddMissingItemIDs = function()
     local missingItemIDs = {
+        10283,
         16209,
         3520,
         3165,
