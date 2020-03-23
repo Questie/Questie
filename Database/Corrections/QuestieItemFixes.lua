@@ -594,6 +594,12 @@ function QuestieItemFixes:Load()
             [QuestieDB.itemKeys.npcDrops] = {},
             [QuestieDB.itemKeys.objectDrops] = {},
         },
+        [10327] = {
+            [QuestieDB.itemKeys.name] = "Horn of Echeyakee",
+            [QuestieDB.itemKeys.relatedQuests] = {881},
+            [QuestieDB.itemKeys.npcDrops] = {},
+            [QuestieDB.itemKeys.objectDrops] = {},
+        },
         [10575] = {
             [QuestieDB.itemKeys.npcDrops] = {9461}, -- #1216
         },
@@ -1039,6 +1045,7 @@ end
 
 _AddMissingItemIDs = function()
     local missingItemIDs = {
+        10327,
         5088,
         5068,
         6016,
