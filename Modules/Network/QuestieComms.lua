@@ -404,7 +404,7 @@ function _QuestieComms:OnCommReceived(message, distribution, sender)
                 if(suggestUpdate) then
                     local major, minor, patch = strsplit(".", decompressedData.ver);
                     local majorOwn, minorOwn, patchOwn = QuestieLib:GetAddonVersionInfo();
-                    if((majorOwn < tonumber(major) or minorOwn < tonumber(minor)) or patchOwn < tonumber(patch) and (not UnitAffectingCombat("player"))) then
+                    if(majorOwn < tonumber(major) or (majorOwn == tonumber(major) and minorOwn < tonumber(minor)) or (majorOwn == tonumber(major) and minorOwn == tonumber(minor) and patchOwn < tonumber(patch)) and (not UnitAffectingCombat("player"))) then
                         suggestUpdate = false;
                         if(majorOwn < tonumber(major)) then
                             Questie:Print("|cffff0000A Major patch for Questie exists!|r");
