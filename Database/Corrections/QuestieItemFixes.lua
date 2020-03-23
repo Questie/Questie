@@ -81,6 +81,12 @@ function QuestieItemFixes:Load()
             [QuestieDB.itemKeys.name] = "Flagon of Dwarven Honeymead",
             [QuestieDB.itemKeys.npcDrops] = {1464},
         },
+        [2837] = {
+            [QuestieDB.itemKeys.name] = "Thurman's Letter",
+            [QuestieDB.itemKeys.relatedQuests] = {361},
+            [QuestieDB.itemKeys.npcDrops] = {},
+            [QuestieDB.itemKeys.objectDrops] = {},
+        },
         [2856] = {
             [QuestieDB.itemKeys.npcDrops] = {426,430,446,580}, -- Remove rare mob #903
         },
@@ -949,6 +955,7 @@ end
 
 _AddMissingItemIDs = function()
     local missingItemIDs = {
+        2837,
         5804,
         3035,
         7628,
