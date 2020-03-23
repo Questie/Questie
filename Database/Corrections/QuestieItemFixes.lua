@@ -347,6 +347,12 @@ function QuestieItemFixes:Load()
             [QuestieDB.itemKeys.npcDrops] = {},
             [QuestieDB.itemKeys.objectDrops] = {},
         },
+        [7628] = {
+            [QuestieDB.itemKeys.name] = "Nondescript Letter",
+            [QuestieDB.itemKeys.relatedQuests] = {8},
+            [QuestieDB.itemKeys.npcDrops] = {},
+            [QuestieDB.itemKeys.objectDrops] = {},
+        },
         [7675] = {
             [QuestieDB.itemKeys.name] = "Defias Shipping Schedule",
             [QuestieDB.itemKeys.relatedQuests] = {},
@@ -938,6 +944,7 @@ end
 _AddMissingItemIDs = function()
     local missingItemIDs = {
         5804,
+        7628,
         9574,
         4494,
         6193,
