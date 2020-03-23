@@ -102,6 +102,12 @@ function QuestieItemFixes:Load()
         [2997] = {
             [QuestieDB.itemKeys.npcDrops] = {},
         },
+        [3017] = {
+            [QuestieDB.itemKeys.name] = "Sevren's Orders",
+            [QuestieDB.itemKeys.relatedQuests] = {405},
+            [QuestieDB.itemKeys.npcDrops] = {},
+            [QuestieDB.itemKeys.objectDrops] = {},
+        },
         [3035] = {
             [QuestieDB.itemKeys.name] = "Laced Pumpkin",
             [QuestieDB.itemKeys.relatedQuests] = {407},
@@ -955,6 +961,7 @@ end
 
 _AddMissingItemIDs = function()
     local missingItemIDs = {
+        3017,
         2837,
         5804,
         3035,
