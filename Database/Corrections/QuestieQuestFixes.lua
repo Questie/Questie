@@ -1571,26 +1571,110 @@ end
 
 function QuestieQuestFixes:LoadFactionFixes()
     local questFixesHorde = {
+        [687] = {
+            [QuestieDB.questKeys.startedBy] = {{2787,},nil,nil}
+        },
+        [737] = {
+            [QuestieDB.questKeys.startedBy] = {{2934,},nil,nil}
+        },
+        [1718] = {
+            [QuestieDB.questKeys.startedBy] = {{3041,3354,4595,},nil,nil}
+        },
+        [1947] = {
+            [QuestieDB.questKeys.startedBy] = {{3048,4568,5885,},nil,nil}
+        },
+        [1953] = {
+            [QuestieDB.questKeys.startedBy] = {{3048,4568,5885,},nil,nil}
+        },
         [2861] = {
             [QuestieDB.questKeys.startedBy] = {{4568,5885,},nil,nil}
         },
         [5050] = {
             [QuestieDB.questKeys.startedBy] = {{8403,},nil,nil}
         },
+        [7562] = {
+            [QuestieDB.questKeys.startedBy] = {{5753,5815,},nil,nil}
+        },
+        [8151] = {
+            [QuestieDB.questKeys.startedBy] = {{3039,3352,},nil,nil},
+        },
+        [8233] = {
+            [QuestieDB.questKeys.startedBy] = {{3328,4583,},nil,nil},
+        },
+        [8250] = {
+            [QuestieDB.questKeys.startedBy] = {{3047,7311,},nil,nil},
+        },
+        [8254] = {
+            [QuestieDB.questKeys.startedBy] = {{6018,},nil,nil},
+        },
         [8417] = {
             [QuestieDB.questKeys.startedBy] = {{3354,4593,},nil,nil,},
+        },
+        [8419] = {
+            [QuestieDB.questKeys.startedBy] = {{3326,4563,},nil,nil,},
+        },
+        [9063] = {
+            [QuestieDB.questKeys.startedBy] = {{3033,12042,},nil,nil,},
+        },
+        [9388] = {
+            [QuestieDB.questKeys.startedBy] = {{16818,},nil,nil,},
+        },
+        [9389] = {
+            [QuestieDB.questKeys.startedBy] = {{16818,},nil,nil,},
         },
     }
 
     local questFixesAlliance = {
+        [687] = {
+            [QuestieDB.questKeys.startedBy] = {{2786,},nil,nil}
+        },
+        [737] = {
+            [QuestieDB.questKeys.startedBy] = {{2786,},nil,nil}
+        },
+        [1718] = {
+            [QuestieDB.questKeys.startedBy] = {{5113,5479,},nil,nil}
+        },
+        [1947] = {
+            [QuestieDB.questKeys.startedBy] = {{5144,5497,},nil,nil}
+        },
+        [1953] = {
+            [QuestieDB.questKeys.startedBy] = {{5144,5497,},nil,nil}
+        },
         [2861] = {
             [QuestieDB.questKeys.startedBy] = {{5144,5497,},nil,nil}
         },
         [5050] = {
             [QuestieDB.questKeys.startedBy] = {{3520,},nil,nil}
         },
+        [7562] = {
+            [QuestieDB.questKeys.startedBy] = {{5520,6382,},nil,nil}
+        },
+        [8151] = {
+            [QuestieDB.questKeys.startedBy] = {{4205,5116,5516,},nil,nil},
+        },
+        [8233] = {
+            [QuestieDB.questKeys.startedBy] = {{918,4163,5165,},nil,nil},
+        },
+        [8250] = {
+            [QuestieDB.questKeys.startedBy] = {{331,7312,},nil,nil},
+        },
+        [8254] = {
+            [QuestieDB.questKeys.startedBy] = {{5489,11406,},nil,nil},
+        },
         [8417] = {
             [QuestieDB.questKeys.startedBy] = {{5113,5479,},nil,nil,},
+        },
+        [8419] = {
+            [QuestieDB.questKeys.startedBy] = {{461,5172,},nil,nil,},
+        },
+        [9063] = {
+            [QuestieDB.questKeys.startedBy] = {{4217,5505,12042,},nil,nil,},
+        },
+        [9388] = {
+            [QuestieDB.questKeys.startedBy] = {{16817,},nil,nil,},
+        },
+        [9389] = {
+            [QuestieDB.questKeys.startedBy] = {{16817,},nil,nil,},
         },
     }
 
