@@ -55,7 +55,6 @@ local tremove = table.remove;
 local tunpack = unpack;
 
 
-QUESTIE_CLUSTER_DISTANCE = 70; -- smaller numbers = more icons on the map
 QuestieMap.drawTimer = nil;
 QuestieMap.fadeLogicTimerShown = nil;
 
@@ -143,7 +142,6 @@ function QuestieMap:InitializeQueue()
     Questie:Debug(DEBUG_DEVELOP, "[QuestieMap] Starting draw queue timer!")
     QuestieMap.drawTimer = C_Timer.NewTicker(0.008, QuestieMap.ProcessQueue)
     QuestieMap.fadeLogicTimerShown = C_Timer.NewTicker(0.3, QuestieMap.ProcessShownMinimapIcons);
-
 end
 
 

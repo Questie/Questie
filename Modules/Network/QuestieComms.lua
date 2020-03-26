@@ -121,20 +121,19 @@ function QuestieComms:GetQuest(questId, playerName)
 end
 
 function QuestieComms:Initialize()
-  -- Lets us send any length of message. Also implements ChatThrottleLib to not get disconnected.
-  Questie:RegisterComm(_QuestieComms.prefix, _QuestieComms.OnCommReceived);
+    -- Lets us send any length of message. Also implements ChatThrottleLib to not get disconnected.
+    Questie:RegisterComm(_QuestieComms.prefix, _QuestieComms.OnCommReceived);
 
-  -- Events to be used to broadcast updates to other people
-  Questie:RegisterMessage("QC_ID_BROADCAST_QUEST_UPDATE", _QuestieComms.BroadcastQuestUpdate);
-  Questie:RegisterMessage("QC_ID_BROADCAST_QUEST_REMOVE", _QuestieComms.BroadcastQuestRemove);
+    -- Events to be used to broadcast updates to other people
+    Questie:RegisterMessage("QC_ID_BROADCAST_QUEST_UPDATE", _QuestieComms.BroadcastQuestUpdate);
+    Questie:RegisterMessage("QC_ID_BROADCAST_QUEST_REMOVE", _QuestieComms.BroadcastQuestRemove);
 
-  -- Bucket for 2 seconds to prevent spamming.
-  Questie:RegisterBucketMessage("QC_ID_BROADCAST_FULL_QUESTLIST", 2, _QuestieComms.BroadcastQuestLog);
+    -- Bucket for 2 seconds to prevent spamming.
+    Questie:RegisterBucketMessage("QC_ID_BROADCAST_FULL_QUESTLIST", 2, _QuestieComms.BroadcastQuestLog);
 
-  -- Responds to the "hi" event from others.
-  Questie:RegisterMessage("QC_ID_REQUEST_FULL_QUESTLIST", _QuestieComms.RequestQuestLog);
+    -- Responds to the "hi" event from others.
+    Questie:RegisterMessage("QC_ID_REQUEST_FULL_QUESTLIST", _QuestieComms.RequestQuestLog);
 
-  QuestieEventHandler:GROUP_JOINED()
 end
 
 -- Local Functions --

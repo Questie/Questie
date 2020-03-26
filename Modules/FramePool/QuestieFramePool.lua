@@ -116,7 +116,6 @@ function QuestieFramePool:GetFrame()
     returnFrame.FadeLogic = nil
     returnFrame.faded = nil
     returnFrame.miniMapIcon = nil
-    returnFrame._hidden_toggle_hack = nil -- TODO: this will be removed later, see QuestieQuest:UpdateHiddenNotes()
 
     returnFrame.data = nil
     returnFrame.x = nil;

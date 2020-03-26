@@ -184,6 +184,7 @@ function QuestieQuest:AddAllNotes()
 end
 
 function QuestieQuest:Reset()
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:Reset]")
     -- clear all notes
     QuestieQuest:ClearAllNotes()
     QuestieCorrections:Initialize() -- Just to be sure all the right corrections are loaded
@@ -201,6 +202,7 @@ function QuestieQuest:Reset()
 end
 
 function QuestieQuest:SmoothReset() -- use timers to reset progressively instead of all at once
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:SmoothReset]")
     -- bit of a hack (there has to be a better way to do logic like this
     QuestieDBMIntegration:ClearAll()
     local stepTable = {
@@ -241,6 +243,7 @@ end
 
 
 function QuestieQuest:UpdateHiddenNotes()
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:UpdateHiddenNotes]")
     QuestieQuest:GetAllQuestIds() -- add notes that weren't added from previous hidden state
     local questieGlobalDB = Questie.db.global
     if questieGlobalDB.enableAvailable then
@@ -490,7 +493,7 @@ function QuestieQuest:GetAllQuestIds()
 end
 
 function QuestieQuest:GetAllQuestIdsNoObjectives()
-    Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_GET_QUEST'));
+    Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_GET_QUEST'), "(without objectives)");
     local numEntries, numQuests = GetNumQuestLogEntries();
     QuestiePlayer.currentQuestlog = {}
     for index = 1, numEntries do
@@ -824,7 +827,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                 iconCount = iconCount + 1;
                 tinsert(orderedList, icons[distance]);
             end
-            local range = QUESTIE_CLUSTER_DISTANCE
+            local range = Questie.db.global.clusterLevelHotzone
             if orderedList and orderedList[1] and orderedList[1].Icon == ICON_TYPE_OBJECT then -- new clustering / limit code should prevent problems, always show all object notes
                 range = range * 0.2;  -- Only use 20% of the default range.
             end

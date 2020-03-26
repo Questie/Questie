@@ -437,7 +437,6 @@ function QuestieOptions.tabs.general:Initialize()
                 step = 1,
                 get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
                 set = function (info, value)
-                    QUESTIE_CLUSTER_DISTANCE = value;
                     QuestieOptionsUtils:Delay(0.5, QuestieOptions.ClusterRedraw, QuestieLocale:GetUIString('DEBUG_CLUSTER', value))
                     QuestieOptions:SetGlobalOptionValue(info, value)
                 end,

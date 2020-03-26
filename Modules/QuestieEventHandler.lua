@@ -42,7 +42,7 @@ local runQLU = false
 local _PLAYER_LOGIN, _PLAYER_LEVEL_UP, _PLAYER_REGEN_DISABLED, _PLAYER_REGEN_ENABLED
 local _QUEST_ACCEPTED, _QUEST_TURNED_IN, _UNIT_QUEST_LOG_CHANGED, _QUEST_REMOVED, _QUEST_LOG_UPDATE, _QUEST_FINISHED
 local _MAP_EXPLORATION_UPDATED, _MODIFIER_STATE_CHANGED, _CHAT_MSG_SKILL, _CHAT_MSG_COMBAT_FACTION_CHANGE
-local _GROUP_ROSTER_UPDATE, _GROUP_LEFT
+local _GROUP_ROSTER_UPDATE, _GROUP_JOINED, _GROUP_LEFT
 local _CompleteQuest
 
 
@@ -85,7 +85,7 @@ function QuestieEventHandler:RegisterAllEvents()
 
     -- Party join event for QuestieComms, Use bucket to hinder this from spamming (Ex someone using a raid invite addon etc)
     Questie:RegisterBucketEvent("GROUP_ROSTER_UPDATE", 1, _GROUP_ROSTER_UPDATE)
-    Questie:RegisterEvent("GROUP_JOINED", QuestieEventHandler.GROUP_JOINED) -- This is not local because QuestieComms needs to call it
+    Questie:RegisterEvent("GROUP_JOINED", _GROUP_JOINED) -- This is not local because QuestieComms needs to call it
     Questie:RegisterEvent("GROUP_LEFT", _GROUP_LEFT)
 
     -- Nameplate / Target Frame Objective Events
@@ -232,12 +232,8 @@ _QUEST_LOG_UPDATE = function()
         C_Timer.After(1, function ()
             Questie:Debug(DEBUG_DEVELOP, "---> Player entered world, DONE.")
             QuestieQuest:GetAllQuestIds()
-            QuestieTracker:Initialize()
             QuestieTracker:Update()
-            -- Initialize Questie Comms
-            if(QuestieComms) then
-                QuestieComms:Initialize()
-            end
+            _GROUP_JOINED()
         end)
         playerEntered = nil
     end
@@ -330,8 +326,7 @@ _GROUP_ROSTER_UPDATE = function()
     end
 end
 
--- This function is not local because "QuestieComms" need to call it
-function QuestieEventHandler:GROUP_JOINED()
+_GROUP_JOINED = function()
     Questie:Debug(DEBUG_DEVELOP, "GROUP_JOINED")
     local checkTimer = nil
     --We want this to be fairly quick.

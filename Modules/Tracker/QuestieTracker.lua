@@ -753,7 +753,6 @@ function QuestieTracker:Update()
                 end
             end
         end
-        QuestieQuest:UpdateHiddenNotes()
     end
 
     if hasQuest then

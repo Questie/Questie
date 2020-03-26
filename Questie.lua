@@ -161,35 +161,27 @@ function Questie:OnInitialize()
         QuestieLocale:SetUILocale(GetLocale());
     end
 
-    Questie:Debug(DEBUG_CRITICAL, "Questie addon loaded")
+    Questie:Debug(DEBUG_CRITICAL, "[Questie:OnInitialize] Questie addon loaded")
     QuestieCorrections:Initialize()
     QuestieLocale:Initialize()
 
     QuestieEventHandler:RegisterAllEvents()
 
-    -- todo move this call into loader
+    QuestieTracker:Initialize()
     QuestieTooltips:Initialize()
-
-    -- Initialize Coordinates
-    QuestieCoords.Initialize();
-
+    QuestieCoords:Initialize()
     QuestieQuestTimers:Initialize()
     QuestieCombatQueue:Initialize()
-
-    -- Initialize questiecomms
-    --C_ChatInfo.RegisterAddonMessagePrefix("questie")
-    -- JoinTemporaryChannel("questie")
-    --Questie:RegisterEvent("CHAT_MSG_ADDON", QuestieComms.MessageReceived)
+    QuestieComms:Initialize()
 
     -- Register Slash Commands
     Questie:RegisterChatCommand("questieclassic", "HandleSlash")
     Questie:RegisterChatCommand("questie", "HandleSlash")
 
-    QuestieOptions:Initialize();
+    QuestieOptions:Initialize()
 
     --Initialize the DB settings.
     Questie:Debug(DEBUG_DEVELOP, QuestieLocale:GetUIString('DEBUG_CLUSTER', Questie.db.global.clusterLevelHotzone))
-    QUESTIE_CLUSTER_DISTANCE = Questie.db.global.clusterLevelHotzone;
 
     -- Creating the minimap config icon
     Questie.minimapConfigIcon = LibStub("LibDBIcon-1.0");
