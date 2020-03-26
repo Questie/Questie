@@ -451,6 +451,9 @@ function QuestieQuestFixes:Load()
         [1506] = {
             [QuestieDB.questKeys.exclusiveTo] = {1478}, -- #1427
         },
+        [1559] = {
+            [QuestieDB.questKeys.preQuestSingle] = {705},
+        },
         [1580] = {
             [QuestieDB.questKeys.requiredSkill] = {356,30},
         },
