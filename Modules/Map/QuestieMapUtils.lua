@@ -7,11 +7,10 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 
--- ALl the speed we can get is worth it.
+-- All the speed we can get is worth it.
 local tinsert = table.insert
 local pairs = pairs
 
---- Currently not in use.
 function QuestieMap.utils:SetDrawOrder(frame)
     -- This is all fixes to always be on top of HandyNotes notes Let the frame level wars begin.
     -- HandyNotes uses GetFrameLevel + 6, so we use +7
@@ -30,12 +29,16 @@ function QuestieMap.utils:SetDrawOrder(frame)
     end
 
     -- Draw layer is between -8 and 7, please leave some number above so we don't paint ourselves into a corner...
-    if (frame.data and
-        (frame.data.Icon == ICON_TYPE_AVAILABLE or frame.data.Icon ==
-            ICON_TYPE_REPEATABLE)) then
-        frame.texture:SetDrawLayer("OVERLAY", 5)
-    elseif (frame.data and frame.data.Icon == ICON_TYPE_COMPLETE) then
-        frame.texture:SetDrawLayer("OVERLAY", 6)
+    if frame.data then
+        if frame.data.Icon == ICON_TYPE_REPEATABLE then
+            frame.texture:SetDrawLayer("OVERLAY", 4)
+        elseif frame.data.Icon == ICON_TYPE_AVAILABLE then
+            frame.texture:SetDrawLayer("OVERLAY", 5)
+        elseif frame.data.Icon == ICON_TYPE_COMPLETE then
+            frame.texture:SetDrawLayer("OVERLAY", 6)
+        else
+            frame.texture:SetDrawLayer("OVERLAY", 0)
+        end
     else
         frame.texture:SetDrawLayer("OVERLAY", 0)
     end
@@ -157,6 +160,38 @@ function QuestieMap.utils:MapExplorationUpdate()
                     frame:FakeUnhide()
                 end
             end
+        end
+    end
+end
+
+--- Rescale a single icon
+---@param frameRef string|IconFrame @The global name/iconRef of the icon frame, e.g. "QuestieFrame1"
+function QuestieMap.utils:RecaleIcon(frameRef, modifier)
+    local zoomModifier = modifier or 1;
+    local frame = frameRef;
+    if(type(frameRef) == "string") then
+        frame = _G[frameRef];
+    end
+    if frame and frame.data then
+        if(frame.data.GetIconScale) then
+            frame.data.IconScale = frame.data:GetIconScale();
+            local scale = nil
+            if(frame.miniMapIcon) then
+                scale = 16 * (frame.data.IconScale or 1) * (Questie.db.global.globalMiniMapScale or 0.7);
+            else
+                scale = 16 * (frame.data.IconScale or 1) * (Questie.db.global.globalScale or 0.7);
+            end
+
+            if(frame.miniMapIcon) then
+                zoomModifier = 1;
+            end
+
+            if scale > 1 then
+                --frame:SetScale(zoomModifier)
+                frame:SetSize(scale*zoomModifier, scale*zoomModifier);
+            end
+        else
+            Questie:Error("A frame is lacking the GetIconScale function for resizing!", frame.data.Id);
         end
     end
 end
