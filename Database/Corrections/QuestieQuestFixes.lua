@@ -486,6 +486,9 @@ function QuestieQuestFixes:Load()
         [1638] = {
             [QuestieDB.questKeys.exclusiveTo] = {},
         },
+        [1639] = {
+            [QuestieDB.questKeys.exclusiveTo] = {1678},
+        },
         [1641] = { -- This is repeatable giving an item starting 1642
             [QuestieDB.questKeys.exclusiveTo] = {1642,1646,2997,2998,2999,3000,3681},
         },
@@ -506,6 +509,9 @@ function QuestieQuestFixes:Load()
         },
         [1661] = {
             [QuestieDB.questKeys.exclusiveTo] = {4485,4486},
+        },
+        [1678] = {
+            [QuestieDB.questKeys.exclusiveTo] = {1639},
         },
         [1679] = {
             [QuestieDB.questKeys.exclusiveTo] = {1680}, -- #1724
