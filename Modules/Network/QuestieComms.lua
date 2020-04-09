@@ -243,7 +243,7 @@ function QuestieComms:CreateQuestDataPacket(questId)
     quest.id = questId;
     local rawObjectives = QuestieQuest:GetAllLeaderBoardDetails(questId);
     quest.objectives = {}
-    if questObject then
+    if questObject and questObject.Objectives then
         for objectiveIndex, objective in pairs(rawObjectives) do
             quest.objectives[objectiveIndex] = {};
             quest.objectives[objectiveIndex].id = questObject.Objectives[objectiveIndex].Id;--[_QuestieComms.idLookup["id"]] = questObject.Objectives[objectiveIndex].Id;
