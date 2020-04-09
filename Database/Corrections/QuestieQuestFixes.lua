@@ -366,6 +366,12 @@ function QuestieQuestFixes:Load()
         [1204] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #938
         },
+        [1252] = {
+            [QuestieDB.questKeys.preQuestSingle] = {1302,1282}, -- #1845
+        },
+        [1253] = {
+            [QuestieDB.questKeys.preQuestSingle] = {1302,1282}, -- #1845
+        },
         [1260] = {
             [QuestieDB.questKeys.exclusiveTo] = {1204},
         },
@@ -382,6 +388,7 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.preQuestSingle] = {1273,}, -- #1574
         },
         [1284] = {
+            [QuestieDB.questKeys.preQuestSingle] = {1302,1282}, -- #1845
             [QuestieDB.questKeys.startedBy] = {nil,{21015,21016,},nil,},
         },
         [1301] = {
