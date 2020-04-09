@@ -224,6 +224,9 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.preQuestSingle] = {},
             [QuestieDB.questKeys.requiredSkill] = {},
         },
+        [730] = {
+            [QuestieDB.questKeys.exclusiveTo] = {729}, -- #1587
+        },
         [736] = {
             [QuestieDB.questKeys.requiredSourceItems] = {4639},
         },
