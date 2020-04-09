@@ -124,6 +124,9 @@ function QuestieQuestFixes:Load()
         [428] = {
             [QuestieDB.questKeys.exclusiveTo] = {429}, -- lost deathstalkers breadcrumb
         },
+        [429] = {
+            [QuestieDB.questKeys.preQuestSingle] = {}, -- #1843
+        },
         [431] = { -- candles of beckoning
             [QuestieDB.questKeys.preQuestSingle] = {366}, -- #638
             [QuestieDB.questKeys.exclusiveTo] = {411}, -- #752
