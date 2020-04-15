@@ -620,6 +620,9 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #1541
             [QuestieDB.questKeys.preQuestGroup] = {2500,17}, -- #1541
         },
+        [2744] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Conversation with Loramus", {[16]={{60.8,66.4}},},},
+        },
         [2781] = {
             [QuestieDB.questKeys.startedBy] = {nil,{142122,150075,},nil,}, -- #1081
         },

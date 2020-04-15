@@ -87,12 +87,6 @@ TEMP_Questie2Events = {
     },
     ["locationCount"] = 1
   },
-  ["Conversation with Loramus"] = {
-    ["locations"] = {
-      [1] = {15.0, 0.608, 0.6636, 100.0}
-    },
-    ["locationCount"] = 1
-  },
   ["Find a corrupt furbolg camp"] = {
     ["locations"] = {
       [1] = {16.0, 0.3974, 0.5328, 100.0}
