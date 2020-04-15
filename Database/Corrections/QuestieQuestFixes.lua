@@ -491,7 +491,7 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.preQuestSingle] = {705}, -- #1164
         },
         [1638] = {
-            [QuestieDB.questKeys.exclusiveTo] = {},
+            [QuestieDB.questKeys.exclusiveTo] = {1666,1678,1680,1683,1686},
         },
         [1639] = {
             [QuestieDB.questKeys.exclusiveTo] = {1678},
@@ -517,18 +517,24 @@ function QuestieQuestFixes:Load()
         [1661] = {
             [QuestieDB.questKeys.exclusiveTo] = {4485,4486},
         },
+        [1666] = {
+            [QuestieDB.questKeys.preQuestSingle] = {1639,1678,1683},
+        },
         [1678] = {
             [QuestieDB.questKeys.exclusiveTo] = {1639},
         },
         [1679] = {
-            [QuestieDB.questKeys.exclusiveTo] = {1680}, -- #1724
+            [QuestieDB.questKeys.exclusiveTo] = {1639,1666,1680,1683,1686}, -- #1724
         },
         [1680] = {
-            [QuestieDB.questKeys.preQuestSingle] = {}, -- #1724
+            [QuestieDB.questKeys.preQuestSingle] = {1639,1678,1683},
             [QuestieDB.questKeys.exclusiveTo] = {1681}, -- #1724
         },
         [1684] = {
-            [QuestieDB.questKeys.exclusiveTo] = {},
+            [QuestieDB.questKeys.exclusiveTo] = {1639,1666,1678,1686,1680},
+        },
+        [1686] = {
+            [QuestieDB.questKeys.preQuestSingle] = {1639,1678,1683},
         },
         [1708] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #1230
