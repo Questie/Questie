@@ -134,6 +134,9 @@ function QuestieQuestFixes:Load()
         [437] = {
             [QuestieDB.questKeys.triggerEnd] = {"Enter the Dead Fields",{[130]={{45.91, 21.27},},},},
         },
+        [455] = {
+            [QuestieDB.questKeys.preQuestSingle] = {}, -- #1858
+        },
         [460] = {
             [QuestieDB.questKeys.startedBy] = {{1939},nil,{3317,},},
         },
@@ -145,6 +148,9 @@ function QuestieQuestFixes:Load()
         },
         [467] = {
             [QuestieDB.questKeys.startedBy] = {{1340,2092,},nil,nil,}, -- #1379
+        },
+        [468] = {
+            [QuestieDB.questKeys.exclusiveTo] = {455}, -- #1858
         },
         [473] = {
             [QuestieDB.questKeys.preQuestSingle] = {455}, -- #809
