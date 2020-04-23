@@ -1,8 +1,3 @@
-local ZH = LibStub("ZoneHelper-1.0");
-ProximityTracker = LibStub("AceAddon-3.0"):NewAddon("ProximityTracker", "AceEvent-3.0");
-local PT = ProximityTracker;
--- Borrowed the ZoneHelper lib from Butter Quest Tracker and changed name to ProximityTracker - .....not really sure how this code works, but seemed required to get the OnPlayerEnteringWorld() to work
-
 ---@class QuestieTracker
 local QuestieTracker = QuestieLoader:CreateModule("QuestieTracker");
 -------------------------
