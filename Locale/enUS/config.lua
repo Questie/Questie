@@ -259,6 +259,7 @@ QuestieLocale.locale['enUS'] = {
     ['TRACKER_SORT_BY_COMPLETE'] = "By %% Completed",
     ['TRACKER_SORT_BY_LEVEL'] = "By Level",
     ['TRACKER_SORT_BY_LEVEL_REVERSED'] = "By Level (Reversed)",
+	['TRACKER_SORT_BY_PROXIMITY'] = "By Proximity",
     ['TRACKER_DONT_SORT'] = "Don't Sort",
     ['LEFT_CLICK'] = "Left Click",
     ['RIGHT_CLICK'] = "Right Click",
