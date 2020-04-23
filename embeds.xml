@@ -14,6 +14,7 @@
   <Include file="Libs\AceSerializer-3.0\AceSerializer-3.0.xml"/>
   <Include file="Libs\LibUIDropDownMenuQuestie\LibUIDropDownMenu.xml"/>
   <Include file="Libs\LibQuestXP\LibQuestXP.xml"/>
+  <Include file="Libs\ZoneHelper\ZoneHelper.xml"/>
   
   <Script file="Libs\LibDataBroker-1.1\LibDataBroker-1.1.lua"/>
   <Script file="Libs\LibCompress\LibCompress.lua"/>

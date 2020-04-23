@@ -184,6 +184,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                     ['byComplete'] = QuestieLocale:GetUIString('TRACKER_SORT_BY_COMPLETE'),
                     ['byLevel'] = QuestieLocale:GetUIString('TRACKER_SORT_BY_LEVEL'),
                     ['byLevelReversed'] = QuestieLocale:GetUIString('TRACKER_SORT_BY_LEVEL_REVERSED'),
+                    ['byProximity'] = QuestieLocale:GetUIString('TRACKER_SORT_BY_PROXIMITY'),
                     ['none'] = QuestieLocale:GetUIString('TRACKER_DONT_SORT'),
                 } end,
                 style = 'dropdown',
