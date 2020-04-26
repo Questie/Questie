@@ -37,7 +37,7 @@ _QuestieTracker.FadeTickerDirection = false -- true to fade in
 _QuestieTracker.IsFirstRun = true -- bad code
 
 -- Forward declaration
-local _OnClick, _OnEnter, _OnLeave, _AQW_Insert, _RemoveQuestWatch
+local _OnClick, _OnEnter, _OnLeave, _AQW_Insert, _RemoveQuestWatch, _PlayerPosition, _QuestProximityTimer
 
 local function getWorldPlayerPosition() -- Turns coords into 'world' coords so it can be compared with any coords in another zone
     local uiMapID = C_Map.GetBestMapForUnit("player");
@@ -53,16 +53,60 @@ local function getDistance(x1, y1, x2, y2) -- Basic proximity distance calculati
     return math.sqrt( (x2-x1)^2 + (y2-y1)^2 );
 end
 
+function GetDistanceToClosestObjective(questID) -- main function for proximity sorting
+    local player = getWorldPlayerPosition();
+    if not player then
+        return nil;
+    end
+    local coordinates = {};
+    local quest = QuestieDB:GetQuest(questID);
+    if not quest then return end;
+
+    local spawn, zone, name = QuestieMap:GetNearestQuestSpawn(quest)
+    if not spawn then return end;
+    if not zone then return end;
+    if not name then return end;
+    local _, worldPosition = C_Map.GetWorldPosFromMapPos(ZoneDataAreaIDToUiMapID[zone], {
+        x = spawn[1] / 100,
+        y = spawn[2] / 100
+        });
+    tinsert(coordinates, {
+        x = worldPosition.x,
+        y = worldPosition.y
+        });
+
+    if not coordinates then return end
+    local closestDistance;
+    for _, coords in pairs(coordinates) do
+        local distance = getDistance(player.x, player.y, worldPosition.x, worldPosition.y);
+        if closestDistance == nil or distance < closestDistance then
+            closestDistance = distance;
+        end
+    end
+    return closestDistance;
+end
+
+function getContinent(uiMapID)
+    if not uiMapID then return end;
+    if (uiMapID == 947) or (uiMapID == 1459) or (uiMapID == 1460) or (uiMapID == 1461) then
+        return "Azeroth"
+    elseif ((uiMapID >= 1415) and (uiMapID <= 1437)) or (uiMapID == 1453) or (uiMapID == 1455) or (uiMapID == 1458) or (uiMapID == 1463) then
+        return "Eastern Kingdoms"
+    elseif ((uiMapID >= 1411) and (uiMapID <= 1414)) or ((uiMapID >= 1438) and (uiMapID <= 1452)) or (uiMapID == 1454) or (uiMapID == 1456) or (uiMapID == 1457) then
+        return "Kalimdor"
+    else
+        print(uiMapID, "is unknown")
+    end
+end
+
 function QuestieTracker:updateQuestProximityTimer() -- Check location often and update if you've moved
-    local initialized = false;
-    QuestieTracker:Update()
-    questProximityTimer = C_Timer.NewTicker(5.0, function()
+    _QuestProximityTimer = C_Timer.NewTicker(5.0, function()
         local position = getWorldPlayerPosition();
         if position then
-            local distance = playerPosition and getDistance(position.x, position.y, playerPosition.x, playerPosition.y);
-            if not initialized or not distance or distance > 0.01 then
+            local distance = _PlayerPosition and getDistance(position.x, position.y, _PlayerPosition.x, _PlayerPosition.y);
+            if not distance or distance > 0.01 then
                 initialized = true;
-                playerPosition = position;
+                _PlayerPosition = position;
                 QuestieTracker:Update()
             end
         end
@@ -172,10 +216,6 @@ function QuestieTracker:Initialize()
     end
     if not Questie.db.char.collapsedQuests then
         Questie.db.char.collapsedQuests = {}
-    end
-
-    if Questie.db.global.trackerSortObjectives == "byProximity" then
-        QuestieTracker:updateQuestProximityTimer()
     end
 
     _QuestieTracker.baseFrame = QuestieTracker:CreateBaseFrame()
@@ -541,53 +581,6 @@ function QuestieTracker:GetBackgroundPadding()
     return trackerBackgroundPadding
 end
 
-function GetDistanceToClosestObjective(questID) -- main function for proximity sorting
-    local player = getWorldPlayerPosition();
-    if not player then
-        return nil;
-    end
-    local coordinates = {};
-    local quest = QuestieDB:GetQuest(questID);
-    if not quest then return end;
-
-    local spawn, zone, name = QuestieMap:GetNearestQuestSpawn(quest)
-    if not spawn then return end;
-    if not zone then return end;
-    if not name then return end;
-    
-    local _, worldPosition = C_Map.GetWorldPosFromMapPos(ZoneDataAreaIDToUiMapID[zone], {
-        x = spawn[1] / 100,
-        y = spawn[2] / 100
-        });
-    tinsert(coordinates, {
-        x = worldPosition.x,
-        y = worldPosition.y
-        });
-    
-    if not coordinates then return end
-    local closestDistance;
-    for _, coords in pairs(coordinates) do
-        local distance = getDistance(player.x, player.y, worldPosition.x, worldPosition.y);
-        if closestDistance == nil or distance < closestDistance then
-            closestDistance = distance;
-        end
-    end
-    return closestDistance;
-end
-
-function getContinent(uiMapID)
-    if not uiMapID then return end;
-    if (uiMapID == 947) or (uiMapID == 1459) or (uiMapID == 1460) or (uiMapID == 1461) then
-        return "Azeroth"
-    elseif ((uiMapID >= 1415) and (uiMapID <= 1437)) or (uiMapID == 1453)or (uiMapID == 1455) or (uiMapID == 1458) or (uiMapID == 1463) then
-        return "Eastern Kingdoms"
-    elseif ((uiMapID >= 1411) and (uiMapID <= 1414)) or ((uiMapID >= 1438) and (uiMapID <= 1452)) or (uiMapID == 1454) or (uiMapID == 1456)or (uiMapID == 1457) then
-        return "Kalimdor"
-    else
-        print(uiMapID, "is unknown")
-    end
-end
-
 function QuestieTracker:Update()
     Questie:Debug(DEBUG_DEVELOP, "QuestieTracker: Update")
 
@@ -663,7 +656,7 @@ function QuestieTracker:Update()
             local continent = getContinent(C_Map.GetBestMapForUnit("player"))
             local continentA = getContinent(ZoneDataAreaIDToUiMapID[zoneA])
             local continentB = getContinent(ZoneDataAreaIDToUiMapID[zoneB])
-        
+
             if ((continent == continentA) and (continent == continentB)) or ((continent ~= continentA) and (continent ~= continentB)) then
                 if distanceA == distanceB then
                     return qA and qB and qA.level < qB.level;
@@ -673,7 +666,7 @@ function QuestieTracker:Update()
                 elseif distanceA and not distanceB then
                     return true;
                 end
-        
+
                 return distanceA < distanceB;
             elseif (continent == continentA) and (continent ~= continentB) then
                 return true
@@ -681,7 +674,17 @@ function QuestieTracker:Update()
                 return false
             end
         end)
+
+        if not _QuestProximityTimer then
+            QuestieTracker:updateQuestProximityTimer()
+        end
     end
+
+    if (Questie.db.global.trackerSortObjectives ~= "byProximity") and _QuestProximityTimer and (_QuestProximityTimer:IsCancelled() ~= "true") then
+        _QuestProximityTimer:Cancel()
+        _QuestProximityTimer = nil
+    end
+
     local hasQuest = false
     for _, questId in pairs (order) do
         -- if quest.userData.tracked
