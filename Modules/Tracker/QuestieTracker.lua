@@ -50,7 +50,7 @@ local function getWorldPlayerPosition() -- Turns coords into 'world' coords so i
 end
 
 local function getDistance(x1, y1, x2, y2) -- Basic proximity distance calculation to compare two locs (normally player position and provided loc)
-	return math.sqrt( (x2-x1)^2 + (y2-y1)^2 );
+    return math.sqrt( (x2-x1)^2 + (y2-y1)^2 );
 end
 
 function QuestieTracker:updateQuestProximityTimer() -- Check location often and update if you've moved
@@ -173,11 +173,11 @@ function QuestieTracker:Initialize()
     if not Questie.db.char.collapsedQuests then
         Questie.db.char.collapsedQuests = {}
     end
-	
+
     if Questie.db.global.trackerSortObjectives == "byProximity" then
         QuestieTracker:updateQuestProximityTimer()
     end
-	
+
     _QuestieTracker.baseFrame = QuestieTracker:CreateBaseFrame()
     _QuestieTracker.activeQuestsFrame = _QuestieTracker:CreateActiveQuestsFrame()
 
@@ -547,23 +547,23 @@ function GetDistanceToClosestObjective(questID) -- main function for proximity s
         return nil;
     end
     local coordinates = {};
-	local quest = QuestieDB:GetQuest(questID);
-	if not quest then return end;
-	
-	local spawn, zone, name = QuestieMap:GetNearestQuestSpawn(quest)
-	if not spawn then return end;
-	if not zone then return end;
-	if not name then return end;
-		
-	local _, worldPosition = C_Map.GetWorldPosFromMapPos(ZoneDataAreaIDToUiMapID[zone], {
-		x = spawn[1] / 100,
-		y = spawn[2] / 100
-		});
-	tinsert(coordinates, {
-		x = worldPosition.x,
-		y = worldPosition.y
-		});
-		
+    local quest = QuestieDB:GetQuest(questID);
+    if not quest then return end;
+
+    local spawn, zone, name = QuestieMap:GetNearestQuestSpawn(quest)
+    if not spawn then return end;
+    if not zone then return end;
+    if not name then return end;
+    
+    local _, worldPosition = C_Map.GetWorldPosFromMapPos(ZoneDataAreaIDToUiMapID[zone], {
+        x = spawn[1] / 100,
+        y = spawn[2] / 100
+        });
+    tinsert(coordinates, {
+        x = worldPosition.x,
+        y = worldPosition.y
+        });
+    
     if not coordinates then return end
     local closestDistance;
     for _, coords in pairs(coordinates) do
@@ -576,16 +576,16 @@ function GetDistanceToClosestObjective(questID) -- main function for proximity s
 end
 
 function getContinent(uiMapID)
-	if not uiMapID then return end;
+    if not uiMapID then return end;
     if (uiMapID == 947) or (uiMapID == 1459) or (uiMapID == 1460) or (uiMapID == 1461) then
-		return "Azeroth"
-	elseif ((uiMapID >= 1415) and (uiMapID <= 1437)) or (uiMapID == 1453)or (uiMapID == 1455) or (uiMapID == 1458) or (uiMapID == 1463) then
-		return "Eastern Kingdoms"
-	elseif ((uiMapID >= 1411) and (uiMapID <= 1414)) or ((uiMapID >= 1438) and (uiMapID <= 1452)) or (uiMapID == 1454) or (uiMapID == 1456)or (uiMapID == 1457) then
-		return "Kalimdor"
-	else
-		print(uiMapID, "is unknown")
-	end
+        return "Azeroth"
+    elseif ((uiMapID >= 1415) and (uiMapID <= 1437)) or (uiMapID == 1453)or (uiMapID == 1455) or (uiMapID == 1458) or (uiMapID == 1463) then
+        return "Eastern Kingdoms"
+    elseif ((uiMapID >= 1411) and (uiMapID <= 1414)) or ((uiMapID >= 1438) and (uiMapID <= 1452)) or (uiMapID == 1454) or (uiMapID == 1456)or (uiMapID == 1457) then
+        return "Kalimdor"
+    else
+        print(uiMapID, "is unknown")
+    end
 end
 
 function QuestieTracker:Update()
@@ -653,34 +653,34 @@ function QuestieTracker:Update()
             return qA and qB and qA.level > qB.level
         end)
     elseif Questie.db.global.trackerSortObjectives == "byProximity" then
-		table.sort(order, function(a, b)
+        table.sort(order, function(a, b)
             local distanceA = GetDistanceToClosestObjective(a)
-			local distanceB = GetDistanceToClosestObjective(b)
-			local qA = QuestieDB:GetQuest(a)
-			local qB = QuestieDB:GetQuest(b)
-			local _, zoneA, _ = QuestieMap:GetNearestQuestSpawn(qA)
-			local _, zoneB, _ = QuestieMap:GetNearestQuestSpawn(qB)
-			local continent = getContinent(C_Map.GetBestMapForUnit("player"))
-			local continentA = getContinent(ZoneDataAreaIDToUiMapID[zoneA])
-			local continentB = getContinent(ZoneDataAreaIDToUiMapID[zoneB])
-			
-			if ((continent == continentA) and (continent == continentB)) or ((continent ~= continentA) and (continent ~= continentB)) then
-				if distanceA == distanceB then
-					return qA and qB and qA.level < qB.level;
-				end
-				if not distanceA and distanceB then
-					return false;
-				elseif distanceA and not distanceB then
-					return true;
-				end
-			
-				return distanceA < distanceB;
-			elseif (continent == continentA) and (continent ~= continentB) then
-				return true
-			elseif (continent ~= continentA) and (continent == continentB) then
-				return false
-			end
-        end)	
+            local distanceB = GetDistanceToClosestObjective(b)
+            local qA = QuestieDB:GetQuest(a)
+            local qB = QuestieDB:GetQuest(b)
+            local _, zoneA, _ = QuestieMap:GetNearestQuestSpawn(qA)
+            local _, zoneB, _ = QuestieMap:GetNearestQuestSpawn(qB)
+            local continent = getContinent(C_Map.GetBestMapForUnit("player"))
+            local continentA = getContinent(ZoneDataAreaIDToUiMapID[zoneA])
+            local continentB = getContinent(ZoneDataAreaIDToUiMapID[zoneB])
+        
+            if ((continent == continentA) and (continent == continentB)) or ((continent ~= continentA) and (continent ~= continentB)) then
+                if distanceA == distanceB then
+                    return qA and qB and qA.level < qB.level;
+                end
+                if not distanceA and distanceB then
+                    return false;
+                elseif distanceA and not distanceB then
+                    return true;
+                end
+        
+                return distanceA < distanceB;
+            elseif (continent == continentA) and (continent ~= continentB) then
+                return true
+            elseif (continent ~= continentA) and (continent == continentB) then
+                return false
+            end
+        end)
     end
     local hasQuest = false
     for _, questId in pairs (order) do
