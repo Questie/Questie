@@ -36,9 +36,13 @@ local function HasSkillLevel(profession, skillLevel)
 end
 
 function QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill)
+    if requiredSkill == nil then
+        return true
+    end
+
     local profession = requiredSkill[1]
     local skillLevel = requiredSkill[2]
-    return requiredSkill == nil or (HasProfession(profession) and HasSkillLevel(profession, skillLevel))
+    return HasProfession(profession) and HasSkillLevel(profession, skillLevel)
 end
 
 -- There are no quests for Skinning and Mining so we don't need them
