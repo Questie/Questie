@@ -1457,7 +1457,7 @@ function _QuestieQuest:IsDoable(quest)
         return _QuestieQuest:IsParentQuestActive(quest.parentQuest)
     end
 
-    if not QuestieProfessions:HasProfessionAndSkill(quest.requiredSkill) then
+    if not QuestieProfessions:HasProfessionAndSkillLevel(quest.requiredSkill) then
         return false
     end
 

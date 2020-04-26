@@ -153,7 +153,7 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                     tinsert(zoneTree[3].children, temp)
                     completedCounter = completedCounter + 1
                 -- Unoptainable profession quests
-                elseif not QuestieProfessions:HasProfessionAndSkill(quest.requiredSkill) then
+                elseif not QuestieProfessions:HasProfessionAndSkillLevel(quest.requiredSkill) then
                     tinsert(zoneTree[5].children, temp)
                     unobtainableQuestIds[qId] = true
                     unobtainableCounter = unobtainableCounter + 1
