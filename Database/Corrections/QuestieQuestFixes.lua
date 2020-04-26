@@ -1385,6 +1385,9 @@ function QuestieQuestFixes:Load()
         [8271] = {
             [QuestieDB.questKeys.requiredRaces] = 77,
         },
+        [8240] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Destroy any Hakkari Bijou", {[33]={{13.4,15.1},},},},
+        },
         [8272] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 178,
         },
