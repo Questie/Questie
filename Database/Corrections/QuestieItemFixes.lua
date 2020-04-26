@@ -198,6 +198,13 @@ function QuestieItemFixes:Load()
         [3864] = {
             [QuestieDB.itemKeys.npcDrops] = {},
         },
+        [4098] = {
+            [QuestieDB.itemKeys.name] = "Carefully Folded Note",
+            [QuestieDB.itemKeys.relatedQuests] = {594},
+            [QuestieDB.itemKeys.npcDrops] = {},
+            [QuestieDB.itemKeys.objectDrops] = {2560},
+
+        },
         [4234] = {
             [QuestieDB.itemKeys.npcDrops] = {},
             [QuestieDB.itemKeys.objectDrops] = {},

@@ -191,6 +191,9 @@ function QuestieQuestFixes:Load()
         [579] = {
             [QuestieDB.questKeys.parentQuest] = 578,
         },
+        [594] = {
+            [QuestieDB.questKeys.startedBy] = {nil,{2560,},{4098,},},
+        },
         [598] = {
             [QuestieDB.questKeys.preQuestSingle] = {},
             [QuestieDB.questKeys.preQuestGroup] = {596,629,}
