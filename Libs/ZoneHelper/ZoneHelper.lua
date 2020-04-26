@@ -1,3 +1,7 @@
+-- ZoneHelper is taken from Butter Quest Tracker by Nick Woodward (a.k.a. Stormie25)
+-- Licensed under the MIT License
+-- https://github.com/butter-cookie-kitkat/ButterQuestTracker
+
 local AceEvent = LibStub:GetLibrary("AceEvent-3.0");
 local helper = LibStub:NewLibrary("ZoneHelper-1.0", 1);
 
