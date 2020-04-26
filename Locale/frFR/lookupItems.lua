@@ -60,6 +60,7 @@ LangItemLookup["frFR"] = {
 [1875] = "Plaque de Crispechardon",
 [1894] = "Carte du syndicat des mineurs",
 [1931] = "Grande griffe de gnoll",
+[1942] = "Bouteille de tord-boyaux",
 [1946] = "Miroir de Marie",
 [1968] = "Monocle d'ogre",
 [2004] = "Journal de Grelin Whitebeard",

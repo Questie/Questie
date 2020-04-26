@@ -60,6 +60,7 @@ LangItemLookup["deDE"] = {
 [1875] = "Thistlenettles Abzeichen",
 [1894] = "Gewerkschaftsausweis eines Minenarbeiters",
 [1931] = "Gewaltige Gnollklaue",
+[1942] = "Flasche mit Fusel",
 [1946] = "Marys Handspiegel",
 [1968] = "Ogermonokel",
 [2004] = "Grelin Whitebeards Tagebuch",

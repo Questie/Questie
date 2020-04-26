@@ -60,6 +60,7 @@ LangItemLookup["ptBR"] = {
 [1875] = "Distintivo de Cardurtiga",
 [1894] = "Carteira do Sindicato dos Mineradores",
 [1931] = "Enorme Garra de Gnoll",
+[1942] = "Garrafa de Pinga",
 [1946] = "Espelho de Maria",
 [1968] = "Monóculo do Ogro",
 [2004] = "Diário de Grolin Barbabranca",

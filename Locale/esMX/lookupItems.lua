@@ -60,6 +60,7 @@ LangItemLookup["esMX"] = {
 [1875] = "Distintivo de Cardortiga",
 [1894] = "Tarjeta del Sindicato Minero",
 [1931] = "Garra de gnoll enorme",
+[1942] = "Botella de licor",
 [1946] = "Espejo de Mary",
 [1968] = "Monóculo de ogro",
 [2004] = "Diario de Grelin Barbablanca",

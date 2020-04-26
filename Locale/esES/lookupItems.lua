@@ -60,6 +60,7 @@ LangItemLookup["esES"] = {
 [1875] = "Tarjeta de Ortigacardo",
 [1894] = "Tarjeta de sindicato de minero",
 [1931] = "Garra de gnoll enorme",
+[1942] = "Botella de licor",
 [1946] = "Prismáticos de Mary",
 [1968] = "Monóculo de ogro",
 [2004] = "Diario de Grelin Barbablanca",
