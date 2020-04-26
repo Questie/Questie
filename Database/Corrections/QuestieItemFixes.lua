@@ -803,6 +803,12 @@ function QuestieItemFixes:Load()
             [QuestieDB.itemKeys.npcDrops] = {},
             [QuestieDB.itemKeys.objectDrops] = {},
         },
+        [13546] = {
+            [QuestieDB.itemKeys.name] = "Bloodbelly Fish",
+            [QuestieDB.itemKeys.relatedQuests] = {5386},
+            [QuestieDB.itemKeys.npcDrops] = {11317},
+            [QuestieDB.itemKeys.objectDrops] = {},
+        },
         [14047] = {
             [QuestieDB.itemKeys.npcDrops] = {},
         },
