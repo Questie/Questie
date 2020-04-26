@@ -1382,6 +1382,33 @@ function QuestieQuestFixes:Load()
         [8171] = {
             [QuestieDB.questKeys.specialFlags] = 0,
         },
+        [8184] = {
+            [QuestieDB.questKeys.requiredClasses] = 1,
+        },
+        [8185] = {
+            [QuestieDB.questKeys.requiredClasses] = 2,
+        },
+        [8186] = {
+            [QuestieDB.questKeys.requiredClasses] = 8,
+        },
+        [8187] = {
+            [QuestieDB.questKeys.requiredClasses] = 4,
+        },
+        [8188] = {
+            [QuestieDB.questKeys.requiredClasses] = 64,
+        },
+        [8189] = {
+            [QuestieDB.questKeys.requiredClasses] = 128,
+        },
+        [8190] = {
+            [QuestieDB.questKeys.requiredClasses] = 256,
+        },
+        [8191] = {
+            [QuestieDB.questKeys.requiredClasses] = 16,
+        },
+        [8192] = {
+            [QuestieDB.questKeys.requiredClasses] = 1024,
+        },
         [8271] = {
             [QuestieDB.questKeys.requiredRaces] = 77,
         },
