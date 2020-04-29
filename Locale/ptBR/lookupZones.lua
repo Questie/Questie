@@ -34,14 +34,10 @@ LangZoneLookup['ptBR']= {
         [28] = "Terras Pestilentas Ocidentais",
         [40] = "Cerro Oeste",
         [11] = "Pantanal",
-
 		-- Starting Zones
 		[9] = "Northshire Valley",
 		[132] = "Coldridge Valley",
-		[154] = "Deathknell",
-		[188] = "Shadowglen",
-		[220] = "Red Cloud Mesa",
-		[363] = "Valley of Trials"
+		[154] = "Deathknell"
     },
     [2] = {
         [331] = "Vale Gris",
@@ -66,7 +62,11 @@ LangZoneLookup['ptBR']= {
         [1638] = "Penhasco do Trovão",
         [490] = "Cratera Un'Goro",
         [618] = "Hibérnia",
-		[978] = "Zul'Farrak"
+		[978] = "Zul'Farrak",
+		-- Starting Zones
+		[188] = "Shadowglen",
+		[220] = "Red Cloud Mesa",
+		[363] = "Valley of Trials"
     },
     [3] = {
         [2437] = "Cavernas Ígneas",
@@ -80,6 +80,7 @@ LangZoneLookup['ptBR']= {
         [796] = "Monastério Escarlate",
         [722] = "Urzal dos Mortos",
         [1337] = "Uldaman",
+        [1517] = "Uldaman",
         [2100] = "Maraudon",
         [1176] = "Zul'Farrak",
         [1477] = "Templo de Atal'Hakkar",
