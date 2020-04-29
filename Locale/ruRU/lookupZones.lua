@@ -33,7 +33,15 @@ LangZoneLookup["ruRU"] = {
         [1497] = "Подгород",
         [28] = "Западные чумные земли",
         [40] = "Западный край",
-        [11] = "Болотина"
+        [11] = "Болотина",
+
+		-- Starting Zones
+		[9] = "Northshire Valley",
+		[132] = "Coldridge Valley",
+		[154] = "Deathknell",
+		[188] = "Shadowglen",
+		[220] = "Red Cloud Mesa",
+		[363] = "Valley of Trials"
     },
     [2] = {
         [331] = "Ясеневый лес",

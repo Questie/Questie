@@ -340,3 +340,13 @@ local bindTruthTable = {
 function QuestieTracker.utils:IsBindTrue(bind, button)
     return bind and button and bindTruthTable[bind] and bindTruthTable[bind](button)
 end
+
+function QuestieTracker.utils:GetZoneNameByID(ZoneID)
+	for cId, cont in pairs(LangZoneLookup) do
+		for id, name in pairs(cont) do
+			if id == ZoneID then
+				return name
+			end
+		end
+	end
+end

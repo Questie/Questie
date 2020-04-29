@@ -33,7 +33,15 @@ LangZoneLookup['esMX']= {
         [1497] = "Entrañas",
         [28] = "Tierras de la Peste del Oeste",
         [40] = "Páramos de Poniente",
-        [11] = "Los Humedales"
+        [11] = "Los Humedales",
+
+		-- Starting Zones
+		[9] = "Northshire Valley",
+		[132] = "Coldridge Valley",
+		[154] = "Deathknell",
+		[188] = "Shadowglen",
+		[220] = "Red Cloud Mesa",
+		[363] = "Valley of Trials"
     },
     [2] = {
         [331] = "Vallefresno",
