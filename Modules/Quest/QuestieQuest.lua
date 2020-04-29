@@ -536,6 +536,8 @@ function QuestieQuest:IsComplete(quest)
     isComplete = IsQuestComplete(questId) -- true if the quest is both in the quest log and complete, false otherwise
     if isComplete then
         return 1
+	else
+		return 0
     end
 
     return 0

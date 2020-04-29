@@ -69,7 +69,7 @@ function QuestieOptionsDefaults:Load()
             stickyDurabilityFrame = true,
             trackerColorObjectives = 'white',
             trackerQuestPadding = 2,
-			trackerBackdropAlpha = 1,
+			trackerBackdropAlpha = 0,
             trackerSortObjectives = 'byComplete',
             trackerbindOpenQuestLog = 'left',
             trackerbindSetTomTom = 'ctrlleft',
@@ -77,7 +77,7 @@ function QuestieOptionsDefaults:Load()
 			trackerSetpoint = "TOPRIGHT",
             iconFadeLevel = 0.3,
             trackerLocked = true,
-			trackerBackdropEnabled = true,
+			trackerBackdropEnabled = false,
             trackerBackgroundEnabled = false,
         },
         char = {
