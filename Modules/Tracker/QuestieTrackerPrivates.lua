@@ -19,6 +19,7 @@ function _QuestieTracker:OnDragStart(button)
     if IsControlKeyDown() or not Questie.db.global.trackerLocked then
         startDragAnchor = {baseFrame:GetPoint()}
         baseFrame:StartMoving()
+		baseFrame:SetClampedToScreen(true)
         startDragPos = {baseFrame:GetPoint()}
     else
         if not IsMouselooking() then-- this is a HORRIBLE solution, why does MouselookStart have to break OnMouseUp (is there a MOUSE_RELEASED event that always fires?)

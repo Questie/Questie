@@ -33,7 +33,15 @@ LangZoneLookup['deDE']= {
         [1497] = "Undercity",
         [28] = "Westliche Pestländer",
         [40] = "Westfall",
-        [11] = "Sumpfland"
+        [11] = "Sumpfland",
+
+		-- Starting Zones
+		[9] = "Northshire Valley",
+		[132] = "Coldridge Valley",
+		[154] = "Deathknell",
+		[188] = "Shadowglen",
+		[220] = "Red Cloud Mesa",
+		[363] = "Valley of Trials"
     },
     [2] = {
         [331] = "Eschental",

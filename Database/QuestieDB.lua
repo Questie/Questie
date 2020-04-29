@@ -173,7 +173,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     end
 
     -- This function is required because direct calls of GetQuestTagInfo while
-    -- initializing the quest object either returns false values or will make the 
+    -- initializing the quest object either returns false values or will make the
     -- quest log appear empty
     function QO:IsDungeonQuest()
         local questType, _ = GetQuestTagInfo(questId)

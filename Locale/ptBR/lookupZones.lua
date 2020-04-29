@@ -33,7 +33,15 @@ LangZoneLookup['ptBR']= {
         [1497] = "Cidade Baixa",
         [28] = "Terras Pestilentas Ocidentais",
         [40] = "Cerro Oeste",
-        [11] = "Pantanal"
+        [11] = "Pantanal",
+
+		-- Starting Zones
+		[9] = "Northshire Valley",
+		[132] = "Coldridge Valley",
+		[154] = "Deathknell",
+		[188] = "Shadowglen",
+		[220] = "Red Cloud Mesa",
+		[363] = "Valley of Trials"
     },
     [2] = {
         [331] = "Vale Gris",
