@@ -34,14 +34,10 @@ LangZoneLookup['enUS']= {
         [28] = "Western Plaguelands",
         [40] = "Westfall",
         [11] = "Wetlands",
-
 		-- Starting Zones
 		[9] = "Northshire Valley",
 		[132] = "Coldridge Valley",
-		[154] = "Deathknell",
-		[188] = "Shadowglen",
-		[220] = "Red Cloud Mesa",
-		[363] = "Valley of Trials"
+		[154] = "Deathknell"
     },
     [2] = {
         [331] = "Ashenvale",
@@ -66,7 +62,11 @@ LangZoneLookup['enUS']= {
         [1638] = "Thunder Bluff",
         [490] = "Un'Goro Crater",
         [618] = "Winterspring",
-		[978] = "Zul'Farrak"
+		[978] = "Zul'Farrak",
+		-- Starting Zones
+		[188] = "Shadowglen",
+		[220] = "Red Cloud Mesa",
+		[363] = "Valley of Trials"
     },
     [3] = {
         [2437] = "Ragefire Chasm",
@@ -81,6 +81,7 @@ LangZoneLookup['enUS']= {
         [796] = "Scarlet Monastery",
         [722] = "Razorfen Downs",
         [1337] = "Uldaman",
+        [1517] = "Uldaman",
         [2100] = "Maraudon",
         [1176] = "Zul'Farrak",
         [1477] = "The Temple of Atal'Hakkar",
@@ -88,7 +89,7 @@ LangZoneLookup['enUS']= {
         [1583] = "Blackrock Spire",
         [2017] = "Stratholme",
         [2557] = "Dire Maul",
-        [2057] = "Scholomance",
+        [2057] = "Scholomance"
     },
     [5] = {
         [2597] = "Alterac Valley",

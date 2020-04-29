@@ -34,14 +34,10 @@ LangZoneLookup['deDE']= {
         [28] = "Westliche Pestländer",
         [40] = "Westfall",
         [11] = "Sumpfland",
-
 		-- Starting Zones
 		[9] = "Northshire Valley",
 		[132] = "Coldridge Valley",
-		[154] = "Deathknell",
-		[188] = "Shadowglen",
-		[220] = "Red Cloud Mesa",
-		[363] = "Valley of Trials"
+		[154] = "Deathknell"
     },
     [2] = {
         [331] = "Eschental",
@@ -66,7 +62,10 @@ LangZoneLookup['deDE']= {
         [1638] = "Thunder Bluff",
         [490] = "Un'Goro-Krater",
         [618] = "Winterspring",
-		[978] = "Zul'Farrak"
+		-- Starting Zones
+		[188] = "Shadowglen",
+		[220] = "Red Cloud Mesa",
+		[363] = "Valley of Trials"
     },
     [3] = {
         [2437] = "Flammenschlund",
@@ -80,14 +79,16 @@ LangZoneLookup['deDE']= {
         [796] = "Das Scharlachrote Kloster",
         [722] = "Die Hügel von Razorfen",
         [1337] = "Uldaman",
+        [1517] = "Uldaman",
         [2100] = "Maraudon",
+		[978] = "Zul'Farrak",
         [1176] = "Zul'Farrak",
         [1477] = "Der Tempel von Atal'Hakkar",
         [1584] = "Blackrock Tiefen",
         [1583] = "Blackrock Spitze",
         [2017] = "Stratholme",
         [2557] = "Düsterbruch",
-        [2057] = "Scholomance",
+        [2057] = "Scholomance"
     },
     [5] = {
         [2597] = "Alteractal",

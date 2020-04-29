@@ -687,7 +687,11 @@ function QuestieTracker:Update()
 			if qAZone == qBZone then
 				return qA.level < qB.level
 			else
-				return qAZone < qBZone
+				if qAZone ~= nil and qBZone ~= nil then
+					return qAZone < qBZone
+				else
+					return qAZone and qBzone
+				end
 			end
         end)
     end

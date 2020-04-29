@@ -34,14 +34,10 @@ LangZoneLookup['esMX']= {
         [28] = "Tierras de la Peste del Oeste",
         [40] = "Páramos de Poniente",
         [11] = "Los Humedales",
-
 		-- Starting Zones
 		[9] = "Northshire Valley",
 		[132] = "Coldridge Valley",
-		[154] = "Deathknell",
-		[188] = "Shadowglen",
-		[220] = "Red Cloud Mesa",
-		[363] = "Valley of Trials"
+		[154] = "Deathknell"
     },
     [2] = {
         [331] = "Vallefresno",
@@ -66,7 +62,11 @@ LangZoneLookup['esMX']= {
         [1638] = "Cima del Trueno",
         [490] = "Cráter de Un'Goro",
         [618] = "Cuna del Invierno",
-		[978] = "Zul'Farrak"
+		[978] = "Zul'Farrak",
+		-- Starting Zones
+		[188] = "Shadowglen",
+		[220] = "Red Cloud Mesa",
+		[363] = "Valley of Trials"
     },
     [3] = {
         [2437] = "Sima Ígnea",
@@ -80,6 +80,7 @@ LangZoneLookup['esMX']= {
         [796] = "Monasterio Escarlata",
         [722] = "Zahúrda Rajacieno",
         [1337] = "Uldaman",
+        [1517] = "Uldaman",
         [2100] = "Maraudon",
         [1176] = "Zul'Farrak",
         [1477] = "Templo de Atal'Hakkar",
@@ -87,7 +88,7 @@ LangZoneLookup['esMX']= {
         [1583] = "Cumbre de Roca Negra",
         [2017] = "Stratholme",
         [2557] = "La Masacre",
-        [2057] = "Scholomance",
+        [2057] = "Scholomance"
     },
     [5] = {
         [2597] = "Valle de Alterac",
