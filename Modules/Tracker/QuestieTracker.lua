@@ -1,5 +1,5 @@
 ---@class QuestieTracker
-local QuestieTracker = QuestieLoader:CreateModule("QuestieTracker");
+QuestieTracker = QuestieLoader:CreateModule("QuestieTracker");
 -------------------------
 --Import modules.
 -------------------------
@@ -18,7 +18,7 @@ local QuestieQuestTimers = QuestieLoader:ImportModule("QuestieQuestTimers")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 
-local _QuestieTracker = QuestieTracker.private
+_QuestieTracker = QuestieTracker.private
 _QuestieTracker.LineFrames = {}
 _QuestieTracker.ItemButtons = {}
 
@@ -623,8 +623,6 @@ function QuestieTracker:Update()
 	_QuestieTracker.expandHeader:Update()
     lineIndex = 0 -- zero because it simplifies GetNextLine()
     buttonIndex = 0
-	local class, _, classIndex = UnitClass("player")
-	classIndex = math.pow(2, classIndex-1)
     local line = nil
     order = {}
     local questCompletePercent = {}
@@ -672,16 +670,24 @@ function QuestieTracker:Update()
         table.sort(order, function(a, b)
             qA = QuestieDB:GetQuest(a)
             qB = QuestieDB:GetQuest(b)
-			--local qAZone, qBZone
-			if (qA.Zone == nil or qA.Zone > 10000) and qA.requiredClasses == classIndex then
-				qAZone = class
+			local qAZone, qBZone
+			if qA.zoneOrSort > 0 then
+				qAZone = QuestieTracker.utils:GetZoneNameByID(qA.zoneOrSort)
+			elseif qA.zoneOrSort < 0 then
+				qAZone = QuestieTracker.utils:GetCatagoryNameByID(qA.zoneOrSort)
 			else
-				qAZone = QuestieTracker.utils:GetZoneNameByID(qA.Zone)
+				qAZone = qA.zoneOrSort
+				Questie:Error("SortID: |cffffbf00"..qA.zoneOrSort.."|r was not found in the Database. Please file a bugreport at:")
+				Questie:Error("|cff00bfffhttps://github.com/AeroScripts/QuestieDev/issues|r")
 			end
-			if (qB.Zone == nil or qB.Zone > 10000) and qB.requiredClasses == classIndex then
-				qBZone = class
+			if qB.zoneOrSort > 0 then
+				qBZone = QuestieTracker.utils:GetZoneNameByID(qB.zoneOrSort)
+			elseif qB.zoneOrSort < 0 then
+				qBZone = QuestieTracker.utils:GetCatagoryNameByID(qB.zoneOrSort)
 			else
-				qBZone = QuestieTracker.utils:GetZoneNameByID(qB.Zone)
+				qBZone = qB.zoneOrSort
+				Questie:Error("SortID: |cffffbf00"..qB.zoneOrSort.."|r was not found in the Database. Please file a bugreport at:")
+				Questie:Error("|cff00bfffhttps://github.com/AeroScripts/QuestieDev/issues|r")
 			end
 			-- Sort by Zone then by Level to mimic QuestLog sorting
 			if qAZone == qBZone then
@@ -690,7 +696,7 @@ function QuestieTracker:Update()
 				if qAZone ~= nil and qBZone ~= nil then
 					return qAZone < qBZone
 				else
-					return qAZone and qBzone
+					return qAZone and qBZone
 				end
 			end
         end)
@@ -704,23 +710,19 @@ function QuestieTracker:Update()
         local quest = QuestieDB:GetQuest(questId)
 		local zoneName
 
-		-- Look for a class quest and use the players Class as the Zone name
-		if (quest.Zone == nil or quest.Zone > 10000) and quest.requiredClasses == classIndex then
-			zoneName = class
+		-- Valid ZoneID
+		if (quest.zoneOrSort) > 0 then
+			zoneName = QuestieTracker.utils:GetZoneNameByID(quest.zoneOrSort)
 
-			-- sudo zoneId for the collapse headers
-			quest.Zone = classIndex*10000
+		-- Valid CatagoryID
+		elseif (quest.zoneOrSort) < 0 then
+			zoneName = QuestieTracker.utils:GetCatagoryNameByID(quest.zoneOrSort)
 
-		-- If quest.Zone is less than 10k, assume it's a valid zoneID
-		elseif quest.Zone < 10000 then
-			zoneName = QuestieTracker.utils:GetZoneNameByID(quest.Zone)
-
-			-- If zoneName is still nil then chances are it's not in the DB
-			-- Here we're just assigning the zoneID to the zoneName so Questie doesn't freak out
-			if zoneName == nil then
-				zoneName = quest.Zone
-				Questie:Error("ZoneID: |cffffbf00"..quest.Zone.."|r was not found in Database. Please file a bugreport at: |cff00bfffhttps://github.com/AeroScripts/QuestieDev/issues|r")
-			end
+		-- Probobly not in the Database. Assign zoneOrSort ID so Questie doesn't error
+		else
+			zoneName = quest.zoneOrSort
+			Questie:Error("SortID: |cffffbf00"..quest.zoneOrSort.."|r was not found in the Database. Please file a bugreport at:")
+			Questie:Error("|cff00bfffhttps://github.com/AeroScripts/QuestieDev/issues|r")
 		end
 
         -- Make sure objective data is up to date
@@ -743,34 +745,20 @@ function QuestieTracker:Update()
 			if Questie.db.global.trackerSortObjectives == "byZone" then
 				if zoneCheck ~= zoneName then
 					firstQuestInZone = true
-					--[[
-					if _QuestieTracker.LineFrames[lineIndex] ~= nil and _QuestieTracker.LineFrames[lineIndex].Quest ~= nil and _QuestieTracker.LineFrames[lineIndex].Quest.Id ~= nil then
-						local prevLine = _QuestieTracker.LineFrames[lineIndex]
-						local prevQuestID = prevLine.Quest.Id
-						local prevQuest = QuestieDB:GetQuest(prevQuestID)
-						local prevComplete = QuestieQuest:IsComplete(prevQuest)
-						if prevComplete == 1 and prevLine.mode == "header" then
-							_QuestieTracker.LineFrames[lineIndex]:SetVerticalPadding(Questie.db.global.trackerQuestPadding+10)
-						end
-					end
-					--]]
 				end
 
-				if firstQuestInZone and zoneName then
-					if zoneName == nil then
-						zoneName = quest.Zone
-						Questie:Error("ZoneID: |cffffbf00"..quest.Zone.."|r was not found in Database. Please file a bugreport at: |cff00bfffhttps://github.com/AeroScripts/QuestieDev/issues|r")
-					end
+				if firstQuestInZone then
 					line = _QuestieTracker:GetNextLine()
 					line:SetMode("zone")
-					line:SetZone(quest.Zone)
+					line:SetZone(quest.zoneOrSort)
 					line.label:SetText("|cFFC0C0C0" .. zoneName .. "|r")
-					if Questie.db.char.collapsedZones[quest.Zone] then
+					if Questie.db.char.collapsedZones[quest.zoneOrSort] then
 						line.expandHeader:SetMode(0)
 					else
 						line.expandHeader:SetMode(1)
 					end
 					line.expandHeader:SetWidth(line.label:GetWidth())
+
 					line.expandHeader:SetHeight(Questie.db.global.trackerFontSizeHeader)
 					line.expandHeader:SetPoint("TOPLEFT", line, "TOPLEFT", 0, 0)
 					line.expandHeader:Show()
@@ -833,7 +821,7 @@ function QuestieTracker:Update()
 			-- Show item button depending on collapsed zone state
 			for i = 1, buttonIndex do
 				local button = _QuestieTracker.ItemButtons[i]
-				if button.itemID and button.line.Quest.Zone == quest.Zone and Questie.db.char.collapsedZones[quest.Zone] then
+				if button.itemID and button.line.Quest.Zone == quest.zoneOrSort and Questie.db.char.collapsedZones[quest.zoneOrSort] then
 					QuestieCombatQueue:Queue(function(self)
 						self:SetParent(UIParent)
 						self:Hide()
@@ -858,6 +846,7 @@ function QuestieTracker:Update()
 			end
 
 			if Questie.db.global.trackerSortObjectives == "byZone" then
+				line.label:SetPoint("TOPLEFT", line, "TOPLEFT", 0, 0)
 	            line.label:SetText("        " .. coloredQuestName)
 			else
 				line.label:SetText(coloredQuestName)
@@ -874,7 +863,7 @@ function QuestieTracker:Update()
 
             trackerWidth = math.max(trackerWidth, line.label:GetWidth())
 
-			if Questie.db.char.collapsedZones[quest.Zone] then
+			if Questie.db.char.collapsedZones[quest.zoneOrSort] then
 				lineIndex = lineIndex - 1;
 				line:Hide()
 				line.label:Hide()
@@ -895,14 +884,13 @@ function QuestieTracker:Update()
 				line:SetVerticalPadding(Questie.db.global.trackerQuestPadding)
                 line:Show()
                 line.label:Show()
-				if Questie.db.char.collapsedZones[quest.Zone] or Questie.db.char.collapsedQuests[quest.Id] then
+				if Questie.db.char.collapsedZones[quest.zoneOrSort] or Questie.db.char.collapsedQuests[quest.Id] then
 					lineIndex = lineIndex - 1;
 					line:Hide()
 					line.label:Hide()
 				end
             else
                 -- We didn't need the line so we can reuse it
-				line.label:SetPoint("TOPLEFT", line, "TOPLEFT", 0, 0)
 				lineIndex = lineIndex - 1
             end
 
@@ -935,13 +923,13 @@ function QuestieTracker:Update()
 
 					trackerWidth = math.max(trackerWidth, line.label:GetWidth())
 
-					if Questie.db.char.collapsedZones[quest.Zone] or Questie.db.char.collapsedQuests[quest.Id] then
+					if Questie.db.char.collapsedZones[quest.zoneOrSort] or Questie.db.char.collapsedQuests[quest.Id] then
 						lineIndex = lineIndex - 1;
 						line:Hide()
 						line.label:Hide()
 					end
                 end
-            end
+			end
         end
     end
     _QuestieTracker.highestIndex = lineIndex
@@ -1365,7 +1353,7 @@ _AQW_Insert = function(index, expire)
 
 		-- Make sure quests or zones (re)added to the tracker isn't in a minimized state
 		local quest = QuestieDB:GetQuest(qid)
-		local zoneId = quest.Zone
+		local zoneId = quest.zoneOrSort
 
 		if Questie.db.char.collapsedQuests[qid] == true then
 			Questie.db.char.collapsedQuests[qid] = nil

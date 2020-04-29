@@ -350,3 +350,34 @@ function QuestieTracker.utils:GetZoneNameByID(ZoneID)
 		end
 	end
 end
+
+function QuestieTracker.utils:GetCatagoryNameByID(CataID)
+	local catagoryTable = {
+		[-1]	= "Epic",
+		[-22] = "Seasonal",
+		[-24] = "Herbalism",
+		[-25] = "Battlegrounds",
+		[-61] = "Warlock",
+		[-82] = "Shaman",
+		[-121] = "Blacksmithing",
+		[-161] = "Mage",
+		[-182] = "Leatherworking",
+		[-221] = "Treasure Map",
+		[-261] = "Hunter",
+		[-263] = "Druid",
+		[-264] = "Tailoring",
+		[-284] = "Special",
+		[-324] = "First Aid",
+		[-364] = "Darkmoon Faire",
+		[-366] = "Lunar Festival",
+		[-368] = "Invasion",
+		[-370] = "Brewfest",
+		[-371] = "Inscription",
+		[-375] = "Pilgrim's Bounty",
+	}
+	for cat, name in pairs(catagoryTable) do
+		if CataID == cat then
+			return name
+		end
+	end
+end
