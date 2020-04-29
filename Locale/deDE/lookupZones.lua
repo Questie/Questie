@@ -56,6 +56,7 @@ LangZoneLookup['deDE']= {
         [493] = "Moonglade",
         [215] = "Mulgore",
         [1637] = "Orgrimmar",
+		[702] = "Rut'theran Village",
         [1377] = "Silithus",
         [406] = "Steinkrallengebirge",
         [440] = "Tanaris",
@@ -64,7 +65,8 @@ LangZoneLookup['deDE']= {
         [400] = "Tausend Nadeln",
         [1638] = "Thunder Bluff",
         [490] = "Un'Goro-Krater",
-        [618] = "Winterspring"
+        [618] = "Winterspring",
+		[978] = "Zul'Farrak"
     },
     [3] = {
         [2437] = "Flammenschlund",
