@@ -240,8 +240,8 @@ function QuestieOptions.tabs.tracker:Initialize()
             fontSizeHeader = {
                 type = "range",
                 order = 2.5,
-                name = function() return QuestieLocale:GetUIString('TRACKER_FONT_HEADER'); end,
-                desc = function() return QuestieLocale:GetUIString('TRACKER_FONT_HEADER_DESC'); end,
+                name = function() return QuestieLocale:GetUIString('TRACKER_FONT_SIZE_HEADER'); end,
+                desc = function() return QuestieLocale:GetUIString('TRACKER_FONT_SIZE_HEADER_DESC'); end,
                 width = "double",
                 min = 2,
                 max = 36,
@@ -254,11 +254,27 @@ function QuestieOptions.tabs.tracker:Initialize()
                     QuestieTracker:Update()
                 end,
             },
+            fontHeader = {
+                type = "select",
+                dialogControl = 'LSM30_Font',
+                order = 2.55,
+                values = AceGUIWidgetLSMlists.font,
+                style = 'dropdown',
+                name = function() return QuestieLocale:GetUIString('TRACKER_FONT_HEADER'); end,
+                desc = function() return QuestieLocale:GetUIString('TRACKER_FONT_HEADER_DESC'); end,
+                disabled = function() return not Questie.db.global.trackerEnabled; end,
+                get = function() return Questie.db.global.trackerFontHeader or "Friz Quadrata TT"; end,
+                set = function(info, value)
+                    Questie.db.global.trackerFontHeader = value
+                    QuestieTracker:ResetLinesForFontChange()
+                    QuestieTracker:Update()
+                end,
+            },
             fontSizeLine = {
                 type = "range",
                 order = 2.6,
-                name = function() return QuestieLocale:GetUIString('TRACKER_FONT_LINE'); end,
-                desc = function() return QuestieLocale:GetUIString('TRACKER_FONT_LINE_DESC'); end,
+                name = function() return QuestieLocale:GetUIString('TRACKER_FONT_SIZE_LINE'); end,
+                desc = function() return QuestieLocale:GetUIString('TRACKER_FONT_SIZE_LINE_DESC'); end,
                 width = "double",
                 min = 2,
                 max = 36,
@@ -271,6 +287,22 @@ function QuestieOptions.tabs.tracker:Initialize()
                     QuestieTracker:Update()
                 end,
             },
+            fontLine = {
+                type = "select",
+                dialogControl = 'LSM30_Font',
+                order = 2.65,
+                values = AceGUIWidgetLSMlists.font,
+                style = 'dropdown',
+                name = function() return QuestieLocale:GetUIString('TRACKER_FONT_LINE'); end,
+                desc = function() return QuestieLocale:GetUIString('TRACKER_FONT_LINE_DESC'); end,
+                disabled = function() return not Questie.db.global.trackerEnabled; end,
+                get = function() return Questie.db.global.trackerFontLine or "Friz Quadrata TT"; end,
+                set = function(info, value)
+                    Questie.db.global.trackerFontLine = value
+                    QuestieTracker:ResetLinesForFontChange()
+                    QuestieTracker:Update()
+                end,
+            },            
             questPadding = {
                 type = "range",
                 order = 2.7,

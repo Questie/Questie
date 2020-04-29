@@ -31,6 +31,8 @@ local buttonIndex = 0
 local lastAQW = GetTime()
 local durabilityInitialPosition = nil
 
+local LSM30 = LibStub("LibSharedMedia-3.0", true)
+
 -- used for fading the background of the tracker
 _QuestieTracker.FadeTickerValue = 0
 _QuestieTracker.FadeTickerDirection = false -- true to fade in
@@ -177,10 +179,10 @@ function QuestieTracker:Initialize()
             if mode ~= self.mode then
                 self.mode = mode
                 if mode == "header" then
-                    self.label:SetFont(self.label:GetFont(), Questie.db.global.trackerFontSizeHeader)
+                    self.label:SetFont(LSM30:Fetch('font', Questie.db.global.trackerFontHeader) or STANDARD_TEXT_FONT, Questie.db.global.trackerFontSizeHeader)
                     self:SetHeight(Questie.db.global.trackerFontSizeHeader)
                 else
-                    self.label:SetFont(self.label:GetFont(), Questie.db.global.trackerFontSizeLine)
+                    self.label:SetFont(LSM30:Fetch('font', Questie.db.global.trackerFontLine) or STANDARD_TEXT_FONT, Questie.db.global.trackerFontSizeLine)
                     self:SetHeight(Questie.db.global.trackerFontSizeLine)
                 end
             end
@@ -283,6 +285,11 @@ function QuestieTracker:Initialize()
     end
 
     QuestieTracker.started = true
+
+    C_Timer.After(0.1, function() -- quick fix for font changes not being applied on login
+        QuestieTracker:ResetLinesForFontChange()
+        QuestieTracker:Update()
+    end)
 end
 
 function QuestieTracker:ResetLocation()
@@ -433,7 +440,7 @@ function _QuestieTracker:CreateActiveQuestsFrame()
 
     frm.Update = function(self)
         local _, activeQuests = GetNumQuestLogEntries()
-        self.label:SetFont(self.label:GetFont(), Questie.db.global.trackerFontSizeHeader)
+        self.label:SetFont(LSM30:Fetch('font', Questie.db.global.trackerFontHeader) or STANDARD_TEXT_FONT, Questie.db.global.trackerFontSizeHeader)
         self.label:SetText(QuestieLocale:GetUIString("TRACKER_ACTIVE_QUESTS") .. tostring(activeQuests) .. "/20")
         self.label:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", 26, Questie.db.global.trackerFontSizeHeader + 2)
         self:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", 26, Questie.db.global.trackerFontSizeHeader + 2)
