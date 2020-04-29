@@ -56,6 +56,7 @@ LangZoneLookup['frFR']= {
         [493] = "Reflet-de-Lune",
         [215] = "Mulgore",
         [1637] = "Orgrimmar",
+		[702] = "Rut'theran Village",
         [1377] = "Silithus",
         [406] = "Les Serres-Rocheuses",
         [440] = "Tanaris",
@@ -65,6 +66,7 @@ LangZoneLookup['frFR']= {
         [1638] = "Thunder Bluff",
         [490] = "Cratère d'Un'Goro",
         [618] = "Berceau-de-l'Hiver",
+		[978] = "Zul'Farrak"
     },
     [3] = {
         [2437] = "Gouffre de Ragefeu",

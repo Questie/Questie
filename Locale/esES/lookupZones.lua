@@ -56,6 +56,7 @@ LangZoneLookup['esES']= {
         [493] = "Claro de la Luna",
         [215] = "Mulgore",
         [1637] = "Orgrimmar",
+		[702] = "Rut'theran Village",
         [1377] = "Silithus",
         [406] = "Sierra Espolón",
         [440] = "Tanaris",
@@ -64,7 +65,8 @@ LangZoneLookup['esES']= {
         [400] = "Las Mil Agujas",
         [1638] = "Cima del Trueno",
         [490] = "Cráter de Un'Goro",
-        [618] = "Cuna del Invierno"
+        [618] = "Cuna del Invierno",
+		[978] = "Zul'Farrak"
     },
     [3] = {
         [2437] = "Sima Ígnea",

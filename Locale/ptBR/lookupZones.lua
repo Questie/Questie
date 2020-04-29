@@ -56,6 +56,7 @@ LangZoneLookup['ptBR']= {
         [493] = "Clareira da Lua",
         [215] = "Mulgore",
         [1637] = "Orgrimmar",
+		[702] = "Rut'theran Village",
         [1377] = "Silithus",
         [406] = "Cordilheira das Torres de Pedra",
         [440] = "Tanaris",
@@ -64,7 +65,8 @@ LangZoneLookup['ptBR']= {
         [400] = "Mil Agulhas",
         [1638] = "Penhasco do Trovão",
         [490] = "Cratera Un'Goro",
-        [618] = "Hibérnia"
+        [618] = "Hibérnia",
+		[978] = "Zul'Farrak"
     },
     [3] = {
         [2437] = "Cavernas Ígneas",
