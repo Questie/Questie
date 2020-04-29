@@ -33,7 +33,15 @@ LangZoneLookup['koKR']= {
         [1497] = "언더시티",
         [28] = "서부 역병지대",
         [40] = "서부 몰락지대",
-        [11] = "저습지"
+        [11] = "저습지",
+
+		-- Starting Zones
+		[9] = "Northshire Valley",
+		[132] = "Coldridge Valley",
+		[154] = "Deathknell",
+		[188] = "Shadowglen",
+		[220] = "Red Cloud Mesa",
+		[363] = "Valley of Trials"
     },
     [2] = {
         [331] = "잿빛 골짜기",

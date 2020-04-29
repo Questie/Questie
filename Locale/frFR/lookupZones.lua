@@ -34,6 +34,14 @@ LangZoneLookup['frFR']= {
         [28] = "Maleterres de l'ouest",
         [40] = "Marche de l'Ouest",
         [11] = "Les Paluns",
+
+		-- Starting Zones
+		[9] = "Northshire Valley",
+		[132] = "Coldridge Valley",
+		[154] = "Deathknell",
+		[188] = "Shadowglen",
+		[220] = "Red Cloud Mesa",
+		[363] = "Valley of Trials"
     },
     [2] = {
         [331] = "Orneval",

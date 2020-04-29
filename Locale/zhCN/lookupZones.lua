@@ -33,7 +33,15 @@ LangZoneLookup['zhCN']= {
         [1497] = "幽暗城",
         [28] = "西瘟疫之地",
         [40] = "西部荒野",
-        [11] = "湿地"
+        [11] = "湿地",
+
+		-- Starting Zones
+		[9] = "Northshire Valley",
+		[132] = "Coldridge Valley",
+		[154] = "Deathknell",
+		[188] = "Shadowglen",
+		[220] = "Red Cloud Mesa",
+		[363] = "Valley of Trials"
     },
     [2] = {
         [331] = "灰谷",

@@ -33,7 +33,15 @@ LangZoneLookup['enUS']= {
         [1497] = "Undercity",
         [28] = "Western Plaguelands",
         [40] = "Westfall",
-        [11] = "Wetlands"
+        [11] = "Wetlands",
+
+		-- Starting Zones
+		[9] = "Northshire Valley",
+		[132] = "Coldridge Valley",
+		[154] = "Deathknell",
+		[188] = "Shadowglen",
+		[220] = "Red Cloud Mesa",
+		[363] = "Valley of Trials"
     },
     [2] = {
         [331] = "Ashenvale",
@@ -65,6 +73,7 @@ LangZoneLookup['enUS']= {
         [209] = "Shadowfang Keep",
         [719] = "Blackfathom Deeps",
         [717] = "The Stockades",
+		[133] = "Gnomeregan",
         [721] = "Gnomeregan",
         [491] = "Razorfen Kraul",
         [796] = "Scarlet Monastery",
