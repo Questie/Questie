@@ -34,14 +34,10 @@ LangZoneLookup['frFR']= {
         [28] = "Maleterres de l'ouest",
         [40] = "Marche de l'Ouest",
         [11] = "Les Paluns",
-
 		-- Starting Zones
 		[9] = "Northshire Valley",
 		[132] = "Coldridge Valley",
-		[154] = "Deathknell",
-		[188] = "Shadowglen",
-		[220] = "Red Cloud Mesa",
-		[363] = "Valley of Trials"
+		[154] = "Deathknell"
     },
     [2] = {
         [331] = "Orneval",
@@ -66,7 +62,11 @@ LangZoneLookup['frFR']= {
         [1638] = "Thunder Bluff",
         [490] = "Cratère d'Un'Goro",
         [618] = "Berceau-de-l'Hiver",
-		[978] = "Zul'Farrak"
+		[978] = "Zul'Farrak",
+		-- Starting Zones
+		[188] = "Shadowglen",
+		[220] = "Red Cloud Mesa",
+		[363] = "Valley of Trials"
     },
     [3] = {
         [2437] = "Gouffre de Ragefeu",
@@ -80,6 +80,7 @@ LangZoneLookup['frFR']= {
         [796] = "Monastère écarlate",
         [722] = "Souilles de Tranchebauge",
         [1337] = "Uldaman",
+        [1517] = "Uldaman",
         [2100] = "Maraudon",
         [1176] = "Zul'Farrak",
         [1477] = "Le temple d'Atal'Hakkar",
@@ -87,7 +88,7 @@ LangZoneLookup['frFR']= {
         [1583] = "Pic Blackrock",
         [2017] = "Stratholme",
         [2557] = "Hache-tripes",
-        [2057] = "Scholomance",
+        [2057] = "Scholomance"
     },
     [5] = {
         [2597] = "Vallée d'Alterac",

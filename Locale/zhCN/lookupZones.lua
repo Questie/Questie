@@ -34,14 +34,10 @@ LangZoneLookup['zhCN']= {
         [28] = "西瘟疫之地",
         [40] = "西部荒野",
         [11] = "湿地",
-
 		-- Starting Zones
 		[9] = "Northshire Valley",
 		[132] = "Coldridge Valley",
-		[154] = "Deathknell",
-		[188] = "Shadowglen",
-		[220] = "Red Cloud Mesa",
-		[363] = "Valley of Trials"
+		[154] = "Deathknell"
     },
     [2] = {
         [331] = "灰谷",
@@ -66,7 +62,11 @@ LangZoneLookup['zhCN']= {
         [1638] = "雷霆崖",
         [490] = "安戈洛环形山",
         [618] = "冬泉谷",
-		[978] = "Zul'Farrak"
+		[978] = "Zul'Farrak",
+		-- Starting Zones
+		[188] = "Shadowglen",
+		[220] = "Red Cloud Mesa",
+		[363] = "Valley of Trials"
     },
     [3] = {
         [2437] = "怒焰裂谷",
@@ -80,6 +80,7 @@ LangZoneLookup['zhCN']= {
         [796] = "血色修道院",
         [722] = "剃刀高地",
         [1337] = "奥达曼",
+        [1517] = "奥达曼",
         [2100] = "玛拉顿",
         [1176] = "祖尔法拉克",
         [1477] = "阿塔哈卡神庙",
@@ -87,7 +88,7 @@ LangZoneLookup['zhCN']= {
         [1583] = "黑石塔",
         [2017] = "斯坦索姆",
         [2557] = "厄运之槌",
-        [2057] = "通灵学院",
+        [2057] = "通灵学院"
     },
     [5] = {
         [2597] = "奥特兰克山谷",

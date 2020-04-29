@@ -34,14 +34,10 @@ LangZoneLookup['koKR']= {
         [28] = "서부 역병지대",
         [40] = "서부 몰락지대",
         [11] = "저습지",
-
 		-- Starting Zones
 		[9] = "Northshire Valley",
 		[132] = "Coldridge Valley",
-		[154] = "Deathknell",
-		[188] = "Shadowglen",
-		[220] = "Red Cloud Mesa",
-		[363] = "Valley of Trials"
+		[154] = "Deathknell"
     },
     [2] = {
         [331] = "잿빛 골짜기",
@@ -66,7 +62,11 @@ LangZoneLookup['koKR']= {
         [1638] = "썬더 블러프",
         [490] = "운고로 분화구",
         [618] = "여명의 설원",
-		[978] = "Zul'Farrak"
+		[978] = "Zul'Farrak",
+		-- Starting Zones
+		[188] = "Shadowglen",
+		[220] = "Red Cloud Mesa",
+		[363] = "Valley of Trials"
     },
     [3] = {
         [2437] = "성난불길 협곡",
@@ -80,6 +80,7 @@ LangZoneLookup['koKR']= {
         [796] = "붉은십자군 수도원",
         [722] = "가시덩굴 구릉",
         [1337] = "울다만",
+        [1517] = "울다만",
         [2100] = "마라우돈",
         [1176] = "줄파락",
         [1477] = "아탈학카르 신전",
@@ -87,7 +88,7 @@ LangZoneLookup['koKR']= {
         [1583] = "검은바위 첨탑",
         [2017] = "스트라솔룸",
         [2557] = "혈투의 전장",
-        [2057] = "스칼로맨스",
+        [2057] = "스칼로맨스"
     },
     [5] = {
         [2597] = "알터랙 계곡",
