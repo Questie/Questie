@@ -272,13 +272,20 @@ function QuestieTracker:CreateBaseFrame()
         end
     end
 
-    frm:SetMovable(true)
-    frm:EnableMouse(true)
-    frm:RegisterForDrag("LeftButton")
-    frm:SetScript("OnDragStart", _QuestieTracker.OnDragStart)
-    frm:SetScript("OnDragStop", _QuestieTracker.OnDragStop)
-    frm:SetScript("OnEnter", _OnEnter)
-    frm:SetScript("OnLeave", _OnLeave)
+	--[[
+	frm:SetMovable(true)
+	frm:RegisterForDrag("LeftButton")
+	frm:SetScript("OnDragStart", _QuestieTracker.OnDragStart)
+	frm:SetScript("OnDragStop", _QuestieTracker.OnDragStop)
+	--]]
+
+	frm:SetMovable(true)
+	frm:EnableMouse(true)
+	frm:SetScript("OnMouseDown", _QuestieTracker.OnDragStart)
+	frm:SetScript("OnMouseUp", _QuestieTracker.OnDragStop)
+
+	frm:SetScript("OnEnter", _OnEnter)
+	frm:SetScript("OnLeave", _OnLeave)
 
     frm:Hide()
 
@@ -377,7 +384,6 @@ function _QuestieTracker:CreateActiveQuestsFrame()
     else
         expandHeader:SetMode(0) -- maximized
     end
-	expandHeader:SetMovable(true)
     expandHeader:EnableMouse(true)
 	expandHeader:RegisterForDrag("LeftButton")
     expandHeader:RegisterForClicks("LeftButtonUp", "RightButtonUp")
@@ -471,7 +477,6 @@ function QuestieTracker:CreateTrackedQuestButtons()
             self.frame:SetHeight(self:GetHeight())
         end
 
-		frm:SetMovable(true)
         frm:EnableMouse(true)
         frm:RegisterForDrag("LeftButton")
         frm:RegisterForClicks("RightButtonUp", "LeftButtonUp")
