@@ -106,9 +106,6 @@ _PLAYER_LOGIN = function()
     C_Timer.After(1, function()
         QuestieDB:Initialize()
         QuestieLib:CacheAllItemNames()
-
-        -- Initialize Journey Window
-        QuestieJourney.Initialize()
     end)
     C_Timer.After(4, function()
         -- We want the framerate to be HIGH!!!

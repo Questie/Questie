@@ -40,7 +40,7 @@ function NotePopup()
         notesPopupWin:EnableResize(false)
         notesPopupWin.frame:SetFrameStrata("HIGH")
 
-        journeyFrame.frame.frame:SetFrameStrata("MEDIUM")
+        QuestieJourney.frame.frame:SetFrameStrata("MEDIUM")
 
         notesPopupWinIsOpen = true
         _G["QuestieJourneyFrame"] = notesPopupWin.frame
@@ -48,9 +48,9 @@ function NotePopup()
         notesPopupWin:SetCallback("OnClose", function()
             notesPopupWin = nil
             notesPopupWinIsOpen = false
-            journeyFrame.frame.frame:SetFrameStrata("FULLSCREEN_DIALOG")
+            QuestieJourney.frame.frame:SetFrameStrata("FULLSCREEN_DIALOG")
 
-            _G["QuestieJourneyFrame"] = journeyFrame.frame.frame
+            _G["QuestieJourneyFrame"] = QuestieJourney.frame
         end)
 
         -- Setup Note Taking
@@ -137,45 +137,52 @@ function QuestieJourney:Initialize()
 		end
 	end
 
-	journeyFrame.frame = AceGUI:Create("Frame")
+    QuestieJourney:BuildMainFrame()
+end
 
-    journeyFrame.frame:SetTitle(QuestieLocale:GetUIString('JOURNEY_TITLE', UnitName("player")))
-    journeyFrame.frame:SetLayout("Fill")
+function QuestieJourney:BuildMainFrame()
+   	if (QuestieJourney.frame == nil) then
+        local frame = AceGUI:Create("Frame")
+        frame:SetCallback("OnClose", function()
+            isWindowShown = false
+            if notesPopupWinIsOpen then
+                notesPopupWin:Hide()
+                notesPopupWin = nil
+                notesPopupWinIsOpen = false
+            end
+        end)
+        frame:SetTitle(QuestieLocale:GetUIString('JOURNEY_TITLE', UnitName("player")))
+        frame:SetLayout("Fill")
 
-    QuestieJourney.tabGroup = AceGUI:Create("TabGroup")
-    QuestieJourney.tabGroup:SetLayout("Flow")
-    QuestieJourney.tabGroup:SetTabs({
-        {
-            text = QuestieLocale:GetUIString('JOUNREY_TAB'),
-            value="journey"
-        },
-        {
-            text = QuestieLocale:GetUIString('JOURNEY_ZONE_TAB'),
-            value="zone"
-        },
-        {
-            text = QuestieLocale:GetUIString('JOURNEY_SEARCH_TAB'),
-            value="search"
-        }
-    })
-    QuestieJourney.tabGroup:SetCallback("OnGroupSelected", function(widget, event, group) _QuestieJourney:JourneySelectTabGroup(widget, event, group) end)
-    QuestieJourney.tabGroup:SelectTab("journey")
+        QuestieJourney.frame = frame
 
-    journeyFrame.frame:AddChild(QuestieJourney.tabGroup)
+        local tabGroup = AceGUI:Create("TabGroup")
+        tabGroup:SetLayout("Flow")
+        tabGroup:SetTabs({
+            {
+                text = QuestieLocale:GetUIString('JOUNREY_TAB'),
+                value="journey"
+            },
+            {
+                text = QuestieLocale:GetUIString('JOURNEY_ZONE_TAB'),
+                value="zone"
+            },
+            {
+                text = QuestieLocale:GetUIString('JOURNEY_SEARCH_TAB'),
+                value="search"
+            }
+        })
+        tabGroup:SetCallback("OnGroupSelected", function(widget, event, group) _QuestieJourney:JourneySelectTabGroup(widget, event, group) end)
+        tabGroup:SelectTab("journey")
 
-    journeyFrame.frame:SetCallback("OnClose", function()
-        isWindowShown = false
-        if notesPopupWinIsOpen then
-            notesPopupWin:Hide()
-            notesPopupWin = nil
-            notesPopupWinIsOpen = false
-        end
-    end)
+        QuestieJourney.tabGroup = tabGroup
 
-    journeyFrame.frame:Hide()
+        QuestieJourney.frame:AddChild(QuestieJourney.tabGroup)
 
-    _G["QuestieJourneyFrame"] = journeyFrame.frame.frame
-    tinsert(UISpecialFrames, "QuestieJourneyFrame")
+        QuestieJourney.frame:Hide()
+        _G["QuestieJourneyFrame"] = QuestieJourney.frame
+        table.insert(UISpecialFrames, "QuestieJourneyFrame")
+    end
 end
 
 function QuestieJourney:IsShown()
@@ -191,10 +198,10 @@ function QuestieJourney:ToggleJourneyWindow()
             _QuestieJourney.treeCache = treeGroup
         end
 
-        journeyFrame.frame:Show()
+        QuestieJourney.frame:Show()
         isWindowShown = true
     else
-        journeyFrame.frame:Hide()
+        QuestieJourney.frame:Hide()
         isWindowShown = false
     end
 end
