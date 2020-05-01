@@ -626,26 +626,24 @@ end
     Check `LangZoneLookup` for the available IDs
 ]]
 function QuestieDB:GetQuestsByZoneId(zoneId)
-
     if not zoneId then
         return nil;
     end
-
-    -- in in cache return that
+    -- is in cache return that
     if _QuestieDB.zoneCache[zoneId] then
         return _QuestieDB.zoneCache[zoneId]
     end
-
     local zoneQuests = {};
+	local areQuestsInZone = nil
     local alternativeZoneID = QuestieDBZone:GetAlternativeZoneId(zoneId)
     -- loop over all quests to populate a zone
     for qid, _ in pairs(QuestieDB.questData) do
         local quest = QuestieDB:GetQuest(qid);
-
         if quest then
             if quest.zoneOrSort > 0 then
                 if (quest.zoneOrSort == zoneId or (alternativeZoneID and quest.zoneOrSort == alternativeZoneID)) then
                     zoneQuests[qid] = quest;
+					areQuestsInZone = true;
                 end
             elseif quest.Starts.NPC and zoneQuests[qid] == nil then
                 local npc = QuestieDB:GetNPC(quest.Starts.NPC[1]);
@@ -654,6 +652,7 @@ function QuestieDB:GetQuestsByZoneId(zoneId)
                     for zone, _ in pairs(npc.spawns) do
                         if zone == zoneId  or (alternativeZoneID and zone == alternativeZoneID) then
                             zoneQuests[qid] = quest;
+							areQuestsInZone = true;
                         end
                     end
                 end
@@ -664,15 +663,20 @@ function QuestieDB:GetQuestsByZoneId(zoneId)
                     for zone, _ in pairs(obj.spawns) do
                         if zone == zoneId  or (alternativeZoneID and zone == alternativeZoneID) then
                             zoneQuests[qid] = quest;
+							areQuestsInZone = true;
                         end
                     end
                 end
             end
         end
     end
-
-    _QuestieDB.zoneCache[zoneId] = zoneQuests;
-    return zoneQuests;
+	if areQuestsInZone then
+		_QuestieDB.zoneCache[zoneId] = zoneQuests;
+		return zoneQuests;
+	else
+		table.remove(_QuestieDB.zoneCache, zoneId);
+		return false;
+	end
 end
 
 ---------------------------------------------------------------------------------------------------
