@@ -126,7 +126,7 @@ function QuestieJourney:Initialize()
 	for cont, zone in pairs(LangZoneLookup) do
 		QuestieJourney.zones[cont] = {}
 		for zoneId, zoneName in pairs(zone) do
-			local areQuestsInZone = QuestieDB:GetQuestsByZoneId(zoneId)
+			local areQuestsInZone = _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
 			if areQuestsInZone then
 				QuestieJourney.zones[cont][zoneId] = zoneName
 			end
