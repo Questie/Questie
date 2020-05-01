@@ -342,10 +342,10 @@ function QuestieTracker.utils:IsBindTrue(bind, button)
 end
 
 function QuestieTracker.utils:GetZoneNameByID(ZoneID)
-	for cId, cont in pairs(LangZoneLookup) do
-		for id, name in pairs(cont) do
-			if id == ZoneID then
-				return name
+	for cont, zone in pairs(LangZoneLookup) do
+		for zoneId, zoneName in pairs(zone) do
+			if zoneId == ZoneID then
+				return zoneName
 			end
 		end
 	end
