@@ -188,6 +188,7 @@ function Questie:OnInitialize()
     Questie:RegisterChatCommand("questie", "HandleSlash")
 
     QuestieOptions:Initialize()
+    QuestieJourney:Initialize()
 
     --Initialize the DB settings.
     Questie:Debug(DEBUG_DEVELOP, QuestieLocale:GetUIString('DEBUG_CLUSTER', Questie.db.global.clusterLevelHotzone))
