@@ -17,10 +17,10 @@ function _QuestieTracker:OnDragStart(button)
     _QuestieTracker.isMoving = true
 
     if IsControlKeyDown() or not Questie.db.global.trackerLocked then
-        startDragAnchor = {baseFrame:GetPoint()}
+        baseFrame:SetClampedToScreen(true)
+		startDragAnchor = {baseFrame:GetPoint()}
         baseFrame:StartMoving()
-		baseFrame:SetClampedToScreen(true)
-        startDragPos = {baseFrame:GetPoint()}
+		startDragPos = {baseFrame:GetPoint()}
     else
         if not IsMouselooking() then-- this is a HORRIBLE solution, why does MouselookStart have to break OnMouseUp (is there a MOUSE_RELEASED event that always fires?)
             MouselookStart() -- unfortunately, even though we only want to catch right click for a context menu
@@ -52,7 +52,8 @@ function _QuestieTracker:OnDragStop()
 
     startDragAnchor[4] = startDragAnchor[4] + xMoved
     startDragAnchor[5] = startDragAnchor[5] + yMoved
-    QuestieCombatQueue:Queue(function()
+
+	QuestieCombatQueue:Queue(function()
         baseFrame:ClearAllPoints()
         baseFrame:SetPoint(unpack(startDragAnchor))
         Questie.db.char.TrackerLocation = {baseFrame:GetPoint()}
