@@ -126,8 +126,18 @@ end
 QuestieJourney.tabGroup = nil
 function QuestieJourney:Initialize()
     QuestieJourney.continents = LangContinentLookup
-    QuestieJourney.zones = LangZoneLookup
-    journeyFrame.frame = AceGUI:Create("Frame")
+
+	for cont, zone in pairs(LangZoneLookup) do
+		QuestieJourney.zones[cont] = {}
+		for zoneId, zoneName in pairs(zone) do
+			local areQuestsInZone = QuestieDB:GetQuestsByZoneId(zoneId)
+			if areQuestsInZone then
+				QuestieJourney.zones[cont][zoneId] = zoneName
+			end
+		end
+	end
+
+	journeyFrame.frame = AceGUI:Create("Frame")
 
     journeyFrame.frame:SetTitle(QuestieLocale:GetUIString('JOURNEY_TITLE', UnitName("player")))
     journeyFrame.frame:SetLayout("Fill")
