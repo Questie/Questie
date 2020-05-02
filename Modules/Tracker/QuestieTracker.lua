@@ -1,5 +1,5 @@
 ---@class QuestieTracker
-QuestieTracker = QuestieLoader:CreateModule("QuestieTracker");
+local QuestieTracker = QuestieLoader:CreateModule("QuestieTracker");
 -------------------------
 --Import modules.
 -------------------------
@@ -18,7 +18,7 @@ local QuestieQuestTimers = QuestieLoader:ImportModule("QuestieQuestTimers")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 
-_QuestieTracker = QuestieTracker.private
+local _QuestieTracker = QuestieTracker.private
 _QuestieTracker.LineFrames = {}
 _QuestieTracker.ItemButtons = {}
 
