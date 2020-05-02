@@ -1,5 +1,5 @@
 ---@class QuestieTracker
-local QuestieTracker = QuestieLoader:CreateModule("QuestieTracker");
+QuestieTracker = QuestieLoader:CreateModule("QuestieTracker");
 -------------------------
 --Import modules.
 -------------------------
@@ -18,7 +18,7 @@ local QuestieQuestTimers = QuestieLoader:ImportModule("QuestieQuestTimers")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 
-local _QuestieTracker = QuestieTracker.private
+_QuestieTracker = QuestieTracker.private
 _QuestieTracker.LineFrames = {}
 _QuestieTracker.ItemButtons = {}
 
@@ -251,6 +251,12 @@ function QuestieTracker:Initialize()
     frm:SetHeight(1)
 	frm:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", (Questie.db.global.trackerFontSizeHeader*2.75), -(Questie.db.global.trackerFontSizeHeader*2.25))
 
+    frm.Update = function(self)
+        frm:SetWidth(1)
+        frm:SetHeight(1)
+        frm:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", (Questie.db.global.trackerFontSizeHeader*2.75), -(Questie.db.global.trackerFontSizeHeader*2.25))
+    end
+
 	frm:EnableMouse(true)
     frm:RegisterForDrag("LeftButton")
     frm:RegisterForClicks("RightButtonUp", "LeftButtonUp")
@@ -422,13 +428,14 @@ function _QuestieTracker:CreateActiveQuestsFrame()
     frm.label:SetText(QuestieLocale:GetUIString("TRACKER_ACTIVE_QUESTS") .. tostring(numQuests) .. "/20")
 	frm.label:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", 0,0)
     frm:SetWidth(frm.label:GetWidth())
-    frm:SetHeight(Questie.db.global.trackerFontSizeHeader)
+    frm:SetHeight(frm.label:GetHeight())
 	frm:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", 0,0)
 
 	frm.Update = function(self)
         local _, activeQuests = GetNumQuestLogEntries()
         self.label:SetFont(LSM30:Fetch('font', Questie.db.global.trackerFontHeader) or STANDARD_TEXT_FONT, Questie.db.global.trackerFontSizeHeader)
         self.label:SetText(QuestieLocale:GetUIString("TRACKER_ACTIVE_QUESTS") .. tostring(activeQuests) .. "/20")
+        self:SetHeight(Questie.db.global.trackerFontSizeHeader)
         self.label:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", (Questie.db.global.trackerFontSizeHeader), -(Questie.db.global.trackerFontSizeHeader))
 		if not Questie.db.char.isTrackerExpanded then
 			_QuestieTracker.baseFrame:Hide()
@@ -1416,6 +1423,8 @@ end
 function QuestieTracker:ResetLinesForFontChange()
     for i = 1, trackerLineCount do
         _QuestieTracker.LineFrames[i].mode = nil
+        _QuestieTracker.trackedQuestsFrame:Hide()
+        _QuestieTracker.trackedQuestsFrame:Update()
     end
 end
 

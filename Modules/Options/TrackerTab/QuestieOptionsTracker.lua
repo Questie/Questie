@@ -208,6 +208,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.trackerSortObjectives; end,
                 set = function(input, key)
                     Questie.db.global.trackerSortObjectives = key
+                    QuestieTracker:ResetLinesForFontChange()
                     QuestieTracker:Update()
                 end,
             },
@@ -350,6 +351,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.trackerQuestPadding; end,
                 set = function (info, value)
                     Questie.db.global.trackerQuestPadding = value
+                    QuestieTracker:ResetLinesForFontChange()
                     QuestieTracker:Update()
                 end,
             },
