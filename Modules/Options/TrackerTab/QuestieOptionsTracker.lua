@@ -310,7 +310,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 name = function() return QuestieLocale:GetUIString('TRACKER_FONT_SIZE_LINE'); end,
                 desc = function() return QuestieLocale:GetUIString('TRACKER_FONT_SIZE_LINE_DESC'); end,
                 width = "double",
-                min = 10,
+                min = 9,
                 max = 18,
                 step = 1,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
