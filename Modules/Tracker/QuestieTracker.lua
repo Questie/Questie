@@ -357,13 +357,6 @@ function QuestieTracker:CreateBaseFrame()
         end
     end
 
-	--[[
-	frm:SetMovable(true)
-	frm:RegisterForDrag("LeftButton")
-	frm:SetScript("OnDragStart", _QuestieTracker.OnDragStart)
-	frm:SetScript("OnDragStop", _QuestieTracker.OnDragStop)
-	--]]
-
 	frm:SetMovable(true)
 	frm:EnableMouse(true)
 	frm:SetScript("OnMouseDown", _QuestieTracker.OnDragStart)
@@ -483,7 +476,6 @@ function _QuestieTracker:CreateActiveQuestsFrame()
             self:SetMode(1)
             Questie.db.char.isTrackerExpanded = true
         end
-		_QuestieTracker.trackedQuestsFrame:Hide()
         QuestieTracker:Update()
     end)
     expandHeader:SetScript("OnDragStart", _QuestieTracker.OnDragStart)
@@ -616,7 +608,6 @@ function QuestieTracker:CreateTrackedQuestButtons()
 			else
 				Questie.db.char.collapsedZones[self.zoneId] = true
 			end
-			_QuestieTracker.trackedQuestsFrame:Hide()
 			QuestieTracker:Update()
 		end)
 
@@ -667,7 +658,6 @@ function QuestieTracker:CreateTrackedQuestButtons()
 			else
 				Questie.db.char.collapsedQuests[self.questId] = true
 			end
-			_QuestieTracker.trackedQuestsFrame:Hide()
 			QuestieTracker:Update()
 		end)
 
@@ -714,6 +704,7 @@ function QuestieTracker:Update()
         end
         return
     end
+    _QuestieTracker.trackedQuestsFrame:Hide()
 	_QuestieTracker.baseFrame:Update()
     _QuestieTracker.activeQuestsFrame:Update()
 	_QuestieTracker.expandHeader:Update()
@@ -1103,14 +1094,14 @@ function QuestieTracker:Update()
     if not Questie.db.char.isTrackerExpanded then
         QuestieCombatQueue:Queue(function()
             _QuestieTracker.baseFrame:SetHeight(Questie.db.global.trackerFontSizeHeader*2)
-			_QuestieTracker.trackedQuestsFrame:Hide()
+            _QuestieTracker.trackedQuestsFrame:Hide()
         end)
     elseif line then
         QuestieCombatQueue:Queue(function(line)
             _QuestieTracker.baseFrame:SetWidth(trackerWidth + trackerBackgroundPadding*2 + Questie.db.global.trackerFontSizeHeader*4 )
             _QuestieTracker.baseFrame:SetHeight((_QuestieTracker.baseFrame:GetTop() - line:GetBottom()) + Questie.db.global.trackerFontSizeHeader)
-			_QuestieTracker.trackedQuestsFrame:Show()
         end, line)
+        _QuestieTracker.trackedQuestsFrame:Show()
     end
     -- make sure tracker is inside the screen
     if _QuestieTracker.IsFirstRun then
@@ -1423,7 +1414,6 @@ end
 function QuestieTracker:ResetLinesForFontChange()
     for i = 1, trackerLineCount do
         _QuestieTracker.LineFrames[i].mode = nil
-        _QuestieTracker.trackedQuestsFrame:Hide()
         _QuestieTracker.trackedQuestsFrame:Update()
     end
 end
