@@ -258,6 +258,24 @@ function QuestieItemFixes:Load()
         [4806] = {
             [QuestieDB.itemKeys.npcDrops] = {2956,2957,3068},
         },
+        [4843] = {
+            [QuestieDB.itemKeys.name] = "Amethyst Runestone",
+            [QuestieDB.itemKeys.relatedQuests] = {793,717},
+            [QuestieDB.itemKeys.npcDrops] = {},
+            [QuestieDB.itemKeys.objectDrops] = {2858},
+        },
+        [4844] = {
+            [QuestieDB.itemKeys.name] = "Opal Runestone",
+            [QuestieDB.itemKeys.relatedQuests] = {793,717},
+            [QuestieDB.itemKeys.npcDrops] = {},
+            [QuestieDB.itemKeys.objectDrops] = {2848},
+	    },
+        [4845] = {
+            [QuestieDB.itemKeys.name] = "Diamond Runestone",
+            [QuestieDB.itemKeys.relatedQuests] = {793,717},
+            [QuestieDB.itemKeys.npcDrops] = {},
+            [QuestieDB.itemKeys.objectDrops] = {2842},
+        },
         [4904] = {
             [QuestieDB.itemKeys.name] = "Venomtail Antidote",
             [QuestieDB.itemKeys.relatedQuests] = {812},
