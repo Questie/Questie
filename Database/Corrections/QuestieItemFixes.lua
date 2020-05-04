@@ -377,7 +377,6 @@ function QuestieItemFixes:Load()
             [QuestieDB.itemKeys.objectDrops] = {20806},
         },
         [5942] = {
-            [QuestieDB.itemKeys.name] = "Jeweled Pendant",
             [QuestieDB.itemKeys.relatedQuests] = {1261},
             [QuestieDB.itemKeys.npcDrops] = {4405,4401,4404,4402,4403,14236},
             [QuestieDB.itemKeys.objectDrops] = {},
