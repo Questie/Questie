@@ -4,11 +4,9 @@ local _QuestieTracker = QuestieTracker.private
 
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
-
 local startDragAnchor = {}
 local startDragPos = {}
 local endDragPos = {}
-
 local mouselookTicker = {}
 
 function _QuestieTracker:OnDragStart(button)
@@ -17,10 +15,10 @@ function _QuestieTracker:OnDragStart(button)
     _QuestieTracker.isMoving = true
 
     if IsControlKeyDown() or not Questie.db.global.trackerLocked then
+        startDragAnchor = {baseFrame:GetPoint()}
         baseFrame:SetClampedToScreen(true)
-		startDragAnchor = {baseFrame:GetPoint()}
         baseFrame:StartMoving()
-		startDragPos = {baseFrame:GetPoint()}
+        startDragPos = {baseFrame:GetPoint()}
     else
         if not IsMouselooking() then-- this is a HORRIBLE solution, why does MouselookStart have to break OnMouseUp (is there a MOUSE_RELEASED event that always fires?)
             MouselookStart() -- unfortunately, even though we only want to catch right click for a context menu
@@ -43,17 +41,36 @@ function _QuestieTracker:OnDragStop()
     end
     local baseFrame = QuestieTracker:GetBaseFrame()
     _QuestieTracker.isMoving = false
-
     endDragPos = {baseFrame:GetPoint()}
     baseFrame:StopMovingOrSizing()
+
+
+    -- Max X cord values
+    local maxLeft = 0
+    if endDragPos[4] < maxLeft then
+       endDragPos[4] = maxLeft
+    end
+    local maxRight = GetScreenWidth() - baseFrame:GetWidth()
+    if endDragPos[4] > maxRight then
+        endDragPos[4] = maxRight
+    end
+
+    -- Max Y cord values
+    local maxBottom = -GetScreenHeight() - -baseFrame:GetHeight()
+    if endDragPos[5] < maxBottom then
+        endDragPos[5] = maxBottom
+    end
+    local maxTop = 0
+    if endDragPos[5] > maxTop then
+        endDragPos[5] = maxTop
+    end
 
     local xMoved = endDragPos[4] - startDragPos[4]
     local yMoved = endDragPos[5] - startDragPos[5]
 
     startDragAnchor[4] = startDragAnchor[4] + xMoved
     startDragAnchor[5] = startDragAnchor[5] + yMoved
-
-	QuestieCombatQueue:Queue(function()
+    QuestieCombatQueue:Queue(function()
         baseFrame:ClearAllPoints()
         baseFrame:SetPoint(unpack(startDragAnchor))
         Questie.db.char.TrackerLocation = {baseFrame:GetPoint()}
