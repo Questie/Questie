@@ -14,6 +14,10 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 local QuestieDBZone = QuestieLoader:ImportModule("QuestieDBZone")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+---@type QuestieProfessions
+local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
+---@type QuestieReputation
+local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 
 local tinsert = table.insert
 
@@ -188,6 +192,75 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     function QO:IsPvPQuest()
         local questType, _ = GetQuestTagInfo(questId)
         return questType == 41 or QuestieDB:IsPvPQuest(questId)
+    end
+
+    function QO:IsLevelRequirementsFulfilled(playerLevel, minLevel, maxLevel)
+        return (self.level == 60 and self.requiredLevel == 1)
+            or (self.level >= minLevel or Questie.db.char.lowlevel)
+            and self.level <= maxLevel
+            and (self.requiredLevel <= playerLevel
+            or Questie.db.char.manualMinLevelOffset
+            or Questie.db.char.absoluteLevelOffset)
+    end
+
+    function QO:IsDoable()
+        if self.isHidden then
+            return false;
+        end
+        if Questie.db.char.hidden[self.Id] then
+            return false;
+        end
+        if self.nextQuestInChain then
+            if Questie.db.char.complete[self.nextQuestInChain] or QuestiePlayer.currentQuestlog[self.nextQuestInChain] then
+                return false
+            end
+        end
+        -- Check if a quest which is exclusive to the current has already been completed or accepted
+        -- If yes the current quest can't be accepted
+        if self.ExclusiveQuestGroup then -- fix (DO NOT REVERT, tested thoroughly)
+            for k, v in pairs(self.ExclusiveQuestGroup) do
+                if Questie.db.char.complete[v] or QuestiePlayer.currentQuestlog[v] then
+                    return false
+                end
+            end
+        end
+        if self.parentQuest then
+            -- If the quest has a parent quest then only show it if the
+            -- parent quest is in the quest log
+            return self:IsParentQuestActive()
+        end
+
+        if not QuestieProfessions:HasProfessionAndSkillLevel(self.requiredSkill) then
+            return false
+        end
+
+        if not QuestieReputation:HasReputation(self.requiredMinRep, self.requiredMaxRep) then
+            return false
+        end
+
+        -- Check the preQuestGroup field where every required quest has to be complete for a quest to show up
+        if self.preQuestGroup ~= nil and next(self.preQuestGroup) ~= nil then
+            return self:IsPreQuestGroupFulfilled()
+        end
+
+        -- Check the preQuestSingle field where just one of the required quests has to be complete for a quest to show up
+        if self.preQuestSingle ~= nil and next(self.preQuestSingle) ~= nil then
+            return self:IsPreQuestSingleFulfilled()
+        end
+
+        return true
+    end
+
+    -- We always want to show a quest if it is a childQuest and its parent is in the quest log
+    function QO:IsParentQuestActive()
+        local parentID = self.parentID
+        if parentID == nil or parentID == 0 then
+            return false
+        end
+        if QuestiePlayer.currentQuestlog[parentID] then
+            return true
+        end
+        return false
     end
 
     -- reorganize to match wow api

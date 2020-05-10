@@ -13,8 +13,6 @@ local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 ---@type QuestieDBMIntegration
 local QuestieDBMIntegration = QuestieLoader:ImportModule("QuestieDBMIntegration")
----@type QuestieFramePool
-local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool")
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type QuestieLib
@@ -357,7 +355,9 @@ function QuestieQuest:AcceptQuest(questId)
         QuestieQuest:DrawAllAvailableQuests()
 
         for availableQuestId, alsoQuestId in pairs(QuestieQuest.availableQuests) do
-            if not _QuestieQuest:IsDoable(QuestieDB:GetQuest(availableQuestId)) then
+            ---@type Quest
+            local availableQuest = QuestieDB:GetQuest(availableQuestId)
+            if (not availableQuest) or (not availableQuest:IsDoable()) then
                 QuestieMap:UnloadQuestFrames(availableQuestId, ICON_TYPE_AVAILABLE);
             end
         end
@@ -425,7 +425,9 @@ function QuestieQuest:AbandonedQuest(questId)
 
         -- yes we do, since abandoning can unlock more than 1 quest, or remove unlocked quests
         for k, v in pairs(QuestieQuest.availableQuests) do
-            if not _QuestieQuest:IsDoable(QuestieDB:GetQuest(k)) then
+            ---@type Quest
+            local availableQuest = QuestieDB:GetQuest(k)
+            if (not availableQuest) or (not availableQuest:IsDoable()) then
                 QuestieMap:UnloadQuestFrames(k);
             end
         end
@@ -1387,7 +1389,6 @@ end
 
 function QuestieQuest:DrawAllAvailableQuests()--All quests between
     --This should probably be called somewhere else!
-    --QuestieFramePool:UnloadAll()
 
     local count = 0
     for questId, _ in pairs(QuestieQuest.availableQuests) do
@@ -1427,62 +1428,11 @@ function _QuestieQuest:GetQuestIcon(questObject)
     return icon
 end
 
-function _QuestieQuest:IsDoable(quest)
-    if not quest then
-        return false;
-    end
-    if quest.isHidden then
-        return false;
-    end
-    if Questie.db.char.hidden[quest.Id] then
-        return false;
-    end
-    if quest.nextQuestInChain then
-        if Questie.db.char.complete[quest.nextQuestInChain] or QuestiePlayer.currentQuestlog[quest.nextQuestInChain] then
-            return false
-        end
-    end
-    -- Check if a quest which is exclusive to the current has already been completed or accepted
-    -- If yes the current quest can't be accepted
-    if quest.ExclusiveQuestGroup then -- fix (DO NOT REVERT, tested thoroughly)
-        for k, v in pairs(quest.ExclusiveQuestGroup) do
-            if Questie.db.char.complete[v] or QuestiePlayer.currentQuestlog[v] then
-                return false
-            end
-        end
-    end
-    if quest.parentQuest then
-        -- If the quest has a parent quest then only show it if the
-        -- parent quest is in the quest log
-        return _QuestieQuest:IsParentQuestActive(quest.parentQuest)
-    end
-
-    if not QuestieProfessions:HasProfessionAndSkillLevel(quest.requiredSkill) then
-        return false
-    end
-
-    if not QuestieReputation:HasReputation(quest.requiredMinRep, quest.requiredMaxRep) then
-        return false
-    end
-
-    -- Check the preQuestGroup field where every required quest has to be complete for a quest to show up
-    if quest.preQuestGroup ~= nil and next(quest.preQuestGroup) ~= nil then
-        return quest:IsPreQuestGroupFulfilled()
-    end
-
-    -- Check the preQuestSingle field where just one of the required quests has to be complete for a quest to show up
-    if quest.preQuestSingle ~= nil and next(quest.preQuestSingle) ~= nil then
-        return quest:IsPreQuestSingleFulfilled()
-    end
-
-    return true
-end
-
 function QuestieQuest:CalculateAvailableQuests()
     local playerLevel = QuestiePlayer:GetPlayerLevel()
     local minLevel = playerLevel - Questie.db.char.minLevelFilter
     local maxLevel = playerLevel + Questie.db.char.maxLevelFilter
-    if Questie.db.char.manualMinLevelOffsetAbsolute then
+    if Questie.db.char.absoluteLevelOffset then
         minLevel = Questie.db.char.minLevelFilter
         maxLevel = Questie.db.char.maxLevelFilter
     else
@@ -1497,6 +1447,7 @@ function QuestieQuest:CalculateAvailableQuests()
     QuestieQuest.availableQuests = {}
 
     for questId, _ in pairs(QuestieDB.questData) do
+        ---@type Quest
         local quest = QuestieDB:GetQuest(questId)
 
         --Check if we've already completed the quest and that it is not "manually" hidden and that the quest is not currently in the questlog.
@@ -1510,8 +1461,8 @@ function QuestieQuest:CalculateAvailableQuests()
             (showPvPQuests or (not quest:IsPvPQuest())) -- Show PvP quests only with the option enabled
         ) then
 
-            if quest and _QuestieQuest:LevelRequirementsFulfilled(quest, playerLevel, minLevel, maxLevel) then
-                if _QuestieQuest:IsDoable(quest) then
+            if quest and quest:IsLevelRequirementsFulfilled(playerLevel, minLevel, maxLevel) then
+                if quest:IsDoable() then
                     QuestieQuest.availableQuests[questId] = questId
                 end
             else
