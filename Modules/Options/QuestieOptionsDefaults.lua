@@ -4,8 +4,6 @@ local QuestieOptionsDefaults = QuestieLoader:CreateModule("QuestieOptionsDefault
 function QuestieOptionsDefaults:Load()
     return {
         global = {
-            maxLevelFilter = 7,
-            minLevelFilter = GetQuestGreenRange(), -- Raised the default to allow more quests to be shown
             clusterLevelHotzone = 70,
             enableIconLimit = false,
             iconLimit = 200,
@@ -76,6 +74,8 @@ function QuestieOptionsDefaults:Load()
             trackerBackgroundEnabled = false,
         },
         char = {
+            minLevelFilter = GetQuestGreenRange(), -- Raised the default to allow more quests to be shown
+            maxLevelFilter = 7,
             complete = {},
             hidden = {},
             enableMinimalisticIcons = false,
