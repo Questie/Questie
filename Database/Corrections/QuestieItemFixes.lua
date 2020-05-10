@@ -1007,7 +1007,7 @@ function QuestieItemFixes:Load()
             [QuestieDB.itemKeys.npcDrops] = {8766},
         },
         [20378] = {
-            [QuestieDB.itemKeys.npcDrops] = {14435, 14347},
+            [QuestieDB.itemKeys.npcDrops] = {},
             [QuestieDB.itemKeys.objectDrops] = {180436,180501},
         },
         [21557] = {
