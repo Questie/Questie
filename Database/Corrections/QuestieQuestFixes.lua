@@ -1421,6 +1421,9 @@ function QuestieQuestFixes:Load()
         [8272] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 178,
         },
+        [8280] = {
+            [QuestieDB.questKeys.exclusiveTo] = {}, -- #1873
+        },
         [8286] = {
             [QuestieDB.questKeys.triggerEnd] = {"Discover the Brood of Nozdormu.",{[440]={{63.43, 50.61},},},},
         },
