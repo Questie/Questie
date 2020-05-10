@@ -11,6 +11,7 @@ local mouselookTicker = {}
 
 function _QuestieTracker:OnDragStart(button)
     Questie:Debug(DEBUG_DEVELOP, "[_QuestieTracker:OnDragStart]", button)
+    if button == "RightButton" then return end
     local baseFrame = QuestieTracker:GetBaseFrame()
     _QuestieTracker.isMoving = true
 

@@ -257,9 +257,11 @@ function QuestieTracker:Initialize()
         frm:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", (Questie.db.global.trackerFontSizeHeader*2.75), -(Questie.db.global.trackerFontSizeHeader*2.25))
     end
 
-    frm:EnableMouse(true)
+	frm:EnableMouse(true)
+    frm:RegisterForDrag("LeftButton")
     frm:RegisterForClicks("RightButtonUp", "LeftButtonUp")
-    frm:SetScript("OnClick", _OnClick)
+    frm:SetScript("OnDragStart", _QuestieTracker.OnDragStart)
+    frm:SetScript("OnDragStop", _QuestieTracker.OnDragStop)
     frm:SetScript("OnEnter", _OnEnter)
     frm:SetScript("OnLeave", _OnLeave)
 
@@ -269,7 +271,8 @@ function QuestieTracker:Initialize()
 
     QuestieTracker.started = true
 
-    C_Timer.After(0.1, function() -- quick fix for font changes not being applied on login
+    -- quick fix for font changes not being applied on login
+    C_Timer.After(0.1, function()
         QuestieTracker:ResetLinesForFontChange()
         QuestieTracker:Update()
     end)
@@ -354,15 +357,18 @@ function QuestieTracker:CreateBaseFrame()
             _QuestieTracker:SetSafePoint(frm)
         end
     end
+    if Questie.db.char.TrackerLocation == nil then
+        Questie.db.global.trackerSetpoint = "TOPRIGHT"
+        print(QuestieLocale:GetUIString('TRACKER_INVALID_LOCATION'))
+        _QuestieTracker:SetSafePoint(frm)
+    end
 
-    frm:SetMovable(true)
-    frm:EnableMouse(true)
-    frm:RegisterForDrag("LeftButton")
-    frm:SetScript("OnMouseDown", _QuestieTracker.OnDragStart)
-    frm:SetScript("OnMouseUp", _QuestieTracker.OnDragStop)
-
-    frm:SetScript("OnEnter", _OnEnter)
-    frm:SetScript("OnLeave", _OnLeave)
+	frm:SetMovable(true)
+	frm:EnableMouse(true)
+	frm:SetScript("OnMouseDown", _QuestieTracker.OnDragStart)
+	frm:SetScript("OnMouseUp", _QuestieTracker.OnDragStop)
+	frm:SetScript("OnEnter", _OnEnter)
+	frm:SetScript("OnLeave", _OnLeave)
 
     frm:Hide()
 
@@ -440,9 +446,11 @@ function _QuestieTracker:CreateActiveQuestsFrame()
         end
     end
 
-    frm:EnableMouse(true)
+	frm:EnableMouse(true)
+    frm:RegisterForDrag("LeftButton")
     frm:RegisterForClicks("RightButtonUp", "LeftButtonUp")
-    frm:SetScript("OnClick", _OnClick)
+    frm:SetScript("OnDragStart", _QuestieTracker.OnDragStart)
+    frm:SetScript("OnDragStop", _QuestieTracker.OnDragStop)
     frm:SetScript("OnEnter", _OnEnter)
     frm:SetScript("OnLeave", _OnLeave)
 
@@ -462,6 +470,7 @@ function _QuestieTracker:CreateActiveQuestsFrame()
         expandHeader:SetMode(0) -- maximized
     end
     expandHeader:EnableMouse(true)
+	expandHeader:RegisterForDrag("LeftButton")
     expandHeader:RegisterForClicks("LeftButtonUp", "RightButtonUp")
     expandHeader:SetScript("OnClick", function(self)
         if self.mode == 1 then
@@ -474,6 +483,8 @@ function _QuestieTracker:CreateActiveQuestsFrame()
         _QuestieTracker.trackedQuestsFrame:Hide()
         QuestieTracker:Update()
     end)
+    expandHeader:SetScript("OnDragStart", _QuestieTracker.OnDragStart)
+    expandHeader:SetScript("OnDragStop", _QuestieTracker.OnDragStop)
     expandHeader:SetScript("OnEnter", _OnEnter)
     expandHeader:SetScript("OnLeave", _OnLeave)
 
@@ -553,11 +564,13 @@ function QuestieTracker:CreateTrackedQuestButtons()
         end
 
         frm:EnableMouse(true)
+        frm:RegisterForDrag("LeftButton")
         frm:RegisterForClicks("RightButtonUp", "LeftButtonUp")
+        frm:SetScript("OnDragStart", _QuestieTracker.OnDragStart)
+        frm:SetScript("OnDragStop", _QuestieTracker.OnDragStop)
         frm:SetScript("OnClick", _OnClick)
         frm:SetScript("OnEnter", _OnEnter)
         frm:SetScript("OnLeave", _OnLeave)
-
 
         if lastFrame then
             frm:SetPoint("TOPLEFT", lastFrame, "BOTTOMLEFT", 0,0)
@@ -582,9 +595,11 @@ function QuestieTracker:CreateTrackedQuestButtons()
             end
         end
 
-        expandHeader:SetMode(1)
-        expandHeader:EnableMouse(true)
-        expandHeader:RegisterForClicks("LeftButtonUp", "RightButtonUp")
+		expandHeader:SetMode(1)
+		expandHeader:SetMovable(true)
+		expandHeader:EnableMouse(true)
+		expandHeader:RegisterForDrag("LeftButton")
+		expandHeader:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 
         expandHeader:SetScript("OnClick", function(self)
             if self.mode == 1 then
@@ -601,10 +616,12 @@ function QuestieTracker:CreateTrackedQuestButtons()
             QuestieTracker:Update()
         end)
 
-        expandHeader:SetScript("OnEnter", _OnEnter)
-        expandHeader:SetScript("OnLeave", _OnLeave)
-        expandHeader:SetAlpha(0)
-        expandHeader:Hide()
+		expandHeader:SetScript("OnEnter", _OnEnter)
+		expandHeader:SetScript("OnLeave", _OnLeave)
+		expandHeader:SetScript("OnDragStart", _QuestieTracker.OnDragStart)
+		expandHeader:SetScript("OnDragStop", _QuestieTracker.OnDragStop)
+		expandHeader:SetAlpha(0)
+		expandHeader:Hide()
 
         frm.expandHeader = expandHeader
 
@@ -614,7 +631,6 @@ function QuestieTracker:CreateTrackedQuestButtons()
         expandButton.texture:SetWidth(Questie.db.global.trackerFontSizeHeader)
         expandButton.texture:SetHeight(Questie.db.global.trackerFontSizeHeader)
         expandButton.texture:SetAllPoints(expandButton)
-
         expandButton:SetWidth(Questie.db.global.trackerFontSizeHeader)
         expandButton:SetHeight(Questie.db.global.trackerFontSizeHeader)
         expandButton:SetPoint("TOPLEFT", frm, "TOPLEFT", 0, 0)
@@ -631,8 +647,9 @@ function QuestieTracker:CreateTrackedQuestButtons()
         end
 
         expandButton:SetMode(1) -- minus
-        expandButton:EnableMouse(true)
-        expandButton:RegisterForClicks("LeftButtonUp", "RightButtonUp")
+		expandButton:SetMovable(true)
+		expandButton:EnableMouse(true)
+		expandButton:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 
         expandButton:SetScript("OnClick", function(self)
             if self.mode == 1 then
@@ -649,10 +666,12 @@ function QuestieTracker:CreateTrackedQuestButtons()
             QuestieTracker:Update()
         end)
 
-        expandButton:SetScript("OnEnter", _OnEnter)
-        expandButton:SetScript("OnLeave", _OnLeave)
-        expandButton:SetAlpha(0)
-        expandButton:Hide()
+		expandButton:SetScript("OnEnter", _OnEnter)
+		expandButton:SetScript("OnLeave", _OnLeave)
+		expandButton:SetScript("OnDragStart", _QuestieTracker.OnDragStart)
+		expandButton:SetScript("OnDragStop", _QuestieTracker.OnDragStop)
+		expandButton:SetAlpha(0)
+		expandButton:Hide()
 
         frm.expandButton = expandButton
     end
@@ -1084,7 +1103,6 @@ function QuestieTracker:Update()
         _QuestieTracker.baseFrame:SetHeight((_QuestieTracker.baseFrame:GetTop() - line:GetBottom()) + Questie.db.global.trackerFontSizeHeader)
         _QuestieTracker.trackedQuestsFrame:Show()
     end
-    -- make sure tracker is inside the screen
     if _QuestieTracker.IsFirstRun then
         _QuestieTracker.IsFirstRun = nil
         for questId in pairs (QuestiePlayer.currentQuestlog) do
