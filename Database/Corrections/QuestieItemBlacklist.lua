@@ -58,6 +58,7 @@ function QuestieItemBlacklist:Load()
         [13468] = true, -- black lotus
         [929] = true, -- Healing Potion
         [13446] = true, -- Major Healing Potion
+        [2455] = true, -- Minor Mana Potion
 
         -- stranglethorn pages
         [2725] = true,
