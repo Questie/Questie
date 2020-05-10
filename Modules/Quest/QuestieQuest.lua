@@ -1478,23 +1478,21 @@ function _QuestieQuest:IsDoable(quest)
     return true
 end
 
---TODO Check that this function does what it is supposed to...
 function QuestieQuest:CalculateAvailableQuests()
     local playerLevel = QuestiePlayer:GetPlayerLevel()
-    local minLevel = playerLevel - Questie.db.global.minLevelFilter
-    local maxLevel = playerLevel + Questie.db.global.maxLevelFilter
+    local minLevel = playerLevel - Questie.db.char.minLevelFilter
+    local maxLevel = playerLevel + Questie.db.char.maxLevelFilter
     if Questie.db.char.manualMinLevelOffsetAbsolute then
-        minLevel = Questie.db.global.minLevelFilter
-        maxLevel = Questie.db.global.maxLevelFilter
+        minLevel = Questie.db.char.minLevelFilter
+        maxLevel = Questie.db.char.maxLevelFilter
+    else
+        minLevel = playerLevel - GetQuestGreenRange()
     end
+
     local showRepeatableQuests = Questie.db.char.showRepeatableQuests
     local showDungeonQuests = Questie.db.char.showDungeonQuests
     local showRaidQuests = Questie.db.char.showRaidQuests
     local showPvPQuests = Questie.db.char.showPvPQuests
-
-    if(not Questie.db.char.manualMinLevelOffset) then
-        minLevel = playerLevel - GetQuestGreenRange();
-    end
 
     QuestieQuest.availableQuests = {}
 
