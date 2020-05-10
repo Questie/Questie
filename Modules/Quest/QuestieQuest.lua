@@ -1489,6 +1489,7 @@ function QuestieQuest:CalculateAvailableQuests()
     end
     local showRepeatableQuests = Questie.db.char.showRepeatableQuests
     local showDungeonQuests = Questie.db.char.showDungeonQuests
+    local showRaidQuests = Questie.db.char.showRaidQuests
     local showPvPQuests = Questie.db.char.showPvPQuests
 
     if(not Questie.db.char.manualMinLevelOffset) then
@@ -1507,6 +1508,7 @@ function QuestieQuest:CalculateAvailableQuests()
             (not QuestieCorrections.hiddenQuests[questId]) and -- Don't show blacklisted quests
             (showRepeatableQuests or (not quest.IsRepeatable)) and  -- Show repeatable quests if the quest is repeatable and the option is enabled
             (showDungeonQuests or (not quest:IsDungeonQuest())) and  -- Show dungeon quests only with the option enabled
+            (showRaidQuests or (not quest:IsRaidQuest())) and  -- Show Raid quests only with the option enabled
             (showPvPQuests or (not quest:IsPvPQuest())) -- Show PvP quests only with the option enabled
         ) then
 

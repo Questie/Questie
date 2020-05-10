@@ -180,6 +180,11 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
         return questType == 81
     end
 
+    function QO:IsRaidQuest()
+        local questType, _ = GetQuestTagInfo(questId)
+        return questType == 62
+    end
+
     function QO:IsPvPQuest()
         local questType, _ = GetQuestTagInfo(questId)
         return questType == 41 or QuestieDB:IsPvPQuest(questId)

@@ -94,6 +94,7 @@ function QuestieOptionsDefaults:Load()
             showRepeatableQuests = true,
             showEventQuests = true,
             showDungeonQuests = true,
+            showRaidQuests = true,
             showPvPQuests = true,
         },
         profile = {minimap = {hide = false}}

@@ -192,6 +192,19 @@ function QuestieOptions.tabs.general:Initialize()
                             QuestieQuest:Reset()
                         end,
                     },
+                    showRaidQuests = {
+                        type = "toggle",
+                        order = 10,
+                        name = function() return QuestieLocale:GetUIString('ENABLE_DUNGEON_RAID_ICONS'); end,
+                        desc = function() return QuestieLocale:GetUIString('ENABLE_DUNGEON_RAID_ICONS_DESC'); end,
+                        width = 1.5,
+                        disabled = function() return (not Questie.db.char.enabled); end,
+                        get = function(info) return Questie.db.char.showRaidQuests end,
+                        set = function (info, value)
+                            Questie.db.char.showRaidQuests = value
+                            QuestieQuest:Reset()
+                        end,
+                    },
                     showPvPQuests = {
                         type = "toggle",
                         order = 11,
