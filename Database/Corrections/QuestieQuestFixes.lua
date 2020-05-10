@@ -327,6 +327,9 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.preQuestSingle] = {944}, -- #1517
             [QuestieDB.questKeys.exclusiveTo] = {950}, -- #1517
         },
+        [984] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Find a corrupt furbolg camp",{[148]={{39.34,53.51},{39.86,53.89},{42.68,86.53},},},},
+        },
         [1026] = {
             [QuestieDB.questKeys.requiredSourceItems] = {5475},
         },
