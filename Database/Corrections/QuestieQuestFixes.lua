@@ -868,6 +868,12 @@ function QuestieQuestFixes:Load()
         [4763] = {
             [QuestieDB.questKeys.requiredSourceItems] = {12347,12341,12342,12343,}, -- #798
         },
+        [4764] = {
+            [QuestieDB.questKeys.preQuestSingle] = {}, -- #1916
+        },
+        [4766] = {
+            [QuestieDB.questKeys.exclusiveTo] = {4764} -- #1916
+        },
         [4768] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #1859
         },
