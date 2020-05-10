@@ -394,6 +394,11 @@ function QuestieItemFixes:Load()
             [QuestieDB.itemKeys.npcDrops] = {},
             [QuestieDB.itemKeys.objectDrops] = {20806},
         },
+        [5942] = {
+            [QuestieDB.itemKeys.relatedQuests] = {1261},
+            [QuestieDB.itemKeys.npcDrops] = {4405,4401,4404,4402,4403,14236},
+            [QuestieDB.itemKeys.objectDrops] = {},
+        },
         [6016] = {
             [QuestieDB.itemKeys.name] = "Wolf Heart Sample",
             [QuestieDB.itemKeys.relatedQuests] = {1429},
