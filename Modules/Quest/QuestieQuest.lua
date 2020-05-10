@@ -1395,6 +1395,7 @@ function QuestieQuest:DrawAllAvailableQuests()--All quests between
 
         --If the quest is not drawn draw the quest, otherwise skip.
         if(not QuestieMap.questIdFrames[questId]) then
+            ---@type Quest
             local quest = QuestieDB:GetQuest(questId)
             --Draw a specific quest through the function
             _QuestieQuest:DrawAvailableQuest(quest)
@@ -1414,13 +1415,14 @@ function QuestieQuest:DrawAllAvailableQuests()--All quests between
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]", QuestieLocale:GetUIString('DEBUG_DRAW', count, QuestiePlayer:GetPlayerLevel()));
 end
 
-function _QuestieQuest:GetQuestIcon(questObject)
+---@param quest Quest
+function _QuestieQuest:GetQuestIcon(quest)
     local icon = {}
-    if questObject.requiredLevel > QuestiePlayer.GetPlayerLevel() then
+    if quest.requiredLevel > QuestiePlayer.GetPlayerLevel() then
         icon = ICON_TYPE_AVAILABLE_GRAY
-    elseif questObject.IsRepeatable then
+    elseif quest.IsRepeatable then
         icon = ICON_TYPE_REPEATABLE
-    elseif(questObject:IsTrivial()) then
+    elseif(quest:IsTrivial()) then
         icon = ICON_TYPE_AVAILABLE_GRAY
     else
         icon = ICON_TYPE_AVAILABLE
@@ -1430,13 +1432,14 @@ end
 
 function QuestieQuest:CalculateAvailableQuests()
     local playerLevel = QuestiePlayer:GetPlayerLevel()
-    local minLevel = playerLevel - Questie.db.char.minLevelFilter
-    local maxLevel = playerLevel + Questie.db.char.maxLevelFilter
+    local minLevel = playerLevel - GetQuestGreenRange()
+    local maxLevel = playerLevel
+
     if Questie.db.char.absoluteLevelOffset then
         minLevel = Questie.db.char.minLevelFilter
         maxLevel = Questie.db.char.maxLevelFilter
-    else
-        minLevel = playerLevel - GetQuestGreenRange()
+    elseif Questie.db.char.manualMinLevelOffset then
+        minLevel = playerLevel - Questie.db.char.minLevelFilter
     end
 
     local showRepeatableQuests = Questie.db.char.showRepeatableQuests
@@ -1461,7 +1464,7 @@ function QuestieQuest:CalculateAvailableQuests()
             (showPvPQuests or (not quest:IsPvPQuest())) -- Show PvP quests only with the option enabled
         ) then
 
-            if quest and quest:IsLevelRequirementsFulfilled(playerLevel, minLevel, maxLevel) then
+            if quest and quest:IsLevelRequirementsFulfilled(minLevel, maxLevel) then
                 if quest:IsDoable() then
                     QuestieQuest.availableQuests[questId] = questId
                 end

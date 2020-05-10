@@ -194,12 +194,10 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
         return questType == 41 or QuestieDB:IsPvPQuest(questId)
     end
 
-    function QO:IsLevelRequirementsFulfilled(playerLevel, minLevel, maxLevel)
+    function QO:IsLevelRequirementsFulfilled(minLevel, maxLevel)
         return (self.level == 60 and self.requiredLevel == 1)
-            or (self.level >= minLevel or Questie.db.char.lowlevel)
-            and self.level <= maxLevel
-            and (self.requiredLevel <= playerLevel
-            or Questie.db.char.manualMinLevelOffset
+            or (self.requiredLevel >= minLevel or Questie.db.char.lowlevel)
+            and (self.requiredLevel <= maxLevel
             or Questie.db.char.absoluteLevelOffset)
     end
 
