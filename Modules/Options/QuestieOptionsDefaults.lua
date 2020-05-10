@@ -82,7 +82,7 @@ function QuestieOptionsDefaults:Load()
             enabled = true,
             lowlevel = false,
             manualMinLevelOffset = false,
-            manualMinLevelOffsetAbsolute = false,
+            absoluteLevelOffset = false,
             journey = {},
             searchType = 1,
             autoaccept = false,
