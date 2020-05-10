@@ -617,6 +617,8 @@ function _QuestieDB:HideClassAndRaceQuests()
 end
 
 local falselyMarkedPvPQuests = {
+    [7161] = true,
+    [7162] = true,
     [8122] = true,
     [8404] = true,
     [8405] = true,
