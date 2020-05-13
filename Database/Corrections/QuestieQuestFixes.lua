@@ -170,7 +170,7 @@ function QuestieQuestFixes:Load()
         [526] = {
             [QuestieDB.questKeys.exclusiveTo] = {322,324}, -- not 100% sure on this one but it seems lightforge ingots is optional, block it after completing subsequent steps (#587)
         },
-        [535] = {
+        [533] = {
             [QuestieDB.questKeys.childQuests] = {535},
         },
         [535] = {
