@@ -546,6 +546,7 @@ function QuestieQuestBlacklist:Load()
         [7926] = true,
 
       --Phase 5 - AQ20/AQ40/AQ War Effort
+        [9248] = true,
         [8595] = true,
         [8579] = true,
         [8856] = true,
