@@ -23,7 +23,7 @@ function QuestieReputation:Update(isInit)
             if (not isInit) and (
                     _ReachedNewStanding(previousValues, standingId)
                     or _WinterSaberChanged(factionID, previousValues, barValue)) then
-                Questie:Debug(DEBUG_DEVELOP, "QuestieReputation: Update -", "faction \"" + name + "\" (" + factionID + ") changed")
+                Questie:Debug(DEBUG_DEVELOP, "QuestieReputation: Update -", "faction \"" .. name .. "\" (" .. factionID .. ") changed")
                 factionChanged = true
             end
         end
