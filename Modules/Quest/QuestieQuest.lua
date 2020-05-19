@@ -386,6 +386,7 @@ function QuestieQuest:CompleteQuest(quest)
 
     QuestieTooltips:RemoveQuest(questId)
     QuestieTracker:RemoveQuest(questId)
+    QuestieTracker:ResetLinesForChange()
     QuestieTracker:Update()
 
     --This should probably be done first, because DrawAllAvailableQuests looks at QuestieMap.questIdFrames[QuestId] to add available
@@ -433,6 +434,7 @@ function QuestieQuest:AbandonedQuest(questId)
         end
 
         QuestieTracker:RemoveQuest(questId)
+        QuestieTracker:ResetLinesForChange()
         QuestieTracker:Update()
 
         QuestieQuest:CalculateAvailableQuests()
@@ -462,6 +464,7 @@ function QuestieQuest:UpdateQuest(questId)
         else
             --DEFAULT_CHAT_FRAME:AddMessage("Still not finished " .. QuestId);
         end
+        QuestieTracker:ResetLinesForChange()
         QuestieTracker:Update()
 
         Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
@@ -491,6 +494,7 @@ function QuestieQuest:GetAllQuestIds()
             Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ADD_QUEST', questId, QuestiePlayer.currentQuestlog[questId]));
         end
     end
+    QuestieTracker:ResetLinesForChange()
     QuestieTracker:Update()
 end
 

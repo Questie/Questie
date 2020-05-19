@@ -75,6 +75,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 get = function() return Questie.db.global.enableTooltipsQuestID; end,
                 set = function (info, value)
                     Questie.db.global.enableTooltipsQuestID = value
+                    QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
                 end
             },
@@ -162,7 +163,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                     if not Questie.db.global.questieLocaleDiff then
                         return 'auto'
                     else
-                        return QuestieLocale:GetUILocale(); 
+                        return QuestieLocale:GetUILocale();
                     end
                 end,
                 set = function(input, lang)

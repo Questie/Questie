@@ -211,9 +211,9 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
     zoneTree[4].text = zoneTree[4].text .. ' [ '..  repeatableCounter ..' ]'
     zoneTree[5].text = zoneTree[5].text .. ' [ '..  unobtainableCounter ..' ]'
 
-	if totalCounter + repeatableCounter + unobtainableCounter == 0 then
-		return false
-	end
+    if totalCounter + repeatableCounter + unobtainableCounter == 0 then
+        return false
+    end
 
     return zoneTree
 end
