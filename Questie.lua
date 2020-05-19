@@ -147,9 +147,6 @@ if  (not LQuestie_EasyMenu) or
     _Questie = {...}
 end
 
-
-
-
 function Questie:OnInitialize()
     self.db = LibStub("AceDB-3.0"):New("QuestieConfig", QuestieOptionsDefaults:Load(), true)
     QuestieFramePool:SetIcons()

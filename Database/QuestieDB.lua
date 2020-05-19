@@ -538,35 +538,33 @@ function QuestieDB:GetQuestsByZoneId(zoneId)
     for qid, _ in pairs(QuestieDB.questData) do
         local quest = QuestieDB:GetQuest(qid);
         if quest then
-			if quest.zoneOrSort > 0 then
-				if (quest.zoneOrSort == zoneId or (alternativeZoneID and quest.zoneOrSort == alternativeZoneID)) then
-					zoneQuests[qid] = quest;
-				end
-			elseif quest.Starts.NPC and zoneQuests[qid] == nil then
-				local npc = QuestieDB:GetNPC(quest.Starts.NPC[1]);
-
-				if npc and npc.friendly and npc.spawns then
-					for zone, _ in pairs(npc.spawns) do
-						if zone == zoneId  or (alternativeZoneID and zone == alternativeZoneID) then
-							zoneQuests[qid] = quest;
-						end
-					end
-				end
-			elseif quest.Starts.GameObject and zoneQuests[qid] == nil then
-				local obj = QuestieDB:GetObject(quest.Starts.GameObject[1]);
-
-				if obj and obj.spawns then
-					for zone, _ in pairs(obj.spawns) do
-						if zone == zoneId  or (alternativeZoneID and zone == alternativeZoneID) then
-							zoneQuests[qid] = quest;
-						end
-					end
-				end
-			end
-		end
+            if quest.zoneOrSort > 0 then
+                if (quest.zoneOrSort == zoneId or (alternativeZoneID and quest.zoneOrSort == alternativeZoneID)) then
+                    zoneQuests[qid] = quest;
+                end
+            elseif quest.Starts.NPC and zoneQuests[qid] == nil then
+                local npc = QuestieDB:GetNPC(quest.Starts.NPC[1]);
+                if npc and npc.friendly and npc.spawns then
+                    for zone, _ in pairs(npc.spawns) do
+                        if zone == zoneId  or (alternativeZoneID and zone == alternativeZoneID) then
+                            zoneQuests[qid] = quest;
+                        end
+                    end
+                end
+            elseif quest.Starts.GameObject and zoneQuests[qid] == nil then
+                local obj = QuestieDB:GetObject(quest.Starts.GameObject[1]);
+                if obj and obj.spawns then
+                    for zone, _ in pairs(obj.spawns) do
+                        if zone == zoneId  or (alternativeZoneID and zone == alternativeZoneID) then
+                            zoneQuests[qid] = quest;
+                        end
+                    end
+                end
+            end
+        end
     end
-	_QuestieDB.zoneCache[zoneId] = zoneQuests;
-	return zoneQuests;
+    _QuestieDB.zoneCache[zoneId] = zoneQuests;
+    return zoneQuests;
 end
 
 ---------------------------------------------------------------------------------------------------

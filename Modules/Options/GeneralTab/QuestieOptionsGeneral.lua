@@ -263,6 +263,7 @@ function QuestieOptions.tabs.general:Initialize()
                     Questie.db.global.enableTooltipsQuestLevel = value
                     if value and not Questie.db.global.trackerShowQuestLevel then
                         Questie.db.global.trackerShowQuestLevel = true
+                        QuestieTracker:ResetLinesForChange()
                         QuestieTracker:Update()
                     end
                 end
@@ -368,17 +369,17 @@ function QuestieOptions.tabs.general:Initialize()
                 type = "range",
                 order = 2.5,
                 name = function()
-                    if Questie.db.char.manualMinLevelOffsetAbsolute then 
+                    if Questie.db.char.manualMinLevelOffsetAbsolute then
                         return QuestieLocale:GetUIString('LEVEL_FROM');
                     else
-                        return QuestieLocale:GetUIString('LOWLEVEL_BELOW'); 
+                        return QuestieLocale:GetUIString('LOWLEVEL_BELOW');
                     end
                 end,
                 desc = function()
                     if Questie.db.char.manualMinLevelOffsetAbsolute then
                         return QuestieLocale:GetUIString('LEVEL_FROM_DESC');
                     else
-                        return QuestieLocale:GetUIString('LOWLEVEL_BELOW_DESC', optionsDefaults.global.minLevelFilter); 
+                        return QuestieLocale:GetUIString('LOWLEVEL_BELOW_DESC', optionsDefaults.global.minLevelFilter);
                     end
                 end,
                 width = "normal",
@@ -405,14 +406,14 @@ function QuestieOptions.tabs.general:Initialize()
                     if Questie.db.char.manualMinLevelOffsetAbsolute then
                         return QuestieLocale:GetUIString('LEVEL_TO');
                     else
-                        return QuestieLocale:GetUIString('LOWLEVEL_ABOVE'); 
+                        return QuestieLocale:GetUIString('LOWLEVEL_ABOVE');
                     end
                 end,
                 desc = function()
                     if Questie.db.char.manualMinLevelOffsetAbsolute then
                         return QuestieLocale:GetUIString('LEVEL_TO_DESC');
                     else
-                        return QuestieLocale:GetUIString('LOWLEVEL_ABOVE_DESC', optionsDefaults.global.maxLevelFilter); 
+                        return QuestieLocale:GetUIString('LOWLEVEL_ABOVE_DESC', optionsDefaults.global.maxLevelFilter);
                     end
                 end,
                 width = "normal",
