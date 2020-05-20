@@ -6,12 +6,8 @@ local _QuestieJourney = QuestieJourney.private
 -------------------------
 ---@type QuestieSearchResults
 local QuestieSearchResults = QuestieLoader:ImportModule("QuestieSearchResults")
----@type QuestieJourneyUtils
-local QuestieJourneyUtils = QuestieLoader:ImportModule("QuestieJourneyUtils")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
-
-local AceGUI = LibStub("AceGUI-3.0")
 
 _QuestieJourney.containerCache = nil
 _QuestieJourney.treeChache = nil
