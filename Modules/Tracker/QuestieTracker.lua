@@ -105,6 +105,7 @@ function QuestieTracker:Initialize()
 
     -- Santity checks and settings applied at login
     C_Timer.After(0.4, function()
+        if Questie.db.char.TrackerLocation == nil then return end
 
         -- Make sure the saved tracker location cords are on the players screen
         if Questie.db.char.TrackerLocation and Questie.db.char.TrackerLocation[2] and Questie.db.char.TrackerLocation[2] == "MinimapCluster" or Questie.db.char.TrackerLocation[2] == "UIParent" then
