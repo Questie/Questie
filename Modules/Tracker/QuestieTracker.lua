@@ -1,6 +1,6 @@
 ---@class QuestieTracker
 QuestieTracker = QuestieLoader:CreateModule("QuestieTracker")
-_QuestieTracker = QuestieTracker.private
+local _QuestieTracker = QuestieTracker.private
 -------------------------
 --Import modules.
 -------------------------
@@ -21,11 +21,11 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 
 -- Local Vars
 local trackerLineCount = 120
-trackerLineWidth = 1
-trackerHeaderBuffer = 1
-trackerLineBuffer = 1
-lineIndex = 0
-buttonIndex = 0
+local trackerLineWidth = 1
+local trackerHeaderBuffer = 1
+local trackerLineBuffer = 1
+local lineIndex = 0
+local buttonIndex = 0
 local lastAQW = GetTime()
 local durabilityInitialPosition = nil
 local LSM30 = LibStub("LibSharedMedia-3.0", true)
@@ -67,10 +67,6 @@ function QuestieTracker:Initialize()
     if not Questie.db.char.collapsedQuests then
         Questie.db.char.collapsedQuests = {}
     end
-    if not Questie.db.char.TrackerLocation then
-        Questie.db.char.TrackerLocation = {}
-        Questie.db.char.isTrackerExpanded = true
-    end
     if not Questie.db.char.trackerSetpoint then
         Questie.db.char.trackerSetpoint = "AUTO"
     end
@@ -96,9 +92,19 @@ function QuestieTracker:Initialize()
         durabilityInitialPosition = {DurabilityFrame:GetPoint()}
     end
 
+    C_Timer.After(0.2, function()
+
+        -- Hide the durability frame
+        DurabilityFrame:Hide()
+
+        -- Load Objective Sorting and Tracker Layout Vars
+        _QuestieTracker:UpdateLayout()
+    end)
+
+    QuestieTracker.started = true
+
     -- Santity checks and settings applied at login
-    C_Timer.After(0.1, function()
-        if Questie.db.char.TrackerLocation == nil then return end
+    C_Timer.After(0.4, function()
 
         -- Make sure the saved tracker location cords are on the players screen
         if Questie.db.char.TrackerLocation and Questie.db.char.TrackerLocation[2] and Questie.db.char.TrackerLocation[2] == "MinimapCluster" or Questie.db.char.TrackerLocation[2] == "UIParent" then
@@ -135,23 +141,6 @@ function QuestieTracker:Initialize()
             end)
         end
     end)
-
-    C_Timer.After(0.2, function()
-
-        -- Hide the durability frame
-        DurabilityFrame:Hide()
-
-        -- Load Objective Sorting and Tracker Layout Vars
-        _QuestieTracker:UpdateLayout()
-
-        -- Saved vars migration push - resets tracker width
-        if not Questie.db.char.TrackerWidth then
-            Questie.db.char.TrackerWidth = 0
-            QuestieTracker:Update()
-        end
-    end)
-
-    QuestieTracker.started = true
 
     C_Timer.After(14.0, function()
 
@@ -1175,6 +1164,7 @@ function QuestieTracker:Update()
     -- Auto adjust tracker size and visibility
     if not Questie.db.char.isTrackerExpanded then
         _QuestieTracker.baseFrame:SetHeight(trackerHeaderBuffer*2)
+        _QuestieTracker.baseFrame:SetWidth(trackerLineWidth + _QuestieTracker.trackerSpaceBuffer + _QuestieTracker.QuestFrameIndent)
         _QuestieTracker.trackedQuestsFrame:Hide()
     elseif line then
         local activeQuestsHeaderTotal = trackerHeaderBuffer*2 + _QuestieTracker.activeQuestsHeader.label:GetUnboundedStringWidth()
