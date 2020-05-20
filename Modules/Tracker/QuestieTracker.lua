@@ -67,6 +67,9 @@ function QuestieTracker:Initialize()
     if not Questie.db.char.collapsedQuests then
         Questie.db.char.collapsedQuests = {}
     end
+    if not Questie.db.char.TrackerWidth then
+        Questie.db.char.TrackerWidth = 0
+    end
     if not Questie.db.char.trackerSetpoint then
         Questie.db.char.trackerSetpoint = "AUTO"
     end
