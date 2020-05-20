@@ -161,7 +161,7 @@ function QuestieTracker:Initialize()
     end)
 end
 
-function _QuestieTracker:UpdateLayout(tracker)
+function _QuestieTracker:UpdateLayout()
     _QuestieTracker.trackerFontSize = math.max(Questie.db.global.trackerFontSizeHeader, Questie.db.global.trackerFontSizeLine)
     _QuestieTracker.trackerSpaceBuffer = Questie.db.global.trackerFontSizeHeader
     trackerHeaderBuffer = Questie.db.global.trackerFontSizeHeader
