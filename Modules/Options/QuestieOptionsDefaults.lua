@@ -67,7 +67,7 @@ function QuestieOptionsDefaults:Load()
             stickyDurabilityFrame = true,
             trackerColorObjectives = 'white',
             trackerQuestPadding = 2,
-            trackerBackdropAlpha = 0,
+            trackerBackdropAlpha = 1,
             trackerSortObjectives = 'byComplete',
             trackerbindOpenQuestLog = 'left',
             trackerbindSetTomTom = 'ctrlleft',

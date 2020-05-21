@@ -174,8 +174,21 @@ function QuestieOptions.tabs.tracker:Initialize()
                 set = function (info, value)
                     Questie.db.global.trackerBackdropFader = value
                     if value == true then
-                        _QuestieTracker.baseFrame:SetBackdropColor(0, 0, 0, 0)
-                        _QuestieTracker.baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
+                        _QuestieTracker.FadeTickerValue = 1
+                        _QuestieTracker.FadeTicker = C_Timer.NewTicker(0.02, function()
+                            if _QuestieTracker.FadeTickerValue > 0 then
+                                _QuestieTracker.FadeTickerValue = _QuestieTracker.FadeTickerValue - 0.02
+
+                                -- Fade the background and border
+                                if Questie.db.char.isTrackerExpanded and Questie.db.global.trackerBackdropEnabled and Questie.db.global.trackerBackdropFader then
+                                    _QuestieTracker.baseFrame:SetBackdropColor(0, 0, 0, math.min(Questie.db.global.trackerBackdropAlpha, _QuestieTracker.FadeTickerValue*3.3))
+                                    _QuestieTracker.baseFrame:SetBackdropBorderColor(1, 1, 1, math.min(Questie.db.global.trackerBackdropAlpha, _QuestieTracker.FadeTickerValue*3.3))
+                                end
+                            else
+                                _QuestieTracker.FadeTicker:Cancel()
+                                _QuestieTracker.FadeTicker = nil
+                            end
+                        end)
                     end
                     QuestieTracker:Update()
                 end

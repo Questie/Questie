@@ -23,6 +23,7 @@ function _QuestieTracker:OnDragStart(button)
         baseFrame:SetClampedToScreen(true)
         baseFrame:StartMoving()
         startDragPos = {baseFrame:GetPoint()}
+        _QuestieTracker.baseFrame.sizer:SetAlpha(1)
 
     else
         -- This is a HORRIBLE solution, why does MouselookStart have to break OnMouseUp (is there a
@@ -310,8 +311,10 @@ function _QuestieTracker:OnResizeStart(button)
     Questie:Debug(DEBUG_DEVELOP, "[_QuestieTracker:OnResizeStart]", button)
     local baseFrame = QuestieTracker:GetBaseFrame()
 
+    --local activeQuestsHeaderTotal = Questie.db.global.trackerFontSizeHeader*2 + _QuestieTracker.activeQuestsHeader.label:GetUnboundedStringWidth()
+
     if button == "LeftButton" then
-        _QuestieTracker.isMoving = true
+        _QuestieTracker.isSizing = true
         baseFrame:StartSizing("RIGHT")
 
         _QuestieUpdateTimer = C_Timer.NewTicker(0.1, function()
@@ -331,11 +334,17 @@ end
 
 function _QuestieTracker:OnResizeStop(button)
     Questie:Debug(DEBUG_DEVELOP, "[_QuestieTracker:OnResizeStop]", button)
-
-    if button == "RightButton" then return end
-
     local baseFrame = QuestieTracker:GetBaseFrame()
-    _QuestieTracker.isMoving = false
+    if button == "RightButton" then return end
+    _QuestieTracker.isSizing = false
     baseFrame:StopMovingOrSizing()
     _QuestieUpdateTimer:Cancel()
+    QuestieCombatQueue:Queue(function()
+        baseFrame:ClearAllPoints()
+        baseFrame:SetPoint(unpack(Questie.db.char.TrackerLocation))
+
+        if Questie.db.char.TrackerLocation[2] and type(Questie.db.char.TrackerLocation[2]) == "table" and Questie.db.char.TrackerLocation[2].GetName then
+            Questie.db.char.TrackerLocation[2] = Questie.db.char.TrackerLocation[2]:GetName()
+        end
+    end)
 end
