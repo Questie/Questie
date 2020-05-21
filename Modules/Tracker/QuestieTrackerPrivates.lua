@@ -15,38 +15,38 @@ local mouselookTicker = {}
 function _QuestieTracker:OnDragStart(button)
     Questie:Debug(DEBUG_DEVELOP, "[_QuestieTracker:OnDragStart]", button)
     local baseFrame = QuestieTracker:GetBaseFrame()
-    _QuestieTracker.isMoving = true
-
-    if IsControlKeyDown() or not Questie.db.global.trackerLocked then
-        startDragAnchor = {baseFrame:GetPoint()}
-        preSetPoint = ({baseFrame:GetPoint()})[1]
-        baseFrame:SetClampedToScreen(true)
-        baseFrame:StartMoving()
-        startDragPos = {baseFrame:GetPoint()}
-        _QuestieTracker.baseFrame.sizer:SetAlpha(1)
-
-    else
-        -- This is a HORRIBLE solution, why does MouselookStart have to break OnMouseUp (is there a
-        -- MOUSE_RELEASED event that always fires?) Unfortunately, even though we only want to
-        -- catch right click for a context menu. The only api function we can use is MouselookStart
-        -- and MouselookStop which replicates the default right click-drag behavior of also making
-        -- your player turn :(
-        if not IsMouselooking() then
-            MouselookStart()
-                mouselookTicker = C_Timer.NewTicker(0.1, function()
-                if not IsMouseButtonDown(button) then
-                    MouselookStop()
-                    mouselookTicker:Cancel()
-                end
-            end)
+    if IsMouseButtonDown(button) then
+        if IsControlKeyDown() or not Questie.db.global.trackerLocked then
+            _QuestieTracker.isMoving = true
+            startDragAnchor = {baseFrame:GetPoint()}
+            preSetPoint = ({baseFrame:GetPoint()})[1]
+            baseFrame:SetClampedToScreen(true)
+            baseFrame:StartMoving()
+            startDragPos = {baseFrame:GetPoint()}
+            _QuestieTracker.baseFrame.sizer:SetAlpha(1)
+        else
+            -- This is a HORRIBLE solution, why does MouselookStart have to break OnMouseUp (is there a
+            -- MOUSE_RELEASED event that always fires?) Unfortunately, even though we only want to
+            -- catch right click for a context menu. The only api function we can use is MouselookStart
+            -- and MouselookStop which replicates the default right click-drag behavior of also making
+            -- your player turn :(
+            if not IsMouselooking() then
+                MouselookStart()
+                    mouselookTicker = C_Timer.NewTicker(0.1, function()
+                    if not IsMouseButtonDown(button) then
+                        MouselookStop()
+                        mouselookTicker:Cancel()
+                    end
+                end)
+            end
         end
     end
 end
 
-function _QuestieTracker:OnDragStop()
-    Questie:Debug(DEBUG_DEVELOP, "[_QuestieTracker:OnDragStop]")
+function _QuestieTracker:OnDragStop(button)
+    Questie:Debug(DEBUG_DEVELOP, "[_QuestieTracker:OnDragStop]", button)
 
-    if not startDragPos or not startDragPos[4] or not startDragPos[5] or not endDragPos or not startDragAnchor then
+    if IsMouseButtonDown(button) or not startDragPos or not startDragPos[4] or not startDragPos[5] or not endDragPos or not startDragAnchor then
         return
     end
 

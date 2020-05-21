@@ -1,6 +1,6 @@
 ---@class QuestieTracker
 QuestieTracker = QuestieLoader:CreateModule("QuestieTracker")
-local _QuestieTracker = QuestieTracker.private
+_QuestieTracker = QuestieTracker.private
 -------------------------
 --Import modules.
 -------------------------
@@ -427,7 +427,7 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
                 self:SetSize(size, size)
                 self:SetScript("OnEnter", self.OnEnter)
                 self:SetScript("OnLeave", self.OnLeave)
-                self:RegisterForClicks("AnyUp")
+                self:RegisterForClicks("RightButtonUp, LeftButtonUp")
                 return true
             end -- else error?
             return false
@@ -469,6 +469,27 @@ function _QuestieTracker:CreateTrackedQuestButtons()
     for i = 1, trackerLineCount do
         local btn = CreateFrame("Button", nil, _QuestieTracker.trackedQuestsFrame)
         btn.label = btn:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+        btn.label:SetJustifyH("LEFT")
+        btn.label:SetPoint("TOPLEFT", btn)
+        btn.label:Hide()
+
+        -- autoadjust parent size for clicks
+        btn.label._SetText = btn.label.SetText
+        btn.label.frame = btn
+        btn.label.SetText = function(self, text)
+            self:_SetText(text)
+            self.frame:SetWidth(self:GetWidth())
+            self.frame:SetHeight(self:GetHeight())
+        end
+
+        btn:SetWidth(1)
+        btn:SetHeight(1)
+
+        if lastFrame then
+            btn:SetPoint("TOPLEFT", lastFrame, "BOTTOMLEFT", 0,0)
+        else
+            btn:SetPoint("TOPLEFT", _QuestieTracker.trackedQuestsFrame, "TOPLEFT", 0,0)
+        end
 
         function btn:SetMode(mode)
             if mode ~= self.mode then
@@ -481,7 +502,7 @@ function _QuestieTracker:CreateTrackedQuestButtons()
                     self.label:SetHeight(trackerHeaderBuffer)
                     self.button = nil
                 else
-                    self.label:SetFont(LSM30:Fetch('font', Questie.db.global.trackerFontHeader) or STANDARD_TEXT_FONT, trackerLineBuffer)
+                    self.label:SetFont(LSM30:Fetch('font', Questie.db.global.trackerFontLine) or STANDARD_TEXT_FONT, trackerLineBuffer)
                     self.label:SetHeight(trackerLineBuffer)
                 end
             end
@@ -511,25 +532,15 @@ function _QuestieTracker:CreateTrackedQuestButtons()
             end
         end
 
-        btn.label:SetJustifyH("LEFT")
-        btn.label:SetPoint("TOPLEFT", btn)
-        btn.label:Hide()
-
-        -- autoadjust parent size for clicks
-        btn.label._SetText = btn.label.SetText
-        btn.label.frame = btn
-        btn.label.SetText = function(self, text)
-            self:_SetText(text)
-            self.frame:SetWidth(self:GetWidth())
-            self.frame:SetHeight(self:GetHeight())
-        end
-
+        btn:SetMode("header")
         btn:EnableMouse(true)
         btn:RegisterForDrag("LeftButton")
         btn:RegisterForClicks("RightButtonUp", "LeftButtonUp")
+
+        btn:SetScript("OnClick", _OnClick)
+
         btn:SetScript("OnDragStart", _QuestieTracker.OnDragStart)
         btn:SetScript("OnDragStop", _QuestieTracker.OnDragStop)
-        btn:SetScript("OnClick", _OnClick)
         btn:SetScript("OnEnter", _OnEnter)
         btn:SetScript("OnLeave", _OnLeave)
 
@@ -538,10 +549,6 @@ function _QuestieTracker:CreateTrackedQuestButtons()
         else
             btn:SetPoint("TOPLEFT", _QuestieTracker.trackedQuestsFrame, "TOPLEFT", 0,0)
         end
-
-        btn:SetWidth(1)
-        btn:SetHeight(1)
-        btn:SetMode("header")
 
         --btn:SetBackdrop({bgFile="Interface\\Tooltips\\UI-Tooltip-Background"})
         --btn:SetBackdropColor(0, 0, 0, 1)
@@ -929,7 +936,19 @@ function QuestieTracker:Update()
         end
 
         -- Check for valid quests
-        local complete = QuestieQuest:IsComplete(quest)
+        local complete
+        local questLogIndex = GetQuestLogIndexByID(questId)
+        if questLogIndex then
+            local questTimers = GetQuestTimers()
+            if questTimers then
+                -- This is a timed quest - flag it as (Not Complete)
+                complete = 0
+            else
+                -- Check for quest complete flag
+                complete = QuestieQuest:IsComplete(quest)
+            end
+        end
+
         if ((complete ~= 1) or Questie.db.global.trackerShowCompleteQuests) and ((GetCVar("autoQuestWatch") == "1" and not Questie.db.char.AutoUntrackedQuests[questId]) or (GetCVar("autoQuestWatch") == "0" and Questie.db.char.TrackedQuests[questId])) then
             hasQuest = true
 
@@ -1060,7 +1079,7 @@ function QuestieTracker:Update()
             -- Add quest timers (if applicable)
             line = _QuestieTracker:GetNextLine()
             local seconds = QuestieQuestTimers:GetQuestTimerByQuestId(questId, line)
-            if seconds then
+            if seconds and not Questie.db.global.showBlizzardQuestTimer then
                 line:SetMode("line")
                 line:SetQuest(quest)
 
@@ -1510,7 +1529,7 @@ function QuestieTracker:HookBaseTracker()
     QuestieTracker._alreadyHooked = true
 end
 
-_OnClick = function(self, button)
+_OnClick = function(self, button, down)
     Questie:Debug(DEBUG_DEVELOP, "[QuestieTracker:_OnClick]")
     if _QuestieTracker.isMoving == true then
         Questie:Debug(DEBUG_DEVELOP, "[QuestieTracker:_OnClick]", "Tracker is being dragged. Don't show the menu")
