@@ -200,20 +200,20 @@ function _QuestieTracker:CreateBaseFrame()
     frm:SetBackdropBorderColor(1, 1, 1, 0)
 
     frm.Update = function(self)
-        if (Questie.db.global.trackerBackdropEnabled and Questie.db.char.isTrackerExpanded) then
-            if not Questie.db.global.trackerBackdropFader then
-                _QuestieTracker.baseFrame:SetBackdropColor(0, 0, 0, Questie.db.global.trackerBackdropAlpha)
-                _QuestieTracker.baseFrame:SetBackdropBorderColor(1, 1, 1, Questie.db.global.trackerBackdropAlpha)
+        if Questie.db.char.isTrackerExpanded then
+            if Questie.db.global.trackerBackdropEnabled then
+                if not Questie.db.global.trackerBackdropFader then
+                    _QuestieTracker.baseFrame:SetBackdropColor(0, 0, 0, Questie.db.global.trackerBackdropAlpha)
+                    _QuestieTracker.baseFrame:SetBackdropBorderColor(1, 1, 1, Questie.db.global.trackerBackdropAlpha)
+                end
+            else
+                _QuestieTracker.baseFrame:SetBackdropColor(0, 0, 0, 0)
+                _QuestieTracker.baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
             end
         else
+            _QuestieTracker.baseFrame.sizer:SetAlpha(0)
             _QuestieTracker.baseFrame:SetBackdropColor(0, 0, 0, 0)
             _QuestieTracker.baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
-            _QuestieTracker.baseFrame.sizer:SetAlpha(0)
-            if (_QuestieTracker.isMoving == true) then
-                _QuestieTracker.baseFrame.sizer:SetAlpha(1)
-            else
-                _QuestieTracker.baseFrame.sizer:SetAlpha(0)
-            end
         end
     end
 
@@ -354,6 +354,8 @@ function _QuestieTracker:CreateActiveQuestsHeader()
             if Questie.db.global.stickyDurabilityFrame then
                 DurabilityFrame:Show()
                 QuestieTracker:MoveDurabilityFrame()
+                QuestieTracker:ResetLinesForChange()
+                QuestieTracker:Update()
             end
             _QuestieTracker.baseFrame.sizer:SetAlpha(1)
             _QuestieTracker.baseFrame:SetBackdropColor(0, 0, 0, Questie.db.global.trackerBackdropAlpha)
@@ -1109,6 +1111,7 @@ function QuestieTracker:Update()
                         line.label:SetText(QuestieLib:GetRGBForObjective(objective) .. objDesc .. ": " .. lineEnding)
                         line.label:SetWidth(math.min(math.max(Questie.db.char.TrackerWidth, _QuestieTracker.baseFrame:GetWidth()) - (_QuestieTracker.QuestFrameIndent + trackerHeaderBuffer*2.25), trackerHeaderBuffer*1.25 + line.label:GetUnboundedStringWidth()))
                         line:SetWidth(line.label:GetWidth())
+
                         trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + trackerHeaderBuffer*1.25)
                         line:SetVerticalPadding(1)
                         line:Show()
@@ -1166,30 +1169,33 @@ function QuestieTracker:Update()
     end
 
     -- Auto adjust tracker size and visibility
+    local activeQuestsHeaderTotal = trackerHeaderBuffer*2 + _QuestieTracker.activeQuestsHeader.label:GetUnboundedStringWidth()
+    local trackerVARScombined = trackerLineWidth + _QuestieTracker.trackerSpaceBuffer + _QuestieTracker.QuestFrameIndent
+    local trackerBaseFrame = _QuestieTracker.baseFrame:GetWidth()
+
     if not Questie.db.char.isTrackerExpanded then
         _QuestieTracker.baseFrame:SetHeight(trackerHeaderBuffer*2)
-        _QuestieTracker.baseFrame:SetWidth(trackerLineWidth + _QuestieTracker.trackerSpaceBuffer + _QuestieTracker.QuestFrameIndent)
-        _QuestieTracker.trackedQuestsFrame:Hide()
-    elseif line then
-        local activeQuestsHeaderTotal = trackerHeaderBuffer*2 + _QuestieTracker.activeQuestsHeader.label:GetUnboundedStringWidth()
-        local trackerVARScombined = trackerLineWidth + _QuestieTracker.trackerSpaceBuffer + _QuestieTracker.QuestFrameIndent
-        local trackerBaseFrame = _QuestieTracker.baseFrame:GetWidth()
+
         if Questie.db.char.TrackerWidth > 0 then
-            if (Questie.db.char.TrackerWidth < activeQuestsHeaderTotal and _QuestieTracker.isMoving ~= true) then
+            _QuestieTracker.baseFrame:SetWidth(Questie.db.char.TrackerWidth)
+        else
+            _QuestieTracker.baseFrame:SetWidth(trackerVARScombined)
+        end
+
+        _QuestieTracker.trackedQuestsFrame:Hide()
+
+    elseif line then
+        if Questie.db.char.TrackerWidth > 0 then
+            if (Questie.db.char.TrackerWidth < activeQuestsHeaderTotal and _QuestieTracker.isSizing ~= true) then
+                _QuestieTracker.baseFrame:SetWidth(activeQuestsHeaderTotal)
                 Questie.db.char.TrackerWidth = activeQuestsHeaderTotal
-
-            elseif (Questie.db.char.TrackerWidth ~= trackerBaseFrame and _QuestieTracker.isMoving ~= true) then
-                Questie.db.char.TrackerWidth = trackerVARScombined
-
-            else
+            elseif (Questie.db.char.TrackerWidth ~= trackerBaseFrame and _QuestieTracker.isSizing ~= true) then
                 _QuestieTracker.baseFrame:SetWidth(Questie.db.char.TrackerWidth)
             end
         else
-            _QuestieTracker.baseFrame:SetWidth(trackerVARScombined)
-            if (trackerVARScombined < activeQuestsHeaderTotal and _QuestieTracker.isMoving ~= true) then
+            if (trackerVARScombined < activeQuestsHeaderTotal) then
                 _QuestieTracker.baseFrame:SetWidth(activeQuestsHeaderTotal)
-
-            elseif (trackerVARScombined ~= trackerBaseFrame and _QuestieTracker.isMoving ~= true) then
+            elseif (trackerVARScombined ~= trackerBaseFrame) then
                 _QuestieTracker.baseFrame:SetWidth(trackerVARScombined)
             end
         end
