@@ -285,7 +285,8 @@ QuestieLocale.locale['ptBR'] = {
     ['SHORTCUT'] = " Atalho",
     ['TRACKER_SET_TOMTOM_DESC'] = "Atalho para abrir TomTom",
     ['TRACKER_SHOW_QUESTLOG_DESC'] = "O atalho para exibir a missão de missões",
-    ['TRACKER_UNTRACK_DESC'] = "Removes a quest from the Tracker.",
+    ['TRACKER_UNTRACK_LINK'] = "Untrack/Link Quest",
+    ['TRACKER_UNTRACK_LINK_DESC'] = "Removes a quest from the Tracker when the chat input box is not visible, otherwise this will link a quest to chat.",
     ['TRACKER_ACTIVE_QUESTS'] = "Missões Ativas : ",
 
     --Menu contextual do rastreador

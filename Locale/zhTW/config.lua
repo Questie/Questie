@@ -285,7 +285,8 @@ QuestieLocale.locale['zhTW'] = {
     ['SHORTCUT'] = " 快捷鍵",
     ['TRACKER_SET_TOMTOM_DESC'] = "在任務追蹤上開啟TomTom的快捷鍵",
     ['TRACKER_SHOW_QUESTLOG_DESC'] = "在任務追蹤上開啟任務日誌的快捷鍵",
-    ['TRACKER_UNTRACK_DESC'] = "Removes a quest from the Tracker.",
+    ['TRACKER_UNTRACK_LINK'] = "Untrack/Link Quest",
+    ['TRACKER_UNTRACK_LINK_DESC'] = "Removes a quest from the Tracker when the chat input box is not visible, otherwise this will link a quest to chat.",
     ['TRACKER_ACTIVE_QUESTS'] = "Active Quests: ",
 
     -- tracker right click menu

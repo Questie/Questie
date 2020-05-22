@@ -1549,17 +1549,21 @@ _OnClick = function(self, button, down)
     if self.Quest == nil then return end
     if QuestieTracker.utils:IsBindTrue(Questie.db.global.trackerbindSetTomTom, button) then
         local spawn, zone, name = QuestieMap:GetNearestQuestSpawn(self.Quest)
-
         if spawn then
             QuestieTracker.utils:SetTomTomTarget(name, zone, spawn[1], spawn[2])
         end
-
     elseif QuestieTracker.utils:IsBindTrue(Questie.db.global.trackerbindUntrack, button) then
-        QuestieTracker:Untrack(self.Quest)
-
+        if ChatFrame1EditBox then
+            if ChatFrame1EditBox:IsShown() then
+                ChatFrame1EditBox:SetText(ChatFrame1EditBox:GetText() .. QuestieLib:GetQuestString(self.Quest.Id, self.Quest.name, self.Quest.level, true))
+            else
+                QuestieTracker:Untrack(self.Quest)
+            end
+        else
+            QuestieTracker:Untrack(self.Quest)
+        end
     elseif QuestieTracker.utils:IsBindTrue(Questie.db.global.trackerbindOpenQuestLog, button) then
         QuestieTracker.utils:ShowQuestLog(self.Quest)
-
     elseif button == "RightButton" then
         local menu = QuestieTracker.menu:GetMenuForQuest(self.Quest)
         LQuestie_EasyMenu(menu, _QuestieTracker.menuFrame, "cursor", 0 , 0, "MENU")

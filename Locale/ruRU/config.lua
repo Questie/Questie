@@ -285,7 +285,8 @@ QuestieLocale.locale['ruRU'] = {
     ['SHORTCUT'] = "",
     ['TRACKER_SET_TOMTOM_DESC'] = "Короткий путь для открытия отслеживания в TomTom",
     ['TRACKER_SHOW_QUESTLOG_DESC'] = "Короткий путь из меню отслеживания - в журнал заданий.",
-    ['TRACKER_UNTRACK_DESC'] = "Удалить задание из отслеживания.",
+    ['TRACKER_UNTRACK_LINK'] = "Untrack/Link Quest",
+    ['TRACKER_UNTRACK_LINK_DESC'] = "Removes a quest from the Tracker when the chat input box is not visible, otherwise this will link a quest to chat.",
     ['TRACKER_ACTIVE_QUESTS'] = "Активные задания: ",
 
     -- tracker right click menu
