@@ -416,30 +416,47 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
         local btn = CreateFrame("Button", nil, nil, "SecureActionButtonTemplate,ActionButtonTemplate")
         btn:SetAttribute("type", "item");
 
-        btn.SetItem = function(self, id, size)
+        btn.SetItem = function(self, quest, size)
             local validTexture = nil
             for bag = 0 , 5 do -- maybe keyring still acts like a bag
                 for slot = 0 , 24 do
                     local texture, count, locked, quality, _, _, link, filtered, _, itemID = GetContainerItemInfo(bag, slot)
-                    if id == itemID then
+                    if quest.sourceItemId == itemID then
                         validTexture = texture
                         break
                     end
                 end
             end
             if validTexture then
-                self.itemID = id
+                self.itemID = quest.sourceItemId
+                self.questID = quest.Id
                 self:SetAttribute("item", "item:" .. tostring(id));
                 self:SetNormalTexture(validTexture)
                 self:SetPushedTexture(validTexture)
                 self:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
                 self:SetSize(size, size)
+                self:RegisterForClicks("RightButtonUp")
+                self:SetScript("OnClick", self.OnClick)
                 self:SetScript("OnEnter", self.OnEnter)
                 self:SetScript("OnLeave", self.OnLeave)
-                self:RegisterForClicks("RightButtonUp, LeftButtonUp")
                 return true
             end -- else error?
             return false
+        end
+
+        btn.OnClick = function(self, button)
+            print("Quest Item onClick fired...")
+            if button then
+                print("Quest Item onClick button: "..button)
+            end
+            if self.questID then
+                print("questID: "..self.questID)
+            end
+            if button == "RightButton" then
+                Questie.db.char.collapsedQuests[self.questID] = true
+                QuestieTracker:ResetLinesForChange()
+                QuestieTracker:Update()
+            end
         end
 
         btn.OnEnter = function(self)
@@ -456,6 +473,7 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
 
         btn.FakeHide = function(self)
             self:RegisterForClicks(nil)
+            self:SetScript("OnClick", nil)
             self:SetScript("OnEnter", nil)
             self:SetScript("OnLeave", nil)
             self:SetNormalTexture(nil)
@@ -606,6 +624,8 @@ function _QuestieTracker:CreateTrackedQuestButtons()
         expandZone:Hide()
 
         btn.expandZone = expandZone
+
+---------------------------------------------------------------------------------------------------
 
         -- create expanding buttons for quests with objectives
         local expandQuest = CreateFrame("Button", nil, btn)
@@ -1025,7 +1045,7 @@ function QuestieTracker:Update()
                 button.fontSize = fontSizeCompare
                 line.button = button
                 button:Hide()
-                if button:SetItem(quest.sourceItemId, trackerHeaderBuffer * 1.5) then
+                if button:SetItem(quest, trackerHeaderBuffer * 1.5) then
                     button:SetParent(line)
                     local height = 0
                     local frame = line
@@ -1039,7 +1059,7 @@ function QuestieTracker:Update()
                     button:ClearAllPoints()
                     button:SetPoint("TOPRIGHT", line, "TOPLEFT", -trackerHeaderBuffer/3, 0)
 
-                    if Questie.db.char.collapsedZones[quest.zoneOrSort] then
+                    if Questie.db.char.collapsedZones[quest.zoneOrSort] or Questie.db.char.collapsedQuests[quest.Id] then
                         quest.expandQuest = true
                         QuestieCombatQueue:Queue(function(self)
                             self:SetParent(UIParent)
