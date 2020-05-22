@@ -133,35 +133,30 @@ function _QuestieTracker:OnDragStop(button)
             -- setPoint Topleft = Down and Right
             if Questie.db.char.TrackerLocation[4] < maxWidth and Questie.db.char.TrackerLocation[5] > maxHeight then
                 Questie.db.char.TrackerLocation[1] = "TOPLEFT"
-                Questie.db.char.TrackerLocation[2] = "UIParent"
-                Questie.db.char.TrackerLocation[3] = "CENTER"
                 Questie.db.char.TrackerLocation[4] = Questie.db.char.TrackerLocation[4] - maxWidth - trackerWidth
                 Questie.db.char.TrackerLocation[5] = Questie.db.char.TrackerLocation[5] - maxHeight
 
             -- setPoint Topright = Down and Left
             elseif Questie.db.char.TrackerLocation[4] > maxWidth and Questie.db.char.TrackerLocation[5] > maxHeight then
                 Questie.db.char.TrackerLocation[1] = "TOPRIGHT"
-                Questie.db.char.TrackerLocation[2] = "UIParent"
-                Questie.db.char.TrackerLocation[3] = "CENTER"
                 Questie.db.char.TrackerLocation[4] = Questie.db.char.TrackerLocation[4] + -maxWidth
                 Questie.db.char.TrackerLocation[5] = Questie.db.char.TrackerLocation[5] + -maxHeight
 
             -- setPoint Bottomleft = Up and Right
             elseif Questie.db.char.TrackerLocation[4] < maxWidth and Questie.db.char.TrackerLocation[5] < maxHeight then
                 Questie.db.char.TrackerLocation[1] = "BOTTOMLEFT"
-                Questie.db.char.TrackerLocation[2] = "UIParent"
-                Questie.db.char.TrackerLocation[3] = "CENTER"
                 Questie.db.char.TrackerLocation[4] = Questie.db.char.TrackerLocation[4] - maxWidth - trackerWidth
                 Questie.db.char.TrackerLocation[5] = Questie.db.char.TrackerLocation[5] - maxHeight - trackerHeight
 
             -- setPoint Bottomright = Up and Left
             elseif Questie.db.char.TrackerLocation[4] > maxWidth and Questie.db.char.TrackerLocation[5] < maxHeight then
                 Questie.db.char.TrackerLocation[1] = "BOTTOMRIGHT"
-                Questie.db.char.TrackerLocation[2] = "UIParent"
-                Questie.db.char.TrackerLocation[3] = "CENTER"
                 Questie.db.char.TrackerLocation[4] = Questie.db.char.TrackerLocation[4] + -maxWidth
                 Questie.db.char.TrackerLocation[5] = Questie.db.char.TrackerLocation[5] + -maxHeight - trackerHeight
             end
+
+            Questie.db.char.TrackerLocation[2] = "UIParent"
+            Questie.db.char.TrackerLocation[3] = "CENTER"
 
             baseFrame:ClearAllPoints()
             baseFrame:SetPoint(unpack(Questie.db.char.TrackerLocation))
@@ -169,12 +164,8 @@ function _QuestieTracker:OnDragStop(button)
         -- This is the section that processes "Auto setPoint" movements between quadrants.
         -- _QuestieTracker:ConvertSetPointCords() converts endpoints so the frame doesn't appear to
         -- shift or "snap" due to changing setPoint values.
-
         elseif Questie.db.char.TrackerLocation and Questie.db.char.TrackerLocation[2] and Questie.db.char.TrackerLocation[2] == "UIParent" and Questie.db.char.trackerSetpoint == "AUTO" then
-            Questie.db.char.TrackerLocation[2] = "UIParent"
-            Questie.db.char.TrackerLocation[3] = "CENTER"
             local yAdj = 0
-
             if baseFrame:GetHeight()/GetScreenHeight() > 0.25 and (Questie.db.char.TrackerLocation[1] == "TOPLEFT" or Questie.db.char.TrackerLocation[1] == "TOPRIGHT") then
                 yAdj = baseFrame:GetHeight()/2
             elseif baseFrame:GetHeight()/GetScreenHeight() > 0.25 and (Questie.db.char.TrackerLocation[1] == "BOTTOMLEFT" or Questie.db.char.TrackerLocation[1] == "BOTTOMRIGHT") then
@@ -212,13 +203,16 @@ function _QuestieTracker:OnDragStop(button)
                 Questie.db.char.TrackerLocation[5] = yOff
             end
 
+            Questie.db.char.TrackerLocation[2] = "UIParent"
+            Questie.db.char.TrackerLocation[3] = "CENTER"
+
             baseFrame:ClearAllPoints()
             baseFrame:SetPoint(unpack(Questie.db.char.TrackerLocation))
-        else
 
-            -- When the user sets a manual setPoint it runs QuestieTracker:ResetLocation() which
-            -- converts everything over to a [CUSTOM]/UIParent/CENTER centric x,y cords so no
-            -- pre/post processing of location data is needed. It's done "as-is".
+        -- When the user sets a manual setPoint it runs QuestieTracker:ResetLocation() which
+        -- converts everything over to a [CUSTOM]/UIParent/CENTER centric x,y cords so no pre/post
+        -- processing of location data is needed. It's done "as-is".
+        elseif Questie.db.char.trackerSetpoint ~= "AUTO" then
             Questie.db.char.TrackerLocation[1] = Questie.db.char.trackerSetpoint
         end
 
@@ -311,10 +305,9 @@ function _QuestieTracker:OnResizeStart(button)
     Questie:Debug(DEBUG_DEVELOP, "[_QuestieTracker:OnResizeStart]", button)
     local baseFrame = QuestieTracker:GetBaseFrame()
 
-    --local activeQuestsHeaderTotal = Questie.db.global.trackerFontSizeHeader*2 + _QuestieTracker.activeQuestsHeader.label:GetUnboundedStringWidth()
-
     if button == "LeftButton" then
         _QuestieTracker.isSizing = true
+        tempTrackerLocation = {baseFrame:GetPoint()}
         baseFrame:StartSizing("RIGHT")
 
         _QuestieUpdateTimer = C_Timer.NewTicker(0.1, function()
@@ -339,12 +332,6 @@ function _QuestieTracker:OnResizeStop(button)
     _QuestieTracker.isSizing = false
     baseFrame:StopMovingOrSizing()
     _QuestieUpdateTimer:Cancel()
-    QuestieCombatQueue:Queue(function()
-        baseFrame:ClearAllPoints()
-        baseFrame:SetPoint(unpack(Questie.db.char.TrackerLocation))
-
-        if Questie.db.char.TrackerLocation[2] and type(Questie.db.char.TrackerLocation[2]) == "table" and Questie.db.char.TrackerLocation[2].GetName then
-            Questie.db.char.TrackerLocation[2] = Questie.db.char.TrackerLocation[2]:GetName()
-        end
-    end)
+    baseFrame:ClearAllPoints()
+    baseFrame:SetPoint(unpack(tempTrackerLocation))
 end

@@ -1,0 +1,16 @@
+﻿## Interface: 80100
+
+## Title: Lib: AceGUI-3.0-SharedMediaWidgets
+## Notes: Enables AceGUI-3.0 widgets for the 5 basic SharedMedia-3.0 types
+## Author: Yssaril
+## OptionalDeps: Ace3, LibSharedMedia-3.0
+## X-Category: Library
+
+#@no-lib-strip@
+Libs\Libstub\Libstub.lua
+Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
+Libs\AceGUI-3.0\AceGUI-3.0.xml
+Libs\LibSharedMedia-3.0\lib.xml
+#@end-no-lib-strip@
+
+widget.xml
