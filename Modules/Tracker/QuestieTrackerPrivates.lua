@@ -306,6 +306,7 @@ function _QuestieTracker:OnResizeStart(button)
     local baseFrame = QuestieTracker:GetBaseFrame()
 
     if button == "LeftButton" then
+        if Questie.db.global.trackerLocked then return end
         _QuestieTracker.isSizing = true
         tempTrackerLocation = {baseFrame:GetPoint()}
         baseFrame:StartSizing("RIGHT")
