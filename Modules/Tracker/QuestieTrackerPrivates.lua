@@ -15,6 +15,7 @@ local mouselookTicker = {}
 function _QuestieTracker:OnDragStart(button)
     Questie:Debug(DEBUG_DEVELOP, "[_QuestieTracker:OnDragStart]", button)
     local baseFrame = QuestieTracker:GetBaseFrame()
+
     if IsMouseButtonDown(button) then
         if IsControlKeyDown() or not Questie.db.global.trackerLocked then
             _QuestieTracker.isMoving = true
@@ -306,18 +307,19 @@ function _QuestieTracker:OnResizeStart(button)
     local baseFrame = QuestieTracker:GetBaseFrame()
 
     if button == "LeftButton" then
-        if Questie.db.global.trackerLocked then return end
-        _QuestieTracker.isSizing = true
-        tempTrackerLocation = {baseFrame:GetPoint()}
-        baseFrame:StartSizing("RIGHT")
-
-        _QuestieUpdateTimer = C_Timer.NewTicker(0.1, function()
-            local baseFrame = QuestieTracker:GetBaseFrame()
-            Questie.db.char.TrackerWidth = baseFrame:GetWidth()
-            QuestieTracker:ResetLinesForChange()
-            QuestieTracker:Update()
-        end)
-
+        if IsMouseButtonDown(button) then
+            if IsControlKeyDown() or not Questie.db.global.trackerLocked then
+                _QuestieTracker.isSizing = true
+                tempTrackerLocation = {baseFrame:GetPoint()}
+                baseFrame:StartSizing("RIGHT")
+                _QuestieUpdateTimer = C_Timer.NewTicker(0.1, function()
+                    local baseFrame = QuestieTracker:GetBaseFrame()
+                    Questie.db.char.TrackerWidth = baseFrame:GetWidth()
+                    QuestieTracker:ResetLinesForChange()
+                    QuestieTracker:Update()
+                end)
+            end
+        end
     elseif button =="RightButton" then
         Questie.db.char.TrackerWidth = 0
         QuestieTracker:ResetLinesForChange()
@@ -329,7 +331,7 @@ end
 function _QuestieTracker:OnResizeStop(button)
     Questie:Debug(DEBUG_DEVELOP, "[_QuestieTracker:OnResizeStop]", button)
     local baseFrame = QuestieTracker:GetBaseFrame()
-    if button == "RightButton" then return end
+    if button == "RightButton" or _QuestieTracker.isSizing ~= true then return end
     _QuestieTracker.isSizing = false
     baseFrame:StopMovingOrSizing()
     _QuestieUpdateTimer:Cancel()

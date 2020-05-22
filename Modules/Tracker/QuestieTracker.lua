@@ -215,14 +215,16 @@ function _QuestieTracker:CreateBaseFrame()
             _QuestieTracker.baseFrame:SetBackdropColor(0, 0, 0, 0)
             _QuestieTracker.baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
         end
-        if Questie.db.global.trackerLocked then
-            frm:EnableMouse(false)
-            frm:SetMovable(false)
-            frm:SetResizable(false)
-        else
+
+        -- Enables Click-Through when the tracker is locked
+        if IsControlKeyDown() or not Questie.db.global.trackerLocked then
             frm:EnableMouse(true)
             frm:SetMovable(true)
             frm:SetResizable(true)
+        else
+            frm:EnableMouse(false)
+            frm:SetMovable(false)
+            frm:SetResizable(false)
         end
     end
 
