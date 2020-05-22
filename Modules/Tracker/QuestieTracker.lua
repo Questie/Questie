@@ -215,6 +215,15 @@ function _QuestieTracker:CreateBaseFrame()
             _QuestieTracker.baseFrame:SetBackdropColor(0, 0, 0, 0)
             _QuestieTracker.baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
         end
+        if Questie.db.global.trackerLocked then
+            frm:EnableMouse(false)
+            frm:SetMovable(false)
+            frm:SetResizable(false)
+        else
+            frm:EnableMouse(true)
+            frm:SetMovable(true)
+            frm:SetResizable(true)
+        end
     end
 
     local sizer = CreateFrame("Frame", nil, frm)
@@ -1540,13 +1549,17 @@ _OnClick = function(self, button, down)
     if self.Quest == nil then return end
     if QuestieTracker.utils:IsBindTrue(Questie.db.global.trackerbindSetTomTom, button) then
         local spawn, zone, name = QuestieMap:GetNearestQuestSpawn(self.Quest)
+
         if spawn then
             QuestieTracker.utils:SetTomTomTarget(name, zone, spawn[1], spawn[2])
         end
+
     elseif QuestieTracker.utils:IsBindTrue(Questie.db.global.trackerbindUntrack, button) then
         QuestieTracker:Untrack(self.Quest)
+
     elseif QuestieTracker.utils:IsBindTrue(Questie.db.global.trackerbindOpenQuestLog, button) then
         QuestieTracker.utils:ShowQuestLog(self.Quest)
+
     elseif button == "RightButton" then
         local menu = QuestieTracker.menu:GetMenuForQuest(self.Quest)
         LQuestie_EasyMenu(menu, _QuestieTracker.menuFrame, "cursor", 0 , 0, "MENU")
