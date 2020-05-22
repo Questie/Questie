@@ -287,6 +287,9 @@ _MODIFIER_STATE_CHANGED = function(self, key, down)
         GameTooltip:SetFrameStrata("TOOLTIP")
         GameTooltip:Show()
     end
+    if Questie.db.char.isTrackerExpanded and Questie.db.global.trackerLocked then
+        _QuestieTracker.baseFrame:Update()
+    end
 end
 
 --- Fires when some chat messages about skills are displayed
