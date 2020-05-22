@@ -287,7 +287,8 @@ QuestieLocale.locale['frFR'] = {
     ['SHORTCUT'] = " Raccourci",
     ['TRACKER_SET_TOMTOM_DESC'] = "Définis le raccourci servant à ouvrir TomTom.",
     ['TRACKER_SHOW_QUESTLOG_DESC'] = "Définis le raccourci servant à afficher la quête dans le journal des quêtes.",
-    ['TRACKER_UNTRACK_DESC'] = "Retire une quête du suivi.",
+    ['TRACKER_UNTRACK_LINK'] = "Untrack/Link Quest",
+    ['TRACKER_UNTRACK_LINK_DESC'] = "Removes a quest from the Tracker when the chat input box is not visible, otherwise this will link a quest to chat.",
     ['TRACKER_ACTIVE_QUESTS'] = "Quêtes actives : ",
 
     -- Menu Clic droit du suivi
