@@ -1080,6 +1080,8 @@ function QuestieTracker:Update()
             line = _QuestieTracker:GetNextLine()
             local seconds = QuestieQuestTimers:GetQuestTimerByQuestId(questId, line)
             if seconds and not Questie.db.global.showBlizzardQuestTimer then
+                local prevLineIndex = lineIndex - 1
+                local prevLine = _QuestieTracker.LineFrames[prevLineIndex]
                 line:SetMode("line")
                 line:SetQuest(quest)
 
@@ -1091,8 +1093,8 @@ function QuestieTracker:Update()
                 line.label:ClearAllPoints()
                 line.label:SetPoint("TOPLEFT", line, "TOPLEFT", trackerHeaderBuffer*0.25, 0)
                 line.label:SetText(seconds)
-                line.label:SetWidth(math.min(math.max(Questie.db.char.TrackerWidth, _QuestieTracker.baseFrame:GetWidth()) - (_QuestieTracker.QuestFrameIndent + trackerHeaderBuffer*2.25), trackerHeaderBuffer*1.25 + line.label:GetUnboundedStringWidth()))
-                line:SetWidth(line.label:GetWidth())
+                line.label:SetWidth(math.min(math.max(Questie.db.char.TrackerWidth, _QuestieTracker.baseFrame:GetWidth()) - (_QuestieTracker.QuestFrameIndent + trackerHeaderBuffer*2.25), trackerHeaderBuffer*1.25 + prevLine.label:GetUnboundedStringWidth()))
+                line:SetWidth(prevLine.label:GetWidth())
                 line:SetVerticalPadding(2)
                 line:Show()
                 line.label:Show()
@@ -1102,7 +1104,7 @@ function QuestieTracker:Update()
                     line:Hide()
                     line.label:Hide()
                 else
-                    trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + trackerHeaderBuffer*1.25)
+                    trackerLineWidth = math.max(trackerLineWidth, prevLine.label:GetUnboundedStringWidth() + trackerHeaderBuffer*1.25)
                 end
             else
                 lineIndex = lineIndex - 1
