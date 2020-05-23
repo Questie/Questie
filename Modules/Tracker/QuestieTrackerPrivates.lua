@@ -15,7 +15,6 @@ local mouselookTicker = {}
 function _QuestieTracker:OnDragStart(button)
     Questie:Debug(DEBUG_DEVELOP, "[_QuestieTracker:OnDragStart]", button)
     local baseFrame = QuestieTracker:GetBaseFrame()
-
     if IsMouseButtonDown(button) then
         if IsControlKeyDown() or not Questie.db.global.trackerLocked then
             _QuestieTracker.isMoving = true
