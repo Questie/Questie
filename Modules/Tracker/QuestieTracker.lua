@@ -217,15 +217,17 @@ function _QuestieTracker:CreateBaseFrame()
         end
 
         -- Enables Click-Through when the tracker is locked
-        if IsControlKeyDown() or not Questie.db.global.trackerLocked then
-            frm:EnableMouse(true)
-            frm:SetMovable(true)
-            frm:SetResizable(true)
-        else
-            frm:EnableMouse(false)
-            frm:SetMovable(false)
-            frm:SetResizable(false)
-        end
+        QuestieCombatQueue:Queue(function(self)
+            if IsControlKeyDown() or not Questie.db.global.trackerLocked then
+                self:EnableMouse(true)
+                self:SetMovable(true)
+                self:SetResizable(true)
+            else
+                self:EnableMouse(false)
+                self:SetMovable(false)
+                self:SetResizable(false)
+            end
+        end, self)
     end
 
     local sizer = CreateFrame("Frame", nil, frm)
@@ -418,20 +420,21 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
         local btn = CreateFrame("Button", nil, UIParent, "SecureActionButtonTemplate,ActionButtonTemplate")
         btn:SetAttribute("type1", "item")
 
-        btn.SetItem = function(self, id, size)
+        btn.SetItem = function(self, quest, size)
             local validTexture = nil
             for bag = 0 , 5 do -- maybe keyring still acts like a bag
                 for slot = 0 , 24 do
                     local texture, count, locked, quality, _, _, link, filtered, _, itemID = GetContainerItemInfo(bag, slot)
-                    if id == itemID then
+                    if quest.sourceItemId == itemID then
                         validTexture = texture
                         break
                     end
                 end
             end
             if validTexture then
-                self.itemID = id
-                self:SetAttribute("item", "item:" .. tostring(id))
+                self.itemID = quest.sourceItemId
+                self.questID = quest.Id
+                self:SetAttribute("item", "item:" .. tostring(quest.sourceItemId))
                 self:SetNormalTexture(validTexture)
                 self:SetPushedTexture(validTexture)
                 self:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
@@ -446,13 +449,14 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
         end
 
         btn.OnClick = function(self, button)
+            if InCombatLockdown() then return end
             if button == "LeftButton" then
                 return
             end
             if button == "RightButton" then
-                if self:GetParent().Quest.Id then
-                    if Questie.db.char.collapsedQuests[self:GetParent().Quest.Id] ~= true then
-                        Questie.db.char.collapsedQuests[self:GetParent().Quest.Id] = true
+                if self.questID then
+                    if Questie.db.char.collapsedQuests[self.questID] ~= true then
+                        Questie.db.char.collapsedQuests[self.questID] = true
                         QuestieTracker:ResetLinesForChange()
                         QuestieTracker:Update()
                     end
@@ -463,13 +467,15 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
         end
 
         btn.OnEnter = function(self)
-            GameTooltip:SetOwner(self, "ANCHOR_PRESERVE")
+            GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
             GameTooltip:SetHyperlink("item:"..tostring(self.itemID)..":0:0:0:0:0:0:0")
             GameTooltip:Show()
+            _OnEnter(self)
         end
 
         btn.OnLeave = function(self)
             GameTooltip:Hide()
+            _OnLeave(self)
         end
 
         btn.FakeHide = function(self)
@@ -485,6 +491,7 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
 
         _QuestieTracker.ItemButtons[i] = btn
         _QuestieTracker.ItemButtons[i]:Hide()
+        _QuestieTracker.ItemButtons[i]:SetAlpha(0)
     end
 
     return btn
@@ -602,6 +609,7 @@ function _QuestieTracker:CreateTrackedQuestButtons()
         expandZone:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 
         expandZone:SetScript("OnClick", function(self)
+            if InCombatLockdown() then return end
             if self.mode == 1 then
                 self:SetMode(0)
             else
@@ -654,6 +662,7 @@ function _QuestieTracker:CreateTrackedQuestButtons()
         expandQuest:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 
         expandQuest:SetScript("OnClick", function(self)
+            if InCombatLockdown() then return end
             if self.mode == 1 then
                 self:SetMode(0)
             else
@@ -785,8 +794,9 @@ end
 
 function QuestieTracker:Update()
     Questie:Debug(DEBUG_DEVELOP, "QuestieTracker: Update")
+    if not QuestieTracker.started or InCombatLockdown() then return end
+
     trackerLineWidth = 0
-    if (not QuestieTracker.started) then return; end
 
     -- Tracker has started but not enabled
     if (not Questie.db.global.trackerEnabled) then
@@ -1042,38 +1052,38 @@ function QuestieTracker:Update()
                 button.itemID = quest.sourceItemId
                 button.fontSize = fontSizeCompare
                 line.button = button
-                button:Hide()
-                if button:SetItem(quest.sourceItemId, trackerHeaderBuffer * 1.5) then
-                    button:SetParent(line)
-                    local height = 0
-                    local frame = line
+                button.line = line
+                QuestieCombatQueue:Queue(function(self)
+                    if self:SetItem(quest, trackerHeaderBuffer * 1.5) then
+                        self:SetParent(line)
+                        local height = 0
+                        local frame = line
 
-                    while frame and frame ~= _QuestieTracker.trackedQuestsFrame do
-                        local _, parent, _, xOff, yOff = frame:GetPoint()
-                        height = height - (frame:GetHeight() - yOff)
-                        frame = parent
-                    end
+                        while frame and frame ~= _QuestieTracker.trackedQuestsFrame do
+                            local _, parent, _, xOff, yOff = frame:GetPoint()
+                            height = height - (frame:GetHeight() - yOff)
+                            frame = parent
+                        end
 
-                    button:ClearAllPoints()
-                    button:SetPoint("TOPRIGHT", line, "TOPLEFT", -trackerHeaderBuffer/3, 0)
+                        self:ClearAllPoints()
+                        self:SetPoint("TOPRIGHT", self.line, "TOPLEFT", -trackerHeaderBuffer/3, 0)
 
-                    if Questie.db.char.collapsedZones[quest.zoneOrSort] or Questie.db.char.collapsedQuests[quest.Id] then
-                        quest.expandQuest = true
-                        QuestieCombatQueue:Queue(function(self)
+                        if Questie.db.char.collapsedZones[quest.zoneOrSort] or Questie.db.char.collapsedQuests[quest.Id] then
+                            self.line.expandQuest:Show()
                             self:SetParent(UIParent)
                             self:Hide()
-                        end, button)
-                    else
-                        quest.expandQuest = false
-                        Questie.db.char.collapsedQuests[quest.Id] = nil
-                        button:SetFrameStrata("MEDIUM")
-                        button:Show()
-                    end
+                        else
+                            Questie.db.char.collapsedQuests[quest.Id] = nil
+                            self.line.expandQuest:Hide()
+                            self:SetFrameStrata("MEDIUM")
+                            self:Show()
+                        end
 
-                else
-                    quest.expandQuest = true
-                    button:Hide()
-                end
+                    else
+                        self.line.expandQuest:Show()
+                        self:Hide()
+                    end
+                end, button)
             end
 
             if Questie.db.char.collapsedQuests[quest.Id] then
@@ -1209,10 +1219,8 @@ function QuestieTracker:Update()
             button.itemID = nil
             button.lineID = nil
             button.fontSize = nil
-            QuestieCombatQueue:Queue(function(self)
-                self:SetParent(UIParent)
-                self:Hide()
-            end, button)
+            button:SetParent(UIParent)
+            button:Hide()
         end
     end
 
@@ -1305,13 +1313,9 @@ function QuestieTracker:Update()
         end
     end
     if hasQuest then
-        QuestieCombatQueue:Queue(function()
-            _QuestieTracker.baseFrame:Show()
-        end)
+        _QuestieTracker.baseFrame:Show()
     else
-        QuestieCombatQueue:Queue(function()
-            _QuestieTracker.baseFrame:Hide()
-        end)
+        _QuestieTracker.baseFrame:Hide()
     end
 end
 
@@ -1354,6 +1358,15 @@ function _QuestieTracker:StartFadeTicker()
                             _QuestieTracker.LineFrames[i].expandQuest:SetAlpha(_QuestieTracker.FadeTickerValue*3.3)
                         end
                     end
+
+                    -- Un-fade the quest item buttons
+                    if Questie.db.char.isTrackerExpanded then
+                        for i=1, _QuestieTracker.highestIndex do
+                            if _QuestieTracker.LineFrames[i].button then
+                                _QuestieTracker.LineFrames[i].button:SetAlpha(_QuestieTracker.FadeTickerValue*3.3)
+                            end
+                        end
+                    end
                 else
                     _QuestieTracker.FadeTicker:Cancel()
                     _QuestieTracker.FadeTicker = nil
@@ -1377,6 +1390,15 @@ function _QuestieTracker:StartFadeTicker()
                     if Questie.db.char.isTrackerExpanded then
                         for i=1, _QuestieTracker.highestIndex do
                             _QuestieTracker.LineFrames[i].expandQuest:SetAlpha(_QuestieTracker.FadeTickerValue*3.3)
+                        end
+                    end
+
+                    -- Fade the quest item buttons
+                    if Questie.db.char.isTrackerExpanded then
+                        for i=1, _QuestieTracker.highestIndex do
+                            if _QuestieTracker.LineFrames[i].button then
+                                _QuestieTracker.LineFrames[i].button:SetAlpha(_QuestieTracker.FadeTickerValue*3.3)
+                            end
                         end
                     end
                 else
@@ -1600,6 +1622,7 @@ end
 
 function QuestieTracker:ResetLinesForChange()
     Questie:Debug(DEBUG_DEVELOP, "QuestieTracker: ResetLinesForChange")
+    if InCombatLockdown() then return end
     for i = 1, trackerLineCount do
         _QuestieTracker.LineFrames[i].mode = nil
         _QuestieTracker.LineFrames[i].expandQuest.mode = nil
