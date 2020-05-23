@@ -70,7 +70,7 @@ function QuestieOptionsDefaults:Load()
             trackerColorObjectives = 'white',
             trackerQuestPadding = 2,
             trackerBackdropAlpha = 1,
-            trackerSortObjectives = 'byComplete',
+            trackerSortObjectives = 'byZone',
             trackerbindOpenQuestLog = 'left',
             trackerbindSetTomTom = 'ctrlleft',
             trackerbindUntrack = "shiftleft",

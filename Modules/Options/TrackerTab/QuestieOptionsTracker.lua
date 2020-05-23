@@ -7,7 +7,6 @@ local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions")
 local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils")
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
-local _QuestieTracker = QuestieTracker.private
 ---@type QuestieQuestTimers
 local QuestieQuestTimers = QuestieLoader:ImportModule("QuestieQuestTimers")
 
@@ -176,19 +175,19 @@ function QuestieOptions.tabs.tracker:Initialize()
                 set = function (info, value)
                     Questie.db.global.trackerBackdropFader = value
                     if value == true then
-                        _QuestieTracker.FadeTickerValue = 1
-                        _QuestieTracker.FadeTicker = C_Timer.NewTicker(0.02, function()
-                            if _QuestieTracker.FadeTickerValue > 0 then
-                                _QuestieTracker.FadeTickerValue = _QuestieTracker.FadeTickerValue - 0.02
+                        QuestieTracker.FadeTickerValue = 1
+                        QuestieTracker.FadeTicker = C_Timer.NewTicker(0.02, function()
+                            if QuestieTracker.FadeTickerValue > 0 then
+                                QuestieTracker.FadeTickerValue = QuestieTracker.FadeTickerValue - 0.02
 
                                 -- Fade the background and border
                                 if Questie.db.char.isTrackerExpanded and Questie.db.global.trackerBackdropEnabled and Questie.db.global.trackerBackdropFader then
-                                    _QuestieTracker.baseFrame:SetBackdropColor(0, 0, 0, math.min(Questie.db.global.trackerBackdropAlpha, _QuestieTracker.FadeTickerValue*3.3))
-                                    _QuestieTracker.baseFrame:SetBackdropBorderColor(1, 1, 1, math.min(Questie.db.global.trackerBackdropAlpha, _QuestieTracker.FadeTickerValue*3.3))
+                                    QuestieTracker.private.baseFrame:SetBackdropColor(0, 0, 0, math.min(Questie.db.global.trackerBackdropAlpha, QuestieTracker.FadeTickerValue*3.3))
+                                    QuestieTracker.private.baseFrame:SetBackdropBorderColor(1, 1, 1, math.min(Questie.db.global.trackerBackdropAlpha, QuestieTracker.FadeTickerValue*3.3))
                                 end
                             else
-                                _QuestieTracker.FadeTicker:Cancel()
-                                _QuestieTracker.FadeTicker = nil
+                                QuestieTracker.FadeTicker:Cancel()
+                                QuestieTracker.FadeTicker = nil
                             end
                         end)
                     end
@@ -234,9 +233,9 @@ function QuestieOptions.tabs.tracker:Initialize()
                 set = function(input, key)
                     Questie.db.global.trackerSortObjectives = key
                     if Questie.db.global.trackerSortObjectives == "byZone" then
-                        _QuestieTracker.QuestFrameIndent = _QuestieTracker.trackerFontSize*4.25
+                        QuestieTracker.QuestFrameIndent = QuestieTracker.trackerFontSize*4.25
                     else
-                        _QuestieTracker.QuestFrameIndent = _QuestieTracker.trackerFontSize*2.75
+                        QuestieTracker.QuestFrameIndent = QuestieTracker.trackerFontSize*2.75
                     end
                     QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
@@ -316,7 +315,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.trackerFontSizeHeader; end,
                 set = function (info, value)
-                    while (_QuestieTracker.baseFrame:GetHeight() >= GetScreenHeight() or _QuestieTracker.baseFrame:GetBottom() <= 0 or _QuestieTracker.baseFrame:GetTop() >= GetScreenHeight()) do
+                    while (QuestieTracker.private.baseFrame:GetHeight() >= GetScreenHeight() or QuestieTracker.private.baseFrame:GetBottom() <= 0 or QuestieTracker.private.baseFrame:GetTop() >= GetScreenHeight()) do
                         Questie.db.global.trackerFontSizeHeader = value
                         QuestieTracker:ResetLinesForChange()
                         QuestieTracker:Update()
@@ -355,7 +354,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.trackerFontSizeLine; end,
                 set = function (info, value)
-                    while (_QuestieTracker.baseFrame:GetHeight() >= GetScreenHeight() or _QuestieTracker.baseFrame:GetBottom() <= 0 or _QuestieTracker.baseFrame:GetTop() >= GetScreenHeight()) do
+                    while (QuestieTracker.private.baseFrame:GetHeight() >= GetScreenHeight() or QuestieTracker.private.baseFrame:GetBottom() <= 0 or QuestieTracker.private.baseFrame:GetTop() >= GetScreenHeight()) do
                         Questie.db.global.trackerFontSizeLine = value
                         QuestieTracker:ResetLinesForChange()
                         QuestieTracker:Update()
@@ -394,7 +393,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.trackerQuestPadding; end,
                 set = function (info, value)
-                    while (_QuestieTracker.baseFrame:GetHeight() >= GetScreenHeight() or _QuestieTracker.baseFrame:GetBottom() <= 0 or _QuestieTracker.baseFrame:GetTop() >= GetScreenHeight()) do
+                    while (QuestieTracker.private.baseFrame:GetHeight() >= GetScreenHeight() or QuestieTracker.private.baseFrame:GetBottom() <= 0 or QuestieTracker.private.baseFrame:GetTop() >= GetScreenHeight()) do
                         Questie.db.global.trackerQuestPadding = value
                         QuestieTracker:ResetLinesForChange()
                         QuestieTracker:Update()
