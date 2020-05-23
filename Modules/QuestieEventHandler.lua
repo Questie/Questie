@@ -31,6 +31,8 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieAuto
 local QuestieAuto = QuestieLoader:ImportModule("QuestieAuto")
+---@type QuestieOptions
+local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions")
 
 --- LOCAL ---
 --False -> true -> nil
@@ -364,6 +366,7 @@ _PLAYER_REGEN_DISABLED = function()
         previousTrackerState = Questie.db.char.isTrackerExpanded
         QuestieTracker:Collapse()
     end
+    QuestieOptions:HideFrame()
 end
 
 _PLAYER_REGEN_ENABLED = function()
