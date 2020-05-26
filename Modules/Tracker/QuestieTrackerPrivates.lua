@@ -212,7 +212,7 @@ function _QuestieTracker:OnDragStop(button)
         -- When the user sets a manual setPoint it runs QuestieTracker:ResetLocation() which
         -- converts everything over to a [CUSTOM]/UIParent/CENTER centric x,y cords so no pre/post
         -- processing of location data is needed. It's done "as-is".
-        elseif Questie.db.char.trackerSetpoint ~= "AUTO" then
+        else
             Questie.db.char.TrackerLocation[1] = Questie.db.char.trackerSetpoint
         end
 

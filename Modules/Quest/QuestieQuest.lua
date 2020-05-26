@@ -32,7 +32,6 @@ local _QuestieQuest = QuestieQuest.private
 local libS = LibStub:GetLibrary("AceSerializer-3.0")
 local libC = LibStub:GetLibrary("LibCompress")
 
-
 --We should really try and squeeze out all the performance we can, especially in this.
 local tostring = tostring;
 local tinsert = table.insert;
@@ -44,7 +43,6 @@ local strfind = string.find;
 local slower = string.lower;
 
 QuestieQuest.availableQuests = {} --Gets populated at PLAYER_ENTERED_WORLD
-
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 
@@ -126,7 +124,6 @@ function QuestieQuest:ToggleNotes(desiredValue)
     QuestieQuest.NotesHidden = not QuestieQuest.NotesHidden
     Questie.db.char.enabled = not QuestieQuest.NotesHidden
 end
-
 
 function QuestieQuest:ClearAllNotes()
     for questId in pairs (QuestiePlayer.currentQuestlog) do
@@ -240,7 +237,6 @@ function QuestieQuest:SmoothReset() -- use timers to reset progressively instead
         step = step + 1
     end, 5)
 end
-
 
 function QuestieQuest:UpdateHiddenNotes()
     Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:UpdateHiddenNotes]")
@@ -655,7 +651,6 @@ function QuestieQuest:AddFinisher(quest)
         end
     end
 end
-
 
 -- this is for forcing specific things on to the map (That aren't quest related)
 -- label and customScale can be nil
@@ -1260,6 +1255,7 @@ function QuestieQuest:GetAllLeaderBoardDetails(questId)
     end
     return questObjectives;
 end
+
 --[[  KEEP THIS FOR NOW
 
             -- Look if it contains "slain"
@@ -1528,3 +1524,54 @@ function QuestieQuest:CalculateAvailableQuests()
         end
     end
 end
+
+---------------------------------------------------------------------------------------------------
+-- These must be loaded in order together and loaded before the hook for custom quest links
+-- The Hyperlink hook is located in QuestieTooltips.lua
+---------------------------------------------------------------------------------------------------
+-- Message Event Filter which intercepts incoming linked quests and replaces them with Hyperlinks
+local function QuestsFilter(chatFrame, event, msg, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, unused, lineID, senderGUID, ...)
+    if msg then
+        for k in string.gmatch(msg, "%[..- %(%d+%)%]") do
+            local quest, sqid, questId, questLevel, questName
+            _, _, questName, sqid = string.find(k, "%[(..-) %((%d+)%)%]")
+
+            if questName and sqid then
+                questId = tonumber(sqid)
+                if string.find(questName, "(%[.+%]) ") ~= nil then
+                    _, _, questLevel, questName = string.find(questName, "%[(.+)%] (.+)")
+                end
+            end
+
+            -- TODO: use "[questLevel] questName" to trigger a search in Questie Journey if questId
+            -- is not found. However, this would be a complex search because we wouldn't know when
+            -- the quest title ends and where "player typed speech" begins. If the Quest Link is
+            -- coming from a Questie user then there is no issue since our Quest Links will have
+            -- [ ] around each quest. We should petition Blizzard to change their client code to
+            -- include the brackets by default. :D
+
+            if QuestieDB:GetQuest(questId) then
+                quest = QuestieDB:GetQuest(questId)
+            end
+
+            if quest and quest.name == questName and questId then
+                local coloredQuestName = QuestieLib:GetColoredQuestName(questId, questName, quest.level, Questie.db.global.trackerShowQuestLevel, complete, false)
+                local questLink = "|Hquestie:"..sqid..":"..senderGUID.."|h"..QuestieLib:PrintDifficultyColor(quest.level, "[")..coloredQuestName..QuestieLib:PrintDifficultyColor(quest.level, "]").."|h"
+                if questLevel then
+                    msg = string.gsub(msg, "%[%["..questLevel.."%] "..questName.." %("..sqid.."%)%]", questLink)
+                else
+                    msg = string.gsub(msg, "%["..questName.." %("..sqid.."%)%]", questLink)
+                end
+            end
+        end
+        return false, msg, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, unused, lineID, senderGUID, ...
+    end
+end
+
+-- The message filter that triggers the above local function
+ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY", QuestsFilter)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID", QuestsFilter)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", QuestsFilter)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_SAY", QuestsFilter)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_YELL", QuestsFilter)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", QuestsFilter)

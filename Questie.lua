@@ -220,7 +220,6 @@ function Questie:OnInitialize()
 end
 
 function Questie:OnUpdate()
-
 end
 
 function Questie:OnEnable()

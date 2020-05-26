@@ -288,7 +288,7 @@ QuestieLocale.locale['zhCN'] = {
     ['TRACKER_UNTRACK_LINK_DESC'] = "Removes a quest from the Tracker when the chat input box is not visible, otherwise this will link a quest to chat.",
     ['TRACKER_ACTIVE_QUESTS'] = "当前任务: ",
 
-    -- tracker right click menu
+    -- Tracker right click menu
     ['TRACKER_UNFOCUS'] = "停止关注", -- focus makes only that quest/objective show on map
     ['TRACKER_FOCUS_OBJECTIVE'] = "关注目标",
     ['TRACKER_FOCUS_QUEST'] = "关注任务",
@@ -303,6 +303,13 @@ QuestieLocale.locale['zhCN'] = {
     ['TRACKER_SHOW_ON_MAP'] = "显示于地图",
     ['TRACKER_UNLOCK'] = "解锁框体",
     ['TRACKER_LOCK'] = "锁定框体",
+
+    -- Tooltips
+    ['TOOLTIPS_AUTO_QUEST'] = 'This quest is an automatic completion quest and does not contain an objective.',
+    ['QUESTIE_ON_QUEST'] = 'You are on this quest',
+    ['QUESTIE_DONE_QUEST'] = 'You have completed this quest',
+    ['QUESTIE_NOTDONE_QUEST'] = 'You have not done this quest',
+    ['QUESTIE_CANTDO_QUEST'] = 'You are ineligible for this quest',
 
     -- Journey Window
     ['JOURNEY_TITLE'] = "%s的任务历程",

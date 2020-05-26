@@ -287,7 +287,7 @@ QuestieLocale.locale['esMX'] = {
     ['TRACKER_UNTRACK_LINK_DESC'] = "Removes a quest from the Tracker when the chat input box is not visible, otherwise this will link a quest to chat.",
     ['TRACKER_ACTIVE_QUESTS'] = "Misiones Activas: ",
 
-    -- tracker right click menu
+    -- Tracker right click menu
     ['TRACKER_UNFOCUS'] = "Desenfocar", -- focus makes only that quest/objective show on map
     ['TRACKER_FOCUS_OBJECTIVE'] = "Objetivo de enfoque",
     ['TRACKER_FOCUS_QUEST'] = "Misión de enfoque",
@@ -302,6 +302,13 @@ QuestieLocale.locale['esMX'] = {
     ['TRACKER_SHOW_ON_MAP'] = "Mostrar en mapa",
     ['TRACKER_UNLOCK'] = "Desbloquear rastreador",
     ['TRACKER_LOCK'] = "Bloquear rastreador",
+
+    -- Tooltips
+    ['TOOLTIPS_AUTO_QUEST'] = 'This quest is an automatic completion quest and does not contain an objective.',
+    ['QUESTIE_ON_QUEST'] = 'You are on this quest',
+    ['QUESTIE_DONE_QUEST'] = 'You have completed this quest',
+    ['QUESTIE_NOTDONE_QUEST'] = 'You have not done this quest',
+    ['QUESTIE_CANTDO_QUEST'] = 'You are ineligible for this quest',
 
     -- Journey Window
     ['JOURNEY_TITLE'] = "El viaje de %s",

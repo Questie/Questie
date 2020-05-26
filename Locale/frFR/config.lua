@@ -305,6 +305,13 @@ QuestieLocale.locale['frFR'] = {
     ['TRACKER_UNLOCK'] = "Déverrouiller la fenêtre du suivi",
     ['TRACKER_LOCK'] = "Verrouiller la fenêtre du suivi",
 
+    -- Tooltips
+    ['TOOLTIPS_AUTO_QUEST'] = 'This quest is an automatic completion quest and does not contain an objective.',
+    ['QUESTIE_ON_QUEST'] = 'You are on this quest',
+    ['QUESTIE_DONE_QUEST'] = 'You have completed this quest',
+    ['QUESTIE_NOTDONE_QUEST'] = 'You have not done this quest',
+    ['QUESTIE_CANTDO_QUEST'] = 'You are ineligible for this quest',
+
     -- Panneau Mon voyage
     ['JOURNEY_TITLE'] = "Le voyage de %s",
     ['JOUNREY_TAB'] = "Mon voyage",
