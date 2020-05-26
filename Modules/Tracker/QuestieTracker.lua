@@ -1,5 +1,5 @@
 ---@class QuestieTracker
-local QuestieTracker = QuestieLoader:CreateModule("QuestieTracker")
+QuestieTracker = QuestieLoader:CreateModule("QuestieTracker")
 local _QuestieTracker = QuestieTracker.private
 -------------------------
 --Import modules.
