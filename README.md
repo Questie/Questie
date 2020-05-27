@@ -1,14 +1,17 @@
 # Questie
 
+[![Discord](https://img.shields.io/badge/discord-Questie-738bd7)](https://discord.gg/phKnHVu)
+
+[![Downloads](https://img.shields.io/github/downloads/AeroScripts/QuestieDev/total.svg)](https://github.com/AeroScripts/QuestieDev/releases/)
+[![Downloads Latest](https://img.shields.io/github/downloads/AeroScripts/QuestieDev/v5.10.3/total.svg)](https://github.com/AeroScripts/QuestieDev/releases/latest)
+[![Date Latest](https://img.shields.io/github/release-date/AeroScripts/QuestieDev.svg)](https://github.com/AeroScripts/QuestieDev/releases/latest)
+[![Commits Since Latest](https://img.shields.io/github/commits-since/AeroScripts/QuestieDev/latest.svg)](https://github.com/AeroScripts/QuestieDev/commits/master)
+
+
 ## Download
 https://github.com/AeroScripts/QuestieDev/releases/latest
 
 Follow the [Installation Guide](https://github.com/AeroScripts/QuestieDev/wiki/Installation-Guide) in the Wiki if you just want to get the latest version of Questie up and running. If you have problems, please read the [Frequently Asked Questions](https://github.com/AeroScripts/QuestieDev/wiki/FAQ-for-Classic-(1.13)).
-
-[![Downloads](https://img.shields.io/github/downloads/AeroScripts/QuestieDev/total.svg)](https://github.com/AeroScripts/QuestieDev/releases/)
-[![Downloads Latest](https://img.shields.io/github/downloads/AeroScripts/QuestieDev/v5.10.2/total.svg)](https://github.com/AeroScripts/QuestieDev/releases/latest)
-[![Date Latest](https://img.shields.io/github/release-date/AeroScripts/QuestieDev.svg)](https://github.com/AeroScripts/QuestieDev/releases/latest)
-[![Commits Since Latest](https://img.shields.io/github/commits-since/AeroScripts/QuestieDev/latest.svg)](https://github.com/AeroScripts/QuestieDev/commits/master)
 
 
 ## Information
@@ -20,6 +23,12 @@ Follow the [Installation Guide](https://github.com/AeroScripts/QuestieDev/wiki/I
 - If you wish to submit a bug fix or feature addition you made, you can create a Pull Request on Github. Please read [the rules](https://github.com/AeroScripts/QuestieDev/wiki/Pull-Request-Rules) first.
 
 Trust us it's (Good)!
+
+## Donation
+If you'd like to support the development of Questie by donating, you can do so here:
+
+<a href='https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=aero1861%40gmail%2ecom&lc=CA&item_name=Questie%20Devs&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted'><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif"/></a>
+
 
 ## Features
 
@@ -87,7 +96,3 @@ Trust us it's (Good)!
 
 ![config](https://user-images.githubusercontent.com/8838573/67285731-61a7a200-f4d8-11e9-9026-b1eeaad0d721.png)
 
-## Donation
-If you'd like to support the development of Questie by donating, you can do so here:
-
-<a href='https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=aero1861%40gmail%2ecom&lc=CA&item_name=Questie%20Devs&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted'><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif"/></a>

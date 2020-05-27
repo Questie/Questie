@@ -60,6 +60,7 @@ def transform_lines_into_past_tense(line):
     line = line.replace('Mark', 'Marked')
     line = line.replace('Change', 'Changed')
     line = line.replace('Update', 'Updated')
+    line = line.replace('Blacklist', 'Blacklisted')
     return line
 
 

@@ -198,12 +198,14 @@ function QuestieItemFixes:Load()
         [3864] = {
             [QuestieDB.itemKeys.npcDrops] = {},
         },
+        [4016] = {
+            [QuestieDB.itemKeys.npcDrops] = {1488,1489,1490,1491,2530,2534,2535,2536,2537},
+        },
         [4098] = {
             [QuestieDB.itemKeys.name] = "Carefully Folded Note",
             [QuestieDB.itemKeys.relatedQuests] = {594},
             [QuestieDB.itemKeys.npcDrops] = {},
             [QuestieDB.itemKeys.objectDrops] = {2560},
-
         },
         [4234] = {
             [QuestieDB.itemKeys.npcDrops] = {},
@@ -257,6 +259,24 @@ function QuestieItemFixes:Load()
         },
         [4806] = {
             [QuestieDB.itemKeys.npcDrops] = {2956,2957,3068},
+        },
+        [4843] = {
+            [QuestieDB.itemKeys.name] = "Amethyst Runestone",
+            [QuestieDB.itemKeys.relatedQuests] = {793,717},
+            [QuestieDB.itemKeys.npcDrops] = {},
+            [QuestieDB.itemKeys.objectDrops] = {2858},
+        },
+        [4844] = {
+            [QuestieDB.itemKeys.name] = "Opal Runestone",
+            [QuestieDB.itemKeys.relatedQuests] = {793,717},
+            [QuestieDB.itemKeys.npcDrops] = {},
+            [QuestieDB.itemKeys.objectDrops] = {2848},
+	    },
+        [4845] = {
+            [QuestieDB.itemKeys.name] = "Diamond Runestone",
+            [QuestieDB.itemKeys.relatedQuests] = {793,717},
+            [QuestieDB.itemKeys.npcDrops] = {},
+            [QuestieDB.itemKeys.objectDrops] = {2842},
         },
         [4904] = {
             [QuestieDB.itemKeys.name] = "Venomtail Antidote",
@@ -375,6 +395,9 @@ function QuestieItemFixes:Load()
             [QuestieDB.itemKeys.relatedQuests] = {1195},
             [QuestieDB.itemKeys.npcDrops] = {},
             [QuestieDB.itemKeys.objectDrops] = {20806},
+        },
+        [5942] = {
+            [QuestieDB.itemKeys.npcDrops] = {4405,4401,4404,4402,4403,14236},
         },
         [6016] = {
             [QuestieDB.itemKeys.name] = "Wolf Heart Sample",
@@ -986,7 +1009,7 @@ function QuestieItemFixes:Load()
             [QuestieDB.itemKeys.npcDrops] = {8766},
         },
         [20378] = {
-            [QuestieDB.itemKeys.npcDrops] = {14435, 14347},
+            [QuestieDB.itemKeys.npcDrops] = {},
             [QuestieDB.itemKeys.objectDrops] = {180436,180501},
         },
         [21557] = {

@@ -45,7 +45,7 @@ local QuestieNPCFixes = QuestieLoader:ImportModule("QuestieNPCFixes")
 
 
 local tinsert = table.insert
-local _WithinDates, _LoadDarkmoonFaire
+local _WithinDates, _LoadDarkmoonFaire, _IsDarkmoonFaireActive
 
 function QuestieEvent:Load()
     local year = date("%y")
@@ -113,6 +113,23 @@ function QuestieEvent:Unload()
     end
 end
 
+---@param day number
+---@param weekDay number
+---@return boolean
+_IsDarkmoonFaireActive = function(day, weekDay)
+    -- The 16 is the highest date the faire can possibly end
+    -- And on a Monday (weekDay == 2) the faire ended, when it's the second Monday after the first Friday of the month
+    if day > 16 or
+        (weekDay == 2 and day >= 11) or
+        (weekDay ~= 6 and (day - weekDay < 1)) or
+        (weekDay ~= 6 and (day - weekDay == 1)) or
+        (weekDay ~= 1 and (day - weekDay == 9)) then -- Sometimes the 1th is a Friday
+        return false
+    end
+
+    return true
+end
+
 --- https://classic.wowhead.com/guides/classic-darkmoon-faire#darkmoon-faire-location-and-schedule
 --- Darkmoon Faire starts its setup the first Friday of the month and will begin the following Monday.
 --- The faire ends the sunday after it has begun.
@@ -125,12 +142,7 @@ _LoadDarkmoonFaire = function()
 
     local isInMulgore = (month % 2) == 0
 
-    -- The 16 is the highest date the faire can possibly end
-    -- And on a Monday (weekDay == 2) the faire ended, when it's the second Monday after the first Friday of the month
-    if day > 16 or
-        (weekDay == 2 and (day >= 11 and day <= 17)) or
-        (weekDay ~= 6 and (day - weekDay < 1)) or
-        (weekDay ~= 6 and (day - weekDay == 1)) then
+    if (not _IsDarkmoonFaireActive(day, weekDay)) then
         return
     end
 
@@ -195,8 +207,8 @@ QuestieEvent.eventDates = {
         startDate = "13/5",
         endDate = "19/5"
     },
-    ["MidsummerFireFestival"] = {startDate = "13/5", endDate = "19/5"},
-    ["ChildrensWeek"] = {startDate = "1/6", endDate = "7/6"},
+    ["MidsummerFireFestival"] = {startDate = "21/6", endDate = "5/7"},
+    ["ChildrensWeek"] = {startDate = "1/5", endDate = "7/5"},
     ["HarvestFestival"] = {startDate = "27/9", endDate = "4/10"},
     ["PeonDay"] = {startDate = "30/9", endDate = "30/9"},
     ["HallowsEnd"] = {startDate = "18/10", endDate = "1/11"},
