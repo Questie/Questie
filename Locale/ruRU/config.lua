@@ -319,6 +319,7 @@ QuestieLocale.locale['ruRU'] = {
     ['TOOLTIPS_REQUIRE_QUEST'] = 'Requirements',
     ['TOOLTIPS_PROGRESS_QUEST'] = 'Your progress',
     ['TOOLTIPS_FIN_QUEST'] = '(Done)',
+    ['TOOLTIPS_REPEAT_QUEST'] = 'This quest is repeatable',
 
     -- Journey Window
     ['JOURNEY_TITLE'] = "%s's Приключение ",
