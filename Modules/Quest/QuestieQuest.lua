@@ -1457,7 +1457,7 @@ function QuestieQuest:CalculateAvailableQuests()
     classIndex = math.pow(2, classIndex-1)
     raceIndex = math.pow(2, raceIndex-1)
 
-    for questId, _ in pairs(QuestieLoader:ImportModule("QuestieDB").QuestPointers) do
+    for questId, _ in pairs(QuestieDB.QuestPointers or QuestieDB.questData) do
         ---@type Quest
         --local quest = QuestieDB:GetQuest(questId)
 
