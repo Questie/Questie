@@ -382,25 +382,27 @@ function ItemRefTooltip:SetHyperlink(link, ...)
             ItemRefTooltip:SetOwner(UIParent, "ANCHOR_PRESERVE")
 
             -- [Block 1] Quest Title
-            local cQuestID, cQuestName, cQuestID
+            local questLevel, cQuestID, cQuestName, cQuestID
+            questLevel = QuestieLib:GetLevelString(quest.Id, quest.name, quest.level, false)
+
             if quest.specialFlags == 1 then
-                cQuestLevel = "|cFF00c0ff["..quest.level.."]|r" -- blizzard blue
+                cQuestLevel = "|cFF00c0ff"..questLevel.."|r" -- blizzard blue
                 cQuestName = "|cFF00c0ff"..quest.name.."|r" -- blizzard blue
                 cQuestID = "|cFF00c0ff("..quest.Id..")|r" -- blizzard blue
             else
-                cQuestLevel = "|cFFffd100["..quest.level.."]|r" -- default gold
+                cQuestLevel = "|cFFffd100"..questLevel.."|r" -- default gold
                 cQuestName = "|cFFffd100"..quest.name.."|r" -- default gold
                 cQuestID = "|cFFffd100("..quest.Id..")|r" -- default gold
             end
 
             if Questie.db.global.trackerShowQuestLevel and Questie.db.global.enableTooltipsQuestID then
-                ItemRefTooltip:AddLine(cQuestLevel.." "..cQuestName.." "..cQuestID)
+                ItemRefTooltip:AddLine(cQuestLevel..cQuestName.." "..cQuestID)
 
             elseif Questie.db.global.trackerShowQuestLevel and not Questie.db.global.enableTooltipsQuestID then
-                ItemRefTooltip:AddLine(cQuestLevel.." "..cQuestName)
+                ItemRefTooltip:AddLine(cQuestLevel..cQuestName)
 
             elseif Questie.db.global.enableTooltipsQuestID and not Questie.db.global.trackerShowQuestLevel then
-                ItemRefTooltip:AddLine(cQuestName.." "..cQuestID)
+                ItemRefTooltip:AddLine(cQuestName..cQuestID)
 
             else
                 ItemRefTooltip:AddLine(cQuestName)
@@ -421,6 +423,9 @@ function ItemRefTooltip:SetHyperlink(link, ...)
 
             elseif (UnitLevel("player") < quest.requiredLevel or not QuestieDB:GetQuest(quest.Id):IsDoable()) and not Questie.db.char.hidden[quest.Id] then
                 ItemRefTooltip:AddLine("|cFFff0000"..QuestieLocale:GetUIString("TOOLTIPS_CANTDO_QUEST").."|r",1,1,1) --red
+
+            elseif quest.specialFlags == 1 then
+                ItemRefTooltip:AddLine("|cFFffff00"..QuestieLocale:GetUIString("TOOLTIPS_REPEAT_QUEST").."|r",1,1,1) --yellow
 
             else
                 ItemRefTooltip:AddLine("|cFFffff00"..QuestieLocale:GetUIString("TOOLTIPS_NOTDONE_QUEST").."|r",1,1,1) --yellow

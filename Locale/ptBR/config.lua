@@ -319,6 +319,7 @@ QuestieLocale.locale['ptBR'] = {
     ['TOOLTIPS_REQUIRE_QUEST'] = 'Requirements',
     ['TOOLTIPS_PROGRESS_QUEST'] = 'Your progress',
     ['TOOLTIPS_FIN_QUEST'] = '(Done)',
+    ['TOOLTIPS_REPEAT_QUEST'] = 'This quest is repeatable',
 
     --Ordens de Viagem
     ['JOURNEY_TITLE'] = "A Viagem de %s",
