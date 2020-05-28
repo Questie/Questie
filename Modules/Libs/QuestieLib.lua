@@ -453,6 +453,21 @@ function QuestieLib:SortQuestsByLevel(quests)
     return sortedQuestsByLevel
 end
 
+function QuestieLib:SortQuestIDsByLevel(quests)
+    local sortedQuestsByLevel = {}
+
+    local function compareTablesByIndex(a, b)
+        return a[1] < b[1]
+    end
+
+    for q in pairs(quests) do
+        tinsert(sortedQuestsByLevel, {QuestieDB.QueryQuestSingle(q, "questLevel") or 0, q})
+    end
+    table.sort(sortedQuestsByLevel, compareTablesByIndex)
+
+    return sortedQuestsByLevel
+end
+
 ---------------------------------------------------------------------------------------------------
 -- Returns the Levenshtein distance between the two given strings
 -- credit to https://gist.github.com/Badgerati/3261142

@@ -55,9 +55,11 @@ function QuestieJourney:Initialize()
         local zoneOrSort, startedBy, finishedBy = unpack(QuestieDB.QueryQuest(id, "zoneOrSort", "startedBy", "finishedBy"))
         if zoneOrSort > 0 then
             local alternativeZoneID = QuestieDBZone:GetAlternativeZoneId(zoneOrSort)
-            zoneMap[zoneOrSort] = true
+            if not zoneMap[zoneOrSort] then zoneMap[zoneOrSort] = {} end
+			zoneMap[zoneOrSort][id] = true
             if alternativeZoneID then
-                zoneMap[alternativeZoneID] = true
+				if not zoneMap[alternativeZoneID] then zoneMap[alternativeZoneID] = {} end
+                zoneMap[alternativeZoneID][id] = true
             end
         else
             if startedBy then
@@ -66,7 +68,8 @@ function QuestieJourney:Initialize()
                         local spawns = QuestieDB.QueryNPCSingle(id, "spawns")
                         if spawns then
                             for zone in pairs(spawns) do
-                                zoneMap[zone] = true
+								if not zoneMap[zone] then zoneMap[zone] = {} end
+                                zoneMap[zone][id] = true
                             end
                         end
                     end
@@ -76,7 +79,8 @@ function QuestieJourney:Initialize()
                         local spawns = QuestieDB.QueryObjectSingle(id, "spawns")
                         if spawns then
                             for zone in pairs(spawns) do
-                                zoneMap[zone] = true
+								if not zoneMap[zone] then zoneMap[zone] = {} end
+                                zoneMap[zone][id] = true
                             end
                         end
                     end
@@ -89,7 +93,8 @@ function QuestieJourney:Initialize()
                         local spawns = QuestieDB.QueryNPCSingle(id, "spawns")
                         if spawns then
                             for zone in pairs(spawns) do
-                                zoneMap[zone] = true
+								if not zoneMap[zone] then zoneMap[zone] = {} end
+                                zoneMap[zone][id] = true
                             end
                         end
                     end
@@ -99,7 +104,8 @@ function QuestieJourney:Initialize()
                         local spawns = QuestieDB.QueryObjectSingle(id, "spawns")
                         if spawns then
                             for zone in pairs(spawns) do
-                                zoneMap[zone] = true
+								if not zoneMap[zone] then zoneMap[zone] = {} end
+                                zoneMap[zone][id] = true
                             end
                         end
                     end
@@ -119,6 +125,8 @@ function QuestieJourney:Initialize()
             end
         end
     end
+	
+    QuestieJourney.zoneMap = zoneMap
     
     QuestieJourney:BuildMainFrame()
 end

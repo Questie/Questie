@@ -147,11 +147,17 @@ local function _GetColoredQuestName(self, blizzLike)
     return QuestieLib:GetColoredQuestName(self.Id, questName, self.level, Questie.db.global.enableTooltipsQuestLevel, false, blizzLike)
 end
 
+function QuestieDB:GetColoredQuestName(id, blizzLike)
+    local questName, level = unpack(QuestieDB.QueryQuest(id, "name", "questLevel"))
+    return QuestieLib:GetColoredQuestName(id, questName, level, Questie.db.global.enableTooltipsQuestLevel, false, blizzLike)
+end
+
 -- TODO: move these into a QuestUtils class or something
 function QuestieDB:IsRepeatable(id)
-    local flags = QuestieDB.QueryQuest(id, "specialFlags")[1]
+    local flags = QuestieDB.QueryQuestSingle(id, "specialFlags")
     return flags and mod(flags, 2) == 1
 end
+
 function QuestieDB:IsDungeonQuest(questId)
     local questType, _ = GetQuestTagInfo(questId)
     return questType == 81
