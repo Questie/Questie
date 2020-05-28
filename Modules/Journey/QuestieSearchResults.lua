@@ -1,20 +1,25 @@
 ---@class QuestieSearchResults
-local QuestieSearchResults = QuestieLoader:CreateModule("QuestieSearchResults");
+local QuestieSearchResults = QuestieLoader:CreateModule("QuestieSearchResults")
 -------------------------
 --Import modules.
 -------------------------
 ---@type QuestieQuest
-local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type QuestieJourney
-local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney");
+local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
+local _QuestieJourney = QuestieJourney.private
 ---@type QuestieJourneyUtils
-local QuestieJourneyUtils = QuestieLoader:ImportModule("QuestieJourneyUtils");
+local QuestieJourneyUtils = QuestieLoader:ImportModule("QuestieJourneyUtils")
 ---@type QuestieSearch
-local QuestieSearch = QuestieLoader:ImportModule("QuestieSearch");
+local QuestieSearch = QuestieLoader:ImportModule("QuestieSearch")
 ---@type QuestieMap
-local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
+local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type QuestieDB
-local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type QuestieCorrections
+local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
 local AceGUI = LibStub("AceGUI-3.0");
 
@@ -29,7 +34,11 @@ local function AddParagraph(frame, lookupObject, firstKey, secondKey, header, lo
     if lookupObject[firstKey][secondKey] then
         QuestieJourneyUtils:AddLine(frame,  yellow .. header .. "|r")
         for _,id in pairs(lookupObject[firstKey][secondKey]) do
-            QuestieJourneyUtils:AddLine(frame, lookupDB[id][lookupKey].." ("..id..")")
+            if lookupDB[id] then
+                QuestieJourneyUtils:AddLine(frame, lookupDB[id][lookupKey].." ("..id..")")
+            else
+                Questie:Error("[QuestieSearchResults:AddParagraph] lookupDB[id] is nil for quest ", lookupObject[1], "and itemId", id)
+            end
         end
     end
 end
@@ -88,7 +97,7 @@ local function GetRacesString(raceMask)
         return "Horde"
     else
         local raceString = ""
-        local raceTable = UnpackBinary(raceMask)
+        local raceTable = QuestieLib:UnpackBinary(raceMask)
         local stringTable = {
             'Human',
             'Orc',
@@ -285,8 +294,8 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
             startQuests[counter].frame:SetUserData('id', v);
             startQuests[counter].frame:SetUserData('name', startQuests[counter].quest.name);
             startQuests[counter].frame:SetCallback("OnClick", function(self) QuestieSearchResults:GetDetailFrame('quest', v) end)
-            startQuests[counter].frame:SetCallback("OnEnter", ShowJourneyTooltip);
-            startQuests[counter].frame:SetCallback("OnLeave", HideJourneyTooltip);
+            startQuests[counter].frame:SetCallback("OnEnter", _QuestieJourney.ShowJourneyTooltip);
+            startQuests[counter].frame:SetCallback("OnLeave", _QuestieJourney.HideJourneyTooltip);
             startGroup:AddChild(startQuests[counter].frame);
             counter = counter + 1;
         end
@@ -319,8 +328,8 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
             endQuests[counter].frame:SetUserData('id', v);
             endQuests[counter].frame:SetUserData('name', endQuests[counter].quest.name);
             endQuests[counter].frame:SetCallback("OnClick", function(self) QuestieSearchResults:GetDetailFrame('quest', v) end);
-            endQuests[counter].frame:SetCallback("OnEnter", ShowJourneyTooltip);
-            endQuests[counter].frame:SetCallback("OnLeave", HideJourneyTooltip);
+            endQuests[counter].frame:SetCallback("OnEnter", _QuestieJourney.ShowJourneyTooltip);
+            endQuests[counter].frame:SetCallback("OnLeave", _QuestieJourney.HideJourneyTooltip);
             endGroup:AddChild(endQuests[counter].frame);
             counter = counter + 1;
         end
@@ -504,6 +513,7 @@ end
 local typeDropdown = nil;
 local searchBox = nil;
 local searchGroup = nil;
+local searchButton = nil;
 function QuestieSearchResults:DrawSearchTab(container)
     -- Header
     local header = AceGUI:Create("Heading");
@@ -515,7 +525,7 @@ function QuestieSearchResults:DrawSearchTab(container)
     typeDropdown = AceGUI:Create("LQDropdown");
     searchBox = AceGUI:Create("EditBox");
     searchGroup = AceGUI:Create("SimpleGroup");
-    local searchBtn = AceGUI:Create("Button");
+    searchButton = AceGUI:Create("Button");
     -- switching between search types
     typeDropdown:SetList({
         [1] = QuestieLocale:GetUIString('JOURNEY_SEARCH_BY_NAME'),
@@ -536,9 +546,9 @@ function QuestieSearchResults:DrawSearchTab(container)
     searchBox:DisableButton(true);
     searchBox:SetCallback("OnTextChanged", function()
         if not (searchBox:GetText() == '') then
-            searchBtn:SetDisabled(false);
+            searchButton:SetDisabled(false);
         else
-            searchBtn:SetDisabled(true);
+            searchButton:SetDisabled(true);
         end
     end);
     searchBox:SetCallback("OnEnterPressed", function()
@@ -553,13 +563,13 @@ function QuestieSearchResults:DrawSearchTab(container)
     end
     container:AddChild(searchBox);
     -- search button
-    searchBtn:SetText(QuestieLocale:GetUIString('JOURNEY_SEARCH_EXE'));
-    searchBtn:SetDisabled(true);
-    searchBtn:SetCallback("OnClick", function()
+    searchButton:SetText(QuestieLocale:GetUIString('JOURNEY_SEARCH_EXE'));
+    searchButton:SetDisabled(true);
+    searchButton:SetCallback("OnClick", function()
         local text = string.trim(searchBox:GetText(), " \n\r\t[]");
         QuestieSearchResults:DrawSearchResultTab(searchGroup, Questie.db.char.searchType, text, false);
     end);
-    container:AddChild(searchBtn);
+    container:AddChild(searchButton);
     -- search results
     searchGroup:SetFullHeight(true);
     searchGroup:SetFullWidth(true);
@@ -567,7 +577,7 @@ function QuestieSearchResults:DrawSearchTab(container)
     container:AddChild(searchGroup);
     -- Check for existence of previous search, if present use its result
     if QuestieSearch.LastResult.query ~= '' then
-        searchBtn:SetDisabled(false)
+        searchButton:SetDisabled(false)
         local text = string.trim(searchBox:GetText(), " \n\r\t[]")
         QuestieSearchResults:DrawSearchResultTab(searchGroup, Questie.db.char.searchType, text, true)
     end
@@ -580,7 +590,7 @@ function QuestieSearchResults:JumpToQuest(button)
     if not QuestieJourney:IsShown() then
         QuestieJourney:ToggleJourneyWindow()
     end
-    if not (QuestieJourney.lastOpenWindow == 'search') then
+    if not (_QuestieJourney.lastOpenWindow == 'search') then
         QuestieJourney.tabGroup:SelectTab('search');
     end
 
@@ -589,6 +599,9 @@ function QuestieSearchResults:JumpToQuest(button)
     else
         searchBox:SetText(id)
     end
+
+    searchButton:SetDisabled(false)
+    QuestieSearchResults:DrawSearchResultTab(searchGroup, Questie.db.char.searchType, name, false);
 end
 
 function QuestieSearchResults:GetDetailFrame(detailType, id)

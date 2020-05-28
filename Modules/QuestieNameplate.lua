@@ -15,7 +15,7 @@ QuestieNameplate.ticker = nil;
 
 -- Initializer
 function QuestieNameplate:Initialize()
-    QuestieNameplate.ticker = C_Timer.NewTicker(0.5, QuestieNameplate.UpdateNameplate);
+    -- QuestieNameplate.ticker = C_Timer.NewTicker(0.5, QuestieNameplate.UpdateNameplate);
 end
 
 -- Frame Management
@@ -89,6 +89,7 @@ end
 
 -- Event Handlers
 function QuestieNameplate:NameplateCreated(token)
+    Questie:Debug(DEBUG_SPAM, "[QuestieNameplate:NameplateCreated]")
     -- if nameplates are disbaled, don't create new nameplates.
     if not Questie.db.global.nameplateEnabled then return end;
 
@@ -133,6 +134,7 @@ end
 
 
 function QuestieNameplate:UpdateNameplate(self)
+    Questie:Debug(DEBUG_SPAM, "[QuestieNameplate:UpdateNameplate]")
 
     for guid, token in pairs(activeGUIDs) do
 
@@ -170,6 +172,8 @@ end
 local activeTargetFrame = nil;
 
 function QuestieNameplate:DrawTargetFrame()
+    Questie:Debug(DEBUG_SPAM, "[QuestieNameplate:DrawTargetFrame]")
+
     if Questie.db.global.nameplateTargetFrameEnabled then
 
         -- always remove the previous frame if it exists

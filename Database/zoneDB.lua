@@ -13,7 +13,7 @@ local uiMapIDToAreaID = {} --You should really never need the MapIDs, but you ca
 ZoneDataAreaIDToUiMapID = {}
 
 function QuestieDBZone:GetAreaIdByUIMapID(uiMapId)
-    local areaId = 0
+    local areaId = 1 -- Default to Dun Morogh
     if uiMapIDToAreaID[uiMapId] ~= nil then
         areaId = uiMapIDToAreaID[uiMapId]
     end
@@ -110,7 +110,8 @@ local zoneDataClassicBetaHack = {
     --["Kalimdor"] = {1464,0}
 }
 
-
+-- Different source of zoneIds
+-- https://www.ownedcore.com/forums/world-of-warcraft/world-of-warcraft-emulator-servers/60411-zone-ids.html
 local zoneDataClassic = { --AreaTable IDs --Aka AreaID
     [1] = 'Dun Morogh',
     [3] = 'Badlands',
@@ -192,36 +193,51 @@ local zoneDataClassic = { --AreaTable IDs --Aka AreaID
     [3428] = 'Ahn\'Qiraj',
     [3429] = 'Ruins of Ahn\'Qiraj',
     [3456] = 'Naxxramas',
-    [7307] = 'Upper Blacrock Spire',
+    [7307] = 'Upper Blackrock Spire',
 }
 
--- [AreaID] = {"name", alternative AreaId (a sub zone)}
+-- [AreaID] = {"name", alternative AreaId (a sub zone), parentId}
 local dungeons = {
-    [209] = {"Shadowfang Keep", 236},
-    [491] = {"Razorfen Kraul", 1717},
-    [717] = {"The Stockades", nil},
-    [718] = {"Wailing Caverns", nil},
-    [719] = {"Blackfathom Deeps", 2797},
-    [721] = {"Gnomeregan", 133},
-    [722] = {"Razorfen Downs", 1316},
-    [796] = {"Scarlet Monastery", nil},
-    [1176] = {"Zul'Farrak", 978},
-    [1337] = {"Uldaman", 1517},
-    [1477] = {"The Temple of Atal'Hakkar", 1417},
-    [1581] = {"The Deadmines", nil},
-    [1583] = {"Blackrock Spire", nil},
-    [1584] = {"Blackrock Depths", nil},
-    [2017] = {"Stratholme", 2279},
-    [2057] = {"Scholomance", nil},
-    [2100] = {"Maraudon", nil},
-    [2437] = {"Ragefire Chasm", nil},
-    [2557] = {"Dire Maul", 2577},
+    [209] = {"Shadowfang Keep", 236, 130},
+    [491] = {"Razorfen Kraul", 1717, 17},
+    [717] = {"The Stockades", nil, 1519},
+    [718] = {"Wailing Caverns", nil, 17},
+    [719] = {"Blackfathom Deeps", 2797, 331},
+    [721] = {"Gnomeregan", 133, 1},
+    [722] = {"Razorfen Downs", 1316, 17},
+    [796] = {"Scarlet Monastery", nil, 85},
+    [1176] = {"Zul'Farrak", 978, 440},
+    [1337] = {"Uldaman", 1517, 3},
+    [1477] = {"The Temple of Atal'Hakkar", 1417, 8},
+    [1581] = {"The Deadmines", nil, 40},
+    [1583] = {"Blackrock Spire", nil, 51},
+    [1584] = {"Blackrock Depths", nil, 51},
+    [2017] = {"Stratholme", 2279, 139},
+    [2057] = {"Scholomance", nil, 28},
+    [2100] = {"Maraudon", nil, 405},
+    [2437] = {"Ragefire Chasm", nil, 1637},
+    [2557] = {"Dire Maul", 2577, 357},
 }
 
-function QuestieDBZone:GetDungeonAlternative(areaId)
+-- The starting zones have different zoneIDs which we don't want to handle seperatly
+local startingZoneParents = {
+    [12] = 9,
+    [1] = 132,
+    [85] = 154,
+    [141] = 188,
+    [215] = 220,
+    [14] = 363,
+}
+
+function QuestieDBZone:GetAlternativeZoneId(areaId)
     local entry = dungeons[areaId]
     if entry then
         return entry[2]
+    end
+
+    entry = startingZoneParents[areaId]
+    if entry then
+        return entry
     end
 
     return nil
@@ -360,6 +376,10 @@ for _,v in pairs(zoneDataClassicBetaHack) do
     QuestieZoneToParentTable[v[1]] = v[2]
 end
 
+for k, v in pairs(dungeons) do
+    QuestieZoneToParentTable[k] = v[3]
+end
+
 -- fix cities
 QuestieZoneToParentTable[zoneDataClassicBetaHack["Thunder Bluff"][1]] = zoneDataClassicBetaHack["Mulgore"][1]
 QuestieZoneToParentTable[zoneDataClassicBetaHack["Undercity"][1]] = zoneDataClassicBetaHack["Tirisfal Glades"][1]
@@ -385,52 +405,54 @@ for k,v in pairs(Questie2ZoneTable) do
   end
 end
 
-local zoneLevelList = {{1, 1, 10},
-                 {3, 35, 45},
-                 {4, 45, 55},
-                 {8, 35, 45},
-                 {10, 18, 30},
-                 {11, 20, 30},
-                 {12, 1, 10},
-                 {14, 1, 10},
-                 {15, 35, 45},
-                 {16, 45, 55},
-                 {17, 10, 25},
-                 {28, 51, 58},
-                 {33, 30, 45},
-                 {36, 30, 40},
-                 {38, 10, 20},
-                 {40, 10, 20},
-                 {41, 55, 60},
-                 {44, 15, 25},
-                 {45, 30, 40},
-                 {46, 50, 58},
-                 {47, 40, 50},
-                 {51, 45, 50},
-                 {85, 1, 10},
-                 {130, 10, 20},
-                 {139, 53, 60},
-                 {141, 1, 10},
-                 {148, 10, 20},
-                 {215, 1, 10},
-                 {267, 20, 30},
-                 {331, 18, 30},
-                 {357, 40, 50},
-                 {361, 48, 55},
-                 {400, 25, 35},
-                 {405, 30, 40},
-                 {406, 15, 27},
-                 {440, 40, 50},
-                 {490, 48, 55},
-                 {493, 55, 60},
-                 {618, 53, 60},
-                 {1377, 55, 60},
-                 {1497, 1, 60},
-                 {1519, 1, 60},
-                 {1537, 1, 60},
-                 {1637, 1, 60},
-                 {1638, 1, 60},
-                 {1657, 1, 60}}
+-- local zoneLevelList = {
+--     {1, 1, 10},
+--     {3, 35, 45},
+--     {4, 45, 55},
+--     {8, 35, 45},
+--     {10, 18, 30},
+--     {11, 20, 30},
+--     {12, 1, 10},
+--     {14, 1, 10},
+--     {15, 35, 45},
+--     {16, 45, 55},
+--     {17, 10, 25},
+--     {28, 51, 58},
+--     {33, 30, 45},
+--     {36, 30, 40},
+--     {38, 10, 20},
+--     {40, 10, 20},
+--     {41, 55, 60},
+--     {44, 15, 25},
+--     {45, 30, 40},
+--     {46, 50, 58},
+--     {47, 40, 50},
+--     {51, 45, 50},
+--     {85, 1, 10},
+--     {130, 10, 20},
+--     {139, 53, 60},
+--     {141, 1, 10},
+--     {148, 10, 20},
+--     {215, 1, 10},
+--     {267, 20, 30},
+--     {331, 18, 30},
+--     {357, 40, 50},
+--     {361, 48, 55},
+--     {400, 25, 35},
+--     {405, 30, 40},
+--     {406, 15, 27},
+--     {440, 40, 50},
+--     {490, 48, 55},
+--     {493, 55, 60},
+--     {618, 53, 60},
+--     {1377, 55, 60},
+--     {1497, 1, 60},
+--     {1519, 1, 60},
+--     {1537, 1, 60},
+--     {1637, 1, 60},
+--     {1638, 1, 60},
+--     {1657, 1, 60}
+-- }
 
 --Locations for instances in the world.
 InstanceLocations = {
@@ -447,9 +469,9 @@ InstanceLocations = {
     [1417] = {{8, 69.4, 56.8}},
     [1477] = {{8, 69.4, 56.8}},
     [1581] = {{40, 42.5, 71.1}},
-    [1583] = {{51, 34.8, 84.8}, {46, 31.7, 50.4}},
-    [1584] = {{51, 34.8, 84.8}, {46, 31.7, 50.4}},
-    [1585] = {{51, 34.8, 84.8}, {46, 31.7, 50.4}},
+    [1583] = {{51, 34.8, 84.8}, {46, 29.5, 38.2}},
+    [1584] = {{51, 34.8, 84.8}, {46, 29.5, 38.2}},
+    [1585] = {{51, 34.8, 84.8}, {46, 29.5, 38.2}},
     [1977] = {{33, 50.6, 17.6}},
     [2017] = {{139, 30.9, 17}},
     [2057] = {{28, 69.8, 73.6}},
@@ -458,17 +480,16 @@ InstanceLocations = {
     [2257] = {{1519, 60.3, 12.5}, {1537, 72.8, 50.3}},
     [2437] = {{1637, 51.7, 49.8}},
     [2557] = {{357, 59.2, 45.1}},
-    [2677] = {{51, 34.8, 84.8}, {46, 31.7, 50.4}},
-    [2717] = {{51, 34.8, 84.8}, {46, 31.7, 50.4}},
+    [2597] = {{36, 66.6, 51.3},},
+    [2677] = {{51, 34.8, 84.8}, {46, 29.5, 38.2}},
+    [2717] = {{51, 34.8, 84.8}, {46, 29.5, 38.2}},
     [2917] = {{1637, 40.4, 68.3}},
     [2918] = {{1519, 72.7, 54}},
     [3428] = {{1377, 29, 95}},
     [3429] = {{1377, 29, 95}},
     [3456] = {{139, 39.9, 25.8}},
-    [7307] = {{51, 34.8, 84.8}, {46, 31.7, 50.4}},
+    [7307] = {{51, 34.8, 84.8}, {46, 29.5, 38.2}},
 }
-
-
 
 function QuestieDBZone:ZoneCreateConversion()
   Questie:Debug(DEBUG_DEVELOP, "[QuestieDBZone] Converting ZoneIds")

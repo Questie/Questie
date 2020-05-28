@@ -3,7 +3,7 @@ LangContinentLookup['enUS']= {
     [2] = "Kalimdor",
     [3] = "Dungeons",
     -- [4] = "Raids",
-    -- [5] = "Battle Grounds"
+    [5] = "Battlegrounds",
 }
 
 LangZoneLookup['enUS']= {
@@ -78,5 +78,10 @@ LangZoneLookup['enUS']= {
         [2017] = "Stratholme",
         [2557] = "Dire Maul",
         [2057] = "Scholomance",
-    }
+    },
+    [5] = {
+        [2597] = "Alterac Valley",
+        [3277] = "Warsong Gulch",
+        [3358] = "Arathi Basin"
+    },
 }

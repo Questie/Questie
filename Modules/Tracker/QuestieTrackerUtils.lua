@@ -11,7 +11,7 @@ local tinsert = table.insert
 
 function QuestieTracker.utils:ShowQuestLog(quest)
     -- Priority order first check if addon exist otherwise default to original
-    local questFrame = QuestLogExFrame or QuestLogFrame;
+    local questFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame;
     HideUIPanel(questFrame);
     local questLogIndex = GetQuestLogIndexByID(quest.Id);
     SelectQuestLogEntry(questLogIndex)
@@ -67,7 +67,7 @@ function QuestieTracker.utils:FlashObjective(Objective) -- really terrible anima
         local toFlash = {}
         -- ugly code
         for questId, framelist in pairs(QuestieMap.questIdFrames) do
-            for index, frameName in ipairs(framelist) do
+            for index, frameName in pairs(framelist) do
                 local icon = _G[frameName];
                 if not icon.miniMapIcon then
 
@@ -129,7 +129,7 @@ function QuestieTracker.utils:FlashObjective(Objective) -- really terrible anima
                             end)
                             C_Timer.After(0.5, function()
                                 for questId, framelist in pairs(QuestieMap.questIdFrames) do
-                                    for index, frameName in ipairs(framelist) do
+                                    for index, frameName in pairs(framelist) do
                                         local icon = _G[frameName];
                                         if icon._hidden_by_flash then
                                             icon._hidden_by_flash = nil
@@ -152,7 +152,7 @@ function QuestieTracker.utils:FlashFinisher(Quest) -- really terrible animation 
     -- ugly code
     for questId, framelist in pairs(QuestieMap.questIdFrames) do
         if questId ~= Quest.Id then
-            for index, frameName in ipairs(framelist) do
+            for index, frameName in pairs(framelist) do
                 local icon = _G[frameName];
                 if not icon.miniMapIcon then
 
@@ -208,7 +208,7 @@ function QuestieTracker.utils:FlashFinisher(Quest) -- really terrible animation 
                         end)
                         C_Timer.After(0.5, function()
                             for questId, framelist in pairs(QuestieMap.questIdFrames) do
-                                for index, frameName in ipairs(framelist) do
+                                for index, frameName in pairs(framelist) do
                                     local icon = _G[frameName];
                                     if icon._hidden_by_flash then
                                         icon._hidden_by_flash = nil

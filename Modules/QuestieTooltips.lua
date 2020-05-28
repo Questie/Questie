@@ -47,6 +47,7 @@ function QuestieTooltips:RemoveTooltip(key)
 end
 
 function QuestieTooltips:GetTooltip(key)
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieTooltips:GetTooltip]", key)
     if key == nil then
         return nil
     end
@@ -69,7 +70,11 @@ function QuestieTooltips:GetTooltip(key)
 
     if(QuestieTooltips.tooltipLookup[key]) then
         for k, tooltip in pairs(QuestieTooltips.tooltipLookup[key]) do
-            tooltip.Objective:Update() -- update progress
+            if (not tooltip.Objective.IsSourceItem) then
+                -- Tooltip was registered for a sourceItem and not a real "objective"
+                tooltip.Objective:Update() -- update progress
+            end
+
             local questId = tooltip.Objective.QuestData.Id; --Short hand to make it more readable.
             local objectiveIndex = tooltip.Objective.Index;
             if(not tooltipData[questId]) then
@@ -206,6 +211,7 @@ function QuestieTooltips:GetTooltip(key)
 end
 
 function QuestieTooltips:RemoveQuest(questid)
+    Questie:Debug(DEBUG_DEVELOP, "QuestieTooltips:RemoveQuest", questid)
     for k, v in pairs(QuestieTooltips.tooltipLookup) do
         local stillHave = false
         for index, tooltip in pairs(v) do

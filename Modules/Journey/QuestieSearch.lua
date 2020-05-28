@@ -31,7 +31,7 @@ end
 -- Execute a search by name for all types
 function QuestieSearch:ByName(query)
     QuestieSearch:ResetResults()
-    for k,type in pairs(QuestieSearch.types) do
+    for k, type in pairs(QuestieSearch.types) do
         QuestieSearch:Search(query, type)
     end
     return QuestieSearch.LastResult
@@ -129,8 +129,9 @@ function QuestieSearch:Search(query, searchType, queryType)
         else
             dbEntry = entryOrBoolean;
         end
+
         -- This condition does the actual comparison for the search
-        if dbEntry
+        if dbEntry and next(dbEntry) -- Check if dbEntry ~= nil and if the table contains a value
             and
             (
                 ( -- text search

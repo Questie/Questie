@@ -2,14 +2,19 @@
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 local _QuestieTracker = QuestieTracker.private
 
+---@type QuestieCombatQueue
+local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+
 local startDragAnchor = {}
 local startDragPos = {}
 local endDragPos = {}
 
 local mouselookTicker = {}
 
-function _QuestieTracker:OnDragStart(self, button)
+function _QuestieTracker:OnDragStart(button)
+    Questie:Debug(DEBUG_DEVELOP, "[_QuestieTracker:OnDragStart]", button)
     local baseFrame = QuestieTracker:GetBaseFrame()
+    _QuestieTracker.isMoving = true
 
     if IsControlKeyDown() or not Questie.db.global.trackerLocked then
         startDragAnchor = {baseFrame:GetPoint()}
@@ -31,10 +36,12 @@ function _QuestieTracker:OnDragStart(self, button)
 end
 
 function _QuestieTracker:OnDragStop()
+    Questie:Debug(DEBUG_DEVELOP, "[_QuestieTracker:OnDragStop]")
     if not startDragPos or not startDragPos[4] or not startDragPos[5] or not endDragPos or not startDragAnchor then
         return
     end
     local baseFrame = QuestieTracker:GetBaseFrame()
+    _QuestieTracker.isMoving = false
 
     endDragPos = {baseFrame:GetPoint()}
     baseFrame:StopMovingOrSizing()
@@ -44,34 +51,13 @@ function _QuestieTracker:OnDragStop()
 
     startDragAnchor[4] = startDragAnchor[4] + xMoved
     startDragAnchor[5] = startDragAnchor[5] + yMoved
-
-    baseFrame:ClearAllPoints()
-    baseFrame:SetPoint(unpack(startDragAnchor))
-    Questie.db.char.TrackerLocation = {baseFrame:GetPoint()}
-    if Questie.db.char.TrackerLocation[2] and type(Questie.db.char.TrackerLocation[2]) == "table" and Questie.db.char.TrackerLocation[2].GetName then
-        Questie.db.char.TrackerLocation[2] = Questie.db.char.TrackerLocation[2]:GetName()
-    end
-    startDragPos = nil
-    -- QuestieTracker:SetBaseFrame(baseFrame)
-end
-
---[[function _QuestieTracker:RepositionFrames(trackerLineCount, lineFrames) -- this is only for SetCounterEnabled, nothing else should be using this function
-    local lastFrame = nil
-    local baseFrame = QuestieTracker:GetBaseFrame()
-
-    for i=1, trackerLineCount do
-        local frm = lineFrames[i]
-        if lastFrame then
-            frm:SetPoint("TOPLEFT", lastFrame, "BOTTOMLEFT", 0,0)
-        else
-            local padding = QuestieTracker:GetBackgroundPadding()
-            if Questie.db.global.trackerCounterEnabled then
-                frm:SetPoint("TOPLEFT", baseFrame, "TOPLEFT", padding, -(padding + QuestieTracker:GetActiveQuestsFrame():GetHeight()))
-            else
-                frm:SetPoint("TOPLEFT", baseFrame, "TOPLEFT", padding, -padding)
-            end
+    QuestieCombatQueue:Queue(function()
+        baseFrame:ClearAllPoints()
+        baseFrame:SetPoint(unpack(startDragAnchor))
+        Questie.db.char.TrackerLocation = {baseFrame:GetPoint()}
+        if Questie.db.char.TrackerLocation[2] and type(Questie.db.char.TrackerLocation[2]) == "table" and Questie.db.char.TrackerLocation[2].GetName then
+            Questie.db.char.TrackerLocation[2] = Questie.db.char.TrackerLocation[2]:GetName()
         end
-        --frm:Show()
-        lastFrame = frm
-    end
-end]]--
+        startDragPos = nil
+    end)
+end

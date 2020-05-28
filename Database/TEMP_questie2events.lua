@@ -5,108 +5,9 @@ TEMP_Questie2Events = {
     },
     ["locationCount"] = 1
   },
-  ["Keep Piznik safe while he mines the mysterious ore"] = {
-    ["locations"] = {
-      [1] = {6.0, 0.7176, 0.6022, 100.0}
-    },
-    ["locationCount"] = 1
-  },
-  ["Defeat Vanndar Stormpike."] = {
-    ["locations"] = {
-      [1] = {26.0, 0.6677, 0.5177, 100.0},
-      [5] = {45.0, 0.5666, 0.8649, 2.0},
-      [3] = {43.0, 0.6264, 0.5958, 41.0},
-      [4] = {48.0, 0.6147, 0.2038, 28.0},
-      [2] = {60.0, 0.6656, 0.5655, 46.0}
-    },
-    ["locationCount"] = 5
-  },
-  ["Captured Protectorate Vanguard Escorted"] = {
-    ["locations"] = {
-      [1] = {59.0, 0.589, 0.3243, 100.0}
-    },
-    ["locationCount"] = 1
-  },
-  ["Blacksilt Scouts Tagged"] = {
-    ["locations"] = {
-      [1] = {9.0, 0.5177, 0.9019, 100.0}
-    },
-    ["locationCount"] = 1
-  },
-  ["Zamael Story"] = {
-    ["locations"] = {
-      [1] = {32.0, 0.2959, 0.2638, 100.0}
-    },
-    ["locationCount"] = 1
-  },
-  ["Hit 8 braziers."] = {
-    ["locations"] = {
-      [1] = {36.0, 0.3921, 0.6171, 100.0},
-      [5] = {45.0, 0.6858, 0.0788, 6.0},
-      [3] = {24.0, 0.5659, 0.9206, 74.0},
-      [4] = {1.0, 0.4665, 0.3817, 66.0},
-      [2] = {25.0, 0.65, 0.2373, 86.0}
-    },
-    ["locationCount"] = 5
-  },
-  ["Cure Completed"] = {
-    ["locations"] = {
-      [1] = {48.0, 0.6157, 0.1921, 100.0}
-    },
-    ["locationCount"] = 1
-  },
-  ["Siphon Bloodgem Crystal"] = {
-    ["locations"] = {
-      [1] = {59.0, 0.2542, 0.6651, 100.0},
-      [2] = {59.0, 0.2237, 0.6573, 2.0}
-    },
-    ["locationCount"] = 2
-  },
-  ["Information Gathering"] = {
-    ["locations"] = {
-      [1] = {59.0, 0.4818, 0.8408, 100.0}
-    },
-    ["locationCount"] = 1
-  },
-  ["Discover the Brood of Nozdormu."] = {
-    ["locations"] = {
-      [1] = {8.0, 0.6343, 0.5061, 100.0}
-    },
-    ["locationCount"] = 1
-  },
-  ["Find Huldar, Miran, and Saean"] = {
-    ["locations"] = {
-      [1] = {29.0, 0.5116, 0.6896, 100.0}
-    },
-    ["locationCount"] = 1
-  },
-  ["Locate the large, red crystal on Darkshore's eastern mountain range"] = {
-    ["locations"] = {
-      [1] = {16.0, 0.4726, 0.4883, 100.0}
-    },
-    ["locationCount"] = 1
-  },
   ["A Bundle of Trouble"] = {
     ["locations"] = {
       [1] = {37.0, 0.8192, 0.6003, 100.0}
-    },
-    ["locationCount"] = 1
-  },
-  ["Protect A-Me 01 until you reach Karna Remtravel"] = {
-    ["locations"] = {
-      [1] = {18.0, 0.4643, 0.1378, 100.0}
-    },
-    ["locationCount"] = 1
-  },
-  ["Investigate the Spawning Glen"] = {
-    ["locations"] = {
-      [1] = {57.0, 0.151, 0.6121, 100.0}
-    },
-    ["locationCount"] = 1
-  },
-  ["Enter the Dead Fields"] = {
-    ["locations"] = {
-      [1] = {35.0, 0.4591, 0.2127, 100.0}
     },
     ["locationCount"] = 1
   },
@@ -186,12 +87,6 @@ TEMP_Questie2Events = {
     },
     ["locationCount"] = 1
   },
-  ["Conversation with Loramus"] = {
-    ["locations"] = {
-      [1] = {15.0, 0.608, 0.6636, 100.0}
-    },
-    ["locationCount"] = 1
-  },
   ["Find a corrupt furbolg camp"] = {
     ["locations"] = {
       [1] = {16.0, 0.3974, 0.5328, 100.0}
@@ -237,12 +132,6 @@ TEMP_Questie2Events = {
   ["Save at least 6 Sprite Darters from capture"] = {
     ["locations"] = {
       [1] = {17.0, 0.6727, 0.4667, 100.0}
-    },
-    ["locationCount"] = 1
-  },
-  ["Cleanse the Wildmane Well"] = {
-    ["locations"] = {
-      [1] = {22.0, 0.4275, 0.1416, 100.0}
     },
     ["locationCount"] = 1
   },
@@ -842,16 +731,6 @@ TEMP_Questie2Events = {
     },
     ["locationCount"] = 1
   },
-  ["Defeat Drek'thar."] = {
-    ["locations"] = {
-      [1] = {60.0, 0.6746, 0.3446, 100.0},
-      [5] = {26.0, 0.3965, 0.8131, 4.0},
-      [3] = {36.0, 0.8224, 0.1232, 65.0},
-      [4] = {25.0, 0.7039, 0.9006, 52.0},
-      [2] = {26.0, 0.3464, 0.7492, 94.0}
-    },
-    ["locationCount"] = 5
-  },
   ["Tame a Large Crag Boar"] = {
     ["locations"] = {
       [1] = {28.0, 0.4829, 0.5671, 100.0},
@@ -1110,12 +989,6 @@ TEMP_Questie2Events = {
   ["Escort Ruul from the Thistlefurs."] = {
     ["locations"] = {
       [1] = {2.0, 0.3853, 0.3732, 100.0}
-    },
-    ["locationCount"] = 1
-  },
-  ["Cleanse the Winterhoof Water Well"] = {
-    ["locations"] = {
-      [1] = {22.0, 0.5361, 0.662, 100.0}
     },
     ["locationCount"] = 1
   },
@@ -1601,12 +1474,6 @@ TEMP_Questie2Events = {
   ["Survive the Onslaught"] = {
     ["locations"] = {
       [1] = {32.0, 0.2711, 0.7256, 100.0}
-    },
-    ["locationCount"] = 1
-  },
-  ["Cleanse the Thunderhorn Water Well"] = {
-    ["locations"] = {
-      [1] = {22.0, 0.4452, 0.4546, 100.0}
     },
     ["locationCount"] = 1
   },

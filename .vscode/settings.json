@@ -317,6 +317,7 @@
         "C_Cursor.GetCursorCommunitiesStream",
         "C_Cursor.GetCursorItem",
         "C_Cursor.SetCursorCommunitiesStream",
+        "C_DateAndTime",
         "C_DeathInfo.GetCorpseMapPosition",
         "C_DeathInfo.GetDeathReleasePosition",
         "C_DeathInfo.GetGraveyardsForMap",
@@ -1791,6 +1792,7 @@
         "QuestChooseRewardError",
         "QuestLogPushQuest",
         "Quit",
+        "QuestTimerFrame_Update",
         "RaidProfileExists",
         "RaidProfileHasUnsavedChanges",
         "RandomRoll",
@@ -2489,6 +2491,7 @@
         "GameFontNormal",
         "GeneralDockManager",
         "GossipFrame",
+        "GossipFrameGreetingPanel",
         "GroupLootContainer",
         "GroupLootDropDown",
         "GroupLootFrame1",
@@ -2549,6 +2552,11 @@
         "ProductChoiceFrame",
         "PvPCommentator",
         "QuestFrame",
+        "QuestFrameDetailPanel",
+        "QuestFrameGreetingPanel",
+        "QuestFrameGoodbyeButton",
+        "QuestFrameProgressPanel",
+        "QuestFrameRewardPanel",
         "QuestInfoFrame",
         "QuestInfoObjectivesFrame",
         "QuestInfoRequiredMoneyFrame",
@@ -2653,6 +2661,7 @@
         "AtlasToggleFromWorldMap",
         "QuestLogEx",
         "QuestLogExFrame",
+        "ClassicQuestLog",
         "MBB_Ignore",
         "HBD_PINS_WORLDMAP_SHOW_CURRENT",
         "HBD_PINS_WORLDMAP_SHOW_WORLD",
@@ -2694,5 +2703,11 @@
         "Locale/ruRU/**",
         "Locale/zhCN/**",
         "Locale/zhTW/**"
-    ]
+    ],
+    "files.exclude": {
+        "ExternalScripts(DONOTINCLUDEINRELEASE)": true,
+        "Libs/Ace*": true,
+        "Libs/CallbackHandler-1.0": true,
+        "Libs/Lib*": true
+    }
 }

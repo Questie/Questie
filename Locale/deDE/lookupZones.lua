@@ -3,7 +3,7 @@ LangContinentLookup['deDE']= {
     [2] = "Kalimdor",
     [3] = "Instanzen",
     -- [4] = "Schlachtzüge",
-    -- [5] = "Schlachtfelder",
+    [5] = "Schlachtfelder",
 }
 
 LangZoneLookup['deDE']= {
@@ -28,7 +28,7 @@ LangZoneLookup['deDE']= {
         [1519] = "Stormwind Stadt",
         [33] = "Schlingendorntal",
         [8] = "Sümpfe des Elends",
-        [47] = "Die Hinterlande",
+        [47] = "Hinterland",
         [85] = "Tirisfal",
         [1497] = "Undercity",
         [28] = "Westliche Pestländer",
@@ -42,7 +42,7 @@ LangZoneLookup['deDE']= {
         [1657] = "Darnassus",
         [405] = "Desolace",
         [14] = "Durotar",
-        [15] = "Düstermarschen",
+        [15] = "Marschen von Dustwallow",
         [361] = "Teufelswald",
         [357] = "Feralas",
         [493] = "Moonglade",
@@ -52,11 +52,11 @@ LangZoneLookup['deDE']= {
         [406] = "Steinkrallengebirge",
         [440] = "Tanaris",
         [141] = "Teldrassil",
-        [17] = "Brachland",
+        [17] = "Das Brachland",
         [400] = "Tausend Nadeln",
         [1638] = "Thunder Bluff",
-        [490] = "Un'Goro Krater",
-        [618] = "Winterquell"
+        [490] = "Un'Goro-Krater",
+        [618] = "Winterspring"
     },
     [3] = {
         [2437] = "Flammenschlund",
@@ -78,5 +78,10 @@ LangZoneLookup['deDE']= {
         [2017] = "Stratholme",
         [2557] = "Düsterbruch",
         [2057] = "Scholomance",
-    }
+    },
+    [5] = {
+        [2597] = "Alteractal",
+        [3277] = "Kriegshymnenschlucht",
+        [3358] = "Arathibecken"
+    },
 }

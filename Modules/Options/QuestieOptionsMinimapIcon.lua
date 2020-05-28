@@ -15,7 +15,7 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
 local minimapIconLDB = nil
 
 function QuestieOptionsMinimapIcon:Initialize()
-    minimapIconLDB = LibStub("LibDataBroker-1.1"):NewDataObject("MinimapIcon", {
+    minimapIconLDB = LibStub("LibDataBroker-1.1"):NewDataObject("Questie", {
         type = "data source",
         text = "Questie",
         icon = ICON_TYPE_COMPLETE,
@@ -49,7 +49,7 @@ function QuestieOptionsMinimapIcon:Initialize()
                     return;
                 elseif IsControlKeyDown() then
                     Questie.db.profile.minimap.hide = true;
-                    Questie.minimapConfigIcon:Hide("MinimapIcon");
+                    Questie.minimapConfigIcon:Hide("Questie");
                     return;
                 end
             end

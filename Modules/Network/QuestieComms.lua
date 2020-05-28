@@ -1,5 +1,6 @@
 ---@class QuestieComms
 local QuestieComms = QuestieLoader:CreateModule("QuestieComms");
+local _QuestieComms = QuestieComms.private
 -------------------------
 --Import modules.
 -------------------------
@@ -18,7 +19,6 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 
-local _QuestieComms = {...};
 -- Addon message prefix
 _QuestieComms.prefix = "questie";
 -- List of all players questlog private to prevent modification from the outside.
@@ -98,43 +98,42 @@ end
 --Only questid gets all players with that quest and their progress
 --Both name and questid returns a specific players progress if one exist.
 function QuestieComms:GetQuest(questId, playerName)
-  if(QuestieComms.remoteQuestLogs[questId]) then
-    if(playerName) then
-        if(QuestieComms.remoteQuestLogs[questId][playerName]) then
+    if(QuestieComms.remoteQuestLogs[questId]) then
+        if(playerName) then
+            if(QuestieComms.remoteQuestLogs[questId][playerName]) then
+                -- Create a copy of the object, other side should never be able to edit the underlying object.
+                local quest = {};
+                for key, value in pairs(QuestieComms.remoteQuestLogs[questId][playerName]) do
+                    quest[key] = value;
+                end
+                return quest;
+            end
+        else
             -- Create a copy of the object, other side should never be able to edit the underlying object.
             local quest = {};
-            for key,value in pairs(QuestieComms.remoteQuestLogs[questId][playerName]) do
-                quest[key] = value;
+            for pName, objectivesData in pairs(QuestieComms.remoteQuestLogs[questId]) do
+                quest[pName] = objectivesData;
             end
             return quest;
         end
-    else
-        -- Create a copy of the object, other side should never be able to edit the underlying object.
-        local quest = {};
-        for playerName, objectivesData in pairs(QuestieComms.remoteQuestLogs[questId]) do
-            quest[playerName] = objectivesData;
-        end
-        return quest;
     end
-  end
-  return nil;
+    return nil;
 end
 
 function QuestieComms:Initialize()
-  -- Lets us send any length of message. Also implements ChatThrottleLib to not get disconnected.
-  Questie:RegisterComm(_QuestieComms.prefix, _QuestieComms.OnCommReceived);
+    -- Lets us send any length of message. Also implements ChatThrottleLib to not get disconnected.
+    Questie:RegisterComm(_QuestieComms.prefix, _QuestieComms.OnCommReceived);
 
-  -- Events to be used to broadcast updates to other people
-  Questie:RegisterMessage("QC_ID_BROADCAST_QUEST_UPDATE", _QuestieComms.BroadcastQuestUpdate);
-  Questie:RegisterMessage("QC_ID_BROADCAST_QUEST_REMOVE", _QuestieComms.BroadcastQuestRemove);
+    -- Events to be used to broadcast updates to other people
+    Questie:RegisterMessage("QC_ID_BROADCAST_QUEST_UPDATE", _QuestieComms.BroadcastQuestUpdate);
+    Questie:RegisterMessage("QC_ID_BROADCAST_QUEST_REMOVE", _QuestieComms.BroadcastQuestRemove);
 
-  -- Bucket for 2 seconds to prevent spamming.
-  Questie:RegisterBucketMessage("QC_ID_BROADCAST_FULL_QUESTLIST", 2, _QuestieComms.BroadcastQuestLog);
+    -- Bucket for 2 seconds to prevent spamming.
+    Questie:RegisterBucketMessage("QC_ID_BROADCAST_FULL_QUESTLIST", 2, _QuestieComms.BroadcastQuestLog);
 
-  -- Responds to the "hi" event from others.
-  Questie:RegisterMessage("QC_ID_REQUEST_FULL_QUESTLIST", _QuestieComms.RequestQuestLog);
+    -- Responds to the "hi" event from others.
+    Questie:RegisterMessage("QC_ID_REQUEST_FULL_QUESTLIST", _QuestieComms.RequestQuestLog);
 
-  QuestieEventHandler:GROUP_JOINED()
 end
 
 -- Local Functions --
@@ -146,7 +145,7 @@ function _QuestieComms:BroadcastQuestUpdate(questId) -- broadcast quest update t
         Questie:Debug(DEBUG_DEVELOP, "[QuestieComms] partyType", tostring(partyType));
         if partyType then
             --Do we really need to make this?
-            local questPacket = _QuestieComms:createPacket(_QuestieComms.QC_ID_BROADCAST_QUEST_UPDATE)
+            local questPacket = _QuestieComms:CreatePacket(_QuestieComms.QC_ID_BROADCAST_QUEST_UPDATE)
 
             local quest = QuestieComms:CreateQuestDataPacket(questId);
 
@@ -168,7 +167,7 @@ function _QuestieComms:BroadcastQuestRemove(questId) -- broadcast quest update t
     Questie:Debug(DEBUG_DEVELOP, "[QuestieComms] QuestID:", questId, "partyType:", tostring(partyType));
     if partyType then
         --Do we really need to make this?
-        local questPacket = _QuestieComms:createPacket(_QuestieComms.QC_ID_BROADCAST_QUEST_REMOVE);
+        local questPacket = _QuestieComms:CreatePacket(_QuestieComms.QC_ID_BROADCAST_QUEST_REMOVE);
 
         questPacket.data.id = questId;
 
@@ -201,7 +200,7 @@ function _QuestieComms:BroadcastQuestLog(eventName) -- broadcast quest update to
         end
 
         --Do we really need to make this?
-        local questPacket = _QuestieComms:createPacket(_QuestieComms.QC_ID_BROADCAST_FULL_QUESTLIST);
+        local questPacket = _QuestieComms:CreatePacket(_QuestieComms.QC_ID_BROADCAST_FULL_QUESTLIST);
         questPacket.data.rawQuestList = rawQuestList;
 
         if partyType == "raid" then
@@ -221,7 +220,7 @@ function _QuestieComms:RequestQuestLog(eventName) -- broadcast quest update to g
     Questie:Debug(DEBUG_DEVELOP, "[QuestieComms] Message", eventName, "partyType:", tostring(partyType));
     if partyType then
         --Do we really need to make this?
-        local questPacket = _QuestieComms:createPacket(_QuestieComms.QC_ID_REQUEST_FULL_QUESTLIST);
+        local questPacket = _QuestieComms:CreatePacket(_QuestieComms.QC_ID_REQUEST_FULL_QUESTLIST);
 
         if partyType == "raid" then
             questPacket.data.writeMode = _QuestieComms.QC_WRITE_ALLRAID;
@@ -244,7 +243,7 @@ function QuestieComms:CreateQuestDataPacket(questId)
     quest.id = questId;
     local rawObjectives = QuestieQuest:GetAllLeaderBoardDetails(questId);
     quest.objectives = {}
-    if questObject then
+    if questObject and questObject.Objectives then
         for objectiveIndex, objective in pairs(rawObjectives) do
             quest.objectives[objectiveIndex] = {};
             quest.objectives[objectiveIndex].id = questObject.Objectives[objectiveIndex].Id;--[_QuestieComms.idLookup["id"]] = questObject.Objectives[objectiveIndex].Id;
@@ -297,7 +296,7 @@ _QuestieComms.packets = {
     [_QuestieComms.QC_ID_BROADCAST_QUEST_UPDATE] = { --1
         write = function(self)
             Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Sending: QC_ID_BROADCAST_QUEST_UPDATE")
-            _QuestieComms:broadcast(self.data);
+            _QuestieComms:Broadcast(self.data);
         end,
         read = function(remoteQuestPacket)
             if(remoteQuestPacket == nil) then
@@ -315,7 +314,7 @@ _QuestieComms.packets = {
     [_QuestieComms.QC_ID_BROADCAST_QUEST_REMOVE] = { --2
       write = function(self)
         Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Sending: QC_ID_BROADCAST_QUEST_REMOVE")
-        _QuestieComms:broadcast(self.data);
+        _QuestieComms:Broadcast(self.data);
       end,
       read = function(remoteQuestPacket)
         if(remoteQuestPacket == nil) then
@@ -336,7 +335,7 @@ _QuestieComms.packets = {
     [_QuestieComms.QC_ID_BROADCAST_FULL_QUESTLIST] = { --10
         write = function(self)
             Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Sending: QC_ID_BROADCAST_FULL_QUESTLIST")
-            _QuestieComms:broadcast(self.data);
+            _QuestieComms:Broadcast(self.data);
         end,
         read = function(remoteQuestList)
             if(remoteQuestList == nil) then
@@ -359,7 +358,7 @@ _QuestieComms.packets = {
     [_QuestieComms.QC_ID_REQUEST_FULL_QUESTLIST] = { --11
         write = function(self)
             Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Sending: QC_ID_REQUEST_FULL_QUESTLIST")
-            _QuestieComms:broadcast(self.data);
+            _QuestieComms:Broadcast(self.data);
         end,
         read = function(self)
             Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Received: QC_ID_REQUEST_FULL_QUESTLIST")
@@ -369,12 +368,12 @@ _QuestieComms.packets = {
 }
 
 -- Renamed Write function
-function _QuestieComms:broadcast(packet)
+function _QuestieComms:Broadcast(packet)
     -- If the priority is not set, it must not be very important
     if(not packet.priority) then
       packet.priority = "BULK";
     end
-    
+
     local compressedData = QuestieSerializer:Serialize(packet);--QuestieCompress:Compress(packet);
     if packet.writeMode == _QuestieComms.QC_WRITE_WHISPER then
         Questie:Debug(DEBUG_DEVELOP,"send(|cFFFF2222" ..string.len(compressedData) .. "|r)")
@@ -395,7 +394,7 @@ function _QuestieComms:OnCommReceived(message, distribution, sender)
     Questie:Debug(DEBUG_DEVELOP, "|cFF22FF22", "sender:", "|r", sender, "distribution:", distribution, "Packet length:",string.len(message))
     if message and sender then
         local decompressedData = QuestieSerializer:Deserialize(message);--QuestieCompress:Decompress(message);
-        
+
         --Check if the message version is the same base value
         if(decompressedData and decompressedData.msgVer and floor(decompressedData.msgVer) == floor(commMessageVersion)) then
             if(decompressedData and decompressedData.msgId and _QuestieComms.packets[decompressedData.msgId]) then
@@ -404,12 +403,14 @@ function _QuestieComms:OnCommReceived(message, distribution, sender)
                 if(suggestUpdate) then
                     local major, minor, patch = strsplit(".", decompressedData.ver);
                     local majorOwn, minorOwn, patchOwn = QuestieLib:GetAddonVersionInfo();
-                    if((majorOwn < tonumber(major) or minorOwn < tonumber(minor)) and not UnitAffectingCombat("player")) then
+                    if(majorOwn < tonumber(major) or (majorOwn == tonumber(major) and minorOwn < tonumber(minor)) or (majorOwn == tonumber(major) and minorOwn == tonumber(minor) and patchOwn < tonumber(patch)) and (not UnitAffectingCombat("player"))) then
                         suggestUpdate = false;
                         if(majorOwn < tonumber(major)) then
-                            Questie:Print("A Major patch for Questie exist! Please update as soon as possible!");
-                        elseif(majorOwn == tonumber(major) and minorOwn < tonumber(minor)) then
-                            Questie:Print("You have an outdated version of Questie! Please consider updating!");
+                            Questie:Print("|cffff0000A Major patch for Questie exists!|r");
+                            Questie:Print("|cffff0000Please update as soon as possible!|r");
+                        else
+                            Questie:Print("|cffff0000You have an outdated version of Questie!|r");
+                            Questie:Print("|cffff0000Please consider updating!|r");
                         end
                     end
                 end
@@ -435,7 +436,7 @@ function _QuestieComms:OnCommReceived(message, distribution, sender)
 end
 
 -- Copied: Is this really needed? Can't we just optimize away this?
-function _QuestieComms:createPacket(messageId)
+function _QuestieComms:CreatePacket(messageId)
     -- Duplicate the object.
     local pkt = {};
     for k,v in pairs(_QuestieComms.packets[messageId]) do
