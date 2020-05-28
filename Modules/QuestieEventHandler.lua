@@ -31,6 +31,10 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieAuto
 local QuestieAuto = QuestieLoader:ImportModule("QuestieAuto")
+---@type Cleanup
+local QuestieCleanup = QuestieLoader:ImportModule("Cleanup")
+---@type DBCompiler
+local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
 
 --- LOCAL ---
 --False -> true -> nil
@@ -102,15 +106,23 @@ local function _Hack_prime_log() -- this seems to make it update the data much q
   end
 end
 
+
+
 _PLAYER_LOGIN = function()
-    C_Timer.After(1, function()
+
+    local function stage1()
         QuestieDB:Initialize()
         QuestieLib:CacheAllItemNames()
 
         -- Initialize Journey Window
         QuestieJourney.Initialize()
-    end)
-    C_Timer.After(4, function()
+        
+        -- if compiled db exists and is up to date
+            QuestieCleanup:Run()
+        -- end
+    end
+
+    local function stage2()
         -- We want the framerate to be HIGH!!!
         QuestieMap:InitializeQueue()
         _Hack_prime_log()
@@ -126,7 +138,19 @@ _PLAYER_LOGIN = function()
         if hasFirstQLU then
             _QUEST_LOG_UPDATE()
         end
-    end)
+    end
+
+
+    if QuestieConfig.dbIsCompiled then -- todo: check for updates or language change and recompile
+        C_Timer.After(1, stage1)
+        C_Timer.After(4, stage2)
+    else
+        QuestieDBCompiler:Compile(function()
+            stage1()
+            stage2()
+        end)
+    end
+    
 end
 
 --Fires when a quest is accepted in anyway.

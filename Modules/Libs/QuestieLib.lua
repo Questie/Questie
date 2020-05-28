@@ -299,7 +299,7 @@ function QuestieLib:CacheItemNames(questId)
     if (quest and quest.ObjectiveData) then
         for objectiveIndexDB, objectiveDB in pairs(quest.ObjectiveData) do
             if objectiveDB.Type == "item" then
-                if not QuestieDB.itemData[objectiveDB.Id] then
+                if not QuestieDB.ItemPointers[objectiveDB.Id] then
                     Questie:Debug(DEBUG_DEVELOP,
                                   "Requesting item information for missing itemId:",
                                   objectiveDB.Id)

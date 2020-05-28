@@ -1,7 +1,7 @@
 QuestieLocale = {};
 QuestieLocale.locale = {};
 LangItemLookup = {}
-LangNameLookup= {};
+LangNameLookup = {};
 LangObjectNameLookup = {};
 LangObjectLookup = {};
 LangQuestLookup = {};

@@ -18,8 +18,6 @@ Modules\Libs\QuestieLoader.lua
 
 #stream module (used by DB)
 Modules\QuestieStream.lua
-Modules\Libs\QuestieSerializer.lua
-Modules\Libs\QuestieCompressedTable.lua
 
 #Databases
 Database\QuestieDB.lua
@@ -41,6 +39,9 @@ Database\Corrections\QuestieQuestBlacklist.lua
 Database\Corrections\QuestieQuestFixes.lua
 Database\Corrections\QuestieEvent.lua
 
+#Compiler
+Database\compiler.lua
+
 #Localization
 Locale\QuestieLocale.lua
 Locale\enUS\locale.xml
@@ -58,6 +59,7 @@ Locale\ruRU\locale.xml
 Modules\Libs\QuestieLib.lua
 #Modules\Libs\QuestieCompress.lua
 Modules\Libs\QuestiePlayer.lua
+Modules\Libs\QuestieSerializer.lua
 Modules\Libs\QuestieCombatQueue.lua
 Modules\Libs\QuestieHash.lua
 
@@ -128,6 +130,9 @@ Modules\Options\MapTab\QuestieOptionsMap.lua
 Modules\Options\MinimapTab\QuestieOptionsMinimap.lua
 Modules\Options\NameplateTab\QuestieOptionsNameplate.lua
 Modules\Options\TrackerTab\QuestieOptionsTracker.lua
+
+#Cleanup
+Modules\QuestieCleanup.lua
 
 #Main
 Questie.lua

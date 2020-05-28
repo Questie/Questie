@@ -527,7 +527,10 @@ end
 --@param quest QuestieQuest @The quest to check for completion
 --@return integer @Complete = 1, Failed = -1, Incomplete = 0
 function QuestieQuest:IsComplete(quest)
-    local questId = quest.Id
+    return QuestieQuest:IsCompleteId(quest.Id)
+end
+
+function QuestieQuest:IsCompleteId(questId)
     local questLogIndex = GetQuestLogIndexByID(questId)
     local _, _, _, _, _, isComplete, _, _, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(questLogIndex)
 
@@ -1449,23 +1452,28 @@ function QuestieQuest:CalculateAvailableQuests()
 
     QuestieQuest.availableQuests = {}
 
-    for questId, _ in pairs(QuestieDB.questData) do
+    local _, _, classIndex = UnitClass("player");
+    local _, _, raceIndex = UnitRace("player");
+    classIndex = math.pow(2, classIndex-1)
+    raceIndex = math.pow(2, raceIndex-1)
+
+    for questId, _ in pairs(QuestieLoader:ImportModule("QuestieDB").QuestPointers) do
         ---@type Quest
-        local quest = QuestieDB:GetQuest(questId)
+        --local quest = QuestieDB:GetQuest(questId)
 
         --Check if we've already completed the quest and that it is not "manually" hidden and that the quest is not currently in the questlog.
         if(
             (not Questie.db.char.complete[questId]) and -- Don't show completed quests
-            ((not QuestiePlayer.currentQuestlog[questId]) or QuestieQuest:IsComplete(quest) == -1) and -- Don't show quests if they're already in the quest log
+            ((not QuestiePlayer.currentQuestlog[questId]) or QuestieQuest:IsCompleteId(questId) == -1) and -- Don't show quests if they're already in the quest log
             (not QuestieCorrections.hiddenQuests[questId]) and -- Don't show blacklisted quests
-            (showRepeatableQuests or (not quest.IsRepeatable)) and  -- Show repeatable quests if the quest is repeatable and the option is enabled
-            (showDungeonQuests or (not quest:IsDungeonQuest())) and  -- Show dungeon quests only with the option enabled
-            (showRaidQuests or (not quest:IsRaidQuest())) and  -- Show Raid quests only with the option enabled
-            (showPvPQuests or (not quest:IsPvPQuest())) -- Show PvP quests only with the option enabled
+            (showRepeatableQuests or (not QuestieDB:IsRepeatable(questId))) and  -- Show repeatable quests if the quest is repeatable and the option is enabled
+            (showDungeonQuests or (not QuestieDB:IsDungeonQuest(questId))) and  -- Show dungeon quests only with the option enabled
+            (showRaidQuests or (not QuestieDB:IsRaidQuest(questId))) and  -- Show Raid quests only with the option enabled
+            (showPvPQuests or (not QuestieDB:IsPvPQuest(questId))) -- Show PvP quests only with the option enabled
         ) then
 
-            if quest and quest:IsLevelRequirementsFulfilled(minLevel, maxLevel) then
-                if quest:IsDoable() then
+            if QuestieDB:IsLevelRequirementsFulfilled(questId, minLevel, maxLevel) then
+                if QuestieDB:IsDoable(questId, raceIndex, classIndex) then
                     QuestieQuest.availableQuests[questId] = questId
                 end
             else

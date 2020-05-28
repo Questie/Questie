@@ -56,9 +56,10 @@ function QuestieStreamLib:GetStream(mode) -- returns a new stream
         tinsert(StreamPool, self)
     end
     if mode then
+        stream._mode = mode
         if mode == "raw" then
             stream.ReadByte = QuestieStreamLib._ReadByte_raw
-            stream._WriteByte = QuestieStreamLib._WriteByte_raw
+            stream._WriteByte = QuestieStreamLib._writeByte
         elseif mode == "1short" then
             stream.ReadByte = QuestieStreamLib._ReadByte_1short
             stream._WriteByte = QuestieStreamLib._WriteByte_1short
@@ -74,7 +75,11 @@ function QuestieStreamLib:GetStream(mode) -- returns a new stream
 end
 
 function QuestieStreamLib:_writeByte(val)
-    self._bin[self._pointer] = val
+    --print("Writing " .. val .. " at " .. self._pointer)
+    self._bin[self._pointer] = string.char(val)
+    --if val > 255 or val < 0 then
+    --    string.char(val) -- error
+    --end
     self._pointer = self._pointer + 1
 end
 
@@ -163,6 +168,7 @@ end
 
 function QuestieStreamLib:_ReadByte_raw()
     local val = string.byte(self._bin, self._pointer)
+    --print("Read data at " .. self._pointer .. " = " .. val)
     self._pointer = self._pointer + 1
     return val
     --return self:_readByte()
@@ -228,6 +234,16 @@ function QuestieStreamLib:ReadTinyString()
     return string.char(unpack(ret))
 end
 
+function QuestieStreamLib:ReadTinyStringNil()
+    local length = self:ReadByte()
+    if length == 0 then return nil end
+    local ret = {};
+    for i = 1, length do
+        tinsert(ret, self:ReadByte()) -- slightly better lua code is slightly better
+    end
+    return string.char(unpack(ret))
+end
+
 function QuestieStreamLib:ReadShortString()
     local length = self:ReadShort()
     local ret = {};
@@ -270,6 +286,7 @@ function QuestieStreamLib:WriteInt(val)
 end
 
 function QuestieStreamLib:WriteInt24(val)
+    --print("wi24: " .. val);
     self:WriteByte(mod(bit.rshift(val, 16), 256));
     self:WriteByte(mod(bit.rshift(val, 8), 256));
     self:WriteByte(mod(val, 256));
@@ -309,13 +326,15 @@ end
 
 
 function QuestieStreamLib:Save()
-    if self._pointer-1 > unpack_limit then
-        for i=1,self._pointer-1 do
-            self._bin[i] = string.char(self._bin[i])
-        end
-        return table.concat(self._bin)
-    end
-    return string.char(unpack(self._bin))
+    --if self._pointer-1 > unpack_limit then
+        --for i=1,self._pointer-1 do
+            --print(self._bin[i])
+        --    self._bin[i] = string.char(self._bin[i])
+        --end
+        --return table.concat(self._bin)
+    --end
+    --return string.char(unpack(self._bin))
+    return table.concat(self._bin)
 end
 
 function QuestieStreamLib:SaveRaw()
@@ -330,7 +349,11 @@ end
 
 function QuestieStreamLib:Load(bin)
     self._pointer = 1
-    self._bin = {string.byte(bin, 1, -1)}
+    if self._mode == "raw" then
+        self._bin = bin
+    else
+        self._bin = {string.byte(bin, 1, -1)}
+    end
     self._level = 0
 end
 
