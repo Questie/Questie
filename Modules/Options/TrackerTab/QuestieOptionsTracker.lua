@@ -232,11 +232,11 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.trackerSortObjectives; end,
                 set = function(input, key)
                     Questie.db.global.trackerSortObjectives = key
-                    if Questie.db.global.trackerSortObjectives == "byZone" then
-                        QuestieTracker.QuestFrameIndent = QuestieTracker.trackerFontSize*4.25
-                    else
-                        QuestieTracker.QuestFrameIndent = QuestieTracker.trackerFontSize*2.75
-                    end
+                    --if Questie.db.global.trackerSortObjectives == "byZone" then
+                    --    QuestieTracker.QuestFrameIndent = QuestieTracker.private.trackerFontSize*4.25
+                    --else
+                        QuestieTracker.QuestFrameIndent = QuestieTracker.private.trackerFontSize*2.75
+                    --end
                     QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
                 end

@@ -167,16 +167,16 @@ function _QuestieTracker:UpdateLayout()
     trackerHeaderBuffer = Questie.db.global.trackerFontSizeHeader
     trackerLineBuffer = Questie.db.global.trackerFontSizeLine
 
-    if Questie.db.global.trackerSortObjectives == "byZone" then
-        _QuestieTracker.QuestFrameIndent = trackerHeaderBuffer*4.25
-        _QuestieTracker.trackerHeaderBuffer = trackerHeaderBuffer*4.25
-        _QuestieTracker.trackerLineBuffer = trackerLineBuffer*4.25
+    --if Questie.db.global.trackerSortObjectives == "byZone" then
+    --    _QuestieTracker.QuestFrameIndent = trackerHeaderBuffer*4.25
+    --    _QuestieTracker.trackerHeaderBuffer = trackerHeaderBuffer*4.25
+    --    _QuestieTracker.trackerLineBuffer = trackerLineBuffer*4.25
 
-    else
+    --else
         _QuestieTracker.QuestFrameIndent = trackerHeaderBuffer*2.75
         _QuestieTracker.trackerHeaderBuffer = trackerHeaderBuffer*2.75
         _QuestieTracker.trackerLineBuffer = trackerLineBuffer*2.75
-    end
+    --end
 end
 
 function _QuestieTracker:CreateBaseFrame()
@@ -419,11 +419,11 @@ function _QuestieTracker:CreateTrackedQuestsFrame()
 
     frm.Update = function(self)
         frm:ClearAllPoints()
-        if Questie.db.global.trackerSortObjectives == "byZone" then
-            self:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", (trackerHeaderBuffer*4.25 ), -(trackerHeaderBuffer*2.25))
-        else
+        --if Questie.db.global.trackerSortObjectives == "byZone" then
+        --    self:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", (trackerHeaderBuffer*4.25 ), -(trackerHeaderBuffer*2.25))
+        --else
             self:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", (trackerHeaderBuffer*2.75), -(trackerHeaderBuffer*2.25))
-        end
+        --end
     end
 
     frm:EnableMouse(true)
@@ -1115,20 +1115,35 @@ function QuestieTracker:Update()
 
                         self:ClearAllPoints()
                         self:SetPoint("TOPRIGHT", self.line, "TOPLEFT", -trackerHeaderBuffer/3, 0)
+                        self.line.expandQuest:Hide()
 
                         if Questie.db.char.collapsedZones[quest.zoneOrSort] or Questie.db.char.collapsedQuests[quest.Id] then
-                            self.line.expandQuest:Show()
                             self:SetParent(UIParent)
                             self:Hide()
+
+                            if Questie.db.char.collapsedZones[quest.zoneOrSort] == nil then
+                                self.line.expandQuest:Show()
+                            end
                         else
-                            Questie.db.char.collapsedQuests[quest.Id] = nil
-                            self.line.expandQuest:Hide()
                             self:SetFrameStrata("MEDIUM")
                             self:Show()
+
+                            if Questie.db.char.collapsedQuests[quest.Id] then
+                                Questie.db.char.collapsedQuests[quest.Id] = nil
+                            end
+
+                            if Questie.db.char.collapsedZones[quest.zoneOrSort] then
+                                Questie.db.char.collapsedZones[quest.zoneOrSort] = nil
+                            end
                         end
 
                     else
-                        self.line.expandQuest:Show()
+                        if Questie.db.char.collapsedZones[quest.zoneOrSort] then
+                            self.line.expandQuest:Hide()
+                        else
+                            self.line.expandQuest:Show()
+                        end
+
                         self:Hide()
                     end
 
