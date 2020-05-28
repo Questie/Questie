@@ -115,7 +115,7 @@ _PLAYER_LOGIN = function()
         QuestieLib:CacheAllItemNames()
 
         -- Initialize Journey Window
-        QuestieJourney.Initialize()
+        QuestieJourney:Initialize()
         
         -- if compiled db exists and is up to date
             QuestieCleanup:Run()

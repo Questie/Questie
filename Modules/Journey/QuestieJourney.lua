@@ -13,6 +13,8 @@ local QuestieSearchResults = QuestieLoader:ImportModule("QuestieSearchResults")
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type QuestieDBZone
+local QuestieDBZone = QuestieLoader:ImportModule("QuestieDBZone")
 
 -- Useful doc about the AceGUI TreeGroup: https://github.com/hurricup/WoW-Ace3/blob/master/AceGUI-3.0/widgets/AceGUIContainer-TreeGroup.lua
 
@@ -36,10 +38,80 @@ end
 QuestieJourney.tabGroup = nil
 function QuestieJourney:Initialize()
     QuestieJourney.continents = LangContinentLookup
+    --[[for cont, zone in pairs(LangZoneLookup) do
+        QuestieJourney.zones[cont] = {}
+        for zoneId, zoneName in pairs(zone) do
+            local areQuestsInZone = QuestieDB:ZoneHasQuests(zoneId)--_QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
+            if areQuestsInZone == false then
+                QuestieJourney.zones[cont][zoneId] = nil
+            else
+                QuestieJourney.zones[cont][zoneId] = zoneName
+            end
+        end
+    end]]--
+    
+    local zoneMap = {} -- todo: move this into a library function
+    for id in pairs(QuestieDB.QuestPointers) do 
+        local zoneOrSort, startedBy, finishedBy = unpack(QuestieDB.QueryQuest(id, "zoneOrSort", "startedBy", "finishedBy"))
+        if zoneOrSort > 0 then
+            local alternativeZoneID = QuestieDBZone:GetAlternativeZoneId(zoneOrSort)
+            zoneMap[zoneOrSort] = true
+            if alternativeZoneID then
+                zoneMap[alternativeZoneID] = true
+            end
+        else
+            if startedBy then
+                if startedBy[1] then
+                    for id in pairs(startedBy[1]) do
+                        local spawns = QuestieDB.QueryNPCSingle(id, "spawns")
+                        if spawns then
+                            for zone in pairs(spawns) do
+                                zoneMap[zone] = true
+                            end
+                        end
+                    end
+                end
+                if startedBy[2] then
+                    for id in pairs(startedBy[2]) do
+                        local spawns = QuestieDB.QueryObjectSingle(id, "spawns")
+                        if spawns then
+                            for zone in pairs(spawns) do
+                                zoneMap[zone] = true
+                            end
+                        end
+                    end
+                end
+            end
+            
+            if finishedBy then
+                if finishedBy[1] then
+                    for id in pairs(finishedBy[1]) do
+                        local spawns = QuestieDB.QueryNPCSingle(id, "spawns")
+                        if spawns then
+                            for zone in pairs(spawns) do
+                                zoneMap[zone] = true
+                            end
+                        end
+                    end
+                end
+                if finishedBy[2] then
+                    for id in pairs(finishedBy[2]) do
+                        local spawns = QuestieDB.QueryObjectSingle(id, "spawns")
+                        if spawns then
+                            for zone in pairs(spawns) do
+                                zoneMap[zone] = true
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+    
     for cont, zone in pairs(LangZoneLookup) do
         QuestieJourney.zones[cont] = {}
         for zoneId, zoneName in pairs(zone) do
-            local areQuestsInZone = _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
+            local areQuestsInZone = zoneMap[zoneId]
             if areQuestsInZone == false then
                 QuestieJourney.zones[cont][zoneId] = nil
             else
@@ -47,6 +119,7 @@ function QuestieJourney:Initialize()
             end
         end
     end
+    
     QuestieJourney:BuildMainFrame()
 end
 
