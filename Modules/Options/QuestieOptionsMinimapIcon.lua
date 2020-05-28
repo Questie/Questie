@@ -33,7 +33,11 @@ function QuestieOptionsMinimapIcon:Initialize()
                     return
                 end
 
-                QuestieOptions:OpenConfigWindow()
+                if InCombatLockdown() then
+                    QuestieOptions:HideFrame()
+                else
+                    QuestieOptions:OpenConfigWindow()
+                end
 
                 if QuestieJourney:IsShown() then
                     QuestieJourney.ToggleJourneyWindow();

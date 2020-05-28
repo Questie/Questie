@@ -164,7 +164,7 @@ function QuestieSearchResults:QuestDetailsFrame(details, id)
         if GameTooltip:IsShown() then
             return;
         end
-        GameTooltip:SetOwner(_G["QuestieJourneyFrame"], "ANCHOR_CURSOR");
+        GameTooltip:SetOwner(_G["QuestieJourneyFrame"].frame:GetParent(), "ANCHOR_CURSOR");
         GameTooltip:AddLine("Quests hidden by the user.")
         GameTooltip:AddLine("\nWhen selected, hides the quest from the map, even if it is active.\n\nHiding a quest is also possible by Shift-clicking it on the map.", 1, 1, 1, true);
         GameTooltip:SetFrameStrata("TOOLTIP");

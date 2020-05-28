@@ -1,5 +1,5 @@
 if(Questie) then
-    C_Timer.After(4, function() 
+    C_Timer.After(4, function()
         error("ERROR!! -> Questie already loaded! Please only have one Questie installed!")
         for i=1, 10 do
             DEFAULT_CHAT_FRAME:AddMessage("|cFFFF0000ERROR!!|r -> Questie already loaded! Please only have one Questie installed!")
@@ -147,9 +147,6 @@ if  (not LQuestie_EasyMenu) or
     _Questie = {...}
 end
 
-
-
-
 function Questie:OnInitialize()
     self.db = LibStub("AceDB-3.0"):New("QuestieConfig", QuestieOptionsDefaults:Load(), true)
     QuestieFramePool:SetIcons()
@@ -179,6 +176,7 @@ function Questie:OnInitialize()
     Questie:RegisterChatCommand("questie", "HandleSlash")
 
     QuestieOptions:Initialize()
+    QuestieJourney:Initialize()
 
     --Initialize the DB settings.
     Questie:Debug(DEBUG_DEVELOP, QuestieLocale:GetUIString('DEBUG_CLUSTER', Questie.db.global.clusterLevelHotzone))
@@ -222,7 +220,6 @@ function Questie:OnInitialize()
 end
 
 function Questie:OnUpdate()
-
 end
 
 function Questie:OnEnable()

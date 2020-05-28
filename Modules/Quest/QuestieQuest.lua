@@ -30,7 +30,6 @@ local _QuestieQuest = QuestieQuest.private
 local libS = LibStub:GetLibrary("AceSerializer-3.0")
 local libC = LibStub:GetLibrary("LibCompress")
 
-
 --We should really try and squeeze out all the performance we can, especially in this.
 local tostring = tostring;
 local tinsert = table.insert;
@@ -43,11 +42,10 @@ local slower = string.lower;
 
 QuestieQuest.availableQuests = {} --Gets populated at PLAYER_ENTERED_WORLD
 
-
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 
 function QuestieQuest:Initialize()
-    Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_GET_QUEST_COMP'))
+    Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString("DEBUG_GET_QUEST_COMP"))
     --GetQuestsCompleted(Questie.db.char.complete)
     Questie.db.char.complete = GetQuestsCompleted()
     QuestieProfessions:Update()
@@ -66,7 +64,7 @@ function QuestieQuest:ToggleNotes(desiredValue)
     local questieCharDB = Questie.db.char
     if QuestieQuest.NotesHidden then
         -- change map button
-        Questie_Toggle:SetText(QuestieLocale:GetUIString('QUESTIE_MAP_BUTTON_HIDE'));
+        Questie_Toggle:SetText(QuestieLocale:GetUIString("QUESTIE_MAP_BUTTON_HIDE"));
         -- show quest notes
         local trackerHiddenQuests = questieCharDB.TrackerHiddenQuests
         for questId, framelist in pairs(QuestieMap.questIdFrames) do
@@ -100,7 +98,7 @@ function QuestieQuest:ToggleNotes(desiredValue)
         end
     else
         -- change map button
-        Questie_Toggle:SetText(QuestieLocale:GetUIString('QUESTIE_MAP_BUTTON_SHOW'));
+        Questie_Toggle:SetText(QuestieLocale:GetUIString("QUESTIE_MAP_BUTTON_SHOW"));
         -- hide quest notes
         for questId, framelist in pairs(QuestieMap.questIdFrames) do
             for index, frameName in pairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
@@ -124,7 +122,6 @@ function QuestieQuest:ToggleNotes(desiredValue)
     QuestieQuest.NotesHidden = not QuestieQuest.NotesHidden
     Questie.db.char.enabled = not QuestieQuest.NotesHidden
 end
-
 
 function QuestieQuest:ClearAllNotes()
     for questId in pairs (QuestiePlayer.currentQuestlog) do
@@ -160,7 +157,7 @@ local function _UpdateSpecials(questId)
         for _, objective in pairs(quest.SpecialObjectives) do
             local result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, quest, 0, objective, true);
             if not result then
-                Questie:Error("[QuestieQuest]: [SpecialObjectives] ".. QuestieLocale:GetUIString('DEBUG_POPULATE_ERR', quest.name or "No quest name", quest.Id or "No quest id", 0 or "No objective", err or "No error"));
+                Questie:Error("[QuestieQuest]: [SpecialObjectives] ".. QuestieLocale:GetUIString("DEBUG_POPULATE_ERR", quest.name or "No quest name", quest.Id or "No quest id", 0 or "No objective", err or "No error"));
             end
         end
     end
@@ -238,7 +235,6 @@ function QuestieQuest:SmoothReset() -- use timers to reset progressively instead
         step = step + 1
     end, 5)
 end
-
 
 function QuestieQuest:UpdateHiddenNotes()
     Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:UpdateHiddenNotes]")
@@ -327,7 +323,7 @@ end
 
 function QuestieQuest:AcceptQuest(questId)
     if(QuestiePlayer.currentQuestlog[questId] == nil) then
-        Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ACCEPT_QUEST', questId));
+        Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString("DEBUG_ACCEPT_QUEST", questId));
 
         --Get all the Frames for the quest and unload them, the available quest icon for example.
         QuestieMap:UnloadQuestFrames(questId);
@@ -367,7 +363,7 @@ function QuestieQuest:AcceptQuest(questId)
         --Broadcast an update.
         Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId);
     else
-        Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ACCEPT_QUEST', questId), " Warning: Quest already existed, not adding");
+        Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString("DEBUG_ACCEPT_QUEST", questId), " Warning: Quest already existed, not adding");
     end
 end
 
@@ -386,13 +382,14 @@ function QuestieQuest:CompleteQuest(quest)
 
     QuestieTooltips:RemoveQuest(questId)
     QuestieTracker:RemoveQuest(questId)
+    QuestieTracker:ResetLinesForChange()
     QuestieTracker:Update()
 
     --This should probably be done first, because DrawAllAvailableQuests looks at QuestieMap.questIdFrames[QuestId] to add available
     QuestieQuest:CalculateAvailableQuests()
     QuestieQuest:DrawAllAvailableQuests()
 
-    Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_COMPLETE_QUEST', questId))
+    Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString("DEBUG_COMPLETE_QUEST", questId))
 end
 
 function QuestieQuest:AbandonedQuest(questId)
@@ -433,12 +430,13 @@ function QuestieQuest:AbandonedQuest(questId)
         end
 
         QuestieTracker:RemoveQuest(questId)
+        QuestieTracker:ResetLinesForChange()
         QuestieTracker:Update()
 
         QuestieQuest:CalculateAvailableQuests()
         QuestieQuest:DrawAllAvailableQuests()
 
-        Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ABANDON_QUEST', questId));
+        Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString("DEBUG_ABANDON_QUEST", questId));
     end
 end
 
@@ -462,6 +460,7 @@ function QuestieQuest:UpdateQuest(questId)
         else
             --DEFAULT_CHAT_FRAME:AddMessage("Still not finished " .. QuestId);
         end
+        QuestieTracker:ResetLinesForChange()
         QuestieTracker:Update()
 
         Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
@@ -470,7 +469,7 @@ end
 
 --Run this if you want to update the entire table
 function QuestieQuest:GetAllQuestIds()
-    Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_GET_QUEST'));
+    Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString("DEBUG_GET_QUEST"));
     local numEntries, numQuests = GetNumQuestLogEntries();
     QuestiePlayer.currentQuestlog = {}
     for index = 1, numEntries do
@@ -488,14 +487,15 @@ function QuestieQuest:GetAllQuestIds()
             else
                 QuestiePlayer.currentQuestlog[questId] = questId
             end
-            Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ADD_QUEST', questId, QuestiePlayer.currentQuestlog[questId]));
+            Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString("DEBUG_ADD_QUEST", questId, QuestiePlayer.currentQuestlog[questId]));
         end
     end
+    QuestieTracker:ResetLinesForChange()
     QuestieTracker:Update()
 end
 
 function QuestieQuest:GetAllQuestIdsNoObjectives()
-    Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_GET_QUEST'), "(without objectives)");
+    Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString("DEBUG_GET_QUEST"), "(without objectives)");
     local numEntries, numQuests = GetNumQuestLogEntries();
     QuestiePlayer.currentQuestlog = {}
     for index = 1, numEntries do
@@ -508,7 +508,7 @@ function QuestieQuest:GetAllQuestIdsNoObjectives()
             else
                 QuestiePlayer.currentQuestlog[questId] = questId
             end
-            Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ADD_QUEST', questId, QuestiePlayer.currentQuestlog[questId]));
+            Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString("DEBUG_ADD_QUEST", questId, QuestiePlayer.currentQuestlog[questId]));
         end
     end
 end
@@ -541,6 +541,8 @@ function QuestieQuest:IsCompleteId(questId)
     isComplete = IsQuestComplete(questId) -- true if the quest is both in the quest log and complete, false otherwise
     if isComplete then
         return 1
+	else
+		return 0
     end
 
     return 0
@@ -553,7 +555,7 @@ function QuestieQuest:UpdateObjectiveNotes(quest)
         for k, v in pairs(quest.Objectives) do
             local result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, quest, k, v);
             if not result then
-                Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_POP_ERROR', quest.name, quest.Id, k, err));
+                Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString("DEBUG_POP_ERROR", quest.name, quest.Id, k, err));
             end
         end
     end
@@ -572,10 +574,10 @@ function QuestieQuest:AddFinisher(quest)
             elseif quest.Finisher.Type == "object" then
                 finisher = QuestieDB:GetObject(quest.Finisher.Id)
             else
-                Questie:Debug(DEBUG_CRITICAL, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_UNHANDLE_FINISH', quest.Finisher.Type, questId, quest.name))
+                Questie:Debug(DEBUG_CRITICAL, "[QuestieQuest]: ".. QuestieLocale:GetUIString("DEBUG_UNHANDLE_FINISH", quest.Finisher.Type, questId, quest.name))
             end
         else
-            Questie:Debug(DEBUG_CRITICAL, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_NO_FINISH', questId, quest.name))
+            Questie:Debug(DEBUG_CRITICAL, "[QuestieQuest]: ".. QuestieLocale:GetUIString("DEBUG_NO_FINISH", questId, quest.name))
         end
         if(finisher ~= nil and finisher.spawns ~= nil) then
             for finisherZone, spawns in pairs(finisher.spawns) do
@@ -654,7 +656,6 @@ function QuestieQuest:AddFinisher(quest)
         end
     end
 end
-
 
 -- this is for forcing specific things on to the map (That aren't quest related)
 -- label and customScale can be nil
@@ -895,7 +896,7 @@ local function _CallPopulateObjective(quest)
         if not result then
             local major, minor, patch = QuestieLib:GetAddonVersionInfo();
             local version = "v"..(major or "").."."..(minor or "").."."..(patch or "");--Doing it this way to keep it 100% safe.
-            Questie:Error("[QuestieQuest]: " .. version .. " - " .. QuestieLocale:GetUIString('DEBUG_POPULATE_ERR', quest.name or "No quest name", quest.Id or "No quest id", k or "No objective", err or "No error"));
+            Questie:Error("[QuestieQuest]: " .. version .. " - " .. QuestieLocale:GetUIString("DEBUG_POPULATE_ERR", quest.name or "No quest name", quest.Id or "No quest id", k or "No objective", err or "No error"));
         end
     end
 end
@@ -952,7 +953,7 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
         for _, objective in pairs(quest.SpecialObjectives) do
             local result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, quest, index, objective, true);
             if not result then
-                Questie:Error("[QuestieQuest]: [SpecialObjectives] ".. QuestieLocale:GetUIString('DEBUG_POPULATE_ERR', quest.name or "No quest name", quest.Id or "No quest id", 0 or "No objective", err or "No error"));
+                Questie:Error("[QuestieQuest]: [SpecialObjectives] ".. QuestieLocale:GetUIString("DEBUG_POPULATE_ERR", quest.name or "No quest name", quest.Id or "No quest id", 0 or "No objective", err or "No error"));
             end
             index = index + 1
         end
@@ -965,7 +966,7 @@ end
 function QuestieQuest:PopulateQuestLogInfo(quest)
     --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: PopulateMeta1:", Quest.Id, Quest.Name)
     if quest.Objectives == nil then
-        Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: PopulateQuestLogInfo: ".. QuestieLocale:GetUIString('DEBUG_POPTABLE'))
+        Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: PopulateQuestLogInfo: ".. QuestieLocale:GetUIString("DEBUG_POPTABLE"))
         quest.Objectives = {};
     end
     local logID = GetQuestLogIndexByID(quest.Id);
@@ -991,7 +992,7 @@ function QuestieQuest:GetAllQuestObjectives(quest)
 
     if quest.Objectives == nil then
         quest.Objectives = {}; -- TODO: remove after api bug is fixed!!!
-        Questie:Debug(DEBUG_CRITICAL, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_OBJ_TABLE'));
+        Questie:Debug(DEBUG_CRITICAL, "[QuestieQuest]: ".. QuestieLocale:GetUIString("DEBUG_OBJ_TABLE"));
     end
 
     local questObjectives = QuestieQuest:GetAllLeaderBoardDetails(quest.Id);
@@ -1142,7 +1143,7 @@ function QuestieQuest:GetAllQuestObjectives(quest)
         end
 
         if (not quest.Objectives[objectiveIndex]) or (not quest.Objectives[objectiveIndex].Id) then
-            Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_ENTRY_ID', objective.type, objective.text))
+            Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString("DEBUG_ENTRY_ID", objective.type, objective.text))
         end
     end
     -- Old Select code do we need it?
@@ -1259,6 +1260,7 @@ function QuestieQuest:GetAllLeaderBoardDetails(questId)
     end
     return questObjectives;
 end
+
 --[[  KEEP THIS FOR NOW
 
             -- Look if it contains "slain"
@@ -1415,7 +1417,7 @@ function QuestieQuest:DrawAllAvailableQuests()--All quests between
         end
         count = count + 1
     end
-    Questie:Debug(DEBUG_INFO, "[QuestieQuest]", QuestieLocale:GetUIString('DEBUG_DRAW', count, QuestiePlayer:GetPlayerLevel()));
+    Questie:Debug(DEBUG_INFO, "[QuestieQuest]", QuestieLocale:GetUIString("DEBUG_DRAW", count, QuestiePlayer:GetPlayerLevel()));
 end
 
 ---@param quest Quest
@@ -1484,3 +1486,76 @@ function QuestieQuest:CalculateAvailableQuests()
         end
     end
 end
+
+---------------------------------------------------------------------------------------------------
+-- These must be loaded in order together and loaded before the hook for custom quest links
+-- The Hyperlink hook is located in QuestieTooltips.lua
+---------------------------------------------------------------------------------------------------
+-- Message Event Filter which intercepts incoming linked quests and replaces them with Hyperlinks
+local function QuestsFilter(chatFrame, event, msg, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, unused, lineID, senderGUID, ...)
+    if msg then
+        for k in string.gmatch(msg, "%[..- %(%d+%)%]") do
+            local quest, sqid, questId, questLevel, questName
+            _, _, questName, sqid = string.find(k, "%[(..-) %((%d+)%)%]")
+
+            if questName and sqid then
+                questId = tonumber(sqid)
+                if string.find(questName, "(%[.+%]) ") ~= nil then
+                    _, _, questLevel, questName = string.find(questName, "%[(.+)%] (.+)")
+                end
+            end
+
+            -- TODO: use "[questLevel] questName" to trigger a search in Questie Journey if questId
+            -- is not found. However, this would be a complex search because we wouldn't know when
+            -- the quest title ends and where "player typed speech" begins. If the Quest Link is
+            -- coming from a Questie user then there is no issue since our Quest Links will have
+            -- [ ] around each quest. We should petition Blizzard to change their client code to
+            -- include the brackets by default. :D
+
+            if QuestieDB:GetQuest(questId) then
+                quest = QuestieDB:GetQuest(questId)
+            end
+
+            if quest and quest.name == questName and questId then
+                local coloredQuestName = QuestieLib:GetColoredQuestName(questId, questName, quest.level, Questie.db.global.trackerShowQuestLevel, complete, false)
+                local questLink = "|Hquestie:"..sqid..":"..senderGUID.."|h"..QuestieLib:PrintDifficultyColor(quest.level, "[")..coloredQuestName..QuestieLib:PrintDifficultyColor(quest.level, "]").."|h"
+
+                -- Escape the magic characters
+                local function escapeMagic(questName)
+                    return (questName
+                        :gsub("%%", "%%%%")
+                        :gsub("^%^", "%%^")
+                        :gsub("%$$", "%%$")
+                        :gsub("%(", "%%(")
+                        :gsub("%)", "%%)")
+                        :gsub("%.", "%%.")
+                        :gsub("%[", "%%[")
+                        :gsub("%]", "%%]")
+                        :gsub("%*", "%%*")
+                        :gsub("%+", "%%+")
+                        :gsub("%-", "%%-")
+                        :gsub("%?", "%%?")
+                    )
+                end
+
+                questName = escapeMagic(questName)
+                questLevel = escapeMagic(questLevel)
+
+                if questLevel then
+                    msg = string.gsub(msg, "%[%["..questLevel.."%] "..questName.." %("..sqid.."%)%]", questLink)
+                else
+                    msg = string.gsub(msg, "%["..questName.." %("..sqid.."%)%]", questLink)
+                end
+            end
+        end
+        return false, msg, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, unused, lineID, senderGUID, ...
+    end
+end
+
+-- The message filter that triggers the above local function
+ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY", QuestsFilter)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID", QuestsFilter)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", QuestsFilter)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_SAY", QuestsFilter)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_YELL", QuestsFilter)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", QuestsFilter)

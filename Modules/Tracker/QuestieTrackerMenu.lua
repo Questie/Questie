@@ -163,13 +163,12 @@ end
 _AddLinkToChatOption = function (menu, quest)
     tinsert(menu, {text = QuestieLocale:GetUIString('TRACKER_LINK_TO_CHAT'), func = function()
         LQuestie_CloseDropDownMenus()
-
-        if ChatFrame1EditBox then
-            if not ChatFrame1EditBox:IsShown() then
-                ChatFrame1EditBox:Show()
+        if ChatEdit_GetActiveWindow() then
+            if Questie.db.global.trackerShowQuestLevel then
+                ChatEdit_InsertLink("[["..quest.level.."] "..quest.name.." ("..quest.Id..")]")
+            else
+                ChatEdit_InsertLink("["..quest.name.." ("..quest.Id..")]")
             end
-
-            ChatFrame1EditBox:SetText(ChatFrame1EditBox:GetText() .. QuestieLib:GetQuestString(quest.Id, quest.name, quest.level, true))
         end
     end})
 end
@@ -198,9 +197,9 @@ end
 
 _AddLockUnlockOption = function (menu)
     if Questie.db.global.trackerLocked then
-        tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_UNLOCK'), func = function() LQuestie_CloseDropDownMenus(); Questie.db.global.trackerLocked = false end})
+        tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_UNLOCK'), func = function() LQuestie_CloseDropDownMenus(); Questie.db.global.trackerLocked = false; QuestieTracker.private.baseFrame:Update() end})
     else
-        tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_LOCK'), func = function() LQuestie_CloseDropDownMenus(); Questie.db.global.trackerLocked = true end})
+        tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_LOCK'), func = function() LQuestie_CloseDropDownMenus(); Questie.db.global.trackerLocked = true; QuestieTracker.private.baseFrame:Update() end})
     end
 end
 

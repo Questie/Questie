@@ -401,7 +401,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     end
 
     -- This function is required because direct calls of GetQuestTagInfo while
-    -- initializing the quest object either returns false values or will make the 
+    -- initializing the quest object either returns false values or will make the
     -- quest log appear empty
     function QO:IsDungeonQuest()
         local questType, _ = GetQuestTagInfo(questId)
@@ -828,22 +828,18 @@ end
     Check `LangZoneLookup` for the available IDs
 ]]
 function QuestieDB:GetQuestsByZoneId(zoneId)
-
     if not zoneId then
         return nil;
     end
-
-    -- in in cache return that
+    -- is in cache return that
     if _QuestieDB.zoneCache[zoneId] then
         return _QuestieDB.zoneCache[zoneId]
     end
-
     local zoneQuests = {};
     local alternativeZoneID = QuestieDBZone:GetAlternativeZoneId(zoneId)
     -- loop over all quests to populate a zone
     for qid, _ in pairs(QuestieDB.QuestPointers or QuestieDB.questData) do
         local quest = QuestieDB:GetQuest(qid);
-
         if quest then
             if quest.zoneOrSort > 0 then
                 if (quest.zoneOrSort == zoneId or (alternativeZoneID and quest.zoneOrSort == alternativeZoneID)) then
@@ -851,7 +847,6 @@ function QuestieDB:GetQuestsByZoneId(zoneId)
                 end
             elseif quest.Starts.NPC and zoneQuests[qid] == nil then
                 local npc = QuestieDB:GetNPC(quest.Starts.NPC[1]);
-
                 if npc and npc.friendly and npc.spawns then
                     for zone, _ in pairs(npc.spawns) do
                         if zone == zoneId  or (alternativeZoneID and zone == alternativeZoneID) then
@@ -861,7 +856,6 @@ function QuestieDB:GetQuestsByZoneId(zoneId)
                 end
             elseif quest.Starts.GameObject and zoneQuests[qid] == nil then
                 local obj = QuestieDB:GetObject(quest.Starts.GameObject[1]);
-
                 if obj and obj.spawns then
                     for zone, _ in pairs(obj.spawns) do
                         if zone == zoneId  or (alternativeZoneID and zone == alternativeZoneID) then
@@ -872,7 +866,6 @@ function QuestieDB:GetQuestsByZoneId(zoneId)
             end
         end
     end
-
     _QuestieDB.zoneCache[zoneId] = zoneQuests;
     return zoneQuests;
 end

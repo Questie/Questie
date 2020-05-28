@@ -1,5 +1,8 @@
 ---@class QuestieJourneyUtils
 local QuestieJourneyUtils = QuestieLoader:CreateModule("QuestieJourneyUtils");
+---@type QuestieJourney
+local QuestieJourney = QuestieLoader:CreateModule("QuestieJourney")
+local _QuestieJourney = QuestieJourney.private
 
 local AceGUI = LibStub("AceGUI-3.0");
 
@@ -10,7 +13,10 @@ function QuestieJourneyUtils:GetSortedZoneKeys(zones)
 
     local zoneNames = {}
     for k, _ in pairs(zones) do
-        table.insert(zoneNames, k)
+        local areQuestsInZone = _QuestieJourney.questsByZone:CollectZoneQuests(k)
+        if areQuestsInZone ~= false then
+            table.insert(zoneNames, k)
+        end
     end
     table.sort(zoneNames, compare)
     return zoneNames

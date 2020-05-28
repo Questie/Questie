@@ -40,30 +40,30 @@ function QuestieTracker.utils:SetTomTomTarget(title, zone, x, y)
     end
 end
 
-function QuestieTracker.utils:ShowObjectiveOnMap(Objective)
+function QuestieTracker.utils:ShowObjectiveOnMap(objective)
     -- calculate nearest spawn
-    local spawn, zone, name = QuestieMap:GetNearestSpawn(Objective)
+    local spawn, zone, name = QuestieMap:GetNearestSpawn(objective)
     if spawn then
         --print("Found best spawn: " .. name .. " in zone " .. tostring(zone) .. " at " .. tostring(spawn[1]) .. " " .. tostring(spawn[2]))
         WorldMapFrame:Show()
         WorldMapFrame:SetMapID(ZoneDataAreaIDToUiMapID[zone])
-        QuestieTracker.utils:FlashObjective(Objective)
+        QuestieTracker.utils:FlashObjective(objective)
     end
 end
 
-function QuestieTracker.utils:ShowFinisherOnMap(Quest)
+function QuestieTracker.utils:ShowFinisherOnMap(quest)
     -- calculate nearest spawn
-    local spawn, zone, name = QuestieMap:GetNearestQuestSpawn(Quest)
+    local spawn, zone, name = QuestieMap:GetNearestQuestSpawn(quest)
     if spawn then
         --print("Found best spawn: " .. name .. " in zone " .. tostring(zone) .. " at " .. tostring(spawn[1]) .. " " .. tostring(spawn[2]))
         WorldMapFrame:Show()
         WorldMapFrame:SetMapID(ZoneDataAreaIDToUiMapID[zone])
-        QuestieTracker.utils:FlashFinisher(Quest)
+        QuestieTracker.utils:FlashFinisher(quest)
     end
 end
 
-function QuestieTracker.utils:FlashObjective(Objective) -- really terrible animation code, sorry guys
-    if Objective.AlreadySpawned then
+function QuestieTracker.utils:FlashObjective(objective) -- really terrible animation code, sorry guys
+    if objective.AlreadySpawned then
         local toFlash = {}
         -- ugly code
         for questId, framelist in pairs(QuestieMap.questIdFrames) do
@@ -81,7 +81,7 @@ function QuestieTracker.utils:FlashObjective(Objective) -- really terrible anima
         end
 
 
-        for _, spawn in pairs(Objective.AlreadySpawned) do
+        for _, spawn in pairs(objective.AlreadySpawned) do
             if spawn.mapRefs then
                 for _, frame in pairs(spawn.mapRefs) do
                     tinsert(toFlash, frame)
@@ -147,11 +147,11 @@ function QuestieTracker.utils:FlashObjective(Objective) -- really terrible anima
     end
 end
 
-function QuestieTracker.utils:FlashFinisher(Quest) -- really terrible animation copypasta, sorry guys
+function QuestieTracker.utils:FlashFinisher(quest) -- really terrible animation copypasta, sorry guys
     local toFlash = {}
     -- ugly code
     for questId, framelist in pairs(QuestieMap.questIdFrames) do
-        if questId ~= Quest.Id then
+        if questId ~= quest.Id then
             for index, frameName in pairs(framelist) do
                 local icon = _G[frameName];
                 if not icon.miniMapIcon then
@@ -225,8 +225,8 @@ function QuestieTracker.utils:FlashFinisher(Quest) -- really terrible animation 
     end)
 end
 
--- function QuestieTracker.utils:FlashObjectiveByTexture(Objective) -- really terrible animation code, sorry guys
---     if Objective.AlreadySpawned then
+-- function QuestieTracker.utils:FlashObjectiveByTexture(objective) -- really terrible animation code, sorry guys
+--     if objective.AlreadySpawned then
 --         local toFlash = {}
 --         -- ugly code
 --         for questId, framelist in pairs(QuestieMap.questIdFrames) do
@@ -244,7 +244,7 @@ end
 --         end
 
 
---         for _, spawn in pairs(Objective.AlreadySpawned) do
+--         for _, spawn in pairs(objective.AlreadySpawned) do
 --             if spawn.mapRefs then
 --                 for _, frame in pairs(spawn.mapRefs) do
 --                     if frame.data.ObjectiveData then
@@ -339,4 +339,58 @@ local bindTruthTable = {
 
 function QuestieTracker.utils:IsBindTrue(bind, button)
     return bind and button and bindTruthTable[bind] and bindTruthTable[bind](button)
+end
+
+function QuestieTracker.utils:GetZoneNameByID(zoneId)
+    for cont, zone in pairs(LangZoneLookup) do
+        for zoneIDnum, zoneName in pairs(zone) do
+            if zoneIDnum == zoneId then
+                return zoneName
+            end
+        end
+    end
+end
+
+function QuestieTracker.utils:GetCatagoryNameByID(cataId)
+    local catagoryTable = {
+        [-1] = "Epic",
+        [-21] = "Wailing Caverns",
+        [-22] = "Seasonal",
+        [-23] = "Undercity",
+        [-24] = "Herbalism",
+        [-25] = "Scarlet Monastery",
+        [-41] = "Uldaman",
+        [-61] = "Warlock",
+        [-81] = "Warrior",
+        [-82] = "Shaman",
+        [-101] = "Fishing",
+        [-121] = "Blacksmithing",
+        [-141] = "Paladin",
+        [-161] = "Mage",
+        [-162] = "Rogue",
+        [-181] = "Alchemy",
+        [-182] = "Leatherworking",
+        [-201] = "Engineering",
+        [-221] = "Treasure Map",
+        [-241] = "Sunken Temple",
+        [-261] = "Hunter",
+        [-262] = "Priest",
+        [-263] = "Druid",
+        [-264] = "Tailoring",
+        [-284] = "Special",
+        [-304] = "Cooking",
+        [-324] = "First Aid",
+        [-344] = "Legendary",
+        [-364] = "Darkmoon Faire",
+        [-365] = "Ahn'Qiraj War",
+        [-366] = "Lunar Festival",
+        [-367] = "Reputation",
+        [-368] = "Invasion",
+        [-369] = "Midsummer",
+    }
+    for cat, name in pairs(catagoryTable) do
+        if cataId == cat then
+            return name
+        end
+    end
 end

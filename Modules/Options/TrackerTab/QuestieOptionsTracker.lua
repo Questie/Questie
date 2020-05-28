@@ -2,11 +2,11 @@
 --Import modules.
 -------------------------
 ---@type QuestieOptions
-local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions");
+local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions")
 ---@type QuestieOptionsUtils
-local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils");
+local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils")
 ---@type QuestieTracker
-local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker");
+local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 ---@type QuestieQuestTimers
 local QuestieQuestTimers = QuestieLoader:ImportModule("QuestieQuestTimers")
 
@@ -47,9 +47,12 @@ function QuestieOptions.tabs.tracker:Initialize()
                 set = function (info, value)
                     if value then
                         SetCVar("autoQuestWatch", "1")
+                        Questie.db.char.TrackedQuests = {}
                     else
                         SetCVar("autoQuestWatch", "0")
+                        Questie.db.char.AutoUntrackedQuests = {}
                     end
+                    QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
                 end
             },
@@ -82,6 +85,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.trackerShowCompleteQuests; end,
                 set = function (info, value)
                     Questie.db.global.trackerShowCompleteQuests = value
+                    QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
                 end
             },
@@ -95,6 +99,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.trackerShowQuestLevel; end,
                 set = function (info, value)
                     Questie.db.global.trackerShowQuestLevel = value
+                    QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
                 end
             },
@@ -113,6 +118,8 @@ function QuestieOptions.tabs.tracker:Initialize()
                     else
                         QuestieQuestTimers:HideBlizzardTimer()
                     end
+                    QuestieTracker:ResetLinesForChange()
+                    QuestieTracker:Update()
                 end
             },
             stickyDurabilityFrame = {
@@ -144,23 +151,53 @@ function QuestieOptions.tabs.tracker:Initialize()
                     Questie.db.global.hideTrackerInCombat = value
                 end
             },
-            Spacer_S = QuestieOptionsUtils:Spacer(1.9),
-            --[[colorObjectives = {
+            showTrackerBackdrop = {
                 type = "toggle",
-                order = 6,
-                width = "full",
-                name = function() return QuestieLocale:GetUIString('TRACKER_COLOR_OBJECTIVES'); end,
-                desc = function() return QuestieLocale:GetUIString('TRACKER_COLOR_OBJECTIVES_DESC'); end,
-                get = function() return Questie.db.global.trackerColorObjectives end,
+                order = 1.9,
+                width = 1.5,
+                name = function() return QuestieLocale:GetUIString('TRACKER_ENABLE_BACKDROP'); end,
+                desc = function() return QuestieLocale:GetUIString('TRACKER_ENABLE_BACKDROP_DESC'); end,
+                disabled = function() return not Questie.db.global.trackerEnabled; end,
+                get = function() return Questie.db.global.trackerBackdropEnabled; end,
                 set = function (info, value)
-                    Questie.db.global.trackerColorObjectives = value
-                    QuestieTracker:ResetLinesForFontChange()
+                    Questie.db.global.trackerBackdropEnabled = value
                     QuestieTracker:Update()
                 end
-            },]]--
+            },
+            fadeTrackerBackdrop = {
+                type = "toggle",
+                order = 2.0,
+                width = 1.5,
+                name = function() return QuestieLocale:GetUIString('TRACKER_FADE_BACKDROP'); end,
+                desc = function() return QuestieLocale:GetUIString('TRACKER_FADE_BACKDROP_DESC'); end,
+                disabled = function() return not Questie.db.global.trackerBackdropEnabled or not Questie.db.global.trackerEnabled; end,
+                get = function() return Questie.db.global.trackerBackdropFader; end,
+                set = function (info, value)
+                    Questie.db.global.trackerBackdropFader = value
+                    if value == true then
+                        QuestieTracker.FadeTickerValue = 1
+                        QuestieTracker.FadeTicker = C_Timer.NewTicker(0.02, function()
+                            if QuestieTracker.FadeTickerValue > 0 then
+                                QuestieTracker.FadeTickerValue = QuestieTracker.FadeTickerValue - 0.02
+
+                                -- Fade the background and border
+                                if Questie.db.char.isTrackerExpanded and Questie.db.global.trackerBackdropEnabled and Questie.db.global.trackerBackdropFader then
+                                    QuestieTracker.private.baseFrame:SetBackdropColor(0, 0, 0, math.min(Questie.db.global.trackerBackdropAlpha, QuestieTracker.FadeTickerValue*3.3))
+                                    QuestieTracker.private.baseFrame:SetBackdropBorderColor(1, 1, 1, math.min(Questie.db.global.trackerBackdropAlpha, QuestieTracker.FadeTickerValue*3.3))
+                                end
+                            else
+                                QuestieTracker.FadeTicker:Cancel()
+                                QuestieTracker.FadeTicker = nil
+                            end
+                        end)
+                    end
+                    QuestieTracker:Update()
+                end
+            },
+            Spacer_S = QuestieOptionsUtils:Spacer(2.1),
             colorObjectives = {
                 type = "select",
-                order = 2,
+                order = 2.2,
                 values = function() return {
                     ['white'] = QuestieLocale:GetUIString('TRACKER_COLOR_WHITE'),
                     ['whiteToGreen'] = QuestieLocale:GetUIString('TRACKER_COLOR_WHITE_TO_GREEN'),
@@ -175,15 +212,17 @@ function QuestieOptions.tabs.tracker:Initialize()
                 set = function(input, key)
                     Questie.db.global.trackerColorObjectives = key
                     QuestieTracker:Update()
-                end,
+                end
             },
             sortObjectives = {
                 type = "select",
-                order = 2.1,
+                order = 2.3,
                 values = function() return {
                     ['byComplete'] = QuestieLocale:GetUIString('TRACKER_SORT_BY_COMPLETE'),
                     ['byLevel'] = QuestieLocale:GetUIString('TRACKER_SORT_BY_LEVEL'),
                     ['byLevelReversed'] = QuestieLocale:GetUIString('TRACKER_SORT_BY_LEVEL_REVERSED'),
+                    ['byProximity'] = QuestieLocale:GetUIString('TRACKER_SORT_BY_PROXIMITY'),
+                    ['byZone'] = QuestieLocale:GetUIString('TRACKER_SORT_BY_ZONE'),
                     ['none'] = QuestieLocale:GetUIString('TRACKER_DONT_SORT'),
                 } end,
                 style = 'dropdown',
@@ -193,110 +232,204 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.trackerSortObjectives; end,
                 set = function(input, key)
                     Questie.db.global.trackerSortObjectives = key
+                    --if Questie.db.global.trackerSortObjectives == "byZone" then
+                    --    QuestieTracker.QuestFrameIndent = QuestieTracker.private.trackerFontSize*4.25
+                    --else
+                        QuestieTracker.QuestFrameIndent = QuestieTracker.private.trackerFontSize*2.75
+                    --end
+                    QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
-                end,
+                end
             },
             setTomTom = {
                 type = "select",
-                order = 2.2,
+                order = 2.4,
                 values = _GetShortcuts(),
                 style = 'dropdown',
-                name = function() return QuestieLocale:GetUIString('TRACKER_SET_TOMTOM') .. QuestieLocale:GetUIString('SHORTCUT'); end,
+                name = function() return QuestieLocale:GetUIString('TRACKER_SET_TOMTOM'); end,
                 desc = function() return QuestieLocale:GetUIString('TRACKER_SET_TOMTOM_DESC'); end,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.trackerbindSetTomTom; end,
                 set = function(input, key)
                     Questie.db.global.trackerbindSetTomTom = key
-                end,
+                end
             },
             openQuestLog = {
                 type = "select",
-                order = 2.3,
+                order = 2.5,
                 values = _GetShortcuts(),
                 style = 'dropdown',
-                name = function() return QuestieLocale:GetUIString('TRACKER_SHOW_QUESTLOG') .. QuestieLocale:GetUIString('SHORTCUT'); end,
+                name = function() return QuestieLocale:GetUIString('TRACKER_SHOW_QUESTLOG'); end,
                 desc = function() return QuestieLocale:GetUIString('TRACKER_SHOW_QUESTLOG_DESC'); end,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.trackerbindOpenQuestLog; end,
                 set = function(input, key)
                     Questie.db.global.trackerbindOpenQuestLog = key
-                end,
+                end
             },
             untrackQuest = {
                 type = "select",
-                order = 2.3,
+                order = 2.6,
                 values = _GetShortcuts(),
                 style = 'dropdown',
-                name = function() return QuestieLocale:GetUIString('TRACKER_UNTRACK') .. QuestieLocale:GetUIString('SHORTCUT'); end,
-                desc = function() return QuestieLocale:GetUIString('TRACKER_UNTRACK_DESC'); end,
+                name = function() return QuestieLocale:GetUIString('TRACKER_UNTRACK_LINK'); end,
+                desc = function() return QuestieLocale:GetUIString('TRACKER_UNTRACK_LINK_DESC'); end,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.trackerbindUntrack; end,
                 set = function(input, key)
                     Questie.db.global.trackerbindUntrack = key
-                end,
+                end
             },
-            Spacer_G = QuestieOptionsUtils:Spacer(2.4),
+            trackerSetpoint = {
+                type = "select",
+                order = 2.7,
+                values = function() return {
+                    ["AUTO"] = QuestieLocale:GetUIString('TRACKER_SETPOINT_AUTO'),
+                    ["TOPLEFT"] = QuestieLocale:GetUIString('TRACKER_SETPOINT_TOPLEFT'),
+                    ["TOPRIGHT"] = QuestieLocale:GetUIString('TRACKER_SETPOINT_TOPRIGHT'),
+                    ["BOTTOMLEFT"] = QuestieLocale:GetUIString('TRACKER_SETPOINT_BOTTOMLEFT'),
+                    ["BOTTOMRIGHT"] = QuestieLocale:GetUIString('TRACKER_SETPOINT_BOTTOMRIGHT'),
+                } end,
+                style = 'dropdown',
+                name = function() return QuestieLocale:GetUIString('TRACKER_SETPOINT'); end,
+                desc = function() return QuestieLocale:GetUIString('TRACKER_SETPOINT_DESC'); end,
+                disabled = function() return not Questie.db.global.trackerEnabled; end,
+                get = function() return Questie.db.char.trackerSetpoint; end,
+                set = function(input, key)
+                    Questie.db.char.trackerSetpoint = key
+                    QuestieTracker:ResetLocation()
+                    QuestieTracker:MoveDurabilityFrame()
+                end
+            },
+            Spacer_G = QuestieOptionsUtils:Spacer(2.8),
 
             fontSizeHeader = {
                 type = "range",
-                order = 2.5,
-                name = function() return QuestieLocale:GetUIString('TRACKER_FONT_HEADER'); end,
-                desc = function() return QuestieLocale:GetUIString('TRACKER_FONT_HEADER_DESC'); end,
+                order = 2.9,
+                name = function() return QuestieLocale:GetUIString('TRACKER_FONT_SIZE_HEADER'); end,
+                desc = function() return QuestieLocale:GetUIString('TRACKER_FONT_SIZE_HEADER_DESC'); end,
                 width = "double",
-                min = 2,
-                max = 36,
-                step = 0.5,
+                min = 10,
+                max = 18,
+                step = 1,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.trackerFontSizeHeader; end,
                 set = function (info, value)
+                    while (QuestieTracker.private.baseFrame:GetHeight() >= GetScreenHeight() or QuestieTracker.private.baseFrame:GetBottom() <= 0 or QuestieTracker.private.baseFrame:GetTop() >= GetScreenHeight()) do
+                        Questie.db.global.trackerFontSizeHeader = value
+                        QuestieTracker:ResetLinesForChange()
+                        QuestieTracker:Update()
+                        value = value - 1
+                    end
                     Questie.db.global.trackerFontSizeHeader = value
-                    QuestieTracker:ResetLinesForFontChange()
+                    QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
-                end,
+                end
+            },
+            fontHeader = {
+                type = "select",
+                dialogControl = 'LSM30_Font',
+                order = 2.95,
+                values = AceGUIWidgetLSMlists.font,
+                style = 'dropdown',
+                name = function() return QuestieLocale:GetUIString('TRACKER_FONT_HEADER'); end,
+                desc = function() return QuestieLocale:GetUIString('TRACKER_FONT_HEADER_DESC'); end,
+                disabled = function() return not Questie.db.global.trackerEnabled; end,
+                get = function() return Questie.db.global.trackerFontHeader or "Friz Quadrata TT"; end,
+                set = function(info, value)
+                    Questie.db.global.trackerFontHeader = value
+                    QuestieTracker:ResetLinesForChange()
+                    QuestieTracker:Update()
+                end
             },
             fontSizeLine = {
                 type = "range",
-                order = 2.6,
-                name = function() return QuestieLocale:GetUIString('TRACKER_FONT_LINE'); end,
-                desc = function() return QuestieLocale:GetUIString('TRACKER_FONT_LINE_DESC'); end,
+                order = 3.0,
+                name = function() return QuestieLocale:GetUIString('TRACKER_FONT_SIZE_LINE'); end,
+                desc = function() return QuestieLocale:GetUIString('TRACKER_FONT_SIZE_LINE_DESC'); end,
                 width = "double",
-                min = 2,
-                max = 36,
-                step = 0.5,
+                min = 9,
+                max = 18,
+                step = 1,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.trackerFontSizeLine; end,
                 set = function (info, value)
+                    while (QuestieTracker.private.baseFrame:GetHeight() >= GetScreenHeight() or QuestieTracker.private.baseFrame:GetBottom() <= 0 or QuestieTracker.private.baseFrame:GetTop() >= GetScreenHeight()) do
+                        Questie.db.global.trackerFontSizeLine = value
+                        QuestieTracker:ResetLinesForChange()
+                        QuestieTracker:Update()
+                        value = value - 1
+                    end
                     Questie.db.global.trackerFontSizeLine = value
-                    QuestieTracker:ResetLinesForFontChange()
+                    QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
-                end,
+                end
+            },
+            fontLine = {
+                type = "select",
+                dialogControl = 'LSM30_Font',
+                order = 3.05,
+                values = AceGUIWidgetLSMlists.font,
+                style = 'dropdown',
+                name = function() return QuestieLocale:GetUIString('TRACKER_FONT_LINE'); end,
+                desc = function() return QuestieLocale:GetUIString('TRACKER_FONT_LINE_DESC'); end,
+                disabled = function() return not Questie.db.global.trackerEnabled; end,
+                get = function() return Questie.db.global.trackerFontLine or "Friz Quadrata TT"; end,
+                set = function(info, value)
+                    Questie.db.global.trackerFontLine = value
+                    QuestieTracker:ResetLinesForChange()
+                    QuestieTracker:Update()
+                end
             },
             questPadding = {
                 type = "range",
-                order = 2.7,
+                order = 3.1,
                 name = function() return QuestieLocale:GetUIString('TRACKER_QUEST_PADDING'); end,
                 desc = function() return QuestieLocale:GetUIString('TRACKER_QUEST_PADDING_DESC'); end,
                 width = "double",
-                min = 0,
-                max = 24,
+                min = 2,
+                max = 16,
                 step = 1,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.trackerQuestPadding; end,
                 set = function (info, value)
+                    while (QuestieTracker.private.baseFrame:GetHeight() >= GetScreenHeight() or QuestieTracker.private.baseFrame:GetBottom() <= 0 or QuestieTracker.private.baseFrame:GetTop() >= GetScreenHeight()) do
+                        Questie.db.global.trackerQuestPadding = value
+                        QuestieTracker:ResetLinesForChange()
+                        QuestieTracker:Update()
+                        value = value - 1
+                    end
                     Questie.db.global.trackerQuestPadding = value
+                    QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
-                end,
+                end
             },
-            Spacer_B = QuestieOptionsUtils:Spacer(2.9),
+            questBackdropAlpha = {
+                type = "range",
+                order = 3.2,
+                name = function() return QuestieLocale:GetUIString('TRACKER_SHOW_BACKGROUND_ALPHA'); end,
+                desc = function() return QuestieLocale:GetUIString('TRACKER_SHOW_BACKGROUND_ALPHA_DESC'); end,
+                width = "double",
+                min = 0,
+                max = 100,
+                step = 5,
+                disabled = function() return not Questie.db.global.trackerBackdropEnabled or not Questie.db.global.trackerEnabled; end,
+                get = function() return Questie.db.global.trackerBackdropAlpha*100; end,
+                set = function (info, value)
+                    Questie.db.global.trackerBackdropAlpha = value/100
+                    QuestieTracker:Update()
+                end
+            },
+            Spacer_B = QuestieOptionsUtils:Spacer(3.3),
             resetTrackerLocation = {
                 type = "execute",
-                order = 3,
+                order = 3.4,
                 name = function() return QuestieLocale:GetUIString('TRACKER_RESET_LOCATION'); end,
                 desc = function() return QuestieLocale:GetUIString('TRACKER_RESET_LOCATION_DESC'); end,
                 disabled = function() return false; end,
                 func = function (info, value)
                     QuestieTracker:ResetLocation()
-                end,
+                end
             }
         }
     }

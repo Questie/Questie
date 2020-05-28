@@ -2,14 +2,14 @@
 -- All dispatching is done using **CallbackHandler-1.0**. AceEvent is a simple wrapper around
 -- CallbackHandler, and dispatches all game events or addon message to the registrees.
 --
--- **AceEvent-3.0** can be embeded into your addon, either explicitly by calling AceEvent:Embed(MyAddon) or by 
+-- **AceEvent-3.0** can be embeded into your addon, either explicitly by calling AceEvent:Embed(MyAddon) or by
 -- specifying it as an embeded library in your AceAddon. All functions will be available on your addon object
 -- and can be accessed directly, without having to explicitly call AceEvent itself.\\
 -- It is recommended to embed AceEvent, otherwise you'll have to specify a custom `self` on all calls you
 -- make into AceEvent.
 -- @class file
 -- @name AceEvent-3.0
--- @release $Id: AceEvent-3.0.lua 1161 2017-08-12 14:30:16Z funkydude $
+-- @release $Id: AceEvent-3.0.lua 1202 2019-05-15 23:11:22Z nevcairiel $
 local CallbackHandler = LibStub("CallbackHandler-1.0")
 
 local MAJOR, MINOR = "AceEvent-3.0", 4
@@ -25,22 +25,22 @@ AceEvent.embeds = AceEvent.embeds or {} -- what objects embed this lib
 
 -- APIs and registry for blizzard events, using CallbackHandler lib
 if not AceEvent.events then
-	AceEvent.events = CallbackHandler:New(AceEvent, 
+	AceEvent.events = CallbackHandler:New(AceEvent,
 		"RegisterEvent", "UnregisterEvent", "UnregisterAllEvents")
 end
 
-function AceEvent.events:OnUsed(target, eventname) 
+function AceEvent.events:OnUsed(target, eventname)
 	AceEvent.frame:RegisterEvent(eventname)
 end
 
-function AceEvent.events:OnUnused(target, eventname) 
+function AceEvent.events:OnUnused(target, eventname)
 	AceEvent.frame:UnregisterEvent(eventname)
 end
 
 
 -- APIs and registry for IPC messages, using CallbackHandler lib
 if not AceEvent.messages then
-	AceEvent.messages = CallbackHandler:New(AceEvent, 
+	AceEvent.messages = CallbackHandler:New(AceEvent,
 		"RegisterMessage", "UnregisterMessage", "UnregisterAllMessages"
 	)
 	AceEvent.SendMessage = AceEvent.messages.Fire
