@@ -823,7 +823,7 @@ function QuestieDBCompiler:BuildCompileUI() -- probably wont be used, I was thin
     base:Show()
 end
 
-function QuestieDBCompiler:GetDBHandle(data, pointers, skipmap)
+function QuestieDBCompiler:GetDBHandle(data, pointers, skipmap, overrides)
     local handle = {}
     local skipmap, lastIndex, lastPtr, types, order, indexToKey, keyToIndex = unpack(skipmap)
 
@@ -835,6 +835,12 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipmap)
 
     handle.QuerySingle = function(id, key)
         --print("QuerySingle: " .. id)
+		if overrides then
+			if overrides[id] then
+				local kti = keyToIndex[key]
+				if kti then return overrides[id][kti] end
+			end
+		end
         local typ = types[key]
         local ptr = pointers[id]
         if ptr == nil then
@@ -861,6 +867,21 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipmap)
 
     handle.Query = function(id, ...)
         --print("Query: " .. id)
+		if overrides then
+			if overrides[id] then
+				local ret = {}
+				for index,key in pairs({...}) do
+					local kti = keyToIndex[key]
+					if kti then
+						ret[index] = overrides[id][kti]
+					end
+				end
+				return ret
+				--local kti = keyToIndex[key]
+				--if kti then return overrides[id][kti] end
+			end
+		end
+		
         local ptr = pointers[id]
         if ptr == nil then
             --print("Entry not found! " .. id)
