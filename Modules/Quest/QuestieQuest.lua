@@ -1511,6 +1511,12 @@ local function QuestsFilter(chatFrame, event, msg, playerName, languageName, cha
             if quest and quest.name == questName and questId then
                 local coloredQuestName = QuestieLib:GetColoredQuestName(questId, questName, quest.level, Questie.db.global.trackerShowQuestLevel, complete, false)
                 local questLink = "|Hquestie:"..sqid..":"..senderGUID.."|h"..QuestieLib:PrintDifficultyColor(quest.level, "[")..coloredQuestName..QuestieLib:PrintDifficultyColor(quest.level, "]").."|h"
+
+                -- Escape the ? character
+                if string.find(questName, "%?") then
+                    questName = string.gsub(questName, "%?", "%%?")
+                end
+
                 if questLevel then
                     msg = string.gsub(msg, "%[%["..questLevel.."%] "..questName.." %("..sqid.."%)%]", questLink)
                 else
