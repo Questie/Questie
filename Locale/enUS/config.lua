@@ -253,7 +253,6 @@ QuestieLocale.locale['enUS'] = {
     ['TRACKER_COLOR_WHITE_TO_GREEN'] = "White to Green",
     ['TRACKER_COLOR_WHITE_AND_GREEN'] = "White and Green",
     ['TRACKER_COLOR_RED_TO_GREEN'] = "Red to Green",
-
     ['TRACKER_FONT_HEADER'] = "Font for Active Quests",
     ['TRACKER_FONT_HEADER_DESC'] = "The font Active Quests uses.",
     ['TRACKER_FONT_ZONE'] = "Font for Zone Names",
@@ -270,7 +269,6 @@ QuestieLocale.locale['enUS'] = {
     ['TRACKER_FONT_SIZE_QUESTS_DESC'] = "The font size used for quest titles.",
     ['TRACKER_FONT_SIZE_OBJECTIVE'] = "Font Size for Objectives",
     ['TRACKER_FONT_SIZE_OBJECTIVE_DESC'] = "The font size used for objectives.",
-
     ['TRACKER_QUEST_PADDING'] = "Padding Between Quests",
     ['TRACKER_QUEST_PADDING_DESC'] = "The amount of padding between quests in the tracker.",
     ['TRACKER_INVALID_LOCATION'] = "Error: Questie tracker in invalid location, resetting...",
