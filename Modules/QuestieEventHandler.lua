@@ -148,10 +148,12 @@ _PLAYER_LOGIN = function()
         C_Timer.After(1, stage1)
         C_Timer.After(4, stage2)
     else
+        Questie.minimapConfigIcon:Hide("Questie") -- prevent opening journey / settings while compiling
         C_Timer.After(4, function()
             QuestieDBCompiler:Compile(function()
                 stage1()
                 stage2()
+                Questie.minimapConfigIcon:Show("Questie")
             end)
         end)
     end
