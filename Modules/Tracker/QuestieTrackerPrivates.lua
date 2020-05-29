@@ -21,7 +21,9 @@ function _QuestieTracker:OnDragStart(button)
             startDragAnchor = {baseFrame:GetPoint()}
             preSetPoint = ({baseFrame:GetPoint()})[1]
             baseFrame:SetClampedToScreen(true)
-            baseFrame:StartMoving()
+            if baseFrame:IsMovable() then
+                baseFrame:StartMoving()
+            end
             startDragPos = {baseFrame:GetPoint()}
             _QuestieTracker.baseFrame.sizer:SetAlpha(1)
         else
