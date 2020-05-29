@@ -423,7 +423,7 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
     end
     if ZoneDataAreaIDToUiMapID[areaID] == nil then
         if QuestieZoneToParentTable[areaID] == nil then
-            error("No UiMapID for ("..tostring(ZoneDataAreaIDToUiMapID[areaID])..") :".. areaID .. tostring(data.Name))
+            error("No UiMapID for ("..tostring(ZoneDataAreaIDToUiMapID[areaID])..") : ".. areaID .. " - ".. tostring(data.Name))
             return nil, nil
         else
             areaID = QuestieZoneToParentTable[areaID]
