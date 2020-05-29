@@ -71,7 +71,7 @@ function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
             if Questie.db.global.trackerShowQuestLevel then
                 ChatEdit_InsertLink("[[" .. quest.level .. "] " .. quest.name .. " (" .. quest.Id .. ")]")
             else
-                ChatEdit_InsertLink("["..quest.name.." ("..quest.Id..")]")
+                ChatEdit_InsertLink("[" .. quest.name .. " (" .. quest.Id .. ")]")
             end
         end
 
