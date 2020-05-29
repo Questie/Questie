@@ -1,5 +1,16 @@
+if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+    C_Timer.After(4, function()
+        DEFAULT_CHAT_FRAME:AddMessage("---------------------------------")
+        DEFAULT_CHAT_FRAME:AddMessage("ERROR: You're trying to use Questie on retail WoW. Questie is supporting WoW Classic only!")
+        DEFAULT_CHAT_FRAME:AddMessage("ERROR: Questie is supporting WoW Classic only!")
+        DEFAULT_CHAT_FRAME:AddMessage("---------------------------------")
+        error("ERROR: You're trying to use Questie on retail WoW. Questie is supporting WoW Classic only!")
+    end)
+    return nil
+end
+
 if(Questie) then
-    C_Timer.After(4, function() 
+    C_Timer.After(4, function()
         error("ERROR!! -> Questie already loaded! Please only have one Questie installed!")
         for i=1, 10 do
             DEFAULT_CHAT_FRAME:AddMessage("|cFFFF0000ERROR!!|r -> Questie already loaded! Please only have one Questie installed!")
@@ -146,8 +157,6 @@ if  (not LQuestie_EasyMenu) or
     Questie = LibStub("AceAddon-3.0"):NewAddon("Questie", "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0", "AceComm-3.0", "AceSerializer-3.0", "AceBucket-3.0")
     _Questie = {...}
 end
-
-
 
 
 function Questie:OnInitialize()
