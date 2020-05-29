@@ -25,6 +25,18 @@ local tinsert = table.insert
 local DB_OBJ_SPAWNS = 4
 local DB_NPC_FRIENDLY = 13
 
+
+local questTagCorrections = {
+    [4146] = {81, "Dungeon"},
+    [7161] = {41, "PvP"},
+    [7162] = {41, "PvP"},
+    [8122] = {41, "PvP"},
+    [8404] = {41, "PvP"},
+    [8405] = {41, "PvP"},
+    [8406] = {41, "PvP"},
+    [8408] = {41, "PvP"},
+}
+
 _QuestieDB.questCache = {}; -- stores quest objects so they dont need to be regenerated
 _QuestieDB.itemCache = {};
 _QuestieDB.npcCache = {};
@@ -180,18 +192,31 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     -- initializing the quest object either returns false values or will make the 
     -- quest log appear empty
     function QO:IsDungeonQuest()
-        local questType, _ = GetQuestTagInfo(questId)
+        local questType, _ = self:GetQuestTagInfo()
         return questType == 81
     end
 
     function QO:IsRaidQuest()
-        local questType, _ = GetQuestTagInfo(questId)
+        local questType, _ = self:GetQuestTagInfo()
         return questType == 62
     end
 
     function QO:IsPvPQuest()
-        local questType, _ = GetQuestTagInfo(questId)
-        return questType == 41 or QuestieDB:IsPvPQuest(questId)
+        local questType, _ = self:GetQuestTagInfo()
+        return questType == 41
+    end
+
+    --- Wrapper function for the GetQuestTagInfo API to correct
+    --- quests that are falsely marked by Blizzard
+    function QO:GetQuestTagInfo()
+        local questType, questTag = GetQuestTagInfo(self.Id)
+
+        if questTagCorrections[self.Id] then
+            questType = questTagCorrections[self.Id][1]
+            questTag = questTagCorrections[self.Id][2]
+        end
+
+        return questType, questTag
     end
 
     function QO:IsLevelRequirementsFulfilled(minLevel, maxLevel)
@@ -690,26 +715,4 @@ function _QuestieDB:HideClassAndRaceQuests()
         end
     end
     Questie:Debug(DEBUG_DEVELOP, "Other class and race quests hidden");
-end
-
-local falselyMarkedPvPQuests = {
-    [7161] = true,
-    [7162] = true,
-    [8122] = true,
-    [8404] = true,
-    [8405] = true,
-    [8406] = true,
-    [8408] = true,
-}
-
----Checks wheather a quest is a PvP quest or not. Some PvP
---- quests are falsely marked by the Blizzard GetQuestTagInfo API
---- and need to be checked by hand
----@param questId QuestId
----@return boolean @True if the quest is in the falselyMarkedPvPQuests list, false otherwise
-function QuestieDB:IsPvPQuest(questId)
-    if questId ~= nil and falselyMarkedPvPQuests[questId] ~= nil then
-        return true
-    end
-    return false
 end
