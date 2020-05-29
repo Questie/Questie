@@ -1,7 +1,7 @@
 if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
     C_Timer.After(4, function()
         DEFAULT_CHAT_FRAME:AddMessage("---------------------------------")
-        DEFAULT_CHAT_FRAME:AddMessage("ERROR: You're trying to use Questie on retail WoW. Questie is supporting WoW Classic only!")
+        DEFAULT_CHAT_FRAME:AddMessage("ERROR: You're trying to use Questie on retail WoW.!")
         DEFAULT_CHAT_FRAME:AddMessage("ERROR: Questie is supporting WoW Classic only!")
         DEFAULT_CHAT_FRAME:AddMessage("---------------------------------")
         error("ERROR: You're trying to use Questie on retail WoW. Questie is supporting WoW Classic only!")
