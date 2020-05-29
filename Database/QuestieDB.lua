@@ -244,7 +244,7 @@ function QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle)
     return false
 end
 
-function __removeme__doable(id)
+function QuestieDB:IsDoableDebug(id)
     local _, _, classIndex = UnitClass("player")
     local _, _, raceIndex = UnitRace("player")
     classIndex = math.pow(2, classIndex-1)
@@ -318,9 +318,9 @@ function QuestieDB:IsDoable(questId, raceIndex, classIndex, debug)
         return false
     end
 
-    local requiredSkill, requiredMaxRep = unpack(QuestieDB.QueryQuest(questId, "requiredMinRep", "requiredMaxRep"))
+    local requiredMinRep, requiredMaxRep = unpack(QuestieDB.QueryQuest(questId, "requiredMinRep", "requiredMaxRep"))
 
-    if requiredSkill ~= 0 and requiredMaxRep ~= 0 and not QuestieReputation:HasReputation(requiredMinRep, requiredMaxRep) then
+    if requiredMinRep ~= 0 and requiredMaxRep ~= 0 and not QuestieReputation:HasReputation(requiredMinRep, requiredMaxRep) then
         if debug then print("dont have reputation!") end
         return false
     end
