@@ -140,6 +140,9 @@ _PLAYER_LOGIN = function()
         end
     end
 
+    if QuestieDBCompiler:GetVersionString() ~= QuestieConfig.dbCompiledOnVersion then
+        QuestieConfig.dbIsCompiled = nil -- we need to recompile
+    end
 
     if QuestieConfig.dbIsCompiled then -- todo: check for updates or language change and recompile
         C_Timer.After(1, stage1)

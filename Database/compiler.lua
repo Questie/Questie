@@ -424,7 +424,6 @@ QuestieDBCompiler.statics = {
     ["u24pair"] = 6,
 }
 
-
 function QuestieDBCompiler:CompileNPCs(func)
     QuestieDBCompiler:CompileTableTicking(QuestieDB.npcData, QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder, QuestieDB.npcKeys, func)
 end
@@ -600,6 +599,7 @@ function QuestieDBCompiler:Compile(finalize)
                 QuestieDBCompiler:CompileItems(function(bin, ptrs)
                     QuestieConfig.itemBin = bin 
                     QuestieConfig.itemPtrs = ptrs
+                    QuestieConfig.dbCompiledOnVersion = QuestieDBCompiler:GetVersionString()
                     QuestieConfig.dbIsCompiled = true
                     print("Items size: bin:" .. math.floor(string.len(bin)/1024) .. "K ptr:" .. math.floor(DynamicHashTableSize(QuestieDBCompiler.index)/1024) .. "K")
                     QuestieDBCompiler.totalSize = QuestieDBCompiler.totalSize + string.len(bin) + DynamicHashTableSize(QuestieDBCompiler.index)
@@ -925,6 +925,16 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipmap, overrides)
     return handle
 end
 
+function QuestieDBCompiler:GetVersionString() -- todo: better place
+    local _,ver = GetAddOnInfo("Questie")
+    if not ver then
+        _,ver = GetAddOnInfo("QuestieDev-master")
+    end
+    -- todo: better regex for this
+    ver = string.sub(ver, 32)
+    ver = string.sub(ver, 0, string.find(ver, "|")-1)
+    return ver
+end
 
 
 
