@@ -163,13 +163,21 @@ end
 _AddLinkToChatOption = function (menu, quest)
     tinsert(menu, {text = QuestieLocale:GetUIString('TRACKER_LINK_TO_CHAT'), func = function()
         LQuestie_CloseDropDownMenus()
-        if ChatEdit_GetActiveWindow() then
+
+        if ( not ChatFrame1EditBox:IsVisible() ) then
+            if Questie.db.global.trackerShowQuestLevel then
+                ChatFrame_OpenChat("[["..quest.level.."] "..quest.name.." ("..quest.Id..")]")
+            else
+                ChatFrame_OpenChat("["..quest.name.." ("..quest.Id..")]")
+            end
+        else
             if Questie.db.global.trackerShowQuestLevel then
                 ChatEdit_InsertLink("[["..quest.level.."] "..quest.name.." ("..quest.Id..")]")
             else
                 ChatEdit_InsertLink("["..quest.name.." ("..quest.Id..")]")
             end
         end
+
     end})
 end
 
