@@ -575,37 +575,45 @@ function QuestieDBCompiler:Compile(finalize)
           return math.pow(2, math.ceil(math.log(entries) / math.log(2))) * 40 + 36;
         end
     end
-
+    QuestieDBCompiler.startTime = GetTime()
     QuestieDBCompiler.totalSize = 0
-    print("[temporary messages: rewrite these]Compiling...")
+    print(QuestieLocale:GetUIString("\124cFFAAEEFFQuestie DB has updated!\124r\124cFFFF6F22 Data is being processed, this may take a few moments and cause some lag..."))
+    print(QuestieLocale:GetUIString("\124cFF4DDBFF [1/4] Updating NPCs..."))
     QuestieDBCompiler:CompileNPCs(function(bin, ptrs)
         QuestieConfig.npcBin = bin 
         QuestieConfig.npcPtrs = ptrs
         QuestieDBCompiler.totalSize = QuestieDBCompiler.totalSize + string.len(bin) + DynamicHashTableSize(QuestieDBCompiler.index)
-        print("NPCs size: bin:" .. math.floor(string.len(bin)/1024) .. "K ptr:" .. math.floor(DynamicHashTableSize(QuestieDBCompiler.index)/1024) .. "K")
+        --print("NPCs size: bin:" .. math.floor(string.len(bin)/1024) .. "K ptr:" .. math.floor(DynamicHashTableSize(QuestieDBCompiler.index)/1024) .. "K")
+        --print("\124cFF4DDBFF [1/4] Finished updating NPCs")
+        print(QuestieLocale:GetUIString("\124cFF4DDBFF [2/4] Updating objects..."))
         --print("Compiling Objects...")
         QuestieDBCompiler:CompileObjects(function(bin, ptrs)
             QuestieConfig.objBin = bin 
             QuestieConfig.objPtrs = ptrs
             QuestieDBCompiler.totalSize = QuestieDBCompiler.totalSize + string.len(bin) + DynamicHashTableSize(QuestieDBCompiler.index)
-            print("Objects size: bin:" .. math.floor(string.len(bin)/1024) .. "K ptr:" .. math.floor(DynamicHashTableSize(QuestieDBCompiler.index)/1024) .. "K")
+            --print("Objects size: bin:" .. math.floor(string.len(bin)/1024) .. "K ptr:" .. math.floor(DynamicHashTableSize(QuestieDBCompiler.index)/1024) .. "K")
+            --print("\124cFF4DDBFF [2/4] Finished updating objects")
+            print(QuestieLocale:GetUIString("\124cFF4DDBFF [3/4] Updating quests..."))
             --print("Compiling Quests...")
             QuestieDBCompiler:CompileQuests(function(bin, ptrs)
                 QuestieConfig.questBin = bin 
                 QuestieConfig.questPtrs = ptrs
                 QuestieDBCompiler.totalSize = QuestieDBCompiler.totalSize + string.len(bin) + DynamicHashTableSize(QuestieDBCompiler.index)
-                print("Quests size: bin:" .. math.floor(string.len(bin)/1024) .. "K ptr:" .. math.floor(DynamicHashTableSize(QuestieDBCompiler.index)/1024) .. "K")
+                --print("Quests size: bin:" .. math.floor(string.len(bin)/1024) .. "K ptr:" .. math.floor(DynamicHashTableSize(QuestieDBCompiler.index)/1024) .. "K")
+                --print("\124cFF4DDBFF [3/4] Finished updating quests")
+                print(QuestieLocale:GetUIString("\124cFF4DDBFF [4/4] Updating items..."))
                 --print("Compiling items...")
                 QuestieDBCompiler:CompileItems(function(bin, ptrs)
                     QuestieConfig.itemBin = bin 
                     QuestieConfig.itemPtrs = ptrs
                     QuestieConfig.dbCompiledOnVersion = QuestieDBCompiler:GetVersionString()
                     QuestieConfig.dbIsCompiled = true
-                    print("Items size: bin:" .. math.floor(string.len(bin)/1024) .. "K ptr:" .. math.floor(DynamicHashTableSize(QuestieDBCompiler.index)/1024) .. "K")
+                    --print("\124cFF4DDBFF [4/4] Finished updating items")
+                    --print("Items size: bin:" .. math.floor(string.len(bin)/1024) .. "K ptr:" .. math.floor(DynamicHashTableSize(QuestieDBCompiler.index)/1024) .. "K")
                     QuestieDBCompiler.totalSize = QuestieDBCompiler.totalSize + string.len(bin) + DynamicHashTableSize(QuestieDBCompiler.index)
-                    print("Compiled DB total memory size: " .. math.floor(QuestieDBCompiler.totalSize/1024) .. "K")
+                    --print("Compiled DB total memory size: " .. math.floor(QuestieDBCompiler.totalSize/1024) .. "K")
                     --print("Finished! Please /reload to reduce memory usage") -- no need to reload
-                    print("Questie DB compilation finished!")
+                    print(QuestieLocale:GetUIString("\124cFFAAEEFFQuestie DB update complete!"))
 
                     if finalize then finalize() end
                 end)
@@ -833,93 +841,119 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipmap, overrides)
     --QuestieConfig.__pointers = pointers
     stream:Load(data)
 
-    handle.QuerySingle = function(id, key)
-        --print("QuerySingle: " .. id)
-		if overrides then
-			if overrides[id] then
-				local kti = keyToIndex[key]
-				if kti then return overrides[id][kti] end
-			end
-		end
-        local typ = types[key]
-        local ptr = pointers[id]
-        if ptr == nil then
-            --print("Entry not found! " .. id)
-            return nil
-        end
-        if skipmap[key] ~= nil then -- can skip directly
-            stream._pointer = skipmap[key] + ptr
-        else -- need to skip over some variably sized data
-            stream._pointer = lastPtr + ptr
-            --print("key: " .. key)
-            local targetIndex = keyToIndex[key]
-            if targetIndex == nil then
-                print("ERROR: Unhandled db key: " .. key)
+    if overrides then
+        handle.QuerySingle = function(id, key)
+            if overrides[id] then
+                local kti = keyToIndex[key]
+                if kti then return overrides[id][kti] end
             end
-            --print("Firstindex: " .. lastIndex .. "  targetIndex: " .. targetIndex)
-            for i = lastIndex, targetIndex-1 do
-                --print("Skipped " .. types[indexToKey[i]] .. "  " .. i)
-                QuestieDBCompiler.readers[types[indexToKey[i]]](stream)
-            end
-        end
-        return QuestieDBCompiler.readers[typ](stream)
-    end
-
-    handle.Query = function(id, ...)
-        --print("Query: " .. id)
-		if overrides then
-			if overrides[id] then
-				local ret = {}
-				for index,key in pairs({...}) do
-					local kti = keyToIndex[key]
-					if kti then
-						ret[index] = overrides[id][kti]
-					end
-				end
-				return ret
-				--local kti = keyToIndex[key]
-				--if kti then return overrides[id][kti] end
-			end
-		end
-		
-        local ptr = pointers[id]
-        if ptr == nil then
-            --print("Entry not found! " .. id)
-            return nil
-        end
-        --print("Query id: " .. id)
-        --print("loading entry: " .. ptr)
-       
-        local ret = {}
-        for index,key in pairs({...}) do
             local typ = types[key]
+            local ptr = pointers[id]
+            if ptr == nil then
+                --print("Entry not found! " .. id)
+                return nil
+            end
             if skipmap[key] ~= nil then -- can skip directly
                 stream._pointer = skipmap[key] + ptr
             else -- need to skip over some variably sized data
                 stream._pointer = lastPtr + ptr
-                --print("key: " .. key)
                 local targetIndex = keyToIndex[key]
                 if targetIndex == nil then
                     print("ERROR: Unhandled db key: " .. key)
                 end
-                --print("Firstindex: " .. lastIndex .. "  targetIndex: " .. targetIndex)
                 for i = lastIndex, targetIndex-1 do
-                    --print("Skipped " .. types[indexToKey[i]] .. "  " .. i)
                     QuestieDBCompiler.readers[types[indexToKey[i]]](stream)
                 end
             end
-            --print("Reading " .. typ)
-            local res = QuestieDBCompiler.readers[typ](stream)
-            --print("read " .. key .. " = " .. tostring(res) .. " @ ".. index)
-
-            --tinsert(ret, res) -- this cant insert nil
-            ret[index] = res
+            return QuestieDBCompiler.readers[typ](stream)
         end
-        --for k,v in pairs(ret) do
-        --    print("ret " .. k .. " = " .. tostring(v) )
-        --end
-        return ret--unpack(ret)
+        handle.Query = function(id, ...)
+            if overrides[id] then
+                local ret = {}
+                for index,key in pairs({...}) do
+                    local kti = keyToIndex[key]
+                    if kti then
+                        ret[index] = overrides[id][kti]
+                    end
+                end
+                return ret
+            end
+            local ptr = pointers[id]
+            if ptr == nil then
+                --print("Entry not found! " .. id)
+                return nil
+            end
+            local ret = {}
+            for index,key in pairs({...}) do
+                local typ = types[key]
+                if skipmap[key] ~= nil then -- can skip directly
+                    stream._pointer = skipmap[key] + ptr
+                else -- need to skip over some variably sized data
+                    stream._pointer = lastPtr + ptr
+                    local targetIndex = keyToIndex[key]
+                    if targetIndex == nil then
+                        print("ERROR: Unhandled db key: " .. key)
+                    end
+                    for i = lastIndex, targetIndex-1 do
+                        QuestieDBCompiler.readers[types[indexToKey[i]]](stream)
+                    end
+                end
+                local res = QuestieDBCompiler.readers[typ](stream)
+                ret[index] = res
+            end
+            return ret--unpack(ret)
+        end
+    else
+        handle.QuerySingle = function(id, key)
+            local typ = types[key]
+            local ptr = pointers[id]
+            if ptr == nil then
+                --print("Entry not found! " .. id)
+                return nil
+            end
+            if skipmap[key] ~= nil then -- can skip directly
+                stream._pointer = skipmap[key] + ptr
+            else -- need to skip over some variably sized data
+                stream._pointer = lastPtr + ptr
+                local targetIndex = keyToIndex[key]
+                if targetIndex == nil then
+                    print("ERROR: Unhandled db key: " .. key)
+                end
+                for i = lastIndex, targetIndex-1 do
+                    QuestieDBCompiler.readers[types[indexToKey[i]]](stream)
+                end
+            end
+            return QuestieDBCompiler.readers[typ](stream)
+        end
+
+        handle.Query = function(id, ...)
+            local ptr = pointers[id]
+            if ptr == nil then
+                --print("Entry not found! " .. id)
+                return nil
+            end
+            local ret = {}
+            for index,key in pairs({...}) do
+                local typ = types[key]
+                if skipmap[key] ~= nil then -- can skip directly
+                    stream._pointer = skipmap[key] + ptr
+                else -- need to skip over some variably sized data
+                    stream._pointer = lastPtr + ptr
+                    local targetIndex = keyToIndex[key]
+                    if targetIndex == nil then
+                        print("ERROR: Unhandled db key: " .. key)
+                    end
+                    for i = lastIndex, targetIndex-1 do
+                        QuestieDBCompiler.readers[types[indexToKey[i]]](stream)
+                    end
+                end
+                local res = QuestieDBCompiler.readers[typ](stream)
+                ret[index] = res
+            end
+            return ret--unpack(ret)
+        end
     end
+    
     handle.pointers = pointers
 
     return handle

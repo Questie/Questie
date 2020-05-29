@@ -419,4 +419,10 @@ QuestieLocale.locale['enUS'] = {
     ['No spawn data available.'] = "No spawn data available.",
     ['The database needs to be updated to change language. Press reload to apply the new language'] = "The database needs to be updated to change language. Press reload to apply the new language",
     ['Reload UI'] = "Reload UI",
+    ["\124cFFAAEEFFQuestie DB has updated!\124r\124cFFFF6F22 Data is being processed, this may take a few moments and cause some lag..."] = "\124cFFAAEEFFQuestie DB has updated!\124r\124cFFFF6F22 Data is being processed, this may take a few moments and cause some lag...",
+    ["\124cFF4DDBFF [1/4] Updating NPCs..."] = "\124cFF4DDBFF [1/4] Updating NPCs...",
+    ["\124cFF4DDBFF [2/4] Updating objects..."] = "\124cFF4DDBFF [2/4] Updating objects...",
+    ["\124cFF4DDBFF [3/4] Updating quests..."] = "\124cFF4DDBFF [3/4] Updating quests...",
+    ["\124cFF4DDBFF [4/4] Updating items..."] = "\124cFF4DDBFF [4/4] Updating items...",
+    ["\124cFFAAEEFFQuestie DB update complete!"] = "\124cFFAAEEFFQuestie DB update complete!",
 };
