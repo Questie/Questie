@@ -2657,6 +2657,8 @@
         "QUEST_WATCH_NO_EXPIRE",
         "WORLD_MAP",
         "CLOSE",
+        "WOW_PROJECT_ID",
+        "WOW_PROJECT_MAINLINE",
         "-----------------------------------------------------> External Addons",
         "AtlasToggleFromWorldMap",
         "QuestLogEx",
