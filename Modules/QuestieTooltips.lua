@@ -433,7 +433,7 @@ function ItemRefTooltip:SetHyperlink(link, ...)
             ItemRefTooltip:AddLine(" ")
 
             -- [Block 3] Quest Description - text wrap
-            if quest and quest.Description then
+            if quest and quest.Description and quest.Description[1] then
                 ItemRefTooltip:AddLine("|cFFffffff"..quest.Description[1].."|r",1,1,1,true) --white
                 if #quest.Description > 2 then
                     for i = 2, #quest.Description do
