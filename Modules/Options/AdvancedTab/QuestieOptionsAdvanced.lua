@@ -21,6 +21,21 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
 QuestieOptions.tabs.advanced = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
 
+StaticPopupDialogs["QUESTIE_LANG_CHANGED_RELOAD"] = {
+    button1 = QuestieLocale:GetUIString('Reload UI'),
+    button2 = QuestieLocale:GetUIString('TRACKER_CANCEL'),
+    OnAccept = function()
+        ReloadUI()
+    end,
+    text = QuestieLocale:GetUIString('The database needs to be updated to change language. Press reload to apply the new language'),
+    OnShow = function(self)
+        self:SetFrameStrata("TOOLTIP")
+    end,
+    timeout = 0,
+    whileDead = true,
+    hideOnEscape = true,
+    preferredIndex = 3
+}
 
 function QuestieOptions.tabs.advanced:Initialize()
     return {
@@ -177,6 +192,8 @@ function QuestieOptions.tabs.advanced:Initialize()
                     QuestieLocale:SetUILocale(lang);
                     Questie.db.global.questieLocale = lang;
                     Questie.db.global.questieLocaleDiff = true;
+                    QuestieConfig.dbIsCompiled = nil -- recompile db with new lang
+                    StaticPopup_Show("QUESTIE_LANG_CHANGED_RELOAD")
                 end,
             },
             Spacer_C = QuestieOptionsUtils:Spacer(3.9),

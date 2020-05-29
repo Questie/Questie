@@ -410,11 +410,13 @@ QuestieLocale.locale['enUS'] = {
     ['QUESTIE_ACCEPT_NIL'] = "|cFFFF0000Questie ERROR:|r Attempt to accept nil quest! You may need to run /questie reload",
     ['QUESTIE_UPDATED_RESTART'] = "|cFFFF0000WARNING!|r You have updated Questie without restarting the game, this will likely cause problems. Please restart the game before continuing",
 
-    -- TODO finally switch all keys to this style for code readability:
+    -- TODO finally switch all keys to this style for code readability:  aero:makes a lot more sense and also allows returning the input key if there is no value in the lang db
     ['Show on Map'] = "Show on Map",
     ['Remove from Map'] = "Remove from Map",
     ['Starts the following quests:'] = "Starts the following quests:",
     ['Ends the following quests:'] = "Ends the following quests:",
     ['No quests to list.'] = "No quests to list.",
     ['No spawn data available.'] = "No spawn data available.",
+    ['The database needs to be updated to change language. Press reload to apply the new language'] = "The database needs to be updated to change language. Press reload to apply the new language",
+    ['Reload UI'] = "Reload UI",
 };
