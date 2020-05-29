@@ -393,7 +393,7 @@ function _QuestieFramePool:GetAvailableOrCompleteTooltip(icon)
     else
 
         local quest = icon.data.QuestData
-        local questType, questTag = QuestieDB:GetQuestTagInfo(quest.Id);
+        local questType, questTag = quest:GetQuestTagInfo();
 
         if (icon.data.QuestData.IsRepeatable) then
             tip.type = QuestieLocale:GetUIString("TOOLTIP_QUEST_REPEATABLE");
