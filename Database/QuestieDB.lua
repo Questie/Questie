@@ -173,18 +173,31 @@ function QuestieDB:IsRepeatable(id)
 end
 
 function QuestieDB:IsDungeonQuest(questId)
-    local questType, _ = GetQuestTagInfo(questId)
+    local questType, _ = QuestieDB:GetQuestTagInfo(questId)
     return questType == 81
 end
 
 function QuestieDB:IsRaidQuest(questId)
-    local questType, _ = GetQuestTagInfo(questId)
+    local questType, _ = QuestieDB:GetQuestTagInfo(questId)
     return questType == 62
 end
 
 function QuestieDB:IsPvPQuest(questId)
-    local questType, _ = GetQuestTagInfo(questId)
-    return questType == 41 or QuestieDB:IsPvPQuest(questId)
+    local questType, _ = QuestieDB:GetQuestTagInfo(questId)
+    return questType == 41
+end
+
+--- Wrapper function for the GetQuestTagInfo API to correct
+--- quests that are falsely marked by Blizzard
+function QuestieDB:GetQuestTagInfo(questId)
+    local questType, questTag = GetQuestTagInfo(questId)
+
+    if questTagCorrections[questId] then
+        questType = questTagCorrections[questId][1]
+        questTag = questTagCorrections[questId][2]
+    end
+
+    return questType, questTag
 end
 
 function QuestieDB:IsLevelRequirementsFulfilled(questId, minLevel, maxLevel)
@@ -424,31 +437,18 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     -- initializing the quest object either returns false values or will make the
     -- quest log appear empty
     function QO:IsDungeonQuest()
-        local questType, _ = self:GetQuestTagInfo()
+        local questType, _ = QuestieDB:GetQuestTagInfo(self.Id)
         return questType == 81
     end
 
     function QO:IsRaidQuest()
-        local questType, _ = self:GetQuestTagInfo()
+        local questType, _ = QuestieDB:GetQuestTagInfo(self.Id)
         return questType == 62
     end
 
     function QO:IsPvPQuest()
-        local questType, _ = self:GetQuestTagInfo()
+        local questType, _ = QuestieDB:GetQuestTagInfo(self.Id)
         return questType == 41
-    end
-
-    --- Wrapper function for the GetQuestTagInfo API to correct
-    --- quests that are falsely marked by Blizzard
-    function QO:GetQuestTagInfo()
-        local questType, questTag = GetQuestTagInfo(self.Id)
-
-        if questTagCorrections[self.Id] then
-            questType = questTagCorrections[self.Id][1]
-            questTag = questTagCorrections[self.Id][2]
-        end
-
-        return questType, questTag
     end
 
     function QO:IsLevelRequirementsFulfilled(minLevel, maxLevel)
