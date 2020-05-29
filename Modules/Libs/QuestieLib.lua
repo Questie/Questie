@@ -190,7 +190,8 @@ end
 ---@param level integer @The quest level
 ---@param blizzLike boolean @True = [40+], false/nil = [40D/R]
 function QuestieLib:GetQuestString(id, name, level, blizzLike)
-    local questType, questTag = GetQuestTagInfo(id)
+    local quest = QuestieDB:GetQuest(id)
+    local questType, questTag = quest:GetQuestTagInfo()
 
     if questType and questTag then
         local char = "+"

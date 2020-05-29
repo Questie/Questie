@@ -69,9 +69,9 @@ function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
         -- Add the quest to the open chat window if it was a shift click
         if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
             if Questie.db.global.trackerShowQuestLevel then
-                ChatEdit_InsertLink("[["..quest.level.."] "..quest.name.." ("..quest.Id..")]")
+                ChatEdit_InsertLink("[[" .. quest.level .. "] " .. quest.name .. " (" .. quest.Id .. ")]")
             else
-                ChatEdit_InsertLink("["..quest.name.." ("..quest.Id..")]")
+                ChatEdit_InsertLink("[" .. quest.name .. " (" .. quest.Id .. ")]")
             end
         end
 
@@ -215,9 +215,7 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
     zoneTree[4].text = zoneTree[4].text .. ' [ '..  repeatableCounter ..' ]'
     zoneTree[5].text = zoneTree[5].text .. ' [ '..  unobtainableCounter ..' ]'
 
-    if totalCounter + repeatableCounter + unobtainableCounter == 0 then
-        return false
-    end
+    zoneTree.numquests = totalCounter + repeatableCounter + unobtainableCounter
 
     return zoneTree
 end
