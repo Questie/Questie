@@ -131,9 +131,8 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
     for _, levelAndQuest in pairs(sortedQuestByLevel) do
         ---@type QuestId
         local qId = levelAndQuest[2]
-
         -- Only show quests which are not hidden
-        if QuestieCorrections.hiddenQuests and not QuestieCorrections.hiddenQuests[qId] then
+        if QuestieCorrections.hiddenQuests and not QuestieCorrections.hiddenQuests[qId] and QuestieDB.QuestPointers[qId] then
             temp.value = qId
             temp.text = QuestieDB:GetColoredQuestName(qId)
 
