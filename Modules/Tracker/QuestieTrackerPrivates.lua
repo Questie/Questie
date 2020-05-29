@@ -333,7 +333,9 @@ end
 function _QuestieTracker:OnResizeStop(button)
     Questie:Debug(DEBUG_DEVELOP, "[_QuestieTracker:OnResizeStop]", button)
     local baseFrame = QuestieTracker:GetBaseFrame()
-    if button == "RightButton" or _QuestieTracker.isSizing ~= true then return end
+    if button == "RightButton" or _QuestieTracker.isSizing ~= true then
+        return
+    end
     _QuestieTracker.isSizing = false
     baseFrame:StopMovingOrSizing()
     _QuestieUpdateTimer:Cancel()
