@@ -253,7 +253,6 @@ QuestieLocale.locale['enUS'] = {
     ['TRACKER_COLOR_WHITE_TO_GREEN'] = "White to Green",
     ['TRACKER_COLOR_WHITE_AND_GREEN'] = "White and Green",
     ['TRACKER_COLOR_RED_TO_GREEN'] = "Red to Green",
-
     ['TRACKER_FONT_HEADER'] = "Font for Active Quests",
     ['TRACKER_FONT_HEADER_DESC'] = "The font Active Quests uses.",
     ['TRACKER_FONT_ZONE'] = "Font for Zone Names",
@@ -270,7 +269,6 @@ QuestieLocale.locale['enUS'] = {
     ['TRACKER_FONT_SIZE_QUESTS_DESC'] = "The font size used for quest titles.",
     ['TRACKER_FONT_SIZE_OBJECTIVE'] = "Font Size for Objectives",
     ['TRACKER_FONT_SIZE_OBJECTIVE_DESC'] = "The font size used for objectives.",
-
     ['TRACKER_QUEST_PADDING'] = "Padding Between Quests",
     ['TRACKER_QUEST_PADDING_DESC'] = "The amount of padding between quests in the tracker.",
     ['TRACKER_INVALID_LOCATION'] = "Error: Questie tracker in invalid location, resetting...",
@@ -420,11 +418,19 @@ QuestieLocale.locale['enUS'] = {
     ['QUESTIE_ACCEPT_NIL'] = "|cFFFF0000Questie ERROR:|r Attempt to accept nil quest! You may need to run /questie reload",
     ['QUESTIE_UPDATED_RESTART'] = "|cFFFF0000WARNING!|r You have updated Questie without restarting the game, this will likely cause problems. Please restart the game before continuing",
 
-    -- TODO finally switch all keys to this style for code readability:
+    -- TODO finally switch all keys to this style for code readability:  aero:makes a lot more sense and also allows returning the input key if there is no value in the lang db
     ['Show on Map'] = "Show on Map",
     ['Remove from Map'] = "Remove from Map",
     ['Starts the following quests:'] = "Starts the following quests:",
     ['Ends the following quests:'] = "Ends the following quests:",
     ['No quests to list.'] = "No quests to list.",
     ['No spawn data available.'] = "No spawn data available.",
+    ['The database needs to be updated to change language. Press reload to apply the new language'] = "The database needs to be updated to change language. Press reload to apply the new language",
+    ['Reload UI'] = "Reload UI",
+    ["\124cFFAAEEFFQuestie DB has updated!\124r\124cFFFF6F22 Data is being processed, this may take a few moments and cause some lag..."] = "\124cFFAAEEFFQuestie DB has updated!\124r\124cFFFF6F22 Data is being processed, this may take a few moments and cause some lag...",
+    ["\124cFF4DDBFF [1/4] Updating NPCs..."] = "\124cFF4DDBFF [1/4] Updating NPCs...",
+    ["\124cFF4DDBFF [2/4] Updating objects..."] = "\124cFF4DDBFF [2/4] Updating objects...",
+    ["\124cFF4DDBFF [3/4] Updating quests..."] = "\124cFF4DDBFF [3/4] Updating quests...",
+    ["\124cFF4DDBFF [4/4] Updating items..."] = "\124cFF4DDBFF [4/4] Updating items...",
+    ["\124cFFAAEEFFQuestie DB update complete!"] = "\124cFFAAEEFFQuestie DB update complete!",
 };
