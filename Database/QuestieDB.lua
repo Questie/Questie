@@ -251,16 +251,17 @@ function QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle)
         return true
     end
     for _, preQuestId in pairs(preQuestSingle) do
-        local preQuest = QuestieDB:GetQuest(preQuestId);
-
         -- If a quest is complete the requirement is fulfilled
         if Questie.db.char.complete[preQuestId] then
             return true
         -- If one of the quests in the exclusive group is complete the requirement is fulfilled
-        elseif preQuest and preQuest.ExclusiveQuestGroup then
-            for _, v in pairs(preQuest.ExclusiveQuestGroup) do
-                if Questie.db.char.complete[v] then
-                    return true
+        else
+            local preQuestExclusiveQuestGroup = QuestieDB.QueryQuestSingle(preQuestId, "exclusiveTo")
+            if preQuestExclusiveQuestGroup then
+                for _, v in pairs(preQuestExclusiveQuestGroup) do
+                    if Questie.db.char.complete[v] then
+                        return true
+                    end
                 end
             end
         end
