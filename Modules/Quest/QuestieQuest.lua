@@ -50,21 +50,24 @@ function QuestieQuest:Initialize()
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString('DEBUG_GET_QUEST_COMP'))
     --GetQuestsCompleted(Questie.db.char.complete)
     Questie.db.char.complete = GetQuestsCompleted()
+    QuestieQuest.NotesAreHidden = not Questie.db.char.enabled
+
     QuestieProfessions:Update()
     QuestieReputation:Update(true)
 
     QuestieHash:LoadQuestLogHashes()
 end
 
-QuestieQuest.NotesHidden = false
 
 function QuestieQuest:ToggleNotes(desiredValue)
-    if desiredValue ~= nil and desiredValue == (not QuestieQuest.NotesHidden) then
+    if desiredValue == Questie.db.char.enabled then
         return -- we already have the desired state
     end
-    local questieGlobalDB = Questie.db.global
+
+    Questie.db.char.enabled = desiredValue
+
     local questieCharDB = Questie.db.char
-    if QuestieQuest.NotesHidden then
+    if QuestieQuest.NotesAreHidden then
         -- change map button
         Questie_Toggle:SetText(QuestieLocale:GetUIString('QUESTIE_MAP_BUTTON_HIDE'));
         -- show quest notes
@@ -93,7 +96,7 @@ function QuestieQuest:ToggleNotes(desiredValue)
         for _, frameList in pairs(QuestieMap.manualFrames) do
             for _, frameName in pairs(frameList) do
                 local icon = _G[frameName];
-                if icon ~= nil and icon.IsShown ~= nil and (not icon.hidden) then -- check for function to make sure its a frame
+                if icon ~= nil and (not icon:ShouldBeHidden()) and (not icon.hidden) then -- check for function to make sure its a frame
                     icon:FakeUnide()
                 end
             end
@@ -105,7 +108,7 @@ function QuestieQuest:ToggleNotes(desiredValue)
         for questId, framelist in pairs(QuestieMap.questIdFrames) do
             for index, frameName in pairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
                 local icon = _G[frameName];
-                if icon ~= nil and icon.IsShown ~= nil and (not icon.hidden) then -- check for function to make sure its a frame
+                if icon ~= nil and icon:ShouldBeHidden() and (not icon.hidden) then -- check for function to make sure its a frame
                     icon:FakeHide()
                 end
             end
@@ -114,15 +117,14 @@ function QuestieQuest:ToggleNotes(desiredValue)
         for _, frameList in pairs(QuestieMap.manualFrames) do
             for _, frameName in pairs(frameList) do
                 local icon = _G[frameName];
-                if icon ~= nil and icon.IsShown ~= nil and (not icon.hidden) then -- check for function to make sure its a frame
+                if icon ~= nil and icon:ShouldBeHidden() and (not icon.hidden) then -- check for function to make sure its a frame
                     icon:FakeHide()
                 end
             end
         end
     end
-    -- update config
-    QuestieQuest.NotesHidden = not QuestieQuest.NotesHidden
-    Questie.db.char.enabled = not QuestieQuest.NotesHidden
+
+    QuestieQuest.NotesAreHidden = desiredValue
 end
 
 
@@ -273,7 +275,7 @@ function QuestieQuest:UpdateHiddenNotes()
         for _, frameName in ipairs(frameList) do
             local icon = _G[frameName]
             if icon ~= nil and icon.data then
-                if  QuestieQuest.NotesHidden or
+                if  QuestieQuest.NotesAreHidden or
                     ((not questieGlobalDB.enableMapIcons) and (not icon.miniMapIcon)) or
                     ((not questieGlobalDB.enableMiniMapIcons) and (icon.miniMapIcon))
                 then
@@ -1368,8 +1370,7 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
     end
 end
 
-function QuestieQuest:DrawAllAvailableQuests()--All quests between
-    --This should probably be called somewhere else!
+function QuestieQuest:DrawAllAvailableQuests()
 
     local count = 0
     for questId, _ in pairs(QuestieQuest.availableQuests) do
