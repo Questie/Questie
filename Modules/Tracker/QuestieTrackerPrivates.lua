@@ -23,7 +23,9 @@ function _QuestieTracker:OnDragStart(button)
             baseFrame:SetClampedToScreen(true)
             baseFrame:StartMoving()
             startDragPos = {baseFrame:GetPoint()}
-            _QuestieTracker.baseFrame.sizer:SetAlpha(1)
+            if Questie.db.char.isTrackerExpanded then
+                _QuestieTracker.baseFrame.sizer:SetAlpha(1)
+            end
         else
 
             -- Turns off mouse looking to prevent frame from becoming stuck to the pointer

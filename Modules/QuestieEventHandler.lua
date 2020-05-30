@@ -322,7 +322,7 @@ _MODIFIER_STATE_CHANGED = function(self, key, down)
         GameTooltip:SetFrameStrata("TOOLTIP")
         GameTooltip:Show()
     end
-    if Questie.db.char.isTrackerExpanded and Questie.db.global.trackerLocked then
+    if Questie.db.global.trackerLocked then
         QuestieTracker.private.baseFrame:Update()
     end
 end
