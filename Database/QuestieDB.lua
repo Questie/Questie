@@ -223,6 +223,24 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
         return questType, questTag
     end
 
+    --@param quest QuestieQuest @The quest to check for completion
+    --@return integer @Complete = 1, Failed = -1, Incomplete = 0
+    function QO:IsComplete()
+        local questLogIndex = GetQuestLogIndexByID(self.Id)
+        local _, _, _, _, _, isComplete, _, _, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(questLogIndex)
+    
+        if isComplete ~= nil then
+            return isComplete -- 1 if the quest is completed, -1 if the quest is failed
+        end
+    
+        isComplete = IsQuestComplete(self.Id) -- true if the quest is both in the quest log and complete, false otherwise
+        if isComplete then
+            return 1
+        end
+    
+        return 0
+    end
+
     function QO:IsLevelRequirementsFulfilled(minLevel, maxLevel)
 
         if self.level == 60 and self.requiredLevel == 1 then

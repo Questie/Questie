@@ -450,7 +450,7 @@ function QuestieQuest:UpdateQuest(questId)
     if quest and (not Questie.db.char.complete[questId]) then
         QuestieQuest:PopulateQuestLogInfo(quest)
         QuestieQuest:UpdateObjectiveNotes(quest)
-        local isComplete = QuestieQuest:IsComplete(quest)
+        local isComplete = quest:IsComplete()
         if isComplete == 1 then -- Quest is complete
             Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest is complete")
             QuestieMap:UnloadQuestFrames(questId)
@@ -522,25 +522,6 @@ local function Counthack(tab) -- according to stack overflow, # and table.getn a
     local count = 0
     for k, v in pairs(tab) do count = count + 1; end
     return count
-end
-
---@param quest QuestieQuest @The quest to check for completion
---@return integer @Complete = 1, Failed = -1, Incomplete = 0
-function QuestieQuest:IsComplete(quest)
-    local questId = quest.Id
-    local questLogIndex = GetQuestLogIndexByID(questId)
-    local _, _, _, _, _, isComplete, _, _, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(questLogIndex)
-
-    if isComplete ~= nil then
-        return isComplete -- 1 if the quest is completed, -1 if the quest is failed
-    end
-
-    isComplete = IsQuestComplete(questId) -- true if the quest is both in the quest log and complete, false otherwise
-    if isComplete then
-        return 1
-    end
-
-    return 0
 end
 
 -- iterate all notes, update / remove as needed
@@ -922,7 +903,7 @@ end
 function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to PopulateNotes as it also handles finishers now
     Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:PopulateObjectiveNotes]", "Populating objectives for:", quest.Id)
     if not quest then return; end
-    if QuestieQuest:IsComplete(quest) == 1 then
+    if quest:IsComplete() == 1 then
 
         _CallPopulateObjective(quest)
         _AddSourceItemObjective(quest)
@@ -1456,7 +1437,7 @@ function QuestieQuest:CalculateAvailableQuests()
         --Check if we've already completed the quest and that it is not "manually" hidden and that the quest is not currently in the questlog.
         if(
             (not Questie.db.char.complete[questId]) and -- Don't show completed quests
-            ((not QuestiePlayer.currentQuestlog[questId]) or QuestieQuest:IsComplete(quest) == -1) and -- Don't show quests if they're already in the quest log
+            ((not QuestiePlayer.currentQuestlog[questId]) or quest:IsComplete() == -1) and -- Don't show quests if they're already in the quest log
             (not QuestieCorrections.hiddenQuests[questId]) and -- Don't show blacklisted quests
             (showRepeatableQuests or (not quest.IsRepeatable)) and  -- Show repeatable quests if the quest is repeatable and the option is enabled
             (showDungeonQuests or (not quest:IsDungeonQuest())) and  -- Show dungeon quests only with the option enabled
