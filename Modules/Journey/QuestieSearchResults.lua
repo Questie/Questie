@@ -34,7 +34,10 @@ local function AddParagraph(frame, lookupObject, secondKey, header, query)
     if lookupObject[secondKey] then
         QuestieJourneyUtils:AddLine(frame,  yellow .. header .. "|r")
         for _,id in pairs(lookupObject[secondKey]) do
-            QuestieJourneyUtils:AddLine(frame, query(id, "name").." ("..id..")")
+            local name = query(id, "name")
+            if name then
+                QuestieJourneyUtils:AddLine(frame, name.." ("..id..")")
+            end
         end
     end
 end
