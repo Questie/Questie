@@ -1495,7 +1495,7 @@ end
 local function QuestsFilter(chatFrame, event, msg, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, unused, lineID, senderGUID, ...)
     if msg then
         for k in string.gmatch(msg, "%[..- %(%d+%)%]") do
-            local quest, sqid, questId, questLevel, questName
+            local quest, complete, sqid, questId, questLevel, questName
             _, _, questName, sqid = string.find(k, "%[(..-) %((%d+)%)%]")
 
             if questName and sqid then
@@ -1514,6 +1514,8 @@ local function QuestsFilter(chatFrame, event, msg, playerName, languageName, cha
 
             if QuestieDB:GetQuest(questId) then
                 quest = QuestieDB:GetQuest(questId)
+                complete = QuestieQuest:IsComplete(questId)
+
             end
 
             if quest and quest.name == questName and questId then
