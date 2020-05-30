@@ -34,11 +34,7 @@ local function AddParagraph(frame, lookupObject, secondKey, header, query)
     if lookupObject[secondKey] then
         QuestieJourneyUtils:AddLine(frame,  yellow .. header .. "|r")
         for _,id in pairs(lookupObject[secondKey]) do
-            if lookupDB[id] then
-                QuestieJourneyUtils:AddLine(frame, query(id, "name").." ("..id..")")
-            else
-                Questie:Error("[QuestieSearchResults:AddParagraph] lookupDB[id] is nil for quest ", lookupObject[1], "and itemId", id)
-            end
+            QuestieJourneyUtils:AddLine(frame, query(id, "name").." ("..id..")")
         end
     end
 end
