@@ -1495,7 +1495,7 @@ end
 local function QuestsFilter(chatFrame, event, msg, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, unused, lineID, senderGUID, ...)
     if msg then
         for k in string.gmatch(msg, "%[..- %(%d+%)%]") do
-            local quest, complete, sqid, questId, questLevel, questName
+            local complete, sqid, questId, questLevel, questName
             _, _, questName, sqid = string.find(k, "%[(..-) %((%d+)%)%]")
 
             if questName and sqid then
@@ -1504,16 +1504,16 @@ local function QuestsFilter(chatFrame, event, msg, playerName, languageName, cha
                     _, _, questLevel, questName = string.find(questName, "%[(.+)%] (.+)")
                 end
             end
+			
+			local realQuestName, realQuestLevel = unpack(QuestieDB.QueryQuest(questId, "name", "questLevel"))
 
-            if QuestieDB:GetQuest(questId) then
-                quest = QuestieDB:GetQuest(questId)
-                complete = QuestieQuest:IsComplete(quest)
-
+            if realQuestName then
+                complete = QuestieQuest:IsCompleteId(questId)
             end
 
-            if quest and quest.name == questName and questId then
-                local coloredQuestName = QuestieLib:GetColoredQuestName(questId, questName, quest.level, Questie.db.global.trackerShowQuestLevel, complete, false)
-                local questLink = "|Hquestie:"..sqid..":"..senderGUID.."|h"..QuestieLib:PrintDifficultyColor(quest.level, "[")..coloredQuestName..QuestieLib:PrintDifficultyColor(quest.level, "]").."|h"
+            if realQuestName and realQuestName == questName and questId then
+                local coloredQuestName = QuestieLib:GetColoredQuestName(questId, questName, realQuestLevel, Questie.db.global.trackerShowQuestLevel, complete, false)
+                local questLink = "|Hquestie:"..sqid..":"..senderGUID.."|h"..QuestieLib:PrintDifficultyColor(realQuestLevel, "[")..coloredQuestName..QuestieLib:PrintDifficultyColor(realQuestLevel, "]").."|h"
 
                 -- Escape the magic characters
                 local function escapeMagic(toEsc)
