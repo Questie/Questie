@@ -169,27 +169,20 @@ end
 function _QuestieTracker:UpdateLayout()
     _QuestieTracker.trackerFontSize = math.max(Questie.db.global.trackerFontSizeQuest, Questie.db.global.trackerFontSizeObjective)
     _QuestieTracker.trackerSpaceBuffer = _QuestieTracker.trackerFontSize
+
     trackerSpaceBuffer = _QuestieTracker.trackerFontSize
+
     trackerFontSizeHeader = Questie.db.global.trackerFontSizeHeader
     trackerFontSizeZone = Questie.db.global.trackerFontSizeZone
     trackerFontSizeQuest = Questie.db.global.trackerFontSizeQuest
     trackerFontSizeObjective = Questie.db.global.trackerFontSizeObjective
 
-    --if Questie.db.global.trackerSortObjectives == "byZone" then
-    --    _QuestieTracker.QuestFrameIndent = trackerHeaderBuffer*4.25
-    --    _QuestieTracker.trackerHeaderBuffer = trackerHeaderBuffer*4.25
-    --    _QuestieTracker.trackerZoneBuffer = trackerZoneBuffer*4.25
-    --    _QuestieTracker.trackerQuestBuffer = trackerQuestBuffer*4.25
-    --    _QuestieTracker.trackerObjectiveBuffer = trackerObjectiveBuffer*4.25
-    --else
-
     _QuestieTracker.QuestFrameIndent = _QuestieTracker.trackerFontSize*2.75
+
     _QuestieTracker.trackerFontSizeHeader = trackerFontSizeHeader*2.75
     _QuestieTracker.trackerFontSizeZone = trackerFontSizeZone*2.75
     _QuestieTracker.trackerFontSizeQuest = trackerFontSizeQuest*2.75
     _QuestieTracker.trackerFontSizeObjective = trackerFontSizeObjective*2.75
-
-    --end
 end
 
 function _QuestieTracker:CreateBaseFrame()
@@ -680,7 +673,7 @@ function _QuestieTracker:CreateTrackedQuestButtons()
 
         expandQuest:SetWidth(trackerFontSizeQuest)
         expandQuest:SetHeight(trackerFontSizeQuest)
-        expandQuest:SetPoint("LEFT", btn, "LEFT", 0, 0)
+        expandQuest:SetPoint("RIGHT", btn, "LEFT", -trackerSpaceBuffer*3.75, 0)
 
         expandQuest.SetMode = function(self, mode)
             if mode ~= self.mode then
@@ -1091,6 +1084,13 @@ function QuestieTracker:Update()
             line.label:SetText(coloredQuestName)
             line.label:SetWidth(math.min(math.max(Questie.db.char.TrackerWidth, _QuestieTracker.baseFrame:GetWidth()) - (_QuestieTracker.QuestFrameIndent + trackerSpaceBuffer), line.label:GetUnboundedStringWidth()))
             line:SetWidth(line.label:GetWidth())
+            line.expandQuest:Show()
+
+            if Questie.db.char.collapsedQuests[quest.Id] then
+                line.expandQuest:SetMode(0)
+            else
+                line.expandQuest:SetMode(1)
+            end
 
             -- Add quest items
             if quest.sourceItemId and questCompletePercent[quest.Id] ~= 1 then
@@ -1114,48 +1114,30 @@ function QuestieTracker:Update()
 
                         self:ClearAllPoints()
                         self:SetPoint("TOPRIGHT", self.line, "TOPLEFT", -trackerSpaceBuffer/3, 0)
+                        self.line.expandQuest:Hide()
 
                         if Questie.db.char.collapsedZones[quest.zoneOrSort] or Questie.db.char.collapsedQuests[quest.Id] then
-                            self:SetParent(UIParent)
-                            self:Hide()
-
-                            if Questie.db.char.collapsedZones[quest.zoneOrSort] == nil then
+                            if not self:IsVisible() and Questie.db.char.collapsedQuests[quest.Id] then
                                 self.line.expandQuest:Show()
                             end
+
+                            self:SetParent(UIParent)
+                            self:Hide()
                         else
-                            self:SetFrameStrata("MEDIUM")
+                            self:SetFrameStrata("HIGH")
                             self:Show()
-
-                            if Questie.db.char.collapsedQuests[quest.Id] then
-                                Questie.db.char.collapsedQuests[quest.Id] = nil
-                            end
-
-                            if Questie.db.char.collapsedZones[quest.zoneOrSort] then
-                                Questie.db.char.collapsedZones[quest.zoneOrSort] = nil
-                            end
                         end
-
                     else
-                        self.line.expandQuest:Show()
+                        self:SetParent(UIParent)
                         self:Hide()
                     end
 
                 end, button)
             end
 
-            if Questie.db.char.collapsedQuests[quest.Id] then
-                line.expandQuest:SetMode(0)
-            else
-                line.expandQuest:SetMode(1)
-            end
-
-            if quest.expandQuest and (complete ~= 1) and (not line.button or Questie.db.char.collapsedQuests[quest.Id]) then
-                line.expandQuest:ClearAllPoints()
-                line.expandQuest:SetPoint("RIGHT", line, "LEFT", -trackerSpaceBuffer/3.25, 0)
+            if quest.expandQuest and (complete ~= 1) and (not line.button) then
                 line:SetVerticalPadding(1)
-                line.expandQuest:Show()
             elseif (complete == 1) then
-
                 line:SetVerticalPadding(Questie.db.global.trackerQuestPadding)
             end
 
@@ -1164,11 +1146,11 @@ function QuestieTracker:Update()
             line.label:Show()
 
             if Questie.db.char.collapsedZones[quest.zoneOrSort] then
+                line.expandQuest:Hide()
                 lineIndex = lineIndex - 1;
                 line:Hide()
                 line.label:Hide()
             else
-
                 trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth())
             end
 
