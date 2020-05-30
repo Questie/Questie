@@ -1514,7 +1514,7 @@ local function QuestsFilter(chatFrame, event, msg, playerName, languageName, cha
 
             if QuestieDB:GetQuest(questId) then
                 quest = QuestieDB:GetQuest(questId)
-                complete = QuestieQuest:IsComplete(questId)
+                complete = QuestieQuest:IsComplete(quest)
 
             end
 
