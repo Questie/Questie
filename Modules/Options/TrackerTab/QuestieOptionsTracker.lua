@@ -348,7 +348,9 @@ function QuestieOptions.tabs.tracker:Initialize()
                 min = 10,
                 max = 18,
                 step = 1,
-                disabled = function() return not Questie.db.global.trackerEnabled; end,
+
+
+                disabled = function() return not Questie.db.global.trackerEnabled or Questie.db.global.trackerSortObjectives ~= "byZone"; end,
                 get = function() return Questie.db.global.trackerFontSizeZone; end,
                 set = function (info, value)
                     while (_QuestieTracker.baseFrame:GetHeight() >= GetScreenHeight() or _QuestieTracker.baseFrame:GetBottom() <= 0 or _QuestieTracker.baseFrame:GetTop() >= GetScreenHeight()) do
@@ -370,7 +372,9 @@ function QuestieOptions.tabs.tracker:Initialize()
                 style = 'dropdown',
                 name = function() return QuestieLocale:GetUIString('TRACKER_FONT_ZONE'); end,
                 desc = function() return QuestieLocale:GetUIString('TRACKER_FONT_ZONE_DESC'); end,
-                disabled = function() return not Questie.db.global.trackerEnabled; end,
+
+
+                disabled = function() return not Questie.db.global.trackerEnabled or Questie.db.global.trackerSortObjectives ~= "byZone"; end,
                 get = function() return Questie.db.global.trackerFontZone or "Friz Quadrata TT"; end,
                 set = function(info, value)
                     Questie.db.global.trackerFontZone = value

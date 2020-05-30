@@ -607,6 +607,7 @@ function QuestieDBCompiler:Compile(finalize)
                     QuestieConfig.itemBin = bin 
                     QuestieConfig.itemPtrs = ptrs
                     QuestieConfig.dbCompiledOnVersion = QuestieDBCompiler:GetVersionString()
+                    QuestieConfig.dbCompiledLang = Questie.db.global.questieLocale or GetLocale()
                     QuestieConfig.dbIsCompiled = true
                     --print("\124cFF4DDBFF [4/4] Finished updating items")
                     --print("Items size: bin:" .. math.floor(string.len(bin)/1024) .. "K ptr:" .. math.floor(DynamicHashTableSize(QuestieDBCompiler.index)/1024) .. "K")

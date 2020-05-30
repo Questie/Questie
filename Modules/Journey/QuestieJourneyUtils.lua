@@ -14,7 +14,7 @@ function QuestieJourneyUtils:GetSortedZoneKeys(zones)
     local zoneNames = {}
     for k, _ in pairs(zones) do
         local areQuestsInZone = _QuestieJourney.questsByZone:CollectZoneQuests(k)
-        if areQuestsInZone.numquests ~= 0 then
+        if areQuestsInZone and areQuestsInZone.numquests ~= 0 then
             table.insert(zoneNames, k)
         end
     end

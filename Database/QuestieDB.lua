@@ -52,14 +52,14 @@ function QuestieDB:Initialize()
     QuestieDBZone:ZoneCreateConversion()
     _QuestieDB:HideClassAndRaceQuests()
     _QuestieDB:DeleteGatheringNodes()
-	
+
     QuestieDB.itemDataOverrides = {}
 
     QuestieDB.QueryNPC = QuestieDBCompiler:GetDBHandle(QuestieConfig.npcBin, QuestieConfig.npcPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder))
     QuestieDB.QueryQuest = QuestieDBCompiler:GetDBHandle(QuestieConfig.questBin, QuestieConfig.questPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.questCompilerTypes, QuestieDB.questCompilerOrder))
     QuestieDB.QueryObject = QuestieDBCompiler:GetDBHandle(QuestieConfig.objBin, QuestieConfig.objPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.objectCompilerTypes, QuestieDB.objectCompilerOrder))
     QuestieDB.QueryItem = QuestieDBCompiler:GetDBHandle(QuestieConfig.itemBin, QuestieConfig.itemPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.itemCompilerTypes, QuestieDB.itemCompilerOrder), QuestieDB.itemDataOverrides)
-    
+
     QuestieDB.QueryQuestSingle = QuestieDB.QueryQuest.QuerySingle
     QuestieDB.QueryNPCSingle = QuestieDB.QueryNPC.QuerySingle
     QuestieDB.QueryObjectSingle = QuestieDB.QueryObject.QuerySingle
@@ -121,7 +121,7 @@ function QuestieDB:GetItem(itemId)
     --local rawdata = QuestieDB.itemData[itemId]; -- TODO: use the good item db, I need to talk to Muehe about the format, this is a temporary fix
     --print("queryitem: " .. itemId)
     local rawdata = QuestieDB.QueryItem(itemId, unpack(QuestieDB._itemAdapterQueryOrder))
-    
+
     if not rawdata then
         Questie:Debug(DEBUG_CRITICAL, "[QuestieDB:GetItem] rawdata is nil for itemID:", itemId)
         return nil
@@ -136,7 +136,7 @@ function QuestieDB:GetItem(itemId)
     item.Id = itemId;
     item.Sources = {};
     item.Hidden = QuestieCorrections.questItemBlacklist[itemId]
-    if rawdata[3] then 
+    if rawdata[3] then
         for _, v in pairs(rawdata[3]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
             local source = {};
             source.Type = "monster";
@@ -202,7 +202,7 @@ end
 
 function QuestieDB:IsLevelRequirementsFulfilled(questId, minLevel, maxLevel)
     local level, requiredLevel = unpack(QuestieDB.QueryQuest(questId, "questLevel", "requiredLevel"))
-    
+
     return (level == 60 and requiredLevel == 1)
         or (requiredLevel >= minLevel or Questie.db.char.lowlevel)
         and (requiredLevel <= maxLevel
@@ -251,16 +251,17 @@ function QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle)
         return true
     end
     for _, preQuestId in pairs(preQuestSingle) do
-        local preQuest = QuestieDB:GetQuest(preQuestId);
-
         -- If a quest is complete the requirement is fulfilled
         if Questie.db.char.complete[preQuestId] then
             return true
         -- If one of the quests in the exclusive group is complete the requirement is fulfilled
-        elseif preQuest and preQuest.ExclusiveQuestGroup then
-            for _, v in pairs(preQuest.ExclusiveQuestGroup) do
-                if Questie.db.char.complete[v] then
-                    return true
+        else
+            local preQuestExclusiveQuestGroup = QuestieDB.QueryQuestSingle(preQuestId, "exclusiveTo")
+            if preQuestExclusiveQuestGroup then
+                for _, v in pairs(preQuestExclusiveQuestGroup) do
+                    if Questie.db.char.complete[v] then
+                        return true
+                    end
                 end
             end
         end

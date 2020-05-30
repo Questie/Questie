@@ -140,7 +140,7 @@ _PLAYER_LOGIN = function()
         end
     end
 
-    if QuestieDBCompiler:GetVersionString() ~= QuestieConfig.dbCompiledOnVersion then
+    if QuestieDBCompiler:GetVersionString() ~= QuestieConfig.dbCompiledOnVersion or (Questie.db.global.questieLocaleDiff and Questie.db.global.questieLocale or GetLocale()) ~= QuestieConfig.dbCompiledLang then
         QuestieConfig.dbIsCompiled = nil -- we need to recompile
     end
 
