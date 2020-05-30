@@ -1505,13 +1505,6 @@ local function QuestsFilter(chatFrame, event, msg, playerName, languageName, cha
                 end
             end
 
-            -- TODO: use "[questLevel] questName" to trigger a search in Questie Journey if questId
-            -- is not found. However, this would be a complex search because we wouldn't know when
-            -- the quest title ends and where "player typed speech" begins. If the Quest Link is
-            -- coming from a Questie user then there is no issue since our Quest Links will have
-            -- [ ] around each quest. We should petition Blizzard to change their client code to
-            -- include the brackets by default. :D
-
             if QuestieDB:GetQuest(questId) then
                 quest = QuestieDB:GetQuest(questId)
                 complete = QuestieQuest:IsComplete(quest)
@@ -1523,8 +1516,8 @@ local function QuestsFilter(chatFrame, event, msg, playerName, languageName, cha
                 local questLink = "|Hquestie:"..sqid..":"..senderGUID.."|h"..QuestieLib:PrintDifficultyColor(quest.level, "[")..coloredQuestName..QuestieLib:PrintDifficultyColor(quest.level, "]").."|h"
 
                 -- Escape the magic characters
-                local function escapeMagic(questName)
-                    return (questName
+                local function escapeMagic(toEsc)
+                    return (toEsc
                         :gsub("%%", "%%%%")
                         :gsub("^%^", "%%^")
                         :gsub("%$$", "%%$")
@@ -1540,8 +1533,13 @@ local function QuestsFilter(chatFrame, event, msg, playerName, languageName, cha
                     )
                 end
 
-                questName = escapeMagic(questName)
-                questLevel = escapeMagic(questLevel)
+                if questName then
+                    questName = escapeMagic(questName)
+                end
+
+                if questLevel then
+                    questLevel = escapeMagic(questLevel)
+                end
 
                 if questLevel then
                     msg = string.gsub(msg, "%[%["..questLevel.."%] "..questName.." %("..sqid.."%)%]", questLink)
