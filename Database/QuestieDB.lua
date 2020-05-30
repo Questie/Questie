@@ -252,7 +252,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
                 return false
             end
         else
-            if minLevel < self.requiredLevel then
+            if maxLevel < self.requiredLevel then
                 return false
             end
         end
