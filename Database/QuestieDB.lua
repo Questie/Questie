@@ -1,6 +1,10 @@
 ---@class QuestieDB
 local QuestieDB = QuestieLoader:CreateModule("QuestieDB")
 local _QuestieDB = QuestieDB.private
+
+---@class DBCompiler
+local QuestieDBCompiler = QuestieLoader:CreateModule("DBCompiler")
+
 -------------------------
 --Import modules.
 -------------------------
