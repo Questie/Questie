@@ -52,14 +52,14 @@ function QuestieDB:Initialize()
     QuestieDBZone:ZoneCreateConversion()
     _QuestieDB:HideClassAndRaceQuests()
     _QuestieDB:DeleteGatheringNodes()
-	
+
     QuestieDB.itemDataOverrides = {}
 
     QuestieDB.QueryNPC = QuestieDBCompiler:GetDBHandle(QuestieConfig.npcBin, QuestieConfig.npcPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder))
     QuestieDB.QueryQuest = QuestieDBCompiler:GetDBHandle(QuestieConfig.questBin, QuestieConfig.questPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.questCompilerTypes, QuestieDB.questCompilerOrder))
     QuestieDB.QueryObject = QuestieDBCompiler:GetDBHandle(QuestieConfig.objBin, QuestieConfig.objPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.objectCompilerTypes, QuestieDB.objectCompilerOrder))
     QuestieDB.QueryItem = QuestieDBCompiler:GetDBHandle(QuestieConfig.itemBin, QuestieConfig.itemPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.itemCompilerTypes, QuestieDB.itemCompilerOrder), QuestieDB.itemDataOverrides)
-    
+
     QuestieDB.QueryQuestSingle = QuestieDB.QueryQuest.QuerySingle
     QuestieDB.QueryNPCSingle = QuestieDB.QueryNPC.QuerySingle
     QuestieDB.QueryObjectSingle = QuestieDB.QueryObject.QuerySingle
@@ -121,7 +121,7 @@ function QuestieDB:GetItem(itemId)
     --local rawdata = QuestieDB.itemData[itemId]; -- TODO: use the good item db, I need to talk to Muehe about the format, this is a temporary fix
     --print("queryitem: " .. itemId)
     local rawdata = QuestieDB.QueryItem(itemId, unpack(QuestieDB._itemAdapterQueryOrder))
-    
+
     if not rawdata then
         Questie:Debug(DEBUG_CRITICAL, "[QuestieDB:GetItem] rawdata is nil for itemID:", itemId)
         return nil
@@ -136,7 +136,7 @@ function QuestieDB:GetItem(itemId)
     item.Id = itemId;
     item.Sources = {};
     item.Hidden = QuestieCorrections.questItemBlacklist[itemId]
-    if rawdata[3] then 
+    if rawdata[3] then
         for _, v in pairs(rawdata[3]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
             local source = {};
             source.Type = "monster";
@@ -173,23 +173,36 @@ function QuestieDB:IsRepeatable(id)
 end
 
 function QuestieDB:IsDungeonQuest(questId)
-    local questType, _ = GetQuestTagInfo(questId)
+    local questType, _ = QuestieDB:GetQuestTagInfo(questId)
     return questType == 81
 end
 
 function QuestieDB:IsRaidQuest(questId)
-    local questType, _ = GetQuestTagInfo(questId)
+    local questType, _ = QuestieDB:GetQuestTagInfo(questId)
     return questType == 62
 end
 
 function QuestieDB:IsPvPQuest(questId)
-    local questType, _ = GetQuestTagInfo(questId)
-    return questType == 41 or QuestieDB:IsPvPQuest(questId)
+    local questType, _ = QuestieDB:GetQuestTagInfo(questId)
+    return questType == 41
+end
+
+--- Wrapper function for the GetQuestTagInfo API to correct
+--- quests that are falsely marked by Blizzard
+function QuestieDB:GetQuestTagInfo(questId)
+    local questType, questTag = GetQuestTagInfo(questId)
+
+    if questTagCorrections[questId] then
+        questType = questTagCorrections[questId][1]
+        questTag = questTagCorrections[questId][2]
+    end
+
+    return questType, questTag
 end
 
 function QuestieDB:IsLevelRequirementsFulfilled(questId, minLevel, maxLevel)
     local level, requiredLevel = unpack(QuestieDB.QueryQuest(questId, "questLevel", "requiredLevel"))
-    
+
     return (level == 60 and requiredLevel == 1)
         or (requiredLevel >= minLevel or Questie.db.char.lowlevel)
         and (requiredLevel <= maxLevel
@@ -424,31 +437,18 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     -- initializing the quest object either returns false values or will make the
     -- quest log appear empty
     function QO:IsDungeonQuest()
-        local questType, _ = self:GetQuestTagInfo()
+        local questType, _ = QuestieDB:GetQuestTagInfo(self.Id)
         return questType == 81
     end
 
     function QO:IsRaidQuest()
-        local questType, _ = self:GetQuestTagInfo()
+        local questType, _ = QuestieDB:GetQuestTagInfo(self.Id)
         return questType == 62
     end
 
     function QO:IsPvPQuest()
-        local questType, _ = self:GetQuestTagInfo()
+        local questType, _ = QuestieDB:GetQuestTagInfo(self.Id)
         return questType == 41
-    end
-
-    --- Wrapper function for the GetQuestTagInfo API to correct
-    --- quests that are falsely marked by Blizzard
-    function QO:GetQuestTagInfo()
-        local questType, questTag = GetQuestTagInfo(self.Id)
-
-        if questTagCorrections[self.Id] then
-            questType = questTagCorrections[self.Id][1]
-            questTag = questTagCorrections[self.Id][2]
-        end
-
-        return questType, questTag
     end
 
     function QO:IsLevelRequirementsFulfilled(minLevel, maxLevel)
