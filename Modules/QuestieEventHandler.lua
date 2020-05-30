@@ -116,7 +116,7 @@ _PLAYER_LOGIN = function()
 
         -- Initialize Journey Window
         QuestieJourney:Initialize()
-        
+
         -- if compiled db exists and is up to date
             QuestieCleanup:Run()
         -- end
@@ -157,7 +157,7 @@ _PLAYER_LOGIN = function()
             end)
         end)
     end
-    
+
 end
 
 --Fires when a quest is accepted in anyway.
@@ -321,6 +321,9 @@ _MODIFIER_STATE_CHANGED = function(self, key, down)
         GameTooltip:_Rebuild() -- rebuild the tooltip
         GameTooltip:SetFrameStrata("TOOLTIP")
         GameTooltip:Show()
+    end
+    if Questie.db.char.isTrackerExpanded and Questie.db.global.trackerLocked then
+        QuestieTracker.private.baseFrame:Update()
     end
 end
 
