@@ -1379,6 +1379,11 @@ function QuestieQuest:DrawAllAvailableQuests()
         if(not QuestieMap.questIdFrames[questId]) then
             ---@type Quest
             local quest = QuestieDB:GetQuest(questId)
+            if (not quest.tagInfoWasCached) then
+                Questie:Debug(DEBUG_CRITICAL, "Caching for quest", quest.Id)
+                quest:GetQuestTagInfo() -- cache to load in the tooltip
+                quest.tagInfoWasCached = true
+            end
             --Draw a specific quest through the function
             _QuestieQuest:DrawAvailableQuest(quest)
         else
