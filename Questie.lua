@@ -18,7 +18,7 @@ if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
 end
 
 if(Questie) then
-    C_Timer.After(4, function() 
+    C_Timer.After(4, function()
         error("ERROR!! -> Questie already loaded! Please only have one Questie installed!")
         for i=1, 10 do
             DEFAULT_CHAT_FRAME:AddMessage("|cFFFF0000ERROR!!|r -> Questie already loaded! Please only have one Questie installed!")
