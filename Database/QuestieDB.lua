@@ -224,10 +224,22 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     end
 
     function QO:IsLevelRequirementsFulfilled(minLevel, maxLevel)
-        return (self.level == 60 and self.requiredLevel == 1)
-            or (self.requiredLevel >= minLevel or Questie.db.char.lowlevel)
-            and (self.requiredLevel <= maxLevel
-            or Questie.db.char.absoluteLevelOffset)
+
+        if self.level == 60 and self.requiredLevel == 1 then
+            return true
+        end
+
+        if maxLevel >= self.level then
+            if minLevel > self.level and (not Questie.db.char.lowlevel) then
+                return false
+            end
+        else
+            if minLevel < self.requiredLevel then
+                return false
+            end
+        end
+
+        return true
     end
 
     function QO:IsDoable()
