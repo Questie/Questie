@@ -1138,6 +1138,7 @@ function QuestieTracker:Update()
             if quest.expandQuest and (complete ~= 1) and (not line.button) then
                 line:SetVerticalPadding(1)
             elseif (complete == 1) then
+                line.expandQuest:Hide()
                 line:SetVerticalPadding(Questie.db.global.trackerQuestPadding)
             end
 
