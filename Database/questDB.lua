@@ -44,7 +44,7 @@ QuestieDB.questKeys = {
 }
 
 QuestieDB.questCompilerTypes = {
-	['name'] = "u8string", -- string
+    ['name'] = "u8string", -- string
     ['startedBy'] = "questgivers", -- table
         --['creatureStart'] = 1, -- table {creature(int),...}
         --['objectStart'] = 2, -- table {object(int),...}
@@ -83,17 +83,17 @@ QuestieDB.questCompilerTypes = {
 QuestieDB.questCompilerOrder = { -- order easily skipable data first for efficiency
     --static size
     'requiredLevel', 'questLevel', 'requiredRaces', 'requiredClasses', 'sourceItemId', 'zoneOrSort', 'requiredSkill', 
-	'requiredMinRep', 'requiredMaxRep', 'nextQuestInChain', 'questFlags', 'specialFlags', 'parentQuest',
+    'requiredMinRep', 'requiredMaxRep', 'nextQuestInChain', 'questFlags', 'specialFlags', 'parentQuest',
 
     -- variable size
     'name', 'preQuestGroup', 'preQuestSingle', 'childQuests', 'inGroupWith', 'exclusiveTo', 'requiredSourceItems', 
-	'objectivesText', 'triggerEnd', 'startedBy', 'finishedBy', 'objectives'
+    'objectivesText', 'triggerEnd', 'startedBy', 'finishedBy', 'objectives'
 }
 
 -- temporary, until we remove the old db funcitons
 QuestieDB._questAdapterQueryOrder = {}
 for key, id in pairs(QuestieDB.questKeys) do
-	QuestieDB._questAdapterQueryOrder[id] = key
+    QuestieDB._questAdapterQueryOrder[id] = key
 end
 
 

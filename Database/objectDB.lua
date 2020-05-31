@@ -33,7 +33,7 @@ QuestieDB.objectCompilerOrder = { -- order easily skipable data first for effici
 -- temporary, until we remove the old db funcitons
 QuestieDB._objectAdapterQueryOrder = {}
 for key, id in pairs(QuestieDB.objectKeys) do
-	QuestieDB._objectAdapterQueryOrder[id] = key
+    QuestieDB._objectAdapterQueryOrder[id] = key
 end
 
 

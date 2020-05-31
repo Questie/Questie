@@ -54,7 +54,7 @@ QuestieDB.npcCompilerOrder = { -- order easily skipable data first for efficienc
 -- temporary, until we remove the old db funcitons
 QuestieDB._npcAdapterQueryOrder = {}
 for key, id in pairs(QuestieDB.npcKeys) do
-	QuestieDB._npcAdapterQueryOrder[id] = key
+    QuestieDB._npcAdapterQueryOrder[id] = key
 end
 
 --if true then return end -- too much whitespace used to indent this

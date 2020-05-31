@@ -30,7 +30,7 @@ QuestieDB.itemCompilerOrder = { -- order easily skipable data first for efficien
 -- temporary, until we remove the old db funcitons
 QuestieDB._itemAdapterQueryOrder = {}
 for key, id in pairs(QuestieDB.itemKeys) do
-	QuestieDB._itemAdapterQueryOrder[id] = key
+    QuestieDB._itemAdapterQueryOrder[id] = key
 end
 
 -- [item ID] = {"name",{objective of},{dropped by},{contained in/gathered from/mined from}}

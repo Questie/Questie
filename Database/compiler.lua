@@ -807,19 +807,19 @@ function QuestieDBCompiler:BuildCompileUI() -- probably wont be used, I was thin
     base.desc:Show()
 
 
-	local button = CreateFrame("Button", nil, base)
-	button:SetPoint("CENTER", base, "CENTER", 0, 24-120/2)
-	button:SetWidth(80)
-	button:SetHeight(20)
-	
-	button:SetText("Start")
+    local button = CreateFrame("Button", nil, base)
+    button:SetPoint("CENTER", base, "CENTER", 0, 24-120/2)
+    button:SetWidth(80)
+    button:SetHeight(20)
+    
+    button:SetText("Start")
     button:SetNormalFontObject("GameFontNormal")
     
     function buildTexture(str)
         local tex = button:CreateTexture()
         tex:SetTexture(str)
         tex:SetTexCoord(0, 0.625, 0, 0.6875)
-        tex:SetAllPoints()	
+        tex:SetAllPoints()
         return tex
     end
     

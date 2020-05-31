@@ -543,8 +543,8 @@ function QuestieQuest:IsCompleteId(questId)
     isComplete = IsQuestComplete(questId) -- true if the quest is both in the quest log and complete, false otherwise
     if isComplete then
         return 1
-	else
-		return 0
+    else
+        return 0
     end
 
     return 0
@@ -1510,8 +1510,8 @@ local function QuestsFilter(chatFrame, event, msg, playerName, languageName, cha
                     _, _, questLevel, questName = string.find(questName, "%[(.+)%] (.+)")
                 end
             end
-			
-			local realQuestName, realQuestLevel = unpack(QuestieDB.QueryQuest(questId, "name", "questLevel"))
+            
+            local realQuestName, realQuestLevel = unpack(QuestieDB.QueryQuest(questId, "name", "questLevel"))
 
             if realQuestName then
                 complete = QuestieQuest:IsCompleteId(questId)
