@@ -218,13 +218,28 @@ function QuestieDB:IsComplete(questId)
     return 0
 end
 
+function QuestieDB:IsActiveEventQuest(questId)
+    return QuestieEvent.activeQuests[questId] == true
+end
+
 function QuestieDB:IsLevelRequirementsFulfilled(questId, minLevel, maxLevel)
     local level, requiredLevel = unpack(QuestieDB.QueryQuest(questId, "questLevel", "requiredLevel"))
 
-    return (level == 60 and requiredLevel == 1)
-        or (requiredLevel >= minLevel or Questie.db.char.lowlevel)
-        and (requiredLevel <= maxLevel
-        or Questie.db.char.absoluteLevelOffset)
+    if QuestieDB:IsActiveEventQuest() and minLevel > requiredLevel then
+        return true
+    end
+
+    if maxLevel >= level then
+        if minLevel > level and (not Questie.db.char.lowlevel) then
+            return false
+        end
+    else
+        if maxLevel < requiredLevel then
+            return false
+        end
+    end
+
+    return true
 end
 
 function QuestieDB:IsParentQuestActive(parentID)
