@@ -48,21 +48,24 @@ function QuestieQuest:Initialize()
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString("DEBUG_GET_QUEST_COMP"))
     --GetQuestsCompleted(Questie.db.char.complete)
     Questie.db.char.complete = GetQuestsCompleted()
+    QuestieQuest.NotesAreHidden = not Questie.db.char.enabled
+
     QuestieProfessions:Update()
     QuestieReputation:Update(true)
 
     QuestieHash:LoadQuestLogHashes()
 end
 
-QuestieQuest.NotesHidden = false
 
 function QuestieQuest:ToggleNotes(desiredValue)
-    if desiredValue ~= nil and desiredValue == (not QuestieQuest.NotesHidden) then
+    if desiredValue == Questie.db.char.enabled then
         return -- we already have the desired state
     end
-    local questieGlobalDB = Questie.db.global
+
+    Questie.db.char.enabled = desiredValue
+
     local questieCharDB = Questie.db.char
-    if QuestieQuest.NotesHidden then
+    if QuestieQuest.NotesAreHidden then
         -- change map button
         Questie_Toggle:SetText(QuestieLocale:GetUIString("QUESTIE_MAP_BUTTON_HIDE"));
         -- show quest notes
@@ -91,7 +94,7 @@ function QuestieQuest:ToggleNotes(desiredValue)
         for _, frameList in pairs(QuestieMap.manualFrames) do
             for _, frameName in pairs(frameList) do
                 local icon = _G[frameName];
-                if icon ~= nil and icon.IsShown ~= nil and (not icon.hidden) then -- check for function to make sure its a frame
+                if icon ~= nil and (not icon:ShouldBeHidden()) and (not icon.hidden) then -- check for function to make sure its a frame
                     icon:FakeUnide()
                 end
             end
@@ -103,7 +106,7 @@ function QuestieQuest:ToggleNotes(desiredValue)
         for questId, framelist in pairs(QuestieMap.questIdFrames) do
             for index, frameName in pairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
                 local icon = _G[frameName];
-                if icon ~= nil and icon.IsShown ~= nil and (not icon.hidden) then -- check for function to make sure its a frame
+                if icon ~= nil and icon:ShouldBeHidden() and (not icon.hidden) then -- check for function to make sure its a frame
                     icon:FakeHide()
                 end
             end
@@ -112,15 +115,14 @@ function QuestieQuest:ToggleNotes(desiredValue)
         for _, frameList in pairs(QuestieMap.manualFrames) do
             for _, frameName in pairs(frameList) do
                 local icon = _G[frameName];
-                if icon ~= nil and icon.IsShown ~= nil and (not icon.hidden) then -- check for function to make sure its a frame
+                if icon ~= nil and icon:ShouldBeHidden() and (not icon.hidden) then -- check for function to make sure its a frame
                     icon:FakeHide()
                 end
             end
         end
     end
-    -- update config
-    QuestieQuest.NotesHidden = not QuestieQuest.NotesHidden
-    Questie.db.char.enabled = not QuestieQuest.NotesHidden
+
+    QuestieQuest.NotesAreHidden = desiredValue
 end
 
 function QuestieQuest:ClearAllNotes()
@@ -269,7 +271,7 @@ function QuestieQuest:UpdateHiddenNotes()
         for _, frameName in ipairs(frameList) do
             local icon = _G[frameName]
             if icon ~= nil and icon.data then
-                if  QuestieQuest.NotesHidden or
+                if  QuestieQuest.NotesAreHidden or
                     ((not questieGlobalDB.enableMapIcons) and (not icon.miniMapIcon)) or
                     ((not questieGlobalDB.enableMiniMapIcons) and (icon.miniMapIcon))
                 then
@@ -448,7 +450,7 @@ function QuestieQuest:UpdateQuest(questId)
     if quest and (not Questie.db.char.complete[questId]) then
         QuestieQuest:PopulateQuestLogInfo(quest)
         QuestieQuest:UpdateObjectiveNotes(quest)
-        local isComplete = QuestieQuest:IsComplete(quest)
+        local isComplete = quest:IsComplete()
         if isComplete == 1 then -- Quest is complete
             Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest is complete")
             QuestieMap:UnloadQuestFrames(questId)
@@ -926,7 +928,7 @@ end
 function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to PopulateNotes as it also handles finishers now
     Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:PopulateObjectiveNotes]", "Populating objectives for:", quest.Id)
     if not quest then return; end
-    if QuestieQuest:IsComplete(quest) == 1 then
+    if quest:IsComplete() == 1 then
 
         _CallPopulateObjective(quest)
         _AddSourceItemObjective(quest)
@@ -1392,8 +1394,7 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
     end
 end
 
-function QuestieQuest:DrawAllAvailableQuests()--All quests between
-    --This should probably be called somewhere else!
+function QuestieQuest:DrawAllAvailableQuests()
 
     local count = 0
     for questId, _ in pairs(QuestieQuest.availableQuests) do
@@ -1402,6 +1403,11 @@ function QuestieQuest:DrawAllAvailableQuests()--All quests between
         if(not QuestieMap.questIdFrames[questId]) then
             ---@type Quest
             local quest = QuestieDB:GetQuest(questId)
+            if (not quest.tagInfoWasCached) then
+                Questie:Debug(DEBUG_CRITICAL, "Caching for quest", quest.Id)
+                quest:GetQuestTagInfo() -- cache to load in the tooltip
+                quest.tagInfoWasCached = true
+            end
             --Draw a specific quest through the function
             _QuestieQuest:DrawAvailableQuest(quest)
         else
@@ -1461,12 +1467,12 @@ function QuestieQuest:CalculateAvailableQuests()
 
     for questId, _ in pairs(QuestieDB.QuestPointers or QuestieDB.questData) do
         ---@type Quest
-        --local quest = QuestieDB:GetQuest(questId)
+        local quest = QuestieDB:GetQuest(questId)
 
         --Check if we've already completed the quest and that it is not "manually" hidden and that the quest is not currently in the questlog.
         if(
             (not Questie.db.char.complete[questId]) and -- Don't show completed quests
-            ((not QuestiePlayer.currentQuestlog[questId]) or QuestieQuest:IsCompleteId(questId) == -1) and -- Don't show quests if they're already in the quest log
+            ((not QuestiePlayer.currentQuestlog[questId]) or quest:IsComplete() == -1) and -- Don't show quests if they're already in the quest log
             (not QuestieCorrections.hiddenQuests[questId]) and -- Don't show blacklisted quests
             (showRepeatableQuests or (not QuestieDB:IsRepeatable(questId))) and  -- Show repeatable quests if the quest is repeatable and the option is enabled
             (showDungeonQuests or (not QuestieDB:IsDungeonQuest(questId))) and  -- Show dungeon quests only with the option enabled

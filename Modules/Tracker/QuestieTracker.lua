@@ -118,7 +118,7 @@ function QuestieTracker:Initialize()
         -- Make sure the saved tracker location cords are on the players screen
         if Questie.db.char.TrackerLocation and Questie.db.char.TrackerLocation[2] and Questie.db.char.TrackerLocation[2] == "MinimapCluster" or Questie.db.char.TrackerLocation[2] == "UIParent" then
             local baseFrame = QuestieTracker:GetBaseFrame()
-            verifyBaseFrame = {unpack(Questie.db.char.TrackerLocation)}
+            local verifyBaseFrame = {unpack(Questie.db.char.TrackerLocation)}
 
             -- Max X values
             local maxLeft = -GetScreenWidth()/2
@@ -523,8 +523,6 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
         -- Sets default state for the fader
         --_QuestieTracker.ItemButtons[i]:SetAlpha(0)
     end
-
-    return btn
 end
 
 function _QuestieTracker:CreateTrackedQuestButtons()
@@ -717,8 +715,6 @@ function _QuestieTracker:CreateTrackedQuestButtons()
 
         btn.expandQuest = expandQuest
     end
-
-    return btn
 end
 
 function QuestieTracker:GetBaseFrame()
@@ -859,7 +855,7 @@ function QuestieTracker:Update()
     for questId in pairs (QuestiePlayer.currentQuestlog) do
         local quest = QuestieDB:GetQuest(questId)
         if quest then
-            if QuestieQuest:IsComplete(quest) == 1 or (not quest.Objectives) or (not next(quest.Objectives)) then
+            if quest:IsComplete() == 1 or (not quest.Objectives) or (not next(quest.Objectives)) then
                 questCompletePercent[quest.Id] = 1
             else
                 local percent = 0
@@ -903,8 +899,8 @@ function QuestieTracker:Update()
 
     elseif Questie.db.global.trackerSortObjectives == "byZone" then
         table.sort(order, function(a, b)
-            qA = QuestieDB:GetQuest(a)
-            qB = QuestieDB:GetQuest(b)
+            local qA = QuestieDB:GetQuest(a)
+            local qB = QuestieDB:GetQuest(b)
             local qAZone, qBZone
             if qA.zoneOrSort > 0 then
                 qAZone = QuestieTracker.utils:GetZoneNameByID(qA.zoneOrSort)
@@ -1025,7 +1021,8 @@ function QuestieTracker:Update()
             end
         end
 
-        if ((complete ~= 1) or Questie.db.global.trackerShowCompleteQuests) and ((GetCVar("autoQuestWatch") == "1" and not Questie.db.char.AutoUntrackedQuests[questId]) or (GetCVar("autoQuestWatch") == "0" and Questie.db.char.TrackedQuests[questId])) then
+        local complete = quest:IsComplete()
+        if ((complete ~= 1) or Questie.db.global.trackerShowCompleteQuests) and ((GetCVar("autoQuestWatch") == "1" and not Questie.db.char.AutoUntrackedQuests[questId]) or (GetCVar("autoQuestWatch") == "0" and Questie.db.char.TrackedQuests[questId]))  then -- maybe have an option to display quests in the list with (Complete!) in the title
             hasQuest = true
 
             -- Add zones
@@ -1895,7 +1892,7 @@ function QuestieTracker:updateQuestProximityTimer()
             if position then
                 local distance = _PlayerPosition and getDistance(position.x, position.y, _PlayerPosition.x, _PlayerPosition.y);
                 if not distance or distance > 0.01 then
-                    initialized = true;
+                    local initialized = true;
                     _PlayerPosition = position;
                     QuestieTracker:Update()
                 end

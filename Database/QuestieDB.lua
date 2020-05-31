@@ -1,6 +1,7 @@
 ---@class QuestieDB
 local QuestieDB = QuestieLoader:CreateModule("QuestieDB")
 local _QuestieDB = QuestieDB.private
+
 -------------------------
 --Import modules.
 -------------------------
@@ -20,7 +21,8 @@ local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 ---@type DBCompiler
 local QuestieDBCompiler = QuestieLoader:CreateModule("DBCompiler")
-
+---@type QuestieEvent
+local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 
 
 local tinsert = table.insert
@@ -438,25 +440,76 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     -- initializing the quest object either returns false values or will make the
     -- quest log appear empty
     function QO:IsDungeonQuest()
-        local questType, _ = QuestieDB:GetQuestTagInfo(self.Id)
+        local questType, _ = self:GetQuestTagInfo()
         return questType == 81
     end
 
     function QO:IsRaidQuest()
-        local questType, _ = QuestieDB:GetQuestTagInfo(self.Id)
+        local questType, _ = self:GetQuestTagInfo()
         return questType == 62
     end
 
     function QO:IsPvPQuest()
-        local questType, _ = QuestieDB:GetQuestTagInfo(self.Id)
+        local questType, _ = self:GetQuestTagInfo()
         return questType == 41
     end
 
+    function QO:IsActiveEventQuest()
+        return QuestieEvent.activeQuests[self.Id] == true
+    end
+
+    --- Wrapper function for the GetQuestTagInfo API to correct
+    --- quests that are falsely marked by Blizzard
+    function QO:GetQuestTagInfo()
+        local questType, questTag = GetQuestTagInfo(self.Id)
+
+        if questTagCorrections[self.Id] then
+            questType = questTagCorrections[self.Id][1]
+            questTag = questTagCorrections[self.Id][2]
+        end
+
+        return questType, questTag
+    end
+
+    --@param quest QuestieQuest @The quest to check for completion
+    --@return integer @Complete = 1, Failed = -1, Incomplete = 0
+    function QO:IsComplete()
+        local questLogIndex = GetQuestLogIndexByID(self.Id)
+        local _, _, _, _, _, isComplete, _, _, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(questLogIndex)
+    
+        if isComplete ~= nil then
+            return isComplete -- 1 if the quest is completed, -1 if the quest is failed
+        end
+    
+        isComplete = IsQuestComplete(self.Id) -- true if the quest is both in the quest log and complete, false otherwise
+        if isComplete then
+            return 1
+        end
+    
+        return 0
+    end
+
+    -- 20 - 27
+
+    -- 6 - 60
+
     function QO:IsLevelRequirementsFulfilled(minLevel, maxLevel)
-        return (self.level == 60 and self.requiredLevel == 1)
-            or (self.requiredLevel >= minLevel or Questie.db.char.lowlevel)
-            and (self.requiredLevel <= maxLevel
-            or Questie.db.char.absoluteLevelOffset)
+
+        if self:IsActiveEventQuest() and minLevel > self.requiredLevel then
+            return true
+        end
+
+        if maxLevel >= self.level then
+            if minLevel > self.level and (not Questie.db.char.lowlevel) then
+                return false
+            end
+        else
+            if maxLevel < self.requiredLevel then
+                return false
+            end
+        end
+
+        return true
     end
 
     function QO:IsDoable() -- temporary

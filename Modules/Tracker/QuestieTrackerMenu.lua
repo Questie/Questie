@@ -146,7 +146,7 @@ _AddShowObjectivesOnMapOption = function (menu, quest, objective)
 end
 
 _AddShowFinisherOnMapOption = function (menu, quest)
-    if QuestieQuest:IsComplete(quest) == 1 then
+    if quest:IsComplete() == 1 then
         tinsert(menu, {text = QuestieLocale:GetUIString('TRACKER_SHOW_ON_MAP'), func = function()
             LQuestie_CloseDropDownMenus()
             QuestieTracker.utils:ShowFinisherOnMap(quest)
@@ -155,7 +155,7 @@ _AddShowFinisherOnMapOption = function (menu, quest)
 end
 
 _AddObjectiveOption = function (menu, subMenu, quest)
-    if QuestieQuest:IsComplete(quest) == 0 then
+    if quest:IsComplete() == 0 then
         tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_OBJECTIVES'), hasArrow = true, menuList = subMenu})
     end
 end

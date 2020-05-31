@@ -222,7 +222,7 @@ function QuestieOptions.tabs.advanced:Initialize()
 
                     -- only toggle questie if it's off (must be called before resetting the value)
                     if not Questie.db.char.enabled then
-                        QuestieQuest:ToggleNotes();
+                        QuestieQuest:ToggleNotes(not Questie.db.char.enabled);
                     end
 
                     Questie.db.char.enabled = optionsDefaults.char.enabled;

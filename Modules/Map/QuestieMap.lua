@@ -391,7 +391,7 @@ function QuestieMap:DrawManualIcon(data, areaID, x, y)
     tinsert(QuestieMap.manualFrames[data.id], iconMinimap:GetName())
 
     -- make sure notes are only shown when they are supposed to
-    if (QuestieQuest.NotesHidden) then -- TODO: or (not Questie.db.global.manualNotes)
+    if (QuestieQuest.NotesAreHidden) then -- TODO: or (not Questie.db.global.manualNotes)
         icon:FakeHide()
         iconMinimap:FakeHide()
     else
@@ -722,7 +722,7 @@ function QuestieMap:GetNearestQuestSpawn(quest)
     if quest == nil then
         return nil
     end
-    if QuestieQuest:IsComplete(quest) == 1 then
+    if quest:IsComplete() == 1 then
         local finisher = nil
         if quest.Finisher ~= nil then
             if quest.Finisher.Type == "monster" then

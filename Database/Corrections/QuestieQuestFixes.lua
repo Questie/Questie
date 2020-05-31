@@ -554,8 +554,24 @@ function QuestieQuestFixes:Load()
         [1686] = {
             [QuestieDB.questKeys.preQuestSingle] = {1639,1678,1683},
         },
+        [1700] = {
+            [QuestieDB.questKeys.requiredRaces] = 1,
+            [QuestieDB.questKeys.exclusiveTo] = {1703,1704,1705}, -- #1857
+        },
+        [1703] = {
+            [QuestieDB.questKeys.exclusiveTo] = {1700,1704,1710}, -- #1857
+        },
+        [1704] = {
+            [QuestieDB.questKeys.exclusiveTo] = {1700,1703,1708}, -- #1857
+        },
+        [1705] = {
+            [QuestieDB.questKeys.preQuestSingle] = {1700,1703,1704}, -- #1857
+        },
         [1708] = {
-            [QuestieDB.questKeys.preQuestSingle] = {}, -- #1230
+            [QuestieDB.questKeys.preQuestSingle] = {1700,1703,1704}, -- #1857
+        },
+        [1710] = {
+            [QuestieDB.questKeys.preQuestSingle] = {1700,1703,1704}, -- #1857
         },
         [1718] = {
             [QuestieDB.questKeys.startedBy] = {{3041,3354,4595,5113,5479,},nil,nil,}, -- #1034
@@ -692,12 +708,6 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.exclusiveTo] = {1642,1646,2997,2998,2999,3681},
         },
         [3090] = {
-            [QuestieDB.questKeys.requiredRaces] = 0, -- #813
-        },
-        [7161] = {
-            [QuestieDB.questKeys.requiredRaces] = 0, -- #813
-        },
-        [7165] = {
             [QuestieDB.questKeys.requiredRaces] = 0, -- #813
         },
         [3128] = {
@@ -1207,6 +1217,12 @@ function QuestieQuestFixes:Load()
         [7142] = {
             [QuestieDB.questKeys.requiredRaces] = 178,
             [QuestieDB.questKeys.triggerEnd] = {"Defeat Vanndar Stormpike.",{[2597]={{42.29,12.85},},},},
+        },
+        [7161] = {
+            [QuestieDB.questKeys.requiredRaces] = 0, -- #813
+        },
+        [7165] = {
+            [QuestieDB.questKeys.requiredRaces] = 0, -- #813
         },
         [7166] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 178,
