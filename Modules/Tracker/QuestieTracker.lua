@@ -51,31 +51,34 @@ _QuestieTracker.QuestFrameIndent = 1
 local _OnClick, _OnEnter, _OnLeave
 local _AQW_Insert, _RemoveQuestWatch
 local _PlayerPosition, _QuestProximityTimer
+local _GetDistanceToClosestObjective, _GetContinent
 
 function QuestieTracker:Initialize()
-    if QuestieTracker.started or (not Questie.db.global.trackerEnabled) then return; end
-    if not Questie.db.char.TrackerHiddenQuests then
+    if QuestieTracker.started or (not Questie.db.global.trackerEnabled) then
+        return
+    end
+    if (not Questie.db.char.TrackerHiddenQuests) then
         Questie.db.char.TrackerHiddenQuests = {}
     end
-    if not Questie.db.char.TrackerHiddenObjectives then
+    if (not Questie.db.char.TrackerHiddenObjectives) then
         Questie.db.char.TrackerHiddenObjectives = {}
     end
-    if not Questie.db.char.TrackedQuests then
+    if (not Questie.db.char.TrackedQuests) then
         Questie.db.char.TrackedQuests = {}
     end
-    if not Questie.db.char.AutoUntrackedQuests then
+    if (not Questie.db.char.AutoUntrackedQuests) then
         Questie.db.char.AutoUntrackedQuests = {}
     end
-    if not Questie.db.char.collapsedZones then
+    if (not Questie.db.char.collapsedZones) then
         Questie.db.char.collapsedZones = {}
     end
-    if not Questie.db.char.collapsedQuests then
+    if (not Questie.db.char.collapsedQuests) then
         Questie.db.char.collapsedQuests = {}
     end
-    if not Questie.db.char.TrackerWidth then
+    if (not Questie.db.char.TrackerWidth) then
         Questie.db.char.TrackerWidth = 0
     end
-    if not Questie.db.char.trackerSetpoint then
+    if (not Questie.db.char.trackerSetpoint) then
         Questie.db.char.trackerSetpoint = "AUTO"
     end
 
@@ -233,7 +236,9 @@ function _QuestieTracker:CreateBaseFrame()
         if IsControlKeyDown() or not Questie.db.global.trackerLocked then
             self:SetMovable(true)
             QuestieCombatQueue:Queue(function(self)
-                if IsMouseButtonDown() then return end
+                if IsMouseButtonDown() then
+                    return
+                end
                 self:EnableMouse(true)
                 self:SetResizable(true)
             end, self)
@@ -241,7 +246,9 @@ function _QuestieTracker:CreateBaseFrame()
         else
             self:SetMovable(false)
             QuestieCombatQueue:Queue(function(self)
-                if IsMouseButtonDown() then return end
+                if IsMouseButtonDown() then
+                    return
+                end
                 self:EnableMouse(false)
                 self:SetResizable(false)
             end, self)
@@ -372,7 +379,9 @@ function _QuestieTracker:CreateActiveQuestsHeader()
     frm:RegisterForClicks("RightButtonUp", "LeftButtonUp")
 
     frm:SetScript("OnClick", function(self)
-        if InCombatLockdown() then return end
+        if InCombatLockdown() then
+            return
+        end
         if self.mode == 1 then
             self:SetMode(0)
             Questie.db.char.isTrackerExpanded = false
@@ -473,7 +482,9 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
         end
 
         btn.OnClick = function(self, button)
-            if InCombatLockdown() then return end
+            if InCombatLockdown() then
+                return
+            end
 
             if button == "LeftButton" then
                 return
@@ -637,7 +648,9 @@ function _QuestieTracker:CreateTrackedQuestButtons()
         expandZone:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 
         expandZone:SetScript("OnClick", function(self)
-            if InCombatLockdown() then return end
+            if InCombatLockdown() then
+                return
+            end
             if self.mode == 1 then
                 self:SetMode(0)
             else
@@ -692,7 +705,9 @@ function _QuestieTracker:CreateTrackedQuestButtons()
         expandQuest:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 
         expandQuest:SetScript("OnClick", function(self)
-            if InCombatLockdown() then return end
+            if InCombatLockdown() then
+                return
+            end
             if self.mode == 1 then
                 self:SetMode(0)
             else
@@ -722,7 +737,9 @@ function QuestieTracker:GetBaseFrame()
 end
 
 function QuestieTracker:ResetLocation()
-    if _QuestieTracker.trackerLineWidth == nil then return end
+    if _QuestieTracker.trackerLineWidth == nil then
+        return
+    end
     _QuestieTracker.activeQuestsHeader:SetMode(1) -- maximized
     Questie.db.char.isTrackerExpanded = true
     Questie.db.char.AutoUntrackedQuests = {}
@@ -824,7 +841,9 @@ end
 
 function QuestieTracker:Update()
     Questie:Debug(DEBUG_DEVELOP, "QuestieTracker: Update")
-    if not QuestieTracker.started or InCombatLockdown() then return end
+    if (not QuestieTracker.started) or InCombatLockdown() then
+        return
+    end
 
     trackerLineWidth = 0
 
@@ -936,15 +955,15 @@ function QuestieTracker:Update()
 
     elseif Questie.db.global.trackerSortObjectives == "byProximity" then
         table.sort(order, function(a, b)
-            local distanceA = GetDistanceToClosestObjective(a)
-            local distanceB = GetDistanceToClosestObjective(b)
+            local distanceA = _GetDistanceToClosestObjective(a)
+            local distanceB = _GetDistanceToClosestObjective(b)
             local qA = QuestieDB:GetQuest(a)
             local qB = QuestieDB:GetQuest(b)
             local _, zoneA, _ = QuestieMap:GetNearestQuestSpawn(qA)
             local _, zoneB, _ = QuestieMap:GetNearestQuestSpawn(qB)
-            local continent = getContinent(C_Map.GetBestMapForUnit("player"))
-            local continentA = getContinent(ZoneDataAreaIDToUiMapID[zoneA])
-            local continentB = getContinent(ZoneDataAreaIDToUiMapID[zoneB])
+            local continent = _GetContinent(C_Map.GetBestMapForUnit("player"))
+            local continentA = _GetContinent(ZoneDataAreaIDToUiMapID[zoneA])
+            local continentB = _GetContinent(ZoneDataAreaIDToUiMapID[zoneB])
             if ((continent == continentA) and (continent == continentB)) or ((continent ~= continentA) and (continent ~= continentB)) then
                 if distanceA == distanceB then
                     return qA and qB and qA.level < qB.level;
@@ -963,7 +982,7 @@ function QuestieTracker:Update()
         end)
 
         if not _QuestProximityTimer then
-            QuestieTracker:updateQuestProximityTimer()
+            QuestieTracker:UpdateQuestProximityTimer()
         end
     end
 
@@ -1383,7 +1402,7 @@ function _QuestieTracker:GetNextItemButton()
 end
 
 function _QuestieTracker:StartFadeTicker()
-    if not _QuestieTracker.FadeTicker and QuestieTracker.started then
+    if (not _QuestieTracker.FadeTicker) and QuestieTracker.started then
         _QuestieTracker.FadeTicker = C_Timer.NewTicker(0.02, function()
             if _QuestieTracker.FadeTickerDirection then
                 if _QuestieTracker.FadeTickerValue < 0.3 then
@@ -1466,7 +1485,9 @@ end
 
 function QuestieTracker:UnFocus()
     -- reset HideIcons to match savedvariable state
-    if not Questie.db.char.TrackerFocus then return; end
+    if (not Questie.db.char.TrackerFocus) then
+        return
+    end
     for questId in pairs (QuestiePlayer.currentQuestlog) do
         local quest = QuestieDB:GetQuest(questId)
 
@@ -1582,7 +1603,10 @@ function QuestieTracker:Untrack(quest)
 end
 
 function QuestieTracker:Unhook()
-    if not QuestieTracker._alreadyHooked then return; end
+    if (not QuestieTracker._alreadyHooked) then
+        return
+    end
+
     QuestieTracker._disableHooks = true
     if QuestieTracker._IsQuestWatched then
         IsQuestWatched = QuestieTracker._IsQuestWatched
@@ -1593,7 +1617,9 @@ function QuestieTracker:Unhook()
 end
 
 function QuestieTracker:HookBaseTracker()
-    if _QuestieTracker._alreadyHooked then return; end
+    if _QuestieTracker._alreadyHooked then
+        return
+    end
     QuestieTracker._disableHooks = nil
 
     if not QuestieTracker._alreadyHookedSecure then
@@ -1664,7 +1690,9 @@ _OnClick = function(self, button, down)
         return
     end
 
-    if self.Quest == nil then return end
+    if self.Quest == nil then
+        return
+    end
 
     if QuestieTracker.utils:IsBindTrue(Questie.db.global.trackerbindSetTomTom, button) then
         local spawn, zone, name = QuestieMap:GetNearestQuestSpawn(self.Quest)
@@ -1746,7 +1774,9 @@ end
 
 _RemoveQuestWatch = function(index, isQuestie)
     Questie:Debug(DEBUG_DEVELOP, "QuestieTracker: RemoveQuestWatch")
-    if QuestieTracker._disableHooks then return end
+    if QuestieTracker._disableHooks then
+        return
+    end
 
     if not isQuestie then
         local qid = select(8,GetQuestLogTitle(index))
@@ -1764,7 +1794,9 @@ end
 
 _AQW_Insert = function(index, expire)
     Questie:Debug(DEBUG_DEVELOP, "QuestieTracker: AQW_Insert")
-    if QuestieTracker._disableHooks then return end
+    if QuestieTracker._disableHooks then
+        return
+    end
 
     local now = GetTime()
     if index and index == QuestieTracker._last_aqw and (now - lastAQW) < 0.1 then return end -- this fixes double calling due to AQW+AQW_Insert (QuestGuru fix)
@@ -1806,11 +1838,11 @@ _AQW_Insert = function(index, expire)
     end
 end
 
-local function getWorldPlayerPosition()
+local function _GetWorldPlayerPosition()
     -- Turns coords into 'world' coords so it can be compared with any coords in another zone
     local uiMapId = C_Map.GetBestMapForUnit("player");
 
-    if not uiMapId then
+    if (not uiMapId) then
         return nil;
     end
 
@@ -1820,29 +1852,31 @@ local function getWorldPlayerPosition()
     return worldPosition;
 end
 
-local function getDistance(x1, y1, x2, y2)
+local function _GetDistance(x1, y1, x2, y2)
     -- Basic proximity distance calculation to compare two locs (normally player position and provided loc)
     return math.sqrt( (x2-x1)^2 + (y2-y1)^2 );
 end
 
-function GetDistanceToClosestObjective(questId)
+_GetDistanceToClosestObjective = function(questId)
     -- main function for proximity sorting
-    local player = getWorldPlayerPosition();
+    local player = _GetWorldPlayerPosition();
 
-    if not player then
-        return nil;
+    if (not player) then
+        return nil
     end
 
     local coordinates = {};
     local quest = QuestieDB:GetQuest(questId);
 
-    if not quest then return end;
+    if (not quest) then
+        return nil
+    end
 
     local spawn, zone, name = QuestieMap:GetNearestQuestSpawn(quest)
 
-    if not spawn then return end;
-    if not zone then return end;
-    if not name then return end;
+    if (not spawn) or (not zone) or (not name) then
+        return nil
+    end
 
     local _, worldPosition = C_Map.GetWorldPosFromMapPos(ZoneDataAreaIDToUiMapID[zone], {
         x = spawn[1] / 100,
@@ -1854,11 +1888,13 @@ function GetDistanceToClosestObjective(questId)
         y = worldPosition.y
     });
 
-    if not coordinates then return end
+    if (not coordinates) then
+        return nil
+    end
 
     local closestDistance;
     for _, coords in pairs(coordinates) do
-        local distance = getDistance(player.x, player.y, worldPosition.x, worldPosition.y);
+        local distance = _GetDistance(player.x, player.y, worldPosition.x, worldPosition.y);
         if closestDistance == nil or distance < closestDistance then
             closestDistance = distance;
         end
@@ -1867,15 +1903,15 @@ function GetDistanceToClosestObjective(questId)
     return closestDistance;
 end
 
-function getContinent(uiMapId)
-    if not uiMapId then return end;
+_GetContinent = function(uiMapId)
+    if (not uiMapId) then
+        return
+    end
 
     if (uiMapId == 947) or (uiMapId == 1459) or (uiMapId == 1460) or (uiMapId == 1461) then
         return "Azeroth"
-
     elseif ((uiMapId >= 1415) and (uiMapId <= 1437)) or (uiMapId == 1453) or (uiMapId == 1455) or (uiMapId == 1458) or (uiMapId == 1463) then
         return "Eastern Kingdoms"
-
     elseif ((uiMapId >= 1411) and (uiMapId <= 1414)) or ((uiMapId >= 1438) and (uiMapId <= 1452)) or (uiMapId == 1454) or (uiMapId == 1456) or (uiMapId == 1457) then
         return "Kalimdor"
     else
@@ -1884,13 +1920,13 @@ function getContinent(uiMapId)
     end
 end
 
-function QuestieTracker:updateQuestProximityTimer()
+function QuestieTracker:UpdateQuestProximityTimer()
     -- Check location often and update if you've moved
     C_Timer.After(3.0, function()
         _QuestProximityTimer = C_Timer.NewTicker(5.0, function()
-            local position = getWorldPlayerPosition();
+            local position = _GetWorldPlayerPosition();
             if position then
-                local distance = _PlayerPosition and getDistance(position.x, position.y, _PlayerPosition.x, _PlayerPosition.y);
+                local distance = _PlayerPosition and _GetDistance(position.x, position.y, _PlayerPosition.x, _PlayerPosition.y);
                 if not distance or distance > 0.01 then
                     local initialized = true;
                     _PlayerPosition = position;
