@@ -202,6 +202,22 @@ function QuestieDB:GetQuestTagInfo(questId)
     return questType, questTag
 end
 
+function QuestieDB:IsComplete(questId)
+    local questLogIndex = GetQuestLogIndexByID(questId)
+    local _, _, _, _, _, isComplete, _, _, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(questLogIndex)
+
+    if isComplete ~= nil then
+        return isComplete -- 1 if the quest is completed, -1 if the quest is failed
+    end
+
+    isComplete = IsQuestComplete(questId) -- true if the quest is both in the quest log and complete, false otherwise
+    if isComplete then
+        return 1
+    end
+
+    return 0
+end
+
 function QuestieDB:IsLevelRequirementsFulfilled(questId, minLevel, maxLevel)
     local level, requiredLevel = unpack(QuestieDB.QueryQuest(questId, "questLevel", "requiredLevel"))
 
@@ -476,22 +492,18 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     function QO:IsComplete()
         local questLogIndex = GetQuestLogIndexByID(self.Id)
         local _, _, _, _, _, isComplete, _, _, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(questLogIndex)
-    
+
         if isComplete ~= nil then
             return isComplete -- 1 if the quest is completed, -1 if the quest is failed
         end
-    
+
         isComplete = IsQuestComplete(self.Id) -- true if the quest is both in the quest log and complete, false otherwise
         if isComplete then
             return 1
         end
-    
+
         return 0
     end
-
-    -- 20 - 27
-
-    -- 6 - 60
 
     function QO:IsLevelRequirementsFulfilled(minLevel, maxLevel)
 

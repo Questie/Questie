@@ -1466,13 +1466,13 @@ function QuestieQuest:CalculateAvailableQuests()
     raceIndex = math.pow(2, raceIndex-1)
 
     for questId, _ in pairs(QuestieDB.QuestPointers or QuestieDB.questData) do
-        ---@type Quest
-        local quest = QuestieDB:GetQuest(questId)
+        -- ---@type Quest
+        -- local quest = QuestieDB:GetQuest(questId)
 
         --Check if we've already completed the quest and that it is not "manually" hidden and that the quest is not currently in the questlog.
         if(
             (not Questie.db.char.complete[questId]) and -- Don't show completed quests
-            ((not QuestiePlayer.currentQuestlog[questId]) or quest:IsComplete() == -1) and -- Don't show quests if they're already in the quest log
+            ((not QuestiePlayer.currentQuestlog[questId]) or QuestieDB:IsComplete(questId) == -1) and -- Don't show quests if they're already in the quest log
             (not QuestieCorrections.hiddenQuests[questId]) and -- Don't show blacklisted quests
             (showRepeatableQuests or (not QuestieDB:IsRepeatable(questId))) and  -- Show repeatable quests if the quest is repeatable and the option is enabled
             (showDungeonQuests or (not QuestieDB:IsDungeonQuest(questId))) and  -- Show dungeon quests only with the option enabled
