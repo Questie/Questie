@@ -2,9 +2,6 @@
 local QuestieDB = QuestieLoader:CreateModule("QuestieDB")
 local _QuestieDB = QuestieDB.private
 
----@class DBCompiler
-local QuestieDBCompiler = QuestieLoader:CreateModule("DBCompiler")
-
 -------------------------
 --Import modules.
 -------------------------
@@ -22,6 +19,8 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type QuestieReputation
 local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
+---@type QuestieEvent
+local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 
 local tinsert = table.insert
 
@@ -210,6 +209,10 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
         return questType == 41
     end
 
+    function QO:IsActiveEventQuest()
+        return QuestieEvent.activeQuests[self.Id] == true
+    end
+
     --- Wrapper function for the GetQuestTagInfo API to correct
     --- quests that are falsely marked by Blizzard
     function QO:GetQuestTagInfo()
@@ -241,9 +244,13 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
         return 0
     end
 
+    -- 20 - 27
+
+    -- 6 - 60
+
     function QO:IsLevelRequirementsFulfilled(minLevel, maxLevel)
 
-        if self.level == 60 and self.requiredLevel == 1 then
+        if self:IsActiveEventQuest() and minLevel > self.requiredLevel then
             return true
         end
 
