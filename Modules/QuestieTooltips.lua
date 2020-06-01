@@ -25,6 +25,7 @@ QuestieTooltips.lastGametooltip = ""
 QuestieTooltips.lastGametooltipCount = -1;
 QuestieTooltips.lastGametooltipType = "";
 QuestieTooltips.lastFrameName = "";
+QuestieTooltips.lastItemRefTooltip = ""
 
 QuestieTooltips.tooltipLookup = {
     --["u_Grell"] = {questid, {"Line 1", "Line 2"}}
@@ -325,6 +326,7 @@ function QuestieTooltips:Initialize()
     ItemRefTooltip:HookScript("OnHide", function(self)
         if (not self.IsForbidden) or (not self:IsForbidden()) then -- do we need this here also
             QuestieTooltips.lastGametooltip = ""
+            QuestieTooltips.lastItemRefTooltip = ""
             QuestieTooltips.lastGametooltipItem = nil
             QuestieTooltips.lastGametooltipUnit = nil
             QuestieTooltips.lastGametooltipCount = 0
@@ -346,6 +348,7 @@ function QuestieTooltips:Initialize()
     GameTooltip:HookScript("OnHide", function(self)
         if (not self.IsForbidden) or (not self:IsForbidden()) then -- do we need this here also
             QuestieTooltips.lastGametooltip = ""
+            QuestieTooltips.lastItemRefTooltip = ""
             QuestieTooltips.lastGametooltipItem = nil
             QuestieTooltips.lastGametooltipUnit = nil
             QuestieTooltips.lastGametooltipCount = 0
@@ -366,21 +369,16 @@ function QuestieTooltips:Initialize()
     end)
 end
 
--- Hookfunction for custom quest links
-local old = ItemRefTooltip.SetHyperlink
-function ItemRefTooltip:SetHyperlink(link, ...)
+-- Questie Quest Links
+function QuestieTooltips:QuestLinks(link)
     isQuestieLink, _, _ = string.find(link, "questie:(%d+):.*")
     if isQuestieLink then
-        Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:ItemRefTooltip] SetHyperlink: "..link)
         local quest, questId, questTitle, questStart, questStartZone, questEnd, questEndZone, senderGUID
         questId = select(2, strsplit(":", link))
         senderGUID = select(3, strsplit(":", link))
         questId = tonumber(questId)
         quest = QuestieDB:GetQuest(questId)
         if quest then
-            ShowUIPanel(ItemRefTooltip)
-            ItemRefTooltip:SetOwner(UIParent, "ANCHOR_PRESERVE")
-
             -- [Block 1] Quest Title
             local questLevel, cQuestID, cQuestName, cQuestID
             questLevel = QuestieLib:GetLevelString(quest.Id, quest.name, quest.level, false)
@@ -594,10 +592,46 @@ function ItemRefTooltip:SetHyperlink(link, ...)
                 end
             end
         end
+    end
+    return link
+end
 
+local oldOnHyperlinkShow = ChatFrame_OnHyperlinkShow
+function ChatFrame_OnHyperlinkShow(...)
+    local chatFrame, link, text, button = ...
+    if (IsShiftKeyDown() and ChatEdit_GetActiveWindow() and button == "LeftButton") then
+        local linkType, questId, playerGUID = string.split(":", link)
+        if linkType and linkType == "questie" then
+            Questie:Debug(DEBUG_DEVELOP, "[QuestieTooltips:OnHyperlinkShow] Relinking Quest Link to chat: "..link)
+            questId = tonumber(questId)
+            local quest = QuestieDB:GetQuest(questId)
+            ChatEdit_InsertLink("[[" .. quest.level .. "] " .. quest.name .. " (" .. questId .. ")]")
+            return
+        end
+    end
+    return oldOnHyperlinkShow(...)
+end
+
+local oldItemSetHyperlink = ItemRefTooltip.SetHyperlink
+function ItemRefTooltip:SetHyperlink(link, ...)
+    local _, _, isQuestieLink, questID = string.find(link, "(questie):(%d+):")
+    QuestieTooltips.lastItemRefTooltip = QuestieTooltips.lastItemRefTooltip or link
+    if isQuestieLink and questID then
+        Questie:Debug(DEBUG_DEVELOP, "[QuestieTooltips:ItemRefTooltip] SetHyperlink: "..link)
+        ShowUIPanel(ItemRefTooltip)
+        ItemRefTooltip:SetOwner(UIParent, "ANCHOR_PRESERVE");
+        QuestieTooltips:QuestLinks(link)
         ItemRefTooltip:Show()
+
+        if QuestieTooltips.lastItemRefTooltip == ItemRefTooltipTextLeft1:GetText() then
+            ItemRefTooltip:Hide()
+            QuestieTooltips.lastItemRefTooltip = ""
+        end
+
+        QuestieTooltips.lastItemRefTooltip = ItemRefTooltipTextLeft1:GetText()
+        return
     else
 
-        return old(self, link, ...)
+        return oldItemSetHyperlink(self, link, ...)
     end
 end

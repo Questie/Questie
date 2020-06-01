@@ -534,6 +534,8 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
         -- Sets default state for the fader
         --_QuestieTracker.ItemButtons[i]:SetAlpha(0)
     end
+
+    return btn
 end
 
 function _QuestieTracker:CreateTrackedQuestButtons()
@@ -730,6 +732,8 @@ function _QuestieTracker:CreateTrackedQuestButtons()
 
         btn.expandQuest = expandQuest
     end
+
+    return btn
 end
 
 function QuestieTracker:GetBaseFrame()
