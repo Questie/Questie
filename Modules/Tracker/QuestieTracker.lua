@@ -534,8 +534,6 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
         -- Sets default state for the fader
         --_QuestieTracker.ItemButtons[i]:SetAlpha(0)
     end
-
-    return btn
 end
 
 function _QuestieTracker:CreateTrackedQuestButtons()
@@ -732,8 +730,6 @@ function _QuestieTracker:CreateTrackedQuestButtons()
 
         btn.expandQuest = expandQuest
     end
-
-    return btn
 end
 
 function QuestieTracker:GetBaseFrame()
@@ -1932,7 +1928,6 @@ function QuestieTracker:UpdateQuestProximityTimer()
             if position then
                 local distance = _PlayerPosition and _GetDistance(position.x, position.y, _PlayerPosition.x, _PlayerPosition.y);
                 if not distance or distance > 0.01 then
-                    local initialized = true;
                     _PlayerPosition = position;
                     QuestieTracker:Update()
                 end
