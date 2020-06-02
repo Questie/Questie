@@ -323,45 +323,42 @@ function QuestieQuest:GetRawLeaderBoardDetails(QuestLogIndex)
     return quest;
 end
 
+
+-- todo: move this
+local QuestieTaskQueue = {}
+QuestieTaskQueue._queue = {}
+function QuestieTaskQueue:OnUpdate()
+    local val = tremove(QuestieTaskQueue._queue, 1)
+    if val then val() end
+end
+function QuestieTaskQueue:Queue(...)
+    for _,val in pairs({...}) do
+        tinsert(QuestieTaskQueue._queue, val)
+    end
+end
+local frm = CreateFrame("Frame", UIParent)
+frm:SetScript("OnUpdate", QuestieTaskQueue.OnUpdate)
+frm:Show()
+
+
+
 function QuestieQuest:AcceptQuest(questId)
     if(QuestiePlayer.currentQuestlog[questId] == nil) then
         Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString("DEBUG_ACCEPT_QUEST", questId));
 
-        --Get all the Frames for the quest and unload them, the available quest icon for example.
-        QuestieMap:UnloadQuestFrames(questId);
-        QuestieHash:AddNewQuestHash(questId)
-
         local quest = QuestieDB:GetQuest(questId)
-        if quest then
-            -- we also need to remove exclusivegroup icons (TESTED)
-            if quest.ExclusiveQuestGroup then
-                for k, qId in pairs(quest.ExclusiveQuestGroup) do
-                    QuestieMap:UnloadQuestFrames(qId);
-                end
-            end
+        QuestiePlayer.currentQuestlog[questId] = quest
 
-            QuestiePlayer.currentQuestlog[questId] = quest
-            QuestieQuest:PopulateQuestLogInfo(quest)
-            QuestieQuest:PopulateObjectiveNotes(quest)
-        else
-            QuestiePlayer.currentQuestlog[questId] = questId
-        end
-
-        --TODO: Insert call to drawing objective logic here!
-        --QuestieQuest:TrackQuest(questId);
-        QuestieQuest:CalculateAvailableQuests()
-        QuestieQuest:DrawAllAvailableQuests()
-
-        for availableQuestId, alsoQuestId in pairs(QuestieQuest.availableQuests) do
-            ---@type Quest
-            local availableQuest = QuestieDB:GetQuest(availableQuestId)
-            if (not availableQuest) or (not availableQuest:IsDoable()) then
-                QuestieMap:UnloadQuestFrames(availableQuestId, ICON_TYPE_AVAILABLE);
-            end
-        end
-
-        --For safety, remove all these icons.
-        QuestieMap:UnloadQuestFrames(questId, ICON_TYPE_AVAILABLE);
+        QuestieTaskQueue:Queue(
+            --Get all the Frames for the quest and unload them, the available quest icon for example.
+            function() QuestieMap:UnloadQuestFrames(questId) end,
+            function() QuestieHash:AddNewQuestHash(questId) end,
+            function() QuestieQuest:PopulateQuestLogInfo(quest) end,
+            function() QuestieQuest:PopulateObjectiveNotes(quest) end,
+            QuestieQuest.CalculateAvailableQuests,
+            QuestieQuest.DrawAllAvailableQuests
+        )
+        
         --Broadcast an update.
         Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId);
     else
@@ -1394,36 +1391,8 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
     end
 end
 
-function QuestieQuest:DrawAllAvailableQuests()
+function QuestieQuest:DrawAllAvailableQuests() -- deprecated
 
-    local count = 0
-    for questId, _ in pairs(QuestieQuest.availableQuests) do
-
-        --If the quest is not drawn draw the quest, otherwise skip.
-        if(not QuestieMap.questIdFrames[questId]) then
-            ---@type Quest
-            local quest = QuestieDB:GetQuest(questId)
-            if (not quest.tagInfoWasCached) then
-                Questie:Debug(DEBUG_CRITICAL, "Caching for quest", quest.Id)
-                quest:GetQuestTagInfo() -- cache to load in the tooltip
-                quest.tagInfoWasCached = true
-            end
-            --Draw a specific quest through the function
-            _QuestieQuest:DrawAvailableQuest(quest)
-        else
-            --We might have to update the icon in this situation (config changed/level up)
-            for _, frame in ipairs(QuestieMap:GetFramesForQuest(questId)) do
-                if frame and frame.data and frame.data.QuestData then
-                    local newIcon = _QuestieQuest:GetQuestIcon(frame.data.QuestData)
-                    if newIcon ~= frame.data.Icon then
-                        frame:UpdateTexture(newIcon)
-                    end
-                end
-            end
-        end
-        count = count + 1
-    end
-    Questie:Debug(DEBUG_INFO, "[QuestieQuest]", QuestieLocale:GetUIString("DEBUG_DRAW", count, QuestiePlayer:GetPlayerLevel()));
 end
 
 ---@param quest Quest
@@ -1441,7 +1410,13 @@ function _QuestieQuest:GetQuestIcon(quest)
     return icon
 end
 
-function QuestieQuest:CalculateAvailableQuests()
+function QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
+    Questie:Debug(DEBUG_INFO, "[QuestieQuest]", QuestieLocale:GetUIString("DEBUG_DRAW", 0, QuestiePlayer:GetPlayerLevel()));
+
+    local data = QuestieDB.QuestPointers or QuestieDB.questData
+    local index = next(data)
+    local timer -- if you do local timer = C_Timer then "timer" cant be accessed inside 
+
     local playerLevel = QuestiePlayer:GetPlayerLevel()
     local minLevel = playerLevel - GetQuestGreenRange()
     local maxLevel = playerLevel
@@ -1465,32 +1440,68 @@ function QuestieQuest:CalculateAvailableQuests()
     classIndex = math.pow(2, classIndex-1)
     raceIndex = math.pow(2, raceIndex-1)
 
-    for questId, _ in pairs(QuestieDB.QuestPointers or QuestieDB.questData) do
-        -- ---@type Quest
-        -- local quest = QuestieDB:GetQuest(questId)
 
-        --Check if we've already completed the quest and that it is not "manually" hidden and that the quest is not currently in the questlog.
-        if(
-            (not Questie.db.char.complete[questId]) and -- Don't show completed quests
-            ((not QuestiePlayer.currentQuestlog[questId]) or QuestieDB:IsComplete(questId) == -1) and -- Don't show quests if they're already in the quest log
-            (not QuestieCorrections.hiddenQuests[questId]) and -- Don't show blacklisted quests
-            (showRepeatableQuests or (not QuestieDB:IsRepeatable(questId))) and  -- Show repeatable quests if the quest is repeatable and the option is enabled
-            (showDungeonQuests or (not QuestieDB:IsDungeonQuest(questId))) and  -- Show dungeon quests only with the option enabled
-            (showRaidQuests or (not QuestieDB:IsRaidQuest(questId))) and  -- Show Raid quests only with the option enabled
-            (showPvPQuests or (not QuestieDB:IsPvPQuest(questId))) -- Show PvP quests only with the option enabled
-        ) then
+    timer = C_Timer.NewTicker(0.01, function()
+        for i=0,16 do -- number of available quests to process per tick
+            local questId = index
+            if questId then
+                -- ---@type Quest
+                -- local quest = QuestieDB:GetQuest(questId)
 
-            if QuestieDB:IsLevelRequirementsFulfilled(questId, minLevel, maxLevel) then
-                if QuestieDB:IsDoable(questId, raceIndex, classIndex) then
-                    QuestieQuest.availableQuests[questId] = questId
+                --Check if we've already completed the quest and that it is not "manually" hidden and that the quest is not currently in the questlog.
+                if(
+                    (not Questie.db.char.complete[questId]) and -- Don't show completed quests
+                    ((not QuestiePlayer.currentQuestlog[questId]) or QuestieDB:IsComplete(questId) == -1) and -- Don't show quests if they're already in the quest log
+                    (not QuestieCorrections.hiddenQuests[questId]) and -- Don't show blacklisted quests
+                    (showRepeatableQuests or (not QuestieDB:IsRepeatable(questId))) and  -- Show repeatable quests if the quest is repeatable and the option is enabled
+                    (showDungeonQuests or (not QuestieDB:IsDungeonQuest(questId))) and  -- Show dungeon quests only with the option enabled
+                    (showRaidQuests or (not QuestieDB:IsRaidQuest(questId))) and  -- Show Raid quests only with the option enabled
+                    (showPvPQuests or (not QuestieDB:IsPvPQuest(questId))) -- Show PvP quests only with the option enabled
+                ) then
+
+                    if QuestieDB:IsLevelRequirementsFulfilled(questId, minLevel, maxLevel) then
+                        if QuestieDB:IsDoable(questId, raceIndex, classIndex) then
+                            QuestieQuest.availableQuests[questId] = questId
+                            --If the quest is not drawn draw the quest, otherwise skip.
+                            if (not QuestieMap.questIdFrames[questId]) then
+                                ---@type Quest
+                                local quest = QuestieDB:GetQuest(questId)
+                                if (not quest.tagInfoWasCached) then
+                                    Questie:Debug(DEBUG_CRITICAL, "Caching for quest", quest.Id)
+                                    quest:GetQuestTagInfo() -- cache to load in the tooltip
+                                    quest.tagInfoWasCached = true
+                                end
+                                --Draw a specific quest through the function
+                                _QuestieQuest:DrawAvailableQuest(quest)
+                            else
+                                --We might have to update the icon in this situation (config changed/level up)
+                                for _, frame in ipairs(QuestieMap:GetFramesForQuest(questId)) do
+                                    if frame and frame.data and frame.data.QuestData then
+                                        local newIcon = _QuestieQuest:GetQuestIcon(frame.data.QuestData)
+                                        if newIcon ~= frame.data.Icon then
+                                            frame:UpdateTexture(newIcon)
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    else
+                        --If the quests are not within level range we want to unload them
+                        --(This is for when people level up or change settings etc)
+                        QuestieMap:UnloadQuestFrames(questId);
+                    end
                 end
             else
-                --If the quests are not within level range we want to unload them
-                --(This is for when people level up or change settings etc)
-                QuestieMap:UnloadQuestFrames(questId);
+                timer:Cancel()
+                return
             end
+            index = next(data, index)
         end
-    end
+    end)
+end
+
+function QuestieQuest:CalculateAvailableQuests() -- deprecated
+    QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
 end
 
 ---------------------------------------------------------------------------------------------------
