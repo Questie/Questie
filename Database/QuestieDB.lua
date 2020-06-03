@@ -53,7 +53,6 @@ _QuestieDB.zoneCache = {};
 
 function QuestieDB:Initialize()
     QuestieDBZone:ZoneCreateConversion()
-    _QuestieDB:HideClassAndRaceQuests() -- no longer needed and should be removed (for journey etc. Race/class data is now checked in IsDoable
     _QuestieDB:DeleteGatheringNodes() -- todo: do this before db compile
 
     QuestieDB.itemDataOverrides = {}

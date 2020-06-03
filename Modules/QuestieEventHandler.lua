@@ -117,9 +117,6 @@ _PLAYER_LOGIN = function()
         QuestieDB:Initialize()
         QuestieLib:CacheAllItemNames()
 
-        -- Initialize Journey Window
-        QuestieJourney:Initialize()
-
         -- if compiled db exists and is up to date
             QuestieCleanup:Run()
         -- end
@@ -130,6 +127,7 @@ _PLAYER_LOGIN = function()
         QuestieMap:InitializeQueue()
         _Hack_prime_log()
         QuestiePlayer:Initialize()
+        QuestieJourney:Initialize()
         QuestieQuest:Initialize()
         QuestieQuest:GetAllQuestIdsNoObjectives()
         QuestieQuest:CalculateAvailableQuests()
