@@ -331,14 +331,14 @@ function QuestieDB:IsDoable(questId, raceIndex, classIndex, debug)
 
     local requiredRaces = QuestieDB.QueryQuestSingle(questId, "requiredRaces")
 
-    if requiredRaces ~= 0 and (bit.band(requiredRaces, raceIndex) == 0) then
+    if (not QuestiePlayer:HasRequiredRace(requiredRaces)) then
         if debug then print("bad race!: " .. requiredRaces .. " " .. raceIndex) end
         return false
     end
 
     local requiredClasses = QuestieDB.QueryQuestSingle(questId, "requiredClasses")
 
-    if requiredClasses ~= 0 and (bit.band(requiredClasses, classIndex) == 0) then
+    if (not QuestiePlayer:HasRequiredClass(requiredClasses)) then
         if debug then print("bad class!: " .. requiredClasses .. " " .. classIndex) end
         return false
     end
@@ -962,25 +962,19 @@ end
 -- Modifications to questDB
 
 function _QuestieDB:HideClassAndRaceQuests()
-    local _, _, classIndex = UnitClass("player");
-    local _, _, raceIndex = UnitRace("player");
-    if classIndex and raceIndex then
-        classIndex = math.pow(2, classIndex-1)
-        raceIndex = math.pow(2, raceIndex-1)
-        local questKeys = QuestieDB.questKeys
-        for key, entry in pairs(QuestieDB.questData) do
-            -- check requirements, set hidden flag if not met
-            local requiredClasses = entry[questKeys.requiredClasses]
-            if (requiredClasses) and (requiredClasses ~= 0) then
-                if (bit.band(requiredClasses, classIndex) == 0) then
-                    entry.hidden = true
-                end
+    local questKeys = QuestieDB.questKeys
+    for key, entry in pairs(QuestieDB.questData) do
+        -- check requirements, set hidden flag if not met
+        local requiredClasses = entry[questKeys.requiredClasses]
+        if (requiredClasses) and (requiredClasses ~= 0) then
+            if (not QuestiePlayer:HasRequiredClass(requiredClasses)) then
+                entry.hidden = true
             end
-            local requiredRaces = entry[questKeys.requiredRaces]
-            if (requiredRaces) and (requiredRaces ~= 0) and (requiredRaces ~= 255) then
-                if (bit.band(requiredRaces, raceIndex) == 0) then
-                    entry.hidden = true
-                end
+        end
+        local requiredRaces = entry[questKeys.requiredRaces]
+        if (requiredRaces) and (requiredRaces ~= 0) and (requiredRaces ~= 255) then
+            if (not QuestiePlayer:HasRequiredRace(requiredRaces)) then
+                entry.hidden = true
             end
         end
     end
