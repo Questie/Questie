@@ -490,12 +490,13 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
                 self.range:Hide()
 
                 -- Charges Updates
+                self.count:Hide()
                 self.count:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontSizeObjective), trackerSpaceBuffer*0.40)
                 if self.charges > 1 then
                     self.count:SetText(self.charges)
+                    self.count:Show()
                 end
                 self.count:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 0, 3)
-                self.count:Show()
 
                 self.UpdateButton(self)
 
@@ -553,46 +554,45 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
         end
 
         btn.OnUpdate = function(self, elapsed)
-            local rangeTimer = self.rangeTimer
-            if not self.itemName then
-                self.itemName = GetItemInfo(self.itemID)
+            if not self.itemID or not self:IsVisible() then
+                return
             end
+
             local valid = nil
+            local rangeTimer = self.rangeTimer
 
             if UnitExists("target") then
-                valid = IsItemInRange(self.itemName, "target")
-                if not self.rangeIsShown then
-                    self.range:Show()
-                    self.rangeIsShown = true
-                end
-            elseif self.rangeIsShown then
-                self.rangeIsShown = nil
-                self.range:Hide()
-            end
 
-            if (rangeTimer) then
-                rangeTimer = rangeTimer - elapsed
-
-                if (rangeTimer <= 0) then
-                    local charges = GetItemCount(self.itemID, nil, true)
-
-                    if (not charges or charges ~= self.charges) then
-                        return
-                    end
-                    if not self.rangeIsShown then
-                        self.range:Show()
-                        self.rangeIsShown = true
-                    end
-                    if (valid == false) then
-                        self.range:SetVertexColor(1.0, 0.1, 0.1)
-                    elseif (valid == true) then
-                        self.range:SetVertexColor(0.6, 0.6, 0.6)
-                    end
-
-                    rangeTimer = 0.3
+                if not self.itemName then
+                    self.itemName = GetItemInfo(self.itemID)
                 end
 
-                self.rangeTimer = rangeTimer
+                if (rangeTimer) then
+                    rangeTimer = rangeTimer - elapsed
+
+                    if (rangeTimer <= 0) then
+                        local charges = GetItemCount(self.itemID, nil, true)
+
+                        if (not charges or charges ~= self.charges) then
+                            return
+                        end
+
+                        valid = IsItemInRange(self.itemName, "target")
+
+                        if valid == false then
+                            self.range:SetVertexColor(1.0, 0.1, 0.1)
+                            self.range:Show()
+
+                        elseif valid == true then
+                            self.range:SetVertexColor(0.6, 0.6, 0.6)
+                            self.range:Hide()
+                        end
+
+                        rangeTimer = 0.3
+                    end
+
+                    self.rangeTimer = rangeTimer
+                end
             end
         end
 
