@@ -6,11 +6,19 @@ local tinsert = table.insert
 
 local unpack_limit = 4096 -- wow api limits unpack to somewhere between 7000-8000
 
+-- reduce cpu time by less global space lookups
+local band = bit.band
+local lshift = bit.lshift
+local rshift = bit.rshift
+local mod = mod
+local stringchar = string.char
+local stringbyte = string.byte
+
 -- shift level table
 QSL_dltab = {};
-QSL_dltab[string.byte("x")] = 0;
-QSL_dltab[string.byte("y")] = 1;
-QSL_dltab[string.byte("z")] = 2;
+QSL_dltab[stringbyte("x")] = 0;
+QSL_dltab[stringbyte("y")] = 1;
+QSL_dltab[stringbyte("z")] = 2;
 
 -- translation table
 QSL_dttab = {};
@@ -59,6 +67,9 @@ function QuestieStreamLib:GetStream(mode) -- returns a new stream
         stream._mode = mode
         if mode == "raw" then
             stream.ReadByte = QuestieStreamLib._ReadByte_raw
+            --stream.ReadTinyString = QuestieStreamLib._ReadTinyStringBySubstring
+            --stream.ReadShortString = QuestieStreamLib._ReadShortStringBySubstring
+            --stream.ReadTinyStringNil = QuestieStreamLib._ReadTinyStringNilBySubstring
             stream._WriteByte = QuestieStreamLib._writeByte
         elseif mode == "1short" then
             stream.ReadByte = QuestieStreamLib._ReadByte_1short
@@ -76,9 +87,9 @@ end
 
 function QuestieStreamLib:_writeByte(val)
     --print("Writing " .. val .. " at " .. self._pointer)
-    self._bin[self._pointer] = string.char(val)
+    self._bin[self._pointer] = stringchar(val)
     --if val > 255 or val < 0 then
-    --    string.char(val) -- error
+    --    stringchar(val) -- error
     --end
     self._pointer = self._pointer + 1
 end
@@ -167,7 +178,7 @@ function QuestieStreamLib:_WriteByte_raw(e)
 end
 
 function QuestieStreamLib:_ReadByte_raw()
-    local val = string.byte(self._bin, self._pointer)
+    local val = stringbyte(self._bin, self._pointer)
     --print("Read data at " .. self._pointer .. " = " .. val)
     self._pointer = self._pointer + 1
     return val
@@ -205,24 +216,24 @@ function QuestieStreamLib:ReadShorts(count)
 end
 
 function QuestieStreamLib:ReadShort()
-    return bit.lshift(self:ReadByte(), 8) + self:ReadByte();
+    return lshift(self:ReadByte(), 8) + self:ReadByte();
 end
 
 function QuestieStreamLib:ReadInt12Pair()
     local a = self:ReadByte()
-    return self:ReadByte() + bit.lshift(bit.band(a, 15), 8), self:ReadByte() + bit.lshift(bit.band(a, 240), 4)
+    return self:ReadByte() + lshift(band(a, 15), 8), self:ReadByte() + lshift(band(a, 240), 4)
 end
 
 function QuestieStreamLib:ReadInt24()
-    return bit.lshift(self:ReadByte(), 16) + bit.lshift(self:ReadByte(), 8) + self:ReadByte();
+    return lshift(self:ReadByte(), 16) + lshift(self:ReadByte(), 8) + self:ReadByte();
 end
 
 function QuestieStreamLib:ReadInt()
-    return bit.lshift(self:ReadByte(), 24) + bit.lshift(self:ReadByte(), 16) + bit.lshift(self:ReadByte(), 8) + self:ReadByte();
+    return lshift(self:ReadByte(), 24) + lshift(self:ReadByte(), 16) + lshift(self:ReadByte(), 8) + self:ReadByte();
 end
 
 function QuestieStreamLib:ReadLong()
-    return bit.lshift(self:ReadByte(), 56) +bit.lshift(self:ReadByte(), 48) +bit.lshift(self:ReadByte(), 40) +bit.lshift(self:ReadByte(), 32) +bit.lshift(self:ReadByte(), 24) + bit.lshift(self:ReadByte(), 16) + bit.lshift(self:ReadByte(), 8) + self:ReadByte();
+    return lshift(self:ReadByte(), 56) +lshift(self:ReadByte(), 48) +lshift(self:ReadByte(), 40) +lshift(self:ReadByte(), 32) +lshift(self:ReadByte(), 24) + lshift(self:ReadByte(), 16) + lshift(self:ReadByte(), 8) + self:ReadByte();
 end
 
 function QuestieStreamLib:ReadTinyString()
@@ -231,7 +242,23 @@ function QuestieStreamLib:ReadTinyString()
     for i = 1, length do
         tinsert(ret, self:ReadByte()) -- slightly better lua code is slightly better
     end
-    return string.char(unpack(ret))
+    return stringchar(unpack(ret))
+end
+
+function QuestieStreamLib:_ReadTinyStringBySubstring()
+    local length = self:ReadByte()
+    if length == 0 then return "" end
+    local ret = string.sub(self._bin, self._pointer, self._pointer+length)
+    self._pointer = self._pointer + length
+    return ret
+end
+
+function QuestieStreamLib:_ReadTinyStringNilBySubstring()
+    local length = self:ReadByte()
+    if length == 0 then return nil end
+    local ret = string.sub(self._bin, self._pointer, self._pointer+length)
+    self._pointer = self._pointer + length
+    return ret
 end
 
 function QuestieStreamLib:ReadTinyStringNil()
@@ -241,7 +268,7 @@ function QuestieStreamLib:ReadTinyStringNil()
     for i = 1, length do
         tinsert(ret, self:ReadByte()) -- slightly better lua code is slightly better
     end
-    return string.char(unpack(ret))
+    return stringchar(unpack(ret))
 end
 
 function QuestieStreamLib:ReadShortString()
@@ -249,15 +276,22 @@ function QuestieStreamLib:ReadShortString()
     local ret = {};
     if length > unpack_limit then
         for i = 1, length do
-            tinsert(ret, string.char(self:ReadByte()))
+            tinsert(ret, stringchar(self:ReadByte()))
         end
         return table.concat(ret)
     else
         for i = 1, length do
             tinsert(ret, self:ReadByte()) -- slightly better lua code is slightly better
         end
-        return string.char(unpack(ret))
+        return stringchar(unpack(ret))
     end
+end
+
+function QuestieStreamLib:_ReadShortStringBySubstring()
+    local length = self:ReadShort()
+    local ret = string.sub(self._bin, self._pointer, self._pointer+length)
+    self._pointer = self._pointer + length
+    return ret
 end
 
 function QuestieStreamLib:WriteBytes(...)
@@ -274,52 +308,52 @@ end
 
 function QuestieStreamLib:WriteShort(val)
     --print("wshort: " .. val);
-    self:WriteByte(mod(bit.rshift(val, 8), 256));
+    self:WriteByte(mod(rshift(val, 8), 256));
     self:WriteByte(mod(val, 256));
 end
 
 function QuestieStreamLib:WriteInt(val)
-    self:WriteByte(mod(bit.rshift(val, 24), 256));
-    self:WriteByte(mod(bit.rshift(val, 16), 256));
-    self:WriteByte(mod(bit.rshift(val, 8), 256));
+    self:WriteByte(mod(rshift(val, 24), 256));
+    self:WriteByte(mod(rshift(val, 16), 256));
+    self:WriteByte(mod(rshift(val, 8), 256));
     self:WriteByte(mod(val, 256));
 end
 
 function QuestieStreamLib:WriteInt24(val)
     --print("wi24: " .. val);
-    self:WriteByte(mod(bit.rshift(val, 16), 256));
-    self:WriteByte(mod(bit.rshift(val, 8), 256));
+    self:WriteByte(mod(rshift(val, 16), 256));
+    self:WriteByte(mod(rshift(val, 8), 256));
     self:WriteByte(mod(val, 256));
 end
 
 function QuestieStreamLib:WriteInt12Pair(val1, val2)
-    self:WriteByte(bit.band(bit.rshift(val1, 8), 15) + bit.lshift(bit.band(bit.rshift(val2, 8), 15), 4))
+    self:WriteByte(band(rshift(val1, 8), 15) + lshift(band(rshift(val2, 8), 15), 4))
     self:WriteByte(mod(val1, 256))
     self:WriteByte(mod(val2, 256))
 end
 
 function QuestieStreamLib:WriteLong(val)
-    self:WriteByte(mod(bit.rshift(val, 56), 256));
-    self:WriteByte(mod(bit.rshift(val, 48), 256));
-    self:WriteByte(mod(bit.rshift(val, 40), 256));
-    self:WriteByte(mod(bit.rshift(val, 32), 256));
-    self:WriteByte(mod(bit.rshift(val, 24), 256));
-    self:WriteByte(mod(bit.rshift(val, 16), 256));
-    self:WriteByte(mod(bit.rshift(val, 8), 256));
+    self:WriteByte(mod(rshift(val, 56), 256));
+    self:WriteByte(mod(rshift(val, 48), 256));
+    self:WriteByte(mod(rshift(val, 40), 256));
+    self:WriteByte(mod(rshift(val, 32), 256));
+    self:WriteByte(mod(rshift(val, 24), 256));
+    self:WriteByte(mod(rshift(val, 16), 256));
+    self:WriteByte(mod(rshift(val, 8), 256));
     self:WriteByte(mod(val, 256));
 end
 
 function QuestieStreamLib:WriteTinyString(val)
     self:WriteByte(string.len(val));
     for i=1, string.len(val) do
-        self:WriteByte(string.byte(val, i));
+        self:WriteByte(stringbyte(val, i));
     end
 end
 
 function QuestieStreamLib:WriteShortString(val)
     self:WriteShort(string.len(val));
     for i=1, string.len(val) do
-        self:WriteByte(string.byte(val, i));
+        self:WriteByte(stringbyte(val, i));
     end
 end
 
@@ -329,22 +363,22 @@ function QuestieStreamLib:Save()
     --if self._pointer-1 > unpack_limit then
         --for i=1,self._pointer-1 do
             --print(self._bin[i])
-        --    self._bin[i] = string.char(self._bin[i])
+        --    self._bin[i] = stringchar(self._bin[i])
         --end
         --return table.concat(self._bin)
     --end
-    --return string.char(unpack(self._bin))
+    --return stringchar(unpack(self._bin))
     return table.concat(self._bin)
 end
 
 function QuestieStreamLib:SaveRaw()
     if self._rawptr-1 > unpack_limit then
         for i=1,self._rawptr-1 do
-            self._raw_bin[i] = string.char(self._raw_bin[i])
+            self._raw_bin[i] = stringchar(self._raw_bin[i])
         end
         return table.concat(self._raw_bin)
     end
-    return string.char(unpack(self._raw_bin))
+    return stringchar(unpack(self._raw_bin))
 end
 
 function QuestieStreamLib:Load(bin)
@@ -352,7 +386,7 @@ function QuestieStreamLib:Load(bin)
     if self._mode == "raw" then
         self._bin = bin
     else
-        self._bin = {string.byte(bin, 1, -1)}
+        self._bin = {stringbyte(bin, 1, -1)}
     end
     self._level = 0
 end
