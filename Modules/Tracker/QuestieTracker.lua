@@ -469,6 +469,15 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
                 self:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
                 self:SetSize(size, size)
 
+                self:RegisterForClicks("LeftButtonUp", "RightButtonUp")
+
+                self:HookScript("OnClick", self.OnClick)
+                self:SetScript("OnEvent", self.OnEvent)
+                self:SetScript("OnShow", self.OnShow)
+                self:SetScript("OnHide", self.OnHide)
+                self:SetScript("OnEnter", self.OnEnter)
+                self:SetScript("OnLeave", self.OnLeave)
+
                 -- Cooldown Updates
                 cooldown:ClearAllPoints()
                 cooldown:SetSize(size-4, size-4)
@@ -621,14 +630,7 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
             self:SetHighlightTexture(nil)
         end
 
-        btn:RegisterForClicks("LeftButtonUp", "RightButtonUp")
-        btn:HookScript("OnClick", btn.OnClick)
-        btn:SetScript("OnEvent", btn.OnEvent)
         btn:HookScript("OnUpdate", btn.OnUpdate)
-        btn:SetScript("OnShow", btn.OnShow)
-        btn:SetScript("OnHide", btn.OnHide)
-        btn:SetScript("OnEnter", btn.OnEnter)
-        btn:SetScript("OnLeave", btn.OnLeave)
 
         btn:FakeHide()
 
