@@ -1309,30 +1309,32 @@ function QuestieTracker:Update()
             -- Add quest objectives (if applicable)
             if (quest.Objectives and complete == 0) or (complete == 1 and Questie.db.global.trackerShowCompleteQuests) then
                 if not (Questie.db.char.collapsedZones[quest.zoneOrSort] or Questie.db.char.collapsedQuests[quest.Id]) then
-                    for _, objective in pairs(quest.Objectives) do
-                        line = _QuestieTracker:GetNextLine()
-                        line:SetMode("objective")
-                        line:SetQuest(quest)
-                        line:SetObjective(objective)
+                    if quest.Objectives then
+                        for _, objective in pairs(quest.Objectives) do
+                            line = _QuestieTracker:GetNextLine()
+                            line:SetMode("objective")
+                            line:SetQuest(quest)
+                            line:SetObjective(objective)
 
-                        if line.expandZone then
-                            line.expandZone:SetAlpha(0)
-                            line.expandZone:Hide()
+                            if line.expandZone then
+                                line.expandZone:SetAlpha(0)
+                                line.expandZone:Hide()
+                            end
+
+                            line.label:ClearAllPoints()
+                            line.label:SetPoint("TOPLEFT", line, "TOPLEFT", trackerSpaceBuffer/1.25, 0)
+                            local lineEnding = ""
+                            local objDesc = objective.Description:gsub("%.", "")
+                            if objective.Needed > 0 then lineEnding = tostring(objective.Collected) .. "/" .. tostring(objective.Needed) end
+                            line.label:SetText(QuestieLib:GetRGBForObjective(objective) .. objDesc .. ": " .. lineEnding)
+                            line.label:SetWidth(math.min(math.max(Questie.db.char.TrackerWidth, _QuestieTracker.baseFrame:GetWidth()) - (_QuestieTracker.QuestFrameIndent + trackerSpaceBuffer), trackerSpaceBuffer + line.label:GetUnboundedStringWidth()))
+                            line:SetWidth(line.label:GetWidth())
+
+                            trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + trackerSpaceBuffer)
+                            line:SetVerticalPadding(1)
+                            line:Show()
+                            line.label:Show()
                         end
-
-                        line.label:ClearAllPoints()
-                        line.label:SetPoint("TOPLEFT", line, "TOPLEFT", trackerSpaceBuffer/1.25, 0)
-                        local lineEnding = ""
-                        local objDesc = objective.Description:gsub("%.", "")
-                        if objective.Needed > 0 then lineEnding = tostring(objective.Collected) .. "/" .. tostring(objective.Needed) end
-                        line.label:SetText(QuestieLib:GetRGBForObjective(objective) .. objDesc .. ": " .. lineEnding)
-                        line.label:SetWidth(math.min(math.max(Questie.db.char.TrackerWidth, _QuestieTracker.baseFrame:GetWidth()) - (_QuestieTracker.QuestFrameIndent + trackerSpaceBuffer), trackerSpaceBuffer + line.label:GetUnboundedStringWidth()))
-                        line:SetWidth(line.label:GetWidth())
-
-                        trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + trackerSpaceBuffer)
-                        line:SetVerticalPadding(1)
-                        line:Show()
-                        line.label:Show()
                     end
 
                     if (complete == 1) then

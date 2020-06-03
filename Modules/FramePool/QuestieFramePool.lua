@@ -291,7 +291,6 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     --Create the framepool for lines if it does not already exist.
     if not QuestieFramePool.Routes_Lines then
         QuestieFramePool.Routes_Lines={}
-        QuestieFramePool.Routes_Lines_Used={}
     end
     --Names are not stricktly needed, but it is nice for debugging.
     local frameName = "questieLineFrame"..lineFrames;
@@ -327,25 +326,9 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     tinsert(iconFrame.data.lineFrames, lineFrame);
     lineFrame.iconFrame = iconFrame;
 
-    --Set the line as used.
-    tinsert(QuestieFramePool.Routes_Lines_Used, lineFrame)
-    --QuestieFramePool.Routes_Lines_Used[lineFrame:GetName()] = lineFrame;
-
     function lineFrame:Unload()
         self:Hide();
         self.iconFrame = nil;
-        local debugFoundSelf = false;
-        for index, lineFrame in pairs(QuestieFramePool.Routes_Lines_Used) do
-            if (lineFrame:GetName() == self:GetName()) then
-                debugFoundSelf = true;
-                --Remove it from used frames...
-                QuestieFramePool.Routes_Lines_Used[index] = nil;
-                break;
-            end
-        end
-        if (not debugFoundSelf) then
-            --Questie:Error("lineFrame unload failed, could not find self in used frames when unloaded...", self:GetName());
-        end
         HBDPins:RemoveWorldMapIcon(Questie, self)
         tinsert(QuestieFramePool.Routes_Lines, self);
     end

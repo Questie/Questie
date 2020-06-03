@@ -261,6 +261,7 @@ function QuestieProfiler:CreateUI()
     button:SetHeight(20)
     
     button:SetText("Reset")
+   
     button:SetNormalFontObject("GameFontNormal")
     
     local function buildTexture(str)
@@ -274,9 +275,8 @@ function QuestieProfiler:CreateUI()
     button:SetNormalTexture(buildTexture("Interface/Buttons/UI-Panel-Button-Up"))
     button:SetHighlightTexture(buildTexture("Interface/Buttons/UI-Panel-Button-Highlight"))
     button:SetPushedTexture(buildTexture("Interface/Buttons/UI-Panel-Button-Down"))
-
-    button:SetScript("OnClick", function(...)
-        button:SetEnabled(false)
+    button:SetScript("OnClick", function(self, ...)
+        self:Disable()
         QuestieProfiler:Unhook()
         QuestieProfiler:DoHooks(function()
             for key in pairs(QuestieProfiler.hookCallCount) do
@@ -290,7 +290,7 @@ function QuestieProfiler:CreateUI()
                 line[2]:SetText("")
                 line[3]:SetText("")
             end
-            button:SetEnabled(true)
+            self:Enable()
         end)
     end)
 
@@ -355,7 +355,6 @@ function QuestieProfiler:DoHooks(after)
             if toHook then
                 QuestieProfiler:HookTable(toHook[1], toHook[2])
             else
-                print("Finished hooking " .. QuestieProfiler.hookedFunctionCount .. " questie functions")
                 timer:Cancel()
                 if after then after() end
                 return

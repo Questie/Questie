@@ -100,7 +100,7 @@ function QuestieOptions.tabs.general:Initialize()
                         get = function() return Questie.db.char.hideUnexploredMapIcons; end,
                         set = function(info, value)
                             Questie.db.char.hideUnexploredMapIcons = value
-                            QuestieQuest:Reset()
+                            QuestieQuest:SmoothReset()
                         end,
                     },
                     seperatingHeader1 = {
@@ -157,7 +157,7 @@ function QuestieOptions.tabs.general:Initialize()
                         get = function(info) return Questie.db.char.showRepeatableQuests end,
                         set = function (info, value)
                             Questie.db.char.showRepeatableQuests = value
-                            QuestieQuest:Reset();
+                            QuestieQuest:SmoothReset()
                         end,
                     },
                     showEventQuests = {
@@ -176,7 +176,7 @@ function QuestieOptions.tabs.general:Initialize()
                             else
                                 QuestieEvent:Unload()
                             end
-                            QuestieQuest:Reset()
+                            QuestieQuest:SmoothReset()
                         end,
                     },
                     showDungeonQuests = {
@@ -189,7 +189,7 @@ function QuestieOptions.tabs.general:Initialize()
                         get = function(info) return Questie.db.char.showDungeonQuests end,
                         set = function (info, value)
                             Questie.db.char.showDungeonQuests = value
-                            QuestieQuest:Reset()
+                            QuestieQuest:SmoothReset()
                         end,
                     },
                     showRaidQuests = {
@@ -202,7 +202,7 @@ function QuestieOptions.tabs.general:Initialize()
                         get = function(info) return Questie.db.char.showRaidQuests end,
                         set = function (info, value)
                             Questie.db.char.showRaidQuests = value
-                            QuestieQuest:Reset()
+                            QuestieQuest:SmoothReset()
                         end,
                     },
                     showPvPQuests = {
@@ -215,7 +215,7 @@ function QuestieOptions.tabs.general:Initialize()
                         get = function(info) return Questie.db.char.showPvPQuests end,
                         set = function (info, value)
                             Questie.db.char.showPvPQuests = value
-                            QuestieQuest:Reset()
+                            QuestieQuest:SmoothReset()
                         end,
                     },
                 },
