@@ -311,15 +311,8 @@ function QuestieOptions.tabs.tracker:Initialize()
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.trackerFontSizeHeader; end,
                 set = function (info, value)
-                    while (_QuestieTracker.baseFrame:GetHeight() >= GetScreenHeight() or _QuestieTracker.baseFrame:GetBottom() <= 0 or _QuestieTracker.baseFrame:GetTop() >= GetScreenHeight()) do
-                        Questie.db.global.trackerFontSizeHeader = value
-                        QuestieTracker:ResetLinesForChange()
-                        QuestieTracker:Update()
-                        value = value - 1
-                    end
                     Questie.db.global.trackerFontSizeHeader = value
                     QuestieTracker:ResetLinesForChange()
-                    QuestieTracker:Update()
                 end
             },
             fontHeader = {
@@ -335,7 +328,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                 set = function(info, value)
                     Questie.db.global.trackerFontHeader = value
                     QuestieTracker:ResetLinesForChange()
-                    QuestieTracker:Update()
                 end
             },
 
@@ -353,15 +345,8 @@ function QuestieOptions.tabs.tracker:Initialize()
                 disabled = function() return not Questie.db.global.trackerEnabled or Questie.db.global.trackerSortObjectives ~= "byZone"; end,
                 get = function() return Questie.db.global.trackerFontSizeZone; end,
                 set = function (info, value)
-                    while (_QuestieTracker.baseFrame:GetHeight() >= GetScreenHeight() or _QuestieTracker.baseFrame:GetBottom() <= 0 or _QuestieTracker.baseFrame:GetTop() >= GetScreenHeight()) do
-                        Questie.db.global.trackerFontSizeZone = value
-                        QuestieTracker:ResetLinesForChange()
-                        QuestieTracker:Update()
-                        value = value - 1
-                    end
                     Questie.db.global.trackerFontSizeZone = value
                     QuestieTracker:ResetLinesForChange()
-                    QuestieTracker:Update()
                 end
             },
             fontZone = {
@@ -379,7 +364,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                 set = function(info, value)
                     Questie.db.global.trackerFontZone = value
                     QuestieTracker:ResetLinesForChange()
-                    QuestieTracker:Update()
                 end
             },
 
@@ -395,15 +379,8 @@ function QuestieOptions.tabs.tracker:Initialize()
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.trackerFontSizeQuest; end,
                 set = function (info, value)
-                    while (_QuestieTracker.baseFrame:GetHeight() >= GetScreenHeight() or _QuestieTracker.baseFrame:GetBottom() <= 0 or _QuestieTracker.baseFrame:GetTop() >= GetScreenHeight()) do
-                        Questie.db.global.trackerFontSizeQuest = value
-                        QuestieTracker:ResetLinesForChange()
-                        QuestieTracker:Update()
-                        value = value - 1
-                    end
                     Questie.db.global.trackerFontSizeQuest = value
                     QuestieTracker:ResetLinesForChange()
-                    QuestieTracker:Update()
                 end
             },
             fontQuest = {
@@ -419,7 +396,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                 set = function(info, value)
                     Questie.db.global.trackerFontQuest = value
                     QuestieTracker:ResetLinesForChange()
-                    QuestieTracker:Update()
                 end
             },
 
@@ -429,21 +405,14 @@ function QuestieOptions.tabs.tracker:Initialize()
                 name = function() return QuestieLocale:GetUIString('TRACKER_FONT_SIZE_OBJECTIVE'); end,
                 desc = function() return QuestieLocale:GetUIString('TRACKER_FONT_SIZE_OBJECTIVE_DESC'); end,
                 width = "double",
-                min = 9,
+                min = 10,
                 max = 18,
                 step = 1,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.trackerFontSizeObjective; end,
                 set = function (info, value)
-                    while (_QuestieTracker.baseFrame:GetHeight() >= GetScreenHeight() or _QuestieTracker.baseFrame:GetBottom() <= 0 or _QuestieTracker.baseFrame:GetTop() >= GetScreenHeight()) do
-                        Questie.db.global.trackerFontSizeObjective = value
-                        QuestieTracker:ResetLinesForChange()
-                        QuestieTracker:Update()
-                        value = value - 1
-                    end
                     Questie.db.global.trackerFontSizeObjective = value
                     QuestieTracker:ResetLinesForChange()
-                    QuestieTracker:Update()
                 end
             },
             fontObjective = {
@@ -459,7 +428,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                 set = function(info, value)
                     Questie.db.global.trackerFontObjective = value
                     QuestieTracker:ResetLinesForChange()
-                    QuestieTracker:Update()
                 end
             },
 
@@ -475,15 +443,8 @@ function QuestieOptions.tabs.tracker:Initialize()
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.trackerQuestPadding; end,
                 set = function (info, value)
-                    while (_QuestieTracker.baseFrame:GetHeight() >= GetScreenHeight() or _QuestieTracker.baseFrame:GetBottom() <= 0 or _QuestieTracker.baseFrame:GetTop() >= GetScreenHeight()) do
-                        Questie.db.global.trackerQuestPadding = value
-                        QuestieTracker:ResetLinesForChange()
-                        QuestieTracker:Update()
-                        value = value - 1
-                    end
                     Questie.db.global.trackerQuestPadding = value
                     QuestieTracker:ResetLinesForChange()
-                    QuestieTracker:Update()
                 end
             },
             questBackdropAlpha = {

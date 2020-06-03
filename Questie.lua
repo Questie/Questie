@@ -184,7 +184,7 @@ function Questie:OnInitialize()
 
     QuestieEventHandler:RegisterAllEvents()
 
-    QuestieTracker:Initialize()
+    --QuestieTracker:Initialize() --moved to stage 2 init event function
     QuestieTooltips:Initialize()
     QuestieCoords:Initialize()
     QuestieQuestTimers:Initialize()

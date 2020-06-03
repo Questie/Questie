@@ -185,6 +185,7 @@ function QuestieQuest:Reset()
     -- clear all notes
     QuestieQuest:ClearAllNotes()
 
+
     -- reset quest log and tooltips
     QuestiePlayer.currentQuestlog = {}
     QuestieTooltips.tooltipLookup = {}
@@ -357,7 +358,7 @@ function QuestieQuest:AcceptQuest(questId)
             QuestieQuest.CalculateAvailableQuests,
             QuestieQuest.DrawAllAvailableQuests
         )
-        
+
         --Broadcast an update.
         Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId);
     else
@@ -1414,7 +1415,7 @@ function QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
 
     local data = QuestieDB.QuestPointers or QuestieDB.questData
     local index = next(data)
-    local timer -- if you do local timer = C_Timer then "timer" cant be accessed inside 
+    local timer -- if you do local timer = C_Timer then "timer" cant be accessed inside
 
     local playerLevel = QuestiePlayer:GetPlayerLevel()
     local minLevel = playerLevel - GetQuestGreenRange()
@@ -1511,20 +1512,21 @@ end
 local function QuestsFilter(chatFrame, event, msg, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, unused, lineID, senderGUID, ...)
     if msg then
         for k in string.gmatch(msg, "%[%[?..?%]?..-%]") do
-            local complete, sqid, questId, questLevel, questName
+            local complete, sqid, questId, questLevel, questName, realQuestName, realQuestLevel
             _, _, questName, sqid = string.find(k, "%[(..-) %((%d+)%)%]")
 
             if questName and sqid then
                 questId = tonumber(sqid)
+
                 if string.find(questName, "(%[.+%]) ") ~= nil then
                     _, _, questLevel, questName = string.find(questName, "%[(.+)%] (.+)")
                 end
-            end
 
-            local realQuestName, realQuestLevel = unpack(QuestieDB.QueryQuest(questId, "name", "questLevel"))
+                realQuestName, realQuestLevel = unpack(QuestieDB.QueryQuest(questId, "name", "questLevel"))
 
-            if realQuestName then
-                complete = QuestieQuest:IsCompleteId(questId)
+                if realQuestName then
+                    complete = QuestieQuest:IsCompleteId(questId)
+                end
             end
 
             if realQuestName and realQuestName == questName and questId then
