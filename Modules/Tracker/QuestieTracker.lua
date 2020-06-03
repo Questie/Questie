@@ -469,15 +469,6 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
                 self:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
                 self:SetSize(size, size)
 
-                self:RegisterForClicks("LeftButtonUp", "RightButtonUp")
-                self:HookScript("OnClick", self.OnClick)
-                self:SetScript("OnEvent", self.OnEvent)
-                self:HookScript("OnUpdate", self.OnUpdate)
-                self:SetScript("OnShow", self.OnShow)
-                self:SetScript("OnHide", self.OnHide)
-                self:SetScript("OnEnter", self.OnEnter)
-                self:SetScript("OnLeave", self.OnLeave)
-
                 -- Cooldown Updates
                 cooldown:ClearAllPoints()
                 cooldown:SetSize(size-4, size-4)
@@ -554,13 +545,19 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
 
         btn.OnUpdate = function(self, elapsed)
             local rangeTimer = self.rangeTimer
-            local name = GetItemInfo(self.itemID)
+            if not self.itemName then
+                self.itemName = GetItemInfo(self.itemID)
+            end
             local valid = nil
 
             if UnitExists("target") then
-                valid = IsItemInRange(name, "target")
-                self.range:Show()
-            else
+                valid = IsItemInRange(self.itemName, "target")
+                if not self.rangeIsShown then
+                    self.range:Show()
+                    self.rangeIsShown = true
+                end
+            elseif self.rangeIsShown then
+                self.rangeIsShown = nil
                 self.range:Hide()
             end
 
@@ -573,12 +570,13 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
                     if (not charges or charges ~= self.charges) then
                         return
                     end
-
-                    if (valid == false) then
+                    if not self.rangeIsShown then
                         self.range:Show()
+                        self.rangeIsShown = true
+                    end
+                    if (valid == false) then
                         self.range:SetVertexColor(1.0, 0.1, 0.1)
                     elseif (valid == true) then
-                        self.range:Show()
                         self.range:SetVertexColor(0.6, 0.6, 0.6)
                     end
 
@@ -622,6 +620,15 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
             self:SetPushedTexture(nil)
             self:SetHighlightTexture(nil)
         end
+
+        btn:RegisterForClicks("LeftButtonUp", "RightButtonUp")
+        btn:HookScript("OnClick", btn.OnClick)
+        btn:SetScript("OnEvent", btn.OnEvent)
+        btn:HookScript("OnUpdate", btn.OnUpdate)
+        btn:SetScript("OnShow", btn.OnShow)
+        btn:SetScript("OnHide", btn.OnHide)
+        btn:SetScript("OnEnter", btn.OnEnter)
+        btn:SetScript("OnLeave", btn.OnLeave)
 
         btn:FakeHide()
 
@@ -1406,6 +1413,7 @@ function QuestieTracker:Update()
         if button.itemID then
             button:FakeHide()
             button.itemID = nil
+            button.itemName = nil
             button.lineID = nil
             button.fontSize = nil
             button:SetParent(UIParent)
