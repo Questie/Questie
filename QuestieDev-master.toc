@@ -134,5 +134,8 @@ Modules\Options\TrackerTab\QuestieOptionsTracker.lua
 #Cleanup
 Modules\QuestieCleanup.lua
 
+#Profiler
+Modules\QuestieProfiler.lua
+
 #Main
 Questie.lua
