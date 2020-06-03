@@ -26,6 +26,9 @@ local function GetMapTitleText()
 end
 
 function QuestieCoords:WriteCoords()
+    if not ((Questie.db.global.mapCoordinatesEnabled and WorldMapFrame:IsVisible()) or (Questie.db.global.minimapCoordinatesEnabled and Minimap:IsVisible())) then
+        return -- no need to write coords
+    end
     local mapID;
     local position;
 
