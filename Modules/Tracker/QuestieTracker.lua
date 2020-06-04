@@ -370,6 +370,8 @@ function _QuestieTracker:CreateActiveQuestsHeader()
 
     frm:RegisterForDrag("LeftButton")
     frm:RegisterForClicks("RightButtonUp", "LeftButtonUp")
+    frm:RegisterEvent("BAG_NEW_ITEMS_UPDATED")
+    frm:RegisterEvent("BANKFRAME_CLOSED")
 
     frm:SetScript("OnClick", function(self)
         if InCombatLockdown() then
@@ -398,6 +400,13 @@ function _QuestieTracker:CreateActiveQuestsHeader()
         end
 
         QuestieTracker:Update()
+    end)
+
+    frm:SetScript("OnEvent", function(self, event, ...)
+        if (event == "BAG_NEW_ITEMS_UPDATED" or event == "BANKFRAME_CLOSED") then
+            QuestieTracker:ResetLinesForChange()
+            QuestieTracker:Update()
+        end
     end)
 
     frm:SetScript("OnDragStart", _QuestieTracker.OnDragStart)
@@ -547,10 +556,10 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
         end
 
         btn.OnEvent = function(self, event, ...)
-            if ( event == "PLAYER_TARGET_CHANGED" ) then
+            if (event == "PLAYER_TARGET_CHANGED") then
                 self.rangeTimer = -1
 
-            elseif ( event == "BAG_UPDATE_COOLDOWN" ) then
+            elseif (event == "BAG_UPDATE_COOLDOWN") then
                 self.UpdateButton(self)
             end
         end

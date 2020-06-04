@@ -74,9 +74,6 @@ function QuestieEventHandler:RegisterAllEvents()
     Questie:RegisterEvent("QUEST_TURNED_IN", _QUEST_TURNED_IN)
     Questie:RegisterEvent("QUEST_REMOVED", _QUEST_REMOVED)
     Questie:RegisterEvent("QUEST_FINISHED", _QUEST_FINISHED)
-    -- Fires when a player recieves a new Quest Item / Moves FROM or TO bank
-    Questie:RegisterEvent("BAG_NEW_ITEMS_UPDATED", _BAG_NEW_ITEMS_UPDATED)
-    Questie:RegisterEvent("BANKFRAME_CLOSED", _BANKFRAME_CLOSED)
     -- Use bucket for QUEST_LOG_UPDATE to let information propagate through to the blizzard API
     -- Might be able to change this to 0.5 seconds instead, further testing needed.
     Questie:RegisterBucketEvent("QUEST_LOG_UPDATE", 1, _QUEST_LOG_UPDATE)
@@ -445,15 +442,4 @@ _QUEST_FINISHED = function()
         end
         shouldRunQLU = false
     end
-end
-
--- Detects new Quest Items and detects player placing or retrieving Quest Items from bank
-_BAG_NEW_ITEMS_UPDATED = function()
-    QuestieTracker:ResetLinesForChange()
-    QuestieTracker:Update()
-end
-
-_BANKFRAME_CLOSED = function()
-    QuestieTracker:ResetLinesForChange()
-    QuestieTracker:Update()
 end
