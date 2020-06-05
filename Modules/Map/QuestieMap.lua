@@ -140,7 +140,8 @@ local mapDrawQueue = {};
 local minimapDrawQueue = {};
 function QuestieMap:InitializeQueue()
     Questie:Debug(DEBUG_DEVELOP, "[QuestieMap] Starting draw queue timer!")
-    QuestieMap.drawTimer = C_Timer.NewTicker(0.008, QuestieMap.ProcessQueue)
+    QuestieMap.drawTimer = C_Timer.NewTicker(0.2, QuestieMap.ProcessQueue)
+    QuestieMap.processCounter = 0 -- used to reduce calls on edge notes
     QuestieMap.fadeLogicTimerShown = C_Timer.NewTicker(0.5, QuestieMap.ProcessShownMinimapIcons);
 end
 
@@ -175,9 +176,20 @@ function HBDPins.worldmapProvider:OnMapChanged()
 end
 
 function QuestieMap:ProcessShownMinimapIcons()
+    local doEdgeUpdate = false
+    QuestieMap.processCounter = QuestieMap.processCounter + 1
+    if QuestieMap.processCounter > 13 then -- only update icons on the edge every 4 seconds
+        QuestieMap.processCounter = 0
+        doEdgeUpdate = true
+    end
+
+    local playerX, playerY, playerInstanceID = HBD:GetPlayerWorldPosition()
+    QuestieMap.playerX = playerX
+    QuestieMap.playerY = playerY
+
     ---@param minimapFrame IconFrame
     for minimapFrame, data in pairs(HBDPins.activeMinimapPins) do
-        if minimapFrame.miniMapIcon then
+        if ((not data.onEdge) or doEdgeUpdate) and minimapFrame.miniMapIcon then
             if minimapFrame.FadeLogic then
                 minimapFrame:FadeLogic()
             end
@@ -199,7 +211,7 @@ end
 
 function QuestieMap:ProcessQueue()
     if next(mapDrawQueue) ~= nil or next(minimapDrawQueue) ~= nil then
-        for i = 1, math.min(10, math.max(#mapDrawQueue, #minimapDrawQueue)) do
+        for i = 1, math.min(24, math.max(#mapDrawQueue, #minimapDrawQueue)) do
             local mapDrawCall = tremove(mapDrawQueue, 1);
             if(mapDrawCall) then
                 local frame = mapDrawCall[2];
@@ -476,12 +488,19 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
         end
         function iconMinimap:FadeLogic()
             if self.miniMapIcon and self.x and self.y and self.texture and self.UiMapID and self.texture.SetVertexColor and Questie and Questie.db and Questie.db.global and Questie.db.global.fadeLevel and HBD and HBD.GetPlayerZonePosition and QuestieLib and QuestieLib.Euclid then
-                local playerX, playerY, playerInstanceID = HBD:GetPlayerWorldPosition()
 
-                if(playerX and playerY) then
-                    local x, y, instance = HBD:GetWorldCoordinatesFromZone(self.x/100, self.y/100, self.UiMapID)
+                if(QuestieMap.playerX and QuestieMap.playerY) then
+                    local x, y
+                    if not self.worldX then
+                        x, y = HBD:GetWorldCoordinatesFromZone(self.x/100, self.y/100, self.UiMapID)
+                        self.worldX = x
+                        self.worldY = y
+                    else
+                        x = self.worldX
+                        y = self.worldY
+                    end
                     if(x and y) then
-                        local distance = QuestieLib:Euclid(playerX, playerY, x, y);
+                        local distance = QuestieLib:Euclid(QuestieMap.playerX, QuestieMap.playerY, x, y);
 
                         --Very small value before, hard to work with.
                         distance = distance / 10
