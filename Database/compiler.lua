@@ -832,7 +832,7 @@ function QuestieDBCompiler:BuildCompileUI() -- probably wont be used, I was thin
     base:Show()
 end
 
-function QuestieDBCompiler:GetDBHandle(data, pointers, skipmap, overrides)
+function QuestieDBCompiler:GetDBHandle(data, pointers, skipmap, keyToRootIndex, overrides)
     local handle = {}
     local skipmap, lastIndex, lastPtr, types, order, indexToKey, keyToIndex = unpack(skipmap)
 
@@ -846,7 +846,7 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipmap, overrides)
         handle.QuerySingle = function(id, key)
             local override = overrides[id]
             if override then
-                local kti = keyToIndex[key]
+                local kti = keyToRootIndex[key]
                 if kti and override[kti] ~= nil then return override[kti] end
             end
             local typ = types[key]
@@ -888,16 +888,16 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipmap, overrides)
             local ret = {}
             local override = overrides[id]
             for index,key in pairs({...}) do
-                local targetIndex = keyToIndex[key]
-                if override and targetIndex and override[targetIndex] ~= nil then
-                    ret[index] = override[targetIndex]
+                local rootIndex = keyToRootIndex[key]
+                if override and rootIndex and override[rootIndex] ~= nil then
+                    ret[index] = override[rootIndex]
                 else
                     local typ = types[key]
                     if skipmap[key] ~= nil then -- can skip directly
                         stream._pointer = skipmap[key] + ptr
                     else -- need to skip over some variably sized data
                         stream._pointer = lastPtr + ptr
-                        
+                        local targetIndex = keyToIndex[key]
                         if targetIndex == nil then
                             print("ERROR: Unhandled db key: " .. key)
                         end
