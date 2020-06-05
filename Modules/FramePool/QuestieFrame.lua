@@ -196,11 +196,11 @@ function _Qframe:GlowUpdate()
     end
 end
 
-function _Qframe:BaseOnUpdate()
-    if self.GlowUpdate then
-        self:GlowUpdate()
-    end
-end
+--function _Qframe:BaseOnUpdate() -- why do this here when its called in QuestieMap.fadeLogicTimerShown?
+--    if self.GlowUpdate then
+--        self:GlowUpdate()
+--    end
+--end
 
 function _Qframe:BaseOnShow()
     local data = self.data

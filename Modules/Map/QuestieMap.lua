@@ -141,7 +141,7 @@ local minimapDrawQueue = {};
 function QuestieMap:InitializeQueue()
     Questie:Debug(DEBUG_DEVELOP, "[QuestieMap] Starting draw queue timer!")
     QuestieMap.drawTimer = C_Timer.NewTicker(0.008, QuestieMap.ProcessQueue)
-    QuestieMap.fadeLogicTimerShown = C_Timer.NewTicker(0.3, QuestieMap.ProcessShownMinimapIcons);
+    QuestieMap.fadeLogicTimerShown = C_Timer.NewTicker(0.5, QuestieMap.ProcessShownMinimapIcons);
 end
 
 
@@ -177,11 +177,13 @@ end
 function QuestieMap:ProcessShownMinimapIcons()
     ---@param minimapFrame IconFrame
     for minimapFrame, data in pairs(HBDPins.activeMinimapPins) do
-        if (minimapFrame.FadeLogic and minimapFrame.miniMapIcon) then
-            minimapFrame:FadeLogic()
-        end
-        if minimapFrame.GlowUpdate then
-            minimapFrame:GlowUpdate()
+        if minimapFrame.miniMapIcon then
+            if minimapFrame.FadeLogic then
+                minimapFrame:FadeLogic()
+            end
+            if minimapFrame.GlowUpdate then
+                minimapFrame:GlowUpdate()
+            end
         end
     end
 end
