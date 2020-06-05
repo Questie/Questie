@@ -5,14 +5,53 @@ QuestieProfiler.alreadyHooked = {}
 QuestieProfiler.needsHook = {}
 QuestieProfiler.hookCallCount = {}
 QuestieProfiler.hookTimeCount = {}
+QuestieProfiler.lowerCaseLookup = {}
 QuestieProfiler.hooks = {}
 QuestieProfiler.needsHookCount = 0
 QuestieProfiler.finishedHookCount = 0
 QuestieProfiler.hookedFunctionCount = 0
 QuestieProfiler.highestMS = 0
 QuestieProfiler.highestCalls = 0
+QuestieProfiler.searchFilter = nil
 
 QuestieProfiler.condensedMode = false
+
+QuestieProfiler.scriptsToWatch = {
+    "OnUpdate",
+    "OnShow",
+    "OnHide"
+}
+
+function QuestieProfiler:HookFunction(key, val, table, name)
+    local hook = {}
+    hook.original = val
+    hook.originalKey = key
+    hook.originalParent = table
+    local lookupKey = name .. "." .. key
+    QuestieProfiler.hookCallCount[lookupKey] = 0
+    QuestieProfiler.hookTimeCount[lookupKey] = 0
+    hook.override = function(...)
+        --print("Hookboy run " .. name .. "->"..key)
+        local htc = QuestieProfiler.hookCallCount[lookupKey] + 1
+        QuestieProfiler.hookCallCount[lookupKey] = htc
+        if htc > QuestieProfiler.highestCalls then
+            QuestieProfiler.highestCalls = htc
+        end
+        local start = debugprofilestop()
+        ret = {hook.original(...)}
+        start = debugprofilestop() - start
+        htc = QuestieProfiler.hookTimeCount[lookupKey] + start
+        QuestieProfiler.hookTimeCount[lookupKey] = htc
+        if htc > QuestieProfiler.highestMS then
+            QuestieProfiler.highestMS = htc
+        end
+        return unpack(ret)
+    end
+    QuestieProfiler.lowerCaseLookup[lookupKey] = string.lower(lookupKey)
+    tinsert(QuestieProfiler.hooks, hook)
+    table[key] = hook.override
+    QuestieProfiler.hookedFunctionCount = QuestieProfiler.hookedFunctionCount + 1
+end
 
 function QuestieProfiler:HookTable(table, name)
     QuestieProfiler.alreadyHooked[table] = true
@@ -21,33 +60,16 @@ function QuestieProfiler:HookTable(table, name)
             QuestieProfiler.alreadyHooked[val] = true
             local typ = type(val)
             if typ == "function" then
-                --print("["..QuestieProfiler.finishedHookCount.."/"..QuestieProfiler.needsHookCount.."]Hooking function " .. name .. "->" .. key)
-                local hook = {}
-                hook.original = val
-                hook.originalKey = key
-                hook.originalParent = table
-                QuestieProfiler.hookCallCount[name .. "."..key] = 0
-                QuestieProfiler.hookTimeCount[name .. "."..key] = 0
-                hook.override = function(...)
-                    --print("Hookboy run " .. name .. "->"..key)
-                    local htc = QuestieProfiler.hookCallCount[name .. "."..key] + 1
-                    QuestieProfiler.hookCallCount[name .. "."..key] = htc
-                    if htc > QuestieProfiler.highestCalls then
-                        QuestieProfiler.highestCalls = htc
+                if key == "GetScript" then -- get all scripts
+                    for _, script in pairs(QuestieProfiler.scriptsToWatch) do
+                        local res, ret = pcall(val, table, script)
+                        if res then
+                            QuestieProfiler:HookScript(script, ret, table, name)
+                        end
                     end
-                    local start = debugprofilestop()
-                    ret = {hook.original(...)}
-                    start = debugprofilestop() - start
-                    htc = QuestieProfiler.hookTimeCount[name .. "."..key] + start
-                    QuestieProfiler.hookTimeCount[name .. "."..key] = htc
-                    if htc > QuestieProfiler.highestMS then
-                        QuestieProfiler.highestMS = htc
-                    end
-                    return unpack(ret)
                 end
-                tinsert(QuestieProfiler.hooks, hook)
-                table[key] = hook.override
-                QuestieProfiler.hookedFunctionCount = QuestieProfiler.hookedFunctionCount + 1
+                --print("["..QuestieProfiler.finishedHookCount.."/"..QuestieProfiler.needsHookCount.."]Hooking function " .. name .. "->" .. key)
+                QuestieProfiler:HookFunction(key, val, table, name)
             elseif typ == "table" then
                 --QuestieProfiler:HookTable(val, name .. "->"..key)
                 tinsert(QuestieProfiler.needsHook, {val, name .. "."..key})
@@ -133,8 +155,6 @@ function QuestieProfiler:CreateUI()
     base:SetMovable(true)
     base:EnableMouse(true)
     base:RegisterForDrag("LeftButton")
-    base:SetScript("OnDragStart", base.StartMoving)
-    base:SetScript("OnDragStop", base.StopMovingOrSizing)
 
     -- should maybe be exposed in QuestieLib
     local function RGBToHex(r, g, b)
@@ -159,7 +179,7 @@ function QuestieProfiler:CreateUI()
     statusLabel:SetText("This is a test.")
     statusLabel:SetPoint("BOTTOMLEFT", base, -18, -18)
     statusLabel:Show()
-
+    base.lastIndex = 0
     base.update = function()
         base.scrollContainer.ResetLines()
         local sorted = {}
@@ -209,7 +229,7 @@ function QuestieProfiler:CreateUI()
             end
         end
         for call, count in pairs(timeCount) do
-            if count > 0 then
+            if ((count > 0 and not QuestieProfiler.searchFilter) or (callCount[call] > 0 and QuestieProfiler.searchFilter and string.match(QuestieProfiler.lowerCaseLookup[call], QuestieProfiler.searchFilter))) then
                 tinsert(sorted, {call, count})
                 index = index + 1
             end
@@ -233,8 +253,8 @@ function QuestieProfiler:CreateUI()
                 color = "\124cFFEEEEEE"
                 --color2 = "\124cFF77EE99"
             end
-            local color2 = valToHex(1 - (count / highestMS)) or "\124cFFFF0000"
-            local color3 = valToHex(1 - (callCount[call] / highestCalls)) or "\124cFFFF0000"
+            local color2 = valToHex(1 - (count / (highestMS/2))) or "\124cFFFF0000"
+            local color3 = valToHex(1 - (callCount[call] / (highestCalls/2))) or "\124cFFFF0000"
             --print("Highest ms: " .. QuestieProfiler.highestMS)
             --print("Highest calls: " .. QuestieProfiler.highestCalls)
             local callstr = call
@@ -251,6 +271,15 @@ function QuestieProfiler:CreateUI()
                 break
             end
         end
+        if base.lastIndex > index then
+            for i=index,base.lastIndex do
+                local line = base.scrollContainer.GetNextLine()
+                line[1]:SetText("")
+                line[2]:SetText("")
+                line[3]:SetText("")
+            end
+        end
+        base.lastIndex = index
     end
     base.update()
 
@@ -336,6 +365,49 @@ function QuestieProfiler:CreateUI()
 
 
 
+    local search = CreateFrame("EditBox", nil, base)
+    search:SetMultiLine(false)
+    search:SetFontObject(ChatFontNormal)
+    search:SetWidth(180)
+    search:SetHeight(20)
+    search:SetFrameStrata("TOOLTIP")
+    search:SetPoint("TOPLEFT", base, 220, 20)
+    search:SetText("\124cFF888888Filter...")
+    search:SetBackdrop( { 
+        bgFile="Interface\\DialogFrame\\UI-DialogBox-Background",
+        edgeFile=None,
+        tile = true, tileSize = 0, edgeSize = 0, 
+        insets = { left = 0, right = 0, top = 0, bottom = 0 }
+    });
+    search:HookScript("OnMouseDown", function()
+        if search:GetText() == "\124cFF888888Filter..." then
+            search:SetText("")
+        end
+    end)
+    local function clearFocus()
+        search:ClearFocus()
+        if string.len(search:GetText()) == 0 then
+            search:SetText("\124cFF888888Filter...")
+        end
+    end
+    search:SetAutoFocus(false)
+    search:SetScript("OnEscapePressed", clearFocus)
+    search:HookScript("OnKeyUp", function()
+        local txt = string.lower(search:GetText())
+        if string.len(txt) == 0 then
+            txt = nil
+        end
+        QuestieProfiler.searchFilter = txt
+    end)
+    base:SetScript("OnMouseDown", clearFocus)
+    base:SetScript("OnDragStart", function()
+        base:StartMoving()
+        clearFocus()
+    end)
+    base:SetScript("OnDragStop", function()
+        base:StopMovingOrSizing()
+    end)
+    search:Show()
 
     base:Show()
     C_Timer.NewTicker(0.5, base.update)
