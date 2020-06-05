@@ -62,13 +62,13 @@ function _QuestieTracker:OnDragStop(button)
     startDragAnchor[4] = startDragAnchor[4] + xMoved
     startDragAnchor[5] = startDragAnchor[5] + yMoved
 
-    QuestieCombatQueue:Queue(function()
+    QuestieCombatQueue:Queue(function(baseFrame)
         baseFrame:ClearAllPoints()
         baseFrame:SetPoint(unpack(startDragAnchor))
-        Questie.db.char.TrackerLocation = {baseFrame:GetPoint()}
+        Questie.db[Questie.db.global.questieTLoc].TrackerLocation = {baseFrame:GetPoint()}
 
-        if Questie.db.char.TrackerLocation[2] and type(Questie.db.char.TrackerLocation[2]) == "table" and Questie.db.char.TrackerLocation[2].GetName then
-            Questie.db.char.TrackerLocation[2] = Questie.db.char.TrackerLocation[2]:GetName()
+        if Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2] and type(Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2]) == "table" and Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2].GetName then
+            Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2] = Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2]:GetName()
         end
 
         _QuestieTracker:AutoConvertSetPoint(baseFrame)
@@ -78,7 +78,7 @@ function _QuestieTracker:OnDragStop(button)
 
         QuestieTracker:ResetLinesForChange()
         QuestieTracker:Update()
-    end)
+    end, baseFrame)
 end
 
 function _QuestieTracker:OnResizeStart(button)
@@ -94,14 +94,14 @@ function _QuestieTracker:OnResizeStart(button)
                 baseFrame:StartSizing("RIGHT")
                 _QuestieUpdateTimer = C_Timer.NewTicker(0.1, function()
                     local baseFrame = QuestieTracker:GetBaseFrame()
-                    Questie.db.char.TrackerWidth = baseFrame:GetWidth()
+                    Questie.db[Questie.db.global.questieTLoc].TrackerWidth = baseFrame:GetWidth()
                     QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
                 end)
             end
         end
     elseif button =="RightButton" then
-        Questie.db.char.TrackerWidth = 0
+        Questie.db[Questie.db.global.questieTLoc].TrackerWidth = 0
         QuestieTracker:ResetLinesForChange()
         QuestieTracker:Update()
         _QuestieTracker.baseFrame.sizer:SetAlpha(1)
@@ -137,7 +137,7 @@ function _QuestieTracker:AutoConvertSetPoint(frame)
     -------------------------------------------------------------------------------------------
 
     -- This section "detatches" the tracker from the Minimapcluster and converts x,y to "CENTER"
-    if Questie.db.char.TrackerLocation and Questie.db.char.TrackerLocation[2] and Questie.db.char.TrackerLocation[2] == "MinimapCluster" and Questie.db.char.trackerSetpoint == "AUTO" then
+    if Questie.db[Questie.db.global.questieTLoc].TrackerLocation and Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2] and Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2] == "MinimapCluster" and Questie.db[Questie.db.global.questieTLoc].trackerSetpoint == "AUTO" then
         local vertOffset = ({MinimapCluster:GetPoint()})[5] - MinimapCluster:GetHeight()
         local maxWidth = -GetScreenWidth()/2
         local maxHeight = -GetScreenHeight()/2 - vertOffset
@@ -145,89 +145,89 @@ function _QuestieTracker:AutoConvertSetPoint(frame)
         local trackerWidth = frame:GetWidth()
 
         -- setPoint Topleft = Down and Right
-        if Questie.db.char.TrackerLocation[4] < maxWidth and Questie.db.char.TrackerLocation[5] > maxHeight then
-            Questie.db.char.TrackerLocation[1] = "TOPLEFT"
-            Questie.db.char.TrackerLocation[4] = Questie.db.char.TrackerLocation[4] - maxWidth - trackerWidth
-            Questie.db.char.TrackerLocation[5] = Questie.db.char.TrackerLocation[5] - maxHeight
+        if Questie.db[Questie.db.global.questieTLoc].TrackerLocation[4] < maxWidth and Questie.db[Questie.db.global.questieTLoc].TrackerLocation[5] > maxHeight then
+            Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] = "TOPLEFT"
+            Questie.db[Questie.db.global.questieTLoc].TrackerLocation[4] = Questie.db[Questie.db.global.questieTLoc].TrackerLocation[4] - maxWidth - trackerWidth
+            Questie.db[Questie.db.global.questieTLoc].TrackerLocation[5] = Questie.db[Questie.db.global.questieTLoc].TrackerLocation[5] - maxHeight
 
         -- setPoint Topright = Down and Left
-        elseif Questie.db.char.TrackerLocation[4] > maxWidth and Questie.db.char.TrackerLocation[5] > maxHeight then
-            Questie.db.char.TrackerLocation[1] = "TOPRIGHT"
-            Questie.db.char.TrackerLocation[4] = Questie.db.char.TrackerLocation[4] + -maxWidth
-            Questie.db.char.TrackerLocation[5] = Questie.db.char.TrackerLocation[5] + -maxHeight
+        elseif Questie.db[Questie.db.global.questieTLoc].TrackerLocation[4] > maxWidth and Questie.db[Questie.db.global.questieTLoc].TrackerLocation[5] > maxHeight then
+            Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] = "TOPRIGHT"
+            Questie.db[Questie.db.global.questieTLoc].TrackerLocation[4] = Questie.db[Questie.db.global.questieTLoc].TrackerLocation[4] + -maxWidth
+            Questie.db[Questie.db.global.questieTLoc].TrackerLocation[5] = Questie.db[Questie.db.global.questieTLoc].TrackerLocation[5] + -maxHeight
 
         -- setPoint Bottomleft = Up and Right
-        elseif Questie.db.char.TrackerLocation[4] < maxWidth and Questie.db.char.TrackerLocation[5] < maxHeight then
-            Questie.db.char.TrackerLocation[1] = "BOTTOMLEFT"
-            Questie.db.char.TrackerLocation[4] = Questie.db.char.TrackerLocation[4] - maxWidth - trackerWidth
-            Questie.db.char.TrackerLocation[5] = Questie.db.char.TrackerLocation[5] - maxHeight - trackerHeight
+        elseif Questie.db[Questie.db.global.questieTLoc].TrackerLocation[4] < maxWidth and Questie.db[Questie.db.global.questieTLoc].TrackerLocation[5] < maxHeight then
+            Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] = "BOTTOMLEFT"
+            Questie.db[Questie.db.global.questieTLoc].TrackerLocation[4] = Questie.db[Questie.db.global.questieTLoc].TrackerLocation[4] - maxWidth - trackerWidth
+            Questie.db[Questie.db.global.questieTLoc].TrackerLocation[5] = Questie.db[Questie.db.global.questieTLoc].TrackerLocation[5] - maxHeight - trackerHeight
 
         -- setPoint Bottomright = Up and Left
-        elseif Questie.db.char.TrackerLocation[4] > maxWidth and Questie.db.char.TrackerLocation[5] < maxHeight then
-            Questie.db.char.TrackerLocation[1] = "BOTTOMRIGHT"
-            Questie.db.char.TrackerLocation[4] = Questie.db.char.TrackerLocation[4] + -maxWidth
-            Questie.db.char.TrackerLocation[5] = Questie.db.char.TrackerLocation[5] + -maxHeight - trackerHeight
+        elseif Questie.db[Questie.db.global.questieTLoc].TrackerLocation[4] > maxWidth and Questie.db[Questie.db.global.questieTLoc].TrackerLocation[5] < maxHeight then
+            Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] = "BOTTOMRIGHT"
+            Questie.db[Questie.db.global.questieTLoc].TrackerLocation[4] = Questie.db[Questie.db.global.questieTLoc].TrackerLocation[4] + -maxWidth
+            Questie.db[Questie.db.global.questieTLoc].TrackerLocation[5] = Questie.db[Questie.db.global.questieTLoc].TrackerLocation[5] + -maxHeight - trackerHeight
         end
 
-        Questie.db.char.TrackerLocation[2] = "UIParent"
-        Questie.db.char.TrackerLocation[3] = "CENTER"
+        Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2] = "UIParent"
+        Questie.db[Questie.db.global.questieTLoc].TrackerLocation[3] = "CENTER"
 
         frame:ClearAllPoints()
-        frame:SetPoint(unpack(Questie.db.char.TrackerLocation))
+        frame:SetPoint(unpack(Questie.db[Questie.db.global.questieTLoc].TrackerLocation))
 
     -- This is the section that processes "Auto setPoint" movements between quadrants.
     -- _QuestieTracker:ConvertSetPointCords() converts endpoints so the frame doesn't appear to
     -- shift or "snap" due to changing setPoint values.
-    elseif Questie.db.char.TrackerLocation and Questie.db.char.TrackerLocation[2] and Questie.db.char.TrackerLocation[2] == "UIParent" and Questie.db.char.trackerSetpoint == "AUTO" then
+    elseif Questie.db[Questie.db.global.questieTLoc].TrackerLocation and Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2] and Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2] == "UIParent" and Questie.db[Questie.db.global.questieTLoc].trackerSetpoint == "AUTO" then
         local yAdj = 0
-        if frame:GetHeight()/GetScreenHeight() > 0.25 and (Questie.db.char.TrackerLocation[1] == "TOPLEFT" or Questie.db.char.TrackerLocation[1] == "TOPRIGHT") then
+        if frame:GetHeight()/GetScreenHeight() > 0.25 and (Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "TOPLEFT" or Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "TOPRIGHT") then
             yAdj = frame:GetHeight()/2
-        elseif frame:GetHeight()/GetScreenHeight() > 0.25 and (Questie.db.char.TrackerLocation[1] == "BOTTOMLEFT" or Questie.db.char.TrackerLocation[1] == "BOTTOMRIGHT") then
+        elseif frame:GetHeight()/GetScreenHeight() > 0.25 and (Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMLEFT" or Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMRIGHT") then
             yAdj = -frame:GetHeight()/2
         elseif frame:GetHeight()/GetScreenHeight() > 0.75 then
             yAdj = frame:GetHeight()
         end
 
         -- setPoint Topleft = Down and Right
-        if Questie.db.char.TrackerLocation[4] < 0 and Questie.db.char.TrackerLocation[5] > yAdj and Questie.db.char.TrackerLocation[1] ~= "TOPLEFT" then
+        if Questie.db[Questie.db.global.questieTLoc].TrackerLocation[4] < 0 and Questie.db[Questie.db.global.questieTLoc].TrackerLocation[5] > yAdj and Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] ~= "TOPLEFT" then
             xOff, yOff = _QuestieTracker:ConvertSetPointCords(frame, "TOPLEFT")
-            Questie.db.char.TrackerLocation[1] = "TOPLEFT"
-            Questie.db.char.TrackerLocation[4] = xOff
-            Questie.db.char.TrackerLocation[5] = yOff
+            Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] = "TOPLEFT"
+            Questie.db[Questie.db.global.questieTLoc].TrackerLocation[4] = xOff
+            Questie.db[Questie.db.global.questieTLoc].TrackerLocation[5] = yOff
 
         -- setPoint Topright = Down and Left
-        elseif Questie.db.char.TrackerLocation[4] > 0 and Questie.db.char.TrackerLocation[5] > yAdj and Questie.db.char.TrackerLocation[1] ~= "TOPRIGHT" then
+        elseif Questie.db[Questie.db.global.questieTLoc].TrackerLocation[4] > 0 and Questie.db[Questie.db.global.questieTLoc].TrackerLocation[5] > yAdj and Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] ~= "TOPRIGHT" then
             xOff, yOff = _QuestieTracker:ConvertSetPointCords(frame, "TOPRIGHT")
-            Questie.db.char.TrackerLocation[1] = "TOPRIGHT"
-            Questie.db.char.TrackerLocation[4] = xOff
-            Questie.db.char.TrackerLocation[5] = yOff
+            Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] = "TOPRIGHT"
+            Questie.db[Questie.db.global.questieTLoc].TrackerLocation[4] = xOff
+            Questie.db[Questie.db.global.questieTLoc].TrackerLocation[5] = yOff
 
         -- setPoint Bottomleft = Up and Right
-        elseif Questie.db.char.TrackerLocation[4] < 0 and Questie.db.char.TrackerLocation[5] < yAdj and Questie.db.char.TrackerLocation[1] ~= "BOTTOMLEFT" then
+        elseif Questie.db[Questie.db.global.questieTLoc].TrackerLocation[4] < 0 and Questie.db[Questie.db.global.questieTLoc].TrackerLocation[5] < yAdj and Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] ~= "BOTTOMLEFT" then
             xOff, yOff = _QuestieTracker:ConvertSetPointCords(frame, "BOTTOMLEFT")
-            Questie.db.char.TrackerLocation[1] = "BOTTOMLEFT"
-            Questie.db.char.TrackerLocation[4] = xOff
-            Questie.db.char.TrackerLocation[5] = yOff
+            Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] = "BOTTOMLEFT"
+            Questie.db[Questie.db.global.questieTLoc].TrackerLocation[4] = xOff
+            Questie.db[Questie.db.global.questieTLoc].TrackerLocation[5] = yOff
 
         -- setPoint Bottomright = Up and Left
-        elseif Questie.db.char.TrackerLocation[4] > 0 and Questie.db.char.TrackerLocation[5] < yAdj and Questie.db.char.TrackerLocation[1] ~= "BOTTOMRIGHT" then
+        elseif Questie.db[Questie.db.global.questieTLoc].TrackerLocation[4] > 0 and Questie.db[Questie.db.global.questieTLoc].TrackerLocation[5] < yAdj and Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] ~= "BOTTOMRIGHT" then
             xOff, yOff = _QuestieTracker:ConvertSetPointCords(frame, "BOTTOMRIGHT")
-            Questie.db.char.TrackerLocation[1] = "BOTTOMRIGHT"
-            Questie.db.char.TrackerLocation[4] = xOff
-            Questie.db.char.TrackerLocation[5] = yOff
+            Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] = "BOTTOMRIGHT"
+            Questie.db[Questie.db.global.questieTLoc].TrackerLocation[4] = xOff
+            Questie.db[Questie.db.global.questieTLoc].TrackerLocation[5] = yOff
         end
 
-        Questie.db.char.TrackerLocation[2] = "UIParent"
-        Questie.db.char.TrackerLocation[3] = "CENTER"
+        Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2] = "UIParent"
+        Questie.db[Questie.db.global.questieTLoc].TrackerLocation[3] = "CENTER"
 
         frame:ClearAllPoints()
-        frame:SetPoint(unpack(Questie.db.char.TrackerLocation))
+        frame:SetPoint(unpack(Questie.db[Questie.db.global.questieTLoc].TrackerLocation))
 
     -- When the user sets a manual setPoint it runs QuestieTracker:ResetLocation() which
     -- converts everything over to a [CUSTOM]/UIParent/CENTER centric x,y cords so no pre/post
     -- processing of location data is needed. It's done "as-is".
     else
-        Questie.db.char.TrackerLocation[1] = Questie.db.char.trackerSetpoint
+        Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] = Questie.db[Questie.db.global.questieTLoc].trackerSetpoint
     end
 end
 

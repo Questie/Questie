@@ -138,7 +138,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 width = 1.0,
                 name = function() return QuestieLocale:GetUIString('TRACKER_AUTO_MOVE_HEADER_ENABLED'); end,
                 desc = function() return QuestieLocale:GetUIString('TRACKER_AUTO_MOVE_HEADER_ENABLED_DESC'); end,
-                disabled = function() return not Questie.db.global.trackerHeaderEnabled or not Questie.db.global.trackerEnabled or Questie.db.char.trackerSetpoint ~= "AUTO"; end,
+                disabled = function() return not Questie.db.global.trackerHeaderEnabled or not Questie.db.global.trackerEnabled or Questie.db[Questie.db.global.questieTLoc].trackerSetpoint ~= "AUTO"; end,
                 get = function() return Questie.db.global.trackerHeaderAutoMove; end,
                 set = function (info, value)
                     Questie.db.global.trackerHeaderAutoMove = value
@@ -412,13 +412,14 @@ function QuestieOptions.tabs.tracker:Initialize()
                 name = function() return QuestieLocale:GetUIString('TRACKER_SETPOINT'); end,
                 desc = function() return QuestieLocale:GetUIString('TRACKER_SETPOINT_DESC'); end,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
-                get = function() return Questie.db.char.trackerSetpoint; end,
+                get = function() return Questie.db[Questie.db.global.questieTLoc].trackerSetpoint; end,
                 set = function(input, key)
-                    Questie.db.char.trackerSetpoint = key
+                    Questie.db[Questie.db.global.questieTLoc].trackerSetpoint = key
                     QuestieTracker:ResetLocation()
                     QuestieTracker:MoveDurabilityFrame()
                 end
             },
+
             Spacer_G = QuestieOptionsUtils:Spacer(3.3),
 
             fontSizeHeader = {
@@ -595,6 +596,27 @@ function QuestieOptions.tabs.tracker:Initialize()
                 desc = function() return QuestieLocale:GetUIString('TRACKER_RESET_LOCATION_DESC'); end,
                 disabled = function() return false; end,
                 func = function (info, value)
+                    QuestieTracker:ResetLocation()
+                end
+            },
+
+            Spacer_X = QuestieOptionsUtils:HorizontalSpacer(4.2, 1.0),
+
+            globalTrackerLocation = {
+                type = "toggle",
+                order = 4.3,
+                width = 1.0,
+                name = function() return QuestieLocale:GetUIString('TRACKER_ENABLE_GLOBAL_TRACKERLOCATION'); end,
+                desc = function() return QuestieLocale:GetUIString('TRACKER_ENABLE_GLOBAL_TRACKERLOCATION_DESC'); end,
+                disabled = function() return not Questie.db.global.trackerEnabled or InCombatLockdown(); end,
+                get = function() return Questie.db.global.globalTrackerLocation; end,
+                set = function (info, value)
+                    Questie.db.global.globalTrackerLocation = value
+                    if value == true then
+                        Questie.db.global.questieTLoc = "global"
+                    else
+                        Questie.db.global.questieTLoc = "char"
+                    end
                     QuestieTracker:ResetLocation()
                 end
             }

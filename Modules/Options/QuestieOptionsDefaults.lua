@@ -79,7 +79,7 @@ function QuestieOptionsDefaults:Load()
             trackerbindSetTomTom = 'ctrlleft',
             trackerbindOpenQuestLog = 'left',
             trackerbindUntrack = "shiftleft",
-            trackerSetpoint = "TOPRIGHT",
+            trackerSetpoint = "AUTO",
             trackerFontSizeHeader = 12,
             trackerFontHeader = 'Friz Quadrata TT',
             trackerFontSizeZone = 12,
@@ -91,6 +91,9 @@ function QuestieOptionsDefaults:Load()
             trackerQuestPadding = 4,
             trackerBackdropAlpha = 1,
             --trackerReset = QuestieTracker:ResetLocation()
+            globalTrackerLocation = false,
+            questieTLoc = "char",
+
         },
         char = {
             minLevelFilter = GetQuestGreenRange(), -- Raised the default to allow more quests to be shown

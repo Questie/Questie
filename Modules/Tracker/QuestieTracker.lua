@@ -75,11 +75,11 @@ function QuestieTracker:Initialize()
     if (not Questie.db.char.collapsedQuests) then
         Questie.db.char.collapsedQuests = {}
     end
-    if (not Questie.db.char.TrackerWidth) then
-        Questie.db.char.TrackerWidth = 0
+    if (not Questie.db[Questie.db.global.questieTLoc].TrackerWidth) then
+        Questie.db[Questie.db.global.questieTLoc].TrackerWidth = 0
     end
-    if (not Questie.db.char.trackerSetpoint) then
-        Questie.db.char.trackerSetpoint = "AUTO"
+    if (not Questie.db[Questie.db.global.questieTLoc].trackerSetpoint) then
+        Questie.db[Questie.db.global.questieTLoc].trackerSetpoint = "AUTO"
     end
 
     -- Create tracker frames and assign them to a var
@@ -114,12 +114,12 @@ function QuestieTracker:Initialize()
 
     -- Santity checks and settings applied at login
     C_Timer.After(0.4, function()
-        if Questie.db.char.TrackerLocation == nil then return end
+        if Questie.db[Questie.db.global.questieTLoc].TrackerLocation == nil then return end
 
         -- Make sure the saved tracker location cords are on the players screen
-        if Questie.db.char.TrackerLocation and Questie.db.char.TrackerLocation[2] and Questie.db.char.TrackerLocation[2] == "MinimapCluster" or Questie.db.char.TrackerLocation[2] == "UIParent" then
+        if Questie.db[Questie.db.global.questieTLoc].TrackerLocation and Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2] and Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2] == "MinimapCluster" or Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2] == "UIParent" then
             local baseFrame = QuestieTracker:GetBaseFrame()
-            local verifyBaseFrame = {unpack(Questie.db.char.TrackerLocation)}
+            local verifyBaseFrame = {unpack(Questie.db[Questie.db.global.questieTLoc].TrackerLocation)}
 
             -- Max X values
             local maxLeft = -GetScreenWidth()/2
@@ -297,19 +297,19 @@ function _QuestieTracker:CreateBaseFrame()
     local x = 0.1 * 8/17
     line3:SetTexCoord(1/32 - x, 0.5, 1/32, 0.5 + x, 1/32, 0.5 - x, 1/32 + x, 0.5)
 
-    if Questie.db.char.TrackerLocation then
+    if Questie.db[Questie.db.global.questieTLoc].TrackerLocation then
         -- we need to pcall this because it can error if something like MoveAnything is used to move the tracker
-        local result, error = pcall(frm.SetPoint, frm, unpack(Questie.db.char.TrackerLocation))
+        local result, error = pcall(frm.SetPoint, frm, unpack(Questie.db[Questie.db.global.questieTLoc].TrackerLocation))
 
         if not result then
-            Questie.db.char.TrackerLocation = nil
+            Questie.db[Questie.db.global.questieTLoc].TrackerLocation = nil
             print(QuestieLocale:GetUIString("TRACKER_INVALID_LOCATION"))
 
             if QuestWatchFrame then
                 result, error = pcall(frm.SetPoint, frm, unpack({QuestWatchFrame:GetPoint()}))
-                Questie.db.char.trackerSetpoint = "AUTO"
+                Questie.db[Questie.db.global.questieTLoc].trackerSetpoint = "AUTO"
                 if not result then
-                    Questie.db.char.TrackerLocation = nil
+                    Questie.db[Questie.db.global.questieTLoc].TrackerLocation = nil
                     _QuestieTracker:SetSafePoint(frm)
                 end
             else
@@ -320,10 +320,10 @@ function _QuestieTracker:CreateBaseFrame()
     else
         if QuestWatchFrame then
             local result, error = pcall(frm.SetPoint, frm, unpack({QuestWatchFrame:GetPoint()}))
-            Questie.db.char.trackerSetpoint = "AUTO"
+            Questie.db[Questie.db.global.questieTLoc].trackerSetpoint = "AUTO"
 
             if not result then
-                Questie.db.char.TrackerLocation = nil
+                Questie.db[Questie.db.global.questieTLoc].TrackerLocation = nil
                 print(QuestieLocale:GetUIString("TRACKER_INVALID_LOCATION"))
                 _QuestieTracker:SetSafePoint(frm)
             end
@@ -351,7 +351,7 @@ function _QuestieTracker:CreateActiveQuestsHeader()
     --frm:SetBackdropColor(0, 0, 0, 1)
 
     if Questie.db.global.trackerHeaderAutoMove then
-        if Questie.db.char.TrackerLocation and (Questie.db.char.TrackerLocation[1] == "BOTTOMLEFT" or Questie.db.char.TrackerLocation[1] == "BOTTOMRIGHT") then
+        if Questie.db[Questie.db.global.questieTLoc].TrackerLocation and (Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMLEFT" or Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMRIGHT") then
             frm:SetPoint("BOTTOMLEFT", _QuestieTracker.baseFrame, "BOTTOMLEFT", trackerSpaceBuffer/2.6, 10)
         else
             frm:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerSpaceBuffer/2.6, -10)
@@ -373,7 +373,7 @@ function _QuestieTracker:CreateActiveQuestsHeader()
 
             self:ClearAllPoints()
             if Questie.db.global.trackerHeaderAutoMove then
-                if Questie.db.char.TrackerLocation and (Questie.db.char.TrackerLocation[1] == "BOTTOMLEFT" or Questie.db.char.TrackerLocation[1] == "BOTTOMRIGHT") then
+                if Questie.db[Questie.db.global.questieTLoc].TrackerLocation and (Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMLEFT" or Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMRIGHT") then
                     self:SetPoint("BOTTOMLEFT", _QuestieTracker.baseFrame, "BOTTOMLEFT", trackerSpaceBuffer/2.6, 10)
                 else
                     self:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerSpaceBuffer/2.6, -10)
@@ -462,7 +462,7 @@ function _QuestieTracker:CreateTrackedQuestsFrame()
 
     if Questie.db.global.trackerHeaderEnabled then
         if Questie.db.global.trackerHeaderAutoMove then
-            if Questie.db.char.TrackerLocation and (Questie.db.char.TrackerLocation[1] == "BOTTOMLEFT" or Questie.db.char.TrackerLocation[1] == "BOTTOMRIGHT") then
+            if Questie.db[Questie.db.global.questieTLoc].TrackerLocation and (Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMLEFT" or Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMRIGHT") then
                 -- Auto move tracker header to the bottom
                 frm:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerSpaceBuffer*1.625, -10)
             else
@@ -482,7 +482,7 @@ function _QuestieTracker:CreateTrackedQuestsFrame()
         self:ClearAllPoints()
         if Questie.db.global.trackerHeaderEnabled then
             if Questie.db.global.trackerHeaderAutoMove then
-                if Questie.db.char.TrackerLocation and (Questie.db.char.TrackerLocation[1] == "BOTTOMLEFT" or Questie.db.char.TrackerLocation[1] == "BOTTOMRIGHT") then
+                if Questie.db[Questie.db.global.questieTLoc].TrackerLocation and (Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMLEFT" or Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMRIGHT") then
                     -- Auto move tracker header to the bottom
                     self:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerSpaceBuffer*1.625, -10)
                 else
@@ -929,10 +929,10 @@ function QuestieTracker:ResetLocation()
     _QuestieTracker.activeQuestsHeader:SetMode(1) -- maximized
     Questie.db.char.isTrackerExpanded = true
     Questie.db.char.AutoUntrackedQuests = {}
-    Questie.db.char.TrackerLocation = {}
+    Questie.db[Questie.db.global.questieTLoc].TrackerLocation = {}
     Questie.db.char.collapsedQuests = {}
     Questie.db.char.collapsedZones = {}
-    Questie.db.char.TrackerWidth = 0
+    Questie.db[Questie.db.global.questieTLoc].TrackerWidth = 0
 
     QuestieTracker:ResetLinesForChange()
 
@@ -948,8 +948,8 @@ function QuestieTracker:ResetDurabilityFrame()
 end
 
 function QuestieTracker:MoveDurabilityFrame()
-    if Questie.db.global.trackerEnabled and Questie.db.global.stickyDurabilityFrame and DurabilityFrame:IsShown() and QuestieTracker.started and Questie.db.char.TrackerLocation ~= nil then
-        if Questie.db.char.TrackerLocation and Questie.db.char.TrackerLocation[1] == "TOPLEFT" or Questie.db.char.TrackerLocation[1] == "BOTTOMLEFT" then
+    if Questie.db.global.trackerEnabled and Questie.db.global.stickyDurabilityFrame and DurabilityFrame:IsShown() and QuestieTracker.started and Questie.db[Questie.db.global.questieTLoc].TrackerLocation ~= nil then
+        if Questie.db[Questie.db.global.questieTLoc].TrackerLocation and Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "TOPLEFT" or Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMLEFT" then
             DurabilityFrame:ClearAllPoints()
             DurabilityFrame:SetPoint("LEFT", _QuestieTracker.baseFrame, "TOPRIGHT", 0, -30)
         else
@@ -966,10 +966,10 @@ function _QuestieTracker:SetSafePoint(frm)
     local xOff, yOff = frm:GetWidth()/2, frm:GetHeight()/2
     local resetCords = {["BOTTOMLEFT"] = {x = -xOff, y = -yOff}, ["BOTTOMRIGHT"] = {x = xOff, y = -yOff}, ["TOPLEFT"] = {x = -xOff, y =  yOff}, ["TOPRIGHT"] = {x = xOff, y =  yOff}}
 
-    if Questie.db.char.trackerSetpoint == "AUTO" then
+    if Questie.db[Questie.db.global.questieTLoc].trackerSetpoint == "AUTO" then
         frm:SetPoint("TOPLEFT", UIParent, "CENTER", resetCords["TOPLEFT"].x, resetCords["TOPLEFT"].y)
     else
-        frm:SetPoint(Questie.db.char.trackerSetpoint, UIParent, "CENTER", resetCords[Questie.db.char.trackerSetpoint].x, resetCords[Questie.db.char.trackerSetpoint].y)
+        frm:SetPoint(Questie.db[Questie.db.global.questieTLoc].trackerSetpoint, UIParent, "CENTER", resetCords[Questie.db[Questie.db.global.questieTLoc].trackerSetpoint].x, resetCords[Questie.db[Questie.db.global.questieTLoc].trackerSetpoint].y)
     end
 end
 
@@ -1274,7 +1274,7 @@ function QuestieTracker:Update()
                         line.label:SetText("|cFFC0C0C0" .. zoneName .. "|r")
                     end
 
-                    line.label:SetWidth(math.min(math.max(Questie.db.char.TrackerWidth, _QuestieTracker.baseFrame:GetWidth()) - ((_QuestieTracker.QuestFrameIndent + trackerSpaceBuffer) - trackerSpaceBuffer), line.label:GetUnboundedStringWidth()))
+                    line.label:SetWidth(math.min(math.max(Questie.db[Questie.db.global.questieTLoc].TrackerWidth, _QuestieTracker.baseFrame:GetWidth()) - ((_QuestieTracker.QuestFrameIndent + trackerSpaceBuffer) - trackerSpaceBuffer), line.label:GetUnboundedStringWidth()))
                     line:SetWidth(line.label:GetWidth() - trackerSpaceBuffer)
                     trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() - trackerSpaceBuffer)
 
@@ -1305,7 +1305,7 @@ function QuestieTracker:Update()
             local questName = (quest.LocalizedName or quest.name)
             local coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, questName, quest.level, Questie.db.global.trackerShowQuestLevel, complete)
             line.label:SetText(coloredQuestName)
-            line.label:SetWidth(math.min(math.max(Questie.db.char.TrackerWidth, _QuestieTracker.baseFrame:GetWidth()) - (_QuestieTracker.QuestFrameIndent + trackerSpaceBuffer), line.label:GetUnboundedStringWidth()))
+            line.label:SetWidth(math.min(math.max(Questie.db[Questie.db.global.questieTLoc].TrackerWidth, _QuestieTracker.baseFrame:GetWidth()) - (_QuestieTracker.QuestFrameIndent + trackerSpaceBuffer), line.label:GetUnboundedStringWidth()))
             line:SetWidth(line.label:GetWidth())
 
             if Questie.db.char.collapsedQuests[quest.Id] then
@@ -1387,7 +1387,7 @@ function QuestieTracker:Update()
                 line.label:ClearAllPoints()
                 line.label:SetPoint("TOPLEFT", line, "TOPLEFT", 5, 0)
                 line.label:SetText(seconds)
-                line.label:SetWidth(math.min(math.max(Questie.db.char.TrackerWidth, _QuestieTracker.baseFrame:GetWidth()) - (_QuestieTracker.QuestFrameIndent), trackerSpaceBuffer + line.label:GetUnboundedStringWidth()))
+                line.label:SetWidth(math.min(math.max(Questie.db[Questie.db.global.questieTLoc].TrackerWidth, _QuestieTracker.baseFrame:GetWidth()) - (_QuestieTracker.QuestFrameIndent), trackerSpaceBuffer + line.label:GetUnboundedStringWidth()))
                 line:SetWidth(line.label:GetWidth())
                 line:SetVerticalPadding(2)
                 line:Show()
@@ -1421,7 +1421,7 @@ function QuestieTracker:Update()
                         local objDesc = objective.Description:gsub("%.", "")
                         if objective.Needed > 0 then lineEnding = tostring(objective.Collected) .. "/" .. tostring(objective.Needed) end
                         line.label:SetText(QuestieLib:GetRGBForObjective(objective) .. objDesc .. ": " .. lineEnding)
-                        line.label:SetWidth(math.min(math.max(Questie.db.char.TrackerWidth, _QuestieTracker.baseFrame:GetWidth()) - (_QuestieTracker.QuestFrameIndent + trackerSpaceBuffer*1.50), trackerSpaceBuffer + line.label:GetUnboundedStringWidth()))
+                        line.label:SetWidth(math.min(math.max(Questie.db[Questie.db.global.questieTLoc].TrackerWidth, _QuestieTracker.baseFrame:GetWidth()) - (_QuestieTracker.QuestFrameIndent + trackerSpaceBuffer*1.50), trackerSpaceBuffer + line.label:GetUnboundedStringWidth()))
                         line:SetWidth(line.label:GetWidth())
 
                         trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + trackerSpaceBuffer)
@@ -1444,12 +1444,12 @@ function QuestieTracker:Update()
                     line.label:SetPoint("TOPLEFT", line, "TOPLEFT", trackerSpaceBuffer/1.50, 0)
 
                     if (complete == 1) then
-                        line.label:SetText("|cff00ff00Quest Complete!|r")
+                        line.label:SetText("|cFF40C040Quest Complete!|r")
                     elseif (complete == -1) then
                         line.label:SetText("|cffff0000Quest Failed!|r")
                     end
 
-                    line.label:SetWidth(math.min(math.max(Questie.db.char.TrackerWidth, _QuestieTracker.baseFrame:GetWidth()) - (_QuestieTracker.QuestFrameIndent + trackerSpaceBuffer*1.50), trackerSpaceBuffer + line.label:GetUnboundedStringWidth()))
+                    line.label:SetWidth(math.min(math.max(Questie.db[Questie.db.global.questieTLoc].TrackerWidth, _QuestieTracker.baseFrame:GetWidth()) - (_QuestieTracker.QuestFrameIndent + trackerSpaceBuffer*1.50), trackerSpaceBuffer + line.label:GetUnboundedStringWidth()))
                     line:SetWidth(line.label:GetWidth())
 
                     trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + trackerSpaceBuffer)
@@ -1515,8 +1515,8 @@ function QuestieTracker:Update()
     if not Questie.db.char.isTrackerExpanded then
         _QuestieTracker.baseFrame:SetHeight(trackerSpaceBuffer)
 
-        if Questie.db.char.TrackerWidth > 0 then
-            _QuestieTracker.baseFrame:SetWidth(Questie.db.char.TrackerWidth)
+        if Questie.db[Questie.db.global.questieTLoc].TrackerWidth > 0 then
+            _QuestieTracker.baseFrame:SetWidth(Questie.db[Questie.db.global.questieTLoc].TrackerWidth)
         else
             _QuestieTracker.baseFrame:SetWidth(trackerVARScombined)
         end
@@ -1524,12 +1524,12 @@ function QuestieTracker:Update()
         _QuestieTracker.trackedQuestsFrame:Hide()
 
     elseif line then
-        if Questie.db.char.TrackerWidth > 0 then
-            if (Questie.db.char.TrackerWidth < activeQuestsHeaderTotal and _QuestieTracker.isSizing ~= true) then
+        if Questie.db[Questie.db.global.questieTLoc].TrackerWidth > 0 then
+            if (Questie.db[Questie.db.global.questieTLoc].TrackerWidth < activeQuestsHeaderTotal and _QuestieTracker.isSizing ~= true) then
                 _QuestieTracker.baseFrame:SetWidth(activeQuestsHeaderTotal)
-                Questie.db.char.TrackerWidth = activeQuestsHeaderTotal
-            elseif (Questie.db.char.TrackerWidth ~= trackerBaseFrame and _QuestieTracker.isSizing ~= true) then
-                _QuestieTracker.baseFrame:SetWidth(Questie.db.char.TrackerWidth)
+                Questie.db[Questie.db.global.questieTLoc].TrackerWidth = activeQuestsHeaderTotal
+            elseif (Questie.db[Questie.db.global.questieTLoc].TrackerWidth ~= trackerBaseFrame and _QuestieTracker.isSizing ~= true) then
+                _QuestieTracker.baseFrame:SetWidth(Questie.db[Questie.db.global.questieTLoc].TrackerWidth)
             end
         else
 
@@ -1542,7 +1542,7 @@ function QuestieTracker:Update()
 
         -- Trims the bottom of the tracker (overall height) based on min/max'd zones and/or quests
         local trackerBottomPadding = nil
-        if Questie.db.global.trackerHeaderEnabled and Questie.db.global.trackerHeaderAutoMove and Questie.db.char.TrackerLocation and (Questie.db.char.TrackerLocation[1] == "BOTTOMLEFT" or Questie.db.char.TrackerLocation[1] == "BOTTOMRIGHT") then
+        if Questie.db.global.trackerHeaderEnabled and Questie.db.global.trackerHeaderAutoMove and Questie.db[Questie.db.global.questieTLoc].TrackerLocation and (Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMLEFT" or Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMRIGHT") then
             trackerBottomPadding = 15
         else
             trackerBottomPadding = 0
