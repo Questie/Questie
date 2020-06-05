@@ -142,7 +142,7 @@ function QuestieMap:InitializeQueue()
     Questie:Debug(DEBUG_DEVELOP, "[QuestieMap] Starting draw queue timer!")
     QuestieMap.drawTimer = C_Timer.NewTicker(0.2, QuestieMap.ProcessQueue)
     QuestieMap.processCounter = 0 -- used to reduce calls on edge notes
-    QuestieMap.fadeLogicTimerShown = C_Timer.NewTicker(0.5, QuestieMap.ProcessShownMinimapIcons);
+    QuestieMap.fadeLogicTimerShown = C_Timer.NewTicker(0.3, QuestieMap.ProcessShownMinimapIcons);
 end
 
 
@@ -186,10 +186,9 @@ function QuestieMap:ProcessShownMinimapIcons()
     local playerX, playerY, playerInstanceID = HBD:GetPlayerWorldPosition()
     QuestieMap.playerX = playerX
     QuestieMap.playerY = playerY
-
     ---@param minimapFrame IconFrame
     for minimapFrame, data in pairs(HBDPins.activeMinimapPins) do
-        if ((not data.onEdge) or doEdgeUpdate) and minimapFrame.miniMapIcon then
+        if ((data.distanceFromMinimapCenter < 1.1) or doEdgeUpdate) and minimapFrame.miniMapIcon then
             if minimapFrame.FadeLogic then
                 minimapFrame:FadeLogic()
             end
@@ -197,6 +196,7 @@ function QuestieMap:ProcessShownMinimapIcons()
                 minimapFrame:GlowUpdate()
             end
         end
+        
     end
 end
 
