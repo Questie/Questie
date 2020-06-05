@@ -33,6 +33,7 @@ function QuestieQuestTimers:Initialize()
 end
 
 function QuestieQuestTimers:HideBlizzardTimer()
+    QuestTimerFrame:ClearAllPoints()
     QuestTimerFrame:SetPoint("TOP", -10000, -10000)
 end
 

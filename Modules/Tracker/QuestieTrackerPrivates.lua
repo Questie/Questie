@@ -75,6 +75,9 @@ function _QuestieTracker:OnDragStop(button)
         QuestieTracker:MoveDurabilityFrame()
         startDragPos = nil
         preSetPoint = nil
+
+        QuestieTracker:ResetLinesForChange()
+        QuestieTracker:Update()
     end)
 end
 
