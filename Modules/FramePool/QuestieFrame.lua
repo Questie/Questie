@@ -321,6 +321,7 @@ function _Qframe:Unload()
     self.y = nil
     self.AreaID = nil
     self.UiMapID = nil
+    self.lastGlowFade = nil
     QuestieFramePool:RecycleFrame(self)
 end
 

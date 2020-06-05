@@ -462,6 +462,16 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
     local questieGlobalDB = Questie.db.global
 
     if(not iconMinimap.FadeLogic) then
+        function iconMinimap:SetFade(value)
+            if self.lastGlowFade ~= value then
+                self.lastGlowFade = value
+                if self.glowTexture then
+                    local r, g, b = self.glowTexture:GetVertexColor()
+                    self.glowTexture:SetVertexColor(r,g,b,value)
+                end
+                self.texture:SetVertexColor(self.texture.r, self.texture.g, self.texture.b, value)
+            end
+        end
         function iconMinimap:FadeLogic()
             if self.miniMapIcon and self.x and self.y and self.texture and self.UiMapID and self.texture.SetVertexColor and Questie and Questie.db and Questie.db.global and Questie.db.global.fadeLevel and HBD and HBD.GetPlayerZonePosition and QuestieLib and QuestieLib.Euclid then
                 local playerX, playerY, playerInstanceID = HBD:GetPlayerWorldPosition()
@@ -479,51 +489,27 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
                         if(distance > questieGlobalDB.fadeLevel) then
                             local fade = 1 - (math.min(10, (distance - questieGlobalDB.fadeLevel)) * normalizedValue);
 
-                            self.texture:SetVertexColor(self.texture.r, self.texture.g, self.texture.b, fade)
-                            if self.glowTexture and self.glowTexture.GetVertexColor then
-                                local r, g, b = self.glowTexture:GetVertexColor()
-                                self.glowTexture:SetVertexColor(r,g,b,fade)
-                            end
+                            self:SetFade(fade)
                         elseif (distance < questieGlobalDB.fadeOverPlayerDistance) and questieGlobalDB.fadeOverPlayer then
                             local fadeAmount = QuestieLib:Remap(distance, 0, questieGlobalDB.fadeOverPlayerDistance, questieGlobalDB.fadeOverPlayerLevel, 1);
                             -- local fadeAmount = math.max(fadeAmount, 0.5);
                             if self.faded and fadeAmount > questieGlobalDB.iconFadeLevel then
                                 fadeAmount = questieGlobalDB.iconFadeLevel
                             end
-                            self.texture:SetVertexColor(self.texture.r, self.texture.g, self.texture.b, fadeAmount)
-                            if self.glowTexture and self.glowTexture.GetVertexColor then
-                                local r,g,b = self.glowTexture:GetVertexColor()
-                                self.glowTexture:SetVertexColor(r, g, b, fadeAmount)
-                            end
+                            self:SetFade(fadeAmount)
                         else
                             if self.faded then
-                                self.texture:SetVertexColor(self.texture.r, self.texture.g, self.texture.b, questieGlobalDB.iconFadeLevel)
-                                if self.glowTexture and self.glowTexture.GetVertexColor then
-                                    local r, g, b = self.glowTexture:GetVertexColor()
-                                    self.glowTexture:SetVertexColor(r, g, b, questieGlobalDB.iconFadeLevel)
-                                end
+                                self:SetFade(questieGlobalDB.iconFadeLevel)
                             else
-                                self.texture:SetVertexColor(self.texture.r, self.texture.g, self.texture.b, 1)
-                                if self.glowTexture and self.glowTexture.GetVertexColor then
-                                    local r, g, b = self.glowTexture:GetVertexColor()
-                                    self.glowTexture:SetVertexColor(r, g, b, 1)
-                                end
+                                self:SetFade(1)
                             end
                         end
                     end
                 else
                     if self.faded then
-                        self.texture:SetVertexColor(self.texture.r, self.texture.g, self.texture.b, questieGlobalDB.iconFadeLevel)
-                        if self.glowTexture and self.glowTexture.GetVertexColor then
-                            local r, g, b = self.glowTexture:GetVertexColor()
-                            self.glowTexture:SetVertexColor(r, g, b, questieGlobalDB.iconFadeLevel)
-                        end
+                        self:SetFade(questieGlobalDB.iconFadeLevel)
                     else
-                        self.texture:SetVertexColor(self.texture.r, self.texture.g, self.texture.b, 1)
-                        if self.glowTexture and self.glowTexture.GetVertexColor then
-                            local r, g, b = self.glowTexture:GetVertexColor()
-                            self.glowTexture:SetVertexColor(r, g, b, 1)
-                        end
+                        self:SetFade(1)
                     end
                 end
             end
@@ -723,19 +709,22 @@ function QuestieMap:GetNearestQuestSpawn(quest)
         return nil
     end
     if quest:IsComplete() == 1 then
-        local finisher = nil
+        local finisherSpawns = nil
+        local finisherName = nil
         if quest.Finisher ~= nil then
             if quest.Finisher.Type == "monster" then
-                finisher = QuestieDB:GetNPC(quest.Finisher.Id)
+                --finisher = QuestieDB:GetNPC(quest.Finisher.Id)
+                finisherSpawns, finisherName = unpack(QuestieDB.QueryNPC(quest.Finisher.Id, "spawns", "name"))
             elseif quest.Finisher.Type == "object" then
-                finisher = QuestieDB:GetObject(quest.Finisher.Id)
+                --finisher = QuestieDB:GetObject(quest.Finisher.Id)
+                finisherSpawns, finisherName = unpack(QuestieDB.QueryObject(quest.Finisher.Id, "spawns", "name"))
             end
         end
-        if finisher and finisher.spawns then -- redundant code
+        if finisherSpawns then -- redundant code
             local bestDistance = 999999999
             local playerX, playerY, playerI = HBD:GetPlayerWorldPosition()
             local bestSpawn, bestSpawnZone, bestSpawnId, bestSpawnType, bestSpawnName
-            for zone, spawns in pairs(finisher.spawns) do
+            for zone, spawns in pairs(finisherSpawns) do
                 for _, spawn in pairs(spawns) do
                     local dX, dY, dInstance = HBD:GetWorldCoordinatesFromZone(spawn[1]/100.0, spawn[2]/100.0, ZoneDataAreaIDToUiMapID[zone])
                     --print (" " .. tostring(dX) .. " " .. tostring(dY) .. " " .. ZoneDataAreaIDToUiMapID[zone])
@@ -749,7 +738,7 @@ function QuestieMap:GetNearestQuestSpawn(quest)
                             bestSpawn = spawn
                             bestSpawnZone = zone
                             bestSpawnType = quest.Finisher.Type
-                            bestSpawnName = finisher.LocalizedName or finisher.name
+                            bestSpawnName = finisherName
                         end
                     end
                 end

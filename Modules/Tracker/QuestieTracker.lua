@@ -985,6 +985,7 @@ function QuestieTracker:Update()
 
     local line = nil
     local order = {}
+    QuestieTracker._order = order
     local questCompletePercent = {}
 
     -- Update quest objectives
@@ -1071,32 +1072,38 @@ function QuestieTracker:Update()
         end)
 
     elseif Questie.db.global.trackerSortObjectives == "byProximity" then
-        table.sort(order, function(a, b)
-            local distanceA = _GetDistanceToClosestObjective(a)
-            local distanceB = _GetDistanceToClosestObjective(b)
-            local qA = QuestieDB:GetQuest(a)
-            local qB = QuestieDB:GetQuest(b)
-            local _, zoneA, _ = QuestieMap:GetNearestQuestSpawn(qA)
-            local _, zoneB, _ = QuestieMap:GetNearestQuestSpawn(qB)
-            local continent = _GetContinent(C_Map.GetBestMapForUnit("player"))
-            local continentA = _GetContinent(ZoneDataAreaIDToUiMapID[zoneA])
-            local continentB = _GetContinent(ZoneDataAreaIDToUiMapID[zoneB])
-            if ((continent == continentA) and (continent == continentB)) or ((continent ~= continentA) and (continent ~= continentB)) then
-                if distanceA == distanceB then
-                    return qA and qB and qA.level < qB.level;
+        local toSort = {}
+        local continent = _GetContinent(C_Map.GetBestMapForUnit("player"))
+        for index, questId in pairs(order) do
+            local sortData = {}
+            sortData.questId = questId
+            sortData.distance = _GetDistanceToClosestObjective(questId)
+            sortData.q = QuestieDB:GetQuest(questId)
+            local _, zone, _ = QuestieMap:GetNearestQuestSpawn(sortData.q)
+            sortData.zone = zone
+            sortData.continent = _GetContinent(ZoneDataAreaIDToUiMapID[zone])
+            toSort[questId] = sortData
+        end
+        QuestieTracker._sorter = function(a, b)
+            a = toSort[a]
+            b = toSort[b]
+            if ((continent == a.continent) and (continent == b.continent)) or ((continent ~= a.continent) and (continent ~= b.continent)) then
+                if a.distance == b.distance then
+                    return a.q and b.q and a.q.level < b.q.level;
                 end
-                if not distanceA and distanceB then
+                if not a.distance and b.distance then
                     return false;
-                elseif distanceA and not distanceB then
+                elseif a.distance and not b.distance then
                     return true;
                 end
-                return distanceA < distanceB;
-            elseif (continent == continentA) and (continent ~= continentB) then
+                return a.distance < b.distance;
+            elseif (continent == a.continent) and (continent ~= b.continent) then
                 return true
-            elseif (continent ~= continentA) and (continent == continentB) then
+            elseif (continent ~= a.continent) and (continent == b.continent) then
                 return false
             end
-        end)
+        end
+        table.sort(order, QuestieTracker._sorter)
 
         if not _QuestProximityTimer then
             QuestieTracker:UpdateQuestProximityTimer()
@@ -2061,7 +2068,19 @@ function QuestieTracker:UpdateQuestProximityTimer()
                 local distance = _PlayerPosition and _GetDistance(position.x, position.y, _PlayerPosition.x, _PlayerPosition.y);
                 if not distance or distance > 0.01 then
                     _PlayerPosition = position;
-                    QuestieTracker:Update()
+                    --QuestieTracker:Update()
+                    local orderCopy = {}
+                    for index, val in pairs(QuestieTracker._order) do
+                        orderCopy[index] = val
+                    end
+                    table.sort(orderCopy, QuestieTracker._sorter)
+                    for index, val in pairs(QuestieTracker._order) do
+                        if orderCopy[index] ~= val then
+                            -- the order has changed
+                            QuestieTracker:Update()
+                            break;
+                        end
+                    end
                 end
             end
         end)
