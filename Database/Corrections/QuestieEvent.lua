@@ -164,9 +164,7 @@ _LoadDarkmoonFaire = function()
 
                 -- Update the NPC spawns based on the place of the faire
                 for id, data in pairs(QuestieNPCFixes:LoadDarkmoonFixes(isInMulgore)) do
-                    for key, value in pairs(data) do
-                        QuestieDB.npcData[id][key] = value
-                    end
+                    QuestieDB.npcDataOverrides[id] = data
                 end
             end
         end

@@ -888,15 +888,16 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipmap, overrides)
             local ret = {}
             local override = overrides[id]
             for index,key in pairs({...}) do
-                if override and override[key] ~= nil then
-                    ret[index] = override[key]
+                local targetIndex = keyToIndex[key]
+                if override and targetIndex and override[targetIndex] ~= nil then
+                    ret[index] = override[targetIndex]
                 else
                     local typ = types[key]
                     if skipmap[key] ~= nil then -- can skip directly
                         stream._pointer = skipmap[key] + ptr
                     else -- need to skip over some variably sized data
                         stream._pointer = lastPtr + ptr
-                        local targetIndex = keyToIndex[key]
+                        
                         if targetIndex == nil then
                             print("ERROR: Unhandled db key: " .. key)
                         end
