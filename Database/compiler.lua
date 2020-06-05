@@ -844,9 +844,10 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipmap, overrides)
 
     if overrides then
         handle.QuerySingle = function(id, key)
-            if overrides[id] then
+            local override = overrides[id]
+            if override then
                 local kti = keyToIndex[key]
-                if kti then return overrides[id][kti] end
+                if kti and override[kti] ~= nil then return override[kti] end
             end
             local typ = types[key]
             local ptr = pointers[id]
@@ -869,38 +870,43 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipmap, overrides)
             return QuestieDBCompiler.readers[typ](stream)
         end
         handle.Query = function(id, ...)
-            if overrides[id] then
-                local ret = {}
-                for index,key in pairs({...}) do
-                    local kti = keyToIndex[key]
-                    if kti then
-                        ret[index] = overrides[id][kti]
-                    end
-                end
-                return ret
-            end
+            --if overrides[id] then
+            --    local ret = {}
+            --    for index,key in pairs({...}) do
+            --        local kti = keyToIndex[key]
+            --        if kti then
+            --            ret[index] = overrides[id][kti]
+            --        end
+            --    end
+            --    return ret
+            --end
             local ptr = pointers[id]
             if ptr == nil then
                 --print("Entry not found! " .. id)
                 return nil
             end
             local ret = {}
+            local override = overrides[id]
             for index,key in pairs({...}) do
-                local typ = types[key]
-                if skipmap[key] ~= nil then -- can skip directly
-                    stream._pointer = skipmap[key] + ptr
-                else -- need to skip over some variably sized data
-                    stream._pointer = lastPtr + ptr
-                    local targetIndex = keyToIndex[key]
-                    if targetIndex == nil then
-                        print("ERROR: Unhandled db key: " .. key)
+                if override and override[key] ~= nil then
+                    ret[index] = override[key]
+                else
+                    local typ = types[key]
+                    if skipmap[key] ~= nil then -- can skip directly
+                        stream._pointer = skipmap[key] + ptr
+                    else -- need to skip over some variably sized data
+                        stream._pointer = lastPtr + ptr
+                        local targetIndex = keyToIndex[key]
+                        if targetIndex == nil then
+                            print("ERROR: Unhandled db key: " .. key)
+                        end
+                        for i = lastIndex, targetIndex-1 do
+                            QuestieDBCompiler.readers[types[indexToKey[i]]](stream)
+                        end
                     end
-                    for i = lastIndex, targetIndex-1 do
-                        QuestieDBCompiler.readers[types[indexToKey[i]]](stream)
-                    end
+                    local res = QuestieDBCompiler.readers[typ](stream)
+                    ret[index] = res
                 end
-                local res = QuestieDBCompiler.readers[typ](stream)
-                ret[index] = res
             end
             return ret--unpack(ret)
         end
@@ -970,7 +976,3 @@ function QuestieDBCompiler:GetVersionString() -- todo: better place
     ver = string.sub(ver, 0, string.find(ver, "|")-1)
     return ver
 end
-
-
-
-
