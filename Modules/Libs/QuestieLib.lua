@@ -176,14 +176,13 @@ function QuestieLib:GetColoredQuestName(id, name, level, showLevel, isComplete, 
         name = name .. " (" .. id .. ")"
     end
 
---[[
-    --Not needed anymore? We're now inserting a "fake objective" showing a failed or complete status.
-    if isComplete == -1 then
-        name = name .. " (" .. _G['FAILED'] .. ")"
-    elseif isComplete == 1 then
-        name = name .. " (" .. _G['COMPLETE'] .. ")"
+    if Questie.db.global.collapseCompletedQuests then
+        if isComplete == -1 then
+            name = name .. " (" .. _G['FAILED'] .. ")"
+        elseif isComplete == 1 then
+            name = name .. " (" .. _G['COMPLETE'] .. ")"
+        end
     end
---]]
 
     return QuestieLib:PrintDifficultyColor(level, name)
 end

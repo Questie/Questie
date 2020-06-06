@@ -26,20 +26,9 @@ function QuestieOptions.tabs.tracker:Initialize()
                 order = 1,
                 name = function() return QuestieLocale:GetUIString('TRACKER_OPTIONSHEADER'); end,
             },
-            enableQuestieTracker = {
-                type = "toggle",
-                order = 1.1,
-                width = 1.0,
-                name = function() return QuestieLocale:GetUIString('TRACKER_ENABLED'); end,
-                desc = function() return QuestieLocale:GetUIString('TRACKER_ENABLED_DESC'); end,
-                get = function() return Questie.db.global.trackerEnabled; end,
-                set = function (info, value)
-                    QuestieTracker:Toggle(value)
-                end
-            },
             autoTrackQuests = {
                 type = "toggle",
-                order = 1.2,
+                order = 1.1,
                 width = 1.0,
                 name = function() return QuestieLocale:GetUIString('TRACKER_ENABLE_AUTOTRACK'); end,
                 desc = function() return QuestieLocale:GetUIString('TRACKER_ENABLE_AUTOTRACK_DESC'); end,
@@ -59,7 +48,7 @@ function QuestieOptions.tabs.tracker:Initialize()
             },
             showCompleteQuests = {
                 type = "toggle",
-                order = 1.3,
+                order = 1.2,
                 width = 1.0,
                 name = function() return QuestieLocale:GetUIString('TRACKER_SHOW_COMPLETE'); end,
                 desc = function() return QuestieLocale:GetUIString('TRACKER_SHOW_COMPLETE_DESC'); end,
@@ -67,6 +56,19 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.trackerShowCompleteQuests; end,
                 set = function (info, value)
                     Questie.db.global.trackerShowCompleteQuests = value
+                    QuestieTracker:ResetLinesForChange()
+                    QuestieTracker:Update()
+                end
+            },
+            collapseCompletedQuests = {
+                type = "toggle",
+                order = 1.3,
+                width = 1.0,
+                name = function() return QuestieLocale:GetUIString('TRACKER_COLLAPSE_COMPLETED'); end,
+                desc = function() return QuestieLocale:GetUIString('TRACKER_COLLAPSE_COMPLETED_DESC'); end,
+                get = function() return Questie.db.global.collapseCompletedQuests; end,
+                set = function (info, value)
+                    Questie.db.global.collapseCompletedQuests = value
                     QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
                 end
@@ -589,33 +591,55 @@ function QuestieOptions.tabs.tracker:Initialize()
 
             Spacer_B = QuestieOptionsUtils:Spacer(4.0),
 
-            resetTrackerLocation = {
+            enableQuestieTracker = {
                 type = "execute",
                 order = 4.1,
+                width = 1.0,
+                name = function() local buttonName if Questie.db.global.trackerEnabled then buttonName = QuestieLocale:GetUIString('TRACKER_DISABLED') elseif not Questie.db.global.trackerEnabled then buttonName = QuestieLocale:GetUIString('TRACKER_ENABLED') end return buttonName; end,
+                desc = function() local buttonName if Questie.db.global.trackerEnabled then buttonName = QuestieLocale:GetUIString('TRACKER_DISABLED_DESC') elseif not Questie.db.global.trackerEnabled then buttonName = QuestieLocale:GetUIString('TRACKER_ENABLED_DESC') end return buttonName; end,
+                disabled = function() return false; end,
+                func = function ()
+                    if Questie.db.global.trackerEnabled then
+                        QuestieTracker:Disable()
+                        Questie.db.global.trackerEnabled = false
+                    else
+                        QuestieTracker:Enable()
+                        Questie.db.global.trackerEnabled = true
+                    end
+
+                end
+            },
+
+            Space_X = QuestieOptionsUtils:HorizontalSpacer(4.2, 0.1),
+
+            resetTrackerLocation = {
+                type = "execute",
+                order = 4.3,
+                width = 1.0,
                 name = function() return QuestieLocale:GetUIString('TRACKER_RESET_LOCATION'); end,
                 desc = function() return QuestieLocale:GetUIString('TRACKER_RESET_LOCATION_DESC'); end,
-                disabled = function() return false; end,
+                disabled = function() return not Questie.db.global.trackerEnabled or InCombatLockdown(); end,
                 func = function (info, value)
                     QuestieTracker:ResetLocation()
                 end
             },
 
-            Spacer_X = QuestieOptionsUtils:HorizontalSpacer(4.2, 1.0),
+            Space_Y = QuestieOptionsUtils:HorizontalSpacer(4.4, 0.1),
 
             globalTrackerLocation = {
-                type = "toggle",
-                order = 4.3,
+                type = "execute",
+                order = 4.5,
                 width = 1.0,
-                name = function() return QuestieLocale:GetUIString('TRACKER_ENABLE_GLOBAL_TRACKERLOCATION'); end,
-                desc = function() return QuestieLocale:GetUIString('TRACKER_ENABLE_GLOBAL_TRACKERLOCATION_DESC'); end,
+                name = function() local buttonName if Questie.db.global.globalTrackerLocation then buttonName = QuestieLocale:GetUIString('TRACKER_ENABLE_CHAR_TRACKERLOCATION') elseif not Questie.db.global.globalTrackerLocation then buttonName = QuestieLocale:GetUIString('TRACKER_ENABLE_GLOBAL_TRACKERLOCATION') end return buttonName; end,
+                desc = function() local buttonName if Questie.db.global.globalTrackerLocation then buttonName = QuestieLocale:GetUIString('TRACKER_ENABLE_CHAR_TRACKERLOCATION_DESC') elseif not Questie.db.global.globalTrackerLocation then buttonName = QuestieLocale:GetUIString('TRACKER_ENABLE_GLOBAL_TRACKERLOCATION_DESC') end return buttonName; end,
                 disabled = function() return not Questie.db.global.trackerEnabled or InCombatLockdown(); end,
-                get = function() return Questie.db.global.globalTrackerLocation; end,
-                set = function (info, value)
-                    Questie.db.global.globalTrackerLocation = value
-                    if value == true then
+                func = function (info, value)
+                    if Questie.db.global.globalTrackerLocation then
                         Questie.db.global.questieTLoc = "global"
+                        Questie.db.global.globalTrackerLocation = false
                     else
                         Questie.db.global.questieTLoc = "char"
+                        Questie.db.global.globalTrackerLocation = true
                     end
                     QuestieTracker:ResetLocation()
                 end

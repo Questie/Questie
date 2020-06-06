@@ -59,9 +59,9 @@ function QuestieOptionsDefaults:Load()
             enableMiniMapIcons = true,
 
             -- Tracker Settings Tab
-            trackerEnabled = true,
             --autoTrackQuests = GetCVar("autoQuestWatch")
             trackerShowCompleteQuests = true,
+            collapseCompletedQuests = false,
             trackerShowQuestLevel = true,
             showBlizzardQuestTimer = false,
             hookTracking = true,
@@ -91,7 +91,8 @@ function QuestieOptionsDefaults:Load()
             trackerQuestPadding = 4,
             trackerBackdropAlpha = 1,
             --trackerReset = QuestieTracker:ResetLocation()
-            globalTrackerLocation = false,
+            trackerEnabled = true,
+            globalTrackerLocation = true,
             questieTLoc = "char",
 
         },

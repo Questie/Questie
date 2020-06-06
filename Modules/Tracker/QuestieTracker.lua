@@ -297,6 +297,7 @@ function _QuestieTracker:CreateBaseFrame()
     local x = 0.1 * 8/17
     line3:SetTexCoord(1/32 - x, 0.5, 1/32, 0.5 + x, 1/32, 0.5 - x, 1/32 + x, 0.5)
 
+    local QWF = nil
     if Questie.db[Questie.db.global.questieTLoc].TrackerLocation then
         -- we need to pcall this because it can error if something like MoveAnything is used to move the tracker
         local result, error = pcall(frm.SetPoint, frm, unpack(Questie.db[Questie.db.global.questieTLoc].TrackerLocation))
@@ -306,7 +307,7 @@ function _QuestieTracker:CreateBaseFrame()
             print(QuestieLocale:GetUIString("TRACKER_INVALID_LOCATION"))
 
             if QuestWatchFrame then
-                result, error = pcall(frm.SetPoint, frm, unpack({QuestWatchFrame:GetPoint()}))
+                local result, error = pcall(frm.SetPoint, frm, unpack({QuestWatchFrame:GetPoint()}))
                 Questie.db[Questie.db.global.questieTLoc].trackerSetpoint = "AUTO"
                 if not result then
                     Questie.db[Questie.db.global.questieTLoc].TrackerLocation = nil
@@ -1300,6 +1301,14 @@ function QuestieTracker:Update()
             line.expandZone:Hide()
             line.expandQuest:Show()
 
+            if Questie.db.global.collapseCompletedQuests and complete == 1 then
+                Questie.db.char.collapsedQuests[quest.Id] = true
+                line.expandQuest:SetMode(0)
+            else
+                Questie.db.char.collapsedQuests[quest.Id] = nil
+                line.expandQuest:SetMode(1)
+            end
+
             line.label:ClearAllPoints()
             line.label:SetPoint("TOPLEFT", line, "TOPLEFT", 0, 0)
             local questName = (quest.LocalizedName or quest.name)
@@ -1312,6 +1321,16 @@ function QuestieTracker:Update()
                 line.expandQuest:SetMode(0)
             else
                 line.expandQuest:SetMode(1)
+            end
+
+            if Questie.db.global.collapseCompletedQuests and complete == 1 then
+                Questie.db.char.collapsedQuests[quest.Id] = true
+                line.expandQuest:SetMode(0)
+                line.expandQuest:Hide()
+            else
+                Questie.db.char.collapsedQuests[quest.Id] = nil
+                line.expandQuest:SetMode(1)
+                line.expandQuest:Show()
             end
 
             if Questie.db.char.collapsedZones[quest.zoneOrSort] then
@@ -1973,6 +1992,7 @@ function QuestieTracker:ResetLinesForChange()
             _QuestieTracker.LineFrames[i].Objective = nil
             _QuestieTracker.LineFrames[i].expandQuest.mode = nil
             _QuestieTracker.LineFrames[i].expandQuest.questId = nil
+            _QuestieTracker.LineFrames[i].expandQuest:SetFrameStrata("MEDIUM")
             _QuestieTracker.LineFrames[i].expandZone.mode = nil
             _QuestieTracker.LineFrames[i].label:SetWidth(1)
             _QuestieTracker.LineFrames[i].label:Hide()
