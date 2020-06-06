@@ -1234,7 +1234,7 @@ function QuestieTracker:Update()
                     elseif (timerIndex == questLogIndex) and Questie.db.global.showBlizzardQuestTimer then
                         QuestieQuestTimers:ShowBlizzardTimer()
                         quest.timedBlizzardQuest = true
-                        QuestieQuestTimers.private.timers[i] = nil
+                        QuestieQuestTimers:GetQuestTimerByQuestId(questId, nil, true)
                         complete = 0
                     else
                         complete = quest:IsComplete()
@@ -1385,11 +1385,14 @@ function QuestieTracker:Update()
             line:SetVerticalPadding(2)
 
             -- Add quest timers (if applicable)
+            local seconds, index
             line = _QuestieTracker:GetNextLine()
             if not quest.timedBlizzardQuest then
                 seconds = QuestieQuestTimers:GetQuestTimerByQuestId(questId, line)
             end
             if (seconds) then
+                local prevLineIndex = lineIndex - 1
+                local prevLine = _QuestieTracker.LineFrames[prevLineIndex]
                 line:SetMode("objective")
                 line:SetQuest(quest)
                 line.expandZone:Hide()
@@ -1397,7 +1400,7 @@ function QuestieTracker:Update()
                 line.label:ClearAllPoints()
                 line.label:SetPoint("TOPLEFT", line, "TOPLEFT", 5, 0)
                 line.label:SetText(seconds)
-                line.label:SetWidth(math.min(math.max(Questie.db[Questie.db.global.questieTLoc].TrackerWidth, _QuestieTracker.baseFrame:GetWidth()) - (_QuestieTracker.QuestFrameIndent), trackerSpaceBuffer + line.label:GetUnboundedStringWidth()))
+                line.label:SetWidth(math.min(math.max(Questie.db[Questie.db.global.questieTLoc].TrackerWidth, _QuestieTracker.baseFrame:GetWidth()) - (_QuestieTracker.QuestFrameIndent), trackerSpaceBuffer + prevLine.label:GetUnboundedStringWidth()))
                 line:SetWidth(line.label:GetWidth())
                 line:SetVerticalPadding(2)
                 line:Show()
@@ -1407,8 +1410,10 @@ function QuestieTracker:Update()
                     lineIndex = lineIndex - 1
                     line:Hide()
                     line.label:Hide()
+                    QuestieQuestTimers:GetQuestTimerByQuestId(questId, nil, true)
+                    --QuestieQuestTimers.private.timers[index] = nil
                 else
-                    trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + trackerSpaceBuffer)
+                    trackerLineWidth = math.max(trackerLineWidth, prevLine.label:GetUnboundedStringWidth())
                 end
             else
 
