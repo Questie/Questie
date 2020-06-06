@@ -1,6 +1,7 @@
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 QuestieTracker.utils = {}
+QuestieTracker.utils._zoneCache = {}
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 
@@ -342,9 +343,13 @@ function QuestieTracker.utils:IsBindTrue(bind, button)
 end
 
 function QuestieTracker.utils:GetZoneNameByID(zoneId)
+    if QuestieTracker.utils._zoneCache[zoneId] then
+        return QuestieTracker.utils._zoneCache[zoneId]
+    end
     for cont, zone in pairs(LangZoneLookup) do
         for zoneIDnum, zoneName in pairs(zone) do
             if zoneIDnum == zoneId then
+                QuestieTracker.utils._zoneCache[zoneId] = zoneName
                 return zoneName
             end
         end
