@@ -2005,7 +2005,6 @@ function QuestieTracker:ResetLinesForChange()
         end
     end
     _QuestieTracker:UpdateLayout()
-    QuestieTracker:Update()
 end
 
 function QuestieTracker:RemoveQuest(id)
