@@ -62,8 +62,6 @@ function QuestieQuest:ToggleNotes(desiredValue)
         return -- we already have the desired state
     end
 
-    Questie.db.char.enabled = desiredValue
-
     local questieCharDB = Questie.db.char
     if QuestieQuest.NotesAreHidden then
         -- change map button
@@ -122,6 +120,7 @@ function QuestieQuest:ToggleNotes(desiredValue)
         end
     end
 
+    Questie.db.char.enabled = desiredValue
     QuestieQuest.NotesAreHidden = desiredValue
 end
 
