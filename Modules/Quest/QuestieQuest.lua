@@ -1508,64 +1508,68 @@ end
 -- The Hyperlink hook is located in QuestieTooltips.lua
 ---------------------------------------------------------------------------------------------------
 -- Message Event Filter which intercepts incoming linked quests and replaces them with Hyperlinks
+local lastMsg = ""
 local function QuestsFilter(chatFrame, event, msg, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, unused, lineID, senderGUID, ...)
-    if msg then
-        for k in string.gmatch(msg, "%[%[?..?%]?..-%]") do
-            local complete, sqid, questId, questLevel, questName, realQuestName, realQuestLevel
-            _, _, questName, sqid = string.find(k, "%[(..-) %((%d+)%)%]")
+    if lastMsg ~= msg then
+        lastMsg = msg
+        if string.find(msg, "%[(..-) %((%d+)%)%]") then
+            for k in string.gmatch(msg, "%[%[?..?%]?..-%]") do
+                local complete, sqid, questId, questLevel, questName, realQuestName, realQuestLevel
+                _, _, questName, sqid = string.find(k, "%[(..-) %((%d+)%)%]")
 
-            if questName and sqid then
-                questId = tonumber(sqid)
+                if questName and sqid then
+                    questId = tonumber(sqid)
 
-                if string.find(questName, "(%[.+%]) ") ~= nil then
-                    _, _, questLevel, questName = string.find(questName, "%[(.+)%] (.+)")
+                    if string.find(questName, "(%[.+%]) ") ~= nil then
+                        _, _, questLevel, questName = string.find(questName, "%[(.+)%] (.+)")
+                    end
+
+                    realQuestName, realQuestLevel = unpack(QuestieDB.QueryQuest(questId, "name", "questLevel"))
+
+                    if realQuestName then
+                        complete = QuestieQuest:IsCompleteId(questId)
+                    end
                 end
 
-                realQuestName, realQuestLevel = unpack(QuestieDB.QueryQuest(questId, "name", "questLevel"))
+                if realQuestName and realQuestName == questName and questId then
+                    local coloredQuestName = QuestieLib:GetColoredQuestName(questId, questName, realQuestLevel, Questie.db.global.trackerShowQuestLevel, complete, false)
+                    local questLink = "|Hquestie:"..sqid..":"..senderGUID.."|h"..QuestieLib:PrintDifficultyColor(realQuestLevel, "[")..coloredQuestName..QuestieLib:PrintDifficultyColor(realQuestLevel, "]").."|h"
 
-                if realQuestName then
-                    complete = QuestieQuest:IsCompleteId(questId)
+                    -- Escape the magic characters
+                    local function escapeMagic(toEsc)
+                        return (toEsc
+                            :gsub("%%", "%%%%")
+                            :gsub("^%^", "%%^")
+                            :gsub("%$$", "%%$")
+                            :gsub("%(", "%%(")
+                            :gsub("%)", "%%)")
+                            :gsub("%.", "%%.")
+                            :gsub("%[", "%%[")
+                            :gsub("%]", "%%]")
+                            :gsub("%*", "%%*")
+                            :gsub("%+", "%%+")
+                            :gsub("%-", "%%-")
+                            :gsub("%?", "%%?")
+                        )
+                    end
+
+                    if questName then
+                        questName = escapeMagic(questName)
+                    end
+
+                    if questLevel then
+                        questLevel = escapeMagic(questLevel)
+                    end
+
+                    if questLevel then
+                        msg = string.gsub(msg, "%[%["..questLevel.."%] "..questName.." %("..sqid.."%)%]", questLink)
+                    else
+                        msg = string.gsub(msg, "%["..questName.." %("..sqid.."%)%]", questLink)
+                    end
                 end
             end
-
-            if realQuestName and realQuestName == questName and questId then
-                local coloredQuestName = QuestieLib:GetColoredQuestName(questId, questName, realQuestLevel, Questie.db.global.trackerShowQuestLevel, complete, false)
-                local questLink = "|Hquestie:"..sqid..":"..senderGUID.."|h"..QuestieLib:PrintDifficultyColor(realQuestLevel, "[")..coloredQuestName..QuestieLib:PrintDifficultyColor(realQuestLevel, "]").."|h"
-
-                -- Escape the magic characters
-                local function escapeMagic(toEsc)
-                    return (toEsc
-                        :gsub("%%", "%%%%")
-                        :gsub("^%^", "%%^")
-                        :gsub("%$$", "%%$")
-                        :gsub("%(", "%%(")
-                        :gsub("%)", "%%)")
-                        :gsub("%.", "%%.")
-                        :gsub("%[", "%%[")
-                        :gsub("%]", "%%]")
-                        :gsub("%*", "%%*")
-                        :gsub("%+", "%%+")
-                        :gsub("%-", "%%-")
-                        :gsub("%?", "%%?")
-                    )
-                end
-
-                if questName then
-                    questName = escapeMagic(questName)
-                end
-
-                if questLevel then
-                    questLevel = escapeMagic(questLevel)
-                end
-
-                if questLevel then
-                    msg = string.gsub(msg, "%[%["..questLevel.."%] "..questName.." %("..sqid.."%)%]", questLink)
-                else
-                    msg = string.gsub(msg, "%["..questName.." %("..sqid.."%)%]", questLink)
-                end
-            end
+            return false, msg, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, unused, lineID, senderGUID, ...
         end
-        return false, msg, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, unused, lineID, senderGUID, ...
     end
 end
 
