@@ -1385,7 +1385,7 @@ function QuestieTracker:Update()
             line:SetVerticalPadding(2)
 
             -- Add quest timers (if applicable)
-            local seconds, index
+            local seconds
             line = _QuestieTracker:GetNextLine()
             if not quest.timedBlizzardQuest then
                 seconds = QuestieQuestTimers:GetQuestTimerByQuestId(questId, line)
@@ -1411,7 +1411,6 @@ function QuestieTracker:Update()
                     line:Hide()
                     line.label:Hide()
                     QuestieQuestTimers:GetQuestTimerByQuestId(questId, nil, true)
-                    --QuestieQuestTimers.private.timers[index] = nil
                 else
                     trackerLineWidth = math.max(trackerLineWidth, prevLine.label:GetUnboundedStringWidth())
                 end
