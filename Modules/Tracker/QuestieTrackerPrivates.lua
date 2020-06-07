@@ -16,7 +16,7 @@ function _QuestieTracker:OnDragStart(button)
     Questie:Debug(DEBUG_DEVELOP, "[_QuestieTracker:OnDragStart]", button)
     local baseFrame = QuestieTracker:GetBaseFrame()
     if IsMouseButtonDown(button) then
-        if (IsControlKeyDown() or not Questie.db.global.trackerLocked) and not ChatEdit_GetActiveWindow() then
+        if (IsControlKeyDown() and Questie.db.global.trackerLocked and not ChatEdit_GetActiveWindow()) or not Questie.db.global.trackerLocked then
             _QuestieTracker.isMoving = true
             startDragAnchor = {baseFrame:GetPoint()}
             preSetPoint = ({baseFrame:GetPoint()})[1]
