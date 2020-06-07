@@ -498,8 +498,9 @@ function _QuestieTracker:CreateActiveQuestsHeader()
         GameTooltip:AddLine("Questie ".. QuestieLib:GetAddonVersionString(), 1, 1, 1)
         GameTooltip:AddLine(Questie:Colorize(QuestieLocale:GetUIString("ICON_LEFT_CLICK") , "gray") .. ": " .. QuestieLocale:GetUIString("ICON_TOGGLE"))
         GameTooltip:AddLine(Questie:Colorize(QuestieLocale:GetUIString("ICON_RIGHT_CLICK") , "gray") .. ": " .. QuestieLocale:GetUIString("ICON_JOURNEY"))
-        GameTooltip:AddLine(Questie:Colorize("Left-Click-Hold" , "gray") .. ": " .. "Drag while Unlocked")
-        GameTooltip:AddLine(Questie:Colorize("CTRL-Left-Click-Hold", "gray") .. ": " .. "Drag while Locked")
+        GameTooltip:AddLine(" ")
+        GameTooltip:AddLine(Questie:Colorize(QuestieLocale:GetUIString("ICON_LEFT_CLICK_HOLD") , "gray") .. ": " .. QuestieLocale:GetUIString("ICON_DRAG_UNLOCKED"))
+        GameTooltip:AddLine(Questie:Colorize(QuestieLocale:GetUIString("ICON_CTRLLEFT_CLICK_HOLD"), "gray") .. ": " .. QuestieLocale:GetUIString("ICON_DRAG_LOCKED"))
         GameTooltip:Show()
 
         _OnEnter(self)
@@ -614,18 +615,35 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
 
         btn.SetItem = function(self, quest, size)
             local validTexture = nil
-            for bag = 0 , 5 do -- maybe keyring still acts like a bag
+            local isFound = false
+
+            for bag = 0 , 5 do
                 for slot = 0 , 24 do
                     local texture, count, locked, quality, readable, lootable, link, filtered, noValue, itemID = GetContainerItemInfo(bag, slot)
                     if quest.sourceItemId == itemID then
                         validTexture = texture
                         itemID = tonumber(itemID)
+                        isFound = true
                         break
                     end
                 end
             end
 
-            if validTexture then
+            -- Edge case to find "equipped" quest items since they will no longer be in the players bag
+            if not isFound then
+                for i = 13, 17 do
+                    local itemId = GetInventoryItemID("player", i)
+                    local texture = GetInventoryItemTexture("player", i)
+                    if quest.sourceItemId == itemID then
+                        validTexture = texture
+                        itemID = tonumber(itemID)
+                        isFound = true
+                        break
+                    end
+                end
+            end
+
+            if validTexture and isFound then
                 self.itemID = quest.sourceItemId
                 self.questID = quest.Id
                 self.charges = GetItemCount(self.itemID, nil, true)
@@ -664,7 +682,7 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
                     self.count:SetText(self.charges)
                     self.count:Show()
                 end
-                self.count:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 0, 3)
+                self.count:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", -2, 3)
 
                 self.UpdateButton(self)
 
@@ -716,6 +734,7 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
         btn.OnEvent = function(self, event, ...)
             if (event == "PLAYER_TARGET_CHANGED") then
                 self.rangeTimer = -1
+                self.range:Hide()
 
             elseif (event == "BAG_UPDATE_COOLDOWN") then
                 self.UpdateButton(self)
@@ -729,6 +748,16 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
 
             local valid = nil
             local rangeTimer = self.rangeTimer
+            local charges = GetItemCount(self.itemID, nil, true)
+
+            if (not charges or charges ~= self.charges) then
+                self.count:Hide()
+                self.charges = GetItemCount(self.itemID, nil, true)
+                if self.charges > 1 then
+                    self.count:SetText(self.charges)
+                    self.count:Show()
+                end
+            end
 
             if UnitExists("target") then
 
@@ -740,11 +769,6 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
                     rangeTimer = rangeTimer - elapsed
 
                     if (rangeTimer <= 0) then
-                        local charges = GetItemCount(self.itemID, nil, true)
-
-                        if (not charges or charges ~= self.charges) then
-                            return
-                        end
 
                         valid = IsItemInRange(self.itemName, "target")
 
@@ -754,7 +778,7 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
 
                         elseif valid == true then
                             self.range:SetVertexColor(0.6, 0.6, 0.6)
-                            self.range:Hide()
+                            self.range:Show()
                         end
 
                         rangeTimer = 0.3
@@ -805,7 +829,6 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
 
         _QuestieTracker.ItemButtons[i] = btn
         _QuestieTracker.ItemButtons[i]:Hide()
-        --_QuestieTracker.ItemButtons[i]:SetAlpha(0)
     end
 end
 
