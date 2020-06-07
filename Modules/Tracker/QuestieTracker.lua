@@ -12,6 +12,10 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+---@type QuestieOptions
+local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions")
+---@type QuestieJourney
+local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieQuestTimers
@@ -342,7 +346,7 @@ function _QuestieTracker:CreateActiveQuestsHeader()
     local frm = CreateFrame("Button", "Questie:ActiveQuestsHeader", _QuestieTracker.baseFrame)
 
     frm.label = frm:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-    frm.label:SetPoint("TOPLEFT", frm, "TOPLEFT", 0, 0)
+    frm.label:SetPoint("TOPLEFT", frm, "TOPLEFT", 18, 0)
     frm:SetWidth(frm.label:GetUnboundedStringWidth())
     frm:SetHeight(trackerFontSizeHeader)
 
@@ -365,7 +369,7 @@ function _QuestieTracker:CreateActiveQuestsHeader()
             local _, activeQuests = GetNumQuestLogEntries()
             self.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontHeader) or STANDARD_TEXT_FONT, trackerFontSizeHeader)
             self.label:SetText(QuestieLocale:GetUIString("TRACKER_ACTIVE_QUESTS") .. tostring(activeQuests) .. "/20")
-            self.label:SetPoint("TOPLEFT", self, "TOPLEFT", 0, 0)
+            self.label:SetPoint("TOPLEFT", self, "TOPLEFT", 18, 0)
             self.label:Show()
 
             self:SetWidth(self.label:GetUnboundedStringWidth())
@@ -449,6 +453,85 @@ function _QuestieTracker:CreateActiveQuestsHeader()
     frm:SetScript("OnDragStop", _QuestieTracker.OnDragStop)
     frm:SetScript("OnEnter", _OnEnter)
     frm:SetScript("OnLeave", _OnLeave)
+
+    -- Questie Icon
+    local questieIcon = CreateFrame("Button", nil, frm)
+    questieIcon:SetPoint("TOPLEFT", frm, "TOPLEFT", 0, 2)
+    questieIcon:SetWidth(16)
+    questieIcon:SetHeight(16)
+
+    local texture = questieIcon:CreateTexture(nil, "OVERLAY", nil, 0)
+    texture:SetWidth(16)
+    texture:SetHeight(16)
+    texture:SetPoint("TOPLEFT", 0, 0)
+    texture:SetTexture(ICON_TYPE_COMPLETE)
+
+    questieIcon:EnableMouse(true)
+    questieIcon:RegisterForClicks("LeftButtonUp", "RightButtonUp")
+
+    questieIcon:SetScript("OnClick", function (self, button)
+        print("OnClick")
+        if button == "LeftButton" then
+            if IsShiftKeyDown() then
+                QuestieQuest:ToggleNotes(not Questie.db.char.enabled);
+
+                -- CLose config window if it's open to avoid desyncing the Checkbox
+                QuestieOptions:HideFrame();
+                return;
+            elseif IsControlKeyDown() then
+                QuestieQuest:SmoothReset()
+                return
+            end
+
+            if InCombatLockdown() then
+                QuestieOptions:HideFrame()
+            else
+                QuestieOptions:OpenConfigWindow()
+            end
+
+            if QuestieJourney:IsShown() then
+                QuestieJourney.ToggleJourneyWindow();
+            end
+            return;
+
+        elseif button == "RightButton" then
+            if not IsModifierKeyDown() then
+                -- CLose config window if it's open to avoid desyncing the Checkbox
+                QuestieOptions:HideFrame();
+
+                QuestieJourney.ToggleJourneyWindow();
+                return;
+            elseif IsControlKeyDown() then
+                Questie.db.profile.minimap.hide = true;
+                Questie.minimapConfigIcon:Hide("Questie");
+                return;
+            end
+        end
+    end)
+
+    questieIcon:SetScript("OnEnter", function (self)
+        print("OnEnter")
+        GameTooltip:SetOwner(UIParent, "ANCHOR_CURSOR")
+        GameTooltip:AddLine("Questie ".. QuestieLib:GetAddonVersionString(), 1, 1, 1)
+        GameTooltip:AddLine(Questie:Colorize(QuestieLocale:GetUIString("ICON_LEFT_CLICK") , "gray") .. ": " .. QuestieLocale:GetUIString("ICON_TOGGLE"))
+        GameTooltip:AddLine(Questie:Colorize(QuestieLocale:GetUIString("ICON_RIGHT_CLICK") , "gray") .. ": " .. QuestieLocale:GetUIString("ICON_JOURNEY"))
+        GameTooltip:AddLine(Questie:Colorize("Left-Click-Hold" , "gray") .. ": " .. "Drag while Unlocked")
+        GameTooltip:AddLine(Questie:Colorize("CTRL-Left-Click-Hold", "gray") .. ": " .. "Drag while Locked")
+        GameTooltip:Show()
+
+        _OnEnter(self)
+    end)
+
+    questieIcon:SetScript("OnLeave", function (self)
+        print("OnLeave")
+        if GameTooltip:IsShown() then
+            GameTooltip:Hide()
+        end
+
+        _OnLeave(self)
+    end)
+
+    frm.questieIcon = questieIcon
 
     frm:Show()
 
@@ -1307,7 +1390,7 @@ function QuestieTracker:Update()
             line.label:SetWidth(math.min(math.max(Questie.db[Questie.db.global.questieTLoc].TrackerWidth, _QuestieTracker.baseFrame:GetWidth()) - (_QuestieTracker.QuestFrameIndent + trackerSpaceBuffer), line.label:GetUnboundedStringWidth()))
             line:SetWidth(line.label:GetWidth())
 
-            if Questie.db.global.collapseCompletedQuests and complete == 1 then
+            if Questie.db.global.collapseCompletedQuests and (complete == 1 or complete == -1) then
                 if Questie.db.char.collapsedQuests[quest.Id] == nil then
                     Questie.db.char.collapsedQuests[quest.Id] = true
                     line.expandQuest:SetMode(1)
