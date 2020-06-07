@@ -59,7 +59,7 @@ function QuestieOptionsDefaults:Load()
             enableMiniMapIcons = true,
 
             -- Tracker Settings Tab
-            --autoTrackQuests = GetCVar("autoQuestWatch")
+            autoTrackQuests = true,
             trackerShowCompleteQuests = true,
             collapseCompletedQuests = false,
             trackerShowQuestLevel = true,

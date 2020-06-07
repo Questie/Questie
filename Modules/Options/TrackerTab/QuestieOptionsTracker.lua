@@ -33,11 +33,13 @@ function QuestieOptions.tabs.tracker:Initialize()
                 name = function() return QuestieLocale:GetUIString('TRACKER_ENABLE_AUTOTRACK'); end,
                 desc = function() return QuestieLocale:GetUIString('TRACKER_ENABLE_AUTOTRACK_DESC'); end,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
-                get = function() return GetCVar("autoQuestWatch") == "1"; end,
+                get = function() return Questie.db.global.autoTrackQuests; end,
                 set = function (info, value)
+                    Questie.db.global.autoTrackQuests = value
                     if value then
                         SetCVar("autoQuestWatch", "1")
                         Questie.db.char.TrackedQuests = {}
+
                     else
                         SetCVar("autoQuestWatch", "0")
                         Questie.db.char.AutoUntrackedQuests = {}

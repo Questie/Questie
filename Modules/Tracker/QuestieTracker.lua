@@ -159,6 +159,13 @@ function QuestieTracker:Initialize()
         DurabilityFrame:Show()
         QuestieTracker:MoveDurabilityFrame()
 
+        -- Prevents addons like Dugi Guides from turning off Automatic Quest Tracking
+        if Questie.db.global.autoTrackQuests then
+            if IsAddOnLoaded("DugisGuideViewerZ") then
+                SetCVar("autoQuestWatch", "1")
+            end
+        end
+
         -- Font's and cooldowns can occationally not apply upon login
         QuestieTracker:ResetLinesForChange()
         QuestieTracker:Update()
@@ -1359,7 +1366,7 @@ function QuestieTracker:Update()
             end
         end
 
-        if ((complete ~= 1 or Questie.db.global.trackerShowCompleteQuests) and not quest.timedBlizzardQuest) and ((GetCVar("autoQuestWatch") == "1" and not Questie.db.char.AutoUntrackedQuests[questId]) or (GetCVar("autoQuestWatch") == "0" and Questie.db.char.TrackedQuests[questId]))  then -- maybe have an option to display quests in the list with (Complete!) in the title
+        if ((complete ~= 1 or Questie.db.global.trackerShowCompleteQuests) and not quest.timedBlizzardQuest) and ((GetCVar("autoQuestWatch") == "1" and not Questie.db.char.AutoUntrackedQuests[questId]) or (GetCVar("autoQuestWatch") == "0" and Questie.db.char.TrackedQuests[questId])) then
             hasQuest = true
 
             -- Add zones
@@ -2150,7 +2157,7 @@ _RemoveQuestWatch = function(index, isQuestie)
         return
     end
 
-    if not isQuestie then
+    if not isQuestie and not IsAddOnLoaded("DugisGuideViewerZ") then
         local qid = select(8,GetQuestLogTitle(index))
         if qid then
             if "0" == GetCVar("autoQuestWatch") then
