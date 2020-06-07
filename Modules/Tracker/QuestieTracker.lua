@@ -356,12 +356,12 @@ function _QuestieTracker:CreateActiveQuestsHeader()
 
     if Questie.db.global.trackerHeaderAutoMove then
         if Questie.db[Questie.db.global.questieTLoc].TrackerLocation and (Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMLEFT" or Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMRIGHT") then
-            frm:SetPoint("BOTTOMLEFT", _QuestieTracker.baseFrame, "BOTTOMLEFT", trackerSpaceBuffer/2.6, 10)
+            frm:SetPoint("BOTTOMLEFT", _QuestieTracker.baseFrame, "BOTTOMLEFT", trackerSpaceBuffer/2.6, 8)
         else
-            frm:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerSpaceBuffer/2.6, -10)
+            frm:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerSpaceBuffer/2.6, -8)
         end
     else
-        frm:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerSpaceBuffer/2.6, -10)
+        frm:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerSpaceBuffer/2.6, -8)
     end
 
     frm.Update = function(self)
@@ -378,12 +378,12 @@ function _QuestieTracker:CreateActiveQuestsHeader()
             self:ClearAllPoints()
             if Questie.db.global.trackerHeaderAutoMove then
                 if Questie.db[Questie.db.global.questieTLoc].TrackerLocation and (Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMLEFT" or Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMRIGHT") then
-                    self:SetPoint("BOTTOMLEFT", _QuestieTracker.baseFrame, "BOTTOMLEFT", trackerSpaceBuffer/2.6, 10)
+                    self:SetPoint("BOTTOMLEFT", _QuestieTracker.baseFrame, "BOTTOMLEFT", trackerSpaceBuffer/2.6, 8)
                 else
-                    self:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerSpaceBuffer/2.6, -10)
+                    self:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerSpaceBuffer/2.6, -8)
                 end
             else
-                self:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerSpaceBuffer/2.6, -10)
+                self:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerSpaceBuffer/2.6, -8)
             end
             _QuestieTracker.baseFrame:SetMinResize(trackerSpaceBuffer + self.label:GetUnboundedStringWidth(), trackerSpaceBuffer)
         else
@@ -456,7 +456,7 @@ function _QuestieTracker:CreateActiveQuestsHeader()
 
     -- Questie Icon
     local questieIcon = CreateFrame("Button", nil, frm)
-    questieIcon:SetPoint("TOPLEFT", frm, "TOPLEFT", 0, 2)
+    questieIcon:SetPoint("TOPLEFT", frm, "TOPLEFT", 0, 0.75)
     questieIcon:SetWidth(16)
     questieIcon:SetHeight(16)
 
