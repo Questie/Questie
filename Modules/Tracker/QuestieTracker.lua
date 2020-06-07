@@ -357,7 +357,7 @@ function _QuestieTracker:CreateActiveQuestsHeader()
             self.questieIcon:SetFrameLevel(3)
             self.questieIcon:SetWidth(trackerFontSizeHeader)
             self.questieIcon:SetHeight(trackerFontSizeHeader)
-            self.questieIcon:SetPoint("TOPLEFT", frm, "TOPLEFT", 0, 0)
+            self.questieIcon:SetPoint("TOPLEFT", frm, "TOPLEFT", 0, -0.25)
             self.questieIcon:Show()
 
             self.questieIcon.texture:SetWidth(trackerFontSizeHeader)
@@ -436,7 +436,7 @@ function _QuestieTracker:CreateActiveQuestsHeader()
 
     -- Questie Icon Settings
     local questieIcon = CreateFrame("Button", "Questie:QuestieTrackerIcon", _QuestieTracker.baseFrame)
-    questieIcon:SetPoint("TOPLEFT", frm, "TOPLEFT", 0, 0)
+    questieIcon:SetPoint("TOPLEFT", frm, "TOPLEFT", 0, -0.25)
 
     -- Questie Icon Texture Settings
     questieIcon.texture = questieIcon:CreateTexture(nil, "OVERLAY", nil, 0)
