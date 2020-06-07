@@ -631,7 +631,7 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
 
             -- Edge case to find "equipped" quest items since they will no longer be in the players bag
             if not isFound then
-                for i = 13, 17 do
+                for i = 13, 18 do
                     local itemId = GetInventoryItemID("player", i)
                     local texture = GetInventoryItemTexture("player", i)
                     if quest.sourceItemId == itemID then
