@@ -403,8 +403,6 @@ _PLAYER_REGEN_DISABLED = function()
         if QuestieConfigFrame:IsShown() then
             QuestieOptions:HideFrame()
         end
-    else
-        QuestieOptions:OpenConfigWindow()
     end
 end
 
