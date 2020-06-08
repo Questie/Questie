@@ -867,6 +867,7 @@ function _QuestieTracker:CreateTrackedQuestButtons()
 
         btn:SetWidth(1)
         btn:SetHeight(1)
+        btn:SetAlpha(0.75)
 
         if lastFrame then
             btn:SetPoint("TOPLEFT", lastFrame, "BOTTOMLEFT", 0,0)
@@ -923,8 +924,16 @@ function _QuestieTracker:CreateTrackedQuestButtons()
         btn:SetScript("OnClick", _OnClick)
         btn:SetScript("OnDragStart", _QuestieTracker.OnDragStart)
         btn:SetScript("OnDragStop", _QuestieTracker.OnDragStop)
-        btn:SetScript("OnEnter", _OnEnter)
-        btn:SetScript("OnLeave", _OnLeave)
+
+        btn:SetScript("OnEnter", function(self)
+            _OnHighlightEnter(self)
+            _OnEnter()
+        end)
+
+        btn:SetScript("OnLeave", function(self)
+            _OnHighlightLeave(self)
+            _OnLeave()
+        end)
 
         if lastFrame then
             btn:SetPoint("TOPLEFT", lastFrame, "BOTTOMLEFT", 0,0)
@@ -2101,6 +2110,42 @@ end
 _OnLeave = function()
     _QuestieTracker.FadeTickerDirection = false
     _QuestieTracker:StartFadeTicker()
+end
+
+_OnHighlightEnter = function(self)
+    if _QuestieTracker.highestIndex then
+        for i = 1, _QuestieTracker.highestIndex do
+            if _QuestieTracker.LineFrames[i].Quest == self.Quest then
+                if _QuestieTracker.LineFrames[i].mode ~= "zone" then
+                    _QuestieTracker.LineFrames[i]:SetAlpha(1)
+                end
+            end
+        end
+    else
+        for i = 1, trackerLineCount do
+            if _QuestieTracker.LineFrames[i].Quest == self.Quest then
+                if _QuestieTracker.LineFrames[i].mode ~= "zone" then
+                    _QuestieTracker.LineFrames[i]:SetAlpha(1)
+                end
+            end
+        end
+    end
+end
+
+_OnHighlightLeave = function(self)
+    if _QuestieTracker.highestIndex then
+        for i = 1, _QuestieTracker.highestIndex do
+            if _QuestieTracker.LineFrames[i].mode ~= "zone" then
+                _QuestieTracker.LineFrames[i]:SetAlpha(0.75)
+            end
+        end
+    else
+        for i = 1, trackerLineCount do
+            if _QuestieTracker.LineFrames[i].mode ~= "zone" then
+                _QuestieTracker.LineFrames[i]:SetAlpha(0.75)
+            end
+        end
+    end
 end
 
 function QuestieTracker:ResetLinesForChange()
