@@ -42,13 +42,15 @@ local slower = string.lower;
 
 QuestieQuest.availableQuests = {} --Gets populated at PLAYER_ENTERED_WORLD
 
+-- forward declaration
+local _UnhideQuestIcons, _HideQuestIcons
+
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 
 function QuestieQuest:Initialize()
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString("DEBUG_GET_QUEST_COMP"))
     --GetQuestsCompleted(Questie.db.char.complete)
     Questie.db.char.complete = GetQuestsCompleted()
-    QuestieQuest.NotesAreHidden = not Questie.db.char.enabled
 
     QuestieProfessions:Update()
     QuestieReputation:Update(true)
@@ -56,72 +58,77 @@ function QuestieQuest:Initialize()
     QuestieHash:LoadQuestLogHashes()
 end
 
-
-function QuestieQuest:ToggleNotes(desiredValue)
-    if desiredValue == Questie.db.char.enabled then
+function QuestieQuest:ToggleNotes(showIcons)
+    if showIcons == Questie.db.char.enabled then
         return -- we already have the desired state
     end
 
-    local questieCharDB = Questie.db.char
-    if QuestieQuest.NotesAreHidden then
-        -- change map button
-        Questie_Toggle:SetText(QuestieLocale:GetUIString("QUESTIE_MAP_BUTTON_HIDE"));
-        -- show quest notes
-        local trackerHiddenQuests = questieCharDB.TrackerHiddenQuests
-        for questId, framelist in pairs(QuestieMap.questIdFrames) do
-            if (trackerHiddenQuests == nil) or (trackerHiddenQuests[questId] == nil) then -- Skip quests which are completly hidden from the Tracker menu
-                for _, frameName in pairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
-                    ---@type IconFrame
-                    local icon = _G[frameName];
-                    if icon.data == nil then
-                        error("Desync! Icon has not been removed correctly, but has already been resetted. Skipping frame \"" .. frameName .. "\" for quest " .. questId)
-                        -- Questie:Debug(DEBUG_CRITICAL, "Desync! Icon has not been removed correctly, but has already been resetted. Skipping frame \"" .. frameName .. "\" for quest", questId)
-                    else
-                        local objectiveString = tostring(questId) .. " " .. tostring(icon.data.ObjectiveIndex)
-                        if (questieCharDB.TrackerHiddenObjectives == nil) or (questieCharDB.TrackerHiddenObjectives[objectiveString] == nil) then
-                            if icon ~= nil and icon.hidden and (not icon:ShouldBeHidden()) then
-                                icon:FakeUnhide()
-                            end
+    Questie.db.char.enabled = showIcons -- functions like icon:ShouldBeHidden depends on this
+
+    if showIcons then
+        _UnhideQuestIcons()
+    else
+        _HideQuestIcons()
+    end
+end
+
+_UnhideQuestIcons = function()
+    -- change map button
+    Questie_Toggle:SetText(QuestieLocale:GetUIString("QUESTIE_MAP_BUTTON_HIDE"));
+
+    local trackerHiddenQuests = Questie.db.char.TrackerHiddenQuests
+    for questId, framelist in pairs(QuestieMap.questIdFrames) do
+        if (trackerHiddenQuests == nil) or (trackerHiddenQuests[questId] == nil) then -- Skip quests which are completly hidden from the Tracker menu
+            for _, frameName in pairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
+                ---@type IconFrame
+                local icon = _G[frameName];
+                if icon.data == nil then
+                    error("Desync! Icon has not been removed correctly, but has already been resetted. Skipping frame \"" .. frameName .. "\" for quest " .. questId)
+                else
+                    local objectiveString = tostring(questId) .. " " .. tostring(icon.data.ObjectiveIndex)
+                    if (Questie.db.char.TrackerHiddenObjectives == nil) or (Questie.db.char.TrackerHiddenObjectives[objectiveString] == nil) then
+                        if icon ~= nil and icon.hidden and (not icon:ShouldBeHidden()) then
+                            icon:FakeUnhide()
                         end
                     end
                 end
             end
         end
-        -- show manual notes
-        -- TODO probably this whole function should be moved to QuestieMap, now that it handles manualFrames
-        for _, frameList in pairs(QuestieMap.manualFrames) do
-            for _, frameName in pairs(frameList) do
-                local icon = _G[frameName];
-                if icon ~= nil and (not icon:ShouldBeHidden()) and (not icon.hidden) then -- check for function to make sure its a frame
-                    icon:FakeUnide()
-                end
+    end
+    -- show manual notes
+    -- TODO probably this whole function should be moved to QuestieMap, now that it handles manualFrames
+    for _, frameList in pairs(QuestieMap.manualFrames) do
+        for _, frameName in pairs(frameList) do
+            local icon = _G[frameName];
+            if icon ~= nil and (not icon:ShouldBeHidden()) and (not icon.hidden) then -- check for function to make sure its a frame
+                icon:FakeUnide()
             end
         end
-    else
-        -- change map button
-        Questie_Toggle:SetText(QuestieLocale:GetUIString("QUESTIE_MAP_BUTTON_SHOW"));
-        -- hide quest notes
-        for questId, framelist in pairs(QuestieMap.questIdFrames) do
-            for index, frameName in pairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
-                local icon = _G[frameName];
-                if icon ~= nil and icon:ShouldBeHidden() and (not icon.hidden) then -- check for function to make sure its a frame
-                    icon:FakeHide()
-                end
+    end
+end
+
+_HideQuestIcons = function()
+    -- change map button
+    Questie_Toggle:SetText(QuestieLocale:GetUIString("QUESTIE_MAP_BUTTON_SHOW"));
+
+    for _, framelist in pairs(QuestieMap.questIdFrames) do
+        for _, frameName in pairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
+            local icon = _G[frameName];
+            if icon ~= nil and icon:ShouldBeHidden() and (not icon.hidden) then -- check for function to make sure its a frame
+                icon:FakeHide()
             end
         end
-        -- hide manual notes
-        for _, frameList in pairs(QuestieMap.manualFrames) do
-            for _, frameName in pairs(frameList) do
-                local icon = _G[frameName];
-                if icon ~= nil and icon:ShouldBeHidden() and (not icon.hidden) then -- check for function to make sure its a frame
-                    icon:FakeHide()
-                end
+    end
+    -- hide manual notes
+    for _, frameList in pairs(QuestieMap.manualFrames) do
+        for _, frameName in pairs(frameList) do
+            local icon = _G[frameName];
+            if icon ~= nil and icon:ShouldBeHidden() and (not icon.hidden) then -- check for function to make sure its a frame
+                icon:FakeHide()
             end
         end
     end
 
-    Questie.db.char.enabled = desiredValue
-    QuestieQuest.NotesAreHidden = desiredValue
 end
 
 function QuestieQuest:ClearAllNotes()
@@ -270,7 +277,7 @@ function QuestieQuest:UpdateHiddenNotes()
         for _, frameName in ipairs(frameList) do
             local icon = _G[frameName]
             if icon ~= nil and icon.data then
-                if  QuestieQuest.NotesAreHidden or
+                if (not Questie.db.char.enabled) or
                     ((not questieGlobalDB.enableMapIcons) and (not icon.miniMapIcon)) or
                     ((not questieGlobalDB.enableMiniMapIcons) and (icon.miniMapIcon))
                 then

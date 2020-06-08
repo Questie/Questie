@@ -405,7 +405,7 @@ function QuestieMap:DrawManualIcon(data, areaID, x, y)
     tinsert(QuestieMap.manualFrames[data.id], iconMinimap:GetName())
 
     -- make sure notes are only shown when they are supposed to
-    if (QuestieQuest.NotesAreHidden) then -- TODO: or (not Questie.db.global.manualNotes)
+    if (not Questie.db.char.enabled) then -- TODO: or (not Questie.db.global.manualNotes)
         icon:FakeHide()
         iconMinimap:FakeHide()
     else
