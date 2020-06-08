@@ -159,10 +159,11 @@ function QuestieTracker:Initialize()
         DurabilityFrame:Show()
         QuestieTracker:MoveDurabilityFrame()
 
-        -- Prevents addons like Dugi Guides from turning off Automatic Quest Tracking
+        -- Prevents addons like Dugi Guides from turning off Automatic Quest Tracking and automatically un-tracking quests from the tracker
         if Questie.db.global.autoTrackQuests then
             if IsAddOnLoaded("DugisGuideViewerZ") then
                 SetCVar("autoQuestWatch", "1")
+                DugisGuideViewer:SetDB(false, 39)
             end
         end
 
@@ -2157,7 +2158,7 @@ _RemoveQuestWatch = function(index, isQuestie)
         return
     end
 
-    if not isQuestie and not IsAddOnLoaded("DugisGuideViewerZ") then
+    if not isQuestie then
         local qid = select(8,GetQuestLogTitle(index))
         if qid then
             if "0" == GetCVar("autoQuestWatch") then
