@@ -502,6 +502,12 @@ function _QuestieTracker:CreateActiveQuestsHeader()
     end)
 
     questieIcon:SetScript("OnEnter", function (self)
+        if InCombatLockdown() then
+            if GameTooltip:IsShown() then
+                GameTooltip:Hide()
+                return
+            end
+        end
         GameTooltip:SetOwner(UIParent, "ANCHOR_CURSOR")
         GameTooltip:AddLine("Questie ".. QuestieLib:GetAddonVersionString(), 1, 1, 1)
         GameTooltip:AddLine(Questie:Colorize(QuestieLocale:GetUIString("ICON_LEFT_CLICK") , "gray") .. ": " .. QuestieLocale:GetUIString("ICON_TOGGLE"))

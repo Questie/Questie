@@ -83,7 +83,9 @@ end
 
 function _QuestieTracker:OnResizeStart(button)
     Questie:Debug(DEBUG_DEVELOP, "[_QuestieTracker:OnResizeStart]", button)
-    if InCombatLockdown() then return end
+    if InCombatLockdown() then
+        return
+    end
     local baseFrame = QuestieTracker:GetBaseFrame()
 
     if button == "LeftButton" then

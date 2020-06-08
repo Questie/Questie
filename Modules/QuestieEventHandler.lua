@@ -25,6 +25,8 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestieHash
 local QuestieHash = QuestieLoader:ImportModule("QuestieHash")
+---@type QuestieOptions
+local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestieDB
@@ -396,6 +398,13 @@ _PLAYER_REGEN_DISABLED = function()
     if Questie.db.global.hideTrackerInCombat then
         previousTrackerState = Questie.db.char.isTrackerExpanded
         QuestieTracker:Collapse()
+    end
+    if InCombatLockdown() then
+        if QuestieConfigFrame:IsShown() then
+            QuestieOptions:HideFrame()
+        end
+    else
+        QuestieOptions:OpenConfigWindow()
     end
 end
 
