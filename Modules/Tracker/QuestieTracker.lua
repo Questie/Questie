@@ -1,6 +1,6 @@
 ---@class QuestieTracker
 QuestieTracker = QuestieLoader:CreateModule("QuestieTracker")
-local _QuestieTracker = QuestieTracker.private
+_QuestieTracker = QuestieTracker.private
 -------------------------
 --Import modules.
 -------------------------
@@ -867,7 +867,6 @@ function _QuestieTracker:CreateTrackedQuestButtons()
 
         btn:SetWidth(1)
         btn:SetHeight(1)
-        btn:SetAlpha(0.75)
 
         if lastFrame then
             btn:SetPoint("TOPLEFT", lastFrame, "BOTTOMLEFT", 0,0)
@@ -885,7 +884,7 @@ function _QuestieTracker:CreateTrackedQuestButtons()
                     self.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontQuest) or STANDARD_TEXT_FONT, trackerFontSizeQuest)
                     self.label:SetHeight(trackerFontSizeQuest)
                     self.button = nil
-                else
+                elseif mode == "objective" then
                     self.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontObjective) or STANDARD_TEXT_FONT, trackerFontSizeObjective)
                     self.label:SetHeight(trackerFontSizeObjective)
                 end
@@ -945,9 +944,6 @@ function _QuestieTracker:CreateTrackedQuestButtons()
         --btn:SetBackdrop({bgFile="Interface\\Tooltips\\UI-Tooltip-Background"})
         --btn:SetBackdropColor(0, 0, 0, 1)
 
-        _QuestieTracker.LineFrames[i] = btn
-        lastFrame = btn
-
         -- create expanding zone headers for quests sorted by zones
         local expandZone = CreateFrame("Button", nil, btn)
         expandZone:SetWidth(1)
@@ -961,8 +957,6 @@ function _QuestieTracker:CreateTrackedQuestButtons()
         end
 
         expandZone:SetMode(1) -- maximized
-
-        expandZone:SetMovable(true)
         expandZone:EnableMouse(true)
         expandZone:RegisterForDrag("LeftButton")
         expandZone:RegisterForClicks("LeftButtonUp", "RightButtonUp")
@@ -985,11 +979,18 @@ function _QuestieTracker:CreateTrackedQuestButtons()
             QuestieTracker:Update()
         end)
 
-        expandZone:SetScript("OnEnter", _OnEnter)
-        expandZone:SetScript("OnLeave", _OnLeave)
+        expandZone:SetScript("OnEnter", function(self)
+            _OnHighlightEnter(self)
+            _OnEnter()
+        end)
+
+        expandZone:SetScript("OnLeave", function(self)
+            _OnHighlightLeave(self)
+            _OnLeave()
+        end)
+
         expandZone:SetScript("OnDragStart", _QuestieTracker.OnDragStart)
         expandZone:SetScript("OnDragStop", _QuestieTracker.OnDragStop)
-
         expandZone:Hide()
 
         btn.expandZone = expandZone
@@ -1019,7 +1020,6 @@ function _QuestieTracker:CreateTrackedQuestButtons()
         end
 
         expandQuest:SetMode(1) -- maximized
-
         expandQuest:EnableMouse(true)
         expandQuest:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 
@@ -1043,7 +1043,6 @@ function _QuestieTracker:CreateTrackedQuestButtons()
 
         expandQuest:SetScript("OnEnter", _OnEnter)
         expandQuest:SetScript("OnLeave", _OnLeave)
-
         expandQuest:Hide()
 
         if Questie.db.global.trackerFadeMinMaxButtons then
@@ -1051,6 +1050,9 @@ function _QuestieTracker:CreateTrackedQuestButtons()
         end
 
         btn.expandQuest = expandQuest
+
+        _QuestieTracker.LineFrames[i] = btn
+        lastFrame = btn
     end
     QuestieTracker.started = true
 end
@@ -1404,15 +1406,14 @@ function QuestieTracker:Update()
 
                     if Questie.db.char.collapsedZones[quest.zoneOrSort] then
                         line.expandZone:SetMode(0)
-                        line.label:SetText("|cFFC0C0C0" .. zoneName .. " +|r")
+                        line.label:SetText("|cFFC0C0C0" .. zoneName .. " \+|r")
                     else
                         line.expandZone:SetMode(1)
                         line.label:SetText("|cFFC0C0C0" .. zoneName .. "|r")
                     end
 
                     line.label:SetWidth(math.min(math.max(Questie.db[Questie.db.global.questieTLoc].TrackerWidth, _QuestieTracker.baseFrame:GetWidth()) - ((trackerLineIndent + trackerSpaceBuffer) - trackerSpaceBuffer), line.label:GetUnboundedStringWidth()))
-                    line:SetWidth(line.label:GetWidth() - trackerSpaceBuffer)
-                    trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() - trackerSpaceBuffer)
+                    line:SetWidth(trackerSpaceBuffer + _QuestieTracker.activeQuestsHeader.label:GetUnboundedStringWidth() + trackerSpaceBuffer)
 
                     line.expandZone:ClearAllPoints()
                     line.expandZone:SetWidth(line.label:GetWidth())
@@ -1422,6 +1423,9 @@ function QuestieTracker:Update()
                     line:SetVerticalPadding(4)
                     line:Show()
                     line.label:Show()
+
+                    line.Quest = nil
+                    line.Objective = nil
 
                     firstQuestInZone = false
                     zoneCheck = zoneName
@@ -1634,12 +1638,11 @@ function QuestieTracker:Update()
     -- Hide unused quest buttons
     for i = startUnusedFrames, trackerLineCount do
         _QuestieTracker.LineFrames[i]:Hide()
-        if _QuestieTracker.LineFrames[i].expandQuest then
-            _QuestieTracker.LineFrames[i].expandQuest:Hide()
-        end
-        if _QuestieTracker.LineFrames[i].expandZone then
-            _QuestieTracker.LineFrames[i].expandZone:Hide()
-        end
+        _QuestieTracker.LineFrames[i].mode = nil
+        _QuestieTracker.LineFrames[i].Quest = nil
+        _QuestieTracker.LineFrames[i].Objective = nil
+        _QuestieTracker.LineFrames[i].expandQuest.mode = nil
+        _QuestieTracker.LineFrames[i].expandZone.mode = nil
     end
 
     -- Hide unused item buttons
@@ -2113,38 +2116,19 @@ _OnLeave = function()
 end
 
 _OnHighlightEnter = function(self)
-    if _QuestieTracker.highestIndex then
+    if self.mode == "quest" or self.mode =="objective" or self.mode == "zone" or self:GetParent().mode == "zone" then
         for i = 1, _QuestieTracker.highestIndex do
-            if _QuestieTracker.LineFrames[i].Quest == self.Quest then
-                if _QuestieTracker.LineFrames[i].mode ~= "zone" then
-                    _QuestieTracker.LineFrames[i]:SetAlpha(1)
-                end
-            end
-        end
-    else
-        for i = 1, trackerLineCount do
-            if _QuestieTracker.LineFrames[i].Quest == self.Quest then
-                if _QuestieTracker.LineFrames[i].mode ~= "zone" then
-                    _QuestieTracker.LineFrames[i]:SetAlpha(1)
-                end
+            _QuestieTracker.LineFrames[i]:SetAlpha(0.5)
+            if (_QuestieTracker.LineFrames[i].Quest == self.Quest) or _QuestieTracker.LineFrames[i].mode == "zone" then
+                _QuestieTracker.LineFrames[i]:SetAlpha(1)
             end
         end
     end
 end
 
 _OnHighlightLeave = function(self)
-    if _QuestieTracker.highestIndex then
-        for i = 1, _QuestieTracker.highestIndex do
-            if _QuestieTracker.LineFrames[i].mode ~= "zone" then
-                _QuestieTracker.LineFrames[i]:SetAlpha(0.75)
-            end
-        end
-    else
-        for i = 1, trackerLineCount do
-            if _QuestieTracker.LineFrames[i].mode ~= "zone" then
-                _QuestieTracker.LineFrames[i]:SetAlpha(0.75)
-            end
-        end
+    for i = 1, _QuestieTracker.highestIndex do
+        _QuestieTracker.LineFrames[i]:SetAlpha(1)
     end
 end
 
