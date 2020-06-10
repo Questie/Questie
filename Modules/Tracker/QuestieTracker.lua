@@ -1646,18 +1646,20 @@ function QuestieTracker:Update()
     end
 
     -- Hide unused item buttons
-    for i = startUnusedButtons, 20 do
-        local button = _QuestieTracker.ItemButtons[i]
-        if button.itemID then
-            button:FakeHide()
-            button.itemID = nil
-            button.itemName = nil
-            button.lineID = nil
-            button.fontSize = nil
-            button:SetParent(UIParent)
-            button:Hide()
+    QuestieCombatQueue:Queue(function()
+        for i = startUnusedButtons, 20 do
+            local button = _QuestieTracker.ItemButtons[i]
+            if button.itemID then
+                button:FakeHide()
+                button.itemID = nil
+                button.itemName = nil
+                button.lineID = nil
+                button.fontSize = nil
+                button:SetParent(UIParent)
+                button:Hide()
+            end
         end
-    end
+    end)
 
     -- Auto adjust tracker size and visibility
     local activeQuestsHeaderTotal = trackerSpaceBuffer + _QuestieTracker.activeQuestsHeader.label:GetUnboundedStringWidth() + trackerFontSizeHeader
