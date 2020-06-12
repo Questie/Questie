@@ -127,7 +127,7 @@ end
 
 _GetRelevantZones = function()
     local zones = {}
-    for cont, zone in pairs(LangZoneLookup) do
+    for cont, zone in pairs(LangZoneCategoryLookup) do
         zones[cont] = {}
         for zoneId, zoneName in pairs(zone) do
             local areQuestsInZone = QuestieJourney.zoneMap[zoneId]

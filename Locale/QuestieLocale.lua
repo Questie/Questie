@@ -7,6 +7,7 @@ LangObjectLookup = {};
 LangQuestLookup = {};
 LangContinentLookup = {}
 LangZoneLookup = {}
+LangZoneCategoryLookup = {}
 
 -------------------------
 --Import modules.
@@ -64,6 +65,7 @@ function QuestieLocale:Initialize()
     -- Load continent and zone locales
     LangContinentLookup = LangContinentLookup[locale] or LangContinentLookup["enUS"] or {}
     LangZoneLookup = LangZoneLookup[locale] or LangZoneLookup["enUS"] or {}
+    LangZoneCategoryLookup = LangZoneCategoryLookup[locale] or LangZoneCategoryLookup["esUS"] or {}
 end
 
 function QuestieLocale:FallbackLocale(lang)

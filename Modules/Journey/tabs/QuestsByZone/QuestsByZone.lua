@@ -87,7 +87,9 @@ end
 function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
     local quests = QuestieJourney.zoneMap[zoneId]--QuestieDB:GetQuestsByZoneId(zoneId)
     
-    if not quests then return false end
+    if (not quests) then
+        return nil
+    end
     
     local temp = {}
 
