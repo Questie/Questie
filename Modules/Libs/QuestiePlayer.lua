@@ -1,12 +1,11 @@
 ---@class QuestiePlayer
 local QuestiePlayer = QuestieLoader:CreateModule("QuestiePlayer");
+local _QuestiePlayer = QuestiePlayer.private
 -------------------------
 --Import modules.
 -------------------------
 ---@type QuestieDBZone
 local QuestieDBZone = QuestieLoader:ImportModule("QuestieDBZone")
-
-local _QuestiePlayer = {...};
 
 QuestiePlayer.currentQuestlog = {} --Gets populated by QuestieQuest:GetAllQuestIds(), this is either an object to the quest in question, or the ID if the object doesn't exist.
 _QuestiePlayer.playerLevel = -1

@@ -130,8 +130,8 @@ _GetRelevantZones = function()
     for cont, zone in pairs(LangZoneCategoryLookup) do
         zones[cont] = {}
         for zoneId, zoneName in pairs(zone) do
-            local areQuestsInZone = QuestieJourney.zoneMap[zoneId]
-            if (not areQuestsInZone) then
+            local zoneQuests = QuestieJourney.zoneMap[zoneId]
+            if (not zoneQuests) then
                 zones[cont][zoneId] = nil
             else
                 zones[cont][zoneId] = zoneName

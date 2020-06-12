@@ -86,11 +86,11 @@ end
 ---@return table<integer,any> @The zoneTree table which represents the list of all the different quests
 function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
     local quests = QuestieJourney.zoneMap[zoneId]--QuestieDB:GetQuestsByZoneId(zoneId)
-    
+
     if (not quests) then
         return nil
     end
-    
+
     local temp = {}
 
     local zoneTree = {
