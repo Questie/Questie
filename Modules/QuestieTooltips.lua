@@ -371,16 +371,16 @@ end
 
 -- Questie Quest Links
 function QuestieTooltips:QuestLinks(link)
-    isQuestieLink, _, _ = string.find(link, "questie:(%d+):.*")
+    local isQuestieLink, _, _ = string.find(link, "questie:(%d+):.*")
     if isQuestieLink then
-        local quest, questId, questTitle, questStart, questStartZone, questEnd, questEndZone, senderGUID
+        local quest, questId, questTitle, questStart, questDropStart, questStartZone, questEnd, questEndZone, senderGUID
         questId = select(2, strsplit(":", link))
         senderGUID = select(3, strsplit(":", link))
         questId = tonumber(questId)
         quest = QuestieDB:GetQuest(questId)
         if quest then
             -- [Block 1] Quest Title
-            local questLevel, cQuestID, cQuestName, cQuestID
+            local cQuestLevel, cQuestID, cQuestName
             questLevel = QuestieLib:GetLevelString(quest.Id, quest.name, quest.level, false)
 
             if quest.specialFlags == 1 then
