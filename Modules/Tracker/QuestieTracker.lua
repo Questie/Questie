@@ -502,6 +502,10 @@ function QuestieTracker:Expand()
     end
 end
 
+function QuestieTracker:IsExpanded()
+    return Questie.db.char.isTrackerExpanded
+end
+
 function QuestieTracker:GetBackgroundPadding()
     return trackerBackgroundPadding
 end
