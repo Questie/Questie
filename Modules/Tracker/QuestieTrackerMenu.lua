@@ -70,9 +70,9 @@ end
 
 _AddFocusOption = function (menu, quest, objective)
     if Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus == tostring(quest.Id) .. " " .. tostring(objective.Index) then
-        tinsert(menu, {text = QuestieLocale:GetUIString('TRACKER_UNFOCUS'), func = function() LQuestie_CloseDropDownMenus(); QuestieTracker:UnFocus(); QuestieQuest:UpdateHiddenNotes() end})
+        tinsert(menu, {text = QuestieLocale:GetUIString('TRACKER_UNFOCUS'), func = function() LQuestie_CloseDropDownMenus(); QuestieTracker:UnFocus(); QuestieQuest:ToggleNotes(true) end})
     else
-        tinsert(menu, {text = QuestieLocale:GetUIString('TRACKER_FOCUS_OBJECTIVE'), func = function() LQuestie_CloseDropDownMenus(); QuestieTracker:FocusObjective(quest, objective); QuestieQuest:UpdateHiddenNotes() end})
+        tinsert(menu, {text = QuestieLocale:GetUIString('TRACKER_FOCUS_OBJECTIVE'), func = function() LQuestie_CloseDropDownMenus(); QuestieTracker:FocusObjective(quest, objective); QuestieQuest:ToggleNotes(false) end})
     end
 end
 
@@ -94,14 +94,14 @@ _AddShowHideObjectivesOption = function (menu, quest, objective)
         tinsert(menu, {text = QuestieLocale:GetUIString('TRACKER_SHOW_ICONS'), func = function()
             LQuestie_CloseDropDownMenus()
             objective.HideIcons = nil;
-            QuestieQuest:UpdateHiddenNotes()
+            QuestieQuest:ToggleNotes(true)
             Questie.db.char.TrackerHiddenObjectives[tostring(quest.Id) .. " " .. tostring(objective.Index)] = nil
         end})
     else
         tinsert(menu, {text = QuestieLocale:GetUIString('TRACKER_HIDE_ICONS'), func = function()
             LQuestie_CloseDropDownMenus()
             objective.HideIcons = true;
-            QuestieQuest:UpdateHiddenNotes()
+            QuestieQuest:ToggleNotes(false)
             Questie.db.char.TrackerHiddenObjectives[tostring(quest.Id) .. " " .. tostring(objective.Index)] = true
         end})
     end
@@ -111,13 +111,13 @@ _AddShowHideQuestsOption = function (menu, quest)
     if quest.HideIcons then
         tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_SHOW_ICONS'), func = function()
             quest.HideIcons = nil
-            QuestieQuest:UpdateHiddenNotes()
+            QuestieQuest:ToggleNotes(true)
             Questie.db.char.TrackerHiddenQuests[quest.Id] = nil
         end})
     else
         tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_HIDE_ICONS'), func = function()
             quest.HideIcons = true
-            QuestieQuest:UpdateHiddenNotes()
+            QuestieQuest:ToggleNotes(false)
             Questie.db.char.TrackerHiddenQuests[quest.Id] = true
         end})
     end
@@ -140,7 +140,9 @@ _AddShowObjectivesOnMapOption = function (menu, quest, objective)
             quest.HideIcons = nil
             needHiddenUpdate = true
         end
-        if needHiddenUpdate then QuestieQuest:UpdateHiddenNotes(); end
+        if needHiddenUpdate then
+            QuestieQuest:ToggleNotes(true)
+        end
         QuestieTracker.utils:ShowObjectiveOnMap(objective)
     end})
 end
@@ -197,9 +199,9 @@ end
 
 _AddFocusUnfocusOption = function (menu, quest)
     if Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "number" and Questie.db.char.TrackerFocus == quest.Id then
-        tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_UNFOCUS'), func = function() LQuestie_CloseDropDownMenus(); QuestieTracker:UnFocus(); QuestieQuest:UpdateHiddenNotes() end})
+        tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_UNFOCUS'), func = function() LQuestie_CloseDropDownMenus(); QuestieTracker:UnFocus(); QuestieQuest:ToggleNotes(true) end})
     else
-        tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_FOCUS_QUEST'), func = function() LQuestie_CloseDropDownMenus(); QuestieTracker:FocusQuest(quest); QuestieQuest:UpdateHiddenNotes()  end})
+        tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_FOCUS_QUEST'), func = function() LQuestie_CloseDropDownMenus(); QuestieTracker:FocusQuest(quest); QuestieQuest:ToggleNotes(false)  end})
     end
 end
 

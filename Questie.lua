@@ -209,7 +209,6 @@ function Questie:OnInitialize()
         Questie_Toggle:SetText(QuestieLocale:GetUIString('QUESTIE_MAP_BUTTON_HIDE'));
     else
         Questie_Toggle:SetText(QuestieLocale:GetUIString('QUESTIE_MAP_BUTTON_SHOW'));
-        QuestieQuest:ToggleNotes(false)
     end
 
     -- Update status of Map button on hide between play sessions

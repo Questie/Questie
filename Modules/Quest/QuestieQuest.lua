@@ -59,42 +59,7 @@ function QuestieQuest:Initialize()
 end
 
 function QuestieQuest:ToggleNotes(showIcons)
-    if showIcons == Questie.db.char.enabled then
-        return -- we already have the desired state
-    end
     QuestieQuest:GetAllQuestIds() -- add notes that weren't added from previous hidden state
-
-    Questie.db.char.enabled = showIcons -- functions like icon:ShouldBeHidden depends on this
-
-    if showIcons then
-        _UnhideQuestIcons()
-    else
-        _HideQuestIcons()
-    end
-end
-
-function QuestieQuest:ToggleMapNotes(showIcons)
-    if showIcons == Questie.db.global.enableMapIcons then
-        return -- we already have the desired state
-    end
-    QuestieQuest:GetAllQuestIds() -- add notes that weren't added from previous hidden state
-
-    Questie.db.global.enableMapIcons = showIcons
-
-    if showIcons then
-        _UnhideQuestIcons()
-    else
-        _HideQuestIcons()
-    end
-end
-
-function QuestieQuest:ToggleMinimapNotes(showIcons)
-    if showIcons == Questie.db.global.enableMiniMapIcons then
-        return -- we already have the desired state
-    end
-    QuestieQuest:GetAllQuestIds() -- add notes that weren't added from previous hidden state
-
-    Questie.db.global.enableMiniMapIcons = showIcons
 
     if showIcons then
         _UnhideQuestIcons()
@@ -287,52 +252,6 @@ function QuestieQuest:SmoothReset() -- use timers to reset progressively instead
         stepTable[step]()
         step = step + 1
     end, 5)
-end
-
-function QuestieQuest:UpdateHiddenNotes()
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:UpdateHiddenNotes]")
-    QuestieQuest:GetAllQuestIds() -- add notes that weren't added from previous hidden state
-    local questieGlobalDB = Questie.db.global
-    if questieGlobalDB.enableAvailable then
-        QuestieQuest:DrawAllAvailableQuests();
-    end
-
-    -- Update hidden status of quest notes
-    for questId, framelist in pairs(QuestieMap.questIdFrames) do
-        for index, frameName in pairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
-            ---@type IconFrame
-            local icon = _G[frameName];
-            if icon ~= nil and icon.data then
-                if icon:ShouldBeHidden() then
-                    icon:FakeHide()
-                else
-                    icon:FakeUnhide()
-                end
-                if (icon.data.QuestData.FadeIcons or (icon.data.ObjectiveData and icon.data.ObjectiveData.FadeIcons)) and icon.data.Type ~= "complete" then
-                    icon:FadeOut()
-                else
-                    icon:FadeIn()
-                end
-            end
-        end
-    end
-    -- Update hidden status of manual notes
-    -- TODO maybe move the function to QuestieMap?
-    for id, frameList in pairs(QuestieMap.manualFrames) do
-        for _, frameName in ipairs(frameList) do
-            local icon = _G[frameName]
-            if icon ~= nil and icon.data then
-                if (not Questie.db.char.enabled) or
-                    ((not questieGlobalDB.enableMapIcons) and (not icon.miniMapIcon)) or
-                    ((not questieGlobalDB.enableMiniMapIcons) and (icon.miniMapIcon))
-                then
-                    icon:FakeHide()
-                else
-                    icon:FakeUnhide()
-                end
-            end
-        end
-    end
 end
 
 function QuestieQuest:HideQuest(id)

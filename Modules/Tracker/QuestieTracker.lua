@@ -457,7 +457,8 @@ function _QuestieTracker:CreateActiveQuestsHeader()
     questieIcon:SetScript("OnClick", function (self, button)
         if button == "LeftButton" then
             if IsShiftKeyDown() then
-                QuestieQuest:ToggleNotes(not Questie.db.char.enabled)
+                Questie.db.char.enabled = (not Questie.db.char.enabled)
+                QuestieQuest:ToggleNotes(Questie.db.char.enabled)
 
                 -- Close config window if it's open to avoid desyncing the Checkbox
                 QuestieOptions:HideFrame()
@@ -2172,7 +2173,7 @@ function QuestieTracker:RemoveQuest(id)
         if (type(Questie.db.char.TrackerFocus) == "number" and Questie.db.char.TrackerFocus == id)
         or (type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus:sub(1, #tostring(id)) == tostring(id)) then
             QuestieTracker:UnFocus()
-            QuestieQuest:UpdateHiddenNotes()
+            QuestieQuest:ToggleNotes(true)
         end
     end
 end

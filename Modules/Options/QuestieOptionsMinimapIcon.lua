@@ -23,7 +23,8 @@ function QuestieOptionsMinimapIcon:Initialize()
         OnClick = function (self, button)
             if button == "LeftButton" then
                 if IsShiftKeyDown() then
-                    QuestieQuest:ToggleNotes(not Questie.db.char.enabled);
+                    Questie.db.char.enabled = (not Questie.db.char.enabled)
+                    QuestieQuest:ToggleNotes(Questie.db.char.enabled)
 
                     -- CLose config window if it's open to avoid desyncing the Checkbox
                     QuestieOptions:HideFrame();
