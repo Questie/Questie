@@ -226,7 +226,7 @@ end
 function QuestieDB:IsLevelRequirementsFulfilled(questId, minLevel, maxLevel)
     local level, requiredLevel = unpack(QuestieDB.QueryQuest(questId, "questLevel", "requiredLevel"))
 
-    if QuestieDB:IsActiveEventQuest() and minLevel > requiredLevel then
+    if QuestieDB:IsActiveEventQuest(questId) and minLevel > requiredLevel then
         return true
     end
 
