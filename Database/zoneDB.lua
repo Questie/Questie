@@ -256,6 +256,19 @@ function QuestieDBZone:GetAlternativeZoneId(areaId)
     return nil
 end
 
+local dungeonParentZones = {
+    [236] = 209,
+    [1717] = 491,
+    [2797] = 719,
+    [133] = 721,
+    [1316] = 722,
+    [1179786] = 1176,
+    [1517] = 1337,
+    [1477] = 1417, 8,
+    [2279] = 2017,
+    [2577] = 2557,
+}
+
 -- The starting zones have different zoneIDs which we don't want to handle seperatly
 local parentsOfStartingZones = {
     [9] = 12,
@@ -275,9 +288,9 @@ local parentsOfSubZones = {
 }
 
 function QuestieDBZone:GetParentZoneId(areaId)
-    local entry = dungeons[areaId]
+    local entry = dungeonParentZones[areaId]
     if entry then
-        return entry[2]
+        return entry
     end
 
     entry = parentsOfStartingZones[areaId]
