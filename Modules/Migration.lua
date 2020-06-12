@@ -21,6 +21,8 @@ end
 _MigrateForV600 = function()
     Questie:Print("[Migration] Migrating Questie for v6.0.0")
 
+    Questie.db.global.zoneMapCache = nil
+
     if Questie.db.char.manualMinLevelOffset and Questie.db.char.absoluteLevelOffset then
         Questie.db.char.manualMinLevelOffset = false
         Questie.db.char.absoluteLevelOffset = false
