@@ -316,8 +316,8 @@ QuestieLocale.locale['deDE'] = {
     ['SHORTCUT'] = " Shortcut",
     ['TRACKER_SET_TOMTOM_DESC'] = "Der Tracker-Shortcut, um TomTom zu öffnen The tracker shortcut to open TomTom.",
     ['TRACKER_SHOW_QUESTLOG_DESC'] = "Der Tracker-Shortcut, um eine Quest im Questlog anzuzeigen.",
-    ['TRACKER_UNTRACK_LINK'] = "Untrack/Link Quest",
-    ['TRACKER_UNTRACK_LINK_DESC'] = "Removes a quest from the Tracker when the chat input box is not visible, otherwise this will link a quest to chat.",
+    ['TRACKER_UNTRACK_LINK'] = "Quest verlinken/entfernen",
+    ['TRACKER_UNTRACK_LINK_DESC'] = "Entfernt eine Quest aus dem Tracker oder verlinkt sie in den Chat, wenn das Eingabefenster des Chats gezeigt ist.",
     ['TRACKER_ACTIVE_QUESTS'] = "Aktive Quests: ",
 
     -- Tracker right click menu
@@ -337,18 +337,18 @@ QuestieLocale.locale['deDE'] = {
     ['TRACKER_LOCK'] = "Tracker sperren",
 
     -- Tooltips
-    ['TOOLTIPS_AUTO_QUEST'] = 'This quest is an automatic completion quest and does not contain an objective.',
-    ['TOOLTIPS_ON_QUEST'] = 'You are on this quest',
-    ['TOOLTIPS_DONE_QUEST'] = 'You have completed this quest',
-    ['TOOLTIPS_NOTDONE_QUEST'] = 'You have not done this quest',
-    ['TOOLTIPS_CANTDO_QUEST'] = 'You are ineligible for this quest',
-    ['TOOLTIPS_START_QUEST'] = 'Started by',
-    ['TOOLTIPS_END_QUEST'] = 'Ended by',
-    ['TOOLTIPS_FOUND_QUEST'] = 'Found in',
-    ['TOOLTIPS_REQUIRE_QUEST'] = 'Requirements',
-    ['TOOLTIPS_PROGRESS_QUEST'] = 'Your progress',
-    ['TOOLTIPS_FIN_QUEST'] = '(Done)',
-    ['TOOLTIPS_REPEAT_QUEST'] = 'This quest is repeatable',
+    ['TOOLTIPS_AUTO_QUEST'] = "Diese Quest wird automatisch abgeschlossen und beinhaltet keine Questziele.",
+    ['TOOLTIPS_ON_QUEST'] = "Diese Quest ist für dich aktiv",
+    ['TOOLTIPS_DONE_QUEST'] = "Du hast diese Quest bereits abgeschlossen",
+    ['TOOLTIPS_NOTDONE_QUEST'] = "Du hast diese Quest noch nicht abgeschlossen",
+    ['TOOLTIPS_CANTDO_QUEST'] = "Du kannst diese Quest nicht annehmen",
+    ['TOOLTIPS_START_QUEST'] = "Gestarted von",
+    ['TOOLTIPS_END_QUEST'] = "Beendet von",
+    ['TOOLTIPS_FOUND_QUEST'] = "Gefunden in",
+    ['TOOLTIPS_REQUIRE_QUEST'] = "Voraussetzungen",
+    ['TOOLTIPS_PROGRESS_QUEST'] = "Dein Fortschritt",
+    ['TOOLTIPS_FIN_QUEST'] = "(Fertig)",
+    ['TOOLTIPS_REPEAT_QUEST'] = "Diese Quest ist wiederholbar",
 
     -- Journey Window
     ['JOURNEY_TITLE'] = "%s's Reise",
