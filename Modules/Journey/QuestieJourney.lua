@@ -215,7 +215,6 @@ function QuestieJourney:PlayerLevelUp(level)
     entry.Event = "Level"
     entry.NewLevel = level
     entry.Timestamp = time()
-    entry.Party = QuestiePlayer:GetPartyMembers()
 
     tinsert(Questie.db.char.journey, entry)
 end
@@ -229,7 +228,6 @@ function QuestieJourney:AcceptQuest(questId)
     entry.Quest = questId
     entry.Level = QuestiePlayer:GetPlayerLevel()
     entry.Timestamp = time()
-    entry.Party = QuestiePlayer:GetPartyMembers()
 
     tinsert(Questie.db.char.journey, entry)
 end
@@ -258,7 +256,6 @@ function QuestieJourney:AbandonQuest(questId)
         entry.Quest = questId
         entry.Level = QuestiePlayer:GetPlayerLevel()
         entry.Timestamp = time()
-        entry.Party = QuestiePlayer:GetPartyMembers()
 
         tinsert(Questie.db.char.journey, entry)
     end
@@ -273,7 +270,6 @@ function QuestieJourney:CompleteQuest(questId)
     entry.Quest = questId
     entry.Level = QuestiePlayer:GetPlayerLevel()
     entry.Timestamp = time()
-    entry.Party = QuestiePlayer:GetPartyMembers()
 
     tinsert(Questie.db.char.journey, entry)
 end
