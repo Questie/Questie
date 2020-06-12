@@ -229,6 +229,8 @@ function QuestieOptions.tabs.advanced:Initialize()
                     Questie.db.char.enabled = optionsDefaults.char.enabled;
                     Questie.db.char.lowlevel = optionsDefaults.char.lowlevel;
 
+                    Questie.db.global.migrationVersion = nil
+
                     Questie.db.profile.minimap.hide = optionsDefaults.profile.minimap.hide;
 
                     -- update minimap icon to default

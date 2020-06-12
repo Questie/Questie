@@ -104,8 +104,9 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type QuestieSlash
-local QuestieSlash = QuestieLoader:CreateModule("QuestieSlash")
-
+local QuestieSlash = QuestieLoader:ImportModule("QuestieSlash")
+---@type Migration
+local Migration = QuestieLoader:ImportModule("Migration")
 
 -- check if user has updated but not restarted the game (todo: add future new source files to this)
 if  (not LQuestie_EasyMenu) or
@@ -170,6 +171,8 @@ end
 function Questie:OnInitialize()
     self.db = LibStub("AceDB-3.0"):New("QuestieConfig", QuestieOptionsDefaults:Load(), true)
     QuestieFramePool:SetIcons()
+
+    Migration:Migrate()
 
     -- Set proper locale. Either default to client Locale or override based on user.
     if Questie.db.global.questieLocaleDiff then
