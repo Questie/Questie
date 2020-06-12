@@ -51,7 +51,7 @@ QuestieDBCompiler.readers = {
         local count = stream:ReadByte()
 
         if count == 0 then return nil end
-        
+
         local list = {}
 
         for i = 1, count do
@@ -147,7 +147,7 @@ QuestieDBCompiler.readers = {
         if count == 0 then
             return nil
         end
-        
+
         local ret = {}
 
         for i = 1, count do
@@ -662,18 +662,16 @@ end
 function QuestieDBCompiler:Validate()
     local validator = QuestieDBCompiler:GetDBHandle(QuestieConfig.objBin, QuestieConfig.objPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.objectCompilerTypes, QuestieDB.objectCompilerOrder))
 
-    for id,tab in pairs(QuestieDB.objectData) do
+    for id, tab in pairs(QuestieDB.objectData) do
         local toValidate = {validator.Query(id, unpack(QuestieDB.objectCompilerOrder))}
 
         local cnt = 0 for _ in pairs(toValidate) do cnt = cnt + 1 end
         print("toValidate length: " .. cnt)
         --QuestieConfig.__toValidate = toValidate
         local validData = QuestieDB:GetObject(id)
-        for id,key in pairs(QuestieDB.objectCompilerOrder) do
+        for id, key in pairs(QuestieDB.objectCompilerOrder) do
             local a = toValidate[id]
             local b = validData[key]
-
-            
 
             if type(a) == "number"  and math.abs(a-(b or 0)) > 0.2 then 
                 print("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b))
@@ -691,7 +689,6 @@ function QuestieDBCompiler:Validate()
             else
                 print("MATCHING: " .. key)
             end
-            
         end
     end
     print("Finished validation without issues!")
@@ -713,8 +710,6 @@ function QuestieDBCompiler:ValidateItems()
             local a = toValidate[id]
             local b = validData[key]
 
-            
-
             if type(a) == "number"  and math.abs(a-(b or 0)) > 0.2 then 
                 print("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b))
                 return
@@ -731,11 +726,9 @@ function QuestieDBCompiler:ValidateItems()
             else
                 print("MATCHING: " .. key)
             end
-            
         end
     end
     print("Finished validation without issues!")
-
 end
 
 function QuestieDBCompiler:ValidateQuests()
@@ -752,8 +745,6 @@ function QuestieDBCompiler:ValidateQuests()
             local a = toValidate[id]
             local b = validData[key]
 
-            
-
             if type(a) == "number"  and math.abs(a-(b or 0)) > 0.2 then 
                 print("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b))
                 return
@@ -773,7 +764,6 @@ function QuestieDBCompiler:ValidateQuests()
         end
     end
     print("Finished validation without issues!")
-
 end
 
 function QuestieDBCompiler:Initialize()
@@ -806,27 +796,25 @@ function QuestieDBCompiler:BuildCompileUI() -- probably wont be used, I was thin
     --base.desc:SetFont(base.desc:GetFont(), 18)
     base.desc:Show()
 
-
     local button = CreateFrame("Button", nil, base)
     button:SetPoint("CENTER", base, "CENTER", 0, 24-120/2)
     button:SetWidth(80)
     button:SetHeight(20)
-    
+
     button:SetText("Start")
     button:SetNormalFontObject("GameFontNormal")
-    
-    function buildTexture(str)
+
+    local function buildTexture(str)
         local tex = button:CreateTexture()
         tex:SetTexture(str)
         tex:SetTexCoord(0, 0.625, 0, 0.6875)
         tex:SetAllPoints()
         return tex
     end
-    
+
     button:SetNormalTexture(buildTexture("Interface/Buttons/UI-Panel-Button-Up"))
     button:SetHighlightTexture(buildTexture("Interface/Buttons/UI-Panel-Button-Highlight"))
     button:SetPushedTexture(buildTexture("Interface/Buttons/UI-Panel-Button-Down"))
-
     button:SetScript("OnClick", function(...) print("clicked") end)
 
     base:Show()
@@ -961,7 +949,7 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipmap, keyToRootIndex, 
             return ret--unpack(ret)
         end
     end
-    
+
     handle.pointers = pointers
 
     return handle

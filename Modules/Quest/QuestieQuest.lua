@@ -345,8 +345,8 @@ function QuestieQuest:CompleteQuest(quest)
     QuestieHash:RemoveQuestHash(questId)
 
     QuestieMap:UnloadQuestFrames(questId)
-    if(QuestieMap.questIdFrames[questId]) then
-        Questie:Print("ERROR: Just removed all frames but the framelist seems to still be there!", questId)
+    if (QuestieMap.questIdFrames[questId]) then
+        Questie:Error("Just removed all frames but the framelist seems to still be there!", questId)
     end
 
     QuestieTooltips:RemoveQuest(questId)

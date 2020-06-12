@@ -1699,7 +1699,7 @@ function QuestieTracker:Update()
         end
 
         -- Trims the bottom of the tracker (overall height) based on min/max'd zones and/or quests
-        trackerBottomPadding = nil
+        local trackerBottomPadding = nil
         if Questie.db.global.trackerHeaderEnabled and Questie.db.global.trackerHeaderAutoMove and Questie.db[Questie.db.global.questieTLoc].TrackerLocation and (Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMLEFT" or Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMRIGHT") then
             trackerBottomPadding = trackerFontSizeHeader+4
         else

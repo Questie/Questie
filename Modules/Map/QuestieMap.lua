@@ -62,8 +62,8 @@ QuestieMap.fadeLogicTimerShown = nil;
 function QuestieMap:GetFramesForQuest(questId)
     local frames = {}
     --If no frames exists or if the quest does not exist we just return an empty list
-    if (QuestieMap.questIdFrames[questId]) then
-        for i, name in pairs(QuestieMap.questIdFrames[questId]) do
+    if QuestieMap.questIdFrames[questId] then
+        for _, name in pairs(QuestieMap.questIdFrames[questId]) do
             if _G[name] then
                 frames[name] = _G[name]
             end
@@ -73,7 +73,7 @@ function QuestieMap:GetFramesForQuest(questId)
 end
 
 function QuestieMap:UnloadQuestFrames(questId, iconType)
-    if(QuestieMap.questIdFrames[questId]) then
+    if QuestieMap.questIdFrames[questId] then
         if iconType == nil then
             for _, frame in pairs(QuestieMap:GetFramesForQuest(questId)) do
                 frame:Unload();
