@@ -2648,6 +2648,7 @@
         "DEFAULT_CHAT_FRAME",
         "StaticPopupDialogs",
         "GameTooltipTextLeft1",
+        "ItemRefTooltipTextLeft1",
         "ChatEdit_GetActiveWindow",
         "ChatEdit_InsertLink",
         "STANDARD_TEXT_FONT",
