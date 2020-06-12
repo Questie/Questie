@@ -43,7 +43,7 @@ local slower = string.lower;
 QuestieQuest.availableQuests = {} --Gets populated at PLAYER_ENTERED_WORLD
 
 -- forward declaration
-local _UnhideQuestIcons, _HideQuestIcons
+local _UnhideQuestIcons, _HideQuestIcons, _UnhideManualIcons, _HideManualIcons
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 
@@ -62,6 +62,7 @@ function QuestieQuest:ToggleNotes(showIcons)
     if showIcons == Questie.db.char.enabled then
         return -- we already have the desired state
     end
+    QuestieQuest:GetAllQuestIds() -- add notes that weren't added from previous hidden state
 
     Questie.db.char.enabled = showIcons -- functions like icon:ShouldBeHidden depends on this
 
@@ -69,6 +70,38 @@ function QuestieQuest:ToggleNotes(showIcons)
         _UnhideQuestIcons()
     else
         _HideQuestIcons()
+    end
+end
+
+function QuestieQuest:ToggleMapNotes(showIcons)
+    if showIcons == Questie.db.global.enableMapIcons then
+        return -- we already have the desired state
+    end
+    QuestieQuest:GetAllQuestIds() -- add notes that weren't added from previous hidden state
+
+    Questie.db.global.enableMapIcons = showIcons
+
+    if showIcons then
+        _UnhideQuestIcons()
+    else
+        _HideQuestIcons()
+    end
+end
+
+function QuestieQuest:ToggleMinimapNotes(showIcons)
+    if showIcons == Questie.db.global.enableMiniMapIcons then
+        return -- we already have the desired state
+    end
+    QuestieQuest:GetAllQuestIds() -- add notes that weren't added from previous hidden state
+
+    Questie.db.global.enableMiniMapIcons = showIcons
+
+    if showIcons then
+        _UnhideQuestIcons()
+        _UnhideManualIcons()
+    else
+        _HideQuestIcons()
+        _HideManualIcons()
     end
 end
 
@@ -90,17 +123,23 @@ _UnhideQuestIcons = function()
                         if icon ~= nil and icon.hidden and (not icon:ShouldBeHidden()) then
                             icon:FakeUnhide()
                         end
+                        if (icon.data.QuestData.FadeIcons or (icon.data.ObjectiveData and icon.data.ObjectiveData.FadeIcons)) and icon.data.Type ~= "complete" then
+                            icon:FadeOut()
+                        else
+                            icon:FadeIn()
+                        end
                     end
                 end
             end
         end
     end
-    -- show manual notes
-    -- TODO probably this whole function should be moved to QuestieMap, now that it handles manualFrames
+end
+
+_UnhideManualIcons = function()
     for _, frameList in pairs(QuestieMap.manualFrames) do
         for _, frameName in pairs(frameList) do
             local icon = _G[frameName];
-            if icon ~= nil and (not icon:ShouldBeHidden()) and (not icon.hidden) then -- check for function to make sure its a frame
+            if icon ~= nil and icon.hidden and (not icon:ShouldBeHidden()) then -- check for function to make sure its a frame
                 icon:FakeUnide()
             end
         end
@@ -114,21 +153,27 @@ _HideQuestIcons = function()
     for _, framelist in pairs(QuestieMap.questIdFrames) do
         for _, frameName in pairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
             local icon = _G[frameName];
-            if icon ~= nil and icon:ShouldBeHidden() and (not icon.hidden) then -- check for function to make sure its a frame
+            if icon ~= nil and (not icon.hidden) and icon:ShouldBeHidden() then -- check for function to make sure its a frame
                 icon:FakeHide()
+            end
+            if (icon.data.QuestData.FadeIcons or (icon.data.ObjectiveData and icon.data.ObjectiveData.FadeIcons)) and icon.data.Type ~= "complete" then
+                icon:FadeOut()
+            else
+                icon:FadeIn()
             end
         end
     end
-    -- hide manual notes
+end
+
+_HideManualIcons = function()
     for _, frameList in pairs(QuestieMap.manualFrames) do
         for _, frameName in pairs(frameList) do
             local icon = _G[frameName];
-            if icon ~= nil and icon:ShouldBeHidden() and (not icon.hidden) then -- check for function to make sure its a frame
+            if icon ~= nil and (not icon.hidden) and icon:ShouldBeHidden() then -- check for function to make sure its a frame
                 icon:FakeHide()
             end
         end
     end
-
 end
 
 function QuestieQuest:ClearAllNotes()
