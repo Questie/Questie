@@ -1165,6 +1165,10 @@ function QuestieTracker:Expand()
     end
 end
 
+function QuestieTracker:IsExpanded()
+    return Questie.db.char.isTrackerExpanded
+end
+
 function QuestieTracker:Update()
     Questie:Debug(DEBUG_DEVELOP, "QuestieTracker: Update")
     if (not QuestieTracker.started) then
@@ -1591,7 +1595,6 @@ function QuestieTracker:Update()
                     line = _QuestieTracker:GetNextLine()
                     line:SetMode("objective")
                     line:SetQuest(quest)
-                    line:SetObjective(objective)
                     line.expandZone:Hide()
 
                     line.label:ClearAllPoints()
