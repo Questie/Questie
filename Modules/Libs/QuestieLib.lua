@@ -380,21 +380,37 @@ end
 
 local cachedTitle = nil
 -- Move to Questie.lua after QuestieOptions move.
-function QuestieLib:GetAddonVersionInfo() -- todo: better place
+function QuestieLib:GetAddonVersionInfo()
     if (not cachedTitle) then
         local name, title, _, _, reason = GetAddOnInfo("QuestieDev-master")
         if (reason == "MISSING") then _, title = GetAddOnInfo("Questie") end
         cachedTitle = title
     end
     -- %d = digit, %p = punctuation character, %x = hexadecimal digits.
-    local major, minor, patch, commit = string.match(cachedTitle,
+    local major, minor, patch = string.match(cachedTitle,
                                                      "(%d+)%p(%d+)%p(%d+)")
-    return tonumber(major), tonumber(minor), tonumber(patch)
+
+    local buildType = nil
+
+    if string.match(cachedTitle, "ALPHA") then
+        buildType = "ALPHA"
+    elseif string.match(cachedTitle, "BETA") then
+        buildType = "BETA"
+    end
+
+    return tonumber(major), tonumber(minor), tonumber(patch), tostring(buildType)
 end
 
 function QuestieLib:GetAddonVersionString()
-    local major, minor, patch = QuestieLib:GetAddonVersionInfo()
-    return "v" .. tostring(major) .. "." .. tostring(minor) .. "." .. tostring(patch)
+    local major, minor, patch, buildType = QuestieLib:GetAddonVersionInfo()
+
+    if buildType then
+        buildType = " - " .. buildType
+    else
+        buildType = ""
+    end
+
+    return "v" .. tostring(major) .. "." .. tostring(minor) .. "." .. tostring(patch) .. buildType
 end
 
 -- Search for just Addon\\ at the front since the interface part often gets trimmed
