@@ -181,6 +181,8 @@ QuestieLocale.locale['zhCN'] = {
     ['RESET_QUESTIE_DESC'] = "点击这个按钮将会使Questie除了本地化以外的所有设置重置为默认值。",
     ['RESET_QUESTIE_BTN'] = "重置",
     ['RESET_QUESTIE_BTN_DESC'] = "将所有设置重置为默认值。",
+    ['RECOMPILE_DATABASE_BTN'] = "Recompile Database",
+    ['RECOMPILE_DATABASE_BTN_DESC'] = "Forces a recompile of the Questie database. This will also reload the UI.",
     ['QUESTIE_DEV_MESSAGE'] = "Questie是一款为魔兽世界经典旧世制作的任务插件，目前仍在开发中，请到Github查看最新版本、提交问题或提供建议，或是加入我们的 discord 频道。(( https://github.com/AeroScripts/QuestieDev/ ))",
 
     -- UI Elements

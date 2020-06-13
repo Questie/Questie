@@ -182,6 +182,8 @@ QuestieLocale.locale['enUS'] = {
     ['RESET_QUESTIE_DESC'] = "Hitting this button will reset all of the Questie configuration settings back to their default values. (Excluding Localization)",
     ['RESET_QUESTIE_BTN'] = "Reset Questie",
     ['RESET_QUESTIE_BTN_DESC'] = "Reset Questie to the default values for all settings.",
+    ['RECOMPILE_DATABASE_BTN'] = "Recompile Database",
+    ['RECOMPILE_DATABASE_BTN_DESC'] = "Forces a recompile of the Questie database. This will also reload the UI.",
     ['QUESTIE_DEV_MESSAGE'] = "Questie is under active development for World of Warcraft: Classic. Please check GitHub for the latest alpha builds or to report issues. Or join us on our discord! (( https://github.com/AeroScripts/QuestieDev/ ))",
 
     -- UI Elements

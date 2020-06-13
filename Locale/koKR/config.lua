@@ -182,6 +182,8 @@ QuestieLocale.locale['koKR'] = {
     ['RESET_QUESTIE_DESC'] = "이 버튼을 누르면 모든 Questie 설정이 기본값으로 초기화됩니다. (언어 설정 제외)",
     ['RESET_QUESTIE_BTN'] = "Quetie 초기화",
     ['RESET_QUESTIE_BTN_DESC'] = "모든 Questie 설정을 기본값으로 초기화합니다.",
+    ['RECOMPILE_DATABASE_BTN'] = "Recompile Database",
+    ['RECOMPILE_DATABASE_BTN_DESC'] = "Forces a recompile of the Questie database. This will also reload the UI.",
     ['QUESTIE_DEV_MESSAGE'] = "Questie는 월드 오브 워크래프트:클래식을 위해 활발히 개발 중입니다. 최신 알파 빌드 또는 보고된 문제들을 확인하시려면 GitHub을 확인해주세요. 또는 저희 디스코드에 참여하세요! (( https://github.com/AeroScripts/QuestieDev/ ))",
 
     -- UI Elements

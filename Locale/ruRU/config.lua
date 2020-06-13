@@ -182,6 +182,8 @@ QuestieLocale.locale['ruRU'] = {
     ['RESET_QUESTIE_DESC'] = "Нажатие этой кнопки приведёт к сбросу всех настроек аддона (За исключением языка)",
     ['RESET_QUESTIE_BTN'] = "Сбросить Questie",
     ['RESET_QUESTIE_BTN_DESC'] = "Сбросить настройки аддона к настройкам по умолчанию.",
+    ['RECOMPILE_DATABASE_BTN'] = "Recompile Database",
+    ['RECOMPILE_DATABASE_BTN_DESC'] = "Forces a recompile of the Questie database. This will also reload the UI.",
     ['QUESTIE_DEV_MESSAGE'] = "Questie находится в стадии активной разработки для World of Warcraft: Classic. Проверяйте наличие обновлений на нашем гитхабе или присоединяйтесь к нашему серверу в дискорде: (( https://github.com/AeroScripts/QuestieDev/ ))",
 
     -- UI Elements

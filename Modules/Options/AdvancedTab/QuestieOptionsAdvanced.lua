@@ -264,9 +264,20 @@ function QuestieOptions.tabs.advanced:Initialize()
                 end,
             },
             Spacer_E = QuestieOptionsUtils:Spacer(4.3),
+            recompileDatabase = {
+                type = "execute",
+                order = 4.4,
+                name = function() return QuestieLocale:GetUIString('RECOMPILE_DATABASE_BTN'); end,
+                desc = function() return QuestieLocale:GetUIString('RECOMPILE_DATABASE_BTN_DESC'); end,
+                func = function (info, value)
+                    QuestieConfig.dbIsCompiled = false
+                    ReloadUI()
+                end,
+            },
+            Spacer_F = QuestieOptionsUtils:Spacer(4.5),
             github_text = {
                 type = "description",
-                order = 4.4,
+                order = 4.6,
                 name = function() return Questie:Colorize(QuestieLocale:GetUIString('QUESTIE_DEV_MESSAGE'), 'purple'); end,
                 fontSize = "medium",
             },
