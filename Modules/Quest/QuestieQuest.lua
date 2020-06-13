@@ -1556,10 +1556,16 @@ ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY_LEADER", QuestsFilter)
 ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID", QuestsFilter)
 ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID_LEADER", QuestsFilter)
 ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID_WARNING", QuestsFilter)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_BATTLEGROUND", QuestsFilter)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_BATTLEGROUND_LEADER", QuestsFilter)
 ChatFrame_AddMessageEventFilter("CHAT_MSG_GUILD", QuestsFilter)
 ChatFrame_AddMessageEventFilter("CHAT_MSG_OFFICER", QuestsFilter)
 ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", QuestsFilter)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_COMMUNITIES_CHANNEL", QuestsFilter)
 ChatFrame_AddMessageEventFilter("CHAT_MSG_SAY", QuestsFilter)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_WHISPER_INFORM", QuestsFilter) -- Sender
+ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_WHISPER", QuestsFilter) -- Receiver
+ChatFrame_AddMessageEventFilter("CHAT_MSG_TEXT_EMOTE", QuestsFilter)
 ChatFrame_AddMessageEventFilter("CHAT_MSG_YELL", QuestsFilter)
 ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER_INFORM", QuestsFilter) -- Sender
 ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", QuestsFilter) -- Receiver
