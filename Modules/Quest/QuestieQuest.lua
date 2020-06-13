@@ -59,6 +59,7 @@ function QuestieQuest:Initialize()
 end
 
 function QuestieQuest:ToggleNotes(showIcons)
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:ToggleNotes] showIcons:", showIcons)
     QuestieQuest:GetAllQuestIds() -- add notes that weren't added from previous hidden state
 
     if showIcons then
@@ -72,7 +73,9 @@ end
 
 _UnhideQuestIcons = function()
     -- change map button
-    Questie_Toggle:SetText(QuestieLocale:GetUIString("QUESTIE_MAP_BUTTON_HIDE"));
+    if Questie.db.char.enabled then
+        Questie_Toggle:SetText(QuestieLocale:GetUIString("QUESTIE_MAP_BUTTON_HIDE"));
+    end
 
     local trackerHiddenQuests = Questie.db.char.TrackerHiddenQuests
     for questId, framelist in pairs(QuestieMap.questIdFrames) do
@@ -112,8 +115,9 @@ _UnhideManualIcons = function()
 end
 
 _HideQuestIcons = function()
-    -- change map button
-    Questie_Toggle:SetText(QuestieLocale:GetUIString("QUESTIE_MAP_BUTTON_SHOW"));
+    if (not Questie.db.char.enabled) then
+        Questie_Toggle:SetText(QuestieLocale:GetUIString("QUESTIE_MAP_BUTTON_SHOW"));
+    end
 
     for _, framelist in pairs(QuestieMap.questIdFrames) do
         for _, frameName in pairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
