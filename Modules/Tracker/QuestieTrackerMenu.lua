@@ -94,15 +94,15 @@ _AddShowHideObjectivesOption = function (menu, quest, objective)
         tinsert(menu, {text = QuestieLocale:GetUIString('TRACKER_SHOW_ICONS'), func = function()
             LQuestie_CloseDropDownMenus()
             objective.HideIcons = nil;
-            QuestieQuest:ToggleNotes(true)
             Questie.db.char.TrackerHiddenObjectives[tostring(quest.Id) .. " " .. tostring(objective.Index)] = nil
+            QuestieQuest:ToggleNotes(true)
         end})
     else
         tinsert(menu, {text = QuestieLocale:GetUIString('TRACKER_HIDE_ICONS'), func = function()
             LQuestie_CloseDropDownMenus()
             objective.HideIcons = true;
-            QuestieQuest:ToggleNotes(false)
             Questie.db.char.TrackerHiddenObjectives[tostring(quest.Id) .. " " .. tostring(objective.Index)] = true
+            QuestieQuest:ToggleNotes(false)
         end})
     end
 end
@@ -111,14 +111,14 @@ _AddShowHideQuestsOption = function (menu, quest)
     if quest.HideIcons then
         tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_SHOW_ICONS'), func = function()
             quest.HideIcons = nil
-            QuestieQuest:ToggleNotes(true)
             Questie.db.char.TrackerHiddenQuests[quest.Id] = nil
+            QuestieQuest:ToggleNotes(true)
         end})
     else
         tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_HIDE_ICONS'), func = function()
             quest.HideIcons = true
-            QuestieQuest:ToggleNotes(false)
             Questie.db.char.TrackerHiddenQuests[quest.Id] = true
+            QuestieQuest:ToggleNotes(false)
         end})
     end
 end
