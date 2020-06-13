@@ -233,16 +233,16 @@ end
 function QuestieDB:IsLevelRequirementsFulfilled(questId, minLevel, maxLevel)
     local level, requiredLevel = unpack(QuestieDB.QueryQuest(questId, "questLevel", "requiredLevel"))
 
-    if QuestieDB:IsActiveEventQuest(questId) and minLevel > requiredLevel then
+    if QuestieDB:IsActiveEventQuest(questId) and minLevel > requiredLevel and (not Questie.db.char.absoluteLevelOffset) then
         return true
     end
-
+    -- Questie.db.char.absoluteLevelOffset
     if maxLevel >= level then
         if minLevel > level and (not Questie.db.char.lowlevel) then
             return false
         end
     else
-        if maxLevel < requiredLevel then
+        if maxLevel < requiredLevel or Questie.db.char.absoluteLevelOffset then
             return false
         end
     end
