@@ -1484,9 +1484,7 @@ end
 ---------------------------------------------------------------------------------------------------
 -- Message Event Filter which intercepts incoming linked quests and replaces them with Hyperlinks
 local lastMsg = ""
-local function QuestsFilter(chatFrame, event, msg, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, unused, lineID, senderGUID, ...)
-    Questie:Debug(DEBUG_DEVELOP, "[QuestsFilter] msg: <" .. msg .. ">")
-
+local function QuestsFilter(chatFrame, event, msg, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, unused, lineID, senderGUID, bnSenderID, ...)
     if lastMsg ~= msg then
         lastMsg = msg
         if string.find(msg, "%[(..-) %((%d+)%)%]") then
@@ -1510,6 +1508,12 @@ local function QuestsFilter(chatFrame, event, msg, playerName, languageName, cha
 
                 if realQuestName and realQuestName == questName and questId then
                     local coloredQuestName = QuestieLib:GetColoredQuestName(questId, questName, realQuestLevel, Questie.db.global.trackerShowQuestLevel, complete, false)
+
+                    if senderGUID == nil then
+                        playerName = BNGetFriendInfoByID(bnSenderID)
+                        senderGUID = bnSenderID
+                    end
+
                     local questLink = "|Hquestie:"..sqid..":"..senderGUID.."|h"..QuestieLib:PrintDifficultyColor(realQuestLevel, "[")..coloredQuestName..QuestieLib:PrintDifficultyColor(realQuestLevel, "]").."|h"
 
                     -- Escape the magic characters
@@ -1545,27 +1549,40 @@ local function QuestsFilter(chatFrame, event, msg, playerName, languageName, cha
                     end
                 end
             end
-            return false, msg, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, unused, lineID, senderGUID, ...
+            return false, msg, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, unused, lineID, senderGUID, bnSenderID, ...
         end
     end
 end
 
 -- The message filter that triggers the above local function
+
+-- Party
 ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY", QuestsFilter)
 ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY_LEADER", QuestsFilter)
+
+-- Raid
 ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID", QuestsFilter)
 ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID_LEADER", QuestsFilter)
 ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID_WARNING", QuestsFilter)
-ChatFrame_AddMessageEventFilter("CHAT_MSG_BATTLEGROUND", QuestsFilter)
-ChatFrame_AddMessageEventFilter("CHAT_MSG_BATTLEGROUND_LEADER", QuestsFilter)
+
+-- Guild
 ChatFrame_AddMessageEventFilter("CHAT_MSG_GUILD", QuestsFilter)
 ChatFrame_AddMessageEventFilter("CHAT_MSG_OFFICER", QuestsFilter)
+
+-- Battleground
+ChatFrame_AddMessageEventFilter("CHAT_MSG_INSTANCE_CHAT", QuestsFilter)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_INSTANCE_CHAT_LEADER", QuestsFilter)
+
+-- Whisper
+ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", QuestsFilter)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER_INFORM", QuestsFilter)
+
+-- Battle Net
+ChatFrame_AddMessageEventFilter("CHAT_MSG_BN", QuestsFilter)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_WHISPER", QuestsFilter)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_WHISPER_INFORM", QuestsFilter)
+
+-- Open world
 ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", QuestsFilter)
-ChatFrame_AddMessageEventFilter("CHAT_MSG_COMMUNITIES_CHANNEL", QuestsFilter)
 ChatFrame_AddMessageEventFilter("CHAT_MSG_SAY", QuestsFilter)
-ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_WHISPER_INFORM", QuestsFilter) -- Sender
-ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_WHISPER", QuestsFilter) -- Receiver
-ChatFrame_AddMessageEventFilter("CHAT_MSG_TEXT_EMOTE", QuestsFilter)
 ChatFrame_AddMessageEventFilter("CHAT_MSG_YELL", QuestsFilter)
-ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER_INFORM", QuestsFilter) -- Sender
-ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", QuestsFilter) -- Receiver
