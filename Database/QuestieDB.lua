@@ -2,9 +2,6 @@
 local QuestieDB = QuestieLoader:CreateModule("QuestieDB")
 local _QuestieDB = QuestieDB.private
 
----@class DBCompiler
-local QuestieDBCompiler = QuestieLoader:CreateModule("DBCompiler")
-
 -------------------------
 --Import modules.
 -------------------------
@@ -24,7 +21,8 @@ local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 ---@type QuestieEvent
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
-
+---@type DBCompiler
+local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
 
 local tinsert = table.insert
 
@@ -34,6 +32,9 @@ local DB_OBJ_SPAWNS = 4
 local DB_NPC_FRIENDLY = 13
 
 
+--- Tag corrections for quests for which the API returns the wrong values.
+--- Strucute: [questId] = {tagId, "questType"}
+---@type table<number, table<number, string>>
 local questTagCorrections = {
     [4146] = {81, "Dungeon"},
     [7161] = {41, "PvP"},
@@ -42,6 +43,7 @@ local questTagCorrections = {
     [8404] = {41, "PvP"},
     [8405] = {41, "PvP"},
     [8406] = {41, "PvP"},
+    [8407] = {41, "PvP"},
     [8408] = {41, "PvP"},
 }
 
