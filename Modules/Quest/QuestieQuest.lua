@@ -1485,6 +1485,8 @@ end
 -- Message Event Filter which intercepts incoming linked quests and replaces them with Hyperlinks
 local lastMsg = ""
 local function QuestsFilter(chatFrame, event, msg, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, unused, lineID, senderGUID, ...)
+    Questie:Debug(DEBUG_DEVELOP, "[QuestsFilter] msg: <" .. msg .. ">")
+
     if lastMsg ~= msg then
         lastMsg = msg
         if string.find(msg, "%[(..-) %((%d+)%)%]") then
@@ -1550,8 +1552,14 @@ end
 
 -- The message filter that triggers the above local function
 ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY", QuestsFilter)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY_LEADER", QuestsFilter)
 ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID", QuestsFilter)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID_LEADER", QuestsFilter)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID_WARNING", QuestsFilter)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_GUILD", QuestsFilter)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_OFFICER", QuestsFilter)
 ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", QuestsFilter)
 ChatFrame_AddMessageEventFilter("CHAT_MSG_SAY", QuestsFilter)
 ChatFrame_AddMessageEventFilter("CHAT_MSG_YELL", QuestsFilter)
-ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", QuestsFilter)
+ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER_INFORM", QuestsFilter) -- Sender
+ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", QuestsFilter) -- Receiver
