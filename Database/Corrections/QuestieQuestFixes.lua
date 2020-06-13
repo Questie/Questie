@@ -881,11 +881,6 @@ function QuestieQuestFixes:Load()
         [4606] = {
             [QuestieDB.questKeys.exclusiveTo] = {2952,4605},
         },
-        [4621] = {
-            [QuestieDB.questKeys.preQuestSingle] = {1036},
-            [QuestieDB.questKeys.requiredMinRep] = {87,3000},
-            [QuestieDB.questKeys.requiredMaxRep] = {21,-5999},
-        },
         [4641] = {
             [QuestieDB.questKeys.requiredRaces] = 178, -- #877
             [QuestieDB.questKeys.exclusiveTo] = {788}, -- #1956
