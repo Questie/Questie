@@ -72,7 +72,7 @@ _AddFocusOption = function (menu, quest, objective)
     if Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus == tostring(quest.Id) .. " " .. tostring(objective.Index) then
         tinsert(menu, {text = QuestieLocale:GetUIString('TRACKER_UNFOCUS'), func = function() LQuestie_CloseDropDownMenus(); QuestieTracker:UnFocus(); QuestieQuest:ToggleNotes(true) end})
     else
-        tinsert(menu, {text = QuestieLocale:GetUIString('TRACKER_FOCUS_OBJECTIVE'), func = function() LQuestie_CloseDropDownMenus(); QuestieTracker:FocusObjective(quest, objective); QuestieQuest:ToggleNotes(false) end})
+        tinsert(menu, {text = QuestieLocale:GetUIString('TRACKER_FOCUS_OBJECTIVE'), func = function() LQuestie_CloseDropDownMenus(); QuestieTracker:FocusObjective(quest.Id, objective.Index); QuestieQuest:ToggleNotes(false) end})
     end
 end
 
@@ -201,7 +201,7 @@ _AddFocusUnfocusOption = function (menu, quest)
     if Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "number" and Questie.db.char.TrackerFocus == quest.Id then
         tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_UNFOCUS'), func = function() LQuestie_CloseDropDownMenus(); QuestieTracker:UnFocus(); QuestieQuest:ToggleNotes(true) end})
     else
-        tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_FOCUS_QUEST'), func = function() LQuestie_CloseDropDownMenus(); QuestieTracker:FocusQuest(quest); QuestieQuest:ToggleNotes(false)  end})
+        tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_FOCUS_QUEST'), func = function() LQuestie_CloseDropDownMenus(); QuestieTracker:FocusQuest(quest.Id); QuestieQuest:ToggleNotes(false) end})
     end
 end
 
