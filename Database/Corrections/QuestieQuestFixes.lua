@@ -334,8 +334,7 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.requiredSourceItems] = {5475},
         },
         [1036] = {
-            [QuestieDB.questKeys.requiredMinRep] = {87,3000},
-            [QuestieDB.questKeys.requiredMaxRep] = {21,-5999},
+            [QuestieDB.questKeys.requiredMinRep] = {87,1}, -- #1854
         },
         [1056] = {
             [QuestieDB.questKeys.exclusiveTo] = {1057}, -- #1901
