@@ -1,7 +1,12 @@
+---@class DBCompiler
 local QuestieDBCompiler = QuestieLoader:CreateModule("DBCompiler")
+---@type CompressedTable
 local QuestieCompressedTable = QuestieLoader:ImportModule("CompressedTable")
+---@type QuestieStreamLib
 local QuestieStream = QuestieLoader:ImportModule("QuestieStreamLib"):GetStream("raw")
+---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type QuestieSerializer
 local serial = QuestieLoader:ImportModule("QuestieSerializer")
 
 serial.enableObjectLimit = false

@@ -2654,6 +2654,7 @@
         "STANDARD_TEXT_FONT",
         "GetQuestIDFromLogIndex",
         "ChatFrame_AddMessageEventFilter",
+        "ReloadUI",
         "-----------------------------------------------------> Blizzard Data",
         "CALENDAR_FULLDATE_MONTH_NAMES",
         "CALENDAR_WEEKDAY_NAMES",
