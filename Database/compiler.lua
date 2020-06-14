@@ -36,6 +36,15 @@ QuestieDBCompiler.readers = {
 
         return ret
     end,
+    ["s24pair"] = function(stream)
+        local ret = {stream:ReadInt24()-8388608, stream:ReadInt24()-8388608}
+        -- bit of a hack
+        if ret[1] == 0 and ret[2] == 0 then
+            return nil
+        end
+
+        return ret
+    end,
     ["u8string"] = function(stream)
         local ret = stream:ReadTinyString()
         if ret == "nil" then-- I hate this but we need to support both nil strings and empty strings
@@ -204,6 +213,15 @@ QuestieDBCompiler.writers = {
             stream:WriteInt24(0)
         end
     end,
+    ["s24pair"] = function(stream, value)
+        if value then
+            stream:WriteInt24((value[1] or 0) + 8388608)
+            stream:WriteInt24((value[2] or 0) + 8388608)
+        else
+            stream:WriteInt24(8388608)
+            stream:WriteInt24(8388608)
+        end
+    end,
     ["u8string"] = function(stream, value)
 
         stream:WriteTinyString(value or "nil") -- I hate this but we need to support both nil strings and empty strings
@@ -357,6 +375,7 @@ QuestieDBCompiler.skippers = {
     ["u32"] = function(stream) stream._pointer = stream._pointer + 4 end,
     ["u12pair"] = function(stream) stream._pointer = stream._pointer + 3 end,
     ["u24pair"] = function(stream) stream._pointer = stream._pointer + 6 end,
+    ["s24pair"] = function(stream) stream._pointer = stream._pointer + 6 end,
     ["u8string"] = function(stream) stream._pointer = stream:ReadByte() + stream._pointer end,
     ["u16string"] = function(stream) stream._pointer = stream:ReadShort() + stream._pointer end,
     ["u8u16array"] = function(stream) stream._pointer = stream:ReadByte() * 2 + stream._pointer end,
@@ -427,6 +446,7 @@ QuestieDBCompiler.statics = {
     ["faction"] = 1,
     ["u12pair"] = 3,
     ["u24pair"] = 6,
+    ["s24pair"] = 6,
 }
 
 function QuestieDBCompiler:CompileNPCs(func)
