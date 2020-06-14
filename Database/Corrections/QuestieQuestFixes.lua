@@ -1109,9 +1109,10 @@ function QuestieQuestFixes:Load()
         },
         [6382] = {
             [QuestieDB.questKeys.preQuestSingle] = {882},
-            [QuestieDB.questKeys.exclusiveTo] = {235,742,},
+            [QuestieDB.questKeys.exclusiveTo] = {235,742,6383,},
         },
         [6383] = {
+            [QuestieDB.questKeys.exclusiveTo] = {235,742,6382,},
             [QuestieDB.questKeys.preQuestSingle] = {},
         },
         [6522] = {
