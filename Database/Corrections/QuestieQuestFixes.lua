@@ -1150,6 +1150,21 @@ function QuestieQuestFixes:Load()
         [6625] = {
             [QuestieDB.questKeys.exclusiveTo] = {6624}, -- #1723
         },
+        [6642] = {
+            [QuestieDB.questKeys.requiredMinRep] = {59,9000},
+        },
+        [6643] = {
+            [QuestieDB.questKeys.requiredMinRep] = {59,9000},
+        },
+        [6644] = {
+            [QuestieDB.questKeys.requiredMinRep] = {59,9000},
+        },
+        [6645] = {
+            [QuestieDB.questKeys.requiredMinRep] = {59,9000},
+        },
+        [6646] = {
+            [QuestieDB.questKeys.requiredMinRep] = {59,9000},
+        },
         [6721] = {
             [QuestieDB.questKeys.startedBy] = {{5116},nil,nil},
             [QuestieDB.questKeys.exclusiveTo] = {6071,6072,6073,6722,6063},
