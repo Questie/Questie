@@ -385,7 +385,8 @@ function QuestieDB:IsDoable(questId, raceIndex, classIndex, debug)
         return false
     end
 
-    local requiredMinRep, requiredMaxRep = unpack(QuestieDB.QueryQuest(questId, "requiredMinRep", "requiredMaxRep"))
+    local requiredMinRep = QuestieDB.QueryQuestSingle(questId, "requiredMinRep")
+    local requiredMaxRep = QuestieDB.QueryQuestSingle(questId, "requiredMaxRep")
 
     if requiredMinRep ~= 0 and requiredMaxRep ~= 0 and not QuestieReputation:HasReputation(requiredMinRep, requiredMaxRep) then
         if debug then print("dont have reputation!") end
