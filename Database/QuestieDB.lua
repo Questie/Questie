@@ -311,42 +311,29 @@ function QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle)
     return false
 end
 
-function QuestieDB:IsDoableDebug(id)
-    local _, _, classIndex = UnitClass("player")
-    local _, _, raceIndex = UnitRace("player")
-    classIndex = math.pow(2, classIndex-1)
-    raceIndex = math.pow(2, raceIndex-1)
-    return QuestieDB:IsDoable(id, raceIndex, classIndex, true)
-end
-
-function QuestieDB:IsDoable(questId, raceIndex, classIndex, debug)
+function QuestieDB:IsDoable(questId, raceIndex, classIndex)
 
     if QuestieCorrections.hiddenQuests[questId] then
-        if debug then print("quest is hidden!") end
+        Questie:Debug(DEBUG_INFO, "[QuestieDB:IsDoable] quest is hidden!")
         return false
     end
-    --if self.isHidden then
-    --    return false;
-    --end
-
-    --local nextQuestInChain, ExclusiveQuestGroup, parentQuest, requiredSkill, requiredMinRep, requiredMaxRep, preQuestGroup, preQuestSingle, requiredRaces, requiredClasses = unpack(QuestieDB.QueryQuest(questId, "nextQuestInChain", "exclusiveTo", "parentQuest", "requiredSkill", "requiredMinRep", "requiredMaxRep", "preQuestGroup", "preQuestSingle", "requiredRaces", "requiredClasses"))
 
     if Questie.db.char.hidden[questId] then
-        if debug then print("quest is hidden manually!") end
+        Questie:Debug(DEBUG_INFO, "[QuestieDB:IsDoable] quest is hidden manually!")
         return false
     end
 
     local requiredRaces = QuestieDB.QueryQuestSingle(questId, "requiredRaces")
 
     if (not QuestiePlayer:HasRequiredRace(requiredRaces)) then
-        if debug then print("bad race!: " .. requiredRaces .. " " .. raceIndex) end
+        Questie:Debug(DEBUG_INFO, "[QuestieDB:IsDoable] bad race!: " .. requiredRaces .. " " .. raceIndex)
         return false
     end
 
     local requiredClasses = QuestieDB.QueryQuestSingle(questId, "requiredClasses")
 
     if (not QuestiePlayer:HasRequiredClass(requiredClasses)) then
-        if debug then print("bad class!: " .. requiredClasses .. " " .. classIndex) end
+        Questie:Debug(DEBUG_INFO, "[QuestieDB:IsDoable] bad class!: " .. requiredClasses .. " " .. classIndex)
         return false
     end
 
@@ -354,7 +341,7 @@ function QuestieDB:IsDoable(questId, raceIndex, classIndex, debug)
 
     if nextQuestInChain and nextQuestInChain ~= 0 then
         if Questie.db.char.complete[nextQuestInChain] or QuestiePlayer.currentQuestlog[nextQuestInChain] then
-            if debug then print("part of a chain we dont have!") end
+            Questie:Debug(DEBUG_INFO, "[QuestieDB:IsDoable] part of a chain we dont have!")
             return false
         end
     end
@@ -364,7 +351,7 @@ function QuestieDB:IsDoable(questId, raceIndex, classIndex, debug)
     if ExclusiveQuestGroup then -- fix (DO NOT REVERT, tested thoroughly)
         for k, v in pairs(ExclusiveQuestGroup) do
             if Questie.db.char.complete[v] or QuestiePlayer.currentQuestlog[v] then
-                if debug then print("we have completed a quest that locks out this quest!") end
+                Questie:Debug(DEBUG_INFO, "[QuestieDB:IsDoable] we have completed a quest that locks out this quest!")
                 return false
             end
         end
@@ -380,16 +367,16 @@ function QuestieDB:IsDoable(questId, raceIndex, classIndex, debug)
 
     local requiredSkill = QuestieDB.QueryQuestSingle(questId, "requiredSkill")
 
-    if requiredSkill ~= 0 and not QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill) then
-        if debug then print("dont have required skill!") end
+    if (not QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill)) then
+        Questie:Debug(DEBUG_INFO, "[QuestieDB:IsDoable] Player does not meet profession requirements for", questId)
         return false
     end
 
     local requiredMinRep = QuestieDB.QueryQuestSingle(questId, "requiredMinRep")
     local requiredMaxRep = QuestieDB.QueryQuestSingle(questId, "requiredMaxRep")
 
-    if requiredMinRep ~= 0 and requiredMaxRep ~= 0 and not QuestieReputation:HasReputation(requiredMinRep, requiredMaxRep) then
-        if debug then print("dont have reputation!") end
+    if (not QuestieReputation:HasReputation(requiredMinRep, requiredMaxRep)) then
+        Questie:Debug(DEBUG_INFO, "[QuestieDB:IsDoable] Player does not meet reputation requirements for", questId)
         return false
     end
 
@@ -553,7 +540,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
         local _, _, raceIndex = UnitRace("player")
         classIndex = math.pow(2, classIndex-1)
         raceIndex = math.pow(2, raceIndex-1)
-        return QuestieDB:IsDoable(self.Id, raceIndex, classIndex, false)
+        return QuestieDB:IsDoable(self.Id, raceIndex, classIndex)
     end
 
     -- We always want to show a quest if it is a childQuest and its parent is in the quest log
