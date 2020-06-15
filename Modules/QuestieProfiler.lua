@@ -6,6 +6,8 @@ QuestieProfiler.needsHook = {}
 QuestieProfiler.hookCallCount = {}
 QuestieProfiler.hookTimeCount = {}
 QuestieProfiler.lowerCaseLookup = {}
+QuestieProfiler.shortestName = {}
+QuestieProfiler.lookupToHook = {}
 QuestieProfiler.hooks = {}
 QuestieProfiler.needsHookCount = 0
 QuestieProfiler.finishedHookCount = 0
@@ -23,14 +25,20 @@ QuestieProfiler.scriptsToWatch = {
 }
 
 function QuestieProfiler:HookFunction(key, val, table, name)
+    local lookupKey = name .. "." .. tostring(key)
+    QuestieProfiler.shortestName[val] = lookupKey
+    QuestieProfiler.alreadyHooked[val] = true
+    QuestieProfiler.lookupToHook[lookupKey] = val
     local hook = {}
     hook.original = val
     hook.originalKey = key
     hook.originalParent = table
-    local lookupKey = name .. "." .. key
+    
     QuestieProfiler.hookCallCount[lookupKey] = 0
     QuestieProfiler.hookTimeCount[lookupKey] = 0
     hook.override = function(...)
+        --local _, _, name = strsplit("\\", debugstack(2))
+        --print(name)
         --print("Hookboy run " .. name .. "->"..key)
         local htc = QuestieProfiler.hookCallCount[lookupKey] + 1
         QuestieProfiler.hookCallCount[lookupKey] = htc
@@ -56,9 +64,26 @@ end
 function QuestieProfiler:HookTable(table, name)
     QuestieProfiler.alreadyHooked[table] = true
     for key, val in pairs(table) do
-        if not QuestieProfiler.alreadyHooked[val] then
-            QuestieProfiler.alreadyHooked[val] = true
+        if QuestieProfiler.alreadyHooked[val] then
+            if QuestieProfiler.shortestName[val] then
+                local lookupKey
+                if type(key) == "table" then
+                    lookupKey = name .. ".(key)"..tostring(key)
+                else
+                    lookupKey = name .. "." .. tostring(key)
+                end
+                if string.len(lookupKey) < string.len(QuestieProfiler.shortestName[val]) then
+                    QuestieProfiler.shortestName[val] = lookupKey
+                    --print("Shorter name: " .. lookupKey)
+                end
+            end
+        else
+            --QuestieProfiler.alreadyHooked[val] = true
             local typ = type(val)
+            if type(key) == "table" then
+                tinsert(QuestieProfiler.needsHook, {key, name .. ".(key)"..tostring(key)})
+                QuestieProfiler.needsHookCount = QuestieProfiler.needsHookCount + 1
+            end
             if typ == "function" then
                 if key == "GetScript" then -- get all scripts
                     for _, script in pairs(QuestieProfiler.scriptsToWatch) do
@@ -72,7 +97,8 @@ function QuestieProfiler:HookTable(table, name)
                 QuestieProfiler:HookFunction(key, val, table, name)
             elseif typ == "table" then
                 --QuestieProfiler:HookTable(val, name .. "->"..key)
-                tinsert(QuestieProfiler.needsHook, {val, name .. "."..key})
+                
+                tinsert(QuestieProfiler.needsHook, {val, name .. "."..tostring(key)})
                 QuestieProfiler.needsHookCount = QuestieProfiler.needsHookCount + 1
             end
         end
@@ -257,7 +283,7 @@ function QuestieProfiler:CreateUI()
             local color3 = valToHex(1 - (callCount[call] / (highestCalls/2))) or "\124cFFFF0000"
             --print("Highest ms: " .. QuestieProfiler.highestMS)
             --print("Highest calls: " .. QuestieProfiler.highestCalls)
-            local callstr = call
+            local callstr = QuestieProfiler.shortestName[QuestieProfiler.lookupToHook[call]]
 
             if(string.len(callstr) > 64) then
                 callstr = "..." .. string.sub(callstr, string.len(callstr)-64)
@@ -415,12 +441,18 @@ end
 
 function QuestieProfiler:DoHooks(after)
     local timer
+
+    -- libstub modules. TODO: check debugstack() to only include calls made by questie
+    --QuestieProfiler.needsHookCount = QuestieProfiler.needsHookCount + 1
+    --tinsert(QuestieProfiler.needsHook, {LibStub, "LibStub"})
+
     for moduleName, module in pairs(QuestieLoader._modules) do
         if module ~= QuestieProfiler then
             QuestieProfiler.needsHookCount = QuestieProfiler.needsHookCount + 1
             tinsert(QuestieProfiler.needsHook, {module, moduleName})
         end
     end
+
     timer = C_Timer.NewTicker(0.01, function()
         for i=0,512 do
             local toHook = tremove(QuestieProfiler.needsHook)
