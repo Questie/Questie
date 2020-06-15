@@ -2217,8 +2217,10 @@ _RemoveQuestWatch = function(index, isQuestie)
             else
                 Questie.db.char.AutoUntrackedQuests[qid] = true
             end
-            QuestieTracker:ResetLinesForChange()
-            QuestieTracker:Update()
+            QuestieCombatQueue:Queue(function()
+                QuestieTracker:ResetLinesForChange()
+                QuestieTracker:Update()
+            end)
         end
     end
 end
@@ -2264,8 +2266,10 @@ _AQW_Insert = function(index, expire)
             Questie.db.char.collapsedZones[zoneId] = nil
         end
 
-        QuestieTracker:ResetLinesForChange()
-        QuestieTracker:Update()
+        QuestieCombatQueue:Queue(function()
+            QuestieTracker:ResetLinesForChange()
+            QuestieTracker:Update()
+        end)
     end
 end
 
