@@ -1,6 +1,6 @@
 if GetBuildInfo() <= '1.13' then
     StaticPopupDialogs["VERSION_ERROR"] = {
-        text = "|cffff0000ERROR|r\nYou're trying to use Questie on an unsupported version of WoW!\nQuestie is supporting WoW Classic only!\n\nYou should come and join the real WoW",
+        text = "|cffff0000ERROR|r\nYou're trying to use Questie on vanilla WoW!\nQuestie is supporting WoW Classic only!\n\nYou should come and join the real WoW",
         button2 = "Okay, maybe I will",
         hasEditBox = false,
         whileDead = true
@@ -10,7 +10,6 @@ if GetBuildInfo() <= '1.13' then
     DEFAULT_CHAT_FRAME:AddMessage("---------------------------------")
     DEFAULT_CHAT_FRAME:AddMessage("|cffff0000ERROR|r: |cff42f5adYou're trying to use Questie on vanilla WoW!|r")
     DEFAULT_CHAT_FRAME:AddMessage("|cffff0000ERROR|r: |cff42f5adThis version of Questie supports WoW Classic only!")
-    DEFAULT_CHAT_FRAME:AddMessage("---------------------------------")
     return
 end
 
