@@ -1496,12 +1496,11 @@ function QuestieTracker:Update()
                 local button = _QuestieTracker:GetNextItemButton()
                 button.itemID = quest.sourceItemId
                 button.fontSize = fontSizeCompare
-                line.button = button
                 button.line = line
                 QuestieCombatQueue:Queue(function(self)
                     if self:SetItem(quest, trackerFontSizeQuest+2+trackerFontSizeObjective) then
                         local height = 0
-                        local frame = line
+                        local frame = self.line
 
                         while frame and frame ~= _QuestieTracker.trackedQuestsFrame do
                             local _, parent, _, xOff, yOff = frame:GetPoint()
