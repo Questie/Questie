@@ -197,8 +197,8 @@ end
 
 function _QuestieTracker:CreateBaseFrame()
     local frm = CreateFrame("Frame", "Questie:BaseFrame", UIParent)
-    frm:SetWidth(1)
-    frm:SetHeight(1)
+    frm:SetWidth(165)
+    frm:SetHeight(32)
 
     frm:EnableMouse(true)
     frm:SetMovable(true)
@@ -221,7 +221,7 @@ function _QuestieTracker:CreateBaseFrame()
     frm:SetBackdropBorderColor(1, 1, 1, 0)
 
     frm.Update = function(self)
-        if Questie.db.char.isTrackerExpanded then
+        if Questie.db.char.isTrackerExpanded and GetNumQuestLogEntries() > 0 then
             if Questie.db.global.trackerBackdropEnabled then
                 if not Questie.db.global.trackerBackdropFader then
                     _QuestieTracker.baseFrame:SetBackdropColor(0, 0, 0, Questie.db.global.trackerBackdropAlpha)
@@ -362,9 +362,8 @@ function _QuestieTracker:CreateActiveQuestsHeader()
     end
 
     frm.Update = function(self)
-        if Questie.db.global.trackerHeaderEnabled then
-            local _, activeQuests = GetNumQuestLogEntries()
-
+        local _, activeQuests = GetNumQuestLogEntries()
+        if Questie.db.global.trackerHeaderEnabled and activeQuests > 0 then
             self:ClearAllPoints()
             self.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontHeader) or STANDARD_TEXT_FONT, trackerFontSizeHeader)
             self.label:SetText(QuestieLocale:GetUIString("TRACKER_ACTIVE_QUESTS") .. tostring(activeQuests) .. "/20")
@@ -559,9 +558,8 @@ end
 
 function _QuestieTracker:CreateTrackedQuestsFrame()
     local frm = CreateFrame("Frame", "Questie:TrackedQuestsFrame", _QuestieTracker.baseFrame)
-    frm:SetWidth(1)
-    frm:SetHeight(1)
-
+    frm:SetWidth(165)
+    frm:SetHeight(32)
     if Questie.db.global.trackerHeaderEnabled then
         if Questie.db.global.trackerHeaderAutoMove then
             if Questie.db[Questie.db.global.questieTLoc].TrackerLocation and (Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMLEFT" or Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMRIGHT") then
@@ -1202,6 +1200,7 @@ function QuestieTracker:Update()
     -- Update primary frames and layout
     _QuestieTracker.baseFrame:Update()
     _QuestieTracker.activeQuestsHeader:Update()
+    _QuestieTracker.trackedQuestsFrame:Update()
     _QuestieTracker:UpdateLayout()
 
     lineIndex = 0
