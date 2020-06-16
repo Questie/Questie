@@ -345,6 +345,7 @@ _CHAT_MSG_COMBAT_FACTION_CHANGE = function()
     Questie:Debug(DEBUG_DEVELOP, "CHAT_MSG_COMBAT_FACTION_CHANGE")
     local factionChanged = QuestieReputation:Update(false)
     if factionChanged then
+        QuestieTracker:Update()
         QuestieQuest:CalculateAvailableQuests()
         QuestieQuest:DrawAllAvailableQuests()
     end
