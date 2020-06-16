@@ -8,6 +8,9 @@
 ## SavedVariables: QuestieConfig
 ## SavedVariablesPerCharacter: QuestieConfigCharacter
 
+
+Modules\VersionCheck.lua
+
 embeds.xml
 Libs\HereBeDragons\HereBeDragons-2.0.lua
 Libs\HereBeDragons\HereBeDragons-Pins-2.0.lua
