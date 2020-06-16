@@ -1,5 +1,6 @@
 ---@class QuestieQuest
 local QuestieQuest = QuestieLoader:CreateModule("QuestieQuest")
+local _QuestieQuest = QuestieQuest.private
 -------------------------
 --Import modules.
 -------------------------
@@ -27,8 +28,8 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
-
-local _QuestieQuest = QuestieQuest.private
+---@type QuestieCombatQueue
+local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 
 --We should really try and squeeze out all the performance we can, especially in this.
 local tostring = tostring;
@@ -433,8 +434,10 @@ function QuestieQuest:UpdateQuest(questId)
         else
             --DEFAULT_CHAT_FRAME:AddMessage("Still not finished " .. QuestId);
         end
-        QuestieTracker:ResetLinesForChange()
-        QuestieTracker:Update()
+        QuestieCombatQueue:Queue(function()
+            QuestieTracker:ResetLinesForChange()
+            QuestieTracker:Update()
+        end)
 
         Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
     end

@@ -609,8 +609,10 @@ function _QuestieTracker:CreateTrackedQuestsFrame()
 
     frm:SetScript("OnEvent", function(self, event, ...)
         if (event == "BAG_NEW_ITEMS_UPDATED" or event == "BANKFRAME_CLOSED") then
-            QuestieTracker:ResetLinesForChange()
-            QuestieTracker:Update()
+            QuestieCombatQueue:Queue(function()
+                QuestieTracker:ResetLinesForChange()
+                QuestieTracker:Update()
+            end)
         end
     end)
 
