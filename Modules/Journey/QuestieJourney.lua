@@ -11,8 +11,8 @@ local QuestieJourneyUtils = QuestieLoader:ImportModule("QuestieJourneyUtils")
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
----@type QuestieDBZone
-local QuestieDBZone = QuestieLoader:ImportModule("QuestieDBZone")
+---@type ZoneDB
+local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 -- Useful doc about the AceGUI TreeGroup: https://github.com/hurricup/WoW-Ace3/blob/master/AceGUI-3.0/widgets/AceGUIContainer-TreeGroup.lua
 
@@ -56,7 +56,7 @@ _BuildZoneMapCache = function()
 
         if QuestiePlayer:HasRequiredRace(requiredRaces) and QuestiePlayer:HasRequiredClass(requiredClasses) then
             if zoneOrSort > 0 then
-                local parentZoneId = QuestieDBZone:GetParentZoneId(zoneOrSort)
+                local parentZoneId = ZoneDB:GetParentZoneId(zoneOrSort)
 
                 if parentZoneId then
                     if (not zoneMap[parentZoneId]) then

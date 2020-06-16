@@ -4,8 +4,8 @@ local _QuestiePlayer = QuestiePlayer.private
 -------------------------
 --Import modules.
 -------------------------
----@type QuestieDBZone
-local QuestieDBZone = QuestieLoader:ImportModule("QuestieDBZone")
+---@type ZoneDB
+local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 QuestiePlayer.currentQuestlog = {} --Gets populated by QuestieQuest:GetAllQuestIds(), this is either an object to the quest in question, or the ID if the object doesn't exist.
 _QuestiePlayer.playerLevel = -1
@@ -65,7 +65,7 @@ function QuestiePlayer:HasRequiredClass(requiredClasses)
 end
 
 function QuestiePlayer:GetCurrentZoneId()
-    return QuestieDBZone:GetAreaIdByUIMapID(C_Map.GetBestMapForUnit("player"))
+    return ZoneDB:GetAreaIdByUiMapId(C_Map.GetBestMapForUnit("player"))
 end
 
 function QuestiePlayer:GetCurrentContinentId()

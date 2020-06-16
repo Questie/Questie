@@ -22,6 +22,8 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local QuestieQuestTimers = QuestieLoader:ImportModule("QuestieQuestTimers")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+---@type ZoneDB
+local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 -- Local Vars
 local trackerLineCount = 60
@@ -1304,7 +1306,7 @@ function QuestieTracker:Update()
             sortData.q = QuestieDB:GetQuest(questId)
             local _, zone, _ = QuestieMap:GetNearestQuestSpawn(sortData.q)
             sortData.zone = zone
-            sortData.continent = _GetContinent(ZoneDataAreaIDToUiMapID[zone])
+            sortData.continent = _GetContinent(ZoneDB:GetUiMapIdByAreaId(zone))
             toSort[questId] = sortData
         end
         QuestieTracker._sorter = function(a, b)
@@ -1422,7 +1424,7 @@ function QuestieTracker:Update()
 
                     if Questie.db.char.collapsedZones[quest.zoneOrSort] then
                         line.expandZone:SetMode(0)
-                        line.label:SetText("|cFFC0C0C0" .. zoneName .. " \+|r")
+                        line.label:SetText("|cFFC0C0C0" .. zoneName .. " +|r")
                     else
                         line.expandZone:SetMode(1)
                         line.label:SetText("|cFFC0C0C0" .. zoneName .. "|r")
@@ -2312,7 +2314,8 @@ _GetDistanceToClosestObjective = function(questId)
         return nil
     end
 
-    local _, worldPosition = C_Map.GetWorldPosFromMapPos(ZoneDataAreaIDToUiMapID[zone], {
+    local uiMapId = ZoneDB:GetUiMapIdByAreaId(zone)
+    local _, worldPosition = C_Map.GetWorldPosFromMapPos(uiMapId, {
         x = spawn[1] / 100,
         y = spawn[2] / 100
     });

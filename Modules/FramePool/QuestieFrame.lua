@@ -149,7 +149,9 @@ function _Qframe:OnClick(button)
         if button == "RightButton" then
             local currentMapParent = WorldMapFrame:GetMapID()
             if currentMapParent then
-                currentMapParent = QuestieZoneToParentTable[currentMapParent];
+                local mapInfo = C_Map.GetMapInfo(currentMapParent)
+                currentMapParent = mapInfo.parentMapID
+
                 if currentMapParent and currentMapParent > 0 then
                     WorldMapFrame:SetMapID(currentMapParent)
                 end

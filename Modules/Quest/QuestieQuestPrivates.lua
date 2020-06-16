@@ -4,8 +4,8 @@ local _QuestieQuest = QuestieQuest.private
 
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
----@type QuestieDBZone
-local QuestieDBZone = QuestieLoader:ImportModule("QuestieDBZone")
+---@type ZoneDB
+local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 
@@ -76,7 +76,7 @@ _QuestieQuest.objectiveSpawnListCallTable = {
                 for i, spawn in pairs(questie2data["locations"]) do
                     local zid = Questie2ZoneTableInverse[spawn[1]];
                     if zid then
-                        zid = QuestieDBZone:GetAreaIdByUIMapID(zid)
+                        zid = ZoneDB:GetAreaIdByUiMapId(zid)
                         if zid then
                             if not ret[1].Spawns[zid] then
                                 ret[1].Spawns[zid] = {};

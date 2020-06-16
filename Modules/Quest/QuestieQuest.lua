@@ -25,10 +25,10 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+---@type ZoneDB
+local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 local _QuestieQuest = QuestieQuest.private
-local libS = LibStub:GetLibrary("AceSerializer-3.0")
-local libC = LibStub:GetLibrary("LibCompress")
 
 --We should really try and squeeze out all the performance we can, especially in this.
 local tostring = tostring;
@@ -566,11 +566,9 @@ function QuestieQuest:AddFinisher(quest)
                         data.Name = finisher.name
                         data.IsObjectiveNote = false
                         if(coords[1] == -1 or coords[2] == -1) then
-                            if(InstanceLocations[finisherZone] ~= nil) then
-                                for _, value in ipairs(InstanceLocations[finisherZone]) do
-                                    --QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
-                                    --Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", ZoneDataAreaIDToUiMapID[value[1]])
-                                    --local icon, minimapIcon = QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
+                            local dungeonLocation = ZoneDB:GetDungeonLocation(finisherZone)
+                            if dungeonLocation ~= nil then
+                                for _, value in ipairs(dungeonLocation) do
                                     local zone = value[1];
                                     local x = value[2];
                                     local y = value[3];
@@ -581,11 +579,6 @@ function QuestieQuest:AddFinisher(quest)
                                         local midX, midY = QuestieLib:CalculateWaypointMidPoint(finisher.waypoints[zone]);
                                         x = midX or x;
                                         y = midY or y;
-                                        -- The above code should do the same... remove this after testing it.
-                                        --if(midX and midY) then
-                                        --    x = midX;
-                                        --    y = midY;
-                                        --end
                                     end
 
                                     local icon, _ = QuestieMap:DrawWorldIcon(data, zone, x, y)
@@ -597,7 +590,6 @@ function QuestieQuest:AddFinisher(quest)
                             end
                         else
                             Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]: Adding world icon as finisher")
-                            --QuestieMap:DrawWorldIcon(data, Zone, coords[1], coords[2])
                             local x = coords[1];
                             local y = coords[2];
 
@@ -607,11 +599,6 @@ function QuestieQuest:AddFinisher(quest)
                                 local midX, midY = QuestieLib:CalculateWaypointMidPoint(finisher.waypoints[finisherZone]);
                                 x = midX or x;
                                 y = midY or y;
-                                -- The above code should do the same... remove this after testing it.
-                                --if(midX and midY) then
-                                --    x = midX;
-                                --    y = midY;
-                                --end
                             end
                             Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]:", finisherZone, x, y)
 
@@ -747,6 +734,7 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                     Objective.AlreadySpawned[id].mapRefs = {};
 
                     for zone, spawns in pairs(spawnData.Spawns) do
+                        local uiMapId = ZoneDB:GetUiMapIdByAreaId(zone)
                         for _, spawn in pairs(spawns) do
                             if(spawn[1] and spawn[2]) then
                                 local drawIcon = {};
@@ -754,10 +742,10 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                                 drawIcon.data = data;
                                 drawIcon.zone = zone;
                                 drawIcon.AreaID = zone;
-                                drawIcon.UiMapID = ZoneDataAreaIDToUiMapID[zone];
+                                drawIcon.UiMapID = uiMapId
                                 drawIcon.x = spawn[1];
                                 drawIcon.y = spawn[2];
-                                local x, y, instance = HBD:GetWorldCoordinatesFromZone(drawIcon.x/100, drawIcon.y/100, ZoneDataAreaIDToUiMapID[zone])
+                                local x, y, _ = HBD:GetWorldCoordinatesFromZone(drawIcon.x/100, drawIcon.y/100, uiMapId)
                                 -- There are instances when X and Y are not in the same map such as in dungeons etc, we default to 0 if it is not set
                                 -- This will create a distance of 0 but it doesn't matter.
                                 local distance = QuestieLib:Euclid(closestStarter[Quest.Id].x or 0, closestStarter[Quest.Id].y or 0, x or 0, y or 0);
@@ -826,12 +814,14 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                 --Disable old clustering.
                 icon.data.ClusterId = nil;
 
-                if InstanceLocations[icon.zone] and midPoint.x == -1 and midPoint.y == -1 then
-                    local instance = InstanceLocations[icon.zone]
-                    if instance[2] then -- We have more than 1 instance entrance (e.g. Blackrock dungeons)
-                        icon.zone = instance[2][1]
-                        midPoint.x = instance[2][2]
-                        midPoint.y = instance[2][3]
+                local dungeonLocation = ZoneDB:GetDungeonLocation(icon.zone)
+
+                if dungeonLocation and midPoint.x == -1 and midPoint.y == -1 then
+                    if dungeonLocation[2] then -- We have more than 1 instance entrance (e.g. Blackrock dungeons)
+                        local secondDungeonLocation = dungeonLocation[2]
+                        icon.zone = secondDungeonLocation[1]
+                        midPoint.x = secondDungeonLocation[2]
+                        midPoint.y = secondDungeonLocation[3]
 
                         local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, icon.zone, midPoint.x, midPoint.y) -- clustering code takes care of duplicates as long as mindist is more than 0
                         if iconMap and iconMini then
@@ -840,9 +830,10 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                         end
                         spawnedIcons[questId] = spawnedIcons[questId] + 1;
                     end
-                    icon.zone = instance[1][1]
-                    midPoint.x = instance[1][2]
-                    midPoint.y = instance[1][3]
+                    local firstDungeonLocation = dungeonLocation[1]
+                    icon.zone = firstDungeonLocation[1]
+                    midPoint.x = firstDungeonLocation[2]
+                    midPoint.y = firstDungeonLocation[3]
                 end
 
                 local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, icon.zone, midPoint.x, midPoint.y) -- clustering code takes care of duplicates as long as mindist is more than 0
@@ -1257,9 +1248,9 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
         for _, ObjectID in ipairs(quest.Starts["GameObject"]) do
             local obj = QuestieDB:GetObject(ObjectID)
             if(obj ~= nil and obj.spawns ~= nil) then
-                for Zone, Spawns in pairs(obj.spawns) do
-                    if(Zone ~= nil and Spawns ~= nil) then
-                        for _, coords in ipairs(Spawns) do
+                for zone, spawns in pairs(obj.spawns) do
+                    if(zone ~= nil and spawns ~= nil) then
+                        for _, coords in ipairs(spawns) do
                             local data = {}
                             data.Id = quest.Id;
                             data.Icon = _QuestieQuest:GetQuestIcon(quest)
@@ -1271,13 +1262,14 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
 
                             data.IsObjectiveNote = false
                             if(coords[1] == -1 or coords[2] == -1) then
-                                if(InstanceLocations[Zone] ~= nil) then
-                                    for _, value in ipairs(InstanceLocations[Zone]) do
+                                local dungeonLocation = ZoneDB:GetDungeonLocation(zone)
+                                if dungeonLocation ~= nil then
+                                    for _, value in ipairs(dungeonLocation) do
                                         QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
                                     end
                                 end
                             else
-                                QuestieMap:DrawWorldIcon(data, Zone, coords[1], coords[2])
+                                QuestieMap:DrawWorldIcon(data, zone, coords[1], coords[2])
                             end
                         end
                     end
@@ -1302,14 +1294,10 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
                             data.QuestData = quest;
                             data.Name = NPC.name
                             data.IsObjectiveNote = false
-                            --data.updateTooltip = function(data)
-                            --    return {QuestieLib:PrintDifficultyColor(data.QuestData.Level, "[" .. data.QuestData.Level .. "] " .. data.QuestData.Name), "|cFFFFFFFFStarted by: |r|cFF22FF22" .. data.QuestData.NPCName, "QuestId:"..data.QuestData.Id}
-                            --end
                             if(coords[1] == -1 or coords[2] == -1) then
-                                if(InstanceLocations[npcZone] ~= nil) then
-                                    for _, value in ipairs(InstanceLocations[npcZone]) do
-                                        --Questie:Debug(DEBUG_SPAM, "Conv:", Zone, "To:", ZoneDataAreaIDToUiMapID[value[1]])
-                                        --local icon, minimapIcon = QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
+                                local dungeonLocation = ZoneDB:GetDungeonLocation(npcZone)
+                                if dungeonLocation ~= nil then
+                                    for _, value in ipairs(dungeonLocation) do
                                         local zone = value[1];
                                         local x = value[2];
                                         local y = value[3];
@@ -1320,11 +1308,6 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
                                             local midX, midY = QuestieLib:CalculateWaypointMidPoint(NPC.waypoints[zone]);
                                             x = midX or x;
                                             y = midY or y;
-                                            -- The above code should do the same... remove this after testing it.
-                                            --if(midX and midY) then
-                                            --    x = midX;
-                                            --    y = midY;
-                                            --end
                                         end
 
                                         local icon, _ = QuestieMap:DrawWorldIcon(data, zone, x, y)
@@ -1344,11 +1327,6 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
                                     local midX, midY = QuestieLib:CalculateWaypointMidPoint(NPC.waypoints[npcZone]);
                                     x = midX or x;
                                     y = midY or y;
-                                    -- The above code should do the same... remove this after testing it.
-                                    --if(midX and midY) then
-                                    --    x = midX;
-                                    --    y = midY;
-                                    --end
                                 end
 
                                 local icon, _ = QuestieMap:DrawWorldIcon(data, npcZone, x, y)

@@ -11,8 +11,6 @@ local QuestieStreamLib = QuestieLoader:ImportModule("QuestieStreamLib")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
----@type QuestieDBZone
-local QuestieDBZone = QuestieLoader:ImportModule("QuestieDBZone")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type QuestieProfessions
@@ -23,6 +21,8 @@ local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 ---@type DBCompiler
 local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
+---@type ZoneDB
+local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 local tinsert = table.insert
 
@@ -57,7 +57,6 @@ QuestieDB.itemDataOverrides = {}
 QuestieDB.npcDataOverrides = {}
 
 function QuestieDB:Initialize()
-    QuestieDBZone:ZoneCreateConversion()
     _QuestieDB:DeleteGatheringNodes() -- todo: do this before db compile
 
     QuestieDB.QueryNPC = QuestieDBCompiler:GetDBHandle(QuestieConfig.npcBin, QuestieConfig.npcPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder), QuestieDB.npcKeys, QuestieDB.npcDataOverrides)
@@ -823,7 +822,7 @@ function _QuestieDB:GetSpecialNPC(npcId)
             local m = _QuestieDB.stream:ReadByte() + 1400
             tinsert(NPC.newFormatSpawns, {x, y, m});
 
-            m = QuestieDBZone:GetAreaIdByUIMapID(m)
+            m = ZoneDB:GetAreaIdByUiMapId(m)
             if m then
                 if not NPC.spawns[m] then
                     NPC.spawns[m] = {};
@@ -906,7 +905,7 @@ function QuestieDB:GetQuestsByZoneId(zoneId)
         return _QuestieDB.zoneCache[zoneId]
     end
     local zoneQuests = {};
-    local alternativeZoneID = QuestieDBZone:GetAlternativeZoneId(zoneId)
+    local alternativeZoneID = ZoneDB:GetAlternativeZoneId(zoneId)
     -- loop over all quests to populate a zone
     for qid, _ in pairs(QuestieDB.QuestPointers or QuestieDB.questData) do
         local quest = QuestieDB:GetQuest(qid);
