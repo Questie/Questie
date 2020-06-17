@@ -1533,6 +1533,7 @@ function QuestieTracker:Update()
                     end
 
                 end, button)
+                line.button = button
             end
 
             if Questie.db.global.collapseCompletedQuests and complete == 1 then
