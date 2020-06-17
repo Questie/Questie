@@ -91,20 +91,20 @@ StaticPopupDialogs["QUESTIE_CONFIRMHIDE"] = {
 -- Global Functions --
 ---@return IconFrame
 function QuestieFramePool:GetFrame()
-    Questie:Debug(DEBUG_SPAM, "[QuestieFramePool:GetFrame]")
+    --Questie:Debug(DEBUG_SPAM, "[QuestieFramePool:GetFrame]")
 
     ---@type IconFrame
     local returnFrame = tremove(_QuestieFramePool.unusedFrames)
 
     if returnFrame and returnFrame.frameId and _QuestieFramePool.usedFrames[returnFrame.frameId] then
         -- something went horribly wrong (desync bug?) don't use this frame since its already in use
-        Questie:Debug(DEBUG_SPAM, "[QuestieFramePool:GetFrame] Tried to reuse frame, but that frame is already in use")
+        --Questie:Debug(DEBUG_SPAM, "[QuestieFramePool:GetFrame] Tried to reuse frame, but that frame is already in use")
         returnFrame = nil
     end
     if not returnFrame then
         returnFrame = _QuestieFramePool:QuestieCreateFrame()
     else
-        Questie:Debug(DEBUG_SPAM, "[QuestieFramePool:GetFrame] Reusing frame")
+        --Questie:Debug(DEBUG_SPAM, "[QuestieFramePool:GetFrame] Reusing frame")
     end
     if returnFrame ~= nil and returnFrame.hidden and returnFrame._show ~= nil and returnFrame._hide ~= nil then -- restore state to normal (toggle questie)
         returnFrame.hidden = false
@@ -149,7 +149,7 @@ function QuestieFramePool:GetFrame()
 end
 
 function QuestieFramePool:UnloadAll()
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieFramePool] ".. QuestieLocale:GetUIString('DEBUG_UNLOAD_ALL', #_QuestieFramePool.allFrames))
+    --Questie:Debug(DEBUG_DEVELOP, "[QuestieFramePool] ".. QuestieLocale:GetUIString('DEBUG_UNLOAD_ALL', #_QuestieFramePool.allFrames))
 
     for i, frame in ipairs(_QuestieFramePool.allFrames) do
         --_QuestieFramePool:UnloadFrame(frame);
@@ -196,7 +196,7 @@ function QuestieFramePool:UpdateColorConfig(mini, enable)
 end
 
 function QuestieFramePool:RecycleFrame(frame)
-    Questie:Debug(DEBUG_SPAM, "[QuestieFramePool:RecycleFrame]")
+    --Questie:Debug(DEBUG_SPAM, "[QuestieFramePool:RecycleFrame]")
     _QuestieFramePool.usedFrames[frame.frameId] = nil
     tinsert(_QuestieFramePool.unusedFrames, frame)
 end
@@ -213,7 +213,7 @@ function _QuestieFramePool:UnloadFrame(frame)
     tinsert(_QuestieFramePool.unusedFrames, frame)
 end]]--
 function _QuestieFramePool:QuestieCreateFrame()
-    Questie:Debug(DEBUG_SPAM, "[QuestieFramePool:QuestieCreateFrame]")
+    --Questie:Debug(DEBUG_SPAM, "[QuestieFramePool:QuestieCreateFrame]")
     _QuestieFramePool.numberOfFrames = _QuestieFramePool.numberOfFrames + 1
     local newFrame = QuestieFramePool.Qframe:New(_QuestieFramePool.numberOfFrames, _QuestieFramePool.QuestieTooltip)
 
@@ -496,7 +496,7 @@ function _QuestieFramePool:AddTooltipsForQuest(icon, tip, quest, usedText)
 end
 
 function _QuestieFramePool:QuestieTooltip()
-    Questie:Debug(DEBUG_DEVELOP, "[_QuestieFramePool:QuestieTooltip]", "minimapIcon =", self.miniMapIcon)
+    --Questie:Debug(DEBUG_DEVELOP, "[_QuestieFramePool:QuestieTooltip]", "minimapIcon =", self.miniMapIcon)
 
     local r, g, b, a = self.texture:GetVertexColor();
     if (a == 0) then
@@ -643,7 +643,7 @@ function _QuestieFramePool:QuestieTooltip()
     Tooltip.manualOrder = manualOrder
     Tooltip.miniMapIcon = self.miniMapIcon
     Tooltip._Rebuild = function(self)
-        Questie:Debug(DEBUG_SPAM, "[Tooltip:_Rebuild]")
+        --Questie:Debug(DEBUG_SPAM, "[Tooltip:_Rebuild]")
         local xpString = QuestieLocale:GetUIString('XP');
         local shift = IsShiftKeyDown()
         local haveGiver = false -- hack

@@ -268,7 +268,7 @@ function _Qframe:UpdateTexture(texture)
 end
 
 function _Qframe:Unload()
-    Questie:Debug(DEBUG_SPAM, "[_Qframe:Unload]")
+    --Questie:Debug(DEBUG_SPAM, "[_Qframe:Unload]")
     self:SetScript("OnUpdate", nil)
     self:SetScript("OnShow", nil)
     self:SetScript("OnHide", nil)
