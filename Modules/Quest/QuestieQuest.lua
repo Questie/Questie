@@ -356,8 +356,10 @@ function QuestieQuest:CompleteQuest(quest)
 
     QuestieTooltips:RemoveQuest(questId)
     QuestieTracker:RemoveQuest(questId)
-    QuestieTracker:ResetLinesForChange()
-    QuestieTracker:Update()
+    QuestieCombatQueue:Queue(function()
+        QuestieTracker:ResetLinesForChange()
+        QuestieTracker:Update()
+    end)
 
     --This should probably be done first, because DrawAllAvailableQuests looks at QuestieMap.questIdFrames[QuestId] to add available
     QuestieQuest:CalculateAvailableQuests()
@@ -404,8 +406,10 @@ function QuestieQuest:AbandonedQuest(questId)
         end
 
         QuestieTracker:RemoveQuest(questId)
-        QuestieTracker:ResetLinesForChange()
-        QuestieTracker:Update()
+        QuestieCombatQueue:Queue(function()
+            QuestieTracker:ResetLinesForChange()
+            QuestieTracker:Update()
+        end)
 
         QuestieQuest:CalculateAvailableQuests()
         QuestieQuest:DrawAllAvailableQuests()
@@ -466,8 +470,10 @@ function QuestieQuest:GetAllQuestIds()
             Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString("DEBUG_ADD_QUEST", questId, QuestiePlayer.currentQuestlog[questId]));
         end
     end
-    QuestieTracker:ResetLinesForChange()
-    QuestieTracker:Update()
+    QuestieCombatQueue:Queue(function()
+        QuestieTracker:ResetLinesForChange()
+        QuestieTracker:Update()
+    end)
 end
 
 function QuestieQuest:GetAllQuestIdsNoObjectives()

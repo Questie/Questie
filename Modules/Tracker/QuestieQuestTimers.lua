@@ -1,5 +1,7 @@
 ---@class QuestieQuestTimers
 local QuestieQuestTimers = QuestieLoader:CreateModule("QuestieQuestTimers")
+---@type QuestieCombatQueue
+local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 
 local _QuestieQuestTimers = QuestieQuestTimers.private
 _QuestieQuestTimers.timers = {}
@@ -77,7 +79,9 @@ _UpdateTimerFrame = function()
     if questTimers then
         for i, timer in pairs(_QuestieQuestTimers.timers) do
             local seconds = select(i, questTimers)
-            timer.label:SetText("    " .. SecondsToTime(seconds))
+            QuestieCombatQueue:Queue(function()
+                timer.label:SetText("    " .. SecondsToTime(seconds))
+            end)
         end
     else
         _QuestieQuestTimers.timers = {}
