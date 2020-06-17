@@ -810,8 +810,16 @@ function QuestieMap:GetNearestQuestSpawn(quest)
     return bestSpawn, bestSpawnZone, bestSpawnName, bestSpawnId, bestSpawnType, bestDistance
 end
 
+QuestieMap.zoneWaypointColorOverrides = { -- this is used when the default orange color doesn't work well in specific zones
+    [38] = {0,0.1,0.9,0.7} -- loch modan
+}
+
+QuestieMap.zoneWaypointHoverColorOverrides = {
+    [38] = {0,0.6,1,1} -- loch modan
+}
+
 function QuestieMap:DrawWaypoints(icon, waypoints, zone, x, y)
-    local lineFrames = QuestieFramePool:CreateWaypoints(icon, waypoints)
+    local lineFrames = QuestieFramePool:CreateWaypoints(icon, waypoints, nil, QuestieMap.zoneWaypointColorOverrides[zone])
 
     for _, lineFrame in ipairs(lineFrames) do
         QuestieMap:DrawLineIcon(lineFrame, zone, x, y)

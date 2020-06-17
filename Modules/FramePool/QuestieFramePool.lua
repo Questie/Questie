@@ -526,11 +526,11 @@ function _QuestieFramePool:QuestieTooltip()
             maxDistCluster = 0.5 / (1+Minimap:GetZoom())
         end
     end
-
+    r, g, b, a = unpack(QuestieMap.zoneWaypointHoverColorOverrides[self.AreaID] or _QuestieFramePool.wayPointColorHover)
     --Highlight waypoints if they exist.
     for k, lineFrame in pairs(self.data.lineFrames or {}) do
       lineFrame.line:SetColorTexture(
-        unpack(_QuestieFramePool.wayPointColorHover)
+        r,g,b,a
         --   math.min(lineFrame.line.dR*1.4, 1), math.min(lineFrame.line.dG*1.4, 1), math.min(lineFrame.line.dB*1.4, 1), math.min(lineFrame.line.dA*1.4, 1)
         )
     end
