@@ -40,6 +40,9 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.requiredRaces] = 32,
             [QuestieDB.questKeys.nextQuestInChain] = 28,
         },
+        [28] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Complete the Trial of the Lake.", {[493]={{36.17,41.67},},},},
+        },
         [33] = {
             [QuestieDB.questKeys.preQuestSingle] = {},
         },
@@ -131,6 +134,9 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.preQuestSingle] = {366}, -- #638
             [QuestieDB.questKeys.exclusiveTo] = {411}, -- #752
         },
+        [434] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Overhear Lescovar and Marzon's Conversation", {[1519]={{68.66,14.44},},},},
+        },
         [437] = {
             [QuestieDB.questKeys.triggerEnd] = {"Enter the Dead Fields",{[130]={{45.91, 21.27},},},},
         },
@@ -191,6 +197,9 @@ function QuestieQuestFixes:Load()
         [579] = {
             [QuestieDB.questKeys.parentQuest] = 578,
         },
+        [590] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Defeat Calvin Montague",{[85]={{38.19,56.74},},},},
+        },
         [594] = {
             [QuestieDB.questKeys.startedBy] = {nil,{2560,},{4098,},},
         },
@@ -215,6 +224,9 @@ function QuestieQuestFixes:Load()
         },
         [639] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #1205
+        },
+        [665] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Defend Professor Phizzlethorpe", {[45]={{33.87,80.6},},},},
         },
         [677] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, --#1162
@@ -404,6 +416,9 @@ function QuestieQuestFixes:Load()
         [1268] = {
             [QuestieDB.questKeys.startedBy] = {nil,{21015,21016,},nil,}, -- #1574
         },
+        [1270] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Help Stinky find Bogbean Leaves", {[15]={{45.87,24.58},},},},
+        },
         [1275] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #973 -- #745 prequest is not required in Classic
         },
@@ -460,6 +475,9 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.preQuestSingle] = {},
             [QuestieDB.questKeys.preQuestGroup] = {1434,1480},
         },
+        [1440] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Rescue Dalinda Malem", {[405]={{58.27,30.91},},},},
+        },
         [1442] = {
             [QuestieDB.questKeys.parentQuest] = 1654,
         },
@@ -477,6 +495,9 @@ function QuestieQuestFixes:Load()
         },
         [1478] = {
             [QuestieDB.questKeys.exclusiveTo] = {1506}, -- #1427
+        },
+        [1479] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Go to the bank in Darnassus, otherwise known as the Bough of the Eternals.", {[1657]={{41.31,43.54},},},},
         },
         [1483] = {
             [QuestieDB.questKeys.exclusiveTo] = {1093},
@@ -526,6 +547,9 @@ function QuestieQuestFixes:Load()
         },
         [1646] = {
             [QuestieDB.questKeys.exclusiveTo] = {1642,2997,2998,2999,3000,3681},
+        },
+        [1651] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Protect Daphne Stilwell", {[40]={{42.15,88.44},},},},
         },
         [1654] = {
             [QuestieDB.questKeys.childQuests] = {1442,1655},
@@ -677,6 +701,9 @@ function QuestieQuestFixes:Load()
         [2931] = {
             [QuestieDB.questKeys.exclusiveTo] = {2930},
         },
+        [2932] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Place the grim message.", {[47]={{23.41,58.06}},},},
+        },
         [2945] = {
             [QuestieDB.questKeys.startedBy] = {{6212},nil,{9326}},
         },
@@ -686,6 +713,9 @@ function QuestieQuestFixes:Load()
         },
         [2952] = {
             [QuestieDB.questKeys.exclusiveTo] = {4605,4606},
+        },
+        [2969] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Save at least 6 Sprite Darters from capture", {[357]={{67.27,46.67},},},},
         },
         [2978] = {
             [QuestieDB.questKeys.startedBy] = {nil,{143980},{9370,},}, -- #1596
@@ -714,6 +744,9 @@ function QuestieQuestFixes:Load()
         [3128] = {
             [QuestieDB.questKeys.preQuestSingle] = {3122},
         },
+        [3141] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Loramus' Story", {[16]={{60.8,66.36},},},},
+        },
         [3181] = {
             [QuestieDB.questKeys.startedBy] = {{5833},nil,{10000}},
         },
@@ -725,6 +758,9 @@ function QuestieQuestFixes:Load()
         },
         [3377] = {
             [QuestieDB.questKeys.triggerEnd] = {"Zamael Story",{[51]={{29.59, 26.38},},},},
+        },
+        [3382] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Protect Captain Vanessa Beltis from the naga attack", {[16]={{52.86,87.77},},},},
         },
         [3385] = {
             [QuestieDB.questKeys.requiredSkill] = {197,226}, -- You need to be an Artisan for this quest
@@ -841,6 +877,9 @@ function QuestieQuestFixes:Load()
         [4245] = {
             [QuestieDB.questKeys.triggerEnd] = {"Protect A-Me 01 until you reach Karna Remtravel",{[490]={{46.43, 13.78},},},},
         },
+        [4265] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Free Raschal.", {[357]={{72.13,63.84},},},},
+        },
         [4285] = {
             [QuestieDB.questKeys.triggerEnd] = {"Discover and examine the Northern Crystal Pylon",{[490]={{56,12},},},},
         },
@@ -849,6 +888,9 @@ function QuestieQuestFixes:Load()
         },
         [4288] = {
             [QuestieDB.questKeys.triggerEnd] = {"Discover and examine the Western Crystal Pylon",{[490]={{23,59},},},},
+        },
+        [4322] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Jail Break!", {[1584]={{-1,-1}},},},
         },
         [4485] = {
             [QuestieDB.questKeys.exclusiveTo] = {1661,4486},
@@ -867,6 +909,9 @@ function QuestieQuestFixes:Load()
         },
         [4505] = {
             [QuestieDB.questKeys.exclusiveTo] = {6605},
+        },
+        [4506] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Return the corrupted cat to Winna Hazzard", {[361]={{34.26,52.32},},},},
         },
         [4601] = {
             [QuestieDB.questKeys.preQuestSingle] = {2951,4602},
@@ -923,6 +968,9 @@ function QuestieQuestFixes:Load()
         [4907] = {
             [QuestieDB.questKeys.exclusiveTo] = {4734},
         },
+        [4941] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Council with Eitrigg.", {[1637]={{34.14,39.26},},},},
+        },
         [5041] = {
             [QuestieDB.questKeys.preQuestSingle] = {},
         },
@@ -958,6 +1006,9 @@ function QuestieQuestFixes:Load()
         },
         [5124] = {
             [QuestieDB.questKeys.requiredSkill] = {164,275},
+        },
+        [5156] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Explore the craters in Shatter Scar Vale", {[361]={{41.03,41.96},},},},
         },
         [5166] = {
             [QuestieDB.questKeys.specialFlags] = 1, -- #1335
@@ -1113,12 +1164,18 @@ function QuestieQuestFixes:Load()
         [6163] = {
             [QuestieDB.questKeys.preQuestSingle] = {6022,6042,6133,6135,6136}, -- #1950
         },
+        [6185] = {
+            [QuestieDB.questKeys.triggerEnd] = {"The Blightcaller Uncovered",{[28]={{84.65,52.25},},},},
+        },
         [6382] = {
             [QuestieDB.questKeys.preQuestSingle] = {882},
             [QuestieDB.questKeys.exclusiveTo] = {235,742,},
         },
         [6383] = {
             [QuestieDB.questKeys.preQuestSingle] = {},
+        },
+        [6403] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Reginald's March", {[1519]={{77.57,18.59}},},},
         },
         [6522] = {
             [QuestieDB.questKeys.startedBy] = {{4421},nil,{17008}},
@@ -1187,6 +1244,7 @@ function QuestieQuestFixes:Load()
         },
         [6981] = {
             [QuestieDB.questKeys.startedBy] = {{3654},nil,{10441}},
+            [QuestieDB.questKeys.triggerEnd] = {"Speak with someone in Ratchet about the Glowing Shard", {[17]={{62.97,37.21},},},},
         },
         [6982] = {
             [QuestieDB.questKeys.questLevel] = 55,
@@ -1735,6 +1793,9 @@ function QuestieQuestFixes:Load()
         },
         [9033] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 178,
+        },
+        [9051] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Devilsaur stabbed with barb", {[490]={{64.32,59.45},{67.98,58.07},{53.82,63.08},{57.99,73.93},{73.87,38.34},},},},
         },
         [9063] = {
             [QuestieDB.questKeys.zoneOrSort] = 493,
