@@ -330,11 +330,29 @@ function QuestieQuestFixes:Load()
         [984] = {
             [QuestieDB.questKeys.triggerEnd] = {"Find a corrupt furbolg camp",{[148]={{39.34,53.51},{39.86,53.89},{42.68,86.53},},},},
         },
+        [1000] = {
+            [QuestieDB.questKeys.exclusiveTo] = {1004,1018,},
+        },
+        [1004] = {
+            [QuestieDB.questKeys.exclusiveTo] = {1000,1018,},
+        },
+        [1015] = {
+            [QuestieDB.questKeys.exclusiveTo] = {1047,1019,},
+        },
+        [1018] = {
+            [QuestieDB.questKeys.exclusiveTo] = {1000,1004,},
+        },
+        [1019] = {
+            [QuestieDB.questKeys.exclusiveTo] = {1015,1047,},
+        },
         [1026] = {
             [QuestieDB.questKeys.requiredSourceItems] = {5475},
         },
         [1036] = {
             [QuestieDB.questKeys.requiredMinRep] = {87,1}, -- #1854
+        },
+        [1047] = {
+            [QuestieDB.questKeys.exclusiveTo] = {1015,1019,},
         },
         [1056] = {
             [QuestieDB.questKeys.exclusiveTo] = {1057}, -- #1901
