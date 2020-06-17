@@ -694,7 +694,6 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
                 self:SetScript("OnLeave", self.OnLeave)
 
                 -- Cooldown Updates
-                cooldown:ClearAllPoints()
                 cooldown:SetSize(size-4, size-4)
                 cooldown:SetPoint("CENTER", self, "CENTER", 0, 0)
                 cooldown:Hide()
@@ -728,7 +727,7 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
 
             local start, duration, enabled = GetItemCooldown(self.itemID)
 
-            if enabled and duration > 3 and self.IsOnCoolDown ~= true then
+            if enabled and duration > 3 and enabled == 1 then
                 cooldown:Show()
                 cooldown:SetCooldown(start, duration)
             else
