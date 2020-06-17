@@ -186,6 +186,9 @@ function QuestieNPCFixes:Load()
         [4479] = {
             [QuestieDB.npcKeys.spawns] = {[45]={{56.55,38.7},{54.8,38.2},},},
         },
+        [4490] = {
+            [QuestieDB.npcKeys.spawns] = {[400]={{26,55.4},{26,55.6},{26.6,55.8},{26.8,55.4},},},
+        },
         [4499] = {
             [QuestieDB.npcKeys.spawns] = {[400]={{17.1,38.1},{10.6,23.1},},},
         },
