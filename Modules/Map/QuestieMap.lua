@@ -361,9 +361,8 @@ function QuestieMap:DrawManualIcon(data, areaID, x, y)
     end
 
     local uiMapId = ZoneDB:GetUiMapIdByAreaId(areaID)
-
-    if uiMapId then
-        --Questie:Error("No UiMapID for ("..tostring(zoneDataClassic[AreaID])..") :".. AreaID .. tostring(data.Name))
+    if (not uiMapId) then
+        Questie:Error("No UiMapID for areaId :".. areaID .. " " .. tostring(data.Name))
         return nil, nil
     end
     -- set the icon
@@ -442,11 +441,12 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
     if type(data.Id) ~= "number" or type(data.Id) ~= "number"then
         error("Questie".."Data.Id must be set to the quests ID!")
     end
+
     local uiMapId = ZoneDB:GetUiMapIdByAreaId(areaID)
-    if uiMapId == nil then
+    if (not uiMapId) then
         local mapInfo = C_Map.GetMapInfo(areaID)
         local parentMapId = mapInfo.parentMapID
-        if parentMapId == nil then
+        if (not parentMapId) then
             error("No UiMapID for areaId : ".. areaID .. " - ".. tostring(data.Name))
             return nil, nil
         else
@@ -454,11 +454,10 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
         end
     end
 
-    if(showFlag == nil) then
+    if (not showFlag) then
         showFlag = HBD_PINS_WORLDMAP_SHOW_WORLD
     end
 
-    -- if(floatOnEdge == nil) then floatOnEdge = true; end
     local floatOnEdge = true
 
     ---@type IconFrame
@@ -485,7 +484,7 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
 
     local questieGlobalDB = Questie.db.global
 
-    if(not iconMinimap.FadeLogic) then
+    if (not iconMinimap.FadeLogic) then
         function iconMinimap:SetFade(value)
             if self.lastGlowFade ~= value then
                 self.lastGlowFade = value
