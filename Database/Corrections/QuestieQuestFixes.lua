@@ -21,33 +21,6 @@ function QuestieQuestFixes:Load()
         [5] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #1198
         },
-        [6] = {
-            [QuestieDB.questKeys.triggerEnd] = {"Bounty on Garrick Padfoot", {[12]={{57.33,48.02}}}},
-        },
-        [7] = {
-            [QuestieDB.questKeys.triggerEnd] = {"Kobold Camp Cleanup", {[12]={{49.34,35.86}}}},
-        },
-        [12] = {
-            [QuestieDB.questKeys.triggerEnd] = {"The People's Militia", {[40]={{48.1,46.41}}}},
-        },
-        [13] = {
-            [QuestieDB.questKeys.triggerEnd] = {"The People's Militia", {[40]={{48.1,46.41}}}},
-        },
-        [14] = {
-            [QuestieDB.questKeys.triggerEnd] = {"The People's Militia", {[40]={{48.1,46.41}}}},
-        },
-        [15] = {
-            [QuestieDB.questKeys.triggerEnd] = {"Investigate Echo Ridge", {[12]={{48.84,34.47}}}},
-        },
-        [18] = {
-            [QuestieDB.questKeys.triggerEnd] = {"Brotherhood of Thieves", {[12]={{53.57,47.03}}}},
-        },
-        [21] = {
-            [QuestieDB.questKeys.triggerEnd] = {"Skirmish at Echo Ridge", {[12]={{48.33,29.42}}}},
-        },
-        [22] = {
-            [QuestieDB.questKeys.triggerEnd] = {"Goretusk Liver Pie", {[40]={{54.74,45.44}}}},
-        },
         [23] = {
             [QuestieDB.questKeys.startedBy] = {{12678},nil,{16303}},
         },
@@ -79,24 +52,6 @@ function QuestieQuestFixes:Load()
         [46] = {
             [QuestieDB.questKeys.preQuestSingle] = {39},
         },
-        [47] = {
-            [QuestieDB.questKeys.triggerEnd] = {"Gold Dust Exchange", {[12]={{39.7,79.66}}}},
-        },
-        [56] = {
-            [QuestieDB.questKeys.triggerEnd] = {"The Night Watch", {[10]={{78.32,70.84},{23.42,37.82}}}},
-        },
-        [57] = {
-            [QuestieDB.questKeys.triggerEnd] = {"The Night Watch", {[10]={{78.32,70.84},{23.42,37.82}}}},
-        },
-        [58] = {
-            [QuestieDB.questKeys.triggerEnd] = {"The Night Watch", {[10]={{78.32,70.84},{23.42,37.82}}}},
-        },
-        [64] = {
-            [QuestieDB.questKeys.triggerEnd] = {"The Forgotten Heirloom", {[40]={{49.35,19.11}}}},
-        },
-        [83] = {
-            [QuestieDB.questKeys.triggerEnd] = {"Red Linen Goods", {[12]={{68.7,79.58}}}},
-        },
         [90] = {
             [QuestieDB.questKeys.requiredSkill] = {185, 50}
         },
@@ -109,17 +64,8 @@ function QuestieQuestFixes:Load()
         --[104] = { -- bad race data (actually this is correct)
         --    [QuestieDB.questKeys.requiredRaces] = 77,
         --},
-        [102] = {
-            [QuestieDB.questKeys.triggerEnd] = {"The People's Militia", {[40]={{48.1,46.41}}}},
-        },
         [123] = {
             [QuestieDB.questKeys.startedBy] = {{100},nil,{1307}},
-        },
-        [143] = {
-            [QuestieDB.questKeys.triggerEnd] = {"The People's Militia", {[40]={{48.1,46.41}}}},
-        },
-        [146] = {
-            [QuestieDB.questKeys.triggerEnd] = {"The Night Watch", {[10]={{78.32,70.84},{23.42,37.82}}}},
         },
         [148] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #1173
@@ -135,12 +81,6 @@ function QuestieQuestFixes:Load()
         },
         [165] = {
             [QuestieDB.questKeys.exclusiveTo] = {148}, --#1173
-        },
-        [166] = {
-            [QuestieDB.questKeys.triggerEnd] = {"The People's Militia", {[40]={{48.1,46.41}}}},
-        },
-        [214] = {
-            [QuestieDB.questKeys.triggerEnd] = {"The People's Militia", {[40]={{48.1,46.41}}}},
         },
         [219] = {
             [QuestieDB.questKeys.triggerEnd] = {"Escort Corporal Keeshan back to Redridge", {[44]={{33.36,48.7}}}},
@@ -361,21 +301,6 @@ function QuestieQuestFixes:Load()
         },
         [781] = {
             [QuestieDB.questKeys.startedBy] = {nil,{3076},{4851,},},
-        },
-        [788] = {
-            [QuestieDB.questKeys.triggerEnd] = {"Cutting Teeth", {[14]={{41.95,65.03}}}},
-        },
-        [789] = {
-            [QuestieDB.questKeys.triggerEnd] = {"Sting of the Scorpid", {[14]={{40.73,67.82}}}},
-        },
-        [790] = {
-            [QuestieDB.questKeys.triggerEnd] = {"Sarkoth", {[14]={{40.7,67.9}}}},
-        },
-        [792] = {
-            [QuestieDB.questKeys.triggerEnd] = {"Vile Familiars", {[14]={{43.94,57.3}}}},
-        },
-        [804] = {
-            [QuestieDB.questKeys.triggerEnd] = {"Sarkoth", {[14]={{40.7,67.9}}}},
         },
         [819] = {
             [QuestieDB.questKeys.startedBy] = {nil,{3238},{4926,},},
@@ -678,9 +603,6 @@ function QuestieQuestFixes:Load()
         },
         [1485] = {
             [QuestieDB.questKeys.exclusiveTo] = {1470}, -- #999
-        },
-        [1499] = {
-            [QuestieDB.questKeys.triggerEnd] = {"Vile Familiars", {[14]={{43.94,57.3}}}},
         },
         [1501] = {
             [QuestieDB.questKeys.exclusiveTo] = {1473},
@@ -1180,9 +1102,6 @@ function QuestieQuestFixes:Load()
         [4342] = {
             [QuestieDB.questKeys.triggerEnd] = {"Kharan's Tale", {[51]={{27.1,72.54}}}},
         },
-        [4402] = {
-            [QuestieDB.questKeys.triggerEnd] = {"Galgar's Cactus Apple Surprise", {[14]={{40.01,68.29}}}},
-        },
         [4485] = {
             [QuestieDB.questKeys.exclusiveTo] = {1661,4486},
         },
@@ -1366,12 +1285,6 @@ function QuestieQuestFixes:Load()
         },
         [5421] = {
             [QuestieDB.questKeys.questLevel] = 25,
-        },
-        [5441] = {
-            [QuestieDB.questKeys.triggerEnd] = {"Lazy Peons", {[14]={{44.96,68.94}}}},
-        },
-        [5545] = {
-            [QuestieDB.questKeys.triggerEnd] = {"A Bundle of Trouble", {[12]={{81.92,60.03}}}},
         },
         [5582] = {
             [QuestieDB.questKeys.startedBy] = {{10678},nil,{13920}},
@@ -1582,9 +1495,6 @@ function QuestieQuestFixes:Load()
         [6383] = {
             [QuestieDB.questKeys.preQuestSingle] = {},
         },
-        [6394] = {
-            [QuestieDB.questKeys.triggerEnd] = {"Thazz'ril's Pick", {[14]={{43.83,53.86}}}},
-        },
         [6403] = {
             [QuestieDB.questKeys.triggerEnd] = {"Reginald's March", {[1519]={{77.57,18.59}},},},
         },
@@ -1709,9 +1619,6 @@ function QuestieQuestFixes:Load()
         },
         [7027] = {
             [QuestieDB.questKeys.triggerEnd] = {"Ram Collared and Returned", {[1537]={{70.1,90.32},{66.54,86.33}},[36]={{34.58,74.94}},[1519]={{82.34,12.46}}}},
-        },
-        [7028] = {
-            [QuestieDB.questKeys.objectivesText] = {"Collect 25 Theradric Crystal Carvings for Willow in Desolace.",},
         },
         [7046] = {
             [QuestieDB.questKeys.triggerEnd] = {"Create the Scepter of Celebras", {[405]={{35.97,64.41}}}},
@@ -1983,9 +1890,6 @@ function QuestieQuestFixes:Load()
         },
         [8192] = {
             [QuestieDB.questKeys.requiredClasses] = 1024,
-        },
-        [8240] = {
-            [QuestieDB.questKeys.triggerEnd] = {"Destroy any Hakkari Bijou", {[33]={{13.4,15.1},},},},
         },
         [8251] = {
             [QuestieDB.questKeys.preQuestSingle] = {},
