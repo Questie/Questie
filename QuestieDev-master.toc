@@ -1,5 +1,5 @@
 ## Interface: 11304
-## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v6.0.0 - BETA|r
+## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v6.0.0 - BETA-v2|r
 ## Author: Aero/Logon/Muehe/TheCrux(BreakBB)/Dyaxler/Schaka/Zoey/Everyone else
 ## Notes: A standalone Classic QuestHelper
 ## Version: 6.0.0
