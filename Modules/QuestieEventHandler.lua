@@ -325,7 +325,9 @@ _MODIFIER_STATE_CHANGED = function(self, key, down)
         GameTooltip:Show()
     end
     if Questie.db.global.trackerLocked then
-        QuestieTracker.private.baseFrame:Update()
+        if QuestieTracker.private.baseFrame ~= nil then
+            QuestieTracker.private.baseFrame:Update()
+        end
     end
 end
 
