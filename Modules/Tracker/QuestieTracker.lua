@@ -1484,6 +1484,7 @@ function QuestieTracker:Update()
                 line:Hide()
                 line.label:Hide()
                 line.expandQuest:Hide()
+                line.expandQuest:SetFrameStrata("MEDIUM")
                 lineIndex = lineIndex - 1
             else
                 trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth())
@@ -1534,9 +1535,12 @@ function QuestieTracker:Update()
 
                 end, button)
                 line.button = button
+            else
+                line.expandQuest:SetFrameStrata("MEDIUM")
             end
 
             if Questie.db.global.collapseCompletedQuests and complete == 1 then
+                line.expandQuest:SetFrameStrata("MEDIUM")
                 line.expandQuest:Hide()
             end
 
