@@ -198,7 +198,9 @@ function _QuestieTracker:UpdateLayout()
 end
 
 function _QuestieTracker:CreateBaseFrame()
-    local frm = CreateFrame("Frame", "Questie:BaseFrame", UIParent)
+    local frm = CreateFrame("Frame", "Questie_BaseFrame", UIParent)
+    frm:SetFrameStrata("BACKGROUND")
+    frm:SetFrameLevel(0)
     frm:SetWidth(165)
     frm:SetHeight(32)
 
@@ -266,15 +268,12 @@ function _QuestieTracker:CreateBaseFrame()
         end
     end
 
-    local sizer = CreateFrame("Frame", nil, frm)
+    local sizer = CreateFrame("Frame", "Questie_Sizer", frm)
     sizer:SetPoint("BOTTOMRIGHT", 0, 0)
     sizer:SetWidth(25)
     sizer:SetHeight(25)
     sizer:SetAlpha(0)
-
     sizer:EnableMouse()
-    sizer:SetFrameStrata("MEDIUM")
-
     sizer:SetScript("OnMouseDown", _QuestieTracker.OnResizeStart)
     sizer:SetScript("OnMouseUp", _QuestieTracker.OnResizeStop)
     sizer:SetScript("OnEnter", _OnEnter)
@@ -348,78 +347,88 @@ end
 
 function _QuestieTracker:CreateActiveQuestsHeader()
     local _, numQuests = GetNumQuestLogEntries()
-    local frm = CreateFrame("Button", "Questie:QuestieTrackerHeader", _QuestieTracker.baseFrame)
-
-    frm.label = frm:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-    frm.label:SetPoint("TOPLEFT", frm, "TOPLEFT", 0, 0)
+    local frm = CreateFrame("Button", "Questie_TrackerHeader", _QuestieTracker.baseFrame)
 
     if Questie.db.global.trackerHeaderAutoMove then
         if Questie.db[Questie.db.global.questieTLoc].TrackerLocation and (Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMLEFT" or Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMRIGHT") then
-            frm:SetPoint("BOTTOMLEFT", _QuestieTracker.baseFrame, "BOTTOMLEFT", trackerSpaceBuffer/2.6, 10)
+            frm:SetPoint("BOTTOMLEFT", _QuestieTracker.baseFrame, "BOTTOMLEFT", trackerSpaceBuffer/4, 10)
         else
-            frm:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerSpaceBuffer/2.6, -10)
+            frm:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerSpaceBuffer/4, -10)
         end
     else
-        frm:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerSpaceBuffer/2.6, -10)
+        frm:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerSpaceBuffer/4, -10)
     end
 
     frm.Update = function(self)
         local _, activeQuests = GetNumQuestLogEntries()
         if Questie.db.global.trackerHeaderEnabled and activeQuests > 0 then
             self:ClearAllPoints()
-            self.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontHeader) or STANDARD_TEXT_FONT, trackerFontSizeHeader)
-            self.label:SetText(QuestieLocale:GetUIString("TRACKER_ACTIVE_QUESTS") .. tostring(activeQuests) .. "/20")
-            self.label:SetPoint("TOPLEFT", self, "TOPLEFT", trackerFontSizeHeader, 0)
-            self:Show()
-
-            self:SetWidth(self.label:GetUnboundedStringWidth() + trackerFontSizeHeader)
-            self:SetHeight(trackerFontSizeHeader)
-
-            self.questieIcon:SetFrameLevel(3)
-            self.questieIcon:SetWidth(trackerFontSizeHeader)
-            self.questieIcon:SetHeight(trackerFontSizeHeader)
-            self.questieIcon:SetPoint("TOPLEFT", frm, "TOPLEFT", 0, -0.25)
-            self.questieIcon:Show()
 
             self.questieIcon.texture:SetWidth(trackerFontSizeHeader)
             self.questieIcon.texture:SetHeight(trackerFontSizeHeader)
             self.questieIcon.texture:SetPoint("CENTER", 0, 0)
 
+            self.questieIcon:SetWidth(trackerFontSizeHeader)
+            self.questieIcon:SetHeight(trackerFontSizeHeader)
+            self.questieIcon:SetPoint("TOPLEFT", self, "TOPLEFT", 0, -0.25)
+            self.questieIcon:Show()
+
+            self.trackedQuests.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontHeader) or STANDARD_TEXT_FONT, trackerFontSizeHeader)
+            self.trackedQuests.label:SetText(QuestieLocale:GetUIString("TRACKER_ACTIVE_QUESTS") .. tostring(activeQuests) .. "/20")
+            self.trackedQuests.label:SetPoint("TOPLEFT", self.trackedQuests, "TOPLEFT", 0, 0)
+
+            self.trackedQuests:SetWidth(self.trackedQuests.label:GetUnboundedStringWidth())
+            self.trackedQuests:SetHeight(trackerFontSizeHeader)
+            self.trackedQuests:SetPoint("TOPLEFT", self, "TOPLEFT", trackerFontSizeHeader, 0)
+            self.trackedQuests:Show()
+
+            self:SetWidth(self.trackedQuests.label:GetUnboundedStringWidth() + trackerFontSizeHeader)
+            self:SetHeight(trackerFontSizeHeader)
+            self:Show()
+
             if Questie.db.global.trackerHeaderAutoMove then
                 if Questie.db[Questie.db.global.questieTLoc].TrackerLocation and (Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMLEFT" or Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMRIGHT") then
-                    self:SetPoint("BOTTOMLEFT", _QuestieTracker.baseFrame, "BOTTOMLEFT", trackerSpaceBuffer/2.6, 10)
+                    self:SetPoint("BOTTOMLEFT", _QuestieTracker.baseFrame, "BOTTOMLEFT", trackerSpaceBuffer/4, 10)
                 else
-                    self:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerSpaceBuffer/2.6, -10)
+                    self:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerSpaceBuffer/4, -10)
                 end
             else
-                self:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerSpaceBuffer/2.6, -10)
+                self:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerSpaceBuffer/4, -10)
             end
-            _QuestieTracker.baseFrame:SetMinResize(trackerSpaceBuffer + self.label:GetUnboundedStringWidth() + trackerSpaceBuffer, trackerFontSizeHeader)
+            _QuestieTracker.baseFrame:SetMinResize(trackerSpaceBuffer + self.trackedQuests.label:GetUnboundedStringWidth() + trackerSpaceBuffer, trackerFontSizeHeader)
         else
             self:Hide()
             self.questieIcon:Hide()
+            self.trackedQuests:Hide()
             _QuestieTracker.baseFrame:SetMinResize(trackerSpaceBuffer, trackerFontSizeHeader)
         end
     end
 
-    frm.SetMode = function(self, mode)
+    -- Questie Tracked Quests Settings
+    local trackedQuests = CreateFrame("Button", "Questie_ActiveQuests", _QuestieTracker.baseFrame)
+    trackedQuests:SetPoint("TOPLEFT", frm, "TOPLEFT", trackerFontSizeHeader, 0)
+
+    -- Questie Tracked Quests Label
+    trackedQuests.label = frm:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+    trackedQuests.label:SetPoint("TOPLEFT", frm, "TOPLEFT", 0, 0)
+
+    trackedQuests.SetMode = function(self, mode)
         if mode ~= self.mode then
             self.mode = mode
         end
     end
 
     if Questie.db.char.isTrackerExpanded then
-        frm:SetMode(1)
+        trackedQuests:SetMode(1)
     else
-        frm:SetMode(0)
+        trackedQuests:SetMode(0)
     end
 
-    frm:EnableMouse(true)
+    trackedQuests:EnableMouse(true)
+    trackedQuests:RegisterForDrag("LeftButton")
+    trackedQuests:RegisterForClicks("RightButtonUp", "LeftButtonUp")
 
-    frm:RegisterForDrag("LeftButton")
-    frm:RegisterForClicks("RightButtonUp", "LeftButtonUp")
-
-    frm:SetScript("OnClick", function(self)
+    trackedQuests:SetScript("OnClick", function(self)
         if InCombatLockdown() then
             return
         end
@@ -450,17 +459,21 @@ function _QuestieTracker:CreateActiveQuestsHeader()
         QuestieTracker:Update()
     end)
 
-    frm:SetScript("OnDragStart", _QuestieTracker.OnDragStart)
-    frm:SetScript("OnDragStop", _QuestieTracker.OnDragStop)
-    frm:SetScript("OnEnter", _OnEnter)
-    frm:SetScript("OnLeave", _OnLeave)
+    trackedQuests:SetScript("OnDragStart", _QuestieTracker.OnDragStart)
+    trackedQuests:SetScript("OnDragStop", _QuestieTracker.OnDragStop)
+    trackedQuests:SetScript("OnEnter", _OnEnter)
+    trackedQuests:SetScript("OnLeave", _OnLeave)
+
+    frm.trackedQuests = trackedQuests
+
+    frm.trackedQuests:Hide()
 
     -- Questie Icon Settings
-    local questieIcon = CreateFrame("Button", "Questie:QuestieTrackerIcon", _QuestieTracker.baseFrame)
+    local questieIcon = CreateFrame("Button", "Questie_TrackerIcon", _QuestieTracker.baseFrame)
     questieIcon:SetPoint("TOPLEFT", frm, "TOPLEFT", 0, -0.25)
 
     -- Questie Icon Texture Settings
-    questieIcon.texture = questieIcon:CreateTexture(nil, "OVERLAY", nil, 0)
+    questieIcon.texture = questieIcon:CreateTexture(nil, "BACKGROUND", nil, 0)
     questieIcon.texture:SetTexture(ICON_TYPE_COMPLETE)
     questieIcon.texture:SetPoint("CENTER", 0, 0)
 
@@ -547,11 +560,12 @@ function _QuestieTracker:CreateActiveQuestsHeader()
     frm.questieIcon:Hide()
 
     -- Used for debugging purposes (can remove prior to v6.0 release)
-    --frm:SetBackdrop({bgFile="Interface\\Tooltips\\UI-Tooltip-Background"})
-    --frm:SetBackdropColor(0, 0, 0, 1)
+    -- frm:SetBackdrop({bgFile="Interface\\Tooltips\\UI-Tooltip-Background"})
+    -- frm:SetBackdropColor(0, 0, 0, 1)
 
-    frm:SetWidth(frm.label:GetUnboundedStringWidth())
+    frm:SetWidth(frm.trackedQuests.label:GetUnboundedStringWidth())
     frm:SetHeight(trackerFontSizeHeader)
+    frm:SetFrameLevel(0)
 
     frm:Hide()
 
@@ -559,9 +573,10 @@ function _QuestieTracker:CreateActiveQuestsHeader()
 end
 
 function _QuestieTracker:CreateTrackedQuestsFrame()
-    local frm = CreateFrame("Frame", "Questie:TrackedQuestsFrame", _QuestieTracker.baseFrame)
+    local frm = CreateFrame("Frame", "Questie_TrackedQuests", _QuestieTracker.baseFrame)
     frm:SetWidth(165)
     frm:SetHeight(32)
+
     if Questie.db.global.trackerHeaderEnabled then
         if Questie.db.global.trackerHeaderAutoMove then
             if Questie.db[Questie.db.global.questieTLoc].TrackerLocation and (Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMLEFT" or Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMRIGHT") then
@@ -629,7 +644,7 @@ end
 function _QuestieTracker:CreateTrackedQuestItemButtons()
     -- create buttons for quest items
     for i = 1, 20 do
-        local buttonName = "QuestieItemButton"..i
+        local buttonName = "Questie_ItemButton"..i
         local btn = CreateFrame("Button", buttonName, UIParent, "SecureActionButtonTemplate, ActionButtonTemplate")
         local cooldown = CreateFrame("Cooldown", nil, btn, "CooldownFrameTemplate")
         btn.range = btn:CreateFontString(nil, "OVERLAY", "NumberFontNormalSmallGray")
@@ -864,7 +879,7 @@ function _QuestieTracker:CreateTrackedQuestButtons()
     -- create buttons for quests
     local lastFrame = nil
     for i = 1, trackerLineCount do
-        local btn = CreateFrame("Button", "QuestieQuestButton"..i, _QuestieTracker.trackedQuestsFrame)
+        local btn = CreateFrame("Button", "Questie_QuestButton"..i, _QuestieTracker.trackedQuestsFrame)
         btn.label = btn:CreateFontString(nil, "ARTWORK", "GameFontNormal")
         btn.label:SetJustifyH("LEFT")
         btn.label:SetPoint("TOPLEFT", btn)
@@ -959,7 +974,7 @@ function _QuestieTracker:CreateTrackedQuestButtons()
         --btn:SetBackdropColor(0, 0, 0, 1)
 
         -- create expanding zone headers for quests sorted by zones
-        local expandZone = CreateFrame("Button", nil, btn)
+        local expandZone = CreateFrame("Button", "Questie_ZoneHeader", btn)
         expandZone:SetWidth(1)
         expandZone:SetHeight(1)
         expandZone:SetPoint("TOPLEFT", btn, "TOPLEFT", 0, 0)
@@ -1010,7 +1025,7 @@ function _QuestieTracker:CreateTrackedQuestButtons()
         btn.expandZone = expandZone
 
         -- create expanding buttons for quests with objectives
-        local expandQuest = CreateFrame("Button", nil, btn)
+        local expandQuest = CreateFrame("Button", "Questie_MinQuestButton", btn)
         expandQuest.texture = expandQuest:CreateTexture(nil, "OVERLAY", nil, 0)
         expandQuest.texture:SetWidth(trackerFontSizeQuest)
         expandQuest.texture:SetHeight(trackerFontSizeQuest)
@@ -1018,6 +1033,7 @@ function _QuestieTracker:CreateTrackedQuestButtons()
 
         expandQuest:SetWidth(trackerFontSizeQuest)
         expandQuest:SetHeight(trackerFontSizeQuest)
+        expandQuest:SetFrameLevel(2)
         expandQuest:SetPoint("RIGHT", btn, "LEFT", -trackerSpaceBuffer*6.80, 0)
 
         expandQuest.SetMode = function(self, mode)
@@ -1432,7 +1448,7 @@ function QuestieTracker:Update()
                     end
 
                     line.label:SetWidth(math.min(math.max(Questie.db[Questie.db.global.questieTLoc].TrackerWidth, _QuestieTracker.baseFrame:GetWidth()) - ((trackerLineIndent + trackerSpaceBuffer) - trackerSpaceBuffer), line.label:GetUnboundedStringWidth()))
-                    line:SetWidth(trackerSpaceBuffer + _QuestieTracker.activeQuestsHeader.label:GetUnboundedStringWidth() + trackerSpaceBuffer)
+                    line:SetWidth(trackerSpaceBuffer + _QuestieTracker.activeQuestsHeader.trackedQuests.label:GetUnboundedStringWidth() + trackerSpaceBuffer)
 
                     line.expandZone:ClearAllPoints()
                     line.expandZone:SetWidth(line.label:GetWidth())
@@ -1484,7 +1500,6 @@ function QuestieTracker:Update()
                 line:Hide()
                 line.label:Hide()
                 line.expandQuest:Hide()
-                line.expandQuest:SetFrameStrata("MEDIUM")
                 lineIndex = lineIndex - 1
             else
                 trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth())
@@ -1513,34 +1528,27 @@ function QuestieTracker:Update()
                         self:Show()
 
                         if Questie.db.char.collapsedQuests[quest.Id] == nil then
-                            self.line.expandQuest:SetFrameStrata("LOW")
                             self.line.expandQuest:Hide()
                         else
-                            self.line.expandQuest:SetFrameStrata("MEDIUM")
                             self:SetParent(UIParent)
                             self:Hide()
                         end
 
                         if Questie.db.char.collapsedZones[quest.zoneOrSort] then
-                            self.line.expandQuest:SetFrameStrata("MEDIUM")
                             self:SetParent(UIParent)
                             self:Hide()
                         end
 
                     else
-                        self.line.expandQuest:SetFrameStrata("MEDIUM")
                         self:SetParent(UIParent)
                         self:Hide()
                     end
 
                 end, button)
                 line.button = button
-            else
-                line.expandQuest:SetFrameStrata("MEDIUM")
             end
 
             if Questie.db.global.collapseCompletedQuests and complete == 1 then
-                line.expandQuest:SetFrameStrata("MEDIUM")
                 line.expandQuest:Hide()
             end
 
@@ -1684,7 +1692,7 @@ function QuestieTracker:Update()
     end)
 
     -- Auto adjust tracker size and visibility
-    local activeQuestsHeaderTotal = trackerSpaceBuffer + _QuestieTracker.activeQuestsHeader.label:GetUnboundedStringWidth() + trackerFontSizeHeader
+    local activeQuestsHeaderTotal = trackerSpaceBuffer + _QuestieTracker.activeQuestsHeader.trackedQuests.label:GetUnboundedStringWidth() + trackerFontSizeHeader
     local trackerVARScombined = trackerLineWidth + trackerSpaceBuffer + trackerLineIndent
     local trackerBaseFrame = _QuestieTracker.baseFrame:GetWidth()
 
