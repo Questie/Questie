@@ -40,7 +40,7 @@ end
 ---@return boolean
 _WinterSaberChanged = function(factionID, previousValues, barValue)
     return factionID == 589 -- Wintersaber Trainer
-        and ((previousValues[2] < 4500 and barValue >= 4500)
+        and previousValues and ((previousValues[2] < 4500 and barValue >= 4500)
             or (previousValues[2] < 13000 and barValue >= 13000))
 end
 
