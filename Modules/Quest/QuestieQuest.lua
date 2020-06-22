@@ -1483,7 +1483,7 @@ local function QuestsFilter(chatFrame, event, msg, playerName, languageName, cha
                     questId = tonumber(sqid)
 
                     if string.find(questName, "(%[.+%]) ") ~= nil then
-                        _, _, questLevel, questName = string.find(questName, "%[(.+)%] (.+)")
+                        _, _, questLevel, questName = string.find(questName, "%[(%d+)%] (.+)")
                     end
 
                     realQuestName, realQuestLevel = unpack(QuestieDB.QueryQuest(questId, "name", "questLevel"))
