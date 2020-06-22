@@ -26,7 +26,7 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 -- Local Vars
-local trackerLineCount = 60
+local trackerLineCount = 80
 local trackerLineWidth = 1
 local trackerLineIndent = 1
 local trackerSpaceBuffer = 1
@@ -370,7 +370,7 @@ function _QuestieTracker:CreateActiveQuestsHeader()
 
             self.questieIcon:SetWidth(trackerFontSizeHeader)
             self.questieIcon:SetHeight(trackerFontSizeHeader)
-            self.questieIcon:SetPoint("TOPLEFT", self, "TOPLEFT", 0, -0.25)
+            self.questieIcon:SetPoint("TOPLEFT", self, "TOPLEFT", 0, 0)
             self.questieIcon:Show()
 
             self.trackedQuests.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontHeader) or STANDARD_TEXT_FONT, trackerFontSizeHeader)
@@ -470,7 +470,7 @@ function _QuestieTracker:CreateActiveQuestsHeader()
 
     -- Questie Icon Settings
     local questieIcon = CreateFrame("Button", "Questie_TrackerIcon", _QuestieTracker.baseFrame)
-    questieIcon:SetPoint("TOPLEFT", frm, "TOPLEFT", 0, -0.25)
+    questieIcon:SetPoint("TOPLEFT", frm, "TOPLEFT", 0, 0)
 
     -- Questie Icon Texture Settings
     questieIcon.texture = questieIcon:CreateTexture(nil, "BACKGROUND", nil, 0)
@@ -1787,7 +1787,7 @@ function QuestieTracker:Update()
             end
         end
         C_Timer.After(2.0, function()
-            _QuestieTracker.baseFrame:Show()
+            QuestieTracker:Update()
             _QuestieTracker.IsFirstRun = nil
         end)
     end

@@ -1475,20 +1475,20 @@ local function QuestsFilter(chatFrame, event, msg, playerName, languageName, cha
     if lastMsg ~= msg then
         lastMsg = msg
         if string.find(msg, "%[(..-) %((%d+)%)%]") then
-            for k in string.gmatch(msg, "%[%[?..?%]?..-%]") do
+            for k in string.gmatch(msg, "%[%[?%d?..?%]?..-%]") do
                 local complete, sqid, questId, questLevel, questName, realQuestName, realQuestLevel
                 _, _, questName, sqid = string.find(k, "%[(..-) %((%d+)%)%]")
 
                 if questName and sqid then
                     questId = tonumber(sqid)
 
-                    if string.find(questName, "(%[.+%]) ") ~= nil then
-                        _, _, questLevel, questName = string.find(questName, "%[(%d+)%] (.+)")
+                    if string.find(questName, "(%[%d+.-%]) ") ~= nil then
+                        _, _, questLevel, questName = string.find(questName, "%[(..-)%] (.+)")
                     end
 
                     realQuestName, realQuestLevel = unpack(QuestieDB.QueryQuest(questId, "name", "questLevel"))
 
-                    if realQuestName then
+                    if questName and questId then
                         complete = QuestieQuest:IsCompleteId(questId)
                     end
                 end
