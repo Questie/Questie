@@ -2171,6 +2171,15 @@ function QuestieQuestFixes:Load()
         [9262] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 77,
         },
+        [9319] = {
+            [QuestieDB.questKeys.requiredRaces] = 255,
+            [QuestieDB.questKeys.parentQuest] = 9386,
+        },
+        [9386] = {
+            [QuestieDB.questKeys.preQuestSingle] = {9319},
+            [QuestieDB.questKeys.requiredRaces] = 255,
+            [QuestieDB.questKeys.specialFlags] = 1,
+        },
     }
 end
 
