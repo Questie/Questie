@@ -1,16 +1,11 @@
-
 ---@class QuestieJourney
 local QuestieJourney = QuestieLoader:CreateModule("QuestieJourney")
 local _QuestieJourney = QuestieJourney.private
 -------------------------
 --Import modules.
 -------------------------
----@type QuestieJourneyUtils
-local QuestieJourneyUtils = QuestieLoader:ImportModule("QuestieJourneyUtils")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
----@type QuestieDB
-local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
@@ -30,116 +25,13 @@ _QuestieJourney.lastOpenWindow = "journey"
 local notesPopupWin = nil
 local notesPopupWinIsOpen = false
 
--- forward declaration
-local _BuildZoneMapCache, _GetRelevantZones, _SetZonesForNPCs, _SetZonesForObjects
-
 
 function QuestieJourney:Initialize()
     self.continents = LangContinentLookup
-
-    if (not Questie.db.global.zoneMapCache) then
-        _BuildZoneMapCache()
-    else
-        self.zoneMap = Questie.db.global.zoneMapCache
-    end
-
-    self.zones = _GetRelevantZones()
+    self.zoneMap = ZoneDB:GetZonesWithQuests()
+    self.zones = ZoneDB:GetRelevantZones()
 
     self:BuildMainFrame()
-end
-
-_BuildZoneMapCache = function()
-    local zoneMap = {} -- todo: move this into a library function
-    for questId in pairs(QuestieDB.QuestPointers) do
-        local queryResult = QuestieDB.QueryQuest(questId, "startedBy", "finishedBy", "requiredRaces", "requiredClasses", "zoneOrSort")
-        local startedBy, finishedBy, requiredRaces, requiredClasses, zoneOrSort = unpack(queryResult)
-
-        if QuestiePlayer:HasRequiredRace(requiredRaces) and QuestiePlayer:HasRequiredClass(requiredClasses) then
-            if zoneOrSort > 0 then
-                local parentZoneId = ZoneDB:GetParentZoneId(zoneOrSort)
-
-                if parentZoneId then
-                    if (not zoneMap[parentZoneId]) then
-                        zoneMap[parentZoneId] = {}
-                    end
-                    zoneMap[parentZoneId][questId] = true
-                else
-                    if (not zoneMap[zoneOrSort]) then
-                        zoneMap[zoneOrSort] = {}
-                    end
-                    zoneMap[zoneOrSort][questId] = true
-                end
-            else
-                if startedBy then
-                    zoneMap = _SetZonesForNPCs(zoneMap, startedBy[1])
-                    zoneMap = _SetZonesForObjects(zoneMap, startedBy[2])
-                end
-
-                if finishedBy then
-                    zoneMap = _SetZonesForNPCs(zoneMap, finishedBy[1])
-                    zoneMap = _SetZonesForObjects(zoneMap, finishedBy[2])
-                end
-            end
-        end
-    end
-
-    QuestieJourney.zoneMap = zoneMap
-    Questie.db.global.zoneMapCache = zoneMap -- todo: put this data in the db somewhere instead? shouldnt be put on a savedvar. But this was by far
-                                             -- the heaviest hitting thing on player login
-                                             -- https://cdn.discordapp.com/attachments/599156810603298816/717288298669670470/unknown.png
-end
-
-_SetZonesForNPCs = function(zoneMap, npcSpawns)
-    if (not npcSpawns) then
-        return zoneMap
-    end
-
-    for npcId in pairs(npcSpawns) do
-        local spawns = QuestieDB.QueryNPCSingle(npcId, "spawns")
-        if spawns then
-            for zone in pairs(spawns) do
-                if not zoneMap[zone] then zoneMap[zone] = {} end
-                zoneMap[zone][npcId] = true
-            end
-        end
-    end
-
-    return zoneMap
-end
-
-_SetZonesForObjects = function(zoneMap, objectSpawns)
-    if (not objectSpawns) then
-        return zoneMap
-    end
-
-    for objectId in pairs(objectSpawns) do
-        local spawns = QuestieDB.QueryNPCSingle(objectId, "spawns")
-        if spawns then
-            for zone in pairs(spawns) do
-                if not zoneMap[zone] then zoneMap[zone] = {} end
-                zoneMap[zone][objectId] = true
-            end
-        end
-    end
-
-    return zoneMap
-end
-
-_GetRelevantZones = function()
-    local zones = {}
-    for cont, zone in pairs(LangZoneCategoryLookup) do
-        zones[cont] = {}
-        for zoneId, zoneName in pairs(zone) do
-            local zoneQuests = QuestieJourney.zoneMap[zoneId]
-            if (not zoneQuests) then
-                zones[cont][zoneId] = nil
-            else
-                zones[cont][zoneId] = zoneName
-            end
-        end
-    end
-
-    return zones
 end
 
 function QuestieJourney:BuildMainFrame()

@@ -24,7 +24,6 @@ Modules\QuestieStream.lua
 
 #Databases
 Database\QuestieDB.lua
-Database\ZoneDB.lua
 Database\questDB.lua
 Database\objectDB.lua
 Database\spawnDB.lua
@@ -40,6 +39,10 @@ Database\Corrections\QuestieObjectFixes.lua
 Database\Corrections\QuestieQuestBlacklist.lua
 Database\Corrections\QuestieQuestFixes.lua
 Database\Corrections\QuestieEvent.lua
+
+#Zones
+Database\Zones\zoneDB.lua
+Database\Zones\zoneTables.lua
 
 #Compiler
 Database\compiler.lua

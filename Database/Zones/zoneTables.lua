@@ -1,91 +1,14 @@
----@class ZoneDB
-local ZoneDB = QuestieLoader:CreateModule("ZoneDB")
+---@type ZoneDB
+local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+local _ZoneDB = ZoneDB.private
 
---- forward declaration
-local _GenerateUiMapIdToAreaIdTable, _GenerateParentZoneToStartingZoneTable
-
-local areaIdToUiMapId = {}
-local uiMapIdToAreaId = {} -- Generated
-
-local dungeons = {}
-local dungeonLocations = {}
-
-local dungeonParentZones = {}
-local subZoneToParentZone = {}
-local parentZoneToSubZone = {} -- Generated
-
-
-function ZoneDB:Initialize()
-    _GenerateUiMapIdToAreaIdTable()
-    _GenerateParentZoneToStartingZoneTable()
-end
-
-_GenerateUiMapIdToAreaIdTable = function ()
-    for areaId, uiMapId in pairs(areaIdToUiMapId) do
-        uiMapIdToAreaId[uiMapId] = areaId
-    end
-end
-
-_GenerateParentZoneToStartingZoneTable = function ()
-    for startingZone, parentZone in pairs(subZoneToParentZone) do
-        parentZoneToSubZone[parentZone] = startingZone
-    end
-end
-
-function ZoneDB:GetUiMapIdByAreaId(areaId)
-    local uiMapId = 947 -- Default to Azeroth
-    if areaIdToUiMapId[areaId] ~= nil then
-        uiMapId = areaIdToUiMapId[areaId]
-    end
-    return uiMapId
-end
-
-function ZoneDB:GetAreaIdByUiMapId(uiMapId)
-    local areaId = 1 -- Default to Dun Morogh
-    if uiMapIdToAreaId[uiMapId] ~= nil then
-        areaId = uiMapIdToAreaId[uiMapId]
-    end
-    return areaId
-end
-
-function ZoneDB:GetDungeonLocation(areaId)
-    return dungeonLocations[areaId]
-end
-
-function ZoneDB:GetAlternativeZoneId(areaId)
-    local entry = dungeons[areaId]
-    if entry then
-        return entry[2]
-    end
-
-    entry = parentZoneToSubZone[areaId]
-    if entry then
-        return entry
-    end
-
-    return nil
-end
-
-function ZoneDB:GetParentZoneId(areaId)
-    local entry = dungeonParentZones[areaId]
-    if entry then
-        return entry
-    end
-
-    entry = subZoneToParentZone[areaId]
-    if entry then
-        return entry
-    end
-
-    return nil
-end
 
 --- This table maps the areaId (used in the DB for example) to
 --- the UiMapId of each zone.
 --- The UiMapId identifies a map which can be displayed ingame on the worldmap.
 --- Dungeons don't have a UiMapId!
 --- https://wow.gamepedia.com/UiMapID/Classic
-areaIdToUiMapId = {
+_ZoneDB.areaIdToUiMapId = {
     [0] = 947,
     [1] = 1426,
     [3] = 1418,
@@ -138,8 +61,8 @@ areaIdToUiMapId = {
     [3358] = 1461,
 }
 
--- [AreaID] = {"name", alternative AreaId (a sub zone), parentId}
-dungeons = {
+-- [areaId] = {"name", alternative areaId (a sub zone), parentId}
+_ZoneDB.dungeons = {
     [209] = {"Shadowfang Keep", 236, 130},
     [491] = {"Razorfen Kraul", 1717, 17},
     [717] = {"The Stockades", nil, 1519},
@@ -161,7 +84,8 @@ dungeons = {
     [2557] = {"Dire Maul", 2577, 357},
 }
 
-dungeonLocations = {
+-- [areaId] = {{areaId, locationX, locationY}, ...}
+_ZoneDB.dungeonLocations = {
     [209] = {{130, 45, 68.7}},
     [491] = {{17, 42.3, 89.9}},
     [717] = {{1519, 40.5, 55.9}},
@@ -197,7 +121,8 @@ dungeonLocations = {
     [7307] = {{51, 34.8, 84.8}, {46, 29.5, 38.2}},
 }
 
-dungeonParentZones = {
+-- [dungeonZone] = parentZone
+_ZoneDB.dungeonParentZones = {
     [236] = 209,
     [1717] = 491,
     [2797] = 719,
@@ -210,7 +135,8 @@ dungeonParentZones = {
     [2577] = 2557,
 }
 
-subZoneToParentZone = {
+-- [subZone] = parentZone
+_ZoneDB.subZoneToParentZone = {
     [2839] = 2597,
     [35] = 33,
     [1116] = 357,

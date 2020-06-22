@@ -21,6 +21,9 @@ end
 _MigrateForV600 = function()
     Questie:Print("[Migration] Migrating Questie for v6.0.0")
 
+    -- This is not needed anymore since we calculate the quests with zones at each login.
+    -- If not we would have to store the zoneMap for each character because we only show
+    -- quests in the Journey a character (race + class) can accept.
     Questie.db.global.zoneMapCache = nil
 
     if Questie.db.char.manualMinLevelOffset and Questie.db.char.absoluteLevelOffset then
