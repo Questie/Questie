@@ -25,7 +25,6 @@ Modules\QuestieStream.lua
 #Databases
 Database\QuestieDB.lua
 Database\ZoneDB.lua
-Database\TEMP_questie2events.lua
 Database\questDB.lua
 Database\objectDB.lua
 Database\spawnDB.lua
