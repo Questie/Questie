@@ -167,18 +167,9 @@ function QuestieTooltips:GetTooltip(key)
             end
         end
     end
-    local tip = nil;
-    --[[tooltipdata[questId] = {
-    title = coloredTitle,
-    objectivesText = {
-        [objectiveIndex] = {
-            [playerName] = {
-                [color] = color,
-                [text] = text
-            }
-        }
-    }
-    }]]--
+
+    local tip = nil
+
     for questId, questData in pairs(tooltipData) do
         --Initialize it here to return nil if tooltipData is empty.
         if(tip == nil) then
@@ -234,8 +225,9 @@ end
 
 local lastGuid = nil;
 local function TooltipShowing_unit(self)
-    if self.IsForbidden and self:IsForbidden() then return; end
-    if not Questie.db.global.enableTooltips then return; end
+    if (self.IsForbidden and self:IsForbidden()) or (not Questie.db.global.enableTooltips) then
+        return
+    end
     --QuestieTooltips.lastTooltipTime = GetTime()
     local name, unitToken = self:GetUnit();
     if not unitToken then return end
@@ -261,8 +253,9 @@ end
 
 local lastItemId = 0;
 local function TooltipShowing_item(self)
-    if self.IsForbidden and self:IsForbidden() then return; end
-    if not Questie.db.global.enableTooltips then return; end
+    if (self.IsForbidden and self:IsForbidden()) or (not Questie.db.global.enableTooltips) then
+        return
+    end
     --QuestieTooltips.lastTooltipTime = GetTime()
     local name, link = self:GetItem()
     local itemId = nil;
@@ -287,7 +280,9 @@ local function TooltipShowing_item(self)
 end
 
 local function TooltipShowing_maybeobject(name)
-    if not Questie.db.global.enableTooltips then return; end
+    if (not Questie.db.global.enableTooltips) then
+        return
+    end
     if name then
         for index, gameObjectId in pairs(LangObjectNameLookup[name] or {}) do
             local tooltipData = QuestieTooltips:GetTooltip("o_" .. gameObjectId);
@@ -381,7 +376,7 @@ function QuestieTooltips:QuestLinks(link)
         if quest then
             -- [Block 1] Quest Title
             local cQuestLevel, cQuestID, cQuestName
-            questLevel = QuestieLib:GetLevelString(quest.Id, quest.name, quest.level, false)
+            local questLevel = QuestieLib:GetLevelString(quest.Id, quest.name, quest.level, false)
 
             if quest.specialFlags == 1 then
                 cQuestLevel = "|cFF00c0ff"..questLevel.."|r" -- blizzard blue
