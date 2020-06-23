@@ -279,6 +279,7 @@ function _QuestieComms:BroadcastQuestLog(eventName) -- broadcast quest update to
                     else
                         _QuestieComms._isBroadcasting = false
                         if _QuestieComms._needsNewBroadcast then
+                            _QuestieComms._needsNewBroadcast = false
                             _QuestieComms:BroadcastQuestLog(_QuestieComms._newBroadcastType)
                         end
                     end
