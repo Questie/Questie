@@ -212,9 +212,19 @@ function _QuestieComms:BroadcastQuestLog(eventName) -- broadcast quest update to
                 entry.questType = questType
                 entry.zoneOrSort = QuestieDB.QueryQuestSingle(questId, "zoneOrSort")
                 entry.isSoloQuest = not (questType == "Dungeon" or questType == "Raid" or questType == "Group" or questType == "Elite" or questType == "PVP")
+                
 
                 if entry.zoneOrSort > 0 then
-                    entry.zoneDistance = HBD:GetZoneDistance(ZoneDB:GetUiMapIdByAreaId(entry.zoneOrSort), 0.5, 0.5, HBD:GetPlayerZone(), 0.5, 0.5)
+                    entry.UiMapId = ZoneDB:GetUiMapIdByAreaId(entry.zoneOrSort)
+                    if (not entry.UiMapId) then
+                        local mapInfo = C_Map.GetMapInfo(areaID)
+                        local parentMapId = mapInfo.parentMapID
+                        if parentMapId then
+                            entry.UiMapId = ZoneDB:GetUiMapIdByAreaId(parentMapId)
+                        end
+                    end
+
+                    entry.zoneDistance = HBD:GetZoneDistance(entry.UiMapId, 0.5, 0.5, HBD:GetPlayerZone(), 0.5, 0.5) or 99999999
                 else
                     entry.zoneDistance = 99999999 -- some high number (class quests etc)
                 end
