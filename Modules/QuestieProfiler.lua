@@ -124,6 +124,7 @@ end
 
 function QuestieProfiler:CreateUI()
     local base = CreateFrame("Frame", nil, UIParent)
+    QuestieProfiler.baseUI = base
     base:SetFrameStrata("TOOLTIP")
     base:SetSize(420, 120)
     base:SetPoint("Center",UIParent, 0, 50)
@@ -283,7 +284,7 @@ function QuestieProfiler:CreateUI()
             local color3 = valToHex(1 - (callCount[call] / (highestCalls/2))) or "\124cFFFF0000"
             --print("Highest ms: " .. QuestieProfiler.highestMS)
             --print("Highest calls: " .. QuestieProfiler.highestCalls)
-            local callstr = QuestieProfiler.shortestName[QuestieProfiler.lookupToHook[call]]
+            local callstr = QuestieProfiler.shortestName[QuestieProfiler.lookupToHook[call]] or call
 
             if(string.len(callstr) > 64) then
                 callstr = "..." .. string.sub(callstr, string.len(callstr)-64)
@@ -347,6 +348,31 @@ function QuestieProfiler:CreateUI()
             end
             self:Enable()
         end)
+    end)
+
+    button = CreateFrame("Button", nil, base)
+    button:SetPoint("TOPLEFT", base, base:GetWidth() - 40, 20)
+    button:SetWidth(60)
+    button:SetHeight(20)
+    
+    button:SetText("Close")
+   
+    button:SetNormalFontObject("GameFontNormal")
+    
+    local function buildTexture(str)
+        local tex = button:CreateTexture()
+        tex:SetTexture(str)
+        tex:SetTexCoord(0, 0.625, 0, 0.6875)
+        tex:SetAllPoints()
+        return tex
+    end
+    
+    button:SetNormalTexture(buildTexture("Interface/Buttons/UI-Panel-Button-Up"))
+    button:SetHighlightTexture(buildTexture("Interface/Buttons/UI-Panel-Button-Highlight"))
+    button:SetPushedTexture(buildTexture("Interface/Buttons/UI-Panel-Button-Down"))
+    button:SetScript("OnClick", function(self, ...)
+        QuestieProfiler:Unhook()
+        base:Hide()
     end)
 
     button = CreateFrame("Button", nil, base)
@@ -484,6 +510,10 @@ function QuestieProfiler:Start() -- call ingame when developing /run QuestieLoad
     print("Starting profiler...")
     QuestieProfiler:DoHooks(function()
         QuestieProfiler:HookFrames()
-        QuestieProfiler:CreateUI()
+        if QuestieProfiler.baseUI then
+            QuestieProfiler.baseUI:Show()
+        else
+            QuestieProfiler:CreateUI()
+        end
     end)
 end
