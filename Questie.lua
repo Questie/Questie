@@ -75,8 +75,6 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 local QuestieSlash = QuestieLoader:ImportModule("QuestieSlash")
 ---@type Migration
 local Migration = QuestieLoader:ImportModule("Migration")
----@type ZoneDB
-local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 -- check if user has updated but not restarted the game (todo: add future new source files to this)
 if  (not LQuestie_EasyMenu) or
@@ -154,7 +152,6 @@ function Questie:OnInitialize()
     Questie:Debug(DEBUG_CRITICAL, "[Questie:OnInitialize] Questie addon loaded")
     QuestieCorrections:Initialize()
     QuestieLocale:Initialize()
-    ZoneDB:Initialize()
 
     QuestieEventHandler:RegisterAllEvents()
 

@@ -37,6 +37,8 @@ local QuestieAuto = QuestieLoader:ImportModule("QuestieAuto")
 local QuestieCleanup = QuestieLoader:ImportModule("Cleanup")
 ---@type DBCompiler
 local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
+---@type ZoneDB
+local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 --- LOCAL ---
 --False -> true -> nil
@@ -113,6 +115,7 @@ end
 _PLAYER_LOGIN = function()
 
     local function stage1()
+        ZoneDB:Initialize()
         QuestieDB:Initialize()
         QuestieLib:CacheAllItemNames()
 
