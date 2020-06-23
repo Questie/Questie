@@ -18,6 +18,10 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
+---@type ZoneDB
+local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+
+local HBD = LibStub("HereBeDragonsQuestie-2.0")
 
 -- Addon message prefix
 _QuestieComms.prefix = "questie";
@@ -182,35 +186,105 @@ function _QuestieComms:BroadcastQuestRemove(questId) -- broadcast quest update t
     end
 end
 
+_QuestieComms._isBroadcasting = false
+_QuestieComms._needsNewBroadcast = true
+_QuestieComms._newBroadcastType = nil
+
 function _QuestieComms:BroadcastQuestLog(eventName) -- broadcast quest update to group or raid
+    if _QuestieComms._isBroadcasting then
+        _QuestieComms._needsNewBroadcast = true
+        _QuestieComms._newBroadcastType = eventName
+        return
+    end
     local partyType = QuestiePlayer:GetGroupType()
     Questie:Debug(DEBUG_DEVELOP, "[QuestieComms] Message", eventName, "partyType:", tostring(partyType));
     if partyType then
         local rawQuestList = {}
         -- Maybe this should be its own function in QuestieQuest...
         local numEntries, numQuests = GetNumQuestLogEntries();
-        for index = 1, numEntries do
-            local _, _, _, isHeader, _, _, _, questId, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
-            if(not isHeader) then
-                -- The id is not needed due to it being used as a key, but send it anyway to keep the same structure.
-                local quest = QuestieComms:CreateQuestDataPacket(questId);
 
-                rawQuestList[quest.id] = quest;
+        local sorted = {}
+        for index = 1, numEntries do
+            local _, _, questType, isHeader, _, _, _, questId, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
+            local entry = {}
+            entry.questId = questId
+            entry.questType = questType
+            entry.zoneOrSort = QuestieDB.QueryQuestSingle(questId, "zoneOrSort")
+            entry.isSoloQuest = not (questType == "Dungeon" or questType == "Raid" or questType == "Group" or questType == "Elite" or questType == "PVP")
+
+            if entry.zoneOrSort > 0 then
+                entry.zoneDistance = HBD:GetZoneDistance(ZoneDB:GetUiMapIdByAreaId(entry.zoneOrSort), 0.5, 0.5, HBD:GetPlayerZone(), 0.5, 0.5)
+            else
+                entry.zoneDistance = 99999999 -- some high number (class quests etc)
+            end
+            if not isHeader and (partyType ~= "raid" or (not entry.isSoloQuest)) then
+                tinsert(sorted, entry)
             end
         end
 
-        --Do we really need to make this?
-        local questPacket = _QuestieComms:CreatePacket(_QuestieComms.QC_ID_BROADCAST_FULL_QUESTLIST);
-        questPacket.data.rawQuestList = rawQuestList;
+        table.sort(sorted, function(a, b)
+            if a.isSoloQuest and not b.isSoloQuest then
+                return false
+            elseif b.isSoloQuest and not a.isSoloQuest then
+                return true
+            else--if a.isSoloQuest == b.isSoloQuest then
+                if a.zoneDistance > b.zoneDistance then
+                    return false
+                elseif a.zoneDistance < b.zoneDistance then
+                    return true
+                else
+                    return false -- 0
+                end
+            end
+        end)
 
-        if partyType == "raid" then
-            questPacket.data.writeMode = _QuestieComms.QC_WRITE_ALLRAID;
-            questPacket.data.priority = "BULK";
-        else
-            questPacket.data.writeMode = _QuestieComms.QC_WRITE_ALLGROUP;
-            questPacket.data.priority = "NORMAL";
+        local blocks = {}
+        local entryCount = 0
+        local blockCount = 2 -- the extra tick allows checking tremove() == nil to set _isBroadcasting=false
+        for _, entry in pairs(sorted) do
+            local quest = QuestieComms:CreateQuestDataPacket(entry.questId);
+            print("[CommsSendOrder][Block " .. (blockCount - 1) .. "] " .. QuestieDB.QueryQuestSingle(entry.questId, "name"))
+            entryCount = entryCount + 1
+            rawQuestList[quest.id] = quest;
+            if string.len(QuestieSerializer:Serialize(rawQuestList)) > 220 then--extra space for packet metadata and CTL stuff
+                rawQuestList[quest.id] = nil
+                tinsert(blocks, rawQuestList)
+                rawQuestList = {}
+                rawQuestList[quest.id] = quest
+                entryCount = 1
+                blockCount = blockCount + 1
+            end
         end
-        questPacket:write();
+
+        if entryCount ~= 0 then
+            tinsert(blocks, rawQuestList) -- add the last block
+            _QuestieComms._isBroadcasting = true
+            -- hopefully reduce server load by staggering responses
+            C_Timer.After(random() * 3, function()
+                C_Timer.NewTicker(3, function()
+                    local block = tremove(blocks)
+                    if block then
+                        -- send the block
+                        local questPacket = _QuestieComms:CreatePacket(_QuestieComms.QC_ID_BROADCAST_FULL_QUESTLIST);
+                        questPacket.data.rawQuestList = block;
+    
+                        if partyType == "raid" then
+                            questPacket.data.writeMode = _QuestieComms.QC_WRITE_ALLRAID;
+                            questPacket.data.priority = "BULK";
+                        else
+                            questPacket.data.writeMode = _QuestieComms.QC_WRITE_ALLGROUP;
+                            questPacket.data.priority = "NORMAL";
+                        end
+                        questPacket:write();
+                    else
+                        _QuestieComms._isBroadcasting = false
+                        if _QuestieComms._needsNewBroadcast then
+                            _QuestieComms:BroadcastQuestLog(_QuestieComms._newBroadcastType)
+                        end
+                    end
+                end, blockCount)
+            end)
+        end
     end
 end
 
