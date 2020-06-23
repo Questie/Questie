@@ -206,19 +206,21 @@ function _QuestieComms:BroadcastQuestLog(eventName) -- broadcast quest update to
         local sorted = {}
         for index = 1, numEntries do
             local _, _, questType, isHeader, _, _, _, questId, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
-            local entry = {}
-            entry.questId = questId
-            entry.questType = questType
-            entry.zoneOrSort = QuestieDB.QueryQuestSingle(questId, "zoneOrSort")
-            entry.isSoloQuest = not (questType == "Dungeon" or questType == "Raid" or questType == "Group" or questType == "Elite" or questType == "PVP")
+            if not isHeader then
+                local entry = {}
+                entry.questId = questId
+                entry.questType = questType
+                entry.zoneOrSort = QuestieDB.QueryQuestSingle(questId, "zoneOrSort")
+                entry.isSoloQuest = not (questType == "Dungeon" or questType == "Raid" or questType == "Group" or questType == "Elite" or questType == "PVP")
 
-            if entry.zoneOrSort > 0 then
-                entry.zoneDistance = HBD:GetZoneDistance(ZoneDB:GetUiMapIdByAreaId(entry.zoneOrSort), 0.5, 0.5, HBD:GetPlayerZone(), 0.5, 0.5)
-            else
-                entry.zoneDistance = 99999999 -- some high number (class quests etc)
-            end
-            if not isHeader and (partyType ~= "raid" or (not entry.isSoloQuest)) then
-                tinsert(sorted, entry)
+                if entry.zoneOrSort > 0 then
+                    entry.zoneDistance = HBD:GetZoneDistance(ZoneDB:GetUiMapIdByAreaId(entry.zoneOrSort), 0.5, 0.5, HBD:GetPlayerZone(), 0.5, 0.5)
+                else
+                    entry.zoneDistance = 99999999 -- some high number (class quests etc)
+                end
+                if partyType ~= "raid" or (not entry.isSoloQuest) then
+                    tinsert(sorted, entry)
+                end
             end
         end
 
