@@ -275,9 +275,19 @@ function QuestieOptions.tabs.advanced:Initialize()
                 end,
             },
             Spacer_F = QuestieOptionsUtils:Spacer(4.5),
+            openProfiler = {
+                type = "execute",
+                order = 4.6,
+                name = function() return QuestieLocale:GetUIString('SHOW_PROFILER_BTN'); end,
+                desc = function() return QuestieLocale:GetUIString('SHOW_PROFILER_BTN_DESC'); end,
+                func = function (info, value)
+                    QuestieLoader:ImportModule("Profiler"):Start()
+                end,
+            },
+            Spacer_G = QuestieOptionsUtils:Spacer(4.7),
             github_text = {
                 type = "description",
-                order = 4.6,
+                order = 4.8,
                 name = function() return Questie:Colorize(QuestieLocale:GetUIString('QUESTIE_DEV_MESSAGE'), 'purple'); end,
                 fontSize = "medium",
             },

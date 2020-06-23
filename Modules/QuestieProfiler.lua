@@ -74,6 +74,7 @@ function QuestieProfiler:HookTable(table, name)
                 end
                 if string.len(lookupKey) < string.len(QuestieProfiler.shortestName[val]) then
                     QuestieProfiler.shortestName[val] = lookupKey
+                    QuestieProfiler.lowerCaseLookup[lookupKey] = string.lower(lookupKey)
                     --print("Shorter name: " .. lookupKey)
                 end
             end
@@ -247,6 +248,7 @@ function QuestieProfiler:CreateUI()
                 local calls = callCount[ncall] + QuestieProfiler.hookCallCount[call]
                 timeCount[ncall] = time
                 callCount[ncall] = calls
+                QuestieProfiler.lowerCaseLookup[ncall] = string.lower(ncall)
                 if time > highestMS then
                     highestMS = time
                 end

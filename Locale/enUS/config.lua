@@ -184,6 +184,8 @@ QuestieLocale.locale['enUS'] = {
     ['RESET_QUESTIE_BTN_DESC'] = "Reset Questie to the default values for all settings.",
     ['RECOMPILE_DATABASE_BTN'] = "Recompile Database",
     ['RECOMPILE_DATABASE_BTN_DESC'] = "Forces a recompile of the Questie database. This will also reload the UI.",
+    ['SHOW_PROFILER_BTN'] = "Open Profiler",
+    ['SHOW_PROFILER_BTN_DESC'] = "Open the Questie profiler, this is useful for tracking down the source of lag / frame spikes.",
     ['QUESTIE_DEV_MESSAGE'] = "Questie is under active development for World of Warcraft: Classic. Please check GitHub for the latest alpha builds or to report issues. Or join us on our discord! (( https://github.com/AeroScripts/QuestieDev/ ))",
 
     -- UI Elements
