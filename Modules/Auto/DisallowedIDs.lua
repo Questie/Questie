@@ -55,6 +55,7 @@ _QuestieAuto.disallowedNPC = {
     [15192] = true, -- Anachronos (Caverns of Time)
     [12944] = true, -- Lokhtos Darkbargainer (Thorium Brotherhood, Blackrock Depths)
     -- AQ gear turnin
+    [15192] = true,
     [15378] = true,
     [15380] = true,
     [15498] = true,
