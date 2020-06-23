@@ -187,7 +187,7 @@ function _QuestieComms:BroadcastQuestRemove(questId) -- broadcast quest update t
 end
 
 _QuestieComms._isBroadcasting = false
-_QuestieComms._needsNewBroadcast = true
+_QuestieComms._needsNewBroadcast = false
 _QuestieComms._newBroadcastType = nil
 
 function _QuestieComms:BroadcastQuestLog(eventName) -- broadcast quest update to group or raid
