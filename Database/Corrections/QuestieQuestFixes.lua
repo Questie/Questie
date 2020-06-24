@@ -1101,6 +1101,7 @@ function QuestieQuestFixes:Load()
         },
         [4342] = {
             [QuestieDB.questKeys.triggerEnd] = {"Kharan's Tale", {[51]={{27.1,72.54},},},},
+            [QuestieDB.questKeys.preQuestSingle] = {4341},
         },
         [4485] = {
             [QuestieDB.questKeys.exclusiveTo] = {1661,4486},
