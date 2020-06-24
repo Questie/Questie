@@ -761,12 +761,20 @@ function QuestieNPCFixes:LoadFactionFixes()
             [QuestieDB.npcKeys.spawns] = {[2597]={{52.8,44},{50.8,30.8},{45.2,14.6},{44,18.1},},},
             [QuestieDB.npcKeys.zoneID] = 2597,
         },
+        [15898] = {
+            [QuestieDB.npcKeys.spawns] = {[1637]={{41.27,32.36},},[1638]={{70.56,27.83},},[1497]={{66.45,36.02},},[493]={{36.58,58.1},{36.3,58.53},},},
+            [QuestieDB.npcKeys.zoneID] = 1637,
+        },
     }
 
     local npcFixesAlliance = {
         [13778] = {
             [QuestieDB.npcKeys.spawns] = {[2597]={{48.5,58.3},{50.2,65.3},{49.3,84.4},{48.3,84.3},},},
             [QuestieDB.npcKeys.zoneID] = 2597,
+        },
+        [15898] = {
+            [QuestieDB.npcKeys.spawns] = {[1519]={{22.78,51.19},},[1537]={{29.92,14.21},},[493]={{36.58,58.1},{36.3,58.53},},[1657]={{31.56,13.69},},},
+            [QuestieDB.npcKeys.zoneID] = 1519,
         },
     }
 
