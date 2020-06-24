@@ -820,6 +820,9 @@ function QuestieQuestFixes:Load()
         [2767] = {
             [QuestieDB.questKeys.triggerEnd] = {"Escort OOX-22/FE to the dock along the Forgotten Coast", {[357]={{45.63,43.39},},},},
         },
+        [2769] = {
+            [QuestieDB.questKeys.exclusiveTo] = {2770}, -- #2071
+        },
         [2781] = {
             [QuestieDB.questKeys.startedBy] = {nil,{142122,150075,},nil,}, -- #1081
         },
