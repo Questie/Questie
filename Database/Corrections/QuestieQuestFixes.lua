@@ -747,6 +747,9 @@ function QuestieQuestFixes:Load()
         [1950] = {
             [QuestieDB.questKeys.triggerEnd] = {"Secret phrase found", {[400]={{79.56,75.65},},},},
         },
+        [2039] = {
+            [QuestieDB.questKeys.exclusiveTo] = {2038}, 
+        },
         [2201] = {
             [QuestieDB.questKeys.childQuests] = {3375},
         },
