@@ -623,6 +623,12 @@ function QuestieQuestFixes:Load()
         [1943] = {
             [QuestieDB.questKeys.exclusiveTo] = {1944}, -- mage robe breadcrumb
         },
+        [9322] = { 
+            [QuestieDB.questKeys.requiredLevel] = 1,
+        },
+        [9323] = { 
+            [QuestieDB.questKeys.requiredLevel] = 1,
+        },
         [2201] = {
             [QuestieDB.questKeys.childQuests] = {3375},
         },
