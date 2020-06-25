@@ -405,6 +405,9 @@ function QuestieQuestFixes:Load()
         [1004] = {
             [QuestieDB.questKeys.exclusiveTo] = {1000,1018,},
         },
+        [1011] = {
+            [QuestieDB.questKeys.preQuestSingle] = {},
+        },
         [1015] = {
             [QuestieDB.questKeys.exclusiveTo] = {1047,1019,},
         },
@@ -1125,6 +1128,9 @@ function QuestieQuestFixes:Load()
         },
         [4506] = {
             [QuestieDB.questKeys.triggerEnd] = {"Return the corrupted cat to Winna Hazzard", {[361]={{34.26,52.32},},},},
+        },
+        [4581] = {
+            [QuestieDB.questKeys.exclusiveTo] = {1011},
         },
         [4601] = {
             [QuestieDB.questKeys.preQuestSingle] = {2951,4602},
