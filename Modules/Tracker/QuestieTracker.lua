@@ -1095,7 +1095,7 @@ function QuestieTracker:ResetLocation()
     if _QuestieTracker.trackerLineWidth == nil then
         return
     end
-    _QuestieTracker.activeQuestsHeader:SetMode(1) -- maximized
+    _QuestieTracker.activeQuestsHeader.trackedQuests:SetMode(1) -- maximized
     Questie.db.char.isTrackerExpanded = true
     Questie.db.char.AutoUntrackedQuests = {}
     Questie.db[Questie.db.global.questieTLoc].TrackerLocation = {}
@@ -1183,14 +1183,14 @@ function QuestieTracker:Toggle(value)
 end
 
 function QuestieTracker:Collapse()
-    if _QuestieTracker.activeQuestsHeader and Questie.db.char.isTrackerExpanded then
-        _QuestieTracker.activeQuestsHeader:Click()
+    if _QuestieTracker.activeQuestsHeader and _QuestieTracker.activeQuestsHeader.trackedQuests and Questie.db.char.isTrackerExpanded then
+        _QuestieTracker.activeQuestsHeader.trackedQuests:Click()
     end
 end
 
 function QuestieTracker:Expand()
-    if _QuestieTracker.activeQuestsHeader and (not Questie.db.char.isTrackerExpanded) then
-        _QuestieTracker.activeQuestsHeader:Click()
+    if _QuestieTracker.activeQuestsHeader and _QuestieTracker.activeQuestsHeader.trackedQuests and (not Questie.db.char.isTrackerExpanded) then
+        _QuestieTracker.activeQuestsHeader.trackedQuests:Click()
     end
 end
 
