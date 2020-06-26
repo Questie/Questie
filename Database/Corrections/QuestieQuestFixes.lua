@@ -840,7 +840,7 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.exclusiveTo] = {2846},
         },
         [2864] = {
-            [QuestieDB.questKeys.exclusiveTo] = {2865},
+            [QuestieDB.questKeys.exclusiveTo] = {2865}, -- #2072
         },
         [2872] = {
             [QuestieDB.questKeys.exclusiveTo] = {2873}, -- #1566
