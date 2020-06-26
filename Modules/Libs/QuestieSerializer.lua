@@ -310,17 +310,21 @@ function QuestieSerializer:WriteKeyValuePair(key, value, depth)
     end
 end
 
-function QuestieSerializer:SetupStream()
-    if self.stream then
+function QuestieSerializer:SetupStream(encoding)
+    if not encoding then
+        encoding = "1short"
+    end
+    if self.stream and self.streamEncoding == encoding then
         self.stream:reset()
     else
-        self.stream = QuestieStreamLib:GetStream("1short")
+        self.stream = QuestieStreamLib:GetStream(encoding)
+        self.streamEncoding = encoding
     end
     clearHashes()
 end
 
-function QuestieSerializer:Serialize(tab)
-    QuestieSerializer:SetupStream()
+function QuestieSerializer:Serialize(tab, encoding)
+    QuestieSerializer:SetupStream(encoding)
     self.objectCount = 0
     --QuestieSerializer:WriteKeyValuePair("meta", {protocolVersion = 1, mode="1short"})
     QuestieSerializer:WriteKeyValuePair(1, tab)
