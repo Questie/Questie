@@ -331,8 +331,8 @@ function QuestieSerializer:Serialize(tab, encoding)
     return self.stream:Save()
 end
 
-function QuestieSerializer:Deserialize(data)
-    QuestieSerializer:SetupStream()
+function QuestieSerializer:Deserialize(data, encoding)
+    QuestieSerializer:SetupStream(encoding)
     self.stream:Load(data)
     --local meta = _ReadTable(self, 1)
     local data = _ReadTable(self, 1)
