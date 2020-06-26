@@ -335,7 +335,7 @@ function QuestieQuest:AcceptQuest(questId)
         )
 
         --Broadcast an update.
-        Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId);
+        --Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId); -- :UpdateQuest is called immediately after AcceptQuest now, so this is redundant
     else
         Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString("DEBUG_ACCEPT_QUEST", questId), " Warning: Quest already existed, not adding");
     end

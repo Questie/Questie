@@ -286,16 +286,23 @@ function QuestieComms:InsertQuestDataPacketV2(questPacket, playerName, offset)
     return offset
 end
 
-function QuestieComms:YellProgress(questId)
-    
-    local data = {}
-    QuestieComms:PopulateQuestDataPacketV2(questId, data, 1)
-    local packet = _QuestieComms:CreatePacket(_QuestieComms.QC_ID_YELL_PROGRESS);
-    packet.data[1] = data;
-    packet.data.priority = "BULK"
-    packet.data.writeMode = _QuestieComms.QC_WRITE_YELL
+QuestieComms._yellWaitingQuests = {}
 
-    packet:write();
+function QuestieComms:YellProgress(questId)
+    if not QuestieComms._yellWaitingQuests[questId] then
+        QuestieComms._yellWaitingQuests[questId] = true
+        C_Timer.After(2, function()
+            local data = {}
+            QuestieComms:PopulateQuestDataPacketV2(questId, data, 1)
+            local packet = _QuestieComms:CreatePacket(_QuestieComms.QC_ID_YELL_PROGRESS);
+            packet.data[1] = data;
+            packet.data.priority = "BULK"
+            packet.data.writeMode = _QuestieComms.QC_WRITE_YELL
+        
+            packet:write();
+            QuestieComms._yellWaitingQuests[questId] = false
+        end)
+    end
 end
 
 _QuestieComms._isBroadcasting = false
@@ -630,10 +637,10 @@ function _QuestieComms:OnCommReceived(message, distribution, sender)
     if message and sender then
         local decompressedData = nil;--QuestieCompress:Decompress(message);
         if distribution == "YELL" then
-            print("Decompressing YELL data")
+            --print("Decompressing YELL data")
             decompressedData = QuestieSerializer:Deserialize(message, "b89")
         else
-            print("Decompressing normal data")
+            --print("Decompressing normal data")
             decompressedData = QuestieSerializer:Deserialize(message)
         end
 
