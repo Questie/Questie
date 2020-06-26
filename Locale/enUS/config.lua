@@ -457,4 +457,5 @@ QuestieLocale.locale['enUS'] = {
     ["\124cFF4DDBFF [3/4] Updating quests..."] = "\124cFF4DDBFF [3/4] Updating quests...",
     ["\124cFF4DDBFF [4/4] Updating items..."] = "\124cFF4DDBFF [4/4] Updating items...",
     ["\124cFFAAEEFFQuestie DB update complete!"] = "\124cFFAAEEFFQuestie DB update complete!",
+    ["Nearby"] = "Nearby",
 };

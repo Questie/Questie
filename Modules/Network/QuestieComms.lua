@@ -583,6 +583,10 @@ _QuestieComms.packets = {
 -- Renamed Write function
 function _QuestieComms:Broadcast(packet)
     -- If the priority is not set, it must not be very important
+    if packet.writeMode == _QuestieComms.QC_WRITE_ALLRAID and GetNumRaidMembers() > 15 then
+        -- dont broadcast to large raids
+        return
+    end
     if(not packet.priority) then
       packet.priority = "BULK";
     end

@@ -134,7 +134,7 @@ function QuestieTooltips:GetTooltip(key)
                 end
             end
             for playerName, objectives in pairs(playerList) do
-                local playerInfo = QuestiePlayer:GetPartyMemberByName(playerName);
+                local playerInfo = QuestiePlayer:GetPartyMemberByName(playerName) or QuestieComms.remotePlayerClasses[playerName];
                 if playerInfo then
                     anotherPlayer = true;
                     for objectiveIndex, objective in pairs(objectives) do
@@ -179,14 +179,25 @@ function QuestieTooltips:GetTooltip(key)
         local tempObjectives = {}
         for objectiveIndex, playerList in pairs(questData.objectivesText or {}) do -- Should we do or {} here?
             for playerName, objectiveInfo in pairs(playerList) do
-                local playerInfo = QuestiePlayer:GetPartyMemberByName(playerName);
-                local useName = "";
+                local playerInfo = QuestiePlayer:GetPartyMemberByName(playerName)
+                local playerColor = ""
+                local playerType = ""
+                if playerInfo then
+                    playerColor = "|c" .. playerInfo.colorHex
+                else
+                    playerColor = QuestieComms.remotePlayerClasses[playerName]
+                    if playerColor then
+                        playerColor = Questie:GetClassColor(playerColor)
+                        playerType = " ("..QuestieLocale:GetUIString("Nearby")..")"
+                    end
+                end
+                local useName = ""
                 if(playerName == name and anotherPlayer) then
                     local _, classFilename = UnitClass("player");
                     local _, _, _, argbHex = GetClassColor(classFilename)
                     useName = " (|c"..argbHex..name.."|r"..objectiveInfo.color..")|r";
-                elseif(playerInfo and playerName ~= name) then
-                    useName = " (|c"..playerInfo.colorHex..playerName.."|r"..objectiveInfo.color..")|r";
+                elseif(playerColor and playerName ~= name) then
+                    useName = " ("..playerColor..playerName.."|r"..objectiveInfo.color..")|r"..playerType;
                 end
                 if(anotherPlayer) then
                     objectiveInfo.text = objectiveInfo.text..useName;
