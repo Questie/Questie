@@ -1,4 +1,3 @@
-
 -- todo: move this in to a proper global
 ---@class QuestieTooltips
 local QuestieTooltips = QuestieLoader:CreateModule("QuestieTooltips");
@@ -13,14 +12,20 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
+---@type QuestieQuest
+local QuestieQuest = QuestieLoader:CreateModule("QuestieQuest");
+---@type QuestieProfessions
+local QuestieProfessions = QuestieLoader:CreateModule("QuestieProfessions");
 
 local tinsert = table.insert
 local _QuestieTooltips = {};
+local LSM30 = LibStub("LibSharedMedia-3.0", true)
 QuestieTooltips.lastTooltipTime = GetTime() -- hack for object tooltips
 QuestieTooltips.lastGametooltip = ""
 QuestieTooltips.lastGametooltipCount = -1;
 QuestieTooltips.lastGametooltipType = "";
 QuestieTooltips.lastFrameName = "";
+QuestieTooltips.lastItemRefTooltip = ""
 
 QuestieTooltips.tooltipLookup = {
     --["u_Grell"] = {questid, {"Line 1", "Line 2"}}
@@ -129,7 +134,7 @@ function QuestieTooltips:GetTooltip(key)
                 end
             end
             for playerName, objectives in pairs(playerList) do
-                local playerInfo = QuestiePlayer:GetPartyMemberByName(playerName);
+                local playerInfo = QuestiePlayer:GetPartyMemberByName(playerName) or QuestieComms.remotePlayerClasses[playerName];
                 if playerInfo then
                     anotherPlayer = true;
                     for objectiveIndex, objective in pairs(objectives) do
@@ -162,18 +167,9 @@ function QuestieTooltips:GetTooltip(key)
             end
         end
     end
-    local tip = nil;
-    --[[tooltipdata[questId] = {
-    title = coloredTitle,
-    objectivesText = {
-        [objectiveIndex] = {
-            [playerName] = {
-                [color] = color,
-                [text] = text
-            }
-        }
-    }
-    }]]--
+
+    local tip = nil
+
     for questId, questData in pairs(tooltipData) do
         --Initialize it here to return nil if tooltipData is empty.
         if(tip == nil) then
@@ -183,14 +179,25 @@ function QuestieTooltips:GetTooltip(key)
         local tempObjectives = {}
         for objectiveIndex, playerList in pairs(questData.objectivesText or {}) do -- Should we do or {} here?
             for playerName, objectiveInfo in pairs(playerList) do
-                local playerInfo = QuestiePlayer:GetPartyMemberByName(playerName);
-                local useName = "";
+                local playerInfo = QuestiePlayer:GetPartyMemberByName(playerName)
+                local playerColor = ""
+                local playerType = ""
+                if playerInfo then
+                    playerColor = "|c" .. playerInfo.colorHex
+                else
+                    playerColor = QuestieComms.remotePlayerClasses[playerName]
+                    if playerColor then
+                        playerColor = Questie:GetClassColor(playerColor)
+                        playerType = " ("..QuestieLocale:GetUIString("Nearby")..")"
+                    end
+                end
+                local useName = ""
                 if(playerName == name and anotherPlayer) then
                     local _, classFilename = UnitClass("player");
                     local _, _, _, argbHex = GetClassColor(classFilename)
                     useName = " (|c"..argbHex..name.."|r"..objectiveInfo.color..")|r";
-                elseif(playerInfo and playerName ~= name) then
-                    useName = " (|c"..playerInfo.colorHex..playerName.."|r"..objectiveInfo.color..")|r";
+                elseif(playerColor and playerName ~= name) then
+                    useName = " ("..playerColor..playerName.."|r"..objectiveInfo.color..")|r"..playerType;
                 end
                 if(anotherPlayer) then
                     objectiveInfo.text = objectiveInfo.text..useName;
@@ -227,13 +234,11 @@ function QuestieTooltips:RemoveQuest(questid)
     end
 end
 
-
-
-
 local lastGuid = nil;
 local function TooltipShowing_unit(self)
-    if self.IsForbidden and self:IsForbidden() then return; end
-    if not Questie.db.global.enableTooltips then return; end
+    if (self.IsForbidden and self:IsForbidden()) or (not Questie.db.global.enableTooltips) then
+        return
+    end
     --QuestieTooltips.lastTooltipTime = GetTime()
     local name, unitToken = self:GetUnit();
     if not unitToken then return end
@@ -259,8 +264,9 @@ end
 
 local lastItemId = 0;
 local function TooltipShowing_item(self)
-    if self.IsForbidden and self:IsForbidden() then return; end
-    if not Questie.db.global.enableTooltips then return; end
+    if (self.IsForbidden and self:IsForbidden()) or (not Questie.db.global.enableTooltips) then
+        return
+    end
     --QuestieTooltips.lastTooltipTime = GetTime()
     local name, link = self:GetItem()
     local itemId = nil;
@@ -284,10 +290,10 @@ local function TooltipShowing_item(self)
     QuestieTooltips.lastFrameName = self:GetName();
 end
 
-
-
 local function TooltipShowing_maybeobject(name)
-    if not Questie.db.global.enableTooltips then return; end
+    if (not Questie.db.global.enableTooltips) then
+        return
+    end
     if name then
         for index, gameObjectId in pairs(LangObjectNameLookup[name] or {}) do
             local tooltipData = QuestieTooltips:GetTooltip("o_" .. gameObjectId);
@@ -326,6 +332,7 @@ function QuestieTooltips:Initialize()
     ItemRefTooltip:HookScript("OnHide", function(self)
         if (not self.IsForbidden) or (not self:IsForbidden()) then -- do we need this here also
             QuestieTooltips.lastGametooltip = ""
+            QuestieTooltips.lastItemRefTooltip = ""
             QuestieTooltips.lastGametooltipItem = nil
             QuestieTooltips.lastGametooltipUnit = nil
             QuestieTooltips.lastGametooltipCount = 0
@@ -347,6 +354,7 @@ function QuestieTooltips:Initialize()
     GameTooltip:HookScript("OnHide", function(self)
         if (not self.IsForbidden) or (not self:IsForbidden()) then -- do we need this here also
             QuestieTooltips.lastGametooltip = ""
+            QuestieTooltips.lastItemRefTooltip = ""
             QuestieTooltips.lastGametooltipItem = nil
             QuestieTooltips.lastGametooltipUnit = nil
             QuestieTooltips.lastGametooltipCount = 0
@@ -365,4 +373,271 @@ function QuestieTooltips:Initialize()
             QuestieTooltips.lastGametooltip = GameTooltipTextLeft1:GetText()
         end
     end)
+end
+
+-- Questie Quest Links
+function QuestieTooltips:QuestLinks(link)
+    local isQuestieLink, _, _ = string.find(link, "questie:(%d+):.*")
+    if isQuestieLink then
+        local quest, questId, questTitle, questStart, questDropStart, questStartZone, questEnd, questEndZone, senderGUID
+        questId = select(2, strsplit(":", link))
+        senderGUID = select(3, strsplit(":", link))
+        questId = tonumber(questId)
+        quest = QuestieDB:GetQuest(questId)
+        if quest then
+            -- [Block 1] Quest Title
+            local cQuestLevel, cQuestID, cQuestName
+            local questLevel = QuestieLib:GetLevelString(quest.Id, quest.name, quest.level, false)
+
+            if quest.specialFlags == 1 then
+                cQuestLevel = "|cFF00c0ff"..questLevel.."|r" -- blizzard blue
+                cQuestName = "|cFF00c0ff"..quest.name.."|r" -- blizzard blue
+                cQuestID = "|cFF00c0ff("..quest.Id..")|r" -- blizzard blue
+            else
+                cQuestLevel = "|cFFffd100"..questLevel.."|r" -- default gold
+                cQuestName = "|cFFffd100"..quest.name.."|r" -- default gold
+                cQuestID = "|cFFffd100("..quest.Id..")|r" -- default gold
+            end
+
+            if Questie.db.global.trackerShowQuestLevel and Questie.db.global.enableTooltipsQuestID then
+                ItemRefTooltip:AddLine(cQuestLevel..cQuestName.." "..cQuestID)
+
+            elseif Questie.db.global.trackerShowQuestLevel and not Questie.db.global.enableTooltipsQuestID then
+                ItemRefTooltip:AddLine(cQuestLevel..cQuestName)
+
+            elseif Questie.db.global.enableTooltipsQuestID and not Questie.db.global.trackerShowQuestLevel then
+                ItemRefTooltip:AddLine(cQuestName..cQuestID)
+
+            else
+                ItemRefTooltip:AddLine(cQuestName)
+            end
+
+            -- [Block 2] Quest Status
+            if QuestiePlayer.currentQuestlog[quest.Id] then
+                if QuestieQuest:IsComplete(quest) == 1 then
+                    ItemRefTooltip:AddLine("|cFF00ff00"..QuestieLocale:GetUIString("TOOLTIPS_ON_QUEST").." (".._G['COMPLETE']..")|r",1,1,1) --green (green)
+                elseif QuestieQuest:IsComplete(quest) == -1 then
+                    ItemRefTooltip:AddLine("|cFF00ff00"..QuestieLocale:GetUIString("TOOLTIPS_ON_QUEST").."|r |cFFff0000(".._G['FAILED']..")|r",1,1,1) --green (red)
+                else
+                    ItemRefTooltip:AddLine("|cFF00ff00"..QuestieLocale:GetUIString("TOOLTIPS_ON_QUEST").."|r",1,1,1) --green
+                end
+
+            elseif Questie.db.char.complete[quest.Id] then
+                ItemRefTooltip:AddLine("|cFF00ff00"..QuestieLocale:GetUIString("TOOLTIPS_DONE_QUEST").."|r",1,1,1) --green
+
+            elseif (UnitLevel("player") < quest.requiredLevel or not QuestieDB:GetQuest(quest.Id):IsDoable()) and not Questie.db.char.hidden[quest.Id] then
+                ItemRefTooltip:AddLine("|cFFff0000"..QuestieLocale:GetUIString("TOOLTIPS_CANTDO_QUEST").."|r",1,1,1) --red
+
+            elseif quest.specialFlags == 1 then
+                ItemRefTooltip:AddLine("|cFFffff00"..QuestieLocale:GetUIString("TOOLTIPS_REPEAT_QUEST").."|r",1,1,1) --yellow
+
+            else
+                ItemRefTooltip:AddLine("|cFFffff00"..QuestieLocale:GetUIString("TOOLTIPS_NOTDONE_QUEST").."|r",1,1,1) --yellow
+            end
+            ItemRefTooltip:AddLine(" ")
+
+            -- [Block 3] Quest Description - text wrap
+            if quest and quest.Description and quest.Description[1] then
+                ItemRefTooltip:AddLine("|cFFffffff"..quest.Description[1].."|r",1,1,1,true) --white
+                if #quest.Description > 2 then
+                    for i = 2, #quest.Description do
+                        ItemRefTooltip:AddLine(" ")
+                        ItemRefTooltip:AddLine("|cFFffffff"..quest.Description[i].."|r",1,1,1,true) --white
+                    end
+                end
+            else
+                ItemRefTooltip:AddLine("|cFFffffff"..QuestieLocale:GetUIString("TOOLTIPS_AUTO_QUEST").."|r",1,1,1,true) --white
+            end
+
+            -- [Block 4] Requirements (not always present)
+
+            if #quest.ObjectiveData > 0 and not (QuestiePlayer.currentQuestlog[quest.Id] or Questie.db.char.complete[quest.Id]) then
+                for i = 1, #quest.ObjectiveData do
+                    if quest.ObjectiveData[i] and quest.ObjectiveData[i].Text then
+                        if quest.ObjectiveData[i] == quest.ObjectiveData[1] then
+                            ItemRefTooltip:AddLine(" ")
+                            ItemRefTooltip:AddLine("|cFFffd100"..QuestieLocale:GetUIString("TOOLTIPS_REQUIRE_QUEST")..":|r",1,1,1) --default gold
+                        end
+                        ItemRefTooltip:AddLine("|cFFffffff - "..quest.ObjectiveData[i].Text.."|r",1,1,1) --white
+
+                    else
+                        local itemId = QuestieDB:GetItem(quest.ObjectiveData[i].Id)
+                        if itemId then
+                            if quest.ObjectiveData[i] == quest.ObjectiveData[1] then
+                                ItemRefTooltip:AddLine(" ")
+                                ItemRefTooltip:AddLine("|cFFffd100"..QuestieLocale:GetUIString("TOOLTIPS_REQUIRE_QUEST")..":|r",1,1,1) --default gold
+                            end
+                            ItemRefTooltip:AddLine("|cFFffffff - "..itemId.name.."|r",1,1,1) --white
+                        end
+                    end
+                end
+            end
+
+            -- [Block 5] Quest Status
+            if quest.Starts then
+                if quest.Starts.NPC ~= nil then
+                    questStart = QuestieDB:GetNPC(quest.Starts.NPC[1])
+
+                    if questStart.zoneID ~= 0 then
+                        questStartZone = QuestieTracker.utils:GetZoneNameByID(questStart.zoneID)
+                    else
+                        questStartZone = QuestieTracker.utils:GetZoneNameByID(quest.zoneOrSort)
+                    end
+
+                elseif quest.Starts.Item ~= nil then
+                    questStart = QuestieDB:GetItem(quest.Starts.Item[1])
+
+                    if questStart and questStart.Sources and questStart.Sources[1] and questStart.Sources[1].Type then
+                        if questStart.Sources[1].Type == "monster" then
+                            questDropStart = QuestieDB:GetNPC(questStart.Sources[1].Id)
+
+                        elseif questStart.Sources[1].Type == "object" then
+                            questDropStart = QuestieDB:GetObject(questStart.Sources[1].Id)
+                        end
+
+                        if questStart.zoneID ~= 0 then
+                            questStartZone = QuestieTracker.utils:GetZoneNameByID(questDropStart.zoneID)
+                        else
+                            questStartZone = QuestieTracker.utils:GetZoneNameByID(quest.zoneOrSort)
+                        end
+
+                    else
+                        questStartZone = QuestieTracker.utils:GetZoneNameByID(quest.zoneOrSort)
+                    end
+
+                elseif quest and quest.Starts and quest.Starts.GameObject and quest.Starts.GameObject[1] then
+                    questStart = QuestieDB:GetObject(quest.Starts.GameObject[1])
+                    if questStart.zoneID ~= 0 then
+                        questStartZone = QuestieTracker.utils:GetZoneNameByID(questStart.zoneID)
+                    else
+                        questStartZone = QuestieTracker.utils:GetZoneNameByID(quest.zoneOrSort)
+                    end
+                end
+            end
+
+            if quest.Finisher and quest.Finisher.Id then
+                if quest.Finisher.Type == "monster" then
+                    questEnd = QuestieDB:GetNPC(quest.Finisher.Id)
+
+                    if questEnd.zoneID ~= 0 then
+                        questEndZone = QuestieTracker.utils:GetZoneNameByID(questEnd.zoneID)
+                    else
+                        questEndZone = QuestieTracker.utils:GetZoneNameByID(quest.zoneOrSort)
+                    end
+
+                elseif quest.Finisher.Type == "object" then
+                    questEnd = QuestieDB:GetObject(quest.Finisher.Id)
+
+                    if questEnd.zoneID ~= 0 then
+                        questEndZone = QuestieTracker.utils:GetZoneNameByID(questEnd.zoneID)
+                    else
+                        questEndZone = QuestieTracker.utils:GetZoneNameByID(quest.zoneOrSort)
+                    end
+
+                else
+                    questEndZone = QuestieTracker.utils:GetZoneNameByID(quest.zoneOrSort)
+                end
+            end
+
+            if QuestiePlayer.currentQuestlog[quest.Id] then
+                -- On Quest: display quest progress
+                if (QuestieQuest:IsComplete(quest) ~= 1 and QuestieQuest:IsComplete(quest) ~= -1) then
+                    ItemRefTooltip:AddLine(" ")
+                    ItemRefTooltip:AddLine(QuestieLocale:GetUIString("TOOLTIPS_PROGRESS_QUEST")..":")
+                    for _, objective in pairs(quest.Objectives) do
+                        local objDesc = objective.Description:gsub("%.", "")
+                        local lineEnding
+
+                        if objective.Needed > 0 then
+                            lineEnding = tostring(objective.Collected) .. "/" .. tostring(objective.Needed)
+                        end
+
+                        objDesc = (QuestieLib:GetRGBForObjective(objective) .. objDesc .. ": " .. lineEnding.."|r")
+                        ItemRefTooltip:AddLine(" - "..objDesc,1,1,1)
+                    end
+
+                -- Completed Quest (not turned in): display quest ended by npc and zone
+                else
+                    if questEnd and questEnd.name then
+                        ItemRefTooltip:AddLine(" ")
+                        ItemRefTooltip:AddLine(QuestieLocale:GetUIString("TOOLTIPS_END_QUEST")..": |cFFa6a6a6"..questEnd.name.."|r",1,1,1) --grey
+                    end
+                    if questEndZone then
+                        ItemRefTooltip:AddLine(QuestieLocale:GetUIString("TOOLTIPS_FOUND_QUEST")..": |cFFa6a6a6"..questEndZone.."|r",1,1,1) --grey
+                    end
+                end
+            else
+                -- Completed Quest (turned in): Blank (Feautre? Display date completed recorded in Questie Journey)
+                if Questie.db.char.complete[quest.Id] == true then
+                    if Questie.db.char.journey then
+                        local timestamp
+                        for i = 1, #Questie.db.char.journey do
+                            if Questie.db.char.journey[i].Quest ~= nil and Questie.db.char.journey[i].Quest == quest.Id then
+                                local year = tonumber(date("%Y", Questie.db.char.journey[i].Timestamp))
+                                local day = CALENDAR_WEEKDAY_NAMES[ tonumber(date("%w", Questie.db.char.journey[i].Timestamp)) + 1 ]
+                                local month = CALENDAR_FULLDATE_MONTH_NAMES[ tonumber(date("%m", Questie.db.char.journey[i].Timestamp)) ]
+                                timestamp = Questie:Colorize(date( "[ "..day ..", ".. month .." %d, "..year.." @ %H:%M ]  " , Questie.db.char.journey[i].Timestamp), "blue")
+                            end
+                        end
+                        if timestamp then
+                            ItemRefTooltip:AddLine(" ")
+                            ItemRefTooltip:AddLine("Completed on:",1,1,1)
+                            ItemRefTooltip:AddLine(timestamp,1,1,1)
+                        end
+                    end
+
+                -- Not on Quest: display quest started by npc and zone
+                else
+                    if questStart and questStart.name then
+                        ItemRefTooltip:AddLine(" ")
+                        ItemRefTooltip:AddLine(QuestieLocale:GetUIString("TOOLTIPS_START_QUEST")..": |cFFa6a6a6"..questStart.name.."|r",1,1,1) --grey
+                    end
+                    if questStartZone then
+                        ItemRefTooltip:AddLine(QuestieLocale:GetUIString("TOOLTIPS_FOUND_QUEST")..": |cFFa6a6a6"..questStartZone.."|r",1,1,1) --grey
+                    end
+                end
+            end
+        end
+    end
+    return link
+end
+
+local oldOnHyperlinkShow = ChatFrame_OnHyperlinkShow
+function ChatFrame_OnHyperlinkShow(...)
+    local chatFrame, link, text, button = ...
+    if (IsShiftKeyDown() and ChatEdit_GetActiveWindow() and button == "LeftButton") then
+        local linkType, questId, playerGUID = string.split(":", link)
+        if linkType and linkType == "questie" then
+            Questie:Debug(DEBUG_DEVELOP, "[QuestieTooltips:OnHyperlinkShow] Relinking Quest Link to chat: "..link)
+            questId = tonumber(questId)
+            local quest = QuestieDB:GetQuest(questId)
+            ChatEdit_InsertLink("[[" .. quest.level .. "] " .. quest.name .. " (" .. questId .. ")]")
+            return
+        end
+    end
+    return oldOnHyperlinkShow(...)
+end
+
+local oldItemSetHyperlink = ItemRefTooltip.SetHyperlink
+function ItemRefTooltip:SetHyperlink(link, ...)
+    local _, _, isQuestieLink, questID = string.find(link, "(questie):(%d+):")
+    QuestieTooltips.lastItemRefTooltip = QuestieTooltips.lastItemRefTooltip or link
+    if isQuestieLink and questID then
+        Questie:Debug(DEBUG_DEVELOP, "[QuestieTooltips:ItemRefTooltip] SetHyperlink: "..link)
+        ShowUIPanel(ItemRefTooltip)
+        ItemRefTooltip:SetOwner(UIParent, "ANCHOR_PRESERVE");
+        QuestieTooltips:QuestLinks(link)
+        ItemRefTooltip:Show()
+
+        if QuestieTooltips.lastItemRefTooltip == ItemRefTooltipTextLeft1:GetText() then
+            ItemRefTooltip:Hide()
+            QuestieTooltips.lastItemRefTooltip = ""
+        end
+
+        QuestieTooltips.lastItemRefTooltip = ItemRefTooltipTextLeft1:GetText()
+        return
+    else
+
+        return oldItemSetHyperlink(self, link, ...)
+    end
 end

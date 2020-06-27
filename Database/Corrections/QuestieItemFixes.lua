@@ -271,7 +271,7 @@ function QuestieItemFixes:Load()
             [QuestieDB.itemKeys.relatedQuests] = {793,717},
             [QuestieDB.itemKeys.npcDrops] = {},
             [QuestieDB.itemKeys.objectDrops] = {2848},
-	    },
+        },
         [4845] = {
             [QuestieDB.itemKeys.name] = "Diamond Runestone",
             [QuestieDB.itemKeys.relatedQuests] = {793,717},

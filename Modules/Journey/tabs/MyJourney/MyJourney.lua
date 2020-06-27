@@ -112,29 +112,6 @@ function _QuestieJourney.myJourney:ManageTree(container)
 
                     QuestieJourneyUtils:Spacer(f);
 
-                    -- Only show party members if you weren't alone
-                    if entry.Party and #entry.Party > 0 then
-
-                        -- Display Party Members
-                        local partyFrame = AceGUI:Create("InlineGroup");
-                        partyFrame:SetTitle(QuestieLocale:GetUIString('JOURNEY_PARTY_TITLE'));
-                        partyFrame:SetFullWidth(true);
-                        f:AddChild(partyFrame);
-
-                        for i, v in ipairs(entry.Party) do
-                            local color = Questie:GetClassColor(v.Class);
-                            local str = color .. '['.. v.Level ..'] ' .. v.Class ..' ' .. v.Name .. '|r';
-
-                            local pf = AceGUI:Create("Label");
-                            pf:SetFullWidth(true);
-                            pf:SetText(str);
-                            partyFrame:AddChild(pf);
-                        end
-
-                        QuestieJourneyUtils:Spacer(f);
-                    end
-
-
                     created:SetText(QuestieLocale:GetUIString('JOURNEY_TABLE_QUEST', state, timestamp));
                     f:AddChild(created);
 

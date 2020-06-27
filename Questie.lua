@@ -1,35 +1,3 @@
-if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
-    StaticPopupDialogs["RETAIL_ERROR"] = {
-        text = "|cffff0000ERROR|r\nYou're trying to use Questie on retail WoW!\nQuestie is supporting WoW Classic only!\n\nYou should come and join the real WoW",
-        button2 = "Okay, maybe I will",
-        hasEditBox = false,
-        whileDead = true
-    }
-
-    C_Timer.After(4, function()
-        DEFAULT_CHAT_FRAME:AddMessage("---------------------------------")
-        DEFAULT_CHAT_FRAME:AddMessage("|cffff0000ERROR|r: |cff42f5adYou're trying to use Questie on retail WoW!|r")
-        DEFAULT_CHAT_FRAME:AddMessage("|cffff0000ERROR|r: |cff42f5adQuestie is supporting WoW Classic only!")
-        DEFAULT_CHAT_FRAME:AddMessage("---------------------------------")
-        error("ERROR: You're trying to use Questie on retail WoW. Questie is supporting WoW Classic only!")
-    end)
-    StaticPopup_Show("RETAIL_ERROR")
-    return nil
-end
-
-if(Questie) then
-    C_Timer.After(4, function()
-        error("ERROR!! -> Questie already loaded! Please only have one Questie installed!")
-        for i=1, 10 do
-            DEFAULT_CHAT_FRAME:AddMessage("|cFFFF0000ERROR!!|r -> Questie already loaded! Please only have one Questie installed!")
-        end
-    end);
-    error("ERROR!! -> Questie already loaded! Please only have one Questie installed!")
-    DEFAULT_CHAT_FRAME:AddMessage("|cFFFF0000ERROR!!|r -> Questie already loaded! Please only have one Questie installed!")
-    Questie = {}
-    return nil;
-end
-
 if not QuestieConfigCharacter then
     QuestieConfigCharacter = {}
 end
@@ -104,8 +72,9 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type QuestieSlash
-local QuestieSlash = QuestieLoader:CreateModule("QuestieSlash")
-
+local QuestieSlash = QuestieLoader:ImportModule("QuestieSlash")
+---@type Migration
+local Migration = QuestieLoader:ImportModule("Migration")
 
 -- check if user has updated but not restarted the game (todo: add future new source files to this)
 if  (not LQuestie_EasyMenu) or
@@ -171,6 +140,8 @@ function Questie:OnInitialize()
     self.db = LibStub("AceDB-3.0"):New("QuestieConfig", QuestieOptionsDefaults:Load(), true)
     QuestieFramePool:SetIcons()
 
+    Migration:Migrate()
+
     -- Set proper locale. Either default to client Locale or override based on user.
     if Questie.db.global.questieLocaleDiff then
         QuestieLocale:SetUILocale(Questie.db.global.questieLocale);
@@ -184,7 +155,7 @@ function Questie:OnInitialize()
 
     QuestieEventHandler:RegisterAllEvents()
 
-    QuestieTracker:Initialize()
+    --QuestieTracker:Initialize() --moved to stage 2 init event function
     QuestieTooltips:Initialize()
     QuestieCoords:Initialize()
     QuestieQuestTimers:Initialize()
@@ -209,7 +180,6 @@ function Questie:OnInitialize()
         Questie_Toggle:SetText(QuestieLocale:GetUIString('QUESTIE_MAP_BUTTON_HIDE'));
     else
         Questie_Toggle:SetText(QuestieLocale:GetUIString('QUESTIE_MAP_BUTTON_SHOW'));
-        QuestieQuest:ToggleNotes(false)
     end
 
     -- Update status of Map button on hide between play sessions
