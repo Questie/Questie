@@ -52,19 +52,17 @@ _GenerateParentZoneToStartingZoneTable = function ()
 end
 
 function ZoneDB:GetUiMapIdByAreaId(areaId)
-    local uiMapId = 947 -- Default to Azeroth
     if areaIdToUiMapId[areaId] ~= nil then
-        uiMapId = areaIdToUiMapId[areaId]
+        return areaIdToUiMapId[areaId]
     end
-    return uiMapId
+    return nil
 end
 
 function ZoneDB:GetAreaIdByUiMapId(uiMapId)
-    local areaId = 1 -- Default to Dun Morogh
     if uiMapIdToAreaId[uiMapId] ~= nil then
-        areaId = uiMapIdToAreaId[uiMapId]
+        return uiMapIdToAreaId[uiMapId]
     end
-    return areaId
+    return nil
 end
 
 function ZoneDB:GetDungeonLocation(areaId)
