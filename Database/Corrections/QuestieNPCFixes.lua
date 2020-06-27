@@ -773,6 +773,7 @@ function QuestieNPCFixes:LoadFactionFixes()
         },
         [15898] = {
             [QuestieDB.npcKeys.spawns] = {[1637]={{41.27,32.36},},[1638]={{70.56,27.83},},[1497]={{66.45,36.02},},[493]={{36.58,58.1},{36.3,58.53},},},
+        },
         [16788] = {
             [QuestieDB.npcKeys.spawns] = {[1637]={{42.61,34.21},},[1497]={{65.6,35.99},},[1638]={{21.55,26.18},},},
             [QuestieDB.npcKeys.zoneID] = 1637,
@@ -787,6 +788,7 @@ function QuestieNPCFixes:LoadFactionFixes()
         [15898] = {
             [QuestieDB.npcKeys.spawns] = {[1519]={{22.78,51.19},},[1537]={{29.92,14.21},},[493]={{36.58,58.1},{36.3,58.53},},[1657]={{31.56,13.69},},},
             [QuestieDB.npcKeys.zoneID] = 1519,
+        },
         [16788] = {
             [QuestieDB.npcKeys.spawns] = {[141]={{56.56,91.94},},[1519]={{38.4,61.29},},[1537]={{63.54,24.67},},},
             [QuestieDB.npcKeys.zoneID] = 141,
