@@ -167,8 +167,12 @@ function QuestieQuestFixes:Load()
         [464] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #809
         },
+        [466] = {
+            [QuestieDB.questKeys.preQuestSingle] = {}, -- #2066
+        },
         [467] = {
             [QuestieDB.questKeys.startedBy] = {{1340,2092,},nil,nil,}, -- #1379
+            [QuestieDB.questKeys.exclusiveTo] = {466}, -- #2066
         },
         [468] = {
             [QuestieDB.questKeys.exclusiveTo] = {455}, -- #1858
@@ -263,6 +267,9 @@ function QuestieQuestFixes:Load()
         },
         [691] = {
             [QuestieDB.questKeys.preQuestSingle] = {},
+        },
+        [707] = {
+            [QuestieDB.questKeys.exclusiveTo] = {738}, --#2069
         },
         [715] = {
             [QuestieDB.questKeys.preQuestGroup] = {712,714,},
@@ -749,6 +756,8 @@ function QuestieQuestFixes:Load()
         },
         [2039] = {
             [QuestieDB.questKeys.exclusiveTo] = {2038}, 
+        [2041] = {
+            [QuestieDB.questKeys.exclusiveTo] = {2040}, --#2068
         },
         [2201] = {
             [QuestieDB.questKeys.childQuests] = {3375},
@@ -842,6 +851,9 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.startedBy] = {{4568,5144,5497,5885,},nil,nil,}, -- #1152
             [QuestieDB.questKeys.exclusiveTo] = {2846},
         },
+        [2864] = {
+            [QuestieDB.questKeys.exclusiveTo] = {2865}, -- #2072
+        },
         [2872] = {
             [QuestieDB.questKeys.exclusiveTo] = {2873}, -- #1566
         },
@@ -856,6 +868,9 @@ function QuestieQuestFixes:Load()
         },
         [2922] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- Save Techbot's Brain doesn't need the Tinkmaster Overspark breadcrumb #687
+        },
+        [2923] = {
+            [QuestieDB.questKeys.exclusiveTo] = {2922}, -- #2067
         },
         [2925] = {
             [QuestieDB.questKeys.exclusiveTo] = {2924},
@@ -1104,6 +1119,7 @@ function QuestieQuestFixes:Load()
         },
         [4342] = {
             [QuestieDB.questKeys.triggerEnd] = {"Kharan's Tale", {[51]={{27.1,72.54},},},},
+            [QuestieDB.questKeys.preQuestSingle] = {4341},
         },
         [4485] = {
             [QuestieDB.questKeys.exclusiveTo] = {1661,4486},
@@ -2023,12 +2039,24 @@ function QuestieQuestFixes:Load()
         [8546] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 178,
         },
+        [8548] = {
+            [QuestieDB.questKeys.preQuestSingle] = {8800},
+        },        
         [8550] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 178,
         },
         [8552] = {
             [QuestieDB.questKeys.startedBy] = {{1493},nil,{3985,},},
         },
+        [8572] = {
+            [QuestieDB.questKeys.preQuestSingle] = {8800},
+        },
+        [8573] = {
+            [QuestieDB.questKeys.preQuestSingle] = {8800},
+        },
+        [8574] = {
+            [QuestieDB.questKeys.preQuestSingle] = {8800},
+        },        
         [8581] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 178,
         },
@@ -2178,6 +2206,12 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.requiredRaces] = 255,
             [QuestieDB.questKeys.parentQuest] = 9386,
         },
+        [9322] = { 
+            [QuestieDB.questKeys.requiredLevel] = 1,
+        },
+        [9323] = { 
+            [QuestieDB.questKeys.requiredLevel] = 1,
+        },
         [9386] = {
             [QuestieDB.questKeys.preQuestSingle] = {9319},
             [QuestieDB.questKeys.requiredRaces] = 255,
@@ -2233,6 +2267,15 @@ function QuestieQuestFixes:LoadFactionFixes()
         [9063] = {
             [QuestieDB.questKeys.startedBy] = {{3033,12042,},nil,nil,},
         },
+        [9330] = {
+            [QuestieDB.questKeys.startedBy] = {nil,{183332},{23182,},}, 
+        },
+        [9331] = {
+            [QuestieDB.questKeys.startedBy] = {nil,{183333},{23183,},}, 
+        },
+        [9332] = {
+            [QuestieDB.questKeys.startedBy] = {nil,{183334},{23184,},}, 
+        },
         [9388] = {
             [QuestieDB.questKeys.startedBy] = {{16818,},nil,nil,},
         },
@@ -2286,6 +2329,15 @@ function QuestieQuestFixes:LoadFactionFixes()
         },
         [9063] = {
             [QuestieDB.questKeys.startedBy] = {{4217,5505,12042,},nil,nil,},
+        },
+        [9324] = {
+            [QuestieDB.questKeys.startedBy] = {nil,{181336},{23179,},}, 
+        },
+        [9325] = {
+            [QuestieDB.questKeys.startedBy] = {nil,{181337},{23180,},}, 
+        },
+        [9326] = {
+            [QuestieDB.questKeys.startedBy] = {nil,{181335},{23181,},}, 
         },
         [9388] = {
             [QuestieDB.questKeys.startedBy] = {{16817,},nil,nil,},

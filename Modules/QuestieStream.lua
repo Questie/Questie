@@ -15,22 +15,22 @@ local stringchar = string.char
 local stringbyte = string.byte
 
 -- shift level table
-QSL_dltab = {};
+local QSL_dltab = {};
 QSL_dltab[stringbyte("x")] = 0;
 QSL_dltab[stringbyte("y")] = 1;
 QSL_dltab[stringbyte("z")] = 2;
 
 -- translation table
-QSL_dttab = {};
+local QSL_dttab = {};
 QSL_dttab[123] = 1;
 QSL_dttab[124] = 6;
 QSL_dttab[125] = 59;
 
-QSL_ltab = {};
-QSL_ttab = {};
-QSL_ltab[0] = "x";
-QSL_ltab[1] = "y";
-QSL_ltab[2] = "z";
+local QSL_ltab = {};
+local QSL_ttab = {};
+QSL_ltab[0] = string.byte("x");
+QSL_ltab[1] = string.byte("y");
+QSL_ltab[2] = string.byte("z");
 QSL_ttab[34] = 123;
 QSL_ttab[39] = 124;
 QSL_ttab[92] = 125;
