@@ -761,7 +761,8 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.triggerEnd] = {"Secret phrase found", {[400]={{79.56,75.65},},},},
         },
         [2039] = {
-            [QuestieDB.questKeys.exclusiveTo] = {2038}, 
+            [QuestieDB.questKeys.exclusiveTo] = {2038},
+        },
         [2041] = {
             [QuestieDB.questKeys.exclusiveTo] = {2040}, --#2068
         },
@@ -2059,7 +2060,7 @@ function QuestieQuestFixes:Load()
         },
         [8548] = {
             [QuestieDB.questKeys.preQuestSingle] = {8800},
-        },        
+        },
         [8550] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 178,
         },
@@ -2074,7 +2075,7 @@ function QuestieQuestFixes:Load()
         },
         [8574] = {
             [QuestieDB.questKeys.preQuestSingle] = {8800},
-        },        
+        },
         [8581] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 178,
         },
@@ -2292,7 +2293,7 @@ function QuestieQuestFixes:LoadFactionFixes()
             [QuestieDB.questKeys.startedBy] = {nil,{183333},{23183,},}, 
         },
         [9332] = {
-            [QuestieDB.questKeys.startedBy] = {nil,{183334},{23184,},}, 
+            [QuestieDB.questKeys.startedBy] = {nil,{183334},{23184,},},
         },
         [9388] = {
             [QuestieDB.questKeys.startedBy] = {{16818,},nil,nil,},
