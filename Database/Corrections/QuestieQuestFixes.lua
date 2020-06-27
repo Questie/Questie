@@ -518,7 +518,7 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.startedBy] = {nil,{21015,21016,},nil,}, -- #1574
         },
         [1270] = {
-            [QuestieDB.questKeys.triggerEnd] = {"Help Stinky find Bogbean Leaves", {[15]={{45.87,24.58},},},},
+            [QuestieDB.questKeys.triggerEnd] = {"Help Stinky find Bogbean Leaves", {[15]={{48,24},},},},
         },
         [1271] = {
             [QuestieDB.questKeys.preQuestGroup] = {1222,1204},
