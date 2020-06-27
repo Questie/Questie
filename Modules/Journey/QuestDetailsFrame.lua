@@ -80,6 +80,10 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
             startindex = i
         end
 
+        if startindex == 0 then
+            return
+        end
+        
         local continent = 'UNKNOWN ZONE'
         for i, v in ipairs(QuestieJourney.zones) do
             if v[startindex] then

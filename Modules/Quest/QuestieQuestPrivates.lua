@@ -4,8 +4,8 @@ local _QuestieQuest = QuestieQuest.private
 
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
----@type QuestieDBZone
-local QuestieDBZone = QuestieLoader:ImportModule("QuestieDBZone")
+---@type ZoneDB
+local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 
@@ -69,32 +69,16 @@ _QuestieQuest.objectiveSpawnListCallTable = {
         ret[1].Id = id or 0
         if Objective.Coordinates then
             ret[1].Spawns = Objective.Coordinates
-        elseif Objective.Description then-- we need to fall back to old questie data, some events are missing in the new DB
+        else
             ret[1].Spawns = {}
-            local questie2data = TEMP_Questie2Events[Objective.Description];
-            if questie2data and questie2data["locations"] then
-                for i, spawn in pairs(questie2data["locations"]) do
-                    local zid = Questie2ZoneTableInverse[spawn[1]];
-                    if zid then
-                        zid = QuestieDBZone:GetAreaIdByUIMapID(zid)
-                        if zid then
-                            if not ret[1].Spawns[zid] then
-                                ret[1].Spawns[zid] = {};
-                            end
-                            local x = spawn[2] * 100;
-                            local y = spawn[3] * 100;
-                            tinsert(ret[1].Spawns[zid], {x, y});
-                        end
-                    end
-                end
-            end
+            Questie:Error("Missing event data for Objective:", Objective.Description, "id:", id)
         end
         return ret
     end,
     ["item"] = function(id, Objective)
         local ret = {};
         local item = QuestieDB:GetItem(id);
-        if item ~= nil and item.Sources ~= nil then
+        if item ~= nil and item.Sources ~= nil and (not item.Hidden) then
             for _, source in pairs(item.Sources) do
                 if _QuestieQuest.objectiveSpawnListCallTable[source.Type] and source.Type ~= "item" then -- anti-recursive-loop check, should never be possible but would be bad if it was
                     local sourceList = _QuestieQuest.objectiveSpawnListCallTable[source.Type](source.Id, Objective);
@@ -136,3 +120,18 @@ _QuestieQuest.objectiveSpawnListCallTable = {
         return ret
     end
 }
+
+function _QuestieQuest:LevelRequirementsFulfilled(quest, playerLevel, minLevel, maxLevel)
+    return (quest.level == 60 and quest.requiredLevel == 1) or (quest.level >= minLevel or Questie.db.char.lowlevel) and quest.level <= maxLevel and (quest.requiredLevel <= playerLevel or Questie.db.char.manualMinLevelOffset or Questie.db.char.manualMinLevelOffsetAbsolute)
+end
+
+-- We always want to show a quest if it is a childQuest and its parent is in the quest log
+function _QuestieQuest:IsParentQuestActive(parentID)
+    if parentID == nil or parentID == 0 then
+        return false
+    end
+    if QuestiePlayer.currentQuestlog[parentID] then
+        return true
+    end
+    return false
+end

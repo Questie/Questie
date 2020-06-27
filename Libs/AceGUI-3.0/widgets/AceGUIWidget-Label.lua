@@ -2,7 +2,7 @@
 Label Widget
 Displays text and optionally an icon.
 -------------------------------------------------------------------------------]]
-local Type, Version = "Label", 24
+local Type, Version = "Label", 27
 local AceGUI = LibStub and LibStub("AceGUI-3.0", true)
 if not AceGUI or (AceGUI:GetWidgetVersion(Type) or 0) >= Version then return end
 
@@ -39,25 +39,30 @@ local function UpdateImageAnchor(self)
 			label:SetPoint("TOP", image, "BOTTOM")
 			label:SetPoint("LEFT")
 			label:SetWidth(width)
-			height = image:GetHeight() + label:GetHeight()
+			height = image:GetHeight() + label:GetStringHeight()
 		else
 			-- image on the left
 			image:SetPoint("TOPLEFT")
-			if image:GetHeight() > label:GetHeight() then
+			if image:GetHeight() > label:GetStringHeight() then
 				label:SetPoint("LEFT", image, "RIGHT", 4, 0)
 			else
 				label:SetPoint("TOPLEFT", image, "TOPRIGHT", 4, 0)
 			end
 			label:SetWidth(width - imagewidth - 4)
-			height = max(image:GetHeight(), label:GetHeight())
+			height = max(image:GetHeight(), label:GetStringHeight())
 		end
 	else
 		-- no image shown
 		label:SetPoint("TOPLEFT")
 		label:SetWidth(width)
-		height = label:GetHeight()
+		height = label:GetStringHeight()
 	end
-	
+
+	-- avoid zero-height labels, since they can used as spacers
+	if not height or height == 0 then
+		height = 1
+	end
+
 	self.resizing = true
 	frame:SetHeight(height)
 	frame.height = height
@@ -108,7 +113,7 @@ local methods = {
 	["SetImage"] = function(self, path, ...)
 		local image = self.image
 		image:SetTexture(path)
-		
+
 		if image:GetTexture() then
 			self.imageshown = true
 			local n = select("#", ...)
@@ -125,6 +130,7 @@ local methods = {
 
 	["SetFont"] = function(self, font, height, flags)
 		self.label:SetFont(font, height, flags)
+		UpdateImageAnchor(self)
 	end,
 
 	["SetFontObject"] = function(self, font)

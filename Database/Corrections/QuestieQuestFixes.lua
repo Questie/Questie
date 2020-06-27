@@ -40,6 +40,12 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.requiredRaces] = 32,
             [QuestieDB.questKeys.nextQuestInChain] = 28,
         },
+        [28] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Complete the Trial of the Lake.", {[493]={{36.17,41.67},},},},
+        },
+        [29] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Complete the Trial of the Lake.", {[493]={{36.17,41.67},},},},
+        },
         [33] = {
             [QuestieDB.questKeys.preQuestSingle] = {},
         },
@@ -76,6 +82,9 @@ function QuestieQuestFixes:Load()
         [165] = {
             [QuestieDB.questKeys.exclusiveTo] = {148}, --#1173
         },
+        [219] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Escort Corporal Keeshan back to Redridge", {[44]={{33.36,48.7},},},},
+        },
         [235] = {
             [QuestieDB.questKeys.exclusiveTo] = {742,6382,6383,},
         },
@@ -88,6 +97,9 @@ function QuestieQuestFixes:Load()
         [308] = {
             [QuestieDB.questKeys.exclusiveTo] = {311}, -- distracting jarven can't be completed once you get the followup
             [QuestieDB.questKeys.specialFlags] = 1,
+        },
+        [309] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Escort Miran to the excavation site", {[38]={{65.12,65.77},},},},
         },
         [310] = {
             [QuestieDB.questKeys.childQuests] = {403},
@@ -131,8 +143,17 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.preQuestSingle] = {366}, -- #638
             [QuestieDB.questKeys.exclusiveTo] = {411}, -- #752
         },
+        [434] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Overhear Lescovar and Marzon's Conversation", {[1519]={{68.66,14.44},},},},
+        },
+        [435] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Erland must reach Rane Yorick", {[130]={{54.37,13.38},},},},
+        },
         [437] = {
             [QuestieDB.questKeys.triggerEnd] = {"Enter the Dead Fields",{[130]={{45.91, 21.27},},},},
+        },
+        [452] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Aid Faerleia in killing the Pyrewood Council", {[130]={{46.51,74.07},},},},
         },
         [455] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #1858
@@ -191,6 +212,9 @@ function QuestieQuestFixes:Load()
         [579] = {
             [QuestieDB.questKeys.parentQuest] = 578,
         },
+        [590] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Defeat Calvin Montague",{[85]={{38.19,56.74},},},},
+        },
         [594] = {
             [QuestieDB.questKeys.startedBy] = {nil,{2560,},{4098,},},
         },
@@ -216,6 +240,18 @@ function QuestieQuestFixes:Load()
         [639] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #1205
         },
+        [648] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Escort OOX-17/TN to Steamwheedle Port", {[440]={{67.06,23.16},},},},
+        },
+        [660] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Protect Kinelory", {[45]={{60.1,53.83},},},},
+        },
+        [665] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Defend Professor Phizzlethorpe", {[45]={{33.87,80.6},},},},
+        },
+        [667] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Defend Shakes O'Breen", {[45]={{31.93,81.82},},},},
+        },
         [677] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, --#1162
         },
@@ -235,6 +271,9 @@ function QuestieQuestFixes:Load()
         },
         [730] = {
             [QuestieDB.questKeys.exclusiveTo] = {729}, -- #1587
+        },
+        [731] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Escort Prospector Remtravel", {[148]={{35.67,84.03},},},},
         },
         [736] = {
             [QuestieDB.questKeys.requiredSourceItems] = {4639},
@@ -278,6 +317,9 @@ function QuestieQuestFixes:Load()
         [835] = {
             [QuestieDB.questKeys.requiredRaces] = 255, -- #1665
         },
+        [836] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Escort OOX-09/HL to the shoreline beyond Overlook Cliff", {[47]={{79.14,61.36},},},},
+        },
         [841] = {
             [QuestieDB.questKeys.specialFlags] = 1,
             [QuestieDB.questKeys.exclusiveTo] = {654},
@@ -291,6 +333,9 @@ function QuestieQuestFixes:Load()
         },
         [862] = {
             [QuestieDB.questKeys.requiredSkill] = {185,76}, -- You need to be a Journeyman for this quest
+        },
+        [863] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Escort Wizzlecrank out of the Venture Co. drill site", {[17]={{55.36,7.68},},},},
         },
         [883] = {
             [QuestieDB.questKeys.startedBy] = {{3474},nil,{5099}},
@@ -307,6 +352,15 @@ function QuestieQuestFixes:Load()
         [897] = {
             [QuestieDB.questKeys.startedBy] = {{3253},nil,{5138}},
         },
+        [898] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Escort Gilthares Firebough back to Ratchet", {[17]={{62.27,39.09},},},},
+        },
+        [910] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Go to the docks of Ratchet in the Barrens.", {[17]={{62.96,38.04},},},},
+        },
+        [911] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Go to the Mor'shan Rampart in the Barrens.", {[17]={{47.9,5.36},},},},
+        },
         [926] = {
             [QuestieDB.questKeys.parentQuest] = 924, -- #806
             [QuestieDB.questKeys.preQuestSingle] = {809}, --#606
@@ -317,18 +371,33 @@ function QuestieQuestFixes:Load()
         [930] = {
             [QuestieDB.questKeys.preQuestSingle] = {918,919}, -- #971
         },
+        [938] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Lead Mist safely to Sentinel Arynia Cloudsbreak", {[141]={{38.33,34.39},},},},
+        },
         [939] = {
             [QuestieDB.questKeys.startedBy] = {{10648},nil,{11668}},
         },
         [944] = {
             [QuestieDB.questKeys.triggerEnd] = {"Enter the Master's Glaive",{[148]={{38.48,86.45},},},},
         },
+        [945] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Escort Therylune away from the Master's Glaive", {[148]={{40.51,87.08},},},},
+        },
         [961] = {
             [QuestieDB.questKeys.preQuestSingle] = {944}, -- #1517
             [QuestieDB.questKeys.exclusiveTo] = {950}, -- #1517
         },
+        [976] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Protect Feero Ironhand", {[148]={{43.54,94.39},},},},
+        },
         [984] = {
             [QuestieDB.questKeys.triggerEnd] = {"Find a corrupt furbolg camp",{[148]={{39.34,53.51},{39.86,53.89},{42.68,86.53},},},},
+        },
+        [994] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Help Volcor to the road", {[148]={{41.92,81.76},},},},
+        },
+        [995] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Help Volcor escape the cave", {[148]={{44.57,85},},},},
         },
         [1000] = {
             [QuestieDB.questKeys.exclusiveTo] = {1004,1018,},
@@ -349,7 +418,8 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.requiredSourceItems] = {5475},
         },
         [1036] = {
-            [QuestieDB.questKeys.requiredMinRep] = {87,1}, -- #1854
+            [QuestieDB.questKeys.requiredMinRep] = {87,3000},
+            [QuestieDB.questKeys.requiredMaxRep] = {21,-5999},
         },
         [1047] = {
             [QuestieDB.questKeys.exclusiveTo] = {1015,1019,},
@@ -362,6 +432,9 @@ function QuestieQuestFixes:Load()
         },
         [1085] = {
             [QuestieDB.questKeys.preQuestSingle] = {1070},
+        },
+        [1086] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Place the Toxic Fogger", {[406]={{66.44,45.46},},},},
         },
         [1090] = {
             [QuestieDB.questKeys.triggerEnd] = {"Keep Piznik safe while he mines the mysterious ore", {[406]={{71.76, 60.22},},},},
@@ -396,15 +469,27 @@ function QuestieQuestFixes:Load()
         [1133] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #1738
         },
+        [1144] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Help Willix the Importer escape from Razorfen Kraul", {[17]={{42.27,89.88},},},},
+        },
         [1148] = {
             [QuestieDB.questKeys.preQuestSingle] = {1146},
             [QuestieDB.questKeys.startedBy] = {{4130,4131,4133,},nil,{5877,},},
+        },
+        [1173] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Drive Overlord Mok'Morokk from Brackenwall Village", {[15]={{36.41,31.43},},},},
         },
         [1193] = {
             [QuestieDB.questKeys.specialFlags] = 1, -- #1348
         },
         [1204] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #938
+        },
+        [1222] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Help Stinky find Bogbean Leaves", {[15]={{48.87,24.58},},},},
+        },
+        [1249] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Defeat Tapoke Jahn", {[11]={{10.87,59.35},},},},
         },
         [1252] = {
             [QuestieDB.questKeys.preQuestSingle] = {1302,1282}, -- #1845
@@ -420,6 +505,12 @@ function QuestieQuestFixes:Load()
         },
         [1268] = {
             [QuestieDB.questKeys.startedBy] = {nil,{21015,21016,},nil,}, -- #1574
+        },
+        [1270] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Help Stinky find Bogbean Leaves", {[15]={{45.87,24.58},},},},
+        },
+        [1273] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Question Reethe with Ogron", {[15]={{42.47,38.07},},},},
         },
         [1275] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #973 -- #745 prequest is not required in Classic
@@ -437,6 +528,9 @@ function QuestieQuestFixes:Load()
         [1302] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #889
         },
+        [1324] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Subdue Private Hendel", {[15]={{45.21,24.49},},},},
+        },
         [1339] = {
             [QuestieDB.questKeys.exclusiveTo] = {1338}, -- mountaineer stormpike's task cant be done if you have finished stormpike's order
         },
@@ -449,11 +543,11 @@ function QuestieQuestFixes:Load()
         [1392] = {
             [QuestieDB.questKeys.startedBy] = {{5477},nil,{6196}},
         },
+        [1393] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Escort Galen out of the Fallow Sanctuary.", {[8]={{53.08,29.55},},},},
+        },
         [1395] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #1727
-        },
-        [1339] = {
-            [QuestieDB.questKeys.exclusiveTo] = {1338},
         },
         [1418] = {
             [QuestieDB.questKeys.exclusiveTo] = {1419,1420}, -- #1594
@@ -477,8 +571,14 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.preQuestSingle] = {},
             [QuestieDB.questKeys.preQuestGroup] = {1434,1480},
         },
+        [1440] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Rescue Dalinda Malem", {[405]={{58.27,30.91},},},},
+        },
         [1442] = {
             [QuestieDB.questKeys.parentQuest] = 1654,
+        },
+        [1447] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Defeat Dashel Stonefist", {[1519]={{70.1,44.85},},},},
         },
         [1470] = {
             [QuestieDB.questKeys.exclusiveTo] = {1485}, -- #999
@@ -495,6 +595,9 @@ function QuestieQuestFixes:Load()
         [1478] = {
             [QuestieDB.questKeys.exclusiveTo] = {1506}, -- #1427
         },
+        [1479] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Go to the bank in Darnassus, otherwise known as the Bough of the Eternals.", {[1657]={{41.31,43.54},},},},
+        },
         [1483] = {
             [QuestieDB.questKeys.exclusiveTo] = {1093},
         },
@@ -510,8 +613,14 @@ function QuestieQuestFixes:Load()
         [1506] = {
             [QuestieDB.questKeys.exclusiveTo] = {1478}, -- #1427
         },
+        [1558] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Go to the top of the Stonewrought Dam in Loch Modan.", {[38]={{47.63,14.33},},},},
+        },
         [1559] = {
             [QuestieDB.questKeys.preQuestSingle] = {705},
+        },
+        [1560] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Lead Tooga to Torta", {[440]={{66.56,25.65},},},},
         },
         [1580] = {
             [QuestieDB.questKeys.requiredSkill] = {356,30},
@@ -532,6 +641,9 @@ function QuestieQuestFixes:Load()
         [1639] = {
             [QuestieDB.questKeys.exclusiveTo] = {1678},
         },
+        [1640] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Beat Bartleby", {[1519]={{73.7,36.85},},},},
+        },
         [1641] = { -- This is repeatable giving an item starting 1642
             [QuestieDB.questKeys.exclusiveTo] = {1642,1646,2997,2998,2999,3000,3681},
         },
@@ -543,6 +655,9 @@ function QuestieQuestFixes:Load()
         },
         [1646] = {
             [QuestieDB.questKeys.exclusiveTo] = {1642,2997,2998,2999,3000,3681},
+        },
+        [1651] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Protect Daphne Stilwell", {[40]={{42.15,88.44},},},},
         },
         [1654] = {
             [QuestieDB.questKeys.childQuests] = {1442,1655},
@@ -572,6 +687,9 @@ function QuestieQuestFixes:Load()
         [1686] = {
             [QuestieDB.questKeys.preQuestSingle] = {1639,1678,1683},
         },
+        [1687] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Go to the Westfall Lighthouse.", {[40]={{30.41,85.61},},},},
+        },
         [1700] = {
             [QuestieDB.questKeys.requiredRaces] = 1,
             [QuestieDB.questKeys.exclusiveTo] = {1703,1704,1705}, -- #1857
@@ -600,6 +718,9 @@ function QuestieQuestFixes:Load()
         [1794] = {
             [QuestieDB.questKeys.exclusiveTo] = {1649},
         },
+        [1800] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Go to the old Lordaeron Throne Room that lies just before descending into the Undercity.", {[1497]={{65.97,36.12},},},},
+        },
         [1860] = {
             [QuestieDB.questKeys.exclusiveTo] = {}, -- #1192
         },
@@ -623,6 +744,9 @@ function QuestieQuestFixes:Load()
         [1943] = {
             [QuestieDB.questKeys.exclusiveTo] = {1944}, -- mage robe breadcrumb
         },
+        [1950] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Secret phrase found", {[400]={{79.56,75.65},},},},
+        },
         [2201] = {
             [QuestieDB.questKeys.childQuests] = {3375},
         },
@@ -642,6 +766,9 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.preQuestSingle] = {},
             [QuestieDB.questKeys.exclusiveTo] = {2281}, -- #1825
         },
+        [2278] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Learn what lore that the stone watcher has to offer", {[3]={{35.21,10.33},},},},
+        },
         [2281] = {
             [QuestieDB.questKeys.exclusiveTo] = {2299}, -- #1817
         },
@@ -659,6 +786,9 @@ function QuestieQuestFixes:Load()
         [2358] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 77,
         },
+        [2460] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Shattered Salute Performed", {[1637]={{43.11,53.48},},},},
+        },
         [2480] = {
             [QuestieDB.questKeys.triggerEnd] = {"Cure Completed",{[267]={{61.57, 19.21}},},},
         },
@@ -666,11 +796,44 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #1541
             [QuestieDB.questKeys.preQuestGroup] = {2500,17}, -- #1541
         },
+        [2520] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Offer the sacrifice at the fountain", {[1657]={{38.63,85.99},},},},
+        },
+        [2561] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Release Oben Rageclaw's spirit", {[141]={{45.52,58.71},},},},
+        },
+        [2608] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Diagnosis Complete", {[1519]={{78.04,59},},},},
+        },
+        [2742] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Escort Rin'ji to safety", {[47]={{34.58,56.33},},},},
+        },
         [2744] = {
             [QuestieDB.questKeys.triggerEnd] = {"Conversation with Loramus", {[16]={{60.8,66.4}},},},
         },
+        [2755] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Omosh Dance of Joy Learned", {[1637]={{79.28,22.3},},},},
+        },
+        [2765] = {
+            [QuestieDB.questKeys.triggerEnd] = {"You Are The Big Winner", {[33]={{50.58,20.54},},},},
+        },
+        [2767] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Escort OOX-22/FE to the dock along the Forgotten Coast", {[357]={{45.63,43.39},},},},
+        },
         [2781] = {
             [QuestieDB.questKeys.startedBy] = {nil,{142122,150075,},nil,}, -- #1081
+        },
+        [2784] = {
+            [QuestieDB.questKeys.triggerEnd] = {"The Tale of Sorrow", {[8]={{34.28,65.96},},},},
+        },
+        [2801] = {
+            [QuestieDB.questKeys.triggerEnd] = {"A Tale of Sorrow", {[8]={{34.24,66.02},},},},
+        },
+        [2843] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Goblin Transponder", {[33]={{27.56,77.42},},},},
+        },
+        [2845] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Take Shay Leafrunner to Rockbiter's camp", {[357]={{42.33,21.85},},},},
         },
         [2861] = {
             [QuestieDB.questKeys.startedBy] = {{4568,5144,5497,5885,},nil,nil,}, -- #1152
@@ -685,6 +848,9 @@ function QuestieQuestFixes:Load()
         [2882] = {
             [QuestieDB.questKeys.zoneOrSort] = 440, -- #1780
         },
+        [2904] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Kernobee Rescue", {[1]={{17.67,39.15},},},},
+        },
         [2922] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- Save Techbot's Brain doesn't need the Tinkmaster Overspark breadcrumb #687
         },
@@ -693,6 +859,12 @@ function QuestieQuestFixes:Load()
         },
         [2931] = {
             [QuestieDB.questKeys.exclusiveTo] = {2930},
+        },
+        [2932] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Place the grim message.", {[47]={{23.41,58.06}},},},
+        },
+        [2936] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Find the Spider God's Name", {[440]={{38.73,19.88},},},},
         },
         [2945] = {
             [QuestieDB.questKeys.startedBy] = {{6212},nil,{9326}},
@@ -704,11 +876,20 @@ function QuestieQuestFixes:Load()
         [2952] = {
             [QuestieDB.questKeys.exclusiveTo] = {4605,4606},
         },
+        [2954] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Learn the purpose of the Stone Watcher of Norgannon", {[440]={{37.66,81.42},},},},
+        },
+        [2969] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Save at least 6 Sprite Darters from capture", {[357]={{67.27,46.67},},},},
+        },
         [2978] = {
             [QuestieDB.questKeys.startedBy] = {nil,{143980},{9370,},}, -- #1596
         },
         [2981] = {
             [QuestieDB.questKeys.exclusiveTo] = {2975},
+        },
+        [2992] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Wait for Grimshade to finish", {[4]={{66.99,19.41},},},},
         },
         [2994] = {
             [QuestieDB.questKeys.questLevel] = 51, -- #1129
@@ -731,8 +912,17 @@ function QuestieQuestFixes:Load()
         [3128] = {
             [QuestieDB.questKeys.preQuestSingle] = {3122},
         },
+        [3141] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Loramus' Story", {[16]={{60.8,66.36},},},},
+        },
         [3181] = {
             [QuestieDB.questKeys.startedBy] = {{5833},nil,{10000}},
+        },
+        [3321] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Watch Trenton Work", {[440]={{51.43,28.7},},},},
+        },
+        [3367] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Dorius Escort", {[51]={{74.47,19.44},},},},
         },
         [3374] = {
             [QuestieDB.questKeys.startedBy] = {{5353},nil,{10589,},}, -- #1233
@@ -743,11 +933,20 @@ function QuestieQuestFixes:Load()
         [3377] = {
             [QuestieDB.questKeys.triggerEnd] = {"Zamael Story",{[51]={{29.59, 26.38},},},},
         },
+        [3382] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Protect Captain Vanessa Beltis from the naga attack", {[16]={{52.86,87.77},},},},
+        },
         [3385] = {
             [QuestieDB.questKeys.requiredSkill] = {197,226}, -- You need to be an Artisan for this quest
         },
+        [3441] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Kalaran Story", {[51]={{39.03,38.94},},},},
+        },
         [3449] = {
             [QuestieDB.questKeys.childQuests] = {3483}, -- #1008
+        },
+        [3453] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Torch Creation", {[51]={{39.02,38.97},},},},
         },
         [3483] = {
             [QuestieDB.questKeys.parentQuest] = 3449, -- #1008
@@ -755,6 +954,12 @@ function QuestieQuestFixes:Load()
         },
         [3513] = {
             [QuestieDB.questKeys.startedBy] = {{5797},nil,{10621}},
+        },
+        [3525] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Protect Belnistrasz while he performs the ritual to shut down the idol", {[17]={{50.86,92.87},},},},
+        },
+        [3625] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Weaponry Creation", {[33]={{50.62,20.49},},},},
         },
         [3639] = {
             [QuestieDB.questKeys.exclusiveTo] = {3643,3641},
@@ -771,6 +976,9 @@ function QuestieQuestFixes:Load()
         --[3741] = { -- bad race data (actually this is correct)
         --    [QuestieDB.questKeys.requiredRaces] = 77,
         --},
+        [3702] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Story of Thaurissan", {[1537]={{38.62,55.44},},},},
+        },
         [3765] = {
             [QuestieDB.questKeys.exclusiveTo] = {1275}, -- corruption abroad breadcrumb
         },
@@ -779,6 +987,15 @@ function QuestieQuestFixes:Load()
         },
         [3903] = {
             [QuestieDB.questKeys.preQuestSingle] = {18},
+        },
+        [3982] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Survive the Onslaught", {[51]={{27.11,72.56},},},},
+        },
+        [4001] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Information Gathered from Kharan", {[51]={{27.12,72.56},},},},
+        },
+        [4022] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Proof Presented", {[46]={{95,31.61},},},},
         },
         [4083] = {
             [QuestieDB.questKeys.requiredSkill] = {186,230}, -- #1293
@@ -840,6 +1057,9 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.preQuestSingle] = {5887,5888,5889,5890,5891,},
         },
         -----------------------
+        [4121] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Prisoner Transport", {[46]={{25.73,27.1},},},},
+        },
         [4122] = {
             [QuestieDB.questKeys.preQuestSingle] = {4082}, -- #1349
         },
@@ -852,11 +1072,20 @@ function QuestieQuestFixes:Load()
         [4144] = {
             [QuestieDB.questKeys.specialFlags] = 1, -- #1590
         },
+        [4185] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Advice from Lady Prestor", {[1519]={{78.04,17.96},},},},
+        },
         [4224] = {
             [QuestieDB.questKeys.triggerEnd] = {"Ragged John's Story",{[46]={{64,23},},},},
         },
         [4245] = {
             [QuestieDB.questKeys.triggerEnd] = {"Protect A-Me 01 until you reach Karna Remtravel",{[490]={{46.43, 13.78},},},},
+        },
+        [4261] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Help Arei get to Safety", {[361]={{49.42,14.54},},},},
+        },
+        [4265] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Free Raschal.", {[357]={{72.13,63.84},},},},
         },
         [4285] = {
             [QuestieDB.questKeys.triggerEnd] = {"Discover and examine the Northern Crystal Pylon",{[490]={{56,12},},},},
@@ -867,11 +1096,20 @@ function QuestieQuestFixes:Load()
         [4288] = {
             [QuestieDB.questKeys.triggerEnd] = {"Discover and examine the Western Crystal Pylon",{[490]={{23,59},},},},
         },
+        [4322] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Jail Break!", {[1584]={{-1,-1}},},},
+        },
+        [4342] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Kharan's Tale", {[51]={{27.1,72.54},},},},
+        },
         [4485] = {
             [QuestieDB.questKeys.exclusiveTo] = {1661,4486},
         },
         [4486] = {
             [QuestieDB.questKeys.exclusiveTo] = {1661,4485},
+        },
+        [4491] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Escort Ringo to Spraggle Frock at Marshal's Refuge", {[490]={{43.71,8.29},},},},
         },
         [4493] = {
             [QuestieDB.questKeys.preQuestSingle] = {4267},
@@ -884,6 +1122,9 @@ function QuestieQuestFixes:Load()
         },
         [4505] = {
             [QuestieDB.questKeys.exclusiveTo] = {6605},
+        },
+        [4506] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Return the corrupted cat to Winna Hazzard", {[361]={{34.26,52.32},},},},
         },
         [4601] = {
             [QuestieDB.questKeys.preQuestSingle] = {2951,4602},
@@ -899,9 +1140,17 @@ function QuestieQuestFixes:Load()
         [4606] = {
             [QuestieDB.questKeys.exclusiveTo] = {2952,4605},
         },
+        [4621] = {
+            [QuestieDB.questKeys.preQuestSingle] = {1036},
+            [QuestieDB.questKeys.requiredMinRep] = {87,3000},
+            [QuestieDB.questKeys.requiredMaxRep] = {21,-5999},
+        },
         [4641] = {
             [QuestieDB.questKeys.requiredRaces] = 178, -- #877
             [QuestieDB.questKeys.exclusiveTo] = {788}, -- #1956
+        },
+        [4734] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Test the Eggscilliscope Prototype", {[51]={{40.78,95.66},},},},
         },
         [4763] = {
             [QuestieDB.questKeys.requiredSourceItems] = {12347,12341,12342,12343,}, -- #798
@@ -918,6 +1167,9 @@ function QuestieQuestFixes:Load()
         [4769] = {
             [QuestieDB.questKeys.exclusiveTo] = {4768},
         },
+        [4770] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Escort Pao'ka from Highperch", {[400]={{15.15,32.65},},},},
+        },
         [4784] = {
             [QuestieDB.questKeys.childQuests] = {4785}, -- #1367
         },
@@ -926,14 +1178,38 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.parentQuest] = 4784, -- #1367
             [QuestieDB.questKeys.specialFlags] = 1, -- #1367
         },
+        [4786] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Wait for Menara Voidrender to complete your item", {[17]={{62.52,35.47},},},},
+        },
         [4811] = {
             [QuestieDB.questKeys.triggerEnd] = {"Locate the large, red crystal on Darkshore's eastern mountain range",{[148]={{47.24,48.68},},},}, -- #1373
+        },
+        [4866] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Milked", {[46]={{65.11,23.68},},},},
         },
         [4881] = {
             [QuestieDB.questKeys.startedBy] = {{10617},nil,{12564}},
         },
+        [4901] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Discover the secret of the Altar of Elune", {[618]={{64.85,63.73},},},},
+        },
+        [4904] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Escort Lakota Windsong from the Darkcloud Pinnacle.", {[400]={{30.93,37.12},},},},
+        },
         [4907] = {
             [QuestieDB.questKeys.exclusiveTo] = {4734},
+        },
+        [4941] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Council with Eitrigg.", {[1637]={{34.14,39.26},},},},
+        },
+        [4964] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Wait for Menara Voidrender to complete your item", {[17]={{62.52,35.47},},},},
+        },
+        [4966] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Protect Kanati Greycloud", {[400]={{21.38,31.98},},},},
+        },
+        [4975] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Wait for Menara Voidrender to complete your item", {[17]={{62.52,35.47},},},},
         },
         [5041] = {
             [QuestieDB.questKeys.preQuestSingle] = {},
@@ -959,8 +1235,14 @@ function QuestieQuestFixes:Load()
         [5082] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #1824
         },
+        [5088] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Light the Sacred Fire of Life", {[400]={{38.08,35.35},},},},
+        },
         [5089] = {
             [QuestieDB.questKeys.startedBy] = {{9568},nil,{12780}},
+        },
+        [5096] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Destroy the command tent and plant the Scourge banner in the camp", {[28]={{40.72,52.04},},},},
         },
         [5122] = {
             [QuestieDB.questKeys.specialFlags] = 1, -- #1140
@@ -971,11 +1253,20 @@ function QuestieQuestFixes:Load()
         [5124] = {
             [QuestieDB.questKeys.requiredSkill] = {164,275},
         },
+        [5126] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Listen to Lorax's Tale", {[618]={{63.82,73.79},},},},
+        },
+        [5156] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Explore the craters in Shatter Scar Vale", {[361]={{41.03,41.96},},},},
+        },
         [5166] = {
             [QuestieDB.questKeys.specialFlags] = 1, -- #1335
         },
         [5167] = {
             [QuestieDB.questKeys.specialFlags] = 1, -- #1335
+        },
+        [5203] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Protect Arko'narin out of Shadow Hold", {[361]={{35.45,59.06},},},},
         },
         [5211] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- #983
@@ -989,6 +1280,9 @@ function QuestieQuestFixes:Load()
         [5262] = {
             [QuestieDB.questKeys.startedBy] = {{10813},nil,{13250}},
         },
+        [5321] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Escort Kerlonian Evershade to Maestra's Post", {[331]={{26.77,36.91},},},},
+        },
         [5421] = {
             [QuestieDB.questKeys.questLevel] = 25,
         },
@@ -998,11 +1292,23 @@ function QuestieQuestFixes:Load()
         [5634] = {
             [QuestieDB.questKeys.startedBy] = {{11401,},nil,nil,},
         },
+        [5713] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Protect Aynasha", {[148]={{45.87,90.42},},},},
+        },
         [5721] = {
             [QuestieDB.questKeys.requiredSourceItems] = {15209,}, -- #857
         },
         -- Salve via Hunting/Mining/Gathering/Skinning/Disenchanting non repeatable quests
         -- Alliance
+        [5727] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Gauge Neeru Fireblade's reaction to you being a member of the Burning Blade", {[1637]={{49.6,50.46},},},},
+        },
+        [5742] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Tirion's Tale", {[139]={{7.51,43.69},},},},
+        },
+        [5821] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Escort Gizelton Caravan past Kolkar Centaur Village", {[405]={{67.17,56.62},},},},
+        },
         [5882] = {
             [QuestieDB.questKeys.startedBy] = {{9528,},nil,nil,},
             [QuestieDB.questKeys.finishedBy] = {{9528,},nil,},
@@ -1071,6 +1377,36 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.questLevel] = 55,
         },
         -----------------------
+        [5929] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Seek out the Great Bear Spirit and learn what it has to share with you about the nature of the bear.", {[493]={{39.25,27.73},},},},
+        },
+        [5930] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Seek out the Great Bear Spirit and learn what it has to share with you about the nature of the bear.", {[493]={{39.25,27.73},},},},
+        },
+        [5943] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Escort Gizelton Caravan past Mannoroc Coven", {[405]={{55.69,67.79},},},},
+        },
+        [5944] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Redemption?", {[28]={{53.86,24.32},},},},
+        },
+        [6001] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Face Lunaclaw and earn the strength of body and heart it possesses.", {[148]={{43.3,45.82}},[17]={{41.96,60.81},},},},
+        },
+        [6002] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Face Lunaclaw and earn the strength of body and heart it possesses.", {[148]={{43.3,45.82}},[17]={{41.96,60.81},},},},
+        },
+        [6061] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Tame an Adult Plainstrider", {[215]={{43.5,44.99},{43.69,51.84},{52.68,57.44},{41.96,55.26},{48.15,47.89},},},},
+        },
+        [6062] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Tame a Dire Mottled Boar", {[14]={{51.54,45.89},{52.44,48.97},},},},
+        },
+        [6063] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Tame a Webwood Lurker", {[141]={{59.18,58.07},{53.97,62.29},},},},
+        },
+        [6064] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Tame a Large Crag Boar", {[1]={{48.29,56.71},{40.19,47.1},{50.59,51.31},{48.07,47.34},},},},
+        },
         [6065] = {
             [QuestieDB.questKeys.exclusiveTo] = {6066,6067,6061},
         },
@@ -1113,6 +1449,30 @@ function QuestieQuestFixes:Load()
         [6076] = {
             [QuestieDB.questKeys.exclusiveTo] = {6074,6075,6064},
         },
+        [6082] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Tame an Armored Scorpid", {[14]={{45.27,45.59},{54.99,37.63},},},},
+        },
+        [6083] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Tame a Surf Crawler", {[14]={{58.94,29.09},{61.07,78.01},},},},
+        },
+        [6084] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Tame a Snow Leopard", {[1]={{48.41,59.35},{37.78,38.02},},},},
+        },
+        [6085] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Tame an Ice Claw Bear", {[1]={{49.89,53.52},{37.04,44.95},{50.16,58.83},},},},
+        },
+        [6087] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Tame a Prairie Stalker", {[215]={{43.5,51.95},{46.73,49.71},{42.99,47.64},{59.13,58.63},},},},
+        },
+        [6088] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Tame a Swoop", {[215]={{46.55,49.4},{42.75,49.11},{43.07,52.3},{46.58,45.05},{42.44,43.16},},},},
+        },
+        [6101] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Tame a Nightsaber Stalker", {[141]={{40.09,55.45},{55.92,72.07},{46.89,72.28},},},},
+        },
+        [6102] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Tame a Strigid Screecher", {[141]={{43.81,50.88},},},},
+        },
         [6136] = {
             [QuestieDB.questKeys.preQuestSingle] = {6133}, -- #1572
         },
@@ -1125,6 +1485,9 @@ function QuestieQuestFixes:Load()
         [6163] = {
             [QuestieDB.questKeys.preQuestSingle] = {6022,6042,6133,6135,6136}, -- #1950
         },
+        [6185] = {
+            [QuestieDB.questKeys.triggerEnd] = {"The Blightcaller Uncovered",{[28]={{84.65,52.25},},},},
+        },
         [6382] = {
             [QuestieDB.questKeys.preQuestSingle] = {882},
             [QuestieDB.questKeys.exclusiveTo] = {235,742,},
@@ -1132,8 +1495,20 @@ function QuestieQuestFixes:Load()
         [6383] = {
             [QuestieDB.questKeys.preQuestSingle] = {},
         },
+        [6403] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Reginald's March", {[1519]={{77.57,18.59}},},},
+        },
+        [6482] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Escort Ruul from the Thistlefurs.", {[331]={{38.53,37.32},},},},
+        },
         [6522] = {
             [QuestieDB.questKeys.startedBy] = {{4421},nil,{17008}},
+        },
+        [6523] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Kaya Escorted to Camp Aparaje", {[406]={{77.1,90.85},},},},
+        },
+        [6544] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Take Silverwing Outpost.", {[331]={{64.65,75.35},},},},
         },
         [6562] = {
             [QuestieDB.questKeys.exclusiveTo] = {6563}, -- #1826
@@ -1143,6 +1518,9 @@ function QuestieQuestFixes:Load()
         },
         [6564] = {
             [QuestieDB.questKeys.startedBy] = {{4802},nil,{16790}},
+        },
+        [6566] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Thrall's Tale", {[1637]={{31.78,37.81},},},},
         },
         [6603] = {
             [QuestieDB.questKeys.exclusiveTo] = {5082},
@@ -1156,11 +1534,41 @@ function QuestieQuestFixes:Load()
         [6609] = {
             [QuestieDB.questKeys.exclusiveTo] = {6607}, -- #1154
         },
+        [6622] = {
+            [QuestieDB.questKeys.triggerEnd] = {"15 Patients Saved!", {[15]={{67.79,49.06},},},},
+        },
         [6623] = {
             [QuestieDB.questKeys.exclusiveTo] = {6622},
         },
+        [6624] = {
+            [QuestieDB.questKeys.triggerEnd] = {"15 Patients Saved!", {[15]={{67.79,49.06},},},},
+        },
         [6625] = {
             [QuestieDB.questKeys.exclusiveTo] = {6624}, -- #1723
+        },
+        [6627] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Answer Braug Dimspirit's question correctly", {[406]={{78.75,45.63},},},},
+        },
+        [6628] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Answer Parqual Fintallas' question correctly", {[1497]={{57.72,65.22},},},},
+        },
+        [6641] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Defeat Vorsha the Lasher", {[331]={{9.59,27.58},},},},
+        },
+        [6642] = {
+            [QuestieDB.questKeys.requiredMinRep] = {59,9000},
+        },
+        [6643] = {
+            [QuestieDB.questKeys.requiredMinRep] = {59,9000},
+        },
+        [6644] = {
+            [QuestieDB.questKeys.requiredMinRep] = {59,9000},
+        },
+        [6645] = {
+            [QuestieDB.questKeys.requiredMinRep] = {59,9000},
+        },
+        [6646] = {
+            [QuestieDB.questKeys.requiredMinRep] = {59,9000},
         },
         [6721] = {
             [QuestieDB.questKeys.startedBy] = {{5116},nil,nil},
@@ -1183,13 +1591,17 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.exclusiveTo] = {7021,7024},
         },
         [6981] = {
-            [QuestieDB.questKeys.startedBy] = {{3654,},nil,{10441,},},
+            [QuestieDB.questKeys.startedBy] = {{3654},nil,{10441}},
+            [QuestieDB.questKeys.triggerEnd] = {"Speak with someone in Ratchet about the Glowing Shard", {[17]={{62.97,37.21},},},},
         },
         [6982] = {
             [QuestieDB.questKeys.questLevel] = 55,
         },
         [6985] = {
             [QuestieDB.questKeys.questLevel] = 55,
+        },
+        [7001] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Frostwolf Muzzled and Returned", {[1637]={{79.18,31.12},{32.63,63.29},{59.27,53.14}},[36]={{67,51.78},},},},
         },
         [7002] = {
             [QuestieDB.questKeys.objectivesText] = {},
@@ -1205,8 +1617,11 @@ function QuestieQuestFixes:Load()
         [7026] = {
             [QuestieDB.questKeys.objectivesText] = {},
         },
-        [7028] = {
-            [QuestieDB.questKeys.objectivesText] = {"Collect 25 Theradric Crystal Carvings for Willow in Desolace.",},
+        [7027] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Ram Collared and Returned", {[1537]={{70.1,90.32},{66.54,86.33}},[36]={{34.58,74.94}},[1519]={{82.34,12.46},},},},
+        },
+        [7046] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Create the Scepter of Celebras", {[405]={{35.97,64.41},},},},
         },
         [7062] = {
             [QuestieDB.questKeys.startedBy] = {{1365,},nil,nil,},
@@ -1286,6 +1701,12 @@ function QuestieQuestFixes:Load()
         },
         [7428] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 77,
+        },
+        [7481] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Master Kariel Winthalus Found", {[357]={{62.86,24.88},{60.34,30.71},},},},
+        },
+        [7482] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Master Kariel Winthalus Found", {[357]={{62.86,24.88},{60.34,30.71},},},},
         },
         [7483] = {
             [QuestieDB.questKeys.preQuestSingle] = {7481,7482},
@@ -1375,6 +1796,9 @@ function QuestieQuestFixes:Load()
         [7838] = {
             [QuestieDB.questKeys.specialFlags] = 1, -- #1589
         },
+        [7843] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Message to the Wildhammer Delivered", {[47]={{14.34,48.07},},},},
+        },
         [7886] = { -- #1435
             [QuestieDB.questKeys.startedBy] = {{14733},nil,nil},
             [QuestieDB.questKeys.finishedBy] = {{14733},nil,},
@@ -1400,6 +1824,7 @@ function QuestieQuestFixes:Load()
         },
         [8114] = {
             [QuestieDB.questKeys.requiredMinRep] = {509,3000},
+            [QuestieDB.questKeys.triggerEnd] = {"Control Four Bases.", {[45]={{46.03,45.3},},},},
         },
         [8115] = {
             [QuestieDB.questKeys.requiredMinRep] = {509,42000},
@@ -1409,6 +1834,7 @@ function QuestieQuestFixes:Load()
         },
         [8121] = {
             [QuestieDB.questKeys.requiredMinRep] = {510,3000},
+            [QuestieDB.questKeys.triggerEnd] = {"Hold Four Bases.", {[1638]={{40.4,51.57}},[45]={{73.72,29.52}},[1637]={{50.1,69.03}},[130]={{39.68,17.75},},},},
         },
         [8122] = {
             [QuestieDB.questKeys.requiredMinRep] = {510,42000},
@@ -1419,9 +1845,6 @@ function QuestieQuestFixes:Load()
         [8150] = { -- bad race data
             [QuestieDB.questKeys.exclusiveTo] = {2851},
             [QuestieDB.questKeys.requiredRaces] = 178,
-        },
-        [8251] = {
-            [QuestieDB.questKeys.preQuestSingle] = {},
         },
         [8166] = {
             [QuestieDB.questKeys.specialFlags] = 0,
@@ -1468,11 +1891,11 @@ function QuestieQuestFixes:Load()
         [8192] = {
             [QuestieDB.questKeys.requiredClasses] = 1024,
         },
+        [8251] = {
+            [QuestieDB.questKeys.preQuestSingle] = {},
+        },
         [8271] = {
             [QuestieDB.questKeys.requiredRaces] = 77,
-        },
-        [8240] = {
-            [QuestieDB.questKeys.triggerEnd] = {"Destroy any Hakkari Bijou", {[33]={{13.4,15.1},},},},
         },
         [8272] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 178,
@@ -1597,12 +2020,24 @@ function QuestieQuestFixes:Load()
         [8546] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 178,
         },
+        [8548] = {
+            [QuestieDB.questKeys.preQuestSingle] = {8800},
+        },        
         [8550] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 178,
         },
         [8552] = {
             [QuestieDB.questKeys.startedBy] = {{1493},nil,{3985,},},
         },
+        [8572] = {
+            [QuestieDB.questKeys.preQuestSingle] = {8800},
+        },
+        [8573] = {
+            [QuestieDB.questKeys.preQuestSingle] = {8800},
+        },
+        [8574] = {
+            [QuestieDB.questKeys.preQuestSingle] = {8800},
+        },        
         [8581] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 178,
         },
@@ -1660,6 +2095,9 @@ function QuestieQuestFixes:Load()
         },
         [8867] = {
             [QuestieDB.questKeys.requiredSourceItems] = {21557,21558,21559,21571,21574,21576,},
+        },
+        [8868] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Receive Elune's Blessing.", {[493]={{63.89,62.5},},},},
         },
         [8870] = {
             [QuestieDB.questKeys.exclusiveTo] = {8867,8871,8872},
@@ -1733,6 +2171,9 @@ function QuestieQuestFixes:Load()
         [9033] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 178,
         },
+        [9051] = {
+            [QuestieDB.questKeys.triggerEnd] = {"Devilsaur stabbed with barb", {[490]={{64.32,59.45},{67.98,58.07},{53.82,63.08},{57.99,73.93},{73.87,38.34},},},},
+        },
         [9063] = {
             [QuestieDB.questKeys.zoneOrSort] = 493,
         },
@@ -1741,6 +2182,21 @@ function QuestieQuestFixes:Load()
         },
         [9262] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 77,
+        },
+        [9319] = {
+            [QuestieDB.questKeys.requiredRaces] = 255,
+            [QuestieDB.questKeys.parentQuest] = 9386,
+        },
+        [9322] = { 
+            [QuestieDB.questKeys.requiredLevel] = 1,
+        },
+        [9323] = { 
+            [QuestieDB.questKeys.requiredLevel] = 1,
+        },
+        [9386] = {
+            [QuestieDB.questKeys.preQuestSingle] = {9319},
+            [QuestieDB.questKeys.requiredRaces] = 255,
+            [QuestieDB.questKeys.specialFlags] = 1,
         },
     }
 end
@@ -1791,6 +2247,15 @@ function QuestieQuestFixes:LoadFactionFixes()
         },
         [9063] = {
             [QuestieDB.questKeys.startedBy] = {{3033,12042,},nil,nil,},
+        },
+        [9330] = {
+            [QuestieDB.questKeys.startedBy] = {nil,{183332},{23182,},}, 
+        },
+        [9331] = {
+            [QuestieDB.questKeys.startedBy] = {nil,{183333},{23183,},}, 
+        },
+        [9332] = {
+            [QuestieDB.questKeys.startedBy] = {nil,{183334},{23184,},}, 
         },
         [9388] = {
             [QuestieDB.questKeys.startedBy] = {{16818,},nil,nil,},
@@ -1845,6 +2310,15 @@ function QuestieQuestFixes:LoadFactionFixes()
         },
         [9063] = {
             [QuestieDB.questKeys.startedBy] = {{4217,5505,12042,},nil,nil,},
+        },
+        [9324] = {
+            [QuestieDB.questKeys.startedBy] = {nil,{181336},{23179,},}, 
+        },
+        [9325] = {
+            [QuestieDB.questKeys.startedBy] = {nil,{181337},{23180,},}, 
+        },
+        [9326] = {
+            [QuestieDB.questKeys.startedBy] = {nil,{181335},{23181,},}, 
         },
         [9388] = {
             [QuestieDB.questKeys.startedBy] = {{16817,},nil,nil,},

@@ -53,7 +53,15 @@ _QuestieAuto.disallowedNPC = {
 
     -- Stray
     [15192] = true, -- Anachronos (Caverns of Time)
-    [12944] = true -- Lokhtos Darkbargainer (Thorium Brotherhood, Blackrock Depths)
+    [12944] = true, -- Lokhtos Darkbargainer (Thorium Brotherhood, Blackrock Depths)
+    -- AQ gear turnin
+    [15192] = true,
+    [15378] = true,
+    [15380] = true,
+    [15498] = true,
+    [15499] = true,
+    [15500] = true,
+    [15503] = true
 }
 
 _QuestieAuto.disallowedQuests = {
@@ -121,6 +129,10 @@ _QuestieAuto.disallowedQuests = {
     [4083] = true,
     [5166] = true,
     [5167] = true,
+    [5067] = true,
+    [5063] = true,
+    [5068] = true,
+    [8196] = true,
     -- The Barrens Bloodshard quests
     [889] = true,
     [5042] = true,
@@ -128,5 +140,11 @@ _QuestieAuto.disallowedQuests = {
     [5044] = true,
     [5045] = true,
     [5046] = true,
+    -- AQ
+    [8548] = true,
+    [8572] = true,
+    [8573] = true,
+    [8574] = true,
+    [8288] = true
     --
 }

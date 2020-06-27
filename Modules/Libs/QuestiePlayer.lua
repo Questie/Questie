@@ -1,12 +1,11 @@
 ---@class QuestiePlayer
 local QuestiePlayer = QuestieLoader:CreateModule("QuestiePlayer");
+local _QuestiePlayer = QuestiePlayer.private
 -------------------------
 --Import modules.
 -------------------------
----@type QuestieDBZone
-local QuestieDBZone = QuestieLoader:ImportModule("QuestieDBZone")
-
-local _QuestiePlayer = {...};
+---@type ZoneDB
+local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 QuestiePlayer.currentQuestlog = {} --Gets populated by QuestieQuest:GetAllQuestIds(), this is either an object to the quest in question, or the ID if the object doesn't exist.
 _QuestiePlayer.playerLevel = -1
@@ -16,6 +15,14 @@ local math_max = math.max;
 
 function QuestiePlayer:Initialize()
     _QuestiePlayer.playerLevel = UnitLevel("player")
+
+    local _, _, raceIndex = UnitRace("player")
+    raceIndex = math.pow(2, raceIndex-1)
+    _QuestiePlayer.raceIndex = raceIndex
+
+    local _, _, classIndex = UnitClass("player")
+    classIndex = math.pow(2, classIndex-1)
+    _QuestiePlayer.classIndex = classIndex
 end
 
 --Always compare to the UnitLevel parameter, returning the highest.
@@ -41,8 +48,24 @@ function QuestiePlayer:GetGroupType()
     end
 end
 
+function QuestiePlayer:HasRequiredRace(requiredRaces)
+    if (not requiredRaces) then
+        return true
+    end
+
+    return not (requiredRaces ~= 0 and (bit.band(requiredRaces, _QuestiePlayer.raceIndex) == 0))
+end
+
+function QuestiePlayer:HasRequiredClass(requiredClasses)
+    if (not requiredClasses) then
+        return true
+    end
+
+    return not (requiredClasses ~= 0 and (bit.band(requiredClasses, _QuestiePlayer.classIndex) == 0))
+end
+
 function QuestiePlayer:GetCurrentZoneId()
-    return QuestieDBZone:GetAreaIdByUIMapID(C_Map.GetBestMapForUnit("player"))
+    return ZoneDB:GetAreaIdByUiMapId(C_Map.GetBestMapForUnit("player"))
 end
 
 function QuestiePlayer:GetCurrentContinentId()

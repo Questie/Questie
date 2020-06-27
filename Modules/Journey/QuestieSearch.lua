@@ -77,18 +77,23 @@ function QuestieSearch:Search(query, searchType, queryType)
     local minLengthChars = 1
     -- Search type specific preparations
     local actualDatabase;
+    local databaseKeys;
     local NAME_KEY;
     if searchType == "npc" then
-        actualDatabase = QuestieDB.npcData;
+        actualDatabase = QuestieDB.QueryNPCSingle--QuestieDB.npcData;
+        databaseKeys = QuestieDB.NPCPointers
         NAME_KEY = QuestieDB.npcKeys.name;
     elseif searchType == "object" then
-        actualDatabase = QuestieDB.objectData;
+        actualDatabase = QuestieDB.QueryObjectSingle--QuestieDB.objectData;
+        databaseKeys = QuestieDB.ObjectPointers
         NAME_KEY = QuestieDB.objectKeys.name;
     elseif searchType == "item" then
-        actualDatabase = QuestieDB.itemData;
+        actualDatabase = QuestieDB.QueryItemSingle--QuestieDB.itemData;
+        databaseKeys = QuestieDB.ItemPointers
         NAME_KEY = QuestieDB.itemKeys.name;
     elseif searchType == "quest" then
-        actualDatabase = QuestieDB.questData;
+        actualDatabase = QuestieDB.QueryQuestSingle--QuestieDB.questData;
+        databaseKeys = QuestieDB.QuestPointers
         NAME_KEY = QuestieDB.questKeys.name;
     else
         return
@@ -117,30 +122,21 @@ function QuestieSearch:Search(query, searchType, queryType)
         then
             database = QuestieSearch.LastResult[searchType];
         end]]--
+    else
+        databaseKeys = database;
     end
     -- iterate the seleceted database
     local searchCount = 0;
-    for id, entryOrBoolean in pairs(database) do
-        local dbEntry;
-         -- No search (displaying favourites), or search within previous set of results
-        if type(entryOrBoolean) == "boolean" then
-            dbEntry = actualDatabase[id];
-        -- Search in whole database
-        else
-            dbEntry = entryOrBoolean;
-        end
-
+    for id, entryOrBoolean in pairs(databaseKeys) do
         -- This condition does the actual comparison for the search
-        if dbEntry and next(dbEntry) -- Check if dbEntry ~= nil and if the table contains a value
-            and
-            (
+        if (
                 ( -- text search
                     (queryType == "chars")
                     and
                     (
                         (string.len(query) < minLengthChars) -- Too short, display favourites
                         or
-                        (string.find(string.lower(dbEntry[NAME_KEY]), string.lower(query))) -- Perform search
+                        (string.find(string.lower(actualDatabase(id, "name")), string.lower(query))) -- Perform search
                     )
                 )
                 or

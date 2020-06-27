@@ -3,7 +3,7 @@
 -- as well as associate it with a slash command.
 -- @class file
 -- @name AceConfig-3.0
--- @release $Id: AceConfig-3.0.lua 1161 2017-08-12 14:30:16Z funkydude $
+-- @release $Id: AceConfig-3.0.lua 1202 2019-05-15 23:11:22Z nevcairiel $
 
 --[[
 AceConfig-3.0
@@ -45,7 +45,7 @@ local pcall, error, type, pairs = pcall, error, type, pairs
 function AceConfig:RegisterOptionsTable(appName, options, slashcmd)
 	local ok,msg = pcall(cfgreg.RegisterOptionsTable, self, appName, options)
 	if not ok then error(msg, 2) end
-	
+
 	if slashcmd then
 		if type(slashcmd) == "table" then
 			for _,cmd in pairs(slashcmd) do
