@@ -231,6 +231,15 @@ function QuestieDB:IsActiveEventQuest(questId)
     return QuestieEvent.activeQuests[questId] == true
 end
 
+function QuestieDB:IsExclusiveQuestInQuestLogOrComplete(exclusiveTo)
+    for _, exId in pairs(exclusiveTo) do
+        if Questie.db.char.complete[exId] then
+            return true
+        end
+    end
+    return false
+end
+
 function QuestieDB:IsLevelRequirementsFulfilled(questId, minLevel, maxLevel)
     local level, requiredLevel = unpack(QuestieDB.QueryQuest(questId, "questLevel", "requiredLevel"))
 
