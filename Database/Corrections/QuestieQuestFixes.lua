@@ -519,6 +519,9 @@ function QuestieQuestFixes:Load()
         [1270] = {
             [QuestieDB.questKeys.triggerEnd] = {"Help Stinky find Bogbean Leaves", {[15]={{45.87,24.58},},},},
         },
+        [1271] = {
+            [QuestieDB.questKeys.preQuestGroup] = {1222,1204},
+        },
         [1273] = {
             [QuestieDB.questKeys.triggerEnd] = {"Question Reethe with Ogron", {[15]={{42.47,38.07},},},},
         },
