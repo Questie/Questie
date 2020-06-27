@@ -590,15 +590,7 @@ function QuestieQuest:AddFinisher(quest)
                             local x = coords[1];
                             local y = coords[2];
 
-                            -- Calculate mid point if waypoints exist, we need to do this before drawing the lines
-                            -- as we need the icon handle for the lines.
-                            if(finisher.waypoints and finisher.waypoints[finisherZone]) then
-                                local midX, midY = QuestieLib:CalculateWaypointMidPoint(finisher.waypoints[finisherZone]);
-                                x = midX or x;
-                                y = midY or y;
-                            end
                             Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]:", finisherZone, x, y)
-
                             local icon, _ = QuestieMap:DrawWorldIcon(data, finisherZone, x, y)
 
                             if(finisher.waypoints and finisher.zoneID and finisher.zoneID == finisherZone and finisher.waypoints[finisherZone]) then
