@@ -70,9 +70,9 @@ end
 
 _AddFocusOption = function (menu, quest, objective)
     if Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus == tostring(quest.Id) .. " " .. tostring(objective.Index) then
-        tinsert(menu, {text = QuestieLocale:GetUIString('TRACKER_UNFOCUS'), func = function() LQuestie_CloseDropDownMenus(); QuestieTracker:UnFocus(); QuestieQuest:UpdateHiddenNotes() end})
+        tinsert(menu, {text = QuestieLocale:GetUIString('TRACKER_UNFOCUS'), func = function() LQuestie_CloseDropDownMenus(); QuestieTracker:UnFocus(); QuestieQuest:ToggleNotes(true) end})
     else
-        tinsert(menu, {text = QuestieLocale:GetUIString('TRACKER_FOCUS_OBJECTIVE'), func = function() LQuestie_CloseDropDownMenus(); QuestieTracker:FocusObjective(quest, objective); QuestieQuest:UpdateHiddenNotes() end})
+        tinsert(menu, {text = QuestieLocale:GetUIString('TRACKER_FOCUS_OBJECTIVE'), func = function() LQuestie_CloseDropDownMenus(); QuestieTracker:FocusObjective(quest.Id, objective.Index); QuestieQuest:ToggleNotes(false) end})
     end
 end
 
@@ -94,15 +94,15 @@ _AddShowHideObjectivesOption = function (menu, quest, objective)
         tinsert(menu, {text = QuestieLocale:GetUIString('TRACKER_SHOW_ICONS'), func = function()
             LQuestie_CloseDropDownMenus()
             objective.HideIcons = nil;
-            QuestieQuest:UpdateHiddenNotes()
             Questie.db.char.TrackerHiddenObjectives[tostring(quest.Id) .. " " .. tostring(objective.Index)] = nil
+            QuestieQuest:ToggleNotes(true)
         end})
     else
         tinsert(menu, {text = QuestieLocale:GetUIString('TRACKER_HIDE_ICONS'), func = function()
             LQuestie_CloseDropDownMenus()
             objective.HideIcons = true;
-            QuestieQuest:UpdateHiddenNotes()
             Questie.db.char.TrackerHiddenObjectives[tostring(quest.Id) .. " " .. tostring(objective.Index)] = true
+            QuestieQuest:ToggleNotes(false)
         end})
     end
 end
@@ -111,14 +111,14 @@ _AddShowHideQuestsOption = function (menu, quest)
     if quest.HideIcons then
         tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_SHOW_ICONS'), func = function()
             quest.HideIcons = nil
-            QuestieQuest:UpdateHiddenNotes()
             Questie.db.char.TrackerHiddenQuests[quest.Id] = nil
+            QuestieQuest:ToggleNotes(true)
         end})
     else
         tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_HIDE_ICONS'), func = function()
             quest.HideIcons = true
-            QuestieQuest:UpdateHiddenNotes()
             Questie.db.char.TrackerHiddenQuests[quest.Id] = true
+            QuestieQuest:ToggleNotes(false)
         end})
     end
 end
@@ -140,7 +140,9 @@ _AddShowObjectivesOnMapOption = function (menu, quest, objective)
             quest.HideIcons = nil
             needHiddenUpdate = true
         end
-        if needHiddenUpdate then QuestieQuest:UpdateHiddenNotes(); end
+        if needHiddenUpdate then
+            QuestieQuest:ToggleNotes(true)
+        end
         QuestieTracker.utils:ShowObjectiveOnMap(objective)
     end})
 end
@@ -164,13 +166,20 @@ _AddLinkToChatOption = function (menu, quest)
     tinsert(menu, {text = QuestieLocale:GetUIString('TRACKER_LINK_TO_CHAT'), func = function()
         LQuestie_CloseDropDownMenus()
 
-        if ChatFrame1EditBox then
-            if not ChatFrame1EditBox:IsShown() then
-                ChatFrame1EditBox:Show()
+        if ( not ChatFrame1EditBox:IsVisible() ) then
+            if Questie.db.global.trackerShowQuestLevel then
+                ChatFrame_OpenChat("[["..quest.level.."] "..quest.name.." ("..quest.Id..")]")
+            else
+                ChatFrame_OpenChat("["..quest.name.." ("..quest.Id..")]")
             end
-
-            ChatFrame1EditBox:SetText(ChatFrame1EditBox:GetText() .. QuestieLib:GetQuestString(quest.Id, quest.name, quest.level, true))
+        else
+            if Questie.db.global.trackerShowQuestLevel then
+                ChatEdit_InsertLink("[["..quest.level.."] "..quest.name.." ("..quest.Id..")]")
+            else
+                ChatEdit_InsertLink("["..quest.name.." ("..quest.Id..")]")
+            end
         end
+
     end})
 end
 
@@ -190,17 +199,17 @@ end
 
 _AddFocusUnfocusOption = function (menu, quest)
     if Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "number" and Questie.db.char.TrackerFocus == quest.Id then
-        tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_UNFOCUS'), func = function() LQuestie_CloseDropDownMenus(); QuestieTracker:UnFocus(); QuestieQuest:UpdateHiddenNotes() end})
+        tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_UNFOCUS'), func = function() LQuestie_CloseDropDownMenus(); QuestieTracker:UnFocus(); QuestieQuest:ToggleNotes(true) end})
     else
-        tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_FOCUS_QUEST'), func = function() LQuestie_CloseDropDownMenus(); QuestieTracker:FocusQuest(quest); QuestieQuest:UpdateHiddenNotes()  end})
+        tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_FOCUS_QUEST'), func = function() LQuestie_CloseDropDownMenus(); QuestieTracker:FocusQuest(quest.Id); QuestieQuest:ToggleNotes(false) end})
     end
 end
 
 _AddLockUnlockOption = function (menu)
     if Questie.db.global.trackerLocked then
-        tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_UNLOCK'), func = function() LQuestie_CloseDropDownMenus(); Questie.db.global.trackerLocked = false end})
+        tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_UNLOCK'), func = function() LQuestie_CloseDropDownMenus(); Questie.db.global.trackerLocked = false; QuestieTracker.private.baseFrame:Update() end})
     else
-        tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_LOCK'), func = function() LQuestie_CloseDropDownMenus(); Questie.db.global.trackerLocked = true end})
+        tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_LOCK'), func = function() LQuestie_CloseDropDownMenus(); Questie.db.global.trackerLocked = true; QuestieTracker.private.baseFrame:Update() end})
     end
 end
 

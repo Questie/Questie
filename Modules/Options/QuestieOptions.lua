@@ -26,7 +26,7 @@ function QuestieOptions:Initialize()
     Questie.configFrame = AceConfigDialog:AddToBlizOptions("Questie", "Questie");
 
     local configFrame = AceGUI:Create("Frame");
-    AceConfigDialog:SetDefaultSize("Questie", 625, 730)
+    AceConfigDialog:SetDefaultSize("Questie", 625, 780)
     AceConfigDialog:Open("Questie", configFrame)
     configFrame:Hide();
     QuestieConfigFrame = configFrame;

@@ -25,6 +25,39 @@ QuestieDB.npcKeys = {
                        -- For flag values see https://github.com/cmangos/mangos-classic/blob/172c005b0a69e342e908f4589b24a6f18246c95e/src/game/Entities/Unit.h#L536
 }
 
+QuestieDB.npcCompilerTypes = {
+    ['name'] = "u8string",
+    ['minLevelHealth'] = "u24",
+    ['maxLevelHealth'] = "u24",
+    ['minLevel'] = "u8",
+    ['maxLevel'] = "u8",
+    ['rank'] = "u8",
+    ['spawns'] = "spawnlist",
+    ['waypoints'] = "spawnlist",
+    ['zoneID'] = "u16",
+    ['questStarts'] = "u8u16array",
+    ['questEnds'] = "u8u16array",
+    ['factionID'] = "u16",
+    ['friendlyToFaction'] = "faction",
+    ['subName'] = "u8string",
+    ['npcFlags'] = "u32",
+}
+
+QuestieDB.npcCompilerOrder = { -- order easily skipable data first for efficiency
+    --static size
+    'minLevelHealth', 'maxLevelHealth', 'minLevel', 'maxLevel', 'rank', 'zoneID', 'factionID', 'friendlyToFaction', 'npcFlags',
+
+    -- variable size
+    'name', 'spawns', 'waypoints', 'questStarts', 'questEnds', 'subName'
+}
+
+-- temporary, until we remove the old db funcitons
+QuestieDB._npcAdapterQueryOrder = {}
+for key, id in pairs(QuestieDB.npcKeys) do
+    QuestieDB._npcAdapterQueryOrder[id] = key
+end
+
+--if true then return end -- too much whitespace used to indent this
 QuestieDB.npcData = {
 [1] = {'Waypoint (Only GM can see it)',42,42,1,1,0,nil,nil,0,nil,nil,35,"AH","Visual",0,},
 [2] = {'Spawn Point (Only GM can see it)',42,42,1,1,0,nil,nil,0,nil,nil,35,"AH",nil,0,},
@@ -10411,3 +10444,6 @@ QuestieDB.npcData = {
 [18153] = {'Spirit Healer (DND)',4120,4120,60,60,0,nil,nil,0,nil,nil,35,"AH",nil,0,},
 [18199] = {'Silithus Dust Turnin Quest Doodad Horde',42,42,1,1,0,{[1377]={{50.93,69.33},},},nil,1377,nil,nil,35,"AH",nil,0,},
 }
+
+
+

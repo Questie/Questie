@@ -1,43 +1,45 @@
 <Ui xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
-  <Script file="Libs\LibStub\LibStub.lua"/>
-  <Include file="Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml"/>
-  <Include file="Libs\AceAddon-3.0\AceAddon-3.0.xml"/>
-  <Include file="Libs\AceBucket-3.0\AceBucket-3.0.xml"/>
-  <Include file="Libs\AceEvent-3.0\AceEvent-3.0.xml"/>
-  <Include file="Libs\AceTimer-3.0\AceTimer-3.0.xml"/>
-  <Include file="Libs\AceDB-3.0\AceDB-3.0.xml"/>
-  <Include file="Libs\AceLocale-3.0\AceLocale-3.0.xml"/>
-  <Include file="Libs\AceConsole-3.0\AceConsole-3.0.xml"/>
-  <Include file="Libs\AceGUI-3.0\AceGUI-3.0.xml"/>
-  <Include file="Libs\AceConfigQuestie-3.0\AceConfig-3.0.xml"/>
-  <Include file="Libs\AceComm-3.0\AceComm-3.0.xml"/>
-  <Include file="Libs\AceSerializer-3.0\AceSerializer-3.0.xml"/>
-  <Include file="Libs\LibUIDropDownMenuQuestie\LibUIDropDownMenu.xml"/>
-  <Include file="Libs\LibQuestXP\LibQuestXP.xml"/>
-  
-  <Script file="Libs\LibDataBroker-1.1\LibDataBroker-1.1.lua"/>
-  <Script file="Libs\LibCompress\LibCompress.lua"/>
-  <Script file="Libs\LibDBIcon-1.0\LibDBIcon-1.0.lua"/>
-  
-  
-  <Button name="Questie_Toggle" parent="WorldMapFrame" inherits="UIPanelButtonTemplate" text="Hide Questie">
-	<Size>
-		<AbsDimension x="120" y="20"/>
-	</Size>
-	<Anchors>
-		<Anchor point="RIGHT" relativePoint="LEFT" relativeTo="WorldMapContinentDropDown">
-			<Offset>
-				<AbsDimension x="10" y="2"/>
-			</Offset>
-		</Anchor>
-	</Anchors>
-	<Scripts>
-		<OnLoad>
-			self:SetFrameLevel(10);
-		</OnLoad>
-		<OnClick>
-			QuestieLoader:ImportModule("QuestieQuest"):ToggleNotes(not Questie.db.char.enabled);
-		</OnClick>
-	</Scripts>
-  </Button>
+    <Script file="Libs\LibStub\LibStub.lua"/>
+    <Include file="Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml"/>
+    <Include file="Libs\AceAddon-3.0\AceAddon-3.0.xml"/>
+    <Include file="Libs\AceBucket-3.0\AceBucket-3.0.xml"/>
+    <Include file="Libs\AceEvent-3.0\AceEvent-3.0.xml"/>
+    <Include file="Libs\AceTimer-3.0\AceTimer-3.0.xml"/>
+    <Include file="Libs\AceDB-3.0\AceDB-3.0.xml"/>
+    <Include file="Libs\AceLocale-3.0\AceLocale-3.0.xml"/>
+    <Include file="Libs\AceConsole-3.0\AceConsole-3.0.xml"/>
+    <Include file="Libs\AceGUI-3.0\AceGUI-3.0.xml"/>
+    <Include file="Libs\LibSharedMedia-3.0\lib.xml"/>
+    <Include file="Libs\AceGUI-3.0-SharedMediaWidgets\widget.xml"/>
+    <Include file="Libs\AceConfigQuestie-3.0\AceConfig-3.0.xml"/>
+    <Include file="Libs\AceComm-3.0\AceComm-3.0.xml"/>
+    <Include file="Libs\AceSerializer-3.0\AceSerializer-3.0.xml"/>
+    <Include file="Libs\LibUIDropDownMenuQuestie\LibUIDropDownMenu.xml"/>
+    <Include file="Libs\LibQuestXP\LibQuestXP.xml"/>
+    <Include file="Libs\ZoneHelper\ZoneHelper.xml"/>
+    <Script file="Libs\LibDataBroker-1.1\LibDataBroker-1.1.lua"/>
+    <Script file="Libs\LibCompress\LibCompress.lua"/>
+    <Script file="Libs\LibDBIcon-1.0\LibDBIcon-1.0.lua"/>
+
+    <Button name="Questie_Toggle" parent="WorldMapFrame" inherits="UIPanelButtonTemplate" text="Hide Questie">
+        <Size>
+            <AbsDimension x="120" y="20"/>
+        </Size>
+        <Anchors>
+            <Anchor point="RIGHT" relativePoint="LEFT" relativeTo="WorldMapContinentDropDown">
+                <Offset>
+                    <AbsDimension x="10" y="2"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+        <Scripts>
+            <OnLoad>
+                self:SetFrameLevel(10);
+            </OnLoad>
+            <OnClick>
+                Questie.db.char.enabled = (not Questie.db.char.enabled);
+                QuestieLoader:ImportModule("QuestieQuest"):ToggleNotes(Questie.db.char.enabled)
+            </OnClick>
+        </Scripts>
+    </Button>
 </Ui>

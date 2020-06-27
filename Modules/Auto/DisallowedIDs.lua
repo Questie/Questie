@@ -124,6 +124,7 @@ _QuestieAuto.disallowedQuests = {
     [5067] = true,
     [5063] = true,
     [5068] = true,
+    [8196] = true,
     -- The Barrens Bloodshard quests
     [889] = true,
     [5042] = true,

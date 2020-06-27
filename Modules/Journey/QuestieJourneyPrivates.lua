@@ -22,7 +22,7 @@ function _QuestieJourney:ShowJourneyTooltip()
     local qid = button:GetUserData('id')
     local quest = QuestieDB:GetQuest(tonumber(qid))
     if quest then
-        GameTooltip:SetOwner(_G["QuestieJourneyFrame"], "ANCHOR_CURSOR")
+        GameTooltip:SetOwner(_G["QuestieJourneyFrame"].frame:GetParent(), "ANCHOR_CURSOR")
         GameTooltip:AddLine("[".. quest.level .."] ".. quest.name)
         GameTooltip:AddLine("|cFFFFFFFF" .. _QuestieJourney:CreateObjectiveText(quest.Description))
         GameTooltip:SetFrameStrata("TOOLTIP")

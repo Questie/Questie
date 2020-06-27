@@ -154,6 +154,7 @@ local function drawMinimapPin(pin, data)
     -- Questie Modification.
     -- data.floatOnEdge is replaced by (data.floatOnEdge and ((pin.texture and pin.texture.a and pin.texture.a ~= 0) or pin.texture == nil))
     -- icons will now only float on edge if they have an opacity which is not 0 or if no texture exist.
+    data.distanceFromMinimapCenter = dist
     if dist <= 1 or (data.floatOnEdge and ((pin.texture and pin.texture.a and pin.texture.a ~= 0) or pin.texture == nil)) then
         pin:Show()
         pin:ClearAllPoints()

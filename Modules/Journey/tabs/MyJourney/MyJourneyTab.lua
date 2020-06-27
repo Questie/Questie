@@ -40,9 +40,9 @@ function _QuestieJourney.myJourney:DrawTab(container)
 
         -- if it's a quest event
         if Questie.db.char.journey[i].Event == "Quest" then
-            local quest = QuestieDB:GetQuest(Questie.db.char.journey[i].Quest);
-            if quest then
-                local qName = Questie:Colorize(quest.name, 'gray');
+            local qName = QuestieDB.QueryQuestSingle(Questie.db.char.journey[i].Quest, "name");
+            if qName then
+                local qName = Questie:Colorize(qName, 'gray');
 
                 if Questie.db.char.journey[i].SubType == "Accept" then
                     recentEvents[i]:SetText( timestamp .. Questie:Colorize( QuestieLocale:GetUIString('JOURNEY_QUEST_ACCEPT', qName) , 'yellow')  );
