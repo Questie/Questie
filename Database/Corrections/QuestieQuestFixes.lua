@@ -2242,6 +2242,15 @@ function QuestieQuestFixes:LoadFactionFixes()
         [9063] = {
             [QuestieDB.questKeys.startedBy] = {{3033,12042,},nil,nil,},
         },
+        [9330] = {
+            [QuestieDB.questKeys.startedBy] = {nil,{183332},{23182,},}, 
+        },
+        [9331] = {
+            [QuestieDB.questKeys.startedBy] = {nil,{183333},{23183,},}, 
+        },
+        [9332] = {
+            [QuestieDB.questKeys.startedBy] = {nil,{183334},{23184,},}, 
+        },
         [9388] = {
             [QuestieDB.questKeys.startedBy] = {{16818,},nil,nil,},
         },
@@ -2295,6 +2304,15 @@ function QuestieQuestFixes:LoadFactionFixes()
         },
         [9063] = {
             [QuestieDB.questKeys.startedBy] = {{4217,5505,12042,},nil,nil,},
+        },
+        [9324] = {
+            [QuestieDB.questKeys.startedBy] = {nil,{181336},{23179,},}, 
+        },
+        [9325] = {
+            [QuestieDB.questKeys.startedBy] = {nil,{181337},{23180,},}, 
+        },
+        [9326] = {
+            [QuestieDB.questKeys.startedBy] = {nil,{181335},{23181,},}, 
         },
         [9388] = {
             [QuestieDB.questKeys.startedBy] = {{16817,},nil,nil,},
