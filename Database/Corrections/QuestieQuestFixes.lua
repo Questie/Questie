@@ -2294,13 +2294,13 @@ function QuestieQuestFixes:LoadFactionFixes()
             [QuestieDB.questKeys.startedBy] = {{3033,12042,},nil,nil,},
         },
         [9330] = {
-            [QuestieDB.questKeys.startedBy] = {nil,{183332},{23182,},}, 
+            [QuestieDB.questKeys.startedBy] = {nil,{181332},{23182,},}, 
         },
         [9331] = {
-            [QuestieDB.questKeys.startedBy] = {nil,{183333},{23183,},}, 
+            [QuestieDB.questKeys.startedBy] = {nil,{181333},{23183,},}, 
         },
         [9332] = {
-            [QuestieDB.questKeys.startedBy] = {nil,{183334},{23184,},},
+            [QuestieDB.questKeys.startedBy] = {nil,{181334},{23184,},},
         },
         [9388] = {
             [QuestieDB.questKeys.startedBy] = {{16818,},nil,nil,},
