@@ -1649,6 +1649,12 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.finishedBy] = {{13445,},nil,},
             [QuestieDB.questKeys.exclusiveTo] = {6961,7024},
         },
+        [7022] = {
+            [QuestieDB.questKeys.startedBy] = {{13433},nil,nil},
+        },
+        [7023] = {
+            [QuestieDB.questKeys.startedBy] = {{13435},nil,nil},
+        },
         [7024] = {
             [QuestieDB.questKeys.finishedBy] = {{13445,},nil,},
             [QuestieDB.questKeys.exclusiveTo] = {6961,7021},
