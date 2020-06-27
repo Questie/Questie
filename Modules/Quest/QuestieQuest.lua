@@ -1364,12 +1364,6 @@ function QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
 
     QuestieQuest.availableQuests = {}
 
-    local _, _, classIndex = UnitClass("player");
-    local _, _, raceIndex = UnitRace("player");
-    classIndex = math.pow(2, classIndex-1)
-    raceIndex = math.pow(2, raceIndex-1)
-
-
     timer = C_Timer.NewTicker(0.01, function()
         for i=0,16 do -- number of available quests to process per tick
             local questId = index
@@ -1389,7 +1383,7 @@ function QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
                 ) then
 
                     if QuestieDB:IsLevelRequirementsFulfilled(questId, minLevel, maxLevel) then
-                        if QuestieDB:IsDoable(questId, raceIndex, classIndex) then
+                        if QuestieDB:IsDoable(questId) then
                             QuestieQuest.availableQuests[questId] = questId
                             --If the quest is not drawn draw the quest, otherwise skip.
                             if (not QuestieMap.questIdFrames[questId]) then
