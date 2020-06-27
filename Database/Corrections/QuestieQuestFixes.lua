@@ -857,6 +857,9 @@ function QuestieQuestFixes:Load()
         [2922] = {
             [QuestieDB.questKeys.preQuestSingle] = {}, -- Save Techbot's Brain doesn't need the Tinkmaster Overspark breadcrumb #687
         },
+        [2923] = {
+            [QuestieDB.questKeys.exclusiveTo] = {2922}, -- #2067
+        },
         [2925] = {
             [QuestieDB.questKeys.exclusiveTo] = {2924},
         },
