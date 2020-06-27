@@ -278,6 +278,7 @@ function QuestieQuestFixes:Load()
         },
         [730] = {
             [QuestieDB.questKeys.exclusiveTo] = {729}, -- #1587
+            [QuestieDB.questKeys.zoneOrSort] = 1657,
         },
         [731] = {
             [QuestieDB.questKeys.triggerEnd] = {"Escort Prospector Remtravel", {[148]={{35.67,84.03},},},},
