@@ -70,7 +70,7 @@ end
 
 function QuestiePlayer:GetCurrentContinentId()
     local currentZoneId = QuestiePlayer:GetCurrentZoneId()
-    if currentZoneId == 0 then
+    if (not currentZoneId) or currentZoneId == 0 then
         return 1 -- Default to Eastern Kingdom
     end
 
