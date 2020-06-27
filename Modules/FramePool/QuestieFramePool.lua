@@ -427,14 +427,25 @@ function _QuestieFramePool:GetObjectiveTooltip(icon)
                     -.required = objective.numRequired;
                 ]]
                 local playerInfo = QuestiePlayer:GetPartyMemberByName(playerName)
+                local playerColor = nil
+                local playerType = ""
                 if playerInfo then
+                    playerColor = "|c" .. playerInfo.colorHex
+                else
+                    playerColor = QuestieComms.remotePlayerClasses[playerName]
+                    if playerColor then
+                        playerColor = Questie:GetClassColor(playerColor)
+                        playerType = " ("..QuestieLocale:GetUIString("Nearby")..")"
+                    end
+                end
+                if playerColor then
                     local objectiveEntry = objectiveData[iconData.ObjectiveIndex]
                     if not objectiveEntry then
                         Questie:Debug(DEBUG_DEVELOP, "[_QuestieFramePool:GetObjectiveTooltip]", "No objective data for quest", quest.Id)
                         objectiveEntry = {} -- This will make "GetRGBForObjective" return default color
                     end
                     local remoteColor = QuestieLib:GetRGBForObjective(objectiveEntry)
-                    local colorizedPlayerName = " (|c"..playerInfo.colorHex..playerName.."|r"..remoteColor..")|r"
+                    local colorizedPlayerName = " ("..playerInfo.colorHex..playerName.."|r"..remoteColor..")|r"..playerType
                     local remoteText = iconData.ObjectiveData.Description
 
                     if objectiveEntry and objectiveEntry.fulfilled and objectiveEntry.required then
