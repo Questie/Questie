@@ -321,7 +321,7 @@ function QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle)
     return false
 end
 
-function QuestieDB:IsDoable(questId, raceIndex, classIndex)
+function QuestieDB:IsDoable(questId)
 
     if QuestieCorrections.hiddenQuests[questId] then
         Questie:Debug(DEBUG_INFO, "[QuestieDB:IsDoable] quest is hidden!")
@@ -336,14 +336,14 @@ function QuestieDB:IsDoable(questId, raceIndex, classIndex)
     local requiredRaces = QuestieDB.QueryQuestSingle(questId, "requiredRaces")
 
     if (not QuestiePlayer:HasRequiredRace(requiredRaces)) then
-        Questie:Debug(DEBUG_INFO, "[QuestieDB:IsDoable] bad race!: " .. requiredRaces .. " " .. raceIndex)
+        Questie:Debug(DEBUG_INFO, "[QuestieDB:IsDoable] race requirement not fulfilled for questId: " .. questId)
         return false
     end
 
     local requiredClasses = QuestieDB.QueryQuestSingle(questId, "requiredClasses")
 
     if (not QuestiePlayer:HasRequiredClass(requiredClasses)) then
-        Questie:Debug(DEBUG_INFO, "[QuestieDB:IsDoable] bad class!: " .. requiredClasses .. " " .. classIndex)
+        Questie:Debug(DEBUG_INFO, "[QuestieDB:IsDoable] class requirement not fulfilled for questId: " .. questId)
         return false
     end
 
@@ -546,11 +546,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     end
 
     function QO:IsDoable() -- temporary
-        local _, _, classIndex = UnitClass("player")
-        local _, _, raceIndex = UnitRace("player")
-        classIndex = math.pow(2, classIndex-1)
-        raceIndex = math.pow(2, raceIndex-1)
-        return QuestieDB:IsDoable(self.Id, raceIndex, classIndex)
+        return QuestieDB:IsDoable(self.Id)
     end
 
     -- We always want to show a quest if it is a childQuest and its parent is in the quest log
