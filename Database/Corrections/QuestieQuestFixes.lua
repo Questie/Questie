@@ -2187,6 +2187,12 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.requiredRaces] = 255,
             [QuestieDB.questKeys.parentQuest] = 9386,
         },
+        [9322] = { 
+            [QuestieDB.questKeys.requiredLevel] = 1,
+        },
+        [9323] = { 
+            [QuestieDB.questKeys.requiredLevel] = 1,
+        },
         [9386] = {
             [QuestieDB.questKeys.preQuestSingle] = {9319},
             [QuestieDB.questKeys.requiredRaces] = 255,
