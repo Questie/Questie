@@ -1553,6 +1553,12 @@ function QuestieQuestFixes:Load()
         [6609] = {
             [QuestieDB.questKeys.exclusiveTo] = {6607}, -- #1154
         },
+        [6611] = {
+            [QuestieDB.questKeys.exclusiveTo] = {6610}, -- #2070
+        },
+        [6612] = {
+            [QuestieDB.questKeys.exclusiveTo] = {6610}, -- #2070
+        },
         [6622] = {
             [QuestieDB.questKeys.triggerEnd] = {"15 Patients Saved!", {[15]={{67.79,49.06},},},},
         },
