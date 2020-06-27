@@ -582,19 +582,7 @@ function QuestieQuest:AddFinisher(quest)
                                     local x = value[2];
                                     local y = value[3];
 
-                                    -- Calculate mid point if waypoints exist, we need to do this before drawing the lines
-                                    -- as we need the icon handle for the lines.
-                                    if(finisher.waypoints and finisher.waypoints[zone]) then
-                                        local midX, midY = QuestieLib:CalculateWaypointMidPoint(finisher.waypoints[zone]);
-                                        x = midX or x;
-                                        y = midY or y;
-                                    end
-
-                                    local icon, _ = QuestieMap:DrawWorldIcon(data, zone, x, y)
-
-                                    if(finisher.waypoints and finisher.waypoints[zone]) then
-                                        QuestieMap:DrawWaypoints(icon, finisher.waypoints[zone], zone, x, y)
-                                    end
+                                    QuestieMap:DrawWorldIcon(data, zone, x, y)
                                 end
                             end
                         else
@@ -613,7 +601,7 @@ function QuestieQuest:AddFinisher(quest)
 
                             local icon, _ = QuestieMap:DrawWorldIcon(data, finisherZone, x, y)
 
-                            if(finisher.waypoints and finisher.waypoints[finisherZone]) then
+                            if(finisher.waypoints and finisher.zoneID and finisher.zoneID == finisherZone and finisher.waypoints[finisherZone]) then
                                 QuestieMap:DrawWaypoints(icon, finisher.waypoints[finisherZone], finisherZone, x, y)
                             end
                         end
@@ -1311,36 +1299,16 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
                                         local x = value[2];
                                         local y = value[3];
 
-                                        -- Calculate mid point if waypoints exist, we need to do this before drawing the lines
-                                        -- as we need the icon handle for the lines.
-                                        if(NPC.waypoints and NPC.waypoints[zone]) then
-                                            local midX, midY = QuestieLib:CalculateWaypointMidPoint(NPC.waypoints[zone]);
-                                            x = midX or x;
-                                            y = midY or y;
-                                        end
-
-                                        local icon, _ = QuestieMap:DrawWorldIcon(data, zone, x, y)
-
-                                        if(NPC.waypoints and NPC.waypoints[zone]) then
-                                            QuestieMap:DrawWaypoints(icon, NPC.waypoints[zone], zone, x, y)
-                                        end
+                                        QuestieMap:DrawWorldIcon(data, zone, x, y)
                                     end
                                 end
                             else
                                 local x = coords[1];
                                 local y = coords[2];
 
-                                -- Calculate mid point if waypoints exist, we need to do this before drawing the lines
-                                -- as we need the icon handle for the lines.
-                                if(NPC.waypoints and NPC.waypoints[npcZone]) then
-                                    local midX, midY = QuestieLib:CalculateWaypointMidPoint(NPC.waypoints[npcZone]);
-                                    x = midX or x;
-                                    y = midY or y;
-                                end
-
                                 local icon, _ = QuestieMap:DrawWorldIcon(data, npcZone, x, y)
 
-                                if(NPC.waypoints and NPC.waypoints[npcZone]) then
+                                if(NPC.waypoints and NPC.zoneID and NPC.zoneID == npcZone and NPC.waypoints[npcZone]) then
                                     QuestieMap:DrawWaypoints(icon, NPC.waypoints[npcZone], npcZone, x, y)
                                 end
                             end
