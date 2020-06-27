@@ -2020,12 +2020,24 @@ function QuestieQuestFixes:Load()
         [8546] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 178,
         },
+        [8548] = {
+            [QuestieDB.questKeys.preQuestSingle] = {8800},
+        },        
         [8550] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 178,
         },
         [8552] = {
             [QuestieDB.questKeys.startedBy] = {{1493},nil,{3985,},},
         },
+        [8572] = {
+            [QuestieDB.questKeys.preQuestSingle] = {8800},
+        },
+        [8573] = {
+            [QuestieDB.questKeys.preQuestSingle] = {8800},
+        },
+        [8574] = {
+            [QuestieDB.questKeys.preQuestSingle] = {8800},
+        },        
         [8581] = { -- bad race data
             [QuestieDB.questKeys.requiredRaces] = 178,
         },
