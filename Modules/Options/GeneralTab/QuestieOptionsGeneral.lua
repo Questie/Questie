@@ -310,7 +310,20 @@ function QuestieOptions.tabs.general:Initialize()
                     Questie.db.char.acceptTrivial = value
                 end,
             },
-            Spacer_B = QuestieOptionsUtils:Spacer(1.99),
+            Spacer_B = QuestieOptionsUtils:Spacer(1.93),
+            shareQuestsNearby = {
+                type = "toggle",
+                order = 1.94,
+                name = function() return QuestieLocale:GetUIString('ENABLE_YELL'); end,
+                desc = function() return QuestieLocale:GetUIString('ENABLE_YELL_DESC'); end,
+                disabled = function() return false end,
+                width = 2,
+                get = function () return not Questie.db.global.disableYellComms end,
+                set = function (info, value)
+                    Questie.db.global.disableYellComms = not value
+                end,
+            },
+            --Spacer_C = QuestieOptionsUtils:Spacer(1.99),
             quest_options = {
                 type = "header",
                 order = 2,

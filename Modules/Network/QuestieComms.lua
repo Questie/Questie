@@ -291,6 +291,9 @@ QuestieComms._yellQueue = {}
 QuestieComms._isYelling = false
 
 function QuestieComms:YellProgress(questId)
+    if Questie.db.global.disableYellComms then
+        return
+    end
     if not QuestieComms._yellWaitingQuests[questId] then
         QuestieComms._yellWaitingQuests[questId] = true
         if QuestieComms._isYelling then
@@ -596,7 +599,9 @@ _QuestieComms.packets = {
             Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Received: QC_ID_REQUEST_FULL_QUESTLIST")
             print("Received yell packet!")
             LYELLREC = self
-            QuestieComms:InsertQuestDataPacketV2(self[1], self.playerName, 1)
+            if not Questie.db.global.disableYellComms then
+                QuestieComms:InsertQuestDataPacketV2(self[1], self.playerName, 1)
+            end
             --if tonumber(major) > 5 then
             --    QuestieComms:BroadcastQuestLogV2(self.playerName, "WHISPER")--Questie:SendMessage("QC_ID_BROADCAST_FULL_QUESTLISTV2");
             --else
