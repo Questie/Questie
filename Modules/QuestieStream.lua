@@ -77,6 +77,23 @@ function QuestieStreamLib:GetStream(mode) -- returns a new stream
         else
             stream.ReadByte = QuestieStreamLib._ReadByte_b89
             stream._WriteByte = QuestieStreamLib._WriteByte_b89
+
+            function stream:ReadTinyString()
+                local length = self:ReadByte()
+                local ret = {};
+                for i = 1, length do
+                    tinsert(ret, self:_readByte()) -- slightly better lua code is slightly better
+                end
+                return stringchar(unpack(ret))
+            end
+            
+            function stream:WriteTinyString(val)
+                self:WriteByte(string.len(val));
+                for i=1, string.len(val) do
+                    self:_writeByte(stringbyte(val, i));
+                end
+            end
+
         end
     else
         stream.ReadByte = QuestieStreamLib._ReadByte_b89
