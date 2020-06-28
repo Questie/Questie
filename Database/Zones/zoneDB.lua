@@ -34,7 +34,6 @@ function ZoneDB:Initialize()
     dungeonParentZones = _ZoneDB.dungeonParentZones
     subZoneToParentZone = _ZoneDB.subZoneToParentZone
 
-
     _GenerateUiMapIdToAreaIdTable()
     _GenerateParentZoneToStartingZoneTable()
 end
