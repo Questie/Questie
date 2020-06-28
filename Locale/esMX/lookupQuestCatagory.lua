@@ -1,4 +1,4 @@
-LangQuestCatagory['esMX']= {
+LangQuestCategory['esMX']= {
     [-1] = "Épica",
     [-21] = "REUSE - old wailing caverns",
     [-22] = "Estacional",

@@ -1,4 +1,4 @@
-LangQuestCatagory['deDE']= {
+LangQuestCategory['deDE']= {
     [-1] = "Episch",
     [-21] = "REUSE - old wailing caverns",
     [-22] = "Saisonbedingt",

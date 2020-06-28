@@ -66,7 +66,7 @@ function QuestieLocale:Initialize()
     LangContinentLookup = LangContinentLookup[locale] or LangContinentLookup["enUS"] or {}
     LangZoneLookup = LangZoneLookup[locale] or LangZoneLookup["enUS"] or {}
     LangZoneCategoryLookup = LangZoneCategoryLookup[locale] or LangZoneCategoryLookup["enUS"] or {}
-    LangQuestCatagory = LangQuestCatagory[locale] or LangQuestCatagory["enUS"] or {}
+    LangQuestCategory = LangQuestCategory[locale] or LangQuestCategory["enUS"] or {}
 end
 
 function QuestieLocale:FallbackLocale(lang)

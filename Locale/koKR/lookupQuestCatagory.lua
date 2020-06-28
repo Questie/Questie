@@ -1,4 +1,4 @@
-LangQuestCatagory['koKR']= {
+LangQuestCategory['koKR']= {
     [-1] = "대규모",
     [-21] = "REUSE - old wailing caverns",
     [-22] = "이벤트",

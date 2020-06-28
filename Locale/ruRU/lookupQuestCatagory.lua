@@ -1,4 +1,4 @@
-LangQuestCatagory['ruRU']= {
+LangQuestCategory['ruRU']= {
     [-1] = "Эпические",
     [-21] = "REUSE - old wailing caverns",
     [-22] = "Сезонные",

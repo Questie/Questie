@@ -357,8 +357,8 @@ function QuestieTracker.utils:GetZoneNameByID(zoneId)
     end
 end
 
-function QuestieTracker.utils:GetCatagoryNameByID(cataId)
-    for cat, name in pairs(LangQuestCatagory) do
+function QuestieTracker.utils:GetCategoryNameByID(cataId)
+    for cat, name in pairs(LangQuestCategory) do
         if cataId == cat then
             return name
         end

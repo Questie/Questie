@@ -1,4 +1,4 @@
-LangQuestCatagory['ptBR']= {
+LangQuestCategory['ptBR']= {
     [-1] = "Épico",
     [-21] = "REUSE - old wailing caverns",
     [-22] = "Sazonal",

@@ -1,4 +1,4 @@
-LangQuestCatagory['frFR']= {
+LangQuestCategory['frFR']= {
     [-1] = "Épique",
     [-21] = "REUSE - old wailing caverns",
     [-22] = "Saisonnier",

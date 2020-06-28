@@ -1,4 +1,4 @@
-LangQuestCatagory['zhTW']= {
+LangQuestCategory['zhTW']= {
     [-1] = "史詩",
     [-21] = "REUSE - old wailing caverns",
     [-22] = "季節性",

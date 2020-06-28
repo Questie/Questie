@@ -1,4 +1,4 @@
-LangQuestCatagory['enUS']= {
+LangQuestCategory['enUS']= {
     [-1] = "Epic",
     [-21] = "Wailing Caverns",
     [-22] = "Seasonal",
