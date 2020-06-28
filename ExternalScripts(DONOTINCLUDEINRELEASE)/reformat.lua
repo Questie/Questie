@@ -27,7 +27,7 @@ function dumpTable(fileName, tableName, tableToDump, indent)
     local file = io.open(fileName, 'w')
     file:write(tableName .. ' = {\n')
     dump(tableToDump, file, indent)
-    file:write('},\n')
+    file:write('}\n')
     file:close()
 end
 
