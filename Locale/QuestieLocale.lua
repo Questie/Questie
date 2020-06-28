@@ -8,6 +8,7 @@ LangQuestLookup = {};
 LangContinentLookup = {}
 LangZoneLookup = {}
 LangZoneCategoryLookup = {}
+LangQuestCategory = {}
 
 -------------------------
 --Import modules.
