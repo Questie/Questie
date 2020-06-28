@@ -62,10 +62,11 @@ function QuestieLocale:Initialize()
             table.insert(LangObjectNameLookup[name], id)
         end
     end
-    -- Load continent and zone locales
+    -- Load continent, zone locales, and quest catagories
     LangContinentLookup = LangContinentLookup[locale] or LangContinentLookup["enUS"] or {}
     LangZoneLookup = LangZoneLookup[locale] or LangZoneLookup["enUS"] or {}
-    LangZoneCategoryLookup = LangZoneCategoryLookup[locale] or LangZoneCategoryLookup["esUS"] or {}
+    LangZoneCategoryLookup = LangZoneCategoryLookup[locale] or LangZoneCategoryLookup["enUS"] or {}
+    LangQuestCatagory = LangQuestCatagory[locale] or LangQuestCatagory["enUS"] or {}
 end
 
 function QuestieLocale:FallbackLocale(lang)
