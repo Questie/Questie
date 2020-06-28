@@ -53,8 +53,10 @@ end
 
 function QuestieHash:CompareQuestHashes()
     Questie:Debug(DEBUG_DEVELOP, "CompareQuestHashes")
+    local hashChanged = false
+
     if questLogHashes == nil then
-        return
+        return hashChanged
     end
     ExpandQuestHeader(0) -- Expand all headers
 
@@ -69,10 +71,13 @@ function QuestieHash:CompareQuestHashes()
                 if oldhash ~= newHash then
                     Questie:Debug(DEBUG_DEVELOP, "CompareQuestHashes: Hash changed for questId:", questId)
                     _SafeUpdateQuest(questId, newHash);
+                    hashChanged = true
                 end
             end
         end
     end
+
+    return hashChanged
 end
 
 _SafeUpdateQuest = function(questId, hash, count)
