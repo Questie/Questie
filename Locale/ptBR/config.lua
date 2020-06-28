@@ -217,8 +217,8 @@ QuestieLocale.locale['ptBR'] = {
     --Ordens de barra
     ['SLASH_INVALID'] = "Comando inválido. Para uma lista de opções, digite:",
     ['SLASH_HEAD'] = "Comandos da Questie",
-    ['SLASH_CONFIG'] = "Questie - Alternar a janela de configuração",
-    ['SLASH_TOGGLE_Questie'] = "Questie Alternar - Ativar / Desativar a exibição da Questie sobre o mapa e no mapa ",
+    ['SLASH_CONFIG'] = "/questie - Alternar a janela de configuração",
+    ['SLASH_TOGGLE_QUESTIE'] = "/questie toggle - Ativar / Desativar a exibição da Questie sobre o mapa e no mapa ",
     ['SLASH_JOURNEY'] = "/questie journey - Alterne a janela Minha viagem",
     ['SLASH_TRACKER'] = "/questie tracker [show/hide/reset] -- Toggles the Tracker. Add \"show\", \"hide\", \"reset\" to explicit show/hide or reset the Tracker",
     ['SLASH_TO_MAP'] = "/questie tomap [<npcId>/<npcName>/reset] -- Adds manual notes to the map for a given NPC ID or name. If the name is ambiguous multipe notes might be added. Without a second command the target will be added to the map. The \"reset\" command removes all notes",
