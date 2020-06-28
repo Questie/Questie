@@ -73,6 +73,8 @@ function QuestieHash:CompareQuestHashes()
                     _SafeUpdateQuest(questId, newHash);
                     hashChanged = true
                 end
+            else
+                Questie:Debug(DEBUG_CRITICAL, "[QuestieHash:CompareQuestHashes] Quest hash is missing for", questId)
             end
         end
     end
