@@ -570,7 +570,7 @@ function QuestieDBCompiler:BuildSkipMap(types, order) -- skip map is used for ra
     local endIndex = nil
     local lastIndex = nil
     for index, key in pairs(order) do
-        typ = types[key]
+        local typ = types[key]
         indexToKey[index] = key
         keyToIndex[key] = index
         if not haveDynamic then
