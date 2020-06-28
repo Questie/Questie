@@ -11,7 +11,7 @@ function dump(tableToDump, fd, indent)
     for k, v in pairs(tableToDump) do
         local formatting = string.rep('    ', indent)
         if type(v) == "table" then
-            fd:write(formatting .. "['" .. string.gsub(k, "'", "\\'") .. "'] = {\n")
+            fd:write(formatting .. "['" .. string.gsub(string.gsub(k, "'", "\\'"), '\n', '\\n') .. "'] = {\n")
             dump(v, fd, indent+1)
             fd:write(formatting .. '},\n')
         elseif type(v) == "boolean" then
