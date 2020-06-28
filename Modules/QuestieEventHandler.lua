@@ -277,9 +277,11 @@ _QUEST_LOG_UPDATE = function()
 
     -- QR or UQLC events have set the flag, so we need to update Questie state.
     if shouldRunQLU then
-        QuestieHash:CompareQuestHashes()
+        local hashChanged = QuestieHash:CompareQuestHashes()
         QuestieNameplate:UpdateNameplate()
-        shouldRunQLU = false
+        if hashChanged then
+            shouldRunQLU = false
+        end
     end
 end
 
