@@ -33,4 +33,4 @@ LangQuestCategory['deDE']= {
     [-367] = "Ruf",
     [-368] = "Invasion der Geißel",
     [-369] = "Sonnenwendfest",
-};
+}

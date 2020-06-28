@@ -33,4 +33,4 @@ LangQuestCategory['ptBR']= {
     [-367] = "Reputação",
     [-368] = "Invasão",
     [-369] = "Solstício",
-};
+}

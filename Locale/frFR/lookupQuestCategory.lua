@@ -33,4 +33,4 @@ LangQuestCategory['frFR']= {
     [-367] = "Réputation",
     [-368] = "Invasion",
     [-369] = "Solstice d'été",
-};
+}
