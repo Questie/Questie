@@ -414,7 +414,10 @@ function QuestieNPCFixes:Load()
             [QuestieDB.npcKeys.spawns] = {[zoneIDs.DESOLACE]={{28.6,7.4}}}, -- #901
         },
         [12576] = {
-            [QuestieDB.npcKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES]={{31.86,21.66},},[zoneIDs.THE_BARRENS]={{44.0,92.0}},}, -- Add spawn in The Barrens to be shown on the map
+            [QuestieDB.npcKeys.spawns] = {
+                [zoneIDs.THOUSAND_NEEDLES]={{31.86,21.66},},
+                [zoneIDs.THE_BARRENS]={{44.0,92.0}}, -- Add spawn in The Barrens to be shown on the map
+            },
         },
         [12677] = {
             [QuestieDB.npcKeys.waypoints] = {[zoneIDs.ASHENVALE]={{57.44,56.08},{57.23,56.0},{56.99,55.89},{56.7,55.76},{56.43,55.63},{56.08,55.5},{55.76,55.42},{55.55,55.38},{55.16,55.26},{54.92,55.11},{54.69,54.97},{54.43,54.92},{54.59,54.74},{54.93,54.88},{55.17,55.01},{55.35,55.12},{55.67,55.35},{56.0,55.5},{56.33,55.66},{56.56,55.77},{56.93,55.94},{57.07,55.98},{57.4,56.05},{57.73,55.95},{57.86,55.87},{58.0,55.78},{58.1,55.7},{58.38,55.5},{58.57,55.31},{58.83,55.2},{59.04,54.79},{59.19,54.33},{59.44,54.02},{59.25,54.26},{59.04,54.59},{58.92,54.85},{58.79,55.35},{58.59,55.53},{58.33,55.7},{58.08,55.77},{57.83,55.88},{57.71,55.93},},},
@@ -701,7 +704,15 @@ function QuestieNPCFixes:Load()
             [QuestieDB.npcKeys.zoneID] = zoneIDs.ARATHI_BASIN,
         },
         [15350] = {
-            [QuestieDB.npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{80.68,30.51},},[zoneIDs.THUNDER_BLUFF]={{57.8,76.4},},[zoneIDs.UNDERCITY]={{58.27,97.9},},[zoneIDs.ALTERAC_MOUNTAINS]={{63.09,59.87},},[zoneIDs.THE_BARRENS]={{46.71,8.68},},[zoneIDs.ARATHI_HIGHLANDS]={{73.5,29.13},},[zoneIDs.THE_HINTERLANDS]={{50.33,89.57},},},
+            [QuestieDB.npcKeys.spawns] = {
+                [zoneIDs.ORGRIMMAR]={{80.68,30.51},},
+                [zoneIDs.THUNDER_BLUFF]={{57.8,76.4},},
+                [zoneIDs.UNDERCITY]={{58.27,97.9},},
+                [zoneIDs.ALTERAC_MOUNTAINS]={{63.09,59.87},},
+                [zoneIDs.THE_BARRENS]={{46.71,8.68},},
+                [zoneIDs.ARATHI_HIGHLANDS]={{73.5,29.13},},
+                [zoneIDs.THE_HINTERLANDS]={{50.33,89.57},},
+            },
         },
         [15557] = {
             [QuestieDB.npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES]={{82.21,46.48},},},
@@ -755,10 +766,18 @@ function QuestieNPCFixes:Load()
             [QuestieDB.npcKeys.spawns] = {[zoneIDs.ASHENVALE]={{34.54,48.91},},},
         },
         [15891] = {
-            [QuestieDB.npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{50.98,70.52},},[zoneIDs.THUNDER_BLUFF]={{38.37,63.42},},[zoneIDs.UNDERCITY]={{66.73,43.37},},},
+            [QuestieDB.npcKeys.spawns] = {
+                [zoneIDs.ORGRIMMAR]={{50.98,70.52},},
+                [zoneIDs.THUNDER_BLUFF]={{38.37,63.42},},
+                [zoneIDs.UNDERCITY]={{66.73,43.37},},
+            },
         },
         [15892] = {
-            [QuestieDB.npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{54.36,66.29},},[zoneIDs.IRONFORGE]={{30.93,61.59},},[zoneIDs.DARNASSUS]={{42.16,43.97},},},
+            [QuestieDB.npcKeys.spawns] = {
+                [zoneIDs.STORMWIND_CITY]={{54.36,66.29},},
+                [zoneIDs.IRONFORGE]={{30.93,61.59},},
+                [zoneIDs.DARNASSUS]={{42.16,43.97},},
+            },
         },
         [15893] = {
             [QuestieDB.npcKeys.spawns] = {}
@@ -767,7 +786,14 @@ function QuestieNPCFixes:Load()
             [QuestieDB.npcKeys.spawns] = {}
         },
         [15895] = {
-            [QuestieDB.npcKeys.spawns] = {[zoneIDs.UNDERCITY]={{65.62,36.0},},[zoneIDs.ORGRIMMAR]={{41.66,31.98},},[zoneIDs.THUNDER_BLUFF]={{71.12,28.2},},[zoneIDs.IRONFORGE]={{28.85,16.23},},[zoneIDs.STORMWIND_CITY]={{23.22,53.24},},[zoneIDs.DARNASSUS]={{32.60,12.00},},},
+            [QuestieDB.npcKeys.spawns] = {
+                [zoneIDs.UNDERCITY]={{65.62,36.0},},
+                [zoneIDs.ORGRIMMAR]={{41.66,31.98},},
+                [zoneIDs.THUNDER_BLUFF]={{71.12,28.2},},
+                [zoneIDs.IRONFORGE]={{28.85,16.23},},
+                [zoneIDs.STORMWIND_CITY]={{23.22,53.24},},
+                [zoneIDs.DARNASSUS]={{32.60,12.00},},
+            },
         },
     }
 end
@@ -780,10 +806,19 @@ function QuestieNPCFixes:LoadFactionFixes()
             [QuestieDB.npcKeys.zoneID] = zoneIDs.ALTERAC_VALLEY,
         },
         [15898] = {
-            [QuestieDB.npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{41.27,32.36},},[zoneIDs.THUNDER_BLUFF]={{70.56,27.83},},[zoneIDs.UNDERCITY]={{66.45,36.02},},[zoneIDs.MOONGLADE]={{36.58,58.1},{36.3,58.53},},},
+            [QuestieDB.npcKeys.spawns] = {
+                [zoneIDs.ORGRIMMAR]={{41.27,32.36},},
+                [zoneIDs.THUNDER_BLUFF]={{70.56,27.83},},
+                [zoneIDs.UNDERCITY]={{66.45,36.02},},
+                [zoneIDs.MOONGLADE]={{36.58,58.1},{36.3,58.53},},
+            },
         },
         [16788] = {
-            [QuestieDB.npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{42.61,34.21},},[zoneIDs.UNDERCITY]={{65.6,35.99},},[zoneIDs.THUNDER_BLUFF]={{21.55,26.18},},},
+            [QuestieDB.npcKeys.spawns] = {
+                [zoneIDs.ORGRIMMAR]={{42.61,34.21},},
+                [zoneIDs.UNDERCITY]={{65.6,35.99},},
+                [zoneIDs.THUNDER_BLUFF]={{21.55,26.18},},
+            },
             [QuestieDB.npcKeys.zoneID] = zoneIDs.ORGRIMMAR,
         },
     }
@@ -794,11 +829,20 @@ function QuestieNPCFixes:LoadFactionFixes()
             [QuestieDB.npcKeys.zoneID] = zoneIDs.ALTERAC_VALLEY,
         },
         [15898] = {
-            [QuestieDB.npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{22.78,51.19},},[zoneIDs.IRONFORGE]={{29.92,14.21},},[zoneIDs.MOONGLADE]={{36.58,58.1},{36.3,58.53},},[zoneIDs.DARNASSUS]={{31.56,13.69},},},
+            [QuestieDB.npcKeys.spawns] = {
+                [zoneIDs.STORMWIND_CITY]={{22.78,51.19},},
+                [zoneIDs.IRONFORGE]={{29.92,14.21},},
+                [zoneIDs.MOONGLADE]={{36.58,58.1},{36.3,58.53},},
+                [zoneIDs.DARNASSUS]={{31.56,13.69},},
+            },
             [QuestieDB.npcKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH19,
         },
         [16788] = {
-            [QuestieDB.npcKeys.spawns] = {[zoneIDs.TELDRASSIL]={{56.56,91.94},},[zoneIDs.STORMWIND_CITY]={{38.4,61.29},},[zoneIDs.IRONFORGE]={{63.54,24.67},},},
+            [QuestieDB.npcKeys.spawns] = {
+                [zoneIDs.TELDRASSIL]={{56.56,91.94},},
+                [zoneIDs.STORMWIND_CITY]={{38.4,61.29},},
+                [zoneIDs.IRONFORGE]={{63.54,24.67},},
+            },
             [QuestieDB.npcKeys.zoneID] = zoneIDs.TELDRASSIL,
         },
     }

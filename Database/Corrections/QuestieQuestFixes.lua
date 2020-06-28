@@ -1426,10 +1426,16 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.triggerEnd] = {"Redemption?", {[zoneIDs.WESTERN_PLAGUELANDS]={{53.86,24.32},},},},
         },
         [6001] = {
-            [QuestieDB.questKeys.triggerEnd] = {"Face Lunaclaw and earn the strength of body and heart it possesses.", {[zoneIDs.DARKSHORE]={{43.3,45.82}},[zoneIDs.THE_BARRENS]={{41.96,60.81},},},},
+            [QuestieDB.questKeys.triggerEnd] = {"Face Lunaclaw and earn the strength of body and heart it possesses.", {
+                [zoneIDs.DARKSHORE]={{43.3,45.82}},
+                [zoneIDs.THE_BARRENS]={{41.96,60.81},},},
+            },
         },
         [6002] = {
-            [QuestieDB.questKeys.triggerEnd] = {"Face Lunaclaw and earn the strength of body and heart it possesses.", {[zoneIDs.DARKSHORE]={{43.3,45.82}},[zoneIDs.THE_BARRENS]={{41.96,60.81},},},},
+            [QuestieDB.questKeys.triggerEnd] = {"Face Lunaclaw and earn the strength of body and heart it possesses.", {
+                [zoneIDs.DARKSHORE]={{43.3,45.82}},
+                [zoneIDs.THE_BARRENS]={{41.96,60.81},},},
+            },
         },
         [6061] = {
             [QuestieDB.questKeys.triggerEnd] = {"Tame an Adult Plainstrider", {[zoneIDs.MULGORE]={{43.5,44.99},{43.69,51.84},{52.68,57.44},{41.96,55.26},{48.15,47.89},},},},
@@ -1643,7 +1649,10 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.questLevel] = 55,
         },
         [7001] = {
-            [QuestieDB.questKeys.triggerEnd] = {"Frostwolf Muzzled and Returned", {[zoneIDs.ORGRIMMAR]={{79.18,31.12},{32.63,63.29},{59.27,53.14}},[zoneIDs.ALTERAC_MOUNTAINS]={{67,51.78},},},},
+            [QuestieDB.questKeys.triggerEnd] = {"Frostwolf Muzzled and Returned", {
+                [zoneIDs.ORGRIMMAR]={{79.18,31.12},{32.63,63.29},{59.27,53.14}},
+                [zoneIDs.ALTERAC_MOUNTAINS]={{67,51.78},},},
+            },
         },
         [7002] = {
             [QuestieDB.questKeys.objectivesText] = {},
@@ -1666,7 +1675,11 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.objectivesText] = {},
         },
         [7027] = {
-            [QuestieDB.questKeys.triggerEnd] = {"Ram Collared and Returned", {[zoneIDs.IRONFORGE]={{70.1,90.32},{66.54,86.33}},[zoneIDs.ALTERAC_MOUNTAINS]={{34.58,74.94}},[zoneIDs.STORMWIND_CITY]={{82.34,12.46},},},},
+            [QuestieDB.questKeys.triggerEnd] = {"Ram Collared and Returned", {
+                [zoneIDs.IRONFORGE]={{70.1,90.32},{66.54,86.33}},
+                [zoneIDs.ALTERAC_MOUNTAINS]={{34.58,74.94}},
+                [zoneIDs.STORMWIND_CITY]={{82.34,12.46},},},
+            },
         },
         [7046] = {
             [QuestieDB.questKeys.triggerEnd] = {"Create the Scepter of Celebras", {[zoneIDs.DESOLACE]={{35.97,64.41},},},},
@@ -1882,7 +1895,12 @@ function QuestieQuestFixes:Load()
         },
         [8121] = {
             [QuestieDB.questKeys.requiredMinRep] = {510,3000},
-            [QuestieDB.questKeys.triggerEnd] = {"Hold Four Bases.", {[zoneIDs.THUNDER_BLUFF]={{40.4,51.57}},[zoneIDs.ARATHI_HIGHLANDS]={{73.72,29.52}},[zoneIDs.ORGRIMMAR]={{50.1,69.03}},[zoneIDs.SILVERPINE_FOREST]={{39.68,17.75},},},},
+            [QuestieDB.questKeys.triggerEnd] = {"Hold Four Bases.", {
+                [zoneIDs.THUNDER_BLUFF]={{40.4,51.57}},
+                [zoneIDs.ARATHI_HIGHLANDS]={{73.72,29.52}},
+                [zoneIDs.ORGRIMMAR]={{50.1,69.03}},
+                [zoneIDs.SILVERPINE_FOREST]={{39.68,17.75},},},
+            },
         },
         [8122] = {
             [QuestieDB.questKeys.requiredMinRep] = {510,42000},
