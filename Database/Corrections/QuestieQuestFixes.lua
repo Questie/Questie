@@ -5,10 +5,8 @@ local QuestieQuestFixes = QuestieLoader:CreateModule("QuestieQuestFixes")
 -------------------------
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
-local questKeys = QuestieDB.questKeys
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
-local zoneIDs = ZoneDB.zoneIDs
 
 -- Further information on how to use this can be found at the wiki
 -- https://github.com/AeroScripts/QuestieDev/wiki/Corrections
@@ -17,6 +15,9 @@ function QuestieQuestFixes:Load()
     table.insert(QuestieDB.questData, 7668, {}) -- Add missing quest index
     table.insert(QuestieDB.questData, 7669, {}) -- Add missing quest index
     table.insert(QuestieDB.questData, 7670, {}) -- Add missing quest index #1432
+
+    local questKeys = QuestieDB.questKeys
+    local zoneIDs = ZoneDB.zoneIDs
 
     return {
         [2] = {
@@ -2269,6 +2270,8 @@ function QuestieQuestFixes:Load()
 end
 
 function QuestieQuestFixes:LoadFactionFixes()
+    local questKeys = QuestieDB.questKeys
+
     local questFixesHorde = {
         [687] = {
             [questKeys.startedBy] = {{2787,},nil,nil}

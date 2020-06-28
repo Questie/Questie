@@ -5,15 +5,16 @@ local QuestieNPCFixes = QuestieLoader:CreateModule("QuestieNPCFixes")
 -------------------------
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
-local npcKeys = QuestieDB.npcKeys
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
-local zoneIDs = ZoneDB.zoneIDs
 
 -- Further information on how to use this can be found at the wiki
 -- https://github.com/AeroScripts/QuestieDev/wiki/Corrections
 
 function QuestieNPCFixes:Load()
+    local npcKeys = QuestieDB.npcKeys
+    local zoneIDs = ZoneDB.zoneIDs
+
     return {
         [300] = {
             [npcKeys.spawns] = {[zoneIDs.DUSKWOOD]={{35,80},{36.81,83.79},{38,80},},}, -- #1047
@@ -801,6 +802,9 @@ end
 
 -- some quest items are shared across factions but require different sources for each faction (not sure if there is a better way to implement this)
 function QuestieNPCFixes:LoadFactionFixes()
+    local npcKeys = QuestieDB.npcKeys
+    local zoneIDs = ZoneDB.zoneIDs
+
     local npcFixesHorde = {
         [13778] = {
             [npcKeys.spawns] = {[zoneIDs.ALTERAC_VALLEY]={{52.8,44},{50.8,30.8},{45.2,14.6},{44,18.1},},},
@@ -859,6 +863,9 @@ end
 ---@param isInMulgore boolean
 ---@return table<integer, any>
 function QuestieNPCFixes:LoadDarkmoonFixes(isInMulgore)
+    local npcKeys = QuestieDB.npcKeys
+    local zoneIDs = ZoneDB.zoneIDs
+
     if isInMulgore then
         return {
             [14828] = {

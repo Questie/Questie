@@ -5,15 +5,16 @@ local QuestieObjectFixes = QuestieLoader:CreateModule("QuestieObjectFixes")
 -------------------------
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
-local objectKeys = QuestieDB.objectKeys
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
-local zoneIDs = ZoneDB.zoneIDs
 
 -- Further information on how to use this can be found at the wiki
 -- https://github.com/AeroScripts/QuestieDev/wiki/Corrections
 
 function QuestieObjectFixes:Load()
+    local objectKeys = QuestieDB.objectKeys
+    local zoneIDs = ZoneDB.zoneIDs
+
     table.insert(QuestieDB.objectData, 400000, {}) -- Adding fake IDs to show additional locations (e.g. Fishing for "Nat Pagle, Angler Extreme")
     table.insert(QuestieDB.objectData, 400001, {})
     table.insert(QuestieDB.objectData, 400002, {})
@@ -230,6 +231,9 @@ end
 
 -- some objects are shared across factions but require different sources for each faction (not sure if there is a better way to implement this)
 function QuestieObjectFixes:LoadFactionFixes()
+    local objectKeys = QuestieDB.objectKeys
+    local zoneIDs = ZoneDB.zoneIDs
+
     local objectFixesHorde = {
         [105174] = {
             [objectKeys.spawns] = {[zoneIDs.UNDERCITY]={{52.7,73.5},{52.8,75.9},{53.3,74.5},{53.9,73.2},{54.4,71.1},{54.8,73.0},{55.0,70.2},{55.8,71.2},{57.3,66.1},{58.1,69.5},},}, -- #1328
