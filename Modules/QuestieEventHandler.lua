@@ -115,7 +115,6 @@ end
 _PLAYER_LOGIN = function()
 
     local function stage1()
-        ZoneDB:Initialize()
         QuestieDB:Initialize()
         QuestieLib:CacheAllItemNames()
 
