@@ -2253,7 +2253,6 @@ function QuestieQuestFixes:Load()
         },
         [9319] = {
             [questKeys.requiredRaces] = 255,
-            [questKeys.parentQuest] = 9386,
         },
         [9322] = { 
             [questKeys.requiredLevel] = 1,
