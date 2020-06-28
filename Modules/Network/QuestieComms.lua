@@ -287,21 +287,40 @@ function QuestieComms:InsertQuestDataPacketV2(questPacket, playerName, offset)
 end
 
 QuestieComms._yellWaitingQuests = {}
+QuestieComms._yellQueue = {}
+QuestieComms._isYelling = false
 
 function QuestieComms:YellProgress(questId)
     if not QuestieComms._yellWaitingQuests[questId] then
         QuestieComms._yellWaitingQuests[questId] = true
-        C_Timer.After(2, function()
-            local data = {}
-            QuestieComms:PopulateQuestDataPacketV2(questId, data, 1)
-            local packet = _QuestieComms:CreatePacket(_QuestieComms.QC_ID_YELL_PROGRESS);
-            packet.data[1] = data;
-            packet.data.priority = "BULK"
-            packet.data.writeMode = _QuestieComms.QC_WRITE_YELL
-        
-            packet:write();
-            QuestieComms._yellWaitingQuests[questId] = false
-        end)
+        if QuestieComms._isYelling then
+            tinsert(QuestieComms._yellQueue, questId)
+        else
+            local function doYell(questId)
+                print("Actually yelling progress for " .. questId)
+                local data = {}
+                QuestieComms:PopulateQuestDataPacketV2(questId, data, 1)
+                local packet = _QuestieComms:CreatePacket(_QuestieComms.QC_ID_YELL_PROGRESS);
+                packet.data[1] = data;
+                packet.data.priority = "BULK"
+                packet.data.writeMode = _QuestieComms.QC_WRITE_YELL
+            
+                packet:write();
+                QuestieComms._yellWaitingQuests[questId] = nil
+
+                local nextQuest = tremove(QuestieComms._yellQueue)
+                if nextQuest then
+                    C_Timer.After(2, function()
+                        doYell(nextQuest)
+                    end)
+                else
+                    QuestieComms._isYelling = false
+                end
+            end
+            C_Timer.After(2, function()
+                doYell(questId)
+            end)
+        end
     end
 end
 
@@ -712,7 +731,6 @@ end
 function QuestieComms:ResetAll()
     QuestieComms.data:ResetAll()
     QuestieComms.remoteQuestLogs = {}
-    QuestieComms.remotePlayerClasses = {}
 end
 
 --[[ not used!
