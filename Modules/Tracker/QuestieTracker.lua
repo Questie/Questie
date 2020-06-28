@@ -2296,7 +2296,7 @@ local function _GetWorldPlayerPosition()
     end
 
     local mapPosition = C_Map.GetPlayerMapPosition(uiMapId, "player");
-    if not mapPosition then
+    if (not mapPosition) or (not mapPosition.x) then
         return nil
     end
     local _, worldPosition = C_Map.GetWorldPosFromMapPos(uiMapId, mapPosition);
