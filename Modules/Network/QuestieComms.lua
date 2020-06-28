@@ -299,6 +299,7 @@ function QuestieComms:YellProgress(questId)
         if QuestieComms._isYelling then
             tinsert(QuestieComms._yellQueue, questId)
         else
+            QuestieComms._isYelling = true
             local function doYell(questId)
                 print("Actually yelling progress for " .. questId)
                 local data = {}
