@@ -1529,9 +1529,6 @@ function QuestieQuestFixes:Load()
         [6163] = {
             [questKeys.preQuestSingle] = {6022,6042,6133,6135,6136}, -- #1950
         },
-        [6185] = {
-            [questKeys.triggerEnd] = {"The Blightcaller Uncovered",{[zoneIDs.WESTERN_PLAGUELANDS]={{84.65,52.25},},},},
-        },
         [6382] = {
             [questKeys.preQuestSingle] = {882},
             [questKeys.exclusiveTo] = {235,742,},
@@ -2254,10 +2251,10 @@ function QuestieQuestFixes:Load()
         [9319] = {
             [questKeys.requiredRaces] = 255,
         },
-        [9322] = { 
+        [9322] = {
             [questKeys.requiredLevel] = 1,
         },
-        [9323] = { 
+        [9323] = {
             [questKeys.requiredLevel] = 1,
         },
         [9386] = {
