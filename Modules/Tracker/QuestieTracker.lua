@@ -2296,6 +2296,9 @@ local function _GetWorldPlayerPosition()
     end
 
     local mapPosition = C_Map.GetPlayerMapPosition(uiMapId, "player");
+    if not mapPosition then
+        return nil
+    end
     local _, worldPosition = C_Map.GetWorldPosFromMapPos(uiMapId, mapPosition);
 
     return worldPosition;
@@ -2328,6 +2331,9 @@ _GetDistanceToClosestObjective = function(questId)
     end
 
     local uiMapId = ZoneDB:GetUiMapIdByAreaId(zone)
+    if not uiMapId then
+        return nil
+    end
     local _, worldPosition = C_Map.GetWorldPosFromMapPos(uiMapId, {
         x = spawn[1] / 100,
         y = spawn[2] / 100
