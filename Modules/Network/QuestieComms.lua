@@ -144,6 +144,10 @@ function QuestieComms:Initialize()
     -- Responds to the "hi" event from others.
     Questie:RegisterMessage("QC_ID_REQUEST_FULL_QUESTLIST", _QuestieComms.RequestQuestLog);
 
+    if not Questie.db.global.disableYellComms then
+        C_Timer.NewTicker(60, QuestieComms.SortRemotePlayers) -- periodically check for old players and remove them.
+    end
+
 end
 
 -- Local Functions --
@@ -170,7 +174,7 @@ function _QuestieComms:BroadcastQuestUpdate(questId) -- broadcast quest update t
                 questPacket.data.writeMode = _QuestieComms.QC_WRITE_ALLGROUP
             end
             questPacket:write()
-        else -- todo: check config (people probably want checkbox to disable this for privacy)
+        else
             QuestieComms:YellProgress(questId)
         end
     end
@@ -247,9 +251,10 @@ function QuestieComms:PopulateQuestDataPacketV2(questId, quest, offset)
 end
 
 
-function QuestieComms:InsertQuestDataPacketV2(questPacket, playerName, offset)
+function QuestieComms:InsertQuestDataPacketV2(questPacket, playerName, offset, disableCompleteQuests)
     --We don't want to insert our own quest data.
     print("InsertQuestDataPacketV2 " .. playerName)
+    local allDone = true
     if questPacket then
         --Does it contain id and objectives?
         if(questPacket[2 + offset]) then
@@ -259,13 +264,6 @@ function QuestieComms:InsertQuestDataPacketV2(questPacket, playerName, offset)
             local objectiveCount = questPacket[offset+1]
             local class = _indexToClass[questPacket[offset+2]]
 
-            if not QuestieComms.remoteQuestLogs[questPacketid] then
-                QuestieComms.remoteQuestLogs[questPacketid] = {}
-            end
-            -- Create empty player.
-            if not QuestieComms.remoteQuestLogs[questPacketid][playerName] then
-                QuestieComms.remoteQuestLogs[questPacketid][playerName] = {}
-            end
             local objectives = {}
             offset = offset + 3
             local objectiveIndex = 0
@@ -280,16 +278,64 @@ function QuestieComms:InsertQuestDataPacketV2(questPacket, playerName, offset)
                 objectives[objectiveIndex].required = questPacket[offset+3]--[_QuestieComms.idLookup["required"]];
                 objectives[objectiveIndex].finished = objectives[objectiveIndex].fulfilled == objectives[objectiveIndex].required--[_QuestieComms.idLookup["finished"]];
                 
+                allDone = allDone and objectives[objectiveIndex].finished
+
                 offset = offset + 4
             end
-            QuestieComms.remoteQuestLogs[questPacketid][playerName] = objectives
-            QuestieComms.remotePlayerClasses[playerName] = class
+            if not (allDone and disableCompleteQuests) then
+                if not QuestieComms.remoteQuestLogs[questPacketid] then
+                    QuestieComms.remoteQuestLogs[questPacketid] = {}
+                end
+                -- Create empty player.
+                if not QuestieComms.remoteQuestLogs[questPacketid][playerName] then
+                    QuestieComms.remoteQuestLogs[questPacketid][playerName] = {}
+                end
 
-            --Write to tooltip data
-            QuestieComms.data:RegisterTooltip(questPacketid, playerName, objectives)
+                QuestieComms.remoteQuestLogs[questPacketid][playerName] = objectives
+                QuestieComms.remotePlayerClasses[playerName] = class
+
+                --Write to tooltip data
+                QuestieComms.data:RegisterTooltip(questPacketid, playerName, objectives)
+            end
         end
     end
-    return offset
+    return offset, allDone
+end
+
+function QuestieComms:RemoveRemotePlayer(name, partyList)
+    QuestieComms.remotePlayerTimes[name] = nil
+    QuestieComms.remotePlayerEnabled[name] = nil
+    QuestieComms.remotePlayerClasses[name] = nil
+    if not (partyList or QuestiePlayer:GetPartyMemberList())[name] then
+        for questId, players in pairs(QuestieComms.remoteQuestLogs) do
+            players[name] = nil
+        end
+    end
+end
+
+function QuestieComms:SortRemotePlayers()
+    local now = GetTime()
+    local partyList = QuestiePlayer:GetPartyMemberList()
+    local current = {}
+    for name, time in pairs(QuestieComms.remotePlayerTimes) do
+        if now - time > 60 * 4 then -- not seen in the last 4 minutes
+            QuestieComms:RemoveRemotePlayer(name, partyList)
+        else
+            tinsert(current, name)
+        end
+    end
+    table.sort(current, function(a, b)
+        return QuestieComms.remotePlayerTimes[a] < QuestieComms.remotePlayerTimes[b]
+    end)
+    for index,name in pairs(current) do
+        --print("SortCurrent " .. name)
+        if index < 4 then
+            --print("Enabling " .. name)
+            QuestieComms.remotePlayerEnabled[name] = true
+        else
+            QuestieComms.remotePlayerEnabled[name] = false
+        end
+    end
 end
 
 QuestieComms._yellWaitingQuests = {}
@@ -307,7 +353,7 @@ function QuestieComms:YellProgress(questId)
         else
             QuestieComms._isYelling = true
             local function doYell(questId)
-                print("Actually yelling progress for " .. questId)
+                --print("Actually yelling progress for " .. questId)
                 local data = {}
                 local _, count = QuestieComms:PopulateQuestDataPacketV2(questId, data, 1)
                 if count > 0 then -- dont send quests with no objectives
@@ -609,11 +655,10 @@ _QuestieComms.packets = {
         end,
         read = function(self)
             Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Received: QC_ID_REQUEST_FULL_QUESTLIST")
-            print("Received yell packet!")
             if not Questie.db.global.disableYellComms then
-                QuestieComms.remotePlayerEnabled[self.playerName] = true -- todo: sort function
                 QuestieComms.remotePlayerTimes[self.playerName] = GetTime()
-                QuestieComms:InsertQuestDataPacketV2(self[1], self.playerName, 1)
+                local _, done = QuestieComms:InsertQuestDataPacketV2(self[1], self.playerName, 1, true)
+                QuestieComms:SortRemotePlayers()
             end
             --if tonumber(major) > 5 then
             --    QuestieComms:BroadcastQuestLogV2(self.playerName, "WHISPER")--Questie:SendMessage("QC_ID_BROADCAST_FULL_QUESTLISTV2");

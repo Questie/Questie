@@ -133,3 +133,20 @@ function QuestiePlayer:GetPartyMemberByName(playerName)
     end
     return nil;
 end
+
+function QuestiePlayer:GetPartyMemberList()
+    local members = {}
+    if(UnitInParty("player") or UnitInRaid("player")) then
+        local player = {}
+        for index=1, 40 do
+            local name = UnitName("party"..index)
+            if name then
+                members[name] = true
+            end
+            if(index > 6 and not UnitInRaid("player")) then
+                break
+            end
+        end
+    end
+    return members
+end

@@ -134,8 +134,33 @@ function QuestieTooltips:GetTooltip(key)
                 end
             end
             for playerName, objectives in pairs(playerList) do
-                local playerInfo = QuestiePlayer:GetPartyMemberByName(playerName) or QuestieComms.remotePlayerClasses[playerName];
-                if playerInfo then
+                local playerInfo = QuestiePlayer:GetPartyMemberByName(playerName);
+                if playerInfo or QuestieComms.remotePlayerEnabled[playerName] then
+                    anotherPlayer = true
+                    break
+                end
+            end
+            if anotherPlayer then
+                break
+            end
+        end
+    end
+
+
+    if(QuestieComms and QuestieComms.data:KeyExists(key) and anotherPlayer) then
+        ---@tooltipData @tooltipData[questId][playerName][objectiveIndex].text
+        local tooltipDataExternal = QuestieComms.data:GetTooltip(key);
+        for questId, playerList in pairs(tooltipDataExternal) do
+            if(not tooltipData[questId]) then
+                local quest = QuestieDB:GetQuest(questId);
+                if quest then
+                    tooltipData[questId] = {}
+                    tooltipData[questId].title = quest:GetColoredQuestName();
+                end
+            end
+            for playerName, objectives in pairs(playerList) do
+                local playerInfo = QuestiePlayer:GetPartyMemberByName(playerName);
+                if playerInfo or QuestieComms.remotePlayerEnabled[playerName] then
                     anotherPlayer = true;
                     for objectiveIndex, objective in pairs(objectives) do
                         if not objective then
@@ -180,7 +205,7 @@ function QuestieTooltips:GetTooltip(key)
         for objectiveIndex, playerList in pairs(questData.objectivesText or {}) do -- Should we do or {} here?
             for playerName, objectiveInfo in pairs(playerList) do
                 local playerInfo = QuestiePlayer:GetPartyMemberByName(playerName)
-                local playerColor = ""
+                local playerColor = nil
                 local playerType = ""
                 if playerInfo then
                     playerColor = "|c" .. playerInfo.colorHex
@@ -190,9 +215,7 @@ function QuestieTooltips:GetTooltip(key)
                         playerColor = Questie:GetClassColor(playerColor)
                         playerType = " ("..QuestieLocale:GetUIString("Nearby")..")"
                     end
-                    anotherPlayer = true
                 end
-                local useName = ""
                 if (playerName == name and anotherPlayer) then -- why did we have this case
                     local _, classFilename = UnitClass("player");
                     local _, _, _, argbHex = GetClassColor(classFilename)
@@ -203,7 +226,7 @@ function QuestieTooltips:GetTooltip(key)
                 -- We want the player to be on top.
                 if (playerName == name) then
                     tinsert(tempObjectives, 1, objectiveInfo.text);
-                else
+                elseif playerColor then
                     tinsert(tempObjectives, objectiveInfo.text);
                 end
             end
