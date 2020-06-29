@@ -506,30 +506,6 @@ local function Counthack(tab) -- according to stack overflow, # and table.getn a
     return count
 end
 
---@param quest QuestieQuest @The quest to check for completion
---@return integer @Complete = 1, Failed = -1, Incomplete = 0
-function QuestieQuest:IsComplete(quest)
-    return QuestieQuest:IsCompleteId(quest.Id)
-end
-
-function QuestieQuest:IsCompleteId(questId)
-    local questLogIndex = GetQuestLogIndexByID(questId)
-    local _, _, _, _, _, isComplete, _, _, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(questLogIndex)
-
-    if isComplete ~= nil then
-        return isComplete -- 1 if the quest is completed, -1 if the quest is failed
-    end
-
-    isComplete = IsQuestComplete(questId) -- true if the quest is both in the quest log and complete, false otherwise
-    if isComplete then
-        return 1
-    else
-        return 0
-    end
-
-    return 0
-end
-
 -- iterate all notes, update / remove as needed
 function QuestieQuest:UpdateObjectiveNotes(quest)
     Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: UpdateObjectiveNotes:", quest.Id)
@@ -638,15 +614,16 @@ function QuestieQuest:ForceToMap(type, id, label, customScale)
     end
 end
 
-function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockItemTooltips) -- must be pcalled
+function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockItemTooltips) -- must be pcalled
     Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:PopulateObjective]")
     if not Objective.AlreadySpawned then
         Objective.AlreadySpawned = {};
     end
 
+
     -- temporary fix for "special objectives" to not double-spawn (we need to fix the objective detection logic)
-    if not Quest.AlreadySpawned then
-        Quest.AlreadySpawned = {};
+    if not quest.AlreadySpawned then
+        quest.AlreadySpawned = {};
     end
 
     if _QuestieQuest.objectiveSpawnListCallTable[Objective.Type] and (not Objective.spawnList) then
@@ -666,14 +643,14 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
     local completed = Objective.Completed
 
     if not Objective.Color then -- todo: move to a better place
-        QuestieLib:MathRandomSeed(Quest.Id + 32768 * ObjectiveIndex)
+        QuestieLib:MathRandomSeed(quest.Id + 32768 * ObjectiveIndex)
         Objective.Color = {0.45 + QuestieLib:MathRandom() / 2, 0.45 + QuestieLib:MathRandom() / 2, 0.45 + QuestieLib:MathRandom() / 2}
     end
 
     if (not Objective.registeredItemTooltips) and Objective.Type == "item" and (not BlockItemTooltips) and Objective.Id then -- register item tooltip (special case)
         local item = QuestieDB:GetItem(Objective.Id);
         if item and item.name then
-            QuestieTooltips:RegisterTooltip(Quest.Id, "i_" .. item.Id, Objective);
+            QuestieTooltips:RegisterTooltip(quest.Id, "i_" .. item.Id, Objective);
         end
         Objective.registeredItemTooltips = true
     end
@@ -686,31 +663,31 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
             if not Objective.Icon and spawnData.Icon then -- move this to a better place
                 Objective.Icon = spawnData.Icon
             end
-            if not Quest.AlreadySpawned[Objective.Type .. tostring(ObjectiveIndex)] then
-                Quest.AlreadySpawned[Objective.Type .. tostring(ObjectiveIndex)] = {};
+            if not quest.AlreadySpawned[Objective.Type .. tostring(ObjectiveIndex)] then
+                quest.AlreadySpawned[Objective.Type .. tostring(ObjectiveIndex)] = {};
             end
-            if (not Objective.AlreadySpawned[id]) and (not Quest.AlreadySpawned[Objective.Type .. tostring(ObjectiveIndex)][spawnData.Id]) then
+            if (not Objective.AlreadySpawned[id]) and (not quest.AlreadySpawned[Objective.Type .. tostring(ObjectiveIndex)][spawnData.Id]) then
                 if not Objective.registeredTooltips and spawnData.TooltipKey and (not tooltipRegisterHack[spawnData.TooltipKey]) then -- register mob / item / object tooltips
-                    QuestieTooltips:RegisterTooltip(Quest.Id, spawnData.TooltipKey, Objective);
+                    QuestieTooltips:RegisterTooltip(quest.Id, spawnData.TooltipKey, Objective);
                     tooltipRegisterHack[spawnData.TooltipKey] = true
                     hasTooltipHack = true
                 end
             end
-            if (not Objective.AlreadySpawned[id]) and (not completed) and (not Quest.AlreadySpawned[Objective.Type .. tostring(ObjectiveIndex)][spawnData.Id]) then
+            if (not Objective.AlreadySpawned[id]) and (not completed) and (not quest.AlreadySpawned[Objective.Type .. tostring(ObjectiveIndex)][spawnData.Id]) then
                 if Questie.db.global.enableObjectives then
                     -- temporary fix for "special objectives" to not double-spawn (we need to fix the objective detection logic)
-                    Quest.AlreadySpawned[Objective.Type .. tostring(ObjectiveIndex)][spawnData.Id] = true
+                    quest.AlreadySpawned[Objective.Type .. tostring(ObjectiveIndex)][spawnData.Id] = true
                     local maxCount = 0
-                    if(not iconsToDraw[Quest.Id]) then
-                        iconsToDraw[Quest.Id] = {}
+                    if(not iconsToDraw[quest.Id]) then
+                        iconsToDraw[quest.Id] = {}
                     end
                     local data = {}
-                    data.Id = Quest.Id
+                    data.Id = quest.Id
                     data.ObjectiveIndex = ObjectiveIndex
-                    data.QuestData = Quest
+                    data.QuestData = quest
                     data.ObjectiveData = Objective
                     data.Icon = spawnData.Icon
-                    data.IconColor = Quest.Color
+                    data.IconColor = quest.Color
                     data.GetIconScale = function() return spawnData:GetIconScale() or 1 end
                     data.IconScale = data:GetIconScale()
                     data.Name = spawnData.Name
@@ -737,9 +714,9 @@ function QuestieQuest:PopulateObjective(Quest, ObjectiveIndex, Objective, BlockI
                                 local x, y, _ = HBD:GetWorldCoordinatesFromZone(drawIcon.x/100, drawIcon.y/100, uiMapId)
                                 -- There are instances when X and Y are not in the same map such as in dungeons etc, we default to 0 if it is not set
                                 -- This will create a distance of 0 but it doesn't matter.
-                                local distance = QuestieLib:Euclid(closestStarter[Quest.Id].x or 0, closestStarter[Quest.Id].y or 0, x or 0, y or 0);
+                                local distance = QuestieLib:Euclid(closestStarter[quest.Id].x or 0, closestStarter[quest.Id].y or 0, x or 0, y or 0);
                                 drawIcon.distance = distance or 0;
-                                iconsToDraw[Quest.Id][floor(distance)] = drawIcon;
+                                iconsToDraw[quest.Id][floor(distance)] = drawIcon;
                             end
                             --maxCount = maxCount + 1
                             --if maxPerType > 0 and maxCount > maxPerType then break; end
@@ -878,7 +855,10 @@ end
 
 function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to PopulateNotes as it also handles finishers now
     Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:PopulateObjectiveNotes]", "Populating objectives for:", quest.Id)
-    if not quest then return; end
+    if (not quest) then
+        return
+    end
+
     if quest:IsComplete() == 1 then
 
         _CallPopulateObjective(quest)
@@ -1441,7 +1421,7 @@ local function QuestsFilter(chatFrame, event, msg, playerName, languageName, cha
                     realQuestName, realQuestLevel = unpack(QuestieDB.QueryQuest(questId, "name", "questLevel"))
 
                     if questName and questId then
-                        complete = QuestieQuest:IsCompleteId(questId)
+                        complete = QuestieDB:IsComplete(questId)
                     end
                 end
 
