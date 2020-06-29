@@ -1011,6 +1011,24 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {180436,180501},
         },
+        [20454] = { 
+            [itemKeys.name] = "Hive'Zora Rubbing",
+            [itemKeys.relatedQuests] = {8309,},
+            [itemKeys.objectDrops] = {180455,},
+            [itemKeys.npcDrops] = {},
+        },
+        [20455] = { 
+            [itemKeys.name] = "Hive'Ashi Rubbing",
+            [itemKeys.relatedQuests] = {8309,},
+            [itemKeys.objectDrops] = {180454,},
+            [itemKeys.npcDrops] = {},
+        },
+        [20456] = { 
+            [itemKeys.name] = "Hive'Regal Rubbing",
+            [itemKeys.relatedQuests] = {8309,},
+            [itemKeys.objectDrops] = {180453,},
+            [itemKeys.npcDrops] = {},
+        },
         [21557] = {
             [itemKeys.name] = "Small Red Rocket",
             [itemKeys.relatedQuests] = {8867,},
