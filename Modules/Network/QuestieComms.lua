@@ -28,6 +28,8 @@ _QuestieComms.prefix = "questie";
 -- List of all players questlog private to prevent modification from the outside.
 QuestieComms.remoteQuestLogs = {}
 QuestieComms.remotePlayerClasses = {}
+QuestieComms.remotePlayerEnabled = {}
+QuestieComms.remotePlayerTimes = {}
 
 -- The idea here is that all messages with the same "base number" are compatible
 -- New message versions increase the number by 0.1, and if the message becomes "incompatible" you increase with 1
@@ -73,6 +75,7 @@ _QuestieComms.QC_ID_BROADCAST_FULL_QUESTLIST = 10
 _QuestieComms.QC_ID_REQUEST_FULL_QUESTLIST = 11
 _QuestieComms.QC_ID_BROADCAST_FULL_QUESTLISTV2 = 12
 _QuestieComms.QC_ID_YELL_PROGRESS = 13
+_QuestieComms.QC_ID_BROADCAST_QUEST_UPDATEV2 = 14 -- v2 (future use)
 
 -- NOT USED
 -- stringLookup it built from idLookup!
@@ -213,9 +216,12 @@ function QuestieComms:PopulateQuestDataPacketV2(questId, quest, offset)
     local questObject = QuestieDB:GetQuest(questId);
 
     local rawObjectives = QuestieQuest:GetAllLeaderBoardDetails(questId);
+
+    local count = 0
+
     if questObject and questObject.Objectives then
         quest[offset] = questId
-        local count = 0
+        
         for objectiveIndex, objective in pairs(rawObjectives) do
             count = count + 1
         end
@@ -237,7 +243,7 @@ function QuestieComms:PopulateQuestDataPacketV2(questId, quest, offset)
 
     Questie:Debug(DEBUG_SPAM, "[QuestieComms] questPacket made: Objectivetable:", quest);
 
-    return offset
+    return offset, count
 end
 
 
@@ -291,7 +297,7 @@ QuestieComms._yellQueue = {}
 QuestieComms._isYelling = false
 
 function QuestieComms:YellProgress(questId)
-    if Questie.db.global.disableYellComms then
+    if Questie.db.global.disableYellComms or GetNumGroupMembers() > 4 then
         return
     end
     if not QuestieComms._yellWaitingQuests[questId] then
@@ -303,15 +309,16 @@ function QuestieComms:YellProgress(questId)
             local function doYell(questId)
                 print("Actually yelling progress for " .. questId)
                 local data = {}
-                QuestieComms:PopulateQuestDataPacketV2(questId, data, 1)
-                local packet = _QuestieComms:CreatePacket(_QuestieComms.QC_ID_YELL_PROGRESS);
-                packet.data[1] = data;
-                packet.data.priority = "BULK"
-                packet.data.writeMode = _QuestieComms.QC_WRITE_YELL
-            
-                packet:write();
-                QuestieComms._yellWaitingQuests[questId] = nil
-
+                local _, count = QuestieComms:PopulateQuestDataPacketV2(questId, data, 1)
+                if count > 0 then -- dont send quests with no objectives
+                    local packet = _QuestieComms:CreatePacket(_QuestieComms.QC_ID_YELL_PROGRESS);
+                    packet.data[1] = data;
+                    packet.data.priority = "BULK"
+                    packet.data.writeMode = _QuestieComms.QC_WRITE_YELL
+                
+                    packet:write();
+                    QuestieComms._yellWaitingQuests[questId] = nil
+                end
                 local nextQuest = tremove(QuestieComms._yellQueue)
                 if nextQuest then
                     C_Timer.After(2, function()
@@ -588,10 +595,14 @@ _QuestieComms.packets = {
         read = function(self)
             Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Received: QC_ID_REQUEST_FULL_QUESTLIST")
             --Questie:SendMessage("QC_ID_BROADCAST_FULL_QUESTLIST");
-            _QuestieComms:BroadcastQuestLog("QC_ID_BROADCAST_FULL_QUESTLIST", "WHISPER", self.playerName)
+            if UnitName("Player") ~= self.playerName then
+                _QuestieComms:BroadcastQuestLog("QC_ID_BROADCAST_FULL_QUESTLIST", "WHISPER", self.playerName)
+            end
         end
     },
-    [_QuestieComms.QC_ID_YELL_PROGRESS] = { --11
+    [_QuestieComms.QC_ID_BROADCAST_FULL_QUESTLISTV2] = {-- 12
+    },
+    [_QuestieComms.QC_ID_YELL_PROGRESS] = { --13
         write = function(self)
             Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Sending: QC_ID_REQUEST_FULL_QUESTLIST")
             _QuestieComms:Broadcast(self.data);
@@ -599,8 +610,9 @@ _QuestieComms.packets = {
         read = function(self)
             Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Received: QC_ID_REQUEST_FULL_QUESTLIST")
             print("Received yell packet!")
-            LYELLREC = self
             if not Questie.db.global.disableYellComms then
+                QuestieComms.remotePlayerEnabled[self.playerName] = true -- todo: sort function
+                QuestieComms.remotePlayerTimes[self.playerName] = GetTime()
                 QuestieComms:InsertQuestDataPacketV2(self[1], self.playerName, 1)
             end
             --if tonumber(major) > 5 then
@@ -610,6 +622,9 @@ _QuestieComms.packets = {
             --end
         end
     },
+    [_QuestieComms.QC_ID_BROADCAST_QUEST_UPDATEV2] = { -- 14
+
+    }
 }
 
 -- Renamed Write function
@@ -639,13 +654,10 @@ function _QuestieComms:Broadcast(packet)
         Questie:SendCommMessage(_QuestieComms.prefix, compressedData, packetWriteMode, GetChannelName("questiecom"), "BULK")
         --OLD: C_ChatInfo.SendAddonMessage("questie", compressedData, "CHANNEL", GetChannelName("questiecom"))
     elseif packetWriteMode == _QuestieComms.QC_WRITE_YELL then
-        
         packet.msgVer = nil
         --packet.ver = nil
         local compressedData = QuestieSerializer:Serialize(packet, "b89");
         print("Yelling progress: " .. compressedData)
-        print("PYELL len: " .. string.len(compressedData))
-        LYELL = packet
         Questie:SendCommMessage(_QuestieComms.prefix, compressedData, packetWriteMode, "BULK")
     else
         local compressedData = QuestieSerializer:Serialize(packet);
@@ -673,7 +685,6 @@ function _QuestieComms:OnCommReceived(message, distribution, sender)
         if distribution == "YELL" and decompressedData.msgId and _QuestieComms.packets[decompressedData.msgId] then
             decompressedData.playerName = sender;
             Questie:Debug(DEBUG_DEVELOP, "Executing message ID: ", decompressedData.msgId, "From: ", sender)
-
             _QuestieComms.packets[decompressedData.msgId].read(decompressedData)
         elseif(decompressedData and decompressedData.msgVer and floor(decompressedData.msgVer) == floor(commMessageVersion)) then
             if(decompressedData and decompressedData.msgId and _QuestieComms.packets[decompressedData.msgId]) then
