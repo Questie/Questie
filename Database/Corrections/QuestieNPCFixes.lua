@@ -692,6 +692,9 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ALTERAC_VALLEY]={{47.27,86.7},},},
             [npcKeys.zoneID] = zoneIDs.ALTERAC_VALLEY,
         },
+        [14862] = {
+            [npcKeys.spawns] = {[zoneIDs.SILITHUS]={{47.50,54.50},},},
+        },
         [15001] = {
             [npcKeys.spawns] = {[zoneIDs.ARATHI_BASIN]={{-1,-1},},},
             [npcKeys.zoneID] = zoneIDs.ARATHI_BASIN,
@@ -711,6 +714,9 @@ function QuestieNPCFixes:Load()
         [15005] = {
             [npcKeys.spawns] = {[zoneIDs.ARATHI_BASIN]={{-1,-1},},},
             [npcKeys.zoneID] = zoneIDs.ARATHI_BASIN,
+        },
+        [15215] = {
+            [npcKeys.spawns] = {[zoneIDs.SILITHUS]={{50.5,99},},},
         },
         [15350] = {
             [npcKeys.spawns] = {
