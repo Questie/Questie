@@ -1284,7 +1284,7 @@ function QuestieTracker:Update()
             if qA.zoneOrSort > 0 then
                 qAZone = QuestieTracker.utils:GetZoneNameByID(qA.zoneOrSort)
             elseif qA.zoneOrSort < 0 then
-                qAZone = QuestieTracker.utils:GetCatagoryNameByID(qA.zoneOrSort)
+                qAZone = QuestieTracker.utils:GetCategoryNameByID(qA.zoneOrSort)
             else
                 qAZone = qA.zoneOrSort
                 Questie:Error("SortID: |cffffbf00"..qA.zoneOrSort.."|r was not found in the Database. Please file a bugreport at:")
@@ -1294,7 +1294,7 @@ function QuestieTracker:Update()
             if qB.zoneOrSort > 0 then
                 qBZone = QuestieTracker.utils:GetZoneNameByID(qB.zoneOrSort)
             elseif qB.zoneOrSort < 0 then
-                qBZone = QuestieTracker.utils:GetCatagoryNameByID(qB.zoneOrSort)
+                qBZone = QuestieTracker.utils:GetCategoryNameByID(qB.zoneOrSort)
             else
                 qBZone = qB.zoneOrSort
                 Questie:Error("SortID: |cffffbf00"..qB.zoneOrSort.."|r was not found in the Database. Please file a bugreport at:")
@@ -1371,9 +1371,9 @@ function QuestieTracker:Update()
         if (quest.zoneOrSort) > 0 then
             zoneName = QuestieTracker.utils:GetZoneNameByID(quest.zoneOrSort)
 
-        -- Valid CatagoryID
+        -- Valid CategoryID
         elseif (quest.zoneOrSort) < 0 then
-            zoneName = QuestieTracker.utils:GetCatagoryNameByID(quest.zoneOrSort)
+            zoneName = QuestieTracker.utils:GetCategoryNameByID(quest.zoneOrSort)
 
         -- Probobly not in the Database. Assign zoneOrSort ID so Questie doesn't error
         else

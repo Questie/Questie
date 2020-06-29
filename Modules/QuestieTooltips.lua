@@ -184,26 +184,24 @@ function QuestieTooltips:GetTooltip(key)
                 local playerType = ""
                 if playerInfo then
                     playerColor = "|c" .. playerInfo.colorHex
-                else
+                elseif QuestieComms.remotePlayerEnabled[playerName] then 
                     playerColor = QuestieComms.remotePlayerClasses[playerName]
                     if playerColor then
                         playerColor = Questie:GetClassColor(playerColor)
                         playerType = " ("..QuestieLocale:GetUIString("Nearby")..")"
                     end
+                    anotherPlayer = true
                 end
                 local useName = ""
-                if(playerName == name and anotherPlayer) then
+                if (playerName == name and anotherPlayer) then -- why did we have this case
                     local _, classFilename = UnitClass("player");
                     local _, _, _, argbHex = GetClassColor(classFilename)
-                    useName = " (|c"..argbHex..name.."|r"..objectiveInfo.color..")|r";
-                elseif(playerColor and playerName ~= name) then
-                    useName = " ("..playerColor..playerName.."|r"..objectiveInfo.color..")|r"..playerType;
-                end
-                if(anotherPlayer) then
-                    objectiveInfo.text = objectiveInfo.text..useName;
+                    objectiveInfo.text = objectiveInfo.text.." (|c"..argbHex..name.."|r"..objectiveInfo.color..")|r"
+                elseif (playerColor and playerName ~= name) then
+                    objectiveInfo.text = objectiveInfo.text.." ("..playerColor..playerName.."|r"..objectiveInfo.color..")|r"..playerType
                 end
                 -- We want the player to be on top.
-                if(playerName == name) then
+                if (playerName == name) then
                     tinsert(tempObjectives, 1, objectiveInfo.text);
                 else
                     tinsert(tempObjectives, objectiveInfo.text);
