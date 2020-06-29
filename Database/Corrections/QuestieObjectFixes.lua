@@ -177,10 +177,6 @@ function QuestieObjectFixes:Load()
         [177785] = {
             [objectKeys.spawns] = {[zoneIDs.MOONGLADE]={{48,47.1},{50.1,50.6},{52.1,53.4},{52.1,53.5},{52.9,48.5},{53.1,48.4},{54.1,50.1},{54.3,55.6},{54.7,46.4},{54.7,46.5},{56.3,53.7},{58.5,50.8},{60.5,58.3},{60.5,58.5},},},
         },
-        [178224] = {
-            [objectKeys.spawns] = {[zoneIDs.DIRE_MAUL]={{42.71,68.62},},}, -- #1156
-            [objectKeys.zoneID] = zoneIDs.DIRE_MAUL,
-        },
         [178227] = {
             [objectKeys.spawns] = {[zoneIDs.ASHENVALE]={{56,63}}},
             [objectKeys.zoneID] = zoneIDs.ASHENVALE,
