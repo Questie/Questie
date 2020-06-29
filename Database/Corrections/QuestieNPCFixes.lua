@@ -238,8 +238,8 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.WETLANDS]={{10.8,60.4},},},
         },
         [5477] = {
-            [npcKeys.spawns] = {[zoneIDs.SWAMP_OF_SORROWS]={{49,43},},},
-            [npcKeys.waypoints] = {[zoneIDs.SWAMP_OF_SORROWS]={{33,37},{31,41},{34,49},{38,42},{43,40},{49,43},{59,41},{54,36},{51,38},{44,35},{40,37},{35,41},{33,37},},},
+            [npcKeys.spawns] = {[zoneIDs.SWAMP_OF_SORROWS]={{54.9,34.1},},},
+            [npcKeys.waypoints] = {[zoneIDs.SWAMP_OF_SORROWS]={{33,37},{31,41},{34,49},{38,42},{43,40},{49,43},{59,41},{54.9,34.1},{51,38},{44,35},{40,37},{35,41},{33,37},},},
         },
         [5543] = {
             [npcKeys.spawns] = {[zoneIDs.THUNDER_BLUFF]={{27.2,24.4},},},
