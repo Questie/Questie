@@ -372,9 +372,11 @@ function QuestieDB:IsDoable(questId)
     local parentQuest = QuestieDB.QueryQuestSingle(questId, "parentQuest")
 
     if parentQuest and parentQuest ~= 0 then
+        local isParentQuestActive = QuestieDB:IsParentQuestActive(parentQuest)
         -- If the quest has a parent quest then only show it if the
         -- parent quest is in the quest log
-        return QuestieDB:IsParentQuestActive(parentQuest)
+        Questie:Debug(DEBUG_INFO, "[QuestieDB:IsDoable] isParentQuestActive:", isParentQuestActive)
+        return isParentQuestActive
     end
 
     local requiredSkill = QuestieDB.QueryQuestSingle(questId, "requiredSkill")
@@ -396,14 +398,18 @@ function QuestieDB:IsDoable(questId)
 
     -- Check the preQuestGroup field where every required quest has to be complete for a quest to show up
     if preQuestGroup ~= nil and next(preQuestGroup) ~= nil then
-        return QuestieDB:IsPreQuestGroupFulfilled(preQuestGroup)
+        local isPreQuestGroupFulfilled = QuestieDB:IsPreQuestGroupFulfilled(preQuestGroup)
+        Questie:Debug(DEBUG_INFO, "[QuestieDB:IsDoable] isPreQuestGroupFulfilled", isPreQuestGroupFulfilled)
+        return isPreQuestGroupFulfilled
     end
 
     local preQuestSingle = QuestieDB.QueryQuestSingle(questId, "preQuestSingle")
 
     -- Check the preQuestSingle field where just one of the required quests has to be complete for a quest to show up
     if preQuestSingle ~= nil and next(preQuestSingle) ~= nil then
-        return QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle)
+        local isPreQuestSingleFulfilled = QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle)
+        Questie:Debug(DEBUG_INFO, "[QuestieDB:IsDoable] isPreQuestSingleFulfilled", isPreQuestSingleFulfilled)
+        return isPreQuestSingleFulfilled
     end
 
     return true
