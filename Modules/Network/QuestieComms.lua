@@ -253,12 +253,12 @@ end
 
 function QuestieComms:InsertQuestDataPacketV2(questPacket, playerName, offset, disableCompleteQuests)
     --We don't want to insert our own quest data.
-    print("InsertQuestDataPacketV2 " .. playerName)
+    --print("InsertQuestDataPacketV2 " .. playerName)
     local allDone = true
     if questPacket then
         --Does it contain id and objectives?
         if(questPacket[2 + offset]) then
-            print("Parsing quest " .. questPacket[offset])
+            --print("Parsing quest " .. questPacket[offset])
             -- Create empty quest.
             local questPacketid = questPacket[offset]
             local objectiveCount = questPacket[offset+1]
@@ -302,11 +302,15 @@ function QuestieComms:InsertQuestDataPacketV2(questPacket, playerName, offset, d
     return offset, allDone
 end
 
-function QuestieComms:RemoveRemotePlayer(name, partyList)
+function QuestieComms:CheckInGroup(name)
+    return IsInRaid() and UnitInRaid(name) or UnitInParty(name)
+end
+
+function QuestieComms:RemoveRemotePlayer(name)
     QuestieComms.remotePlayerTimes[name] = nil
     QuestieComms.remotePlayerEnabled[name] = nil
     QuestieComms.remotePlayerClasses[name] = nil
-    if not (partyList or QuestiePlayer:GetPartyMemberList())[name] then
+    if not QuestieComms:CheckInGroup(name) then
         for questId, players in pairs(QuestieComms.remoteQuestLogs) do
             players[name] = nil
         end
@@ -315,11 +319,10 @@ end
 
 function QuestieComms:SortRemotePlayers()
     local now = GetTime()
-    local partyList = QuestiePlayer:GetPartyMemberList()
     local current = {}
     for name, time in pairs(QuestieComms.remotePlayerTimes) do
         if now - time > 60 * 4 then -- not seen in the last 4 minutes
-            QuestieComms:RemoveRemotePlayer(name, partyList)
+            QuestieComms:RemoveRemotePlayer(name)
         else
             tinsert(current, name)
         end
@@ -328,9 +331,7 @@ function QuestieComms:SortRemotePlayers()
         return QuestieComms.remotePlayerTimes[a] < QuestieComms.remotePlayerTimes[b]
     end)
     for index,name in pairs(current) do
-        --print("SortCurrent " .. name)
         if index < 4 then
-            --print("Enabling " .. name)
             QuestieComms.remotePlayerEnabled[name] = true
         else
             QuestieComms.remotePlayerEnabled[name] = false
@@ -675,7 +676,7 @@ _QuestieComms.packets = {
 -- Renamed Write function
 function _QuestieComms:Broadcast(packet)
     -- If the priority is not set, it must not be very important
-    if packet.writeMode == _QuestieComms.QC_WRITE_ALLRAID and GetNumGroupMembers() > 15 then
+    if packet.writeMode ~= _QuestieComms.QC_WRITE_WHISPER and (GetNumGroupMembers() > 15 or UnitInBattleground("Player")) then
         -- dont broadcast to large raids
         return
     end
