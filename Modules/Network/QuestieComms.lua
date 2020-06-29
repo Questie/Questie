@@ -253,12 +253,10 @@ end
 
 function QuestieComms:InsertQuestDataPacketV2(questPacket, playerName, offset, disableCompleteQuests)
     --We don't want to insert our own quest data.
-    --print("InsertQuestDataPacketV2 " .. playerName)
     local allDone = true
     if questPacket then
         --Does it contain id and objectives?
         if(questPacket[2 + offset]) then
-            --print("Parsing quest " .. questPacket[offset])
             -- Create empty quest.
             local questPacketid = questPacket[offset]
             local objectiveCount = questPacket[offset+1]
@@ -354,7 +352,6 @@ function QuestieComms:YellProgress(questId)
         else
             QuestieComms._isYelling = true
             local function doYell(questId)
-                --print("Actually yelling progress for " .. questId)
                 local data = {}
                 local _, count = QuestieComms:PopulateQuestDataPacketV2(questId, data, 1)
                 if count > 0 then -- dont send quests with no objectives
@@ -717,7 +714,7 @@ end
 function _QuestieComms:OnCommReceived(message, distribution, sender)
     --print("[" .. distribution .."][" .. sender .. "] " .. message)
     Questie:Debug(DEBUG_DEVELOP, "|cFF22FF22", "sender:", "|r", sender, "distribution:", distribution, "Packet length:",string.len(message))
-    if message and sender then
+    if message and sender and sender ~= UnitName("player") then
         local decompressedData = nil;--QuestieCompress:Decompress(message);
         if distribution == "YELL" then
             --print("Decompressing YELL data")
