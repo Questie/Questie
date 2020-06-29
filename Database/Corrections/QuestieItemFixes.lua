@@ -425,6 +425,12 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
+        [7083] = {
+            [itemKeys.name] = "Purified Kor Gem",
+            [itemKeys.relatedQuests] = {1442,1654},
+            [itemKeys.npcDrops] = {},
+            [itemKeys.objectDrops] = {},
+        },
         [7134] = { -- #1163
             [itemKeys.name] = "Sturdy Dragonmaw Shinbone",
             [itemKeys.relatedQuests] = {1846},
