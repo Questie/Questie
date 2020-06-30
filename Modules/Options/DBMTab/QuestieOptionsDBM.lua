@@ -22,7 +22,7 @@ function QuestieOptions.tabs.dbm:Initialize()
     return {
         name = function() return QuestieLocale:GetUIString('DBM_HUD_TAB'); end,
         type = "group",
-        disabled = function() if DBMHudMap then return false else return true end end,
+        disabled = function() if DBM and DBM.HudMap then return false else return true end end,
         order = 15,
         args = {
             hud_options = {
@@ -64,7 +64,7 @@ function QuestieOptions.tabs.dbm:Initialize()
             },
             DBMHUDRefresh = {
                 type = "range",
-                disabled = function() if DBMHudMap and not DBMHudMap.Version then return true else return false end end,
+                disabled = function() if DBM and DBM.HudMap and not DBM.HudMap.Version then return true else return false end end,
                 order = 1.3,
                 name = function() return QuestieLocale:GetUIString('DBM_HUD_REFRESH'); end,
                 desc = function() return QuestieLocale:GetUIString('DBM_HUD_REFRESH_DESC', optionsDefaults.global.DBMHUDRefresh); end,
