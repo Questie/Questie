@@ -27,7 +27,6 @@ Database\QuestieDB.lua
 Database\questDB.lua
 Database\objectDB.lua
 Database\spawnDB.lua
-Database\specialspawns.lua
 Database\itemDB.lua
 
 #Corrections
