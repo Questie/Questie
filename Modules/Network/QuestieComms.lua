@@ -629,11 +629,10 @@ function _QuestieComms:BroadcastQuestLogV2(eventName, sendMode, targetPlayer) --
         
 
         for _, entry in pairs(sorted) do
-            local quest = QuestieComms:CreateQuestDataPacket(entry.questId);
             --print("[CommsSendOrder][Block " .. (blockCount - 1) .. "] " .. QuestieDB.QueryQuestSingle(entry.questId, "name"))
             entryCount = entryCount + 1
 
-            offset = QuestieComms:PopulateQuestDataPacketV2_noclass_renameme(rawQuestList, quest, offset)
+            offset = QuestieComms:PopulateQuestDataPacketV2_noclass_renameme(entry.questId, rawQuestList, offset)
 
             if string.len(QuestieSerializer:Serialize(rawQuestList)) > 200 then--extra space for packet metadata and CTL stuff
                 rawQuestList[1] = entryCount
@@ -656,7 +655,7 @@ function _QuestieComms:BroadcastQuestLogV2(eventName, sendMode, targetPlayer) --
                     if block then
                         -- send the block
                         local questPacket = _QuestieComms:CreatePacket(_QuestieComms.QC_ID_BROADCAST_FULL_QUESTLISTV2);
-                        questPacket.data.rawQuestList = block;
+                        questPacket.data[1] = block;
                         if "WHISPER" == sendMode then
                             questPacket.data.writeMode = _QuestieComms.QC_WRITE_WHISPER
                             questPacket.data.target = targetPlayer
@@ -833,14 +832,18 @@ _QuestieComms.packets = {
         read = function(self)
             Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Received: QC_ID_REQUEST_FULL_QUESTLIST")
             --Questie:SendMessage("QC_ID_BROADCAST_FULL_QUESTLIST");
-            
             --if tonumber(major) > 5 then
             --    QuestieComms:BroadcastQuestLogV2(self.playerName, "WHISPER")--Questie:SendMessage("QC_ID_BROADCAST_FULL_QUESTLISTV2");
             --else
             --    QuestieComms:BroadcastQuestLogV2(self.playerName, "WHISPER") -- player doesnt have new questie, use old packet
             --end
             if UnitName("Player") ~= self.playerName then
-                _QuestieComms:BroadcastQuestLog("QC_ID_BROADCAST_FULL_QUESTLIST", "WHISPER", self.playerName)
+                local major, minor, patch = strsplit(".", self.ver)
+                if tonumber(major) > 5 then
+                    _QuestieComms:BroadcastQuestLogV2("QC_ID_BROADCAST_FULL_QUESTLIST", "WHISPER", self.playerName)
+                else
+                    _QuestieComms:BroadcastQuestLog("QC_ID_BROADCAST_FULL_QUESTLIST", "WHISPER", self.playerName)
+                end
             end
         end
     },
