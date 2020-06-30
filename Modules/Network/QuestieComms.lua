@@ -216,6 +216,37 @@ for class, index in pairs(_classToIndex) do
     _indexToClass[index] = class
 end
 
+
+function QuestieComms:PopulateQuestDataPacketV2_noclass_renameme(questId, quest, offset)
+    local questObject = QuestieDB:GetQuest(questId);
+
+    local rawObjectives = QuestieQuest:GetAllLeaderBoardDetails(questId);
+
+    local count = 0
+
+    if questObject and questObject.Objectives then
+        quest[offset] = questId
+        local countOffset = offset+1
+
+        offset = offset + 2
+        for objectiveIndex, objective in pairs(rawObjectives) do
+            quest[offset] = questObject.Objectives[objectiveIndex].Id
+            quest[offset + 1] = string.byte(string.sub(objective.type, 1, 1))
+            quest[offset + 2] = objective.numFulfilled
+            quest[offset + 3] = objective.numRequired
+            offset = offset + 4
+            count = count + 1
+        end
+        
+        quest[countOffset] = count
+    end
+
+
+    Questie:Debug(DEBUG_SPAM, "[QuestieComms] questPacket made: Objectivetable:", quest);
+
+    return offset, count
+end
+
 function QuestieComms:PopulateQuestDataPacketV2(questId, quest, offset)
     local questObject = QuestieDB:GetQuest(questId);
 
@@ -225,12 +256,7 @@ function QuestieComms:PopulateQuestDataPacketV2(questId, quest, offset)
 
     if questObject and questObject.Objectives then
         quest[offset] = questId
-        
-        for objectiveIndex, objective in pairs(rawObjectives) do
-            count = count + 1
-        end
-
-        quest[offset+1] = count
+        local countOffset = offset+1
         local _, classFilename = UnitClass("player")
         quest[offset+2] = _classToIndex[classFilename]
 
@@ -241,7 +267,10 @@ function QuestieComms:PopulateQuestDataPacketV2(questId, quest, offset)
             quest[offset + 2] = objective.numFulfilled
             quest[offset + 3] = objective.numRequired
             offset = offset + 4
+            count = count + 1
         end
+        
+        quest[countOffset] = count
     end
 
 
@@ -490,7 +519,7 @@ function _QuestieComms:BroadcastQuestLog(eventName, sendMode, targetPlayer) -- b
             --print("[CommsSendOrder][Block " .. (blockCount - 1) .. "] " .. QuestieDB.QueryQuestSingle(entry.questId, "name"))
             entryCount = entryCount + 1
             rawQuestList[quest.id] = quest;
-            if string.len(QuestieSerializer:Serialize(rawQuestList)) > 220 then--extra space for packet metadata and CTL stuff
+            if string.len(QuestieSerializer:Serialize(rawQuestList)) > 200 then--extra space for packet metadata and CTL stuff
                 rawQuestList[quest.id] = nil
                 tinsert(blocks, rawQuestList)
                 rawQuestList = {}
@@ -530,6 +559,123 @@ function _QuestieComms:BroadcastQuestLog(eventName, sendMode, targetPlayer) -- b
                         local nextBroadcast = tremove(_QuestieComms._nextBroadcastData)
                         if nextBroadcast then
                             _QuestieComms:BroadcastQuestLog(unpack(nextBroadcast))
+                        end
+                    end
+                end, blockCount)
+            end)
+        end
+    end
+end
+
+_QuestieComms._isBroadcastingV2 = false
+_QuestieComms._nextBroadcastDataV2 = {}
+
+function _QuestieComms:BroadcastQuestLogV2(eventName, sendMode, targetPlayer) -- broadcast quest update to group or raid
+    if _QuestieComms._isBroadcastingV2 then
+        tinsert(_QuestieComms._nextBroadcastDataV2, {eventName, sendMode, targetPlayer})
+        return
+    end
+    local partyType = QuestiePlayer:GetGroupType()
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieComms] Message", eventName, "partyType:", tostring(partyType));
+    if partyType then
+        
+        -- Maybe this should be its own function in QuestieQuest...
+        local numEntries, numQuests = GetNumQuestLogEntries();
+
+        local sorted = {}
+        for index = 1, numEntries do
+            local _, _, questType, isHeader, _, _, _, questId, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
+            if not isHeader then
+                local entry = {}
+                entry.questId = questId
+                entry.questType = questType
+                entry.zoneOrSort = QuestieDB.QueryQuestSingle(questId, "zoneOrSort")
+                entry.isSoloQuest = not (questType == "Dungeon" or questType == "Raid" or questType == "Group" or questType == "Elite" or questType == "PVP")
+                
+
+                if entry.zoneOrSort > 0 then
+                    entry.UiMapId = ZoneDB:GetUiMapIdByAreaId(entry.zoneOrSort)
+                    entry.zoneDistance = HBD:GetZoneDistance(entry.UiMapId, 0.5, 0.5, HBD:GetPlayerZone(), 0.5, 0.5) or 99999999
+                else
+                    entry.zoneDistance = 99999999 -- some high number (class quests etc)
+                end
+                if partyType ~= "raid" or (not entry.isSoloQuest) then
+                    tinsert(sorted, entry)
+                end
+            end
+        end
+
+        table.sort(sorted, function(a, b)
+            if a.isSoloQuest and not b.isSoloQuest then
+                return false
+            elseif b.isSoloQuest and not a.isSoloQuest then
+                return true
+            else--if a.isSoloQuest == b.isSoloQuest then
+                if a.zoneDistance > b.zoneDistance then
+                    return false
+                elseif a.zoneDistance < b.zoneDistance then
+                    return true
+                else
+                    return false -- 0
+                end
+            end
+        end)
+
+        local rawQuestList = {}
+        local blocks = {}
+        local entryCount = 0
+        local blockCount = 2 -- the extra tick allows checking tremove() == nil to set _isBroadcasting=false
+        local offset = 2
+        
+
+        for _, entry in pairs(sorted) do
+            local quest = QuestieComms:CreateQuestDataPacket(entry.questId);
+            --print("[CommsSendOrder][Block " .. (blockCount - 1) .. "] " .. QuestieDB.QueryQuestSingle(entry.questId, "name"))
+            entryCount = entryCount + 1
+
+            offset = QuestieComms:PopulateQuestDataPacketV2_noclass_renameme(rawQuestList, quest, offset)
+
+            if string.len(QuestieSerializer:Serialize(rawQuestList)) > 200 then--extra space for packet metadata and CTL stuff
+                rawQuestList[1] = entryCount
+                tinsert(blocks, rawQuestList)
+                rawQuestList = {}
+                entryCount = 0
+                blockCount = blockCount + 1
+                offset = 2
+            end
+        end
+
+        if entryCount ~= 0 or blockCount ~= 2 then
+            rawQuestList[1] = entryCount
+            tinsert(blocks, rawQuestList) -- add the last block
+            _QuestieComms._isBroadcastingV2 = true
+            -- hopefully reduce server load by staggering responses
+            C_Timer.After(random() * 3, function()
+                C_Timer.NewTicker(3, function()
+                    local block = tremove(blocks)
+                    if block then
+                        -- send the block
+                        local questPacket = _QuestieComms:CreatePacket(_QuestieComms.QC_ID_BROADCAST_FULL_QUESTLISTV2);
+                        questPacket.data.rawQuestList = block;
+                        if "WHISPER" == sendMode then
+                            questPacket.data.writeMode = _QuestieComms.QC_WRITE_WHISPER
+                            questPacket.data.target = targetPlayer
+                            questPacket.data.priority = "NORMAL"
+                        else
+                            if partyType == "raid" then
+                                questPacket.data.writeMode = _QuestieComms.QC_WRITE_ALLRAID
+                                questPacket.data.priority = "BULK"
+                            else
+                                questPacket.data.writeMode = _QuestieComms.QC_WRITE_ALLGROUP
+                                questPacket.data.priority = "NORMAL"
+                            end
+                        end
+                        questPacket:write();
+                    else
+                        _QuestieComms._isBroadcastingV2 = false
+                        local nextBroadcast = tremove(_QuestieComms._nextBroadcastDataV2)
+                        if nextBroadcast then
+                            _QuestieComms:BroadcastQuestLogV2(unpack(nextBroadcast))
                         end
                     end
                 end, blockCount)
