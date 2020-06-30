@@ -50,7 +50,6 @@ local HBD = LibStub("HereBeDragonsQuestie-2.0")
 
 function QuestieQuest:Initialize()
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString("DEBUG_GET_QUEST_COMP"))
-    --GetQuestsCompleted(Questie.db.char.complete)
     Questie.db.char.complete = GetQuestsCompleted()
 
     QuestieProfessions:Update()
@@ -860,8 +859,6 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
     end
 
     if quest:IsComplete() == 1 then
-
-        _CallPopulateObjective(quest)
         _AddSourceItemObjective(quest)
 
         QuestieQuest:AddFinisher(quest)
