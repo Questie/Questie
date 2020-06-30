@@ -143,5 +143,8 @@ Modules\QuestieCleanup.lua
 #Profiler
 Modules\QuestieProfiler.lua
 
+#Debug
+Modules\Debug.lua
+
 #Main
 Questie.lua
