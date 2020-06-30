@@ -660,6 +660,10 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.FERALAS]={{39.9,21.9},{40.44,22.43},{40.32,24.63},{40.72,24.44},{38.69,23.6},{39.67,22.3},{38.78,21.93},{38.23,20.59},{38.17,21.4},{41.05,22.62},{39.62,22.23},},},
             [npcKeys.zoneID] = zoneIDs.FERALAS,
         },
+        [14748] = {
+            [npcKeys.spawns] = {[zoneIDs.THE_HINTERLANDS]={{84.6,41.2},},},
+            [npcKeys.zoneID] = zoneIDs.THE_HINTERLANDS,
+        },
         [14766] = {
             [npcKeys.spawns] = {[zoneIDs.ALTERAC_VALLEY]={{42.32,13.58},},},
             [npcKeys.zoneID] = zoneIDs.ALTERAC_VALLEY,
