@@ -440,7 +440,7 @@ function QuestieComms:YellProgress(questId)
                     packet:write();
                     QuestieComms._yellWaitingQuests[questId] = nil
                 end
-                local nextQuest = tremove(QuestieComms._yellQueue)
+                local nextQuest = tremove(QuestieComms._yellQueue, 1)
                 if nextQuest then
                     C_Timer.After(2, function()
                         doYell(nextQuest)
@@ -535,7 +535,7 @@ function _QuestieComms:BroadcastQuestLog(eventName, sendMode, targetPlayer) -- b
             -- hopefully reduce server load by staggering responses
             C_Timer.After(random() * 3, function()
                 C_Timer.NewTicker(3, function()
-                    local block = tremove(blocks)
+                    local block = tremove(blocks, 1)
                     if block then
                         -- send the block
                         local questPacket = _QuestieComms:CreatePacket(_QuestieComms.QC_ID_BROADCAST_FULL_QUESTLIST);
@@ -556,7 +556,7 @@ function _QuestieComms:BroadcastQuestLog(eventName, sendMode, targetPlayer) -- b
                         questPacket:write();
                     else
                         _QuestieComms._isBroadcasting = false
-                        local nextBroadcast = tremove(_QuestieComms._nextBroadcastData)
+                        local nextBroadcast = tremove(_QuestieComms._nextBroadcastData, 1)
                         if nextBroadcast then
                             _QuestieComms:BroadcastQuestLog(unpack(nextBroadcast))
                         end
@@ -651,7 +651,7 @@ function _QuestieComms:BroadcastQuestLogV2(eventName, sendMode, targetPlayer) --
             -- hopefully reduce server load by staggering responses
             C_Timer.After(random() * 3, function()
                 C_Timer.NewTicker(3, function()
-                    local block = tremove(blocks)
+                    local block = tremove(blocks, 1)
                     if block then
                         -- send the block
                         local questPacket = _QuestieComms:CreatePacket(_QuestieComms.QC_ID_BROADCAST_FULL_QUESTLISTV2);
@@ -672,7 +672,7 @@ function _QuestieComms:BroadcastQuestLogV2(eventName, sendMode, targetPlayer) --
                         questPacket:write();
                     else
                         _QuestieComms._isBroadcastingV2 = false
-                        local nextBroadcast = tremove(_QuestieComms._nextBroadcastDataV2)
+                        local nextBroadcast = tremove(_QuestieComms._nextBroadcastDataV2, 1)
                         if nextBroadcast then
                             _QuestieComms:BroadcastQuestLogV2(unpack(nextBroadcast))
                         end
