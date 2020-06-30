@@ -814,42 +814,6 @@ end
 
 QuestieDB.FactionGroup = UnitFactionGroup("player")
 
-function _QuestieDB:GetSpecialNPC(npcId)
-    if npcId == nil then
-        return nil
-    end
-    local rawdata = Questie_SpecialNPCs[npcId]
-    if rawdata then
-        local NPC = {}
-        NPC.id = npcId
-        if not _QuestieDB.stream then -- bad code
-            _QuestieDB.stream = QuestieStreamLib:GetStream("b89")
-        end
-        _QuestieDB.stream:Load(rawdata)
-        NPC.name = _QuestieDB.stream:ReadTinyString()
-        NPC.type = "monster"
-        NPC.newFormatSpawns = {}; -- spawns should be stored like this: {{x, y, uimapid}, ...} so im creating a 2nd var to aid with moving to the new format
-        NPC.spawns = {};
-        local count = _QuestieDB.stream:ReadByte()
-        for i=1, count do
-            local x = _QuestieDB.stream:ReadShort() / 655.35
-            local y = _QuestieDB.stream:ReadShort() / 655.35
-            local m = _QuestieDB.stream:ReadByte() + 1400
-            tinsert(NPC.newFormatSpawns, {x, y, m});
-
-            m = ZoneDB:GetAreaIdByUiMapId(m)
-            if m then
-                if not NPC.spawns[m] then
-                    NPC.spawns[m] = {};
-                end
-                tinsert(NPC.spawns[m], {x, y});
-            end
-        end
-        return NPC
-    end
-    return nil
-end
-
 function QuestieDB:GetNPC(npcId)
     if npcId == nil then
         return nil
@@ -864,7 +828,7 @@ function QuestieDB:GetNPC(npcId)
 
     if not rawdata then
         Questie:Debug(DEBUG_CRITICAL, "[QuestieDB:GetNPC] rawdata is nil for npcID:", npcId)
-        return _QuestieDB:GetSpecialNPC(npcId)
+        return nil
     end
 
     local npc = {}
@@ -872,9 +836,6 @@ function QuestieDB:GetNPC(npcId)
     npc.id = npcId
     for stringKey, intKey in pairs(QuestieDB.npcKeys) do
         npc[stringKey] = rawdata[intKey]
-    end
-    if npc.spawns == nil and Questie_SpecialNPCs[npcId] then -- get spawns from script spawns list
-        npc.spawns = _QuestieDB:GetSpecialNPC(npcId).spawns
     end
 
     ---@class Point
