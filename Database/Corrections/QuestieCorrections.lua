@@ -55,6 +55,9 @@ function QuestieCorrections:Initialize()
 
     for id, data in pairs(QuestieNPCFixes:Load()) do
         for key, value in pairs(data) do
+            if not QuestieDB.npcData[id] then
+                QuestieDB.npcData[id] = {}
+            end
             QuestieDB.npcData[id][key] = value
         end
     end
