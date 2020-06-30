@@ -639,34 +639,54 @@ _QuestieComms.packets = {
         read = function(self)
             Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Received: QC_ID_REQUEST_FULL_QUESTLIST")
             --Questie:SendMessage("QC_ID_BROADCAST_FULL_QUESTLIST");
+            
+            --if tonumber(major) > 5 then
+            --    QuestieComms:BroadcastQuestLogV2(self.playerName, "WHISPER")--Questie:SendMessage("QC_ID_BROADCAST_FULL_QUESTLISTV2");
+            --else
+            --    QuestieComms:BroadcastQuestLogV2(self.playerName, "WHISPER") -- player doesnt have new questie, use old packet
+            --end
             if UnitName("Player") ~= self.playerName then
                 _QuestieComms:BroadcastQuestLog("QC_ID_BROADCAST_FULL_QUESTLIST", "WHISPER", self.playerName)
             end
         end
     },
     [_QuestieComms.QC_ID_BROADCAST_FULL_QUESTLISTV2] = {-- 12
-    },
-    [_QuestieComms.QC_ID_YELL_PROGRESS] = { --13
         write = function(self)
-            Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Sending: QC_ID_REQUEST_FULL_QUESTLIST")
+            Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Sending: QC_ID_REQUEST_FULL_QUESTLISTV2")
             _QuestieComms:Broadcast(self.data);
         end,
         read = function(self)
-            Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Received: QC_ID_REQUEST_FULL_QUESTLIST")
+            Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Received: QC_ID_REQUEST_FULL_QUESTLISTV2")
+            local offset = 2
+            local count = self[1][1]
+            for i=1,count do
+                offset = QuestieComms:InsertQuestDataPacketV2(self[1], self.playerName, offset, false)
+            end
+        end
+    },
+    [_QuestieComms.QC_ID_YELL_PROGRESS] = { --13
+        write = function(self)
+            Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Sending: QC_ID_YELL_PROGRESS")
+            _QuestieComms:Broadcast(self.data);
+        end,
+        read = function(self)
+            Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Received: QC_ID_YELL_PROGRESS")
             if not Questie.db.global.disableYellComms then
                 QuestieComms.remotePlayerTimes[self.playerName] = GetTime()
                 local _, done = QuestieComms:InsertQuestDataPacketV2(self[1], self.playerName, 1, true)
                 QuestieComms:SortRemotePlayers()
             end
-            --if tonumber(major) > 5 then
-            --    QuestieComms:BroadcastQuestLogV2(self.playerName, "WHISPER")--Questie:SendMessage("QC_ID_BROADCAST_FULL_QUESTLISTV2");
-            --else
-            --    QuestieComms:BroadcastQuestLogV2(self.playerName, "WHISPER") -- player doesnt have new questie, use old packet
-            --end
         end
     },
     [_QuestieComms.QC_ID_BROADCAST_QUEST_UPDATEV2] = { -- 14
-
+        write = function(self)
+            Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Sending: QC_ID_BROADCAST_QUEST_UPDATEV2")
+            _QuestieComms:Broadcast(self.data);
+        end,
+        read = function(self)
+            Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Received: QC_ID_BROADCAST_QUEST_UPDATEV2")
+            local _, done = QuestieComms:InsertQuestDataPacketV2(self[1], self.playerName, 1, false)
+        end
     }
 }
 
@@ -700,7 +720,7 @@ function _QuestieComms:Broadcast(packet)
         packet.msgVer = nil
         --packet.ver = nil
         local compressedData = QuestieSerializer:Serialize(packet, "b89");
-        print("Yelling progress: " .. compressedData)
+        --print("Yelling progress: " .. compressedData)
         Questie:SendCommMessage(_QuestieComms.prefix, compressedData, packetWriteMode, "BULK")
     else
         local compressedData = QuestieSerializer:Serialize(packet);
