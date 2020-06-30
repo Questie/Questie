@@ -251,6 +251,54 @@ function QuestieComms:PopulateQuestDataPacketV2(questId, quest, offset)
 end
 
 
+-- temporary function: refactor in 6.0.1
+function QuestieComms:InsertQuestDataPacketV2_noclass_RenameMe(questPacket, playerName, offset, disableCompleteQuests)
+    --We don't want to insert our own quest data.
+    local allDone = true
+    if questPacket then
+        --Does it contain id and objectives?
+        if(questPacket[1 + offset]) then
+            -- Create empty quest.
+            local questPacketid = questPacket[offset]
+            local objectiveCount = questPacket[offset+1]
+
+            local objectives = {}
+            offset = offset + 2
+            local objectiveIndex = 0
+            while objectiveIndex < objectiveCount and questPacket[offset] do
+                objectiveIndex = objectiveIndex + 1
+                objectives[objectiveIndex] = {};
+                objectives[objectiveIndex].index = objectiveIndex;
+                
+                objectives[objectiveIndex].id = questPacket[offset]
+                objectives[objectiveIndex].type = string.char(questPacket[offset+1])--[_QuestieComms.idLookup["type"]];
+                objectives[objectiveIndex].fulfilled = questPacket[offset+2]--[_QuestieComms.idLookup["fulfilled"]];
+                objectives[objectiveIndex].required = questPacket[offset+3]--[_QuestieComms.idLookup["required"]];
+                objectives[objectiveIndex].finished = objectives[objectiveIndex].fulfilled == objectives[objectiveIndex].required--[_QuestieComms.idLookup["finished"]];
+                
+                allDone = allDone and objectives[objectiveIndex].finished
+
+                offset = offset + 4
+            end
+            if not (allDone and disableCompleteQuests) then
+                if not QuestieComms.remoteQuestLogs[questPacketid] then
+                    QuestieComms.remoteQuestLogs[questPacketid] = {}
+                end
+                -- Create empty player.
+                if not QuestieComms.remoteQuestLogs[questPacketid][playerName] then
+                    QuestieComms.remoteQuestLogs[questPacketid][playerName] = {}
+                end
+
+                QuestieComms.remoteQuestLogs[questPacketid][playerName] = objectives
+
+                --Write to tooltip data
+                QuestieComms.data:RegisterTooltip(questPacketid, playerName, objectives)
+            end
+        end
+    end
+    return offset, allDone
+end
+
 function QuestieComms:InsertQuestDataPacketV2(questPacket, playerName, offset, disableCompleteQuests)
     --We don't want to insert our own quest data.
     local allDone = true
@@ -660,7 +708,7 @@ _QuestieComms.packets = {
             local offset = 2
             local count = self[1][1]
             for i=1,count do
-                offset = QuestieComms:InsertQuestDataPacketV2(self[1], self.playerName, offset, false)
+                offset = QuestieComms:InsertQuestDataPacketV2_noclass_RenameMe(self[1], self.playerName, offset, false)
             end
         end
     },
@@ -685,7 +733,7 @@ _QuestieComms.packets = {
         end,
         read = function(self)
             Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Received: QC_ID_BROADCAST_QUEST_UPDATEV2")
-            local _, done = QuestieComms:InsertQuestDataPacketV2(self[1], self.playerName, 1, false)
+            local _, done = QuestieComms:InsertQuestDataPacketV2_noclass_RenameMe(self[1], self.playerName, 1, false)
         end
     }
 }
