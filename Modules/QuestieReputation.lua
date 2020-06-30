@@ -50,17 +50,7 @@ function QuestieReputation:GetPlayerReputations()
     return playerReputations
 end
 
--- factionIDs https://wow.gamepedia.com/FactionID
--- StandingIDs https://wow.gamepedia.com/API_TYPE_StandingId
--- Hated        -6000 to -42000     1
--- Hostile      -3000 to -5999      2
--- Unfriendly   -1 to -2999         3
--- Neutral      0 to 2999           4
--- Friendly     3000 to 8999        5
--- Honored      9000 to 20999       6
--- Revered      21000 to 41999      7
--- Exalted      42000 to 41999      8
-
+--- Checkout https://github.com/AeroScripts/QuestieDev/wiki/Corrections#reputation-levels for more information
 function QuestieReputation:HasReputation(requiredMinRep, requiredMaxRep)
     local hasMinRep = true -- the player has reached the min required reputation value
     local hasMaxRep = true -- the player has not reached the max allowed reputation value
