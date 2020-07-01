@@ -1981,7 +1981,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredRaces] = 178,
         },
         [8314] = {
-            [questKeys.specialFlags] = nil, -- #1870
+            [questKeys.specialFlags] = 0, -- #1870
         },
         [8331]  ={
             [questKeys.exclusiveTo] = {},
