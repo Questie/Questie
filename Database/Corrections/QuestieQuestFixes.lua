@@ -277,9 +277,8 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {738}, --#2069
         },
         [715] = {
-            [questKeys.preQuestGroup] = {712,714,},
-            [questKeys.preQuestSingle] = {},
-            [questKeys.requiredSkill] = {},
+            [QuestieDB.questKeys.preQuestGroup] = {712,714,},
+            [QuestieDB.questKeys.requiredSkill] = {},
         },
         [730] = {
             [questKeys.exclusiveTo] = {729}, -- #1587
