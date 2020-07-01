@@ -447,4 +447,5 @@ QuestieLocale.locale['deDE'] = {
     ['Ends the following quests:'] = "Ends the following quests:",
     ['No quests to list.'] = "No quests to list.",
     ['No spawn data available.'] = "No spawn data available.",
+    ["Nearby"] = "In der Nähe",
 };

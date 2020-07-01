@@ -446,4 +446,5 @@ QuestieLocale.locale['esMX'] = {
     ['Ends the following quests:'] = "Termina las siguientes misiones:",
     ['No quests to list.'] = "No hay misiones para enumerar.",
     ['No spawn data available.'] = "No hay datos de spawn disponibles.",
+    ["Nearby"] = "Cerca de",
 };

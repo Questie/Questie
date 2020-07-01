@@ -447,4 +447,5 @@ QuestieLocale.locale['frFR'] = {
     ['Ends the following quests:'] = "Termine les quêtes suivantes :",
     ['No quests to list.'] = "Aucune quête à répertorier.",
     ['No spawn data available.'] = "Aucune donnée de spawn disponible.",
+    ["Nearby"] = "A proximité",
 };

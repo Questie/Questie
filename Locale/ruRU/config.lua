@@ -447,4 +447,5 @@ QuestieLocale.locale['ruRU'] = {
     ['Ends the following quests:'] = "Завершает следующие задания:",
     ['No quests to list.'] = "Нет этого задания в списке.",
     ['No spawn data available.'] = "Нет данных о появлении.",
+    ["Nearby"] = "Недалеко",
 };
