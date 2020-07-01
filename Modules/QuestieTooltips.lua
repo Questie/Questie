@@ -435,9 +435,9 @@ function QuestieTooltips:QuestLinks(link)
 
             -- [Block 2] Quest Status
             if QuestiePlayer.currentQuestlog[quest.Id] then
-                if QuestieDB:IsComplete(quest) == 1 then
+                if QuestieDB:IsComplete(quest.Id) == 1 then
                     ItemRefTooltip:AddLine("|cFF00ff00"..QuestieLocale:GetUIString("TOOLTIPS_ON_QUEST").." (".._G['COMPLETE']..")|r",1,1,1) --green (green)
-                elseif QuestieDB:IsComplete(quest) == -1 then
+                elseif QuestieDB:IsComplete(quest.Id) == -1 then
                     ItemRefTooltip:AddLine("|cFF00ff00"..QuestieLocale:GetUIString("TOOLTIPS_ON_QUEST").."|r |cFFff0000(".._G['FAILED']..")|r",1,1,1) --green (red)
                 else
                     ItemRefTooltip:AddLine("|cFF00ff00"..QuestieLocale:GetUIString("TOOLTIPS_ON_QUEST").."|r",1,1,1) --green
@@ -562,7 +562,7 @@ function QuestieTooltips:QuestLinks(link)
 
             if QuestiePlayer.currentQuestlog[quest.Id] then
                 -- On Quest: display quest progress
-                if (QuestieDB:IsComplete(quest) == 0) then
+                if (QuestieDB:IsComplete(quest.Id) == 0) then
                     ItemRefTooltip:AddLine(" ")
                     ItemRefTooltip:AddLine(QuestieLocale:GetUIString("TOOLTIPS_PROGRESS_QUEST")..":")
                     for _, objective in pairs(quest.Objectives) do
