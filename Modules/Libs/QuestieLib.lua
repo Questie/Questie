@@ -361,7 +361,7 @@ end
 function QuestieLib:GetAddonVersionString()
     local major, minor, patch, buildType = QuestieLib:GetAddonVersionInfo()
 
-    if buildType then
+    if buildType and buildType ~= "nil" then
         buildType = " - " .. buildType
     else
         buildType = ""
