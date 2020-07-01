@@ -111,6 +111,12 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
+        [3080] = {
+            [itemKeys.name] = "Candle of Beckoning",
+            [itemKeys.relatedQuests] = {409,431,},
+            [itemKeys.npcDrops] = {},
+            [itemKeys.objectDrops] = {1586},
+        },
         [3081] = {
             [itemKeys.name] = "Nether Gem",
             [itemKeys.relatedQuests] = {405},

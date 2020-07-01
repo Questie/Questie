@@ -131,6 +131,9 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = 1,
             [questKeys.parentQuest] = 310,
         },
+        [409] = {
+            [questKeys.requiredSourceItems] = {3080},
+        },
         [410] = { -- the dormant shade
             [questKeys.preQuestSingle] = {366}, -- #638
             [questKeys.exclusiveTo] = {411}, -- #752
