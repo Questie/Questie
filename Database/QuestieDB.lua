@@ -37,6 +37,10 @@ local DB_NPC_FRIENDLY = 13
 ---@type table<number, table<number, string>>
 local questTagCorrections = {
     [4146] = {81, "Dungeon"},
+    [6846] = {41, "PvP"},
+    [6901] = {41, "PvP"},
+    [7001] = {41, "PvP"},
+    [7027] = {41, "PvP"},
     [7161] = {41, "PvP"},
     [7162] = {41, "PvP"},
     [8122] = {41, "PvP"},
