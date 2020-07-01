@@ -371,6 +371,11 @@ function QuestieComms:InsertQuestDataPacketV2(questPacket, playerName, offset, d
 
                 --Write to tooltip data
                 QuestieComms.data:RegisterTooltip(questPacketid, playerName, objectives)
+            elseif disableCompleteQuests then
+                -- remove player if they exist
+                if QuestieComms.remoteQuestLogs[questPacketid] and QuestieComms.remoteQuestLogs[questPacketid][playerName] then
+                    QuestieComms.remoteQuestLogs[questPacketid][playerName] = nil
+                end
             end
         end
     end
@@ -418,8 +423,11 @@ QuestieComms._yellWaitingQuests = {}
 QuestieComms._yellQueue = {}
 QuestieComms._isYelling = false
 
+local _loadupTime_removeme = GetTime() -- this will be removed in 6.0.1 or 6.1, when we can figure out a proper way to prevent
+-- yelling quests on login. Not enough time to make and test a proper fix
+
 function QuestieComms:YellProgress(questId)
-    if Questie.db.global.disableYellComms or GetNumGroupMembers() > 4 then
+    if Questie.db.global.disableYellComms or GetNumGroupMembers() > 4 or GetTime() - _loadupTime_removeme < 8 then
         return
     end
     if not QuestieComms._yellWaitingQuests[questId] then
