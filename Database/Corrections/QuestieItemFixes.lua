@@ -204,7 +204,10 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {},
         },
         [3913] = {
-            [QuestieDB.itemKeys.npcDrops] = {2530},
+            [itemKeys.name] = "Filled Soul Gem",
+            [itemKeys.relatedQuests] = {592,593},
+            [itemKeys.npcDrops] = {2530},
+            [itemKeys.objectDrops] = {},
         },
         [4016] = {
             [itemKeys.npcDrops] = {1488,1489,1490,1491,2530,2534,2535,2536,2537},
