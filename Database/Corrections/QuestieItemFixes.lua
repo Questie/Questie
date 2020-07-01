@@ -286,6 +286,12 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {3189},
             [itemKeys.objectDrops] = {},
         },
+        [4986] = {
+            [itemKeys.name] = "Flawed Power Stone",
+            [itemKeys.relatedQuests] = {924,926,},
+            [itemKeys.npcDrops] = {},
+            [itemKeys.objectDrops] = {5621},
+        },
         [5051] = {
             [itemKeys.name] = "Dig Rat",
             [itemKeys.relatedQuests] = {862},
