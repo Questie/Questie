@@ -1395,7 +1395,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.ALTERAC_VALLEY,
         },
         [14030] = {
-            [npcKeys.spawns] = {[zoneIDs.ALTERAC_VALLEY]={{50,56},},},
+            [npcKeys.spawns] = {[zoneIDs.ALTERAC_VALLEY]={{50,65},},},
             [npcKeys.zoneID] = zoneIDs.ALTERAC_VALLEY,
         },
         [14031] = {
