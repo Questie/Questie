@@ -935,8 +935,12 @@ function _QuestieComms:Broadcast(packet)
     end
 end
 
-
 function _QuestieComms:OnCommReceived(message, distribution, sender)
+    local result, error = pcall(_QuestieComms.OnCommReceived_unsafe, _QuestieComms, message, distribution, sender)
+    -- todo: print error? maybe we shouldnt
+end
+
+function _QuestieComms:OnCommReceived_unsafe(message, distribution, sender)
     --print("[" .. distribution .."][" .. sender .. "] " .. message)
     Questie:Debug(DEBUG_DEVELOP, "|cFF22FF22", "sender:", "|r", sender, "distribution:", distribution, "Packet length:",string.len(message))
     if message and sender and sender ~= UnitName("player") then
