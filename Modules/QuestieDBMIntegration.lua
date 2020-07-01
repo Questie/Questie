@@ -23,7 +23,7 @@ local QuestieHUDEnabled = false
 --------------------------------------------
 --Adds icons to actual hud display
 local function AddHudQuestIcon(tableString, icon, AreaID, x, y, r, g, b)
-    if tableString and DBM and DBM.HudMap and not AddedHudIds[tableString] then
+    if tableString and not AddedHudIds[tableString] then
         --Icon based filters, if icon is disabled, return without adding
         if not Questie.db.global.dbmHUDShowSlay and icon:find("slay") or not Questie.db.global.dbmHUDShowQuest and (icon:find("complete") or icon:find("available")) or not Questie.db.global.dbmHUDShowInteract and icon:find("object") or not Questie.db.global.dbmHUDShowLoot and icon:find("loot") then return end
         if not DBM.HudMap.HUDEnabled then
@@ -44,7 +44,7 @@ end
 
 --Removes icons from hud display
 local function RemoveHudQuestIcon(tableString)
-    if tableString and AddedHudIds[tableString] and DBM and DBM.HudMap then
+    if tableString and AddedHudIds[tableString] then
         DBM.HudMap:FreeEncounterMarkerByTarget(tableString, "Questie")
         AddedHudIds[tableString] = nil
         --print("Removing "..tableString)
@@ -96,21 +96,19 @@ do
     end
 
     local function DelayedMapCheck()
-        if DBM and DBM.HudMap then
-            --Only run stuff if map actually changes
-            local _, _, _, _, _, _, _, mapID = GetInstanceInfo()
-            if LastInstanceMapID ~= mapID then
-                LastInstanceMapID = mapID
-                DBM.HudMap:ClearAllEdges()--Wipe out any edges, they wouldn't work cross continent anyways
-                if IsInInstance() then--We've entered an instance, DBM itself will already wiped/disabled hud for entering a map restricted area, but locally we need to wipe AddedHudIds
-                    AddedHudIds = {}
-                else
-                    CleanupPoints(LastInstanceMapID)
-                    ReAddHudIcons()
-                end
-            --else
-                --print("No action taken because mapID hasn't changed since last check")
+        --Only run stuff if map actually changes
+        local _, _, _, _, _, _, _, mapID = GetInstanceInfo()
+        if LastInstanceMapID ~= mapID then
+            LastInstanceMapID = mapID
+            DBM.HudMap:ClearAllEdges()--Wipe out any edges, they wouldn't work cross continent anyways
+            if IsInInstance() then--We've entered an instance, DBM itself will already wiped/disabled hud for entering a map restricted area, but locally we need to wipe AddedHudIds
+                AddedHudIds = {}
+            else
+                CleanupPoints(LastInstanceMapID)
+                ReAddHudIcons()
             end
+        --else
+            --print("No action taken because mapID hasn't changed since last check")
         end
     end
 
