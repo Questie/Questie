@@ -2034,6 +2034,12 @@ function QuestieQuestFixes:Load()
         [8430] = {
             [questKeys.exclusiveTo] = {8368,8426,8427,8428,8429},
         },
+        [8484] = {
+            [questKeys.preQuestSingle] = {8481},
+        },
+        [8485] = {
+            [questKeys.preQuestSingle] = {8481},
+        },
         [8493] = { -- bad race data
             [questKeys.requiredRaces] = 77,
         },
