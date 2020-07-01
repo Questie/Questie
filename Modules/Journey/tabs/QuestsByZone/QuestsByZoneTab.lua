@@ -45,7 +45,7 @@ function _QuestieJourney.questsByZone:DrawTab(container)
     zoneDropdown:SetText(QuestieLocale:GetUIString('JOURNEY_SELECT_ZONE'))
 
     local currentZoneId = QuestiePlayer:GetCurrentZoneId()
-    if currentZoneId > 0 then
+    if currentZoneId and currentZoneId > 0 then
         local sortedZones = QuestieJourneyUtils:GetSortedZoneKeys(QuestieJourney.zones[currentContinentId])
         zoneDropdown:SetList(QuestieJourney.zones[currentContinentId], sortedZones)
         zoneDropdown:SetValue(currentZoneId)
