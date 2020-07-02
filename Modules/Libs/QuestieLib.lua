@@ -338,14 +338,19 @@ end
 local cachedTitle = nil
 -- Move to Questie.lua after QuestieOptions move.
 function QuestieLib:GetAddonVersionInfo()
+    local name = "Questie"
+    local version = GetAddOnMetadata(name, "Version")
+    -- %d = digit, %p = punctuation character, %x = hexadecimal digits.
+    local major, minor, patch = string.match(version, "(%d+)%p(%d+)%p(%d+)")
+
     if (not cachedTitle) then
+        --[[ not really sure why QuestiDev-master is checked
         local name, title, _, _, reason = GetAddOnInfo("QuestieDev-master")
         if (reason == "MISSING") then _, title = GetAddOnInfo("Questie") end
         cachedTitle = title
+        ]]--
+        _, cachedTitle = GetAddOnInfo(name)
     end
-    -- %d = digit, %p = punctuation character, %x = hexadecimal digits.
-    local major, minor, patch = string.match(cachedTitle,
-                                                     "(%d+)%p(%d+)%p(%d+)")
 
     local buildType = nil
 
