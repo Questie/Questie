@@ -980,13 +980,6 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipmap, keyToRootIndex, 
     return handle
 end
 
-function QuestieDBCompiler:GetVersionString() -- todo: better place
-    local _,ver = GetAddOnInfo("Questie")
-    if not ver then
-        _,ver = GetAddOnInfo("QuestieDev-master")
-    end
-    -- todo: better regex for this
-    ver = string.sub(ver, 32)
-    ver = string.sub(ver, 0, string.find(ver, "|")-1)
-    return ver
+function QuestieDBCompiler:GetVersionString()
+    return GetAddOnMetadata("Questie", "Version")
 end
