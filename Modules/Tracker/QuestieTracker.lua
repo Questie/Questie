@@ -152,14 +152,15 @@ function QuestieTracker:Initialize()
         end
     end)
 
-    C_Timer.After(2.0, function()
+    C_Timer.After(4.0, function()
+        if Questie.db.global.stickyDurabilityFrame then
+            -- This is the best way to not check 19238192398 events which might reset the position of the DurabilityFrame
+            hooksecurefunc("UIParent_ManageFramePositions", QuestieTracker.MoveDurabilityFrame)
 
-        -- This is the best way to not check 19238192398 events which might reset the position of the DurabilityFrame
-        hooksecurefunc("UIParent_ManageFramePositions", QuestieTracker.MoveDurabilityFrame)
-
-        -- Attach DurabilityFrame to tracker
-        DurabilityFrame:Show()
-        QuestieTracker:MoveDurabilityFrame()
+            -- Attach DurabilityFrame to tracker
+            QuestieTracker:CheckDurabilityAlertStatus()
+            QuestieTracker:MoveDurabilityFrame()
+        end
 
         -- Prevents addons like Dugi Guides from turning off Automatic Quest Tracking and automatically un-tracking quests from the tracker
         if Questie.db.global.autoTrackQuests then
@@ -443,7 +444,7 @@ function _QuestieTracker:CreateActiveQuestsHeader()
             self:SetMode(1)
             Questie.db.char.isTrackerExpanded = true
             if Questie.db.global.stickyDurabilityFrame then
-                DurabilityFrame:Show()
+                QuestieTracker:CheckDurabilityAlertStatus()
                 QuestieTracker:MoveDurabilityFrame()
                 QuestieTracker:ResetLinesForChange()
                 QuestieTracker:Update()
@@ -1127,6 +1128,18 @@ function QuestieTracker:MoveDurabilityFrame()
         end
     else
         QuestieTracker:ResetDurabilityFrame()
+    end
+end
+
+function QuestieTracker:CheckDurabilityAlertStatus()
+    local numAlerts = 0
+    for i = 1, #INVENTORY_ALERT_STATUS_SLOTS do
+        if GetInventoryAlertStatus(i) > 0 then
+            numAlerts = numAlerts + 1
+        end
+    end
+    if numAlerts > 0 then
+        DurabilityFrame:Show()
     end
 end
 
