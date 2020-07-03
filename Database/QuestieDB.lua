@@ -36,6 +36,7 @@ local DB_NPC_FRIENDLY = 13
 --- Strucute: [questId] = {tagId, "questType"}
 ---@type table<number, table<number, string>>
 local questTagCorrections = {
+    [373] = {81, "Dungeon"},
     [4146] = {81, "Dungeon"},
     [6846] = {41, "PvP"},
     [6901] = {41, "PvP"},
