@@ -176,7 +176,7 @@ function QuestieLib:GetColoredQuestName(id, name, level, showLevel, isComplete, 
         name = name .. " (" .. id .. ")"
     end
 
-    if Questie.db.global.collapseCompletedQuests then
+    if Questie.db.global.collapseCompletedQuests or Questie.db.char.collapsedQuests[id] == true then
         if isComplete == -1 then
             name = name .. " (" .. _G['FAILED'] .. ")"
         elseif isComplete == 1 then
