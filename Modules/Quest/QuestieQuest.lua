@@ -1415,10 +1415,12 @@ local function QuestsFilter(chatFrame, event, msg, playerName, languageName, cha
                         _, _, questLevel, questName = string.find(questName, "%[(..-)%] (.+)")
                     end
 
-                    realQuestName, realQuestLevel = unpack(QuestieDB.QueryQuest(questId, "name", "questLevel"))
+                    if QuestieDB.QueryQuest then
+                        realQuestName, realQuestLevel = unpack(QuestieDB.QueryQuest(questId, "name", "questLevel"))
 
-                    if questName and questId then
-                        complete = QuestieDB:IsComplete(questId)
+                        if questName and questId then
+                            complete = QuestieDB:IsComplete(questId)
+                        end
                     end
                 end
 
