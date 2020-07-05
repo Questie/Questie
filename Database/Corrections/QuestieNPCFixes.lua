@@ -597,7 +597,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.THE_BARRENS,
         },
         [5797] = {
-            [npcKeys.spawns] = {[zoneIDs.THE_BARRENS]={{43.8,61.6},},},
+            [npcKeys.spawns] = {[zoneIDs.THE_BARRENS]={{46,70},},},
         },
         [5895] = {
             [npcKeys.name] = "Minor Manifestation of Water",
