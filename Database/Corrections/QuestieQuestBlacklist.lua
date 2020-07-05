@@ -556,6 +556,9 @@ function QuestieQuestBlacklist:Load()
         [9244] = true,
         [9245] = true,
         [9246] = true,
+        [9248] = true,
+        [9250] = true,
+        [9251] = true,
         --Phase 6 - Silithus/EPL PvP
         [9664] = true,
         [9415] = true,
