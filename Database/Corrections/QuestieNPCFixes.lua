@@ -114,6 +114,8 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{45.93,73.08},},},
         },
         [1939] = {
+            [npcKeys.zoneID] = zoneIDs.SILVERPINE_FOREST,
+            [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{63.7,22.9},{64.1,25},{66.9,23.8},{65.2,27.9},{65.1,32},{67,34.7},{69.1,34.9},{67.6,31},},},
             [npcKeys.waypoints] = {},
         },
         [1946] = {
