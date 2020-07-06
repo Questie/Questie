@@ -52,8 +52,9 @@ _QuestieAuto.disallowedNPC = {
     [15761] = true, -- Officer Vu'Shalay (Darkspear Commendations)
 
     -- Stray
-    [15192] = true, -- Anachronos (Caverns of Time)
     [12944] = true, -- Lokhtos Darkbargainer (Thorium Brotherhood, Blackrock Depths)
+    [14828] = true, -- Gelvas Grimegate (Darkmoon Faire Ticket Redemption)
+    [15192] = true, -- Anachronos (Caverns of Time)
     -- AQ gear turnin
     [15192] = true,
     [15378] = true,
