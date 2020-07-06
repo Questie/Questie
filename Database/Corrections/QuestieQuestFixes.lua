@@ -1985,6 +1985,9 @@ function QuestieQuestFixes:Load()
         [8296] = { -- bad race data
             [questKeys.requiredRaces] = 178,
         },
+        [8304] = {
+            [questKeys.objectives] = {{{15171,"Frankal Questioned"},{15170,"Rutgar Questioned"},},nil,nil,nil,},
+        },
         [8314] = {
             [questKeys.specialFlags] = 0, -- #1870
         },
