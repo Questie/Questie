@@ -386,6 +386,12 @@ function QuestieComms:CheckInGroup(name)
     return IsInRaid() and UnitInRaid(name) or UnitInParty(name)
 end
 
+function QuestieComms:RemoveAllRemotePlayers()
+    for name in pairs(QuestieComms.remotePlayerTimes) do
+        QuestieComms:RemoveRemotePlayer(name)
+    end
+end
+
 function QuestieComms:RemoveRemotePlayer(name)
     QuestieComms.remotePlayerTimes[name] = nil
     QuestieComms.remotePlayerEnabled[name] = nil

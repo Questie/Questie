@@ -321,6 +321,9 @@ function QuestieOptions.tabs.general:Initialize()
                 get = function () return not Questie.db.global.disableYellComms end,
                 set = function (info, value)
                     Questie.db.global.disableYellComms = not value
+                    if not value then
+                        QuestieLoader:ImportModule("QuestieComms"):RemoveAllRemotePlayers()
+                    end
                 end,
             },
             --Spacer_C = QuestieOptionsUtils:Spacer(1.99),
