@@ -189,7 +189,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {455}, -- #809
         },
         [484] = {
-            [questKeys.requiredMinRep] = nil, -- #1501
+            [questKeys.requiredMinRep] = {72,0}, -- #1501
         },
         [510] = {
             [questKeys.startedBy] = {nil,{1740},nil}, -- #1512
@@ -283,6 +283,9 @@ function QuestieQuestFixes:Load()
             [QuestieDB.questKeys.preQuestGroup] = {712,714,},
             [QuestieDB.questKeys.requiredSkill] = {},
         },
+        [717] = {
+            [questKeys.requiredSourceItems] = {4843,4844,4845,},
+        },
         [730] = {
             [questKeys.exclusiveTo] = {729}, -- #1587
             [questKeys.zoneOrSort] = 1657,
@@ -316,6 +319,9 @@ function QuestieQuestFixes:Load()
         },
         [781] = {
             [questKeys.startedBy] = {nil,{3076},{4851,},},
+        },
+        [793] = {
+            [questKeys.requiredSourceItems] = {4843,4844,4845,},
         },
         [819] = {
             [questKeys.startedBy] = {nil,{3238},{4926,},},
