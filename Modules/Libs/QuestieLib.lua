@@ -344,12 +344,9 @@ function QuestieLib:GetAddonVersionInfo()
     local major, minor, patch = string.match(version, "(%d+)%p(%d+)%p(%d+)")
 
     if (not cachedTitle) then
-        --[[ not really sure why QuestiDev-master is checked
-        local name, title, _, _, reason = GetAddOnInfo("QuestieDev-master")
-        if (reason == "MISSING") then _, title = GetAddOnInfo("Questie") end
+        local _, title, _, _, reason = GetAddOnInfo("QuestieDev-master")
+        if (reason == "MISSING") then _, title = GetAddOnInfo(name) end
         cachedTitle = title
-        ]]--
-        _, cachedTitle = GetAddOnInfo(name)
     end
 
     local buildType = nil
