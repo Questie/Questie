@@ -242,6 +242,9 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.THE_DEADMINES,
             [npcKeys.spawns] = {[zoneIDs.THE_DEADMINES] = {{-1,-1},},},
         },
+        [2612] = {
+            [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{25,58},{25,56},{25,53},{25,55},{25,52},{26,51},{27,50},{28,49},{29,50},{30,50},{31,51},{32,51},{33,52},{34,52},{35,53},{36,52},{36,53},{38,52},{38,53},{38,54},{40,54},{41,54},{42,55},{43,56},{44,53},{44,51},{44,50},{45,49},{45,47},{46,45},{47,45},{48,45},{49,44},{50,44},{51,43},{52,42},{53,40},},},
+        },  -- Switch to Pat once Pats are fixed
         [2624] = {
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE]={{24.74,24.1},},}, -- #1375
         },
