@@ -37,7 +37,11 @@ function QuestieLocale:Initialize()
             if data[3] then
                  -- needs to be saved as a table for tooltips to have lines
                  -- TODO: split string into ~80 char lines
-                QuestieDB.questData[id][QuestieDB.questKeys.objectivesText] = data[3]
+                if type(data[3]) == "string" then
+                    QuestieDB.questData[id][QuestieDB.questKeys.objectivesText] = {data[3]}
+                else
+                    QuestieDB.questData[id][QuestieDB.questKeys.objectivesText] = data[3]
+                end
             end
         end
     end
