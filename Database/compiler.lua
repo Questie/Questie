@@ -894,12 +894,21 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipmap, keyToRootIndex, 
             --    return ret
             --end
             local ptr = pointers[id]
+            local override = overrides[id]
             if ptr == nil then
-                --print("Entry not found! " .. id)
+                if override then
+                    local ret = {}
+                    for index,key in pairs({...}) do
+                        local rootIndex = keyToRootIndex[key]
+                        if override and rootIndex and override[rootIndex] ~= nil then
+                            ret[index] = override[rootIndex]
+                        end
+                    end
+                    return ret
+                end
                 return nil
             end
             local ret = {}
-            local override = overrides[id]
             for index,key in pairs({...}) do
                 local rootIndex = keyToRootIndex[key]
                 if override and rootIndex and override[rootIndex] ~= nil then

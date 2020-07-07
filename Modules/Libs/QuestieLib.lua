@@ -307,10 +307,11 @@ function QuestieLib:CacheItemNames(questId)
                     item:ContinueOnItemLoad(
                         function()
                             local itemName = item:GetItemName()
-                            -- local itemName = GetItemInfo(objectiveDB.Id)
-                            -- Create an empty item with the name itself but no drops.
-                            QuestieDB.itemDataOverrides[objectiveDB.Id] =
-                                {itemName, {questId}, {}, {}}
+                            if not QuestieDB.itemDataOverrides[objectiveDB.Id] then
+                                QuestieDB.itemDataOverrides[objectiveDB.Id] =  {itemName, {questId}, {}, {}}
+                            else
+                                QuestieDB.itemDataOverrides[objectiveDB.Id][1] = itemName
+                            end
                             Questie:Debug(DEBUG_DEVELOP,
                                           "Created item information for item:",
                                           itemName, ":", objectiveDB.Id)
