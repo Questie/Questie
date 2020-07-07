@@ -233,7 +233,7 @@ local function UpdateMinimapPins(force)
         end
 
         for pin, data in pairs(minimapPins) do
-            if data.instanceID == instanceID and (not data.uiMapID or data.uiMapID == mapID or (data.showInParentZone and IsParentMap(data.uiMapID, mapID))) then
+            if math.abs(x-data.x) + math.abs(y-data.y) < 500 then--if data.instanceID == instanceID and (not data.uiMapID or data.uiMapID == mapID or (data.showInParentZone and IsParentMap(data.uiMapID, mapID))) then
                 activeMinimapPins[pin] = data
                 data.keep = true
                 -- draw the pin (this may reset data.keep if outside of the map)
@@ -414,7 +414,7 @@ function worldmapProvider:HandlePin(icon, data)
                     return
                 end
             else
-                local show = false
+                local show = true -- assume true state
                 local parentMapID = HBD.mapData[data.uiMapID].parent
                 while parentMapID and HBD.mapData[parentMapID] do
                     if parentMapID == uiMapID then
