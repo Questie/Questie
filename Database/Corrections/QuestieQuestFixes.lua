@@ -189,7 +189,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {455}, -- #809
         },
         [484] = {
-            [questKeys.requiredMinRep] = nil, -- #1501
+            [questKeys.requiredMinRep] = {72,0}, -- #1501
         },
         [510] = {
             [questKeys.startedBy] = {nil,{1740},nil}, -- #1512
