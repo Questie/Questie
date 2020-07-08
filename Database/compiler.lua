@@ -8,6 +8,8 @@ local QuestieStream = QuestieLoader:ImportModule("QuestieStreamLib"):GetStream("
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieSerializer
 local serial = QuestieLoader:ImportModule("QuestieSerializer")
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
 serial.enableObjectLimit = false
 
@@ -631,7 +633,7 @@ function QuestieDBCompiler:Compile(finalize)
                 QuestieDBCompiler:CompileItems(function(bin, ptrs)
                     QuestieConfig.itemBin = bin 
                     QuestieConfig.itemPtrs = ptrs
-                    QuestieConfig.dbCompiledOnVersion = QuestieDBCompiler:GetVersionString()
+                    QuestieConfig.dbCompiledOnVersion = QuestieLib:GetAddonVersionString()
                     QuestieConfig.dbCompiledLang = (Questie.db.global.questieLocaleDiff and Questie.db.global.questieLocale or GetLocale())
                     QuestieConfig.dbIsCompiled = true
                     --print("\124cFF4DDBFF [4/4] Finished updating items")
@@ -987,15 +989,4 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipmap, keyToRootIndex, 
     handle.pointers = pointers
 
     return handle
-end
-
-function QuestieDBCompiler:GetVersionString() -- todo: better place
-    local _,ver = GetAddOnInfo("Questie")
-    if not ver then
-        _,ver = GetAddOnInfo("QuestieDev-master")
-    end
-    -- todo: better regex for this
-    ver = string.sub(ver, 32)
-    ver = string.sub(ver, 0, string.find(ver, "|")-1)
-    return ver
 end

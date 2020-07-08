@@ -144,7 +144,7 @@ _PLAYER_LOGIN = function()
         QuestieTracker:Initialize()
     end
 
-    if QuestieDBCompiler:GetVersionString() ~= QuestieConfig.dbCompiledOnVersion or (Questie.db.global.questieLocaleDiff and Questie.db.global.questieLocale or GetLocale()) ~= QuestieConfig.dbCompiledLang then
+    if QuestieLib:GetAddonVersionString() ~= QuestieConfig.dbCompiledOnVersion or (Questie.db.global.questieLocaleDiff and Questie.db.global.questieLocale or GetLocale()) ~= QuestieConfig.dbCompiledLang then
         QuestieConfig.dbIsCompiled = nil -- we need to recompile
     end
 
