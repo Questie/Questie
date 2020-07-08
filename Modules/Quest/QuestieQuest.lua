@@ -1403,7 +1403,7 @@ end
 -- Message Event Filter which intercepts incoming linked quests and replaces them with Hyperlinks
 local function QuestsFilter(chatFrame, event, msg, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, unused, lineID, senderGUID, bnSenderID, ...)
     if string.find(msg, "%[(..-) %((%d+)%)%]") then
-        if #(chatFrame.historyBuffer.elements) > 0 and chatFrame ~= _G.ChatFrame2 then
+        if chatFrame and chatFrame.historyBuffer and #(chatFrame.historyBuffer.elements) > 0 and chatFrame ~= _G.ChatFrame2 then
             for k in string.gmatch(msg, "%[%[?%d?..?%]?..-%]") do
                 local complete, sqid, questId, questLevel, questName, realQuestName, realQuestLevel
                 _, _, questName, sqid = string.find(k, "%[(..-) %((%d+)%)%]")
