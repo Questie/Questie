@@ -623,21 +623,20 @@ function QuestieTooltips:QuestLinks(link)
     return link
 end
 
-local oldOnHyperlinkShow = ChatFrame_OnHyperlinkShow
-function ChatFrame_OnHyperlinkShow(...)
+hooksecurefunc("ChatFrame_OnHyperlinkShow", function(...)
     local chatFrame, link, text, button = ...
     if (IsShiftKeyDown() and ChatEdit_GetActiveWindow() and button == "LeftButton") then
         local linkType, questId, playerGUID = string.split(":", link)
-        if linkType and linkType == "questie" then
+        if linkType and linkType == "questie" and questId then
             Questie:Debug(DEBUG_DEVELOP, "[QuestieTooltips:OnHyperlinkShow] Relinking Quest Link to chat: "..link)
             questId = tonumber(questId)
             local quest = QuestieDB:GetQuest(questId)
-            ChatEdit_InsertLink("[[" .. quest.level .. "] " .. quest.name .. " (" .. questId .. ")]")
-            return
+            if quest then
+                ChatEdit_InsertLink("[[" .. quest.level .. "] " .. quest.name .. " (" .. questId .. ")]")
+            end
         end
     end
-    return oldOnHyperlinkShow(...)
-end
+end)
 
 local oldItemSetHyperlink = ItemRefTooltip.SetHyperlink
 function ItemRefTooltip:SetHyperlink(link, ...)
