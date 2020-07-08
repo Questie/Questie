@@ -336,18 +336,18 @@ function QuestieLib:Remap(value, low1, high1, low2, high2)
 end
 
 local cachedTitle = nil
+local cachedVersion = nil
 -- Move to Questie.lua after QuestieOptions move.
 function QuestieLib:GetAddonVersionInfo()
-    local name = "Questie"
-    local version = GetAddOnMetadata(name, "Version")
-    -- %d = digit, %p = punctuation character, %x = hexadecimal digits.
-    local major, minor, patch = string.match(version, "(%d+)%p(%d+)%p(%d+)")
-
-    if (not cachedTitle) then
-        local _, title, _, _, reason = GetAddOnInfo("QuestieDev-master")
-        if (reason == "MISSING") then _, title = GetAddOnInfo(name) end
+    if (not cachedTitle or not cachedVersion) then
+        local name, title, _, _, reason = GetAddOnInfo("QuestieDev-master")
+        if (reason == "MISSING") then name, title = GetAddOnInfo("Questie") end
         cachedTitle = title
+        cachedVersion = GetAddOnMetadata(name, "Version")
     end
+
+    -- %d = digit, %p = punctuation character, %x = hexadecimal digits.
+    local major, minor, patch = string.match(cachedVersion, "(%d+)%p(%d+)%p(%d+)")
 
     local buildType = nil
 
