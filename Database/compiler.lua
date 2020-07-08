@@ -981,7 +981,3 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipmap, keyToRootIndex, 
 
     return handle
 end
-
-function QuestieDBCompiler:GetVersionString()
-    return GetAddOnMetadata("Questie", "Version")
-end
