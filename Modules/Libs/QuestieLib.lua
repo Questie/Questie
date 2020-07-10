@@ -176,12 +176,14 @@ function QuestieLib:GetColoredQuestName(id, name, level, showLevel, isComplete, 
         name = name .. " (" .. id .. ")"
     end
 
-    if Questie.db.global.collapseCompletedQuests or (Questie.db.char.collapsedQuests and Questie.db.char.collapsedQuests[id] == true) then -- why is tracker code part of this general library function
-        if -1 == isComplete then
-            name = name .. " (" .. _G['FAILED'] .. ")"
-        elseif 1 == isComplete then
-            name = name .. " (" .. _G['COMPLETE'] .. ")"
-        end
+    if (not Questie.db.global.collapseCompletedQuests and (Questie.db.char.collapsedQuests and Questie.db.char.collapsedQuests[id] == nil)) then
+        return QuestieLib:PrintDifficultyColor(level, name)
+    end
+
+    if isComplete == -1 then
+        name = name .. " (" .. _G['FAILED'] .. ")"
+    elseif isComplete == 1 then
+        name = name .. " (" .. _G['COMPLETE'] .. ")"
     end
 
     return QuestieLib:PrintDifficultyColor(level, name)
