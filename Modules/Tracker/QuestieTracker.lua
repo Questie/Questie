@@ -1094,7 +1094,7 @@ end
 
 function QuestieTracker:ResetLocation()
     if _QuestieTracker.trackerLineWidth == nil then
-        return
+        _QuestieTracker.trackerLineWidth = trackerLineWidth
     end
     _QuestieTracker.activeQuestsHeader.trackedQuests:SetMode(1) -- maximized
     Questie.db.char.isTrackerExpanded = true
