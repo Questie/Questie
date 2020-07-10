@@ -233,7 +233,7 @@ local function UpdateMinimapPins(force)
         end
 
         for pin, data in pairs(minimapPins) do
-            if math.abs(x-data.x) + math.abs(y-data.y) < 500 then--if data.instanceID == instanceID and (not data.uiMapID or data.uiMapID == mapID or (data.showInParentZone and IsParentMap(data.uiMapID, mapID))) then
+            if instanceID == data.instanceID and math.abs(x-data.x) + math.abs(y-data.y) < 500 then--if data.instanceID == instanceID and (not data.uiMapID or data.uiMapID == mapID or (data.showInParentZone and IsParentMap(data.uiMapID, mapID))) then
                 activeMinimapPins[pin] = data
                 data.keep = true
                 -- draw the pin (this may reset data.keep if outside of the map)
