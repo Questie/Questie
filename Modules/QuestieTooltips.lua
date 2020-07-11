@@ -209,7 +209,7 @@ function QuestieTooltips:GetTooltip(key)
                 local playerType = ""
                 if playerInfo then
                     playerColor = "|c" .. playerInfo.colorHex
-                elseif QuestieComms.remotePlayerEnabled[playerName] then 
+                elseif QuestieComms.remotePlayerEnabled[playerName] then
                     playerColor = QuestieComms.remotePlayerClasses[playerName]
                     if playerColor then
                         playerColor = Questie:GetClassColor(playerColor)
@@ -632,7 +632,11 @@ hooksecurefunc("ChatFrame_OnHyperlinkShow", function(...)
             questId = tonumber(questId)
             local quest = QuestieDB:GetQuest(questId)
             if quest then
-                ChatEdit_InsertLink("[[" .. quest.level .. "] " .. quest.name .. " (" .. questId .. ")]")
+                local msg = ChatFrame1EditBox:GetText()
+                if msg then
+                    ChatFrame1EditBox:SetText("")
+                    ChatEdit_InsertLink(string.gsub(msg, "%|Hquestie:" .. questId .. ":.*%|h", "%[%[" .. quest.level .. "%] " .. quest.name .. " %(" .. questId .. "%)%]"))
+                end
             end
         end
     end

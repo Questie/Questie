@@ -1449,6 +1449,7 @@ local function QuestsFilter(chatFrame, event, msg, playerName, languageName, cha
                             :gsub("%+", "%%+")
                             :gsub("%-", "%%-")
                             :gsub("%?", "%%?")
+                            :gsub("%|", "%%|")
                         )
                     end
 
