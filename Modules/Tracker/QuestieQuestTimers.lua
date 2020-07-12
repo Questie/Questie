@@ -58,13 +58,10 @@ function QuestieQuestTimers:GetQuestTimerByQuestId(questId, frame, clear)
                 local timerIndex = GetQuestIndexForTimer(i)
                 if timerIndex == questLogIndex then
                     local seconds = select(i, questTimers)
-
                     if clear then
                         _QuestieQuestTimers.timers[i] = nil
-
                     elseif frame then
                         _QuestieQuestTimers.timers[i] = frame
-
                         return SecondsToTime(seconds)
                     end
                 end
@@ -77,12 +74,17 @@ end
 _UpdateTimerFrame = function()
     local questTimers = GetQuestTimers()
     if questTimers then
-        for i, timer in pairs(_QuestieQuestTimers.timers) do
-            local seconds = select(i, questTimers)
-            QuestieCombatQueue:Queue(function()
-                timer.label:SetText("    " .. SecondsToTime(seconds))
-            end)
-        end
+        QuestieCombatQueue:Queue(function()
+            for i, timer in pairs(_QuestieQuestTimers.timers) do
+                if _QuestieQuestTimers.timers[i] == nil then
+                    timer.label:SetText(" ")
+                else
+                    local seconds = select(i, questTimers)
+                    timer.label:SetText(SecondsToTime(seconds))
+                    timer:SetVerticalPadding(Questie.db.global.trackerQuestPadding)
+                end
+            end
+        end)
     else
         _QuestieQuestTimers.timers = {}
     end
