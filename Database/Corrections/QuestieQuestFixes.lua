@@ -69,6 +69,9 @@ function QuestieQuestFixes:Load()
         --[104] = { -- bad race data (actually this is correct)
         --    [questKeys.requiredRaces] = 77,
         --},
+        [109] = {
+            [questKeys.startedBy] = {{233,237,240,261,294,963,},nil,nil,}, --#2158
+        },
         [123] = {
             [questKeys.startedBy] = {{100},nil,{1307}},
         },
