@@ -95,6 +95,9 @@ function QuestieQuestFixes:Load()
         },
         [254] = {
             [questKeys.parentQuest] = 253,
+            [questKeys.specialFlags] = 1,
+            [questKeys.exclusiveTo] = {253}, --#2173
+            [questKeys.preQuestSingle] = {252},
         },
         [273] = {
             [questKeys.triggerEnd] = {"Find Huldar, Miran, and Saean",{[zoneIDs.LOCH_MODAN]={{51.16, 68.96},},},},
