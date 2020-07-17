@@ -280,7 +280,6 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {738}, --#2069
         },
         [715] = {
-            [QuestieDB.questKeys.preQuestGroup] = {712,714,},
             [QuestieDB.questKeys.requiredSkill] = {},
         },
         [717] = {
