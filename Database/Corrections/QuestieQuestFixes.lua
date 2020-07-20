@@ -2312,6 +2312,9 @@ function QuestieQuestFixes:LoadFactionFixes()
         [5050] = {
             [questKeys.startedBy] = {{8403,},nil,nil}
         },
+        [6681] = {
+            [questKeys.startedBy] = {{3328,4583},nil,{17126}}
+        },
         [7562] = {
             [questKeys.startedBy] = {{5753,5815,},nil,nil}
         },
@@ -2374,6 +2377,9 @@ function QuestieQuestFixes:LoadFactionFixes()
         },
         [5050] = {
             [questKeys.startedBy] = {{3520,},nil,nil}
+        },
+        [6681] = {
+            [questKeys.startedBy] = {{918,4163,5165},nil,{17126}}
         },
         [7562] = {
             [questKeys.startedBy] = {{5520,6382,},nil,nil}
