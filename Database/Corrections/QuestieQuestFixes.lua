@@ -785,6 +785,9 @@ function QuestieQuestFixes:Load()
         [2041] = {
             [questKeys.exclusiveTo] = {2040}, --#2068
         },
+        [2198] = {
+            [questKeys.startedBy] = {{4852},nil,{7666}},
+        },
         [2201] = {
             [questKeys.childQuests] = {3375},
         },
