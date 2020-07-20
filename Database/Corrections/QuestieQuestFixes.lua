@@ -1854,6 +1854,12 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {7638,},
             [questKeys.zoneOrSort] = -141,
         },
+        [7735] = {
+            [questKeys.startedBy] = {{5299},nil,{18969}},
+        },
+        [7738] = {
+            [questKeys.startedBy] = {{5299},nil,{18972}},
+        },
         [7761] = {
             [questKeys.startedBy] = {{9046},nil,{18987}},
         },
