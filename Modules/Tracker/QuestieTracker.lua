@@ -436,27 +436,20 @@ function _QuestieTracker:CreateActiveQuestsHeader()
         if self.mode == 1 then
             self:SetMode(0)
             Questie.db.char.isTrackerExpanded = false
-            if Questie.db.global.stickyDurabilityFrame then
-                DurabilityFrame:Hide()
-            end
-
         else
             self:SetMode(1)
             Questie.db.char.isTrackerExpanded = true
-            if Questie.db.global.stickyDurabilityFrame then
-                QuestieTracker:CheckDurabilityAlertStatus()
-                QuestieTracker:MoveDurabilityFrame()
-                QuestieTracker:ResetLinesForChange()
-                QuestieTracker:Update()
-            end
-
             _QuestieTracker.baseFrame.sizer:SetAlpha(1)
             _QuestieTracker.baseFrame:SetBackdropColor(0, 0, 0, Questie.db.global.trackerBackdropAlpha)
             if Questie.db.global.trackerBorderEnabled then
                 _QuestieTracker.baseFrame:SetBackdropBorderColor(1, 1, 1, Questie.db.global.trackerBackdropAlpha)
             end
         end
-
+        if Questie.db.global.stickyDurabilityFrame then
+            QuestieTracker:CheckDurabilityAlertStatus()
+            QuestieTracker:MoveDurabilityFrame()
+            QuestieTracker:ResetLinesForChange()
+        end
         QuestieTracker:Update()
     end)
 
