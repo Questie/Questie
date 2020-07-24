@@ -394,6 +394,7 @@ function QuestieQuestFixes:Load()
         [926] = {
             [questKeys.parentQuest] = 924, -- #806
             [questKeys.preQuestSingle] = {809}, --#606
+            [questKeys.exclusiveTo] = {924}, -- #2195
         },
         [927] = {
             [questKeys.startedBy] = {{3535},nil,{5179}},
