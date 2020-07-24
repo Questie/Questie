@@ -1702,7 +1702,7 @@ function QuestieQuestFixes:Load()
         },
         [7027] = {
             [questKeys.triggerEnd] = {"Ram Collared and Returned", {
-                [zoneIDs.ALTERAC_MOUNTAINS]={{34.58,74.94}},
+                [zoneIDs.ALTERAC_MOUNTAINS]={{34.58,74.94},},},
             },
         },
         [7046] = {
