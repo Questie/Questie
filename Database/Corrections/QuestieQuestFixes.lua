@@ -190,6 +190,7 @@ function QuestieQuestFixes:Load()
         },
         [473] = {
             [questKeys.preQuestSingle] = {455}, -- #809
+            [questKeys.exclusiveTo] = {464}, -- #2173
         },
         [484] = {
             [questKeys.requiredMinRep] = {72,0}, -- #1501
