@@ -827,6 +827,12 @@ function QuestieItemFixes:Load()
         [12366] = {
             [itemKeys.npcDrops] = {7457,7458},
         },
+        [12368] = {
+            [itemKeys.name] = "Dawn's Gambit",
+            [itemKeys.relatedQuests] = {4771},
+            [itemKeys.npcDrops] = {},
+            [itemKeys.objectDrops] = {},
+        },
         [12567] = {
             [itemKeys.name] = "Filled Flasket",
             [itemKeys.relatedQuests] = {4505},
