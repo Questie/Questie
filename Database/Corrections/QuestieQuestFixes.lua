@@ -1228,6 +1228,9 @@ function QuestieQuestFixes:Load()
         [4770] = {
             [questKeys.triggerEnd] = {"Escort Pao'ka from Highperch", {[zoneIDs.THOUSAND_NEEDLES]={{15.15,32.65},},},},
         },
+        [4771] = {
+            [questKeys.triggerEnd] = {"Place Dawn's Gambit",{[zoneIDs.SCHOLOMANCE]={{-1,-1},},},},
+        },
         [4784] = {
             [questKeys.childQuests] = {4785}, -- #1367
         },
@@ -2054,6 +2057,9 @@ function QuestieQuestFixes:Load()
         },
         [8430] = {
             [questKeys.exclusiveTo] = {8368,8426,8427,8428,8429},
+        },
+        [8447] = {
+            [questKeys.triggerEnd] = {"Waking Legends.",{[zoneIDs.MOONGLADE]={{40.0,48.6},},},},
         },
         [8484] = {
             [questKeys.preQuestSingle] = {8481},
