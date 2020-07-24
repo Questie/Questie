@@ -609,6 +609,9 @@ function QuestieNPCFixes:Load()
         [5082] = {
             [npcKeys.spawns] = {[zoneIDs.WETLANDS]={{10.8,60.4},},},
         },
+        [5299] = {
+            [npcKeys.spawns] = {[zoneIDs.FERALAS]={{53,32},},},
+        },
         [5402] = {
             [npcKeys.name] = "Khan Hratha",
             [npcKeys.zoneID] = zoneIDs.DESOLACE,
