@@ -1667,7 +1667,6 @@ function QuestieQuestFixes:Load()
         },
         [7001] = {
             [questKeys.triggerEnd] = {"Frostwolf Muzzled and Returned", {
-                [zoneIDs.ORGRIMMAR]={{79.18,31.12},{32.63,63.29},{59.27,53.14}},
                 [zoneIDs.ALTERAC_MOUNTAINS]={{67,51.78},},},
             },
         },
@@ -1693,9 +1692,7 @@ function QuestieQuestFixes:Load()
         },
         [7027] = {
             [questKeys.triggerEnd] = {"Ram Collared and Returned", {
-                [zoneIDs.IRONFORGE]={{70.1,90.32},{66.54,86.33}},
                 [zoneIDs.ALTERAC_MOUNTAINS]={{34.58,74.94}},
-                [zoneIDs.STORMWIND_CITY]={{82.34,12.46},},},
             },
         },
         [7046] = {
