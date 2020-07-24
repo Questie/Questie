@@ -1474,6 +1474,7 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {6065,6066,6061},
         },
         [6068] = {
+            [questKeys.startedBy] = {{3407,},nil,nil,}, -- #2167
             [questKeys.exclusiveTo] = {6069,6070,6062}, -- #1795
         },
         [6069] = {
