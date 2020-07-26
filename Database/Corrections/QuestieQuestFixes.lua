@@ -402,6 +402,9 @@ function QuestieQuestFixes:Load()
         [930] = {
             [questKeys.preQuestSingle] = {918,919}, -- #971
         },
+        [936] = {
+            [questKeys.exclusiveTo] = {3762,3784,3761},
+        },
         [938] = {
             [questKeys.triggerEnd] = {"Lead Mist safely to Sentinel Arynia Cloudsbreak", {[zoneIDs.TELDRASSIL]={{38.33,34.39},},},},
         },
@@ -1040,6 +1043,9 @@ function QuestieQuestFixes:Load()
         [3763] = {
             [questKeys.exclusiveTo] = {3789,3790,3764},
         },
+        [3762] = {
+            [questKeys.exclusiveTo] = {936,3784,3761},
+        },
         [3765] = {
             [questKeys.exclusiveTo] = {1275}, -- corruption abroad breadcrumb
         },
@@ -1048,6 +1054,9 @@ function QuestieQuestFixes:Load()
         },
         [3790] = {
             [questKeys.exclusiveTo] = {3763,3789,3764},
+        },
+        [3784] = {
+            [questKeys.exclusiveTo] = {936,3762,3761},
         },
         [3791] = {
             [questKeys.preQuestSingle] = {3787,3788}, -- #885
