@@ -1040,11 +1040,20 @@ function QuestieQuestFixes:Load()
         [3702] = {
             [questKeys.triggerEnd] = {"Story of Thaurissan", {[zoneIDs.IRONFORGE]={{38.62,55.44},},},},
         },
+        [3763] = {
+            [questKeys.exclusiveTo] = {3789,3790,3764},
+        },
         [3762] = {
             [questKeys.exclusiveTo] = {936,3784,3761},
         },
         [3765] = {
             [questKeys.exclusiveTo] = {1275}, -- corruption abroad breadcrumb
+        },
+        [3789] = {
+            [questKeys.exclusiveTo] = {3763,3790,3764},
+        },
+        [3790] = {
+            [questKeys.exclusiveTo] = {3763,3789,3764},
         },
         [3784] = {
             [questKeys.exclusiveTo] = {936,3762,3761},
