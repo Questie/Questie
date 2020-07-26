@@ -271,6 +271,9 @@ function QuestieQuestFixes:Load()
         [667] = {
             [questKeys.triggerEnd] = {"Defend Shakes O'Breen", {[zoneIDs.ARATHI_HIGHLANDS]={{31.93,81.82},},},},
         },
+        [676] = {
+            [questKeys.exclusiveTo] = {677},
+        },
         [677] = {
             [questKeys.preQuestSingle] = {}, --#1162
         },
