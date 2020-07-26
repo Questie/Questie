@@ -391,6 +391,9 @@ function QuestieQuestFixes:Load()
         [911] = {
             [questKeys.triggerEnd] = {"Go to the Mor'shan Rampart in the Barrens.", {[zoneIDs.THE_BARRENS]={{47.9,5.36},},},},
         },
+        [918] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [924] = {
             [questKeys.requiredSourceItems] = {4986},
         },
