@@ -1351,28 +1351,26 @@ function QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
                     (showPvPQuests or (not QuestieDB:IsPvPQuest(questId))) -- Show PvP quests only with the option enabled
                 ) then
 
-                    if QuestieDB:IsLevelRequirementsFulfilled(questId, minLevel, maxLevel) then
-                        if QuestieDB:IsDoable(questId) then
-                            QuestieQuest.availableQuests[questId] = questId
-                            --If the quest is not drawn draw the quest, otherwise skip.
-                            if (not QuestieMap.questIdFrames[questId]) then
-                                ---@type Quest
-                                local quest = QuestieDB:GetQuest(questId)
-                                if (not quest.tagInfoWasCached) then
-                                    Questie:Debug(DEBUG_INFO, "Caching for quest", quest.Id)
-                                    quest:GetQuestTagInfo() -- cache to load in the tooltip
-                                    quest.tagInfoWasCached = true
-                                end
-                                --Draw a specific quest through the function
-                                _QuestieQuest:DrawAvailableQuest(quest)
-                            else
-                                --We might have to update the icon in this situation (config changed/level up)
-                                for _, frame in ipairs(QuestieMap:GetFramesForQuest(questId)) do
-                                    if frame and frame.data and frame.data.QuestData then
-                                        local newIcon = _QuestieQuest:GetQuestIcon(frame.data.QuestData)
-                                        if newIcon ~= frame.data.Icon then
-                                            frame:UpdateTexture(newIcon)
-                                        end
+                    if QuestieDB:IsLevelRequirementsFulfilled(questId, minLevel, maxLevel) and QuestieDB:IsDoable(questId) then
+                        QuestieQuest.availableQuests[questId] = questId
+                        --If the quest is not drawn draw the quest, otherwise skip.
+                        if (not QuestieMap.questIdFrames[questId]) then
+                            ---@type Quest
+                            local quest = QuestieDB:GetQuest(questId)
+                            if (not quest.tagInfoWasCached) then
+                                Questie:Debug(DEBUG_INFO, "Caching for quest", quest.Id)
+                                quest:GetQuestTagInfo() -- cache to load in the tooltip
+                                quest.tagInfoWasCached = true
+                            end
+                            --Draw a specific quest through the function
+                            _QuestieQuest:DrawAvailableQuest(quest)
+                        else
+                            --We might have to update the icon in this situation (config changed/level up)
+                            for _, frame in ipairs(QuestieMap:GetFramesForQuest(questId)) do
+                                if frame and frame.data and frame.data.QuestData then
+                                    local newIcon = _QuestieQuest:GetQuestIcon(frame.data.QuestData)
+                                    if newIcon ~= frame.data.Icon then
+                                        frame:UpdateTexture(newIcon)
                                     end
                                 end
                             end
