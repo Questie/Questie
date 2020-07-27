@@ -794,7 +794,7 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Kill the Demon of the Orb", {[zoneIDs.DUSTWALLOW_MARSH]={{45.6,57,2},},},},
         },
         [1959] = {
-            [questKeys.startedBy] = {{2128,3049,7311},nil,nil,},
+            [questKeys.startedBy] = {{2128,3049,5880,7311},nil,nil,},
         },
         [2039] = {
             [questKeys.exclusiveTo] = {2038},
