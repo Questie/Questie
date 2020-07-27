@@ -131,8 +131,7 @@ _PLAYER_LOGIN = function()
         QuestieJourney:Initialize()
         QuestieQuest:Initialize()
         QuestieQuest:GetAllQuestIdsNoObjectives()
-        QuestieQuest:CalculateAvailableQuests()
-        QuestieQuest:DrawAllAvailableQuests()
+        QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
         QuestieNameplate:Initialize()
         Questie:Debug(DEBUG_ELEVATED, "PLAYER_ENTERED_WORLD")
         didPlayerEnterWorld = true
@@ -313,8 +312,7 @@ _PLAYER_LEVEL_UP = function(self, level, hitpoints, manapoints, talentpoints, ..
     C_Timer.After(3, function()
         QuestiePlayer:SetPlayerLevel(level)
 
-        QuestieQuest:CalculateAvailableQuests()
-        QuestieQuest:DrawAllAvailableQuests()
+        QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
     end)
     QuestieJourney:PlayerLevelUp(level)
 end
@@ -342,8 +340,7 @@ _CHAT_MSG_SKILL = function()
     local isProfUpdate = QuestieProfessions:Update()
     -- This needs to be done to draw new quests that just came available
     if isProfUpdate then
-        QuestieQuest:CalculateAvailableQuests()
-        QuestieQuest:DrawAllAvailableQuests()
+        QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
     end
 end
 
@@ -354,8 +351,7 @@ _CHAT_MSG_COMBAT_FACTION_CHANGE = function()
     if factionChanged then
         QuestieTracker:ResetLinesForChange()
         QuestieTracker:Update()
-        QuestieQuest:CalculateAvailableQuests()
-        QuestieQuest:DrawAllAvailableQuests()
+        QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
     end
 end
 

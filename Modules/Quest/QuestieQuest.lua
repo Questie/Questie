@@ -190,8 +190,7 @@ function QuestieQuest:AddAllNotes()
 
     -- draw available quests
     QuestieQuest:GetAllQuestIdsNoObjectives()
-    QuestieQuest:CalculateAvailableQuests()
-    QuestieQuest:DrawAllAvailableQuests()
+    QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
 
     -- draw quests
     for quest in pairs (QuestiePlayer.currentQuestlog) do
@@ -238,8 +237,7 @@ function QuestieQuest:SmoothReset() -- use timers to reset progressively instead
             -- draw available quests
             QuestieQuest:GetAllQuestIdsNoObjectives()
         end,
-        QuestieQuest.CalculateAvailableQuests,
-        QuestieQuest.DrawAllAvailableQuests,
+        QuestieQuest.CalculateAndDrawAvailableQuestsIterative,
         function()
             -- bit of a hack here too
             local mod = 0
@@ -265,8 +263,7 @@ end
 
 function QuestieQuest:UnhideQuest(id)
     Questie.db.char.hidden[id] = nil
-    QuestieQuest:CalculateAvailableQuests()
-    QuestieQuest:DrawAllAvailableQuests()
+    QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
 end
 
 function QuestieQuest:GetRawLeaderBoardDetails(QuestLogIndex)
@@ -329,8 +326,7 @@ function QuestieQuest:AcceptQuest(questId)
             function() QuestieHash:AddNewQuestHash(questId) end,
             function() QuestieQuest:PopulateQuestLogInfo(quest) end,
             function() QuestieQuest:PopulateObjectiveNotes(quest) end,
-            QuestieQuest.CalculateAvailableQuests,
-            QuestieQuest.DrawAllAvailableQuests
+            QuestieQuest.CalculateAndDrawAvailableQuestsIterative
         )
 
         --Broadcast an update.
@@ -361,8 +357,7 @@ function QuestieQuest:CompleteQuest(quest)
     end)
 
     --This should probably be done first, because DrawAllAvailableQuests looks at QuestieMap.questIdFrames[QuestId] to add available
-    QuestieQuest:CalculateAvailableQuests()
-    QuestieQuest:DrawAllAvailableQuests()
+    QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
 
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString("DEBUG_COMPLETE_QUEST", questId))
 end
@@ -410,8 +405,7 @@ function QuestieQuest:AbandonedQuest(questId)
             QuestieTracker:Update()
         end)
 
-        QuestieQuest:CalculateAvailableQuests()
-        QuestieQuest:DrawAllAvailableQuests()
+        QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
 
         Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString("DEBUG_ABANDON_QUEST", questId));
     end
@@ -1289,10 +1283,6 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
     end
 end
 
-function QuestieQuest:DrawAllAvailableQuests() -- deprecated
-
-end
-
 ---@param quest Quest
 function _QuestieQuest:GetQuestIcon(quest)
     local icon = {}
@@ -1388,10 +1378,6 @@ function QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
             index = next(data, index)
         end
     end)
-end
-
-function QuestieQuest:CalculateAvailableQuests() -- deprecated
-    QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
 end
 
 ---------------------------------------------------------------------------------------------------
