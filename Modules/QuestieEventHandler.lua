@@ -254,7 +254,7 @@ _QUEST_TURNED_IN = function(self, questID, xpReward, moneyReward)
     -- Therefore we have to check here to make sure the next QLU updates the state.
     ---@type Quest
     local quest = QuestieDB:GetQuest(questID)
-    if quest and ((quest.parentQuest and quest.IsRepeatable) or quest.Description == nil) then
+    if quest and ((quest.parentQuest and quest.IsRepeatable) or quest.Description == nil or table.getn(quest.Description) == 0) then
         Questie:Debug(DEBUG_DEVELOP, "Enabling shouldRunQLU")
         shouldRunQLU = true
     end
