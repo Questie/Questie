@@ -403,7 +403,10 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{3535},nil,{5179}},
         },
         [930] = {
-            [questKeys.preQuestSingle] = {918,919}, -- #971
+            [questKeys.preQuestSingle] = {918}, -- #971
+        },
+        [931] = {
+            [questKeys.preQuestSingle] = {918},
         },
         [936] = {
             [questKeys.exclusiveTo] = {3762,3784,3761},
