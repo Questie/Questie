@@ -11,10 +11,6 @@ local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefault
 local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils");
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker");
----@type QuestiePlayer
-local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
----@type QuestieEvent
-local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent");
 
 QuestieOptions.tabs.general = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
@@ -195,6 +191,19 @@ function QuestieOptions.tabs.general:Initialize()
                         get = function(info) return Questie.db.char.showPvPQuests end,
                         set = function (info, value)
                             Questie.db.char.showPvPQuests = value
+                            QuestieQuest:ToggleNotes(value);
+                        end,
+                    },
+                    showAQWarEffortQuests = {
+                        type = "toggle",
+                        order = 12,
+                        name = function() return QuestieLocale:GetUIString('ENABLE_AQ_QUEST_ICONS'); end,
+                        desc = function() return QuestieLocale:GetUIString('ENABLE_AQ_QUEST_ICONS_DESC'); end,
+                        width = 1.5,
+                        disabled = function() return (not Questie.db.char.enabled); end,
+                        get = function(info) return Questie.db.char.showAQWarEffortQuests end,
+                        set = function (info, value)
+                            Questie.db.char.showAQWarEffortQuests = value
                             QuestieQuest:ToggleNotes(value);
                         end,
                     },

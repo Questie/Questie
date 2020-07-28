@@ -13,6 +13,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+---@type QuestieQuestBlacklist
+local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
 ---@type QuestieProfessions
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type QuestieReputation
@@ -201,6 +203,12 @@ end
 function QuestieDB:IsPvPQuest(questId)
     local questType, _ = QuestieDB:GetQuestTagInfo(questId)
     return questType == 41
+end
+
+__TEST = function(id) return QuestieDB:IsAQWarEffortQuest(id) end
+
+function QuestieDB:IsAQWarEffortQuest(questId)
+    return QuestieQuestBlacklist:GetAQWarEffortQuests()[questId] == true
 end
 
 --- Wrapper function for the GetQuestTagInfo API to correct
@@ -511,6 +519,10 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
 
     function QO:IsActiveEventQuest()
         return QuestieEvent.activeQuests[self.Id] == true
+    end
+
+    function QO:IsAQWarEffortQuest()
+        return QuestieQuestBlacklist:GetAQWarEffortQuests()[self.Id] == true
     end
 
     --- Wrapper function for the GetQuestTagInfo API to correct

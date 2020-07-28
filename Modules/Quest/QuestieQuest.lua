@@ -1320,6 +1320,7 @@ function QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
     local showDungeonQuests = Questie.db.char.showDungeonQuests
     local showRaidQuests = Questie.db.char.showRaidQuests
     local showPvPQuests = Questie.db.char.showPvPQuests
+    local showAQWarEffortQuests = Questie.db.char.showAQWarEffortQuests
 
     QuestieQuest.availableQuests = {}
 
@@ -1338,7 +1339,8 @@ function QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
                     (showRepeatableQuests or (not QuestieDB:IsRepeatable(questId))) and  -- Show repeatable quests if the quest is repeatable and the option is enabled
                     (showDungeonQuests or (not QuestieDB:IsDungeonQuest(questId))) and  -- Show dungeon quests only with the option enabled
                     (showRaidQuests or (not QuestieDB:IsRaidQuest(questId))) and  -- Show Raid quests only with the option enabled
-                    (showPvPQuests or (not QuestieDB:IsPvPQuest(questId))) -- Show PvP quests only with the option enabled
+                    (showPvPQuests or (not QuestieDB:IsPvPQuest(questId))) and -- Show PvP quests only with the option enabled
+                    (showAQWarEffortQuests or (not QuestieDB:IsAQWarEffortQuest(questId))) -- Don't show AQ War Effort quests with the option enabled
                 ) then
 
                     if QuestieDB:IsLevelRequirementsFulfilled(questId, minLevel, maxLevel) and QuestieDB:IsDoable(questId) then
