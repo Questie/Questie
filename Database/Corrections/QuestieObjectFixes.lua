@@ -189,6 +189,10 @@ function QuestieObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.SILITHUS]={{51,99},},},
             [objectKeys.zoneID] = zoneIDs.SILITHUS,
         },
+        [180717] = {
+            [objectKeys.spawns] = {[zoneIDs.SILITHUS]={{25.72,90.86},},},
+            [objectKeys.zoneID] = zoneIDs.SILITHUS,
+        },
         [190483] = {
             [objectKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES]={{33.76,39.99},},},
             [objectKeys.zoneID] = zoneIDs.THOUSAND_NEEDLES,
