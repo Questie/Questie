@@ -523,6 +523,9 @@ function QuestieQuestBlacklist:Load()
         [9245] = true,
         [9246] = true,
         --Phase 6 - Silithus/EPL PvP
+        [9248] = true,
+        [9250] = true,
+        [9251] = true,
         [9664] = true,
         [9415] = true,
         [8731] = true,
@@ -581,7 +584,6 @@ function QuestieQuestBlacklist:GetAQWarEffortQuests()
         [8854] = true,
         [8855] = true,
         -- War Effort
-        [9248] = true,
         [8595] = true,
         [8579] = true,
         [8856] = true,
@@ -837,8 +839,6 @@ function QuestieQuestBlacklist:GetAQWarEffortQuests()
         [8800] = true,
         [8801] = true,
         [8802] = true,
-        [9250] = true,
-        [9251] = true,
         [8764] = true,
         [8765] = true,
         [8766] = true,
