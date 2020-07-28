@@ -2193,7 +2193,7 @@ function QuestieQuestFixes:Load()
         },
         [8520] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.preQuestSinlge] = {},
+            [questKeys.preQuestSingle] = {},
             [questKeys.requiredRaces] = 77,
         },
         [8521] = {
