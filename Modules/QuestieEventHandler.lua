@@ -104,13 +104,11 @@ end
 
 
 local function _Hack_prime_log() -- this seems to make it update the data much quicker
-  for i=1, GetNumQuestLogEntries() + 1 do
-    GetQuestLogTitle(i)
-    QuestieQuest:GetRawLeaderBoardDetails(i)
-  end
+    for i=1, GetNumQuestLogEntries() + 1 do
+        GetQuestLogTitle(i)
+        QuestieQuest:GetRawLeaderBoardDetails(i)
+    end
 end
-
-
 
 _PLAYER_LOGIN = function()
 
@@ -141,6 +139,17 @@ _PLAYER_LOGIN = function()
         end
         -- Initialize the tracker
         QuestieTracker:Initialize()
+
+        local dateToday = date("%y-%m-%d")
+
+        if Questie.db.char.showAQWarEffortQuests and (Questie.db.char.aqWarningPrintDate == nil or Questie.db.char.aqWarningPrintDate < dateToday) then
+            Questie.db.char.aqWarningPrintDate = dateToday
+            C_Timer.After(2, function()
+                print("|cffff0000-----------------------------|r")
+                Questie:Print("|cffff0000The AQ War Effort quests are shown for you. If you server is done you can hide those quests in the General settings of Questie!|r");
+                print("|cffff0000-----------------------------|r")
+            end)
+        end
     end
 
     if QuestieLib:GetAddonVersionString() ~= QuestieConfig.dbCompiledOnVersion or (Questie.db.global.questieLocaleDiff and Questie.db.global.questieLocale or GetLocale()) ~= QuestieConfig.dbCompiledLang then
@@ -160,8 +169,8 @@ _PLAYER_LOGIN = function()
             end)
         end)
     end
-
 end
+
 
 --Fires when a quest is accepted in anyway.
 _QUEST_ACCEPTED = function(self, questLogIndex, questId)
