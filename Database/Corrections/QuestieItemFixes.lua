@@ -797,7 +797,7 @@ function QuestieItemFixes:Load()
             [itemKeys.name] = "Pure Un'Goro Sample",
             [itemKeys.relatedQuests] = {4294},
             [itemKeys.npcDrops] = {},
-            [itemKeys.objectDrops] = {},
+            [itemKeys.objectDrops] = {175265},
         },
         [12283] = {
             [itemKeys.npcDrops] = {7047,7048,7049,},

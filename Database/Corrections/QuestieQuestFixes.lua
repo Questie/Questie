@@ -1184,6 +1184,9 @@ function QuestieQuestFixes:Load()
         [4288] = {
             [questKeys.triggerEnd] = {"Discover and examine the Western Crystal Pylon",{[zoneIDs.UN_GORO_CRATER]={{23,59},},},},
         },
+        [4294] = {
+            [questKeys.requiredSourceItems] = {12235,12236},
+        ],
         [4293] = {
             [questKeys.requiredSourceItems] = {12230,12234},
         },
