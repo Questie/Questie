@@ -2392,17 +2392,14 @@ function QuestieQuestFixes:Load()
         [8795] = {
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = 77,
-            [questKeys.requiredLevel] = 10,
             [questKeys.exclusiveTo] = {8796,8797},
         },
         [8796] = {
             [questKeys.requiredRaces] = 77,
-            [questKeys.requiredLevel] = 10,
             [questKeys.exclusiveTo] = {8795,8797},
         },
         [8797] = {
             [questKeys.requiredRaces] = 77,
-            [questKeys.requiredLevel] = 10,
             [questKeys.exclusiveTo] = {8795,8796},
         },
         [8798] = {
