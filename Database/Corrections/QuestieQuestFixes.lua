@@ -2113,61 +2113,118 @@ function QuestieQuestFixes:Load()
         [8485] = {
             [questKeys.preQuestSingle] = {8481},
         },
-        [8493] = { -- bad race data
+        [8492] = {
             [questKeys.requiredRaces] = 77,
         },
-        [8495] = { -- bad race data
+        [8493] = {
             [questKeys.requiredRaces] = 77,
         },
-        [8504] = { -- bad race data
+        [8494] = {
             [questKeys.requiredRaces] = 77,
         },
-        [8506] = { -- bad race data
+        [8495] = {
             [questKeys.requiredRaces] = 77,
         },
-        [8510] = { -- bad race data
+        [8499] = {
             [questKeys.requiredRaces] = 77,
         },
-        [8512] = { -- bad race data
+        [8503] = {
             [questKeys.requiredRaces] = 77,
         },
-        [8514] = { -- bad race data
+        [8504] = {
             [questKeys.requiredRaces] = 77,
         },
-        [8516] = { -- bad race data
+        [8505] = {
             [questKeys.requiredRaces] = 77,
         },
-        [8518] = { -- bad race data
+        [8506] = {
             [questKeys.requiredRaces] = 77,
         },
-        [8521] = { -- bad race data
+        [8509] = {
             [questKeys.requiredRaces] = 77,
         },
-        [8523] = { -- bad race data
+        [8510] = {
             [questKeys.requiredRaces] = 77,
         },
-        [8525] = { -- bad race data
+        [8511] = {
             [questKeys.requiredRaces] = 77,
         },
-        [8527] = { -- bad race data
+        [8512] = {
             [questKeys.requiredRaces] = 77,
         },
-        [8529] = { -- bad race data
+        [8513] = {
             [questKeys.requiredRaces] = 77,
         },
-        [8533] = { -- bad race data
+        [8514] = {
+            [questKeys.requiredRaces] = 77,
+        },
+        [8515] = {
+            [questKeys.requiredRaces] = 77,
+        },
+        [8516] = {
+            [questKeys.requiredRaces] = 77,
+        },
+        [8517] = {
+            [questKeys.requiredRaces] = 77,
+        },
+        [8518] = {
+            [questKeys.requiredRaces] = 77,
+        },
+        [8520] = {
+            [questKeys.requiredRaces] = 77,
+        },
+        [8521] = {
+            [questKeys.requiredRaces] = 77,
+        },
+        [8522] = {
+            [questKeys.requiredRaces] = 77,
+        },
+        [8523] = {
+            [questKeys.requiredRaces] = 77,
+        },
+        [8524] = {
+            [questKeys.requiredRaces] = 77,
+        },
+        [8525] = {
+            [questKeys.requiredRaces] = 77,
+        },
+        [8526] = {
+            [questKeys.requiredRaces] = 77,
+        },
+        [8527] = {
+            [questKeys.requiredRaces] = 77,
+        },
+        [8528] = {
+            [questKeys.requiredRaces] = 77,
+        },
+        [8529] = {
+            [questKeys.requiredRaces] = 77,
+        },
+        [8532] = {
             [questKeys.requiredRaces] = 178,
         },
-        [8543] = { -- bad race data
+        [8533] = {
             [questKeys.requiredRaces] = 178,
         },
-        [8546] = { -- bad race data
+        [8542] = {
+            [questKeys.requiredRaces] = 178,
+        },
+        [8543] = {
+            [questKeys.requiredRaces] = 178,
+        },
+        [8545] = {
+            [questKeys.requiredRaces] = 178,
+        },
+        [8546] = {
             [questKeys.requiredRaces] = 178,
         },
         [8548] = {
             [questKeys.preQuestSingle] = {8800},
         },
-        [8550] = { -- bad race data
+        [8549] = {
+            [questKeys.requiredRaces] = 178,
+        },
+        [8550] = {
             [questKeys.requiredRaces] = 178,
         },
         [8551] = {
@@ -2185,37 +2242,70 @@ function QuestieQuestFixes:Load()
         [8574] = {
             [questKeys.preQuestSingle] = {8800},
         },
-        [8581] = { -- bad race data
+        [8580] = {
             [questKeys.requiredRaces] = 178,
         },
-        [8583] = { -- bad race data
+        [8581] = {
             [questKeys.requiredRaces] = 178,
         },
-        [8589] = { -- bad race data
+        [8582] = {
             [questKeys.requiredRaces] = 178,
         },
-        [8591] = { -- bad race data
+        [8583] = {
             [questKeys.requiredRaces] = 178,
         },
-        [8601] = { -- bad race data
+        [8588] = {
             [questKeys.requiredRaces] = 178,
         },
-        [8605] = { -- bad race data
+        [8589] = {
             [questKeys.requiredRaces] = 178,
         },
-        [8608] = { -- bad race data
+        [8590] = {
             [questKeys.requiredRaces] = 178,
         },
-        [8610] = { -- bad race data
+        [8591] = {
             [questKeys.requiredRaces] = 178,
         },
-        [8612] = { -- bad race data
+        [8600] = {
             [questKeys.requiredRaces] = 178,
         },
-        [8614] = { -- bad race data
+        [8601] = {
             [questKeys.requiredRaces] = 178,
         },
-        [8616] = { -- bad race data
+        [8604] = {
+            [questKeys.requiredRaces] = 178,
+        },
+        [8605] = {
+            [questKeys.requiredRaces] = 178,
+        },
+        [8607] = {
+            [questKeys.requiredRaces] = 178,
+        },
+        [8608] = {
+            [questKeys.requiredRaces] = 178,
+        },
+        [8609] = {
+            [questKeys.requiredRaces] = 178,
+        },
+        [8610] = {
+            [questKeys.requiredRaces] = 178,
+        },
+        [8611] = {
+            [questKeys.requiredRaces] = 178,
+        },
+        [8612] = {
+            [questKeys.requiredRaces] = 178,
+        },
+        [8613] = {
+            [questKeys.requiredRaces] = 178,
+        },
+        [8614] = {
+            [questKeys.requiredRaces] = 178,
+        },
+        [8615] = {
+            [questKeys.requiredRaces] = 178,
+        },
+        [8616] = {
             [questKeys.requiredRaces] = 178,
         },
         [8767] = {
