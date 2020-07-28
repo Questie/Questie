@@ -2076,15 +2076,96 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.MOONGLADE,
             [npcKeys.spawns] = {[zoneIDs.SWAMP_OF_SORROWS] = {{77.32,35.98},},[zoneIDs.MOONGLADE] = {{35.95,40.39},},},
         },
+        [15383] = {
+            [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{64.1,65.5},},},
+        },
         [15449] = {
             [npcKeys.name] = "Hive'Zora Abomination",
             [npcKeys.zoneID] = zoneIDs.SILITHUS,
             [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{32.74,52.64},},},
         },
+        [15431] = {
+            [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{65.5,63.9},},},
+        },
+        [15432] = {
+            [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{63.9,68.2},},},
+        },
+        [15434] = {
+            [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{70.3,74.3},},},
+        },
+        [15437] = {
+            [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{71.9,70.4},},},
+        },
+        [15445] = {
+            [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{71.3,71.4},},},
+        },
+        [15448] = {
+            [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{58.7,75.0},},},
+        },
+        [15450] = {
+            [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{57.1,75.0},},},
+        },
+        [15451] = {
+            [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{54.5,77.9},},},
+        },
+        [15452] = {
+            [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{57.6,75.8},},},
+        },
+        [15453] = {
+            [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{55.7,75.9},},},
+        },
+        [15455] = {
+            [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{71.6,69.2},},},
+        },
+        [15456] = {
+            [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{72.1,69.6},},},
+        },
+        [15457] = {
+            [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{73.0,68.5},},},
+        },
+        [15459] = {
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{31.1,66.1},},},
+        },
+        [15460] = {
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{30.9,65.4},},},
+        },
+        [15469] = {
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{31.5,66.8},},},
+        },
+        [15508] = {
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{32.8,70.4},},},
+        },
+        [15512] = {
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{32.8,68.7},},},
+        },
+        [15515] = {
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{36.0,73.4},},},
+        },
         [15517] = {
             [npcKeys.name] = "Ouro",
             [npcKeys.zoneID] = zoneIDs.AHN_QIRAJ,
             [npcKeys.spawns] = {[zoneIDs.AHN_QIRAJ] = {{-1,-1},},},
+        },
+        [15522] = {
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{34.0,72.7},},},
+        },
+        [15525] = {
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{35.1,72.6},},},
+        },
+        [15528] = {
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{31.2,74.1},},},
+        },
+        [15529] = {
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{31.3,75.1},},},
+        },
+        [15533] = {
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{29.5,68.8},},},
+        },
+        [15534] = {
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{29.0,68.5},},},
+        },
+        [15535] = {
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{28.8,67.8},},},
         },
         [15557] = {
             [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES]={{82.21,46.48},},},
