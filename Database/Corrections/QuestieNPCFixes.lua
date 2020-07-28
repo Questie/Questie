@@ -2224,6 +2224,26 @@ function QuestieNPCFixes:Load()
         [15701] = {
             [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{61.3,74.2},},},
         },
+        [15702] = {
+            [npcKeys.zoneID] = zoneIDs.THUNDER_BLUFF,
+            [npcKeys.spawns] = {[zoneIDs.THUNDER_BLUFF] = {{38.8,52.9},},},
+        },
+        [15703] = {
+            [npcKeys.zoneID] = zoneIDs.UNDERCITY,
+            [npcKeys.spawns] = {[zoneIDs.UNDERCITY] = {{62.8,49.2},},},
+        },
+        [15704] = {
+            [npcKeys.zoneID] = zoneIDs.ORGRIMMAR,
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{50.8,65.5},},},
+        },
+        [15707] = {
+            [npcKeys.zoneID] = zoneIDs.IRONFORGE,
+            [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{27.5,73.3},},},
+        },
+        [15709] = {
+            [npcKeys.zoneID] = zoneIDs.DARNASSUS,
+            [npcKeys.spawns] = {[zoneIDs.DARNASSUS] = {{39.1,38.3},},},
+        },
         [15731] = {
             [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{59.1,65.5},},},
         },
