@@ -2318,6 +2318,15 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredClasses] = 0,
             [questKeys.exclusiveTo] = {8767},
         },
+        [8795] = {
+            [questKeys.exclusiveTo] = {8796,8797},
+        },
+        [8796] = {
+            [questKeys.exclusiveTo] = {8795,8797},
+        },
+        [8797] = {
+            [questKeys.exclusiveTo] = {8795,8796},
+        },
         [8798] = {
             [questKeys.requiredSkill] = {202,250},
         },

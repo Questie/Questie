@@ -246,10 +246,6 @@ function QuestieQuestBlacklist:Load()
         [7664] = true,
         [7672] = true,
         [7676] = true,
-        --The Alliance Needs Your Help! shown for horde (aq40 quest in city. Maybe not needed?)
-        [8795] = true,
-        [8796] = true,
-        [8797] = true,
         --fishing tournament
         [8194] = true,
         [8193] = true,
