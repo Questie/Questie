@@ -2330,6 +2330,42 @@ function QuestieQuestFixes:Load()
         [8798] = {
             [questKeys.requiredSkill] = {202,250},
         },
+        [8847] = {
+            [questKeys.startedBy] = {{15701,},nil,nil,},
+            [questKeys.finishedBy] = {{15701,},nil,},
+        },
+        [8848] = {
+            [questKeys.startedBy] = {{15701,},nil,nil,},
+            [questKeys.finishedBy] = {{15701,},nil,},
+        },
+        [8849] = {
+            [questKeys.startedBy] = {{15701,},nil,nil,},
+            [questKeys.finishedBy] = {{15701,},nil,},
+        },
+        [8850] = {
+            [questKeys.startedBy] = {{15701,},nil,nil,},
+            [questKeys.finishedBy] = {{15701,},nil,},
+        },
+        [8851] = {
+            [questKeys.startedBy] = {{15700,},nil,nil,},
+            [questKeys.finishedBy] = {{15700,},nil,},
+        },
+        [8852] = {
+            [questKeys.startedBy] = {{15700,},nil,nil,},
+            [questKeys.finishedBy] = {{15700,},nil,},
+        },
+        [8853] = {
+            [questKeys.startedBy] = {{15700,},nil,nil,},
+            [questKeys.finishedBy] = {{15700,},nil,},
+        },
+        [8854] = {
+            [questKeys.startedBy] = {{15700,},nil,nil,},
+            [questKeys.finishedBy] = {{15700,},nil,},
+        },
+        [8855] = {
+            [questKeys.startedBy] = {{15700,},nil,nil,},
+            [questKeys.finishedBy] = {{15700,},nil,},
+        },
         [8863] = {
             [questKeys.specialFlags] = 1,
         },
