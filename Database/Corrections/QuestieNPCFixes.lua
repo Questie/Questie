@@ -2078,6 +2078,7 @@ function QuestieNPCFixes:Load()
         },
         [15383] = {
             [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{64.1,65.5},},},
+            [npcKeys.zoneID] = zoneIDs.IRONFORGE,
         },
         [15449] = {
             [npcKeys.name] = "Hive'Zora Abomination",
@@ -2086,66 +2087,87 @@ function QuestieNPCFixes:Load()
         },
         [15431] = {
             [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{65.5,63.9},},},
+            [npcKeys.zoneID] = zoneIDs.IRONFORGE,
         },
         [15432] = {
             [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{63.9,68.2},},},
+            [npcKeys.zoneID] = zoneIDs.IRONFORGE,
         },
         [15434] = {
             [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{70.3,74.3},},},
+            [npcKeys.zoneID] = zoneIDs.IRONFORGE,
         },
         [15437] = {
             [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{71.9,70.4},},},
+            [npcKeys.zoneID] = zoneIDs.IRONFORGE,
         },
         [15445] = {
             [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{71.3,71.4},},},
+            [npcKeys.zoneID] = zoneIDs.IRONFORGE,
         },
         [15446] = {
             [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{58.0,75.9},},},
+            [npcKeys.zoneID] = zoneIDs.IRONFORGE,
         },
         [15448] = {
             [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{58.7,75.0},},},
+            [npcKeys.zoneID] = zoneIDs.IRONFORGE,
         },
         [15450] = {
             [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{57.1,75.0},},},
+            [npcKeys.zoneID] = zoneIDs.IRONFORGE,
         },
         [15451] = {
             [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{54.5,77.9},},},
+            [npcKeys.zoneID] = zoneIDs.IRONFORGE,
         },
         [15452] = {
             [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{57.6,75.8},},},
+            [npcKeys.zoneID] = zoneIDs.IRONFORGE,
         },
         [15453] = {
             [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{55.7,75.9},},},
+            [npcKeys.zoneID] = zoneIDs.IRONFORGE,
         },
         [15455] = {
             [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{71.6,69.2},},},
+            [npcKeys.zoneID] = zoneIDs.IRONFORGE,
         },
         [15456] = {
             [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{72.1,69.6},},},
+            [npcKeys.zoneID] = zoneIDs.IRONFORGE,
         },
         [15457] = {
             [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{73.0,68.5},},},
+            [npcKeys.zoneID] = zoneIDs.IRONFORGE,
         },
         [15459] = {
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{31.1,66.1},},},
+            [npcKeys.zoneID] = zoneIDs.ORGRIMMAR,
         },
         [15460] = {
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{30.9,65.4},},},
+            [npcKeys.zoneID] = zoneIDs.ORGRIMMAR,
         },
         [15469] = {
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{31.5,66.8},},},
+            [npcKeys.zoneID] = zoneIDs.ORGRIMMAR,
         },
         [15477] = {
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{33.3,69.6},},},
+            [npcKeys.zoneID] = zoneIDs.ORGRIMMAR,
         },
         [15508] = {
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{32.8,70.4},},},
+            [npcKeys.zoneID] = zoneIDs.ORGRIMMAR,
         },
         [15512] = {
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{32.8,68.7},},},
+            [npcKeys.zoneID] = zoneIDs.ORGRIMMAR,
         },
         [15515] = {
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{36.0,73.4},},},
+            [npcKeys.zoneID] = zoneIDs.ORGRIMMAR,
         },
         [15517] = {
             [npcKeys.name] = "Ouro",
