@@ -1186,7 +1186,7 @@ function QuestieQuestFixes:Load()
         },
         [4294] = {
             [questKeys.requiredSourceItems] = {12235,12236},
-        ],
+        },
         [4293] = {
             [questKeys.requiredSourceItems] = {12230,12234},
         },
