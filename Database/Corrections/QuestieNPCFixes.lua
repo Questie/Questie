@@ -2099,6 +2099,9 @@ function QuestieNPCFixes:Load()
         [15445] = {
             [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{71.3,71.4},},},
         },
+        [15446] = {
+            [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{58.0,75.9},},},
+        },
         [15448] = {
             [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{58.7,75.0},},},
         },
