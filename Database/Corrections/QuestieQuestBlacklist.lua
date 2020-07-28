@@ -10,6 +10,8 @@ function QuestieQuestBlacklist:Load()
         [787] = true, -- The New Horde is not in the game. See #830
         [6606] = true, -- Quest is not in the game. See #1338
         [6072] = true, -- Ayanna Everstride doesn't start "Hunter's Path" (this quest is most likely simply not in the game) #700
+        [614] = true, -- Duplicate of 8551
+        [615] = true, -- Duplicate of 8553. See #2215
         [618] = true, -- Duplicate of 8554
         [9378] = true, -- Naxxramas quest which doesn't seem to be in the game
         [1318] = true, -- Duplicate of 7703 and not in the game
