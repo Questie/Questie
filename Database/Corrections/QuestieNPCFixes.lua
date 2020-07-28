@@ -2218,6 +2218,48 @@ function QuestieNPCFixes:Load()
         [15605] = {
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE]={{34.54,48.91},},},
         },
+        [15700] = {
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{30.3,67.6},},},
+        },
+        [15701] = {
+            [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{61.3,74.2},},},
+        },
+        [15731] = {
+            [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{59.1,65.5},},},
+        },
+        [15733] = {
+            [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{63.3,73.7},},},
+        },
+        [15734] = {
+            [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{61.0,77.1},},},
+        },
+        [15735] = {
+            [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{59.3,64.1},},},
+        },
+        [15736] = {
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{30.0,72.2},},},
+        },
+        [15737] = {
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{33.4,75.4},},},
+        },
+        [15738] = {
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{28.8,65.7},},},
+        },
+        [15739] = {
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{33.1,71.5},},},
+        },
+        [15761] = {
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{46.3,35.1},},},
+        },
+        [15763] = {
+            [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{69.7,46.0},},},
+        },
+        [15764] = {
+            [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{43.2,46.5},},},
+        },
+        [15765] = {
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{42.5,38.7},},},
+        },
         [15891] = {
             [npcKeys.spawns] = {
                 [zoneIDs.ORGRIMMAR]={{50.98,70.52},},
