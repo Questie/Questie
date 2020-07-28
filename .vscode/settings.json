@@ -2720,5 +2720,6 @@
         "Libs/Ace*": true,
         "Libs/CallbackHandler-1.0": true,
         "Libs/Lib*": true
-    }
+    },
+    "editor.tabSize": 4
 }
