@@ -2132,6 +2132,9 @@ function QuestieNPCFixes:Load()
         [15469] = {
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{31.5,66.8},},},
         },
+        [15477] = {
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{33.3,69.6},},},
+        },
         [15508] = {
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{32.8,70.4},},},
         },
@@ -2157,6 +2160,9 @@ function QuestieNPCFixes:Load()
         },
         [15529] = {
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{31.3,75.1},},},
+        },
+        [15532] = {
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{32.2,75.3},},},
         },
         [15533] = {
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{29.5,68.8},},},
