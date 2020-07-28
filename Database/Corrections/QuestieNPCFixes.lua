@@ -1768,6 +1768,11 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.MARAUDON,
             [npcKeys.spawns] = {[zoneIDs.MARAUDON] = {{-1,-1},},},
         },
+        [13716] = {
+            [npcKeys.name] = "Celebras the Redeemed",
+            [npcKeys.zoneID] = zoneIDs.MARAUDON,
+            [npcKeys.spawns] = {[zoneIDs.MARAUDON] = {{-1,-1},},},
+        },
         [13739] = {
             [npcKeys.name] = "Maraudos",
             [npcKeys.zoneID] = zoneIDs.DESOLACE,
