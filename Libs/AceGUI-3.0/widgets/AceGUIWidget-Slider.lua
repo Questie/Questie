@@ -57,10 +57,9 @@ local function Frame_OnMouseDown(frame)
 	AceGUI:ClearFocus()
 end
 
-local function Slider_OnValueChanged(frame)
+local function Slider_OnValueChanged(frame, newvalue)
 	local self = frame.obj
 	if not frame.setup then
-		local newvalue = frame:GetValue()
 		if self.step and self.step > 0 then
 			local min_value = self.min or 0
 			newvalue = floor((newvalue - min_value) / self.step + 0.5) * self.step + min_value
@@ -106,7 +105,7 @@ local function EditBox_OnEnterPressed(frame)
 	else
 		value = tonumber(value)
 	end
-	
+
 	if value then
 		PlaySound(856) -- SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON
 		self.slider:SetValue(value)

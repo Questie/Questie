@@ -176,6 +176,10 @@ function QuestieLib:GetColoredQuestName(id, name, level, showLevel, isComplete, 
         name = name .. " (" .. id .. ")"
     end
 
+    if (not Questie.db.global.collapseCompletedQuests and (Questie.db.char.collapsedQuests and Questie.db.char.collapsedQuests[id] == nil)) then
+        return QuestieLib:PrintDifficultyColor(level, name)
+    end
+
     if isComplete == -1 then
         name = name .. " (" .. _G['FAILED'] .. ")"
     elseif isComplete == 1 then
@@ -190,8 +194,7 @@ end
 ---@param level integer @The quest level
 ---@param blizzLike boolean @True = [40+], false/nil = [40D/R]
 function QuestieLib:GetQuestString(id, name, level, blizzLike)
-    local quest = QuestieDB:GetQuest(id)
-    local questType, questTag = quest:GetQuestTagInfo()
+    local questType, questTag = QuestieDB:GetQuestTagInfo(id)
 
     if questType and questTag then
         local char = "+"
@@ -227,47 +230,45 @@ function QuestieLib:GetQuestString(id, name, level, blizzLike)
     return name
 end
 
----@param waypointTable table<integer, Point> @A table containing waypoints {{X, Y}, ...}
----@return integer @X coordinate, 0-100
----@return integer @Y coordinate, 0-100
-function QuestieLib:CalculateWaypointMidPoint(waypointTable)
-    if (waypointTable) then
-        local x = nil
-        local y = nil
-        local distanceList = {}
-        local lastPos = nil
-        local totalDistance = 0
-        for index, waypoint in pairs(waypointTable) do
-            if (lastPos == nil) then
-                lastPos = waypoint
-            else
-                local distance = QuestieLib:Euclid(lastPos[1], lastPos[2],
-                                                   waypoint[1], waypoint[2])
-                totalDistance = totalDistance + distance
-                distanceList[distance] = index
-            end
+---@param id QuestId @The quest ID
+---@param name string @The (localized) name of the quest
+---@param level integer @The quest level
+---@param blizzLike boolean @True = [40+], false/nil = [40D/R]
+function QuestieLib:GetLevelString(id, name, level, blizzLike)
+    local questType, questTag = QuestieDB:GetQuestTagInfo(id)
+
+    if questType and questTag then
+        local char = "+"
+        if (not blizzLike) then
+            char = string.sub(questTag, 1, 1)
         end
 
-        -- reset the last pos
-        local ranDistance = 0
-        lastPos = nil
-        for distance, index in pairs(distanceList) do
-            if (lastPos == nil) then
-                lastPos = index
-            else
-                ranDistance = ranDistance + distance
-                if (ranDistance > totalDistance / 2) then
-                    local firstMiddle = waypointTable[lastPos]
-                    local secondMiddle = waypointTable[index]
-                    x = firstMiddle[1] -- (firstMiddle[1] + secondMiddle[1])/2
-                    y = firstMiddle[2] -- (firstMiddle[2] + secondMiddle[2])/2
-                    break
-                end
+        local langCode = QuestieLocale:GetUILocale() -- the string.sub above doesn't work for multi byte characters in Chinese
+        if questType == 1 then
+            level = "[" .. level .. "+" .. "] " -- Elite quest
+        elseif questType == 81 then
+            if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
+                char = "D"
             end
+            level = "[" .. level .. char .. "] " -- Dungeon quest
+        elseif questType == 62 then
+            if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
+                char = "R"
+            end
+            level = "[" .. level .. char .. "] " -- Raid quest
+        elseif questType == 41 then
+            level = "[" .. level .. "] " -- Which one? This is just default.
+            -- name = "[" .. level .. questTag .. "] " .. name -- PvP quest
+        elseif questType == 83 then
+            level = "[" .. level .. "++" .. "] " -- Legendary quest
+        else
+            level = "[" .. level .. "] " -- Some other irrelevant type
         end
-        return x, y
+    else
+        level = "[" .. level .. "] "
     end
-    return nil, nil
+
+    return level
 end
 
 function QuestieLib:ProfileFunction(functionReference, includeSubroutine)
@@ -300,7 +301,7 @@ function QuestieLib:CacheItemNames(questId)
     if (quest and quest.ObjectiveData) then
         for objectiveIndexDB, objectiveDB in pairs(quest.ObjectiveData) do
             if objectiveDB.Type == "item" then
-                if not QuestieDB.itemData[objectiveDB.Id] then
+                if not ((QuestieDB.ItemPointers or QuestieDB.itemData)[objectiveDB.Id]) then
                     Questie:Debug(DEBUG_DEVELOP,
                                   "Requesting item information for missing itemId:",
                                   objectiveDB.Id)
@@ -308,10 +309,11 @@ function QuestieLib:CacheItemNames(questId)
                     item:ContinueOnItemLoad(
                         function()
                             local itemName = item:GetItemName()
-                            -- local itemName = GetItemInfo(objectiveDB.Id)
-                            -- Create an empty item with the name itself but no drops.
-                            QuestieDB.itemData[objectiveDB.Id] =
-                                {itemName, {questId}, {}, {}}
+                            if not QuestieDB.itemDataOverrides[objectiveDB.Id] then
+                                QuestieDB.itemDataOverrides[objectiveDB.Id] =  {itemName, {questId}, {}, {}}
+                            else
+                                QuestieDB.itemDataOverrides[objectiveDB.Id][1] = itemName
+                            end
                             Questie:Debug(DEBUG_DEVELOP,
                                           "Created item information for item:",
                                           itemName, ":", objectiveDB.Id)
@@ -337,26 +339,44 @@ function QuestieLib:Remap(value, low1, high1, low2, high2)
 end
 
 local cachedTitle = nil
+local cachedVersion = nil
 -- Move to Questie.lua after QuestieOptions move.
-function QuestieLib:GetAddonVersionInfo() -- todo: better place
-    if (not cachedTitle) then
+function QuestieLib:GetAddonVersionInfo()
+    if (not cachedTitle) or (not cachedVersion) then
         local name, title, _, _, reason = GetAddOnInfo("QuestieDev-master")
-        if (reason == "MISSING") then _, title = GetAddOnInfo("Questie") end
+        if (reason == "MISSING") then name, title = GetAddOnInfo("Questie") end
         cachedTitle = title
+        cachedVersion = GetAddOnMetadata(name, "Version")
     end
+
     -- %d = digit, %p = punctuation character, %x = hexadecimal digits.
-    local major, minor, patch, commit = string.match(cachedTitle,
-                                                     "(%d+)%p(%d+)%p(%d+)")
-    return tonumber(major), tonumber(minor), tonumber(patch)
+    local major, minor, patch = string.match(cachedVersion, "(%d+)%p(%d+)%p(%d+)")
+
+    local buildType = nil
+
+    if string.match(cachedTitle, "ALPHA") then
+        buildType = "ALPHA"
+    elseif string.match(cachedTitle, "BETA") then
+        buildType = "BETA"
+    end
+
+    return tonumber(major), tonumber(minor), tonumber(patch), tostring(buildType)
 end
 
 function QuestieLib:GetAddonVersionString()
-    local major, minor, patch = QuestieLib:GetAddonVersionInfo()
-    return "v" .. tostring(major) .. "." .. tostring(minor) .. "." .. tostring(patch)
+    local major, minor, patch, buildType = QuestieLib:GetAddonVersionInfo()
+
+    if buildType and buildType ~= "nil" then
+        buildType = " - " .. buildType
+    else
+        buildType = ""
+    end
+
+    return "v" .. tostring(major) .. "." .. tostring(minor) .. "." .. tostring(patch) .. buildType
 end
 
 -- Search for just Addon\\ at the front since the interface part often gets trimmed
--- Code Credit Author(s): Cryect (cryect@gmail.com), Xinhuan and their LibGraph-2.0 
+-- Code Credit Author(s): Cryect (cryect@gmail.com), Xinhuan and their LibGraph-2.0
 do
     local path = string.match(debugstack(1, 1, 0),
                               "AddOns\\(.+)Modules\\Libs\\QuestieLib.lua")
@@ -407,6 +427,21 @@ function QuestieLib:SortQuestsByLevel(quests)
 
     for _, q in pairs(quests) do
         tinsert(sortedQuestsByLevel, {q.questLevel, q})
+    end
+    table.sort(sortedQuestsByLevel, compareTablesByIndex)
+
+    return sortedQuestsByLevel
+end
+
+function QuestieLib:SortQuestIDsByLevel(quests)
+    local sortedQuestsByLevel = {}
+
+    local function compareTablesByIndex(a, b)
+        return a[1] < b[1]
+    end
+
+    for q in pairs(quests) do
+        tinsert(sortedQuestsByLevel, {QuestieDB.QueryQuestSingle(q, "questLevel") or 0, q})
     end
     table.sort(sortedQuestsByLevel, compareTablesByIndex)
 

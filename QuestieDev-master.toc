@@ -1,12 +1,15 @@
-## Interface: 11304
-## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v5.10.3|r
+## Interface: 11305
+## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v6.0.2|r
 ## Author: Aero/Logon/Muehe/TheCrux(BreakBB)/Dyaxler/Schaka/Zoey/Everyone else
 ## Notes: A standalone Classic QuestHelper
-## Version: 5.10.3
+## Version: 6.0.2
 ## RequiredDeps:
 ## OptionalDeps: Ace3, LibDataBroker-1.1, LibCompress
 ## SavedVariables: QuestieConfig
 ## SavedVariablesPerCharacter: QuestieConfigCharacter
+
+
+Modules\VersionCheck.lua
 
 embeds.xml
 Libs\HereBeDragons\HereBeDragons-2.0.lua
@@ -21,12 +24,9 @@ Modules\QuestieStream.lua
 
 #Databases
 Database\QuestieDB.lua
-Database\TEMP_questie2events.lua
 Database\questDB.lua
 Database\objectDB.lua
 Database\spawnDB.lua
-Database\zoneDB.lua
-Database\specialspawns.lua
 Database\itemDB.lua
 
 #Corrections
@@ -38,6 +38,13 @@ Database\Corrections\QuestieObjectFixes.lua
 Database\Corrections\QuestieQuestBlacklist.lua
 Database\Corrections\QuestieQuestFixes.lua
 Database\Corrections\QuestieEvent.lua
+
+#Zones
+Database\Zones\zoneDB.lua
+Database\Zones\zoneTables.lua
+
+#Compiler
+Database\compiler.lua
 
 #Localization
 Locale\QuestieLocale.lua
@@ -63,6 +70,7 @@ Modules\Libs\QuestieHash.lua
 ##Modules
 Modules\QuestieTooltips.lua
 Modules\QuestieEventHandler.lua
+Modules\Migration.lua
 
 #Auto
 Modules\Auto\QuestieAuto.lua
@@ -127,6 +135,15 @@ Modules\Options\MapTab\QuestieOptionsMap.lua
 Modules\Options\MinimapTab\QuestieOptionsMinimap.lua
 Modules\Options\NameplateTab\QuestieOptionsNameplate.lua
 Modules\Options\TrackerTab\QuestieOptionsTracker.lua
+
+#Cleanup
+Modules\QuestieCleanup.lua
+
+#Profiler
+Modules\QuestieProfiler.lua
+
+#Debug
+Modules\Debug.lua
 
 #Main
 Questie.lua

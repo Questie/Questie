@@ -25,12 +25,20 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestieHash
 local QuestieHash = QuestieLoader:ImportModule("QuestieHash")
+---@type QuestieOptions
+local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieAuto
 local QuestieAuto = QuestieLoader:ImportModule("QuestieAuto")
+---@type Cleanup
+local QuestieCleanup = QuestieLoader:ImportModule("Cleanup")
+---@type DBCompiler
+local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
+---@type ZoneDB
+local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 --- LOCAL ---
 --False -> true -> nil
@@ -102,23 +110,28 @@ local function _Hack_prime_log() -- this seems to make it update the data much q
   end
 end
 
+
+
 _PLAYER_LOGIN = function()
-    C_Timer.After(1, function()
+
+    local function stage1()
         QuestieDB:Initialize()
         QuestieLib:CacheAllItemNames()
 
-        -- Initialize Journey Window
-        QuestieJourney.Initialize()
-    end)
-    C_Timer.After(4, function()
+        -- if compiled db exists and is up to date
+            QuestieCleanup:Run()
+        -- end
+    end
+
+    local function stage2()
         -- We want the framerate to be HIGH!!!
         QuestieMap:InitializeQueue()
         _Hack_prime_log()
         QuestiePlayer:Initialize()
+        QuestieJourney:Initialize()
         QuestieQuest:Initialize()
         QuestieQuest:GetAllQuestIdsNoObjectives()
-        QuestieQuest:CalculateAvailableQuests()
-        QuestieQuest:DrawAllAvailableQuests()
+        QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
         QuestieNameplate:Initialize()
         Questie:Debug(DEBUG_ELEVATED, "PLAYER_ENTERED_WORLD")
         didPlayerEnterWorld = true
@@ -126,7 +139,28 @@ _PLAYER_LOGIN = function()
         if hasFirstQLU then
             _QUEST_LOG_UPDATE()
         end
-    end)
+        -- Initialize the tracker
+        QuestieTracker:Initialize()
+    end
+
+    if QuestieLib:GetAddonVersionString() ~= QuestieConfig.dbCompiledOnVersion or (Questie.db.global.questieLocaleDiff and Questie.db.global.questieLocale or GetLocale()) ~= QuestieConfig.dbCompiledLang then
+        QuestieConfig.dbIsCompiled = nil -- we need to recompile
+    end
+
+    if QuestieConfig.dbIsCompiled then -- todo: check for updates or language change and recompile
+        C_Timer.After(1, stage1)
+        C_Timer.After(4, stage2)
+    else
+        Questie.minimapConfigIcon:Hide("Questie") -- prevent opening journey / settings while compiling
+        C_Timer.After(4, function()
+            QuestieDBCompiler:Compile(function()
+                stage1()
+                stage2()
+                Questie.minimapConfigIcon:Show("Questie")
+            end)
+        end)
+    end
+
 end
 
 --Fires when a quest is accepted in anyway.
@@ -219,7 +253,7 @@ _QUEST_TURNED_IN = function(self, questID, xpReward, moneyReward)
     -- Therefore we have to check here to make sure the next QLU updates the state.
     ---@type Quest
     local quest = QuestieDB:GetQuest(questID)
-    if quest and ((quest.parentQuest and quest.IsRepeatable) or quest.Description == nil) then
+    if quest and ((quest.parentQuest and quest.IsRepeatable) or quest.Description == nil or table.getn(quest.Description) == 0) then
         Questie:Debug(DEBUG_DEVELOP, "Enabling shouldRunQLU")
         shouldRunQLU = true
     end
@@ -234,6 +268,7 @@ _QUEST_LOG_UPDATE = function()
         C_Timer.After(1, function ()
             Questie:Debug(DEBUG_DEVELOP, "---> Player entered world, DONE.")
             QuestieQuest:GetAllQuestIds()
+            QuestieTracker:ResetLinesForChange()
             QuestieTracker:Update()
             _GROUP_JOINED()
         end)
@@ -242,9 +277,11 @@ _QUEST_LOG_UPDATE = function()
 
     -- QR or UQLC events have set the flag, so we need to update Questie state.
     if shouldRunQLU then
-        QuestieHash:CompareQuestHashes()
+        local hashChanged = QuestieHash:CompareQuestHashes()
         QuestieNameplate:UpdateNameplate()
-        shouldRunQLU = false
+        if hashChanged then
+            shouldRunQLU = false
+        end
     end
 end
 
@@ -275,8 +312,7 @@ _PLAYER_LEVEL_UP = function(self, level, hitpoints, manapoints, talentpoints, ..
     C_Timer.After(3, function()
         QuestiePlayer:SetPlayerLevel(level)
 
-        QuestieQuest:CalculateAvailableQuests()
-        QuestieQuest:DrawAllAvailableQuests()
+        QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
     end)
     QuestieJourney:PlayerLevelUp(level)
 end
@@ -291,6 +327,11 @@ _MODIFIER_STATE_CHANGED = function(self, key, down)
         GameTooltip:SetFrameStrata("TOOLTIP")
         GameTooltip:Show()
     end
+    if Questie.db.global.trackerLocked then
+        if QuestieTracker.private.baseFrame ~= nil then
+            QuestieTracker.private.baseFrame:Update()
+        end
+    end
 end
 
 --- Fires when some chat messages about skills are displayed
@@ -299,8 +340,7 @@ _CHAT_MSG_SKILL = function()
     local isProfUpdate = QuestieProfessions:Update()
     -- This needs to be done to draw new quests that just came available
     if isProfUpdate then
-        QuestieQuest:CalculateAvailableQuests()
-        QuestieQuest:DrawAllAvailableQuests()
+        QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
     end
 end
 
@@ -309,8 +349,9 @@ _CHAT_MSG_COMBAT_FACTION_CHANGE = function()
     Questie:Debug(DEBUG_DEVELOP, "CHAT_MSG_COMBAT_FACTION_CHANGE")
     local factionChanged = QuestieReputation:Update(false)
     if factionChanged then
-        QuestieQuest:CalculateAvailableQuests()
-        QuestieQuest:DrawAllAvailableQuests()
+        QuestieTracker:ResetLinesForChange()
+        QuestieTracker:Update()
+        QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
     end
 end
 
@@ -362,6 +403,11 @@ _PLAYER_REGEN_DISABLED = function()
     if Questie.db.global.hideTrackerInCombat then
         previousTrackerState = Questie.db.char.isTrackerExpanded
         QuestieTracker:Collapse()
+    end
+    if InCombatLockdown() then
+        if QuestieConfigFrame:IsShown() then
+            QuestieOptions:HideFrame()
+        end
     end
 end
 

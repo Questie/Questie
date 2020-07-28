@@ -14,6 +14,29 @@ QuestieDB.objectKeys = {
     ['zoneID'] = 5, -- guess as to where this object is most common
 }
 
+QuestieDB.objectCompilerTypes = {
+    ['name'] = "u8string", 
+    ['spawns'] = "spawnlist", 
+    ['zoneID'] = "u16",
+    ['questStarts'] = "u8u16array", 
+    ['questEnds'] = "u8u16array",
+}
+
+QuestieDB.objectCompilerOrder = { -- order easily skipable data first for efficiency
+    --static size
+    'zoneID',
+
+    -- variable size
+    'name', 'spawns', 'questStarts', 'questEnds'
+}
+
+-- temporary, until we remove the old db funcitons
+QuestieDB._objectAdapterQueryOrder = {}
+for key, id in pairs(QuestieDB.objectKeys) do
+    QuestieDB._objectAdapterQueryOrder[id] = key
+end
+
+
 QuestieDB.objectData = {
 [31] = {"Old Lion Statue",{248,249,},{94,},{[44]={{84.49,46.83},},},44,},
 [32] = {"Sunken Chest",nil,nil,{[44]={{41.52,54.66},},},44,},

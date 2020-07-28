@@ -1,7 +1,7 @@
 --[[-----------------------------------------------------------------------------
 ColorPicker Widget
 -------------------------------------------------------------------------------]]
-local Type, Version = "ColorPicker", 23
+local Type, Version = "ColorPicker", 25
 local AceGUI = LibStub and LibStub("AceGUI-3.0", true)
 if not AceGUI or (AceGUI:GetWidgetVersion(Type) or 0) >= Version then return end
 
@@ -13,7 +13,7 @@ local CreateFrame, UIParent = CreateFrame, UIParent
 
 -- Global vars/functions that we don't upvalue since they might get hooked, or upgraded
 -- List them here for Mikk's FindGlobals script
--- GLOBALS: ShowUIPanel, HideUIPanel, ColorPickerFrame, OpacitySliderFrame
+-- GLOBALS: ColorPickerFrame, OpacitySliderFrame
 
 --[[-----------------------------------------------------------------------------
 Support functions
@@ -47,7 +47,7 @@ local function Control_OnLeave(frame)
 end
 
 local function ColorSwatch_OnClick(frame)
-	HideUIPanel(ColorPickerFrame)
+	ColorPickerFrame:Hide()
 	local self = frame.obj
 	if not self.disabled then
 		ColorPickerFrame:SetFrameStrata("FULLSCREEN_DIALOG")
@@ -77,7 +77,7 @@ local function ColorSwatch_OnClick(frame)
 			ColorCallback(self, r, g, b, a, true)
 		end
 
-		ShowUIPanel(ColorPickerFrame)
+		ColorPickerFrame:Show()
 	end
 	AceGUI:ClearFocus()
 end
@@ -140,10 +140,11 @@ local function Constructor()
 	local colorSwatch = frame:CreateTexture(nil, "OVERLAY")
 	colorSwatch:SetWidth(19)
 	colorSwatch:SetHeight(19)
-	colorSwatch:SetTexture("Interface\\ChatFrame\\ChatFrameColorSwatch")
+	colorSwatch:SetTexture(130939) -- Interface\\ChatFrame\\ChatFrameColorSwatch
 	colorSwatch:SetPoint("LEFT")
 
 	local texture = frame:CreateTexture(nil, "BACKGROUND")
+	colorSwatch.background = texture
 	texture:SetWidth(16)
 	texture:SetHeight(16)
 	texture:SetColorTexture(1, 1, 1)
@@ -151,9 +152,10 @@ local function Constructor()
 	texture:Show()
 
 	local checkers = frame:CreateTexture(nil, "BACKGROUND")
+	colorSwatch.checkers = checkers
 	checkers:SetWidth(14)
 	checkers:SetHeight(14)
-	checkers:SetTexture("Tileset\\Generic\\Checkers")
+	checkers:SetTexture(188523) -- Tileset\\Generic\\Checkers
 	checkers:SetTexCoord(.25, 0, 0.5, .25)
 	checkers:SetDesaturated(true)
 	checkers:SetVertexColor(1, 1, 1, 0.75)
@@ -168,7 +170,7 @@ local function Constructor()
 	text:SetPoint("RIGHT")
 
 	--local highlight = frame:CreateTexture(nil, "HIGHLIGHT")
-	--highlight:SetTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight")
+	--highlight:SetTexture(136810) -- Interface\\QuestFrame\\UI-QuestTitleHighlight
 	--highlight:SetBlendMode("ADD")
 	--highlight:SetAllPoints(frame)
 

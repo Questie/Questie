@@ -1,5 +1,7 @@
 ---@class QuestieQuestTimers
 local QuestieQuestTimers = QuestieLoader:CreateModule("QuestieQuestTimers")
+---@type QuestieCombatQueue
+local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 
 local _QuestieQuestTimers = QuestieQuestTimers.private
 _QuestieQuestTimers.timers = {}
@@ -26,13 +28,16 @@ function QuestieQuestTimers:Initialize()
 
     QuestTimerFrame:HookScript("OnShow", function()
         QuestieQuestTimers.defaultBlizzPoint = {QuestTimerFrame:GetPoint()}
-        if Questie.db.global.trackerEnabled then
+        if Questie.db.global.trackerEnabled and not Questie.db.global.showBlizzardQuestTimer then
             QuestieQuestTimers:HideBlizzardTimer()
+        else
+            QuestieQuestTimers:ShowBlizzardTimer()
         end
     end)
 end
 
 function QuestieQuestTimers:HideBlizzardTimer()
+    QuestTimerFrame:ClearAllPoints()
     QuestTimerFrame:SetPoint("TOP", -10000, -10000)
 end
 
@@ -43,9 +48,8 @@ function QuestieQuestTimers:ShowBlizzardTimer()
     end
 end
 
-function QuestieQuestTimers:GetQuestTimerByQuestId(questId, frame)
+function QuestieQuestTimers:GetQuestTimerByQuestId(questId, frame, clear)
     local questLogIndex = GetQuestLogIndexByID(questId)
-
     if questLogIndex then
         local questTimers = GetQuestTimers()
         if questTimers then
@@ -54,8 +58,12 @@ function QuestieQuestTimers:GetQuestTimerByQuestId(questId, frame)
                 local timerIndex = GetQuestIndexForTimer(i)
                 if timerIndex == questLogIndex then
                     local seconds = select(i, questTimers)
-                    _QuestieQuestTimers.timers[i] = frame
-                    return SecondsToTime(seconds)
+                    if clear then
+                        _QuestieQuestTimers.timers[i] = nil
+                    elseif frame then
+                        _QuestieQuestTimers.timers[i] = frame
+                        return SecondsToTime(seconds)
+                    end
                 end
             end
         end
@@ -66,10 +74,17 @@ end
 _UpdateTimerFrame = function()
     local questTimers = GetQuestTimers()
     if questTimers then
-        for i, timer in pairs(_QuestieQuestTimers.timers) do
-            local seconds = select(i, questTimers)
-            timer.label:SetText("    " .. SecondsToTime(seconds))
-        end
+        QuestieCombatQueue:Queue(function()
+            for i, timer in pairs(_QuestieQuestTimers.timers) do
+                if _QuestieQuestTimers.timers[i] == nil then
+                    timer.label:SetText(" ")
+                else
+                    local seconds = select(i, questTimers)
+                    timer.label:SetText(SecondsToTime(seconds))
+                    timer:SetVerticalPadding(Questie.db.global.trackerQuestPadding)
+                end
+            end
+        end)
     else
         _QuestieQuestTimers.timers = {}
     end

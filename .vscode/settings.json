@@ -2648,11 +2648,13 @@
         "DEFAULT_CHAT_FRAME",
         "StaticPopupDialogs",
         "GameTooltipTextLeft1",
+        "ItemRefTooltipTextLeft1",
         "ChatEdit_GetActiveWindow",
         "ChatEdit_InsertLink",
         "STANDARD_TEXT_FONT",
         "GetQuestIDFromLogIndex",
         "ChatFrame_AddMessageEventFilter",
+        "ReloadUI",
         "-----------------------------------------------------> Blizzard Data",
         "CALENDAR_FULLDATE_MONTH_NAMES",
         "CALENDAR_WEEKDAY_NAMES",
@@ -2718,5 +2720,6 @@
         "Libs/Ace*": true,
         "Libs/CallbackHandler-1.0": true,
         "Libs/Lib*": true
-    }
+    },
+    "editor.tabSize": 4
 }

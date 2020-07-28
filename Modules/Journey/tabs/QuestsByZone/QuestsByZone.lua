@@ -67,8 +67,12 @@ function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
         local quest = QuestieDB:GetQuest(questId)
 
         -- Add the quest to the open chat window if it was a shift click
-        if IsShiftKeyDown() and ChatFrame1EditBox then
-            ChatFrame1EditBox:SetText(ChatFrame1EditBox:GetText() .. QuestieLib:GetQuestString(quest.Id, quest.name, quest.level, true))
+        if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
+            if Questie.db.global.trackerShowQuestLevel then
+                ChatEdit_InsertLink("[[" .. quest.level .. "] " .. quest.name .. " (" .. quest.Id .. ")]")
+            else
+                ChatEdit_InsertLink("[" .. quest.name .. " (" .. quest.Id .. ")]")
+            end
         end
 
         _QuestieJourney:DrawQuestDetailsFrame(scrollFrame, quest)
@@ -81,7 +85,12 @@ end
 ---@param zoneId integer @The zone ID (Check `LangZoneLookup`)
 ---@return table<integer,any> @The zoneTree table which represents the list of all the different quests
 function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
-    local quests = QuestieDB:GetQuestsByZoneId(zoneId)
+    local quests = QuestieJourney.zoneMap[zoneId]--QuestieDB:GetQuestsByZoneId(zoneId)
+
+    if (not quests) then
+        return nil
+    end
+
     local temp = {}
 
     local zoneTree = {
@@ -111,8 +120,7 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
             children = {},
         }
     }
-
-    local sortedQuestByLevel = QuestieLib:SortQuestsByLevel(quests)
+    local sortedQuestByLevel = QuestieLib:SortQuestIDsByLevel(quests)
 
     local availableCounter = 0
     local prequestMissingCounter = 0
@@ -123,15 +131,12 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
     local unobtainableQuestIds = {}
 
     for _, levelAndQuest in pairs(sortedQuestByLevel) do
-        ---@type Quest
-        local quest = levelAndQuest[2]
         ---@type QuestId
-        local qId = quest.Id
-
+        local qId = levelAndQuest[2]
         -- Only show quests which are not hidden
-        if not quest.isHidden and QuestieCorrections.hiddenQuests and not QuestieCorrections.hiddenQuests[qId] then
+        if QuestieCorrections.hiddenQuests and not QuestieCorrections.hiddenQuests[qId] and QuestieDB.QuestPointers[qId] then
             temp.value = qId
-            temp.text = quests[qId]:GetColoredQuestName()
+            temp.text = QuestieDB:GetColoredQuestName(qId)
 
             -- Completed quests
             if Questie.db.char.complete[qId] then
@@ -140,32 +145,28 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
             else
                 -- Exclusive quests will never be available since another quests permantly blocks them.
                 -- Marking them as complete should be the most satisfying solution for user
-                if quest.exclusiveTo then
-                    for _, exId in pairs(quest.exclusiveTo) do
-                        if Questie.db.char.complete[exId] then
-                            tinsert(zoneTree[3].children, temp)
-                            completedCounter = completedCounter + 1
-                            break
-                        end
-                    end
+                local exclusiveTo, parentQuest, preQuestSingle, preQuestGroup = unpack(QuestieDB.QueryQuest(qId, "exclusiveTo", "parentQuest", "preQuestSingle", "preQuestGroup"))
+                if exclusiveTo and QuestieDB:IsExclusiveQuestInQuestLogOrComplete(exclusiveTo) then
+                    tinsert(zoneTree[3].children, temp)
+                    completedCounter = completedCounter + 1
                 -- The parent quest has been completed
-                elseif quest.parentQuest and Questie.db.char.complete[quest.parentQuest] then
+                elseif parentQuest and Questie.db.char.complete[parentQuest] then
                     tinsert(zoneTree[3].children, temp)
                     completedCounter = completedCounter + 1
                 -- Unoptainable profession quests
-                elseif not QuestieProfessions:HasProfessionAndSkillLevel(quest.requiredSkill) then
+                elseif not QuestieProfessions:HasProfessionAndSkillLevel(QuestieDB.QueryQuestSingle(qId, "requiredSkill")) then
                     tinsert(zoneTree[5].children, temp)
                     unobtainableQuestIds[qId] = true
                     unobtainableCounter = unobtainableCounter + 1
                 -- Unoptainable reputation quests
-                elseif not QuestieReputation:HasReputation(quest.requiredMinRep, quest.requiredMaxRep) then
+                elseif not QuestieReputation:HasReputation(unpack(QuestieDB.QueryQuest(qId, "requiredMinRep", "requiredMaxRep"))) then
                     tinsert(zoneTree[5].children, temp)
                     unobtainableQuestIds[qId] = true
                     unobtainableCounter = unobtainableCounter + 1
                 -- A single pre Quest is missing
-                elseif not quest:IsPreQuestSingleFulfilled() then
+                elseif not QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle) then
                     -- The pre Quest is unobtainable therefore this quest is it as well
-                    if unobtainableQuestIds[quest.preQuestSingle] ~= nil then
+                    if unobtainableQuestIds[preQuestSingle] ~= nil then
                         tinsert(zoneTree[5].children, temp)
                         unobtainableQuestIds[qId] = true
                         unobtainableCounter = unobtainableCounter + 1
@@ -174,9 +175,9 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                         prequestMissingCounter = prequestMissingCounter + 1
                     end
                 -- Multiple pre Quests are missing
-                elseif not quest:IsPreQuestGroupFulfilled() then
+                elseif not QuestieDB:IsPreQuestGroupFulfilled(preQuestGroup) then
                     local hasUnobtainablePreQuest = false
-                    for _, preQuestId in pairs(quest.preQuestGroup) do
+                    for _, preQuestId in pairs(preQuestGroup) do
                         if unobtainableQuestIds[preQuestId] ~= nil then
                             tinsert(zoneTree[5].children, temp)
                             unobtainableQuestIds[qId] = true
@@ -191,7 +192,7 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                         prequestMissingCounter = prequestMissingCounter + 1
                     end
                 -- Repeatable quests
-                elseif quest.IsRepeatable then
+                elseif QuestieDB:IsRepeatable(qId) then
                     tinsert(zoneTree[4].children, temp)
                     repeatableCounter = repeatableCounter + 1
                 -- Available quests
@@ -210,6 +211,8 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
     zoneTree[3].text = zoneTree[3].text .. ' [ '..  completedCounter ..'/'.. totalCounter ..' ]'
     zoneTree[4].text = zoneTree[4].text .. ' [ '..  repeatableCounter ..' ]'
     zoneTree[5].text = zoneTree[5].text .. ' [ '..  unobtainableCounter ..' ]'
+
+    zoneTree.numquests = totalCounter + repeatableCounter + unobtainableCounter
 
     return zoneTree
 end

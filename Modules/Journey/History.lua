@@ -106,9 +106,8 @@ function _QuestieJourney:GetEntryText(entry)
         else
             state = "ERROR!!"
         end
-        local quest = QuestieDB:GetQuest(entry.Quest)
-        if quest then
-            local qName = quest.name
+        local qName = QuestieDB.QueryQuestSingle(entry.Quest, "name")
+        if qName then
             entryText = QuestieLocale:GetUIString('JOURNEY_TABLE_QUEST', state, qName)
         else
             entryText = QuestieLocale:GetUIString('JOURNEY_MISSING_QUEST')

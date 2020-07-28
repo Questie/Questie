@@ -3,7 +3,7 @@
 --
 -- Manages AddOn chat output to keep player from getting kicked off.
 --
--- ChatThrottleLib:SendChatMessage/:SendAddonMessage functions that accept 
+-- ChatThrottleLib:SendChatMessage/:SendAddonMessage functions that accept
 -- a Priority ("BULK", "NORMAL", "ALERT") as well as prefix for SendChatMessage.
 --
 -- Priorities get an equal share of available bandwidth when fully loaded.
@@ -118,7 +118,7 @@ end
 
 
 -----------------------------------------------------------------------
--- Recycling bin for pipes 
+-- Recycling bin for pipes
 -- A pipe is a plain integer-indexed queue of messages
 -- Pipes normally live in Rings of pipes  (3 rings total, one per priority)
 
@@ -169,7 +169,7 @@ end
 -- Initialize queues, set up frame for OnUpdate, etc
 
 
-function ChatThrottleLib:Init()	
+function ChatThrottleLib:Init()
 
 	-- Set up queues
 	if not self.Prio then
@@ -356,8 +356,8 @@ function ChatThrottleLib.OnUpdate(this,delay)
 	-- See how many of our priorities have queued messages (we only have 3, don't worry about the loop)
 	local n = 0
 	for prioname,Prio in pairs(self.Prio) do
-		if Prio.Ring.pos or Prio.avail < 0 then 
-			n = n + 1 
+		if Prio.Ring.pos or Prio.avail < 0 then
+			n = n + 1
 		end
 	end
 

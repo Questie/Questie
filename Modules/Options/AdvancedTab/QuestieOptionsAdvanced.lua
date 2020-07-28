@@ -21,6 +21,21 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
 QuestieOptions.tabs.advanced = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
 
+StaticPopupDialogs["QUESTIE_LANG_CHANGED_RELOAD"] = {
+    button1 = QuestieLocale:GetUIString('Reload UI'),
+    button2 = QuestieLocale:GetUIString('TRACKER_CANCEL'),
+    OnAccept = function()
+        ReloadUI()
+    end,
+    text = QuestieLocale:GetUIString('The database needs to be updated to change language. Press reload to apply the new language'),
+    OnShow = function(self)
+        self:SetFrameStrata("TOOLTIP")
+    end,
+    timeout = 0,
+    whileDead = true,
+    hideOnEscape = true,
+    preferredIndex = 3
+}
 
 function QuestieOptions.tabs.advanced:Initialize()
     return {
@@ -75,6 +90,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 get = function() return Questie.db.global.enableTooltipsQuestID; end,
                 set = function (info, value)
                     Questie.db.global.enableTooltipsQuestID = value
+                    QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
                 end
             },
@@ -162,7 +178,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                     if not Questie.db.global.questieLocaleDiff then
                         return 'auto'
                     else
-                        return QuestieLocale:GetUILocale(); 
+                        return QuestieLocale:GetUILocale();
                     end
                 end,
                 set = function(input, lang)
@@ -176,6 +192,8 @@ function QuestieOptions.tabs.advanced:Initialize()
                     QuestieLocale:SetUILocale(lang);
                     Questie.db.global.questieLocale = lang;
                     Questie.db.global.questieLocaleDiff = true;
+                    QuestieConfig.dbIsCompiled = nil -- recompile db with new lang
+                    StaticPopup_Show("QUESTIE_LANG_CHANGED_RELOAD")
                 end,
             },
             Spacer_C = QuestieOptionsUtils:Spacer(3.9),
@@ -203,12 +221,15 @@ function QuestieOptions.tabs.advanced:Initialize()
                     end
 
                     -- only toggle questie if it's off (must be called before resetting the value)
-                    if not Questie.db.char.enabled then
-                        QuestieQuest:ToggleNotes(not Questie.db.char.enabled);
+                    if (not Questie.db.char.enabled) then
+                        Questie.db.char.enabled = true
+                        QuestieQuest:ToggleNotes(true);
                     end
 
                     Questie.db.char.enabled = optionsDefaults.char.enabled;
                     Questie.db.char.lowlevel = optionsDefaults.char.lowlevel;
+
+                    Questie.db.global.migrationVersion = nil
 
                     Questie.db.profile.minimap.hide = optionsDefaults.profile.minimap.hide;
 
@@ -243,9 +264,30 @@ function QuestieOptions.tabs.advanced:Initialize()
                 end,
             },
             Spacer_E = QuestieOptionsUtils:Spacer(4.3),
+            recompileDatabase = {
+                type = "execute",
+                order = 4.4,
+                name = function() return QuestieLocale:GetUIString('RECOMPILE_DATABASE_BTN'); end,
+                desc = function() return QuestieLocale:GetUIString('RECOMPILE_DATABASE_BTN_DESC'); end,
+                func = function (info, value)
+                    QuestieConfig.dbIsCompiled = false
+                    ReloadUI()
+                end,
+            },
+            Spacer_F = QuestieOptionsUtils:Spacer(4.5),
+            openProfiler = {
+                type = "execute",
+                order = 4.6,
+                name = function() return QuestieLocale:GetUIString('SHOW_PROFILER_BTN'); end,
+                desc = function() return QuestieLocale:GetUIString('SHOW_PROFILER_BTN_DESC'); end,
+                func = function (info, value)
+                    QuestieLoader:ImportModule("Profiler"):Start()
+                end,
+            },
+            Spacer_G = QuestieOptionsUtils:Spacer(4.7),
             github_text = {
                 type = "description",
-                order = 4.4,
+                order = 4.8,
                 name = function() return Questie:Colorize(QuestieLocale:GetUIString('QUESTIE_DEV_MESSAGE'), 'purple'); end,
                 fontSize = "medium",
             },
