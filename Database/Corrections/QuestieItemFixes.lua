@@ -787,6 +787,12 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {6556,6557,6559,},
             [itemKeys.objectDrops] = {},
         },
+        [12234] = {
+            [itemKeys.name] = "Corrupted Felwood Sample",
+            [itemKeys.relatedQuests] = {4293},
+            [itemKeys.npcDrops] = {},
+            [itemKeys.objectDrops] = {174848},
+        },
         [12236] = {
             [itemKeys.name] = "Pure Un'Goro Sample",
             [itemKeys.relatedQuests] = {4294},

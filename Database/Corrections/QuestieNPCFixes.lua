@@ -1768,6 +1768,11 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.MARAUDON,
             [npcKeys.spawns] = {[zoneIDs.MARAUDON] = {{-1,-1},},},
         },
+        [13716] = {
+            [npcKeys.name] = "Celebras the Redeemed",
+            [npcKeys.zoneID] = zoneIDs.MARAUDON,
+            [npcKeys.spawns] = {[zoneIDs.MARAUDON] = {{-1,-1},},},
+        },
         [13739] = {
             [npcKeys.name] = "Maraudos",
             [npcKeys.zoneID] = zoneIDs.DESOLACE,
@@ -2171,6 +2176,11 @@ function QuestieNPCFixes:Load()
             [npcKeys.name] = "Theldren",
             [npcKeys.zoneID] = zoneIDs.SEARING_GORGE,
             [npcKeys.spawns] = {[zoneIDs.SEARING_GORGE] = {{27.22,72.5},},},
+        },
+        [16073] = {
+            [npcKeys.name] = "Spirit of Lord Valthalak",
+            [npcKeys.zoneID] = zoneIDs.UPPER_BLACKROCK_SPIRE,
+            [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE] = {{-1,-1},},},
         },
         [16143] = {
             [npcKeys.name] = "Shadow of Doom",
