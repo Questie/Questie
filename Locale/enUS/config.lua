@@ -31,10 +31,6 @@ QuestieLocale.locale['enUS'] = {
     ['ENABLE_TURNINS_DESC'] = "When this is enabled, the quest turn-in locations will be shown on the map/minimap.",
     ['ENABLE_AVAILABLE'] = "Enable Available Quest Icons",
     ['ENABLE_AVAILABLE_DESC'] = "When this is enabled, the locations of available quest will be shown on the map/minimap.",
-    ['ENABLE_TOOLTIPS'] = "Enable Tooltips",
-    ['ENABLE_TOOLTIPS_DESC'] = "When this is enabled, quest info will be added to relevant mob/item tooltips.",
-    ['ENABLE_TOOLTIPS_QUEST_LEVEL'] = "Show Quest Level in Tooltips",
-    ['ENABLE_TOOLTIPS_QUEST_LEVEL_DESC'] = "When this is checked, the level of quests will show in the tooltips.",
     ['ICON_TYPE_HEADER'] = "Icon Types",
     ['ENABLE_MAP_ICONS'] = "Enable Map Icons",
     ['ENABLE_MAP_ICONS_DESC'] = "Show/hide all icons from the main map.",
@@ -168,6 +164,16 @@ QuestieLocale.locale['enUS'] = {
     ['TARGET_SCALE_DESC'] = "Scale the size of the quest icons on creature nameplates. ( Default: %s )",
     ['TARGET_RESET_BTN'] = "Reset Target Frame",
     ['TARGET_RESET_BTN_DESC'] = "Reset to default target frame position and scale.",
+
+    -- Tooltip tab
+    ['TOOLTIP_TAB'] = "Tooltip",
+    ['TOOLTIP_OPTIONS_HEADER'] = "Tooltip options",
+    ['ENABLE_TOOLTIPS'] = "Enable Tooltips",
+    ['ENABLE_TOOLTIPS_DESC'] = "When this is enabled, quest info will be added to relevant mob/item tooltips.",
+    ['ENABLE_TOOLTIPS_QUEST_LEVEL'] = "Show Quest Level in Tooltips",
+    ['ENABLE_TOOLTIPS_QUEST_LEVEL_DESC'] = "When this is checked, the level of quests will show in the tooltips.",
+    ['SHARED_TOOLTIP_PARTY_ONLY'] = "Party shared only",
+    ['SHARED_TOOLTIP_PARTY_ONLY_DESC'] = "When this is enabled, shared quest infos will only be shown if they are from party members.",
 
     -- Advanced tab
     ['ADVANCED_TAB'] = "Advanced",

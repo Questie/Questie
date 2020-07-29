@@ -31,10 +31,6 @@ QuestieLocale.locale['frFR'] = {
     ['ENABLE_TURNINS_DESC'] = "Active l'affichage des lieux où rendre les quêtes sur la carte/mini-carte.",
     ['ENABLE_AVAILABLE'] = "Icônes des quêtes disponibles", --was a bit too long
     ['ENABLE_AVAILABLE_DESC'] = "Active l'affichage des lieux où prendre les quêtes sur la carte/mini-carte.",
-    ['ENABLE_TOOLTIPS'] = "Activer les info-bulles",
-    ['ENABLE_TOOLTIPS_DESC'] = "Active l'affichage des informations de quête dans les info-bulles des monstres et des objets.",
-    ['ENABLE_TOOLTIPS_QUEST_LEVEL'] = "Niveau des quêtes dans les info-bulles",
-    ['ENABLE_TOOLTIPS_QUEST_LEVEL_DESC'] = "Active l'affichage du niveau des quêtes dans les info-bulles.",
     ['ICON_TYPE_HEADER'] = "Types d'icônes",
     ['ENABLE_MAP_ICONS'] = "Activer les icônes sur la carte",
     ['ENABLE_MAP_ICONS_DESC'] = "Active l'affichage de toutes les icônes sur la carte.",
@@ -166,6 +162,16 @@ QuestieLocale.locale['frFR'] = {
     ['TARGET_SCALE_DESC'] = "Définis la taille des icônes d'objectif de quête sur la barre de vie de la cible. (Par défaut : %s)",
     ['TARGET_RESET_BTN'] = "Réinitialisation",
     ['TARGET_RESET_BTN_DESC'] = "Réinitialise les positions et l'échelle des icônes sur la barre de vie de la cible à leurs valeurs par défaut.",
+
+    -- Onglet info-bulle
+    ['TOOLTIP_TAB'] = "Info-bulle",
+    ['TOOLTIP_OPTIONS_HEADER'] = "Options de l'info-bulle",
+    ['ENABLE_TOOLTIPS'] = "Activer les info-bulles",
+    ['ENABLE_TOOLTIPS_DESC'] = "Active l'affichage des informations de quête dans les info-bulles des monstres et des objets.",
+    ['ENABLE_TOOLTIPS_QUEST_LEVEL'] = "Niveau des quêtes dans les info-bulles",
+    ['ENABLE_TOOLTIPS_QUEST_LEVEL_DESC'] = "Active l'affichage du niveau des quêtes dans les info-bulles.",
+    ['SHARED_TOOLTIP_PARTY_ONLY'] = "Parti partagé uniquement",
+    ['SHARED_TOOLTIP_PARTY_ONLY_DESC'] = "Lorsque cette option est activée, les informations de quête partagées ne seront affichées que si elles proviennent de membres du groupe.",
 
     -- Onglet Avancé
     ['ADVANCED_TAB'] = "Avancé",

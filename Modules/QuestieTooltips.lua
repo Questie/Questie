@@ -211,7 +211,7 @@ function QuestieTooltips:GetTooltip(key)
                 local playerType = ""
                 if playerInfo then
                     playerColor = "|c" .. playerInfo.colorHex
-                elseif QuestieComms.remotePlayerEnabled[playerName] then
+                elseif QuestieComms.remotePlayerEnabled[playerName] and not Questie.db.global.onlyPartyShared or UnitInParty(playerName) then
                     playerColor = QuestieComms.remotePlayerClasses[playerName]
                     if playerColor then
                         playerColor = Questie:GetClassColor(playerColor)

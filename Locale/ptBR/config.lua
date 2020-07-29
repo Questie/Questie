@@ -31,10 +31,6 @@ QuestieLocale.locale['ptBR'] = {
     ['ENABLE_TURNINS_DESC'] = "Quando ativado, os locais de ativação da missão serão exibidos no mapa / mapa mínimo",
     ['ENABLE_AVAILABLE'] = "Ativar ícones de missões disponíveis",
     ['ENABLE_AVAILABLE_DESC'] = "Quando esta opção está ativada, os locais de ativação da missão serão exibidos no mapa / mini mapa",
-    ['ENABLE_TOOLTIPS'] = "Ativar dicas de ferramentas (informaçâo)",
-    ['ENABLE_TOOLTIPS_DESC'] = "Se ativada, as informações da missão serão adicionadas às dicas relevantes de mob / item",
-    ['ENABLE_TOOLTIPS_QUEST_LEVEL'] = "Show Quest Level in Tooltips",
-    ['ENABLE_TOOLTIPS_QUEST_LEVEL_DESC'] = "When this is checked, the level of quests will show in the tooltips.",
     ['ICON_TYPE_HEADER'] = "Tipos de ícones",
     ['ENABLE_MAP_ICONS'] = "Ativar ícones do mapa",
     ['ENABLE_MAP_ICONS_DESC'] = "Mostrar / ocultar todos os ícones na carta principal",
@@ -166,6 +162,16 @@ QuestieLocale.locale['ptBR'] = {
     ['TARGET_SCALE_DESC'] = "Mude o tamanho dos ícones de missão nas placas de identificação das criaturas. (Por defeito: %s)",
     ['TARGET_RESET_BTN'] = "Redefinir o quadro de destino",
     ['TARGET_RESET_BTN_DESC'] = "Redefinir as posições e a escala do quadro de destino por defeito",
+
+    -- Tooltip tab
+    ['TOOLTIP_TAB'] = "Dicas de ferramentas (informaçâo)",
+    ['TOOLTIP_OPTIONS_HEADER'] = "Opções de dica de ferramenta",
+    ['ENABLE_TOOLTIPS'] = "Ativar dicas de ferramentas (informaçâo)",
+    ['ENABLE_TOOLTIPS_DESC'] = "Se ativada, as informações da missão serão adicionadas às dicas relevantes de mob / item",
+    ['ENABLE_TOOLTIPS_QUEST_LEVEL'] = "Show Quest Level in Tooltips",
+    ['ENABLE_TOOLTIPS_QUEST_LEVEL_DESC'] = "When this is checked, the level of quests will show in the tooltips.",
+    ['SHARED_TOOLTIP_PARTY_ONLY'] = "Somente parte compartilhada",
+    ['SHARED_TOOLTIP_PARTY_ONLY_DESC'] = "Quando isso estiver ativado, as informações compartilhadas das missões serão mostradas apenas se forem de membros da equipe.",
 
     -- Advanced tab
     ['ADVANCED_TAB'] = "Avançar",

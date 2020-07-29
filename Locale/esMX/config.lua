@@ -31,10 +31,6 @@ QuestieLocale.locale['esMX'] = {
     ['ENABLE_TURNINS_DESC'] = "Cuando está habilitado los iconos de misión completada apareceran en el mapa y minimapa",
     ['ENABLE_AVAILABLE'] = "Habilitar iconos de misión disponible",
     ['ENABLE_AVAILABLE_DESC'] = "Cuando está habilitado los iconos de misión disponible apareceran en el mapa y minimapa",
-    ['ENABLE_TOOLTIPS'] = "Habilitar descripción emergente",
-    ['ENABLE_TOOLTIPS_DESC'] = "Cuando está habilitado la información de la mision aparecera en la descripcion de los monstruos/objetos relevantes",
-    ['ENABLE_TOOLTIPS_QUEST_LEVEL'] = "Mostrar nivel de misión en tooltips",
-    ['ENABLE_TOOLTIPS_QUEST_LEVEL_DESC'] = "Si está marcado, el nivel de misiones mostrará en los tooltips.",
     ['ICON_TYPE_HEADER'] = "Tipos de icono",
     ['ENABLE_MAP_ICONS'] = "Habilitar iconos en el mapa",
     ['ENABLE_MAP_ICONS_DESC'] = "Mostrar/Esconder todos los iconos del mapa principal",
@@ -165,6 +161,16 @@ QuestieLocale.locale['esMX'] = {
     ['TARGET_SCALE_DESC'] = "Edita el tamaño del icono de misión en el marco de objetivo. ( Por defecto: %s )",
     ['TARGET_RESET_BTN'] = "Reiniciar marco de objetivo",
     ['TARGET_RESET_BTN_DESC'] = "Reinicia a valores por defecto el tamaño y la posición del marco de objetivo",
+
+    -- Tooltip tab
+    ['TOOLTIP_TAB'] = "Descripción emergente",
+    ['TOOLTIP_OPTIONS_HEADER'] = "Opciones de descripción emergente",
+    ['ENABLE_TOOLTIPS'] = "Habilitar descripción emergente",
+    ['ENABLE_TOOLTIPS_DESC'] = "Cuando está habilitado la información de la mision aparecera en la descripcion de los monstruos/objetos relevantes",
+    ['ENABLE_TOOLTIPS_QUEST_LEVEL'] = "Mostrar nivel de misión en tooltips",
+    ['ENABLE_TOOLTIPS_QUEST_LEVEL_DESC'] = "Si está marcado, el nivel de misiones mostrará en los tooltips.",
+    ['SHARED_TOOLTIP_PARTY_ONLY'] = "Fiesta compartida solo",
+    ['SHARED_TOOLTIP_PARTY_ONLY_DESC'] = "Cuando esto está habilitado, la información de misiones compartidas solo se mostrará si son de miembros del grupo.",
 
     -- Advanced tab
     ['ADVANCED_TAB'] = "Avanzado",
