@@ -167,7 +167,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                     ['ptBR'] = 'Português',
                     ['frFR'] = 'Français',
                     ['deDE'] = 'Deutsch',
-                    ['ruRU'] = 'русский',
+                    ['ruRU'] = 'Русский',
                     ['zhCN'] = '简体中文',
                     ['zhTW'] = '正體中文',
                     ['koKR'] = '한국어',
