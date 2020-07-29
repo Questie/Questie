@@ -2120,6 +2120,7 @@ function QuestieQuestFixes:Load()
         [8493] = {
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = 77,
+            [questKeys.specialFlags] = 1,
         },
         [8494] = {
             [questKeys.requiredLevel] = 1,
@@ -2128,6 +2129,7 @@ function QuestieQuestFixes:Load()
         [8495] = {
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = 77,
+            [questKeys.specialFlags] = 1,
         },
         [8499] = {
             [questKeys.requiredLevel] = 1,
@@ -2135,6 +2137,7 @@ function QuestieQuestFixes:Load()
         },
         [8500] = {
             [questKeys.requiredLevel] = 1,
+            [questKeys.specialFlags] = 1,
         },
         [8503] = {
             [questKeys.requiredLevel] = 1,
@@ -2166,6 +2169,7 @@ function QuestieQuestFixes:Load()
         [8512] = {
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = 77,
+            [questKeys.specialFlags] = 1,
         },
         [8513] = {
             [questKeys.requiredLevel] = 1,
@@ -2174,6 +2178,7 @@ function QuestieQuestFixes:Load()
         [8514] = {
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = 77,
+            [questKeys.specialFlags] = 1,
         },
         [8515] = {
             [questKeys.requiredLevel] = 1,
@@ -2182,6 +2187,7 @@ function QuestieQuestFixes:Load()
         [8516] = {
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = 77,
+            [questKeys.specialFlags] = 1,
         },
         [8517] = {
             [questKeys.requiredLevel] = 1,
@@ -2190,6 +2196,7 @@ function QuestieQuestFixes:Load()
         [8518] = {
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = 77,
+            [questKeys.specialFlags] = 1,
         },
         [8520] = {
             [questKeys.requiredLevel] = 1,
@@ -2199,6 +2206,7 @@ function QuestieQuestFixes:Load()
         [8521] = {
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = 77,
+            [questKeys.specialFlags] = 1,
         },
         [8522] = {
             [questKeys.requiredLevel] = 1,
@@ -2207,6 +2215,7 @@ function QuestieQuestFixes:Load()
         [8523] = {
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = 77,
+            [questKeys.specialFlags] = 1,
         },
         [8524] = {
             [questKeys.requiredLevel] = 1,
@@ -2215,6 +2224,7 @@ function QuestieQuestFixes:Load()
         [8525] = {
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = 77,
+            [questKeys.specialFlags] = 1,
         },
         [8526] = {
             [questKeys.requiredLevel] = 1,
@@ -2231,6 +2241,7 @@ function QuestieQuestFixes:Load()
         [8529] = {
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = 77,
+            [questKeys.specialFlags] = 1,
         },
         [8532] = {
             [questKeys.requiredLevel] = 1,
