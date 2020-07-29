@@ -16,6 +16,8 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 local QuestieQuest = QuestieLoader:CreateModule("QuestieQuest");
 ---@type QuestieProfessions
 local QuestieProfessions = QuestieLoader:CreateModule("QuestieProfessions");
+---@type QuestieTracker
+local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 
 local tinsert = table.insert
 local _QuestieTooltips = {};
