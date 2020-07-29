@@ -21,7 +21,14 @@ _QuestieAuto.disallowedNPC = {
     [15765] = true, -- Officer Redblade (Orgrimmar Commendations)
     [15767] = true, -- Officer Thunderstrider (Thunder Bluff Commendations)
     [15761] = true, -- Officer Vu'Shalay (Darkspear Commendations)
-
+    [15731] = true, -- Darnassus Commendation Officer
+    [15737] = true, -- Darkspear Commendation Officer
+    [15735] = true, -- Stormwind Commendation Officer
+    [15739] = true, -- Thunder Bluff Commendation Officer
+    [15736] = true, -- Orgrimmar Commendation Officer
+    [15734] = true, -- Ironforge Commendation Officer
+    [15738] = true, -- Undercity Commendation Officer
+    [15733] = true, -- Gnomeregan Commendation Officer
     -- Stray
     [12944] = true, -- Lokhtos Darkbargainer (Thorium Brotherhood, Blackrock Depths)
     [14828] = true, -- Gelvas Grimegate (Darkmoon Faire Ticket Redemption)
