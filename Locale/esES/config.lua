@@ -453,6 +453,6 @@ QuestieLocale.locale['esES'] = {
     ["\124cFF4DDBFF [2/4] Updating objects..."] = "\124cFF4DDBFF [2/4] Actualizando objetos...",  
     ["\124cFF4DDBFF [3/4] Updating quests..."] = "\124cFF4DDBFF [3/4] Actualizando misiones...",  
     ["\124cFF4DDBFF [4/4] Updating items..."] = "\124cFF4DDBFF [4/4] Actualizando items...", 
-    ["\124cFFAAEEFFQuestie DB update complete!"] = "\124cFFAAEEFF¡Actualización de Questie completada!",
+    ["\124cFFAAEEFFQuestie DB update complete!"] = "\124cFFAAEEFF¡Actualización de Questie DB completada!",
     ["Nearby"] = "Cerca de",
 };
