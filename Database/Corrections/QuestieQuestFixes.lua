@@ -1372,6 +1372,18 @@ function QuestieQuestFixes:Load()
         [5211] = {
             [questKeys.preQuestSingle] = {}, -- #983
         },
+        [5218] = {
+            [questKeys.preQuestSingle] = {5217,5230},
+        },
+        [5221] = {
+            [questKeys.preQuestSingle] = {5220,5232},
+        },
+        [5224] = {
+            [questKeys.preQuestSingle] = {5223,5234},
+        },
+        [5227] = {
+            [questKeys.preQuestSingle] = {5226,5236},
+        },
         [5234] = { -- bad race data
             [questKeys.requiredRaces] = 178,
         },
