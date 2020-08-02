@@ -1013,6 +1013,12 @@ function QuestieItemFixes:Load()
         [17309] = {
             [itemKeys.npcDrops] = {8519,8520,8521,8522,},
         },
+        [17696] = {
+            [itemKeys.name] = "Filled Cerulean Vial",
+            [itemKeys.relatedQuests] = {7029,7041},
+            [itemKeys.npcDrops] = {},
+            [itemKeys.objectDrops] = {178907},
+        },
         [18151] = {
             [itemKeys.name] = "Filled Amethyst Phial",
             [itemKeys.relatedQuests] = {7383},
