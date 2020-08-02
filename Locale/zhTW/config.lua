@@ -31,10 +31,6 @@ QuestieLocale.locale['zhTW'] = {
     ['ENABLE_TURNINS_DESC'] = "在地圖上標記回報任務的地點",
     ['ENABLE_AVAILABLE'] = "可取得的任務標記",
     ['ENABLE_AVAILABLE_DESC'] = "在地圖上標記可取得任務的地點",
-    ['ENABLE_TOOLTIPS'] = "提示訊息",
-    ['ENABLE_TOOLTIPS_DESC'] = "在目標或物品的滑鼠提示顯示任務資訊",
-    ['ENABLE_TOOLTIPS_QUEST_LEVEL'] = "在提示訊息顯示任務等級",
-    ['ENABLE_TOOLTIPS_QUEST_LEVEL_DESC'] = "將任務的等級將示在提示訊息上",
     ['ICON_TYPE_HEADER'] = "圖示類別",
     ['ENABLE_MAP_ICONS'] = "大地圖圖示",
     ['ENABLE_MAP_ICONS_DESC'] = "在大地圖上顯示所有的圖示",
@@ -168,6 +164,16 @@ QuestieLocale.locale['zhTW'] = {
     ['TARGET_SCALE_DESC'] = "調整目標頭像圖示的縮放比例（預設：%s）",
     ['TARGET_RESET_BTN'] = "重設",
     ['TARGET_RESET_BTN_DESC'] = "重設目標圖示的位置和大小",
+
+    -- Tooltip tab
+    ['TOOLTIP_TAB'] = "工具提示",
+    ['TOOLTIP_OPTIONS_HEADER'] = "工具提示選項",
+    ['ENABLE_TOOLTIPS'] = "提示訊息",
+    ['ENABLE_TOOLTIPS_DESC'] = "在目標或物品的滑鼠提示顯示任務資訊",
+    ['ENABLE_TOOLTIPS_QUEST_LEVEL'] = "在提示訊息顯示任務等級",
+    ['ENABLE_TOOLTIPS_QUEST_LEVEL_DESC'] = "將任務的等級將示在提示訊息上",
+    ['SHARED_TOOLTIP_PARTY_ONLY'] = "僅限聚會",
+    ['SHARED_TOOLTIP_PARTY_ONLY_DESC'] = "啟用此功能後，僅當共享任務信息來自聚會成員時才會顯示。",
 
     -- Advanced tab
     ['ADVANCED_TAB'] = "進階",

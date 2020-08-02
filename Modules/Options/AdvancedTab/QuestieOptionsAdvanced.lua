@@ -41,7 +41,7 @@ function QuestieOptions.tabs.advanced:Initialize()
     return {
         name = function() return QuestieLocale:GetUIString('ADVANCED_TAB'); end,
         type = "group",
-        order = 16,
+        order = 17,
         args = {
             map_options = {
                 type = "header",

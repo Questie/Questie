@@ -31,10 +31,6 @@ QuestieLocale.locale['koKR'] = {
     ['ENABLE_TURNINS_DESC'] = "퀘스트 완료 아이콘을 지도와 미니맵에 표시합니다.",
     ['ENABLE_AVAILABLE'] = "수행 가능한 퀘스트 아이콘 활성화",
     ['ENABLE_AVAILABLE_DESC'] = "수행 가능한 퀘스트 아이콘을 지도와 미니맵에 표시합니다.",
-    ['ENABLE_TOOLTIPS'] = "툴팁 활성화",
-    ['ENABLE_TOOLTIPS_DESC'] = "몬스터와 아이템의 툴팁에 관련된 퀘스트 정보를 표시합니다.",
-    ['ENABLE_TOOLTIPS_QUEST_LEVEL'] = "툴팁에 퀘스트 레벨 표시",
-    ['ENABLE_TOOLTIPS_QUEST_LEVEL_DESC'] = "툴팁에 퀘스트의 레벨을 표시합니다.",
     ['ICON_TYPE_HEADER'] = "아이콘 유형",
     ['ENABLE_MAP_ICONS'] = "지도 아이콘 활성화",
     ['ENABLE_MAP_ICONS_DESC'] = "세계 지도에 퀘스트 아이콘을 표시합니다.",
@@ -166,6 +162,16 @@ QuestieLocale.locale['koKR'] = {
     ['TARGET_SCALE_DESC'] = "퀘스트 목표 대상 프레임에 표시할 아이콘의 크기를 설정합니다. ( 기본값: %s )",
     ['TARGET_RESET_BTN'] = "대상 프레임 초기화",
     ['TARGET_RESET_BTN_DESC'] = "대상 프레임 아이콘 위치와 크기를 기본값으로 초기화합니다.",
+
+    -- Tooltip tab
+    ['TOOLTIP_TAB'] = "툴팁",
+    ['TOOLTIP_OPTIONS_HEADER'] = "툴팁 옵션",
+    ['ENABLE_TOOLTIPS'] = "툴팁 활성화",
+    ['ENABLE_TOOLTIPS_DESC'] = "몬스터와 아이템의 툴팁에 관련된 퀘스트 정보를 표시합니다.",
+    ['ENABLE_TOOLTIPS_QUEST_LEVEL'] = "툴팁에 퀘스트 레벨 표시",
+    ['ENABLE_TOOLTIPS_QUEST_LEVEL_DESC'] = "툴팁에 퀘스트의 레벨을 표시합니다.",
+    ['SHARED_TOOLTIP_PARTY_ONLY'] = "파티 만 공유",
+    ['SHARED_TOOLTIP_PARTY_ONLY_DESC'] = "이 기능을 활성화하면 공유 퀘스트 정보가 파티원의 정보 인 경우에만 표시됩니다.",
 
     -- Advanced tab
     ['ADVANCED_TAB'] = "고급",

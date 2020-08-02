@@ -135,6 +135,7 @@ Modules\Options\MapTab\QuestieOptionsMap.lua
 Modules\Options\MinimapTab\QuestieOptionsMinimap.lua
 Modules\Options\NameplateTab\QuestieOptionsNameplate.lua
 Modules\Options\TrackerTab\QuestieOptionsTracker.lua
+Modules\Options\TooltipTab\QuestieOptionsTooltip.lua
 
 #Cleanup
 Modules\QuestieCleanup.lua

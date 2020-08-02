@@ -31,10 +31,6 @@ QuestieLocale.locale['zhCN'] = {
     ['ENABLE_TURNINS_DESC'] = "若启用，在地图上标记提交任务的地点",
     ['ENABLE_AVAILABLE'] = "启用取得任务标记",
     ['ENABLE_AVAILABLE_DESC'] = "若启用，在地图上标记可取得任务的地点",
-    ['ENABLE_TOOLTIPS'] = "启用鼠标提示",
-    ['ENABLE_TOOLTIPS_DESC'] = "若启用，在目标或物品的鼠标提示显示任务信息",
-    ['ENABLE_TOOLTIPS_QUEST_LEVEL'] = "鼠标提示中显示任务等级",
-    ['ENABLE_TOOLTIPS_QUEST_LEVEL_DESC'] = "勾选后，任务等级将显示在鼠标提示中",
     ['ICON_TYPE_HEADER'] = "图标类别",
     ['ENABLE_MAP_ICONS'] = "启用大地图标记",
     ['ENABLE_MAP_ICONS_DESC'] = "启用或停用大地图上的所有图标",
@@ -165,6 +161,16 @@ QuestieLocale.locale['zhCN'] = {
     ['TARGET_SCALE_DESC'] = "调整目标头像图标的缩放比例（默认：%s）",
     ['TARGET_RESET_BTN'] = "重设",
     ['TARGET_RESET_BTN_DESC'] = "重设目标图标的位置和大小",
+
+    -- Tooltip tab
+    ['TOOLTIP_TAB'] = "工具提示",
+    ['TOOLTIP_OPTIONS_HEADER'] = "工具提示选项",
+    ['ENABLE_TOOLTIPS'] = "启用鼠标提示",
+    ['ENABLE_TOOLTIPS_DESC'] = "若启用，在目标或物品的鼠标提示显示任务信息",
+    ['ENABLE_TOOLTIPS_QUEST_LEVEL'] = "鼠标提示中显示任务等级",
+    ['ENABLE_TOOLTIPS_QUEST_LEVEL_DESC'] = "勾选后，任务等级将显示在鼠标提示中",
+    ['SHARED_TOOLTIP_PARTY_ONLY'] = "仅限聚会",
+    ['SHARED_TOOLTIP_PARTY_ONLY_DESC'] = "启用此功能后，仅当共享任务信息来自聚会成员时才会显示。",
 
     -- Advanced tab
     ['ADVANCED_TAB'] = "进阶",
