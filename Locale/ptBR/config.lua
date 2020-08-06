@@ -64,7 +64,9 @@ QuestieLocale.locale['ptBR'] = {
     ['ENABLE_ACCEPT_TRIVIAL_DESC'] = "Quando isso estiver ativado, missões triviais (cinza) também serão aceitas automaticamente.",
     ['AUTO_MODIFIER'] = "Edição automática",
     ['AUTO_MODIFIER_DESC'] = "O modificador para NÃO aceitar automaticamente / completar missões quando uma das opções está ativada e você interage com um PNJ de missão.",
-
+    ['ENABLE_YELL'] = "Compartilhar o progresso da missão com jogadores próximos",
+    ['ENABLE_YELL_DESC'] = "O progresso da sua missão será enviado periodicamente a jogadores próximos",
+   
     -- Minimap tab
     ['MINIMAP_TAB'] = "Opções de mini-carta",
     ['MINIMAP_OPTIONS_HEADER'] = "Opções de notas com mini-cartas",
