@@ -64,7 +64,9 @@ QuestieLocale.locale['esMX'] = {
     ['ENABLE_ACCEPT_TRIVIAL_DESC'] = "Si está habilitado, las misiones triviales (grises) también se aceptarán automáticamente.",
     ['AUTO_MODIFIER'] = "Auto modificador",
     ['AUTO_MODIFIER_DESC'] = "El modificador para NO aceptar/completar automáticamente las misiones cuando cualquiera de las opciones está habilitada e interactúas con un asignador de misión.",
-
+    ['ENABLE_YELL'] = "Compartir el progreso de la misión con jugadores cercanos",
+    ['ENABLE_YELL_DESC'] = "El progreso de tu misión se enviará periódicamente a los jugadores cercanos.",
+   
     -- Minimap tab
     ['MINIMAP_TAB'] = "Opciones de minimapa",
     ['MINIMAP_OPTIONS_HEADER'] = "Opciones de las notas del minimapa",
