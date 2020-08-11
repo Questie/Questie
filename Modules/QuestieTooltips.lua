@@ -59,6 +59,10 @@ function QuestieTooltips:GetTooltip(key)
         return nil
     end
 
+    if GetNumGroupMembers() > 15 then
+        return -- temporary disable tooltips in raids, we should make a proper fix
+    end
+    
     --Do not remove! This is the datastrucutre for tooltipData!
     --[[tooltipdata[questId] = {
         title = coloredTitle,
