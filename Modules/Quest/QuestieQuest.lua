@@ -253,7 +253,7 @@ function QuestieQuest:SmoothReset() -- use timers to reset progressively instead
     C_Timer.NewTicker(0.1, function()
         stepTable[step]()
         step = step + 1
-    end, 5)
+    end, 4)
 end
 
 function QuestieQuest:HideQuest(id)
