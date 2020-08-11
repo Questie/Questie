@@ -206,7 +206,7 @@ function QuestieTooltips:GetTooltip(key)
         if(tip == nil) then
             tip = {}
         end
-        tinsert(tip, questData.title);
+        local hasObjective = false
         local tempObjectives = {}
         for objectiveIndex, playerList in pairs(questData.objectivesText or {}) do -- Should we do or {} here?
             for playerName, objectiveInfo in pairs(playerList) do
@@ -232,13 +232,18 @@ function QuestieTooltips:GetTooltip(key)
                 -- We want the player to be on top.
                 if (playerName == name) then
                     tinsert(tempObjectives, 1, objectiveInfo.text);
+                    hasObjective = true
                 elseif playerColor then
                     tinsert(tempObjectives, objectiveInfo.text);
+                    hasObjective = true
                 end
             end
         end
-        for index, text in pairs(tempObjectives) do
-            tinsert(tip, text);
+        if hasObjective then
+            tinsert(tip, questData.title);
+            for index, text in pairs(tempObjectives) do
+                tinsert(tip, text);
+            end
         end
     end
     return tip
