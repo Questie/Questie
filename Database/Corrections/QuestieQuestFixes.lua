@@ -794,7 +794,7 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {1944}, -- mage robe breadcrumb
         },
         [1944] = {
-            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestSingle] = {}, -- #2253
         },
         [1950] = {
             [questKeys.triggerEnd] = {"Secret phrase found", {[zoneIDs.THOUSAND_NEEDLES]={{79.56,75.65},},},},
