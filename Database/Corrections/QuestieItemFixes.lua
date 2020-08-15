@@ -1077,6 +1077,24 @@ function QuestieItemFixes:Load()
             [itemKeys.objectDrops] = {180453,},
             [itemKeys.npcDrops] = {},
         },
+        [21158] = {
+            [itemKeys.name] = "Hive'Zora Scout Report",
+            [itemKeys.relatedQuests] = {8534},
+            [itemKeys.npcDrops] = {15610},
+            [itemKeys.objectDrops] = {},
+        },
+        [21160] = {
+            [itemKeys.name] = "Hive'Regal Scout Report",
+            [itemKeys.relatedQuests] = {8738},
+            [itemKeys.npcDrops] = {15609},
+            [itemKeys.objectDrops] = {},
+        },
+        [21161] = {
+            [itemKeys.name] = "Hive'Ashi Scout Report",
+            [itemKeys.relatedQuests] = {8739},
+            [itemKeys.npcDrops] = {15611},
+            [itemKeys.objectDrops] = {},
+        },
         [21557] = {
             [itemKeys.name] = "Small Red Rocket",
             [itemKeys.relatedQuests] = {8867,},
