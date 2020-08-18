@@ -217,13 +217,24 @@ function QuestieQuest:Reset()
     QuestieQuest:AddAllNotes()
 end
 
+function QuestieQuest:_FinishedPath()
+    QuestieQuest._isResetting = QuestieQuest._isResetting - 1
+    if QuestieQuest._isResetting == 0 then
+        QuestieQuest._isResetting = nil
+        if QuestieQuest._resetAgain then
+            QuestieQuest:SmoothReset()
+            QuestieQuest._resetAgain = nil
+        end
+    end
+end
+
 function QuestieQuest:SmoothReset() -- use timers to reset progressively instead of all at once
     Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:SmoothReset]")
     if QuestieQuest._isResetting then
         QuestieQuest._resetAgain = true
         return
     end
-    QuestieQuest._isResetting = true
+    QuestieQuest._isResetting = 2 -- we set this to 2 because there are 2 separate code paths that run during smoothreset. (available quests and objectives)
     
     -- bit of a hack (there has to be a better way to do logic like this
     QuestieDBMIntegration:ClearAll()
@@ -243,21 +254,17 @@ function QuestieQuest:SmoothReset() -- use timers to reset progressively instead
             -- draw available quests
             QuestieQuest:GetAllQuestIdsNoObjectives()
         end,
-        QuestieQuest.CalculateAndDrawAvailableQuestsIterative,
+        function() QuestieQuest:CalculateAndDrawAvailableQuestsIterative(function() QuestieQuest:_FinishedPath() end) end,
         function()
             -- bit of a hack here too
             local mod = 0
             for quest in pairs (QuestiePlayer.currentQuestlog) do
                 C_Timer.After(mod, function() QuestieQuest:UpdateQuest(quest) _UpdateSpecials(quest) end)
-                mod = mod + 0.2
+                mod = mod + 0.1
             end
+            C_Timer.After(mod, function() QuestieQuest:_FinishedPath() end)
             --After a smooth reset we should scale stuff.
             --QuestieMap:UpdateZoomScale()
-            QuestieQuest._isResetting = nil
-            if QuestieQuest._resetAgain then -- SmoothReset was called while there was a reset in progress
-                QuestieQuest._resetAgain = nil
-                QuestieQuest:SmoothReset()
-            end
         end
     }
     local step = 1
@@ -1309,7 +1316,7 @@ function _QuestieQuest:GetQuestIcon(quest)
     return icon
 end
 
-function QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
+function QuestieQuest:CalculateAndDrawAvailableQuestsIterative(callback)
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]", QuestieLocale:GetUIString("DEBUG_DRAW", 0, QuestiePlayer:GetPlayerLevel()));
 
     local data = QuestieDB.QuestPointers or QuestieDB.questData
@@ -1386,6 +1393,9 @@ function QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
                 end
             else
                 timer:Cancel()
+                if callback ~= nil then
+                    callback()
+                end
                 return
             end
             index = next(data, index)
