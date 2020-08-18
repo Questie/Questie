@@ -1438,6 +1438,8 @@ function QuestieTracker:Update()
 
                 if firstQuestInZone then
                     line = _QuestieTracker:GetNextLine()
+                    if not line then break end -- stop populating the tracker
+                    
                     line:SetMode("zone")
                     line:SetZone(quest.zoneOrSort)
                     line.expandQuest:Hide()
@@ -1477,6 +1479,8 @@ function QuestieTracker:Update()
 
             -- Add quests
             line = _QuestieTracker:GetNextLine()
+            if not line then break end -- stop populating the tracker
+            
             line:SetMode("quest")
             line:SetQuest(quest)
             line:SetObjective(nil)
@@ -1571,6 +1575,7 @@ function QuestieTracker:Update()
                 if (quest.Objectives and complete == 0 and not quest.trackTimedQuest) then
                     for _, objective in pairs(quest.Objectives) do
                         line = _QuestieTracker:GetNextLine()
+                        if not line then break end -- stop populating the tracker
                         line:SetMode("objective")
                         line:SetQuest(quest)
                         line:SetObjective(objective)
@@ -1598,6 +1603,8 @@ function QuestieTracker:Update()
                 -- which NPC to obtain the quest from again...)
                 elseif (complete == 1 or complete == -1 and not quest.trackTimedQuest) then
                     line = _QuestieTracker:GetNextLine()
+                    if not line then break end -- stop populating the tracker
+                    
                     line:SetMode("objective")
                     line:SetQuest(quest)
                     line.expandZone:Hide()
@@ -1623,6 +1630,8 @@ function QuestieTracker:Update()
                 -- Add quest timers (if applicable)
                 if (quest.trackTimedQuest) then
                     line = _QuestieTracker:GetNextLine()
+                    if not line then break end -- stop populating the tracker
+                    
                     line:SetMode("objective")
                     line:SetQuest(quest)
                     line.expandZone:Hide()
@@ -1642,6 +1651,8 @@ function QuestieTracker:Update()
 
             else
                 line = _QuestieTracker:GetNextLine()
+                if not line then break end -- stop populating the tracker
+                
                 lineIndex = lineIndex - 1
                 line.mode = nil
                 line.Quest = nil
@@ -1652,7 +1663,12 @@ function QuestieTracker:Update()
                 QuestieQuestTimers:GetQuestTimerByQuestId(questId, nil, true)
             end
 
+            if not line then
+                line = _QuestieTracker.LineFrames[trackerLineCount]
+            end
+            
             line:SetVerticalPadding(Questie.db.global.trackerQuestPadding)
+            
         end
     end
 
@@ -1743,7 +1759,13 @@ function QuestieTracker:Update()
 
             local lineNum = lineIndex - 1
             line = _QuestieTracker.LineFrames[lineNum]
+            
+            if not line then
+                line = _QuestieTracker.LineFrames[trackerLineCount]
+            end
+            
             _QuestieTracker.baseFrame:SetHeight( (_QuestieTracker.baseFrame:GetTop() - line:GetBottom() + 25) + trackerBottomPadding )
+            
         end
 
         _QuestieTracker.baseFrame:SetMaxResize(GetScreenWidth()/2, GetScreenHeight())
@@ -1802,6 +1824,10 @@ end
 
 function _QuestieTracker:GetNextLine()
     lineIndex = lineIndex + 1
+    if not _QuestieTracker.LineFrames[lineIndex] then
+        return nil -- past the line limit
+    end
+    
     if _QuestieTracker.LineFrames[lineIndex].expandQuest then
         _QuestieTracker.LineFrames[lineIndex].expandQuest:Hide()
 
