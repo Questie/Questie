@@ -137,6 +137,30 @@ function QuestieItemBlacklist:Load()
         [20879] = true,
         [20889] = true,
 
+        --Tier 0.5 & Phase 5
+        [4265] = true, -- heavy-armor-kit
+        [15564] = true, -- rugged-armor-kit
+        [16671] = true, -- bindings-of-elements
+        [16673] = true, -- cord-of-elements
+        [16680] = true, -- beaststalkers-belt
+        [16681] = true, -- beaststalkers-bindings
+        [16683] = true, -- magisters-bindings
+        [16685] = true, -- magisters-belt
+        [16696] = true, -- devout-belt
+        [16697] = true, -- devout-bracers
+        [16702] = true, -- dreadmist-belt
+        [16703] = true, -- dreadmist-bracers
+        [16705] = true, -- dreadmist-wraps
+        [16710] = true, -- shadowcraft-bracers
+        [16713] = true, -- shadowcraft-belt
+        [16714] = true, -- wildheart-bracers
+        [16716] = true, -- wildheart-belt
+        [16722] = true, -- lightforge-bracers
+        [16723] = true, -- lightforge-belt
+        [16735] = true, -- bracers-of-valor
+        [16736] = true, -- belt-of-valor
+        [20520] = true, -- dark-rune
+
         [12207] = true, -- giant egg
         [8932] = true, -- Alterac Swiss
     }
