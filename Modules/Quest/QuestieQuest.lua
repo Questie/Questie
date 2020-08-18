@@ -219,6 +219,12 @@ end
 
 function QuestieQuest:SmoothReset() -- use timers to reset progressively instead of all at once
     Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:SmoothReset]")
+    if QuestieQuest._isResetting then
+        QuestieQuest._resetAgain = true
+        return
+    end
+    QuestieQuest._isResetting = true
+    
     -- bit of a hack (there has to be a better way to do logic like this
     QuestieDBMIntegration:ClearAll()
     local stepTable = {
@@ -247,6 +253,11 @@ function QuestieQuest:SmoothReset() -- use timers to reset progressively instead
             end
             --After a smooth reset we should scale stuff.
             --QuestieMap:UpdateZoomScale()
+            QuestieQuest._isResetting = nil
+            if QuestieQuest._resetAgain then -- SmoothReset was called while there was a reset in progress
+                QuestieQuest._resetAgain = nil
+                QuestieQuest:SmoothReset()
+            end
         end
     }
     local step = 1

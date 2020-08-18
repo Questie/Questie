@@ -101,6 +101,7 @@ function QuestieOptions.tabs.general:Initialize()
                         set = function (info, value)
                             Questie.db.global.enableObjectives = value
                             QuestieQuest:ToggleNotes(value)
+                            QuestieQuest:SmoothReset()
                         end,
                     },
                     enableTurninsToggle = {
@@ -114,6 +115,7 @@ function QuestieOptions.tabs.general:Initialize()
                         set = function (info, value)
                             Questie.db.global.enableTurnins = value
                             QuestieQuest:ToggleNotes(value)
+                            QuestieQuest:SmoothReset()
                         end,
                     },
                     enableAvailableToggle = {
@@ -127,6 +129,7 @@ function QuestieOptions.tabs.general:Initialize()
                         set = function (info, value)
                             Questie.db.global.enableAvailable = value
                             QuestieQuest:ToggleNotes(value)
+                            QuestieQuest:SmoothReset()
                         end,
                     },
                     showRepeatableQuests = {
@@ -140,6 +143,7 @@ function QuestieOptions.tabs.general:Initialize()
                         set = function (info, value)
                             Questie.db.char.showRepeatableQuests = value
                             QuestieQuest:ToggleNotes(value)
+                            QuestieQuest:SmoothReset()
                         end,
                     },
                     showEventQuests = {
@@ -153,6 +157,7 @@ function QuestieOptions.tabs.general:Initialize()
                         set = function (info, value)
                             Questie.db.char.showEventQuests = value
                             QuestieQuest:ToggleNotes(value)
+                            QuestieQuest:SmoothReset()
                         end,
                     },
                     showDungeonQuests = {
@@ -166,6 +171,7 @@ function QuestieOptions.tabs.general:Initialize()
                         set = function (info, value)
                             Questie.db.char.showDungeonQuests = value
                             QuestieQuest:ToggleNotes(value)
+                            QuestieQuest:SmoothReset()
                         end,
                     },
                     showRaidQuests = {
@@ -178,7 +184,8 @@ function QuestieOptions.tabs.general:Initialize()
                         get = function(info) return Questie.db.char.showRaidQuests end,
                         set = function (info, value)
                             Questie.db.char.showRaidQuests = value
-                            QuestieQuest:ToggleNotes(value);
+                            QuestieQuest:ToggleNotes(value)
+                            QuestieQuest:SmoothReset()
                         end,
                     },
                     showPvPQuests = {
@@ -191,7 +198,8 @@ function QuestieOptions.tabs.general:Initialize()
                         get = function(info) return Questie.db.char.showPvPQuests end,
                         set = function (info, value)
                             Questie.db.char.showPvPQuests = value
-                            QuestieQuest:ToggleNotes(value);
+                            QuestieQuest:ToggleNotes(value)
+                            QuestieQuest:SmoothReset()
                         end,
                     },
                     showAQWarEffortQuests = {
@@ -204,7 +212,8 @@ function QuestieOptions.tabs.general:Initialize()
                         get = function(info) return Questie.db.char.showAQWarEffortQuests end,
                         set = function (info, value)
                             Questie.db.char.showAQWarEffortQuests = value
-                            QuestieQuest:ToggleNotes(value);
+                            QuestieQuest:ToggleNotes(value)
+                            QuestieQuest:SmoothReset()
                         end,
                     },
                 },
