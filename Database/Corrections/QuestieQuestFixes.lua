@@ -2435,6 +2435,9 @@ function QuestieQuestFixes:Load()
         [8798] = {
             [questKeys.requiredSkill] = {202,250},
         },
+        [8829] = {
+            [questKeys.specialFlags] = 1, 
+        },
         [8846] = {
             [questKeys.specialFlags] = 1,
         },
