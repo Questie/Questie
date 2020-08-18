@@ -1935,6 +1935,9 @@ function QuestieQuestFixes:Load()
         [7787] = {
             [questKeys.requiredClasses] = 15,
         },
+        [7816] = {
+            [questKeys.preQuestSingle] = {}, -- #2247
+        },
         [7838] = {
             [questKeys.specialFlags] = 1, -- #1589
         },
