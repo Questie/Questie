@@ -2270,6 +2270,9 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = 178,
         },
+        [8536] = {
+            [questKeys.specialFlags] = 1, 
+        },
         [8542] = {
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = 178,
