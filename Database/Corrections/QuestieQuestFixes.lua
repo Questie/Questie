@@ -2061,6 +2061,7 @@ function QuestieQuestFixes:Load()
         },
         [8304] = {
             [questKeys.objectives] = {{{15171,"Frankal Questioned"},{15170,"Rutgar Questioned"},},nil,nil,nil,},
+            [questKeys.requiredLevel] = 58, -- #2166
         },
         [8314] = {
             [questKeys.specialFlags] = 0, -- #1870
