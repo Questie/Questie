@@ -138,6 +138,10 @@ end
 
 local mapDrawQueue = {};
 local minimapDrawQueue = {};
+
+QuestieMap._mapDrawQueue = mapDrawQueue
+QuestieMap._minimapDrawQueue = minimapDrawQueue
+
 function QuestieMap:InitializeQueue()
     Questie:Debug(DEBUG_DEVELOP, "[QuestieMap] Starting draw queue timer!")
     QuestieMap.drawTimer = C_Timer.NewTicker(0.2, QuestieMap.ProcessQueue)
