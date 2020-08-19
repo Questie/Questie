@@ -65,7 +65,7 @@ QuestieLocale.locale['enUS'] = {
     ['AUTO_MODIFIER'] = "Auto Modifier",
     ['AUTO_MODIFIER_DESC'] = "The modifier to NOT auto-accept/-complete quests when either option is enabled and you interact with a quest NPC.",
     ['ENABLE_YELL'] = "Share quest progress with nearby players",
-    ['ENABLE_YELL_DESC'] = "Your quest progress will be periodically sent to nearby players",
+    ['ENABLE_YELL_DESC'] = "Your quest progress will be periodically sent to nearby players. Disabling this doesn't affect sharing progress with party members.",
 
     -- Minimap tab
     ['MINIMAP_TAB'] = "Minimap",
@@ -166,14 +166,14 @@ QuestieLocale.locale['enUS'] = {
     ['TARGET_RESET_BTN_DESC'] = "Reset to default target frame position and scale.",
 
     -- Tooltip tab
-    ['TOOLTIP_TAB'] = "Tooltip",
+    ['TOOLTIP_TAB'] = "Tooltips",
     ['TOOLTIP_OPTIONS_HEADER'] = "Tooltip options",
     ['ENABLE_TOOLTIPS'] = "Enable Tooltips",
     ['ENABLE_TOOLTIPS_DESC'] = "When this is enabled, quest info will be added to relevant mob/item tooltips.",
     ['ENABLE_TOOLTIPS_QUEST_LEVEL'] = "Show Quest Level in Tooltips",
     ['ENABLE_TOOLTIPS_QUEST_LEVEL_DESC'] = "When this is checked, the level of quests will show in the tooltips.",
-    ['SHARED_TOOLTIP_PARTY_ONLY'] = "Party shared only",
-    ['SHARED_TOOLTIP_PARTY_ONLY_DESC'] = "When this is enabled, shared quest infos will only be shown if they are from party members.",
+    ['SHARED_TOOLTIP_PARTY_ONLY'] = "Only show party members",
+    ['SHARED_TOOLTIP_PARTY_ONLY_DESC'] = "When this is enabled, shared quest info will only show players in your party.",
 
     -- Advanced tab
     ['ADVANCED_TAB'] = "Advanced",
