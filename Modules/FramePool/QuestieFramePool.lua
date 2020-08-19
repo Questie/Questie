@@ -327,6 +327,9 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     lineFrame.iconFrame = iconFrame;
 
     function lineFrame:Unload()
+        if not self.iconFrame then
+            return -- already unloaded
+        end
         self:Hide();
         self.iconFrame = nil;
         HBDPins:RemoveWorldMapIcon(Questie, self)
