@@ -13,7 +13,7 @@ commit_keys_and_header = (
 )
 
 def is_python_36():
-    return sys.version_info.major == 3 and sys.version_info.minor == 6
+    return sys.version_info.major == 3 and sys.version_info.minor >= 6
 
 def get_commit_changelog():
     last_tag = get_last_git_tag()
