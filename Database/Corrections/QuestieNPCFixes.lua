@@ -2252,6 +2252,9 @@ function QuestieNPCFixes:Load()
         [15605] = {
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE]={{34.54,48.91},},},
         },
+        [15625] = {
+            [npcKeys.spawns] = {[zoneIDs.DUSKWOOD]={{48.6,40.0},},},
+        },
         [15700] = {
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{30.3,67.6},},},
         },
