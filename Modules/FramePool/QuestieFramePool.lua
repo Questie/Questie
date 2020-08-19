@@ -94,7 +94,8 @@ function QuestieFramePool:GetFrame()
     --Questie:Debug(DEBUG_SPAM, "[QuestieFramePool:GetFrame]")
 
     ---@type IconFrame
-    local returnFrame = tremove(_QuestieFramePool.unusedFrames)
+    local returnFrame = next(_QuestieFramePool.unusedFrames)
+    returnFrame = returnFrame and _QuestieFramePool.unusedFrames[returnFrame]
 
     if returnFrame and returnFrame.frameId and _QuestieFramePool.usedFrames[returnFrame.frameId] then
         -- something went horribly wrong (desync bug?) don't use this frame since its already in use
@@ -105,6 +106,7 @@ function QuestieFramePool:GetFrame()
         returnFrame = _QuestieFramePool:QuestieCreateFrame()
     else
         --Questie:Debug(DEBUG_SPAM, "[QuestieFramePool:GetFrame] Reusing frame")
+        _QuestieFramePool.unusedFrames[returnFrame.frameId] = nil
     end
     if returnFrame ~= nil and returnFrame.hidden and returnFrame._show ~= nil and returnFrame._hide ~= nil then -- restore state to normal (toggle questie)
         returnFrame.hidden = false
@@ -198,7 +200,7 @@ end
 function QuestieFramePool:RecycleFrame(frame)
     --Questie:Debug(DEBUG_SPAM, "[QuestieFramePool:RecycleFrame]")
     _QuestieFramePool.usedFrames[frame.frameId] = nil
-    tinsert(_QuestieFramePool.unusedFrames, frame)
+    _QuestieFramePool.unusedFrames[frame.frameId] = frame
 end
 
 -- Local Functions --
@@ -525,6 +527,13 @@ function _QuestieFramePool:QuestieTooltip()
     local Tooltip = GameTooltip;
     Tooltip._owner = self;
     Tooltip:SetOwner(self, "ANCHOR_CURSOR"); --"ANCHOR_CURSOR" or (self, self)
+
+    --if QuestieQuest._isResetting then -- temporary fix for lua errors during smoothreset. We need to dig through this and find a proper fix later
+    --    Tooltip:AddLine(QuestieLocale:GetUIString("QUESTIE_IS_LOADING"), 1, 0.2, 0.1)
+    --    Tooltip:SetFrameStrata("TOOLTIP")
+    --    Tooltip:Show()
+    --    return
+    --end
 
     local maxDistCluster = 1
     local mid = WorldMapFrame:GetMapID();
