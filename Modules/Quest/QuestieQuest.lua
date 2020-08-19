@@ -47,6 +47,7 @@ QuestieQuest.availableQuests = {} --Gets populated at PLAYER_ENTERED_WORLD
 local _UnhideQuestIcons, _HideQuestIcons, _UnhideManualIcons, _HideManualIcons
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
+local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 
 function QuestieQuest:Initialize()
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString("DEBUG_GET_QUEST_COMP"))
@@ -224,7 +225,7 @@ function QuestieQuest:SmoothReset() -- use timers to reset progressively instead
         return
     end
     QuestieQuest._isResetting = true
-    QuestieQuest._resetNeedsAvailables = true
+    QuestieQuest._resetNeedsAvailables = false
     QuestieQuest._nextRestQuest = next(QuestiePlayer.currentQuestlog)
     
     -- bit of a hack (there has to be a better way to do logic like this
@@ -255,15 +256,20 @@ function QuestieQuest:SmoothReset() -- use timers to reset progressively instead
             QuestieQuest:GetAllQuestIdsNoObjectives()
             return true
         end,
-        function() 
+        function()
+            QuestieQuest._resetNeedsAvailables = true
             QuestieQuest:CalculateAndDrawAvailableQuestsIterative(function() QuestieQuest._resetNeedsAvailables = false end) 
             return true
         end,
         function()
-            if QuestieQuest._nextRestQuest then
-                QuestieQuest:UpdateQuest(QuestieQuest._nextRestQuest) 
-                _UpdateSpecials(QuestieQuest._nextRestQuest)
-                QuestieQuest._nextRestQuest = next(QuestiePlayer.currentQuestlog, QuestieQuest._nextRestQuest)
+            for i=1,64 do
+                if QuestieQuest._nextRestQuest then
+                    QuestieQuest:UpdateQuest(QuestieQuest._nextRestQuest) 
+                    _UpdateSpecials(QuestieQuest._nextRestQuest)
+                    QuestieQuest._nextRestQuest = next(QuestiePlayer.currentQuestlog, QuestieQuest._nextRestQuest)
+                else
+                    break
+                end
             end
             return not QuestieQuest._nextRestQuest
         end,
@@ -271,7 +277,7 @@ function QuestieQuest:SmoothReset() -- use timers to reset progressively instead
             return #QuestieMap._mapDrawQueue == 0 and #QuestieMap._minimapDrawQueue == 0 and (not QuestieQuest._resetNeedsAvailables)
         end,
         function()
-            QuestieQuest._isResetting = false
+            QuestieQuest._isResetting = nil
             if QuestieQuest._resetAgain then
                 QuestieQuest._resetAgain = nil
                 QuestieQuest:SmoothReset()
@@ -281,12 +287,18 @@ function QuestieQuest:SmoothReset() -- use timers to reset progressively instead
     }
     local step = 1
     local ticker
-    ticker = C_Timer.NewTicker(0.1, function()
+    ticker = C_Timer.NewTicker(0.01, function()
         if stepTable[step]() then
             step = step + 1
         end
         if not stepTable[step] then
             ticker:Cancel()
+        end
+        if QuestieQuest._resetAgain and not QuestieQuest._resetNeedsAvailables then -- we can stop the current reset
+            ticker:Cancel()
+            QuestieQuest._resetAgain = nil
+            QuestieQuest._isResetting = nil
+            QuestieQuest:SmoothReset()
         end
     end)
 end
@@ -1360,7 +1372,7 @@ function QuestieQuest:CalculateAndDrawAvailableQuestsIterative(callback)
     QuestieQuest.availableQuests = {}
 
     timer = C_Timer.NewTicker(0.01, function()
-        for i=0,16 do -- number of available quests to process per tick
+        for i=0,64 do -- number of available quests to process per tick
             local questId = index
             if questId then
                 -- ---@type Quest
