@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import subprocess
+import sys
 
 # define the tags that should be shown and their order
 commit_keys_and_header = (
@@ -11,6 +12,8 @@ commit_keys_and_header = (
     ('locale', '## Localisation Fixes\n\n'),
 )
 
+def is_python_36():
+    return sys.version_info.major == 3 and sys.version_info.minor == 6
 
 def get_commit_changelog():
     last_tag = get_last_git_tag()
@@ -23,7 +26,7 @@ def get_commit_changelog():
 def get_last_git_tag():
     return subprocess.run(
         ["git", "describe", "--abbrev=0", "--tags"], 
-        capture_output=True
+        **({"stdout": subprocess.PIPE, "stderr": subprocess.PIPE} if is_python_36() else {"capture_output": True, })
     ).stdout.decode().strip('\n')
 
 
@@ -31,7 +34,7 @@ def get_chronological_git_log(last_tag):
     # get array of the first line of the commit messages since last tag
     git_log = subprocess.run(
         ["git", "log", "--pretty=format:%s", f"{last_tag}..HEAD"],
-        capture_output=True
+        **({"stdout": subprocess.PIPE, "stderr": subprocess.PIPE} if is_python_36() else {"capture_output": True, })
     ).stdout.decode().split('\n')
 
     # reverse it so it's chronological
