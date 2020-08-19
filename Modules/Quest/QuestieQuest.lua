@@ -217,29 +217,29 @@ function QuestieQuest:Reset()
     QuestieQuest:AddAllNotes()
 end
 
-function QuestieQuest:_FinishedPath()
-    QuestieQuest._isResetting = QuestieQuest._isResetting - 1
-    if QuestieQuest._isResetting == 0 then
-        QuestieQuest._isResetting = nil
-        if QuestieQuest._resetAgain then
-            QuestieQuest:SmoothReset()
-            QuestieQuest._resetAgain = nil
-        end
-    end
-end
-
 function QuestieQuest:SmoothReset() -- use timers to reset progressively instead of all at once
     Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:SmoothReset]")
     if QuestieQuest._isResetting then
         QuestieQuest._resetAgain = true
         return
     end
-    QuestieQuest._isResetting = 2 -- we set this to 2 because there are 2 separate code paths that run during smoothreset. (available quests and objectives)
+    QuestieQuest._isResetting = true
+    QuestieQuest._resetNeedsAvailables = true
+    QuestieQuest._nextRestQuest = next(QuestiePlayer.currentQuestlog)
     
     -- bit of a hack (there has to be a better way to do logic like this
     QuestieDBMIntegration:ClearAll()
     local stepTable = {
-        QuestieQuest.ClearAllNotes,
+        function()
+            return #QuestieMap._mapDrawQueue == 0 and #QuestieMap._minimapDrawQueue == 0 -- wait until draw queue is finished
+        end,
+        function() 
+            QuestieQuest:ClearAllNotes() 
+            return true 
+        end,
+        function() 
+            return #QuestieMap._mapDrawQueue == 0 and #QuestieMap._minimapDrawQueue == 0 -- wait until draw queue is finished
+        end,
         function()
             -- reset quest log and tooltips
             QuestiePlayer.currentQuestlog = {}
@@ -253,25 +253,42 @@ function QuestieQuest:SmoothReset() -- use timers to reset progressively instead
 
             -- draw available quests
             QuestieQuest:GetAllQuestIdsNoObjectives()
+            return true
         end,
-        function() QuestieQuest:CalculateAndDrawAvailableQuestsIterative(function() QuestieQuest:_FinishedPath() end) end,
+        function() 
+            QuestieQuest:CalculateAndDrawAvailableQuestsIterative(function() QuestieQuest._resetNeedsAvailables = false end) 
+            return true
+        end,
         function()
-            -- bit of a hack here too
-            local mod = 0
-            for quest in pairs (QuestiePlayer.currentQuestlog) do
-                C_Timer.After(mod, function() QuestieQuest:UpdateQuest(quest) _UpdateSpecials(quest) end)
-                mod = mod + 0.1
+            if QuestieQuest._nextRestQuest then
+                QuestieQuest:UpdateQuest(QuestieQuest._nextRestQuest) 
+                _UpdateSpecials(QuestieQuest._nextRestQuest)
+                QuestieQuest._nextRestQuest = next(QuestiePlayer.currentQuestlog, QuestieQuest._nextRestQuest)
             end
-            C_Timer.After(mod, function() QuestieQuest:_FinishedPath() end)
-            --After a smooth reset we should scale stuff.
-            --QuestieMap:UpdateZoomScale()
+            return not QuestieQuest._nextRestQuest
+        end,
+        function()
+            return #QuestieMap._mapDrawQueue == 0 and #QuestieMap._minimapDrawQueue == 0 and (not QuestieQuest._resetNeedsAvailables)
+        end,
+        function()
+            QuestieQuest._isResetting = false
+            if QuestieQuest._resetAgain then
+                QuestieQuest._resetAgain = nil
+                QuestieQuest:SmoothReset()
+            end
+            return true
         end
     }
     local step = 1
-    C_Timer.NewTicker(0.1, function()
-        stepTable[step]()
-        step = step + 1
-    end, 4)
+    local ticker
+    ticker = C_Timer.NewTicker(0.1, function()
+        if stepTable[step]() then
+            step = step + 1
+        end
+        if not stepTable[step] then
+            ticker:Cancel()
+        end
+    end)
 end
 
 function QuestieQuest:HideQuest(id)
