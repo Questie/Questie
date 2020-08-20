@@ -78,6 +78,9 @@ function QuestieItemFixes:Load()
             [itemKeys.name] = "Flagon of Dwarven Honeymead",
             [itemKeys.npcDrops] = {1464},
         },
+        [2676] = {
+            [itemKeys.objectDrops] = {276,},
+        },
         [2837] = {
             [itemKeys.name] = "Thurman's Letter",
             [itemKeys.relatedQuests] = {361},
