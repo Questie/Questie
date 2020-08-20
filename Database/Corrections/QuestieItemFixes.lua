@@ -845,6 +845,12 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {148501},
         },
+        [12733] = { 
+            [itemKeys.name] = "Sacred Frostsaber Meat",
+            [itemKeys.relatedQuests] = {5056},
+            [itemKeys.npcDrops] = {7434,7433,7430,7432,7431,},
+            [itemKeys.objectDrops] = {},
+        },
         [12813] = { -- #1313
             [itemKeys.name] = "Flask of Mystery Goo",
             [itemKeys.relatedQuests] = {5085},

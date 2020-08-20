@@ -1318,6 +1318,9 @@ function QuestieQuestFixes:Load()
         [5041] = {
             [questKeys.preQuestSingle] = {},
         },
+        [5056] = {
+            [questKeys.requiredSourceItems] = {12733},
+        },
         [5057] = {
             [questKeys.requiredRaces] = 178,
         },
