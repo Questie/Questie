@@ -766,8 +766,8 @@ function QuestieItemFixes:Load()
         [11522] = {
             [itemKeys.name] = "Silver Totem of Aquementas",
             [itemKeys.relatedQuests] = {4005},
-            [itemKeys.npcDrops] = {},
-            [itemKeys.objectDrops] = {148507},
+            [itemKeys.npcDrops] = {9453},
+            [itemKeys.objectDrops] = {},
         },
         [11947] = { -- #1315
             [itemKeys.name] = "Filled Cursed Ooze Jar",
