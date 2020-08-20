@@ -1082,7 +1082,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1},},},
         },
         [9453] = {
-            [npcKeys.spawns] = {[zoneIDs.TANARIS] = {{70.6,49.8},},},
+            [npcKeys.spawns] = {[zoneIDs.TANARIS] = {{70.4,49.9},},},
         },
         [9456] = {
             [npcKeys.name] = "Warlord Krom'zar",
