@@ -18,6 +18,7 @@ function QuestieQuestBlacklist:Load()
         [7704] = true, -- Not in the game
         [8258] = true, -- Not in the game (yet) -- #1805
         [636] = true, -- Not in the game - #1900
+        [6066] = true, -- Not in the game - #1957
         [4603] = true, -- Duplicate of 2953
         [4604] = true, -- Duplicate of 2953
         [8856] = true, -- Duplicate of 8497
