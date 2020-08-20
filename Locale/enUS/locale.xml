@@ -1,3 +1,5 @@
 <Ui xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
   <Script file="config.lua"/>
+  <Script file="lookupZones.lua"/>
+  <Script file="lookupQuestCategory.lua"/>
 </Ui>

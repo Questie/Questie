@@ -151,7 +151,11 @@ local function drawMinimapPin(pin, data)
         diffY = diffY/dist
     end
 
-    if dist <= 1 or data.floatOnEdge then
+    -- Questie Modification.
+    -- data.floatOnEdge is replaced by (data.floatOnEdge and ((pin.texture and pin.texture.a and pin.texture.a ~= 0) or pin.texture == nil))
+    -- icons will now only float on edge if they have an opacity which is not 0 or if no texture exist.
+    data.distanceFromMinimapCenter = dist
+    if dist <= 1 or (data.floatOnEdge and ((pin.texture and pin.texture.a and pin.texture.a ~= 0) or pin.texture == nil)) then
         pin:Show()
         pin:ClearAllPoints()
         pin:SetPoint("CENTER", pins.Minimap, "CENTER", diffX * minimapWidth, -diffY * minimapHeight)
@@ -229,7 +233,7 @@ local function UpdateMinimapPins(force)
         end
 
         for pin, data in pairs(minimapPins) do
-            if data.instanceID == instanceID and (not data.uiMapID or data.uiMapID == mapID or (data.showInParentZone and IsParentMap(data.uiMapID, mapID))) then
+            if instanceID == data.instanceID and math.abs(x-data.x) + math.abs(y-data.y) < 500 then--if data.instanceID == instanceID and (not data.uiMapID or data.uiMapID == mapID or (data.showInParentZone and IsParentMap(data.uiMapID, mapID))) then
                 activeMinimapPins[pin] = data
                 data.keep = true
                 -- draw the pin (this may reset data.keep if outside of the map)
@@ -358,11 +362,19 @@ function worldmapProvider:RemovePinsByRef(ref)
     end
 end
 
-function worldmapProvider:RefreshAllData(fromOnShow)
-    self:RemoveAllData()
 
-    for icon, data in pairs(worldmapPins) do
-        self:HandlePin(icon, data)
+local lastUiMapId = -1;
+worldmapProvider.forceUpdate = false; --Put into worldmapProvider to allow addons to force update from outside of HBD.
+function worldmapProvider:RefreshAllData(fromOnShow)
+    local mapId = self:GetMap():GetMapID()
+    if(lastUiMapId ~= mapId or worldmapProvider.forceUpdate) then
+        self:RemoveAllData()
+        for icon, data in pairs(worldmapPins) do
+            self:HandlePin(icon, data)
+        end
+        --DEFAULT_CHAT_FRAME:AddMessage(mapId .. " - " .. lastUiMapId .. " : " .. tostring(worldmapProvider.forceUpdate));
+        lastUiMapId = mapId;
+        worldmapProvider.forceUpdate = false;
     end
 end
 
@@ -372,13 +384,16 @@ function worldmapProvider:HandlePin(icon, data)
     -- check for a valid map
     if not uiMapID then return end
 
+    --Questie Modification
+    if(uiMapID ~= data.uiMapID and data.worldMapShowFlag == HBD_PINS_WORLDMAP_SHOW_CURRENT) then
+        icon:Hide();
+        return;
+    elseif(uiMapID == data.uiMapID and data.worldMapShowFlag == HBD_PINS_WORLDMAP_SHOW_CURRENT) then
+        icon:Show();
+    end
+
     local x, y
     if uiMapID == WORLD_MAP_ID then
-        -- Questie modifications!
-        if(data.worldMapShowFlag == HBD_PINS_WORLDMAP_SHOW_CURRENT) then
-            -- We show the icon when the mapid corresponds.
-            icon:Hide();
-        end
 
         -- should this pin show on the world map?
         if uiMapID ~= data.uiMapID and data.worldMapShowFlag ~= HBD_PINS_WORLDMAP_SHOW_WORLD then return end
@@ -399,7 +414,7 @@ function worldmapProvider:HandlePin(icon, data)
                     return
                 end
             else
-                local show = false
+                local show = true -- assume true state
                 local parentMapID = HBD.mapData[data.uiMapID].parent
                 while parentMapID and HBD.mapData[parentMapID] do
                     if parentMapID == uiMapID then
@@ -415,8 +430,6 @@ function worldmapProvider:HandlePin(icon, data)
                         elseif data.worldMapShowFlag == HBD_PINS_WORLDMAP_SHOW_CURRENT then
                             -- Questie modifications!
                             show = false
-                            -- We hide it when it is not part of the current map.
-                            icon:Hide();
                         end
                         break
                         -- worldmap is handled above already
@@ -427,18 +440,13 @@ function worldmapProvider:HandlePin(icon, data)
 
                 if not show then return end
             end
-        else
-            -- Questie modifications!
-            if(data.worldMapShowFlag == HBD_PINS_WORLDMAP_SHOW_CURRENT) then
-                -- We show the icon when the mapid corresponds.
-                icon:Show();
-            end
         end
 
         -- translate coordinates
         x, y = HBD:GetZoneCoordinatesFromWorld(data.x, data.y, uiMapID)
     end
     if x and y then
+        worldmapProvider.forceUpdate = true;
         self:GetMap():AcquirePin("HereBeDragonsPinsTemplateQuestie", icon, x, y, data.frameLevelType)
     end
 end
@@ -491,15 +499,23 @@ local function OnUpdateHandler2()
 end
 
 
---pins.updateFrame:SetScript("OnUpdate", OnUpdateHandler)
-pins.updateTimer = C_Timer.NewTicker(0.05, OnUpdateHandler)
-pins.updateTimer = C_Timer.NewTicker(1, OnUpdateHandler2)
+local updateFrequency = 0.05
+pins.updateTimer = C_Timer.NewTicker(updateFrequency, OnUpdateHandler)
+pins.updateTimer2 = C_Timer.NewTicker(1, OnUpdateHandler2)
 
 local function OnEventHandler(frame, event, ...)
     if event == "CVAR_UPDATE" then
         local cvar, value = ...
         if cvar == "ROTATE_MINIMAP" then
             rotateMinimap = (value == "1")
+            if rotateMinimap then
+                updateFrequency = 0.0009 -- Make rotating minimap look smoother
+            else
+                updateFrequency = 0.05 -- Minimap rotation is disabled so no need to update extremly fast
+            end
+
+            pins.updateTimer:Cancel()
+            pins.updateTimer = C_Timer.NewTicker(updateFrequency, OnUpdateHandler)
             queueFullUpdate = true
         end
     elseif event == "MINIMAP_UPDATE_ZOOM" then
@@ -507,6 +523,11 @@ local function OnEventHandler(frame, event, ...)
     elseif event == "PLAYER_LOGIN" then
         -- recheck cvars after login
         rotateMinimap = GetCVar("rotateMinimap") == "1"
+        if rotateMinimap then
+            updateFrequency = 0.0009 -- Make rotating minimap look smoother
+            pins.updateTimer:Cancel()
+            pins.updateTimer = C_Timer.NewTicker(updateFrequency, OnUpdateHandler)
+        end
     elseif event == "PLAYER_ENTERING_WORLD" then
         UpdateMinimap()
         UpdateWorldMap()
@@ -742,6 +763,8 @@ function pins:RemoveWorldMapIcon(ref, icon)
         worldmapPins[icon] = nil
     end
     worldmapProvider:RemovePinByIcon(icon)
+
+    worldmapProvider.forceUpdate = true;
 end
 
 --- Remove all worldmap icons belonging to your addon (as tracked by "ref")
@@ -754,6 +777,8 @@ function pins:RemoveAllWorldMapIcons(ref)
     end
     worldmapProvider:RemovePinsByRef(ref)
     wipe(worldmapPinRegistry[ref])
+
+    worldmapProvider.forceUpdate = true;
 end
 
 --- Return the angle and distance from the player to the specified pin

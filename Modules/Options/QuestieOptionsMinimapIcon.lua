@@ -1,9 +1,21 @@
-QuestieOptionsMinimapIcon = {...}
+---@class QuestieOptionsMinimapIcon
+local QuestieOptionsMinimapIcon = QuestieLoader:CreateModule("QuestieOptionsMinimapIcon");
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieQuest
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
+---@type QuestieOptions
+local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions");
+---@type QuestieJourney
+local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney");
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
 
 local minimapIconLDB = nil
 
-function QuestieOptionsMinimapIcon:Initalize()
-    minimapIconLDB = LibStub("LibDataBroker-1.1"):NewDataObject("MinimapIcon", {
+function QuestieOptionsMinimapIcon:Initialize()
+    minimapIconLDB = LibStub("LibDataBroker-1.1"):NewDataObject("Questie", {
         type = "data source",
         text = "Questie",
         icon = ICON_TYPE_COMPLETE,
@@ -11,7 +23,8 @@ function QuestieOptionsMinimapIcon:Initalize()
         OnClick = function (self, button)
             if button == "LeftButton" then
                 if IsShiftKeyDown() then
-                    QuestieQuest:ToggleNotes();
+                    Questie.db.char.enabled = (not Questie.db.char.enabled)
+                    QuestieQuest:ToggleNotes(Questie.db.char.enabled)
 
                     -- CLose config window if it's open to avoid desyncing the Checkbox
                     QuestieOptions:HideFrame();
@@ -21,7 +34,11 @@ function QuestieOptionsMinimapIcon:Initalize()
                     return
                 end
 
-                QuestieOptions:OpenConfigWindow()
+                if InCombatLockdown() then
+                    QuestieOptions:HideFrame()
+                else
+                    QuestieOptions:OpenConfigWindow()
+                end
 
                 if QuestieJourney:IsShown() then
                     QuestieJourney.ToggleJourneyWindow();
@@ -37,14 +54,14 @@ function QuestieOptionsMinimapIcon:Initalize()
                     return;
                 elseif IsControlKeyDown() then
                     Questie.db.profile.minimap.hide = true;
-                    Questie.minimapConfigIcon:Hide("MinimapIcon");
+                    Questie.minimapConfigIcon:Hide("Questie");
                     return;
                 end
             end
         end,
 
         OnTooltipShow = function (tooltip)
-            tooltip:AddLine("Questie", 1, 1, 1);
+            tooltip:AddLine("Questie ".. QuestieLib:GetAddonVersionString(), 1, 1, 1);
             tooltip:AddLine(Questie:Colorize(QuestieLocale:GetUIString('ICON_LEFT_CLICK') , 'gray') .. ": ".. QuestieLocale:GetUIString('ICON_TOGGLE'));
             tooltip:AddLine(Questie:Colorize(QuestieLocale:GetUIString('ICON_SHIFTLEFT_CLICK') , 'gray') .. ": ".. QuestieLocale:GetUIString('ICON_TOGGLE_QUESTIE'));
             tooltip:AddLine(Questie:Colorize(QuestieLocale:GetUIString('ICON_RIGHT_CLICK') , 'gray') .. ": ".. QuestieLocale:GetUIString('ICON_JOURNEY'));

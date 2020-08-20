@@ -2,11 +2,9 @@
 TreeGroup Container
 Container that uses a tree control to switch between groups.
 -------------------------------------------------------------------------------]]
-local Type, Version = "TreeGroup", 41
+local Type, Version = "TreeGroup", 44
 local AceGUI = LibStub and LibStub("AceGUI-3.0", true)
 if not AceGUI or (AceGUI:GetWidgetVersion(Type) or 0) >= Version then return end
-
-local WoW80 = select(4, GetBuildInfo()) >= 80000
 
 -- Lua APIs
 local next, pairs, ipairs, assert, type = next, pairs, ipairs, assert, type
@@ -18,7 +16,7 @@ local CreateFrame, UIParent = CreateFrame, UIParent
 
 -- Global vars/functions that we don't upvalue since they might get hooked, or upgraded
 -- List them here for Mikk's FindGlobals script
--- GLOBALS: GameTooltip, FONT_COLOR_CODE_CLOSE
+-- GLOBALS: FONT_COLOR_CODE_CLOSE
 
 -- Recycling functions
 local new, del
@@ -36,7 +34,7 @@ do
 	function del(t)
 		for k in pairs(t) do
 			t[k] = nil
-		end	
+		end
 		pool[t] = true
 	end
 end
@@ -59,7 +57,6 @@ end
 local function UpdateButton(button, treeline, selected, canExpand, isExpanded)
 	local self = button.obj
 	local toggle = button.toggle
-	local frame = self.frame
 	local text = treeline.text or ""
 	local icon = treeline.icon
 	local iconCoords = treeline.iconCoords
@@ -67,7 +64,7 @@ local function UpdateButton(button, treeline, selected, canExpand, isExpanded)
 	local value = treeline.value
 	local uniquevalue = treeline.uniquevalue
 	local disabled = treeline.disabled
-	
+
 	button.treeline = treeline
 	button.value = value
 	button.uniquevalue = uniquevalue
@@ -78,8 +75,6 @@ local function UpdateButton(button, treeline, selected, canExpand, isExpanded)
 		button:UnlockHighlight()
 		button.selected = false
 	end
-	local normalTexture = button:GetNormalTexture()
-	local line = button.line
 	button.level = level
 	if ( level == 1 ) then
 		button:SetNormalFontObject("GameFontNormal")
@@ -90,7 +85,7 @@ local function UpdateButton(button, treeline, selected, canExpand, isExpanded)
 		button:SetHighlightFontObject("GameFontHighlightSmall")
 		button.text:SetPoint("LEFT", (icon and 16 or 0) + 8 * level, 2)
 	end
-	
+
 	if disabled then
 		button:EnableMouse(false)
 		button.text:SetText("|cff808080"..text..FONT_COLOR_CODE_CLOSE)
@@ -98,27 +93,27 @@ local function UpdateButton(button, treeline, selected, canExpand, isExpanded)
 		button.text:SetText(text)
 		button:EnableMouse(true)
 	end
-	
+
 	if icon then
 		button.icon:SetTexture(icon)
 		button.icon:SetPoint("LEFT", 8 * level, (level == 1) and 0 or 1)
 	else
 		button.icon:SetTexture(nil)
 	end
-	
+
 	if iconCoords then
 		button.icon:SetTexCoord(unpack(iconCoords))
 	else
 		button.icon:SetTexCoord(0, 1, 0, 1)
 	end
-	
+
 	if canExpand then
 		if not isExpanded then
-			toggle:SetNormalTexture("Interface\\Buttons\\UI-PlusButton-UP")
-			toggle:SetPushedTexture("Interface\\Buttons\\UI-PlusButton-DOWN")
+			toggle:SetNormalTexture(130838) -- Interface\\Buttons\\UI-PlusButton-UP
+			toggle:SetPushedTexture(130836) -- Interface\\Buttons\\UI-PlusButton-DOWN
 		else
-			toggle:SetNormalTexture("Interface\\Buttons\\UI-MinusButton-UP")
-			toggle:SetPushedTexture("Interface\\Buttons\\UI-MinusButton-DOWN")
+			toggle:SetNormalTexture(130821) -- Interface\\Buttons\\UI-MinusButton-UP
+			toggle:SetPushedTexture(130820) -- Interface\\Buttons\\UI-MinusButton-DOWN
 		end
 		toggle:Show()
 	else
@@ -201,7 +196,6 @@ end
 
 local function Button_OnDoubleClick(button)
 	local self = button.obj
-	local status = self.status or self.localstatus
 	local status = (self.status or self.localstatus).groups
 	status[button.uniquevalue] = not status[button.uniquevalue]
 	self:RefreshTree()
@@ -212,11 +206,13 @@ local function Button_OnEnter(frame)
 	self:Fire("OnButtonEnter", frame.uniquevalue, frame)
 
 	if self.enabletooltips then
-		GameTooltip:SetOwner(frame, "ANCHOR_NONE")
-		GameTooltip:SetPoint("LEFT",frame,"RIGHT")
-		GameTooltip:SetText(frame.text:GetText() or "", 1, .82, 0, true)
+		local tooltip = AceGUI.tooltip
+		tooltip:SetOwner(frame, "ANCHOR_NONE")
+		tooltip:ClearAllPoints()
+		tooltip:SetPoint("LEFT",frame,"RIGHT")
+		tooltip:SetText(frame.text:GetText() or "", 1, .82, 0, true)
 
-		GameTooltip:Show()
+		tooltip:Show()
 	end
 end
 
@@ -225,7 +221,7 @@ local function Button_OnLeave(frame)
 	self:Fire("OnButtonLeave", frame.uniquevalue, frame)
 
 	if self.enabletooltips then
-		GameTooltip:Hide()
+		AceGUI.tooltip:Hide()
 	end
 end
 
@@ -271,18 +267,19 @@ end
 local function Dragger_OnMouseUp(frame)
 	local treeframe = frame:GetParent()
 	local self = treeframe.obj
-	local frame = treeframe:GetParent()
+	local treeframeParent = treeframe:GetParent()
 	treeframe:StopMovingOrSizing()
 	--treeframe:SetScript("OnUpdate", nil)
 	treeframe:SetUserPlaced(false)
 	--Without this :GetHeight will get stuck on the current height, causing the tree contents to not resize
 	treeframe:SetHeight(0)
-	treeframe:SetPoint("TOPLEFT", frame, "TOPLEFT",0,0)
-	treeframe:SetPoint("BOTTOMLEFT", frame, "BOTTOMLEFT",0,0)
-	
+	treeframe:ClearAllPoints()
+	treeframe:SetPoint("TOPLEFT", treeframeParent, "TOPLEFT",0,0)
+	treeframe:SetPoint("BOTTOMLEFT", treeframeParent, "BOTTOMLEFT",0,0)
+
 	local status = self.status or self.localstatus
 	status.treewidth = treeframe:GetWidth()
-	
+
 	treeframe.obj:Fire("OnTreeResize",treeframe:GetWidth())
 	-- recalculate the content width
 	treeframe.obj:OnWidthSet(status.fullwidth)
@@ -367,8 +364,8 @@ local methods = {
 	--sets the tree to be displayed
 	["SetTree"] = function(self, tree, filter)
 		self.filter = filter
-		if tree then 
-			assert(type(tree) == "table") 
+		if tree then
+			assert(type(tree) == "table")
 		end
 		self.tree = tree
 		self:RefreshTree()
@@ -376,8 +373,7 @@ local methods = {
 
 	["BuildLevel"] = function(self, tree, level, parent)
 		local groups = (self.status or self.localstatus).groups
-		local hasChildren = self.hasChildren
-		
+
 		for i, v in ipairs(tree) do
 			if v.children then
 				if not self.filter or ShouldDisplayLevel(v.children) then
@@ -414,7 +410,7 @@ local methods = {
 		local tree = self.tree
 
 		local treeframe = self.treeframe
-		
+
 		status.scrollToSelection = status.scrollToSelection or scrollToSelection	-- needs to be cached in case the control hasn't been drawn yet (code bails out below)
 
 		self:BuildLevel(tree, 1)
@@ -424,14 +420,13 @@ local methods = {
 		local maxlines = (floor(((self.treeframe:GetHeight()or 0) - 20 ) / 18))
 		if maxlines <= 0 then return end
 
-		-- workaround for lag spikes on WoW 8.0
-		if WoW80 and self.frame:GetParent() == UIParent and not fromOnUpdate then
+		if self.frame:GetParent() == UIParent and not fromOnUpdate then
 			self.frame:SetScript("OnUpdate", FirstFrameUpdate)
 			return
 		end
 
 		local first, last
-		
+
 		scrollToSelection = status.scrollToSelection
 		status.scrollToSelection = nil
 
@@ -507,9 +502,9 @@ local methods = {
 			button:Show()
 			buttonnum = buttonnum + 1
 		end
-		
+
 	end,
-	
+
 	["SetSelected"] = function(self, value)
 		local status = self.status or self.localstatus
 		if status.selected ~= value then
@@ -559,16 +554,16 @@ local methods = {
 		local treeframe = self.treeframe
 		local status = self.status or self.localstatus
 		status.fullwidth = width
-		
+
 		local contentwidth = width - status.treewidth - 20
 		if contentwidth < 0 then
 			contentwidth = 0
 		end
 		content:SetWidth(contentwidth)
 		content.width = contentwidth
-		
+
 		local maxtreewidth = math_min(400, width - 50)
-		
+
 		if maxtreewidth > 100 and status.treewidth > maxtreewidth then
 			self:SetTreeWidth(maxtreewidth, status.treesizable)
 		end
@@ -594,16 +589,16 @@ local methods = {
 				treewidth = DEFAULT_TREE_WIDTH
 			else
 				resizable = false
-				treewidth = DEFAULT_TREE_WIDTH 
+				treewidth = DEFAULT_TREE_WIDTH
 			end
 		end
 		self.treeframe:SetWidth(treewidth)
 		self.dragger:EnableMouse(resizable)
-		
+
 		local status = self.status or self.localstatus
 		status.treewidth = treewidth
 		status.treesizable = resizable
-		
+
 		-- recalculate the content width
 		if status.fullwidth then
 			self:OnWidthSet(status.fullwidth)

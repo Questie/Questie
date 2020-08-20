@@ -1,22 +1,38 @@
-QuestieOptions = {...}
-QuestieConfigFrame = {...}
-local _QuestieOptions = {...}
+---@class QuestieOptions
+local QuestieOptions = QuestieLoader:CreateModule("QuestieOptions");
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieQuest
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
+---@type QuestieOptionsMinimapIcon
+local QuestieOptionsMinimapIcon = QuestieLoader:ImportModule("QuestieOptionsMinimapIcon");
+
+
+QuestieOptions.tabs = {...}
+QuestieConfigFrame = nil
 
 local AceGUI = LibStub("AceGUI-3.0")
+local AceConfigDialog = LibStub("AceConfigDialogQuestie-3.0")
+
+-- Forward declaration
+local _CreateOptionsTable
 
 function QuestieOptions:Initialize()
     Questie:Debug(DEBUG_DEVELOP, "[QuestieOptions]: Initializing...")
-    LibStub("AceConfigQuestie-3.0"):RegisterOptionsTable("Questie", _QuestieOptions.optionsGUI)
-    Questie.configFrame = LibStub("AceConfigDialogQuestie-3.0"):AddToBlizOptions("Questie", "Questie");
+
+    local optionsTable = _CreateOptionsTable()
+    LibStub("AceConfigQuestie-3.0"):RegisterOptionsTable("Questie", optionsTable)
+    Questie.configFrame = AceConfigDialog:AddToBlizOptions("Questie", "Questie");
 
     local configFrame = AceGUI:Create("Frame");
-    LibStub("AceConfigDialogQuestie-3.0"):SetDefaultSize("Questie", 625, 700)
-    LibStub("AceConfigDialogQuestie-3.0"):Open("Questie", configFrame)
+    AceConfigDialog:SetDefaultSize("Questie", 625, 780)
+    AceConfigDialog:Open("Questie", configFrame)
     configFrame:Hide();
-    QuestieConfigFrame = configFrame.frame;
+    QuestieConfigFrame = configFrame;
     table.insert(UISpecialFrames, "QuestieConfigFrame");
 
-    QuestieOptionsMinimapIcon:Initalize()
+    QuestieOptionsMinimapIcon:Initialize()
     Questie:Debug(DEBUG_DEVELOP, "[QuestieOptions]: Initialization done")
 end
 
@@ -31,7 +47,7 @@ end
 function QuestieOptions:OpenConfigWindow()
     if not QuestieConfigFrame:IsShown() then
         PlaySound(882)
-        QuestieConfigFrame:Show()
+        AceConfigDialog:Open("Questie", QuestieConfigFrame)
     else
         QuestieConfigFrame:Hide()
     end
@@ -51,27 +67,31 @@ function QuestieOptions:SetGlobalOptionValue(info, value)
 end
 
 function QuestieOptions:AvailableQuestRedraw()
-    QuestieQuest:CalculateAvailableQuests()
-    QuestieQuest:DrawAllAvailableQuests()
+    QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
 end
 
 function QuestieOptions:ClusterRedraw()
+    Questie:Debug(DEBUG_INFO, "Clustering changed, redrawing!")
     --Redraw clusters here
+    QuestieQuest:SmoothReset();
 end
 
 
-_QuestieOptions.optionsGUI = {
-    name = "Questie",
-    handler = Questie,
-    type = "group",
-    childGroups = "tab",
-    args = {
-        general_tab = QuestieOptionsGeneral:Initialize(),
-        minimap_tab = QuestieOptionsMinimap:Initalize(),
-        map_tab = QuestieOptionsMap:Initialize(),
-        dbm_hud_tab = QuestieOptionsDBM:Initalize(),
-        tracker_tab = QuestieOptionsTracker:Initialize(),
-        nameplate_tab = QuestieOptionsNameplate:Initialize(),
-        advanced_tab = QuestieOptionsAdvanced:Initalize(),
+_CreateOptionsTable = function()
+    return {
+        name = "Questie",
+        handler = Questie,
+        type = "group",
+        childGroups = "tab",
+        args = {
+            general_tab = QuestieOptions.tabs.general:Initialize(),
+            minimap_tab = QuestieOptions.tabs.minimap:Initialize(),
+            map_tab = QuestieOptions.tabs.map:Initialize(),
+            dbm_hud_tab = QuestieOptions.tabs.dbm:Initialize(),
+            tracker_tab = QuestieOptions.tabs.tracker:Initialize(),
+            nameplate_tab = QuestieOptions.tabs.nameplate:Initialize(),
+            tooltip_tab = QuestieOptions.tabs.tooltip:Initialize(),
+            advanced_tab = QuestieOptions.tabs.advanced:Initialize(),
+        }
     }
-}
+end

@@ -97,7 +97,9 @@ def main():
     versionDir, addonDir, zipName = setArgs()
     # check that nothing is overwritten
     if os.path.isdir('releases/%s' % (versionDir)):
-        raise RuntimeError('The directory releases/%s already exists' % (versionDir))
+        print("Warning: Folder already exists, removing!")
+        shutil.rmtree('releases/%s' % (versionDir))
+        #raise RuntimeError('The directory releases/%s already exists' % (versionDir))
     # define release folder
     destination = 'releases/%s/%s' % (versionDir, addonDir)
     # copy directories
@@ -110,7 +112,7 @@ def main():
     # modify toc
     setVersion()
     # replace path references
-    for file in ['QuestieComms.lua', 'QuestieFramePool.lua']:
+    for file in ['Network/QuestieComms.lua', 'Libs/QuestieLib.lua']:
         replacePath('%s/Modules/%s' % (destination, file), 'QuestieDev-master', addonDir)
     # package files
     root = os.getcwd()
@@ -132,6 +134,7 @@ def setVersion():
         recentCommit = recentCommit.lstrip("g") # There is a "g" before all the commits.
         tocData = None
         cleanData = None
+        readmeData = None
         # Replace the toc data with git information.
         with open('QuestieDev-master.toc') as toc:
             tocData = toc.read()
@@ -145,6 +148,13 @@ def setVersion():
         with open('releases/%s/%s/%s.toc' % (versionDir, addonDir, addonDir), "w") as toc:
             toc.write(tocData)
         
+        with open("README.md") as readme:
+            readmeData = readme.read()
+            readmeData = re.sub(r"QuestieDev\/(.+)\/total\.svg", "QuestieDev/%s/total.svg" % versionTag, readmeData)
+
+        with open('README.md', "w") as readme:
+            readme.write(readmeData)
+
         with open('QuestieDev-master.toc', "w") as toc:
             toc.write(cleanData)
 

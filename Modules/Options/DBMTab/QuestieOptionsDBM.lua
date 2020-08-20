@@ -1,15 +1,29 @@
-QuestieOptionsDBM = {...}
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestieQuest
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
+---@type QuestieOptions
+local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions");
+---@type QuestieOptionsDefaults
+local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults");
+---@type QuestieOptionsUtils
+local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils");
+---@type QuestieDBMIntegration
+local QuestieDBMIntegration = QuestieLoader:ImportModule("QuestieDBMIntegration");
+
+QuestieOptions.tabs.dbm = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
 
 
 --TODO, hid hud tab if DBMHudMap global doesn't exist? Or at very least gray out options?
 --dbmHUDEnable, dbmHUDShowAlert, DBMHUDZoom, dbmHUDRadius, dbmHUDShowQuest, dbmHUDShowSlay, dbmHUDShowLoot, dbmHUDShowInteract
-function QuestieOptionsDBM:Initalize()
+function QuestieOptions.tabs.dbm:Initialize()
     return {
         name = function() return QuestieLocale:GetUIString('DBM_HUD_TAB'); end,
         type = "group",
-        disabled = function() if DBMHudMap then return false else return true end end,
-        order = 13.2,
+        disabled = function() if DBM and DBM.HudMap then return false else return true end end,
+        order = 15,
         args = {
             hud_options = {
                 type = "header",
@@ -18,7 +32,7 @@ function QuestieOptionsDBM:Initalize()
             },
             dbmHUDEnable = {
                 type = "toggle",
-                order = 3,
+                order = 1.1,
                 name = function() return QuestieLocale:GetUIString('ENABLE_DBM_HUD'); end,
                 desc = function() return QuestieLocale:GetUIString('ENABLE_DBM_HUD_DESC'); end,
                 width = "full",
@@ -38,7 +52,7 @@ function QuestieOptionsDBM:Initalize()
             },
             dbmHUDShowAlert = {
                 type = "toggle",
-                order = 3.1,
+                order = 1.2,
                 name = function() return QuestieLocale:GetUIString('DBM_HUD_ICON_ALERT'); end,
                 desc = function() return QuestieLocale:GetUIString('DBM_HUD_ICON_ALERT_DESC'); end,
                 width = "full",
@@ -50,8 +64,8 @@ function QuestieOptionsDBM:Initalize()
             },
             DBMHUDRefresh = {
                 type = "range",
-                disabled = function() if DBMHudMap and not DBMHudMap.Version then return true else return false end end,
-                order = 4,
+                disabled = function() if DBM and DBM.HudMap and not DBM.HudMap.Version then return true else return false end end,
+                order = 1.3,
                 name = function() return QuestieLocale:GetUIString('DBM_HUD_REFRESH'); end,
                 desc = function() return QuestieLocale:GetUIString('DBM_HUD_REFRESH_DESC', optionsDefaults.global.DBMHUDRefresh); end,
                 width = "double",
@@ -64,16 +78,16 @@ function QuestieOptionsDBM:Initalize()
                     QuestieDBMIntegration:ChangeRefreshRate(value)
                 end,
             },
-            Spacer_A = QuestieOptionsUtils:Spacer(6),
+            Spacer_A = QuestieOptionsUtils:Spacer(1.9),
             mapnote_options = {
                 type = "header",
-                order = 7,
+                order = 2,
                 name = function() return QuestieLocale:GetUIString('DBM_HUD_SCALE_OPTIONS'); end,
             },
-            Spacer_B = QuestieOptionsUtils:Spacer(8),
+            Spacer_B = QuestieOptionsUtils:Spacer(2.1),
             DBMHUDZoom = {
                 type = "range",
-                order = 9,
+                order = 2.2,
                 name = function() return QuestieLocale:GetUIString('DBM_HUD_ZOOM'); end,
                 desc = function() return QuestieLocale:GetUIString('DBM_HUD_ZOOM_DESC', optionsDefaults.global.DBMHUDZoom); end,
                 width = "double",
@@ -88,7 +102,7 @@ function QuestieOptionsDBM:Initalize()
             },
             dbmHUDRadius = {
                 type = "range",
-                order = 9,
+                order = 2.3,
                 name = function() return QuestieLocale:GetUIString('DBM_HUD_RADIUS'); end,
                 desc = function() return QuestieLocale:GetUIString('DBM_HUD_RADIUS_DESC', optionsDefaults.global.dbmHUDRadius); end,
                 width = "double",
@@ -101,16 +115,15 @@ function QuestieOptionsDBM:Initalize()
                     QuestieDBMIntegration:SoftReset()
                 end,
             },
-            Spacer_C = QuestieOptionsUtils:Spacer(20),
+            Spacer_C = QuestieOptionsUtils:Spacer(2.9),
             fade_options = {
                 type = "header",
-                order = 21,
+                order = 3,
                 name = function() return QuestieLocale:GetUIString('DBM_HUD_FILTER_OPTIONS'); end,
             },
-            Spacer_D = QuestieOptionsUtils:Spacer(22),
             dbmHUDShowQuest = {
                 type = "toggle",
-                order = 23,
+                order = 3.1,
                 name = function() return QuestieLocale:GetUIString('DBM_HUD_FILTER_QUEST'); end,
                 desc = function() return QuestieLocale:GetUIString('DBM_HUD_FILTER_QUEST_DESC', optionsDefaults.global.dbmHUDShowQuest); end,
                 width = "full",
@@ -122,7 +135,7 @@ function QuestieOptionsDBM:Initalize()
             },
             dbmHUDShowSlay = {
                 type = "toggle",
-                order = 23,
+                order = 3.2,
                 name = function() return QuestieLocale:GetUIString('DBM_HUD_FILTER_KILL'); end,
                 desc = function() return QuestieLocale:GetUIString('DBM_HUD_FILTER_KILL_DESC', optionsDefaults.global.dbmHUDShowSlay); end,
                 width = "full",
@@ -134,7 +147,7 @@ function QuestieOptionsDBM:Initalize()
             },
             dbmHUDShowLoot = {
                 type = "toggle",
-                order = 23,
+                order = 3.3,
                 name = function() return QuestieLocale:GetUIString('DBM_HUD_FILTER_LOOT'); end,
                 desc = function() return QuestieLocale:GetUIString('DBM_HUD_FILTER_LOOT_DESC', optionsDefaults.global.dbmHUDShowLoot); end,
                 width = "full",
@@ -146,7 +159,7 @@ function QuestieOptionsDBM:Initalize()
             },
             dbmHUDShowInteract = {
                 type = "toggle",
-                order = 23,
+                order = 3.4,
                 name = function() return QuestieLocale:GetUIString('DBM_HUD_FILTER_INTERACT'); end,
                 desc = function() return QuestieLocale:GetUIString('DBM_HUD_FILTER_INTERACT_DESC', optionsDefaults.global.dbmHUDShowInteract); end,
                 width = "full",

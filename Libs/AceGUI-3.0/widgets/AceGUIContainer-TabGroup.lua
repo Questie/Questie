@@ -161,22 +161,21 @@ local methods = {
 		self.tablist = tabs
 		self:BuildTabs()
 	end,
-	
+
 
 	["BuildTabs"] = function(self)
 		local hastitle = (self.titletext:GetText() and self.titletext:GetText() ~= "")
-		local status = self.status or self.localstatus
 		local tablist = self.tablist
 		local tabs = self.tabs
-		
+
 		if not tablist then return end
-		
+
 		local width = self.frame.width or self.frame:GetWidth() or 0
-		
+
 		wipe(widths)
 		wipe(rowwidths)
 		wipe(rowends)
-		
+
 		--Place Text into tabs and get thier initial width
 		for i, v in ipairs(tablist) do
 			local tab = tabs[i]
@@ -184,19 +183,19 @@ local methods = {
 				tab = self:CreateTab(i)
 				tabs[i] = tab
 			end
-			
+
 			tab:Show()
 			tab:SetText(v.text)
 			tab:SetDisabled(v.disabled)
 			tab.value = v.value
-			
+
 			widths[i] = tab:GetWidth() - 6 --tabs are anchored 10 pixels from the right side of the previous one to reduce spacing, but add a fixed 4px padding for the text
 		end
-		
+
 		for i = (#tablist)+1, #tabs, 1 do
 			tabs[i]:Hide()
 		end
-		
+
 		--First pass, find the minimum number of rows needed to hold all tabs and the initial tab layout
 		local numtabs = #tablist
 		local numrows = 1
@@ -214,7 +213,7 @@ local methods = {
 		end
 		rowwidths[numrows] = usedwidth + 10 --first tab in each row takes up an extra 10px
 		rowends[numrows] = #tablist
-		
+
 		--Fix for single tabs being left on the last row, move a tab from the row above if applicable
 		if numrows > 1 then
 			--if the last row has only one tab
@@ -245,22 +244,22 @@ local methods = {
 					tab:SetPoint("LEFT", tabs[tabno-1], "RIGHT", -10, 0)
 				end
 			end
-			
+
 			-- equal padding for each tab to fill the available width,
 			-- if the used space is above 75% already
-			-- the 18 pixel is the typical width of a scrollbar, so we can have a tab group inside a scrolling frame, 
+			-- the 18 pixel is the typical width of a scrollbar, so we can have a tab group inside a scrolling frame,
 			-- and not have the tabs jump around funny when switching between tabs that need scrolling and those that don't
 			local padding = 0
 			if not (numrows == 1 and rowwidths[1] < width*0.75 - 18) then
 				padding = (width - rowwidths[row]) / (endtab - starttab+1)
 			end
-			
+
 			for i = starttab, endtab do
 				PanelTemplates_TabResize(tabs[i], padding + 4, nil, nil, width, tabs[i]:GetFontString():GetStringWidth())
 			end
 			starttab = endtab + 1
 		end
-		
+
 		self.borderoffset = (hastitle and 17 or 10)+((numrows)*20)
 		self.border:SetPoint("TOPLEFT", 1, -self.borderoffset)
 	end,
@@ -286,7 +285,7 @@ local methods = {
 		content:SetHeight(contentheight)
 		content.height = contentheight
 	end,
-	
+
 	["LayoutFinished"] = function(self, width, height)
 		if self.noAutoHeight then return end
 		self:SetHeight((height or 0) + (self.borderoffset + 23))
@@ -343,7 +342,7 @@ local function Constructor()
 	for method, func in pairs(methods) do
 		widget[method] = func
 	end
-	
+
 	return AceGUI:RegisterAsContainer(widget)
 end
 

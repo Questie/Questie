@@ -15,7 +15,7 @@
 -- make into AceTimer.
 -- @class file
 -- @name AceTimer-3.0
--- @release $Id: AceTimer-3.0.lua 1170 2018-03-29 17:38:58Z funkydude $
+-- @release $Id: AceTimer-3.0.lua 1202 2019-05-15 23:11:22Z nevcairiel $
 
 local MAJOR, MINOR = "AceTimer-3.0", 17 -- Bump minor on changes
 local AceTimer, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
@@ -47,7 +47,7 @@ local function new(self, loop, func, delay, ...)
 	activeTimers[timer] = timer
 
 	-- Create new timer closure to wrap the "timer" object
-	timer.callback = function() 
+	timer.callback = function()
 		if not timer.cancelled then
 			if type(timer.func) == "string" then
 				-- We manually set the unpack count to prevent issues with an arg set that contains nil and ends with nil

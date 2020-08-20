@@ -56,7 +56,7 @@ local methods = {
 	["SetImage"] = function(self, path, ...)
 		local image = self.image
 		image:SetTexture(path)
-		
+
 		if image:GetTexture() then
 			local n = select("#", ...)
 			if n == 4 or n == 8 then
@@ -118,7 +118,7 @@ local function Constructor()
 
 	local highlight = frame:CreateTexture(nil, "HIGHLIGHT")
 	highlight:SetAllPoints(image)
-	highlight:SetTexture("Interface\\PaperDollInfoFrame\\UI-Character-Tab-Highlight")
+	highlight:SetTexture(136580) -- Interface\\PaperDollInfoFrame\\UI-Character-Tab-Highlight
 	highlight:SetTexCoord(0, 1, 0.23, 0.77)
 	highlight:SetBlendMode("ADD")
 

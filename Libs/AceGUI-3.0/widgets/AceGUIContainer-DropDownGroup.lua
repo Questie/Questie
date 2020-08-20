@@ -150,7 +150,7 @@ local function Constructor()
 		widget[method] = func
 	end
 	dropdown.parentgroup = widget
-	
+
 	return AceGUI:RegisterAsContainer(widget)
 end
 
