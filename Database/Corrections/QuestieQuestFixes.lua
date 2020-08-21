@@ -1905,7 +1905,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredClasses] = 64,                     -- This quest is for the Shaman class
             [questKeys.zoneOrSort] = -141,                        -- <0: QuestSort.dbc ID
             [questKeys.specialFlags] = 1,
-            [questKeys.parentQuest] = 7668,8258
+            [questKeys.parentQuest] = 8258,
         },
         [7670] = { -- #1432
             [questKeys.name] = "Lord Grayson Shadowbreaker",
