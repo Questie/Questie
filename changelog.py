@@ -54,16 +54,26 @@ def get_sorted_categories(git_log):
                 line = transform_lines_into_past_tense(line)
                 categories[key].append(line)
 
+    for key in categories.keys():
+        categories[key].sort()
+    
     return categories
 
+    
+def replace_start(line, a, b):
+    if line.strip().startswith(a):
+        return line.replace(a, b)
+    else:
+        return line
 
 def transform_lines_into_past_tense(line):
-    line = line.replace('Add', 'Added')
-    line = line.replace('Fix', 'Fixed')
-    line = line.replace('Mark', 'Marked')
-    line = line.replace('Change', 'Changed')
-    line = line.replace('Update', 'Updated')
-    line = line.replace('Blacklist', 'Blacklisted')
+    line = replace_start(line, 'Add ', 'Added ')
+    line = replace_start(line, 'Fix ', 'Fixed ')
+    line = replace_start(line, 'Mark ', 'Marked ')
+    line = replace_start(line, 'Change ', 'Changed ')
+    line = replace_start(line, 'Update ', 'Updated ')
+    line = replace_start(line, 'Blacklist ', 'Blacklisted ')
+    line = replace_start(line, 'Remove ', 'Removed ')
     return line
 
 

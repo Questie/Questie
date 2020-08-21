@@ -106,7 +106,7 @@ def main():
     for dir in ['Database', 'Icons', 'Libs', 'Locale', 'Modules']:
         shutil.copytree(dir, '%s/%s' % (destination, dir))
     # copy files
-    for file in ['embeds.xml', 'Questie.lua', 'README.md']:
+    for file in ['embeds.xml', 'Questie.lua']:
         shutil.copy2(file, '%s/%s' % (destination, file))
     shutil.copy2('QuestieDev-master.toc', '%s/%s.toc' % (destination, addonDir))
     # modify toc
