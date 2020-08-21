@@ -1892,6 +1892,7 @@ function QuestieQuestFixes:Load()
             [questKeys.objectives] = {nil,nil,{{18880,nil},},nil,},
             [questKeys.sourceItemId] = 18746,
             [questKeys.zoneOrSort] = 1637,
+            [questKeys.exclusiveTo] = {8258}, -- 8258 after Phase 4
         },
         [7669] = { --#1449
             [questKeys.name] = "Again Into the Great Ossuary",
@@ -2043,6 +2044,9 @@ function QuestieQuestFixes:Load()
         },
         [8251] = {
             [questKeys.preQuestSingle] = {},
+        },
+        [8258] = {
+            [questKeys.exclusiveTo] = {7668}, -- 7668 before Phase 4
         },
         [8271] = {
             [questKeys.requiredRaces] = 77,
