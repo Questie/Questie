@@ -451,12 +451,12 @@ QuestieLocale.locale['ptBR'] = {
     ['QUESTIE_UPDATED_RESTART'] = "|cFFFF0000ATTENTION !|r Você atualizou o Questie sem reiniciar o jogo, isso pode representar um problema. Por favor, reinicie o jogo antes de continuar",
 
     -- TODO finally switch all keys to this style for code readability:
-    ['Show on Map'] = "Show on Map",
-    ['Remove from Map'] = "Remove from Map",
-    ['Starts the following quests:'] = "Starts the following quests:",
-    ['Ends the following quests:'] = "Ends the following quests:",
-    ['No quests to list.'] = "No quests to list.",
-    ['No spawn data available.'] = "No spawn data available.",
+    ['Show on Map'] = "Mostrar no mapa",
+    ['Remove from Map'] = "Remover do mapa",
+    ['Starts the following quests:'] = "Inicia as seguintes missões:",
+    ['Ends the following quests:'] = "Termina as seguintes missões:",
+    ['No quests to list.'] = "Nenhuma missão para listar.",
+    ['No spawn data available.'] = "Não há dados de desova disponíveis.",
     ["\124cFFAAEEFFQuestie DB has updated!\124r\124cFFFF6F22 Data is being processed, this may take a few moments and cause some lag..."] = "\124cFFAAEEFFO Questie DB foi atualizado!\124r\124cFFFF6F22 Os dados estão sendo processados, isso pode levar alguns instantes e causar alguma latência...",
     ["\124cFF4DDBFF [1/4] Updating NPCs..."] = "\124cFF4DDBFF [1/4] Atualizando PNJs...",
     ["\124cFF4DDBFF [2/4] Updating objects..."] = "\124cFF4DDBFF [2/4] Atualizando objetos...",  
