@@ -130,7 +130,7 @@ def setVersion():
         p = subprocess.check_output(["git", "describe", "--tags", "--long"], cwd=scriptDir)
         tagString = str(p).rstrip("\\n'").lstrip("b'")
         #versiontag (v4.1.1) from git, number of additional commits on top of the tagged object and most recent commit.
-        versionTag, nrOfCommits, recentCommit = tagString.split("-")
+        versionTag, nrOfCommits, recentCommit = tagString.rsplit("-", maxsplit=2)
         recentCommit = recentCommit.lstrip("g") # There is a "g" before all the commits.
         tocData = None
         cleanData = None
@@ -142,7 +142,7 @@ def setVersion():
             ## Version: 4.1.1 BETA
             tocData = re.sub(r"## Title:.*", "## Title: |cFFFFFFFF%s|r|cFF00FF00 %s_%s|r" % (addonDir, versionTag, recentCommit), tocData)
             ## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v4.1.1|r|cFFFF0000 Beta|r
-            cleanData = re.sub(r"\d+\.\d+\.\d+", versionTag.lstrip("v"), cleanData)
+            cleanData = re.sub(r"\d+\.\d+\.\d+(-\d+)?", versionTag.lstrip("v"), cleanData)
             tocData = re.sub(r"## Version:.*", "## Version: %s %s %s" % (versionTag.lstrip("v"), nrOfCommits, recentCommit), tocData)
 
         with open('releases/%s/%s/%s.toc' % (versionDir, addonDir, addonDir), "w") as toc:
@@ -169,7 +169,7 @@ def getVersion():
         p = subprocess.check_output(["git", "describe", "--tags", "--long"], cwd=scriptDir)
         tagString = str(p).rstrip("\\n'").lstrip("b'")
         #versiontag (v4.1.1) from git, number of additional commits on top of the tagged object and most recent commit.
-        versionTag, nrOfCommits, recentCommit = tagString.split("-")
+        versionTag, nrOfCommits, recentCommit = tagString.rsplit("-", maxsplit=2)
         recentCommit = recentCommit.lstrip("g") # There is a "g" before all the commits.
         return versionTag, nrOfCommits, recentCommit
     else:
