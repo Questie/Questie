@@ -298,19 +298,18 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     local frameName = "questieLineFrame"..lineFrames;
 
     --tremove default always picks the last element, however counting arrays is kinda bugged? So just get index 1 instead.
-    local lineFrame = tremove(QuestieFramePool.Routes_Lines, 1) or CreateFrame("Frame", frameName, iconFrame);
+    local lineFrame = tremove(QuestieFramePool.Routes_Lines, 1) or CreateFrame("Button", frameName, iconFrame);
     if not lineFrame.frameId then
         lineFrame.frameId = lineFrames;
     end
 
-    local width = WorldMapFrame:GetCanvas():GetWidth();
-    local height = WorldMapFrame:GetCanvas():GetHeight();
+    local canvas = WorldMapFrame:GetCanvas()
+
+    local width = canvas:GetWidth();
+    local height = canvas:GetHeight();
 
     --Setting the parent is required to get the correct frame levels.
-    lineFrame:SetParent(iconFrame);
-    lineFrame:SetHeight(width);
-    lineFrame:SetWidth(height);
-    lineFrame:SetPoint("TOPLEFT", WorldMapFrame:GetCanvas(), "TOPLEFT", 0, 0)
+
     local frameLevel = iconFrame:GetFrameLevel();
     if (frameLevel > 1) then
         frameLevel = frameLevel - 1;
@@ -327,6 +326,11 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     end
     tinsert(iconFrame.data.lineFrames, lineFrame);
     lineFrame.iconFrame = iconFrame;
+    lineFrame.data = iconFrame.data
+    lineFrame.x = (startX + endX) / 2
+    lineFrame.y = (startY + endY) / 2
+    lineFrame.AreaID = iconFrame.AreaID
+    lineFrame.texture = iconFrame.texture
 
     function lineFrame:Unload()
         if not self.iconFrame then
@@ -334,6 +338,11 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
         end
         self:Hide();
         self.iconFrame = nil;
+        self.x = nil
+        self.y = nil
+        self.data = nil
+        self.texture = nil
+        self.AreaID = nil
         HBDPins:RemoveWorldMapIcon(Questie, self)
         tinsert(QuestieFramePool.Routes_Lines, self);
     end
@@ -349,13 +358,55 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     -- Set texture coordinates and anchors
     --line:ClearAllPoints();
 
-    local calcX = width/100;
-    local calcY = height/100;
+    startX = startX * width / 100
+    startY = startY * height / -100 -- We do by / -100 due to using the top left point
+    endX = endX * width / 100
+    endY = endY * height / -100
+
+    width = abs(startX - endX) + lineWidth * 4
+    height = abs(startY - endY) + lineWidth * 4
+
+    local framePosX = max(startX, endX) - lineWidth * 2
+    local framePosY = min(startY, endY) + lineWidth * 2
+
+    lineFrame:SetParent(iconFrame);
+    lineFrame:SetHeight(width);
+    lineFrame:SetWidth(height);
+    lineFrame:SetPoint("TOPLEFT", canvas, "TOPLEFT", framePosX, framePosY)
 
     line:SetDrawLayer("OVERLAY", -5)
-    line:SetStartPoint("TOPLEFT", startX*calcX, (startY*calcY)*-1) -- We do by *-1 due to using the top left point
-    line:SetEndPoint("TOPLEFT", endX*calcX, (endY*calcY)*-1) -- We do by *-1 due to using the top left point
+    line:SetStartPoint("TOPLEFT", startX - framePosX, startY - framePosY)
+    line:SetEndPoint("TOPLEFT", endX - framePosX, endY - framePosY)
     line:SetThickness(lineWidth);
+
+
+    lineFrame:EnableMouse(true)
+
+    lineFrame:SetScript("OnEnter", function(self)
+        if self and self.iconFrame then
+            local script = self.iconFrame:GetScript("OnEnter")
+            if script then
+                script(self.iconFrame)
+            end
+        end
+    end)
+    lineFrame:SetScript("OnLeave", function(self)
+        if self and self.iconFrame then
+            local script = self.iconFrame:GetScript("OnLeave")
+            if script then
+                script(self.iconFrame)
+            end
+        end
+    end)
+    lineFrame:RegisterForClicks("RightButtonUp", "LeftButtonUp")
+    lineFrame:SetScript("OnClick", function(self)
+        if self and self.iconFrame then
+            local script = self.iconFrame:GetScript("OnClick")
+            if script then
+                script(self.iconFrame)
+            end
+        end
+    end)
 
     --line:Hide()
     lineFrame:Hide();
@@ -658,6 +709,11 @@ function _QuestieFramePool:QuestieTooltip()
     else
         for pin in HBDPins.worldmapProvider:GetMap():EnumeratePinsByTemplate("HereBeDragonsPinsTemplateQuestie") do
             handleMapIcon(pin.icon)
+            if pin.icon.data.lineFrames then
+                for _, line in pairs(pin.icon.data.lineFrames) do
+                    handleMapIcon(line)
+                end
+            end
         end
     end
 

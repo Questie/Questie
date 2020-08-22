@@ -9,7 +9,7 @@ commit_keys_and_header = (
     ('fix', '## General Fixes\n\n'),
     ('quest', '## Quest Fixes\n\n'),
     ('db', '## Database Fixes\n\n'),
-    ('locale', '## Localisation Fixes\n\n'),
+    ('locale', '## Localization Fixes\n\n'),
 )
 
 def is_python_36():

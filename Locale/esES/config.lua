@@ -1,5 +1,5 @@
 QuestieLocale.locale['esES'] = {
-    -- Config Windows
+    -- General tab
     ['GENERAL_TAB'] = "Opciones",
     ['GENERAL_OPTIONS_HEADER'] = "Opciones de Questie",
     ['ENABLE_ICONS'] = "Habilitar Iconos",
@@ -89,6 +89,7 @@ QuestieLocale.locale['esES'] = {
 
     -- Map tab
     ['MAP_TAB'] = "Opciones de mapa",
+    ['MAP_OPTIONS_HEADER'] = "Opciones de las notas del mapa",
     ['ENABLE_MAP_BUTTON'] = "Mostrar el botón de Questie en el mapa",
     ['ENABLE_MAP_BUTTON_DESC'] = "Habilita o deshabilita el botón de mostrar/ocultar Questie en el mapa (Puede solucionar algunas interacciones con Addons de mapas)",
     ['MAP_NOTES'] = "Opciones de las notas de mapa",
@@ -193,6 +194,8 @@ QuestieLocale.locale['esES'] = {
     ['RESET_QUESTIE_BTN_DESC'] = "Reinicia Questie a todos los valores por defecto.",
     ['RECOMPILE_DATABASE_BTN'] = "Recompilar base de datos",
     ['RECOMPILE_DATABASE_BTN_DESC'] = "Fuerza una recompilación de la base de datos Questie. Esto también volverá a cargar la interfaz de usuario.",
+    ['SHOW_PROFILER_BTN'] = "Open Profiler",
+    ['SHOW_PROFILER_BTN_DESC'] = "Open the Questie profiler, this is useful for tracking down the source of lag / frame spikes.",
     ['QUESTIE_DEV_MESSAGE'] = "Questie está bajo desarrollo activo para World of Warcraft: Classic. Por favor ve a Github para las versiones alfa o para reportar problemas. O únete a nuestro Discord! (( https://github.com/AeroScripts/QuestieDev/ ))",
 
     -- UI Elements
@@ -456,6 +459,8 @@ QuestieLocale.locale['esES'] = {
     ['Ends the following quests:'] = "Termina las siguientes misiones:",
     ['No quests to list.'] = "No hay misiones para enumerar.",
     ['No spawn data available.'] = "No hay datos de spawn disponibles.",
+    ['The database needs to be updated to change language. Press reload to apply the new language'] = "The database needs to be updated to change language. Press reload to apply the new language",
+    ['Reload UI'] = "Reload UI",
     ["\124cFFAAEEFFQuestie DB has updated!\124r\124cFFFF6F22 Data is being processed, this may take a few moments and cause some lag..."] = "\124cFFAAEEFF¡Questie DB se ha actualizado!\124r\124cFFFF6F22 Los datos se están procesando, esto puede demorar unos minutos y causar latencia...",
     ["\124cFF4DDBFF [1/4] Updating NPCs..."] = "\124cFF4DDBFF [1/4] Actualizando PNJs...",
     ["\124cFF4DDBFF [2/4] Updating objects..."] = "\124cFF4DDBFF [2/4] Actualizando objetos...",  

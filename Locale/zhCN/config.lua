@@ -194,6 +194,8 @@ QuestieLocale.locale['zhCN'] = {
     ['RESET_QUESTIE_BTN_DESC'] = "将所有设置重置为默认值。",
     ['RECOMPILE_DATABASE_BTN'] = "启用查找器",
     ['RECOMPILE_DATABASE_BTN_DESC'] = "启用查找器，这对于追踪延迟/帧数峰值的来源很有用",
+    ['SHOW_PROFILER_BTN'] = "Open Profiler",
+    ['SHOW_PROFILER_BTN_DESC'] = "Open the Questie profiler, this is useful for tracking down the source of lag / frame spikes.",
     ['QUESTIE_DEV_MESSAGE'] = "Questie是一款为魔兽世界经典旧世制作的任务插件，目前仍在开发中，请到Github查看最新版本、提交问题或提供建议，或是加入我们的 discord 频道。(( https://github.com/AeroScripts/QuestieDev/ ))",
 
     -- UI Elements
