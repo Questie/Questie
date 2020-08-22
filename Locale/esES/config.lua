@@ -89,6 +89,7 @@ QuestieLocale.locale['esES'] = {
 
     -- Map tab
     ['MAP_TAB'] = "Opciones de mapa",
+    ['MAP_OPTIONS_HEADER'] = "Opciones de las notas del mapa",
     ['ENABLE_MAP_BUTTON'] = "Mostrar el botón de Questie en el mapa",
     ['ENABLE_MAP_BUTTON_DESC'] = "Habilita o deshabilita el botón de mostrar/ocultar Questie en el mapa (Puede solucionar algunas interacciones con Addons de mapas)",
     ['MAP_NOTES'] = "Opciones de las notas de mapa",
