@@ -326,6 +326,11 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     end
     tinsert(iconFrame.data.lineFrames, lineFrame);
     lineFrame.iconFrame = iconFrame;
+    lineFrame.data = iconFrame.data
+    lineFrame.x = (startX + endX) / 2
+    lineFrame.y = (startY + endY) / 2
+    lineFrame.AreaID = iconFrame.AreaID
+    lineFrame.texture = iconFrame.texture
 
     function lineFrame:Unload()
         if not self.iconFrame then
@@ -333,6 +338,11 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
         end
         self:Hide();
         self.iconFrame = nil;
+        self.x = nil
+        self.y = nil
+        self.data = nil
+        self.texture = nil
+        self.AreaID = nil
         HBDPins:RemoveWorldMapIcon(Questie, self)
         tinsert(QuestieFramePool.Routes_Lines, self);
     end
@@ -347,9 +357,6 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
 
     -- Set texture coordinates and anchors
     --line:ClearAllPoints();
-
-    local calcX = width/100;
-    local calcY = height/100;
 
     startX = startX * width / 100
     startY = startY * height / -100 -- We do by / -100 due to using the top left point
@@ -702,6 +709,11 @@ function _QuestieFramePool:QuestieTooltip()
     else
         for pin in HBDPins.worldmapProvider:GetMap():EnumeratePinsByTemplate("HereBeDragonsPinsTemplateQuestie") do
             handleMapIcon(pin.icon)
+            if pin.icon.data.lineFrames then
+                for _, line in pairs(pin.icon.data.lineFrames) do
+                    handleMapIcon(line)
+                end
+            end
         end
     end
 
