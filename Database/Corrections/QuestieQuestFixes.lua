@@ -1318,6 +1318,9 @@ function QuestieQuestFixes:Load()
         [5041] = {
             [questKeys.preQuestSingle] = {},
         },
+        [5056] = {
+            [questKeys.requiredSourceItems] = {12733},
+        },
         [5057] = {
             [questKeys.requiredRaces] = 178,
         },
@@ -1712,6 +1715,7 @@ function QuestieQuestFixes:Load()
         },
         [6922] = {
             [questKeys.startedBy] = {{12876},nil,{16782}},
+            [questKeys.zoneOrSort] = 719,
         },
         [6961] = {
             [questKeys.exclusiveTo] = {7021,7024},
@@ -1892,6 +1896,8 @@ function QuestieQuestFixes:Load()
             [questKeys.objectives] = {nil,nil,{{18880,nil},},nil,},
             [questKeys.sourceItemId] = 18746,
             [questKeys.zoneOrSort] = 1637,
+            [questKeys.exclusiveTo] = {8258}, -- 8258 after Phase 4
+            [questKeys.childQuests] = {7769},
         },
         [7669] = { --#1449
             [questKeys.name] = "Again Into the Great Ossuary",
@@ -1903,6 +1909,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredClasses] = 64,                     -- This quest is for the Shaman class
             [questKeys.zoneOrSort] = -141,                        -- <0: QuestSort.dbc ID
             [questKeys.specialFlags] = 1,
+            [questKeys.parentQuest] = 8258,
         },
         [7670] = { -- #1432
             [questKeys.name] = "Lord Grayson Shadowbreaker",
@@ -2043,6 +2050,10 @@ function QuestieQuestFixes:Load()
         },
         [8251] = {
             [questKeys.preQuestSingle] = {},
+        },
+        [8258] = {
+            [questKeys.exclusiveTo] = {7668}, -- 7668 before Phase 4
+            [questKeys.childQuests] = {7769},
         },
         [8271] = {
             [questKeys.requiredRaces] = 77,

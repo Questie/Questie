@@ -16,8 +16,9 @@ function QuestieQuestBlacklist:Load()
         [9378] = true, -- Naxxramas quest which doesn't seem to be in the game
         [1318] = true, -- Duplicate of 7703 and not in the game
         [7704] = true, -- Not in the game
-        [8258] = true, -- Not in the game (yet) -- #1805
+        [7668] = true, -- Not in the game (yet) Replaced with 8258 in Ph 4-- #1805 
         [636] = true, -- Not in the game - #1900
+        [6066] = true, -- Not in the game - #1957
         [4603] = true, -- Duplicate of 2953
         [4604] = true, -- Duplicate of 2953
         [8856] = true, -- Duplicate of 8497

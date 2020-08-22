@@ -78,6 +78,9 @@ function QuestieItemFixes:Load()
             [itemKeys.name] = "Flagon of Dwarven Honeymead",
             [itemKeys.npcDrops] = {1464},
         },
+        [2676] = {
+            [itemKeys.objectDrops] = {276,},
+        },
         [2837] = {
             [itemKeys.name] = "Thurman's Letter",
             [itemKeys.relatedQuests] = {361},
@@ -802,6 +805,9 @@ function QuestieItemFixes:Load()
         [12283] = {
             [itemKeys.npcDrops] = {7047,7048,7049,},
         },
+        [12291] = {
+            [itemKeys.npcDrops] = {6557,9621,},
+        },
         [12324] = {
             [itemKeys.npcDrops] = {10321}, -- #1175
             [itemKeys.objectDrops] = {},
@@ -844,6 +850,12 @@ function QuestieItemFixes:Load()
             [itemKeys.relatedQuests] = {4505},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {148501},
+        },
+        [12733] = { 
+            [itemKeys.name] = "Sacred Frostsaber Meat",
+            [itemKeys.relatedQuests] = {5056},
+            [itemKeys.npcDrops] = {7434,7433,7430,7432,7431,},
+            [itemKeys.objectDrops] = {},
         },
         [12813] = { -- #1313
             [itemKeys.name] = "Flask of Mystery Goo",

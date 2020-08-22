@@ -814,10 +814,12 @@ function QuestieMap:GetNearestQuestSpawn(quest)
 end
 
 QuestieMap.zoneWaypointColorOverrides = { -- this is used when the default orange color doesn't work well in specific zones
+    [14] = {0,0.1,0.9,0.7}, -- durotar
     [38] = {0,0.1,0.9,0.7} -- loch modan
 }
 
 QuestieMap.zoneWaypointHoverColorOverrides = {
+    [14] = {0,0.6,1,1}, -- durotar
     [38] = {0,0.6,1,1} -- loch modan
 }
 
