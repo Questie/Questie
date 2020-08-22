@@ -64,6 +64,8 @@ QuestieLocale.locale['koKR'] = {
     ['ENABLE_ACCEPT_TRIVIAL_DESC'] = "When this is enabled trivial (gray) quests will be auto accepted as well.",
     ['AUTO_MODIFIER'] = "Auto Modifier",
     ['AUTO_MODIFIER_DESC'] = "The modifier to NOT auto-accept/-complete quests when either option is enabled and you interact with a quest NPC.",
+    ['ENABLE_YELL'] = "Share quest progress with nearby players",
+    ['ENABLE_YELL_DESC'] = "Your quest progress will be periodically sent to nearby players. Disabling this doesn't affect sharing progress with party members.",
 
     -- Minimap tab
     ['MINIMAP_TAB'] = "미니맵",
@@ -192,6 +194,8 @@ QuestieLocale.locale['koKR'] = {
     ['RESET_QUESTIE_BTN_DESC'] = "모든 Questie 설정을 기본값으로 초기화합니다.",
     ['RECOMPILE_DATABASE_BTN'] = "Recompile Database",
     ['RECOMPILE_DATABASE_BTN_DESC'] = "Forces a recompile of the Questie database. This will also reload the UI.",
+    ['SHOW_PROFILER_BTN'] = "Open Profiler",
+    ['SHOW_PROFILER_BTN_DESC'] = "Open the Questie profiler, this is useful for tracking down the source of lag / frame spikes.",
     ['QUESTIE_DEV_MESSAGE'] = "Questie는 월드 오브 워크래프트:클래식을 위해 활발히 개발 중입니다. 최신 알파 빌드 또는 보고된 문제들을 확인하시려면 GitHub을 확인해주세요. 또는 저희 디스코드에 참여하세요! (( https://github.com/AeroScripts/QuestieDev/ ))",
 
     -- UI Elements
@@ -455,4 +459,13 @@ QuestieLocale.locale['koKR'] = {
     ['Ends the following quests:'] = "다음의 퀘스트를 완료할 수 있습니다:",
     ['No quests to list.'] = "표시할 퀘스트가 없습니다.",
     ['No spawn data available.'] = "출현 정보가 없습니다.",
+    ['The database needs to be updated to change language. Press reload to apply the new language'] = "The database needs to be updated to change language. Press reload to apply the new language",
+    ['Reload UI'] = "Reload UI",
+    ["\124cFFAAEEFFQuestie DB has updated!\124r\124cFFFF6F22 Data is being processed, this may take a few moments and cause some lag..."] = "\124cFFAAEEFFQuestie DB has updated!\124r\124cFFFF6F22 Data is being processed, this may take a few moments and cause some lag...",
+    ["\124cFF4DDBFF [1/4] Updating NPCs..."] = "\124cFF4DDBFF [1/4] Updating NPCs...",
+    ["\124cFF4DDBFF [2/4] Updating objects..."] = "\124cFF4DDBFF [2/4] Updating objects...",
+    ["\124cFF4DDBFF [3/4] Updating quests..."] = "\124cFF4DDBFF [3/4] Updating quests...",
+    ["\124cFF4DDBFF [4/4] Updating items..."] = "\124cFF4DDBFF [4/4] Updating items...",
+    ["\124cFFAAEEFFQuestie DB update complete!"] = "\124cFFAAEEFFQuestie DB update complete!",
+    ["Nearby"] = "Nearby",
 };

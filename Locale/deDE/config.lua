@@ -64,6 +64,8 @@ QuestieLocale.locale['deDE'] = {
     ['ENABLE_ACCEPT_TRIVIAL_DESC'] = "Aktiviert/Deaktiviert, ob Questie triviale (graune) Quests automatisch annimmt.",
     ['AUTO_MODIFIER'] = "Auto Modifikator",
     ['AUTO_MODIFIER_DESC'] = "Die Taste, um Quests NICHT automatisch anzunehmen/abzugeben, wenn die jeweilige Einstellung aktiviert ist und mit einem Quest NPC interagiert wird.",
+    ['ENABLE_YELL'] = "Share quest progress with nearby players",
+    ['ENABLE_YELL_DESC'] = "Your quest progress will be periodically sent to nearby players. Disabling this doesn't affect sharing progress with party members.",
 
     -- Minimap tab
     ['MINIMAP_TAB'] = "Minimap",
@@ -192,6 +194,8 @@ QuestieLocale.locale['deDE'] = {
     ['RESET_QUESTIE_BTN_DESC'] = "Setzt alle Einstellungen von Questie auf den Standardwert zurück.",
     ['RECOMPILE_DATABASE_BTN'] = "Datenbank neukompilieren",
     ['RECOMPILE_DATABASE_BTN_DESC'] = "Lässt die Questie Datenbank neu kompilieren und läd das UI neu.",
+    ['SHOW_PROFILER_BTN'] = "Open Profiler",
+    ['SHOW_PROFILER_BTN_DESC'] = "Open the Questie profiler, this is useful for tracking down the source of lag / frame spikes.",
     ['QUESTIE_DEV_MESSAGE'] = "Questie befindet sich noch aktiv in der Entwicklungsphase für World of Warcraft: Classic. Für Neuigkeiten und aktuelle Versionen schau auf Github vorbei oder trete unserem Discord Server bei! (( https://github.com/AeroScripts/QuestieDev/ ))",
 
     -- UI Elements
@@ -455,5 +459,13 @@ QuestieLocale.locale['deDE'] = {
     ['Ends the following quests:'] = "Ends the following quests:",
     ['No quests to list.'] = "No quests to list.",
     ['No spawn data available.'] = "No spawn data available.",
+    ['The database needs to be updated to change language. Press reload to apply the new language'] = "The database needs to be updated to change language. Press reload to apply the new language",
+    ['Reload UI'] = "Reload UI",
+    ["\124cFFAAEEFFQuestie DB has updated!\124r\124cFFFF6F22 Data is being processed, this may take a few moments and cause some lag..."] = "\124cFFAAEEFFQuestie DB has updated!\124r\124cFFFF6F22 Data is being processed, this may take a few moments and cause some lag...",
+    ["\124cFF4DDBFF [1/4] Updating NPCs..."] = "\124cFF4DDBFF [1/4] Updating NPCs...",
+    ["\124cFF4DDBFF [2/4] Updating objects..."] = "\124cFF4DDBFF [2/4] Updating objects...",
+    ["\124cFF4DDBFF [3/4] Updating quests..."] = "\124cFF4DDBFF [3/4] Updating quests...",
+    ["\124cFF4DDBFF [4/4] Updating items..."] = "\124cFF4DDBFF [4/4] Updating items...",
+    ["\124cFFAAEEFFQuestie DB update complete!"] = "\124cFFAAEEFFQuestie DB update complete!",
     ["Nearby"] = "In der Nähe",
 };
