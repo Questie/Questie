@@ -194,6 +194,8 @@ QuestieLocale.locale['ptBR'] = {
     ['RESET_QUESTIE_BTN_DESC'] = "Redefina a Questie para valores para todas as configurações.",
     ['RECOMPILE_DATABASE_BTN'] = "Recompilar banco de dados",
     ['RECOMPILE_DATABASE_BTN_DESC'] = "Força uma recompilação do banco de dados do Questie. Isso também recarregará a interface do usuário.",
+    ['SHOW_PROFILER_BTN'] = "Open Profiler",
+    ['SHOW_PROFILER_BTN_DESC'] = "Open the Questie profiler, this is useful for tracking down the source of lag / frame spikes.",
     ['QUESTIE_DEV_MESSAGE'] = "Questie está em desenvolvimento para World of Warcraft: Classic. Verifique o GitHub para obter as versões mais recentes ou relatar problemas. Ou junte-se a nós em nossa discórdia!(( https://github.com/AeroScripts/QuestieDev/ )) ",
 
     --Elementos da interface do utilisador
@@ -457,6 +459,8 @@ QuestieLocale.locale['ptBR'] = {
     ['Ends the following quests:'] = "Ends the following quests:",
     ['No quests to list.'] = "No quests to list.",
     ['No spawn data available.'] = "No spawn data available.",
+    ['The database needs to be updated to change language. Press reload to apply the new language'] = "The database needs to be updated to change language. Press reload to apply the new language",
+    ['Reload UI'] = "Reload UI",
     ["\124cFFAAEEFFQuestie DB has updated!\124r\124cFFFF6F22 Data is being processed, this may take a few moments and cause some lag..."] = "\124cFFAAEEFFO Questie DB foi atualizado!\124r\124cFFFF6F22 Os dados estão sendo processados, isso pode levar alguns instantes e causar alguma latência...",
     ["\124cFF4DDBFF [1/4] Updating NPCs..."] = "\124cFF4DDBFF [1/4] Atualizando PNJs...",
     ["\124cFF4DDBFF [2/4] Updating objects..."] = "\124cFF4DDBFF [2/4] Atualizando objetos...",  
