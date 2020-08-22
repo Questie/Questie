@@ -1,5 +1,5 @@
 QuestieLocale.locale['ruRU'] = {
-    -- Config Windows
+    -- General tab
     ['GENERAL_TAB'] = "Общее",
     ['GENERAL_OPTIONS_HEADER'] = "Общие настройки",
     ['ENABLE_ICONS'] = "Значки Questie",
@@ -31,10 +31,6 @@ QuestieLocale.locale['ruRU'] = {
     ['ENABLE_TURNINS_DESC'] = "Показать/скрыть местоположения выполненных заданий на карте мира и миникарте",
     ['ENABLE_AVAILABLE'] = "Значки доступных заданий",
     ['ENABLE_AVAILABLE_DESC'] = "Показать/скрыть местоположения доступных заданий на карте мира и миникарте",
-    ['ENABLE_TOOLTIPS'] = "Отображение в подсказках",
-    ['ENABLE_TOOLTIPS_DESC'] = "Показать/скрыть информацию о заданиях в соответствующих всплывающих подсказках",
-    ['ENABLE_TOOLTIPS_QUEST_LEVEL'] = "Уровень заданий в подсказках",
-    ['ENABLE_TOOLTIPS_QUEST_LEVEL_DESC'] = "Показать/скрыть уровень заданий во всплывающих подсказках",
     ['ICON_TYPE_HEADER'] = "Типы значков",
     ['ENABLE_MAP_ICONS'] = "Значки на карте мира",
     ['ENABLE_MAP_ICONS_DESC'] = "Показать/скрыть все значки на карте мира",
@@ -166,6 +162,16 @@ QuestieLocale.locale['ruRU'] = {
     ['TARGET_SCALE_DESC'] = "Регулировка размера значков на рамке выбранной цели (по умолчанию: %s)",
     ['TARGET_RESET_BTN'] = "Сброс настроек",
     ['TARGET_RESET_BTN_DESC'] = "Сбросить настройки значков целей заданий на рамке выбранной цели к значениям по умолчанию",
+
+    -- Tooltip tab
+    ['TOOLTIP_TAB'] = "Tooltips",
+    ['TOOLTIP_OPTIONS_HEADER'] = "Tooltip options",
+    ['ENABLE_TOOLTIPS'] = "Отображение в подсказках",
+    ['ENABLE_TOOLTIPS_DESC'] = "Показать/скрыть информацию о заданиях в соответствующих всплывающих подсказках",
+    ['ENABLE_TOOLTIPS_QUEST_LEVEL'] = "Уровень заданий в подсказках",
+    ['ENABLE_TOOLTIPS_QUEST_LEVEL_DESC'] = "Показать/скрыть уровень заданий во всплывающих подсказках",
+    ['SHARED_TOOLTIP_PARTY_ONLY'] = "Only show party members",
+    ['SHARED_TOOLTIP_PARTY_ONLY_DESC'] = "When this is enabled, shared quest info will only show players in your party.",
 
     -- Advanced tab
     ['ADVANCED_TAB'] = "Дополнительно",
