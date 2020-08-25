@@ -1672,6 +1672,10 @@ function QuestieTracker:Update()
         end
     end
 
+    if not line then
+        line = _QuestieTracker.LineFrames[trackerLineCount]
+    end
+
     -- Begin post clean up of unused frameIndexes
     _QuestieTracker.highestIndex = lineIndex > trackerLineCount and trackerLineCount or lineIndex
     local startUnusedFrames = 1
