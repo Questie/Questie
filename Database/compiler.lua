@@ -594,6 +594,13 @@ end
 
 function QuestieDBCompiler:Compile(finalize)
     --print("Compiling NPCs...")
+    
+    if QuestieDBCompiler._isCompiling then
+        return
+    end
+    
+    QuestieDBCompiler._isCompiling = true -- some unknown addon that is popular in china causes player_logged_in event to fire many times which triggers db compile multiple times
+
 
     local function DynamicHashTableSize(entries)
         if (entries == 0) then
@@ -642,6 +649,8 @@ function QuestieDBCompiler:Compile(finalize)
                     --print("Compiled DB total memory size: " .. math.floor(QuestieDBCompiler.totalSize/1024) .. "K")
                     --print("Finished! Please /reload to reduce memory usage") -- no need to reload
                     print(QuestieLocale:GetUIString("\124cFFAAEEFFQuestie DB update complete!"))
+
+                    QuestieDBCompiler._isCompiling = nil
 
                     if finalize then finalize() end
                 end)
