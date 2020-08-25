@@ -14,5 +14,8 @@
 #Used by the buildscript in batch
 *.temporary
 
+#Macos stuff
+*.DS_Store
+
 releases/
 *__pycache__/
