@@ -1673,7 +1673,7 @@ function QuestieTracker:Update()
     end
 
     -- Begin post clean up of unused frameIndexes
-    _QuestieTracker.highestIndex = lineIndex > trackerLineCount and lineIndex or trackerLineCount
+    _QuestieTracker.highestIndex = lineIndex > trackerLineCount and trackerLineCount or lineIndex
     local startUnusedFrames = 1
     local startUnusedButtons = 1
 
