@@ -1428,6 +1428,9 @@ function QuestieQuestFixes:Load()
         [5742] = {
             [questKeys.triggerEnd] = {"Tirion's Tale", {[zoneIDs.EASTERN_PLAGUELANDS]={{7.51,43.69},},},},
         },
+        [8519] = {
+            [questKeys.triggerEnd] = {"The War of the Shifting Sands", {[zoneIDs.SILITHUS]={{29.04,92.09},},},},
+        },
         [5821] = {
             [questKeys.triggerEnd] = {"Escort Gizelton Caravan past Kolkar Centaur Village", {[zoneIDs.DESOLACE]={{67.17,56.62},},},},
         },
