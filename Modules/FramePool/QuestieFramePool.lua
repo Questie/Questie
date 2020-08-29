@@ -366,12 +366,12 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     width = abs(startX - endX) + lineWidth * 4
     height = abs(startY - endY) + lineWidth * 4
 
-    local framePosX = max(startX, endX) - lineWidth * 2
-    local framePosY = min(startY, endY) + lineWidth * 2
+    local framePosX = max(startX, endX) - lineWidth * 2 - width / 2
+    local framePosY = min(startY, endY) + lineWidth * 2 + height / 2
 
     lineFrame:SetParent(iconFrame);
-    lineFrame:SetHeight(width);
-    lineFrame:SetWidth(height);
+    lineFrame:SetHeight(height);
+    lineFrame:SetWidth(width);
     lineFrame:SetPoint("TOPLEFT", canvas, "TOPLEFT", framePosX, framePosY)
 
     line:SetDrawLayer("OVERLAY", -5)
@@ -381,6 +381,15 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
 
 
     lineFrame:EnableMouse(true)
+
+    --lineFrame:SetBackdrop({ -- mouseover debugging
+    --    bgFile = "Interface/Tooltips/UI-Tooltip-Background",
+    --    edgeFile = nil,
+    --    edgeSize = 0,
+    --    insets = { left = 0, right = 0, top = 0, bottom = 0 },
+    --})
+
+    --lineFrame:SetBackdropColor(1,0,1,1)
 
     lineFrame:SetScript("OnEnter", function(self)
         if self and self.iconFrame then
