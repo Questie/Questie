@@ -26,6 +26,7 @@ _QuestieQuest.objectiveSpawnListCallTable = {
             npc.spawns = {}
         end
         mon.Spawns = npc.spawns
+        mon.Waypoints = npc.waypoints
         mon.Icon = ICON_TYPE_SLAY
         mon.Id = id
         mon.GetIconScale = function() return Questie.db.global.monsterScale or 1 end

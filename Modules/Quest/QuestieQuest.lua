@@ -763,6 +763,20 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
                         end
                         --if maxPerType > 0 and maxCount > maxPerType then break; end
                     end
+
+                    if spawnData.Waypoints then
+                        for zone, waypoints in pairs(spawnData.Waypoints) do
+                            if #waypoints > 0 then
+                                local x, y = unpack(waypoints[1])
+                                local iconMap, iconMini = QuestieMap:DrawWorldIcon(spawnData, zone, x, y)
+                                if iconMap and iconMini then
+                                    iconMini:Unload() -- hack: refactor this later to use one of the spawn icons (is unloading immediately safe with draw queue?)
+                                    QuestieMap:DrawWaypoints(iconMap, waypoints, zone, x, y)
+                                    tinsert(Objective.AlreadySpawned[spawnData.Id].mapRefs, iconMap)
+                                end
+                            end
+                        end
+                    end
                 end
             elseif completed and Objective.AlreadySpawned then -- unregister notes
                 for _, spawn in pairs(Objective.AlreadySpawned) do

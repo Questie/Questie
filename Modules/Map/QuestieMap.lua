@@ -823,8 +823,8 @@ QuestieMap.zoneWaypointHoverColorOverrides = {
     [38] = {0,0.6,1,1} -- loch modan
 }
 
-function QuestieMap:DrawWaypoints(icon, waypoints, zone, x, y)
-    local lineFrames = QuestieFramePool:CreateWaypoints(icon, waypoints, nil, QuestieMap.zoneWaypointColorOverrides[zone])
+function QuestieMap:DrawWaypoints(icon, waypoints, zone, x, y, color)
+    local lineFrames = QuestieFramePool:CreateWaypoints(icon, waypoints, nil, color or QuestieMap.zoneWaypointColorOverrides[zone])
 
     for _, lineFrame in ipairs(lineFrames) do
         QuestieMap:DrawLineIcon(lineFrame, zone, x, y)
