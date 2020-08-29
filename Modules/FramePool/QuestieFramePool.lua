@@ -369,7 +369,7 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     local framePosX = max(startX, endX) - lineWidth * 2 - width / 2
     local framePosY = min(startY, endY) + lineWidth * 2 + height / 2
 
-    lineFrame:SetParent(iconFrame);
+    --lineFrame:SetParent(iconFrame);
     lineFrame:SetHeight(height);
     lineFrame:SetWidth(width);
     lineFrame:SetPoint("TOPLEFT", canvas, "TOPLEFT", framePosX, framePosY)
