@@ -2420,6 +2420,24 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = 178,
         },
+        [8748] = {
+            [questKeys.exclusiveTo] = {8752,8758,}, --protector
+        },
+        [8749] = {
+            [questKeys.exclusiveTo] = {8758,8752,}, --followups needs to be locked behind first version
+        },
+        [8752] = {
+            [questKeys.exclusiveTo] = {8748,8758,}, --conqueror
+        },
+        [8753] = {
+            [questKeys.exclusiveTo] = {8748,8758,},
+        },
+        [8758] = {
+            [questKeys.exclusiveTo] = {8748,8752,}, --invoker
+        },
+        [8759] = {
+            [questKeys.exclusiveTo] = {8748,8752,},
+        },
         [8767] = {
             [questKeys.requiredRaces] = 255,
             [questKeys.requiredClasses] = 0,
