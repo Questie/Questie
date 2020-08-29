@@ -698,6 +698,31 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
         local hasSpawnHack = false -- used to check if we have bad data due to API delay. Remove this check once the API bug is dealt with properly
         local hasTooltipHack = false
         local tooltipRegisterHack = {} -- improve this
+        
+        local objectiveCenter = closestStarter[quest.Id]
+
+        local zoneCount = 0
+        local zones = {}
+        local objectiveZone = nil
+
+        for id, spawnData in pairs(Objective.spawnList) do
+            for zone in pairs(spawnData.Spawns) do
+                zones[zone] = true
+            end
+        end
+
+        for zone in pairs(zones) do
+            objectiveZone = zone
+            zoneCount = zoneCount + 1
+        end
+
+        if zoneCount == 1 then -- this objective happens in 1 zone, clustering should be relative to that zone
+            objectiveCenter = {}
+            local x, y = HBD:GetWorldCoordinatesFromZone(0.5, 0.5, ZoneDB:GetUiMapIdByAreaId(objectiveZone))
+            objectiveCenter.x = x
+            objectiveCenter.y = y
+        end
+
         for id, spawnData in pairs(Objective.spawnList) do -- spawnData.Name, spawnData.Spawns
             hasSpawnHack = true -- #table and table.getn are unreliable
             if not Objective.Icon and spawnData.Icon then -- move this to a better place
@@ -754,7 +779,7 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
                                 local x, y, _ = HBD:GetWorldCoordinatesFromZone(drawIcon.x/100, drawIcon.y/100, uiMapId)
                                 -- There are instances when X and Y are not in the same map such as in dungeons etc, we default to 0 if it is not set
                                 -- This will create a distance of 0 but it doesn't matter.
-                                local distance = QuestieLib:Euclid(closestStarter[quest.Id].x or 0, closestStarter[quest.Id].y or 0, x or 0, y or 0);
+                                local distance = QuestieLib:Euclid(objectiveCenter.x or 0, objectiveCenter.y or 0, x or 0, y or 0);
                                 drawIcon.distance = distance or 0;
                                 iconsToDraw[quest.Id][floor(distance)] = drawIcon;
                             end
