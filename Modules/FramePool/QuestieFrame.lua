@@ -135,7 +135,8 @@ function _Qframe:OnLeave()
     end
 
     if self.data.touchedPins then
-        for _, entry in pairs(self.data.touchedPins) do
+        for i=#self.data.touchedPins,1,-1 do
+            local entry = self.data.touchedPins[i]
             local icon = entry.icon;
             icon.texture:SetVertexColor(unpack(entry.color));
         end
