@@ -2335,6 +2335,9 @@ function QuestieQuestFixes:Load()
         [8574] = {
             [questKeys.preQuestSingle] = {8800},
         },
+        [8575] = {
+            [questKeys.startedBy] = {{15481,},nil,nil,}, 
+        },
         [8580] = {
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = 178,
