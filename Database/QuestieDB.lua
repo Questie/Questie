@@ -206,8 +206,6 @@ function QuestieDB:IsPvPQuest(questId)
     return questType == 41
 end
 
-__TEST = function(id) return QuestieDB:IsAQWarEffortQuest(id) end
-
 function QuestieDB:IsAQWarEffortQuest(questId)
     return QuestieQuestBlacklist:GetAQWarEffortQuests()[questId] == true
 end
