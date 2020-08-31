@@ -408,11 +408,11 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
         end
     end)
     lineFrame:RegisterForClicks("RightButtonUp", "LeftButtonUp")
-    lineFrame:SetScript("OnClick", function(self)
+    lineFrame:SetScript("OnClick", function(self, button)
         if self and self.iconFrame then
             local script = self.iconFrame:GetScript("OnClick")
             if script then
-                script(self.iconFrame)
+                script(self.iconFrame, button)
             end
         end
     end)
