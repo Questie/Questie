@@ -11,6 +11,7 @@ Before you proceed, please verify that you're running the latest version of Ques
 
 Questie is one of the most popular Classic WoW addons, with over 15M downloads. However, like almost all WoW addons, it's built and maintained by a team of volunteers. The current Questie team is:
 
+* @AeroScripts / Aero#1357 (Discord) - Development
 * @BreakBB / TheCrux#1702 (Discord) - Development
 * @drejjmit / Drejjmit#8241 (Discord) - Testing/Research
 
