@@ -118,7 +118,7 @@ function QuestieCorrections:Initialize()
     end
 end
 
-local WAYPOINT_MIN_DISTANCE = 0.7 -- todo: make this a config value maybe?
+local WAYPOINT_MIN_DISTANCE = 1.5 -- todo: make this a config value maybe?
 local ZONE_SCALES = {
     [ZoneDB.zoneIDs.STORMWIND_CITY] = 0.5,
     [ZoneDB.zoneIDs.IRONFORGE] = 0.5,
@@ -140,7 +140,7 @@ function QuestieCorrections:OptimizeWaypoints(waypoints)
     for zone, waypoints in pairs(waypoints) do
         -- apply RDP algorithm
         local minDist = WAYPOINT_MIN_DISTANCE * (ZONE_SCALES[zone] or 1)
-        newWaypoints = QuestieCorrections:RamerDouglasPeucker(waypoints, minDist/4, true)
+        newWaypoints = QuestieCorrections:RamerDouglasPeucker(waypoints, 0.1, true)
 
         waypoints = newWaypoints
         newWaypoints = {}
@@ -152,7 +152,7 @@ function QuestieCorrections:OptimizeWaypoints(waypoints)
             if lastWay then
                 local dist = euclid(way[1], way[2], lastWay[1], lastWay[2]) 
                 if dist > minDist then
-                    local divs = math.ceil(math.log(dist/minDist)) -- how many times we need to half dist before its below minDist
+                    local divs = math.ceil(dist/minDist)
                     for i=1,divs do
                         local mul0 = i/divs
                         local mul1 = 1-mul0
