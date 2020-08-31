@@ -9,7 +9,7 @@ Hello, thanks for taking the time to report a bug!
 
 Before you proceed, please verify that you're running the latest version of Questie. The easiest way to do this is via the Twitch client, but you can also download the latest version here: https://www.curseforge.com/wow/addons/questie
 
-Questie is one of the most popular Classic WoW addons, with over 15M downloads. However, like almost all WoW addons, it's built and maintained by a team of volunteers. The current Questie team is:
+Questie is one of the most popular Classic WoW addons, with over 22M downloads. However, like almost all WoW addons, it's built and maintained by a team of volunteers. The current Questie team is:
 
 * @AeroScripts / Aero#1357 (Discord)
 * @BreakBB / TheCrux#1702 (Discord)
