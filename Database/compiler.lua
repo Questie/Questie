@@ -611,7 +611,6 @@ function QuestieDBCompiler:Compile(finalize)
     end
     QuestieDBCompiler.startTime = GetTime()
     QuestieDBCompiler.totalSize = 0
-    print(QuestieLocale:GetUIString("\124cFFAAEEFFQuestie DB has updated!\124r\124cFFFF6F22 Data is being processed, this may take a few moments and cause some lag..."))
     print(QuestieLocale:GetUIString("\124cFF4DDBFF [1/4] Updating NPCs..."))
     QuestieDBCompiler:CompileNPCs(function(bin, ptrs)
         QuestieConfig.npcBin = bin 

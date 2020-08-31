@@ -39,6 +39,8 @@ local QuestieCleanup = QuestieLoader:ImportModule("Cleanup")
 local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+---@type QuestieCorrections
+local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 
 --- LOCAL ---
 --False -> true -> nil
@@ -162,10 +164,13 @@ _PLAYER_LOGIN = function()
     else
         Questie.minimapConfigIcon:Hide("Questie") -- prevent opening journey / settings while compiling
         C_Timer.After(4, function()
-            QuestieDBCompiler:Compile(function()
-                stage1()
-                stage2()
-                Questie.minimapConfigIcon:Show("Questie")
+            print(QuestieLocale:GetUIString("\124cFFAAEEFFQuestie DB has updated!\124r\124cFFFF6F22 Data is being processed, this may take a few moments and cause some lag..."))
+            QuestieCorrections:PreCompile(function()
+                QuestieDBCompiler:Compile(function()
+                    stage1()
+                    stage2()
+                    Questie.minimapConfigIcon:Show("Questie")
+                end)
             end)
         end)
     end
