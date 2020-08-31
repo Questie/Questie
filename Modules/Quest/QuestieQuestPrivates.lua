@@ -88,9 +88,10 @@ _QuestieQuest.objectiveSpawnListCallTable = {
                     else
                         for id, sourceData in pairs(sourceList) do
                             if not ret[id] then
-                                ret[id] = {};
-                                ret[id].Name = sourceData.Name;
-                                ret[id].Spawns = {};
+                                ret[id] = {}
+                                ret[id].Name = sourceData.Name
+                                ret[id].Spawns = {}
+                                ret[id].Waypoints = {}
                                 if source.Type == "object" then
                                     ret[id].Icon = ICON_TYPE_OBJECT
                                     ret[id].GetIconScale = function() return Questie.db.global.objectScale or 1 end
@@ -110,6 +111,16 @@ _QuestieQuest.objectiveSpawnListCallTable = {
                                     end
                                     for _, spawn in pairs(spawns) do
                                         tinsert(ret[id].Spawns[zone], spawn);
+                                    end
+                                end
+                            end
+                            if sourceData.Waypoints and not Item.Hidden then
+                                for zone, spawns in pairs(sourceData.Waypoints) do
+                                    if not ret[id].Waypoints[zone] then
+                                        ret[id].Waypoints[zone] = {};
+                                    end
+                                    for _, spawn in pairs(spawns) do
+                                        tinsert(ret[id].Waypoints[zone], spawn);
                                     end
                                 end
                             end
