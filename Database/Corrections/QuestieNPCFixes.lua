@@ -200,6 +200,9 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.LOCH_MODAN,
             [npcKeys.spawns] = {[zoneIDs.LOCH_MODAN] = {{63.12,65.93},},},
         },
+        [2151] = {
+            [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{52.91,57.2},},},
+        },
         [2158] = {
             [npcKeys.name] = "Gravelflint Scout",
             [npcKeys.zoneID] = zoneIDs.DARKSHORE,
