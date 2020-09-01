@@ -2429,23 +2429,50 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = 178,
         },
+        [8747] = {
+            [questKeys.exclusiveTo] = {8752,8753,8754,8755,8756,8757,8758,8759,8760,8761,}, --protector neutral
+        },
         [8748] = {
-            [questKeys.exclusiveTo] = {8752,8758,}, --protector
+            [questKeys.exclusiveTo] = {8752,8753,8754,8755,8756,8757,8758,8759,8760,8761,}, --protector friendly
         },
         [8749] = {
-            [questKeys.exclusiveTo] = {8758,8752,}, --followups needs to be locked behind first version
+            [questKeys.exclusiveTo] = {8752,8753,8754,8755,8756,8757,8758,8759,8760,8761,}, --protector honored
+        },
+        [8750] = {
+            [questKeys.exclusiveTo] = {8752,8753,8754,8755,8756,8757,8758,8759,8760,8761,}, --protector revered
+        },
+        [8751] = {
+            [questKeys.exclusiveTo] = {8752,8753,8754,8755,8756,8757,8758,8759,8760,8761,}, --protector exalted
         },
         [8752] = {
-            [questKeys.exclusiveTo] = {8748,8758,}, --conqueror
+            [questKeys.exclusiveTo] = {8747,8748,8749,8750,8751,8757,8758,8759,8760,8761,}, --conqueror neutral
         },
         [8753] = {
-            [questKeys.exclusiveTo] = {8748,8758,},
+            [questKeys.exclusiveTo] = {8747,8748,8749,8750,8751,8757,8758,8759,8760,8761,}, --conqueror friendly
+        },
+        [8754] = {
+            [questKeys.exclusiveTo] = {8747,8748,8749,8750,8751,8757,8758,8759,8760,8761,}, --conqueror honored
+        },
+        [8755] = {
+            [questKeys.exclusiveTo] = {8747,8748,8749,8750,8751,8757,8758,8759,8760,8761,}, --conqueror revered
+        },
+        [8756] = {
+            [questKeys.exclusiveTo] = {8747,8748,8749,8750,8751,8757,8758,8759,8760,8761,}, --conqueror exalted
+        },
+        [8757] = {
+            [questKeys.exclusiveTo] = {8747,8748,8749,8750,8751,8752,8753,8754,8755,8756,}, --invoker neutral
         },
         [8758] = {
-            [questKeys.exclusiveTo] = {8748,8752,}, --invoker
+            [questKeys.exclusiveTo] = {8747,8748,8749,8750,8751,8752,8753,8754,8755,8756,}, --invoker friendly
         },
         [8759] = {
-            [questKeys.exclusiveTo] = {8748,8752,},
+            [questKeys.exclusiveTo] = {8747,8748,8749,8750,8751,8752,8753,8754,8755,8756,}, --invoker honored
+        },
+        [8760] = {
+            [questKeys.exclusiveTo] = {8747,8748,8749,8750,8751,8752,8753,8754,8755,8756,}, --invoker revered
+        },
+        [8761] = {
+            [questKeys.exclusiveTo] = {8747,8748,8749,8750,8751,8752,8753,8754,8755,8756,}, --invoker exalted
         },
         [8767] = {
             [questKeys.requiredRaces] = 255,
