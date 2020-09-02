@@ -916,7 +916,7 @@ end
 
 local function _AddSourceItemObjective(quest)
     if quest.sourceItemId then
-        local item = QuestieDB.QueryItemSingle(quest.sourceItemId)--local item = QuestieDB:GetItem(quest.sourceItemId);
+        local item = QuestieDB.QueryItemSingle(quest.sourceItemId, "name")--local item = QuestieDB:GetItem(quest.sourceItemId);
         if item then
             -- We fake an objective for the sourceItems because this allows us
             -- to simply reuse "QuestieTooltips:GetTooltip".
