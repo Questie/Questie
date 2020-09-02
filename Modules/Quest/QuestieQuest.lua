@@ -688,9 +688,9 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
     end
 
     if (not Objective.registeredItemTooltips) and Objective.Type == "item" and (not BlockItemTooltips) and Objective.Id then -- register item tooltip (special case)
-        local item = QuestieDB:GetItem(Objective.Id);
-        if item and item.name then
-            QuestieTooltips:RegisterTooltip(quest.Id, "i_" .. item.Id, Objective);
+        local item = QuestieDB.QueryItemSingle(Objective.Id, "name")--QuestieDB:GetItem(Objective.Id);
+        if item then
+            QuestieTooltips:RegisterTooltip(quest.Id, "i_" .. Objective.Id, Objective);
         end
         Objective.registeredItemTooltips = true
     end
@@ -916,8 +916,8 @@ end
 
 local function _AddSourceItemObjective(quest)
     if quest.sourceItemId then
-        local item = QuestieDB:GetItem(quest.sourceItemId);
-        if item and item.name then
+        local item = QuestieDB.QueryItemSingle(quest.sourceItemId)--local item = QuestieDB:GetItem(quest.sourceItemId);
+        if item then
             -- We fake an objective for the sourceItems because this allows us
             -- to simply reuse "QuestieTooltips:GetTooltip".
             -- This should be all the data required for the tooltip
@@ -927,11 +927,11 @@ local function _AddSourceItemObjective(quest)
                 Index = 1,
                 Needed = 1,
                 Collected = 1,
-                text = item.name,
-                Description = item.name
+                text = item,
+                Description = item
             }
 
-            QuestieTooltips:RegisterTooltip(quest.Id, "i_" .. item.Id, fakeObjective);
+            QuestieTooltips:RegisterTooltip(quest.Id, "i_" .. quest.sourceItemId, fakeObjective);
         end
     end
 end
@@ -1091,9 +1091,9 @@ function QuestieQuest:GetAllQuestObjectives(quest)
                         elseif(objectiveDB.Type == "item" and objectiveDB.Id) then
                             --testVar = CHANGEME_Questie4_ItemDB[objectiveDB.Id]
                             --DEFAULT_CHAT_FRAME:AddMessage(CHANGEME_Questie4_ItemDB[objectiveDB.Id][1][])
-                            local item = QuestieDB:GetItem(objectiveDB.Id);
-                            if(item and item.name) then
-                                oName = slower(item.name);-- this is capital letters for some reason...
+                            local item = QuestieDB.QueryItemSingle(objectiveDB.Id, "name");
+                            if(item) then
+                                oName = slower(item);-- this is capital letters for some reason...
                             else
                                 local itemName = GetItemInfo(objectiveDB.Id)
                                 if(itemName) then
@@ -1181,9 +1181,9 @@ function QuestieQuest:GetAllQuestObjectives(quest)
                             objective.Description = npc.name
                         end
                     elseif objective.Type == "item" then
-                        local item = QuestieDB:GetItem(objective.Id);
-                        if item and item.name then
-                            objective.Description = item.name
+                        local item = QuestieDB.QueryItemSingle(objective.Id, "name");
+                        if item then
+                            objective.Description = item
                         end
                     elseif objective.Type == "event" then
                         objective.Description = "Event Trigger"

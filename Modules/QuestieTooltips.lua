@@ -493,13 +493,13 @@ function QuestieTooltips:QuestLinks(link)
                         ItemRefTooltip:AddLine("|cFFffffff - "..quest.ObjectiveData[i].Text.."|r",1,1,1) --white
 
                     else
-                        local itemId = QuestieDB:GetItem(quest.ObjectiveData[i].Id)
-                        if itemId then
+                        local name = QuestieDB.QueryItemSingle(quest.ObjectiveData[i].Id, "name")--QuestieDB:GetItem(quest.ObjectiveData[i].Id)
+                        if name then
                             if quest.ObjectiveData[i] == quest.ObjectiveData[1] then
                                 ItemRefTooltip:AddLine(" ")
                                 ItemRefTooltip:AddLine("|cFFffd100"..QuestieLocale:GetUIString("TOOLTIPS_REQUIRE_QUEST")..":|r",1,1,1) --default gold
                             end
-                            ItemRefTooltip:AddLine("|cFFffffff - "..itemId.name.."|r",1,1,1) --white
+                            ItemRefTooltip:AddLine("|cFFffffff - "..name.."|r",1,1,1) --white
                         end
                     end
                 end

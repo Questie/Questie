@@ -1153,35 +1153,35 @@ function QuestieItemFixes:Load()
 end
 
 -- some quest items are shared across factions but require different sources for each faction (not sure if there is a better way to implement this)
-function QuestieItemFixes:LoadFactionFixes()
+function QuestieItemFixes:LoadFactionFixes() -- drop rate is non-optional for faction fixes as they are loaded post-db compile. They are still optional for normal item corrections
     local itemKeys = QuestieDB.itemKeys
 
     local itemFixesHorde = {
         [15882] = {
-            [itemKeys.objectDrops] = {177790},
+            [itemKeys.objectDrops] = {{177790, 100}},
         },
         [15883] = {
-            [itemKeys.objectDrops] = {177794},
+            [itemKeys.objectDrops] = {{177794, 100}},
         },
         [3713] = {
             [itemKeys.name] = "Soothing Spices",
             [itemKeys.relatedQuests] = {7321,1218,},
-            [itemKeys.npcDrops] = {2397,8307},
+            [itemKeys.npcDrops] = {{2397, 100},{8307, 100}},
             [itemKeys.objectDrops] = {},
         },
     }
 
     local itemFixesAlliance = {
         [15882] = {
-            [itemKeys.objectDrops] = {177844},
+            [itemKeys.objectDrops] = {{177844, 100}},
         },
         [15883] = {
-            [itemKeys.objectDrops] = {177792},
+            [itemKeys.objectDrops] = {{177792, 100}},
         },
         [3713] = {
             [itemKeys.name] = "Soothing Spices",
             [itemKeys.relatedQuests] = {555,1218,},
-            [itemKeys.npcDrops] = {2381,4897},
+            [itemKeys.npcDrops] = {{2381, 100},{4897, 100}},
             [itemKeys.objectDrops] = {},
         },
     }

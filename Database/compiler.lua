@@ -181,6 +181,22 @@ QuestieDBCompiler.readers = {
 
         return ret
     end,
+    ["droplist"] = function(stream)
+        local ret = {}
+        local count = stream:ReadShort()
+        for i = 1, count do
+            tinsert(ret, {stream:ReadShort(), stream:ReadByte() / 2.55})
+        end
+        return ret
+    end,
+    ["vendorlist"] = function(stream)
+        local ret = {}
+        local count = stream:ReadByte()
+        for i = 1, count do
+            tinsert(ret, {stream:ReadShort(), stream:ReadShort(), stream:ReadShort()})
+        end
+        return ret
+    end
 }
 
 QuestieDBCompiler.writers = {
@@ -366,6 +382,36 @@ QuestieDBCompiler.writers = {
             stream:WriteInt24(0)
             stream:WriteInt24(0)
         end
+    end,
+    ["droplist"] = function(stream, value)
+        if not value then
+            stream:WriteShort(0)
+        else
+            local count = 0 for _ in pairs(value) do count = count + 1 end
+            stream:WriteShort(count)
+            for _, drop in pairs(value) do
+                if type(drop) == "table" then
+                    stream:WriteShort(drop[1])
+                    stream:WriteByte((drop[2] or 100) * 2.55)
+                else -- drop rate not included, so its 100% (standardize the db here)
+                    stream:WriteShort(drop)
+                    stream:WriteByte(255)
+                end
+            end
+        end
+    end,
+    ["vendorlist"] = function(stream, value)
+        if not value then
+            stream:WriteByte(0)
+        else
+            local count = 0 for _ in pairs(value) do count = count + 1 end
+            stream:WriteByte(count)
+            for _, drop in pairs(value) do
+                stream:WriteShort(drop[1])
+                stream:WriteShort(drop[2] or 1)
+                stream:WriteShort(drop[3] or 0)
+            end
+        end
     end
 }
 
@@ -383,6 +429,8 @@ QuestieDBCompiler.skippers = {
     ["u8u16array"] = function(stream) stream._pointer = stream:ReadByte() * 2 + stream._pointer end,
     ["u16u16array"] = function(stream) stream._pointer = stream:ReadShort() * 2 + stream._pointer end,
     ["u8u24array"] = function(stream) stream._pointer = stream:ReadByte() * 3 + stream._pointer end,
+    ["droplist"] = function(stream) stream._pointer = stream:ReadShort() * 3 + stream._pointer end,
+    ["vendorlist"] = function(stream) stream._pointer = stream:ReadByte() * 6 + stream._pointer end,
     ["u8u16stringarray"] = function(stream) 
         local count = stream:ReadByte()
         for i=1,count do
@@ -436,7 +484,9 @@ QuestieDBCompiler.dynamics = {
     ["trigger"] = true, 
     ["objective"] = true,
     ["objectives"] = true,
-    ["questgivers"] = true
+    ["questgivers"] = true,
+    ["droplist"] = true,
+    ["vendorlist"] = true
 }
 
 QuestieDBCompiler.statics = {
@@ -559,6 +609,7 @@ function QuestieDBCompiler:CompileTableTicking(tbl, types, order, lookup, after)
             for _, key in pairs(order) do
                 QuestieDBCompiler.writers[types[key]](QuestieDBCompiler.stream, entry[lookup[key]])
             end
+            tbl[id] = nil -- quicker gabage collection later
         end
     end)
 end

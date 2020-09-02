@@ -72,7 +72,6 @@ QuestieDB.objectDataOverrides = {}
 QuestieDB.questDataOverrides = {}
 
 function QuestieDB:Initialize()
-    _QuestieDB:DeleteGatheringNodes() -- todo: do this before db compile
 
     QuestieDB.QueryNPC = QuestieDBCompiler:GetDBHandle(QuestieConfig.npcBin, QuestieConfig.npcPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder), QuestieDB.npcKeys, QuestieDB.npcDataOverrides)
     QuestieDB.QueryQuest = QuestieDBCompiler:GetDBHandle(QuestieConfig.questBin, QuestieConfig.questPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.questCompilerTypes, QuestieDB.questCompilerOrder), QuestieDB.questKeys, QuestieDB.questDataOverrides)
@@ -130,7 +129,7 @@ function QuestieDB:GetObject(objectId)
 end
 
 function QuestieDB:GetItem(itemId)
-    if itemId == nil  or itemId == 0 then
+    if itemId == nil or itemId == 0 then
         return nil
     end
     if _QuestieDB.itemCache[itemId] ~= nil then
@@ -155,19 +154,19 @@ function QuestieDB:GetItem(itemId)
     item.Id = itemId;
     item.Sources = {};
     item.Hidden = QuestieCorrections.questItemBlacklist[itemId]
-    if rawdata[3] then
-        for _, v in pairs(rawdata[3]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
+    if rawdata[QuestieDB.itemKeys.npcDrops] then
+        for _, v in pairs(rawdata[QuestieDB.itemKeys.npcDrops]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
             local source = {};
             source.Type = "monster";
-            source.Id = v;
+            source.Id = v[1];
             tinsert(item.Sources, source);
         end
     end
-    if rawdata[4] then
-        for _, v in pairs(rawdata[4]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
+    if rawdata[QuestieDB.itemKeys.objectDrops] then
+        for _, v in pairs(rawdata[QuestieDB.itemKeys.objectDrops]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
             local source = {};
             source.Type = "object";
-            source.Id = v;
+            source.Id = v[1];
             tinsert(item.Sources, source);
         end
     end

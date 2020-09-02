@@ -165,6 +165,7 @@ _PLAYER_LOGIN = function()
         Questie.minimapConfigIcon:Hide("Questie") -- prevent opening journey / settings while compiling
         C_Timer.After(4, function()
             print(QuestieLocale:GetUIString("\124cFFAAEEFFQuestie DB has updated!\124r\124cFFFF6F22 Data is being processed, this may take a few moments and cause some lag..."))
+            QuestieDB.private:DeleteGatheringNodes()
             QuestieCorrections:PreCompile(function()
                 QuestieDBCompiler:Compile(function()
                     stage1()
