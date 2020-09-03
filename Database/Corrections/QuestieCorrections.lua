@@ -139,7 +139,6 @@ end
 
 function QuestieCorrections:OptimizeWaypoints(waypoints)
     local newWaypointZones = {}
-    __way = waypoints
     for zone, waypointList in pairs(waypoints) do
         local newWaypointList = {}
         if waypointList[1] and type(waypointList[1][1]) == "number" then
