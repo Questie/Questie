@@ -792,22 +792,22 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
                         end
                         --if maxPerType > 0 and maxCount > maxPerType then break; end
                     end
-
+                    local iconMap, iconMini = nil, nil
                     if spawnData.Waypoints then
                         for zone, waypointsList in pairs(spawnData.Waypoints) do
-                            local iconMap, iconMini = QuestieMap:DrawWorldIcon(spawnData, zone, x, y)
-                            if iconMap and iconMini then
-                                iconMini:Unload() -- hack: refactor this later to use one of the spawn icons (is unloading immediately safe with draw queue?)
-                                for _, waypoints in pairs(waypointsList) do
-                                    if #waypoints > 0 then
-                                        local x, y = unpack(waypoints[1])
-                                        if x == -1 and y == -1 then
-                                            break -- inside a dungeon
-                                        end
-                                        
-                                        QuestieMap:DrawWaypoints(iconMap, waypoints, zone, x, y)
-                                        tinsert(Objective.AlreadySpawned[spawnData.Id].mapRefs, iconMap)
+                            for _, waypoints in pairs(waypointsList) do
+                                if #waypoints > 0 then
+                                    if not iconMap then
+                                        local iconMap, iconMini = QuestieMap:DrawWorldIcon(spawnData, zone, x, y)
+                                        iconMini:Unload() -- hack: refactor this later to use one of the spawn icons (is unloading immediately safe with draw queue?)
                                     end
+                                    local x, y = unpack(waypoints[1])
+                                    if x == -1 and y == -1 then
+                                        break -- inside a dungeon
+                                    end
+                                    
+                                    QuestieMap:DrawWaypoints(iconMap, waypoints, zone, x, y)
+                                    tinsert(Objective.AlreadySpawned[spawnData.Id].mapRefs, iconMap)
                                 end
                             end
                         end
