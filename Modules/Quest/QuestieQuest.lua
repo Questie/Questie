@@ -178,7 +178,8 @@ local function _UpdateSpecials(questId)
     local quest = QuestieDB:GetQuest(questId)
     if quest and quest.SpecialObjectives then
         for _, objective in pairs(quest.SpecialObjectives) do
-            local result, err = xpcall(QuestieQuest.PopulateObjective, function() 
+            local result, err = xpcall(QuestieQuest.PopulateObjective, function(err)
+                print(err)
                 print(debugstack())
             end, QuestieQuest, quest, 0, objective, true);
             if not result then
@@ -553,7 +554,8 @@ function QuestieQuest:UpdateObjectiveNotes(quest)
     Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: UpdateObjectiveNotes:", quest.Id)
     if quest.Objectives then
         for k, v in pairs(quest.Objectives) do
-            local result, err = xpcall(QuestieQuest.PopulateObjective, function() 
+            local result, err = xpcall(QuestieQuest.PopulateObjective, function(err)
+                print(err)
                 print(debugstack())
             end,QuestieQuest, quest, k, v);
             if not result then
@@ -792,25 +794,6 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
                         end
                         --if maxPerType > 0 and maxCount > maxPerType then break; end
                     end
-                    local iconMap, iconMini = nil, nil
-                    if spawnData.Waypoints then
-                        for zone, waypointsList in pairs(spawnData.Waypoints) do
-                            for _, waypoints in pairs(waypointsList) do
-                                if #waypoints > 0 then
-                                    local x, y = unpack(waypoints[1])
-                                    if x == -1 and y == -1 then
-                                        break -- inside a dungeon
-                                    end
-                                    if not iconMap then
-                                        local iconMap, iconMini = QuestieMap:DrawWorldIcon(spawnData, zone, x, y)
-                                        iconMini:Unload() -- hack: refactor this later to use one of the spawn icons (is unloading immediately safe with draw queue?)
-                                    end
-                                    QuestieMap:DrawWaypoints(iconMap, waypoints, zone, x, y)
-                                    tinsert(Objective.AlreadySpawned[spawnData.Id].mapRefs, iconMap)
-                                end
-                            end
-                        end
-                    end
                 end
             elseif completed and Objective.AlreadySpawned then -- unregister notes
                 for _, spawn in pairs(Objective.AlreadySpawned) do
@@ -826,6 +809,7 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
             end
         end
         local spawnedIcons = {}
+        local iconPerZone = {} -- used by waypoint logic
         for questId, icons in pairs(iconsToDraw) do
             if(not spawnedIcons[questId]) then
                 spawnedIcons[questId] = 0;
@@ -879,6 +863,7 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
 
                         local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, icon.zone, midPoint.x, midPoint.y) -- clustering code takes care of duplicates as long as mindist is more than 0
                         if iconMap and iconMini then
+                            iconPerZone[icon.zone] = {iconMap, midPoint.x, midPoint.y}
                             tinsert(Objective.AlreadySpawned[icon.AlreadySpawnedId].mapRefs, iconMap);
                             tinsert(Objective.AlreadySpawned[icon.AlreadySpawnedId].minimapRefs, iconMini);
                         end
@@ -892,10 +877,24 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
 
                 local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, icon.zone, midPoint.x, midPoint.y) -- clustering code takes care of duplicates as long as mindist is more than 0
                 if iconMap and iconMini then
+                    iconPerZone[icon.zone] = {iconMap, midPoint.x, midPoint.y}
                     tinsert(Objective.AlreadySpawned[icon.AlreadySpawnedId].mapRefs, iconMap);
                     tinsert(Objective.AlreadySpawned[icon.AlreadySpawnedId].minimapRefs, iconMini);
                 end
                 spawnedIcons[questId] = spawnedIcons[questId] + 1;
+            end
+        end
+        for id, spawnData in pairs(Objective.spawnList) do -- spawnData.Name, spawnData.Spawns
+            if spawnData.Waypoints then
+                for zone, waypointsList in pairs(spawnData.Waypoints) do
+                    if iconPerZone[zone] then
+                        for _, waypoints in pairs(waypointsList) do
+                            if #waypoints > 0 then
+                               QuestieMap:DrawWaypoints(iconPerZone[zone][1], {waypoints}, zone, iconPerZone[zone][2], iconPerZone[zone][3])
+                            end
+                        end
+                    end
+                end
             end
         end
         if not hasSpawnHack then-- used to check if we have bad data due to API delay. Remove this check once the API bug is dealt with properly
@@ -910,7 +909,8 @@ end
 local function _CallPopulateObjective(quest)
     for k, v in pairs(quest.Objectives) do
         SelectQuestLogEntry(v.Index)
-        local result, err = xpcall(QuestieQuest.PopulateObjective, function() 
+        local result, err = xpcall(QuestieQuest.PopulateObjective, function(err)
+            print(err)
             print(debugstack())
         end, QuestieQuest, quest, k, v, false);
         if not result then
@@ -972,7 +972,8 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
         Questie:Debug(DEBUG_DEVELOP, "Adding special objectives")
         local index = 0 -- SpecialObjectives is a string table, but we need a number
         for _, objective in pairs(quest.SpecialObjectives) do
-            local result, err = xpcall(QuestieQuest.PopulateObjective, function() 
+            local result, err = xpcall(QuestieQuest.PopulateObjective, function(err)
+                print(err)
                 print(debugstack())
             end, QuestieQuest, quest, index, objective, true);
             if not result then
