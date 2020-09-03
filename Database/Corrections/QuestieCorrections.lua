@@ -135,40 +135,50 @@ local function euclid(x, y, i, e)
     return math.sqrt(xd * xd + yd * yd)
 end
 
+
+
 function QuestieCorrections:OptimizeWaypoints(waypoints)
     local newWaypointZones = {}
-    for zone, waypoints in pairs(waypoints) do
-        -- apply RDP algorithm
-        local minDist = WAYPOINT_MIN_DISTANCE * (ZONE_SCALES[zone] or 1)
-        newWaypoints = QuestieCorrections:RamerDouglasPeucker(waypoints, 0.1, true)
+    __way = waypoints
+    for zone, waypointList in pairs(waypoints) do
+        local newWaypointList = {}
+        if waypointList[1] and type(waypointList[1][1]) == "number" then
+            waypointList = {waypointList} -- corrections support both {{x,y}, ...} and {{{x,y}, ...}, {{x,y}, ...}, ...}
+        end
+        for _, waypoints in pairs(waypointList) do
+            -- apply RDP algorithm
+            local minDist = WAYPOINT_MIN_DISTANCE * (ZONE_SCALES[zone] or 1)
+            local newWaypoints = QuestieCorrections:RamerDouglasPeucker(waypoints, 0.1, true)
 
-        waypoints = newWaypoints
-        newWaypoints = {}
+            waypoints = newWaypoints
+            newWaypoints = {}
 
-        -- subdivide waypoints where needed
-        -- We do this because the clickable area of waypoint lines can only be a square, so lines need to be broken up in some places
-        local lastWay = nil
-        for _, way in pairs(waypoints) do
-            if lastWay then
-                local dist = euclid(way[1], way[2], lastWay[1], lastWay[2]) 
-                if dist > minDist then
-                    local divs = math.ceil(dist/minDist)
-                    for i=1,divs do
-                        local mul0 = i/divs
-                        local mul1 = 1-mul0
-                        tinsert(newWaypoints, {way[1] * mul0 + lastWay[1] * mul1, way[2] * mul0 + lastWay[2] * mul1})
+            -- subdivide waypoints where needed
+            -- We do this because the clickable area of waypoint lines can only be a square, so lines need to be broken up in some places
+            local lastWay = nil
+            for _, way in pairs(waypoints) do
+                if lastWay then
+                    local dist = euclid(way[1], way[2], lastWay[1], lastWay[2])
+                    if dist > minDist then
+                        local divs = math.ceil(dist/minDist)
+                        for i=1,divs do
+                            local mul0 = i/divs
+                            local mul1 = 1-mul0
+                            tinsert(newWaypoints, {way[1] * mul0 + lastWay[1] * mul1, way[2] * mul0 + lastWay[2] * mul1})
+                        end
+                    else
+                        tinsert(newWaypoints, way)
                     end
                 else
                     tinsert(newWaypoints, way)
                 end
-            else
-                tinsert(newWaypoints, way)
+                
+                lastWay = way
             end
-            
-            lastWay = way
+            tinsert(newWaypointList, newWaypoints)
         end
-
-        newWaypointZones[zone] = newWaypoints
+        newWaypointZones[zone] = newWaypointList
+    
     end
     return newWaypointZones
 end

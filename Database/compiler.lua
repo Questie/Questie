@@ -181,22 +181,30 @@ QuestieDBCompiler.readers = {
 
         return ret
     end,
-    ["droplist"] = function(stream)
-        local ret = {}
-        local count = stream:ReadShort()
-        for i = 1, count do
-            tinsert(ret, {stream:ReadShort(), stream:ReadByte() / 2.55})
-        end
-        return ret
-    end,
-    ["vendorlist"] = function(stream)
-        local ret = {}
+    ["waypointlist"] = function(stream)
         local count = stream:ReadByte()
+        local waypointlist = {}
         for i = 1, count do
-            tinsert(ret, {stream:ReadShort(), stream:ReadShort(), stream:ReadShort()})
+            local lists = {}
+            local zone = stream:ReadShort()
+            local listCount = stream:ReadByte()
+            for e = 1, listCount do
+                local spawnCount = stream:ReadShort()
+                local list = {}
+                for e = 1, spawnCount do
+                    local x, y = stream:ReadInt12Pair()
+                    if x == 0 and y == 0 then
+                        tinsert(list, {-1, -1})
+                    else
+                        tinsert(list, {x / 40.90, y / 40.90}) 
+                    end
+                end
+                tinsert(lists, list)
+            end
+            waypointlist[zone] = lists
         end
-        return ret
-    end
+        return waypointlist
+    end,
 }
 
 QuestieDBCompiler.writers = {
@@ -383,34 +391,29 @@ QuestieDBCompiler.writers = {
             stream:WriteInt24(0)
         end
     end,
-    ["droplist"] = function(stream, value)
-        if not value then
-            stream:WriteShort(0)
-        else
-            local count = 0 for _ in pairs(value) do count = count + 1 end
-            stream:WriteShort(count)
-            for _, drop in pairs(value) do
-                if type(drop) == "table" then
-                    stream:WriteShort(drop[1])
-                    stream:WriteByte((drop[2] or 100) * 2.55)
-                else -- drop rate not included, so its 100% (standardize the db here)
-                    stream:WriteShort(drop)
-                    stream:WriteByte(255)
-                end
-            end
-        end
-    end,
-    ["vendorlist"] = function(stream, value)
-        if not value then
-            stream:WriteByte(0)
-        else
+    ["waypointlist"] = function(stream, value)
+        if value then
             local count = 0 for _ in pairs(value) do count = count + 1 end
             stream:WriteByte(count)
-            for _, drop in pairs(value) do
-                stream:WriteShort(drop[1])
-                stream:WriteShort(drop[2] or 1)
-                stream:WriteShort(drop[3] or 0)
+            for zone, spawnlists in pairs(value) do
+                stream:WriteShort(zone)
+                count = 0 for _ in pairs(spawnlists) do count = count + 1 end
+                stream:WriteByte(count)
+                for _, spawnlist in pairs(spawnlists) do
+                    count = 0 for _ in pairs(spawnlist) do count = count + 1 end
+                    stream:WriteShort(count)
+                    for _, spawn in pairs(spawnlist) do
+                        if spawn[1] == -1 and spawn[2] == -1 then -- instance spawn
+                            stream:WriteInt24(0) -- 0 instead
+                        else
+                            stream:WriteInt12Pair(math.floor(spawn[1] * 40.90), math.floor(spawn[2] * 40.90))
+                        end
+                    end
+                end
             end
+        else
+            --print("Missing spawnlist for " .. QuestieDBCompiler.currentEntry)
+            stream:WriteByte(0)
         end
     end
 }
@@ -429,8 +432,16 @@ QuestieDBCompiler.skippers = {
     ["u8u16array"] = function(stream) stream._pointer = stream:ReadByte() * 2 + stream._pointer end,
     ["u16u16array"] = function(stream) stream._pointer = stream:ReadShort() * 2 + stream._pointer end,
     ["u8u24array"] = function(stream) stream._pointer = stream:ReadByte() * 3 + stream._pointer end,
-    ["droplist"] = function(stream) stream._pointer = stream:ReadShort() * 3 + stream._pointer end,
-    ["vendorlist"] = function(stream) stream._pointer = stream:ReadByte() * 6 + stream._pointer end,
+    ["waypointlist"]  = function(stream)
+        local count = stream:ReadByte()
+        for i = 1, count do
+            stream._pointer = stream._pointer + 2
+            local listCount = stream:ReadByte()
+            for e = 1, listCount do
+                stream._pointer = stream:ReadShort() * 3 + stream._pointer
+            end
+        end
+    end,
     ["u8u16stringarray"] = function(stream) 
         local count = stream:ReadByte()
         for i=1,count do
@@ -485,8 +496,7 @@ QuestieDBCompiler.dynamics = {
     ["objective"] = true,
     ["objectives"] = true,
     ["questgivers"] = true,
-    ["droplist"] = true,
-    ["vendorlist"] = true
+    ["waypointlist"] = true,
 }
 
 QuestieDBCompiler.statics = {

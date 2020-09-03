@@ -264,17 +264,20 @@ function QuestieFramePool:CreateWaypoints(iconFrame, waypointTable, lineWidth, c
     local lWidth = lineWidth or 1.5;
     local col = color or _QuestieFramePool.wayPointColor
 
-    for _, waypoint in pairs(waypointTable) do
-        if (lastPos == nil) then
-            lastPos = waypoint;
-        else
-            local lineFrame = QuestieFramePool:CreateLine(iconFrame, lastPos[1], lastPos[2], waypoint[1], waypoint[2], lWidth, col)
-            tinsert(lineFrameList, lineFrame);
-            lastPos = waypoint;
+    for _, waypointSubtable in pairs(waypointTable) do
+        lastPos = nil
+        for _, waypoint in pairs(waypointSubtable) do
+            if (lastPos == nil) then
+                lastPos = waypoint;
+            else
+                local lineFrame = QuestieFramePool:CreateLine(iconFrame, lastPos[1], lastPos[2], waypoint[1], waypoint[2], lWidth, col)
+                tinsert(lineFrameList, lineFrame);
+                lastPos = waypoint;
+            end
         end
     end
-    local lineFrame = QuestieFramePool:CreateLine(iconFrame, lastPos[1], lastPos[2], waypointTable[1][1], waypointTable[1][2], lWidth, col)
-    tinsert(lineFrameList, lineFrame);
+    --local lineFrame = QuestieFramePool:CreateLine(iconFrame, lastPos[1], lastPos[2], waypointTable[1][1], waypointTable[1][2], lWidth, col)
+    --tinsert(lineFrameList, lineFrame);
     return lineFrameList;
 end
 
