@@ -439,12 +439,12 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
     if type(data) ~= "table" then
         error("Questie"..": AddWorldMapIconMap: must have some data")
     end
-    if type(areaID) ~= "number" or type(x) ~= "number" or type(y) ~= "number" then
-        error("Questie"..": AddWorldMapIconMap: 'AreaID', 'x' and 'y' must be numbers "..areaID.." "..x.." "..y.." "..showFlag)
-    end
-    if type(data.Id) ~= "number" or type(data.Id) ~= "number"then
-        error("Questie".."Data.Id must be set to the quests ID!")
-    end
+    --if type(areaID) ~= "number" or type(x) ~= "number" or type(y) ~= "number" then
+    --    error("Questie"..": AddWorldMapIconMap: 'AreaID', 'x' and 'y' must be numbers "..areaID.." "..x.." "..y.." "..tostring(showFlag))
+    --end
+    --if type(data.Id) ~= "number" or type(data.Id) ~= "number"then
+    --    error("Questie".."Data.Id must be set to the quests ID!")
+    --end
 
     local uiMapId = ZoneDB:GetUiMapIdByAreaId(areaID)
     if (not uiMapId) then
