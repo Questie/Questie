@@ -178,7 +178,9 @@ local function _UpdateSpecials(questId)
     local quest = QuestieDB:GetQuest(questId)
     if quest and quest.SpecialObjectives then
         for _, objective in pairs(quest.SpecialObjectives) do
-            local result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, quest, 0, objective, true);
+            local result, err = xpcall(QuestieQuest.PopulateObjective, function() 
+                print(debugstack())
+            end, QuestieQuest, quest, 0, objective, true);
             if not result then
                 Questie:Error("[QuestieQuest]: [SpecialObjectives] ".. QuestieLocale:GetUIString("DEBUG_POPULATE_ERR", quest.name or "No quest name", quest.Id or "No quest id", 0 or "No objective", err or "No error"));
             end
@@ -551,7 +553,9 @@ function QuestieQuest:UpdateObjectiveNotes(quest)
     Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: UpdateObjectiveNotes:", quest.Id)
     if quest.Objectives then
         for k, v in pairs(quest.Objectives) do
-            local result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, quest, k, v);
+            local result, err = xpcall(QuestieQuest.PopulateObjective, function() 
+                print(debugstack())
+            end,QuestieQuest, quest, k, v);
             if not result then
                 Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString("DEBUG_POP_ERROR", quest.name, quest.Id, k, err));
             end
@@ -907,7 +911,9 @@ end
 local function _CallPopulateObjective(quest)
     for k, v in pairs(quest.Objectives) do
         SelectQuestLogEntry(v.Index)
-        local result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, quest, k, v, false);
+        local result, err = xpcall(QuestieQuest.PopulateObjective, function() 
+            print(debugstack())
+        end, QuestieQuest, quest, k, v, false);
         if not result then
             local major, minor, patch = QuestieLib:GetAddonVersionInfo();
             local version = "v"..(major or "").."."..(minor or "").."."..(patch or "");--Doing it this way to keep it 100% safe.
@@ -967,7 +973,9 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
         Questie:Debug(DEBUG_DEVELOP, "Adding special objectives")
         local index = 0 -- SpecialObjectives is a string table, but we need a number
         for _, objective in pairs(quest.SpecialObjectives) do
-            local result, err = pcall(QuestieQuest.PopulateObjective, QuestieQuest, quest, index, objective, true);
+            local result, err = xpcall(QuestieQuest.PopulateObjective, function() 
+                print(debugstack())
+            end, QuestieQuest, quest, index, objective, true);
             if not result then
                 Questie:Error("[QuestieQuest]: [SpecialObjectives] ".. QuestieLocale:GetUIString("DEBUG_POPULATE_ERR", quest.name or "No quest name", quest.Id or "No quest id", 0 or "No objective", err or "No error"));
             end
