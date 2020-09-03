@@ -158,7 +158,7 @@ function QuestieDB:GetItem(itemId)
         for _, v in pairs(rawdata[QuestieDB.itemKeys.npcDrops]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
             local source = {};
             source.Type = "monster";
-            source.Id = v[1];
+            source.Id = v;
             tinsert(item.Sources, source);
         end
     end
@@ -166,7 +166,7 @@ function QuestieDB:GetItem(itemId)
         for _, v in pairs(rawdata[QuestieDB.itemKeys.objectDrops]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
             local source = {};
             source.Type = "object";
-            source.Id = v[1];
+            source.Id = v;
             tinsert(item.Sources, source);
         end
     end
