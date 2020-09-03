@@ -886,13 +886,9 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
         end
         for id, spawnData in pairs(Objective.spawnList) do -- spawnData.Name, spawnData.Spawns
             if spawnData.Waypoints then
-                for zone, waypointsList in pairs(spawnData.Waypoints) do
+                for zone, waypoints in pairs(spawnData.Waypoints) do
                     if iconPerZone[zone] then
-                        for _, waypoints in pairs(waypointsList) do
-                            if #waypoints > 0 then
-                               QuestieMap:DrawWaypoints(iconPerZone[zone][1], {waypoints}, zone, iconPerZone[zone][2], iconPerZone[zone][3])
-                            end
-                        end
+                        QuestieMap:DrawWaypoints(iconPerZone[zone][1], waypoints, zone, iconPerZone[zone][2], iconPerZone[zone][3])
                     end
                 end
             end

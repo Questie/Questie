@@ -358,6 +358,15 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     line.dA = color[4];
     line:SetColorTexture(color[1],color[2],color[3],color[4]);
 
+    local lineBorder = lineFrame.lineBorder or lineFrame:CreateLine();
+    lineFrame.lineBorder = lineBorder;
+
+    lineBorder.dR = color[1];
+    lineBorder.dG = color[2];
+    lineBorder.dB = color[3];
+    lineBorder.dA = color[4];
+    lineBorder:SetColorTexture(0,0,0,color[4]/2);
+
     -- Set texture coordinates and anchors
     --line:ClearAllPoints();
 
@@ -381,6 +390,12 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     line:SetStartPoint("TOPLEFT", startX - framePosX, startY - framePosY)
     line:SetEndPoint("TOPLEFT", endX - framePosX, endY - framePosY)
     line:SetThickness(lineWidth);
+
+    lineBorder:SetDrawLayer("OVERLAY", -6)
+    lineBorder:SetStartPoint("TOPLEFT", startX - framePosX, startY - framePosY)
+    lineBorder:SetEndPoint("TOPLEFT", endX - framePosX, endY - framePosY)
+    lineBorder:SetThickness(lineWidth+2);
+
 
 
     lineFrame:EnableMouse(true)
