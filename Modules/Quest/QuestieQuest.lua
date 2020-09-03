@@ -797,15 +797,14 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
                         for zone, waypointsList in pairs(spawnData.Waypoints) do
                             for _, waypoints in pairs(waypointsList) do
                                 if #waypoints > 0 then
-                                    if not iconMap then
-                                        local iconMap, iconMini = QuestieMap:DrawWorldIcon(spawnData, zone, x, y)
-                                        iconMini:Unload() -- hack: refactor this later to use one of the spawn icons (is unloading immediately safe with draw queue?)
-                                    end
                                     local x, y = unpack(waypoints[1])
                                     if x == -1 and y == -1 then
                                         break -- inside a dungeon
                                     end
-                                    
+                                    if not iconMap then
+                                        local iconMap, iconMini = QuestieMap:DrawWorldIcon(spawnData, zone, x, y)
+                                        iconMini:Unload() -- hack: refactor this later to use one of the spawn icons (is unloading immediately safe with draw queue?)
+                                    end
                                     QuestieMap:DrawWaypoints(iconMap, waypoints, zone, x, y)
                                     tinsert(Objective.AlreadySpawned[spawnData.Id].mapRefs, iconMap)
                                 end
