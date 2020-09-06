@@ -813,14 +813,14 @@ function QuestieMap:GetNearestQuestSpawn(quest)
     return bestSpawn, bestSpawnZone, bestSpawnName, bestSpawnId, bestSpawnType, bestDistance
 end
 
-QuestieMap.zoneWaypointColorOverrides = { -- this is used when the default orange color doesn't work well in specific zones
-    [14] = {0,0.1,0.9,0.7}, -- durotar
-    [38] = {0,0.1,0.9,0.7} -- loch modan
+QuestieMap.zoneWaypointColorOverrides = { -- this is used when the default orange color doesn't work well in specific zones. Not needed after 769ea832ff772b10c57351eb199348393625a99b
+--    [14] = {0,0.1,0.9,0.7}, -- durotar
+--    [38] = {0,0.1,0.9,0.7} -- loch modan
 }
 
 QuestieMap.zoneWaypointHoverColorOverrides = {
-    [14] = {0,0.6,1,1}, -- durotar
-    [38] = {0,0.6,1,1} -- loch modan
+--    [14] = {0,0.6,1,1}, -- durotar
+--    [38] = {0,0.6,1,1} -- loch modan
 }
 
 function QuestieMap:DrawWaypoints(icon, waypoints, zone, x, y, color)
