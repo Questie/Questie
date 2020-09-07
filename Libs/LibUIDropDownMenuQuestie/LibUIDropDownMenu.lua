@@ -856,11 +856,11 @@ function LQuestie_UIDropDownMenu_AddButton(info, level)
 	end
 
 	displayInfo:ClearAllPoints();
-	if ( info.notCheckable ) then
+	if ( info.notCheckable == nil or info.notCheckable == true ) then
 		if ( info.justifyH and info.justifyH == "CENTER" ) then
-			displayInfo:SetPoint("CENTER", button, "CENTER", -7, 0);
+			displayInfo:SetPoint("CENTER", button, "CENTER", 2, 0);
 		else
-			displayInfo:SetPoint("LEFT", button, "LEFT", 0, 0);
+			displayInfo:SetPoint("LEFT", button, "LEFT", 9, 0);
 		end
 		xPos = xPos + 10;
 
