@@ -902,7 +902,7 @@ function LQuestie_UIDropDownMenu_AddButton(info, level)
 		end
 	end
 
-	if not info.notCheckable then 
+	if info.notCheckable == false then
 		local check = _G[listFrameName.."Button"..index.."Check"];
 		local uncheck = _G[listFrameName.."Button"..index.."UnCheck"];
 		if ( info.disabled ) then
