@@ -164,6 +164,10 @@ _PLAYER_LOGIN = function()
     end
 
     if QuestieConfig.dbIsCompiled then -- todo: check for updates or language change and recompile
+        if not Questie.db.char.townsfolk then
+            -- we havent compiled townsfolk on this character
+            QuestieCorrections:PopulateTownsfolk()
+        end
         C_Timer.After(1, stage1)
         C_Timer.After(4, stage2)
     else
