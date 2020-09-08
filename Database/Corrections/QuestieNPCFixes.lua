@@ -2627,7 +2627,7 @@ function QuestieNPCFixes:LoadFactionFixes()
                 [zoneIDs.MOONGLADE]={{36.58,58.1},{36.3,58.53},},
                 [zoneIDs.DARNASSUS]={{31.56,13.69},},
             },
-            [npcKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH19,
+            [npcKeys.zoneID] = zoneIDs.STORMWIND_CITY,
         },
         [16788] = {
             [npcKeys.spawns] = {
