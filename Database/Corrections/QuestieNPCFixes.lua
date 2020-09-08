@@ -801,7 +801,7 @@ function QuestieNPCFixes:Load()
         },
         [6569] = {
             [npcKeys.spawns] = {[zoneIDs.IRONFORGE]={{69.5,50.6},},}, -- #708
-            [npcKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH37, -- #708
+            [npcKeys.zoneID] = zoneIDs.IRONFORGE, -- #708
         },
         [6575] = {
             [npcKeys.name] = "Scarlet Trainee",
