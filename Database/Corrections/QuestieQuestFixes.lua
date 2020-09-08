@@ -332,6 +332,9 @@ function QuestieQuestFixes:Load()
         [793] = {
             [questKeys.requiredSourceItems] = {4843,4844,4845,},
         },
+        [809] = {
+            [questKeys.triggerEnd] = {"Destroy the Demon Seed", {[zoneIDs.THE_BARRENS]={{62.34,20.07},},},}, -- #2347
+        },
         [819] = {
             [questKeys.startedBy] = {nil,{3238},{4926,},},
         },
