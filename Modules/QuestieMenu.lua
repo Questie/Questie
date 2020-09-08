@@ -16,7 +16,8 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local _townsfolk_texturemap = {
     ["Flight Master"] = "Interface\\Minimap\\tracking\\flightmaster",
     ["Class Trainer"] = "Interface\\Minimap\\tracking\\class",
-    ["Stable Master"] = "Interface\\Minimap\\tracking\\stablemaster"
+    ["Stable Master"] = "Interface\\Minimap\\tracking\\stablemaster",
+    ["Spirit Healer"] = QuestieLib.AddonPath.."Icons\\grave.blp"
 }
 
 local function toggle(key) -- /run QuestieLoader:ImportModule("QuestieMap"):ShowNPC(525, nil, 1, "teaste", {}, true)
@@ -70,7 +71,6 @@ function QuestieMenu:OnLogin() -- toggle all icons
     for key in pairs(Questie.db.char.townsfolk) do
         toggle(key)
     end
-    toggle("Spirit Healer")
 end
 
 function QuestieMenu:Show()
@@ -87,7 +87,6 @@ function QuestieMenu:Show()
     for key in pairs(Questie.db.char.townsfolk) do
         tinsert(menuTable, build(key))
     end
-    tinsert(menuTable, {text="Spirit Healer", func = function() end, icon=QuestieLib.AddonPath.."Icons\\grave.blp", notCheckable=false, checked=true, isNotRadio=true, keepShownOnClick=true})
     tinsert(menuTable, {text="Available Quest", func = function() end, icon=QuestieLib.AddonPath.."Icons\\available.blp", notCheckable=false, checked=true, isNotRadio=true, keepShownOnClick=true})
     tinsert(menuTable, {text="Objective", func = function() end, icon=QuestieLib.AddonPath.."Icons\\event.blp", notCheckable=false, checked=true, isNotRadio=true, keepShownOnClick=true})
 
