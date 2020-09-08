@@ -66,6 +66,9 @@ local function build(key)
 end
 
 function QuestieMenu:OnLogin() -- toggle all icons
+    if not Questie.db.char.townsfolkConfig then
+        Questie.db.char.townsfolkConfig = {}
+    end
     for key in pairs(Questie.db.global.townsfolk) do
         toggle(key)
     end
