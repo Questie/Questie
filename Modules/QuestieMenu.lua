@@ -17,7 +17,8 @@ local _townsfolk_texturemap = {
     ["Flight Master"] = "Interface\\Minimap\\tracking\\flightmaster",
     ["Class Trainer"] = "Interface\\Minimap\\tracking\\class",
     ["Stable Master"] = "Interface\\Minimap\\tracking\\stablemaster",
-    ["Spirit Healer"] = QuestieLib.AddonPath.."Icons\\grave.blp"
+    ["Spirit Healer"] = QuestieLib.AddonPath.."Icons\\grave.blp",
+    ["Profession Trainer"] = "Interface\\Minimap\\tracking\\profession",
 }
 
 local function toggle(key) -- /run QuestieLoader:ImportModule("QuestieMap"):ShowNPC(525, nil, 1, "teaste", {}, true)

@@ -269,6 +269,11 @@ function _Qframe:UpdateTexture(texture)
 end
 
 function _Qframe:Unload()
+    if not self._loaded then
+        self._needsUnload = true
+        return -- icon is still in the draw queue
+    end
+    self._needsUnload = nil
     --Questie:Debug(DEBUG_SPAM, "[_Qframe:Unload]")
     self:SetScript("OnUpdate", nil)
     self:SetScript("OnShow", nil)

@@ -238,6 +238,14 @@ function QuestieMap:ProcessQueue()
 
                 QuestieMap.utils:SetDrawOrder(frame);
             end
+            mapDrawCall[2]._loaded = true
+            minimapDrawCall[2]._loaded = true
+            if mapDrawCall[2]._needsUnload then
+                mapDrawCall[2]:Unload()
+            end
+            if minimapDrawCall[2]._needsUnload then
+                minimapDrawCall[2]:Unload()
+            end
         end
     end
 end
