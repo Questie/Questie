@@ -11,6 +11,8 @@ local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions");
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney");
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
+---@type QuestieMenu
+local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
 
 local minimapIconLDB = nil
 
@@ -37,7 +39,7 @@ function QuestieOptionsMinimapIcon:Initialize()
                 if InCombatLockdown() then
                     QuestieOptions:HideFrame()
                 else
-                    QuestieOptions:OpenConfigWindow()
+                    QuestieMenu:Show()--QuestieOptions:OpenConfigWindow()
                 end
 
                 if QuestieJourney:IsShown() then

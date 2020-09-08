@@ -723,7 +723,7 @@ function _QuestieFramePool:QuestieTooltip()
                     questOrder[iconData.CustomTooltipData.Title] = {}
                     tinsert(questOrder[iconData.CustomTooltipData.Title], iconData.CustomTooltipData.Body);
                 elseif iconData.ManualTooltipData then
-                    manualOrder[iconData.ManualTooltipData.Title] = iconData.ManualTooltipData.Body
+                    manualOrder[iconData.ManualTooltipData.Title] = iconData.ManualTooltipData
                 end
             end
         end
@@ -868,7 +868,8 @@ function _QuestieFramePool:QuestieTooltip()
                 end
             end
         end
-        for title, body in pairs(self.manualOrder) do
+        for title, data in pairs(self.manualOrder) do
+            local body = data.Body
             self:AddLine(title)
             for _, stringOrTable in ipairs(body) do
                 local dataType = type(stringOrTable)
@@ -878,7 +879,7 @@ function _QuestieFramePool:QuestieTooltip()
                     self:AddDoubleLine(stringOrTable[1], '|cFFffffff'..stringOrTable[2]..'|r') --normal, white
                 end
             end
-            if self.miniMapIcon == false then
+            if self.miniMapIcon == false and not data.disableShiftToRemove then
                 self:AddLine('|cFFa6a6a6Shift-click to hide|r') -- grey
             end
         end

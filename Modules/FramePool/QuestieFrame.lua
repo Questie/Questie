@@ -165,7 +165,7 @@ function _Qframe:OnClick(button)
         if self.data.Type == "available" and IsShiftKeyDown() then
             StaticPopupDialogs["QUESTIE_CONFIRMHIDE"]:SetQuest(self.data.QuestData.Id)
             StaticPopup_Show ("QUESTIE_CONFIRMHIDE")
-        elseif self.data.Type == "manual" and IsShiftKeyDown() then
+        elseif self.data.Type == "manual" and IsShiftKeyDown() and not self.data.ManualTooltipData.disableShiftToRemove then
             QuestieMap:UnloadManualFrames(self.data.id)
         end
     end

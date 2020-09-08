@@ -71,6 +71,7 @@ Modules\Libs\QuestieHash.lua
 Modules\QuestieTooltips.lua
 Modules\QuestieEventHandler.lua
 Modules\Migration.lua
+Modules\QuestieMenu.lua
 
 #Auto
 Modules\Auto\QuestieAuto.lua

@@ -191,32 +191,26 @@ function QuestieCorrections:UpdateAmmoVendors() -- call on change weapon
     Questie.db.char.townsfolk["Ammo Vendor"] = {}
 end
 
+function QuestieCorrections:PopulateTownsfolkType(mask) -- populate the table with all npc ids based on the given bitmask
+    local tbl = {}
+    for id, data in pairs(QuestieDB.npcData) do
+        flags = data[QuestieDB.npcKeys.npcFlags]
+        if flags and bit.band(flags, mask) == mask then
+            tinsert(tbl, id)
+        end
+    end
+    return tbl
+end
+
 function QuestieCorrections:PopulateTownsfolk()
     Questie.db.global.townsfolk = {
-        ["Repair"] = {
-            54, 74, 78, 167, 190, 222, 225, 226, 228, 789, 793, 836, 896, 945, 954, 956, 959, 980, 981, 984, 1104, 1146, 1147, 1198, 1213, 1214, 1238, 1240, 1243, 1249, 1273, 1287, 1289, 1291, 1294, 1295, 
-            1296, 1297, 1298, 1299, 1309, 1310, 1312, 1314, 1315, 1319, 1320, 1322, 1323, 1324, 1333, 1339, 1341, 1348, 1349, 1350, 1362, 1381, 1407, 1441, 1450, 1454, 1459, 1461, 1462, 1469, 1471, 1645, 
-            1668, 1669, 1686, 1687, 1690, 1695, 1698, 2046, 2113, 2116, 2117, 2135, 2136, 2137, 2482, 2483, 2679, 2839, 2840, 2843, 2844, 2845, 2847, 2849, 2997, 2999, 3000, 3015, 3018, 3019, 3020, 3021, 
-            3022, 3023, 3053, 3073, 3074, 3075, 3077, 3078, 3079, 3080, 3088, 3092, 3093, 3095, 3097, 3159, 3160, 3161, 3162, 3163, 3165, 3166, 3167, 3177, 3314, 3315, 3316, 3317, 3319, 3321, 3322, 3330, 
-            3331, 3343, 3349, 3356, 3359, 3360, 3361, 3409, 3410, 3477, 3479, 3483, 3486, 3488, 3491, 3492, 3493, 3522, 3528, 3529, 3530, 3531, 3532, 3534, 3536, 3537, 3539, 3543, 3552, 3553, 3554, 3588, 
-            3589, 3590, 3591, 3592, 3609, 3610, 3611, 3612, 3613, 3658, 3682, 3683, 3684, 3951, 3952, 3953, 4043, 4085, 4086, 4164, 4171, 4172, 4173, 4175, 4177, 4180, 4183, 4184, 4185, 4186, 4187, 4188, 
-            4203, 4231, 4232, 4233, 4234, 4235, 4236, 4240, 4257, 4259, 4556, 4557, 4558, 4559, 4560, 4569, 4570, 4580, 4592, 4597, 4600, 4601, 4602, 4603, 4604, 4883, 4884, 4886, 4888, 4889, 4890, 4892, 
-            5102, 5103, 5106, 5107, 5108, 5119, 5120, 5121, 5122, 5123, 5125, 5126, 5129, 5133, 5152, 5155, 5156, 5170, 5411, 5508, 5509, 5510, 5512, 5754, 5812, 5816, 5819, 5820, 5821, 6028, 6300, 7852, 
-            7976, 8129, 8131, 8159, 8161, 8176, 8358, 8359, 8360, 8398, 8878, 9179, 9544, 9548, 9549, 9551, 9552, 9553, 9555, 10293, 10361, 10369, 10379, 10380, 10856, 10857, 11137, 11182, 11183, 11184, 
-            11703, 12023, 12024, 12029, 12045, 12777, 12782, 12792, 12799, 12805, 12942, 13216, 13217, 13218, 13219, 14301, 14371, 14581, 14624, 14737, 14753, 14754, 14921, 15126, 15127, 15176, 15315
-        },
-        ["Auctioneer"] = {8661, 8669, 8670, 8671, 8672, 8673, 8674, 8719, 8720, 8721, 8722, 8723, 8724, 9856, 9857, 9858, 9859, 15659, 15675, 15676, 15677, 15678, 15679, 15681, 15682, 15683, 15684, 15686},
-        ["Banker"] = {2455, 2456, 2457, 2458, 2459, 2460, 2461, 2625, 2996, 3309, 3318, 3320, 3496, 4155, 4208, 4209, 4549, 5060, 5099, 7799, 8119, 8123, 8124, 8356, 8357, 13917},
-        ["Battlemaster"] = {347, 857, 907, 2302, 2804, 3890, 5118, 7410, 7427, 10360, 12197, 12198, 14942, 14981, 14982, 14990, 14991, 15006, 15007, 15008, 15102, 15103, 15105, 15106},
-        ["Flight Master"] = {
-            352, 523, 931, 1387, 1571, 1572, 1573, 2226, 2299, 2389, 2409, 2432, 2835, 2851, 2858, 2859, 2861, 2941, 2995, 3305, 3310, 3615, 3838, 3841, 4267, 4312, 4314, 4317, 4319, 4321, 4407, 4551, 6026, 
-            6706, 6726, 7823, 7824, 8018, 8019, 8020, 8609, 8610, 10378, 10583, 10897, 11138, 11139, 11899, 11900, 11901, 12577, 12578, 12596, 12616, 12617, 12636, 12740, 13177, 15177, 15178, 16227
-        },
-        ["Innkeeper"] = {
-            295, 1247, 1464, 2352, 2388, 3934, 5111, 5688, 5814, 6272, 6727, 6734, 6735, 6736, 6737, 6738, 6739, 6740, 6741, 6746, 6747, 6790, 6791, 6807, 6928, 6929, 6930, 7714, 7731, 7733, 7736, 
-            7737, 7744, 8931, 9356, 9501, 11103, 11106, 11116, 11118, 12196, 14731, 15174, 16458
-        },
-        ["Reagent Vendor"] = { -- todo
+        ["Repair"] = QuestieCorrections:PopulateTownsfolkType(16384), 
+        ["Auctioneer"] = QuestieCorrections:PopulateTownsfolkType(4096),
+        ["Banker"] = QuestieCorrections:PopulateTownsfolkType(256),
+        ["Battlemaster"] = QuestieCorrections:PopulateTownsfolkType(2048),
+        ["Flight Master"] = QuestieCorrections:PopulateTownsfolkType(8),
+        ["Innkeeper"] = QuestieCorrections:PopulateTownsfolkType(128),
+        ["Reagents"] = { -- todo
 
         }
     }
@@ -234,12 +228,9 @@ function QuestieCorrections:PopulateTownsfolk()
     }
 
     local _, class = UnitClass("player")
-    Questie.db.char.townsfolk["Class trainer"] = classTrainers[class]
+    Questie.db.char.townsfolk["Class Trainer"] = classTrainers[class]
     if class == "HUNTER" then
-        Questie.db.char.townsfolk["Stable Master"] = {
-            6749, 9976, 9977, 9978, 9979, 9980, 9981, 9982, 9983, 9984, 9985, 9986, 9987, 9988, 9989, 10045, 10046, 10047, 10048, 10049, 10050, 10051, 10052, 10053, 10054, 10055, 10056, 
-            10057, 10058, 10059, 10060, 10061, 10062, 10063, 10085, 11069, 11104, 11105, 11117, 11119, 13616, 13617, 14741, 15131, 15722, 16094
-        }
+        Questie.db.char.townsfolk["Stable Master"] = QuestieCorrections:PopulateTownsfolkType(8192)
         QuestieCorrections:UpdateAmmoVendors()
         QuestieCorrections:UpdatePetFood()
     elseif class == "ROGUE" then
@@ -248,11 +239,34 @@ function QuestieCorrections:PopulateTownsfolk()
         -- portal trainers
     end
 
+
+    Questie.db.char.townsfolk["Mailbox"] = {}
+
+    local faction = UnitFactionGroup("Player")
+
+    for _, id in pairs({
+        32349,142075,142089,142093,142094,142095,142102,142103,142109,142110,142111,142117,142119,143981,143982,143983,
+        143984,143985,143986,143987,143988,143989,143990,144011,144112,144125,144126,144127,144128,144129,144131,153578,
+        153716,157637,163313,163645,164618,164840,171556,171699,171752,173047,173221,176319,176324,176404,177044,178864,
+        179895,179896,180451,181236,181639,187260,188123
+    }) do
+        local factionID = QuestieDB.objectData[id][QuestieDB.objectKeys.factionID]
+        if (factionID == 0 
+                or (faction == "Horde" and bit.band(QuestieDB.factionTemplate[factionID][5], 12) == 0) 
+                or (faction == "Alliance" and bit.band(QuestieDB.factionTemplate[factionID][5], 10) == 0)) then
+            -- friendly to the player
+            tinsert(Questie.db.char.townsfolk["Mailbox"], id)
+        end
+    end
+
+    Questie.db.char.townsfolk["Spirit Healer"] = {}
+
     -- get player professions and add relevant npcs
+    Questie.db.char.townsfolk["Profession Trainer"] = {}
 
 end
 function QuestieCorrections:PreCompile(callback) -- this happens only if we are about to compile the database. Run intensive preprocessing tasks here (like ramer-douglas-peucker)
-    
+
     QuestieCorrections:PopulateTownsfolk()
 
     local timer = nil

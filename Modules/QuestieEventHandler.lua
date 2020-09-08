@@ -41,6 +41,8 @@ local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+---@type QuestieMenu
+local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
 
 --- LOCAL ---
 --False -> true -> nil
@@ -152,6 +154,9 @@ _PLAYER_LOGIN = function()
                 print("|cffff0000-----------------------------|r")
             end)
         end
+
+        QuestieMenu:OnLogin()
+
     end
 
     if QuestieLib:GetAddonVersionString() ~= QuestieConfig.dbCompiledOnVersion or (Questie.db.global.questieLocaleDiff and Questie.db.global.questieLocale or GetLocale()) ~= QuestieConfig.dbCompiledLang then
