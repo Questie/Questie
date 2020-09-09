@@ -134,8 +134,9 @@ function QuestieMenu:Show()
     tinsert(menuTable, {text=QuestieLocale:GetUIString("Vendor"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList={}, notCheckable=true})
 
 
+    tinsert(menuTable, {text=QuestieLocale:GetUIString('JOURNEY_SEARCH_TAB'), func=function() QuestieJourney.private.lastOpenWindow = "search"; QuestieJourney.ToggleJourneyWindow() end})
     tinsert(menuTable, {text=QuestieLocale:GetUIString("Questie Options"), func=function() QuestieOptions:OpenConfigWindow() end})
-    tinsert(menuTable, {text=QuestieLocale:GetUIString('JOUNREY_TAB'), func=function() QuestieJourney.ToggleJourneyWindow() end})
+    tinsert(menuTable, {text=QuestieLocale:GetUIString('JOUNREY_TAB'), func=function() QuestieJourney.private.lastOpenWindow = "journey"; QuestieJourney.ToggleJourneyWindow() end})
 
     tinsert(menuTable, {text=QuestieLocale:GetUIString('TRACKER_CANCEL'), func=function() end})
     LQuestie_EasyMenu(menuTable, QuestieMenu.menu, "cursor", -80, 0, "MENU")
