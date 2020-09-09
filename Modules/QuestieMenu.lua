@@ -13,6 +13,8 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieProfessions
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
+---@type QuestieQuest
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 
 
 local _townsfolk_texturemap = {
@@ -116,8 +118,18 @@ function QuestieMenu:Show()
         tinsert(profMenu, build(key))
     end
 
-    tinsert(menuTable, {text=QuestieLocale:GetUIString("Available Quest"), func = function() end, icon=QuestieLib.AddonPath.."Icons\\available.blp", notCheckable=false, checked=true, isNotRadio=true, keepShownOnClick=true})
-    tinsert(menuTable, {text=QuestieLocale:GetUIString("Objective"), func = function() end, icon=QuestieLib.AddonPath.."Icons\\event.blp", notCheckable=false, checked=true, isNotRadio=true, keepShownOnClick=true})
+    tinsert(menuTable, {text=QuestieLocale:GetUIString("Available Quest"), func = function()
+        local value = not Questie.db.global.enableAvailable
+        Questie.db.global.enableAvailable = value
+        QuestieQuest:ToggleNotes(value)
+        QuestieQuest:SmoothReset()
+    end, icon=QuestieLib.AddonPath.."Icons\\available.blp", notCheckable=false, checked=Questie.db.global.enableAvailable, isNotRadio=true, keepShownOnClick=true})
+    tinsert(menuTable, {text=QuestieLocale:GetUIString("Objective"), func = function() 
+        local value = not Questie.db.global.enableObjectives
+        Questie.db.global.enableObjectives = value
+        QuestieQuest:ToggleNotes(value)
+        QuestieQuest:SmoothReset()
+    end, icon=QuestieLib.AddonPath.."Icons\\event.blp", notCheckable=false, checked=Questie.db.global.enableObjectives, isNotRadio=true, keepShownOnClick=true})
     tinsert(menuTable, {text=QuestieLocale:GetUIString("Profession Trainer"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList=profMenu, notCheckable=true})
     tinsert(menuTable, {text=QuestieLocale:GetUIString("Vendor"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList={}, notCheckable=true})
 
