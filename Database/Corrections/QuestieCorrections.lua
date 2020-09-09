@@ -21,6 +21,8 @@ local QuestieNPCFixes = QuestieLoader:ImportModule("QuestieNPCFixes")
 local QuestieObjectFixes = QuestieLoader:ImportModule("QuestieObjectFixes")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+---@type QuestieProfessions
+local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 
 --[[
     This file load the corrections of the database files.
@@ -210,6 +212,7 @@ function QuestieCorrections:PopulateTownsfolk()
         ["Battlemaster"] = QuestieCorrections:PopulateTownsfolkType(2048),
         ["Flight Master"] = QuestieCorrections:PopulateTownsfolkType(8),
         ["Innkeeper"] = QuestieCorrections:PopulateTownsfolkType(128),
+        ["Weapon Master"] = {}, -- populated below
         ["Reagents"] = { -- todo
 
         }
@@ -226,6 +229,55 @@ function QuestieCorrections:PopulateTownsfolk()
         ["ROGUE"] = {918, 3327, 3328, 3401, 4163, 4582, 4583, 5166, 5167, 13283},
         ["DRUID"] = {3033, 3034, 3036, 4217, 4218, 4219, 5504, 5505}
     }
+
+    local validTrainers = { -- SELECT entry FROM creature_template WHERE TrainerType=2 (do this again with tbc DB)
+        223,383,514,812,908,957,1103,1215,1218,1241,1246,1292,1300,1317,1346,1355,1382,1383,1385,1386,1430,1458,1466,1470,1473,1632,
+        1651,1676,1680,1681,1683,1699,1700,1701,1702,1703,2114,2132,2326,2327,2329,2367,2390,2391,2397,2399,2626,2627,2664,2704,2737,
+        2798,2801,2802,2806,2818,2834,2836,2837,2842,2855,2856,2857,2998,3001,3004,3007,3008,3009,3011,3013,3026,3028,3067,3069,3087,
+        3136,3137,3174,3175,3178,3179,3181,3184,3185,3290,3332,3345,3347,3355,3357,3363,3365,3373,3399,3404,3412,3478,3484,3494,3497,
+        3523,3530,3531,3549,3555,3557,3572,3603,3604,3605,3606,3607,3703,3704,3964,3965,3967,4156,4159,4160,4193,4204,4210,4211,4212,
+        4213,4254,4258,4305,4307,4552,4573,4576,4578,4586,4588,4591,4596,4598,4605,4609,4611,4614,4616,4894,4898,4900,5081,5127,5137,
+        5150,5153,5157,5159,5161,5164,5174,5177,5392,5482,5493,5499,5500,5502,5511,5513,5518,5519,5564,5566,5567,5690,5695,5748,5759,
+        5784,5811,5847,5938,5939,5941,5943,6094,6286,6287,6288,6289,6290,6291,6292,6295,6297,6299,6306,6387,6777,7087,7088,7089,7230,
+        7231,7232,7406,7853,7866,7867,7868,7869,7870,7871,7944,7946,7948,7949,8126,8128,8137,8144,8146,8153,8306,8736,8738,9584,10266,
+        10276,10277,10278,10993,11017,11025,11026,11028,11029,11031,11037,11041,11042,11044,11046,11047,11048,11049,11050,11051,11052,
+        11065,11066,11067,11068,11070,11071,11072,11073,11074,11081,11083,11084,11096,11097,11098,11146,11177,11178,11865,11866,11867,
+        11868,11869,11870,11874,12025,12030,12032,12807,12920,12939,12961,13084,14401,14740,14742,14743,15176
+    }
+
+    local professionTrainers = {
+        [QuestieProfessions.professionKeys.FIRST_AID] = {},
+        [QuestieProfessions.professionKeys.BLACKSMITHING] = {},
+        [QuestieProfessions.professionKeys.LEATHERWORKING] = {},
+        [QuestieProfessions.professionKeys.ALCHEMY] = {},
+        [QuestieProfessions.professionKeys.HERBALISM] = {},
+        [QuestieProfessions.professionKeys.COOKING] = {},
+        [QuestieProfessions.professionKeys.MINING] = {},
+        [QuestieProfessions.professionKeys.TAILORING] = {},
+        [QuestieProfessions.professionKeys.ENGINEERING] = {},
+        [QuestieProfessions.professionKeys.ENCHANTING] = {},
+        [QuestieProfessions.professionKeys.FISHING] = {},
+        [QuestieProfessions.professionKeys.SKINNING] = {}
+    }
+
+    for _, id in pairs(validTrainers) do
+        local subName = QuestieDB.npcData[id][QuestieDB.npcKeys.subName]
+        if subName then
+            if Questie.db.global.townsfolk[subName] then -- weapon master, 
+                tinsert(Questie.db.global.townsfolk[subName], id)
+            else
+                for k, professionId in pairs(QuestieProfessions.professionTable) do
+                    if string.match(subName, k) then
+                        tinsert(professionTrainers[professionId], id)
+                    end
+                end
+            end
+        end
+    end
+
+    Questie.db.global.professionTrainers = professionTrainers
+
+    -- todo: specialized trainer types (leatherworkers, engineers, etc)
 
     local _, class = UnitClass("player")
     Questie.db.char.townsfolk["Class Trainer"] = classTrainers[class]
@@ -262,7 +314,7 @@ function QuestieCorrections:PopulateTownsfolk()
     Questie.db.char.townsfolk["Spirit Healer"] = {}
 
     -- get player professions and add relevant npcs
-    Questie.db.char.townsfolk["Profession Trainer"] = {}
+    --Questie.db.char.townsfolk["Profession Trainer"] = {}
 
 end
 function QuestieCorrections:PreCompile(callback) -- this happens only if we are about to compile the database. Run intensive preprocessing tasks here (like ramer-douglas-peucker)

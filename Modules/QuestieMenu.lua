@@ -11,6 +11,8 @@ local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type QuestieProfessions
+local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 
 
 local _townsfolk_texturemap = {
@@ -18,11 +20,25 @@ local _townsfolk_texturemap = {
     ["Class Trainer"] = "Interface\\Minimap\\tracking\\class",
     ["Stable Master"] = "Interface\\Minimap\\tracking\\stablemaster",
     ["Spirit Healer"] = QuestieLib.AddonPath.."Icons\\grave.blp",
+    ["Weapon Master"] = QuestieLib.AddonPath.."Icons\\slay.blp",
     ["Profession Trainer"] = "Interface\\Minimap\\tracking\\profession",
+
+    [QuestieProfessions.professionKeys.FIRST_AID] = "Interface\\Minimap\\tracking\\profession",
+    [QuestieProfessions.professionKeys.BLACKSMITHING] = "Interface\\Minimap\\tracking\\profession",
+    [QuestieProfessions.professionKeys.LEATHERWORKING] = "Interface\\Minimap\\tracking\\profession",
+    [QuestieProfessions.professionKeys.ALCHEMY] = "Interface\\Minimap\\tracking\\profession",
+    [QuestieProfessions.professionKeys.HERBALISM] = "Interface\\Minimap\\tracking\\profession",
+    [QuestieProfessions.professionKeys.COOKING] = "Interface\\Minimap\\tracking\\profession",
+    [QuestieProfessions.professionKeys.MINING] = "Interface\\Minimap\\tracking\\profession",
+    [QuestieProfessions.professionKeys.TAILORING] = "Interface\\Minimap\\tracking\\profession",
+    [QuestieProfessions.professionKeys.ENGINEERING] = "Interface\\Minimap\\tracking\\profession",
+    [QuestieProfessions.professionKeys.ENCHANTING] = "Interface\\Minimap\\tracking\\profession",
+    [QuestieProfessions.professionKeys.FISHING] = "Interface\\Minimap\\tracking\\profession",
+    [QuestieProfessions.professionKeys.SKINNING] = "Interface\\Minimap\\tracking\\profession"
 }
 
 local function toggle(key) -- /run QuestieLoader:ImportModule("QuestieMap"):ShowNPC(525, nil, 1, "teaste", {}, true)
-    local ids = Questie.db.global.townsfolk[key] or Questie.db.char.townsfolk[key]
+    local ids = Questie.db.global.townsfolk[key] or Questie.db.char.townsfolk[key] or Questie.db.global.professionTrainers[key]
     local icon = _townsfolk_texturemap[key] or ("Interface\\Minimap\\tracking\\" .. strlower(key))
     if key == "Mailbox" then -- the only obnject-type townsfolk
         if Questie.db.char.townsfolkConfig[key] then
@@ -39,8 +55,8 @@ local function toggle(key) -- /run QuestieLoader:ImportModule("QuestieMap"):Show
             local faction = UnitFactionGroup("Player")
             for _, id in pairs(ids) do
                 local friendly = QuestieDB.QueryNPCSingle(id, "friendlyToFaction")
-                if (not friendly) or friendly == "AH" or (faction == "Alliance" and friendly == "A") or (faction == "Horde" and friendly == "H") then
-                    QuestieMap:ShowNPC(id, icon, 1.2, "|cFF00FF00" .. QuestieDB.QueryNPCSingle(id, "name") .. " |r|cFFFFFFFF(" .. key .. ")", {}--[[{key, ""}]], true, key)
+                if (not friendly) or friendly == "AH" or (faction == "Alliance" and friendly == "A") or (faction == "Horde" and friendly == "H") then -- (QuestieLocale:GetUIStringNillable(tostring(key)) or key)
+                    QuestieMap:ShowNPC(id, icon, 1.2, "|cFF00FF00" .. QuestieDB.QueryNPCSingle(id, "name") .. " |r|cFFFFFFFF(" .. (QuestieDB.QueryNPCSingle(id, "subName") or QuestieLocale:GetUIStringNillable(tostring(key)) or key) .. ")", {}--[[{key, ""}]], true, key)
                 end
             end
         else
@@ -55,7 +71,7 @@ local function build(key)
     local icon = _townsfolk_texturemap[key] or ("Interface\\Minimap\\tracking\\" .. strlower(key))
 
     return {
-        text = key, 
+        text = (QuestieLocale:GetUIStringNillable(tostring(key)) or key), 
         func = function() Questie.db.char.townsfolkConfig[key] = not Questie.db.char.townsfolkConfig[key] toggle(key) end, 
         icon=icon, 
         notCheckable=false, 
@@ -65,7 +81,7 @@ local function build(key)
     }
 end
 
-function QuestieMenu:OnLogin() -- toggle all icons
+function QuestieMenu:OnLogin() -- toggle all icons 
     if not Questie.db.char.townsfolkConfig then
         Questie.db.char.townsfolkConfig = {}
     end
@@ -73,6 +89,9 @@ function QuestieMenu:OnLogin() -- toggle all icons
         toggle(key)
     end
     for key in pairs(Questie.db.char.townsfolk) do
+        toggle(key)
+    end
+    for key in pairs(Questie.db.global.professionTrainers) do
         toggle(key)
     end
 end
@@ -91,13 +110,20 @@ function QuestieMenu:Show()
     for key in pairs(Questie.db.char.townsfolk) do
         tinsert(menuTable, build(key))
     end
-    tinsert(menuTable, {text="Available Quest", func = function() end, icon=QuestieLib.AddonPath.."Icons\\available.blp", notCheckable=false, checked=true, isNotRadio=true, keepShownOnClick=true})
-    tinsert(menuTable, {text="Objective", func = function() end, icon=QuestieLib.AddonPath.."Icons\\event.blp", notCheckable=false, checked=true, isNotRadio=true, keepShownOnClick=true})
 
-    tinsert(menuTable, {text="Questie Options", func=function() QuestieOptions:OpenConfigWindow() end})
-    tinsert(menuTable, {text="My Journey", func=function() QuestieJourney.ToggleJourneyWindow() end})
+    local profMenu = {}
+    for key, v in pairs(Questie.db.global.professionTrainers) do
+        tinsert(profMenu, build(key))
+    end
 
-    tinsert(menuTable, {text="Cancel", func=function() end})
+    tinsert(menuTable, {text=QuestieLocale:GetUIString("Available Quest"), func = function() end, icon=QuestieLib.AddonPath.."Icons\\available.blp", notCheckable=false, checked=true, isNotRadio=true, keepShownOnClick=true})
+    tinsert(menuTable, {text=QuestieLocale:GetUIString("Objective"), func = function() end, icon=QuestieLib.AddonPath.."Icons\\event.blp", notCheckable=false, checked=true, isNotRadio=true, keepShownOnClick=true})
+    tinsert(menuTable, {text=QuestieLocale:GetUIString("Profession Trainer"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList = profMenu, notCheckable=true})
+
+    tinsert(menuTable, {text=QuestieLocale:GetUIString("Questie Options"), func=function() QuestieOptions:OpenConfigWindow() end})
+    tinsert(menuTable, {text=QuestieLocale:GetUIString('JOUNREY_TAB'), func=function() QuestieJourney.ToggleJourneyWindow() end})
+
+    tinsert(menuTable, {text=QuestieLocale:GetUIString('TRACKER_CANCEL'), func=function() end})
     LQuestie_EasyMenu(menuTable, QuestieMenu.menu, "cursor", -80, 0, "MENU")
 end
 

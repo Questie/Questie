@@ -153,3 +153,41 @@ function QuestieLocale:_GetUIString(key, ...)
         end
     end
 end
+
+-- bad copypasta: maybe we can implement this using args somehow but varargs makes that tough
+function QuestieLocale:GetUIStringNillable(key, ...)
+    local result, val = pcall(QuestieLocale._GetUIStringNillable, QuestieLocale, key, ...)
+    if result then
+        return val
+    else
+        return nil
+    end
+end
+
+function QuestieLocale:_GetUIStringNillable(key, ...)
+    if key then
+        -- convert all args to string
+        local arg = {...}
+        for i, v in ipairs(arg) do
+            arg[i] = tostring(v);
+        end
+
+        if QuestieLocale.locale[locale] then
+            if QuestieLocale.locale[locale][key] then
+                return string.format(QuestieLocale.locale[locale][key], unpack(arg))
+            else
+                if QuestieLocale.locale['enUS'] and QuestieLocale.locale['enUS'][key] then
+                    return string.format(QuestieLocale.locale['enUS'][key], unpack(arg));
+                else
+                    return nil
+                end
+            end
+        else
+            if QuestieLocale.locale['enUS'] and QuestieLocale.locale['enUS'][key] then
+                return string.format(QuestieLocale.locale['enUS'][key], unpack(arg));
+            else
+                return nil
+            end
+        end
+    end
+end

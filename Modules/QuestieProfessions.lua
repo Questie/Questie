@@ -45,6 +45,21 @@ function QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill)
     return HasProfession(profession) and HasSkillLevel(profession, skillLevel)
 end
 
+QuestieProfessions.professionKeys = {
+    FIRST_AID = 129,
+    BLACKSMITHING = 164,
+    LEATHERWORKING = 165,
+    ALCHEMY = 171,
+    HERBALISM = 182,
+    COOKING = 185,
+    MINING = 186,
+    TAILORING = 197,
+    ENGINEERING = 202,
+    ENCHANTING = 333,
+    FISHING = 356,
+    SKINNING = 393
+}
+
 -- There are no quests for Skinning and Mining so we don't need them
 professionTable = {
     ["First Aid"] = 129,
@@ -166,4 +181,28 @@ professionTable = {
     ["剥皮"] = 393,
     ["剝皮"] = 393,
     ["무두질"] = 393,
+
+    -- alternate naming scheme (used by DB)
+    ["Enchanter"] = 333,
+    ["Tailor"] = 197,
+    ["Leatherworker"] = 165,
+    ["Engineer"] = 202,
+    ["Blacksmith"] = 164,
+    ["Herbalist"] = 182,
+    ["Fisherman"] = 356,
+    ["Fishmonger"] = 356,
+    ["Skinner"] = 393,
+    ["Alchemist"] = 171,
+    ["Miner"] = 186,
+    ["Cook"] = 185,
+    ["Chef"] = 185,
+    ["Butcher"] = 185,
+    ["Physician"] = 129,
+    ["Weapon Crafter"] = 164,
+    ["Leathercrafter"] = 165,
+    ["Armorsmith"] = 164,
+    ["Weaponsmith"] = 164,
+    ["Surgeon"] = 129
 }
+
+QuestieProfessions.professionTable = professionTable

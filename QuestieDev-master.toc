@@ -68,6 +68,8 @@ Modules\Libs\QuestieCombatQueue.lua
 Modules\Libs\QuestieHash.lua
 
 ##Modules
+Modules\QuestieProfessions.lua
+Modules\QuestieReputation.lua
 Modules\QuestieTooltips.lua
 Modules\QuestieEventHandler.lua
 Modules\Migration.lua
@@ -119,8 +121,6 @@ Modules\Tracker\QuestieTrackerMenu.lua
 Modules\Tracker\QuestieTrackerPrivates.lua
 Modules\Tracker\QuestieQuestTimers.lua
 
-Modules\QuestieProfessions.lua
-Modules\QuestieReputation.lua
 Modules\QuestieDBMIntegration.lua
 Modules\QuestieSlash.lua
 
