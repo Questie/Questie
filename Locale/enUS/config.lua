@@ -452,6 +452,8 @@ QuestieLocale.locale['enUS'] = {
     ['DEBUG_UNLOAD_ALL'] = "Unloading all frames, count: %s",
     ['QUESTIE_ACCEPT_NIL'] = "|cFFFF0000Questie ERROR:|r Attempt to accept nil quest! You may need to run /questie reload",
     ['QUESTIE_UPDATED_RESTART'] = "|cFFFF0000WARNING!|r You have updated Questie without restarting the game, this will likely cause problems. Please restart the game before continuing",
+    ['QUESTIE_DATABASE_ERROR'] = "There was a problem initializing Questie's database. This can usually be fixed by recompiling the database.",
+    ['DONT_SHOW_AGAIN'] = "Don't show again",
 
     -- Townsfolk related strings
     ["Repair"] = "Repair", 

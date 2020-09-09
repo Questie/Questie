@@ -33,7 +33,6 @@ local tinsert = table.insert
 local DB_OBJ_SPAWNS = 4
 local DB_NPC_FRIENDLY = 13
 
-
 --- Tag corrections for quests for which the API returns the wrong values.
 --- Strucute: [questId] = {tagId, "questType"}
 ---@type table<number, table<number, string>>
@@ -71,27 +70,87 @@ QuestieDB.npcDataOverrides = {}
 QuestieDB.objectDataOverrides = {}
 QuestieDB.questDataOverrides = {}
 
+local function _shutdown_db() -- prevent catastrophic error
+    QuestieDB.QueryNPC = nil
+    QuestieDB.QueryQuest = nil
+    QuestieDB.QueryObject = nil
+    QuestieDB.QueryItem = nil
+
+    QuestieDB.QueryQuestSingle = nil
+    QuestieDB.QueryNPCSingle = nil
+    QuestieDB.QueryObjectSingle = nil
+    QuestieDB.QueryItemSingle = nil
+end
+
+local function trycatch(func)
+    return function(...)
+        local result, ret = pcall(func, ...)
+        if not result then
+            print(ret)
+            _shutdown_db()
+            if not Questie.db.global.disableDatabaseWarnings then
+                StaticPopup_Show ("QUESTIE_DATABASE_ERROR")
+            else
+                print(QuestieLocale:GetUIString("QUESTIE_DATABASE_ERROR"))
+            end
+        end
+        return ret
+    end
+end
+
 function QuestieDB:Initialize()
+
+    StaticPopupDialogs["QUESTIE_DATABASE_ERROR"] = { -- /run StaticPopup_Show ("QUESTIE_DATABASE_ERROR")
+        text = QuestieLocale:GetUIString("QUESTIE_DATABASE_ERROR"),
+        button1 = QuestieLocale:GetUIString("RECOMPILE_DATABASE_BTN"),
+        button2 = QuestieLocale:GetUIString("DONT_SHOW_AGAIN"),
+        OnAccept = function()
+            QuestieConfig.dbIsCompiled = false
+            ReloadUI()
+        end,
+        OnDecline = function()
+            Questie.db.global.disableDatabaseWarnings = true
+        end,
+        OnShow = function(self)
+            self:SetFrameStrata("TOOLTIP")
+        end,
+        timeout = 0,
+        whileDead = true,
+        hideOnEscape = false,
+        preferredIndex = 3
+    }
 
     QuestieDB.QueryNPC = QuestieDBCompiler:GetDBHandle(QuestieConfig.npcBin, QuestieConfig.npcPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder), QuestieDB.npcKeys, QuestieDB.npcDataOverrides)
     QuestieDB.QueryQuest = QuestieDBCompiler:GetDBHandle(QuestieConfig.questBin, QuestieConfig.questPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.questCompilerTypes, QuestieDB.questCompilerOrder), QuestieDB.questKeys, QuestieDB.questDataOverrides)
     QuestieDB.QueryObject = QuestieDBCompiler:GetDBHandle(QuestieConfig.objBin, QuestieConfig.objPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.objectCompilerTypes, QuestieDB.objectCompilerOrder), QuestieDB.objectKeys, QuestieDB.objectDataOverrides)
     QuestieDB.QueryItem = QuestieDBCompiler:GetDBHandle(QuestieConfig.itemBin, QuestieConfig.itemPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.itemCompilerTypes, QuestieDB.itemCompilerOrder), QuestieDB.itemKeys, QuestieDB.itemDataOverrides)
 
-    QuestieDB.QueryQuestSingle = QuestieDB.QueryQuest.QuerySingle
-    QuestieDB.QueryNPCSingle = QuestieDB.QueryNPC.QuerySingle
-    QuestieDB.QueryObjectSingle = QuestieDB.QueryObject.QuerySingle
-    QuestieDB.QueryItemSingle = QuestieDB.QueryItem.QuerySingle
+    QuestieDB._QueryQuestSingle = QuestieDB.QueryQuest.QuerySingle
+    QuestieDB._QueryNPCSingle = QuestieDB.QueryNPC.QuerySingle
+    QuestieDB._QueryObjectSingle = QuestieDB.QueryObject.QuerySingle
+    QuestieDB._QueryItemSingle = QuestieDB.QueryItem.QuerySingle
 
     QuestieDB.NPCPointers = QuestieDB.QueryNPC.pointers
     QuestieDB.QuestPointers = QuestieDB.QueryQuest.pointers
     QuestieDB.ObjectPointers = QuestieDB.QueryObject.pointers
     QuestieDB.ItemPointers = QuestieDB.QueryItem.pointers
 
-    QuestieDB.QueryNPC = QuestieDB.QueryNPC.Query
-    QuestieDB.QueryQuest = QuestieDB.QueryQuest.Query
-    QuestieDB.QueryObject = QuestieDB.QueryObject.Query
-    QuestieDB.QueryItem = QuestieDB.QueryItem.Query
+    QuestieDB._QueryNPC = QuestieDB.QueryNPC.Query
+    QuestieDB._QueryQuest = QuestieDB.QueryQuest.Query
+    QuestieDB._QueryObject = QuestieDB.QueryObject.Query
+    QuestieDB._QueryItem = QuestieDB.QueryItem.Query
+
+    -- wrap in pcall and hope it doesnt cause too much overhead
+    -- lua needs try-catch
+    QuestieDB.QueryNPC = trycatch(QuestieDB._QueryNPC)
+    QuestieDB.QueryQuest = trycatch(QuestieDB._QueryQuest)
+    QuestieDB.QueryObject = trycatch(QuestieDB._QueryObject)
+    QuestieDB.QueryItem = trycatch(QuestieDB._QueryItem)
+
+    QuestieDB.QueryQuestSingle = trycatch(QuestieDB._QueryQuestSingle)
+    QuestieDB.QueryNPCSingle = trycatch(QuestieDB._QueryNPCSingle)
+    QuestieDB.QueryObjectSingle = trycatch(QuestieDB._QueryObjectSingle)
+    QuestieDB.QueryItemSingle = trycatch(QuestieDB._QueryItemSingle)
 
     -- data has been corrected, ensure cache is empty (something might have accessed the api before questie initialized)
     _QuestieDB.questCache = {};
