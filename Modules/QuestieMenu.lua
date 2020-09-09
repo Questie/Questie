@@ -25,18 +25,18 @@ local _townsfolk_texturemap = {
     ["Weapon Master"] = QuestieLib.AddonPath.."Icons\\slay.blp",
     ["Profession Trainer"] = "Interface\\Minimap\\tracking\\profession",
 
-    [QuestieProfessions.professionKeys.FIRST_AID] = "Interface\\Minimap\\tracking\\profession",
-    [QuestieProfessions.professionKeys.BLACKSMITHING] = "Interface\\Minimap\\tracking\\profession",
-    [QuestieProfessions.professionKeys.LEATHERWORKING] = "Interface\\Minimap\\tracking\\profession",
-    [QuestieProfessions.professionKeys.ALCHEMY] = "Interface\\Minimap\\tracking\\profession",
-    [QuestieProfessions.professionKeys.HERBALISM] = "Interface\\Minimap\\tracking\\profession",
-    [QuestieProfessions.professionKeys.COOKING] = "Interface\\Minimap\\tracking\\profession",
-    [QuestieProfessions.professionKeys.MINING] = "Interface\\Minimap\\tracking\\profession",
-    [QuestieProfessions.professionKeys.TAILORING] = "Interface\\Minimap\\tracking\\profession",
-    [QuestieProfessions.professionKeys.ENGINEERING] = "Interface\\Minimap\\tracking\\profession",
-    [QuestieProfessions.professionKeys.ENCHANTING] = "Interface\\Minimap\\tracking\\profession",
-    [QuestieProfessions.professionKeys.FISHING] = "Interface\\Minimap\\tracking\\profession",
-    [QuestieProfessions.professionKeys.SKINNING] = "Interface\\Minimap\\tracking\\profession"
+    [QuestieProfessions.professionKeys.FIRST_AID] = "Interface\\Icons\\spell_holy_sealofsacrifice",
+    [QuestieProfessions.professionKeys.BLACKSMITHING] = "Interface\\Icons\\trade_blacksmithing",
+    [QuestieProfessions.professionKeys.LEATHERWORKING] = "Interface\\Icons\\trade_leatherworking",
+    [QuestieProfessions.professionKeys.ALCHEMY] = "Interface\\Icons\\trade_alchemy",
+    [QuestieProfessions.professionKeys.HERBALISM] = "Interface\\Icons\\trade_herbalism",
+    [QuestieProfessions.professionKeys.COOKING] = "Interface\\Icons\\inv_misc_food_15",
+    [QuestieProfessions.professionKeys.MINING] = "Interface\\Icons\\trade_mining",
+    [QuestieProfessions.professionKeys.TAILORING] = "Interface\\Icons\\trade_tailoring",
+    [QuestieProfessions.professionKeys.ENGINEERING] = "Interface\\Icons\\trade_engineering",
+    [QuestieProfessions.professionKeys.ENCHANTING] = "Interface\\Icons\\trade_engraving",
+    [QuestieProfessions.professionKeys.FISHING] = "Interface\\Icons\\trade_fishing",
+    [QuestieProfessions.professionKeys.SKINNING] = "Interface\\Icons\\inv_misc_pelt_wolf_01"
 }
 
 local function toggle(key) -- /run QuestieLoader:ImportModule("QuestieMap"):ShowNPC(525, nil, 1, "teaste", {}, true)
