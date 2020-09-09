@@ -64,7 +64,7 @@ function QuestieOptionsMinimapIcon:Initialize()
 
         OnTooltipShow = function (tooltip)
             tooltip:AddLine("Questie ".. QuestieLib:GetAddonVersionString(), 1, 1, 1);
-            tooltip:AddLine(Questie:Colorize(QuestieLocale:GetUIString('ICON_LEFT_CLICK') , 'gray') .. ": ".. QuestieLocale:GetUIString('ICON_TOGGLE'));
+            tooltip:AddLine(Questie:Colorize(QuestieLocale:GetUIString('ICON_LEFT_CLICK') , 'gray') .. ": ".. QuestieLocale:GetUIString('MENU_TOGGLE'));
             tooltip:AddLine(Questie:Colorize(QuestieLocale:GetUIString('ICON_SHIFTLEFT_CLICK') , 'gray') .. ": ".. QuestieLocale:GetUIString('ICON_TOGGLE_QUESTIE'));
             tooltip:AddLine(Questie:Colorize(QuestieLocale:GetUIString('ICON_RIGHT_CLICK') , 'gray') .. ": ".. QuestieLocale:GetUIString('ICON_JOURNEY'));
             tooltip:AddLine(Questie:Colorize(QuestieLocale:GetUIString('ICON_CTRLRIGHT_CLICK') , 'gray') .. ": ".. QuestieLocale:GetUIString('ICON_HIDE'));

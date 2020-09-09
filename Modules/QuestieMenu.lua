@@ -118,7 +118,9 @@ function QuestieMenu:Show()
 
     tinsert(menuTable, {text=QuestieLocale:GetUIString("Available Quest"), func = function() end, icon=QuestieLib.AddonPath.."Icons\\available.blp", notCheckable=false, checked=true, isNotRadio=true, keepShownOnClick=true})
     tinsert(menuTable, {text=QuestieLocale:GetUIString("Objective"), func = function() end, icon=QuestieLib.AddonPath.."Icons\\event.blp", notCheckable=false, checked=true, isNotRadio=true, keepShownOnClick=true})
-    tinsert(menuTable, {text=QuestieLocale:GetUIString("Profession Trainer"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList = profMenu, notCheckable=true})
+    tinsert(menuTable, {text=QuestieLocale:GetUIString("Profession Trainer"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList=profMenu, notCheckable=true})
+    tinsert(menuTable, {text=QuestieLocale:GetUIString("Vendor"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList={}, notCheckable=true})
+
 
     tinsert(menuTable, {text=QuestieLocale:GetUIString("Questie Options"), func=function() QuestieOptions:OpenConfigWindow() end})
     tinsert(menuTable, {text=QuestieLocale:GetUIString('JOUNREY_TAB'), func=function() QuestieJourney.ToggleJourneyWindow() end})

@@ -205,6 +205,7 @@ QuestieLocale.locale['enUS'] = {
     ['ICON_LEFT_CLICK_HOLD'] = "Left Click + Hold",
     ['ICON_DRAG_LOCKED'] = "Drag while Locked",
     ['ICON_TOGGLE'] = "Toggle Options",
+    ['MENU_TOGGLE'] = "Toggle Menu",
     ['ICON_SHIFTLEFT_CLICK'] = "Shift + Left Click",
     ['ICON_TOGGLE_QUESTIE'] = "Toggle Questie",
     ['ICON_CTRLRIGHT_CLICK'] = "Ctrl + Right Click",
@@ -467,6 +468,7 @@ QuestieLocale.locale['enUS'] = {
     ["Spirit Healer"] = "Spirit Healer",
     ["Available Quest"] = "Available Quest",
     ["Objective"] = "Objective",
+    ["Vendor"] = "Vendor",
     ["Profession Trainer"] = "Profession Trainer",
     ["Questie Options"] = "Questie Options",
     -- professions use their ID as the key for a much cleaner implementation. Translations for these are alerady in QuestieProfessions.lua
