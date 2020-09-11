@@ -357,6 +357,9 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = 1,
             [questKeys.exclusiveTo] = {654},
         },
+        [854] = {
+            [questKeys.exclusiveTo] = {871}, -- #2014
+        },
         [860] = {
             [questKeys.exclusiveTo] = {844},
         },
