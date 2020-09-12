@@ -90,6 +90,21 @@ QuestieDB.questCompilerOrder = { -- order easily skipable data first for efficie
     'objectivesText', 'triggerEnd', 'startedBy', 'finishedBy', 'objectives'
 }
 
+QuestieDB.questFlags = {
+    NONE = 0,
+    STAY_ALIVE = 1,
+    PARTY_ACCEPT = 2,
+    EXPLORATION = 4,
+    SHARABLE = 8,
+    UNUSED1 = 16,
+    EPIC = 32,
+    RAID = 64,
+    UNUSED2 = 128,
+    UNKNOWN = 256,
+    HIDDEN_REWARDS = 512,
+    AUTO_REWARDED = 1024
+}
+
 -- temporary, until we remove the old db funcitons
 QuestieDB._questAdapterQueryOrder = {}
 for key, id in pairs(QuestieDB.questKeys) do

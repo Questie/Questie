@@ -51,6 +51,25 @@ QuestieDB.npcCompilerOrder = { -- order easily skipable data first for efficienc
     'name', 'spawns', 'waypoints', 'questStarts', 'questEnds', 'subName'
 }
 
+QuestieDB.npcFlags = {
+    NONE = 0,
+    GOSSIP = 1,
+    QUEST_GIVER = 2,
+    VENDOR = 4,
+    FLIGHT_MASTER = 8,
+    TRAINER = 16,
+    SPIRIT_HEALER = 32,
+    SPIRIT_GUIDE = 64,
+    INKEEPER = 128,
+    BANKER = 256,
+    PETITIONER = 512,
+    TABARD_DESIGNER = 1024,
+    BATTLEMASTER = 2048,
+    AUCTIONEER = 4096,
+    STABLEMASTER = 8192,
+    REPAIR = 16384
+}
+
 -- temporary, until we remove the old db funcitons
 QuestieDB._npcAdapterQueryOrder = {}
 for key, id in pairs(QuestieDB.npcKeys) do
