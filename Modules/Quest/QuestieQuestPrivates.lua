@@ -8,6 +8,8 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+---@type QuestieCorrections
+local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 
 
 _QuestieQuest.objectiveSpawnListCallTable = {
@@ -25,8 +27,13 @@ _QuestieQuest.objectiveSpawnListCallTable = {
             Questie:Debug(DEBUG_CRITICAL, "Spawn data missing for NPC:", npc.id)
             npc.spawns = {}
         end
-        mon.Spawns = npc.spawns
-        mon.Waypoints = npc.waypoints
+        if QuestieCorrections.questNPCBlacklist[id] then -- remove spawns
+            mon.Spawns = {}
+            mon.Waypoints = {}
+        else
+            mon.Spawns = npc.spawns
+            mon.Waypoints = npc.waypoints
+        end
         mon.Icon = ICON_TYPE_SLAY
         mon.Id = id
         mon.GetIconScale = function() return Questie.db.global.monsterScale or 1 end

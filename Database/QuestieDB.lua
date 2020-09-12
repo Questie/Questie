@@ -924,6 +924,8 @@ function QuestieDB:GetNPC(npcId)
         npc[stringKey] = rawdata[intKey]
     end
 
+    npc.Hidden = QuestieCorrections.questNPCBlacklist[npcId]
+
     ---@class Point
     ---@class Zone
     if npc.waypoints == nil and rawdata[QuestieDB.npcKeys.waypoints] then

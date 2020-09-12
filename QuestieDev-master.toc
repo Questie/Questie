@@ -37,6 +37,7 @@ Database\itemDB.lua
 Database\Corrections\QuestieCorrections.lua
 Database\Corrections\QuestieItemBlacklist.lua
 Database\Corrections\QuestieItemFixes.lua
+Database\Corrections\QuestieNPCBlacklist.lua
 Database\Corrections\QuestieNPCFixes.lua
 Database\Corrections\QuestieObjectFixes.lua
 Database\Corrections\QuestieQuestBlacklist.lua

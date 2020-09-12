@@ -11,6 +11,8 @@ local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 local QuestieQuestFixes = QuestieLoader:ImportModule("QuestieQuestFixes")
 ---@type QuestieQuestBlacklist
 local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
+---@type QuestieNPCBlacklist
+local QuestieNPCBlacklist = QuestieLoader:ImportModule("QuestieNPCBlacklist")
 ---@type QuestieItemFixes
 local QuestieItemFixes = QuestieLoader:ImportModule("QuestieItemFixes")
 ---@type QuestieItemBlacklist
@@ -108,6 +110,7 @@ function QuestieCorrections:Initialize()
     end
 
     QuestieCorrections.questItemBlacklist = QuestieItemBlacklist:Load()
+    QuestieCorrections.questNPCBlacklist = QuestieNPCBlacklist:Load()
     QuestieCorrections.hiddenQuests = QuestieQuestBlacklist:Load()
 
     if Questie.db.char.showEventQuests then
