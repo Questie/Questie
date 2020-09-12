@@ -1618,10 +1618,10 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {261}, -- #1744
         },
         [6144] = {
-            [questKeys.preQuestSingle] = {6022,6042,6133,6135,6136}, -- #1950
+            [questKeys.preQuestGroup] = {6022,6042,6133,6135,6136}, -- #1950
         },
         [6163] = {
-            [questKeys.preQuestSingle] = {6022,6042,6133,6135,6136}, -- #1950
+            [questKeys.preQuestGroup] = {6022,6042,6133,6135,6136}, -- #1950
         },
         [6382] = {
             [questKeys.preQuestSingle] = {882},
