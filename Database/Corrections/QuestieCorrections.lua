@@ -64,7 +64,11 @@ function QuestieCorrections:Initialize()
             if not QuestieDB.npcData[id] then
                 QuestieDB.npcData[id] = {}
             end
-            QuestieDB.npcData[id][key] = value
+            if key == QuestieDB.npcKeys.npcFlags and QuestieDB.npcData[id][key] and type(value) == "table" then -- modify existing flags
+                QuestieDB.npcData[id][key] = QuestieDB.npcData[id][key] + value[1]
+            else
+                QuestieDB.npcData[id][key] = value
+            end
         end
     end
 
@@ -95,7 +99,11 @@ function QuestieCorrections:Initialize()
     for id, data in pairs(QuestieQuestFixes:Load()) do
         for key, value in pairs(data) do
             if QuestieDB.questData[id] then
-                QuestieDB.questData[id][key] = value
+                if key == QuestieDB.questKeys.questFlags and QuestieDB.questData[id][key] and type(value) == "table" then -- modify existing flags
+                    QuestieDB.questData[id][key] = QuestieDB.questData[id][key] + value[1]
+                else
+                    QuestieDB.questData[id][key] = value
+                end
             end
         end
     end
@@ -299,7 +307,7 @@ function QuestieCorrections:PopulateTownsfolk()
 
     local faction = UnitFactionGroup("Player")
 
-    for _, id in pairs({
+    for _, id in pairs({ -- mailbox list
         32349,142075,142089,142093,142094,142095,142102,142103,142109,142110,142111,142117,142119,143981,143982,143983,
         143984,143985,143986,143987,143988,143989,143990,144011,144112,144125,144126,144127,144128,144129,144131,153578,
         153716,157637,163313,163645,164618,164840,171556,171699,171752,173047,173221,176319,176324,176404,177044,178864,
