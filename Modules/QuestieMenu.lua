@@ -115,17 +115,20 @@ function QuestieMenu:Show()
         tinsert(menuTable, build(key))
     end
 
-    local profMenu = {}
-    local profMenuSorted = {}
-    local profMenuData = {}
-    for key, v in pairs(Questie.db.global.professionTrainers) do
-        local localizedKey = (QuestieLocale:GetUIStringNillable(tostring(key)) or key)
-        profMenuData[localizedKey] = build(key)
-        tinsert(profMenuSorted, localizedKey)
-    end
-    table.sort(profMenuSorted)
-    for _, key in pairs(profMenuSorted) do
-        tinsert(profMenu, profMenuData[key])
+    local function buildProfessionMenu()
+        local profMenu = {}
+        local profMenuSorted = {}
+        local profMenuData = {}
+        for key, v in pairs(Questie.db.global.professionTrainers) do
+            local localizedKey = (QuestieLocale:GetUIStringNillable(tostring(key)) or key)
+            profMenuData[localizedKey] = build(key)
+            tinsert(profMenuSorted, localizedKey)
+        end
+        table.sort(profMenuSorted)
+        for _, key in pairs(profMenuSorted) do
+            tinsert(profMenu, profMenuData[key])
+        end
+        return profMenu
     end
 
     tinsert(menuTable, {text=QuestieLocale:GetUIString("Available Quest"), func = function()
@@ -140,7 +143,7 @@ function QuestieMenu:Show()
         QuestieQuest:ToggleNotes(value)
         QuestieQuest:SmoothReset()
     end, icon=QuestieLib.AddonPath.."Icons\\event.blp", notCheckable=false, checked=Questie.db.global.enableObjectives, isNotRadio=true, keepShownOnClick=true})
-    tinsert(menuTable, {text=QuestieLocale:GetUIString("Profession Trainer"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList=profMenu, notCheckable=true})
+    tinsert(menuTable, {text=QuestieLocale:GetUIString("Profession Trainer"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList=buildProfessionMenu, notCheckable=true})
     tinsert(menuTable, {text=QuestieLocale:GetUIString("Vendor"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList={}, notCheckable=true})
 
 

@@ -1278,6 +1278,9 @@ function LQuestie_ToggleDropDownMenu(level, value, dropDownFrame, anchorName, xO
 	if ( not level ) then
 		level = 1;
 	end
+	if menuList and type(menuList) == "function" then -- populate the list on toggle
+		menuList = menuList()
+	end
 	LQuestie_UIDropDownMenuDelegate:SetAttribute("createframes-level", level);
 	LQuestie_UIDropDownMenuDelegate:SetAttribute("createframes-index", 0);
 	LQuestie_UIDropDownMenuDelegate:SetAttribute("createframes", true);
