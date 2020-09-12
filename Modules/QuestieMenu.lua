@@ -116,8 +116,16 @@ function QuestieMenu:Show()
     end
 
     local profMenu = {}
+    local profMenuSorted = {}
+    local profMenuData = {}
     for key, v in pairs(Questie.db.global.professionTrainers) do
-        tinsert(profMenu, build(key))
+        local localizedKey = (QuestieLocale:GetUIStringNillable(tostring(key)) or key)
+        profMenuData[localizedKey] = build(key)
+        tinsert(profMenuSorted, localizedKey)
+    end
+    table.sort(profMenuSorted)
+    for _, key in pairs(profMenuSorted) do
+        tinsert(profMenu, profMenuData[key])
     end
 
     tinsert(menuTable, {text=QuestieLocale:GetUIString("Available Quest"), func = function()
