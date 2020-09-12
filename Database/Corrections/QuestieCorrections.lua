@@ -209,12 +209,12 @@ end
 
 function QuestieCorrections:PopulateTownsfolk()
     Questie.db.global.townsfolk = {
-        ["Repair"] = QuestieCorrections:PopulateTownsfolkType(16384), 
-        ["Auctioneer"] = QuestieCorrections:PopulateTownsfolkType(4096),
-        ["Banker"] = QuestieCorrections:PopulateTownsfolkType(256),
-        ["Battlemaster"] = QuestieCorrections:PopulateTownsfolkType(2048),
-        ["Flight Master"] = QuestieCorrections:PopulateTownsfolkType(8),
-        ["Innkeeper"] = QuestieCorrections:PopulateTownsfolkType(128),
+        ["Repair"] = QuestieCorrections:PopulateTownsfolkType(QuestieDB.npcFlags.REPAIR), 
+        ["Auctioneer"] = QuestieCorrections:PopulateTownsfolkType(QuestieDB.npcFlags.AUCTIONEER),
+        ["Banker"] = QuestieCorrections:PopulateTownsfolkType(QuestieDB.npcFlags.BANKER),
+        ["Battlemaster"] = QuestieCorrections:PopulateTownsfolkType(QuestieDB.npcFlags.BATTLEMASTER),
+        ["Flight Master"] = QuestieCorrections:PopulateTownsfolkType(QuestieDB.npcFlags.FLIGHT_MASTER),
+        ["Innkeeper"] = QuestieCorrections:PopulateTownsfolkType(QuestieDB.npcFlags.INNKEEPER),
         ["Weapon Master"] = {}, -- populated below
         ["Reagents"] = { -- todo
 
@@ -285,7 +285,7 @@ function QuestieCorrections:PopulateTownsfolk()
     local _, class = UnitClass("player")
     Questie.db.char.townsfolk["Class Trainer"] = classTrainers[class]
     if class == "HUNTER" then
-        Questie.db.char.townsfolk["Stable Master"] = QuestieCorrections:PopulateTownsfolkType(8192)
+        Questie.db.char.townsfolk["Stable Master"] = QuestieCorrections:PopulateTownsfolkType(QuestieDB.npcFlags.STABLEMASTER)
         QuestieCorrections:UpdateAmmoVendors()
         QuestieCorrections:UpdatePetFood()
     elseif class == "ROGUE" then
