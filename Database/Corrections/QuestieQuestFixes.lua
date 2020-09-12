@@ -2659,6 +2659,12 @@ function QuestieQuestFixes:Load()
         [9063] = {
             [questKeys.zoneOrSort] = 493,
         },
+        [9229] = {
+            [questKeys.preQuestSingle] = {9033,}, 
+        },
+        [9232] = {
+            [questKeys.preQuestSingle] = {9033,}, 
+        },
         [9261] = { -- bad race data
             [questKeys.requiredRaces] = 77,
         },
