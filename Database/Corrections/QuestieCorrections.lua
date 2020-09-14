@@ -40,35 +40,13 @@ local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
     https://github.com/AeroScripts/QuestieDev/wiki/Corrections
 --]]
 
-function QuestieCorrections:Initialize()
-    for id, data in pairs(QuestieItemFixes:Load()) do
-        for key, value in pairs(data) do
-            if not QuestieDB.itemData[id] then
-                QuestieDB.itemData[id] = {}
-            end
-            QuestieDB.itemData[id][key] = value
-        end
-    end
-
+function QuestieCorrections:MinimalInit() -- db already compiled
     for id, data in pairs(QuestieItemFixes:LoadFactionFixes()) do
         for key, value in pairs(data) do
             if not QuestieDB.itemDataOverrides[id] then
                 QuestieDB.itemDataOverrides[id] = {}
             end
             QuestieDB.itemDataOverrides[id][key] = value
-        end
-    end
-
-    for id, data in pairs(QuestieNPCFixes:Load()) do
-        for key, value in pairs(data) do
-            if not QuestieDB.npcData[id] then
-                QuestieDB.npcData[id] = {}
-            end
-            if key == QuestieDB.npcKeys.npcFlags and QuestieDB.npcData[id][key] and type(value) == "table" then -- modify existing flags
-                QuestieDB.npcData[id][key] = QuestieDB.npcData[id][key] + value[1]
-            else
-                QuestieDB.npcData[id][key] = value
-            end
         end
     end
 
@@ -81,30 +59,12 @@ function QuestieCorrections:Initialize()
         end
     end
 
-    for id, data in pairs(QuestieObjectFixes:Load()) do
-        for key, value in pairs(data) do
-            QuestieDB.objectData[id][key] = value
-        end
-    end
-
     for id, data in pairs(QuestieObjectFixes:LoadFactionFixes()) do
         for key, value in pairs(data) do
             if not QuestieDB.objectDataOverrides[id] then
                 QuestieDB.objectDataOverrides[id] = {}
             end
             QuestieDB.objectDataOverrides[id][key] = value
-        end
-    end
-
-    for id, data in pairs(QuestieQuestFixes:Load()) do
-        for key, value in pairs(data) do
-            if QuestieDB.questData[id] then
-                if key == QuestieDB.questKeys.questFlags and QuestieDB.questData[id][key] and type(value) == "table" then -- modify existing flags
-                    QuestieDB.questData[id][key] = QuestieDB.questData[id][key] + value[1]
-                else
-                    QuestieDB.questData[id][key] = value
-                end
-            end
         end
     end
 
@@ -129,6 +89,55 @@ function QuestieCorrections:Initialize()
             QuestieEvent:Load()
         end)
     end
+
+end
+
+function QuestieCorrections:Initialize() -- db needs to be compiled
+
+    QuestieCorrections:PruneWaypoints()
+
+    for id, data in pairs(QuestieItemFixes:Load()) do
+        for key, value in pairs(data) do
+            if not QuestieDB.itemData[id] then
+                QuestieDB.itemData[id] = {}
+            end
+            QuestieDB.itemData[id][key] = value
+        end
+    end
+
+    for id, data in pairs(QuestieNPCFixes:Load()) do
+        for key, value in pairs(data) do
+            if not QuestieDB.npcData[id] then
+                QuestieDB.npcData[id] = {}
+            end
+            if key == QuestieDB.npcKeys.npcFlags and QuestieDB.npcData[id][key] and type(value) == "table" then -- modify existing flags
+                QuestieDB.npcData[id][key] = QuestieDB.npcData[id][key] + value[1]
+            else
+                QuestieDB.npcData[id][key] = value
+            end
+        end
+    end
+
+    for id, data in pairs(QuestieObjectFixes:Load()) do
+        for key, value in pairs(data) do
+            QuestieDB.objectData[id][key] = value
+        end
+    end
+
+    for id, data in pairs(QuestieQuestFixes:Load()) do
+        for key, value in pairs(data) do
+            if QuestieDB.questData[id] then
+                if key == QuestieDB.questKeys.questFlags and QuestieDB.questData[id][key] and type(value) == "table" then -- modify existing flags
+                    QuestieDB.questData[id][key] = QuestieDB.questData[id][key] + value[1]
+                else
+                    QuestieDB.questData[id][key] = value
+                end
+            end
+        end
+    end
+
+    QuestieCorrections:MinimalInit()
+
 end
 
 local WAYPOINT_MIN_DISTANCE = 1.5 -- todo: make this a config value maybe?
@@ -148,7 +157,38 @@ local function euclid(x, y, i, e)
     return math.sqrt(xd * xd + yd * yd)
 end
 
+local _validMultispawnWaypoints = { -- SELECT entry, Name FROM creature_template WHERE entry IN (SELECT id FROM pool_creature_template WHERE pool_entry IN (SELECT entry FROM pool_template WHERE max_limit=1))
+    [61]=1,[79]=1,[99]=1,[100]=1,[462]=1,[471]=1,[472]=1,[503]=1,[506]=1,[507]=1,[519]=1,[520]=1,[521]=1,[534]=1,[572]=1,[573]=1,[574]=1,[584]=1,[616]=1,
+    [763]=1,[771]=1,[947]=1,[1037]=1,[1063]=1,[1106]=1,[1112]=1,[1119]=1,[1130]=1,[1132]=1,[1137]=1,[1140]=1,[1260]=1,[1398]=1,[1399]=1,[1424]=1,[1425]=1,
+    [1533]=1,[1552]=1,[1837]=1,[1838]=1,[1839]=1,[1841]=1,[1843]=1,[1844]=1,[1847]=1,[1848]=1,[1850]=1,[1851]=1,[1885]=1,[1910]=1,[1911]=1,[1920]=1,[1936]=1,
+    [1944]=1,[1948]=1,[2090]=1,[2108]=1,[2258]=1,[2283]=1,[2447]=1,[2452]=1,[2453]=1,[2476]=1,[2541]=1,[2598]=1,[2600]=1,[2601]=1,[2602]=1,[2603]=1,[2604]=1,
+    [2605]=1,[2606]=1,[2609]=1,[2744]=1,[2749]=1,[2751]=1,[2752]=1,[2753]=1,[2754]=1,[2773]=1,[2779]=1,[2850]=1,[2931]=1,[3581]=1,[5400]=1,[6652]=1,[7846]=1,
+    [8210]=1,[8211]=1,[8212]=1,[8213]=1,[8214]=1,[8215]=1,[8216]=1,[8217]=1,[8218]=1,[8219]=1,[8277]=1,[8278]=1,[8279]=1,[8280]=1,[8281]=1,[8282]=1,[8283]=1,
+    [8296]=1,[8297]=1,[8298]=1,[8299]=1,[8300]=1,[8301]=1,[8302]=1,[8303]=1,[8304]=1,[8503]=1,[8976]=1,[8978]=1,[8979]=1,[8981]=1,[9602]=1,[9604]=1,[10077]=1,
+    [10078]=1,[10119]=1,[10356]=1,[10357]=1,[10358]=1,[10359]=1,[10559]=1,[10647]=1,[10817]=1,[10821]=1,[10822]=1,[10823]=1,[10824]=1,[10825]=1,[10826]=1,
+    [10827]=1,[10828]=1,[11383]=1,[12431]=1,[12432]=1,[12433]=1,[13602]=1,[14221]=1,[14222]=1,[14223]=1,[14224]=1,[14237]=1,[14266]=1,[14267]=1,[14268]=1,
+    [14269]=1,[14270]=1,[14271]=1,[14272]=1,[14273]=1,[14275]=1,[14276]=1,[14277]=1,[14278]=1,[14279]=1,[14280]=1,[14281]=1,[14344]=1,[14424]=1,[14425]=1,
+    [14433]=1,[14445]=1,[14446]=1,[14447]=1,[14448]=1,[14487]=1,[14488]=1,[14490]=1,[14492]=1,[16184]=1,[2186]=1,[10196]=1,[14479]=1,[7017]=1,[14339]=1,
+    [3056]=1,[5823]=1,[815]=1,[2038]=1,[3735]=1,[7319]=1
+}
 
+function QuestieCorrections:PruneWaypoints()
+    --Questie.db.char.pruned = ""
+    for id,data in pairs(QuestieDB.npcData) do
+        local spawnCount = 0
+        if data[QuestieDB.npcKeys.waypoints] then
+            for zone, ways in pairs(data[QuestieDB.npcKeys.waypoints]) do
+                for _ in pairs(ways) do
+                    spawnCount = spawnCount + 1
+                end
+            end
+        end
+        if spawnCount > 1 and not _validMultispawnWaypoints[id] and bit.band(data[QuestieDB.npcKeys.npcFlags], QuestieDB.npcFlags.QUEST_GIVER) ~= QuestieDB.npcFlags.QUEST_GIVER then -- we dont want waypoints for this mob, it can have more than 1 spawn at a time
+            data[QuestieDB.npcKeys.waypoints] = nil
+            --Questie.db.char.pruned = Questie.db.char.pruned .. "\\n" .. tostring(id) .. " " .. data[QuestieDB.npcKeys.name]
+        end
+    end
+end
 
 function QuestieCorrections:OptimizeWaypoints(waypoints)
     local newWaypointZones = {}

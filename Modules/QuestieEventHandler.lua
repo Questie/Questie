@@ -104,6 +104,10 @@ function QuestieEventHandler:RegisterAllEvents()
     Questie:RegisterEvent("NAME_PLATE_UNIT_ADDED", QuestieNameplate.NameplateCreated)
     Questie:RegisterEvent("NAME_PLATE_UNIT_REMOVED", QuestieNameplate.NameplateDestroyed)
     Questie:RegisterEvent("PLAYER_TARGET_CHANGED", QuestieNameplate.DrawTargetFrame)
+
+    -- dropdown fix
+    Questie:RegisterEvent("CURSOR_UPDATE", function() pcall(LQuestie_CloseDropDownMenus) end)
+
 end
 
 
@@ -164,6 +168,7 @@ _PLAYER_LOGIN = function()
     end
 
     if QuestieConfig.dbIsCompiled then -- todo: check for updates or language change and recompile
+        QuestieCorrections:MinimalInit()
         if not Questie.db.char.townsfolk then
             -- we havent compiled townsfolk on this character
             QuestieCorrections:PopulateTownsfolk()
@@ -172,6 +177,7 @@ _PLAYER_LOGIN = function()
         C_Timer.After(4, stage2)
     else
         Questie.minimapConfigIcon:Hide("Questie") -- prevent opening journey / settings while compiling
+        QuestieCorrections:Initialize()
         C_Timer.After(4, function()
             print(QuestieLocale:GetUIString("\124cFFAAEEFFQuestie DB has updated!\124r\124cFFFF6F22 Data is being processed, this may take a few moments and cause some lag..."))
             QuestieDB.private:DeleteGatheringNodes()

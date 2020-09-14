@@ -849,6 +849,9 @@ function LQuestie_UIDropDownMenu_AddButton(info, level)
 
 	-- If not checkable move everything over to the left to fill in the gap where the check would be
 	local xPos = 5;
+	if info.isSeparator then
+		xPos = -5
+	end
 	local yPos = -((button:GetID() - 1) * LQuestie_UIDROPDOWNMENU_BUTTON_HEIGHT) - LQuestie_UIDROPDOWNMENU_BORDER_HEIGHT;
 	local displayInfo = normalText;
 	if (info.iconOnly) then

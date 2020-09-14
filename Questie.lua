@@ -153,7 +153,7 @@ function Questie:OnInitialize()
 
     Questie:Debug(DEBUG_CRITICAL, "[Questie:OnInitialize] Questie addon loaded")
     ZoneDB:Initialize()
-    QuestieCorrections:Initialize()
+    --QuestieCorrections:Initialize()
     QuestieLocale:Initialize()
 
     QuestieEventHandler:RegisterAllEvents()

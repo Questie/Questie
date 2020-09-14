@@ -146,6 +146,33 @@ function QuestieMenu:Show()
     tinsert(menuTable, {text=QuestieLocale:GetUIString("Profession Trainer"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList=buildProfessionMenu, notCheckable=true})
     tinsert(menuTable, {text=QuestieLocale:GetUIString("Vendor"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList={}, notCheckable=true})
 
+    tinsert(menuTable, {
+        hasArrow = false,
+        dist = 0,
+        isTitle = true,
+        isUninteractable = true,
+        notCheckable = true,
+        iconOnly = true,
+        isSeparator = true,
+        icon = "Interface\\Common\\UI-TooltipDivider-Transparent",
+        tCoordLeft = 0,
+        tCoordRight = 1,
+        tCoordTop = 0,
+        tCoordBottom = 1,
+        tSizeX = 0,
+        tSizeY = 8,
+        tFitDropDownSizeX = true,
+        text="",
+        iconInfo = {
+            tCoordLeft = 0,
+            tCoordRight = 1,
+            tCoordTop = 0,
+            tCoordBottom = 1,
+            tSizeX = 0,
+            tSizeY = 8,
+            tFitDropDownSizeX = true
+        },
+    })
 
     tinsert(menuTable, {text=QuestieLocale:GetUIString('JOURNEY_SEARCH_TAB'), func=function() QuestieJourney.private.lastOpenWindow = "search"; QuestieJourney.ToggleJourneyWindow() end})
     tinsert(menuTable, {text=QuestieLocale:GetUIString("Questie Options"), func=function() QuestieOptions:OpenConfigWindow() end})
