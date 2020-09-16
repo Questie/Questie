@@ -2557,7 +2557,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS] = {{44.13,71.5},},},
         },
         [16361] = { 
-            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{32.11,49.05},},},
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{81.0,60.3},},},
         },
         [16376] = {
             [npcKeys.npcFlags] = {-QuestieDB.npcFlags.REPAIR} -- Added in Phase 6
