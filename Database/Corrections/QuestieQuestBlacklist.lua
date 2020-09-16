@@ -228,6 +228,9 @@ function QuestieQuestBlacklist:Load()
         [7938] = true,
         [7944] = true,
         [7945] = true,
+        [8857] = true,
+        [8858] = true,
+        [8859] = true,
         --Rocknot's Ale instance quest shown in SG/BS at lvl 1
         [4295] = true,
         --weekly fish tourney
