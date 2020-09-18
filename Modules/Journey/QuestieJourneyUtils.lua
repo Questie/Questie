@@ -13,7 +13,7 @@ function QuestieJourneyUtils:GetSortedZoneKeys(zones)
 
     local zoneNames = {}
     for k, _ in pairs(zones) do
-            table.insert(zoneNames, k)
+        table.insert(zoneNames, k)
     end
     table.sort(zoneNames, compare)
     return zoneNames

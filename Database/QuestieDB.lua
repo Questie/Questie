@@ -268,6 +268,10 @@ function QuestieDB:IsAQWarEffortQuest(questId)
     return QuestieQuestBlacklist:GetAQWarEffortQuests()[questId] == true
 end
 
+function QuestieDB:GetZoneOrSortForClass(class)
+    return QuestieDB.zoneOrSortKeys[class]
+end
+
 --- Wrapper function for the GetQuestTagInfo API to correct
 --- quests that are falsely marked by Blizzard
 function QuestieDB:GetQuestTagInfo(questId)

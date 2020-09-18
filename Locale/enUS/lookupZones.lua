@@ -3,6 +3,7 @@ LangContinentLookup['enUS']= {
     [2] = "Kalimdor",
     [3] = "Dungeons",
     [4] = "Battlegrounds",
+    [5] = "Class",
 }
 
 LangZoneLookup['enUS']= {
@@ -1166,4 +1167,15 @@ LangZoneCategoryLookup['enUS']= {
         [3277] = "Warsong Gulch",
         [3358] = "Arathi Basin"
     },
+    [5] = {
+        [-61] = "Warlock",
+        [-81] = "Warrior",
+        [-82] = "Shaman",
+        [-141] = "Paladin",
+        [-161] = "Mage",
+        [-162] = "Rogue",
+        [-261] = "Hunter",
+        [-262] = "Priest",
+        [-263] = "Druid",
+    }
 }

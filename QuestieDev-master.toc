@@ -32,6 +32,7 @@ Database\questDB.lua
 Database\objectDB.lua
 Database\spawnDB.lua
 Database\itemDB.lua
+Database\Constants.lua
 
 #Corrections
 Database\Corrections\QuestieCorrections.lua
