@@ -106,6 +106,7 @@ Modules\Journey\QuestieJourneyPrivates.lua
 Modules\Journey\QuestieJourneyUtils.lua
 Modules\Journey\History.lua
 Modules\Journey\QuestDetailsFrame.lua
+Modules\Journey\tabs\MyJourney\Note.lua
 Modules\Journey\tabs\MyJourney\MyJourney.lua
 Modules\Journey\tabs\MyJourney\MyJourneyTab.lua
 Modules\Journey\tabs\QuestsByZone\QuestsByZone.lua
