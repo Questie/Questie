@@ -201,6 +201,9 @@ function QuestieObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.SILITHUS]={{25.72,90.86},},},
             [objectKeys.zoneID] = zoneIDs.SILITHUS,
         },
+        [187260] = {
+            [objectKeys.spawns] = {}, -- Mailbox possibly added in TBC/BC. Not there in Classic
+        }, 
         [188123] = {
             [objectKeys.spawns] = {}, -- Mailbox possibly added in TBC/BC. Not there in Classic
         },
