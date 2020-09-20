@@ -2229,8 +2229,8 @@ function QuestieNPCFixes:Load()
         },
         [15362] = {
             [npcKeys.name] = "Malfurion Stormrage",
-            [npcKeys.zoneID] = zoneIDs.MOONGLADE,
-            [npcKeys.spawns] = {[zoneIDs.SWAMP_OF_SORROWS] = {{77.32,35.98},},[zoneIDs.MOONGLADE] = {{35.95,40.39},},},
+            [npcKeys.zoneID] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
+            [npcKeys.spawns] = {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR] = {{-1,-1},},},
         },
         [15383] = {
             [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{64.1,65.5},},},
