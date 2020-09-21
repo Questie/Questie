@@ -30,7 +30,8 @@ local _townsfolk_texturemap = {
     ["Bags"] = "Interface\\Minimap\\tracking\\banker",
     ["Trade Goods"] = "Interface\\Minimap\\tracking\\banker",
     ["Drink"] = "Interface\\Minimap\\tracking\\food",
-    ["Pet Food"] = "Interface\\Minimap\\tracking\\food", 
+    ["Pet Food"] = "Interface\\Minimap\\tracking\\food",
+    ["Portal Trainer"] = "Interface\\Minimap\\vehicle-alliancemageportal",
 
     [QuestieProfessions.professionKeys.FIRST_AID] = "Interface\\Icons\\spell_holy_sealofsacrifice",
     [QuestieProfessions.professionKeys.BLACKSMITHING] = "Interface\\Icons\\trade_blacksmithing",
