@@ -62,12 +62,23 @@ local function toggle(key) -- /run QuestieLoader:ImportModule("QuestieMap"):Show
     else
         if Questie.db.char.townsfolkConfig[key] then
             local faction = UnitFactionGroup("Player")
-            for _, id in pairs(ids) do
-                local friendly = QuestieDB.QueryNPCSingle(id, "friendlyToFaction")
-                if ((not friendly) or friendly == "AH" or (faction == "Alliance" and friendly == "A") or (faction == "Horde" and friendly == "H")) and not QuestieCorrections.questNPCBlacklist[id] then -- (QuestieLocale:GetUIStringNillable(tostring(key)) or key)
-                    QuestieMap:ShowNPC(id, icon, 1.2, "|cFF00FF00" .. QuestieDB.QueryNPCSingle(id, "name") .. " |r|cFFFFFFFF(" .. (QuestieDB.QueryNPCSingle(id, "subName") or QuestieLocale:GetUIStringNillable(tostring(key)) or key) .. ")", {}--[[{key, ""}]], true, key)
+            local timer = nil
+            local e = 1
+            local max = (#ids)+1
+            timer = C_Timer.NewTicker(0.01, function() 
+                local start = e
+                while e < max and e-start < 32 do
+                    local id = ids[e]
+                    local friendly = QuestieDB.QueryNPCSingle(id, "friendlyToFaction")
+                    if ((not friendly) or friendly == "AH" or (faction == "Alliance" and friendly == "A") or (faction == "Horde" and friendly == "H")) and not QuestieCorrections.questNPCBlacklist[id] then -- (QuestieLocale:GetUIStringNillable(tostring(key)) or key)
+                        QuestieMap:ShowNPC(id, icon, 1.2, "|cFF00FF00" .. QuestieDB.QueryNPCSingle(id, "name") .. " |r|cFFFFFFFF(" .. (QuestieDB.QueryNPCSingle(id, "subName") or QuestieLocale:GetUIStringNillable(tostring(key)) or key) .. ")", {}--[[{key, ""}]], true, key)
+                    end
+                    e = e + 1
                 end
-            end
+                if e == max then
+                    timer:Cancel()
+                end
+            end)
         else
             for _, id in pairs(ids) do
                 QuestieMap:UnloadManualFrames(id, key)
