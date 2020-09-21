@@ -236,12 +236,69 @@ function QuestieCorrections:OptimizeWaypoints(waypoints)
 end
 
 function QuestieCorrections:UpdatePetFood() -- call on change pet
-    Questie.db.char.townsfolk["Pet Food"] = {}
+    Questie.db.char.vendorList["Pet Food"] = {}
     -- detect petfood vendors for player's pet
+    for _, key in pairs({GetStablePetFoodTypes(0)}) do
+        if Questie.db.global.petFoodVendorTypes[key] then
+            QuestieCorrections:PopulateVendors(Questie.db.global.petFoodVendorTypes[key], Questie.db.char.vendorList["Pet Food"])
+        end
+    end
 end
 
 function QuestieCorrections:UpdateAmmoVendors() -- call on change weapon
-    Questie.db.char.townsfolk["Ammo Vendor"] = {}
+    Questie.db.char.vendorList["Ammo"] = {}
+
+    -- get current weapon ammo type
+    local weaponID = GetInventoryItemID("player", 18)
+    if weaponID then
+        local class, subClass = unpack(QuestieDB.QueryItem(wid, "class", "subClass"))
+        local isBow = (2 == class and (2 == subClass or 18 == subClass))
+        if isBow then
+            Questie.db.char.vendorList["Ammo"] = QuestieCorrections:PopulateVendors({11285,3030,19316,2515,2512})
+        else
+            Questie.db.char.vendorList["Ammo"] = QuestieCorrections:PopulateVendors({11284,19317,2519,2516,3033})
+        end
+    end
+end
+
+function QuestieCorrections:UpdateFoodDrink()
+    local food = {}
+    local drink = {}
+
+    local playerLevel = UnitLevel("Player")
+
+    local function populate(ids)
+        local tbl = {}
+        for _, id in pairs(ids) do
+            local reqLevel = QuestieDB.QueryItemSingle(id, "requiredLevel")
+            if reqLevel and reqLevel < playerLevel and reqLevel > playerLevel - 16 then -- dont show food/water that is 16 levels below or too high
+                tinsert(tbl, id)
+            end
+        end
+        return tbl
+    end
+
+    local drink = populate({159,8766,1179,1708,1645,1205,17404,19300,19299}) -- water item ids
+    local food = populate({ -- food item ids (from wowhead)
+        8932,4536,8952,19301,13724,8953,3927,11109,8957,4608,4599,4593,4592,117,3770,3771,4539,8950,8948,7228,
+        2287,4601,422,16166,4537,4602,4542,4594,1707,4540,414,4538,4607,17119,19225,2070,21552,787,4544,18632,16167,4606,16170,
+        4541,4605,17408,17406,11444,21033,22324,18635,21030,17407,19305,18633,4604,21031,16168,19306,16169,19304,17344,19224,19223
+    })
+
+    Questie.db.char.vendorList["Food"] = QuestieCorrections:PopulateVendors(food)
+    Questie.db.char.vendorList["Drink"] = QuestieCorrections:PopulateVendors(drink)
+end
+
+function QuestieCorrections:UpdatePlayerVendors() -- call on levelup
+    QuestieCorrections:UpdateFoodDrink()
+    local _, class = UnitClass("player")
+    if class == "HUNTER" then
+        QuestieCorrections:UpdatePetFood()
+        QuestieCorrections:UpdateAmmoVendors()
+    elseif class == "ROGUE" or class == "WARRIOR" then
+        QuestieCorrections:UpdateAmmoVendors()
+    end
+
 end
 
 function QuestieCorrections:PopulateTownsfolkType(mask) -- populate the table with all npc ids based on the given bitmask
@@ -255,6 +312,52 @@ function QuestieCorrections:PopulateTownsfolkType(mask) -- populate the table wi
     return tbl
 end
 
+function QuestieCorrections:PopulateVendors(itemList, existingTable)
+    local factionKey = UnitFactionGroup("Player") == "Alliance" and "A" or "H"
+    local tbl = existingTable or {}
+    for _, id in pairs(itemList) do
+        --print(id)
+        local vendors = QuestieDB.QueryItemSingle(id, "vendors")
+        if vendors then
+            for _, vendorId in pairs(vendors) do
+                --print(vendorId)
+                local friendlyToFaction = QuestieDB.QueryNPCSingle(vendorId, "friendlyToFaction")
+                if (not friendlyToFaction) or friendlyToFaction == "AH" or friendlyToFaction == factionKey then
+                    tinsert(tbl, vendorId)
+                end
+            end
+        end
+    end
+    return tbl
+end
+
+function QuestieCorrections:PopulateTownsfolkPostBoot() -- post DB boot (use queries here)
+    -- item ids for class-specific reagents
+    local reagents = {
+        ["MAGE"] = {17031, 17032, 17020},
+        ["SHAMAN"] = {17030},
+        ["PRIEST"] = {17029,17028},
+        ["PALADIN"] = {21177,17033},
+        ["WARRIOR"] = {},
+        ["HUNTER"] = {},
+        ["WARLOCK"] = {5565,16583},
+        ["ROGUE"] = {5140,2928,8924,5173,2930,8923},
+        ["DRUID"] = {17034,17026,17035,17021,17038,17036,17037}
+    }
+
+    -- populate vendor IDs from db
+    Questie.db.char.townsfolk["Reagents"] = QuestieCorrections:PopulateVendors(reagents[select(2, UnitClass("player"))])
+    --[[Questie.db.char.vendorList["Trade Goods"] = QuestieCorrections:PopulateVendors({ -- item ids from wowhead for trade goods   (temporarily disabled)
+        14256,12810,13463,8845,8846,4234,3713,8170,14341,4389,3357,2453,13464,
+        3355,3356,3358,4371,4304,5060,2319,18256,8925,3857,10940,2321,785,4404,2692,
+        2605,3372,2320,6217,2449,4399,4364,10938,18567,4382,4289,765,3466,3371,2447,2880,
+        2928,4361,10647,10648,4291,4357,8924,8343,4363,2678,5173,4400,2930,4342,2325,4340,
+        6261,8923,2324,2604,6260,4378,10290,17194,4341
+    })]]--
+    Questie.db.char.vendorList["Bags"] = QuestieCorrections:PopulateVendors({4496, 4497, 4498, 4499})
+    QuestieCorrections:UpdatePlayerVendors()
+end
+
 function QuestieCorrections:PopulateTownsfolk()
     Questie.db.global.townsfolk = {
         ["Repair"] = QuestieCorrections:PopulateTownsfolkType(QuestieDB.npcFlags.REPAIR), 
@@ -264,11 +367,9 @@ function QuestieCorrections:PopulateTownsfolk()
         ["Flight Master"] = QuestieCorrections:PopulateTownsfolkType(QuestieDB.npcFlags.FLIGHT_MASTER),
         ["Innkeeper"] = QuestieCorrections:PopulateTownsfolkType(QuestieDB.npcFlags.INNKEEPER),
         ["Weapon Master"] = {}, -- populated below
-        ["Reagents"] = { -- todo
-
-        }
     }
     Questie.db.char.townsfolk = {} -- character-specific townsfolk
+    Questie.db.char.vendorList = {} -- character-specific vendors
     local classTrainers = {
         ["MAGE"] = {331, 3047, 3048, 3049, 4568, 5144, 5145, 5497, 5498, 5882, 5883, 5885, 7311, 7312},
         ["SHAMAN"] = {3030, 3031, 3032, 3344, 3403, 13417},
@@ -327,25 +428,19 @@ function QuestieCorrections:PopulateTownsfolk()
     end
 
     Questie.db.global.professionTrainers = professionTrainers
+    local faction = UnitFactionGroup("Player")
+    local _, class = UnitClass("player")
 
     -- todo: specialized trainer types (leatherworkers, engineers, etc)
 
-    local _, class = UnitClass("player")
     Questie.db.char.townsfolk["Class Trainer"] = classTrainers[class]
     if class == "HUNTER" then
         Questie.db.char.townsfolk["Stable Master"] = QuestieCorrections:PopulateTownsfolkType(QuestieDB.npcFlags.STABLEMASTER)
-        QuestieCorrections:UpdateAmmoVendors()
-        QuestieCorrections:UpdatePetFood()
-    elseif class == "ROGUE" then
-        -- shady dealers
     elseif class == "MAGE" then
-        -- portal trainers
+        Questie.db.char.townsfolk["Portal Trainer"] = {4165,2485,2489,4958,5957,2492}
     end
 
-
     Questie.db.char.townsfolk["Mailbox"] = {}
-
-    local faction = UnitFactionGroup("Player")
 
     for _, id in pairs({ -- mailbox list
         32349,142075,142089,142093,142094,142095,142102,142103,142109,142110,142111,142117,142119,143981,143982,143983,
@@ -363,6 +458,22 @@ function QuestieCorrections:PopulateTownsfolk()
     end
 
     Questie.db.char.townsfolk["Spirit Healer"] = {}
+
+    for e=19199, 19283 do
+        if QuestieDB.npcData[e] then
+            tinsert(Questie.db.char.townsfolk["Spirit Healer"], e)
+        end
+    end
+
+    Questie.db.global.petFoodVendorTypes = {["Meat"] = {},["Fish"]={},["Cheese"]={},["Bread"]={},["Fungus"]={},["Fruit"]={},["Raw Meat"]={},["Raw Fish"]={}}
+    local petFoodIndexes = {"Meat","Fish","Cheese","Bread","Fungus","Fruit","Raw Meat","Raw Fish"}
+
+    for id, data in pairs(QuestieDB.itemData) do
+        local foodType = data[QuestieDB.itemKeys.foodType]
+        if foodType then
+            tinsert(Questie.db.global.petFoodVendorTypes[petFoodIndexes[foodType]], id)
+        end
+    end
 
     -- get player professions and add relevant npcs
     --Questie.db.char.townsfolk["Profession Trainer"] = {}

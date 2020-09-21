@@ -2569,6 +2569,397 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.AZSHARA,
             [npcKeys.spawns] = {[zoneIDs.AZSHARA] = {{29.94,53.51},{36.16,54.59},},},
         },
+        -- graves (todo: find a better solution to this. Wasn't worth creating a whole new data type)
+        [19199] = {
+            [QuestieDB.npcKeys.name]="Darkshore, Auberdine",
+            [QuestieDB.npcKeys.friendlyToFaction]="A",
+            [QuestieDB.npcKeys.spawns]={[148]={{41.704,36.507}}},
+        },
+        [19200] = {
+            [QuestieDB.npcKeys.name]="Thousand Needles, The Great Lift",
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
+            [QuestieDB.npcKeys.spawns]={[400]={{30.265,23.5}}},
+        },
+        [19201] = {
+            [QuestieDB.npcKeys.name]="Stranglethorn Vale, Northern Stranglethorn",
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
+            [QuestieDB.npcKeys.spawns]={[33]={{38.385,8.786}}},
+        },
+        [19202] = {
+            [QuestieDB.npcKeys.name]="Durotar, Sen'jin Village",
+            [QuestieDB.npcKeys.friendlyToFaction]="H",
+            [QuestieDB.npcKeys.spawns]={[14]={{57.163,73.371}}},
+        },
+        [19203] = {
+            [QuestieDB.npcKeys.name]="Darkshore, Twilight Vale",
+            [QuestieDB.npcKeys.friendlyToFaction]="H",
+            [QuestieDB.npcKeys.spawns]={[148]={{43.43,92.566}}},
+        },
+        [19204] = {
+            [QuestieDB.npcKeys.name]="Silithus, Valor's Rest",
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
+            [QuestieDB.npcKeys.spawns]={[1377]={{80.836,20.402}}},
+        },
+        [19205] = {
+            [QuestieDB.npcKeys.name]="Feralas, Camp Mojache",
+            [QuestieDB.npcKeys.friendlyToFaction]="H",
+            [QuestieDB.npcKeys.spawns]={[357]={{72.971,44.747}}},
+        },
+        [19206] = {
+            [QuestieDB.npcKeys.name]="Teldrassil, Darnassus",
+            [QuestieDB.npcKeys.friendlyToFaction]="A",
+            [QuestieDB.npcKeys.spawns]={[1657]={{77.597,26.074}}},
+        },
+        [19207] = {
+            [QuestieDB.npcKeys.name]="Tirisfal Glades, Deathknell",
+            [QuestieDB.npcKeys.friendlyToFaction]="H",
+            [QuestieDB.npcKeys.spawns]={[85]={{31.075,64.881}}},
+        },
+        [19208] = {
+            [QuestieDB.npcKeys.name]="Hillsbrad Foothills, Tarren Mill",
+            [QuestieDB.npcKeys.friendlyToFaction]="H",
+            [QuestieDB.npcKeys.spawns]={[267]={{63.994,19.625}}},
+        },
+        [19209] = {
+            [QuestieDB.npcKeys.name]="Elwynn Forest, Goldshire",
+            [QuestieDB.npcKeys.friendlyToFaction]="A",
+            [QuestieDB.npcKeys.spawns]={[12]={{39.299,60.48}}},
+        },
+        [19210] = {
+            [QuestieDB.npcKeys.name]="Eastern Plaguelands, Blackwood Lake",
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
+            [QuestieDB.npcKeys.spawns]={[139]={{42.837,39.315}}},
+        },
+        [19211] = {
+            [QuestieDB.npcKeys.name]="Silithus, Cenarion Hold",
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
+            [QuestieDB.npcKeys.spawns]={[1377]={{47.255,37.581}}},
+        },
+        [19212] = {
+            [QuestieDB.npcKeys.name]="Hillsbrad Foothills, Southshore",
+            [QuestieDB.npcKeys.friendlyToFaction]="A",
+            [QuestieDB.npcKeys.spawns]={[267]={{51.849,53.099}}},
+        },
+        [19213] = {
+            [QuestieDB.npcKeys.name]="Thousand Needles, Shimmering Flats",
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
+            [QuestieDB.npcKeys.spawns]={[400]={{68.771,53.305}}},
+        },
+        [19214] = {
+            [QuestieDB.npcKeys.name]="Duskwood, Darkshire",
+            [QuestieDB.npcKeys.friendlyToFaction]="A",
+            [QuestieDB.npcKeys.spawns]={[10]={{74.926,58.755}}},
+        },
+        [19215] = {
+            [QuestieDB.npcKeys.name]="Stonetalon Mountains, Webwinder Path",
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
+            [QuestieDB.npcKeys.spawns]={[406]={{57.569,61.985}}},
+        },
+        [19216] = {
+            [QuestieDB.npcKeys.name]="The Barrens, Camp Taurajo",
+            [QuestieDB.npcKeys.friendlyToFaction]="H",
+            [QuestieDB.npcKeys.spawns]={[17]={{45.35,61.132}}},
+        },
+        [19217] = {
+            [QuestieDB.npcKeys.name]="Wetlands, Baradin Bay",
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
+            [QuestieDB.npcKeys.spawns]={[11]={{11.295,43.53}}},
+        },
+        [19218] = {
+            [QuestieDB.npcKeys.name]="Westfall, Sentinel Hill",
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
+            [QuestieDB.npcKeys.spawns]={[40]={{51.983,49.152}}},
+        },
+        [19219] = {
+            [QuestieDB.npcKeys.name]="Feralas, Dire Maul",
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
+            [QuestieDB.npcKeys.spawns]={[357]={{54.814,47.994}}},
+        },
+        [19220] = {
+            [QuestieDB.npcKeys.name]="Silithus, Scarab Wall", --  (AQ Only)
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
+            [QuestieDB.npcKeys.spawns]={[1377]={{28.125,87.529}}},
+        },
+        [19221] = {
+            [QuestieDB.npcKeys.name]="Teldrassil, Dolanaar",
+            [QuestieDB.npcKeys.friendlyToFaction]="A",
+            [QuestieDB.npcKeys.spawns]={[141]={{56.346,62.762}}},
+        },
+        [19222] = {
+            [QuestieDB.npcKeys.name]="Loch Modan, Thelsamar",
+            [QuestieDB.npcKeys.friendlyToFaction]="A",
+            [QuestieDB.npcKeys.spawns]={[38]={{32.187,46.952}}},
+        },
+        [19223] = {
+            [QuestieDB.npcKeys.name]="Arathi Highlands",
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
+            [QuestieDB.npcKeys.spawns]={[45]={{48.647,55.789}}},
+        },
+        [19224] = {
+            [QuestieDB.npcKeys.name]="Badlands, Kargath",
+            [QuestieDB.npcKeys.friendlyToFaction]="H",
+            [QuestieDB.npcKeys.spawns]={[3]={{8.362,55.201}}},
+        },
+        [19225] = {
+            [QuestieDB.npcKeys.name]="Elwynn Forest, Stormwind",
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
+            [QuestieDB.npcKeys.spawns]={[12]={{32.397,52.38}}},
+        },
+        [19226] = {
+            [QuestieDB.npcKeys.name]="Wetlands, Crossroads",
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
+            [QuestieDB.npcKeys.spawns]={[11]={{49.484,41.404}}},
+        },
+        [19227] = {
+            [QuestieDB.npcKeys.name]="Badlands, Graveyard NE",
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
+            [QuestieDB.npcKeys.spawns]={[3]={{56.841,24.14}}},
+        },
+        [19228] = {
+            [QuestieDB.npcKeys.name]="Mulgore, Thunder Bluff",
+            [QuestieDB.npcKeys.friendlyToFaction]="H",
+            [QuestieDB.npcKeys.spawns]={[1638]={{56.652,18.958}}},
+        },
+        [19229] = {
+            [QuestieDB.npcKeys.name]="The Barrens, The Crossroads",
+            [QuestieDB.npcKeys.friendlyToFaction]="H",
+            [QuestieDB.npcKeys.spawns]={[17]={{50.786,32.637}}},
+        },
+        [19230] = {
+            [QuestieDB.npcKeys.name]="Dun Morogh, Gates of Ironforge",
+            [QuestieDB.npcKeys.friendlyToFaction]="A",
+            [QuestieDB.npcKeys.spawns]={[1]={{54.35,39.241}}},
+        },
+        [19232] = {
+            [QuestieDB.npcKeys.name]="The Hinterlands, The Overlook Cliffs",
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
+            [QuestieDB.npcKeys.spawns]={[47]={{72.701,68.48}}},
+        },
+        [19233] = {
+            [QuestieDB.npcKeys.name]="Azshara, Legash Encampment",
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
+            [QuestieDB.npcKeys.spawns]={[16]={{70.361,16.351}}},
+        },
+        [19234] = {
+            [QuestieDB.npcKeys.name]="Elwynn Forest, Eastvale Logging Camp",
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
+            [QuestieDB.npcKeys.spawns]={[12]={{83.826,69.683}}},
+        },
+        [19235] = {
+            [QuestieDB.npcKeys.name]="Dustwallow Marsh, Brackenwall Village",
+            [QuestieDB.npcKeys.friendlyToFaction]="H",
+            [QuestieDB.npcKeys.spawns]={[15]={{39.465,31.267}}},
+        },
+        [19236] = {
+            [QuestieDB.npcKeys.name]="Desolace, Ghost Walker Post",
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
+            [QuestieDB.npcKeys.spawns]={[405]={{50.267,63.229}}},
+        },
+        [19237] = {
+            [QuestieDB.npcKeys.name]="Durotar, Razor Hill",
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
+            [QuestieDB.npcKeys.spawns]={[14]={{53.545,44.677}}},
+        },
+        [19238] = {
+            [QuestieDB.npcKeys.name]="Mulgore, Red Cloud Mesa",
+            [QuestieDB.npcKeys.friendlyToFaction]="H",
+            [QuestieDB.npcKeys.spawns]={[215]={{42.844,78.004}}},
+        },
+        [19239] = {
+            [QuestieDB.npcKeys.name]="Deadwind Pass, Morgan's Plot",
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
+            [QuestieDB.npcKeys.spawns]={[41]={{39.996,74.622}}},
+        },
+        [19240] = {
+            [QuestieDB.npcKeys.name]="Burning Steppes, Flame Crest",
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
+            [QuestieDB.npcKeys.spawns]={[46]={{63.702,23.523}}},
+        },
+        [19241] = {
+            [QuestieDB.npcKeys.name]="The Hinterlands, Aerie Peak",
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
+            [QuestieDB.npcKeys.spawns]={[47]={{16.94,44.538}}},
+        },
+        [19242] = {
+            [QuestieDB.npcKeys.name]="Western Plaguelands, Bulwark",
+            [QuestieDB.npcKeys.friendlyToFaction]="H",
+            [QuestieDB.npcKeys.spawns]={[85]={{81.95,69.283}}},
+        },
+        [19243] = {
+            [QuestieDB.npcKeys.name]="Tirisfal Glades, Faol's Rest",
+            [QuestieDB.npcKeys.friendlyToFaction]="A",
+            [QuestieDB.npcKeys.spawns]={[85]={{79.152,40.928}}},
+        },
+        [19244] = {
+            [QuestieDB.npcKeys.name]="Moonglade",
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
+            [QuestieDB.npcKeys.spawns]={[493]={{61.851,69.217}}},
+        },
+        [19245] = {
+            [QuestieDB.npcKeys.name]="Western Plaguelands, Chillwind Camp",
+            [QuestieDB.npcKeys.friendlyToFaction]="A",
+            [QuestieDB.npcKeys.spawns]={[28]={{45.045,85.756}}},
+        },
+        [19246] = {
+            [QuestieDB.npcKeys.name]="Eastern Plaguelands, Darrowshire",
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
+            [QuestieDB.npcKeys.spawns]={[139]={{35.063,86.034}}},
+        },
+        [19247] = {
+            [QuestieDB.npcKeys.name]="Ashenvale, Astranaar",
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
+            [QuestieDB.npcKeys.spawns]={[331]={{40.4,53.06}}},
+        },
+        [19248] = {
+            [QuestieDB.npcKeys.name]="Tirisfal Glades, Undercity",
+            [QuestieDB.npcKeys.friendlyToFaction]="H",
+            [QuestieDB.npcKeys.spawns]={[85]={{62.376,66.884}}},
+        },
+        [19249] = {
+            [QuestieDB.npcKeys.name]="Dun Morogh, Anvilmar",
+            [QuestieDB.npcKeys.friendlyToFaction]="A",
+            [QuestieDB.npcKeys.spawns]={[1]={{29.761,69.659}}},
+        },
+        [19250] = {
+            [QuestieDB.npcKeys.name]="Redridge Mountains, Lakeshire",
+            [QuestieDB.npcKeys.friendlyToFaction]="H",
+            [QuestieDB.npcKeys.spawns]={[44]={{21.505,57.202}}},
+        },
+        [19251] = {
+            [QuestieDB.npcKeys.name]="Swamp of Sorrows, Stonard",
+            [QuestieDB.npcKeys.friendlyToFaction]="H",
+            [QuestieDB.npcKeys.spawns]={[8]={{50.323,61.927}}},
+        },
+        [19252] = {
+            [QuestieDB.npcKeys.name]="Felwood, Irontree Woods",
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
+            [QuestieDB.npcKeys.spawns]={[361]={{49.728,31.248}}},
+        },
+        [19253] = {
+            [QuestieDB.npcKeys.name]="Eastern Plaguelands, Light's Hope Chapel",
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
+            [QuestieDB.npcKeys.spawns]={[139]={{74.414,59.065}}},
+        },
+        [19254] = {
+            [QuestieDB.npcKeys.name]="Searing Gorge, Thorium Point",
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
+            [QuestieDB.npcKeys.spawns]={[51]={{35.432,23.57}}},
+        },
+        [19256] = {
+            [QuestieDB.npcKeys.name]="Winterspring, Everlook",
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
+            [QuestieDB.npcKeys.spawns]={[618]={{61.195,35.019}}},
+        },
+        [19259] = {
+            [QuestieDB.npcKeys.name]="Tirisfal Glades, Brill",
+            [QuestieDB.npcKeys.friendlyToFaction]="H",
+            [QuestieDB.npcKeys.spawns]={[85]={{56.239,49.421}}},
+        },
+        [19260] = {
+            [QuestieDB.npcKeys.name]="Eastern Plaguelands, Graveyard CG Tower",
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
+            [QuestieDB.npcKeys.spawns]={[139]={{33.944,64.212}}},
+        },
+        [19261] = {
+            [QuestieDB.npcKeys.name]="Azshara, Talrendis Point",
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
+            [QuestieDB.npcKeys.spawns]={[16]={{14.448,78.687}}},
+        },
+        [19262] = {
+            [QuestieDB.npcKeys.name]="Tanaris, Gadgetzan",
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
+            [QuestieDB.npcKeys.spawns]={[440]={{53.998,28.607}}},
+        },
+        [19263] = {
+            [QuestieDB.npcKeys.name]="Azshara, Southridge Beach",
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
+            [QuestieDB.npcKeys.spawns]={[16]={{54.429,70.947}}},
+        },
+        [19264] = {
+            [QuestieDB.npcKeys.name]="Felwood, Morlos'Aran",
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
+            [QuestieDB.npcKeys.spawns]={[361]={{56.381,86.785}}},
+        },
+        [19265] = {
+            [QuestieDB.npcKeys.name]="The Barrens, Ratchet",
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
+            [QuestieDB.npcKeys.spawns]={[17]={{60.213,39.872}}},
+        },
+        [19266] = {
+            [QuestieDB.npcKeys.name]="Mulgore, Bloodhoof Village",
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
+            [QuestieDB.npcKeys.spawns]={[215]={{46.519,55.54}}},
+        },
+        [19267] = {
+            [QuestieDB.npcKeys.name]="Teldrassil, Aldrassil",
+            [QuestieDB.npcKeys.friendlyToFaction]="A",
+            [QuestieDB.npcKeys.spawns]={[141]={{58.979,42.62}}},
+        },
+        [19268] = {
+            [QuestieDB.npcKeys.name]="Silverpine Forest, The Sepulcher",
+            [QuestieDB.npcKeys.friendlyToFaction]="H",
+            [QuestieDB.npcKeys.spawns]={[130]={{44.29,41.088}}},
+        },
+        [19269] = {
+            [QuestieDB.npcKeys.name]="Dun Morogh, Kharanos",
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
+            [QuestieDB.npcKeys.spawns]={[1]={{47.126,54.912}}},
+        },
+        [19270] = {
+            [QuestieDB.npcKeys.name]="Elwynn Forest, Northshire",
+            [QuestieDB.npcKeys.friendlyToFaction]="A",
+            [QuestieDB.npcKeys.spawns]={[12]={{49.672,43.02}}},
+        },
+        [19271] = {
+            [QuestieDB.npcKeys.name]="Stranglethorn Vale, Booty Bay",
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
+            [QuestieDB.npcKeys.spawns]={[33]={{30.282,73.25}}},
+        },
+        [19272] = {
+            [QuestieDB.npcKeys.name]="Un'Goro Crater, The Marshlands",
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
+            [QuestieDB.npcKeys.spawns]={[490]={{80.27,50.225}}},
+        },
+        [19273] = {
+            [QuestieDB.npcKeys.name]="Durotar, Valley of Trials",
+            [QuestieDB.npcKeys.friendlyToFaction]="H",
+            [QuestieDB.npcKeys.spawns]={[14]={{44.133,69.304}}},
+        },
+        [19274] = {
+            [QuestieDB.npcKeys.name]="Feralas, Feathermoon Stronghold",
+            [QuestieDB.npcKeys.friendlyToFaction]="A",
+            [QuestieDB.npcKeys.spawns]={[357]={{31.83,48.123}}},
+        },
+        [19275] = {
+            [QuestieDB.npcKeys.name]="Western Plaguelands, Caer Darrow",
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
+            [QuestieDB.npcKeys.spawns]={[28]={{65.782,74.294}}},
+        },
+        [19276] = {
+            [QuestieDB.npcKeys.name]="Ashenvale, Kargathia",
+            [QuestieDB.npcKeys.friendlyToFaction]="A",
+            [QuestieDB.npcKeys.spawns]={[331]={{80.698,58.567}}},
+        },
+        [19279] = {
+            [QuestieDB.npcKeys.name]="Duskwood, Ravenhill",
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
+            [QuestieDB.npcKeys.spawns]={[10]={{19.973,49.451}}},
+        },
+        [19280] = {
+            [QuestieDB.npcKeys.name]="Durotar, Northern Durotar",
+            [QuestieDB.npcKeys.friendlyToFaction]="H",
+            [QuestieDB.npcKeys.spawns]={[14]={{47.314,17.888}}},
+        },
+        [19282] = {
+            [QuestieDB.npcKeys.name]="Blasted Lands, Dreadmaul Hold",
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
+            [QuestieDB.npcKeys.spawns]={[4]={{50.979,12.533}}},
+        },
+        [19283] = {
+            [QuestieDB.npcKeys.name]="Dustwallow Marsh, Theramore Isle",
+            [QuestieDB.npcKeys.friendlyToFaction]="A",
+            [QuestieDB.npcKeys.spawns]={[15]={{63.627,42.639}}},
+        },
     }
 end
 
