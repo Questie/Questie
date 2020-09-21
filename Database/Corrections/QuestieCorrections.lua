@@ -251,7 +251,7 @@ function QuestieCorrections:UpdateAmmoVendors() -- call on change weapon
     -- get current weapon ammo type
     local weaponID = GetInventoryItemID("player", 18)
     if weaponID then
-        local class, subClass = unpack(QuestieDB.QueryItem(wid, "class", "subClass"))
+        local class, subClass = unpack(QuestieDB.QueryItem(weaponID, "class", "subClass"))
         local isBow = (2 == class and (2 == subClass or 18 == subClass))
         if isBow then
             Questie.db.char.vendorList["Ammo"] = QuestieCorrections:PopulateVendors({11285,3030,19316,2515,2512})
