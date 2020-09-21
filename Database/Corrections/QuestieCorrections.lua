@@ -235,14 +235,24 @@ function QuestieCorrections:OptimizeWaypoints(waypoints)
     return newWaypointZones
 end
 
+function _reformatVendors(lst)
+    local newList = {}
+    for k in pairs(lst) do
+        tinsert(newList, k)
+    end
+    return newList
+end
+
+
 function QuestieCorrections:UpdatePetFood() -- call on change pet
     Questie.db.char.vendorList["Pet Food"] = {}
     -- detect petfood vendors for player's pet
     for _, key in pairs({GetStablePetFoodTypes(0)}) do
         if Questie.db.global.petFoodVendorTypes[key] then
-            QuestieCorrections:PopulateVendors(Questie.db.global.petFoodVendorTypes[key], Questie.db.char.vendorList["Pet Food"])
+            QuestieCorrections:PopulateVendors(Questie.db.global.petFoodVendorTypes[key], Questie.db.char.vendorList["Pet Food"], true)
         end
     end
+    Questie.db.char.vendorList["Pet Food"] = _reformatVendors(Questie.db.char.vendorList["Pet Food"])
 end
 
 function QuestieCorrections:UpdateAmmoVendors() -- call on change weapon
@@ -254,39 +264,23 @@ function QuestieCorrections:UpdateAmmoVendors() -- call on change weapon
         local class, subClass = unpack(QuestieDB.QueryItem(weaponID, "class", "subClass"))
         local isBow = (2 == class and (2 == subClass or 18 == subClass))
         if isBow then
-            Questie.db.char.vendorList["Ammo"] = QuestieCorrections:PopulateVendors({11285,3030,19316,2515,2512})
+            Questie.db.char.vendorList["Ammo"] = _reformatVendors(QuestieCorrections:PopulateVendors({11285,3030,19316,2515,2512}, {}, true))
         else
-            Questie.db.char.vendorList["Ammo"] = QuestieCorrections:PopulateVendors({11284,19317,2519,2516,3033})
+            Questie.db.char.vendorList["Ammo"] = _reformatVendors(QuestieCorrections:PopulateVendors({11284,19317,2519,2516,3033}, {}, true))
         end
     end
 end
 
 function QuestieCorrections:UpdateFoodDrink()
-    local food = {}
-    local drink = {}
-
-    local playerLevel = UnitLevel("Player")
-
-    local function populate(ids)
-        local tbl = {}
-        for _, id in pairs(ids) do
-            local reqLevel = QuestieDB.QueryItemSingle(id, "requiredLevel")
-            if reqLevel and reqLevel < playerLevel and reqLevel > playerLevel - 16 then -- dont show food/water that is 16 levels below or too high
-                tinsert(tbl, id)
-            end
-        end
-        return tbl
-    end
-
-    local drink = populate({159,8766,1179,1708,1645,1205,17404,19300,19299}) -- water item ids
-    local food = populate({ -- food item ids (from wowhead)
+    local drink = {159,8766,1179,1708,1645,1205,17404,19300,19299} -- water item ids
+    local food = { -- food item ids (from wowhead)
         8932,4536,8952,19301,13724,8953,3927,11109,8957,4608,4599,4593,4592,117,3770,3771,4539,8950,8948,7228,
         2287,4601,422,16166,4537,4602,4542,4594,1707,4540,414,4538,4607,17119,19225,2070,21552,787,4544,18632,16167,4606,16170,
         4541,4605,17408,17406,11444,21033,22324,18635,21030,17407,19305,18633,4604,21031,16168,19306,16169,19304,17344,19224,19223
-    })
+    }
 
-    Questie.db.char.vendorList["Food"] = QuestieCorrections:PopulateVendors(food)
-    Questie.db.char.vendorList["Drink"] = QuestieCorrections:PopulateVendors(drink)
+    Questie.db.char.vendorList["Food"] = _reformatVendors(QuestieCorrections:PopulateVendors(food, {}, true))
+    Questie.db.char.vendorList["Drink"] = _reformatVendors(QuestieCorrections:PopulateVendors(drink, {}, true))
 end
 
 function QuestieCorrections:UpdatePlayerVendors() -- call on levelup
@@ -312,18 +306,26 @@ function QuestieCorrections:PopulateTownsfolkType(mask) -- populate the table wi
     return tbl
 end
 
-function QuestieCorrections:PopulateVendors(itemList, existingTable)
+function QuestieCorrections:PopulateVendors(itemList, existingTable, restrictLevel)
     local factionKey = UnitFactionGroup("Player") == "Alliance" and "A" or "H"
     local tbl = existingTable or {}
+    local playerLevel = restrictLevel and UnitLevel("Player") or 0
     for _, id in pairs(itemList) do
         --print(id)
-        local vendors = QuestieDB.QueryItemSingle(id, "vendors")
-        if vendors then
-            for _, vendorId in pairs(vendors) do
-                --print(vendorId)
-                local friendlyToFaction = QuestieDB.QueryNPCSingle(vendorId, "friendlyToFaction")
-                if (not friendlyToFaction) or friendlyToFaction == "AH" or friendlyToFaction == factionKey then
-                    tinsert(tbl, vendorId)
+        local valid = true
+        if restrictLevel then
+            local requiredLevel = QuestieDB.QueryItemSingle(id, "requiredLevel")
+            valid = (not requiredLevel) or (requiredLevel and requiredLevel <= playerLevel and requiredLevel > playerLevel - 16)
+        end
+        if valid then
+            local vendors = QuestieDB.QueryItemSingle(id, "vendors")
+            if vendors then
+                for _, vendorId in pairs(vendors) do
+                    --print(vendorId)
+                    local friendlyToFaction = QuestieDB.QueryNPCSingle(vendorId, "friendlyToFaction")
+                    if (not friendlyToFaction) or friendlyToFaction == "AH" or friendlyToFaction == factionKey then
+                        tbl[vendorId] = true
+                    end
                 end
             end
         end
@@ -346,15 +348,15 @@ function QuestieCorrections:PopulateTownsfolkPostBoot() -- post DB boot (use que
     }
 
     -- populate vendor IDs from db
-    Questie.db.char.townsfolk["Reagents"] = QuestieCorrections:PopulateVendors(reagents[select(2, UnitClass("player"))])
-    Questie.db.char.vendorList["Trade Goods"] = QuestieCorrections:PopulateVendors({ -- item ids from wowhead for trade goods   (temporarily disabled)
+    Questie.db.char.townsfolk["Reagents"] = _reformatVendors(QuestieCorrections:PopulateVendors(reagents[select(2, UnitClass("player"))]))
+    Questie.db.char.vendorList["Trade Goods"] = _reformatVendors(QuestieCorrections:PopulateVendors({ -- item ids from wowhead for trade goods   (temporarily disabled)
         14256,12810,13463,8845,8846,4234,3713,8170,14341,4389,3357,2453,13464,
         3355,3356,3358,4371,4304,5060,2319,18256,8925,3857,10940,2321,785,4404,2692,
         2605,3372,2320,6217,2449,4399,4364,10938,18567,4382,4289,765,3466,3371,2447,2880,
         2928,4361,10647,10648,4291,4357,8924,8343,4363,2678,5173,4400,2930,4342,2325,4340,
         6261,8923,2324,2604,6260,4378,10290,17194,4341
-    })
-    Questie.db.char.vendorList["Bags"] = QuestieCorrections:PopulateVendors({4496, 4497, 4498, 4499})
+    }))
+    Questie.db.char.vendorList["Bags"] = _reformatVendors(QuestieCorrections:PopulateVendors({4496, 4497, 4498, 4499}))
     QuestieCorrections:UpdatePlayerVendors()
 end
 
