@@ -274,6 +274,7 @@ function _Qframe:Unload()
         return -- icon is still in the draw queue
     end
     self._needsUnload = nil
+    self._loaded = nil
     --Questie:Debug(DEBUG_SPAM, "[_Qframe:Unload]")
     self:SetScript("OnUpdate", nil)
     self:SetScript("OnShow", nil)
@@ -324,7 +325,6 @@ function _Qframe:Unload()
     self:Hide()
     self.glow:Hide()
     self.data = nil -- Just to be safe
-    self.loaded = nil
     self.x = nil
     self.y = nil
     self.AreaID = nil
