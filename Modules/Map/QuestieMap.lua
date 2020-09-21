@@ -389,6 +389,9 @@ function QuestieMap:DrawManualIcon(data, areaID, x, y, typ)
         error("Questie".."Data.id must be set to the NPC or object ID!")
     end
 
+    -- this needs to be refactored. Fix the capitalization. Who made this id instead of Id?
+    data.Id = data.id
+
     local uiMapId = ZoneDB:GetUiMapIdByAreaId(areaID)
     if (not uiMapId) then
         Questie:Error("No UiMapID for areaId :".. areaID .. " " .. tostring(data.Name))
