@@ -425,6 +425,10 @@ QuestieLocale.locale['zhTW'] = {
     ['JOURNEY_SEARCH_EXE'] = "搜尋",
     ['JOURNEY_SEARCH_RESULTS'] = "搜尋規則",
     ['JOURNEY_SEARCH_NOMATCH'] = "沒有符合的結果：%s",
+    ['JOURNEY_SEARCH_QUESTS'] = "Quests",
+    ['JOURNEY_SEARCH_NPCS'] = "NPCs",
+    ['JOURNEY_SEARCH_OBJECTS'] = "Objects",
+    ['JOURNEY_SEARCH_ITEMS'] = "Items",
 
     -- Debug Messages
     ['DEBUG_LOWLEVEL'] = "Gray Quests toggled to:",
