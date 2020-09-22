@@ -425,6 +425,10 @@ QuestieLocale.locale['deDE'] = {
     ['JOURNEY_SEARCH_EXE'] = "Suche",
     ['JOURNEY_SEARCH_RESULTS'] = "Suchergebnisse",
     ['JOURNEY_SEARCH_NOMATCH'] = "Keine Treffer für die Suche: %s",
+    ['JOURNEY_SEARCH_QUESTS'] = "Quests",
+    ['JOURNEY_SEARCH_NPCS'] = "NPCs",
+    ['JOURNEY_SEARCH_OBJECTS'] = "Objects",
+    ['JOURNEY_SEARCH_ITEMS'] = "Items",
 
     -- Debug Messages
     ['DEBUG_LOWLEVEL'] = "Graue Quests-Option geändert auf:",
