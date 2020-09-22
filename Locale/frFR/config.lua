@@ -425,6 +425,10 @@ QuestieLocale.locale['frFR'] = {
     ['JOURNEY_SEARCH_EXE'] = "Rechercher",
     ['JOURNEY_SEARCH_RESULTS'] = "Résultats de la recherche",
     ['JOURNEY_SEARCH_NOMATCH'] = "Aucune correspondance trouvée pour : %s",
+    ['JOURNEY_SEARCH_QUESTS'] = "Quêtes",
+    ['JOURNEY_SEARCH_NPCS'] = "PNJs",
+    ['JOURNEY_SEARCH_OBJECTS'] = "Objets",
+    ['JOURNEY_SEARCH_ITEMS'] = "Objets",
 
     -- Debug Messages
     ['DEBUG_LOWLEVEL'] = "Les quêtes grises sont basculées sur :",
