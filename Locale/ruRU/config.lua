@@ -364,7 +364,7 @@ QuestieLocale.locale['ruRU'] = {
 
     -- Journey Window
     ['JOURNEY_TITLE'] = "Путешествие персонажа %s",
-	['JOUNREY_TAB'] = "Путешествие",
+    ['JOUNREY_TAB'] = "Путешествие",
     ['JOURNEY_ZONE_TAB'] = "Задания по игровым зонам",
     ['JOURNEY_SEARCH_TAB'] = "Расширенный поиск",
     ['JOURNEY_AVAILABLE_TITLE'] = "Доступные задания",
@@ -423,6 +423,10 @@ QuestieLocale.locale['ruRU'] = {
     ['JOURNEY_SEARCH_EXE'] = "Поиск",
     ['JOURNEY_SEARCH_RESULTS'] = "Результаты поиска",
     ['JOURNEY_SEARCH_NOMATCH'] = "Нет совпадений для результатов поиска: %s",
+    ['JOURNEY_SEARCH_QUESTS'] = "заданий",
+    ['JOURNEY_SEARCH_NPCS'] = "NPC",
+    ['JOURNEY_SEARCH_OBJECTS'] = "объектов",
+    ['JOURNEY_SEARCH_ITEMS'] = "предметов",
 
     -- Debug Messages
     ['DEBUG_LOWLEVEL'] = "Отображение низкоуровневых заданий:",
