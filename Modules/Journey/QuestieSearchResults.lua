@@ -492,22 +492,22 @@ function QuestieSearchResults:DrawSearchResultTab(searchGroup, searchType, query
         searchResultTabs:SetLayout("Flow");
         searchResultTabs:SetTabs({
             {
-                text = "Quests ("..resultCounts.quest..")",
+                text = QuestieLocale:GetUIString('JOURNEY_SEARCH_QUESTS') .. " ("..resultCounts.quest..")",
                 value = "quest",
                 disabled = resultCounts.quest == 0,
             },
             {
-                text = "Mobs ("..resultCounts.npc..")",
+                text = QuestieLocale:GetUIString('JOURNEY_SEARCH_NPCS') .. " ("..resultCounts.npc..")",
                 value = "npc",
                 disabled = resultCounts.npc == 0,
             },
             {
-                text = "Objects ("..resultCounts.object..")",
+                text = QuestieLocale:GetUIString('JOURNEY_SEARCH_OBJECTS') .. " ("..resultCounts.object..")",
                 value = "object",
                 disabled = resultCounts.object == 0,
             },
             {
-                text = "Items ("..resultCounts.item..")",
+                text = QuestieLocale:GetUIString('JOURNEY_SEARCH_ITEMS') .. " ("..resultCounts.item..")",
                 value = "item",
                 disabled = resultCounts.item == 0,
             },
@@ -555,7 +555,7 @@ function QuestieSearchResults:DrawSearchTab(container)
     -- search input field
     searchBox:SetFocus();
     searchBox:SetRelativeWidth(0.6);
-    searchBox:SetLabel(QuestieLocale:GetUIString('JOURNEY_SEARCH_TAB'));
+    searchBox:SetLabel(QuestieLocale:GetUIString('JOURNEY_SEARCH_TAB') .. " (".. QuestieLocale:GetUIString('JOURNEY_SEARCH_QUESTS') .. ", ".. QuestieLocale:GetUIString('JOURNEY_SEARCH_NPCS') .. ", ".. QuestieLocale:GetUIString('JOURNEY_SEARCH_OBJECTS') .. ", ".. QuestieLocale:GetUIString('JOURNEY_SEARCH_ITEMS') .. ")");
     searchBox:DisableButton(true);
     searchBox:SetCallback("OnTextChanged", function()
         if not (searchBox:GetText() == '') then
