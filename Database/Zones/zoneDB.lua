@@ -12,7 +12,7 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
 --- forward declarations
 local _GenerateUiMapIdToAreaIdTable, _GenerateParentZoneToStartingZoneTable
-local  _GetZonesWithQuestsFromNPCs, _GetZonesWithQuestsFromObjects, _IsClassQuest
+local  _GetZonesWithQuestsFromNPCs, _GetZonesWithQuestsFromObjects, _IsSpecialQuest
 
 local areaIdToUiMapId = {}
 local uiMapIdToAreaId = {} -- Generated
@@ -116,7 +116,7 @@ function ZoneDB:GetZonesWithQuests()
                     end
                     zoneMap[zoneOrSort][questId] = true
                 end
-            elseif _IsClassQuest(zoneOrSort) then
+            elseif _IsSpecialQuest(zoneOrSort) then
                 if (not zoneMap[zoneOrSort]) then
                     zoneMap[zoneOrSort] = {}
                 end
@@ -138,17 +138,13 @@ function ZoneDB:GetZonesWithQuests()
     return zoneMap
 end
 
-_IsClassQuest = function (zoneOrSort)
-    local keys = QuestieDB.zoneOrSortKeys
-    return zoneOrSort == keys.WARLOCK
-        or zoneOrSort == keys.WARRIOR
-        or zoneOrSort == keys.SHAMAN
-        or zoneOrSort == keys.PALADIN
-        or zoneOrSort == keys.MAGE
-        or zoneOrSort == keys.ROGUE
-        or zoneOrSort == keys.HUNTER
-        or zoneOrSort == keys.PRIEST
-        or zoneOrSort == keys.DRUID
+_IsSpecialQuest = function(zoneOrSort)
+    for _, v in pairs(QuestieDB.zoneOrSortKeys) do
+        if zoneOrSort == v then
+            return true
+        end
+    end
+    return false
 end
 
 _GetZonesWithQuestsFromNPCs = function(zoneMap, npcSpawns)

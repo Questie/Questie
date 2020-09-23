@@ -84,7 +84,7 @@ _CreateZoneDropdown = function()
 end
 
 _HandleContinentSelection = function(key, checked)
-    if (key.value == 5) then
+    if (key.value == QuestieLocale.questCategoryKeys.CLASS) then
         local _, class, _ = UnitClass("player")
         local classKey = QuestieDB:GetZoneOrSortForClass(class)
         local zoneTree = _QuestieJourney.questsByZone:CollectZoneQuests(classKey)

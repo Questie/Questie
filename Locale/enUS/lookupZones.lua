@@ -4,6 +4,7 @@ LangContinentLookup['enUS']= {
     [3] = "Dungeons",
     [4] = "Battlegrounds",
     [5] = "Class",
+    [6] = "Professions",
 }
 
 LangZoneLookup['enUS']= {
@@ -1177,5 +1178,16 @@ LangZoneCategoryLookup['enUS']= {
         [-261] = "Hunter",
         [-262] = "Priest",
         [-263] = "Druid",
-    }
+    },
+    [6] = {
+        [-24] = "Herbalism",
+        [-101] = "Fishing",
+        [-121] = "Blacksmithing",
+        [-181] = "Alchemy",
+        [-182] = "Leatherworking",
+        [-201] = "Engineering",
+        [-264] = "Tailoring",
+        [-304] = "Cooking",
+        [-324] = "First Aid",
+    },
 }
