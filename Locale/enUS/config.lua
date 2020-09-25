@@ -66,6 +66,10 @@ QuestieLocale.locale['enUS'] = {
     ['AUTO_MODIFIER_DESC'] = "The modifier to NOT auto-accept/-complete quests when either option is enabled and you interact with a quest NPC.",
     ['ENABLE_YELL'] = "Share quest progress with nearby players",
     ['ENABLE_YELL_DESC'] = "Your quest progress will be periodically sent to nearby players. Disabling this doesn't affect sharing progress with party members.",
+    ['QUEST_ANNOUNCE'] = "Quest Announce",
+    ['QUEST_ANNOUNCE_DESC'] = "Announce objective completion to other players via party chat or /say",
+    ['QUEST_ANNOUNCE_PARTY'] = "Party",
+    ['QUEST_ANNOUNCE_PARTY_AND_SAY'] = "Party and /say",
 
     -- Minimap tab
     ['MINIMAP_TAB'] = "Minimap",

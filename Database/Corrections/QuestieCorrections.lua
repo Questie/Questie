@@ -315,7 +315,7 @@ function QuestieCorrections:PopulateVendors(itemList, existingTable, restrictLev
         local valid = true
         if restrictLevel then
             local requiredLevel = QuestieDB.QueryItemSingle(id, "requiredLevel")
-            valid = (not requiredLevel) or (requiredLevel and requiredLevel <= playerLevel and requiredLevel > playerLevel - 16)
+            valid = (not requiredLevel) or (requiredLevel and requiredLevel <= playerLevel and requiredLevel >= playerLevel - 20)
         end
         if valid then
             local vendors = QuestieDB.QueryItemSingle(id, "vendors")
