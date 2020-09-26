@@ -187,6 +187,8 @@ function QuestieOptions.tabs.advanced:Initialize()
                         QuestieLocale:SetUILocale(clientLocale)
                         Questie.db.global.questieLocale = clientLocale
                         Questie.db.global.questieLocaleDiff = false
+                        QuestieConfig.dbIsCompiled = nil -- recompile db with new lang
+                        StaticPopup_Show("QUESTIE_LANG_CHANGED_RELOAD")
                         return
                     end
                     QuestieLocale:SetUILocale(lang);
@@ -234,7 +236,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                     Questie.db.profile.minimap.hide = optionsDefaults.profile.minimap.hide;
 
                     QuestieConfig.dbIsCompiled = false
-                    
+
                     ReloadUI()
 
                 end,
