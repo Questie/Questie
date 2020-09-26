@@ -9,6 +9,9 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 QuestiePlayer.currentQuestlog = {} --Gets populated by QuestieQuest:GetAllQuestIds(), this is either an object to the quest in question, or the ID if the object doesn't exist.
 _QuestiePlayer.playerLevel = -1
+_QuestiePlayer.raceIndex = -1
+_QuestiePlayer.classIndex = -1
+_QuestiePlayer.className = ""
 
 -- Optimizations
 local math_max = math.max;
@@ -20,12 +23,14 @@ function QuestiePlayer:Initialize()
     raceIndex = math.pow(2, raceIndex-1)
     _QuestiePlayer.raceIndex = raceIndex
 
-    local _, _, classIndex = UnitClass("player")
+    local className, _, classIndex = UnitClass("player")
     classIndex = math.pow(2, classIndex-1)
     _QuestiePlayer.classIndex = classIndex
+    _QuestiePlayer.className = className
 end
 
 --Always compare to the UnitLevel parameter, returning the highest.
+---@return number
 function QuestiePlayer:SetPlayerLevel(level)
     local localLevel = UnitLevel("player");
     _QuestiePlayer.playerLevel = math_max(localLevel, level);
@@ -33,9 +38,15 @@ end
 
 -- Gets the highest playerlevel available, most of the time playerLevel should be the most correct one
 -- doing UnitLevel for completeness.
+---@return number
 function QuestiePlayer:GetPlayerLevel()
     local level = UnitLevel("player");
     return math_max(_QuestiePlayer.playerLevel, level);
+end
+
+---@return string
+function QuestiePlayer:GetLocalizedClassName()
+    return _QuestiePlayer.className
 end
 
 function QuestiePlayer:GetGroupType()
@@ -48,6 +59,7 @@ function QuestiePlayer:GetGroupType()
     end
 end
 
+---@return boolean
 function QuestiePlayer:HasRequiredRace(requiredRaces)
     if (not requiredRaces) then
         return true
@@ -56,6 +68,7 @@ function QuestiePlayer:HasRequiredRace(requiredRaces)
     return not (requiredRaces ~= 0 and (bit.band(requiredRaces, _QuestiePlayer.raceIndex) == 0))
 end
 
+---@return boolean
 function QuestiePlayer:HasRequiredClass(requiredClasses)
     if (not requiredClasses) then
         return true
@@ -68,6 +81,7 @@ function QuestiePlayer:GetCurrentZoneId()
     return ZoneDB:GetAreaIdByUiMapId(C_Map.GetBestMapForUnit("player"))
 end
 
+---@return number
 function QuestiePlayer:GetCurrentContinentId()
     local currentZoneId = QuestiePlayer:GetCurrentZoneId()
     if (not currentZoneId) or currentZoneId == 0 then

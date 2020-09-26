@@ -28,6 +28,7 @@ local notesPopupWinIsOpen = false
 
 function QuestieJourney:Initialize()
     self.continents = LangContinentLookup
+    self.continents[QuestieLocale.questCategoryKeys.CLASS] = QuestiePlayer:GetLocalizedClassName()
     self.zoneMap = ZoneDB:GetZonesWithQuests()
     self.zones = ZoneDB:GetRelevantZones()
 
