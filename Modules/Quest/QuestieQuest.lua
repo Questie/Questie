@@ -626,7 +626,7 @@ function QuestieQuest:AddFinisher(quest)
 
             if finisher.waypoints then
                 for zone, waypoints in pairs(finisher.waypoints) do
-                    if (not ZoneDB:IsDungeonArea(zone)) then
+                    if (not ZoneDB:IsDungeonZone(zone)) then
                         if not finisherIcons[zone] and waypoints[1] and waypoints[1][1] and waypoints[1][1][1]  then
                             local data = {}
                             data.Id = questId;
