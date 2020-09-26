@@ -1,7 +1,7 @@
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
-QuestieDB.zoneOrSortKeys = {
+QuestieDB.sortKeys = {
     HERBALISM = -24,
     WARLOCK = -61,
     WARRIOR = -81,

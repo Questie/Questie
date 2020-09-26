@@ -269,7 +269,7 @@ function QuestieDB:IsAQWarEffortQuest(questId)
 end
 
 function QuestieDB:GetZoneOrSortForClass(class)
-    return QuestieDB.zoneOrSortKeys[class]
+    return QuestieDB.sortKeys[class]
 end
 
 --- Wrapper function for the GetQuestTagInfo API to correct

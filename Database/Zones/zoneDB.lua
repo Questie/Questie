@@ -139,7 +139,7 @@ function ZoneDB:GetZonesWithQuests()
 end
 
 _IsSpecialQuest = function(zoneOrSort)
-    for _, v in pairs(QuestieDB.zoneOrSortKeys) do
+    for _, v in pairs(QuestieDB.sortKeys) do
         if zoneOrSort == v then
             return true
         end

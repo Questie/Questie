@@ -456,7 +456,7 @@ QuestieLocale.locale['enUS'] = {
     ['DONT_SHOW_AGAIN'] = "Don't show again",
 
     -- Townsfolk related strings
-    ["Repair"] = "Repair", 
+    ["Repair"] = "Repair",
     ["Auctioneer"] = "Auctioneer",
     ["Banker"] = "Banker",
     ["Battlemaster"] = "Battlemaster",

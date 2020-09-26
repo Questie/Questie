@@ -12,7 +12,7 @@ LangZoneCategoryLookup = {}
 LangQuestCategory = {}
 
 -------------------------
---Import modules.
+--Import modules
 -------------------------
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
