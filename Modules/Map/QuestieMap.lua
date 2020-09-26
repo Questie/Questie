@@ -484,13 +484,20 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
 
     local uiMapId = ZoneDB:GetUiMapIdByAreaId(areaID)
     if (not uiMapId) then
+        local parentMapId = nil
         local mapInfo = C_Map.GetMapInfo(areaID)
-        local parentMapId = mapInfo.parentMapID
+        if mapInfo then
+            parentMapId = mapInfo.parentMapID
+        else
+            parentMapId = ZoneDB:GetParentZoneId(areaID)
+        end
+
         if (not parentMapId) then
-            error("No UiMapID for areaId : ".. areaID .. " - ".. tostring(data.Name))
+            error("No UiMapID or fitting parentAreaId for areaId : ".. areaID .. " - ".. tostring(data.Name))
             return nil, nil
         else
             areaID = parentMapId
+            uiMapId = ZoneDB:GetUiMapIdByAreaId(areaID)
         end
     end
 
