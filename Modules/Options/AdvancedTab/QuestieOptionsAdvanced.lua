@@ -223,7 +223,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                     -- only toggle questie if it's off (must be called before resetting the value)
                     if (not Questie.db.char.enabled) then
                         Questie.db.char.enabled = true
-                        QuestieQuest:ToggleNotes(true);
+                        --QuestieQuest:ToggleNotes(true);
                     end
 
                     Questie.db.char.enabled = optionsDefaults.char.enabled;
@@ -233,33 +233,9 @@ function QuestieOptions.tabs.advanced:Initialize()
 
                     Questie.db.profile.minimap.hide = optionsDefaults.profile.minimap.hide;
 
-                    -- update minimap icon to default
-                    if not Questie.db.profile.minimap.hide then
-                        Questie.minimapConfigIcon:Show("Questie");
-                    else
-                        Questie.minimapConfigIcon:Hide("Questie");
-                    end
-
-                    -- update map / minimap coordinates reset
-                    if not Questie.db.global.minimapCoordinatesEnabled then
-                        QuestieCoords.ResetMinimapText();
-                    end
-
-                    if not Questie.db.global.mapCoordinatesEnabled then
-                        QuestieCoords.ResetMapText();
-                    end
-
-                    -- Reset the show/hide on map
-                    if Questie.db.global.mapShowHideEnabled then
-                        Questie_Toggle:Show();
-                    else
-                        Questie_Toggle:Hide();
-                    end
-
-                    QuestieOptionsUtils:Delay(0.3, QuestieOptions.AvailableQuestRedraw, "minLevelFilter and maxLevelFilter reset to defaults");
-
-                    QuestieNameplate:RedrawIcons();
-                    QuestieMap:RescaleIcons();
+                    QuestieConfig.dbIsCompiled = false
+                    
+                    ReloadUI()
 
                 end,
             },
