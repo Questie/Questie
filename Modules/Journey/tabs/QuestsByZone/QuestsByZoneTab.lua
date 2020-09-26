@@ -107,7 +107,7 @@ _HandleContinentSelection = function(key, checked)
         end
         local text = QuestieLocale:GetUIString('JOURNEY_SELECT_PROFESSION')
         if (not next(relevantProfessions)) then
-            text = QuestieLocale:GetUIString('JOURNEY_NO_PROFESSION')
+            text = QuestieLocale:GetUIString('JOURNEY_NO_QUESTS_FOUND')
             zoneDropdown:SetDisabled(true)
         else
             zoneDropdown:SetDisabled(false)

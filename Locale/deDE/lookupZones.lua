@@ -3,6 +3,8 @@ LangContinentLookup['deDE']= {
     [2] = "Kalimdor",
     [3] = "Instanzen",
     [4] = "Schlachtfelder",
+    [5] = "Klasse",
+    [6] = "Berufe"
 }
 
 LangZoneLookup['deDE']= {
@@ -1169,5 +1171,27 @@ LangZoneCategoryLookup['deDE']= {
         [2597] = "Alteractal",
         [3277] = "Kriegshymnenschlucht",
         [3358] = "Arathibecken"
+    },
+    [5] = {
+        [-61] = "Hexenmeister",
+        [-81] = "Krieger",
+        [-82] = "Schamane",
+        [-141] = "Paladin",
+        [-161] = "Magier",
+        [-162] = "Schurke",
+        [-261] = "Jäger",
+        [-262] = "Priester",
+        [-263] = "Druide",
+    },
+    [6] = {
+        [-24] = "Kräuterkunde",
+        [-101] = "Angeln",
+        [-121] = "Schmiedekunst",
+        [-181] = "Alchimie",
+        [-182] = "Lederverarbeitung",
+        [-201] = "Ingenieurskunst",
+        [-264] = "Schneiderei",
+        [-304] = "Kochkunst",
+        [-324] = "Erste Hilfe",
     },
 }

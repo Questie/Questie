@@ -3,6 +3,8 @@ LangContinentLookup['prBR']= {
     [2] = "Kalimdor",
     [3] = "Masmorras",
     [4] = "Campos de Batalha",
+    [5] = "Class",
+    [6] = "Professions",
 }
 
 LangZoneLookup['ptBR']= {
@@ -1170,5 +1172,27 @@ LangZoneCategoryLookup['ptBR']= {
         [2597] = "Vale Alterac",
         [3277] = "Ravina Brado Guerreiro",
         [3358] = "Bacia Arathi"
+    },
+    [5] = {
+        [-61] = "Bruxo",
+        [-81] = "Guerreiro",
+        [-82] = "Xamã",
+        [-141] = "Paladino",
+        [-161] = "Mago",
+        [-162] = "Ladino",
+        [-261] = "Caçador",
+        [-262] = "Sacerdote",
+        [-263] = "Druida",
+    },
+    [6] = {
+        [-24] = "Herborismo",
+        [-101] = "Pesca",
+        [-121] = "Ferraria",
+        [-181] = "Alchimie",
+        [-182] = "Couraria",
+        [-201] = "Engenharia",
+        [-264] = "Alfaiataria",
+        [-304] = "Culinária",
+        [-324] = "Primeiros Socorros",
     },
 }
