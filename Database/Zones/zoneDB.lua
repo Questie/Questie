@@ -68,6 +68,10 @@ function ZoneDB:GetDungeonLocation(areaId)
     return dungeonLocations[areaId]
 end
 
+function ZoneDB:IsDungeonZone(areaId)
+    return dungeonLocations[areaId] ~= nil
+end
+
 function ZoneDB:GetAlternativeZoneId(areaId)
     local entry = dungeons[areaId]
     if entry then
