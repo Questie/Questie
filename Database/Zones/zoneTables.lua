@@ -78,6 +78,7 @@ _ZoneDB.dungeons = {
     [1581] = {"The Deadmines", nil, 40},
     [1583] = {"Blackrock Spire", nil, 51},
     [1584] = {"Blackrock Depths", nil, 51},
+    [1585] = {"Blackrock Depths", nil, 51},
     [2017] = {"Stratholme", 2279, 139},
     [2057] = {"Scholomance", nil, 28},
     [2100] = {"Maraudon", nil, 405},
