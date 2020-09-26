@@ -237,3 +237,9 @@ ZoneDB.zoneIDs = {
     NAXXRAMAS = 3456,
     UPPER_BLACKROCK_SPIRE = 7307,
 }
+
+ZoneDB.zoneIDToInternalName = {}
+
+for name, id in pairs(ZoneDB.zoneIDs) do
+    ZoneDB.zoneIDToInternalName[id] = name
+end

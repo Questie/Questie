@@ -34,6 +34,7 @@ _QuestieQuest.objectiveSpawnListCallTable = {
             mon.Spawns = npc.spawns
             mon.Waypoints = npc.waypoints
         end
+        mon.Hostile = true
         mon.Icon = ICON_TYPE_SLAY
         mon.Id = id
         mon.GetIconScale = function() return Questie.db.global.monsterScale or 1 end
@@ -99,6 +100,7 @@ _QuestieQuest.objectiveSpawnListCallTable = {
                                 ret[id].Name = sourceData.Name
                                 ret[id].Spawns = {}
                                 ret[id].Waypoints = {}
+                                ret[id].Hostile = true
                                 if source.Type == "object" then
                                     ret[id].Icon = ICON_TYPE_OBJECT
                                     ret[id].GetIconScale = function() return Questie.db.global.objectScale or 1 end

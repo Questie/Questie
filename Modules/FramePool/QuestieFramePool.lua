@@ -257,7 +257,7 @@ end
 ---@param lineWidth integer @Width of the line.
 ---@param color integer[] @A table consisting of 4 variable {1, 1, 1, 1} RGB-Opacity
 ---@return LineFrame[]
-function QuestieFramePool:CreateWaypoints(iconFrame, waypointTable, lineWidth, color)
+function QuestieFramePool:CreateWaypoints(iconFrame, waypointTable, lineWidth, color, aeraID)
     local lineFrameList = {}
     local lastPos = nil
     --Set defaults if needed.
@@ -270,7 +270,7 @@ function QuestieFramePool:CreateWaypoints(iconFrame, waypointTable, lineWidth, c
             if (lastPos == nil) then
                 lastPos = waypoint;
             else
-                local lineFrame = QuestieFramePool:CreateLine(iconFrame, lastPos[1], lastPos[2], waypoint[1], waypoint[2], lWidth, col)
+                local lineFrame = QuestieFramePool:CreateLine(iconFrame, lastPos[1], lastPos[2], waypoint[1], waypoint[2], lWidth, col, aeraID)
                 tinsert(lineFrameList, lineFrame);
                 lastPos = waypoint;
             end
@@ -291,7 +291,7 @@ end
 ---@return LineFrame
 ---@class LineFrame @A frame that contains the line used in waypoints.
 local lineFrames = 1;
-function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, lineWidth, color)
+function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, lineWidth, color, aeraID)
 
     --Create the framepool for lines if it does not already exist.
     if not QuestieFramePool.Routes_Lines then
@@ -332,7 +332,7 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     lineFrame.data = iconFrame.data
     lineFrame.x = (startX + endX) / 2
     lineFrame.y = (startY + endY) / 2
-    lineFrame.AreaID = iconFrame.AreaID
+    lineFrame.AreaID = aeraID or iconFrame.AreaID
     lineFrame.texture = iconFrame.texture
 
     function lineFrame:Unload()
