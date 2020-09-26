@@ -417,6 +417,7 @@ function QuestieQuestBlacklist:Load()
         [7905] = true,
         [7926] = true,
       --Phase 6 - Naxxramas
+        [9085] = true,
         [9208] = true,
         [9209] = true,
         [9210] = true,
@@ -510,6 +511,7 @@ function QuestieQuestBlacklist:Load()
         [9132] = true,
         [9136] = true,
         [9137] = true,
+        [9153] = true,
         [9211] = true,
         [9213] = true,
         [9221] = true,
