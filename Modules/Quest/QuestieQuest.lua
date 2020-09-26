@@ -626,20 +626,22 @@ function QuestieQuest:AddFinisher(quest)
 
             if finisher.waypoints then
                 for zone, waypoints in pairs(finisher.waypoints) do
-                    if not finisherIcons[zone] then
-                        local data = {}
-                        data.Id = questId;
-                        data.Icon = ICON_TYPE_COMPLETE;
-                        data.GetIconScale = function() return Questie.db.global.availableScale or 1.3 end
-                        data.IconScale = data:GetIconScale();
-                        data.Type = "complete";
-                        data.QuestData = quest;
-                        data.Name = finisher.name
-                        data.IsObjectiveNote = false
-                        finisherIcons[zone] = QuestieMap:DrawWorldIcon(data, zone, waypoints[1][1][1], waypoints[1][1][2])
-                        finisherLocs[zone] = {waypoints[1][1][1], waypoints[1][1][2]}
+                    if not ZoneDB.private.dungeons[zone] then
+                        if not finisherIcons[zone] and waypoints[1] and waypoints[1][1] and waypoints[1][1][1]  then
+                            local data = {}
+                            data.Id = questId;
+                            data.Icon = ICON_TYPE_COMPLETE;
+                            data.GetIconScale = function() return Questie.db.global.availableScale or 1.3 end
+                            data.IconScale = data:GetIconScale();
+                            data.Type = "complete";
+                            data.QuestData = quest;
+                            data.Name = finisher.name
+                            data.IsObjectiveNote = false
+                            finisherIcons[zone] = QuestieMap:DrawWorldIcon(data, zone, waypoints[1][1][1], waypoints[1][1][2])
+                            finisherLocs[zone] = {waypoints[1][1][1], waypoints[1][1][2]}
+                        end
+                        QuestieMap:DrawWaypoints(finisherIcons[zone], waypoints, zone, finisherLocs[zone][1], finisherLocs[zone][2])
                     end
-                    QuestieMap:DrawWaypoints(finisherIcons[zone], waypoints, zone, finisherLocs[zone][1], finisherLocs[zone][2])
                 end
             end
         else
@@ -1397,7 +1399,7 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
 
                 if NPC.waypoints then
                     for zone, waypoints in pairs(NPC.waypoints) do
-                        if waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then
+                        if not ZoneDB.private.dungeons[zone] and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then
                             if not starterIcons[zone] then
                                 local data = {}
                                 data.Id = quest.Id;
