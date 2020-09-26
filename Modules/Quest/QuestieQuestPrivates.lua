@@ -14,25 +14,27 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 
 _QuestieQuest.objectiveSpawnListCallTable = {
     ["monster"] = function(id, Objective)
-        local npc = QuestieDB:GetNPC(id)
-        if not npc then
+        local rank, name, spawns, waypoints = unpack(QuestieDB.QueryNPC(id, "rank", "name", "spawns", "waypoints"))
+        if not name then
             -- todo: log this
             return nil
         end
         local ret = {}
         local mon = {};
 
-        mon.Name = npc.name
-        if not npc.spawns then
-            Questie:Debug(DEBUG_CRITICAL, "Spawn data missing for NPC:", npc.id)
-            npc.spawns = {}
+        mon.Name = name
+        if not spawns then
+            Questie:Debug(DEBUG_CRITICAL, "Spawn data missing for NPC:", id)
+            spawns = {}
         end
         if QuestieCorrections.questNPCBlacklist[id] then -- remove spawns
             mon.Spawns = {}
             mon.Waypoints = {}
         else
-            mon.Spawns = npc.spawns
-            mon.Waypoints = npc.waypoints
+            mon.Spawns = spawns
+            if 2 ~= rank then -- not a rare spawn
+                mon.Waypoints = waypoints
+            end
         end
         mon.Hostile = true
         mon.Icon = ICON_TYPE_SLAY
@@ -45,20 +47,20 @@ _QuestieQuest.objectiveSpawnListCallTable = {
         return ret
     end,
     ["object"] = function(id, Objective)
-        local object = QuestieDB:GetObject(id)
-        if not object then
+        local name, spawns = unpack(QuestieDB.QueryObject(id, "name", "spawns"))
+        if not name then
             -- todo: log this
             return nil
         end
         local ret = {}
         local obj = {}
 
-        obj.Name = object.name
-        if not object.spawns then
-            Questie:Debug(DEBUG_CRITICAL, "Spawn data missing for object:", object.id)
-            object.spawns = {}
+        obj.Name = name
+        if not spawns then
+            Questie:Debug(DEBUG_CRITICAL, "Spawn data missing for object:", id)
+            spawns = {}
         end
-        obj.Spawns = object.spawns
+        obj.Spawns = spawns
         obj.Icon = ICON_TYPE_LOOT
         obj.GetIconScale = function() return Questie.db.global.objectScale or 1 end
         obj.IconScale = obj:GetIconScale()
