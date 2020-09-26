@@ -8,6 +8,8 @@ local _QuestieJourney = QuestieJourney.private
 local QuestieJourneyUtils = QuestieLoader:ImportModule("QuestieJourneyUtils")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+---@type QuestieProfessions
+local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
@@ -90,6 +92,29 @@ _HandleContinentSelection = function(key, checked)
         local zoneTree = _QuestieJourney.questsByZone:CollectZoneQuests(classKey)
         _QuestieJourney.questsByZone:ManageTree(treegroup, zoneTree)
         zoneDropdown.frame:Hide()
+    elseif (key.value == QuestieLocale.questCategoryKeys.PROFESSIONS) then
+        local professionList = QuestieJourney.zones[key.value]
+        local playerProfessions = QuestieProfessions:GetProfessionNames()
+
+        local relevantProfessions = {}
+        for id, possibleName in pairs(professionList) do
+            for _, name in pairs(playerProfessions) do
+                if possibleName == name then
+                    relevantProfessions[id] = professionList[id]
+                    break
+                end
+            end
+        end
+        local text = QuestieLocale:GetUIString('JOURNEY_SELECT_PROFESSION')
+        if (not next(relevantProfessions)) then
+            text = QuestieLocale:GetUIString('JOURNEY_NO_PROFESSION')
+            zoneDropdown:SetDisabled(true)
+        else
+            zoneDropdown:SetDisabled(false)
+        end
+        zoneDropdown:SetList(relevantProfessions)
+        zoneDropdown:SetText(text)
+        zoneDropdown.frame:Show()
     else
         local sortedZones = QuestieJourneyUtils:GetSortedZoneKeys(QuestieJourney.zones[key.value])
         zoneDropdown:SetList(QuestieJourney.zones[key.value], sortedZones)
