@@ -206,4 +206,5 @@ QuestieLocale.questCategoryKeys = {
     BATTLEGROUNDS = 4,
     CLASS = 5,
     PROFESSIONS = 6,
+    EVENTS = 7,
 }

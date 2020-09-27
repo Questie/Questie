@@ -9,10 +9,12 @@ local _ZoneDB = ZoneDB.private
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type QuestieEvent
+local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 
 --- forward declarations
 local _GenerateUiMapIdToAreaIdTable, _GenerateParentZoneToStartingZoneTable
-local  _GetZonesWithQuestsFromNPCs, _GetZonesWithQuestsFromObjects, _IsSpecialQuest
+local  _GetZonesWithQuestsFromNPCs, _GetZonesWithQuestsFromObjects, _IsSpecialQuest, _SplitSeasonalQuests
 
 local areaIdToUiMapId = {}
 local uiMapIdToAreaId = {} -- Generated
@@ -135,6 +137,8 @@ function ZoneDB:GetZonesWithQuests()
         end
     end
 
+    zoneMap = _SplitSeasonalQuests()
+
     return zoneMap
 end
 
@@ -183,20 +187,52 @@ _GetZonesWithQuestsFromObjects = function(zoneMap, objectSpawns)
     return zoneMap
 end
 
+---@return table
+_SplitSeasonalQuests = function ()
+    local questsToSplit = zoneMap[QuestieDB.sortKeys.SEASONAL]
+    -- Merging SEASONAL and SPECIAL quests to be split into real groups
+    for k, v in pairs(zoneMap[QuestieDB.sortKeys.SPECIAL]) do questsToSplit[k] = v end
+
+    local updatedZoneMap = zoneMap
+    updatedZoneMap[-400] = {}
+    updatedZoneMap[-401] = {}
+    updatedZoneMap[-402] = {}
+    updatedZoneMap[-403] = {}
+    updatedZoneMap[-404] = {}
+
+    for questId, _ in pairs(questsToSplit) do
+        local eventName = QuestieEvent:GetEventNameFor(questId)
+        if eventName == "Love is in the Air" then
+            updatedZoneMap[-400][questId] = true
+        elseif eventName == "Childrens Week" then
+            updatedZoneMap[-401][questId] = true
+        elseif eventName == "Harvest Festival" then
+            updatedZoneMap[-402][questId] = true
+        elseif eventName == "Hallows End" then
+            updatedZoneMap[-403][questId] = true
+        elseif eventName == "Winter Veil" then
+            updatedZoneMap[-404][questId] = true
+        end
+    end
+
+    updatedZoneMap[QuestieDB.sortKeys.SEASONAL] = nil
+    updatedZoneMap[QuestieDB.sortKeys.SPECIAL] = nil
+    return updatedZoneMap
+end
+
 function ZoneDB:GetRelevantZones()
     local zones = {}
-    for cont, zone in pairs(LangZoneCategoryLookup) do
-        zones[cont] = {}
-        for zoneId, zoneName in pairs(zone) do
-            local zoneQuests = zoneMap[zoneId]
+    for category, data in pairs(LangZoneCategoryLookup) do
+        zones[category] = {}
+        for id, zoneName in pairs(data) do
+            local zoneQuests = zoneMap[id]
             if (not zoneQuests) then
-                zones[cont][zoneId] = nil
+                zones[category][id] = nil
             else
-                zones[cont][zoneId] = zoneName
+                zones[category][id] = zoneName
             end
         end
     end
 
     return zones
 end
-
