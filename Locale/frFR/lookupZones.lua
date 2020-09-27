@@ -5,6 +5,7 @@ LangContinentLookup['frFR']= {
     [4] = "Champs de bataille",
     [5] = "Class",
     [6] = "Professions",
+    [7] = "Événements",
 }
 
 LangZoneLookup['frFR']= {
@@ -1193,5 +1194,18 @@ LangZoneCategoryLookup['frFR']= {
         [-264] = "Couture",
         [-304] = "Cuisine",
         [-324] = "Secourisme",
+    },
+    [7] = {
+        [-364] = "Darkmoon Faire",
+        [-366] = "Lunar Festival",
+        [-369] = "Midsummer",
+        -- Below are dummy IDs to not interfere with other IDs
+        -- These are needed because the events are listed as "seasonal" or "special",
+        -- not with a separate ID
+        [-400] = "Love is in the Air",
+        [-401] = "Childrens Week",
+        [-402] = "Harvest Festival",
+        [-403] = "Hallows End",
+        [-404] = "Winter Veil",
     },
 }

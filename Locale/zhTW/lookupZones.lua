@@ -5,6 +5,7 @@ LangContinentLookup['zhTW']= {
     [4] = "戰場",
     [5] = "Class",
     [6] = "Professions",
+    [7] = "Events",
 }
 
 LangZoneLookup['zhTW']= {
@@ -1189,5 +1190,18 @@ LangZoneCategoryLookup['zhTW']= {
         [-264] = "裁縫",
         [-304] = "烹飪",
         [-324] = "急救",
+    },
+    [7] = {
+        [-364] = "Darkmoon Faire",
+        [-366] = "Lunar Festival",
+        [-369] = "Midsummer",
+        -- Below are dummy IDs to not interfere with other IDs
+        -- These are needed because the events are listed as "seasonal" or "special",
+        -- not with a separate ID
+        [-400] = "Love is in the Air",
+        [-401] = "Childrens Week",
+        [-402] = "Harvest Festival",
+        [-403] = "Hallows End",
+        [-404] = "Winter Veil",
     },
 }

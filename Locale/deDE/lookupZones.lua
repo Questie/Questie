@@ -4,7 +4,8 @@ LangContinentLookup['deDE']= {
     [3] = "Instanzen",
     [4] = "Schlachtfelder",
     [5] = "Klasse",
-    [6] = "Berufe"
+    [6] = "Berufe",
+    [7] = "Events"
 }
 
 LangZoneLookup['deDE']= {
@@ -1193,5 +1194,18 @@ LangZoneCategoryLookup['deDE']= {
         [-264] = "Schneiderei",
         [-304] = "Kochkunst",
         [-324] = "Erste Hilfe",
+    },
+    [7] = {
+        [-364] = "Dunkelmond Jahrmarkt",
+        [-366] = "Mondfest",
+        [-369] = "Sommerwendfest",
+        -- Below are dummy IDs to not interfere with other IDs
+        -- These are needed because the events are listed as "seasonal" or "special",
+        -- not with a separate ID
+        [-400] = "Liebe liegt in der Luft",
+        [-401] = "Kinderwoche",
+        [-402] = "Erntedankfest",
+        [-403] = "Schlotternächste",
+        [-404] = "Winterhauchfest",
     },
 }

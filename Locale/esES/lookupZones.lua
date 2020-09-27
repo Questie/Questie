@@ -4,7 +4,8 @@ LangContinentLookup['esES']= {
     [3] = "Mazmorras",
     [4] = "Campos de Batalla",
     [5] = "Class",
-    [6] = "Professions"
+    [6] = "Profesiónes",
+    [7] = "Eventos"
 }
 
 LangZoneLookup['esES']= {
@@ -1194,4 +1195,17 @@ LangZoneCategoryLookup['esES']= {
         [-304] = "Cocina",
         [-324] = "Primeros auxilios",
     },
+    [7] = {
+        [-364] = "Darkmoon Faire",
+        [-366] = "Lunar Festival",
+        [-369] = "Midsummer",
+        -- Below are dummy IDs to not interfere with other IDs
+        -- These are needed because the events are listed as "seasonal" or "special",
+        -- not with a separate ID
+        [-400] = "Love is in the Air",
+        [-401] = "Childrens Week",
+        [-402] = "Harvest Festival",
+        [-403] = "Hallows End",
+        [-404] = "Winter Veil",
+    }
 }
