@@ -149,9 +149,14 @@ QuestieMap._minimapDrawQueue = minimapDrawQueue
 
 function QuestieMap:InitializeQueue()
     Questie:Debug(DEBUG_DEVELOP, "[QuestieMap] Starting draw queue timer!")
-    QuestieMap.drawTimer = C_Timer.NewTicker(0.2, QuestieMap.ProcessQueue)
-    QuestieMap.processCounter = 0 -- used to reduce calls on edge notes
-    QuestieMap.fadeLogicTimerShown = C_Timer.NewTicker(0.3, QuestieMap.ProcessShownMinimapIcons);
+    local isInInstance, instanceType = IsInInstance()
+    if not isInInstance or instanceType == "pvp" then -- dont run map updates while in raid
+        QuestieMap.drawTimer = C_Timer.NewTicker(0.2, QuestieMap.ProcessQueue)
+        QuestieMap.processCounter = 0 -- used to reduce calls on edge notes
+        QuestieMap.fadeLogicTimerShown = C_Timer.NewTicker(0.3, QuestieMap.ProcessShownMinimapIcons)
+    else
+        QuestieMap._disableQueue = true
+    end
 end
 
 
@@ -214,11 +219,13 @@ function QuestieMap:ProcessShownMinimapIcons()
 end
 
 function QuestieMap:QueueDraw(drawType, ...)
-  if(drawType == QuestieMap.ICON_MAP_TYPE) then
-    tinsert(mapDrawQueue, {...});
-  elseif(drawType == QuestieMap.ICON_MINIMAP_TYPE) then
-    tinsert(minimapDrawQueue, {...});
-  end
+    if not QuestieMap._disableQueue then -- dont queue when in raid
+        if(drawType == QuestieMap.ICON_MAP_TYPE) then
+            tinsert(mapDrawQueue, {...});
+        elseif(drawType == QuestieMap.ICON_MINIMAP_TYPE) then
+            tinsert(minimapDrawQueue, {...});
+        end
+    end
 end
 
 
