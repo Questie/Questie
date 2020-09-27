@@ -427,6 +427,10 @@ QuestieLocale.locale['zhCN'] = {
     ['JOURNEY_SEARCH_EXE'] = "搜索",
     ['JOURNEY_SEARCH_RESULTS'] = "搜索规则",
     ['JOURNEY_SEARCH_NOMATCH'] = "没有符合的结果：%s",
+    ['JOURNEY_SEARCH_QUESTS'] = "Quests",
+    ['JOURNEY_SEARCH_NPCS'] = "NPCs",
+    ['JOURNEY_SEARCH_OBJECTS'] = "Objects",
+    ['JOURNEY_SEARCH_ITEMS'] = "Items",
 
     -- Debug Messages
     ['DEBUG_LOWLEVEL'] = "灰色任务已切换到:",

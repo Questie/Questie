@@ -56,6 +56,7 @@ _ZoneDB.areaIdToUiMapId = {
     [1637] = 1454,
     [1638] = 1456,
     [1657] = 1457,
+    [2317] = 1414,
     [2597] = 1459,
     [3277] = 1460,
     [3358] = 1461,
@@ -77,6 +78,7 @@ _ZoneDB.dungeons = {
     [1581] = {"The Deadmines", nil, 40},
     [1583] = {"Blackrock Spire", nil, 51},
     [1584] = {"Blackrock Depths", nil, 51},
+    [1585] = {"Blackrock Depths", nil, 51},
     [2017] = {"Stratholme", 2279, 139},
     [2057] = {"Scholomance", nil, 28},
     [2100] = {"Maraudon", nil, 405},
@@ -221,6 +223,7 @@ ZoneDB.zoneIDs = {
     MARAUDON = 2100,
     ONYXIAS_LAIR = 2159,
     DEEPRUN_TRAM = 2257,
+    SOUTH_SEAS = 2317,
     RAGEFIRE_CHASM = 2437,
     DIRE_MAUL = 2557,
     ALTERAC_VALLEY = 2597,
@@ -235,3 +238,9 @@ ZoneDB.zoneIDs = {
     NAXXRAMAS = 3456,
     UPPER_BLACKROCK_SPIRE = 7307,
 }
+
+ZoneDB.zoneIDToInternalName = {}
+
+for name, id in pairs(ZoneDB.zoneIDs) do
+    ZoneDB.zoneIDToInternalName[id] = name
+end

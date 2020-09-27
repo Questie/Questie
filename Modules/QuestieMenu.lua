@@ -26,6 +26,12 @@ local _townsfolk_texturemap = {
     ["Spirit Healer"] = QuestieLib.AddonPath.."Icons\\grave.blp",
     ["Weapon Master"] = QuestieLib.AddonPath.."Icons\\slay.blp",
     ["Profession Trainer"] = "Interface\\Minimap\\tracking\\profession",
+    ["Ammo"] = "Interface\\Minimap\\tracking\\ammunition",
+    ["Bags"] = "Interface\\Minimap\\tracking\\banker",
+    ["Trade Goods"] = "Interface\\Minimap\\tracking\\banker",
+    ["Drink"] = "Interface\\Minimap\\tracking\\food",
+    ["Pet Food"] = "Interface\\Minimap\\tracking\\food",
+    ["Portal Trainer"] = "Interface\\Minimap\\vehicle-alliancemageportal",
 
     [QuestieProfessions.professionKeys.FIRST_AID] = "Interface\\Icons\\spell_holy_sealofsacrifice",
     [QuestieProfessions.professionKeys.BLACKSMITHING] = "Interface\\Icons\\trade_blacksmithing",
@@ -42,7 +48,7 @@ local _townsfolk_texturemap = {
 }
 
 local function toggle(key) -- /run QuestieLoader:ImportModule("QuestieMap"):ShowNPC(525, nil, 1, "teaste", {}, true)
-    local ids = Questie.db.global.townsfolk[key] or Questie.db.char.townsfolk[key] or Questie.db.global.professionTrainers[key]
+    local ids = Questie.db.global.townsfolk[key] or Questie.db.char.townsfolk[key] or Questie.db.global.professionTrainers[key] or Questie.db.char.vendorList[key]
     local icon = _townsfolk_texturemap[key] or ("Interface\\Minimap\\tracking\\" .. strlower(key))
     if key == "Mailbox" then -- the only obnject-type townsfolk
         if Questie.db.char.townsfolkConfig[key] then
@@ -57,12 +63,23 @@ local function toggle(key) -- /run QuestieLoader:ImportModule("QuestieMap"):Show
     else
         if Questie.db.char.townsfolkConfig[key] then
             local faction = UnitFactionGroup("Player")
-            for _, id in pairs(ids) do
-                local friendly = QuestieDB.QueryNPCSingle(id, "friendlyToFaction")
-                if ((not friendly) or friendly == "AH" or (faction == "Alliance" and friendly == "A") or (faction == "Horde" and friendly == "H")) and not QuestieCorrections.questNPCBlacklist[id] then -- (QuestieLocale:GetUIStringNillable(tostring(key)) or key)
-                    QuestieMap:ShowNPC(id, icon, 1.2, "|cFF00FF00" .. QuestieDB.QueryNPCSingle(id, "name") .. " |r|cFFFFFFFF(" .. (QuestieDB.QueryNPCSingle(id, "subName") or QuestieLocale:GetUIStringNillable(tostring(key)) or key) .. ")", {}--[[{key, ""}]], true, key)
+            local timer = nil
+            local e = 1
+            local max = (#ids)+1
+            timer = C_Timer.NewTicker(0.01, function() 
+                local start = e
+                while e < max and e-start < 32 do
+                    local id = ids[e]
+                    local friendly = QuestieDB.QueryNPCSingle(id, "friendlyToFaction")
+                    if ((not friendly) or friendly == "AH" or (faction == "Alliance" and friendly == "A") or (faction == "Horde" and friendly == "H")) and not QuestieCorrections.questNPCBlacklist[id] then -- (QuestieLocale:GetUIStringNillable(tostring(key)) or key)
+                        QuestieMap:ShowNPC(id, icon, 1.2, "|cFF00FF00" .. QuestieDB.QueryNPCSingle(id, "name") .. " |r|cFFFFFFFF(" .. (QuestieDB.QueryNPCSingle(id, "subName") or QuestieLocale:GetUIStringNillable(tostring(key)) or key) .. ")", {}--[[{key, ""}]], true, key)
+                    end
+                    e = e + 1
                 end
-            end
+                if e == max then
+                    timer:Cancel()
+                end
+            end)
         else
             for _, id in pairs(ids) do
                 QuestieMap:UnloadManualFrames(id, key)
@@ -131,6 +148,22 @@ function QuestieMenu:Show()
         return profMenu
     end
 
+    local function buildVendorMenu()
+        local vendorMenu = {}
+        local vendorMenuSorted = {}
+        local vendorMenuData = {}
+        for key, v in pairs(Questie.db.char.vendorList) do
+            local localizedKey = (QuestieLocale:GetUIStringNillable(tostring(key)) or key)
+            vendorMenuData[localizedKey] = build(key)
+            tinsert(vendorMenuSorted, localizedKey)
+        end
+        table.sort(vendorMenuSorted)
+        for _, key in pairs(vendorMenuSorted) do
+            tinsert(vendorMenu, vendorMenuData[key])
+        end
+        return vendorMenu
+    end
+
     tinsert(menuTable, {text=QuestieLocale:GetUIString("Available Quest"), func = function()
         local value = not Questie.db.global.enableAvailable
         Questie.db.global.enableAvailable = value
@@ -144,7 +177,7 @@ function QuestieMenu:Show()
         QuestieQuest:SmoothReset()
     end, icon=QuestieLib.AddonPath.."Icons\\event.blp", notCheckable=false, checked=Questie.db.global.enableObjectives, isNotRadio=true, keepShownOnClick=true})
     tinsert(menuTable, {text=QuestieLocale:GetUIString("Profession Trainer"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList=buildProfessionMenu, notCheckable=true})
-    tinsert(menuTable, {text=QuestieLocale:GetUIString("Vendor"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList={}, notCheckable=true})
+    tinsert(menuTable, {text=QuestieLocale:GetUIString("Vendor"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList=buildVendorMenu, notCheckable=true})
 
     tinsert(menuTable, {
         hasArrow = false,

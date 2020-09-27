@@ -584,6 +584,8 @@ function QuestieQuest:AddFinisher(quest)
             Questie:Debug(DEBUG_CRITICAL, "[QuestieQuest]: ".. QuestieLocale:GetUIString("DEBUG_NO_FINISH", questId, quest.name))
         end
         if(finisher ~= nil and finisher.spawns ~= nil) then
+            local finisherIcons = {}
+            local finisherLocs = {}
             for finisherZone, spawns in pairs(finisher.spawns) do
                 if(finisherZone ~= nil and spawns ~= nil) then
                     for _, coords in ipairs(spawns) do
@@ -613,12 +615,32 @@ function QuestieQuest:AddFinisher(quest)
                             local y = coords[2];
 
                             Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]:", finisherZone, x, y)
-                            local icon, _ = QuestieMap:DrawWorldIcon(data, finisherZone, x, y)
-
-                            if(finisher.waypoints and finisher.zoneID and finisher.zoneID == finisherZone and finisher.waypoints[finisherZone]) then
-                                QuestieMap:DrawWaypoints(icon, finisher.waypoints[finisherZone], finisherZone, x, y)
+                            finisherIcons[finisherZone] = QuestieMap:DrawWorldIcon(data, finisherZone, x, y)
+                            if not finisherLocs[finisherZone] then
+                                finisherLocs[finisherZone] = {x, y}
                             end
                         end
+                    end
+                end
+            end
+
+            if finisher.waypoints then
+                for zone, waypoints in pairs(finisher.waypoints) do
+                    if (not ZoneDB:IsDungeonZone(zone)) then
+                        if not finisherIcons[zone] and waypoints[1] and waypoints[1][1] and waypoints[1][1][1]  then
+                            local data = {}
+                            data.Id = questId;
+                            data.Icon = ICON_TYPE_COMPLETE;
+                            data.GetIconScale = function() return Questie.db.global.availableScale or 1.3 end
+                            data.IconScale = data:GetIconScale();
+                            data.Type = "complete";
+                            data.QuestData = quest;
+                            data.Name = finisher.name
+                            data.IsObjectiveNote = false
+                            finisherIcons[zone] = QuestieMap:DrawWorldIcon(data, zone, waypoints[1][1][1], waypoints[1][1][2])
+                            finisherLocs[zone] = {waypoints[1][1][1], waypoints[1][1][2]}
+                        end
+                        QuestieMap:DrawWaypoints(finisherIcons[zone], waypoints, zone, finisherLocs[zone][1], finisherLocs[zone][2])
                     end
                 end
             end
@@ -888,7 +910,7 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
             if spawnData.Waypoints then
                 for zone, waypoints in pairs(spawnData.Waypoints) do
                     if iconPerZone[zone] then
-                        QuestieMap:DrawWaypoints(iconPerZone[zone][1], waypoints, zone, iconPerZone[zone][2], iconPerZone[zone][3])
+                        QuestieMap:DrawWaypoints(iconPerZone[zone][1], waypoints, zone, iconPerZone[zone][2], iconPerZone[zone][3], spawnData.Hostile and {1,0.2,0,1} or nil)
                     end
                 end
             end
@@ -1337,6 +1359,8 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
             local NPC = QuestieDB:GetNPC(NPCID)
             if (NPC ~= nil and NPC.spawns ~= nil) then
                 --Questie:Debug(DEBUG_DEVELOP,"Adding Quest:", questObject.Id, "StarterNPC:", NPC.Id)
+                local starterIcons = {}
+                local starterLocs = {}
                 for npcZone, Spawns in pairs(NPC.spawns) do
                     if(npcZone ~= nil and Spawns ~= nil) then
 
@@ -1364,13 +1388,32 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
                             else
                                 local x = coords[1];
                                 local y = coords[2];
-
-                                local icon, _ = QuestieMap:DrawWorldIcon(data, npcZone, x, y)
-
-                                if(NPC.waypoints and NPC.zoneID and NPC.zoneID == npcZone and NPC.waypoints[npcZone]) then
-                                    QuestieMap:DrawWaypoints(icon, NPC.waypoints[npcZone], npcZone, x, y)
+                                starterIcons[npcZone] = QuestieMap:DrawWorldIcon(data, npcZone, x, y)
+                                if not starterLocs[npcZone] then
+                                    starterLocs[npcZone] = {x, y}
                                 end
                             end
+                        end
+                    end
+                end
+
+                if NPC.waypoints then
+                    for zone, waypoints in pairs(NPC.waypoints) do
+                        if not ZoneDB.private.dungeons[zone] and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then
+                            if not starterIcons[zone] then
+                                local data = {}
+                                data.Id = quest.Id;
+                                data.Icon = _QuestieQuest:GetQuestIcon(quest)
+                                data.GetIconScale = function() return Questie.db.global.availableScale or 1.3 end
+                                data.IconScale = data.GetIconScale();
+                                data.Type = "available";
+                                data.QuestData = quest;
+                                data.Name = NPC.name
+                                data.IsObjectiveNote = false
+                                starterIcons[zone] = QuestieMap:DrawWorldIcon(data, zone, waypoints[1][1][1], waypoints[1][1][2])
+                                starterLocs[zone] = {waypoints[1][1][1], waypoints[1][1][2]}
+                            end
+                            QuestieMap:DrawWaypoints(starterIcons[zone], waypoints, zone, starterLocs[zone][1], starterLocs[zone][2])
                         end
                     end
                 end

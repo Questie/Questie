@@ -426,6 +426,10 @@ QuestieLocale.locale['ptBR'] = {
     ['JOURNEY_SEARCH_EXE'] = "Pesquisar",
     ['JOURNEY_SEARCH_RESULTS'] = "Resultados da pesquisa",
     ['JOURNEY_SEARCH_NOMATCH'] = "Nenhuma correspondência para os resultados da pesquisa: %s",
+    ['JOURNEY_SEARCH_QUESTS'] = "Missões",
+    ['JOURNEY_SEARCH_NPCS'] = "PNJs",
+    ['JOURNEY_SEARCH_OBJECTS'] = "Objetos",
+    ['JOURNEY_SEARCH_ITEMS'] = "Itens",
 
     --Mensagens de depuração
     ['DEBUG_LOWLEVEL'] = "Missões cinzentas são trocadas para:",

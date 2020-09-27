@@ -222,6 +222,9 @@ function QuestieQuestFixes:Load()
         [551] = {
             [questKeys.startedBy] = {nil,{1765},{3706},}, -- #1245
         },
+        [558] = {
+            [questKeys.requiredRaces] = 77,
+        },
         [566] = {
             [questKeys.preQuestSingle] = {549}, -- #1484
         },

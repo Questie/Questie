@@ -427,6 +427,10 @@ QuestieLocale.locale['esES'] = {
     ['JOURNEY_SEARCH_EXE'] = "Buscar",
     ['JOURNEY_SEARCH_RESULTS'] = "Resultados de la búsqueda",
     ['JOURNEY_SEARCH_NOMATCH'] = "No hay resultados para tu búsqueda: %s",
+    ['JOURNEY_SEARCH_QUESTS'] = "Misiones",
+    ['JOURNEY_SEARCH_NPCS'] = "PNJs",
+    ['JOURNEY_SEARCH_OBJECTS'] = "Objetos",
+    ['JOURNEY_SEARCH_ITEMS'] = "Items",
 
     -- Debug Messages
     ['DEBUG_LOWLEVEL'] = "Misiones grises puestas a:",

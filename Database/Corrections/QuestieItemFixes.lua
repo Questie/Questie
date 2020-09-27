@@ -851,7 +851,17 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {148501},
         },
-        [12733] = { 
+        [12648] = {
+            [itemKeys.relatedQuests] = {4962},
+            [itemKeys.npcDrops] = {4678},
+            [itemKeys.objectDrops] = {},
+        },
+        [12649] = {
+            [itemKeys.relatedQuests] = {4963},
+            [itemKeys.npcDrops] = {4676},
+            [itemKeys.objectDrops] = {},
+        },
+        [12733] = {
             [itemKeys.name] = "Sacred Frostsaber Meat",
             [itemKeys.relatedQuests] = {5056},
             [itemKeys.npcDrops] = {7434,7433,7430,7432,7431,},

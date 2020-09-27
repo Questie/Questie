@@ -149,9 +149,14 @@ QuestieMap._minimapDrawQueue = minimapDrawQueue
 
 function QuestieMap:InitializeQueue()
     Questie:Debug(DEBUG_DEVELOP, "[QuestieMap] Starting draw queue timer!")
-    QuestieMap.drawTimer = C_Timer.NewTicker(0.2, QuestieMap.ProcessQueue)
-    QuestieMap.processCounter = 0 -- used to reduce calls on edge notes
-    QuestieMap.fadeLogicTimerShown = C_Timer.NewTicker(0.3, QuestieMap.ProcessShownMinimapIcons);
+    local isInInstance, instanceType = IsInInstance()
+    if not isInInstance or instanceType == "pvp" then -- dont run map updates while in raid
+        QuestieMap.drawTimer = C_Timer.NewTicker(0.2, QuestieMap.ProcessQueue)
+        QuestieMap.processCounter = 0 -- used to reduce calls on edge notes
+        QuestieMap.fadeLogicTimerShown = C_Timer.NewTicker(0.3, QuestieMap.ProcessShownMinimapIcons)
+    else
+        QuestieMap._disableQueue = true
+    end
 end
 
 
@@ -214,11 +219,13 @@ function QuestieMap:ProcessShownMinimapIcons()
 end
 
 function QuestieMap:QueueDraw(drawType, ...)
-  if(drawType == QuestieMap.ICON_MAP_TYPE) then
-    tinsert(mapDrawQueue, {...});
-  elseif(drawType == QuestieMap.ICON_MINIMAP_TYPE) then
-    tinsert(minimapDrawQueue, {...});
-  end
+    if not QuestieMap._disableQueue then -- dont queue when in raid
+        if(drawType == QuestieMap.ICON_MAP_TYPE) then
+            tinsert(mapDrawQueue, {...});
+        elseif(drawType == QuestieMap.ICON_MINIMAP_TYPE) then
+            tinsert(minimapDrawQueue, {...});
+        end
+    end
 end
 
 
@@ -366,6 +373,8 @@ function QuestieMap:DrawLineIcon(lineFrame, areaID, x, y)
         error("Questie"..": AddWorldMapIconMap: 'AreaID', 'x' and 'y' must be numbers "..areaID.." "..x.." "..y)
     end
 
+    --print("Drawing line in " .. ZoneDB.zoneIDToInternalName[areaID])
+
     local uiMapId = ZoneDB:GetUiMapIdByAreaId(areaID)
 
     HBDPins:AddWorldMapIconMap(Questie, lineFrame, uiMapId, x, y, HBD_PINS_WORLDMAP_SHOW_CURRENT)
@@ -388,6 +397,9 @@ function QuestieMap:DrawManualIcon(data, areaID, x, y, typ)
     if type(data.id) ~= "number" or type(data.id) ~= "number"then
         error("Questie".."Data.id must be set to the NPC or object ID!")
     end
+
+    -- this needs to be refactored. Fix the capitalization. Who made this id instead of Id?
+    data.Id = data.id
 
     local uiMapId = ZoneDB:GetUiMapIdByAreaId(areaID)
     if (not uiMapId) then
@@ -479,13 +491,20 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
 
     local uiMapId = ZoneDB:GetUiMapIdByAreaId(areaID)
     if (not uiMapId) then
+        local parentMapId = nil
         local mapInfo = C_Map.GetMapInfo(areaID)
-        local parentMapId = mapInfo.parentMapID
+        if mapInfo then
+            parentMapId = mapInfo.parentMapID
+        else
+            parentMapId = ZoneDB:GetParentZoneId(areaID)
+        end
+
         if (not parentMapId) then
-            error("No UiMapID for areaId : ".. areaID .. " - ".. tostring(data.Name))
+            error("No UiMapID or fitting parentAreaId for areaId : ".. areaID .. " - ".. tostring(data.Name))
             return nil, nil
         else
             areaID = parentMapId
+            uiMapId = ZoneDB:GetUiMapIdByAreaId(areaID)
         end
     end
 
@@ -855,9 +874,13 @@ QuestieMap.zoneWaypointHoverColorOverrides = {
 }
 
 function QuestieMap:DrawWaypoints(icon, waypoints, zone, x, y, color)
-    local lineFrames = QuestieFramePool:CreateWaypoints(icon, waypoints, nil, color or QuestieMap.zoneWaypointColorOverrides[zone])
+    --local cnt = 0 for _, a in pairs(waypoints) do for _ in pairs(a) do cnt = cnt + 1 end end
+    --print("Drawing ways in " .. ZoneDB.zoneIDToInternalName[zone] .. " for " .. icon.data.Name .. " " .. tostring(cnt) .. " pts")
 
-    for _, lineFrame in ipairs(lineFrames) do
-        QuestieMap:DrawLineIcon(lineFrame, zone, x, y)
+    if waypoints and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then -- check that waypoint data actually exists
+        local lineFrames = QuestieFramePool:CreateWaypoints(icon, waypoints, nil, color or QuestieMap.zoneWaypointColorOverrides[zone], zone)
+        for _, lineFrame in ipairs(lineFrames) do
+            QuestieMap:DrawLineIcon(lineFrame, zone, waypoints[1][1][1], waypoints[1][1][2])
+        end
     end
 end
