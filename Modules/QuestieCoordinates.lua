@@ -4,7 +4,7 @@ local QuestieCoords = QuestieLoader:CreateModule("QuestieCoords");
 local posX = 0;
 local posY = 0;
 
-QuestieCoords.updateInterval = 0.3;
+QuestieCoords.updateInterval = 0.5;
 -- Placing the functions locally to save time when spamming the updateInterval
 local GetBestMapForUnit = C_Map.GetBestMapForUnit;
 local GetPlayerMapPosition = C_Map.GetPlayerMapPosition;
@@ -29,6 +29,12 @@ function QuestieCoords:WriteCoords()
     if not ((Questie.db.global.mapCoordinatesEnabled and WorldMapFrame:IsVisible()) or (Questie.db.global.minimapCoordinatesEnabled and Minimap:IsVisible())) then
         return -- no need to write coords
     end
+    local isInInstance, instanceType = IsInInstance()
+
+    if isInInstance and "pvp" ~= instanceType then
+        return -- dont write coords in raids
+    end
+
     local mapID;
     local position;
 
@@ -37,7 +43,10 @@ function QuestieCoords:WriteCoords()
 
     if mapID then
         position = GetPlayerMapPosition(mapID, "player");
-        if position and position.x ~= 0 and position.y ~= 0  then
+        if position and position.x ~= 0 and position.y ~= 0 and (position.x ~= QuestieCoords._lastX or position.y ~= QuestieCoords._lastY) then
+            QuestieCoords._lastX = position.x
+            QuestieCoords._lastY = position.y
+            
             posX = position.x * 100;
             posY = position.y * 100;
 
