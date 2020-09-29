@@ -2355,6 +2355,7 @@ function QuestieQuestFixes:Load()
         },
         [8575] = {
             [questKeys.startedBy] = {{15481,},nil,nil,}, 
+            [questKeys.preQuestSingle] = {8555}, -- #2365
         },
         [8580] = {
             [questKeys.requiredLevel] = 1,
@@ -2443,6 +2444,9 @@ function QuestieQuestFixes:Load()
         [8616] = {
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = 178,
+        },
+        [8733] = {
+            [questKeys.preQuestSingle] = {8555}, -- #2365
         },
         [8747] = {
             [questKeys.exclusiveTo] = {8752,8753,8754,8755,8756,8757,8758,8759,8760,8761,}, --protector neutral
