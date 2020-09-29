@@ -30,6 +30,8 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+---@type QuestieAnnounce
+local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
 
 --We should really try and squeeze out all the performance we can, especially in this.
 local tostring = tostring;
@@ -818,15 +820,22 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
                     end
                 end
             elseif completed and Objective.AlreadySpawned then -- unregister notes
+                local didUnloadNotes = false
                 for _, spawn in pairs(Objective.AlreadySpawned) do
-                    for _, note in pairs(spawn.mapRefs) do
-                        note:Unload();
+                    if #spawn.mapRefs > 0 or #spawn.minimapRefs > 0 then
+                        didUnloadNotes = true
+                        for _, note in pairs(spawn.mapRefs) do
+                            note:Unload()
+                        end
+                        for _, note in pairs(spawn.minimapRefs) do
+                            note:Unload()
+                        end
+                        spawn.mapRefs = {}
+                        spawn.minimapRefs = {}
                     end
-                    for _, note in pairs(spawn.minimapRefs) do
-                        note:Unload();
-                    end
-                    spawn.mapRefs = {}
-                    spawn.minimapRefs = {}
+                end
+                if didUnloadNotes then
+                    QuestieAnnounce:Announce(quest.Id, "objective")
                 end
             end
         end
@@ -1633,3 +1642,6 @@ ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_WHISPER_INFORM", QuestsFilter)
 ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", QuestsFilter)
 ChatFrame_AddMessageEventFilter("CHAT_MSG_SAY", QuestsFilter)
 ChatFrame_AddMessageEventFilter("CHAT_MSG_YELL", QuestsFilter)
+
+-- Emote
+ChatFrame_AddMessageEventFilter("CHAT_MSG_EMOTE", QuestsFilter)

@@ -301,14 +301,32 @@ function QuestieOptions.tabs.general:Initialize()
                     Questie.db.char.acceptTrivial = value
                 end,
             },
-            Spacer_B = QuestieOptionsUtils:Spacer(1.73),
+            --Spacer_B = QuestieOptionsUtils:Spacer(1.73),
+            questannounce = {
+                type = "select",
+                order = 1.721,
+                values = {
+                    ['disabled'] = QuestieLocale:GetUIString('DISABLED'),
+                    ['party'] = QuestieLocale:GetUIString('QUEST_ANNOUNCE_PARTY'),
+                    ['party+say'] = QuestieLocale:GetUIString('QUEST_ANNOUNCE_PARTY_AND_SAY'),
+                },
+                style = 'dropdown',
+                name = function() return QuestieLocale:GetUIString('QUEST_ANNOUNCE') end,
+                desc = function() return QuestieLocale:GetUIString('QUEST_ANNOUNCE_DESC'); end,
+                disabled = false,
+                get = function() return Questie.db.char.questAnnounce or 'disabled' end,
+                set = function(input, key)
+                    Questie.db.char.questAnnounce = key
+                end,
+            },
+            Spacer_B = QuestieOptionsUtils:HorizontalSpacer(1.722, 0.5),
             shareQuestsNearby = {
                 type = "toggle",
                 order = 1.74,
                 name = function() return QuestieLocale:GetUIString('ENABLE_YELL'); end,
                 desc = function() return QuestieLocale:GetUIString('ENABLE_YELL_DESC'); end,
                 disabled = function() return false end,
-                width = 2,
+                width = 1.7,
                 get = function () return not Questie.db.global.disableYellComms end,
                 set = function (info, value)
                     Questie.db.global.disableYellComms = not value

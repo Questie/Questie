@@ -75,6 +75,7 @@ Modules\QuestieTooltips.lua
 Modules\QuestieEventHandler.lua
 Modules\Migration.lua
 Modules\QuestieMenu.lua
+Modules\QuestieAnnounce.lua
 
 #Auto
 Modules\Auto\QuestieAuto.lua

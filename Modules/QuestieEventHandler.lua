@@ -43,6 +43,8 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type QuestieMenu
 local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
+---@type QuestieAnnounce
+local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
 
 --- LOCAL ---
 --False -> true -> nil
@@ -107,6 +109,9 @@ function QuestieEventHandler:RegisterAllEvents()
 
     -- dropdown fix
     Questie:RegisterEvent("CURSOR_UPDATE", function() pcall(LQuestie_CloseDropDownMenus) end)
+
+    -- quest announce
+    Questie:RegisterEvent("CHAT_MSG_LOOT", QuestieAnnounce.ItemLooted)
 
 end
 
