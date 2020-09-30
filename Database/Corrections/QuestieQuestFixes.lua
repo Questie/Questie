@@ -105,6 +105,9 @@ function QuestieQuestFixes:Load()
         [273] = {
             [questKeys.triggerEnd] = {"Find Huldar, Miran, and Saean",{[zoneIDs.LOCH_MODAN]={{51.16, 68.96},},},},
         },
+        [282] = {
+            [questKeys.exclusiveTo] = {420}, -- #2366
+        },
         [308] = {
             [questKeys.exclusiveTo] = {311}, -- distracting jarven can't be completed once you get the followup
             [questKeys.specialFlags] = 1,
@@ -149,6 +152,9 @@ function QuestieQuestFixes:Load()
         },
         [415] = {
             [questKeys.exclusiveTo] = {413}, -- cant complete rejolds new brew if you do shimmer stout (see issue 567)
+        },
+        [420] = {
+            [questKeys.preQuestSingle] = {}, -- #2366
         },
         [428] = {
             [questKeys.exclusiveTo] = {429}, -- lost deathstalkers breadcrumb
