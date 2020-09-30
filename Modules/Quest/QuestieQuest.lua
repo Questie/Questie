@@ -47,6 +47,7 @@ QuestieQuest.availableQuests = {} --Gets populated at PLAYER_ENTERED_WORLD
 
 -- forward declaration
 local _UnhideQuestIcons, _HideQuestIcons, _UnhideManualIcons, _HideManualIcons
+local _GetObjectiveIdForSpecialQuest
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
@@ -1127,67 +1128,74 @@ function QuestieQuest:GetAllQuestObjectives(quest)
 
                 --Debug var
                 local tempName = "";
-                --
-                -- try to find npc/item/object/event ID
-                for objectiveIndexDB, objectiveDB in pairs(quest.ObjectiveData) do
-                    if objective.type == objectiveDB.Type then
-                        -- TODO: use string distance to find closest, dont rely on exact match
 
-                        -- Fetch the name of the objective
-                        local oName = nil;
-                        if(objectiveDB.Type == "monster" and objectiveDB.Id) then
-                            oName = slower(QuestieDB:GetNPC(objectiveDB.Id).name);
-                        elseif(objectiveDB.Type == "object" and objectiveDB.Id) then
-                            oName = slower(QuestieDB:GetObject(objectiveDB.Id).name);
-                        elseif(objectiveDB.Type == "item" and objectiveDB.Id) then
-                            --testVar = CHANGEME_Questie4_ItemDB[objectiveDB.Id]
-                            --DEFAULT_CHAT_FRAME:AddMessage(CHANGEME_Questie4_ItemDB[objectiveDB.Id][1][])
-                            local item = QuestieDB.QueryItemSingle(objectiveDB.Id, "name");
-                            if(item) then
-                                oName = slower(item);-- this is capital letters for some reason...
-                            else
-                                local itemName = GetItemInfo(objectiveDB.Id)
-                                if(itemName) then
-                                    oName = itemName;
+                local specialObjectiveId = _GetObjectiveIdForSpecialQuest(quest.Id, objectiveIndex)
+                if specialObjectiveId > 0 then
+                    local objectiveData = quest.ObjectiveData
+                    quest.Objectives[objectiveIndex].Id = specialObjectiveId
+                    quest.Objectives[objectiveIndex].Coordinates = objectiveData[objectiveIndex].Coordinates
+                    Questie:Debug(DEBUG_SPAM, "----> Objective", objective.text)
+                    Questie:Debug(DEBUG_SPAM, "-->ID:", quest.Objectives[objectiveIndex].Id)
+                else
+                    -- try to find npc/item/object/event ID
+                    for objectiveIndexDB, objectiveDB in pairs(quest.ObjectiveData) do
+                        if objective.type == objectiveDB.Type then
+                            -- Fetch the name of the objective
+                            local oName = nil;
+                            if(objectiveDB.Type == "monster" and objectiveDB.Id) then
+                                oName = slower(QuestieDB:GetNPC(objectiveDB.Id).name);
+                            elseif(objectiveDB.Type == "object" and objectiveDB.Id) then
+                                oName = slower(QuestieDB:GetObject(objectiveDB.Id).name);
+                            elseif(objectiveDB.Type == "item" and objectiveDB.Id) then
+                                --testVar = CHANGEME_Questie4_ItemDB[objectiveDB.Id]
+                                --DEFAULT_CHAT_FRAME:AddMessage(CHANGEME_Questie4_ItemDB[objectiveDB.Id][1][])
+                                local item = QuestieDB.QueryItemSingle(objectiveDB.Id, "name");
+                                if(item) then
+                                    oName = slower(item);-- this is capital letters for some reason...
                                 else
-                                    oName = nil;
-                                    --[[
-                                    This is a good idea, but would require us to break out the objective identification code to a function
-                                    that runs a specific quest. I instead try to pre-cache the items in CacheAllItemNames
-                                    local item = Item:CreateFromItemID(objective.id)
-                                    item:ContinueOnItemLoad(function()
-                                        local itemName = GetItemInfo(objectiveDB.Id)
+                                    local itemName = GetItemInfo(objectiveDB.Id)
+                                    if(itemName) then
                                         oName = itemName;
-                                    end)]]--
+                                    else
+                                        oName = nil;
+                                        --[[
+                                        This is a good idea, but would require us to break out the objective identification code to a function
+                                        that runs a specific quest. I instead try to pre-cache the items in CacheAllItemNames
+                                        local item = Item:CreateFromItemID(objective.id)
+                                        item:ContinueOnItemLoad(function()
+                                            local itemName = GetItemInfo(objectiveDB.Id)
+                                            oName = itemName;
+                                        end)]]--
+                                    end
                                 end
                             end
-                        end
-                        -- To lower the questlog objective text
-                        local oDesc = slower(objective.text) or nil;
-                        -- This is used for quests where the objective text and object/NPC/whatever does not correspond with eachother
-                        -- examples https://classic.wowhead.com/quest=3463/set-them-ablaze - https://classic.wowhead.com/quest=2988/witherbark-cages
-                        local oText = slower(objectiveDB.Text or "");
+                            -- To lower the questlog objective text
+                            local oDesc = slower(objective.text) or nil;
+                            -- This is used for quests where the objective text and object/NPC/whatever does not correspond with eachother
+                            -- examples https://classic.wowhead.com/quest=3463/set-them-ablaze - https://classic.wowhead.com/quest=2988/witherbark-cages
+                            local oText = slower(objectiveDB.Text or "");
 
-                        if((oName or (oText and oText ~= "")) and oDesc) then
-                            local nameDistance = QuestieLib:Levenshtein(oDesc, oName or "");
-                            local textDistance = QuestieLib:Levenshtein(oDesc, oText);
-                            if(math.min(nameDistance, textDistance) < bestDistance) then
-                                bestDistance = math.min(nameDistance, textDistance);
+                            if((oName or (oText and oText ~= "")) and oDesc) then
+                                local nameDistance = QuestieLib:Levenshtein(oDesc, oName or "");
+                                local textDistance = QuestieLib:Levenshtein(oDesc, oText);
+                                if(math.min(nameDistance, textDistance) < bestDistance) then
+                                    bestDistance = math.min(nameDistance, textDistance);
+                                    bestIndex = objectiveIndexDB;
+                                    tempName = oName; --For debugging
+                                end
+                            elseif((oName == nil or oDesc == nil) and objectiveDB.Type ~= "item" and objectiveDB.Type ~= "monster") then
                                 bestIndex = objectiveIndexDB;
                                 tempName = oName; --For debugging
+                                --We set the distance to 0 because otherwise other objectives might be closer...
+                                bestDistance = 0;
                             end
-                        elseif((oName == nil or oDesc == nil) and objectiveDB.Type ~= "item" and objectiveDB.Type ~= "monster") then
-                            bestIndex = objectiveIndexDB;
-                            tempName = oName; --For debugging
-                            --We set the distance to 0 because otherwise other objectives might be closer...
-                            bestDistance = 0;
-                        end
 
-                        -- Old
-                        if(quest.Objectives[objectiveIndex].Id == nil and GetLocale() ~= "enUS" and GetLocale() ~= "enGB") then
-                            quest.Objectives[objectiveIndex].Id = objectiveDB.Id;
+                            -- Old
+                            if(quest.Objectives[objectiveIndex].Id == nil and GetLocale() ~= "enUS" and GetLocale() ~= "enGB") then
+                                quest.Objectives[objectiveIndex].Id = objectiveDB.Id;
+                            end
+                            -- ~OldQ
                         end
-                        -- ~OldQ
                     end
                 end
 
@@ -1257,6 +1265,24 @@ function QuestieQuest:GetAllQuestObjectives(quest)
     end
 
     return quest.Objectives;
+end
+
+--- Quests like "The Nightmare's Corruption" have multiple objectives with the same
+--- text for each objective. Therefore these need to be handled separatly (see #2308)
+---@return number
+_GetObjectiveIdForSpecialQuest = function(questId, objectiveIndex)
+    if questId == 8735 then
+        if objectiveIndex == 1 then
+            return 21147
+        elseif objectiveIndex == 2 then
+            return 21149
+        elseif objectiveIndex == 3 then
+            return 21148
+        elseif objectiveIndex == 4 then
+            return 21146
+        end
+    end
+    return 0
 end
 
 --https://www.townlong-yak.com/framexml/live/Blizzard_APIDocumentation#C_QuestLog.GetQuestObjectives
