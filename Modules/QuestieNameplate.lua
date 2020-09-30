@@ -204,7 +204,14 @@ function QuestieNameplate:DrawTargetFrame()
                         activeTargetFrame:SetWidth(16 * iconScale)
                         activeTargetFrame:SetHeight(16 * iconScale)
                         activeTargetFrame:EnableMouse(false);
-                        activeTargetFrame:SetParent(TargetFrame);
+
+                        local targetFrame = ElvUF_Target or PitBull4_Frames_Target or TargetFrame
+                        if SUFUnittarget then
+                            targetFrame = SUFUnittarget
+                            activeTargetFrame:SetFrameLevel(SUFUnittarget:GetFrameLevel() + 1);
+                        end
+
+                        activeTargetFrame:SetParent(targetFrame);
                         activeTargetFrame:SetPoint("RIGHT", Questie.db.global.nameplateTargetFrameX, Questie.db.global.nameplateTargetFrameY);
 
                         activeTargetFrame.Icon = activeTargetFrame:CreateTexture(nil, "ARTWORK");
