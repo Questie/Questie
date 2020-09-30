@@ -3,6 +3,9 @@ LangContinentLookup['deDE']= {
     [2] = "Kalimdor",
     [3] = "Instanzen",
     [4] = "Schlachtfelder",
+    [5] = "Klasse",
+    [6] = "Berufe",
+    [7] = "Events"
 }
 
 LangZoneLookup['deDE']= {
@@ -1169,5 +1172,40 @@ LangZoneCategoryLookup['deDE']= {
         [2597] = "Alteractal",
         [3277] = "Kriegshymnenschlucht",
         [3358] = "Arathibecken"
+    },
+    [5] = {
+        [-61] = "Hexenmeister",
+        [-81] = "Krieger",
+        [-82] = "Schamane",
+        [-141] = "Paladin",
+        [-161] = "Magier",
+        [-162] = "Schurke",
+        [-261] = "Jäger",
+        [-262] = "Priester",
+        [-263] = "Druide",
+    },
+    [6] = {
+        [-24] = "Kräuterkunde",
+        [-101] = "Angeln",
+        [-121] = "Schmiedekunst",
+        [-181] = "Alchimie",
+        [-182] = "Lederverarbeitung",
+        [-201] = "Ingenieurskunst",
+        [-264] = "Schneiderei",
+        [-304] = "Kochkunst",
+        [-324] = "Erste Hilfe",
+    },
+    [7] = {
+        [-364] = "Dunkelmond Jahrmarkt",
+        [-366] = "Mondfest",
+        [-369] = "Sommerwendfest",
+        -- Below are dummy IDs to not interfere with other IDs
+        -- These are needed because the events are listed as "seasonal" or "special",
+        -- not with a separate ID
+        [-400] = "Liebe liegt in der Luft",
+        [-401] = "Kinderwoche",
+        [-402] = "Erntedankfest",
+        [-403] = "Schlotternächste",
+        [-404] = "Winterhauchfest",
     },
 }

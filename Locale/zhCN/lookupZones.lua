@@ -3,6 +3,9 @@ LangContinentLookup['zhCN']= {
     [2] = "卡利姆多",
     [3] = "地下城",
     [4] = "战场",
+    [5] = "Class",
+    [6] = "Professions",
+    [7] = "事件",
 }
 
 LangZoneLookup['zhCN']= {
@@ -1121,5 +1124,40 @@ LangZoneCategoryLookup['zhCN']= {
         [2597] = "奥特兰克山谷",
         [3277] = "战歌峡谷",
         [3358] = "阿拉希盆地"
+    },
+    [5] = {
+        [-61] = "术士",
+        [-81] = "战士",
+        [-82] = "萨满祭司",
+        [-141] = "圣骑士",
+        [-161] = "法师",
+        [-162] = "潜行者",
+        [-261] = "猎人",
+        [-262] = "牧师",
+        [-263] = "德鲁伊",
+    },
+    [6] = {
+        [-24] = "草药学",
+        [-101] = "钓鱼",
+        [-121] = "锻造",
+        [-181] = "炼金术",
+        [-182] = "制皮",
+        [-201] = "工程学",
+        [-264] = "裁缝",
+        [-304] = "烹饪",
+        [-324] = "急救",
+    },
+    [7] = {
+        [-364] = "Darkmoon Faire",
+        [-366] = "Lunar Festival",
+        [-369] = "Midsummer",
+        -- Below are dummy IDs to not interfere with other IDs
+        -- These are needed because the events are listed as "seasonal" or "special",
+        -- not with a separate ID
+        [-400] = "Love is in the Air",
+        [-401] = "Childrens Week",
+        [-402] = "Harvest Festival",
+        [-403] = "Hallows End",
+        [-404] = "Winter Veil",
     },
 }

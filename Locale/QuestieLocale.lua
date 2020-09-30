@@ -1,22 +1,26 @@
-QuestieLocale = {};
-QuestieLocale.locale = {};
+QuestieLocale = {}
+QuestieLocale.locale = {}
+QuestieLocale.questCategoryKeys = {}
 LangItemLookup = {}
-LangNameLookup = {};
-LangObjectNameLookup = {};
-LangObjectLookup = {};
-LangQuestLookup = {};
+LangNameLookup = {}
+LangObjectNameLookup = {}
+LangObjectLookup = {}
+LangQuestLookup = {}
 LangContinentLookup = {}
 LangZoneLookup = {}
 LangZoneCategoryLookup = {}
 LangQuestCategory = {}
 
 -------------------------
---Import modules.
+--Import modules
 -------------------------
 ---@type QuestieDB
-local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
-local locale = 'enUS';
+local locale = 'enUS'
+
+local _GetUIStringNillable, _GetUIString
+
 
 -- Initialize database tables with localization
 function QuestieLocale:Initialize()
@@ -76,80 +80,81 @@ function QuestieLocale:Initialize()
 end
 
 function QuestieLocale:FallbackLocale(lang)
-
     if not lang then
-        return 'enUS';
+        return 'enUS'
     end
 
     if QuestieLocale.locale[lang] then
-        return lang;
+        return lang
     elseif lang == 'enGB' then
-        return 'enUS';
+        return 'enUS'
     elseif lang == 'enCN' then
-        return 'zhCN';
+        return 'zhCN'
     elseif lang == 'enTW' then
-        return 'zhTW';
+        return 'zhTW'
     elseif lang == 'esMX' then
-        return 'esES';
+        return 'esES'
     elseif lang == 'ptPT' then
-        return 'ptBR';
+        return 'ptBR'
     else
-        return 'enUS';
+        return 'enUS'
     end
 end
 
 function QuestieLocale:SetUILocale(lang)
     if lang then
-        locale = QuestieLocale:FallbackLocale(lang);
+        locale = QuestieLocale:FallbackLocale(lang)
     else
-        locale = QuestieLocale:FallbackLocale(GetLocale());
+        locale = QuestieLocale:FallbackLocale(GetLocale())
     end
 end
 
 function QuestieLocale:GetUILocale()
-    return locale;
+    return locale
 end
 
 function QuestieLocale:GetLocaleTable()
     if QuestieLocale.locale[locale] then
-        return QuestieLocale.locale[locale];
+        return QuestieLocale.locale[locale]
     else
-        return QuestieLocale.locale['enUS'];
+        return QuestieLocale.locale['enUS']
     end
 end
 
 function QuestieLocale:GetUIString(key, ...)
-    local result, val = pcall(QuestieLocale._GetUIString, QuestieLocale, key, ...)
+    local result, val = pcall(_GetUIString, key, ...)
     if result then
         return val
     else
-        return tostring(key) .. ' ERROR: '.. val;
+        return tostring(key) .. ' ERROR: '.. val
     end
 end
 
-function QuestieLocale:_GetUIString(key, ...)
+_GetUIString = function(key, ...)
     if key then
         -- convert all args to string
         local arg = {...}
         for i, v in ipairs(arg) do
-            arg[i] = tostring(v);
+            arg[i] = tostring(v)
         end
 
-        if QuestieLocale.locale[locale] then
-            if QuestieLocale.locale[locale][key] then
-                return string.format(QuestieLocale.locale[locale][key], unpack(arg))
+        local loc = QuestieLocale.locale
+
+        if loc[locale] then
+            if loc[locale][key] then
+                return string.format(loc[locale][key], unpack(arg))
             else
-                if QuestieLocale.locale['enUS'] and QuestieLocale.locale['enUS'][key] then
-                    return string.format(QuestieLocale.locale['enUS'][key], unpack(arg));
+                if loc['enUS'] and loc['enUS'][key] then
+                    return string.format(loc['enUS'][key], unpack(arg))
                 else
-                    return tostring(key) ..' ERROR: '..tostring(locale)..' key missing!';
+                    return tostring(key) ..' ERROR: '..tostring(locale)..' key missing!'
                 end
             end
         else
-            if QuestieLocale.locale['enUS'] and QuestieLocale.locale['enUS'][key] then
-                return string.format(QuestieLocale.locale['enUS'][key], unpack(arg));
+            if loc['enUS'] and loc['enUS'][key] then
+                return string.format(loc['enUS'][key], unpack(arg))
             else
-                return tostring(key) ..' ERROR: enUS key missing!';
+                return tostring(key) ..' ERROR: enUS key missing!'
             end
         end
     end
@@ -157,7 +162,7 @@ end
 
 -- bad copypasta: maybe we can implement this using args somehow but varargs makes that tough
 function QuestieLocale:GetUIStringNillable(key, ...)
-    local result, val = pcall(QuestieLocale._GetUIStringNillable, QuestieLocale, key, ...)
+    local result, val = pcall(_GetUIStringNillable, key, ...)
     if result then
         return val
     else
@@ -165,30 +170,42 @@ function QuestieLocale:GetUIStringNillable(key, ...)
     end
 end
 
-function QuestieLocale:_GetUIStringNillable(key, ...)
+_GetUIStringNillable = function(key, ...)
     if key then
         -- convert all args to string
         local arg = {...}
         for i, v in ipairs(arg) do
-            arg[i] = tostring(v);
+            arg[i] = tostring(v)
         end
 
-        if QuestieLocale.locale[locale] then
-            if QuestieLocale.locale[locale][key] then
-                return string.format(QuestieLocale.locale[locale][key], unpack(arg))
+        local loc = QuestieLocale.locale
+
+        if loc[locale] then
+            if loc[locale][key] then
+                return string.format(loc[locale][key], unpack(arg))
             else
-                if QuestieLocale.locale['enUS'] and QuestieLocale.locale['enUS'][key] then
-                    return string.format(QuestieLocale.locale['enUS'][key], unpack(arg));
+                if loc['enUS'] and loc['enUS'][key] then
+                    return string.format(loc['enUS'][key], unpack(arg))
                 else
                     return nil
                 end
             end
         else
-            if QuestieLocale.locale['enUS'] and QuestieLocale.locale['enUS'][key] then
-                return string.format(QuestieLocale.locale['enUS'][key], unpack(arg));
+            if loc['enUS'] and loc['enUS'][key] then
+                return string.format(loc['enUS'][key], unpack(arg))
             else
                 return nil
             end
         end
     end
 end
+
+QuestieLocale.questCategoryKeys = {
+    EASTERN_KINGDOMS = 1,
+    KALIMDOR = 2,
+    DUNGEONS = 3,
+    BATTLEGROUNDS = 4,
+    CLASS = 5,
+    PROFESSIONS = 6,
+    EVENTS = 7,
+}

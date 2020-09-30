@@ -3,6 +3,9 @@ LangContinentLookup['enUS']= {
     [2] = "Kalimdor",
     [3] = "Dungeons",
     [4] = "Battlegrounds",
+    [5] = "Class",
+    [6] = "Professions",
+    [7] = "Events"
 }
 
 LangZoneLookup['enUS']= {
@@ -1165,5 +1168,40 @@ LangZoneCategoryLookup['enUS']= {
         [2597] = "Alterac Valley",
         [3277] = "Warsong Gulch",
         [3358] = "Arathi Basin"
+    },
+    [5] = {
+        [-61] = "Warlock",
+        [-81] = "Warrior",
+        [-82] = "Shaman",
+        [-141] = "Paladin",
+        [-161] = "Mage",
+        [-162] = "Rogue",
+        [-261] = "Hunter",
+        [-262] = "Priest",
+        [-263] = "Druid",
+    },
+    [6] = {
+        [-24] = "Herbalism",
+        [-101] = "Fishing",
+        [-121] = "Blacksmithing",
+        [-181] = "Alchemy",
+        [-182] = "Leatherworking",
+        [-201] = "Engineering",
+        [-264] = "Tailoring",
+        [-304] = "Cooking",
+        [-324] = "First Aid",
+    },
+    [7] = {
+        [-364] = "Darkmoon Faire",
+        [-366] = "Lunar Festival",
+        [-369] = "Midsummer",
+        -- Below are dummy IDs to not interfere with other IDs
+        -- These are needed because the events are listed as "seasonal" or "special",
+        -- not with a separate ID
+        [-400] = "Love is in the Air",
+        [-401] = "Childrens Week",
+        [-402] = "Harvest Festival",
+        [-403] = "Hallows End",
+        [-404] = "Winter Veil",
     },
 }

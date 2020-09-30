@@ -8,60 +8,38 @@ local _QuestieJourney = QuestieJourney.private
 local QuestieJourneyUtils = QuestieLoader:ImportModule("QuestieJourneyUtils")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+---@type QuestieProfessions
+local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
 local AceGUI = LibStub("AceGUI-3.0")
 
+local _CreateContinentDropdown, _CreateZoneDropdown
+local _HandleContinentSelection, _HandleZoneSelection
+
+local currentContinentId
+local contDropdown, zoneDropdown, treegroup
 
 -- function that draws the Tab for Zone Quests
 function _QuestieJourney.questsByZone:DrawTab(container)
+    ---@class AceSimpleGroup
+    treegroup = AceGUI:Create("SimpleGroup")
+
     -- Header
     local header = AceGUI:Create("Heading")
     header:SetText(QuestieLocale:GetUIString('JOURNEY_SELECT_HEAD'))
     header:SetFullWidth(true)
     container:AddChild(header)
+
     QuestieJourneyUtils:Spacer(container)
 
-    local contDropdown = AceGUI:Create("LQDropdown")
-    local zoneDropdown = AceGUI:Create("LQDropdown")
-    ---@class AceSimpleGroup
-    local treegroup = AceGUI:Create("SimpleGroup")
-
-    -- Dropdown for Continent
-    contDropdown:SetList(QuestieJourney.continents)
-    contDropdown:SetText(QuestieLocale:GetUIString('JOURNEY_SELECT_CONT'))
-
-    local currentContinentId = QuestiePlayer:GetCurrentContinentId()
+    currentContinentId = QuestiePlayer:GetCurrentContinentId()
+    contDropdown = _CreateContinentDropdown()
     contDropdown:SetValue(currentContinentId)
-
-    contDropdown:SetCallback("OnValueChanged", function(key, checked)
-        local sortedZones = QuestieJourneyUtils:GetSortedZoneKeys(QuestieJourney.zones[key.value])
-        zoneDropdown:SetList(QuestieJourney.zones[key.value], sortedZones)
-        zoneDropdown:SetText(QuestieLocale:GetUIString('JOURNEY_SELECT_ZONE'))
-        zoneDropdown:SetDisabled(false)
-    end)
     container:AddChild(contDropdown)
 
-    -- Dropdown for Zone
-    zoneDropdown:SetText(QuestieLocale:GetUIString('JOURNEY_SELECT_ZONE'))
-
-    local currentZoneId = QuestiePlayer:GetCurrentZoneId()
-    if currentZoneId and currentZoneId > 0 then
-        local sortedZones = QuestieJourneyUtils:GetSortedZoneKeys(QuestieJourney.zones[currentContinentId])
-        zoneDropdown:SetList(QuestieJourney.zones[currentContinentId], sortedZones)
-        zoneDropdown:SetValue(currentZoneId)
-        local zoneTree = _QuestieJourney.questsByZone:CollectZoneQuests(currentZoneId)
-        -- Build Tree
-        _QuestieJourney.questsByZone:ManageTree(treegroup, zoneTree)
-    else
-        zoneDropdown:SetDisabled(true)
-    end
-
-    zoneDropdown:SetCallback("OnValueChanged", function(key, checked)
-        -- Create Tree View
-        local zoneTree = _QuestieJourney.questsByZone:CollectZoneQuests(key.value)
-        -- Build Tree
-        _QuestieJourney.questsByZone:ManageTree(treegroup, zoneTree)
-    end)
+    zoneDropdown = _CreateZoneDropdown()
     container:AddChild(zoneDropdown)
 
     QuestieJourneyUtils:Spacer(container)
@@ -77,4 +55,76 @@ function _QuestieJourney.questsByZone:DrawTab(container)
     treegroup:SetFullWidth(true)
     treegroup:SetLayout("fill")
     container:AddChild(treegroup)
+end
+
+_CreateContinentDropdown = function()
+    local dropdown = AceGUI:Create("LQDropdown")
+    dropdown:SetList(QuestieJourney.continents)
+    dropdown:SetText(QuestieLocale:GetUIString('JOURNEY_SELECT_CONT'))
+    dropdown:SetCallback("OnValueChanged", _HandleContinentSelection)
+    return dropdown
+end
+
+_CreateZoneDropdown = function()
+    local dropdown = AceGUI:Create("LQDropdown")
+    dropdown:SetText(QuestieLocale:GetUIString('JOURNEY_SELECT_ZONE'))
+
+    local currentZoneId = QuestiePlayer:GetCurrentZoneId()
+    if currentZoneId and currentZoneId > 0 then
+        local sortedZones = QuestieJourneyUtils:GetSortedZoneKeys(QuestieJourney.zones[currentContinentId])
+        dropdown:SetList(QuestieJourney.zones[currentContinentId], sortedZones)
+        dropdown:SetValue(currentZoneId)
+
+        local zoneTree = _QuestieJourney.questsByZone:CollectZoneQuests(currentZoneId)
+        _QuestieJourney.questsByZone:ManageTree(treegroup, zoneTree)
+    else
+        dropdown:SetDisabled(true)
+    end
+
+    dropdown:SetCallback("OnValueChanged", _HandleZoneSelection)
+    return dropdown
+end
+
+_HandleContinentSelection = function(key, checked)
+    if (key.value == QuestieLocale.questCategoryKeys.CLASS) then
+        local _, class, _ = UnitClass("player")
+        local classKey = QuestieDB:GetZoneOrSortForClass(class)
+        local zoneTree = _QuestieJourney.questsByZone:CollectZoneQuests(classKey)
+        _QuestieJourney.questsByZone:ManageTree(treegroup, zoneTree)
+        zoneDropdown.frame:Hide()
+    elseif (key.value == QuestieLocale.questCategoryKeys.PROFESSIONS) then
+        local professionList = QuestieJourney.zones[key.value]
+        local playerProfessions = QuestieProfessions:GetProfessionNames()
+
+        local relevantProfessions = {}
+        for id, possibleName in pairs(professionList) do
+            for _, name in pairs(playerProfessions) do
+                if possibleName == name then
+                    relevantProfessions[id] = professionList[id]
+                    break
+                end
+            end
+        end
+        local text = QuestieLocale:GetUIString('JOURNEY_SELECT_PROFESSION')
+        if (not next(relevantProfessions)) then
+            text = QuestieLocale:GetUIString('JOURNEY_NO_QUESTS_FOUND')
+            zoneDropdown:SetDisabled(true)
+        else
+            zoneDropdown:SetDisabled(false)
+        end
+        zoneDropdown:SetList(relevantProfessions)
+        zoneDropdown:SetText(text)
+        zoneDropdown.frame:Show()
+    else
+        local sortedZones = QuestieJourneyUtils:GetSortedZoneKeys(QuestieJourney.zones[key.value])
+        zoneDropdown:SetList(QuestieJourney.zones[key.value], sortedZones)
+        zoneDropdown:SetText(QuestieLocale:GetUIString('JOURNEY_SELECT_ZONE'))
+        zoneDropdown:SetDisabled(false)
+        zoneDropdown.frame:Show()
+    end
+end
+
+_HandleZoneSelection = function(key, checked)
+    local zoneTree = _QuestieJourney.questsByZone:CollectZoneQuests(key.value)
+    _QuestieJourney.questsByZone:ManageTree(treegroup, zoneTree)
 end

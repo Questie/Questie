@@ -383,6 +383,8 @@ QuestieLocale.locale['enUS'] = {
     ['JOURNEY_SELECT_HEAD'] = "Select Your Continent and Zone",
     ['JOURNEY_SELECT_CONT'] = "Select Your Continent",
     ['JOURNEY_SELECT_ZONE'] = "Select Your Zone",
+    ['JOURNEY_SELECT_PROFESSION'] = "Select Your Profession",
+    ['JOURNEY_NO_QUESTS_FOUND'] = "No Quests found",
     ['JOURNEY_QUESTS'] = "Zone Quests",
     ['JOURNEY_QUESTINFO'] = "Quest Information",
     ['JOURNEY_START_NPC'] = "Quest Start NPC Information",
@@ -465,7 +467,7 @@ QuestieLocale.locale['enUS'] = {
     ['DONT_SHOW_AGAIN'] = "Don't show again",
 
     -- Townsfolk related strings
-    ["Repair"] = "Repair", 
+    ["Repair"] = "Repair",
     ["Auctioneer"] = "Auctioneer",
     ["Banker"] = "Banker",
     ["Battlemaster"] = "Battlemaster",

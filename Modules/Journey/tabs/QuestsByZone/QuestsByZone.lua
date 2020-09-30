@@ -15,6 +15,8 @@ local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+---@type QuestieEvent
+local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 
 local AceGUI = LibStub("AceGUI-3.0")
 local zoneTreeFrame = nil
@@ -91,7 +93,6 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
         return nil
     end
 
-    local temp = {}
 
     local zoneTree = {
         [1] = {
@@ -130,11 +131,12 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
 
     local unobtainableQuestIds = {}
 
+    local temp = {}
     for _, levelAndQuest in pairs(sortedQuestByLevel) do
         ---@type QuestId
         local qId = levelAndQuest[2]
         -- Only show quests which are not hidden
-        if QuestieCorrections.hiddenQuests and not QuestieCorrections.hiddenQuests[qId] and QuestieDB.QuestPointers[qId] then
+        if QuestieCorrections.hiddenQuests and ((not QuestieCorrections.hiddenQuests[qId]) or QuestieEvent:IsEventQuest(qId)) and QuestieDB.QuestPointers[qId] then
             temp.value = qId
             temp.text = QuestieDB:GetColoredQuestName(qId)
 

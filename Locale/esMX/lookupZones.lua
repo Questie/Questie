@@ -3,6 +3,9 @@ LangContinentLookup['esMX']= {
     [2] = "Kalimdor",
     [3] = "Calabozos",
     [4] = "Campos de Batalla",
+    [5] = "Class",
+    [6] = "Profesiónes",
+    [7] = "Eventos"
 }
 
 LangZoneLookup['esMX']= {
@@ -1169,5 +1172,40 @@ LangZoneCategoryLookup['esMX']= {
         [2597] = "Valle de Alterac",
         [3277] = "Garganta Grito de Guerra",
         [3358] = "Cuenca de Arathi"
+    },
+    [5] = {
+        [-61] = "Brujo",
+        [-81] = "Guerrero",
+        [-82] = "Chamán",
+        [-141] = "Paladín",
+        [-161] = "Mago",
+        [-162] = "Pícaro",
+        [-261] = "Cazador",
+        [-262] = "Priest",
+        [-263] = "Sacerdote",
+    },
+    [6] = {
+        [-24] = "Botánica",
+        [-101] = "Pesca",
+        [-121] = "Herrería",
+        [-181] = "Alquimia",
+        [-182] = "Marroquinería",
+        [-201] = "Ingeniería",
+        [-264] = "Costura",
+        [-304] = "Cocina",
+        [-324] = "Primeros auxilios",
+    },
+    [7] = {
+        [-364] = "Darkmoon Faire",
+        [-366] = "Lunar Festival",
+        [-369] = "Midsummer",
+        -- Below are dummy IDs to not interfere with other IDs
+        -- These are needed because the events are listed as "seasonal" or "special",
+        -- not with a separate ID
+        [-400] = "Love is in the Air",
+        [-401] = "Childrens Week",
+        [-402] = "Harvest Festival",
+        [-403] = "Hallows End",
+        [-404] = "Winter Veil",
     },
 }
