@@ -47,6 +47,8 @@ local _townsfolk_texturemap = {
     [QuestieProfessions.professionKeys.SKINNING] = "Interface\\Icons\\inv_misc_pelt_wolf_01"
 }
 
+local _spawned = {} -- used to check if we have already spawned an icon for this npc
+
 local function toggle(key) -- /run QuestieLoader:ImportModule("QuestieMap"):ShowNPC(525, nil, 1, "teaste", {}, true)
     local ids = Questie.db.global.townsfolk[key] or Questie.db.char.townsfolk[key] or Questie.db.global.professionTrainers[key] or Questie.db.char.vendorList[key]
     local icon = _townsfolk_texturemap[key] or ("Interface\\Minimap\\tracking\\" .. strlower(key))
@@ -70,9 +72,12 @@ local function toggle(key) -- /run QuestieLoader:ImportModule("QuestieMap"):Show
                 local start = e
                 while e < max and e-start < 32 do
                     local id = ids[e]
-                    local friendly = QuestieDB.QueryNPCSingle(id, "friendlyToFaction")
-                    if ((not friendly) or friendly == "AH" or (faction == "Alliance" and friendly == "A") or (faction == "Horde" and friendly == "H")) and not QuestieCorrections.questNPCBlacklist[id] then -- (QuestieLocale:GetUIStringNillable(tostring(key)) or key)
-                        QuestieMap:ShowNPC(id, icon, 1.2, "|cFF00FF00" .. QuestieDB.QueryNPCSingle(id, "name") .. " |r|cFFFFFFFF(" .. (QuestieDB.QueryNPCSingle(id, "subName") or QuestieLocale:GetUIStringNillable(tostring(key)) or key) .. ")", {}--[[{key, ""}]], true, key)
+                    if not _spawned[id] then
+                        local friendly = QuestieDB.QueryNPCSingle(id, "friendlyToFaction")
+                        if ((not friendly) or friendly == "AH" or (faction == "Alliance" and friendly == "A") or (faction == "Horde" and friendly == "H")) and not QuestieCorrections.questNPCBlacklist[id] then -- (QuestieLocale:GetUIStringNillable(tostring(key)) or key)
+                            QuestieMap:ShowNPC(id, icon, 1.2, "|cFF00FF00" .. QuestieDB.QueryNPCSingle(id, "name") .. " |r|cFFFFFFFF(" .. (QuestieDB.QueryNPCSingle(id, "subName") or QuestieLocale:GetUIStringNillable(tostring(key)) or key) .. ")", {}--[[{key, ""}]], true, key)
+                            _spawned[id] = true
+                        end
                     end
                     e = e + 1
                 end
@@ -83,6 +88,7 @@ local function toggle(key) -- /run QuestieLoader:ImportModule("QuestieMap"):Show
         else
             for _, id in pairs(ids) do
                 QuestieMap:UnloadManualFrames(id, key)
+                _spawned[id] = nil
             end
         end
     end
