@@ -42,7 +42,7 @@ function _QuestieJourney.myJourney:DrawTab(container)
         if Questie.db.char.journey[i].Event == "Quest" then
             local qName = QuestieDB.QueryQuestSingle(Questie.db.char.journey[i].Quest, "name");
             if qName then
-                local qName = Questie:Colorize(qName, 'gray');
+                qName = Questie:Colorize(qName, 'gray');
 
                 if Questie.db.char.journey[i].SubType == "Accept" then
                     recentEvents[i]:SetText( timestamp .. Questie:Colorize( QuestieLocale:GetUIString('JOURNEY_QUEST_ACCEPT', qName) , 'yellow')  );
@@ -80,7 +80,7 @@ function _QuestieJourney.myJourney:DrawTab(container)
     local noteButton = AceGUI:Create("Button");
     noteButton:SetText(QuestieLocale:GetUIString('JOURNEY_NOTE_BTN'));
     noteButton:SetPoint("RIGHT");
-    noteButton:SetCallback("OnClick", NotePopup);
+    noteButton:SetCallback("OnClick", _QuestieJourney.ShowNotePopup);
     container:AddChild(noteButton);
 
     QuestieJourneyUtils:Spacer(container);
