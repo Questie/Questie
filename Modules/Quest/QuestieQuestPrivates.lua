@@ -103,6 +103,7 @@ _QuestieQuest.objectiveSpawnListCallTable = {
                                 ret[id].Spawns = {}
                                 ret[id].Waypoints = {}
                                 ret[id].Hostile = true
+                                ret[id].ItemId = item.Id
                                 if source.Type == "object" then
                                     ret[id].Icon = ICON_TYPE_OBJECT
                                     ret[id].GetIconScale = function() return Questie.db.global.objectScale or 1 end

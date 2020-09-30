@@ -307,8 +307,7 @@ function QuestieOptions.tabs.general:Initialize()
                 order = 1.721,
                 values = {
                     ['disabled'] = QuestieLocale:GetUIString('DISABLED'),
-                    ['party'] = QuestieLocale:GetUIString('QUEST_ANNOUNCE_PARTY'),
-                    ['party+say'] = QuestieLocale:GetUIString('QUEST_ANNOUNCE_PARTY_AND_SAY'),
+                    ['party'] = QuestieLocale:GetUIString('QUEST_ANNOUNCE_ENABLED'),
                 },
                 style = 'dropdown',
                 name = function() return QuestieLocale:GetUIString('QUEST_ANNOUNCE') end,

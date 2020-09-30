@@ -6,24 +6,24 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
 QuestieAnnounce._itemCache = {} -- cache data since this happens on item looted it could happen a lot with auto loot
 
-function QuestieAnnounce:Announce(questId, progressType, itemId)
-    if Questie.db.char.questAnnounce and "disabled" ~= Questie.db.char.questAnnounce then
+function QuestieAnnounce:Announce(questId, progressType, itemId, objectiveText, objectiveProgress)
+    if Questie.db.char.questAnnounce and "disabled" ~= Questie.db.char.questAnnounce and UnitInParty("player") then
         local message = nil
         local questLevel, questName = unpack(QuestieDB.QueryQuest(questId, "questLevel", "name"))
 
         if progressType == "objective" then
-            message = "[Questie] Objective of [["..tostring(questLevel).."] "..questName.." ("..tostring(questId)..")] complete!"
+            local objective = nil
+            if itemId then
+                objective = objectiveProgress.." "..(select(2,GetItemInfo(itemId)))
+            else
+                objective = objectiveProgress.." "..objectiveText
+            end
+            message = QuestieLocale:GetUIString("QUEST_ANNOUNCE_OBJECTIVE", objective, "[["..tostring(questLevel).."] "..questName.." ("..tostring(questId)..")]")
         elseif progressType == "item" then
-            message = "[Questie] Just picked up "..(select(2,GetItemInfo(itemId))).." which starts [["..tostring(questLevel).."] "..questName.." ("..tostring(questId)..")]"
+            message = QuestieLocale:GetUIString("QUEST_ANNOUNCE_QUESTITEM", (select(2,GetItemInfo(itemId))), "[["..tostring(questLevel).."] "..questName.." ("..tostring(questId)..")]")
         end
 
-        if "party" == Questie.db.char.questAnnounce and UnitInParty("player") then
-            SendChatMessage(message, "PARTY")
-        end
-
-        if "party+say" == Questie.db.char.questAnnounce then
-            SendChatMessage(message, "EMOTE")
-        end
+        SendChatMessage(message, "PARTY")
     end
 end
 

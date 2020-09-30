@@ -67,9 +67,10 @@ QuestieLocale.locale['enUS'] = {
     ['ENABLE_YELL'] = "Share quest progress with nearby players",
     ['ENABLE_YELL_DESC'] = "Your quest progress will be periodically sent to nearby players. Disabling this doesn't affect sharing progress with party members.",
     ['QUEST_ANNOUNCE'] = "Quest Announce",
-    ['QUEST_ANNOUNCE_DESC'] = "Announce objective completion to other players via party chat or emote",
-    ['QUEST_ANNOUNCE_PARTY'] = "Party",
-    ['QUEST_ANNOUNCE_PARTY_AND_SAY'] = "Party and Emote",
+    ['QUEST_ANNOUNCE_DESC'] = "Announce objective completion to party members",
+    ['QUEST_ANNOUNCE_ENABLED'] = "Enabled",
+    ['QUEST_ANNOUNCE_OBJECTIVE'] = "{rt1} Questie | %s for %s!",
+    ['QUEST_ANNOUNCE_QUESTITEM'] = "{rt1} Questie | Picked up %s which starts %s!",
 
     -- Minimap tab
     ['MINIMAP_TAB'] = "Minimap",

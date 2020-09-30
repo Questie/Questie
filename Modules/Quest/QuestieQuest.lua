@@ -835,12 +835,17 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
                     end
                 end
                 if didUnloadNotes then
-                    QuestieAnnounce:Announce(quest.Id, "objective")
+                    if Objective.Type == "item" then
+                        QuestieAnnounce:Announce(quest.Id, "objective", spawnData.ItemId, Objective.Description, tostring(Objective.Collected) .. "/" .. tostring(Objective.Needed))
+                    else
+                        QuestieAnnounce:Announce(quest.Id, "objective", nil, Objective.Description, tostring(Objective.Collected) .. "/" .. tostring(Objective.Needed))
+                    end
                 end
             end
         end
         local spawnedIcons = {}
         local iconPerZone = {} -- used by waypoint logic
+        local icon = nil -- used by waypoint logic
         for questId, icons in pairs(iconsToDraw) do
             if(not spawnedIcons[questId]) then
                 spawnedIcons[questId] = 0;
@@ -877,7 +882,7 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
                 end
 
                 --Any icondata will do because they are all the same
-                local icon = hotzone[1];
+                icon = hotzone[1];
 
                 local midPoint = QuestieMap.utils:CenterPoint(hotzone);
                 --Disable old clustering.
@@ -918,8 +923,17 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
         for id, spawnData in pairs(Objective.spawnList) do -- spawnData.Name, spawnData.Spawns
             if spawnData.Waypoints then
                 for zone, waypoints in pairs(spawnData.Waypoints) do
-                    if iconPerZone[zone] then
-                        QuestieMap:DrawWaypoints(iconPerZone[zone][1], waypoints, zone, iconPerZone[zone][2], iconPerZone[zone][3], spawnData.Hostile and {1,0.2,0,1} or nil)
+                    if not iconPerZone[zone] and icon then -- spawn an icon in this zone for the mob
+                        local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, zone, waypoints[1][1][1], waypoints[1][1][2]) -- clustering code takes care of duplicates as long as mindist is more than 0
+                        if iconMap and iconMini then
+                            iconPerZone[zone] = {iconMap, waypoints[1][1][1], waypoints[1][1][2]}
+                            tinsert(Objective.AlreadySpawned[icon.AlreadySpawnedId].mapRefs, iconMap);
+                            tinsert(Objective.AlreadySpawned[icon.AlreadySpawnedId].minimapRefs, iconMini);
+                        end
+                    end
+                    local ipz = iconPerZone[zone]
+                    if ipz then
+                        QuestieMap:DrawWaypoints(ipz[1], waypoints, zone, ipz[2], ipz[3], spawnData.Hostile and {1,0.2,0,1} or nil)
                     end
                 end
             end
