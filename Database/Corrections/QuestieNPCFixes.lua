@@ -2142,6 +2142,12 @@ function QuestieNPCFixes:Load()
                 [zoneIDs.ASHENVALE] = {{93.95,38.58},},
             },
         },
+        [14990] = {
+            [npcKeys.spawns] = {}, 
+        },
+        [14991] = {
+            [npcKeys.spawns] = {}, 
+        },
         [15001] = {
             [npcKeys.spawns] = {[zoneIDs.ARATHI_BASIN]={{-1,-1},},},
             [npcKeys.zoneID] = zoneIDs.ARATHI_BASIN,
@@ -2161,6 +2167,18 @@ function QuestieNPCFixes:Load()
         [15005] = {
             [npcKeys.spawns] = {[zoneIDs.ARATHI_BASIN]={{-1,-1},},},
             [npcKeys.zoneID] = zoneIDs.ARATHI_BASIN,
+        },
+        [15102] = {
+            [npcKeys.spawns] = {}, 
+        },
+        [15103] = {
+            [npcKeys.spawns] = {}, 
+        },
+        [15105] = {
+            [npcKeys.spawns] = {}, 
+        },
+        [15106] = {
+            [npcKeys.spawns] = {}, 
         },
         [15114] = { 
             [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK] = {{-1,-1},},},
