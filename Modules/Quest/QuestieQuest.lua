@@ -1281,6 +1281,12 @@ _GetObjectiveIdForSpecialQuest = function(questId, objectiveIndex)
         elseif objectiveIndex == 4 then
             return 21146
         end
+    elseif questId == 4282 then
+        if objectiveIndex == 1 then
+            return 11464
+        else
+            return 11465
+        end
     end
     return 0
 end
