@@ -476,7 +476,7 @@ QuestieLocale.locale['zhCN'] = {
     ["Spirit Healer"] = "灵魂医者",
     ["Available Quest"] = "可用任务",
     ["Objective"] = "目标",
-    ["Vendor"] = "Vendor",
+    ["Vendor"] = "商人",
     ["Profession Trainer"] = "专业训练师",
     ["Questie Options"] = "打开 Questie",
     -- professions use their ID as the key for a much cleaner implementation. Translations for these are alerady in QuestieProfessions.lua
