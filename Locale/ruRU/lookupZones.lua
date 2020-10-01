@@ -3,8 +3,8 @@ LangContinentLookup["ruRU"] = {
     [2] = "Калимдор",
     [3] = "Подземелья",
     [4] = "Поля Битвы",
-    [5] = "Class",
-    [6] = "Professions",
+    [5] = "Класс",
+    [6] = "Профессии",
     [7] = "События",
 }
 
@@ -1196,16 +1196,16 @@ LangZoneCategoryLookup["ruRU"] = {
         [-324] = "Первая помощь",
     },
     [7] = {
-        [-364] = "Darkmoon Faire",
-        [-366] = "Lunar Festival",
-        [-369] = "Midsummer",
+        [-364] = "Ярмарка Новолуния",
+        [-366] = "Лунный фестиваль",
+        [-369] = "Огненный солнцеворот",
         -- Below are dummy IDs to not interfere with other IDs
         -- These are needed because the events are listed as "seasonal" or "special",
         -- not with a separate ID
-        [-400] = "Love is in the Air",
-        [-401] = "Childrens Week",
-        [-402] = "Harvest Festival",
-        [-403] = "Hallows End",
-        [-404] = "Winter Veil",
+        [-400] = "Любовная лихорадка",
+        [-401] = "Детская неделя",
+        [-402] = "Фестиваль урожая",
+        [-403] = "Тыквовин",
+        [-404] = "Зимний Покров",
     },
 }
