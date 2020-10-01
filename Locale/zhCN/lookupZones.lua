@@ -3,8 +3,8 @@ LangContinentLookup['zhCN']= {
     [2] = "卡利姆多",
     [3] = "地下城",
     [4] = "战场",
-    [5] = "Class",
-    [6] = "Professions",
+    [5] = "职业",
+    [6] = "专业",
     [7] = "事件",
 }
 
@@ -1148,16 +1148,16 @@ LangZoneCategoryLookup['zhCN']= {
         [-324] = "急救",
     },
     [7] = {
-        [-364] = "Darkmoon Faire",
-        [-366] = "Lunar Festival",
-        [-369] = "Midsummer",
+        [-364] = "暗月马戏团",
+        [-366] = "新年",
+        [-369] = "仲夏节",
         -- Below are dummy IDs to not interfere with other IDs
         -- These are needed because the events are listed as "seasonal" or "special",
         -- not with a separate ID
-        [-400] = "Love is in the Air",
-        [-401] = "Childrens Week",
-        [-402] = "Harvest Festival",
-        [-403] = "Hallows End",
-        [-404] = "Winter Veil",
+        [-400] = "情人节",
+        [-401] = "儿童周",
+        [-402] = "丰收节日",
+        [-403] = "万圣节",
+        [-404] = "冬幕节",
     },
 }
