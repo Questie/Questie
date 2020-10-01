@@ -3,8 +3,8 @@ LangContinentLookup['frFR']= {
     [2] = "Kalimdor",
     [3] = "Donjons",
     [4] = "Champs de bataille",
-    [5] = "Class",
-    [6] = "Professions",
+    [5] = "Classe",
+    [6] = "Métiers",
     [7] = "Événements",
 }
 
