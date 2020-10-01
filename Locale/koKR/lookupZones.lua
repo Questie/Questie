@@ -3,9 +3,9 @@ LangContinentLookup['koKR']= {
     [2] = "칼림도어",
     [3] = "던전",
     [4] = "전장",
-    [5] = "Class",
-    [6] = "Professions",
-    [7] = "Events",
+    [5] = "직업",
+    [6] = "전문 기술들",
+    [7] = "이벤트들",
 }
 
 LangZoneLookup['koKR']= {
@@ -1196,16 +1196,16 @@ LangZoneCategoryLookup['koKR']= {
         [-324] = "응급치료",
     },
     [7] = {
-        [-364] = "Darkmoon Faire",
-        [-366] = "Lunar Festival",
-        [-369] = "Midsummer",
+        [-364] = "다크문 축제",
+        [-366] = "달의 축제",
+        [-369] = "한여름 불꽃축제",
         -- Below are dummy IDs to not interfere with other IDs
         -- These are needed because the events are listed as "seasonal" or "special",
         -- not with a separate ID
-        [-400] = "Love is in the Air",
-        [-401] = "Childrens Week",
-        [-402] = "Harvest Festival",
-        [-403] = "Hallows End",
-        [-404] = "Winter Veil",
+        [-400] = "온누리에 사랑을",
+        [-401] = "어린이 주간",
+        [-402] = "추수절 축제",
+        [-403] = "할로윈 축제",
+        [-404] = "겨울맞이 축제",
     },
 }
