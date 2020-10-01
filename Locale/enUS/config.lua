@@ -69,8 +69,8 @@ QuestieLocale.locale['enUS'] = {
     ['QUEST_ANNOUNCE'] = "Quest Announce",
     ['QUEST_ANNOUNCE_DESC'] = "Announce objective completion to party members",
     ['QUEST_ANNOUNCE_ENABLED'] = "Enabled",
-    ['QUEST_ANNOUNCE_OBJECTIVE'] = "{rt1} Questie | %s for %s!",
-    ['QUEST_ANNOUNCE_QUESTITEM'] = "{rt1} Questie | Picked up %s which starts %s!",
+    ['QUEST_ANNOUNCE_OBJECTIVE'] = "{rt1} Questie : %s for %s!",
+    ['QUEST_ANNOUNCE_QUESTITEM'] = "{rt1} Questie : Picked up %s which starts %s!",
 
     -- Minimap tab
     ['MINIMAP_TAB'] = "Minimap",
