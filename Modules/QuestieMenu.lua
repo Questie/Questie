@@ -123,6 +123,39 @@ function QuestieMenu:OnLogin() -- toggle all icons
     end
 end
 
+local div = { -- from libEasyMenu code
+    hasArrow = false,
+    dist = 0,
+    isTitle = true,
+    isUninteractable = true,
+    notCheckable = true,
+    iconOnly = true,
+    isSeparator = true,
+    icon = "Interface\\Common\\UI-TooltipDivider-Transparent",
+    tCoordLeft = 0,
+    tCoordRight = 1,
+    tCoordTop = 0,
+    tCoordBottom = 1,
+    tSizeX = 0,
+    tSizeY = 8,
+    tFitDropDownSizeX = true,
+    text="",
+    iconInfo = {
+        tCoordLeft = 0,
+        tCoordRight = 1,
+        tCoordTop = 0,
+        tCoordBottom = 1,
+        tSizeX = 0,
+        tSizeY = 8,
+        tFitDropDownSizeX = true
+    },
+}
+local secondaryProfessions = {
+    [QuestieProfessions.professionKeys.FIRST_AID] = true,
+    [QuestieProfessions.professionKeys.COOKING] = true,
+    [QuestieProfessions.professionKeys.FISHING] = true
+}
+
 function QuestieMenu:Show()
     if not Questie.db.char.townsfolkConfig then
         Questie.db.char.townsfolkConfig = {}
@@ -141,14 +174,24 @@ function QuestieMenu:Show()
     local function buildProfessionMenu()
         local profMenu = {}
         local profMenuSorted = {}
+        local secondaryProfMenuSorted = {}
         local profMenuData = {}
         for key, v in pairs(Questie.db.global.professionTrainers) do
             local localizedKey = (QuestieLocale:GetUIStringNillable(tostring(key)) or key)
             profMenuData[localizedKey] = build(key)
-            tinsert(profMenuSorted, localizedKey)
+            if secondaryProfessions[key] then
+                tinsert(secondaryProfMenuSorted, localizedKey)
+            else
+                tinsert(profMenuSorted, localizedKey)
+            end
         end
         table.sort(profMenuSorted)
+        table.sort(secondaryProfMenuSorted)
         for _, key in pairs(profMenuSorted) do
+            tinsert(profMenu, profMenuData[key])
+        end
+        tinsert(profMenu, div)
+        for _, key in pairs(secondaryProfMenuSorted) do
             tinsert(profMenu, profMenuData[key])
         end
         return profMenu
@@ -185,33 +228,7 @@ function QuestieMenu:Show()
     tinsert(menuTable, {text=QuestieLocale:GetUIString("Profession Trainer"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList=buildProfessionMenu, notCheckable=true})
     tinsert(menuTable, {text=QuestieLocale:GetUIString("Vendor"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList=buildVendorMenu, notCheckable=true})
 
-    tinsert(menuTable, {
-        hasArrow = false,
-        dist = 0,
-        isTitle = true,
-        isUninteractable = true,
-        notCheckable = true,
-        iconOnly = true,
-        isSeparator = true,
-        icon = "Interface\\Common\\UI-TooltipDivider-Transparent",
-        tCoordLeft = 0,
-        tCoordRight = 1,
-        tCoordTop = 0,
-        tCoordBottom = 1,
-        tSizeX = 0,
-        tSizeY = 8,
-        tFitDropDownSizeX = true,
-        text="",
-        iconInfo = {
-            tCoordLeft = 0,
-            tCoordRight = 1,
-            tCoordTop = 0,
-            tCoordBottom = 1,
-            tSizeX = 0,
-            tSizeY = 8,
-            tFitDropDownSizeX = true
-        },
-    })
+    tinsert(menuTable, div)
 
     tinsert(menuTable, {text=QuestieLocale:GetUIString('JOURNEY_SEARCH_TAB'), func=function() QuestieJourney.private.lastOpenWindow = "search"; QuestieJourney.ToggleJourneyWindow() end})
     tinsert(menuTable, {text=QuestieLocale:GetUIString("Questie Options"), func=function() QuestieOptions:OpenConfigWindow() end})
