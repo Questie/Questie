@@ -1196,16 +1196,16 @@ LangZoneCategoryLookup['esES']= {
         [-324] = "Primeros auxilios",
     },
     [7] = {
-        [-364] = "Darkmoon Faire",
-        [-366] = "Lunar Festival",
-        [-369] = "Midsummer",
+        [-364] = "Feria de la Luna Negra",
+        [-366] = "Festival Lunar",
+        [-369] = "Verano",
         -- Below are dummy IDs to not interfere with other IDs
         -- These are needed because the events are listed as "seasonal" or "special",
         -- not with a separate ID
-        [-400] = "Love is in the Air",
-        [-401] = "Childrens Week",
-        [-402] = "Harvest Festival",
-        [-403] = "Hallows End",
-        [-404] = "Winter Veil",
+        [-400] = "Amor en el aire",
+        [-401] = "Los Niños",
+        [-402] = "Festival de la cosecha",
+        [-403] = "Halloween",
+        [-404] = "Festival de Invierno",
     }
 }
