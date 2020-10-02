@@ -1,11 +1,14 @@
 ---@class QuestieJourney
 local QuestieJourney = QuestieLoader:CreateModule("QuestieJourney")
 local _QuestieJourney = QuestieJourney.private
+QuestieJourneyFrame = nil
 -------------------------
 --Import modules.
 -------------------------
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+---@type QuestieOptions
+local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
@@ -36,9 +39,9 @@ function QuestieJourney:Initialize()
 end
 
 function QuestieJourney:BuildMainFrame()
-    if (QuestieJourney.frame == nil) then
-        local frame = AceGUI:Create("Frame")
-        frame:SetCallback("OnClose", function()
+    if (QuestieJourneyFrame == nil) then
+        local journeyFrame = AceGUI:Create("Frame")
+        journeyFrame:SetCallback("OnClose", function()
             isWindowShown = false
             if notesPopupWinIsOpen then
                 notesPopupWin:Hide()
@@ -46,10 +49,9 @@ function QuestieJourney:BuildMainFrame()
                 notesPopupWinIsOpen = false
             end
         end)
-        frame:SetTitle(QuestieLocale:GetUIString('JOURNEY_TITLE', UnitName("player")))
-        frame:SetLayout("Fill")
-
-        QuestieJourney.frame = frame
+        journeyFrame:SetTitle(QuestieLocale:GetUIString('JOURNEY_TITLE', UnitName("player")))
+        journeyFrame:SetLayout("Fill")
+        journeyFrame.frame:SetMinResize(550, 400)
 
         local tabGroup = AceGUI:Create("TabGroup")
         tabGroup:SetLayout("Flow")
@@ -67,15 +69,24 @@ function QuestieJourney:BuildMainFrame()
                 value="search"
             }
         })
-        tabGroup:SetCallback("OnGroupSelected", function(widget, event, group) _QuestieJourney:JourneySelectTabGroup(widget, event, group) end)
+        tabGroup:SetCallback("OnGroupSelected", function(widget, event, group) _QuestieJourney:HandleTabChange(widget, event, group) end)
         tabGroup:SelectTab("journey")
 
         QuestieJourney.tabGroup = tabGroup
+        journeyFrame:AddChild(QuestieJourney.tabGroup)
 
-        QuestieJourney.frame:AddChild(QuestieJourney.tabGroup)
+        local settingsButton = AceGUI:Create("Button")
+        settingsButton:SetWidth(140)
+        settingsButton:SetPoint("TOPRIGHT", journeyFrame.frame, "TOPRIGHT", -50, -13)
+        settingsButton:SetText(QuestieLocale:GetUIString('Questie Options'))
+        settingsButton:SetCallback("OnClick", function()
+            QuestieJourney:ToggleJourneyWindow()
+            QuestieOptions:OpenConfigWindow()
+        end)
+        journeyFrame:AddChild(settingsButton)
 
-        QuestieJourney.frame:Hide()
-        _G["QuestieJourneyFrame"] = QuestieJourney.frame
+        journeyFrame:Hide()
+        QuestieJourneyFrame = journeyFrame
         table.insert(UISpecialFrames, "QuestieJourneyFrame")
     end
 end
@@ -88,15 +99,15 @@ function QuestieJourney:ToggleJourneyWindow()
     if not isWindowShown then
         PlaySound(882)
 
-        local treeGroup = _QuestieJourney:JourneySelectTabGroup(_QuestieJourney.containerCache, nil, _QuestieJourney.lastOpenWindow)
+        local treeGroup = _QuestieJourney:HandleTabChange(_QuestieJourney.containerCache, nil, _QuestieJourney.lastOpenWindow)
         if treeGroup then
             _QuestieJourney.treeCache = treeGroup
         end
 
-        QuestieJourney.frame:Show()
+        QuestieJourneyFrame:Show()
         isWindowShown = true
     else
-        QuestieJourney.frame:Hide()
+        QuestieJourneyFrame:Hide()
         isWindowShown = false
     end
 end

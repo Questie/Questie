@@ -59,7 +59,7 @@ function _QuestieJourney:CreateObjectiveText(desc)
     return objText
 end
 
-function _QuestieJourney:JourneySelectTabGroup(container, event, group)
+function _QuestieJourney:HandleTabChange(container, event, group)
     if not _QuestieJourney.containerCache then
         _QuestieJourney.containerCache = container
     end
