@@ -2454,6 +2454,9 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = 178,
         },
+        [8620] = {
+            [questKeys.requiredSourceItems] = {21103,21104,21105,21106,21107,21108,21109,21110},
+        },
         [8733] = {
             [questKeys.preQuestSingle] = {8555}, -- #2365
         },
