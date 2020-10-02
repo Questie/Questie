@@ -492,6 +492,11 @@ QuestieLocale.locale['zhCN'] = {
     ["333"] = "附魔",
     ["356"] = "钓鱼",
     ["393"] = "剥皮",
+    ["Ammo"] = "弹药",
+    ["Bags"] = "背包",
+    ["Trade Goods"] = "杂货",
+    ["Drink"] = "食品",
+	["Food"] = "食品",
 
     -- TODO finally switch all keys to this style for code readability:
     ['Show on Map'] = "地图上显示",
