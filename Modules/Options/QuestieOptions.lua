@@ -28,9 +28,9 @@ function QuestieOptions:Initialize()
     AceConfigDialog:AddToBlizOptions("Questie", "Questie");
 
     local configFrame = AceGUI:Create("Frame")
+    AceConfigDialog:SetDefaultSize("Questie", 625, 780)
     AceConfigDialog:Open("Questie", configFrame) -- load the options into configFrame
     configFrame:SetLayout("Fill")
-    configFrame.frame:SetSize(625, 780)
     configFrame.frame:SetMinResize(550, 400)
 
     local journeyButton = AceGUI:Create("Button")
