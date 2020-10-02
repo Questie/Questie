@@ -55,7 +55,7 @@ local function toggle(key) -- /run QuestieLoader:ImportModule("QuestieMap"):Show
     if key == "Mailbox" then -- the only obnject-type townsfolk
         if Questie.db.char.townsfolkConfig[key] then
             for _, id in pairs(ids) do
-                QuestieMap:ShowObject(id, icon, 1.2, "|cFFFFFFFF" .. key, {}, true, key)
+                QuestieMap:ShowObject(id, icon, 1.2, "|cFFFFFFFF" .. QuestieLocale:GetUIString('Mailbox'), {}, true, key)
             end
         else
             for _, id in pairs(ids) do
