@@ -1102,6 +1102,15 @@ function QuestieItemFixes:Load()
             [itemKeys.objectDrops] = {180453,},
             [itemKeys.npcDrops] = {},
         },
+        [21106] = {
+            [itemKeys.objectDrops] = {180666},
+        },
+        [21107] = {
+            [itemKeys.objectDrops] = {180665},
+        },
+        [21109] = {
+            [itemKeys.objectDrops] = {180667},
+        },
         [21158] = {
             [itemKeys.name] = "Hive'Zora Scout Report",
             [itemKeys.relatedQuests] = {8534},
