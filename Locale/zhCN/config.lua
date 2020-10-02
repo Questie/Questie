@@ -479,6 +479,13 @@ QuestieLocale.locale['zhCN'] = {
     ["Vendor"] = "商人",
     ["Profession Trainer"] = "专业训练师",
     ["Questie Options"] = "打开 Questie",
+    ["Ammo"] = "弹药",
+    ["Pet Food"] = "喂养宠物",
+    ["Portal Trainer"] = "传送门训练师",
+    ["Bags"] = "背包",
+    ["Trade Goods"] = "商品",
+    ["Food"] = "食品",
+    ["Drink"] = "食品",
     -- professions use their ID as the key for a much cleaner implementation. Translations for these are alerady in QuestieProfessions.lua
     ["129"] = "急救",
     ["164"] = "锻造",
@@ -492,11 +499,6 @@ QuestieLocale.locale['zhCN'] = {
     ["333"] = "附魔",
     ["356"] = "钓鱼",
     ["393"] = "剥皮",
-    ["Ammo"] = "弹药",
-    ["Bags"] = "背包",
-    ["Trade Goods"] = "杂货",
-    ["Drink"] = "食品",
-	["Food"] = "食品",
 
     -- TODO finally switch all keys to this style for code readability:
     ['Show on Map'] = "地图上显示",
