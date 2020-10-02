@@ -760,15 +760,11 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
         for _, id in pairs(hidden) do
             if id ~= nil then
 
-                local obj = {};
-                obj.Type = "item"
-                obj.Id = id
-
-                obj.Name = QuestieDB.QueryItemSingle(id, "name")--QuestieDB.itemData[obj.Id]
-                if obj.Name ~= nil then
-                    --local name = obj.Name[QuestieDB.itemKeys.name]
-                    obj.Name = string.lower(obj.Name);
-                end
+                local obj = {
+                    Type = "item",
+                    Id = id,
+                    Name = QuestieDB.QueryItemSingle(id, "name")
+                }
 
                 tinsert(QO.HiddenObjectiveData, obj);
             end

@@ -86,9 +86,9 @@ _QuestieQuest.objectiveSpawnListCallTable = {
         end
         return ret
     end,
-    ["item"] = function(id, Objective)
+    ["item"] = function(itemId, Objective)
         local ret = {};
-        local item = QuestieDB:GetItem(id);
+        local item = QuestieDB:GetItem(itemId);
         if item ~= nil and item.Sources ~= nil and (not item.Hidden) then
             for _, source in pairs(item.Sources) do
                 if _QuestieQuest.objectiveSpawnListCallTable[source.Type] and source.Type ~= "item" then -- anti-recursive-loop check, should never be possible but would be bad if it was

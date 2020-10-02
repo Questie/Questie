@@ -691,7 +691,6 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
         Objective.AlreadySpawned = {};
     end
 
-
     -- temporary fix for "special objectives" to not double-spawn (we need to fix the objective detection logic)
     if not quest.AlreadySpawned then
         quest.AlreadySpawned = {};
@@ -729,7 +728,7 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
         local hasSpawnHack = false -- used to check if we have bad data due to API delay. Remove this check once the API bug is dealt with properly
         local hasTooltipHack = false
         local tooltipRegisterHack = {} -- improve this
-        
+
         local objectiveCenter = closestStarter[quest.Id]
 
         local zoneCount = 0
@@ -1225,46 +1224,30 @@ function QuestieQuest:GetAllQuestObjectives(quest)
 
     -- find special unlisted objectives
     -- hack to remove misdetected unlisted (when qlog returns bad data for objective text on first try)
-    local checkTime = GetTime();
     if quest.HiddenObjectiveData then
         for index, objective in pairs(quest.HiddenObjectiveData) do
-            if not objective.ObjectiveRef then -- there was no qlog objective detected for this DB objective
+            if (not objective.ObjectiveRef) then -- there was no qlog objective detected for this DB objective
                 -- hack
-                if not quest.SpecialObjectives then
-                    quest.SpecialObjectives = {};
+                if (not quest.SpecialObjectives) then
+                    quest.SpecialObjectives = {}
                 end
-                if objective.Type then
-                    if objective.Type == "monster" then
-                        local npc = QuestieDB:GetNPC(objective.Id);
-                        if npc and npc.name then
-                            objective.Description = npc.name
-                        end
-                    elseif objective.Type == "item" then
-                        local item = QuestieDB.QueryItemSingle(objective.Id, "name");
-                        if item then
-                            objective.Description = item
-                        end
-                    elseif objective.Type == "event" then
-                        objective.Description = "Event Trigger"
-                    end
+                objective.Description = objective.Name -- TODO; This needs to be cleaned up. No need to store the same value
+                if (not objective.Description) then
+                    objective.Description = "Hidden objective"
                 end
-                if not objective.Description then objective.Description = "Hidden objective"; end
 
-                if not quest.SpecialObjectives[objective.Description] then
+                if (not quest.SpecialObjectives[objective.Id]) then
                     objective.QuestData = quest
                     objective.QuestId = quest.Id
                     objective.Update = function() end
-                    objective.checkTime = checkTime
                     objective.Index = 64 + index -- offset to not conflict with real objectives
-                    -- tinsert(quest.SpecialObjectives, objective)
-                    quest.SpecialObjectives[objective.Description] = objective
+                    quest.SpecialObjectives[objective.Id] = objective
                 end
-                --tinsert(Quest.SpecialObjectives, objective);
             end
         end
     end
 
-    return quest.Objectives;
+    return quest.Objectives
 end
 
 --- Quests like "The Nightmare's Corruption" have multiple objectives with the same
