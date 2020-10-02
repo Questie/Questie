@@ -2383,6 +2383,9 @@ function QuestieNPCFixes:Load()
         [15535] = {
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{28.8,67.8},},},
         },
+        [15552] = { 
+            [npcKeys.waypoints] = {},
+        },
         [15554] = {
             [npcKeys.spawns] = {[zoneIDs.WINTERSPRING]={{67.2,72.6},},},
         },
