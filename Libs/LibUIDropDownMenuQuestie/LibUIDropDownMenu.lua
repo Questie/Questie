@@ -257,6 +257,7 @@ local function creatre_UIDropDownList(name, parent)
 	f:SetScript("OnUpdate", function(self, elapsed)
 		LQuestie_UIDropDownMenu_OnUpdate(self, elapsed)
 	end)
+	table.insert(UISpecialFrames, f:GetName())
 	f:SetScript("OnShow", function(self)
 		for i=1, LQuestie_UIDROPDOWNMENU_MAXBUTTONS do
 			if (not self.noResize) then
