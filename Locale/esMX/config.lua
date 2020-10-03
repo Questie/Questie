@@ -472,6 +472,7 @@ QuestieLocale.locale['esMX'] = {
     ["Mailbox"] = "Buzón",
     ["Spirit Healer"] = "Ángel de la Resurrección",
     ["Available Quest"] = "Misión disponible",
+    ["Trivial Quest"] = "Misiones menores",
     ["Objective"] = "Objetivos",
     ["Vendor"] = "Vendedor",
     ["Profession Trainer"] = "Instructores de profesiones",
