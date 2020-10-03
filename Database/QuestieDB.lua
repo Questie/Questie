@@ -659,14 +659,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
                 local obj = {};
                 obj.Type = "monster"
                 obj.Id = v
-
-                -- this speeds up lookup
                 obj.Name = QuestieDB.QueryNPCSingle(v, "name")--QuestieDB.npcData[v]
-                if obj.Name ~= nil then
-                    --local name = obj.Name[QuestieDB.npcKeys.name]
-                    obj.Name = string.lower(obj.Name);
-                end
-
                 QO.Finisher = obj; -- there is only 1 finisher --tinsert(QO.Finisher, obj);
             end
         end
@@ -677,13 +670,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
                 local obj = {};
                 obj.Type = "object"
                 obj.Id = v
-
-                -- this speeds up lookup
-                obj.Name = QuestieDB.QueryObjectSingle(v, "name")--QuestieDB.objectData[v]
-                if obj.Name ~= nil then
-                    obj.Name = string.lower(obj.Name)--string.lower(obj.Name[1]);
-                end
-
+                obj.Name = QuestieDB.QueryObjectSingle(v, "name")
                 QO.Finisher = obj; -- there is only 1 finisher
             end
         end

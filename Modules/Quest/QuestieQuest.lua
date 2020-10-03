@@ -712,6 +712,17 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
     Objective:Update() -- update qlog data
     local completed = Objective.Completed
 
+    if not completed then
+        Objective._hasSeenIncomplete = true
+    elseif Objective._hasSeenIncomplete then
+        Objective._hasSeenIncomplete = nil
+        if Objective.Type == "item" then
+            QuestieAnnounce:Announce(quest.Id, "objective", spawnData.ItemId, Objective.Description, tostring(Objective.Collected) .. "/" .. tostring(Objective.Needed))
+        else
+            QuestieAnnounce:Announce(quest.Id, "objective", nil, Objective.Description, tostring(Objective.Collected) .. "/" .. tostring(Objective.Needed))
+        end
+    end
+
     if not Objective.Color then -- todo: move to a better place
         QuestieLib:MathRandomSeed(quest.Id + 32768 * ObjectiveIndex)
         Objective.Color = {0.45 + QuestieLib:MathRandom() / 2, 0.45 + QuestieLib:MathRandom() / 2, 0.45 + QuestieLib:MathRandom() / 2}
@@ -820,10 +831,8 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
                     end
                 end
             elseif completed and Objective.AlreadySpawned then -- unregister notes
-                local didUnloadNotes = false
                 for _, spawn in pairs(Objective.AlreadySpawned) do
                     if #spawn.mapRefs > 0 or #spawn.minimapRefs > 0 then
-                        didUnloadNotes = true
                         for _, note in pairs(spawn.mapRefs) do
                             note:Unload()
                         end
@@ -832,13 +841,6 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
                         end
                         spawn.mapRefs = {}
                         spawn.minimapRefs = {}
-                    end
-                end
-                if didUnloadNotes then
-                    if Objective.Type == "item" then
-                        QuestieAnnounce:Announce(quest.Id, "objective", spawnData.ItemId, Objective.Description, tostring(Objective.Collected) .. "/" .. tostring(Objective.Needed))
-                    else
-                        QuestieAnnounce:Announce(quest.Id, "objective", nil, Objective.Description, tostring(Objective.Collected) .. "/" .. tostring(Objective.Needed))
                     end
                 end
             end
