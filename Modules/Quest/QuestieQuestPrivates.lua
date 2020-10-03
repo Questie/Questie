@@ -13,78 +13,87 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 
 
 _QuestieQuest.objectiveSpawnListCallTable = {
-    ["monster"] = function(id, Objective)
+    ["monster"] = function(id, objective)
         local rank, name, spawns, waypoints = unpack(QuestieDB.QueryNPC(id, "rank", "name", "spawns", "waypoints"))
-        if not name then
-            -- todo: log this
+        if (not name) then
+            Questie:Debug(DEBUG_CRITICAL, "Name missing for NPC:", id)
             return nil
         end
-        local ret = {}
-        local mon = {};
 
-        mon.Name = name
-        if not spawns then
+        if (not spawns) then
             Questie:Debug(DEBUG_CRITICAL, "Spawn data missing for NPC:", id)
             spawns = {}
         end
         if QuestieCorrections.questNPCBlacklist[id] then -- remove spawns
-            mon.Spawns = {}
-            mon.Waypoints = {}
-        else
-            mon.Spawns = spawns
-            if 2 ~= rank then -- not a rare spawn
-                mon.Waypoints = waypoints
-            end
+            spawns = {}
+            waypoints = {}
         end
-        mon.Hostile = true
-        mon.Icon = ICON_TYPE_SLAY
-        mon.Id = id
-        mon.GetIconScale = function() return Questie.db.global.monsterScale or 1 end
-        mon.IconScale = mon:GetIconScale();
-        mon.TooltipKey = "m_" .. id -- todo: use ID based keys
+        if 2 == rank then -- a rare mob spawn
+            waypoints = {}
+        end
 
-        ret[id] = mon;
-        return ret
+        local _GetIconScale = function() return Questie.db.global.monsterScale or 1 end
+
+        return {
+            [id] = {
+                Id = id,
+                Name = name,
+                Spawns = spawns,
+                Waypoints = waypoints,
+                Hostile = true,
+                Icon = ICON_TYPE_SLAY,
+                GetIconScale = _GetIconScale,
+                IconScale = _GetIconScale(),
+                TooltipKey = "m_" .. id, -- todo: use ID based keys
+            }
+        }
     end,
-    ["object"] = function(id, Objective)
+    ["object"] = function(id, objective)
         local name, spawns = unpack(QuestieDB.QueryObject(id, "name", "spawns"))
         if not name then
             -- todo: log this
             return nil
         end
-        local ret = {}
-        local obj = {}
 
-        obj.Name = name
         if not spawns then
             Questie:Debug(DEBUG_CRITICAL, "Spawn data missing for object:", id)
             spawns = {}
         end
-        obj.Spawns = spawns
-        obj.Icon = ICON_TYPE_LOOT
-        obj.GetIconScale = function() return Questie.db.global.objectScale or 1 end
-        obj.IconScale = obj:GetIconScale()
-        obj.TooltipKey = "o_" .. id
-        obj.Id = id
 
-        ret[id] = obj
-        return ret
+        local _GetIconScale = function() return Questie.db.global.objectScale or 1 end
+
+        return {
+            [id] = {
+                Id = id,
+                Name = name,
+                Spawns = spawns,
+                Icon = ICON_TYPE_LOOT,
+                GetIconScale = _GetIconScale,
+                IconScale = _GetIconScale(),
+                TooltipKey = "o_" .. id,
+            }
+        }
     end,
-    ["event"] = function(id, Objective)
-        local ret = {}
-        ret[1] = {};
-        ret[1].Name = Objective.Description or "Event Trigger";
-        ret[1].Icon = ICON_TYPE_EVENT
-        ret[1].GetIconScale = function() return Questie.db.global.eventScale or 1.35 end
-        ret[1].IconScale = ret[1]:GetIconScale();
-        ret[1].Id = id or 0
-        if Objective.Coordinates then
-            ret[1].Spawns = Objective.Coordinates
+    ["event"] = function(id, objective)
+        local spawns = {}
+        if objective.Coordinates then
+            spawns = objective.Coordinates
         else
-            ret[1].Spawns = {}
-            Questie:Error("Missing event data for Objective:", Objective.Description, "id:", id)
+            Questie:Error("Missing event data for Objective:", objective.Description, "id:", id)
         end
-        return ret
+
+        local _GetIconScale = function() return Questie.db.global.eventScale or 1.35 end
+
+        return {
+            [1] = {
+                Id = id or 0,
+                Name = objective.Description or "Event Trigger",
+                Spawns = spawns,
+                Icon = ICON_TYPE_EVENT,
+                GetIconScale = _GetIconScale,
+                IconScale = _GetIconScale(),
+            }
+        }
     end,
     ["item"] = function(itemId, Objective)
         local ret = {};

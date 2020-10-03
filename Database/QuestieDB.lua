@@ -176,10 +176,11 @@ function QuestieDB:GetObject(objectId)
         return nil
     end
 
-    local obj = {};
+    local obj = {
+        id = objectId,
+        type = "object"
+    }
 
-    obj.id = objectId
-    obj.type = "object"
     for stringKey, intKey in pairs(QuestieDB.objectKeys) do
         obj[stringKey] = rawdata[intKey]
     end
@@ -654,24 +655,24 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
 
     -- reorganize to match wow api
     if rawdata[3][1] ~= nil then
-        for _, v in pairs(rawdata[3][1]) do
-            if v ~= nil then
-                local obj = {};
-                obj.Type = "monster"
-                obj.Id = v
-                obj.Name = QuestieDB.QueryNPCSingle(v, "name")--QuestieDB.npcData[v]
-                QO.Finisher = obj; -- there is only 1 finisher --tinsert(QO.Finisher, obj);
+        for _, id in pairs(rawdata[3][1]) do
+            if id ~= nil then
+                QO.Finisher = {
+                    Type = "monster",
+                    Id = id,
+                    Name = QuestieDB.QueryNPCSingle(id, "name")
+                }
             end
         end
     end
     if rawdata[3][2] ~= nil then
-        for _, v in pairs(rawdata[3][2]) do
-            if v ~= nil then
-                local obj = {};
-                obj.Type = "object"
-                obj.Id = v
-                obj.Name = QuestieDB.QueryObjectSingle(v, "name")
-                QO.Finisher = obj; -- there is only 1 finisher
+        for _, id in pairs(rawdata[3][2]) do
+            if id ~= nil then
+                QO.Finisher = {
+                    Type = "object",
+                    Id = id,
+                    Name = QuestieDB.QueryObjectSingle(id, "name")
+                }
             end
         end
     end
@@ -684,9 +685,10 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
 
     if QO.Triggers ~= nil then
         for _, v in pairs(QO.Triggers) do
-            local obj = {};
-            obj.Type = "event"
-            obj.Coordinates = v
+            local obj = {
+                Type = "event",
+                Coordinates = v
+            }
             tinsert(QO.ObjectiveData, obj);
         end
     end
@@ -694,39 +696,35 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
         if rawdata[10][1] ~= nil then
             for _, v in pairs(rawdata[10][1]) do
                 if v ~= nil then
-
-                    local obj = {};
-                    obj.Type = "monster"
-                    obj.Id = v[1]
-                    obj.Text = v[2];
-
+                    local obj = {
+                        Type = "monster",
+                        Id = v[1],
+                        Text = v[2]
+                    }
                     tinsert(QO.ObjectiveData, obj);
-
                 end
             end
         end
         if rawdata[10][2] ~= nil then
             for _, v in pairs(rawdata[10][2]) do
                 if v ~= nil then
-
-                    local obj = {};
-                    obj.Type = "object"
-                    obj.Id = v[1]
-                    obj.Text = v[2]
-
+                    local obj = {
+                        Type = "object",
+                        Id = v[1],
+                        Text = v[2]
+                    }
                     tinsert(QO.ObjectiveData, obj);
-
                 end
             end
         end
         if rawdata[10][3] ~= nil then
             for _, v in pairs(rawdata[10][3]) do
                 if v ~= nil then
-                    local obj = {};
-                    obj.Type = "item"
-                    obj.Id = v[1]
-                    obj.Text = v[2]
-
+                    local obj = {
+                        Type = "item",
+                        Id = v[1],
+                        Text = v[2]
+                    }
                     tinsert(QO.ObjectiveData, obj);
                 end
             end
