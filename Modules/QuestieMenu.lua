@@ -18,7 +18,6 @@ local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@tyle QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 
-
 local _townsfolk_texturemap = {
     ["Flight Master"] = "Interface\\Minimap\\tracking\\flightmaster",
     ["Class Trainer"] = "Interface\\Minimap\\tracking\\class",
@@ -33,7 +32,13 @@ local _townsfolk_texturemap = {
     ["Food"] = 133964,--select(10, GetItemInfo(4540)) -- bread
     ["Pet Food"] = 132165,--select(3, GetSpellInfo(6991)) -- feed pet
     ["Portal Trainer"] = "Interface\\Minimap\\vehicle-alliancemageportal",
-
+    ["Reagents"] = (function()
+        local class = select(2, UnitClass("player"))
+        if class == "ROGUE" then
+            return "Interface\\Minimap\\tracking\\poisons"
+        end
+        return "Interface\\Minimap\\tracking\\reagents"
+    end)(),
     [QuestieProfessions.professionKeys.FIRST_AID] = "Interface\\Icons\\spell_holy_sealofsacrifice",
     [QuestieProfessions.professionKeys.BLACKSMITHING] = "Interface\\Icons\\trade_blacksmithing",
     [QuestieProfessions.professionKeys.LEATHERWORKING] = "Interface\\Icons\\trade_leatherworking",
