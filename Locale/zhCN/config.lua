@@ -475,6 +475,7 @@ QuestieLocale.locale['zhCN'] = {
     ["Mailbox"] = "邮箱",
     ["Spirit Healer"] = "灵魂医者",
     ["Available Quest"] = "可用任务",
+    ["Trivial Quest"] = "其他任务",
     ["Objective"] = "目标",
     ["Vendor"] = "商人",
     ["Profession Trainer"] = "专业训练师",

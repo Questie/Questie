@@ -471,6 +471,7 @@ QuestieLocale.locale['ptBR'] = {
     ["Mailbox"] = "Caixa de correio",
     ["Spirit Healer"] = "Anjo da Cura",
     ["Available Quest"] = "Missões disponiveis",
+    ["Trivial Quest"] = "Missões Triviais",
     ["Objective"] = "Objetivos",
     ["Vendor"] = "Vendedor",
     ["Profession Trainer"] = "Instrutores de profissão",

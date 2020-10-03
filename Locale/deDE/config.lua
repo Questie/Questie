@@ -472,6 +472,7 @@ QuestieLocale.locale['deDE'] = {
     ["Mailbox"] = "Briefkasten",
     ["Spirit Healer"] = "Geistheiler",
     ["Available Quest"] = "Verfügbare Quests",
+    ["Trivial Quest"] = "Niedrigstufige Quests",
     ["Objective"] = "Questziele",
     ["Vendor"] = "Händler",
     ["Profession Trainer"] = "Berufsausbilder",

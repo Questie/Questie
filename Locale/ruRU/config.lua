@@ -470,6 +470,7 @@ QuestieLocale.locale['ruRU'] = {
     ["Mailbox"] = "Почтовый ящик",
     ["Spirit Healer"] = "Целитель душ",
     ["Available Quest"] = "Доступные задания",
+    ["Trivial Quest"] = "Простые задания",
     ["Objective"] = "целей",
     ["Vendor"] = "Торговец",
     ["Profession Trainer"] = "Учителя профессий",

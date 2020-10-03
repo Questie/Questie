@@ -472,6 +472,7 @@ QuestieLocale.locale['frFR'] = {
     ["Mailbox"] = "Boîte aux lettres",
     ["Spirit Healer"] = "Gardien des âmes",
     ["Available Quest"] = "Quêtes disponibles",
+    ["Trivial Quest"] = "Quêtes de bas niveau",
     ["Objective"] = "Objectifs",
     ["Vendor"] = "Vendeur",
     ["Profession Trainer"] = "Maîtres de métier",

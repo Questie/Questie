@@ -472,6 +472,7 @@ QuestieLocale.locale['koKR'] = {
     ["Mailbox"] = "우체통",
     ["Spirit Healer"] = "영혼의 치유사",
     ["Available Quest"] = "수행 가능한 퀘스트",
+    ["Trivial Quest"] = "기타 퀘스트",
     ["Objective"] = "목표",
     ["Vendor"] = "상인",
     ["Profession Trainer"] = "기술 전문가",

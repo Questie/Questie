@@ -472,6 +472,7 @@ QuestieLocale.locale['zhTW'] = {
     ["Mailbox"] = "郵箱",
     ["Spirit Healer"] = "靈魂醫者",
     ["Available Quest"] = "可用任務",
+    ["Trivial Quest"] = "低等級任務",
     ["Objective"] = "目標",
     ["Vendor"] = "正在購買物品",
     ["Profession Trainer"] = "專業技能訓練師",
