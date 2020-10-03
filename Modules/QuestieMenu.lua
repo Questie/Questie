@@ -232,7 +232,7 @@ function QuestieMenu:Show()
         local value = not Questie.db.char.lowlevel
         Questie.db.char.lowlevel = value
         QuestieOptions.AvailableQuestRedraw()
-    end, icon=QuestieLib.AddonPath.."Icons\\available.blp", notCheckable=false, checked=Questie.db.char.lowlevel, isNotRadio=true, keepShownOnClick=true})
+    end, icon=QuestieLib.AddonPath.."Icons\\available_gray.blp", notCheckable=false, checked=Questie.db.char.lowlevel, isNotRadio=true, keepShownOnClick=true})
     tinsert(menuTable, {text=QuestieLocale:GetUIString("Objective"), func = function() 
         local value = not Questie.db.global.enableObjectives
         Questie.db.global.enableObjectives = value
