@@ -21,6 +21,23 @@ local locale = 'enUS'
 
 local _GetUIStringNillable, _GetUIString
 
+function QuestieLocale:PostBoot()
+    -- Create {['name'] = {ID, },} table for lookup of possible object IDs by name
+    for id in pairs(QuestieDB.ObjectPointers) do
+        local name = QuestieDB.QueryObjectSingle(id, "name")
+        if name then -- We (meaning me, BreakBB) introduced Fake IDs for objects to show additional locations, so we need to check this
+            if not LangObjectNameLookup[name] then
+                LangObjectNameLookup[name] = {}
+            end
+            table.insert(LangObjectNameLookup[name], id)
+        end
+    end
+    -- Load continent, zone locales, and quest catagories
+    LangContinentLookup = LangContinentLookup[locale] or LangContinentLookup["enUS"] or {}
+    LangZoneLookup = LangZoneLookup[locale] or LangZoneLookup["enUS"] or {}
+    LangZoneCategoryLookup = LangZoneCategoryLookup[locale] or LangZoneCategoryLookup["enUS"] or {}
+    LangQuestCategory = LangQuestCategory[locale] or LangQuestCategory["enUS"] or {}
+end
 
 -- Initialize database tables with localization
 function QuestieLocale:Initialize()
@@ -62,21 +79,6 @@ function QuestieLocale:Initialize()
             QuestieDB.objectData[id][QuestieDB.objectKeys.name] = name
         end
     end
-    -- Create {['name'] = {ID, },} table for lookup of possible object IDs by name
-    for id, data in pairs(QuestieDB.objectData) do
-        local name = data[QuestieDB.objectKeys.name]
-        if name then -- We (meaning me, BreakBB) introduced Fake IDs for objects to show additional locations, so we need to check this
-            if not LangObjectNameLookup[name] then
-                LangObjectNameLookup[name] = {}
-            end
-            table.insert(LangObjectNameLookup[name], id)
-        end
-    end
-    -- Load continent, zone locales, and quest catagories
-    LangContinentLookup = LangContinentLookup[locale] or LangContinentLookup["enUS"] or {}
-    LangZoneLookup = LangZoneLookup[locale] or LangZoneLookup["enUS"] or {}
-    LangZoneCategoryLookup = LangZoneCategoryLookup[locale] or LangZoneCategoryLookup["enUS"] or {}
-    LangQuestCategory = LangQuestCategory[locale] or LangQuestCategory["enUS"] or {}
 end
 
 function QuestieLocale:FallbackLocale(lang)

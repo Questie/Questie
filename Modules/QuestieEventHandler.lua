@@ -169,6 +169,8 @@ _PLAYER_LOGIN = function()
             QuestieCorrections:PopulateTownsfolkPostBoot()
         end
 
+        QuestieLocale:PostBoot()
+
         QuestieMenu:OnLogin()
 
         if Questie.db.global.debugEnabled then
@@ -187,7 +189,6 @@ _PLAYER_LOGIN = function()
             -- we havent compiled townsfolk on this character
             QuestieCorrections:Initialize()
             QuestieCorrections:PopulateTownsfolk()
-            QuestieLocale:Initialize()
             -- bad code
             QuestieEventHandler._needTownsfolkUpdate = true
         else
@@ -208,6 +209,7 @@ _PLAYER_LOGIN = function()
                     stage1()
                     stage2()
                     QuestieCorrections:PopulateTownsfolkPostBoot()
+                    QuestieLocale:PostBoot()
                     Questie.minimapConfigIcon:Show("Questie")
                 end)
             end)
