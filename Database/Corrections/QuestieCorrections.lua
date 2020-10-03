@@ -444,7 +444,7 @@ function QuestieCorrections:PopulateTownsfolk()
     if class == "HUNTER" then
         Questie.db.char.townsfolk["Stable Master"] = QuestieCorrections:PopulateTownsfolkType(QuestieDB.npcFlags.STABLEMASTER)
     elseif class == "MAGE" then
-        Questie.db.char.townsfolk["Portal Trainer"] = {4165,2485,2489,4958,5957,2492}
+        Questie.db.char.townsfolk["Portal Trainer"] = {4165,2485,2489,5958,5957,2492}
     end
 
     Questie.db.char.townsfolk["Mailbox"] = {}
