@@ -488,8 +488,6 @@ function QuestieCorrections:PopulateTownsfolk()
 end
 function QuestieCorrections:PreCompile(callback) -- this happens only if we are about to compile the database. Run intensive preprocessing tasks here (like ramer-douglas-peucker)
 
-    QuestieCorrections:PopulateTownsfolk()
-
     local timer = nil
     local ops = {}
     --local totalPoints = 0
