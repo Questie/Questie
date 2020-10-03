@@ -459,7 +459,7 @@ QuestieLocale.locale['frFR'] = {
     ['QUESTIE_UPDATED_RESTART'] = "|cFFFF0000ATTENTION !|r Vous avez mis à jour Questie sans redémarrer le jeu, cela risque de poser problème. Veuillez redémarrer le jeu avant de continuer",
 
     -- Townsfolk related strings
-    ["Repair"] = "Réparation",
+    ["Repair"] = "Réparations",
     ["Auctioneer"] = "Commissaire-priseur",
     ["Banker"] = "Banquier",
     ["Battlemaster"] = "Maître de guerre",
@@ -474,8 +474,15 @@ QuestieLocale.locale['frFR'] = {
     ["Available Quest"] = "Quêtes disponibles",
     ["Objective"] = "Objectifs",
     ["Vendor"] = "Vendeur",
-    ["Profession Trainer"] = "Maître de profession",
+    ["Profession Trainer"] = "Maîtres de métier",
     ["Questie Options"] = "Questie options",
+    ["Ammo"] = "Munitions",
+    ["Pet Food"] = "Nourrir le familier",
+    ["Portal Trainer"] = "Maître des portails",
+    ["Bags"] = "Sacs", 	
+    ["Trade Goods"] = "Fournitures d’artisanat",
+    ["Food"] = "Nourriture",
+    ["Drink"] = "Boire",
     -- professions use their ID as the key for a much cleaner implementation. Translations for these are alerady in QuestieProfessions.lua
     ["129"] = "Secourisme",
     ["164"] = "Forge",
