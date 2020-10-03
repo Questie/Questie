@@ -709,19 +709,10 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
 
     local iconsToDraw = {}
 
+    local spawnItemId = nil
+
     Objective:Update() -- update qlog data
     local completed = Objective.Completed
-
-    if not completed then
-        Objective._hasSeenIncomplete = true
-    elseif Objective._hasSeenIncomplete then
-        Objective._hasSeenIncomplete = nil
-        if Objective.Type == "item" then
-            QuestieAnnounce:Announce(quest.Id, "objective", spawnData.ItemId, Objective.Description, tostring(Objective.Collected) .. "/" .. tostring(Objective.Needed))
-        else
-            QuestieAnnounce:Announce(quest.Id, "objective", nil, Objective.Description, tostring(Objective.Collected) .. "/" .. tostring(Objective.Needed))
-        end
-    end
 
     if not Objective.Color then -- todo: move to a better place
         QuestieLib:MathRandomSeed(quest.Id + 32768 * ObjectiveIndex)
@@ -735,6 +726,7 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
         end
         Objective.registeredItemTooltips = true
     end
+    
     if Objective.spawnList then
         local hasSpawnHack = false -- used to check if we have bad data due to API delay. Remove this check once the API bug is dealt with properly
         local hasTooltipHack = false
@@ -766,6 +758,11 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
 
         for id, spawnData in pairs(Objective.spawnList) do -- spawnData.Name, spawnData.Spawns
             hasSpawnHack = true -- #table and table.getn are unreliable
+            
+            if spawnData.ItemId then
+                spawnItemId = spawnData.ItemId
+            end
+            
             if not Objective.Icon and spawnData.Icon then -- move this to a better place
                 Objective.Icon = spawnData.Icon
             end
@@ -946,6 +943,12 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
         if hasTooltipHack then
             Objective.registeredTooltips = true
         end
+    end
+    if not completed then
+        Objective._hasSeenIncomplete = true
+    elseif Objective._hasSeenIncomplete then
+        Objective._hasSeenIncomplete = nil
+        QuestieAnnounce:Announce(quest.Id, "objective", spawnItemId, Objective.Description, tostring(Objective.Collected) .. "/" .. tostring(Objective.Needed))
     end
 end
 
