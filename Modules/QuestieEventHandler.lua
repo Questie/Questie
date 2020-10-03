@@ -166,6 +166,10 @@ _PLAYER_LOGIN = function()
 
         QuestieMenu:OnLogin()
 
+        if Questie.db.global.debugEnabled then
+            QuestieLoader:PopulateGlobals()
+        end
+
     end
 
     if QuestieLib:GetAddonVersionString() ~= QuestieConfig.dbCompiledOnVersion or (Questie.db.global.questieLocaleDiff and Questie.db.global.questieLocale or GetLocale()) ~= QuestieConfig.dbCompiledLang then

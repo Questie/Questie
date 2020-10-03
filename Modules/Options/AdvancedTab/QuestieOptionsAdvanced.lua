@@ -97,6 +97,9 @@ function QuestieOptions.tabs.advanced:Initialize()
                 get = function () return Questie.db.global.debugEnabled; end,
                 set = function (info, value)
                     Questie.db.global.debugEnabled = value
+                    if Questie.db.global.debugEnabled then
+                        QuestieLoader:PopulateGlobals()
+                    end
                     QuestieConfigCharacter = {}
                 end,
             },
