@@ -177,6 +177,7 @@ _PLAYER_LOGIN = function()
         if not Questie.db.char.townsfolk then
             -- we havent compiled townsfolk on this character
             QuestieCorrections:Initialize()
+            QuestieLocale:Initialize()
             QuestieCorrections:PopulateTownsfolk()
         else
             QuestieCorrections:MinimalInit()
@@ -186,6 +187,7 @@ _PLAYER_LOGIN = function()
     else
         Questie.minimapConfigIcon:Hide("Questie") -- prevent opening journey / settings while compiling
         QuestieCorrections:Initialize()
+        QuestieLocale:Initialize()
         C_Timer.After(4, function()
             print(QuestieLocale:GetUIString("\124cFFAAEEFFQuestie DB has updated!\124r\124cFFFF6F22 Data is being processed, this may take a few moments and cause some lag..."))
             QuestieDB.private:DeleteGatheringNodes()
