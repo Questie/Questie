@@ -139,6 +139,7 @@ _PLAYER_LOGIN = function()
         QuestieMap:InitializeQueue()
         _Hack_prime_log()
         QuestiePlayer:Initialize()
+        QuestieLocale:PostBoot()
         QuestieJourney:Initialize()
         QuestieQuest:Initialize()
         QuestieQuest:GetAllQuestIdsNoObjectives()
@@ -168,8 +169,6 @@ _PLAYER_LOGIN = function()
             QuestieEventHandler._needTownsfolkUpdate = nil
             QuestieCorrections:PopulateTownsfolkPostBoot()
         end
-
-        QuestieLocale:PostBoot()
 
         QuestieMenu:OnLogin()
 
