@@ -164,6 +164,11 @@ _PLAYER_LOGIN = function()
             end)
         end
 
+        if QuestieEventHandler._needTownsfolkUpdate then -- bad code
+            QuestieEventHandler._needTownsfolkUpdate = nil
+            QuestieCorrections:PopulateTownsfolkPostBoot()
+        end
+
         QuestieMenu:OnLogin()
 
         if Questie.db.global.debugEnabled then
@@ -183,6 +188,8 @@ _PLAYER_LOGIN = function()
             QuestieCorrections:Initialize()
             QuestieCorrections:PopulateTownsfolk()
             QuestieLocale:Initialize()
+            -- bad code
+            QuestieEventHandler._needTownsfolkUpdate = true
         else
             QuestieCorrections:MinimalInit()
         end
