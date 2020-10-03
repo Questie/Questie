@@ -76,7 +76,7 @@ for key, id in pairs(QuestieDB.npcKeys) do
     QuestieDB._npcAdapterQueryOrder[id] = key
 end
 
-QuestieDB.factionTemplate = {
+QuestieDB.factionTemplate = { -- todo: move this somewhere else
 [1]={1,72,3,2,12},
 [2]={2,72,5,4,10},
 [3]={3,72,3,2,12},
