@@ -603,7 +603,7 @@ function QuestieDBCompiler:CompileTableTicking(tbl, types, order, lookup, after)
     QuestieDBCompiler.stream = QuestieStream:GetStream("raw")
 
     QuestieDBCompiler.ticker = C_Timer.NewTicker(0.01, function()
-        for i=0,48 do
+        for i=0,Questie.db.global.debugEnabled and 4000 or 48 do
             QuestieDBCompiler.index = QuestieDBCompiler.index + 1
             if QuestieDBCompiler.index == count then
                 QuestieDBCompiler.ticker:Cancel()

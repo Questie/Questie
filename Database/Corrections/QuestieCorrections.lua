@@ -506,7 +506,7 @@ function QuestieCorrections:PreCompile(callback) -- this happens only if we are 
     end
 
     timer = C_Timer.NewTicker(0.1, function()
-        for i=0,72 do -- 72 operations per NewTicker
+        for i=0,Questie.db.global.debugEnabled and 4000 or 72 do -- 72 operations per NewTicker
             local op = tremove(ops, 1)
             if op then
                 QuestieDB.npcData[op[2]][QuestieDB.npcKeys["waypoints"]] = QuestieCorrections:OptimizeWaypoints(op[1])
