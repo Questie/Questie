@@ -480,10 +480,12 @@ QuestieLocale.locale['enUS'] = {
     ["Mailbox"] = "Mailbox",
     ["Spirit Healer"] = "Spirit Healer",
     ["Available Quest"] = "Available Quest",
+    ["Trivial Quest"] = "Trivial Quest",
     ["Objective"] = "Objective",
     ["Vendor"] = "Vendor",
     ["Profession Trainer"] = "Profession Trainer",
     ["Questie Options"] = "Questie Options",
+
     -- professions use their ID as the key for a much cleaner implementation. Translations for these are alerady in QuestieProfessions.lua
     ["129"] = "First Aid",
     ["164"] = "Blacksmithing",

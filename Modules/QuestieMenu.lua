@@ -228,6 +228,11 @@ function QuestieMenu:Show()
         QuestieQuest:ToggleNotes(value)
         QuestieQuest:SmoothReset()
     end, icon=QuestieLib.AddonPath.."Icons\\available.blp", notCheckable=false, checked=Questie.db.global.enableAvailable, isNotRadio=true, keepShownOnClick=true})
+    tinsert(menuTable, {text=QuestieLocale:GetUIString("Trivial Quest"), func = function()
+        local value = not Questie.db.char.lowlevel
+        Questie.db.char.lowlevel = value
+        QuestieOptions.AvailableQuestRedraw()
+    end, icon=QuestieLib.AddonPath.."Icons\\available.blp", notCheckable=false, checked=Questie.db.char.lowlevel, isNotRadio=true, keepShownOnClick=true})
     tinsert(menuTable, {text=QuestieLocale:GetUIString("Objective"), func = function() 
         local value = not Questie.db.global.enableObjectives
         Questie.db.global.enableObjectives = value
