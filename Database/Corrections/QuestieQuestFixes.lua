@@ -2029,10 +2029,12 @@ function QuestieQuestFixes:Load()
         [8122] = {
             [questKeys.requiredMinRep] = {510,42000},
         },
-        [8149] = { -- bad race data
+        [8149] = {
+            [questKeys.requiredSourceItems] = {19850},
             [questKeys.requiredRaces] = 77,
         },
-        [8150] = { -- bad race data
+        [8150] = {
+            [questKeys.requiredSourceItems] = {19851},
             [questKeys.exclusiveTo] = {2851},
             [questKeys.requiredRaces] = 178,
         },
