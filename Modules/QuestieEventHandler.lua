@@ -197,6 +197,10 @@ _PLAYER_LOGIN = function()
         C_Timer.After(1, stage1)
         C_Timer.After(4, stage2)
     else
+        -- reset townsfolk on all characters before compile
+        for _, char in pairs(QuestieConfig.char) do
+            char.townsfolk = nil
+        end
         Questie.minimapConfigIcon:Hide("Questie") -- prevent opening journey / settings while compiling
         QuestieCorrections:Initialize()
         QuestieCorrections:PopulateTownsfolk()
