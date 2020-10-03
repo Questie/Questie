@@ -28,8 +28,9 @@ local _townsfolk_texturemap = {
     ["Profession Trainer"] = "Interface\\Minimap\\tracking\\profession",
     ["Ammo"] = "Interface\\Minimap\\tracking\\ammunition",
     ["Bags"] = "Interface\\Minimap\\tracking\\banker",
-    ["Trade Goods"] = "Interface\\Minimap\\tracking\\banker",
-    ["Drink"] = "Interface\\Minimap\\tracking\\food",
+    ["Trade Goods"] = 132912,--select(10, GetItemInfo(2321)) -- thread
+    ["Drink"] = 134712,--select(10, GetItemInfo(8766)) -- morning glory dew
+    ["Food"] = 133964,--select(10, GetItemInfo(4540)) -- bread
     ["Pet Food"] = "Interface\\Minimap\\tracking\\food",
     ["Portal Trainer"] = "Interface\\Minimap\\vehicle-alliancemageportal",
 
