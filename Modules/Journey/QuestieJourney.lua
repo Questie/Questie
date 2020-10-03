@@ -76,7 +76,7 @@ function QuestieJourney:BuildMainFrame()
         journeyFrame:AddChild(QuestieJourney.tabGroup)
 
         local settingsButton = AceGUI:Create("Button")
-        settingsButton:SetWidth(140)
+        settingsButton:SetWidth(160)
         settingsButton:SetPoint("TOPRIGHT", journeyFrame.frame, "TOPRIGHT", -50, -13)
         settingsButton:SetText(QuestieLocale:GetUIString('Questie Options'))
         settingsButton:SetCallback("OnClick", function()
