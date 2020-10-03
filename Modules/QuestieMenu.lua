@@ -121,6 +121,9 @@ function QuestieMenu:OnLogin() -- toggle all icons
     for key in pairs(Questie.db.global.professionTrainers) do
         toggle(key)
     end
+    for key in pairs(Questie.db.char.vendorList) do
+        toggle(key)
+    end
 end
 
 local div = { -- from libEasyMenu code
