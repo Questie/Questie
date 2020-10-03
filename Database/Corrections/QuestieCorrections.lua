@@ -352,9 +352,12 @@ function QuestieCorrections:PopulateTownsfolkPostBoot() -- post DB boot (use que
         ["ROGUE"] = {5140,2928,8924,5173,2930,8923},
         ["DRUID"] = {17034,17026,17035,17021,17038,17036,17037}
     }
+    reagents = reagents[select(2, UnitClass("player"))]
 
     -- populate vendor IDs from db
-    Questie.db.char.townsfolk["Reagents"] = _reformatVendors(QuestieCorrections:PopulateVendors(reagents[select(2, UnitClass("player"))]))
+    if #reagents > 0 then
+        Questie.db.char.townsfolk["Reagents"] = _reformatVendors(QuestieCorrections:PopulateVendors(reagents))
+    end
     Questie.db.char.vendorList["Trade Goods"] = _reformatVendors(QuestieCorrections:PopulateVendors({ -- item ids from wowhead for trade goods   (temporarily disabled)
         14256,12810,13463,8845,8846,4234,3713,8170,14341,4389,3357,2453,13464,
         3355,3356,3358,4371,4304,5060,2319,18256,8925,3857,10940,2321,785,4404,2692,
