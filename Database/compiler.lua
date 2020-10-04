@@ -712,6 +712,15 @@ function QuestieDBCompiler:Compile(finalize)
 
                     QuestieDBCompiler._isCompiling = nil
 
+                    if Questie.db.global.debugEnabled then
+                        print("Validating objects...")
+                        QuestieDBCompiler:Validate()
+                        print("Validating items...")
+                        QuestieDBCompiler:ValidateItems()
+                        print("Validating quests...")
+                        QuestieDBCompiler:ValidateQuests()
+                    end
+
                     if finalize then finalize() end
                 end)
             end)

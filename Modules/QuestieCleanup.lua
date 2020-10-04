@@ -6,16 +6,6 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
 
 function QuestieCleanup:Run()
-
-    if Questie.db.global.debugEnabled then
-        print("Validating objects...")
-        QuestieDBCompiler:Validate()
-        print("Validating items...")
-        QuestieDBCompiler:ValidateItems()
-        print("Validating quests...")
-        QuestieDBCompiler:ValidateQuests()
-    end
-
     -- clean up raw db
     QuestieDB.npcData = nil
     QuestieDB.questData = nil
