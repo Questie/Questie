@@ -69,8 +69,12 @@ function QuestieLocale:Initialize()
     -- Load NPC locales
     for id, data in pairs(LangNameLookup[locale] or {}) do
         if QuestieDB.npcData[id] and data then
-            QuestieDB.npcData[id][QuestieDB.npcKeys.name] = data[1]
-            QuestieDB.npcData[id][QuestieDB.npcKeys.subName] = data[2]
+            if type(data) == "string" then
+                QuestieDB.npcData[id][QuestieDB.npcKeys.name] = data
+            else
+                QuestieDB.npcData[id][QuestieDB.npcKeys.name] = data[1]
+                QuestieDB.npcData[id][QuestieDB.npcKeys.subName] = data[2]
+            end
         end
     end
     -- Load object locales
