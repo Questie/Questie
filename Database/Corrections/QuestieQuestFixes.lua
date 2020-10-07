@@ -2677,9 +2677,6 @@ function QuestieQuestFixes:Load()
         [9026] = { -- bad race data
             [questKeys.requiredRaces] = 77,
         },
-        [9033] = { -- bad race data
-            [questKeys.requiredRaces] = 178,
-        },
         [9051] = {
             [questKeys.triggerEnd] = {"Devilsaur stabbed with barb", {[zoneIDs.UN_GORO_CRATER]={{64.32,59.45},{67.98,58.07},{53.82,63.08},{57.99,73.93},{73.87,38.34},},},},
         },
