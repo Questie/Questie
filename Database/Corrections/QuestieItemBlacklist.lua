@@ -52,6 +52,8 @@ function QuestieItemBlacklist:Load()
         [12364] = true, -- huge emerald
         [12799] = true, -- large opal
         [12800] = true, -- azerothian diamond
+        [13422] = true, -- stonescale-eel
+        [13444] = true, -- major mana potion
         [13446] = true, -- Major Healing Potion
         [13463] = true, -- dreamfoil
         [13464] = true, -- golden sansam
