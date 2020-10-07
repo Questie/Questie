@@ -2715,6 +2715,18 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredRaces] = 255,
             [questKeys.specialFlags] = 1,
         },
+        [9415] = {
+            [questKeys.exclusiveTo] = {},
+        },
+        [9416] = {
+            [questKeys.exclusiveTo] = {},
+        },
+        [9419] = {
+            [questKeys.preQuestSingle] = {},
+        },
+        [9422] = {
+            [questKeys.preQuestSingle] = {},
+        },
     }
 end
 
