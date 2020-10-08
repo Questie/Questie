@@ -27,14 +27,22 @@ function QuestieAnnounce:Announce(questId, progressType, itemId, objectiveText, 
     end
 end
 
-function QuestieAnnounce:ItemLooted(text)
-    local itemId = tonumber(string.match(text, "item:(%d+)"))
-    if not QuestieAnnounce._itemCache[itemId] then
-        QuestieAnnounce._itemCache[itemId] = QuestieDB.QueryItemSingle(itemId, "startQuest") or false -- we do "or false" here because nil cant be inserted into _itemCache
-    end
-    local startQuest = QuestieAnnounce._itemCache[itemId]
-    if startQuest and startQuest > 0 then
-        QuestieAnnounce:Announce(startQuest, "item", itemId)
+local _playerName = nil
+local function _GetPlayerName()
+    _playerName = UnitName("Player")
+    return _playerName
+end
+
+function QuestieAnnounce:ItemLooted(text, player)
+    if (_playerName or _GetPlayerName()) == player then
+        local itemId = tonumber(string.match(text, "item:(%d+)"))
+        if not QuestieAnnounce._itemCache[itemId] then
+            QuestieAnnounce._itemCache[itemId] = QuestieDB.QueryItemSingle(itemId, "startQuest") or false -- we do "or false" here because nil cant be inserted into _itemCache
+        end
+        local startQuest = QuestieAnnounce._itemCache[itemId]
+        if startQuest and startQuest > 0 then
+            QuestieAnnounce:Announce(startQuest, "item", itemId)
+        end
     end
 end
 
