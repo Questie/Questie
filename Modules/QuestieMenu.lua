@@ -57,6 +57,11 @@ local _spawned = {} -- used to check if we have already spawned an icon for this
 
 local function toggle(key) -- /run QuestieLoader:ImportModule("QuestieMap"):ShowNPC(525, nil, 1, "teaste", {}, true)
     local ids = Questie.db.global.townsfolk[key] or Questie.db.char.townsfolk[key] or Questie.db.global.professionTrainers[key] or Questie.db.char.vendorList[key]
+    if not ids then 
+        Questie:Debug(DEBUG_INFO, " Invalid townsfolk key " .. tostring(key))
+        return
+    end
+
     local icon = _townsfolk_texturemap[key] or ("Interface\\Minimap\\tracking\\" .. strlower(key))
     if key == "Mailbox" then -- the only obnject-type townsfolk
         if Questie.db.char.townsfolkConfig[key] then
@@ -118,16 +123,7 @@ function QuestieMenu:OnLogin() -- toggle all icons
     if not Questie.db.char.townsfolkConfig then
         Questie.db.char.townsfolkConfig = {}
     end
-    for key in pairs(Questie.db.global.townsfolk) do
-        toggle(key)
-    end
-    for key in pairs(Questie.db.char.townsfolk) do
-        toggle(key)
-    end
-    for key in pairs(Questie.db.global.professionTrainers) do
-        toggle(key)
-    end
-    for key in pairs(Questie.db.char.vendorList) do
+    for key in pairs(Questie.db.char.townsfolkConfig) do
         toggle(key)
     end
 end
