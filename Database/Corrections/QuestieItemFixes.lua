@@ -941,6 +941,11 @@ function QuestieItemFixes:Load()
         },
         [15874] = {
             [itemKeys.objectDrops] = {177784},
+            [itemKeys.npcDrops] = {12347},
+        },
+        [15924] = {
+            [itemKeys.objectDrops] = {177784},
+            [itemKeys.npcDrops] = {12347},
         },
         [16209] = {
             [itemKeys.name] = "Podrig's Order",
