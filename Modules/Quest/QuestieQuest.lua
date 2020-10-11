@@ -922,10 +922,11 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
         for id, spawnData in pairs(Objective.spawnList) do -- spawnData.Name, spawnData.Spawns
             if spawnData.Waypoints then
                 for zone, waypoints in pairs(spawnData.Waypoints) do
-                    if not iconPerZone[zone] and icon then -- spawn an icon in this zone for the mob
-                        local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, zone, waypoints[1][1][1], waypoints[1][1][2]) -- clustering code takes care of duplicates as long as mindist is more than 0
+                    local firstWaypoint = waypoints[1][1]
+                    if not iconPerZone[zone] and icon and firstWaypoint[1] ~= -1 and firstWaypoint[2] ~= -1 then -- spawn an icon in this zone for the mob
+                        local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, zone, firstWaypoint[1], firstWaypoint[2]) -- clustering code takes care of duplicates as long as mindist is more than 0
                         if iconMap and iconMini then
-                            iconPerZone[zone] = {iconMap, waypoints[1][1][1], waypoints[1][1][2]}
+                            iconPerZone[zone] = {iconMap, firstWaypoint[1], firstWaypoint[2]}
                             tinsert(Objective.AlreadySpawned[icon.AlreadySpawnedId].mapRefs, iconMap);
                             tinsert(Objective.AlreadySpawned[icon.AlreadySpawnedId].minimapRefs, iconMini);
                         end
