@@ -1,7 +1,7 @@
 ---
 name: Bug Report
 about: Create a report about any bug you might encounter. Maybe you've got some error message showing up?
-labels: "bug"
+labels: "Type - Defect"
 ---
 <!-- READ THIS FIRST
 

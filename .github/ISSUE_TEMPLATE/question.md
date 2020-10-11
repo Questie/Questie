@@ -1,7 +1,7 @@
 ---
 name: Question
 about: If you have a question about Questie in general choose this issue type.
-labels: "question"
+labels: "Type - Miscellaneous Task"
 
 ---
 <!-- READ THIS FIRST
