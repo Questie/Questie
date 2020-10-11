@@ -70,8 +70,8 @@ QuestieLocale.locale['zhCN'] = {
     ['QUEST_ANNOUNCE'] = "任务进度通报",
     ['QUEST_ANNOUNCE_DESC'] = "向队员通报任务进度完成情况",
     ['QUEST_ANNOUNCE_ENABLED'] = "已启用",
-    ['QUEST_ANNOUNCE_OBJECTIVE'] = "{rt1} Questie : %s 任务来自 %s!",
-    ['QUEST_ANNOUNCE_QUESTITEM'] = "{rt1} Questie : 拾取 %s 自动接收任务 %s!",
+    ['QUEST_ANNOUNCE_OBJECTIVE'] = "{rt1} Questie : %s 任务： %s!",
+    ['QUEST_ANNOUNCE_QUESTITEM'] = "{rt1} Questie : 拾取 %s 自动接受任务： %s!",
     
     -- Minimap tab
     ['MINIMAP_TAB'] = "小地图",
