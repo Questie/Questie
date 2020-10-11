@@ -24,6 +24,7 @@ local AceGUI = LibStub("AceGUI-3.0")
 
 local isWindowShown = false
 _QuestieJourney.lastOpenWindow = "journey"
+_QuestieJourney.lastZoneSelection = {}
 
 local notesPopupWin = nil
 local notesPopupWinIsOpen = false

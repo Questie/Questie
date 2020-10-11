@@ -15,6 +15,8 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
 local AceGUI = LibStub("AceGUI-3.0")
 
+local RESET = -1000
+
 local _CreateContinentDropdown, _CreateZoneDropdown
 local _HandleContinentSelection, _HandleZoneSelection
 
@@ -34,9 +36,7 @@ function _QuestieJourney.questsByZone:DrawTab(container)
 
     QuestieJourneyUtils:Spacer(container)
 
-    currentContinentId = QuestiePlayer:GetCurrentContinentId()
     contDropdown = _CreateContinentDropdown()
-    contDropdown:SetValue(currentContinentId)
     container:AddChild(contDropdown)
 
     zoneDropdown = _CreateZoneDropdown()
@@ -62,14 +62,24 @@ _CreateContinentDropdown = function()
     dropdown:SetList(QuestieJourney.continents)
     dropdown:SetText(QuestieLocale:GetUIString('JOURNEY_SELECT_CONT'))
     dropdown:SetCallback("OnValueChanged", _HandleContinentSelection)
+
+    currentContinentId = QuestiePlayer:GetCurrentContinentId()
+    if _QuestieJourney.lastZoneSelection[1] then
+        currentContinentId = _QuestieJourney.lastZoneSelection[1]
+    end
+
+    dropdown:SetValue(currentContinentId)
     return dropdown
 end
 
 _CreateZoneDropdown = function()
     local dropdown = AceGUI:Create("LQDropdown")
-    dropdown:SetText(QuestieLocale:GetUIString('JOURNEY_SELECT_ZONE'))
 
     local currentZoneId = QuestiePlayer:GetCurrentZoneId()
+    if _QuestieJourney.lastZoneSelection[2] then
+        currentZoneId = _QuestieJourney.lastZoneSelection[2]
+    end
+
     if currentZoneId and currentZoneId > 0 then
         local sortedZones = QuestieJourneyUtils:GetSortedZoneKeys(QuestieJourney.zones[currentContinentId])
         dropdown:SetList(QuestieJourney.zones[currentContinentId], sortedZones)
@@ -77,6 +87,10 @@ _CreateZoneDropdown = function()
 
         local zoneTree = _QuestieJourney.questsByZone:CollectZoneQuests(currentZoneId)
         _QuestieJourney.questsByZone:ManageTree(treegroup, zoneTree)
+    elseif currentZoneId == RESET then
+        dropdown:SetText(QuestieLocale:GetUIString('JOURNEY_SELECT_ZONE'))
+        local sortedZones = QuestieJourneyUtils:GetSortedZoneKeys(QuestieJourney.zones[currentContinentId])
+        dropdown:SetList(QuestieJourney.zones[currentContinentId], sortedZones)
     else
         dropdown:SetDisabled(true)
     end
@@ -122,9 +136,13 @@ _HandleContinentSelection = function(key, checked)
         zoneDropdown:SetDisabled(false)
         zoneDropdown.frame:Show()
     end
+
+    _QuestieJourney.lastZoneSelection[2] = RESET
+    _QuestieJourney.lastZoneSelection[1] = key.value
 end
 
 _HandleZoneSelection = function(key, checked)
     local zoneTree = _QuestieJourney.questsByZone:CollectZoneQuests(key.value)
     _QuestieJourney.questsByZone:ManageTree(treegroup, zoneTree)
+    _QuestieJourney.lastZoneSelection[2] = key.value
 end
