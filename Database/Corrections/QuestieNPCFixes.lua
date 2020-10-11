@@ -2303,6 +2303,9 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
             [npcKeys.spawns] = {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR] = {{-1,-1},},},
         },
+        [15369] = {
+            [npcKeys.waypoints] = {},
+        },
         [15383] = {
             [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{64.1,65.5},},},
             [npcKeys.zoneID] = zoneIDs.IRONFORGE,
