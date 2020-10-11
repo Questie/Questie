@@ -121,7 +121,10 @@ end
 
 function QuestieMenu:OnLogin(forceRemove) -- toggle all icons 
     if not Questie.db.char.townsfolkConfig then
-        Questie.db.char.townsfolkConfig = {}
+        Questie.db.char.townsfolkConfig = {
+            ["Flight Master"] = true,
+            ["Mailbox"] = true
+        }
     end
     for key in pairs(Questie.db.char.townsfolkConfig) do
         if forceRemove then
