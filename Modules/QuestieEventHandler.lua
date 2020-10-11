@@ -113,6 +113,16 @@ function QuestieEventHandler:RegisterAllEvents()
     -- quest announce
     Questie:RegisterEvent("CHAT_MSG_LOOT", QuestieAnnounce.ItemLooted)
 
+    -- since icon updates are disabled in instances, we need to reset on P_E_W
+    Questie:RegisterEvent("PLAYER_ENTERING_WORLD", function()
+        if Questie.started then
+            QuestieMap:InitializeQueue()
+            if not IsInInstance() then
+                QuestieQuest:SmoothReset()
+            end
+        end
+    end)
+
 end
 
 
@@ -175,6 +185,8 @@ _PLAYER_LOGIN = function()
         if Questie.db.global.debugEnabled then
             QuestieLoader:PopulateGlobals()
         end
+
+        Questie.started = true
 
     end
 

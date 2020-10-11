@@ -147,14 +147,23 @@ local minimapDrawQueue = {};
 QuestieMap._mapDrawQueue = mapDrawQueue
 QuestieMap._minimapDrawQueue = minimapDrawQueue
 
-function QuestieMap:InitializeQueue()
+function QuestieMap:InitializeQueue() -- now called on every loading screen
     Questie:Debug(DEBUG_DEVELOP, "[QuestieMap] Starting draw queue timer!")
     local isInInstance, instanceType = IsInInstance()
     if not isInInstance or instanceType == "pvp" then -- dont run map updates while in raid
-        QuestieMap.drawTimer = C_Timer.NewTicker(0.2, QuestieMap.ProcessQueue)
-        QuestieMap.processCounter = 0 -- used to reduce calls on edge notes
-        QuestieMap.fadeLogicTimerShown = C_Timer.NewTicker(0.3, QuestieMap.ProcessShownMinimapIcons)
+        QuestieMap._disableQueue = nil
+        if not QuestieMap.drawTimer then 
+            QuestieMap.drawTimer = C_Timer.NewTicker(0.2, QuestieMap.ProcessQueue)
+            QuestieMap.processCounter = 0 -- used to reduce calls on edge notes
+            QuestieMap.fadeLogicTimerShown = C_Timer.NewTicker(0.3, QuestieMap.ProcessShownMinimapIcons)
+        end
     else
+        if QuestieMap.drawTimer then -- cancel existing timer while in dungeon/raid
+            QuestieMap.drawTimer:Cancel()
+            QuestieMap.drawTimer = nil
+            QuestieMap.fadeLogicTimerShown:Cancel()
+            QuestieMap.fadeLogicTimerShown = nil
+        end
         QuestieMap._disableQueue = true
     end
 end

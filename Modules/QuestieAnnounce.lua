@@ -33,8 +33,8 @@ local function _GetPlayerName()
     return _playerName
 end
 
-function QuestieAnnounce:ItemLooted(text, player)
-    if (_playerName or _GetPlayerName()) == player then
+function QuestieAnnounce:ItemLooted(text, notPlayerName, languageName, channelName, playerName)
+    if (_playerName or _GetPlayerName()) == playerName or (string.len(playerName) == 0 and _playerName == notPlayerName) then
         local itemId = tonumber(string.match(text, "item:(%d+)"))
         if not QuestieAnnounce._itemCache[itemId] and QuestieDB.QueryItemSingle then -- check QueryItemSingle because this event can fire before db init is complete
             QuestieAnnounce._itemCache[itemId] = QuestieDB.QueryItemSingle(itemId, "startQuest") or false -- we do "or false" here because nil cant be inserted into _itemCache

@@ -32,6 +32,8 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type QuestieAnnounce
 local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
+---@type QuestieMenu
+local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
 
 --We should really try and squeeze out all the performance we can, especially in this.
 local tostring = tostring;
@@ -221,6 +223,8 @@ function QuestieQuest:Reset()
     QuestieProfessions:Update()
     QuestieReputation:Update(false)
 
+
+    QuestieMenu:OnLogin()
     QuestieQuest:AddAllNotes()
 end
 
@@ -244,6 +248,10 @@ function QuestieQuest:SmoothReset() -- use timers to reset progressively instead
             QuestieQuest:ClearAllNotes() 
             return true 
         end,
+        function()
+            QuestieMenu:OnLogin(true) -- remove icons
+            return true
+        end,
         function() 
             return #QuestieMap._mapDrawQueue == 0 and #QuestieMap._minimapDrawQueue == 0 -- wait until draw queue is finished
         end,
@@ -260,6 +268,10 @@ function QuestieQuest:SmoothReset() -- use timers to reset progressively instead
 
             -- draw available quests
             QuestieQuest:GetAllQuestIdsNoObjectives()
+            return true
+        end,
+        function()
+            QuestieMenu:OnLogin()
             return true
         end,
         function()

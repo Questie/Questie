@@ -55,7 +55,7 @@ local _townsfolk_texturemap = {
 
 local _spawned = {} -- used to check if we have already spawned an icon for this npc
 
-local function toggle(key) -- /run QuestieLoader:ImportModule("QuestieMap"):ShowNPC(525, nil, 1, "teaste", {}, true)
+local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("QuestieMap"):ShowNPC(525, nil, 1, "teaste", {}, true)
     local ids = Questie.db.global.townsfolk[key] or Questie.db.char.townsfolk[key] or Questie.db.global.professionTrainers[key] or Questie.db.char.vendorList[key]
     if not ids then 
         Questie:Debug(DEBUG_INFO, " Invalid townsfolk key " .. tostring(key))
@@ -64,7 +64,7 @@ local function toggle(key) -- /run QuestieLoader:ImportModule("QuestieMap"):Show
 
     local icon = _townsfolk_texturemap[key] or ("Interface\\Minimap\\tracking\\" .. strlower(key))
     if key == "Mailbox" then -- the only obnject-type townsfolk
-        if Questie.db.char.townsfolkConfig[key] then
+        if Questie.db.char.townsfolkConfig[key] and not forceRemove then
             for _, id in pairs(ids) do
                 QuestieMap:ShowObject(id, icon, 1.2, "|cFFFFFFFF" .. QuestieLocale:GetUIString('Mailbox'), {}, true, key)
             end
@@ -74,7 +74,7 @@ local function toggle(key) -- /run QuestieLoader:ImportModule("QuestieMap"):Show
             end
         end
     else
-        if Questie.db.char.townsfolkConfig[key] then
+        if Questie.db.char.townsfolkConfig[key] and not forceRemove then
             local faction = UnitFactionGroup("Player")
             local timer = nil
             local e = 1
@@ -119,11 +119,14 @@ local function build(key)
     }
 end
 
-function QuestieMenu:OnLogin() -- toggle all icons 
+function QuestieMenu:OnLogin(forceRemove) -- toggle all icons 
     if not Questie.db.char.townsfolkConfig then
         Questie.db.char.townsfolkConfig = {}
     end
     for key in pairs(Questie.db.char.townsfolkConfig) do
+        if forceRemove then
+            toggle(key, forceRemove)
+        end
         toggle(key)
     end
 end
