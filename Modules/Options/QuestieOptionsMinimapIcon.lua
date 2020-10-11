@@ -24,7 +24,7 @@ function QuestieOptionsMinimapIcon:Initialize()
 
         OnClick = function (self, button)
             if button == "LeftButton" then
-                if IsShiftKeyDown() then
+                if IsShiftKeyDown() and IsControlKeyDown() then
                     Questie.db.char.enabled = (not Questie.db.char.enabled)
                     QuestieQuest:ToggleNotes(Questie.db.char.enabled)
 
