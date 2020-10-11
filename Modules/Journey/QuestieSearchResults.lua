@@ -255,13 +255,15 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
         for i in pairs(spawns) do
             if spawns[i][1] then
                 startindex = i;
+                break;
             end
         end
 
         local continent = 'UNKNOWN ZONE';
-        for i, v in ipairs(QuestieJourney.zones) do
-            if v[startindex] then
-                continent = QuestieJourney.zones[i][startindex];
+        for category, data in pairs(LangZoneLookup) do
+            if data[startindex] then
+                continent = LangZoneLookup[category][startindex];
+                break;
             end
         end
 
