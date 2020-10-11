@@ -67,7 +67,12 @@ QuestieLocale.locale['zhCN'] = {
     ['AUTO_MODIFIER_DESC'] = "当与NPC互动时，即便您已启用自动接受/自动完成，启用额外按键以触发对应功能.",
     ['ENABLE_YELL'] = "与身边玩家分享任务进度",
     ['ENABLE_YELL_DESC'] = "你的任务进度將定期的发送给身边玩家",
-
+    ['QUEST_ANNOUNCE'] = "任务进度通报",
+    ['QUEST_ANNOUNCE_DESC'] = "向队员通报任务进度完成情况",
+    ['QUEST_ANNOUNCE_ENABLED'] = "已启用",
+    ['QUEST_ANNOUNCE_OBJECTIVE'] = "{rt1} Questie : %s 任务来自 %s!",
+    ['QUEST_ANNOUNCE_QUESTITEM'] = "{rt1} Questie : 拾取 %s 自动接收任务 %s!",
+    
     -- Minimap tab
     ['MINIMAP_TAB'] = "小地图",
     ['MINIMAP_OPTIONS_HEADER'] = "小地图选项",
