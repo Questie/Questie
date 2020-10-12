@@ -20,9 +20,15 @@ Follow the [Installation Guide](https://github.com/AeroScripts/QuestieDev/wiki/I
 - You can use the [issue tracker](https://github.com/AeroScripts/QuestieDev/issues) to report bugs and post feature requests (requires a Github account).
 - When creating an issue please follow the templated structure to speed up a possible fix.
 - If you get an error message from the WoW client, please include the **complete** text or a screenshot of it in your report.
-- If you wish to submit a bug fix or feature addition you made, you can create a Pull Request on Github. Please read [the rules](https://github.com/AeroScripts/QuestieDev/wiki/Pull-Request-Rules) first.
 
 Trust us it's (Good)!
+
+## Contribution
+
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
+- We are happy about every help and contribution we get, so feel free to sumbit a Pull Request on Github
+- Additional information you might find interesting can be found [here](https://github.com/AeroScripts/QuestieDev/wiki/Contributing)
+
 
 ## Donation
 If you'd like to support the development of Questie by donating, you can do so here:
