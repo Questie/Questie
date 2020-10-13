@@ -34,6 +34,8 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
 ---@type QuestieMenu
 local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
+---@type QuestieQuestBlacklist
+local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
 
 --We should really try and squeeze out all the performance we can, especially in this.
 local tostring = tostring;
@@ -1535,7 +1537,7 @@ function QuestieQuest:CalculateAndDrawAvailableQuestsIterative(callback)
                     (showDungeonQuests or (not QuestieDB:IsDungeonQuest(questId))) and  -- Show dungeon quests only with the option enabled
                     (showRaidQuests or (not QuestieDB:IsRaidQuest(questId))) and  -- Show Raid quests only with the option enabled
                     (showPvPQuests or (not QuestieDB:IsPvPQuest(questId))) and -- Show PvP quests only with the option enabled
-                    (showAQWarEffortQuests or (not QuestieDB:IsAQWarEffortQuest(questId))) -- Don't show AQ War Effort quests with the option enabled
+                    (showAQWarEffortQuests or (not QuestieQuestBlacklist.AQWarEffortQuests[questId])) -- Don't show AQ War Effort quests with the option enabled
                 ) then
 
                     if QuestieDB:IsLevelRequirementsFulfilled(questId, minLevel, maxLevel) and QuestieDB:IsDoable(questId) then

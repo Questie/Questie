@@ -266,7 +266,7 @@ function QuestieDB:IsPvPQuest(questId)
 end
 
 function QuestieDB:IsAQWarEffortQuest(questId)
-    return QuestieQuestBlacklist:GetAQWarEffortQuests()[questId] == true
+    return QuestieQuestBlacklist.AQWarEffortQuests[questId]
 end
 
 function QuestieDB:GetZoneOrSortForClass(class)
@@ -323,18 +323,20 @@ function QuestieDB:IsExclusiveQuestInQuestLogOrComplete(exclusiveTo)
 end
 
 function QuestieDB:IsLevelRequirementsFulfilled(questId, minLevel, maxLevel)
-    local level, requiredLevel = unpack(QuestieDB.QueryQuest(questId, "questLevel", "requiredLevel"))
+    local requiredLevel = QuestieDB.QueryQuestSingle(questId, "requiredLevel")--local level, requiredLevel = unpack(QuestieDB.QueryQuest(questId, "questLevel", "requiredLevel"))
 
     if QuestieDB:IsActiveEventQuest(questId) and minLevel > requiredLevel and (not Questie.db.char.absoluteLevelOffset) then
         return true
     end
+
+    local level = QuestieDB.QueryQuestSingle(questId, "questLevel")
     -- Questie.db.char.absoluteLevelOffset
     if maxLevel >= level then
-        if minLevel > level and (not Questie.db.char.lowlevel) then
+        if (not Questie.db.char.lowlevel) and minLevel > level then
             return false
         end
     else
-        if maxLevel < requiredLevel or Questie.db.char.absoluteLevelOffset then
+        if Questie.db.char.absoluteLevelOffset or maxLevel < requiredLevel then
             return false
         end
     end
@@ -584,7 +586,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     end
 
     function QO:IsAQWarEffortQuest()
-        return QuestieQuestBlacklist:GetAQWarEffortQuests()[self.Id] == true
+        return QuestieQuestBlacklist.AQWarEffortQuests[self.Id]
     end
 
     --- Wrapper function for the GetQuestTagInfo API to correct

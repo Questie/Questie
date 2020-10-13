@@ -40,6 +40,7 @@ QuestieMap.manualFrames = {}
 
 --Used in my fadelogic.
 local fadeOverDistance = 10;
+local normalizedValue = 1 / fadeOverDistance; --Opacity / Distance to fade over
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
@@ -215,7 +216,7 @@ function QuestieMap:ProcessShownMinimapIcons()
     QuestieMap.playerY = playerY
     ---@param minimapFrame IconFrame
     for minimapFrame, data in pairs(HBDPins.activeMinimapPins) do
-        if ((data.distanceFromMinimapCenter < 1.1) or doEdgeUpdate) and minimapFrame.miniMapIcon then
+        if minimapFrame.miniMapIcon and ((data.distanceFromMinimapCenter < 1.1) or doEdgeUpdate) then
             if minimapFrame.FadeLogic then
                 minimapFrame:FadeLogic()
             end
@@ -223,7 +224,6 @@ function QuestieMap:ProcessShownMinimapIcons()
                 minimapFrame:GlowUpdate()
             end
         end
-        
     end
 end
 
@@ -572,19 +572,14 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
                         y = self.worldY
                     end
                     if(x and y) then
-                        local distance = QuestieLib:Euclid(QuestieMap.playerX, QuestieMap.playerY, x, y);
-
                         --Very small value before, hard to work with.
-                        distance = distance / 10
-
-                        local normalizedValue = 1 / fadeOverDistance; --Opacity / Distance to fade over
+                        local distance = QuestieLib:Euclid(QuestieMap.playerX, QuestieMap.playerY, x, y) / 10;
 
                         if(distance > questieGlobalDB.fadeLevel) then
                             local fade = 1 - (math.min(10, (distance - questieGlobalDB.fadeLevel)) * normalizedValue);
-
                             self:SetFade(fade)
                         elseif (distance < questieGlobalDB.fadeOverPlayerDistance) and questieGlobalDB.fadeOverPlayer then
-                            local fadeAmount = QuestieLib:Remap(distance, 0, questieGlobalDB.fadeOverPlayerDistance, questieGlobalDB.fadeOverPlayerLevel, 1);
+                            local fadeAmount = questieGlobalDB.fadeOverPlayerLevel + distance * (1 - questieGlobalDB.fadeOverPlayerLevel) / questieGlobalDB.fadeOverPlayerDistance
                             -- local fadeAmount = math.max(fadeAmount, 0.5);
                             if self.faded and fadeAmount > questieGlobalDB.iconFadeLevel then
                                 fadeAmount = questieGlobalDB.iconFadeLevel

@@ -6,6 +6,8 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 local QuestieDBMIntegration = QuestieLoader:ImportModule("QuestieDBMIntegration")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type QuestieQuestBlacklist
+local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
 
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 
@@ -405,7 +407,7 @@ function _Qframe:ShouldBeHidden()
         or ((not Questie.db.char.showDungeonQuests) and QuestieDB:IsDungeonQuest(self.data.Id))
         or ((not Questie.db.char.showRaidQuests) and QuestieDB:IsRaidQuest(self.data.Id))
         or ((not Questie.db.char.showPvPQuests) and QuestieDB:IsPvPQuest(self.data.Id))
-        or ((not Questie.db.char.showAQWarEffortQuests) and QuestieDB:IsAQWarEffortQuest(self.data.Id))
+        or ((not Questie.db.char.showAQWarEffortQuests) and QuestieQuestBlacklist.AQWarEffortQuests[self.data.Id])
         or ((not questieGlobalDB.enableMapIcons) and (not self.miniMapIcon))
         or ((not questieGlobalDB.enableMiniMapIcons) and (self.miniMapIcon))
         or (self.data.ObjectiveData and self.data.ObjectiveData.HideIcons)
