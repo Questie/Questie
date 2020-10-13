@@ -363,7 +363,6 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
 end
 
 -- draws a list of results of a certain type, e.g. "quest"
-local searchTreeFrame = nil
 function QuestieSearchResults:DrawResultTab(container, resultType)
     -- probably already done by `JourneySelectTabGroup`, doesn't hurt to be safe though
     container:ReleaseChildren();
@@ -441,8 +440,6 @@ function QuestieSearchResults:DrawResultTab(container, resultType)
         if lastOpenSearch == "quest" then
             QuestieSearchResults:QuestDetailsFrame(details, selectedId);
         elseif lastOpenSearch == "npc" then
-            -- NPCs
-            --local npc = QuestieDB:GetNPC(id);
             QuestieSearchResults:SpawnDetailsFrame(details, selectedId, 'npc');
         elseif lastOpenSearch == "object" then
             QuestieSearchResults:SpawnDetailsFrame(details, selectedId, 'object')
@@ -451,7 +448,6 @@ function QuestieSearchResults:DrawResultTab(container, resultType)
 
     resultFrame:AddChild(resultTree)
     container:AddChild(resultFrame);
-    searchTreeFrame = resultFrame
 end
 
 local function SelectTabGroup(container, event, resultType)
@@ -578,6 +574,7 @@ function QuestieSearchResults:DrawSearchTab(container)
         if not (searchBox:GetText() == '') then
             local text = string.trim(searchBox:GetText(), " \n\r\t[]");
             QuestieSearchResults:DrawSearchResultTab(searchGroup, Questie.db.char.searchType, text, false);
+            searchBox:ClearFocus()
         end
     end);
     -- Check for existence of previous search, if present use its text
