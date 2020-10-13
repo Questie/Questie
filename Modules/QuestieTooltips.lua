@@ -416,6 +416,7 @@ function QuestieTooltips:QuestLinks(link)
         senderGUID = select(3, strsplit(":", link))
         questId = tonumber(questId)
         quest = QuestieDB:GetQuest(questId)
+
         if quest then
             -- [Block 1] Quest Title
             local cQuestLevel, cQuestID, cQuestName
@@ -485,21 +486,29 @@ function QuestieTooltips:QuestLinks(link)
 
             if #quest.ObjectiveData > 0 and not (QuestiePlayer.currentQuestlog[quest.Id] or Questie.db.char.complete[quest.Id]) then
                 for i = 1, #quest.ObjectiveData do
-                    if quest.ObjectiveData[i] and quest.ObjectiveData[i].Text then
-                        if quest.ObjectiveData[i] == quest.ObjectiveData[1] then
-                            ItemRefTooltip:AddLine(" ")
-                            ItemRefTooltip:AddLine("|cFFffd100"..QuestieLocale:GetUIString("TOOLTIPS_REQUIRE_QUEST")..":|r",1,1,1) --default gold
-                        end
-                        ItemRefTooltip:AddLine("|cFFffffff - "..quest.ObjectiveData[i].Text.."|r",1,1,1) --white
-
-                    else
-                        local name = QuestieDB.QueryItemSingle(quest.ObjectiveData[i].Id, "name")--QuestieDB:GetItem(quest.ObjectiveData[i].Id)
-                        if name then
-                            if quest.ObjectiveData[i] == quest.ObjectiveData[1] then
+                    local currentObjective = quest.ObjectiveData[i]
+                    if currentObjective then
+                        if currentObjective.Text then
+                            if currentObjective == quest.ObjectiveData[1] then
                                 ItemRefTooltip:AddLine(" ")
                                 ItemRefTooltip:AddLine("|cFFffd100"..QuestieLocale:GetUIString("TOOLTIPS_REQUIRE_QUEST")..":|r",1,1,1) --default gold
                             end
-                            ItemRefTooltip:AddLine("|cFFffffff - "..name.."|r",1,1,1) --white
+                            ItemRefTooltip:AddLine("|cFFffffff - "..currentObjective.Text.."|r",1,1,1) --white
+                        else
+                            local objectiveName
+                            if currentObjective.Type == "monster" then
+                                objectiveName = QuestieDB.QueryNPCSingle(currentObjective.Id, "name")
+                            else
+                                objectiveName = QuestieDB.QueryItemSingle(currentObjective.Id, "name")
+                            end
+
+                            if objectiveName then
+                                if currentObjective == quest.ObjectiveData[1] then
+                                    ItemRefTooltip:AddLine(" ")
+                                    ItemRefTooltip:AddLine("|cFFffd100"..QuestieLocale:GetUIString("TOOLTIPS_REQUIRE_QUEST")..":|r",1,1,1) --default gold
+                                end
+                                ItemRefTooltip:AddLine("|cFFffffff - "..objectiveName.."|r",1,1,1) --white
+                            end
                         end
                     end
                 end
