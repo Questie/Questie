@@ -1098,6 +1098,7 @@ function QuestieTracker:ResetLocation()
     Questie.db[Questie.db.global.questieTLoc].TrackerWidth = 0
 
     QuestieTracker:ResetLinesForChange()
+    QuestieTracker:Update()
 
     if _QuestieTracker.baseFrame then
         _QuestieTracker:SetSafePoint(_QuestieTracker.baseFrame)
@@ -2198,33 +2199,18 @@ end
 function QuestieTracker:ResetLinesForChange()
     Questie:Debug(DEBUG_DEVELOP, "QuestieTracker: ResetLinesForChange")
     if InCombatLockdown() or not Questie.db.global.trackerEnabled then return end
-    if _QuestieTracker.highestIndex then
-        for i = 1, _QuestieTracker.highestIndex do
-            if _QuestieTracker.LineFrames[i] then
-                _QuestieTracker.LineFrames[i].mode = nil
-                _QuestieTracker.LineFrames[i].expandQuest.mode = nil
-                _QuestieTracker.LineFrames[i].expandZone.mode = nil
-            end
-            if _QuestieTracker.trackedQuestsFrame then
-                _QuestieTracker.trackedQuestsFrame:Hide()
-                _QuestieTracker.trackedQuestsFrame:Update()
-            end
+    for _, line in pairs(_QuestieTracker.LineFrames) do
+        line.mode = nil
+        if line.expandQuest then
+            line.expandQuest.mode = nil
         end
-    else
-        for i = 1, trackerLineCount do
-            if _QuestieTracker.LineFrames[i] then
-                _QuestieTracker.LineFrames[i].mode = nil
-                _QuestieTracker.LineFrames[i].expandQuest.mode = nil
-                _QuestieTracker.LineFrames[i].expandZone.mode = nil
-            end
-            if _QuestieTracker.trackedQuestsFrame then
-                _QuestieTracker.trackedQuestsFrame:Hide()
-                _QuestieTracker.trackedQuestsFrame:Update()
-            end
+        if line.expandZone then
+            line.expandZone.mode = nil
         end
     end
-    _QuestieTracker:UpdateLayout()
-    QuestieTracker:Update()
+    if _QuestieTracker.trackedQuestsFrame then
+        _QuestieTracker.trackedQuestsFrame:Hide()
+    end
 end
 
 function QuestieTracker:RemoveQuest(id)
