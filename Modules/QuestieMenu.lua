@@ -250,6 +250,11 @@ function QuestieMenu:Show()
     tinsert(menuTable, {text=QuestieLocale:GetUIString("Questie Options"), func=function() QuestieOptions:OpenConfigWindow() end})
     tinsert(menuTable, {text=QuestieLocale:GetUIString('JOUNREY_TAB'), func=function() QuestieOptions:HideFrame(); QuestieJourney.tabGroup:SelectTab("journey"); QuestieJourney.ToggleJourneyWindow() end})
 
+    if Questie.db.global.debugEnabled then -- add recompile db & reload buttons when debugging is enabled
+        tinsert(menuTable, {text=QuestieLocale:GetUIString('RECOMPILE_DATABASE_BTN'), func=function() QuestieConfig.dbIsCompiled = false; ReloadUI() end})
+        tinsert(menuTable, {text=QuestieLocale:GetUIString('Reload UI'), func=function() ReloadUI() end})
+    end
+
     tinsert(menuTable, {text=QuestieLocale:GetUIString('TRACKER_CANCEL'), func=function() end})
     LQuestie_EasyMenu(menuTable, QuestieMenu.menu, "cursor", -80, 0, "MENU")
 end
