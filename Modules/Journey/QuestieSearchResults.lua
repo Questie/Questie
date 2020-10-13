@@ -415,8 +415,17 @@ function QuestieSearchResults:DrawResultTab(container, resultType)
     resultTree.treeframe:SetWidth(260);
     resultTree:SetTree(results);
     resultTree:SetCallback("OnGroupSelected", function(resultType)
-        -- if they clicked on the header, don't do anything
-        local sel = resultType.localstatus.selected;
+        -- This is either the questId, npcId, objectId or itemId
+        local selectedId = tonumber(resultType.localstatus.selected)
+        if IsShiftKeyDown() and lastOpenSearch == "quest" then
+            local questLevel, questName = unpack(QuestieDB.QueryQuest(selectedId, "questLevel", "name"))
+
+            if Questie.db.global.trackerShowQuestLevel then
+                ChatEdit_InsertLink("[[" .. questLevel .. "] " .. questName .. " (" .. selectedId .. ")]")
+            else
+                ChatEdit_InsertLink("[" .. questName .. " (" .. selectedId .. ")]")
+            end
+        end
 
         -- get master frame and create scroll frame inside
         local master = resultType.frame.obj;
@@ -428,16 +437,15 @@ function QuestieSearchResults:DrawResultTab(container, resultType)
         local details = AceGUI:Create("ScrollFrame");
         details:SetLayout("Flow");
         master:AddChild(details);
-        local id = tonumber(sel);
 
         if lastOpenSearch == "quest" then
-            QuestieSearchResults:QuestDetailsFrame(details, id);
+            QuestieSearchResults:QuestDetailsFrame(details, selectedId);
         elseif lastOpenSearch == "npc" then
             -- NPCs
             --local npc = QuestieDB:GetNPC(id);
-            QuestieSearchResults:SpawnDetailsFrame(details, id, 'npc');
+            QuestieSearchResults:SpawnDetailsFrame(details, selectedId, 'npc');
         elseif lastOpenSearch == "object" then
-            QuestieSearchResults:SpawnDetailsFrame(details, id, 'object')
+            QuestieSearchResults:SpawnDetailsFrame(details, selectedId, 'object')
         end
     end);
 
