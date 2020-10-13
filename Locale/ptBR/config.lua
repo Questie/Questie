@@ -225,6 +225,8 @@ QuestieLocale.locale['ptBR'] = {
     ['TOOLTIP_QUEST_REPEATABLE'] = "(Repetivel)",
     ['TOOLTIP_QUEST_EVENT'] = "(Evento)",
     ['XP'] = "xp";
+    ['COMPLETE'] = "Complete";
+    ['FAILED'] = "Failed";
 
     --Ordens de barra
     ['SLASH_INVALID'] = "Comando inválido. Para uma lista de opções, digite:",

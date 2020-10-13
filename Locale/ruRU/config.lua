@@ -223,6 +223,8 @@ QuestieLocale.locale['ruRU'] = {
     ['TOOLTIP_QUEST_REPEATABLE'] = "(Повторяемое)",
     ['TOOLTIP_QUEST_EVENT'] = "(Игровое событие)",
     ['XP'] = " ед. опыта";
+    ['COMPLETE'] = "Complete";
+    ['FAILED'] = "Failed";
 
     -- Slash Commands
     ['SLASH_INVALID'] = "Неверная команда. Для отображения списка команд наберите: ",

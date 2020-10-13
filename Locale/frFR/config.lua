@@ -225,6 +225,8 @@ QuestieLocale.locale['frFR'] = {
     ['TOOLTIP_QUEST_REPEATABLE'] = "(Répétable)",
     ['TOOLTIP_QUEST_EVENT'] = "(Évènement)",
     ['XP'] = "xp";
+    ['COMPLETE'] = "Complete";
+    ['FAILED'] = "Failed";
 
     -- Slash Commandes
     ['SLASH_INVALID'] = "Commande invalide. Pour obtenir une liste d'options, veuillez taper :",

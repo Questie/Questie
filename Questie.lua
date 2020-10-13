@@ -229,19 +229,23 @@ function Questie:Colorize(str, color)
     local c = '';
 
     if color == 'red' then
-        c = '|cffff0000';
+        c = '|cFFff0000';
     elseif color == 'gray' then
-        c = '|cFFCFCFCF';
+        c = '|cFFa6a6a6';
     elseif color == 'purple' then
         c = '|cFFB900FF';
     elseif color == 'blue' then
         c = '|cB900FFFF';
+    elseif color == 'blizzardBlue' then
+        c = '|cFF00c0ff';
     elseif color == 'yellow' then
-        c = '|cFFFFB900';
+        c = '|cFFffff00';
+    elseif color == 'green' then
+        c = '|cFF00ff00';
     elseif color == "white" then
-        c = '|cFFFFFFFF';
+        c = '|cFFffffff';
     elseif color == "gold" then
-        c = "|cffffd100" -- this is the default game font
+        c = "|cFFffd100" -- this is the default game font
     end
 
     return c .. str .. "|r"

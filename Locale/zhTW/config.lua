@@ -225,6 +225,8 @@ QuestieLocale.locale['zhTW'] = {
     ['TOOLTIP_QUEST_REPEATABLE'] = "(可重複)",
     ['TOOLTIP_QUEST_EVENT'] = "（事件）",
     ['XP'] = "經驗值";
+    ['COMPLETE'] = "Complete";
+    ['FAILED'] = "Failed";
 
     -- Slash Commands
     ['SLASH_INVALID'] = "無效指令，要查看指令列表請輸入：",

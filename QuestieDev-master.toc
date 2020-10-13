@@ -73,11 +73,14 @@ Modules\Libs\QuestieHash.lua
 ##Modules
 Modules\QuestieProfessions.lua
 Modules\QuestieReputation.lua
-Modules\QuestieTooltips.lua
 Modules\QuestieEventHandler.lua
 Modules\Migration.lua
 Modules\QuestieMenu.lua
 Modules\QuestieAnnounce.lua
+
+##Tooltips
+Modules\Tooltips\Tooltip.lua
+Modules\Tooltips\Link.lua
 
 #Auto
 Modules\Auto\QuestieAuto.lua
