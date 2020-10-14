@@ -330,7 +330,10 @@ function QuestieCorrections:PopulateVendors(itemList, existingTable, restrictLev
                     --print(vendorId)
                     local friendlyToFaction = QuestieDB.QueryNPCSingle(vendorId, "friendlyToFaction")
                     if (not friendlyToFaction) or friendlyToFaction == "AH" or friendlyToFaction == factionKey then
-                        tbl[vendorId] = true
+                        local flags = QuestieDB.QueryNPCSingle(vendorId, "npcFlags")
+                        if bit.band(flags, QuestieDB.npcFlags.VENDOR) == QuestieDB.npcFlags.VENDOR then
+                            tbl[vendorId] = true
+                        end
                     end
                 end
             end
