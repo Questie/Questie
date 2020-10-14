@@ -231,8 +231,8 @@ QuestieLocale.locale['zhCN'] = {
     ['TOOLTIP_QUEST_REPEATABLE'] = "(可重复)",
     ['TOOLTIP_QUEST_EVENT'] = "(事件)",
     ['XP'] = "经验";
-    ['COMPLETE'] = "Complete";
-    ['FAILED'] = "Failed";
+    ['COMPLETE'] = "完成";
+    ['FAILED'] = "失败";
 
     -- Slash Commands
     ['SLASH_INVALID'] = "无效命令，要查看指令列表请输入：",
