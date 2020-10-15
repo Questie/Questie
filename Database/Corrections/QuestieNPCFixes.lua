@@ -2635,6 +2635,9 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.WESTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS] = {{44.13,71.5},},},
         },
+        [16281] = { 
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{80.91,60.34},},},
+        },
         [16361] = { 
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{80.91,60.40},},},
         },
