@@ -220,13 +220,13 @@ end
 
 _InitObjectiveTexts = function (objectivesText, objectiveIndex, playerName)
     if (not objectivesText) then
-        objectivesText.objectivesText = {}
+        objectivesText = {}
     end
     if (not objectivesText[objectiveIndex]) then
-        objectivesText.objectivesText[objectiveIndex] = {}
+        objectivesText[objectiveIndex] = {}
     end
     if (not objectivesText[objectiveIndex][playerName]) then
-        objectivesText.objectivesText[objectiveIndex][playerName] = {}
+        objectivesText[objectiveIndex][playerName] = {}
     end
     return objectivesText
 end
