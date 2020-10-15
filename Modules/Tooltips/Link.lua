@@ -108,9 +108,10 @@ _AddQuestStatus = function (quest)
     if QuestiePlayer.currentQuestlog[quest.Id] then
         local onQuestText = QuestieLocale:GetUIString("TOOLTIPS_ON_QUEST")
         local stateText = nil
-        if QuestieDB:IsComplete(quest.Id) == 1 then
+        local questIsComplete = QuestieDB:IsComplete(quest.Id)
+        if questIsComplete == 1 then
             stateText = Questie:Colorize(QuestieLocale:GetUIString("COMPLETE"), "green")
-        elseif QuestieDB:IsComplete(quest.Id) == -1 then
+        elseif questIsComplete == -1 then
             stateText = Questie:Colorize(QuestieLocale:GetUIString("FAILED"), "red")
         end
 
@@ -188,7 +189,6 @@ _GetQuestStarter = function (quest)
             else
                 starterZoneName = QuestieTracker.utils:GetZoneNameByID(quest.zoneOrSort)
             end
-
         elseif quest.Starts.Item ~= nil then
             local item = QuestieDB:GetItem(quest.Starts.Item[1])
             starterName = item.name
@@ -208,11 +208,9 @@ _GetQuestStarter = function (quest)
                 else
                     starterZoneName = QuestieTracker.utils:GetZoneNameByID(quest.zoneOrSort)
                 end
-
             else
                 starterZoneName = QuestieTracker.utils:GetZoneNameByID(quest.zoneOrSort)
             end
-
         elseif quest and quest.Starts and quest.Starts.GameObject and quest.Starts.GameObject[1] then
             local object = QuestieDB:GetObject(quest.Starts.GameObject[1])
             starterName = object.name
@@ -241,7 +239,6 @@ _GetQuestFinisher = function (quest)
             else
                 finisherZoneName = QuestieTracker.utils:GetZoneNameByID(quest.zoneOrSort)
             end
-
         elseif quest.Finisher.Type == "object" then
             local object = QuestieDB:GetObject(quest.Finisher.Id)
             finisherName = object.name
@@ -251,7 +248,6 @@ _GetQuestFinisher = function (quest)
             else
                 finisherZoneName = QuestieTracker.utils:GetZoneNameByID(quest.zoneOrSort)
             end
-
         else
             finisherZoneName = QuestieTracker.utils:GetZoneNameByID(quest.zoneOrSort)
         end
@@ -270,16 +266,12 @@ _AddPlayerQuestProgress = function (quest, starterName, starterZoneName, finishe
             _AddTooltipLine(QuestieLocale:GetUIString("TOOLTIPS_PROGRESS_QUEST")..":")
             for _, objective in pairs(quest.Objectives) do
                 local objDesc = objective.Description:gsub("%.", "")
-                local lineEnding
 
                 if objective.Needed > 0 then
-                    lineEnding = tostring(objective.Collected) .. "/" .. tostring(objective.Needed)
+                    local lineEnding = tostring(objective.Collected) .. "/" .. tostring(objective.Needed)
+                    _AddTooltipLine(" - " .. QuestieLib:GetRGBForObjective(objective) .. objDesc .. ": " .. lineEnding.."|r")
                 end
-
-                objDesc = (QuestieLib:GetRGBForObjective(objective) .. objDesc .. ": " .. lineEnding.."|r")
-                _AddTooltipLine(" - " .. objDesc)
             end
-
         -- Completed Quest (not turned in): display quest ended by npc and zone
         else
             if finisherName then
@@ -310,7 +302,6 @@ _AddPlayerQuestProgress = function (quest, starterName, starterZoneName, finishe
                     _AddTooltipLine(timestamp)
                 end
             end
-
         -- Not on Quest: display quest started by npc and zone
         else
             if starterName then
@@ -331,6 +322,7 @@ hooksecurefunc("ChatFrame_OnHyperlinkShow", function(...)
         if linkType and linkType == "questie" and questId then
             Questie:Debug(DEBUG_DEVELOP, "[QuestieTooltips:OnHyperlinkShow] Relinking Quest Link to chat: "..link)
             questId = tonumber(questId)
+
             local quest = QuestieDB:GetQuest(questId)
             if quest then
                 local msg = ChatFrame1EditBox:GetText()
