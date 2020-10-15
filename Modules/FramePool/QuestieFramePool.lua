@@ -888,12 +888,5 @@ function _QuestieFramePool:QuestieTooltip()
     --Tooltip:AddDoubleLine("" .. self:GetFrameStrata(), ""..self:GetFrameLevel())
     --Tooltip:AddDoubleLine("" .. self.glow:GetFrameStrata(), ""..self.glow:GetFrameLevel())
     Tooltip:SetFrameStrata("TOOLTIP");
-    QuestieTooltips.lastTooltipTime = GetTime() -- hack for object tooltips
     Tooltip:Show();
-end
-
-function _QuestieFramePool:Questie_Click(self)
-    Questie:Print("Click!");
-    --TODO Logic for click!
-    -- Preferably call something outside, keep it "abstract" here
 end

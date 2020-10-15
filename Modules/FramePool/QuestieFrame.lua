@@ -147,7 +147,6 @@ function _Qframe:OnLeave()
 end
 
 function _Qframe:OnClick(button)
-    --_QuestieFramePool:Questie_Click(self)
     if self and self.UiMapID and WorldMapFrame and WorldMapFrame:IsShown() then
         if button == "RightButton" then
             local currentMapParent = WorldMapFrame:GetMapID()
