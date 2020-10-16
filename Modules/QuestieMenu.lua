@@ -1,4 +1,4 @@
----@class QuestieCorrections
+---@class QuestieMenu
 local QuestieMenu = QuestieLoader:CreateModule("QuestieMenu")
 
 ---@type QuestieLib

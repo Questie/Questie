@@ -5,8 +5,6 @@ local _QuestieDB = QuestieDB.private
 -------------------------
 --Import modules.
 -------------------------
----@type QuestieStreamLib
-local QuestieStreamLib = QuestieLoader:ImportModule("QuestieStreamLib")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestiePlayer
@@ -85,7 +83,7 @@ end
 local function trycatch(func)
     return function(...)
         local result, ret = pcall(func, ...)
-        if not result then
+        if (not result) then
             print(ret)
             _shutdown_db()
             if not Questie.db.global.disableDatabaseWarnings then
@@ -196,8 +194,6 @@ function QuestieDB:GetItem(itemId)
         return _QuestieDB.itemCache[itemId];
     end
 
-    --local rawdata = QuestieDB.itemData[itemId]; -- TODO: use the good item db, I need to talk to Muehe about the format, this is a temporary fix
-    --print("queryitem: " .. itemId)
     local rawdata = QuestieDB.QueryItem(itemId, unpack(QuestieDB._itemAdapterQueryOrder))
 
     if not rawdata then
@@ -230,7 +226,6 @@ function QuestieDB:GetItem(itemId)
             tinsert(item.Sources, source);
         end
     end
-    --_QuestieDB.itemCache[itemId] = item;
     return item
 end
 
@@ -244,37 +239,51 @@ function QuestieDB:GetColoredQuestName(id, blizzLike)
     return QuestieLib:GetColoredQuestName(id, questName, level, Questie.db.global.enableTooltipsQuestLevel, false, blizzLike)
 end
 
--- TODO: move these into a QuestUtils class or something
-function QuestieDB:IsRepeatable(id)
+
+---@param questId number
+---@return boolean
+function QuestieDB:IsRepeatable(questId)
     local flags = QuestieDB.QueryQuestSingle(id, "specialFlags")
     return flags and mod(flags, 2) == 1
 end
 
+---@param questId number
+---@return boolean
 function QuestieDB:IsDungeonQuest(questId)
     local questType, _ = QuestieDB:GetQuestTagInfo(questId)
     return questType == 81
 end
 
+---@param questId number
+---@return boolean
 function QuestieDB:IsRaidQuest(questId)
     local questType, _ = QuestieDB:GetQuestTagInfo(questId)
     return questType == 62
 end
 
+---@param questId number
+---@return boolean
 function QuestieDB:IsPvPQuest(questId)
     local questType, _ = QuestieDB:GetQuestTagInfo(questId)
     return questType == 41
 end
 
+---@param questId number
+---@return boolean
 function QuestieDB:IsAQWarEffortQuest(questId)
     return QuestieQuestBlacklist.AQWarEffortQuests[questId]
 end
 
+---@param class string
+---@return number
 function QuestieDB:GetZoneOrSortForClass(class)
     return QuestieDB.sortKeys[class]
 end
 
 --- Wrapper function for the GetQuestTagInfo API to correct
 --- quests that are falsely marked by Blizzard
+---@param id number
+---@return table<number, string>
 function QuestieDB:GetQuestTagInfo(questId)
     local questType, questTag = GetQuestTagInfo(questId)
 
@@ -286,8 +295,8 @@ function QuestieDB:GetQuestTagInfo(questId)
     return questType, questTag
 end
 
---@param quest QuestieQuest @The quest to check for completion
---@return integer @Complete = 1, Failed = -1, Incomplete = 0
+---@param questId
+---@return number @Complete = 1, Failed = -1, Incomplete = 0
 function QuestieDB:IsComplete(questId)
     local questLogIndex = GetQuestLogIndexByID(questId)
     local _, _, _, _, _, isComplete, _, _, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(questLogIndex)
@@ -304,15 +313,21 @@ function QuestieDB:IsComplete(questId)
     return 0
 end
 
+---@param questId number
+---@return boolean
 function QuestieDB:IsRepeatable(questId)
     local specialFlags = unpack(QuestieDB.QueryQuest(questId, "specialFlags"))
     return mod(specialFlags, 2) == 1
 end
 
+---@param questId number
+---@return boolean
 function QuestieDB:IsActiveEventQuest(questId)
     return QuestieEvent.activeQuests[questId] == true
 end
 
+---@param exclusiveTo table<number, number>
+---@return boolean
 function QuestieDB:IsExclusiveQuestInQuestLogOrComplete(exclusiveTo)
     for _, exId in pairs(exclusiveTo) do
         if Questie.db.char.complete[exId] then
@@ -322,6 +337,10 @@ function QuestieDB:IsExclusiveQuestInQuestLogOrComplete(exclusiveTo)
     return false
 end
 
+---@param questId number
+---@param minLevel number
+---@param maxLevel number
+---@return boolean
 function QuestieDB:IsLevelRequirementsFulfilled(questId, minLevel, maxLevel)
     local requiredLevel = QuestieDB.QueryQuestSingle(questId, "requiredLevel")--local level, requiredLevel = unpack(QuestieDB.QueryQuest(questId, "questLevel", "requiredLevel"))
 
@@ -344,6 +363,8 @@ function QuestieDB:IsLevelRequirementsFulfilled(questId, minLevel, maxLevel)
     return true
 end
 
+---@param parentID number
+---@return boolean
 function QuestieDB:IsParentQuestActive(parentID)
     if parentID == nil or parentID == 0 then
         return false
@@ -354,6 +375,8 @@ function QuestieDB:IsParentQuestActive(parentID)
     return false
 end
 
+---@param preQuestGroup table<number, number>
+---@return boolean
 function QuestieDB:IsPreQuestGroupFulfilled(preQuestGroup)
     if not preQuestGroup or not next(preQuestGroup) then
         return true
@@ -381,6 +404,8 @@ function QuestieDB:IsPreQuestGroupFulfilled(preQuestGroup)
     return true
 end
 
+---@param preQuestSingle table<number, number>
+---@return boolean
 function QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle)
     if not preQuestSingle or not next(preQuestSingle) then
         return true
@@ -405,6 +430,8 @@ function QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle)
     return false
 end
 
+---@param questId number
+---@return boolean
 function QuestieDB:IsDoable(questId)
 
     if QuestieCorrections.hiddenQuests[questId] then
@@ -522,29 +549,30 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     ---@class QuestId
 
     ---@class Quest
-    ---@field public childQuests any
-    ---@field public exclusiveTo any
-    ---@field public finishedBy any
-    ---@field public inGroupWith any
+    ---@field public Id number
+    ---@field public childQuests table
+    ---@field public exclusiveTo table
+    ---@field public finishedBy table
+    ---@field public inGroupWith table
     ---@field public name string
-    ---@field public nextQuestInChain any
-    ---@field public objectives any
-    ---@field public objectivesText any
-    ---@field public parentQuest any
-    ---@field public preQuestGroup any
-    ---@field public preQuestSingle any
-    ---@field public questLevel any
-    ---@field public requiredClasses any
-    ---@field public requiredLevel any
-    ---@field public requiredMinRep any
-    ---@field public requiredRaces any
-    ---@field public requiredSkill any
-    ---@field public requiredSourceItems any
-    ---@field public sourceItemId any
-    ---@field public specialFlags any
-    ---@field public startedBy any
-    ---@field public triggerEnd any
-    ---@field public zoneOrSort any
+    ---@field public nextQuestInChain number
+    ---@field public objectives table
+    ---@field public objectivesText table
+    ---@field public parentQuest table
+    ---@field public preQuestGroup table
+    ---@field public preQuestSingle table
+    ---@field public questLevel number
+    ---@field public requiredLevel number
+    ---@field public requiredClasses number
+    ---@field public requiredRaces number
+    ---@field public requiredMinRep table
+    ---@field public requiredSkill table
+    ---@field public requiredSourceItems table
+    ---@field public sourceItemId number
+    ---@field public specialFlags number
+    ---@field public startedBy table
+    ---@field public triggerEnd table
+    ---@field public zoneOrSort number
 
     local QO = {}
     QO.GetColoredQuestName = _GetColoredQuestName
@@ -842,9 +870,9 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     return QO
 end
 
+QuestieDB._CreatureLevelCache = {}
 ---@param quest Quest
 ---@return table<string, table> @List of creature names with their min-max level and rank
-QuestieDB._CreatureLevelCache = {}
 function QuestieDB:GetCreatureLevels(quest)
     if quest and quest.Id and QuestieDB._CreatureLevelCache[quest.Id] then
         return QuestieDB._CreatureLevelCache[quest.Id]
@@ -887,6 +915,8 @@ end
 
 QuestieDB.FactionGroup = UnitFactionGroup("player")
 
+---@param npcId number
+---@return table
 function QuestieDB:GetNPC(npcId)
     if npcId == nil then
         return nil
@@ -947,6 +977,8 @@ end
 
     Check `LangZoneLookup` for the available IDs
 ]]
+---@param zoneId number
+---@return table
 function QuestieDB:GetQuestsByZoneId(zoneId)
     if not zoneId then
         return nil;

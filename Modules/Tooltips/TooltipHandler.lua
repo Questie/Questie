@@ -14,7 +14,7 @@ function _QuestieTooltips:AddUnitDataToTooltip()
     if (not guid) then
         guid = UnitGUID("mouseover");
     end
-    local type, zero, server_id, instance_id, zone_uid, npc_id, spawn_uid = strsplit("-", guid or "");
+    local type, zero, server_id, instance_id, zone_uid, npcId, spawn_uid = strsplit("-", guid or "");
     if name and type == "Creature" and (
         name ~= QuestieTooltips.lastGametooltipUnit or
         (not QuestieTooltips.lastGametooltipCount) or
@@ -24,7 +24,7 @@ function _QuestieTooltips:AddUnitDataToTooltip()
     ) then
         --Questie:Debug(DEBUG_DEVELOP, "[QuestieTooltip] Unit Id on hover : ", npc_id);
         QuestieTooltips.lastGametooltipUnit = name
-        local tooltipData = QuestieTooltips:GetTooltip("m_" .. npc_id);
+        local tooltipData = QuestieTooltips:GetTooltip("m_" .. npcId);
         if tooltipData then
             for _, v in pairs (tooltipData) do
                 GameTooltip:AddLine(v)

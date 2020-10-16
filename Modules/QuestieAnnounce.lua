@@ -1,6 +1,6 @@
 ---@class QuestieAnnounce
 local QuestieAnnounce = QuestieLoader:CreateModule("QuestieAnnounce")
----@class QuestieDB
+---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
 
