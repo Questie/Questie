@@ -54,7 +54,6 @@ local _UnhideQuestIcons, _HideQuestIcons, _UnhideManualIcons, _HideManualIcons
 local _GetObjectiveIdForSpecialQuest
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
-local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 
 function QuestieQuest:Initialize()
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString("DEBUG_GET_QUEST_COMP"))
@@ -736,7 +735,7 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
     if (not Objective.registeredItemTooltips) and Objective.Type == "item" and (not BlockItemTooltips) and Objective.Id then -- register item tooltip (special case)
         local item = QuestieDB.QueryItemSingle(Objective.Id, "name")--QuestieDB:GetItem(Objective.Id);
         if item then
-            QuestieTooltips:RegisterTooltip(quest.Id, "i_" .. Objective.Id, Objective);
+            QuestieTooltips:RegisterObjectiveTooltip(quest.Id, "i_" .. Objective.Id, Objective);
         end
         Objective.registeredItemTooltips = true
     end
@@ -785,7 +784,7 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
             end
             if (not Objective.AlreadySpawned[id]) and (not quest.AlreadySpawned[Objective.Type .. tostring(ObjectiveIndex)][spawnData.Id]) then
                 if not Objective.registeredTooltips and spawnData.TooltipKey and (not tooltipRegisterHack[spawnData.TooltipKey]) then -- register mob / item / object tooltips
-                    QuestieTooltips:RegisterTooltip(quest.Id, spawnData.TooltipKey, Objective);
+                    QuestieTooltips:RegisterObjectiveTooltip(quest.Id, spawnData.TooltipKey, Objective);
                     tooltipRegisterHack[spawnData.TooltipKey] = true
                     hasTooltipHack = true
                 end
@@ -999,7 +998,7 @@ local function _AddSourceItemObjective(quest)
                 Description = item
             }
 
-            QuestieTooltips:RegisterTooltip(quest.Id, "i_" .. quest.sourceItemId, fakeObjective);
+            QuestieTooltips:RegisterObjectiveTooltip(quest.Id, "i_" .. quest.sourceItemId, fakeObjective);
         end
     end
 end
@@ -1381,8 +1380,8 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
 
     --TODO More logic here, currently only shows NPC quest givers.
     if quest.Starts["GameObject"] ~= nil then
-        for _, ObjectID in ipairs(quest.Starts["GameObject"]) do
-            local obj = QuestieDB:GetObject(ObjectID)
+        for _, objectId in ipairs(quest.Starts["GameObject"]) do
+            local obj = QuestieDB:GetObject(objectId)
             if(obj ~= nil and obj.spawns ~= nil) then
                 for zone, spawns in pairs(obj.spawns) do
                     if(zone ~= nil and spawns ~= nil) then
@@ -1413,16 +1412,19 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
             end
         end
     elseif(quest.Starts["NPC"] ~= nil)then
-        for _, NPCID in ipairs(quest.Starts["NPC"]) do
-            local NPC = QuestieDB:GetNPC(NPCID)
-            if (NPC ~= nil and NPC.spawns ~= nil) then
+        for _, npcId in ipairs(quest.Starts["NPC"]) do
+            local npc = QuestieDB:GetNPC(npcId)
+
+            QuestieTooltips:RegisterQuestStartTooltip(quest.Id, npc)
+
+            if (npc ~= nil and npc.spawns ~= nil) then
                 --Questie:Debug(DEBUG_DEVELOP,"Adding Quest:", questObject.Id, "StarterNPC:", NPC.Id)
                 local starterIcons = {}
                 local starterLocs = {}
-                for npcZone, Spawns in pairs(NPC.spawns) do
-                    if(npcZone ~= nil and Spawns ~= nil) then
+                for npcZone, spawns in pairs(npc.spawns) do
+                    if(npcZone ~= nil and spawns ~= nil) then
 
-                        for _, coords in ipairs(Spawns) do
+                        for _, coords in ipairs(spawns) do
                             local data = {}
                             data.Id = quest.Id;
                             data.Icon = _QuestieQuest:GetQuestIcon(quest)
@@ -1430,7 +1432,7 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
                             data.IconScale = data.GetIconScale();
                             data.Type = "available";
                             data.QuestData = quest;
-                            data.Name = NPC.name
+                            data.Name = npc.name
                             data.IsObjectiveNote = false
                             if(coords[1] == -1 or coords[2] == -1) then
                                 local dungeonLocation = ZoneDB:GetDungeonLocation(npcZone)
@@ -1455,8 +1457,8 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
                     end
                 end
 
-                if NPC.waypoints then
-                    for zone, waypoints in pairs(NPC.waypoints) do
+                if npc.waypoints then
+                    for zone, waypoints in pairs(npc.waypoints) do
                         if not ZoneDB.private.dungeons[zone] and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then
                             if not starterIcons[zone] then
                                 local data = {}
@@ -1466,7 +1468,7 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
                                 data.IconScale = data.GetIconScale();
                                 data.Type = "available";
                                 data.QuestData = quest;
-                                data.Name = NPC.name
+                                data.Name = npc.name
                                 data.IsObjectiveNote = false
                                 starterIcons[zone] = QuestieMap:DrawWorldIcon(data, zone, waypoints[1][1][1], waypoints[1][1][2])
                                 starterLocs[zone] = {waypoints[1][1][1], waypoints[1][1][2]}
