@@ -4,6 +4,7 @@ import sys
 import re
 import os
 import shutil
+import zipfile
 import subprocess
 
 '''
@@ -117,7 +118,25 @@ def main():
     # package files
     root = os.getcwd()
     os.chdir('releases/%s' % (versionDir))
-    shutil.make_archive(zipName, "zip", ".", addonDir)
+    
+    excludes = [".DS_Store", "__MACOS"]
+    
+    def addDir(zip, dir):
+        for file in os.listdir(dir):
+            if file not in excludes and not file.startswith("._") and not file.endswith(".zip"):
+                file = dir+"/"+file
+                print("Adding " + file)
+                if os.path.isdir(file):
+                    addDir(zip, file)
+                else:
+                    zip.write(file, file)
+            else:
+                print("Excluding " + file)
+    
+    with zipfile.ZipFile(zipName + ".zip", "w", zipfile.ZIP_DEFLATED, allowZip64=True) as zip:
+        addDir(zip, ".")
+            
+    #shutil.make_archive(zipName, "zip", ".", addonDir)
     os.chdir(root)
     print('New release "%s" created successfully' % (versionDir))
 
@@ -140,10 +159,10 @@ def setVersion():
             tocData = toc.read()
             cleanData = tocData;
             ## Version: 4.1.1 BETA
-            tocData = re.sub(r"## Title:.*", "## Title: |cFFFFFFFF%s|r|cFF00FF00 %s_%s|r" % (addonDir, versionTag, recentCommit), tocData)
+            tocData = re.sub(r"## Title:.*", "## Title: |cFFFFFFFF%s|r|cFF00FF00 %s|r" % (addonDir, versionTag), tocData)
             ## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v4.1.1|r|cFFFF0000 Beta|r
             cleanData = re.sub(r"\d+\.\d+\.\d+(-\d+)?", versionTag.lstrip("v"), cleanData)
-            tocData = re.sub(r"## Version:.*", "## Version: %s %s %s" % (versionTag.lstrip("v"), nrOfCommits, recentCommit), tocData)
+            tocData = re.sub(r"## Version:.*", "## Version: %s" % (versionTag.lstrip("v")), tocData)
 
         with open('releases/%s/%s/%s.toc' % (versionDir, addonDir, addonDir), "w") as toc:
             toc.write(tocData)
