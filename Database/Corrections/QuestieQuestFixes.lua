@@ -2686,6 +2686,9 @@ function QuestieQuestFixes:Load()
         [9063] = {
             [questKeys.zoneOrSort] = 493,
         },
+        [9154] = {
+            [questKeys.questLevel] = 60,
+        },
         [9223] = {
             [questKeys.specialFlags] = 1,
         },
