@@ -82,6 +82,7 @@ Modules\QuestieAnnounce.lua
 ##Tooltips
 Modules\Tooltips\Tooltip.lua
 Modules\Tooltips\TooltipHandler.lua
+Modules\Tooltips\ChatFilter.lua
 Modules\Tooltips\Link.lua
 
 #Auto

@@ -31,15 +31,15 @@ local _InitObjectiveTexts
 --        units: u_
 --        items: i_
 --      objects: o_
-function QuestieTooltips:RegisterTooltip(questid, key, Objective)
+function QuestieTooltips:RegisterTooltip(questId, key, Objective)
     if QuestieTooltips.tooltipLookup[key] == nil then
         QuestieTooltips.tooltipLookup[key] = {};
     end
     local tooltip = {};
-    tooltip.QuestId = questid;
+    tooltip.QuestId = questId;
     tooltip.Objective = Objective
     --tinsert(QuestieTooltips.tooltipLookup[key], tooltip);
-    QuestieTooltips.tooltipLookup[key][tostring(questid) .. " " .. Objective.Index] = tooltip
+    QuestieTooltips.tooltipLookup[key][tostring(questId) .. " " .. Objective.Index] = tooltip
 end
 
 function QuestieTooltips:GetTooltip(key)
