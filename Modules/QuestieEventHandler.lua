@@ -45,6 +45,8 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
 ---@type QuestieAnnounce
 local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
+---@type QuestieCombatQueue
+local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 
 --- LOCAL ---
 --False -> true -> nil
@@ -337,8 +339,10 @@ _QUEST_LOG_UPDATE = function()
         C_Timer.After(1, function ()
             Questie:Debug(DEBUG_DEVELOP, "---> Player entered world, DONE.")
             QuestieQuest:GetAllQuestIds()
-            QuestieTracker:ResetLinesForChange()
-            QuestieTracker:Update()
+            QuestieCombatQueue:Queue(function()
+                QuestieTracker:ResetLinesForChange()
+                QuestieTracker:Update()
+            end)
             _GROUP_JOINED()
         end)
         didPlayerEnterWorld = nil
@@ -398,7 +402,9 @@ _MODIFIER_STATE_CHANGED = function(self, key, down)
     end
     if Questie.db.global.trackerLocked then
         if QuestieTracker.private.baseFrame ~= nil then
-            QuestieTracker.private.baseFrame:Update()
+            QuestieCombatQueue:Queue(function()
+                QuestieTracker.private.baseFrame:Update()
+            end)
         end
     end
 end
@@ -418,8 +424,10 @@ _CHAT_MSG_COMBAT_FACTION_CHANGE = function()
     Questie:Debug(DEBUG_DEVELOP, "CHAT_MSG_COMBAT_FACTION_CHANGE")
     local factionChanged = QuestieReputation:Update(false)
     if factionChanged then
-        QuestieTracker:ResetLinesForChange()
-        QuestieTracker:Update()
+        QuestieCombatQueue:Queue(function()
+            QuestieTracker:ResetLinesForChange()
+            QuestieTracker:Update()
+        end)
         QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
     end
 end
@@ -471,7 +479,9 @@ _PLAYER_REGEN_DISABLED = function()
     Questie:Debug(DEBUG_DEVELOP, "[EVENT] PLAYER_REGEN_DISABLED")
     if Questie.db.global.hideTrackerInCombat then
         previousTrackerState = Questie.db.char.isTrackerExpanded
-        QuestieTracker:Collapse()
+        QuestieCombatQueue:Queue(function()
+            QuestieTracker:Collapse()
+        end)
     end
     if InCombatLockdown() then
         if QuestieConfigFrame:IsShown() then
@@ -483,7 +493,9 @@ end
 _PLAYER_REGEN_ENABLED = function()
     Questie:Debug(DEBUG_DEVELOP, "[EVENT] PLAYER_REGEN_ENABLED")
     if Questie.db.global.hideTrackerInCombat and (previousTrackerState == true) then
-        QuestieTracker:Expand()
+        QuestieCombatQueue:Queue(function()
+            QuestieTracker:Expand()
+        end)
     end
 end
 
