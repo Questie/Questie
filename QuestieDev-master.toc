@@ -7,6 +7,7 @@
 ## OptionalDeps: Ace3, LibDataBroker-1.1, LibCompress
 ## SavedVariables: QuestieConfig
 ## SavedVariablesPerCharacter: QuestieConfigCharacter
+## X-Curse-Project-ID: 334372
 
 
 Modules\VersionCheck.lua
