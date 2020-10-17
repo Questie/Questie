@@ -252,9 +252,7 @@ function QuestieTooltips:Initialize()
     -- For the clicked item frame.
     ItemRefTooltip:HookScript("OnTooltipSetItem", _QuestieTooltips.AddItemDataToTooltip)
     ItemRefTooltip:HookScript("OnHide", function(self)
-        print("BBBB")
         if (not self.IsForbidden) or (not self:IsForbidden()) then -- do we need this here also
-            print("AAA")
             QuestieTooltips.lastGametooltip = ""
             QuestieTooltips.lastItemRefTooltip = ""
             QuestieTooltips.lastGametooltipItem = nil
