@@ -313,7 +313,7 @@ function QuestieOptions.tabs.general:Initialize()
                 name = function() return QuestieLocale:GetUIString('QUEST_ANNOUNCE') end,
                 desc = function() return QuestieLocale:GetUIString('QUEST_ANNOUNCE_DESC'); end,
                 disabled = false,
-                get = function() return Questie.db.char.questAnnounce or 'disabled' end,
+                get = function() return Questie.db.char.questAnnounce or 'party' end,
                 set = function(input, key)
                     Questie.db.char.questAnnounce = key
                 end,
