@@ -16,9 +16,6 @@ local function QuestsFilter(chatFrame, event, msg, playerName, languageName, cha
                 local complete, sqid, questId, questLevel, questName, realQuestName, realQuestLevel
                 _, _, questName, sqid = string.find(k, "%[(..-) %((%d+)%)%]")
 
-                print(questName)
-                print(sqid)
-
                 if questName and sqid then
                     questId = tonumber(sqid)
 
