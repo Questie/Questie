@@ -1010,7 +1010,7 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {1642,1646,2997,2998,2999,3681},
         },
         [3090] = {
-            [questKeys.requiredRaces] = 0, -- #813
+            [questKeys.requiredRaces] = 2, -- #2399
         },
         [3128] = {
             [questKeys.preQuestSingle] = {3122},
