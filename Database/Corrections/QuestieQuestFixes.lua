@@ -1280,6 +1280,12 @@ function QuestieQuestFixes:Load()
         [4734] = {
             [questKeys.triggerEnd] = {"Test the Eggscilliscope Prototype", {[zoneIDs.SEARING_GORGE]={{40.78,95.66},},},},
         },
+        [4736] = {
+            [questKeys.requiredRaces] = 77,
+        },
+        [4737] = {
+            [questKeys.requiredRaces] = 178,
+        },
         [4763] = {
             [questKeys.requiredSourceItems] = {12347,12341,12342,12343,}, -- #798
         },
@@ -1338,6 +1344,12 @@ function QuestieQuestFixes:Load()
         },
         [4966] = {
             [questKeys.triggerEnd] = {"Protect Kanati Greycloud", {[zoneIDs.THOUSAND_NEEDLES]={{21.38,31.98},},},},
+        },
+        [4967] = {
+            [questKeys.requiredRaces] = 178,
+        },
+        [4968] = {
+            [questKeys.requiredRaces] = 77,
         },
         [4975] = {
             [questKeys.triggerEnd] = {"Wait for Menara Voidrender to complete your item", {[zoneIDs.THE_BARRENS]={{62.52,35.47},},},},
