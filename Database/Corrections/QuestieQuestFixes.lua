@@ -2557,6 +2557,18 @@ function QuestieQuestFixes:Load()
         [8798] = {
             [questKeys.requiredSkill] = {202,250},
         },
+        [8804] = {
+            [questKeys.specialFlags] = 1, -- #2401
+        },
+        [8805] = {
+            [questKeys.specialFlags] = 1, -- #2401
+        },
+        [8806] = {
+            [questKeys.specialFlags] = 1, -- #2401
+        },
+        [8807] = {
+            [questKeys.specialFlags] = 1, -- #2401
+        },
         [8829] = {
             [questKeys.specialFlags] = 1, 
         },
