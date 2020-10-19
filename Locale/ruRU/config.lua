@@ -54,7 +54,7 @@ QuestieLocale.locale['ruRU'] = {
     ['ENABLE_DUNGEON_RAID_ICONS_DESC'] = "Показать/скрыть местоположения рейдовых заданий на карте мира и миникарте",
     ['ENABLE_PVP_QUEST_ICONS'] = "Значки PVP-заданий",
     ['ENABLE_PVP_QUEST_ICONS_DESC'] = "Показать/скрыть местоположения PvP-заданий на карте мира и миникарте",
-	['ENABLE_AQ_QUEST_ICONS'] = "Значки военной кампании Ан'Киража",
+    ['ENABLE_AQ_QUEST_ICONS'] = "Значки военной кампании Ан'Киража",
     ['ENABLE_AQ_QUEST_ICONS_DESC'] = "Показать/скрыть местоположения заданий военной кампании Ан'Киража на карте мира и миникарте",
     ['ENABLE_AUTO_ACCEPT_QUESTS'] = "Автопринятие заданий",
     ['ENABLE_AUTO_ACCEPT_QUESTS_DESC'] = "Включить/отключить автоматическое принятие заданий",
@@ -64,8 +64,13 @@ QuestieLocale.locale['ruRU'] = {
     ['ENABLE_ACCEPT_TRIVIAL_DESC'] = "Включить/отключить автоматическое принятие низкоуровневых (серых) заданий",
     ['AUTO_MODIFIER'] = "Авто-модификатор",
     ['AUTO_MODIFIER_DESC'] = "Клавиша, при зажатии которой автопринятие/автозавершение задания НЕ сработает при его принятии/завершении",
-	['ENABLE_YELL'] = "Делиться прогрессом заданий",
+    ['ENABLE_YELL'] = "Делиться прогрессом заданий",
     ['ENABLE_YELL_DESC'] = "Прогресс ваших заданий будет периодически отправляться игрокам, находящимся рядом",
+    ['QUEST_ANNOUNCE'] = "Сообщить о задании",
+    ['QUEST_ANNOUNCE_DESC'] = "Сообщает о выполнении цели задания членам группы",
+    ['QUEST_ANNOUNCE_ENABLED'] = "Включено",
+    ['QUEST_ANNOUNCE_OBJECTIVE'] = "{rt1} Questie : %s для %s!",
+    ['QUEST_ANNOUNCE_QUESTITEM'] = "{rt1} Questie : Данный предмет - %s - начинает %s!",
 
     -- Minimap tab
     ['MINIMAP_TAB'] = "Миникарта",
@@ -192,7 +197,7 @@ QuestieLocale.locale['ruRU'] = {
     ['RESET_QUESTIE_BTN_DESC'] = "Сбросить настройки аддона к значениям по умолчанию",
     ['RECOMPILE_DATABASE_BTN'] = "Перекомпиляция БД",
     ['RECOMPILE_DATABASE_BTN_DESC'] = "Принудительная перекомпиляция базы данных Questie. При этом перезагрузится пользовательский интерфейс",
-	['SHOW_PROFILER_BTN'] = "Открыть профайлер",
+    ['SHOW_PROFILER_BTN'] = "Открыть профайлер",
     ['SHOW_PROFILER_BTN_DESC'] = "Открывает профайлер Questie. Полезен для отслеживания источников лагов или падения FPS",
     ['QUESTIE_DEV_MESSAGE'] = "Questie находится в стадии активной разработки для World of Warcraft: Classic. Проверяйте наличие обновлений на сайте GitHub (https://github.com/AeroScripts/QuestieDev/) или присоединяйтесь к нашему серверу в Discord (https://discord.gg/phKnHVu)",
 
@@ -203,6 +208,7 @@ QuestieLocale.locale['ruRU'] = {
     ['ICON_LEFT_CLICK_HOLD'] = "Зажать ЛКМ",
     ['ICON_DRAG_LOCKED'] = "Перетаскивать, если заблокирован",
     ['ICON_TOGGLE'] = "Открыть/закрыть настройки",
+    ['MENU_TOGGLE'] = "Открыть меню",
     ['ICON_SHIFTLEFT_CLICK'] = "Ctrl + Shift + ЛКМ",
     ['ICON_TOGGLE_QUESTIE'] = "Показать/скрыть значки",
     ['ICON_CTRLRIGHT_CLICK'] = "Ctrl + ПКМ",
@@ -223,8 +229,8 @@ QuestieLocale.locale['ruRU'] = {
     ['TOOLTIP_QUEST_REPEATABLE'] = "(Повторяемое)",
     ['TOOLTIP_QUEST_EVENT'] = "(Игровое событие)",
     ['XP'] = " ед. опыта";
-    ['COMPLETE'] = "Complete";
-    ['FAILED'] = "Failed";
+    ['COMPLETE'] = "Завершено";
+    ['FAILED'] = "Провалено";
 
     -- Slash Commands
     ['SLASH_INVALID'] = "Неверная команда. Для отображения списка команд наберите: ",
@@ -404,13 +410,13 @@ QuestieLocale.locale['ruRU'] = {
     ['JOURNEY_QUEST_ABANDON'] = "Задание отменено: %s",
     ['JOURNEY_QUEST_COMPLETE'] = "Задание выполнено: %s",
     ['JOURNEY_NOTE_BTN'] = "Новая заметка",
-    ['JOURNEY_NOTE_DESC'] = "Создает запись в журнале, чтобы запомнить определенный момент. Просто введите название и описание, и Questie запомнит это для вас!",
-    ['JOURNEY_NOTE_TITLE'] = "Новая заметка для: %s",
+    ['JOURNEY_NOTE_DESC'] = "Создает заметку в журнале путешествия, чтобы запомнить определенный момент. Просто введите название и описание, и Questie запомнит это для вас!",
+    ['JOURNEY_NOTE_TITLE'] = "Новая заметка: %s",
     ['JOURNEY_NOTE_ENTRY_TITLE'] = "Название",
-    ['JOURNEY_NOTE_ENTRY_BODY'] = "Запись в журнале",
-    ['JOURNEY_NOTE_SUBMIT_BTN'] = "Добавить запись",
-    ['JOURNEY_ERR_NOTITLE'] = "Вы не ввели название. Введите название перед добавлением заметки",
-    ['JOURNEY_ERR_NONOTE'] = "Вы не ввели заметку. Вы должны ввести заметку перед добавлением",
+    ['JOURNEY_NOTE_ENTRY_BODY'] = "Описание",
+    ['JOURNEY_NOTE_SUBMIT_BTN'] = "Добавить заметку",
+    ['JOURNEY_ERR_NOTITLE'] = "Вы не ввели название заметки. Введите название для добавления заметки",
+    ['JOURNEY_ERR_NONOTE'] = "Вы не ввели описание заметки. Введите описание для добавления заметки",
     ['JOURNEY_TABLE_YEAR'] = "Год %s",
     ['JOURNEY_TABLE_NOTE'] = "Заметка: %s",
     ['JOURNEY_TABLE_QUEST'] = "Задание %s: %s",
@@ -457,6 +463,8 @@ QuestieLocale.locale['ruRU'] = {
     ['DEBUG_UNLOAD_ALL'] = "Выгрузка всех окон, количество: %s",
     ['QUESTIE_ACCEPT_NIL'] = "|cFFFF0000Questie ERROR:|r Попытка принять нулевой задание! Вам может понадобиться запустить команду \"/questie reload\"",
     ['QUESTIE_UPDATED_RESTART'] = "|cFFFF0000WARNING!|r Вы обновили Questie без перезапуска игры, это может вызвать проблемы. Пожалуйста, перезапустите игру, прежде чем продолжить",
+    ['QUESTIE_DATABASE_ERROR'] = "Выявлена проблема при инициализации базы данных Questie. Обычно это может быть исправлено путем рекомпиляции БД",
+    ['DONT_SHOW_AGAIN'] = "Не отображать снова",
 
     -- Townsfolk related strings
     ["Repair"] = "Ремонт",
@@ -484,7 +492,7 @@ QuestieLocale.locale['ruRU'] = {
     ["Trade Goods"] = "Хозяйственные товары",
     ["Food"] = "Еда",
     ["Drink"] = "Напитки",
-	
+
     -- professions use their ID as the key for a much cleaner implementation. Translations for these are alerady in QuestieProfessions.lua
     ["129"] = "Первая помощь",
     ["164"] = "Кузнечное дело",
