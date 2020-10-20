@@ -8,6 +8,9 @@
 #Used for the "local history" plugin
 .history/
 
+## IntelliJ settings
+.idea/
+
 #This is used for the atom build package, enables the build to happen on each save.
 .atom-build.yml
 
