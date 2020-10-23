@@ -112,6 +112,7 @@ _QuestieAuto.disallowedQuests = {
     [5063] = true,
     [5068] = true,
     [8196] = true,
+    [9338] = true, -- Allegiance to Cenarion Circle
     -- The Barrens Bloodshard quests
     [889] = true,
     [5042] = true,
