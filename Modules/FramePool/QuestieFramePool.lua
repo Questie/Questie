@@ -472,7 +472,7 @@ function _QuestieFramePool:GetAvailableOrCompleteTooltip(icon)
             tip.type = QuestieLocale:GetUIString("TOOLTIP_QUEST_AVAILABLE");
         end
     end
-    tip.title = icon.data.QuestData:GetColoredQuestName(true)
+    tip.title = icon.data.QuestData:GetColoredQuestName(false, true)
     tip.subData = icon.data.QuestData.Description
     tip.questId = icon.data.Id;
 

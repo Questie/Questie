@@ -165,10 +165,10 @@ end
 ---@param id QuestId @The quest ID
 ---@param name string @The (localized) name of the quest
 ---@param level integer @The quest level
----@param showLevel integer @Wheather the quest level should be included
----@param isComplete boolean @Wheather the quest is complete
+---@param showLevel integer @ Whether the quest level should be included
+---@param showState boolean @ Whether to show (Complete/Failed)
 ---@param blizzLike boolean @True = [40+], false/nil = [40D/R]
-function QuestieLib:GetColoredQuestName(id, name, level, showLevel, isComplete, blizzLike)
+function QuestieLib:GetColoredQuestName(id, name, level, showLevel, showState, blizzLike)
     if showLevel then
         name = QuestieLib:GetQuestString(id, name, level, blizzLike)
     end
@@ -176,14 +176,18 @@ function QuestieLib:GetColoredQuestName(id, name, level, showLevel, isComplete, 
         name = name .. " (" .. id .. ")"
     end
 
-    if (not Questie.db.global.collapseCompletedQuests and (Questie.db.char.collapsedQuests and Questie.db.char.collapsedQuests[id] == nil)) then
-        return QuestieLib:PrintDifficultyColor(level, name)
+    if showState then
+        local isComplete = QuestieDB:IsComplete(id)
+
+        if isComplete == -1 then
+            name = name .. " (" .. _G['FAILED'] .. ")"
+        elseif isComplete == 1 then
+            name = name .. " (" .. _G['COMPLETE'] .. ")"
+        end
     end
 
-    if isComplete == -1 then
-        name = name .. " (" .. _G['FAILED'] .. ")"
-    elseif isComplete == 1 then
-        name = name .. " (" .. _G['COMPLETE'] .. ")"
+    if (not Questie.db.global.collapseCompletedQuests and (Questie.db.char.collapsedQuests and Questie.db.char.collapsedQuests[id] == nil)) then
+        return QuestieLib:PrintDifficultyColor(level, name)
     end
 
     return QuestieLib:PrintDifficultyColor(level, name)

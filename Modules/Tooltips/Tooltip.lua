@@ -113,7 +113,7 @@ function QuestieTooltips:GetTooltip(key)
         for k, tooltip in pairs(QuestieTooltips.lookupByKey[key]) do
             if tooltip.npc then
                 local questName, level = unpack(QuestieDB.QueryQuest(tooltip.questId, "name", "questLevel"))
-                local questString = QuestieLib:GetColoredQuestName(tooltip.questId, questName, level, Questie.db.global.enableTooltipsQuestLevel, false, true)
+                local questString = QuestieLib:GetColoredQuestName(tooltip.questId, questName, level, Questie.db.global.enableTooltipsQuestLevel, true, true)
                 table.insert(npcTooltip, questString)
             else
                 local objective = tooltip.objective
@@ -168,7 +168,7 @@ function QuestieTooltips:GetTooltip(key)
                 local quest = QuestieDB:GetQuest(questId);
                 if quest then
                     tooltipData[questId] = {}
-                    tooltipData[questId].title = QuestieLib:GetColoredQuestName(questId, questName, level, Questie.db.global.enableTooltipsQuestLevel, false, true)
+                    tooltipData[questId].title = QuestieLib:GetColoredQuestName(questId, questName, level, Questie.db.global.enableTooltipsQuestLevel, true, true)
                 end
             end
             for playerName, _ in pairs(playerList) do
@@ -193,7 +193,7 @@ function QuestieTooltips:GetTooltip(key)
                 local quest = QuestieDB:GetQuest(questId);
                 if quest then
                     tooltipData[questId] = {}
-                    tooltipData[questId].title = QuestieLib:GetColoredQuestName(questId, questName, level, Questie.db.global.enableTooltipsQuestLevel, false, true)
+                    tooltipData[questId].title = QuestieLib:GetColoredQuestName(questId, questName, level, Questie.db.global.enableTooltipsQuestLevel, true, true)
                 end
             end
             for playerName, objectives in pairs(playerList) do
