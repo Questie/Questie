@@ -217,7 +217,8 @@ function QuestieQuest:Reset()
 
     -- reset quest log and tooltips
     QuestiePlayer.currentQuestlog = {}
-    QuestieTooltips.tooltipLookup = {}
+    QuestieTooltips.lookupByKey = {}
+    QuestieTooltips.lookupKeyByQuestId = {}
 
     -- make sure complete db is correct
     Questie.db.char.complete = GetQuestsCompleted()
@@ -259,7 +260,8 @@ function QuestieQuest:SmoothReset() -- use timers to reset progressively instead
         function()
             -- reset quest log and tooltips
             QuestiePlayer.currentQuestlog = {}
-            QuestieTooltips.tooltipLookup = {}
+            QuestieTooltips.lookupByKey = {}
+            QuestieTooltips.lookupKeyByQuestId = {}
 
             -- make sure complete db is correct
             Questie.db.char.complete = GetQuestsCompleted()
@@ -389,6 +391,7 @@ function QuestieQuest:AcceptQuest(questId)
         QuestieTaskQueue:Queue(
             --Get all the Frames for the quest and unload them, the available quest icon for example.
             function() QuestieMap:UnloadQuestFrames(questId) end,
+            function() QuestieTooltips:RemoveQuest(questId) end,
             function() QuestieHash:AddNewQuestHash(questId) end,
             function() QuestieQuest:PopulateQuestLogInfo(quest) end,
             function() QuestieQuest:PopulateObjectiveNotes(quest) end,
@@ -466,6 +469,7 @@ function QuestieQuest:AbandonedQuest(questId)
         end
 
         QuestieTracker:RemoveQuest(questId)
+        QuestieTooltips:RemoveQuest(questId)
         QuestieCombatQueue:Queue(function()
             QuestieTracker:ResetLinesForChange()
             QuestieTracker:Update()
@@ -489,10 +493,12 @@ function QuestieQuest:UpdateQuest(questId)
         if isComplete == 1 then -- Quest is complete
             Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest is complete")
             QuestieMap:UnloadQuestFrames(questId)
+            QuestieTooltips:RemoveQuest(questId)
             QuestieQuest:AddFinisher(quest)
         elseif isComplete == -1 then -- Failed quests should be shown as available again
             Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest failed")
             QuestieMap:UnloadQuestFrames(questId)
+            QuestieTooltips:RemoveQuest(questId)
             _QuestieQuest:DrawAvailableQuest(quest)
         else
             --DEFAULT_CHAT_FRAME:AddMessage("Still not finished " .. QuestId);
@@ -1569,7 +1575,8 @@ function QuestieQuest:CalculateAndDrawAvailableQuestsIterative(callback)
                     else
                         --If the quests are not within level range we want to unload them
                         --(This is for when people level up or change settings etc)
-                        QuestieMap:UnloadQuestFrames(questId);
+                        QuestieMap:UnloadQuestFrames(questId)
+                        QuestieTooltips:RemoveQuest(questId)
                     end
                 end
             else
