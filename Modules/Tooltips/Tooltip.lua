@@ -14,7 +14,6 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 
 local tinsert = table.insert
-local LSM30 = LibStub("LibSharedMedia-3.0", true)
 QuestieTooltips.lastGametooltip = ""
 QuestieTooltips.lastGametooltipCount = -1;
 QuestieTooltips.lastGametooltipType = "";
@@ -40,7 +39,7 @@ function QuestieTooltips:RegisterObjectiveTooltip(questId, key, objective)
     end
     local tooltip = {};
     tooltip.questId = questId;
-    tooltip.Objective = objective
+    tooltip.objective = objective
     QuestieTooltips.tooltipLookup[key][tostring(questId) .. " " .. objective.Index] = tooltip
 end
 
@@ -83,22 +82,21 @@ function QuestieTooltips:GetTooltip(key)
     local tooltipData = {}
     local npcTooltip = {}
 
-    local playerName = UnitName("player");
-
     if QuestieTooltips.tooltipLookup[key] then
+        local playerName = UnitName("player")
         for k, tooltip in pairs(QuestieTooltips.tooltipLookup[key]) do
             if tooltip.npc then
-                local name, level = unpack(QuestieDB.QueryQuest(tooltip.questId, "name", "questLevel"))
-                local questString = QuestieLib:GetColoredQuestName(tooltip.questId, name, level, Questie.db.global.enableTooltipsQuestLevel, false, true)
+                local questName, level = unpack(QuestieDB.QueryQuest(tooltip.questId, "name", "questLevel"))
+                local questString = QuestieLib:GetColoredQuestName(tooltip.questId, questName, level, Questie.db.global.enableTooltipsQuestLevel, false, true)
                 table.insert(npcTooltip, questString)
             else
-                local objective = tooltip.Objective
+                local objective = tooltip.objective
                 if (not objective.IsSourceItem) then
                     -- Tooltip was registered for a sourceItem and not a real "objective"
-                    objective:Update() -- update progress
+                    objective:Update()
                 end
 
-                local questId = objective.QuestData.Id; --Short hand to make it more readable.
+                local questId = tooltip.questId
                 local objectiveIndex = objective.Index;
                 if(not tooltipData[questId]) then
                     tooltipData[questId] = {}
@@ -126,6 +124,8 @@ function QuestieTooltips:GetTooltip(key)
         end
     end
 
+    -- We are hovering over an NPC and don't want to show
+    -- comms information
     if (next(npcTooltip)) then
         return npcTooltip
     end
@@ -142,11 +142,13 @@ function QuestieTooltips:GetTooltip(key)
                 if quest then
                     tooltipData[questId] = {}
                     tooltipData[questId].title = quest:GetColoredQuestName();
+
+                    QuestieLib:GetColoredQuestName(id, questName, level, Questie.db.global.enableTooltipsQuestLevel, false, blizzLike)
                 end
             end
-            for name, _ in pairs(playerList) do
-                local playerInfo = QuestiePlayer:GetPartyMemberByName(name);
-                if playerInfo or QuestieComms.remotePlayerEnabled[name] then
+            for playerName, _ in pairs(playerList) do
+                local playerInfo = QuestiePlayer:GetPartyMemberByName(playerName);
+                if playerInfo or QuestieComms.remotePlayerEnabled[playerName] then
                     anotherPlayer = true
                     break
                 end
@@ -168,16 +170,16 @@ function QuestieTooltips:GetTooltip(key)
                     tooltipData[questId].title = quest:GetColoredQuestName();
                 end
             end
-            for name, objectives in pairs(playerList) do
-                local playerInfo = QuestiePlayer:GetPartyMemberByName(name);
-                if playerInfo or QuestieComms.remotePlayerEnabled[name] then
+            for playerName, objectives in pairs(playerList) do
+                local playerInfo = QuestiePlayer:GetPartyMemberByName(playerName);
+                if playerInfo or QuestieComms.remotePlayerEnabled[playerName] then
                     anotherPlayer = true;
                     for objectiveIndex, objective in pairs(objectives) do
                         if (not objective) then
                             objective = {}
                         end
 
-                        tooltipData[questId].objectivesText =  _InitObjectiveTexts(tooltipData[questId].objectivesText, objectiveIndex, name)
+                        tooltipData[questId].objectivesText =  _InitObjectiveTexts(tooltipData[questId].objectivesText, objectiveIndex, playerName)
 
                         local text;
                         local color = QuestieLib:GetRGBForObjective(objective)
@@ -188,7 +190,7 @@ function QuestieTooltips:GetTooltip(key)
                             text = "   " .. color .. objective.text;
                         end
 
-                        tooltipData[questId].objectivesText[objectiveIndex][name] = { ["color"] = color, ["text"] = text};
+                        tooltipData[questId].objectivesText[objectiveIndex][playerName] = { ["color"] = color, ["text"] = text};
                     end
                 end
             end
@@ -196,6 +198,7 @@ function QuestieTooltips:GetTooltip(key)
     end
 
     local tip
+    local playerName = UnitName("player")
 
     for questId, questData in pairs(tooltipData) do
         --Initialize it here to return nil if tooltipData is empty.
@@ -204,29 +207,29 @@ function QuestieTooltips:GetTooltip(key)
         end
         local hasObjective = false
         local tempObjectives = {}
-        for _, playerList in pairs(questData.objectivesText or {}) do -- Should we do or {} here?
-            for name, objectiveInfo in pairs(playerList) do
-                local playerInfo = QuestiePlayer:GetPartyMemberByName(name)
+        for _, playerList in pairs(questData.objectivesText or {}) do
+            for objectivePlayerName, objectiveInfo in pairs(playerList) do
+                local playerInfo = QuestiePlayer:GetPartyMemberByName(objectivePlayerName)
                 local playerColor
                 local playerType = ""
                 if playerInfo then
                     playerColor = "|c" .. playerInfo.colorHex
-                elseif QuestieComms.remotePlayerEnabled[name] and QuestieComms.remoteQuestLogs[questId] and QuestieComms.remoteQuestLogs[questId][name] and (not Questie.db.global.onlyPartyShared or UnitInParty(name)) then
-                    playerColor = QuestieComms.remotePlayerClasses[name]
+                elseif QuestieComms.remotePlayerEnabled[objectivePlayerName] and QuestieComms.remoteQuestLogs[questId] and QuestieComms.remoteQuestLogs[questId][objectivePlayerName] and (not Questie.db.global.onlyPartyShared or UnitInParty(objectivePlayerName)) then
+                    playerColor = QuestieComms.remotePlayerClasses[playerName]
                     if playerColor then
                         playerColor = Questie:GetClassColor(playerColor)
                         playerType = " ("..QuestieLocale:GetUIString("Nearby")..")"
                     end
                 end
-                if name == name and anotherPlayer then -- why did we have this case
+                if objectivePlayerName == playerName and anotherPlayer then -- why did we have this case
                     local _, classFilename = UnitClass("player");
                     local _, _, _, argbHex = GetClassColor(classFilename)
-                    objectiveInfo.text = objectiveInfo.text.." (|c"..argbHex.. name .."|r"..objectiveInfo.color..")|r"
-                elseif playerColor and name ~= name then
-                    objectiveInfo.text = objectiveInfo.text.." ("..playerColor.. name .."|r"..objectiveInfo.color..")|r"..playerType
+                    objectiveInfo.text = objectiveInfo.text.." (|c"..argbHex.. objectivePlayerName .."|r"..objectiveInfo.color..")|r"
+                elseif playerColor and objectivePlayerName ~= playerName then
+                    objectiveInfo.text = objectiveInfo.text.." ("..playerColor.. objectivePlayerName .."|r"..objectiveInfo.color..")|r"..playerType
                 end
                 -- We want the player to be on top.
-                if name == name then
+                if objectivePlayerName == playerName then
                     tinsert(tempObjectives, 1, objectiveInfo.text);
                     hasObjective = true
                 elseif playerColor then
