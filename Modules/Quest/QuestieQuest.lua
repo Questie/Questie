@@ -606,6 +606,8 @@ function QuestieQuest:AddFinisher(quest)
             Questie:Debug(DEBUG_CRITICAL, "[QuestieQuest]: ".. QuestieLocale:GetUIString("DEBUG_NO_FINISH", questId, quest.name))
         end
         if(finisher ~= nil and finisher.spawns ~= nil) then
+            QuestieTooltips:RegisterQuestStartTooltip(questId, finisher)
+
             local finisherIcons = {}
             local finisherLocs = {}
             for finisherZone, spawns in pairs(finisher.spawns) do
