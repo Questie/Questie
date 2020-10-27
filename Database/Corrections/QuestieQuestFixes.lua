@@ -1453,6 +1453,9 @@ function QuestieQuestFixes:Load()
         [5634] = {
             [questKeys.startedBy] = {{11401,},nil,nil,},
         },
+        [5647] = { 
+            [questKeys.startedBy] = {{11401},nil,nil}, -- #2424
+        },
         [5713] = {
             [questKeys.triggerEnd] = {"Protect Aynasha", {[zoneIDs.DARKSHORE]={{45.87,90.42},},},},
         },
