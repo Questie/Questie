@@ -2018,6 +2018,15 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{14733},nil,nil},
             [questKeys.finishedBy] = {{14733},nil,},
         },
+        [7937] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [7938] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [7945] = {
+            [questKeys.specialFlags] = 1,
+        },
         [7946] = {
             [questKeys.questLevel] = 60,
             [questKeys.specialFlags] = 1,
