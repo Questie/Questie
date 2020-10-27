@@ -2139,6 +2139,38 @@ function QuestieQuestFixes:Load()
         [8332] = {
             [questKeys.preQuestSingle] = {},
         },
+        [8353] = {
+            [questKeys.triggerEnd] = {"Cluck like a chicken for Innkeeper Firebrew",{[zoneIDs.IRONFORGE]={{18.15,51.45},},},},
+            [questKeys.specialFlags] = 1,
+        },
+        [8354] = {
+            [questKeys.triggerEnd] = {"Cluck like a chicken for Innkeeper Norman",{[zoneIDs.UNDERCITY]={{67.74,37.89},},},},
+            [questKeys.specialFlags] = 1,
+        },
+        [8355] = {
+            [questKeys.triggerEnd] = {"Do the \"train\" for Talvash",{[zoneIDs.IRONFORGE]={{36.38,3.61},},},},
+            [questKeys.specialFlags] = 1,
+        },
+        [8356] = {
+            [questKeys.triggerEnd] = {"Flex for Innkeeper Allison",{[zoneIDs.STORMWIND_CITY]={{52.62,65.8},},},},
+            [questKeys.specialFlags] = 1,
+        },
+        [8357] = {
+            [questKeys.triggerEnd] = {"Dance for Innkeeper Saelienne",{[zoneIDs.DARNASSUS]={{67.42,15.65},},},},
+            [questKeys.specialFlags] = 1,
+        },
+        [8358] = {
+            [questKeys.triggerEnd] = {"Do the \"train\" for Kali Remik",{[zoneIDs.DUROTAR]={{56.13,74.24},},},},
+            [questKeys.specialFlags] = 1,
+        },
+        [8359] = {
+            [questKeys.triggerEnd] = {"Flex for Innkeeper Gryshka",{[zoneIDs.ORGRIMMAR]={{54.1,68.41},},},},
+            [questKeys.specialFlags] = 1,
+        },
+        [8360] = {
+            [questKeys.triggerEnd] = {"Dance for Innkeeper Pala",{[zoneIDs.THUNDER_BLUFF]={{45.81,64.71},},},},
+            [questKeys.specialFlags] = 1,
+        },
         [8368] = {
             [questKeys.exclusiveTo] = {8426,8427,8428,8429,8430},
         },
