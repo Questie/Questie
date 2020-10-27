@@ -106,7 +106,7 @@ end
 ---@param questId QuestId @The quest ID
 function QuestieLib:IsResponseCorrect(questId)
     local count = 0
-    local objectiveList = nil
+    local objectiveList
     local good = true
     while (true and count < 50) do
         good = true
@@ -114,7 +114,7 @@ function QuestieLib:IsResponseCorrect(questId)
         if not objectiveList then
             good = false
         else
-            for objectiveIndex, objective in pairs(objectiveList) do
+            for _, objective in pairs(objectiveList) do
                 if (objective.text == nil or objective.text == "" or
                     QuestieLib:Levenshtein(": 0/1", objective.text) < 5) then
                     Questie:Debug(DEBUG_SPAM, count,
@@ -136,14 +136,14 @@ end
 ---@return table
 function QuestieLib:GetQuestObjectives(questId)
     local count = 0
-    local objectiveList = nil
+    local objectiveList
     while (true and count < 50) do
         local good = true
         objectiveList = C_QuestLog.GetQuestObjectives(questId)
         if not objectiveList then
             good = false
         else
-            for objectiveIndex, objective in pairs(objectiveList) do
+            for _, objective in pairs(objectiveList) do
                 if (objective.text == nil or objective.text == "" or
                     QuestieLib:Levenshtein(": 0/1", objective.text) < 5) then
                     Questie:Debug(DEBUG_SPAM, count,
@@ -164,8 +164,8 @@ end
 
 ---@param id QuestId @The quest ID
 ---@param name string @The (localized) name of the quest
----@param level integer @The quest level
----@param showLevel integer @ Whether the quest level should be included
+---@param level number @The quest level
+---@param showLevel number @ Whether the quest level should be included
 ---@param showState boolean @ Whether to show (Complete/Failed)
 ---@param blizzLike boolean @True = [40+], false/nil = [40D/R]
 function QuestieLib:GetColoredQuestName(id, name, level, showLevel, showState, blizzLike)
@@ -195,7 +195,7 @@ end
 
 ---@param id QuestId @The quest ID
 ---@param name string @The (localized) name of the quest
----@param level integer @The quest level
+---@param level number @The quest level
 ---@param blizzLike boolean @True = [40+], false/nil = [40D/R]
 function QuestieLib:GetQuestString(id, name, level, blizzLike)
     local questType, questTag = QuestieDB:GetQuestTagInfo(id)
@@ -236,7 +236,7 @@ end
 
 ---@param id QuestId @The quest ID
 ---@param name string @The (localized) name of the quest
----@param level integer @The quest level
+---@param level number @The quest level
 ---@param blizzLike boolean @True = [40+], false/nil = [40D/R]
 function QuestieLib:GetLevelString(id, name, level, blizzLike)
     local questType, questTag = QuestieDB:GetQuestTagInfo(id)
@@ -340,6 +340,16 @@ end
 
 function QuestieLib:Remap(value, low1, high1, low2, high2)
     return low2 + (value - low1) * (high2 - low2) / (high1 - low1)
+end
+
+function QuestieLib:GetTableSize(table)
+    local count = 0
+    if table then
+        for _,_ in pairs(table) do
+            count = count +1
+        end
+    end
+    return count
 end
 
 local cachedTitle = nil
