@@ -2607,8 +2607,8 @@ function QuestieNPCFixes:Load()
         },
         [16059] = {
             [npcKeys.name] = "Theldren",
-            [npcKeys.zoneID] = zoneIDs.SEARING_GORGE,
-            [npcKeys.spawns] = {[zoneIDs.SEARING_GORGE] = {{27.22,72.5},},},
+            [npcKeys.zoneID] = zoneIDs.BLACKROCK_DEPTHS,
+            [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1},},},
         },
         [16073] = {
             [npcKeys.name] = "Spirit of Lord Valthalak",
