@@ -2152,35 +2152,35 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
         },
         [8353] = {
-            [questKeys.triggerEnd] = {"Cluck like a chicken for Innkeeper Firebrew",{[zoneIDs.IRONFORGE]={{18.15,51.45},},},},
+            [questKeys.objectives] = {{{5111, "Cluck like a chicken for Innkeeper Norman"}}},
             [questKeys.specialFlags] = 1,
         },
         [8354] = {
-            [questKeys.triggerEnd] = {"Cluck like a chicken for Innkeeper Norman",{[zoneIDs.UNDERCITY]={{67.74,37.89},},},},
+            [questKeys.objectives] = {{{6741, "Cluck like a chicken for Innkeeper Norman"}}},
             [questKeys.specialFlags] = 1,
         },
         [8355] = {
-            [questKeys.triggerEnd] = {"Do the \"train\" for Talvash",{[zoneIDs.IRONFORGE]={{36.38,3.61},},},},
+            [questKeys.objectives] = {{{6826, "Do the \"train\" for Talvash"}}},
             [questKeys.specialFlags] = 1,
         },
         [8356] = {
-            [questKeys.triggerEnd] = {"Flex for Innkeeper Allison",{[zoneIDs.STORMWIND_CITY]={{52.62,65.8},},},},
+            [questKeys.objectives] = {{{6740, "Dance for Innkeeper Saelienne"}}},
             [questKeys.specialFlags] = 1,
         },
         [8357] = {
-            [questKeys.triggerEnd] = {"Dance for Innkeeper Saelienne",{[zoneIDs.DARNASSUS]={{67.42,15.65},},},},
+            [questKeys.objectives] = {{{6735, "Dance for Innkeeper Saelienne"}}},
             [questKeys.specialFlags] = 1,
         },
         [8358] = {
-            [questKeys.triggerEnd] = {"Do the \"train\" for Kali Remik",{[zoneIDs.DUROTAR]={{56.13,74.24},},},},
+            [questKeys.objectives] = {{{11814, "Do the \"train\" for Kali Remik"}}},
             [questKeys.specialFlags] = 1,
         },
         [8359] = {
-            [questKeys.triggerEnd] = {"Flex for Innkeeper Gryshka",{[zoneIDs.ORGRIMMAR]={{54.1,68.41},},},},
+            [questKeys.objectives] = {{{6929, "Flex for Innkeeper Gryshka"}}},
             [questKeys.specialFlags] = 1,
         },
         [8360] = {
-            [questKeys.triggerEnd] = {"Dance for Innkeeper Pala",{[zoneIDs.THUNDER_BLUFF]={{45.81,64.71},},},},
+            [questKeys.objectives] = {{{6746, "Dance for Innkeeper Pala"}}},
             [questKeys.specialFlags] = 1,
         },
         [8368] = {
