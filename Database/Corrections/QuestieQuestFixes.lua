@@ -2152,7 +2152,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
         },
         [8353] = {
-            [questKeys.objectives] = {{{5111, "Cluck like a chicken for Innkeeper Norman"}}},
+            [questKeys.objectives] = {{{5111, "Cluck like a chicken for Innkeeper Firebrew"}}},
             [questKeys.specialFlags] = 1,
         },
         [8354] = {
@@ -2164,7 +2164,7 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = 1,
         },
         [8356] = {
-            [questKeys.objectives] = {{{6740, "Dance for Innkeeper Saelienne"}}},
+            [questKeys.objectives] = {{{6740, "Dance for Innkeeper Allison"}}},
             [questKeys.specialFlags] = 1,
         },
         [8357] = {
