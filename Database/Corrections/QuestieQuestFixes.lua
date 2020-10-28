@@ -2742,6 +2742,9 @@ function QuestieQuestFixes:Load()
         [8980] = { -- bad race data
             [questKeys.requiredRaces] = 178,
         },
+        [9015] = {
+            [questKeys.objectives] = {{16059},nil,{{22047,nil},},nil,}, -- #2408
+        },
         [9026] = { -- bad race data
             [questKeys.requiredRaces] = 77,
         },
