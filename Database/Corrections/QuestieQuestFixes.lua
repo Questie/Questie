@@ -2164,7 +2164,7 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = 1,
         },
         [8356] = {
-            [questKeys.objectives] = {{{6740, "Dance for Innkeeper Allison"}}},
+            [questKeys.objectives] = {{{6740, "Flex for Innkeeper Allison"}}},
             [questKeys.specialFlags] = 1,
         },
         [8357] = {
