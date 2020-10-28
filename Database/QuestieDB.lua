@@ -708,16 +708,17 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     end
 
     QO.level = rawdata[5]
-    QO.Triggers = rawdata[9] --List of coordinates
+    QO.Triggers = rawdata[9]
     QO.ObjectiveData = {} -- to differentiate from the current quest log info
     --    type
     --String - could be the following things: "item", "object", "monster", "reputation", "log", or "event". (from wow api)
 
-    if QO.Triggers ~= nil then
-        for _, v in pairs(QO.Triggers) do
+    if QO.Triggers and QO.Triggers[2] then
+        for _, v in pairs(QO.Triggers[2]) do
             local obj = {
                 Type = "event",
-                Coordinates = v
+                Text = QO.Triggers[1],
+                Coordinates = {v}
             }
             tinsert(QO.ObjectiveData, obj);
         end

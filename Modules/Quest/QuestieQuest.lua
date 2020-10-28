@@ -51,7 +51,7 @@ QuestieQuest.availableQuests = {} --Gets populated at PLAYER_ENTERED_WORLD
 
 -- forward declaration
 local _UnhideQuestIcons, _HideQuestIcons, _UnhideManualIcons, _HideManualIcons
-local _GetObjectiveIdForSpecialQuest
+local _GetObjectiveIdForSpecialQuest, _ObjectiveUpdate
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 
@@ -564,13 +564,6 @@ function QuestieQuest:ShouldQuestShowObjectives(QuestId)
     return true -- todo: implement tracker logic here, to hide non-tracked quest optionally (1.12 questie does this optionally)
 end
 
-
-local function Counthack(tab) -- according to stack overflow, # and table.getn arent reliable (I've experienced this? not sure whats up)
-    local count = 0
-    for k, v in pairs(tab) do count = count + 1; end
-    return count
-end
-
 -- iterate all notes, update / remove as needed
 function QuestieQuest:UpdateObjectiveNotes(quest)
     Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: UpdateObjectiveNotes:", quest.Id)
@@ -1055,6 +1048,7 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
     end
 
 end
+
 function QuestieQuest:PopulateQuestLogInfo(quest)
     --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: PopulateMeta1:", Quest.Id, Quest.Name)
     if quest.Objectives == nil then
@@ -1074,170 +1068,91 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
     QuestieQuest:GetAllQuestObjectives(quest)
 end
 
+-- /dump QuestieLoader:ImportModule("QuestieDB").QueryQuestSingle(4742, "objectives")
+-- /dump QuestieLoader:ImportModule("QuestieDB").QueryQuestSingle(8069, "objectives")
+-- /dump QuestieLoader:ImportModule("QuestieDB").QueryQuestSingle(6566, "objectives")
+-- /dump C_QuestLog.GetQuestObjectives(8069)
+-- /dump C_QuestLog.GetQuestObjectives(9015)
+
+
 --Use the category order to draw the quests and trust the database order.
---/dump QuestieQuest:GetAllQuestObjectives(24475)
 function QuestieQuest:GetAllQuestObjectives(quest)
     -- Old Select Code, maybe remove?
     local logId = GetQuestLogIndexByID(quest.Id)
     local old = GetQuestLogSelection()
     SelectQuestLogEntry(logId)
 
-    if quest.Objectives == nil then
-        quest.Objectives = {}; -- TODO: remove after api bug is fixed!!!
-        Questie:Debug(DEBUG_CRITICAL, "[QuestieQuest]: ".. QuestieLocale:GetUIString("DEBUG_OBJ_TABLE"));
-    end
-
-    local questObjectives = QuestieQuest:GetAllLeaderBoardDetails(quest.Id);
-    if not questObjectives then
-        questObjectives = {}
-    end
-    local logCount = Counthack(questObjectives);
-    local dbCount = Counthack(quest.ObjectiveData);
+    local questObjectives = QuestieQuest:GetAllLeaderBoardDetails(quest.Id) or {}
 
     for objectiveIndex, objective in pairs(questObjectives) do
-        if(objective.type) then
-            if quest.Objectives[objectiveIndex] == nil then
-                quest.Objectives[objectiveIndex] = {}
-            end
-            quest.Objectives[objectiveIndex].Index = objectiveIndex
-            quest.Objectives[objectiveIndex].QuestId = quest.Id
-            quest.Objectives[objectiveIndex].QuestLogId = logId
-            quest.Objectives[objectiveIndex].QuestData = quest
-            quest.Objectives[objectiveIndex]._lastUpdate = 0;
-            quest.Objectives[objectiveIndex].Description = objective.text;
-
-            quest.Objectives[objectiveIndex].Update = function(self)
-                -- Old select code, do we need it?
-                local old = GetQuestLogSelection()
-                SelectQuestLogEntry(self.QuestLogId)
-                --
-
-                local now = GetTime();
-                if now - self._lastUpdate < 0.5 then
-                    if old then SelectQuestLogEntry(old); end
-                    return {self.Collected, self.Needed, self.Completed} -- updated too recently
+        if objective.type and objective.type ~= "reputation" then
+            if (not quest.ObjectiveData) or (not quest.ObjectiveData[objectiveIndex]) then
+                Questie:Error("Missing objective data for quest " .. quest.Id .. " and objective " .. objective.text)
+            else
+                if quest.Objectives[objectiveIndex] == nil then
+                    quest.Objectives[objectiveIndex] = {}
                 end
-                self._lastUpdate = now
 
-                -- Use different variable names from above to avoid confusion.
-                local qObjectives = QuestieQuest:GetAllLeaderBoardDetails(self.QuestId);
+                -- Sometimes we need to retry to get the correct text from the API
+                if (not objective.text) or objective.text == " : 0/1" then
+                    print("AAAAAAAAAAAAAA")
+                    local retry = C_QuestLog.GetQuestObjectives(quest.Id)
+                    print(retry[objectiveIndex].text)
+                    objective.text = retry[objectiveIndex].text
+                end
 
-                if qObjectives and qObjectives[self.Index] then
-                    local obj = qObjectives[self.Index];
-                    if(obj.type) then
-                        -- fixes for api bug
-                        if not obj.numFulfilled then obj.numFulfilled = 0; end
-                        if not obj.numRequired then obj.numRequired = 0; end
-                        if not obj.finished then obj.finished = false; end -- ensure its boolean false and not nil (hack)
+                quest.Objectives[objectiveIndex] = {
+                    Index = objectiveIndex,
+                    QuestId = quest.Id,
+                    QuestLogId = logId,
+                    QuestData = quest,
+                    _lastUpdate = 0,
+                    Description = objective.text
+                }
+                if objective.type == "event" then
+                    quest.Objectives[objectiveIndex].Coordinates = quest.ObjectiveData[objectiveIndex].Coordinates
+                    --quest.ObjectiveData[objectiveIndex].ObjectiveRef = quest.Objectives[objectiveIndex]
+                end
 
-                        self.Type = obj.type;
-                        self.Description = obj.text;
-                        self.Collected = tonumber(obj.numFulfilled);
-                        self.Needed = tonumber(obj.numRequired);
-                        self.Completed = (self.Needed == self.Collected and self.Needed > 0) or (obj.finished and (self.Needed == 0 or (not self.Needed))) -- some objectives get removed on PLAYER_LOGIN because isComplete is set to true at random????
+                quest.Objectives[objectiveIndex].Update = function(self)
+                    -- Old select code, do we need it?
+                    local old = GetQuestLogSelection()
+                    SelectQuestLogEntry(self.QuestLogId)
+                    --
+
+                    local now = GetTime();
+                    if now - self._lastUpdate < 0.5 then
+                        if old then SelectQuestLogEntry(old); end
+                        return {self.Collected, self.Needed, self.Completed} -- updated too recently
                     end
-                end
-                -- Old select code, do we need it?
-                if old then SelectQuestLogEntry(old); end
-                --
-                return {self.Collected, self.Needed, self.Completed}
-            end
-            quest.Objectives[objectiveIndex]:Update();
+                    self._lastUpdate = now
 
-            -- If both the log and the db only have one objective, we can safely assume they are the same.
-            if logCount == 1 and dbCount == 1 then
-                quest.Objectives[objectiveIndex].Id = quest.ObjectiveData[1].Id
-            elseif quest.ObjectiveData ~= nil then
+                    -- Use different variable names from above to avoid confusion.
+                    local qObjectives = QuestieQuest:GetAllLeaderBoardDetails(self.QuestId);
 
-                local bestIndex = -1;
-                local bestDistance = 99999;
+                    if qObjectives and qObjectives[self.Index] then
+                        local obj = qObjectives[self.Index];
+                        if(obj.type) then
+                            -- fixes for api bug
+                            if not obj.numFulfilled then obj.numFulfilled = 0; end
+                            if not obj.numRequired then obj.numRequired = 0; end
+                            if not obj.finished then obj.finished = false; end -- ensure its boolean false and not nil (hack)
 
-                --Debug var
-                local tempName = "";
-
-                local specialObjectiveId = _GetObjectiveIdForSpecialQuest(quest.Id, objectiveIndex)
-                if specialObjectiveId > 0 then
-                    local objectiveData = quest.ObjectiveData
-                    quest.Objectives[objectiveIndex].Id = specialObjectiveId
-                    quest.Objectives[objectiveIndex].Coordinates = objectiveData[objectiveIndex].Coordinates
-                    Questie:Debug(DEBUG_SPAM, "----> Objective", objective.text)
-                    Questie:Debug(DEBUG_SPAM, "-->ID:", quest.Objectives[objectiveIndex].Id)
-                else
-                    -- try to find npc/item/object/event ID
-                    for objectiveIndexDB, objectiveDB in pairs(quest.ObjectiveData) do
-                        if objective.type == objectiveDB.Type then
-                            -- Fetch the name of the objective
-                            local oName = nil;
-                            if(objectiveDB.Type == "monster" and objectiveDB.Id) then
-                                oName = slower(QuestieDB:GetNPC(objectiveDB.Id).name);
-                            elseif(objectiveDB.Type == "object" and objectiveDB.Id) then
-                                oName = slower(QuestieDB:GetObject(objectiveDB.Id).name);
-                            elseif(objectiveDB.Type == "item" and objectiveDB.Id) then
-                                --testVar = CHANGEME_Questie4_ItemDB[objectiveDB.Id]
-                                --DEFAULT_CHAT_FRAME:AddMessage(CHANGEME_Questie4_ItemDB[objectiveDB.Id][1][])
-                                local item = QuestieDB.QueryItemSingle(objectiveDB.Id, "name");
-                                if(item) then
-                                    oName = slower(item);-- this is capital letters for some reason...
-                                else
-                                    local itemName = GetItemInfo(objectiveDB.Id)
-                                    if(itemName) then
-                                        oName = itemName;
-                                    else
-                                        oName = nil;
-                                        --[[
-                                        This is a good idea, but would require us to break out the objective identification code to a function
-                                        that runs a specific quest. I instead try to pre-cache the items in CacheAllItemNames
-                                        local item = Item:CreateFromItemID(objective.id)
-                                        item:ContinueOnItemLoad(function()
-                                            local itemName = GetItemInfo(objectiveDB.Id)
-                                            oName = itemName;
-                                        end)]]--
-                                    end
-                                end
-                            end
-                            -- To lower the questlog objective text
-                            local oDesc = slower(objective.text) or nil;
-                            -- This is used for quests where the objective text and object/NPC/whatever does not correspond with eachother
-                            -- examples https://classic.wowhead.com/quest=3463/set-them-ablaze - https://classic.wowhead.com/quest=2988/witherbark-cages
-                            local oText = slower(objectiveDB.Text or "");
-
-                            if((oName or (oText and oText ~= "")) and oDesc) then
-                                local nameDistance = QuestieLib:Levenshtein(oDesc, oName or "");
-                                local textDistance = QuestieLib:Levenshtein(oDesc, oText);
-                                if(math.min(nameDistance, textDistance) < bestDistance) then
-                                    bestDistance = math.min(nameDistance, textDistance);
-                                    bestIndex = objectiveIndexDB;
-                                    tempName = oName; --For debugging
-                                end
-                            elseif((oName == nil or oDesc == nil) and objectiveDB.Type ~= "item" and objectiveDB.Type ~= "monster") then
-                                bestIndex = objectiveIndexDB;
-                                tempName = oName; --For debugging
-                                --We set the distance to 0 because otherwise other objectives might be closer...
-                                bestDistance = 0;
-                            end
-
-                            -- Old
-                            if(quest.Objectives[objectiveIndex].Id == nil and GetLocale() ~= "enUS" and GetLocale() ~= "enGB") then
-                                quest.Objectives[objectiveIndex].Id = objectiveDB.Id;
-                            end
-                            -- ~OldQ
+                            self.Type = obj.type;
+                            self.Description = obj.text;
+                            self.Collected = tonumber(obj.numFulfilled);
+                            self.Needed = tonumber(obj.numRequired);
+                            self.Completed = (self.Needed == self.Collected and self.Needed > 0) or (obj.finished and (self.Needed == 0 or (not self.Needed))) -- some objectives get removed on PLAYER_LOGIN because isComplete is set to true at random????
                         end
                     end
+                    -- Old select code, do we need it?
+                    if old then SelectQuestLogEntry(old); end
+                    --
+                    return {self.Collected, self.Needed, self.Completed}
                 end
+                quest.Objectives[objectiveIndex]:Update()
 
-                local objectiveDB = quest.ObjectiveData[bestIndex]
-                --Debug var
-                local oDesc = slower(objective.text) or nil
-                --
-                if(bestIndex ~= -1 and objectiveDB) then
-                    Questie:Debug(DEBUG_SPAM, "----> Objective", objective.text, "Dist:", bestDistance)
-                    Questie:Debug(DEBUG_SPAM, "-->ID:", objectiveDB.Id)
-                    Questie:Debug(DEBUG_SPAM, "-->Description:", oDesc)
-                    Questie:Debug(DEBUG_SPAM, "-->Found:", tempName)
-                    quest.Objectives[objectiveIndex].Id = objectiveDB.Id;
-                    quest.Objectives[objectiveIndex].Coordinates = objectiveDB.Coordinates;
-                    objectiveDB.ObjectiveRef = quest.Objectives[objectiveIndex];
-                end
+                quest.Objectives[objectiveIndex].Id = quest.ObjectiveData[objectiveIndex].Id
             end
         end
 
@@ -1275,6 +1190,43 @@ function QuestieQuest:GetAllQuestObjectives(quest)
     end
 
     return quest.Objectives
+end
+
+_ObjectiveUpdate = function(self)
+    -- Old select code, do we need it?
+    local old = GetQuestLogSelection()
+    SelectQuestLogEntry(self.QuestLogId)
+    --
+
+    local now = GetTime();
+    if now - self._lastUpdate < 0.5 then
+        if old then SelectQuestLogEntry(old); end
+        return {self.Collected, self.Needed, self.Completed} -- updated too recently
+    end
+    self._lastUpdate = now
+
+    -- Use different variable names from above to avoid confusion.
+    local qObjectives = QuestieQuest:GetAllLeaderBoardDetails(self.QuestId);
+
+    if qObjectives and qObjectives[self.Index] then
+        local obj = qObjectives[self.Index];
+        if(obj.type) then
+            -- fixes for api bug
+            if not obj.numFulfilled then obj.numFulfilled = 0; end
+            if not obj.numRequired then obj.numRequired = 0; end
+            if not obj.finished then obj.finished = false; end -- ensure its boolean false and not nil (hack)
+
+            self.Type = obj.type;
+            self.Description = obj.text;
+            self.Collected = tonumber(obj.numFulfilled);
+            self.Needed = tonumber(obj.numRequired);
+            self.Completed = (self.Needed == self.Collected and self.Needed > 0) or (obj.finished and (self.Needed == 0 or (not self.Needed))) -- some objectives get removed on PLAYER_LOGIN because isComplete is set to true at random????
+        end
+    end
+    -- Old select code, do we need it?
+    if old then SelectQuestLogEntry(old); end
+    --
+    return {self.Collected, self.Needed, self.Completed}
 end
 
 --- Quests like "The Nightmare's Corruption" have multiple objectives with the same

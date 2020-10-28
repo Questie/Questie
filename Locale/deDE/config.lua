@@ -452,7 +452,6 @@ QuestieLocale.locale['deDE'] = {
     ['DEBUG_NO_FINISH'] = "Quest hat keinen Endpunkt: %s %s",
     ['DEBUG_POPULATE_ERR'] = "Es gab einen Fehler beim Weitergeben der Ziele für %s %s %s %s",
     ['DEBUG_POPTABLE'] = "Erstelle neue Zieltabelle",
-    ['DEBUG_OBJ_TABLE'] = "Fehler: Zieltabelle existiert nicht beim Holen der Ziele. Das sollte niemals passieren!",
     ['DEBUG_ENTRY_ID'] = "Fehler beim Finden der Eintrag-ID für das Ziel %s %s",
     ['DEBUG_DRAW'] = "%s verfügbare Quests gezeichnet. SpielerLevel = %s",
     ['DEBUG_UNLOAD_QFRAMES'] = "Entferne Questfenster: %s",
