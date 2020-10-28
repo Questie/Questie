@@ -145,9 +145,14 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                 tinsert(zoneTree[3].children, temp)
                 completedCounter = completedCounter + 1
             else
+                local queryResult = QuestieDB.QueryQuest(qId, "exclusiveTo", "parentQuest", "preQuestSingle", "preQuestGroup") or {}
+                local exclusiveTo = queryResult[1]
+                local parentQuest = queryResult[2]
+                local preQuestSingle = queryResult[3]
+                local preQuestGroup = queryResult[4]
+
                 -- Exclusive quests will never be available since another quests permantly blocks them.
                 -- Marking them as complete should be the most satisfying solution for user
-                local exclusiveTo, parentQuest, preQuestSingle, preQuestGroup = unpack(QuestieDB.QueryQuest(qId, "exclusiveTo", "parentQuest", "preQuestSingle", "preQuestGroup"))
                 if exclusiveTo and QuestieDB:IsExclusiveQuestInQuestLogOrComplete(exclusiveTo) then
                     tinsert(zoneTree[3].children, temp)
                     completedCounter = completedCounter + 1
