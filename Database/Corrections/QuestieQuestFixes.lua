@@ -2253,7 +2253,7 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = 1,
         },
         [8498] = {
-            [questKeys.specialFlags] = 1, 
+            [questKeys.specialFlags] = 1,
         },
         [8499] = {
             [questKeys.requiredLevel] = 1,
@@ -2376,7 +2376,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredRaces] = 178,
         },
         [8536] = {
-            [questKeys.specialFlags] = 1, 
+            [questKeys.specialFlags] = 1,
         },
         [8542] = {
             [questKeys.requiredLevel] = 1,
@@ -2421,7 +2421,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {8800},
         },
         [8575] = {
-            [questKeys.startedBy] = {{15481,},nil,nil,}, 
+            [questKeys.startedBy] = {{15481,},nil,nil,},
             [questKeys.preQuestSingle] = {8555}, -- #2365
         },
         [8580] = {
@@ -2611,7 +2611,7 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = 1, -- #2401
         },
         [8829] = {
-            [questKeys.specialFlags] = 1, 
+            [questKeys.specialFlags] = 1,
         },
         [8846] = {
             [questKeys.specialFlags] = 1,
@@ -2758,10 +2758,10 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = 1,
         },
         [9229] = {
-            [questKeys.preQuestSingle] = {9033,}, 
+            [questKeys.preQuestSingle] = {9033,},
         },
         [9232] = {
-            [questKeys.preQuestSingle] = {9033,}, 
+            [questKeys.preQuestSingle] = {9033,},
         },
         [9261] = { -- bad race data
             [questKeys.requiredRaces] = 77,
@@ -2917,13 +2917,13 @@ function QuestieQuestFixes:LoadFactionFixes()
             [questKeys.startedBy] = {{4217,5505,12042,},nil,nil,},
         },
         [9324] = {
-            [questKeys.startedBy] = {nil,{181336},{23179,},}, 
+            [questKeys.startedBy] = {nil,{181336},{23179,},},
         },
         [9325] = {
-            [questKeys.startedBy] = {nil,{181337},{23180,},}, 
+            [questKeys.startedBy] = {nil,{181337},{23180,},},
         },
         [9326] = {
-            [questKeys.startedBy] = {nil,{181335},{23181,},}, 
+            [questKeys.startedBy] = {nil,{181335},{23181,},},
         },
         [9388] = {
             [questKeys.startedBy] = {{16817,},nil,nil,},
