@@ -177,6 +177,8 @@ QuestieLocale.locale['ruRU'] = {
     ['ENABLE_TOOLTIPS_QUEST_LEVEL_DESC'] = "Показать/скрыть уровень заданий во всплывающих подсказках",
     ['SHARED_TOOLTIP_PARTY_ONLY'] = "Только от игроков группы",
     ['SHARED_TOOLTIP_PARTY_ONLY_DESC'] = "Когда включено, информация о таком же, как у вас, задании будет отображаться только от членов группы",
+    ['SHOW_QUESTS_IN_NPC_TOOLTIPS'] = 'Show quests in NPC tooltips',
+    ['SHOW_QUESTS_IN_NPC_TOOLTIPS_DESC'] = 'Show quests (available/complete) in the NPC tooltips.',
 
     -- Advanced tab
     ['ADVANCED_TAB'] = "Дополнительно",

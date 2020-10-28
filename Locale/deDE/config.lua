@@ -174,6 +174,8 @@ QuestieLocale.locale['deDE'] = {
     ['ENABLE_TOOLTIPS_QUEST_LEVEL_DESC'] = "Aktiviert/Deaktiviert, ob das Questlevel in den Tooltips angezeigt wird.",
     ['SHARED_TOOLTIP_PARTY_ONLY'] = "Party nur geteilt",
     ['SHARED_TOOLTIP_PARTY_ONLY_DESC'] = "Wenn dies aktiviert ist, werden freigegebene Questinformationen nur angezeigt, wenn sie von Gruppenmitgliedern stammen.",
+    ['SHOW_QUESTS_IN_NPC_TOOLTIPS'] = 'Quests in NPC Tooltips anzeigen',
+    ['SHOW_QUESTS_IN_NPC_TOOLTIPS_DESC'] = 'Zeigt Quests (verfügbar/abgeschlossen) in den NPC Tooltips.',
 
     -- Advanced tab
     ['ADVANCED_TAB'] = "Erweitert",

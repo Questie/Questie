@@ -174,6 +174,8 @@ QuestieLocale.locale['zhTW'] = {
     ['ENABLE_TOOLTIPS_QUEST_LEVEL_DESC'] = "將任務的等級將示在提示訊息上",
     ['SHARED_TOOLTIP_PARTY_ONLY'] = "僅限聚會",
     ['SHARED_TOOLTIP_PARTY_ONLY_DESC'] = "啟用此功能後，僅當共享任務信息來自聚會成員時才會顯示。",
+    ['SHOW_QUESTS_IN_NPC_TOOLTIPS'] = 'Show quests in NPC tooltips',
+    ['SHOW_QUESTS_IN_NPC_TOOLTIPS_DESC'] = 'Show quests (available/complete) in the NPC tooltips.',
 
     -- Advanced tab
     ['ADVANCED_TAB'] = "進階",

@@ -180,6 +180,8 @@ QuestieLocale.locale['zhCN'] = {
     ['ENABLE_TOOLTIPS_QUEST_LEVEL_DESC'] = "勾选后，任务等级将显示在鼠标提示中",
     ['SHARED_TOOLTIP_PARTY_ONLY'] = "仅限队伍",
     ['SHARED_TOOLTIP_PARTY_ONLY_DESC'] = "启用此功能后，仅当共享任务信息来自队伍其他成员时才会显示。",
+    ['SHOW_QUESTS_IN_NPC_TOOLTIPS'] = 'Show quests in NPC tooltips',
+    ['SHOW_QUESTS_IN_NPC_TOOLTIPS_DESC'] = 'Show quests (available/complete) in the NPC tooltips.',
 
     -- Advanced tab
     ['ADVANCED_TAB'] = "进阶",

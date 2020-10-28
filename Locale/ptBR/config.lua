@@ -174,6 +174,8 @@ QuestieLocale.locale['ptBR'] = {
     ['ENABLE_TOOLTIPS_QUEST_LEVEL_DESC'] = "When this is checked, the level of quests will show in the tooltips.",
     ['SHARED_TOOLTIP_PARTY_ONLY'] = "Somente parte compartilhada",
     ['SHARED_TOOLTIP_PARTY_ONLY_DESC'] = "Quando isso estiver ativado, as informações compartilhadas das missões serão mostradas apenas se forem de membros da equipe.",
+    ['SHOW_QUESTS_IN_NPC_TOOLTIPS'] = 'Show quests in NPC tooltips',
+    ['SHOW_QUESTS_IN_NPC_TOOLTIPS_DESC'] = 'Show quests (available/complete) in the NPC tooltips.',
 
     -- Advanced tab
     ['ADVANCED_TAB'] = "Avançado",

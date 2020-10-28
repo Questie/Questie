@@ -112,9 +112,11 @@ function QuestieTooltips:GetTooltip(key)
         local playerName = UnitName("player")
         for k, tooltip in pairs(QuestieTooltips.lookupByKey[key]) do
             if tooltip.npc then
-                local questName, level = unpack(QuestieDB.QueryQuest(tooltip.questId, "name", "questLevel"))
-                local questString = QuestieLib:GetColoredQuestName(tooltip.questId, questName, level, Questie.db.global.enableTooltipsQuestLevel, true, true)
-                table.insert(npcTooltip, questString)
+                if Questie.db.char.showQuestsInNpcTooltip then
+                    local questName, level = unpack(QuestieDB.QueryQuest(tooltip.questId, "name", "questLevel"))
+                    local questString = QuestieLib:GetColoredQuestName(tooltip.questId, questName, level, Questie.db.global.enableTooltipsQuestLevel, true, true)
+                    table.insert(npcTooltip, questString)
+                end
             else
                 local objective = tooltip.objective
                 if (not objective.IsSourceItem) then
@@ -124,7 +126,7 @@ function QuestieTooltips:GetTooltip(key)
 
                 local questId = tooltip.questId
                 local objectiveIndex = objective.Index;
-                if(not tooltipData[questId]) then
+                if (not tooltipData[questId]) then
                     tooltipData[questId] = {}
                     tooltipData[questId].title = objective.QuestData:GetColoredQuestName();
                 end
@@ -132,7 +134,6 @@ function QuestieTooltips:GetTooltip(key)
                 if not QuestiePlayer.currentQuestlog[questId] then
                     QuestieTooltips.lookupByKey[key][k] = nil
                 else
-
                     tooltipData[questId].objectivesText = _InitObjectiveTexts(tooltipData[questId].objectivesText, objectiveIndex, playerName)
 
                     local text;
@@ -152,7 +153,7 @@ function QuestieTooltips:GetTooltip(key)
 
     -- We are hovering over an NPC and don't want to show
     -- comms information
-    if (next(npcTooltip)) then
+    if next(npcTooltip) then
         return npcTooltip
     end
 

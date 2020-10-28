@@ -174,6 +174,8 @@ QuestieLocale.locale['koKR'] = {
     ['ENABLE_TOOLTIPS_QUEST_LEVEL_DESC'] = "툴팁에 퀘스트의 레벨을 표시합니다.",
     ['SHARED_TOOLTIP_PARTY_ONLY'] = "파티 만 공유",
     ['SHARED_TOOLTIP_PARTY_ONLY_DESC'] = "이 기능을 활성화하면 공유 퀘스트 정보가 파티원의 정보 인 경우에만 표시됩니다.",
+    ['SHOW_QUESTS_IN_NPC_TOOLTIPS'] = 'Show quests in NPC tooltips',
+    ['SHOW_QUESTS_IN_NPC_TOOLTIPS_DESC'] = 'Show quests (available/complete) in the NPC tooltips.',
 
     -- Advanced tab
     ['ADVANCED_TAB'] = "고급",

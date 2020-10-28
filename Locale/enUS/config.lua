@@ -371,6 +371,8 @@ QuestieLocale.locale['enUS'] = {
     ['TOOLTIPS_PROGRESS_QUEST'] = 'Your progress',
     ['TOOLTIPS_FIN_QUEST'] = '(Done)',
     ['TOOLTIPS_REPEAT_QUEST'] = 'This quest is repeatable',
+    ['SHOW_QUESTS_IN_NPC_TOOLTIPS'] = 'Show quests in NPC tooltips',
+    ['SHOW_QUESTS_IN_NPC_TOOLTIPS_DESC'] = 'Show quests (available/complete) in the NPC tooltips.',
 
     -- Journey Window
     ['JOURNEY_TITLE'] = "%s's Journey",

@@ -174,7 +174,9 @@ QuestieLocale.locale['frFR'] = {
     ['ENABLE_TOOLTIPS_QUEST_LEVEL_DESC'] = "Active l'affichage du niveau des quêtes dans les info-bulles.",
     ['SHARED_TOOLTIP_PARTY_ONLY'] = "Partage avec le groupe uniquement",
     ['SHARED_TOOLTIP_PARTY_ONLY_DESC'] = "Limite le partage des progressions avec les membres du groupe uniquement.",
-	
+    ['SHOW_QUESTS_IN_NPC_TOOLTIPS'] = 'Show quests in NPC tooltips',
+    ['SHOW_QUESTS_IN_NPC_TOOLTIPS_DESC'] = 'Show quests (available/complete) in the NPC tooltips.',
+
 	-- Onglet Avancé
     ['ADVANCED_TAB'] = "Avancé",
     ['ADVANCED_OPTIONS_HEADER'] = "Configuration avancée",

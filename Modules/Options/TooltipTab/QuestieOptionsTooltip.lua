@@ -63,6 +63,15 @@ function QuestieOptions.tabs.tooltip:Initialize()
                 width = 1.5,
                 get = function () return Questie.db.global.onlyPartyShared; end,
                 set = function (info, value) Questie.db.global.onlyPartyShared = value end
+            },
+            questsInNpcTooltip = {
+                type = "toggle",
+                order = 1.4,
+                name = function() return QuestieLocale:GetUIString('SHOW_QUESTS_IN_NPC_TOOLTIPS'); end,
+                desc = function() return QuestieLocale:GetUIString('SHOW_QUESTS_IN_NPC_TOOLTIPS_DESC'); end,
+                width = 1.5,
+                get = function () return Questie.db.char.showQuestsInNpcTooltip; end,
+                set = function (info, value) Questie.db.char.showQuestsInNpcTooltip = value end
             }
         }
     }
