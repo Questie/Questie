@@ -1453,7 +1453,7 @@ function QuestieQuestFixes:Load()
         [5634] = {
             [questKeys.startedBy] = {{11401,},nil,nil,},
         },
-        [5647] = { 
+        [5647] = {
             [questKeys.startedBy] = {{11401},nil,nil}, -- #2424
         },
         [5713] = {
@@ -2186,17 +2186,11 @@ function QuestieQuestFixes:Load()
         [8368] = {
             [questKeys.exclusiveTo] = {8426,8427,8428,8429,8430},
         },
-        [8371] = {
-            [questKeys.zoneOrSort] = 3358,
-        },
         [8372] = {
             [questKeys.exclusiveTo] = {8399,8400,8401,8402,8403},
         },
         [8373] = {
             [questKeys.triggerEnd] = {"Clean up a stink bomb that's been dropped on Southshore!", {[zoneIDs.HILLSBRAD_FOOTHILLS]={{49.60,58.60},},},},
-        },
-        [8385] = {
-            [questKeys.zoneOrSort] = 3358,
         },
         [8399] = {
             [questKeys.exclusiveTo] = {8372,8400,8401,8402,8403},
