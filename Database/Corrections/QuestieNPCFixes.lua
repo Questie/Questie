@@ -1623,6 +1623,9 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.THE_BARRENS,
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE] = {{43.33,45.85},},[zoneIDs.THE_BARRENS] = {{41.96,60.79},},},
         },
+        [12196] = {
+            [npcKeys.npcFlags] = 128,
+        },
         [12238] = {
             [npcKeys.name] = "Zaetar's Spirit",
             [npcKeys.zoneID] = zoneIDs.MARAUDON,
