@@ -175,13 +175,13 @@ QuestieLocale.locale['zhCN'] = {
     ['TOOLTIP_TAB'] = "工具提示",
     ['TOOLTIP_OPTIONS_HEADER'] = "工具提示选项",
     ['ENABLE_TOOLTIPS'] = "启用鼠标提示",
-    ['ENABLE_TOOLTIPS_DESC'] = "若启用，在目标或物品的鼠标提示显示任务信息",
+    ['ENABLE_TOOLTIPS_DESC'] = "启用后，目标或物品在鼠标提示中显示任务信息",
     ['ENABLE_TOOLTIPS_QUEST_LEVEL'] = "鼠标提示中显示任务等级",
     ['ENABLE_TOOLTIPS_QUEST_LEVEL_DESC'] = "勾选后，任务等级将显示在鼠标提示中",
     ['SHARED_TOOLTIP_PARTY_ONLY'] = "仅限队伍",
-    ['SHARED_TOOLTIP_PARTY_ONLY_DESC'] = "启用此功能后，仅当共享任务信息来自队伍其他成员时才会显示。",
-    ['SHOW_QUESTS_IN_NPC_TOOLTIPS'] = 'Show quests in NPC tooltips',
-    ['SHOW_QUESTS_IN_NPC_TOOLTIPS_DESC'] = 'Show quests (available/complete) in the NPC tooltips.',
+    ['SHARED_TOOLTIP_PARTY_ONLY_DESC'] = "启用后，仅当共享任务信息来自队伍其他成员时才会显示。",
+    ['SHOW_QUESTS_IN_NPC_TOOLTIPS'] = '显示任务NPC',
+    ['SHOW_QUESTS_IN_NPC_TOOLTIPS_DESC'] = '启用后，在鼠标提示中显示NPC（可用/完成）任务。',
 
     -- Advanced tab
     ['ADVANCED_TAB'] = "进阶",
