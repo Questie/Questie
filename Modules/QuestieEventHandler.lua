@@ -289,7 +289,7 @@ end
 
 --- Helper function to remove quests correctly
 ---@param questId QuestId
----@param count integer @The amount of calls already made in recursion
+---@param count number @The amount of calls already made in recursion
 _CompleteQuest = function(questId, count)
     if(not count) then
         count = 1
@@ -313,8 +313,8 @@ end
 --- Fires when a quest is turned in, but before it is remove from the quest log.
 --- We need to save the ID of the finished quest to check it in QR event.
 ---@param questID QuestId
----@param xpReward integer
----@param moneyReward integer
+---@param xpReward number
+---@param moneyReward number
 _QUEST_TURNED_IN = function(self, questID, xpReward, moneyReward)
     Questie:Debug(DEBUG_DEVELOP, "[EVENT] QUEST_TURNED_IN", questID, xpReward, moneyReward)
     _Hack_prime_log()
@@ -372,10 +372,10 @@ _UNIT_QUEST_LOG_CHANGED = function(self, unitTarget)
 end
 
 --- Fires when the player levels up
----@param level integer
----@param hitpoints integer
----@param manapoints integer
----@param talentpoints integer
+---@param level number
+---@param hitpoints number
+---@param manapoints number
+---@param talentpoints number
 _PLAYER_LEVEL_UP = function(self, level, hitpoints, manapoints, talentpoints, ...)
     Questie:Debug(DEBUG_DEVELOP, "[EVENT] PLAYER_LEVEL_UP", level)
 
@@ -479,9 +479,7 @@ _PLAYER_REGEN_DISABLED = function()
     Questie:Debug(DEBUG_DEVELOP, "[EVENT] PLAYER_REGEN_DISABLED")
     if Questie.db.global.hideTrackerInCombat then
         previousTrackerState = Questie.db.char.isTrackerExpanded
-        QuestieCombatQueue:Queue(function()
-            QuestieTracker:Collapse()
-        end)
+        QuestieTracker:Collapse()
     end
     if InCombatLockdown() then
         if QuestieConfigFrame:IsShown() then
@@ -493,9 +491,7 @@ end
 _PLAYER_REGEN_ENABLED = function()
     Questie:Debug(DEBUG_DEVELOP, "[EVENT] PLAYER_REGEN_ENABLED")
     if Questie.db.global.hideTrackerInCombat and (previousTrackerState == true) then
-        QuestieCombatQueue:Queue(function()
-            QuestieTracker:Expand()
-        end)
+        QuestieTracker:Expand()
     end
 end
 
