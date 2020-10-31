@@ -223,14 +223,14 @@ QuestieLocale.locale['ptBR'] = {
     ['CONFIRM_HIDE_QUEST'] = "Tem certeza de que deseja ocultar a missão? Se essa missão não estiver realmente disponível, informe-nos!",
     ['CONFIRM_HIDE_YES'] = "Sim",
     ['CONFIRM_HIDE_NO'] = "Nâo",
-    ['TOOLTIP_QUEST_COMPLETE'] = "(Complèta)",
+    ['TOOLTIP_QUEST_COMPLETE'] = "(Concluído)",
     ['TOOLTIP_QUEST_AVAILABLE'] = "(Disponivel)",
     ['TOOLTIP_QUEST_ACTIVE'] = "(Ativo)",
     ['TOOLTIP_QUEST_REPEATABLE'] = "(Repetivel)",
     ['TOOLTIP_QUEST_EVENT'] = "(Evento)",
     ['XP'] = "xp";
-    ['COMPLETE'] = "Complete";
-    ['FAILED'] = "Failed";
+    ['COMPLETE'] = "Concluído";
+    ['FAILED'] = "Fracassado";
 
     --Ordens de barra
     ['SLASH_INVALID'] = "Comando inválido. Para uma lista de opções, digite:",
