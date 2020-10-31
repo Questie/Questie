@@ -35,6 +35,7 @@ function QuestieItemBlacklist:Load()
         [4338] = true, -- mageweave
         [4625] = true, -- firebloom
         [5056] = true, -- root sample
+        [7079] = true, -- globe of water
         [7909] = true, -- aquamarine
         [7910] = true, -- star ruby
         [8153] = true, -- wildvine
