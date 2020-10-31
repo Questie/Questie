@@ -713,15 +713,13 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     --    type
     --String - could be the following things: "item", "object", "monster", "reputation", "log", or "event". (from wow api)
 
-    if QO.Triggers and QO.Triggers[2] then
-        for _, v in pairs(QO.Triggers[2]) do
-            local obj = {
-                Type = "event",
-                Text = QO.Triggers[1],
-                Coordinates = {v}
-            }
-            tinsert(QO.ObjectiveData, obj);
-        end
+    if QO.Triggers then
+        local obj = {
+            Type = "event",
+            Text = QO.Triggers[1],
+            Coordinates = QO.Triggers[2]
+        }
+        tinsert(QO.ObjectiveData, obj);
     end
     if rawdata[10] ~= nil then
         if rawdata[10][1] ~= nil then
