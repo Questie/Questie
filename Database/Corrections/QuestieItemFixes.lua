@@ -78,6 +78,9 @@ function QuestieItemFixes:Load()
             [itemKeys.name] = "Flagon of Dwarven Honeymead",
             [itemKeys.npcDrops] = {1464},
         },
+        [2633] = {
+            [itemKeys.npcDrops] = {940,941,942}, -- #2433
+        },
         [2676] = {
             [itemKeys.objectDrops] = {276,},
         },
