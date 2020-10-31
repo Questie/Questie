@@ -14,6 +14,7 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 function QuestieNPCFixes:Load()
     local npcKeys = QuestieDB.npcKeys
     local zoneIDs = ZoneDB.zoneIDs
+    local npcFlags = QuestieDB.npcFlags
 
     return {
         [300] = {
@@ -751,6 +752,9 @@ function QuestieNPCFixes:Load()
         },
         [5998] = {
             [npcKeys.spawns] = {[zoneIDs.BLASTED_LANDS]={{71.4,5.0},{61.47,5.91},{71.65,8.84},{59.99,3.94},{70.12,10.94},{56.3,3.68},{71.53,6.61},{69.54,10.72},{56.19,3.05},{65.8,8.87},{63.43,6.71},{62.36,7.65},{53.94,11.75},{58.3,3.85},},},
+        },
+        [6028] = {
+            [npcKeys.npcFlags] = npcFlags.REPAIR
         },
         [6069] = {
             [npcKeys.name] = "Maraudine Khan Guard",
