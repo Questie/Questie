@@ -1074,7 +1074,6 @@ end
 -- /dump C_QuestLog.GetQuestObjectives(8069)
 -- /dump C_QuestLog.GetQuestObjectives(9015)
 
-
 --Use the category order to draw the quests and trust the database order.
 function QuestieQuest:GetAllQuestObjectives(quest)
     -- Old Select Code, maybe remove?
@@ -1095,10 +1094,10 @@ function QuestieQuest:GetAllQuestObjectives(quest)
 
                 -- Sometimes we need to retry to get the correct text from the API
                 if (not objective.text) or objective.text == " : 0/1" then
-                    print("AAAAAAAAAAAAAA")
+                    Questie:Debug(DEBUG_INFO, "Retrying to get objectiveText for '", objective.text, "'")
                     local retry = C_QuestLog.GetQuestObjectives(quest.Id)
-                    print(retry[objectiveIndex].text)
                     objective.text = retry[objectiveIndex].text
+                    Questie:Debug(DEBUG_INFO, "Received text is:", retry[objectiveIndex].text)
                 end
 
                 quest.Objectives[objectiveIndex] = {
@@ -1111,48 +1110,9 @@ function QuestieQuest:GetAllQuestObjectives(quest)
                 }
                 if objective.type == "event" then
                     quest.Objectives[objectiveIndex].Coordinates = quest.ObjectiveData[objectiveIndex].Coordinates
-                    --quest.ObjectiveData[objectiveIndex].ObjectiveRef = quest.Objectives[objectiveIndex]
                 end
 
-                quest.Objectives[objectiveIndex].Update = function(self)
-                    -- Old select code, do we need it?
-                    local old = GetQuestLogSelection()
-                    SelectQuestLogEntry(self.QuestLogId)
-                    --
-
-                    local now = GetTime();
-                    if now - self._lastUpdate < 0.5 then
-                        if old then SelectQuestLogEntry(old); end
-                        return {self.Collected, self.Needed, self.Completed} -- updated too recently
-                    end
-                    self._lastUpdate = now
-
-                    -- Use different variable names from above to avoid confusion.
-                    local qObjectives = QuestieQuest:GetAllLeaderBoardDetails(self.QuestId);
-
-                    if qObjectives and qObjectives[self.Index] then
-                        local obj = qObjectives[self.Index];
-                        if(obj.type) then
-                            -- fixes for api bug
-                            if not obj.numFulfilled then obj.numFulfilled = 0; end
-                            if not obj.numRequired then obj.numRequired = 0; end
-                            if not obj.finished then obj.finished = false; end -- ensure its boolean false and not nil (hack)
-
-                            self.Type = obj.type;
-                            self.Description = obj.text;
-                            self.Collected = tonumber(obj.numFulfilled);
-                            self.Needed = tonumber(obj.numRequired);
-                            self.Completed = (self.Needed == self.Collected and self.Needed > 0) or (obj.finished and (self.Needed == 0 or (not self.Needed))) -- some objectives get removed on PLAYER_LOGIN because isComplete is set to true at random????
-                        end
-                    end
-                    -- Old select code, do we need it?
-                    if old then SelectQuestLogEntry(old); end
-                    --
-                    return {self.Collected, self.Needed, self.Completed}
-                end
-                quest.Objectives[objectiveIndex]:Update()
-
-                quest.Objectives[objectiveIndex].Id = quest.ObjectiveData[objectiveIndex].Id
+                quest.Objectives[objectiveIndex].Update = _ObjectiveUpdate
             end
         end
 
@@ -1167,23 +1127,23 @@ function QuestieQuest:GetAllQuestObjectives(quest)
     -- find special unlisted objectives
     -- hack to remove misdetected unlisted (when qlog returns bad data for objective text on first try)
     if quest.HiddenObjectiveData then
-        for index, objective in pairs(quest.HiddenObjectiveData) do
-            if (not objective.ObjectiveRef) then -- there was no qlog objective detected for this DB objective
+        for index, hiddenObjective in pairs(quest.HiddenObjectiveData) do
+            if (not hiddenObjective.ObjectiveRef) then -- there was no qlog objective detected for this DB objective
                 -- hack
                 if (not quest.SpecialObjectives) then
                     quest.SpecialObjectives = {}
                 end
-                objective.Description = objective.Name -- TODO; This needs to be cleaned up. No need to store the same value
-                if (not objective.Description) then
-                    objective.Description = "Hidden objective"
+                hiddenObjective.Description = hiddenObjective.Name -- TODO; This needs to be cleaned up. No need to store the same value
+                if (not hiddenObjective.Description) then
+                    hiddenObjective.Description = "Hidden objective"
                 end
 
-                if (not quest.SpecialObjectives[objective.Id]) then
-                    objective.QuestData = quest
-                    objective.QuestId = quest.Id
-                    objective.Update = function() end
-                    objective.Index = 64 + index -- offset to not conflict with real objectives
-                    quest.SpecialObjectives[objective.Id] = objective
+                if (not quest.SpecialObjectives[hiddenObjective.Id]) then
+                    hiddenObjective.QuestData = quest
+                    hiddenObjective.QuestId = quest.Id
+                    hiddenObjective.Update = function() end
+                    hiddenObjective.Index = 64 + index -- offset to not conflict with real objectives
+                    quest.SpecialObjectives[hiddenObjective.Id] = hiddenObjective
                 end
             end
         end
@@ -1544,4 +1504,3 @@ function QuestieQuest:CalculateAndDrawAvailableQuestsIterative(callback)
         end
     end)
 end
-
