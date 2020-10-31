@@ -15,7 +15,11 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 _QuestieQuest.objectiveSpawnListCallTable = {
     ["monster"] = function(npcId, objective)
         if (not npcId) then
-            Questie:Error("Corrupted objective data handed to objectiveSpawnListCallTable['monster']:", objective)
+            Questie:Error(
+                    "Corrupted objective data handed to objectiveSpawnListCallTable['monster']:",
+                    "'" .. objective.Description .. "' -",
+                    "Please report this error on Discord or GitHub."
+            )
             return nil
         end
 
@@ -59,7 +63,11 @@ _QuestieQuest.objectiveSpawnListCallTable = {
     end,
     ["object"] = function(objectId, objective)
         if (not objectId) then
-            Questie:Error("Corrupted objective data handed to objectiveSpawnListCallTable['object']:", objective)
+            Questie:Error(
+                    "Corrupted objective data handed to objectiveSpawnListCallTable['object']:",
+                    "'" .. objective.Description .. "' -",
+                    "Please report this error on Discord or GitHub."
+            )
             return nil
         end
 
@@ -114,7 +122,11 @@ _QuestieQuest.objectiveSpawnListCallTable = {
     end,
     ["item"] = function(itemId, objective)
         if (not itemId) then
-            Questie:Error("Corrupted objective data handed to objectiveSpawnListCallTable['item']:", objective)
+            Questie:Error(
+                    "Corrupted objective data handed to objectiveSpawnListCallTable['item']:",
+                    "'" .. objective.Description .. "' -",
+                    "Please report this error on Discord or GitHub."
+            )
             return nil
         end
 
