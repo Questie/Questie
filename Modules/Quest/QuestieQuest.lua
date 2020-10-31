@@ -719,6 +719,9 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
 
     if _QuestieQuest.objectiveSpawnListCallTable[Objective.Type] and (not Objective.spawnList) then
         Objective.spawnList = _QuestieQuest.objectiveSpawnListCallTable[Objective.Type](Objective.Id, Objective);
+        if (not Objective.spawnList) then
+            Questie:Error("Missing objective data for", Objective.Type, Objective.Id)
+        end
     end
 
     local maxPerType = 300
