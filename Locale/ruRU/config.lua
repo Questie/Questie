@@ -71,8 +71,8 @@ QuestieLocale.locale['ruRU'] = {
     ['QUEST_ANNOUNCE'] = "Сообщить о задании",
     ['QUEST_ANNOUNCE_DESC'] = "Сообщает о выполнении цели задания членам группы",
     ['QUEST_ANNOUNCE_ENABLED'] = "Включено",
-    ['QUEST_ANNOUNCE_OBJECTIVE'] = "{rt1} Questie : %s для %s!",
-    ['QUEST_ANNOUNCE_QUESTITEM'] = "{rt1} Questie : Данный предмет - %s - начинает %s!",
+    ['QUEST_ANNOUNCE_OBJECTIVE'] = "{rt1} %s для %s",
+    ['QUEST_ANNOUNCE_QUESTITEM'] = "{rt1} Данный предмет - %s - начинает %s",
 
     -- Minimap tab
     ['MINIMAP_TAB'] = "Миникарта",
