@@ -26,6 +26,9 @@ function QuestieQuestFixes:Load()
         [5] = {
             [questKeys.preQuestSingle] = {}, -- #1198
         },
+        [17] = {
+            [questKeys.requiredLevel] = 38, -- #2437
+        },
         [23] = {
             [questKeys.startedBy] = {{12678},nil,{16303}},
         },
