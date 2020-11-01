@@ -4,8 +4,8 @@ QuestieLocale.locale['ruRU'] = {
     ['GENERAL_OPTIONS_HEADER'] = "Общие настройки",
     ['ENABLE_ICONS'] = "Значки Questie",
     ['ENABLE_ICONS_DESC'] = "Показать/скрыть значки Questie",
-    ['TRACKING_ICONS_BUTTON'] = "Config Tracking Icons",
-    ['TRACKING_ICONS_BUTTON_DESC'] = "Allows to select which the tracking icons (like Mailbox, Repair-NPCs) to show on the map and minimap.",
+    ['TRACKING_ICONS_BUTTON'] = "Отслеживаемые значки",
+    ['TRACKING_ICONS_BUTTON_DESC'] = "Позволяет выбрать, какие отслеживаемые значки (почтовый ящик, ремонт и проч.) отображать на карте и миникарте",
     ['ENABLE_MINIMAP_BUTTON'] = "Кнопка у миникарты",
     ['ENABLE_MINIMAP_BUTTON_DESC'] = "Показать/скрыть кнопку Questie у миникарты. Доступ к настройкам аддона также можно получить через команду \"/questie\"",
     ['ENABLE_INSTANT'] = "Мгновенное отображение текста",
@@ -179,8 +179,8 @@ QuestieLocale.locale['ruRU'] = {
     ['ENABLE_TOOLTIPS_QUEST_LEVEL_DESC'] = "Показать/скрыть уровень заданий во всплывающих подсказках",
     ['SHARED_TOOLTIP_PARTY_ONLY'] = "Только от игроков группы",
     ['SHARED_TOOLTIP_PARTY_ONLY_DESC'] = "Когда включено, информация о таком же, как у вас, задании будет отображаться только от членов группы",
-    ['SHOW_QUESTS_IN_NPC_TOOLTIPS'] = 'Show quests in NPC tooltips',
-    ['SHOW_QUESTS_IN_NPC_TOOLTIPS_DESC'] = 'Show quests (available/complete) in the NPC tooltips.',
+    ['SHOW_QUESTS_IN_NPC_TOOLTIPS'] = 'Задания в подсказках NPC',
+    ['SHOW_QUESTS_IN_NPC_TOOLTIPS_DESC'] = 'Показать/скрыть задания (доступные/выполненные) во всплывающих подсказках NPC',
 
     -- Advanced tab
     ['ADVANCED_TAB'] = "Дополнительно",
