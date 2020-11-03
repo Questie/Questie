@@ -73,13 +73,13 @@ function QuestieNameplate:RemoveFrame(guid)
     end
 end
 
-local function _GetValidIcon(tooltip) -- helper function to get the first valid (incomplete) icon from the specified tooltip, or nil if there is none
-    if tooltip then
-        for _,Quest in pairs(tooltip) do
-            if Quest.Objective and Quest.Objective.Update then
-                Quest.Objective:Update() -- get latest qlog data if its outdated
-                if (not Quest.Objective.Completed) and Quest.Objective.Icon then
-                    return Quest.Objective.Icon
+local function _GetValidIcon(tooltips) -- helper function to get the first valid (incomplete) icon from the specified tooltip, or nil if there is none
+    if tooltips then
+        for _, tooltip in pairs(tooltips) do
+            if tooltip.objective and tooltip.objective.Update then
+                tooltip.objective:Update() -- get latest qlog data if its outdated
+                if (not tooltip.objective.Completed) and tooltip.objective.Icon then
+                    return tooltip.objective.Icon
                 end
             end
         end
