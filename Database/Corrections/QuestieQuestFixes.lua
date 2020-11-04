@@ -549,7 +549,7 @@ function QuestieQuestFixes:Load()
         },
         [1148] = {
             [questKeys.preQuestSingle] = {1146},
-            [questKeys.startedBy] = {{4130,4131,4133,},nil,{5877,},},
+            [questKeys.startedBy] = {{4132,},nil,{5877,},},
         },
         [1173] = {
             [questKeys.triggerEnd] = {"Drive Overlord Mok'Morokk from Brackenwall Village", {[zoneIDs.DUSTWALLOW_MARSH]={{36.41,31.43},},},},
