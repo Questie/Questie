@@ -517,7 +517,12 @@ function QuestieQuestFixes:Load()
             [questKeys.parentQuest] = 100, -- #1658
         },
         [1106] = {
-            [questKeys.preQuestGroup] = {1104, 1105},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {1104,1105},
+        },
+        [1107] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {1104,1105,} -- #2444
         },
         [1118] = {
             [questKeys.inGroupWith] = {}, -- #886
