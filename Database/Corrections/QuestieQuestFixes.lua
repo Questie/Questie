@@ -845,6 +845,7 @@ function QuestieQuestFixes:Load()
         },
         [2201] = {
             [questKeys.childQuests] = {3375},
+            [questKeys.requiredLevel] = 37, -- #2447
         },
         [2205] = {
             [questKeys.exclusiveTo] = {}, -- #1466
