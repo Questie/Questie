@@ -866,6 +866,9 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
+        [12562] = {
+            [itemKeys.npcDrops] = {},
+        },
         [12567] = {
             [itemKeys.name] = "Filled Flasket",
             [itemKeys.relatedQuests] = {4505},
