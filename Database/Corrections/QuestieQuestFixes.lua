@@ -601,7 +601,7 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {nil,{21015,21016,},nil,},
         },
         [1301] = {
-            [questKeys.exclusiveTo] = {1302}, -- breadcrumb of James Hyal #917
+            [questKeys.exclusiveTo] = {1302,1282}, -- #917 #2448
         },
         [1302] = {
             [questKeys.preQuestSingle] = {}, -- #889
