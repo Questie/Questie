@@ -3027,7 +3027,7 @@ function QuestieNPCFixes:Load()
         },
         [19276] = {
             [QuestieDB.npcKeys.name]="Ashenvale, Kargathia",
-            [QuestieDB.npcKeys.friendlyToFaction]="A",
+            [QuestieDB.npcKeys.friendlyToFaction]="AH",
             [QuestieDB.npcKeys.spawns]={[331]={{80.698,58.567}}},
         },
         [19279] = {
