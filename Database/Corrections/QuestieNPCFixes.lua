@@ -3040,6 +3040,11 @@ function QuestieNPCFixes:Load()
             [QuestieDB.npcKeys.friendlyToFaction]="H",
             [QuestieDB.npcKeys.spawns]={[14]={{47.314,17.888}}},
         },
+        [19281] = {
+            [QuestieDB.npcKeys.name]="Teldrassil, Rut'theran Village",
+            [QuestieDB.npcKeys.friendlyToFaction]="H",
+            [QuestieDB.npcKeys.spawns]={[141]={{55.97,92.09}}},
+        },
         [19282] = {
             [QuestieDB.npcKeys.name]="Blasted Lands, Dreadmaul Hold",
             [QuestieDB.npcKeys.friendlyToFaction]="AH",
