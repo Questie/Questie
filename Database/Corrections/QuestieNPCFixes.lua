@@ -2903,7 +2903,7 @@ function QuestieNPCFixes:Load()
         [19248] = {
             [QuestieDB.npcKeys.name]="Tirisfal Glades, Undercity",
             [QuestieDB.npcKeys.friendlyToFaction]="H",
-            [QuestieDB.npcKeys.spawns]={[85]={{62.376,66.884}}},
+            [QuestieDB.npcKeys.spawns]={[85]={{62.22,68.295}}},
         },
         [19249] = {
             [QuestieDB.npcKeys.name]="Dun Morogh, Anvilmar",
