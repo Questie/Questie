@@ -2718,7 +2718,7 @@ function QuestieNPCFixes:Load()
         [19210] = {
             [QuestieDB.npcKeys.name]="Eastern Plaguelands, Blackwood Lake",
             [QuestieDB.npcKeys.friendlyToFaction]="AH",
-            [QuestieDB.npcKeys.spawns]={[139]={{42.837,39.315}}},
+            [QuestieDB.npcKeys.spawns]={[139]={{47.25,44.647}}},
         },
         [19211] = {
             [QuestieDB.npcKeys.name]="Silithus, Cenarion Hold",
