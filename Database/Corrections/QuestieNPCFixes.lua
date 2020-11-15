@@ -2928,7 +2928,7 @@ function QuestieNPCFixes:Load()
         [19253] = {
             [QuestieDB.npcKeys.name]="Eastern Plaguelands, Light's Hope Chapel",
             [QuestieDB.npcKeys.friendlyToFaction]="AH",
-            [QuestieDB.npcKeys.spawns]={[139]={{74.414,59.065}}},
+            [QuestieDB.npcKeys.spawns]={[139]={{80.136,65.209}}},
         },
         [19254] = {
             [QuestieDB.npcKeys.name]="Searing Gorge, Thorium Point",
