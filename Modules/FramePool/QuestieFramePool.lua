@@ -307,14 +307,9 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
 
     --Setting the parent is required to get the correct frame levels.
 
-    local frameLevel = iconFrame:GetFrameLevel();
-    if (frameLevel > 1) then
-        frameLevel = frameLevel - 1;
-    end
-
-    lineFrame:SetParent(canvas); --This fixes the pan and zoom for lines
-    lineFrame:SetFrameLevel(frameLevel)
-    lineFrame:SetFrameStrata("FULLSCREEN");
+    lineFrame:SetParent(canvas) --This fixes the pan and zoom for lines
+    lineFrame:SetFrameLevel(2015) -- This needs to be high, because of the regular WorldMapFrame.ScrollContainer
+    lineFrame:SetFrameStrata("FULLSCREEN")
 
     --How to identify what the frame actually contains, this is not used atm could easily be changed.
     lineFrame.type = "line"
