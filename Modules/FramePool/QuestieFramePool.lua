@@ -311,6 +311,8 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     if (frameLevel > 1) then
         frameLevel = frameLevel - 1;
     end
+
+    lineFrame:SetParent(canvas); --This fixes the pan and zoom for lines
     lineFrame:SetFrameLevel(frameLevel)
     lineFrame:SetFrameStrata("FULLSCREEN");
 
@@ -375,7 +377,6 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     local framePosX = max(startX, endX) - lineWidth * 2 - width / 2
     local framePosY = min(startY, endY) + lineWidth * 2 + height / 2
 
-    lineFrame:SetParent(canvas); --This fixes the pan and zoom for lines
     lineFrame:SetHeight(height);
     lineFrame:SetWidth(width);
     lineFrame:SetPoint("TOPLEFT", canvas, "TOPLEFT", framePosX, framePosY)
