@@ -419,9 +419,6 @@ function QuestieQuestBlacklist:Load()
         [7926] = true,
       --Phase 6 - Naxxramas
         [9085] = true,
-        [9208] = true,
-        [9209] = true,
-        [9210] = true,
         [9142] = true,
         [9165] = true,
         [9141] = true,
@@ -499,9 +496,6 @@ function QuestieQuestBlacklist:Load()
         [9117] = true,
         [9118] = true,
         [9120] = true,
-        [9121] = true,
-        [9122] = true,
-        [9123] = true,
         [9124] = true,
         [9125] = true,
         [9126] = true,
@@ -541,7 +535,6 @@ function QuestieQuestBlacklist:Load()
         [9245] = true,
         [9246] = true,
         --Phase 6 - Silithus/EPL PvP
-        [9248] = true,
         [9250] = true,
         [9251] = true,
         [9422] = true,
