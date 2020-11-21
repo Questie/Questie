@@ -45,7 +45,6 @@ local ipairs = ipairs;
 local strim = string.trim;
 local smatch = string.match;
 local strfind = string.find;
-local slower = string.lower;
 
 QuestieQuest.availableQuests = {} --Gets populated at PLAYER_ENTERED_WORLD
 
@@ -168,8 +167,8 @@ function QuestieQuest:ClearAllNotes()
         quest.SpecialObjectives = nil
     end
 
-    for questId, framelist in pairs(QuestieMap.questIdFrames) do
-        for index, frameName in pairs(framelist) do
+    for _, frameList in pairs(QuestieMap.questIdFrames) do
+        for _, frameName in pairs(frameList) do
             local icon = _G[frameName]
             if icon and icon.Unload then
                 icon:Unload()
@@ -283,7 +282,7 @@ function QuestieQuest:SmoothReset() -- use timers to reset progressively instead
             return true
         end,
         function()
-            for i=1,64 do
+            for _=1,64 do
                 if QuestieQuest._nextRestQuest then
                     QuestieQuest:UpdateQuest(QuestieQuest._nextRestQuest) 
                     _UpdateSpecials(QuestieQuest._nextRestQuest)
@@ -340,7 +339,7 @@ function QuestieQuest:GetRawLeaderBoardDetails(QuestLogIndex)
     SelectQuestLogEntry(QuestLogIndex);
     --
     local quest = {}
-    local title, level, _, isHeader, _, isComplete, _, questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(QuestLogIndex)
+    local title, level, _, _, _, isComplete, _, questId, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(QuestLogIndex)
     quest.title = title;
     quest.level = level;
     quest.Id = questId
@@ -460,7 +459,7 @@ function QuestieQuest:AbandonedQuest(questId)
         end
 
         -- yes we do, since abandoning can unlock more than 1 quest, or remove unlocked quests
-        for k, v in pairs(QuestieQuest.availableQuests) do
+        for k, _ in pairs(QuestieQuest.availableQuests) do
             ---@type Quest
             local availableQuest = QuestieDB:GetQuest(k)
             if (not availableQuest) or (not availableQuest:IsDoable()) then
@@ -515,11 +514,11 @@ end
 --Run this if you want to update the entire table
 function QuestieQuest:GetAllQuestIds()
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString("DEBUG_GET_QUEST"));
-    local numEntries, numQuests = GetNumQuestLogEntries();
+    local numEntries, _ = GetNumQuestLogEntries();
     QuestiePlayer.currentQuestlog = {}
     for index = 1, numEntries do
-        local title, level, _, isHeader, _, isComplete, _, questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
-        if(not isHeader) then
+        local title, _, _, isHeader, _, _, _, questId, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
+        if (not isHeader) then
             --Keep the object in the questlog to save searching
             local quest = QuestieDB:GetQuest(questId)
             if quest then
@@ -543,10 +542,10 @@ end
 
 function QuestieQuest:GetAllQuestIdsNoObjectives()
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString("DEBUG_GET_QUEST"), "(without objectives)");
-    local numEntries, numQuests = GetNumQuestLogEntries();
+    local numEntries, _ = GetNumQuestLogEntries();
     QuestiePlayer.currentQuestlog = {}
     for index = 1, numEntries do
-        local title, level, _, isHeader, _, isComplete, _, questId, _, displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
+        local _, _, _, isHeader, _, _, _, questId, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
         if(not isHeader) then
             --Keep the object in the questlog to save searching
             local quest = QuestieDB:GetQuest(questId)
@@ -560,7 +559,7 @@ function QuestieQuest:GetAllQuestIdsNoObjectives()
     end
 end
 
-function QuestieQuest:ShouldQuestShowObjectives(QuestId)
+function QuestieQuest:ShouldQuestShowObjectives(questId)
     return true -- todo: implement tracker logic here, to hide non-tracked quest optionally (1.12 questie does this optionally)
 end
 
@@ -586,7 +585,7 @@ function QuestieQuest:AddFinisher(quest)
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]", "Adding finisher for quest", questId)
 
     if(QuestiePlayer.currentQuestlog[questId] and (IsQuestFlaggedCompleted(questId) == false) and IsQuestComplete(questId) and (not Questie.db.char.complete[questId])) then
-        local finisher = nil
+        local finisher
         if quest.Finisher ~= nil then
             if quest.Finisher.Type == "monster" then
                 finisher = QuestieDB:GetNPC(quest.Finisher.Id)
@@ -673,14 +672,13 @@ function QuestieQuest:ForceToMap(type, id, label, customScale)
     if _QuestieQuest.objectiveSpawnListCallTable[type] and type ~= "event" then
         local mapRefs = {}
         local miniRefs = {}
-        --local spawnData = _QuestieQuest.objectiveSpawnListCallTable[type](id)[id]
-        for id, spawnData in pairs(_QuestieQuest.objectiveSpawnListCallTable[type](id)) do
+        for _, spawnData in pairs(_QuestieQuest.objectiveSpawnListCallTable[type](id)) do
             spawnData.Type = type
             spawnData.CustomTooltipData = {}
             spawnData.CustomTooltipData.Title = label or "Forced Icon"
             spawnData.CustomTooltipData.Body = {[spawnData.Name]=spawnData.Name}
             if customScale then
-                spawnData.GetIconScale = function(self)
+                spawnData.GetIconScale = function()
                     return customScale
                 end
                 spawnData.IconScale = customScale
@@ -723,7 +721,7 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
 
     local iconsToDraw = {}
 
-    local spawnItemId = nil
+    local spawnItemId
 
     Objective:Update() -- update qlog data
     local completed = Objective.Completed
@@ -750,9 +748,9 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
 
         local zoneCount = 0
         local zones = {}
-        local objectiveZone = nil
+        local objectiveZone
 
-        for id, spawnData in pairs(Objective.spawnList) do
+        for _, spawnData in pairs(Objective.spawnList) do
             for zone in pairs(spawnData.Spawns) do
                 zones[zone] = true
             end
@@ -794,7 +792,6 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
                 if Questie.db.global.enableObjectives then
                     -- temporary fix for "special objectives" to not double-spawn (we need to fix the objective detection logic)
                     quest.AlreadySpawned[Objective.Type .. tostring(ObjectiveIndex)][spawnData.Id] = true
-                    local maxCount = 0
                     if(not iconsToDraw[quest.Id]) then
                         iconsToDraw[quest.Id] = {}
                     end
@@ -858,7 +855,7 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
         end
         local spawnedIcons = {}
         local iconPerZone = {} -- used by waypoint logic
-        local icon = nil -- used by waypoint logic
+        local icon -- used by waypoint logic
         for questId, icons in pairs(iconsToDraw) do
             if(not spawnedIcons[questId]) then
                 spawnedIcons[questId] = 0;
@@ -888,7 +885,7 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
 
             local hotzones = QuestieMap.utils:CalcHotzones(orderedList, range, iconCount);
 
-            for index, hotzone in pairs(hotzones or {}) do
+            for _, hotzone in pairs(hotzones or {}) do
                 if(spawnedIcons[questId] > maxPerType) then
                     Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]", "Too many icons for quest:", questId)
                     break;
@@ -933,7 +930,7 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
                 spawnedIcons[questId] = spawnedIcons[questId] + 1;
             end
         end
-        for id, spawnData in pairs(Objective.spawnList) do -- spawnData.Name, spawnData.Spawns
+        for _, spawnData in pairs(Objective.spawnList) do -- spawnData.Name, spawnData.Spawns
             if spawnData.Waypoints then
                 for zone, waypoints in pairs(spawnData.Waypoints) do
                     local firstWaypoint = waypoints[1][1]
@@ -1242,11 +1239,11 @@ function QuestieQuest:GetAllLeaderBoardDetails(questId)
     end
 
     --Questie:Print(questId)
-    for objectiveIndex, objective in pairs(questObjectives) do
+    for _, objective in pairs(questObjectives) do
         if(objective.text) then
             local text = objective.text;
             if(objective.type == "monster") then
-                local i, j, monsterName = strfind(text, L_QUEST_MONSTERS_KILLED)
+                local _, _, monsterName = strfind(text, L_QUEST_MONSTERS_KILLED)
 
                 if((monsterName and objective.text and strlen(monsterName) == strlen(objective.text)) or not monsterName) then
                     --The above doesn't seem to work with the chinese, the row below tries to remove the extra numbers.
@@ -1256,10 +1253,10 @@ function QuestieQuest:GetAllLeaderBoardDetails(questId)
                     text = monsterName;
                 end
             elseif(objective.type == "item") then
-                local i, j, itemName = strfind(text, L_QUEST_ITEMS_NEEDED)
+                local _, _, itemName = strfind(text, L_QUEST_ITEMS_NEEDED)
                 text = itemName;
             elseif(objective.type == "object") then
-                local i, j, objectName = strfind(text, L_QUEST_OBJECTS_FOUND)
+                local _, _, objectName = strfind(text, L_QUEST_OBJECTS_FOUND)
                 text = objectName;
             end
             -- If the functions above do not give a good answer fall back to older regex to get something.
@@ -1444,7 +1441,7 @@ function QuestieQuest:CalculateAndDrawAvailableQuestsIterative(callback)
     QuestieQuest.availableQuests = {}
 
     timer = C_Timer.NewTicker(0.01, function()
-        for i=0,64 do -- number of available quests to process per tick
+        for _=0,64 do -- number of available quests to process per tick
             local questId = index
             if questId then
                 -- ---@type Quest
