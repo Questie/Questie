@@ -1091,6 +1091,8 @@ function QuestieQuest:GetAllQuestObjectives(quest)
                 end
 
                 quest.Objectives[objectiveIndex].Update = _ObjectiveUpdate
+                quest.Objectives[objectiveIndex]:Update()
+                quest.Objectives[objectiveIndex].Id = quest.ObjectiveData[objectiveIndex].Id
             end
         end
 
