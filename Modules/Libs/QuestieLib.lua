@@ -193,6 +193,15 @@ function QuestieLib:GetColoredQuestName(id, name, level, showLevel, showState, b
     return QuestieLib:PrintDifficultyColor(level, name)
 end
 
+function QuestieLib:GetRandomColor(randomSeed)
+    QuestieLib:MathRandomSeed(randomSeed)
+    return {
+        0.45 + QuestieLib:MathRandom() / 2,
+        0.45 + QuestieLib:MathRandom() / 2,
+        0.45 + QuestieLib:MathRandom() / 2
+    }
+end
+
 ---@param id QuestId @The quest ID
 ---@param name string @The (localized) name of the quest
 ---@param level number @The quest level

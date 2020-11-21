@@ -709,9 +709,8 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
     Objective:Update() -- update qlog data
     local completed = Objective.Completed
 
-    if not Objective.Color then -- todo: move to a better place
-        QuestieLib:MathRandomSeed(quest.Id + 32768 * ObjectiveIndex)
-        Objective.Color = {0.45 + QuestieLib:MathRandom() / 2, 0.45 + QuestieLib:MathRandom() / 2, 0.45 + QuestieLib:MathRandom() / 2}
+    if not Objective.Color then
+        Objective.Color = QuestieLib:GetRandomColor(quest.Id + 32768 * ObjectiveIndex)
     end
 
     if (not Objective.registeredItemTooltips) and Objective.Type == "item" and (not BlockItemTooltips) and Objective.Id then -- register item tooltip (special case)
@@ -997,9 +996,8 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
         return
     end
 
-    if not quest.Color then -- todo: move to a better place
-        QuestieLib:MathRandomSeed(quest.Id)
-        quest.Color = {0.45 + QuestieLib:MathRandom() / 2, 0.45 + QuestieLib:MathRandom() / 2, 0.45 + QuestieLib:MathRandom() / 2}
+    if not quest.Color then
+        quest.Color = QuestieLib:GetRandomColor(quest.Id)
     end
 
     -- we've already checked the objectives table by doing IsComplete
