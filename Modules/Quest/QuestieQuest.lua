@@ -22,6 +22,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local QuestieHash = QuestieLoader:ImportModule("QuestieHash")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+---@type TaskQueue
+local TaskQueue = QuestieLoader:ImportModule("TaskQueue")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieCorrections
@@ -361,25 +363,6 @@ function QuestieQuest:GetRawLeaderBoardDetails(QuestLogIndex)
     return quest;
 end
 
-
--- todo: move this
-local QuestieTaskQueue = {}
-QuestieTaskQueue._queue = {}
-function QuestieTaskQueue:OnUpdate()
-    local val = tremove(QuestieTaskQueue._queue, 1)
-    if val then val() end
-end
-function QuestieTaskQueue:Queue(...)
-    for _,val in pairs({...}) do
-        tinsert(QuestieTaskQueue._queue, val)
-    end
-end
-local frm = CreateFrame("Frame", UIParent)
-frm:SetScript("OnUpdate", QuestieTaskQueue.OnUpdate)
-frm:Show()
-
-
-
 function QuestieQuest:AcceptQuest(questId)
     if(QuestiePlayer.currentQuestlog[questId] == nil) then
         Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString("DEBUG_ACCEPT_QUEST", questId));
@@ -387,7 +370,7 @@ function QuestieQuest:AcceptQuest(questId)
         local quest = QuestieDB:GetQuest(questId)
         QuestiePlayer.currentQuestlog[questId] = quest
 
-        QuestieTaskQueue:Queue(
+        TaskQueue:Queue(
             --Get all the Frames for the quest and unload them, the available quest icon for example.
             function() QuestieMap:UnloadQuestFrames(questId) end,
             function() QuestieTooltips:RemoveQuest(questId) end,
