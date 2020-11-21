@@ -197,8 +197,6 @@ local function _UpdateSpecials(questId)
 end
 
 function QuestieQuest:AddAllNotes()
-    QuestieQuest.availableQuests = {} -- reset available quest db
-
     -- draw available quests
     QuestieQuest:GetAllQuestIdsNoObjectives()
     QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
@@ -268,7 +266,6 @@ function QuestieQuest:SmoothReset() -- use timers to reset progressively instead
             Questie.db.char.complete = GetQuestsCompleted()
             QuestieProfessions:Update()
             QuestieReputation:Update(false)
-            QuestieQuest.availableQuests = {} -- reset available quest db
 
             -- draw available quests
             QuestieQuest:GetAllQuestIdsNoObjectives()
@@ -1421,8 +1418,6 @@ function QuestieQuest:CalculateAndDrawAvailableQuestsIterative(callback)
     local showPvPQuests = Questie.db.char.showPvPQuests
     local showAQWarEffortQuests = Questie.db.char.showAQWarEffortQuests
 
-    QuestieQuest.availableQuests = {}
-
     timer = C_Timer.NewTicker(0.01, function()
         for _=0,64 do -- number of available quests to process per tick
             local questId = index
@@ -1443,7 +1438,7 @@ function QuestieQuest:CalculateAndDrawAvailableQuestsIterative(callback)
                 ) then
 
                     if QuestieDB:IsLevelRequirementsFulfilled(questId, minLevel, maxLevel) and QuestieDB:IsDoable(questId) then
-                        QuestieQuest.availableQuests[questId] = questId
+                        QuestieQuest.availableQuests[questId] = true
                         --If the quest is not drawn draw the quest, otherwise skip.
                         if (not QuestieMap.questIdFrames[questId]) then
                             ---@type Quest
@@ -1470,7 +1465,9 @@ function QuestieQuest:CalculateAndDrawAvailableQuestsIterative(callback)
                         --If the quests are not within level range we want to unload them
                         --(This is for when people level up or change settings etc)
                         QuestieMap:UnloadQuestFrames(questId)
-                        QuestieTooltips:RemoveQuest(questId)
+                        if QuestieQuest.availableQuests[questId] then
+                            QuestieTooltips:RemoveQuest(questId)
+                        end
                     end
                 end
             else
