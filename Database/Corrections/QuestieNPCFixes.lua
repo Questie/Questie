@@ -2651,9 +2651,6 @@ function QuestieNPCFixes:Load()
         [16361] = { 
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{80.91,60.40},},},
         },
-        [16376] = {
-            [npcKeys.npcFlags] = {-npcFlags.REPAIR} -- Added in Phase 6
-        }, 
         [16479] = {
             [npcKeys.name] = "Polymorph Clone",
             [npcKeys.zoneID] = zoneIDs.AZSHARA,
