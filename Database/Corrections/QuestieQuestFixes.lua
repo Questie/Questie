@@ -26,6 +26,9 @@ function QuestieQuestFixes:Load()
         [5] = {
             [questKeys.preQuestSingle] = {}, -- #1198
         },
+        [17] = {
+            [questKeys.requiredLevel] = 38, -- #2437
+        },
         [23] = {
             [questKeys.startedBy] = {{12678},nil,{16303}},
         },
@@ -514,7 +517,12 @@ function QuestieQuestFixes:Load()
             [questKeys.parentQuest] = 100, -- #1658
         },
         [1106] = {
-            [questKeys.preQuestGroup] = {1104, 1105},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {1104,1105},
+        },
+        [1107] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {1104,1105,} -- #2444
         },
         [1118] = {
             [questKeys.inGroupWith] = {}, -- #886
@@ -541,7 +549,7 @@ function QuestieQuestFixes:Load()
         },
         [1148] = {
             [questKeys.preQuestSingle] = {1146},
-            [questKeys.startedBy] = {{4130,4131,4133,},nil,{5877,},},
+            [questKeys.startedBy] = {{4132,},nil,{5877,},},
         },
         [1173] = {
             [questKeys.triggerEnd] = {"Drive Overlord Mok'Morokk from Brackenwall Village", {[zoneIDs.DUSTWALLOW_MARSH]={{36.41,31.43},},},},
@@ -593,7 +601,7 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {nil,{21015,21016,},nil,},
         },
         [1301] = {
-            [questKeys.exclusiveTo] = {1302}, -- breadcrumb of James Hyal #917
+            [questKeys.exclusiveTo] = {1302,1282}, -- #917 #2448
         },
         [1302] = {
             [questKeys.preQuestSingle] = {}, -- #889
@@ -837,6 +845,7 @@ function QuestieQuestFixes:Load()
         },
         [2201] = {
             [questKeys.childQuests] = {3375},
+            [questKeys.requiredLevel] = 37, -- #2447
         },
         [2205] = {
             [questKeys.exclusiveTo] = {}, -- #1466
@@ -1187,6 +1196,9 @@ function QuestieQuestFixes:Load()
         [4134] = {
             [questKeys.preQuestSingle] = {}, -- #1859
         },
+        [4143] = {
+            [questKeys.zoneOrSort] = 1477,
+        },
         [4144] = {
             [questKeys.specialFlags] = 1, -- #1590
         },
@@ -1244,9 +1256,6 @@ function QuestieQuestFixes:Load()
         },
         [4496] = {
             [questKeys.preQuestSingle] = {4493,4494},
-        },
-        [4505] = {
-            [questKeys.exclusiveTo] = {6605},
         },
         [4506] = {
             [questKeys.triggerEnd] = {"Return the corrupted cat to Winna Hazzard", {[zoneIDs.FELWOOD]={{34.26,52.32},},},},
@@ -1452,6 +1461,9 @@ function QuestieQuestFixes:Load()
         },
         [5634] = {
             [questKeys.startedBy] = {{11401,},nil,nil,},
+        },
+        [5647] = {
+            [questKeys.startedBy] = {{11401},nil,nil}, -- #2424
         },
         [5713] = {
             [questKeys.triggerEnd] = {"Protect Aynasha", {[zoneIDs.DARKSHORE]={{45.87,90.42},},},},
@@ -1693,8 +1705,11 @@ function QuestieQuestFixes:Load()
         [6603] = {
             [questKeys.exclusiveTo] = {5082},
         },
+        [6604] = {
+            [questKeys.exclusiveTo] = {4861},
+        },
         [6605] = {
-            [questKeys.exclusiveTo] = {4505}, -- #1859
+            [questKeys.exclusiveTo] = {4505}, -- #1859 -- #1856
         },
         [6608] = {
             [questKeys.exclusiveTo] = {6607}, -- #1186
@@ -2015,6 +2030,15 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{14733},nil,nil},
             [questKeys.finishedBy] = {{14733},nil,},
         },
+        [7937] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [7938] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [7945] = {
+            [questKeys.specialFlags] = 1,
+        },
         [7946] = {
             [questKeys.questLevel] = 60,
             [questKeys.specialFlags] = 1,
@@ -2139,20 +2163,46 @@ function QuestieQuestFixes:Load()
         [8332] = {
             [questKeys.preQuestSingle] = {},
         },
+        [8353] = {
+            [questKeys.objectives] = {{{5111, "Cluck like a chicken for Innkeeper Firebrew"}}},
+            [questKeys.specialFlags] = 1,
+        },
+        [8354] = {
+            [questKeys.objectives] = {{{6741, "Cluck like a chicken for Innkeeper Norman"}}},
+            [questKeys.specialFlags] = 1,
+        },
+        [8355] = {
+            [questKeys.objectives] = {{{6826, "Do the \"train\" for Talvash"}}},
+            [questKeys.specialFlags] = 1,
+        },
+        [8356] = {
+            [questKeys.objectives] = {{{6740, "Flex for Innkeeper Allison"}}},
+            [questKeys.specialFlags] = 1,
+        },
+        [8357] = {
+            [questKeys.objectives] = {{{6735, "Dance for Innkeeper Saelienne"}}},
+            [questKeys.specialFlags] = 1,
+        },
+        [8358] = {
+            [questKeys.objectives] = {{{11814, "Do the \"train\" for Kali Remik"}}},
+            [questKeys.specialFlags] = 1,
+        },
+        [8359] = {
+            [questKeys.objectives] = {{{6929, "Flex for Innkeeper Gryshka"}}},
+            [questKeys.specialFlags] = 1,
+        },
+        [8360] = {
+            [questKeys.objectives] = {{{6746, "Dance for Innkeeper Pala"}}},
+            [questKeys.specialFlags] = 1,
+        },
         [8368] = {
             [questKeys.exclusiveTo] = {8426,8427,8428,8429,8430},
-        },
-        [8371] = {
-            [questKeys.zoneOrSort] = 3358,
         },
         [8372] = {
             [questKeys.exclusiveTo] = {8399,8400,8401,8402,8403},
         },
         [8373] = {
             [questKeys.triggerEnd] = {"Clean up a stink bomb that's been dropped on Southshore!", {[zoneIDs.HILLSBRAD_FOOTHILLS]={{49.60,58.60},},},},
-        },
-        [8385] = {
-            [questKeys.zoneOrSort] = 3358,
         },
         [8399] = {
             [questKeys.exclusiveTo] = {8372,8400,8401,8402,8403},
@@ -2215,7 +2265,7 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = 1,
         },
         [8498] = {
-            [questKeys.specialFlags] = 1, 
+            [questKeys.specialFlags] = 1,
         },
         [8499] = {
             [questKeys.requiredLevel] = 1,
@@ -2338,7 +2388,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredRaces] = 178,
         },
         [8536] = {
-            [questKeys.specialFlags] = 1, 
+            [questKeys.specialFlags] = 1,
         },
         [8542] = {
             [questKeys.requiredLevel] = 1,
@@ -2383,7 +2433,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {8800},
         },
         [8575] = {
-            [questKeys.startedBy] = {{15481,},nil,nil,}, 
+            [questKeys.startedBy] = {{15481,},nil,nil,},
             [questKeys.preQuestSingle] = {8555}, -- #2365
         },
         [8580] = {
@@ -2573,7 +2623,7 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = 1, -- #2401
         },
         [8829] = {
-            [questKeys.specialFlags] = 1, 
+            [questKeys.specialFlags] = 1,
         },
         [8846] = {
             [questKeys.specialFlags] = 1,
@@ -2704,6 +2754,9 @@ function QuestieQuestFixes:Load()
         [8980] = { -- bad race data
             [questKeys.requiredRaces] = 178,
         },
+        [9015] = {
+            [questKeys.objectives] = {{{16059,"Theldren's Team Defeated"},},nil,{{22047,nil},},nil,}, -- #2408
+        },
         [9026] = { -- bad race data
             [questKeys.requiredRaces] = 77,
         },
@@ -2720,10 +2773,10 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = 1,
         },
         [9229] = {
-            [questKeys.preQuestSingle] = {9033,}, 
+            [questKeys.preQuestSingle] = {9033,},
         },
         [9232] = {
-            [questKeys.preQuestSingle] = {9033,}, 
+            [questKeys.preQuestSingle] = {9033,},
         },
         [9261] = { -- bad race data
             [questKeys.requiredRaces] = 77,
@@ -2879,13 +2932,13 @@ function QuestieQuestFixes:LoadFactionFixes()
             [questKeys.startedBy] = {{4217,5505,12042,},nil,nil,},
         },
         [9324] = {
-            [questKeys.startedBy] = {nil,{181336},{23179,},}, 
+            [questKeys.startedBy] = {nil,{181336},{23179,},},
         },
         [9325] = {
-            [questKeys.startedBy] = {nil,{181337},{23180,},}, 
+            [questKeys.startedBy] = {nil,{181337},{23180,},},
         },
         [9326] = {
-            [questKeys.startedBy] = {nil,{181335},{23181,},}, 
+            [questKeys.startedBy] = {nil,{181335},{23181,},},
         },
         [9388] = {
             [questKeys.startedBy] = {{16817,},nil,nil,},

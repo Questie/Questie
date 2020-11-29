@@ -4,6 +4,8 @@ QuestieLocale.locale['ptBR'] = {
     ['GENERAL_OPTIONS_HEADER'] = "Opções Generais",
     ['ENABLE_ICONS'] = "Ativar os ícones",
     ['ENABLE_ICONS_DESC'] = "Ativar ou desativar os ícones da Questie",
+    ['TRACKING_ICONS_BUTTON'] = "Config Tracking Icons",
+    ['TRACKING_ICONS_BUTTON_DESC'] = "Allows to select which the tracking icons (like Mailbox, Repair-NPCs) to show on the map and minimap.",
     ['ENABLE_MINIMAP_BUTTON'] = "Ative o botão da mini-carta",
     ['ENABLE_MINIMAP_BUTTON_DESC'] = "Ative ou desative o botão da mini-carta da missão. Você ainda pode acessar o menu de opções com o Questie",
     ['ENABLE_INSTANT'] = "Ativar texto de pesquisa instantânea",
@@ -174,6 +176,8 @@ QuestieLocale.locale['ptBR'] = {
     ['ENABLE_TOOLTIPS_QUEST_LEVEL_DESC'] = "When this is checked, the level of quests will show in the tooltips.",
     ['SHARED_TOOLTIP_PARTY_ONLY'] = "Somente parte compartilhada",
     ['SHARED_TOOLTIP_PARTY_ONLY_DESC'] = "Quando isso estiver ativado, as informações compartilhadas das missões serão mostradas apenas se forem de membros da equipe.",
+    ['SHOW_QUESTS_IN_NPC_TOOLTIPS'] = 'Show quests in NPC tooltips',
+    ['SHOW_QUESTS_IN_NPC_TOOLTIPS_DESC'] = 'Show quests (available/complete) in the NPC tooltips.',
 
     -- Advanced tab
     ['ADVANCED_TAB'] = "Avançado",
@@ -219,14 +223,14 @@ QuestieLocale.locale['ptBR'] = {
     ['CONFIRM_HIDE_QUEST'] = "Tem certeza de que deseja ocultar a missão? Se essa missão não estiver realmente disponível, informe-nos!",
     ['CONFIRM_HIDE_YES'] = "Sim",
     ['CONFIRM_HIDE_NO'] = "Nâo",
-    ['TOOLTIP_QUEST_COMPLETE'] = "(Complèta)",
+    ['TOOLTIP_QUEST_COMPLETE'] = "(Concluído)",
     ['TOOLTIP_QUEST_AVAILABLE'] = "(Disponivel)",
     ['TOOLTIP_QUEST_ACTIVE'] = "(Ativo)",
     ['TOOLTIP_QUEST_REPEATABLE'] = "(Repetivel)",
     ['TOOLTIP_QUEST_EVENT'] = "(Evento)",
     ['XP'] = "xp";
-    ['COMPLETE'] = "Complete";
-    ['FAILED'] = "Failed";
+    ['COMPLETE'] = "Concluído";
+    ['FAILED'] = "Fracassado";
 
     --Ordens de barra
     ['SLASH_INVALID'] = "Comando inválido. Para uma lista de opções, digite:",

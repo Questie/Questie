@@ -78,6 +78,9 @@ function QuestieItemFixes:Load()
             [itemKeys.name] = "Flagon of Dwarven Honeymead",
             [itemKeys.npcDrops] = {1464},
         },
+        [2633] = {
+            [itemKeys.npcDrops] = {940,941,942}, -- #2433
+        },
         [2676] = {
             [itemKeys.objectDrops] = {276,},
         },
@@ -862,6 +865,9 @@ function QuestieItemFixes:Load()
             [itemKeys.relatedQuests] = {4771},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
+        },
+        [12562] = {
+            [itemKeys.npcDrops] = {},
         },
         [12567] = {
             [itemKeys.name] = "Filled Flasket",

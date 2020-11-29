@@ -329,6 +329,10 @@ end
 ---@param exclusiveTo table<number, number>
 ---@return boolean
 function QuestieDB:IsExclusiveQuestInQuestLogOrComplete(exclusiveTo)
+    if (not exclusiveTo) then
+        return false
+    end
+
     for _, exId in pairs(exclusiveTo) do
         if Questie.db.char.complete[exId] then
             return true

@@ -4,6 +4,8 @@ QuestieLocale.locale['koKR'] = {
     ['GENERAL_OPTIONS_HEADER'] = "일반 설정",
     ['ENABLE_ICONS'] = "아이콘 활성화",
     ['ENABLE_ICONS_DESC'] = "Questie 아이콘을 활성화합니다.",
+    ['TRACKING_ICONS_BUTTON'] = "Config Tracking Icons",
+    ['TRACKING_ICONS_BUTTON_DESC'] = "Allows to select which the tracking icons (like Mailbox, Repair-NPCs) to show on the map and minimap.",
     ['ENABLE_MINIMAP_BUTTON'] = "미니맵 버튼 활성화",
     ['ENABLE_MINIMAP_BUTTON_DESC'] = "Questie 미니맵 버튼을 사용합니다. /questie 명령어로도 설정 메뉴를 열 수 있습니다.",
     ['ENABLE_INSTANT'] = "퀘스트 내용 바로 표시",
@@ -174,6 +176,8 @@ QuestieLocale.locale['koKR'] = {
     ['ENABLE_TOOLTIPS_QUEST_LEVEL_DESC'] = "툴팁에 퀘스트의 레벨을 표시합니다.",
     ['SHARED_TOOLTIP_PARTY_ONLY'] = "파티 만 공유",
     ['SHARED_TOOLTIP_PARTY_ONLY_DESC'] = "이 기능을 활성화하면 공유 퀘스트 정보가 파티원의 정보 인 경우에만 표시됩니다.",
+    ['SHOW_QUESTS_IN_NPC_TOOLTIPS'] = 'Show quests in NPC tooltips',
+    ['SHOW_QUESTS_IN_NPC_TOOLTIPS_DESC'] = 'Show quests (available/complete) in the NPC tooltips.',
 
     -- Advanced tab
     ['ADVANCED_TAB'] = "고급",

@@ -4,6 +4,8 @@ QuestieLocale.locale['deDE'] = {
     ['GENERAL_OPTIONS_HEADER'] = "Allgemeine Einstellungen",
     ['ENABLE_ICONS'] = "Icons aktivieren",
     ['ENABLE_ICONS_DESC'] = "Aktivieren/Deaktivieren der Questie-Icons",
+    ['TRACKING_ICONS_BUTTON'] = "Tracking Icons konfigurieren",
+    ['TRACKING_ICONS_BUTTON_DESC'] = "Ermöglicht das Konfigurieren der Tracking Icons (z.B. Briefkästen, Reparatur-NPCs) auf der Karte und Minimap.",
     ['ENABLE_MINIMAP_BUTTON'] = "Minimap-Button aktivieren",
     ['ENABLE_MINIMAP_BUTTON_DESC'] = "Questie Minimap-Button aktivieren/deaktivieren. Mit /questie kannst du trotzdem die Einstellungen aufrufen.",
     ['ENABLE_INSTANT'] = "Questtext sofort anzeigen",
@@ -174,6 +176,8 @@ QuestieLocale.locale['deDE'] = {
     ['ENABLE_TOOLTIPS_QUEST_LEVEL_DESC'] = "Aktiviert/Deaktiviert, ob das Questlevel in den Tooltips angezeigt wird.",
     ['SHARED_TOOLTIP_PARTY_ONLY'] = "Party nur geteilt",
     ['SHARED_TOOLTIP_PARTY_ONLY_DESC'] = "Wenn dies aktiviert ist, werden freigegebene Questinformationen nur angezeigt, wenn sie von Gruppenmitgliedern stammen.",
+    ['SHOW_QUESTS_IN_NPC_TOOLTIPS'] = 'Quests in NPC Tooltips anzeigen',
+    ['SHOW_QUESTS_IN_NPC_TOOLTIPS_DESC'] = 'Zeigt Quests (verfügbar/abgeschlossen) in den NPC Tooltips.',
 
     -- Advanced tab
     ['ADVANCED_TAB'] = "Erweitert",

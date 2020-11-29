@@ -19,7 +19,7 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 
 local AceGUI = LibStub("AceGUI-3.0")
-local zoneTreeFrame = nil
+local zoneTreeFrame
 
 ---Manage the zone tree itself and the contents of the per-quest window
 ---@param container AceSimpleGroup @The container for the zone tree
@@ -84,8 +84,8 @@ function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
 end
 
 ---Get all the available/completed/repeatable/unavailable quests
----@param zoneId integer @The zone ID (Check `LangZoneLookup`)
----@return table<integer,any> @The zoneTree table which represents the list of all the different quests
+---@param zoneId number @The zone ID (Check `LangZoneLookup`)
+---@return table<number,any> @The zoneTree table which represents the list of all the different quests
 function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
     local quests = QuestieJourney.zoneMap[zoneId]--QuestieDB:GetQuestsByZoneId(zoneId)
 
@@ -130,7 +130,9 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
     local repeatableCounter = 0
 
     local unobtainableQuestIds = {}
-
+ -- /dump QuestieLoader:ImportModule("QuestieReputation"):HasReputation(nil, {577,0})
+ -- /dump QuestieLoader:ImportModule("QuestieReputation"):HasReputation(unpack(QuestieLoader:ImportModule("QuestieDB").QueryQuest(9266, "requiredMinRep", "requiredMaxRep")))
+    -- /dump
     local temp = {}
     for _, levelAndQuest in pairs(sortedQuestByLevel) do
         ---@type QuestId
@@ -145,9 +147,26 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                 tinsert(zoneTree[3].children, temp)
                 completedCounter = completedCounter + 1
             else
+                local queryResult = QuestieDB.QueryQuest(
+                        qId,
+                        "exclusiveTo",
+                        "parentQuest",
+                        "preQuestSingle",
+                        "preQuestGroup",
+                        "requiredSkill",
+                        "requiredMinRep",
+                        "requiredMaxRep"
+                ) or {}
+                local exclusiveTo = queryResult[1]
+                local parentQuest = queryResult[2]
+                local preQuestSingle = queryResult[3]
+                local preQuestGroup = queryResult[4]
+                local requiredSkill = queryResult[5]
+                local requiredMinRep = queryResult[6]
+                local requiredMaxRep = queryResult[7]
+
                 -- Exclusive quests will never be available since another quests permantly blocks them.
                 -- Marking them as complete should be the most satisfying solution for user
-                local exclusiveTo, parentQuest, preQuestSingle, preQuestGroup = unpack(QuestieDB.QueryQuest(qId, "exclusiveTo", "parentQuest", "preQuestSingle", "preQuestGroup"))
                 if exclusiveTo and QuestieDB:IsExclusiveQuestInQuestLogOrComplete(exclusiveTo) then
                     tinsert(zoneTree[3].children, temp)
                     completedCounter = completedCounter + 1
@@ -156,12 +175,12 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                     tinsert(zoneTree[3].children, temp)
                     completedCounter = completedCounter + 1
                 -- Unoptainable profession quests
-                elseif not QuestieProfessions:HasProfessionAndSkillLevel(QuestieDB.QueryQuestSingle(qId, "requiredSkill")) then
+                elseif not QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill) then
                     tinsert(zoneTree[5].children, temp)
                     unobtainableQuestIds[qId] = true
                     unobtainableCounter = unobtainableCounter + 1
                 -- Unoptainable reputation quests
-                elseif not QuestieReputation:HasReputation(unpack(QuestieDB.QueryQuest(qId, "requiredMinRep", "requiredMaxRep"))) then
+                elseif not QuestieReputation:HasReputation(requiredMinRep, requiredMaxRep) then
                     tinsert(zoneTree[5].children, temp)
                     unobtainableQuestIds[qId] = true
                     unobtainableCounter = unobtainableCounter + 1

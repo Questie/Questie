@@ -4,6 +4,8 @@ QuestieLocale.locale['enUS'] = {
     ['GENERAL_OPTIONS_HEADER'] = "General Options",
     ['ENABLE_ICONS'] = "Enable Icons",
     ['ENABLE_ICONS_DESC'] = "Enable or disable Questie icons.",
+    ['TRACKING_ICONS_BUTTON'] = "Config Tracking Icons",
+    ['TRACKING_ICONS_BUTTON_DESC'] = "Allows to select which the tracking icons (like Mailbox, Repair-NPCs) to show on the map and minimap.",
     ['ENABLE_MINIMAP_BUTTON'] = "Enable Minimap Button",
     ['ENABLE_MINIMAP_BUTTON_DESC'] = "Enable or disable the Questie minimap button. You can still access the options menu with /questie.",
     ['ENABLE_INSTANT'] = "Enable Instant Quest Text",
@@ -371,6 +373,8 @@ QuestieLocale.locale['enUS'] = {
     ['TOOLTIPS_PROGRESS_QUEST'] = 'Your progress',
     ['TOOLTIPS_FIN_QUEST'] = '(Done)',
     ['TOOLTIPS_REPEAT_QUEST'] = 'This quest is repeatable',
+    ['SHOW_QUESTS_IN_NPC_TOOLTIPS'] = 'Show quests in NPC tooltips',
+    ['SHOW_QUESTS_IN_NPC_TOOLTIPS_DESC'] = 'Show quests (available/complete) in the NPC tooltips.',
 
     -- Journey Window
     ['JOURNEY_TITLE'] = "%s's Journey",

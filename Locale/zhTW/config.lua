@@ -4,6 +4,8 @@ QuestieLocale.locale['zhTW'] = {
     ['GENERAL_OPTIONS_HEADER'] = "一般選項",
     ['ENABLE_ICONS'] = "圖示",
     ['ENABLE_ICONS_DESC'] = "啟用/停用Questie圖示",
+    ['TRACKING_ICONS_BUTTON'] = "Config Tracking Icons",
+    ['TRACKING_ICONS_BUTTON_DESC'] = "Allows to select which the tracking icons (like Mailbox, Repair-NPCs) to show on the map and minimap.",
     ['ENABLE_MINIMAP_BUTTON'] = "小地圖按鈕",
     ['ENABLE_MINIMAP_BUTTON_DESC'] = "啟用/停用小地圖Questie按鈕。您可以輸入/questie以打開設定視窗",
     ['ENABLE_INSTANT'] = "立刻顯示任務內容",
@@ -174,6 +176,8 @@ QuestieLocale.locale['zhTW'] = {
     ['ENABLE_TOOLTIPS_QUEST_LEVEL_DESC'] = "將任務的等級將示在提示訊息上",
     ['SHARED_TOOLTIP_PARTY_ONLY'] = "僅限聚會",
     ['SHARED_TOOLTIP_PARTY_ONLY_DESC'] = "啟用此功能後，僅當共享任務信息來自聚會成員時才會顯示。",
+    ['SHOW_QUESTS_IN_NPC_TOOLTIPS'] = 'Show quests in NPC tooltips',
+    ['SHOW_QUESTS_IN_NPC_TOOLTIPS_DESC'] = 'Show quests (available/complete) in the NPC tooltips.',
 
     -- Advanced tab
     ['ADVANCED_TAB'] = "進階",

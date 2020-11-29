@@ -4,6 +4,8 @@ QuestieLocale.locale['esES'] = {
     ['GENERAL_OPTIONS_HEADER'] = "Opciones de Questie",
     ['ENABLE_ICONS'] = "Habilitar Iconos",
     ['ENABLE_ICONS_DESC'] = "Habilitar iconos de Questie",
+    ['TRACKING_ICONS_BUTTON'] = "Config Tracking Icons",
+    ['TRACKING_ICONS_BUTTON_DESC'] = "Allows to select which the tracking icons (like Mailbox, Repair-NPCs) to show on the map and minimap.",
     ['ENABLE_MINIMAP_BUTTON'] = "Habilitar icono del minimapa",
     ['ENABLE_MINIMAP_BUTTON_DESC'] = "Habilita o deshabilita el icono del minimapa. Puedes seguir accediendo al menú de opciones con /questie",
     ['ENABLE_INSTANT'] = "Habilitar el texto automático de misiones",
@@ -174,6 +176,8 @@ QuestieLocale.locale['esES'] = {
     ['ENABLE_TOOLTIPS_QUEST_LEVEL_DESC'] = "Si está marcado, el nivel de misiones mostrará en los tooltips.",
     ['SHARED_TOOLTIP_PARTY_ONLY'] = "Fiesta compartida solo",
     ['SHARED_TOOLTIP_PARTY_ONLY_DESC'] = "Cuando esto está habilitado, la información de misiones compartidas solo se mostrará si son de miembros del grupo.",
+    ['SHOW_QUESTS_IN_NPC_TOOLTIPS'] = 'Show quests in NPC tooltips',
+    ['SHOW_QUESTS_IN_NPC_TOOLTIPS_DESC'] = 'Show quests (available/complete) in the NPC tooltips.',
 
     -- Advanced tab
     ['ADVANCED_TAB'] = "Avanzado",
@@ -225,8 +229,8 @@ QuestieLocale.locale['esES'] = {
     ['TOOLTIP_QUEST_REPEATABLE'] = "(Repetible)",
     ['TOOLTIP_QUEST_EVENT'] = "(Evento)",
     ['XP'] = "xp";
-    ['COMPLETE'] = "Complete";
-    ['FAILED'] = "Failed";
+    ['COMPLETE'] = "Completo";
+    ['FAILED'] = "Fracasado";
 
     -- Slash Commands
     ['SLASH_INVALID'] = "Comando inválido. Para una lista de comandos escribe: ",
