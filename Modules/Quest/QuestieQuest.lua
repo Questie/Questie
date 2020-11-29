@@ -332,13 +332,9 @@ function QuestieQuest:UnhideQuest(id)
     QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
 end
 
-function QuestieQuest:GetRawLeaderBoardDetails(QuestLogIndex)
-    -- Old Select code, is this still needed?
-    local old = GetQuestLogSelection()
-    SelectQuestLogEntry(QuestLogIndex);
-    --
+function QuestieQuest:GetRawLeaderBoardDetails(questLogIndex)
     local quest = {}
-    local title, level, _, _, _, isComplete, _, questId, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(QuestLogIndex)
+    local title, level, _, _, _, isComplete, _, questId, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(questLogIndex)
     quest.title = title;
     quest.level = level;
     quest.Id = questId
@@ -354,9 +350,7 @@ function QuestieQuest:GetRawLeaderBoardDetails(QuestLogIndex)
         quest.Objectives[objectiveIndex].numFulfilled = objective.numFulfilled;
         quest.Objectives[objectiveIndex].numRequired = objective.numRequired;
     end
-    -- Old select code, is this still needed?
-    if old then SelectQuestLogEntry(old); end
-    --
+
     return quest;
 end
 
@@ -999,7 +993,6 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
 
     -- we've already checked the objectives table by doing IsComplete
     -- if that changes, check it here
-    local old = GetQuestLogSelection()
     _CallPopulateObjective(quest)
     _AddSourceItemObjective(quest)
 
@@ -1018,14 +1011,9 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
             index = index + 1
         end
     end
-    if old then
-        SelectQuestLogEntry(old)
-    end
-
 end
 
 function QuestieQuest:PopulateQuestLogInfo(quest)
-    --Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: PopulateMeta1:", Quest.Id, Quest.Name)
     if quest.Objectives == nil then
         Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: PopulateQuestLogInfo: ".. QuestieLocale:GetUIString("DEBUG_POPTABLE"))
         quest.Objectives = {};
@@ -1051,11 +1039,6 @@ end
 
 --Use the category order to draw the quests and trust the database order.
 function QuestieQuest:GetAllQuestObjectives(quest)
-    -- Old Select Code, maybe remove?
-    local logId = GetQuestLogIndexByID(quest.Id)
-    local old = GetQuestLogSelection()
-    SelectQuestLogEntry(logId)
-
     local questObjectives = QuestieQuest:GetAllLeaderBoardDetails(quest.Id) or {}
 
     for objectiveIndex, objective in pairs(questObjectives) do
@@ -1078,7 +1061,6 @@ function QuestieQuest:GetAllQuestObjectives(quest)
                 quest.Objectives[objectiveIndex] = {
                     Index = objectiveIndex,
                     QuestId = quest.Id,
-                    QuestLogId = logId,
                     QuestData = quest,
                     _lastUpdate = 0,
                     Description = objective.text
@@ -1097,9 +1079,6 @@ function QuestieQuest:GetAllQuestObjectives(quest)
             Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString("DEBUG_ENTRY_ID", objective.type, objective.text))
         end
     end
-    -- Old Select code do we need it?
-    if old then SelectQuestLogEntry(old); end
-    --
 
     -- find special unlisted objectives
     -- hack to remove misdetected unlisted (when qlog returns bad data for objective text on first try)
@@ -1130,14 +1109,8 @@ function QuestieQuest:GetAllQuestObjectives(quest)
 end
 
 _ObjectiveUpdate = function(self)
-    -- Old select code, do we need it?
-    local old = GetQuestLogSelection()
-    SelectQuestLogEntry(self.QuestLogId)
-    --
-
     local now = GetTime();
     if now - self._lastUpdate < 0.5 then
-        if old then SelectQuestLogEntry(old); end
         return {self.Collected, self.Needed, self.Completed} -- updated too recently
     end
     self._lastUpdate = now
@@ -1160,9 +1133,6 @@ _ObjectiveUpdate = function(self)
             self.Completed = (self.Needed == self.Collected and self.Needed > 0) or (obj.finished and (self.Needed == 0 or (not self.Needed))) -- some objectives get removed on PLAYER_LOGIN because isComplete is set to true at random????
         end
     end
-    -- Old select code, do we need it?
-    if old then SelectQuestLogEntry(old); end
-    --
     return {self.Collected, self.Needed, self.Completed}
 end
 
@@ -1422,9 +1392,6 @@ function QuestieQuest:CalculateAndDrawAvailableQuestsIterative(callback)
         for _=0,64 do -- number of available quests to process per tick
             local questId = index
             if questId then
-                -- ---@type Quest
-                -- local quest = QuestieDB:GetQuest(questId)
-
                 --Check if we've already completed the quest and that it is not "manually" hidden and that the quest is not currently in the questlog.
                 if(
                     (not Questie.db.char.complete[questId]) and -- Don't show completed quests
