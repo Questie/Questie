@@ -2654,10 +2654,28 @@ function QuestieNPCFixes:Load()
         [16361] = { 
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{80.91,60.40},},},
         },
+        [16478] = {
+            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{63.8,75.6},},},
+        },
         [16479] = {
             [npcKeys.name] = "Polymorph Clone",
             [npcKeys.zoneID] = zoneIDs.AZSHARA,
             [npcKeys.spawns] = {[zoneIDs.AZSHARA] = {{29.94,53.51},{36.16,54.59},},},
+        },
+        [16484] = {
+            [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{53,35},},},
+        },
+        [16490] = {
+            [npcKeys.spawns] = {[zoneIDs.THUNDER_BLUFF] = {{31.4,70.4},},},
+        },
+        [16493] = {
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{51.6,82},},},
+        },
+        [16494] = {
+            [npcKeys.spawns] = {[zoneIDs.UNDERCITY] = {{66.8,21.4},},},
+        },
+        [16495] = {
+            [npcKeys.spawns] = {[zoneIDs.DARNASSUS] = {{78.2,41.4},},},
         },
         -- graves (todo: find a better solution to this. Wasn't worth creating a whole new data type)
         [19199] = {
