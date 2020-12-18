@@ -34,9 +34,9 @@ Database\objectDB.lua
 Database\spawnDB.lua
 Database\itemDB.lua
 Database\Constants.lua
-Database\updates.lua
 
 #Corrections
+Database\Corrections\AutoTableUpdates.lua
 Database\Corrections\QuestieCorrections.lua
 Database\Corrections\QuestieItemBlacklist.lua
 Database\Corrections\QuestieItemFixes.lua
