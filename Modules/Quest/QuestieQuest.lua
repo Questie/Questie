@@ -1051,7 +1051,7 @@ function QuestieQuest:GetAllQuestObjectives(quest)
                 end
 
                 -- Sometimes we need to retry to get the correct text from the API
-                if (not objective.text) or objective.text == " : 0/1" then
+                if (not objective.text) or objective.text:sub(1, 1) == " " then
                     Questie:Debug(DEBUG_INFO, "Retrying to get objectiveText for '", objective.text, "'")
                     local retry = C_QuestLog.GetQuestObjectives(quest.Id)
                     objective.text = retry[objectiveIndex].text
