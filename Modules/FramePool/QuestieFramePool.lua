@@ -451,7 +451,7 @@ function _QuestieFramePool:GetAvailableOrCompleteTooltip(icon)
         local quest = icon.data.QuestData
         local questType, questTag = quest:GetQuestTagInfo();
 
-        if (icon.data.QuestData.IsRepeatable) then
+        if (QuestieDB:IsRepeatable(icon.data.Id)) then
             tip.type = QuestieLocale:GetUIString("TOOLTIP_QUEST_REPEATABLE");
         elseif (questType == 41 or questType == 81 or questType == 83 or questType == 62 or questType == 1) then
             -- Dungeon or Legendary or Raid or Group(Elite)
