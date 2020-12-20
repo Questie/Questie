@@ -2769,6 +2769,9 @@ function QuestieQuestFixes:Load()
         [9154] = {
             [questKeys.questLevel] = 60,
         },
+        [9165] = {
+            [questKeys.specialFlags] = 1,
+        },
         [9223] = {
             [questKeys.specialFlags] = 1,
         },
@@ -2778,11 +2781,25 @@ function QuestieQuestFixes:Load()
         [9232] = {
             [questKeys.preQuestSingle] = {9033,},
         },
-        [9261] = { -- bad race data
+        [9260] = {
+            [questKeys.triggerEnd] = {"Investigate a circle", {[zoneIDs.ELWYNN_FOREST] = {{34.72,50.95},{34.18,48.47},{32.24,53.77},{35.05,55.22}}}},
+        },
+        [9261] = {
+            [questKeys.triggerEnd] = {"Investigate a circle", {[zoneIDs.DUN_MOROGH] = {{48.53,39.54},{49.70,39.17}}}},
             [questKeys.requiredRaces] = 77,
         },
-        [9262] = { -- bad race data
+        [9262] = {
+            [questKeys.triggerEnd] = {"Investigate a circle", {[zoneIDs.TELDRASSIL] = {{36.96,55.49},{38.30,56.49}}}},
             [questKeys.requiredRaces] = 77,
+        },
+        [9263] = {
+            [questKeys.triggerEnd] = {"Investigate a circle", {[zoneIDs.DUROTAR] = {{44.9,16.7},{44.6,18.1}}}},
+        },
+        [9264] = {
+            [questKeys.triggerEnd] = {"Investigate a circle", {[zoneIDs.MULGORE] = {{38.9,37.1}}}},
+        },
+        [9265] = {
+            [questKeys.triggerEnd] = {"Investigate a circle", {[zoneIDs.TIRISFAL_GLADES] = {{60.4,61.7}}}},
         },
         [9319] = {
             [questKeys.requiredRaces] = 255,

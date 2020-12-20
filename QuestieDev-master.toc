@@ -1,8 +1,8 @@
-## Interface: 11305
-## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v6.2.2|r
+## Interface: 11306
+## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v6.2.3|r
 ## Author: Aero/Logon/Muehe/TheCrux(BreakBB)/Dyaxler/Schaka/Zoey/Everyone else
 ## Notes: A standalone Classic QuestHelper
-## Version: 6.2.2
+## Version: 6.2.3
 ## RequiredDeps:
 ## OptionalDeps: Ace3, LibDataBroker-1.1, LibCompress
 ## SavedVariables: QuestieConfig
@@ -34,9 +34,9 @@ Database\objectDB.lua
 Database\spawnDB.lua
 Database\itemDB.lua
 Database\Constants.lua
-Database\updates.lua
 
 #Corrections
+Database\Corrections\AutoTableUpdates.lua
 Database\Corrections\QuestieCorrections.lua
 Database\Corrections\QuestieItemBlacklist.lua
 Database\Corrections\QuestieItemFixes.lua
