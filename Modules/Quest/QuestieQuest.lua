@@ -165,7 +165,11 @@ function QuestieQuest:ClearAllNotes()
         quest.Objectives = nil
 
         -- reference is still held elswhere
-        if quest.SpecialObjectives then for _,s in pairs(quest.SpecialObjectives) do s.AlreadySpawned = nil end end
+        if quest.SpecialObjectives then
+            for _,s in pairs(quest.SpecialObjectives) do
+                s.AlreadySpawned = nil
+            end
+        end
         quest.SpecialObjectives = nil
     end
 
@@ -1059,19 +1063,19 @@ function QuestieQuest:GetAllQuestObjectives(quest)
                 end
 
                 quest.Objectives[objectiveIndex] = {
+                    Id = quest.ObjectiveData[objectiveIndex].Id,
                     Index = objectiveIndex,
-                    QuestId = quest.Id,
+                    questId = quest.Id,
                     QuestData = quest,
                     _lastUpdate = 0,
-                    Description = objective.text
+                    Description = objective.text,
+                    Update = _ObjectiveUpdate
                 }
                 if objective.type == "event" then
                     quest.Objectives[objectiveIndex].Coordinates = quest.ObjectiveData[objectiveIndex].Coordinates
                 end
 
-                quest.Objectives[objectiveIndex].Update = _ObjectiveUpdate
                 quest.Objectives[objectiveIndex]:Update()
-                quest.Objectives[objectiveIndex].Id = quest.ObjectiveData[objectiveIndex].Id
             end
         end
 
@@ -1081,27 +1085,15 @@ function QuestieQuest:GetAllQuestObjectives(quest)
     end
 
     -- find special unlisted objectives
-    -- hack to remove misdetected unlisted (when qlog returns bad data for objective text on first try)
-    if quest.HiddenObjectiveData then
-        for index, hiddenObjective in pairs(quest.HiddenObjectiveData) do
-            if (not hiddenObjective.ObjectiveRef) then -- there was no qlog objective detected for this DB objective
-                -- hack
-                if (not quest.SpecialObjectives) then
-                    quest.SpecialObjectives = {}
-                end
-                hiddenObjective.Description = hiddenObjective.Name -- TODO; This needs to be cleaned up. No need to store the same value
-                if (not hiddenObjective.Description) then
-                    hiddenObjective.Description = "Hidden objective"
-                end
-
-                if (not quest.SpecialObjectives[hiddenObjective.Id]) then
-                    hiddenObjective.QuestData = quest
-                    hiddenObjective.QuestId = quest.Id
-                    hiddenObjective.Update = function() end
-                    hiddenObjective.Index = 64 + index -- offset to not conflict with real objectives
-                    quest.SpecialObjectives[hiddenObjective.Id] = hiddenObjective
-                end
+    if quest.SpecialObjectives then
+        for index, specialObjective in pairs(quest.SpecialObjectives) do
+            if (not specialObjective.Description) then
+                specialObjective.Description = "Special objective"
             end
+
+            specialObjective.questId = quest.Id
+            specialObjective.Update = function() end
+            specialObjective.Index = 64 + index -- offset to not conflict with real objectives
         end
     end
 
@@ -1116,7 +1108,7 @@ _ObjectiveUpdate = function(self)
     self._lastUpdate = now
 
     -- Use different variable names from above to avoid confusion.
-    local qObjectives = QuestieQuest:GetAllLeaderBoardDetails(self.QuestId);
+    local qObjectives = QuestieQuest:GetAllLeaderBoardDetails(self.questId);
 
     if qObjectives and qObjectives[self.Index] then
         local obj = qObjectives[self.Index];

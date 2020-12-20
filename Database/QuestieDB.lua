@@ -770,21 +770,17 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     QO.QuestGroup = rawdata[15] --Quests that are part of the same group, example complete this group of quests to open the next one.
     QO.ExclusiveQuestGroup = rawdata[16]
 
-    QO.HiddenObjectiveData = {}
+    QO.SpecialObjectives = {}
+    local requiredSourceItems = rawdata[21]
 
-    local hidden = rawdata[21]
-
-    if hidden ~= nil then --required source items
-        for _, id in pairs(hidden) do
-            if id ~= nil then
-
-                local obj = {
+    if requiredSourceItems ~= nil then --required source items
+        for _, itemId in pairs(requiredSourceItems) do
+            if itemId ~= nil then
+                QO.SpecialObjectives[itemId] = {
                     Type = "item",
-                    Id = id,
-                    Name = QuestieDB.QueryItemSingle(id, "name")
+                    Id = itemId,
+                    Description = QuestieDB.QueryItemSingle(itemId, "name")
                 }
-
-                tinsert(QO.HiddenObjectiveData, obj);
             end
         end
     end
