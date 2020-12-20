@@ -126,8 +126,9 @@ function QuestieTooltips:GetTooltip(key)
                 local questId = tooltip.questId
                 local objectiveIndex = objective.Index;
                 if (not tooltipData[questId]) then
-                    tooltipData[questId] = {}
-                    tooltipData[questId].title = objective.QuestData:GetColoredQuestName();
+                    tooltipData[questId] = {
+                        title = QuestieDB:GetColoredQuestName(questId, true, true)
+                    }
                 end
 
                 if not QuestiePlayer.currentQuestlog[questId] then
